@@ -1,0 +1,36 @@
+; base address
+	org     $80010000
+
+; link objs
+	include "rom_data.obj"
+;	include	"rom_pre.obj"
+	include	"rom.obj"
+	include "rom_rwdata.obj"
+	include "main.obj"
+
+; link libs
+;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libsn.lib
+;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libc.lib
+;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libc2.lib
+;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libapi.lib
+
+
+code_start_data	group
+	section .rodata,code_start_data
+
+code_raw_asm	group	
+	section .text2,code_raw_asm
+
+code_main	group
+	section .main,code_main
+
+code_raw_asm_end group
+	section after_main, code_raw_asm_end
+
+code_rw_data	group
+	section .rwdata,code_rw_data
+
+static_800ABBF0	group bss,org($800ABBF0)
+	section .static_800ABBF0,static_800ABBF0
+
+	regs    pc=exe_entry_point
