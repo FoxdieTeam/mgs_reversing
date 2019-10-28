@@ -10,7 +10,7 @@ build_script:
 
 install:
  - git submodule update --init --recursive
- - 7z x psyq.7z -oC:\psyq
+ - 7z x psyq.7z -oC:\
  - dir C:\psyq
 
 test: off
