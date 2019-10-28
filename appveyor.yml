@@ -6,10 +6,11 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - call "build.bat"
+ - call "comp_asm.bat"
 
 install:
  - git submodule update --init --recursive
  - 7z x psyq.7z -oC:\psyq
+ - dir C:\psyq
 
 test: off
