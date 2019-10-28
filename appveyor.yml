@@ -1,0 +1,14 @@
+version: 1.0.{build}
+
+platform: 
+ - x86
+
+clone_folder: c:\mgs
+
+build_script:
+ - call "build.bat"
+
+install:
+ - git submodule update --init --recursive
+
+test: off
