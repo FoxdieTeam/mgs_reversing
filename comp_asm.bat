@@ -1,5 +1,8 @@
 @echo off
 
+set PATH=%PATH%;C:\psyq\bin
+SET PSYQ_PATH=C:\psyq\bin
+
 del test2.exe
 del *.cpe
 del *.obj
