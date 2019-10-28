@@ -10,6 +10,6 @@ build_script:
 
 install:
  - git submodule update --init --recursive
- - 7z x psyq.zip -oC:\psyq
+ - 7z x psyq.7z -oC:\psyq
 
 test: off
