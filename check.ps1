@@ -5,5 +5,5 @@ if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef
     Write-Host "OK" -ForegroundColor "green"
 }
 else {
-    Throw "produced binary is not matching" $actualValue.Hash
+    Throw "produced binary is not matching $actualValue.Hash"
 }
