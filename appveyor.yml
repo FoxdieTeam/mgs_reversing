@@ -7,7 +7,8 @@ clone_folder: c:\mgs
 
 build_script:
  - call "comp_asm.bat"
-
+ - check.ps1
+ 
 install:
  - git submodule update --init --recursive
  - 7z x psyq.7z -oC:\
