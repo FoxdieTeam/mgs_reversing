@@ -6,7 +6,7 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - ps: C:\mgs\build.ps1
+ - ps: C:\mgs\build.ps1 -psyq_path C:\psyq\bin
  
 install:
  - git submodule update --init --recursive
