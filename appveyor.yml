@@ -6,7 +6,7 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - ps: build.ps1
+ - ps: C:\mgs\build.ps1
  
 install:
  - git submodule update --init --recursive
