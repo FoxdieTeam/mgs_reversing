@@ -74,7 +74,7 @@ else
 }
 
 # Convert CPE to an EXE
-.\cpe2exe.exe /CJ test2.cpe
+cpe2exe.exe /CJ test2.cpe
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "test2.cpe -> test2.exe" -ForegroundColor "yellow"
