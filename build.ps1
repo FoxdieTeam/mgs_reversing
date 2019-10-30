@@ -63,7 +63,7 @@ foreach ($file in $sFiles)
 }
 
 # Run the linker
-psylink.exe /m "@linker.txt",test2.cpe,asm.sym,asm.map
+psylink.exe /m "@linker_command_file.txt",test2.cpe,asm.sym,asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
