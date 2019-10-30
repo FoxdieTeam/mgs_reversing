@@ -92,5 +92,6 @@ if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef
 }
 else
 {
-    Write-Error Binary is not matching $actualValue.Hash
+    Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
+    exit 1
 }

@@ -30,7 +30,8 @@ code_raw_asm_end group
 code_rw_data	group
 	section .rwdata,code_rw_data
 
+	regs    pc=exe_entry_point
+
+
 static_800ABBF0	group bss,org($800ABBF0)
 	section .static_800ABBF0,static_800ABBF0
-
-	regs    pc=exe_entry_point
