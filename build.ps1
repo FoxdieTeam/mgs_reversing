@@ -2,8 +2,6 @@ param([String]$psyq_path="")
 
 $ErrorActionPreference = "Stop"
 
-$psyq_path = "C:\Users\paul\Desktop\CE\psyq46\BIN"
-
 if (![string]::IsNullOrEmpty($psyq_path))
 {
     # Setup PSYQ env vars
@@ -12,17 +10,17 @@ if (![string]::IsNullOrEmpty($psyq_path))
 
     # Setup PSYQ ini
     $psyq_path_without_bin = $psyq_path
-    if ($psyq_path_without_bin.EndsWith("bin\", "CurrentCultureIgnoreCase"))
+    if ($psyq_path_without_bin.EndsWith("\bin\", "CurrentCultureIgnoreCase"))
+    {
+        $psyq_path_without_bin = $psyq_path_without_bin.Substring(0, $psyq_path_without_bin.Length - 5)
+    }
+    elseif ($psyq_path_without_bin.EndsWith("\bin", "CurrentCultureIgnoreCase"))
     {
         $psyq_path_without_bin = $psyq_path_without_bin.Substring(0, $psyq_path_without_bin.Length - 4)
     }
-    elseif ($psyq_path_without_bin.EndsWith("bin", "CurrentCultureIgnoreCase"))
-    {
-        $psyq_path_without_bin = $psyq_path_without_bin.Substring(0, $psyq_path_without_bin.Length - 3)
-    }
 
     (Get-Content $psyq_path\psyq.ini.template) | 
-    Foreach-Object {$_ -replace '$PSYQ_PATH',$psyq_path_without_bin}  | 
+    Foreach-Object {$_ -replace '\$PSYQ_PATH',$psyq_path_without_bin}  | 
     Out-File $psyq_path\psyq.ini
 }
 
