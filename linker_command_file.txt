@@ -3,35 +3,47 @@
 
 ; link objs
 	include "rom_data.obj"
-;	include	"rom_pre.obj"
-	include	"rom.obj"
-	include "rom_rwdata.obj"
+	include	"rom0.obj"
 	include "main.obj"
+	include	"rom1.obj"
+	include	"rom2.obj"
+	include	"rom3.obj"
+	include "rom_rwdata.obj"
 
-; link libs
-;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libsn.lib
-;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libc.lib
-;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libc2.lib
-;	inclib C:\Users\paul\Desktop\CE\psyq46\LIB\libapi.lib
-
-
-code_start_data	group
+; Starting data
+code_start_data	group org($80010000)
 	section .rodata,code_start_data
 
-code_raw_asm	group	
-	section .text2,code_raw_asm
+; Rom0.obj
+group_800148b8	 group org($800148b8)
+	section .0x800148b8, group_800148b8 
 
-code_main	group
-	section .main,code_main
+; main
+group_80014a40	 group org($80014a40)
+	section .0x80014a40, group_80014a40 
 
-code_raw_asm_end group
-	section after_main, code_raw_asm_end
+; Rom0.obj
+group_80014a7c	 group org($80014a7c)
+	section .0x80014a7c, group_80014a7c 
 
-code_rw_data	group
+; Rom1.obj
+group_800457b4	 group org($800457b4)
+	section .0x800457b4, group_800457b4
+
+; Rom2.obj
+group_800613fc	 group org($800613fc)
+	section .0x800613fc, group_800613fc
+
+; Rom3.obj
+group_80082194	 group org($80082194)
+	section .0x80082194, group_80082194
+
+; Ending data
+code_rw_data	group org($8009D2DC)
 	section .rwdata,code_rw_data
 
+; main
+group_800ABBF0	group bss,org($800ABBF0)
+	section .0x800ABBF0, group_800ABBF0
+
 	regs    pc=exe_entry_point
-
-
-static_800ABBF0	group bss,org($800ABBF0)
-	section .static_800ABBF0,static_800ABBF0

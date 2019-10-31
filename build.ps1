@@ -70,7 +70,7 @@ if($LASTEXITCODE -eq 0)
 } 
 else 
 {
-    Write-Error "Linking failed"
+    Write-Error "Linking failed $LASTEXITCODE"
 }
 
 # Convert CPE to an EXE
@@ -84,6 +84,7 @@ else
     Write-Error "Converting CPE to EXE failed"
 }
 
+
 # Validate the output is matching the OG binary hash
 $actualValue = Get-FileHash -Path test2.exe -Algorithm SHA256
 if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f")
@@ -95,3 +96,4 @@ else
     Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
     exit 1
 }
+
