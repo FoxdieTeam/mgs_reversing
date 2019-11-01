@@ -15,10 +15,13 @@ code_start_data	group org($80010000)
 	section .rodata,code_start_data
 
 ; Rom0.obj
-group_800148b8	 group org($800148b8)
-	section .0x800148b8, group_800148b8 
+;group_800148b8	 group org($800148b8)
+;	section .0x800148b8, group_800148b8 
 
 ; main
+group_800148B8	 group org($800148B8)
+	section .0x800148B8, group_800148B8
+
 group_80014a40	 group org($80014a40)
 	section .0x80014a40, group_80014a40 
 
@@ -45,5 +48,9 @@ code_rw_data	group org($8009D2DC)
 ; main
 group_800ABBF0	group bss,org($800ABBF0)
 	section .0x800ABBF0, group_800ABBF0
+	
+group_800AC3F0	group bss,org($800AC3F0)
+	section .0x800AC3F0, group_800AC3F0
+
 
 	regs    pc=exe_entry_point

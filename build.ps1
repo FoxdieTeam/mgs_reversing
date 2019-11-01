@@ -7,7 +7,6 @@ if (![string]::IsNullOrEmpty($psyq_path))
     # Setup PSYQ env vars
     $Env:path += ";" + $psyq_path
     $Env:PSYQ_PATH = $psyq_path
-
     # Setup PSYQ ini
     $psyq_path_without_bin = $psyq_path
     if ($psyq_path_without_bin.EndsWith("\bin\", "CurrentCultureIgnoreCase"))
@@ -19,13 +18,19 @@ if (![string]::IsNullOrEmpty($psyq_path))
         $psyq_path_without_bin = $psyq_path_without_bin.Substring(0, $psyq_path_without_bin.Length - 4)
     }
 
+    $env:C_PLUS_INCLUDE_PATH = "$psyq_path_without_bin\include"
+    $Env:c_include_path = "$psyq_path_without_bin\include"
+    $env:PSX_PATH = $psyq_path
+
     (Get-Content $psyq_path\psyq.ini.template) | 
     Foreach-Object {$_ -replace '\$PSYQ_PATH',$psyq_path_without_bin}  | 
     Out-File $psyq_path\psyq.ini
 }
 
 
-$cc_opts = "-O2 -g -c"
+$cc_opts = "-O3 -g -c -Wall"
+Write-Host $cc_opts
+
 $asm_opts = "/l /q"
 
 # Compile all .C files
@@ -94,6 +99,8 @@ if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef
 else
 {
     Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
+    
+
     exit 1
 }
 

@@ -97,6 +97,17 @@
     xref aIdIntrCV175199
     xref aBislpm86247
 
+	xdef aMem
+	xdef aPad
+	xdef aGv
+	xdef aFs
+	xdef aDg
+	xdef aGcl
+	xdef aHzd
+	xdef aSound
+	xdef aGm
+	xdef aStart
+
 dword_8009D2DC: dw 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00
                                          ; DATA XREF: start+D0?o
                                          ; TEXT:80098FA4?o

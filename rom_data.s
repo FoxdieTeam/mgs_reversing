@@ -313,7 +313,7 @@ aLoadS:         db "load %s", 0xA, 0x0    ; DATA XREF: sub_800236E0+C?o
 aNotFoundS:     db "NOT FOUND %s", 0xA, 0x0
                                          ; DATA XREF: sub_800236E0+5C?o
                 dh 0
-aNoMem:         db "no_mem", 0xA, 0x0     ; DATA XREF: sub_800236E0+80?o
+aNo         db "no_mem", 0xA, 0x0     ; DATA XREF: sub_800236E0+80?o
 aLoadCompleteTi:db "load complete time %d", 0xA, 0x0
                                          ; DATA XREF: sub_80023804+24?o
                 db 0

@@ -6885,8 +6885,8 @@ sub_80088694:
 	dw 0x00000000 ; 0x800886C0
 
 	;section .0x800886c4
-	xdef sub_800886C4
-sub_800886C4:
+	xdef SdIntReady
+SdIntReady:
 	dw 0x3C02800C ; 0x800886C4
 	dw 0x8C420BFC ; 0x800886C8
 	dw 0x00000000 ; 0x800886CC
@@ -7678,8 +7678,8 @@ sub_800892A8:
 	dw 0x00000000 ; 0x800892B4
 
 	;section .0x800892b8
-	xdef sub_800892B8
-sub_800892B8:
+	xdef mts_set_vsync_task
+mts_set_vsync_task:
 	dw 0x3C03800C ; 0x800892B8
 	dw 0x8C630DB0 ; 0x800892BC
 	dw 0x27BDFFE0 ; 0x800892C0
@@ -7883,8 +7883,8 @@ sub_800893E8:
 	dw 0x00000000 ; 0x800895A8
 
 	;section .0x800895ac
-	xdef sub_800895AC
-sub_800895AC:
+	xdef mts_init_vsync
+mts_init_vsync:
 	dw 0x27BDFFE8 ; 0x800895AC
 	dw 0x3C03800A ; 0x800895B0
 	dw 0x8C633D78 ; 0x800895B4
@@ -7905,8 +7905,8 @@ sub_800895AC:
 	dw 0x00000000 ; 0x800895F0
 
 	;section .0x800895f4
-	xdef sub_800895F4
-sub_800895F4:
+	xdef mts_wait_vbl
+mts_wait_vbl:
 	dw 0x3C07800C ; 0x800895F4
 	dw 0x8CE70DB0 ; 0x800895F8
 	dw 0x27BDFFE0 ; 0x800895FC
@@ -10396,8 +10396,8 @@ sub_8008BB98:
 	dw 0x00000000 ; 0x8008BB9C
 
 	;section .0x8008bba0
-	xdef sub_8008BBA0
-sub_8008BBA0:
+	xdef mg_printf
+mg_printf:
 	dw 0x03E00008 ; 0x8008BBA0
 	dw 0x00000000 ; 0x8008BBA4
 
@@ -10742,8 +10742,8 @@ sub_8008BDEC:
 	dw 0x00000000 ; 0x8008C094
 
 	;section .0x8008c098
-	xdef sub_8008C098
-sub_8008C098:
+	xdef mts_init_controller
+mts_init_controller:
 	dw 0x3C02800A ; 0x8008C098
 	dw 0x8C423DBC ; 0x8008C09C
 	dw 0x27BDFFE8 ; 0x8008C0A0
@@ -11134,8 +11134,8 @@ sub_8008C5D0:
 	dw 0x00000000 ; 0x8008C604
 
 	;section .0x8008c608
-	xdef sub_8008C608
-sub_8008C608:
+	xdef CdInit
+CdInit:
 	dw 0x27BDFFE8 ; 0x8008C608
 	dw 0xAFB00010 ; 0x8008C60C
 	dw 0x24100004 ; 0x8008C610
@@ -14318,8 +14318,8 @@ sub_8008F350:
 	dw 0x00000000 ; 0x8008F4E4
 
 	;section .0x8008f4e8
-	xdef sub_8008F4E8
-sub_8008F4E8:
+	xdef ResetGraph
+ResetGraph:
 	dw 0x27BDFFE0 ; 0x8008F4E8
 	dw 0xAFB10014 ; 0x8008F4EC
 	dw 0x00808821 ; 0x8008F4F0
@@ -14415,8 +14415,8 @@ sub_8008F4E8:
 	dw 0x27BD0020 ; 0x8008F658
 
 	;section .0x8008f65c
-	xdef sub_8008F65C
-sub_8008F65C:
+	xdef SetGraphDebug
+SetGraphDebug:
 	dw 0x27BDFFE8 ; 0x8008F65C
 	dw 0x3C03800A ; 0x8008F660
 	dw 0x24634292 ; 0x8008F664
@@ -14519,8 +14519,8 @@ sub_8008F76C:
 	dw 0x27BD0020 ; 0x8008F7C8
 
 	;section .0x8008f7cc
-	xdef sub_8008F7CC
-sub_8008F7CC:
+	xdef SetDispMask
+SetDispMask:
 	dw 0x27BDFFE0 ; 0x8008F7CC
 	dw 0xAFB10014 ; 0x8008F7D0
 	dw 0x3C11800A ; 0x8008F7D4
@@ -14561,8 +14561,8 @@ sub_8008F7CC:
 	dw 0x27BD0020 ; 0x8008F860
 
 	;section .0x8008f864
-	xdef sub_8008F864
-sub_8008F864:
+	xdef DrawSync
+DrawSync:
 	dw 0x3C02800A ; 0x8008F864
 	dw 0x90424292 ; 0x8008F868
 	dw 0x27BDFFE8 ; 0x8008F86C
@@ -14666,8 +14666,8 @@ sub_8008F8CC:
 	dw 0x27BD0020 ; 0x8008F9E4
 
 	;section .0x8008f9e8
-	xdef sub_8008F9E8
-sub_8008F9E8:
+	xdef ClearImage
+ClearImage:
 	dw 0x27BDFFD8 ; 0x8008F9E8
 	dw 0xAFB3001C ; 0x8008F9EC
 	dw 0x00809821 ; 0x8008F9F0
@@ -17724,8 +17724,8 @@ sub_800925D8:
 	dw 0x00440000 ; 0x8009267C
 
 	;section .0x80092680
-	xdef sub_80092680
-sub_80092680:
+	xdef InitGeom
+InitGeom:
 	dw 0x3C01800A ; 0x80092680
 	dw 0xAC3F4BF0 ; 0x80092684
 	dw 0x0C025122 ; 0x80092688
