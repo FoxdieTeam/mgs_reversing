@@ -5,7 +5,7 @@
 
 #define SECTION(x) __attribute__((section(x)))
 
-extern void sub_8008AAC4( int tasknr, void (*procedure)(int), void *stack_pointer, long stack_size );
+extern void sub_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
 
 extern void __main(void);
 
