@@ -27,6 +27,8 @@ if (![string]::IsNullOrEmpty($psyq_path))
     Out-File $psyq_path\psyq.ini
 }
 
+#del test2.cpe
+#del test2.exe
 
 $cc_opts = "-O3 -g -c -Wall"
 Write-Host $cc_opts
