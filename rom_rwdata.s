@@ -1,6 +1,6 @@
 	opt	c+, at+, e+, n-
 
-	section	.RWDATA
+	section	.SDATA
 
 
     xref aSlpm86247
@@ -108,40 +108,9 @@
 	xdef aGm
 	xdef aStart
 
-dword_8009D2DC: dw 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00
-                                         ; DATA XREF: start+D0?o
-                                         ; TEXT:80098FA4?o
-                dw 0, 0
-off_8009D2FC:   dw aSlpm86247         ; DATA XREF: sub_8002297C+EC?o
-                                         ; sub_8002297C+F0?r ...
-                                         ; "SLPM_862.47"
-                dw aSlpm86248         ; "SLPM_862.48"
-                dw 0
-dword_8009D308: dw 0x70000, 0x70000, 0x40009, 0x40009, 0x4000F, 0x4000F
-                                         ; DATA XREF: sub_80014D98+10?o
-                dw 0x4000F, 0x40009, 0x70000
-dword_8009D32C: dw 0x8000000, 0x6000400, 0
-                                         ; DATA XREF: sub_8001682C+C8?o
-                                         ; TEXT:80016C9C?o
-                dw 0x200, 0xA000C00, 0
-                dw 0xE00, 0
-dword_8009D34C: dw 0                  ; DATA XREF: sub_800172D0+4C?o
-                dw 0xFFFFF000, 0, 0
-dword_8009D35C: dw 0x8001CEE0         ; DATA XREF: sub_80018028+5C?o
-                                         ; sub_80018598?o
-                dw 0x800189A4
-                dw 0x8001E3C0
-                dw 0x8001D324
-                dw 0x8001B66C
-                dw 0x80019D44
-                dw 0x8001D5C8
-dword_8009D378: dw 0, 0, 0            ; DATA XREF: sub_80018D90+48?o
-dword_8009D384: dw 0                  ; DATA XREF: sub_80019FF8+2C?w
-                                         ; sub_80019FF8+34?o ...
-dword_8009D388: dw 0x1000             ; DATA XREF: sub_80019FF8+38?w
-                                         ; sub_8001A3C4+50?r ...
-dword_8009D38C: dw 0                  ; DATA XREF: sub_8001A3C4+54?r
-dword_8009D390: dw 0                  ; DATA XREF: sub_8001A3C4+64?r
+
+
+
 dword_8009D394: dw 0                  ; DATA XREF: sub_8001A3C4+68?r
                 dw 0, 0, 0
 dword_8009D3A4: dw 0x10001000         ; DATA XREF: sub_8001A048+8?w
@@ -149,6 +118,8 @@ dword_8009D3A4: dw 0x10001000         ; DATA XREF: sub_8001A048+8?w
 byte_8009D3A8:  db 0, 0x10            ; DATA XREF: sub_8001A3C4+88?r
 word_8009D3AA:  dh 0x1000             ; DATA XREF: sub_8001A048+18?w
                                          ; sub_80031BD4+1C?r
+										 
+										 
 dword_8009D3AC: dw 0x10001000         ; DATA XREF: sub_8001A3C4+8C?r
 dword_8009D3B0: dw 0x10001000         ; DATA XREF: sub_8001A048+20?w
                                          ; sub_8001A3C4+9C?r ...
