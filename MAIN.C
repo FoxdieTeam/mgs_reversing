@@ -305,13 +305,16 @@ int SECTION(".SDATA") dword_8009DE1C[] =
 };
 
 int SECTION(".SDATA") dword_8009DE5C[] = { 0x8001000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111 };
-
 int dword_8009DE7C =  0;
-
 int dword_8009DE80 =  0;
 int dword_8009DE84 =  0;
-
 int dword_8009DE88 =  0;
+int SECTION(".SDATA") dword_8009DE8C[] = { 0, 0, 0, 0 };
+int dword_8009DE9C =  0;
+int dword_8009DEA0 =  0;
+int dword_8009DEA4 =  0;
+int dword_8009DEA8 =  0;
+int SECTION(".SDATA") dword_8009DEAC[] = { 0, 0, 0, 0 };
 
 // ======================================================================================================
 

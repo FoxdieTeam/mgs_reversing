@@ -110,27 +110,11 @@
 
 
 
-				
 
-dword_8009DE8C: dw 0                  ; DATA XREF: sub_800356FC+88?w
-                                         ; sub_800356FC+A4?r
-                dw 0, 0, 0
-dword_8009DE9C: dw 0                  ; DATA XREF: sub_80035F34:loc_80035F8C?w
-                                         ; sub_80035F34+5C?o ...
-dword_8009DEA0: dw 0                  ; DATA XREF: sub_80035F34+6C?r
-dword_8009DEA4: dw 0                  ; DATA XREF: sub_80035F34+60?w
-                                         ; sub_80035F34+78?r
-dword_8009DEA8: dw 0                  ; DATA XREF: sub_80035F34+7C?r
-dword_8009DEAC: dw 0                  ; DATA XREF: sub_80035F34+64?w
-                                         ; sub_80035F34+80?r
-                dw 0, 0, 0
 word_8009DEBC:  dh 0x78               ; DATA XREF: sub_80036BA4+C?o
-                                         ; sub_80036BA4+54?r ...
 word_8009DEBE:  dh 0x25               ; DATA XREF: sub_80036BA4+14?o
-                                         ; sub_80037600+18?o
-                dw 0x190058
+                dh 0x58, 0x19
 dword_8009DEC4: dw 0x190068, 0x1F0068, 0x1F0079, 0x280079, 0x280079
-                                         ; DATA XREF: sub_80037600+40?o
                 dw 0x200079, 0x200087, 0x2A0087, 0x450087, 0x250058
                 dw 0x400058, 0x290060, 0x290060, 0x230060, 0x230068
                 dw 0x260068, 0x260071, 0x2D0071, 0x3E0071, 0x2D0064
@@ -179,15 +163,10 @@ dword_8009DEC4: dw 0x190068, 0x1F0068, 0x1F0079, 0x280079, 0x280079
                 dw 0x350079, 0x2F007D, 0x350087, 0x117007D, 0x11A007D
                 dw 0x2F0087, 0x11A0087, 0x1170087, 0x7D
 dword_8009E280: dw 0                  ; DATA XREF: sub_80037AE4+48?r
-                                         ; sub_80037AE4+6C?w ...
 dword_8009E284: dw 0                  ; DATA XREF: sub_80037AE4+58?r
-                                         ; sub_80037B64+68?r ...
 dword_8009E288: dw 0                  ; DATA XREF: sub_80037AE4+60?r
-                                         ; sub_80037B64+A8?w
 dword_8009E28C: dw 0                  ; DATA XREF: sub_80038070:loc_800382BC?w
-                                         ; sub_80038070+2C0?w ...
 dword_8009E290: dw 0x8003CC94         ; DATA XREF: sub_8003884C+B4?r
-                                         ; sub_8003884C+C0?o ...
                 dw 0x8003B474
                 dw 0x80042700
                 dw 0x8003CBF0
@@ -197,7 +176,6 @@ dword_8009E290: dw 0x8003CC94         ; DATA XREF: sub_8003884C+B4?r
                 dw 0x800494C4
                 dw 0
 dword_8009E2B4: dw 0x8003B554         ; DATA XREF: sub_800387E8+4?r
-                                         ; sub_800387E8+18?o ...
                 dw 0x8004271C
                 dw 0x8003CC74
                 dw 0x8003ECAC
@@ -205,37 +183,26 @@ dword_8009E2B4: dw 0x8003B554         ; DATA XREF: sub_800387E8+4?r
                 dw 0x80042980
                 dw 0
 dword_8009E2D0: dw 0                  ; DATA XREF: sub_8003884C+1C?o
-                                         ; sub_80038A88+C?r ...
 dword_8009E2D4: dw 0                  ; DATA XREF: sub_800386A4+14?r
-                                         ; sub_80038A88+94?w ...
 dword_8009E2D8: dw 0                  ; DATA XREF: sub_80038A88+1C?r
-                                         ; sub_80038A88+7C?w ...
 dword_8009E2DC: dw 0                  ; DATA XREF: sub_8003884C+48?w
 dword_8009E2E0: dw 0                  ; DATA XREF: sub_8003884C+54?w
 dword_8009E2E4: dw 0                  ; DATA XREF: sub_80038B34+4?w
-                                         ; sub_80038B34+8?o ...
 dword_8009E2E8: dw 0                  ; DATA XREF: sub_80038B34+C?w
 dword_8009E2EC: dw 0                  ; DATA XREF: sub_80038B34+14?w
-                                         ; sub_80038B4C+8?r ...
 dword_8009E2F0: dw 0x64808080         ; DATA XREF: sub_80038B4C+48?w
-                                         ; sub_80038B98+10?w
 dword_8009E2F4: dw 0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808
-                                         ; DATA XREF: sub_800391D0+4F0?o
 dword_8009E30C: dw 0xC1C5080          ; DATA XREF: sub_8003A978+4C?o
 dword_8009E310: dw 0x72C5C80, 0xC1C509C, 0x73A6380, 0xC1C50B8, 0x72C5CB4
-                                         ; DATA XREF: sub_80039EC4+B8?o
                 dw 0xC3A6A8A, 0x73A768A
 byte_8009E32C:  db 0xBC, 0x63         ; DATA XREF: sub_80039EC4+150?o
 byte_8009E32E:  db 0x24               ; DATA XREF: sub_80039EC4+16C?r
                 db 3
 dword_8009E330: dw 0x100A6A80         ; DATA XREF: sub_8003A664+214?o
 byte_8009E334:  db 0xC4               ; DATA XREF: sub_8003A0BC+38?o
-                                         ; sub_8003A0BC+6C?r ...
 byte_8009E335:  db 0x66               ; DATA XREF: sub_8003A0BC+9C?r
-                                         ; sub_8003A2D0+98?r ...
-                dh 0x161C
+                db 0x1C, 0x16
 byte_8009E338:  db 0, 0               ; DATA XREF: sub_8003A664+144?o
-                                         ; sub_8003AA2C+48?o
 word_8009E33A:  dh 0                  ; DATA XREF: sub_8003A664+80?o
                 dw 0, 0, 0, 0, 0, 0
                 dw 0xC2100000, 0, 0, 0, 0, 0, 0, 0
@@ -243,13 +210,8 @@ word_8009E33A:  dh 0                  ; DATA XREF: sub_8003A664+80?o
                 dw 0xC2100000, 0, 0, 0, 0, 0, 0, 0
                 dw 0xC2100000
 dword_8009E3B8: dw 0x182589, 0x184789, 0x182589, 0x338918
-                                         ; DATA XREF: sub_80039EC4+14?o
-                                         ; sub_8003A0BC+10?o ...
 dword_8009E3C8: dw 0x1371D07, 0x1373207, 0x2032E21
-                                         ; DATA XREF: sub_8003A664+14C?o
 dword_8009E3D4: dw 0x48A000, 0x6E6E, 0xDE, 0x181800
-                                         ; DATA XREF: sub_8003AA2C+134?o
-                                         ; sub_8003AA2C+268?o
 dword_8009E3E4: dw 0x800115CC         ; DATA XREF: sub_8003B614+8?o
                 dw 0x8001158C
                 dw 0x80011558
@@ -277,12 +239,9 @@ dword_8009E3E4: dw 0x800115CC         ; DATA XREF: sub_8003B614+8?o
 dword_8009E444: dw 0x80011644         ; DATA XREF: sub_8003B614+4C?r
 dword_8009E448: dw 0x80011614         ; DATA XREF: sub_8003B614+5C?r
 dword_8009E44C: dw 0x6A9014B0, 0x6C906B90, 0x6E906D90, 0x7C8015D0, 0x44524148
-                                         ; DATA XREF: sub_8003B614+A0?o
                 dw 0x5845202C, 0x4D455254, 0xD0428220, 0x81298206, 0x902F8127
                 dw 0x81499048, 0x810D8127, 0xD004812A, 3
 off_8009E484:   dw aCigs              ; DATA XREF: sub_8003B5E0?o
-                                         ; sub_8003B8F0+258?o
-                                         ; "CIGS"
                 dw 0xE, 0x800AB558, 0x1E, 0x800AB550, 0x11, 0x800AB548
                 dw 0x11, 0x800AB540, 0x11, 0x800AB538, 0xF, 0x800AB530
                 dw 0x10, 0x800AB528, 0x13, 0x800AB520, 0x12, 0x800AB518
@@ -292,18 +251,14 @@ off_8009E484:   dw aCigs              ; DATA XREF: sub_8003B5E0?o
                 dw 0x1A, 0x800AB4D8, 0x14, 0x800AB4D0, 0x1C, 0x800AB4C8
                 dw 0x18, 0x800AB4C0, 0x1D, 0x800AB4B8, 0xD
 dword_8009E544: dw 0xB80010, 1, 0x6000, 0x9000, 0x8003D64C, 0x8003D594
-                                         ; DATA XREF: sub_8003D6A8+C?o
                 dw 0
                 dw 0xB80100, 2, 0x3000, 0xC000, 0x8003D594, 0x8003D5F0
                 dw 0
 off_8009E57C:   dw aSocom             ; DATA XREF: sub_8003DED8+18?o
-                                         ; sub_8003DED8:loc_8003DEFC?o ...
-                                         ; "SOCOM"
                 dw 1, 0x800AB5BC, 3, 0x800AB5B4, 5, 0x800AB5AC, 0xA
                 dw 0x800AB5A4, 9, 0x800116DC, 8, 0x800AB5A0, 7, 0x800AB598
                 dw 6, 0x800AB590, 0xB, 0x800AB588, 4
 dword_8009E5CC: dw 0x80011A8C         ; DATA XREF: sub_8003E030+8?o
-                                         ; sub_8003E030+38?r ...
                 dw 0x80011A30
                 dw 0x800119C0
                 dw 0x80011954
@@ -314,33 +269,20 @@ dword_8009E5CC: dw 0x80011A8C         ; DATA XREF: sub_8003E030+8?o
                 dw 0x80011750
                 dw 0x800116E8
 off_8009E5F4:   dw aLife              ; DATA XREF: sub_8003F30C+18?o
-                                         ; sub_8003F4B8+4?o
-                                         ; "LIFE"
                 dw 0x1F7F8F10, 0x3FDF
 off_8009E600:   dw aO2                ; DATA XREF: sub_8003F30C+D4?o
-                                         ; "O2"
                 dw 0x1FC03F1F, 0x1FF7F
 dword_8009E60C: dw 0x6D5D2477, 0x257B6B2E, 0x6F7F
-                                         ; DATA XREF: sub_8003A664+88?o
-                                         ; sub_8003FD50+18?o
 dword_8009E618: dw 0x2070001, 0x7020100, 0x7020107, 0x2070701, 0x7020900
-                                         ; DATA XREF: sub_80040034+108?o
-                                         ; sub_800401AC+80?o
                 dw 0x7020907, 0x2070F01
 dword_8009E634: dw 0x3D472E           ; DATA XREF: sub_80040034+110?w
-                                         ; sub_800401AC+84?w
 dword_8009E638: dw 0x3D472E           ; DATA XREF: sub_80040034+114?w
 dword_8009E63C: dw 0x2050001, 0x6020100, 0x6020105, 0x2050601, 0x6020800
-                                         ; DATA XREF: sub_80040034+38?o
-                                         ; sub_800401AC+30?o
                 dw 0x6020805, 0x2050D01
 dword_8009E658: dw 0x3D472E           ; DATA XREF: sub_80040034+5C?w
-                                         ; sub_800401AC+54?w
 dword_8009E65C: dw 0x3D472E           ; DATA XREF: sub_80040034+60?w
 dword_8009E660: dw 0xC0F0A0A          ; DATA XREF: sub_80040034:loc_8004014C?o
-                                         ; sub_800401AC+4C?o
 dword_8009E664: dw 0x30503A78, 0x601A1F13, 0x2053774, 0x60293020, 0x20537C7
-                                         ; DATA XREF: sub_80040DC4+D0?o
                 dw 0x60293020, 0x2056B74, 0x60293020, 0x2056BC7, 0x60293020
                 dw 0x14E3779, 0x60293020, 0x14E6C79, 0x60293020, 0xA3E2681
                 dw 0x601A1F13, 0xA3E7581, 0x601A1F13, 0xB194C5A, 0x601A1F13
@@ -349,18 +291,11 @@ dword_8009E664: dw 0x30503A78, 0x601A1F13, 0x2053774, 0x60293020, 0x20537C7
                 dw 0x1242E5B, 0x601A1F13, 0x1242EC1, 0x601A1F13, 0x124765B
                 dw 0x601A1F13, 0x12476C1, 0x601A1F13
 dword_8009E6FC: dw 0x4DD651DE, 0x516255D6, 0x556A4D6A
-                                         ; DATA XREF: sub_8004064C+54?o
 word_8009E708:  dh 0                  ; DATA XREF: sub_8004158C+E8?r
-                                         ; sub_8004158C+F4?o ...
 word_8009E70A:  dh 0                  ; DATA XREF: sub_8004158C+F8?r
-                                         ; sub_8004158C+FC?r ...
 dword_8009E70C: dw 0xFFFFFFFF         ; DATA XREF: sub_8004158C+128?r
-                                         ; sub_80042198+228?r ...
 dword_8009E710: dw 0                  ; DATA XREF: sub_80042198+178?r
-                                         ; sub_80042198+290?r ...
 dword_8009E714: dw 0x240022E, 0x45F023A, 0x63F0221, 0x62D062B, 0x62A062F
-                                         ; DATA XREF: sub_80042BF4+114?o
-                                         ; sub_80043220+110?o
                 dw 0x37D037B, 0
 dword_8009E730: dw 0x80043678         ; DATA XREF: TEXT:80044A3C?o
                 dw 0x80043A24
@@ -374,12 +309,9 @@ dword_8009E744: dw 0x800AB6A4         ; DATA XREF: TEXT:80044A18?o
                 dw 0x800AB694
                 dw 0x800AB690
 dword_8009E75C: dw 0                  ; DATA XREF: sub_80044A9C+CC?w
-                                         ; sub_80044BC0?o ...
                 dw 0, 0, 0
 dword_8009E76C: dw 0x100FF, 0xFF000100
-                                         ; DATA XREF: sub_80048FD4+A4?o
 dword_8009E774: dw 0x24A51421, 0x45AD3529, 0x88A5631, 0x217414EF, 0x363929D6
-                                         ; DATA XREF: sub_8004983C+108?o
                 dw 0x10750C13, 0x195A14D8, 0xEEB19BC, 0x12211, 0xEA00310
                 dw 0x20000000, 0xEC00331, 0x23210012, 0xEB20243, 0x33332213
                 dw 0xEA10134, 0x44422233, 0xEA10123, 0x34322343, 0xED11212
@@ -428,8 +360,6 @@ dword_8009E774: dw 0x24A51421, 0x45AD3529, 0x88A5631, 0x217414EF, 0x363929D6
                 dw 0x10123433, 0xEEA0021, 0x12222100, 0xEC00021, 0x1221111
                 dw 0xEA00102, 0x22222333, 0xB000301, 0, 0
 aBislpm99999:   db "BISLPM-99999        ", 0x0
-                                         ; DATA XREF: sub_8004983C+224?o
-                                         ; sub_8004983C+2B8?o ...
                 db 0, 0, 0
 dword_8009EB4C: dw 0x800AB6F8         ; DATA XREF: sub_8004C418+38?o
                 dw 0x8001203C
@@ -460,47 +390,36 @@ dword_8009EBAC: dw 0x800120E4         ; DATA XREF: sub_8004C418+68C?o
 dword_8009EBB4: dw 0x8001210C         ; DATA XREF: sub_8004C418+65C?o
                 dw 0x80012100
 dword_8009EBBC: dw 0                  ; DATA XREF: sub_8004A87C+18?o
-                                         ; sub_8004C418+40?o ...
 dword_8009EBC0: dw 0                  ; DATA XREF: sub_8004C418+54?w
-                                         ; sub_8004C418+90?w
                 dw aComplete          ; "COMPLETE"
 dword_8009EBC8: dw 0                  ; DATA XREF: sub_8004C418+60?w
-                                         ; sub_8004C418+9C?w
                 dw aError             ; "ERROR"
 dword_8009EBD0: dw 0x4F009B, 0x4A00A0, 0x4F00A5, 0x80808080
-                                         ; DATA XREF: sub_8004B0A0+7F8?o
 dword_8009EBE0: dw 0xB8009C, 0xBC00A0, 0xB800A4, 0x80808080
-                                         ; DATA XREF: sub_8004B0A0+828?o
 off_8009EBF0:   dw dword_800AB728     ; DATA XREF: sub_8004B0A0+418?o
                 dw dword_800AB724
                 dw dword_800AB720
                 dw aEx                ; "EX"
 off_8009EC00:   dw aMemoryCard1       ; DATA XREF: sub_8004BE98+3C?o
-                                         ; "MEMORY CARD 1"
                 dw aMemoryCard2       ; "MEMORY CARD 2"
 off_8009EC08:   dw dword_800AB754     ; DATA XREF: sub_8004C418+648?o
                 dw aNo                ; "NO"
 dword_8009EC10: dw 0x8F826382, 0x8B828382, 0
-                                         ; DATA XREF: sub_8004D008+C0?o
 off_8009EC1C:   dw dword_800122D8     ; DATA XREF: sub_8004D008+118?o
                 dw dword_800122CC
                 dw dword_800122C0
                 dw dword_800122B4
                 dw dword_800122A8
 byte_8009EC30:  db 0x47               ; DATA XREF: sub_8004D280+8?o
-                                         ; sub_8004D280+2C?o ...
 byte_8009EC31:  db 0                  ; DATA XREF: sub_8004D280+14?w
 byte_8009EC32:  db 0                  ; DATA XREF: sub_8004D280+20?w
-                                         ; sub_8004D280:loc_8004D2A4?w
                 db 1
                 dw aSaveData          ; "SAVE DATA"
                 dw 0x8004D008
                 dw 0x8004D14C
                 dw 0x8004D1D0
 dword_8009EC44: dw 0x7D009B, 0x7800A0, 0x7D00A5, 0x80808080
-                                         ; DATA XREF: sub_8004D628+98?o
 dword_8009EC54: dw 0xD4009C, 0xD800A0, 0xD400A4, 0x80808080, 0x1713520C
-                                         ; DATA XREF: sub_8004D628+CC?o
                 dw 0xC1E1D18, 0
 dword_8009EC70: dw 0x1711080A, 0x501C1B18, 0x6B6A, 0x1712090B, 0x491C1B18
                 dw 0x6F6E, 0x174F4D4B, 0x4B1C1B18, 0
@@ -530,7 +449,6 @@ dword_8009ED70: dw 0x800AB78C         ; DATA XREF: sub_8004F14C+48?o
                 dw 0x8009ED48
                 dw 0x8009ED68
 dword_8009ED8C: dw 0x800AB794         ; DATA XREF: sub_800511BC+270?o
-                                         ; TEXT:8005BA0C?o
                 dw 0x8009EC70
                 dw 0x800AB7C4
                 dw 0x8009ECC4
@@ -601,11 +519,9 @@ dword_8009ED8C: dw 0x800AB794         ; DATA XREF: sub_800511BC+270?o
                 dw 0x8009ED54
                 dw 0x8009ED68
 dword_8009EEA4: dw 0x8005275C         ; DATA XREF: sub_800507D8+40?o
-                                         ; sub_800511BC+3BC?o ...
                 dw 0x800527DC
                 dw 0x800528BC
 dword_8009EEB0: dw 0x80052A5C         ; DATA XREF: sub_800511BC+394?o
-                                         ; sub_800515BC+2A4?o
                 dw 0x80052CCC
 dword_8009EEB8: dw 0x8005292C         ; DATA XREF: sub_800511BC+3B0?o
                 dw 0x8005292C
@@ -613,26 +529,19 @@ dword_8009EEB8: dw 0x8005292C         ; DATA XREF: sub_800511BC+3B0?o
 dword_8009EEC4: dw 0xFA02EE, 0xFA     ; DATA XREF: sub_8005AD10:loc_8005B030?o
 dword_8009EECC: dw 0x1F0044C, 0x88    ; DATA XREF: sub_800596FC+6AC?o
 dword_8009EED4: dw 0x47F              ; DATA XREF: sub_800596FC+B54?o
-                                         ; sub_800596FC+CE8?o
 dword_8009EED8: dw 0x2FF01E1, 0       ; DATA XREF: sub_800596FC+B64?o
-                                         ; sub_800596FC+D00?o
 dword_8009EEE0: dw 0x67F              ; DATA XREF: sub_800596FC+C58?o
-                                         ; sub_800596FC+D10?o
 dword_8009EEE4: dw 0x4FF01E1, 0x84B02E1, 0
-                                         ; DATA XREF: sub_800596FC+C68?o
-                                         ; sub_800596FC+D20?o
 dword_8009EEF0: dw 0x17F              ; DATA XREF: sub_800596FC:loc_8005A688?o
 dword_8009EEF4: dw 0x39B              ; DATA XREF: sub_800596FC+F9C?o
 dword_8009EEF8: dw 0x27F0200, 0       ; DATA XREF: sub_80054EFC:loc_80055064?o
 dword_8009EF00: dw 0x650048C, 0       ; DATA XREF: sub_80054EFC+174?o
 dword_8009EF08: dw 0x27F0A00, 0       ; DATA XREF: sub_80054EFC+F0?o
 dword_8009EF10: dw 0x8320250, 0x650048C, 0
-                                         ; DATA XREF: sub_80054EFC+100?o
 dword_8009EF1C: dw 0x4C4              ; DATA XREF: sub_80057FD4+2A4?o
 dword_8009EF20: dw 0x494              ; DATA XREF: sub_80057FD4+294?o
 dword_8009EF24: dw 0x27F0200, 0       ; DATA XREF: sub_8005961C+6C?o
 dword_8009EF2C: dw 0x4C8023C, 0x228, 0
-                                         ; DATA XREF: sub_8005961C+78?o
                 dw 0x80054210
 dword_8009EF3C: dw 0x80065D74         ; DATA XREF: sub_800511BC+160?o
                 dw 0x800540D0
@@ -668,7 +577,6 @@ dword_8009EF8C: dw 0x80062274         ; DATA XREF: sub_800515BC:loc_800516F0?o
                 dw 0x80061E40
                 dw 0x80065118
 byte_8009EFC0:  db 0                  ; DATA XREF: sub_8004EB14+4?o
-                                         ; sub_8004EB14+C?r
                 db 0, 0xF4
 byte_8009EFC3:  db 1                  ; DATA XREF: sub_8004EB14+8?r
 byte_8009EFC4:  db 0                  ; DATA XREF: sub_8004EB14+14?r
@@ -712,63 +620,42 @@ dword_8009F0A4: dw 0xC80000, 0x258, 0xFA01F4, 0x1F4, 0
 dword_8009F0C4: dw 0, 0               ; DATA XREF: sub_800596FC+B4?o
                 dw 0xFFFF, 0
 dword_8009F0D4: dw 0x2DF92, 0x40002, 1, 0x320005, 0xFA0032
-                                         ; DATA XREF: sub_8005D6BC+DC?o
-                                         ; sub_8005D988+C4?o
 dword_8009F0E8: dw 0                  ; DATA XREF: sub_8005D6BC+128?w
-                                         ; sub_8005D988+114?w
                 dw 0x800124A8
 dword_8009F0F0: dw 0x8512D, 0x1E0004, 0x12C0001, 0x1900001, 0x200190
-                                         ; DATA XREF: sub_8005D6BC+224?o
-                                         ; sub_8005D988+318?o ...
 dword_8009F104: dw 0                  ; DATA XREF: sub_8005D6BC+270?w
-                                         ; sub_8005D988+360?w ...
                 dw 0x8001253C
 dword_8009F10C: dw 0x2E4CC, 0x40002, 0x12C0001, 0x1900001, 0x800190
-                                         ; DATA XREF: sub_8005D988+198?o
-                                         ; TEXT:loc_8005E22C?o ...
 dword_8009F120: dw 0                  ; DATA XREF: sub_8005D988+1A4?w
-                                         ; TEXT:8005E244?w ...
                 dw 0x800125CC
 dword_8009F128: dw 0x2E4CC, 0x40002, 0x12C0001, 0x5780001, 0x800578
-                                         ; DATA XREF: sub_8005E334+9C?o
 dword_8009F13C: dw 0                  ; DATA XREF: sub_8005E334+A8?w
                 dw 0x800125F4
 dword_8009F144: dw 0x2E4CC, 0x40002, 0x12C0001, 0x1900001, 0x800190
-                                         ; DATA XREF: TEXT:8005E7A4?o
 dword_8009F158: dw 0                  ; DATA XREF: TEXT:8005E7D8?w
                 dw 0x8001261C
 dword_8009F160: dw 0x2FE8E, 0x30002, 0x12C0001, 0x2580001, 0x640258
-                                         ; DATA XREF: sub_8005D604:loc_8005D690?o
 dword_8009F174: dw 0                  ; DATA XREF: sub_8005D604+A4?w
                 dw 0x80012628
 dword_8009F17C: dw 0x27E4C, 0x40002, 0xC80001, 0x640005, 0x800064
-                                         ; DATA XREF: sub_8005DDE0+60?o
 dword_8009F190: dw 0                  ; DATA XREF: sub_8005DDE0+7C?w
                 dw 0x80012634
 dword_8009F198: dw 0x8512D, 0x1E0004, 8, 0x8980003, 0x4D0898
-                                         ; DATA XREF: TEXT:8005E164?o
 dword_8009F1AC: dw 0                  ; DATA XREF: TEXT:8005E178?w
                 dw 0x80012708
 dword_8009F1B4: dw 0x8512D, 0x1E0004, 1, 0x3E80001, 0x4D03E8
-                                         ; DATA XREF: sub_8005DE70+84?o
-                                         ; TEXT:8005E2D8?o
 dword_8009F1C8: dw 0                  ; DATA XREF: sub_8005DE70+C0?w
-                                         ; TEXT:8005E314?w
                 dw 0x80012728
 dword_8009F1D0: dw 0x8512D, 0x1E0004, 4, 0x8980001, 0x800898
-                                         ; DATA XREF: sub_8005DF50+C0?o
 dword_8009F1E4: dw 0                  ; DATA XREF: sub_8005DF50+124?w
                 dw 0x80012750
 dword_8009F1EC: dw 0x8512D, 0x1E0004, 0x3E80001, 0x1900003, 0x800190
-                                         ; DATA XREF: sub_8005E508+28?o
 dword_8009F200: dw 0                  ; DATA XREF: sub_8005E508+58?w
                 dw 0x800127A4
 dword_8009F208: dw 0x8512D, 0x1E0004, 0x3E80001, 0x1E0003, 0xA001E
-                                         ; DATA XREF: sub_8005E6A4+A8?o
 dword_8009F21C: dw 0                  ; DATA XREF: sub_8005E6A4+BC?w
                 dw 0x800127D0
 dword_8009F224: dw 0                  ; DATA XREF: sub_8005D6BC?r
-                                         ; sub_8005D6BC:loc_8005D810?r ...
 dword_8009F228: dw 0x8005EC1C         ; DATA XREF: sub_8005F4AC+58?o
                 dw 0x8005ED0C
                 dw 0x8005ED74
@@ -785,20 +672,15 @@ dword_8009F228: dw 0x8005EC1C         ; DATA XREF: sub_8005F4AC+58?o
                 dw 0x8005F408
                 dw 0x8005F438
 off_8009F264:   dw aSnaChest1         ; DATA XREF: sub_80060874+58?o
-                                         ; "sna_chest1"
                 dw aSnaChest2         ; "sna_chest2"
                 dw aSnaChest3         ; "sna_chest3"
                 dw aSnaHip1           ; "sna_hip1"
 off_8009F274:   dw aSnaArmer1         ; DATA XREF: sub_80060874+50?o
-                                         ; "sna_armer1"
                 dw aSnaArmer2         ; "sna_armer2"
                 dw aSnaArmer3         ; "sna_armer3"
                 dw aSnaArmer4         ; "sna_armer4"
 dword_8009F284: dw 0                  ; DATA XREF: sub_80061A14+D4?w
-                                         ; sub_80061A14+D8?o ...
 off_8009F288:   dw aCbBox11           ; DATA XREF: sub_80061B30+28?o
-                                         ; sub_80061BA0+78?o
-                                         ; "cb_box11"
                 dw aCbBox12           ; "cb_box12"
                 dw aCbBox41           ; "cb_box41"
                 dw aCbBox42           ; "cb_box42"
@@ -807,17 +689,13 @@ off_8009F288:   dw aCbBox11           ; DATA XREF: sub_80061B30+28?o
                 dw aCbBox41           ; "cb_box41"
                 dw aCbBox42           ; "cb_box42"
 off_8009F2A8:   dw aSnaFace           ; DATA XREF: sub_80061D14+4C?o
-                                         ; "sna_face"
                 dw aSnaFace2          ; "sna_face2"
                 dw aSnaFace3          ; "sna_face3"
 off_8009F2B4:   dw aSnaMf1            ; DATA XREF: sub_80061D14+44?o
-                                         ; "sna_mf1"
                 dw aSnaMf2            ; "sna_mf2"
                 dw aSnaMf3            ; "sna_mf3"
 dword_8009F2C0: dw 0                  ; DATA XREF: sub_80050A64+588?w
-                                         ; TEXT:8005BF14?w ...
 word_8009F2C4:  dh 0                  ; DATA XREF: sub_8006317C+B0?w
-                                         ; sub_80063508+C?r ...
                 dh 0
 dword_8009F2C8: dw 0, 0, 0            ; DATA XREF: sub_8006237C+B0?o
                 dw 0xC80
@@ -834,14 +712,11 @@ byte_8009F2DA:  db 0                  ; DATA XREF: sub_80063704+100?w
                 dw 0x60D141B, 0x1C150E07, 0x38312A23, 0x242B3239, 0x170F161D
                 dw 0x332C251E, 0x2D343B3A, 0x2E271F26, 0x363D3C35, 0x3F3E372F
 byte_8009F32C:  db 2                  ; DATA XREF: sub_80063DDC+8?r
-                                         ; sub_80063DDC+44?o
                 db 0x10, 0x13, 0x16
                 dw 0x221D1B1A, 0x18161010, 0x25221D1B, 0x1B1A1613, 0x2622221D
                 dw 0x1B1A1616, 0x2825221D, 0x1D1B1A16, 0x30282320, 0x201D1B1A
                 dw 0x3A302823, 0x221D1B1A, 0x45382E26, 0x26231D1B, 0x5345382E
 dword_8009F36C: dw 0x2D2D2D2D, 0x2D2D2D2D, 0xC23353F, 0xC1CBDDF4, 0xC5E8183B
-                                         ; DATA XREF: sub_8006392C+10?o
-                                         ; sub_80063CD0+8C?o
                 dw 0x3B18E8C5, 0xDDC1F435, 0xCB0C3F23, 0x2DD3D32D, 0x2DD3D32D
                 dw 0x350CC123, 0xDD3FF4CB, 0xE83BC518, 0x18C53BE8, 0xC135DD0C
                 dw 0xF423CB3F
@@ -849,7 +724,6 @@ dword_8009F3AC: dw 0, 0, 0            ; DATA XREF: sub_80064454+A8?o
                 dw 0xC80
 dword_8009F3BC: dw 0xFE8E0014, 0x3C   ; DATA XREF: sub_80065518+3EC?o
 byte_8009F3C4:  db 0                  ; DATA XREF: sub_80065B04+1C0?o
-                                         ; sub_80065B04+1C8?r
                 db 0, 0x29
 byte_8009F3C7:  db 0xFF               ; DATA XREF: sub_80065B04+1C4?r
 byte_8009F3C8:  db 0x20               ; DATA XREF: sub_80065B04+1D0?r
@@ -857,152 +731,99 @@ byte_8009F3C8:  db 0x20               ; DATA XREF: sub_80065B04+1D0?r
 byte_8009F3CB:  db 0                  ; DATA XREF: sub_80065B04+1CC?r
                 dw 0xD7290000, 0x20
 dword_8009F3D4: dw 0x2580000, 0x20, 0xDA580000, 0x20
-                                         ; DATA XREF: sub_80065408+48?o
 dword_8009F3E4: dw 0x7A643B88, 0xF83D7A64
-                                         ; DATA XREF: sub_8006641C+2EC?o
-                                         ; sub_800668B4+2C?o
 dword_8009F3EC: dw 0x800000, 0x96     ; DATA XREF: sub_8006641C+228?o
-                                         ; sub_8006641C:loc_80066664?o
 dword_8009F3F4: dw 0x320000, 0xC8     ; DATA XREF: sub_8006641C:loc_8006665C?o
 dword_8009F3FC: dw 0x200000, 0x20, 0x1180000, 0x50
-                                         ; DATA XREF: sub_8006641C+23C?o
 dword_8009F40C: dw 0x47F0200, 0       ; DATA XREF: sub_800670CC:loc_80067378?o
 dword_8009F414: dw 0xA4B0491, 0       ; DATA XREF: sub_800670CC+2BC?o
 dword_8009F41C: dw 0, 0, 0            ; DATA XREF: sub_80067BFC+B8?o
                 dw 0xBB8
 dword_8009F42C: dw 0                  ; DATA XREF: sub_8005027C+90?r
-                                         ; sub_80057118+14?r ...
 dword_8009F430: dw 0                  ; DATA XREF: TEXT:8006A310?r
-                                         ; TEXT:8006A3E8?w
 dword_8009F434: dw 0                  ; DATA XREF: TEXT:8005BE90?w
-                                         ; TEXT:loc_8006A39C?r
 dword_8009F438: dw 0xC00, 0           ; DATA XREF: TEXT:8006A294?o
 dword_8009F440: dw 0                  ; DATA XREF: TEXT:8005BECC?w
-                                         ; sub_8006AB5C+330?r ...
 dword_8009F444: dw 0                  ; DATA XREF: TEXT:8005BED4?w
-                                         ; sub_8006AB5C+310?r ...
 dword_8009F448: dw 0                  ; DATA XREF: sub_80057474+28?r
-                                         ; TEXT:8005BEDC?w ...
 dword_8009F44C: dw 0xFF06FD8F, 0x2EE  ; DATA XREF: sub_8006B124+AC?o
 dword_8009F454: dw 0xFF06FE0C, 0x2EE  ; DATA XREF: sub_8006B124+A4?o
 byte_8009F45C:  db 0xF4               ; DATA XREF: sub_8006B124+44?o
-                                         ; sub_8006B124+4C?r
                 db 1, 0xC8
 byte_8009F45F:  db 0                  ; DATA XREF: sub_8006B124+48?r
 byte_8009F460:  db 0xF4               ; DATA XREF: sub_8006B124+54?r
                 db 1, 0
 byte_8009F463:  db 0                  ; DATA XREF: sub_8006B124+50?r
 byte_8009F464:  db 0x2C               ; DATA XREF: sub_8006B124+74?o
-                                         ; sub_8006B124+7C?r
                 db 1, 0xC8
 byte_8009F467:  db 0                  ; DATA XREF: sub_8006B124+78?r
 byte_8009F468:  db 0x2C               ; DATA XREF: sub_8006B124+84?r
                 db 1, 0
 byte_8009F46B:  db 0                  ; DATA XREF: sub_8006B124+80?r
 dword_8009F46C: dw 0                  ; DATA XREF: TEXT:8002CF74?r
-                                         ; sub_8003B6D0:loc_8003B750?r ...
 dword_8009F470: dw 0                  ; DATA XREF: sub_80057BF0+244?r
-                                         ; TEXT:8005BEE8?w ...
 dword_8009F474: dw 0                  ; DATA XREF: TEXT:8005BEF0?w
-                                         ; sub_8006BEEC+34?r ...
 word_8009F478:  dh 0                  ; DATA XREF: TEXT:8002CF7C?r
-                                         ; sub_8006C5C4+400?o ...
 word_8009F47A:  dh 0                  ; DATA XREF: TEXT:8002CF84?r
-                                         ; sub_8006C5C4+414?w ...
 word_8009F47C:  dh 0                  ; DATA XREF: TEXT:8002CF8C?r
-                                         ; sub_8006C5C4+420?w ...
                 db 0
 byte_8009F47F:  db 0                  ; DATA XREF: sub_8006C5C4+41C?w
-                                         ; sub_8006CF44+104?w ...
 dword_8009F480: dw 0                  ; DATA XREF: sub_8006C114+A0?r
-                                         ; sub_8006C114+180?w ...
 word_8009F484:  dh 0                  ; DATA XREF: sub_8006B9B0+1C?o
-                                         ; sub_8006B9B0+20?w ...
                 dh 0
 dword_8009F488: dw 0x640064           ; DATA XREF: sub_8006CBD8+2C?o
                 dw 0x64
 dword_8009F490: dw 0                  ; DATA XREF: sub_800670CC+148?r
-                                         ; sub_80068A24+4?r ...
 word_8009F494:  dh 0                  ; DATA XREF: sub_80068A24+8C?o
-                                         ; sub_80068A24+178?r ...
 word_8009F496:  dh 0                  ; DATA XREF: sub_80068A24+180?r
-                                         ; sub_8006D608+E4?w
 byte_8009F498:  db 0                  ; DATA XREF: sub_8006D608+F0?w
                 db 0, 0
 byte_8009F49B:  db 0                  ; DATA XREF: sub_8006D608+EC?w
 dword_8009F49C: dw 0                  ; DATA XREF: sub_8006D608+298?r
 dword_8009F4A0: dw 0xFCE00000         ; DATA XREF: sub_8006D37C:loc_8006D3FC?o
 word_8009F4A4:  dh 0                  ; DATA XREF: sub_8006D37C+74?w
-                                         ; sub_8006D37C+7C?w
                 dh 0
 dword_8009F4A8: dw 0xFEA20000, 0      ; DATA XREF: sub_8006D37C+2C?o
 dword_8009F4B0: dw 0xFF9C0000, 0xFFBA
-                                         ; DATA XREF: sub_8006D37C+3C?o
 dword_8009F4B8: dw 0x100, 5, 0x3E8, 0x7D0, 2
-                                         ; DATA XREF: sub_8006641C+130?o
-                                         ; TEXT:80069B54?o
 dword_8009F4CC: dw 0x100, 5, 0x3E8, 0x7D0, 6, 0x100, 5, 0x3E8, 0x7D0
-                                         ; DATA XREF: TEXT:8006A434?o
                 dw 5
 dword_8009F4F4: dw 0x100, 5, 0x3E8, 0x7D0, 4
-                                         ; DATA XREF: sub_8006D608+35C?o
-                                         ; sub_8007AE10+E0?o
 dword_8009F508: dw 0x100, 5, 0x3E8, 0x7D0, 3, 0x100, 5, 0x3E8, 0x7D0
-                                         ; DATA XREF: sub_8006C114+244?o
-                                         ; sub_8006C5C4:loc_8006C7A8?o
                 dw 0xFFFFFFFF
 dword_8009F530: dw 0x400, 5, 0x3E8, 0x7D0, 0xA
-                                         ; DATA XREF: TEXT:80069B44?o
 dword_8009F544: dw 0, 0               ; DATA XREF: sub_8006C114+23C?o
-                                         ; sub_8006C5C4+1E0?o ...
                 dw 1, 1, 0xFFFFFFFF
 word_8009F558:  dh 0x64               ; DATA XREF: sub_8006DDEC+7C?o
-                                         ; sub_8006DDEC+B4?w ...
                 dh 0
                 dw 0
                 dw 0x7D007D0, 0xFA00FA0
 dword_8009F568: dw 0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8
-                                         ; DATA XREF: sub_8006E224+54?o
-                                         ; TEXT:8006E474?o
 dword_8009F57C: dw 0                  ; DATA XREF: sub_8006E224+70?w
                 dw 0x80012BAC
 dword_8009F584: dw 0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8
-                                         ; DATA XREF: TEXT:loc_8006E478?o
                 dw 0
                 dw 0x80012BEC
 dword_8009F5A0: dw 0x4AC92, 0x100004, 0x7D00001, 0x1F40001, 0x8001F4
-                                         ; DATA XREF: TEXT:8006E2FC?o
 dword_8009F5B4: dw 0                  ; DATA XREF: TEXT:8006E310?w
                 dw 0x80012C2C
 dword_8009F5BC: dw 0x4AC92, 0x100004, 0x7D00001, 0xC80001, 0x8000C8
-                                         ; DATA XREF: sub_8006E32C+54?o
-                                         ; sub_80085B84+18?o
 dword_8009F5D0: dw 0                  ; DATA XREF: sub_8006E32C+68?w
                 dw 0x80012C6C
 dword_8009F5D8: dw 0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8
-                                         ; DATA XREF: TEXT:8006E4BC?o
-                                         ; TEXT:8006E7E8?o
 dword_8009F5EC: dw 0                  ; DATA XREF: TEXT:8006E530?w
-                                         ; TEXT:8006E578?w ...
                 dw 0x80012CAC
 dword_8009F5F4: dw 0                  ; DATA XREF: sub_8006F318+1CC?r
-                                         ; sub_8006F318+264?r ...
 byte_8009F5F8:  db 0                  ; DATA XREF: sub_80070EC0+8?w
-                                         ; sub_80071010+C?r ...
                 db 0, 0, 0
 word_8009F5FC:  dh 1                  ; DATA XREF: TEXT:80071E40?o
-                                         ; TEXT:80071E7C?w ...
                 dh 0
 dword_8009F600: dw 0                  ; DATA XREF: sub_800719C8:loc_80071A0C?r
-                                         ; sub_800719C8+58?w ...
 dword_8009F604: dw 0xFFFFFFFF         ; DATA XREF: sub_80061A14+B8?r
-                                         ; sub_80062E8C+1A8?r ...
 dword_8009F608: dw 0                  ; DATA XREF: sub_800714EC+358?r
-                                         ; sub_800714EC:loc_8007187C?r ...
 dword_8009F60C: dw 0x320032           ; DATA XREF: sub_80072608+74?o
                 dw 0x640064
 dword_8009F614: dw 0x17B54, 0x10001, 0x1F40001, 0x12C0003, 0xC8012C
-                                         ; DATA XREF: sub_80072934+30?o
 dword_8009F628: dw 0                  ; DATA XREF: sub_80072934+5C?w
                 dw 0x80012E84
 dword_8009F630: dw 0x14, 0            ; DATA XREF: sub_800731CC+8?o
@@ -1015,20 +836,15 @@ dword_8009F650: dw 0                  ; DATA XREF: sub_800735A0+24?o
 dword_8009F660: dw 0x640064           ; DATA XREF: sub_80073930+2C?o
                 dw 0x64
 dword_8009F668: dw 0xFFFFFFFF         ; DATA XREF: sub_80073DB0+C?r
-                                         ; sub_80073DB0+30?r ...
 dword_8009F66C: dw 0                  ; DATA XREF: sub_80073DB0+68?w
 dword_8009F670: dw 0x14CEC, 0x10001, 0x1F40001, 0x3200003, 0x800320
-                                         ; DATA XREF: sub_80074CA4+54?o
 dword_8009F684: dw 0                  ; DATA XREF: sub_80074CA4+70?w
                 dw dword_80012F2C
 dword_8009F68C: dw 0x155A6, 0x10001, 0x1F40001, 0x2580003, 0xB40258
-                                         ; DATA XREF: sub_80074D28+54?o
 dword_8009F6A0: dw 0                  ; DATA XREF: sub_80074D28+70?w
                 dw dword_80012F50
 dword_8009F6A8: dw 0                  ; DATA XREF: sub_80075DD4+258?r
-                                         ; sub_80076708:loc_800768F4?r ...
 word_8009F6AC:  dh 0                  ; DATA XREF: sub_80075314+C?w
-                                         ; sub_80075314+10?o
                 dh 0
                 dw 0
 word_8009F6B4:  dh 0                  ; DATA XREF: sub_80075314+28?w
@@ -1060,7 +876,6 @@ byte_8009F70C:  db 0, 3               ; DATA XREF: sub_800774C0+38?o
 word_8009F70E:  dh 0xC4               ; DATA XREF: sub_800774C0+5C?w
                 dw 0x20100
 word_8009F714:  dh 0                  ; DATA XREF: sub_80078228+14?o
-                                         ; sub_80078228+6C?w ...
                 dh 0
 byte_8009F718:  db 0, 3               ; DATA XREF: sub_80078AB8+28?o
 word_8009F71A:  dh 0xE2               ; DATA XREF: sub_80078AB8+54?w
@@ -1069,47 +884,33 @@ byte_8009F720:  db 0, 3               ; DATA XREF: sub_80078AB8+38?o
 word_8009F722:  dh 0xC4               ; DATA XREF: sub_80078AB8+5C?w
                 dw 0x20100
 dword_8009F728: dw 0                  ; DATA XREF: sub_80078FF8+8?w
-                                         ; sub_800790E8+8?r ...
 byte_8009F72C:  db 0                  ; DATA XREF: sub_80078F30+20?o
-                                         ; sub_80078F30+28?r ...
                 db 3, 0xE2
 byte_8009F72F:  db 0                  ; DATA XREF: sub_80078F30+24?r
-                                         ; sub_80079004+30?r
 byte_8009F730:  db 0                  ; DATA XREF: sub_80078F30+30?r
-                                         ; sub_80079004+3C?r
                 db 1, 2
 byte_8009F733:  db 0                  ; DATA XREF: sub_80078F30+2C?r
-                                         ; sub_80079004+38?r
 byte_8009F734:  db 0                  ; DATA XREF: TEXT:80078F10?o
-                                         ; sub_80078F30+48?o ...
                 db 3, 0xC4
 byte_8009F737:  db 0                  ; DATA XREF: sub_80078F30+4C?r
 byte_8009F738:  db 0                  ; DATA XREF: sub_80078F30+58?r
                 db 1, 2
 byte_8009F73B:  db 0                  ; DATA XREF: sub_80078F30+54?r
 dword_8009F73C: dw 0x8512D, 0x1E0004, 0x3E80001, 0x1F40003, 0xFF01F4
-                                         ; DATA XREF: sub_8007DA28+28?o
 dword_8009F750: dw 0                  ; DATA XREF: sub_8007DA28+58?w
                 dw 0x8001345C
 dword_8009F758: dw 0x8512D, 0x1E0004, 3, 0x3E80001, 0x4003E8
-                                         ; DATA XREF: sub_8007DA94+F8?o
 dword_8009F76C: dw 0                  ; DATA XREF: sub_8007DA94+100?w
                 dw 0x80013488
 dword_8009F774: dw 0x8512D, 0x1E0004, 8, 0x8980003, 0xFF0898
-                                         ; DATA XREF: TEXT:8007DD48?o
-                                         ; TEXT:8007DED8?o ...
 dword_8009F788: dw 0                  ; DATA XREF: TEXT:8007DD5C?w
-                                         ; TEXT:8007DEEC?w ...
                 dw 0x800134DC
 dword_8009F790: dw 0x22447, 0x40002, 0x12C0001, 0x13880001, 0x801388
-                                         ; DATA XREF: TEXT:8007DFF0?o
 dword_8009F7A4: dw 0                  ; DATA XREF: TEXT:8007E000?w
                 dw 0x80013510
 dword_8009F7AC: dw 0xFF0000, 0        ; DATA XREF: TEXT:8007F42C?o
 dword_8009F7B4: dw 0xFFFFFFFF         ; DATA XREF: sub_80082448+38?w
-                                         ; sub_800827AC+178?w ...
 dword_8009F7B8: dw 0                  ; DATA XREF: sub_800827AC?r
-                                         ; sub_800827AC+3C?w ...
                 dw 0x80087A80
                 dw 0x80087A80
                 dw 0x80087A80
@@ -1249,19 +1050,16 @@ byte_8009F9BD:  db 0x3C               ; DATA XREF: sub_80086B84+4C?r
                 dw 0x65BC2249, 0xB102CFFA, 0xD79AF046, 0xC5110FE2, 0x2C7AF674
                 dw 0x6A19FB8F, 0xE5
 byte_8009FA40:  db 0                  ; DATA XREF: sub_800865CC+5C?r
-                                         ; sub_8008686C+26C?r
                 db 0x20, 0x38, 0x50
                 dw 0xA0908068, 0xE0D0C0B0, 0xF8F0F0E8, 0xF0F4F8FF, 0xC0D0E0E8
                 dw 0x8090A0B0, 0x20385068
 dword_8009FA60: dw 0                  ; DATA XREF: sub_80088320+C0?r
-                                         ; sub_80088320+120?r ...
                 dw 2, 4, 7, 0xA, 0xD, 0x10, 0x14, 0x18, 0x1C, 0x20
                 dw 0x24, 0x28, 0x2D, 0x32, 0x37, 0x3C, 0x41, 0x46, 0x4B
                 dw 0x50, 0x54, 0x58, 0x5C, 0x60, 0x64, 0x68, 0x6B, 0x6E
                 dw 0x70, 0x72, 0x74, 0x76, 0x78, 0x7A, 0x7B, 0x7C, 0x7D
                 dw 0x7E, 0x7F, 0x7F
 dword_8009FB04: dw 0                  ; DATA XREF: sub_80088320+238?r
-                                         ; sub_80088320+274?r
                 dw 2, 4, 6, 8, 0xA, 0xE, 0x12, 0x16, 0x1C, 0x22, 0x28
                 dw 0x2E, 0x34, 0x3A, 0x40, 0x46, 0x4C, 0x52, 0x58, 0x5E
                 dw 0x64, 0x6A, 0x70, 0x76, 0x7C, 0x82, 0x88, 0x8E, 0x94
@@ -1270,7 +1068,6 @@ dword_8009FB04: dw 0                  ; DATA XREF: sub_80088320+238?r
                 dw 0xEC, 0xEE, 0xF0, 0xF2, 0xF4, 0xF6, 0xF8, 0xF9, 0xFA
                 dw 0xFB, 0xFC, 0xFD, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF
 dword_8009FC08: dw 0x10B, 0x11B, 0x12C, 0x13E, 0x151, 0x165, 0x17A
-                                         ; DATA XREF: sub_800885D4+24?o
                 dw 0x191, 0x1A9, 0x1C2, 0x1DD, 0x1F9, 0x217, 0x237
                 dw 0x259, 0x27D, 0x2A3, 0x2CB, 0x2F5, 0x322, 0x352
                 dw 0x385, 0x3BA, 0x3F3, 0x42F, 0x46F, 0x4B2, 0x4FA
@@ -2277,7 +2074,6 @@ dword_800A22C8: dw 0x800A22C0         ; DATA XREF: sub_800888F8+E0?o
                 dw 0x800A1F30, 0x800A1F58, 0x800A1F7C, 0x190, 0x800A18DC
                 dw 0x800A22C0, 0x800A22C0, 1
 dword_800A2AC8: dw 1                  ; DATA XREF: sub_80084494+540?o
-                                         ; sub_80084494+710?r ...
                 dw 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400
                 dw 0x800, 0x1000, 0x2000, 0x4000, 0x8000, 0x10000, 0x20000
                 dw 0x40000, 0x80000, 0x100000, 0x200000, 0x400000, 0x800000
@@ -2293,8 +2089,7 @@ dword_800A2B28: dw 0x60C, 0, 0, 0     ; DATA XREF: sub_80081C7C+1F4?o
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0
-word_800A2BE0:  dh 0                  ; DATA XREF: rcos+68?r
-                dh 0
+word_800A2BE0:  dw 0                  ; DATA XREF: rcos+68?r
                 dw 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
@@ -2316,12 +2111,7 @@ word_800A2BE0:  dh 0                  ; DATA XREF: rcos+68?r
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x30C, 0, 0, 0
-byte_800A2D28:  db 0xC                ; DATA XREF: sub_800827AC+9CC?o
-                                         ; sub_800827AC+A4C?o
-byte_800A2D29:  db 2                  ; DATA XREF: sub_800827AC:loc_80083170?o
-                                         ; sub_800827AC+9D8?w ...
-                dh 0
-                dw 0, 0, 0
+				dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
@@ -2429,8 +2219,7 @@ byte_800A2D29:  db 2                  ; DATA XREF: sub_800827AC:loc_80083170?o
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0
-word_800A33E0:  dh 0                  ; DATA XREF: sin_1:loc_800925B8?r
-                dh 0
+word_800A33E0:  dw 0                  ; DATA XREF: sin_1:loc_800925B8?r
                 dw 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
@@ -2560,8 +2349,7 @@ word_800A33E0:  dh 0                  ; DATA XREF: sin_1:loc_800925B8?r
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0
-word_800A3BE0:  dh 0                  ; DATA XREF: rcos+44?r
-                dh 0
+word_800A3BE0:  dw 0                  ; DATA XREF: rcos+44?r
                 dw 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
@@ -2582,10 +2370,7 @@ word_800A3BE0:  dh 0                  ; DATA XREF: rcos+44?r
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
                 dw 0x20C, 0, 0, 0
-                db 0xC
-byte_800A3D19:  db 2                  ; DATA XREF: sub_800827AC:loc_8008320C?w
-                dh 0
-                dw 0, 0, 0
+				dw 0x20C, 0, 0, 0
                 dw 0x80013DC4
                 dw 0x80013DC0
                 dw aTlbl              ; "TLBL"
@@ -2605,18 +2390,13 @@ byte_800A3D19:  db 2                  ; DATA XREF: sub_800827AC:loc_8008320C?w
 dword_800A3D68: dw 0                  ; DATA XREF: sub_800892A8?w
                 dw 0
 dword_800A3D70: dw 0                  ; DATA XREF: sub_8008AAEC+A8?w
-                                         ; sub_8008B044+10?r
 dword_800A3D74: dw 0                  ; DATA XREF: sub_800893D8?w
-                                         ; sub_800893E8+1C?r
 dword_800A3D78: dw 0xFFFFFFFF         ; DATA XREF: sub_800893E8+24?w
-                                         ; sub_800893E8:loc_8008943C?r ...
 dword_800A3D7C: dw 0                  ; DATA XREF: sub_800893E8:loc_80089424?o
-                                         ; sub_800893E8+44?r ...
                 dw 0
                 dw 0xFFFFFFFF, 0, 0
 dword_800A3D90: dw 0                  ; DATA XREF: sub_8008B044:loc_8008B070?r
 dword_800A3D94: dw 0                  ; DATA XREF: sub_8008AAC4+8?w
-                                         ; sub_8008AAEC:loc_8008AE78?r ...
                 dw aSending           ; "Sending"
                 dw aReceiving         ; "Receiving"
                 dw aReady             ; "Ready"
@@ -2624,52 +2404,34 @@ dword_800A3D94: dw 0                  ; DATA XREF: sub_8008AAC4+8?w
                 dw aWaitvbl           ; "WaitVBL"
                 dw aPending           ; "Pending"
 dword_800A3DB0: dw 1                  ; DATA XREF: TEXT:8008BA64?w
-                                         ; TEXT:8008BA78?w ...
 dword_800A3DB4: dw 0                  ; DATA XREF: TEXT:8008BB60?r
-                                         ; TEXT:8008BB68?w ...
 dword_800A3DB8: dw 0                  ; DATA XREF: sub_8008BB88?w
 dword_800A3DBC: dw 0                  ; DATA XREF: sub_8008C098?r
-                                         ; sub_8008C098+78?w ...
 dword_800A3DC0: dw 0, 0               ; DATA XREF: sub_8008BDEC+20?o
 dword_800A3DC8: dw 1                  ; DATA XREF: TEXT:8008C3C4?r
-                                         ; TEXT:8008C3D4?w ...
 dword_800A3DCC: dw 0                  ; DATA XREF: TEXT:8008C534?r
-                                         ; TEXT:8008C564?w
 dword_800A3DD0: dw 0                  ; DATA XREF: CdInit+4C?w
 dword_800A3DD4: dw 0                  ; DATA XREF: CdInit+5C?w
                 dw 0
                 dw 0
 dword_800A3DE0: dw 0, 0, 0            ; DATA XREF: CdControl+2C?o
-                                         ; CdControlF+2C?o ...
                 dw 1, 0, 0
                 dw 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 1, 1, 0, 0, 0, 0
                 dw 1, 0, 0, 0, 0
                 dw 0x47350, 0x440000
 dword_800A3E68: dw 0                  ; DATA XREF: CdInit+2C?w
-                                         ; CdSyncCallback?r ...
 dword_800A3E6C: dw 0                  ; DATA XREF: CdInit+3C?w
-                                         ; CdReadyCallback?r ...
 dword_800A3E70: dw 0                  ; DATA XREF: TEXT:CdSetDebug?r
-                                         ; TEXT:8008C830?w ...
 dword_800A3E74: dw 0                  ; DATA XREF: TEXT:CdStatus?r
-                                         ; CdControl+74?r ...
 dword_800A3E78: dw 0                  ; DATA XREF: sub_8008CEE8+1AC?w
-                                         ; sub_8008CEE8+208?r ...
 dword_800A3E7C: dw 0                  ; DATA XREF: sub_8008CEE8+17C?r
-                                         ; sub_8008CEE8+18C?w
 byte_800A3E80:  db 2                  ; DATA XREF: TEXT:8008C790?o
-                                         ; CD_cw+E4?w ...
                 db 0, 0, 0
 byte_800A3E84:  db 0                  ; DATA XREF: TEXT:CdMode?r
-                                         ; CD_cw+114?w ...
 byte_800A3E85:  db 0                  ; DATA XREF: TEXT:CdLastCom?r
-                                         ; sub_8008CEE8+128?r ...
-                dh 0
-                dw 0
+                db 0, 0, 0, 0, 0, 0
 off_800A3E8C:   dw aCdlsync           ; DATA XREF: TEXT:8008C844?r
-                                         ; sub_8008CEE8+214?r ...
-                                         ; "CdlSync"
                 dw aCdlnop            ; "CdlNop"
                 dw aCdlsetloc         ; "CdlSetloc"
                 dw aCdlplay           ; "CdlPlay"
@@ -2702,8 +2464,6 @@ off_800A3E8C:   dw aCdlsync           ; DATA XREF: TEXT:8008C844?r
                 dw dword_800141CC
                 dw dword_800141CC
 off_800A3F0C:   dw aNointr            ; DATA XREF: TEXT:8008C878?r
-                                         ; CD_sync+44?o ...
-                                         ; "NoIntr"
                 dw aDataready         ; "DataReady"
                 dw aComplete_0        ; "Complete"
                 dw aAcknowledge       ; "Acknowledge"
@@ -2718,7 +2478,6 @@ dword_800A3F2C: dw 0                  ; DATA XREF: sub_8008CEE8+2B8?r
                 dw 1, 1, 0, 0, 0
                 dw 1, 0, 0, 0, 0, 0
 dword_800A3FAC: dw 0                  ; DATA XREF: CD_cw+12C?r
-                                         ; CD_cw+140?o
                 dw 0, 0
                 dw 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0
@@ -2728,7 +2487,6 @@ dword_800A402C: dw 1                  ; DATA XREF: sub_8008CEE8+138?r
                 dw 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0
                 dw 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 dword_800A40AC: dw 0                  ; DATA XREF: CD_cw+6C?r
-                                         ; CD_cw+158?o
                 dw 0
                 dw 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 2, 1, 0, 0, 0
@@ -2737,23 +2495,14 @@ dword_800A40AC: dw 0                  ; DATA XREF: CD_cw+6C?r
 dword_800A4110: dw 0                  ; DATA XREF: TEXT:8008E56C?w
                 dw 0, 0, 0, 0, 0, 0
 dword_800A412C: dw 0x1F801800         ; DATA XREF: sub_8008CEE8+4?r
-                                         ; sub_8008CEE8:loc_8008CF64?r ...
 dword_800A4130: dw 0x1F801801         ; DATA XREF: sub_8008CEE8+9C?r
-                                         ; CD_cw:loc_8008DB2C?r ...
 dword_800A4134: dw 0x1F801802         ; DATA XREF: sub_8008CEE8+108?r
-                                         ; CD_cw:loc_8008DB04?r ...
 dword_800A4138: dw 0x1F801803         ; DATA XREF: sub_8008CEE8+20?r
-                                         ; sub_8008CEE8+F8?r ...
 dword_800A413C: dw 0x1F801020         ; DATA XREF: CD_flush+C0?r
-                                         ; CD_init+138?r ...
 dword_800A4140: dw 0x1F801C00         ; DATA XREF: CD_initvol?r
-                                         ; CD_initvol+34?r
 byte_800A4144:  db 0                  ; DATA XREF: sub_8008CEE8+264?o
-                                         ; sub_8008CEE8+26C?w ...
 byte_800A4145:  db 0                  ; DATA XREF: sub_8008CEE8+3D0?w
-                                         ; sub_8008CEE8+448?w ...
 byte_800A4146:  db 0                  ; DATA XREF: sub_8008CEE8+43C?w
-                                         ; sub_8008CEE8+440?r ...
                 db 0
 off_800A4148:   dw byte_800A4144      ; DATA XREF: CD_init+28?o
                 dw 0x800C14F8
@@ -2762,33 +2511,24 @@ off_800A4148:   dw byte_800A4144      ; DATA XREF: CD_init+28?o
                 dw byte_800A3E80
                 dw aIdBiosCV186199    ; "$Id: bios.c,v 1.86 1997/03/28 07:42:42 "...
 dword_800A4160: dw 0x1F801018         ; DATA XREF: CD_getsector+20?r
-                                         ; CD_getsector2+20?r
 dword_800A4164: dw 0x1F8010F0         ; DATA XREF: CD_getsector+40?r
-                                         ; CD_getsector2+40?r
 dword_800A4168: dw 0x1F8010B0         ; DATA XREF: CD_getsector+5C?r
-                                         ; CD_getsector2+5C?r
 dword_800A416C: dw 0x1F8010B4         ; DATA XREF: CD_getsector+70?r
-                                         ; CD_getsector2+70?r
 dword_800A4170: dw 0x1F8010B8         ; DATA XREF: CD_datasync+120?r
-                                         ; CD_getsector+A0?r ...
                 dw 0
                 dw 0
                 dw 0
 dword_800A4180: dw 0                  ; DATA XREF: sprintf+68?o
-                                         ; sprintf+70?r
 dword_800A4184: dw 0                  ; DATA XREF: sprintf+74?r
 dword_800A4188: dw 0                  ; DATA XREF: sprintf+78?r
                 dw 0
                 dw 0x27350, 0x440000, 0, 0
 dword_800A41A0: dw 0                  ; DATA XREF: _putchar+3C?w
-                                         ; _putchar+48?r ...
 dword_800A41A4: dw 0                  ; DATA XREF: _putchar:loc_8008F2B4?r
-                                         ; _putchar+C4?w ...
                 dw 0
                 dw 0
                 db 0
 byte_800A41B1:  db 0x20               ; DATA XREF: _putchar:loc_8008F280?r
-                                         ; putchar:loc_8008F3B8?r ...
                 dh 0x2020
                 dw 0x20202020, 0x8082020, 0x20080808, 0x20202020, 0x20202020
                 dw 0x20202020, 0x20202020, 0x10101820, 0x10101010, 0x10101010
@@ -2799,8 +2539,6 @@ byte_800A41B1:  db 0x20               ; DATA XREF: _putchar:loc_8008F280?r
                 dw 0x10101010, 0x20, 0, 0, 0
                 dw 0x77350, 0x440000
 off_800A4248:   dw aIdSysCV1140199    ; DATA XREF: ResetGraph+54?o
-                                         ; TEXT:off_800A4288?o
-                                         ; "$Id: sys.c,v 1.140 1998/01/12 07:52:27 "...
                 dw 0x800915D8
                 dw 0x800915FC
                 dw 0x80090DFC
@@ -2817,60 +2555,36 @@ off_800A4248:   dw aIdSysCV1140199    ; DATA XREF: ResetGraph+54?o
                 dw 0x80090D04
                 dw 0x80091C5C
 off_800A4288:   dw off_800A4248       ; DATA XREF: ResetGraph+8C?r
-                                         ; ResetGraph:loc_8008F62C?r ...
 dword_800A428C: dw 0x8008BBA0         ; DATA XREF: ResetGraph+130?r
-                                         ; SetGraphDebug+28?r ...
 byte_800A4290:  db 0                  ; DATA XREF: ResetGraph+64?o
-                                         ; ResetGraph:loc_8008F550?o ...
 byte_800A4291:  db 0                  ; DATA XREF: ResetGraph+B8?w
-                                         ; SetGraphQueue+C?o ...
 byte_800A4292:  db 0                  ; DATA XREF: ResetGraph:loc_8008F5F8?r
-                                         ; SetGraphDebug+4?o ...
 byte_800A4293:  db 0                  ; DATA XREF: SetGraphDebug+38?r
-                                         ; PutDispEnv:loc_800901D4?r
 word_800A4294:  dh 0                  ; DATA XREF: ResetGraph+D8?w
-                                         ; sub_8008F8CC+40?r ...
 word_800A4296:  dh 0                  ; DATA XREF: ResetGraph+F0?w
-                                         ; sub_8008F8CC+70?r ...
 dword_800A4298: dw 0                  ; DATA XREF: sub_800915FC+90?w
-                                         ; sub_800918AC+1FC?o ...
 dword_800A429C: dw 0                  ; DATA XREF: DrawSyncCallback:loc_8008F7B0?r
-                                         ; DrawSyncCallback+48?w ...
 dword_800A42A0: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: ResetGraph+A8?o
-                                         ; PutDrawEnv+94?o ...
                 dw 0, 0, 0, 0, 0, 0
 word_800A42FC:  dh 0                  ; DATA XREF: ResetGraph+F4?o
-                                         ; SetDispMask+4C?o ...
 word_800A42FE:  dh 0                  ; DATA XREF: PutDispEnv+B0?r
 word_800A4300:  dh 0                  ; DATA XREF: PutDispEnv+C8?r
 word_800A4302:  dh 0                  ; DATA XREF: PutDispEnv+E0?r
 word_800A4304:  dh 0                  ; DATA XREF: PutDispEnv:loc_80090278?o
-                                         ; PutDispEnv+1EC?r
 word_800A4306:  dh 0                  ; DATA XREF: PutDispEnv+204?r
 word_800A4308:  dh 0                  ; DATA XREF: PutDispEnv+21C?r
 word_800A430A:  dh 0                  ; DATA XREF: PutDispEnv+234?r
 dword_800A430C: dw 0                  ; DATA XREF: PutDispEnv+84?r
-word_800A4310:  dh 0x400              ; DATA XREF: ResetGraph+C0?r
-                dh 0
+word_800A4310:  dw 0x400              ; DATA XREF: ResetGraph+C0?r
                 dw 0x400, 0x400
-word_800A431C:  dh 0x200              ; DATA XREF: ResetGraph+DC?r
-                dh 0
+word_800A431C:  dw 0x200              ; DATA XREF: ResetGraph+DC?r
                 dw 0x200, 0x400
 dword_800A4328: dw 0x4FFFFFF, 0x80000000
-                                         ; DATA XREF: MoveImage+84?o
-                                         ; TEXT:800922AC?o
 dword_800A4330: dw 0                  ; DATA XREF: MoveImage:loc_8008FC28?o
-                                         ; MoveImage+7C?w ...
 dword_800A4334: dw 0                  ; DATA XREF: MoveImage+78?w
-                                         ; TEXT:8009228C?w
 dword_800A4338: dw 0                  ; DATA XREF: MoveImage+88?w
-                                         ; TEXT:8009229C?w
 dword_800A433C: dw 0x4FFFFFF, 0, 0, 0, 0
-                                         ; DATA XREF: TEXT:8008FD1C?o
-                                         ; ClearOTagR+78?o
 dword_800A4350: dw 0                  ; DATA XREF: TEXT:8008FD14?o
-                                         ; TEXT:8008FD30?w ...
                 dw 0x80000000
                 dw 0
                 dw 0
@@ -2880,45 +2594,28 @@ word_800A4366:  dh 0xC4E              ; DATA XREF: PutDispEnv+308?r
                 dw 0xC580258, 0xC9B021B, 0xC670267, 0xC6C026C, 0xC620262
                 dw 0xC700270, 0xCB00230, 0xC7B027B, 0xC800280
 byte_800A438C:  db 0xA                ; DATA XREF: PutDispEnv+2D0?r
-                                         ; PutDispEnv:loc_800903F4?r ...
                 db 8, 7, 5
                 dw 4
 dword_800A4394: dw 0x1F801810         ; DATA XREF: sub_8009102C+14C?r
-                                         ; sub_8009102C+15C?r ...
 dword_800A4398: dw 0x1F801814         ; DATA XREF: sub_80090D04?r
-                                         ; sub_80090DFC+110?r ...
 dword_800A439C: dw 0x1F8010A0         ; DATA XREF: sub_8009102C+1E0?r
-                                         ; sub_80091268+228?r ...
 dword_800A43A0: dw 0x1F8010A4         ; DATA XREF: sub_8009102C+1F4?r
-                                         ; sub_80091268+23C?r ...
 dword_800A43A4: dw 0x1F8010A8         ; DATA XREF: sub_8009102C+204?r
-                                         ; sub_80091268+24C?r ...
 dword_800A43A8: dw 0x1F8010E0         ; DATA XREF: sub_80090D1C+44?r
 dword_800A43AC: dw 0x1F8010E4         ; DATA XREF: sub_80090D1C+54?r
 dword_800A43B0: dw 0x1F8010E8         ; DATA XREF: sub_80090D1C+2C?r
-                                         ; sub_80090D1C+64?r ...
 dword_800A43B4: dw 0x1F8010F0         ; DATA XREF: sub_80090D1C+C?r
-                                         ; sub_80091B0C+80?r ...
 dword_800A43B8: dw 0                  ; DATA XREF: sub_800915FC:loc_80091648?r
-                                         ; sub_800915FC+94?r ...
 dword_800A43BC: dw 0                  ; DATA XREF: sub_800915FC+54?r
-                                         ; sub_800915FC+9C?r ...
 dword_800A43C0: dw 0                  ; DATA XREF: sub_800915FC+7C?w
-                                         ; sub_800915FC+10C?r ...
 dword_800A43C4: dw 0                  ; DATA XREF: sub_800918AC+4C?w
-                                         ; sub_800918AC:loc_80091A5C?r
 dword_800A43C8: dw 0                  ; DATA XREF: sub_80091B0C+28?w
-                                         ; sub_80091B0C:loc_80091C28?r ...
 dword_800A43CC: dw 0                  ; DATA XREF: sub_80091D98+14?w
-                                         ; sub_80091DCC+10?r ...
 dword_800A43D0: dw 0                  ; DATA XREF: sub_80091D98+1C?w
-                                         ; sub_80091DCC+28?o ...
                 dw 0
                 dw 0
                 dw 0
-word_800A43E0:  dh 0                  ; DATA XREF: sin_1+14?r
-                                         ; sin_1+34?r ...
-                dh 6
+word_800A43E0:  dw 0x60000                  ; DATA XREF: sin_1+14?r
                 dw 0x13000D, 0x1F0019, 0x2C0026, 0x390032, 0x45003F
                 dw 0x52004B, 0x5E0058, 0x6B0065, 0x770071, 0x84007E
                 dw 0x90008A, 0x9D0097, 0xAA00A3, 0xB600B0, 0xC300BC
@@ -3024,12 +2721,10 @@ word_800A43E0:  dh 0                  ; DATA XREF: sin_1+14?r
                 dw 0x10001000, 0x1000
                 dw 0, 0, 0
 dword_800A4BF0: dw 0                  ; DATA XREF: sub_80092680?w
-                                         ; sub_80092680+10?r
                 dw 0
                 dw 0
                 dw 0
-word_800A4C00:  dh 0x1000             ; DATA XREF: SquareRoot0+5C?r
-                dh 0x101F
+word_800A4C00:  dw 0x101F1000             ; DATA XREF: SquareRoot0+5C?r
                 dw 0x105E103F, 0x109C107E, 0x10DA10BB, 0x111610F8, 0x11521134
                 dw 0x118C116F, 0x11C611A9, 0x120011E3, 0x1238121C, 0x12701254
                 dw 0x12A7128C, 0x12DE12C2, 0x131412F9, 0x1349132E, 0x137E1364
@@ -3050,9 +2745,7 @@ word_800A4C00:  dh 0x1000             ; DATA XREF: SquareRoot0+5C?r
                 dw 0x1ECA1EB9, 0x1EEB1EDA, 0x1F0C1EFB, 0x1F2D1F1C, 0x1F4E1F3D
                 dw 0x1F6E1F5E, 0x1F8F1F7E, 0x1FAF1F9F, 0x1FCF1FBF, 0x1FEF1FDF
                 dw 0, 0, 0, 0, 0
-word_800A4D94:  dh 0x1000             ; DATA XREF: TEXT:800927FC?r
-                                         ; sub_80092898+74?r
-                dh 0xFE0
+word_800A4D94:  dw 0xFE01000             ; DATA XREF: TEXT:800927FC?r
                 dw 0xFA30FC1, 0xF680F85, 0xF300F4C, 0xEFB0F15, 0xEC70EE1
                 dw 0xE960EAE, 0xE660E7E, 0xE380E4F, 0xE0C0E22, 0xDE20DF7
                 dw 0xDB90DCD, 0xD910DA5, 0xD6B0D7E, 0xD450D58, 0xD210D33
@@ -3074,7 +2767,6 @@ word_800A4D94:  dh 0x1000             ; DATA XREF: TEXT:800927FC?r
                 dw 0x8240829, 0x81C0820, 0x8140818, 0x80C0810, 0x8040808
                 dw 0, 0, 0
 dword_800A4F20: dw 0x10000000         ; DATA XREF: RotMatrix+20?r
-                                         ; RotMatrix+48?r ...
                 dw 0x10000006, 0x1000000D, 0x10000013, 0x10000019, 0x1000001F
                 dw 0x10000026, 0x1000002C, 0x10000032, 0x10000039, 0x1000003F
                 dw 0xFFF0045, 0xFFF004B, 0xFFF0052, 0xFFF0058, 0xFFF005E
@@ -3899,9 +3591,7 @@ dword_800A4F20: dw 0x10000000         ; DATA XREF: RotMatrix+20?r
                 dw 0xFFFFFBB, 0x1000FFC1, 0x1000FFC7, 0x1000FFCE, 0x1000FFD4
                 dw 0x1000FFDA, 0x1000FFE1, 0x1000FFE7, 0x1000FFED, 0x1000FFF3
                 dw 0x1000FFFA
-word_800A8F20:  dh 0                  ; DATA XREF: ratan2:loc_800943BC?r
-                                         ; ratan2:loc_80094444?r
-                dh 1
+word_800A8F20:  dw 0x10000                  ; DATA XREF: ratan2:loc_800943BC?r
                 dw 0x20002, 0x30003, 0x50004, 0x60005, 0x70007, 0x90008
                 dw 0xA0009, 0xB000A, 0xC000C, 0xE000D, 0xF000E, 0x100010
                 dw 0x110011, 0x130012, 0x140013, 0x150015, 0x170016
@@ -4007,96 +3697,57 @@ word_800A8F20:  dh 0                  ; DATA XREF: ratan2:loc_800943BC?r
                 dw 0, 0, 0
                 dw 0x117350, 0x440000
 dword_800A9738: dw 0                  ; DATA XREF: SpuStart+54?w
-                                         ; SpuQuit+3C?r ...
 dword_800A973C: dw 0                  ; DATA XREF: _SpuInit+B8?w
-                                         ; SpuSetKey:loc_80096CDC?r ...
 dword_800A9740: dw 0                  ; DATA XREF: _SpuInit+A8?w
-                                         ; SpuSetTransferMode:loc_80096F44?w ...
 dword_800A9744: dw 0                  ; DATA XREF: _SpuInit+5C?w
-                                         ; SpuSetReverb+38?w ...
 dword_800A9748: dw 0                  ; DATA XREF: _SpuInit+64?w
-                                         ; SpuMalloc?r ...
 dword_800A974C: dw 0                  ; DATA XREF: _SpuInit+80?w
-                                         ; SpuMalloc+3C?r ...
                 dw 0
 dword_800A9754: dw 0                  ; DATA XREF: _SpuInit+4C?o
-                                         ; _SpuInit+6C?w ...
 word_800A9758:  dh 0                  ; DATA XREF: _SpuInit+70?w
-                                         ; SpuSetReverbModeParam+3C4?w ...
 word_800A975A:  dh 0                  ; DATA XREF: _SpuInit+74?w
-                                         ; SpuSetReverbModeParam+3FC?w ...
 dword_800A975C: dw 0                  ; DATA XREF: _SpuInit+78?w
-                                         ; SpuSetReverbModeParam+148?w ...
 dword_800A9760: dw 0                  ; DATA XREF: _SpuInit+7C?w
-                                         ; SpuSetReverbModeParam+140?w ...
 dword_800A9764: dw 0                  ; DATA XREF: _SpuInit+C8?w
-                                         ; SpuSetKey+60?r ...
 dword_800A9768: dw 0                  ; DATA XREF: _SpuInit+C0?w
-                                         ; _SpuSetAnyVoice+D8?r ...
 word_800A976C:  dh 0xC000             ; DATA XREF: SpuSetVoiceAttr+2C?o
-                                         ; SpuGetVoiceAttr+2A0?r ...
                 dh 0xC000
                 dw 0xC000C000, 0xC000C000, 0xC000C000, 0xC000C000, 0xC000C000
                 dw 0xC000C000, 0xC000C000, 0xC000C000, 0xC000C000, 0xC000C000
                 db 0, 0xC0
 word_800A979A:  dh 0xC000             ; DATA XREF: _SpuInit+28?o
 dword_800A979C: dw 0                  ; DATA XREF: _SpuInit+D0?w
-                                         ; _SpuSetAnyVoice+4?r ...
 dword_800A97A0: dw 0                  ; DATA XREF: SpuStart?r
-                                         ; SpuStart+20?w ...
                 dw 0
                 dw 0
                 dw 0
 dword_800A97B0: dw 0x1F801C00         ; DATA XREF: _spu_init+2C?r
-                                         ; _spu_init+5C?r ...
 dword_800A97B4: dw 0x1F8010C0         ; DATA XREF: TEXT:80094C40?r
-                                         ; _spu_t+1F8?r
 dword_800A97B8: dw 0x1F8010C4         ; DATA XREF: TEXT:80094C50?r
-                                         ; _spu_t+22C?r
 dword_800A97BC: dw 0x1F8010C8         ; DATA XREF: TEXT:80094C60?r
-                                         ; _spu_t:loc_80094EE8?r
 dword_800A97C0: dw 0x1F8010F0         ; DATA XREF: _spu_init+C?r
-                                         ; TEXT:_spu_FsetPCR?r ...
 dword_800A97C4: dw 0x1F801014         ; DATA XREF: sub_80095170?r
-                                         ; sub_80095198?r
 word_800A97C8:  dh 0                  ; DATA XREF: _spu_init+44?w
-                                         ; _spu_init+168?w ...
                 dh 0
 dword_800A97CC: dw 0                  ; DATA XREF: _SpuInit+B0?w
-                                         ; _spu_init+34?w ...
 dword_800A97D0: dw 0                  ; DATA XREF: _spu_init+3C?w
 dword_800A97D4: dw 2                  ; DATA XREF: _spu_init+E0?w
-                                         ; _spu_FsetRXXa?r
 dword_800A97D8: dw 3                  ; DATA XREF: _spu_init+EC?w
-                                         ; _spu_t+64?r ...
 dword_800A97DC: dw 8                  ; DATA XREF: _spu_init+F8?w
-                                         ; _spu_FsetRXXa+14?r
 dword_800A97E0: dw 7                  ; DATA XREF: _spu_init+104?w
-                                         ; _spu_FsetRXXa+3C?r ...
 dword_800A97E4: dw 1                  ; DATA XREF: _spu_init+24C?w
-                                         ; SpuWrite+44?w ...
 dword_800A97E8: dw 0                  ; DATA XREF: _spu_init+25C?w
-                                         ; _spu_FiDMA:loc_80094B98?r ...
 dword_800A97EC: dw 0                  ; DATA XREF: _spu_init+264?w
-                                         ; SpuQuit+38?w ...
 dword_800A97F0: dw 0x7070707, 0x7070707, 0x7070707, 0x7070707
-                                         ; DATA XREF: _spu_init+154?o
 dword_800A9800: dw 0                  ; DATA XREF: _spu_FiDMA?r
-                                         ; TEXT:80094C6C?w ...
 dword_800A9804: dw 0                  ; DATA XREF: _spu_t+1EC?w
-                                         ; _spu_t+20C?r
 dword_800A9808: dw 0                  ; DATA XREF: _spu_t+218?w
-                                         ; _spu_t+224?r
                 dw 0
 dword_800A9810: dw 0                  ; DATA XREF: _SpuInit+90?w
-                                         ; SpuInitMalloc+38?w ...
 dword_800A9814: dw 0                  ; DATA XREF: _SpuInit+98?w
-                                         ; SpuInitMalloc+30?w ...
 dword_800A9818: dw 0                  ; DATA XREF: _SpuInit+A0?w
-                                         ; SpuInitMalloc+28?w ...
                 dw 0
 dword_800A9820: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: SpuClearReverbWorkArea+114?o
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -4113,7 +3764,6 @@ dword_800A9820: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0
 word_800A9C20:  dh 0x8000             ; DATA XREF: _spu_note2pitch+74?r
-                                         ; _spu_pitch2note+94?r
                 dh 0x879C
                 dw 0x98378FAC, 0xAADCA145, 0xBFC8B504, 0xD744CB2F
                 db 0x11, 0xE4
@@ -4138,12 +3788,9 @@ word_800A9D36:  dh 0x878C             ; DATA XREF: _spu_pitch2note+BC?o
                 dw 0
                 dw 0
 dword_800A9D40: dw 0xFFFE             ; DATA XREF: _SpuInit+54?r
-                                         ; SpuSetReverbModeParam+8C?r ...
                 dw 0xFB28, 0xFC18, 0xF6F8, 0xF204, 0xEA44, 0xE128, 0xCFF8
                 dw 0xCFF8, 0xF880, 0, 0
 dword_800A9D70: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: SpuSetReverbModeParam+E4?o
-                                         ; SpuSetReverbModeParam+1C0?o ...
                 dw 0
                 dw 0x5B007D, 0x54B86D80, 0xBED0, 0xBA800000, 0x53005800
                 dw 0x33304D6, 0x22703F0, 0x1EF0374, 0x1B50334, 0, 0
@@ -4184,35 +3831,23 @@ dword_800A9D70: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0x80008000, 0, 0
                 dw 0x67350, 0x440000
 dword_800AA028: dw 0x1F801814         ; DATA XREF: VSync?r
-                                         ; VSync+B8?r ...
 dword_800AA02C: dw 0x1F801110         ; DATA XREF: VSync+8?r
-                                         ; VSync+12C?r
 dword_800AA030: dw 0                  ; DATA XREF: VSync+48?r
-                                         ; VSync+140?w ...
 dword_800AA034: dw 0                  ; DATA XREF: VSync+84?r
-                                         ; VSync:loc_800981A4?r ...
                 dw 0
                 dw 0
 aLibraryProgram:db "Library Programs (c) 1993-1997 Sony Computer Entertainment In"
                 db "c., All Rights Reserved.", 0x0
-                dh 0
+                db 0
+				
 word_800AA098:  dh 0                  ; DATA XREF: sub_800984AC+8?o
-                                         ; sub_800984AC+14?r ...
 word_800AA09A:  dh 0                  ; DATA XREF: CheckCallback?r
-                                         ; sub_80098584+68?w ...
 dword_800AA09C: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: sub_80098584+90?o
-                                         ; sub_80098754+14?o
 word_800AA0C8:  dh 0                  ; DATA XREF: sub_80098584+60?r
-                                         ; sub_80098584+F8?r ...
 word_800AA0CA:  dh 0                  ; DATA XREF: sub_8009889C+44?w
-                                         ; sub_8009893C+34?r
 dword_800AA0CC: dw 0                  ; DATA XREF: sub_8009889C+54?w
-                                         ; sub_8009893C+4C?r
 dword_800AA0D0: dw 0                  ; DATA XREF: sub_800984AC+64?o
-                                         ; sub_800984AC+80?o ...
 dword_800AA0D4: dw 0                  ; DATA XREF: sub_800984AC:loc_80098524?o
-                                         ; sub_800984AC+8C?w
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -4275,10 +3910,8 @@ dword_800AA0D4: dw 0                  ; DATA XREF: sub_800984AC:loc_80098524?o
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 dw 0, 0, 0, 0, 0, 0, 0, 0, 0
 dword_800AB0B0: dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: sub_800984AC+84?o
                 dw 0, 0, 0
 off_800AB100:   dw aIdIntrCV175199    ; DATA XREF: TEXT:off_800AB120?o
-                                         ; "$Id: intr.c,v 1.75 1997/02/07 09:00:36 "...
                 dw 0
                 dw 0x80098754
                 dw 0x800984AC
@@ -4287,120 +3920,77 @@ off_800AB100:   dw aIdIntrCV175199    ; DATA XREF: TEXT:off_800AB120?o
                 dw 0x8009893C
                 dw word_800AA098
 off_800AB120:   dw off_800AB100       ; DATA XREF: ResetCallback?r
-                                         ; InterruptCallback?r ...
 dword_800AB124: dw 0x1F801070         ; DATA XREF: sub_800984AC+24?r
-                                         ; sub_80098584+34?r ...
 dword_800AB128: dw 0x1F801074         ; DATA XREF: TEXT:GetIntrMask?r
-                                         ; SetIntrMask?r ...
 dword_800AB12C: dw 0x1F8010F0         ; DATA XREF: sub_800984AC+48?r
-                                         ; sub_8009889C+34?r ...
 dword_800AB130: dw 0                  ; DATA XREF: sub_80098584+148?o
-                                         ; sub_80098584+150?r ...
                 dw 0
                 dw 0
                 dw 0
 dword_800AB140: dw 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: startIntrVSync+4?o
-                                         ; sub_80098AB0+18?o ...
 dword_800AB160: dw 0                  ; DATA XREF: VSync+60?r
-                                         ; VSync+C8?r ...
 dword_800AB164: dw 0x1F801114         ; DATA XREF: startIntrVSync+C?r
                 dw 0
                 dw 0
 dword_800AB170: dw 0x1F8010F4         ; DATA XREF: startIntrDMA+1C?r
-                                         ; sub_80098BC4?r ...
 dword_800AB174: dw 0, 0, 0, 0, 0, 0, 0, 0
-                                         ; DATA XREF: startIntrDMA+4?o
-                                         ; sub_80098BC4+4C?o ...
 dword_800AB194: dw 0x1F801080         ; DATA XREF: sub_80098BC4+134?r
                 dw 0
                 dw 0
 dword_800AB1A0: dw 0                  ; DATA XREF: TEXT:SetVideoMode?r
-                                         ; TEXT:80098E28?w ...
                 dw 0
                 dw 0
                 dw 0
 dword_800AB1B0: dw 0                  ; DATA XREF: start:__main?r
-                                         ; start+C8?w ...
 dword_800AB1B4: dw 0                  ; DATA XREF: start+6C?w
 dword_800AB1B8: dw 0                  ; DATA XREF: start+60?w
                 dw 0x800148B8
                 dw 0x88A24, 0x8009D2DC, 0xE008, 0x800ABBF0, 0x17618
                 dw 0x37350, 0x440000, 0, 0
 dword_800AB1E4: dw 0x1F801070         ; DATA XREF: TEXT:80099728?r
-                                         ; TEXT:80099758?r
 dword_800AB1E8: dw 0x1F801100         ; DATA XREF: TEXT:loc_80099664?r
-                                         ; TEXT:loc_800996CC?r ...
 dword_800AB1EC: dw 0x10               ; DATA XREF: TEXT:80099730?r
-                                         ; TEXT:80099760?r
                 db 0x20, 0, 0, 0
                 dw 0x40, 1, 0, 0
 dword_800AB204: dw 0x100              ; DATA XREF: SetConf+70?r
-                                         ; SetConf:loc_80099880?r ...
                 dw 0, 0, 0
 dword_800AB214: dw 0                  ; DATA XREF: TEXT:80099DA4?w
-                                         ; ReadInitPadFlag?r ...
 dword_800AB218: dw 0x1F801040         ; DATA XREF: sub_80099FF0?r
 dword_800AB21C: dw 0x1F801070         ; DATA XREF: sub_8009A058?r
                 dw 0
                 dw 0xC7350, 0x440000
 dword_800AB22C: dw 0                  ; DATA XREF: TEXT:8009A974?r
-                                         ; sub_8009AE60+94?r ...
 dword_800AB230: dw 0                  ; DATA XREF: TEXT:8009A740?r
-                                         ; TEXT:8009A798?r ...
 dword_800AB234: dw 0                  ; DATA XREF: sub_8009C268+70?r
-                                         ; sub_8009C32C+9C?r ...
 dword_800AB238: dw 0                  ; DATA XREF: sub_8009C268+54?r
-                                         ; sub_8009C32C+30?r ...
 dword_800AB23C: dw 0                  ; DATA XREF: PadInitDirect+80?w
 dword_800AB240: dw 0                  ; DATA XREF: PadGetState?r
-                                         ; TEXT:8009A384?r ...
 dword_800AB244: dw 0                  ; DATA XREF: unknown_libname_1+8?r
-                                         ; sub_8009C0E4+78?r ...
 dword_800AB248: dw 0                  ; DATA XREF: sub_8009B7E4+2C?r
-                                         ; sub_8009BD58+10?r ...
 dword_800AB24C: dw 0                  ; DATA XREF: sub_8009AB2C+D0?r
-                                         ; sub_8009AB2C+134?r ...
 dword_800AB250: dw 0                  ; DATA XREF: sub_8009AB2C+148?r
-                                         ; sub_8009C32C+200?r ...
 dword_800AB254: dw 0                  ; DATA XREF: sub_8009A810+38?r
 dword_800AB258: dw 0                  ; DATA XREF: sub_8009C0E4+4C?r
 dword_800AB25C: dw 0                  ; DATA XREF: sub_8009C0E4+38?r
 dword_800AB260: dw 0                  ; DATA XREF: TEXT:8009A290?r
-                                         ; TEXT:8009A738?r ...
 dword_800AB264: dw 0                  ; DATA XREF: TEXT:8009A708?w
-                                         ; TEXT:8009A7C0?w ...
 dword_800AB268: dw 0                  ; DATA XREF: sub_8009C0E4+24?r
 dword_800AB26C: dw 0                  ; DATA XREF: TEXT:8009A95C?w
-                                         ; TEXT:loc_8009A988?r ...
 dword_800AB270: dw 0                  ; DATA XREF: TEXT:8009A954?w
-                                         ; sub_8009AE60+C?o ...
 dword_800AB274: dw 0                  ; DATA XREF: TEXT:8009A998?w
-                                         ; sub_8009CA54+EC?r ...
 dword_800AB278: dw 0                  ; DATA XREF: TEXT:PadChkMtap?r
-                                         ; sub_8009C1BC+5C?r ...
 dword_800AB27C: dw 0                  ; DATA XREF: TEXT:8009A6D4?r
-                                         ; TEXT:8009A724?w ...
 dword_800AB280: dw 1                  ; DATA XREF: TEXT:8009A6CC?r
-                                         ; TEXT:8009A77C?w ...
 dword_800AB284: dw 0xFFFFFFFF         ; DATA XREF: sub_8009AB2C+78?r
-                                         ; sub_8009AB2C+8C?o ...
                 dw 0xFFFFFFFF
 dword_800AB28C: dw 0x1F801070         ; DATA XREF: sub_8009A810?r
-                                         ; sub_8009AA1C+3C?r ...
 dword_800AB290: dw 0x1F801040         ; DATA XREF: TEXT:loc_8009A878?r
-                                         ; TEXT:loc_8009A9E8?r ...
 dword_800AB294: dw 0                  ; DATA XREF: TEXT:8009A8B8?w
-                                         ; sub_8009AA08?r ...
                 dw 0, 0, 0
 dword_800AB2A4: dw 0                  ; DATA XREF: sub_8009C1BC+7C?w
-                                         ; sub_8009C1BC+90?w ...
 dword_800AB2A8: dw 0x1F801040         ; DATA XREF: sub_8009C32C+2D8?r
-                                         ; sub_8009C32C+340?r
 dword_800AB2AC: dw 0                  ; DATA XREF: unknown_libname_1+28?w
-                                         ; sub_8009C0E4:loc_8009C144?r ...
 dword_800AB2B0: dw 0                  ; DATA XREF: sub_8009C268+50?w
-                                         ; sub_8009C268:loc_8009C2D0?r ...
 dword_800AB2B4: dw 0x8009C09C         ; DATA XREF: sub_8009AE60+24?r
                 dw 0x8009C0E4
                 dw 0x8009C1BC
@@ -4410,11 +4000,8 @@ dword_800AB2B4: dw 0x8009C09C         ; DATA XREF: sub_8009AE60+24?r
 dword_800AB2D4: dw 0x1F801040         ; DATA XREF: sub_8009C894:loc_8009C908?r
                 dw 0, 0, 0
 dword_800AB2E4: dw 0x200000           ; DATA XREF: start+24?r
-                                         ; start+7C?o
 dword_800AB2E8: dw 0x8000             ; DATA XREF: start+4C?r
 off_800AB2EC:   dw aBislpm86247       ; DATA XREF: sub_8004983C+22C?r
-                                         ; sub_8004BA80+38?r
-                                         ; "BISLPM-86247"
 aMem:           db "mem:", 0x0         ; DATA XREF: sub_800148B8+88?o
                 db 0, 0, 0
 aPad:           db "pad:", 0x0         ; DATA XREF: sub_800148B8+9C?o
@@ -4432,7 +4019,6 @@ aGm:            db "gm:", 0x0          ; DATA XREF: sub_800148B8+160?o
 aStart:         db "start", 0xA, 0x0      ; DATA XREF: sub_800148B8+174?o
                 db 0
 dword_800AB330: dw 0                  ; DATA XREF: sub_8001682C+38C?r
-                                         ; sub_8001A0E4?r ...
                 dw 0
 aGvdC:          db "gvd.c", 0x0        ; DATA XREF: sub_80014D18+58?o
                 dh 0
@@ -4441,96 +4027,69 @@ asc_800AB340:   db "#", 0x0            ; DATA XREF: sub_800151D8+54?o
 aNone:          db "none", 0x0         ; DATA XREF: TEXT:off_800AB34C?o
                 db 0, 0, 0
 off_800AB34C:   dw aNone              ; DATA XREF: sub_80014B34+8?r
-                                         ; "none"
 aVoided:        db "voided ", 0x0      ; DATA XREF: TEXT:80015C68?o
-                                         ; TEXT:80015DCC?o
 aFailed:        db "failed ", 0x0      ; DATA XREF: TEXT:80015C88?o
-                                         ; TEXT:80015DEC?o
 asc_800AB360:   db ")", 0xA, 0x0          ; DATA XREF: TEXT:80015C94?o
-                                         ; TEXT:80015DF8?o
                 db 0
 aStatic:        db "static ", 0x0      ; DATA XREF: TEXT:80015D9C?o
 asc_800AB36C:   db "", 0xA, 0x0           ; DATA XREF: TEXT:80015E9C?o
                 dh 0
                 dw 0x80117000
 dword_800AB374: dw 0                  ; DATA XREF: TEXT:8002C9A8?w
-                                         ; sub_80042730+60?w
                 dw 0
                 dw 0
 dword_800AB380: dw 0                  ; DATA XREF: sub_8001682C+30?r
-                                         ; sub_8001844C+8?w ...
                 dw 0xFFFFFFFF, 0
 word_800AB38C:  dh 0                  ; DATA XREF: sub_8001D324+238?r
 word_800AB38E:  dh 0                  ; DATA XREF: sub_8001D324+240?r
 word_800AB390:  dh 0                  ; DATA XREF: sub_8001D324+248?r
                 dh 0
 dword_800AB394: dw 0x3C808080         ; DATA XREF: sub_8001D19C+30?o
-                                         ; sub_80031BD4+5C?o
 dword_800AB398: dw 0x3E808080         ; DATA XREF: sub_8001D19C+44?o
-                                         ; sub_80031BD4+70?o
 byte_800AB39C:  db 0                  ; DATA XREF: sub_80025A7C+1FC?o
-                                         ; sub_8002DA14+40?o ...
                 db 0, 0
 byte_800AB39F:  db 0                  ; DATA XREF: sub_8002DA14+48?r
-                                         ; sub_80033784+30C?r ...
 byte_800AB3A0:  db 0                  ; DATA XREF: sub_8002DA14+54?r
-                                         ; sub_80033784+318?r ...
                 db 0, 0
 byte_800AB3A3:  db 0                  ; DATA XREF: sub_8002DA14+50?r
-                                         ; sub_80033784+314?r ...
                 dw 0xFFFFFFFF
 dword_800AB3A8: dw 0xE20300, 0x1E0100
                                          ; DATA XREF: sub_8001FC28+C?o
 dword_800AB3B0: dw 0xC40300, 0x1E0100, 0
-                                         ; DATA XREF: sub_8001FC58+C?o
 dword_800AB3BC: dw 0, 0               ; DATA XREF: sub_80020228:loc_80020254?o
 dword_800AB3C4: dw 0, 0               ; DATA XREF: sub_8002A7D8+C?o
-                                         ; sub_8002A880?o
 dword_800AB3CC: dw 0                  ; DATA XREF: sub_8001682C+44?r
-                                         ; sub_8001682C+F8?r ...
 dword_800AB3D0: dw 0                  ; DATA XREF: sub_8001FF2C+4?r
-                                         ; TEXT:8002C450?w ...
 dword_800AB3D4: dw 0                  ; DATA XREF: sub_800331A4+20?r
-                                         ; sub_80037514+3C?w ...
                 dw 0
 dword_800AB3DC: dw 0                  ; DATA XREF: sub_8005AD10+3A0?r
-                                         ; sub_8005AD10:loc_8005B198?r
 dword_800AB3E0: dw 0                  ; DATA XREF: sub_8005AD10:loc_8005B1E0?r
-                                         ; sub_8005AD10:loc_8005B214?r
 word_800AB3E4:  dh 0                  ; DATA XREF: TEXT:80069AD0?w
-                                         ; TEXT:80069B84?w ...
                 dh 0xFFFF
 dword_800AB3E8: dw 0                  ; DATA XREF: sub_8006641C+254?r
-                                         ; TEXT:loc_800699A4?r
 dword_800AB3EC: dw 0                  ; DATA XREF: TEXT:80069C34?r
-                                         ; TEXT:80069D74?r
 dword_800AB3F0: dw 0                  ; DATA XREF: sub_8006DDEC+13C?r
 dword_800AB3F4: dw 0                  ; DATA XREF: sub_8004983C+38?w
-                                         ; sub_8004983C+49C?w ...
 aInit:          db "init", 0x0         ; DATA XREF: sub_8002AAB0+10?o
                 db 0, 0, 0
 dword_800AB400: dw 0                  ; DATA XREF: sub_8002AB40+C?o
 aGamedC:        db "gamed.c", 0x0      ; DATA XREF: sub_8002B77C+7C?o
 aGcawi:         db "gcawi", 0x0        ; DATA XREF: TEXT:8002C7D8?o
-                dh 0
+
 dword_800AB414: dw 0xFFFFFFFF         ; DATA XREF: sub_80079960+20?r
 aPrint:         db "print: ", 0x0      ; DATA XREF: TEXT:8002D0F0?o
 aS_2:           db "%s ", 0x0
 aD_3:           db "%d ", 0x0          ; DATA XREF: TEXT:8002D14C?o
 asc_800AB428:   db "", 0xA, 0x0           ; DATA XREF: TEXT:8002D168?o
-                dh 0
+
 dword_800AB42C: dw 0x2710             ; DATA XREF: sub_8006B800+68?r
                                          ; sub_8006B888+70?w
 byte_800AB430:  db 0x80               ; DATA XREF: sub_8002FCF0+28?o
-                                         ; sub_8002FCF0+34?r ...
                 db 2, 0
 byte_800AB433:  db 8                  ; DATA XREF: sub_8002FCF0+30?r
-                                         ; sub_80030938+20?w
 byte_800AB434:  db 0                  ; DATA XREF: sub_8002FCF0+3C?r
-                                         ; sub_80030938+2C?w
                 db 0, 0
 byte_800AB437:  db 0                  ; DATA XREF: sub_8002FCF0+38?r
-                                         ; sub_80030938+28?w
                 dw 0x2710, 0, 0, 0, 0
 aNoHzd:         db "no hzd", 0xA, 0x0     ; DATA XREF: sub_800310D0+68?o
 aDelayC:        db "delay.c", 0x0      ; DATA XREF: sub_80033230+AC?o
@@ -4545,18 +4104,14 @@ aItem:          db "item", 0x0         ; DATA XREF: sub_8003884C+AC?o
                 db 0, 0, 0
                 dw 0xD, 0x5555, 0x3FFF, 0
 dword_800AB490: dw 0x17E03E0, 0x20020
-                                         ; DATA XREF: sub_8003A664+134?o
-                                         ; sub_8003AA2C+38?o
 dword_800AB498: dw 0x5FBF5FBE, 0x5FFF5FFE
-                                         ; DATA XREF: sub_8003A664+268?o
 dword_800AB4A0: dw 0x8D118C91, 0x9A238C91
-                                         ; DATA XREF: sub_8003A664+90?o
 dword_800AB4A8: dw 0x80238023, 0x8023, 0, 0
-                                         ; DATA XREF: sub_8003A664+9C?o
 aSuppr:         db "SUPPR.", 0x0
                 db 0
 aScarf:         db "SCARF", 0x0
-                dh 0
+                db 0
+				db 0
 aRope:          db "ROPE", 0x0
                 db 0, 0, 0
 aDisc:          db "DISC", 0x0
@@ -4578,19 +4133,22 @@ aBArmor:        db "B.ARMOR", 0x0
 aGasmask:       db "GASMASK", 0x0
 aThermG:        db "THERM.G", 0x0
 aNVG:           db "N.V.G", 0x0
-                dh 0
+                db 0
+				db 0
 aCBoxC:         db "C.BOX C", 0x0
 aCBoxB:         db "C.BOX B", 0x0
 aCBoxA:         db "C.BOX A", 0x0
 aScope:         db "SCOPE", 0x0
-                dh 0
+                db 0
+				db 0
 aCigs:          db "CIGS", 0x0         ; DATA XREF: TEXT:off_8009E484?o
                 db 0, 0, 0
 aLv:            db "LV.", 0x0          ; DATA XREF: sub_8003B8F0+14C?o
 aNoItem:        db "NO ITEM", 0x0      ; DATA XREF: sub_8003B8F0+288?o
                 dw 0, 0
 aEquip:         db "EQUIP", 0x0        ; DATA XREF: sub_8003BF1C+2C0?o
-                dh 0
+                db 0
+				db 0
                 dw 0
 aPsg1:          db "PSG1", 0x0
                 db 0, 0, 0
@@ -4613,23 +4171,17 @@ aO2:            db "O2", 0x0           ; DATA XREF: TEXT:off_8009E600?o
                 db 0
                 dw 0
 dword_800AB600: dw 0x10003C0, 0x500032
-                                         ; DATA XREF: sub_8003F84C+8?o
-                                         ; sub_8003F84C+9C?o
 dword_800AB608: dw 0x480056           ; DATA XREF: sub_8003F84C+60?o
                 dw 0x48002C
 dword_800AB610: dw 0x1030402, 0x10304
-                                         ; DATA XREF: sub_8003FD50+9C?o
 aCall:          db "call", 0x0         ; DATA XREF: sub_800403E4+4?o
                 db 0, 0, 0
 aP3t3t:         db "P#3T#3T", 0x0      ; DATA XREF: sub_800407A4+4C?o
 aMemory:        db "MEMORY", 0x0       ; DATA XREF: sub_800407A4+88?o
                 db 0
 dword_800AB630: dw 0x10403C0, 0x4C003F, 0x36B0, 0, 0
-                                         ; DATA XREF: sub_80040F74+34?o
-                                         ; sub_80040F74+50?o
                 dw 0xFFFFFFFF, 0
 byte_800AB64C:  db 0xC0               ; DATA XREF: sub_80042848+18?o
-                                         ; sub_80042848+20?r
                 db 3, 0xE8
 byte_800AB64F:  db 1                  ; DATA XREF: sub_80042848+1C?r
 byte_800AB650:  db 0x40               ; DATA XREF: sub_80042848+28?r
@@ -4652,20 +4204,14 @@ dword_800AB68C: dw 0                  ; DATA XREF: sub_80038A88+88?w
                 dw 0, 0, 0
                 dw 1, 0, 0, 0, 0, 0
 byte_800AB6C8:  db 0                  ; DATA XREF: sub_800469F0+74?o
-                                         ; sub_80046A98+1C?o ...
                 db 3, 0
 byte_800AB6CB:  db 1                  ; DATA XREF: sub_80046B74+18?r
-                                         ; sub_80046BD8+24?r
 byte_800AB6CC:  db 0                  ; DATA XREF: sub_800469F0:loc_80046A58?o
-                                         ; sub_80046B74+24?r ...
                 db 1, 4
 byte_800AB6CF:  db 0                  ; DATA XREF: sub_80046B74+20?r
-                                         ; sub_80046BD8+2C?r
 dword_800AB6D0: dw 0x1500380          ; DATA XREF: sub_800469F0+88?o
-                                         ; sub_80046A98+40?o
 dword_800AB6D4: dw 0x600040           ; DATA XREF: sub_800469F0+80?o
 byte_800AB6D8:  db 0xF0               ; DATA XREF: sub_80048124+1C?o
-                                         ; sub_80048124+30?o ...
                 db 3, 0xB0
 byte_800AB6DB:  db 1                  ; DATA XREF: sub_80048124+38?r
 byte_800AB6DC:  db 5                  ; DATA XREF: sub_80048124+44?r
@@ -4690,26 +4236,19 @@ dword_800AB724: dw 0x4D4E             ; DATA XREF: TEXT:8009EBF4?o
 dword_800AB728: dw 0x5A45             ; DATA XREF: TEXT:off_8009EBF0?o
 dword_800AB72C: dw 0x4556             ; DATA XREF: sub_8004B0A0+410?o
 aClear_0:       db "CLEAR", 0x0        ; DATA XREF: sub_8004B0A0+494?o
-                                         ; sub_8004B0A0+498?r ...
                 dh 0
 aS_1:           db "S", 0x0            ; DATA XREF: sub_8004B0A0+504?o
-                                         ; sub_8004B0A0+784?o
                 dh 0
 byte_800AB73C:  db 0                  ; DATA XREF: sub_8004B0A0+50C?o
-                                         ; sub_8004B0A0+78C?o ...
                 db 0, 0, 0
 aNoCard:        db "NO CARD", 0x0      ; DATA XREF: sub_8004BE98+D8?o
-                                         ; sub_8004BE98+DC?r ...
 aNoFile_0:      db "NO FILE", 0x0      ; DATA XREF: sub_8004C418+94?o
 aNo:            db "NO", 0x0           ; DATA XREF: TEXT:8009EC0C?o
                 db 0
 dword_800AB754: dw 0x534559           ; DATA XREF: TEXT:off_8009EC08?o
 aResD:          db "Res %d", 0xA, 0x0     ; DATA XREF: sub_8004C418+7F0?o
-                                         ; sub_8004C418+83C?o ...
 dword_800AB760: dw 0x4081             ; DATA XREF: sub_8004CF20+34?o
-                                         ; sub_8004D008+E0?o
 dword_800AB764: dw 0x2563250C, 0x73, 0x2A, 0
-                                         ; DATA XREF: sub_8004D14C+5C?o
 a03d:           db "%03d", 0x0         ; DATA XREF: sub_8004D628+19C?o
                 db 0, 0, 0
 a02d_0:         db "%02d", 0x0         ; DATA XREF: sub_8004D628+1F0?o
@@ -4756,7 +4295,6 @@ aMpfive:        db "mpfive", 0x0       ; DATA XREF: sub_800661A8:loc_800661D8?o
 aFamasC:        db "famas.c", 0x0      ; DATA XREF: sub_8006623C+64?o
 dword_800AB870: dw 0xFCE0FF9C, 0x50   ; DATA XREF: sub_80066BC0+1B8?o
 dword_800AB878: dw 0x640064, 0xC800C8
-                                         ; DATA XREF: sub_80066EB0+68?o
 dword_800AB880: dw 0xFED4FFCE, 0x64   ; DATA XREF: sub_80066EB0+7C?o
 aNikita:        db "nikita", 0x0       ; DATA XREF: sub_80066EB0+1C?o
                 db 0
@@ -4779,7 +4317,6 @@ aRifle_0:       db "rifle", 0x0        ; DATA XREF: sub_80068184+1C?o
                 dh 0
 aRifleC:        db "rifle.c", 0x0      ; DATA XREF: sub_80068214+5C?o
 dword_800AB8EC: dw 0                  ; DATA XREF: sub_80068D0C+70?o
-                                         ; sub_80068D0C+A8?o
 a0D:            db "-0%d", 0x0         ; DATA XREF: sub_80068420+254?o
                 db 0, 0, 0
 a0D_0:          db "0%d", 0x0          ; DATA XREF: sub_80068420+268?o
@@ -4789,24 +4326,18 @@ aDD:            db "%d %d", 0xA, 0x0      ; DATA XREF: sub_80068A24+174?o
                 db 0
 aStinger:       db "stinger", 0x0      ; DATA XREF: sub_80068D0C+50?o
 aRifle:         db "rifle", 0x0        ; DATA XREF: sub_800696CC:loc_80069704?o
-                                         ; sub_800696CC+84?o
                 dh 0
 dword_800AB918: dw 0                  ; DATA XREF: start?o
 dword_800AB91C: dw 0                  ; DATA XREF: sub_8001F078+110?w
-                                         ; sub_8001F078+12C?w
 dword_800AB920: dw 0                  ; DATA XREF: sub_80017194+10?r
-                                         ; sub_800172A8?r ...
 dword_800AB924: dw 0                  ; DATA XREF: sub_8002ADBC+178?r
-                                         ; sub_8005D424+1C?r
 dword_800AB928: dw 0                  ; DATA XREF: TEXT:loc_80014BAC?r
-                                         ; sub_80016620?r ...
                 dw 0
                 dw 0
                 dw 0
                 dw 0
                 dw 0
 dword_800AB940: dw 0                  ; DATA XREF: sub_80014C70+38?r
-                                         ; sub_8002B710+1C?r
                 dw 0
                 dw 0
                 dw 0
@@ -4816,16 +4347,13 @@ dword_800AB940: dw 0                  ; DATA XREF: sub_80014C70+38?r
                 dw 0
 dword_800AB960: dw 0, 0               ; DATA XREF: sub_80017194+84?o
 dword_800AB968: dw 0                  ; DATA XREF: sub_800189A4+38?r
-                                         ; sub_8001B66C+54?r ...
                 dw 0
                 dw 0
                 dw 0
                 dw 0
                 dw 0
 word_800AB980:  dh 0                  ; DATA XREF: sub_80043A24+28?r
-                                         ; sub_80043A24+178?r ...
 word_800AB982:  dh 0                  ; DATA XREF: sub_80043A24+3B0?r
-                                         ; sub_80043A24+4AC?r
                 dw 0
                 dw 0
                 dw 0
@@ -4836,90 +4364,55 @@ word_800AB982:  dh 0                  ; DATA XREF: sub_80043A24+3B0?r
 dword_800AB9A0: dw 0                  ; DATA XREF: TEXT:8005D560?r
                 dw 0
 dword_800AB9A8: dw 0                  ; DATA XREF: sub_80028454+3C?r
-                                         ; sub_80030C6C+17C?w ...
                 dw 0
 dword_800AB9B0: dw 0                  ; DATA XREF: sub_80014F88:loc_80014FDC?w
-                                         ; TEXT:8002C8E8?w ...
 dword_800AB9B4: dw 0                  ; DATA XREF: sub_800391D0:loc_800393DC?r
                 dw 0, 0, 0, 0
 dword_800AB9C8: dw 0                  ; DATA XREF: sub_800163D8+10?r
-                                         ; sub_80022E50:loc_80022F28?r ...
                 dw 0, 0
 dword_800AB9D4: dw 0                  ; DATA XREF: sub_800596FC+14C0?w
-                                         ; sub_8005AD10+58?w
 word_800AB9D8:  dh 0                  ; DATA XREF: sub_8003E3B0+64?w
-                                         ; sub_8003E3B0+C0?w ...
                 dh 0
 dword_800AB9DC: dw 0                  ; DATA XREF: sub_8006DFDC+70?w
-                                         ; sub_8006E0F0+80?w ...
                 dw 0
 dword_800AB9E4: dw 0                  ; DATA XREF: TEXT:8002CD5C?w
-                                         ; sub_8003DF30:loc_8003E018?r
 dword_800AB9E8: dw 0                  ; DATA XREF: sub_80020C0C+40?r
-                                         ; sub_80020EAC+7C?w ...
 word_800AB9EC:  dh 0                  ; DATA XREF: sub_8003E0E8+1E4?r
-                                         ; sub_80057A90+A4?w ...
                 dh 0
 dword_800AB9F0: dw 0                  ; DATA XREF: sub_800559D8+60?r
-                                         ; sub_800559D8+228?r ...
 dword_800AB9F4: dw 0                  ; DATA XREF: TEXT:8002CE44?r
-                                         ; sub_80033784:loc_80033D58?r ...
 byte_800AB9F8:  db 0                  ; DATA XREF: sub_80054EFC+24C?o
-                                         ; sub_80054EFC+268?w ...
                 db 0, 0
 byte_800AB9FB:  db 0                  ; DATA XREF: sub_80054EFC+264?w
-                                         ; sub_800591F4+114?w ...
 byte_800AB9FC:  db 0                  ; DATA XREF: sub_80054EFC+270?w
-                                         ; sub_800591F4+120?w ...
                 db 0, 0
 byte_800AB9FF:  db 0                  ; DATA XREF: sub_80054EFC+26C?w
-                                         ; sub_800591F4+11C?w ...
 dword_800ABA00: dw 0                  ; DATA XREF: sub_8002E640+10?r
-                                         ; sub_8002E91C+2C?r ...
 dword_800ABA04: dw 0                  ; DATA XREF: TEXT:loc_8002CEF0?w
-                                         ; sub_800649F4+1C?r ...
                 dw 0
 dword_800ABA0C: dw 0                  ; DATA XREF: sub_8002D208+C4?r
-                                         ; sub_8002D300+BC?r ...
 word_800ABA10:  dh 0                  ; DATA XREF: sub_800321F8+1C?o
-                                         ; sub_800321F8+90?o ...
 byte_800ABA12:  db 0                  ; DATA XREF: sub_8003C4EC+328?r
-                                         ; sub_80066BC0+1D0?r
 byte_800ABA13:  db 0                  ; DATA XREF: sub_800335D0+24?r
-                                         ; sub_8005AD10+6F8?w ...
 word_800ABA14:  dh 0                  ; DATA XREF: sub_800335D0+30?r
-                                         ; sub_8003C4EC+330?r ...
                 db 0
 byte_800ABA17:  db 0                  ; DATA XREF: sub_800335D0+2C?r
-                                         ; sub_8005AD10+700?w ...
 dword_800ABA18: dw 0                  ; DATA XREF: sub_8002E91C+110?r
-                                         ; sub_8003AEC0+14?r
 dword_800ABA1C: dw 0                  ; DATA XREF: sub_80050440+A4?w
-                                         ; sub_80050440+E4?w ...
 dword_800ABA20: dw 0                  ; DATA XREF: sub_8005B52C:loc_8005B618?r
-                                         ; sub_8005B52C+100?w ...
 dword_800ABA24: dw 0                  ; DATA XREF: sub_8002F78C:loc_8002F99C?r
-                                         ; sub_80054EFC+204?r ...
 dword_800ABA28: dw 0                  ; DATA XREF: TEXT:8002CD7C?w
-                                         ; sub_8003B6D0:loc_8003B77C?r
 word_800ABA2C:  dh 0                  ; DATA XREF: sub_8003E0E8+1B0?r
-                                         ; sub_80057A90+7C?r ...
                 dh 0
 dword_800ABA30: dw 0                  ; DATA XREF: sub_8002F78C+240?r
-                                         ; sub_8002F78C+278?r ...
 word_800ABA34:  dh 0                  ; DATA XREF: sub_8003F30C+CC?r
-                                         ; sub_8003F530+24?r ...
                 dh 0
 dword_800ABA38: dw 0                  ; DATA XREF: sub_8002E41C+34?w
-                                         ; sub_8002E460+98?w ...
 dword_800ABA3C: dw 0                  ; DATA XREF: sub_8005D424+A4?r
-                                         ; sub_8005D424+B4?w ...
 dword_800ABA40: dw 0                  ; DATA XREF: sub_800596FC+14B0?w
                 dw 0
 dword_800ABA48: dw 0, 0               ; DATA XREF: TEXT:8002CEC8?o
-                                         ; sub_800649F4+50?o
 dword_800ABA50: dw 0                  ; DATA XREF: sub_8001F078+FC?r
-                                         ; sub_8001FF2C+20?r ...
 dword_800ABA54: dw 0                  ; DATA XREF: sub_8002E390+40?w
                                          ; sub_8005D424+C0?r ...
 dword_800ABA58: dw 0, 0, 0, 0, 0, 0, 0, 0
@@ -4967,6 +4460,6 @@ word_800ABBDC:  dh 0                  ; DATA XREF: sub_800626D0+24?r
                                          ; sub_800626D0+D8?r ...
                 dh 0
 dword_800ABBE0: dw 0, 0               ; DATA XREF: sub_800696CC+A4?o
-                                         ; sub_800696CC+CC?o ...
+	xdef dword_800ABBE8
 dword_800ABBE8: dw 0                  ; DATA XREF: start+74?w
                                          ; start+90?r
