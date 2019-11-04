@@ -102,7 +102,8 @@ else
 {
     Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
     
-
+	.\MDasm.exe test2.exe 22408 22696 | Out-File "dump.asm"
+	
     exit 1
 }
 
