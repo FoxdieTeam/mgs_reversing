@@ -29,6 +29,8 @@ group_80014a40	 group org($80014a40)
 ; Rom0.obj
 group_80014a7c	 group org($80014a7c)
 	section .0x80014a7c, group_80014a7c 
+	section .0x80014f88, group_80014a7c
+	section .0x80015010, group_80014a7c
 
 ; Rom1.obj
 group_800457b4	 group org($800457b4)
@@ -53,6 +55,10 @@ group_800ABBF0	group bss,org($800ABBF0)
 	
 group_800AC3F0	group bss,org($800AC3F0)
 	section .0x800AC3F0, group_800AC3F0
+
+group_800ACC18	group bss,org($800ACC18)
+	section .0x800ACC18, group_800ACC18
+
 
 
 	regs    pc=exe_entry_point

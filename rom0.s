@@ -496,7 +496,7 @@ sub_80014D98:
 	dw 0x03E00008 ; 0x80014F80
 	dw 0x27BD0030 ; 0x80014F84
 
-	;section .0x80014f88
+	section .0x80014f88
 	xdef GV_ExecActorSystem
 GV_ExecActorSystem:
 	dw 0x27BDFFE0 ; 0x80014F88
@@ -534,7 +534,7 @@ GV_ExecActorSystem:
 	dw 0x03E00008 ; 0x80015008
 	dw 0x27BD0020 ; 0x8001500C
 
-	;section .0x80015010
+	section .0x80015010
 	xdef sub_80015010
 sub_80015010:
 	dw 0x27BDFFD8 ; 0x80015010
