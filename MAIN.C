@@ -5,28 +5,170 @@
 
 #define SECTION(x) __attribute__((section(x)))
 
-extern const char aSlpm86247[];
-extern const char aSlpm86248[];
+const char SECTION(".RDATA") aSlpm86248[] = "SLPM_862.48";
+const char SECTION(".RDATA") aSlpm86247[] = "SLPM_862.47";
+const char SECTION(".RDATA") aBislpm86247[] = "BISLPM-86247";
+const char SECTION(".RDATA") aDsreadycallbac[] = "DsReadyCallback %x\n";
+const char SECTION(".RDATA") aDsdatacallback[] = "DsDataCallback %x\n";
+const char SECTION(".RDATA") aHangupS[] = "HANGUP: %s\n";
+const char SECTION(".RDATA") aResidentTopX[] = "RESIDENT TOP %X\n";
+const char SECTION(".RDATA") aDumpactorsyste[] = "--DumpActorSystem--\n";
+const char SECTION(".RDATA") aLvDPauseDKillD[] = "Lv %d Pause %d Kill %d\n";
+const char SECTION(".RDATA") aLvD04d02d08xS[] = "Lv%d %04d.%02d %08X %s\n";
+const char SECTION(".RDATA") aIdConflict[] = "id conflict\n";
+const char SECTION(".RDATA") aAssertionFaile[] = "Assertion failed: %s, line %d\n";
+const char SECTION(".RDATA") aSystemD[] = "system %d ( ";
+const char SECTION(".RDATA") aDynamic[] = "dynamic ";
+const char SECTION(".RDATA") aAddr08x08xUnit[] = "  addr = %08x - %08x, units = %d\n";
+const char SECTION(".RDATA") aFreeDDVoidedDM[] = "  free = %d / %d, voided = %d, max_free = %d\n";
+const char SECTION(".RDATA") a8dBytesFrom08x[] = "---- %8d bytes ( from %08x free )\n";
+const char SECTION(".RDATA") a8dBytesFrom08x_0[] = "==== %8d bytes ( from %08x void )\n";
+const char SECTION(".RDATA") a8dBytesFrom08x_1[] = "++++ %8d bytes ( from %08x used )\n";
+const char SECTION(".RDATA") a8dBytesFrom08x_2[] = "**** %8d bytes ( from %08x user %08x )\n";
+const char SECTION(".RDATA") aResidentMemory[] = "Resident Memory Over !!\n";
+const short SECTION(".RDATA") asc_80010208[] = { 0x40, 0x0 };
+const char SECTION(".RDATA") aObjectQueueD[] = "Object Queue %d\n";
+const char SECTION(".RDATA") aPrimitiveQueue[] = "Primitive Queue %d\n";
 
-extern const char aStageDir[];
-extern const char aRadioDat[];
-extern const char aFaceDat[];
-extern const char aZmovieStr[];
-extern const char aVoxDat[];
-extern const char aDemoDat[];
-extern const char aBrfDat[];
+// Smaller strings get put into .DATA ??
+const char SECTION(".RDATA") aDgdC[] = "dgd.c";
 
-int dword_8009D2DC[] = { 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00, 0, 0 };
+const char SECTION(".RDATA") aCommandNotFoun[] ="command not found\n";
+const char SECTION(".RDATA") aProcXNotFound[] = "PROC %X NOT FOUND\n";
+const char SECTION(".RDATA") aProcDCancel[] = "proc %d cancel\n";
+const char SECTION(".RDATA") aTooManyArgsPro[] = "TOO MANY ARGS PROC\n";
+const char SECTION(".RDATA") aScriptCommandE[] = "SCRIPT COMMAND ERROR %x\n";
+const char SECTION(".RDATA") aErrorInScript[] ="ERROR in script\n";
+const char SECTION(".RDATA") aNotScriptData[] = "NOT SCRIPT DATA !!\n";
 
-const char* off_8009D2FC[] = { aSlpm86247, aSlpm86248, 0};
+const unsigned int SECTION(".RDATA") jpt_80020454[] =
+{
+    0x8002045C,
+	0x80020464,
+	0x8002046C,
+	0x80020474,
+	0x8002047C,
+	0x80020484,
+	0x80020494,
+	0x800204C8,
+	0x800204FC,
+	0x80020508,
+	0x80020514,
+	0x8002051C,
+	0x80020528,
+	0x80020530,
+	0x8002053C,
+	0x80020544,
+	0x8002054C,
+	0x80020554,
+	0x8002056C
+};
 
-int dword_8009D308[] = { 0x70000, 0x70000, 0x40009, 0x40009, 0x4000F, 0x4000F, 0x4000F, 0x40009, 0x70000 };
+const char SECTION(".RDATA") aGclWrongCodeX[] = "GCL:WRONG CODE %x\n\x0\x0"; // TODO: Alignment ??
 
-int dword_8009D32C[] = { 0x8000000, 0x6000400, 0, 0x200, 0xA000C00, 0, 0xE00, 0 };
+const unsigned int SECTION(".RDATA") jpt_80020704[] =
+{
+	0x8002070C, 0x80020714, 0x80020788, 0x80020788, 0x80020788,
+	0x8002083C, 0x8002076C, 0x80020798, 0x8002076C, 0x80020738,
+	0x80020738, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x800207AC, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x800207F0, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x800207C8,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002080C
+};
 
-int dword_8009D34C[] = { 0, 0xFFFFF000, 0, 0 };
+const char SECTION(".RDATA") aSaveDataVersio[] = "SAVE DATA VERSION ERROR!!\n";
 
-int off_8009D35C[] = 
+const char SECTION(".RDATA") aCrcError[] = "CRC ERROR !!\n\x0\x0\x0"; // TODO: Alignment ??
+
+const unsigned int SECTION(".RDATA") jpt_800216BC[] =
+{
+	0x800216C4,
+	0x800216E8,
+	0x800216E8,
+	0x800216F4,
+	0x80021714,
+	0x800216C4,
+	0x80021714,
+	0x800216C4
+};
+
+
+const unsigned int SECTION(".RDATA") jpt_800217A0[] =  
+{
+	0x800217A8,
+	0x800217B0,
+	0x800217B0,
+	0x800217B8,
+	0x800217E8,
+	0x800217A8,
+	0x800217E8,
+	0x800217A8
+};
+
+const unsigned int SECTION(".RDATA") jpt_80021894[] =
+{
+	0x8002189C,
+	0x800218A8,
+	0x800218A8,
+	0x800218B4,
+	0x800218EC,
+	0x8002189C,
+	0x800218EC,
+	0x8002189C
+};
+
+const char SECTION(".RDATA") aWarningOldVers[] = "Warning:old version hzm\n";
+
+const char SECTION(".RDATA") aBrfDat[] = "BRF.DAT";
+const char SECTION(".RDATA") aDemoDat[] = "DEMO.DAT";
+const char SECTION(".RDATA") aVoxDat[] ="VOX.DAT";
+const char SECTION(".RDATA") aZmovieStr[] = "ZMOVIE.STR";
+const char SECTION(".RDATA") aFaceDat[] = "FACE.DAT";
+const char SECTION(".RDATA") aRadioDat[] = "RADIO.DAT";
+const char SECTION(".RDATA") aStageDir[] = "STAGE.DIR";
+
+const char SECTION(".RDATA") aPositionEnd[] = "Position end\n";
+const char SECTION(".RDATA") aDiskD[] = "DISK %d\n";
+const char SECTION(".RDATA") aIllegalDisk[] = "illegal DISK\n";
+
+const char SECTION(".RDATA") aCdfsSkipErrorD[] = "CDFS: skip error %d %d %d\n";
+
+const char SECTION(".RDATA") asc_800105B4[] = "[T]";
+const char SECTION(".RDATA") asc_800105B8[] = ".";
+const char SECTION(".RDATA") aD[] ="[%d]";
+const char SECTION(".RDATA") aFileSTopDSizeD[] = "FILE %s : top %d size %d set %d\n";
+const char SECTION(".RDATA") aPlaystation[] = "PLAYSTATION";
+const char SECTION(".RDATA") aMgs[] = "MGS";
+const char SECTION(".RDATA") aMgsReadSectorD[] = "MGS read_sector %d\n";
+
+// ==================
+
+
+
+// ========================================
+
+int SECTION(".DATA") dword_8009D2DC[] = { 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00, 0, 0 };
+
+const char* SECTION(".DATA") off_8009D2FC[] = { aSlpm86247, aSlpm86248, 0};
+
+int SECTION(".DATA") dword_8009D308[] = { 0x70000, 0x70000, 0x40009, 0x40009, 0x4000F, 0x4000F, 0x4000F, 0x40009, 0x70000 };
+
+int SECTION(".DATA") dword_8009D32C[] = { 0x8000000, 0x6000400, 0, 0x200, 0xA000C00, 0, 0xE00, 0 };
+
+int SECTION(".DATA") dword_8009D34C[] = { 0, 0xFFFFF000, 0, 0 };
+
+int SECTION(".DATA") off_8009D35C[] = 
 {
 	0x8001CEE0,
 	0x800189A4,
@@ -37,30 +179,30 @@ int off_8009D35C[] =
 	0x8001D5C8
 };
 
-int dword_8009D37[] = { 0, 0, 0 };
-int dword_8009D38 =  0;
+int SECTION(".DATA") dword_8009D37[] = { 0, 0, 0 };
+int SECTION(".DATA") dword_8009D38 =  0;
 
-int dword_8009D388 = 0x1000;
+int SECTION(".DATA") dword_8009D388 = 0x1000;
 
-int dword_8009D38C = 0;
-int dword_8009D390 = 0;
+int SECTION(".DATA") dword_8009D38C = 0;
+int SECTION(".DATA") dword_8009D390 = 0;
 
 // For compiler crazy reasons arrays after here start appearing in .DATA rather than .SDATA
 
-int SECTION(".SDATA") dword_8009D394[] = {0, 0, 0, 0};
+int SECTION(".DATA") dword_8009D394[] = {0, 0, 0, 0};
 
-int dword_8009D3A4 =  0x10001000;
+int SECTION(".DATA") dword_8009D3A4 =  0x10001000;
 
-short word_8009D3A8 =  0x1000;
-short word_8009D3AA =  0x1000;
-int dword_8009D3AC =  0x10001000;
-int dword_8009D3B0 =  0x10001000;
+short SECTION(".DATA") word_8009D3A8 =  0x1000;
+short SECTION(".DATA") word_8009D3AA =  0x1000;
+int SECTION(".DATA") dword_8009D3AC =  0x10001000;
+int SECTION(".DATA") dword_8009D3B0 =  0x10001000;
 
-int SECTION(".SDATA") dword_8009D3B4[] = {0x1000, 0, 0, 0 };
+int SECTION(".DATA") dword_8009D3B4[] = {0x1000, 0, 0, 0 };
 
-int SECTION(".SDATA") dword_8009D3C4[] = { 0, 0, 0};
+int SECTION(".DATA") dword_8009D3C4[] = { 0, 0, 0};
 
-int SECTION(".SDATA") dword_8009D3D0[] = 
+int SECTION(".DATA") dword_8009D3D0[] = 
 {
 	0x4080210,
 	0x4080318,
@@ -87,29 +229,29 @@ int SECTION(".SDATA") dword_8009D3D0[] =
 	0xC080234
 };
 
-char byte_8009D42C =  0xC;
-char byte_8009D42D =  1;
-char byte_8009D42E =  8;
-char byte_8009D42F =  0;
-int dword_8009D430 =  0x1000;
-int dword_8009D434 =  0;
-int dword_8009D438 =  0x1000;
-int dword_8009D43C =  0;
-int dword_8009D440 =  0x1000;
-int dword_8009D444 =  0;
-int dword_8009D448 =  0;
-int dword_8009D44C =  0;
+char SECTION(".DATA") byte_8009D42C =  0xC;
+char SECTION(".DATA") byte_8009D42D =  1;
+char SECTION(".DATA") byte_8009D42E =  8;
+char SECTION(".DATA") byte_8009D42F =  0;
+int SECTION(".DATA") dword_8009D430 =  0x1000;
+int SECTION(".DATA") dword_8009D434 =  0;
+int SECTION(".DATA") dword_8009D438 =  0x1000;
+int SECTION(".DATA") dword_8009D43C =  0;
+int SECTION(".DATA") dword_8009D440 =  0x1000;
+int SECTION(".DATA") dword_8009D444 =  0;
+int SECTION(".DATA") dword_8009D448 =  0;
+int SECTION(".DATA") dword_8009D44C =  0;
 
-int dword_8009D450 = 0;
-int dword_8009D450_1 = 0;
-int dword_8009D450_2 = 0;
+int SECTION(".DATA") dword_8009D450 = 0;
+int SECTION(".DATA") dword_8009D450_1 = 0;
+int SECTION(".DATA") dword_8009D450_2 = 0;
 
-int dword_8009D45C =  2;
-int dword_8009D460 =  0;
-int dword_8009D464 =  0;
-int dword_8009D468 =  0xFFFFFFFF;
+int SECTION(".DATA") dword_8009D45C =  2;
+int SECTION(".DATA") dword_8009D460 =  0;
+int SECTION(".DATA") dword_8009D464 =  0;
+int SECTION(".DATA") dword_8009D468 =  0xFFFFFFFF;
 
-int SECTION(".SDATA") dword_8009D46C[] =
+int SECTION(".DATA") dword_8009D46C[] =
 {
 	0x2030100,
 	0xD86,
@@ -122,7 +264,7 @@ int SECTION(".SDATA") dword_8009D46C[] =
 	0x8002033C
 };
 
-int SECTION(".SDATA") dword_8009D490[] = 
+int SECTION(".DATA") dword_8009D490[] = 
 {
 	0,
 	4,
@@ -135,7 +277,7 @@ struct Unk_8009D49C
 	int unknown;
 };
 
-struct Unk_8009D49C SECTION(".SDATA") off_8009D49C[] = 
+struct Unk_8009D49C SECTION(".DATA") off_8009D49C[] = 
 {
 	{ aStageDir, 0 },
 	{ aRadioDat, 0 },
@@ -147,33 +289,33 @@ struct Unk_8009D49C SECTION(".SDATA") off_8009D49C[] =
 	{ 0, 0 }
 };
 
-int dword_8009D4DC =  0xFFFFFFFF;
-int dword_8009D4E0 =  0;
-int dword_8009D4E4 =  0;
-int dword_8009D4E8 =  0;
-int dword_8009D4EC =  0;
-int dword_8009D4F0 =  0;
-int dword_8009D4F4 =  0;
-int dword_8009D4F8 =  0;
-int dword_8009D4FC =  0;
-int dword_8009D500 =  0;
-short word_8009D504 =  0;
-short word_8009D506 =  0;
-short word_8009D508 =  0;
-int dword_8009D50C =  0;
-int dword_8009D510 =  0xFFFFFFFF;
-int dword_8009D514 =  0;
-int dword_8009D518 =  0;
-int dword_8009D51C =  1;
-int dword_8009D520 =  0;
-int dword_8009D524 =  0;
+int SECTION(".DATA") dword_8009D4DC =  0xFFFFFFFF;
+int SECTION(".DATA") dword_8009D4E0 =  0;
+int SECTION(".DATA") dword_8009D4E4 =  0;
+int SECTION(".DATA") dword_8009D4E8 =  0;
+int SECTION(".DATA") dword_8009D4EC =  0;
+int SECTION(".DATA") dword_8009D4F0 =  0;
+int SECTION(".DATA") dword_8009D4F4 =  0;
+int SECTION(".DATA") dword_8009D4F8 =  0;
+int SECTION(".DATA") dword_8009D4FC =  0;
+int SECTION(".DATA") dword_8009D500 =  0;
+short SECTION(".DATA") word_8009D504 =  0;
+short SECTION(".DATA") word_8009D506 =  0;
+short SECTION(".DATA") word_8009D508 =  0;
+int SECTION(".DATA") dword_8009D50C =  0;
+int SECTION(".DATA") dword_8009D510 =  0xFFFFFFFF;
+int SECTION(".DATA") dword_8009D514 =  0;
+int SECTION(".DATA") dword_8009D518 =  0;
+int SECTION(".DATA") dword_8009D51C =  1;
+int SECTION(".DATA") dword_8009D520 =  0;
+int SECTION(".DATA") dword_8009D524 =  0;
 
-int SECTION(".SDATA") dword_8009D528[] = { 0x8000000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111};
-int SECTION(".SDATA") dword_8009D548[] = { 0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1 };
-int SECTION(".SDATA") dword_8009D570[] = { 0x20, 0x80, 0x40, 0x10};
+int SECTION(".DATA") dword_8009D528[] = { 0x8000000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111};
+int SECTION(".DATA") dword_8009D548[] = { 0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1 };
+int SECTION(".DATA") dword_8009D570[] = { 0x20, 0x80, 0x40, 0x10};
 
-int SECTION(".SDATA") word_8009D580[] = { 0x90420110, 0x414C9043, 0x222020C0, 0x41104110, 0x414C414C, 0x9220};
-int SECTION(".SDATA") dword_8009D598[] = 
+int SECTION(".DATA") word_8009D580[] = { 0x90420110, 0x414C9043, 0x222020C0, 0x41104110, 0x414C414C, 0x9220};
+int SECTION(".DATA") dword_8009D598[] = 
 {
 	0x80000000,
 	0x80018003,
@@ -193,11 +335,11 @@ int SECTION(".SDATA") dword_8009D598[] =
 	0xA2BF, 0x8002CFBC, 0xB96E, 0x8002D0E4, 0xEC9D, 0x8002D188
 };
 
-int SECTION(".SDATA") dword_8009D68C[] = { 0, 0x18, 0x8009D5CC};
+int SECTION(".DATA") dword_8009D68C[] = { 0, 0x18, 0x8009D5CC};
 
-int dword_8009D698 =  0x2010000;
+int SECTION(".DATA") dword_8009D698 =  0x2010000;
 
-int SECTION(".SDATA") dword_8009D69C[] = 
+int SECTION(".DATA") dword_8009D69C[] = 
 {
 	0x42801EE, 0x666056E, 0x7DA072E, 0x8F4086E, 0x9DA096C,
 	0xA9A0A3E, 0xB3E0AEE, 0xBCE0B88, 0xC4C0C0E, 0xCBC0C86,
@@ -297,30 +439,29 @@ int SECTION(".SDATA") dword_8009D69C[] =
 	0x65A05F2, 0x74A06CC, 0x87807D8, 0xA0C0930, 0xCB80B24
 };
 
-int SECTION(".SDATA") dword_8009DE1C[] = 
+int SECTION(".DATA") dword_8009DE1C[] = 
 {
 	0x10000, 0x10000, 0x8000, 0x5555, 0x4000, 0x3333,
 	0x2AAA, 0x2492, 0x2000, 0x1C71, 0x1999, 0x1745, 0x1555,
 	0x13B1, 0x1249, 0x1111
 };
 
-int SECTION(".SDATA") dword_8009DE5C[] = { 0x8001000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111 };
-int dword_8009DE7C =  0;
-int dword_8009DE80 =  0;
-int dword_8009DE84 =  0;
-int dword_8009DE88 =  0;
-int SECTION(".SDATA") dword_8009DE8C[] = { 0, 0, 0, 0 };
-int dword_8009DE9C =  0;
-int dword_8009DEA0 =  0;
-int dword_8009DEA4 =  0;
-int dword_8009DEA8 =  0;
-int SECTION(".SDATA") dword_8009DEAC[] = { 0, 0, 0, 0 };
+int SECTION(".DATA") dword_8009DE5C[] = { 0x8001000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111 };
+int SECTION(".DATA") dword_8009DE7C =  0;
+int SECTION(".DATA") dword_8009DE80 =  0;
+int SECTION(".DATA") dword_8009DE84 =  0;
+int SECTION(".DATA")dword_8009DE88 =  0;
+int SECTION(".DATA") dword_8009DE8C[] = { 0, 0, 0, 0 };
+int SECTION(".DATA") dword_8009DE9C =  0;
+int SECTION(".DATA") dword_8009DEA0 =  0;
+int SECTION(".DATA") dword_8009DEA4 =  0;
+int SECTION(".DATA") dword_8009DEA8 =  0;
+int SECTION(".DATA") dword_8009DEAC[] = { 0, 0, 0, 0 };
 
-short word_8009DEBC =  0x78;
-short SECTION(".SDATA") word_8009DEBE[] = { 0x25, 0x58, 0x19 };
+short SECTION(".DATA") word_8009DEBC[] = { 0x78, 0x25, 0x58, 0x19 };
 
-/*
-unsigned int SECTION(".SDATA") dword_8009DEC4[] = 
+
+unsigned int SECTION(".dword_8009DEC4") dword_8009DEC4[] = 
 {
 	0x190068, 0x1F0068, 0x1F0079, 0x280079, 0x280079,
 	0x200079, 0x200087, 0x2A0087, 0x450087, 0x250058,
@@ -371,131 +512,67 @@ unsigned int SECTION(".SDATA") dword_8009DEC4[] =
 	0x350079, 0x2F007D, 0x350087, 0x117007D, 0x11A007D,
 	0x2F0087, 0x11A0087, 0x1170087, 0x7D
 };
-*/
+
+
+int SECTION(".dword_8009E280") dword_8009E280 =  0;
+int SECTION(".dword_8009E280") dword_8009E284 =  0;
+int SECTION(".dword_8009E280") dword_8009E288 =  0;
+int SECTION(".dword_8009E280") dword_8009E28C =  0;
+
+int SECTION(".dword_8009E280") dword_8009E290[] =
+{
+	0x8003CC94,
+	0x8003B474,
+	0x80042700,
+	0x8003CBF0,
+	0x8003EC2C,
+	0x8003F7E0,
+	0x80042848,
+	0x800494C4,
+	0
+};
+
+int SECTION(".dword_8009E280") dword_8009E2B4[] =
+{
+	0x8003B554,
+	0x8004271C,
+	0x8003CC74,
+	0x8003ECAC,
+	0x8003F838,
+	0x80042980,
+	0
+};
+	
+
+
+int SECTION(".dword_8009E280") dword_8009E2D0 =  0;
+int SECTION(".dword_8009E280") dword_8009E2D4 =  0;
+int SECTION(".dword_8009E280") dword_8009E2D8 =  0;
+int SECTION(".dword_8009E280") dword_8009E2DC =  0;
+int SECTION(".dword_8009E280") dword_8009E2E0 =  0;
+int SECTION(".dword_8009E280") dword_8009E2E4 =  0;
+int SECTION(".dword_8009E280") dword_8009E2E8 =  0;
+int SECTION(".dword_8009E280") dword_8009E2EC =  0;
+
+int SECTION(".dword_8009E280") dword_8009E2F0 =  0x64808080;
+int SECTION(".dword_8009E280") dword_8009E2F4[] = { 0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808 };
+
+int SECTION(".dword_8009E280") dword_8009E30C =  0xC1C5080;
+int SECTION(".dword_8009E280") dword_8009E310[] = { 0x72C5C80, 0xC1C509C, 0x73A6380, 0xC1C50B8, 0x72C5CB4, 0xC3A6A8A, 0x73A768A };
+
+
+//unsigned char SECTION(".dword_8009E280") byte_8009E32C[] = { 0xBC, 0x63};
+//unsigned char SECTION(".dword_8009E280") byte_8009E32E[] = { 0x24, 3 };
 
 /*
 
-
-
-dword_8009DEC4: dw 0x190068, 0x1F0068, 0x1F0079, 0x280079, 0x280079
-                dw 0x200079, 0x200087, 0x2A0087, 0x450087, 0x250058
-                dw 0x400058, 0x290060, 0x290060, 0x230060, 0x230068
-                dw 0x260068, 0x260071, 0x2D0071, 0x3E0071, 0x2D0064
-                dw 0x2D0064, 0x280064, 0x28006C, 0x30006C, 0x30006C
-                dw 0x2D006C, 0x450071, 0x400058, 0x370060, 0x410079
-                dw 0x4A0079, 0x540058, 0x430058, 0x550064, 0x450064
-                dw 0x550060, 0x430060, 0x370064, 0x450079, 0x4A0060
-                dw 0x540058, 0x550058, 0x550060, 0x570064, 0x570079
-                dw 0x4E0079, 0x490079, 0x4D006C, 0x4E006C, 0x4D0079
-                dw 0x49006C, 0x41006C, 0x3E0079, 0x2A0064, 0x590087
-                dw 0x620079, 0x610079, 0x6C0058, 0x760058, 0x820058
-                dw 0x7A0058, 0x710079, 0x710079, 0x750079, 0x750068
-                dw 0x6C0068, 0x6C0079, 0x670079, 0x670079, 0x660079
-                dw 0x660068, 0x620068, 0x5F0079, 0x6C0060, 0x720060
-                dw 0x800060, 0x5E0060, 0x6C0064, 0x700064, 0x7F0064
-                dw 0x610064, 0x5F0058, 0x5E0060, 0x590064, 0x6C0079
-                dw 0x6C0058, 0x6C0060, 0x6C0064, 0x70006C, 0x6C0064
-                dw 0x72006C, 0x760060, 0x7F0058, 0x7A0064, 0x800079
-                dw 0x820060, 0x860058, 0x9C0058, 0x7E0058, 0x940079
-                dw 0x840079, 0x9A0060, 0x830060, 0x990064, 0x8A0064
-                dw 0x97006B, 0x8A006B, 0x89006B, 0x960071, 0x890071
-                dw 0x860071, 0x840058, 0x830060, 0x7E0064, 0x960079
-                dw 0x940071, 0x970079, 0x99006B, 0x9A0064, 0x9C0060
-                dw 0xAD0058, 0xC70079, 0xB50079, 0xCF0058, 0xB30058
-                dw 0xCD0060, 0xBB0060, 0xB80064, 0xB80071, 0xC00071
-                dw 0xC30071, 0xC00064, 0xCF0071, 0xCD0058, 0xCC0060
-                dw 0xC70064, 0xB50079, 0xB30058, 0xB20060, 0xAD0064
-                dw 0xB20079, 0xBB0064, 0xC30064, 0xCC0064, 0xD50064
-                dw 0xE00079, 0xF10079, 0xE70058, 0xD20058, 0xDB0058
-                dw 0xD30058, 0xDC0060, 0xD30060, 0xDC0064, 0xE10064
-                dw 0xEB0064, 0xE30064, 0xED0060, 0xE10060, 0xDD0064
-                dw 0xE7006C, 0xE30058, 0xEB0060, 0xE00064, 0xED0079
-                dw 0xF10060, 0xD30058, 0xD50064, 0xD20079, 0xD30058
-                dw 0xDB0060, 0xDC0058, 0xDC0060, 0xDD0064, 0xF4006C
-                dw 0x10A0058, 0xEC0058, 0x1020079, 0xF20079, 0x1080060
-                dw 0xF10060, 0x1070064, 0xF70064, 0x1040071, 0xF80071
-                dw 0x105006C, 0xF8006C, 0xF7006C, 0xF40071, 0xF20058
-                dw 0xF10060, 0xEC0064, 0x1070079, 0x1050064, 0x104006C
-                dw 0x1020071, 0x10A0079, 0x1080058, 0x10E0060, 0x1240058
-                dw 0x10C0058, 0x11E0060, 0x1240060, 0x1270058, 0x10B0061
-                dw 0x11A0064, 0x1130064, 0x115006B, 0x106006B, 0x1100079
-                dw 0x1130079, 0x110006B, 0x1150079, 0x11D006B, 0x11D0087
-                dw 0x1270087, 0x11E0087, 0x127006A, 0x11E0087, 0x120006A
-                dw 0x120006A, 0x127006A, 0x11A0061, 0x11E0064, 0x10B0060
-                dw 0x1060064, 0x10C0079, 0x10E0060, 0x430058, 0x370064
-                dw 0x350079, 0x2F007D, 0x350087, 0x117007D, 0x11A007D
-                dw 0x2F0087, 0x11A0087, 0x1170087, 0x7D
-int dword_8009E280 =  0;
-int dword_8009E284 =  0;
-int dword_8009E288 =  0;
-int dword_8009E28C =  0;
+int SECTION(".dword_8009E280") dword_8009E330 =  0x100A6A80;
+char SECTION(".dword_8009E280") byte_8009E334 =  0xC4;
+char SECTION(".dword_8009E280") byte_8009E335[] = { 0x66,0x1C, 0x16 };
+char SECTION(".dword_8009E280") byte_8009E338[] = { 0, 0 };
 */
 
 // ======================================================================================================
-
-struct Actor;
-
-typedef void(*TActorFunction)(struct Actor*);
-
-struct Actor
-{
-    struct Actor* pPrevious;
-    struct Actor* pNext;
-    TActorFunction mFnUpdate;
-    TActorFunction mFnShutdown;
-    TActorFunction mFreeFunc;
-    const char* mName;
-    unsigned int field_18;
-    unsigned int field_1C;
-};
-
-struct ActorList
-{
-    struct Actor first;
-    struct Actor last;
-    unsigned short mPause;
-    unsigned short mKill;
-};
-
-struct ActorList SECTION(".0x800ACC18") gActorsList[9];
-
-extern int dword_800AB9B0;
-extern int dword_800AB928;
-
-/*
-void SECTION(".0x80014f88") GV_ExecActorSystem(void)
-{
-    int i;
-    struct ActorList* pActorList = gActorsList;
-    
-    for (i =9; i > 0; i--)
-    {
-        const int hack = dword_800AB928;
-        if ((pActorList->mPause & hack) == 0) 
-        {
-            struct Actor* pActor = &pActorList->first;
-            for (;;)
-            {
-            
-                struct Actor* pCur = pActor;
-                struct Actor* pNext = pCur->pNext;
-                if (pCur->mFnUpdate)
-                {
-                     pCur->mFnUpdate( pCur);
-                }
-                dword_800AB9B0 = 0;
-                
-                pActor = pNext;
-                if (!pNext)
-                {
-					break;
-                }
-            }
-        }
-        pActorList++;        
-    }
-}
-*/
 
 extern void sub_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
 

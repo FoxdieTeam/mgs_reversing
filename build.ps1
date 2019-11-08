@@ -70,7 +70,7 @@ foreach ($file in $sFiles)
 }
 
 # Run the linker
-psylink.exe /m "@linker_command_file.txt",test2.cpe,asm.sym,asm.map
+psylink.exe /gp .sdata_asm /m "@linker_command_file.txt",test2.cpe,asm.sym,asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
@@ -81,7 +81,7 @@ else
 }
 
 # Convert CPE to an EXE
-cpe2exe.exe /CJ test2.cpe
+cpe2x.exe test2.cpe
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "test2.cpe -> test2.exe" -ForegroundColor "yellow"
@@ -102,7 +102,7 @@ else
 {
     Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
     
-	.\MDasm.exe test2.exe 22408 22696 | Out-File "dump.asm"
+	#.\MDasm.exe test2.exe 22408 22544 | Out-File "dump.asm"
 	
     exit 1
 }
