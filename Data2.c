@@ -35,8 +35,8 @@ struct Actor
     TActorFunction mFnShutdown;
     TActorFunction mFreeFunc;
     const char* mName;
-    unsigned int field_18;
-    unsigned int field_1C;
+    int field_18;
+    int field_1C;
 };
 
 struct ActorList
@@ -58,13 +58,13 @@ void SECTION(".0x80014f88") GV_ExecActorSystem(void)
     
     for (i =9; i > 0; i--)
     {
-        const int hack = dword_800AB928;
-        if ((pActorList->mPause & hack) == 0) 
+        const int local_dword_800AB928 = dword_800AB928;
+        if ((pActorList->mPause & local_dword_800AB928) == 0) 
         {
             struct Actor* pActor = &pActorList->first;
             for (;;)
             {
-            
+           
                 struct Actor* pCur = pActor;
                 struct Actor* pNext = pCur->pNext;
                 if (pCur->mFnUpdate)
@@ -84,3 +84,11 @@ void SECTION(".0x80014f88") GV_ExecActorSystem(void)
     }
 }
 
+void SECTION(".0x8001514c") GV_ActorInit_8001514c(struct Actor* pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char* pActorName)
+{
+	pActor->mFnUpdate = pFnUpdate;
+	pActor->mFnShutdown = pFnShutdown;
+	pActor->mName = pActorName;
+	pActor->field_1C = 0;
+	pActor->field_18 = 0;
+}
