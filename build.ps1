@@ -94,6 +94,12 @@ else
 }
 
 
+if ([System.IO.File]::Exists(".\MDasm.exe"))
+{
+	.\MDasm.exe SLPM_862.47 22696 22752 | Out-File "target.asm"
+	.\MDasm.exe test2.exe 22696 22752 | Out-File "dump.asm"
+}
+
 # Validate the output is matching the OG binary hash
 $actualValue = Get-FileHash -Path test2.exe -Algorithm SHA256
 if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f")
@@ -103,10 +109,6 @@ if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef
 else
 {
     Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
-    
-	#.\MDasm.exe SLPM_862.47 22884 22980 | Out-File "target.asm"
-	.\MDasm.exe test2.exe 22884 22980 | Out-File "dump.asm"
-	
     exit 1
 }
 
