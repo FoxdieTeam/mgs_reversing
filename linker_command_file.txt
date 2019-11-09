@@ -31,7 +31,7 @@ group_80014a7c	 group org($80014a7c)
 	section .0x80014a7c, group_80014a7c 
 	section .0x80014f88, group_80014a7c
 	section .0x80015010, group_80014a7c
-	section .0x8001514c, group_80014a7c
+	section .0x800150e4, group_80014a7c	
 	section .0x800151d8, group_80014a7c
 	
 ; Rom1.obj

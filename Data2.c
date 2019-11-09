@@ -26,6 +26,7 @@ int SECTION(".sbss") dword_800AB9A8[2];
 struct Actor;
 
 typedef void(*TActorFunction)(struct Actor*);
+typedef void(*TActorFreeFunction)(void*);
 
 struct Actor
 {
@@ -33,7 +34,7 @@ struct Actor
     struct Actor* pNext;
     TActorFunction mFnUpdate;
     TActorFunction mFnShutdown;
-    TActorFunction mFreeFunc;
+    TActorFreeFunction mFreeFunc;
     const char* mName;
     int field_18;
     int field_1C;
@@ -85,7 +86,23 @@ void SECTION(".0x80014f88") GV_ExecActorSystem(void)
     }
 }
 
-void SECTION(".0x8001514c") GV_ActorInit_8001514c(struct Actor* pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char* pActorName)
+void GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fn);
+void ZeroMemory_8001619c(void* ptr, int size);
+void* sub_8001620c(int size);
+void sub_80016230(void* ptr);
+
+struct Actor* SECTION(".0x800150e4") GV_ActorAlloc_800150e4(int level, int memSize)
+{
+	struct Actor* pActor = sub_8001620c(memSize);
+	if (pActor) 
+	{
+		ZeroMemory_8001619c(pActor, memSize);
+		GV_ActorPushBack_800150a8(level, pActor, sub_80016230);
+	}
+	return pActor;
+}
+
+void SECTION(".0x800150e4") GV_ActorInit_8001514c(struct Actor* pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char* pActorName)
 {
 	pActor->mFnUpdate = pFnUpdate;
 	pActor->mFnShutdown = pFnShutdown;
@@ -95,7 +112,7 @@ void SECTION(".0x8001514c") GV_ActorInit_8001514c(struct Actor* pActor, TActorFu
 }
 
 // Removes from linked list and calls shutdown/free funcs
-void SECTION(".0x8001514c") GV_KillActor_80015164(struct Actor* pActor)
+void SECTION(".0x800150e4") GV_KillActor_80015164(struct Actor* pActor)
 {
 	struct Actor* pActorBeingRemoved = pActor;
 	struct Actor* pPreviousActor;
@@ -128,7 +145,7 @@ void SECTION(".0x8001514c") GV_KillActor_80015164(struct Actor* pActor)
     }
 }
 
-void SECTION(".0x8001514c") GV_ActorDelayedKill_800151c8(struct Actor* pActor)
+void SECTION(".0x800150e4") GV_ActorDelayedKill_800151c8(struct Actor* pActor)
 {
 	pActor->mFnUpdate = GV_KillActor_80015164;
 }
