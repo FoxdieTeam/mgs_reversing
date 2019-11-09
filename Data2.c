@@ -94,9 +94,8 @@ void SECTION(".0x8001514c") GV_ActorInit_8001514c(struct Actor* pActor, TActorFu
 	pActor->field_18 = 0;
 }
 
-
 // Removes from linked list and calls shutdown/free funcs
-void SECTION(".0x80015164") GV_KillActor_80015164(struct Actor* pActor)
+void SECTION(".0x8001514c") GV_KillActor_80015164(struct Actor* pActor)
 {
 	struct Actor* pActorBeingRemoved = pActor;
 	struct Actor* pPreviousActor;
@@ -129,3 +128,7 @@ void SECTION(".0x80015164") GV_KillActor_80015164(struct Actor* pActor)
     }
 }
 
+void SECTION(".0x8001514c") GV_ActorDelayedKill_800151c8(struct Actor* pActor)
+{
+	pActor->mFnUpdate = GV_KillActor_80015164;
+}
