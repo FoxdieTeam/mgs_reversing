@@ -162,7 +162,24 @@ int SECTION(".DATA") dword_8009D2DC[] = { 0x21CA, 0x8005B650, 0x8767, 0x800344F8
 
 const char* SECTION(".DATA") off_8009D2FC[] = { aSlpm86247, aSlpm86248, 0};
 
-int SECTION(".DATA") dword_8009D308[] = { 0x70000, 0x70000, 0x40009, 0x40009, 0x4000F, 0x4000F, 0x4000F, 0x40009, 0x70000 };
+struct PauseKill
+{
+	short pause;
+	short kill;
+};
+
+struct PauseKill SECTION(".DATA") gPauseKills_8009D308[9] =
+{
+  { 0, 7 },
+  { 0, 7 },
+  { 9, 4 },
+  { 9, 4 },
+  { 15, 4 },
+  { 15, 4 },
+  { 15, 4 },
+  { 9, 4 },
+  { 0, 7 }
+};
 
 int SECTION(".DATA") dword_8009D32C[] = { 0x8000000, 0x6000400, 0, 0x200, 0xA000C00, 0, 0xE00, 0 };
 
@@ -186,8 +203,6 @@ int SECTION(".DATA") dword_8009D388 = 0x1000;
 
 int SECTION(".DATA") dword_8009D38C = 0;
 int SECTION(".DATA") dword_8009D390 = 0;
-
-// For compiler crazy reasons arrays after here start appearing in .DATA rather than .SDATA
 
 int SECTION(".DATA") dword_8009D394[] = {0, 0, 0, 0};
 

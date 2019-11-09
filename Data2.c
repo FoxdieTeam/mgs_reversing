@@ -54,18 +54,59 @@ void ZeroMemory_8001619c(void* ptr, int size);
 void* sub_8001620c(int size);
 void sub_80016230(void* ptr);
 
-#define ARRAY_SIZE(x) sizeof(x) / sizeof(x[0])
 
-struct ActorList SECTION(".0x800ACC18") gActorsList[9];
+#define ACTOR_LIST_COUNT 9
+struct ActorList SECTION(".0x800ACC18") gActorsList[ACTOR_LIST_COUNT];
 
 extern int dword_800AB9B0;
+
+struct PauseKill
+{
+	short pause;
+	short kill;
+};
+
+extern struct PauseKill  gPauseKills_8009D308[9];
+
+/*
+void SECTION(".0x80014d98") GV_ActorList_Init_80014d98(void)
+{
+	int i;
+    struct ActorList* pActorList = gActorsList;
+
+    for (i = 0; i < ACTOR_LIST_COUNT; i++)
+    {
+		struct Actor* pFirst = &pActorList->first;
+		struct Actor* pLast = &pActorList->last;
+		
+        pFirst->pPrevious = 0;
+        pFirst->pNext = pLast;
+
+        pLast->pPrevious = pFirst;
+        pLast->pNext = 0;
+
+        pFirst->mFnShutdown = 0;
+        pFirst->mFnUpdate = 0;
+
+        pLast->mFnShutdown = 0;
+        pLast->mFnUpdate = 0;
+
+        pActorList->mPause = gPauseKills_8009D308[i].pause;
+        pActorList->mKill = gPauseKills_8009D308[i].kill;
+
+        pActorList++;
+    }
+
+    dword_800AB928 = 0;
+}
+*/
 
 void SECTION(".0x80014f88") GV_ExecActorSystem(void)
 {
     int i;
     struct ActorList* pActorList = gActorsList;
     
-    for (i = ARRAY_SIZE(gActorsList); i > 0; i--)
+    for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
         const int local_dword_800AB928 = dword_800AB928;
         if ((pActorList->mPause & local_dword_800AB928) == 0) 
@@ -99,7 +140,7 @@ void SECTION(".0x80014f88") GV_ActorsKillAtLevel_80015010(int level)
 	int i;
     struct ActorList* pActorList = gActorsList;
     
-    for (i = ARRAY_SIZE(gActorsList); i > 0; i--)
+    for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
         if (pActorList->mKill <= level) 
         {

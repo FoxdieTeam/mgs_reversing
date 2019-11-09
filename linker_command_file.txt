@@ -29,8 +29,17 @@ group_80014a40	 group org($80014a40)
 ; Rom0.obj
 group_80014a7c	 group org($80014a7c)
 	section .0x80014a7c, group_80014a7c 
-	section .0x80014f88, group_80014a7c
-	section .0x800151d8, group_80014a7c
+
+group_80014d98	 group org($80014d98)
+	; GV_ActorList_Init_80014d98 c
+	section .0x80014d98, group_80014d98 
+
+group_80014E2C	 group org($80014E2C)
+	; DumpActorSystem asm
+	section .0x80014E2C, group_80014E2C
+	; ExecActorSystem c
+	section .0x80014f88, group_80014E2C
+	section .0x800151d8, group_80014E2C
 	
 ; Rom1.obj
 group_800457b4	 group org($800457b4)
