@@ -96,8 +96,8 @@ else
 
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
-	.\MDasm.exe SLPM_862.47 22696 22752 | Out-File "target.asm"
-	.\MDasm.exe test2.exe 22696 22752 | Out-File "dump.asm"
+	#.\MDasm.exe SLPM_862.47 22544 22692 | Out-File "target.asm"
+	.\MDasm.exe test2.exe 22544 22692 | Out-File "dump.asm"
 }
 
 # Validate the output is matching the OG binary hash

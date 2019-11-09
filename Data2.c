@@ -21,9 +21,10 @@ short SECTION(".sbss") word_800AB980[17];
 int SECTION(".sbss") dword_800AB9A0[2];
 int SECTION(".sbss") dword_800AB9A8[2];
 
-// 2nd
 
 struct Actor;
+
+void SECTION(".0x80014f88") GV_ActorDelayedKill_800151c8(struct Actor* pActor);
 
 typedef void(*TActorFunction)(struct Actor*);
 typedef void(*TActorFreeFunction)(void*);
@@ -47,6 +48,11 @@ struct ActorList
     short mPause;
     short mKill;
 };
+
+
+void ZeroMemory_8001619c(void* ptr, int size);
+void* sub_8001620c(int size);
+void sub_80016230(void* ptr);
 
 struct ActorList SECTION(".0x800ACC18") gActorsList[9];
 
@@ -86,11 +92,38 @@ void SECTION(".0x80014f88") GV_ExecActorSystem(void)
     }
 }
 
-void ZeroMemory_8001619c(void* ptr, int size);
-void* sub_8001620c(int size);
-void sub_80016230(void* ptr);
+void SECTION(".0x80014f88") GV_ActorsKillAtLevel_80015010(int level)
+{
+	int i;
+    struct ActorList* pActorList = gActorsList;
+    
+    for (i =9; i > 0; i--)
+    {
+        if (pActorList->mKill <= level) 
+        {
+            struct Actor* pActor = &pActorList->first;
+            for (;;)
+            {
+           
+                struct Actor* pCur = pActor;
+                struct Actor* pNext = pCur->pNext;
+                if (pCur->mFnUpdate || pCur->mFnShutdown)
+                {
+                    GV_ActorDelayedKill_800151c8(pCur);
+                }
 
-struct Actor* SECTION(".800150a8") GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fnFree)
+                pActor = pNext;
+                if (!pNext)
+                {
+					break;
+                }
+            }
+        }
+        pActorList++;        
+    }
+}
+
+struct Actor* SECTION(".0x80014f88") GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fnFree)
 {
 	struct Actor* pLast = &gActorsList[level].last;
     struct Actor* pLastPrevious = pLast->pPrevious;
@@ -106,7 +139,7 @@ struct Actor* SECTION(".800150a8") GV_ActorPushBack_800150a8(int level, struct A
     pActor->mFreeFunc = fnFree;	
 }
 
-struct Actor* SECTION(".800150a8") GV_ActorAlloc_800150e4(int level, int memSize)
+struct Actor* SECTION(".0x80014f88") GV_ActorAlloc_800150e4(int level, int memSize)
 {
 	struct Actor* pActor = sub_8001620c(memSize);
 	if (pActor) 
@@ -117,7 +150,7 @@ struct Actor* SECTION(".800150a8") GV_ActorAlloc_800150e4(int level, int memSize
 	return pActor;
 }
 
-void SECTION(".800150a8") GV_ActorInit_8001514c(struct Actor* pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char* pActorName)
+void SECTION(".0x80014f88") GV_ActorInit_8001514c(struct Actor* pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char* pActorName)
 {
 	pActor->mFnUpdate = pFnUpdate;
 	pActor->mFnShutdown = pFnShutdown;
@@ -127,7 +160,7 @@ void SECTION(".800150a8") GV_ActorInit_8001514c(struct Actor* pActor, TActorFunc
 }
 
 // Removes from linked list and calls shutdown/free funcs
-void SECTION(".800150a8") GV_KillActor_80015164(struct Actor* pActor)
+void SECTION(".0x80014f88") GV_KillActor_80015164(struct Actor* pActor)
 {
 	struct Actor* pActorBeingRemoved = pActor;
 	struct Actor* pPreviousActor;
@@ -160,7 +193,7 @@ void SECTION(".800150a8") GV_KillActor_80015164(struct Actor* pActor)
     }
 }
 
-void SECTION(".800150a8") GV_ActorDelayedKill_800151c8(struct Actor* pActor)
+void SECTION(".0x80014f88") GV_ActorDelayedKill_800151c8(struct Actor* pActor)
 {
 	pActor->mFnUpdate = GV_KillActor_80015164;
 }
