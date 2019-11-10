@@ -11,11 +11,16 @@
 	include "rom_sdata.obj"
 	include "rom_rwdata.obj"
 	include "gvd.obj"	
+	include "sdata.obj"		
 	include "actor.obj"
 	include "data3.obj"
 	
 group_sdata	 group org($800AB2E4)
-	section .sdata_asm, group_sdata
+	section .sdata, group_sdata
+
+group_sdata2	 group org($800AB338)
+	section .sdata2, group_sdata
+	section .sdata_asm, group_sdata2
 
 group_sbss	 group org($800AB918)
 	section .sbss, group_sbss

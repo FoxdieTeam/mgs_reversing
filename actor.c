@@ -1,10 +1,7 @@
 #include <libsn.h>
 #include "actor.h"
 
-int SECTION(".sbss") dword_800AB918;
-int SECTION(".sbss") dword_800AB91C;
-int SECTION(".sbss") dword_800AB920;
-int SECTION(".sbss") dword_800AB924;
+
 
 int SECTION(".sbss") dword_800AB928;
 int SECTION(".sbss") dword_0x800AB92C[4];

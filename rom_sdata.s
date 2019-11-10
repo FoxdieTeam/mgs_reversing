@@ -16,40 +16,7 @@
 	xdef dword_800AB754
 	xdef aNo
 	
-	xdef aMem
-	xdef aPad
-	xdef aGv
-	xdef aDg
-	xdef aGcl
-	xdef aSound
-	xdef aGm
-	xdef aStart
-	xdef aFs
-	xdef aHzd
-		
-	xdef dword_800AB2E4
-dword_800AB2E4: dw 0x200000           ; DATA XREF: start+24?r
-dword_800AB2E8: dw 0x8000             ; DATA XREF: start+4C?r
-off_800AB2EC:   dw aBislpm86247       ; DATA XREF: sub_8004983C+22C?r
-aMem:           db "mem:", 0x0         ; DATA XREF: sub_800148B8+88?o
-                db 0, 0, 0
-aPad:           db "pad:", 0x0         ; DATA XREF: sub_800148B8+9C?o
-                db 0, 0, 0
-aGv:            db "gv:", 0x0          ; DATA XREF: sub_800148B8+B0?o
-aFs:            db "fs:", 0x0          ; DATA XREF: sub_800148B8+C4?o
-aDg:            db "dg:", 0x0          ; DATA XREF: sub_800148B8+D8?o
-aGcl:           db "gcl:", 0x0         ; DATA XREF: sub_800148B8+EC?o
-                db 0, 0, 0
-aHzd:           db "hzd:", 0x0         ; DATA XREF: sub_800148B8+100?o
-                db 0, 0, 0
-aSound:         db "sound:", 0x0       ; DATA XREF: sub_800148B8+114?o
-                db 0
-aGm:            db "gm:", 0x0          ; DATA XREF: sub_800148B8+160?o
-aStart:         db "start", 0xA, 0x0      ; DATA XREF: sub_800148B8+174?o
-                db 0
-dword_800AB330: dw 0                  ; DATA XREF: sub_8001682C+38C?r
-                dw 0
-				xdef aGvdC
+	xdef aGvdC
 aGvdC:          db "gvd.c", 0x0        ; DATA XREF: sub_80014D18+58?o
                 db 0, 0
 				xdef asc_800AB340
@@ -63,6 +30,7 @@ aFailed:        db "failed ", 0x0      ; DATA XREF: TEXT:80015C88?o
 asc_800AB360:   db ")", 0xA, 0x0          ; DATA XREF: TEXT:80015C94?o
                 db 0
 aStatic:        db "static ", 0x0      ; DATA XREF: TEXT:80015D9C?o
+
 asc_800AB36C:   db "", 0xA, 0x0           ; DATA XREF: TEXT:80015E9C?o
                 db 0, 0
                 dw 0x80117000
