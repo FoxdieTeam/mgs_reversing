@@ -51,6 +51,7 @@ dword_800AB330: dw 0                  ; DATA XREF: sub_8001682C+38C?r
                 dw 0
 aGvdC:          db "gvd.c", 0x0        ; DATA XREF: sub_80014D18+58?o
                 db 0, 0
+				xdef asc_800AB340
 asc_800AB340:   db "#", 0x0            ; DATA XREF: sub_800151D8+54?o
                 db 0, 0
 aNone:          db "none", 0x0         ; DATA XREF: TEXT:off_800AB34C?o

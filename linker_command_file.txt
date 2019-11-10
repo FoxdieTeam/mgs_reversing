@@ -36,7 +36,7 @@ group_80014d18	 group org($80014d18)
 	section .0x80014E08, group_80014d18 ; unknown func
 	section .0x80014E2C, group_80014d18 ; DumpActorSystem asm !! starting in wrong loc ??
 	section .0x80014f88, group_80014d18 ; ExecActorSystem c
-	section .0x800151d8, group_80014d18 ; sub_800151D8 func after ExecActorSystem
+	section .0x80015240, group_80014d18 ; sub_80015240 func after ExecActorSystem
 	
 ; Rom1.obj
 group_800457b4	 group org($800457b4)

@@ -301,3 +301,33 @@ void SECTION(".0x80014f88") GV_ActorDelayedKill_800151c8(struct Actor* pActor)
 {
 	pActor->mFnUpdate = GV_KillActor_80015164;
 }
+
+extern const char asc_800AB340[];
+extern void mg_printf(const char*, ...);
+
+void SECTION(".0x80014f88") GV_KillActorIfExists_800151d8(struct Actor* pActorToKill)
+{
+	struct Actor* pNext;
+	struct ActorList* pActorList;
+	int i;
+  
+	pActorList = gActorsList;
+	for (i = ACTOR_LIST_COUNT; i > 0; i--)
+    {
+		struct Actor* pCurActor = &pActorList->first;
+		do 
+		{
+			pNext = pCurActor->pNext;
+			if (pCurActor == pActorToKill)
+			{
+				GV_ActorDelayedKill_800151c8(pCurActor);
+				return;
+			}
+			pCurActor = pNext;
+		} while (pNext);
+		pActorList++;
+    } 
+
+	mg_printf(asc_800AB340);
+}
+
