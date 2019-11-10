@@ -259,19 +259,10 @@ GV_StartDaemon:
 ;	xdef GV_ActorList_Init_80014d98
 ;GV_ActorList_Init_80014d98:
 
-	
-	section .0x80014E08
-	xdef sub_80014E08
-sub_80014E08:
-	dw 0x00041900 ; 0x80014E08
-	dw 0x00641821 ; 0x80014E0C
-	dw 0x00031880 ; 0x80014E10
-	dw 0x3C02800B ; 0x80014E14
-	dw 0x2442CC18 ; 0x80014E18
-	dw 0x00621821 ; 0x80014E1C
-	dw 0xA4650040 ; 0x80014E20
-	dw 0x03E00008 ; 0x80014E24
-	dw 0xA4660042 ; 0x80014E28
+;	section .0x80014E08
+;	xdef GV_SetPauseKill_80014E08
+;GV_SetPauseKill_80014E08:
+
 
 	section .0x80014E2C
 	xdef GV_DumpActorSystem_80014E2C
