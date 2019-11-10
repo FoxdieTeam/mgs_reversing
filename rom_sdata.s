@@ -49,6 +49,7 @@ aStart:         db "start", 0xA, 0x0      ; DATA XREF: sub_800148B8+174?o
                 db 0
 dword_800AB330: dw 0                  ; DATA XREF: sub_8001682C+38C?r
                 dw 0
+				xdef aGvdC
 aGvdC:          db "gvd.c", 0x0        ; DATA XREF: sub_80014D18+58?o
                 db 0, 0
 				xdef asc_800AB340

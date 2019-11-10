@@ -10,7 +10,8 @@
 	include	"rom3.obj"
 	include "rom_sdata.obj"
 	include "rom_rwdata.obj"
-	include "data2.obj"
+	include "gvd.obj"	
+	include "actor.obj"
 	include "data3.obj"
 	
 group_sdata	 group org($800AB2E4)
@@ -30,13 +31,10 @@ group_80014a40	 group org($80014a40)
 group_80014a7c	 group org($80014a7c)
 	section .0x80014a7c, group_80014a7c 
 
-group_80014d18	 group org($80014d18)
-	section .0x80014d18, group_80014d18 ; GV_StartDaemon asm
-	section .0x80014d98, group_80014d18 ; GV_ActorList_Init_80014d98 c
-	section .0x80014E08, group_80014d18 ; unknown func
-	section .0x80014E2C, group_80014d18 ; DumpActorSystem asm !! starting in wrong loc ??
-	section .0x80014f88, group_80014d18 ; ExecActorSystem c
-	section .0x80015240, group_80014d18 ; sub_80015240 func after ExecActorSystem
+group_80014CF0	 group org($80014CF0)
+	section .0x80014cf0, group_80014CF0 ; Func before GV_StartDaemon
+	section .0x80014d18, group_80014CF0 ; GV_StartDaemon c
+	section .0x80015240, group_80014CF0 ; sub_80015240 func after ExecActorSystem
 	
 ; Rom1.obj
 group_800457b4	 group org($800457b4)
@@ -68,6 +66,9 @@ group_800AC3F0	group bss,org($800AC3F0)
 
 group_800ACC18	group bss,org($800ACC18)
 	section .0x800ACC18, group_800ACC18
+
+group_gGVActor_800acbf8	group bss,org($800acbf8)
+	section .gGVActor_800acbf8, group_gGVActor_800acbf8
 
 
 

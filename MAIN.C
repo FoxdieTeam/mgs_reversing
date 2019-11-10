@@ -2,8 +2,7 @@
 #include <libcd.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#define SECTION(x) __attribute__((section(x)))
+#include "linker.h"
 
 const char SECTION(".RDATA") aSlpm86248[] = "SLPM_862.48";
 const char SECTION(".RDATA") aSlpm86247[] = "SLPM_862.47";
@@ -648,7 +647,7 @@ static void SECTION(".0x800148B8") sub_800148B8( void )
 	mts_init_controller();
 	
 	mg_printf( aGv );
-	GV_StartDaemon();
+	GV_StartDaemon_80014d18();
 	
 	mg_printf( aFs );
 	FS_StartDaemon();
@@ -679,7 +678,7 @@ static void SECTION(".0x800148B8") sub_800148B8( void )
 	
 	for (;;)
 	{
-		GV_ExecActorSystem();
+		GV_ExecActorSystem_80014F88();
 	}
 }
 

@@ -88,6 +88,9 @@ sub_80014B34:
 	dw 0x00000000 ; 0x80014B54
 	dw 0x03E00008 ; 0x80014B58
 	dw 0x27BD0018 ; 0x80014B5C
+	
+	xdef GV_Act_80014b60
+GV_Act_80014b60:
 	dw 0x8F82004C ; 0x80014B60
 	dw 0x27BDFFE8 ; 0x80014B64
 	dw 0xAFBF0010 ; 0x80014B68
@@ -205,7 +208,7 @@ sub_80014CC8:
 	dw 0x03E00008 ; 0x80014CE8
 	dw 0x27BD0018 ; 0x80014CEC
 
-	;section .0x80014cf0
+	section .0x80014cf0
 	xdef sub_80014CF0
 sub_80014CF0:
 	dw 0x27BDFFE8 ; 0x80014CF0
@@ -220,8 +223,8 @@ sub_80014CF0:
 	dw 0x27BD0018 ; 0x80014D14
 
 	section .0x80014d18
-	xdef GV_StartDaemon
-GV_StartDaemon:
+	xdef GV_StartDaemon_80014d18
+GV_StartDaemon_80014d18:
 	dw 0x27BDFFE8 ; 0x80014D18
 	dw 0xAFBF0014 ; 0x80014D1C
 	dw 0x0C005366 ; 0x80014D20
@@ -254,7 +257,7 @@ GV_StartDaemon:
 	dw 0x8FB00010 ; 0x80014D8C
 	dw 0x03E00008 ; 0x80014D90
 	dw 0x27BD0018 ; 0x80014D94
-
+	
 ;	section .0x80014d98
 ;	xdef GV_ActorList_Init_80014d98
 ;GV_ActorList_Init_80014d98:
