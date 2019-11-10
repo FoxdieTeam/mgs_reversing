@@ -68,7 +68,7 @@ struct PauseKill
 
 extern struct PauseKill  gPauseKills_8009D308[9];
 
-/*
+
 void SECTION(".0x80014d98") GV_ActorList_Init_80014d98(void)
 {
 	int i;
@@ -99,7 +99,7 @@ void SECTION(".0x80014d98") GV_ActorList_Init_80014d98(void)
 
     dword_800AB928 = 0;
 }
-*/
+
 
 void SECTION(".0x80014f88") GV_ExecActorSystem(void)
 {
