@@ -10402,8 +10402,8 @@ mg_printf:
 	dw 0x00000000 ; 0x8008BBA4
 
 	;section .0x8008bba8
-	xdef sub_8008BBA8
-sub_8008BBA8:
+	xdef null_printf_8008BBA8
+null_printf_8008BBA8:
 	dw 0x03E00008 ; 0x8008BBA8
 	dw 0x00000000 ; 0x8008BBAC
 

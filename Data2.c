@@ -107,6 +107,61 @@ void SECTION(".0x80014d98") GV_SetPauseKill_80014e08(int index, short pause, sho
     pActorList->mKill = kill;
 }
 
+extern void null_printf_8008BBA8(const char*, ...);
+
+extern const char aDumpactorsyste[];
+extern const char aLvDPauseDKillD[];
+extern const char aLvD04d02d08xS[];
+
+void SECTION(".0x80014E2C") GV_DumpActorSystem_80014e2c(void)
+{
+	int i;
+	struct ActorList* pActorList = gActorsList;
+
+	null_printf_8008BBA8(aDumpactorsyste);
+  
+	for (i = 0; i < ACTOR_LIST_COUNT; i++)
+	{
+		struct Actor* pActor ;
+
+		null_printf_8008BBA8(aLvDPauseDKillD, i, pActorList->mPause, pActorList->mKill);
+		
+		pActor = &pActorList->first;
+	
+        for ( ;; )
+		{
+			struct Actor* pNext = pActor->pNext;
+
+			if (pActor->mFnUpdate)
+			{
+				int unknown;
+				if (pActor->field_1C > 0)
+				{
+					// TODO: I've yet to see this condition be hit - perhaps an unused feature of the actor system?
+					unknown = (pActor->field_18 * 100) /pActor->field_1C;
+				}
+				else
+				{
+					unknown = 0;
+				}
+
+				null_printf_8008BBA8(aLvD04d02d08xS, i, unknown / 100, unknown % 100, pActor->mFnUpdate, pActor->mName);
+				
+				pActor->field_1C = 0;
+				pActor->field_18 = 0;
+			}
+                
+			pActor = pNext;
+				
+			if (!pNext)
+			{
+				break;
+			}
+		}
+		pActorList++;
+	}
+}
+
 void SECTION(".0x80014f88") GV_ExecActorSystem(void)
 {
     int i;
