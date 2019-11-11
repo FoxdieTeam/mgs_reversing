@@ -27,11 +27,9 @@ const char SECTION(".sdata") aGm[] = "gm:";
 const char SECTION(".sdata") aStart[] = "start\n";
 //                 db 0
 int SECTION(".sdata") dword_800AB330 = 0;
+int SECTION(".sdata") dword_800AB334 = 0; // pad ??
 
 extern const char aGvdC[];
-
-//   db 0, 0
-//const char SECTION(".sdata") asc_800AB340[] = "#";
 
 extern void GV_Act_80014b60(struct Actor*);
 

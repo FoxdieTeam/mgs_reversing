@@ -1,8 +1,14 @@
 #include "linker.h"
 
-/*	TODO: Move all of the remaining of .sdata into here, splitting acrosss multiple objects of c and asm seems to cause strange data shifts
+const char SECTION(".sdata") aGvdC[] = "gvd.c";
+
+const char SECTION(".sdata") asc_800AB340[] = "#";
+
 // db 0, 0
-const char SECTION(".sdata") aNone[] = "none";	
+//const char SECTION(".sdata") aNone[] = "none";	
+
+
+/*
 //                db 0, 0, 0
 
 const char* SECTION(".sdata") off_800AB34C = aNone;	

@@ -16,12 +16,6 @@
 	xdef dword_800AB754
 	xdef aNo
 	
-	xdef aGvdC
-aGvdC:          db "gvd.c", 0x0        ; DATA XREF: sub_80014D18+58?o
-                db 0, 0
-				xdef asc_800AB340
-asc_800AB340:   db "#", 0x0            ; DATA XREF: sub_800151D8+54?o
-                db 0, 0
 aNone:          db "none", 0x0         ; DATA XREF: TEXT:off_800AB34C?o
                 db 0, 0, 0
 off_800AB34C:   dw aNone              ; DATA XREF: sub_80014B34+8?r
