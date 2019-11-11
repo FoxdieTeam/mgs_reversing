@@ -2,6 +2,7 @@ param([String]$psyq_path="")
 
 $ErrorActionPreference = "Stop"
 
+Push-Location $PSScriptRoot
 
 if (![string]::IsNullOrEmpty($psyq_path))
 {
