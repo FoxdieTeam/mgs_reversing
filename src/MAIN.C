@@ -687,8 +687,7 @@ static void SECTION(".0x800148B8") sub_800148B8( void )
 	}
 }
 
-//#pragma GCC diagnostic ignored "-Wreturn-type"
-int SECTION(".0x80014a40") _main()
+void SECTION(".0x80014a40") _main()
 {
 	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;
 	__main();
