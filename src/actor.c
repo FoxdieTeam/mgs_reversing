@@ -185,7 +185,7 @@ void SECTION(".0x80014d18") GV_ActorsKillAtLevel_80015010(int level)
     }
 }
 
-struct Actor* SECTION(".0x80014d18") GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fnFree)
+void SECTION(".0x80014d18") GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fnFree)
 {
 	struct Actor* pLast = &gActorsList[level].last;
     struct Actor* pLastPrevious = pLast->pPrevious;

@@ -3,6 +3,8 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "linker.h"
+#include "actor.h"
+#include "gvd.h"
 
 const char SECTION(".RDATA") aSlpm86248[] = "SLPM_862.48";
 const char SECTION(".RDATA") aSlpm86247[] = "SLPM_862.47";
@@ -160,12 +162,6 @@ const char SECTION(".RDATA") aMgsReadSectorD[] = "MGS read_sector %d\n";
 int SECTION(".DATA") dword_8009D2DC[] = { 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00, 0, 0 };
 
 const char* SECTION(".DATA") off_8009D2FC[] = { aSlpm86247, aSlpm86248, 0};
-
-struct PauseKill
-{
-	short pause;
-	short kill;
-};
 
 struct PauseKill SECTION(".DATA") gPauseKills_8009D308[9] =
 {
@@ -620,6 +616,15 @@ extern void mts_set_vsync_task(void);
 extern void MC_StartDaemon(void);
 extern void mts_init_controller(void);
 
+extern void FS_StartDaemon(void);
+extern void DG_StartDaemon(void);
+extern void GCL_StartDaemon(void);
+extern void HZD_StartDaemon(void);
+extern void GM_StartDaemon(void);
+
+extern void sub_8008B648(int, void*, long);
+extern void sub_8008b47c(int ,void*, void*);
+
 static void SECTION(".0x800148B8") sub_800148B8( void )
 {
 	RECT rect;
@@ -682,7 +687,7 @@ static void SECTION(".0x800148B8") sub_800148B8( void )
 	}
 }
 
-
+//#pragma GCC diagnostic ignored "-Wreturn-type"
 int SECTION(".0x80014a40") _main()
 {
 	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;

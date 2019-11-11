@@ -43,7 +43,7 @@ extern int dword_800AB9B0;
 
 void GV_ExecActorSystem_80014F88(void);
 void GV_ActorList_Init_80014d98(void);
-struct Actor* GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fnFree);
+void GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFunction fnFree);
 void GV_ActorInit_8001514c(struct Actor* pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char* pActorName);
 void GV_ActorDelayedKill_800151c8(struct Actor* pActor);
 
