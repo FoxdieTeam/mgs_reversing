@@ -28,6 +28,9 @@ if (![string]::IsNullOrEmpty($psyq_path))
     Out-File $psyq_path\psyq.ini
 }
 
+Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore
+New-Item -ItemType directory -Path $PSScriptRoot\..\obj
+
 # Compile all .C files
 $cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
 foreach ($file in $cFiles)
