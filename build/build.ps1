@@ -101,6 +101,7 @@ if ([System.IO.File]::Exists(".\MDasm.exe"))
 $actualValue = Get-FileHash -Path $PSScriptRoot\..\obj\test2.exe -Algorithm SHA256
 if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f")
 {
+    .\progress.ps1
     Write-Host OK $actualValue.Hash -ForegroundColor "green"
 }
 else
