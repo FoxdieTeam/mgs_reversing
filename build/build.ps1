@@ -29,8 +29,8 @@ if (![string]::IsNullOrEmpty($psyq_path))
     Out-File $psyq_path\psyq.ini
 }
 
-Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore
-New-Item -ItemType directory -Path $PSScriptRoot\..\obj
+Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore | out-null
+New-Item -ItemType directory -Path $PSScriptRoot\..\obj | out-null
 
 # Compile all .C files
 $cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
@@ -67,7 +67,7 @@ foreach ($file in $sFiles)
 }
 
 # Run the linker
-psylink.exe /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
+psylink.exe /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
@@ -79,7 +79,7 @@ else
 
 # Convert CPE to an EXE
 #cpe2x.exe test2.cpe
-cpe2exe.exe /CJ ..\obj\test2.cpe
+cpe2exe.exe /CJ ..\obj\test2.cpe | out-null
 
 if($LASTEXITCODE -eq 0)
 {
