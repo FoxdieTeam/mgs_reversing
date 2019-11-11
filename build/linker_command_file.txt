@@ -2,18 +2,18 @@
 	org     $80010000
 
 ; link objs
-	include	"obj\rom0.obj"
-	include "obj\main.obj"
-	include "obj\rom_data.obj"
-	include	"obj\rom1.obj"
-	include	"obj\rom2.obj"
-	include	"obj\rom3.obj"
-	include "obj\rom_sdata.obj"
-	include "obj\rom_rwdata.obj"
-	include "obj\gvd.obj"	
-	include "obj\sdata.obj"		
-	include "obj\actor.obj"
-	include "obj\data3.obj"
+	include	"..\obj\rom0.obj"
+	include "..\obj\main.obj"
+	include "..\obj\rom_data.obj"
+	include	"..\obj\rom1.obj"
+	include	"..\obj\rom2.obj"
+	include	"..\obj\rom3.obj"
+	include "..\obj\rom_sdata.obj"
+	include "..\obj\rom_rwdata.obj"
+	include "..\obj\gvd.obj"	
+	include "..\obj\sdata.obj"		
+	include "..\obj\actor.obj"
+	include "..\obj\data3.obj"
 	
 group_sdata	 group org($800AB2E4)
 	section .sdata, group_sdata

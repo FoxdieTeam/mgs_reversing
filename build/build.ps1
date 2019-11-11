@@ -2,7 +2,6 @@ param([String]$psyq_path="")
 
 $ErrorActionPreference = "Stop"
 
-cd ..
 
 if (![string]::IsNullOrEmpty($psyq_path))
 {
@@ -30,41 +29,41 @@ if (![string]::IsNullOrEmpty($psyq_path))
 }
 
 # Compile all .C files
-$cFiles = Get-ChildItem .\src\*.C
+$cFiles = Get-ChildItem ..\src\*.C
 foreach ($file in $cFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".C", "").replace(".c", "")
-    ccpsx.exe -O2 -g -c -Wall ".\src\$objName.c" "-o.\obj\$objName.obj"
+    ccpsx.exe -O2 -g -c -Wall "..\src\$objName.c" "-o..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Compiled .\src\$objName.c"  -ForegroundColor "green"
+        Write-Host "Compiled ..\src\$objName.c"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall .\src\$objName.c -o$objName.obj"
+        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall ..\src\$objName.c -o..\obj\$objName.obj"
     }
 }
 
 # Compile all .S files
-$sFiles = Get-ChildItem .\asm\*.S
+$sFiles = Get-ChildItem ..\asm\*.S
 foreach ($file in $sFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".S", "").replace(".s", "")
-    asmpsx.exe /l /q ".\asm\$objName.s",".\obj\$objName.obj"
+    asmpsx.exe /l /q "..\asm\$objName.s","..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Assembled .\asm\$objName.s"  -ForegroundColor "green"
+        Write-Host "Assembled ..\asm\$objName.s"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Assembling failed for:asmpsx.exe /l /q .\asm\$objName.s,\obj\$objName.obj"
+        Write-Error "Assembling failed for:asmpsx.exe /l /q ..\asm\$objName.s,..\obj\$objName.obj"
     }
 }
 
 # Run the linker
-psylink.exe /gp .sdata /m "@build\linker_command_file.txt",obj\test2.cpe,obj\asm.sym,obj\asm.map
+psylink.exe /gp .sdata /m "@linker_command_file.txt",..\obj\test2.cpe,..\obj\asm.sym,..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
@@ -76,11 +75,11 @@ else
 
 # Convert CPE to an EXE
 #cpe2x.exe test2.cpe
-cpe2exe.exe /CJ obj\test2.cpe
+cpe2exe.exe /CJ ..\obj\test2.cpe
 
 if($LASTEXITCODE -eq 0)
 {
-    Write-Host "obj\test2.cpe -> obj\test2.exe" -ForegroundColor "yellow"
+    Write-Host "..\obj\test2.cpe -> ..\obj\test2.exe" -ForegroundColor "yellow"
 } 
 else 
 {
@@ -91,11 +90,11 @@ else
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
 	.\MDasm.exe SLPM_862.47 21784 21912 | Out-File "target.asm"
-	.\MDasm.exe obj\test2.exe 21784 21912 | Out-File "dump.asm"
+	.\MDasm.exe ..\obj\test2.exe 21784 21912 | Out-File "dump.asm"
 }
 
 # Validate the output is matching the OG binary hash
-$actualValue = Get-FileHash -Path obj\test2.exe -Algorithm SHA256
+$actualValue = Get-FileHash -Path ..\obj\test2.exe -Algorithm SHA256
 if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f")
 {
     Write-Host OK $actualValue.Hash -ForegroundColor "green"
