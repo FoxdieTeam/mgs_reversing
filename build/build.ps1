@@ -2,6 +2,8 @@ param([String]$psyq_path="")
 
 $ErrorActionPreference = "Stop"
 
+Push-Location $PSScriptRoot
+
 if (![string]::IsNullOrEmpty($psyq_path))
 {
     # Setup PSYQ env vars
@@ -27,48 +29,45 @@ if (![string]::IsNullOrEmpty($psyq_path))
     Out-File $psyq_path\psyq.ini
 }
 
-
-$cc_opts = "-O3 -g -c -Wall"
-Write-Host $cc_opts
-
-$asm_opts = "/l /q"
+Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore | out-null
+New-Item -ItemType directory -Path $PSScriptRoot\..\obj | out-null
 
 # Compile all .C files
-$cFiles = Get-ChildItem *.C
+$cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
 foreach ($file in $cFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".C", "").replace(".c", "")
-    ccpsx.exe -O2 -g -c "$objName.c" "-o$objName.obj"
+    ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Compiled $objName.c"  -ForegroundColor "green"
+        Write-Host "Compiled $PSScriptRoot\..\src\$objName.c"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c $objName.c -o$objName.obj"
+        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $PSScriptRoot\..\src\$objName.c -o$PSScriptRoot\..\obj\$objName.obj"
     }
 }
 
 # Compile all .S files
-$sFiles = Get-ChildItem *.S
+$sFiles = Get-ChildItem $PSScriptRoot\..\asm\*.S
 foreach ($file in $sFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".S", "").replace(".s", "")
-    asmpsx.exe /l /q "$objName.s","$objName.obj"
+    asmpsx.exe /l /q "$PSScriptRoot\..\asm\$objName.s","$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Assembled $objName.s"  -ForegroundColor "green"
+        Write-Host "Assembled $PSScriptRoot\..\asm\$objName.s"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Assembling failed for:asmpsx.exe /l /q $objName.s,$objName.obj"
+        Write-Error "Assembling failed for:asmpsx.exe /l /q $PSScriptRoot\..\asm\$objName.s,$PSScriptRoot\..\obj\$objName.obj"
     }
 }
 
 # Run the linker
-psylink.exe /m "@linker_command_file.txt",test2.cpe,asm.sym,asm.map
+psylink.exe /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
@@ -79,10 +78,12 @@ else
 }
 
 # Convert CPE to an EXE
-cpe2exe.exe /CJ test2.cpe
+#cpe2x.exe test2.cpe
+cpe2exe.exe /CJ ..\obj\test2.cpe | out-null
+
 if($LASTEXITCODE -eq 0)
 {
-    Write-Host "test2.cpe -> test2.exe" -ForegroundColor "yellow"
+    Write-Host "..\obj\test2.cpe -> ..\obj\test2.exe" -ForegroundColor "yellow"
 } 
 else 
 {
@@ -90,8 +91,14 @@ else
 }
 
 
+if ([System.IO.File]::Exists(".\MDasm.exe"))
+{
+	.\MDasm.exe SLPM_862.47 21784 21912 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 21784 21912 | Out-File "dump.asm"
+}
+
 # Validate the output is matching the OG binary hash
-$actualValue = Get-FileHash -Path test2.exe -Algorithm SHA256
+$actualValue = Get-FileHash -Path $PSScriptRoot\..\obj\test2.exe -Algorithm SHA256
 if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f")
 {
     Write-Host OK $actualValue.Hash -ForegroundColor "green"
@@ -99,8 +106,6 @@ if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef
 else
 {
     Write-Host Binary is not matching $actualValue.Hash -ForegroundColor "red"
-    
-
     exit 1
 }
 

@@ -1,0 +1,80 @@
+; base address
+	org     $80010000
+
+; link objs
+	include	"..\obj\rom0.obj"
+	include "..\obj\main.obj"
+	include "..\obj\rom_data.obj"
+	include	"..\obj\rom1.obj"
+	include	"..\obj\rom2.obj"
+	include	"..\obj\rom3.obj"
+	include "..\obj\rom_sdata.obj"
+	include "..\obj\rom_rwdata.obj"
+	include "..\obj\gvd.obj"	
+	include "..\obj\sdata.obj"		
+	include "..\obj\actor.obj"
+	include "..\obj\data3.obj"
+	
+group_sdata	 group org($800AB2E4)
+	section .sdata, group_sdata
+
+group_sdata2	 group org($800AB338)
+	section .sdata2, group_sdata
+	section .sdata_asm, group_sdata2
+
+group_sbss	 group org($800AB918)
+	section .sbss, group_sbss
+	
+; main
+group_800148B8	 group org($800148B8)
+	section .0x800148B8, group_800148B8
+
+group_80014a40	 group org($80014a40)
+	section .0x80014a40, group_80014a40 
+
+; Rom0.obj
+group_80014a7c	 group org($80014a7c)
+	section .0x80014a7c, group_80014a7c 
+
+group_80014CF0	 group org($80014CF0)
+	section .0x80014cf0, group_80014CF0 ; Func before GV_StartDaemon
+	section .0x80014d18, group_80014CF0 ; GV_StartDaemon c
+	section .0x80015240, group_80014CF0 ; sub_80015240 func after ExecActorSystem
+	
+; Rom1.obj
+group_800457b4	 group org($800457b4)
+	section .0x800457b4, group_800457b4
+
+; Rom2.obj
+group_800613fc	 group org($800613fc)
+	section .0x800613fc, group_800613fc
+
+; Rom3.obj
+group_80082194	 group org($80082194)
+	section .0x80082194, group_80082194
+
+; Ending data
+code_rw_data	group org($8009D2DC)
+	section .data,code_rw_data
+	section .data_asm,code_rw_data
+	section .dword_8009DEC4,code_rw_data
+	section .dword_8009E280,code_rw_data
+	section .dword_8003CC94,code_rw_data
+
+	
+; main
+group_800ABBF0	group bss,org($800ABBF0)
+	section .0x800ABBF0, group_800ABBF0
+	
+group_800AC3F0	group bss,org($800AC3F0)
+	section .0x800AC3F0, group_800AC3F0
+
+group_800ACC18	group bss,org($800ACC18)
+	section .0x800ACC18, group_800ACC18
+
+group_gGVActor_800acbf8	group bss,org($800acbf8)
+	section .gGVActor_800acbf8, group_gGVActor_800acbf8
+
+
+
+	regs    pc=exe_entry_point

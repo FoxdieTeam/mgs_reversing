@@ -1,0 +1,7 @@
+*.sym
+*.map
+*.cpe
+*.obj
+*.exe
+*.47
+obj\*

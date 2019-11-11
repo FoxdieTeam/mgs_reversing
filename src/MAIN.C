@@ -1,0 +1,695 @@
+#include <sys/types.h>
+#include <libcd.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "linker.h"
+#include "actor.h"
+#include "gvd.h"
+
+const char SECTION(".RDATA") aSlpm86248[] = "SLPM_862.48";
+const char SECTION(".RDATA") aSlpm86247[] = "SLPM_862.47";
+const char SECTION(".RDATA") aBislpm86247[] = "BISLPM-86247";
+const char SECTION(".RDATA") aDsreadycallbac[] = "DsReadyCallback %x\n";
+const char SECTION(".RDATA") aDsdatacallback[] = "DsDataCallback %x\n";
+const char SECTION(".RDATA") aHangupS[] = "HANGUP: %s\n";
+const char SECTION(".RDATA") aResidentTopX[] = "RESIDENT TOP %X\n";
+const char SECTION(".RDATA") aDumpactorsyste[] = "--DumpActorSystem--\n";
+const char SECTION(".RDATA") aLvDPauseDKillD[] = "Lv %d Pause %d Kill %d\n";
+const char SECTION(".RDATA") aLvD04d02d08xS[] = "Lv%d %04d.%02d %08X %s\n";
+const char SECTION(".RDATA") aIdConflict[] = "id conflict\n";
+const char SECTION(".RDATA") aAssertionFaile[] = "Assertion failed: %s, line %d\n";
+const char SECTION(".RDATA") aSystemD[] = "system %d ( ";
+const char SECTION(".RDATA") aDynamic[] = "dynamic ";
+const char SECTION(".RDATA") aAddr08x08xUnit[] = "  addr = %08x - %08x, units = %d\n";
+const char SECTION(".RDATA") aFreeDDVoidedDM[] = "  free = %d / %d, voided = %d, max_free = %d\n";
+const char SECTION(".RDATA") a8dBytesFrom08x[] = "---- %8d bytes ( from %08x free )\n";
+const char SECTION(".RDATA") a8dBytesFrom08x_0[] = "==== %8d bytes ( from %08x void )\n";
+const char SECTION(".RDATA") a8dBytesFrom08x_1[] = "++++ %8d bytes ( from %08x used )\n";
+const char SECTION(".RDATA") a8dBytesFrom08x_2[] = "**** %8d bytes ( from %08x user %08x )\n";
+const char SECTION(".RDATA") aResidentMemory[] = "Resident Memory Over !!\n";
+const short SECTION(".RDATA") asc_80010208[] = { 0x40, 0x0 };
+const char SECTION(".RDATA") aObjectQueueD[] = "Object Queue %d\n";
+const char SECTION(".RDATA") aPrimitiveQueue[] = "Primitive Queue %d\n";
+
+// Smaller strings get put into .DATA ??
+const char SECTION(".RDATA") aDgdC[] = "dgd.c";
+
+const char SECTION(".RDATA") aCommandNotFoun[] ="command not found\n";
+const char SECTION(".RDATA") aProcXNotFound[] = "PROC %X NOT FOUND\n";
+const char SECTION(".RDATA") aProcDCancel[] = "proc %d cancel\n";
+const char SECTION(".RDATA") aTooManyArgsPro[] = "TOO MANY ARGS PROC\n";
+const char SECTION(".RDATA") aScriptCommandE[] = "SCRIPT COMMAND ERROR %x\n";
+const char SECTION(".RDATA") aErrorInScript[] ="ERROR in script\n";
+const char SECTION(".RDATA") aNotScriptData[] = "NOT SCRIPT DATA !!\n";
+
+const unsigned int SECTION(".RDATA") jpt_80020454[] =
+{
+    0x8002045C,
+	0x80020464,
+	0x8002046C,
+	0x80020474,
+	0x8002047C,
+	0x80020484,
+	0x80020494,
+	0x800204C8,
+	0x800204FC,
+	0x80020508,
+	0x80020514,
+	0x8002051C,
+	0x80020528,
+	0x80020530,
+	0x8002053C,
+	0x80020544,
+	0x8002054C,
+	0x80020554,
+	0x8002056C
+};
+
+const char SECTION(".RDATA") aGclWrongCodeX[] = "GCL:WRONG CODE %x\n\x0\x0"; // TODO: Alignment ??
+
+const unsigned int SECTION(".RDATA") jpt_80020704[] =
+{
+	0x8002070C, 0x80020714, 0x80020788, 0x80020788, 0x80020788,
+	0x8002083C, 0x8002076C, 0x80020798, 0x8002076C, 0x80020738,
+	0x80020738, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x800207AC, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x800207F0, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x800207C8,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C, 0x8002083C,
+	0x8002080C
+};
+
+const char SECTION(".RDATA") aSaveDataVersio[] = "SAVE DATA VERSION ERROR!!\n";
+
+const char SECTION(".RDATA") aCrcError[] = "CRC ERROR !!\n\x0\x0\x0"; // TODO: Alignment ??
+
+const unsigned int SECTION(".RDATA") jpt_800216BC[] =
+{
+	0x800216C4,
+	0x800216E8,
+	0x800216E8,
+	0x800216F4,
+	0x80021714,
+	0x800216C4,
+	0x80021714,
+	0x800216C4
+};
+
+
+const unsigned int SECTION(".RDATA") jpt_800217A0[] =  
+{
+	0x800217A8,
+	0x800217B0,
+	0x800217B0,
+	0x800217B8,
+	0x800217E8,
+	0x800217A8,
+	0x800217E8,
+	0x800217A8
+};
+
+const unsigned int SECTION(".RDATA") jpt_80021894[] =
+{
+	0x8002189C,
+	0x800218A8,
+	0x800218A8,
+	0x800218B4,
+	0x800218EC,
+	0x8002189C,
+	0x800218EC,
+	0x8002189C
+};
+
+const char SECTION(".RDATA") aWarningOldVers[] = "Warning:old version hzm\n";
+
+const char SECTION(".RDATA") aBrfDat[] = "BRF.DAT";
+const char SECTION(".RDATA") aDemoDat[] = "DEMO.DAT";
+const char SECTION(".RDATA") aVoxDat[] ="VOX.DAT";
+const char SECTION(".RDATA") aZmovieStr[] = "ZMOVIE.STR";
+const char SECTION(".RDATA") aFaceDat[] = "FACE.DAT";
+const char SECTION(".RDATA") aRadioDat[] = "RADIO.DAT";
+const char SECTION(".RDATA") aStageDir[] = "STAGE.DIR";
+
+const char SECTION(".RDATA") aPositionEnd[] = "Position end\n";
+const char SECTION(".RDATA") aDiskD[] = "DISK %d\n";
+const char SECTION(".RDATA") aIllegalDisk[] = "illegal DISK\n";
+
+const char SECTION(".RDATA") aCdfsSkipErrorD[] = "CDFS: skip error %d %d %d\n";
+
+const char SECTION(".RDATA") asc_800105B4[] = "[T]";
+const char SECTION(".RDATA") asc_800105B8[] = ".";
+const char SECTION(".RDATA") aD[] ="[%d]";
+const char SECTION(".RDATA") aFileSTopDSizeD[] = "FILE %s : top %d size %d set %d\n";
+const char SECTION(".RDATA") aPlaystation[] = "PLAYSTATION";
+const char SECTION(".RDATA") aMgs[] = "MGS";
+const char SECTION(".RDATA") aMgsReadSectorD[] = "MGS read_sector %d\n";
+
+// ==================
+
+
+
+// ========================================
+
+int SECTION(".DATA") dword_8009D2DC[] = { 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00, 0, 0 };
+
+const char* SECTION(".DATA") off_8009D2FC[] = { aSlpm86247, aSlpm86248, 0};
+
+struct PauseKill SECTION(".DATA") gPauseKills_8009D308[9] =
+{
+  { 0, 7 },
+  { 0, 7 },
+  { 9, 4 },
+  { 9, 4 },
+  { 15, 4 },
+  { 15, 4 },
+  { 15, 4 },
+  { 9, 4 },
+  { 0, 7 }
+};
+
+int SECTION(".DATA") dword_8009D32C[] = { 0x8000000, 0x6000400, 0, 0x200, 0xA000C00, 0, 0xE00, 0 };
+
+int SECTION(".DATA") dword_8009D34C[] = { 0, 0xFFFFF000, 0, 0 };
+
+int SECTION(".DATA") off_8009D35C[] = 
+{
+	0x8001CEE0,
+	0x800189A4,
+	0x8001E3C0,
+	0x8001D324,
+	0x8001B66C,
+	0x80019D44,
+	0x8001D5C8
+};
+
+int SECTION(".DATA") dword_8009D37[] = { 0, 0, 0 };
+int SECTION(".DATA") dword_8009D38 =  0;
+
+int SECTION(".DATA") dword_8009D388 = 0x1000;
+
+int SECTION(".DATA") dword_8009D38C = 0;
+int SECTION(".DATA") dword_8009D390 = 0;
+
+int SECTION(".DATA") dword_8009D394[] = {0, 0, 0, 0};
+
+int SECTION(".DATA") dword_8009D3A4 =  0x10001000;
+
+short SECTION(".DATA") word_8009D3A8 =  0x1000;
+short SECTION(".DATA") word_8009D3AA =  0x1000;
+int SECTION(".DATA") dword_8009D3AC =  0x10001000;
+int SECTION(".DATA") dword_8009D3B0 =  0x10001000;
+
+int SECTION(".DATA") dword_8009D3B4[] = {0x1000, 0, 0, 0 };
+
+int SECTION(".DATA") dword_8009D3C4[] = { 0, 0, 0};
+
+int SECTION(".DATA") dword_8009D3D0[] = 
+{
+	0x4080210,
+	0x4080318,
+	0x408041C,
+	0x8080214,
+	0x8080320,
+	0x8080428,
+	0x80114,
+	0x80110,
+	0x80110,
+	0x80110,
+	0x8010C,
+	0x8010C,
+	0x8010C,
+	0x4080314,
+	0x4080418,
+	0x808031C,
+	0x8080424,
+	0x8080320,
+	0x8080428,
+	0xC080328,
+	0xC080434,
+	0x8080228,
+	0xC080234
+};
+
+char SECTION(".DATA") byte_8009D42C =  0xC;
+char SECTION(".DATA") byte_8009D42D =  1;
+char SECTION(".DATA") byte_8009D42E =  8;
+char SECTION(".DATA") byte_8009D42F =  0;
+int SECTION(".DATA") dword_8009D430 =  0x1000;
+int SECTION(".DATA") dword_8009D434 =  0;
+int SECTION(".DATA") dword_8009D438 =  0x1000;
+int SECTION(".DATA") dword_8009D43C =  0;
+int SECTION(".DATA") dword_8009D440 =  0x1000;
+int SECTION(".DATA") dword_8009D444 =  0;
+int SECTION(".DATA") dword_8009D448 =  0;
+int SECTION(".DATA") dword_8009D44C =  0;
+
+int SECTION(".DATA") dword_8009D450 = 0;
+int SECTION(".DATA") dword_8009D450_1 = 0;
+int SECTION(".DATA") dword_8009D450_2 = 0;
+
+int SECTION(".DATA") dword_8009D45C =  2;
+int SECTION(".DATA") dword_8009D460 =  0;
+int SECTION(".DATA") dword_8009D464 =  0;
+int SECTION(".DATA") dword_8009D468 =  0xFFFFFFFF;
+
+int SECTION(".DATA") dword_8009D46C[] =
+{
+	0x2030100,
+	0xD86,
+	0x80020274,
+	0x64C0,
+	0x80020318,
+	0xCD3A,
+	0x80020404,
+	0x7636,
+	0x8002033C
+};
+
+int SECTION(".DATA") dword_8009D490[] = 
+{
+	0,
+	4,
+	0x8009D470
+};
+
+struct Unk_8009D49C
+{
+	const char* pDatName;
+	int unknown;
+};
+
+struct Unk_8009D49C SECTION(".DATA") off_8009D49C[] = 
+{
+	{ aStageDir, 0 },
+	{ aRadioDat, 0 },
+	{ aFaceDat, 0 },
+	{ aZmovieStr, 0 },
+	{ aVoxDat, 0 },
+	{ aDemoDat, 0 },
+	{ aBrfDat, 0 },
+	{ 0, 0 }
+};
+
+int SECTION(".DATA") dword_8009D4DC =  0xFFFFFFFF;
+int SECTION(".DATA") dword_8009D4E0 =  0;
+int SECTION(".DATA") dword_8009D4E4 =  0;
+int SECTION(".DATA") dword_8009D4E8 =  0;
+int SECTION(".DATA") dword_8009D4EC =  0;
+int SECTION(".DATA") dword_8009D4F0 =  0;
+int SECTION(".DATA") dword_8009D4F4 =  0;
+int SECTION(".DATA") dword_8009D4F8 =  0;
+int SECTION(".DATA") dword_8009D4FC =  0;
+int SECTION(".DATA") dword_8009D500 =  0;
+short SECTION(".DATA") word_8009D504 =  0;
+short SECTION(".DATA") word_8009D506 =  0;
+short SECTION(".DATA") word_8009D508 =  0;
+int SECTION(".DATA") dword_8009D50C =  0;
+int SECTION(".DATA") dword_8009D510 =  0xFFFFFFFF;
+int SECTION(".DATA") dword_8009D514 =  0;
+int SECTION(".DATA") dword_8009D518 =  0;
+int SECTION(".DATA") dword_8009D51C =  1;
+int SECTION(".DATA") dword_8009D520 =  0;
+int SECTION(".DATA") dword_8009D524 =  0;
+
+int SECTION(".DATA") dword_8009D528[] = { 0x8000000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111};
+int SECTION(".DATA") dword_8009D548[] = { 0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1 };
+int SECTION(".DATA") dword_8009D570[] = { 0x20, 0x80, 0x40, 0x10};
+
+int SECTION(".DATA") word_8009D580[] = { 0x90420110, 0x414C9043, 0x222020C0, 0x41104110, 0x414C414C, 0x9220};
+int SECTION(".DATA") dword_8009D598[] = 
+{
+	0x80000000,
+	0x80018003,
+	0x80018001,
+	0x80008000,
+	0x80008000,
+	0x80008000,
+	0x80038000,
+	0x20002000, 0x2000, 0, 0, 0, 0,
+	0x22FF, 0x8002C138, 0xD4CB, 0x8002BD34, 0x9906, 0x8002C1B0,
+	0xC091, 0x8002BB44, 0x7D50, 0x8002BD04, 0xEEE9, 0x8002B8F0,
+	0x306A, 0x8002B854, 0x9A1F, 0x8002C22C, 0xC8BB, 0x8002C308,
+	0x24E1, 0x8002C4A8, 0xE43C, 0x8002C6A4, 0xA242, 0x8002C890,
+	0xDBAB, 0x8002BE20, 0x430D, 0x8002C074, 0xCC85, 0x8002C988,
+	0x5C9E, 0x8002C72C, 0x4AD9, 0x8002C7C8, 0x698D, 0x8002CA28,
+	0x226D, 0x8002CAAC, 0x925E, 0x8002CD94, 0xE257, 0x8002CDF4,
+	0xA2BF, 0x8002CFBC, 0xB96E, 0x8002D0E4, 0xEC9D, 0x8002D188
+};
+
+int SECTION(".DATA") dword_8009D68C[] = { 0, 0x18, 0x8009D5CC};
+
+int SECTION(".DATA") dword_8009D698 =  0x2010000;
+
+int SECTION(".DATA") dword_8009D69C[] = 
+{
+	0x42801EE, 0x666056E, 0x7DA072E, 0x8F4086E, 0x9DA096C,
+	0xA9A0A3E, 0xB3E0AEE, 0xBCE0B88, 0xC4C0C0E, 0xCBC0C86,
+	0xD200CEF, 0xD780D4E, 0xDC80DA2, 0xE100DEE, 0xE520E32,
+	0xE8C0E6F, 0xEC00EA6, 0xEEF0ED8, 0xF190F04, 0xF3F0F2C,
+	0xF600F50, 0xF7E0F6F, 0xF980F8B, 0xFAE0FA3, 0xFC20FB8,
+	0xFD20FCA, 0xFE00FD9, 0xFEB0FE6, 0xFF30FEF, 0xFFA0FF7,
+	0xFFE0FFC, 0xFFF0FFF, 0x28800B2, 0x4C003C6, 0x6440590,
+	0x77406E4, 0x86C07F6, 0x94008DA, 0x9F809A0, 0xA9A0A4C,
+	0xB280AE2, 0xBA80B6A, 0xC1C0BE4, 0xC860C52, 0xCE40CB6,
+	0xD3A0D10, 0xD8A0D62, 0xDD10DAE, 0xE130DF2, 0xE4F0E32,
+	0xE860E6B, 0xEB80E9F, 0xEE50ECF, 0xF0E0EFA, 0xF340F22,
+	0xF560F46, 0xF750F66, 0xF900F83, 0xFA90F9D, 0xFBE0FB4,
+	0xFD10FC8, 0xFE20FDA, 0xFF00FE9, 0xFFC0FF6, 0x196005C,
+	0x3740298, 0x4E00434, 0x60C057C, 0x70A0690, 0x7E6077C,
+	0x8AA084A, 0x9580902, 0x9F409A8, 0xA840A3E, 0xB060AC6,
+	0xB7C0B42, 0xBEA0BB4, 0xC4E0C1D, 0xCAC0C7E, 0xD020CD7,
+	0xD510D2A, 0xD9A0D76, 0xDDF0DBE, 0xE1E0E00, 0xE590E3C,
+	0xE900E75, 0xEC20EAA, 0xEF10EDA, 0xF1C0F07, 0xF440F30,
+	0xF690F57, 0xF8B0F7A, 0xFAA0F9A, 0xFC60FB8, 0xFE00FD3,
+	0xFF70FEC, 0x1100038, 0x28401D2, 0x3BE0326, 0x4D0044C,
+	0x5C2054C, 0x69C0632, 0x7600700, 0x81407BC, 0x8BA0868,
+	0x9520906, 0x9DE099A, 0xA620A20, 0xADC0AA0, 0xB4C0B14,
+	0xBB80B83, 0xC1B0BEA, 0xC780C4A, 0xCD00CA6, 0xD230CFA,
+	0xD710D4A, 0xDBA0D96, 0xDFE0DDD, 0xE400E20, 0xE7C0E5E,
+	0xEB60E9A, 0xEEC0ED1, 0xF1F0F06, 0xF4E0F37, 0xF7C0F65,
+	0xFA60F91, 0xFCD0FBA, 0xFF20FE0, 0xC00026, 0x1DC0152,
+	0x2DE0260, 0x3CA0356, 0x4A4043A, 0x56E050C, 0x62C05CE,
+	0x6DC0684, 0x7800730, 0x81C07D0, 0x8AE0866, 0x93A08F6,
+	0x9BC097C, 0xA3A09FC, 0xAAF0A74, 0xB200AE8, 0xB8A0B56,
+	0xBF00BBE, 0xC500C20, 0xCAC0C7F, 0xD040CD9, 0xD580D2F,
+	0xDA80D81, 0xDF60DD0, 0xE3E0E1A, 0xE840E62, 0xEC80EA6,
+	0xF080EE8, 0xF440F26, 0xF7F0F62, 0xFB60F9B, 0xFEC0FD2,
+	0x8C001C, 0x16600FA, 0x23401CE, 0x2F80298, 0x3B40358,
+	0x4680410, 0x51404BE, 0x5B80568, 0x6560608, 0x6EE06A4,
+	0x7820738, 0x80E07C8, 0x8960852, 0x91808D8, 0x9960958,
+	0xA1009D4, 0xA860A4C, 0xAF80AC0, 0xB660B2F, 0xBD00B9C,
+	0xC360C04, 0xC9A0C69, 0xCFB0CCB, 0xD580D2A, 0xDB30D86,
+	0xE0A0DE0, 0xE600E36, 0xEB20E8A, 0xF020EDA, 0xF500F2A,
+	0xF9C0F76, 0xFE40FC0, 0x680014, 0x11000BC, 0x1B20162,
+	0x2520204, 0x2F002A2, 0x38A033C, 0x42003D4, 0x4B4046A,
+	0x54404FC, 0x5D2058C, 0x65E0618, 0x6E806A4, 0x76E072A,
+	0x7F207B0, 0x8740832, 0x8F208B4, 0x9700932, 0x9EC09AE,
+	0xA640A28, 0xADA0AA0, 0xB500B16, 0xBC20B8A, 0xC340BFA,
+	0xCA20C6A, 0xD100CD8, 0xD7A0D46, 0xDE40DB0, 0xE4C0E18,
+	0xEB20E80, 0xF160EE4, 0xF7A0F48, 0xFDB0FAA, 0x4F000F,
+	0xCF008F, 0x14F010F, 0x1CF018F, 0x24F020F, 0x2CF028F,
+	0x34F030F, 0x3CF038F, 0x44F040F, 0x4CF048F, 0x54F050F,
+	0x5CF058F, 0x64F060F, 0x6CF068F, 0x74F070F, 0x7CF078F,
+	0x84F080F, 0x8CF088F, 0x94F090F, 0x9CF098F, 0xA4F0A0F,
+	0xACF0A8F, 0xB4F0B0F, 0xBCF0B8F, 0xC4F0C0F, 0xCCF0C8F,
+	0xD4F0D0F, 0xDCF0D8F, 0xE4F0E0F, 0xECF0E8F, 0xF4F0F0F,
+	0xFCF0F8F, 0x3C000C, 0x9E006C, 0x10000CE, 0x1660132,
+	0x1CC0198, 0x2340200, 0x29E0269, 0x30A02D4, 0x3780340,
+	0x3E803B0, 0x4580420, 0x4CC0492, 0x5400506, 0x5B8057C,
+	0x63205F4, 0x6AE066F, 0x72A06EC, 0x7AA076A, 0x82C07EC,
+	0x8B2086E, 0x93808F4, 0x9C2097E, 0xA4E0A08, 0xADE0A96,
+	0xB700B26, 0xC040BB8, 0xC9A0C4E, 0xD360CE8, 0xDD20D84,
+	0xE740E22, 0xF180EC6, 0xFC00F6C, 0x2C0008, 0x760050,
+	0xC2009C, 0x11000E8, 0x1600138, 0x1B4018A, 0x20A01DE,
+	0x2620235, 0x2BD028F, 0x31C02EC, 0x37C034C, 0x3E003AE,
+	0x4480414, 0x4B4047E, 0x52204EA, 0x596055C, 0x60C05D0,
+	0x6860648, 0x70606C6, 0x78A0748, 0x81207CE, 0x8A0085A,
+	0x93408EA, 0x9CE0980, 0xA6E0A1E, 0xB140AC0, 0xBC20B6A,
+	0xC780C1C, 0xD360CD6, 0xDFC0D98, 0xECE0E64, 0xFAA0F3A,
+	0x200006, 0x56003A, 0x8E0072, 0xC900AB, 0x10700E8,
+	0x1480127, 0x18B0169, 0x1D201AE, 0x21C01F6, 0x26A0242,
+	0x2BA0292, 0x31002E4, 0x368033C, 0x3C60396, 0x42803F6,
+	0x48E045A, 0x4FA04C4, 0x56C0532, 0x5E405A6, 0x6620622,
+	0x6E606A2, 0x772072C, 0x80807BC, 0x8A60856, 0x94E08F8,
+	0xA0009A6, 0xAC00A5E, 0xB8E0B26, 0xC6C0BFC, 0xD5E0CE4,
+	0xE660DE0, 0xF8A0EF4, 0x160004, 0x3B0028, 0x64004F,
+	0x8E0078, 0xBC00A4, 0xEC00D4, 0x1200106, 0x157013B,
+	0x1910174, 0x1CF01B0, 0x21001EF, 0x2560233, 0x2A0027B,
+	0x2F002C8, 0x3440318, 0x39C036F, 0x3FC03CC, 0x460042E,
+	0x4CD0496, 0x5400506, 0x5BC057E, 0x64205FE, 0x6D20688,
+	0x76C071E, 0x81607C0, 0x8CC086E, 0x9960930, 0xA760A04,
+	0xB700AEE, 0xC8A0BF8, 0xDD20D28, 0xF560E8A, 0xD0002,
+	0x250019, 0x400032, 0x5C004E, 0x7C006C, 0x9F008D,
+	0xC400B1, 0xED00D8, 0x1190102, 0x1480130, 0x17C0162,
+	0x1B40198, 0x1F001D1, 0x230020F, 0x2760252, 0x2C1029A,
+	0x31202E8, 0x36A033D, 0x3C80398, 0x42F03FA, 0x49E0466,
+	0x51804DA, 0x59E055A, 0x62E05E4, 0x6D0067E, 0x7840728,
+	0x84C07E4, 0x93008BA, 0xA3809B0, 0xB720ACE, 0xCF40C28,
+	0xEFC0DE2, 0x60001, 0x12000C, 0x210019, 0x320029,
+	0x46003C, 0x5C0050, 0x750068, 0x920083, 0xB100A1,
+	0xD400C2, 0xFA00E6, 0x124010F, 0x153013B, 0x186016C,
+	0x1BE01A2, 0x1FC01DC, 0x23E021C, 0x2880262, 0x2D802B0,
+	0x3310304, 0x3920360, 0x3FE03C6, 0x4740438, 0x4F804B4,
+	0x58C0540, 0x63205DC, 0x6F0068E, 0x7CC075A, 0x8D00848,
+	0xA100968, 0xBB40AD2, 0xE420CCC, 0,
+	0x20001, 0x70004, 0xD000A, 0x170012, 0x22001C, 0x310029,
+	0x420039, 0x56004C, 0x6D0061, 0x88007A, 0xA60097,
+	0xC900B7, 0xF000DC, 0x11B0105, 0x14B0132, 0x1810166,
+	0x1BC019E, 0x1FF01DD, 0x2490223, 0x29B0271, 0x2F602C8,
+	0x35D0328, 0x3D00394, 0x4520410, 0x4E6049A, 0x5920538,
+	0x65A05F2, 0x74A06CC, 0x87807D8, 0xA0C0930, 0xCB80B24
+};
+
+int SECTION(".DATA") dword_8009DE1C[] = 
+{
+	0x10000, 0x10000, 0x8000, 0x5555, 0x4000, 0x3333,
+	0x2AAA, 0x2492, 0x2000, 0x1C71, 0x1999, 0x1745, 0x1555,
+	0x13B1, 0x1249, 0x1111
+};
+
+int SECTION(".DATA") dword_8009DE5C[] = { 0x8001000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111 };
+int SECTION(".DATA") dword_8009DE7C =  0;
+int SECTION(".DATA") dword_8009DE80 =  0;
+int SECTION(".DATA") dword_8009DE84 =  0;
+int SECTION(".DATA")dword_8009DE88 =  0;
+int SECTION(".DATA") dword_8009DE8C[] = { 0, 0, 0, 0 };
+int SECTION(".DATA") dword_8009DE9C =  0;
+int SECTION(".DATA") dword_8009DEA0 =  0;
+int SECTION(".DATA") dword_8009DEA4 =  0;
+int SECTION(".DATA") dword_8009DEA8 =  0;
+int SECTION(".DATA") dword_8009DEAC[] = { 0, 0, 0, 0 };
+
+short SECTION(".DATA") word_8009DEBC[] = { 0x78, 0x25, 0x58, 0x19 };
+
+
+unsigned int SECTION(".dword_8009DEC4") dword_8009DEC4[] = 
+{
+	0x190068, 0x1F0068, 0x1F0079, 0x280079, 0x280079,
+	0x200079, 0x200087, 0x2A0087, 0x450087, 0x250058,
+	0x400058, 0x290060, 0x290060, 0x230060, 0x230068,
+	0x260068, 0x260071, 0x2D0071, 0x3E0071, 0x2D0064,
+	0x2D0064, 0x280064, 0x28006C, 0x30006C, 0x30006C,
+	0x2D006C, 0x450071, 0x400058, 0x370060, 0x410079,
+	0x4A0079, 0x540058, 0x430058, 0x550064, 0x450064,
+	0x550060, 0x430060, 0x370064, 0x450079, 0x4A0060,
+	0x540058, 0x550058, 0x550060, 0x570064, 0x570079,
+	0x4E0079, 0x490079, 0x4D006C, 0x4E006C, 0x4D0079,
+	0x49006C, 0x41006C, 0x3E0079, 0x2A0064, 0x590087,
+	0x620079, 0x610079, 0x6C0058, 0x760058, 0x820058,
+	0x7A0058, 0x710079, 0x710079, 0x750079, 0x750068,
+	0x6C0068, 0x6C0079, 0x670079, 0x670079, 0x660079,
+	0x660068, 0x620068, 0x5F0079, 0x6C0060, 0x720060,
+	0x800060, 0x5E0060, 0x6C0064, 0x700064, 0x7F0064,
+	0x610064, 0x5F0058, 0x5E0060, 0x590064, 0x6C0079,
+	0x6C0058, 0x6C0060, 0x6C0064, 0x70006C, 0x6C0064,
+	0x72006C, 0x760060, 0x7F0058, 0x7A0064, 0x800079,
+	0x820060, 0x860058, 0x9C0058, 0x7E0058, 0x940079,
+	0x840079, 0x9A0060, 0x830060, 0x990064, 0x8A0064,
+	0x97006B, 0x8A006B, 0x89006B, 0x960071, 0x890071,
+	0x860071, 0x840058, 0x830060, 0x7E0064, 0x960079,
+	0x940071, 0x970079, 0x99006B, 0x9A0064, 0x9C0060,
+	0xAD0058, 0xC70079, 0xB50079, 0xCF0058, 0xB30058,
+	0xCD0060, 0xBB0060, 0xB80064, 0xB80071, 0xC00071,
+	0xC30071, 0xC00064, 0xCF0071, 0xCD0058, 0xCC0060,
+	0xC70064, 0xB50079, 0xB30058, 0xB20060, 0xAD0064,
+	0xB20079, 0xBB0064, 0xC30064, 0xCC0064, 0xD50064,
+	0xE00079, 0xF10079, 0xE70058, 0xD20058, 0xDB0058,
+	0xD30058, 0xDC0060, 0xD30060, 0xDC0064, 0xE10064,
+	0xEB0064, 0xE30064, 0xED0060, 0xE10060, 0xDD0064,
+	0xE7006C, 0xE30058, 0xEB0060, 0xE00064, 0xED0079,
+	0xF10060, 0xD30058, 0xD50064, 0xD20079, 0xD30058,
+	0xDB0060, 0xDC0058, 0xDC0060, 0xDD0064, 0xF4006C,
+	0x10A0058, 0xEC0058, 0x1020079, 0xF20079, 0x1080060,
+	0xF10060, 0x1070064, 0xF70064, 0x1040071, 0xF80071,
+	0x105006C, 0xF8006C, 0xF7006C, 0xF40071, 0xF20058,
+	0xF10060, 0xEC0064, 0x1070079, 0x1050064, 0x104006C,
+	0x1020071, 0x10A0079, 0x1080058, 0x10E0060, 0x1240058,
+	0x10C0058, 0x11E0060, 0x1240060, 0x1270058, 0x10B0061,
+	0x11A0064, 0x1130064, 0x115006B, 0x106006B, 0x1100079,
+	0x1130079, 0x110006B, 0x1150079, 0x11D006B, 0x11D0087,
+	0x1270087, 0x11E0087, 0x127006A, 0x11E0087, 0x120006A,
+	0x120006A, 0x127006A, 0x11A0061, 0x11E0064, 0x10B0060,
+	0x1060064, 0x10C0079, 0x10E0060, 0x430058, 0x370064,
+	0x350079, 0x2F007D, 0x350087, 0x117007D, 0x11A007D,
+	0x2F0087, 0x11A0087, 0x1170087, 0x7D
+};
+
+
+int SECTION(".dword_8009E280") dword_8009E280 =  0;
+int SECTION(".dword_8009E280") dword_8009E284 =  0;
+int SECTION(".dword_8009E280") dword_8009E288 =  0;
+int SECTION(".dword_8009E280") dword_8009E28C =  0;
+
+int SECTION(".dword_8009E280") dword_8009E290[] =
+{
+	0x8003CC94,
+	0x8003B474,
+	0x80042700,
+	0x8003CBF0,
+	0x8003EC2C,
+	0x8003F7E0,
+	0x80042848,
+	0x800494C4,
+	0
+};
+
+int SECTION(".dword_8009E280") dword_8009E2B4[] =
+{
+	0x8003B554,
+	0x8004271C,
+	0x8003CC74,
+	0x8003ECAC,
+	0x8003F838,
+	0x80042980,
+	0
+};
+	
+
+
+int SECTION(".dword_8009E280") dword_8009E2D0 =  0;
+int SECTION(".dword_8009E280") dword_8009E2D4 =  0;
+int SECTION(".dword_8009E280") dword_8009E2D8 =  0;
+int SECTION(".dword_8009E280") dword_8009E2DC =  0;
+int SECTION(".dword_8009E280") dword_8009E2E0 =  0;
+int SECTION(".dword_8009E280") dword_8009E2E4 =  0;
+int SECTION(".dword_8009E280") dword_8009E2E8 =  0;
+int SECTION(".dword_8009E280") dword_8009E2EC =  0;
+
+int SECTION(".dword_8009E280") dword_8009E2F0 =  0x64808080;
+int SECTION(".dword_8009E280") dword_8009E2F4[] = { 0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808 };
+
+int SECTION(".dword_8009E280") dword_8009E30C =  0xC1C5080;
+int SECTION(".dword_8009E280") dword_8009E310[] = { 0x72C5C80, 0xC1C509C, 0x73A6380, 0xC1C50B8, 0x72C5CB4, 0xC3A6A8A, 0x73A768A };
+
+
+//unsigned char SECTION(".dword_8009E280") byte_8009E32C[] = { 0xBC, 0x63};
+//unsigned char SECTION(".dword_8009E280") byte_8009E32E[] = { 0x24, 3 };
+
+/*
+
+int SECTION(".dword_8009E280") dword_8009E330 =  0x100A6A80;
+char SECTION(".dword_8009E280") byte_8009E334 =  0xC4;
+char SECTION(".dword_8009E280") byte_8009E335[] = { 0x66,0x1C, 0x16 };
+char SECTION(".dword_8009E280") byte_8009E338[] = { 0, 0 };
+*/
+
+// ======================================================================================================
+
+extern void sub_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
+
+extern void __main(void);
+
+
+extern void SetDispMask(int);
+extern void InitGeom(void);
+
+extern void SdMain(void);
+
+extern void mg_printf(const char*, ...);
+
+extern const char aMem[];
+extern const char aPad[];
+extern const char aGv[];
+extern const char aFs[];
+extern const char aDg[];
+extern const char aGcl[];
+extern const char aHzd[];
+extern const char aSound[];
+extern const char aGm[];
+extern const char aStart[];
+
+extern int SdIntReady();
+extern void mts_wait_vbl(int);
+
+extern void mts_init_vsync(void);
+extern void mts_set_vsync_task(void);
+
+extern void MC_StartDaemon(void);
+extern void mts_init_controller(void);
+
+extern void FS_StartDaemon(void);
+extern void DG_StartDaemon(void);
+extern void GCL_StartDaemon(void);
+extern void HZD_StartDaemon(void);
+extern void GM_StartDaemon(void);
+
+extern void sub_8008B648(int, void*, long);
+extern void sub_8008b47c(int ,void*, void*);
+
+static void SECTION(".0x800148B8") sub_800148B8( void )
+{
+	RECT rect;
+	static unsigned char SECTION(".0x800AC3F0") SdStack[2048];
+	
+	ResetGraph( 0 );
+	SetGraphDebug( 0 );
+	CdInit();
+	SetDispMask( 0 );
+	
+	setRECT( &rect, 0, 0, 1024, 511 ); // 0x400, 0x1FF
+	ClearImage( &rect, 0, 0, 0 );
+	
+	DrawSync( 0 );
+	SetDispMask( 1 );
+	InitGeom();
+	
+	mts_init_vsync();
+	mts_set_vsync_task();
+	
+	mg_printf( aMem );
+	MC_StartDaemon();
+	
+	mg_printf( aPad );
+	mts_init_controller();
+	
+	mg_printf( aGv );
+	GV_StartDaemon_80014d18();
+	
+	mg_printf( aFs );
+	FS_StartDaemon();
+	
+	mg_printf( aDg );
+	DG_StartDaemon();
+	
+	mg_printf( aGcl );
+	GCL_StartDaemon();
+	
+	mg_printf( aHzd );
+	HZD_StartDaemon();
+	
+	mg_printf( aSound );
+
+	sub_8008B648(5, SdStack + sizeof(SdStack), sizeof(SdStack));
+	sub_8008b47c(5,SdMain, SdStack + sizeof(SdStack));
+
+	while( !SdIntReady() )
+	{
+		mts_wait_vbl( 1 );
+	}
+	
+	mg_printf( aGm );
+	GM_StartDaemon();
+	
+	mg_printf( aStart );
+	
+	for (;;)
+	{
+		GV_ExecActorSystem_80014F88();
+	}
+}
+
+void SECTION(".0x80014a40") _main()
+{
+	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;
+	__main();
+	sub_8008AAC4(3, sub_800148B8, unk_800ABBF0+sizeof(unk_800ABBF0), sizeof(unk_800ABBF0));
+}
