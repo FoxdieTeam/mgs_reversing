@@ -1,6 +1,8 @@
 #include <libsn.h>
 #include "actor.h"
 
+// sbss ===============================================
+
 int SECTION(".sbss") dword_800AB918;
 int SECTION(".sbss") dword_800AB91C;
 int SECTION(".sbss") dword_800AB920;
@@ -8,26 +10,26 @@ int SECTION(".sbss") dword_800AB924;
 
 extern const char aBislpm86247[];
 
+// sdata ================================================
+
 int SECTION(".sdata") dword_800AB2E4 = 0x200000; // ram size
 int SECTION(".sdata") dword_800AB2E8 = 0x8000; // stack size
 const char* SECTION(".sdata") off_800AB2EC = aBislpm86247;
 const char SECTION(".sdata") aMem[] = "mem:";
 const char SECTION(".sdata") aPad[] = "pad:";
-//                db 0, 0, 0
 const char SECTION(".sdata") aGv[] = "gv:";
 const char SECTION(".sdata") aFs[] = "fs:";
 const char SECTION(".sdata") aDg[] = "dg:";
 const char SECTION(".sdata") aGcl[] = "gcl:";
-//  db 0, 0, 0
 const char SECTION(".sdata") aHzd[] = "hzd:";
-//                 db 0, 0, 0
 const char SECTION(".sdata") aSound[] = "sound:";
-//  db 0
 const char SECTION(".sdata") aGm[] = "gm:";
 const char SECTION(".sdata") aStart[] = "start\n";
-//                 db 0
+
 int SECTION(".sdata") dword_800AB330 = 0;
 int SECTION(".sdata") dword_800AB334 = 0; // pad ??
+
+// ========================================================
 
 extern const char aGvdC[];
 

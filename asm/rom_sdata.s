@@ -16,35 +16,16 @@
 	xdef dword_800AB754
 	xdef aNo
 	
-aNone:          db "none", 0x0         ; DATA XREF: TEXT:off_800AB34C?o
-                db 0, 0, 0
-off_800AB34C:   dw aNone              ; DATA XREF: sub_80014B34+8?r
-aVoided:        db "voided ", 0x0      ; DATA XREF: TEXT:80015C68?o
-aFailed:        db "failed ", 0x0      ; DATA XREF: TEXT:80015C88?o
-asc_800AB360:   db ")", 0xA, 0x0          ; DATA XREF: TEXT:80015C94?o
-                db 0
-aStatic:        db "static ", 0x0      ; DATA XREF: TEXT:80015D9C?o
 
-asc_800AB36C:   db "", 0xA, 0x0           ; DATA XREF: TEXT:80015E9C?o
-                db 0, 0
-                dw 0x80117000
-dword_800AB374: dw 0                  ; DATA XREF: TEXT:8002C9A8?w
-                dw 0
-                dw 0
-dword_800AB380: dw 0                  ; DATA XREF: sub_8001682C+30?r
-                dw 0xFFFFFFFF, 0
-word_800AB38C:  dh 0                  ; DATA XREF: sub_8001D324+238?r
-word_800AB38E:  dh 0                  ; DATA XREF: sub_8001D324+240?r
-word_800AB390:  dh 0                  ; DATA XREF: sub_8001D324+248?r
-dword_800AB394: dw 0x3C808080         ; DATA XREF: sub_8001D19C+30?o
-dword_800AB398: dw 0x3E808080         ; DATA XREF: sub_8001D19C+44?o
 byte_800AB39C:  db 0, 0, 0                  ; DATA XREF: sub_80025A7C+1FC?o
 byte_800AB39F:  db 0                  ; DATA XREF: sub_8002DA14+48?r
 byte_800AB3A0:  db 0, 0, 0                  ; DATA XREF: sub_8002DA14+54?r
 byte_800AB3A3:  db 0                  ; DATA XREF: sub_8002DA14+50?r
                 dw 0xFFFFFFFF
+				
 dword_800AB3A8: dw 0xE20300, 0x1E0100
                                          ; DATA XREF: sub_8001FC28+C?o
+										 
 dword_800AB3B0: dw 0xC40300, 0x1E0100, 0
 dword_800AB3BC: dw 0, 0               ; DATA XREF: sub_80020228:loc_80020254?o
 dword_800AB3C4: dw 0, 0               ; DATA XREF: sub_8002A7D8+C?o
