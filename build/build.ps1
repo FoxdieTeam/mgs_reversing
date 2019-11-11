@@ -29,7 +29,7 @@ if (![string]::IsNullOrEmpty($psyq_path))
 }
 
 # Compile all .C files
-$cFiles = Get-ChildItem ..\src\*.C
+$cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
 foreach ($file in $cFiles)
 {
     $objName = $file.Name
@@ -46,7 +46,7 @@ foreach ($file in $cFiles)
 }
 
 # Compile all .S files
-$sFiles = Get-ChildItem ..\asm\*.S
+$sFiles = Get-ChildItem $PSScriptRoot\..\asm\*.S
 foreach ($file in $sFiles)
 {
     $objName = $file.Name
@@ -94,7 +94,7 @@ if ([System.IO.File]::Exists(".\MDasm.exe"))
 }
 
 # Validate the output is matching the OG binary hash
-$actualValue = Get-FileHash -Path ..\obj\test2.exe -Algorithm SHA256
+$actualValue = Get-FileHash -Path $PSScriptRoot\..\obj\test2.exe -Algorithm SHA256
 if ($actualValue.Hash -eq "4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f")
 {
     Write-Host OK $actualValue.Hash -ForegroundColor "green"
