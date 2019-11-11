@@ -34,14 +34,14 @@ foreach ($file in $cFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".C", "").replace(".c", "")
-    ccpsx.exe -O2 -g -c -Wall "..\src\$objName.c" "-o..\obj\$objName.obj"
+    ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Compiled ..\src\$objName.c"  -ForegroundColor "green"
+        Write-Host "Compiled $PSScriptRoot\..\src\$objName.c"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall ..\src\$objName.c -o..\obj\$objName.obj"
+        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $PSScriptRoot\..\src\$objName.c -o$PSScriptRoot\..\obj\$objName.obj"
     }
 }
 
@@ -51,14 +51,14 @@ foreach ($file in $sFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".S", "").replace(".s", "")
-    asmpsx.exe /l /q "..\asm\$objName.s","..\obj\$objName.obj"
+    asmpsx.exe /l /q "$PSScriptRoot\..\asm\$objName.s","$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Assembled ..\asm\$objName.s"  -ForegroundColor "green"
+        Write-Host "Assembled $PSScriptRoot\..\asm\$objName.s"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Assembling failed for:asmpsx.exe /l /q ..\asm\$objName.s,..\obj\$objName.obj"
+        Write-Error "Assembling failed for:asmpsx.exe /l /q $PSScriptRoot\..\asm\$objName.s,$PSScriptRoot\..\obj\$objName.obj"
     }
 }
 
