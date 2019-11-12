@@ -4,7 +4,6 @@
 
 	xref aBislpm86247
 	
-	xdef aCigs
 	xdef aSocom
 	xdef aLife
 	xdef aO2
@@ -17,115 +16,6 @@
 	xdef aNo
 	
 
-byte_800AB39C:  db 0, 0, 0                  ; DATA XREF: sub_80025A7C+1FC?o
-byte_800AB39F:  db 0                  ; DATA XREF: sub_8002DA14+48?r
-byte_800AB3A0:  db 0, 0, 0                  ; DATA XREF: sub_8002DA14+54?r
-byte_800AB3A3:  db 0                  ; DATA XREF: sub_8002DA14+50?r
-                dw 0xFFFFFFFF
-				
-dword_800AB3A8: dw 0xE20300, 0x1E0100
-                                         ; DATA XREF: sub_8001FC28+C?o
-										 
-dword_800AB3B0: dw 0xC40300, 0x1E0100, 0
-dword_800AB3BC: dw 0, 0               ; DATA XREF: sub_80020228:loc_80020254?o
-dword_800AB3C4: dw 0, 0               ; DATA XREF: sub_8002A7D8+C?o
-dword_800AB3CC: dw 0                  ; DATA XREF: sub_8001682C+44?r
-dword_800AB3D0: dw 0                  ; DATA XREF: sub_8001FF2C+4?r
-dword_800AB3D4: dw 0                  ; DATA XREF: sub_800331A4+20?r
-                dw 0
-dword_800AB3DC: dw 0                  ; DATA XREF: sub_8005AD10+3A0?r
-dword_800AB3E0: dw 0                  ; DATA XREF: sub_8005AD10:loc_8005B1E0?r
-word_800AB3E4:  dh 0                  ; DATA XREF: TEXT:80069AD0?w
-                dh 0xFFFF
-dword_800AB3E8: dw 0                  ; DATA XREF: sub_8006641C+254?r
-dword_800AB3EC: dw 0                  ; DATA XREF: TEXT:80069C34?r
-dword_800AB3F0: dw 0                  ; DATA XREF: sub_8006DDEC+13C?r
-dword_800AB3F4: dw 0                  ; DATA XREF: sub_8004983C+38?w
-aInit:          db "init", 0x0         ; DATA XREF: sub_8002AAB0+10?o
-                db 0, 0, 0
-dword_800AB400: dw 0                  ; DATA XREF: sub_8002AB40+C?o
-aGamedC:        db "gamed.c", 0x0      ; DATA XREF: sub_8002B77C+7C?o
-aGcawi:         db "gcawi", 0x0        ; DATA XREF: TEXT:8002C7D8?o
-
-dword_800AB414: dw 0xFFFFFFFF         ; DATA XREF: sub_80079960+20?r
-aPrint:         db "print: ", 0x0      ; DATA XREF: TEXT:8002D0F0?o
-aS_2:           db "%s ", 0x0
-aD_3:           db "%d ", 0x0          ; DATA XREF: TEXT:8002D14C?o
-asc_800AB428:   db "", 0xA, 0x0           ; DATA XREF: TEXT:8002D168?o
-
-dword_800AB42C: dw 0x2710             ; DATA XREF: sub_8006B800+68?r
-                                         ; sub_8006B888+70?w
-byte_800AB430:  db 0x80               ; DATA XREF: sub_8002FCF0+28?o
-                db 2, 0
-byte_800AB433:  db 8                  ; DATA XREF: sub_8002FCF0+30?r
-byte_800AB434:  db 0                  ; DATA XREF: sub_8002FCF0+3C?r
-                db 0, 0
-byte_800AB437:  db 0                  ; DATA XREF: sub_8002FCF0+38?r
-                dw 0x2710, 0, 0, 0, 0
-aNoHzd:         db "no hzd", 0xA, 0x0     ; DATA XREF: sub_800310D0+68?o
-aDelayC:        db "delay.c", 0x0      ; DATA XREF: sub_80033230+AC?o
-dword_800AB45C: dw 0xFFFFFFFF         ; DATA XREF: sub_8002E688+1D0?w
-aInit_0:        db "init", 0x0         ; DATA XREF: sub_80037514+A4?o
-                db 0, 0, 0
-aTitle:         db "title", 0x0        ; DATA XREF: sub_80037514:loc_800375C8?o
-                dh 0
-aOverC:         db "over.c", 0x0       ; DATA XREF: sub_800376F8+44?o
-                db 0
-aItem:          db "item", 0x0         ; DATA XREF: sub_8003884C+AC?o
-                db 0, 0, 0
-                dw 0xD, 0x5555, 0x3FFF, 0
-dword_800AB490: dw 0x17E03E0, 0x20020
-dword_800AB498: dw 0x5FBF5FBE, 0x5FFF5FFE
-dword_800AB4A0: dw 0x8D118C91, 0x9A238C91
-dword_800AB4A8: dw 0x80238023, 0x8023, 0, 0
-aSuppr:         db "SUPPR.", 0x0
-                db 0
-aScarf:         db "SCARF", 0x0
-                db 0
-				db 0
-aRope:          db "ROPE", 0x0
-                db 0, 0, 0
-aDisc:          db "DISC", 0x0
-                db 0, 0, 0
-aMineD:         db "MINE.D", 0x0
-                db 0
-aTimerB:        db "TIMER.B", 0x0
-aCard:          db "CARD", 0x0
-                db 0, 0, 0
-aPalKey:        db "PAL KEY", 0x0
-aRation:        db "RATION", 0x0
-                db 0
-aCamera:        db "CAMERA", 0x0
-                db 0
-aBandana:       db "BANDANA", 0x0
-aStealth:       db "STEALTH", 0x0
-aKetchup:       db "KETCHUP", 0x0
-aBArmor:        db "B.ARMOR", 0x0
-aGasmask:       db "GASMASK", 0x0
-aThermG:        db "THERM.G", 0x0
-aNVG:           db "N.V.G", 0x0
-                db 0
-				db 0
-aCBoxC:         db "C.BOX C", 0x0
-aCBoxB:         db "C.BOX B", 0x0
-aCBoxA:         db "C.BOX A", 0x0
-aScope:         db "SCOPE", 0x0
-                db 0
-				db 0
-aCigs:          db "CIGS", 0x0         ; DATA XREF: TEXT:off_8009E484?o
-                db 0, 0, 0
-aLv:            db "LV.", 0x0          ; DATA XREF: sub_8003B8F0+14C?o
-aNoItem:        db "NO ITEM", 0x0      ; DATA XREF: sub_8003B8F0+288?o
-                dw 0, 0
-aEquip:         db "EQUIP", 0x0        ; DATA XREF: sub_8003BF1C+2C0?o
-                db 0
-				db 0
-                dw 0
-aPsg1:          db "PSG1", 0x0
-                db 0, 0, 0
-aChaffG:        db "CHAFF.G", 0x0
-aStunG:         db "STUN.G", 0x0
-                db 0
                 dw 0x3443, 0x4E495453, 0x524547, 0x494B494E, 0x4154
                 dw 0x4E455247, 0x454441, 0x4D2D4146, 0x5341
 aSocom:         db "SOCOM", 0x0        ; DATA XREF: TEXT:off_8009E57C?o
@@ -297,5 +187,3 @@ aDD:            db "%d %d", 0xA, 0x0      ; DATA XREF: sub_80068A24+174?o
                 db 0
 aStinger:       db "stinger", 0x0      ; DATA XREF: sub_80068D0C+50?o
 aRifle:         db "rifle", 0x0        ; DATA XREF: sub_800696CC:loc_80069704?o
-;                dh 0
-
