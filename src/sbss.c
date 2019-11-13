@@ -1,6 +1,4 @@
-#include <libsn.h>
-
-#define SECTION(x) __attribute__((section(x)))
+#include "linker.h"
 
 int SECTION(".sbss") dword_800AB9B0;
 int SECTION(".sbss") dword_800AB9B4[4];
