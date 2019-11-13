@@ -145,3 +145,21 @@ const char SECTION(".sdata") aChaffG[] = "CHAFF.G";
 
 const char SECTION(".sdata") aStunG[] = "STUN.G";
 
+int SECTION(".sdata") dword_unknown[] = { 0x3443, 0x4E495453, 0x524547, 0x494B494E, 0x4154, 0x4E455247, 0x454441, 0x4D2D4146, 0x5341 };
+
+
+const char SECTION(".sdata") aSocom[] = "SOCOM";
+
+ 
+int SECTION(".sdata") dword_2 = 0x80011B04;
+
+const char SECTION(".sdata") aMp5Sd[] = "MP 5 SD";
+const char SECTION(".sdata") aNoItem_0[] = "NO ITEM";
+
+int SECTION(".sdata") dword_3[] = { 0, 0 };
+const char SECTION(".sdata") aWeapon[] ="WEAPON";
+const char SECTION(".sdata") aLife[] = "LIFE";
+const char SECTION(".sdata") aO2[] = "O2";
+int SECTION(".sdata") dword_4 = 0;
+
+

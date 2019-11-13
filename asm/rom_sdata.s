@@ -4,9 +4,6 @@
 
 	xref aBislpm86247
 	
-	xdef aSocom
-	xdef aLife
-	xdef aO2
 	xdef aError
 	xdef dword_800AB728
 	xdef dword_800AB724
@@ -16,21 +13,6 @@
 	xdef aNo
 	
 
-                dw 0x3443, 0x4E495453, 0x524547, 0x494B494E, 0x4154
-                dw 0x4E455247, 0x454441, 0x4D2D4146, 0x5341
-aSocom:         db "SOCOM", 0x0        ; DATA XREF: TEXT:off_8009E57C?o
-                dh 0
-                dw 0x80011B04
-aMp5Sd:         db "MP 5 SD", 0x0      ; DATA XREF: sub_8003E0E8+228?o
-aNoItem_0:      db "NO ITEM", 0x0      ; DATA XREF: sub_8003E0E8+254?o
-                dw 0, 0
-aWeapon:        db "WEAPON", 0x0       ; DATA XREF: sub_8003E674+2A8?o
-                db 0
-aLife:          db "LIFE", 0x0         ; DATA XREF: TEXT:off_8009E5F4?o
-                db 0, 0, 0
-aO2:            db "O2", 0x0           ; DATA XREF: TEXT:off_8009E600?o
-                db 0
-                dw 0
 dword_800AB600: dw 0x10003C0, 0x500032
 dword_800AB608: dw 0x480056           ; DATA XREF: sub_8003F84C+60?o
                 dw 0x48002C
