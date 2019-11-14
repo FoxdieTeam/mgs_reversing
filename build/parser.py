@@ -28,7 +28,7 @@ def removeComment(line):
 
 def makeLineTable(line):
     putStartBracketHere = line.find(" = ")
-    line = line[:putStartBracketHere + 3] + "{ " + line[putStartBracketHere + 3:] + ' }'
+    line = line[:putStartBracketHere + 3] + "{" + line[putStartBracketHere + 3:] + '}'
     line = line.replace(" = ", "[] = ")
     return line
 
@@ -38,7 +38,7 @@ def appendTableElems(tableElems, line):
 
     line = makeLineTable(line)
     for i in range(len(tableElems)):
-        line = line.replace(' }', "," + tableElems[i] + " }")
+        line = line.replace('}', "," + tableElems[i] + "}")
 
     return line
 
