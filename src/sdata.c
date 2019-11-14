@@ -176,7 +176,6 @@ char SECTION(".sdata") byte_800AB653 = 0;
 int SECTION(".sdata") dword_800AB654 =  0x6D756E;
 int SECTION(".sdata") dword_800AB658 = 0x1F203C0;
 int SECTION(".sdata") dword_800AB65C[6] = {0};
-
 char SECTION(".sdata") aNoD[] = "No %d\n";
 char SECTION(".sdata") aIdD[] = "ID %d\n";
 char SECTION(".sdata") aColD[] = "COL %d\n";
