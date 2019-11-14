@@ -13,50 +13,6 @@
 	xdef aNo
 	
 
-dword_800AB600: dw 0x10003C0, 0x500032
-dword_800AB608: dw 0x480056           ; DATA XREF: sub_8003F84C+60?o
-                dw 0x48002C
-dword_800AB610: dw 0x1030402, 0x10304
-aCall:          db "call", 0x0         ; DATA XREF: sub_800403E4+4?o
-                db 0, 0, 0
-aP3t3t:         db "P#3T#3T", 0x0      ; DATA XREF: sub_800407A4+4C?o
-aMemory:        db "MEMORY", 0x0       ; DATA XREF: sub_800407A4+88?o
-                db 0
-dword_800AB630: dw 0x10403C0, 0x4C003F, 0x36B0, 0, 0
-                dw 0xFFFFFFFF, 0
-byte_800AB64C:  db 0xC0               ; DATA XREF: sub_80042848+18?o
-                db 3, 0xE8
-byte_800AB64F:  db 1                  ; DATA XREF: sub_80042848+1C?r
-byte_800AB650:  db 0x40               ; DATA XREF: sub_80042848+28?r
-                db 0, 0xA
-byte_800AB653:  db 0                  ; DATA XREF: sub_80042848+24?r
-dword_800AB654: dw 0x6D756E           ; DATA XREF: sub_80042848+4?o
-dword_800AB658: dw 0x1F203C0          ; DATA XREF: sub_80043138+4C?o
-dword_800AB65C: dw 0, 0, 0, 0, 0, 0   ; DATA XREF: sub_80043138:loc_80043164?o
-aNoD:           db "No %d", 0xA, 0x0      ; DATA XREF: sub_800445F8+118?o
-                db 0
-aIdD:           db "ID %d", 0xA, 0x0      ; DATA XREF: sub_800445F8+164?o
-                db 0
-aColD:          db "COL %d", 0xA, 0x0     ; DATA XREF: sub_800445F8+174?o
-dword_800AB68C: dw 0                  ; DATA XREF: sub_80038A88+88?w
-                dw 0x786574
-                dw 0x6A626F
-                dw 0x796C70
-                dw 0x776F70
-                dw 0x6D656D
-                dw 0, 0, 0
-                dw 1, 0, 0, 0, 0, 0
-byte_800AB6C8:  db 0                  ; DATA XREF: sub_800469F0+74?o
-                db 3, 0
-byte_800AB6CB:  db 1                  ; DATA XREF: sub_80046B74+18?r
-byte_800AB6CC:  db 0                  ; DATA XREF: sub_800469F0:loc_80046A58?o
-                db 1, 4
-byte_800AB6CF:  db 0                  ; DATA XREF: sub_80046B74+20?r
-dword_800AB6D0: dw 0x1500380          ; DATA XREF: sub_800469F0+88?o
-dword_800AB6D4: dw 0x600040           ; DATA XREF: sub_800469F0+80?o
-byte_800AB6D8:  db 0xF0               ; DATA XREF: sub_80048124+1C?o
-                db 3, 0xB0
-byte_800AB6DB:  db 1                  ; DATA XREF: sub_80048124+38?r
 byte_800AB6DC:  db 5                  ; DATA XREF: sub_80048124+44?r
                 db 0, 0x14
 byte_800AB6DF:  db 0                  ; DATA XREF: sub_80048124+40?r
