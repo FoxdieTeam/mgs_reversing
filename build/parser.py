@@ -49,8 +49,6 @@ def handleOneLineTables(line):
 
 def handleMultipleLines(line, fp, varType):
     # handle next lines until another label is found
-    foundSomething = False
-    currPos = fp.tell()
     additionalTableVars = []
     while True:
         currPos = fp.tell()
@@ -58,7 +56,6 @@ def handleMultipleLines(line, fp, varType):
         if not lineCandidate.startswith(" "):
             fp.seek(currPos)
             break
-        foundSomething = True
 
         #handling next lines (assuming it's a continued table)
         toRemove = lineCandidate.find(varType + " ")
@@ -97,15 +94,12 @@ with open('../asm/rom_sdata.s', 'r') as fp:
 
                 print(line)
                 # handle next lines until another label is found
-                foundSomething = False
-                currPos = fp.tell()
                 while True:
                     currPos = fp.tell()
                     lineCandidate = fp.readline()
                     if not lineCandidate.startswith(" "):
                         fp.seek(currPos)
                         break
-                    foundSomething = True
                     # ignoring those additional string lines - useless
                 
             elif line.startswith("byte"):
