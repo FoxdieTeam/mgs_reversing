@@ -1,17 +1,18 @@
+fileToOpen = "../asm/rom_sdata.s"
 importantLinesStartAt = 15
 
-def peek_line(fp):
+def peekLine(fp):
     pos = fp.tell()
     line = fp.readline()
     fp.seek(pos)
     return line
 
-def remove_colonSubstr(line, varType):
+def removeColonSubstr(line, varType):
     colonIdx = line.find(":")
     colonEnd = line.find(varType, colonIdx)
     return line[:colonIdx] + line[colonEnd:]
 
-def remove_comment(line):
+def removeComment(line):
     #TODO make them C comments instead
     commentIdx = line.find(";")
     if commentIdx:
@@ -73,18 +74,18 @@ def handleMultipleLines(line, fp, varType):
     line = appendTableElems(additionalTableVars, line)
     return line, fp
 
-with open('../asm/rom_sdata.s', 'r') as fp:
+with open(fileToOpen, 'r') as fp:
     line = fp.readline()
     cnt = 1
 
     while line:
         if cnt > importantLinesStartAt:
-            line = remove_comment(line)
+            line = removeComment(line)
 
             # c string
             if line.startswith('a'):
                 line = "char SECTION(\".sdata\") " + line
-                line = remove_colonSubstr(line, "db")
+                line = removeColonSubstr(line, "db")
                 line = line.replace("db", "[] =")
 
                 line = line.replace("\", 0xA", "\\n\"")
@@ -104,7 +105,7 @@ with open('../asm/rom_sdata.s', 'r') as fp:
                 
             elif line.startswith("byte"):
                 line = "char SECTION(\".sdata\") " + line
-                line = remove_colonSubstr(line, "db")
+                line = removeColonSubstr(line, "db")
                 line = line.replace("db ", " = ")
 
                 line = handleOneLineTables(line)
@@ -115,7 +116,7 @@ with open('../asm/rom_sdata.s', 'r') as fp:
 
             if line.startswith("dword"):
                 line = "int SECTION(\".sdata\") " + line
-                line = remove_colonSubstr(line, "dw")
+                line = removeColonSubstr(line, "dw")
                 line = line.replace("dw ", " = ")
 
                 line = handleOneLineTables(line)
