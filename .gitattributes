@@ -1,2 +1,7 @@
-*.hpp text eol=lf
-*.cpp text eol=lf
+*.s text eol=lf
+*.c text eol=lf
+*.C text eol=lf
+*.h text eol=lf
+*.txt text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf
