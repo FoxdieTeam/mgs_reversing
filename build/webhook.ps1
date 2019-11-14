@@ -9,7 +9,7 @@ $description =  $message
 $color       = '1'
 
 #Create thumbnail object
-$thumbUrl = 'https://cdn.discordapp.com/emojis/634048265641263115.png?v=1' 
+$thumbUrl = 'https://cdn.discordapp.com/emojis/506593656606687243.png?v=1' 
 $thumbnailObject = [PSCustomObject]@{
 
     url = $thumbUrl
