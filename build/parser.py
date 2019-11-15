@@ -26,10 +26,16 @@ def removeComment(line):
             break
     return line
 
+def isTableAlready(line):
+    if line.find("[]") != -1:
+        return True
+    return False
+
 def makeLineTable(line):
-    putStartBracketHere = line.find(" = ")
-    line = line[:putStartBracketHere + 3] + "{" + line[putStartBracketHere + 3:] + '}'
-    line = line.replace(" = ", "[] = ")
+    if not isTableAlready(line):
+        putStartBracketHere = line.find(" = ")
+        line = line[:putStartBracketHere + 3] + "{" + line[putStartBracketHere + 3:] + '}'
+        line = line.replace(" = ", "[] = ")
     return line
 
 def appendTableElems(tableElems, line):
