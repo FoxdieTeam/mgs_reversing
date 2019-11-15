@@ -44,7 +44,7 @@ def appendTableElems(tableElems, line):
 
     line = makeLineTable(line)
     for i in range(len(tableElems)):
-        line = line.replace('}', "," + tableElems[i] + "}")
+        line = line.replace('}', ", " + tableElems[i] + "}")
 
     return line
 
@@ -71,7 +71,7 @@ def handleMultipleLines(line, fp, varType):
             comma = lineCandidate.find(",")
             if comma != -1:
                 additionalTableVars.append(lineCandidate[:comma])
-                lineCandidate = lineCandidate[comma + 1:]
+                lineCandidate = lineCandidate[comma + 2:] #skip comma and space
             else:
                 additionalTableVars.append(lineCandidate[:comma])
                 break
