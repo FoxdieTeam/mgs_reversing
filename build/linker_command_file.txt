@@ -10,7 +10,6 @@
 	include	"..\obj\rom1.obj"
 	include	"..\obj\rom2.obj"
 	include	"..\obj\rom3.obj"
-	include "..\obj\rom_sdata.obj"
 	include "..\obj\rom_rwdata.obj"
 	include "..\obj\gvd.obj"	
 	include "..\obj\sdata.obj"		
