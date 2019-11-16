@@ -7,7 +7,8 @@ if rData:
     sectionString = "RDATA"
 
 byteCrapCounter = 2
-wordCrapCounter = 8
+wordCrapCounter = 9
+stringCrapCounter = 0
 
 #TODO parse header
 
@@ -99,6 +100,9 @@ def handleMultipleLines(line, fp, varType):
             fp.seek(currPos)
             break
 
+        if isLineJustComment(lineCandidate):
+            continue
+
         #handling next lines (assuming it's a continued table)
         lineCandidate = removeComment(lineCandidate)
         toRemove = lineCandidate.find(varType + " ")
@@ -116,8 +120,16 @@ def handleMultipleLines(line, fp, varType):
     line = appendTableElems(additionalTableVars, line)
     return line, fp
 
+def isLineStrayString(line):
+    if line.find("\"") != -1 and line.startswith(" "):
+        return True
+    return False
+
 def handleStrayLabels(line):
-    if line.startswith(" "):
+    if isLineStrayString(line):
+        global stringCrapCounter
+        line =  "aString_" + "crap" + str(stringCrapCounter) + ":" + line
+    elif line.startswith(" "):
         if line.find("db") != -1:
             global byteCrapCounter
             line = "byte_" + "crap" + str(byteCrapCounter) + ":" + line
@@ -130,30 +142,54 @@ def handleStrayLabels(line):
         # print(line, end="")
     return line
 
+def isJustDbZero(line):
+    if line.rstrip().endswith("0"):
+        for c in reversed(line.rstrip()):
+            if c != "d" and c != "b" and c != " " and c != "0":
+                return False
+        return True
+    return False
+
+def handleQuotesInString(line):
+    startIdx = -1
+    endIdx = line.rfind("\"")
+    inQuotes = False
+    for i, c in enumerate(line):
+        if c == "\"" and line[i+1] == "\"" and inQuotes and i != startIdx and i+1 != endIdx:
+            line = line[:i] + "\\" + line[i + 1:]
+        if c == "\"" and not inQuotes:
+            inQuotes = True
+            startIdx = i
+    return line
+
 def parse(line, fp):
     global sectionString
     line = handleStrayLabels(line)
 
     # c string
     if line.startswith('a'):
+        line = handleQuotesInString(line)
         if rData:
             line = "const char SECTION(\".RDATA\") " + line
         else:
             line = "char SECTION(\".sdata\") " + line
         line = removeColonSubstr(line, "db")
-        line = line.replace("db", "[] =")
+        line = line.replace("db ", "[] = ")
 
         line = line.replace("\", 0xA", "\\n\"")
 
         # Remove string junk
-        line = line.replace(", 0x0", ";")
+        if line.rstrip().endswith(", 0x0"):
+            line = line.replace(", 0x0", ";")
+        else:
+            line = line + ";"
 
         print(line.rstrip())
         # handle next lines until another label is found
         while True:
             currPos = fp.tell()
             lineCandidate = fp.readline()
-            if not lineCandidate.rstrip().endswith("db 0") and not lineCandidate.rstrip().endswith("db 0, 0, 0") and not lineCandidate.endswith("dh 0") and not isLineJustComment(lineCandidate):
+            if not isJustDbZero(lineCandidate) and not lineCandidate.rstrip().endswith("db 0, 0, 0") and not lineCandidate.endswith("dh 0") and not isLineJustComment(lineCandidate):
                 fp.seek(currPos)
                 break
             # ignoring those additional string lines - useless
