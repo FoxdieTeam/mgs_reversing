@@ -25,7 +25,7 @@ Progress: $ret%
 "
 Write-Host $msg
 
-if ($Env:APPVEYOR_URL && !$Env:APPVEYOR_PULL_REQUEST_NUMBER)
+if ($Env:APPVEYOR_URL -And !$Env:APPVEYOR_PULL_REQUEST_NUMBER)
 {
 	.\webhook.ps1 -webHookUrl (get-item env:HOOK_URL).Value -message $msg
 }
