@@ -40,7 +40,7 @@ int SECTION(".sbss") word_800ABA2C;
 int SECTION(".sbss") dword_800ABA30;
 
 short SECTION(".sbss") word_800ABA34[2];
-int SECTION(".sbss") dword_800ABA38;
+int SECTION(".sbss") gLoaderState_800ABA38;
 int SECTION(".sbss") dword_800ABA3C;
 int SECTION(".sbss") dword_800ABA40[2];
 int SECTION(".sbss") dword_800ABA48[2];
