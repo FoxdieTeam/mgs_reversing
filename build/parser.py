@@ -1,5 +1,16 @@
-fileToOpen = "../asm/rom_sdata.s"
-importantLinesStartAt = 15
+fileToOpen = "../asm/rom_rdata.s"
+importantLinesStartAt = 92
+rData = True
+
+sectionString = "sdata"
+if rData:
+    sectionString = "RDATA"
+
+byteCrapCounter = 2
+wordCrapCounter = 12
+stringCrapCounter = 0
+
+#TODO parse header
 
 def peekLine(fp):
     pos = fp.tell()
@@ -14,16 +25,23 @@ def removeColonSubstr(line, varType):
 
 def removeComment(line):
     #TODO make them C comments instead
-    commentIdx = line.find(";")
-    if commentIdx:
-        line = line[:commentIdx]
-
-    # Get rid of spaces, too
-    while True:
-        if line[-1] == " ":
-            line = line[:-1]
-        else:
+    commentIdx = -1
+    inQuotes = False
+    for i, c in enumerate(line):
+        if c == "\"":
+            inQuotes = not inQuotes
+        if c == ";" and not inQuotes:
+            commentIdx = i
             break
+
+    if commentIdx != -1:
+        line = line[:commentIdx]
+        # Get rid of spaces, too
+        while True:
+            if len(line) > 0 and line[-1] == " ":
+                line = line[:-1]
+            else:
+                break
     return line
 
 def isTableAlready(line):
@@ -34,7 +52,7 @@ def isTableAlready(line):
 def makeLineTable(line):
     if not isTableAlready(line):
         putStartBracketHere = line.find(" = ")
-        line = line[:putStartBracketHere + 3] + "{" + line[putStartBracketHere + 3:] + '}'
+        line = line[:putStartBracketHere + 3] + "{" + line[putStartBracketHere + 3:].rstrip() + '}'
         line = line.replace(" = ", "[] = ")
     return line
 
@@ -49,10 +67,24 @@ def appendTableElems(tableElems, line):
     return line
 
 def handleOneLineTables(line):
-    comma = line.find(",")
-    if comma != -1:
+    if line.find(",") != -1:
         line = makeLineTable(line)
     return line
+
+def anotherLabelFound(line, varType):
+    varTypes = ["db", "dw"]
+    varTypes.remove(varType)
+    for varT in varTypes:
+        if line.find(varT) != -1:
+            return True
+    return False
+
+def isLineJustComment(line):
+    for i, c in enumerate(line):
+        if c != " " and c != ";":
+            return False
+        if c == ";":
+            return True
 
 def handleMultipleLines(line, fp, varType):
     # handle next lines until another label is found
@@ -60,24 +92,162 @@ def handleMultipleLines(line, fp, varType):
     while True:
         currPos = fp.tell()
         lineCandidate = fp.readline()
-        if not lineCandidate.startswith(" "):
+        if isLineJustComment(lineCandidate):
+            currPos = fp.tell()
+            lineCandidate = fp.readline()
+
+        if not lineCandidate.startswith(" ") or (not lineCandidate.startswith(" ") and not anotherLabelFound(lineCandidate, varType)):
             fp.seek(currPos)
             break
 
+        if isLineJustComment(lineCandidate):
+            continue
+
         #handling next lines (assuming it's a continued table)
+        lineCandidate = removeComment(lineCandidate)
         toRemove = lineCandidate.find(varType + " ")
         lineCandidate = lineCandidate[toRemove + 3:]
         while True:
             comma = lineCandidate.find(",")
             if comma != -1:
-                additionalTableVars.append(lineCandidate[:comma])
+                additionalTableVars.append(lineCandidate[:comma].rstrip())
                 lineCandidate = lineCandidate[comma + 2:] #skip comma and space
             else:
-                additionalTableVars.append(lineCandidate[:comma])
+                additionalTableVars.append(lineCandidate.rstrip())
                 break
         #print(additionalTableVars)
 
     line = appendTableElems(additionalTableVars, line)
+    return line, fp
+
+def isLineStrayString(line):
+    if line.find("\"") != -1 and line.startswith(" "):
+        return True
+    return False
+
+def handleStrayLabels(line):
+    if isLineStrayString(line):
+        global stringCrapCounter
+        line =  "aString_" + "crap" + str(stringCrapCounter) + ":" + line
+    elif line.startswith(" "):
+        if line.find("db") != -1:
+            global byteCrapCounter
+            line = "byte_" + "crap" + str(byteCrapCounter) + ":" + line
+            byteCrapCounter += 1
+        elif line.find("dw") != -1:
+            global wordCrapCounter
+            line = "dword_" + "crap" + str(wordCrapCounter) + ":" + line
+            wordCrapCounter += 1
+        # print("stray line")
+        # print(line, end="")
+    return line
+
+def isJustDbZero(line):
+    if line.rstrip().endswith("0"):
+        for c in reversed(line.rstrip()):
+            if c != "d" and c != "b" and c != " " and c != "0":
+                return False
+        return True
+    return False
+
+def handleQuotesInString(line):
+    startIdx = -1
+    endIdx = line.rfind("\"")
+    inQuotes = False
+    for i, c in enumerate(line):
+        if c == "\"" and line[i+1] == "\"" and inQuotes and i != startIdx and i+1 != endIdx:
+            line = line[:i] + "\\" + line[i + 1:]
+        if c == "\"" and not inQuotes:
+            inQuotes = True
+            startIdx = i
+    return line
+
+def getLabel(line):
+    # on premodified string
+    idx = line.rstrip().find(":")
+    return line[:idx+1]
+
+def parse(line, fp):
+    global sectionString
+    line = handleStrayLabels(line)
+
+    # c string
+    if line.startswith('a'):
+        label = getLabel(line)
+        line = handleQuotesInString(line)
+        if rData:
+            line = "const char SECTION(\".RDATA\") " + line
+        else:
+            line = "char SECTION(\".sdata\") " + line
+        line = removeColonSubstr(line, "db")
+        line = line.replace("db ", "[] = ")
+
+        line = line.replace("\", 0xA", "\\n\"")
+
+        # Remove string junk
+        if line.rstrip().endswith(", 0x0"):
+            line = line.replace(", 0x0", ";")
+        else:
+            line = line + ";"
+
+        if line.rstrip().endswith("= \"\\n\";"):
+            oldLine = line
+            line = fp.readline()
+            if not isLineJustComment(line):
+                line = label + line
+                breakIdx = line.find("\"")
+                line = line[:breakIdx] + "\"\\n" + line[breakIdx + 1:]
+
+                line = handleQuotesInString(line)
+                if rData:
+                    line = "const char SECTION(\".RDATA\") " + line
+                else:
+                    line = "char SECTION(\".sdata\") " + line
+                line = removeColonSubstr(line, "db")
+                line = line.replace("db ", "[] = ")
+
+                line = line.replace("\", 0xA", "\\n\"")
+
+                # Remove string junk
+                if line.rstrip().endswith(", 0x0"):
+                    line = line.replace(", 0x0", ";")
+                else:
+                    line = line + ";"
+            else:
+                line = oldLine
+
+
+        print(line.rstrip())
+        # handle next lines until another label is found
+        while True:
+            currPos = fp.tell()
+            lineCandidate = fp.readline()
+            if not isJustDbZero(lineCandidate) and not lineCandidate.rstrip().endswith("db 0, 0, 0") and not lineCandidate.endswith("dh 0") and not isLineJustComment(lineCandidate):
+                fp.seek(currPos)
+                break
+            # ignoring those additional string lines - useless
+
+    elif line.startswith("byte"):
+        line = "char SECTION(\"." + sectionString + "\") " + line
+        line = removeColonSubstr(line, "db")
+        line = line.replace("db ", " = ")
+
+        line = handleOneLineTables(line)
+        line, fp = handleMultipleLines(line, fp, "db")
+        line = line.rstrip()
+        line = line + ";"
+        print(line)
+
+    if line.startswith("dword") or line.startswith("jpt"):
+        line = "int SECTION(\"." + sectionString + "\") " + line
+        line = removeColonSubstr(line, "dw")
+        line = line.replace("dw ", " = ")
+
+        line = handleOneLineTables(line)
+        line, fp = handleMultipleLines(line, fp, "dw")
+        line = line.rstrip()
+        line = line + ";"
+        print(line)
     return line, fp
 
 with open(fileToOpen, 'r') as fp:
@@ -87,51 +257,7 @@ with open(fileToOpen, 'r') as fp:
     while line:
         if cnt > importantLinesStartAt:
             line = removeComment(line)
-
-            # c string
-            if line.startswith('a'):
-                line = "char SECTION(\".sdata\") " + line
-                line = removeColonSubstr(line, "db")
-                line = line.replace("db", "[] =")
-
-                line = line.replace("\", 0xA", "\\n\"")
-
-                # Remove string junk
-                line = line.replace(", 0x0", ";")
-
-                print(line)
-                # handle next lines until another label is found
-                while True:
-                    currPos = fp.tell()
-                    lineCandidate = fp.readline()
-                    if not lineCandidate.startswith(" "):
-                        fp.seek(currPos)
-                        break
-                    # ignoring those additional string lines - useless
-                
-            elif line.startswith("byte"):
-                line = "char SECTION(\".sdata\") " + line
-                line = removeColonSubstr(line, "db")
-                line = line.replace("db ", " = ")
-
-                line = handleOneLineTables(line)
-                line, fp = handleMultipleLines(line, fp, "db")
-
-                line = line + ";"
-                print(line)
-
-            if line.startswith("dword"):
-                line = "int SECTION(\".sdata\") " + line
-                line = removeColonSubstr(line, "dw")
-                line = line.replace("dw ", " = ")
-
-                line = handleOneLineTables(line)
-                line, fp = handleMultipleLines(line, fp, "dw")
-
-                line = line + ";"
-                print(line)
+            line, fp = parse(line, fp)
 
         line = fp.readline()
         cnt += 1
-
-
