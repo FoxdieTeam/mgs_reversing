@@ -6,7 +6,6 @@
 	include "..\obj\rdata.obj"
 	include "..\obj\data.obj"
 	include "..\obj\main.obj"
-	include "..\obj\rom_rdata.obj"
 	include	"..\obj\rom1.obj"
 	include	"..\obj\rom2.obj"
 	include	"..\obj\rom3.obj"
