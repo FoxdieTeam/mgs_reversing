@@ -39,7 +39,8 @@ group_80014CF0	 group org($80014CF0)
 	section .0x80014d18, group_80014CF0 ; GV_StartDaemon c
 	section .0x80015240, group_80014CF0 ; sub_80015240 func after ExecActorSystem
 	
-group_8002e460	 group org($8002e460)
+group_8002e460	 group org($8002e41c)
+	section .Loader_Kill_8002e41c, group_8002e460
 	section .Loader_Init_8002e460, group_8002e460
 	section .0x8002e508, group_8002e460
 	

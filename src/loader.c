@@ -5,6 +5,7 @@
 extern const char aLoadReq[];
 extern const char aNotFoundStageS[];
 extern const char aLoaderC[];
+extern const char aLoadEnd[];
 
 // TODO: Copied from PC rev, might be wrong
 struct Actor_Loader_Impl
@@ -27,6 +28,7 @@ struct Actor_Loader_Impl
 };
 
 extern struct Actor_Loader_Impl* sub_800236E0(const char* pStageName);
+extern void Loader_End_80023804(struct Actor_Loader_Impl* pImpl);
 
 struct Loader
 {
@@ -39,13 +41,19 @@ struct Loader
 };
 
 extern void Loader_Act_8002e390(struct Loader* loader);
-extern void Loader_Kill_8002e41c(struct Loader* loader);
 
 extern void mg_printf(const char*, ...);
 
 extern int gLoaderState_800ABA38;
 extern int dword_800AB3D0;
 
+
+void SECTION(".Loader_Init_8002e460") Loader_Kill_8002e41c(struct Loader* pLoader)
+{
+	mg_printf(aLoadEnd);
+	Loader_End_80023804(pLoader->field_20);
+	gLoaderState_800ABA38 = 0xffffffff;
+}
 
 struct Loader* SECTION(".Loader_Init_8002e460") Loader_Init_8002e460(const char* pStageName)
 {
