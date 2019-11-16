@@ -7,7 +7,7 @@ if rData:
     sectionString = "RDATA"
 
 byteCrapCounter = 2
-wordCrapCounter = 9
+wordCrapCounter = 12
 stringCrapCounter = 0
 
 #TODO parse header
@@ -162,12 +162,18 @@ def handleQuotesInString(line):
             startIdx = i
     return line
 
+def getLabel(line):
+    # on premodified string
+    idx = line.rstrip().find(":")
+    return line[:idx+1]
+
 def parse(line, fp):
     global sectionString
     line = handleStrayLabels(line)
 
     # c string
     if line.startswith('a'):
+        label = getLabel(line)
         line = handleQuotesInString(line)
         if rData:
             line = "const char SECTION(\".RDATA\") " + line
@@ -183,6 +189,33 @@ def parse(line, fp):
             line = line.replace(", 0x0", ";")
         else:
             line = line + ";"
+
+        if line.rstrip().endswith("= \"\\n\";"):
+            oldLine = line
+            line = fp.readline()
+            if not isLineJustComment(line):
+                line = label + line
+                breakIdx = line.find("\"")
+                line = line[:breakIdx] + "\"\\n" + line[breakIdx + 1:]
+
+                line = handleQuotesInString(line)
+                if rData:
+                    line = "const char SECTION(\".RDATA\") " + line
+                else:
+                    line = "char SECTION(\".sdata\") " + line
+                line = removeColonSubstr(line, "db")
+                line = line.replace("db ", "[] = ")
+
+                line = line.replace("\", 0xA", "\\n\"")
+
+                # Remove string junk
+                if line.rstrip().endswith(", 0x0"):
+                    line = line.replace(", 0x0", ";")
+                else:
+                    line = line + ";"
+            else:
+                line = oldLine
+
 
         print(line.rstrip())
         # handle next lines until another label is found
