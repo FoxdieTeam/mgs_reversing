@@ -48,14 +48,14 @@ extern int gLoaderState_800ABA38;
 extern int dword_800AB3D0;
 
 
-void SECTION(".Loader_Init_8002e460") Loader_Kill_8002e41c(struct Loader* pLoader)
+void Loader_Kill_8002e41c(struct Loader* pLoader)
 {
 	mg_printf(aLoadEnd);
 	Loader_End_80023804(pLoader->field_20);
 	gLoaderState_800ABA38 = 0xffffffff;
 }
 
-struct Loader* SECTION(".Loader_Init_8002e460") Loader_Init_8002e460(const char* pStageName)
+struct Loader* Loader_Init_8002e460(const char* pStageName)
 {
 	struct Loader* pLoader;
 	struct Actor_Loader_Impl* pUnknown;

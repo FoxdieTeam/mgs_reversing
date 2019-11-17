@@ -67,7 +67,7 @@ foreach ($file in $sFiles)
 }
 
 # Run the linker
-psylink.exe /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
+psylink.exe /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"

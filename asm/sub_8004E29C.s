@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef sub_8004E29C
+sub_8004E29C:
+	dw 0x3C02800B ; 0x8004E29C
+	dw 0x8C42BA50 ; 0x8004E2A0
+	dw 0x00000000 ; 0x8004E2A4
+	dw 0x00441024 ; 0x8004E2A8
+	dw 0x03E00008 ; 0x8004E2AC
+	dw 0x0002102B ; 0x8004E2B0

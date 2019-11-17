@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef sub_80090D04
+sub_80090D04:
+	dw 0x3C02800A ; 0x80090D04
+	dw 0x8C424398 ; 0x80090D08
+	dw 0x00000000 ; 0x80090D0C
+	dw 0x8C420000 ; 0x80090D10
+	dw 0x03E00008 ; 0x80090D14
+	dw 0x00000000 ; 0x80090D18

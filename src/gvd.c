@@ -8,13 +8,16 @@ int SECTION(".sbss") dword_800AB91C;
 int SECTION(".sbss") dword_800AB920;
 int SECTION(".sbss") dword_800AB924;
 
-extern const char aBislpm86247[];
 
 // sdata ================================================
+
+
+extern const char aBislpm86247[];
 
 int SECTION(".sdata") dword_800AB2E4 = 0x200000; // ram size
 int SECTION(".sdata") dword_800AB2E8 = 0x8000; // stack size
 const char* SECTION(".sdata") off_800AB2EC = aBislpm86247;
+
 const char SECTION(".sdata") aMem[] = "mem:";
 const char SECTION(".sdata") aPad[] = "pad:";
 const char SECTION(".sdata") aGv[] = "gv:";
@@ -26,8 +29,11 @@ const char SECTION(".sdata") aSound[] = "sound:";
 const char SECTION(".sdata") aGm[] = "gm:";
 const char SECTION(".sdata") aStart[] = "start\n";
 
+
 int SECTION(".sdata") dword_800AB330 = 0;
 int SECTION(".sdata") dword_800AB334 = 0; // pad ??
+
+// [other_c_sdata]
 
 // ========================================================
 
@@ -45,7 +51,7 @@ extern void sub_80014b34(void);
 
 struct Actor SECTION(".gGVActor_800acbf8") gGVActor_800acbf8;
 
-void SECTION(".0x80014d18") GV_StartDaemon_80014d18(void)
+void GV_StartDaemon_80014d18(void)
 {
 	GV_ActorList_Init_80014d98();
 	sub_800163b0();

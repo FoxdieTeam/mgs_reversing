@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef sub_8003F838
+sub_8003F838:
+	dw 0x90820028 ; 0x8003F838
+	dw 0x00000000 ; 0x8003F83C
+	dw 0x304200FE ; 0x8003F840
+	dw 0x03E00008 ; 0x8003F844
+	dw 0xA0820028 ; 0x8003F848

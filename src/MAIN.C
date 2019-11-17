@@ -47,7 +47,8 @@ extern void GM_StartDaemon(void);
 extern void sub_8008B648(int, void*, long);
 extern void sub_8008b47c(int ,void*, void*);
 
-static void SECTION(".0x800148B8") sub_800148B8( void )
+
+static void sub_800148B8( void )
 {
 	RECT rect;
 	static unsigned char SECTION(".0x800AC3F0") SdStack[2048];
@@ -109,7 +110,7 @@ static void SECTION(".0x800148B8") sub_800148B8( void )
 	}
 }
 
-void SECTION(".0x80014a40") _main()
+void _main()
 {
 	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;
 	__main();

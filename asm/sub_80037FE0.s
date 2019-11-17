@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef sub_80037FE0
+sub_80037FE0:
+	dw 0x3C02800C ; 0x80037FE0
+	dw 0x24429340 ; 0x80037FE4
+	dw 0x2484FFFF ; 0x80037FE8
+	dw 0x00042080 ; 0x80037FEC
+	dw 0x00822021 ; 0x80037FF0
+	dw 0x03E00008 ; 0x80037FF4
+	dw 0xA4850000 ; 0x80037FF8

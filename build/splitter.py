@@ -4,7 +4,7 @@
 
 import sys, os
 
-fileToOpen = "../asm/rom3.s"
+fileToOpen = "../asm/rom0.s"
 outFolder = "../asm/" #"test/"
 linkerTxtPath = "linker_command_file.txt"
 importantLinesStartAt = 2
@@ -14,7 +14,7 @@ objIncludes = []
 if len(sys.argv) < 2:
     print("Usage:")
     print("python splitter.py <file> <optional_outfolder>")
-    exit()
+#    exit()
 
 if len(sys.argv) >= 2:
     fileToOpen = str(sys.argv[1])
@@ -38,7 +38,7 @@ def addToLinker(fileName):
 
     pastHeader = False
     onlyOnce = True
-    idx = 1
+    idx = 0
     with open(linkerTxtPath,"w") as linker:
         while idx < len(oldLinker):
             linkerLine = oldLinker[idx]
@@ -56,15 +56,16 @@ def makeFile(fp, line):
     fileName = line[line.find("	xdef ")+6:]
     print("Processing file: " + fileName.rstrip() + ".s")
     with open(outFolder.rstrip() + fileName.rstrip() + ".s","w+") as write:
-        write.write("	opt	c+, at+, e+, n-")
+        write.write("	opt	c+, at+, e+, n-\n	section .text\n\n")
         write.write("")
         write.write(line)
 
         line = fp.readline()
         while len(line) > 1:
-            write.write(line)
+            if line.find("section") == -1:
+                write.write(line)
             line = fp.readline()
-
+            
     objIncludes.append("	include	\"..\\obj\\"+fileName.rstrip()+".obj\"")
     return fp, line
 

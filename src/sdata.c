@@ -1,5 +1,7 @@
 #include "linker.h"
 
+
+
 const char SECTION(".sdata") aGvdC[] = "gvd.c";
 const char SECTION(".sdata") asc_800AB340[] = "#";
 const char SECTION(".sdata") aNone[] = "none";	
@@ -257,3 +259,4 @@ char SECTION(".sdata") aD_2[] = "%d";
 char SECTION(".sdata") aDD[] = "%d %d\n";
 char SECTION(".sdata") aStinger[] = "stinger";
 char SECTION(".sdata") aRifle[] = "rifle";
+

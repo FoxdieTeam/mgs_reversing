@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef sub_80038B98
+sub_80038B98:
+	dw 0x3C036480 ; 0x80038B98
+	dw 0x34638080 ; 0x80038B9C
+	dw 0x3C02800A ; 0x80038BA0
+	dw 0x2442E2E4 ; 0x80038BA4
+	dw 0xAC43000C ; 0x80038BA8
+	dw 0x03E00008 ; 0x80038BAC
+	dw 0xAC400008 ; 0x80038BB0
