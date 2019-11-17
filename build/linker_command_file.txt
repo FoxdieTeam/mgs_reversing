@@ -7,9 +7,6 @@
 	include "..\obj\data.obj"
 	include "..\obj\main.obj"
 	include "..\obj\loader.obj"
-	include	"..\obj\rom1.obj"
-	include	"..\obj\rom2.obj"
-	include	"..\obj\rom3.obj"
 	include "..\obj\rom_data.obj"
 	include "..\obj\gvd.obj"	
 	include "..\obj\sdata.obj"		
@@ -80,4 +77,5 @@ group_gGVActor_800acbf8	group bss,org($800acbf8)
 
 
 
-	regs    pc=exe_entry_point
+	regs    pc=sub_80098E6C
+
