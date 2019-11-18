@@ -68,7 +68,7 @@
 	include	"..\obj\sub_8001682C.obj"
 	include	"..\obj\sub_80016C78.obj"
 	include	"..\obj\sub_80016C84.obj"
-	include	"..\obj\sub_80016CCC.obj"
+	include	"..\obj\strcode.obj"
 	include	"..\obj\sub_80016D00.obj"
 	include	"..\obj\sub_80016D40.obj"
 	include	"..\obj\sub_80016D80.obj"
