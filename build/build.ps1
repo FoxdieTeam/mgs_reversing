@@ -42,7 +42,7 @@ foreach ($file in $cFiles)
     ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Compiled $PSScriptRoot\..\src\$objName.c"  -ForegroundColor "green"
+        Write-Host "Compiled ..\src\$objName.c"  -ForegroundColor "green"
     } 
     else 
     {
@@ -57,8 +57,8 @@ foreach ($file in $sFiles)
     $objName = $file.Name
     $objName = $objName.replace(".S", "").replace(".s", "")
 	
-	$fullObjName = "$PSScriptRoot\..\obj\$objName.obj"
-	$fullSName = "$PSScriptRoot\..\asm\$objName.s"
+	$fullObjName = "..\obj\$objName.obj"
+	$fullSName = "..\asm\$objName.s"
 	
 	$upToDate = $false
 	if ([System.IO.File]::Exists($fullObjName))
@@ -110,8 +110,8 @@ else
 
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
-	.\MDasm.exe ..\SLPM_862.47 126048 126212 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 126048 126212 | Out-File "dump.asm"
+	.\MDasm.exe ..\SLPM_862.47 21616 21700 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 21616 21700 | Out-File "dump.asm"
 }
 
 # Validate the output is matching the OG binary hash

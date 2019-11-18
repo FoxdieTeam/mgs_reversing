@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015AF4
-sub_80015AF4:
+	xdef System_init_80015AF4
+System_init_80015AF4:
 	dw 0x00041A00 ; 0x80015AF4
 	dw 0x00641821 ; 0x80015AF8
 	dw 0x00031900 ; 0x80015AFC

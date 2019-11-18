@@ -33,6 +33,7 @@ const char SECTION(".sdata") aStart[] = "start\n";
 int SECTION(".sdata") dword_800AB330 = 0;
 int SECTION(".sdata") dword_800AB334 = 0; // pad ??
 
+
 // [other_c_sdata]
 
 // ========================================================
@@ -40,6 +41,34 @@ int SECTION(".sdata") dword_800AB334 = 0; // pad ??
 extern const char aGvdC[];
 
 extern void GV_Act_80014b60(struct Actor*);
+
+extern void System_init_80015AF4(int index, int bDynamic, void* pMemory, unsigned int size);
+extern void sub_80015AB0(void);
+extern void sub_80014BD8(void);
+
+extern const char aResidentTopX[];
+
+
+extern void mg_printf(const char*, ...);
+extern int gResidentTop_800AB940;
+
+
+void sub_80014c70(void)
+{
+	sub_80015AB0();
+	sub_80014BD8();
+	System_init_80015AF4(2, 0, (void*)0x80117000, 0x6b000); // TODO: Is actually like unsigned char* heap_80117000[438272];
+	mg_printf(aResidentTopX, gResidentTop_800AB940);
+}
+
+extern void sub_800164AC(void);
+extern void sub_800167C8(void);
+
+void sub_80014cc8(void)
+{
+	sub_800164AC();
+	sub_800167C8();
+}
 
 extern void sub_80015540(void);
 extern void sub_80014C70(void);

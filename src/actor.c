@@ -6,7 +6,8 @@
 int SECTION(".sbss") dword_800AB928;
 int SECTION(".sbss") dword_0x800AB92C[4];
 short SECTION(".sbss") pad1;
-int SECTION(".sbss") dword_800AB940[7];
+int SECTION(".sbss") gResidentTop_800AB940;
+int SECTION(".sbss") dword_800AB944[6];
 
 short SECTION(".sbss") pad2;
 int SECTION(".sbss") dword_800AB960[2];
