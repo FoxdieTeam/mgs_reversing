@@ -12,7 +12,7 @@ $asmCount = Get-ChildItem ..\asm\ -recurse | Measure-Object -property length -su
 $total = $sourceCount.Sum + $asmCount.Sum
 
 $ret = Percentage -cur $sourceCount.Sum -max $total
-$ret = [math]::Round($ret,8)
+$ret = [math]::Round($ret,4)
 
 $srcCount = $sourceCount.Sum
 $asmCount = $asmCount.Sum
