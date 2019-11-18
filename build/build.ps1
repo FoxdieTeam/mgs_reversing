@@ -29,8 +29,8 @@ if (![string]::IsNullOrEmpty($psyq_path))
     Out-File $psyq_path\psyq.ini
 }
 
-Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore | out-null
-New-Item -ItemType directory -Path $PSScriptRoot\..\obj | out-null
+#Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore | out-null
+New-Item -ItemType directory -Path $PSScriptRoot\..\obj -ErrorAction SilentlyContinue | out-null
 
 # Compile all .C files
 $cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
@@ -38,6 +38,7 @@ foreach ($file in $cFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".C", "").replace(".c", "")
+		
     ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
@@ -55,15 +56,31 @@ foreach ($file in $sFiles)
 {
     $objName = $file.Name
     $objName = $objName.replace(".S", "").replace(".s", "")
-    asmpsx.exe /l /q "$PSScriptRoot\..\asm\$objName.s","$PSScriptRoot\..\obj\$objName.obj"
-    if($LASTEXITCODE -eq 0)
-    {
-        Write-Host "Assembled $PSScriptRoot\..\asm\$objName.s"  -ForegroundColor "green"
-    } 
-    else 
-    {
-        Write-Error "Assembling failed for:asmpsx.exe /l /q $PSScriptRoot\..\asm\$objName.s,$PSScriptRoot\..\obj\$objName.obj"
-    }
+	
+	$fullObjName = "$PSScriptRoot\..\obj\$objName.obj"
+	$fullSName = "$PSScriptRoot\..\asm\$objName.s"
+	
+	$upToDate = $false
+	if ([System.IO.File]::Exists($fullObjName))
+	{
+		$asmWriteTime = (get-item $fullSName).LastWriteTime
+		$objWriteTime = (get-item $fullObjName).LastWriteTime
+		$upToDate = $asmWriteTime -le $objWriteTime
+		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
+	}
+	
+	if ($upToDate -eq $false)
+	{
+		asmpsx.exe /l /q $fullSName,$fullObjName 
+		if($LASTEXITCODE -eq 0)
+		{
+			Write-Host "Assembled $fullSName"  -ForegroundColor "green"
+		} 
+		else 
+		{
+			Write-Error "Assembling failed for:asmpsx.exe /l /q $fullSName,$fullObjName "
+		}
+	}
 }
 
 # Run the linker
