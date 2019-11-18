@@ -13,7 +13,6 @@
 	include	"..\obj\sub_80014B2C.obj"
 	include	"..\obj\sub_80014B34.obj"
 	include	"..\obj\sub_80014BD8.obj"
-	include	"..\obj\sub_80014C28.obj"
 	include "..\obj\gvd.obj"
 	include "..\obj\sdata.obj"		
 	include "..\obj\actor.obj"
