@@ -41,6 +41,15 @@ extern const char aGvdC[];
 
 extern void GV_Act_80014b60(struct Actor*);
 
+extern void sub_80015540(void);
+extern void sub_80014C70(void);
+
+void sub_80014cf0(void)
+{
+	sub_80015540();
+	sub_80014C70();
+}
+
 extern void sub_800163b0(void);
 extern void sub_80015434(void);
 extern void sub_80015434(void);
