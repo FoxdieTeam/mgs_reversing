@@ -314,7 +314,7 @@ int SECTION(".DATA") dword_8009DEAC[] = { 0, 0, 0, 0 };
 short SECTION(".DATA") word_8009DEBC[] = { 0x78, 0x25, 0x58, 0x19 };
 
 
-unsigned int SECTION(".dword_8009DEC4") dword_8009DEC4[] = 
+unsigned int SECTION(".DATA") dword_8009DEC4[] = 
 {
 	0x190068, 0x1F0068, 0x1F0079, 0x280079, 0x280079,
 	0x200079, 0x200087, 0x2A0087, 0x450087, 0x250058,
@@ -367,12 +367,12 @@ unsigned int SECTION(".dword_8009DEC4") dword_8009DEC4[] =
 };
 
 
-int SECTION(".dword_8009E280") dword_8009E280 =  0;
-int SECTION(".dword_8009E280") dword_8009E284 =  0;
-int SECTION(".dword_8009E280") dword_8009E288 =  0;
-int SECTION(".dword_8009E280") dword_8009E28C =  0;
+int SECTION(".DATA") dword_8009E280 =  0;
+int SECTION(".DATA") dword_8009E284 =  0;
+int SECTION(".DATA") dword_8009E288 =  0;
+int SECTION(".DATA") dword_8009E28C =  0;
 
-int SECTION(".dword_8009E280") dword_8009E290[] =
+int SECTION(".DATA") dword_8009E290[] =
 {
 	0x8003CC94,
 	0x8003B474,
@@ -385,7 +385,7 @@ int SECTION(".dword_8009E280") dword_8009E290[] =
 	0
 };
 
-int SECTION(".dword_8009E280") dword_8009E2B4[] =
+int SECTION(".DATA") dword_8009E2B4[] =
 {
 	0x8003B554,
 	0x8004271C,
@@ -398,29 +398,18 @@ int SECTION(".dword_8009E280") dword_8009E2B4[] =
 	
 
 
-int SECTION(".dword_8009E280") dword_8009E2D0 =  0;
-int SECTION(".dword_8009E280") dword_8009E2D4 =  0;
-int SECTION(".dword_8009E280") dword_8009E2D8 =  0;
-int SECTION(".dword_8009E280") dword_8009E2DC =  0;
-int SECTION(".dword_8009E280") dword_8009E2E0 =  0;
-int SECTION(".dword_8009E280") dword_8009E2E4 =  0;
-int SECTION(".dword_8009E280") dword_8009E2E8 =  0;
-int SECTION(".dword_8009E280") dword_8009E2EC =  0;
+int SECTION(".DATA") dword_8009E2D0 =  0;
+int SECTION(".DATA") dword_8009E2D4 =  0;
+int SECTION(".DATA") dword_8009E2D8 =  0;
+int SECTION(".DATA") dword_8009E2DC =  0;
+int SECTION(".DATA") dword_8009E2E0 =  0;
+int SECTION(".DATA") dword_8009E2E4 =  0;
+int SECTION(".DATA") dword_8009E2E8 =  0;
+int SECTION(".DATA") dword_8009E2EC =  0;
 
-int SECTION(".dword_8009E280") dword_8009E2F0 =  0x64808080;
-int SECTION(".dword_8009E280") dword_8009E2F4[] = { 0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808 };
+int SECTION(".DATA") dword_8009E2F0 =  0x64808080;
+int SECTION(".DATA") dword_8009E2F4[] = { 0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808 };
 
-int SECTION(".dword_8009E280") dword_8009E30C =  0xC1C5080;
-int SECTION(".dword_8009E280") dword_8009E310[] = { 0x72C5C80, 0xC1C509C, 0x73A6380, 0xC1C50B8, 0x72C5CB4, 0xC3A6A8A, 0x73A768A };
+int SECTION(".DATA") dword_8009E30C =  0xC1C5080;
+int SECTION(".DATA") dword_8009E310[] = { 0x72C5C80, 0xC1C509C, 0x73A6380, 0xC1C50B8, 0x72C5CB4, 0xC3A6A8A, 0x73A768A };
 
-
-//unsigned char SECTION(".dword_8009E280") byte_8009E32C[] = { 0xBC, 0x63};
-//unsigned char SECTION(".dword_8009E280") byte_8009E32E[] = { 0x24, 3 };
-
-/*
-
-int SECTION(".dword_8009E280") dword_8009E330 =  0x100A6A80;
-char SECTION(".dword_8009E280") byte_8009E334 =  0xC4;
-char SECTION(".dword_8009E280") byte_8009E335[] = { 0x66,0x1C, 0x16 };
-char SECTION(".dword_8009E280") byte_8009E338[] = { 0, 0 };
-*/

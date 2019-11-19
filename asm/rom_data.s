@@ -1,7 +1,5 @@
 	opt	c+, at+, e+, n-
 
-	section	.DATA_ASM
-
 
     xref aSlpm86247
     xref aSlpm86248
@@ -109,7 +107,7 @@
 	xref dword_800AB754
 	xref aNo
 
-	section .dword_8003CC94
+	section .ASM_DATA
 
 
 byte_8009E32C:  db 0xBC, 0x63         ; DATA XREF: sub_80039EC4+150?o

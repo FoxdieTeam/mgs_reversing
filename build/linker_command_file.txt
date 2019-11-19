@@ -2098,10 +2098,7 @@ group_all	group
 	section .rdata, group_all
 	section .text, group_all
 	section .data, group_all
-	section .DATA_ASM, group_all
-	section .dword_8009DEC4,group_all
-	section .dword_8009E280,group_all
-	section .dword_8003CC94,group_all
+	section .ASM_DATA,group_all
 	section .sdata2, group_all
 	section .sdata, group_all
 	section .sbss, group_all
