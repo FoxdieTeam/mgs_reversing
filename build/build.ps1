@@ -61,10 +61,11 @@ foreach ($file in $sFiles)
 	$fullSName = "..\asm\$objName.s"
 	
 	$upToDate = $false
-	if ([System.IO.File]::Exists($fullObjName))
+
+	if ([System.IO.File]::Exists("$PSScriptRoot\$fullObjName"))
 	{
-		$asmWriteTime = (get-item $fullSName).LastWriteTime
-		$objWriteTime = (get-item $fullObjName).LastWriteTime
+		$asmWriteTime = (get-item "$PSScriptRoot\$fullSName").LastWriteTime
+		$objWriteTime = (get-item "$PSScriptRoot\$fullObjName").LastWriteTime
 		$upToDate = $asmWriteTime -le $objWriteTime
 		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
 	}
