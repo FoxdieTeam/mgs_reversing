@@ -48,10 +48,14 @@ extern void sub_80014BD8(void);
 
 extern const char aResidentTopX[];
 
+void sub_80014C28()
+{
+    System_init_80015AF4(0, 0, (void*)0x80182000, 0x5E000 );
+    System_init_80015AF4(1, 0, (void*)0, 0);
+}
 
 extern void mg_printf(const char*, ...);
 extern int gResidentTop_800AB940;
-
 
 void sub_80014c70(void)
 {
