@@ -9,6 +9,7 @@ build_script:
  - ps: C:\mgs\build\build.ps1 -psyq_path C:\psyq\bin
  
 install:
+ - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
  - git submodule update --init --recursive
  - 7z x psyq.7z -oC:\  > nul
 
