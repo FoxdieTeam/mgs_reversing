@@ -1,13 +1,11 @@
-fileToOpen = "../asm/rom_rdata.s"
-importantLinesStartAt = 92
-rData = True
-
-sectionString = "sdata"
-if rData:
-    sectionString = "RDATA"
+fileToOpen = "../asm/rom_data.s"
+importantLinesStartAt = 114
+sectionString = "ASM_DATA"
+rData = False
 
 byteCrapCounter = 2
-wordCrapCounter = 12
+dwordCrapCounter = 12
+wordCrapCounter = 0
 stringCrapCounter = 0
 
 #TODO parse header
@@ -72,7 +70,7 @@ def handleOneLineTables(line):
     return line
 
 def anotherLabelFound(line, varType):
-    varTypes = ["db", "dw"]
+    varTypes = ["db", "dw", "dh"]
     varTypes.remove(varType)
     for varT in varTypes:
         if line.find(varT) != -1:
@@ -134,10 +132,14 @@ def handleStrayLabels(line):
             global byteCrapCounter
             line = "byte_" + "crap" + str(byteCrapCounter) + ":" + line
             byteCrapCounter += 1
-        elif line.find("dw") != -1:
+        elif line.find("dh") != -1:
             global wordCrapCounter
-            line = "dword_" + "crap" + str(wordCrapCounter) + ":" + line
+            line = "word_" + "crap" + str(wordCrapCounter) + ":" + line
             wordCrapCounter += 1
+        elif line.find("dw") != -1:
+            global dwordCrapCounter
+            line = "dword_" + "crap" + str(dwordCrapCounter) + ":" + line
+            dwordCrapCounter += 1
         # print("stray line")
         # print(line, end="")
     return line
@@ -176,9 +178,9 @@ def parse(line, fp):
         label = getLabel(line)
         line = handleQuotesInString(line)
         if rData:
-            line = "const char SECTION(\".RDATA\") " + line
+            line = "const char SECTION(\"."+sectionString+"\") " + line
         else:
-            line = "char SECTION(\".sdata\") " + line
+            line = "char SECTION(\"."+sectionString+"\") " + line
         line = removeColonSubstr(line, "db")
         line = line.replace("db ", "[] = ")
 
@@ -200,9 +202,9 @@ def parse(line, fp):
 
                 line = handleQuotesInString(line)
                 if rData:
-                    line = "const char SECTION(\".RDATA\") " + line
+                    line = "const char SECTION(\"."+sectionString+"\") " + line
                 else:
-                    line = "char SECTION(\".sdata\") " + line
+                    line = "char SECTION(\"."+sectionString+"\") " + line
                 line = removeColonSubstr(line, "db")
                 line = line.replace("db ", "[] = ")
 
@@ -238,7 +240,18 @@ def parse(line, fp):
         line = line + ";"
         print(line)
 
-    if line.startswith("dword") or line.startswith("jpt"):
+    elif line.startswith("word"):
+        line = "short SECTION(\"." + sectionString + "\") " + line
+        line = removeColonSubstr(line, "dh")
+        line = line.replace("dh ", " = ")
+
+        line = handleOneLineTables(line)
+        line, fp = handleMultipleLines(line, fp, "dh")
+        line = line.rstrip()
+        line = line + ";"
+        print(line)
+
+    if line.startswith("dword") or line.startswith("jpt") or line.startswith("off"):
         line = "int SECTION(\"." + sectionString + "\") " + line
         line = removeColonSubstr(line, "dw")
         line = line.replace("dw ", " = ")
