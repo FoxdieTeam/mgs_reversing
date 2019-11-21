@@ -52,7 +52,35 @@ def makeLineTable(line):
         putStartBracketHere = line.find(" = ")
         line = line[:putStartBracketHere + 3] + "{" + line[putStartBracketHere + 3:].rstrip() + '}'
         line = line.replace(" = ", "[] = ")
-    return line
+
+    tableStart = line.find("= {")+3
+    lineElems = line[tableStart:-1].rstrip().split(", ")
+    # print("lineElems for: " + line)
+    # print(lineElems)
+    resultLine = line[:tableStart]
+   
+    for i in range(len(lineElems)):
+        if lineElems[i].startswith("a") or lineElems[i].startswith("dword"):
+            lineElems[i] = handleExternalStrings(lineElems[i])
+        if i == 0:
+            resultLine += lineElems[i]
+        else:
+            resultLine += ", " + lineElems[i]
+    
+    resultLine += "}"
+
+    # while True:
+    #     comma = lineCandidate.find(",")
+    #     if comma != -1:
+    #         if lineCandidate[:comma].rstrip().startswith("a") or lineCandidate[:comma].rstrip().startswith("dword"):
+    #             lineCandidate[:comma] = handleExternalStrings(lineCandidate[:comma].rstrip())
+    #         lineCandidate = lineCandidate[comma + 2:] 
+    #     else:
+    #         print(lineCandidate)
+    #         if lineCandidate.rstrip().startswith("a") or lineCandidate.rstrip().startswith("dword"):
+    #             lineCandidate = handleExternalStrings(lineCandidate.rstrip())
+    #         break
+    return resultLine
 
 def appendTableElems(tableElems, line):
     if len(tableElems) == 0:
@@ -60,6 +88,8 @@ def appendTableElems(tableElems, line):
 
     line = makeLineTable(line)
     for i in range(len(tableElems)):
+        if tableElems[i].startswith("a") or tableElems[i].startswith("dword"):
+            tableElems[i] = handleExternalStrings(tableElems[i])
         line = line.replace('}', ", " + tableElems[i] + "}")
 
     return line
@@ -84,6 +114,20 @@ def isLineJustComment(line):
         if c == ";":
             return True
 
+
+def handleExternalStrings(string):
+
+    origString = string
+    string = string.replace("}", "")
+
+    fileName = "temp.txt"
+    with open(fileName, "a+") as write:
+        write.write("extern const char* "+string+"[];\n")
+
+
+
+    return "(int)"+origString
+
 def handleMultipleLines(line, fp, varType):
     # handle next lines until another label is found
     additionalTableVars = []
@@ -105,6 +149,7 @@ def handleMultipleLines(line, fp, varType):
         lineCandidate = removeComment(lineCandidate)
         toRemove = lineCandidate.find(varType + " ")
         lineCandidate = lineCandidate[toRemove + 3:]
+
         while True:
             comma = lineCandidate.find(",")
             if comma != -1:
