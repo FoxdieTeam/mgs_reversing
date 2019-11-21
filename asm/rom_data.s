@@ -13,14 +13,7 @@
 
 
     xref aSaveData
-    xref aSnaChest1
-    xref aSnaChest2
-    xref aSnaChest3
-    xref aSnaHip1
-    xref aSnaArmer1
-    xref aSnaArmer2
-    xref aSnaArmer3
-    xref aSnaArmer4
+
     xref aCbBox11
     xref aCbBox12
     xref aCbBox41
@@ -32,9 +25,7 @@
     xref aSnaFace
     xref aSnaFace2
     xref aSnaFace3
-    xref aSnaMf1
-    xref aSnaMf2
-    xref aSnaMf3
+
     xref dword_80012F2C
     xref dword_80012F50
     xref aTlbl
@@ -115,264 +106,15 @@
 
 
 
-dword_8009EC34:  dw aSaveData          ; "SAVE DATA"
-                dw 0x8004D008
-                dw 0x8004D14C
-                dw 0x8004D1D0
-dword_8009EC44: dw 0x7D009B, 0x7800A0, 0x7D00A5, 0x80808080
-dword_8009EC54: dw 0xD4009C, 0xD800A0, 0xD400A4, 0x80808080, 0x1713520C
-                dw 0xC1E1D18, 0
-dword_8009EC70: dw 0x1711080A, 0x501C1B18, 0x6B6A, 0x1712090B, 0x491C1B18
-                dw 0x6F6E, 0x174F4D4B, 0x4B1C1B18, 0
-                dw 0x175D5B5C, 0x5C1E1D18, 0
-                dw 0x65626061, 0x611E1D18, 0
-                dw 0x17136768, 0x681E1D18, 0
-                dw 0x4443413F, 0x48474645, 0x83827B42, 0x4443403D, 0x48474645
-                dw 0x83827B42, 0x4443533E, 0x48474645, 0x83827B42, 0x88238888
-                dw 0x27262524, 0
-                dw 0x2D23332A
-                dw 0x2F
-                dw 0
-                dw 0x2E223405, 0x30, 0
-                dw 0x8888884A, 0x69, 0
-                dw 0x2E22884A, 0x51, 0
-                dw 0x8823882B, 0x36313735, 0x38, 0x88238839, 0x3B3A
-                dw 0
-                dw 0x8823883C, 0x32, 0
-                dw 0x8888882C, 0x88, 0
-dword_8009ED48: dw 0x8573, 0x8570, 0x8571, 0x8888, 0x8472, 0x8574, 0x8575
-                dw 0x8576, 0xE040D07, 0x7C7720
-dword_8009ED70: dw 0x800AB78C         ; DATA XREF: sub_8004F14C+48?o
-                dw 0x8009EC64
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ECDC
-                dw 0x8009ED48
-                dw 0x8009ED68
-dword_8009ED8C: dw 0x800AB794         ; DATA XREF: sub_800511BC+270?o
-                dw 0x8009EC70
-                dw 0x800AB7C4
-                dw 0x8009ECC4
-                dw 0x8009ECE8
-                dw 0x8009ED4C
-                dw 0x8009ED68
-                dw 0x800AB79C
-                dw 0x8009EC7C
-                dw 0x800AB7C4
-                dw 0x8009ECD0
-                dw 0x8009ECF4
-                dw 0x8009ED50
-                dw 0x8009ED68
-                dw 0x800AB7A4
-                dw 0x8009ECAC
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ED30
-                dw 0x8009ED64
-                dw 0x8009ED68
-                dw 0x800AB7B4
-                dw 0x8009EC88
-                dw 0x800AB7C4
-                dw 0x8009ECD0
-                dw 0x8009ED0C
-                dw 0x8009ED58
-                dw 0x8009ED68
-                dw 0x800AB79C
-                dw 0x8009EC7C
-                dw 0x800AB7C4
-                dw 0x8009ECD0
-                dw 0x8009ED00
-                dw 0x8009ED54
-                dw 0x8009ED68
-                dw 0x800AB7BC
-                dw 0x8009ECA0
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ED24
-                dw 0x8009ED60
-                dw 0x8009ED68
-                dw 0x800AB7AC
-                dw 0x8009EC94
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ED18
-                dw 0x8009ED5C
-                dw 0x8009ED68
-                dw 0x800AB7A4
-                dw 0x8009ECAC
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ED30
-                dw 0x8009ED64
-                dw 0x8009ED68
-                dw 0x800AB7A4
-                dw 0x8009ECAC
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ED30
-                dw 0x8009ED64
-                dw 0x8009ED68
-                dw 0x800AB78C
-                dw 0
-                dw 0x800AB7C4
-                dw 0x8009ECB8
-                dw 0x8009ED3C
-                dw 0x8009ED54
-                dw 0x8009ED68
-dword_8009EEA4: dw 0x8005275C         ; DATA XREF: sub_800507D8+40?o
-                dw 0x800527DC
-                dw 0x800528BC
-dword_8009EEB0: dw 0x80052A5C         ; DATA XREF: sub_800511BC+394?o
-                dw 0x80052CCC
-dword_8009EEB8: dw 0x8005292C         ; DATA XREF: sub_800511BC+3B0?o
-                dw 0x8005292C
-                dw 0x800529C0
-dword_8009EEC4: dw 0xFA02EE, 0xFA     ; DATA XREF: sub_8005AD10:loc_8005B030?o
-dword_8009EECC: dw 0x1F0044C, 0x88    ; DATA XREF: sub_800596FC+6AC?o
-dword_8009EED4: dw 0x47F              ; DATA XREF: sub_800596FC+B54?o
-dword_8009EED8: dw 0x2FF01E1, 0       ; DATA XREF: sub_800596FC+B64?o
-dword_8009EEE0: dw 0x67F              ; DATA XREF: sub_800596FC+C58?o
-dword_8009EEE4: dw 0x4FF01E1, 0x84B02E1, 0
-dword_8009EEF0: dw 0x17F              ; DATA XREF: sub_800596FC:loc_8005A688?o
-dword_8009EEF4: dw 0x39B              ; DATA XREF: sub_800596FC+F9C?o
-dword_8009EEF8: dw 0x27F0200, 0       ; DATA XREF: sub_80054EFC:loc_80055064?o
-dword_8009EF00: dw 0x650048C, 0       ; DATA XREF: sub_80054EFC+174?o
-dword_8009EF08: dw 0x27F0A00, 0       ; DATA XREF: sub_80054EFC+F0?o
-dword_8009EF10: dw 0x8320250, 0x650048C, 0
-dword_8009EF1C: dw 0x4C4              ; DATA XREF: sub_80057FD4+2A4?o
-dword_8009EF20: dw 0x494              ; DATA XREF: sub_80057FD4+294?o
-dword_8009EF24: dw 0x27F0200, 0       ; DATA XREF: sub_8005961C+6C?o
-dword_8009EF2C: dw 0x4C8023C, 0x228, 0
-                dw 0x80054210
-dword_8009EF3C: dw 0x80065D74         ; DATA XREF: sub_800511BC+160?o
-                dw 0x800540D0
-                dw 0x80066374
-                dw 0x800540D0
-                dw 0x80066A4C
-                dw 0x80058470
-                dw 0x80066FF0
-                dw 0x800540D0
-                dw 0x80067480
-                dw 0x800570C0
-                dw 0x800677BC
-                dw 0x80057474
-                dw 0x80067B20
-                dw 0x800541A8
-                dw 0x80066A74
-                dw 0x80058470
-                dw 0x80066AA0
-                dw 0x80058470
-                dw 0x80068214
-                dw 0x80056DDC
-dword_8009EF8C: dw 0x80062274         ; DATA XREF: sub_800515BC:loc_800516F0?o
-                dw 0x80063508
-                dw 0x80061C7C
-                dw 0x80061C7C
-                dw 0x80061C7C
-                dw 0x8007781C
-                dw 0x80078E6C
-                dw 0x80060C14
-                dw 0x80060940
-                dw 0x80072B60
-                dw 0x800615FC
-                dw 0x80061E40
-                dw 0x80065118
-byte_8009EFC0:  db 0                  ; DATA XREF: sub_8004EB14+4?o
-                db 0, 0xF4
-byte_8009EFC3:  db 1                  ; DATA XREF: sub_8004EB14+8?r
-byte_8009EFC4:  db 0                  ; DATA XREF: sub_8004EB14+14?r
-                db 0, 0x40
-byte_8009EFC7:  db 1                  ; DATA XREF: sub_8004EB14+10?r
-byte_8009EFC8:  db 0x90               ; DATA XREF: sub_8004EB14+1C?r
-                db 1, 0x40
-byte_8009EFCB:  db 1                  ; DATA XREF: sub_8004EB14+18?r
-byte_8009EFCC:  db 0x90               ; DATA XREF: sub_8004EB14+3C?r
-                db 1, 0x20
-byte_8009EFCF:  db 0                  ; DATA XREF: sub_8004EB14+38?r
-byte_8009EFD0:  db 0x20               ; DATA XREF: sub_8004EB14+44?r
-                db 0, 0
-byte_8009EFD3:  db 0                  ; DATA XREF: sub_8004EB14+40?r
-dword_8009EFD4: dw 0xC8FF9C, 0xC8     ; DATA XREF: sub_8005027C+B4?o
-dword_8009EFDC: dw 0x12FF6A, 0xC8     ; DATA XREF: sub_8005027C+B8?o
-dword_8009EFE4: dw 0, 0x12C, 0x2580190, 0x190, 0, 0, 0x40, 0
-dword_8009F004: dw 0xFE70, 0x258, 0x2580190, 0x190, 0, 0, 0x24, 5
-dword_8009F024: dw 0x190, 0x258, 0x2580190, 0x190, 0, 0, 0x24, 5
-dword_8009F044: dw 0, 0, 0x25801F5, 0x1F5, 0, 0, 7, 0
-dword_8009F064: dw 0xC8FF38, 0x258, 0xC80190, 0x190, 5, 0x32, 0, 1
-dword_8009F084: dw 0xC800C8, 0x258, 0xC80190, 0x190, 0xFFFB, 0x32, 0, 1
-dword_8009F0A4: dw 0xC80000, 0x258, 0xFA01F4, 0x1F4, 0, 0x64, 0, 3
-dword_8009F0C4: dw 0, 0, 0xFFFF, 0
-dword_8009F0D4: dw 0x2DF92, 0x40002, 1, 0x320005, 0xFA0032
-dword_8009F0E8: dw 0, 0x800124A8
-dword_8009F0F0: dw 0x8512D, 0x1E0004, 0x12C0001, 0x1900001, 0x200190
-dword_8009F104: dw 0, 0x8001253C
-dword_8009F10C: dw 0x2E4CC, 0x40002, 0x12C0001, 0x1900001, 0x800190
-dword_8009F120: dw 0, 0x800125CC
-dword_8009F128: dw 0x2E4CC, 0x40002, 0x12C0001, 0x5780001, 0x800578
-dword_8009F13C: dw 0, 0x800125F4
-dword_8009F144: dw 0x2E4CC, 0x40002, 0x12C0001, 0x1900001, 0x800190
-dword_8009F158: dw 0, 0x8001261C
-dword_8009F160: dw 0x2FE8E, 0x30002, 0x12C0001, 0x2580001, 0x640258
-dword_8009F174: dw 0, 0x80012628
-dword_8009F17C: dw 0x27E4C, 0x40002, 0xC80001, 0x640005, 0x800064
-dword_8009F190: dw 0, 0x80012634
-dword_8009F198: dw 0x8512D, 0x1E0004, 8, 0x8980003, 0x4D0898
-dword_8009F1AC: dw 0, 0x80012708
-dword_8009F1B4: dw 0x8512D, 0x1E0004, 1, 0x3E80001, 0x4D03E8
-dword_8009F1C8: dw 0, 0x80012728
-dword_8009F1D0: dw 0x8512D, 0x1E0004, 4, 0x8980001, 0x800898
-dword_8009F1E4: dw 0, 0x80012750
-dword_8009F1EC: dw 0x8512D, 0x1E0004, 0x3E80001, 0x1900003, 0x800190
-dword_8009F200: dw 0, 0x800127A4
-dword_8009F208: dw 0x8512D, 0x1E0004, 0x3E80001, 0x1E0003, 0xA001E
-dword_8009F21C: dw 0, 0x800127D0
-dword_8009F224: dw 0                  ; DATA XREF: sub_8005D6BC?r
-dword_8009F228: dw 0x8005EC1C         ; DATA XREF: sub_8005F4AC+58?o
-                dw 0x8005ED0C
-                dw 0x8005ED74
-                dw 0x8005EDDC
-                dw 0x8005EE44
-                dw 0x8005EEA4
-                dw 0x8005EF04
-                dw 0x8005EFF8
-                dw 0x8005F0F0
-                dw 0x8005F180
-                dw 0x8005F288
-                dw 0x8005F2F4
-                dw 0x8005F37C
-                dw 0x8005F408
-                dw 0x8005F438
-off_8009F264:   dw aSnaChest1         ; DATA XREF: sub_80060874+58?o
-                dw aSnaChest2         ; "sna_chest2"
-                dw aSnaChest3         ; "sna_chest3"
-                dw aSnaHip1           ; "sna_hip1"
-off_8009F274:   dw aSnaArmer1         ; DATA XREF: sub_80060874+50?o
-                dw aSnaArmer2         ; "sna_armer2"
-                dw aSnaArmer3         ; "sna_armer3"
-                dw aSnaArmer4         ; "sna_armer4"
-dword_8009F284: dw 0                  ; DATA XREF: sub_80061A14+D4?w
-off_8009F288:   dw aCbBox11           ; DATA XREF: sub_80061B30+28?o
-                dw aCbBox12           ; "cb_box12"
-                dw aCbBox41           ; "cb_box41"
-                dw aCbBox42           ; "cb_box42"
-                dw aCbBox21           ; "cb_box21"
-                dw aCbBox22           ; "cb_box22"
-                dw aCbBox41           ; "cb_box41"
-                dw aCbBox42           ; "cb_box42"
-off_8009F2A8:   dw aSnaFace           ; DATA XREF: sub_80061D14+4C?o
-                dw aSnaFace2          ; "sna_face2"
-                dw aSnaFace3          ; "sna_face3"
-off_8009F2B4:   dw aSnaMf1            ; DATA XREF: sub_80061D14+44?o
-                dw aSnaMf2            ; "sna_mf2"
-                dw aSnaMf3            ; "sna_mf3"
-dword_8009F2C0: dw 0                  ; DATA XREF: sub_80050A64+588?w
-word_8009F2C4:  dh 0                  ; DATA XREF: sub_8006317C+B0?w
-dword_8009F2C8: dw 0, 0, 0            ; DATA XREF: sub_8006237C+B0?o
-                dw 0xC80
-byte_8009F2D8:  db 0x43, 4            ; DATA XREF: sub_80064A94+EC?o
-byte_8009F2DA:  db 0                  ; DATA XREF: sub_80063704+100?w
-                db 2
-                dw 0x800129D4
+
+
+
+
+
+
+
+
+word_8009F2DC:  dw 0x800129D4
                 dw 0x80063704
                 dw 0x80063888
                 dw 0x800638B4
