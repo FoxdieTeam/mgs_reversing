@@ -45,7 +45,7 @@ extern void HZD_StartDaemon(void);
 extern void GM_StartDaemon(void);
 
 extern void sub_8008B648(int, void*, long);
-extern void sub_8008b47c(int ,void*, void*);
+extern void sub_8008B47C(int ,void*, void*);
 
 
 static void sub_800148B8( void )
@@ -92,7 +92,7 @@ static void sub_800148B8( void )
 	mg_printf( aSound );
 
 	sub_8008B648(5, SdStack + sizeof(SdStack), sizeof(SdStack));
-	sub_8008b47c(5,SdMain, SdStack + sizeof(SdStack));
+	sub_8008B47C(5,SdMain, SdStack + sizeof(SdStack));
 
 	while( !SdIntReady() )
 	{
