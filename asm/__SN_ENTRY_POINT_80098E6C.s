@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80098E6C
-sub_80098E6C:
+	xdef __SN_ENTRY_POINT_80098E6C
+__SN_ENTRY_POINT_80098E6C:
 	dw 0x3C02800B ; 0x80098E6C
 	dw 0x2442B918 ; 0x80098E70
 	dw 0x3C03800C ; 0x80098E74
