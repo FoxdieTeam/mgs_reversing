@@ -1947,7 +1947,7 @@
 	include	"..\obj\sub_80098DF0.obj"
 	include	"..\obj\sub_80098E2C.obj"
 	include	"..\obj\sub_80098E48.obj"
-	include	"..\obj\sub_80098E6C.obj"
+	include	"..\obj\__SN_ENTRY_POINT_80098E6C.obj"
 	include	"..\obj\__main.obj"
 	include	"..\obj\sub_80098FEC.obj"
 	include	"..\obj\sub_80098FFC.obj"
@@ -2116,5 +2116,5 @@ group_800ACC18	group bss,org($800ACC18)
 group_gGVActor_800acbf8	group bss,org($800acbf8)
 	section .gGVActor_800acbf8, group_gGVActor_800acbf8
 
-	regs    pc=sub_80098E6C
+	regs    pc=__SN_ENTRY_POINT_80098E6C
 
