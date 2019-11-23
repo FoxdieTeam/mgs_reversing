@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef menu_radio_init_80042700
+menu_radio_init_80042700:
+	dw 0x3C028004 ; 0x80042700
+	dw 0x90830028 ; 0x80042704
+	dw 0x24422198 ; 0x80042708
+	dw 0xAC82003C ; 0x8004270C
+	dw 0x34630010 ; 0x80042710
+	dw 0x03E00008 ; 0x80042714
+	dw 0xA0830028 ; 0x80042718
