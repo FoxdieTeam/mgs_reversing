@@ -4,7 +4,7 @@ sectionString = "ASM_DATA"
 rData = False
 
 byteCrapCounter = 2
-dwordCrapCounter = 12
+dwordCrapCounter = 20
 wordCrapCounter = 0
 stringCrapCounter = 0
 
@@ -104,7 +104,9 @@ def anotherLabelFound(line, varType):
     varTypes.remove(varType)
     for varT in varTypes:
         if line.find(varT) != -1:
+            #print("YES")
             return True
+    #print("NO")
     return False
 
 def isLineJustComment(line):
@@ -138,7 +140,8 @@ def handleMultipleLines(line, fp, varType):
             currPos = fp.tell()
             lineCandidate = fp.readline()
 
-        if not lineCandidate.startswith(" ") or (not lineCandidate.startswith(" ") and not anotherLabelFound(lineCandidate, varType)):
+        #print("candidate: "+lineCandidate)
+        if not lineCandidate.startswith(" ") or anotherLabelFound(lineCandidate, varType):
             fp.seek(currPos)
             break
 
