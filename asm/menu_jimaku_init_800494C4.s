@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef menu_jimaku_init_800494C4
+menu_jimaku_init_800494C4:
+	dw 0x27BDFFE8 ; 0x800494C4
+	dw 0x3C04800C ; 0x800494C8
+	dw 0xAFBF0010 ; 0x800494CC
+	dw 0x0C0124FE ; 0x800494D0
+	dw 0x2484DA7C ; 0x800494D4
+	dw 0x8FBF0010 ; 0x800494D8
+	dw 0x00000000 ; 0x800494DC
+	dw 0x03E00008 ; 0x800494E0
+	dw 0x27BD0018 ; 0x800494E4
