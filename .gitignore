@@ -5,3 +5,7 @@
 *.exe
 *.47
 obj\*
+build/dump.asm
+build/target.asm
+.vscode/c_cpp_properties.json
+.vscode/tasks.json
