@@ -29,7 +29,7 @@ short SECTION(".sbss") word_800ABA14;
 
 char SECTION(".sbss") byte_800ABA16_pad;
 char SECTION(".sbss") byte_800ABA17;
-int SECTION(".sbss") dword_800ABA18;
+int SECTION(".sbss") GM_AlertLevel_800ABA18;
 int SECTION(".sbss") dword_800ABA1C;
 int SECTION(".sbss") dword_800ABA20;
 int SECTION(".sbss") dword_800ABA24;
