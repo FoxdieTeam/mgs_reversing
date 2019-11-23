@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef menu_draw_nouse_800435A4
+menu_draw_nouse_800435A4:
+	dw 0x27BDFFE8 ; 0x800435A4
+	dw 0x3C07800C ; 0x800435A8
+	dw 0xAFBF0010 ; 0x800435AC
+	dw 0x0C010D3D ; 0x800435B0
+	dw 0x24E7DA10 ; 0x800435B4
+	dw 0x8FBF0010 ; 0x800435B8
+	dw 0x00000000 ; 0x800435BC
+	dw 0x03E00008 ; 0x800435C0
+	dw 0x27BD0018 ; 0x800435C4
