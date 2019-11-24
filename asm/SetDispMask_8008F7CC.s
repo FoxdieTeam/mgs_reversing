@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SetDispMask
-SetDispMask:
+	xdef SetDispMask_8008F7CC
+SetDispMask_8008F7CC:
 	dw 0x27BDFFE0 ; 0x8008F7CC
 	dw 0xAFB10014 ; 0x8008F7D0
 	dw 0x3C11800A ; 0x8008F7D4

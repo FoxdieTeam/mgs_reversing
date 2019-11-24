@@ -1,8 +1,8 @@
 import os.path
 from os import path
 
-old = "sub_80016D40"
-new = "GV_Vector_Subtract_80016D00"
+old = "GM_StartDaemon"
+new = "GM_StartDaemon_8002B77C"
 
 def FixFileContent(fileName, old, new):
     with open(fileName,'r') as f:

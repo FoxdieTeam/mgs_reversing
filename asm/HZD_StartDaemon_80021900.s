@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef HZD_StartDaemon
-HZD_StartDaemon:
+	xdef HZD_StartDaemon_80021900
+HZD_StartDaemon_80021900:
 	dw 0x27BDFFE8 ; 0x80021900
 	dw 0x3C058002 ; 0x80021904
 	dw 0x24040068 ; 0x80021908
