@@ -665,7 +665,6 @@
 	include	"..\obj\sub_80038A7C.obj"
 	include	"..\obj\sub_80038A88.obj"
 	include	"..\obj\MENU_Color_80038B4C.obj"
-	include	"..\obj\sub_80038B98.obj"
 	include	"..\obj\sub_80038BB4.obj"
 	include	"..\obj\sub_80038C38.obj"
 	include	"..\obj\sub_80038D10.obj"
