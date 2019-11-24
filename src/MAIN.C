@@ -5,8 +5,8 @@
 #include "linker.h"
 #include "actor.h"
 #include "gvd.h"
+#include "mts_new.h"
 
-extern void mts_boot_task_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
 
 extern void __main_80098F14(void);
 
@@ -29,20 +29,11 @@ extern const char aSound[];
 extern const char aGm[];
 extern const char aStart[];
 
-extern void mts_wait_vbl_800895F4(int);
-extern void mts_set_stack_check_8008B648(int, void*, long);
-extern void mts_sta_tsk_8008B47C(int ,void*, void*);
-extern void mts_init_vsync_800895AC(void);
-extern void mts_set_vsync_task_800892B8(void);
-
-// Point to the end of the buffer - since its a stack it grows "up"
-#define mts_stack_end(x) x + sizeof(x)
 
 extern int SdIntReady_800886C4();
 
 
 extern void MC_StartDaemon_80024E48(void);
-extern void mts_init_controller_8008C098(void);
 
 extern void FS_StartDaemon_80014A7C(void);
 extern void DG_StartDaemon_8001F284(void);
@@ -115,7 +106,7 @@ static void task_main_800148B8( void )
 
 void _main()
 {
-	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;
+	static unsigned char SECTION(".0x800ABBF0") main_task_stack_800ABBF0[2048] ;
 	__main_80098F14();
-	mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(unk_800ABBF0), sizeof(unk_800ABBF0));
+	mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0), sizeof(main_task_stack_800ABBF0));
 }
