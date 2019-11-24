@@ -50,6 +50,8 @@ foreach ($file in $cFiles)
     }
 }
 
+#ccpsx.exe -O0 -fcaller-saves -fcse-follow-jumps -fcse-skip-blocks -fdelayed-branch -fexpensive-optimizations -ffast-math -ffloat-store -fforce-addr -fforce-mem -finline-functions -fkeep-inline-functions -fno-default-inline -fno-defer-pop -fno-function-cse -fno-inline -fno-peephole -fomit-frame-pointer -frerun-cse-after-loop -fschedule-insns -fschedule-insns2 -fstrength-reduce -fthread-jumps -funroll-all-loops -funroll-loops -c -Wall "$PSScriptRoot\..\src\mts_init_vsync_800895AC.c" "-o$PSScriptRoot\..\obj\mts_init_vsync_800895AC.obj"
+
 # Compile all .S files
 $sFiles = Get-ChildItem $PSScriptRoot\..\asm\*.S
 foreach ($file in $sFiles)
@@ -111,8 +113,8 @@ else
 
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
-	.\MDasm.exe ..\SLPM_862.47 504516 504556 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 504516 504556 | Out-File "dump.asm"
+	.\MDasm.exe ..\SLPM_862.47 499116 499184 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 499116 499184 | Out-File "dump.asm"
 }
 
 # Validate the output is matching the OG binary hash
