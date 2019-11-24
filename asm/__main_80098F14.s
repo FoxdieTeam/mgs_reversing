@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef __main
-__main:
+	xdef __main_80098F14
+__main_80098F14:
 	dw 0x3C08800B ; 0x80098F14
 	dw 0x8D08B1B0 ; 0x80098F18
 	dw 0x27BDFFF0 ; 0x80098F1C

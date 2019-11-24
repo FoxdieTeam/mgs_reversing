@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef InitGeom
-InitGeom:
+	xdef InitGeom_80092680
+InitGeom_80092680:
 	dw 0x3C01800A ; 0x80092680
 	dw 0xAC3F4BF0 ; 0x80092684
 	dw 0x0C025122 ; 0x80092688

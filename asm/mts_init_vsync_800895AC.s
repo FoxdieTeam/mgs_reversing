@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef mts_init_vsync
-mts_init_vsync:
+	xdef mts_init_vsync_800895AC
+mts_init_vsync_800895AC:
 	dw 0x27BDFFE8 ; 0x800895AC
 	dw 0x3C03800A ; 0x800895B0
 	dw 0x8C633D78 ; 0x800895B4
