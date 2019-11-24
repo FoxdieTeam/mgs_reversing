@@ -404,11 +404,24 @@ int SECTION(".data") dword_8009E2D4 =  0;
 int SECTION(".data") dword_8009E2D8 =  0;
 int SECTION(".data") dword_8009E2DC =  0;
 int SECTION(".data") dword_8009E2E0 =  0;
-int SECTION(".data") dword_8009E2E4 =  0;
-int SECTION(".data") dword_8009E2E8 =  0;
-int SECTION(".data") dword_8009E2EC =  0;
 
-int SECTION(".data") dword_8009E2F0 =  0x64808080;
+
+struct TextConfig
+{
+    int xpos;
+    int ypos;
+    int flags;
+    int colour;
+};
+
+struct TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 =  
+{
+	0,
+	0,
+	0,
+	0x64808080
+};
+
 int SECTION(".data") dword_8009E2F4[] = { 0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808 };
 
 int SECTION(".data") dword_8009E30C =  0xC1C5080;
