@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008AAC4
-sub_8008AAC4:
+	xdef mts_boot_task_8008AAC4
+mts_boot_task_8008AAC4:
 	dw 0x27BDFFE8 ; 0x8008AAC4
 	dw 0xAFBF0010 ; 0x8008AAC8
 	dw 0x3C01800A ; 0x8008AACC
