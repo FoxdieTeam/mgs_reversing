@@ -2,10 +2,10 @@
 #include "actor.h"
 
 
-extern const char aLoadReq[];
+extern const char aLoadreq[];
 extern const char aNotFoundStageS[];
 extern const char aLoaderC[];
-extern const char aLoadEnd[];
+extern const char aLoadend[];
 
 // TODO: Copied from PC rev, might be wrong
 struct Actor_Loader_Impl
@@ -50,7 +50,7 @@ extern int dword_800AB3D0;
 
 void Loader_Kill_8002e41c(struct Loader* pLoader)
 {
-	mg_printf(aLoadEnd);
+	mg_printf(aLoadend);
 	Loader_End_80023804(pLoader->field_20);
 	gLoaderState_800ABA38 = 0xffffffff;
 }
@@ -62,7 +62,7 @@ struct Loader* Loader_Init_8002e460(const char* pStageName)
 
 
 	pLoader = (struct Loader*)GV_ActorAlloc_800150e4(2, sizeof(struct Loader));
-	mg_printf(aLoadReq);
+	mg_printf(aLoadreq);
 	pUnknown = sub_800236E0(pStageName);
 
 	pLoader->field_20 = pUnknown;
