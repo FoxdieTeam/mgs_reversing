@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef mts_init_controller
-mts_init_controller:
+	xdef mts_init_controller_8008C098
+mts_init_controller_8008C098:
 	dw 0x3C02800A ; 0x8008C098
 	dw 0x8C423DBC ; 0x8008C09C
 	dw 0x27BDFFE8 ; 0x8008C0A0

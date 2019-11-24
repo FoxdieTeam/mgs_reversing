@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef mts_wait_vbl
-mts_wait_vbl:
+	xdef mts_wait_vbl_800895F4
+mts_wait_vbl_800895F4:
 	dw 0x3C07800C ; 0x800895F4
 	dw 0x8CE70DB0 ; 0x800895F8
 	dw 0x27BDFFE0 ; 0x800895FC

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef DG_StartDaemon
-DG_StartDaemon:
+	xdef DG_StartDaemon_8001F284
+DG_StartDaemon_8001F284:
 	dw 0x27BDFFD8 ; 0x8001F284
 	dw 0xAFBF0020 ; 0x8001F288
 	dw 0xAFB1001C ; 0x8001F28C

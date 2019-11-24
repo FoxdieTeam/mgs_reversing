@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef mts_set_vsync_task
-mts_set_vsync_task:
+	xdef mts_set_vsync_task_800892B8
+mts_set_vsync_task_800892B8:
 	dw 0x3C03800C ; 0x800892B8
 	dw 0x8C630DB0 ; 0x800892BC
 	dw 0x27BDFFE0 ; 0x800892C0

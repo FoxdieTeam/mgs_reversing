@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SdIntReady
-SdIntReady:
+	xdef SdIntReady_800886C4
+SdIntReady_800886C4:
 	dw 0x3C02800C ; 0x800886C4
 	dw 0x8C420BFC ; 0x800886C8
 	dw 0x00000000 ; 0x800886CC

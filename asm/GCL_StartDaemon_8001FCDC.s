@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef GCL_StartDaemon
-GCL_StartDaemon:
+	xdef GCL_StartDaemon_8001FCDC
+GCL_StartDaemon_8001FCDC:
 	dw 0x27BDFFE8 ; 0x8001FCDC
 	dw 0xAFBF0010 ; 0x8001FCE0
 	dw 0x0C0082DA ; 0x8001FCE4

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef FS_StartDaemon
-FS_StartDaemon:
+	xdef FS_StartDaemon_80014A7C
+FS_StartDaemon_80014A7C:
 	dw 0x27BDFFE8 ; 0x80014A7C
 	dw 0xAFBF0010 ; 0x80014A80
 	dw 0x0C026513 ; 0x80014A84

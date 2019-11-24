@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MC_StartDaemon
-MC_StartDaemon:
+	xdef MC_StartDaemon_80024E48
+MC_StartDaemon_80024E48:
 	dw 0x3C04800A ; 0x80024E48
 	dw 0x8C82D524 ; 0x80024E4C
 	dw 0x27BDFFD0 ; 0x80024E50

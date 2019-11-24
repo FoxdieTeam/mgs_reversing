@@ -262,7 +262,7 @@ void GV_ActorDelayedKill_800151c8(struct Actor* pActor)
 }
 
 extern const char asc_800AB340[];
-extern void mg_printf(const char*, ...);
+extern void mg_printf_8008BBA0(const char*, ...);
 
 void GV_KillActorIfExists_800151d8(struct Actor* pActorToKill)
 {
@@ -287,6 +287,6 @@ void GV_KillActorIfExists_800151d8(struct Actor* pActorToKill)
 		pActorList++;
     } 
 
-	mg_printf(asc_800AB340);
+	mg_printf_8008BBA0(asc_800AB340);
 }
 
