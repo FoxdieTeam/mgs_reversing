@@ -10,7 +10,7 @@ void MENU_Text_XY_Flags_80038B34(int xpos, int ypos, int flags)
 	pTextConfig->flags = flags;
 }
 
-void MENU_Color_80038B4C(int r, int g, unsigned short b)
+void MENU_Color_80038B4C(int r, int g, int b)
 {
 	unsigned int newColour;
 	unsigned int unknown;
