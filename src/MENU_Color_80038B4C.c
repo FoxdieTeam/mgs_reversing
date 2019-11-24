@@ -1,13 +1,14 @@
 #include "linker.h"
+#include "data.h"
 
-struct TextConfig
+void MENU_Text_XY_Flags_80038B34(int xpos, int ypos, int flags)
 {
-    int xpos;
-    int ypos;
-    int flags;
-    int colour;
-};
-extern struct TextConfig gMenuTextConfig_8009E2E4; 
+	struct TextConfig* pTextConfig = &gMenuTextConfig_8009E2E4;
+	
+	pTextConfig->xpos = xpos;
+	pTextConfig->ypos = ypos;
+	pTextConfig->flags = flags;
+}
 
 void MENU_Color_80038B4C(int r, int g, unsigned short b)
 {

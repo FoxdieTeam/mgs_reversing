@@ -1,5 +1,7 @@
-#include "rdata.h"
 #include "linker.h"
+#include "data.h"
+
+#include "rdata.h"
 #include "actor.h"
 #include "sdata.h"
 
@@ -405,14 +407,6 @@ int SECTION(".data") dword_8009E2D8 =  0;
 int SECTION(".data") dword_8009E2DC =  0;
 int SECTION(".data") dword_8009E2E0 =  0;
 
-
-struct TextConfig
-{
-    int xpos;
-    int ypos;
-    int flags;
-    int colour;
-};
 
 struct TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 =  
 {
