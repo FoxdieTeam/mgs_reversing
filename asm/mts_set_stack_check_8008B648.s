@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008B648
-sub_8008B648:
+	xdef mts_set_stack_check_8008B648
+mts_set_stack_check_8008B648:
 	dw 0x00042140 ; 0x8008B648
 	dw 0x3C01800C ; 0x8008B64C
 	dw 0x00240821 ; 0x8008B650

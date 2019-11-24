@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "gvd.h"
 
-extern void sub_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
+extern void mts_boot_task_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
 
 extern void __main_80098F14(void);
 
@@ -29,11 +29,17 @@ extern const char aSound[];
 extern const char aGm[];
 extern const char aStart[];
 
-extern int SdIntReady_800886C4();
 extern void mts_wait_vbl_800895F4(int);
-
+extern void mts_set_stack_check_8008B648(int, void*, long);
+extern void mts_sta_tsk_8008B47C(int ,void*, void*);
 extern void mts_init_vsync_800895AC(void);
 extern void mts_set_vsync_task_800892B8(void);
+
+// Point to the end of the buffer - since its a stack it grows "up"
+#define mts_stack_end(x) x + sizeof(x)
+
+extern int SdIntReady_800886C4();
+
 
 extern void MC_StartDaemon_80024E48(void);
 extern void mts_init_controller_8008C098(void);
@@ -44,11 +50,8 @@ extern void GCL_StartDaemon_8001FCDC(void);
 extern void HZD_StartDaemon_80021900(void);
 extern void GM_StartDaemon_8002B77C(void);
 
-extern void sub_8008B648(int, void*, long);
-extern void sub_8008B47C(int ,void*, void*);
 
-
-static void sub_800148B8( void )
+static void task_main_800148B8( void )
 {
 	RECT rect;
 	static unsigned char SECTION(".0x800AC3F0") sdStack_800AC3F0[2048];
@@ -91,8 +94,8 @@ static void sub_800148B8( void )
 	
 	mg_printf_8008BBA0( aSound );
 
-	sub_8008B648(5, sdStack_800AC3F0 + sizeof(sdStack_800AC3F0), sizeof(sdStack_800AC3F0));
-	sub_8008B47C(5, SdMain_80081A18, sdStack_800AC3F0 + sizeof(sdStack_800AC3F0));
+	mts_set_stack_check_8008B648(5, mts_stack_end(sdStack_800AC3F0), sizeof(sdStack_800AC3F0));
+	mts_sta_tsk_8008B47C(5, SdMain_80081A18, mts_stack_end(sdStack_800AC3F0));
 
 	while( !SdIntReady_800886C4() )
 	{
@@ -114,5 +117,5 @@ void _main()
 {
 	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;
 	__main_80098F14();
-	sub_8008AAC4(3, sub_800148B8, unk_800ABBF0+sizeof(unk_800ABBF0), sizeof(unk_800ABBF0));
+	mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(unk_800ABBF0), sizeof(unk_800ABBF0));
 }
