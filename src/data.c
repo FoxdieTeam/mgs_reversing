@@ -408,7 +408,7 @@ int SECTION(".data") dword_8009E2DC =  0;
 int SECTION(".data") dword_8009E2E0 =  0;
 
 
-struct TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 =  
+TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 =  
 {
 	0,
 	0,
