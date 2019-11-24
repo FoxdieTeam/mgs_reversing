@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008B47C
-sub_8008B47C:
+	xdef mts_sta_tsk_8008B47C
+mts_sta_tsk_8008B47C:
 	dw 0x27BDFFD8 ; 0x8008B47C
 	dw 0xAFA40014 ; 0x8008B480
 	dw 0x00002021 ; 0x8008B484
