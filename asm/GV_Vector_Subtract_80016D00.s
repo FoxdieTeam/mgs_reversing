@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016D40
-sub_80016D40:
+	xdef GV_Vector_Subtract_80016D00
+GV_Vector_Subtract_80016D00:
 	dw 0x94820000 ; 0x80016D40
 	dw 0x94A30000 ; 0x80016D44
 	dw 0x00000000 ; 0x80016D48
