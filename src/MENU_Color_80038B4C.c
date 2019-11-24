@@ -29,3 +29,11 @@ void MENU_Color_80038B4C(int r, int g, unsigned short b)
   
 	pTextConfig->colour = newColour | unknown;
 }
+
+
+void MENU_Text_Init_80038b98(void)
+{
+	struct TextConfig* pTextConfig = &gMenuTextConfig_8009E2E4;
+	pTextConfig->colour = 0x64808080;
+	pTextConfig->flags = 0;
+}
