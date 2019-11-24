@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef GM_StartDaemon
-GM_StartDaemon:
+	xdef GM_StartDaemon_8002B77C
+GM_StartDaemon_8002B77C:
 	dw 0x27BDFFE8 ; 0x8002B77C
 	dw 0xAFBF0014 ; 0x8002B780
 	dw 0xAFB00010 ; 0x8002B784

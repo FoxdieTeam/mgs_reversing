@@ -8,15 +8,15 @@
 
 extern void sub_8008AAC4( int tasknr, void (*procedure)(void), void *stack_pointer, long stack_size );
 
-extern void __main(void);
+extern void __main_80098F14(void);
 
 
-extern void SetDispMask(int);
-extern void InitGeom(void);
+extern void SetDispMask_8008F7CC(int);
+extern void InitGeom_80092680(void);
 
-extern void SdMain(void);
+extern void SdMain_80081A18(void);
 
-extern void mg_printf(const char*, ...);
+extern void mg_printf_8008BBA0(const char*, ...);
 
 extern const char aMem[];
 extern const char aPad[];
@@ -29,20 +29,20 @@ extern const char aSound[];
 extern const char aGm[];
 extern const char aStart[];
 
-extern int SdIntReady();
-extern void mts_wait_vbl(int);
+extern int SdIntReady_800886C4();
+extern void mts_wait_vbl_800895F4(int);
 
-extern void mts_init_vsync(void);
-extern void mts_set_vsync_task(void);
+extern void mts_init_vsync_800895AC(void);
+extern void mts_set_vsync_task_800892B8(void);
 
-extern void MC_StartDaemon(void);
-extern void mts_init_controller(void);
+extern void MC_StartDaemon_80024E48(void);
+extern void mts_init_controller_8008C098(void);
 
-extern void FS_StartDaemon(void);
-extern void DG_StartDaemon(void);
-extern void GCL_StartDaemon(void);
-extern void HZD_StartDaemon(void);
-extern void GM_StartDaemon(void);
+extern void FS_StartDaemon_80014A7C(void);
+extern void DG_StartDaemon_8001F284(void);
+extern void GCL_StartDaemon_8001FCDC(void);
+extern void HZD_StartDaemon_80021900(void);
+extern void GM_StartDaemon_8002B77C(void);
 
 extern void sub_8008B648(int, void*, long);
 extern void sub_8008B47C(int ,void*, void*);
@@ -51,58 +51,58 @@ extern void sub_8008B47C(int ,void*, void*);
 static void sub_800148B8( void )
 {
 	RECT rect;
-	static unsigned char SECTION(".0x800AC3F0") SdStack[2048];
+	static unsigned char SECTION(".0x800AC3F0") sdStack_800AC3F0[2048];
 	
 	ResetGraph( 0 );
 	SetGraphDebug( 0 );
 	CdInit();
-	SetDispMask( 0 );
+	SetDispMask_8008F7CC( 0 );
 	
-	setRECT( &rect, 0, 0, 1024, 511 ); // 0x400, 0x1FF
+	setRECT( &rect, 0, 0, 1024, 511 );
 	ClearImage( &rect, 0, 0, 0 );
 	
 	DrawSync( 0 );
-	SetDispMask( 1 );
-	InitGeom();
+	SetDispMask_8008F7CC( 1 );
+	InitGeom_80092680();
 	
-	mts_init_vsync();
-	mts_set_vsync_task();
+	mts_init_vsync_800895AC();
+	mts_set_vsync_task_800892B8();
 	
-	mg_printf( aMem );
-	MC_StartDaemon();
+	mg_printf_8008BBA0( aMem );
+	MC_StartDaemon_80024E48();
 	
-	mg_printf( aPad );
-	mts_init_controller();
+	mg_printf_8008BBA0( aPad );
+	mts_init_controller_8008C098();
 	
-	mg_printf( aGv );
+	mg_printf_8008BBA0( aGv );
 	GV_StartDaemon_80014d18();
 	
-	mg_printf( aFs );
-	FS_StartDaemon();
+	mg_printf_8008BBA0( aFs );
+	FS_StartDaemon_80014A7C();
 	
-	mg_printf( aDg );
-	DG_StartDaemon();
+	mg_printf_8008BBA0( aDg );
+	DG_StartDaemon_8001F284();
 	
-	mg_printf( aGcl );
-	GCL_StartDaemon();
+	mg_printf_8008BBA0( aGcl );
+	GCL_StartDaemon_8001FCDC();
 	
-	mg_printf( aHzd );
-	HZD_StartDaemon();
+	mg_printf_8008BBA0( aHzd );
+	HZD_StartDaemon_80021900();
 	
-	mg_printf( aSound );
+	mg_printf_8008BBA0( aSound );
 
-	sub_8008B648(5, SdStack + sizeof(SdStack), sizeof(SdStack));
-	sub_8008B47C(5,SdMain, SdStack + sizeof(SdStack));
+	sub_8008B648(5, sdStack_800AC3F0 + sizeof(sdStack_800AC3F0), sizeof(sdStack_800AC3F0));
+	sub_8008B47C(5, SdMain_80081A18, sdStack_800AC3F0 + sizeof(sdStack_800AC3F0));
 
-	while( !SdIntReady() )
+	while( !SdIntReady_800886C4() )
 	{
-		mts_wait_vbl( 1 );
+		mts_wait_vbl_800895F4( 1 );
 	}
 	
-	mg_printf( aGm );
-	GM_StartDaemon();
+	mg_printf_8008BBA0( aGm );
+	GM_StartDaemon_8002B77C();
 	
-	mg_printf( aStart );
+	mg_printf_8008BBA0( aStart );
 	
 	for (;;)
 	{
@@ -113,6 +113,6 @@ static void sub_800148B8( void )
 void _main()
 {
 	static unsigned char SECTION(".0x800ABBF0") unk_800ABBF0[2048] ;
-	__main();
+	__main_80098F14();
 	sub_8008AAC4(3, sub_800148B8, unk_800ABBF0+sizeof(unk_800ABBF0), sizeof(unk_800ABBF0));
 }

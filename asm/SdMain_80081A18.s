@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SdMain
-SdMain:
+	xdef SdMain_80081A18
+SdMain_80081A18:
 	dw 0x27BDFFE0 ; 0x80081A18
 	dw 0x3C048001 ; 0x80081A1C
 	dw 0x24843588 ; 0x80081A20
