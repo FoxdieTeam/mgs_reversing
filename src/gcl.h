@@ -8,7 +8,7 @@ typedef struct Actor*(*TGCL_CommandFn)(int scriptData, int scriptBinds, unsigned
 // A hashed name of a GCL command and pointer to function that implements the command
 typedef struct GCL_CommandTableEntry
 {
-	short hashCode;
+	unsigned short hashCode;
 	TGCL_CommandFn function;
 } GCL_CommandTableEntry;
 
