@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800386A4
-sub_800386A4:
+	xdef menuman_act_800386A4
+menuman_act_800386A4:
 	dw 0x27BDFFD0 ; 0x800386A4
 	dw 0xAFB40020 ; 0x800386A8
 	dw 0x0080A021 ; 0x800386AC

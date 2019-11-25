@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038A20
-sub_80038A20:
+	xdef menuman_init2_80038A20
+menuman_init2_80038A20:
 	dw 0x27BDFFE8 ; 0x80038A20
 	dw 0x24040001 ; 0x80038A24
 	dw 0xAFB00010 ; 0x80038A28

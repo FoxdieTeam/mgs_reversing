@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005D424
-sub_8005D424:
+	xdef vibrate_act_8005D424
+vibrate_act_8005D424:
 	dw 0x27BDFFE0 ; 0x8005D424
 	dw 0xAFB00010 ; 0x8005D428
 	dw 0x00808021 ; 0x8005D42C

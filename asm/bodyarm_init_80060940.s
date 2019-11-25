@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80060940
-sub_80060940:
+	xdef bodyarm_init_80060940
+bodyarm_init_80060940:
 	dw 0x27BDFFE0 ; 0x80060940
 	dw 0xAFB10014 ; 0x80060944
 	dw 0x00A08821 ; 0x80060948

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800603EC
-sub_800603EC:
+	xdef afterse_act_800603EC
+afterse_act_800603EC:
 	dw 0x27BDFFE8 ; 0x800603EC
 	dw 0xAFB00010 ; 0x800603F0
 	dw 0x00808021 ; 0x800603F4

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038954
-sub_80038954:
+	xdef menuman_init_80038954
+menuman_init_80038954:
 	dw 0x27BDFFE8 ; 0x80038954
 	dw 0xAFB00010 ; 0x80038958
 	dw 0x3C10800C ; 0x8003895C

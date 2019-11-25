@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800331A4
-sub_800331A4:
+	xdef delay_act_800331A4
+delay_act_800331A4:
 	dw 0x27BDFFE8 ; 0x800331A4
 	dw 0xAFB00010 ; 0x800331A8
 	dw 0x00808021 ; 0x800331AC
