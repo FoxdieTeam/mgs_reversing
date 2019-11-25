@@ -24,11 +24,11 @@ void mts_init_vsync_800895AC(void)
 }
 */
 
-/*
+
 void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void* pStack, long stackSize)
 {
     dword_800A3D94 = stackSize;
     mts_start_8008AAEC(taskNum, pTaskFn, pStack);
 }
-*/
+
 
