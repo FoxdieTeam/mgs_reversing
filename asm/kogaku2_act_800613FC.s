@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800613FC
-sub_800613FC:
+	xdef kogaku2_act_800613FC
+kogaku2_act_800613FC:
 	dw 0x27BDFFE8 ; 0x800613FC
 	dw 0xAFB00010 ; 0x80061400
 	dw 0x00808021 ; 0x80061404

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038568
-sub_80038568:
+	xdef jimctrl_init_80038568
+jimctrl_init_80038568:
 	dw 0x27BDFFE0 ; 0x80038568
 	dw 0xAFB10014 ; 0x8003856C
 	dw 0x00808821 ; 0x80038570

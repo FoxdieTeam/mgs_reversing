@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80037820
-sub_80037820:
+	xdef strctrl_act_80037820
+strctrl_act_80037820:
 	dw 0x27BDFFE0 ; 0x80037820
 	dw 0xAFB00010 ; 0x80037824
 	dw 0x00808021 ; 0x80037828

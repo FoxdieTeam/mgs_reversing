@@ -1,8 +1,8 @@
 import os.path
 from os import path
 
-old = "sub_8008AAEC"
-new = "mts_start_8008AAEC"
+old = "sub_80061708"
+new = "kogaku2_init2_80061708"
 
 def FixFileContent(fileName, old, new):
     with open(fileName,'r') as f:

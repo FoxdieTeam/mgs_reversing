@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80037B64
-sub_80037B64:
+	xdef strctrl_init_80037B64
+strctrl_init_80037B64:
 	dw 0x27BDFFD8 ; 0x80037B64
 	dw 0xAFB20018 ; 0x80037B68
 	dw 0x00809021 ; 0x80037B6C

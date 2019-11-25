@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800604C0
-sub_800604C0:
+	xdef afterse_init_800604C0
+afterse_init_800604C0:
 	dw 0x27BDFFE0 ; 0x800604C0
 	dw 0xAFB10014 ; 0x800604C4
 	dw 0x00808821 ; 0x800604C8

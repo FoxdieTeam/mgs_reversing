@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005FBC8
-sub_8005FBC8:
+	xdef anime_init_8005FBC8
+anime_init_8005FBC8:
 	dw 0x27BDFFD8 ; 0x8005FBC8
 	dw 0xAFB40020 ; 0x8005FBCC
 	dw 0x0080A021 ; 0x8005FBD0
