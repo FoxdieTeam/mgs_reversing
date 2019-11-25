@@ -35,3 +35,36 @@ int GCL_InitCommandTable_8001FD2C(GCL_CommandChain* pChain)
     
     return 0;
 }
+
+extern void mg_printf_8008BBA0(const char*, ...);
+
+extern const char aCommandNotFoun[];
+
+GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
+{
+    GCL_CommandTableEntry* pTableIter;
+    int commandCount;
+    GCL_CommandChain* pChainIter;
+  
+    pChainIter = dword_800AB3B8;
+    if (pChainIter)
+    {
+        do
+        {
+            commandCount = pChainIter->commandTableSize;
+            pTableIter = pChainIter->pTable;
+            while (0 < commandCount)
+            {
+                commandCount--;
+                if (pTableIter->hashCode == hashedName)
+                {
+                    return pTableIter;
+                }
+                pTableIter++;
+            }
+            pChainIter = pChainIter->pNext;
+        } while (pChainIter);
+    }
+    mg_printf_8008BBA0(aCommandNotFoun);
+    return 0;
+}
