@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005AD10
-sub_8005AD10:
+	xdef sna_init_act_8005AD10
+sna_init_act_8005AD10:
 	dw 0x27BDFFC8 ; 0x8005AD10
 	dw 0xAFB1002C ; 0x8005AD14
 	dw 0x00808821 ; 0x8005AD18

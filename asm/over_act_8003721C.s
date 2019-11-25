@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003721C
-sub_8003721C:
+	xdef over_act_8003721C
+over_act_8003721C:
 	dw 0x27BDFFE0 ; 0x8003721C
 	dw 0xAFB20018 ; 0x80037220
 	dw 0x00809021 ; 0x80037224

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80033230
-sub_80033230:
+	xdef delay_init_80033230
+delay_init_80033230:
 	dw 0x27BDFFD8 ; 0x80033230
 	dw 0xAFB3001C ; 0x80033234
 	dw 0x00809821 ; 0x80033238

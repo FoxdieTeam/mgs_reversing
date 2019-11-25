@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800609C0
-sub_800609C0:
+	xdef gasmask_act_800609C0
+gasmask_act_800609C0:
 	dw 0x27BDFFE8 ; 0x800609C0
 	dw 0xAFB00010 ; 0x800609C4
 	dw 0x00808021 ; 0x800609C8

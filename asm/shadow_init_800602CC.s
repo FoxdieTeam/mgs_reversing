@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800602CC
-sub_800602CC:
+	xdef shadow_init_800602CC
+shadow_init_800602CC:
 	dw 0x27BDFFD8 ; 0x800602CC
 	dw 0xAFB1001C ; 0x800602D0
 	dw 0x00808821 ; 0x800602D4

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005D58C
-sub_8005D58C:
+	xdef vibrate_init2_8005D58C
+vibrate_init2_8005D58C:
 	dw 0x27BDFFE0 ; 0x8005D58C
 	dw 0xAFB10014 ; 0x8005D590
 	dw 0x00808821 ; 0x8005D594
