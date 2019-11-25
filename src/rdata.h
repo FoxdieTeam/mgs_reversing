@@ -27,6 +27,7 @@ extern const char* aCdlplay[];
 extern const char* aCdlforward[];
 extern const char* aCdlbackward[];
 extern const char* aCdlreadn[];
+extern const char* aCdlstandby[];
 extern const char* aCdlstop[];
 extern const char* aCdlpause[];
 extern const char* aCdlreset[];

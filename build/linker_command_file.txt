@@ -4,7 +4,6 @@
 ; link objs
 	include "..\obj\rdata.obj"
 	include "..\obj\data.obj"
-	include "..\obj\rom_data.obj"
 	include "..\obj\main.obj"
 	include	"..\obj\FS_StartDaemon_80014A7C.obj"
 	include	"..\obj\sub_80014AAC.obj"
