@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038070
-sub_80038070:
+	xdef jimctrl_act_80038070
+jimctrl_act_80038070:
 	dw 0x27BDFFD8 ; 0x80038070
 	dw 0xAFB10014 ; 0x80038074
 	dw 0x00808821 ; 0x80038078

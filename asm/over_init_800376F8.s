@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800376F8
-sub_800376F8:
+	xdef over_init_800376F8
+over_init_800376F8:
 	dw 0x27BDFFE0 ; 0x800376F8
 	dw 0xAFB10014 ; 0x800376FC
 	dw 0x00808821 ; 0x80037700

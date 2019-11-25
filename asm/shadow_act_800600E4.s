@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800600E4
-sub_800600E4:
+	xdef shadow_act_800600E4
+shadow_act_800600E4:
 	dw 0x27BDFFE8 ; 0x800600E4
 	dw 0xAFB00010 ; 0x800600E8
 	dw 0x00808021 ; 0x800600EC

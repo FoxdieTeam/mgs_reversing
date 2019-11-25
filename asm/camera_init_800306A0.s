@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800306A0
-sub_800306A0:
+	xdef camera_init_800306A0
+camera_init_800306A0:
 	dw 0x27BDFFE0 ; 0x800306A0
 	dw 0x24040002 ; 0x800306A4
 	dw 0x24050020 ; 0x800306A8

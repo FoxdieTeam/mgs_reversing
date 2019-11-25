@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80033784
-sub_80033784:
+	xdef item_act_80033784
+item_act_80033784:
 	dw 0x27BDFFD0 ; 0x80033784
 	dw 0xAFB20028 ; 0x80033788
 	dw 0x00809021 ; 0x8003378C

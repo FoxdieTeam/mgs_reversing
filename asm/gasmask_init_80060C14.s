@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80060C14
-sub_80060C14:
+	xdef gasmask_init_80060C14
+gasmask_init_80060C14:
 	dw 0x27BDFFD8 ; 0x80060C14
 	dw 0xAFB3001C ; 0x80060C18
 	dw 0x00809821 ; 0x80060C1C
