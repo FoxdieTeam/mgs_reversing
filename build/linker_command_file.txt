@@ -219,7 +219,6 @@
 	include	"..\obj\sub_8001FCB0.obj"
 	include	"..\obj\gcl.obj"
 	include	"..\obj\sdata_800AB3BC.obj"
-	include	"..\obj\sub_8001FD40.obj"
 	include	"..\obj\sub_8001FDB0.obj"
 	include	"..\obj\sub_8001FE28.obj"
 	include	"..\obj\sub_8001FE80.obj"
