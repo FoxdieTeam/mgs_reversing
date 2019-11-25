@@ -461,6 +461,7 @@
 	include	"..\obj\sub_8002B6C8.obj"
 	include	"..\obj\sub_8002B710.obj"
 	include	"..\obj\GM_StartDaemon_8002B77C.obj"
+	include	"..\obj\Script_tbl_delay_8002C074.obj"
 	include	"..\obj\sub_8002CA48.obj"
 	include	"..\obj\sub_8002D1A8.obj"
 	include	"..\obj\sub_8002D1DC.obj"
