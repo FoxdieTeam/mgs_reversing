@@ -1,7 +1,7 @@
 #ifndef _MTS_NEW_H
 #define _MTS_NEW_H
 
-void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void* pStack, long stackSize);
+extern void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void* pStack, long stackSize);
 
 void mts_wait_vbl_800895F4(int count);
 void mts_set_stack_check_8008B648(int taskNum, void* pStack, int stackSize);
