@@ -5,7 +5,23 @@
 #include "actor.h"
 #include "sdata.h"
 
-int SECTION(".data") dword_8009D2DC[] = { 0x21CA, 0x8005B650, 0x8767, 0x800344F8, 0xB997, 0x8006FD00, 0, 0 };
+struct Actor;
+
+typedef struct Actor*(*TGCL_CommandFn)(int scriptData, int scriptBinds, unsigned char* pScript);
+
+typedef struct GCL_CommandTableEntry
+{
+	short hashCode;
+	TGCL_CommandFn function;
+} GCL_CommandTableEntry;
+
+GCL_CommandTableEntry SECTION(".data") StaticResInitFunc_8009D2DC[] = 
+{
+	{ 0x21CA, (TGCL_CommandFn)0x8005B650 }, // sna_init
+	{ 0x8767, (TGCL_CommandFn)0x800344F8 }, // item
+	{ 0xB997, (TGCL_CommandFn)0x8006FD00 }, // door
+	{ 0, 0 }
+};
 
 const char* SECTION(".data") off_8009D2FC[] = { aSlpm86247, aSlpm86248, 0};
 
@@ -107,24 +123,28 @@ int SECTION(".data") dword_8009D460 =  0;
 int SECTION(".data") dword_8009D464 =  0;
 int SECTION(".data") dword_8009D468 =  0xFFFFFFFF;
 
-int SECTION(".data") dword_8009D46C[] =
+int SECTION(".data") dword_8009D46C = 0x2030100;
+
+typedef struct GCL_CommandChain
 {
-	0x2030100, // TODO: Move to another var
-	0x0D86,  // if
-	0x80020274,
-	0x64C0, // eval
-	0x80020318,
-	0xCD3A, // return
-	0x80020404,
-	0x7636, // foreach
-	0x8002033C
+	struct GCL_CommandChain* pNext;
+	int commandTableSize;
+	GCL_CommandTableEntry* pTable;
+}  GCL_CommandChain;
+
+GCL_CommandTableEntry SECTION(".data") dword_8009D470[] =
+{
+	{ 0x0D86, (TGCL_CommandFn)0x80020274 }, // if
+	{ 0x64C0, (TGCL_CommandFn)0x80020318 }, // eval
+	{ 0xCD3A, (TGCL_CommandFn)0x80020404 }, // return
+	{ 0x7636, (TGCL_CommandFn)0x8002033C }  // foreach
 };
 
-int SECTION(".data") dword_8009D490[] = 
+GCL_CommandChain SECTION(".data") dword_8009D490 = 
 {
 	0,
-	4, // table count
-	0x8009D470
+	COUNTOF(dword_8009D470),
+	dword_8009D470
 };
 
 struct Unk_8009D49C
@@ -180,39 +200,42 @@ int SECTION(".data") dword_8009D598[] =
 	0x80008000,
 	0x80008000,
 	0x80038000,
-	0x20002000, 0x2000, 0, 0, 0, 0,
-	// TODO: GCL command table 
-	0x22FF, 0x8002C138, // mesg
-	0xD4CB, 0x8002BD34, // trap
-	0x9906, 0x8002C1B0, // chara
-	0xC091, 0x8002BB44, // map
-	0x7D50, 0x8002BD04, // hzd ??
-	0xEEE9, 0x8002B8F0, // camera
-	0x306A, 0x8002B854, // light
-	0x9A1F, 0x8002C22C, // start
-	0xC8BB, 0x8002C308, // load
-	0x24E1, 0x8002C4A8, // radio
-	0xE43C, 0x8002C6A4, // str_status
-	0xA242, 0x8002C890, // demo
-	0xDBAB, 0x8002BE20, // ntrap
-	0x430D, 0x8002C074, // delay
-	0xCC85, 0x8002C988, // pad
-	0x5C9E, 0x8002C72C, // varsave
-	0x4AD9, 0x8002C7C8, // system
-	0x698D, 0x8002CA28, // sound
-	0x226D, 0x8002CAAC, // menu
-	0x925E, 0x8002CD94, // rand
-	0xE257, 0x8002CDF4, // ??
-	0xA2BF, 0x8002CFBC, // ?? not in pc ver, demo thread related ??
-	0xB96E, 0x8002D0E4, // print
-	0xEC9D, 0x8002D188  // jimaku
+	0x20002000, 0x2000, 0, 0, 0, 0
 };
 
-int SECTION(".data") dword_8009D68C[] = 
+GCL_CommandTableEntry SECTION(".data") gGCL_CommandTable_8009D5CC[] = 
+{
+	{ 0x22FF, (TGCL_CommandFn)0x8002C138 }, // mesg
+	{ 0xD4CB, (TGCL_CommandFn)0x8002BD34 }, // trap
+	{ 0x9906, (TGCL_CommandFn)0x8002C1B0 }, // chara
+	{ 0xC091, (TGCL_CommandFn)0x8002BB44 }, // map
+	{ 0x7D50, (TGCL_CommandFn)0x8002BD04 }, // hzd ??
+	{ 0xEEE9, (TGCL_CommandFn)0x8002B8F0 }, // camera
+	{ 0x306A, (TGCL_CommandFn)0x8002B854 }, // light
+	{ 0x9A1F, (TGCL_CommandFn)0x8002C22C }, // start
+	{ 0xC8BB, (TGCL_CommandFn)0x8002C308 }, // load
+	{ 0x24E1, (TGCL_CommandFn)0x8002C4A8 }, // radio
+	{ 0xE43C, (TGCL_CommandFn)0x8002C6A4 }, // str_status
+	{ 0xA242, (TGCL_CommandFn)0x8002C890 }, // demo
+	{ 0xDBAB, (TGCL_CommandFn)0x8002BE20 }, // ntrap
+	{ 0x430D, (TGCL_CommandFn)0x8002C074 }, // delay
+	{ 0xCC85, (TGCL_CommandFn)0x8002C988 }, // pad
+	{ 0x5C9E, (TGCL_CommandFn)0x8002C72C }, // varsave
+	{ 0x4AD9, (TGCL_CommandFn)0x8002C7C8 }, // system
+	{ 0x698D, (TGCL_CommandFn)0x8002CA28 }, // sound
+	{ 0x226D, (TGCL_CommandFn)0x8002CAAC }, // menu
+	{ 0x925E, (TGCL_CommandFn)0x8002CD94 }, // rand
+	{ 0xE257, (TGCL_CommandFn)0x8002CDF4 }, // ??
+	{ 0xA2BF, (TGCL_CommandFn)0x8002CFBC }, // ?? not in pc ver, demo thread related ??
+	{ 0xB96E, (TGCL_CommandFn)0x8002D0E4 }, // print
+	{ 0xEC9D, (TGCL_CommandFn)0x8002D188 }  // jimaku
+};
+
+GCL_CommandChain SECTION(".data") dword_8009D68C = 
 { 
 	0,
-	24, // table count 
-	0x8009D5CC
+	COUNTOF(gGCL_CommandTable_8009D5CC),
+	gGCL_CommandTable_8009D5CC
 };
 
 int SECTION(".data") dword_8009D698 =  0x2010000;
