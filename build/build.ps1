@@ -1,13 +1,15 @@
-param([String]$psyq_path="")
+param([String]$psyq_path4dot4, [String]$psyq_path4dot3)
 
 $ErrorActionPreference = "Stop"
 
 Push-Location $PSScriptRoot
 
-if (![string]::IsNullOrEmpty($psyq_path))
+$oldPathEnv = $Env:path 
+
+Function psyq_setup($psyq_path)
 {
     # Setup PSYQ env vars
-    $Env:path += ";" + $psyq_path
+    $Env:path = $oldPathEnv + ";" + $psyq_path
     $Env:PSYQ_PATH = $psyq_path
     # Setup PSYQ ini
     $psyq_path_without_bin = $psyq_path
@@ -29,16 +31,11 @@ if (![string]::IsNullOrEmpty($psyq_path))
     Out-File $psyq_path\psyq.ini
 }
 
-#Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore | out-null
-New-Item -ItemType directory -Path $PSScriptRoot\..\obj -ErrorAction SilentlyContinue | out-null
 
-# Compile all .C files
-$cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
-foreach ($file in $cFiles)
+function compile_c($fileName)
 {
-    $objName = $file.Name
     $objName = $objName.replace(".C", "").replace(".c", "")
-		
+  
     ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
     if($LASTEXITCODE -eq 0)
     {
@@ -50,7 +47,36 @@ foreach ($file in $cFiles)
     }
 }
 
-#ccpsx.exe -O0 -fcaller-saves -fcse-follow-jumps -fcse-skip-blocks -fdelayed-branch -fexpensive-optimizations -ffast-math -ffloat-store -fforce-addr -fforce-mem -finline-functions -fkeep-inline-functions -fno-default-inline -fno-defer-pop -fno-function-cse -fno-inline -fno-peephole -fomit-frame-pointer -frerun-cse-after-loop -fschedule-insns -fschedule-insns2 -fstrength-reduce -fthread-jumps -funroll-all-loops -funroll-loops -c -Wall "$PSScriptRoot\..\src\mts_init_vsync_800895AC.c" "-o$PSScriptRoot\..\obj\mts_init_vsync_800895AC.obj"
+#Remove-Item $PSScriptRoot\..\obj -Recurse -ErrorAction Ignore | out-null
+New-Item -ItemType directory -Path $PSScriptRoot\..\obj -ErrorAction SilentlyContinue | out-null
+
+# Most source compiles against psyq 4.4
+psyq_setup($psyq_path4dot4)
+
+# Compile all .C files with psyq 4.4
+$cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
+foreach ($file in $cFiles)
+{
+    $objName = $file.Name
+    if ($objName.IndexOf("mts") -eq -1)
+    {
+        compile_c($objName)
+    }
+}
+
+# MTS compiles against psyq 4.3 (compiler at least, libs are the same for now)
+psyq_setup($psyq_path4dot3)
+
+foreach ($file in $cFiles)
+{
+    $objName = $file.Name
+    if ($objName.IndexOf("mts") -ne -1)
+    {
+        compile_c($objName)
+    }
+}
+
+#ccpsx.exe -O2 -c -Wall "$PSScriptRoot\..\src\mts_new.c" "-o$PSScriptRoot\..\obj\mts_new.obj"
 
 # Compile all .S files
 $sFiles = Get-ChildItem $PSScriptRoot\..\asm\*.S
@@ -113,8 +139,8 @@ else
 
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
-	.\MDasm.exe ..\SLPM_862.47 499116 499184 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 499116 499184 | Out-File "dump.asm"
+	.\MDasm.exe ..\SLPM_862.47 504516 504552 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 504516 504552 | Out-File "dump.asm"
 }
 
 # Validate the output is matching the OG binary hash
