@@ -46,24 +46,17 @@ GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
     int commandCount;
     GCL_CommandChain* pChainIter;
   
-    pChainIter = dword_800AB3B8;
-    if (pChainIter)
+    for (pChainIter = dword_800AB3B8 ; pChainIter ; pChainIter = pChainIter->pNext)
     {
-        do
+        pTableIter = pChainIter->pTable;
+        for (commandCount = pChainIter->commandTableSize; 0 < commandCount; commandCount--)
         {
-            commandCount = pChainIter->commandTableSize;
-            pTableIter = pChainIter->pTable;
-            while (0 < commandCount)
+            if (pTableIter->hashCode == hashedName)
             {
-                commandCount--;
-                if (pTableIter->hashCode == hashedName)
-                {
-                    return pTableIter;
-                }
-                pTableIter++;
+                return pTableIter;
             }
-            pChainIter = pChainIter->pNext;
-        } while (pChainIter);
+            pTableIter++;
+        }
     }
     mg_printf_8008BBA0(aCommandNotFoun);
     return 0;
