@@ -4,16 +4,7 @@
 #include "rdata.h"
 #include "actor.h"
 #include "sdata.h"
-
-struct Actor;
-
-typedef struct Actor*(*TGCL_CommandFn)(int scriptData, int scriptBinds, unsigned char* pScript);
-
-typedef struct GCL_CommandTableEntry
-{
-	short hashCode;
-	TGCL_CommandFn function;
-} GCL_CommandTableEntry;
+#include "gcl.h"
 
 GCL_CommandTableEntry SECTION(".data") StaticResInitFunc_8009D2DC[] = 
 {
@@ -124,13 +115,6 @@ int SECTION(".data") dword_8009D464 =  0;
 int SECTION(".data") dword_8009D468 =  0xFFFFFFFF;
 
 int SECTION(".data") dword_8009D46C = 0x2030100;
-
-typedef struct GCL_CommandChain
-{
-	struct GCL_CommandChain* pNext;
-	int commandTableSize;
-	GCL_CommandTableEntry* pTable;
-}  GCL_CommandChain;
 
 GCL_CommandTableEntry SECTION(".data") dword_8009D470[] =
 {

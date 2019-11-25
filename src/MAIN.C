@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "gvd.h"
 #include "mts_new.h"
-
+#include "gcl.h"
 
 extern void __main_80098F14(void);
 
@@ -37,7 +37,6 @@ extern void MC_StartDaemon_80024E48(void);
 
 extern void FS_StartDaemon_80014A7C(void);
 extern void DG_StartDaemon_8001F284(void);
-extern void GCL_StartDaemon_8001FCDC(void);
 extern void HZD_StartDaemon_80021900(void);
 extern void GM_StartDaemon_8002B77C(void);
 
