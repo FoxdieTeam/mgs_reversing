@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015418
-sub_80015418:
+	xdef GD_SetFileHandler_80015418
+GD_SetFileHandler_80015418:
 	dw 0x2484FF9F ; 0x80015418
 	dw 0x3C02800B ; 0x8001541C
 	dw 0x2442CE80 ; 0x80015420

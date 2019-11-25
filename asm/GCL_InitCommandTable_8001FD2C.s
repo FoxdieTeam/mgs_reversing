@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FD2C
-sub_8001FD2C:
+	xdef GCL_InitCommandTable_8001FD2C
+GCL_InitCommandTable_8001FD2C:
 	dw 0x8F8200D4 ; 0x8001FD2C
 	dw 0xAF8400D4 ; 0x8001FD30
 	dw 0xAC820000 ; 0x8001FD34

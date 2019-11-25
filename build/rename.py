@@ -1,8 +1,8 @@
 import os.path
 from os import path
 
-old = "sub_8002C074"
-new = "Script_tbl_delay_8002C074"
+old = "sub_80015418"
+new = "GD_SetFileHandler_80015418"
 
 def FixFileContent(fileName, old, new):
     with open(fileName,'r') as f:
