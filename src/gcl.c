@@ -7,9 +7,26 @@ void sub_80020B68(void);
 void sub_80021264(void);
 void sub_8002040C(void);
 void sub_8001FC88(unsigned char*); // TODO: Prob wrong
-void sub_8001FCB0(int);
 
 void GD_SetFileHandler_80015418(char, void*);
+
+
+int SECTION(".sbss") gGcl_main_or_demo_800AB990;
+
+int SECTION(".sbss") dword_800AB9948;
+
+int SECTION(".sbss") dword_800AB998;
+
+int SECTION(".sbss") dword_800AB99C;
+
+int SECTION(".sbss") dword_800AB9A0[2];
+int SECTION(".sbss") dword_800AB9A8[2];
+
+
+void GCL_SetMainOrDemo_8001FCB0(int bMain)
+{
+    gGcl_main_or_demo_800AB990 = (bMain == 1) ? 0x6A242 : 0x6EA54;
+}
 
 void GCL_StartDaemon_8001FCDC(void)
 {
@@ -17,7 +34,7 @@ void GCL_StartDaemon_8001FCDC(void)
     sub_80021264();
     sub_8002040C();
     GD_SetFileHandler_80015418('g', sub_8001FC88);
-    sub_8001FCB0(0);
+    GCL_SetMainOrDemo_8001FCB0(0);
 }
 
 void GLC_Null_8001FD24(void)
@@ -79,14 +96,14 @@ int GCL_8001FDB0(unsigned char* pScript)
     GCL_CommandTableEntry* pFoundCommand = GCL_FindCommand_8001FD40(GCL_ReadShort(pScript));
     GCL_AdvanceShort(pScript);
     
-    sub_80020934(pScript + GCL_ReadByte(pScript));
+    sub_80020934(pScript + GCL_ReadByte(pScript)); // push byte ?
     GCL_AdvanceByte(pScript);
 
-    sub_80020690(pScript);
+    sub_80020690(pScript); // save command return address?
 
     commandRet = pFoundCommand->function(pScript);
 
-    sub_80020950();
+    sub_80020950(); // script pop
 
     return commandRet;
 }
