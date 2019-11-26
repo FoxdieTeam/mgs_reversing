@@ -216,7 +216,6 @@
 	include	"..\obj\sub_8001FC58.obj"
 	include	"..\obj\sub_8001FC88.obj"
 	include	"..\obj\gcl.obj"
-	include "..\obj\sbss.obj"
 	include	"..\obj\sdata_800AB3BC.obj"
 	include	"..\obj\sub_8001FE28.obj"
 	include	"..\obj\sub_8001FE80.obj"
@@ -236,9 +235,8 @@
 	include	"..\obj\sub_8002087C.obj"
 	include	"..\obj\sub_800208F0.obj"
 	include	"..\obj\sub_80020904.obj"
-	include	"..\obj\sub_80020920.obj"
-	include	"..\obj\sub_80020934.obj"
-	include	"..\obj\sub_80020950.obj"
+	include	"..\obj\GCL_ResetStack_80020920.obj"
+	include "..\obj\sbss.obj"
 	include	"..\obj\sub_80020968.obj"
 	include	"..\obj\sub_800209E8.obj"
 	include	"..\obj\sub_80020A14.obj"
@@ -2119,6 +2117,10 @@ group_800ACC18	group bss,org($800ACC18)
 
 group_gGVActor_800acbf8	group bss,org($800acbf8)
 	section .gGVActor_800acbf8, group_gGVActor_800acbf8
+
+group_800B3CA8	group bss,org($800B3CA8)
+	section .bss_800B3CA8, group_800B3CA8
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

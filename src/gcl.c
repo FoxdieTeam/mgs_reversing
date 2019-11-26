@@ -17,10 +17,6 @@ int SECTION(".sbss") dword_800AB9948;
 
 int SECTION(".sbss") dword_800AB998;
 
-int SECTION(".sbss") dword_800AB99C;
-
-int SECTION(".sbss") dword_800AB9A0[2];
-int SECTION(".sbss") dword_800AB9A8[2];
 
 
 void GCL_SetMainOrDemo_8001FCB0(int bMain)
@@ -79,9 +75,9 @@ GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
     return 0;
 }
 
-void sub_80020934(unsigned char*);
+void GCL_Push_80020934(unsigned char*);
 void sub_80020690(unsigned char*);
-void sub_80020950(void);
+void GCL_Pop_80020950(void);
 
 #define GCL_ReadShort(p) ( p[1] ) | ( p[0] << 8 )
 #define GCL_AdvanceShort(p) p += sizeof(short)
@@ -96,14 +92,14 @@ int GCL_8001FDB0(unsigned char* pScript)
     GCL_CommandTableEntry* pFoundCommand = GCL_FindCommand_8001FD40(GCL_ReadShort(pScript));
     GCL_AdvanceShort(pScript);
     
-    sub_80020934(pScript + GCL_ReadByte(pScript)); // push byte ?
+    GCL_Push_80020934(pScript + GCL_ReadByte(pScript));
     GCL_AdvanceByte(pScript);
 
     sub_80020690(pScript); // save command return address?
 
     commandRet = pFoundCommand->function(pScript);
 
-    sub_80020950(); // script pop
+    GCL_Pop_80020950();
 
     return commandRet;
 }
