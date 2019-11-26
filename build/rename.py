@@ -1,8 +1,8 @@
 import os.path
 from os import path
 
-old = "sub_8001FD40"
-new = "GCL_FindCommand_8001FD40"
+old = "sub_80020920"
+new = "GCL_Peek_80020920"
 
 def FixFileContent(fileName, old, new):
     with open(fileName,'r') as f:
