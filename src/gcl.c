@@ -61,3 +61,32 @@ GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
     mg_printf_8008BBA0(aCommandNotFoun);
     return 0;
 }
+
+void sub_80020934(unsigned char*);
+void sub_80020690(unsigned char*);
+void sub_80020950(void);
+
+#define GCL_ReadShort(p) ( p[1] ) | ( p[0] << 8 )
+#define GCL_AdvanceShort(p) p += sizeof(short)
+
+#define GCL_ReadByte(p) p[0]
+#define GCL_AdvanceByte(p) p += sizeof(unsigned char)
+
+int GCL_8001FDB0(unsigned char* pScript)
+{
+    int commandRet;
+
+    GCL_CommandTableEntry* pFoundCommand = GCL_FindCommand_8001FD40(GCL_ReadShort(pScript));
+    GCL_AdvanceShort(pScript);
+    
+    sub_80020934(pScript + GCL_ReadByte(pScript));
+    GCL_AdvanceByte(pScript);
+
+    sub_80020690(pScript);
+
+    commandRet = pFoundCommand->function(pScript);
+
+    sub_80020950();
+
+    return commandRet;
+}
