@@ -48,20 +48,24 @@ extern void sub_80014BD8(void);
 
 extern const char aResidentTopX[];
 
+unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
+unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
+
 void sub_80014C28()
 {
-    System_init_80015AF4(0, 0, (void*)0x80182000, 0x5E000 );
-    System_init_80015AF4(1, 0, (void*)0, 0);
+    System_init_80015AF4(0, 0, (void*)0x80182000, sizeof(heap_80182000)); // passing heap_80182000 produces addiu instead of ori
+    System_init_80015AF4(1, 0, 0, 0);
 }
 
 extern void mg_printf_8008BBA0(const char*, ...);
 extern int gResidentTop_800AB940;
 
+
 void sub_80014C70(void)
 {
 	sub_80015AB0();
 	sub_80014BD8();
-	System_init_80015AF4(2, 0, (void*)0x80117000, 0x6b000); // TODO: Is actually like unsigned char* heap_80117000[438272];
+	System_init_80015AF4(2, 0, (void*)0x80117000, sizeof(heap_80117000)); // passing heap_80117000 produces addiu instead of ori
 	mg_printf_8008BBA0(aResidentTopX, gResidentTop_800AB940);
 }
 

@@ -2118,6 +2118,11 @@ group_gGVActor_800acbf8	group bss,org($800acbf8)
 group_800B3CA8	group bss,org($800B3CA8)
 	section .bss_800B3CA8, group_800B3CA8
 
+group_heap_80117000	group bss,org($80117000)
+	section .heap_80117000, group_heap_80117000
+
+group_heap_80182000	group bss,org($80182000)
+	section .heap_80182000, group_heap_80182000
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

@@ -13,7 +13,7 @@ void sub_800893E8(void);
 int VSync_80098108(int);
 void VSyncCallback_800983A8(void (*func)());
 
-
+// TODO: Not matching, seems like its probably due to wrong compiler rather than wrong code ??
 void mts_init_vsync_800895AC(void)
 {
     if (gMtsVSyncCount_800A3D78 == 0xffffffff)
