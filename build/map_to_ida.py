@@ -64,7 +64,7 @@ def process_map_file_line(line, allData):
         if not symbol.endswith("_ORGEND") and not symbol.endswith("_OBJEND") and not symbol.endswith("_OBJ") and not symbol.endswith("_ORG"):
             if not symbol.upper().startswith("SUB_"): # ignore sub_addr symbols as they haven't been renamed yet
                 symbolAddressInt = int(symbol_address, 16)
-                symbolFixedCase = correct_case_symbol(symbol, allData)
+                symbolFixedCase = symbol;#correct_case_symbol(symbol, allData)
                 sync_function_name(symbolAddressInt, symbolFixedCase)
 
 def sync_map_to_ida():

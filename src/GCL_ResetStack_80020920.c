@@ -29,7 +29,7 @@ void GCL_Pop_80020950()
     gGCL_stack_800AB99C--;
 }
 
-unsigned char* sub_8002069C(unsigned char* pScript, int* ppScript, int* pRet);
+unsigned char* GCL_Execute_8002069C(unsigned char* pScript, int* ppScript, int* pRet);
 
 int sub_80020968(int uParm1)
 {
@@ -40,7 +40,7 @@ int sub_80020968(int uParm1)
     pScript = *(gGCL_stack_800AB99C-1);
     do 
     {
-        pScript = sub_8002069C(pScript, &scriptBytes, &ret);
+        pScript = GCL_Execute_8002069C(pScript, &scriptBytes, &ret);
         if (scriptBytes == 0)
         {
             return 0;
@@ -56,7 +56,7 @@ int sub_800209E8(unsigned char* uParm1)
 {
     int scriptBytes;
     int ret;  
-    dword_800AB9A0 = sub_8002069C(uParm1, &scriptBytes, &ret);
+    dword_800AB9A0 = GCL_Execute_8002069C(uParm1, &scriptBytes, &ret);
     return ret;
 }
 
@@ -69,7 +69,7 @@ int sub_80020A14(unsigned char* pInScript, unsigned short* pOut3Words)
     {
         int ret;
         int scriptBytes;
-        pScript = sub_8002069C(pScript, &scriptBytes, &ret);
+        pScript = GCL_Execute_8002069C(pScript, &scriptBytes, &ret);
         counter++;
         *pOutIter = ret;
         pOutIter++;
