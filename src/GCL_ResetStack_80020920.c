@@ -29,18 +29,18 @@ void GCL_Pop_80020950()
     gGCL_stack_800AB99C--;
 }
 
-unsigned char* sub_8002069C(unsigned char*, int*, unsigned char**);
+unsigned char* sub_8002069C(unsigned char* pScript, int* ppScript, int* pRet);
 
-unsigned char* sub_80020968(int uParm1)
+int sub_80020968(int uParm1)
 {
     unsigned char* pScript;
     int scriptBytes;
-    unsigned char* pRet;
+    unsigned int ret;
   
     pScript = *(gGCL_stack_800AB99C-1);
     do 
     {
-        pScript = sub_8002069C(pScript, &scriptBytes, &pRet);
+        pScript = sub_8002069C(pScript, &scriptBytes, &ret);
         if (scriptBytes == 0)
         {
             return 0;
@@ -48,16 +48,16 @@ unsigned char* sub_80020968(int uParm1)
     }
     while (((scriptBytes & 0xff) != 0x50) || (scriptBytes >> 0x10 != (uParm1 & 0xff)));
 
-    dword_800AB9A0 = pRet;
-    return pRet;
+    dword_800AB9A0 = (unsigned char*)ret; // TODO: Union/any type return ??
+    return ret;
 }
 
-unsigned char* sub_800209E8(unsigned char* uParm1)
+int sub_800209E8(unsigned char* uParm1)
 {
     int scriptBytes;
-    unsigned char* pRet;   
-    dword_800AB9A0 = sub_8002069C(uParm1, &scriptBytes, &pRet);
-    return pRet;
+    int ret;  
+    dword_800AB9A0 = sub_8002069C(uParm1, &scriptBytes, &ret);
+    return ret;
 }
 
 int sub_80020A14(unsigned char* pInScript, unsigned short* pOut3Words)
@@ -67,11 +67,11 @@ int sub_80020A14(unsigned char* pInScript, unsigned short* pOut3Words)
     unsigned char* pScript = pInScript;
     do
     {
-        unsigned short* pRet;
+        int ret;
         int scriptBytes;
-        pScript = sub_8002069C(pScript, &scriptBytes, &pRet);
+        pScript = sub_8002069C(pScript, &scriptBytes, &ret);
         counter++;
-        *pOutIter = pRet;
+        *pOutIter = ret;
         pOutIter++;
     } while (counter < 3);
 
