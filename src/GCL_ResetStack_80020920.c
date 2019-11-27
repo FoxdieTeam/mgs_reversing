@@ -31,7 +31,7 @@ void GCL_Pop_80020950()
 
 unsigned char* GCL_Execute_8002069C(unsigned char* pScript, int* ppScript, int* pRet);
 
-int sub_80020968(int uParm1)
+int GCL_GetParam_80020968(int paramName)
 {
     unsigned char* pScript;
     int scriptBytes;
@@ -46,13 +46,13 @@ int sub_80020968(int uParm1)
             return 0;
         }
     }
-    while (((scriptBytes & 0xff) != 0x50) || (scriptBytes >> 0x10 != (uParm1 & 0xff)));
+    while (((scriptBytes & 0xff) != 0x50) || (scriptBytes >> 0x10 != (paramName & 0xff)));
 
     dword_800AB9A0 = (unsigned char*)ret; // TODO: Union/any type return ??
     return ret;
 }
 
-int sub_800209E8(unsigned char* uParm1)
+int GCL_800209E8(unsigned char* uParm1)
 {
     int scriptBytes;
     int ret;  
@@ -60,7 +60,7 @@ int sub_800209E8(unsigned char* uParm1)
     return ret;
 }
 
-int sub_80020A14(unsigned char* pInScript, unsigned short* pOut3Words)
+int GCL_80020A14(unsigned char* pInScript, unsigned short* pOut3Words)
 {
     int counter = 0;
     unsigned short* pOutIter = pOut3Words;
