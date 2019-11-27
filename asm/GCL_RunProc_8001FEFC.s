@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FEFC
-sub_8001FEFC:
+	xdef GCL_RunProc_8001FEFC
+GCL_RunProc_8001FEFC:
 	dw 0x27BDFFE8 ; 0x8001FEFC
 	dw 0xAFB00010 ; 0x8001FF00
 	dw 0xAFBF0014 ; 0x8001FF04

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002040C
-sub_8002040C:
+	xdef GCL_AddBasicBuiltInCommands_8002040C
+GCL_AddBasicBuiltInCommands_8002040C:
 	dw 0x27BDFFE8 ; 0x8002040C
 	dw 0x3C04800A ; 0x80020410
 	dw 0xAFBF0010 ; 0x80020414

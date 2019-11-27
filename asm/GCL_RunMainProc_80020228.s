@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020228
-sub_80020228:
+	xdef GCL_RunMainProc_80020228
+GCL_RunMainProc_80020228:
 	dw 0x27BDFFE8 ; 0x80020228
 	dw 0x3C02800B ; 0x8002022C
 	dw 0xAFB00010 ; 0x80020230

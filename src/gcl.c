@@ -5,8 +5,8 @@ GCL_CommandChain*  SECTION(".sdata") dword_800AB3B8 = 0;
 
 void sub_80020B68(void);
 void sub_80021264(void);
-void sub_8002040C(void);
-void sub_8001FC88(unsigned char*); // TODO: Prob wrong
+void GCL_AddBasicBuiltInCommands_8002040C(void);
+void GCL_FileHandler_8001FC88(unsigned char*); // TODO: Prob wrong
 
 void GD_SetFileHandler_80015418(char, void*);
 
@@ -28,8 +28,8 @@ void GCL_StartDaemon_8001FCDC(void)
 {
     sub_80020B68();
     sub_80021264();
-    sub_8002040C();
-    GD_SetFileHandler_80015418('g', sub_8001FC88);
+    GCL_AddBasicBuiltInCommands_8002040C();
+    GD_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
     GCL_SetMainOrDemo_8001FCB0(0);
 }
 

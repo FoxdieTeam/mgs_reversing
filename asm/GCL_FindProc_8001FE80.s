@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FE80
-sub_8001FE80:
+	xdef GCL_FindProc_8001FE80
+GCL_FindProc_8001FE80:
 	dw 0x00802821 ; 0x8001FE80
 	dw 0x3C04800B ; 0x8001FE84
 	dw 0x8C833C18 ; 0x8001FE88
