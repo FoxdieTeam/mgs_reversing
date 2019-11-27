@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020430
-sub_80020430:
+	xdef GCL_Operator_Evaluate_80020430
+GCL_Operator_Evaluate_80020430:
 	dw 0x2483FFFF ; 0x80020430
 	dw 0x2C620013 ; 0x80020434
 	dw 0x10400050 ; 0x80020438

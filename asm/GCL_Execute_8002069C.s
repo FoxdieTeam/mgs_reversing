@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002069C
-sub_8002069C:
+	xdef GCL_Execute_8002069C
+GCL_Execute_8002069C:
 	dw 0x27BDFFE0 ; 0x8002069C
 	dw 0xAFB20018 ; 0x800206A0
 	dw 0x00A09021 ; 0x800206A4

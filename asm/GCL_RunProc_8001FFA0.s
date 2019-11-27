@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FFA0
-sub_8001FFA0:
+	xdef GCL_RunProc_8001FFA0
+GCL_RunProc_8001FFA0:
 	dw 0x27BDFFA8 ; 0x8001FFA0
 	dw 0xAFB00040 ; 0x8001FFA4
 	dw 0x00808021 ; 0x8001FFA8

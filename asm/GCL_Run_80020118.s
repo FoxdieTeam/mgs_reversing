@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020118
-sub_80020118:
+	xdef GCL_Run_80020118
+GCL_Run_80020118:
 	dw 0x27BDFFD8 ; 0x80020118
 	dw 0xAFB00018 ; 0x8002011C
 	dw 0x00808021 ; 0x80020120
