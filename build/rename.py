@@ -1,8 +1,8 @@
 import os.path
 from os import path
 
-old = "sub_80020bb4"
-new = "CRC32_80020BB4"
+old = "sub_80020400"
+new = "GCL_Cmd_Return_80020400"
 
 def FixFileContent(fileName, old, new):
     with open(fileName,'r') as f:
