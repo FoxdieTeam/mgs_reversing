@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FC88
-sub_8001FC88:
+	xdef GCL_FileHandler_8001FC88
+GCL_FileHandler_8001FC88:
 	dw 0x8F8206AC ; 0x8001FC88
 	dw 0x27BDFFE8 ; 0x8001FC8C
 	dw 0x14A20003 ; 0x8001FC90

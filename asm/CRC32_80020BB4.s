@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020BB4
-sub_80020BB4:
+	xdef CRC32_80020BB4
+CRC32_80020BB4:
 	dw 0x10800013 ; 0x80020BB4
 	dw 0x2403FFFF ; 0x80020BB8
 	dw 0x3C07EDB8 ; 0x80020BBC
