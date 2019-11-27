@@ -33,7 +33,7 @@ void GCL_StartDaemon_8001FCDC(void)
     GCL_SetMainOrDemo_8001FCB0(0);
 }
 
-void GLC_Null_8001FD24(void)
+void GCL_Null_8001FD24(void)
 {
 
 }
