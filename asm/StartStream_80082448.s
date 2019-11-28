@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80082448
-sub_80082448:
+	xdef StartStream_80082448
+StartStream_80082448:
 	dw 0x3C02800C ; 0x80082448
 	dw 0x8C4204EC ; 0x8008244C
 	dw 0x27BDFFE8 ; 0x80082450

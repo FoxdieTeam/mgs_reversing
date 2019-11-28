@@ -1,8 +1,8 @@
 import os.path
 from os import path
 
-old = "sub_80020400"
-new = "GCL_Cmd_Return_80020400"
+old = "sub_80082448"
+new = "StartStream_80082448"
 
 def FixFileContent(fileName, old, new):
     with open(fileName,'r') as f:
