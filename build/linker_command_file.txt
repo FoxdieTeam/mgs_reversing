@@ -2150,5 +2150,10 @@ group_heap_80117000	group bss,org($80117000)
 group_heap_80182000	group bss,org($80182000)
 	section .heap_80182000, group_heap_80182000
 
+group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
+	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0
+
+
+
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
