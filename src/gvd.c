@@ -42,7 +42,8 @@ extern const char aGvdC[];
 
 extern void GV_Act_80014b60(struct Actor*);
 
-extern void System_init_80015AF4(int index, int bDynamic, void* pMemory, unsigned int size);
+void System_init_80015AF4(int index, int bIsDynamic, void* pMemory, unsigned int size);
+
 extern void sub_80015AB0(void);
 extern void sub_80014BD8(void);
 

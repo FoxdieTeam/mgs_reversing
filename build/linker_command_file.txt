@@ -1439,6 +1439,7 @@
 	include	"..\obj\sub_8006F978.obj"
 	include	"..\obj\sub_8006FA28.obj"
 	include	"..\obj\sub_8006FA60.obj"
+	include	"..\obj\door_8006FD00.obj"
 	include	"..\obj\sub_8006FDDC.obj"
 	include	"..\obj\sub_8006FEE4.obj"
 	include	"..\obj\sub_80070040.obj"
@@ -1575,10 +1576,10 @@
 	include	"..\obj\sub_800791E4.obj"
 	include	"..\obj\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
 	include	"..\obj\sub_80079460.obj"
-	include	"..\obj\sub_800794E4.obj"
+	include	"..\obj\demothrd_init_800794E4.obj"
 	include	"..\obj\sub_80079664.obj"
 	include	"..\obj\sub_800797CC.obj"
-	include	"..\obj\sub_800797FC.obj"
+	include	"..\obj\demothrd_update_800797FC.obj"
 	include	"..\obj\sub_80079960.obj"
 	include	"..\obj\sub_800799A8.obj"
 	include	"..\obj\sub_80079B50.obj"
@@ -1614,7 +1615,7 @@
 	include	"..\obj\StrFadeIn_800822C8.obj"
 	include	"..\obj\StrFadeOut_80082310.obj"
 	include	"..\obj\StrFadeOutStop_80082380.obj"
-	include	"..\obj\sub_80082448.obj"
+	include	"..\obj\StartStream_80082448.obj"
 	include	"..\obj\UserSpuIRQProc_80082640.obj"
 	include	"..\obj\sub_800827A4.obj"
 	include	"..\obj\StrSpuTransWithNoLoop_800827AC.obj"
@@ -2148,6 +2149,11 @@ group_heap_80117000	group bss,org($80117000)
 
 group_heap_80182000	group bss,org($80182000)
 	section .heap_80182000, group_heap_80182000
+
+group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
+	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0
+
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
