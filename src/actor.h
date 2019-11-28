@@ -9,7 +9,7 @@ struct Actor;
 typedef void(*TActorFunction)(struct Actor*);
 typedef void(*TActorFreeFunction)(void*);
 
-struct Actor
+typedef struct Actor
 {
     struct Actor* pPrevious;
     struct Actor* pNext;
@@ -19,7 +19,7 @@ struct Actor
     const char* mName;
     int field_18;
     int field_1C;
-};
+} Actor;
 
 struct ActorList
 {
