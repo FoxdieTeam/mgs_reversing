@@ -598,7 +598,7 @@
 	include	"..\obj\sub_80032EAC.obj"
 	include	"..\obj\sub_80033054.obj"
 	include	"..\obj\delay_act_800331A4.obj"
-	include	"..\obj\delay_init_80033230.obj"
+	include	"..\obj\delay.obj"
 	include	"..\obj\sub_8003330C.obj"
 	include	"..\obj\sub_80033384.obj"
 	include	"..\obj\sub_800333F8.obj"
