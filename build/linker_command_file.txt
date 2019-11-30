@@ -973,6 +973,9 @@
 	include	"..\obj\sub_8004D580.obj"
 	include	"..\obj\sub_8004D628.obj"
 	include	"..\obj\sub_8004DE20.obj"
+
+	include "..\obj\sbss_800ABB14.obj"
+
 	include	"..\obj\sub_8004DF44.obj"
 	include	"..\obj\sub_8004DF68.obj"
 	include	"..\obj\MENU_InitRadioMemory_8004E0EC.obj"
@@ -2112,7 +2115,7 @@
 	include	"..\obj\sub_8009D1E4.obj"
 	include	"..\obj\sub_8009D21C.obj"
 	include	"..\obj\sub_8009D23C.obj"
-	include "..\obj\sbss_800ABB14.obj"
+	include "..\obj\sbss_800ABBB8.obj"
 
 group_rdata_code	group org($80010000)
 	section .RDATA, group_rdata_code
