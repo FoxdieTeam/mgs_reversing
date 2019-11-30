@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020064
-sub_80020064:
+	xdef GCL_LoadData_80020064
+GCL_LoadData_80020064:
 	dw 0x27BDFFE0 ; 0x80020064
 	dw 0x00801021 ; 0x80020068
 	dw 0x24440004 ; 0x8002006C

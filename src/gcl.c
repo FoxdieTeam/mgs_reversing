@@ -6,7 +6,7 @@ GCL_CommandChain*  SECTION(".sdata") dword_800AB3B8 = 0;
 void sub_80020B68(void);
 void sub_80021264(void);
 void GCL_AddBasicBuiltInCommands_8002040C(void);
-void GCL_FileHandler_8001FC88(unsigned char*); // TODO: Prob wrong
+void GCL_LoadData_80020064(unsigned char*);
 
 void GD_SetFileHandler_80015418(char, void*);
 
@@ -17,6 +17,14 @@ int SECTION(".sbss") dword_800AB9948;
 
 int SECTION(".sbss") dword_800AB998;
 
+int GCL_FileHandler_8001FC88(unsigned char* pFileData, int hashedName)
+{
+    if (hashedName == gGcl_main_or_demo_800AB990)
+    {
+        GCL_LoadData_80020064(pFileData);
+    }
+    return 1;
+}
 
 
 void GCL_SetMainOrDemo_8001FCB0(int bMain)
