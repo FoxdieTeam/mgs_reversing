@@ -6,7 +6,7 @@ int SECTION(".sdata") dword_800AB3BC[] = { 0, 0 };
 int SECTION(".sdata") dword_800AB3C4[] = { 0, 0 };
 int SECTION(".sdata") word_800AB3CC = 0;
 int SECTION(".sdata") dword_800AB3D0 = 0;
-int SECTION(".sdata") dword_800AB3D4 = 0;
+int SECTION(".sdata") gGameOverTimer_800AB3D4 = 0;
 
 int SECTION(".sdata") dword_800AB3DC[] = {0, 0};
 
