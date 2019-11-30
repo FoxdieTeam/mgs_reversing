@@ -70,7 +70,8 @@ typedef struct MenuMan
     MenuMan_MenuBars field_200_hp_bars_info;
     WORD field_20C_codec_state;
     WORD field_20E;
-    DWORD field_210_size_19F2_font;
+    WORD field_210_size_19F2_font_high;
+    WORD field_210_size_19F2_font_low;
     DWORD field_214_108bytes;
     DWORD field_218;
 } MenuMan;
