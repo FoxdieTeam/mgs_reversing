@@ -1,14 +1,6 @@
 #include "linker.h"
+#include "delay.h"
 #include "actor.h"
-
-typedef struct GCLArgsPtr
-{
-    short count;
-    int* pArgs;
-} GCLArgsPtr;
-
-int GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs);
-int GCL_RunOrCancelProc_8001FF2C(int procId, GCLArgsPtr *pArgs);
 
 extern int gGameOverTimer_800AB3D4;
 
@@ -46,17 +38,17 @@ void delay_act_800331A4(Delay *pDelay)
 
     if (pDelay->mProcIdOrScriptPtr.id < 0)
     {
-        GCL_Run_80020118(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
+        GCL_Run_80020118(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
     }
     else
     {
-        GCL_RunOrCancelProc_8001FF2C(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
+        GCL_RunOrCancelProc_8001FF2C(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
     }
 
     GV_ActorDelayedKill_800151c8(&pDelay->mBase);
 }
 
-Delay *delay_init_80033230(int script_pVar, GCLArgsPtr *pGCLArgs, int script_tVar)
+Actor *delay_init_80033230(int script_pVar, GCLArgsPtr *pGCLArgs, int script_tVar)
 {
     unsigned short pSrcArgsCount;
     Delay *pDelay;
@@ -103,5 +95,5 @@ Delay *delay_init_80033230(int script_pVar, GCLArgsPtr *pGCLArgs, int script_tVa
 
         GV_ActorInit_8001514c(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, aDelayC);
     }
-    return pDelay;
+    return &pDelay->mBase;
 }
