@@ -805,6 +805,7 @@
 	include	"..\obj\sub_8004150C.obj"
 	include	"..\obj\sub_8004158C.obj"
 	include	"..\obj\sub_80042160.obj"
+	include	"..\obj\sdata_800AB640.obj"
 	include	"..\obj\sub_80042190.obj"
 	include	"..\obj\sub_80042198.obj"
 	include	"..\obj\menu_radio.obj"
@@ -2112,6 +2113,7 @@
 	include	"..\obj\sub_8009D1E4.obj"
 	include	"..\obj\sub_8009D21C.obj"
 	include	"..\obj\sub_8009D23C.obj"
+	include "..\obj\sbss_800ABB14.obj"
 
 group_rdata_code	group org($80010000)
 	section .RDATA, group_rdata_code
