@@ -1717,6 +1717,7 @@
 	include	"..\obj\SdIntReady_800886C4.obj"
 	include	"..\obj\sub_800886DC.obj"
 	include	"..\obj\sub_800887EC.obj"
+	include	"..\obj\sub_8008880C.obj"
 	include	"..\obj\sub_800888F8.obj"
 	include	"..\obj\sub_80088CA0.obj"
 	include	"..\obj\sub_80088CB0.obj"
