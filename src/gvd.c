@@ -39,18 +39,49 @@ int SECTION(".sdata") dword_800AB334 = 0; // pad ??
 // ========================================================
 
 extern const char aGvdC[];
+extern int dword_8009D460;
+extern int dword_800AB928;
 
-extern void GV_Act_80014b60(struct Actor*);
+int sub_8008BBB0(void);
+void sub_800164C8(void);
 
 void System_init_80015AF4(int index, int bIsDynamic, void* pMemory, unsigned int size);
 
-extern void sub_80015AB0(void);
-extern void sub_80014BD8(void);
+void GV_Act_80014b60(Actor* pGv)
+{
+	int tmp;
 
-extern const char aResidentTopX[];
+	dword_800AB330++;
+	
+	tmp = sub_8008BBB0();
+	
+	dword_800AB924 = tmp - dword_800AB334;
+	dword_800AB334= tmp;
+
+	if (dword_8009D460 == 0)
+	{
+		// Flip active buffer
+    	dword_800AB920 ^= 1;
+	}
+
+	if (dword_800AB928 == 0)
+	{
+    	sub_800164C8();
+	}
+}
+
+
+extern void sub_80015AB0(void);
+
 
 unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
 unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
+
+void sub_80014BD8(void)
+{
+    System_init_80015AF4(0, 1, (void*)0x80182000, sizeof(heap_80182000) / 2); // passing heap_80182000 produces addiu instead of ori
+    System_init_80015AF4(1, 1, (void*)0x80182000 + sizeof(heap_80182000) / 2 , sizeof(heap_80182000) / 2); // ditto
+}
 
 void sub_80014C28()
 {
@@ -61,6 +92,7 @@ void sub_80014C28()
 extern void mg_printf_8008BBA0(const char*, ...);
 extern int gResidentTop_800AB940;
 
+extern const char aResidentTopX[];
 
 void sub_80014C70(void)
 {
