@@ -51,6 +51,8 @@ char SECTION(".sdata") byte_800AB437 = 0;
 int SECTION(".sdata") dword_800AB438[] = { 0x2710, 0, 0, 0, 0 };
 
 const char SECTION(".sdata") aNoHzd[] = "no hzd\n";
+
+
 const char SECTION(".sdata") aDelayC[] = "delay.c";
 
 int SECTION(".sdata") dword_800AB45C = 0xFFFFFFFF;
