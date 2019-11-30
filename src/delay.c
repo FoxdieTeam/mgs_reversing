@@ -29,7 +29,7 @@ Delay* delay_init_80033230(int script_pVar, GCLArgsPtr *pGCLArgs, int script_tVa
     int *ppDstArgs;
     int *ppSrcArgs;
 
-    pDelay = (Delay *)GV_ActorAlloc_800150e4(6, 0x54);
+    pDelay = (Delay *)GV_ActorAlloc_800150e4(6, sizeof(Delay));
     if (pDelay)
     {
         if (!pGCLArgs)
@@ -52,7 +52,7 @@ Delay* delay_init_80033230(int script_pVar, GCLArgsPtr *pGCLArgs, int script_tVa
                 ppDstArgs++;
             }
         }
-        
+
         if (script_tVar < 0)
         {
             pDelay->mActive = 1;
