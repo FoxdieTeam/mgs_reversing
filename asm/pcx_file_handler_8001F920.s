@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F920
-sub_8001F920:
+	xdef pcx_file_handler_8001F920
+pcx_file_handler_8001F920:
 	dw 0x27BDFFB8 ; 0x8001F920
 	dw 0xAFB20028 ; 0x8001F924
 	dw 0x00809021 ; 0x8001F928

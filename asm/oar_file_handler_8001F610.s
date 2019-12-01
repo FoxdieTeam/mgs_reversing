@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F610
-sub_8001F610:
+	xdef oar_file_handler_8001F610
+oar_file_handler_8001F610:
 	dw 0x8C820004 ; 0x8001F610
 	dw 0x8C830008 ; 0x8001F614
 	dw 0x24420002 ; 0x8001F618

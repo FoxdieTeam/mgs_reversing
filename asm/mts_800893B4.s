@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800893B4
-sub_800893B4:
+	xdef mts_800893B4
+mts_800893B4:
 	dw 0x3C02800C ; 0x800893B4
 	dw 0x8C420DB0 ; 0x800893B8
 	dw 0x00000000 ; 0x800893BC

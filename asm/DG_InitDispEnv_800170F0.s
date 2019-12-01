@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800170F0
-sub_800170F0:
+	xdef DG_InitDispEnv_800170F0
+DG_InitDispEnv_800170F0:
 	dw 0x8FA80010 ; 0x800170F0
 	dw 0x3C02800B ; 0x800170F4
 	dw 0xA4440600 ; 0x800170F8

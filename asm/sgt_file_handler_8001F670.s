@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F670
-sub_8001F670:
+	xdef sgt_file_handler_8001F670
+sgt_file_handler_8001F670:
 	dw 0x8C820004 ; 0x8001F670
 	dw 0x8C83000C ; 0x8001F674
 	dw 0x00821021 ; 0x8001F678
@@ -20,5 +20,11 @@ sub_8001F670:
 	dw 0xAC820010 ; 0x8001F6A8
 	dw 0x03E00008 ; 0x8001F6AC
 	dw 0x24020001 ; 0x8001F6B0
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef lit_file_handler_8001F6B4
+lit_file_handler_8001F6B4:
 	dw 0x03E00008 ; 0x8001F6B4
 	dw 0x24020001 ; 0x8001F6B8
