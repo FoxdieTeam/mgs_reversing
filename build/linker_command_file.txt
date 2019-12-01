@@ -20,7 +20,6 @@
 	include	"..\obj\sub_8001538C.obj"
 	include	"..\obj\sub_800153C0.obj"
 	include	"..\obj\GD_SetFileHandler_80015418.obj"
-	include	"..\obj\sub_80015434.obj"
 	include	"..\obj\sub_80015458.obj"
 	include	"..\obj\sub_80015484.obj"
 	include	"..\obj\sub_80015540.obj"
@@ -2139,6 +2138,9 @@ group_800AC3F0	group bss,org($800AC3F0)
 
 group_800ACC18	group bss,org($800ACC18)
 	section .0x800ACC18, group_800ACC18
+
+group_gFileExtHandlers_800ACE80	group bss,org($800ACE80)
+	section .gFileExtHandlers_800ACE80, group_gFileExtHandlers_800ACE80
 
 group_gGVActor_800acbf8	group bss,org($800acbf8)
 	section .gGVActor_800acbf8, group_gGVActor_800acbf8
