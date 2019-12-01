@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031324
-sub_80031324:
+	xdef Map_MarkUsed_80031324
+Map_MarkUsed_80031324:
 	dw 0x27BDFFE0 ; 0x80031324
 	dw 0x00803021 ; 0x80031328
 	dw 0x3C02800B ; 0x8003132C

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031504
-sub_80031504:
+	xdef Map_FindByNum_80031504
+Map_FindByNum_80031504:
 	dw 0x8F8507C4 ; 0x80031504
 	dw 0x3C02800B ; 0x80031508
 	dw 0x18A00009 ; 0x8003150C
