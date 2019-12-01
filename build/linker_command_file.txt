@@ -2143,6 +2143,9 @@ group_800ACC18	group bss,org($800ACC18)
 group_gGVActor_800acbf8	group bss,org($800acbf8)
 	section .gGVActor_800acbf8, group_gGVActor_800acbf8
 
+group_800B1E08	group bss,org($800B1E08)
+	section .bss_800B1E08, group_800B1E08
+
 group_800B3CA8	group bss,org($800B3CA8)
 	section .bss_800B3CA8, group_800B3CA8
 
