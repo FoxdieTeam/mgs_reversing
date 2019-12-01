@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800312D0
-sub_800312D0:
+	xdef Map_ScriptLoadMapBlocks_800312D0
+Map_ScriptLoadMapBlocks_800312D0:
 	dw 0x27BDFFE8 ; 0x800312D0
 	dw 0xAFBF0014 ; 0x800312D4
 	dw 0xAFB00010 ; 0x800312D8
