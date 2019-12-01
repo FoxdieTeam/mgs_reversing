@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008CD20
-sub_8008CD20:
+	xdef CdDataCallback
+CdDataCallback:
 	dw 0x27BDFFE8 ; 0x8008CD20
 	dw 0xAFBF0010 ; 0x8008CD24
 	dw 0x00802821 ; 0x8008CD28

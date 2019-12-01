@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C89C
-sub_8008C89C:
+	xdef CdSync
+CdSync:
 	dw 0x27BDFFE8 ; 0x8008C89C
 	dw 0xAFBF0010 ; 0x8008C8A0
 	dw 0x0C023511 ; 0x8008C8A4
