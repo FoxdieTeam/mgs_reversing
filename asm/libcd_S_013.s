@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C8BC
-sub_8008C8BC:
+	xdef CdReady
+CdReady:
 	dw 0x27BDFFE8 ; 0x8008C8BC
 	dw 0xAFBF0010 ; 0x8008C8C0
 	dw 0x0C0235B1 ; 0x8008C8C4
