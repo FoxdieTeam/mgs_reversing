@@ -121,8 +121,7 @@ void sub_80014cf0(void)
 }
 
 extern void sub_800163B0(void);
-extern void sub_80015434(void);
-extern void sub_80015434(void);
+extern void GD_ClearFileHandlers_80015434(void);
 extern void sub_80015458(void);
 extern void sub_80014cc8(void);
 extern void sub_800892A8(void*);
@@ -134,7 +133,7 @@ void GV_StartDaemon_80014d18(void)
 {
 	GV_ActorList_Init_80014d98();
 	sub_800163B0();
-	sub_80015434();
+	GD_ClearFileHandlers_80015434();
 	sub_80015458();
 	sub_80014cc8();
 	GV_ActorPushBack_800150a8(0, &gGVActor_800acbf8, 0);
