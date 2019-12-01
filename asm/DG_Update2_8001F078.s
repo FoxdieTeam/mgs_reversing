@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F078
-sub_8001F078:
+	xdef DG_Update2_8001F078
+DG_Update2_8001F078:
 	dw 0x27BDFFE0 ; 0x8001F078
 	dw 0xAFB10014 ; 0x8001F07C
 	dw 0x3C11800A ; 0x8001F080

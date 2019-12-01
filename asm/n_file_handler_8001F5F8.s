@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F5F8
-sub_8001F5F8:
+	xdef n_file_handler_8001F5F8
+n_file_handler_8001F5F8:
 	dw 0x8C820004 ; 0x8001F5F8
 	dw 0x00000000 ; 0x8001F5FC
 	dw 0x00821021 ; 0x8001F600
