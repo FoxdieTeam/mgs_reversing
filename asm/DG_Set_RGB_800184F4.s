@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800184F4
-sub_800184F4:
+	xdef DG_Set_RGB_800184F4
+DG_Set_RGB_800184F4:
 	dw 0x27BDFFE8 ; 0x800184F4
 	dw 0xAFBF0010 ; 0x800184F8
 	dw 0xA3840698 ; 0x800184FC

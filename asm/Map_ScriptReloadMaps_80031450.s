@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031450
-sub_80031450:
+	xdef Map_ScriptReloadMaps_80031450
+Map_ScriptReloadMaps_80031450:
 	dw 0x27BDFFE8 ; 0x80031450
 	dw 0xAFB00010 ; 0x80031454
 	dw 0x00808021 ; 0x80031458

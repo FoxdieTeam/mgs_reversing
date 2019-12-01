@@ -17,8 +17,9 @@ const char SECTION(".sdata") asc_800AB36C[] = "\n";
 int SECTION(".sdata") dword_800AB370 =  0x80117000;
 int SECTION(".sdata") dword_800AB374[] =  { 0, 0, 0 };
 
-int SECTION(".sdata") dword_800AB380[] = { 0, 0xFFFFFFFF, 0 };
+int SECTION(".sdata") counter_800AB380 = 0;
  
+ int SECTION(".sdata") dword_800AB384[] = { 0xFFFFFFFF, 0 };
  
 
 short SECTION(".sdata") word_800AB38C = 0;

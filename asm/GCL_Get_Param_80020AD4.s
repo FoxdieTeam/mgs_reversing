@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020AD4
-sub_80020AD4:
+	xdef GCL_Get_Param_80020AD4
+GCL_Get_Param_80020AD4:
 	dw 0x27BDFFE8 ; 0x80020AD4
 	dw 0xAFBF0010 ; 0x80020AD8
 	dw 0x0C0082A9 ; 0x80020ADC

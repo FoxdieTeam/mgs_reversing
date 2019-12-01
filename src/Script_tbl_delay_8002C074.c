@@ -14,17 +14,17 @@ int Script_tbl_delay_8002C074(void)
 
     if (GCL_GetParam_80020968('t'))
     {
-        script_tVar = sub_80020AD4();
+        script_tVar = GCL_Get_Param_80020AD4();
     }
 
     if (GCL_GetParam_80020968('p'))
     {
-        script_pVar = sub_80020AD4();
+        script_pVar = GCL_Get_Param_80020AD4();
     }
 
     if (GCL_GetParam_80020968('e'))
     {
-        GCL_Execute_8002069C(sub_80020AA4(), &auStack24, &local_14);
+        GCL_Execute_8002069C(GCL_Get_Param_Result_80020AA4(), &auStack24, &local_14);
         script_pVar = local_14;
     }
 
