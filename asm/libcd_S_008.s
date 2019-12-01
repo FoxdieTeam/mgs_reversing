@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C800
-sub_8008C800:
+	xdef CdFlush
+CdFlush:
 	dw 0x27BDFFE8 ; 0x8008C800
 	dw 0xAFBF0010 ; 0x8008C804
 	dw 0x0C023788 ; 0x8008C808

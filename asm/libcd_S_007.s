@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C794
-sub_8008C794:
+	xdef CdReset
+CdReset:
 	dw 0x27BDFFE8 ; 0x8008C794
 	dw 0xAFB00010 ; 0x8008C798
 	dw 0x00808021 ; 0x8008C79C

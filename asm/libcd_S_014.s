@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C8DC
-sub_8008C8DC:
+	xdef CdSyncCallback
+CdSyncCallback:
 	dw 0x3C02800A ; 0x8008C8DC
 	dw 0x8C423E68 ; 0x8008C8E0
 	dw 0x3C01800A ; 0x8008C8E4
