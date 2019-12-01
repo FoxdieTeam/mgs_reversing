@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008CCC0
-sub_8008CCC0:
+	xdef CdMix
+CdMix:
 	dw 0x27BDFFE8 ; 0x8008CCC0
 	dw 0xAFBF0010 ; 0x8008CCC4
 	dw 0x0C023766 ; 0x8008CCC8
