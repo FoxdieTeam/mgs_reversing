@@ -6,7 +6,6 @@ int sub_8001A06C(void)
     int it;
 
     tbl_p = (int*) &strangeTable_800B1E08;
-    it = 8;
     for (it = 8; 0 < it;)
     {
         it -= 1;
