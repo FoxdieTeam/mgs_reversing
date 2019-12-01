@@ -60,7 +60,7 @@ int GCL_800209E8(unsigned char* uParm1)
     return ret;
 }
 
-int GCL_80020A14(unsigned char* pInScript, unsigned short* pOut3Words)
+int GCL_ReadVector_80020A14(unsigned char* pInScript, short* pOut3Words)
 {
     int counter = 0;
     unsigned short* pOutIter = pOut3Words;

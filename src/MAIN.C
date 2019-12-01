@@ -7,6 +7,7 @@
 #include "gvd.h"
 #include "mts_new.h"
 #include "gcl.h"
+#include "dgd.h"
 
 extern void __main_80098F14(void);
 
@@ -36,7 +37,6 @@ extern int SdIntReady_800886C4();
 extern void MC_StartDaemon_80024E48(void);
 
 extern void FS_StartDaemon_80014A7C(void);
-extern void DG_StartDaemon_8001F284(void);
 extern void HZD_StartDaemon_80021900(void);
 extern void GM_StartDaemon_8002B77C(void);
 
