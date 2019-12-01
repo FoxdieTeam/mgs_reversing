@@ -10,6 +10,8 @@ void mts_init_vsync_800895AC(void);
 void mts_set_vsync_task_800892B8(void);
 void mts_init_controller_8008C098(void);
 
+void mts_800893B4(void*); // TODO: Func ptr type
+
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + sizeof(x)
 

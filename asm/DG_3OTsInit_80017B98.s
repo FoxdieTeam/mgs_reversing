@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80017B98
-sub_80017B98:
+	xdef DG_3OTsInit_80017B98
+DG_3OTsInit_80017B98:
 	dw 0x27BDFF70 ; 0x80017B98
 	dw 0xAFB00080 ; 0x80017B9C
 	dw 0x00808021 ; 0x80017BA0

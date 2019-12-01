@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F014
-sub_8001F014:
+	xdef DG_DrawSyncResetGraph_8001F014
+DG_DrawSyncResetGraph_8001F014:
 	dw 0x27BDFFE8 ; 0x8001F014
 	dw 0x24040001 ; 0x8001F018
 	dw 0xAFBF0014 ; 0x8001F01C

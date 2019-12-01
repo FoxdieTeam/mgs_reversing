@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FAD0
-sub_8001FAD0:
+	xdef zmd_file_handler_8001FAD0
+zmd_file_handler_8001FAD0:
 	dw 0x27BDFFD0 ; 0x8001FAD0
 	dw 0xAFB40020 ; 0x8001FAD4
 	dw 0x24940010 ; 0x8001FAD8
