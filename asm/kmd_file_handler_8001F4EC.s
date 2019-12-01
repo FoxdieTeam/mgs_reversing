@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F4EC
-sub_8001F4EC:
+	xdef kmd_file_handler_8001F4EC
+kmd_file_handler_8001F4EC:
 	dw 0x27BDFFD8 ; 0x8001F4EC
 	dw 0xAFB10014 ; 0x8001F4F0
 	dw 0x00808821 ; 0x8001F4F4

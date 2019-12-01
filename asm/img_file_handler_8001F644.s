@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F644
-sub_8001F644:
+	xdef img_file_handler_8001F644
+img_file_handler_8001F644:
 	dw 0x8C820008 ; 0x8001F644
 	dw 0x8C830010 ; 0x8001F648
 	dw 0x00821021 ; 0x8001F64C

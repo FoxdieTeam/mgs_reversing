@@ -74,7 +74,7 @@
 	include	"..\obj\sub_8001706C.obj"
 	include	"..\obj\sub_80017090.obj"
 	include	"..\obj\sub_800170BC.obj"
-	include	"..\obj\sub_800170F0.obj"
+	include	"..\obj\DG_InitDispEnv_800170F0.obj"
 	include	"..\obj\DG_ChangeReso_80017154.obj"
 	include	"..\obj\sub_8001715C.obj"
 	include	"..\obj\sub_80017194.obj"
@@ -89,7 +89,7 @@
 	include	"..\obj\sub_800179A8.obj"
 	include	"..\obj\sub_800179F4.obj"
 	include	"..\obj\sub_80017B30.obj"
-	include	"..\obj\sub_80017B98.obj"
+	include	"..\obj\DG_3OTsInit_80017B98.obj"
 	include	"..\obj\sub_80017E4C.obj"
 	include	"..\obj\DG_ClearChanlSystem_80017E9C.obj"
 	include	"..\obj\sub_80018028.obj"
@@ -193,23 +193,23 @@
 	include	"..\obj\sub_8001EAD8.obj"
 	include	"..\obj\sub_8001ECB4.obj"
 	include	"..\obj\sub_8001EDCC.obj"
-	include	"..\obj\sub_8001F014.obj"
-	include	"..\obj\sub_8001F078.obj"
-	include	"..\obj\sub_8001F1BC.obj"
-	include	"..\obj\sub_8001F1DC.obj"
+	include	"..\obj\DG_DrawSyncResetGraph_8001F014.obj"
+	include	"..\obj\DG_Update2_8001F078.obj"
+	include	"..\obj\DG_Update1_8001F1BC.obj"
+	include	"..\obj\DG_8001F1DC.obj"
 	include	"..\obj\sub_8001F25C.obj"
-	include	"..\obj\DG_StartDaemon_8001F284.obj"
+	include	"..\obj\dgd.obj"
 	include	"..\obj\sub_8001F3CC.obj"
-	include	"..\obj\sub_8001F4EC.obj"
-	include	"..\obj\sub_8001F5F8.obj"
-	include	"..\obj\sub_8001F610.obj"
-	include	"..\obj\sub_8001F644.obj"
-	include	"..\obj\sub_8001F670.obj"
+	include	"..\obj\kmd_file_handler_8001F4EC.obj"
+	include	"..\obj\n_file_handler_8001F5F8.obj"
+	include	"..\obj\oar_file_handler_8001F610.obj"
+	include	"..\obj\img_file_handler_8001F644.obj"
+	include	"..\obj\sgt_file_handler_8001F670.obj"
 	include	"..\obj\sub_8001F6BC.obj"
 	include	"..\obj\sub_8001F71C.obj"
 	include	"..\obj\sub_8001F89C.obj"
-	include	"..\obj\sub_8001F920.obj"
-	include	"..\obj\sub_8001FAD0.obj"
+	include	"..\obj\pcx_file_handler_8001F920.obj"
+	include	"..\obj\zmd_file_handler_8001FAD0.obj"
 	include	"..\obj\sub_8001FC28.obj"
 	include	"..\obj\sub_8001FC58.obj"
 	include	"..\obj\gcl.obj"
@@ -1721,7 +1721,7 @@
 	include	"..\obj\sub_80088CB0.obj"
 	include	"..\obj\sub_800892A8.obj"
 	include	"..\obj\mts_set_vsync_task_800892B8.obj"
-	include	"..\obj\sub_800893B4.obj"
+	include	"..\obj\mts_800893B4.obj"
 	include	"..\obj\sub_800893D8.obj"
 	include	"..\obj\sub_800893E8.obj"
 	include	"..\obj\mts_init_vsync_800895AC.obj"
@@ -2154,9 +2154,11 @@ group_heap_80117000	group bss,org($80117000)
 group_heap_80182000	group bss,org($80182000)
 	section .heap_80182000, group_heap_80182000
 
+group_gDgdActor2_800B3750	group bss,org($800B3750)
+	section .gDgdActor2_800B3750, group_gDgdActor2_800B3750
+
 group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0
-
 
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C

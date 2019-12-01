@@ -1,6 +1,5 @@
 #include "linker.h"
-
-typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
+#include "dgd.h"
 
 #define MAX_FILE_HANDLERS 26
 

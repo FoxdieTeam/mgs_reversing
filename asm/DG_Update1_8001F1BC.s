@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F1BC
-sub_8001F1BC:
+	xdef DG_Update1_8001F1BC
+DG_Update1_8001F1BC:
 	dw 0x27BDFFE8 ; 0x8001F1BC
 	dw 0xAFBF0010 ; 0x8001F1C0
 	dw 0x0C005CAA ; 0x8001F1C4
