@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FEC8
-sub_8008FEC8:
+	xdef PutDrawEnv_8008FEC8
+PutDrawEnv_8008FEC8:
 	dw 0x27BDFFE0 ; 0x8008FEC8
 	dw 0xAFB20018 ; 0x8008FECC
 	dw 0x3C12800A ; 0x8008FED0

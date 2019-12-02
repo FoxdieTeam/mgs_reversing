@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800172A8
-sub_800172A8:
+	xdef DG_800172A8
+DG_800172A8:
 	dw 0x3C04800B ; 0x800172A8
 	dw 0x8C84B920 ; 0x800172AC
 	dw 0x27BDFFE8 ; 0x800172B0
