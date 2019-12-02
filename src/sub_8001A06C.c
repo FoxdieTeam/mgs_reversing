@@ -1,17 +1,22 @@
 #include "linker.h"
-static int SECTION(".bss_800B1E08") strangeTable_800B1E08[16];
-int sub_8001A06C(void)
+typedef struct strangeStruct
 {
-    int *tbl_p;
-    int it;
+    int a;
+    int b;
+} strangeStruct;
 
-    tbl_p = (int*) &strangeTable_800B1E08;
-    for (it = 8; 0 < it;)
+static strangeStruct SECTION(".bss_800B1E08") strangeTable_800B1E08[8];
+strangeStruct* sub_8001A06C(void)
+{
+    strangeStruct *tableIt;
+    int i;
+
+    tableIt = (strangeStruct*) &strangeTable_800B1E08;
+    for (i = 8; i > 0; tableIt += 1)
     {
-        it -= 1;
-        *tbl_p = 0;
-        tbl_p[1] = 0;
-        tbl_p += 2;
+        i -= 1;
+        tableIt->a = 0;
+        tableIt->b = 0;
     }
-    return (int) tbl_p;
+    return tableIt;
 }
