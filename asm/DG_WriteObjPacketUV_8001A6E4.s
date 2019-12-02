@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A6E4
-sub_8001A6E4:
+	xdef DG_WriteObjPacketUV_8001A6E4
+DG_WriteObjPacketUV_8001A6E4:
 	dw 0x8C820040 ; 0x8001A6E4
 	dw 0x3C063E80 ; 0x8001A6E8
 	dw 0x8C420000 ; 0x8001A6EC
