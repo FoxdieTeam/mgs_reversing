@@ -123,22 +123,35 @@
 	include	"..\obj\sub_800196B4.obj"
 	include	"..\obj\sub_8001991C.obj"
 	include	"..\obj\sub_80019CB0.obj"
-	include	"..\obj\sub_80019D44.obj"
-	include	"..\obj\sub_80019F40.obj"
-	include	"..\obj\sub_80019F80.obj"
-	include	"..\obj\sub_80019FF8.obj"
-	include	"..\obj\sub_8001A048.obj"
-	include	"..\obj\sub_8001A06C.obj"
-	include	"..\obj\sub_8001A094.obj"
+	include	"..\obj\DG_DivideEnd_80019D44.obj" ; TODO - this one might be wrong symbol ??
+	include	"..\obj\DG_InitLightSystem_80019F40.obj"
+	include	"..\obj\DG_SetAmbient_80019F80.obj"
+	include	"..\obj\DG_SetMainLightDir_80019FF8.obj"
+	include	"..\obj\DG_SetMainLightCol_8001A048.obj"
+	include	"..\obj\DG_ResetFixedLight_8001A06C.obj"
+	include	"..\obj\DG_SetFixedLight_8001A094.obj"
 	include	"..\obj\DG_ClearTmpLight_8001A0E4.obj"
-	include	"..\obj\sub_8001A114.obj"
-	include	"..\obj\sub_8001A1A8.obj"
-	include	"..\obj\sub_8001A3C4.obj"
-	include	"..\obj\sub_8001A5D8.obj"
-	include	"..\obj\sub_8001A670.obj"
-	include	"..\obj\sub_8001A6E4.obj"
-	include	"..\obj\sub_8001A774.obj"
-	include	"..\obj\sub_8001A9B8.obj"
+	include	"..\obj\DG_SetTmpLight_8001A114.obj"
+	include	"..\obj\DG_GetLightVector_8001A1A8.obj"
+	include	"..\obj\DG_GetLightMatrix_8001A3C4.obj"
+	include	"..\obj\DG_SetLightMatrix_8001A5D8.obj"
+	include	"..\obj\DG_GetLightMatrix2_8001A670.obj"
+	include	"..\obj\DG_WriteObjPacketUV_8001A6E4.obj"
+	include	"..\obj\DG_WriteObjPacketRGB_8001A774.obj"
+	include	"..\obj\DG_MakeObjPacket_8001A9B8.obj"
+
+; 8001ACE4  DG_FreeObjPacket sub_8001AA50 doesn't look like a free func, these symbols don't match from here on ??
+; 8001AD2C  DG_MakeObjsPacket
+; 8001ADC4  DG_FreeObjsPacket
+; 8001AE20  DG_PrimStart
+; 8001      DG_PrimChanl
+; 8001BCF4  DG_PrimEnd
+; 8001BCFC  DG_MakePrim
+; 8001BE4C  DG_FreePrim
+; 8001BE70  DG_SetFreePrimParam
+; 8001BE98  DG_SetPos
+; 8001BEE0  DG_SetPos2
+
 	include	"..\obj\sub_8001AA50.obj"
 	include	"..\obj\sub_8001AAD0.obj"
 	include	"..\obj\sub_8001ABA8.obj"
@@ -148,6 +161,7 @@
 	include	"..\obj\sub_8001ADA0.obj"
 	include	"..\obj\sub_8001AE5C.obj"
 	include	"..\obj\sub_8001AF90.obj"
+	
 	include	"..\obj\sub_8001B0B4.obj"
 	include	"..\obj\sub_8001B1E8.obj"
 	include	"..\obj\sub_8001B254.obj"
@@ -160,6 +174,20 @@
 	include	"..\obj\sub_8001BC44.obj"
 	include	"..\obj\sub_8001BC8C.obj"
 	include	"..\obj\DG_MovePos_8001BD20.obj"
+
+; 8001BF78  DG_MovePos
+; 8001BFC0  DG_RotatePos
+; 8001C014  DG_PutObjs
+; 8001C05C  DG_PutPrim
+; 8001C0A4  DG_PutVector
+; 8001C0F4  DG_RotVector
+; 8001C154  DG_PersVector
+; 8001C190  DG_PointCheck
+; 8001C3E8  DG_PointCheckOne
+; 8001D07C  DG_S  
+
+
+
 	include	"..\obj\sub_8001BD64.obj"
 	include	"..\obj\sub_8001BDB8.obj"
 	include	"..\obj\sub_8001BE00.obj"
@@ -184,16 +212,16 @@
 	include	"..\obj\sub_8001D880.obj"
 	include	"..\obj\DG_ClearResidentTexture_8001DB10.obj"
 	include	"..\obj\sub_8001DB20.obj"
-	include	"..\obj\sub_8001DBEC.obj"
-	include	"..\obj\sub_8001DC90.obj"
-	include	"..\obj\sub_8001DD90.obj"
-	include	"..\obj\sub_8001DF48.obj"
-	include	"..\obj\sub_8001E3C0.obj"
+	include	"..\obj\sub_8001DBEC.obj" ; DG_ClearTmpPacketSystem ???
+	include	"..\obj\sub_8001DC90.obj" ; DG_SortTmpPacketSystem ???
+	include	"..\obj\sub_8001DD90.obj" ; DG_GetTmpPacket ???
+	include	"..\obj\sub_8001DF48.obj" ; DG_TransChanl ???
+	include	"..\obj\sub_8001E3C0.obj" ; DG_MatrixRot ???
 	include	"..\obj\DG_MatrixRotYXZ_8001E734.obj"
 	include	"..\obj\DG_MatrixRotZYX_8001E92C.obj"
-	include	"..\obj\sub_8001EAD8.obj"
-	include	"..\obj\sub_8001ECB4.obj"
-	include	"..\obj\sub_8001EDCC.obj"
+	include	"..\obj\sub_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
+	include	"..\obj\sub_8001ECB4.obj" ; DG_PaletteBuffer ???
+	include	"..\obj\sub_8001EDCC.obj" ; DG_PersVector ???
 	include	"..\obj\DG_DrawSyncResetGraph_8001F014.obj"
 	include	"..\obj\DG_Update2_8001F078.obj"
 	include	"..\obj\DG_Update1_8001F1BC.obj"
@@ -1865,7 +1893,7 @@
 	include	"..\obj\sub_8009209C.obj"
 	include	"..\obj\_GPU_ResetCallback_800923C8.obj"
 	include	"..\obj\sub_800923F0.obj"
-	include	"..\obj\sub_80092418.obj"
+	include	"..\obj\GetTPage_80092418.obj"
 	include	"..\obj\sub_80092458.obj"
 	include	"..\obj\sub_80092488.obj"
 	include	"..\obj\sub_800924A8.obj"
@@ -2000,7 +2028,7 @@
 	include	"..\obj\sub_8009940C.obj"
 	include	"..\obj\_96_init_8009941C.obj"
 	include	"..\obj\_96_remove_80099434.obj"
-	include	"..\obj\sub_8009944C.obj"
+	include	"..\obj\SetMem_8009944C.obj"
 	include	"..\obj\sub_8009945C.obj"
 	include	"..\obj\sub_8009946C.obj"
 	include	"..\obj\sub_8009947C.obj"

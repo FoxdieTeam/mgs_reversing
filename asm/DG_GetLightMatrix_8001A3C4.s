@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A3C4
-sub_8001A3C4:
+	xdef DG_GetLightMatrix_8001A3C4
+DG_GetLightMatrix_8001A3C4:
 	dw 0x27BDFFB8 ; 0x8001A3C4
 	dw 0xAFBE0040 ; 0x8001A3C8
 	dw 0x0080F021 ; 0x8001A3CC

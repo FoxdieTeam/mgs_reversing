@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A5D8
-sub_8001A5D8:
+	xdef DG_SetLightMatrix_8001A5D8
+DG_SetLightMatrix_8001A5D8:
 	dw 0x27BDFFE8 ; 0x8001A5D8
 	dw 0xAFB00010 ; 0x8001A5DC
 	dw 0x00A08021 ; 0x8001A5E0

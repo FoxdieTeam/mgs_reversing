@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80019F40
-sub_80019F40:
+	xdef DG_InitLightSystem_80019F40
+DG_InitLightSystem_80019F40:
 	dw 0x27BDFFE8 ; 0x80019F40
 	dw 0xAFBF0010 ; 0x80019F44
 	dw 0x0C00681B ; 0x80019F48

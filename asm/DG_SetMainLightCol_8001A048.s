@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A048
-sub_8001A048:
+	xdef DG_SetMainLightCol_8001A048
+DG_SetMainLightCol_8001A048:
 	dw 0x3C02800A ; 0x8001A048
 	dw 0x00042100 ; 0x8001A04C
 	dw 0xA444D3A4 ; 0x8001A050

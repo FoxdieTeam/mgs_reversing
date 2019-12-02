@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A9B8
-sub_8001A9B8:
+	xdef DG_MakeObjPacket_8001A9B8
+DG_MakeObjPacket_8001A9B8:
 	dw 0x00052880 ; 0x8001A9B8
 	dw 0x00852821 ; 0x8001A9BC
 	dw 0x8CA90054 ; 0x8001A9C0
