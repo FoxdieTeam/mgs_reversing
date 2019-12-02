@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FB10
-sub_8008FB10:
+	xdef LoadImage_8008FB10
+LoadImage_8008FB10:
 	dw 0x27BDFFE0 ; 0x8008FB10
 	dw 0xAFB00010 ; 0x8008FB14
 	dw 0x00808021 ; 0x8008FB18

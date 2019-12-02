@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FF88
-sub_8008FF88:
+	xdef DrawOTagEnv_8008FF88
+DrawOTagEnv_8008FF88:
 	dw 0x27BDFFD8 ; 0x8008FF88
 	dw 0xAFB20018 ; 0x8008FF8C
 	dw 0x00809021 ; 0x8008FF90

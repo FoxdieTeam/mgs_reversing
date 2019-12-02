@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FB70
-sub_8008FB70:
+	xdef StoreImage_8008FB70
+StoreImage_8008FB70:
 	dw 0x27BDFFE0 ; 0x8008FB70
 	dw 0xAFB00010 ; 0x8008FB74
 	dw 0x00808021 ; 0x8008FB78
