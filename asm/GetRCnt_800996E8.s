@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800996E8
-sub_800996E8:
+	xdef GetRCnt_800996E8
+GetRCnt_800996E8:
 	dw 0x3083FFFF ; 0x800996E8
 	dw 0x28620003 ; 0x800996EC
 	dw 0x10400008 ; 0x800996F0
