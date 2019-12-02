@@ -11,7 +11,7 @@ strangeStruct* sub_8001A06C(void)
     strangeStruct *tableIt;
     int i;
 
-    tableIt = (strangeStruct*) &strangeTable_800B1E08;
+    tableIt = &strangeTable_800B1E08[0];
     i = 8;
     while(i > 0)
     {
