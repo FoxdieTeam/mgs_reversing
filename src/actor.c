@@ -10,28 +10,6 @@ int SECTION(".sbss") gResidentTop_800AB940;
 int SECTION(".sbss") dword_800AB944[6];
 
 short SECTION(".sbss") pad2;
-int SECTION(".sbss") dword_800AB960[2];
-int SECTION(".sbss") dword_800AB968;
-
-short SECTION(".sbss") word_800AB96C;
-short SECTION(".sbss") word_800AB96E;
-short SECTION(".sbss") word_800AB970[4];
-
-// pad ?
-
-int SECTION(".sbss") dword_800AB978;
-
-char SECTION(".sbss") byte_800AB97C;
-char SECTION(".sbss") byte_800AB97D;
-short SECTION(".sbss") byte_800AB97E;
-
-short SECTION(".sbss") word_800AB980;
-short SECTION(".sbss") word_800AB982;
-
-short SECTION(".sbss") word_800AB984[2];
-
-int SECTION(".sbss") dword_800AB988;
-int SECTION(".sbss") dword_800AB98C;
 
 
 void ZeroMemory_8001619c(void* ptr, int size);

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80090060
-sub_80090060:
+	xdef GetDrawEnv_80090060
+GetDrawEnv_80090060:
 	dw 0x27BDFFE8 ; 0x80090060
 	dw 0xAFB00010 ; 0x80090064
 	dw 0x00808021 ; 0x80090068

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FD50
-sub_8008FD50:
+	xdef ClearOTagR_8008FD50
+ClearOTagR_8008FD50:
 	dw 0x3C02800A ; 0x8008FD50
 	dw 0x90424292 ; 0x8008FD54
 	dw 0x27BDFFE0 ; 0x8008FD58

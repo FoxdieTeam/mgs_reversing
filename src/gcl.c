@@ -13,7 +13,7 @@ void GD_SetFileHandler_80015418(char, void*);
 
 int SECTION(".sbss") gGcl_main_or_demo_800AB990;
 
-int SECTION(".sbss") dword_800AB9948;
+int SECTION(".sbss") dword_800AB994;
 
 int SECTION(".sbss") dword_800AB998;
 

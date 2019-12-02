@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FA78
-sub_8008FA78:
+	xdef ClearImage2_8008FA78
+ClearImage2_8008FA78:
 	dw 0x27BDFFD8 ; 0x8008FA78
 	dw 0xAFB3001C ; 0x8008FA7C
 	dw 0x00809821 ; 0x8008FA80

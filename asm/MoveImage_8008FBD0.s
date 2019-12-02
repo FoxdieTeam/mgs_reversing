@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FBD0
-sub_8008FBD0:
+	xdef MoveImage_8008FBD0
+MoveImage_8008FBD0:
 	dw 0x27BDFFE0 ; 0x8008FBD0
 	dw 0xAFB00010 ; 0x8008FBD4
 	dw 0x00808021 ; 0x8008FBD8
