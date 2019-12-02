@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002ADBC
-sub_8002ADBC:
+	xdef GM_Act_8002ADBC
+GM_Act_8002ADBC:
 	dw 0x27BDFFC0 ; 0x8002ADBC
 	dw 0xAFB00030 ; 0x8002ADC0
 	dw 0x00808021 ; 0x8002ADC4

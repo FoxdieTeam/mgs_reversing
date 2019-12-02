@@ -31,16 +31,16 @@
 	include	"..\obj\sub_800158C8.obj"
 	include	"..\obj\sub_80015924.obj"
 	include	"..\obj\sub_800159B8.obj"
-	include	"..\obj\sub_80015AB0.obj"
 	include	"..\obj\System_init_80015AF4.obj"
 	include	"..\obj\sub_80015B4C.obj"
-	include	"..\obj\sub_80015EB8.obj"
+	include	"..\obj\System_debug_dump_heaps_80015B4C.obj"
+	include	"..\obj\System_2_Alloc_80015EB8.obj"
 	include	"..\obj\sub_80015ED8.obj"
 	include	"..\obj\sub_80015FD0.obj"
 	include	"..\obj\sub_80016078.obj"
 	include	"..\obj\sub_800160D8.obj"
-	include	"..\obj\ZeroMemory_8001619c.obj"
-	include	"..\obj\sub_8001620C.obj"
+	include	"..\obj\GV_ZeroMemory_8001619c.obj"
+	include	"..\obj\GV_Alloc_8001620C.obj"
 	include	"..\obj\sub_80016230.obj"
 	include	"..\obj\sub_80016254.obj"
 	include	"..\obj\sub_8001627C.obj"
@@ -320,7 +320,7 @@
 	include	"..\obj\sub_8002336C.obj"
 	include	"..\obj\sub_80023460.obj"
 	include	"..\obj\sub_80023624.obj"
-	include	"..\obj\sub_800236E0.obj"
+	include	"..\obj\Loader_load_file_by_name_800236E0.obj"
 	include	"..\obj\sub_800237C0.obj"
 	include	"..\obj\Loader_End_80023804.obj"
 	include	"..\obj\sub_80023860.obj"
@@ -474,13 +474,13 @@
 	include	"..\obj\sub_8002ABF4.obj"
 	include	"..\obj\sub_8002AC44.obj"
 	include	"..\obj\sub_8002AC9C.obj"
-	include	"..\obj\sub_8002ADBC.obj"
+	include	"..\obj\GM_Act_8002ADBC.obj"
 	include	"..\obj\sub_8002B558.obj"
 	include	"..\obj\GM_CallSystemCallbackProc_8002B570.obj"
 	include	"..\obj\sub_8002B600.obj"
 	include	"..\obj\sub_8002B62C.obj"
 	include	"..\obj\sub_8002B6C8.obj"
-	include	"..\obj\sub_8002B710.obj"
+	include	"..\obj\GM_bin_overlay_file_handler_8002B710.obj"
 	include	"..\obj\GM_StartDaemon_8002B77C.obj"
 	include	"..\obj\Script_tbl_light_8002B854.obj"
 	include	"..\obj\Script_tbl_camera_8002B8F0.obj"
@@ -1828,7 +1828,7 @@
 
 	; libcd end
 
-	include	"..\obj\sub_8008E648.obj"
+	include	"..\obj\memcpy_8008E648.obj"
 	include	"..\obj\sub_8008E688.obj"
 	include	"..\obj\sub_8008E6B8.obj"
 	include	"..\obj\sub_8008E6E8.obj"
@@ -2196,6 +2196,11 @@ group_gDgdActor2_800B3750	group bss,org($800B3750)
 
 group_gDispEnv_800B0600	group bss,org($800B0600)
 	section .gDispEnv_800B0600, group_gDispEnv_800B0600
+
+group_gOverlayBinSize_800B5290	group bss,org($800B5290)
+	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
+
+
 
 group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0

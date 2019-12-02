@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E648
-sub_8008E648:
+	xdef memcpy_8008E648
+memcpy_8008E648:
 	dw 0x1080000A ; 0x8008E648
 	dw 0x00001021 ; 0x8008E64C
 	dw 0x18C00007 ; 0x8008E650
