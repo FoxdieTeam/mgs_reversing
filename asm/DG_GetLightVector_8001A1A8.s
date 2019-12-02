@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A1A8
-sub_8001A1A8:
+	xdef DG_GetLightVector_8001A1A8
+DG_GetLightVector_8001A1A8:
 	dw 0x27BDFFD0 ; 0x8001A1A8
 	dw 0xAFB10024 ; 0x8001A1AC
 	dw 0x00808821 ; 0x8001A1B0

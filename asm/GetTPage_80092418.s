@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092418
-sub_80092418:
+	xdef GetTPage_80092418
+GetTPage_80092418:
 	dw 0x30820003 ; 0x80092418
 	dw 0x000211C0 ; 0x8009241C
 	dw 0x30A50003 ; 0x80092420

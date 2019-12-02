@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A114
-sub_8001A114:
+	xdef DG_SetTmpLight_8001A114
+DG_SetTmpLight_8001A114:
 	dw 0x3C02800B ; 0x8001A114
 	dw 0x8C42B330 ; 0x8001A118
 	dw 0x00000000 ; 0x8001A11C
