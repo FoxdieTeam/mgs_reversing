@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80018028
-sub_80018028:
+	xdef DG_RenderPipeline_80018028
+DG_RenderPipeline_80018028:
 	dw 0x8F8200A4 ; 0x80018028
 	dw 0x27BDFFD8 ; 0x8001802C
 	dw 0xAFB40020 ; 0x80018030
