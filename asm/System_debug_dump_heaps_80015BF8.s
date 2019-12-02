@@ -2,8 +2,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef System_debug_dump_heaps_80015B4C
-System_debug_dump_heaps_80015B4C:
+	xdef System_debug_dump_heaps_80015BF8
+System_debug_dump_heaps_80015BF8:
 	dw 0x27BDFFE0 ; 0x80015BF8
 	dw 0x00802821 ; 0x80015BFC
 	dw 0x3C048001 ; 0x80015C00
