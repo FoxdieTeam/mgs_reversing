@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001A094
-sub_8001A094:
+	xdef DG_SetFixedLight_8001A094
+DG_SetFixedLight_8001A094:
 	dw 0x3C02800B ; 0x8001A094
 	dw 0x24431E08 ; 0x8001A098
 	dw 0x24070007 ; 0x8001A09C

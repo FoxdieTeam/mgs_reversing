@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80019D44
-sub_80019D44:
+	xdef DG_DivideEnd_80019D44
+DG_DivideEnd_80019D44:
 	dw 0x27BDFFD0 ; 0x80019D44
 	dw 0xAFB00010 ; 0x80019D48
 	dw 0x00808021 ; 0x80019D4C

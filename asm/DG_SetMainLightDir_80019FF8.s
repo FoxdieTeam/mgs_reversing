@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80019FF8
-sub_80019FF8:
+	xdef DG_SetMainLightDir_80019FF8
+DG_SetMainLightDir_80019FF8:
 	dw 0x27BDFFC8 ; 0x80019FF8
 	dw 0xAFA40010 ; 0x80019FFC
 	dw 0x27A40010 ; 0x8001A000

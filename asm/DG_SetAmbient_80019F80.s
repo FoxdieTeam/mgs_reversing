@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80019F80
-sub_80019F80:
+	xdef DG_SetAmbient_80019F80
+DG_SetAmbient_80019F80:
 	dw 0xA78400A8 ; 0x80019F80
 	dw 0xA78500AA ; 0x80019F84
 	dw 0xA78600AC ; 0x80019F88

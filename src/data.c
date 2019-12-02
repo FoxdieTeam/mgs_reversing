@@ -33,6 +33,7 @@ int SECTION(".data") dword_8009D32C[] = { 0x8000000, 0x6000400, 0, 0x200, 0xA000
 
 int SECTION(".data") dword_8009D34C[] = { 0, 0xFFFFF000, 0, 0 };
 
+// rendering stack ? gLibDg_FuncPtrs_off_6500E0
 int SECTION(".data") off_8009D35C[] = 
 {
 	0x8001CEE0,
