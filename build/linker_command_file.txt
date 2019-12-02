@@ -723,6 +723,7 @@
 	include	"..\obj\sub_8003CC74.obj"
 	include	"..\obj\sub_8003CE40.obj"
 	include	"..\obj\sub_8003CE78.obj"
+	include	"..\obj\sbss_800ABAE0.obj"
 	include	"..\obj\sub_8003CE84.obj"
 	include	"..\obj\sub_8003CEF8.obj"
 	include	"..\obj\sub_8003CFE0.obj"
@@ -1415,7 +1416,7 @@
 	include	"..\obj\sub_8006D1F4.obj"
 	include	"..\obj\sub_8006D2A0.obj"
 	include	"..\obj\sub_8006D37C.obj"
-	include	"..\obj\sub_8006D600.obj"
+	include	"..\obj\returnZero_8006D600.obj"
 	include	"..\obj\sub_8006D608.obj"
 	include	"..\obj\sub_8006D99C.obj"
 	include	"..\obj\sub_8006DA0C.obj"
@@ -1748,7 +1749,7 @@
 	include	"..\obj\sub_8008B77C.obj"
 	include	"..\obj\sub_8008BA88.obj"
 	include	"..\obj\sub_8008BB88.obj"
-	include	"..\obj\sub_8008BB98.obj"
+	include	"..\obj\doNothing_8008BB98.obj"
 	include	"..\obj\mg_printf_8008BBA0.obj"
 	include	"..\obj\null_printf_8008BBA8.obj"
 	include	"..\obj\sub_8008BBB0.obj"
@@ -2148,6 +2149,9 @@ group_gFileExtHandlers_800ACE80	group bss,org($800ACE80)
 
 group_gGVActor_800acbf8	group bss,org($800acbf8)
 	section .gGVActor_800acbf8, group_gGVActor_800acbf8
+
+group_800B1E08	group bss,org($800B1E08)
+	section .bss_800B1E08, group_800B1E08
 
 group_800B3CA8	group bss,org($800B3CA8)
 	section .bss_800B3CA8, group_800B3CA8
