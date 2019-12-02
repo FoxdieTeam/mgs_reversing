@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016230
-sub_80016230:
+	xdef GV_Free_80016230
+GV_Free_80016230:
 	dw 0x27BDFFE8 ; 0x80016230
 	dw 0x00802821 ; 0x80016234
 	dw 0xAFBF0010 ; 0x80016238

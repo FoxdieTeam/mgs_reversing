@@ -41,7 +41,7 @@
 	include	"..\obj\sub_800160D8.obj"
 	include	"..\obj\GV_ZeroMemory_8001619c.obj"
 	include	"..\obj\GV_Alloc_8001620C.obj"
-	include	"..\obj\sub_80016230.obj"
+	include	"..\obj\GV_Free_80016230.obj"
 	include	"..\obj\sub_80016254.obj"
 	include	"..\obj\sub_8001627C.obj"
 	include	"..\obj\sub_8001630C.obj"
