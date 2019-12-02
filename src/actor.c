@@ -6,14 +6,14 @@
 int SECTION(".sbss") dword_800AB928;
 int SECTION(".sbss") dword_0x800AB92C[4];
 short SECTION(".sbss") pad1;
-int SECTION(".sbss") gResidentTop_800AB940;
+unsigned char* SECTION(".sbss") gResidentTop_800AB940;
 int SECTION(".sbss") dword_800AB944[6];
 
 short SECTION(".sbss") pad2;
 
 
-void ZeroMemory_8001619c(void* ptr, int size);
-void* sub_8001620C(int size);
+void GV_ZeroMemory_8001619c(void* ptr, int size);
+void* GV_Alloc_8001620C(int size);
 void sub_80016230(void* ptr);
 
 #define ACTOR_LIST_COUNT 9
@@ -198,10 +198,10 @@ void GV_ActorPushBack_800150a8(int level, struct Actor* pActor, TActorFreeFuncti
 
 struct Actor* GV_ActorAlloc_800150e4(int level, int memSize)
 {
-	struct Actor* pActor = sub_8001620C(memSize);
+	struct Actor* pActor = GV_Alloc_8001620C(memSize);
 	if (pActor) 
 	{
-		ZeroMemory_8001619c(pActor, memSize);
+		GV_ZeroMemory_8001619c(pActor, memSize);
 		GV_ActorPushBack_800150a8(level, pActor, sub_80016230);
 	}
 	return pActor;

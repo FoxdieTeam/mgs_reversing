@@ -27,7 +27,7 @@ struct Actor_Loader_Impl
     int field_70_count_file_first_dword;
 };
 
-extern struct Actor_Loader_Impl* sub_800236E0(const char* pStageName);
+extern struct Actor_Loader_Impl* Loader_load_file_by_name_800236E0(const char* pStageName);
 extern void Loader_End_80023804(struct Actor_Loader_Impl* pImpl);
 
 struct Loader
@@ -63,7 +63,7 @@ struct Loader* Loader_Init_8002e460(const char* pStageName)
 
 	pLoader = (struct Loader*)GV_ActorAlloc_800150e4(2, sizeof(struct Loader));
 	mg_printf_8008BBA0(aLoadreq);
-	pUnknown = sub_800236E0(pStageName);
+	pUnknown = Loader_load_file_by_name_800236E0(pStageName);
 
 	pLoader->field_20 = pUnknown;
 	if (pUnknown == 0)
