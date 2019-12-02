@@ -76,9 +76,9 @@
 	include	"..\obj\sub_800170BC.obj"
 	include	"..\obj\DG_InitDispEnv_800170F0.obj"
 	include	"..\obj\DG_ChangeReso_80017154.obj"
-	include	"..\obj\sub_8001715C.obj"
-	include	"..\obj\sub_80017194.obj"
-	include	"..\obj\sub_800172A8.obj"
+	include	"..\obj\DG_8001715C.obj"
+	include	"..\obj\DG_80017194.obj"
+	include	"..\obj\DG_800172A8.obj"
 	include	"..\obj\sub_800172D0.obj"
 	include	"..\obj\sub_800174DC.obj"
 	include	"..\obj\sub_80017594.obj"
@@ -1822,18 +1822,18 @@
 	include	"..\obj\DrawSync.obj"
 	include	"..\obj\sub_8008F8CC.obj"
 	include	"..\obj\ClearImage.obj"
-	include	"..\obj\sub_8008FA78.obj"
-	include	"..\obj\sub_8008FB10.obj"
-	include	"..\obj\sub_8008FB70.obj"
-	include	"..\obj\sub_8008FBD0.obj"
-	include	"..\obj\sub_8008FD50.obj"
-	include	"..\obj\sub_8008FDFC.obj"
-	include	"..\obj\sub_8008FE58.obj"
-	include	"..\obj\sub_8008FEC8.obj"
-	include	"..\obj\sub_8008FF88.obj"
-	include	"..\obj\sub_80090060.obj"
-	include	"..\obj\sub_80090094.obj"
-	include	"..\obj\sub_8009058C.obj"
+	include	"..\obj\ClearImage2_8008FA78.obj"
+	include	"..\obj\LoadImage_8008FB10.obj"
+	include	"..\obj\StoreImage_8008FB70.obj"
+	include	"..\obj\MoveImage_8008FBD0.obj"
+	include	"..\obj\ClearOTagR_8008FD50.obj"
+	include	"..\obj\DrawPrim_8008FDFC.obj"
+	include	"..\obj\DrawOTag_8008FE58.obj"
+	include	"..\obj\PutDrawEnv_8008FEC8.obj"
+	include	"..\obj\DrawOTagEnv_8008FF88.obj"
+	include	"..\obj\GetDrawEnv_80090060.obj"
+	include	"..\obj\PutDispEnv_80090094.obj"
+	include	"..\obj\GetDispEnv_8009058C.obj"
 	include	"..\obj\sub_800905F0.obj"
 	include	"..\obj\sub_800906B0.obj"
 	include	"..\obj\sub_800908A8.obj"
@@ -2164,6 +2164,9 @@ group_heap_80182000	group bss,org($80182000)
 
 group_gDgdActor2_800B3750	group bss,org($800B3750)
 	section .gDgdActor2_800B3750, group_gDgdActor2_800B3750
+
+group_gDispEnv_800B0600	group bss,org($800B0600)
+	section .gDispEnv_800B0600, group_gDispEnv_800B0600
 
 group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0

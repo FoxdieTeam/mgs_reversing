@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008FDFC
-sub_8008FDFC:
+	xdef DrawPrim_8008FDFC
+DrawPrim_8008FDFC:
 	dw 0x27BDFFE0 ; 0x8008FDFC
 	dw 0xAFB00010 ; 0x8008FE00
 	dw 0x00808021 ; 0x8008FE04

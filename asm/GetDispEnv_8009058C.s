@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009058C
-sub_8009058C:
+	xdef GetDispEnv_8009058C
+GetDispEnv_8009058C:
 	dw 0x27BDFFE8 ; 0x8009058C
 	dw 0xAFB00010 ; 0x80090590
 	dw 0x00808021 ; 0x80090594

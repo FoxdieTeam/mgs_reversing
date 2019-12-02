@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80090094
-sub_80090094:
+	xdef PutDispEnv_80090094
+PutDispEnv_80090094:
 	dw 0x27BDFFE0 ; 0x80090094
 	dw 0xAFB10014 ; 0x80090098
 	dw 0x00808821 ; 0x8009009C
