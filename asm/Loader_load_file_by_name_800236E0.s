@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800236E0
-sub_800236E0:
+	xdef Loader_load_file_by_name_800236E0
+Loader_load_file_by_name_800236E0:
 	dw 0x27BDFFE0 ; 0x800236E0
 	dw 0xAFB00010 ; 0x800236E4
 	dw 0x00808021 ; 0x800236E8

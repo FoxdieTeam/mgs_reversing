@@ -4,7 +4,9 @@ int SECTION(".sbss") dword_800AB9B0;
 int SECTION(".sbss") dword_800AB9B4[4];
 
 short SECTION(".sbss") pad3;
-int SECTION(".sbss") dword_800AB9C8[3];
+unsigned char* SECTION(".sbss") gOverlayBase_800AB9C8;
+int SECTION(".sbss") dword_800AB9CC[2];
+
 
 int SECTION(".sbss") dword_800AB9D4;
 short SECTION(".sbss") word_800AB9D8[2];

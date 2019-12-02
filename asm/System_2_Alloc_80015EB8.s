@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015EB8
-sub_80015EB8:
+	xdef System_2_Alloc_80015EB8
+System_2_Alloc_80015EB8:
 	dw 0x27BDFFE8 ; 0x80015EB8
 	dw 0xAFBF0010 ; 0x80015EBC
 	dw 0x0C0057B6 ; 0x80015EC0

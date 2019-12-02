@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef ZeroMemory_8001619c
-ZeroMemory_8001619c:
+	xdef GV_ZeroMemory_8001619c
+GV_ZeroMemory_8001619c:
 	dw 0x30820003 ; 0x8001619C
 	dw 0x18400005 ; 0x800161A0
 	dw 0x00A22823 ; 0x800161A4
