@@ -97,7 +97,7 @@
 	include	"..\obj\sub_800181E4.obj"
 	include	"..\obj\sub_80018274.obj"
 	include	"..\obj\sub_800182E0.obj"
-	include	"..\obj\sub_80018384.obj"
+	include	"..\obj\DG_Init_DrawEnv_80018384.obj"
 	include	"..\obj\sub_800183D4.obj"
 	include	"..\obj\sub_8001844C.obj"
 	include	"..\obj\sub_80018464.obj"
