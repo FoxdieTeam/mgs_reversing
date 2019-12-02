@@ -12,11 +12,13 @@ strangeStruct* sub_8001A06C(void)
     int i;
 
     tableIt = (strangeStruct*) &strangeTable_800B1E08;
-    for (i = 8; i > 0; tableIt += 1)
+    i = 8;
+    while(i > 0)
     {
-        i -= 1;
+        i--;
         tableIt->a = 0;
         tableIt->b = 0;
+        tableIt++;
     }
     return tableIt;
 }
