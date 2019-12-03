@@ -30,9 +30,9 @@ typedef struct GV_Heap
     GV_MemoryAllocation mAllocs[512];
 } GV_Heap;
 
-extern GV_Heap gv_heaps_800AD2F0[3];
 
 void System_init_clear_3_heaps_80015AB0(void);
 void System_init_80015AF4(int index, int bIsDynamic, void *pMemory, unsigned int size);
+
 
 #endif // _SYSTEM_H
