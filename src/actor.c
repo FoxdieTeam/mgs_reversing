@@ -11,10 +11,9 @@ int SECTION(".sbss") dword_800AB944[6];
 
 short SECTION(".sbss") pad2;
 
-
 void GV_ZeroMemory_8001619c(void* ptr, int size);
 void* GV_Alloc_8001620C(int size);
-void sub_80016230(void* ptr);
+void GV_Free_80016230(void* ptr);
 
 #define ACTOR_LIST_COUNT 9
 
@@ -202,7 +201,7 @@ struct Actor* GV_ActorAlloc_800150e4(int level, int memSize)
 	if (pActor) 
 	{
 		GV_ZeroMemory_8001619c(pActor, memSize);
-		GV_ActorPushBack_800150a8(level, pActor, sub_80016230);
+		GV_ActorPushBack_800150a8(level, pActor, GV_Free_80016230);
 	}
 	return pActor;
 }
