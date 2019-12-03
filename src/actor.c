@@ -11,7 +11,6 @@ int SECTION(".sbss") dword_800AB944[6];
 
 short SECTION(".sbss") pad2;
 
-
 void GV_ZeroMemory_8001619c(void* ptr, int size);
 void* GV_Alloc_8001620C(int size);
 void GV_Free_80016230(void* ptr);

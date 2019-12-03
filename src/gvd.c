@@ -1,5 +1,6 @@
 #include <libsn.h>
 #include "actor.h"
+#include "system.h"
 
 // sbss ===============================================
 
@@ -45,8 +46,6 @@ extern int dword_800AB928;
 int sub_8008BBB0(void);
 void sub_800164C8(void);
 
-void System_init_80015AF4(int index, int bIsDynamic, void* pMemory, unsigned int size);
-
 void GV_Act_80014b60(Actor* pGv)
 {
 	int tmp;
@@ -69,10 +68,6 @@ void GV_Act_80014b60(Actor* pGv)
     	sub_800164C8();
 	}
 }
-
-
-extern void System_init_clear_3_heaps_80015AB0(void);
-
 
 unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
 unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
