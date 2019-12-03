@@ -15,17 +15,16 @@ extern GV_Heap gv_heaps_800AD2F0[3];
 
 void System_debug_dump_heaps_80015BF8(unsigned int heapIdx)
 {
-    GV_Heap *pHeap;
-    //int allocSize;
+    int maxFree;
     int voidedCount;
     int freeCount;
+
+    int size;
 
     int unitCounter;
     GV_MemoryAllocation *pAllocIter;
 
-    int maxFree;
-    int size;
-    pHeap = &gv_heaps_800AD2F0[heapIdx];
+    GV_Heap *pHeap = &gv_heaps_800AD2F0[heapIdx];
 
     mg_printf_8008BBA0(aSystemD, heapIdx);
 
@@ -52,43 +51,31 @@ void System_debug_dump_heaps_80015BF8(unsigned int heapIdx)
     voidedCount = 0;
     maxFree = 0;
 
-    pAllocIter = &pHeap->mAllocs[0]; // 	$t2, $s0, 0x10
+    pAllocIter = &pHeap->mAllocs[0];
 
-    unitCounter = pHeap->mUnitsCount;
-
-    if (unitCounter > 0)
+    for (unitCounter = pHeap->mUnitsCount; unitCounter > 0; unitCounter--)
     {
-        int type;
-        int allocSize;
-        unsigned char* p1;
-        unsigned char* p2;
+        int type = pAllocIter->mAllocType;
 
-        while (unitCounter > 0)
+        unsigned char *firstSize = pAllocIter->mPDataStart;
+        unsigned char *nextSize = pAllocIter[1].mPDataStart;
+
+        int allocSize = nextSize - firstSize;
+
+        if (type == 0)
         {
-              type = (pAllocIter)->mAllocType;
-
-            p1 = pAllocIter->mPDataStart;
-            p2 = pAllocIter[1].mPDataStart ;
-          //  GV_MemoryAllocation *pAllocIter2 = pAllocIter + 1; // 	$t0, $s0, 0x18
-         
-            allocSize = p2 - p1;
-
-            if (type == 0)
+            freeCount += allocSize;
+            if (maxFree < allocSize)
             {
-                freeCount += allocSize;
-                if (maxFree < allocSize)
-                {
-                    maxFree = allocSize;
-                }
+                maxFree = allocSize;
             }
-            else if (type == 1) // $t4, $zero, 1
-            {
-                voidedCount += allocSize;
-            }
-
-            pAllocIter++;
-            unitCounter--;
         }
+        else if (type == 1)
+        {
+            voidedCount += allocSize;
+        }
+
+        pAllocIter++;
     }
 
     mg_printf_8008BBA0(aFreeDDVoidedDM,
