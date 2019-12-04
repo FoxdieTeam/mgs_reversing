@@ -34,16 +34,19 @@ Function psyq_setup($psyq_path)
 
 function compile_c($fileName)
 {
-    $objName = $objName.replace(".C", "").replace(".c", "")
+    $objName = $objName.replace(".C", "").replace(".c", "").replace("src\", "obj\")
   
-    ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
+    $parentFolder = Split-Path -Path $objName -Parent
+    New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+
+    ccpsx.exe -O2 -g -c -Wall "$fileName" "-o$objName.obj" -I  $PSScriptRoot\..\src
     if($LASTEXITCODE -eq 0)
     {
-        Write-Host "Compiled ..\src\$objName.c"  -ForegroundColor "green"
+        Write-Host "Compiled $fileName"  -ForegroundColor "green"
     } 
     else 
     {
-        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $PSScriptRoot\..\src\$objName.c -o$PSScriptRoot\..\obj\$objName.obj"
+        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $objName.c -o$objName.obj"
     }
 }
 
@@ -54,10 +57,11 @@ New-Item -ItemType directory -Path $PSScriptRoot\..\obj -ErrorAction SilentlyCon
 psyq_setup($psyq_path4dot4)
 
 # Compile all .C files with psyq 4.4
-$cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
+$cFiles = Get-ChildItem -Recurse ..\src\* -Include *.c | Select-Object -ExpandProperty FullName
+
 foreach ($file in $cFiles)
 {
-    $objName = $file.Name
+    $objName = $file
     if ($objName.IndexOf("mts") -eq -1)
     {
         compile_c($objName)
@@ -69,7 +73,7 @@ psyq_setup($psyq_path4dot3)
 
 foreach ($file in $cFiles)
 {
-    $objName = $file.Name
+    $objName = $file
     if ($objName.IndexOf("mts") -ne -1)
     {
         compile_c($objName)
@@ -79,21 +83,18 @@ foreach ($file in $cFiles)
 #ccpsx.exe -O2 -c -Wall "$PSScriptRoot\..\src\mts_new.c" "-o$PSScriptRoot\..\obj\mts_new.obj"
 
 # Compile all .S files
-$sFiles = Get-ChildItem $PSScriptRoot\..\asm\*.S
+$sFiles =  Get-ChildItem -Recurse ..\asm\* -Include *.s | Select-Object -ExpandProperty FullName
 foreach ($file in $sFiles)
 {
-    $objName = $file.Name
-    $objName = $objName.replace(".S", "").replace(".s", "")
-	
-	$fullObjName = "..\obj\$objName.obj"
-	$fullSName = "..\asm\$objName.s"
+	$fullObjName =  $file.replace(".S", ".obj").replace(".s", ".obj").replace("asm\", "obj\")
+	$fullSName = $file
 	
 	$upToDate = $false
 
-	if ([System.IO.File]::Exists("$PSScriptRoot\$fullObjName"))
+	if ([System.IO.File]::Exists("$fullObjName"))
 	{
-		$asmWriteTime = (get-item "$PSScriptRoot\$fullSName").LastWriteTime
-		$objWriteTime = (get-item "$PSScriptRoot\$fullObjName").LastWriteTime
+		$asmWriteTime = (get-item "$fullSName").LastWriteTime
+		$objWriteTime = (get-item "$fullObjName").LastWriteTime
 		$upToDate = $asmWriteTime -le $objWriteTime
 		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
 	}
@@ -107,7 +108,7 @@ foreach ($file in $sFiles)
 		} 
 		else 
 		{
-			Write-Error "Assembling failed for:asmpsx.exe /l /q $fullSName,$fullObjName "
+			Write-Error "Assembling failed for asmpsx.exe /l /q $fullSName,$fullObjName"
 		}
 	}
 }
