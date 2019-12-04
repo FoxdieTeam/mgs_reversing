@@ -101,6 +101,9 @@ foreach ($file in $sFiles)
 	
 	if ($upToDate -eq $false)
 	{
+        $parentFolder = Split-Path -Path $fullObjName -Parent
+        New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+
 		asmpsx.exe /l /q $fullSName,$fullObjName 
 		if($LASTEXITCODE -eq 0)
 		{
