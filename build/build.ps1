@@ -1,4 +1,4 @@
-param([String]$psyq_path4dot4, [String]$psyq_path4dot3)
+param([String]$psyq_path4dot4, [String]$psyq_path4dot3, $forceRebuild = $false)
 
 $ErrorActionPreference = "Stop"
 
@@ -31,19 +31,42 @@ Function psyq_setup($psyq_path)
     Out-File $psyq_path\psyq.ini
 }
 
+# Cache created dirs to avoid constantly hitting the disk
+$createdDirs = @{}
 
 function compile_c($fileName)
 {
-    $objName = $objName.replace(".C", "").replace(".c", "")
+    $objName = $objName.replace(".C", ".obj").replace(".c", ".obj").replace("src\", "obj\")
   
-    ccpsx.exe -O2 -g -c -Wall "$PSScriptRoot\..\src\$objName.c" "-o$PSScriptRoot\..\obj\$objName.obj"
-    if($LASTEXITCODE -eq 0)
+    $upToDate = $false
+  	
+    if (-Not $forceRebuild -And [System.IO.File]::Exists("$objName"))
+	{
+		$asmWriteTime = (get-item "$fileName").LastWriteTime
+		$objWriteTime = (get-item "$objName").LastWriteTime
+		$upToDate = $asmWriteTime -le $objWriteTime
+		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
+	}
+
+    if ($upToDate -eq $false)
     {
-        Write-Host "Compiled ..\src\$objName.c"  -ForegroundColor "green"
-    } 
-    else 
-    {
-        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $PSScriptRoot\..\src\$objName.c -o$PSScriptRoot\..\obj\$objName.obj"
+        $parentFolder = Split-Path -Path $objName -Parent
+        if (-Not ($createdDirs.contains($parentFolder)))
+        {
+            Write-Host "Make dir $parentFolder" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
+            New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+            $createdDirs.add($parentFolder, $parentFolder)
+        }
+
+        ccpsx.exe -O2 -g -c -Wall "$fileName" "-o$objName" -I  $PSScriptRoot\..\src
+        if($LASTEXITCODE -eq 0)
+        {
+            Write-Host "Compiled $fileName" -ForegroundColor "green"
+        } 
+        else 
+        {
+            Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $fileName -o$objName"
+        }
     }
 }
 
@@ -51,13 +74,17 @@ function compile_c($fileName)
 New-Item -ItemType directory -Path $PSScriptRoot\..\obj -ErrorAction SilentlyContinue | out-null
 
 # Most source compiles against psyq 4.4
+Write-Host "Enable psyq 4.4" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 psyq_setup($psyq_path4dot4)
 
 # Compile all .C files with psyq 4.4
-$cFiles = Get-ChildItem $PSScriptRoot\..\src\*.C
+Write-Host "Obtain C source list" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
+$cFiles = Get-ChildItem -Recurse ..\src\* -Include *.c | Select-Object -ExpandProperty FullName
+
+Write-Host "Compile C source" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 foreach ($file in $cFiles)
 {
-    $objName = $file.Name
+    $objName = $file
     if ($objName.IndexOf("mts") -eq -1)
     {
         compile_c($objName)
@@ -65,41 +92,47 @@ foreach ($file in $cFiles)
 }
 
 # MTS compiles against psyq 4.3 (compiler at least, libs are the same for now)
+Write-Host "Enable psyq 4.3" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 psyq_setup($psyq_path4dot3)
 
+Write-Host "Compile C source" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 foreach ($file in $cFiles)
 {
-    $objName = $file.Name
+    $objName = $file
     if ($objName.IndexOf("mts") -ne -1)
     {
         compile_c($objName)
     }
 }
 
-#ccpsx.exe -O2 -c -Wall "$PSScriptRoot\..\src\mts_new.c" "-o$PSScriptRoot\..\obj\mts_new.obj"
-
 # Compile all .S files
-$sFiles = Get-ChildItem $PSScriptRoot\..\asm\*.S
+Write-Host "Obtain ASM source list" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
+$sFiles =  Get-ChildItem -Recurse ..\asm\* -Include *.s | Select-Object -ExpandProperty FullName
 foreach ($file in $sFiles)
 {
-    $objName = $file.Name
-    $objName = $objName.replace(".S", "").replace(".s", "")
-	
-	$fullObjName = "..\obj\$objName.obj"
-	$fullSName = "..\asm\$objName.s"
+	$fullObjName =  $file.replace(".S", ".obj").replace(".s", ".obj").replace("asm\", "obj\")
+	$fullSName = $file
 	
 	$upToDate = $false
 
-	if ([System.IO.File]::Exists("$PSScriptRoot\$fullObjName"))
+	if (-Not $forceRebuild -And [System.IO.File]::Exists("$fullObjName"))
 	{
-		$asmWriteTime = (get-item "$PSScriptRoot\$fullSName").LastWriteTime
-		$objWriteTime = (get-item "$PSScriptRoot\$fullObjName").LastWriteTime
+		$asmWriteTime = (get-item "$fullSName").LastWriteTime
+		$objWriteTime = (get-item "$fullObjName").LastWriteTime
 		$upToDate = $asmWriteTime -le $objWriteTime
 		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
 	}
 	
 	if ($upToDate -eq $false)
 	{
+        $parentFolder = Split-Path -Path $fullObjName -Parent
+        if (-Not ($createdDirs.contains($parentFolder)))
+        {
+            Write-Host "Make dir $parentFolder" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
+            New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+            $createdDirs.add($parentFolder, $parentFolder)
+        }
+
 		asmpsx.exe /l /q $fullSName,$fullObjName 
 		if($LASTEXITCODE -eq 0)
 		{
@@ -107,12 +140,13 @@ foreach ($file in $sFiles)
 		} 
 		else 
 		{
-			Write-Error "Assembling failed for:asmpsx.exe /l /q $fullSName,$fullObjName "
+			Write-Error "Assembling failed for asmpsx.exe /l /q $fullSName,$fullObjName"
 		}
 	}
 }
 
 # Run the linker
+Write-Host "link" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 psylink.exe /c /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
@@ -125,6 +159,7 @@ else
 
 # Convert CPE to an EXE
 #cpe2x.exe test2.cpe
+Write-Host "cpe2exe" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 cpe2exe.exe /CJ ..\obj\test2.cpe | out-null
 
 if($LASTEXITCODE -eq 0)
@@ -139,9 +174,12 @@ else
 
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
+    Write-Host "mdasm" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 	.\MDasm.exe ..\SLPM_862.47 21344 21464 | Out-File "target.asm"
 	.\MDasm.exe ..\obj\test2.exe 21344 21464 | Out-File "dump.asm"
 }
+
+Write-Host "compare" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 
 # Validate the output is matching the OG binary hash
 $actualValue = Get-FileHash -Path $PSScriptRoot\..\obj\test2.exe -Algorithm SHA256
