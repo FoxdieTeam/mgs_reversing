@@ -34,7 +34,6 @@
 	include	"..\obj\System_init_80015AF4.obj"
 	include	"..\obj\sub_80015B4C.obj"
 	include	"..\obj\System_debug_dump_heaps_80015BF8.obj"
-	include	"..\obj\sub_80015D48.obj"
 	include	"..\obj\System_2_Alloc_80015EB8.obj"
 	include	"..\obj\sub_80015ED8.obj"
 	include	"..\obj\sub_80015FD0.obj"
