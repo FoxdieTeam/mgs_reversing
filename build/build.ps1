@@ -1,4 +1,4 @@
-param([String]$psyq_path4dot4, [String]$psyq_path4dot3)
+param([String]$psyq_path4dot4, [String]$psyq_path4dot3, $forceRebuild = $false)
 
 $ErrorActionPreference = "Stop"
 
@@ -31,22 +31,42 @@ Function psyq_setup($psyq_path)
     Out-File $psyq_path\psyq.ini
 }
 
+# Cache created dirs to avoid constantly hitting the disk
+$createdDirs = @{}
 
 function compile_c($fileName)
 {
-    $objName = $objName.replace(".C", "").replace(".c", "").replace("src\", "obj\")
+    $objName = $objName.replace(".C", ".obj").replace(".c", ".obj").replace("src\", "obj\")
   
-    $parentFolder = Split-Path -Path $objName -Parent
-    New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+    $upToDate = $false
+  	
+    if (-Not $forceRebuild -And [System.IO.File]::Exists("$fileName"))
+	{
+		$asmWriteTime = (get-item "$fileName").LastWriteTime
+		$objWriteTime = (get-item "$objName").LastWriteTime
+		$upToDate = $asmWriteTime -le $objWriteTime
+		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
+	}
 
-    ccpsx.exe -O2 -g -c -Wall "$fileName" "-o$objName.obj" -I  $PSScriptRoot\..\src
-    if($LASTEXITCODE -eq 0)
+    if ($upToDate -eq $false)
     {
-        Write-Host "Compiled $fileName"  -ForegroundColor "green"
-    } 
-    else 
-    {
-        Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $objName.c -o$objName.obj"
+        $parentFolder = Split-Path -Path $objName -Parent
+        if (-Not ($createdDirs.contains($parentFolder)))
+        {
+            Write-Host "Make dir $parentFolder"
+            New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+            $createdDirs.add($parentFolder, $parentFolder)
+        }
+
+        ccpsx.exe -O2 -g -c -Wall "$fileName" "-o$objName.obj" -I  $PSScriptRoot\..\src
+        if($LASTEXITCODE -eq 0)
+        {
+            Write-Host "Compiled $fileName"  -ForegroundColor "green"
+        } 
+        else 
+        {
+            Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $objName.c -o$objName.obj"
+        }
     }
 }
 
@@ -58,6 +78,7 @@ psyq_setup($psyq_path4dot4)
 
 # Compile all .C files with psyq 4.4
 $cFiles = Get-ChildItem -Recurse ..\src\* -Include *.c | Select-Object -ExpandProperty FullName
+
 
 foreach ($file in $cFiles)
 {
@@ -91,7 +112,7 @@ foreach ($file in $sFiles)
 	
 	$upToDate = $false
 
-	if ([System.IO.File]::Exists("$fullObjName"))
+	if (-Not $forceRebuild -And [System.IO.File]::Exists("$fullObjName"))
 	{
 		$asmWriteTime = (get-item "$fullSName").LastWriteTime
 		$objWriteTime = (get-item "$fullObjName").LastWriteTime
@@ -102,7 +123,12 @@ foreach ($file in $sFiles)
 	if ($upToDate -eq $false)
 	{
         $parentFolder = Split-Path -Path $fullObjName -Parent
-        New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+        if (-Not ($createdDirs.contains($parentFolder)))
+        {
+            Write-Host "Make dir $parentFolder"
+            New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
+            $createdDirs.add($parentFolder, $parentFolder)
+        }
 
 		asmpsx.exe /l /q $fullSName,$fullObjName 
 		if($LASTEXITCODE -eq 0)
