@@ -58,14 +58,14 @@ function compile_c($fileName)
             $createdDirs.add($parentFolder, $parentFolder)
         }
 
-        ccpsx.exe -O2 -g -c -Wall "$fileName" "-o$objName.obj" -I  $PSScriptRoot\..\src
+        ccpsx.exe -O2 -g -c -Wall "$fileName" "-o$objName" -I  $PSScriptRoot\..\src
         if($LASTEXITCODE -eq 0)
         {
-            Write-Host "Compiled $fileName"  -ForegroundColor "green"
+            Write-Host "Compiled $fileName" -ForegroundColor "green"
         } 
         else 
         {
-            Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $objName.c -o$objName.obj"
+            Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $fileName -o$objName"
         }
     }
 }
