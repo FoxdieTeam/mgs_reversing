@@ -28,17 +28,17 @@ void System_debug_dump_heap_stats_80015BF8(unsigned int heapIdx)
 
     mg_printf_8008BBA0(aSystemD, heapIdx);
 
-    if (pHeap->mFlags & 1)
+    if (pHeap->mFlags & GV_Heap_Flags_Dynamic_1)
     {
         mg_printf_8008BBA0(aDynamic);
     }
 
-    if (pHeap->mFlags & 2)
+    if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
         mg_printf_8008BBA0(aVoided);
     }
 
-    if (pHeap->mFlags & 4)
+    if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
         mg_printf_8008BBA0(aFailed);
     }
@@ -62,7 +62,7 @@ void System_debug_dump_heap_stats_80015BF8(unsigned int heapIdx)
 
         int allocSize = nextSize - firstSize;
 
-        if (type == 0)
+        if (type == GV_MemoryAllocation_States_Free_0)
         {
             freeCount += allocSize;
             if (maxFree < allocSize)
@@ -70,7 +70,7 @@ void System_debug_dump_heap_stats_80015BF8(unsigned int heapIdx)
                 maxFree = allocSize;
             }
         }
-        else if (type == 1)
+        else if (type == GV_MemoryAllocation_States_Void_1)
         {
             voidedCount += allocSize;
         }
@@ -103,7 +103,7 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
     GV_Heap *pHeap = &gv_heaps_800AD2F0[heapIdx];
     mg_printf_8008BBA0(aSystemD, heapIdx);
 
-    if (!(pHeap->mFlags & 1))
+    if (!(pHeap->mFlags & GV_Heap_Flags_Dynamic_1))
     {
         mg_printf_8008BBA0(aStatic);
     }
@@ -112,12 +112,12 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
         mg_printf_8008BBA0(aDynamic);
     }
 
-    if (pHeap->mFlags & 2)
+    if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
         mg_printf_8008BBA0(aVoided);
     }
 
-    if (pHeap->mFlags & 4)
+    if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
         mg_printf_8008BBA0(aFailed);
     }
@@ -134,15 +134,15 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
 
         int allocSize = nextSize - firstSize;
 
-        if (allocType == 0)
+        if (allocType == GV_MemoryAllocation_States_Free_0)
         {
             mg_printf_8008BBA0(a8dBytesFrom08x, allocSize, pAllocIter->mPDataStart);
         }
-        else if (allocType == 1)
+        else if (allocType == GV_MemoryAllocation_States_Void_1)
         {
             mg_printf_8008BBA0(a8dBytesFrom08x_0, allocSize, pAllocIter->mPDataStart);
         }
-        else if (allocType == 2)
+        else if (allocType == GV_MemoryAllocation_States_Used_2)
         {
             mg_printf_8008BBA0(a8dBytesFrom08x_1, allocSize, pAllocIter->mPDataStart);
         }
