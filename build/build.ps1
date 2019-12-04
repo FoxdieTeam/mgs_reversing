@@ -53,7 +53,7 @@ function compile_c($fileName)
         $parentFolder = Split-Path -Path $objName -Parent
         if (-Not ($createdDirs.contains($parentFolder)))
         {
-            Write-Host "Make dir $parentFolder"
+            Write-Host "Make dir $parentFolder" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
             New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
             $createdDirs.add($parentFolder, $parentFolder)
         }
@@ -74,14 +74,14 @@ function compile_c($fileName)
 New-Item -ItemType directory -Path $PSScriptRoot\..\obj -ErrorAction SilentlyContinue | out-null
 
 # Most source compiles against psyq 4.4
-Write-Host "Enable psyq 4.4" -ForegroundColor "DarkMagenta"
+Write-Host "Enable psyq 4.4" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 psyq_setup($psyq_path4dot4)
 
 # Compile all .C files with psyq 4.4
-Write-Host "Obtain C source list" -ForegroundColor "DarkMagenta"
+Write-Host "Obtain C source list" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 $cFiles = Get-ChildItem -Recurse ..\src\* -Include *.c | Select-Object -ExpandProperty FullName
 
-Write-Host "Compile C source" -ForegroundColor "DarkMagenta"
+Write-Host "Compile C source" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 foreach ($file in $cFiles)
 {
     $objName = $file
@@ -92,10 +92,10 @@ foreach ($file in $cFiles)
 }
 
 # MTS compiles against psyq 4.3 (compiler at least, libs are the same for now)
-Write-Host "Enable psyq 4.3" -ForegroundColor "DarkMagenta"
+Write-Host "Enable psyq 4.3" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 psyq_setup($psyq_path4dot3)
 
-Write-Host "Compile C source" -ForegroundColor "DarkMagenta"
+Write-Host "Compile C source" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 foreach ($file in $cFiles)
 {
     $objName = $file
@@ -106,7 +106,7 @@ foreach ($file in $cFiles)
 }
 
 # Compile all .S files
-Write-Host "Obtain ASM source list" -ForegroundColor "DarkMagenta"
+Write-Host "Obtain ASM source list" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 $sFiles =  Get-ChildItem -Recurse ..\asm\* -Include *.s | Select-Object -ExpandProperty FullName
 foreach ($file in $sFiles)
 {
@@ -128,7 +128,7 @@ foreach ($file in $sFiles)
         $parentFolder = Split-Path -Path $fullObjName -Parent
         if (-Not ($createdDirs.contains($parentFolder)))
         {
-            Write-Host "Make dir $parentFolder"
+            Write-Host "Make dir $parentFolder" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
             New-Item -ItemType directory -Path $parentFolder -ErrorAction SilentlyContinue | out-null
             $createdDirs.add($parentFolder, $parentFolder)
         }
@@ -146,7 +146,7 @@ foreach ($file in $sFiles)
 }
 
 # Run the linker
-Write-Host "link" -ForegroundColor "DarkMagenta"
+Write-Host "link" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 psylink.exe /c /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
@@ -159,7 +159,7 @@ else
 
 # Convert CPE to an EXE
 #cpe2x.exe test2.cpe
-Write-Host "cpe2exe" -ForegroundColor "DarkMagenta"
+Write-Host "cpe2exe" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 cpe2exe.exe /CJ ..\obj\test2.cpe | out-null
 
 if($LASTEXITCODE -eq 0)
@@ -174,12 +174,12 @@ else
 
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
-    Write-Host "mdasm" -ForegroundColor "DarkMagenta"
+    Write-Host "mdasm" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 	.\MDasm.exe ..\SLPM_862.47 21344 21464 | Out-File "target.asm"
 	.\MDasm.exe ..\obj\test2.exe 21344 21464 | Out-File "dump.asm"
 }
 
-Write-Host "compare" -ForegroundColor "DarkMagenta"
+Write-Host "compare" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
 
 # Validate the output is matching the OG binary hash
 $actualValue = Get-FileHash -Path $PSScriptRoot\..\obj\test2.exe -Algorithm SHA256
