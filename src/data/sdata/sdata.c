@@ -2,18 +2,6 @@
 
 
 
-const char SECTION(".sdata") aGvdC[] = "gvd.c";
-const char SECTION(".sdata") asc_800AB340[] = "#";
-const char SECTION(".sdata") aNone[] = "none";	
-const char* SECTION(".sdata") off_800AB34C = aNone;	
-
-const char SECTION(".sdata") aVoided[] = "voided ";	
-const char SECTION(".sdata") aFailed[] = "failed ";	
-const char SECTION(".sdata") asc_800AB360[] = ")\n";	
-const char SECTION(".sdata") aStatic[] = "static ";	
-
-const char SECTION(".sdata") asc_800AB36C[] = "\n";
-
 int SECTION(".sdata") dword_800AB370 =  0x80117000;
 int SECTION(".sdata") dword_800AB374[] =  { 0, 0, 0 };
 
