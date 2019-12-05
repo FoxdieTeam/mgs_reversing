@@ -20,11 +20,11 @@ extern void mg_printf_8008BBA0(const char *, ...);
 
 
 
-int SECTION(".sdata") __ramsize_800AB2E4 = 0x200000; // ram size
-int SECTION(".sdata") __stacksize_800AB2E8 = 0x8000; // stack size
+int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
+int __stacksize_800AB2E8 = 0x8000; // stack size, sdata
 
 extern const char aBislpm86247[];
-const char* SECTION(".sdata") off_800AB2EC = aBislpm86247;
+const char* off_800AB2EC = aBislpm86247; // sdata
 
 
 extern int SdIntReady_800886C4();

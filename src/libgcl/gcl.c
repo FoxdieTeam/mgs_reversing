@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "gcl.h"
 
-GCL_CommandChain*  SECTION(".sdata") dword_800AB3B8 = 0;
+GCL_CommandChain*  dword_800AB3B8 = 0; //sdata
 
 void sub_80020B68(void);
 void sub_80021264(void);

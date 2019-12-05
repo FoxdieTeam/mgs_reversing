@@ -4,24 +4,13 @@
 
 // sbss ===============================================
 
-int SECTION(".sbss") dword_800AB918;
-int SECTION(".sbss") dword_800AB91C;
-int SECTION(".sbss") dword_800AB920;
-int SECTION(".sbss") dword_800AB924;
+int SECTION(".sbss") dword_800AB918; // sbss
+int SECTION(".sbss") dword_800AB91C; // sbss
+int SECTION(".sbss") dword_800AB920; // sbss
+int SECTION(".sbss") dword_800AB924; // sbss
 
-
-
-// sdata ================================================
-int SECTION(".sdata") dword_800AB330 = 0;
-int SECTION(".sdata") dword_800AB334 = 0;
-
-
-
-extern const char aGvdC[];
-
-// [other_c_sdata]
-
-// ========================================================
+int dword_800AB330 = 0; // sdata
+int dword_800AB334 = 0; // sdata
 
 
 extern int dword_8009D460;
