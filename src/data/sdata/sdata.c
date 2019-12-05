@@ -2,7 +2,6 @@
 
 
 
-const char SECTION(".sdata") aGvdC[] = "gvd.c";
 const char SECTION(".sdata") asc_800AB340[] = "#";
 const char SECTION(".sdata") aNone[] = "none";	
 const char* SECTION(".sdata") off_800AB34C = aNone;	
