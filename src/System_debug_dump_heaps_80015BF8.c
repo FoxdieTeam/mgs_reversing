@@ -3,11 +3,10 @@
 
 extern const char aSystemD[];
 extern const char aDynamic[];
-extern const char aVoided[];
-extern const char aFailed[];
 extern const char asc_800AB360[];
 extern const char aAddr08x08xUnit[];
 extern const char aFreeDDVoidedDM[];
+
 
 extern void mg_printf_8008BBA0(const char *, ...);
 
@@ -35,15 +34,15 @@ void System_debug_dump_heap_stats_80015BF8(unsigned int heapIdx)
 
     if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
-        mg_printf_8008BBA0(aVoided);
+        mg_printf_8008BBA0("voided ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
-        mg_printf_8008BBA0(aFailed);
+        mg_printf_8008BBA0("failed ");
     }
 
-    mg_printf_8008BBA0(asc_800AB360);
+    mg_printf_8008BBA0(")\n");
     mg_printf_8008BBA0(aAddr08x08xUnit, pHeap->mStartAddr, pHeap->mEndAddr, pHeap->mUnitsCount);
     size = pHeap->mEndAddr - pHeap->mStartAddr;
 
@@ -90,8 +89,6 @@ extern const char a8dBytesFrom08x[];
 extern const char a8dBytesFrom08x_0[];
 extern const char a8dBytesFrom08x_1[];
 extern const char a8dBytesFrom08x_2[];
-extern const char aStatic[];
-extern const char asc_800AB36C[];
 
 extern int null_printf_8008BBA8(const char *, ...);
 
@@ -105,7 +102,7 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
 
     if (!(pHeap->mFlags & GV_Heap_Flags_Dynamic_1))
     {
-        mg_printf_8008BBA0(aStatic);
+        mg_printf_8008BBA0("static ");
     }
     else
     {
@@ -114,15 +111,15 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
 
     if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
-        mg_printf_8008BBA0(aVoided);
+        mg_printf_8008BBA0("voided ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
-        mg_printf_8008BBA0(aFailed);
+        mg_printf_8008BBA0("failed ");
     }
 
-    mg_printf_8008BBA0(asc_800AB360);
+    mg_printf_8008BBA0(")\n");
 
     pAllocIter = &pHeap->mAllocs[0];
 
@@ -154,5 +151,5 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
         pAllocIter++;
     }
 
-    mg_printf_8008BBA0(asc_800AB36C);
+    mg_printf_8008BBA0("\n");
 }
