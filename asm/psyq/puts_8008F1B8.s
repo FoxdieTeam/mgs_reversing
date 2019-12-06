@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008F1B8
-sub_8008F1B8:
+	xdef puts_8008F1B8
+puts_8008F1B8:
 	dw 0x27BDFFE8 ; 0x8008F1B8
 	dw 0xAFB00010 ; 0x8008F1BC
 	dw 0x00808021 ; 0x8008F1C0

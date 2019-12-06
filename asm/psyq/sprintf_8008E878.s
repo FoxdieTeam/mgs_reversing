@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E878
-sub_8008E878:
+	xdef sprintf_8008E878
+sprintf_8008E878:
 	dw 0xAFA50004 ; 0x8008E878
 	dw 0xAFA60008 ; 0x8008E87C
 	dw 0xAFA7000C ; 0x8008E880

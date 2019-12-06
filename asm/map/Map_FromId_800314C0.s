@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800314C0
-sub_800314C0:
+	xdef Map_FromId_800314C0
+Map_FromId_800314C0:
 	dw 0x3C02800B ; 0x800314C0
 	dw 0x24457910 ; 0x800314C4
 	dw 0x8F8307C4 ; 0x800314C8

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E7B8
-sub_8008E7B8:
+	xdef strlen_8008E7B8
+strlen_8008E7B8:
 	dw 0x00001821 ; 0x8008E7B8
 	dw 0x10800009 ; 0x8008E7BC
 	dw 0x00001021 ; 0x8008E7C0

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008F218
-sub_8008F218:
+	xdef _putchar_8008F218
+_putchar_8008F218:
 	dw 0x27BDFFE8 ; 0x8008F218
 	dw 0xAFB00010 ; 0x8008F21C
 	dw 0x00808021 ; 0x8008F220
