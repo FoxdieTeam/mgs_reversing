@@ -267,8 +267,10 @@
 	include	"..\obj\sub_80020904.obj"
 	include	"..\obj\libgcl\GCL_ResetStack_80020920.obj"
 	include	"..\obj\data\sdata\sdata_800AB3BC.obj"
-	include "..\obj\data\sbss\sbss.obj"
+	include "..\obj\data\sbss\sbss_start.obj"
 	
+	
+
 	include	"..\obj\sub_80020A70.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_Result_80020AA4.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_80020AD4.obj"
@@ -376,7 +378,8 @@
 	include	"..\obj\memcard_read_8002569C.obj"
 	include	"..\obj\memcard_get_status_800257B0.obj"
 	include	"..\obj\sub_800257C0.obj"
-	include	"..\obj\GM_ControlPushBack_800258B0.obj"
+	include	"..\obj\Game\GM_ControlPushBack_800258B0.obj"
+	include "..\obj\data\sbss\sbss_800AB9B8.obj"
 	include	"..\obj\sub_80025904.obj"
 	include	"..\obj\sub_8002597C.obj"
 	include	"..\obj\GM_Control_init_loader_8002599C.obj"
@@ -2214,6 +2217,9 @@ group_gDispEnv_800B0600	group bss,org($800B0600)
 
 group_gOverlayBinSize_800B5290	group bss,org($800B5290)
 	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
+
+group_gControlArray_800B56D0	group bss,org($800B56D0)
+	section .gControlArray_800B56D0, group_gControlArray_800B56D0
 
 
 
