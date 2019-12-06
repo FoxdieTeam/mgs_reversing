@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800661A8
-sub_800661A8:
+	xdef famas_loader_800661A8
+famas_loader_800661A8:
 	dw 0x27BDFFE0 ; 0x800661A8
 	dw 0xAFB10014 ; 0x800661AC
 	dw 0x00A08821 ; 0x800661B0

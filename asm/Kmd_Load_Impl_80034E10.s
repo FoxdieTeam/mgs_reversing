@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80034E10
-sub_80034E10:
+	xdef Kmd_Load_Impl_80034E10
+Kmd_Load_Impl_80034E10:
 	dw 0x27BDFFE0 ; 0x80034E10
 	dw 0xAFB20018 ; 0x80034E14
 	dw 0x00809021 ; 0x80034E18

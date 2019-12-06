@@ -35,14 +35,14 @@ void DG_StartDaemon_8001F284(void)
     DG_3OTsInit_80017B98(320);
     DG_ClearResidentTexture_8001DB10();
     DG_8001F1DC();
-    GD_SetFileHandler_80015418('p', pcx_file_handler_8001F920);
-    GD_SetFileHandler_80015418('k', kmd_file_handler_8001F4EC);
-    GD_SetFileHandler_80015418('l', lit_file_handler_8001F6B4);
-    GD_SetFileHandler_80015418('n', n_file_handler_8001F5F8);
-    GD_SetFileHandler_80015418('o', oar_file_handler_8001F610);
-    GD_SetFileHandler_80015418('z', zmd_file_handler_8001FAD0);
-    GD_SetFileHandler_80015418('i', img_file_handler_8001F644);
-    GD_SetFileHandler_80015418('s', sgt_file_handler_8001F670);
+    GV_SetFileHandler_80015418('p', pcx_file_handler_8001F920);
+    GV_SetFileHandler_80015418('k', kmd_file_handler_8001F4EC);
+    GV_SetFileHandler_80015418('l', lit_file_handler_8001F6B4);
+    GV_SetFileHandler_80015418('n', n_file_handler_8001F5F8);
+    GV_SetFileHandler_80015418('o', oar_file_handler_8001F610);
+    GV_SetFileHandler_80015418('z', zmd_file_handler_8001FAD0);
+    GV_SetFileHandler_80015418('i', img_file_handler_8001F644);
+    GV_SetFileHandler_80015418('s', sgt_file_handler_8001F670);
 
     // 2D handler?
     GV_ActorPushBack_800150a8(0, &gDgdActor2_800B3750, 0);
