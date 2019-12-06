@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800258B0
-sub_800258B0:
+	xdef GM_ControlPushBack_800258B0
+GM_ControlPushBack_800258B0:
 	dw 0x94830030 ; 0x800258B0
 	dw 0x240221CA ; 0x800258B4
 	dw 0x14620003 ; 0x800258B8

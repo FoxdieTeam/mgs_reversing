@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E688
-sub_8008E688:
+	xdef memset_8008E688
+memset_8008E688:
 	dw 0x10800009 ; 0x8008E688
 	dw 0x00001021 ; 0x8008E68C
 	dw 0x1CC00003 ; 0x8008E690

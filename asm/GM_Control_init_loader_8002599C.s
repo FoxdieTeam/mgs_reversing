@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002599C
-sub_8002599C:
+	xdef GM_Control_init_loader_8002599C
+GM_Control_init_loader_8002599C:
 	dw 0x27BDFFE0 ; 0x8002599C
 	dw 0xAFB10014 ; 0x800259A0
 	dw 0x00808821 ; 0x800259A4

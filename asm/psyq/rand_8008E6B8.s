@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E6B8
-sub_8008E6B8:
+	xdef rand_8008E6B8
+rand_8008E6B8:
 	dw 0x3C0341C6 ; 0x8008E6B8
 	dw 0x3C02800C ; 0x8008E6BC
 	dw 0x8C421530 ; 0x8008E6C0

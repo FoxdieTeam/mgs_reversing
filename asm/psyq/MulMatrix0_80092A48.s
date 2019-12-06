@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092A48
-sub_80092A48:
+	xdef MulMatrix0_80092A48
+MulMatrix0_80092A48:
 	dw 0x8C880000 ; 0x80092A48
 	dw 0x8C890004 ; 0x80092A4C
 	dw 0x8C8A0008 ; 0x80092A50
