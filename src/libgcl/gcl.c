@@ -8,7 +8,7 @@ void sub_80021264(void);
 void GCL_AddBasicBuiltInCommands_8002040C(void);
 void GCL_LoadData_80020064(unsigned char*);
 
-void GD_SetFileHandler_80015418(char, void*);
+void GV_SetFileHandler_80015418(char, void*);
 
 
 int SECTION(".sbss") gGcl_main_or_demo_800AB990;
@@ -37,7 +37,7 @@ void GCL_StartDaemon_8001FCDC(void)
     sub_80020B68();
     sub_80021264();
     GCL_AddBasicBuiltInCommands_8002040C();
-    GD_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
+    GV_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
     GCL_SetMainOrDemo_8001FCB0(0);
 }
 

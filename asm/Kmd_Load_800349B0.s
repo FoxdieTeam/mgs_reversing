@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800349B0
-sub_800349B0:
+	xdef Kmd_Load_800349B0
+Kmd_Load_800349B0:
 	dw 0x27BDFFE0 ; 0x800349B0
 	dw 0xAFB00010 ; 0x800349B4
 	dw 0x00808021 ; 0x800349B8

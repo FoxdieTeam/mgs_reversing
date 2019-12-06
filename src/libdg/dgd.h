@@ -5,6 +5,6 @@ void DG_StartDaemon_8001F284(void);
 
 typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
 
-void GD_SetFileHandler_80015418(int fileExtChar, TFileExtHandler pFn);
+void GV_SetFileHandler_80015418(int fileExtChar, TFileExtHandler pFn);
 
 #endif // _DGD_H
