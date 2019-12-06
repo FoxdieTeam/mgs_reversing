@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80034C5C
-sub_80034C5C:
+	xdef Kmd_Link_To_Parent_Mesh_80034C5C
+Kmd_Link_To_Parent_Mesh_80034C5C:
 	dw 0x8C870000 ; 0x80034C5C
 	dw 0x10A00004 ; 0x80034C60
 	dw 0x3C02800A ; 0x80034C64
