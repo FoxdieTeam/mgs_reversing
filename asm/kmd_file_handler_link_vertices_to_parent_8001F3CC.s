@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F3CC
-sub_8001F3CC:
+	xdef kmd_file_handler_link_vertices_to_parent_8001F3CC
+kmd_file_handler_link_vertices_to_parent_8001F3CC:
 	dw 0x00A05821 ; 0x8001F3CC
 	dw 0x8C820004 ; 0x8001F3D0
 	dw 0x8C85003C ; 0x8001F3D4

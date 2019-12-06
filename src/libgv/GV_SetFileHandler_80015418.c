@@ -5,7 +5,7 @@
 
 TFileExtHandler SECTION(".gFileExtHandlers_800ACE80") gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 
-void GD_SetFileHandler_80015418(int fileExtChar, TFileExtHandler pFn)
+void GV_SetFileHandler_80015418(int fileExtChar, TFileExtHandler pFn)
 {
   const int idx = fileExtChar - 'a';
   gFileExtHandlers_800ACE80[idx] = pFn;

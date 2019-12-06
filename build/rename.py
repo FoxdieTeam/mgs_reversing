@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_" + "80033F88"
+old = "sub_8001F3CC"
 parts = old.split('_')
-newFileName = "item_kill" + "_" + parts[len(parts)-1]
+newFileName = "kmd_file_handler_link_vertices_to_parent" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 
