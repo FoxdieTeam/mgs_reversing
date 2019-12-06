@@ -1,7 +1,8 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800AB9B0;
-int SECTION(".sbss") dword_800AB9B4[4];
+
+int SECTION(".sbss") dword_800AB9B8[3];
+
 
 short SECTION(".sbss") pad3;
 unsigned char* SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
