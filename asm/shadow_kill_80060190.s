@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef shadow_kill_80060190
+shadow_kill_80060190:
+	dw 0x27BDFFE8 ; 0x80060190
+	dw 0xAFBF0010 ; 0x80060194
+	dw 0x0C00D2FE ; 0x80060198
+	dw 0x24840028 ; 0x8006019C
+	dw 0x8FBF0010 ; 0x800601A0
+	dw 0x00000000 ; 0x800601A4
+	dw 0x03E00008 ; 0x800601A8
+	dw 0x27BD0018 ; 0x800601AC

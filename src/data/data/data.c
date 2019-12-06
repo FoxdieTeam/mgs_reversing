@@ -216,7 +216,7 @@ GCL_CommandTableEntry SECTION(".data") gGCL_CommandTable_8009D5CC[] =
 	{ 0xEC9D, (TGCL_CommandFn)0x8002D188 }  // jimaku
 };
 
-GCL_CommandChain SECTION(".data") dword_8009D68C = 
+GCL_CommandChain SECTION(".data") gGCL_default_commands_8009D68C = 
 { 
 	0,
 	COUNTOF(gGCL_CommandTable_8009D5CC),

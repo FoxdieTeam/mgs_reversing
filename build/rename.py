@@ -1,9 +1,10 @@
 import os.path
 from os import path
 
-old = "sub_8008CD44"
-newFileName = "libcd_S_024"
-newFuncName = "CdDataSync"
+old = "sub_" + "80033F88"
+parts = old.split('_')
+newFileName = "item_kill" + "_" + parts[len(parts)-1]
+newFuncName = newFileName
 
 
 def FixFileContent(fileName, find, replace):
