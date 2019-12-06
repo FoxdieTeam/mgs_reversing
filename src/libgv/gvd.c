@@ -6,10 +6,10 @@
 
 int SECTION(".sbss") dword_800AB918; // sbss
 int SECTION(".sbss") dword_800AB91C; // sbss
-int SECTION(".sbss") dword_800AB920; // sbss
+int SECTION(".sbss") gActiveBuffer_800AB920; // sbss
 int SECTION(".sbss") dword_800AB924; // sbss
 
-int dword_800AB330 = 0; // sdata
+int gRenderedFramesCount_800AB330 = 0; // sdata
 int dword_800AB334 = 0; // sdata
 
 
@@ -23,7 +23,7 @@ void GV_Act_80014b60(Actor* pGv)
 {
 	int tmp;
 
-	dword_800AB330++;
+	gRenderedFramesCount_800AB330++;
 	
 	tmp = sub_8008BBB0();
 	
@@ -33,7 +33,7 @@ void GV_Act_80014b60(Actor* pGv)
 	if (dword_8009D460 == 0)
 	{
 		// Flip active buffer
-    	dword_800AB920 ^= 1;
+    	gActiveBuffer_800AB920 ^= 1;
 	}
 
 	if (dword_800AB928 == 0)
@@ -70,16 +70,16 @@ void GV_Memory_Init_80014C70(void)
 	mg_printf_8008BBA0(aResidentTopX, gResidentTop_800AB940);
 }
 
-extern void sub_800164AC(void);
-extern void sub_800167C8(void);
+extern void GV_MessageClear_800164AC(void);
+extern void GV_PadInputClear_800167C8(void);
 
-void sub_80014cc8(void)
+void GV_Messge_And_Pad_Init_80014CC8(void)
 {
-	sub_800164AC();
-	sub_800167C8();
+	GV_MessageClear_800164AC();
+	GV_PadInputClear_800167C8();
 }
 
-extern void sub_80015540(void);
+extern void sub_80015540(void); // file cache ??
 
 void sub_80014cf0(void)
 {
@@ -87,26 +87,25 @@ void sub_80014cf0(void)
 	GV_Memory_Init_80014C70();
 }
 
-extern void sub_800163B0(void);
+extern void GV_ResidentHeapReset_800163B0(void);
 extern void GD_ClearFileHandlers_80015434(void);
-extern void sub_80015458(void);
-extern void sub_80014cc8(void);
-extern void sub_800892A8(void*);
-extern void sub_80014B34(void);
+extern void GV_ClearFileCache_80015458(void);
+extern void SetHangupCallBack_800892A8(void*);
+extern void Callback_Hangup_80014B34(void);
 
 struct Actor SECTION(".gGVActor_800acbf8") gGVActor_800acbf8;
 
 void GV_StartDaemon_80014d18(void)
 {
 	GV_ActorList_Init_80014d98();
-	sub_800163B0();
+	GV_ResidentHeapReset_800163B0();
 	GD_ClearFileHandlers_80015434();
-	sub_80015458();
-	sub_80014cc8();
+	GV_ClearFileCache_80015458();
+	GV_Messge_And_Pad_Init_80014CC8();
 	GV_ActorPushBack_800150a8(0, &gGVActor_800acbf8, 0);
 	GV_ActorInit_8001514c(&gGVActor_800acbf8, GV_Act_80014b60, 0, "gvd.c"); // sdata
-	dword_800AB920 = 0;
-	dword_800AB330 = 0;
-	sub_800892A8(sub_80014B34);
+	gActiveBuffer_800AB920 = 0;
+	gRenderedFramesCount_800AB330 = 0;
+	SetHangupCallBack_800892A8(Callback_Hangup_80014B34);
 }
 

@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef grenade_kill_80066894
+grenade_kill_80066894:
+	dw 0x27BDFFE8 ; 0x80066894
+	dw 0xAFBF0010 ; 0x80066898
+	dw 0x0C00D2FE ; 0x8006689C
+	dw 0x24840028 ; 0x800668A0
+	dw 0x8FBF0010 ; 0x800668A4
+	dw 0x00000000 ; 0x800668A8
+	dw 0x03E00008 ; 0x800668AC
+	dw 0x27BD0018 ; 0x800668B0
