@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E768
-sub_8008E768:
+	xdef strcpy_8008E768
+strcpy_8008E768:
 	dw 0x1080000E ; 0x8008E768
 	dw 0x00001021 ; 0x8008E76C
 	dw 0x10A0000C ; 0x8008E770

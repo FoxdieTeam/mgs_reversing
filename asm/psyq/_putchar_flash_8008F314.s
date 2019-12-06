@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008F314
-sub_8008F314:
+	xdef _putchar_flash_8008F314
+_putchar_flash_8008F314:
 	dw 0x3C06800A ; 0x8008F314
 	dw 0x8CC641A4 ; 0x8008F318
 	dw 0x27BDFFE8 ; 0x8008F31C

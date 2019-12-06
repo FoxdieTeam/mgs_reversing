@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008F148
-sub_8008F148:
+	xdef memmove_8008F148
+memmove_8008F148:
 	dw 0x00803821 ; 0x8008F148
 	dw 0x00E5102B ; 0x8008F14C
 	dw 0x1440000C ; 0x8008F150

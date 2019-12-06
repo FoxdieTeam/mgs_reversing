@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008F0F8
-sub_8008F0F8:
+	xdef memchr_8008F0F8
+memchr_8008F0F8:
 	dw 0x10800011 ; 0x8008F0F8
 	dw 0x00001021 ; 0x8008F0FC
 	dw 0x18C0000F ; 0x8008F100
