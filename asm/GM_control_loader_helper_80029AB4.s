@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80029AB4
-sub_80029AB4:
+	xdef GM_control_loader_helper_80029AB4
+GM_control_loader_helper_80029AB4:
 	dw 0x24830008 ; 0x80029AB4
 	dw 0x24020006 ; 0x80029AB8
 	dw 0xA4850000 ; 0x80029ABC

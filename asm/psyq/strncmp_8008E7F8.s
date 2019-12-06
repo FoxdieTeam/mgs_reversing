@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008E7F8
-sub_8008E7F8:
+	xdef strncmp_8008E7F8
+strncmp_8008E7F8:
 	dw 0x10800003 ; 0x8008E7F8
 	dw 0x00000000 ; 0x8008E7FC
 	dw 0x14A00007 ; 0x8008E800
