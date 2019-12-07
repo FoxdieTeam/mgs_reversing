@@ -4,12 +4,25 @@
 
 void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
 
-void GM_Control_RotateByMatrix_80026154(Res_Control *pControl, MATRIX* pMatrix)
+void GM_Control_SetVectors_800260FC(Res_Control *pControl, SVECTOR *pVec1, SVECTOR *pVec2)
+{
+    if (pVec1)
+    {
+        pControl->field_0_vec = *pVec1;
+    }
+
+    if (pVec2)
+    {
+        pControl->field_8_vec = *pVec2;
+    }
+}
+
+void GM_Control_RotateByMatrix_80026154(Res_Control *pControl, MATRIX *pMatrix)
 {
     pControl->field_0_vec.vx = pMatrix->t[0];
     pControl->field_0_vec.vy = pMatrix->t[1];
     pControl->field_0_vec.vz = pMatrix->t[2];
-    
+
     DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_vec);
 
     pControl->field_4C_turn_vec = pControl->field_8_vec;
