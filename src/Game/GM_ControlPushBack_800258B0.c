@@ -107,3 +107,9 @@ found:
         gControlArray_800B56D0[0] = &gDefaultControl_800B5650;
     }
 }
+
+void GM_ControlSetDefault_8002597C(void)
+{
+    gControlArray_800B56D0[0] = &gDefaultControl_800B5650;
+    gControlCount_800AB9B4 = 1;
+}
