@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_800258B0"
+old = "sub_80025904"
 parts = old.split('_')
-newFileName = "GM_ControlPushBack" + "_" + parts[len(parts)-1]
+newFileName = "GM_ControlRemove" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 
