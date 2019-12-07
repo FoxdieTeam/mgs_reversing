@@ -53,6 +53,7 @@ typedef struct Res_Control
 
 #define MAX_CONTROLS 96
 Res_Control *SECTION(".gControlArray_800B56D0") gControlArray_800B56D0[96];
+Res_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
 
 int GM_ControlPushBack_800258B0(Res_Control *pControlToAdd)
 {
@@ -72,4 +73,37 @@ int GM_ControlPushBack_800258B0(Res_Control *pControlToAdd)
     }
 
     return 0;
+}
+
+void GM_ControlRemove_80025904(Res_Control *pControl)
+{
+    int i = gControlCount_800AB9B4;
+    int totalCount = gControlCount_800AB9B4;
+
+    Res_Control **pControlIter = gControlArray_800B56D0;
+
+    while (i > 0)
+    {
+        i--;
+
+        if (*pControlIter == pControl)
+        {
+            goto found;
+        }
+        pControlIter++;
+    }
+
+    return;
+
+found:
+
+    if (pControlIter != gControlArray_800B56D0)
+    {
+        *pControlIter = gControlArray_800B56D0[--totalCount];
+        gControlCount_800AB9B4 = totalCount;
+    }
+    else
+    {
+        gControlArray_800B56D0[0] = &gDefaultControl_800B5650;
+    }
 }
