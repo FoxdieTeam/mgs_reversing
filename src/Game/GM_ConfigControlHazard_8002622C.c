@@ -69,3 +69,43 @@ void GM_ConfigControl_F5A_80026244(Res_Control *pControl, char f5a)
 {
     pControl->field_54 = f5a;
 }
+
+int sub_80016D80(SVECTOR *pVec);
+
+int GM_CheckControlTouches_8002624C(Res_Control *pControl, int param_2)
+{
+    if (pControl->field_58 == 0)
+    {
+        return 0;
+    }
+
+    if (pControl->field_58 == 2)
+    {
+        if (pControl->field_70[1]->pad < 0 || sub_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        {
+            return 2;
+        }
+    }
+
+    if (pControl->field_70[0]->pad < 0 || sub_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+void GM_Control_Set_Unknown_800262EC(Res_Control *pControl, short param_2, short param_3, short param_4, short param_5)
+{
+    SVECTOR* pVec ;
+    pVec = &pControl->field_3C;
+    pVec->vx = param_2;
+    pVec->vy = param_3;
+    pVec->vz = param_4;
+    pVec->pad = param_5;
+}
+
+void GM_Control_UnSetFlag2_80026308(Res_Control *pControl)
+{
+    pControl->field_55_flags &= ~0x02;
+}
