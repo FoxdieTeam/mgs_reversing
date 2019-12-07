@@ -2,7 +2,17 @@
 #include "GM_Control.h"
 #include "gcl.h"
 
+void GM_ControlRemove_80025904(Res_Control *pControl);
+
 void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
+
+void GM_Control_RemoveIfScriptData_800260CC(Res_Control *pControl)
+{
+    if (pControl->field_30_scriptData)
+    {
+        GM_ControlRemove_80025904(pControl);
+    }
+}
 
 void GM_Control_SetVectors_800260FC(Res_Control *pControl, SVECTOR *pVec1, SVECTOR *pVec2)
 {
