@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80066A4C
-sub_80066A4C:
+	xdef grenade_create_80066A4C
+grenade_create_80066A4C:
 	dw 0x27BDFFE0 ; 0x80066A4C
 	dw 0x8FA20030 ; 0x80066A50
 	dw 0xAFBF0018 ; 0x80066A54

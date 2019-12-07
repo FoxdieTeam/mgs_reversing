@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80025904"
+old = "sub_80066A4C"
 parts = old.split('_')
-newFileName = "GM_ControlRemove" + "_" + parts[len(parts)-1]
+newFileName = "grenade_create" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

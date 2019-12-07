@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80065098
-sub_80065098:
+	xdef jpegcam_loader_80065098
+jpegcam_loader_80065098:
 	dw 0x3C02800B ; 0x80065098
 	dw 0x244205E0 ; 0x8006509C
 	dw 0xAC860024 ; 0x800650A0
