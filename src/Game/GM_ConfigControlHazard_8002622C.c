@@ -11,5 +11,9 @@ void GM_ConfigControlHazard_8002622C(Res_Control *pControl, short height, short 
 void GM_ConfigControlAttribute_8002623C(Res_Control *pControl, short f3a)
 {
     pControl->field_3A = f3a;
-    return;
+}
+
+void GM_ConfigControl_F5A_80026244(Res_Control *pControl, char f5a)
+{
+    pControl->field_54 = f5a;
 }
