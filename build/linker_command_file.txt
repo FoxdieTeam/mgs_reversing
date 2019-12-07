@@ -379,19 +379,11 @@
 	include	"..\obj\memcard_get_status_800257B0.obj"
 	include	"..\obj\sub_800257C0.obj" ; memcard format
 	include	"..\obj\Game\GM_ControlPushBack_800258B0.obj"
-	include	"..\obj\sub_8002597C.obj" ; set default
-	include	"..\obj\GM_Control_init_loader_8002599C.obj"
 	include "..\obj\data\sbss\sbss_800AB9B8.obj"
-	include	"..\obj\sub_80025A7C.obj"
-	include	"..\obj\sub_800260CC.obj"
-	include	"..\obj\sub_800260FC.obj"
-	include	"..\obj\sub_80026154.obj"
-	include	"..\obj\sub_800261C0.obj"
+	include	"..\obj\sub_80025A7C.obj" ; control
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
-	include	"..\obj\Game\GM_ConfigControlAttribute_8002623C.obj"
-	include	"..\obj\sub_80026244.obj"
 	include	"..\obj\Game\GM_CheckControlTouches_8002624C.obj"
-	include	"..\obj\sub_80026308.obj"
+	include	"..\obj\sub_80026308.obj" ; control 
 	include	"..\obj\Game\GM_CheckMessage_8002631C.obj"
 	include	"..\obj\sub_80026384.obj"
 	include	"..\obj\sub_800263B0.obj"
