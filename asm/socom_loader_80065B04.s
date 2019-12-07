@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80065B04
-sub_80065B04:
+	xdef socom_loader_80065B04
+socom_loader_80065B04:
 	dw 0x27BDFFD0 ; 0x80065B04
 	dw 0xAFB20020 ; 0x80065B08
 	dw 0x00809021 ; 0x80065B0C
