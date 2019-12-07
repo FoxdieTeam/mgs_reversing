@@ -30,23 +30,25 @@ typedef struct Res_Control
     short field_36;
     short field_38;
     short field_3A;
-    short field_3C;
-    short field_3E;
-    short field_40;
-    short field_42;
+
+    SVECTOR field_3C;
+    //short field_3C;
+    //short field_3E;
+    //short field_40;
+    //short field_42;
+    
     SVECTOR field_44_vec;
     SVECTOR field_4C_turn_vec;
     char field_54;
-    char field_55_flags;
+    unsigned char field_55_flags;
     char field_56;
     char field_57;
-    char field_58;
+    signed char field_58;
     char field_59;
     short field_5A;
     int field_5C_mesg;
     SVECTOR field_60_vecs_ary[2];
-    int field_70;
-    int field_74;
+    SVECTOR* field_70[2];
     short field_78;
     short field_7A;
 } Res_Control;
