@@ -381,7 +381,6 @@
 	include	"..\obj\Game\GM_ControlPushBack_800258B0.obj"
 	include "..\obj\data\sbss\sbss_800AB9B8.obj"
 	include	"..\obj\sub_80025A7C.obj"
-	include	"..\obj\sub_800260CC.obj"
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
 	include	"..\obj\Game\GM_CheckControlTouches_8002624C.obj"
 	include	"..\obj\sub_80026308.obj" ; control 
