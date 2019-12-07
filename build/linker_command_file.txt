@@ -386,7 +386,6 @@
 	include	"..\obj\sub_80026154.obj"
 	include	"..\obj\sub_800261C0.obj"
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
-	include	"..\obj\sub_80026244.obj"
 	include	"..\obj\Game\GM_CheckControlTouches_8002624C.obj"
 	include	"..\obj\sub_80026308.obj"
 	include	"..\obj\Game\GM_CheckMessage_8002631C.obj"
