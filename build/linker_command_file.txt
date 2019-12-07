@@ -377,12 +377,11 @@
 	include	"..\obj\memcard_write_8002554C.obj"
 	include	"..\obj\memcard_read_8002569C.obj"
 	include	"..\obj\memcard_get_status_800257B0.obj"
-	include	"..\obj\sub_800257C0.obj"
+	include	"..\obj\sub_800257C0.obj" ; memcard format
 	include	"..\obj\Game\GM_ControlPushBack_800258B0.obj"
-	include "..\obj\data\sbss\sbss_800AB9B8.obj"
-	include	"..\obj\sub_80025904.obj"
-	include	"..\obj\sub_8002597C.obj"
+	include	"..\obj\sub_8002597C.obj" ; set default
 	include	"..\obj\GM_Control_init_loader_8002599C.obj"
+	include "..\obj\data\sbss\sbss_800AB9B8.obj"
 	include	"..\obj\sub_80025A7C.obj"
 	include	"..\obj\sub_800260CC.obj"
 	include	"..\obj\sub_800260FC.obj"
@@ -2220,6 +2219,9 @@ group_gOverlayBinSize_800B5290	group bss,org($800B5290)
 
 group_gControlArray_800B56D0	group bss,org($800B56D0)
 	section .gControlArray_800B56D0, group_gControlArray_800B56D0
+	
+group_gDefaultControl_800B5650	group bss,org($800B5650)
+	section .gDefaultControl_800B5650, group_gDefaultControl_800B5650
 
 
 
