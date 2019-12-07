@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80066374
-sub_80066374:
+	xdef famas_create_80066374
+famas_create_80066374:
 	dw 0x3C02800B ; 0x80066374
 	dw 0x84424D9A ; 0x80066378
 	dw 0x27BDFFE0 ; 0x8006637C

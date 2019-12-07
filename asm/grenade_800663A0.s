@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800663A0
-sub_800663A0:
+	xdef grenade_800663A0
+grenade_800663A0:
 	dw 0x27BDFF90 ; 0x800663A0
 	dw 0x27A40018 ; 0x800663A4
 	dw 0x24050004 ; 0x800663A8

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800668B4
-sub_800668B4:
+	xdef grenade_loader_800668B4
+grenade_loader_800668B4:
 	dw 0x27BDFFD8 ; 0x800668B4
 	dw 0xAFB00010 ; 0x800668B8
 	dw 0x00808021 ; 0x800668BC

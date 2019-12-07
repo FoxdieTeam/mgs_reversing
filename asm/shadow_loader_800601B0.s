@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800601B0
-sub_800601B0:
+	xdef shadow_loader_800601B0
+shadow_loader_800601B0:
 	dw 0x27BDFFD8 ; 0x800601B0
 	dw 0xAFB00010 ; 0x800601B4
 	dw 0x00808021 ; 0x800601B8
