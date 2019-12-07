@@ -78,7 +78,8 @@ int GM_ControlPushBack_800258B0(Res_Control *pControlToAdd)
 void GM_ControlRemove_80025904(Res_Control *pControl)
 {
     int i = gControlCount_800AB9B4;
-    int val = gControlCount_800AB9B4;
+    int totalCount = gControlCount_800AB9B4;
+
     Res_Control **pControlIter = gControlArray_800B56D0;
 
     while (i > 0)
@@ -87,20 +88,19 @@ void GM_ControlRemove_80025904(Res_Control *pControl)
 
         if (*pControlIter == pControl)
         {
-            goto lol;
+            goto found;
         }
         pControlIter++;
     }
 
-
     return;
 
-lol:
+found:
 
     if (pControlIter != gControlArray_800B56D0)
     {
-        *pControlIter = gControlArray_800B56D0[--val];
-        gControlCount_800AB9B4 = val;
+        *pControlIter = gControlArray_800B56D0[--totalCount];
+        gControlCount_800AB9B4 = totalCount;
     }
     else
     {
