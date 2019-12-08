@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016504
-sub_80016504:
+	xdef GV_SendMessage_80016504
+GV_SendMessage_80016504:
 	dw 0x27BDFFE0 ; 0x80016504
 	dw 0x8F820664 ; 0x80016508
 	dw 0x24030001 ; 0x8001650C

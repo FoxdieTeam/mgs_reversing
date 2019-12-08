@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80066A4C"
+old = "sub_80016504"
 parts = old.split('_')
-newFileName = "grenade_create" + "_" + parts[len(parts)-1]
+newFileName = "GV_SendMessage" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 
