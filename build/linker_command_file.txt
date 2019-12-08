@@ -458,7 +458,8 @@
 	include	"..\obj\sub_8002A880.obj"
 	include	"..\obj\sub_8002A890.obj"
 	include	"..\obj\sub_8002A8B0.obj"
-	include	"..\obj\sub_8002A8C4.obj"
+
+
 	include	"..\obj\Game\GM_LookupActorFunc_8002A8EC.obj"
 	
 	include "..\obj\data\sbss\sbss_800AB9CC.obj"
