@@ -117,18 +117,6 @@ int Script_tbl_hzd_8002BD04(unsigned char *pScript)
     return 0;
 }
 
-#define CTC(X) ({ extern int __attribute__((error("assertion failure: '" #X "' not true"))) compile_time_check(); ((X)?0:compile_time_check()),0; })
-
-#define CTASTR2(pre, post) pre##post
-#define CTASTR(pre, post) CTASTR2(pre, post)
-#define STATIC_ASSERT(cond, msg, line)                        \
-    typedef struct                                            \
-    {                                                         \
-        int CTASTR(static_assertion_failed_, msg) : !!(cond); \
-    } CTASTR(static_assertion_failed_, line)
-
-#define STATIC_ASSERT_SIZE(struct, size) STATIC_ASSERT(sizeof(struct) == size, wrong_size, __LINE__)
-
 typedef struct BindStruct
 {
     short field_0;
