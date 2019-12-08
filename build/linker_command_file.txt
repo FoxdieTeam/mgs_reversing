@@ -382,7 +382,10 @@
 	include	"..\obj\sub_80025A7C.obj" ; control
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
 	include	"..\obj\Game\GM_CheckMessage_8002631C.obj"
+
 	include "..\obj\data\sbss\sbss_800AB9B8.obj"
+
+
 
 	include	"..\obj\sub_80026384.obj"
 	include	"..\obj\sub_800263B0.obj"
@@ -456,7 +459,10 @@
 	include	"..\obj\sub_8002A890.obj"
 	include	"..\obj\sub_8002A8B0.obj"
 	include	"..\obj\sub_8002A8C4.obj"
-	include	"..\obj\sub_8002A8EC.obj"
+	include	"..\obj\Game\GM_LookupActorFunc_8002A8EC.obj"
+	
+	include "..\obj\data\sbss\sbss_800AB9CC.obj"
+
 	include	"..\obj\sub_8002A960.obj"
 	include	"..\obj\sub_8002A978.obj"
 	include	"..\obj\sub_8002AA10.obj"

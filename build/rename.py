@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80066A4C"
+old = "sub_8002A8EC"
 parts = old.split('_')
-newFileName = "grenade_create" + "_" + parts[len(parts)-1]
+newFileName = "GM_LookupActorFunc" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 
