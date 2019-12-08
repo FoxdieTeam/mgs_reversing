@@ -488,10 +488,7 @@
 	include	"..\obj\Script_tbl_camera_8002B8F0.obj"
 	include	"..\obj\Script_tbl_map_8002BB44.obj"
 
-
 	include "..\obj\data\sbss\sbss_800ABA64.obj"
-
-	include	"..\obj\Script_tbl_start_8002C22C.obj"
 	include	"..\obj\Script_tbl_load_8002C308.obj"
 	include	"..\obj\Script_tbl_radio_8002C4A8.obj"
 	include	"..\obj\Script_tbl_strstatus_8002C6A4.obj"
