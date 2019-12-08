@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8002A8EC"
+old = "sub_80016504"
 parts = old.split('_')
-newFileName = "GM_LookupActorFunc" + "_" + parts[len(parts)-1]
+newFileName = "GV_SendMessage" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

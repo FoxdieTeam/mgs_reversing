@@ -1,7 +1,7 @@
 #include "linker.h"
 
+// TODO: Rename this file
 
-int SECTION(".sbss") dword_800ABA64;
 int SECTION(".sbss") dword_800ABA68;
 int SECTION(".sbss") dword_800ABA6C;
 int SECTION(".sbss") dword_800ABA70;
