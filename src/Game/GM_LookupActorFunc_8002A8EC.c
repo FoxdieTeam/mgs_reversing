@@ -3,8 +3,14 @@
 
 extern GCL_CommandTableEntry StaticResInitFunc_8009D2DC[];
 
-unsigned char* SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
+unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
 
+TGCL_CommandFn GM_LookupActorFunc_8002A8EC(int hashedName);
+
+TGCL_CommandFn GM_GCL_LookupActorFunc_8002A8C4(unsigned char *pScript)
+{
+    return GM_LookupActorFunc_8002A8EC(GCL_800209E8(pScript));
+}
 
 TGCL_CommandFn GM_LookupActorFunc_8002A8EC(int hashedName)
 {
@@ -17,7 +23,7 @@ TGCL_CommandFn GM_LookupActorFunc_8002A8EC(int hashedName)
         if (i != 0)
         {
             // Then look at the dynamically loaded commands
-            pSrcTable = (GCL_CommandTableEntry*)gOverlayBase_800AB9C8; // TODO: Fix type
+            pSrcTable = (GCL_CommandTableEntry *)gOverlayBase_800AB9C8; // TODO: Fix type
         }
 
         if (pSrcTable->function)
