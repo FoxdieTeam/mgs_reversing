@@ -6,11 +6,11 @@
 #include "sdata.h"
 #include "gcl.h"
 
-GCL_CommandTableEntry SECTION(".data") StaticResInitFunc_8009D2DC[] = 
+GCL_ActorTableEntry SECTION(".data") StaticResInitFunc_8009D2DC[] = 
 {
-	{ 0x21CA, (TGCL_CommandFn)0x8005B650 }, // sna_init
-	{ 0x8767, (TGCL_CommandFn)0x800344F8 }, // item
-	{ 0xB997, (TGCL_CommandFn)0x8006FD00 }, // door
+	{ 0x21CA, (TGCL_ActorCreateFn)0x8005B650 }, // sna_init
+	{ 0x8767, (TGCL_ActorCreateFn)0x800344F8 }, // item
+	{ 0xB997, (TGCL_ActorCreateFn)0x8006FD00 }, // door
 	{ 0, 0 }
 };
 

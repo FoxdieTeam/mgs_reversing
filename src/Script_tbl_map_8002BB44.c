@@ -421,12 +421,12 @@ int Script_tbl_mesg_8002C138(unsigned char *pScript)
     return ret;
 }
 
-TGCL_CommandFn GM_GCL_LookupActorFunc_8002A8C4(unsigned char *pScript);
+TGCL_ActorCreateFn GM_GCL_LookupActorFunc_8002A8C4(unsigned char *pScript);
 
 int Script_tbl_chara_8002C1B0(unsigned char *pScript, int unknown)
 {
     int ret;
-    TGCL_CommandFn pCreateActorFn;
+    TGCL_ActorCreateFn pCreateActorFn;
 
     pCreateActorFn = GM_GCL_LookupActorFunc_8002A8C4(GCL_Get_Param_Result_80020AA4());
     if (pCreateActorFn)
@@ -440,3 +440,4 @@ int Script_tbl_chara_8002C1B0(unsigned char *pScript, int unknown)
     }
     return ret;
 }
+

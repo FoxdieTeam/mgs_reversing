@@ -48,6 +48,8 @@ function compile_c($fileName)
 		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
 	}
 
+    #$upToDate = $false
+
     if ($upToDate -eq $false)
     {
         $parentFolder = Split-Path -Path $objName -Parent
@@ -175,8 +177,8 @@ else
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
     Write-Host "mdasm" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
-    .\MDasm.exe ..\SLPM_862.47 116252 116848 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 116252 116848 | Out-File "dump.asm"
+    .\MDasm.exe ..\SLPM_862.47 117168 117288 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 117168 117288 | Out-File "dump.asm"
 }
 
 Write-Host "compare" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
