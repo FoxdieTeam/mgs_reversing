@@ -225,7 +225,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     int sVar3;
     int tmp ;
 
-    if (0x7f < gBindsCount_800ABA64) // 780 gp
+    if (gBindsCount_800ABA64 > 127) // 780 gp
     {
         mg_printf_8008BBA0(aBindsOver);
     }
@@ -258,7 +258,9 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
         sVar3 = GCL_Get_Param_80020AD4();
         if (sVar3 == 0x14c9)
         {
-            sVar3 = 0; // wrong
+            // TODO: Hack to force a match :(
+            asm("move $2, $17"); // sVar3 = bVar7, the compiler always wants to use $zero instead of $s1, e.g $v0, $s1 VS $v0, $zero
+            //sVar3 = 0; // wrong
         }
         
         pBind->field_2_param_m = sVar3;
@@ -342,7 +344,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     gBindsCount_800ABA64++;
     tmp = gBinds_800ABA60;
     pBind->field_6 = (short)tmp;
-    mg_printf_8008BBA0(aBind08x, gBinds_800ABA60);
+    mg_printf_8008BBA0(aBind08x, tmp);
     sub_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
 }
