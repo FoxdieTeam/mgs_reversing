@@ -5,4 +5,16 @@
 
 #define COUNTOF(x) sizeof(x) / sizeof(x[0])
 
+
+#define CTASTR2(pre, post) pre##post
+#define CTASTR(pre, post) CTASTR2(pre, post)
+#define STATIC_ASSERT(cond, msg, line)                        \
+    typedef struct                                            \
+    {                                                         \
+        int CTASTR(static_assertion_failed_, msg) : !!(cond); \
+    } CTASTR(static_assertion_failed_, line)
+
+#define STATIC_ASSERT_SIZE(struct, size) STATIC_ASSERT(sizeof(struct) == size, wrong_size, __LINE__)
+
+
 #endif // LINKER_H_
