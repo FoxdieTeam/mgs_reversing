@@ -7,7 +7,7 @@ typedef struct GCLArgsPtr
     int* pArgs;
 } GCLArgsPtr;
 
-typedef int(*TGCL_CommandFn)(unsigned char* pScript);
+typedef int(*TGCL_CommandFn)(int unknown1, int binds, unsigned char* pScript2, int unknown);
 
 // A hashed name of a GCL command and pointer to function that implements the command
 typedef struct GCL_CommandTableEntry
