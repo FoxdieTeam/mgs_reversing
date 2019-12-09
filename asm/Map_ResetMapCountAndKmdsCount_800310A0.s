@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800310A0
-sub_800310A0:
+	xdef Map_ResetMapCountAndKmdsCount_800310A0
+Map_ResetMapCountAndKmdsCount_800310A0:
 	dw 0x3C02800B ; 0x800310A0
 	dw 0x24427890 ; 0x800310A4
 	dw 0x24030020 ; 0x800310A8

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001D830
-sub_8001D830:
+	xdef DG_FindTexture_8001D830
+DG_FindTexture_8001D830:
 	dw 0x27BDFFE0 ; 0x8001D830
 	dw 0xAFB00018 ; 0x8001D834
 	dw 0x00808021 ; 0x8001D838

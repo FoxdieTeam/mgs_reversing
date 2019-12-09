@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002E588
-sub_8002E588:
+	xdef GM_set_noise_sound_8002E588
+GM_set_noise_sound_8002E588:
 	dw 0x27BDFFD8 ; 0x8002E588
 	dw 0xAFB3001C ; 0x8002E58C
 	dw 0x00809821 ; 0x8002E590

@@ -43,6 +43,7 @@ int GCL_Get_Param_80020AD4(void);
 unsigned char *GCL_Get_Param_Result_80020AA4(void);
 unsigned char *GCL_Execute_8002069C(unsigned char *pScript, int *ppScript, int *pRet);
 int GCL_ReadVector_80020A14(unsigned char *pInScript, short *pOut3Words);
+void GCL_SetMainOrDemo_8001FCB0(int bMain);
 
 int GCL_800209E8(unsigned char *uParm1);
 

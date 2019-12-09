@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002D4B0
-sub_8002D4B0:
+	xdef GM_TargetFree_8002D4B0
+GM_TargetFree_8002D4B0:
 	dw 0x10800011 ; 0x8002D4B0
 	dw 0x3C03800B ; 0x8002D4B4
 	dw 0x8F850784 ; 0x8002D4B8

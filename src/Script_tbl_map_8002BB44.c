@@ -209,9 +209,9 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
 
     BindStruct *pBind;
     short bVar7;
-    
+
     int sVar3;
-    int tmp ;
+    int tmp;
 
     if (gBindsCount_800ABA64 > 127) // 780 gp
     {
@@ -229,7 +229,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     pBind->field_4 = sVar3;
 
     sVar3 = GCL_Get_Param_80020AD4();
-     if (sVar3 == 0x14c9)
+    if (sVar3 == 0x14c9)
     {
         sVar3 = 0;
     }
@@ -239,7 +239,6 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
 
     bVar7 = 0; // still s1
 
-  
     sVar3 = GCL_GetParam_80020968(0x6d);
     if (sVar3 != 0)
     {
@@ -250,7 +249,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
             asm("move $2, $17"); // sVar3 = bVar7, the compiler always wants to use $zero instead of $s1, e.g $v0, $s1 VS $v0, $zero
             //sVar3 = 0; // wrong
         }
-        
+
         pBind->field_2_param_m = sVar3;
     }
     else
@@ -441,3 +440,52 @@ int Script_tbl_chara_8002C1B0(unsigned char *pScript, int unknown)
     return ret;
 }
 
+extern const char aMenuInitEnd[];
+
+void MENU_InitRadioMemory_8004E0EC(void);
+void sub_800212CC(void);
+void sub_8002AC44(void);
+void menuman_init_80038954(void);
+void font_load_80044A9C(void);
+void sub_80021264(void);
+
+extern int dword_800AB9E8;
+
+int Script_tbl_start_8002C22C(unsigned char *pScript)
+{
+    if (GCL_GetParam_80020968(0x73))
+    {
+        sub_8002AC44();
+    }
+
+    if (GCL_GetParam_80020968(0x6d))
+    {
+        menuman_init_80038954();
+        mg_printf_8008BBA0(aMenuInitEnd);
+    }
+
+    if (GCL_GetParam_80020968(0x66))
+    {
+        font_load_80044A9C();
+    }
+
+    if (GCL_GetParam_80020968(0x76))
+    {
+        sub_80021264();
+        MENU_InitRadioMemory_8004E0EC();
+        dword_800AB9E8 = 0;
+    }
+
+    if (GCL_GetParam_80020968(100))
+    {
+        GCL_SetMainOrDemo_8001FCB0(GCL_Get_Param_80020AD4());
+    }
+
+    if (GCL_GetParam_80020968(99))
+    {
+        sub_800212CC();
+        MENU_InitRadioMemory_8004E0EC();
+        dword_800AB9E8 = 0;
+    }
+    return 0;
+}
