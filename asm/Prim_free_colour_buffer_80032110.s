@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80032110
-sub_80032110:
+	xdef Prim_free_colour_buffer_80032110
+Prim_free_colour_buffer_80032110:
 	dw 0x27BDFFE8 ; 0x80032110
 	dw 0xAFB00010 ; 0x80032114
 	dw 0x00808021 ; 0x80032118

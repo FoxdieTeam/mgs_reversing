@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002DC74
-sub_8002DC74:
+	xdef GM_Target_8002DC74
+GM_Target_8002DC74:
 	dw 0x3C02800B ; 0x8002DC74
 	dw 0x9442B9B0 ; 0x8002DC78
 	dw 0xA4850000 ; 0x8002DC7C

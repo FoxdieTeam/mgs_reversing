@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031028
-sub_80031028:
+	xdef Map_FreeKmds_80031028
+Map_FreeKmds_80031028:
 	dw 0x27BDFFE0 ; 0x80031028
 	dw 0xAFB10014 ; 0x8003102C
 	dw 0x8F9107C0 ; 0x80031030

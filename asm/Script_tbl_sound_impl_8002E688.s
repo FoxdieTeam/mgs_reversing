@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002E688
-sub_8002E688:
+	xdef Script_tbl_sound_impl_8002E688
+Script_tbl_sound_impl_8002E688:
 	dw 0x27BDFFE0 ; 0x8002E688
 	dw 0x24040062 ; 0x8002E68C
 	dw 0xAFBF0018 ; 0x8002E690
