@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80016504"
+old = "sub_80016078"
 parts = old.split('_')
-newFileName = "GV_SendMessage" + "_" + parts[len(parts)-1]
+newFileName = "System_void_allocation" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

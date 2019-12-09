@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006FA60
-sub_8006FA60:
+	xdef door_loader_8006FA60
+door_loader_8006FA60:
 	dw 0x27BDFFD8 ; 0x8006FA60
 	dw 0xAFB1001C ; 0x8006FA64
 	dw 0x00808821 ; 0x8006FA68

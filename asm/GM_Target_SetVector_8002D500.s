@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002D500
-sub_8002D500:
+	xdef GM_Target_SetVector_8002D500
+GM_Target_SetVector_8002D500:
 	dw 0x3C02800B ; 0x8002D500
 	dw 0x9442B9B0 ; 0x8002D504
 	dw 0x88A30003 ; 0x8002D508

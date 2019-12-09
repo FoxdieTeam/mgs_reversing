@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001D778
-sub_8001D778:
+	xdef DG_SearchForTextureRecord_8001D778
+DG_SearchForTextureRecord_8001D778:
 	dw 0x00804021 ; 0x8001D778
 	dw 0x05010002 ; 0x8001D77C
 	dw 0x01001021 ; 0x8001D780

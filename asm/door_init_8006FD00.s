@@ -2,8 +2,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef door_8006FD00
-door_8006FD00:
+	xdef door_init_8006FD00
+door_init_8006FD00:
 	dw 0x27BDFFD8 ; 0x8006FD00
 	dw 0xAFB20018 ; 0x8006FD04
 	dw 0x00809021 ; 0x8006FD08
