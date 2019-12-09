@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016078
-sub_80016078:
+	xdef System_void_allocation_80016078
+System_void_allocation_80016078:
 	dw 0x27BDFFE8 ; 0x80016078
 	dw 0x00041A00 ; 0x8001607C
 	dw 0x00641821 ; 0x80016080

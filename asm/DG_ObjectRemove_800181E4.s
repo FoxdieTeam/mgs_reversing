@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800181E4
-sub_800181E4:
+	xdef DG_ObjectRemove_800181E4
+DG_ObjectRemove_800181E4:
 	dw 0x84820030 ; 0x800181E4
 	dw 0x00000000 ; 0x800181E8
 	dw 0x24420001 ; 0x800181EC

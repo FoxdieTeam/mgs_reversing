@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006B564
-sub_8006B564:
+	xdef jirai_loader_8006B564
+jirai_loader_8006B564:
 	dw 0x27BDFFB8 ; 0x8006B564
 	dw 0xAFB3003C ; 0x8006B568
 	dw 0x00809821 ; 0x8006B56C

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002E640
-sub_8002E640:
+	xdef GM_SoundStart_8002E640
+GM_SoundStart_8002E640:
 	dw 0x8F82078C ; 0x8002E640
 	dw 0x27BDFFE8 ; 0x8002E644
 	dw 0x1440000B ; 0x8002E648

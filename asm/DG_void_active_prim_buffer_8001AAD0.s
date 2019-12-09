@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001AAD0
-sub_8001AAD0:
+	xdef DG_void_active_prim_buffer_8001AAD0
+DG_void_active_prim_buffer_8001AAD0:
 	dw 0x27BDFFE8 ; 0x8001AAD0
 	dw 0x00051080 ; 0x8001AAD4
 	dw 0x24420054 ; 0x8001AAD8

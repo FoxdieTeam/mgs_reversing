@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800182E0
-sub_800182E0:
+	xdef DG_PrimRemove_800182E0
+DG_PrimRemove_800182E0:
 	dw 0x00803821 ; 0x800182E0
 	dw 0x84E3002C ; 0x800182E4
 	dw 0x00000000 ; 0x800182E8
