@@ -1255,7 +1255,7 @@
 	include	"..\obj\bodyarm_init_80060940.obj"
 	include	"..\obj\gasmask_act_800609C0.obj"
 	include	"..\obj\gasmask_kill_80060B0C.obj"
-	include	"..\obj\sub_80060B5C.obj"
+	include	"..\obj\gasmask_loader_80060B5C.obj"
 	include	"..\obj\gasmask_init_80060C14.obj"
 	include	"..\obj\sub_80060CB8.obj"
 	include	"..\obj\sub_80060CE4.obj"
