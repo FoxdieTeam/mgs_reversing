@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80016078"
+old = "sub_80060B5C"
 parts = old.split('_')
-newFileName = "System_void_allocation" + "_" + parts[len(parts)-1]
+newFileName = "gasmask_loader" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80060B5C
-sub_80060B5C:
+	xdef gasmask_loader_80060B5C
+gasmask_loader_80060B5C:
 	dw 0x27BDFFD8 ; 0x80060B5C
 	dw 0xAFB10014 ; 0x80060B60
 	dw 0x00808821 ; 0x80060B64

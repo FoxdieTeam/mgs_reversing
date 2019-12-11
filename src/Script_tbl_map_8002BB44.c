@@ -208,8 +208,8 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     // int bindIdx;
 
     BindStruct *pBind;
-    short bVar7;
 
+    int bVar7;
     int sVar3;
     int tmp;
 
@@ -239,17 +239,13 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
 
     bVar7 = 0; // still s1
 
-    sVar3 = GCL_GetParam_80020968(0x6d);
-    if (sVar3 != 0)
+    if (GCL_GetParam_80020968(0x6d))
     {
         sVar3 = GCL_Get_Param_80020AD4();
         if (sVar3 == 0x14c9)
         {
-            // TODO: Hack to force a match :(
-            asm("move $2, $17"); // sVar3 = bVar7, the compiler always wants to use $zero instead of $s1, e.g $v0, $s1 VS $v0, $zero
-            //sVar3 = 0; // wrong
+            sVar3 = 0;
         }
-
         pBind->field_2_param_m = sVar3;
     }
     else
@@ -257,8 +253,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
         pBind->field_2_param_m = 0;
     }
 
-    sVar3 = GCL_GetParam_80020968(0x64);
-    if (sVar3)
+    if (GCL_GetParam_80020968(0x64))
     {
         bVar7 |= 1;
         pBind->field_C_param_d = GCL_Get_Param_80020AD4();
