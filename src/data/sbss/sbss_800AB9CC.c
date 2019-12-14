@@ -46,6 +46,5 @@ int SECTION(".sbss") dword_800ABA48[2];
 int SECTION(".sbss") dword_800ABA50;
 int SECTION(".sbss") dword_800ABA54;
 
-int SECTION(".sbss") dword_800ABA58;
-int SECTION(".sbss") dword_800ABA5C;
+char SECTION(".sbss") dword_800ABA58[8];
 
