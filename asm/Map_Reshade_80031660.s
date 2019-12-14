@@ -1,30 +1,42 @@
-	opt	c+, at+, e+, n-
+	opt	c+, at+, e+, n-, m-
 	section .text
+
+	INCLUDE utils.s
+
+	xref aReshadeNullMap
+	xref mg_printf_8008BBA0
+	xref Map_FromId_800314C0
+	xref sub_80031F04
 
 	xdef Map_Reshade_80031660
 Map_Reshade_80031660:
-	dw 0x27BDFFE0 ; 0x80031660
-	dw 0xAFB10014 ; 0x80031664
-	dw 0x00808821 ; 0x80031668
-	dw 0xAFBF0018 ; 0x8003166C
-	dw 0xAFB00010 ; 0x80031670
-	dw 0x9624002C ; 0x80031674
-	dw 0x0C00C530 ; 0x80031678
-	dw 0x00000000 ; 0x8003167C
-	dw 0x00408021 ; 0x80031680
-	dw 0x16000003 ; 0x80031684
-	dw 0x3C048001 ; 0x80031688
-	dw 0x0C022EE8 ; 0x8003168C
-	dw 0x24840D20 ; 0x80031690
-	dw 0x8E02000C ; 0x80031694
-	dw 0x00000000 ; 0x80031698
-	dw 0x10400004 ; 0x8003169C
-	dw 0x02202021 ; 0x800316A0
-	dw 0x8C460000 ; 0x800316A4
-	dw 0x0C00C7C1 ; 0x800316A8
-	dw 0x24450004 ; 0x800316AC
-	dw 0x8FBF0018 ; 0x800316B0
-	dw 0x8FB10014 ; 0x800316B4
-	dw 0x8FB00010 ; 0x800316B8
-	dw 0x03E00008 ; 0x800316BC
-	dw 0x27BD0020 ; 0x800316C0
+	addiu   sp, sp, -0x20
+	sw      s1, 0x14(sp)
+	addu    s1, a0, zero
+	sw      ra, 0x18(sp)
+	sw      s0, 0x10(sp)
+	lhu     a0, 0x2C(s1)
+	jal     Map_FromId_800314C0
+	nop
+	addu    s0, v0, zero
+	bne     s0, zero, loc_80031694
+	luih     a0, aReshadeNullMap
+	jal     mg_printf_8008BBA0
+	adduih   a0, aReshadeNullMap
+
+	loc_80031694:
+	lw      v0, 0xC(s0)
+	nop
+	beq     v0, zero, loc_800316B0
+	addu    a0, s1, zero
+
+	lw      a2, 0(v0)
+	jal     sub_80031F04
+	addiu   a1, v0, 4
+
+	loc_800316B0:
+	lw      ra, 0x18(sp)
+	lw      s1, 0x14(sp)
+	lw      s0, 0x10(sp)
+	jr      ra
+	addiu   sp, sp, 0x20
