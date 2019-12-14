@@ -135,7 +135,7 @@ foreach ($file in $sFiles)
             $createdDirs.add($parentFolder, $parentFolder)
         }
 
-		asmpsx.exe /l /q $fullSName,$fullObjName 
+		asmpsx.exe /j ../asm /l /q $fullSName,$fullObjName
 		if($LASTEXITCODE -eq 0)
 		{
 			Write-Host "Assembled $fullSName"  -ForegroundColor "green"
