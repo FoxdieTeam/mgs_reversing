@@ -45,7 +45,7 @@ extern void Loader_Act_8002e390(struct Loader* loader);
 extern void mg_printf_8008BBA0(const char*, ...);
 
 extern int gLoaderState_800ABA38;
-extern int dword_800AB3D0;
+extern int gFlags_800AB3D0;
 
 
 void Loader_Kill_8002e41c(struct Loader* pLoader)
@@ -74,7 +74,7 @@ struct Loader* Loader_Init_8002e460(const char* pStageName)
 	GV_ActorInit_8001514c(&pLoader->base, (TActorFunction)Loader_Act_8002e390, (TActorFunction)Loader_Kill_8002e41c, aLoaderC);
 
 	pLoader->field_2C = 1;
-	pLoader->field_28 = (dword_800AB3D0 & 0xf);
+	pLoader->field_28 = (gFlags_800AB3D0 & 0xf);
 	gLoaderState_800ABA38 = 0;	
 	return pLoader;
 }

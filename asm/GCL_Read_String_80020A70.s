@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020A70
-sub_80020A70:
+	xdef GCL_Read_String_80020A70
+GCL_Read_String_80020A70:
 	dw 0x27BDFFE0 ; 0x80020A70
 	dw 0x27A50010 ; 0x80020A74
 	dw 0xAFBF0018 ; 0x80020A78

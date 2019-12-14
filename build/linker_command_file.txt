@@ -271,7 +271,7 @@
 	
 	
 
-	include	"..\obj\sub_80020A70.obj"
+	include	"..\obj\GCL_Read_String_80020A70.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_Result_80020AA4.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_80020AD4.obj"
 	include	"..\obj\sub_80020B68.obj"
@@ -455,7 +455,7 @@
 	include	"..\obj\sub_8002A784.obj"
 	include	"..\obj\sub_8002A7D8.obj"
 	include	"..\obj\Game\GM_AreaHistory_8002A848.obj"
-	include	"..\obj\sub_8002A880.obj"
+	include	"..\obj\GM_StageName_8002A880.obj"
 	include	"..\obj\sub_8002A890.obj"
 	include	"..\obj\sub_8002A8B0.obj"
 
@@ -489,7 +489,6 @@
 	include	"..\obj\Script_tbl_map_8002BB44.obj"
 
 	include "..\obj\data\sbss\sbss_800ABA64.obj"
-	include	"..\obj\Script_tbl_load_8002C308.obj"
 	include	"..\obj\Script_tbl_radio_8002C4A8.obj"
 	include	"..\obj\Script_tbl_strstatus_8002C6A4.obj"
 	include	"..\obj\Script_tbl_varsave_8002C72C.obj"
@@ -2220,6 +2219,9 @@ group_gBindsArray_800b58e0	group bss,org($800b58e0)
 
 group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0
+
+group_gGameState_800B4D98	group bss,org($800B4D98)
+	section .gGameState_800B4D98, group_gGameState_800B4D98
 
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
