@@ -1,6 +1,7 @@
+#include "strcode.h"
 #include <sys/types.h>
 
-u_short GV_StrCode_80016CCC(const char* string )
+int GV_StrCode_80016CCC(const char* string )
 {
 	u_char c;
 	u_char *p = (u_char *)string;

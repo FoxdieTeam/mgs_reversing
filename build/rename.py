@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80060B5C"
+old = "sub_8002A880"
 parts = old.split('_')
-newFileName = "gasmask_loader" + "_" + parts[len(parts)-1]
+newFileName = "GM_StageName" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

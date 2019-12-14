@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002A880
-sub_8002A880:
+	xdef GM_StageName_8002A880
+GM_StageName_8002A880:
 	dw 0x3C02800B ; 0x8002A880
 	dw 0x2442B3C4 ; 0x8002A884
 	dw 0x03E00008 ; 0x8002A888

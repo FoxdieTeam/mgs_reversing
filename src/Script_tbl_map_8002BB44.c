@@ -1,6 +1,10 @@
 #include "linker.h"
 #include "gcl.h"
 #include "delay.h"
+#include "strcode.h"
+
+#include <sys/types.h>
+#include <libgte.h>
 
 typedef struct LitHeader
 {
@@ -482,5 +486,151 @@ int Script_tbl_start_8002C22C(unsigned char *pScript)
         MENU_InitRadioMemory_8004E0EC();
         dword_800AB9E8 = 0;
     }
+    return 0;
+}
+
+extern int gFlags_800AB3D0;
+extern char dword_800ABA58[8];
+
+char *GCL_Read_String_80020A70(char *pScript);
+char *GM_StageName_8002A880(char *);
+int sub_8002A7D8(int, char *);
+
+char *strcpy_8008E768(char *, char *);
+
+void GV_ResidentHeapReset_800163B0(void);
+void GV_ClearFileCache_80015458(void);
+void DG_ClearResidentTexture_8001DB10(void);
+
+typedef struct Unk_800B4D98
+{
+    short field_0;                // 800b4d98
+    short field_2_DiffcultyLevel; // 800b4d9a
+    int Flags;                    // 800b4d9c
+    short StartingCdId;           // 800b4d9c
+    short LastRand;               // 800b4da0
+} Unk_800B4D98;
+
+typedef struct GameState
+{
+    Unk_800B4D98 unk;
+
+    short field_0_stageNameHashed;
+    short field_2_loader_param_m;
+    short field_4_param_p_vec[3];
+    short field_A_snake_current_health;
+    short field_C_snake_max_health;
+    char field_E_snake_flags;
+    char field_F_pad; // check
+    short field_10_load_item_fn_idx;
+    short field_12_selected_menu_item_idx;
+    short field_14;
+    short field_16_weapon_states[10];
+    short field_2A_weapon_capacity[10];
+    short field_3E_item_states[24];
+    short field_6E[3];
+    short field_74;
+    short field_76_PAL_card_icon_idx;
+    short field_78;
+    short field_7A;
+    short field_7C;
+    short field_7E_bItems_frozen;
+    short field_80;
+    short field_82_freeze_items_timer;
+    short field_84;
+    short field_86_snake_shake_delay;
+    short field_88_prevStageNameHashed;
+    short field_8A_snake_cold_timer;
+    short field_8C_times_spotted;
+    short field_8E_num_enemies_killed;
+    int field_90[3];
+    short field_9C_num_rations_used;
+    short field_9E_num_continues;
+    short field_A0_num_saves;
+    short field_A2;
+    short field_A4;
+    short field_A6_game_time1;
+    short field_A8_game_time2;
+    short field_AA;
+    short field_AC;
+    short field_AE;
+    short field_B0;
+    short field_B2;
+} GameState;
+//STATIC_ASSERT_SIZE(GameState_0xB4, 0xB4);
+
+GameState SECTION(".gGameState_800B4D98") gGameState_800B4D98;
+
+int Script_tbl_load_8002C308(char *pScript)
+{
+    char *scriptStageName;
+    short vec[3];
+
+    scriptStageName = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+    if (*scriptStageName == '\0')
+    {
+        gFlags_800AB3D0 = 1;
+        return 0;
+    }
+
+    if (GCL_GetParam_80020968('r'))
+    {
+        if (!GCL_Get_Param_80020AD4())
+        {
+            // Hard restart?
+            strcpy_8008E768(dword_800ABA58, GM_StageName_8002A880(scriptStageName));
+            GV_ResidentHeapReset_800163B0();
+            GV_ClearFileCache_80015458();
+            DG_ClearResidentTexture_8001DB10();
+            sub_8002A7D8(GV_StrCode_80016CCC(scriptStageName), scriptStageName);
+        }
+        else
+        {
+            // Soft restart?
+            scriptStageName = dword_800ABA58;
+            sub_8002A7D8(gGameState_800B4D98.field_0_stageNameHashed, scriptStageName);
+        }
+
+        gFlags_800AB3D0 = 1;
+        return 0;
+    }
+
+    gGameState_800B4D98.field_88_prevStageNameHashed = gGameState_800B4D98.field_0_stageNameHashed;
+    gGameState_800B4D98.field_0_stageNameHashed = GV_StrCode_80016CCC(scriptStageName);
+
+    sub_8002A7D8(gGameState_800B4D98.field_0_stageNameHashed, scriptStageName);
+
+    if (GCL_GetParam_80020968('m'))
+    {
+        gGameState_800B4D98.field_2_loader_param_m = GCL_Get_Param_80020AD4();
+    }
+
+    if (GCL_GetParam_80020968('p'))
+    {
+        // Snakes starting position in the map?
+        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), &vec[0]);
+        gGameState_800B4D98.field_4_param_p_vec[0] = vec[0];
+        gGameState_800B4D98.field_4_param_p_vec[1] = vec[1];
+        gGameState_800B4D98.field_4_param_p_vec[2] = vec[2];
+    }
+
+    if (GCL_GetParam_80020968('s'))
+    {
+        gFlags_800AB3D0 = GCL_Get_Param_80020AD4();
+        if (gFlags_800AB3D0)
+        {
+            gFlags_800AB3D0 |= 0x80;
+        }
+    }
+    else
+    {
+        gFlags_800AB3D0 = 1;
+    }
+
+    if (!GCL_GetParam_80020968('n'))
+    {
+        gFlags_800AB3D0 |= 0x10;
+    }
+
     return 0;
 }
