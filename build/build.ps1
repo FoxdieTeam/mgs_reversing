@@ -177,8 +177,8 @@ else
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
     Write-Host "mdasm" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
-    .\MDasm.exe ..\SLPM_862.47 110552, 110664 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 110552, 110664 | Out-File "dump.asm"
+    .\MDasm.exe ..\SLPM_862.47 110664, 110720 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 110664, 110720 | Out-File "dump.asm"
 }
 
 Write-Host "compare" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"

@@ -452,7 +452,6 @@
 	include	"..\obj\sub_8002A5E0.obj"
 
 	include	"..\obj\Game\GM_Stage_ClearStageHistory_8002A704.obj"
-	include	"..\obj\Game\GM_AreaHistory_8002A848.obj"
 	include	"..\obj\GM_StageName_8002A880.obj"
 
 	include	"..\obj\sub_8002A890.obj"

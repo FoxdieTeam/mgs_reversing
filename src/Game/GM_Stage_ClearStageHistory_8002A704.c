@@ -44,9 +44,22 @@ int GM_PushAreaHistory_8002A7D8(int areaName, char *pStageName)
     i = MAX_HISTORY - 1;
     do
     {
-        gAreaHistory_800B5850.history[i] = gAreaHistory_800B5850.history[i-1];
+        gAreaHistory_800B5850.history[i] = gAreaHistory_800B5850.history[i - 1];
         i--;
     } while (0 < i);
     gAreaHistory_800B5850.history[0] = areaName;
     return areaName;
+}
+
+int GM_AreaHistory_8002A848(int areaName)
+{
+    int i;
+    for (i=1; i<MAX_HISTORY; i++)
+    {
+        if (gAreaHistory_800B5850.history[i] == areaName)
+        {
+            break;
+        }
+    }
+    return i;
 }
