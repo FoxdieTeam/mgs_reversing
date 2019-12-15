@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015718
-sub_80015718:
+	xdef GV_Printf_80015718
+GV_Printf_80015718:
 	dw 0x27BDFFE8 ; 0x80015718
 	dw 0xAFBF0010 ; 0x8001571C
 	dw 0x0C022EE8 ; 0x80015720

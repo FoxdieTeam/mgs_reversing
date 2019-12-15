@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002058C
-sub_8002058C:
+	xdef GCL_8002058C
+GCL_8002058C:
 	dw 0x27BDFFD0 ; 0x8002058C
 	dw 0xAFB30024 ; 0x80020590
 	dw 0x00A09821 ; 0x80020594

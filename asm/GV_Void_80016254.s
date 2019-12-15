@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016254
-sub_80016254:
+	xdef GV_Void_80016254
+GV_Void_80016254:
 	dw 0x27BDFFE8 ; 0x80016254
 	dw 0xAFA40018 ; 0x80016258
 	dw 0x24040002 ; 0x8001625C

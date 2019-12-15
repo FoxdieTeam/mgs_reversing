@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800155BC
-sub_800155BC:
+	xdef GV_LoadFile_800155BC
+GV_LoadFile_800155BC:
 	dw 0x27BDFFD8 ; 0x800155BC
 	dw 0xAFB3001C ; 0x800155C0
 	dw 0x00809821 ; 0x800155C4
