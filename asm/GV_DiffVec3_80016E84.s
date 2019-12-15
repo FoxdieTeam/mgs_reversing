@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016E84
-sub_80016E84:
+	xdef GV_DiffVec3_80016E84
+GV_DiffVec3_80016E84:
 	dw 0x27BDFFD8 ; 0x80016E84
 	dw 0xAFBF0020 ; 0x80016E88
 	dw 0x84820000 ; 0x80016E8C

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001704C
-sub_8001704C:
+	xdef GV_DiffDirS_8001704C
+GV_DiffDirS_8001704C:
 	dw 0x00A42023 ; 0x8001704C
 	dw 0x30840FFF ; 0x80017050
 	dw 0x28820801 ; 0x80017054

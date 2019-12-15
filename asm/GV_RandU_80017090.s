@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80017090
-sub_80017090:
+	xdef GV_RandU_80017090
+GV_RandU_80017090:
 	dw 0x27BDFFE8 ; 0x80017090
 	dw 0xAFB00010 ; 0x80017094
 	dw 0xAFBF0014 ; 0x80017098
