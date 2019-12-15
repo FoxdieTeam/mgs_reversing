@@ -450,8 +450,7 @@
 	include	"..\obj\sub_8002A4B8.obj"
 	include	"..\obj\sub_8002A538.obj"
 	include	"..\obj\sub_8002A5E0.obj"
-	include	"..\obj\GM_Stage_ClearStageHistory_8002A704.obj"
-	include	"..\obj\sub_8002A730.obj"
+	include	"..\obj\Game\GM_Stage_ClearStageHistory_8002A704.obj"
 	include	"..\obj\sub_8002A784.obj"
 	include	"..\obj\sub_8002A7D8.obj"
 	include	"..\obj\Game\GM_AreaHistory_8002A848.obj"
@@ -2216,6 +2215,9 @@ group_gDefaultControl_800B5650	group bss,org($800B5650)
 
 group_gBindsArray_800b58e0	group bss,org($800b58e0)
 	section .gBindsArray_800b58e0, group_gBindsArray_800b58e0
+
+group_gAreaHistory_800B5850	group bss,org($800B5850)
+	section .gAreaHistory_800B5850, group_gAreaHistory_800B5850
 
 group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0
