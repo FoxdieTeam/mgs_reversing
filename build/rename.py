@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80029A5C"
+old = "sub_800170BC"
 parts = old.split('_')
-newFileName = "GM_SetBinds" + "_" + parts[len(parts)-1]
+newFileName = "GV_RandS" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

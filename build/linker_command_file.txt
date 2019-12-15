@@ -54,28 +54,28 @@
 	include	"..\obj\libgv\GV_MessageClear_800164AC.obj"
 	include	"..\obj\sub_800164C8.obj"
 	include	"..\obj\GV_SendMessage_80016504.obj"
-	include	"..\obj\sub_80016620.obj"
+	include	"..\obj\sub_80016620.obj" ; GV_ReceiveMessage ?
 	include	"..\obj\sub_800166AC.obj"
 	include	"..\obj\sub_800166F0.obj"
 	include	"..\obj\sub_80016750.obj"
-	include	"..\obj\libgv\GV_PadInputClear_800167C8.obj"
-	include	"..\obj\sub_8001682C.obj"
-	include	"..\obj\sub_80016C78.obj"
-	include	"..\obj\sub_80016C84.obj"
+	include	"..\obj\libgv\GV_PadInputClear_800167C8.obj" ; GV_InitPadSystem ?
+	include	"..\obj\sub_8001682C.obj" ; GV_UpdatePadSystem  ?
+	include	"..\obj\sub_80016C78.obj" ; GV_OriginPadSystem  ?
+	include	"..\obj\sub_80016C84.obj" ; GV_GetPadOrigin / GV_GetPadDirNoPadOrg ?
 	include	"..\obj\libgv\strcode.obj"
-	include	"..\obj\libgv\GV_Vector_Add_80016D00.obj"
-	include	"..\obj\libgv\GV_Vector_Subtract_80016D00.obj"
-	include	"..\obj\sub_80016D80.obj"
-	include	"..\obj\sub_80016DDC.obj"
-	include	"..\obj\sub_80016E84.obj"
-	include	"..\obj\sub_80016EF8.obj"
-	include	"..\obj\sub_80016F24.obj"
-	include	"..\obj\sub_80016FA0.obj"
-	include	"..\obj\sub_80017040.obj"
-	include	"..\obj\sub_8001704C.obj"
-	include	"..\obj\sub_8001706C.obj"
-	include	"..\obj\sub_80017090.obj"
-	include	"..\obj\sub_800170BC.obj"
+	include	"..\obj\libgv\GV_AddVec3_80016D00.obj"
+	include	"..\obj\libgv\GV_SubVec3_80016D40.obj"
+	include	"..\obj\GV_VecLen3_80016D80.obj"
+	include	"..\obj\GV_LenVec3_80016DDC.obj"
+	include	"..\obj\GV_DiffVec3_80016E84.obj"
+	include	"..\obj\GV_VecDir2_80016EF8.obj"
+	include	"..\obj\GV_DirVec2_80016F24.obj"
+	include	"..\obj\GV_DirVec3_80016FA0.obj"
+	include	"..\obj\GV_DiffDirU_80017040.obj"
+	include	"..\obj\GV_DiffDirS_8001704C.obj"
+	include	"..\obj\GV_DiffDir_Unknown_8001706C.obj"
+	include	"..\obj\GV_RandU_80017090.obj"
+	include	"..\obj\GV_RandS_800170BC.obj"
 	include	"..\obj\libdg\DG_InitDispEnv_800170F0.obj"
 	include	"..\obj\libdg\DG_ChangeReso_80017154.obj"
 	include	"..\obj\libdg\DG_RenderPipeline_Init_8001715C.obj"
@@ -108,8 +108,10 @@
 	include	"..\obj\sub_80018520.obj"
 	include	"..\obj\libdg\DG_BackGroundNormal_80018548.obj"
 	include	"..\obj\sub_80018598.obj"
+	include	"..\obj\DG_BoundStart_800185B4.obj"
 	include	"..\obj\sub_800185BC.obj"
 	include	"..\obj\libdg\DG_BoundChanl_800189A4.obj"
+	include	"..\obj\libdg\DG_BoundEnd_80018D20.obj"
 	include	"..\obj\sub_80018D28.obj"
 	include	"..\obj\sub_80018D90.obj"
 	include	"..\obj\sub_80018E5C.obj"
@@ -195,6 +197,7 @@
 	include	"..\obj\sub_8001BE00.obj"
 	include	"..\obj\sub_8001BE48.obj"
 	include	"..\obj\sub_8001BE98.obj"
+	include	"..\obj\DG_PersVector_8001BEF8.obj"	
 	include	"..\obj\sub_8001BF34.obj"
 	include	"..\obj\sub_8001C18C.obj"
 	include	"..\obj\sub_8001C248.obj"
@@ -276,21 +279,21 @@
 	include	"..\obj\libgcl\GCL_Get_Param_80020AD4.obj"
 	include	"..\obj\sub_80020B68.obj"
 	include	"..\obj\sub_80020B90.obj"
-	include	"..\obj\CRC32_80020BB4.obj"
-	include	"..\obj\sub_80020C0C.obj"
-	include	"..\obj\sub_80020EAC.obj"
-	include	"..\obj\sub_80021264.obj"
-	include	"..\obj\sub_800212CC.obj"
-	include	"..\obj\sub_80021314.obj"
-	include	"..\obj\sub_80021488.obj"
-	include	"..\obj\sub_80021634.obj"
-	include	"..\obj\sub_8002171C.obj"
-	include	"..\obj\sub_800217F0.obj"
+	include	"..\obj\CRC32_80020BB4.obj" ; GCL_SaveLinkVar ?????
+	include	"..\obj\sub_80020C0C.obj" ; GCL_MakeSaveFile ?
+	include	"..\obj\sub_80020EAC.obj" ; GCL_SetLoadFile ?
+	include	"..\obj\sub_80021264.obj" ; GCL_InitVar ?
+	include	"..\obj\sub_800212CC.obj" ; GCL_InitClearVar ?
+	include	"..\obj\sub_80021314.obj" ; GCL_SaveVar ?
+	include	"..\obj\sub_80021488.obj" ; GCL_RestoreVar ?
+	include	"..\obj\sub_80021634.obj" ; GCL_GetVar?
+	include	"..\obj\sub_8002171C.obj" ; GCL_SetVar? 
+	include	"..\obj\sub_800217F0.obj" ; GCL_VarSaveBuffer ?
 	include	"..\obj\HZD_StartDaemon_80021900.obj"
 	include	"..\obj\HZD_Process_TableFlagIfTriggers_80021928.obj"
 	include	"..\obj\sub_800219C8.obj"
 	include	"..\obj\HZD_FileHandler_800219F4.obj"
-	include	"..\obj\sub_80021AE0.obj"
+	include	"..\obj\sub_80021AE0.obj" ; HZD_MakeHandler ?
 	include	"..\obj\sub_80021C40.obj"
 	include	"..\obj\sub_80021C64.obj"
 	include	"..\obj\sub_80021D6C.obj"
@@ -371,13 +374,13 @@
 	include	"..\obj\memcard_retry_80025178.obj"
 	include	"..\obj\memcard_get_files_80025350.obj"
 	include	"..\obj\memcard_delete_800253C4.obj"
-	include	"..\obj\sub_8002546C.obj"
+	include	"..\obj\sub_8002546C.obj" ; memcard_delete ?
 	include	"..\obj\sub_800254D4.obj"
 	include	"..\obj\sub_8002551C.obj"
 	include	"..\obj\memcard_write_8002554C.obj"
 	include	"..\obj\memcard_read_8002569C.obj"
 	include	"..\obj\memcard_get_status_800257B0.obj"
-	include	"..\obj\sub_800257C0.obj" ; memcard format
+	include	"..\obj\sub_800257C0.obj" ; memcard_format ?
 	include	"..\obj\Game\GM_ControlPushBack_800258B0.obj"
 	include	"..\obj\sub_80025A7C.obj" ; control
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
@@ -529,8 +532,8 @@
 	include	"..\obj\sub_8002E8D4.obj"
 	include	"..\obj\Game\GM_AlertAct_8002E91C.obj"
 	include	"..\obj\Game\GM_AlertModeSet_8002EA68.obj"
-	include	"..\obj\sub_8002EAA8.obj"
-	include	"..\obj\sub_8002EAB8.obj"
+	include	"..\obj\GM_AlertModeInit_8002EAA8.obj"
+	include	"..\obj\GM_AlertModeReset_8002EAB8.obj"
 	include	"..\obj\sub_8002EADC.obj"
 	include	"..\obj\sub_8002EB80.obj"
 	include	"..\obj\sub_8002EBE8.obj"
@@ -834,6 +837,7 @@
 	include	"..\obj\sub_80042198.obj"
 	include	"..\obj\Menu\menu_radio.obj"
 	include	"..\obj\Menu\MENU_RadioCall_80042730.obj"
+	include	"..\obj\Menu\MENU_SetLoad_800427E8.obj"	
 	include	"..\obj\Menu\MENU_ResetCall_80042814.obj"
 	include	"..\obj\Menu\MENU_SetRadioCallbackProc_8004283C.obj"
 	include	"..\obj\Menu\menu_number_init_80042848.obj"
@@ -933,16 +937,16 @@
 	include	"..\obj\Menu\menu_radio_draw_face_80048DB0.obj"
 	include	"..\obj\Menu\menu_radio_end_check_80048F98.obj"
 	include	"..\obj\Menu\menu_jimaku_act_80048FD4.obj"
-	include	"..\obj\sub_800493F8.obj"
+	include	"..\obj\sub_800493F8.obj" ; menu_jimaku_init ?
 	include	"..\obj\Menu\menu_jimaku_init_800494C4.obj"
 	include	"..\obj\Menu\MENU_JimakuWrite_800494E8.obj"
 	include	"..\obj\Menu\MENU_JimakuClear_80049518.obj"
 	include	"..\obj\Menu\MENU_AreaNameWrite_80049534.obj"
-	include	"..\obj\sub_8004955C.obj"
-	include	"..\obj\sub_800495A8.obj"
+	include	"..\obj\sub_8004955C.obj" ; NewJimakuStr ?
+	include	"..\obj\sub_800495A8.obj" ; NewJimaku ?
 	include	"..\obj\Menu\MENU_InitRadioTable_80049644.obj"
 	include	"..\obj\Menu\MENU_ClearRadioTable_8004967C.obj"
-	include	"..\obj\sub_8004969C.obj"
+	include	"..\obj\sub_8004969C.obj" ; MENU_SetRadioBaseCall / MENU_SetRadioOverCall
 	include	"..\obj\sub_80049710.obj"
 	include	"..\obj\sub_80049764.obj"
 	include	"..\obj\sub_80049794.obj"
@@ -1907,7 +1911,7 @@
 	include	"..\obj\psyq\sub_80092544.obj"
 	include	"..\obj\psyq\sub_800925D8.obj"
 	include	"..\obj\psyq\InitGeom_80092680.obj"
-	include	"..\obj\psyq\sub_80092708.obj"
+	include	"..\obj\psyq\SquareRoot0_80092708.obj"
 	include	"..\obj\psyq\VectorNormal_80092838.obj"
 	include	"..\obj\psyq\sub_80092868.obj"
 	include	"..\obj\psyq\sub_80092898.obj"
@@ -1922,7 +1926,7 @@
 	include	"..\obj\psyq\sub_800930D8.obj"
 	include	"..\obj\psyq\sub_80093218.obj"
 	include	"..\obj\psyq\sub_80093248.obj"
-	include	"..\obj\psyq\sub_80093340.obj"
+	include	"..\obj\psyq\Square0_80093340.obj"
 	include	"..\obj\psyq\sub_800933AC.obj"
 	include	"..\obj\psyq\sub_80093478.obj"
 	include	"..\obj\psyq\sub_800934A8.obj"

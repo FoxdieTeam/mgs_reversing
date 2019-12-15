@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092708
-sub_80092708:
+	xdef SquareRoot0_80092708
+SquareRoot0_80092708:
 	dw 0x4884F000 ; 0x80092708
 	dw 0x00000000 ; 0x8009270C
 	dw 0x00000000 ; 0x80092710

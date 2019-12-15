@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80093340
-sub_80093340:
+	xdef Square0_80093340
+Square0_80093340:
 	dw 0xC8890000 ; 0x80093340
 	dw 0xC88A0004 ; 0x80093344
 	dw 0xC88B0008 ; 0x80093348

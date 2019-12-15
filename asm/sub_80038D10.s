@@ -25,9 +25,21 @@ sub_80038D10:
 	dw 0x8FB00010 ; 0x80038D5C
 	dw 0x03E00008 ; 0x80038D60
 	dw 0x27BD0018 ; 0x80038D64
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef MENU_GetPrimInfo_80038D68
+MENU_GetPrimInfo_80038D68:
 	dw 0x3C02800A ; 0x80038D68
 	dw 0x03E00008 ; 0x80038D6C
 	dw 0x2442E2D0 ; 0x80038D70
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef MENU_DrawBar_80038D74
+MENU_DrawBar_80038D74:
 	dw 0x27BDFFD8 ; 0x80038D74
 	dw 0x00804021 ; 0x80038D78
 	dw 0x00A04821 ; 0x80038D7C
@@ -55,6 +67,12 @@ sub_80038D10:
 	dw 0x00000000 ; 0x80038DD4
 	dw 0x03E00008 ; 0x80038DD8
 	dw 0x27BD0028 ; 0x80038DDC
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef MENU_DrawBar2_80038DE0
+MENU_DrawBar2_80038DE0:
 	dw 0x27BDFFE0 ; 0x80038DE0
 	dw 0x00801821 ; 0x80038DE4
 	dw 0x00A04021 ; 0x80038DE8

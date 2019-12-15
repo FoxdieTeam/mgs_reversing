@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016DDC
-sub_80016DDC:
+	xdef GV_LenVec3_80016DDC
+GV_LenVec3_80016DDC:
 	dw 0x14C00002 ; 0x80016DDC
 	dw 0x00073B00 ; 0x80016DE0
 	dw 0x24060001 ; 0x80016DE4
