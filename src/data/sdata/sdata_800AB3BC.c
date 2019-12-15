@@ -3,7 +3,8 @@
 
 
 int SECTION(".sdata") dword_800AB3BC[] = { 0, 0 };
-int SECTION(".sdata") dword_800AB3C4[] = { 0, 0 };
+char SECTION(".sdata") gCurrentStageName_800AB3C4[8] = {0};
+
 int SECTION(".sdata") game_state_flags_800AB3CC = 0;
 int SECTION(".sdata") gFlags_800AB3D0 = 0;
 int SECTION(".sdata") gGameOverTimer_800AB3D4 = 0;

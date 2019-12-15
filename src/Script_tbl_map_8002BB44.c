@@ -494,7 +494,7 @@ extern char dword_800ABA58[8];
 
 char *GCL_Read_String_80020A70(char *pScript);
 char *GM_StageName_8002A880(char *);
-int sub_8002A7D8(int, char *);
+int GM_PushAreaHistory_8002A7D8(int, char *);
 
 char *strcpy_8008E768(char *, char *);
 
@@ -582,13 +582,13 @@ int Script_tbl_load_8002C308(char *pScript)
             GV_ResidentHeapReset_800163B0();
             GV_ClearFileCache_80015458();
             DG_ClearResidentTexture_8001DB10();
-            sub_8002A7D8(GV_StrCode_80016CCC(scriptStageName), scriptStageName);
+            GM_PushAreaHistory_8002A7D8(GV_StrCode_80016CCC(scriptStageName), scriptStageName);
         }
         else
         {
             // Soft restart?
             scriptStageName = dword_800ABA58;
-            sub_8002A7D8(gGameState_800B4D98.field_0_stageNameHashed, scriptStageName);
+            GM_PushAreaHistory_8002A7D8(gGameState_800B4D98.field_0_stageNameHashed, scriptStageName);
         }
 
         gFlags_800AB3D0 = 1;
@@ -598,7 +598,7 @@ int Script_tbl_load_8002C308(char *pScript)
     gGameState_800B4D98.field_88_prevStageNameHashed = gGameState_800B4D98.field_0_stageNameHashed;
     gGameState_800B4D98.field_0_stageNameHashed = GV_StrCode_80016CCC(scriptStageName);
 
-    sub_8002A7D8(gGameState_800B4D98.field_0_stageNameHashed, scriptStageName);
+    GM_PushAreaHistory_8002A7D8(gGameState_800B4D98.field_0_stageNameHashed, scriptStageName);
 
     if (GCL_GetParam_80020968('m'))
     {
