@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002EAA8
-sub_8002EAA8:
+	xdef GM_AlertModeInit_8002EAA8
+GM_AlertModeInit_8002EAA8:
 	dw 0x2402FFFF ; 0x8002EAA8
 	dw 0xA782079C ; 0x8002EAAC
 	dw 0x03E00008 ; 0x8002EAB0

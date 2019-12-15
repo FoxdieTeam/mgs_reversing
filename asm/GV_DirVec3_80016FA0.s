@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80016FA0
-sub_80016FA0:
+	xdef GV_DirVec3_80016FA0
+GV_DirVec3_80016FA0:
 	dw 0x27BDFFC0 ; 0x80016FA0
 	dw 0xAFB00030 ; 0x80016FA4
 	dw 0x00A08021 ; 0x80016FA8

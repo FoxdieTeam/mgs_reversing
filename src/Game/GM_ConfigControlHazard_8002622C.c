@@ -70,7 +70,7 @@ void GM_ConfigControl_F5A_80026244(Res_Control *pControl, char f5a)
     pControl->field_54 = f5a;
 }
 
-int sub_80016D80(SVECTOR *pVec);
+int GV_VecLen3_80016D80(SVECTOR *pVec);
 
 int GM_CheckControlTouches_8002624C(Res_Control *pControl, int param_2)
 {
@@ -81,13 +81,13 @@ int GM_CheckControlTouches_8002624C(Res_Control *pControl, int param_2)
 
     if (pControl->field_58 == 2)
     {
-        if (pControl->field_70[1]->pad < 0 || sub_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        if (pControl->field_70[1]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
         {
             return 2;
         }
     }
 
-    if (pControl->field_70[0]->pad < 0 || sub_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    if (pControl->field_70[0]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
     {
         return 1;
     }

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001706C
-sub_8001706C:
+	xdef GV_DiffDir_Unknown_8001706C
+GV_DiffDir_Unknown_8001706C:
 	dw 0x00A42023 ; 0x8001706C
 	dw 0x30840FFF ; 0x80017070
 	dw 0x28820801 ; 0x80017074
