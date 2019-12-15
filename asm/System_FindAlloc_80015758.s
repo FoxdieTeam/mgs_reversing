@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015758
-sub_80015758:
+	xdef System_FindAlloc_80015758
+System_FindAlloc_80015758:
 	dw 0x8C820004 ; 0x80015758
 	dw 0x00000000 ; 0x8001575C
 	dw 0x00A2102B ; 0x80015760

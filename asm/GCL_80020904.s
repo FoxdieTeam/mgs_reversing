@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80020904
-sub_80020904:
+	xdef GCL_80020904
+GCL_80020904:
 	dw 0x00042027 ; 0x80020904
 	dw 0x8F8206B4 ; 0x80020908
 	dw 0x00042080 ; 0x8002090C

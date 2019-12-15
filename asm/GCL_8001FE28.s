@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001FE28
-sub_8001FE28:
+	xdef GCL_8001FE28
+GCL_8001FE28:
 	dw 0x00802821 ; 0x8001FE28
 	dw 0x8CA20000 ; 0x8001FE2C
 	dw 0x00000000 ; 0x8001FE30

@@ -3,7 +3,7 @@
 
 GCL_CommandChain*  dword_800AB3B8 = 0; //sdata
 
-void sub_80020B68(void);
+void GCL_80020B68(void);
 void sub_80021264(void);
 void GCL_AddBasicBuiltInCommands_8002040C(void);
 void GCL_LoadData_80020064(unsigned char*);
@@ -34,7 +34,7 @@ void GCL_SetMainOrDemo_8001FCB0(int bMain)
 
 void GCL_StartDaemon_8001FCDC(void)
 {
-    sub_80020B68();
+    GCL_80020B68();
     sub_80021264();
     GCL_AddBasicBuiltInCommands_8002040C();
     GV_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
@@ -84,7 +84,7 @@ GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
 }
 
 void GCL_Push_80020934(unsigned char*);
-void sub_80020690(unsigned char*);
+void GCL_80020690(unsigned char*);
 void GCL_Pop_80020950(void);
 
 #define GCL_ReadShort(p) ( p[1] ) | ( p[0] << 8 )
@@ -103,7 +103,7 @@ int GCL_8001FDB0(unsigned char* pScript)
     GCL_Push_80020934(pScript + GCL_ReadByte(pScript));
     GCL_AdvanceByte(pScript);
 
-    sub_80020690(pScript); // save command return address?
+    GCL_80020690(pScript); // save command return address?
 
     commandRet = pFoundCommand->function(pScript);
 
