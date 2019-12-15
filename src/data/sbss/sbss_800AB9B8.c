@@ -1,7 +1,5 @@
 #include "linker.h"
 
 
-int SECTION(".sbss") dword_800AB9B8[3];
-
-
-short SECTION(".sbss") pad3;
+int SECTION(".sbss") dword_800AB9B8;
+int SECTION(".sbss") dword_800AB9BC;
