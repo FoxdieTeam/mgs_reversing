@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80077014
-sub_80077014:
+	xdef chafgrnd_loader_80077014
+chafgrnd_loader_80077014:
 	dw 0x27BDFFB8 ; 0x80077014
 	dw 0xAFB40038 ; 0x80077018
 	dw 0x0080A021 ; 0x8007701C

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80074234
-sub_80074234:
+	xdef spark_loader4_80074234
+spark_loader4_80074234:
 	dw 0x3C091F80 ; 0x80074234
 	dw 0x24020009 ; 0x80074238
 	dw 0xA1220003 ; 0x8007423C

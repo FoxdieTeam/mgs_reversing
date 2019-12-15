@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80072B38
-sub_80072B38:
+	xdef d_blood_loader_80072B38
+d_blood_loader_80072B38:
 	dw 0x3C02800B ; 0x80072B38
 	dw 0x8C42B9B0 ; 0x80072B3C
 	dw 0x27BDFFE8 ; 0x80072B40

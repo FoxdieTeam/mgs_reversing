@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80020B68"
+old = "sub_80072934"
 parts = old.split('_')
-newFileName = "GCL" + "_" + parts[len(parts)-1]
+newFileName = "blood_loader" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

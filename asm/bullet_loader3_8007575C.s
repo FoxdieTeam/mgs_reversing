@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8007575C
-sub_8007575C:
+	xdef bullet_loader3_8007575C
+bullet_loader3_8007575C:
 	dw 0x27BDFF90 ; 0x8007575C
 	dw 0xAFB20060 ; 0x80075760
 	dw 0x00809021 ; 0x80075764

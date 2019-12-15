@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80074DAC
-sub_80074DAC:
+	xdef stgfd_io_act_helper_80074DAC
+stgfd_io_act_helper_80074DAC:
 	dw 0x27BDFFF8 ; 0x80074DAC
 	dw 0x3C02800B ; 0x80074DB0
 	dw 0x8C42B928 ; 0x80074DB4

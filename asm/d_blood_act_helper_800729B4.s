@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800729B4
-sub_800729B4:
+	xdef d_blood_act_helper_800729B4
+d_blood_act_helper_800729B4:
 	dw 0x3C02800B ; 0x800729B4
 	dw 0x8C42B9F4 ; 0x800729B8
 	dw 0x00000000 ; 0x800729BC

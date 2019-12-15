@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80074D28
-sub_80074D28:
+	xdef stngrnd_loader4_80074D28
+stngrnd_loader4_80074D28:
 	dw 0x27BDFFD0 ; 0x80074D28
 	dw 0x3C02800B ; 0x80074D2C
 	dw 0xAFBF0028 ; 0x80074D30

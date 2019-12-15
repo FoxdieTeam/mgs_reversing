@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80074644
-sub_80074644:
+	xdef stngrnd_loader2_80074644
+stngrnd_loader2_80074644:
 	dw 0x8FA30010 ; 0x80074644
 	dw 0x24020009 ; 0x80074648
 	dw 0xA0820003 ; 0x8007464C
