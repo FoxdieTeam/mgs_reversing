@@ -18,7 +18,7 @@ int SECTION(".sdata") dword_800AB388 = 0;
 short SECTION(".sdata") word_800AB38C = 0;
 short SECTION(".sdata") word_800AB38E = 0;
 short SECTION(".sdata") word_800AB390 = 0;
-int SECTION(".sdata") dword_800AB394 = 0x3C808080;
+int SECTION(".sdata") DG_PacketCode_800AB394 = 0x3C808080;
 int SECTION(".sdata") dword_800AB398 = 0x3E808080;
 
 char SECTION(".sdata") byte_800AB39C[] = {0, 0, 0};

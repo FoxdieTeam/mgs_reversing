@@ -1,6 +1,7 @@
 	opt	c+, at+, e+, n-
 	section .text
 
+	; OG symbol is actually memcard_init ??
 	xdef MC_StartDaemon_80024E48
 MC_StartDaemon_80024E48:
 	dw 0x3C04800A ; 0x80024E48

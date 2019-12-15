@@ -63,6 +63,12 @@ sub_800309B4:
 	dw 0x00431024 ; 0x80030A98
 	dw 0x03E00008 ; 0x80030A9C
 	dw 0xAC820018 ; 0x80030AA0
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef GM_CameraBoundTrace_80030AA4
+GM_CameraBoundTrace_80030AA4:
 	dw 0x27BDFFE8 ; 0x80030AA4
 	dw 0xAFBF0010 ; 0x80030AA8
 	dw 0x0C00BAB7 ; 0x80030AAC
@@ -71,6 +77,12 @@ sub_800309B4:
 	dw 0x00000000 ; 0x80030AB8
 	dw 0x03E00008 ; 0x80030ABC
 	dw 0x27BD0018 ; 0x80030AC0
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef GM_CameraLimitTrace_80030AC4
+GM_CameraLimitTrace_80030AC4:
 	dw 0x27BDFFE8 ; 0x80030AC4
 	dw 0x00802821 ; 0x80030AC8
 	dw 0x3C04800B ; 0x80030ACC

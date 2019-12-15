@@ -10,6 +10,12 @@ int SECTION(".sbss") dword_800ABA74;
 int SECTION(".sbss") dword_800ABA78[4];
 char SECTION(".sbss") byte_800ABA88[3];
 char SECTION(".sbss") byte_800ABA8B;
-char SECTION(".sbss") byte_800ABA8C[13];
+
+int SECTION(".sbss") dword_800ABA8C;
+int SECTION(".sbss") dword_800ABA90;
+int SECTION(".sbss") dword_800ABA94;
+int SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
+
+
 int SECTION(".sbss") dword_800ABA9C[16];
 

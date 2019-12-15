@@ -42,14 +42,14 @@ char SECTION(".sdata") aD_3[] = "%d ";
 
 const char SECTION(".sdata") asc_800AB428[] = "\n";
 
-int SECTION(".sdata") dword_800AB42C = 0x2710;
+int SECTION(".sdata") GM_CameraTrackSave_800AB42C = 0x2710;
 
-char SECTION(".sdata") byte_800AB430[] = { 0x80, 2, 0 };
+char SECTION(".sdata") GM_CameraRotateSave_800AB430[] = { 0x80, 2, 0 };
 char SECTION(".sdata") byte_800AB433 = 8;
 char SECTION(".sdata") byte_800AB434 = 0;
 
 char SECTION(".sdata") byte_800AB437 = 0;
-int SECTION(".sdata") dword_800AB438[] = { 0x2710, 0, 0, 0, 0 };
+int SECTION(".sdata") GM_CameraTrackOrg_800AB438[] = { 0x2710, 0, 0, 0, 0 };
 
 const char SECTION(".sdata") aNoHzd[] = "no hzd\n";
 
