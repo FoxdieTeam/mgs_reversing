@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006CBD8
-sub_8006CBD8:
+	xdef rmissile_loader_helper3_8006CBD8
+rmissile_loader_helper3_8006CBD8:
 	dw 0x27BDFFD8 ; 0x8006CBD8
 	dw 0xAFB1001C ; 0x8006CBDC
 	dw 0x00808821 ; 0x8006CBE0

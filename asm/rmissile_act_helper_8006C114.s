@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006C114
-sub_8006C114:
+	xdef rmissile_act_helper_8006C114
+rmissile_act_helper_8006C114:
 	dw 0x27BDFFB8 ; 0x8006C114
 	dw 0xAFB00038 ; 0x8006C118
 	dw 0x00808021 ; 0x8006C11C

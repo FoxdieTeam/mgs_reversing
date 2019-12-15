@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006CD1C
-sub_8006CD1C:
+	xdef rmissile_loader_helper_helper_8006CD1C
+rmissile_loader_helper_helper_8006CD1C:
 	dw 0x24020009 ; 0x8006CD1C
 	dw 0xA0820003 ; 0x8006CD20
 	dw 0x2402002E ; 0x8006CD24

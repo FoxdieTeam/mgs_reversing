@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006D2A0
-sub_8006D2A0:
+	xdef amissile_act_helper_8006D2A0
+amissile_act_helper_8006D2A0:
 	dw 0x27BDFFC0 ; 0x8006D2A0
 	dw 0xAFB30034 ; 0x8006D2A4
 	dw 0x00809821 ; 0x8006D2A8

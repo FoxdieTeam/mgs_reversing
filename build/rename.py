@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80072934"
+old = "sub_8006BFD4"
 parts = old.split('_')
-newFileName = "blood_loader" + "_" + parts[len(parts)-1]
+newFileName = "rmissile_act_helper" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 
 

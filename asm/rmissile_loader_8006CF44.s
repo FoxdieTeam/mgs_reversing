@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006CF44
-sub_8006CF44:
+	xdef rmissile_loader_8006CF44
+rmissile_loader_8006CF44:
 	dw 0x27BDFFD8 ; 0x8006CF44
 	dw 0xAFB10014 ; 0x8006CF48
 	dw 0x00808821 ; 0x8006CF4C
