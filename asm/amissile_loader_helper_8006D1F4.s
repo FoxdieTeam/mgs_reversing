@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006D1F4
-sub_8006D1F4:
+	xdef amissile_loader_helper_8006D1F4
+amissile_loader_helper_8006D1F4:
 	dw 0x00004021 ; 0x8006D1F4
 	dw 0x240A0009 ; 0x8006D1F8
 	dw 0x2409002E ; 0x8006D1FC

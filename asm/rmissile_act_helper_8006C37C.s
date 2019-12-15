@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006C37C
-sub_8006C37C:
+	xdef rmissile_act_helper_8006C37C
+rmissile_act_helper_8006C37C:
 	dw 0x27BDFF80 ; 0x8006C37C
 	dw 0xAFB5006C ; 0x8006C380
 	dw 0x0080A821 ; 0x8006C384

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006CC50
-sub_8006CC50:
+	xdef rmissile_loader_helper2_8006CC50
+rmissile_loader_helper2_8006CC50:
 	dw 0x27BDFFE0 ; 0x8006CC50
 	dw 0xAFB20018 ; 0x8006CC54
 	dw 0x00809021 ; 0x8006CC58
