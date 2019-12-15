@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80073930
-sub_80073930:
+	xdef claymore_loader_80073930
+claymore_loader_80073930:
 	dw 0x27BDFFD0 ; 0x80073930
 	dw 0xAFB00020 ; 0x80073934
 	dw 0x00808021 ; 0x80073938

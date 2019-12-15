@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800742F0
-sub_800742F0:
+	xdef spark_800742F0
+spark_800742F0:
 	dw 0x24A5FFFF ; 0x800742F0
 	dw 0x00061200 ; 0x800742F4
 	dw 0x00C21025 ; 0x800742F8

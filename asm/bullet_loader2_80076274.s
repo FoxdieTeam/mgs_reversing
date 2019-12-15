@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80076274
-sub_80076274:
+	xdef bullet_loader2_80076274
+bullet_loader2_80076274:
 	dw 0x27BDFFD0 ; 0x80076274
 	dw 0xAFB20020 ; 0x80076278
 	dw 0x00809021 ; 0x8007627C

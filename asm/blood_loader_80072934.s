@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80072934
-sub_80072934:
+	xdef blood_loader_80072934
+blood_loader_80072934:
 	dw 0x27BDFFD0 ; 0x80072934
 	dw 0xAFBF0028 ; 0x80072938
 	dw 0x94820000 ; 0x8007293C

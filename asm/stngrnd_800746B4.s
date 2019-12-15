@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800746B4
-sub_800746B4:
+	xdef stngrnd_800746B4
+stngrnd_800746B4:
 	dw 0x00051080 ; 0x800746B4
 	dw 0xAFA60008 ; 0x800746B8
 	dw 0x00823021 ; 0x800746BC

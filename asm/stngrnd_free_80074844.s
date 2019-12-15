@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80074844
-sub_80074844:
+	xdef stngrnd_free_80074844
+stngrnd_free_80074844:
 	dw 0x27BDFFD8 ; 0x80074844
 	dw 0xAFB3001C ; 0x80074848
 	dw 0x00A09821 ; 0x8007484C

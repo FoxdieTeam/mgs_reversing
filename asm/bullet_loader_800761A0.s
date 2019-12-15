@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800761A0
-sub_800761A0:
+	xdef bullet_loader_800761A0
+bullet_loader_800761A0:
 	dw 0x27BDFFD0 ; 0x800761A0
 	dw 0xAFB00020 ; 0x800761A4
 	dw 0x00808021 ; 0x800761A8

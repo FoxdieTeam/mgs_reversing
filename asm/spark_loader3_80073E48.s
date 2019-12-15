@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80073E48
-sub_80073E48:
+	xdef spark_loader3_80073E48
+spark_loader3_80073E48:
 	dw 0x27BDFF70 ; 0x80073E48
 	dw 0xAFB60080 ; 0x80073E4C
 	dw 0x0080B021 ; 0x80073E50

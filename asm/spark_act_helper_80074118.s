@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80074118
-sub_80074118:
+	xdef spark_act_helper_80074118
+spark_act_helper_80074118:
 	dw 0x00805021 ; 0x80074118
 	dw 0x24C6FFFF ; 0x8007411C
 	dw 0x04C00042 ; 0x80074120
