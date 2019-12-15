@@ -143,7 +143,7 @@ typedef struct BindStruct
 
 STATIC_ASSERT_SIZE(BindStruct, 0x18);
 
-void sub_80029A5C(int, BindStruct *, int);
+void GM_SetBinds_80029A5C(int, BindStruct *, int);
 
 BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
 
@@ -198,7 +198,7 @@ int sub_8002BD34(unsigned char *pScript)
 
     tmp = gBinds_800ABA60;
     gBindsArray_800b58e0[iVar1].field_6 = (short)tmp; // 0x77c gp
-    sub_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
+    GM_SetBinds_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
 
     return 0;
 }
@@ -331,7 +331,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     tmp = gBinds_800ABA60;
     pBind->field_6 = (short)tmp;
     mg_printf_8008BBA0(aBind08x, tmp);
-    sub_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
+    GM_SetBinds_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
 }
 

@@ -437,7 +437,7 @@
 	include	"..\obj\sub_800298DC.obj"
 	include	"..\obj\sub_800298F8.obj"
 	include	"..\obj\sub_80029A2C.obj"
-	include	"..\obj\sub_80029A5C.obj"
+	include	"..\obj\GM_SetBinds_80029A5C.obj"
 	include	"..\obj\sub_80029A6C.obj"
 	include	"..\obj\GM_control_loader_helper_80029AB4.obj"
 	include	"..\obj\sub_80029AEC.obj"
