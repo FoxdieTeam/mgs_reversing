@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80034020
-sub_80034020:
+	xdef item_init_helper_helper_80034020
+item_init_helper_helper_80034020:
 	dw 0x84860114 ; 0x80034020
 	dw 0x240200FF ; 0x80034024
 	dw 0x14C20003 ; 0x80034028

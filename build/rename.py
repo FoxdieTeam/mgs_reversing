@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_800237C0"
+old = "sub_8003330C"
 parts = old.split('_')
-newFileName = "Loader_Act_helper" + "_" + parts[len(parts)-1]
+newFileName = "item_act_try_add_ammo2" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800340D0
-sub_800340D0:
+	xdef item_init_helper_800340D0
+item_init_helper_800340D0:
 	dw 0x27BDFFC8 ; 0x800340D0
 	dw 0xAFB10024 ; 0x800340D4
 	dw 0x00808821 ; 0x800340D8

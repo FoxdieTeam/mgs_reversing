@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800336A4
-sub_800336A4:
+	xdef item_init_helper_helper_800336A4
+item_init_helper_helper_800336A4:
 	dw 0x24020009 ; 0x800336A4
 	dw 0xA0820003 ; 0x800336A8
 	dw 0x2402002E ; 0x800336AC

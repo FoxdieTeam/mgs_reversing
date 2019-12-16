@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800333F8
-sub_800333F8:
+	xdef item_act_helper_800333F8
+item_act_helper_800333F8:
 	dw 0x27BDFFE8 ; 0x800333F8
 	dw 0x240200FF ; 0x800333FC
 	dw 0x14820005 ; 0x80033400

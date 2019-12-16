@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800335D0
-sub_800335D0:
+	xdef item_act_helper_800335D0
+item_act_helper_800335D0:
 	dw 0x3C02800B ; 0x800335D0
 	dw 0x8C830108 ; 0x800335D4
 	dw 0x8C42BA0C ; 0x800335D8

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003330C
-sub_8003330C:
+	xdef item_act_try_add_ammo2_8003330C
+item_act_try_add_ammo2_8003330C:
 	dw 0x3C02800B ; 0x8003330C
 	dw 0x24434DBA ; 0x80033310
 	dw 0x00042040 ; 0x80033314
