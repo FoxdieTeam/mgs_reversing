@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80033500
-sub_80033500:
+	xdef item_all_items_and_weapons_unknown2_80033500
+item_all_items_and_weapons_unknown2_80033500:
 	dw 0x00002021 ; 0x80033500
 	dw 0x24058000 ; 0x80033504
 	dw 0x3C02800B ; 0x80033508
