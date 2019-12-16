@@ -1,16 +1,10 @@
 import os.path
 from os import path
 
-old = "sub_80072934"
+old = "sub_800237C0"
 parts = old.split('_')
-newFileName = "blood_loader" + "_" + parts[len(parts)-1]
+newFileName = "Loader_Act_helper" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
-
-
-
-
-
-
 subdir = ""
 
 def FixFileContent(fileName, find, replace):
