@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8003330C"
+old = "sub_80068184"
 parts = old.split('_')
-newFileName = "item_act_try_add_ammo2" + "_" + parts[len(parts)-1]
+newFileName = "rifle_loader" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
@@ -26,3 +26,4 @@ if path.exists(oldFile):
 else:
     print "Couldn't find ..\\asm\\" + old + ".s"
     
+print old + " -> " + newFuncName
