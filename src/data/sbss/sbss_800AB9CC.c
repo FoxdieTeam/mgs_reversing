@@ -21,7 +21,7 @@ char SECTION(".sbss") byte_800AB9FB;
 char SECTION(".sbss") byte_800AB9FC[3];
 char SECTION(".sbss") byte_800AB9FF;
 int SECTION(".sbss") GM_AlertMode_800ABA00;
-int SECTION(".sbss") dword_800ABA04[2];
+int SECTION(".sbss") GM_Photocode_800ABA04[2];
 int SECTION(".sbss") dword_800ABA0C;
 short SECTION(".sbss") word_800ABA10;
 char SECTION(".sbss") byte_800ABA12;
