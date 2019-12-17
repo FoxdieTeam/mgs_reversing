@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80068184"
+old = "sub_800471AC"
 parts = old.split('_')
-newFileName = "rifle_loader" + "_" + parts[len(parts)-1]
+newFileName = "MENU_set_chara_code" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
