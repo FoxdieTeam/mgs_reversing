@@ -30,7 +30,7 @@ Actor SECTION(".gDgdActor2_800B3750") gDgdActor1_800B3770; // same section as it
 void DG_StartDaemon_8001F284(void)
 {
     mts_set_vsync_task_800892B8();
-    mts_800893B4(DG_DrawSyncResetGraph_8001F014);
+    mts_set_callback_800893B4(DG_DrawSyncResetGraph_8001F014);
     DG_InitDispEnv_800170F0(0, 0, 320, 240, 320);
     DG_3OTsInit_80017B98(320);
     DG_ClearResidentTexture_8001DB10();

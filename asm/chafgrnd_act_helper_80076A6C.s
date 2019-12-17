@@ -1,0 +1,16 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef chafgrnd_act_helper_80076A6C
+chafgrnd_act_helper_80076A6C:
+	dw 0x24020040 ; 0x80076A6C
+	dw 0x240300FF ; 0x80076A70
+	dw 0x24840006 ; 0x80076A74
+	dw 0xA083FFFE ; 0x80076A78
+	dw 0xA083FFFF ; 0x80076A7C
+	dw 0xA0800000 ; 0x80076A80
+	dw 0x2442FFFF ; 0x80076A84
+	dw 0x1C40FFFB ; 0x80076A88
+	dw 0x24840010 ; 0x80076A8C
+	dw 0x03E00008 ; 0x80076A90
+	dw 0x00000000 ; 0x80076A94
