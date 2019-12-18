@@ -389,6 +389,7 @@
 	include	"..\obj\Game\GM_CheckMessage_8002631C.obj"
 
 	include "..\obj\data\sbss\sbss_800AB9B8.obj"
+	include "..\obj\data\sbss\sbss_800AB9BC.obj"
 
 
 
