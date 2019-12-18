@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80083E8C
-sub_80083E8C:
+	xdef SD_SngDataLoadInit_80083E8C
+SD_SngDataLoadInit_80083E8C:
 	dw 0x27BDFFE8 ; 0x80083E8C
 	dw 0xAFBF0010 ; 0x80083E90
 	dw 0x3C01800C ; 0x80083E94

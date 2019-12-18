@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80082194
-sub_80082194:
+	xdef SD_InitVarsAndDebugPrint_80082194
+SD_InitVarsAndDebugPrint_80082194:
 	dw 0x27BDFFE8 ; 0x80082194
 	dw 0x3C048001 ; 0x80082198
 	dw 0x248436C8 ; 0x8008219C

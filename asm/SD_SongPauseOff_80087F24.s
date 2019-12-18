@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80087F24
-sub_80087F24:
+	xdef SD_SongPauseOff_80087F24
+SD_SongPauseOff_80087F24:
 	dw 0x27BDFFC0 ; 0x80087F24
 	dw 0x24020003 ; 0x80087F28
 	dw 0xAFA20010 ; 0x80087F2C
