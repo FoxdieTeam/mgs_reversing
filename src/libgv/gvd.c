@@ -16,7 +16,7 @@ int dword_800AB334 = 0; // sdata
 extern int dword_8009D460;
 extern int dword_800AB928;
 
-int sub_8008BBB0(void);
+int mts_vsync_counter_8008BBB0(void);
 void sub_800164C8(void);
 
 void GV_Act_80014b60(Actor* pGv)
@@ -25,7 +25,7 @@ void GV_Act_80014b60(Actor* pGv)
 
 	gRenderedFramesCount_800AB330++;
 	
-	tmp = sub_8008BBB0();
+	tmp = mts_vsync_counter_8008BBB0();
 	
 	dword_800AB924 = tmp - dword_800AB334;
 	dword_800AB334= tmp;
