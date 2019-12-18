@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80047280
-sub_80047280:
+	xdef menu_gcl_anime_chara_code_80047280
+menu_gcl_anime_chara_code_80047280:
 	dw 0x27BDFFC8 ; 0x80047280
 	dw 0xAFB1002C ; 0x80047284
 	dw 0x00808821 ; 0x80047288

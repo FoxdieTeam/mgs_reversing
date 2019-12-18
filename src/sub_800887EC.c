@@ -1,9 +1,9 @@
 #include "linker.h"
 
-void sub_80088CB0(void);
+void SD_Set_80088CB0(int sdCode);
 
-int sub_800887EC(void)
+int sub_800887EC(int sdCode)
 {
-    sub_80088CB0();
+    SD_Set_80088CB0(sdCode);
     return 0;
 }

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800478B4
-sub_800478B4:
+	xdef menu_gcl_exec_block_800478B4
+menu_gcl_exec_block_800478B4:
 	dw 0x27BDFFC8 ; 0x800478B4
 	dw 0xAFB20020 ; 0x800478B8
 	dw 0x00809021 ; 0x800478BC
