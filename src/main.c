@@ -38,7 +38,7 @@ extern void GM_StartDaemon_8002B77C(void);
 static void task_main_800148B8(void)
 {
 	RECT rect;
-	static unsigned char SECTION(".0x800AC3F0") sdStack_800AC3F0[2048];
+	static unsigned int SECTION(".0x800AC3F0") sdStack_800AC3F0[512];
 
 	ResetGraph(0);
 	SetGraphDebug(0);
