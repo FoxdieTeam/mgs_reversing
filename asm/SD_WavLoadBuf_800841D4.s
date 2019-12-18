@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800841D4
-sub_800841D4:
+	xdef SD_WavLoadBuf_800841D4
+SD_WavLoadBuf_800841D4:
 	dw 0x27BDFFE8 ; 0x800841D4
 	dw 0xAFB00010 ; 0x800841D8
 	dw 0x00808021 ; 0x800841DC

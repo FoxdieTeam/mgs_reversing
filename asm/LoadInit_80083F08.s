@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80083F08
-sub_80083F08:
+	xdef LoadInit_80083F08
+LoadInit_80083F08:
 	dw 0x3C05800C ; 0x80083F08
 	dw 0x8CA5F27C ; 0x80083F0C
 	dw 0x27BDFFE8 ; 0x80083F10

@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_800471AC"
+old = "sub_80088CB0"
 parts = old.split('_')
-newFileName = "MENU_set_chara_code" + "_" + parts[len(parts)-1]
+newFileName = "SD_Set" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

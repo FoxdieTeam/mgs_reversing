@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80087EF4
-sub_80087EF4:
+	xdef SD_SongPauseOn_80087EF4
+SD_SongPauseOn_80087EF4:
 	dw 0x27BDFFC0 ; 0x80087EF4
 	dw 0x24020003 ; 0x80087EF8
 	dw 0x27A40010 ; 0x80087EFC

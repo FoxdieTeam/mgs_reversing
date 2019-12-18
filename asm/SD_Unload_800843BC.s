@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800843BC
-sub_800843BC:
+	xdef SD_Unload_800843BC
+SD_Unload_800843BC:
 	dw 0x3C02800C ; 0x800843BC
 	dw 0x8C42F274 ; 0x800843C0
 	dw 0x27BDFFE8 ; 0x800843C4
