@@ -60,7 +60,7 @@ function compile_c($fileName)
             $createdDirs.add($parentFolder, $parentFolder)
         }
 
-        ccpsx.exe -O2 -G 8 -c -Wall "$fileName" "-o$objName" -I  $PSScriptRoot\..\src -I  $PSScriptRoot\..\src\data\data -I $PSScriptRoot\..\src\data\rdata -I $PSScriptRoot\..\src\data\sdata -I  $PSScriptRoot\..\src\libgv -I  $PSScriptRoot\..\src\libgcl -I $PSScriptRoot\..\src\libdg -I $PSScriptRoot\..\src\Game -I $PSScriptRoot\..\src\Menu
+        ccpsx.exe -O2 -G 8 -g -c -Wall "$fileName" "-o$objName" -I  $PSScriptRoot\..\src -I  $PSScriptRoot\..\src\data\data -I $PSScriptRoot\..\src\data\rdata -I $PSScriptRoot\..\src\data\sdata -I  $PSScriptRoot\..\src\libgv -I  $PSScriptRoot\..\src\libgcl -I $PSScriptRoot\..\src\libdg -I $PSScriptRoot\..\src\Game -I $PSScriptRoot\..\src\Menu
         if($LASTEXITCODE -eq 0)
         {
             Write-Host "Compiled $fileName" -ForegroundColor "green"
