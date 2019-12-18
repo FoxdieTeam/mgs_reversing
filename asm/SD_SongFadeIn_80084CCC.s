@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80084CCC
-sub_80084CCC:
+	xdef SD_SongFadeIn_80084CCC
+SD_SongFadeIn_80084CCC:
 	dw 0x3C0201FF ; 0x80084CCC
 	dw 0x3442FF04 ; 0x80084CD0
 	dw 0x1082000D ; 0x80084CD4

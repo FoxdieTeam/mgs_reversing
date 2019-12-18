@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80087E2C
-sub_80087E2C:
+	xdef SD_SongStop_80087E2C
+SD_SongStop_80087E2C:
 	dw 0x00002021 ; 0x80087E2C
 	dw 0x24060007 ; 0x80087E30
 	dw 0x24050001 ; 0x80087E34

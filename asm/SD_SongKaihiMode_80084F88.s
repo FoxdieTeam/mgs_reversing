@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80084F88
-sub_80084F88:
+	xdef SD_SongKaihiMode_80084F88
+SD_SongKaihiMode_80084F88:
 	dw 0x3C02800C ; 0x80084F88
 	dw 0x8C42F158 ; 0x80084F8C
 	dw 0x00000000 ; 0x80084F90

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80084D60
-sub_80084D60:
+	xdef SD_SongFadeOutAndPause_80084D60
+SD_SongFadeOutAndPause_80084D60:
 	dw 0x3C02800C ; 0x80084D60
 	dw 0x8C42F158 ; 0x80084D64
 	dw 0x00000000 ; 0x80084D68
