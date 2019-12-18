@@ -13,16 +13,6 @@ extern const char aMtsNewC[]; // = "mts_new.c";
 extern const char aTaskStartBody[]; // = "task_start_body";
 extern const char asc_80013E2C[]; // = "\n";
 
-typedef void(*TMtsFn)(void);
-
-typedef struct mts_unknown1
-{
-    TMtsFn field_0_fn;
-    int field_4;
-    int field_8;
-    int field_C;
-    int unknown[4]; // TODO: Really not sure how this structure is supposed to look yet
-} mts_unknown1;
 
 int SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0 = 0;
 mts_unknown1 SECTION(".gTasks_800C0C38") gTasks_800C0C38[] = {};
