@@ -60,7 +60,7 @@ function compile_c($fileName)
             $createdDirs.add($parentFolder, $parentFolder)
         }
 
-        ccpsx.exe -O2 -G 8 -g -c -Wall "$fileName" "-o$objName" -I  $PSScriptRoot\..\src -I  $PSScriptRoot\..\src\data\data -I $PSScriptRoot\..\src\data\rdata -I $PSScriptRoot\..\src\data\sdata -I  $PSScriptRoot\..\src\libgv -I  $PSScriptRoot\..\src\libgcl -I $PSScriptRoot\..\src\libdg -I $PSScriptRoot\..\src\Game -I $PSScriptRoot\..\src\Menu
+        ccpsx.exe -O2 -G 8 -c -Wall "$fileName" "-o$objName" -I  $PSScriptRoot\..\src -I  $PSScriptRoot\..\src\data\data -I $PSScriptRoot\..\src\data\rdata -I $PSScriptRoot\..\src\data\sdata -I  $PSScriptRoot\..\src\libgv -I  $PSScriptRoot\..\src\libgcl -I $PSScriptRoot\..\src\libdg -I $PSScriptRoot\..\src\Game -I $PSScriptRoot\..\src\Menu
         if($LASTEXITCODE -eq 0)
         {
             Write-Host "Compiled $fileName" -ForegroundColor "green"
@@ -177,8 +177,8 @@ else
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
     Write-Host "mdasm" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
-    .\MDasm.exe ..\SLPM_862.47 110664, 110720 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 110664, 110720 | Out-File "dump.asm"
+    .\MDasm.exe ..\SLPM_862.47 499116, 499188 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 499116, 499188 | Out-File "dump.asm"
 }
 
 Write-Host "compare" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
