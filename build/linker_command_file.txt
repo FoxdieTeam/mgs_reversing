@@ -1840,7 +1840,7 @@
 	include	"..\obj\null_printf_8008BBA8.obj"
 	include	"..\obj\mts_vsync_counter_8008BBB0.obj"
 	include	"..\obj\sub_8008BBC0.obj"
-	include	"..\obj\sub_8008BBC8.obj"
+	include	"..\obj\mts_task_start_8008BBC8.obj"
 	include	"..\obj\sub_8008BC8C.obj"
 	include	"..\obj\mts_callback_controller_8008BDEC.obj"
 	include	"..\obj\mts_init_controller_8008C098.obj"
@@ -2271,6 +2271,12 @@ group_gAreaHistory_800B5850	group bss,org($800B5850)
 
 group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 	section .gv_heaps_800AD2F0, group_gv_heaps_800AD2F0
+
+group_gTaskIdx_800C0DB0	group bss,org($800C0DB0)
+	section .gTaskIdx_800C0DB0, group_gTaskIdx_800C0DB0
+
+group_gTasks_800C0C38	group bss,org($800C0C38)
+	section .gTasks_800C0C38, group_gTasks_800C0C38
 
 group_gGameState_800B4D98	group bss,org($800B4D98)
 	section .gGameState_800B4D98, group_gGameState_800B4D98
