@@ -1832,6 +1832,7 @@
 	include	"..\obj\sub_8008B51C.obj"
 	include	"..\obj\sub_8008B618.obj"
 	include	"..\obj\mts_set_stack_check_8008B648.obj"
+	include	"..\obj\sub_8008B68C.obj"
 	include	"..\obj\sub_8008B77C.obj"
 	include	"..\obj\mts_8008BA88.obj"
 	include	"..\obj\sub_8008BB88.obj"
