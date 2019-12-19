@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C408
-sub_8008C408:
+	xdef mts_8008C408
+mts_8008C408:
 	dw 0x3C02800A ; 0x8008C408
 	dw 0x8C423DC8 ; 0x8008C40C
 	dw 0x00000000 ; 0x8008C410

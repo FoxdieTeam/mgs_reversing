@@ -4,7 +4,7 @@
 extern void mg_printf_8008BBA0(const char*, ...);
 
 void ExitCriticalSection_8009953C(void);
-void sub_8008B51C(void);
+void mts_8008B51C(void);
 void mts_dump_process_list_8008B77C(void);
 
 extern const char aTaskStartDX[]; // = "TASK START: %d %X\n";
@@ -22,7 +22,7 @@ void mts_task_start_8008BBC8(void)
     ExitCriticalSection_8009953C();
     mg_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C38[gTaskIdx_800C0DB0].field_0_fn);
     gTasks_800C0C38[gTaskIdx_800C0DB0].field_0_fn();
-    sub_8008B51C();
+    mts_8008B51C();
     mg_printf_8008BBA0(aAssertionFaled, aMtsNewC, 421, gTaskIdx_800C0DB0);
     mg_printf_8008BBA0(aTaskStartBody);
     mg_printf_8008BBA0(asc_80013E2C);
