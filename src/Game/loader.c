@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "actor.h"
-
+#include "mts_new.h"
 
 extern const char aLoadreq[];
 extern const char aNotFoundStageS[];
@@ -42,15 +42,13 @@ struct Loader
 
 extern void Loader_Act_8002e390(struct Loader* loader);
 
-extern void mg_printf_8008BBA0(const char*, ...);
-
 extern int gLoaderState_800ABA38;
 extern int gFlags_800AB3D0;
 
 
 void Loader_Kill_8002e41c(struct Loader* pLoader)
 {
-	mg_printf_8008BBA0(aLoadend);
+	mts_printf_8008BBA0(aLoadend);
 	Loader_End_80023804(pLoader->field_20);
 	gLoaderState_800ABA38 = 0xffffffff;
 }
@@ -62,13 +60,13 @@ struct Loader* Loader_Init_8002e460(const char* pStageName)
 
 
 	pLoader = (struct Loader*)GV_ActorAlloc_800150e4(2, sizeof(struct Loader));
-	mg_printf_8008BBA0(aLoadreq);
+	mts_printf_8008BBA0(aLoadreq);
 	pUnknown = Loader_load_file_by_name_800236E0(pStageName);
 
 	pLoader->field_20 = pUnknown;
 	if (pUnknown == 0)
 	{
-		mg_printf_8008BBA0(aNotFoundStageS, pStageName);
+		mts_printf_8008BBA0(aNotFoundStageS, pStageName);
 	}
 	
 	GV_ActorInit_8001514c(&pLoader->base, (TActorFunction)Loader_Act_8002e390, (TActorFunction)Loader_Kill_8002e41c, aLoaderC);
