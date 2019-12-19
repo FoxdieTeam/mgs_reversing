@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "GM_Control.h"
-
+#include "mts_new.h"
 
 int SECTION(".sbss") dword_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
@@ -71,7 +71,6 @@ extern const char aInitcontrolNoM[];
 
 void GM_control_loader_helper_80029AB4(void *param_1, int param_2);
 void GV_ZeroMemory_8001619c(void *, int);
-extern void mg_printf_8008BBA0(const char *, ...);
 struct map_record *Map_FromId_800314C0(int);
 
 int Res_Control_init_loader_44EB9E(Res_Control *pControl, int scriptData, int scriptBinds)
@@ -86,7 +85,7 @@ int Res_Control_init_loader_44EB9E(Res_Control *pControl, int scriptData, int sc
     pControl->field_2C_map = pMapRec;
     if (!pMapRec)
     {
-        mg_printf_8008BBA0(aInitcontrolNoM, mapId);
+        mts_printf_8008BBA0(aInitcontrolNoM, mapId);
         return -1;
     }
 

@@ -4,7 +4,7 @@
 	INCLUDE utils.s
 
 	xref aReshadeNullMap
-	xref mg_printf_8008BBA0
+	xref mts_printf_8008BBA0
 	xref Map_FromId_800314C0
 	xref sub_80031F04
 
@@ -21,7 +21,7 @@ Map_Reshade_80031660:
 	addu    s0, v0, zero
 	bne     s0, zero, loc_80031694
 	luih     a0, aReshadeNullMap
-	jal     mg_printf_8008BBA0
+	jal     mts_printf_8008BBA0
 	adduih   a0, aReshadeNullMap
 
 	loc_80031694:

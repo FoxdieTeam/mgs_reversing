@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8008C5D0"
+old = "mg_printf_8008BBA0"
 parts = old.split('_')
-newFileName = "mts" + "_" + parts[len(parts)-1]
+newFileName = "mts_printf" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

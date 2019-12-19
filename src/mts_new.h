@@ -12,6 +12,8 @@ void mts_init_controller_8008C098(void);
 
 void mts_set_callback_800893B4(void*); // TODO: Func ptr type
 
+void mts_printf_8008BBA0(const char* formatStr, ...);
+
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + (sizeof(x)/sizeof(x[0]))
 

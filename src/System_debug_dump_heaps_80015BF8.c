@@ -8,7 +8,7 @@ extern const char aAddr08x08xUnit[];
 extern const char aFreeDDVoidedDM[];
 
 
-extern void mg_printf_8008BBA0(const char *, ...);
+extern void mts_printf_8008BBA0(const char *, ...);
 
 extern GV_Heap gv_heaps_800AD2F0[3];
 
@@ -25,25 +25,25 @@ void System_debug_dump_heap_stats_80015BF8(unsigned int heapIdx)
 
     GV_Heap *pHeap = &gv_heaps_800AD2F0[heapIdx];
 
-    mg_printf_8008BBA0(aSystemD, heapIdx);
+    mts_printf_8008BBA0(aSystemD, heapIdx);
 
     if (pHeap->mFlags & GV_Heap_Flags_Dynamic_1)
     {
-        mg_printf_8008BBA0(aDynamic);
+        mts_printf_8008BBA0(aDynamic);
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
-        mg_printf_8008BBA0("voided ");
+        mts_printf_8008BBA0("voided ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
-        mg_printf_8008BBA0("failed ");
+        mts_printf_8008BBA0("failed ");
     }
 
-    mg_printf_8008BBA0(")\n");
-    mg_printf_8008BBA0(aAddr08x08xUnit, pHeap->mStartAddr, pHeap->mEndAddr, pHeap->mUnitsCount);
+    mts_printf_8008BBA0(")\n");
+    mts_printf_8008BBA0(aAddr08x08xUnit, pHeap->mStartAddr, pHeap->mEndAddr, pHeap->mUnitsCount);
     size = pHeap->mEndAddr - pHeap->mStartAddr;
 
     freeCount = 0;
@@ -77,7 +77,7 @@ void System_debug_dump_heap_stats_80015BF8(unsigned int heapIdx)
         pAllocIter++;
     }
 
-    mg_printf_8008BBA0(aFreeDDVoidedDM,
+    mts_printf_8008BBA0(aFreeDDVoidedDM,
                        freeCount,
                        size,
                        voidedCount,
@@ -98,28 +98,28 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
     GV_MemoryAllocation *pAllocIter;
 
     GV_Heap *pHeap = &gv_heaps_800AD2F0[heapIdx];
-    mg_printf_8008BBA0(aSystemD, heapIdx);
+    mts_printf_8008BBA0(aSystemD, heapIdx);
 
     if (!(pHeap->mFlags & GV_Heap_Flags_Dynamic_1))
     {
-        mg_printf_8008BBA0("static ");
+        mts_printf_8008BBA0("static ");
     }
     else
     {
-        mg_printf_8008BBA0(aDynamic);
+        mts_printf_8008BBA0(aDynamic);
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
-        mg_printf_8008BBA0("voided ");
+        mts_printf_8008BBA0("voided ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
-        mg_printf_8008BBA0("failed ");
+        mts_printf_8008BBA0("failed ");
     }
 
-    mg_printf_8008BBA0(")\n");
+    mts_printf_8008BBA0(")\n");
 
     pAllocIter = &pHeap->mAllocs[0];
 
@@ -133,23 +133,23 @@ void System_debug_dump_heap_units_80015D48(int heapIdx)
 
         if (allocType == GV_MemoryAllocation_States_Free_0)
         {
-            mg_printf_8008BBA0(a8dBytesFrom08x, allocSize, pAllocIter->mPDataStart);
+            mts_printf_8008BBA0(a8dBytesFrom08x, allocSize, pAllocIter->mPDataStart);
         }
         else if (allocType == GV_MemoryAllocation_States_Void_1)
         {
-            mg_printf_8008BBA0(a8dBytesFrom08x_0, allocSize, pAllocIter->mPDataStart);
+            mts_printf_8008BBA0(a8dBytesFrom08x_0, allocSize, pAllocIter->mPDataStart);
         }
         else if (allocType == GV_MemoryAllocation_States_Used_2)
         {
-            mg_printf_8008BBA0(a8dBytesFrom08x_1, allocSize, pAllocIter->mPDataStart);
+            mts_printf_8008BBA0(a8dBytesFrom08x_1, allocSize, pAllocIter->mPDataStart);
         }
         else
         {
-            mg_printf_8008BBA0(a8dBytesFrom08x_2, allocSize, pAllocIter->mPDataStart, allocType);
+            mts_printf_8008BBA0(a8dBytesFrom08x_2, allocSize, pAllocIter->mPDataStart, allocType);
         }
 
         pAllocIter++;
     }
 
-    mg_printf_8008BBA0("\n");
+    mts_printf_8008BBA0("\n");
 }
