@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80098318
-sub_80098318:
+	xdef ResetCallback_80098318
+ResetCallback_80098318:
 	dw 0x3C02800B ; 0x80098318
 	dw 0x8C42B120 ; 0x8009831C
 	dw 0x27BDFFE8 ; 0x80098320

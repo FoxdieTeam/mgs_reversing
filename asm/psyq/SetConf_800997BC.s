@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800997BC
-sub_800997BC:
+	xdef SetConf_800997BC
+SetConf_800997BC:
 	dw 0x27BDFFD0 ; 0x800997BC
 	dw 0xAFB40020 ; 0x800997C0
 	dw 0x0080A021 ; 0x800997C4

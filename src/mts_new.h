@@ -23,8 +23,8 @@ typedef struct mts_unknown1
     int field_4;
     unsigned int* field_8_pStack;
     int field_C_stackSize;
-    // 0 = used stack ?
-    int unknown[4]; // TODO: Really not sure how this structure is supposed to look yet
+    int field_10_thread_descriptor;
+    int unknown[3]; // TODO: Really not sure how this structure is supposed to look yet
 } mts_unknown1;
 
 #define MTS_STACK_COOKIE 0x12435687

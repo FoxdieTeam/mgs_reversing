@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008B77C
-sub_8008B77C:
+	xdef mts_dump_process_list_8008B77C
+mts_dump_process_list_8008B77C:
 	dw 0x27BDFFB8 ; 0x8008B77C
 	dw 0x3C048001 ; 0x8008B780
 	dw 0x24844098 ; 0x8008B784
