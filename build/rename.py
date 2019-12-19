@@ -1,11 +1,11 @@
 import os.path
 from os import path
 
-old = "sub_80088CB0"
+old = "sub_8009946C"
 parts = old.split('_')
-newFileName = "SD_Set" + "_" + parts[len(parts)-1]
+newFileName = "OpenEvent" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
-subdir = ""
+subdir = "psyq"
 
 def FixFileContent(fileName, find, replace):
     with open(fileName,'r') as f:
