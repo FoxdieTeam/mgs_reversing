@@ -2,6 +2,7 @@
 #include "gcl.h"
 #include "delay.h"
 #include "strcode.h"
+#include "mts_new.h"
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -147,8 +148,6 @@ void GM_SetBinds_80029A5C(int, BindStruct *, int);
 
 BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
 
-extern void mg_printf_8008BBA0(const char *, ...);
-
 extern const char aBindsOver[];
 
 int sub_8002BD34(unsigned char *pScript)
@@ -162,7 +161,7 @@ int sub_8002BD34(unsigned char *pScript)
 
     if (0x7f < gBindsCount_800ABA64)
     {
-        mg_printf_8008BBA0(aBindsOver);
+        mts_printf_8008BBA0(aBindsOver);
     }
 
     iVar1 = gBindsCount_800ABA64;
@@ -219,7 +218,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
 
     if (gBindsCount_800ABA64 > 127) // 780 gp
     {
-        mg_printf_8008BBA0(aBindsOver);
+        mts_printf_8008BBA0(aBindsOver);
     }
     // bindIdx = gBindsCount_800ABA64; // 780 gp
     pBind = gBindsArray_800b58e0 + gBindsCount_800ABA64;
@@ -303,7 +302,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     {
         if ((bVar7 & 0x40) != 0)
         {
-            mg_printf_8008BBA0(aNtrapCanTSetEv);
+            mts_printf_8008BBA0(aNtrapCanTSetEv);
         }
         pBind->field_10_every = GCL_Get_Param_80020AD4();
     }
@@ -320,7 +319,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
         int local_14;
         if ((bVar7 & 0x80) != 0)
         {
-            mg_printf_8008BBA0(aNtrapCanTSetPr);
+            mts_printf_8008BBA0(aNtrapCanTSetPr);
         }
         GCL_Execute_8002069C(GCL_Get_Param_Result_80020AA4(), &auStack24, &local_14);
         pBind->field_14_proc_and_block = local_14;
@@ -330,7 +329,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
     gBindsCount_800ABA64++;
     tmp = gBinds_800ABA60;
     pBind->field_6 = (short)tmp;
-    mg_printf_8008BBA0(aBind08x, tmp);
+    mts_printf_8008BBA0(aBind08x, tmp);
     GM_SetBinds_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
 }
@@ -460,7 +459,7 @@ int Script_tbl_start_8002C22C(unsigned char *pScript)
     if (GCL_GetParam_80020968(0x6d))
     {
         menuman_init_80038954();
-        mg_printf_8008BBA0(aMenuInitEnd);
+        mts_printf_8008BBA0(aMenuInitEnd);
     }
 
     if (GCL_GetParam_80020968(0x66))

@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "gcl.h"
+#include "mts_new.h"
 
 GCL_CommandChain*  dword_800AB3B8 = 0; //sdata
 
@@ -57,8 +58,6 @@ int GCL_InitCommandTable_8001FD2C(GCL_CommandChain* pChain)
     return 0;
 }
 
-extern void mg_printf_8008BBA0(const char*, ...);
-
 extern const char aCommandNotFoun[];
 
 GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
@@ -79,7 +78,7 @@ GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
             pTableIter++;
         }
     }
-    mg_printf_8008BBA0(aCommandNotFoun);
+    mts_printf_8008BBA0(aCommandNotFoun);
     return 0;
 }
 

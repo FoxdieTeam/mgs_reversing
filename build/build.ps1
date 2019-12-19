@@ -149,7 +149,7 @@ foreach ($file in $sFiles)
 
 # Run the linker
 Write-Host "link" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
-psylink.exe /c /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
+psylink.exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
@@ -177,8 +177,8 @@ else
 if ([System.IO.File]::Exists(".\MDasm.exe"))
 {
     Write-Host "mdasm" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
-    .\MDasm.exe ..\SLPM_862.47 20664, 21056 | Out-File "target.asm"
-	.\MDasm.exe ..\obj\test2.exe 20664, 21056 | Out-File "dump.asm"
+    .\MDasm.exe ..\SLPM_862.47 508832, 508840 | Out-File "target.asm"
+	.\MDasm.exe ..\obj\test2.exe 508832, 508840 | Out-File "dump.asm"
 }
 
 Write-Host "compare" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"

@@ -1837,7 +1837,7 @@
 	include	"..\obj\mts_8008BA88.obj"
 	include	"..\obj\mts_8008BB88.obj"
 	include	"..\obj\doNothing_8008BB98.obj"
-	include	"..\obj\mg_printf_8008BBA0.obj"
+	include	"..\obj\mts_printf_8008BBA0.obj"
 	include	"..\obj\null_printf_8008BBA8.obj"
 	include	"..\obj\mts_vsync_counter_8008BBB0.obj"
 	include	"..\obj\mts_event_cb_8008BBC0.obj"

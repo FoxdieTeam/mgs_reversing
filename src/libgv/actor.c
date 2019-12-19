@@ -254,7 +254,7 @@ void GV_ActorDelayedKill_800151c8(struct Actor* pActor)
 	pActor->mFnUpdate = GV_KillActor_80015164;
 }
 
-extern void mg_printf_8008BBA0(const char*, ...);
+extern void mts_printf_8008BBA0(const char*, ...);
 
 void GV_KillActorIfExists_800151d8(struct Actor* pActorToKill)
 {
@@ -279,6 +279,6 @@ void GV_KillActorIfExists_800151d8(struct Actor* pActorToKill)
 		pActorList++;
     } 
 
-	mg_printf_8008BBA0("#");
+	mts_printf_8008BBA0("#");
 }
 
