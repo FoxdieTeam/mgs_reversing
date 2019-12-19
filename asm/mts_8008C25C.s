@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C25C
-sub_8008C25C:
+	xdef mts_8008C25C
+mts_8008C25C:
 	dw 0x14800022 ; 0x8008C25C
 	dw 0x2482FFFF ; 0x8008C260
 	dw 0x3C02800C ; 0x8008C264

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008C170
-sub_8008C170:
+	xdef mts_8008C170
+mts_8008C170:
 	dw 0x14800019 ; 0x8008C170
 	dw 0x2482FFFF ; 0x8008C174
 	dw 0x3C02800C ; 0x8008C178

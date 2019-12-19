@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008B68C
-sub_8008B68C:
+	xdef mts_8008B68C
+mts_8008B68C:
 	dw 0x27BDFFD8 ; 0x8008B68C
 	dw 0xAFB00018 ; 0x8008B690
 	dw 0x00808021 ; 0x8008B694
