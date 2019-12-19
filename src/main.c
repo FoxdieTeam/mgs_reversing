@@ -16,9 +16,6 @@ extern void InitGeom_80092680(void);
 
 extern void SdMain_80081A18(void);
 
-extern void mg_printf_8008BBA0(const char *, ...);
-
-
 
 int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
 int __stacksize_800AB2E8 = 0x8000; // stack size, sdata
@@ -55,28 +52,28 @@ static void task_main_800148B8(void)
 	mts_init_vsync_800895AC();
 	mts_set_vsync_task_800892B8();
 
-	mg_printf_8008BBA0("mem:"); // sdata
+	mts_printf_8008BBA0("mem:"); // sdata
 	MC_StartDaemon_80024E48();
 
-	mg_printf_8008BBA0("pad:"); // sdata
+	mts_printf_8008BBA0("pad:"); // sdata
 	mts_init_controller_8008C098();
 
-	mg_printf_8008BBA0("gv:"); // sdata
+	mts_printf_8008BBA0("gv:"); // sdata
 	GV_StartDaemon_80014d18();
 
-	mg_printf_8008BBA0("fs:"); // sdata
+	mts_printf_8008BBA0("fs:"); // sdata
 	FS_StartDaemon_80014A7C();
 
-	mg_printf_8008BBA0("dg:"); // sdata
+	mts_printf_8008BBA0("dg:"); // sdata
 	DG_StartDaemon_8001F284();
 
-	mg_printf_8008BBA0("gcl:"); // sdata
+	mts_printf_8008BBA0("gcl:"); // sdata
 	GCL_StartDaemon_8001FCDC();
 
-	mg_printf_8008BBA0("hzd:"); // sdata
+	mts_printf_8008BBA0("hzd:"); // sdata
 	HZD_StartDaemon_80021900();
 
-	mg_printf_8008BBA0("sound:"); // sdata
+	mts_printf_8008BBA0("sound:"); // sdata
 
 	mts_set_stack_check_8008B648(5, mts_stack_end(sdStack_800AC3F0), sizeof(sdStack_800AC3F0));
 	mts_sta_tsk_8008B47C(5, SdMain_80081A18, mts_stack_end(sdStack_800AC3F0));
@@ -86,10 +83,10 @@ static void task_main_800148B8(void)
 		mts_wait_vbl_800895F4(1);
 	}
 
-	mg_printf_8008BBA0("gm:"); // sdata
+	mts_printf_8008BBA0("gm:"); // sdata
 	GM_StartDaemon_8002B77C();
 
-	mg_printf_8008BBA0("start\n"); // sdata
+	mts_printf_8008BBA0("start\n"); // sdata
 
 	for (;;)
 	{
