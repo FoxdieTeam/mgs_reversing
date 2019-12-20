@@ -1,6 +1,6 @@
 #include <libsn.h>
 #include "actor.h"
-
+#include "mts_new.h"
 
 
 int SECTION(".sbss") dword_800AB928;
@@ -59,8 +59,6 @@ void GV_SetPauseKill_80014e08(int index, short pause, short kill)
     pActorList->mKill = kill;
 }
 
-extern void null_printf_8008BBA8(const char*, ...);
-
 extern const char aDumpactorsyste[];
 extern const char aLvDPauseDKillD[];
 extern const char aLvD04d02d08xS[];
@@ -70,13 +68,13 @@ void GV_DumpActorSystem_80014e2c(void)
 	int i;
 	struct ActorList* pActorList = gActorsList;
 
-	null_printf_8008BBA8(aDumpactorsyste);
+	mts_null_printf_8008BBA8(aDumpactorsyste);
   
 	for (i = 0; i < ACTOR_LIST_COUNT; i++)
 	{
 		struct Actor* pActor ;
 
-		null_printf_8008BBA8(aLvDPauseDKillD, i, pActorList->mPause, pActorList->mKill);
+		mts_null_printf_8008BBA8(aLvDPauseDKillD, i, pActorList->mPause, pActorList->mKill);
 		
 		pActor = &pActorList->first;
 	
@@ -97,7 +95,7 @@ void GV_DumpActorSystem_80014e2c(void)
 					unknown = 0;
 				}
 
-				null_printf_8008BBA8(aLvD04d02d08xS, i, unknown / 100, unknown % 100, pActor->mFnUpdate, pActor->mName);
+				mts_null_printf_8008BBA8(aLvD04d02d08xS, i, unknown / 100, unknown % 100, pActor->mFnUpdate, pActor->mName);
 				
 				pActor->field_1C = 0;
 				pActor->field_18 = 0;
