@@ -63,6 +63,7 @@ def makeFile(fp, line):
         write.write("#include \"linker.h\"")
         write.write("\n\n")
         write.write(line)
+        write.write("\n")
             
     objIncludes.append("	include	\"..\\obj\\data\\sbss\\"+fileName.rstrip()[:-1]+".obj\"")
     return fp, line
