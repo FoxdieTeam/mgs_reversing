@@ -388,8 +388,8 @@
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
 	include	"..\obj\Game\GM_CheckMessage_8002631C.obj"
 
-	include "..\obj\data\sbss\sbss_800AB9B8.obj"
-	include "..\obj\data\sbss\sbss_800AB9BC.obj"
+	include "..\obj\data\sbss\dword_800AB9B8.obj"
+	include "..\obj\data\sbss\dword_800AB9BC.obj"
 
 
 
@@ -755,7 +755,18 @@
 	include	"..\obj\sub_8003CC74.obj"
 	include	"..\obj\sub_8003CE40.obj"
 	include	"..\obj\sub_8003CE78.obj"
-	include	"..\obj\data\sbss\sbss_800ABAE0.obj"
+	include	"..\obj\data\sbss\dword_800ABAE0.obj"
+	include	"..\obj\data\sbss\dword_800ABAE4.obj"
+	include	"..\obj\data\sbss\dword_800ABAE8.obj"
+	include	"..\obj\data\sbss\dword_800ABAEC.obj"
+	include	"..\obj\data\sbss\dword_800ABAF0.obj"
+	include	"..\obj\data\sbss\dword_800ABAF4.obj"
+	include	"..\obj\data\sbss\dword_800ABAF8.obj"
+	include	"..\obj\data\sbss\dword_800ABAFC.obj"
+	include	"..\obj\data\sbss\dword_800ABB00.obj"
+	include	"..\obj\data\sbss\dword_800ABB04.obj"
+	include	"..\obj\data\sbss\dword_800ABB08.obj"
+	include	"..\obj\data\sbss\dword_800ABB0C.obj"
 	include	"..\obj\sub_8003CE84.obj"
 	include	"..\obj\sub_8003CEF8.obj"
 	include	"..\obj\sub_8003CFE0.obj"
