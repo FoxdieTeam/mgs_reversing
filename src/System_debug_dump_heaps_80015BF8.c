@@ -90,8 +90,6 @@ extern const char a8dBytesFrom08x_0[];
 extern const char a8dBytesFrom08x_1[];
 extern const char a8dBytesFrom08x_2[];
 
-extern int null_printf_8008BBA8(const char *, ...);
-
 void System_debug_dump_heap_units_80015D48(int heapIdx)
 {
     int unitCounter;

@@ -1,11 +1,11 @@
 import os.path
 from os import path
 
-old = "mg_printf_8008BBA0"
+old = "null_printf_8008BBA8"
 parts = old.split('_')
-newFileName = "mts_printf" + "_" + parts[len(parts)-1]
+newFileName = "mts_null_printf" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
-subdir = ""
+subdir = "mts"
 
 def FixFileContent(fileName, find, replace):
     with open(fileName,'r') as f:
