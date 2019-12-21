@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8006DF8C"
+old = "sub_80068F74"
 parts = old.split('_')
-newFileName = "blast" + "_" + parts[len(parts)-1]
+newFileName = "stnsight_init_helper_helper" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
