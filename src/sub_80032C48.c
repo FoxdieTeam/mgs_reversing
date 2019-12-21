@@ -1,5 +1,5 @@
-extern void sub_800887EC(void);
+extern void SD_800887EC(void);
 void sub_80032C48()
 {
-  sub_800887EC();
+  SD_800887EC();
 }
