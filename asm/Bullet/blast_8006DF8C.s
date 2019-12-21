@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006DF8C
-sub_8006DF8C:
+	xdef blast_8006DF8C
+blast_8006DF8C:
 	dw 0x3C02800B ; 0x8006DF8C
 	dw 0x8C42B9B0 ; 0x8006DF90
 	dw 0x27BDFFE8 ; 0x8006DF94

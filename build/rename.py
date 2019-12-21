@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8006A54C"
+old = "sub_8006DF8C"
 parts = old.split('_')
-newFileName = "bakudan" + "_" + parts[len(parts)-1]
+newFileName = "blast" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
