@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8006A54C
-sub_8006A54C:
+	xdef bakudan_8006A54C
+bakudan_8006A54C:
 	dw 0x27BDFFD8 ; 0x8006A54C
 	dw 0xAFB00010 ; 0x8006A550
 	dw 0x00808021 ; 0x8006A554
