@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8001FC58"
+old = "MC_StartDaemon_80024E48"
 parts = old.split('_')
-newFileName = "DG" + "_" + parts[len(parts)-1]
+newFileName = "memcard_init" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
