@@ -18,6 +18,8 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 RadioMemory *menu_radio_table_find_8004D380(int toFind);
 RadioMemory *menu_radio_table_next_free_8004D3B8(void);
+unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
+void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName);
 
 typedef struct MenuMan_MenuBars
 {
