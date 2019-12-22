@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004D3D8
-sub_8004D3D8:
+	xdef menu_radio_compact_free_vars_8004D3D8
+menu_radio_compact_free_vars_8004D3D8:
 	dw 0x3C02800C ; 0x8004D3D8
 	dw 0x2445DB38 ; 0x8004D3DC
 	dw 0x00003021 ; 0x8004D3E0

@@ -21,7 +21,3 @@ RadioMemory *menu_radio_table_next_free_8004D3B8(void)
     // Try to find a free entry
     return menu_radio_table_find_8004D380(0);
 }
-
-// sub_8004E110 set or clear named var
-// sub_80047768 menu_gcl_set_radio_memory ??
-
