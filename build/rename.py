@@ -1,11 +1,11 @@
 import os.path
 from os import path
 
-old = "null_printf_8008BBA8"
+old = "sub_8004D380"
 parts = old.split('_')
-newFileName = "mts_null_printf" + "_" + parts[len(parts)-1]
+newFileName = "menu_radio_table_find" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
-subdir = "mts"
+subdir = ""
 
 def FixFileContent(fileName, find, replace):
     with open(fileName,'r') as f:
