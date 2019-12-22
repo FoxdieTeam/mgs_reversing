@@ -26,7 +26,7 @@ const char* off_800AB2EC = aBislpm86247; // sdata
 
 extern int SdIntReady_800886C4();
 
-extern void MC_StartDaemon_80024E48(void);
+extern void memcard_init_80024E48(void);
 
 extern void FS_StartDaemon_80014A7C(void);
 extern void HZD_StartDaemon_80021900(void);
@@ -53,7 +53,7 @@ static void task_main_800148B8(void)
 	mts_set_vsync_task_800892B8();
 
 	mts_printf_8008BBA0("mem:"); // sdata
-	MC_StartDaemon_80024E48();
+	memcard_init_80024E48();
 
 	mts_printf_8008BBA0("pad:"); // sdata
 	mts_init_controller_8008C098();

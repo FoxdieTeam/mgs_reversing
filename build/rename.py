@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8006DF8C"
+old = "sub_8001F89C"
 parts = old.split('_')
-newFileName = "blast" + "_" + parts[len(parts)-1]
+newFileName = "pcx_file_handler_helper" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
