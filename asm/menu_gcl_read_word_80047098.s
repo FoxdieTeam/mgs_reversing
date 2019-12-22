@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80047098
-sub_80047098:
+	xdef menu_gcl_read_word_80047098
+menu_gcl_read_word_80047098:
 	dw 0x90A20000 ; 0x80047098
 	dw 0x90A30001 ; 0x8004709C
 	dw 0x00021200 ; 0x800470A0

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80047768
-sub_80047768:
+	xdef menu_gcl_set_radio_var_80047768
+menu_gcl_set_radio_var_80047768:
 	dw 0x27BDFFE0 ; 0x80047768
 	dw 0x27A40010 ; 0x8004776C
 	dw 0xAFBF001C ; 0x80047770
