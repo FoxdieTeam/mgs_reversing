@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8001F89C"
+old = "sub_8004D380"
 parts = old.split('_')
-newFileName = "pcx_file_handler_helper" + "_" + parts[len(parts)-1]
+newFileName = "menu_radio_table_find" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

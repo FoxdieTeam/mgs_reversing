@@ -6,6 +6,17 @@
 
 #include "util/idaTypes.h"
 
+typedef struct RadioMemory
+{
+    short field_0_id;
+    char field_2_name[18];
+} RadioMemory;
+
+#define RADIO_MEMORY_COUNT 16
+
+extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
+
+
 typedef struct MenuMan_MenuBars
 {
     BYTE field_0_state;
