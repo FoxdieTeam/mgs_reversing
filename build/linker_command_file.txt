@@ -2405,6 +2405,9 @@ group_gTasks_800C0C38	group bss,org($800C0C38)
 group_gGameState_800B4D98	group bss,org($800B4D98)
 	section .gGameState_800B4D98, group_gGameState_800B4D98
 
+group_gRadioMemory_800BDB38	group bss,org($800BDB38)
+	section .gRadioMemory_800BDB38, group_gRadioMemory_800BDB38
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
