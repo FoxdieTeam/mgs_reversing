@@ -5,19 +5,19 @@
 extern const char aIllegalCodeX[];
 extern const char aBlockExecError[];
 
-void MENU_set_chara_code_800471AC(void *, unsigned char *);
-void sub_80047330(void *, unsigned char *);
-void menu_gcl_anime_chara_code_80047280(void *, unsigned char *);
-void sub_800477B0(void *, unsigned char *);
-void sub_80047414(void *, unsigned char *);
-void sub_8004780C(void *, unsigned char *);
-void sub_80047838(void *, unsigned char *);
-void sub_80047514(void *, unsigned char *);
-void sub_800475B8(void *, unsigned char *);
-void sub_80047660(void *, unsigned char *);
-void sub_80047748(void *, unsigned char *);
+void MENU_set_chara_code_800471AC(menu_chara_struct *, unsigned char *);
+void sub_80047330(menu_chara_struct *, unsigned char *);
+void menu_gcl_anime_chara_code_80047280(menu_chara_struct *, unsigned char *);
+void sub_800477B0(menu_chara_struct *, unsigned char *);
+void sub_80047414(menu_chara_struct *, unsigned char *);
+void sub_8004780C(menu_chara_struct *, unsigned char *);
+void sub_80047838(menu_chara_struct *, unsigned char *);
+void sub_80047514(menu_chara_struct *, unsigned char *);
+void sub_800475B8(menu_chara_struct *, unsigned char *);
+void sub_80047660(menu_chara_struct *, unsigned char *);
+void sub_80047748(menu_chara_struct *, unsigned char *);
 
-unsigned char *menu_gcl_exec_block_800478B4(unsigned char *unknown, unsigned char *pScript)
+unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript)
 {
     const int scriptBlockLen = ((pScript[1] << 8) | (pScript[2]));
     unsigned char *pScriptIter = pScript + 3;
