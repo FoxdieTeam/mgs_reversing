@@ -16,6 +16,8 @@ void mts_printf_8008BBA0(const char* formatStr, ...);
 void mts_null_printf_8008BBA8(const char*, ...);
 void mts_printf_8008BBA0(const char *, ...);
 
+void mts_8008A400(void);
+
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + (sizeof(x)/sizeof(x[0]))
 

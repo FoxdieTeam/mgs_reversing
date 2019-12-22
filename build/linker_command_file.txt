@@ -1176,7 +1176,7 @@
 	include	"..\obj\Menu\menu_gcl_read_word_80047098.obj"
 	include	"..\obj\sub_800470B4.obj"
 	include	"..\obj\sub_800470F4.obj"
-	include	"..\obj\MENU_set_chara_code_800471AC.obj"
+	include	"..\obj\menu\MENU_set_chara_code_800471AC.obj"
 	include	"..\obj\menu_gcl_anime_chara_code_80047280.obj"
 	include	"..\obj\sub_80047330.obj"
 	include	"..\obj\sub_80047414.obj"
