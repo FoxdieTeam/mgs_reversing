@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_8004D3D8"
+old = "sub_80047768"
 parts = old.split('_')
-newFileName = "menu_radio_compact_free_vars" + "_" + parts[len(parts)-1]
+newFileName = "menu_gcl_set_radio_var" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
