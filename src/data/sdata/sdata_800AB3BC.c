@@ -2,58 +2,44 @@
 
 
 
-int SECTION(".sdata") dword_800AB3BC[] = { 0, 0 };
-char SECTION(".sdata") gCurrentStageName_800AB3C4[8] = {0};
-
+int SECTION(".sdata") dword_800AB3BC = 0;
+int SECTION(".sdata") dword_800AB3C0 = 0;
+int SECTION(".sdata") gCurrentStageName_800AB3C4 = 0;
+int SECTION(".sdata") dword_800AB3C8 = 0;
 int SECTION(".sdata") game_state_flags_800AB3CC = 0;
 int SECTION(".sdata") gFlags_800AB3D0 = 0;
 int SECTION(".sdata") gGameOverTimer_800AB3D4 = 0;
-
-int SECTION(".sdata") dword_800AB3DC[] = {0, 0};
-
+int SECTION(".sdata") dword_800AB3D8 = 0;
+int SECTION(".sdata") dword_800AB3DC = 0;
 int SECTION(".sdata") dword_800AB3E0 = 0;
-
-
-
-
-int SECTION(".sdata") word_800AB3E4 =  0xFFFF0000;
-
+int SECTION(".sdata") dword_800AB3E4 = 0xFFFF0000;
 int SECTION(".sdata") dword_800AB3E8 = 0;
 int SECTION(".sdata") dword_800AB3EC = 0;
 int SECTION(".sdata") dword_800AB3F0 = 0;
 int SECTION(".sdata") dword_800AB3F4 = 0;
 
-
 char SECTION(".sdata") aInit[] = "init";
-
 
 int SECTION(".sdata") dword_800AB400 = 0;
 
-
 char SECTION(".sdata") aGamedC[] = "gamed.c";
 char SECTION(".sdata") aGcawi[] = "gcawi";
-
 
 int SECTION(".sdata") dword_800AB414 = 0xFFFFFFFF;
 char SECTION(".sdata") aPrint[] = "print: ";
 char SECTION(".sdata") aS_2[] = "%s ";
 char SECTION(".sdata") aD_3[] = "%d ";
 
-
 const char SECTION(".sdata") asc_800AB428[] = "\n";
 
 int SECTION(".sdata") GM_CameraTrackSave_800AB42C = 0x2710;
 
-char SECTION(".sdata") GM_CameraRotateSave_800AB430[] = { 0x80, 2, 0 };
-char SECTION(".sdata") byte_800AB433 = 8;
-char SECTION(".sdata") byte_800AB434 = 0;
+char SECTION(".sdata") GM_CameraRotateSave_800AB430[] = { 0x80, 2, 0, 8 };
 
-char SECTION(".sdata") byte_800AB437 = 0;
+int SECTION(".sdata") dword_800AB434 = 0;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB438[] = { 0x2710, 0, 0, 0, 0 };
 
 const char SECTION(".sdata") aNoHzd[] = "no hzd\n";
-
-
 const char SECTION(".sdata") aDelayC[] = "delay.c";
 
 int SECTION(".sdata") dword_800AB45C = 0xFFFFFFFF;
@@ -66,12 +52,21 @@ const char SECTION(".sdata") aOverC[] = "over.c";
 
 const char SECTION(".sdata") aItem[] = "item";
 
-int SECTION(".sdata") dword_800AB480[] = { 0xD, 0x5555, 0x3FFF, 0 };
+int SECTION(".sdata") dword_800AB480 = 0xD;
+int SECTION(".sdata") dword_800AB484 = 0x5555;
+int SECTION(".sdata") dword_800AB488 = 0x3FFF;
+int SECTION(".sdata") dword_800AB48C = 0;
 
-int SECTION(".sdata") dword_800AB490[] = {0x17E03E0, 0x20020};
-int SECTION(".sdata") dword_800AB498[] = {0x5FBF5FBE, 0x5FFF5FFE};
-int SECTION(".sdata") dword_800AB4A0[] = {0x8D118C91, 0x9A238C91};
-int SECTION(".sdata") dword_800AB4A8[] = {0x80238023, 0x8023, 0, 0};
+int SECTION(".sdata") dword_800AB490 = 0x17E03E0;
+int SECTION(".sdata") dword_800AB494 = 0x20020;
+int SECTION(".sdata") dword_800AB498 = 0x5FBF5FBE;
+int SECTION(".sdata") dword_800AB49C = 0x5FFF5FFE;
+int SECTION(".sdata") dword_800AB4A0 = 0x8D118C91; 
+int SECTION(".sdata") dword_800AB4A4 = 0x9A238C91;
+int SECTION(".sdata") dword_800AB4A8 = 0x80238023;
+int SECTION(".sdata") dword_800AB4AC = 0x8023;
+int SECTION(".sdata") dword_800AB4B0 = 0;
+int SECTION(".sdata") dword_800AB4B4 = 0;
 
 const char SECTION(".sdata") aSuppr[] = "SUPPR.";
 const char SECTION(".sdata") aScarf[] = "SCARF";
@@ -103,11 +98,12 @@ const char SECTION(".sdata") aCigs[] = "CIGS";
 const char SECTION(".sdata") aLv[] = "LV.";
 const char SECTION(".sdata") aNoItem[] = "NO ITEM";
 
-int SECTION(".sdata") pada[2] = { 0, 0 };
+int SECTION(".sdata") dword_800AB574 = 0;
+int SECTION(".sdata") dword_800AB578 = 0;
 
 const char SECTION(".sdata") aEquip[] = "EQUIP";
 
-int SECTION(".sdata") pada2 = 0;
+int SECTION(".sdata") dword_800AB584 = 0;
 
 
 const char SECTION(".sdata") aPsg1[] = "PSG1";
@@ -115,26 +111,23 @@ const char SECTION(".sdata") aChaffG[] = "CHAFF.G";
 
 const char SECTION(".sdata") aStunG[] = "STUN.G";
 
-int SECTION(".sdata") dword_unknown[] = { 0x3443, 0x4E495453, 0x524547, 0x494B494E, 0x4154, 0x4E455247, 0x454441, 0x4D2D4146, 0x5341 };
-
-
+int SECTION(".sdata") dword_800AB5A0[] = { 0x3443, 0x4E495453, 0x524547, 0x494B494E, 0x4154, 0x4E455247, 0x454441, 0x4D2D4146, 0x5341 };
 const char SECTION(".sdata") aSocom[] = "SOCOM";
-
- 
-int SECTION(".sdata") dword_2 = 0x80011B04;
+int SECTION(".sdata") dword_800AB5CC = 0x80011B04;
 
 const char SECTION(".sdata") aMp5Sd[] = "MP 5 SD";
 const char SECTION(".sdata") aNoItem_0[] = "NO ITEM";
 
-int SECTION(".sdata") dword_3[] = { 0, 0 };
+int SECTION(".sdata") dword_800AB5E0 = 0;
+int SECTION(".sdata") dword_800AB5E4 = 0;
 const char SECTION(".sdata") aWeapon[] ="WEAPON";
 const char SECTION(".sdata") aLife[] = "LIFE";
 const char SECTION(".sdata") aO2[] = "O2";
-int SECTION(".sdata") dword_4 = 0;
+int SECTION(".sdata") dword_800AB5FC = 0;
 
-int SECTION(".sdata") dword_800AB600[] = {0x10003C0, 0x500032};
-int SECTION(".sdata") dword_800AB608[] = {0x480056, 0x48002C};
-int SECTION(".sdata") dword_800AB610[] = {0x1030402, 0x10304};
+int SECTION(".sdata") dword_800AB600[] = { 0x10003C0, 0x500032 };
+int SECTION(".sdata") dword_800AB608[] = { 0x480056, 0x48002C };
+int SECTION(".sdata") dword_800AB610[] = { 0x1030402, 0x10304 };
 const char SECTION(".sdata") aCall[] = "call";
 const char SECTION(".sdata") aP3t3t[] = "P#3T#3T";
 const char SECTION(".sdata") aMemory[] = "MEMORY";
