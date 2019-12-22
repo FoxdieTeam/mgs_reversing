@@ -442,7 +442,7 @@ extern const char aMenuInitEnd[];
 
 void MENU_InitRadioMemory_8004E0EC(void);
 void sub_800212CC(void);
-void sub_8002AC44(void);
+void menu_textureload_8002AC44(void);
 void menuman_init_80038954(void);
 void font_load_80044A9C(void);
 void sub_80021264(void);
@@ -451,35 +451,35 @@ extern int dword_800AB9E8;
 
 int Script_tbl_start_8002C22C(unsigned char *pScript)
 {
-    if (GCL_GetParam_80020968(0x73))
+    if (GCL_GetParam_80020968('s'))
     {
-        sub_8002AC44();
+        menu_textureload_8002AC44();
     }
 
-    if (GCL_GetParam_80020968(0x6d))
+    if (GCL_GetParam_80020968('m'))
     {
         menuman_init_80038954();
         mts_printf_8008BBA0(aMenuInitEnd);
     }
 
-    if (GCL_GetParam_80020968(0x66))
+    if (GCL_GetParam_80020968('f'))
     {
         font_load_80044A9C();
     }
 
-    if (GCL_GetParam_80020968(0x76))
+    if (GCL_GetParam_80020968('v'))
     {
         sub_80021264();
         MENU_InitRadioMemory_8004E0EC();
         dword_800AB9E8 = 0;
     }
 
-    if (GCL_GetParam_80020968(100))
+    if (GCL_GetParam_80020968('d'))
     {
         GCL_SetMainOrDemo_8001FCB0(GCL_Get_Param_80020AD4());
     }
 
-    if (GCL_GetParam_80020968(99))
+    if (GCL_GetParam_80020968('c'))
     {
         sub_800212CC();
         MENU_InitRadioMemory_8004E0EC();
