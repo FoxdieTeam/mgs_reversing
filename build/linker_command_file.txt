@@ -403,10 +403,6 @@
 	include	"..\obj\data\sdata\dword_800AB630.obj"
 	include	"..\obj\data\sdata\dword_800AB634.obj"
 	include	"..\obj\data\sdata\dword_800AB638.obj"
-	include "..\obj\data\sbss\sbss_start.obj"
-	
-	
-
 	include	"..\obj\libgcl\GCL_Read_String_80020A70.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_Result_80020AA4.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_80020AD4.obj"
