@@ -4,7 +4,7 @@
 
 extern const char aSetDS[];
 
-void menu_gcl_set_radio_var_80047768(void* unknown, unsigned char *pScript)
+void menu_gcl_set_radio_var_80047768(menu_chara_struct* unknown, unsigned char *pScript)
 {
     unsigned char* pScriptNext;
     int varId;
