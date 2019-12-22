@@ -19,91 +19,76 @@ void sub_80047748(void *, unsigned char *);
 
 unsigned char *menu_gcl_exec_block_800478B4(unsigned char *unknown, unsigned char *pScript)
 {
-    int lenB1;
-    int scriptWord;
-    unsigned char *pAfterLen;
-
-    int byteAfter;
-
-    lenB1 = ((pScript[1] << 8) | (pScript[2]));
-
-    pAfterLen = pScript + 3; // 	$s1, $s3, 3
-
-    byteAfter = *pAfterLen;
-
-    while (*pAfterLen)
+    const int scriptBlockLen = ((pScript[1] << 8) | (pScript[2]));
+    unsigned char *pScriptIter = pScript + 3;
+    while (*pScriptIter)
     {
-        if (*pAfterLen == 0xff)
+        if (*pScriptIter == 0xff)
         {
-
-            int opCode = pAfterLen[1];
-
-            // +2 isn't happening in delay slot
-
-            unsigned char *pData = pAfterLen + 2;
-            pAfterLen = menu_gcl_read_word_80047098(&scriptWord, pData);
+            int scriptWord;
+            const int opCode = pScriptIter[1];
+            pScriptIter = menu_gcl_read_word_80047098(&scriptWord, pScriptIter + 2);
 
             switch (opCode)
             {
-            case 1:
-                MENU_set_chara_code_800471AC(unknown, pAfterLen);
+            case 0x01:
+                MENU_set_chara_code_800471AC(unknown, pScriptIter);
                 break;
 
-            case 2:
-                sub_80047330(unknown, pAfterLen);
+            case 0x02:
+                sub_80047330(unknown, pScriptIter);
                 break;
 
-            case 3:
-                menu_gcl_anime_chara_code_80047280(unknown, pAfterLen);
+            case 0x03:
+                menu_gcl_anime_chara_code_80047280(unknown, pScriptIter);
                 break;
 
-            case 4:
-                menu_gcl_set_radio_var_80047768(unknown, pAfterLen);
+            case 0x04:
+                menu_gcl_set_radio_var_80047768(unknown, pScriptIter);
                 break;
 
-            case 5:
-                sub_800477B0(unknown, pAfterLen);
+            case 0x05:
+                sub_800477B0(unknown, pScriptIter);
                 break;
 
-            case 6:
-                sub_80047414(unknown, pAfterLen);
+            case 0x06:
+                sub_80047414(unknown, pScriptIter);
                 break;
 
-            case 7:
-                sub_8004780C(unknown, pAfterLen);
+            case 0x07:
+                sub_8004780C(unknown, pScriptIter);
                 break;
 
-            case 8:
-                sub_80047838(unknown, pAfterLen);
+            case 0x08:
+                sub_80047838(unknown, pScriptIter);
                 break;
 
             case 0x10:
-                sub_80047514(unknown, pAfterLen);
+                sub_80047514(unknown, pScriptIter);
                 break;
 
             case 0x20:
-                sub_800475B8(unknown, pAfterLen);
+                sub_800475B8(unknown, pScriptIter);
                 break;
 
             case 0x30:
-                sub_80047660(unknown, pAfterLen);
+                sub_80047660(unknown, pScriptIter);
                 break;
 
             case 0x40:
-                sub_80047748(unknown, pAfterLen);
+                sub_80047748(unknown, pScriptIter);
                 break;
 
             default:
                 mts_printf_8008BBA0(aBlockExecError);
                 break;
             }
-            pAfterLen = (pAfterLen - 2 + scriptWord);
+            pScriptIter = (pScriptIter - sizeof(short) + scriptWord);
         }
         else
         {
-            mts_printf_8008BBA0(aIllegalCodeX, *pAfterLen);
+            mts_printf_8008BBA0(aIllegalCodeX, *pScriptIter);
         }
-        byteAfter = *pAfterLen;
     }
-    return lenB1 + 1 + pScript;
+    return scriptBlockLen + 1 + pScript;
 }
