@@ -2,14 +2,14 @@
 
 import sys, os
 
-path = "../src/data/sbss/"
-filename = "sbss_800AB9CC"
-linkerObjFile = "\"..\\obj\\data\\sbss\\" + filename + ".obj\""
+path = "../src/data/sdata/"
+filename = "sdata_800AB3BC"
+linkerObjFile = "\"..\\obj\\data\\sdata\\" + filename + ".obj\""
 fileToOpen = path + filename + ".c"
 outFolder = path #+ "test/"
 linkerTxtPath = "linker_command_file.txt"
 
-prefix = "int SECTION(\".sbss\") "
+prefix = "int SECTION(\".sdata\") "
 importantLinesStartAt = 2
 
 objIncludes = []
@@ -29,12 +29,12 @@ if not os.path.exists(outFolder):
     os.makedirs(outFolder)
 
 def isLabelStart(line):
-    if line.startswith(prefix):
+    if line.find("=") is not -1:
         return True
     else:
         return False
 
-def addToLinker(fileName):
+def addToLinker():
     oldLinker = False
     with open(linkerTxtPath,"r") as linker:
         oldLinker = linker.read().splitlines()
@@ -49,24 +49,64 @@ def addToLinker(fileName):
                 for objInclude in objIncludes:
                     linker.write(objInclude + "\n")
                 onlyOnce = False
-            print("	include	" + linkerObjFile)
-            if linkerLine.startswith("\tinclude " + linkerObjFile ):
+            if linkerLine.startswith("\tinclude\t" + linkerObjFile ):
                 pastHeader = True
 
             linker.write(linkerLine + "\n")
             idx += 1
 
-def makeFile(fp, line):
-    fileName = line[line.find(prefix) + len(prefix):]
-    print("Processing file: " + fileName.rstrip()[:-1] + ".c")
-    with open(outFolder.rstrip() + fileName.rstrip()[:-1] + ".c","w+") as write:
+def makeFile(line):
+    print(line)
+    fileName = line[line.find("(\".sdata\") ")+len("(\".sdata\") "):line.find("=") ]
+    print("Processing file: " + fileName.rstrip().replace("[]", "") + ".c")
+    with open(outFolder.rstrip() + fileName.rstrip().replace("[]", "") + ".c","w+") as write:
         write.write("#include \"linker.h\"")
         write.write("\n\n")
         write.write(line)
         write.write("\n")
             
-    objIncludes.append("	include	\"..\\obj\\data\\sbss\\"+fileName.rstrip()[:-1]+".obj\"")
-    return fp, line
+    objIncludes.append("	include	\"..\\obj\\data\\sdata\\"+fileName.rstrip().replace("[]", "")+".obj\"")
+    return line
+
+def tableDetected(line):
+    if line.startswith("int"):
+        if line.find("[]") is not -1:
+            return True
+    return False
+
+def hexIncrease(address, number):
+    intNum = int(address,16)
+    intNum += number
+    hexNum = str(hex(intNum))
+    hexNum = hexNum[2:].upper()
+    return hexNum
+
+def splitTable(line):
+    table = []
+    dwordPrefixStr = "int SECTION(\".sdata\") "
+    namePrefix = line[line.find(dwordPrefixStr)+len(dwordPrefixStr):line.find("[]") - 8]
+    address = line[line.find(namePrefix)+len(namePrefix):line.find("[]")]
+    tableDataRaw = line[line.find("{")+1:line.find("}")]
+    tableDataRaw = tableDataRaw.replace(" ", "")
+
+    while tableDataRaw.find(",") is not -1:
+        table.append( dwordPrefixStr + namePrefix + address + " = " + tableDataRaw[:tableDataRaw.find(",")]+ ";")
+        tableDataRaw = tableDataRaw[tableDataRaw.find(",")+1:]
+
+        address = hexIncrease(address, 4)
+    table.append( dwordPrefixStr + namePrefix + address + " = " + tableDataRaw+ ";")
+
+    return table
+
+
+def processLine(line):
+    tableElements = [ line ]
+    if tableDetected(line):
+        tableElements = splitTable(line)
+
+    print(tableElements)
+    for element in tableElements:
+        makeFile(element)
 
 with open(fileToOpen, 'r') as fp:
     line = fp.readline()
@@ -75,8 +115,8 @@ with open(fileToOpen, 'r') as fp:
     while line:
         if cnt > importantLinesStartAt:
             if isLabelStart(line):
-                fp, line = makeFile(fp, line)
+                processLine(line)
 
         line = fp.readline()
         cnt += 1
-    addToLinker(objIncludes)
+    addToLinker()
