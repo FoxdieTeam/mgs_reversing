@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "MC_StartDaemon_80024E48"
+old = "sub_8001F89C"
 parts = old.split('_')
-newFileName = "memcard_init" + "_" + parts[len(parts)-1]
+newFileName = "pcx_file_handler_helper" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

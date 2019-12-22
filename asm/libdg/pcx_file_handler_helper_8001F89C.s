@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F89C
-sub_8001F89C:
+	xdef pcx_file_handler_helper_8001F89C
+pcx_file_handler_helper_8001F89C:
 	dw 0x24C6FFFF ; 0x8001F89C
 	dw 0x04C0001D ; 0x8001F8A0
 	dw 0x00805021 ; 0x8001F8A4

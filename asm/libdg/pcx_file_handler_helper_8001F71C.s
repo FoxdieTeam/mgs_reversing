@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001F71C
-sub_8001F71C:
+	xdef pcx_file_handler_helper_8001F71C
+pcx_file_handler_helper_8001F71C:
 	dw 0x27BDFFF0 ; 0x8001F71C
 	dw 0xAFB3000C ; 0x8001F720
 	dw 0x00E09821 ; 0x8001F724
