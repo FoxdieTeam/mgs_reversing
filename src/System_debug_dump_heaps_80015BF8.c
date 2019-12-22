@@ -1,14 +1,12 @@
 #include "linker.h"
 #include "system.h"
+#include "mts_new.h"
 
 extern const char aSystemD[];
 extern const char aDynamic[];
 extern const char asc_800AB360[];
 extern const char aAddr08x08xUnit[];
 extern const char aFreeDDVoidedDM[];
-
-
-extern void mts_printf_8008BBA0(const char *, ...);
 
 extern GV_Heap gv_heaps_800AD2F0[3];
 
