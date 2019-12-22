@@ -1352,7 +1352,6 @@
 	include	"..\obj\sub_8004D334.obj"
 	include	"..\obj\sub_8004D35C.obj"
 	include	"..\obj\menu\menu_radio_table_find_8004D380.obj"
-	include	"..\obj\sub_8004D3B8.obj"
 	include	"..\obj\sub_8004D3D8.obj"
 	include	"..\obj\sub_8004D4A0.obj"
 	include	"..\obj\sub_8004D580.obj"
