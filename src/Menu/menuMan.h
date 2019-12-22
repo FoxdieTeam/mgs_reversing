@@ -23,6 +23,9 @@ typedef struct menu_chara_struct
     int field_4;
     int field_8;
     unsigned char *field_C_pScript;
+    int field_10;
+    int field_14_bInExecBlock; // to prevent re-entering?
+    unsigned short field_18;
 } menu_chara_struct;
 
 RadioMemory *menu_radio_table_find_8004D380(int toFind);
@@ -30,6 +33,7 @@ RadioMemory *menu_radio_table_next_free_8004D3B8(void);
 unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
 void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName);
 void menu_gcl_set_radio_var_80047768(menu_chara_struct* unknown, unsigned char *pScript);
+unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 
 typedef struct MenuMan_MenuBars
 {
