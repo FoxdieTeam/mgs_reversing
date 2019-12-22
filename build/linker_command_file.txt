@@ -3,6 +3,7 @@
 
 ; link objs
 	include "..\obj\data\rdata\rdata.obj"
+
 	include "..\obj\data\data\data.obj"
 	include "..\obj\main.obj"
 	include	"..\obj\libfs\FS_StartDaemon_80014A7C.obj"
@@ -1172,7 +1173,7 @@
 	include	"..\obj\sub_80046C90.obj"
 	include	"..\obj\sub_80046DF4.obj"
 	include	"..\obj\sub_80046F3C.obj"
-	include	"..\obj\sub_80047098.obj"
+	include	"..\obj\Menu\menu_gcl_read_word_80047098.obj"
 	include	"..\obj\sub_800470B4.obj"
 	include	"..\obj\sub_800470F4.obj"
 	include	"..\obj\MENU_set_chara_code_800471AC.obj"
@@ -1184,12 +1185,14 @@
 	include	"..\obj\sub_800475B8.obj"
 	include	"..\obj\sub_80047660.obj"
 	include	"..\obj\sub_80047748.obj"
-	include	"..\obj\sub_80047768.obj"
+	include	"..\obj\menu\menu_gcl_set_radio_var_80047768.obj"
 	include	"..\obj\sub_800477B0.obj"
 	include	"..\obj\sub_8004780C.obj"
 	include	"..\obj\sub_80047838.obj"
 	include	"..\obj\sub_80047880.obj"
-	include	"..\obj\menu_gcl_exec_block_800478B4.obj"
+	include	"..\obj\menu\menu_gcl_exec_block_800478B4.obj"
+	include "..\obj\data\rdata\rdata_80048E64.obj"
+
 	include	"..\obj\sub_80047AA0.obj"
 	include	"..\obj\sub_80047C3C.obj"
 	include	"..\obj\sub_80047CB4.obj"
