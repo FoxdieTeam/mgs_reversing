@@ -47,4 +47,11 @@ void GCL_SetMainOrDemo_8001FCB0(int bMain);
 
 int GCL_800209E8(unsigned char *uParm1);
 
+#define GCL_ReadShort(p) ( p[1] ) | ( p[0] << 8 )
+#define GCL_AdvanceShort(p) p += sizeof(short)
+
+#define GCL_ReadByte(p) p[0]
+#define GCL_AdvanceByte(p) p += sizeof(unsigned char)
+
+
 #endif // GCL_H

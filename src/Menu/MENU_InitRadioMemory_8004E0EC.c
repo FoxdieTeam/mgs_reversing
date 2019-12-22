@@ -51,5 +51,3 @@ void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName)
 
     menu_radio_compact_free_vars_8004D3D8();
 }
-
-// sub_80047768 menu_gcl_set_radio_memory ??
