@@ -3,8 +3,52 @@
 
 #include "rdata.h"
 #include "actor.h"
-#include "sdata.h"
 #include "gcl.h"
+
+// sdata
+extern const char* aCigs[];
+extern const char* aSocom[];
+extern const char* aLife[];
+extern const char* aO2[];
+extern const char* aError[];
+extern const char* aComplete[];
+extern const char* dword_800AB728[];
+extern const char* dword_800AB724[];
+extern const char* dword_800AB720[];
+extern const char* aEx[];
+extern const char* aMemoryCard1[];
+extern const char* aMemoryCard2[];
+extern const char* dword_800AB754[];
+extern const char* aNo[];
+extern const char* dword_800122D8[];
+extern const char* dword_800122CC[];
+extern const char* dword_800122C0[];
+extern const char* dword_800122B4[];
+extern const char* dword_800122A8[];
+extern const char* aSaveData[];
+extern const char* aSnaChest1[];
+extern const char* aSnaChest2[];
+extern const char* aSnaChest3[];
+extern const char* aSnaHip1[];
+extern const char* aSnaArmer1[];
+extern const char* aSnaArmer2[];
+extern const char* aSnaArmer3[];
+extern const char* aSnaArmer4[];
+extern const char* aCbBox11[];
+extern const char* aCbBox12[];
+extern const char* aCbBox41[];
+extern const char* aCbBox42[];
+extern const char* aCbBox21[];
+extern const char* aCbBox22[];
+extern const char* aCbBox41[];
+extern const char* aCbBox42[];
+extern const char* aSnaFace[];
+extern const char* aSnaFace2[];
+extern const char* aSnaFace3[];
+extern const char* aSnaMf1[];
+extern const char* aSnaMf2[];
+extern const char* aSnaMf3[];
+
 
 GCL_ActorTableEntry SECTION(".data") StaticResInitFunc_8009D2DC[] =
 	{
@@ -671,7 +715,26 @@ int SECTION(".ASM_DATA") dword_8009F200[] = {0, 0x800127A4};
 int SECTION(".ASM_DATA") dword_8009F208[] = {0x8512D, 0x1E0004, 0x3E80001, 0x1E0003, 0xA001E};
 int SECTION(".ASM_DATA") dword_8009F21C[] = {0, 0x800127D0};
 int SECTION(".ASM_DATA") dword_8009F224 = 0;
-int SECTION(".ASM_DATA") dword_8009F228[] = {0x8005EC1C, 0x8005ED0C, 0x8005ED74, 0x8005EDDC, 0x8005EE44, 0x8005EEA4, 0x8005EF04, 0x8005EFF8, 0x8005F0F0, 0x8005F180, 0x8005F288, 0x8005F2F4, 0x8005F37C, 0x8005F408, 0x8005F438};
+
+int SECTION(".ASM_DATA") anime_fn_table_8009F228[] = 
+{
+	0x8005EC1C,
+	0x8005ED0C,
+	0x8005ED74,
+	0x8005EDDC,
+	0x8005EE44,
+	0x8005EEA4,
+	0x8005EF04,
+	0x8005EFF8,
+	0x8005F0F0,
+	0x8005F180,
+	0x8005F288,
+	0x8005F2F4,
+	0x8005F37C,
+	0x8005F408,
+	0x8005F438
+};
+
 int SECTION(".ASM_DATA") off_8009F264[] = {(int)aSnaChest1, (int)aSnaChest2, (int)aSnaChest3, (int)aSnaHip1};
 int SECTION(".ASM_DATA") off_8009F274[] = {(int)aSnaArmer1, (int)aSnaArmer2, (int)aSnaArmer3, (int)aSnaArmer4};
 int SECTION(".ASM_DATA") dword_8009F284 = 0;
