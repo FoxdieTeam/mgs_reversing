@@ -3,6 +3,7 @@
 
 ; link objs
 	include "..\obj\data\rdata\rdata.obj"
+
 	include "..\obj\data\data\data.obj"
 	include "..\obj\main.obj"
 	include	"..\obj\libfs\FS_StartDaemon_80014A7C.obj"
@@ -1189,7 +1190,9 @@
 	include	"..\obj\sub_8004780C.obj"
 	include	"..\obj\sub_80047838.obj"
 	include	"..\obj\sub_80047880.obj"
-	include	"..\obj\menu_gcl_exec_block_800478B4.obj"
+	include	"..\obj\menu\menu_gcl_exec_block_800478B4.obj"
+	include "..\obj\data\rdata\rdata_80048E64.obj"
+
 	include	"..\obj\sub_80047AA0.obj"
 	include	"..\obj\sub_80047C3C.obj"
 	include	"..\obj\sub_80047CB4.obj"

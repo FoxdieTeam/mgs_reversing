@@ -86,12 +86,6 @@ void GCL_Push_80020934(unsigned char*);
 void GCL_80020690(unsigned char*);
 void GCL_Pop_80020950(void);
 
-#define GCL_ReadShort(p) ( p[1] ) | ( p[0] << 8 )
-#define GCL_AdvanceShort(p) p += sizeof(short)
-
-#define GCL_ReadByte(p) p[0]
-#define GCL_AdvanceByte(p) p += sizeof(unsigned char)
-
 int GCL_8001FDB0(unsigned char* pScript)
 {
     int commandRet;
