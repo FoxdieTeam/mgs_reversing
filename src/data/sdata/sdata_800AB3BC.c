@@ -1,7 +1,5 @@
 #include "linker.h"
 
-
-
 int SECTION(".sdata") dword_800AB3BC = 0;
 int SECTION(".sdata") dword_800AB3C0 = 0;
 int SECTION(".sdata") gCurrentStageName_800AB3C4 = 0;
@@ -34,7 +32,7 @@ const char SECTION(".sdata") asc_800AB428[] = "\n";
 
 int SECTION(".sdata") GM_CameraTrackSave_800AB42C = 0x2710;
 
-char SECTION(".sdata") GM_CameraRotateSave_800AB430[] = { 0x80, 2, 0, 8 };
+int SECTION(".sdata") GM_CameraRotateSave_800AB430 = 0x08000280;
 
 int SECTION(".sdata") dword_800AB434 = 0;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB438[] = { 0x2710, 0, 0, 0, 0 };
