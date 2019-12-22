@@ -515,7 +515,7 @@
 	include	"..\obj\sub_8002AB40.obj"
 	include	"..\obj\sub_8002ABA4.obj"
 	include	"..\obj\Game\GM_Reset_8002ABF4.obj"
-	include	"..\obj\sub_8002AC44.obj"
+	include	"..\obj\menu_textureload_8002AC44.obj"
 	include	"..\obj\sub_8002AC9C.obj"
 	include	"..\obj\Game\GM_Act_8002ADBC.obj"
 	include	"..\obj\sub_8002B558.obj"

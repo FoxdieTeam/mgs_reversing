@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002AC44
-sub_8002AC44:
+	xdef menu_textureload_8002AC44
+menu_textureload_8002AC44:
 	dw 0x27BDFFE8 ; 0x8002AC44
 	dw 0xAFBF0010 ; 0x8002AC48
 	dw 0x0C00760C ; 0x8002AC4C
