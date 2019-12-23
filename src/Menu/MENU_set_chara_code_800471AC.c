@@ -35,7 +35,7 @@ void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pSc
         sub_800470B4(bVar1, unknown, charaCode, w2, w3, 0);
     }
 
-    unknown->field_0_bUsed = 1;
+    unknown->field_0_state = 1;
 
     mts_8008A400();
 }
