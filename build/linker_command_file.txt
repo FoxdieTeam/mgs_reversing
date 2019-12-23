@@ -1177,13 +1177,12 @@
 	include	"..\obj\sub_800470B4.obj"
 	include	"..\obj\sub_800470F4.obj"
 	include	"..\obj\menu\MENU_set_chara_code_800471AC.obj"
-	include	"..\obj\sub_80047660.obj"
 	include	"..\obj\sub_80047748.obj"
 	include	"..\obj\menu\menu_gcl_set_radio_var_80047768.obj"
 	include	"..\obj\menu\menu_gcl_exec_block_800478B4.obj"
 	include "..\obj\data\rdata\rdata_80048E64.obj"
 
-	include	"..\obj\sub_80047AA0.obj"
+	include	"..\obj\sub_80047AA0.obj" ; uses above menu funcs with menu_chara_struct
 	include	"..\obj\sub_80047C3C.obj"
 	include	"..\obj\sub_80047CB4.obj"
 	include	"..\obj\sub_80047CE4.obj"
