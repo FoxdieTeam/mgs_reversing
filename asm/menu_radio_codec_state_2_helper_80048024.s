@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80048024
-sub_80048024:
+	xdef menu_radio_codec_state_2_helper_80048024
+menu_radio_codec_state_2_helper_80048024:
 	dw 0x27BDFFE8 ; 0x80048024
 	dw 0xAFBF0010 ; 0x80048028
 	dw 0x0C011F0F ; 0x8004802C

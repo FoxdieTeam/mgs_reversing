@@ -5,27 +5,27 @@
 
 extern const char aSetCharaCodeD[];
 extern const char aAnimeCharaDCod[];
+extern const char aVoxcodeX[];
+extern const char aIllegalCodeX[];
+extern const char aSetDS[];
+extern const char aBlockExecError[];
 
 void sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
 void SwEnterCriticalSection_8009954C(void);
 void SwExitCriticalSection_8009956C(void);
-
 void sub_80037EE0(int, int);
 int sub_80037CD8(void);
-
 void mts_8008C408(int, int);
 void mts_8008C454(int, int);
 void sub_80032C48(int, int code);
-
-extern const char aVoxcodeX[];
+int rand_8008E6B8(void);
+unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
+unsigned char *sub_800217F0(unsigned char *);
 
 #define MakeVoxCode(x) ((unsigned int)x[0] << 0x18) |     \
                            ((unsigned int)x[1] << 0x10) | \
                            ((unsigned int)x[2] << 8) |    \
                            ((unsigned int)x[3])
-
-extern const char aIllegalCodeX[];
-unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
 
 void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pScript)
 {
@@ -192,4 +192,201 @@ void sub_80047514(menu_chara_struct *unknown, unsigned char *pScript)
             }
         }
     }
+}
+
+void sub_800475B8(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int execRet;
+    int script_word;
+
+    pScript = sub_800474EC(&execRet, pScript);
+    for (;;)
+    {
+        const int script_b1 = *pScript;
+        pScript++;
+
+        if (script_b1 == 0x21)
+        {
+            pScript = menu_gcl_read_word_80047098(&script_word, pScript);
+            if (execRet == script_word)
+            {
+                menu_gcl_exec_block_800478B4(unknown, pScript);
+                return;
+            }
+            else
+            {
+                pScript = sub_80047880(unknown, pScript);
+            }
+        }
+        else if (script_b1 == 0x22)
+        {
+            menu_gcl_exec_block_800478B4(unknown, pScript);
+            return;
+        }
+        else if (script_b1 == 0)
+        {
+            return;
+        }
+        else
+        {
+            mts_printf_8008BBA0(aIllegalCodeX, script_b1);
+        }
+    }
+}
+
+void sub_80047660(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int script_word;
+    pScript = menu_gcl_read_word_80047098(&script_word, pScript);
+    script_word = rand_8008E6B8() % script_word;
+
+    for (;;)
+    {
+        const int script_byte = *pScript;
+        pScript++;
+        if (script_byte == 0x31)
+        {
+            int script_word2;
+            pScript = menu_gcl_read_word_80047098(&script_word2, pScript);
+            script_word -= script_word2;
+            if (script_word < 1)
+            {
+                menu_gcl_exec_block_800478B4(unknown, pScript);
+                return;
+            }
+            pScript = sub_80047880(unknown, pScript);
+        }
+        else
+        {
+            if (script_byte == 0)
+            {
+                return;
+            }
+            mts_printf_8008BBA0(aIllegalCodeX, script_byte);
+        }
+    }
+}
+
+void sub_80047748(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int ret;
+    sub_800474EC(&ret, pScript);
+}
+
+void menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int varId;
+    pScript = menu_gcl_read_word_80047098(&varId, pScript);
+    mts_printf_8008BBA0(aSetDS, varId, pScript);
+    menu_radio_clear_or_set_var_8004E110(varId, pScript);
+}
+
+void sub_800477B0(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int iVar1 = GCL_800209E8(pScript);
+    unknown->field_0_state = 3;
+    unknown->field_C_pScript = GCL_Get_Param_Result_80020AA4();
+    unknown->field_1A = iVar1;
+    mts_8008A400();
+    unknown->field_18 &= ~0x100;
+}
+
+void sub_8004780C(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    unknown->field_0_state = 4;
+    unknown->field_C_pScript = pScript;
+    unknown->field_1A = 0;
+    mts_8008A400();
+}
+
+void sub_80047838(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    while (*pScript)
+    {
+        pScript = sub_800217F0(pScript);
+    }
+}
+
+unsigned char *sub_80047880(menu_chara_struct* unknown, unsigned char *pScript)
+{
+    int len;
+    pScript++;
+    menu_gcl_read_word_80047098(&len, pScript);
+    return pScript + len;
+}
+
+unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    const int scriptBlockLen = ((pScript[1] << 8) | (pScript[2]));
+    unsigned char *pScriptIter = pScript + 3;
+    while (*pScriptIter)
+    {
+        if (*pScriptIter == 0xff)
+        {
+            int scriptWord;
+            const int opCode = pScriptIter[1];
+            pScriptIter = menu_gcl_read_word_80047098(&scriptWord, pScriptIter + 2);
+
+            switch (opCode)
+            {
+            case 0x01:
+                MENU_set_chara_code_800471AC(unknown, pScriptIter);
+                break;
+
+            case 0x02:
+                sub_80047330(unknown, pScriptIter);
+                break;
+
+            case 0x03:
+                menu_gcl_anime_chara_code_80047280(unknown, pScriptIter);
+                break;
+
+            case 0x04:
+                menu_gcl_set_radio_var_80047768(unknown, pScriptIter);
+                break;
+
+            case 0x05:
+                sub_800477B0(unknown, pScriptIter);
+                break;
+
+            case 0x06:
+                sub_80047414(unknown, pScriptIter);
+                break;
+
+            case 0x07:
+                sub_8004780C(unknown, pScriptIter);
+                break;
+
+            case 0x08:
+                sub_80047838(unknown, pScriptIter);
+                break;
+
+            case 0x10:
+                sub_80047514(unknown, pScriptIter);
+                break;
+
+            case 0x20:
+                sub_800475B8(unknown, pScriptIter);
+                break;
+
+            case 0x30:
+                sub_80047660(unknown, pScriptIter);
+                break;
+
+            case 0x40:
+                sub_80047748(unknown, pScriptIter);
+                break;
+
+            default:
+                mts_printf_8008BBA0(aBlockExecError);
+                break;
+            }
+            pScriptIter = (pScriptIter - sizeof(short) + scriptWord);
+        }
+        else
+        {
+            mts_printf_8008BBA0(aIllegalCodeX, *pScriptIter);
+        }
+    }
+    return scriptBlockLen + 1 + pScript;
 }

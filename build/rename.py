@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80047768"
+old = "sub_80047AA0"
 parts = old.split('_')
-newFileName = "menu_gcl_set_radio_var" + "_" + parts[len(parts)-1]
+newFileName = "menu_radio_codec_task_proc" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
