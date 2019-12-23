@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80047AA0
-sub_80047AA0:
+	xdef menu_radio_codec_task_proc_80047AA0
+menu_radio_codec_task_proc_80047AA0:
 	dw 0x27BDFFD8 ; 0x80047AA0
 	dw 0xAFBF0020 ; 0x80047AA4
 	dw 0xAFB3001C ; 0x80047AA8
