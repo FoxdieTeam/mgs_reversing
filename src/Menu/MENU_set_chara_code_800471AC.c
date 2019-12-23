@@ -25,6 +25,7 @@ extern const char aVoxcodeX[];
                            ((unsigned int)x[3])
 
 extern const char aIllegalCodeX[];
+;
 unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
 
 void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pScript)
@@ -190,6 +191,46 @@ void sub_80047514(menu_chara_struct *unknown, unsigned char *pScript)
                 }
                 return;
             }
+        }
+    }
+}
+
+void sub_800475B8(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int execRet;
+    int script_word;
+
+    pScript = sub_800474EC(&execRet, pScript);
+    for (;;)
+    {
+        const int script_b1 = *pScript;
+        pScript++;
+
+        if (script_b1 == 0x21)
+        {
+            pScript = menu_gcl_read_word_80047098(&script_word, pScript);
+            if (execRet == script_word)
+            {
+                menu_gcl_exec_block_800478B4(unknown, pScript);
+                return;
+            }
+            else
+            {
+                pScript = sub_80047880(unknown, pScript);
+            }
+        }
+        else if (script_b1 == 0x22)
+        {
+            menu_gcl_exec_block_800478B4(unknown, pScript);
+            return;
+        }
+        else if (script_b1 == 0)
+        {
+            return;
+        }
+        else
+        {
+            mts_printf_8008BBA0(aIllegalCodeX, script_b1);
         }
     }
 }
