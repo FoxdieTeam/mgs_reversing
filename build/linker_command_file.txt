@@ -1185,7 +1185,6 @@
 	include	"..\obj\sub_80047660.obj"
 	include	"..\obj\sub_80047748.obj"
 	include	"..\obj\menu\menu_gcl_set_radio_var_80047768.obj"
-	include	"..\obj\sub_800477B0.obj"
 	include	"..\obj\sub_8004780C.obj"
 	include	"..\obj\sub_80047838.obj"
 	include	"..\obj\sub_80047880.obj"

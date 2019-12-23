@@ -19,13 +19,14 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 typedef struct menu_chara_struct
 {
     // todo: maybe this is chara related, unknown yet, struct may also be bigger
-    int field_0_bUsed;
+    int field_0_state;
     int field_4;
     int field_8;
     unsigned char *field_C_pScript;
     int field_10;
     int field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
+    unsigned short field_1A;
 } menu_chara_struct;
 
 RadioMemory *menu_radio_table_find_8004D380(int toFind);
