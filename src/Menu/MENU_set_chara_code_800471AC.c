@@ -24,6 +24,9 @@ extern const char aVoxcodeX[];
                            ((unsigned int)x[2] << 8) |    \
                            ((unsigned int)x[3])
 
+extern const char aIllegalCodeX[];
+unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
+
 void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pScript)
 {
     int charaCode;
@@ -143,8 +146,50 @@ void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
     }
 }
 
-void sub_800474EC(int* pRet, unsigned char* pScript)
+unsigned char *sub_800474EC(int *pRet, unsigned char *pScript)
 {
     int any;
-    GCL_Execute_8002069C(pScript, &any, pRet);
+    return GCL_Execute_8002069C(pScript, &any, pRet);
+}
+
+void sub_80047514(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    for (;;)
+    {
+        int execRet;
+        pScript = sub_800474EC(&execRet, pScript);
+        for (;;)
+        {
+            if (execRet)
+            {
+                menu_gcl_exec_block_800478B4(unknown, pScript);
+                return;
+            }
+
+            pScript = sub_80047880(unknown, pScript);
+            if (*pScript == 0xff)
+            {
+                int scriptByte = pScript[1];
+                pScript += 2;
+
+                if (scriptByte == 0x12)
+                {
+                    break;
+                }
+                else if (scriptByte != 0x11)
+                {
+                    return;
+                }
+                execRet = 1;
+            }
+            else
+            {
+                if (*pScript != 0)
+                {
+                    mts_printf_8008BBA0(aIllegalCodeX, *pScript);
+                }
+                return;
+            }
+        }
+    }
 }
