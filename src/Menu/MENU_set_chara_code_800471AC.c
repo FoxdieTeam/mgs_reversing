@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "mts_new.h"
 #include "menuMan.h"
+#include "gcl.h"
 
 extern const char aSetCharaCodeD[];
 extern const char aAnimeCharaDCod[];
@@ -111,7 +112,6 @@ void sub_80047330(menu_chara_struct *unknown, unsigned char *pScript)
     }
 }
 
-
 void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
 {
     unsigned char *pScriptIter;
@@ -141,4 +141,10 @@ void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
         }
         break;
     }
+}
+
+void sub_800474EC(int* pRet, unsigned char* pScript)
+{
+    int any;
+    GCL_Execute_8002069C(pScript, &any, pRet);
 }
