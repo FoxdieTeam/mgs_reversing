@@ -5,7 +5,7 @@
 
 extern const char aSetDS[];
 
-unsigned char* sub_800217F0(unsigned char*);
+unsigned char *sub_800217F0(unsigned char *);
 
 void menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript)
 {
@@ -39,4 +39,12 @@ void sub_80047838(menu_chara_struct *unknown, unsigned char *pScript)
     {
         pScript = sub_800217F0(pScript);
     }
+}
+
+unsigned char *sub_80047880(menu_chara_struct* unknown, unsigned char *pScript)
+{
+    int len;
+    pScript++;
+    menu_gcl_read_word_80047098(&len, pScript);
+    return pScript + len;
 }
