@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004158C
-sub_8004158C:
+	xdef menu_radio_codec_helper_8004158C
+menu_radio_codec_helper_8004158C:
 	dw 0x8782035C ; 0x8004158C
 	dw 0x9783035C ; 0x80041590
 	dw 0x27BDFFD8 ; 0x80041594

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef menu_radio_init_helper_80042198
-menu_radio_init_helper_80042198:
+	xdef menu_radio_update_80042198
+menu_radio_update_80042198:
 	dw 0x3C02800B ; 0x80042198
 	dw 0x8C42BA50 ; 0x8004219C
 	dw 0x27BDFFD0 ; 0x800421A0
