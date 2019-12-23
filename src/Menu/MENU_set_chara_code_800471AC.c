@@ -5,28 +5,24 @@
 
 extern const char aSetCharaCodeD[];
 extern const char aAnimeCharaDCod[];
+extern const char aVoxcodeX[];
+extern const char aIllegalCodeX[];
 
 void sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
 void SwEnterCriticalSection_8009954C(void);
 void SwExitCriticalSection_8009956C(void);
-
 void sub_80037EE0(int, int);
 int sub_80037CD8(void);
-
 void mts_8008C408(int, int);
 void mts_8008C454(int, int);
 void sub_80032C48(int, int code);
-
-extern const char aVoxcodeX[];
+int rand_8008E6B8(void);
+unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
 
 #define MakeVoxCode(x) ((unsigned int)x[0] << 0x18) |     \
                            ((unsigned int)x[1] << 0x10) | \
                            ((unsigned int)x[2] << 8) |    \
                            ((unsigned int)x[3])
-
-extern const char aIllegalCodeX[];
-;
-unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
 
 void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pScript)
 {
@@ -235,13 +231,11 @@ void sub_800475B8(menu_chara_struct *unknown, unsigned char *pScript)
     }
 }
 
-int rand_8008E6B8(void);
-
 void sub_80047660(menu_chara_struct *unknown, unsigned char *pScript)
 {
     int script_word;
     pScript = menu_gcl_read_word_80047098(&script_word, pScript);
-    script_word =  rand_8008E6B8() % script_word;
+    script_word = rand_8008E6B8() % script_word;
 
     for (;;)
     {
@@ -268,4 +262,10 @@ void sub_80047660(menu_chara_struct *unknown, unsigned char *pScript)
             mts_printf_8008BBA0(aIllegalCodeX, script_byte);
         }
     }
+}
+
+void sub_80047748(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int ret;
+    sub_800474EC(&ret, pScript);
 }
