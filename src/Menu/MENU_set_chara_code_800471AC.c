@@ -234,3 +234,38 @@ void sub_800475B8(menu_chara_struct *unknown, unsigned char *pScript)
         }
     }
 }
+
+int rand_8008E6B8(void);
+
+void sub_80047660(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    int script_word;
+    pScript = menu_gcl_read_word_80047098(&script_word, pScript);
+    script_word =  rand_8008E6B8() % script_word;
+
+    for (;;)
+    {
+        const int script_byte = *pScript;
+        pScript++;
+        if (script_byte == 0x31)
+        {
+            int script_word2;
+            pScript = menu_gcl_read_word_80047098(&script_word2, pScript);
+            script_word -= script_word2;
+            if (script_word < 1)
+            {
+                menu_gcl_exec_block_800478B4(unknown, pScript);
+                return;
+            }
+            pScript = sub_80047880(unknown, pScript);
+        }
+        else
+        {
+            if (script_byte == 0)
+            {
+                return;
+            }
+            mts_printf_8008BBA0(aIllegalCodeX, script_byte);
+        }
+    }
+}
