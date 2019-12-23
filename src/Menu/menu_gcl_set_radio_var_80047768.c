@@ -22,3 +22,11 @@ void sub_800477B0(menu_chara_struct *unknown, unsigned char *pScript)
     mts_8008A400();
     unknown->field_18 &= ~0x100;
 }
+
+void sub_8004780C(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    unknown->field_0_state = 4;
+    unknown->field_C_pScript = pScript;
+    unknown->field_1A = 0;
+    mts_8008A400();
+}
