@@ -5,6 +5,8 @@
 
 extern const char aSetDS[];
 
+unsigned char* sub_800217F0(unsigned char*);
+
 void menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript)
 {
     int varId;
@@ -29,4 +31,12 @@ void sub_8004780C(menu_chara_struct *unknown, unsigned char *pScript)
     unknown->field_C_pScript = pScript;
     unknown->field_1A = 0;
     mts_8008A400();
+}
+
+void sub_80047838(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    while (*pScript)
+    {
+        pScript = sub_800217F0(pScript);
+    }
 }
