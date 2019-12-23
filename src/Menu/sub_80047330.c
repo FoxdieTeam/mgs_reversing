@@ -11,13 +11,14 @@ int sub_80037CD8(void);
 
 extern const char aVoxcodeX[];
 
+#define MakeVoxCode(x) ((unsigned int)x[0] << 0x18) |     \
+                           ((unsigned int)x[1] << 0x10) | \
+                           ((unsigned int)x[2] << 8) |    \
+                           ((unsigned int)x[3])
+
 void sub_80047330(menu_chara_struct *unknown, unsigned char *pScript)
 {
-    unsigned int voxCode = 
-    ((unsigned int)pScript[0] << 0x18) |
-    ((unsigned int)pScript[1] << 0x10) |
-    ((unsigned int)pScript[2] << 8) |
-    ((unsigned int)pScript[3]);
+    unsigned int voxCode = MakeVoxCode(pScript);
     pScript += sizeof(unsigned int);
 
     mts_printf_8008BBA0(aVoxcodeX, voxCode);
@@ -38,5 +39,40 @@ void sub_80047330(menu_chara_struct *unknown, unsigned char *pScript)
     else
     {
         menu_gcl_exec_block_800478B4(unknown, pScript);
+    }
+}
+
+void mts_8008C408(int, int);
+void mts_8008C454(int, int);
+void sub_80032C48(int, int code);
+
+void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
+{
+    unsigned char *pScriptIter;
+    int scriptVal;
+    int i;
+
+    switch (*pScript)
+    {
+    case 0x00:
+        pScriptIter = pScript;
+        pScriptIter++;
+        sub_80032C48(MakeVoxCode(pScriptIter), 0);
+        break;
+
+    case 0x01:
+        scriptVal = pScript[1];
+        i = (signed short int)(pScript[3] | (pScript[2] << 8));
+        while (i > 0)
+        {
+            if (scriptVal > 0)
+            {
+                mts_8008C408(1, 2);
+                mts_8008C454(1, scriptVal);
+            }
+            mts_wait_vbl_800895F4(1);
+            i--;
+        }
+        break;
     }
 }
