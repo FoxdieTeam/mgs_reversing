@@ -81,8 +81,22 @@ typedef struct MenuMan_Inventory_Menu_0x14
 } MenuMan_Inventory_Menu_0x14;
 
 typedef void(*TMenuUpdateFn)(void); //todo
-typedef void(*MenuPrimBuffer)(void); //todo
 typedef void(*ButtonStates)(void); //todo
+
+
+typedef struct
+{
+    unsigned char* mFreeLocation;
+    unsigned char* mOt;
+    unsigned char* mOtEnd;
+} MenuPrimBuffer;
+
+typedef struct
+{
+    MenuPrimBuffer mPrimBuf;
+    unsigned char* mPrimPtrs[2];
+} MenuGlue;
+
 typedef struct MenuMan
 {
     Actor mBase;
@@ -92,10 +106,9 @@ typedef struct MenuMan
     BYTE field_29;
     BYTE field_2A_state;
     BYTE field_2B;
-    TMenuUpdateFn m7FnPtrs_field_2C[7];
+    TMenuUpdateFn m7FnPtrs_field_2C[8];
     DR_ENV mDR_ENV_field_48[2];
     DR_ENV DR_ENV_field_C8;
-    DWORD field_108;
     DWORD field_10C;
     DWORD field_110;
     DWORD field_114;
@@ -128,3 +141,4 @@ typedef struct MenuMan
     DWORD field_214_108bytes;
     menu_chara_struct* field_218;
 } MenuMan;
+typedef void(*TInitKillFn)(MenuMan*);
