@@ -4,6 +4,7 @@
 #include "rdata.h"
 #include "actor.h"
 #include "gcl.h"
+#include "menuMan.h"
 
 // sdata
 extern const char* aCigs[];
@@ -508,33 +509,29 @@ typedef struct {
 }; // TODO Missing data
 */
  
-int SECTION(".data") dword_8009E290[] =
+TInitKillFn SECTION(".data") gMenuInitFns_8009E290[] =
 	{
-		0x8003CC94,
-		0x8003B474,
-		0x80042700, // menu_radio_init_80042700
-		0x8003CBF0,
-		0x8003EC2C,
-		0x8003F7E0,
-		0x80042848, // menu_number_init_80042848
-		0x800494C4, // menu_jimaku_init_800494C4
+		(TInitKillFn)0x8003CC94,
+		(TInitKillFn)0x8003B474,
+		(TInitKillFn)0x80042700, // menu_radio_init_80042700
+		(TInitKillFn)0x8003CBF0,
+		(TInitKillFn)0x8003EC2C,
+		(TInitKillFn)0x8003F7E0,
+		(TInitKillFn)0x80042848, // menu_number_init_80042848
+		(TInitKillFn)0x800494C4, // menu_jimaku_init_800494C4
 		0};
 
-int SECTION(".data") dword_8009E2B4[] =
+TInitKillFn SECTION(".data") gMenuKillFns_8009E2B4[] =
 	{
-		0x8003B554,
-		0x8004271C, // menu_radio_kill_8004271c
-		0x8003CC74,
-		0x8003ECAC,
-		0x8003F838,
-		0x80042980, // menu_number_kill_80042980
+		(TInitKillFn)0x8003B554,
+		(TInitKillFn)0x8004271C, // menu_radio_kill_8004271c
+		(TInitKillFn)0x8003CC74,
+		(TInitKillFn)0x8003ECAC,
+		(TInitKillFn)0x8003F838,
+		(TInitKillFn)0x80042980, // menu_number_kill_80042980
 		0};
 
-int SECTION(".data") dword_8009E2D0 = 0;
-int SECTION(".data") dword_8009E2D4 = 0;
-int SECTION(".data") dword_8009E2D8 = 0;
-int SECTION(".data") dword_8009E2DC = 0;
-int SECTION(".data") dword_8009E2E0 = 0;
+MenuGlue SECTION(".data") gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
 
 TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 =
 	{

@@ -3,7 +3,7 @@
 #include "delay.h"
 #include "strcode.h"
 #include "mts_new.h"
-
+#include "menuMan.h"
 #include <sys/types.h>
 #include <libgte.h>
 
@@ -443,7 +443,6 @@ extern const char aMenuInitEnd[];
 void MENU_InitRadioMemory_8004E0EC(void);
 void sub_800212CC(void);
 void menu_textureload_8002AC44(void);
-void menuman_init_80038954(void);
 void font_load_80044A9C(void);
 void sub_80021264(void);
 
