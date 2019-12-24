@@ -1192,8 +1192,6 @@
 	include	"..\obj\data\sbss\dword_800ABB34.obj"
 
 	include	"..\obj\menu\menu_radio_codec_start_task_80047C3C.obj"
-	include	"..\obj\sub_80047CB4.obj"
-	include	"..\obj\sub_80047CE4.obj"
 	include	"..\obj\sub_80047D40.obj"
 	include	"..\obj\sub_80047D70.obj"
 	include	"..\obj\sub_80047EFC.obj"
