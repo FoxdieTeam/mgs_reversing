@@ -107,8 +107,8 @@ typedef struct MenuMan
     BYTE field_2A_state;
     BYTE field_2B;
     TMenuUpdateFn m7FnPtrs_field_2C[8];
-    DR_ENV mDR_ENV_field_48[2];
-    DR_ENV DR_ENV_field_C8;
+    DR_ENV mDR_ENV_field_4C[2];
+    DR_ENV DR_ENV_field_CC;
     DWORD field_10C;
     DWORD field_110;
     DWORD field_114;

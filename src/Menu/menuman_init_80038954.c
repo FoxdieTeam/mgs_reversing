@@ -43,12 +43,12 @@ void menu_init_subsystems_8003884C(MenuMan *pMenuMan)
     DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
-    SetDrawEnv_800906B0(&pMenuMan->mDR_ENV_field_48[0], &drawEnv);
+    SetDrawEnv_800906B0(&pMenuMan->mDR_ENV_field_4C[0], &drawEnv);
 
     DG_Init_DrawEnv_80018384(&drawEnv, 320, 0, 320, 224);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
-    SetDrawEnv_800906B0(&pMenuMan->mDR_ENV_field_48[1], &drawEnv);
+    SetDrawEnv_800906B0(&pMenuMan->mDR_ENV_field_4C[1], &drawEnv);
 
     sub_8003DD1C(aItem);
 
