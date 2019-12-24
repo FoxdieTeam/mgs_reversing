@@ -27,6 +27,28 @@ typedef struct menu_chara_struct
     int field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
     unsigned short field_1A;
+    int field_1C;
+    int field_20;
+    int field_24;
+    int* field_28_pStack;
+    int field_2C;
+    int field_30;
+    int field_34;
+    int field_38;
+    short field_3C;
+    short field_3E;
+    int field_40;
+    int field_44;
+    int field_48;
+    int field_4C;
+    int field_50;
+    short field_54;
+    short field_56;
+    int field_58;
+    int field_5C;
+    int field_60;
+    int field_64;
+    int field_68;
 } menu_chara_struct;
 
 RadioMemory *menu_radio_table_find_8004D380(int toFind);
@@ -103,5 +125,5 @@ typedef struct MenuMan
     WORD field_210_size_19F2_font_high;
     WORD field_210_size_19F2_font_low;
     DWORD field_214_108bytes;
-    DWORD field_218;
+    menu_chara_struct* field_218;
 } MenuMan;
