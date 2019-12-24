@@ -902,7 +902,6 @@
 	include	"..\obj\sub_80038678.obj"
 	include	"..\obj\Menu\menuman_act_800386A4.obj"
 	include	"..\obj\menuman_kill_800387E8.obj"
-	include	"..\obj\sub_8003884C.obj"
 	include	"..\obj\Menu\menuman_init_80038954.obj"
 	include	"..\obj\sub_800389A8.obj"
 	include	"..\obj\sub_80038A00.obj"
@@ -2671,8 +2670,9 @@ group_gRadioMemory_800BDB38	group bss,org($800BDB38)
 
 group_gMenuMan_800BD360	group bss,org($800BD360)
 	section .gMenuMan_800BD360, group_gMenuMan_800BD360
-;
 
+group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
+	section .gPrimBackingBuffers_800B9360, group_gPrimBackingBuffers_800B9360
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
