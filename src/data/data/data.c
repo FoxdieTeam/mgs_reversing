@@ -520,7 +520,7 @@ int SECTION(".data") dword_8009E290[] =
 		0x800494C4, // menu_jimaku_init_800494C4
 		0};
 
-int SECTION(".data") dword_8009E2B4[] =
+int SECTION(".data") gMenuKillFns_8009E2B4[] =
 	{
 		0x8003B554,
 		0x8004271C, // menu_radio_kill_8004271c
