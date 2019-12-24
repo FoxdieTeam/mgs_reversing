@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800906B0
-sub_800906B0:
+	xdef SetDrawEnv_800906B0
+SetDrawEnv_800906B0:
 	dw 0x27BDFFD8 ; 0x800906B0
 	dw 0xAFB00018 ; 0x800906B4
 	dw 0x00A08021 ; 0x800906B8

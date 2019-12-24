@@ -1,4 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800ABB20;
+unsigned char SECTION(".sbss") dword_800ABB20;
 

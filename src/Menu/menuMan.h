@@ -18,7 +18,6 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 typedef struct menu_chara_struct
 {
-    // todo: maybe this is chara related, unknown yet, struct may also be bigger
     int field_0_state;
     int field_4;
     int field_8;
@@ -28,11 +27,11 @@ typedef struct menu_chara_struct
     unsigned short field_18;
     unsigned short field_1A;
     int field_1C;
-    int field_20;
+    int field_20_pFaceMemory;
     int field_24;
     int* field_28_pStack;
     int field_2C;
-    int field_30;
+    int field_30_face_data_num;
     int field_34;
     int field_38;
     short field_3C;
@@ -57,6 +56,8 @@ unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
 void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName);
 void menu_gcl_set_radio_var_80047768(menu_chara_struct* unknown, unsigned char *pScript);
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
+
+void menuman_init_80038954(void);
 
 typedef struct MenuMan_MenuBars
 {
