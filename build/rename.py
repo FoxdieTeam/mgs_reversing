@@ -1,11 +1,11 @@
 import os.path
 from os import path
 
-old = "sub_80047AA0"
+old = "sub_800906B0"
 parts = old.split('_')
-newFileName = "menu_radio_codec_task_proc" + "_" + parts[len(parts)-1]
+newFileName = "SetDrawEnv" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
-subdir = ""
+subdir = "psyq"
 
 def FixFileContent(fileName, find, replace):
     with open(fileName,'r') as f:

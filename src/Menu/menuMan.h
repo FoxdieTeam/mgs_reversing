@@ -18,7 +18,6 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 typedef struct menu_chara_struct
 {
-    // todo: maybe this is chara related, unknown yet, struct may also be bigger
     int field_0_state;
     int field_4;
     int field_8;
@@ -28,11 +27,11 @@ typedef struct menu_chara_struct
     unsigned short field_18;
     unsigned short field_1A;
     int field_1C;
-    int field_20;
+    int field_20_pFaceMemory;
     int field_24;
     int* field_28_pStack;
     int field_2C;
-    int field_30;
+    int field_30_face_data_num;
     int field_34;
     int field_38;
     short field_3C;
@@ -58,6 +57,8 @@ void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName);
 void menu_gcl_set_radio_var_80047768(menu_chara_struct* unknown, unsigned char *pScript);
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 
+void menuman_init_80038954(void);
+
 typedef struct MenuMan_MenuBars
 {
     BYTE field_0_state;
@@ -80,8 +81,22 @@ typedef struct MenuMan_Inventory_Menu_0x14
 } MenuMan_Inventory_Menu_0x14;
 
 typedef void(*TMenuUpdateFn)(void); //todo
-typedef void(*MenuPrimBuffer)(void); //todo
 typedef void(*ButtonStates)(void); //todo
+
+
+typedef struct
+{
+    unsigned char* mFreeLocation;
+    unsigned char* mOt;
+    unsigned char* mOtEnd;
+} MenuPrimBuffer;
+
+typedef struct
+{
+    MenuPrimBuffer mPrimBuf;
+    unsigned char* mPrimPtrs[2];
+} MenuGlue;
+
 typedef struct MenuMan
 {
     Actor mBase;
@@ -91,10 +106,9 @@ typedef struct MenuMan
     BYTE field_29;
     BYTE field_2A_state;
     BYTE field_2B;
-    TMenuUpdateFn m7FnPtrs_field_2C[7];
-    DR_ENV mDR_ENV_field_48[2];
-    DR_ENV DR_ENV_field_C8;
-    DWORD field_108;
+    TMenuUpdateFn m7FnPtrs_field_2C[8];
+    DR_ENV mDR_ENV_field_4C[2];
+    DR_ENV DR_ENV_field_CC;
     DWORD field_10C;
     DWORD field_110;
     DWORD field_114;
@@ -127,3 +141,4 @@ typedef struct MenuMan
     DWORD field_214_108bytes;
     menu_chara_struct* field_218;
 } MenuMan;
+typedef void(*TInitKillFn)(MenuMan*);
