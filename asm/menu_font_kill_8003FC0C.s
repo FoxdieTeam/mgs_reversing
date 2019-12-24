@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003FC0C
-sub_8003FC0C:
+	xdef menu_font_kill_8003FC0C
+menu_font_kill_8003FC0C:
 	dw 0x27BDFFE8 ; 0x8003FC0C
 	dw 0x3C02800C ; 0x8003FC10
 	dw 0x2442D360 ; 0x8003FC14
