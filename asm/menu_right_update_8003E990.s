@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003E990
-sub_8003E990:
+	xdef menu_right_update_8003E990
+menu_right_update_8003E990:
 	dw 0x27BDFFD0 ; 0x8003E990
 	dw 0xAFB1001C ; 0x8003E994
 	dw 0x00808821 ; 0x8003E998

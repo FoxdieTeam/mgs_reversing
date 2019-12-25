@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800511BC
-sub_800511BC:
+	xdef sna_init_800511BC
+sna_init_800511BC:
 	dw 0x27BDFFD0 ; 0x800511BC
 	dw 0xAFB00018 ; 0x800511C0
 	dw 0x00808021 ; 0x800511C4

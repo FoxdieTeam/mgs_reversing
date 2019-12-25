@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80032C48"
+old = "sub_800511BC"
 parts = old.split('_')
-newFileName = "GM_Sound" + "_" + parts[len(parts)-1]
+newFileName = "sna_init" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

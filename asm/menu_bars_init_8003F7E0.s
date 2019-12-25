@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003F7E0
-sub_8003F7E0:
+	xdef menu_bars_init_8003F7E0
+menu_bars_init_8003F7E0:
 	dw 0x3C028004 ; 0x8003F7E0
 	dw 0x90830028 ; 0x8003F7E4
 	dw 0x2442F530 ; 0x8003F7E8
