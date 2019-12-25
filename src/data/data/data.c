@@ -509,14 +509,15 @@ typedef struct {
 }; // TODO Missing data
 */
  
+
 TInitKillFn SECTION(".data") gMenuInitFns_8009E290[] =
 	{
-		(TInitKillFn)0x8003CC94,
-		(TInitKillFn)0x8003B474,
+		(TInitKillFn)0x8003CC94, // ??
+		(TInitKillFn)0x8003B474, // radar
 		(TInitKillFn)0x80042700, // menu_radio_init_80042700
-		(TInitKillFn)0x8003CBF0,
-		(TInitKillFn)0x8003EC2C,
-		(TInitKillFn)0x8003F7E0,
+		(TInitKillFn)0x8003CBF0, // invent left
+		(TInitKillFn)0x8003EC2C, // invent right
+		(TInitKillFn)0x8003F7E0, // bars
 		(TInitKillFn)0x80042848, // menu_number_init_80042848
 		(TInitKillFn)0x800494C4, // menu_jimaku_init_800494C4
 		0};
@@ -627,44 +628,44 @@ int SECTION(".ASM_DATA") dword_8009EF20 = 0x494;
 int SECTION(".ASM_DATA") dword_8009EF24[] = {0x27F0200, 0};
 int SECTION(".ASM_DATA") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
 
-int SECTION(".ASM_DATA") dword_8009EF3C[] =
+int SECTION(".ASM_DATA") gSnakeWeapons_8009EF3C[] =
 	{
-		0x80065D74,
+		0x80065D74, // socom
 		0x800540D0,
 		0x80066374, // famas_create_80066374
 		0x800540D0,
-		0x80066A4C,
+		0x80066A4C, // grenade
 		0x80058470,
-		0x80066FF0,
+		0x80066FF0, // rcm
 		0x800540D0,
-		0x80067480,
+		0x80067480, // aam
 		0x800570C0,
-		0x800677BC,
+		0x800677BC, // mine
 		0x80057474,
-		0x80067B20,
+		0x80067B20, // bomb
 		0x800541A8,
-		0x80066A74,
+		0x80066A74, // grenade
 		0x80058470,
-		0x80066AA0,
+		0x80066AA0, // grenade
 		0x80058470,
 		0x80068214, // rifle_init_80068214
 		0x80056DDC};
 
-int SECTION(".ASM_DATA") dword_8009EF8C[] =
+int SECTION(".ASM_DATA") gSnakeEquips_8009EF8C[] =
 	{
-		0x80062274,
-		0x80063508,
-		0x80061C7C,
-		0x80061C7C,
-		0x80061C7C,
-		0x8007781C,
-		0x80078E6C,
-		0x80060C14,
-		0x80060940,
-		0x80072B60,
-		0x800615FC,
-		0x80061E40,
-		0x80065118};
+		0x80062274, // tabako
+		0x80063508, // scope
+		0x80061C7C, // box
+		0x80061C7C, // box
+		0x80061C7C, // box
+		0x8007781C, // goggle
+		0x80078E6C, // goggleir
+		0x80060C14, // gasmask
+		0x80060940, // bodyarm
+		0x80072B60, // d_blood
+		0x800615FC, // kogaku2 - camera ??
+		0x80061E40, // bandana
+		0x80065118}; // jpegcam
 
 char SECTION(".ASM_DATA") byte_8009EFC0[] = {0, 0, 0xF4};
 char SECTION(".ASM_DATA") byte_8009EFC3 = 1;

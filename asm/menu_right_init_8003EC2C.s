@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003EC2C
-sub_8003EC2C:
+	xdef menu_right_init_8003EC2C
+menu_right_init_8003EC2C:
 	dw 0x27BDFFE8 ; 0x8003EC2C
 	dw 0xAFB00010 ; 0x8003EC30
 	dw 0x00808021 ; 0x8003EC34
