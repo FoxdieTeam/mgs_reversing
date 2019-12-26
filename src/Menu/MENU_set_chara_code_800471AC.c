@@ -17,7 +17,7 @@ void sub_80037EE0(int, int);
 int sub_80037CD8(void);
 void mts_8008C408(int, int);
 void mts_8008C454(int, int);
-void sub_80032C48(int, int code);
+void GM_Sound_80032C48(int, int code);
 int rand_8008E6B8(void);
 unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
 unsigned char *sub_800217F0(unsigned char *);
@@ -126,7 +126,7 @@ void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
     case 0x00:
         pScriptIter = pScript;
         pScriptIter++;
-        sub_80032C48(MakeVoxCode(pScriptIter), 0);
+        GM_Sound_80032C48(MakeVoxCode(pScriptIter), 0);
         break;
 
     case 0x01:

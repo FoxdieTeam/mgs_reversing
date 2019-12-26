@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003B474
-sub_8003B474:
+	xdef menu_radar_init_8003B474
+menu_radar_init_8003B474:
 	dw 0x27BDFFE8 ; 0x8003B474
 	dw 0xAFB00010 ; 0x8003B478
 	dw 0x00808021 ; 0x8003B47C

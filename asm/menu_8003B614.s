@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003B614
-sub_8003B614:
+	xdef menu_8003B614
+menu_8003B614:
 	dw 0x27BDFFE8 ; 0x8003B614
 	dw 0x00802821 ; 0x8003B618
 	dw 0x3C03800A ; 0x8003B61C

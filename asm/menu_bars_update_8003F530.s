@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003F530
-sub_8003F530:
+	xdef menu_bars_update_8003F530
+menu_bars_update_8003F530:
 	dw 0x27BDFFE0 ; 0x8003F530
 	dw 0xAFB10014 ; 0x8003F534
 	dw 0x00808821 ; 0x8003F538
