@@ -2592,7 +2592,6 @@ group_rdata_code	group org($80010000)
 
 group_other	group org($8009D2DC)
 	section .data, group_other
-	section .ASM_DATA, group_other
 	section .sdata2, group_other
 	section .sdata, group_other
 	section .sbss, group_other
