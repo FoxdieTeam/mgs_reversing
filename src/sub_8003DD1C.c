@@ -91,3 +91,25 @@ void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, in
     pUnk->field_0_pixels = &pImg->field_4_pixel_ptr[0];
     pUnk->field_4_word_ptr_pixels = (short *)&pPal->field_4_pixel_ptr[0];
 }
+
+#define MENU_ITEMS_RIGHT_COUNT 11
+
+MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
+
+void menu_inventory_right_init_items_8003DE50(void)
+{
+    int i = 0;
+    while (i < MENU_ITEMS_RIGHT_COUNT)
+    {
+        const int imgIdx = i + 1;
+        menu_init_rpk_item_8003DDCC(&gMenuRightItems_800BD888[i], imgIdx, 0);
+        i++;
+    }
+}
+
+void sub_8003CE40(MenuMan_Inventory_14h_Unk*, int);
+
+void menu_right_unknown_8003DEB0(void)
+{
+    sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
+}
