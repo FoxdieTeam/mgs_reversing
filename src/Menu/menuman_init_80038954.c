@@ -21,7 +21,7 @@ unsigned char SECTION(".gPrimBackingBuffers_800B9360") gPrimBackingBuffers_800B9
 
 extern const char aItem[]; // sdata
 
-void sub_8003DD1C(const char *);
+void menu_rpk_init_8003DD1C(const char *);
 
 void SetDrawEnv_800906B0(DR_ENV *dr_env, DRAWENV *env);
 void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
@@ -50,7 +50,7 @@ void menu_init_subsystems_8003884C(MenuMan *pMenuMan)
     drawEnv.tpage = 31;
     SetDrawEnv_800906B0(&pMenuMan->mDR_ENV_field_4C[1], &drawEnv);
 
-    sub_8003DD1C(aItem);
+    menu_rpk_init_8003DD1C(aItem);
 
     pIter = &gMenuInitFns_8009E290[0];
     while (*pIter)

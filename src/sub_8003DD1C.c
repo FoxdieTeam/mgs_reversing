@@ -23,15 +23,15 @@ Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 int GV_HashFileName_800152FC(const char *pFileName, int ext);
 void *GV_FindCachedFile_8001538C(int hash);
 
-#define OffsetToPointer(offset, valueToAdd)   *((unsigned int *)offset) = (int)valueToAdd +  *((unsigned int *)offset);
+#define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
-Menu_rpk_item **sub_8003DD1C(const char *pFileName)
+Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
 {
     Menu_rpk_item **pEnd;
     Menu_rpk_item **pIter;
     int i;
     int count;
-    RpkHeader *pFileData = GV_FindCachedFile_8001538C( GV_HashFileName_800152FC(pFileName, 'r'));
+    RpkHeader *pFileData = GV_FindCachedFile_8001538C(GV_HashFileName_800152FC(pFileName, 'r'));
     if (!pFileData)
     {
         return 0;
@@ -52,12 +52,42 @@ Menu_rpk_item **sub_8003DD1C(const char *pFileName)
     return gItemFile_table_800ABAE4;
 }
 
-Menu_rpk_item *sub_8003DD9C(int id)
+Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id)
 {
     return gItemFile_table_800ABAE4[id];
 }
 
-Menu_rpk_item *sub_8003DDB4(int id)
+Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id)
 {
     return gItemFile_table_800ABAE4[id];
+}
+
+typedef struct
+{
+    unsigned char *field_0_pixels;
+    unsigned short int *field_4_word_ptr_pixels;
+    char field_8_index;
+    char field_9_x;
+    char field_A_y;
+    unsigned char field_B; // Padding?
+    unsigned char field_C_u;
+    unsigned char field_D_v;
+    short field_E_clut;
+    short field_10_w;
+    short field_12_h;
+} MenuMan_Inventory_14h_Unk;
+
+void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx)
+{
+    Menu_rpk_item *pPal;
+    Menu_rpk_item *pImg;
+
+    pPal = menu_rpk_get_pal_8003DD9C(palIdx);
+    pImg = menu_rpk_get_img_8003DDB4(imgIdx);
+    pUnk->field_9_x = pImg->field_0_x - 2;
+    pUnk->field_A_y = pImg->field_1_y - 2;
+    pUnk->field_10_w = pImg->field_2_w * 4;
+    pUnk->field_12_h = pImg->field_3_h;
+    pUnk->field_0_pixels = &pImg->field_4_pixel_ptr[0];
+    pUnk->field_4_word_ptr_pixels = (short *)&pPal->field_4_pixel_ptr[0];
 }
