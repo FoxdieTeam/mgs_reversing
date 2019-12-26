@@ -989,9 +989,6 @@
 	include	"..\obj\data\sbss\dword_800ABB04.obj"
 	include	"..\obj\data\sbss\dword_800ABB08.obj"
 	include	"..\obj\data\sbss\dword_800ABB0C.obj"
-	include	"..\obj\sub_8003DDCC.obj"
-	include	"..\obj\sub_8003DE50.obj"
-	include	"..\obj\sub_8003DEB0.obj"
 	include	"..\obj\sub_8003DED8.obj"
 	include	"..\obj\sub_8003DF30.obj"
 	include	"..\obj\sub_8003E030.obj"
@@ -2595,7 +2592,6 @@ group_rdata_code	group org($80010000)
 
 group_other	group org($8009D2DC)
 	section .data, group_other
-	section .ASM_DATA, group_other
 	section .sdata2, group_other
 	section .sdata, group_other
 	section .sbss, group_other
@@ -2670,6 +2666,11 @@ group_gMenuMan_800BD360	group bss,org($800BD360)
 
 group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
 	section .gPrimBackingBuffers_800B9360, group_gPrimBackingBuffers_800B9360
+
+group_gMenuRightItems_800BD888	group bss,org($800BD888)
+	section .gMenuRightItems_800BD888, group_gMenuRightItems_800BD888
+
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
