@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003B350
-sub_8003B350:
+	xdef menu_radar_update_8003B350
+menu_radar_update_8003B350:
 	dw 0x27BDFFE0 ; 0x8003B350
 	dw 0xAFB00010 ; 0x8003B354
 	dw 0x00808021 ; 0x8003B358

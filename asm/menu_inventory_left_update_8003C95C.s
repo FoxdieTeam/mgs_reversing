@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003C95C
-sub_8003C95C:
+	xdef menu_inventory_left_update_8003C95C
+menu_inventory_left_update_8003C95C:
 	dw 0x27BDFFD0 ; 0x8003C95C
 	dw 0xAFB20020 ; 0x8003C960
 	dw 0x00809021 ; 0x8003C964

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003CBF0
-sub_8003CBF0:
+	xdef menu_inventory_left_8003CBF0
+menu_inventory_left_8003CBF0:
 	dw 0x27BDFFE8 ; 0x8003CBF0
 	dw 0xAFB00010 ; 0x8003CBF4
 	dw 0x00808021 ; 0x8003CBF8

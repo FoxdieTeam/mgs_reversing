@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003D7DC
-sub_8003D7DC:
+	xdef menu_8003D7DC
+menu_8003D7DC:
 	dw 0x27BDFFA8 ; 0x8003D7DC
 	dw 0xAFB60048 ; 0x8003D7E0
 	dw 0x0080B021 ; 0x8003D7E4
