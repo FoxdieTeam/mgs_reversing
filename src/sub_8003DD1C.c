@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "menuMan.h"
+#include "Script_tbl_map_8002BB44.h"
 
 typedef struct
 {
@@ -22,6 +23,8 @@ Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
 int GV_HashFileName_800152FC(const char *pFileName, int ext);
 void *GV_FindCachedFile_8001538C(int hash);
+
+extern menu_weapon_rpk_info gMenuWeaponRpkInfo_8009E57C[];
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
@@ -107,9 +110,27 @@ void menu_inventory_right_init_items_8003DE50(void)
     }
 }
 
-void sub_8003CE40(MenuMan_Inventory_14h_Unk*, int);
+void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 
 void menu_right_unknown_8003DEB0(void)
 {
     sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
 }
+
+extern GameState gGameState_800B4D98;
+
+MenuMan_Inventory_14h_Unk* menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
+{
+    int rpkIdx;
+    if ((weaponIdx == 0) && (gGameState_800B4D98.field_3E_item_states[23] == 0))
+    {
+        rpkIdx = 2;
+    }
+    else
+    {
+        rpkIdx = gMenuWeaponRpkInfo_8009E57C[weaponIdx].field_4_rpk_idx;
+    }
+    rpkIdx--;
+    return gMenuRightItems_800BD888 + rpkIdx;
+}
+

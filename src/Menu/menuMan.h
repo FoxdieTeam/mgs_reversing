@@ -6,6 +6,12 @@
 
 #include "util/idaTypes.h"
 
+typedef struct
+{
+	char* field_0_weapon_name;
+	int field_4_rpk_idx;
+} menu_weapon_rpk_info;
+
 typedef struct RadioMemory
 {
     short field_0_id;
