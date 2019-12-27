@@ -19,6 +19,30 @@ extern const char* aStunG[];
 extern const char* aChaffG[];
 extern const char* aPsg1[];
 
+extern const char* aScope[];
+extern const char* aCBoxA[];
+extern const char* aCBoxB[];
+extern const char* aCBoxC[];
+extern const char* aNVG[];
+extern const char* aThermG[];
+extern const char* aGasmask[];
+extern const char* aBArmor[];
+extern const char* aKetchup[];
+extern const char* aStealth[];
+extern const char* aBandana[];
+extern const char* aCamera[];
+extern const char* aRation[];
+extern const char* aMedicine[];
+extern const char* aDiazepam[];
+extern const char* aPalKey[];
+extern const char* aCard[];
+extern const char* aTimerB[];
+extern const char* aMineD[];
+extern const char* aDisc[];
+extern const char* aRope[];
+extern const char* aScarf[];
+extern const char* aSuppr[];
+
 extern const char* aLife[];
 extern const char* aO2[];
 extern const char* aError[];
@@ -571,29 +595,30 @@ int SECTION(".data") dword_8009E44C[] = {0x6A9014B0, 0x6C906B90, 0x6E906D90, 0x7
 menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] =
 {
 	{(char*)aCigs, 0xE},
-	{(char*)0x800AB558, 0x1E},
-	{(char*)0x800AB550, 0x11},
-	{(char*)0x800AB548, 0x11},
-	{(char*)0x800AB540, 0x11},
-	{(char*)0x800AB538, 0xF},
-	{(char*)0x800AB530, 0x10},
-	{(char*)0x800AB528, 0x13},
-	{(char*)0x800AB520, 0x12},
-	{(char*)0x800AB518, 0x19},
-	{(char*)0x800AB510, 0x20},
-	{(char*)0x800AB508, 0x1F},
-	{(char*)0x800AB500, 0xC},
-	{(char*)0x800AB4F8, 0x16},
-	{(char*)0x80011680, 0x15},
-	{(char*)0x80011674, 0x15},
-	{(char*)0x800AB4F0, 0x17},
-	{(char*)0x800AB4E8, 0x1B},
-	{(char*)0x800AB4E0, 0x1A},
-	{(char*)0x800AB4D8, 0x14},
-	{(char*)0x800AB4D0, 0x1C},
-	{(char*)0x800AB4C8, 0x18},
-	{(char*)0x800AB4C0, 0x1D},
-	{(char*)0x800AB4B8, 0xD}};
+	{(char*)aScope, 0x1E},
+	{(char*)aCBoxA, 0x11},
+	{(char*)aCBoxB, 0x11},
+	{(char*)aCBoxC, 0x11},
+	{(char*)aNVG, 0xF},
+	{(char*)aThermG, 0x10},
+	{(char*)aGasmask, 0x13},
+	{(char*)aBArmor, 0x12},
+	{(char*)aKetchup, 0x19},
+	{(char*)aStealth, 0x20},
+	{(char*)aBandana, 0x1F},
+	{(char*)aCamera, 0xC},
+	{(char*)aRation, 0x16},
+	{(char*)aMedicine, 0x15},
+	{(char*)aDiazepam, 0x15},
+	{(char*)aPalKey, 0x17},
+	{(char*)aCard, 0x1B},
+	{(char*)aTimerB, 0x1A},
+	{(char*)aMineD, 0x14},
+	{(char*)aDisc, 0x1C},
+	{(char*)aRope, 0x18},
+	{(char*)aScarf, 0x1D},
+	{(char*)aSuppr, 0xD}
+};
 
 int SECTION(".data") dword_8009E544[] = {0xB80010, 1, 0x6000, 0x9000, 0x8003D64C, 0x8003D594, 0, 0xB80100, 2, 0x3000, 0xC000, 0x8003D594, 0x8003D5F0, 0};
 
