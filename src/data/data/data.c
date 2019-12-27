@@ -9,6 +9,16 @@
 // sdata
 extern const char* aCigs[];
 extern const char* aSocom[];
+extern const char* aFamas_800AB5BC[];
+extern const char* aGrenade_800AB5B4[];
+extern const char* aNikita_800AB5AC[];
+extern const char* aStinger_800AB5A4[];
+extern const char* aClaymore[];
+extern const char* aC4_800AB5A0[];
+extern const char* aStunG[];
+extern const char* aChaffG[];
+extern const char* aPsg1[];
+
 extern const char* aLife[];
 extern const char* aO2[];
 extern const char* aError[];
@@ -590,16 +600,16 @@ int SECTION(".data") dword_8009E544[] = {0xB80010, 1, 0x6000, 0x9000, 0x8003D64C
 menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = 
 {
     { (char*)aSocom, 1 },
-    { (char*)0x800AB5BC, 3 },
-    { (char*)0x800AB5B4, 5 },
-    { (char*)0x800AB5AC, 0xA },
-    { (char*)0x800AB5A4, 9 },
-    { (char*)0x800116DC, 8 },
-    { (char*)0x800AB5A0, 7 },
-    { (char*)0x800AB598, 6 },
-    { (char*)0x800AB590, 0xB },
-    { (char*)0x800AB588, 4 }
-    };
+    { (char*)aFamas_800AB5BC, 3 },
+    { (char*)aGrenade_800AB5B4, 5 },
+    { (char*)aNikita_800AB5AC, 10 },
+    { (char*)aStinger_800AB5A4, 9 },
+    { (char*)aClaymore, 8 },
+    { (char*)aC4_800AB5A0, 7 },
+    { (char*)aStunG, 6 },
+    { (char*)aChaffG, 11 },
+    { (char*)aPsg1, 4 }
+};
 
 int SECTION(".data") dword_8009E5CC[] = {0x80011A8C, 0x80011A30, 0x800119C0, 0x80011954, 0x800118DC, 0x8001187C, 0x80011838, 0x800117C4, 0x80011750, 0x800116E8};
 int SECTION(".data") off_8009E5F4[] = {(int)aLife, 0x1F7F8F10, 0x3FDF};
