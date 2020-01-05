@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 
-extern DWORD Square0_80093340(VECTOR*, VECTOR*); //TODO type?
+extern DWORD Square0_80093340(VECTOR*, VECTOR*);
 extern DWORD SquareRoot0_80092708(int);
 
 DWORD GV_VecLen3_80016D80(SVECTOR* vec)
