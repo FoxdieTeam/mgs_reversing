@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80094308
-sub_80094308:
+	xdef ratan2_80094308
+ratan2_80094308:
 	dw 0x00003021 ; 0x80094308
 	dw 0x04A10003 ; 0x8009430C
 	dw 0x00003821 ; 0x80094310
