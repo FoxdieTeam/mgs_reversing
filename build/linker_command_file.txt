@@ -2346,7 +2346,7 @@
 	include	"..\obj\psyq\sub_80093D68.obj"
 	include	"..\obj\psyq\sub_80093F08.obj"
 	include	"..\obj\psyq\sub_80094108.obj"
-	include	"..\obj\psyq\sub_80094308.obj"
+	include	"..\obj\psyq\ratan2_80094308.obj"
 	include	"..\obj\psyq\sub_80094488.obj"
 	include	"..\obj\psyq\sub_80094534.obj"
 	include	"..\obj\psyq\sub_80094568.obj"
