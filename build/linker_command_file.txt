@@ -2340,7 +2340,7 @@
 	include	"..\obj\psyq\sub_80093478.obj"
 	include	"..\obj\psyq\sub_800934A8.obj"
 	include	"..\obj\psyq\sub_80093508.obj"
-	include	"..\obj\psyq\sub_80093798.obj"
+	include	"..\obj\psyq\RotMatrixYXZ_80093798.obj"
 	include	"..\obj\psyq\sub_80093A28.obj"
 	include	"..\obj\psyq\sub_80093BC8.obj"
 	include	"..\obj\psyq\sub_80093D68.obj"
