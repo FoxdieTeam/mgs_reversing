@@ -945,7 +945,6 @@
 	include	"..\obj\sub_8003CC74.obj"
 	include	"..\obj\sub_8003CE40.obj"
 	include	"..\obj\sub_8003CE78.obj"
-	include	"..\obj\data\sbss\dword_800ABAE0.obj"
 	include	"..\obj\sub_8003CE84.obj"
 	include	"..\obj\sub_8003CEF8.obj"
 	include	"..\obj\sub_8003CFE0.obj"
