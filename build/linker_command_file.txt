@@ -963,7 +963,7 @@
 	include	"..\obj\sub_8003D4CC.obj"
 	include	"..\obj\sub_8003D520.obj"
 	include	"..\obj\sub_8003D52C.obj"
-	include	"..\obj\menu_8003D538.obj"
+	include	"..\obj\Menu\menu_8003D538.obj"
 	include	"..\obj\sub_8003D568.obj"
 	include	"..\obj\sub_8003D6A8.obj"
 	include	"..\obj\sub_8003D6CC.obj"
