@@ -1184,7 +1184,7 @@
 	include	"..\obj\sub_80047EFC.obj"
 	include	"..\obj\sub_80047F44.obj"
 	include	"..\obj\sub_80047FF4.obj"
-	include	"..\obj\menu_radio_codec_state_2_helper_80048024.obj"
+	include	"..\obj\Menu\menu_radio_codec_state_2_helper_80048024.obj"
 	include	"..\obj\sub_80048044.obj"
 	include	"..\obj\sub_80048080.obj"
 	include	"..\obj\sub_80048100.obj"
