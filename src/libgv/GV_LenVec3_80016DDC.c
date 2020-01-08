@@ -14,21 +14,21 @@ void GV_LenVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int pa
     iVar1 = pSrcVec->vx * param_4;
     if (iVar1 < 0)
     {
-        iVar1 += 0xfff;
+        iVar1 += ONE - 1;
     }
     pDstVec->vx = (short)(iVar1 >> 0xc);
 
     iVar1 = pSrcVec->vy * param_4;
     if (iVar1 < 0)
     {
-        iVar1 += 0xfff;
+        iVar1 += ONE - 1;
     }
     pDstVec->vy = (short)(iVar1 >> 0xc);
 
     iVar1 = pSrcVec->vz * param_4;
     if (iVar1 < 0)
     {
-        iVar1 += 0xfff;
+        iVar1 += ONE - 1;
     }
     pDstVec->vz = (short)(iVar1 >> 0xc);
 }
