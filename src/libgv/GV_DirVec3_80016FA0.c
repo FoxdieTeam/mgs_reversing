@@ -10,25 +10,7 @@ void GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec)
     int iVar1;
 
     RotMatrixYXZ_80093798(pSrcVec, &matrix);
-
-    iVar1 = param_2 * matrix.m[0][2];
-    if (iVar1 < 0)
-    {
-        iVar1 += ONE - 1;
-    }
-    pDstVec->vx = (short)(iVar1 >> 0xc);
-
-    iVar1 = param_2 * matrix.m[1][2];
-    if (iVar1 < 0)
-    {
-        iVar1 += ONE - 1;
-    }
-    pDstVec->vy = (short)(iVar1 >> 0xc);
-
-    iVar1 = param_2 * matrix.m[2][2];
-    if (iVar1 < 0)
-    {
-        iVar1 += ONE - 1;
-    }
-    pDstVec->vz = (short)(iVar1 >> 0xc);
+    pDstVec->vx = param_2 * matrix.m[0][2] / ONE;
+    pDstVec->vy =  param_2 * matrix.m[1][2] / ONE;
+    pDstVec->vz = param_2 * matrix.m[2][2] / ONE;
 }
