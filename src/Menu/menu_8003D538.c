@@ -2,7 +2,7 @@
 
 int SECTION(".sbss") dword_800ABAE0;
 
-int menu_8003D538()
+int menu_8003D538(void)
 {
     dword_800ABAE0 += 0x40;
     if (dword_800ABAE0 >= 0x100)
