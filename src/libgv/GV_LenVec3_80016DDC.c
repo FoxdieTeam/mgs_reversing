@@ -11,11 +11,6 @@ void GV_LenVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int pa
     }
     param_4 /= param_3;
 
-    if (param_4 == -0x80000000)
-    {
-        param_3 = 1;// dafuq????
-    }
-
     iVar1 = pSrcVec->vx * param_4;
     if (iVar1 < 0)
     {
