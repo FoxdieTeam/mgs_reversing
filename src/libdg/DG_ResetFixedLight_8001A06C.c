@@ -15,13 +15,21 @@ typedef struct
 typedef struct
 {
     int field_0_lightCount;
-    Light* field_4_pLights;
+    Light *field_4_pLights;
 } DG_FixedLight;
-
 
 static DG_FixedLight SECTION(".bss_800B1E08") gFixedLights_800B1E08[8];
 
-DG_FixedLight* DG_ResetFixedLight_8001A06C(void)
+extern MATRIX DG_ColorMatrix_8009D3A4;
+
+void DG_SetMainLightCol_8001A048(int r, int g, int b)
+{
+    DG_ColorMatrix_8009D3A4.m[0][0] = r * 16;
+    DG_ColorMatrix_8009D3A4.m[1][0] = g * 16;
+    DG_ColorMatrix_8009D3A4.m[2][0] = b * 16;
+}
+
+DG_FixedLight *DG_ResetFixedLight_8001A06C(void)
 {
     DG_FixedLight *pLightIter = &gFixedLights_800B1E08[0];
     int i = COUNTOF(gFixedLights_800B1E08);
