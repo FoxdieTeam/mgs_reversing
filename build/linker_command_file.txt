@@ -2661,6 +2661,9 @@ group_gRadioMemory_800BDB38	group bss,org($800BDB38)
 group_gMenuMan_800BD360	group bss,org($800BD360)
 	section .gMenuMan_800BD360, group_gMenuMan_800BD360
 
+group_gMenuMan_800BD5A0 group bss,org($800BD5A0)
+	section .gMenuMan_800BD5A0, group_gMenuMan_800BD5A0
+
 group_gStuff_800B9340	group bss,org($800B9340)
 	section .gStuff_800B9340, group_gStuff_800B9340
 
