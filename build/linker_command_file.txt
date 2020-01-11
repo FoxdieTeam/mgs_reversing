@@ -2625,6 +2625,9 @@ group_gDgdActor2_800B3750	group bss,org($800B3750)
 group_gDispEnv_800B0600	group bss,org($800B0600)
 	section .gDispEnv_800B0600, group_gDispEnv_800B0600
 
+group_gStuff_800B52C0	group bss,org($800B52C0)
+	section .gStuff_800B52C0, group_gStuff_800B52C0
+
 group_gOverlayBinSize_800B5290	group bss,org($800B5290)
 	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
 
