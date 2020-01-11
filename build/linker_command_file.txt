@@ -149,7 +149,6 @@
 	include	"..\obj\libdg\DG_InitLightSystem_80019F40.obj"
 	include	"..\obj\libdg\DG_SetAmbient_80019F80.obj"
 	include	"..\obj\libdg\DG_SetMainLightDir_80019FF8.obj"
-	include	"..\obj\libdg\DG_SetMainLightCol_8001A048.obj"
 	include	"..\obj\libdg\DG_ResetFixedLight_8001A06C.obj"
 	include	"..\obj\libdg\DG_SetFixedLight_8001A094.obj"
 	include	"..\obj\libdg\DG_ClearTmpLight_8001A0E4.obj"
