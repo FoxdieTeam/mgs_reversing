@@ -2624,6 +2624,9 @@ group_gDgdActor2_800B3750	group bss,org($800B3750)
 group_gDispEnv_800B0600	group bss,org($800B0600)
 	section .gDispEnv_800B0600, group_gDispEnv_800B0600
 
+group_gStuff_800B52C0	group bss,org($800B52C0)
+	section .gStuff_800B52C0, group_gStuff_800B52C0
+
 group_gOverlayBinSize_800B5290	group bss,org($800B5290)
 	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
 
@@ -2656,6 +2659,12 @@ group_gRadioMemory_800BDB38	group bss,org($800BDB38)
 
 group_gMenuMan_800BD360	group bss,org($800BD360)
 	section .gMenuMan_800BD360, group_gMenuMan_800BD360
+
+group_gMenuMan_800BD5A0 group bss,org($800BD5A0)
+	section .gMenuMan_800BD5A0, group_gMenuMan_800BD5A0
+
+group_gStuff_800B9340	group bss,org($800B9340)
+	section .gStuff_800B9340, group_gStuff_800B9340
 
 group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
 	section .gPrimBackingBuffers_800B9360, group_gPrimBackingBuffers_800B9360

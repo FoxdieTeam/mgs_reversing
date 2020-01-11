@@ -4,7 +4,10 @@
 
 
 int SECTION(".sbss") dword_800AB928;
-int SECTION(".sbss") dword_0x800AB92C[4];
+int SECTION(".sbss") dword_800AB92C;
+int SECTION(".sbss") dword_800AB930;
+int SECTION(".sbss") dword_800AB934;
+int SECTION(".sbss") dword_800AB938;
 short SECTION(".sbss") pad1;
 unsigned char* SECTION(".sbss") gResidentTop_800AB940;
 int SECTION(".sbss") dword_800AB944[6];

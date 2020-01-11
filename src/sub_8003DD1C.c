@@ -65,21 +65,6 @@ Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id)
     return gItemFile_table_800ABAE4[id];
 }
 
-typedef struct
-{
-    unsigned char *field_0_pixels;
-    unsigned short int *field_4_word_ptr_pixels;
-    char field_8_index;
-    char field_9_x;
-    char field_A_y;
-    unsigned char field_B; // Padding?
-    unsigned char field_C_u;
-    unsigned char field_D_v;
-    short field_E_clut;
-    short field_10_w;
-    short field_12_h;
-} MenuMan_Inventory_14h_Unk;
-
 void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx)
 {
     Menu_rpk_item *pPal;
