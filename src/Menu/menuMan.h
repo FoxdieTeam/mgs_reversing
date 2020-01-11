@@ -56,6 +56,21 @@ typedef struct menu_chara_struct
     int field_68;
 } menu_chara_struct;
 
+typedef struct
+{
+    unsigned char *field_0_pixels;
+    unsigned short int *field_4_word_ptr_pixels;
+    char field_8_index;
+    char field_9_x;
+    char field_A_y;
+    unsigned char field_B; // Padding?
+    unsigned char field_C_u;
+    unsigned char field_D_v;
+    short field_E_clut;
+    short field_10_w;
+    short field_12_h;
+} MenuMan_Inventory_14h_Unk;
+
 RadioMemory *menu_radio_table_find_8004D380(int toFind);
 RadioMemory *menu_radio_table_next_free_8004D3B8(void);
 unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
