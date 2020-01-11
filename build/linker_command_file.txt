@@ -2658,6 +2658,9 @@ group_gRadioMemory_800BDB38	group bss,org($800BDB38)
 group_gMenuMan_800BD360	group bss,org($800BD360)
 	section .gMenuMan_800BD360, group_gMenuMan_800BD360
 
+group_gStuff_800B9340	group bss,org($800B9340)
+	section .gStuff_800B9340, group_gStuff_800B9340
+
 group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
 	section .gPrimBackingBuffers_800B9360, group_gPrimBackingBuffers_800B9360
 
