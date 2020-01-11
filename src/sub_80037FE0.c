@@ -8,8 +8,8 @@ typedef struct someStruct
 
 someStruct SECTION(".gStuff_800B9340") randomStruct; //todo figure out
 
-void sub_80037FE0(int param_1, WORD param_2)
+void sub_80037FE0(int param_1, WORD value) //param_1 is a member of some Actor struct.
 {
-  randomStruct.thing[(param_1 + -1) * 2] = param_2;
+  randomStruct.thing[(param_1 + -1) * 2] = value;
 }
 
