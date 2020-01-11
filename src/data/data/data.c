@@ -131,14 +131,17 @@ int SECTION(".data") dword_8009D390 = 0;
 
 int SECTION(".data") dword_8009D394[] = {0, 0, 0, 0};
 
-int SECTION(".data") DG_ColorMatrix_8009D3A4 = 0x10001000;
-
-short SECTION(".data") word_8009D3A8 = 0x1000;
-short SECTION(".data") word_8009D3AA = 0x1000;
-int SECTION(".data") dword_8009D3AC = 0x10001000;
-int SECTION(".data") dword_8009D3B0 = 0x10001000;
-
-int SECTION(".data") dword_8009D3B4[] = {0x1000, 0, 0, 0};
+MATRIX SECTION(".data") DG_ColorMatrix_8009D3A4 =
+{
+	{
+		{ 0x1000, 0x1000, 0x1000 },
+		{ 0x1000, 0x1000, 0x1000 },
+		{ 0x1000, 0x1000, 0x1000 }
+	},
+	{
+		0, 0, 0
+	}
+};
 
 int SECTION(".data") dword_8009D3C4[] = {0, 0, 0};
 
