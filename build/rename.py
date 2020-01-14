@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_800511BC"
+old = "sub_800353E4"
 parts = old.split('_')
-newFileName = "sna_init" + "_" + parts[len(parts)-1]
+newFileName = "Kmd_Oar_Inflate" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
