@@ -79,11 +79,11 @@ void GV_Messge_And_Pad_Init_80014CC8(void)
 	GV_PadInputClear_800167C8();
 }
 
-extern void sub_80015540(void); // file cache ??
+extern void GV_FileCache_80015540(void);
 
 void sub_80014cf0(void)
 {
-	sub_80015540();
+	GV_FileCache_80015540();
 	GV_Memory_Init_80014C70();
 }
 
