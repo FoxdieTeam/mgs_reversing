@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001532C
-sub_8001532C:
+	xdef GV_FileNameHashNoExt_8001532C
+GV_FileNameHashNoExt_8001532C:
 	dw 0x27BDFFC8 ; 0x8001532C
 	dw 0x27A50010 ; 0x80015330
 	dw 0xAFBF0030 ; 0x80015334
