@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015484
-sub_80015484:
+	xdef GV_FileCache_80015484
+GV_FileCache_80015484:
 	dw 0x27BDFFE0 ; 0x80015484
 	dw 0x3C02800B ; 0x80015488
 	dw 0x2443CEF0 ; 0x8001548C

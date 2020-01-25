@@ -14,18 +14,19 @@
 	include	"..\obj\Callback_Hangup_80014B34.obj"
 	include "..\obj\libgv\gvd.obj"
 	include "..\obj\libgv\actor.obj"
-	include "..\obj\data\sdata\sdata2.obj"		
-	include	"..\obj\sub_80015240.obj" ; file cache ?
+	include "..\obj\data\sdata\sdata2.obj"
+	include	"..\obj\GV_FileCacheFind_80015240.obj"
 	include	"..\obj\libgv\GV_FileNameHashed_800152DC.obj"
 	include	"..\obj\libgv\GV_HashFileName_800152FC.obj"
-	include	"..\obj\sub_8001532C.obj"	
+	include	"..\obj\GV_FileNameHashNoExt_8001532C.obj"	
 	include	"..\obj\libgv\GV_FindCachedFile_8001538C.obj"
 	include	"..\obj\sub_800153C0.obj"
 	include	"..\obj\libgv\GV_SetFileHandler_80015418.obj"
 	include	"..\obj\libgv\GV_ClearFileCache_80015458.obj"
-	include	"..\obj\sub_80015484.obj" ; file cache to resident memory ?
-	include	"..\obj\sub_80015540.obj" ; file cache
+	include	"..\obj\GV_FileCache_80015484.obj" ; file cache to resident memory ?
+	include	"..\obj\GV_FileCache_80015540.obj" ; file cache
 	include	"..\obj\libgv\GV_LoadFile_800155BC.obj"
+	include	"..\obj\libgv\GV_Assert_800156E8.obj"
 	include	"..\obj\libgv\GV_Printf_80015718.obj"
 	include	"..\obj\System_FindAlloc_80015758.obj"
 	include	"..\obj\sub_80015818.obj"

@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_800353E4"
+old = "sub_80015540"
 parts = old.split('_')
-newFileName = "Kmd_Oar_Inflate" + "_" + parts[len(parts)-1]
+newFileName = "GV_FileCache" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
