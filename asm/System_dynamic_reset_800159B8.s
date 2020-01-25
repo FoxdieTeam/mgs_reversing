@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800159B8
-sub_800159B8:
+	xdef System_dynamic_reset_800159B8
+System_dynamic_reset_800159B8:
 	dw 0x27BDFFD0 ; 0x800159B8
 	dw 0xAFB60028 ; 0x800159BC
 	dw 0x0080B021 ; 0x800159C0

@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80015540"
+old = "sub_80015924"
 parts = old.split('_')
-newFileName = "GV_FileCache" + "_" + parts[len(parts)-1]
+newFileName = "System_voided_reset" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 

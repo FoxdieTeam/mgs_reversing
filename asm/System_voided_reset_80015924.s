@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015924
-sub_80015924:
+	xdef System_voided_reset_80015924
+System_voided_reset_80015924:
 	dw 0x24850010 ; 0x80015924
 	dw 0x00A01821 ; 0x80015928
 	dw 0x8C86000C ; 0x8001592C
