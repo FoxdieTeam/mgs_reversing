@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80015240
-sub_80015240:
+	xdef GV_FileCacheFind_80015240
+GV_FileCacheFind_80015240:
 	dw 0x00804021 ; 0x80015240
 	dw 0x00003821 ; 0x80015244
 	dw 0x05010002 ; 0x80015248
