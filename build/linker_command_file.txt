@@ -700,7 +700,7 @@
 	include	"..\obj\libgcl\GCL_Init_8002D1DC.obj"
 	include	"..\obj\sub_8002D208.obj"
 	include	"..\obj\sub_8002D300.obj"
-	include	"..\obj\sub_8002D3F0.obj"
+	include	"..\obj\sub_8002D3F0.obj" ; GM_Reset_Helper
 	include	"..\obj\Game\GM_AllocTarget_8002D400.obj"
 	include	"..\obj\Game\GM_TargetFree_8002D4B0.obj"
 	include	"..\obj\Game\GM_Target_SetVector_8002D500.obj"
@@ -887,13 +887,14 @@
 	include	"..\obj\sub_80037EE0.obj"
 	include	"..\obj\sub_80037F2C.obj"
 	include	"..\obj\sub_80037F68.obj"
-	include	"..\obj\sub_80037FB8.obj"
-	include	"..\obj\sub_80037FE0.obj"
-	include	"..\obj\sub_80037FFC.obj"
-	include	"..\obj\sub_80038004.obj"
+	include	"..\obj\sub_80037FB8.obj" ; jimctrl_init_helper
+	include	"..\obj\sub_80037FE0.obj" ; jimctrl_act_helper
+	include	"..\obj\sub_80037FFC.obj" ; jimctrl_act_helper
+	include	"..\obj\sub_80038004.obj" ; jimctrl_kill_helper
 	include	"..\obj\jimctrl_act_80038070.obj"
 	include	"..\obj\jimctrl_kill_8003853C.obj"
 	include	"..\obj\jimctrl_init_80038568.obj"
+
 	include	"..\obj\sub_80038678.obj"
 	include	"..\obj\Menu\menuman_act_800386A4.obj"
 	include	"..\obj\menuman_kill_800387E8.obj"
@@ -1548,9 +1549,10 @@
 	include	"..\obj\sub_8005C498.obj"
 	include	"..\obj\sub_8005C4E4.obj"
 	include	"..\obj\sub_8005C5D4.obj"
-	include	"..\obj\sub_8005C6C4.obj"
-	include	"..\obj\sub_8005C89C.obj"
-	include	"..\obj\sub_8005C974.obj"
+	include	"..\obj\sub_8005C6C4.obj" ; sna_init_act_helper
+	include	"..\obj\sub_8005C89C.obj" ; sna_init_act_helper_helper_helper
+	include	"..\obj\sub_8005C974.obj" ; sna_init_act_helper_helper_helper
+
 	include	"..\obj\vibrate_act_helper_8005D358.obj"
 	include	"..\obj\vibrate_act_helper_8005D3A4.obj"
 	include	"..\obj\vibrate_act_8005D424.obj"
