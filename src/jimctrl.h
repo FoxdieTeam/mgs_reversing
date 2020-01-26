@@ -7,9 +7,9 @@
 
 typedef struct
 {
-  short a;
-  char b;
-  char c;
+  short field_0;
+  char field_2;
+  char field_3;
 } array_800B9340_child;
 
 typedef struct
