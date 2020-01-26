@@ -888,10 +888,10 @@
 	include	"..\obj\sub_80037EE0.obj"
 	include	"..\obj\sub_80037F2C.obj"
 	include	"..\obj\sub_80037F68.obj"
-	include	"..\obj\sub_80037FB8.obj" ; jimctrl_init_helper
+	include	"..\obj\jimctrl_init_helper_clear_80037FB8.obj"
 	include	"..\obj\sub_80037FE0.obj" ; jimctrl_act_helper
 	include	"..\obj\sub_80037FFC.obj" ; jimctrl_act_helper
-	include	"..\obj\sub_80038004.obj" ; jimctrl_kill_helper
+	include	"..\obj\jimctrl_kill_helper_clear_80038004.obj"
 	include	"..\obj\jimctrl_act_80038070.obj"
 	include	"..\obj\jimctrl_kill_8003853C.obj"
 	include	"..\obj\jimctrl_init_80038568.obj"
