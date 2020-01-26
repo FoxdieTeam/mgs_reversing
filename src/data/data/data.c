@@ -469,10 +469,8 @@ unsigned int SECTION(".data") dword_8009DEC4[] =
 		0x350079, 0x2F007D, 0x350087, 0x117007D, 0x11A007D,
 		0x2F0087, 0x11A0087, 0x1170087, 0x7D};
 
-int SECTION(".data") dword_8009E280 = 0;
-int SECTION(".data") dword_8009E284 = 0;
-int SECTION(".data") dword_8009E288 = 0;
-int SECTION(".data") dword_8009E28C = 0;
+
+unk_8009E280 SECTION(".data") dword_8009E280 = {0, 0, 0, 0};
 
 /* For menu code reversing help
 enum
