@@ -14,7 +14,7 @@ typedef struct
 
 typedef struct
 {
-    Actor baseActor;
+    Actor base;
     BYTE pad0[24];
     int field_38;
     BYTE pad1[8];
