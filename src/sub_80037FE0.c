@@ -6,5 +6,5 @@ array_800B9340_child SECTION(".gStuff_800B9340") array_800B9340[6]; //todo figur
 
 void sub_80037FE0(int index, WORD value)
 {
-  array_800B9340[index - 1].a = value;
+  array_800B9340[index - 1].field_0 = value;
 }

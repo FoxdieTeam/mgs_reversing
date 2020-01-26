@@ -6,11 +6,13 @@ extern array_800B9340_child array_800B9340[array_800B9340_SIZE];
 
 void jimctrl_init_helper_clear_80037FB8(void)
 {
-    array_800B9340_child *child;
-    int iterator;
+    array_800B9340_child *pIter;
+    int i;
 
-    for (iterator = array_800B9340_SIZE - 1, child = &array_800B9340[0] + iterator; iterator >= 0; iterator--, child--)
+    i = array_800B9340_SIZE - 1;
+    pIter = &array_800B9340[i];
+    for (; i >= 0; i--, pIter--)
     {
-        child->a = 0;
+        pIter->field_0 = 0;
     }
 }
