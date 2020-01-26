@@ -19,4 +19,12 @@ typedef struct TextConfig
 
 extern struct TextConfig gMenuTextConfig_8009E2E4;  
 
+typedef struct
+{
+    int dword_8009E280;
+    int dword_8009E284;
+    int dword_8009E288;
+    int dword_8009E28C;
+} unk_8009E280;
+
 #endif // DATA_H
