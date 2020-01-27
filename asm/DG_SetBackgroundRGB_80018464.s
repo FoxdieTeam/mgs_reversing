@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80018464
-sub_80018464:
+	xdef DG_SetBackgroundRGB_80018464
+DG_SetBackgroundRGB_80018464:
 	dw 0x27BDFF70 ; 0x80018464
 	dw 0xAFB1007C ; 0x80018468
 	dw 0x00808821 ; 0x8001846C

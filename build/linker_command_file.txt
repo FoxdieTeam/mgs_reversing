@@ -120,7 +120,7 @@
 	include	"..\obj\libdg\DG_Init_DrawEnv_80018384.obj"
 	include	"..\obj\sub_800183D4.obj"
 	include	"..\obj\sub_8001844C.obj"
-	include	"..\obj\sub_80018464.obj"
+	include	"..\obj\DG_SetBackgroundRGB_80018464.obj"
 	include	"..\obj\libdg\DG_Set_RGB_800184F4.obj"
 	include	"..\obj\sub_80018520.obj"
 	include	"..\obj\libdg\DG_BackGroundNormal_80018548.obj"

@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_80015924"
+old = "sub_80018520"
 parts = old.split('_')
-newFileName = "System_voided_reset" + "_" + parts[len(parts)-1]
+newFileName = "DG_SetBackgroundBlack" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
