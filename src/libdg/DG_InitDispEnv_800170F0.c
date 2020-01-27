@@ -3,6 +3,9 @@
 #include <libgte.h>
 #include <libgpu.h>
 
+void DG_ClearChanlSystem_80017E9C(int bufferIdx);
+void DG_RenderPipeline_80018028(int bufferIdx);
+
 int SECTION(".sbss") gClipHeights_800AB960[2];
 
 int SECTION(".sbss") DG_CurrentGroupID_800AB968;
@@ -27,7 +30,6 @@ int SECTION(".sbss") dword_800AB98C;
 
 DISPENV SECTION(".gDispEnv_800B0600") gDispEnv_800B0600;
 
-
 void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
 {
     DISPENV *pDispEnv = &gDispEnv_800B0600;
@@ -44,9 +46,21 @@ void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
     pDispEnv->isrgb24 = 0;
 
     // For some reason lets overwrite what we already setup
-    pDispEnv->screen.y = 8; 
+    pDispEnv->screen.y = 8;
     pDispEnv->screen.h = 224;
 
     gClipHeights_800AB960[0] = x;
     gClipHeights_800AB960[1] = x + clipH;
+}
+
+void DG_ChangeReso_80017154(void)
+{
+}
+
+void DG_RenderPipeline_Init_8001715C(void)
+{
+    DG_ClearChanlSystem_80017E9C(0);
+    DG_ClearChanlSystem_80017E9C(1);
+    DG_RenderPipeline_80018028(0);
+    DG_RenderPipeline_80018028(1);
 }
