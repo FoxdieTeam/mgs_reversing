@@ -19,6 +19,11 @@ typedef struct
     int field_38;
     BYTE pad1[8];
     int field_44;
-} Actor_sub_80038004;
+} Actor_sub_80038004; //todo rename to Actor_jimctrl
+
+void jimctrl_init_helper_clear_80037FB8(void);
+void jimctrl_kill_helper_clear_80038004(Actor_sub_80038004 *pJimCtrl);
+void jimctrl_kill_8003853C(Actor_sub_80038004 *pJimCtrl);
+void sub_80037FE0(int index, WORD value);
 
 #endif // JIMCTRL_H
