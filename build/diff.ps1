@@ -1,0 +1,1 @@
+vbindiff ../../mgs_source/SLPM_862.47 ../obj/test2.exe
