@@ -15,9 +15,8 @@ typedef struct
 
 typedef struct
 {
-    DWORD gotohell_800B9358;
-    WORD idunnopadding;
-} gotohell_800B9358_struct;
+    DWORD dword_800B9358;
+} dword_800B9358_struct;
 
 typedef struct
 {

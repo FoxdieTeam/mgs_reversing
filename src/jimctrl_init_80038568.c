@@ -8,10 +8,9 @@ extern int sub_80024060(void);
 extern DWORD gotohell_800B9358;
 extern GameState gGameState_800B4D98;
 extern const char aJimctrlC[];
+extern dword_800B9358_struct array_800B9358[array_800B9340_SIZE + 1];
 
 Actor_JimCtrl SECTION(".gJimCtrlActor_800B82F0") jimCtrlActor_800B82F0;
-
-extern gotohell_800B9358_struct array_800B9358[array_800B9340_SIZE + 1];
 
 Actor *jimctrl_init_80038568(DWORD flags)
 {
@@ -26,13 +25,13 @@ Actor *jimctrl_init_80038568(DWORD flags)
 
     if (gGameState_800B4D98.unk.Flags & 0x100)
     {
-        pJimActor->field_27 = 3;
-        pJimActor->field_26 = 6;
+        jimCtrlActor_800B82F0.field_27 = 3;
+        jimCtrlActor_800B82F0.field_26 = 6;
     }
     else
     {
-        pJimActor->field_27 = 6;
-        pJimActor->field_26 = 3;
+        jimCtrlActor_800B82F0.field_27 = 6;
+        jimCtrlActor_800B82F0.field_26 = 3;
     }
 
     if (seekResult != 0)
@@ -40,7 +39,11 @@ Actor *jimctrl_init_80038568(DWORD flags)
         sub_800241B4(seekResult);
     }
 
-    if (pJimActor->field_0_base.mFnUpdate != jimctrl_act_80038070)
+    if (pJimActor->field_0_base.mFnUpdate == (TActorFunction)jimctrl_act_80038070)
+    {
+        return &pJimActor->field_0_base;
+    }
+    else
     {
         flags &= 0xf;
         pJimActor->field_28 = 0;
@@ -57,14 +60,14 @@ Actor *jimctrl_init_80038568(DWORD flags)
         pJimActor->field_24 = flags;
 
         sub_80024060();
-        pJimActor = &jimCtrlActor_800B82F0; //stupid!
-        pJimActor->field_30 = 0xffffffff;
-        pJimActor = &jimCtrlActor_800B82F0; //stupid!
+
+        pJimActor->field_30 = -1;
         pJimActor->field_2C = 0;
         pJimActor->field_34 = 0;
         pJimActor->field_20 = 0;
-        array_800B9358[0].gotohell_800B9358 = 0;
+        array_800B9358[0].dword_800B9358 = 0;
 
+        return &jimCtrlActor_800B82F0.field_0_base;
     }
-    return &pJimActor->field_0_base;
+
 }
