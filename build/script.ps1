@@ -1,1 +1,0 @@
-./build  -psyq_path4dot4 H:\Work\psyq_sdk\psyq_4.4\bin -psyq_path4dot3 H:\Work\psyq_sdk\psyq_4.3\bin
