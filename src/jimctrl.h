@@ -8,7 +8,7 @@
 
 typedef struct
 {
-    short field_0;
+    WORD field_0;
     char field_2;
     char field_3;
 } array_800B933C_child;
