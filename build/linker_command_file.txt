@@ -886,7 +886,7 @@
 	include	"..\obj\sub_80037DD8.obj"
 	include	"..\obj\sub_80037E40.obj"
 	include	"..\obj\sub_80037EE0.obj"
-	include	"..\obj\sub_80037F2C.obj"
+	include	"..\obj\jimctrl_act_helper_set_first_80037F2C.obj"
 	include	"..\obj\sub_80037F68.obj"
 	include	"..\obj\jimctrl_init_helper_clear_80037FB8.obj"
 	include	"..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
