@@ -1,14 +1,16 @@
 #ifndef SCRIPT_TBL_MAP_H
 #define SCRIPT_TBL_MAP_H
 
+#include <util/idaTypes.h>
 
 typedef struct Unk_800B4D98
 {
-    short field_0;                // 800b4d98
-    short field_2_DiffcultyLevel; // 800b4d9a
-    int Flags;                    // 800b4d9c
-    short StartingCdId;           // 800b4d9c
-    short LastRand;               // 800b4da0
+    short field_0;
+    short field_2_DiffcultyLevel;
+    WORD Flags;
+    WORD pad;
+    short StartingCdId;
+    short LastRand;
 } Unk_800B4D98;
 
 typedef struct GameState

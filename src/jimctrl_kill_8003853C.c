@@ -4,10 +4,9 @@
 
 extern unk_8009E280 dword_8009E280;
 
-extern void jimctrl_kill_helper_clear_80038004(Actor_sub_80038004 *pJimCtrl);
 extern void sub_80024098(void);
 
-void jimctrl_kill_8003853C(Actor_sub_80038004 *pJimCtrl)
+void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 {
     jimctrl_kill_helper_clear_80038004(pJimCtrl);
     dword_8009E280.dword_8009E28C = 0;
