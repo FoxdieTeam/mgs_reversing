@@ -8,7 +8,7 @@ extern int sub_80024060(void);
 extern DWORD gotohell_800B9358;
 extern GameState gGameState_800B4D98;
 extern const char aJimctrlC[];
-extern dword_800B9358_struct array_800B9358[array_800B9340_SIZE + 1];
+extern dword_800B9358_struct array_800B9358[2];
 
 Actor_JimCtrl SECTION(".gJimCtrlActor_800B82F0") jimCtrlActor_800B82F0;
 

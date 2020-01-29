@@ -16,6 +16,7 @@ typedef struct
 typedef struct
 {
     DWORD dword_800B9358;
+    WORD word_800B935C;
 } dword_800B9358_struct;
 
 typedef struct
