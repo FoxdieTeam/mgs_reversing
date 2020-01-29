@@ -2670,6 +2670,9 @@ group_gMenuMan_800BD5A0 group bss,org($800BD5A0)
 group_gStuff_800B9340	group bss,org($800B9340)
 	section .gStuff_800B9340, group_gStuff_800B9340
 
+group_gJimCtrlActor_800B82F0	group bss,org($800B82F0)
+	section .gJimCtrlActor_800B82F0, group_gJimCtrlActor_800B82F0
+
 group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
 	section .gPrimBackingBuffers_800B9360, group_gPrimBackingBuffers_800B9360
 
