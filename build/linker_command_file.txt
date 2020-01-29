@@ -889,7 +889,7 @@
 	include	"..\obj\sub_80037F2C.obj"
 	include	"..\obj\sub_80037F68.obj"
 	include	"..\obj\jimctrl_init_helper_clear_80037FB8.obj"
-	include	"..\obj\sub_80037FE0.obj" ; jimctrl_act_helper
+	include	"..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
 	include	"..\obj\sub_80037FFC.obj" ; jimctrl_act_helper
 	include	"..\obj\jimctrl_kill_helper_clear_80038004.obj"
 	include	"..\obj\jimctrl_act_80038070.obj"
@@ -2667,8 +2667,8 @@ group_gMenuMan_800BD360	group bss,org($800BD360)
 group_gMenuMan_800BD5A0 group bss,org($800BD5A0)
 	section .gMenuMan_800BD5A0, group_gMenuMan_800BD5A0
 
-group_gStuff_800B9340	group bss,org($800B9340)
-	section .gStuff_800B9340, group_gStuff_800B9340
+group_gStuff_800B933C	group bss,org($800B933C)
+	section .gStuff_800B933C, group_gStuff_800B933C
 
 group_gJimCtrlActor_800B82F0	group bss,org($800B82F0)
 	section .gJimCtrlActor_800B82F0, group_gJimCtrlActor_800B82F0

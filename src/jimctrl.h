@@ -1,7 +1,7 @@
 #ifndef JIMCTRL_H
 #define JIMCTRL_H
 
-#define array_800B9340_SIZE 6
+#define array_800B933C_SIZE 7
 
 #include "actor.h"
 #include <util/idaTypes.h>
@@ -11,12 +11,12 @@ typedef struct
     short field_0;
     char field_2;
     char field_3;
-} array_800B9340_child;
+} array_800B933C_child;
 
 typedef struct
 {
     DWORD dword_800B9358;
-    WORD word_800B935C;
+    DWORD dword_800B935C;
 } dword_800B9358_struct;
 
 typedef struct
