@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8008F76C
-sub_8008F76C:
+	xdef SetDrawSyncCallBack_8008F76C
+SetDrawSyncCallBack_8008F76C:
 	dw 0x27BDFFE0 ; 0x8008F76C
 	dw 0xAFB00010 ; 0x8008F770
 	dw 0x3C10800A ; 0x8008F774
