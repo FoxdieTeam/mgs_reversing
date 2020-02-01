@@ -95,21 +95,23 @@
 	include	"..\obj\libgv\GV_DiffDir_Unknown_8001706C.obj"
 	include	"..\obj\libgv\GV_RandU_80017090.obj"
 	include	"..\obj\libgv\GV_RandS_800170BC.obj"
+
 	include	"..\obj\libdg\DG_InitDispEnv_800170F0.obj"
 	include	"..\obj\libdg\DG_80017194.obj"
 	include	"..\obj\libdg\DG_800172A8.obj"
-	include	"..\obj\sub_800172D0.obj"
-	include	"..\obj\sub_800174DC.obj"
-	include	"..\obj\sub_80017594.obj"
-	include	"..\obj\sub_80017784.obj"
+	include	"..\obj\DG_800172D0.obj"
+	include	"..\obj\DG_800174DC.obj" ; do something with a gte result?
+	include	"..\obj\DG_Clip_80017594.obj" ; clip related
+	include	"..\obj\DG_OffsetDispEnv_80017784.obj"
 	include	"..\obj\libdg\DG_ClipDispEnv_800177EC.obj"
 	include	"..\obj\libdg\DG_PutDrawEnv_From_DispEnv_80017890.obj"
-	include	"..\obj\sub_800178D8.obj"
-	include	"..\obj\sub_80017984.obj"
-	include	"..\obj\sub_800179A8.obj"
-	include	"..\obj\sub_800179F4.obj"
-	include	"..\obj\sub_80017B30.obj"
+	include	"..\obj\DG_800178D8.obj" ; draws something/changes tpage
+	include	"..\obj\DG_DrawSyncCallback_80017984.obj"
+	include	"..\obj\DG_Init_800179A8.obj"  ; another part of DG structure
+	include	"..\obj\DG_Init_800179F4.obj" ; another part of DG structure
+	include	"..\obj\DG_InitOT_80017B30.obj"
 	include	"..\obj\libdg\DG_3OTsInit_80017B98.obj"
+
 	include	"..\obj\sub_80017E4C.obj"
 	include	"..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
 	include	"..\obj\libdg\DG_RenderPipeline_80018028.obj"
@@ -2264,7 +2266,7 @@
 	include	"..\obj\psyq\ResetGraph.obj"
 	include	"..\obj\psyq\SetGraphDebug.obj"
 	include	"..\obj\psyq\sub_8008F6B8.obj"
-	include	"..\obj\psyq\sub_8008F76C.obj"
+	include	"..\obj\psyq\SetDrawSyncCallBack_8008F76C.obj"
 	include	"..\obj\psyq\SetDispMask_8008F7CC.obj"
 	include	"..\obj\psyq\DrawSync.obj"
 	include	"..\obj\psyq\sub_8008F8CC.obj"
@@ -2677,7 +2679,8 @@ group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
 group_gMenuRightItems_800BD888	group bss,org($800BD888)
 	section .gMenuRightItems_800BD888, group_gMenuRightItems_800BD888
 
-
+group_gOts_800B1800	group bss,org($800B1800)
+	section .gOts_800B1800, group_gOts_800B1800
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

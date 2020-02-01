@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800179F4
-sub_800179F4:
+	xdef DG_Init_800179F4
+DG_Init_800179F4:
 	dw 0x27BDFF80 ; 0x800179F4
 	dw 0xAFB00070 ; 0x800179F8
 	dw 0x00808021 ; 0x800179FC

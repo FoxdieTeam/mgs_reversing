@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80017B30
-sub_80017B30:
+	xdef DG_InitOT_80017B30
+DG_InitOT_80017B30:
 	dw 0x88860067 ; 0x80017B30
 	dw 0x98860064 ; 0x80017B34
 	dw 0x8887006B ; 0x80017B38

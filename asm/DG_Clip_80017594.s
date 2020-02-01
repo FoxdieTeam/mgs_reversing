@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80017594
-sub_80017594:
+	xdef DG_Clip_80017594
+DG_Clip_80017594:
 	dw 0x48C5D000 ; 0x80017594
 	dw 0x84830000 ; 0x80017598
 	dw 0x00000000 ; 0x8001759C
