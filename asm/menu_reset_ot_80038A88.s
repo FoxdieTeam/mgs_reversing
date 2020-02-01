@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038A88
-sub_80038A88:
+	xdef menu_reset_ot_80038A88
+menu_reset_ot_80038A88:
 	dw 0x27BDFFE0 ; 0x80038A88
 	dw 0xAFB00010 ; 0x80038A8C
 	dw 0x3C10800A ; 0x80038A90

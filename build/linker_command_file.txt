@@ -905,7 +905,7 @@
 	include	"..\obj\Menu\menuman_init2_80038A20.obj"
 	include	"..\obj\sub_80038A6C.obj"
 	include	"..\obj\sub_80038A7C.obj"
-	include	"..\obj\sub_80038A88.obj"
+	include	"..\obj\menu_reset_ot_80038A88.obj"
 	include	"..\obj\Menu\MENU_Color_80038B4C.obj"
 	include	"..\obj\sub_80038BB4.obj"
 	include	"..\obj\MENU_Text_80038C38.obj"
