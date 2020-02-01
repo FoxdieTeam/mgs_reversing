@@ -2634,6 +2634,9 @@ group_gStuff_800B52C0	group bss,org($800B52C0)
 group_gOverlayBinSize_800B5290	group bss,org($800B5290)
 	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
 
+group_gMemoryCardFiles_800B52F8	group bss,org($800B52F8)
+	section .gMemoryCardFiles_800B52F8, group_gMemoryCardFiles_800B52F8
+
 group_gControlArray_800B56D0	group bss,org($800B56D0)
 	section .gControlArray_800B56D0, group_gControlArray_800B56D0
 	
