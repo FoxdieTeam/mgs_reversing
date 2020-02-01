@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80017984
-sub_80017984:
+	xdef DG_DrawSyncCallback_80017984
+DG_DrawSyncCallback_80017984:
 	dw 0x27BDFFE8 ; 0x80017984
 	dw 0x3C04F200 ; 0x80017988
 	dw 0xAFBF0010 ; 0x8001798C
