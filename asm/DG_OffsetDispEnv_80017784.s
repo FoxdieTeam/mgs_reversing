@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80017784
-sub_80017784:
+	xdef DG_OffsetDispEnv_80017784
+DG_OffsetDispEnv_80017784:
 	dw 0x27BDFFE0 ; 0x80017784
 	dw 0xAFB10014 ; 0x80017788
 	dw 0x00808821 ; 0x8001778C

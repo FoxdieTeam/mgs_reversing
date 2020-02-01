@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800174DC
-sub_800174DC:
+	xdef DG_800174DC
+DG_800174DC:
 	dw 0x84830006 ; 0x800174DC
 	dw 0x00000000 ; 0x800174E0
 	dw 0x000310C0 ; 0x800174E4
