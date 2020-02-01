@@ -1,9 +1,9 @@
 import os.path
 from os import path
 
-old = "sub_800172D0"
+old = "sub_80038A88"
 parts = old.split('_')
-newFileName = "DG" + "_" + parts[len(parts)-1]
+newFileName = "menu_reset_ot" + "_" + parts[len(parts)-1]
 newFuncName = newFileName
 subdir = ""
 
