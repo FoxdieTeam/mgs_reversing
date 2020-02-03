@@ -2655,8 +2655,8 @@ group_gv_heaps_800AD2F0	group bss,org($800AD2F0)
 group_gTaskIdx_800C0DB0	group bss,org($800C0DB0)
 	section .gTaskIdx_800C0DB0, group_gTaskIdx_800C0DB0
 
-group_gTasks_800C0C38	group bss,org($800C0C38)
-	section .gTasks_800C0C38, group_gTasks_800C0C38
+group_gTasks_800C0C30	group bss,org($800C0C30)
+	section .gTasks_800C0C30, group_gTasks_800C0C30
 
 group_gGameState_800B4D98	group bss,org($800B4D98)
 	section .gGameState_800B4D98, group_gGameState_800B4D98
