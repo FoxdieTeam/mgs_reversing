@@ -20,14 +20,6 @@ char SECTION(".sbss") byte_800AB97C;
 char SECTION(".sbss") byte_800AB97D;
 short SECTION(".sbss") byte_800AB97E;
 
-short SECTION(".sbss") word_800AB980;
-short SECTION(".sbss") word_800AB982;
-
-short SECTION(".sbss") word_800AB984[2];
-
-int SECTION(".sbss") dword_800AB988;
-int SECTION(".sbss") dword_800AB98C;
-
 DISPENV SECTION(".gDispEnv_800B0600") gDispEnv_800B0600;
 
 void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
