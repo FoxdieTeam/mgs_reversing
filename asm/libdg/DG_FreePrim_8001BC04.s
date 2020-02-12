@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef DG_Free_8001BC04
-DG_Free_8001BC04:
+	xdef DG_FreePrim_8001BC04
+DG_FreePrim_8001BC04:
 	dw 0x27BDFFE8 ; 0x8001BC04
 	dw 0x10800003 ; 0x8001BC08
 	dw 0xAFBF0010 ; 0x8001BC0C
