@@ -193,7 +193,8 @@ int SECTION(".data") dword_8009D460 = 0;
 int SECTION(".data") dword_8009D464 = 0;
 int SECTION(".data") dword_8009D468 = 0xFFFFFFFF;
 
-int SECTION(".data") dword_8009D46C = 0x2030100;
+// kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
+unsigned char kVertexIndexingOrder_8009D46C[] = { 0, 1, 3, 2 };
 
 GCL_CommandTableEntry SECTION(".data") dword_8009D470[] =
 	{
