@@ -10,5 +10,5 @@ $progressToolOutput
 "
 	Write-Host $msg
 
-	#.\webhook.ps1 -webHookUrl (get-item env:HOOK_URL).Value -message $msg
+	.\webhook.ps1 -webHookUrl (get-item env:HOOK_URL).Value -message $msg
 }
