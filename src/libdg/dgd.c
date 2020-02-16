@@ -18,9 +18,8 @@ int zmd_file_handler_8001FAD0(unsigned char *pFileData, int fileNameHashed);
 int img_file_handler_8001F644(unsigned char *pFileData, int fileNameHashed);
 int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed);
 
-void DG_Update2_8001F078(Actor*);
-void DG_Update1_8001F1BC(Actor*);
-
+void DG_Update2_8001F078(Actor *);
+void DG_Update1_8001F1BC(Actor *);
 
 extern const char aDgdC[];
 
@@ -47,8 +46,102 @@ void DG_StartDaemon_8001F284(void)
     // 2D handler?
     GV_ActorPushBack_800150a8(0, &gDgdActor2_800B3750, 0);
     GV_ActorInit_8001514c(&gDgdActor2_800B3750, DG_Update2_8001F078, 0, aDgdC);
- 
+
     // 3D handler?
     GV_ActorPushBack_800150a8(8, &gDgdActor1_800B3770, 0);
     GV_ActorInit_8001514c(&gDgdActor1_800B3770, DG_Update1_8001F1BC, 0, aDgdC);
 }
+
+typedef struct
+{
+    int x, y, z;
+} DG_Vec3;
+
+typedef struct
+{
+    int field_0_flags;
+    int field_4_numFaces;
+    DG_Vec3 boundingBox[2];
+    DG_Vec3 translation;
+    int mRef_2C_parentObjIndex;
+    int mObjPosNum_30_translationUnk;
+
+    int numVerts_34;
+    SVECTOR *vertOfs_38;
+    unsigned char *indexOfs_3C;
+
+    int numNorms_40;
+    SVECTOR *normOfs_44;
+    unsigned char *normIndex_48;
+
+    unsigned char *ofsUV_4C;
+    unsigned short int *ofsTextureNameHashes_50;
+    int nullpad_54;
+} kmdObject;
+
+extern unsigned char kVertexIndexingOrder_8009D46C[];
+
+/*
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(kmdObject* pKmdObj, kmdObject* pParentObj)
+{
+    unsigned int idx;
+    int parentFaceCount;
+    unsigned char *pIdxOffs;
+    int pbVar1;
+    SVECTOR *pVertOff;
+    int counter;
+    int flags;
+    SVECTOR *pVertOffs;
+
+    pIdxOffs = pKmdObj->indexOfs_3C;
+    pVertOffs = pKmdObj->vertOfs_38;
+    counter = pKmdObj->field_4_numFaces << 2;
+    flags = 0;
+
+    while (counter > 0)
+    {
+        idx = *pIdxOffs;
+        if (pVertOffs[idx].pad != -1)
+        {
+            flags |= idx;
+            *pIdxOffs = idx | 0x80;
+        }
+        counter--;
+        pIdxOffs++;
+    }
+
+    if ((flags & 0x80) == 0)
+    {
+        pVertOff = &pKmdObj->vertOfs_38[0];
+        for (counter = pKmdObj->numVerts_34; counter > 0; counter-- )
+        {
+            if ((unsigned short)pVertOff->pad != 0xffff)
+            {
+              
+                
+                pIdxOffs = pParentObj->indexOfs_3C;
+                parentFaceCount = pParentObj->field_4_numFaces << 2;
+               
+                while (parentFaceCount > 0)
+                {
+                
+                    parentFaceCount--;
+                    if (((unsigned int)*pIdxOffs & 0x7f) != pVertOff->pad)
+                    {
+                        pIdxOffs++;
+                    }
+                }
+
+                pbVar1 = pIdxOffs - pParentObj->indexOfs_3C;
+                if ((int)pbVar1 < 0)
+                {
+                    //pbVar1 = pIdxOffs + 3;
+                    pbVar1 += 3;
+                }
+                pVertOff->pad = (ushort)(kVertexIndexingOrder_8009D46C)[pbVar1 & 3] * 0xc + (short)((pbVar1 / 4) * sizeof(POLY_GT4)) + 8;
+            }
+            pVertOff++;
+        }
+    }
+}
+*/
