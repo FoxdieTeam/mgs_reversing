@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009A678
-sub_8009A678:
+	xdef PadSetAct_8009A678
+PadSetAct_8009A678:
 	dw 0x3C02800B ; 0x8009A678
 	dw 0x8C42B240 ; 0x8009A67C
 	dw 0x27BDFFE0 ; 0x8009A680

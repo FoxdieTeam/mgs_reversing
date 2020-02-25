@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009A22C
-sub_8009A22C:
+	xdef PadStartCom_8009A22C
+PadStartCom_8009A22C:
 	dw 0x27BDFFE8 ; 0x8009A22C
 	dw 0xAFBF0010 ; 0x8009A230
 	dw 0x0C026A87 ; 0x8009A234

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009C6CC
-sub_8009C6CC:
+	xdef PadInitDirect_8009C6CC
+PadInitDirect_8009C6CC:
 	dw 0x27BDFFE0 ; 0x8009C6CC
 	dw 0xAFB10014 ; 0x8009C6D0
 	dw 0x00808821 ; 0x8009C6D4
