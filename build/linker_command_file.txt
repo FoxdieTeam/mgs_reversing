@@ -2202,6 +2202,7 @@
 	include	"..\obj\mts\mts_8008BC8C.obj"
 	include	"..\obj\mts\mts_callback_controller_8008BDEC.obj"
 	include	"..\obj\mts\mts_init_controller_8008C098.obj"
+
 	include	"..\obj\mts\mts_8008C170.obj"
 	include	"..\obj\mts\mts_8008C25C.obj"
 	include	"..\obj\mts\mts_8008C324.obj"
@@ -2474,7 +2475,7 @@
 	include	"..\obj\psyq\sub_800995DC.obj"
 	include	"..\obj\psyq\sub_800995EC.obj"
 	include	"..\obj\psyq\sub_800995FC.obj"
-	include	"..\obj\psyq\sub_8009960C.obj"
+	include	"..\obj\psyq\ChangeClearPAD_8009960C.obj"
 	include	"..\obj\psyq\GetGp_8009961C.obj"
 	include	"..\obj\psyq\sub_8009962C.obj"
 	include	"..\obj\psyq\sub_8009963C.obj"
@@ -2495,7 +2496,7 @@
 	include	"..\obj\psyq\sub_80099DB8.obj"
 	include	"..\obj\psyq\sub_80099E48.obj"
 	include	"..\obj\psyq\sub_80099ED8.obj"
-	include	"..\obj\psyq\sub_80099F08.obj"
+	include	"..\obj\psyq\StopPAD_80099F08.obj"
 	include	"..\obj\psyq\sub_80099F40.obj"
 	include	"..\obj\psyq\sub_80099FB8.obj"
 	include	"..\obj\psyq\sub_80099FF0.obj"
@@ -2511,12 +2512,12 @@
 	include	"..\obj\psyq\sub_8009A124.obj"
 	include	"..\obj\psyq\sub_8009A19C.obj"
 	include	"..\obj\psyq\sub_8009A20C.obj"
-	include	"..\obj\psyq\sub_8009A22C.obj"
+	include	"..\obj\psyq\PadStartCom_8009A22C.obj"
 	include	"..\obj\psyq\sub_8009A24C.obj"
 	include	"..\obj\psyq\sub_8009A2B8.obj"
 	include	"..\obj\psyq\sub_8009A47C.obj"
 	include	"..\obj\psyq\sub_8009A5F8.obj"
-	include	"..\obj\psyq\sub_8009A678.obj"
+	include	"..\obj\psyq\PadSetAct_8009A678.obj"
 	include	"..\obj\psyq\sub_8009A7E4.obj"
 	include	"..\obj\psyq\sub_8009A810.obj"
 	include	"..\obj\psyq\sub_8009AA08.obj"
@@ -2552,7 +2553,7 @@
 	include	"..\obj\psyq\sub_8009C1BC.obj"
 	include	"..\obj\psyq\sub_8009C268.obj"
 	include	"..\obj\psyq\sub_8009C32C.obj"
-	include	"..\obj\psyq\sub_8009C6CC.obj"
+	include	"..\obj\psyq\PadInitDirect_8009C6CC.obj"
 	include	"..\obj\psyq\sub_8009C82C.obj"
 	include	"..\obj\psyq\sub_8009C894.obj"
 	include	"..\obj\psyq\sub_8009C988.obj"
@@ -2684,6 +2685,15 @@ group_gMenuRightItems_800BD888	group bss,org($800BD888)
 
 group_gOts_800B1800	group bss,org($800B1800)
 	section .gOts_800B1800, group_gOts_800B1800
+
+group_gMtsPadRecvBuffers_800C1480	group bss,org($800C1480)
+	section .gMtsPadRecvBuffers_800C1480, group_gMtsPadRecvBuffers_800C1480
+
+group_gMtsPadInitStates_800C14F0 group bss,org($800C14F0)
+	section .gMtsPadInitStates_800C14F0, group_gMtsPadInitStates_800C14F0
+
+group_gMtsPadSendBuffers_800C14D0	group bss,org($800C14D0)
+	section .gMtsPadSendBuffers_800C14D0, group_gMtsPadSendBuffers_800C14D0
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
