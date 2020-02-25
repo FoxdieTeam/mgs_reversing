@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80099F08
-sub_80099F08:
+	xdef StopPAD_80099F08
+StopPAD_80099F08:
 	dw 0x27BDFFE8 ; 0x80099F08
 	dw 0xAFBF0010 ; 0x80099F0C
 	dw 0x0C026844 ; 0x80099F10

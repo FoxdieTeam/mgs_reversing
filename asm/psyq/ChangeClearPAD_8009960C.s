@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009960C
-sub_8009960C:
+	xdef ChangeClearPAD_8009960C
+ChangeClearPAD_8009960C:
 	dw 0x240A00B0 ; 0x8009960C
 	dw 0x01400008 ; 0x80099610
 	dw 0x2409005B ; 0x80099614
