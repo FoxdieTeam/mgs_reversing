@@ -104,3 +104,27 @@ int GCL_8001FDB0(unsigned char* pScript)
 
     return commandRet;
 }
+
+typedef struct
+{
+    union gcl
+    {
+        int id_and_offset_combined;
+        short field_0_id_offset[2];
+    };
+    union gcl data;
+} GCL_ProcTableEntry;
+
+#define GCL_SwapShort(p) ( ((char*)p)[1] ) | ( ((char*)p)[0] << 8 )
+
+GCL_ProcTableEntry* GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry* pTable)
+{
+    GCL_ProcTableEntry* pIter = pTable;
+    while (pIter->data.id_and_offset_combined)
+    {
+        pIter->data.field_0_id_offset[0] = GCL_SwapShort(&pIter->data.field_0_id_offset[0]);
+        pIter->data.field_0_id_offset[1] = GCL_SwapShort(&pIter->data.field_0_id_offset[1]);
+        pIter++;
+    }
+    return pIter + 1;
+}
