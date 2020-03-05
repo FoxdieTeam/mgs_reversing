@@ -2,15 +2,14 @@
 #include "gcl.h"
 #include "mts_new.h"
 
-GCL_CommandChain*  dword_800AB3B8 = 0; //sdata
+GCL_CommandChain *dword_800AB3B8 = 0; //sdata
 
 void GCL_80020B68(void);
 void sub_80021264(void);
 void GCL_AddBasicBuiltInCommands_8002040C(void);
-void GCL_LoadData_80020064(unsigned char*);
+void GCL_LoadData_80020064(unsigned char *);
 
-void GV_SetFileHandler_80015418(char, void*);
-
+void GV_SetFileHandler_80015418(char, void *);
 
 int SECTION(".sbss") gGcl_main_or_demo_800AB990;
 
@@ -18,7 +17,7 @@ int SECTION(".sbss") dword_800AB994;
 
 int SECTION(".sbss") dword_800AB998;
 
-int GCL_FileHandler_8001FC88(unsigned char* pFileData, int hashedName)
+int GCL_FileHandler_8001FC88(unsigned char *pFileData, int hashedName)
 {
     if (hashedName == gGcl_main_or_demo_800AB990)
     {
@@ -26,7 +25,6 @@ int GCL_FileHandler_8001FC88(unsigned char* pFileData, int hashedName)
     }
     return 1;
 }
-
 
 void GCL_SetMainOrDemo_8001FCB0(int bMain)
 {
@@ -44,29 +42,28 @@ void GCL_StartDaemon_8001FCDC(void)
 
 void GCL_Null_8001FD24(void)
 {
-
 }
 
-int GCL_InitCommandTable_8001FD2C(GCL_CommandChain* pChain)
+int GCL_InitCommandTable_8001FD2C(GCL_CommandChain *pChain)
 {
     // Set the new chains next to the existing chain
     pChain->pNext = dword_800AB3B8;
 
     // Update the existing chain to be the new chain
     dword_800AB3B8 = pChain;
-    
+
     return 0;
 }
 
 extern const char aCommandNotFoun[];
 
-GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
+GCL_CommandTableEntry *GCL_FindCommand_8001FD40(int hashedName)
 {
-    GCL_CommandTableEntry* pTableIter;
+    GCL_CommandTableEntry *pTableIter;
     int commandCount;
-    GCL_CommandChain* pChainIter;
-  
-    for (pChainIter = dword_800AB3B8 ; pChainIter ; pChainIter = pChainIter->pNext)
+    GCL_CommandChain *pChainIter;
+
+    for (pChainIter = dword_800AB3B8; pChainIter; pChainIter = pChainIter->pNext)
     {
         pTableIter = pChainIter->pTable;
         for (commandCount = pChainIter->commandTableSize; 0 < commandCount; commandCount--)
@@ -82,17 +79,17 @@ GCL_CommandTableEntry* GCL_FindCommand_8001FD40(int hashedName)
     return 0;
 }
 
-void GCL_Push_80020934(unsigned char*);
-void GCL_80020690(unsigned char*);
+void GCL_Push_80020934(unsigned char *);
+void GCL_80020690(unsigned char *);
 void GCL_Pop_80020950(void);
 
-int GCL_8001FDB0(unsigned char* pScript)
+int GCL_ExecuteCommand_8001FDB0(unsigned char *pScript)
 {
     int commandRet;
 
-    GCL_CommandTableEntry* pFoundCommand = GCL_FindCommand_8001FD40(GCL_ReadShort(pScript));
+    GCL_CommandTableEntry *pFoundCommand = GCL_FindCommand_8001FD40(GCL_ReadShort(pScript));
     GCL_AdvanceShort(pScript);
-    
+
     GCL_Push_80020934(pScript + GCL_ReadByte(pScript));
     GCL_AdvanceByte(pScript);
 
@@ -105,26 +102,47 @@ int GCL_8001FDB0(unsigned char* pScript)
     return commandRet;
 }
 
+#define GCL_SwapShort(p) (((char *)p)[1]) | (((char *)p)[0] << 8)
+
 typedef struct
 {
-    union gcl
-    {
-        int id_and_offset_combined;
-        short field_0_id_offset[2];
-    };
-    union gcl data;
+    unsigned short id;
+    unsigned short offset;
 } GCL_ProcTableEntry;
 
-#define GCL_SwapShort(p) ( ((char*)p)[1] ) | ( ((char*)p)[0] << 8 )
-
-GCL_ProcTableEntry* GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry* pTable)
+GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
 {
-    GCL_ProcTableEntry* pIter = pTable;
-    while (pIter->data.id_and_offset_combined)
+    GCL_ProcTableEntry *pIter = pTable;
+    while (*(int *)pIter)
     {
-        pIter->data.field_0_id_offset[0] = GCL_SwapShort(&pIter->data.field_0_id_offset[0]);
-        pIter->data.field_0_id_offset[1] = GCL_SwapShort(&pIter->data.field_0_id_offset[1]);
+        pIter->id = GCL_SwapShort(&pIter->id);
+        pIter->offset = GCL_SwapShort(&pIter->offset);
         pIter++;
     }
     return pIter + 1;
+}
+
+typedef struct
+{
+    GCL_ProcTableEntry *field_0_procTable;
+    unsigned char *pData;
+    unsigned char *pData1;
+    unsigned char *pData2;
+} GCL_FileData;
+
+GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
+extern const char aProcXNotFound[];
+
+unsigned char *GCL_FindProc_8001FE80(int procToFind)
+{
+    GCL_ProcTableEntry *pProcIter;
+    for (pProcIter = gGCL_fileData_800B3C18.field_0_procTable; *(int *)pProcIter; pProcIter++)
+    {
+        if (pProcIter->id == procToFind)
+        {
+            return gGCL_fileData_800B3C18.pData + pProcIter->offset;
+        }
+    }
+    mts_printf_8008BBA0(aProcXNotFound, procToFind);
+    return 0;
 }
