@@ -266,7 +266,6 @@
 	include	"..\obj\libdg\DG_8001FC58.obj"
 
 	include	"..\obj\libgcl\gcl.obj"
-	include	"..\obj\libgcl\GCL_FindProc_8001FE80.obj"
 	include	"..\obj\libgcl\GCL_RunProc_8001FEFC.obj"
 	include	"..\obj\libgcl\GCL_RunOrCancelProc_8001FF2C.obj"
 	include	"..\obj\libgcl\GCL_RunProc_8001FFA0.obj"
@@ -2693,6 +2692,9 @@ group_gMtsPadInitStates_800C14F0 group bss,org($800C14F0)
 
 group_gMtsPadSendBuffers_800C14D0	group bss,org($800C14D0)
 	section .gMtsPadSendBuffers_800C14D0, group_gMtsPadSendBuffers_800C14D0
+
+group_gGCL_fileData_800B3C18	group bss,org($800b3C18)
+	section .gGCL_fileData_800B3C18, group_gGCL_fileData_800B3C18
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
