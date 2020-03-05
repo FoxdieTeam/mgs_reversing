@@ -266,7 +266,6 @@
 	include	"..\obj\libdg\DG_8001FC58.obj"
 
 	include	"..\obj\libgcl\gcl.obj"
-	include	"..\obj\libgcl\GCL_RunProc_8001FEFC.obj"
 	include	"..\obj\libgcl\GCL_RunOrCancelProc_8001FF2C.obj"
 	include	"..\obj\libgcl\GCL_RunProc_8001FFA0.obj"
 	include	"..\obj\libgcl\GCL_LoadData_80020064.obj"

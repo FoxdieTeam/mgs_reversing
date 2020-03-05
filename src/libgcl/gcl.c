@@ -146,3 +146,8 @@ unsigned char *GCL_FindProc_8001FE80(int procToFind)
     mts_printf_8008BBA0(aProcXNotFound, procToFind);
     return 0;
 }
+
+void GCL_RunProc_8001FEFC(int procId, GCLArgsPtr* pArgs)
+{
+    GCL_Run_80020118(GCL_FindProc_8001FE80(procId) + 3, pArgs);
+}
