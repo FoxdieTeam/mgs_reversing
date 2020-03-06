@@ -146,3 +146,23 @@ unsigned char *GCL_FindProc_8001FE80(int procToFind)
     mts_printf_8008BBA0(aProcXNotFound, procToFind);
     return 0;
 }
+
+void GCL_RunProc_8001FEFC(int procId, GCLArgsPtr *pArgs)
+{
+    GCL_Run_80020118(GCL_FindProc_8001FE80(procId) + 3, pArgs);
+}
+
+extern const char aProcDCancel[];
+
+extern int gFlags_800AB3D0;
+extern int dword_800ABA50;
+
+int GCL_RunOrCancelProc_8001FF2C(int procId, GCLArgsPtr *param_2)
+{
+    if (gFlags_800AB3D0 || (dword_800ABA50 & 0x2000))
+    {
+        mts_printf_8008BBA0(aProcDCancel, procId);
+        return 0;
+    }
+    return GCL_Run_80020118(GCL_FindProc_8001FE80(procId) + 3, param_2);
+}
