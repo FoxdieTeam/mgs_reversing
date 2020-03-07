@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "gcl.h"
 
-int SECTION(".sdata") dword_800AB3BC = 0;
+GCLArgsPtr SECTION(".sdata") gGCL_NullArgs_800AB3BC = {};
 
