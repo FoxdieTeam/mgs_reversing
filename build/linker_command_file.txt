@@ -276,8 +276,8 @@
 	include	"..\obj\libgcl\GCL_80020690.obj"
 	include	"..\obj\libgcl\GCL_Execute_8002069C.obj"
 	include	"..\obj\libgcl\GCL_80020868.obj"
-	include	"..\obj\libgcl\GCL_8002087C.obj"
-	include	"..\obj\libgcl\GCL_800208F0.obj"
+	include	"..\obj\libgcl\GCL_PushArgs_8002087C.obj"
+	include	"..\obj\libgcl\GCL_SetStackPointer_800208F0.obj"
 	include	"..\obj\libgcl\GCL_80020904.obj"
 	include	"..\obj\libgcl\GCL_ResetStack_80020920.obj"
 

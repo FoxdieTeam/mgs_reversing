@@ -233,8 +233,8 @@ int GCL_LoadData_80020064(unsigned char *pScript)
     return 0;
 }
 
-int *GCL_8002087C(GCLArgsPtr *pArgs);
-void GCL_800208F0(int *pStack);
+int *GCL_PushArgs_8002087C(GCLArgsPtr *pArgs);
+void GCL_SetStackPointer_800208F0(int *pStack);
 void GCL_8002058C(unsigned char *pScript, void *ptr);
 
 extern const char aScriptCommandE[];
@@ -242,7 +242,7 @@ extern const char aErrorInScript[];
 
 int GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs)
 {
-    int *pOldStack = GCL_8002087C(pArgs);
+    int *pOldStack = GCL_PushArgs_8002087C(pArgs);
     while (pScript)
     {
         switch (*pScript)
@@ -277,7 +277,7 @@ int GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs)
 
         // Return ?
         case 0x0:
-            GCL_800208F0(pOldStack);
+            GCL_SetStackPointer_800208F0(pOldStack);
             return 0;
 
         default:
