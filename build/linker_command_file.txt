@@ -266,7 +266,6 @@
 	include	"..\obj\libdg\DG_8001FC58.obj"
 
 	include	"..\obj\libgcl\gcl.obj"
-	include	"..\obj\libgcl\GCL_RunMainProc_80020228.obj"
 	include	"..\obj\libgcl\GCL_Cmd_If_80020274.obj"
 	include	"..\obj\libgcl\GCL_Cmd_Eval_80020318.obj"
 	include	"..\obj\libgcl\GCL_Cmd_ForEach_8002033C.obj"
@@ -283,7 +282,6 @@
 	include	"..\obj\libgcl\GCL_ResetStack_80020920.obj"
 
 	include	"..\obj\data\sdata\dword_800AB3BC.obj"
-	include	"..\obj\data\sdata\dword_800AB3C0.obj"
 	include	"..\obj\data\sdata\gCurrentStageName_800AB3C4.obj"
 	include	"..\obj\data\sdata\dword_800AB3C8.obj"
 	include	"..\obj\data\sdata\game_state_flags_800AB3CC.obj"

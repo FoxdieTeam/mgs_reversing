@@ -287,3 +287,16 @@ int GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs)
     mts_printf_8008BBA0(aErrorInScript);
     return 1;
 }
+
+extern const char aNotScriptData[];
+extern GCLArgsPtr gGCL_NullArgs_800AB3BC;
+
+void GCL_RunMainProc_80020228(unsigned char* param_1, int param_2)
+{
+    unsigned char *pMainProc = gGCL_fileData_800B3C18.field_8_pMainProc;
+    if (*pMainProc != 0x40)
+    {
+        mts_printf_8008BBA0(aNotScriptData);
+    }
+    GCL_Run_80020118(pMainProc + 3, &gGCL_NullArgs_800AB3BC);
+}
