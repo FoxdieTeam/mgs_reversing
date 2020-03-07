@@ -166,3 +166,42 @@ int GCL_RunOrCancelProc_8001FF2C(int procId, GCLArgsPtr *param_2)
     }
     return GCL_Run_80020118(GCL_FindProc_8001FE80(procId) + 3, param_2);
 }
+
+extern const char aTooManyArgsPro[];
+
+#define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
+
+int GCL_RunProc_8001FFA0(unsigned char *pScript)
+{
+    int args[8];
+    GCLArgsPtr argsPtr;
+    int exec_ret;
+    int readArgValue;
+    int arg_idx;
+
+    int b1 = pScript[0];
+    int b2 = pScript[1];
+  
+    int procId = GCL_MakeShort(b2, b1);
+    GCL_AdvanceShort(pScript);
+
+    
+    arg_idx = 0;
+
+    // TODO: Can't match without comma operator ??
+    while (pScript = GCL_Execute_8002069C(pScript, &exec_ret, &readArgValue), exec_ret != 0)
+    {
+        if (arg_idx >= 8)
+        {
+            mts_printf_8008BBA0(aTooManyArgsPro);
+        }
+        args[arg_idx++] = readArgValue;
+        
+    }
+
+    argsPtr.count = arg_idx;
+    argsPtr.pArgs = args;
+
+    GCL_RunOrCancelProc_8001FF2C(procId, &argsPtr);
+    return 0;
+}
