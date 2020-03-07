@@ -232,3 +232,58 @@ int GCL_LoadData_80020064(unsigned char *pScript)
 
     return 0;
 }
+
+int *GCL_8002087C(GCLArgsPtr *pArgs);
+void GCL_800208F0(int *pStack);
+void GCL_8002058C(unsigned char *pScript, void *ptr);
+
+extern const char aScriptCommandE[];
+extern const char aErrorInScript[];
+
+int GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs)
+{
+    int *pOldStack = GCL_8002087C(pArgs);
+    while (pScript)
+    {
+        switch (*pScript)
+        {
+        // ??
+        case 0x30:
+        {
+            int auStack24[2]; // TODO: probably an arg pair ??
+            GCL_8002058C(pScript + 2, auStack24);
+            pScript++;
+            pScript += *pScript;
+        }
+        break;
+
+        // Command
+        case 0x60:
+            if (GCL_ExecuteCommand_8001FDB0(pScript + 3) == 1)
+            {
+                return 1;
+            }
+
+            pScript++;
+            pScript += (short)GCL_MakeShort(pScript[1], pScript[0]);
+            break;
+
+        // Call
+        case 0x70:
+            GCL_RunProc_8001FFA0(pScript + 2);
+            pScript++;
+            pScript += *pScript;
+            break;
+
+        // Return ?
+        case 0x0:
+            GCL_800208F0(pOldStack);
+            return 0;
+
+        default:
+            mts_printf_8008BBA0(aScriptCommandE, (unsigned int)*pScript);
+        }
+    }
+    mts_printf_8008BBA0(aErrorInScript);
+    return 1;
+}
