@@ -7,7 +7,7 @@ GCL_CommandChain *dword_800AB3B8 = 0; //sdata
 void GCL_80020B68(void);
 void sub_80021264(void);
 void GCL_AddBasicBuiltInCommands_8002040C(void);
-void GCL_LoadData_80020064(unsigned char *);
+int GCL_LoadData_80020064(unsigned char *);
 
 void GV_SetFileHandler_80015418(char, void *);
 
@@ -106,7 +106,7 @@ int GCL_ExecuteCommand_8001FDB0(unsigned char *pScript)
 
 typedef struct
 {
-    unsigned short id;
+    unsigned short procNameHashed;
     unsigned short offset;
 } GCL_ProcTableEntry;
 
@@ -115,7 +115,7 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
     GCL_ProcTableEntry *pIter = pTable;
     while (*(int *)pIter)
     {
-        pIter->id = GCL_SwapShort(&pIter->id);
+        pIter->procNameHashed = GCL_SwapShort(&pIter->procNameHashed);
         pIter->offset = GCL_SwapShort(&pIter->offset);
         pIter++;
     }
@@ -125,31 +125,31 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
 typedef struct
 {
     GCL_ProcTableEntry *field_0_procTable;
-    unsigned char *pData;
-    unsigned char *pData1;
+    unsigned char *field_4_pByteCode;
+    unsigned char *field_8_pMainProc;
     unsigned char *pData2;
 } GCL_FileData;
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
 extern const char aProcXNotFound[];
 
-unsigned char *GCL_FindProc_8001FE80(int procToFind)
+unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
 {
     GCL_ProcTableEntry *pProcIter;
     for (pProcIter = gGCL_fileData_800B3C18.field_0_procTable; *(int *)pProcIter; pProcIter++)
     {
-        if (pProcIter->id == procToFind)
+        if (pProcIter->procNameHashed == procNameHashed)
         {
-            return gGCL_fileData_800B3C18.pData + pProcIter->offset;
+            return gGCL_fileData_800B3C18.field_4_pByteCode + pProcIter->offset;
         }
     }
-    mts_printf_8008BBA0(aProcXNotFound, procToFind);
+    mts_printf_8008BBA0(aProcXNotFound, procNameHashed);
     return 0;
 }
 
-void GCL_RunProc_8001FEFC(int procId, GCLArgsPtr *pArgs)
+void GCL_RunProc_8001FEFC(int procNameHashed, GCLArgsPtr *pArgs)
 {
-    GCL_Run_80020118(GCL_FindProc_8001FE80(procId) + 3, pArgs);
+    GCL_Run_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
 extern const char aProcDCancel[];
@@ -181,11 +181,10 @@ int GCL_RunProc_8001FFA0(unsigned char *pScript)
 
     int b1 = pScript[0];
     int b2 = pScript[1];
-  
+
     int procId = GCL_MakeShort(b2, b1);
     GCL_AdvanceShort(pScript);
 
-    
     arg_idx = 0;
 
     // TODO: Can't match without comma operator ??
@@ -196,7 +195,6 @@ int GCL_RunProc_8001FFA0(unsigned char *pScript)
             mts_printf_8008BBA0(aTooManyArgsPro);
         }
         args[arg_idx++] = readArgValue;
-        
     }
 
     argsPtr.count = arg_idx;
@@ -204,4 +202,101 @@ int GCL_RunProc_8001FFA0(unsigned char *pScript)
 
     GCL_RunOrCancelProc_8001FF2C(procId, &argsPtr);
     return 0;
+}
+
+void font_set_font_addr_80044BC0(int arg1, void *data);
+
+static inline long GCL_GetLong(char *ptr)
+{
+    unsigned char *p;
+    p = (unsigned char *)ptr;
+    return (p[0] << 24) | (p[1] << 16) | (p[2] << 8) | (p[3]);
+}
+
+int GCL_LoadData_80020064(unsigned char *pScript)
+{
+    GCL_ProcTableEntry *pTableStart;
+    unsigned char *tmp;
+    unsigned int len;
+
+    pTableStart = (GCL_ProcTableEntry *)(pScript + sizeof(int));
+
+    len = GCL_GetLong(pScript);
+    gGCL_fileData_800B3C18.field_0_procTable = pTableStart;
+    gGCL_fileData_800B3C18.field_4_pByteCode = (char *)GCL_ByteSwap_ProcTable_8001FE28(pTableStart);
+    tmp = ((char *)gGCL_fileData_800B3C18.field_0_procTable) + len;
+    gGCL_fileData_800B3C18.field_8_pMainProc = tmp + sizeof(int);
+
+    // Points to script data end
+    font_set_font_addr_80044BC0(2, gGCL_fileData_800B3C18.field_8_pMainProc + GCL_GetLong(tmp) + sizeof(int));
+
+    return 0;
+}
+
+int *GCL_PushArgs_8002087C(GCLArgsPtr *pArgs);
+void GCL_SetStackPointer_800208F0(int *pStack);
+void GCL_8002058C(unsigned char *pScript, void *ptr);
+
+extern const char aScriptCommandE[];
+extern const char aErrorInScript[];
+
+int GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs)
+{
+    int *pOldStack = GCL_PushArgs_8002087C(pArgs);
+    while (pScript)
+    {
+        switch (*pScript)
+        {
+        // ??
+        case 0x30:
+        {
+            int auStack24[2]; // TODO: probably an arg pair ??
+            GCL_8002058C(pScript + 2, auStack24);
+            pScript++;
+            pScript += *pScript;
+        }
+        break;
+
+        // Command
+        case 0x60:
+            if (GCL_ExecuteCommand_8001FDB0(pScript + 3) == 1)
+            {
+                return 1;
+            }
+
+            pScript++;
+            pScript += (short)GCL_MakeShort(pScript[1], pScript[0]);
+            break;
+
+        // Call
+        case 0x70:
+            GCL_RunProc_8001FFA0(pScript + 2);
+            pScript++;
+            pScript += *pScript;
+            break;
+
+        // Return ?
+        case 0x0:
+            GCL_SetStackPointer_800208F0(pOldStack);
+            return 0;
+
+        default:
+            mts_printf_8008BBA0(aScriptCommandE, (unsigned int)*pScript);
+        }
+    }
+    mts_printf_8008BBA0(aErrorInScript);
+    return 1;
+}
+
+extern const char aNotScriptData[];
+extern GCLArgsPtr gGCL_NullArgs_800AB3BC;
+
+void GCL_RunMainProc_80020228(unsigned char* param_1, int param_2)
+{
+    unsigned char *pMainProc = gGCL_fileData_800B3C18.field_8_pMainProc;
+    if (*pMainProc != 0x40)
+    {
+        mts_printf_8008BBA0(aNotScriptData);
+    }
+    GCL_Run_80020118(pMainProc + 3, &gGCL_NullArgs_800AB3BC);
 }
