@@ -169,50 +169,39 @@ int GCL_RunOrCancelProc_8001FF2C(int procId, GCLArgsPtr *param_2)
 
 extern const char aTooManyArgsPro[];
 
-typedef struct
-{
-
-    int args[7];
-    int count;
-} GCL_ProcArgs;
-
-#define GCL_ReadShort2(p) (p[1]) | (p[0] << 8)
+#define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
 
 int GCL_RunProc_8001FFA0(unsigned char *pScript)
 {
-    GCL_ProcArgs procArgs;
+    int args[8];
     GCLArgsPtr argsPtr;
     int exec_ret;
     int readArgValue;
     int arg_idx;
-    int b2;
 
-    int b1;
-
-    int script_b1;
-
-    b1 = pScript[0];
-    b2 = pScript[1];
-
-    script_b1 = (b2) | (b1 << 8);
-    script_b1 = GCL_ReadShort(pScript);
-
+    int b1 = pScript[0];
+    int b2 = pScript[1];
+  
+    int procId = GCL_MakeShort(b2, b1);
     GCL_AdvanceShort(pScript);
+
+    
     arg_idx = 0;
 
+    // TODO: Can't match without comma operator ??
     while (pScript = GCL_Execute_8002069C(pScript, &exec_ret, &readArgValue), exec_ret != 0)
     {
-        if (arg_idx > 7)
+        if (arg_idx >= 8)
         {
             mts_printf_8008BBA0(aTooManyArgsPro);
         }
-        procArgs.args[arg_idx] = readArgValue;
-        arg_idx++;
+        args[arg_idx++] = readArgValue;
+        
     }
 
     argsPtr.count = arg_idx;
-    argsPtr.pArgs = procArgs.args;
+    argsPtr.pArgs = args;
 
-    GCL_RunOrCancelProc_8001FF2C(script_b1, &argsPtr);
+    GCL_RunOrCancelProc_8001FF2C(procId, &argsPtr);
     return 0;
 }
