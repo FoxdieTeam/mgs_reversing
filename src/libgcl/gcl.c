@@ -7,7 +7,7 @@ GCL_CommandChain *dword_800AB3B8 = 0; //sdata
 void GCL_80020B68(void);
 void sub_80021264(void);
 void GCL_AddBasicBuiltInCommands_8002040C(void);
-void GCL_LoadData_80020064(unsigned char *);
+int GCL_LoadData_80020064(unsigned char *);
 
 void GV_SetFileHandler_80015418(char, void *);
 
@@ -181,11 +181,10 @@ int GCL_RunProc_8001FFA0(unsigned char *pScript)
 
     int b1 = pScript[0];
     int b2 = pScript[1];
-  
+
     int procId = GCL_MakeShort(b2, b1);
     GCL_AdvanceShort(pScript);
 
-    
     arg_idx = 0;
 
     // TODO: Can't match without comma operator ??
@@ -196,12 +195,50 @@ int GCL_RunProc_8001FFA0(unsigned char *pScript)
             mts_printf_8008BBA0(aTooManyArgsPro);
         }
         args[arg_idx++] = readArgValue;
-        
     }
 
     argsPtr.count = arg_idx;
     argsPtr.pArgs = args;
 
     GCL_RunOrCancelProc_8001FF2C(procId, &argsPtr);
+    return 0;
+}
+
+void font_set_font_addr_80044BC0(int arg1, void *data);
+
+static inline long GCL_GetLong(char *ptr)
+{
+    unsigned char *p;
+    p = (unsigned char *)ptr;
+    return (p[0] << 24) | (p[1] << 16) | (p[2] << 8) | (p[3]);
+}
+
+int GCL_LoadData_80020064(unsigned char *pScript)
+{
+    // proc table
+
+    GCL_ProcTableEntry *pTableStart;
+    unsigned char *tmp;
+    unsigned int len;
+
+    pTableStart = (GCL_ProcTableEntry *)(pScript + 4);
+    len = GCL_GetLong(pScript);
+
+    gGCL_fileData_800B3C18.field_0_procTable = pTableStart;
+
+    // after proc table
+
+// 	$v0, 4($s1) ?
+    gGCL_fileData_800B3C18.pData = (char *)GCL_ByteSwap_ProcTable_8001FE28(((char *)gGCL_fileData_800B3C18.field_0_procTable));
+
+    // main proc addr?
+    tmp = ((char *)gGCL_fileData_800B3C18.field_0_procTable) + len;
+
+    // 0x64:	sw		$a1, 8($s1)
+    gGCL_fileData_800B3C18.pData1 = tmp + 4; //
+
+    len = (tmp[0] << 24) | (tmp[1] << 16) | (tmp[2] << 8) | (tmp[3]);
+    // End of script data
+    font_set_font_addr_80044BC0(2, gGCL_fileData_800B3C18.pData1 + len + 4);
     return 0;
 }
