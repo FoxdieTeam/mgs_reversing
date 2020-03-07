@@ -106,7 +106,7 @@ int GCL_ExecuteCommand_8001FDB0(unsigned char *pScript)
 
 typedef struct
 {
-    unsigned short id;
+    unsigned short procNameHashed;
     unsigned short offset;
 } GCL_ProcTableEntry;
 
@@ -115,7 +115,7 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
     GCL_ProcTableEntry *pIter = pTable;
     while (*(int *)pIter)
     {
-        pIter->id = GCL_SwapShort(&pIter->id);
+        pIter->procNameHashed = GCL_SwapShort(&pIter->procNameHashed);
         pIter->offset = GCL_SwapShort(&pIter->offset);
         pIter++;
     }
@@ -125,31 +125,31 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
 typedef struct
 {
     GCL_ProcTableEntry *field_0_procTable;
-    unsigned char *pData;
-    unsigned char *pData1;
+    unsigned char *field_4_pByteCode;
+    unsigned char *field_8_pMainProc;
     unsigned char *pData2;
 } GCL_FileData;
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
 extern const char aProcXNotFound[];
 
-unsigned char *GCL_FindProc_8001FE80(int procToFind)
+unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
 {
     GCL_ProcTableEntry *pProcIter;
     for (pProcIter = gGCL_fileData_800B3C18.field_0_procTable; *(int *)pProcIter; pProcIter++)
     {
-        if (pProcIter->id == procToFind)
+        if (pProcIter->procNameHashed == procNameHashed)
         {
-            return gGCL_fileData_800B3C18.pData + pProcIter->offset;
+            return gGCL_fileData_800B3C18.field_4_pByteCode + pProcIter->offset;
         }
     }
-    mts_printf_8008BBA0(aProcXNotFound, procToFind);
+    mts_printf_8008BBA0(aProcXNotFound, procNameHashed);
     return 0;
 }
 
-void GCL_RunProc_8001FEFC(int procId, GCLArgsPtr *pArgs)
+void GCL_RunProc_8001FEFC(int procNameHashed, GCLArgsPtr *pArgs)
 {
-    GCL_Run_80020118(GCL_FindProc_8001FE80(procId) + 3, pArgs);
+    GCL_Run_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
 extern const char aProcDCancel[];
@@ -215,30 +215,20 @@ static inline long GCL_GetLong(char *ptr)
 
 int GCL_LoadData_80020064(unsigned char *pScript)
 {
-    // proc table
-
     GCL_ProcTableEntry *pTableStart;
     unsigned char *tmp;
     unsigned int len;
 
-    pTableStart = (GCL_ProcTableEntry *)(pScript + 4);
+    pTableStart = (GCL_ProcTableEntry *)(pScript + sizeof(int));
+
     len = GCL_GetLong(pScript);
-
     gGCL_fileData_800B3C18.field_0_procTable = pTableStart;
-
-    // after proc table
-
-// 	$v0, 4($s1) ?
-    gGCL_fileData_800B3C18.pData = (char *)GCL_ByteSwap_ProcTable_8001FE28(((char *)gGCL_fileData_800B3C18.field_0_procTable));
-
-    // main proc addr?
+    gGCL_fileData_800B3C18.field_4_pByteCode = (char *)GCL_ByteSwap_ProcTable_8001FE28(pTableStart);
     tmp = ((char *)gGCL_fileData_800B3C18.field_0_procTable) + len;
+    gGCL_fileData_800B3C18.field_8_pMainProc = tmp + sizeof(int);
 
-    // 0x64:	sw		$a1, 8($s1)
-    gGCL_fileData_800B3C18.pData1 = tmp + 4; //
+    // Points to script data end
+    font_set_font_addr_80044BC0(2, gGCL_fileData_800B3C18.field_8_pMainProc + GCL_GetLong(tmp) + sizeof(int));
 
-    len = (tmp[0] << 24) | (tmp[1] << 16) | (tmp[2] << 8) | (tmp[3]);
-    // End of script data
-    font_set_font_addr_80044BC0(2, gGCL_fileData_800B3C18.pData1 + len + 4);
     return 0;
 }
