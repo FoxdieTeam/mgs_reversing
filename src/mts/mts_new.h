@@ -23,17 +23,23 @@ void mts_8008A400(void);
 
 typedef void(*TMtsFn)(void);
 
-typedef struct mts_unknown1
+typedef struct mts_task
 {
-    char unknown0[4];
-    int unknown1;
-    TMtsFn field_0_fn;
-    int field_4;
-    unsigned int* field_8_pStack;
-    int field_C_stackSize;
-    int field_10_thread_descriptor;
-    void* field_14_pTcb; // TODO: Really not sure how this structure is supposed to look yet
-} mts_unknown1;
+    signed char field_0_state;
+    char field_1;
+    char field_2;
+    char field_3_src_idx;
+    void* field_4_pMessage;
+    TMtsFn field_8_fn;
+    char field_C_ref_count;
+    char field_D;
+    char field_E;
+    char field_F_recv_idx;
+    void* field_10_pStack;
+    int field_14_stackSize;
+    int field_18_tcb;
+    int field_1C;
+} mts_task;
 
 #define MTS_STACK_COOKIE 0x12435687
 
