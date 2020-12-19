@@ -14,7 +14,7 @@ extern const char asc_80013E2C[]; // = "\n";
 
 int SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0 = 0;
 mts_task SECTION(".gTasks_800C0C30") gTasks_800C0C30[12] = {};
-//int SECTION(".gTasks_800C0C30") gMts_bits_800C0DB4 = 0;
+int SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4 = 0;
 
 void mts_task_start_8008BBC8(void)
 {

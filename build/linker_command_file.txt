@@ -2173,6 +2173,7 @@
 	include	"..\obj\mts\mts_8008A6CC.obj"
 	include	"..\obj\mts\mts_8008A85C.obj"
 	include	"..\obj\mts\mts_8008A990.obj"
+	include	"..\obj\mts\mts_8008AAA0.obj"
 	include	"..\obj\mts\mts_new.obj"
 	include	"..\obj\mts\mts_start_8008AAEC.obj"
 	include	"..\obj\mts\mts_close_events_8008B044.obj"
@@ -2686,6 +2687,13 @@ group_gMtsPadInitStates_800C14F0 group bss,org($800C14F0)
 
 group_gMtsPadSendBuffers_800C14D0	group bss,org($800C14D0)
 	section .gMtsPadSendBuffers_800C14D0, group_gMtsPadSendBuffers_800C14D0
+
+group_gMts_active_task_idx_800C13C0	group bss,org($800C13C0)
+	section .gMts_active_task_idx_800C13C0, group_gMts_active_task_idx_800C13C0
+
+group_gMts_bits_800C0DB4	group bss,org($800C0DB4)
+	section .gMts_bits_800C0DB4, group_gMts_bits_800C0DB4
+
 
 group_gGCL_fileData_800B3C18	group bss,org($800b3C18)
 	section .gGCL_fileData_800B3C18, group_gGCL_fileData_800B3C18
