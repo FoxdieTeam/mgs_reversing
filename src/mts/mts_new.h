@@ -32,7 +32,7 @@ typedef struct mts_task
     void* field_4_pMessage;
     TMtsFn field_8_fn;
     char field_C_ref_count;
-    char field_D;
+    signed char field_D;
     char field_E;
     char field_F_recv_idx;
     void* field_10_pStack;
