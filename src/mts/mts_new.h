@@ -25,7 +25,7 @@ typedef void(*TMtsFn)(void);
 
 typedef struct mts_task
 {
-    char field_0_state;
+    signed char field_0_state;
     char field_1;
     char field_2;
     char field_3_src_idx;
