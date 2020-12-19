@@ -64,3 +64,9 @@ void mts_8008A990(int idx)
     }
     SwExitCriticalSection_8009956C();
 }
+
+void mts_8008AAA0(void)
+{
+    gTasks_800C0C30[gTaskIdx_800C0DB0].field_E = 0;
+}
+
