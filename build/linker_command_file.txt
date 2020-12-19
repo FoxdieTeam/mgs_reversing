@@ -2172,6 +2172,7 @@
 	include	"..\obj\mts\mts_8008A540.obj"
 	include	"..\obj\mts\mts_8008A6CC.obj"
 	include	"..\obj\mts\mts_8008A85C.obj"
+	include	"..\obj\mts\mts_8008A990.obj"
 	include	"..\obj\mts\mts_new.obj"
 	include	"..\obj\mts\mts_start_8008AAEC.obj"
 	include	"..\obj\mts\mts_close_events_8008B044.obj"
