@@ -13,13 +13,14 @@ extern const char asc_80013E2C[]; // = "\n";
 
 
 int SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0 = 0;
-mts_unknown1 SECTION(".gTasks_800C0C30") gTasks_800C0C30[12] = {};
+mts_task SECTION(".gTasks_800C0C30") gTasks_800C0C30[12] = {};
+//int SECTION(".gTasks_800C0C30") gMts_bits_800C0DB4 = 0;
 
 void mts_task_start_8008BBC8(void)
 {
     ExitCriticalSection_8009953C();
-    mts_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C30[gTaskIdx_800C0DB0].field_0_fn);
-    gTasks_800C0C30[gTaskIdx_800C0DB0].field_0_fn();
+    mts_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn);
+    gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn();
     mts_8008B51C();
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 421, gTaskIdx_800C0DB0);
     mts_printf_8008BBA0(aTaskStartBody);
