@@ -2,8 +2,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include <util/idaTypes.h>
-
 typedef struct DG_PcxFile {
   unsigned char signature;
   unsigned char version;
