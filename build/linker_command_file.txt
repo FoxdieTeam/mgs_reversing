@@ -257,6 +257,7 @@
 	include	"..\obj\libdg\oar_file_handler_8001F610.obj"
 	include	"..\obj\libdg\img_file_handler_8001F644.obj"
 	include	"..\obj\libdg\sgt_file_handler_8001F670.obj"
+	include	"..\obj\libdg\lit_file_handler_8001F6B4.obj"
 	include	"..\obj\libdg\pcx_file_handler_helper_8001F6BC.obj"
 	include	"..\obj\libdg\pcx_file_handler_helper_8001F71C.obj"
 	include	"..\obj\libdg\pcx_file_handler_helper_8001F89C.obj"

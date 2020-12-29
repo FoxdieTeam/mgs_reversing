@@ -52,37 +52,10 @@ void DG_StartDaemon_8001F284(void)
     GV_ActorInit_8001514c(&gDgdActor1_800B3770, DG_Update1_8001F1BC, 0, aDgdC);
 }
 
-typedef struct
-{
-    int x, y, z;
-} DG_Vec3;
-
-typedef struct
-{
-    int field_0_flags;
-    int field_4_numFaces;
-    DG_Vec3 boundingBox[2];
-    DG_Vec3 translation;
-    int mRef_2C_parentObjIndex;
-    int mObjPosNum_30_translationUnk;
-
-    int numVerts_34;
-    SVECTOR *vertOfs_38;
-    unsigned char *indexOfs_3C;
-
-    int numNorms_40;
-    SVECTOR *normOfs_44;
-    unsigned char *normIndex_48;
-
-    unsigned char *ofsUV_4C;
-    unsigned short int *ofsTextureNameHashes_50;
-    int nullpad_54;
-} kmdObject;
-
 extern unsigned char kVertexIndexingOrder_8009D46C[];
 
 /*
-void kmd_file_handler_link_vertices_to_parent_8001F3CC(kmdObject* pKmdObj, kmdObject* pParentObj)
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_KmdObject* pKmdObj, DG_KmdObject* pParentObj)
 {
     unsigned int idx;
     int parentFaceCount;
