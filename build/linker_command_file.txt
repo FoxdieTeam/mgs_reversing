@@ -2678,6 +2678,9 @@ group_gMenuRightItems_800BD888	group bss,org($800BD888)
 group_gOts_800B1800	group bss,org($800B1800)
 	section .gOts_800B1800, group_gOts_800B1800
 
+group_gPcxBuffer_800B3798	group bss,org($800B3798)
+	section .gPcxBuffer_800B3798, group_gPcxBuffer_800B3798
+
 group_gMtsPadRecvBuffers_800C1480	group bss,org($800C1480)
 	section .gMtsPadRecvBuffers_800C1480, group_gMtsPadRecvBuffers_800C1480
 
