@@ -29,6 +29,33 @@ typedef struct
     DR_ENV dword_6BC518_src_offsetted_dr_evn;
 } struct_dg;
 
+typedef struct
+{
+    int x, y, z;
+} DG_Vec3;
+
+typedef struct
+{
+    int field_0_flags;
+    int field_4_numFaces;
+    DG_Vec3 boundingBox[2];
+    DG_Vec3 translation;
+    int mRef_2C_parentObjIndex;
+    int mObjPosNum_30_translationUnk;
+
+    int numVerts_34;
+    SVECTOR *vertOfs_38;
+    unsigned char *indexOfs_3C;
+
+    int numNorms_40;
+    SVECTOR *normOfs_44;
+    unsigned char *normIndex_48;
+
+    unsigned char *ofsUV_4C;
+    unsigned short int *ofsTextureNameHashes_50;
+    unsigned int nullpad_54;
+} DG_KmdObject;
+
 void DG_StartDaemon_8001F284(void);
 
 typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
