@@ -2180,7 +2180,14 @@
 	include	"..\obj\mts\mts_8008B450.obj"
 	include	"..\obj\mts\mts_sta_tsk_8008B47C.obj"
 	include	"..\obj\mts\mts_8008B51C.obj"
+
+	include	"..\obj\mts\mts_8008B590.obj"
+	include	"..\obj\mts\mts_8008B5B8.obj"
+	include	"..\obj\mts\mts_8008B608.obj"
+
 	include	"..\obj\mts\mts_8008B618.obj"
+	include	"..\obj\mts\mts_8008B630.obj"
+
 	include	"..\obj\mts\mts_set_stack_check_8008B648.obj"
 	include	"..\obj\mts\mts_8008B68C.obj"
 	include	"..\obj\mts\mts_dump_process_list_8008B77C.obj"
