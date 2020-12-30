@@ -1,0 +1,11 @@
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef mts_8008BA74
+mts_8008BA74:
+	dw 0x24020001 ; 0x8008BA74
+	dw 0x3C01800A ; 0x8008BA78
+	dw 0xAC223DB0 ; 0x8008BA7C
+	dw 0x03E00008 ; 0x8008BA80
+	dw 0x00000000 ; 0x8008BA84
