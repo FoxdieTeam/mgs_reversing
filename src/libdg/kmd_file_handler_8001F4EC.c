@@ -16,8 +16,7 @@ int kmd_file_handler_8001F4EC(unsigned char *pFileData, int fileNameHashed)
     DG_KmdObject *current = kmd->objects;
     int remaining = kmd->num_objects;
 
-    --remaining;
-    while (remaining >= 0)
+    while (--remaining >= 0)
     {
         if (current->vertOfs_38)
         {
@@ -49,7 +48,6 @@ int kmd_file_handler_8001F4EC(unsigned char *pFileData, int fileNameHashed)
                     current, &kmd->objects[current->mRef_2C_parentObjIndex]);
         }
         ++current;
-        --remaining;
     }
     return 1;
 }
