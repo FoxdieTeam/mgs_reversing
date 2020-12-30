@@ -2197,6 +2197,14 @@
 
 	
 	include	"..\obj\mts\mts_8008BA88.obj"
+	include	"..\obj\mts\mts_8008BB4C.obj"
+	include	"..\obj\mts\mts_8008BB60.obj"
+
+	
+	include	"..\obj\mts\mts_8008BB78.obj"
+
+	
+
 	include	"..\obj\mts\mts_8008BB88.obj"
 	include	"..\obj\mts\mts_doNothing_8008BB98.obj"
 	include	"..\obj\mts\mts_printf_8008BBA0.obj"
