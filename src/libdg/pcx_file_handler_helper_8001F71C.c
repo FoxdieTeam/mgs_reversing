@@ -11,7 +11,7 @@ unsigned char *pcx_file_handler_helper_8001F71C(
         int width, int height)
 {
     int i = height;
-    for (--i; i >= 0; --i)
+    while (--i >= 0)
     {
         unsigned char *rp;
         unsigned char *gp;
