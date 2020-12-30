@@ -2219,6 +2219,11 @@
 	include	"..\obj\mts\mts_8008C170.obj"
 	include	"..\obj\mts\mts_8008C25C.obj"
 	include	"..\obj\mts\mts_8008C324.obj"
+	include	"..\obj\mts\mts_8008C380.obj"
+	include	"..\obj\mts\mts_8008C3BC.obj"
+
+	
+
 	include	"..\obj\mts\mts_8008C408.obj"
 	include	"..\obj\mts\mts_8008C454.obj"
 	include	"..\obj\mts\mts_8008C4BC.obj"
