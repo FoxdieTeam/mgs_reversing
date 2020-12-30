@@ -7,7 +7,7 @@ from idc import *
 # ALL_CAPS_NAMES it does a slow look up to find out what the real case should be.
 
 # Set to your repo root
-root = "E:\\Data\\mgs\\mgs_reversing"
+root = "C:\\mgs\\mgs_reversing\\build"
 
 def is_src_file(file):
     return file.endswith(".c") or file.endswith(".C") or file.endswith(".h") or file.endswith(".s") or file.endswith(".S")
@@ -43,21 +43,21 @@ def correct_case_symbol(sym, allData):
 def ida_func_exists(function_address):
     for segment in Segments():
         # get all functions
-        for function_ea in Functions(segment, SegEnd(segment)):
+        for function_ea in Functions(segment, get_segm_end(segment)):
             if function_address == function_ea:
                 return True
     return False
 
 def sync_function_name(adddress, name):
     if ida_func_exists(adddress):
-        currentName = GetFunctionName(adddress)
+        currentName = get_func_name(adddress)
         if currentName != name:
-            print "rename: " + currentName + " to " + name
-            idc.MakeNameEx(adddress, name, idc.SN_NOWARN)
+            print("rename: " + currentName + " to " + name)
+            idc.set_name(adddress, name, idc.SN_NOWARN)
 
 def process_map_file_line(line, allData):
     parts = line.strip().split(" ")
-    parts = filter(None, parts) # Remove empty entries
+    parts = list(filter(None, parts)) # Remove empty entries
     if len(parts) == 2:
         symbol_address = parts[0]
         symbol = parts[1]
