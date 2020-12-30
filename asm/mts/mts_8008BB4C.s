@@ -1,0 +1,11 @@
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef mts_8008BB4C
+mts_8008BB4C:
+	dw 0x8FBF0014 ; 0x8008BB4C
+	dw 0x8FB00010 ; 0x8008BB50
+	dw 0x27BD0018 ; 0x8008BB54
+	dw 0x03E00008 ; 0x8008BB58
+	dw 0x00000000 ; 0x8008BB5C

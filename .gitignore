@@ -11,5 +11,6 @@ build/target.asm
 .vscode/tasks.json
 .vscode/settings.json
 build/obj_tool/Release
+.vs
 
 
