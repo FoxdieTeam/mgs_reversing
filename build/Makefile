@@ -2,11 +2,13 @@
 
 # Define PSYQ_SDK in your environment variables before calling this makefile
 ifeq ($(PSYQ_SDK),)
-	PSYQ_SDK := c:\psyq
+	PSYQ_SDK := ../../psyq
+	PSYQ_SDK_REALPATH := $(PSYQ_SDK)
+else
+	PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
 endif
-PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
-PSYQ_4_4_PATH = $(PSYQ_SDK)/psyq_4.4
-PSYQ_4_3_PATH = $(PSYQ_SDK)/psyq_4.3
+PSYQ_4_4_PATH = $(PSYQ_SDK)\psyq_4.4
+PSYQ_4_3_PATH = $(PSYQ_SDK)\psyq_4.3
 PSYQ_BIN_PATH = $(PSYQ_SDK_REALPATH)/psyq_4.4/bin
 
 NAME = _mgsi
@@ -71,7 +73,11 @@ ENDCOLOR :=	\e[0m
 
 .PHONY: all clean fclean re compare
 
-all: $(OBJS_DIRS) $(OBJS_PATH)/$(NAME).exe
+all: test $(OBJS_DIRS) $(OBJS_PATH)/$(NAME).exe
+
+test:
+	@echo "PSYQ_PATH $(PSYQ_PATH)"
+	@echo "PSYQ_BIN_PATH $(PSYQ_BIN_PATH)"
 
 $(OBJS_DIRS):
 	@mkdir -p $(OBJS_DIRS)
