@@ -11,8 +11,6 @@ PSYQ_4_4_PATH = $(PSYQ_SDK)/psyq_4.4
 PSYQ_4_3_PATH = $(PSYQ_SDK)/psyq_4.3
 PSYQ_BIN_PATH = $(PSYQ_SDK_REALPATH)/psyq_4.4/bin
 
-ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-
 NAME = _mgsi
 
 CFLAGS = -O2 -G 8 -g -c -Wall
