@@ -2,11 +2,9 @@
 
 # Define PSYQ_SDK in your environment variables before calling this makefile
 ifeq ($(PSYQ_SDK),)
-	PSYQ_SDK := ../../psyq_sdk
-	PSYQ_SDK_REALPATH := $(PSYQ_SDK)
-else
-	PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
+	PSYQ_SDK := c:\psyq
 endif
+PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
 PSYQ_4_4_PATH = $(PSYQ_SDK)/psyq_4.4
 PSYQ_4_3_PATH = $(PSYQ_SDK)/psyq_4.3
 PSYQ_BIN_PATH = $(PSYQ_SDK_REALPATH)/psyq_4.4/bin

@@ -8,7 +8,7 @@ clone_folder: c:\mgs
 
 build_script:
  - msbuild /p:Configuration=Release;Platform=x86 build\obj_tool\obj.sln
- - choco install make --version=4.2.1
+ - choco install make
  - set PSYQ_SDK=c:\psyq
  - make -C build
  
