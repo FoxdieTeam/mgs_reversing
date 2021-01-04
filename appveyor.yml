@@ -8,7 +8,8 @@ clone_folder: c:\mgs
 
 build_script:
  - msbuild /p:Configuration=Release;Platform=x86 build\obj_tool\obj.sln
- - ps: C:\mgs\build\build.ps1 -psyq_path4dot4 C:\psyq\psyq_4.4\bin -psyq_path4dot3 C:\psyq\psyq_4.3\bin
+ - set PSYQ_SDK=c:\psyq
+ - make -C build
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1

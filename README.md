@@ -7,9 +7,11 @@ How to build.
 1.	Clone down this repo.
 2.	Clone down the PSYQ SDK repo from: https://github.com/FoxdieTeam/psyq_sdk.git
 3.	Open this repo in VS code or whatever editor you like to use.
-4.	Open a powershell window and cd into the build directory.
-5.	To build issue the command “powershell -File .\build.ps1 -psyq_path4dot4 C:\path_to\psyq_repo\psyq_4.4\bin -psyq_path4dot3  C:\path_to\psyq_repo\psyq_4.3\bin”
-6.	At the end you should see an “OK” confirming that the built binaries hash matches the original games binary hash.
+4.  Install make v4.2.1 from cygwin if you don't have it
+5.  Open a powershell window and cd into the build directory.
+6.  Set the PSYQ SDK path in environment variables with "set PSYQ_SDK=YourAbsolutePath" or directly in windows
+7.  To build issue the command “make", you may want to add "-j" option to run it faster, see "man make"
+8.  At the end you should see a message confirming that the built binaries hash matches the original games binary hash.
 
 How to decompile a function.
 
