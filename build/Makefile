@@ -53,11 +53,11 @@ OBJS_DIRS := 	$(sort $(OBJS_DIRS))
 
 TARGET_SHA256 = 4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f
 
-export PSYQ_PATH := 			$(PSYQ_4_4_PATH)/bin
-export C_PLUS_INCLUDE_PATH := 	$(PSYQ_4_4_PATH)/include
-export C_INCLUDE_PATH := 		$(PSYQ_4_4_PATH)/include
-export LIBRARY_PATH := 			$(PSYQ_4_4_PATH)/lib
-export PSX_PATH := 				$(PSYQ_4_4_PATH)/bin)
+export PSYQ_PATH := 			$(PSYQ_4_4_PATH)\bin
+export C_PLUS_INCLUDE_PATH := 	$(PSYQ_4_4_PATH)\include
+export C_INCLUDE_PATH := 		$(PSYQ_4_4_PATH)\include
+export LIBRARY_PATH := 			$(PSYQ_4_4_PATH)\lib
+export PSX_PATH := 				$(PSYQ_4_4_PATH)\bin)
 
 # Add WSL compatibility
 export WSLENV := PSYQ_SDK/p:PSYQ_PATH/p:C_PLUS_INCLUDE_PATH/p:C_INCLUDE_PATH/p:LIBRARY_PATH/p:PSX_PATH/p
@@ -73,57 +73,53 @@ ENDCOLOR :=	\e[0m
 
 .PHONY: all clean fclean re compare
 
-all: test $(OBJS_DIRS) $(OBJS_PATH)/$(NAME).exe
-
-test:
-	@echo "PSYQ_PATH $(PSYQ_PATH)"
-	@echo "PSYQ_BIN_PATH $(PSYQ_BIN_PATH)"
+all: $(OBJS_DIRS) $(OBJS_PATH)/$(NAME).exe
 
 $(OBJS_DIRS):
 	@mkdir -p $(OBJS_DIRS)
 
 $(OBJS_PATH)/mts/%.obj: $(SRCS_PATH)/mts/%.c $(HEADERS_FILES)
-	@$(eval PSYQ_PATH = $(PSYQ_4_3_PATH)/bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_3_PATH)/include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_3_PATH)/include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_3_PATH)/lib)
-	@$(eval PSX_PATH = $(PSYQ_4_3_PATH)/bin)
+	@$(eval PSYQ_PATH = $(PSYQ_4_3_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_3_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_3_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_3_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_3_PATH)\bin)
 	@echo -e "-> Compiling with psyq_4.3 $(CBLUE)$<$(ENDCOLOR)"
 	@$(PSYQ_BIN_PATH)/ccpsx.exe $(CFLAGS) $^ -o $@ $(INCLUDES)
 
 $(OBJS_PATH)/SD/%.obj: $(SRCS_PATH)/SD/%.c $(HEADERS_FILES)
-	@$(eval PSYQ_PATH = $(PSYQ_4_3_PATH)/bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_3_PATH)/include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_3_PATH)/include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_3_PATH)/lib)
-	@$(eval PSX_PATH = $(PSYQ_4_3_PATH)/bin)
+	@$(eval PSYQ_PATH = $(PSYQ_4_3_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_3_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_3_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_3_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_3_PATH)\bin)
 	@echo -e "-> Compiling with psyq_4.3 $(CBLUE)$<$(ENDCOLOR)"
 	@$(PSYQ_BIN_PATH)/ccpsx.exe $(CFLAGS) $^ -o $@ $(INCLUDES)
 
 $(OBJS_PATH)/%.obj: $(SRCS_PATH)/%.c $(HEADERS_FILES)
-	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)/bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)/lib)
-	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)/bin)
+	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)\bin)
 	@echo -e "-> Compiling $(CCYAN)$<$(ENDCOLOR)"
 	@$(PSYQ_BIN_PATH)/ccpsx.exe $(CFLAGS) $^ -o $@ $(INCLUDES)
 
 $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
-	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)/bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)/lib)
-	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)/bin)
+	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)\bin)
 	@echo -e "-> Compiling $(CGREY)$<$(ENDCOLOR)"
 	@$(PSYQ_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $^,$@
 
 $(OBJS_PATH)/$(NAME).cpe: $(OBJS_PSYQ_4_3) $(OBJS_PSYQ_4_4) $(OBJS_ASM)
-	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)/bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)/lib)
-	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)/bin)
+	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)\bin)
 	@echo -e "Linking to $(CMAGENTA)$(OBJS_PATH)/$(NAME).cpe$(ENDCOLOR)"
 	@$(PSYQ_BIN_PATH)/psylink.exe $(LFLAGS) @$(LINK_FILE),\
 	$(OBJS_PATH)/$(NAME).cpe,\
@@ -131,11 +127,11 @@ $(OBJS_PATH)/$(NAME).cpe: $(OBJS_PSYQ_4_3) $(OBJS_PSYQ_4_4) $(OBJS_ASM)
 	$(OBJS_PATH)/$(NAME).map
 
 $(OBJS_PATH)/$(NAME).exe: $(OBJS_PATH)/$(NAME).cpe
-	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)/bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)/include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)/lib)
-	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)/bin)
+	@$(eval PSYQ_PATH = $(PSYQ_4_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_4_PATH)\bin)
 	@echo -e "Converting $(CMAGENTA)$(OBJS_PATH)/$(NAME).cpe$(ENDCOLOR) to $(CGREEN)$(NAME).exe$(ENDCOLOR)"
 	@$(PSYQ_BIN_PATH)/cpe2exe.exe /CJ $(OBJS_PATH)/$(NAME).cpe | /dev/null
 	@$(MAKE) -s compare
