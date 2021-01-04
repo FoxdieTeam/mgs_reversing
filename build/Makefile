@@ -30,6 +30,7 @@ SRCS_ASM = 		*.s	*/*.s */*/*.s
 
 HEADERS_FILES := $(wildcard $(patsubst %.c,%.h,$(addprefix $(SRCS_PATH)/,$(SRCS_PSYQ_4_4))))
 
+
 SRCS_PSYQ_4_3 := $(wildcard $(addprefix $(SRCS_PATH)/,$(SRCS_PSYQ_4_3)))
 SRCS_PSYQ_4_4 := $(wildcard $(addprefix $(SRCS_PATH)/,$(SRCS_PSYQ_4_4)))
 SRCS_ASM	  := $(wildcard $(addprefix $(ASM_PATH)/,$(SRCS_ASM)))
@@ -44,8 +45,7 @@ SRC_DIRS =	$(sort $(dir $(wildcard $(SRCS_PATH)/*/)))		\
 ASM_DIRS =  $(sort $(dir $(wildcard $(ASM_PATH)/*/)))		\
 			$(sort $(dir $(wildcard $(ASM_PATH)/*/*/)))		\
 			$(sort $(dir $(wildcard $(ASM_PATH)/*/*/*/)))
-
-INCLUDES = $(addprefix -I ,$(SRC_DIRS))
+INCLUDES = -I $(SRCS_PATH) $(addprefix -I ,$(SRC_DIRS))
 
 OBJS_DIRS =		$(subst $(SRCS_PATH),$(OBJS_PATH),$(SRC_DIRS))	\
 				$(subst $(ASM_PATH),$(OBJS_PATH),$(ASM_DIRS))
@@ -73,7 +73,11 @@ ENDCOLOR :=	\e[0m
 
 .PHONY: all clean fclean re compare
 
-all: $(OBJS_DIRS) $(OBJS_PATH)/$(NAME).exe
+all: test $(OBJS_DIRS) $(OBJS_PATH)/$(NAME).exe
+
+test:
+	@echo "HEADERS: $(HEADERS_FILES)"
+	@echo "INCLUDES: $(INCLUDES)"
 
 $(OBJS_DIRS):
 	@mkdir -p $(OBJS_DIRS)
