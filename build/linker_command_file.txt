@@ -2727,10 +2727,11 @@ group_gMts_active_task_idx_800C13C0	group bss,org($800C13C0)
 group_gMts_bits_800C0DB4	group bss,org($800C0DB4)
 	section .gMts_bits_800C0DB4, group_gMts_bits_800C0DB4
 
+group_gMtsMsgs_800C13D0	group bss,org($800C13D0)
+	section .gMtsMsgs_800C13D0, group_gMtsMsgs_800C13D0
+
 group_byte_800C0C10	group bss,org($800C0C10)
 	section .byte_800C0C10, group_byte_800C0C10
-
-
 
 group_gGCL_fileData_800B3C18	group bss,org($800b3C18)
 	section .gGCL_fileData_800B3C18, group_gGCL_fileData_800B3C18
