@@ -11,15 +11,6 @@ void mts_dump_process_list_8008B77C(void);
 extern int gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
 
-typedef struct mts_msg
-{
-    int field_0;
-    int field_4_task_idx;
-    int field_8;
-    int field_C;
-    int field_10;
-} mts_msg;
-
 mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
 
 #define mts_assert(functionName, lineNum) \

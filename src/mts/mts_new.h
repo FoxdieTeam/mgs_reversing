@@ -23,13 +23,23 @@ void mts_8008A400(void);
 
 typedef void(*TMtsFn)(void);
 
+
+typedef struct mts_msg
+{
+    int field_0;
+    int field_4_task_idx;
+    int field_8;
+    int field_C;
+    void* field_10;
+} mts_msg;
+
 typedef struct mts_task
 {
     signed char field_0_state;
     char field_1;
     char field_2;
     char field_3_src_idx;
-    void* field_4_pMessage;
+    mts_msg* field_4_pMessage;
     TMtsFn field_8_fn;
     char field_C_ref_count;
     signed char field_D;
