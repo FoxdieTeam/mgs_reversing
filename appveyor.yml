@@ -8,7 +8,7 @@ clone_folder: c:\mgs
 
 build_script:
  - msbuild /p:Configuration=Release;Platform=x86 build\obj_tool\obj.sln
- - make PSYQ_SDK=c:\psyq COLORS=false C_DEPS=false -C build
+ - make PSYQ_SDK=c:\psyq COLORS=false C_DEPS=false -C build -j1
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1

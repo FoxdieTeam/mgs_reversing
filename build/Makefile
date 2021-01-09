@@ -203,7 +203,7 @@ $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
 	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
 	@$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $<,$@
+	@$(PSYQ_4_BIN_PATH)/asmpsx.exe "/j $(ASM_PATH) $(AFLAGS) $<,$@"
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
