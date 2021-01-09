@@ -107,10 +107,7 @@ endif
 #-------------------------------------------------------------------------------
 # Main rule/target
 
-all: test $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
-
-test:
-	c:/psyq/psyq_4.4/bin/asmpsx.exe "/j" "../asm" "/l" "/q" "../asm/DG_800172D0.s,../obj/DG_800172D0.obj"
+all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
 
 #-------------------------------------------------------------------------------
 # Create psyq.ini files
