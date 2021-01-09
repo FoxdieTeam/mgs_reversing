@@ -12,7 +12,7 @@
 NAME = _mgsi
 
 CFLAGS = -O2 -G 8 -g -Wall
-AFLAGS = /l /q
+AFLAGS = "/l" "/q"
 LFLAGS = /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m
 
 SRCS_PATH =	 ../src
@@ -203,7 +203,7 @@ $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
 	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
 	@$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/asmpsx.exe "/j $(ASM_PATH) $(AFLAGS) $<,$@"
+	@(PSYQ_4_BIN_PATH)/asmpsx.exe "/j" $(ASM_PATH) $(AFLAGS) "$<,$@"
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
