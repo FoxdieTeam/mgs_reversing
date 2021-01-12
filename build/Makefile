@@ -12,7 +12,7 @@
 NAME = _mgsi
 
 CFLAGS = -O2 -G 8 -g -Wall
-AFLAGS = "/l" "/q"
+AFLAGS = /l /q
 LFLAGS = /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m
 
 SRCS_PATH =	 ../src
@@ -96,6 +96,8 @@ ENDCOLOR :=	\e[0m
 EMO_SUCCESS := 👌
 EMO_FAIL :=	💩
 endif
+
+CURRENT_DIR = $(shell cmd.exe /C cd)
 
 #-------------------------------------------------------------------------------
 # Makefile special targets (https://www.gnu.org/software/make/manual/html_node/Special-Targets.html)
@@ -197,13 +199,13 @@ endif
 # Compile .s files
 
 $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
-	$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
-	$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
-	$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
-	$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	$(PSYQ_4_BIN_PATH)/asmpsx.exe "/j" "$(ASM_PATH)" $(AFLAGS) "$<,$@"
+	@$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
+	@$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
+	@$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $(CURRENT_DIR)/$<,$(CURRENT_DIR)/$@
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
