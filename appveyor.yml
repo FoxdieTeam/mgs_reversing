@@ -8,7 +8,7 @@ clone_folder: c:\mgs
 
 build_script:
  - msbuild /p:Configuration=Release;Platform=x86 build\obj_tool\obj.sln
- - set PATH=%PATH%;C:\cygwin64\bin
+ - set PATH=C:\cygwin64\bin;%PATH%
  - make PSYQ_SDK=c:\psyq COLORS=false C_DEPS=false -C build -j1
  
 install:
