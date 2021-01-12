@@ -97,8 +97,6 @@ EMO_SUCCESS := 👌
 EMO_FAIL :=	💩
 endif
 
-CURRENT_DIR = $(shell cmd.exe /C cd)
-
 #-------------------------------------------------------------------------------
 # Makefile special targets (https://www.gnu.org/software/make/manual/html_node/Special-Targets.html)
 
@@ -110,15 +108,6 @@ CURRENT_DIR = $(shell cmd.exe /C cd)
 # Main rule/target
 
 all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
-
-test:
-	@echo "Start of PSYQ.ini.template"
-	@echo $(shell more $(PSYQ_4_PATH)\bin\PSYQ.ini.template)
-	@echo "End of PSYQ.ini.template"
-	@echo "Start of psyq.ini"
-	@echo $(shell more $(PSYQ_4_PATH)\bin\psyq.ini)
-	@echo "End of psyq.ini"
-	exit 1
 
 #-------------------------------------------------------------------------------
 # Create psyq.ini files
@@ -208,13 +197,13 @@ endif
 # Compile .s files
 
 $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
-	$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
-	$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
-	$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
-	$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $<,$@
+	@$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
+	@$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
+	@$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $<,$@
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
