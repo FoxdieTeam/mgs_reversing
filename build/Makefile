@@ -205,7 +205,7 @@ $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
 	$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
 	$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
 	$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $(subst /,\,$(subst build/../,,$(CURRENT_DIR)/$<)),$(subst /,\,$(subst build/../,,$(CURRENT_DIR)/$@))
+	cmd.exe /C "$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $(subst /,\,$(subst build/../,,$(CURRENT_DIR)/$<)),$(subst /,\,$(subst build/../,,$(CURRENT_DIR)/$@))"
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
