@@ -13,6 +13,6 @@ build_script:
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
  - git submodule update --init --recursive
- - choco install make --source=cygwin
+ - choco install make
 
 test: off
