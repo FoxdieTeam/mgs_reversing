@@ -109,12 +109,15 @@ CURRENT_DIR = $(shell cmd.exe /C cd)
 #-------------------------------------------------------------------------------
 # Main rule/target
 
-all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini test $(OBJS_DIRS) $(EXE_FILE)
+all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
 
 test:
-	@echo "Start of test"
+	@echo "Start of PSYQ.ini.template"
+	@echo $(shell more $(PSYQ_4_PATH)\bin\PSYQ.ini.template)
+	@echo "End of PSYQ.ini.template"
+	@echo "Start of psyq.ini"
 	@echo $(shell more $(PSYQ_4_PATH)\bin\psyq.ini)
-	@echo "End of test"
+	@echo "End of psyq.ini"
 	exit 1
 
 #-------------------------------------------------------------------------------
