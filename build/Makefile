@@ -199,13 +199,13 @@ endif
 # Compile .s files
 
 $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
-	@$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
-	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
-	@$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $(CURRENT_DIR)/$<,$(CURRENT_DIR)/$@
+	$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
+	$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
+	$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
+	$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
+	$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $(CURRENT_DIR)/$<,$(CURRENT_DIR)/$@
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
