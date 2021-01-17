@@ -233,15 +233,19 @@ $(EXE_FILE): $(CPE_FILE)
 compare:
 ifeq ($(TARGET_HASH),$(CURRENT_HASH)) # (Each access of CURRENT_HASH takes time)
 	@$(ECHO) "$(CGREEN)OK: $(EXE_FILE) match target hash$(ENDCOLOR) $(EMO_SUCCESS)"
-	@powershell.exe -File progress.ps1
 else
 	@$(ECHO) "$(CRED)FAIL: $(EXE_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
 	@exit 1
 endif
 
 build:
-	@$(ECHO) "Executing build.ps1"
+	@echo "Executing build.ps1"
 	@powershell.exe -File build.ps1 -psyq_path4dot4 $(PSYQ_4_PATH)\bin -psyq_path4dot3 $(PSYQ_3_PATH)\bin
+
+#for appveyor only
+progress:
+	@echo "Executing progress.ps1"
+	@powershell.exe -File progress.ps1
 
 #-------------------------------------------------------------------------------
 # Clean objects and remake
