@@ -233,6 +233,7 @@ $(EXE_FILE): $(CPE_FILE)
 compare:
 ifeq ($(TARGET_HASH),$(CURRENT_HASH)) # (Each access of CURRENT_HASH takes time)
 	@$(ECHO) "$(CGREEN)OK: $(EXE_FILE) match target hash$(ENDCOLOR) $(EMO_SUCCESS)"
+	@powershell.exe -File progress.ps1
 else
 	@$(ECHO) "$(CRED)FAIL: $(EXE_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
 	@exit 1
