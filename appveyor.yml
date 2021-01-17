@@ -11,6 +11,7 @@ build_script:
  - set PATH=C:\cygwin64\bin;%PATH%
  - cd build
  - make PSYQ_SDK=c:\psyq C_DEPS=false -j1
+ - make progress
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
