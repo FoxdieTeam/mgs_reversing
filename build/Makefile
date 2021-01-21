@@ -225,7 +225,7 @@ $(EXE_FILE): $(CPE_FILE)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
 	@$(ECHO) "Converting $(CMAGENTA)$(CPE_FILE)$(ENDCOLOR) to $(CGREEN)$(EXE_FILE)$(ENDCOLOR)"
 	@$(PSYQ_4_BIN_PATH)/cpe2exe.exe /CJ $(CPE_FILE) > $(OBJS_PATH)/log.txt
-	@$(MAKE) -s compare
+	@$(MAKE) --no-print-directory compare
 
 #-------------------------------------------------------------------------------
 # Utils
@@ -259,4 +259,4 @@ fclean: clean
 	@rm -rf "$(EXE_FILE)"
 
 re: fclean
-	@$(MAKE) -s
+	@$(MAKE) --no-print-directory
