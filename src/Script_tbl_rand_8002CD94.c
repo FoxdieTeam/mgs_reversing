@@ -2,19 +2,9 @@
 #include "gcl.h"
 #include "idaTypes.h"
 
-typedef struct
-{
-    short unknown_1;
-    short unknown_2;
-    short unknown_3;
-    short unknown_4;
-    short unknown_5;
-    short unknown_6;
-} unknown_800B4D98;
-
-unknown_800B4D98 SECTION(".gUnknown_800B4D98") gUnknown_struct_800B4D98;
-
 unsigned int rand_8008E6B8(void);
+
+extern unknown_800B4D98 gUnknown_struct_800B4D98;
 
 int Script_tbl_rand_8002CD94(unsigned char *pScript)
 {
