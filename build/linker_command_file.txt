@@ -2736,8 +2736,5 @@ group_byte_800C0C10	group bss,org($800C0C10)
 group_gGCL_fileData_800B3C18	group bss,org($800b3C18)
 	section .gGCL_fileData_800B3C18, group_gGCL_fileData_800B3C18
 
-group_gUnknown_800B4D98	group bss,org($800B4D98)
-	section .gUnknown_800B4D98, group_gUnknown_800B4D98
-
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
