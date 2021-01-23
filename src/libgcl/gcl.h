@@ -1,17 +1,6 @@
 #ifndef GCL_H
 #define GCL_H
 
-typedef struct
-{
-    short unknown_1;
-    short unknown_2;
-    short unknown_3;
-    short unknown_4;
-    short unknown_5;
-    short unknown_6;
-    short unknown_7;
-} unknown_800B4D98;
-
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct Actor;
 typedef struct Actor *(*TGCL_ActorCreateFn)(int unknown1, int binds, unsigned char *pScript2, int unknown);
