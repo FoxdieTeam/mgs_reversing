@@ -35,11 +35,11 @@ short SECTION(".sbss") sCurrentAreaName_800AB9C0;
 short SECTION(".sbss") pad3_;
 short SECTION(".sbss") pad3;
 
-int GM_PushAreaHistory_8002A7D8(int areaName, char *pStageName)
+int GM_PushAreaHistory_8002A7D8(int stageNameHash, char *pStageName)
 {
     int i;
 
-    sCurrentAreaName_800AB9C0 = areaName;
+    sCurrentAreaName_800AB9C0 = stageNameHash;
     strcpy_8008E768(gCurrentStageName_800AB3C4, pStageName);
     i = MAX_HISTORY - 1;
     do
@@ -47,8 +47,8 @@ int GM_PushAreaHistory_8002A7D8(int areaName, char *pStageName)
         gAreaHistory_800B5850.history[i] = gAreaHistory_800B5850.history[i - 1];
         i--;
     } while (0 < i);
-    gAreaHistory_800B5850.history[0] = areaName;
-    return areaName;
+    gAreaHistory_800B5850.history[0] = stageNameHash;
+    return stageNameHash;
 }
 
 int GM_AreaHistory_8002A848(int areaName)
