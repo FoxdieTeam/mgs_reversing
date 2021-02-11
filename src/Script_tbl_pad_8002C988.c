@@ -18,7 +18,7 @@ int Script_tbl_pad_8002C988(void)
     }
     else if (GCL_GetParam_80020968('s'))
     {
-        game_state_flags_800AB3CC &= 0xE7FFFF7F;
+        game_state_flags_800AB3CC &= ~0x18000080;
     }
     sub_8001682C();
     return 0;
