@@ -41,9 +41,9 @@ int Script_tbl_unknown1_8002CDF4(void)
     if (GCL_GetParam_80020968('s')) // struct
     {
         unkStruct = (unk_800AB9F4*)dword_800AB9F4;
-        gGameState_800B4D98.field_4_param_p_vec[0] = unkStruct->vec0[0];
-        gGameState_800B4D98.field_4_param_p_vec[1] = unkStruct->vec0[1];
-        gGameState_800B4D98.field_4_param_p_vec[2] = unkStruct->vec0[2];
+        gGameState_800B4D98.field_4_snake_position.x = unkStruct->vec0[0];
+        gGameState_800B4D98.field_4_snake_position.y = unkStruct->vec0[1];
+        gGameState_800B4D98.field_4_snake_position.z = unkStruct->vec0[2];
         gGameState_800B4D98.unk.LastRand = unkStruct->unkA;
     }
     if (GCL_GetParam_80020968('a')) // area
@@ -79,9 +79,9 @@ int Script_tbl_unknown1_8002CDF4(void)
     if (GCL_GetParam_80020968('n'))
     {
         gGameState_800B4D98.unk.LastRand = dword_8009F46C;
-        gGameState_800B4D98.field_4_param_p_vec[0] = word_8009F478;
-        gGameState_800B4D98.field_4_param_p_vec[1] = word_8009F47A;
-        gGameState_800B4D98.field_4_param_p_vec[2] = word_8009F47C;
+        gGameState_800B4D98.field_4_snake_position.x = word_8009F478;
+        gGameState_800B4D98.field_4_snake_position.y = word_8009F47A;
+        gGameState_800B4D98.field_4_snake_position.z = word_8009F47C;
     }
     return 0;
 }
