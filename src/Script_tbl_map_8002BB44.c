@@ -8,21 +8,6 @@
 #include <sys/types.h>
 #include <libgte.h>
 
-typedef struct LitHeader
-{
-    int field_0_num_lights;
-} LitHeader;
-
-typedef struct map_record
-{
-    int field_0_map_index_bit;
-    short field_4_map_num;
-    short field_6_bUsed;
-    struct HzdMap *field_8_hzd;
-    LitHeader *field_C_l_file;
-    int field_10_script_z_param_bit_index_zone_id;
-} map_record;
-
 void Map_ScriptLoadMapBlocks_800312D0(void);
 void Map_ScriptReloadMaps_80031450(int);
 map_record *Map_FindByNum_80031504(int);
@@ -243,7 +228,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
 
     bVar7 = 0; // still s1
 
-    if (GCL_GetParam_80020968(0x6d))
+    if (GCL_GetParam_80020968('m'))
     {
         sVar3 = GCL_Get_Param_80020AD4();
         if (sVar3 == 0x14c9)
@@ -257,7 +242,7 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
         pBind->field_2_param_m = 0;
     }
 
-    if (GCL_GetParam_80020968(0x64))
+    if (GCL_GetParam_80020968('d'))
     {
         bVar7 |= 1;
         pBind->field_C_param_d = GCL_Get_Param_80020AD4();
@@ -272,34 +257,34 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968(0x62))
+    if (GCL_GetParam_80020968('b'))
     {
         bVar7 |= 4;
         pBind->field_A_param_b = GCL_Get_Param_80020AD4();
     }
 
-    if (GCL_GetParam_80020968(0x73))
+    if (GCL_GetParam_80020968('s'))
     {
         bVar7 |= 2;
         pBind->field_9_param_s = GCL_Get_Param_80020AD4();
     }
 
-    if (GCL_GetParam_80020968(0x72))
+    if (GCL_GetParam_80020968('r'))
     {
         bVar7 |= 0x40;
     }
 
-    if (GCL_GetParam_80020968(0x69))
+    if (GCL_GetParam_80020968('i'))
     {
         pBind->field_8_param_i_c_flags |= 1;
     }
 
-    if (GCL_GetParam_80020968(99))
+    if (GCL_GetParam_80020968('c'))
     {
         pBind->field_8_param_i_c_flags |= 2;
     }
 
-    if (GCL_GetParam_80020968(0x74))
+    if (GCL_GetParam_80020968('t'))
     {
         if ((bVar7 & 0x40) != 0)
         {
@@ -308,13 +293,13 @@ int Script_tbl_ntrap_8002BE20(unsigned char *pScript)
         pBind->field_10_every = GCL_Get_Param_80020AD4();
     }
 
-    if (GCL_GetParam_80020968(0x70))
+    if (GCL_GetParam_80020968('p'))
     {
         bVar7 |= 0x80;
         pBind->field_14_proc_and_block = GCL_Get_Param_80020AD4();
     }
 
-    if (GCL_GetParam_80020968(0x65))
+    if (GCL_GetParam_80020968('e'))
     {
         int auStack24;
         int local_14;
