@@ -34,7 +34,7 @@ int Script_tbl_demo_8002C890(void) {
     }
     else
     {
-        load_data = GCL_Get_Param_80020AD4() | 0x80000000;
+        load_data = GCL_Get_Param_80020AD4() | GAME_FLAG_BIT_32;
     }
 
     dword_800AB9B0 = gBinds_800ABA60;
@@ -42,7 +42,7 @@ int Script_tbl_demo_8002C890(void) {
     if (param >= 0)
     {
         counter_800AB380 = 0x7FFF0000;
-        game_state_flags_800AB3CC |= 0x80000000;
+        game_state_flags_800AB3CC |= GAME_FLAG_BIT_32;
         sub_80037DD8(param, load_data);
     }
     else
