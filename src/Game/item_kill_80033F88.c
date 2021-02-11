@@ -20,15 +20,15 @@ void item_kill_80033F88(int param_1)
         DG_FreePrim_8001BC04(iVar2);
     }
     if ((*(char *)(param_1 + 0x112) == '\x02') &&
-            (pbVar1 = *(char **)(param_1 + 0x120),  pbVar1 != (char *)0x0))
-            {
+        (pbVar1 = *(char **)(param_1 + 0x120),  pbVar1 != (char *)0x0))
+    {
         if ((int)pbVar1 < 0)
         {
-            GCL_Run_80020118(pbVar1, (unsigned short *)0x0);
+            GCL_Run_80020118(pbVar1, (void *)0x0);
         }
         else 
         {
-            GCL_RunOrCancelProc_8001FF2C((unsigned int)pbVar1, (unsigned short *)0x0);
+            GCL_RunOrCancelProc_8001FF2C((unsigned int)pbVar1, (void *)0x0);
         }
     }
     return;

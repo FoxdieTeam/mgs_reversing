@@ -75,11 +75,11 @@ int Script_tbl_radio_8002C4A8(void)
     }
     if (GCL_GetParam_80020968('d'))
     {
-        game_state_flags_800AB3CC |= 0x2000;
+        game_state_flags_800AB3CC |= GAME_FLAG_BIT_14;
     }
     if (GCL_GetParam_80020968('e'))
     {
-        game_state_flags_800AB3CC &= ~0x2000;
+        game_state_flags_800AB3CC &= ~GAME_FLAG_BIT_14;
     }
     if (GCL_GetParam_80020968('a'))
     {
