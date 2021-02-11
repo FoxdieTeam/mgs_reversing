@@ -536,9 +536,9 @@ int Script_tbl_load_8002C308(char *pScript)
     {
         // Snakes starting position in the map?
         GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), &vec[0]);
-        gGameState_800B4D98.field_4_param_p_vec[0] = vec[0];
-        gGameState_800B4D98.field_4_param_p_vec[1] = vec[1];
-        gGameState_800B4D98.field_4_param_p_vec[2] = vec[2];
+        gGameState_800B4D98.field_4_snake_position.x = vec[0];
+        gGameState_800B4D98.field_4_snake_position.y = vec[1];
+        gGameState_800B4D98.field_4_snake_position.z = vec[2];
     }
 
     if (GCL_GetParam_80020968('s'))
