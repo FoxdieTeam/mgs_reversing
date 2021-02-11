@@ -35,7 +35,7 @@ int Script_tbl_map_8002BB44(unsigned char *pScript)
     if (GCL_GetParam_80020968('s'))
     {
         Map_ScriptReloadMaps_80031450(1);
-        if (!(game_state_flags_800AB3CC & 0x80000000))
+        if (!(game_state_flags_800AB3CC & GAME_FLAG_BIT_32))
         {
             counter_800AB380 = 4;
         }
@@ -45,7 +45,7 @@ int Script_tbl_map_8002BB44(unsigned char *pScript)
     {
         Map_ScriptReloadMaps_80031450(0);
 
-        if (!(game_state_flags_800AB3CC & 0x80000000))
+        if (!(game_state_flags_800AB3CC & GAME_FLAG_BIT_32))
         {
             if (GCL_GetParam_80020968('u'))
             {
