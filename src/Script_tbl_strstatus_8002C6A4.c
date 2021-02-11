@@ -25,7 +25,7 @@ int Script_tbl_strstatus_8002C6A4(void)
     sub_8002B600(val);
     if (GCL_GetParam_80020968('s'))
     {
-        gFlags_800AB3D0 |= 0x10;
+        gFlags_800AB3D0 |= GAME_FLAG_BIT_05;
     }
     if (GCL_GetParam_80020968('a')) // area
     {
