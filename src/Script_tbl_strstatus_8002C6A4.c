@@ -14,7 +14,7 @@ int Script_tbl_strstatus_8002C6A4(void)
 {
     int val;
 
-    if (GCL_GetParam_80020968(0x70))
+    if (GCL_GetParam_80020968('p')) // param
     {
         val = GCL_Get_Param_80020AD4();
     } 
@@ -23,11 +23,11 @@ int Script_tbl_strstatus_8002C6A4(void)
         val = -1;
     }
     sub_8002B600(val);
-    if (GCL_GetParam_80020968(0x73))
+    if (GCL_GetParam_80020968('s'))
     {
         gFlags_800AB3D0 |= 0x10;
     }
-    if (GCL_GetParam_80020968(0x61))
+    if (GCL_GetParam_80020968('a')) // area
     {
         GM_PushAreaHistory_8002A7D8((int)gGameState_800B4D98.field_0_stageNameHashed,
                                     GM_StageName_8002A880(0));
