@@ -1,38 +1,7 @@
 #ifndef GCL_H
 #define GCL_H
 
-#define GAME_FLAG_BIT_01	0x1
-#define GAME_FLAG_BIT_02	0x2
-#define GAME_FLAG_BIT_03	0x4
-#define GAME_FLAG_BIT_04	0x8
-#define GAME_FLAG_BIT_05	0x10
-#define GAME_FLAG_BIT_06	0x20
-#define GAME_FLAG_BIT_07	0x40
-#define GAME_FLAG_BIT_08	0x80
-#define GAME_FLAG_BIT_09	0x100
-#define GAME_FLAG_BIT_10	0x200
-#define GAME_FLAG_BIT_11	0x400
-#define GAME_FLAG_BIT_12	0x800
-#define GAME_FLAG_BIT_13	0x1000
-#define GAME_FLAG_BIT_14	0x2000
-#define GAME_FLAG_BIT_15	0x4000
-#define GAME_FLAG_BIT_16	0x8000
-#define GAME_FLAG_BIT_17	0x10000
-#define GAME_FLAG_BIT_18	0x20000
-#define GAME_FLAG_BIT_19	0x40000
-#define GAME_FLAG_BIT_20	0x80000
-#define GAME_FLAG_BIT_21	0x100000
-#define GAME_FLAG_BIT_22	0x200000
-#define GAME_FLAG_BIT_23	0x400000
-#define GAME_FLAG_BIT_24	0x800000
-#define GAME_FLAG_BIT_25	0x1000000
-#define GAME_FLAG_BIT_26	0x2000000
-#define GAME_FLAG_BIT_27	0x4000000
-#define GAME_FLAG_BIT_28	0x8000000
-#define GAME_FLAG_BIT_29	0x10000000
-#define GAME_FLAG_BIT_30	0x20000000
-#define GAME_FLAG_BIT_31	0x40000000
-#define GAME_FLAG_BIT_32	0x80000000
+
 
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct                      Actor;
@@ -66,6 +35,62 @@ typedef struct              GCLArgsPtr
 	short                   count;
 	int                     *pArgs;
 } GCLArgsPtr;
+
+enum GCLOperators
+{
+    eNegate = 1,
+    eIsZero = 2,
+    eComplement = 3,
+    eAdd = 4,
+    eSubtract = 5,
+    eMultiply = 6,
+    eDivide = 7,
+    eModulus = 8,
+    eEquals = 9,
+    eNotEquals = 10,
+    eLessThan = 11,
+    eLessThanOrEqual = 12,
+    eGreaterThan = 13,
+    eGreaterThanOrEqual = 14,
+    eBitWiseOR = 15,
+    eBitWiseAND = 16,
+    eBitWiseXOR = 17,
+    eOr = 18,
+    eAnd = 19,
+};
+
+#define GAME_FLAG_BIT_01	0x1
+#define GAME_FLAG_BIT_02	0x2
+#define GAME_FLAG_BIT_03	0x4
+#define GAME_FLAG_BIT_04	0x8
+#define GAME_FLAG_BIT_05	0x10
+#define GAME_FLAG_BIT_06	0x20
+#define GAME_FLAG_BIT_07	0x40
+#define GAME_FLAG_BIT_08	0x80
+#define GAME_FLAG_BIT_09	0x100
+#define GAME_FLAG_BIT_10	0x200
+#define GAME_FLAG_BIT_11	0x400
+#define GAME_FLAG_BIT_12	0x800
+#define GAME_FLAG_BIT_13	0x1000
+#define GAME_FLAG_BIT_14	0x2000
+#define GAME_FLAG_BIT_15	0x4000
+#define GAME_FLAG_BIT_16	0x8000
+#define GAME_FLAG_BIT_17	0x10000
+#define GAME_FLAG_BIT_18	0x20000
+#define GAME_FLAG_BIT_19	0x40000
+#define GAME_FLAG_BIT_20	0x80000
+#define GAME_FLAG_BIT_21	0x100000
+#define GAME_FLAG_BIT_22	0x200000
+#define GAME_FLAG_BIT_23	0x400000
+#define GAME_FLAG_BIT_24	0x800000
+#define GAME_FLAG_BIT_25	0x1000000
+#define GAME_FLAG_BIT_26	0x2000000
+#define GAME_FLAG_BIT_27	0x4000000
+#define GAME_FLAG_BIT_28	0x8000000
+#define GAME_FLAG_BIT_29	0x10000000
+#define GAME_FLAG_BIT_30	0x20000000
+#define GAME_FLAG_BIT_31	0x40000000
+#define GAME_FLAG_BIT_32	0x80000000
 
 void						GCL_StartDaemon_8001FCDC(void);
 
