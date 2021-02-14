@@ -35,54 +35,54 @@ typedef struct      Vec3_snakePos
     short           z;
 } Vec3_snakePos;
 
-typedef struct      Items
+enum ItemsId
 {
-	short           CIGS;
-	short           SCOPE;
-    short           C_BOX_A;
-    short           C_BOX_B;
-    short           C_BOX_C;
-	short           N_V_G;
-	short           THERM_G;
-	short           GASMASK;
-	short           B_ARMOR;
-	short           KETCHUP;
-	short           STEALTH;
-	short           BANDANA;
-	short           CAMERA;
-	short           RATION;
-	short           MEDICINE;
-	short           DIAZEPAM;
-	short           PAL_KEY;
-	short           CARD;
-	short           TIMER_B;
-	short           MINE_D;
-	short           DISC;
-	short           ROPE;
-	short           HANDKER;
-	short           SUPPR;
-} Items;
+	eCIGS = 0,
+	eSCOPE = 1,
+    eC_BOX_A = 2,
+    eC_BOX_B = 3,
+    eC_BOX_C = 4,
+	eN_V_G = 5,
+	eTHERM_G = 6,
+	eGASMASK = 7,
+	eB_ARMOR = 8,
+	eKETCHUP = 9,
+	eSTEALTH = 10,
+	eBANDANA = 11,
+	eCAMERA = 12,
+	eRATION = 13,
+	eMEDICINE = 14,
+	eDIAZEPAM = 15,
+	ePAL_KEY = 16,
+	eCARD = 17,
+	eTIMER_B = 18,
+	eMINE_D = 19,
+	eDISC = 20,
+	eROPE = 21,
+	eHANDKER = 22,
+	eSUPPR = 23
+};
 
-typedef struct      ConsumableItems
+enum ConsummableItemsId
 {
-	short           RATION;
-	short           MEDICINE;
-    short           DIAZEPAM;
-} ConsumableItems;
+    eRATION_capacity = 0,
+    eMEDICINE_capacity = 1,
+    eDIAZEPAM_capacity = 2
+};
 
-typedef struct      Weapons
+enum WeaponsId
 {
-    short           SOCOM;
-    short           FAMAS;
-    short           GRENADE;
-    short           NIKITA;
-    short           STINGER;
-    short           CLAYMORE;
-    short           C4;
-    short           STUN_G;
-    short           CHAFF_G;
-    short           PSG1;
-} Weapons;
+    eSOCOM = 0,
+    eFAMAS = 1,
+    eGRENADE = 2,
+    eNIKITA = 3,
+    eSTINGER = 4,
+    eCLAYMORE = 5,
+    eC4 = 6,
+    eSTUN_G = 7,
+    eCHAFF_G = 8,
+    ePSG1 = 9
+};
 
 typedef struct      GameState
 {
@@ -98,10 +98,10 @@ typedef struct      GameState
     short           field_10_equipped_weapon;
     short           field_12_equipped_item;
     short           field_14;
-    Weapons         field_16_weapon_states;
-    Weapons         field_2A_weapon_capacity;
-    Items           field_3E_item_states;
-    ConsumableItems field_6E_consumable_items_capacity;
+    short           field_16_weapon_states[10];
+    short           field_2A_weapon_capacity[10];
+    short           field_3E_item_states[24];
+    short           field_6E_consumable_items_capacity[3];
     short           field_74;
     short           field_76_PAL_card_icon_idx;
     short           field_78_PAL_card_timer;

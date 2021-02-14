@@ -107,7 +107,7 @@ extern GameState gGameState_800B4D98;
 MenuMan_Inventory_14h_Unk* menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if ((weaponIdx == 0) && (gGameState_800B4D98.field_3E_item_states.SUPPR == 0))
+    if ((weaponIdx == 0) && (gGameState_800B4D98.field_3E_item_states[eSUPPR] == 0))
     {
         rpkIdx = 2;
     }
