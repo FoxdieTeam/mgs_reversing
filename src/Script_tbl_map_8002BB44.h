@@ -35,31 +35,75 @@ typedef struct      Vec3_snakePos
     short           z;
 } Vec3_snakePos;
 
+typedef struct      Items
+{
+	short           CIGS;
+	short           SCOPE;
+    short           C_BOX_A;
+    short           C_BOX_B;
+    short           C_BOX_C;
+	short           N_V_G;
+	short           THERM_G;
+	short           GASMASK;
+	short           B_ARMOR;
+	short           KETCHUP;
+	short           STEALTH;
+	short           BANDANA;
+	short           CAMERA;
+	short           RATION;
+	short           MEDICINE;
+	short           DIAZEPAM;
+	short           PAL_KEY;
+	short           CARD;
+	short           TIMER_B;
+	short           MINE_D;
+	short           DISC;
+	short           ROPE;
+	short           HANDKER;
+	short           SUPPR;
+} Items;
+
+typedef struct      ConsumableItems
+{
+	short           RATION;
+	short           MEDICINE;
+    short           DIAZEPAM;
+} ConsumableItems;
+
+typedef struct      Weapons
+{
+    short           SOCOM;
+    short           FAMAS;
+    short           GRENADE;
+    short           NIKITA;
+    short           STINGER;
+    short           CLAYMORE;
+    short           C4;
+    short           STUN_G;
+    short           CHAFF_G;
+    short           PSG1;
+} Weapons;
+
 typedef struct      GameState
 {
     Unk_800B4D98    unk;
 
     short           field_0_stageNameHashed;
     short           field_2_loader_param_m;
-//    short           field_4_param_p_vec[3];
     Vec3_snakePos   field_4_snake_position;
     short           field_A_snake_current_health;
     short           field_C_snake_max_health;
     char            field_E_snake_flags; // is snake cold ? etc..
     char            field_F_pad; // check
-//    short           field_10_load_item_fn_idx;
     short           field_10_equipped_weapon;
-//    short           field_12_selected_menu_item_idx;
     short           field_12_equipped_item;
     short           field_14;
-    short           field_16_weapon_states[10];
-    short           field_2A_weapon_capacity[10];
-    short           field_3E_item_states[24];
-//    short           field_6E[3];
-    short           field_6E_consumable_items_capacity[3]; // ration, medicine and diazepam capacity
+    Weapons         field_16_weapon_states;
+    Weapons         field_2A_weapon_capacity;
+    Items           field_3E_item_states;
+    ConsumableItems field_6E_consumable_items_capacity;
     short           field_74;
     short           field_76_PAL_card_icon_idx;
-//    short           field_78;
     short           field_78_PAL_card_timer;
     short           field_7A;
     short           field_7C;
@@ -77,13 +121,9 @@ typedef struct      GameState
     short           field_9C_num_rations_used;
     short           field_9E_num_continues;
     short           field_A0_num_saves;
-//    short           field_A2;
     short           field_A2_hours_played;
-//    short           field_A4;
     short           field_A4_seconds_played;
-//    short           field_A6_game_time1;
     short           field_A6_total_hours_elapsed;
-//    short           field_A8_game_time2;
     short           field_A8_total_seconds_elapsed;
     short           field_AA;
     short           field_AC;
