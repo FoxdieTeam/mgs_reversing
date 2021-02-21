@@ -105,6 +105,16 @@ void                        GCL_SetMainOrDemo_8001FCB0(int bMain);
 
 int                         GCL_800209E8(unsigned char *uParm1);
 
+static inline int           ToINT(const char *ptr)
+{
+    return (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | ptr[3];
+}
+
+static inline short         ToSHORT(const char *ptr)
+{
+    return (ptr[0] << 8 | ptr[1]);
+}
+
 #define GCL_ReadShort(p)    ( p[1] ) | ( p[0] << 8 )
 #define GCL_AdvanceShort(p) p += sizeof(short)
 
