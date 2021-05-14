@@ -18,16 +18,6 @@ typedef struct      map_record
     int             field_10_script_z_param_bit_index_zone_id;
 } map_record;
 
-typedef struct      Unk_800B4D98
-{
-    short           field_0;
-    short           field_2_DiffcultyLevel;
-    WORD            Flags;
-    WORD            pad;
-    short           StartingCdId;
-    short           LastRand;
-} Unk_800B4D98;
-
 typedef struct      Vec3_snakePos
 {
     short           x;
@@ -84,52 +74,77 @@ enum WeaponsId
     ePSG1 = 9
 };
 
-typedef struct      GameState
+typedef struct      GameState_800B4D98
 {
-    Unk_800B4D98    unk;
+    short           field_00;
+    short           field_02_diffcultyLevel; // -1,0,1,2,3
+    WORD            field_04_flags; // bit 12 (0x800) = radar on/off
+    short           field_06_newgameplus_count; // 1 = bandana, 2 = stealth, > 2 = tuxedo
+    short           field_08_cd_number; // 1 or 2
+    short           field_0A_random_value;
+    short           field_0C_current_stage; // hash
+    short           field_0E_current_map; // hash
+    Vec3_snakePos   field_10_snake_position;
+    short           field_16_snake_current_health;
+    short           field_18_snake_max_health; // 256 to around 1400
+    char            field_1A_snake_flags; // bit 1 (0x1) = common cold
+    char            field_1B_pad; // check
+    short           field_1C_equipped_weapon;
+    short           field_1E_equipped_item;
+    short           field_20_snake_stance; // 0 = standing, 1 = crouching, 2 = lying down
+    short           field_22_weapon_states[10];
+    short           field_36_weapon_capacity[10];
+    short           field_4A_item_states[24];
+    short           field_7A_consumable_items_capacity[3];
+    short           field_80_temp_per_second; // default to 10 or -10 (-30 in warehouse, 30 in blast furnace)
+    short           field_82_pal_key_shape; // 0-2-1 icon index
+    short           field_84_pal_key_temp; // -7200 in warehouse, 7200 in blast furnace
+    short           field_86_pal_key_temp_max; // 9000
+    short           field_88_pal_key_temp_min; // -9000
+    short           field_8A_frozen_items;
+    short           field_8C_frozen_items_unknown;
+    short           field_8E_frozen_items_temp;
+    short           field_90_frozen_items_temp_min; // -7200
+    short           field_92_diazepam_timer;
+    short           field_94_previous_stage; // hash
+    short           field_96_snake_cold_timer;
+    short           field_98_snake_cold_unk1;
+    short           field_9A_snake_cold_unk2;
+    short           field_9C_total_being_found; // score screen
+    short           field_9E_total_enemies_killed; // score screen
+    int             field_A0[3];
+    short           field_AC_total_rations_used; // score screen
+    short           field_AE_total_continues; // score screen
+    short           field_B0_total_saves; // score screen
+    short           field_B2_hours_played;
+    short           field_B4_seconds_played;
+    short           field_B6_total_hours_elapsed; // score screen
+    short           field_B8_total_seconds_elapsed; // score screen
+    short           field_BA;
+    short           field_BC;
+    short           field_BE;
+} GameState_800B4D98;
 
-    short           field_0_stageNameHashed;
-    short           field_2_loader_param_m;
-    Vec3_snakePos   field_4_snake_position;
-    short           field_A_snake_current_health;
-    short           field_C_snake_max_health;
-    char            field_E_snake_flags; // is snake cold ? etc..
-    char            field_F_pad; // check
-    short           field_10_equipped_weapon;
-    short           field_12_equipped_item;
-    short           field_14;
-    short           field_16_weapon_states[10];
-    short           field_2A_weapon_capacity[10];
-    short           field_3E_item_states[24];
-    short           field_6E_consumable_items_capacity[3];
-    short           field_74;
-    short           field_76_PAL_card_icon_idx;
-    short           field_78_PAL_card_timer;
-    short           field_7A;
-    short           field_7C;
-    short           field_7E_bItems_frozen;
-    short           field_80;
-    short           field_82_freeze_items_timer;
-    short           field_84;
-//    short           field_86_snake_shake_delay;
-    short           field_86_diazepam_timer;
-    short           field_88_prevStageNameHashed;
-    short           field_8A_snake_cold_timer;
-    short           field_8C_times_spotted;
-    short           field_8E_num_enemies_killed;
-    int             field_90[3];
-    short           field_9C_num_rations_used;
-    short           field_9E_num_continues;
-    short           field_A0_num_saves;
-    short           field_A2_hours_played;
-    short           field_A4_seconds_played;
-    short           field_A6_total_hours_elapsed;
-    short           field_A8_total_seconds_elapsed;
-    short           field_AA;
-    short           field_AC;
-    short           field_AE;
-    short           field_B0;
-    short           field_B2;
-} GameState;
+typedef struct BindStruct
+{
+    short field_0;
+    short field_2_param_m;
+
+    short field_4;
+    short field_6;
+
+    unsigned char field_8_param_i_c_flags;
+    char field_9_param_s;
+    char field_A_param_b;
+    unsigned char field_B_param_e;
+
+    short field_C_param_d;
+    short field_E_param_d_or_512;
+
+    int field_10_every;
+    int field_14_proc_and_block;
+} BindStruct;
+
+void GM_SetBinds_80029A5C(int, BindStruct *, int);
 
 #endif // SCRIPT_TBL_MAP_H

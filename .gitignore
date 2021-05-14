@@ -4,9 +4,10 @@
 *.obj
 *.exe
 *.47
-obj\*
+obj
 build/dump.asm
 build/target.asm
+build/statcov.txt
 .vscode/c_cpp_properties.json
 .vscode/tasks.json
 .vscode/settings.json

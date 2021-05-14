@@ -2,7 +2,7 @@
 #include "menuMan.h"
 #include "mts_new.h"
 
-void* System_2_Alloc_80015EB8(int idx, int size);
+void* GV_AllocMemory_80015EB8(int idx, int size);
 void GV_ZeroMemory_8001619c(void* ptr, int size);
 
 extern const char aNoMemoryForSta[];
@@ -19,7 +19,7 @@ void menu_radio_codec_start_task_80047C3C(void)
     int* pTaskStack;
     int *pStackEnd;
 
-    pTaskStack = System_2_Alloc_80015EB8(0, CODEC_TASK_STACK_SIZE);
+    pTaskStack = GV_AllocMemory_80015EB8(0, CODEC_TASK_STACK_SIZE);
     dword_800ABB38->field_28_pStack = pTaskStack;
     if (pTaskStack == 0)
     {
@@ -40,7 +40,7 @@ void sub_80047CB4(menu_chara_struct *unknown)
 
 void menu_radio_codec_create_state_80047CE4(MenuMan *pMenuMan)
 {
-    menu_chara_struct *pAllocated = System_2_Alloc_80015EB8(0, sizeof(menu_chara_struct));
+    menu_chara_struct *pAllocated = GV_AllocMemory_80015EB8(0, sizeof(menu_chara_struct));
     if (!pAllocated)
     {
         mts_printf_8008BBA0(aNoMemory);
