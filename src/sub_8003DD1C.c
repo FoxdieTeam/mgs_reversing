@@ -102,12 +102,12 @@ void menu_right_unknown_8003DEB0(void)
     sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
 }
 
-extern GameState gGameState_800B4D98;
+extern GameState_800B4D98 gGameState_800B4D98;
 
 MenuMan_Inventory_14h_Unk* menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if ((weaponIdx == eSOCOM) && (gGameState_800B4D98.field_3E_item_states[eSUPPR] == 0))
+    if ((weaponIdx == eSOCOM) && (gGameState_800B4D98.field_4A_item_states[eSUPPR] == 0))
     {
         rpkIdx = 2;
     }

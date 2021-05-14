@@ -3,7 +3,8 @@
 const char SECTION(".rdata") aSaveDataVersio[] = "SAVE DATA VERSION ERROR!!\n";
 
 const char SECTION(".rdata") aCrcError[] = "CRC ERROR !!\n\x0\x0\x0"; // TODO: Alignment ??
-
+/*
+// switch from func 80021634
 const unsigned int SECTION(".rdata") jpt_800216BC[] =
 {
 	0x800216C4,
@@ -218,3 +219,4 @@ const char SECTION(".rdata") aFaceDataNumD[] = "face data num %d\n";
 const char SECTION(".rdata") aNoMemoryForSta[] = "NO MEMORY FOR STACK\n";
 const char SECTION(".rdata") aNoMemory[] = "no memory\n";
 int SECTION(".rdata") dword_crap6 = 0;
+*/

@@ -1,31 +1,33 @@
 #include <util/idaTypes.h>
 
-void GV_ZeroMemory_8001619c(BYTE *pMemToClear, DWORD lengthToClear)
+// from leaked original MGS source code
+
+void            GV_ZeroMemory_8001619c( to, size )
+void            *to ;
+int             size ;
 {
-    int iterator = ((DWORD)pMemToClear) & 3;
-    DWORD* pMemToClearWorkingCopy;
-    lengthToClear -= iterator;
+        typedef struct  { long d0, d1, d2, d3 ; } Unit ;
+        Unit            *u ;
+        char            *c ;
+        int             i ;
 
-    for (; iterator > 0; iterator--)
-    {
-        *pMemToClear = 0;
-        pMemToClear++;
-    }
-
-    pMemToClearWorkingCopy = (DWORD*)pMemToClear;
-    for (iterator = lengthToClear / (sizeof(DWORD)*4); iterator > 0; iterator--)
-    {
-        *(pMemToClearWorkingCopy) = 0;
-        *(pMemToClearWorkingCopy + 1) = 0;
-        *(pMemToClearWorkingCopy + 2) = 0;
-        *(pMemToClearWorkingCopy + 3) = 0;
-        pMemToClearWorkingCopy += 4;
-    }
-    pMemToClear = (BYTE*)pMemToClearWorkingCopy;
-
-    for (iterator = lengthToClear & ((sizeof(DWORD)*4)-1); iterator > 0; iterator--)
-    {
-        *pMemToClear = 0;
-        pMemToClear++;
-    }
+        c = (char *)to ;
+        i = 3 & (long)to ;
+        size -= i ;
+        for ( ; i > 0 ; -- i ) {
+                *( c ++ ) = 0 ;
+        }
+        u = (Unit *)c ;
+        for ( i = size / sizeof( Unit ) ; i > 0 ; -- i ) {
+                u->d0 = 0 ;
+                u->d1 = 0 ;
+                u->d2 = 0 ;
+                u->d3 = 0 ;
+                u ++ ;
+        }
+        c = (char *)u ;
+        for ( i = ( sizeof( Unit ) - 1 ) & size ; i > 0 ; -- i ) {
+                *( c ++ ) = 0 ;
+        }
+        
 }

@@ -196,7 +196,7 @@ int SECTION(".data") dword_8009D468 = 0xFFFFFFFF;
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
 unsigned char kVertexIndexingOrder_8009D46C[] = { 0, 1, 3, 2 };
 
-GCL_CommandTableEntry SECTION(".data") dword_8009D470[] =
+GCL_COMMANDLIST SECTION(".data") dword_8009D470[] =
 	{
 		{0x0D86, (TGCL_CommandFn)0x80020274}, // if
 		{0x64C0, (TGCL_CommandFn)0x80020318}, // eval
@@ -204,7 +204,7 @@ GCL_CommandTableEntry SECTION(".data") dword_8009D470[] =
 		{0x7636, (TGCL_CommandFn)0x8002033C}  // foreach
 };
 
-GCL_CommandChain SECTION(".data") dword_8009D490 =
+GCL_COMMANDDEF SECTION(".data") dword_8009D490 =
 	{
 		0,
 		COUNTOF(dword_8009D470),
@@ -264,7 +264,7 @@ int SECTION(".data") dword_8009D598[] =
 		0x80038000,
 		0x20002000, 0x2000, 0, 0, 0, 0};
 
-GCL_CommandTableEntry SECTION(".data") gGCL_CommandTable_8009D5CC[] =
+GCL_COMMANDLIST SECTION(".data") gGCL_CommandTable_8009D5CC[] =
 	{
 		{0x22FF, (TGCL_CommandFn)0x8002C138}, // mesg
 		{0xD4CB, (TGCL_CommandFn)0x8002BD34}, // trap
@@ -292,7 +292,7 @@ GCL_CommandTableEntry SECTION(".data") gGCL_CommandTable_8009D5CC[] =
 		{0xEC9D, (TGCL_CommandFn)0x8002D188}  // jimaku
 };
 
-GCL_CommandChain SECTION(".data") gGCL_default_commands_8009D68C =
+GCL_COMMANDDEF SECTION(".data") gGCL_default_commands_8009D68C =
 	{
 		0,
 		COUNTOF(gGCL_CommandTable_8009D5CC),
