@@ -142,7 +142,7 @@ static inline char GCL_GetByte( char *ptr ) // leak
 #define GCL_AdvanceByte(p)  p += sizeof(unsigned char)
 
 
-void						GCL_StartDaemon_8001FCDC(void);
+void                        GCL_StartDaemon_8001FCDC(void);
 
 int                         GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs);
 int                         GCL_ExecProc_8001FF2C(int procId, GCL_ARGS *pArgs);

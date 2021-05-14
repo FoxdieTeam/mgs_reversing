@@ -17,9 +17,9 @@ extern GameState_800B4D98    gGameState_800B4D98;
 
 unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue)
 {
-    int		gcl_var;
-    int		gcl_code;
-    char	*ptr;
+    int     gcl_var;
+    int     gcl_code;
+    char    *ptr;
 
     gcl_var = GCL_GetLong(pScript);
     gcl_code = GCL_GetVarTypeCode(gcl_var);
