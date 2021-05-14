@@ -24,11 +24,11 @@ void item_kill_80033F88(int param_1)
     {
         if ((int)pbVar1 < 0)
         {
-            GCL_Run_80020118(pbVar1, (void *)0x0);
+            GCL_ExecBlock_80020118(pbVar1, (void *)0x0);
         }
         else 
         {
-            GCL_RunOrCancelProc_8001FF2C((unsigned int)pbVar1, (void *)0x0);
+            GCL_ExecProc_8001FF2C((unsigned int)pbVar1, (void *)0x0);
         }
     }
     return;

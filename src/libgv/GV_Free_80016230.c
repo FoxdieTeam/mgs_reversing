@@ -1,8 +1,12 @@
 #include <util/idaTypes.h>
+#include <gvd.h>
 
-extern void sub_80015FD0(DWORD, void*);
+extern void GV_FreeMemory_80015FD0(DWORD, void*);
 
-void GV_Free_80016230(void* param_1)
+// from leaked original MGS source code
+
+void            GV_Free_80016230( addr )
+void            *addr ;
 {
-  sub_80015FD0(2,param_1);
+        GV_FreeMemory_80015FD0( GV_NORMAL_MEMORY, addr ) ;
 }

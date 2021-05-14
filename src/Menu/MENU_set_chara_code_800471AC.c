@@ -20,12 +20,14 @@ void mts_8008C454(int, int);
 void GM_Sound_80032C48(int, int code);
 int rand_8008E6B8(void);
 unsigned char *sub_80047880(menu_chara_struct *unknown, unsigned char *pScript);
-unsigned char *sub_800217F0(unsigned char *);
+unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *);
 
 #define MakeVoxCode(x) ((unsigned int)x[0] << 0x18) |     \
                            ((unsigned int)x[1] << 0x10) | \
                            ((unsigned int)x[2] << 8) |    \
                            ((unsigned int)x[3])
+
+#define CHARA_SNAKE 0x21ca // スネーク
 
 void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pScript)
 {
@@ -39,7 +41,7 @@ void MENU_set_chara_code_800471AC(menu_chara_struct *unknown, unsigned char *pSc
     pScriptIter = menu_gcl_read_word_80047098(&w2, pScriptIter);
     pScriptIter = menu_gcl_read_word_80047098(&w3, pScriptIter);
 
-    bVar1 = charaCode == 0x21ca; // probably a hashed name ?
+    bVar1 = charaCode == CHARA_SNAKE;
 
     unknown->field_C_pScript = pScriptIter;
 
@@ -80,7 +82,7 @@ void menu_gcl_anime_chara_code_80047280(menu_chara_struct *unknown, unsigned cha
         w3 -= 0x100;
     }
 
-    sub_800470B4(anime_chara == 0x21ca, unknown, anime_chara, code, w3, w3_cond);
+    sub_800470B4(anime_chara == CHARA_SNAKE, unknown, anime_chara, code, w3, w3_cond);
 
     if (w3_cond)
     {
@@ -148,8 +150,8 @@ void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
 
 unsigned char *sub_800474EC(int *pRet, unsigned char *pScript)
 {
-    int any;
-    return GCL_Execute_8002069C(pScript, &any, pRet);
+    int code;
+    return GCL_Execute_8002069C(pScript, &code, pRet);
 }
 
 void sub_80047514(menu_chara_struct *unknown, unsigned char *pScript)
@@ -283,7 +285,7 @@ void menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *
 
 void sub_800477B0(menu_chara_struct *unknown, unsigned char *pScript)
 {
-    int iVar1 = GCL_800209E8(pScript);
+    int iVar1 = GCL_GetNextValue_800209E8(pScript);
     unknown->field_0_state = 3;
     unknown->field_C_pScript = GCL_Get_Param_Result_80020AA4();
     unknown->field_1A = iVar1;
@@ -303,7 +305,7 @@ void sub_80047838(menu_chara_struct *unknown, unsigned char *pScript)
 {
     while (*pScript)
     {
-        pScript = sub_800217F0(pScript);
+        pScript = GCL_VarSaveBuffer_800217F0(pScript);
     }
 }
 

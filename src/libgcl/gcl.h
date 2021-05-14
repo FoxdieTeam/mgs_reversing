@@ -5,7 +5,7 @@
 
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct                      Actor;
-typedef struct Actor        *(*TGCL_ActorCreateFn)(int unknown1, int binds, unsigned char *pScript2, int unknown);
+typedef struct Actor        *(*TGCL_ActorCreateFn)(int charaHash, int binds, unsigned char *pScript2, int unknown);
 
 typedef struct				GCL_ActorTableEntry
 {
@@ -16,25 +16,26 @@ typedef struct				GCL_ActorTableEntry
 // A hashed name of a GCL command and pointer to function that implements the command
 typedef int                 (*TGCL_CommandFn)(unsigned char *pScript);
 
-typedef struct				GCL_CommandTableEntry
+typedef struct				GCL_COMMANDLIST
 {
 	unsigned short			hashCode;
 	TGCL_CommandFn			function;
-} GCL_CommandTableEntry;
+} GCL_COMMANDLIST;
 
-// A linked list containing pointers to arrays of GCL_CommandTableEntry
-typedef struct				GCL_CommandChain
+// leak
+typedef struct              _gcl_commanddef
 {
-	struct GCL_CommandChain *pNext;
-	int                     commandTableSize;
-	GCL_CommandTableEntry   *pTable;
-} GCL_CommandChain;
+    struct _gcl_commanddef  *next;
+    int                     n_commlist;
+    GCL_COMMANDLIST         *commlist;
+} GCL_COMMANDDEF;
 
-typedef struct              GCLArgsPtr
+// leak
+typedef struct
 {
-	short                   count;
-	int                     *pArgs;
-} GCLArgsPtr;
+    unsigned short          argc;
+    long                    *argv;
+} GCL_ARGS;
 
 enum GCLOperators
 {
@@ -70,7 +71,7 @@ enum GCLOperators
 #define GAME_FLAG_BIT_09	0x100
 #define GAME_FLAG_BIT_10	0x200
 #define GAME_FLAG_BIT_11	0x400
-#define GAME_FLAG_BIT_12	0x800
+#define GAME_FLAG_BIT_12    0x800
 #define GAME_FLAG_BIT_13	0x1000
 #define GAME_FLAG_BIT_14	0x2000
 #define GAME_FLAG_BIT_15	0x4000
@@ -92,34 +93,67 @@ enum GCLOperators
 #define GAME_FLAG_BIT_31	0x40000000
 #define GAME_FLAG_BIT_32	0x80000000
 
+#define GCLCODE_NULL            0
+#define GCLCODE_SHORT           1
+#define GCLCODE_BYTE            2
+#define GCLCODE_CHAR            3
+#define GCLCODE_BOOL            4
+#define GCLCODE_HASHED_STRING   6 // can also be a hashed proc name
+#define GCLCODE_STRING          7
+#define GCLCODE_PROC_CALL       8 // hashed proc name to call
+#define GCLCODE_SDCODE          9
+#define GCLCODE_TABLE_CODE      10 // .vox, .dmo and radio.dat
+#define GCLCODE_VARIABLE        0x10 // variables codes are: 0x11, 0x12, 0x13, 0x14, 0x16, 0x18
+#define GCLCODE_STACK_VAR       0x20
+#define GCLCODE_EXPRESSION      0x30
+#define GCLCODE_SCRIPT_DATA     0x40
+#define GCLCODE_PARAMETER       0x50
+#define GCLCODE_COMMAND         0x60
+#define GCLCODE_PROC            0x70
+
+#define GCL_IsVariable(gcl_code)    ((gcl_code & 0xF0) == GCLCODE_VARIABLE)
+#define GCL_IsParam(gcl_code)       ((gcl_code & 0xFF) == GCLCODE_PARAMETER)
+
+#define GCL_GetVarTypeCode(gcl_var)     (((gcl_var << 1 ) >> 25) & 0xF)
+#define GCL_GetVarOffset(gcl_var)       (gcl_var & 0xFFFF)
+#define GCL_IsGameStateVar(gcl_var)     ((gcl_var & 0xF00000) == 0x800000)
+#define GCL_GetBoolVarBitFlag(gcl_var)  (char)(1 << (((gcl_var << 1) >> 17) & 0xF))
+
+static inline long GCL_GetLong( char *ptr ) // leak
+{
+    unsigned char *p;
+    p = ( unsigned char * )ptr;
+    return ( p[ 0 ] << 24 ) | ( p[ 1 ] << 16 ) | ( p[ 2 ] << 8 ) | ( p[ 3 ] );
+}
+
+static inline long GCL_GetShort( char *ptr ) // leak
+{
+    unsigned char *p;
+    p = ( unsigned char * )ptr;
+    return ( signed short )( ( p[ 0 ] << 8 ) | ( p[ 1 ] ) );
+}
+
+static inline char GCL_GetByte( char *ptr ) // leak
+{
+    return *ptr;
+}
+
+#define GCL_AdvanceShort(p) p += sizeof(short)
+#define GCL_AdvanceByte(p)  p += sizeof(unsigned char)
+
+
 void						GCL_StartDaemon_8001FCDC(void);
 
-int                         GCL_Run_80020118(unsigned char *pScript, GCLArgsPtr *pArgs);
-int                         GCL_RunOrCancelProc_8001FF2C(int procId, GCLArgsPtr *pArgs);
-int                         GCL_GetParam_80020968(int paramName);
-int                         GCL_Get_Param_80020AD4(void);
+int                         GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs);
+int                         GCL_ExecProc_8001FF2C(int procId, GCL_ARGS *pArgs);
+int                         GCL_GetParam_80020968(char paramName);
+int                         GCL_GetNextParamValue_80020AD4(void);
 unsigned char               *GCL_Get_Param_Result_80020AA4(void);
-unsigned char               *GCL_Execute_8002069C(unsigned char *pScript, int *ppScript, int *pRet);
+unsigned char               *GCL_Execute_8002069C(unsigned char *pScript, int *retCode, int *retValue);
 int                         GCL_ReadVector_80020A14(unsigned char *pInScript, short *pOut3Words);
-void                        GCL_SetMainOrDemo_8001FCB0(int bMain);
+void                        GCL_SetScriptNameHash_8001FCB0(int bMain);
 
-int                         GCL_800209E8(unsigned char *uParm1);
-
-static inline int           ToINT(const char *ptr)
-{
-    return (ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | ptr[3];
-}
-
-static inline short         ToSHORT(const char *ptr)
-{
-    return (ptr[0] << 8 | ptr[1]);
-}
-
-#define GCL_ReadShort(p)    ( p[1] ) | ( p[0] << 8 )
-#define GCL_AdvanceShort(p) p += sizeof(short)
-
-#define GCL_ReadByte(p)     p[0]
-#define GCL_AdvanceByte(p)  p += sizeof(unsigned char)
+int                         GCL_GetNextValue_800209E8(unsigned char *pScript);
 
 
 #endif // GCL_H

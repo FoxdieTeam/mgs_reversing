@@ -16,10 +16,10 @@ typedef struct Delay
 {
     Actor mBase;
     ProcIdOrScript mProcIdOrScriptPtr;
-    GCLArgsPtr mGclProcArgs;
+    GCL_ARGS mGclProcArgs;
     int mDelayCounter;
     int mActive;
-    int field_34_args_array[8];
+    long field_34_args_array[8];
 } Delay;
 
 void delay_act_800331A4(Delay *pDelay)
@@ -38,40 +38,40 @@ void delay_act_800331A4(Delay *pDelay)
 
     if (pDelay->mProcIdOrScriptPtr.id < 0)
     {
-        GCL_Run_80020118(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
+        GCL_ExecBlock_80020118(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
     }
     else
     {
-        GCL_RunOrCancelProc_8001FF2C(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
+        GCL_ExecProc_8001FF2C(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
     }
 
     GV_ActorDelayedKill_800151c8(&pDelay->mBase);
 }
 
-Actor *delay_init_80033230(int script_pVar, GCLArgsPtr *pGCLArgs, int script_tVar)
+Actor *delay_init_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
 {
     unsigned short pSrcArgsCount;
     Delay *pDelay;
     int argCounter;
-    int *ppDstArgs;
-    int *ppSrcArgs;
+    long *ppDstArgs;
+    long *ppSrcArgs;
 
     pDelay = (Delay *)GV_ActorAlloc_800150e4(6, sizeof(Delay));
     if (pDelay)
     {
         if (!pGCLArgs)
         {
-            pDelay->mGclProcArgs.count = 0;
+            pDelay->mGclProcArgs.argc = 0;
         }
         else
         {
-            ppSrcArgs = pGCLArgs->pArgs;
+            ppSrcArgs = pGCLArgs->argv;
 
-            pDelay->mGclProcArgs.pArgs = pDelay->field_34_args_array;
-            ppDstArgs = pDelay->mGclProcArgs.pArgs;
+            pDelay->mGclProcArgs.argv = pDelay->field_34_args_array;
+            ppDstArgs = pDelay->mGclProcArgs.argv;
 
-            pSrcArgsCount = pGCLArgs->count;
-            pDelay->mGclProcArgs.count = pSrcArgsCount;
+            pSrcArgsCount = pGCLArgs->argc;
+            pDelay->mGclProcArgs.argc = pSrcArgsCount;
             for (argCounter = pSrcArgsCount; argCounter > 0; argCounter--)
             {
                 *ppDstArgs = *ppSrcArgs;

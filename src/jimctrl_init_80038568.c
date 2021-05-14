@@ -6,7 +6,7 @@ extern int FS_Seek_800240E0(DWORD);
 extern void sub_800241B4(int);
 extern int sub_80024060(void);
 extern DWORD gotohell_800B9358;
-extern GameState gGameState_800B4D98;
+extern GameState_800B4D98 gGameState_800B4D98;
 extern const char aJimctrlC[];
 extern dword_800B9358_struct array_800B9358[2];
 
@@ -23,7 +23,7 @@ Actor *jimctrl_init_80038568(DWORD flags)
     }
     seekResult = FS_Seek_800240E0(toSeek);
 
-    if (gGameState_800B4D98.unk.Flags & 0x100)
+    if (gGameState_800B4D98.field_04_flags & 0x100)
     {
         jimCtrlActor_800B82F0.field_27 = 3;
         jimCtrlActor_800B82F0.field_26 = 6;

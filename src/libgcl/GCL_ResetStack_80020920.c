@@ -4,7 +4,7 @@
 
 unsigned char** SECTION(".sbss") gGCL_stack_800AB99C;
 
-unsigned char* SECTION(".sbss") dword_800AB9A0;
+unsigned char* SECTION(".sbss") pScript_800AB9A0;
 int SECTION(".sbss") dword_800AB9A4;
 
 int SECTION(".sbss") dword_800AB9A8[2];
@@ -29,35 +29,33 @@ void GCL_Pop_80020950()
     gGCL_stack_800AB99C--;
 }
 
-unsigned char* GCL_Execute_8002069C(unsigned char* pScript, int* ppScript, int* pRet);
-
-int GCL_GetParam_80020968(int paramName)
+int GCL_GetParam_80020968(char paramName)
 {
     unsigned char* pScript;
-    int scriptBytes;
-    unsigned int ret;
+    int code;
+    int value;
   
-    pScript = *(gGCL_stack_800AB99C-1);
+    pScript = *(gGCL_stack_800AB99C - 1);
     do 
     {
-        pScript = GCL_Execute_8002069C(pScript, &scriptBytes, &ret);
-        if (scriptBytes == 0)
+        pScript = GCL_Execute_8002069C(pScript, &code, &value);
+        if (code == GCLCODE_NULL)
         {
             return 0;
         }
     }
-    while (((scriptBytes & 0xff) != 0x50) || (scriptBytes >> 0x10 != (paramName & 0xff)));
+    while (!GCL_IsParam(code) || (code >> 0x10 != (paramName & 0xff)));
 
-    dword_800AB9A0 = (unsigned char*)ret; // TODO: Union/any type return ??
-    return ret;
+    pScript_800AB9A0 = (unsigned char*)value; // TODO: Union/any type return ??
+    return value;
 }
 
-int GCL_800209E8(unsigned char* uParm1)
+int GCL_GetNextValue_800209E8(unsigned char* pScript)
 {
-    int scriptBytes;
-    int ret;  
-    dword_800AB9A0 = GCL_Execute_8002069C(uParm1, &scriptBytes, &ret);
-    return ret;
+    int code;
+    int value;  
+    pScript_800AB9A0 = GCL_Execute_8002069C(pScript, &code, &value);
+    return value;
 }
 
 int GCL_ReadVector_80020A14(unsigned char* pInScript, short* pOut3Words)
@@ -67,14 +65,14 @@ int GCL_ReadVector_80020A14(unsigned char* pInScript, short* pOut3Words)
     unsigned char* pScript = pInScript;
     do
     {
-        int ret;
-        int scriptBytes;
-        pScript = GCL_Execute_8002069C(pScript, &scriptBytes, &ret);
+        int code;
+        int value;
+        pScript = GCL_Execute_8002069C(pScript, &code, &value);
         counter++;
-        *pOutIter = ret;
+        *pOutIter = value;
         pOutIter++;
     } while (counter < 3);
 
-    dword_800AB9A0 = pScript;
+    pScript_800AB9A0 = pScript;
     return 0;
 }
