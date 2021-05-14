@@ -3,11 +3,11 @@
 
 void GCL_80020B2C(unsigned char *pScript)
 {
-	int	exec_ret;
-	int arg_value;
+	int	code;
+	int value;
   
 	do {
-		pScript = GCL_Execute_8002069C(pScript, &exec_ret, &arg_value);
-	} while (exec_ret != 0);
+		pScript = GCL_Execute_8002069C(pScript, &code, &value);
+	} while (code != GCLCODE_NULL);
 	return;
 }

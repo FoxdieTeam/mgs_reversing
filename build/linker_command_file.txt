@@ -15,16 +15,16 @@
 	include "..\obj\libgv\gvd.obj"
 	include "..\obj\libgv\actor.obj"
 	include "..\obj\data\sdata\sdata2.obj"
-	include	"..\obj\GV_FileCacheFind_80015240.obj"
+	include	"..\obj\libgv\GV_FileCacheFind_80015240.obj"
 	include	"..\obj\libgv\GV_FileNameHashed_800152DC.obj"
 	include	"..\obj\libgv\GV_HashFileName_800152FC.obj"
-	include	"..\obj\GV_FileNameHashNoExt_8001532C.obj"	
+	include	"..\obj\libgv\GV_FileNameHashNoExt_8001532C.obj"	
 	include	"..\obj\libgv\GV_FindCachedFile_8001538C.obj"
 	include	"..\obj\sub_800153C0.obj"
 	include	"..\obj\libgv\GV_SetFileHandler_80015418.obj"
 	include	"..\obj\libgv\GV_ClearFileCache_80015458.obj"
-	include	"..\obj\GV_FileCache_80015484.obj" ; file cache to resident memory ?
-	include	"..\obj\GV_FileCache_80015540.obj" ; file cache
+	include	"..\obj\libgv\GV_FileCache_80015484.obj" ; file cache to resident memory ?
+	include	"..\obj\libgv\GV_FileCache_80015540.obj" ; file cache
 	include	"..\obj\libgv\GV_LoadFile_800155BC.obj"
 	include	"..\obj\libgv\GV_Assert_800156E8.obj"
 	include	"..\obj\libgv\GV_Printf_80015718.obj"
@@ -55,13 +55,13 @@
 	include	"..\obj\data\sdata\dword_800AB3AC.obj"
 	include	"..\obj\data\sdata\dword_800AB3B0.obj"
 	include	"..\obj\data\sdata\dword_800AB3B4.obj"
-	include	"..\obj\System_2_Alloc_80015EB8.obj"
+	include	"..\obj\libgv\GV_AllocMemory_80015EB8.obj"
 	include	"..\obj\sub_80015ED8.obj"
-	include	"..\obj\sub_80015FD0.obj"
+	include	"..\obj\libgv\GV_FreeMemory_80015FD0.obj"
 	include	"..\obj\System_void_allocation_80016078.obj"
 	include	"..\obj\sub_800160D8.obj"
 	include	"..\obj\libgv\GV_ZeroMemory_8001619c.obj"
-	include	"..\obj\libgv\GV_Alloc_8001620C.obj"
+	include	"..\obj\libgv\GV_Malloc_8001620C.obj"
 	include	"..\obj\libgv\GV_Free_80016230.obj"
 	include	"..\obj\libgv\GV_Void_80016254.obj"
 	include	"..\obj\sub_8001627C.obj"
@@ -267,13 +267,13 @@
 	include	"..\obj\libdg\DG_8001FC58.obj"
 
 	include	"..\obj\libgcl\gcl.obj"
-	include	"..\obj\libgcl\GCL_Cmd_If_80020274.obj"
-	include	"..\obj\libgcl\GCL_Cmd_Eval_80020318.obj"
-	include	"..\obj\libgcl\GCL_Cmd_ForEach_8002033C.obj"
-	include	"..\obj\libgcl\GCL_Cmd_Return_80020400.obj"
+	include	"..\obj\libgcl\commands\GCL_Cmd_If_80020274.obj"
+	include	"..\obj\libgcl\commands\GCL_Cmd_Eval_80020318.obj"
+	include	"..\obj\libgcl\commands\GCL_Cmd_ForEach_8002033C.obj"
+	include	"..\obj\libgcl\commands\GCL_Cmd_Return_80020400.obj"
 	include	"..\obj\libgcl\GCL_AddBasicBuiltInCommands_8002040C.obj"
 	include	"..\obj\libgcl\GCL_Operator_Evaluate_80020430.obj"
-	include	"..\obj\libgcl\GCL_8002058C.obj"
+	include	"..\obj\libgcl\GCL_Expr_8002058C.obj"
 	include	"..\obj\libgcl\GCL_80020690.obj"
 	include	"..\obj\libgcl\GCL_Execute_8002069C.obj"
 	include	"..\obj\data\rdata\rdata_80020704.obj"
@@ -395,21 +395,22 @@
 	include	"..\obj\data\sdata\dword_800AB638.obj"
 	include	"..\obj\libgcl\GCL_Read_String_80020A70.obj"
 	include	"..\obj\libgcl\GCL_Get_Param_Result_80020AA4.obj"
-	include	"..\obj\libgcl\GCL_Get_Param_80020AD4.obj"
+	include	"..\obj\libgcl\GCL_GetNextParamValue_80020AD4.obj"
 	include	"..\obj\libgcl\GCL_ReadParamVector_80020AFC.obj"
 	include	"..\obj\libgcl\GCL_80020B2C.obj"
 	include	"..\obj\libgcl\GCL_80020B68.obj"
-	include	"..\obj\sub_80020B90.obj"
-	include	"..\obj\CRC32_80020BB4.obj" ; GCL_SaveLinkVar ?????
-	include	"..\obj\sub_80020C0C.obj" ; GCL_MakeSaveFile ?
-	include	"..\obj\sub_80020EAC.obj" ; GCL_SetLoadFile ?
-	include	"..\obj\sub_80021264.obj" ; GCL_InitVar ?
-	include	"..\obj\sub_800212CC.obj" ; GCL_InitClearVar ?
-	include	"..\obj\sub_80021314.obj" ; GCL_SaveVar ?
-	include	"..\obj\sub_80021488.obj" ; GCL_RestoreVar ?
-	include	"..\obj\sub_80021634.obj" ; GCL_GetVar?
-	include	"..\obj\sub_8002171C.obj" ; GCL_SetVar? 
-	include	"..\obj\sub_800217F0.obj" ; GCL_VarSaveBuffer ?
+	include	"..\obj\libgcl\GCL_VarSave_80020B90.obj"
+	include	"..\obj\CRC32_80020BB4.obj"
+	include	"..\obj\libgcl\GCL_MakeSaveFile_80020C0C.obj"
+	include	"..\obj\libgcl\GCL_SetLoadFile_80020EAC.obj"
+	include	"..\obj\libgcl\GCL_InitVarsClear_80021264.obj"
+	include	"..\obj\libgcl\GCL_InitVars_800212CC.obj"
+	include	"..\obj\libgcl\GCL_80021314.obj"
+	include	"..\obj\libgcl\GCL_80021488.obj"
+	include	"..\obj\libgcl\GCL_GetVar_80021634.obj"
+	include	"..\obj\data\rdata\rdata_80021634.obj"
+	include	"..\obj\libgcl\GCL_SetVar_8002171C.obj"
+	include	"..\obj\libgcl\GCL_VarSaveBuffer_800217F0.obj"
 	include	"..\obj\HZD_StartDaemon_80021900.obj"
 	include	"..\obj\HZD_Process_TableFlagIfTriggers_80021928.obj"
 	include	"..\obj\sub_800219C8.obj"
@@ -645,9 +646,17 @@
 	include	"..\obj\sub_8002B6C8.obj"
 	include	"..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
 	include	"..\obj\Game\GM_StartDaemon_8002B77C.obj"
-	include	"..\obj\Script_tbl_light_8002B854.obj"
-	include	"..\obj\Script_tbl_camera_8002B8F0.obj"
-	include	"..\obj\Script_tbl_map_8002BB44.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_light_8002B854.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_camera_8002B8F0.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_map_8002BB44.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_hzd_8002BD04.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_trap_8002BD34.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_ntrap_8002BE20.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_delay_8002C074.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_mesg_8002C138.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_chara_8002C1B0.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_start_8002C22C.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_load_8002C308.obj"
 
 	include	"..\obj\data\sbss\dword_800ABA68.obj"
 	include	"..\obj\data\sbss\dword_800ABA6C.obj"
@@ -678,20 +687,20 @@
 	include	"..\obj\data\sbss\dword_800ABAD0.obj"
 	include	"..\obj\data\sbss\dword_800ABAD4.obj"
 	include	"..\obj\data\sbss\dword_800ABAD8.obj"
-	include	"..\obj\Script_tbl_radio_8002C4A8.obj"
-	include	"..\obj\Script_tbl_strstatus_8002C6A4.obj"
-	include	"..\obj\Script_tbl_varsave_8002C72C.obj"
-	include	"..\obj\Script_tbl_system_8002C7C8.obj"
-	include	"..\obj\Script_tbl_demo_8002C890.obj"
-	include	"..\obj\Script_tbl_pad_8002C988.obj"
-	include	"..\obj\Script_tbl_sound_8002CA28.obj"
+	include	"..\obj\libgcl\commands\GCL_command_radio_8002C4A8.obj"
+	include	"..\obj\libgcl\commands\GCL_command_strstatus_8002C6A4.obj"
+	include	"..\obj\libgcl\commands\GCL_command_varsave_8002C72C.obj"
+	include	"..\obj\libgcl\commands\GCL_command_system_8002C7C8.obj"
+	include	"..\obj\libgcl\commands\GCL_command_demo_8002C890.obj"
+	include	"..\obj\libgcl\commands\GCL_command_pad_8002C988.obj"
+	include	"..\obj\libgcl\commands\GCL_command_sound_8002CA28.obj"
 	include	"..\obj\sub_8002CA48.obj"
-	include	"..\obj\Script_tbl_menu_8002CAAC.obj"
-	include	"..\obj\Script_tbl_rand_8002CD94.obj"
-	include	"..\obj\Script_tbl_unknown1_8002CDF4.obj"
-	include	"..\obj\Script_tbl_unknown2_8002CFBC.obj"
-	include	"..\obj\Script_tbl_print_8002D0E4.obj"
-	include	"..\obj\Script_tbl_jimaku_8002D188.obj"
+	include	"..\obj\libgcl\commands\GCL_command_menu_8002CAAC.obj"
+	include	"..\obj\libgcl\commands\GCL_command_rand_8002CD94.obj"
+	include	"..\obj\libgcl\commands\GCL_command_unknown1_8002CDF4.obj"
+	include	"..\obj\libgcl\commands\GCL_command_unknown2_8002CFBC.obj"
+	include	"..\obj\libgcl\commands\GCL_command_print_8002D0E4.obj"
+	include	"..\obj\libgcl\commands\GCL_command_jimaku_8002D188.obj"
 	include	"..\obj\libgcl\GCL_BindsInit_8002D1A8.obj"
 	include	"..\obj\libgcl\GCL_Init_8002D1DC.obj"
 	include	"..\obj\sub_8002D208.obj"
@@ -717,7 +726,7 @@
 	include	"..\obj\Game\GM_set_noise_sound_8002E588.obj"
 	include	"..\obj\sub_8002E614.obj"
 	include	"..\obj\Game\GM_SoundStart_8002E640.obj"
-	include	"..\obj\Script_tbl_sound_impl_8002E688.obj"
+	include	"..\obj\libgcl\commands\GCL_CommandHelper_sound_impl_8002E688.obj"
 	include	"..\obj\sub_8002E8D4.obj"
 	include	"..\obj\Game\GM_AlertAct_8002E91C.obj"
 	include	"..\obj\Game\GM_AlertModeSet_8002EA68.obj"
@@ -2738,6 +2747,9 @@ group_byte_800C0C10	group bss,org($800C0C10)
 
 group_gGCL_fileData_800B3C18	group bss,org($800b3C18)
 	section .gGCL_fileData_800B3C18, group_gGCL_fileData_800B3C18
+
+group_gGcl_vars_800B3CC8	group bss,org($800B3CC8)
+	section .gGcl_vars_800B3CC8, group_gGcl_vars_800B3CC8
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
