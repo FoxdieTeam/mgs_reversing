@@ -7,7 +7,7 @@ int SECTION(".sbss") gBinds_800ABA60;
 
 TGCL_ActorCreateFn GM_GCL_LookupActorFunc_8002A8C4(unsigned char *pScript);
 
-int GCL_Command_chara_8002C1B0(unsigned char *pScript, int unknown)
+int GCL_Command_chara_8002C1B0(int argc, char **argv)
 {
     int ret;
     int charaHash;
@@ -17,7 +17,7 @@ int GCL_Command_chara_8002C1B0(unsigned char *pScript, int unknown)
     if (pCreateActorFn)
     {
         charaHash = GCL_GetNextValue_800209E8(GCL_Get_Param_Result_80020AA4());
-        (*pCreateActorFn)(charaHash, gBinds_800ABA60, pScript, unknown);
+        (*pCreateActorFn)(charaHash, gBinds_800ABA60, argc, argv);
         ret = 0;
     }
     else
