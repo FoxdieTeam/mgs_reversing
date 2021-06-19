@@ -5,7 +5,7 @@
 
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct                      Actor;
-typedef struct Actor        *(*TGCL_ActorCreateFn)(int charaHash, int binds, unsigned char *pScript2, int unknown);
+typedef struct Actor        *(*TGCL_ActorCreateFn)(int name, int where, int argc, char **argv);
 
 typedef struct				GCL_ActorTableEntry
 {
