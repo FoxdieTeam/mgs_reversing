@@ -130,7 +130,7 @@ $(PSYQ_4_BIN_PATH)/psyq.ini: $(PSYQ_4_BIN_PATH)/psyq.ini.template
 # Create objects dirs
 
 $(OBJS_DIRS):
-	@if not exist $(patsubst %,"%",$@) mkdir $(patsubst %,"%",$@)
+	mkdir $(patsubst %,"%",$@) | exit 0
 
 #-------------------------------------------------------------------------------
 # Compile .c files and generate .d files
