@@ -130,7 +130,7 @@ $(PSYQ_4_BIN_PATH)/psyq.ini: $(PSYQ_4_BIN_PATH)/psyq.ini.template
 # Create objects dirs
 
 $(OBJS_DIRS):
-	@mkdir $(patsubst %,"%",$@)
+	mkdir $(patsubst %,"%",$@) | exit 0
 
 #-------------------------------------------------------------------------------
 # Compile .c files and generate .d files
@@ -223,8 +223,8 @@ $(EXE_FILE): $(CPE_FILE)
 	@$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
 	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
-	@$(ECHO) "Converting $(CMAGENTA)$(CPE_FILE)$(ENDCOLOR) to $(CGREEN)$(EXE_FILE)$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/cpe2exe.exe /CJ $(CPE_FILE) > $(OBJS_PATH)/log.txt
+	@$(ECHO) "Converting $(CMAGENTA)$(CPE_FILE)$(ENDCOLOR) to $(CGREEN)$(EXE_FILE)$(ENDCOLOR) using $(PSYQ_4_BIN_PATH)/cpe2exe.exe"
+	@"$(PSYQ_4_BIN_PATH)/cpe2exe.exe" /CJ $(CPE_FILE) > $(OBJS_PATH)/log.txt
 	@$(MAKE) --no-print-directory compare
 
 #-------------------------------------------------------------------------------
@@ -232,7 +232,7 @@ $(EXE_FILE): $(CPE_FILE)
 
 compare:
 ifeq ($(TARGET_HASH),$(CURRENT_HASH)) # (Each access of CURRENT_HASH takes time)
-	@$(ECHO) "$(CGREEN)OK: $(EXE_FILE) match target hash$(ENDCOLOR) $(EMO_SUCCESS)"
+	@$(ECHO) "$(CGREEN)OK: $(EXE_FILE) matches target hash$(ENDCOLOR) $(EMO_SUCCESS)"
 else
 	@$(ECHO) "$(CRED)FAIL: $(EXE_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
 	@exit 1
