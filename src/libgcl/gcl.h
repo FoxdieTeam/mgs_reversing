@@ -149,11 +149,12 @@ int                         GCL_ExecProc_8001FF2C(int procId, GCL_ARGS *pArgs);
 int                         GCL_GetParam_80020968(char paramName);
 int                         GCL_GetNextParamValue_80020AD4(void);
 unsigned char               *GCL_Get_Param_Result_80020AA4(void);
-unsigned char               *GCL_Execute_8002069C(unsigned char *pScript, int *retCode, int *retValue);
+unsigned char               *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, int *retValue);
 int                         GCL_ReadVector_80020A14(unsigned char *pInScript, short *pOut3Words);
 void                        GCL_SetScriptNameHash_8001FCB0(int bMain);
 
 int                         GCL_GetNextValue_800209E8(unsigned char *pScript);
 
+int                         GCL_AddCommMulti_8001FD2C( GCL_COMMANDDEF *pChain );
 
 #endif // GCL_H

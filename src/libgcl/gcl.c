@@ -6,7 +6,7 @@ GCL_COMMANDDEF *dword_800AB3B8 = 0; //sdata
 
 void GCL_80020B68(void);
 void GCL_InitVarsClear_80021264(void);
-void GCL_AddBasicBuiltInCommands_8002040C(void);
+void GCL_InitBasicCommands_8002040C(void);
 int GCL_LoadScript_80020064(unsigned char *);
 
 void GV_SetFileHandler_80015418(char, void *);
@@ -38,7 +38,7 @@ void GCL_StartDaemon_8001FCDC(void)
 {
     GCL_80020B68();
     GCL_InitVarsClear_80021264();
-    GCL_AddBasicBuiltInCommands_8002040C();
+    GCL_InitBasicCommands_8002040C();
     GV_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
     GCL_SetScriptNameHash_8001FCB0(0);
 }
@@ -47,7 +47,7 @@ void GCL_Null_8001FD24(void)
 {
 }
 
-int GCL_InitCommandTable_8001FD2C(GCL_COMMANDDEF *pChain)
+int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain)
 {
     // Set the new chains next to the existing chain
     pChain->next = dword_800AB3B8;
@@ -189,7 +189,7 @@ int GCL_Proc_8001FFA0(unsigned char *pScript)
     arg_idx = 0;
 
     // TODO: Can't match without comma operator ??
-    while (pScript = GCL_Execute_8002069C(pScript, &code, &value), code != 0)
+    while (pScript = GCL_GetNextValue_8002069C(pScript, &code, &value), code != 0)
     {
         if (arg_idx >= 8)
         {

@@ -114,7 +114,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
         {
             mts_printf_8008BBA0(aNtrapCanTSetPr);
         }
-        GCL_Execute_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
+        GCL_GetNextValue_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
         pBind->field_14_proc_and_block = value;
     }
     pBind->field_B_param_e = flags;
