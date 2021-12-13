@@ -151,7 +151,7 @@ void sub_80047414(menu_chara_struct *unknown, unsigned char *pScript)
 unsigned char *sub_800474EC(int *pRet, unsigned char *pScript)
 {
     int code;
-    return GCL_Execute_8002069C(pScript, &code, pRet);
+    return GCL_GetNextValue_8002069C(pScript, &code, pRet);
 }
 
 void sub_80047514(menu_chara_struct *unknown, unsigned char *pScript)

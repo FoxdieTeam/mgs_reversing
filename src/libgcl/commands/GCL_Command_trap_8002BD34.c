@@ -57,7 +57,7 @@ int GCL_Command_trap_8002BD34(unsigned char *pScript)
     gBindsArray_800b58e0[iVar1].field_B_param_e = 0;
     gBindsArray_800b58e0[iVar1].field_8_param_i_c_flags = 0;
 
-    GCL_Execute_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
+    GCL_GetNextValue_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
     gBindsArray_800b58e0[iVar1].field_14_proc_and_block = value;
     gBindsCount_800ABA64++; // 780 gp
 

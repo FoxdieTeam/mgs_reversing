@@ -38,7 +38,7 @@ int GCL_GetParam_80020968(char paramName)
     pScript = *(gGCL_stack_800AB99C - 1);
     do 
     {
-        pScript = GCL_Execute_8002069C(pScript, &code, &value);
+        pScript = GCL_GetNextValue_8002069C(pScript, &code, &value);
         if (code == GCLCODE_NULL)
         {
             return 0;
@@ -54,7 +54,7 @@ int GCL_GetNextValue_800209E8(unsigned char* pScript)
 {
     int code;
     int value;  
-    pScript_800AB9A0 = GCL_Execute_8002069C(pScript, &code, &value);
+    pScript_800AB9A0 = GCL_GetNextValue_8002069C(pScript, &code, &value);
     return value;
 }
 
@@ -67,7 +67,7 @@ int GCL_ReadVector_80020A14(unsigned char* pInScript, short* pOut3Words)
     {
         int code;
         int value;
-        pScript = GCL_Execute_8002069C(pScript, &code, &value);
+        pScript = GCL_GetNextValue_8002069C(pScript, &code, &value);
         counter++;
         *pOutIter = value;
         pOutIter++;
