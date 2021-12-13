@@ -20,7 +20,7 @@ int GCL_Command_delay_8002C074(void)
     {
         int code;
         int value;
-        GCL_Execute_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
+        GCL_GetNextValue_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
         proc = value;
     }
     if (GCL_GetParam_80020968('g'))

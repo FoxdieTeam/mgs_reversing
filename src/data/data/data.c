@@ -196,7 +196,7 @@ int SECTION(".data") dword_8009D468 = 0xFFFFFFFF;
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
 unsigned char kVertexIndexingOrder_8009D46C[] = { 0, 1, 3, 2 };
 
-GCL_COMMANDLIST SECTION(".data") dword_8009D470[] =
+GCL_COMMANDLIST SECTION(".data") commlist_8009D470[] =
 	{
 		{0x0D86, (TGCL_CommandFn)0x80020274}, // if
 		{0x64C0, (TGCL_CommandFn)0x80020318}, // eval
@@ -204,11 +204,11 @@ GCL_COMMANDLIST SECTION(".data") dword_8009D470[] =
 		{0x7636, (TGCL_CommandFn)0x8002033C}  // foreach
 };
 
-GCL_COMMANDDEF SECTION(".data") dword_8009D490 =
+GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 =
 	{
 		0,
-		COUNTOF(dword_8009D470),
-		dword_8009D470};
+		COUNTOF(commlist_8009D470),
+		commlist_8009D470};
 
 struct Unk_8009D49C
 {
