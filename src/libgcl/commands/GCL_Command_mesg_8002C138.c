@@ -35,7 +35,7 @@ int GCL_Command_mesg_8002C138(unsigned char *pScript)
     count = 0;
     while (uParm1 = GCL_Get_Param_Result_80020AA4(), uParm1 != 0x0)
     {
-        int iVar2 = GCL_GetNextValue_800209E8(uParm1);
+        int iVar2 = GCL_GetNextInt_800209E8(uParm1);
         *pMsgDst = (short)iVar2;
         pMsgDst++;
         count++;

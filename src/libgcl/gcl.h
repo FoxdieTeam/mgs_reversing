@@ -153,7 +153,7 @@ unsigned char               *GCL_GetNextValue_8002069C(unsigned char *pScript, i
 int                         GCL_ReadVector_80020A14(unsigned char *pInScript, short *pOut3Words);
 void                        GCL_SetScriptNameHash_8001FCB0(int bMain);
 
-int                         GCL_GetNextValue_800209E8(unsigned char *pScript);
+int                         GCL_GetNextInt_800209E8(unsigned char *pScript);
 
 int                         GCL_AddCommMulti_8001FD2C( GCL_COMMANDDEF *pChain );
 
