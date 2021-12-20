@@ -4,7 +4,7 @@
 
 GCL_COMMANDDEF *dword_800AB3B8 = 0; //sdata
 
-void GCL_80020B68(void);
+void GCL_ParseInit_80020B68(void);
 void GCL_InitVarsClear_80021264(void);
 void GCL_InitBasicCommands_8002040C(void);
 int GCL_LoadScript_80020064(unsigned char *);
@@ -14,8 +14,6 @@ void GV_SetFileHandler_80015418(char, void *);
 int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
 
 int SECTION(".sbss") dword_800AB994;
-
-int SECTION(".sbss") dword_800AB998;
 
 int GCL_FileHandler_8001FC88(unsigned char *pFileData, int hashedName)
 {
@@ -36,7 +34,7 @@ void GCL_SetScriptNameHash_8001FCB0(int isDemoScript)
 
 void GCL_StartDaemon_8001FCDC(void)
 {
-    GCL_80020B68();
+    GCL_ParseInit_80020B68();
     GCL_InitVarsClear_80021264();
     GCL_InitBasicCommands_8002040C();
     GV_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
@@ -82,9 +80,9 @@ GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
     return 0;
 }
 
-void GCL_Push_80020934(unsigned char *);
-void GCL_80020690(unsigned char *);
-void GCL_Pop_80020950(void);
+void GCL_SetCommandLine_80020934(unsigned char *);
+void GCL_SetArgTop_80020690(unsigned char *);
+void GCL_UnsetCommandLine_80020950(void);
 
 int GCL_Command_8001FDB0(unsigned char *pScript)
 {
@@ -93,14 +91,14 @@ int GCL_Command_8001FDB0(unsigned char *pScript)
     GCL_COMMANDLIST *pFoundCommand = GCL_FindCommand_8001FD40((unsigned short)GCL_GetShort(pScript));
     GCL_AdvanceShort(pScript);
 
-    GCL_Push_80020934(pScript + GCL_GetByte(pScript));
+    GCL_SetCommandLine_80020934(pScript + GCL_GetByte(pScript));
     GCL_AdvanceByte(pScript);
 
-    GCL_80020690(pScript); // save command return address?
+    GCL_SetArgTop_80020690(pScript); // save command return address?
 
     commandRet = pFoundCommand->function(pScript);
 
-    GCL_Pop_80020950();
+    GCL_UnsetCommandLine_80020950();
 
     return commandRet;
 }
@@ -128,7 +126,6 @@ typedef struct
     GCL_ProcTableEntry *field_0_procTable;
     unsigned char *field_4_pByteCode;
     unsigned char *field_8_pMainProc;
-    unsigned char *pData2;
 } GCL_FileData;
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
@@ -227,8 +224,8 @@ int GCL_LoadScript_80020064(unsigned char *pScript)
     return 0;
 }
 
-int *GCL_PushArgs_8002087C(GCL_ARGS *pArgs);
-void GCL_SetStackPointer_800208F0(int *pStack);
+int *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
+void GCL_UnsetArgStack_800208F0(int *pStack);
 void GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
 
 extern const char aScriptCommandE[];
@@ -236,7 +233,7 @@ extern const char aErrorInScript[];
 
 int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
 {
-    int *pOldStack = GCL_PushArgs_8002087C(pArgs);
+    int *pOldStack = GCL_SetArgStack_8002087C(pArgs);
     while (pScript)
     {
         switch (*pScript)
@@ -266,7 +263,7 @@ int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
                 break;
 
             case GCLCODE_NULL:
-                GCL_SetStackPointer_800208F0(pOldStack);
+                GCL_UnsetArgStack_800208F0(pOldStack);
                 return 0;
 
             default:

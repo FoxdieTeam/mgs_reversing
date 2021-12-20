@@ -9,7 +9,7 @@ TGCL_ActorCreateFn GM_LookupActorFunc_8002A8EC(int hashedName);
 
 TGCL_ActorCreateFn GM_GCL_LookupActorFunc_8002A8C4(unsigned char *pScript)
 {
-    return GM_LookupActorFunc_8002A8EC(GCL_GetNextValue_800209E8(pScript));
+    return GM_LookupActorFunc_8002A8EC(GCL_GetNextInt_800209E8(pScript));
 }
 
 TGCL_ActorCreateFn GM_LookupActorFunc_8002A8EC(int hashedName)

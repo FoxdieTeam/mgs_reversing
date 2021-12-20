@@ -267,21 +267,35 @@
 	include	"..\obj\libdg\DG_8001FC58.obj"
 
 	include	"..\obj\libgcl\gcl.obj"
+
+	;basic.c
 	include	"..\obj\libgcl\commands\GCL_Cmd_If_80020274.obj"
 	include	"..\obj\libgcl\commands\GCL_Cmd_Eval_80020318.obj"
 	include	"..\obj\libgcl\commands\GCL_Cmd_ForEach_8002033C.obj"
 	include	"..\obj\libgcl\commands\GCL_Cmd_Return_80020404.obj"
 	include	"..\obj\libgcl\GCL_InitBasicCommands_8002040C.obj"
+
+	;expr.c
 	include	"..\obj\libgcl\GCL_Operator_Evaluate_80020430.obj"
 	include	"..\obj\libgcl\GCL_Expr_8002058C.obj"
-	include	"..\obj\libgcl\GCL_80020690.obj"
-	include	"..\obj\libgcl\GCL_GetNextValue_8002069C.obj"
+
+	;parse.c
+	include	"..\obj\libgcl\parse.obj"
+
+	;variable.c
+	include	"..\obj\libgcl\GCL_VarSave_80020B90.obj"
 	include	"..\obj\data\rdata\rdata_80020704.obj"
-	include	"..\obj\libgcl\GCL_80020868.obj"
-	include	"..\obj\libgcl\GCL_PushArgs_8002087C.obj"
-	include	"..\obj\libgcl\GCL_SetStackPointer_800208F0.obj"
-	include	"..\obj\libgcl\GCL_GetStackPointer_80020904.obj"
-	include	"..\obj\libgcl\GCL_ResetStack_80020920.obj"
+	include	"..\obj\CRC32_80020BB4.obj"
+	include	"..\obj\libgcl\GCL_MakeSaveFile_80020C0C.obj"
+	include	"..\obj\libgcl\GCL_SetLoadFile_80020EAC.obj"
+	include	"..\obj\libgcl\GCL_InitVarsClear_80021264.obj"
+	include	"..\obj\libgcl\GCL_InitVars_800212CC.obj"
+	include	"..\obj\libgcl\GCL_80021314.obj"
+	include	"..\obj\libgcl\GCL_80021488.obj"
+	include	"..\obj\libgcl\GCL_GetVar_80021634.obj"
+	include	"..\obj\data\rdata\rdata_80021634.obj"
+	include	"..\obj\libgcl\GCL_SetVar_8002171C.obj"
+	include	"..\obj\libgcl\GCL_VarSaveBuffer_800217F0.obj"
 
 	include	"..\obj\data\sdata\dword_800AB3BC.obj"
 	include	"..\obj\data\sdata\gCurrentStageName_800AB3C4.obj"
@@ -393,24 +407,7 @@
 	include	"..\obj\data\sdata\dword_800AB630.obj"
 	include	"..\obj\data\sdata\dword_800AB634.obj"
 	include	"..\obj\data\sdata\dword_800AB638.obj"
-	include	"..\obj\libgcl\GCL_Read_String_80020A70.obj"
-	include	"..\obj\libgcl\GCL_Get_Param_Result_80020AA4.obj"
-	include	"..\obj\libgcl\GCL_GetNextParamValue_80020AD4.obj"
-	include	"..\obj\libgcl\GCL_ReadParamVector_80020AFC.obj"
-	include	"..\obj\libgcl\GCL_80020B2C.obj"
-	include	"..\obj\libgcl\GCL_80020B68.obj"
-	include	"..\obj\libgcl\GCL_VarSave_80020B90.obj"
-	include	"..\obj\CRC32_80020BB4.obj"
-	include	"..\obj\libgcl\GCL_MakeSaveFile_80020C0C.obj"
-	include	"..\obj\libgcl\GCL_SetLoadFile_80020EAC.obj"
-	include	"..\obj\libgcl\GCL_InitVarsClear_80021264.obj"
-	include	"..\obj\libgcl\GCL_InitVars_800212CC.obj"
-	include	"..\obj\libgcl\GCL_80021314.obj"
-	include	"..\obj\libgcl\GCL_80021488.obj"
-	include	"..\obj\libgcl\GCL_GetVar_80021634.obj"
-	include	"..\obj\data\rdata\rdata_80021634.obj"
-	include	"..\obj\libgcl\GCL_SetVar_8002171C.obj"
-	include	"..\obj\libgcl\GCL_VarSaveBuffer_800217F0.obj"
+
 	include	"..\obj\HZD_StartDaemon_80021900.obj"
 	include	"..\obj\HZD_Process_TableFlagIfTriggers_80021928.obj"
 	include	"..\obj\sub_800219C8.obj"
@@ -2649,9 +2646,6 @@ group_gGVActor_800acbf8	group bss,org($800acbf8)
 group_800B1E08	group bss,org($800B1E08)
 	section .bss_800B1E08, group_800B1E08
 
-group_800B3CA8	group bss,org($800B3CA8)
-	section .bss_800B3CA8, group_800B3CA8
-
 group_heap_80117000	group bss,org($80117000)
 	section .heap_80117000, group_heap_80117000
 
@@ -2747,6 +2741,12 @@ group_byte_800C0C10	group bss,org($800C0C10)
 
 group_gGCL_fileData_800B3C18	group bss,org($800b3C18)
 	section .gGCL_fileData_800B3C18, group_gGCL_fileData_800B3C18
+
+group_argstack_800B3C28	group bss,org($800b3C28)
+	section .argstack_800B3C28, group_argstack_800B3C28
+
+group_commandlines_800B3CA8	group bss,org($800B3CA8)
+	section .commandlines_800B3CA8, group_commandlines_800B3CA8
 
 group_gGcl_vars_800B3CC8	group bss,org($800B3CC8)
 	section .gGcl_vars_800B3CC8, group_gGcl_vars_800B3CC8

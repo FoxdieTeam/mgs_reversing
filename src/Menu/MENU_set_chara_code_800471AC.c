@@ -285,7 +285,7 @@ void menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *
 
 void sub_800477B0(menu_chara_struct *unknown, unsigned char *pScript)
 {
-    int iVar1 = GCL_GetNextValue_800209E8(pScript);
+    int iVar1 = GCL_GetNextInt_800209E8(pScript);
     unknown->field_0_state = 3;
     unknown->field_C_pScript = GCL_Get_Param_Result_80020AA4();
     unknown->field_1A = iVar1;

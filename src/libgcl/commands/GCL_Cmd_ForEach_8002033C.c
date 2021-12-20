@@ -6,7 +6,7 @@ int GCL_Cmd_ForEach_8002033C (char *top )
 	GCL_ARGS arg;
 	int i, type, value, id;
 	char *p = top;
-	int* argstack_p = argbuf;
+	int* argbuf_p = argbuf;
 
 	for (;;)
 	{
@@ -17,12 +17,12 @@ int GCL_Cmd_ForEach_8002033C (char *top )
 			break;
 		}
 
-		*argstack_p = value;
-		 argstack_p++;
+		*argbuf_p = value;
+		 argbuf_p++;
 	}
 
 	p = GCL_GetNextValue_8002069C( ( unsigned char* )value, &type, &value );
-	i = ((int)argstack_p - (int)&argbuf) >> 2; //there must be a better way to do this that matches
+	i = (( int )argbuf_p - ( int )&argbuf) >> 2; //there must be a better way to do this that matches
 
 	id = value;
 	arg.argc = 1;
