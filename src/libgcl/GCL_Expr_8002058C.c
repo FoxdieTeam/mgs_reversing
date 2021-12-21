@@ -1,61 +1,59 @@
 #include "gcl.h"
 
-typedef struct
+typedef struct		EXPR_STACK
 {
-	int		value;
-	char	*ptr; 
+	int				value;
+	unsigned char	*ptr; 
 } EXPR_STACK;
 
-extern char *GCL_SetVar_8002171C( char *top, int value ) ;
-extern int   GCL_Operator_Evaluate_80020430( int operation, int v1, int v2 ) ;
+extern char			*GCL_SetVar_8002171C(unsigned char *pScript, int value);
+extern int			GCL_Operator_Evaluate_80020430(int operation, int v1, int v2);
 
-int GCL_Expr_8002058C ( char* data, char **a1 )
+int	GCL_Expr_8002058C(unsigned char *pScript, int *retValue)
 {
-	EXPR_STACK *sp;
-	int type, value;
-	char *p;
+	EXPR_STACK	*operands;
+	char		*ptr;
+	int			code, value, operator;
 
-	sp = ( EXPR_STACK* )0x1F800200;
-	p = data;
-
+	operands = (EXPR_STACK*)0x1F800200;
+	ptr = pScript;
 	for (;;)
 	{
-		type = *p;
-
-		if ( type == 0x31 )
+		code = *ptr;
+		if (code == GCLCODE_EXPR_OPERATOR)
 		{
-			unsigned int op = p[1];
-
-			if ( !op )
+			// Operator found, process operands
+			operator = ptr[1];
+			if (!operator)
 			{
-				if ( a1 )
+				if (retValue)
 				{
-					*a1 = ( char * )( sp - 1 )->value;
+					*retValue = operands[-1].value;
 				}
-				return ( sp - 1 )->value;
+				return operands[-1].value;
 			}
-
-			if ( op == 0x14 )
+			if (operator == eEqual)
 			{
-				GCL_SetVar_8002171C( ( sp - 2 )->ptr, ( sp - 1 )->value );
-				( sp - 2 )->value = ( sp - 1 )->value;
+				GCL_SetVar_8002171C(operands[-2].ptr, operands[-1].value);
+				operands[-2].value = operands[-1].value;
 			} 
 			else
 			{
-				( sp - 2 )->value = GCL_Operator_Evaluate_80020430( op, ( sp - 2 )->value, ( sp - 1 )->value );
-				( sp - 2 )->ptr = 0;
+				operands[-2].value = GCL_Operator_Evaluate_80020430(operator,
+															operands[-2].value,
+															operands[-1].value);
+				operands[-2].ptr = 0;
 			}
-
-			sp--;
-			GCL_AdvanceShort( p );
-
+			operands--;
+			GCL_AdvanceShort(ptr);
 		}
 		else
 		{
-			sp->ptr = p;
-			p = GCL_GetNextValue_8002069C( p, &type, &value );
-			sp->value = value;
-			sp++;
+			// Add operand
+			operands->ptr = ptr;
+			ptr = GCL_GetNextValue_8002069C(ptr, &code, &value);
+			operands->value = value;
+			operands++;
 		}
 	}
 }
