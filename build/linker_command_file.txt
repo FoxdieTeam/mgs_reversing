@@ -472,7 +472,7 @@
 	include	"..\obj\libfs\FS_StreamSoundMode_80024404.obj"
 	include	"..\obj\libfs\FS_StreamGetTick_80024420.obj"
 
-	include	"..\obj\memcard\memcard_800244DC.obj"
+	include	"..\obj\memcard\memcard_hwcard_do_op_800244DC.obj"
 	include	"..\obj\memcard\memcard_800244EC.obj"
 	include	"..\obj\memcard\memcard_hwcard_800244FC.obj"
 	include	"..\obj\memcard\memcard_hwcard_error_80024524.obj"
