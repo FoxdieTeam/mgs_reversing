@@ -6,7 +6,13 @@
 *.47
 obj
 build/dump.asm
+build/contrib
+build/man
+build/manifest
 build/target.asm
+build/share
+build/bin
+build/*.zip
 build/statcov.txt
 .vscode/c_cpp_properties.json
 .vscode/tasks.json
