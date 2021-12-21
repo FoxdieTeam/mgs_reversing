@@ -58,6 +58,7 @@ enum GCLOperators
     eBitWiseXOR = 17,
     eOr = 18,
     eAnd = 19,
+    eEqual = 20,
 };
 
 #define GAME_FLAG_BIT_01	0x1
@@ -93,6 +94,29 @@ enum GCLOperators
 #define GAME_FLAG_BIT_31	0x40000000
 #define GAME_FLAG_BIT_32	0x80000000
 
+// Radio codes (radio.dat files)
+#define RDCODE_NULL             0
+#define RDCODE_TALK             1
+#define RDCODE_VOICE            2
+#define RDCODE_ANIM             3
+#define RDCODE_ADD_CONTACT      4
+#define RDCODE_MEMSAVE          5
+#define RDCODE_SOUND            6
+#define RDCODE_PROMPT           7
+#define RDCODE_VARSAVE          8
+#define RDCODE_IF               0x10
+#define RDCODE_ELSE             0x11
+#define RDCODE_ELSEIF           0x12
+#define RDCODE_SWITCH           0x20
+#define RDCODE_SWITCH_CASE      0x21
+#define RDCODE_SWITCH_DEFAULT   0x22
+#define RDCODE_RANDSWITCH       0x30
+#define RDCODE_RANDSWITCH_CASE  0x31
+#define RDCODE_EVAL             0x40
+#define RDCODE_SCRIPT           0x80
+#define RDCODE_ENDLINE          0xFF
+
+// Gcl codes (.gcx files)
 #define GCLCODE_NULL            0
 #define GCLCODE_SHORT           1
 #define GCLCODE_BYTE            2
@@ -106,6 +130,7 @@ enum GCLOperators
 #define GCLCODE_VARIABLE        0x10 // variables codes are: 0x11, 0x12, 0x13, 0x14, 0x16, 0x18
 #define GCLCODE_STACK_VAR       0x20
 #define GCLCODE_EXPRESSION      0x30
+#define GCLCODE_EXPR_OPERATOR   0x31
 #define GCLCODE_SCRIPT_DATA     0x40
 #define GCLCODE_PARAMETER       0x50
 #define GCLCODE_COMMAND         0x60
