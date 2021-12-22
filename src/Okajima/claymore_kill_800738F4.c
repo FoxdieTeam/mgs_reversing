@@ -4,15 +4,14 @@ extern void DG_DequeuePrim_800182E0(int param_1);
 extern void DG_FreePrim_8001BC04(int param_1);
 
 void claymore_kill_800738F4(int param_1)
-
 {
-    int iVar1;
+    int prim;
 
-    iVar1 = *(int *)(param_1 + 0x84);
-    if (iVar1 != 0)
+    prim = *(int *)(param_1 + 0x84);
+    if (prim)
     {
-        DG_DequeuePrim_800182E0(iVar1);
-        DG_FreePrim_8001BC04(iVar1);
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
     }
     return;
 }

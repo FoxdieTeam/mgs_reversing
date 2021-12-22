@@ -2751,5 +2751,11 @@ group_commandlines_800B3CA8	group bss,org($800B3CA8)
 group_gGcl_vars_800B3CC8	group bss,org($800B3CC8)
 	section .gGcl_vars_800B3CC8, group_gGcl_vars_800B3CC8
 
+group_gCameraList_800B7718	group bss,org($800B7717)
+	section .gCameraList_800B7718, group_gCameraList_800B7718
+
+group_gCamera_param_a_800B780C	group bss,org($800B780C)
+	section .gCamera_param_a_800B780C, group_gCamera_param_a_800B780C
+
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
