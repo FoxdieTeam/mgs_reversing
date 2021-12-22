@@ -1232,7 +1232,7 @@
 	include	"..\obj\sub_8004ABDC.obj"
 	include	"..\obj\sub_8004ABF0.obj"
 	include	"..\obj\sub_8004AD40.obj"
-	include	"..\obj\sub_8004AE14.obj"
+	include	"..\obj\Menu\menu_init_sprt_8004AE14.obj"
 	include	"..\obj\sub_8004AE3C.obj"
 	include	"..\obj\sub_8004AEA8.obj"
 	include	"..\obj\sub_8004AFE4.obj"
