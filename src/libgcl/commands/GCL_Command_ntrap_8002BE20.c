@@ -57,7 +57,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
     {
         pBind->field_2_param_m = 0;
     }
-    if (GCL_GetParam_80020968('d'))
+    if (GCL_GetParam_80020968('d')) // dir
     {
         flags |= 1;
         pBind->field_C_param_d = GCL_GetNextParamValue_80020AD4();
@@ -71,17 +71,17 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
             pBind->field_E_param_d_or_512 = 0x200;
         }
     }
-    if (GCL_GetParam_80020968('b'))
+    if (GCL_GetParam_80020968('b')) // button
     {
         flags |= 4;
         pBind->field_A_param_b = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetParam_80020968('s')) // stance
     {
         flags |= 2;
         pBind->field_9_param_s = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('r'))
+    if (GCL_GetParam_80020968('r')) // repeat
     {
         flags |= 0x40;
     }
@@ -93,7 +93,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
     {
         pBind->field_8_param_i_c_flags |= 2;
     }
-    if (GCL_GetParam_80020968('t'))
+    if (GCL_GetParam_80020968('t')) // time
     {
         if ((flags & 0x40) != 0)
         {
