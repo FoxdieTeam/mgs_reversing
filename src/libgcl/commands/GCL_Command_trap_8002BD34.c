@@ -18,11 +18,8 @@ extern const char aBindsOver[];
 
 int GCL_Command_trap_8002BD34(unsigned char *pScript)
 {
-    int iVar1;
-    int sVar2;
-    BindStruct *pBVar4;
-    int code;
-    int value;
+    BindStruct *pBind;
+    int i, arg, code, value;
     int tmp;
 
     if (0x7f < gBindsCount_800ABA64)
@@ -30,39 +27,42 @@ int GCL_Command_trap_8002BD34(unsigned char *pScript)
         mts_printf_8008BBA0(aBindsOver);
     }
 
-    iVar1 = gBindsCount_800ABA64;
-    pBVar4 = gBindsArray_800b58e0 + gBindsCount_800ABA64;
+    i = gBindsCount_800ABA64;
+    pBind = gBindsArray_800b58e0 + i;
 
-    sVar2 = GCL_GetNextParamValue_80020AD4();
-    if (sVar2 == 0x14c9)
+    // Trap id
+    arg = GCL_GetNextParamValue_80020AD4();
+    if (arg == 0x14c9)
     {
-        sVar2 = 0;
+        arg = 0;
     }
-    gBindsArray_800b58e0[iVar1].field_4 = sVar2;
+    gBindsArray_800b58e0[i].field_4 = arg;
 
-    sVar2 = GCL_GetNextParamValue_80020AD4();
-    if (sVar2 == 0x14c9)
+    // Entity id
+    arg = GCL_GetNextParamValue_80020AD4();
+    if (arg == 0x14c9)
     {
-        sVar2 = 0;
+        arg = 0;
     }
-    pBVar4->field_0 = sVar2;
+    pBind->field_0 = arg;
 
-    sVar2 = GCL_GetNextParamValue_80020AD4();
-    if (sVar2 == 0x14c9)
+    // Event condition
+    arg = GCL_GetNextParamValue_80020AD4();
+    if (arg == 0x14c9)
     {
-        sVar2 = 0;
+        arg = 0;
     }
-    gBindsArray_800b58e0[iVar1].field_2_param_m = sVar2;
+    gBindsArray_800b58e0[i].field_2_param_m = arg; // mask
 
-    gBindsArray_800b58e0[iVar1].field_B_param_e = 0;
-    gBindsArray_800b58e0[iVar1].field_8_param_i_c_flags = 0;
+    gBindsArray_800b58e0[i].field_B_param_e = 0; // exec
+    gBindsArray_800b58e0[i].field_8_param_i_c_flags = 0;
 
     GCL_GetNextValue_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
-    gBindsArray_800b58e0[iVar1].field_14_proc_and_block = value;
-    gBindsCount_800ABA64++; // 780 gp
+    gBindsArray_800b58e0[i].field_14_proc_and_block = value;
+    gBindsCount_800ABA64++;
 
     tmp = gBinds_800ABA60;
-    gBindsArray_800b58e0[iVar1].field_6 = (short)tmp; // 0x77c gp
+    gBindsArray_800b58e0[i].field_6 = (short)tmp;
     GM_SetBinds_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
 
     return 0;
