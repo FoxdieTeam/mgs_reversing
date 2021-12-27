@@ -1,5 +1,5 @@
 #include "linker.h"
-
+/*
 const unsigned int SECTION(".rdata") jpt_800217A0[] =  
 {
 	0x800217A8,
@@ -10,7 +10,7 @@ const unsigned int SECTION(".rdata") jpt_800217A0[] =
 	0x800217A8,
 	0x800217E8,
 	0x800217A8
-};
+};*/
 
 const unsigned int SECTION(".rdata") jpt_80021894[] =
 {
