@@ -19,7 +19,7 @@ extern int          GM_set_noise_sound_8002E588(int a1);
 extern int          sub_8002E508(int a1);
 extern char *       sub_80037E40(int param_1, unsigned int param_2);
 
-void GCL_CommandHelper_sound_impl_8002E688()
+void GCL_Command_sound_impl_8002E688()
 {
     int sdCode, xCode, voxCode, proc;
 
