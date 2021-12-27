@@ -494,7 +494,6 @@
 	include	"..\obj\memcard\memcard_exit_800250C4.obj"
 	include	"..\obj\memcard\memcard_retry_80025178.obj"
 	include	"..\obj\memcard\memcard_get_files_80025350.obj"
-	;include	"..\obj\memcard\memcard_delete_800253C4.obj"
 	include	"..\obj\memcard\memcard_read_write_helper2_8002546C.obj"
 	include	"..\obj\memcard\memcard_read_write_error_800254D4.obj"
 	include	"..\obj\memcard\memcard_read_write_helper_8002551C.obj"
