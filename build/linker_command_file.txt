@@ -293,8 +293,8 @@
 	include	"..\obj\libgcl\GCL_80021314.obj"
 	include	"..\obj\libgcl\GCL_80021488.obj"
 	include	"..\obj\libgcl\GCL_GetVar_80021634.obj"
-	include	"..\obj\data\rdata\rdata_80021634.obj"
 	include	"..\obj\libgcl\GCL_SetVar_8002171C.obj"
+	include	"..\obj\data\rdata\rdata_80021634.obj"
 	include	"..\obj\libgcl\GCL_VarSaveBuffer_800217F0.obj"
 
 	include	"..\obj\data\sdata\dword_800AB3BC.obj"
@@ -723,7 +723,7 @@
 	include	"..\obj\Game\GM_set_noise_sound_8002E588.obj"
 	include	"..\obj\sub_8002E614.obj"
 	include	"..\obj\Game\GM_SoundStart_8002E640.obj"
-	include	"..\obj\libgcl\commands\GCL_CommandHelper_sound_impl_8002E688.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_sound_impl_8002E688.obj"
 	include	"..\obj\sub_8002E8D4.obj"
 	include	"..\obj\Game\GM_AlertAct_8002E91C.obj"
 	include	"..\obj\Game\GM_AlertModeSet_8002EA68.obj"
