@@ -1,10 +1,5 @@
 #include <util/idaTypes.h>
-
-typedef struct
-{
-    DWORD mId;
-    void* mFileBuffer;
-} LibGV_FileRecord;
+#include "libgv.h"
 
 extern LibGV_FileRecord* GV_FileCacheFind_80015240(DWORD);
 
