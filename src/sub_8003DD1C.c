@@ -21,7 +21,7 @@ typedef struct
 
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
-int GV_HashFileName_800152FC(const char *pFileName, int ext);
+int GV_CacheID2_800152FC(const char* fileName, int extID);
 void *GV_FindCachedFile_8001538C(int hash);
 
 extern menu_weapon_rpk_info gMenuWeaponRpkInfo_8009E57C[];
@@ -34,7 +34,7 @@ Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
     Menu_rpk_item **pIter;
     int i;
     int count;
-    RpkHeader *pFileData = GV_FindCachedFile_8001538C(GV_HashFileName_800152FC(pFileName, 'r'));
+    RpkHeader *pFileData = GV_FindCachedFile_8001538C(GV_CacheID2_800152FC(pFileName, 'r'));
     if (!pFileData)
     {
         return 0;

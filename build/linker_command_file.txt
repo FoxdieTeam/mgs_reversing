@@ -16,9 +16,9 @@
 	include "..\obj\libgv\actor.obj"
 	include "..\obj\data\sdata\sdata2.obj"
 	include	"..\obj\libgv\GV_FileCacheFind_80015240.obj"
-	include	"..\obj\libgv\GV_FileNameHashed_800152DC.obj"
-	include	"..\obj\libgv\GV_HashFileName_800152FC.obj"
-	include	"..\obj\libgv\GV_FileNameHashNoExt_8001532C.obj"	
+	include	"..\obj\libgv\GV_CacheID_800152DC.obj"
+	include	"..\obj\libgv\GV_CacheID2_800152FC.obj"
+	include	"..\obj\libgv\GV_CacheID3_8001532C.obj"	
 	include	"..\obj\libgv\GV_FindCachedFile_8001538C.obj"
 	include	"..\obj\sub_800153C0.obj"
 	include	"..\obj\libgv\GV_SetFileHandler_80015418.obj"
@@ -2756,6 +2756,9 @@ group_gCameraList_800B7718	group bss,org($800B7717)
 
 group_gCamera_param_a_800B780C	group bss,org($800B780C)
 	section .gCamera_param_a_800B780C, group_gCamera_param_a_800B780C
+
+group_CacheWork_800ACEF0	group bss,org($800ACEF0)
+	section .CacheWork_800ACEF0, group_CacheWork_800ACEF0
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
