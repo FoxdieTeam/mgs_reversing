@@ -5,7 +5,9 @@
 int SECTION(".sbss") dword_800AB928;
 
 int SECTION(".sbss") dword_0x800AB92C;
-int SECTION(".sbss") dword_0x800AB930[3];
+
+LibGV_FileRecord *SECTION(".sbss") dword_800AB930;
+int SECTION(".sbss") dword_0x800AB934[2];
 
 short SECTION(".sbss") pad1;
 unsigned char *SECTION(".sbss") gResidentTop_800AB940;

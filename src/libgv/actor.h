@@ -2,7 +2,7 @@
 #define ACTOR_H_
 
 #include <libsn.h>
-#include "linker.h"
+#include "libgv.h"
 
 struct Actor;
 

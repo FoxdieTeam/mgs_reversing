@@ -22,7 +22,7 @@ typedef struct DG_ZmdFile
     DG_ZmdEntry zmdEntries[0];
 } DG_ZmdFile;
 
-extern int GV_FileNameHashed_800152DC(int hashedFileName, int param_2);
+extern int GV_CacheID_800152DC(int hashedFileName, int param_2);
 extern void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_KmdObject *, DG_KmdObject *);
 extern void sub_800153C0(int, DG_ZmdObject *);
 
@@ -68,7 +68,7 @@ int zmd_file_handler_8001FAD0(unsigned char *pFileData)
             }
             ++kmdObject;
         }
-        nameHashed = GV_FileNameHashed_800152DC(zmdEntry->fileNameHashed, 107);
+        nameHashed = GV_CacheID_800152DC(zmdEntry->fileNameHashed, 107);
         zmdEntry = (DG_ZmdEntry *)kmdObject;
         sub_800153C0(nameHashed, zmdObject);
     }
