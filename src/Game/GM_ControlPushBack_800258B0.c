@@ -2,7 +2,7 @@
 #include "GM_Control.h"
 #include "mts_new.h"
 
-int SECTION(".sbss") dword_800AB9B0;
+int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
 
 Res_Control *SECTION(".gControlArray_800B56D0") gControlArray_800B56D0[96];
@@ -76,8 +76,8 @@ struct map_record *Map_FromId_800314C0(int);
 int Res_Control_init_loader_44EB9E(Res_Control *pControl, int scriptData, int scriptBinds)
 {
     struct map_record *pMapRec;
-    const int mapId = scriptBinds ? scriptBinds : dword_800AB9B0;
-    dword_800AB9B0 = mapId;
+    const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
+    GM_CurrentMap_800AB9B0 = mapId;
 
     GV_ZeroMemory_8001619c(pControl, sizeof(Res_Control));
 

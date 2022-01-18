@@ -36,7 +36,7 @@ struct PauseKill
     short kill;
 };
 
-extern int dword_800AB9B0;
+extern int GM_CurrentMap_800AB9B0;
 
 void GV_ExecActorSystem_80014F88(void);
 struct Actor *GV_ActorAlloc_800150e4(int level, int memSize);

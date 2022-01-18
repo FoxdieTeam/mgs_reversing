@@ -4,7 +4,7 @@
 extern const char   aDemoNoCode[];
 extern const char   aDemoNoDataOnCd[];
 
-extern int          dword_800AB9B0;
+extern int          GM_CurrentMap_800AB9B0;
 extern int          gBinds_800ABA60;
 extern int          game_state_flags_800AB3CC;
 extern int          counter_800AB380;
@@ -37,7 +37,7 @@ int GCL_Command_demo_8002C890(void) {
         load_data = GCL_GetNextParamValue_80020AD4() | GAME_FLAG_BIT_32;
     }
 
-    dword_800AB9B0 = gBinds_800ABA60;
+    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
 
     if (param >= 0)
     {

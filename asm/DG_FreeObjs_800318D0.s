@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef Prim_void_and_free_800318D0
-Prim_void_and_free_800318D0:
+	xdef DG_FreeObjs_800318D0
+DG_FreeObjs_800318D0:
 	dw 0x27BDFFE0 ; 0x800318D0
 	dw 0xAFB20018 ; 0x800318D4
 	dw 0x00809021 ; 0x800318D8

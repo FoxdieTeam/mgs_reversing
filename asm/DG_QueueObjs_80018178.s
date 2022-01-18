@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80018178
-sub_80018178:
+	xdef DG_QueueObjs_80018178
+DG_QueueObjs_80018178:
 	dw 0x00803821 ; 0x80018178
 	dw 0x84E30030 ; 0x8001817C
 	dw 0x00000000 ; 0x80018180
