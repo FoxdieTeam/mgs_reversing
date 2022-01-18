@@ -676,9 +676,9 @@
 	include	"..\obj\data\sbss\dword_800ABAAC.obj"
 	include	"..\obj\data\sbss\dword_800ABAB0.obj"
 	include	"..\obj\data\sbss\dword_800ABAB4.obj"
-	include	"..\obj\data\sbss\dword_800ABAB8.obj"
+	include	"..\obj\data\sbss\mt_rt2_800ABAB8.obj"
 	include	"..\obj\data\sbss\dword_800ABABC.obj"
-	include	"..\obj\data\sbss\dword_800ABAC0.obj"
+	include	"..\obj\data\sbss\mt_count_800ABAC0.obj"
 	include	"..\obj\data\sbss\dword_800ABAC4.obj"
 	include	"..\obj\data\sbss\dword_800ABAC8.obj"
 	include	"..\obj\data\sbss\dword_800ABACC.obj"
@@ -840,23 +840,7 @@
 	include	"..\obj\Game\item_init_80034758.obj"
 	
 	;object.c
-	include	"..\obj\sub_800348F4.obj"
 	include	"..\obj\Game\object.obj"
-
-	;include	"..\obj\GM_InitObjectNoRots_800349B0.obj"
-	;include	"..\obj\sub_80034A18.obj"
-	;include	"..\obj\sub_80034A7C.obj"
-	;include	"..\obj\sub_80034AF4.obj"
-	;include	"..\obj\sub_80034B88.obj"
-	;include	"..\obj\GM_FreeObject_80034BF8.obj"
-	;include	"..\obj\sub_80034C44.obj"	
-	;include	"..\obj\sub_80034C54.obj"
-	;include	"..\obj\Kmd_Link_To_Parent_Mesh_80034C5C.obj"	
-	;include	"..\obj\sub_80034CB4.obj"	
-	;include	"..\obj\sub_80034CC4.obj"
-	;include	"..\obj\sub_80034CD4.obj"
-	;include	"..\obj\sub_80034D30.obj"
-	;include	"..\obj\Kmd_Load_Impl_80034E10.obj"
 
 	;motion.c
 	include	"..\obj\sub_80034EAC.obj"
