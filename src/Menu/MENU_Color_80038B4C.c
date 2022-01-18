@@ -6,7 +6,7 @@
 void MENU_Text_Init_80038b98(void);
 void mts_doNothing_8008BB98(void);
 
-extern int gActiveBuffer_800AB920;
+extern int GV_Clock_800AB920;
 extern MenuGlue gMenuPrimBuffer_8009E2D0;
 extern struct_dg gOts_800B1800[3];
 extern int dword_800AB68C;
@@ -21,10 +21,10 @@ void menu_reset_ot_80038A88(void)
         mts_doNothing_8008BB98();
     }
 
-    pPrimBuf->mOtEnd =  pGlue->mPrimPtrs[gActiveBuffer_800AB920] + 0x2000;
-    pPrimBuf->mOt = gOts_800B1800[2].mOrderingTables[gActiveBuffer_800AB920];
-    dword_800AB68C = pPrimBuf->mFreeLocation - pGlue->mPrimPtrs[1 - gActiveBuffer_800AB920];
-    pPrimBuf->mFreeLocation = pGlue->mPrimPtrs[gActiveBuffer_800AB920];
+    pPrimBuf->mOtEnd =  pGlue->mPrimPtrs[GV_Clock_800AB920] + 0x2000;
+    pPrimBuf->mOt = gOts_800B1800[2].mOrderingTables[GV_Clock_800AB920];
+    dword_800AB68C = pPrimBuf->mFreeLocation - pGlue->mPrimPtrs[1 - GV_Clock_800AB920];
+    pPrimBuf->mFreeLocation = pGlue->mPrimPtrs[GV_Clock_800AB920];
     MENU_Text_Init_80038b98();
 }
 */

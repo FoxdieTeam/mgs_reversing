@@ -121,15 +121,19 @@ int SECTION(".data") off_8009D35C[] =
 		0x80019D44,
 		0x8001D5C8};
 
-int SECTION(".data") dword_8009D37[] = {0, 0, 0};
-int SECTION(".data") dword_8009D38 = 0;
+int SECTION(".data") dword_8009D378[] = {0, 0, 0};
 
-int SECTION(".data") dword_8009D388 = 0x1000;
-
-int SECTION(".data") dword_8009D38C = 0;
-int SECTION(".data") dword_8009D390 = 0;
-
-int SECTION(".data") dword_8009D394[] = {0, 0, 0, 0};
+MATRIX SECTION(".data") DG_LightMatrix_8009D384 =
+{
+	{
+		{ 0x0000, 0x0000, 0x1000 },
+		{ 0x0000, 0x0000, 0x0000 },
+		{ 0x0000, 0x0000, 0x0000 }
+	},
+	{
+		0, 0, 0
+	}
+};
 
 MATRIX SECTION(".data") DG_ColorMatrix_8009D3A4 =
 {
@@ -175,22 +179,26 @@ char SECTION(".data") byte_8009D42C = 0xC;
 char SECTION(".data") byte_8009D42D = 1;
 char SECTION(".data") byte_8009D42E = 8;
 char SECTION(".data") byte_8009D42F = 0;
-int SECTION(".data") dword_8009D430 = 0x1000;
-int SECTION(".data") dword_8009D434 = 0;
-int SECTION(".data") dword_8009D438 = 0x1000;
-int SECTION(".data") dword_8009D43C = 0;
-int SECTION(".data") dword_8009D440 = 0x1000;
-int SECTION(".data") dword_8009D444 = 0;
-int SECTION(".data") dword_8009D448 = 0;
-int SECTION(".data") dword_8009D44C = 0;
+
+MATRIX SECTION(".data") DG_ZeroMatrix_8009D430 =
+{
+	{
+		{ 0x1000, 0x0000, 0x0000 },
+		{ 0x0000, 0x1000, 0x0000 },
+		{ 0x0000, 0x0000, 0x1000 }
+	},
+	{
+		0, 0, 0
+	}
+};
 
 int SECTION(".data") dword_8009D450 = 0;
 int SECTION(".data") dword_8009D450_1 = 0;
 int SECTION(".data") dword_8009D450_2 = 0;
 
-int SECTION(".data") dword_8009D45C = 2;
-int SECTION(".data") dword_8009D460 = 0;
-int SECTION(".data") dword_8009D464 = 0;
+int SECTION(".data") DG_FrameRate_8009D45C = 2;
+int SECTION(".data") DG_HikituriFlag_8009D460 = 0;
+int SECTION(".data") DG_HikituriFlagOld_8009D464 = 0;
 int SECTION(".data") dword_8009D468 = 0xFFFFFFFF;
 
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
@@ -210,13 +218,13 @@ GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 =
 		COUNTOF(commlist_8009D470),
 		commlist_8009D470};
 
-struct Unk_8009D49C
+struct FS_FILE_INFO_8009D49C
 {
 	const char *pDatName;
 	int unknown;
 };
 
-struct Unk_8009D49C SECTION(".data") off_8009D49C[] =
+struct FS_FILE_INFO_8009D49C SECTION(".data") fs_file_info_8009D49C[] =
 	{
 		{aStageDir, 0},
 		{aRadioDat, 0},

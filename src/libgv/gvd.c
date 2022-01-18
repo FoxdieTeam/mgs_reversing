@@ -5,20 +5,20 @@
 
 // sbss ===============================================
 
-int SECTION(".sbss") dword_800AB918; // sbss
-int SECTION(".sbss") dword_800AB91C; // sbss
-int SECTION(".sbss") gActiveBuffer_800AB920; // sbss
-int SECTION(".sbss") dword_800AB924; // sbss
+int SECTION(".sbss") GM_StageName_800AB918; // sbss
+int SECTION(".sbss") GM_CurrentPadData_800AB91C; // sbss
+int SECTION(".sbss") GV_Clock_800AB920; // sbss
+int SECTION(".sbss") GV_PassageTime_800AB924; // sbss
 
 int gRenderedFramesCount_800AB330 = 0; // sdata
 int dword_800AB334 = 0; // sdata
 
 
-extern int dword_8009D460;
-extern int dword_800AB928;
+extern int DG_HikituriFlag_8009D460;
+extern int GV_PauseLevel_800AB928;
 
-int mts_vsync_counter_8008BBB0(void);
-void sub_800164C8(void);
+int mts_get_tick_count_8008BBB0(void);
+void GV_ClearMessageSystem_800164C8(void);
 
 void GV_Act_80014b60(Actor* pGv)
 {
@@ -26,20 +26,20 @@ void GV_Act_80014b60(Actor* pGv)
 
 	gRenderedFramesCount_800AB330++;
 	
-	tmp = mts_vsync_counter_8008BBB0();
+	tmp = mts_get_tick_count_8008BBB0();
 	
-	dword_800AB924 = tmp - dword_800AB334;
+	GV_PassageTime_800AB924 = tmp - dword_800AB334;
 	dword_800AB334= tmp;
 
-	if (dword_8009D460 == 0)
+	if (DG_HikituriFlag_8009D460 == 0)
 	{
 		// Flip active buffer
-    	gActiveBuffer_800AB920 ^= 1;
+    	GV_Clock_800AB920 ^= 1;
 	}
 
-	if (dword_800AB928 == 0)
+	if (GV_PauseLevel_800AB928 == 0)
 	{
-    	sub_800164C8();
+    	GV_ClearMessageSystem_800164C8();
 	}
 }
 
@@ -104,7 +104,7 @@ void GV_StartDaemon_80014d18(void)
 	GV_Messge_And_Pad_Init_80014CC8();
 	GV_ActorPushBack_800150a8(0, &gGVActor_800acbf8, 0);
 	GV_ActorInit_8001514c(&gGVActor_800acbf8, GV_Act_80014b60, 0, "gvd.c"); // sdata
-	gActiveBuffer_800AB920 = 0;
+	GV_Clock_800AB920 = 0;
 	gRenderedFramesCount_800AB330 = 0;
 	SetHangupCallBack_800892A8(Callback_Hangup_80014B34);
 }
