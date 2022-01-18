@@ -1,7 +1,7 @@
-#include "linker.h"
-
 #ifndef LIBGV_H_
 #define LIBGV_H_
+
+#include "linker.h"
 
 typedef struct
 {

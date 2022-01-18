@@ -1,0 +1,241 @@
+#include "game.h"
+
+/*-----sdata-----------------------------------------*/
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern MATRIX DG_LightMatrix_8009D384;
+/*---------------------------------------------------*/
+
+/*-----sbss---------------------------------------*/
+extern int GM_CurrentMap_800AB9B0;
+/*------------------------------------------------*/
+
+/*----Externs--------------------------------------------------------------*/
+//GV
+extern void *GV_GetCache_8001538C( int id );
+extern int GV_CacheID_800152DC( int file_id, int ext_id );
+extern void GV_ZeroMemory_8001619c( void* ptr, int size );
+void GV_AddVec3_80016D00( SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst );
+
+//GM
+//obj
+extern void sub_800348F4( OBJECT *obj );
+extern int GM_ConfigObjectModel_80034E10( OBJECT_NO_ROTS* obj, int model );
+
+//mt
+extern void sub_8003501C( ACTION* action, int a1, int motion);
+extern void sub_800350D4( ACTION* action, int a1, int motion);
+
+//DG
+extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
+extern void DG_FreeObjs_800318D0( DG_OBJS* objs );
+extern void DG_QueueObjs_80018178( DG_OBJS* objs );
+extern void DG_DequeueObjs_800181E4( DG_OBJS* objs );
+extern void *DG_MakeObjs_80031760( void* buf, int flag, int a2 );
+
+/*-----------------------------------------------------------------------*/
+
+//Initialises an object by zeroing its memory and setting defaults
+void GM_InitObjectNoRots_800349B0( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
+{
+    GV_ZeroMemory_8001619c( obj, sizeof( OBJECT_NO_ROTS ) ) ;
+    obj->flag = flag;
+    obj->light = &DG_LightMatrix_8009D384;
+    obj->map_name = GM_CurrentMap_800AB9B0;
+
+    GM_ConfigObjectModel_80034E10( obj, model );
+}
+
+#define DG_MAX_JOINTS 24
+
+//initialises the rots of an object by zeroing its memory then 
+//calls initobjectnorots to init the rest
+void GM_InitObject_80034A18( OBJECT *obj, int model, int flag, int motion )
+{
+    GV_ZeroMemory_8001619c( obj->rots, sizeof( SVECTOR ) * DG_MAX_JOINTS );
+    GM_InitObjectNoRots_800349B0( ( OBJECT_NO_ROTS * )obj, model, flag, motion );
+}
+
+//adds initial step to mutation from another function
+void GM_ActMotion_80034A7C( OBJECT *obj )
+{
+    SVECTOR	step;
+    
+    if ( obj->action ) {
+        step = *obj->action->step;
+        sub_800348F4( obj );
+        GV_AddVec3_80016D00( &step, obj->action->step, obj->action->step );
+    }
+}
+
+//sets objects name and objs group id
+//if object has an action its step is zero'd
+void GM_ActObject_80034AF4( OBJECT *obj )
+{
+    DG_PutObjs_8001BDB8( obj->objs );
+    
+    if ( obj->map_name != GM_CurrentMap_800AB9B0 )
+    {
+        int group_id = GM_CurrentMap_800AB9B0;
+        obj->map_name = GM_CurrentMap_800AB9B0;
+        obj->objs->group_id = group_id;
+    }
+
+    if ( obj->action )
+    {
+        *obj->action->step = DG_ZeroVector_800AB39C;
+    }
+}
+
+//sets objects name objs groups id
+//if object has an action a separate function is called
+void GM_ActObject2_80034B88( OBJECT *obj )
+{
+    DG_PutObjs_8001BDB8( obj->objs );
+    
+    if ( obj->map_name != GM_CurrentMap_800AB9B0 )
+    {
+        int group_id = GM_CurrentMap_800AB9B0;
+        obj->map_name = GM_CurrentMap_800AB9B0;
+        obj->objs->group_id = group_id;
+    }
+
+    if ( obj->action )
+    {
+        sub_800348F4( obj );
+    }
+}
+
+//frees an objs object
+void GM_FreeObject_80034BF8( OBJECT *obj )
+{
+    DG_OBJS* objs = obj->objs;
+
+    if ( objs )
+    {
+        DG_DequeueObjs_800181E4( objs );
+        DG_FreeObjs_800318D0( objs );
+    }
+}
+
+//configures object flag attribute
+void GM_ConfigObjectFlags_80034C34( OBJECT *obj, int flags )
+{
+    obj->flag = flags;
+    obj->objs->flag = flags;
+}
+
+//configures object light attribute
+void GM_ConfigObjectLight_80034C44( OBJECT *obj, MATRIX *light )
+{
+    obj->light = light;
+    obj->objs->light = light;
+}
+
+//configures object step attribute but is stubbed in game
+void GM_ConfigObjectStep_80034C54( OBJECT* obj, SVECTOR* step ) {}
+
+//configures object's root to the parents world attribute
+//also sets the light depending on if parent exists or not
+void GM_ConfigObjectRoot_80034C5C( OBJECT* obj, OBJECT* parent_obj, int num_parent )
+{
+    MATRIX* light;
+    DG_OBJS* objs = obj->objs;
+
+    if ( !parent_obj || num_parent < 0 )
+    {
+        light = &DG_LightMatrix_8009D384;
+        objs->root  = 0;
+    }
+    else
+    {
+        objs->root = &parent_obj->objs->objs[num_parent].world;
+        light = parent_obj->light;
+    }
+
+    obj->light  = light;
+    objs->light = light;
+}
+
+//configures object rots attribute
+void GM_ConfigObjectJoint_80034CB4( OBJECT *obj )
+{
+    obj->objs->rots = obj->rots;
+}
+
+//configures object flag slide attribute
+void GM_ConfigObjectSlide_80034CC4( OBJECT *obj )
+{
+    obj->objs->movs = obj->rots;
+}
+
+//configures the attributes of an objects action struct
+void GM_ConfigObjectAction_80034CD4( OBJECT *obj, int action_flag, int motion, int a3 )
+{
+    if ( obj->action )
+    {
+        sub_8003501C( obj->action, action_flag, motion);
+        obj->action_flag = action_flag;
+        obj->field_1A = 0;
+        obj->action->field_40 = a3;
+    }
+}
+
+//
+void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int a3, int a4 )
+{
+    if (a4)
+    {
+        if (!obj->action) return;
+        sub_800350D4(obj->action, a1, motion);
+    }
+    else
+    {
+        obj->action->field_30 = 0;
+        if (!obj->action->field_18)
+        {
+            obj->action->field_18 = 2;
+        }
+    }
+
+    obj->field_10 = a1;
+    obj->field_1C = 0;
+    obj->action->field_40 = a3;
+    obj->action->field_0C = a4;
+    obj->action->field_24 = ~a4; 
+}
+
+//calls configObjectAction with given values
+int GM_ConfigObjectMotion_80034D30( OBJECT *obj, int action_flag, int motion )
+{
+    GM_ConfigObjectAction_80034CD4( obj, obj->action_flag, 0, motion);
+    return 0;
+}
+
+//gets the objects buffer from cache and allocates memory for
+//creating a new object. Dequeues existing objects that it may have
+int GM_ConfigObjectModel_80034E10( OBJECT_NO_ROTS* obj, int model )
+{
+    int id;
+    void* buf;
+    DG_OBJS* objs;
+    DG_OBJS* current_objs = obj->objs;
+
+    id = GV_CacheID_800152DC( model, 'k' );
+    buf = GV_GetCache_8001538C( id );
+    objs  = DG_MakeObjs_80031760( buf, obj->flag, 0 );
+
+    if (!objs) return -1;
+
+    if ( current_objs )
+    {
+        DG_DequeueObjs_800181E4( current_objs );
+        DG_FreeObjs_800318D0( current_objs );
+    }
+
+    obj->objs = objs;
+    objs->light = obj->light;
+    objs->group_id = obj->map_name;
+    DG_QueueObjs_80018178( objs );
+
+    return 0;
+}

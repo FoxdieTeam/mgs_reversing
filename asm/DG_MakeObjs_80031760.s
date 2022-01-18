@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031760
-sub_80031760:
+	xdef DG_MakeObjs_80031760
+DG_MakeObjs_80031760:
 	dw 0x27BDFFD0 ; 0x80031760
 	dw 0xAFB10014 ; 0x80031764
 	dw 0x00808821 ; 0x80031768

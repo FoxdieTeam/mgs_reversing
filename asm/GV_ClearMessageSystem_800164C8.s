@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800164C8
-sub_800164C8:
+	xdef GV_ClearMessageSystem_800164C8
+GV_ClearMessageSystem_800164C8:
 	dw 0x8F820664 ; 0x800164C8
 	dw 0x24030001 ; 0x800164CC
 	dw 0x00621023 ; 0x800164D0

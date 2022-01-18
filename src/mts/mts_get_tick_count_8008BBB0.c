@@ -3,7 +3,7 @@
 
 extern int gMtsVSyncCount_800A3D78;
 
-int mts_vsync_counter_8008BBB0(void)
+int mts_get_tick_count_8008BBB0(void)
 {
     return gMtsVSyncCount_800A3D78;
 }
