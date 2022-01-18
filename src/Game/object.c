@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include <KERNEL.H>
+
 /*-----sdata-----------------------------------------*/
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern MATRIX DG_LightMatrix_8009D384;
@@ -7,6 +9,12 @@ extern MATRIX DG_LightMatrix_8009D384;
 
 /*-----sbss---------------------------------------*/
 extern int GM_CurrentMap_800AB9B0;
+
+extern int mt_rt2_800ABAB8;
+int SECTION(".sbss") mt_rt2_800ABAB8;
+
+extern int mt_count_800ABAC0;
+int SECTION(".sbss") mt_count_800ABAC0; 
 /*------------------------------------------------*/
 
 /*----Externs--------------------------------------------------------------*/
@@ -18,12 +26,12 @@ void GV_AddVec3_80016D00( SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst );
 
 //GM
 //obj
-extern void sub_800348F4( OBJECT *obj );
 extern int GM_ConfigObjectModel_80034E10( OBJECT_NO_ROTS* obj, int model );
 
 //mt
-extern void sub_8003501C( ACTION* action, int a1, int motion);
-extern void sub_800350D4( ACTION* action, int a1, int motion);
+extern void sub_8003501C( MOTION_CONTROL* m_ctrl, int a1, int motion);
+extern void sub_800350D4( MOTION_CONTROL* m_ctrl, int a1, int motion);
+extern void sub_8003556C( MOTION_CONTROL* m_ctrl);
 
 //DG
 extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
@@ -32,7 +40,47 @@ extern void DG_QueueObjs_80018178( DG_OBJS* objs );
 extern void DG_DequeueObjs_800181E4( DG_OBJS* objs );
 extern void *DG_MakeObjs_80031760( void* buf, int flag, int a2 );
 
+//psx
+extern long GetRCnt_800996E8( unsigned long rcnt );
 /*-----------------------------------------------------------------------*/
+
+#define DCache 0x1F8003FC
+
+//below macros are used in 2 other functions, should maybe go in common.h
+
+//Put stack on scratchpad
+#define SetSpadStack(addr) {\
+    __asm__ volatile ("move $8,%0" ::"r"(addr):"$8","memory"); \
+    __asm__ volatile ("sw $29,0($8)" :: :"$8","memory"); \
+    __asm__ volatile ("addiu $8,$8,-4" :: :"$8","memory"); \
+    __asm__ volatile ("move $29,$8" :: :"$8","memory"); \
+}
+
+//reset scratchpad stack
+#define ResetSpadStack() {\
+ __asm__ volatile ("addiu $29,$29,4":::"$29","memory"); \
+ __asm__ volatile ("lw $29,0($29)" :::"$29","memory"); \
+}
+
+void sub_800348F4( OBJECT *obj )
+{
+    long intime, outtime;
+    intime = GetRCnt_800996E8( RCntCNT1 );
+    
+    SetSpadStack( DCache );
+    sub_8003556C( obj->m_ctrl ); //motion streaming related
+    ResetSpadStack();
+
+    obj->field_1A = obj->m_ctrl->field_1A;
+    obj->field_1C = obj->m_ctrl->field_32;
+
+    outtime = GetRCnt_800996E8( RCntCNT1 ) ;
+	mt_rt2_800ABAB8 += ( outtime - intime ) & 0xffff ;
+	mt_count_800ABAC0 ++ ;
+
+   	if ( obj->m_ctrl->interp )  obj->m_ctrl->interp--;
+	return ;
+}
 
 //Initialises an object by zeroing its memory and setting defaults
 void GM_InitObjectNoRots_800349B0( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
@@ -60,15 +108,15 @@ void GM_ActMotion_80034A7C( OBJECT *obj )
 {
     SVECTOR	step;
     
-    if ( obj->action ) {
-        step = *obj->action->step;
+    if ( obj->m_ctrl ) {
+        step = *obj->m_ctrl->step;
         sub_800348F4( obj );
-        GV_AddVec3_80016D00( &step, obj->action->step, obj->action->step );
+        GV_AddVec3_80016D00( &step, obj->m_ctrl->step, obj->m_ctrl->step );
     }
 }
 
 //sets objects name and objs group id
-//if object has an action its step is zero'd
+//if object has a motion control its step is zero'd
 void GM_ActObject_80034AF4( OBJECT *obj )
 {
     DG_PutObjs_8001BDB8( obj->objs );
@@ -80,14 +128,15 @@ void GM_ActObject_80034AF4( OBJECT *obj )
         obj->objs->group_id = group_id;
     }
 
-    if ( obj->action )
+    if ( obj->m_ctrl )
     {
-        *obj->action->step = DG_ZeroVector_800AB39C;
+        *obj->m_ctrl->step = DG_ZeroVector_800AB39C;
     }
 }
 
 //sets objects name objs groups id
-//if object has an action a separate function is called
+//if object has a motion control a separate function 
+//to set up motion is called
 void GM_ActObject2_80034B88( OBJECT *obj )
 {
     DG_PutObjs_8001BDB8( obj->objs );
@@ -99,7 +148,7 @@ void GM_ActObject2_80034B88( OBJECT *obj )
         obj->objs->group_id = group_id;
     }
 
-    if ( obj->action )
+    if ( obj->m_ctrl )
     {
         sub_800348F4( obj );
     }
@@ -168,40 +217,40 @@ void GM_ConfigObjectSlide_80034CC4( OBJECT *obj )
     obj->objs->movs = obj->rots;
 }
 
-//configures the attributes of an objects action struct
-void GM_ConfigObjectAction_80034CD4( OBJECT *obj, int action_flag, int motion, int a3 )
+//configures the attributes of an objects motion control struct
+void GM_ConfigObjectAction_80034CD4( OBJECT *obj, int action_flag, int motion, int interp )
 {
-    if ( obj->action )
+    if ( obj->m_ctrl )
     {
-        sub_8003501C( obj->action, action_flag, motion);
+        sub_8003501C( obj->m_ctrl, action_flag, motion);
         obj->action_flag = action_flag;
         obj->field_1A = 0;
-        obj->action->field_40 = a3;
+        obj->m_ctrl->interp = interp;
     }
 }
 
 //
-void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int a3, int a4 )
+void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int interp, int a4 )
 {
     if (a4)
     {
-        if (!obj->action) return;
-        sub_800350D4(obj->action, a1, motion);
+        if (!obj->m_ctrl) return;
+        sub_800350D4(obj->m_ctrl, a1, motion);
     }
     else
     {
-        obj->action->field_30 = 0;
-        if (!obj->action->field_18)
+        obj->m_ctrl->field_30 = 0;
+        if (!obj->m_ctrl->field_18)
         {
-            obj->action->field_18 = 2;
+            obj->m_ctrl->field_18 = 2;
         }
     }
 
     obj->field_10 = a1;
     obj->field_1C = 0;
-    obj->action->field_40 = a3;
-    obj->action->field_0C = a4;
-    obj->action->field_24 = ~a4; 
+    obj->m_ctrl->interp = interp;
+    obj->m_ctrl->field_0C = a4;
+    obj->m_ctrl->field_24 = ~a4; 
 }
 
 //calls configObjectAction with given values
