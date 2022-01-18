@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001BDB8
-sub_8001BDB8:
+	xdef DG_PutObjs_8001BDB8
+DG_PutObjs_8001BDB8:
 	dw 0x484C0000 ; 0x8001BDB8
 	dw 0x484D0800 ; 0x8001BDBC
 	dw 0xAC8C0000 ; 0x8001BDC0

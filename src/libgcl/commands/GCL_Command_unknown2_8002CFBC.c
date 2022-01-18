@@ -9,7 +9,7 @@ int SECTION(".sdata") dword_800AB414;
 
 extern const char   aErrorDemoThrea[];
 
-extern int          dword_800AB9B0;
+extern int          GM_CurrentMap_800AB9B0;
 
 extern char*        GCL_Read_String_80020A70(char *pScript);
 extern int          demothrd_init_80079460(int param_1, int param_2);
@@ -47,8 +47,8 @@ int GCL_Command_unknown2_8002CFBC(void)
     {
         dword_800AB414 = -1;
     }
-    tmp = dword_800AB9B0;
-    dword_800AB9B0 = gBinds_800ABA60;
+    tmp = GM_CurrentMap_800AB9B0;
+    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
     if (str)
     {
         demo = demothrd_init_800794E4(flags, (int)str);
@@ -57,7 +57,7 @@ int GCL_Command_unknown2_8002CFBC(void)
     {
         demo = demothrd_init_80079460(flags, ivar);
     }
-    dword_800AB9B0 = tmp;
+    GM_CurrentMap_800AB9B0 = tmp;
     if (!demo)
     {
         mts_printf_8008BBA0(aErrorDemoThrea);

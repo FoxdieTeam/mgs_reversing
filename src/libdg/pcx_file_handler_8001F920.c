@@ -40,7 +40,7 @@ typedef struct DG_Image {
     unsigned char data[512];
 } DG_Image;
 
-extern int gActiveBuffer_800AB920;
+extern int GV_Clock_800AB920;
 
 extern unsigned char* pcx_file_handler_helper_8001F6BC(unsigned char *, unsigned char *, int);
 extern void pcx_file_handler_helper_8001F71C(unsigned char *, unsigned char *, unsigned short int, int, int);
@@ -70,7 +70,7 @@ int pcx_file_handler_8001F920(unsigned char *pFileData, int fileNameHashed)
         width /= 2;
     }
 
-    if (sub_80015ED8(gActiveBuffer_800AB920, width * height + 528, &images))
+    if (sub_80015ED8(GV_Clock_800AB920, width * height + 528, &images))
     {
         DG_Image *imageA;
         DG_Image *imageB;
@@ -101,7 +101,7 @@ int pcx_file_handler_8001F920(unsigned char *pFileData, int fileNameHashed)
         pcx_file_handler_helper_8001F89C(palette, imageB->data, imageB->dim.w);
         LoadImage_8008FB10(&imageB->dim, imageB->data);
         LoadImage_8008FB10(&imageA->dim, imageA->data);
-        System_void_allocation_80016078(gActiveBuffer_800AB920, &images);
+        System_void_allocation_80016078(GV_Clock_800AB920, &images);
 
         if (fileNameHashed)
         {

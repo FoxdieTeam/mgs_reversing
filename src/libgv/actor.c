@@ -2,7 +2,7 @@
 #include "actor.h"
 #include "mts_new.h"
 
-int SECTION(".sbss") dword_800AB928;
+int SECTION(".sbss") GV_PauseLevel_800AB928;
 
 int SECTION(".sbss") dword_0x800AB92C;
 
@@ -11,9 +11,9 @@ int SECTION(".sbss") dword_0x800AB934[2];
 
 short SECTION(".sbss") pad1;
 unsigned char *SECTION(".sbss") gResidentTop_800AB940;
-int SECTION(".sbss") dword_800AB944[6];
-
-short SECTION(".sbss") pad2;
+int SECTION(".sbss") dword_800AB944[5];
+int SECTION(".sbss") GV_DemoPadStatus_800AB958;
+int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
 void GV_ZeroMemory_8001619c(void *ptr, int size);
 void *GV_Malloc_8001620C(int size);
@@ -53,7 +53,7 @@ void GV_ActorList_Init_80014d98(void)
         pActorList++;
     }
 
-    dword_800AB928 = 0;
+    GV_PauseLevel_800AB928 = 0;
 }
 
 void GV_SetPauseKill_80014e08(int index, short pause, short kill)
@@ -123,8 +123,8 @@ void GV_ExecActorSystem_80014F88(void)
 
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
-        const int local_dword_800AB928 = dword_800AB928;
-        if ((pActorList->mPause & local_dword_800AB928) == 0)
+        const int local_GV_PauseLevel_800AB928 = GV_PauseLevel_800AB928;
+        if ((pActorList->mPause & local_GV_PauseLevel_800AB928) == 0)
         {
             struct Actor *pActor = &pActorList->first;
             for (;;)
@@ -137,7 +137,7 @@ void GV_ExecActorSystem_80014F88(void)
                     pCur->mFnUpdate(pCur);
                 }
 
-                dword_800AB9B0 = 0;
+                GM_CurrentMap_800AB9B0 = 0;
 
                 pActor = pNext;
                 if (!pNext)

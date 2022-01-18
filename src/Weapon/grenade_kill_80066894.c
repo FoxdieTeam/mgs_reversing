@@ -1,10 +1,10 @@
+#include "game.h"
 
-
-extern void sub_80034BF8(unsigned int *param_1);
+extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
 void grenade_kill_80066894(int param_1)
 
 {
-    sub_80034BF8((unsigned int *)(param_1 + 0x28));
+    GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x28));
     return;
 }
