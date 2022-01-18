@@ -4,9 +4,7 @@
 #include "linker.h"
 #include "libdg.h"
 
-//Placeholder: this struct is incorrect
-//might be named MOTION
-typedef struct _ACTION
+typedef struct _MOTION_CONTROL
 {
     unsigned long   field_00;       //0x00
     unsigned long   field_04;       //0x04
@@ -26,8 +24,8 @@ typedef struct _ACTION
     unsigned long   field_34;       //0x34
     SVECTOR        *step;           //0x38
     unsigned long   field_3C;       //0x3C
-    unsigned long   field_40;       //0x40
-} ACTION;
+    unsigned long   interp;         //0x40
+} MOTION_CONTROL;
 
 typedef struct _OBJECT
 {
@@ -38,7 +36,7 @@ typedef struct _OBJECT
     short              action_flag; //0x0E
     unsigned short     field_10;    //0x10
     unsigned short     field_12;    //0x12
-    ACTION            *action;      //0x14
+    MOTION_CONTROL    *m_ctrl;      //0x14
     unsigned short     field_18;    //0x18
     unsigned short     field_1A;    //0x1A
     unsigned short     field_1C;    //0x1C
@@ -56,7 +54,7 @@ typedef struct _OBJECT_NO_ROTS
     unsigned short     action_flag; //0x0E
     unsigned short     field_10;    //0x10
     unsigned short     field_12;    //0x12
-    ACTION            *action;      //0x14
+    MOTION_CONTROL    *m_ctrl;      //0x14
     unsigned short     field_18;    //0x18
     unsigned short     field_1A;    //0x1A
     unsigned short     field_1C;    //0x1C
