@@ -10,7 +10,7 @@ void    sub_8002B600(int);
 int     GM_PushAreaHistory_8002A7D8(int areaName, char *pStageName);
 char*   GM_StageName_8002A880(char*);
 
-int GCL_Command_strstatus_8002C6A4(void)
+int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
 {
     int val;
 

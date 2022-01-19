@@ -3,7 +3,7 @@
 #include "gcl.h"
 #include "delay.h"
 
-int GCL_Command_delay_8002C074(void)
+int GCL_Command_delay_8002C074(int argc, char **argv)
 {
     int time = 0;
     int proc = 0;
