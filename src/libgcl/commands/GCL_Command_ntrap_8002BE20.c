@@ -16,7 +16,7 @@ extern const char aNtrapCanTSetEv[];
 extern const char aNtrapCanTSetPr[];
 extern const char aBind08x[];
 
-int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
+int GCL_Command_ntrap_8002BE20(int argc, char **argv)
 {
     // int bindIdx;
     BindStruct *pBind;

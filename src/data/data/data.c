@@ -272,32 +272,57 @@ int SECTION(".data") dword_8009D598[] =
 		0x80038000,
 		0x20002000, 0x2000, 0, 0, 0, 0};
 
+int GCL_Command_mesg_8002C138(int argc, char **argv);
+int GCL_Command_trap_8002BD34(int argc, char **argv);
+int GCL_Command_chara_8002C1B0(int argc, char **argv);
+int GCL_Command_map_8002BB44(int argc, char **argv);
+int GCL_Command_hzd_8002BD04(int argc, char **argv);
+int GCL_Command_camera_8002B8F0(int argc, char **argv);
+int GCL_Command_light_8002B854(int argc, char **argv);
+int GCL_Command_start_8002C22C(int argc, char **argv);
+int GCL_Command_load_8002C308(int argc, char **argv);
+int GCL_Command_radio_8002C4A8(int argc, char **argv);
+int GCL_Command_strstatus_8002C6A4(int argc, char **argv);
+int GCL_Command_demo_8002C890(int argc, char **argv);
+int GCL_Command_ntrap_8002BE20(int argc, char **argv);
+int GCL_Command_delay_8002C074(int argc, char **argv);
+int GCL_Command_pad_8002C988(int argc, char **argv);
+int GCL_Command_varsave_8002C72C(int argc, char **argv);
+
+int GCL_Command_sound_8002CA28(int argc, char **argv);
+
+int GCL_Command_rand_8002CD94(int argc, char **argv);
+int GCL_Command_unknown1_8002CDF4(int argc, char **argv);
+int GCL_Command_unknown2_8002CFBC(int argc, char **argv);
+int GCL_Command_print_8002D0E4(int argc, char **argv);
+int GCL_Command_jimaku_8002D188(int argc, char **argv);
+
 GCL_COMMANDLIST SECTION(".data") gGCL_CommandTable_8009D5CC[] =
 	{
-		{0x22FF, (TGCL_CommandFn)0x8002C138}, // mesg
-		{0xD4CB, (TGCL_CommandFn)0x8002BD34}, // trap
-		{0x9906, (TGCL_CommandFn)0x8002C1B0}, // chara
-		{0xC091, (TGCL_CommandFn)0x8002BB44}, // map
-		{0x7D50, (TGCL_CommandFn)0x8002BD04}, // hzd ??
-		{0xEEE9, (TGCL_CommandFn)0x8002B8F0}, // camera
-		{0x306A, (TGCL_CommandFn)0x8002B854}, // light
-		{0x9A1F, (TGCL_CommandFn)0x8002C22C}, // start
-		{0xC8BB, (TGCL_CommandFn)0x8002C308}, // load
-		{0x24E1, (TGCL_CommandFn)0x8002C4A8}, // radio
-		{0xE43C, (TGCL_CommandFn)0x8002C6A4}, // str_status
-		{0xA242, (TGCL_CommandFn)0x8002C890}, // demo
-		{0xDBAB, (TGCL_CommandFn)0x8002BE20}, // ntrap
-		{0x430D, (TGCL_CommandFn)0x8002C074}, // delay
-		{0xCC85, (TGCL_CommandFn)0x8002C988}, // pad
-		{0x5C9E, (TGCL_CommandFn)0x8002C72C}, // varsave
+		{0x22FF, GCL_Command_mesg_8002C138}, // mesg
+		{0xD4CB, GCL_Command_trap_8002BD34}, // trap
+		{0x9906, GCL_Command_chara_8002C1B0}, // chara
+		{0xC091, GCL_Command_map_8002BB44}, // map
+		{0x7D50, GCL_Command_hzd_8002BD04}, // hzd ??
+		{0xEEE9, GCL_Command_camera_8002B8F0}, // camera
+		{0x306A, GCL_Command_light_8002B854}, // light
+		{0x9A1F, GCL_Command_start_8002C22C}, // start
+		{0xC8BB, GCL_Command_load_8002C308}, // load
+		{0x24E1, GCL_Command_radio_8002C4A8}, // radio
+		{0xE43C, GCL_Command_strstatus_8002C6A4}, // str_status
+		{0xA242, GCL_Command_demo_8002C890}, // demo
+		{0xDBAB, GCL_Command_ntrap_8002BE20}, // ntrap
+		{0x430D, GCL_Command_delay_8002C074}, // delay
+		{0xCC85, GCL_Command_pad_8002C988}, // pad
+		{0x5C9E, GCL_Command_varsave_8002C72C}, // varsave
 		{0x4AD9, (TGCL_CommandFn)0x8002C7C8}, // system
-		{0x698D, (TGCL_CommandFn)0x8002CA28}, // sound
+		{0x698D, GCL_Command_sound_8002CA28}, // sound
 		{0x226D, (TGCL_CommandFn)0x8002CAAC}, // menu
-		{0x925E, (TGCL_CommandFn)0x8002CD94}, // rand
-		{0xE257, (TGCL_CommandFn)0x8002CDF4}, // ??
-		{0xA2BF, (TGCL_CommandFn)0x8002CFBC}, // ?? not in pc ver, demo thread related ??
-		{0xB96E, (TGCL_CommandFn)0x8002D0E4}, // print
-		{0xEC9D, (TGCL_CommandFn)0x8002D188}  // jimaku
+		{0x925E, GCL_Command_rand_8002CD94}, // rand
+		{0xE257, GCL_Command_unknown1_8002CDF4}, // ??
+		{0xA2BF, GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
+		{0xB96E, GCL_Command_print_8002D0E4}, // print
+		{0xEC9D, GCL_Command_jimaku_8002D188}  // jimaku
 };
 
 GCL_COMMANDDEF SECTION(".data") gGCL_default_commands_8009D68C =

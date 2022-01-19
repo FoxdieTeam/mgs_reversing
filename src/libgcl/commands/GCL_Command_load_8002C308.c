@@ -18,7 +18,7 @@ void DG_ClearResidentTexture_8001DB10(void);
 
 GameState_800B4D98 SECTION(".gGameState_800B4D98") gGameState_800B4D98;
 
-int GCL_Command_load_8002C308(char *pScript)
+int GCL_Command_load_8002C308(int argc, char **argv)
 {
     char *scriptStageName;
     short vec[3];

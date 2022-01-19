@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002D400
-sub_8002D400:
+	xdef GM_AllocTarget_8002D400
+GM_AllocTarget_8002D400:
 	dw 0x8F820788 ; 0x8002D400
 	dw 0x00000000 ; 0x8002D404
 	dw 0x1440001C ; 0x8002D408

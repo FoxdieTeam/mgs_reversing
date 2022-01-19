@@ -16,7 +16,7 @@ BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
 
 extern const char aBindsOver[];
 
-int GCL_Command_trap_8002BD34(unsigned char *pScript)
+int GCL_Command_trap_8002BD34(int argc, char **argv)
 {
     BindStruct *pBind;
     int i, arg, code, value;

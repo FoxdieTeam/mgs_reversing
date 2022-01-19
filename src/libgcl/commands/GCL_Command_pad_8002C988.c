@@ -5,7 +5,7 @@ extern int  game_state_flags_800AB3CC;
 
 extern void sub_8001682C(void);
 
-int GCL_Command_pad_8002C988(void)
+int GCL_Command_pad_8002C988(int argc, char **argv)
 {
     if (GCL_GetParam_80020968('m'))
     {

@@ -22,7 +22,7 @@ extern int counter_800AB380;
 int SECTION(".sbss") gBinds_800ABA60;
 int SECTION(".sbss") gBindsCount_800ABA64;
 
-int GCL_Command_map_8002BB44(unsigned char *pScript)
+int GCL_Command_map_8002BB44(int argc, char **argv)
 {
     map_record *pMapRecord;
     short colourVec[3];
