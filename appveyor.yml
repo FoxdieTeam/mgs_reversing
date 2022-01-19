@@ -8,10 +8,10 @@ clone_folder: c:\mgs
 
 build_script:
  - set PATH=C:\cygwin64\bin;%PATH%
- - g++ build\progress\symProgress.c -o build\progress\progress.exe
+ - g++ build\progress_script\symProgress.c -o build\progress_script\progress.exe
  - cd build
  - make PSYQ_SDK=c:\psyq C_DEPS=false -j1
- - .\progress.ps1
+ - make progress
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
