@@ -160,8 +160,8 @@
 	include	"..\obj\libdg\DG_SetLightMatrix_8001A5D8.obj"
 	include	"..\obj\libdg\DG_GetLightMatrix2_8001A670.obj"
 	include	"..\obj\libdg\DG_WriteObjPacketUV_8001A6E4.obj"
-	include	"..\obj\libdg\DG_WriteObjPacketRGB_8001A774.obj"
-	include	"..\obj\libdg\DG_MakeObjPacket_8001A9B8.obj"
+	include	"..\obj\libdg\DG_8001A774.obj"
+	include	"..\obj\libdg\DG_WriteObjPacketRGB_8001A9B8.obj"
 
 ; 8001ACE4  DG_FreeObjPacket sub_8001AA50 doesn't look like a free func, these symbols don't match from here on ??
 ; 8001AD2C  DG_MakeObjsPacket

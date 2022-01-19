@@ -39,4 +39,50 @@ typedef	struct _DG_OBJS {
 	DG_OBJ		objs[ 0 ] ;	 //0x48
 } DG_OBJS ;
 
+static    inline    u_long    LLOAD( from )
+void            *from ;
+{
+    return *(u_long *)from ;
+}
+
+static    inline    void    LSTORE( from, to )
+u_long            from ;
+void            *to ;
+{
+    *(u_long *)to = from ;
+}
+
+static	inline	u_short	SLOADL( from )
+void			*from ;
+{
+	return *(u_short *)from ;
+}
+
+static	inline	void	SSTOREL( from, to ) // name restored
+u_short			from ;
+void			*to ;
+{
+	*(u_short *)to = from ;
+}
+
+static	inline	void	LCOPY( s1, d1 )
+void		*s1, *d1 ;
+{
+	*(u_long *)d1 = *(u_long *)s1 ;
+}
+
+static    inline    void    LCOPY2( s1, d1, s2, d2 )
+void        *s1, *d1 ;
+void        *s2, *d2 ;
+{
+    u_long        r1, r2 ;
+
+    r1 = *(u_long *)s1 ;
+    r2 = *(u_long *)s2 ;
+    *(u_long *)d1 = r1 ;
+    *(u_long *)d2 = r2 ;
+}
+
+// TODO: There are others like this as seen in the memleak
+
 #endif //LIBDG_H
