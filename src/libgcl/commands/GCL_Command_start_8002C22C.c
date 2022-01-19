@@ -17,7 +17,7 @@ void GCL_InitVarsClear_80021264(void);
 
 extern int dword_800AB9E8;
 
-int GCL_Command_start_8002C22C(unsigned char *pScript)
+int GCL_Command_start_8002C22C(int argc, char **argv)
 {
     if (GCL_GetParam_80020968('s'))
     {

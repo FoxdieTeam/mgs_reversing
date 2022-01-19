@@ -21,7 +21,7 @@ typedef struct LibGV_Msg
 
 int GV_SendMessage_80016504(LibGV_Msg *);
 
-int GCL_Command_mesg_8002C138(unsigned char *pScript)
+int GCL_Command_mesg_8002C138(int argc, char **argv)
 {
     unsigned char *uParm1;
     int iVar1;

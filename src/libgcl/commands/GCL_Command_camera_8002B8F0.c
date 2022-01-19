@@ -38,7 +38,7 @@ proc AGL_FIRST_VF {
 			-3362,1759,4936 -2475,770,6672 1
 */
 
-int GCL_Command_camera_8002B8F0(void)
+int GCL_Command_camera_8002B8F0(int argc, char **argv)
 {
     int     isEnabled, param_p, camera_id;
     short   vec1[3], vec2[3];

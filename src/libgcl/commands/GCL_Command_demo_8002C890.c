@@ -16,7 +16,7 @@ char*           GCL_Read_String_80020A70(char *pScript);
 int             sub_8004955C(char*, int);
 int             sub_80037DD8(int, unsigned int);
 
-int GCL_Command_demo_8002C890(void) {
+int GCL_Command_demo_8002C890(int argc, char **argv) {
     int     param;
     int     load_data;
     char    *msg;

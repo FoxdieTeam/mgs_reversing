@@ -26,7 +26,7 @@ extern map_record*  Map_FindByNum_80031504(int);
 extern int          sub_8001C18C(short *pOut3Words);
 extern int          sub_80037CD8(void);
 
-int GCL_Command_unknown1_8002CDF4(void)
+int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
     short           vec[3];
     unk_800AB9F4    *unkStruct;
