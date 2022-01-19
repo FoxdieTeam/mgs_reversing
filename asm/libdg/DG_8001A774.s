@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef DG_WriteObjPacketRGB_8001A774
-DG_WriteObjPacketRGB_8001A774:
+	xdef DG_8001A774
+DG_8001A774:
 	dw 0x27BDFFC8 ; 0x8001A774
 	dw 0xAFB40020 ; 0x8001A778
 	dw 0x0080A021 ; 0x8001A77C
