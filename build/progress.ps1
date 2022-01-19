@@ -2,7 +2,7 @@
 
 if ($Env:APPVEYOR_URL -And !$Env:APPVEYOR_PULL_REQUEST_NUMBER)
 {
-	$progressToolOutput = (obj_tool\Release\obj.exe $PSScriptRoot\..\obj) | Out-String
+	$progressToolOutput = (progress\progress.exe $PSScriptRoot\..\obj\_mgsi.sym) | Out-String
 
 	$msg =
 "
