@@ -11,7 +11,7 @@ build_script:
  - g++ build\progress\symProgress.c -o build\progress\progress.exe
  - cd build
  - make PSYQ_SDK=c:\psyq C_DEPS=false -j1
- - make progress
+ - .\progress.ps1
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
