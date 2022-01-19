@@ -132,7 +132,7 @@
 	include	"..\obj\sub_800185BC.obj"
 	include	"..\obj\libdg\DG_BoundChanl_800189A4.obj"
 	include	"..\obj\libdg\DG_BoundEnd_80018D20.obj"
-	include	"..\obj\sub_80018D28.obj"
+	include	"..\obj\libdg\DG_WriteObjClut_80018D28.obj"
 	include	"..\obj\sub_80018D90.obj"
 	include	"..\obj\sub_80018E5C.obj"
 	include	"..\obj\sub_80018FA4.obj"
