@@ -7,7 +7,7 @@ unsigned int rand_8008E6B8(void);
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
-int GCL_Command_rand_8002CD94(void)
+int GCL_Command_rand_8002CD94(int argc, char **argv)
 {
     int param;
     int rand;

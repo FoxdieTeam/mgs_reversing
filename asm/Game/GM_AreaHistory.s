@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002A848
-sub_8002A848:
+	xdef GM_AreaHistory_8002A848
+GM_AreaHistory_8002A848:
 	dw 0x24030001 ; 0x8002A848
 	dw 0x3C02800B ; 0x8002A84C
 	dw 0x24425850 ; 0x8002A850

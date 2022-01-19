@@ -175,7 +175,6 @@
 ; 8001BE98  DG_SetPos
 ; 8001BEE0  DG_SetPos2
 
-	include	"..\obj\sub_8001AA50.obj"
 	include	"..\obj\libdg\DG_void_all_prim_buffers_8001ABA8.obj"
 	include	"..\obj\sub_8001AC08.obj"
 	include	"..\obj\sub_8001AC74.obj"

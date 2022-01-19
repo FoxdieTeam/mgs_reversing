@@ -14,7 +14,7 @@ extern void         MENU_SetRadioCallbackProc_8004283C(int param_1);
 extern void         sub_80049764(int param_1, int param_2);
 extern void         sub_80049794(int param_1, int param_2);
 
-int GCL_Command_radio_8002C4A8(void)
+int GCL_Command_radio_8002C4A8(int argc, char **argv)
 {
     int contactFrequency;
     int radioTableCode;

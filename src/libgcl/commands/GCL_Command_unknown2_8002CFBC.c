@@ -15,7 +15,7 @@ extern char*        GCL_Read_String_80020A70(char *pScript);
 extern int          demothrd_init_80079460(int param_1, int param_2);
 extern int          demothrd_init_800794E4(int param_1, int param_2);
 
-int GCL_Command_unknown2_8002CFBC(void)
+int GCL_Command_unknown2_8002CFBC(int argc, char **argv)
 {
     int tmp, demo, flags, ivar;
     char *str;
