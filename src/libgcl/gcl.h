@@ -14,7 +14,7 @@ typedef struct				GCL_ActorTableEntry
 } GCL_ActorTableEntry;
 
 // A hashed name of a GCL command and pointer to function that implements the command
-typedef int                 (*TGCL_CommandFn)(int argc, char **argv);
+typedef int                 (*TGCL_CommandFn)(unsigned char* pScript);
 
 typedef struct				GCL_COMMANDLIST
 {

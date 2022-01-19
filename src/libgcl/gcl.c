@@ -84,6 +84,7 @@ void GCL_SetCommandLine_80020934(unsigned char *);
 void GCL_SetArgTop_80020690(unsigned char *);
 void GCL_UnsetCommandLine_80020950(void);
 
+
 int GCL_Command_8001FDB0(unsigned char *pScript)
 {
     int commandRet;
