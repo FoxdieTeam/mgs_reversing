@@ -7,8 +7,8 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - g++ build\progress\symProgress.c -o build\progress\progress.exe
  - set PATH=C:\cygwin64\bin;%PATH%
+ - g++ build\progress\symProgress.c -o build\progress\progress.exe
  - cd build
  - make PSYQ_SDK=c:\psyq C_DEPS=false -j1
  - make progress
