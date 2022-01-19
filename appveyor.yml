@@ -7,7 +7,7 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - msbuild /p:Configuration=Release;Platform=x86 build\obj_tool\obj.sln
+ - g++ build\progress\symProgress.c -o build\progress\progress.exe
  - set PATH=C:\cygwin64\bin;%PATH%
  - cd build
  - make PSYQ_SDK=c:\psyq C_DEPS=false -j1
