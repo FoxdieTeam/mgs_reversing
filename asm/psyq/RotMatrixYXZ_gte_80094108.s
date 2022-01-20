@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80094108
-sub_80094108:
+	xdef RotMatrixYXZ_gte_80094108
+RotMatrixYXZ_gte_80094108:
 	dw 0x84880004 ; 0x80094108
 	dw 0x00051025 ; 0x8009410C
 	dw 0x3C03800A ; 0x80094110

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092B58
-sub_80092B58:
+	xdef MulRotMatrix_80092B58
+MulRotMatrix_80092B58:
 	dw 0x8C880000 ; 0x80092B58
 	dw 0x8C890004 ; 0x80092B5C
 	dw 0x8C8A000C ; 0x80092B60

@@ -192,29 +192,8 @@
 	include	"..\obj\sub_8001B66C.obj"
 	include	"..\obj\sub_8001BABC.obj"
 	include	"..\obj\libdg\DG_FreePrim_8001BC04.obj"
-	include	"..\obj\sub_8001BC44.obj"
-	include	"..\obj\sub_8001BC8C.obj"
-	include	"..\obj\libdg\DG_MovePos_8001BD20.obj"
 
-; 8001BF78  DG_MovePos
-; 8001BFC0  DG_RotatePos
-; 8001C014  DG_PutObjs
-; 8001C05C  DG_PutPrim
-; 8001C0A4  DG_PutVector
-; 8001C0F4  DG_RotVector
-; 8001C154  DG_PersVector
-; 8001C190  DG_PointCheck
-; 8001C3E8  DG_PointCheckOne
-; 8001D07C  DG_S  
-
-
-
-	include	"..\obj\sub_8001BD64.obj"
-	include	"..\obj\DG_PutObjs_8001BDB8.obj"
-	include	"..\obj\sub_8001BE00.obj"
-	include	"..\obj\sub_8001BE48.obj"
-	include	"..\obj\sub_8001BE98.obj"
-	include	"..\obj\libdg\DG_PersVector_8001BEF8.obj"	
+	include	"..\obj\libdg\helpers.obj"	
 	include	"..\obj\sub_8001BF34.obj"
 	include	"..\obj\sub_8001C18C.obj"
 	include	"..\obj\sub_8001C248.obj"
@@ -2348,7 +2327,7 @@
 	include	"..\obj\psyq\sub_80092868.obj"
 	include	"..\obj\psyq\sub_80092898.obj"
 	include	"..\obj\psyq\MulMatrix0_80092A48.obj"
-	include	"..\obj\psyq\sub_80092B58.obj"
+	include	"..\obj\psyq\MulRotMatrix_80092B58.obj"
 	include	"..\obj\psyq\sub_80092C48.obj"
 	include	"..\obj\psyq\sub_80092DA8.obj"
 	include	"..\obj\psyq\sub_80092DD8.obj"
@@ -2368,7 +2347,7 @@
 	include	"..\obj\psyq\sub_80093BC8.obj"
 	include	"..\obj\psyq\sub_80093D68.obj"
 	include	"..\obj\psyq\sub_80093F08.obj"
-	include	"..\obj\psyq\sub_80094108.obj"
+	include	"..\obj\psyq\RotMatrixYXZ_gte_80094108.obj"
 	include	"..\obj\psyq\ratan2_80094308.obj"
 	include	"..\obj\psyq\sub_80094488.obj"
 	include	"..\obj\psyq\sub_80094534.obj"
