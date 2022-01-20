@@ -1,10 +1,9 @@
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
 
-//#define PRINT(f_, ...) printf((f_), ##__VA_ARGS__)
-//#define PRINT(f_, ...) ((void)0)
-#define PRINT(f_, ...) fprintf(0, (f_), ##__VA_ARGS__)
+char buff[1024];
+#define PRINT(f_, ...) sprintf(buff, (f_), ##__VA_ARGS__)
 
 size_t lastFuncOffset = 0;
 size_t totalFuncsSize = 0;
