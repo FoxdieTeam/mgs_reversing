@@ -12,7 +12,6 @@ build_script:
  - cd build
  - make PSYQ_SDK=c:\psyq C_DEPS=false -j1
  - make progress
- - progress_script\progress.exe ..\obj\_mgsi.sym
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
