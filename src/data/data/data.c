@@ -149,31 +149,42 @@ MATRIX SECTION(".data") DG_ColorMatrix_8009D3A4 =
 
 int SECTION(".data") dword_8009D3C4[] = {0, 0, 0};
 
-int SECTION(".data") dword_8009D3D0[] =
-	{
-		0x4080210,
-		0x4080318,
-		0x408041C,
-		0x8080214,
-		0x8080320,
-		0x8080428,
-		0x80114,
-		0x80110,
-		0x80110,
-		0x80110,
-		0x8010C,
-		0x8010C,
-		0x8010C,
-		0x4080314,
-		0x4080418,
-		0x808031C,
-		0x8080424,
-		0x8080320,
-		0x8080428,
-		0xC080328,
-		0xC080434,
-		0x8080228,
-		0xC080234};
+struct DG_Rec_Unknown
+{
+  unsigned char field_0_prim_size;
+  unsigned char field_1;
+  unsigned char field_2;
+  unsigned char field_3;
+};
+
+struct DG_Rec_Unknown SECTION(".data") stru_8009D3D0[23] =
+{
+  { 16u, 2u, 8u, 4u },
+  { 24u, 3u, 8u, 4u },
+  { 28u, 4u, 8u, 4u },
+  { 20u, 2u, 8u, 8u },
+  { 32u, 3u, 8u, 8u },
+  { 40u, 4u, 8u, 8u },
+  { 20u, 1u, 8u, 0u },
+  { 16u, 1u, 8u, 0u },
+  { 16u, 1u, 8u, 0u },
+  { 16u, 1u, 8u, 0u },
+  { 12u, 1u, 8u, 0u },
+  { 12u, 1u, 8u, 0u },
+  { 12u, 1u, 8u, 0u },
+  { 20u, 3u, 8u, 4u },
+  { 24u, 4u, 8u, 4u },
+  { 28u, 3u, 8u, 8u },
+  { 36u, 4u, 8u, 8u },
+  { 32u, 3u, 8u, 8u },
+  { 40u, 4u, 8u, 8u },
+  { 40u, 3u, 8u, 12u },
+  { 52u, 4u, 8u, 12u },
+  { 40u, 2u, 8u, 8u },
+  { 52u, 2u, 8u, 12u }
+};
+
+
 
 char SECTION(".data") byte_8009D42C = 0xC;
 char SECTION(".data") byte_8009D42D = 1;
