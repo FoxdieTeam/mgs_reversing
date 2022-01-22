@@ -29,19 +29,6 @@ struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
     return pIter;
 }
 
-struct KmdAndLitHeader
-{
-    int field_0;
-    int field_4_5C_count;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-};
 
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;
