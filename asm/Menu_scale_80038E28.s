@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038E28
-sub_80038E28:
+	xdef Menu_scale_80038E28
+Menu_scale_80038E28:
 	dw 0x27BDFFD8 ; 0x80038E28
 	dw 0x00041040 ; 0x80038E2C
 	dw 0x00441021 ; 0x80038E30
