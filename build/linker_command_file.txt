@@ -2748,5 +2748,9 @@ group_gCamera_param_a_800B780C	group bss,org($800B780C)
 group_CacheWork_800ACEF0	group bss,org($800ACEF0)
 	section .CacheWork_800ACEF0, group_CacheWork_800ACEF0
 
+group_StageObjs_800B7890	group bss,org($800B7890)
+	section .StageObjs_800B7890, group_StageObjs_800B7890
+
+
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
