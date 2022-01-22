@@ -766,11 +766,11 @@
 	include	"..\obj\sub_80031710.obj"
 	include	"..\obj\DG_MakeObjs_80031760.obj"
 	include	"..\obj\DG_FreeObjs_800318D0.obj"
-	include	"..\obj\sub_80031954.obj"
-	include	"..\obj\sub_80031B00.obj"
+	include	"..\obj\Prim_lighting_80031954.obj"
+	include	"..\obj\Prim_80031B00.obj"
 	include	"..\obj\sub_80031B88.obj"
 	include	"..\obj\sub_80031BD4.obj"
-	include	"..\obj\sub_80031ED4.obj"
+	include	"..\obj\Prim_Calc_CVECTOR_len_80031ED4.obj"
 	include	"..\obj\DG_MakePreshade_80031F04.obj"
 	include	"..\obj\Prim_free_colour_buffer_80032110.obj"
 	include	"..\obj\sub_8003214C.obj"
@@ -2734,6 +2734,9 @@ group_gGcl_gameStateVars_800B44C8	group bss,org($800B44C8)
 
 group_gGcl_memVars_800b4588	group bss,org($800b4588)
 	section .gGcl_memVars_800b4588, group_gGcl_memVars_800b4588
+
+group_byte_800B7A50	group bss,org($800B7A50)
+	section .byte_800B7A50, group_byte_800B7A50
 
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C

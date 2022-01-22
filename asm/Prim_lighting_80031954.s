@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031954
-sub_80031954:
+	xdef Prim_lighting_80031954
+Prim_lighting_80031954:
 	dw 0x27BDFFA8 ; 0x80031954
 	dw 0xAFBE0050 ; 0x80031958
 	dw 0x8FBE0068 ; 0x8003195C
