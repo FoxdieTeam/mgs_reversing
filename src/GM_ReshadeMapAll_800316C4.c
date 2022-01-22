@@ -19,17 +19,17 @@ extern void mts_printf_8008BBA0(const char*, ...);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
 {
 	struct map_record *map;
-	struct LitHeader *field_C_l_file;
+	struct LitHeader *lit_file;
 
 	map = Map_FromId_800314C0(pObj->group_id);
 	if (!map)
 	{
 		mts_printf_8008BBA0(aReshadeNullMap);
 	}
-	field_C_l_file = map->field_C_l_file;
-	if (field_C_l_file)
+	lit_file = map->field_C_lit_file;
+	if (lit_file)
 	{
-		DG_MakePreshade_80031F04(pObj, (short *)&field_C_l_file[1], field_C_l_file->field_0_num_lights);
+		DG_MakePreshade_80031F04(pObj, (short *)&lit_file[1], lit_file->field_0_num_lights);
 	}
 }
 

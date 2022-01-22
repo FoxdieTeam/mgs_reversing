@@ -1,6 +1,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "gcl.h"
 #include "linker.h"
+#include "map.h"
 
 typedef struct      unk_800AB9F4
 {
@@ -22,7 +23,7 @@ extern short        dword_800ABA48[3];
 //extern int          dword_800ABA48; // todo: update external
 
 extern int          GM_AreaHistory_8002A848(int param_1);
-extern map_record*  Map_FindByNum_80031504(int);
+extern map_record   *Map_FindByNum_80031504(int);
 extern int          sub_8001C18C(short *pOut3Words);
 extern int          sub_80037CD8(void);
 
@@ -46,7 +47,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
         gGameState_800B4D98.field_10_snake_position.z = unkStruct->vec0[2];
         gGameState_800B4D98.field_0A_random_value = unkStruct->unkA;
     }
-    if (GCL_GetParam_80020968('a')) // area
+    if (GCL_GetParam_80020968('a')) // area?
     {
         gGameState_800B4D98.field_0A_random_value = GM_AreaHistory_8002A848(GCL_GetNextParamValue_80020AD4());
     }

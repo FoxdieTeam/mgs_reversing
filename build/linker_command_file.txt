@@ -754,7 +754,7 @@
 	include	"..\obj\sub_80030FD0.obj"
 	include	"..\obj\Map_FreeKmds_80031028.obj"
 	include	"..\obj\Map_ResetMapCountAndKmdsCount_800310A0.obj"
-	include	"..\obj\map\Map_Script_tbl_hzd_impl_800310D0.obj"
+	include	"..\obj\libgcl\commands\GCL_Command_hzd_impl_800310D0.obj"
 	include	"..\obj\map\Map_LoadMapData_80031244.obj"
 	include	"..\obj\map\Map_ScriptLoadMapBlocks_800312D0.obj"
 	include	"..\obj\map\Map_MarkUsed_80031324.obj"
