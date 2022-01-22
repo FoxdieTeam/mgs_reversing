@@ -29,7 +29,6 @@ struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
     return pIter;
 }
 
-
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;
 int SECTION(".sbss") N_StageObjs_800ABAA4;
@@ -47,12 +46,12 @@ void DG_QueueObjs_80018178(DG_OBJS *);
 
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 {
-    int hashedName;                              // $v0
-    DG_DEF *pLitModel; // $v0
-    DG_OBJS *pPrim;                              // $s0
-    struct LitHeader *lit_file;            // $a1
-    int field_0_num_lights;                      // $a2
-    short *pLitData;                             // $a1
+    int hashedName;             // $v0
+    DG_DEF *pLitModel;          // $v0
+    DG_OBJS *pPrim;             // $s0
+    struct LitHeader *lit_file; // $a1
+    int field_0_num_lights;     // $a2
+    short *pLitData;            // $a1
     int temp;
 
     hashedName = GV_CacheID_800152DC(pLitName, 'k');
@@ -77,9 +76,29 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     DG_QueueObjs_80018178(pPrim);
 
     temp = pMap->field_0_map_index_bit;
-    pPrim->group_id = temp; 
+    pPrim->group_id = temp;
     StageObjs_800B7890[N_StageObjs_800ABAA4] = pPrim;
     N_StageObjs_800ABAA4++;
 }
 
+void* HZD_Load_Helper_80021AE0(int* pHzdData, int default_0_flags_index, int default_48, int default_24);
 
+void *Map_HZD_Load_80030F38(
+    int resource_name_hashed,
+    int flagsIndex,
+    short bitIndex,
+    int default_48,
+    int default_24)
+{
+    int name;     // $v0
+    void* pHzdData; // $v0
+    void* result;   // $v0
+
+    name = GV_CacheID_800152DC(resource_name_hashed, 'h');
+    pHzdData = GV_GetCache_8001538C(name);
+    result = HZD_Load_Helper_80021AE0(pHzdData, flagsIndex, default_48, default_24);
+
+    // TODO: struct recovery
+    *(short *)(result + 8) = bitIndex;
+    return result;
+}
