@@ -391,7 +391,7 @@
 	include	"..\obj\sub_800219C8.obj"
 	include	"..\obj\HZD_FileHandler_800219F4.obj"
 	include	"..\obj\sub_80021AE0.obj" ; HZD_MakeHandler ?
-	include	"..\obj\sub_80021C40.obj"
+	include	"..\obj\HZD_Free_80021C40.obj"
 	include	"..\obj\sub_80021C64.obj"
 	include	"..\obj\sub_80021D6C.obj"
 	include	"..\obj\sub_80021E2C.obj" ; fs load LBA tables ?
@@ -751,7 +751,7 @@
 	include	"..\obj\map\Map_GetNextFreeRecord_80030E30.obj"
 	include	"..\obj\map\Map_HZD_Load_80030F38.obj"
 	include	"..\obj\Map_80030FA4.obj"
-	include	"..\obj\sub_80030FD0.obj"
+	include	"..\obj\Map_HZD_Free_80030FD0.obj"
 	include	"..\obj\Map_FreeKmds_80031028.obj"
 	include	"..\obj\Map_ResetMapCountAndKmdsCount_800310A0.obj"
 	include	"..\obj\libgcl\commands\GCL_Command_hzd_impl_800310D0.obj"

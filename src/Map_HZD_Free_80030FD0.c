@@ -1,0 +1,26 @@
+#include "linker.h"
+#include "map\map.h"
+
+void HZD_Free_80021C40(void* param_1);
+
+// re-declare to force GP usage
+extern int gMapCount_800ABAA8;
+int SECTION(".sbss") gMapCount_800ABAA8;
+
+extern struct map_record gMapRecs_800B7910[16];
+
+void Map_HZD_Free_80030FD0()
+{
+    int count;                // $s0
+    struct map_record *pIter; // $s1
+
+    pIter = gMapRecs_800B7910;
+    for (count = gMapCount_800ABAA8; count > 0; count--)
+    {
+        if (pIter->field_8_hzd)
+        {
+            HZD_Free_80021C40(pIter->field_8_hzd);
+        }
+        ++pIter;
+    }
+}
