@@ -118,7 +118,7 @@ typedef struct
     unsigned char* mPrimPtrs[2];
 } MenuGlue;
 
-typedef struct MenuMan
+typedef struct Actor_MenuMan
 {
     Actor mBase;
     MenuPrimBuffer* field_20_prim_buffer;
