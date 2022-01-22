@@ -8,8 +8,8 @@
 
 typedef struct
 {
-	char* field_0_weapon_name;
-	int field_4_rpk_idx;
+    char *field_0_weapon_name;
+    int field_4_rpk_idx;
 } menu_weapon_rpk_info;
 
 typedef struct RadioMemory
@@ -35,7 +35,7 @@ typedef struct menu_chara_struct
     int field_1C;
     int field_20_pFaceMemory;
     int field_24;
-    int* field_28_pStack;
+    int *field_28_pStack;
     int field_2C;
     int field_30_face_data_num;
     int field_34;
@@ -75,10 +75,34 @@ RadioMemory *menu_radio_table_find_8004D380(int toFind);
 RadioMemory *menu_radio_table_next_free_8004D3B8(void);
 unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
 void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName);
-void menu_gcl_set_radio_var_80047768(menu_chara_struct* unknown, unsigned char *pScript);
+void menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript);
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 
 void menuman_init_80038954(void);
+
+struct menu_8009E544
+{
+    short field_0;
+    short field_2;
+    int field_4_input;
+    int field_8;
+    int field_C;
+    void *field_10;
+    void *field_14;
+    int field_18_pFnUpdate;
+};
+
+struct menu_left_right
+{
+    short field_0_rpk_idx;
+    short field_2;
+    int field_4;
+    struct menu_8009E544 *field_8_pStru;
+    int field_C_alloc;
+    char field_10;
+    char field_11;
+    short field_12;
+};
 
 typedef struct MenuMan_MenuBars
 {
@@ -101,28 +125,27 @@ typedef struct MenuMan_Inventory_Menu_0x14
     short field_12;
 } MenuMan_Inventory_Menu_0x14;
 
-typedef void(*TMenuUpdateFn)(void); //todo
-typedef void(*ButtonStates)(void); //todo
-
+typedef void (*TMenuUpdateFn)(void); //todo
+typedef void (*ButtonStates)(void);  //todo
 
 typedef struct
 {
-    unsigned char* mFreeLocation;
-    unsigned char* mOt;
-    unsigned char* mOtEnd;
+    unsigned char *mFreeLocation;
+    unsigned char *mOt;
+    unsigned char *mOtEnd;
 } MenuPrimBuffer;
 
 typedef struct
 {
     MenuPrimBuffer mPrimBuf;
-    unsigned char* mPrimPtrs[2];
+    unsigned char *mPrimPtrs[2];
 } MenuGlue;
 
 typedef struct Actor_MenuMan
 {
     Actor mBase;
-    MenuPrimBuffer* field_20_prim_buffer;
-    ButtonStates* field_24_input;
+    MenuPrimBuffer *field_20_prim_buffer;
+    ButtonStates *field_24_input;
     BYTE field_28_flags;
     BYTE field_29;
     BYTE field_2A_state;
@@ -130,36 +153,30 @@ typedef struct Actor_MenuMan
     TMenuUpdateFn m7FnPtrs_field_2C[8];
     DR_ENV mDR_ENV_field_4C[2];
     DR_ENV DR_ENV_field_CC;
-    DWORD field_10C;
-    DWORD field_110;
-    DWORD field_114;
-    DWORD field_118;
-    DWORD field_11C;
-    DWORD field_120;
-    DWORD field_124;
-    DWORD field_128;
-    DWORD field_12C;
-    DWORD field_130;
-    DWORD field_134;
-    DWORD field_138;
-    DWORD field_13C;
-    DWORD field_140;
-    DWORD field_144;
-    RECT field_148_rect;
-    DR_ENV mDrEnvDst_field_150;
-    DR_ENV mDrEnvDst_field_190;
-    WORD field_1D0;
-    WORD field_1D2;
-    BYTE field_1D4;
-    BYTE field_1D5;
-    WORD field_1D6;
-    MenuMan_Inventory_Menu_0x14 field_1D8_invetory_menus[2];
-    MenuMan_MenuBars field_200_hp_bars_info;
-    WORD field_20C_codec_state;
-    WORD field_20E;
-    WORD field_210_size_19F2_font_high;
-    WORD field_210_size_19F2_font_low;
-    DWORD field_214_108bytes;
-    menu_chara_struct* field_218;
+    int field_14C;
+    int field_150;
+    DR_ENV field_154;
+    DR_ENV field_194;
+    short field_1D4_clipX1;
+    short field_1D6_clipY1;
+    char field_1D8;
+    char field_1D9;
+    char field_1DA;
+    char field_1DB;
+    struct menu_left_right field_1DC_menu_left;
+    struct menu_left_right field_1F0_menu_right;
+    char field_204;
+    char field_205;
+    short field_206;
+    short field_208;
+    short field_20A_snake_current_health;
+    short field_20C;
+    short field_20E;
+    short field_210;
+    short field_212;
+    int field_214_font;
+    int field_218;
+    int field_21C;
+    int field_220;
 } MenuMan;
-typedef void(*TInitKillFn)(MenuMan*);
+typedef void (*TInitKillFn)(MenuMan *);
