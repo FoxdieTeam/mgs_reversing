@@ -29,19 +29,6 @@ struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
     return pIter;
 }
 
-struct KmdAndLitHeader
-{
-    int field_0;
-    int field_4_5C_count;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-};
 
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;
@@ -61,7 +48,7 @@ void DG_QueueObjs_80018178(DG_OBJS *);
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 {
     int hashedName;                              // $v0
-    struct KmdAndLitHeader *CachedFile_8001538C; // $v0
+    DG_DEF *pLitModel; // $v0
     DG_OBJS *pPrim;                              // $s0
     struct LitHeader *lit_file;            // $a1
     int field_0_num_lights;                      // $a2
@@ -69,8 +56,8 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     int temp;
 
     hashedName = GV_CacheID_800152DC(pLitName, 'k');
-    CachedFile_8001538C = (struct KmdAndLitHeader *)GV_GetCache_8001538C(hashedName);
-    pPrim = (DG_OBJS *)DG_MakeObjs_80031760(CachedFile_8001538C, 87, 0);
+    pLitModel = (DG_DEF *)GV_GetCache_8001538C(hashedName);
+    pPrim = (DG_OBJS *)DG_MakeObjs_80031760(pLitModel, 0x57, 0);
     DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
     DG_PutObjs_8001BDB8(pPrim);
     lit_file = pMap->field_C_lit_file;

@@ -55,7 +55,7 @@ void DG_StartDaemon_8001F284(void)
 extern unsigned char kVertexIndexingOrder_8009D46C[];
 
 /*
-void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_KmdObject* pKmdObj, DG_KmdObject* pParentObj)
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL* pKmdObj, DG_MDL* pParentObj)
 {
     unsigned int idx;
     int parentFaceCount;
