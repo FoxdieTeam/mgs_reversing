@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003ADAC
-sub_8003ADAC:
+	xdef menu_init_radar_helper_8003ADAC
+menu_init_radar_helper_8003ADAC:
 	dw 0x27BDFFE8 ; 0x8003ADAC
 	dw 0xAFBF0010 ; 0x8003ADB0
 	dw 0x0C00F76D ; 0x8003ADB4

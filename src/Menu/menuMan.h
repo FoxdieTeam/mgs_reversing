@@ -125,8 +125,10 @@ typedef struct MenuMan_Inventory_Menu_0x14
     short field_12;
 } MenuMan_Inventory_Menu_0x14;
 
-typedef void (*TMenuUpdateFn)(void); //todo
-typedef void (*ButtonStates)(void);  //todo
+struct Actor_MenuMan;
+
+typedef void (*TMenuUpdateFn)(struct Actor_MenuMan *, int); //todo
+typedef void (*ButtonStates)(void);                         //todo
 
 typedef struct
 {
@@ -141,18 +143,25 @@ typedef struct
     unsigned char *mPrimPtrs[2];
 } MenuGlue;
 
+struct Menu_Prim_Buffer
+{
+    int field_0_pBuffer;
+    int *field_4_pOt;
+};
+
 typedef struct Actor_MenuMan
 {
-    Actor mBase;
-    MenuPrimBuffer *field_20_prim_buffer;
-    ButtonStates *field_24_input;
-    BYTE field_28_flags;
-    BYTE field_29;
-    BYTE field_2A_state;
-    BYTE field_2B;
-    TMenuUpdateFn m7FnPtrs_field_2C[8];
-    DR_ENV mDR_ENV_field_4C[2];
-    DR_ENV DR_ENV_field_CC;
+    Actor field_0_actor;
+    struct Menu_Prim_Buffer *field_20_otBuf;
+    int field_24_pInput;
+    unsigned char field_28_flags;
+    char field_29;
+    unsigned char field_2A;
+    char field_2B;
+    void *m7FnPtrs_field_2C[7];
+    int field_48;
+    DR_ENV field_4C_drawEnv[2];
+    DR_ENV field_CC[2];
     int field_14C;
     int field_150;
     DR_ENV field_154;
