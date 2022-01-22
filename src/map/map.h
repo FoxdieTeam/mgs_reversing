@@ -13,4 +13,9 @@ struct map_record
 };
 
 
+struct LitHeader
+{
+  int field_0_num_lights;
+};
+
 #endif // _MAP_H_
