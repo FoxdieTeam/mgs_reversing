@@ -272,8 +272,8 @@
 	include	"..\obj\libgcl\GCL_80021488.obj"
 	include	"..\obj\libgcl\GCL_GetVar_80021634.obj"
 	include	"..\obj\libgcl\GCL_SetVar_8002171C.obj"
-	include	"..\obj\data\rdata\rdata_80021634.obj"
 	include	"..\obj\libgcl\GCL_VarSaveBuffer_800217F0.obj"
+	include	"..\obj\data\rdata\rdata_80021634.obj"
 
 	include	"..\obj\data\sdata\dword_800AB3BC.obj"
 	include	"..\obj\data\sdata\gCurrentStageName_800AB3C4.obj"
@@ -2730,6 +2730,12 @@ group_StageObjs_800B7890	group bss,org($800B7890)
 
 group_gMapRecs_800B7910	group bss,org($800B7910)
 	section .gMapRecs_800B7910, group_gMapRecs_800B7910
+
+group_gGcl_gameStateVars_800B44C8	group bss,org($800B44C8)
+	section .gGcl_gameStateVars_800B44C8, group_gGcl_gameStateVars_800B44C8
+
+group_gGcl_memVars_800b4588	group bss,org($800b4588)
+	section .gGcl_memVars_800b4588, group_gGcl_memVars_800b4588
 
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C

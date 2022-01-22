@@ -11,7 +11,7 @@ const unsigned int SECTION(".rdata") jpt_800217A0[] =
 	0x800217E8,
 	0x800217A8
 };*/
-
+/*
 const unsigned int SECTION(".rdata") jpt_80021894[] =
 {
 	0x8002189C,
@@ -22,7 +22,7 @@ const unsigned int SECTION(".rdata") jpt_80021894[] =
 	0x8002189C,
 	0x800218EC,
 	0x8002189C
-};
+};*/
 
 const char SECTION(".rdata") aWarningOldVers[] = "Warning:old version hzm\n";
 
