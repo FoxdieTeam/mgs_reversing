@@ -2,12 +2,12 @@
 #define SCRIPT_TBL_MAP_H
 
 #include <util/idaTypes.h>
-
+/*
 typedef struct      LitHeader
 {
     int             field_0_num_lights;
-} LitHeader;
-
+} LitHeader;*/
+/*
 typedef struct      map_record
 {
     int             field_0_map_index_bit;
@@ -16,7 +16,7 @@ typedef struct      map_record
     struct HzdMap   *field_8_hzd;
     LitHeader       *field_C_l_file;
     int             field_10_script_z_param_bit_index_zone_id;
-} map_record;
+} map_record;*/
 
 typedef struct      Vec3_snakePos
 {
