@@ -53,7 +53,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern void *GV_GetCache_8001538C(int id);
 extern int GV_CacheID_800152DC(int file_id, int ext_id);
 void *DG_MakeObjs_80031760(void *, int, int);
-void sub_8001BC44(MATRIX *);
+void DG_SetPos_8001BC44(MATRIX *);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
 void DG_QueueObjs_80018178(DG_OBJS *);
@@ -71,7 +71,7 @@ void Map_LitLoad_80030E74(int pLitName, struct map_record *pMap)
     hashedName = GV_CacheID_800152DC(pLitName, 'k');
     CachedFile_8001538C = (struct KmdAndLitHeader *)GV_GetCache_8001538C(hashedName);
     pPrim = (DG_OBJS *)DG_MakeObjs_80031760(CachedFile_8001538C, 87, 0);
-    sub_8001BC44(&DG_ZeroMatrix_8009D430);
+    DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
     DG_PutObjs_8001BDB8(pPrim);
     field_C_l_file = pMap->field_C_l_file;
     if (field_C_l_file)
