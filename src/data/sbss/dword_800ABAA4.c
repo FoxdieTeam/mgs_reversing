@@ -1,4 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800ABAA4;
+int SECTION(".sbss") N_StageObjs_800ABAA4;
 
