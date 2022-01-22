@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80021AE0
-sub_80021AE0:
+	xdef HZD_Load_Helper_80021AE0
+HZD_Load_Helper_80021AE0:
 	dw 0x27BDFFD0 ; 0x80021AE0
 	dw 0xAFB10014 ; 0x80021AE4
 	dw 0x00808821 ; 0x80021AE8
