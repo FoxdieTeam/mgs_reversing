@@ -156,7 +156,7 @@ typedef struct Actor_MenuMan
     int field_24_pInput;
     unsigned char field_28_flags;
     char field_29;
-    unsigned char field_2A;
+    unsigned char field_2A_state;
     char field_2B;
     void *m7FnPtrs_field_2C[7];
     int field_48;
