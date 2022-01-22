@@ -784,6 +784,7 @@
 	include	"..\obj\map\Map_ScriptReloadMaps_80031450.obj"
 	include	"..\obj\map\Map_FromId_800314C0.obj"
 	include	"..\obj\map\Map_FindByNum_80031504.obj"
+	include	"..\obj\map\sub_8003153C.obj"
 	include	"..\obj\Map_Enum_Get_Hzd_80031580.obj"
 	include	"..\obj\Map_FindByZoneId_80031624.obj"
 	include	"..\obj\GM_ReshadeMapAll_800316C4.obj"
