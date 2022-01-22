@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "libdg.h"
 #include "dgd.h"
+#include "map\map.h"
 
 DG_OBJS *SECTION(".StageObjs_800B7890") StageObjs_800B7890[32];
 
@@ -13,16 +14,6 @@ extern const char aReshadeNullMap[];
 struct LitHeader
 {
   int field_0_num_lights;
-};
-
-struct map_record
-{
-  int field_0_map_index_bit;
-  short field_4_map_num;
-  unsigned short field_6_bUsed;
-  void *field_8_hzd;
-  struct LitHeader *field_C_l_file;
-  int field_10_script_z_param_bit_index_zone_id;
 };
 
 struct map_record* Map_FromId_800314C0(int id);
