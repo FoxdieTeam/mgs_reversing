@@ -1,4 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800ABAAC;
+int SECTION(".sbss") gMapsChanged_800ABAAC;
 

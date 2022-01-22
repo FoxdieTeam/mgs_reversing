@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80030C6C
-sub_80030C6C:
+	xdef Map_light_80030C6C
+Map_light_80030C6C:
 	dw 0x27BDFFC8 ; 0x80030C6C
 	dw 0x3C02800B ; 0x80030C70
 	dw 0xAFB50024 ; 0x80030C74
