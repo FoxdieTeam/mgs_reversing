@@ -2751,6 +2751,9 @@ group_CacheWork_800ACEF0	group bss,org($800ACEF0)
 group_StageObjs_800B7890	group bss,org($800B7890)
 	section .StageObjs_800B7890, group_StageObjs_800B7890
 
+group_gMapRecs_800B7910	group bss,org($800B7910)
+	section .gMapRecs_800B7910, group_gMapRecs_800B7910
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
