@@ -11,10 +11,6 @@ int SECTION(".sbss") N_StageObjs_800ABAA4;
 
 extern const char aReshadeNullMap[];
 
-struct LitHeader
-{
-  int field_0_num_lights;
-};
 
 struct map_record* Map_FromId_800314C0(int id);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
