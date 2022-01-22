@@ -5,9 +5,40 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-typedef struct _DG_MDL { } DG_MDL;
+struct KmdVec3
+{
+    int field_0_x;
+    int field_4_y;
+    int field_8_z;
+};
 
-typedef struct _DG_DEF { } DG_DEF;
+typedef struct _DG_MDL
+{
+    int flags_0;
+    int numFaces_4;
+    struct KmdVec3 max_8;
+    struct KmdVec3 min_14;
+    struct KmdVec3 pos_20;
+    int parent_2C;
+    int unknownA_30;
+    int numVertex_34;
+    SVECTOR* vertexIndexOffset_38;
+    unsigned char* faceIndexOffset_3C;
+    int numNormals_40;
+    SVECTOR* normalIndexOffset_44; 
+    unsigned char* normalFaceOffset_48;
+    unsigned char* uvOffset_4C;
+    unsigned short int* materialOffset_50; // hashed texture names
+    int pad_54;
+} DG_MDL;
+
+typedef struct _DG_DEF 
+{
+	int num_bones_0; // or "model" count ?
+	int num_mesh_4;
+	struct KmdVec3 max;
+	struct KmdVec3 min;
+} DG_DEF;
 
 typedef	struct _DG_OBJ {
 	MATRIX		world ;			//0x00

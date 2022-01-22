@@ -1,6 +1,9 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 typedef struct map_record
 {
@@ -16,21 +19,6 @@ typedef struct map_record
 struct LitHeader
 {
     int                 field_0_num_lights;
-};
-
-
-struct KmdAndLitHeader
-{
-    int field_0_numBones;
-    int field_4_numMesh;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-  // int field_20;
-  //  int field_24;
 };
 
 #endif // _MAP_H_

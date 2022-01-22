@@ -1,13 +1,13 @@
+#include "libdg\libdg.h"
 
-
-int sub_80031710(unsigned int *param_1)
+int sub_80031710(DG_MDL *pMesh)
 
 {
     int iVar1;
     int iVar2;
     unsigned int uVar3;
 
-    uVar3 = *param_1;
+    uVar3 = pMesh->flags_0;
     iVar1 = 0;
     if ((uVar3 & 0x300) != 0)
     {
