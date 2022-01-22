@@ -9,7 +9,7 @@ int SECTION(".sbss") gMapCount_800ABAA8;
 
 extern struct map_record gMapRecs_800B7910[16];
 
-struct map_record *Map_GetNextFreeRecord_80030E30(short mapNum)
+struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
 {
     int count;
     struct map_record *pIter;
@@ -22,7 +22,7 @@ struct map_record *Map_GetNextFreeRecord_80030E30(short mapNum)
         ++pIter;
     }
 
-    pIter->field_4_map_num = mapNum;
+    pIter->field_4_mapNameHash = (unsigned short)mapNameHashed;
     pIter->field_6_bUsed = 0;
     pIter->field_0_map_index_bit = 1 << gMapCount_800ABAA8;
     gMapCount_800ABAA8++;
@@ -58,12 +58,12 @@ void DG_PutObjs_8001BDB8(DG_OBJS *);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
 void DG_QueueObjs_80018178(DG_OBJS *);
 
-void Map_LitLoad_80030E74(int pLitName, struct map_record *pMap)
+void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 {
     int hashedName;                              // $v0
     struct KmdAndLitHeader *CachedFile_8001538C; // $v0
     DG_OBJS *pPrim;                              // $s0
-    struct LitHeader *field_C_l_file;            // $a1
+    struct LitHeader *lit_file;            // $a1
     int field_0_num_lights;                      // $a2
     short *pLitData;                             // $a1
     int temp;
@@ -73,11 +73,11 @@ void Map_LitLoad_80030E74(int pLitName, struct map_record *pMap)
     pPrim = (DG_OBJS *)DG_MakeObjs_80031760(CachedFile_8001538C, 87, 0);
     DG_SetPos_8001BC44(&DG_ZeroMatrix_8009D430);
     DG_PutObjs_8001BDB8(pPrim);
-    field_C_l_file = pMap->field_C_l_file;
-    if (field_C_l_file)
+    lit_file = pMap->field_C_lit_file;
+    if (lit_file)
     {
-        field_0_num_lights = field_C_l_file->field_0_num_lights;
-        pLitData = (short *)&field_C_l_file[1];
+        field_0_num_lights = lit_file->field_0_num_lights;
+        pLitData = (short *)&lit_file[1];
         DG_MakePreshade_80031F04(pPrim, pLitData, field_0_num_lights);
     }
     else

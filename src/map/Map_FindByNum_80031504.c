@@ -5,43 +5,41 @@
 extern int gMapCount_800ABAA8;
 int SECTION(".sbss") gMapCount_800ABAA8;
 
-struct map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
+map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
 
-struct map_record *Map_FindByNum_80031504(int toFind)
+map_record *Map_FindByNum_80031504(int mapNameHash)
 {
-    int counter;
-    struct map_record *pIter;
+    map_record  *map;
+    int         i;
 
-    pIter = gMapRecs_800B7910;
-    for (counter = gMapCount_800ABAA8; counter > 0; --counter)
+    map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--)
     {
-
-        if (pIter->field_4_map_num == toFind)
+        if (map->field_4_mapNameHash == mapNameHash)
         {
-            return pIter;
+            return map;
         }
-
-        ++pIter;
+        map++;
     }
     return 0;
 }
 
-int sub_8003153C(struct map_record *a1)
+int sub_8003153C(map_record *map)
 {
-    int v1;
-    struct map_record *i;
+    map_record  *current_map;
+    int         i;
 
-    i = gMapRecs_800B7910;
-    for (v1 = gMapCount_800ABAA8; v1 > 0; --v1)
+    current_map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--)
     {
-        if (i == a1)
+        if (current_map == map)
         {
-            if (i->field_6_bUsed)
+            if (current_map->field_6_bUsed)
             {
                 return 1;
             }
         }
-        ++i;
+        current_map++;
     }
     return 0;
 }
