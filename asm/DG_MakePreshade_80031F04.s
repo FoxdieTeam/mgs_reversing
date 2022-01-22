@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80031F04
-sub_80031F04:
+	xdef DG_MakePreshade_80031F04
+DG_MakePreshade_80031F04:
 	dw 0x27BDFFB0 ; 0x80031F04
 	dw 0xAFB40040 ; 0x80031F08
 	dw 0x0080A021 ; 0x80031F0C
