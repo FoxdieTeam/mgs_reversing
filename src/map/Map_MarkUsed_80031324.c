@@ -38,3 +38,30 @@ int Map_MarkUsed_80031324(int mapName)
     mts_printf_8008BBA0(aAddmapNotFound, mapName);
     return 0;
 }
+
+extern const char aDelmapNotFound[] ;
+extern const char aDelMapD[];
+
+int Map_MarkNotUsed_800313C0(int mapName)
+{
+    int counter;                 // $v1
+    struct map_record *pRecIter; // $a1
+
+    pRecIter = gMapRecs_800B7910;
+
+    for (counter = gMapCount_800ABAA8; counter > 0; counter--)
+    {
+        if (pRecIter->field_4_mapNameHash == mapName)
+        {
+            mts_printf_8008BBA0(aDelMapD, pRecIter->field_0_map_index_bit);
+            pRecIter->field_6_bUsed = 0;
+            gMapsChanged_800ABAAC = 1;
+            return 1;
+        }
+
+        pRecIter++;
+    }
+
+    mts_printf_8008BBA0(aDelmapNotFound, mapName);
+    return 0;
+}
