@@ -1,6 +1,9 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 typedef struct map_record
 {
