@@ -147,7 +147,7 @@
 	include	"..\obj\sub_800196B4.obj"
 	include	"..\obj\sub_8001991C.obj"
 	include	"..\obj\sub_80019CB0.obj"
-	include	"..\obj\libdg\DG_DivideEnd_80019D44.obj" ; TODO - this one might be wrong symbol ??
+	include	"..\obj\libdg\DG_Divide_Chanl_80019D44.obj"
 	include	"..\obj\libdg\DG_InitLightSystem_80019F40.obj"
 	include	"..\obj\libdg\DG_SetAmbient_80019F80.obj"
 	include	"..\obj\libdg\DG_SetMainLightDir_80019FF8.obj"
@@ -189,7 +189,7 @@
 	include	"..\obj\sub_8001B31C.obj"
 	include	"..\obj\sub_8001B534.obj"
 	include	"..\obj\sub_8001B5FC.obj"
-	include	"..\obj\sub_8001B66C.obj"
+	include	"..\obj\DG_Prim_Chanl_8001B66C.obj"
 	include	"..\obj\libdg\DG_Prim_Alloc_8001BABC.obj"
 	include	"..\obj\libdg\DG_FreePrim_8001BC04.obj"
 
@@ -201,12 +201,12 @@
 	include	"..\obj\sub_8001C5CC.obj"
 	include	"..\obj\sub_8001C708.obj"
 	include	"..\obj\sub_8001CDB8.obj"
-	include	"..\obj\DG_Pipeline_0_8001CEE0.obj"
+	include	"..\obj\DG_Screen_Chanl_8001CEE0.obj"
 	include	"..\obj\sub_8001CF88.obj"
 	include	"..\obj\sub_8001D034.obj"
 	include	"..\obj\sub_8001D19C.obj"
-	include	"..\obj\sub_8001D324.obj"
-	include	"..\obj\sub_8001D5C8.obj"
+	include	"..\obj\DG_Shade_Chanl_8001D324.obj"
+	include	"..\obj\DG_Sort_Chanl_8001D5C8.obj"
 	include	"..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
 	include	"..\obj\sub_8001D808.obj"
 	include	"..\obj\libdg\DG_FindTexture_8001D830.obj"
@@ -217,7 +217,7 @@
 	include	"..\obj\sub_8001DC90.obj" ; DG_SortTmpPacketSystem ???
 	include	"..\obj\sub_8001DD90.obj" ; DG_GetTmpPacket ???
 	include	"..\obj\sub_8001DF48.obj" ; DG_TransChanl ???
-	include	"..\obj\sub_8001E3C0.obj" ; DG_MatrixRot ???
+	include	"..\obj\DG_Trans_Chanl_8001E3C0.obj" ; DG_MatrixRot ???
 	include	"..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
 	include	"..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
 	include	"..\obj\sub_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
@@ -2673,8 +2673,8 @@ group_gPrimBackingBuffers_800B9360	group bss,org($800B9360)
 group_gMenuRightItems_800BD888	group bss,org($800BD888)
 	section .gMenuRightItems_800BD888, group_gMenuRightItems_800BD888
 
-group_gOts_800B1800	group bss,org($800B1800)
-	section .gOts_800B1800, group_gOts_800B1800
+group_DG_Chanls_800B1800	group bss,org($800B1800)
+	section .DG_Chanls_800B1800, group_DG_Chanls_800B1800
 
 group_gPcxBuffer_800B3798	group bss,org($800B3798)
 	section .gPcxBuffer_800B3798, group_gPcxBuffer_800B3798
