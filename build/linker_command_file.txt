@@ -887,7 +887,6 @@
 	include	"..\obj\sub_8003A664.obj"
 	include	"..\obj\sub_8003A978.obj"
 	include	"..\obj\sub_8003AA2C.obj"
-	include	"..\obj\sub_8003AD64.obj"
 	include	"..\obj\menu_init_radar_helper_8003ADAC.obj"
 	include	"..\obj\menu_radar_helper_8003ADD8.obj"
 	include	"..\obj\sub_8003AEC0.obj"
@@ -933,9 +932,7 @@
 	include	"..\obj\sub_8003D6A8.obj"
 	include	"..\obj\sub_8003D6CC.obj"
 	include	"..\obj\menu_8003D7DC.obj"
-	include	"..\obj\menu_8003DA0C.obj"
-	include	"..\obj\sub_8003DA60.obj"
-	include	"..\obj\sub_8003DA9C.obj"
+	include	"..\obj\menu_sub_menu_update_8003DA0C.obj"
 	include	"..\obj\sub_8003DAFC.obj"
 	include	"..\obj\sub_8003DB2C.obj"
 	include	"..\obj\sub_8003DBAC.obj"
@@ -2738,6 +2735,9 @@ group_gGcl_memVars_800b4588	group bss,org($800b4588)
 
 group_byte_800B7A50	group bss,org($800B7A50)
 	section .byte_800B7A50, group_byte_800B7A50
+
+group_dword_800B7800	group bss,org($800B7800)
+	section .dword_800B7800, group_dword_800B7800
 
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
