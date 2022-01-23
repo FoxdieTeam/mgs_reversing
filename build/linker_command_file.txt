@@ -70,11 +70,11 @@
 	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
 	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
 	include	"..\obj\libgv\GV_Alloc_Resident_800163D8.obj"
-	include	"..\obj\sub_8001642C.obj"
+	include	"..\obj\libgv\GV_Message_8001642C.obj"
 	include	"..\obj\libgv\GV_MessageClear_800164AC.obj"
 	include	"..\obj\GV_ClearMessageSystem_800164C8.obj"
 	include	"..\obj\libgv\GV_SendMessage_80016504.obj"
-	include	"..\obj\sub_80016620.obj" ; GV_ReceiveMessage ?
+	include	"..\obj\libgv\GV_Message_Find_80016620.obj" ; GV_ReceiveMessage ?
 	include	"..\obj\sub_800166AC.obj"
 	include	"..\obj\sub_800166F0.obj"
 	include	"..\obj\sub_80016750.obj"
@@ -113,7 +113,7 @@
 	include	"..\obj\DG_InitOT_80017B30.obj"
 	include	"..\obj\libdg\DG_3OTsInit_80017B98.obj"
 
-	include	"..\obj\sub_80017E4C.obj"
+	include	"..\obj\libdg\DG_DrawOTag_80017E4C.obj"
 	include	"..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
 	include	"..\obj\libdg\DG_RenderPipeline_80018028.obj"
 	include	"..\obj\DG_QueueObjs_80018178.obj"
@@ -2739,6 +2739,11 @@ group_byte_800B7A50	group bss,org($800B7A50)
 group_dword_800B7800	group bss,org($800B7800)
 	section .dword_800B7800, group_dword_800B7800
 
+group_gMessageQueue_800B0320	group bss,org($800B0320)
+	section .gMessageQueue_800B0320, group_gMessageQueue_800B0320
+
+group_gOldRootCnt_800B1DC8	group bss,org($800B1DC8)
+	section .gOldRootCnt_800B1DC8, group_gOldRootCnt_800B1DC8
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

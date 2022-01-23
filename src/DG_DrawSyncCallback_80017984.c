@@ -5,7 +5,7 @@ unsigned int GetRCnt_800996E8(unsigned int rcnt);
 short SECTION(".sbss") word_800AB980;
 short SECTION(".sbss") word_800AB982;
 
-short SECTION(".sbss") word_800AB984[2];
+unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
 int SECTION(".sbss") dword_800AB988;
 int SECTION(".sbss") dword_800AB98C;
