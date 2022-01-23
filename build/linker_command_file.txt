@@ -932,7 +932,7 @@
 	include	"..\obj\sub_8003D6A8.obj"
 	include	"..\obj\sub_8003D6CC.obj"
 	include	"..\obj\menu_8003D7DC.obj"
-	include	"..\obj\menu_8003DA0C.obj"
+	include	"..\obj\menu_sub_menu_update_8003DA0C.obj"
 	include	"..\obj\sub_8003DA60.obj"
 	include	"..\obj\sub_8003DA9C.obj"
 	include	"..\obj\sub_8003DAFC.obj"

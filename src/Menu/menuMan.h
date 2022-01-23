@@ -80,6 +80,10 @@ unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned
 
 void menuman_init_80038954(void);
 
+struct Actor_MenuMan;
+struct menu_left_right;
+
+typedef void (*menu_8009E544_update)(struct Actor_MenuMan *,  int, int, int, struct menu_left_right *);
 struct menu_8009E544
 {
     short field_0;
@@ -89,7 +93,7 @@ struct menu_8009E544
     int field_C;
     void *field_10;
     void *field_14;
-    int field_18_pFnUpdate;
+    menu_8009E544_update field_18_pFnUpdate;
 };
 
 struct menu_left_right
