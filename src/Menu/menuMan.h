@@ -149,6 +149,16 @@ struct Menu_Prim_Buffer
     int *field_4_pOt;
 };
 
+struct menu_rpk_item
+{
+  char field_0_x;
+  char field_1_y;
+  char field_2_w;
+  char field_3_h;
+  // Pixel data after here
+};
+
+
 typedef struct Actor_MenuMan
 {
     Actor field_0_actor;
