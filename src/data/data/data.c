@@ -111,10 +111,13 @@ int SECTION(".data") dword_8009D32C[] = {0x8000000, 0x6000400, 0, 0x200, 0xA000C
 
 int SECTION(".data") dword_8009D34C[] = {0, 0xFFFFF000, 0, 0};
 
+struct struct_dg;
+void DG_Pipeline_0_8001CEE0(struct struct_dg *pOt, int idx);
+
 // rendering stack ? gLibDg_FuncPtrs_off_6500E0
 int SECTION(".data") off_8009D35C[] =
 	{
-		0x8001CEE0,
+		DG_Pipeline_0_8001CEE0,
 		0x800189A4, // DG_BoundChanl_800189A4
 		0x8001E3C0,
 		0x8001D324,
