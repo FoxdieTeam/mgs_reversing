@@ -1,9 +1,9 @@
 #include "linker.h"
 #include "dgd.h"
 
-struct_dg SECTION(".gOts_800B1800") gOts_800B1800[3];
+DG_CHNL SECTION(".DG_Chanls_800B1800") DG_Chanls_800B1800[3];
 
-void DG_Init_800179A8(struct_dg *pStruct, unsigned char *pOtBuffer, unsigned int otLen, void **pQueue, short queueSize, short param_6, short param_7)
+void DG_Init_800179A8(DG_CHNL *pStruct, unsigned char *pOtBuffer, unsigned int otLen, void **pQueue, short queueSize, short param_6, short param_7)
 {
     unsigned char* pEnd = pOtBuffer + ((((1 << (otLen))) + 1) * 4); // TODO: Aligning the end ptr? Also not sure if type is correct
     pStruct->mOrderingTables[0] = pOtBuffer;

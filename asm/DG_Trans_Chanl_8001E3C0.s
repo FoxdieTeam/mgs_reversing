@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001E3C0
-sub_8001E3C0:
+	xdef DG_Trans_Chanl_8001E3C0
+DG_Trans_Chanl_8001E3C0:
 	dw 0x27BDFFC8 ; 0x8001E3C0
 	dw 0xAFB00010 ; 0x8001E3C4
 	dw 0x00808021 ; 0x8001E3C8

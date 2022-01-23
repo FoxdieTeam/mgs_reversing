@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001D5C8
-sub_8001D5C8:
+	xdef DG_Sort_Chanl_8001D5C8
+DG_Sort_Chanl_8001D5C8:
 	dw 0x00805021 ; 0x8001D5C8
 	dw 0x00A07821 ; 0x8001D5CC
 	dw 0x24080100 ; 0x8001D5D0

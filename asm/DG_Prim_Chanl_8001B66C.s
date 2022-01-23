@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001B66C
-sub_8001B66C:
+	xdef DG_Prim_Chanl_8001B66C
+DG_Prim_Chanl_8001B66C:
 	dw 0x27BDFFB0 ; 0x8001B66C
 	dw 0xAFB00030 ; 0x8001B670
 	dw 0x00808021 ; 0x8001B674
