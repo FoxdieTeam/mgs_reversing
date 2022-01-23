@@ -2,9 +2,9 @@
 #include "gcl.h"
 #include "Script_tbl_map_8002BB44.h"
 
-extern void                 gGcl_gameStateVars_800B44C8;
+extern GameState_800B4D98                   gGcl_gameStateVars_800B44C8;
 
-void SECTION(".gGcl_memVars_800b4588")  gGcl_memVars_800b4588;
+GCL_Vars SECTION(".gGcl_memVars_800b4588")  gGcl_memVars_800b4588;
 
 unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue);
 
@@ -56,5 +56,5 @@ unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
         default:
             break;
     }
-    return pScript + sizeof(gcl_code);
+    return pScript + sizeof(gcl_var);
 }
