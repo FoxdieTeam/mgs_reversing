@@ -21,8 +21,8 @@ typedef struct
     void **mQueue;
     RECT dword_6BC3C8_pStructure_rect;
     RECT dword_6BC3D0_rect;
-    int dword_6BC3D8_dst[16]; // One for each active buffer
-    int dword_6BC418_dst[16];
+    int dword_6BC3D8_dst[2][16]; // One for each active buffer
+//    int dword_6BC418_dst[16];
     int dword_6BC458[16];
     int dword_6BC498[16];
     DR_ENV dword_6BC4D8_src_dr_env1;
