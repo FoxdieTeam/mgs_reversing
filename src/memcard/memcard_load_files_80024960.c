@@ -30,3 +30,4 @@ void memcard_load_files_80024960(int idx)
     gMemCards_800B52F8[idx].field_2_file_count = memcard_loaddir_800247E8(idx, &freeBlockCount);
     gMemCards_800B52F8[idx].field_3_free_blocks = 15 - freeBlockCount;
 }
+
