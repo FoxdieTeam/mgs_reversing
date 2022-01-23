@@ -1,16 +1,10 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "gcl.h"
+#include "libgv.h"
 
 extern int gBinds_800ABA60;
 int SECTION(".sbss") gBinds_800ABA60;
-
-typedef	struct	{
-	unsigned short		address ;		 
-	unsigned short		_len ;		 
-	unsigned short		message[ 7  ] ;	 
-	unsigned short		message_len;	 
-} GV_MSG ; // from mem leak
 
 int GV_SendMessage_80016504(GV_MSG *);
 
