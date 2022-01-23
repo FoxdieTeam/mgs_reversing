@@ -150,34 +150,40 @@ MATRIX SECTION(".data") DG_ColorMatrix_8009D3A4 =
 
 int SECTION(".data") dword_8009D3C4[] = {0, 0, 0};
 
+
+//	DG_PRIM_LINE_FT2, DG_PRIM_LINE_GT2,
+//	DG_PRIM_FREE
+// DG_PRIM_TILE_1  DG_PRIM_TILE_8, DG_PRIM_TILE_16
+
+//  int psize, int verts, int voffset, int vstep ??
+
 struct DG_Rec_Unknown SECTION(".data") stru_8009D3D0[24] =
 {
-  { 16u, 2u, 8u, 4u },
-  { 24u, 3u, 8u, 4u },
-  { 28u, 4u, 8u, 4u },
-  { 20u, 2u, 8u, 8u },
-  { 32u, 3u, 8u, 8u },
-  { 40u, 4u, 8u, 8u },
-  { 20u, 1u, 8u, 0u },
-  { 16u, 1u, 8u, 0u },
-  { 16u, 1u, 8u, 0u },
-  { 16u, 1u, 8u, 0u },
-  { 12u, 1u, 8u, 0u },
-  { 12u, 1u, 8u, 0u },
-  { 12u, 1u, 8u, 0u },
-  { 20u, 3u, 8u, 4u },
-  { 24u, 4u, 8u, 4u },
-  { 28u, 3u, 8u, 8u },
-  { 36u, 4u, 8u, 8u },
-  { 32u, 3u, 8u, 8u },
-  { 40u, 4u, 8u, 8u },
-  { 40u, 3u, 8u, 12u },
-  { 52u, 4u, 8u, 12u },
-  { 40u, 2u, 8u, 8u },
-  { 52u, 2u, 8u, 12u },
-  { 12u, 1u, 8u, 0u }
+		{16, 2, 8, 4}, // LINE_F2 DG_PRIM_LINE_FT2
+		{24, 3, 8, 4}, // LINE_F3
+		{28, 4, 8, 4}, // LINE_F4
+		{20, 2, 8, 8}, // LINE_G2 
+		{32, 3, 8, 8}, // LINE_G3
+		{40, 4, 8, 8}, // LINE_G4
+		{20, 1, 8, 0}, // SPRT
+		{16, 1, 8, 0}, // SPRT_16  ?
+		{16, 1, 8, 0}, // SPRT_8  ?
+		{16, 1, 8, 0}, // TILE ?
+		{12, 1, 8, 0}, // TILE_16  ?
+		{12, 1, 8, 0}, // TILE_8 ?
+		{12, 1, 8, 0},	   // TILE_1 ?
+		{20, 3, 8, 4},	   // POLY_F3 DG_PRIM_POLY_F3
+		{24, 4, 8, 4},	   // POLY_F4 DG_PRIM_POLY_F4
+		{28, 3, 8, 8},	   // POLY_G3 DG_PRIM_POLY_G3
+		{36, 4, 8, 8},	   // POLY_G4 DG_PRIM_POLY_G4
+		{32, 3, 8, 8},	   // POLY_FT3 DG_PRIM_POLY_FT3
+		{40, 4, 8, 8},	   // POLY_FT4 DG_PRIM_POLY_FT4
+		{40, 3, 8, 12},	   // POLY_GT3 DG_PRIM_POLY_GT3
+		{52, 4, 8, 12},	   // POLY_GT4 DG_PRIM_POLY_GT4
+		{40, 2, 8, 8 },
+		{52, 2, 8, 12 },
+		{12, 1, 8, 0 }
 };
-
 
 MATRIX SECTION(".data") DG_ZeroMatrix_8009D430 =
 {
