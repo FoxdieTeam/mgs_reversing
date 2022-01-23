@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092DD8
-sub_80092DD8:
+	xdef ReadRotMatrix_80092DD8
+ReadRotMatrix_80092DD8:
 	dw 0x48480000 ; 0x80092DD8
 	dw 0x48490800 ; 0x80092DDC
 	dw 0x484A1000 ; 0x80092DE0

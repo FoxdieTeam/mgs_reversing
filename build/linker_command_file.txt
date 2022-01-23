@@ -2324,7 +2324,7 @@
 	include	"..\obj\psyq\MulRotMatrix_80092B58.obj"
 	include	"..\obj\psyq\sub_80092C48.obj"
 	include	"..\obj\psyq\sub_80092DA8.obj"
-	include	"..\obj\psyq\sub_80092DD8.obj"
+	include	"..\obj\psyq\ReadRotMatrix_80092DD8.obj"
 	include	"..\obj\psyq\sub_80092E28.obj"
 	include	"..\obj\psyq\sub_80092F68.obj"
 	include	"..\obj\psyq\sub_80093078.obj"
@@ -2744,6 +2744,11 @@ group_gMessageQueue_800B0320	group bss,org($800B0320)
 
 group_gOldRootCnt_800B1DC8	group bss,org($800B1DC8)
 	section .gOldRootCnt_800B1DC8, group_gOldRootCnt_800B1DC8
+
+group_gSna_init_flags_800ABA50	group bss,org($800ABA50)
+	section .gSna_init_flags_800ABA50, group_gSna_init_flags_800ABA50
+
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
