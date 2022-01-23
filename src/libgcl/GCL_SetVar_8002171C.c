@@ -3,7 +3,7 @@
 #include "gcl.h"
 #include "Script_tbl_map_8002BB44.h"
 
-extern void                 gGcl_vars_800B3CC8;
+extern GCL_Vars             gGcl_vars_800B3CC8;
 extern GameState_800B4D98   gGameState_800B4D98;
 
 unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
