@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001D324
-sub_8001D324:
+	xdef DG_Shade_Chanl_8001D324
+DG_Shade_Chanl_8001D324:
 	dw 0x27BDFFD0 ; 0x8001D324
 	dw 0xAFB60028 ; 0x8001D328
 	dw 0xAFBF002C ; 0x8001D32C
