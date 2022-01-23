@@ -5,7 +5,7 @@
 void DG_800174DC(MATRIX* m);
 void sub_8001CDB8(DG_OBJS* pObj);
 
-void DG_Pipeline_0_8001CEE0(struct_dg *pOt, int idx)
+void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
 {
     DG_OBJS **mQueue; // $s1
     int i;            // $s0

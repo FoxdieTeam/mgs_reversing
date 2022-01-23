@@ -29,7 +29,7 @@ typedef struct
     int dword_6BC498[16];
     DR_ENV dword_6BC4D8_src_dr_env1;
     DR_ENV dword_6BC518_src_offsetted_dr_evn;
-} struct_dg;
+} DG_CHNL;
 
 typedef struct
 {
