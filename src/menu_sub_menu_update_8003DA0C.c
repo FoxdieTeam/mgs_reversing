@@ -15,3 +15,13 @@ void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct 
             pSubMenu);
     }
 }
+
+void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2)
+{
+    pLeftRight->field_8_pStru->field_18_pFnUpdate(
+        pActor,
+        a2,
+        pLeftRight->field_8_pStru->field_0 + off1,
+        pLeftRight->field_8_pStru->field_2 + off2,
+        pLeftRight);
+}
