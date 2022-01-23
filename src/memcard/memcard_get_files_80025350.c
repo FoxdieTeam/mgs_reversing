@@ -2,7 +2,7 @@
 #include "linker.h"
 #include "mts_new.h"
 
-extern void memcard_getfiles_helper_80024960(int);
+extern void memcard_load_files_80024960(int);
 extern int erase_800995FC(char *);
 extern int sprintf_8008E878(char *buffer, const char *format, ...);
 
@@ -40,12 +40,10 @@ struct mem_card_daemon
     int gSwCard_do_op_800B52EC;
     int gSwCardLastOp_800B52F0;
     int gHwCardLastOp_800B52F4;
-
-    struct mem_card gMemCards_800B52F8[2];
-    int gMemCard_io_size_800B5648;
 };
 
 struct mem_card_daemon SECTION(".gMemoryCardFiles_800B52C8") gMemCardDaemon_800B52C8;
+struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 
 extern const char SECTION(".rdata") aBu02xS[];
 extern const char SECTION(".rdata") aDeletedFileS[];
@@ -53,12 +51,12 @@ extern const char SECTION(".rdata") aErrorCanTDelet[];
 
 struct mem_card *memcard_get_files_80025350(int idx)
 {
-    struct mem_card *pCardBase = gMemCardDaemon_800B52C8.gMemCards_800B52F8;
+    struct mem_card *pCardBase = gMemCards_800B52F8;
     struct mem_card *pCard = &pCardBase[idx];
 
     if (pCard->field_1_last_op == 1 || pCard->field_1_last_op == 4)
     {
-        memcard_getfiles_helper_80024960(idx); // memcard_load_files_80024960
+        memcard_load_files_80024960(idx);
         pCard->field_1_last_op = 1;
         return pCard;
     }
@@ -69,7 +67,7 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 {
     char tmp[32];
 
-    struct mem_card *pCardBase = gMemCardDaemon_800B52C8.gMemCards_800B52F8;
+    struct mem_card *pCardBase = gMemCards_800B52F8;
     struct mem_card *pCard = &pCardBase[idx];
 
     if (pCard->field_1_last_op == 1)
