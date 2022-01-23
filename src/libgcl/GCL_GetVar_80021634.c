@@ -3,7 +3,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "gcl.h"
 
-void SECTION(".gGcl_vars_800B3CC8") gGcl_vars_800B3CC8;
+GCL_Vars SECTION(".gGcl_vars_800B3CC8") gGcl_vars_800B3CC8;
 
 extern GameState_800B4D98    gGameState_800B4D98;
 
