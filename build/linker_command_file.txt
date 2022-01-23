@@ -190,7 +190,7 @@
 	include	"..\obj\sub_8001B534.obj"
 	include	"..\obj\sub_8001B5FC.obj"
 	include	"..\obj\sub_8001B66C.obj"
-	include	"..\obj\sub_8001BABC.obj"
+	include	"..\obj\libdg\DG_Prim_Alloc_8001BABC.obj"
 	include	"..\obj\libdg\DG_FreePrim_8001BC04.obj"
 
 	include	"..\obj\libdg\helpers.obj"	

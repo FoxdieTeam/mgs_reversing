@@ -5,6 +5,7 @@
 #include "actor.h"
 #include "gcl.h"
 #include "menuMan.h"
+#include "libdg.h"
 
 // sdata
 extern const char* aCigs[];
@@ -149,15 +150,7 @@ MATRIX SECTION(".data") DG_ColorMatrix_8009D3A4 =
 
 int SECTION(".data") dword_8009D3C4[] = {0, 0, 0};
 
-struct DG_Rec_Unknown
-{
-  unsigned char field_0_prim_size;
-  unsigned char field_1;
-  unsigned char field_2;
-  unsigned char field_3;
-};
-
-struct DG_Rec_Unknown SECTION(".data") stru_8009D3D0[23] =
+struct DG_Rec_Unknown SECTION(".data") stru_8009D3D0[24] =
 {
   { 16u, 2u, 8u, 4u },
   { 24u, 3u, 8u, 4u },
@@ -181,15 +174,10 @@ struct DG_Rec_Unknown SECTION(".data") stru_8009D3D0[23] =
   { 40u, 3u, 8u, 12u },
   { 52u, 4u, 8u, 12u },
   { 40u, 2u, 8u, 8u },
-  { 52u, 2u, 8u, 12u }
+  { 52u, 2u, 8u, 12u },
+  { 12u, 1u, 8u, 0u }
 };
 
-
-
-char SECTION(".data") byte_8009D42C = 0xC;
-char SECTION(".data") byte_8009D42D = 1;
-char SECTION(".data") byte_8009D42E = 8;
-char SECTION(".data") byte_8009D42F = 0;
 
 MATRIX SECTION(".data") DG_ZeroMatrix_8009D430 =
 {
