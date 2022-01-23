@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "menuMan.h"
 
-int SECTION(".sdata") dword_800AB584 = 0;
+struct menu_8009E544* SECTION(".sdata") dword_800AB584 = 0;
 
