@@ -113,7 +113,7 @@
 	include	"..\obj\DG_InitOT_80017B30.obj"
 	include	"..\obj\libdg\DG_3OTsInit_80017B98.obj"
 
-	include	"..\obj\sub_80017E4C.obj"
+	include	"..\obj\libdg\DG_DrawOTag_80017E4C.obj"
 	include	"..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
 	include	"..\obj\libdg\DG_RenderPipeline_80018028.obj"
 	include	"..\obj\DG_QueueObjs_80018178.obj"
@@ -2741,6 +2741,9 @@ group_dword_800B7800	group bss,org($800B7800)
 
 group_gMessageQueue_800B0320	group bss,org($800B0320)
 	section .gMessageQueue_800B0320, group_gMessageQueue_800B0320
+
+group_gOldRootCnt_800B1DC8	group bss,org($800B1DC8)
+	section .gOldRootCnt_800B1DC8, group_gOldRootCnt_800B1DC8
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
