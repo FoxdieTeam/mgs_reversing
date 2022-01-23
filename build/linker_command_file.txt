@@ -463,7 +463,7 @@
 	include	"..\obj\memcard\memcard_8002469C.obj"
 	include	"..\obj\memcard\memcard_init_helper_800246C0.obj"
 	include	"..\obj\memcard\memcard_loaddir_800247E8.obj"
-	include	"..\obj\memcard\memcard_getfiles_helper_80024960.obj"
+	include	"..\obj\memcard\memcard_load_files_80024960.obj"
 	include	"..\obj\memcard\memcard_retry_helper_800249CC.obj"
 	include	"..\obj\memcard\memcard_reset_status_80024A3C.obj"
 	include	"..\obj\memcard\memcard_check_80024A54.obj"
