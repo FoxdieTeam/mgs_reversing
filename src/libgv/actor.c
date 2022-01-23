@@ -11,7 +11,12 @@ int SECTION(".sbss") dword_0x800AB934[2];
 
 short SECTION(".sbss") pad1;
 unsigned char *SECTION(".sbss") gResidentTop_800AB940;
-int SECTION(".sbss") dword_800AB944[5];
+int SECTION(".sbss") dword_800AB944;
+int SECTION(".sbss") active_msg_queue_800AB948; 
+int SECTION(".sbss") dword_800AB94C; 
+int SECTION(".sbss") dword_800AB950;
+int SECTION(".sbss") dword_800AB954;
+
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
