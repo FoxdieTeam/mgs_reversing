@@ -5,21 +5,14 @@
 extern int gBinds_800ABA60;
 int SECTION(".sbss") gBinds_800ABA60;
 
-typedef struct LibGV_Msg
-{
-    short field_0_res_hash;
-    short field_2_num_same_messages;
-    short field_4_action_hash_or_ptr;
-    short field_6_hash;
-    short field_8_min1;
-    short field_A_min1;
-    short field_C_min1;
-    short field_E;
-    short field_10;
-    short field_12_num_valid_fields;
-} LibGV_Msg;
+typedef	struct	{
+	unsigned short		address ;		 
+	unsigned short		_len ;		 
+	unsigned short		message[ 7  ] ;	 
+	unsigned short		message_len;	 
+} GV_MSG ; // from mem leak
 
-int GV_SendMessage_80016504(LibGV_Msg *);
+int GV_SendMessage_80016504(GV_MSG *);
 
 int GCL_Command_mesg_8002C138(int argc, char **argv)
 {
@@ -27,11 +20,11 @@ int GCL_Command_mesg_8002C138(int argc, char **argv)
     int iVar1;
     int ret;
     short *pMsgDst;
-    LibGV_Msg mesg;
+    GV_MSG mesg;
     int count;
 
-    mesg.field_0_res_hash = GCL_GetNextParamValue_80020AD4();
-    pMsgDst = &mesg.field_4_action_hash_or_ptr;
+    mesg.address = GCL_GetNextParamValue_80020AD4();
+    pMsgDst = &mesg.message[0];
     count = 0;
     while (uParm1 = GCL_Get_Param_Result_80020AA4(), uParm1 != 0x0)
     {
@@ -40,7 +33,7 @@ int GCL_Command_mesg_8002C138(int argc, char **argv)
         pMsgDst++;
         count++;
     }
-    mesg.field_12_num_valid_fields = count;
+    mesg.message_len = count;
     iVar1 = GV_SendMessage_80016504(&mesg);
     ret = 0;
     if (iVar1 < 0)
