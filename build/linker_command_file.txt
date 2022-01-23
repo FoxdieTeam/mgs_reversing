@@ -70,7 +70,7 @@
 	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
 	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
 	include	"..\obj\libgv\GV_Alloc_Resident_800163D8.obj"
-	include	"..\obj\sub_8001642C.obj"
+	include	"..\obj\libgv\GV_Message_8001642C.obj"
 	include	"..\obj\libgv\GV_MessageClear_800164AC.obj"
 	include	"..\obj\GV_ClearMessageSystem_800164C8.obj"
 	include	"..\obj\libgv\GV_SendMessage_80016504.obj"
