@@ -201,7 +201,7 @@
 	include	"..\obj\sub_8001C5CC.obj"
 	include	"..\obj\sub_8001C708.obj"
 	include	"..\obj\sub_8001CDB8.obj"
-	include	"..\obj\sub_8001CEE0.obj"
+	include	"..\obj\DG_Pipeline_0_8001CEE0.obj"
 	include	"..\obj\sub_8001CF88.obj"
 	include	"..\obj\sub_8001D034.obj"
 	include	"..\obj\sub_8001D19C.obj"

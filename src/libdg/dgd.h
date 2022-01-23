@@ -5,6 +5,8 @@
 #include <libgte.h>
 #include <libgpu.h>
 
+struct DG_OBJS;
+
 typedef struct
 {
     unsigned char *mOrderingTables[2]; // 257 pointers? // One for each active buffer
@@ -18,7 +20,7 @@ typedef struct
     short mTotalQueueSize;
     short mFreePrimCount;
     short mTotalObjectCount;
-    void **mQueue;
+    struct DG_OBJS **mQueue;
     RECT dword_6BC3C8_pStructure_rect;
     RECT dword_6BC3D0_rect;
     int dword_6BC3D8_dst[2][16]; // One for each active buffer
