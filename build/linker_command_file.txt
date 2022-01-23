@@ -74,7 +74,7 @@
 	include	"..\obj\libgv\GV_MessageClear_800164AC.obj"
 	include	"..\obj\GV_ClearMessageSystem_800164C8.obj"
 	include	"..\obj\libgv\GV_SendMessage_80016504.obj"
-	include	"..\obj\sub_80016620.obj" ; GV_ReceiveMessage ?
+	include	"..\obj\libgv\GV_Message_Find_80016620.obj" ; GV_ReceiveMessage ?
 	include	"..\obj\sub_800166AC.obj"
 	include	"..\obj\sub_800166F0.obj"
 	include	"..\obj\sub_80016750.obj"
@@ -2739,6 +2739,8 @@ group_byte_800B7A50	group bss,org($800B7A50)
 group_dword_800B7800	group bss,org($800B7800)
 	section .dword_800B7800, group_dword_800B7800
 
+group_gMessageQueue_800B0320	group bss,org($800B0320)
+	section .gMessageQueue_800B0320, group_gMessageQueue_800B0320
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
