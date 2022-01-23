@@ -887,7 +887,6 @@
 	include	"..\obj\sub_8003A664.obj"
 	include	"..\obj\sub_8003A978.obj"
 	include	"..\obj\sub_8003AA2C.obj"
-	include	"..\obj\sub_8003AD64.obj"
 	include	"..\obj\menu_init_radar_helper_8003ADAC.obj"
 	include	"..\obj\menu_radar_helper_8003ADD8.obj"
 	include	"..\obj\sub_8003AEC0.obj"
