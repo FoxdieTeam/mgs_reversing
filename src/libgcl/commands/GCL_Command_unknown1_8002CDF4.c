@@ -24,7 +24,7 @@ extern short        dword_800ABA48[3];
 
 extern int          GM_AreaHistory_8002A848(int param_1);
 extern map_record   *Map_FindByNum_80031504(int);
-extern int          sub_8001C18C(short *pOut3Words);
+extern int          DG_PointCheckOne_8001C18C(SVECTOR *pOut3Words);
 extern int          sub_80037CD8(void);
 
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
@@ -37,7 +37,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('v')) // vector
     {
         GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
-        gGameState_800B4D98.field_0A_random_value = sub_8001C18C(vec);
+        gGameState_800B4D98.field_0A_random_value = DG_PointCheckOne_8001C18C((SVECTOR*)vec);
     }
     if (GCL_GetParam_80020968('s')) // struct
     {
