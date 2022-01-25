@@ -31,6 +31,8 @@ typedef struct
     DR_ENV dword_6BC518_src_offsetted_dr_evn;
 } DG_CHNL;
 
+typedef void (*TChanl_Fn)(DG_CHNL *pOt, int idx);
+
 typedef struct
 {
     int x, y, z;
