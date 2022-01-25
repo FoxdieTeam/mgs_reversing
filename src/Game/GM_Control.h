@@ -23,7 +23,7 @@ typedef struct Res_Control
     SVECTOR field_0_vec;
     SVECTOR field_8_vec;
     Res_Control_unknown field_10_pStruct_hzd_unknown;
-    struct map_record *field_2C_map[1];
+    struct map_record *field_2C_map;
     unsigned short field_30_scriptData;
     short field_32_height;
     short field_34;
