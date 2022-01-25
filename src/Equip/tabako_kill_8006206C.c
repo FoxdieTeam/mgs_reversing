@@ -18,7 +18,6 @@ extern GameState_800B4D98 gGameState_800B4D98;
 extern int gRenderedFramesCount_800AB330;
 
 extern int dword_8009F2C0;
-//int SECTION(".data") dword_8009F2C0 = 0;
 
 int SECTION(".gSna_init_flags_800ABA50") gSna_init_flags_800ABA50;
 
@@ -33,25 +32,16 @@ static inline void GM_SetCurrentMap(map) int map;
     GM_CurrentMap_800AB9B0 = map;
 }
 
-static inline int GetIt(Res_Control *pCtrl)
-{
-    struct map_record *pMap = pCtrl->field_2C_map[0];
-    int v = pMap->field_0_map_index_bit;
-    return v;
-}
-
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
     SVECTOR vec;
 
     MATRIX rotMtx;
     OBJECT *obj;
-    int v;
 
     obj = &pActor->field_20_pObj;
-    v = GetIt(pActor->field_44_pCtrl);
 
-    GM_SetCurrentMap(v);
+    GM_SetCurrentMap(pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
 
     GM_ActObject2_80034B88(obj);
 
@@ -70,11 +60,9 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
 
         ReadRotMatrix_80092DD8(&rotMtx);
         vec.vx = rotMtx.t[0];
-      
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
 
-       
         if (gRenderedFramesCount_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 && (gSna_init_flags_800ABA50 & 0x10) == 0)
         {
             anime_create_8005E6A4(&vec);
