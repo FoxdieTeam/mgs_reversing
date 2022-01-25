@@ -6,6 +6,7 @@
 #include "gcl.h"
 #include "menuMan.h"
 #include "libdg.h"
+#include "dgd.h"
 
 // sdata
 extern const char* aCigs[];
@@ -111,17 +112,16 @@ int SECTION(".data") dword_8009D32C[] = {0x8000000, 0x6000400, 0, 0x200, 0xA000C
 
 int SECTION(".data") dword_8009D34C[] = {0, 0xFFFFF000, 0, 0};
 
-struct DG_CHNL;
-void DG_Screen_Chanl_8001CEE0(struct DG_CHNL *pOt, int idx);
-void DG_BoundChanl_800189A4(struct DG_CHNL *pOt, int idx);
-void DG_Trans_Chanl_8001E3C0(struct DG_CHNL *pOt, int idx);
-void DG_Shade_Chanl_8001D324(struct DG_CHNL *pOt, int idx);
-void DG_Prim_Chanl_8001B66C(struct DG_CHNL *pOt, int idx);
-void DG_Divide_Chanl_80019D44(struct DG_CHNL *pOt, int idx);
-void DG_Sort_Chanl_8001D5C8(struct DG_CHNL *pOt, int idx);
+void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx);
+void DG_BoundChanl_800189A4(DG_CHNL *pOt, int idx);
+void DG_Trans_Chanl_8001E3C0(DG_CHNL *pOt, int idx);
+void DG_Shade_Chanl_8001D324(DG_CHNL *pOt, int idx);
+void DG_Prim_Chanl_8001B66C(DG_CHNL *pOt, int idx);
+void DG_Divide_Chanl_80019D44(DG_CHNL *pOt, int idx);
+void DG_Sort_Chanl_8001D5C8(DG_CHNL *pOt, int idx);
 
 // rendering stack ? gLibDg_FuncPtrs_off_6500E0
-int SECTION(".data") off_8009D35C[] =
+TChanl_Fn SECTION(".data") off_8009D35C[] =
 	{
 		DG_Screen_Chanl_8001CEE0,
 		DG_BoundChanl_800189A4,
