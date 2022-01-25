@@ -1607,7 +1607,6 @@
 	include	"..\obj\Equip\bandana_kill_80061E1C.obj"
 	include	"..\obj\Equip\bandana_init_80061E40.obj"
 
-	include	"..\obj\Equip\tabako_act_80061EAC.obj"
 	include	"..\obj\Equip\tabako_kill_8006206C.obj"
 	include	"..\obj\Equip\tabako_loader_800620B4.obj"
 	include	"..\obj\Equip\tabako_init_80062274.obj"
