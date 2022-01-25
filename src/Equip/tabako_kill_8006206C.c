@@ -22,39 +22,59 @@ extern int dword_8009F2C0;
 
 int SECTION(".gSna_init_flags_800ABA50") gSna_init_flags_800ABA50;
 
+
 int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
 
-/*
+extern int GM_CurrentMap_800AB9B0;
+int SECTION(".sbss") GM_CurrentMap_800AB9B0;
+
+static inline void GM_SetCurrentMap(map) int map;
+{
+    GM_CurrentMap_800AB9B0 = map;
+}
+
+static inline int GetIt(Res_Control *pCtrl)
+{
+    struct map_record *pMap = pCtrl->field_2C_map[0];
+    int v = pMap->field_0_map_index_bit;
+    return v;
+}
+
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
-     SVECTOR vec;
- 
+    SVECTOR vec;
+
     MATRIX rotMtx;
+    OBJECT *obj;
+    int v;
 
-   
-    struct map_record* pMap = pActor->field_44_pCtrl->field_2C_map;
+    obj = &pActor->field_20_pObj;
+    v = GetIt(pActor->field_44_pCtrl);
 
-    GM_CurrentMap_800AB9B0 = pMap->field_0_map_index_bit;
-    GM_ActObject2_80034B88(&pActor->field_20_pObj);
+    GM_SetCurrentMap(v);
+
+    GM_ActObject2_80034B88(obj);
 
     if ((pActor->field_48_pObj->objs->flag & 0x80) != 0)
     {
-        pActor->field_20_pObj.objs->flag |= 0x80u;
+        obj->objs->flag |= 0x80u;
         pActor->field_50_prims->type |= 0x100u;
     }
     else
     {
-        pActor->field_20_pObj.objs->flag &= ~0x80u;
+        obj->objs->flag &= ~0x80u;
         pActor->field_50_prims->type &= ~0x100u;
 
         DG_SetPos_8001BC44(&pActor->field_50_prims->world);
         DG_MovePos_8001BD20(&pActor->field_54_vec);
 
         ReadRotMatrix_80092DD8(&rotMtx);
-        vec.vy = rotMtx.t[1];
         vec.vx = rotMtx.t[0];
+      
+        vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
-     
+
+       
         if (gRenderedFramesCount_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 && (gSna_init_flags_800ABA50 & 0x10) == 0)
         {
             anime_create_8005E6A4(&vec);
@@ -68,7 +88,6 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
         game_state_flags_800AB3CC |= 0x2000000u;
     }
 }
-*/
 
 void tabako_kill_8006206C(Actor_tabako *pActor)
 {

@@ -82,7 +82,7 @@ int Res_Control_init_loader_44EB9E(Res_Control *pControl, int scriptData, int sc
     GV_ZeroMemory_8001619c(pControl, sizeof(Res_Control));
 
     pMapRec = Map_FromId_800314C0(mapId);
-    pControl->field_2C_map = pMapRec;
+    pControl->field_2C_map[0] = pMapRec;
     if (!pMapRec)
     {
         mts_printf_8008BBA0(aInitcontrolNoM, mapId);
