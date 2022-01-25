@@ -180,19 +180,6 @@ endif
 	@$(ECHO) "-> Compiling with psyq_4.3 $(CBLUE)$<$(ENDCOLOR)"
 	@$(PSYQ_3_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
-ifneq ($(C_DEPS),false)
-$(OBJS_PATH)/%.obj: $(SRCS_PATH)/%.c $(OBJS_PATH)/%.obj.d
-	@echo "$(subst \ ,,$(patsubst $(SRCS_PATH)%.obj:,$(OBJS_PATH)%.obj:,$(shell more "$@.d")))" > $@.d
-else
-$(OBJS_PATH)/%.obj: $(SRCS_PATH)/%.c $(HEADERS_FILES)
-endif
-	@$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
-	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	@$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
-	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
-	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
-	@$(ECHO) "-> Compiling $(CCYAN)$<$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 # Static libs
 
@@ -209,6 +196,21 @@ endif
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
 	@$(ECHO) "-> Compiling $(CCYAN)$<$(ENDCOLOR) with -G 0"
 	@$(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS_STATICLIBS) -c $< -o $@ $(INCLUDES)
+
+
+ifneq ($(C_DEPS),false)
+$(OBJS_PATH)/%.obj: $(SRCS_PATH)/%.c $(OBJS_PATH)/%.obj.d
+	@echo "$(subst \ ,,$(patsubst $(SRCS_PATH)%.obj:,$(OBJS_PATH)%.obj:,$(shell more "$@.d")))" > $@.d
+else
+$(OBJS_PATH)/%.obj: $(SRCS_PATH)/%.c $(HEADERS_FILES)
+endif
+	@$(eval PSYQ_PATH = $(PSYQ_4_PATH)\bin)
+	@$(eval C_PLUS_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	@$(eval C_INCLUDE_PATH = $(PSYQ_4_PATH)\include)
+	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)\lib)
+	@$(eval PSX_PATH = $(PSYQ_4_PATH)\bin)
+	@$(ECHO) "-> Compiling with psyq_4.4 -G 4 $(CCYAN)$<$(ENDCOLOR)"
+	@$(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 #-------------------------------------------------------------------------------
 # Compile .s files
