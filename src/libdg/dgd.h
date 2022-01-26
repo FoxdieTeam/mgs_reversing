@@ -5,6 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
+struct _DG_OBJS;
 struct DG_OBJS;
 
 typedef struct
@@ -20,7 +21,7 @@ typedef struct
     short mTotalQueueSize;
     short mFreePrimCount;
     short mTotalObjectCount;
-    struct DG_OBJS **mQueue;
+    DG_OBJS **mQueue;
     RECT dword_6BC3C8_pStructure_rect;
     RECT dword_6BC3D0_rect;
     int dword_6BC3D8_dst[2][16]; // One for each active buffer
