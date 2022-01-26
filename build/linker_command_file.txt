@@ -1973,7 +1973,7 @@
 	include	"..\obj\sub_8007913C.obj"
 	include	"..\obj\goggle_common_act_80079194.obj"
 	include	"..\obj\goggle_common_kill_800791E4.obj"
-	include	"..\obj\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
+	include	"..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
 	
 	include	"..\obj\Kojo\demothrd_init_80079460.obj"
 	include	"..\obj\Kojo\demothrd_init_800794E4.obj"

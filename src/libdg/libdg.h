@@ -103,10 +103,10 @@ typedef struct _DG_PRIM
 	int field_38_pUnknown;
 	int field_3C;
 	union Prim_Union *field_40_pBuffers[2];
-	u_short field_48;
+	u_short field_48_prim_count;
 	u_short field_4A;
 	int field_4C;
-	int field_50;
+	int field_50_pFn;
 } DG_PRIM;
 
 static inline u_long LLOAD(from) void *from;
