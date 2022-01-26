@@ -135,7 +135,14 @@ int SECTION(".rdata") dword_80012E68[] = {0x7325, 0x68676973, 0x632E74, 0x6F6F6C
 const char SECTION(".rdata") aDBloodrC[] = "d_bloodr.c";
 char SECTION(".rdata") byte_80012EDC[] = {0,    0,    0};
 char SECTION(".rdata") byte_80012EDF = 0;
-int SECTION(".rdata") dword_80012EE0[] = {0x5DC, 0x6C6C7562, 0x7465, 0xC800C8, 0xC8, 0x79616C63, 0x65726F6D, 0x632E, 0x72617073, 0x6C665F6B, 0};
+
+const char SECTION(".rdata") byte_80012EE0[4] = {0xDC, 0x5, 0, 0};
+const char SECTION(".rdata") aBullet_0[] = "bullet";
+const char SECTION(".rdata") byte_80012EEC[4] = { '\xC8', '\0', '\xC8', '\0' };
+const char SECTION(".rdata") byte_80012EF0[4] = { '\xC8', '\0', '\0', '\0' };
+const char SECTION(".rdata") aClaymoreC[] ="claymore.c";
+const char SECTION(".rdata") aSparkFl[] ="spark_fl";
+
 const char SECTION(".rdata") aSparkC[] = "spark.c";
 const char SECTION(".rdata") aRefrection6[] = "refrection6";
 const char SECTION(".rdata") aStngrndC[] = "stngrnd.c";
