@@ -1891,7 +1891,7 @@
 	include	"..\obj\Okajima\spark_800742F0.obj"
 	include	"..\obj\Okajima\spark_act_80074334.obj"
 	include	"..\obj\Okajima\spark_kill_800743DC.obj"
-	include	"..\obj\Okajima\spark_loader_80074418.obj"
+	include	"..\obj\Equip\spark_loader_80074418.obj"
 	include	"..\obj\Okajima\spark_init_80074564.obj"
 
 	include	"..\obj\Okajima\stngrnd_loader2_80074644.obj"
