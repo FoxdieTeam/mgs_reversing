@@ -5,6 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
+struct _DG_OBJS;
 struct DG_OBJS;
 
 typedef struct
