@@ -92,18 +92,6 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
 extern const char aCigar[]; // = "cigar";
 extern const char aRcmL[];  // = "rcm_l";
 
-typedef struct DG_TEX
-{
-    unsigned short field_0_hash;
-    char field_2_pad; // ?
-    char field_3_pad; // ?
-    short field_4_tPage;
-    short field_6_clut;
-    char field_8_offx;
-    char field_9_offy;
-    char field_A_width;
-    char field_B_height;
-} DG_TEX;
 
 extern DG_TEX *DG_FindTexture_8001D830(int);
 void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
