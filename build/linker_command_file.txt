@@ -118,7 +118,7 @@
 	include	"..\obj\libdg\DG_RenderPipeline_80018028.obj"
 	include	"..\obj\DG_QueueObjs_80018178.obj"
 	include	"..\obj\libdg\DG_DequeueObjs_800181E4.obj"
-	include	"..\obj\sub_80018274.obj"
+	include	"..\obj\libdg\DG_QueuePrim_80018274.obj"
 	include	"..\obj\libdg\DG_DequeuePrim_800182E0.obj"
 	include	"..\obj\libdg\DG_Init_DrawEnv_80018384.obj"
 	include	"..\obj\sub_800183D4.obj"
@@ -1891,7 +1891,7 @@
 	include	"..\obj\Okajima\spark_800742F0.obj"
 	include	"..\obj\Okajima\spark_act_80074334.obj"
 	include	"..\obj\Okajima\spark_kill_800743DC.obj"
-	include	"..\obj\Okajima\spark_loader_80074418.obj"
+	include	"..\obj\Equip\spark_loader_80074418.obj"
 	include	"..\obj\Okajima\spark_init_80074564.obj"
 
 	include	"..\obj\Okajima\stngrnd_loader2_80074644.obj"
@@ -1973,7 +1973,7 @@
 	include	"..\obj\sub_8007913C.obj"
 	include	"..\obj\goggle_common_act_80079194.obj"
 	include	"..\obj\goggle_common_kill_800791E4.obj"
-	include	"..\obj\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
+	include	"..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
 	
 	include	"..\obj\Kojo\demothrd_init_80079460.obj"
 	include	"..\obj\Kojo\demothrd_init_800794E4.obj"
