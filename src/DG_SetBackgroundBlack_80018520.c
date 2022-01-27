@@ -1,4 +1,6 @@
 #include "linker.h"
+#include "libdg.h"
+#include "dgd.h"
 
 extern void DG_SetBackgroundRGB_80018464(int r, int g, int b);
 
@@ -26,4 +28,13 @@ void sub_80018574(unsigned char *a1)
   a1[4] = DG_r_800AB97C;
   a1[5] = DG_b_800AB97D;
   a1[6] = DG_g_800AB97E;
+}
+
+extern TChanl_Fn SECTION(".data") off_8009D35C[];
+
+TChanl_Fn DG_SetPipelineFunc_80018598(int idx, TChanl_Fn newFunc)
+{
+  TChanl_Fn oldFunc = off_8009D35C[idx];
+  off_8009D35C[idx] = newFunc;
+  return oldFunc;
 }
