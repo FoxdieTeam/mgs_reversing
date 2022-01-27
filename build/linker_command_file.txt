@@ -103,6 +103,7 @@
 	include	"..\obj\DG_800172D0.obj"
 	include	"..\obj\DG_800174DC.obj" ; do something with a gte result?
 	include	"..\obj\DG_Clip_80017594.obj" ; clip related
+	include	"..\obj\sub_800175E0.obj"
 	include	"..\obj\DG_OffsetDispEnv_80017784.obj"
 	include	"..\obj\libdg\DG_ClipDispEnv_800177EC.obj"
 	include	"..\obj\libdg\DG_PutDrawEnv_From_DispEnv_80017890.obj"
