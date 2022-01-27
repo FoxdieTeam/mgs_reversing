@@ -1,4 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sdata") dword_800AB388 = 0;
+int SECTION(".sdata") gObjectQueueVoided_800AB388 = 0;
 
