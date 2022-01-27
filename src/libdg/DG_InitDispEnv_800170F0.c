@@ -16,9 +16,9 @@ short SECTION(".sbss") DG_ClipMax_800AB970[4];
 
 int SECTION(".sbss") dword_800AB978;
 
-char SECTION(".sbss") byte_800AB97C;
-char SECTION(".sbss") byte_800AB97D;
-short SECTION(".sbss") byte_800AB97E;
+unsigned char SECTION(".sbss") DG_r_800AB97C;
+unsigned char SECTION(".sbss") DG_b_800AB97D;
+unsigned char SECTION(".sbss") DG_g_800AB97E;
 
 DISPENV SECTION(".gDispEnv_800B0600") gDispEnv_800B0600;
 
