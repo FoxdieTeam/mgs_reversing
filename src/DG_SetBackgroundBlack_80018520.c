@@ -38,3 +38,8 @@ TChanl_Fn DG_SetPipelineFunc_80018598(int idx, TChanl_Fn newFunc)
   off_8009D35C[idx] = newFunc;
   return oldFunc;
 }
+
+void DG_BoundStart_800185B4(void)
+{
+
+}
