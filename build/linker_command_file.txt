@@ -125,7 +125,7 @@
 	include	"..\obj\DG_SetBackgroundRGB_80018464.obj"
 	include	"..\obj\libdg\DG_Set_RGB_800184F4.obj"
 	include	"..\obj\DG_SetBackgroundBlack_80018520.obj"
-	include	"..\obj\libdg\DG_BackGroundNormal_80018548.obj"
+	;include	"..\obj\libdg\DG_BackGroundNormal_80018548.obj"
 	include	"..\obj\sub_80018598.obj"
 	include	"..\obj\libdg\DG_BoundStart_800185B4.obj"
 	include	"..\obj\sub_800185BC.obj"
