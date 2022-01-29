@@ -1,3 +1,3 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800ABA30;
+int SECTION(".sbss") GM_NoiseLength_800ABA30;
