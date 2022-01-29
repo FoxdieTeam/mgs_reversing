@@ -2,27 +2,31 @@
 #include "libdg.h"
 #include "dgd.h"
 
-extern DG_CHNL DG_Chanls_800B1800[3];
-
-void DG_void_all_prim_buffers_8001ABA8(DG_OBJS *pObjs, int idx);
+extern DG_CHNL          DG_Chanls_800B1800[3];
 
 // force gp
-extern int gObjectQueueVoided_800AB388;
-int SECTION(".sdata") gObjectQueueVoided_800AB388;
+extern int              gObjectQueueVoided_800AB388;
+int SECTION(".sdata")   gObjectQueueVoided_800AB388;
 
-extern int counter_800AB380;
+extern int              counter_800AB380;
+
+void                    DG_void_all_prim_buffers_8001ABA8(DG_OBJS *pObjs, int idx);
 
 void DG_FreeObjectQueue_800183D4()
 {
-    int remainder;
-    DG_CHNL *pChan = &DG_Chanls_800B1800[1];
-    DG_OBJS **mQueue = pChan->mQueue;
+    DG_CHNL *pChan;
+    DG_OBJS **mQueue;
+    DG_OBJS *pItem;
+    int     i;
+
+    pChan = &DG_Chanls_800B1800[1];
+    mQueue = (DG_OBJS**)pChan->mQueue;
 
     gObjectQueueVoided_800AB388 = 1;
 
-    for (remainder = pChan->mTotalObjectCount; remainder > 0; remainder--)
+    for (i = pChan->mTotalObjectCount; i > 0; i--)
     {
-        DG_OBJS *pItem = *mQueue++;
+        pItem = *mQueue++;
         DG_void_all_prim_buffers_8001ABA8(pItem, 0);
         DG_void_all_prim_buffers_8001ABA8(pItem, 1);
     }
