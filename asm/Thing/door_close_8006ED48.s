@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef door_act_helper_8006ED48
-door_act_helper_8006ED48:
+	xdef door_close_8006ED48
+door_close_8006ED48:
 	dw 0x27BDFFE8 ; 0x8006ED48
 	dw 0xAFB00010 ; 0x8006ED4C
 	dw 0x00808021 ; 0x8006ED50
