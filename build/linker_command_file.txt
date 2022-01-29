@@ -609,7 +609,7 @@
 	include	"..\obj\sub_8002B558.obj"
 	include	"..\obj\Game\GM_CallSystemCallbackProc_8002B570.obj"
 	include	"..\obj\sub_8002B600.obj"
-	include	"..\obj\sub_8002B62C.obj"
+	include	"..\obj\GM_Continue_8002B62C.obj"
 	include	"..\obj\sub_8002B6C8.obj"
 	include	"..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
 	include	"..\obj\Game\GM_StartDaemon_8002B77C.obj"

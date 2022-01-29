@@ -15,7 +15,7 @@ void menu_textureload_8002AC44(void);
 void font_load_80044A9C(void);
 void GCL_InitVarsClear_80021264(void);
 
-extern int dword_800AB9E8;
+extern int gTotalFrameTime_800AB9E8;
 
 int GCL_Command_start_8002C22C(int argc, char **argv)
 {
@@ -39,7 +39,7 @@ int GCL_Command_start_8002C22C(int argc, char **argv)
     {
         GCL_InitVarsClear_80021264();
         MENU_InitRadioMemory_8004E0EC();
-        dword_800AB9E8 = 0;
+        gTotalFrameTime_800AB9E8 = 0;
     }
 
     if (GCL_GetParam_80020968('d')) // demo (1 to use demo.gcx instead of scenerio.gcx)
@@ -51,7 +51,7 @@ int GCL_Command_start_8002C22C(int argc, char **argv)
     {
         GCL_InitVars_800212CC();
         MENU_InitRadioMemory_8004E0EC();
-        dword_800AB9E8 = 0;
+        gTotalFrameTime_800AB9E8 = 0;
     }
     return 0;
 }

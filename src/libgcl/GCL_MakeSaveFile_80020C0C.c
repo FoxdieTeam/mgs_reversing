@@ -1,7 +1,7 @@
 #include "idaTypes.h"
 #include "Script_tbl_map_8002BB44.h"
 
-extern int                  dword_800AB9E8;
+extern int                  gTotalFrameTime_800AB9E8;
 extern GameState_800B4D98   gGameState_800B4D98;
 extern GameState_800B4D98   gGcl_gameStateVars_800B44C8;
 extern GCL_Vars             gGcl_memVars_800b4588;
@@ -25,7 +25,7 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 
     save->f008_version =                0x60;
     save->f00C_version2 =               0x800;
-    save->f010_unk =                    dword_800AB9E8;
+    save->f010_unk =                    gTotalFrameTime_800AB9E8;
 
     // Save time of last save (probably used for shadow mantis demo)
     gGameState_800B4D98.field_BA_last_save_hours =              gGameState_800B4D98.field_B6_total_hours_elapsed;
