@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "menuMan.h"
+//#include "menuMan.h"
 #include "Script_tbl_map_8002BB44.h"
 
 typedef struct
