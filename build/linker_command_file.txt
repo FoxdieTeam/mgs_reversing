@@ -2746,7 +2746,8 @@ group_gUnknown_Matrix_800B19FC	group bss,org($800B19FC)
 group_dword_800B0630	group bss,org($800B0630)
 	section .dword_800B0630, group_dword_800B0630
 
-
+group_gStageName_800B4D88	group bss,org($800B4D88)
+	section .gStageName_800B4D88, group_gStageName_800B4D88
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
