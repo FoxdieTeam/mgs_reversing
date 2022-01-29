@@ -1799,7 +1799,7 @@
 	include	"..\obj\Bullet\blast_init_8006E0F0.obj"
 	include	"..\obj\sub_8006E224.obj"
 	include	"..\obj\sub_8006E32C.obj"
-	include	"..\obj\Thing\door_act_helper_8006EC10.obj"
+	include	"..\obj\Thing\door_send_msg_8006EC10.obj"
 	include	"..\obj\Thing\door_act_helper_8006EC48.obj"
 	include	"..\obj\Thing\door_act_helper_8006ECB8.obj"
 	include	"..\obj\Thing\door_act_helper_8006ED48.obj"
