@@ -35,7 +35,7 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
         return 0;
     }
 
-    gTotalFrameTime_800AB9E8 = save->f010_unk;
+    gTotalFrameTime_800AB9E8 = save->f010_totalFrameTime;
     strcpy_8008E768(gStageName_800B4D88, save->f020_stageName);
     GM_RestoreAreaHistory_8002A784(&save->f030_areaHistory);
 

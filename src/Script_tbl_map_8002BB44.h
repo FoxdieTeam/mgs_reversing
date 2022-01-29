@@ -18,7 +18,7 @@ typedef struct          GameState_800B4D98
     short               field_00;
     short               field_02_diffcultyLevel; // -1,0,1,2,3
     short               field_04_flags; // bit 12 (0x800) = radar on/off
-    short               field_06_newgameplus_count; // 1 = bandana, 2 = stealth, > 2 = tuxedo
+    short               field_06_bonus_items; // 0 = none, 1 = bandana, 2 = stealth, > 2 = tuxedo
     short               field_08_cd_number; // 1 or 2
     short               field_0A_last_result;
     short               field_0C_current_stage; // hash
@@ -77,7 +77,7 @@ typedef struct          SaveGame
 {
     int                 f008_version;
     int                 f00C_version2;
-    int                 f010_unk;
+    int                 f010_totalFrameTime;
     int                 f014_padding[3];
     char                f020_stageName[16];
     AreaHistory         f030_areaHistory;
