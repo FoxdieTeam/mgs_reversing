@@ -2,7 +2,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "gcl.h"
 #include "mts_new.h"
-#include "menuMan.h"
+//#include "menuMan.h"
 
 extern int gBinds_800ABA60;
 int SECTION(".sbss") gBinds_800ABA60;

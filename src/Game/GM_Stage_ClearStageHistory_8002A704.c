@@ -1,14 +1,8 @@
 #include "linker.h"
+#include "menuman.h"
 #include <sys/types.h>
 
 void *memset_8008E688(void *pSrc, int value, int len);
-
-#define MAX_HISTORY 8
-
-typedef struct AreaHistory
-{
-    short history[MAX_HISTORY];
-} AreaHistory;
 
 AreaHistory SECTION(".gAreaHistory_800B5850") gAreaHistory_800B5850;
 
