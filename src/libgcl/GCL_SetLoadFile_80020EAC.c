@@ -4,7 +4,7 @@
 extern const char   aCrcError[];
 extern const char   aSaveDataVersio[];
 
-extern int                  dword_800AB9E8;
+extern int                  gTotalFrameTime_800AB9E8;
 extern GameState_800B4D98   gGameState_800B4D98;
 extern GameState_800B4D98   gGcl_gameStateVars_800B44C8;
 extern GCL_Vars             gGcl_memVars_800b4588;
@@ -35,7 +35,7 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
         return 0;
     }
 
-    dword_800AB9E8 = save->f010_unk;
+    gTotalFrameTime_800AB9E8 = save->f010_unk;
     strcpy_8008E768(gStageName_800B4D88, save->f020_stageName);
     GM_RestoreAreaHistory_8002A784(&save->f030_areaHistory);
 
