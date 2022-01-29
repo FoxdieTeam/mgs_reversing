@@ -1807,7 +1807,7 @@
 	include	"..\obj\Thing\door_act_helper_8006F290.obj"
 	include	"..\obj\Thing\door_act_8006F318.obj"
 	include	"..\obj\Thing\door_kill_8006F718.obj"
-	include	"..\obj\Thing\door_loader_helper_helper_helper_8006F748.obj"
+	include	"..\obj\Thing\door_loader_t_param_sub_8006F748.obj"
 	include	"..\obj\Thing\door_loader_helper_helper_8006F7AC.obj"
 	include	"..\obj\Thing\door_loader_helper_8006F978.obj"
 	include	"..\obj\Thing\door_loader_helper_8006FA28.obj"
