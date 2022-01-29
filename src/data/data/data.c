@@ -7,6 +7,7 @@
 #include "menuMan.h"
 #include "libdg.h"
 #include "dgd.h"
+#include "door.h"
 
 // sdata
 extern const char* aCigs[];
@@ -86,12 +87,11 @@ extern const char* aSnaMf1[];
 extern const char* aSnaMf2[];
 extern const char* aSnaMf3[];
 
-
 GCL_ActorTableEntry SECTION(".data") StaticResInitFunc_8009D2DC[] =
 	{
 		{0x21CA, (TGCL_ActorCreateFn)0x8005B650}, // sna_init
 		{0x8767, (TGCL_ActorCreateFn)0x800344F8}, // item
-		{0xB997, (TGCL_ActorCreateFn)0x8006FD00}, // door
+		{0xB997, door_init_8006FD00}, // door
 		{0, 0}};
 
 const char *SECTION(".data") off_8009D2FC[] = {aSlpm86247, aSlpm86248, 0};
@@ -938,7 +938,7 @@ int SECTION(".data") dword_8009F5BC[] = {0x4AC92, 0x100004, 0x7D00001, 0xC80001,
 int SECTION(".data") dword_8009F5D0[] = {0, 0x80012C6C};
 int SECTION(".data") dword_8009F5D8[] = {0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8};
 int SECTION(".data") dword_8009F5EC[] = {0, 0x80012CAC};
-int SECTION(".data") dword_8009F5F4 = 0;
+int SECTION(".data") door_where_8009F5F4 = 0;
 char SECTION(".data") byte_8009F5F8[] = {0, 0, 0, 0};
 short SECTION(".data") word_8009F5FC = 1;
 int SECTION(".data") dword_8009F600 = 0;

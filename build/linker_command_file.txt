@@ -1811,7 +1811,7 @@
 	include	"..\obj\Thing\door_loader_helper_8006F978.obj"
 	include	"..\obj\Thing\door_loader_helper_8006FA28.obj"
 	include	"..\obj\Thing\door_loader_8006FA60.obj"
-	include	"..\obj\Thing\door_init_8006FD00.obj"
+	include	"..\obj\Equip\door_init_8006FD00.obj"
 	include	"..\obj\Thing\door_loader_helper_helper_helper_8006FDDC.obj"
 	include	"..\obj\sub_8006FEE4.obj"
 	include	"..\obj\sub_8006FFE8.obj" ; no refs
