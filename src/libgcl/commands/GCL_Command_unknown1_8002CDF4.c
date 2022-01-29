@@ -37,7 +37,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('v')) // vector
     {
         GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
-        gGameState_800B4D98.field_0A_random_value = DG_PointCheckOne_8001C18C((SVECTOR*)vec);
+        gGameState_800B4D98.field_0A_last_result = DG_PointCheckOne_8001C18C((SVECTOR*)vec);
     }
     if (GCL_GetParam_80020968('s')) // struct
     {
@@ -45,11 +45,11 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
         gGameState_800B4D98.field_10_snake_position.x = unkStruct->vec0[0];
         gGameState_800B4D98.field_10_snake_position.y = unkStruct->vec0[1];
         gGameState_800B4D98.field_10_snake_position.z = unkStruct->vec0[2];
-        gGameState_800B4D98.field_0A_random_value = unkStruct->unkA;
+        gGameState_800B4D98.field_0A_last_result = unkStruct->unkA;
     }
     if (GCL_GetParam_80020968('a')) // area?
     {
-        gGameState_800B4D98.field_0A_random_value = GM_AreaHistory_8002A848(GCL_GetNextParamValue_80020AD4());
+        gGameState_800B4D98.field_0A_last_result = GM_AreaHistory_8002A848(GCL_GetNextParamValue_80020AD4());
     }
     if (GCL_GetParam_80020968('p')) // photo (used for ghosts)
     {
@@ -66,20 +66,20 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
         map = Map_FindByNum_80031504(GCL_GetNextParamValue_80020AD4());
         if (map && map->field_6_bUsed)
         {
-            gGameState_800B4D98.field_0A_random_value = 1;
+            gGameState_800B4D98.field_0A_last_result = 1;
         }
         else 
         {
-            gGameState_800B4D98.field_0A_random_value = 0;
+            gGameState_800B4D98.field_0A_last_result = 0;
         }
     }
     if (GCL_GetParam_80020968('c'))
     {
-        gGameState_800B4D98.field_0A_random_value = sub_80037CD8();
+        gGameState_800B4D98.field_0A_last_result = sub_80037CD8();
     }
     if (GCL_GetParam_80020968('n'))
     {
-        gGameState_800B4D98.field_0A_random_value = dword_8009F46C;
+        gGameState_800B4D98.field_0A_last_result = dword_8009F46C;
         gGameState_800B4D98.field_10_snake_position.x = word_8009F478;
         gGameState_800B4D98.field_10_snake_position.y = word_8009F47A;
         gGameState_800B4D98.field_10_snake_position.z = word_8009F47C;
