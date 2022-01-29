@@ -14,13 +14,12 @@ typedef struct      Vec3_snakePos
 
 typedef struct      GameState_800B4D98
 {
-//    short           short_access[0];
     short           field_00;
     short           field_02_diffcultyLevel; // -1,0,1,2,3
     short           field_04_flags; // bit 12 (0x800) = radar on/off
     short           field_06_newgameplus_count; // 1 = bandana, 2 = stealth, > 2 = tuxedo
     short           field_08_cd_number; // 1 or 2
-    short           field_0A_random_value;
+    short           field_0A_last_result;
     short           field_0C_current_stage; // hash
     short           field_0E_current_map; // hash
     Vec3_snakePos   field_10_snake_position;
@@ -50,7 +49,12 @@ typedef struct      GameState_800B4D98
     short           field_9A_snake_cold_unk2;
     short           field_9C_total_being_found; // score screen
     short           field_9E_total_enemies_killed; // score screen
-    short           field_A0[6];
+    short           field_A0;
+    short           field_A2;
+    short           field_A4;
+    short           field_A6;
+    short           field_A8;
+    short           field_AA;
     short           field_AC_total_rations_used; // score screen
     short           field_AE_total_continues; // score screen
     short           field_B0_total_saves; // score screen
@@ -58,8 +62,8 @@ typedef struct      GameState_800B4D98
     short           field_B4_seconds_played;
     short           field_B6_total_hours_elapsed; // score screen
     short           field_B8_total_seconds_elapsed; // score screen
-    short           field_BA;
-    short           field_BC;
+    short           field_BA_last_save_hours;
+    short           field_BC_last_save_seconds;
     short           field_BE;
 } GameState_800B4D98;
 

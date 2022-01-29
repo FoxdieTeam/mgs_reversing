@@ -5,27 +5,24 @@
 #include "map.h"
 #include <libgpu.h>
 
-extern void DG_DequeuePrim_800182E0(DG_OBJS *param_1);
-extern void DG_FreePrim_8001BC04(int *param_1);
-extern void GM_FreeObject_80034BF8(OBJECT *obj);
+extern int                  game_state_flags_800AB3CC;
+extern GameState_800B4D98   gGameState_800B4D98;
+extern int                  gRenderedFramesCount_800AB330;
+extern int                  dword_8009F2C0;
+extern int                  GM_CurrentMap_800AB9B0;
 
-void GM_ActObject2_80034B88(OBJECT *obj);
-void DG_SetPos_8001BC44(MATRIX *);
-void DG_MovePos_8001BD20(SVECTOR *svector);
-void ReadRotMatrix_80092DD8(MATRIX *m);
+int SECTION(".sbss")                        GM_CurrentMap_800AB9B0;
+int SECTION(".gSna_init_flags_800ABA50")    gSna_init_flags_800ABA50;
 
-extern int game_state_flags_800AB3CC;
-extern GameState_800B4D98 gGameState_800B4D98;
-extern int gRenderedFramesCount_800AB330;
+extern void                 DG_DequeuePrim_800182E0(DG_OBJS *param_1);
+extern void                 DG_FreePrim_8001BC04(int *param_1);
+extern void                 GM_FreeObject_80034BF8(OBJECT *obj);
 
-extern int dword_8009F2C0;
-
-int SECTION(".gSna_init_flags_800ABA50") gSna_init_flags_800ABA50;
-
-int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
-
-extern int GM_CurrentMap_800AB9B0;
-int SECTION(".sbss") GM_CurrentMap_800AB9B0;
+void                        GM_ActObject2_80034B88(OBJECT *obj);
+void                        DG_SetPos_8001BC44(MATRIX *);
+void                        DG_MovePos_8001BD20(SVECTOR *svector);
+void                        ReadRotMatrix_80092DD8(MATRIX *m);
+int                         anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
 
 static inline void GM_SetCurrentMap(map) int map;
 {
@@ -35,11 +32,10 @@ static inline void GM_SetCurrentMap(map) int map;
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
     SVECTOR vec;
+    MATRIX  rotMtx;
+    OBJECT  *obj;
 
-    MATRIX rotMtx;
-    OBJECT *obj;
-
-    obj = &pActor->field_20_pObj;
+    obj = (OBJECT*)&pActor->field_20_pObj;
 
     GM_SetCurrentMap(pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
 
@@ -79,30 +75,26 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
 
 void tabako_kill_8006206C(Actor_tabako *pActor)
 {
-    void *iVar1;
-    GM_FreeObject_80034BF8(&pActor->field_20_pObj);
-    iVar1 = pActor->field_50_prims;
-    if (iVar1 != 0)
+    void *prims;
+
+    GM_FreeObject_80034BF8((OBJECT*)&pActor->field_20_pObj);
+    prims = pActor->field_50_prims;
+    if (prims)
     {
-        DG_DequeuePrim_800182E0(iVar1);
-        DG_FreePrim_8001BC04(iVar1);
+        DG_DequeuePrim_800182E0(prims);
+        DG_FreePrim_8001BC04(prims);
     }
 }
 
-extern const char aCigar[]; // = "cigar";
-extern const char aRcmL[];  // = "rcm_l";
+extern const char   aCigar[]; // = "cigar";
+extern const char   aRcmL[];  // = "rcm_l";
 
-
-extern DG_TEX *DG_FindTexture_8001D830(int);
-void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-
-extern int GV_StrCode_80016CCC(const char *string);
-
-
-DG_PRIM *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pRect, RECT *a5);
-
-int DG_QueuePrim_80018274(DG_OBJS *pPrim);
+extern DG_TEX       *DG_FindTexture_8001D830(int);
+void                GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void                GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+extern int          GV_StrCode_80016CCC(const char *string);
+DG_PRIM             *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pRect, RECT *a5);
+int                 DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 static inline void DG_GroupPrim(prim, group_id)
     DG_PRIM *prim;

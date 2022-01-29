@@ -10,7 +10,7 @@ void    GCL_VarSave_80020B90(short *gameVar)
     char    *addr;
     int     offset;
 
-    addr = &gGcl_gameStateVars_800B44C8;
+    addr = (char*)&gGcl_gameStateVars_800B44C8;
     offset = (void*)gameVar - (void*)&gGameState_800B4D98;
     *(short *)(addr + offset) = *gameVar;
 }
