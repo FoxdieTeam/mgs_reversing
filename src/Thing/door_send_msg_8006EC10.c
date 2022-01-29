@@ -7,7 +7,10 @@
 #include "game.h"
 
 int GV_SendMessage_80016504(GV_MSG *);
+void sub_80032858(SVECTOR *a1, int a2);
+int mts_doNothing_8008BB98(int, const char *, ...);
 
+extern int dword_800ABA0C;
 
 struct Actor_Door_TParam_sub
 {
@@ -98,7 +101,7 @@ void door_act_helper_8006EC48(struct Actor_Door *pDoor)
 
     arg_struct.argc = 3;
     arg_struct.argv = args;
-   
+
     GCL_ExecProc_8001FF2C(pDoor->field_100_param_f_v, &arg_struct);
   }
 }
