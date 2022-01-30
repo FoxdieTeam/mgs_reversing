@@ -10,8 +10,8 @@ extern int sprintf_8008E878(char *buffer, const char *format, ...);
 
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
-long SECTION(".gMemoryCardFiles_800B52C8")gHardware_timeout_800B52D0;
-long SECTION(".gMemoryCardFiles_800B52C8")gHardware_new_device_800B52D4;
+long SECTION(".gMemoryCardFiles_800B52C8") gHardware_timeout_800B52D0;
+long SECTION(".gMemoryCardFiles_800B52C8") gHardware_new_device_800B52D4;
 
 long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_io_800B52D8;
 long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
