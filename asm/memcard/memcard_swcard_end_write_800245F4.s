@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_swcard_error_800245F4
-memcard_swcard_error_800245F4:
+	xdef memcard_swcard_end_write_800245F4
+memcard_swcard_end_write_800245F4:
 	dw 0x27BDFFE8 ; 0x800245F4
 	dw 0x3C048001 ; 0x800245F8
 	dw 0xAFBF0010 ; 0x800245FC
