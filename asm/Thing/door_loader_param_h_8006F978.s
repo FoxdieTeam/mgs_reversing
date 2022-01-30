@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef door_loader_helper_8006F978
-door_loader_helper_8006F978:
+	xdef door_loader_param_h_8006F978
+door_loader_param_h_8006F978:
 	dw 0x27BDFFC8 ; 0x8006F978
 	dw 0xAFB20020 ; 0x8006F97C
 	dw 0x00809021 ; 0x8006F980
