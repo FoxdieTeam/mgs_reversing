@@ -7,7 +7,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern void *GV_Malloc_8001620C(int size);
 void GV_ZeroMemory_8001619c(void *ptr, int size);
 
-DG_PRIM *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, int *pRect, int *a5)
+DG_PRIM *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
 {
     const struct DG_Rec_Unknown* pRec = &stru_8009D3D0[type & 31];
     const int primSize = pRec->field_0_prim_size * prim_count;
@@ -24,8 +24,8 @@ DG_PRIM *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, int *pRect,
     pAllocated->type = type;
     pAllocated->n_prims = prim_count;
     pAllocated->chanl = chanl;
-    pAllocated->field_38_pUnknown = (int)pRect;
-    pAllocated->field_3C = (int)a5;
+    pAllocated->field_38_pUnknown = pVec;
+    pAllocated->field_3C = pRect;
 
     // Copy struct
     pAllocated->field_30_prim_size = pRec->field_0_prim_size;
