@@ -20,6 +20,7 @@ struct mem_card
 };
 
 typedef void (*TMemCardFunc)(int);
+typedef void (*TMemCardSetFunc)(TMemCardFunc);
 
 
 #endif // _MEMCARD_H_
