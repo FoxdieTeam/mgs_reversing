@@ -7,7 +7,22 @@ extern void memcard_load_files_80024960(int);
 extern int erase_800995FC(char *);
 extern int sprintf_8008E878(char *buffer, const char *format, ...);
 
-struct mem_card_daemon SECTION(".gMemoryCardFiles_800B52C8") gMemCardDaemon_800B52C8;
+
+long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
+long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
+long SECTION(".gMemoryCardFiles_800B52C8")gHardware_timeout_800B52D0;
+long SECTION(".gMemoryCardFiles_800B52C8")gHardware_new_device_800B52D4;
+
+long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_io_800B52D8;
+long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
+long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
+long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
+
+int SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
+int SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
+int SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
+int SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
+
 struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 
 extern const char SECTION(".rdata") aBu02xS[];

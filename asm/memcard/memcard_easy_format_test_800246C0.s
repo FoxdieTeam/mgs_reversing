@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_init_helper_800246C0
-memcard_init_helper_800246C0:
+	xdef memcard_easy_format_test_800246C0
+memcard_easy_format_test_800246C0:
 	dw 0x27BDFF68 ; 0x800246C0
 	dw 0xAFB00090 ; 0x800246C4
 	dw 0x00808021 ; 0x800246C8

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009908C
-sub_8009908C:
+	xdef InitCARD_8009908C
+InitCARD_8009908C:
 	dw 0x27BDFFE8 ; 0x8009908C
 	dw 0xAFB00010 ; 0x80099090
 	dw 0x00808021 ; 0x80099094
