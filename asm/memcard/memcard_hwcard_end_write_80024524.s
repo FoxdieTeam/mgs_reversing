@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_hwcard_error_80024524
-memcard_hwcard_error_80024524:
+	xdef memcard_hwcard_end_write_80024524
+memcard_hwcard_end_write_80024524:
 	dw 0x27BDFFE8 ; 0x80024524
 	dw 0x3C048001 ; 0x80024528
 	dw 0xAFBF0010 ; 0x8002452C

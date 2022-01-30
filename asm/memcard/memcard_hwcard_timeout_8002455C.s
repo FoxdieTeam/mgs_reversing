@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_chto_8002455C
-memcard_chto_8002455C:
+	xdef memcard_hwcard_timeout_8002455C
+memcard_hwcard_timeout_8002455C:
 	dw 0x27BDFFE8 ; 0x8002455C
 	dw 0x3C048001 ; 0x80024560
 	dw 0xAFBF0010 ; 0x80024564

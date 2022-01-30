@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_hwcard_800244FC
-memcard_hwcard_800244FC:
+	xdef memcard_hwcard_end_io_800244FC
+memcard_hwcard_end_io_800244FC:
 	dw 0x27BDFFE8 ; 0x800244FC
 	dw 0x3C02800B ; 0x80024500
 	dw 0x8C4252E8 ; 0x80024504

@@ -268,7 +268,7 @@ int SECTION(".data") dword_8009D514 = 0;
 int SECTION(".data") dword_8009D518 = 0;
 int SECTION(".data") dword_8009D51C = 1;
 int SECTION(".data") dword_8009D520 = 0;
-int SECTION(".data") dword_8009D524 = 0;
+int SECTION(".data") gmem_card_system_inited_8009D524 = 0;
 
 int SECTION(".data") dword_8009D528[] = {0x8000000, 0x4000555, 0x2AA0333, 0x2000249, 0x19901C7, 0x1550174, 0x124013B, 0x1000111};
 int SECTION(".data") dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};
