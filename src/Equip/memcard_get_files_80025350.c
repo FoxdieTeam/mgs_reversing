@@ -25,6 +25,8 @@ TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
 
 struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 
+volatile long SECTION(".gMemoryCardFiles_800B52C8") gMemCard_io_size_800B5648;
+
 
 extern const char SECTION(".rdata") aBu02xS[];
 extern const char SECTION(".rdata") aDeletedFileS[];
@@ -64,13 +66,8 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
     return 0;
 }
 
-//extern long gMemCard_io_size_800B5648;
+void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
 
-//extern TMemCardFunc gHwCard_do_op_800B52E8;
-
-//void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
-
-/*
 void memcard_hwcard_read_write_handler_8002546C(int op)
 {
     if ( op == 1 )
@@ -87,4 +84,4 @@ void memcard_hwcard_read_write_handler_8002546C(int op)
         memcard_set_sw_hw_card_fns_8002469C();
     }
 }
-*/
+
