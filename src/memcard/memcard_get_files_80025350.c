@@ -18,10 +18,10 @@ long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
 long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
 long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
 
-TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
-TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
-TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
-TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
+TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8[4];
+//TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
+//TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
+//TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
 
 struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 

@@ -440,16 +440,8 @@
 	include	"..\obj\libfs\FS_StreamSoundMode_80024404.obj"
 	include	"..\obj\libfs\FS_StreamGetTick_80024420.obj"
 
-	include	"..\obj\memcard\memcard_hwcard_do_op_800244DC.obj"
-	include	"..\obj\memcard\memcard_800244EC.obj"
 	include	"..\obj\memcard\memcard_hwcard_end_io_800244FC.obj"
-	include	"..\obj\memcard\memcard_hwcard_end_write_80024524.obj"
-	include	"..\obj\memcard\memcard_hwcard_timeout_8002455C.obj"
-	include	"..\obj\memcard\memcard_hwcard_new_80024594.obj"
-	include	"..\obj\memcard\memcard_swcard_end_io_800245CC.obj"
-	include	"..\obj\memcard\memcard_swcard_end_write_800245F4.obj"
-	include	"..\obj\memcard\memcard_swcard_timeout_8002462C.obj"
-	include	"..\obj\memcard\memcard_swcard_new_80024664.obj"
+
 	include	"..\obj\memcard\memcard_set_sw_hw_card_fns_8002469C.obj"
 	include	"..\obj\memcard\memcard_easy_format_test_800246C0.obj"
 	include	"..\obj\memcard\memcard_loaddir_800247E8.obj"
