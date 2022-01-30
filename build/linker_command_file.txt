@@ -2451,7 +2451,7 @@
 	include	"..\obj\psyq\sub_800995AC.obj"
 	include	"..\obj\psyq\sub_800995BC.obj"
 	include	"..\obj\psyq\sub_800995CC.obj"
-	include	"..\obj\psyq\sub_800995DC.obj"
+	include	"..\obj\psyq\format_800995DC.obj"
 	include	"..\obj\psyq\sub_800995EC.obj"
 	include	"..\obj\psyq\erase_800995FC.obj"
 	include	"..\obj\psyq\ChangeClearPAD_8009960C.obj"
