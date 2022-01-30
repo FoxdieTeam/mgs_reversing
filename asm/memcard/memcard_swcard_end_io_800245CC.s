@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_800245CC
-memcard_800245CC:
+	xdef memcard_swcard_end_io_800245CC
+memcard_swcard_end_io_800245CC:
 	dw 0x27BDFFE8 ; 0x800245CC
 	dw 0x3C02800B ; 0x800245D0
 	dw 0x8C4252EC ; 0x800245D4

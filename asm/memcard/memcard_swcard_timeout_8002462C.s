@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_csto_8002462C
-memcard_csto_8002462C:
+	xdef memcard_swcard_timeout_8002462C
+memcard_swcard_timeout_8002462C:
 	dw 0x27BDFFE8 ; 0x8002462C
 	dw 0x3C048001 ; 0x80024630
 	dw 0xAFBF0010 ; 0x80024634
