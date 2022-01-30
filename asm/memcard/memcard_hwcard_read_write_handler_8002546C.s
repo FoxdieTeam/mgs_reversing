@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef memcard_read_write_helper2_8002546C
-memcard_read_write_helper2_8002546C:
+	xdef memcard_hwcard_read_write_handler_8002546C
+memcard_hwcard_read_write_handler_8002546C:
 	dw 0x27BDFFE8 ; 0x8002546C
 	dw 0x24020001 ; 0x80025470
 	dw 0x1482000E ; 0x80025474

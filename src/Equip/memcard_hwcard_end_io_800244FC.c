@@ -77,7 +77,6 @@ void memcard_swcard_new_80024664()
     gSwCard_do_op_800B52EC(4);
 }
 
-
 void memcard_set_sw_hw_card_fns_8002469C()
 {
     gHwCard_do_op_800B52E8 = memcard_hwcard_do_op_800244DC;
