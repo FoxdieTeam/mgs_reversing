@@ -113,8 +113,8 @@ typedef struct			_DG_PRIM
 	u_short				field_32;
 	u_short				field_34;
 	u_short				field_36;
-	int					field_38_pUnknown;
-	int					field_3C;
+	SVECTOR*			field_38_pUnknown;
+	RECT*				field_3C;
 	union Prim_Union	*field_40_pBuffers[2];
 	u_short				field_48_prim_count;
 	u_short				field_4A;

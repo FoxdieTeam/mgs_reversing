@@ -61,8 +61,7 @@ struct Actor_Door
   unsigned char field_FE_e_param_v1;
   char field_FF_e_param_v2;
   int field_100_param_f_v;
-  struct Actor_Door_TParam field_104;
-  struct Actor_Door_TParam field_138_tParams[0];
+  struct Actor_Door_TParam field_104[1];
 };
 
 #endif // _THING_DOOR_H_

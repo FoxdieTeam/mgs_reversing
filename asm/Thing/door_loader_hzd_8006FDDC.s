@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef door_loader_helper_helper_helper_8006FDDC
-door_loader_helper_helper_helper_8006FDDC:
+	xdef door_loader_hzd_8006FDDC
+door_loader_hzd_8006FDDC:
 	dw 0x00804021 ; 0x8006FDDC
 	dw 0x8507000A ; 0x8006FDE0
 	dw 0x85020012 ; 0x8006FDE4

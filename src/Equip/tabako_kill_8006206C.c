@@ -93,7 +93,7 @@ extern DG_TEX       *DG_FindTexture_8001D830(int);
 void                GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 void                GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 extern int          GV_StrCode_80016CCC(const char *string);
-DG_PRIM             *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pRect, RECT *a5);
+DG_PRIM             *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 int                 DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 static inline void DG_GroupPrim(prim, group_id)
@@ -133,9 +133,9 @@ static inline void DG_SetPacketTexture4(POLY_FT4 *prims, DG_TEX *tex)
     prims->clut = tex->field_6_clut;
 }
 
-static inline DG_PRIM *test(int type, int prim_count, int chanl, SVECTOR *pRect, RECT *a5)
+static inline DG_PRIM *test(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
 {
-    DG_PRIM *pPrims = DG_Prim_Alloc_8001BABC(type, prim_count, chanl, pRect, a5);
+    DG_PRIM *pPrims = DG_Prim_Alloc_8001BABC(type, prim_count, chanl, pVec, pRect);
     if (pPrims) // beqz		$s0, 0xc0
     {
         DG_QueuePrim_80018274((DG_OBJS *)pPrims);
