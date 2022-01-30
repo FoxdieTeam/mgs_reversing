@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80099130
-sub_80099130:
+	xdef StopCARD_80099130
+StopCARD_80099130:
 	dw 0x27BDFFE8 ; 0x80099130
 	dw 0xAFBF0010 ; 0x80099134
 	dw 0x0C02645F ; 0x80099138

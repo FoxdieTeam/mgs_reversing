@@ -19,5 +19,8 @@ struct mem_card
     struct mem_card_block field_4_blocks[15];
 };
 
+typedef void (*TMemCardFunc)(int);
+typedef void (*TMemCardSetFunc)(TMemCardFunc);
+
 
 #endif // _MEMCARD_H_
