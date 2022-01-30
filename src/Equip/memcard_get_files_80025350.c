@@ -67,6 +67,7 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 }
 
 void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
+void memcard_set_sw_hw_card_fns_8002469C();
 
 void memcard_hwcard_read_write_handler_8002546C(int op)
 {
