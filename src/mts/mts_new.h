@@ -41,7 +41,7 @@ typedef struct mts_task
     char field_3_src_idx;
     mts_msg* field_4_pMessage;
     TMtsFn field_8_fn;
-    char field_C_ref_count;
+    signed char field_C_ref_count;
     signed char field_D;
     char field_E;
     char field_F_recv_idx;
