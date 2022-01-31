@@ -5,7 +5,7 @@ void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void* pStack, lo
 
 void mts_wait_vbl_800895F4(int count);
 void mts_set_stack_check_8008B648(int taskNum, unsigned int* pStack, int stackSize);
-void mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void* pStack);
+int mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void* pStack);
 void mts_init_vsync_800895AC(void);
 void mts_set_vsync_task_800892B8(void);
 void mts_init_controller_8008C098(void);
@@ -28,8 +28,8 @@ typedef struct mts_msg
 {
     int field_0;
     int field_4_task_idx;
-    int field_8;
-    int field_C;
+    void (*field_8)(void);
+    void* field_C;
     void* field_10;
 } mts_msg;
 
