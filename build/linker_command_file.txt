@@ -2731,5 +2731,9 @@ group_dword_800B0630	group bss,org($800B0630)
 group_gStageName_800B4D88	group bss,org($800B4D88)
 	section .gStageName_800B4D88, group_gStageName_800B4D88
 
+group_gProgramBottom_800C3208	group bss,org($800C3208)
+	section .gProgramBottom_800C3208, group_gProgramBottom_800C3208
+
+
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
