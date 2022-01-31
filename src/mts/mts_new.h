@@ -28,11 +28,11 @@ typedef int(*TMtsFn)(void);
 
 typedef struct mts_msg
 {
-    int field_0;
+    struct mts_msg* field_0;
     int field_4_task_idx;
-    void (*field_8)(void);
-    void* field_C;
-    void* field_10;
+    int field_8;
+    int field_C;
+    int (*field_10)(void);
 } mts_msg;
 
 typedef struct mts_task
