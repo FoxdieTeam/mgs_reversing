@@ -15,6 +15,7 @@
 	include "..\obj\libgv\gvd.obj"
 	include "..\obj\libgv\actor.obj"
 	include "..\obj\data\sdata\sdata2.obj"
+	
 	;cache.c
 	include	"..\obj\libgv\GV_FileCacheFind_80015240.obj"
 	include	"..\obj\libgv\GV_CacheID_800152DC.obj"
@@ -23,11 +24,12 @@
 	include	"..\obj\libgv\GV_GetCache_8001538C.obj"
 	include	"..\obj\libgv\GV_SetCache_800153C0.obj"
 	include	"..\obj\libgv\GV_SetFileHandler_80015418.obj"
-	include	"..\obj\libgv\GV_ClearFileCache_80015458.obj"
-	include	"..\obj\libgv\GV_FileCache_80015484.obj" ; file cache to resident memory ?
-	include	"..\obj\libgv\GV_FileCache_80015540.obj" ; file cache
+	include	"..\obj\libgv\GV_InitCacheSystem_80015458.obj"
+	include	"..\obj\libgv\GV_ResidentFileCache_80015484.obj" ; file cache to resident memory ?
+	include	"..\obj\libgv\GV_FreeCacheSystem_80015540.obj" ; file cache
 	include	"..\obj\libgv\GV_LoadFile_800155BC.obj"
 	;
+	
 	include	"..\obj\libgv\GV_Assert_800156E8.obj"
 	include	"..\obj\libgv\GV_Printf_80015718.obj"
 	include	"..\obj\System_FindAlloc_80015758.obj"
@@ -69,7 +71,7 @@
 	include	"..\obj\sub_8001630C.obj"
 	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
 	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
-	include	"..\obj\libgv\GV_Alloc_Resident_800163D8.obj"
+	include	"..\obj\libgv\GV_AllocResidentMemory_800163D8.obj"
 	include	"..\obj\libgv\GV_Message_8001642C.obj"
 	include	"..\obj\libgv\GV_MessageClear_800164AC.obj"
 	include	"..\obj\GV_ClearMessageSystem_800164C8.obj"
@@ -2691,8 +2693,8 @@ group_gCameraList_800B7718	group bss,org($800B7717)
 group_gCamera_param_a_800B780C	group bss,org($800B780C)
 	section .gCamera_param_a_800B780C, group_gCamera_param_a_800B780C
 
-group_CacheWork_800ACEF0	group bss,org($800ACEF0)
-	section .CacheWork_800ACEF0, group_CacheWork_800ACEF0
+group_CacheSystems_800ACEF0	group bss,org($800ACEF0)
+	section .CacheSystems_800ACEF0, group_CacheSystems_800ACEF0
 
 group_StageObjs_800B7890	group bss,org($800B7890)
 	section .StageObjs_800B7890, group_StageObjs_800B7890

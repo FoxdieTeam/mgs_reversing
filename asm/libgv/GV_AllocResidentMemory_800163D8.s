@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef GV_Alloc_Resident_800163D8
-GV_Alloc_Resident_800163D8:
+	xdef GV_AllocResidentMemory_800163D8
+GV_AllocResidentMemory_800163D8:
 	dw 0x24840003 ; 0x800163D8
 	dw 0x2402FFFC ; 0x800163DC
 	dw 0x00822024 ; 0x800163E0
