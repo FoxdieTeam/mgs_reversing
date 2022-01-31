@@ -23,4 +23,10 @@ struct GV_Messages
     GV_MSG field_4_msgs[16];
 };
 
+//has to be in a struct to match
+typedef struct CacheSystems
+{
+	LibGV_FileRecord tags[128];
+} CacheSystems;
+
 #endif // LIBGV_H

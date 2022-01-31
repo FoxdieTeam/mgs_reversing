@@ -35,6 +35,44 @@ extern MATRIX* MulRotMatrix_80092B58( MATRIX *m0 );
 #define rtpt_b() __asm__ volatile ( \
 	"cop2 0x0280030" )
 
+#define gte_MulMatrix0(r1,r2,r3)				\
+				{	gte_SetRotMatrix(r1);	\
+					gte_ldclmv(r2);		\
+					rtir12();		\
+					gte_stclmv(r3);		\
+					gte_ldclmv((char*)r2+2);\
+					rtir12();		\
+					gte_stclmv((char*)r3+2);\
+					gte_ldclmv((char*)r2+4);\
+					rtir12();		\
+					gte_stclmv((char*)r3+4);    }
+
+#define gte_CompMatrix(r1,r2,r3)				\
+				{	gte_MulMatrix0(r1,r2,r3);\
+					gte_SetTransMatrix(r1);	\
+					gte_ldlv0((char*)r2+20);\
+					rtv0tr();		\
+					gte_stlvnl((char*)r3+20);	}
+
+#define gte_ApplyRotMatrix(r1,r2)				\
+				{	gte_ldv0(r1);		\
+					rtv0tr();		\
+					gte_stlvnl(r2);		}
+
+#define gte_MulMatrix02(r1,r2,r3)				\
+				{	gte_ldlv0(r1);	\
+					rtv0tr();	\
+					gte_stlvnl(r1);	\
+					gte_ldclmv(r2);		\
+					rtir12();		\
+					gte_stclmv(r3);		\
+					gte_ldclmv((char*)r2+2);\
+					rtir12();		\
+					gte_stclmv((char*)r3+2);\
+					gte_ldclmv((char*)r2+4);\
+					rtir12();		\
+					gte_stclmv((char*)r3+4);	}
+
 void DG_SetPos_8001BC44( MATRIX* matrix )
 {
     gte_SetRotMatrix ( matrix );
@@ -122,133 +160,93 @@ void DG_PersVector_8001BEF8( SVECTOR* svector, DVECTOR* dvector, int count )
 #define SCRPAD_ADDR 0x1F800000
 #define MAX_X (unsigned int)385
 #define MAX_Y (unsigned int)305
+#define DOES_TOUCH   1
+#define DOESNT_TOUCH 0
+
+//TODO: find a way to incorporate both this and pointcheckone's touch check in one function that matches
+static inline void check_touches(SVECTOR* svector, DVECTOR* first_points, DVECTOR* second_points, int n_points)
+{
+    while ( n_points > 0 )
+    {
+        svector->pad = DOESNT_TOUCH ;
+
+        if ( *(long*)second_points )
+        {
+            if ( ((first_points->vx + 0xC0) < MAX_X) && 
+                 ((first_points->vy + 0x98) < MAX_Y) )
+            {
+                svector->pad = DOES_TOUCH ;
+            }
+        }
+
+        n_points--;
+        second_points ++ ;
+        first_points ++ ;
+        svector ++ ;
+    }
+}
 
 void DG_PointCheck_8001BF34( SVECTOR *svector, int n_points )
 {
-    SVECTOR* prev_vec;
-    DVECTOR* temp_first_points;
-    DVECTOR* temp_second_points;
+    MATRIX* matrix ;
+    DVECTOR* first_points ;
+    DVECTOR* second_points ;
 
-    MATRIX* matrix;
-    DVECTOR* first_points;
-    DVECTOR* second_points;
+    int n_initial_points ;
+    MATRIX* matrix2 = (MATRIX* )SCRPAD_ADDR ;
 
-    int n_initial_points;
-    MATRIX* matrix2 = (MATRIX* )SCRPAD_ADDR;
-
-    gte_ReadRotMatrix( matrix2 );
+    gte_ReadRotMatrix( matrix2 ) ;
 
     matrix = &gUnknown_Matrix_800B19FC;
-    gte_SetRotMatrix  ( matrix );
-    gte_SetTransMatrix( matrix );
+    gte_SetRotMatrix  ( matrix ) ;
+    gte_SetTransMatrix( matrix ) ;
 
-    gte_ldv3c( svector );
+    gte_ldv3c( svector ) ; 
 
-    first_points  = (DVECTOR*)(SCRPAD_ADDR + 0x20); //3 sets of dvector
-    second_points = (DVECTOR*)(SCRPAD_ADDR + 0x2C); //3 sets of dvector
+    first_points  = (DVECTOR*)(SCRPAD_ADDR + 0x20) ; //3 sets of dvector
+    second_points = (DVECTOR*)(SCRPAD_ADDR + 0x2C) ; //3 sets of dvector
 
-    svector += 3;
-    rtpt_b();
+    svector += 3 ;
+    rtpt_b() ;
 
-    n_initial_points = n_points - 3;
-
-    if ( n_initial_points > 0 )
+    for (n_initial_points = n_points - 3 ; n_initial_points > 0; n_initial_points-= 3)
     {
-        short check = 1;
+        gte_stsxy3c( first_points ) ;
+        gte_stsz3c ( second_points ) ;
+        gte_ldv3c( svector ) ;
+        rtpt();
 
-        while ( n_initial_points > 0 )
-        {
-            int i ;
-            SVECTOR* prev_vec_2;
-            DVECTOR* temp_first_points_1;
-            DVECTOR* temp_second_points_2;
-            gte_stsxy3c( first_points );
-            gte_stsz3c ( second_points );
-            gte_ldv3c( svector );
-            rtpt();
+        check_touches( svector - 3, first_points, second_points, 3 );
 
-            temp_first_points_1 = first_points;
-            temp_second_points_2 = second_points;
-            prev_vec_2 = svector - 3;
-
-            i = 3;
-            while ( i > 0 )
-            {
-                prev_vec_2->pad = 0;
-
-                if ( *(long*)temp_second_points_2 )
-                {
-                    if ( ((temp_first_points_1->vx + 0xC0) < MAX_X) && 
-                         ((temp_first_points_1->vy + 0x98) < MAX_Y) )
-                    {
-                        prev_vec_2->pad = check;
-                    }
-                }
-
-                i--;
-                temp_second_points_2 ++;
-                temp_first_points_1 ++;
-                prev_vec_2 ++;
-            }
-
-            svector += 3;
-            n_initial_points -= 3;
-            n_points -= 3;
-        }
+        svector  += 3;
+        n_points -= 3;
     }
 
-    gte_stsxy3c( first_points );
-    gte_stsz3c ( second_points );
+    gte_stsxy3c( first_points ) ;
+    gte_stsz3c ( second_points ) ;
 
-    temp_first_points = first_points;
-    temp_second_points = second_points;
-    prev_vec = svector - 3;
-
-    if ( n_points > 0 )
-    {
-        short check = 1;
-
-        while ( n_points > 0 )
-        {
-            prev_vec->pad = 0;
-
-            if ( *(long*)temp_second_points )
-            {
-                if ( ((temp_first_points->vx + 0xC0) < MAX_X) && 
-                     ((temp_first_points->vy + 0x98) < MAX_Y) )
-                {
-                    prev_vec->pad = check;
-                }
-            }
-
-            n_points--;
-            temp_second_points++;
-            temp_first_points++;
-            prev_vec++;
-        }
-
-    }
+    check_touches( svector - 3, first_points, second_points, n_points );
 
     gte_SetRotMatrix  ( (MATRIX* )SCRPAD_ADDR ) ;
     gte_SetTransMatrix( (MATRIX* )SCRPAD_ADDR ) ;
 }
 
-int DG_PointCheckOne_8001C18C( SVECTOR* svec )
+int DG_PointCheckOne_8001C18C(DVECTOR* line)
 {
-    DVECTOR first_points;
-    DVECTOR second_points;
+    DVECTOR first_points ;
+    DVECTOR second_points ;
 
     MATRIX* matrix = &gUnknown_Matrix_800B19FC;
-    gte_SetRotMatrix  ( matrix );
-    gte_SetTransMatrix( matrix );
+    gte_SetRotMatrix  ( matrix ) ;
+    gte_SetTransMatrix( matrix ) ;
 
-    gte_ldv0( svec ) ;
+    gte_ldv0( line ) ;
     rtps() ;
 
-    gte_stsxy( &first_points );
-    gte_stsz ( &second_points );
+    gte_stsxy( &first_points ) ;
+    gte_stsz ( &second_points ) ;
 
-    if ( !*(long* )&second_points ) 
+    if ( !*(long*)&second_points ) 
     {
         return 0;
     }
@@ -258,7 +256,7 @@ int DG_PointCheckOne_8001C18C( SVECTOR* svec )
         return 0;
     }
 
-    return first_points.vy + 0x98  < MAX_Y;
+    return first_points.vy + 0x98  < MAX_Y; 
 }
 
 //set obj world and screen ?
@@ -375,3 +373,97 @@ void sub_8001C5CC( DG_OBJS* objs, int n_obj )
        matrix2++;
     }
 }
+
+/* //unmatching, incorrect register order
+void sub_8001C708( DG_OBJS* objs, int n_obj )
+{
+    int i;
+    DG_MDL*temp_mdl;
+    MATRIX* matrix4;
+    DG_OBJ* local_obj;
+    MATRIX* temp_matrix;
+    MATRIX* matrix  = (MATRIX*)(SCRPAD_ADDR + 0x040); //s2
+    DG_OBJ* obj = objs->objs;                         //s5
+    MATRIX* matrix2 = (MATRIX*)(SCRPAD_ADDR + 0x360); //0x40+var_30($sp)
+
+    SVECTOR* rots       = objs->rots;                 //0x40+var_2C($sp)
+    SVECTOR* adjust     = objs->adjust;               //s7
+    SVECTOR* waist_rot  = objs->waist_rot;            //a0
+
+    DG_MDL* mdl = obj->model;                         //s1
+    MATRIX* matrix3 = (MATRIX*)(SCRPAD_ADDR + 0x340); //fp
+
+    waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) : 
+                RotMatrixZYX_gte_80093F08( rots,      matrix3 ) ;
+
+    matrix3->t[0] = mdl->pos.vx;
+    matrix3->t[1] = mdl->pos.vy;
+    matrix3->t[2] = mdl->pos.vz;
+    // *(VECTOR3*)matrix3->t = mdl->pos; //this makes matrix3 fp like we want but messes other stuff up
+
+    if (!adjust)
+    {
+        matrix4 = (MATRIX*)(SCRPAD_ADDR + 0x20);
+        gte_CompMatrix( matrix4, matrix3, matrix3 );
+
+    }
+    else
+    {
+        matrix4 = (MATRIX*)(SCRPAD_ADDR + 0x20);
+        *matrix2 = *matrix4;
+        *matrix4 = DG_ZeroMatrix_8009D430;
+    }
+
+    for ( i = n_obj; i > 0; i-- )
+    {
+        //MATRIX* parentMatrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
+        temp_mdl = obj->model; 
+        temp_matrix = &((MATRIX* )(SCRPAD_ADDR  + 0x40))[temp_mdl->parent];
+        RotMatrixZYX_gte_80093F08( rots, matrix );
+
+        matrix->t[0] = temp_mdl->pos.vx;
+        matrix->t[1] = temp_mdl->pos.vy;
+        matrix->t[2] = temp_mdl->pos.vz;
+
+        if (i == (n_obj - 1)) 
+        {
+            temp_matrix = matrix3;
+        }
+
+        gte_CompMatrix( temp_matrix, matrix, matrix );
+
+        if (!adjust)
+        {
+            obj->world = *matrix;
+        }
+        else
+        {
+            if (adjust->vz) RotMatrixZ_80093D68( adjust->vz, matrix );
+            if (adjust->vx) RotMatrixX_80093A28( adjust->vx, matrix );
+            if (adjust->vy) RotMatrixY_80093BC8( adjust->vy, matrix );
+            adjust++;
+        }
+
+        obj++;
+        matrix++;
+        rots++;
+    }
+
+    if (adjust) 
+    {
+        matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
+        local_obj = objs->objs;
+        gte_SetRotMatrix  ( matrix2 );
+        gte_SetTransMatrix( matrix2 );
+
+        for (i = n_obj; i > 0; i--)
+        {
+            gte_MulMatrix02( matrix->t, matrix, matrix );
+            local_obj->world = *matrix;
+            local_obj++;
+            matrix++;
+        }
+
+    }
+}
+*/
