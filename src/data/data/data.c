@@ -8,6 +8,7 @@
 #include "libdg.h"
 #include "dgd.h"
 #include "door.h"
+#include "mts_new.h"
 
 // sdata
 extern const char* aCigs[];
@@ -1105,7 +1106,7 @@ int SECTION(".data") dword_800A3D68[] = {0, 0};
 int SECTION(".data") gMts_Event1_800A3D70 = 0;
 void* SECTION(".data") gControllerCallBack_800A3D74 = 0;
 int SECTION(".data") gMtsVSyncCount_800A3D78 = -1;
-int SECTION(".data") dword_800A3D7C[] = {0, 0, 0xFFFFFFFF, 0, 0};
+mts_msg SECTION(".data") stru_800A3D7C = { NULL, 0, -1, 0, NULL };
 int SECTION(".data") gMts_Event2_800A3D90 = 0;
 int SECTION(".data") dword_800A3D94 = 0;
 const char *SECTION(".data") dword_800A3D98[] = {aSending, aReceiving, aReady, aSleeping, aWaitvbl, aPending};
