@@ -79,17 +79,17 @@ void GV_Messge_And_Pad_Init_80014CC8(void)
 	GV_PadInputClear_800167C8();
 }
 
-extern void GV_FileCache_80015540(void);
+extern void GV_FreeCacheSystem_80015540(void);
 
 void sub_80014cf0(void)
 {
-	GV_FileCache_80015540();
+	GV_FreeCacheSystem_80015540();
 	GV_Memory_Init_80014C70();
 }
 
 extern void GV_ResidentHeapReset_800163B0(void);
 extern void GD_ClearFileHandlers_80015434(void);
-extern void GV_ClearFileCache_80015458(void);
+extern void GV_InitCacheSystem_80015458(void);
 extern void SetHangupCallBack_800892A8(void*);
 extern void Callback_Hangup_80014B34(void);
 
@@ -100,7 +100,7 @@ void GV_StartDaemon_80014d18(void)
 	GV_ActorList_Init_80014d98();
 	GV_ResidentHeapReset_800163B0();
 	GD_ClearFileHandlers_80015434();
-	GV_ClearFileCache_80015458();
+	GV_InitCacheSystem_80015458();
 	GV_Messge_And_Pad_Init_80014CC8();
 	GV_ActorPushBack_800150a8(0, &gGVActor_800acbf8, 0);
 	GV_ActorInit_8001514c(&gGVActor_800acbf8, GV_Act_80014b60, 0, "gvd.c"); // sdata
