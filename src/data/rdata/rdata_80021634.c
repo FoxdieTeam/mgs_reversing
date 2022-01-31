@@ -1,28 +1,4 @@
 #include "linker.h"
-/*
-const unsigned int SECTION(".rdata") jpt_800217A0[] =  
-{
-	0x800217A8,
-	0x800217B0,
-	0x800217B0,
-	0x800217B8,
-	0x800217E8,
-	0x800217A8,
-	0x800217E8,
-	0x800217A8
-};*/
-/*
-const unsigned int SECTION(".rdata") jpt_80021894[] =
-{
-	0x8002189C,
-	0x800218A8,
-	0x800218A8,
-	0x800218B4,
-	0x800218EC,
-	0x8002189C,
-	0x800218EC,
-	0x8002189C
-};*/
 
 const char SECTION(".rdata") aWarningOldVers[] = "Warning:old version hzm\n";
 
@@ -70,7 +46,7 @@ const char SECTION(".rdata") aNowDataTopXLoa[] = "now_data_top %X loaded_header 
 const char SECTION(".rdata") aTickD[] = "Tick %d\n";
 const char SECTION(".rdata") a08xTypeXSizeDT[] = "%08X TYPE %X size %d time %d\n";
 const char SECTION(".rdata") a08xTypeXSizeD[] = "%08X TYPE %X size %d\n";
-int SECTION(".rdata") dword_800107C4 = 0x5D525B;
+const char SECTION(".rdata") aR[] = "[R]";
 const char SECTION(".rdata") aAccessWait[] = "ACCESS WAIT..\n";
 const char SECTION(".rdata") aHwCardError[] = "*** hw card error\n";
 const char SECTION(".rdata") aCHTO[] = "[C.H.T.O]";

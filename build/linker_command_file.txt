@@ -442,7 +442,7 @@
 
 	include	"..\obj\Equip\memcard_hwcard_end_io_800244FC.obj"
 
-	include	"..\obj\memcard\memcard_easy_format_test_800246C0.obj"
+;	include	"..\obj\memcard\memcard_easy_format_test_800246C0.obj"
 	include	"..\obj\memcard\memcard_loaddir_800247E8.obj"
 	include	"..\obj\memcard\memcard_load_files_80024960.obj"
 	include	"..\obj\memcard\memcard_retry_helper_800249CC.obj"
@@ -2397,7 +2397,7 @@
 	include	"..\obj\psyq\bu_init_80098FEC.obj"
 	include	"..\obj\psyq\sub_80098FFC.obj"
 	include	"..\obj\psyq\sub_8009900C.obj"
-	include	"..\obj\psyq\sub_8009901C.obj"
+	include	"..\obj\psyq\card_read_8009901C.obj"
 	include	"..\obj\psyq\sub_8009902C.obj"
 	include	"..\obj\psyq\sub_8009906C.obj"
 	include	"..\obj\psyq\sub_8009907C.obj"

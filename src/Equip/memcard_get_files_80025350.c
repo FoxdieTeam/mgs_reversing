@@ -20,8 +20,8 @@ long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
 
 TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
 TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
-TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
-TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
+volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
+volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
 
 struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 
