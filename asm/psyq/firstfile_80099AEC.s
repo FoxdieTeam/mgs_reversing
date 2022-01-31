@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80099AEC
-sub_80099AEC:
+	xdef firstfile_80099AEC
+firstfile_80099AEC:
 	dw 0x27BDFFD8 ; 0x80099AEC
 	dw 0xAFB20018 ; 0x80099AF0
 	dw 0x00809021 ; 0x80099AF4
