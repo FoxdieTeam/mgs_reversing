@@ -2733,6 +2733,11 @@ group_gStageName_800B4D88	group bss,org($800B4D88)
 group_gProgramBottom_800C3208	group bss,org($800C3208)
 	section .gProgramBottom_800C3208, group_gProgramBottom_800C3208
 
+group_byte_801FFF00	group bss,org($801FFF00)
+	section .byte_801FFF00, group_byte_801FFF00
+
+group_byte_800C0DB8	group bss,org($800C0DB8)
+	section .byte_800C0DB8, group_byte_800C0DB8
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
