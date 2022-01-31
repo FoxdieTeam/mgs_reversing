@@ -448,7 +448,6 @@
 	include	"..\obj\memcard\memcard_retry_helper_800249CC.obj"
 	include	"..\obj\memcard\memcard_reset_status_80024A3C.obj"
 	include	"..\obj\memcard\memcard_check_80024A54.obj"
-	include	"..\obj\memcard\memcard_init_80024E48.obj"
 	include	"..\obj\Equip\memcard_exit_800250C4.obj"
 	include	"..\obj\memcard\memcard_retry_80025178.obj"
 	include	"..\obj\Equip\memcard_get_files_80025350.obj"
