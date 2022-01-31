@@ -7,7 +7,8 @@ int SECTION(".sbss") GV_PauseLevel_800AB928;
 int SECTION(".sbss") dword_0x800AB92C;
 
 LibGV_FileRecord *SECTION(".sbss") dword_800AB930;
-int SECTION(".sbss") dword_0x800AB934[2];
+LibGV_FileRecord *SECTION(".sbss") GV_ResidentFileRecords_0x800AB934;
+int SECTION(".sbss") N_ResidentFileRecords_0x800AB938;
 
 short SECTION(".sbss") pad1;
 unsigned char *SECTION(".sbss") gResidentTop_800AB940;

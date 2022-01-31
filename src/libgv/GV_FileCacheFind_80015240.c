@@ -1,13 +1,7 @@
 #include "libgv.h"
 
-//has to be in a struct to match
-typedef struct CacheWork
-{
-	LibGV_FileRecord tags[128];
-} CacheWork;
-
 /**bss*******************************************************/
-CacheWork SECTION(".CacheWork_800ACEF0") GV_CacheWork;
+CacheSystems SECTION(".CacheSystems_800ACEF0") GV_CacheSystem;
 /***********************************************************/
 
 /***$gp*************************************************/
@@ -27,7 +21,7 @@ LibGV_FileRecord *GV_FileCacheFind_80015240 ( int id )
 
 	selectedTag = 0;
 	pos = id % 0x80;
-	tag = &GV_CacheWork.tags[pos];
+	tag = &GV_CacheSystem.tags[pos];
 
 	remainder = 0x80 - pos;
 	i = 0x80;
@@ -57,7 +51,7 @@ LibGV_FileRecord *GV_FileCacheFind_80015240 ( int id )
 				tag++;
 				if ( !remainder )
 				{
-					tag = GV_CacheWork.tags;
+					tag = GV_CacheSystem.tags;
 				}
 				i--;
 			}

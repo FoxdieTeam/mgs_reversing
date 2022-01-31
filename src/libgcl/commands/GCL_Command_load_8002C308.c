@@ -13,7 +13,7 @@ int GM_PushAreaHistory_8002A7D8(int, char *);
 char *strcpy_8008E768(char *, char *);
 
 void GV_ResidentHeapReset_800163B0(void);
-void GV_ClearFileCache_80015458(void);
+void GV_InitCacheSystem_80015458(void);
 void DG_ClearResidentTexture_8001DB10(void);
 
 GameState_800B4D98 SECTION(".gGameState_800B4D98") gGameState_800B4D98;
@@ -37,7 +37,7 @@ int GCL_Command_load_8002C308(int argc, char **argv)
             // Hard restart?
             strcpy_8008E768(dword_800ABA58, GM_StageName_8002A880(scriptStageName));
             GV_ResidentHeapReset_800163B0();
-            GV_ClearFileCache_80015458();
+            GV_InitCacheSystem_80015458();
             DG_ClearResidentTexture_8001DB10();
             GM_PushAreaHistory_8002A7D8(GV_StrCode_80016CCC(scriptStageName), scriptStageName);
         }
