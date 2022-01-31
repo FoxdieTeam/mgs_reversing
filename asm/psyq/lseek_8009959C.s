@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009959C
-sub_8009959C:
+	xdef lseek_8009959C
+lseek_8009959C:
 	dw 0x240A00B0 ; 0x8009959C
 	dw 0x01400008 ; 0x800995A0
 	dw 0x24090033 ; 0x800995A4
