@@ -533,7 +533,7 @@
 
 	include	"..\obj\Game\GM_Stage_ClearStageHistory_8002A704.obj"
 
-	include	"..\obj\sub_8002A890.obj"
+	include	"..\obj\GM_SetResidentHeap_8002A890.obj"
 	include	"..\obj\sub_8002A8B0.obj"
 
 
@@ -2176,7 +2176,7 @@
 
 	
 
-	include	"..\obj\mts\mts_8008C598.obj"
+	include	"..\obj\mts\mts_get_program_bottom_8008C598.obj"
 	include	"..\obj\mts\mts_8008C5A8.obj"
 	include	"..\obj\mts\mts_8008C5B0.obj"
 	include	"..\obj\mts\mts_8008C5D0.obj"
