@@ -20,8 +20,8 @@ long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
 
 TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
 TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
-TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
-TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
+volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
+volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
 
 struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 
@@ -67,6 +67,9 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 }
 
 void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
+void memcard_swcard_do_op_800244EC(TMemCardSetFunc op);
+
+
 void memcard_set_sw_hw_card_fns_8002469C();
 
 void memcard_hwcard_read_write_handler_8002546C(int op)
@@ -86,3 +89,25 @@ void memcard_hwcard_read_write_handler_8002546C(int op)
     }
 }
 
+extern const char aMemcardReadWri[];
+extern const char aErrorMemcardRe[];
+
+void memcard_swcard_read_write_handler_800254D4(int op)
+{
+    if ( op == 1 )
+    {
+        mts_printf_8008BBA0(aMemcardReadWri);
+    }
+    else
+    {
+        mts_printf_8008BBA0(aErrorMemcardRe);
+    }
+    gSwCard_do_op_800B52EC = memcard_swcard_do_op_800244EC;
+}
+
+void memcard_set_read_write_8002551C(int fileSize)
+{
+    gHwCard_do_op_800B52E8 = memcard_hwcard_read_write_handler_8002546C;
+    gSwCard_do_op_800B52EC = memcard_swcard_read_write_handler_800254D4;
+    gMemCard_io_size_800B5648 = fileSize;
+}
