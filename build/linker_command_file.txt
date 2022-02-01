@@ -414,7 +414,6 @@
 	include	"..\obj\sub_8002336C.obj"
 	include	"..\obj\sub_80023460.obj"
 	include	"..\obj\Loader_80023624.obj"
-	include	"..\obj\Loader_load_file_by_name_800236E0.obj"
 	include	"..\obj\Equip\Loader_End_80023804.obj"
 	include	"..\obj\sub_80023860.obj" ; fs movie info ?
 	include	"..\obj\sub_80023C40.obj"
