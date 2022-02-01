@@ -65,7 +65,7 @@
 	include	"..\obj\libgv\GV_Malloc_8001620C.obj"
 	include	"..\obj\libgv\GV_Free_80016230.obj"
 	include	"..\obj\libgv\GV_Void_80016254.obj"
-	include	"..\obj\sub_8001627C.obj"
+	include	"..\obj\GV_Alloc_8001627C.obj"
 	include	"..\obj\sub_8001630C.obj"
 	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
 	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
@@ -396,7 +396,7 @@
 	include	"..\obj\sub_80022090.obj"
 	include	"..\obj\sub_80022264.obj"
 	include	"..\obj\sub_800227A8.obj"
-	include	"..\obj\sub_8002280C.obj"
+	include	"..\obj\CDFS_ReadSectors_8002280C.obj"
 	include	"..\obj\CDFS_SectorsLeft_80022854.obj"
 	include	"..\obj\sub_80022864.obj"
 	include	"..\obj\sub_80022888.obj"
@@ -407,10 +407,10 @@
 	include	"..\obj\sub_80022B5C.obj"
 	include	"..\obj\sub_80022CBC.obj"
 	include	"..\obj\sub_80022D00.obj"
-	include	"..\obj\sub_80022DCC.obj"
+	include	"..\obj\Loader_StartSector_80022DCC.obj"
 	include	"..\obj\sub_80022E50.obj"
 	include	"..\obj\sub_800231A8.obj"
-	include	"..\obj\sub_80023274.obj"
+	include	"..\obj\Loader_CD_Read_CallBack_80023274.obj"
 	include	"..\obj\sub_8002336C.obj"
 	include	"..\obj\sub_80023460.obj"
 	include	"..\obj\Loader_80023624.obj"
@@ -2592,9 +2592,6 @@ group_gDispEnv_800B0600	group bss,org($800B0600)
 
 group_gStuff_800B52C0	group bss,org($800B52C0)
 	section .gStuff_800B52C0, group_gStuff_800B52C0
-
-group_gOverlayBinSize_800B5290	group bss,org($800B5290)
-	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
 
 group_gMemoryCardFiles_800B52C8	group bss,org($800B52C8)
 	section .gMemoryCardFiles_800B52C8, group_gMemoryCardFiles_800B52C8

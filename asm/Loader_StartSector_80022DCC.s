@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80022DCC
-sub_80022DCC:
+	xdef Loader_StartSector_80022DCC
+Loader_StartSector_80022DCC:
 	dw 0x27BDFFD8 ; 0x80022DCC
 	dw 0xAFB3001C ; 0x80022DD0
 	dw 0x3C03800A ; 0x80022DD4

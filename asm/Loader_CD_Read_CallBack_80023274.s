@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80023274
-sub_80023274:
+	xdef Loader_CD_Read_CallBack_80023274
+Loader_CD_Read_CallBack_80023274:
 	dw 0x27BDFFE8 ; 0x80023274
 	dw 0x00802821 ; 0x80023278
 	dw 0x3C02800B ; 0x8002327C
