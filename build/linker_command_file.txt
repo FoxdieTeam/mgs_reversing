@@ -67,7 +67,7 @@
 	include	"..\obj\libgv\GV_Malloc_8001620C.obj"
 	include	"..\obj\libgv\GV_Free_80016230.obj"
 	include	"..\obj\libgv\GV_Void_80016254.obj"
-	include	"..\obj\sub_8001627C.obj"
+	include	"..\obj\GV_Alloc_8001627C.obj"
 	include	"..\obj\sub_8001630C.obj"
 	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
 	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
@@ -398,8 +398,8 @@
 	include	"..\obj\sub_80022090.obj"
 	include	"..\obj\sub_80022264.obj"
 	include	"..\obj\sub_800227A8.obj"
-	include	"..\obj\sub_8002280C.obj"
-	include	"..\obj\sub_80022854.obj"
+	include	"..\obj\CDFS_ReadSectors_8002280C.obj"
+	include	"..\obj\CDFS_SectorsLeft_80022854.obj"
 	include	"..\obj\sub_80022864.obj"
 	include	"..\obj\sub_80022888.obj"
 	include	"..\obj\sub_80022898.obj"
@@ -409,16 +409,15 @@
 	include	"..\obj\sub_80022B5C.obj"
 	include	"..\obj\sub_80022CBC.obj"
 	include	"..\obj\sub_80022D00.obj"
-	include	"..\obj\sub_80022DCC.obj"
+	include	"..\obj\Loader_StartSector_80022DCC.obj"
 	include	"..\obj\sub_80022E50.obj"
 	include	"..\obj\sub_800231A8.obj"
-	include	"..\obj\sub_80023274.obj"
+	include	"..\obj\Loader_CD_Read_CallBack_80023274.obj"
 	include	"..\obj\sub_8002336C.obj"
 	include	"..\obj\sub_80023460.obj"
-	include	"..\obj\sub_80023624.obj"
+	include	"..\obj\Loader_80023624.obj"
 	include	"..\obj\Loader_load_file_by_name_800236E0.obj"
-	include	"..\obj\Loader_Act_helper_800237C0.obj"
-	include	"..\obj\Loader_End_80023804.obj"
+	include	"..\obj\Equip\Loader_End_80023804.obj"
 	include	"..\obj\sub_80023860.obj" ; fs movie info ?
 	include	"..\obj\sub_80023C40.obj"
 	include	"..\obj\sub_80023D94.obj"
@@ -674,7 +673,6 @@
 	include	"..\obj\sub_8002DDE0.obj"
 	include	"..\obj\sub_8002E1B8.obj"
 	include	"..\obj\sub_8002E374.obj"
-	include	"..\obj\Game\Loader_Act_8002e390.obj"
 	include "..\obj\Game\loader.obj"
 	include	"..\obj\sub_8002E508.obj"
 	include	"..\obj\Game\GM_set_noise_sound_8002E588.obj"
@@ -2597,9 +2595,6 @@ group_gDispEnv_800B0600	group bss,org($800B0600)
 group_gStuff_800B52C0	group bss,org($800B52C0)
 	section .gStuff_800B52C0, group_gStuff_800B52C0
 
-group_gOverlayBinSize_800B5290	group bss,org($800B5290)
-	section .gOverlayBinSize_800B5290, group_gOverlayBinSize_800B5290
-
 group_gMemoryCardFiles_800B52C8	group bss,org($800B52C8)
 	section .gMemoryCardFiles_800B52C8, group_gMemoryCardFiles_800B52C8
 
@@ -2734,6 +2729,15 @@ group_gStageName_800B4D88	group bss,org($800B4D88)
 
 group_gProgramBottom_800C3208	group bss,org($800C3208)
 	section .gProgramBottom_800C3208, group_gProgramBottom_800C3208
+
+group_byte_801FFF00	group bss,org($801FFF00)
+	section .byte_801FFF00, group_byte_801FFF00
+
+group_byte_800C0DB8	group bss,org($800C0DB8)
+	section .byte_800C0DB8, group_byte_800C0DB8
+
+group_gLoaderRec_800B5288	group bss,org($800B5288)
+	section .gLoaderRec_800B5288, group_gLoaderRec_800B5288
 
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C

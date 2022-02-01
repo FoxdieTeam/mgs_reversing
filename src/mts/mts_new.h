@@ -38,8 +38,8 @@ typedef struct mts_msg
 typedef struct mts_task
 {
     signed char field_0_state;
-    char field_1;
-    char field_2;
+    signed char field_1;
+    signed char field_2;
     signed char field_3_src_idx;
     mts_msg* field_4_pMessage;
     TMtsFn field_8_fn; // field_8_fn_or_msg
