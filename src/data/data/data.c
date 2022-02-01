@@ -813,30 +813,35 @@ int SECTION(".data") dword_8009F064[] = {0xC8FF38, 0x258, 0xC80190, 0x190, 5, 0x
 int SECTION(".data") dword_8009F084[] = {0xC800C8, 0x258, 0xC80190, 0x190, 0xFFFB, 0x32, 0, 1};
 int SECTION(".data") dword_8009F0A4[] = {0xC80000, 0x258, 0xFA01F4, 0x1F4, 0, 0x64, 0, 3};
 int SECTION(".data") dword_8009F0C4[] = {0, 0, 0xFFFF, 0};
-int SECTION(".data") dword_8009F0D4[] = {0x2DF92, 0x40002, 1, 0x320005, 0xFA0032};
-int SECTION(".data") dword_8009F0E8[] = {0, 0x800124A8};
-int SECTION(".data") dword_8009F0F0[] = {0x8512D, 0x1E0004, 0x12C0001, 0x1900001, 0x200190};
-int SECTION(".data") dword_8009F104[] = {0, 0x8001253C};
-int SECTION(".data") dword_8009F10C[] = {0x2E4CC, 0x40002, 0x12C0001, 0x1900001, 0x800190};
-int SECTION(".data") dword_8009F120[] = {0, 0x800125CC};
-int SECTION(".data") dword_8009F128[] = {0x2E4CC, 0x40002, 0x12C0001, 0x5780001, 0x800578};
-int SECTION(".data") dword_8009F13C[] = {0, 0x800125F4};
-int SECTION(".data") dword_8009F144[] = {0x2E4CC, 0x40002, 0x12C0001, 0x1900001, 0x800190};
-int SECTION(".data") dword_8009F158[] = {0, 0x8001261C};
-int SECTION(".data") dword_8009F160[] = {0x2FE8E, 0x30002, 0x12C0001, 0x2580001, 0x640258};
-int SECTION(".data") dword_8009F174[] = {0, 0x80012628};
-int SECTION(".data") dword_8009F17C[] = {0x27E4C, 0x40002, 0xC80001, 0x640005, 0x800064};
-int SECTION(".data") dword_8009F190[] = {0, 0x80012634};
-int SECTION(".data") dword_8009F198[] = {0x8512D, 0x1E0004, 8, 0x8980003, 0x4D0898};
-int SECTION(".data") dword_8009F1AC[] = {0, 0x80012708};
-int SECTION(".data") dword_8009F1B4[] = {0x8512D, 0x1E0004, 1, 0x3E80001, 0x4D03E8};
-int SECTION(".data") dword_8009F1C8[] = {0, 0x80012728};
-int SECTION(".data") dword_8009F1D0[] = {0x8512D, 0x1E0004, 4, 0x8980001, 0x800898};
-int SECTION(".data") dword_8009F1E4[] = {0, 0x80012750};
-int SECTION(".data") dword_8009F1EC[] = {0x8512D, 0x1E0004, 0x3E80001, 0x1900003, 0x800190};
-int SECTION(".data") dword_8009F200[] = {0, 0x800127A4};
-int SECTION(".data") dword_8009F208[] = {0x8512D, 0x1E0004, 0x3E80001, 0x1E0003, 0xA001E};
-int SECTION(".data") dword_8009F21C[] = {0, 0x800127D0};
+
+struct Anim_Data
+{
+  short field_0;
+  short field_2;
+  int field_4;
+  short field_8_count;
+  short field_A;
+  short field_C;
+  short field_E;
+  short field_10;
+  short field_12;
+  int field_14;
+  void *field_18;
+};
+
+struct Anim_Data SECTION(".data") stru_8009F0D4 = { -8302, 2, 262146, 1, 0, 5, 50, 50, 250, 0, (void*)0x800124A8 };
+struct Anim_Data SECTION(".data") stru_8009F0F0 = { 20781, 8, 1966084, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C };
+struct Anim_Data SECTION(".data") stru_8009F10C = { -6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x800125CC };
+struct Anim_Data SECTION(".data") stru_8009F128 = { -6964, 2, 262146, 1, 300, 1, 1400, 1400, 128, 0, (void *)0x800125F4 };
+struct Anim_Data SECTION(".data") stru_8009F144 = { -6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x8001261C };
+struct Anim_Data SECTION(".data") stru_8009F160 = { -370, 2, 196610, 1, 300, 1, 600, 600, 100, 0, (void *)0x80012628 };
+struct Anim_Data SECTION(".data") stru_8009F17C = { 32332, 2, 262146, 1, 200, 5, 100, 100, 128, 0, (void *)0x80012634 };
+struct Anim_Data SECTION(".data") stru_8009F198 = { 20781, 8, 1966084, 8, 0, 3, 2200, 2200, 77, 0, (void *)0x80012708 };
+struct Anim_Data SECTION(".data") stru_8009F1B4 = { 20781, 8, 1966084, 1, 0, 1, 1000, 1000, 77, 0, (void *)0x80012728 };
+struct Anim_Data SECTION(".data") stru_8009F1D0 = { 20781, 8, 1966084, 4, 0, 1, 2200, 2200, 128, 0, (void *)0x80012750 };
+struct Anim_Data SECTION(".data") stru_8009F1EC = { 20781, 8, 1966084, 1, 1000, 3, 400, 400, 128, 0, (void *)0x800127A4 };
+struct Anim_Data SECTION(".data") stru_8009F208 = { 20781, 8, 1966084, 1, 1000, 3, 30, 30, 10, 0, (void *)0x800127D0 };
+
 int SECTION(".data") dword_8009F224 = 0;
 
 int SECTION(".data") anime_fn_table_8009F228[] = 
@@ -945,7 +950,9 @@ short SECTION(".data") word_8009F5FC = 1;
 int SECTION(".data") dword_8009F600 = 0;
 int SECTION(".data") dword_8009F604 = 0xFFFFFFFF;
 int SECTION(".data") dword_8009F608 = 0;
-int SECTION(".data") dword_8009F60C[] = {0x320032, 0x640064};
+
+RECT SECTION(".data") stru_8009F60C = { 50, 50, 100, 100 };
+
 int SECTION(".data") dword_8009F614[] = {0x17B54, 0x10001, 0x1F40001, 0x12C0003, 0xC8012C};
 int SECTION(".data") dword_8009F628[] = {0, 0x80012E84};
 
@@ -963,13 +970,14 @@ SVECTOR SECTION(".data") stru_8009F650[2] =
 	{ 0, 0, 10000, 0 }
 };
 
-int SECTION(".data") dword_8009F660[] = {0x640064, 0x64};
+SVECTOR SECTION(".data") stru_8009F660 = { 100, 100, 100, 0 };
+
 int SECTION(".data") dword_8009F668 = 0xFFFFFFFF;
 int SECTION(".data") dword_8009F66C = 0;
-int SECTION(".data") dword_8009F670[] = {0x14CEC, 0x10001, 0x1F40001, 0x3200003, 0x800320};
-int SECTION(".data") dword_8009F684[] = {0, (int)dword_80012F2C};
-int SECTION(".data") dword_8009F68C[] = {0x155A6, 0x10001, 0x1F40001, 0x2580003, 0xB40258};
-int SECTION(".data") dword_8009F6A0[] = {0, (int)dword_80012F50};
+
+struct Anim_Data SECTION(".data") stru_8009F670 = { 19692, 1, 65537, 1, 500, 3, 800, 800, 128, 0, (void*)dword_80012F2C };
+struct Anim_Data SECTION(".data") stru_8009F68C = { 21926, 1, 65537, 1, 500, 3, 600, 600, 180, 0, (void*)dword_80012F50 };
+
 int SECTION(".data") dword_8009F6A8 = 0;
 short SECTION(".data") word_8009F6AC[] = {0, 0, 0, 0};
 short SECTION(".data") word_8009F6B4[] = {0, 0, 0, 0, 0, 0};
