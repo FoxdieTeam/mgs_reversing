@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80023624
-sub_80023624:
+	xdef Loader_80023624
+Loader_80023624:
 	dw 0x27BDFFE8 ; 0x80023624
 	dw 0xAFB00010 ; 0x80023628
 	dw 0x00808021 ; 0x8002362C
