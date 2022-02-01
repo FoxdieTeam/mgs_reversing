@@ -7,11 +7,6 @@ struct Loader *Loader_Init_8002e460(char *pStageName);
 
 extern char aInit[]; // = "init";
 
-static inline int GM_CurrentStage(GameState_800B4D98 *ptr)
-{
-    return ptr->field_0C_current_stage;
-}
-
 void GM_CreateLoader_8002AAB0()
 {
     char *stageName = aInit;
