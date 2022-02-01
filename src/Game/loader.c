@@ -7,6 +7,10 @@ extern const char aNotFoundStageS[];
 extern const char aLoaderC[];
 extern const char aLoadend[];
 
+extern int gLoaderState_800ABA38;
+extern int gFlags_800AB3D0;
+extern int dword_800ABA54;
+
 struct Loader_Rec_2
 {
 	char field_0;
@@ -31,9 +35,6 @@ struct Loader_Record
 	int field_34;
 };
 
-extern struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pStageName);
-extern void Loader_End_80023804(struct Loader_Record *pImpl);
-
 struct Loader
 {
 	struct Actor base;
@@ -43,10 +44,38 @@ struct Loader
 	int field_2C_counter;
 };
 
-extern void Loader_Act_8002e390(struct Loader *loader);
+void DG_OffsetDispEnv_80017784(int offset);
 
-extern int gLoaderState_800ABA38;
-extern int gFlags_800AB3D0;
+int Loader_Act_helper_800237C0(struct Loader_Record *pRec);
+
+extern struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pStageName);
+extern void Loader_End_80023804(struct Loader_Record *pImpl);
+
+void Loader_Act_8002e390(struct Loader *pLoader)
+{
+	pLoader->field_2C_counter++;
+
+	if (pLoader->field_24_proc_cancel_flags != 2)
+	{
+		if (pLoader->field_24_proc_cancel_flags == 3)
+		{
+			DG_OffsetDispEnv_80017784(pLoader->field_2C_counter & 2);
+			dword_800ABA54 = 100;
+		}
+	}
+
+	if (pLoader->field_28_bRunning)
+	{
+		if (!Loader_Act_helper_800237C0(pLoader->field_20_pFileName))
+		{
+			pLoader->field_28_bRunning = 0;
+		}
+	}
+	else
+	{
+		GV_ActorDelayedKill_800151c8(&pLoader->base);
+	}
+}
 
 void Loader_Kill_8002e41c(struct Loader *pLoader)
 {

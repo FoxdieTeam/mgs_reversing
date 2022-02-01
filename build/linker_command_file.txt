@@ -672,7 +672,6 @@
 	include	"..\obj\sub_8002DDE0.obj"
 	include	"..\obj\sub_8002E1B8.obj"
 	include	"..\obj\sub_8002E374.obj"
-	include	"..\obj\Game\Loader_Act_8002e390.obj"
 	include "..\obj\Game\loader.obj"
 	include	"..\obj\sub_8002E508.obj"
 	include	"..\obj\Game\GM_set_noise_sound_8002E588.obj"
