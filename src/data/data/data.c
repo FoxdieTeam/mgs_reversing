@@ -948,7 +948,16 @@ int SECTION(".data") dword_8009F608 = 0;
 int SECTION(".data") dword_8009F60C[] = {0x320032, 0x640064};
 int SECTION(".data") dword_8009F614[] = {0x17B54, 0x10001, 0x1F40001, 0x12C0003, 0xC8012C};
 int SECTION(".data") dword_8009F628[] = {0, 0x80012E84};
-int SECTION(".data") dword_8009F630[] = {0x14, 0, 0xFFEC, 0, 0x140000, 0, 0xFFEC0000, 0};
+
+SVECTOR SECTION(".data") stru_8009F630[4] =
+{ 
+	{ 20, 0, 0, 0 }, 
+	{ -20, 0, 0, 0 },
+	{ 0, 20, 0, 0 },
+	{ 0, -20, 0, 0 } 
+};
+
+
 int SECTION(".data") dword_8009F650[] = {0, 0xC8, 0, 0x2710};
 int SECTION(".data") dword_8009F660[] = {0x640064, 0x64};
 int SECTION(".data") dword_8009F668 = 0xFFFFFFFF;
