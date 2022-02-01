@@ -1,5 +1,11 @@
 #include "linker.h"
 
+struct Loader_Rec_2
+{
+    char field_0;
+    char field_1;
+};
+
 struct Loader_Record // TODO: Share in a header
 {
     int field_0;
@@ -29,9 +35,64 @@ extern int DG_FrameRate_8009D45C;
 
 struct Loader_Record *SECTION(".gLoaderRec_800B5288") gLoaderRec_800B5288;
 int SECTION(".gLoaderRec_800B5288") gLoaderStartTime_800B528C;
+int SECTION(".gLoaderRec_800B5288") gOverlayBinSize_800B5290;
+int SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
 
 int Loader_80023624(struct Loader_Record *pRec);
 int CDFS_SectorsLeft_80022854(void);
+extern void *GV_Malloc_8001620C(int size);
+
+extern const char aLoadS[];     // = "load %s\n";
+extern const char aNotFoundS[]; // = "NOT FOUND %s\n";
+extern const char aNo2[];       // = "no_mem\n";
+
+extern short word_8009D504;
+
+int Loader_StartSector_80022DCC(char *pFileName);
+void *GV_Alloc_8001627C(int size);
+
+void CDFS_ReadSectors_8002280C(void *pHeap, int startSector, int sectorSize, void *fnCallBack);
+int Loader_CD_Read_CallBack_80023274(int *a1);
+
+/*
+struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pFileName)
+{
+    int sector;                // $s1
+    struct Loader_Record *pLoaderRec; // $s0
+    struct Loader_Rec_2 *p2Alloc;     // $v0
+
+    DG_FrameRate_8009D45C = 1;
+    mts_printf_8008BBA0(aLoadS, pFileName);
+    gLoaderStartTime_800B528C = VSync_80098108(-1);
+    gSaveCache_800B5294 = 0;
+    sector = Loader_StartSector_80022DCC((char *)pFileName);
+    if (sector < 0)
+    {
+        mts_printf_8008BBA0(aNotFoundS, pFileName);
+    }
+    pLoaderRec = (struct Loader_Record *)GV_Malloc_8001620C(sizeof(struct Loader_Record)); // 0x38
+    if (!pLoaderRec)
+    {
+        mts_printf_8008BBA0(aNo2);
+    }
+    p2Alloc = (struct Loader_Rec_2 *)GV_Alloc_8001627C(2);
+    pLoaderRec->field_8_p2Alloc = p2Alloc;
+    pLoaderRec->field_28 = 2;
+    gLoaderRec_800B5288 = pLoaderRec;
+    pLoaderRec->field_0 = 0;
+    pLoaderRec->field_2C = 0;
+    word_8009D504 = 0;
+    CDFS_ReadSectors_8002280C(p2Alloc, sector, 2048, Loader_CD_Read_CallBack_80023274);
+    return pLoaderRec;
+}
+*/
+
+static inline struct Loader_Rec_2* DoIt( struct Loader_Record *pLoaderRec)
+{
+    struct Loader_Rec_2* rec;
+    rec = pLoaderRec->field_8_p2Alloc;
+    return rec;
+}
 
 int Loader_Act_helper_800237C0(struct Loader_Record *pRec)
 {

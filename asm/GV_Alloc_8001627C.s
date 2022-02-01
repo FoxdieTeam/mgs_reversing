@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001627C
-sub_8001627C:
+	xdef GV_Alloc_8001627C
+GV_Alloc_8001627C:
 	dw 0x27BDFFE8 ; 0x8001627C
 	dw 0x00002821 ; 0x80016280
 	dw 0x00041A00 ; 0x80016284

@@ -9,7 +9,7 @@ extern unsigned char* gOverlayBase_800AB9C8;
 
 extern const char aTooLargeStageB[];
 
-int SECTION(".gOverlayBinSize_800B5290") gOverlayBinSize_800B5290;
+extern int gOverlayBinSize_800B5290;
 
 int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameHashed)
 {
