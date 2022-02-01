@@ -1,10 +1,10 @@
 
 
-extern int  sub_80022854(void);
+extern int  CDFS_SectorsLeft_80022854(void);
 
 void sub_80021F48(void)
 
 {
-    sub_80022854();
+    CDFS_SectorsLeft_80022854();
     return;
 }

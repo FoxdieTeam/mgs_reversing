@@ -96,7 +96,7 @@ static void task_main_800148B8(void)
 
 void _main()
 {
-	static unsigned char SECTION(".0x800ABBF0") main_task_stack_800ABBF0[2048];
+	static unsigned char SECTION(".0x800ABBF0") main_task_stack_800ABBF0[2048]; // 800AC3F0
 	__main_80098F14();
 	mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0), sizeof(main_task_stack_800ABBF0));
 }

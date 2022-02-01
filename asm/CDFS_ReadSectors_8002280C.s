@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002280C
-sub_8002280C:
+	xdef CDFS_ReadSectors_8002280C
+CDFS_ReadSectors_8002280C:
 	dw 0x3C02800B ; 0x8002280C
 	dw 0x24434E58 ; 0x80022810
 	dw 0x14C00002 ; 0x80022814
