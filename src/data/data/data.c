@@ -957,8 +957,12 @@ SVECTOR SECTION(".data") stru_8009F630[4] =
 	{ 0, -20, 0, 0 } 
 };
 
+SVECTOR SECTION(".data") stru_8009F650[2] =
+{
+	{ 0, 0, 200, 0 },
+	{ 0, 0, 10000, 0 }
+};
 
-int SECTION(".data") dword_8009F650[] = {0, 0xC8, 0, 0x2710};
 int SECTION(".data") dword_8009F660[] = {0x640064, 0x64};
 int SECTION(".data") dword_8009F668 = 0xFFFFFFFF;
 int SECTION(".data") dword_8009F66C = 0;
