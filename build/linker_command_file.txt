@@ -2728,7 +2728,9 @@ group_gStageName_800B4D88	group bss,org($800B4D88)
 group_gProgramBottom_800C3208	group org($800C3208), file("..\obj\sound.bin"), size(343544)
 	section .gProgramBottom_800C3208, group_gProgramBottom_800C3208
 	section .olay, group_gProgramBottom_800C3208
+	section .olay_r, group_gProgramBottom_800C3208
 	include	"..\obj\overlays\sound_bin.obj"
+	include	"..\obj\overlays\sndtst.obj"
 
 group_byte_801FFF00	group bss,org($801FFF00)
 	section .byte_801FFF00, group_byte_801FFF00
