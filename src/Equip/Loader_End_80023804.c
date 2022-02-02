@@ -54,7 +54,8 @@ void *GV_Alloc_8001627C(int size);
 void CDFS_ReadSectors_8002280C(void *pHeap, int startSector, int sectorSize, void *fnCallBack);
 int Loader_CD_Read_CallBack_80023274(int *a1);
 
-/*
+
+
 struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pFileName)
 {
     int sector;                // $s1
@@ -76,7 +77,10 @@ struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pFileName)
         mts_printf_8008BBA0(aNo2);
     }
     p2Alloc = (struct Loader_Rec_2 *)GV_Alloc_8001627C(2);
+    do { } while (0); // TODO: Figure out what this was, a compiled out macro, checking mem alloc didn't fail ?
+
     pLoaderRec->field_8_p2Alloc = p2Alloc;
+
     pLoaderRec->field_28 = 2;
     gLoaderRec_800B5288 = pLoaderRec;
     pLoaderRec->field_0 = 0;
@@ -85,7 +89,7 @@ struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pFileName)
     CDFS_ReadSectors_8002280C(p2Alloc, sector, 2048, Loader_CD_Read_CallBack_80023274);
     return pLoaderRec;
 }
-*/
+
 
 static inline struct Loader_Rec_2* DoIt( struct Loader_Record *pLoaderRec)
 {
