@@ -2724,8 +2724,11 @@ group_dword_800B0630	group bss,org($800B0630)
 group_gStageName_800B4D88	group bss,org($800B4D88)
 	section .gStageName_800B4D88, group_gStageName_800B4D88
 
-group_gProgramBottom_800C3208	group bss,org($800C3208)
+; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
+group_gProgramBottom_800C3208	group org($800C3208), file("..\obj\sound.bin"), size(343544)
 	section .gProgramBottom_800C3208, group_gProgramBottom_800C3208
+	section .olay, group_gProgramBottom_800C3208
+	include	"..\obj\overlays\sound_bin.obj"
 
 group_byte_801FFF00	group bss,org($801FFF00)
 	section .byte_801FFF00, group_byte_801FFF00
@@ -2735,7 +2738,6 @@ group_byte_800C0DB8	group bss,org($800C0DB8)
 
 group_gLoaderRec_800B5288	group bss,org($800B5288)
 	section .gLoaderRec_800B5288, group_gLoaderRec_800B5288
-
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
