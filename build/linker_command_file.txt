@@ -17,21 +17,12 @@
 	include "..\obj\data\sdata\sdata2.obj"
 	
 	;cache.c
-	include	"..\obj\libgv\GV_FileCacheFind_80015240.obj"
-	include	"..\obj\libgv\GV_CacheID_800152DC.obj"
-	include	"..\obj\libgv\GV_CacheID2_800152FC.obj"
-	include	"..\obj\libgv\GV_CacheID3_8001532C.obj"	
-	include	"..\obj\libgv\GV_GetCache_8001538C.obj"
-	include	"..\obj\libgv\GV_SetCache_800153C0.obj"
-	include	"..\obj\libgv\GV_SetFileHandler_80015418.obj"
-	include	"..\obj\libgv\GV_InitCacheSystem_80015458.obj"
-	include	"..\obj\libgv\GV_ResidentFileCache_80015484.obj" ; file cache to resident memory ?
-	include	"..\obj\libgv\GV_FreeCacheSystem_80015540.obj" ; file cache
-	include	"..\obj\libgv\GV_LoadFile_800155BC.obj"
-	;
-	
-	include	"..\obj\libgv\GV_Assert_800156E8.obj"
-	include	"..\obj\libgv\GV_Printf_80015718.obj"
+	include "..\obj\libgv\cache.obj"
+
+	;debug.c ?
+	include "..\obj\libgv\debug.obj"
+
+	;libgv\memory.c
 	include	"..\obj\System_FindAlloc_80015758.obj"
 	include	"..\obj\sub_80015818.obj"
 	include	"..\obj\sub_80015874.obj"
@@ -72,6 +63,8 @@
 	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
 	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
 	include	"..\obj\libgv\GV_AllocResidentMemory_800163D8.obj"
+
+	;libgv\message.c
 	include	"..\obj\libgv\GV_Message_8001642C.obj"
 	include	"..\obj\libgv\GV_MessageClear_800164AC.obj"
 	include	"..\obj\GV_ClearMessageSystem_800164C8.obj"
@@ -80,11 +73,16 @@
 	include	"..\obj\sub_800166AC.obj"
 	include	"..\obj\sub_800166F0.obj"
 	include	"..\obj\sub_80016750.obj"
+
+	;libgv\pad.c
 	include	"..\obj\libgv\GV_PadInputClear_800167C8.obj" ; GV_InitPadSystem ?
 	include	"..\obj\sub_8001682C.obj" ; GV_UpdatePadSystem  ?
 	include	"..\obj\sub_80016C78.obj" ; GV_OriginPadSystem  ?
 	include	"..\obj\sub_80016C84.obj" ; GV_GetPadOrigin / GV_GetPadDirNoPadOrg ?
+
 	include	"..\obj\libgv\strcode.obj"
+
+	;libgv\math.c ?
 	include	"..\obj\libgv\GV_AddVec3_80016D00.obj"
 	include	"..\obj\libgv\GV_SubVec3_80016D40.obj"
 	include	"..\obj\libgv\GV_VecLen3_80016D80.obj"
@@ -238,21 +236,21 @@
 
 	include	"..\obj\libgcl\gcl.obj"
 
-	;basic.c
+	;libgcl\basic.c
 	include	"..\obj\libgcl\commands\GCL_Cmd_If_80020274.obj"
 	include	"..\obj\libgcl\commands\GCL_Cmd_Eval_80020318.obj"
 	include	"..\obj\libgcl\commands\GCL_Cmd_ForEach_8002033C.obj"
 	include	"..\obj\libgcl\commands\GCL_Cmd_Return_80020404.obj"
 	include	"..\obj\libgcl\GCL_InitBasicCommands_8002040C.obj"
 
-	;expr.c
+	;libgcl\expr.c
 	include	"..\obj\libgcl\GCL_Operator_Evaluate_80020430.obj"
 	include	"..\obj\libgcl\GCL_Expr_8002058C.obj"
 
-	;parse.c
+	;libgcl\parse.c
 	include	"..\obj\libgcl\parse.obj"
 
-	;variable.c
+	;libgcl\variable.c
 	include	"..\obj\libgcl\GCL_VarSave_80020B90.obj"
 	include	"..\obj\data\rdata\rdata_80020704.obj"
 	include	"..\obj\CRC32_80020BB4.obj"
@@ -457,8 +455,9 @@
 	include	"..\obj\Equip\memcard_get_io_size_800257B0.obj"
 	include	"..\obj\memcard\memcard_format_800257C0.obj"
 
+	;game\control.c
 	include	"..\obj\Game\GM_ControlPushBack_800258B0.obj"
-	include	"..\obj\sub_80025A7C.obj" ; control
+	include	"..\obj\sub_80025A7C.obj" ; GM_ActControl
 	include	"..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
 	include	"..\obj\Game\GM_CheckMessage_8002631C.obj"
 
@@ -598,6 +597,8 @@
 	include	"..\obj\sub_8002B6C8.obj"
 	include	"..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
 	include	"..\obj\Game\GM_StartDaemon_8002B77C.obj"
+
+	;game\script.c
 	include	"..\obj\libgcl\commands\GCL_Command_light_8002B854.obj"
 	include	"..\obj\libgcl\commands\GCL_Command_camera_8002B8F0.obj"
 	include	"..\obj\libgcl\commands\GCL_Command_map_8002BB44.obj"
@@ -655,6 +656,8 @@
 	include	"..\obj\libgcl\commands\GCL_command_jimaku_8002D188.obj"
 	include	"..\obj\libgcl\GCL_BindsInit_8002D1A8.obj"
 	include	"..\obj\libgcl\GCL_Init_8002D1DC.obj"
+
+	;game\target.c
 	include	"..\obj\sub_8002D208.obj"
 	include	"..\obj\sub_8002D300.obj"
 	include	"..\obj\sub_8002D3F0.obj" ; GM_Reset_Helper
@@ -672,6 +675,8 @@
 	include	"..\obj\sub_8002DDE0.obj"
 	include	"..\obj\sub_8002E1B8.obj"
 	include	"..\obj\sub_8002E374.obj"
+
+	;game\loader.c
 	include "..\obj\Game\loader.obj"
 	include	"..\obj\sub_8002E508.obj"
 	include	"..\obj\Game\GM_set_noise_sound_8002E588.obj"
@@ -788,10 +793,10 @@
 	include	"..\obj\Game\item_init_helper_800345C0.obj"
 	include	"..\obj\Game\item_init_80034758.obj"
 	
-	;object.c
+	;game\object.c
 	include	"..\obj\Game\object.obj"
 
-	;motion.c
+	;game\motion.c
 	include	"..\obj\sub_80034EAC.obj"
 	include	"..\obj\sub_80034F08.obj"
 	include	"..\obj\sub_80035008.obj"
