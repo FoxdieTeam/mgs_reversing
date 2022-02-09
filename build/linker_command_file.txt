@@ -378,7 +378,6 @@
 
 	include	"..\obj\HZD_StartDaemon_80021900.obj"
 	include	"..\obj\HZD_Process_TableFlagIfTriggers_80021928.obj"
-	include	"..\obj\sub_800219C8.obj"
 	include	"..\obj\HZD_FileHandler_800219F4.obj"
 	include	"..\obj\HZD_Load_Helper_80021AE0.obj" ; HZD_MakeHandler ?
 	include	"..\obj\HZD_Free_80021C40.obj"
