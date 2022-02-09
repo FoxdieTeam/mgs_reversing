@@ -5,56 +5,40 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-typedef struct      HZD_HEADER
-{
-    u_short         version;
-    short           min_x, min_y;
-    short           max_x, max_y;
-    u_short         n_areas;
-    u_short         n_navmesh;
-    u_short         n_routes;
-    int             areas_offset;
-    int             navmeshes_offset;
-    int             routes_offset;
-} HZD_HEADER;
-
-typedef struct      HZD_AREA
-{
-    u_short         n_trapsAndCameras;
-    u_short         n_walls;
-    u_short         n_altimetry;
-    u_short         n_unknown; // some specific walls ?
-    int             walls_offset;
-    int             altimetry_offset;
-    int             trapsAndCameras_offset;
-    int             wallsConfig_offset;
-} HZD_AREA;
 
 typedef struct      HZD_VEC
 {
     long            long_access[0];
     short           x, z, y, h;
-} HZD_VEC;
+} HZD_VEC; // 8
 
 typedef struct      HZD_SEG // segments (walls)
 {
     HZD_VEC         p1, p2;         
-} HZD_SEG;
+} HZD_SEG; // 16
 
 typedef struct      HZD_FLR // altimetry
 {
     HZD_VEC         b1, b2;         
     HZD_VEC         p1, p2, p3, p4;     
-} HZD_FLR;
+} HZD_FLR; // 48
 
 typedef struct      HZD_TRP // trap trigger
 {
     HZD_VEC         b1, b2;         
     char            name[12];
-    u_short         id;
+//    u_short         id;
+    u_char          id1, id2;
     u_short         name_id;         
-} HZD_TRP;
+} HZD_TRP; // 32
 
+typedef struct      HZD_CAM // camera trigger
+{ // most likely wrong
+    HZD_VEC         b1, b2;
+    HZD_VEC         cam;
+    HZD_VEC         orient;
+} HZD_CAM; // 32
+/*
 typedef struct      HZD_CAM // camera trigger
 {
     HZD_VEC         b1, b2;
@@ -62,7 +46,13 @@ typedef struct      HZD_CAM // camera trigger
     HZD_VEC         orient;
     u_short         id;
     u_short         name_id;
-} HZD_CAM;
+} HZD_CAM; // 44
+*/
+typedef union       HZD_CAM_TRP // cam or trap
+{
+    HZD_CAM         cam;
+    HZD_TRP         trap;
+} HZD_CAM_TRP; // 32
 
 typedef struct      HZD_ZON // navmesh
 {
@@ -71,19 +61,46 @@ typedef struct      HZD_ZON // navmesh
     u_char          nears[6];     
     u_char          dists[6];     
     short           padding;
-} HZD_ZON;
+} HZD_ZON; // 24
 
 typedef struct      HZD_PTP // patrol route point
 {
     short           x, z, y;
     short           command; // act, time, dir, unk    
-} HZD_PTP;
+} HZD_PTP; // 8
 
 typedef struct      HZD_PAT // patrol routes
 {
     short           n_points;
     short           init_point;
     HZD_PTP         *points;
-} HZD_PAT;
+} HZD_PAT; // 12
+
+typedef struct      HZD_AREA
+{
+    short           n_trapsAndCameras;
+    short           n_walls;
+    short           n_altimetry;
+    short           n_unknown; // some specific walls ?
+    HZD_SEG         *walls;
+    HZD_FLR         *altimetry;
+    HZD_CAM_TRP     *trapsAndCameras;
+    int             *wallsFlags;
+} HZD_AREA; // 24
+
+typedef struct      HZD_HEADER
+{
+    void            *ptr_access[0];
+    short           version;
+    short           min_x, min_y;
+    short           max_x, max_y;
+    short           n_areas;
+    short           n_navmeshes;
+    short           n_routes;
+    HZD_AREA        *areas;
+    HZD_ZON         *navmeshes;
+    HZD_PAT         *routes;
+} HZD_HEADER; // 28
+
 
 #endif // _HZD_H_
