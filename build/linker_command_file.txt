@@ -23,10 +23,8 @@
 	include "..\obj\libgv\debug.obj"
 
 	;libgv\memory.c
-	include	"..\obj\System_FindAlloc_80015758.obj"
-	include	"..\obj\sub_80015818.obj"
-	include	"..\obj\sub_80015874.obj"
-	include	"..\obj\sub_800158C8.obj"
+	include "..\obj\libgv\memory.obj"
+	
 	include	"..\obj\System_voided_reset_80015924.obj"
 	include	"..\obj\System_dynamic_reset_800159B8.obj"
 	include	"..\obj\System_init_80015AF4.obj"
