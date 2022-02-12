@@ -1,7 +1,7 @@
 #include "gcl.h"
 #include "linker.h"
 
-extern int          dword_800AB45C;
+extern int          GM_GameOverVox_800AB45C;
 extern int          dword_800ABA58;
 
 extern int          dword_800ABA78;
@@ -17,7 +17,7 @@ extern unsigned int GM_Sound_80032968(int a1, int a2, int a3);
 extern void         GM_Sound_80032C48(int code, int notUsed);
 extern int          GM_set_noise_sound_8002E588(int a1);
 extern int          sub_8002E508(int a1);
-extern char *       sub_80037E40(int param_1, unsigned int param_2);
+extern char *       GM_VoxStream_80037E40(int param_1, unsigned int param_2);
 
 void GCL_Command_sound_impl_8002E688()
 {
@@ -70,11 +70,11 @@ void GCL_Command_sound_impl_8002E688()
         {
             proc = GCL_GetNextParamValue_80020AD4() | 0x80000000;
         }
-        sub_80037E40(voxCode, proc);
+        GM_VoxStream_80037E40(voxCode, proc);
     }
     if (GCL_GetParam_80020968('g'))
     {
-        dword_800AB45C = GCL_GetNextParamValue_80020AD4();
+        GM_GameOverVox_800AB45C = GCL_GetNextParamValue_80020AD4();
     }
     if (GCL_GetParam_80020968('k'))
     {

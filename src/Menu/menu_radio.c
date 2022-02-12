@@ -7,7 +7,7 @@ void menu_radio_init_80042700(MenuMan* pMenu)
     pMenu->field_28_flags |= 0x10u;
 }
 
-void menu_radio_kill_8004271c(MenuMan* pMenu)
+void menu_radio_kill_8004271C(MenuMan* pMenu)
 {
     pMenu->field_28_flags &= ~0x10u;
 }

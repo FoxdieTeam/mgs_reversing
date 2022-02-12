@@ -1,0 +1,16 @@
+
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef mts_send_msg_8008B590
+mts_send_msg_8008B590:
+	dw 0x27BDFFD8 ; 0x8008B590
+	dw 0xAFA50010 ; 0x8008B594
+	dw 0x27A50010 ; 0x8008B598
+	dw 0xAFBF0020 ; 0x8008B59C
+	dw 0x0C02260B ; 0x8008B5A0
+	dw 0xAFA60014 ; 0x8008B5A4
+	dw 0x8FBF0020 ; 0x8008B5A8
+	dw 0x27BD0028 ; 0x8008B5AC
+	dw 0x03E00008 ; 0x8008B5B0
+	dw 0x00000000 ; 0x8008B5B4

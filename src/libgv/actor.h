@@ -39,10 +39,10 @@ struct PauseKill
 extern int GM_CurrentMap_800AB9B0;
 
 void GV_ExecActorSystem_80014F88(void);
-struct Actor *GV_ActorAlloc_800150e4(int level, int memSize);
-void GV_ActorList_Init_80014d98(void);
-void GV_ActorPushBack_800150a8(int level, struct Actor *pActor, TActorFreeFunction fnFree);
-void GV_ActorInit_8001514c(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
-void GV_ActorDelayedKill_800151c8(struct Actor *pActor);
+struct Actor *GV_NewActor_800150E4(int level, int memSize);
+void GV_InitActorSystem_80014D98(void);
+void GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction fnFree);
+void GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
+void GV_DestroyActor_800151C8(struct Actor *pActor);
 
 #endif // ACTOR_H_

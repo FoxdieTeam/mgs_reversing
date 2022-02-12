@@ -6,7 +6,7 @@ extern const char aMtsNewC[];
 extern const char aGetNewVblContr[];
 extern const char asc_80013E2C[];
 
-void mts_dump_process_list_8008B77C(void);
+void mts_print_process_status_8008B77C(void);
 
 extern int gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
@@ -17,7 +17,7 @@ mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0);\
     mts_printf_8008BBA0(functionName);\
     mts_printf_8008BBA0(asc_80013E2C);\
-    mts_dump_process_list_8008B77C();
+    mts_print_process_status_8008B77C();
 
 void mts_set_vsync_task_800892B8(void)
 {

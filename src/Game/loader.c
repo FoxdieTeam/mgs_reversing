@@ -7,9 +7,9 @@ extern const char aNotFoundStageS[];
 extern const char aLoaderC[];
 extern const char aLoadend[];
 
-extern int gLoaderState_800ABA38;
-extern int gFlags_800AB3D0;
-extern int dword_800ABA54;
+extern int GM_LoadComplete_800ABA38;
+extern int GM_LoadRequest_800AB3D0;
+extern int GM_PadVibration2_800ABA54;
 
 struct Loader_Rec_2
 {
@@ -46,10 +46,10 @@ struct Loader
 
 void DG_OffsetDispEnv_80017784(int offset);
 
-int Loader_Act_helper_800237C0(struct Loader_Record *pRec);
+int FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
 
-extern struct Loader_Record *Loader_load_file_by_name_800236E0(const char *pStageName);
-extern void Loader_End_80023804(struct Loader_Record *pImpl);
+extern struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName);
+extern void FS_LoadStageComplete_80023804(struct Loader_Record *pImpl);
 
 void Loader_Act_8002e390(struct Loader *pLoader)
 {
@@ -60,28 +60,28 @@ void Loader_Act_8002e390(struct Loader *pLoader)
 		if (pLoader->field_24_proc_cancel_flags == 3)
 		{
 			DG_OffsetDispEnv_80017784(pLoader->field_2C_counter & 2);
-			dword_800ABA54 = 100;
+			GM_PadVibration2_800ABA54 = 100;
 		}
 	}
 
 	if (pLoader->field_28_bRunning)
 	{
-		if (!Loader_Act_helper_800237C0(pLoader->field_20_pFileName))
+		if (!FS_LoadStageSync_800237C0(pLoader->field_20_pFileName))
 		{
 			pLoader->field_28_bRunning = 0;
 		}
 	}
 	else
 	{
-		GV_ActorDelayedKill_800151c8(&pLoader->base);
+		GV_DestroyActor_800151C8(&pLoader->base);
 	}
 }
 
 void Loader_Kill_8002e41c(struct Loader *pLoader)
 {
 	mts_printf_8008BBA0(aLoadend);
-	Loader_End_80023804(pLoader->field_20_pFileName);
-	gLoaderState_800ABA38 = 0xffffffff;
+	FS_LoadStageComplete_80023804(pLoader->field_20_pFileName);
+	GM_LoadComplete_800ABA38 = -1;
 }
 
 struct Loader *Loader_Init_8002e460(const char *pStageName)
@@ -89,9 +89,9 @@ struct Loader *Loader_Init_8002e460(const char *pStageName)
 	struct Loader *pLoader;
 	struct Loader_Record *pLoaderRec;
 
-	pLoader = (struct Loader *)GV_ActorAlloc_800150e4(2, sizeof(struct Loader));
+	pLoader = (struct Loader *)GV_NewActor_800150E4(2, sizeof(struct Loader));
 	mts_printf_8008BBA0(aLoadreq);
-	pLoaderRec = Loader_load_file_by_name_800236E0(pStageName);
+	pLoaderRec = FS_LoadStageRequest_800236E0(pStageName);
 
 	pLoader->field_20_pFileName = pLoaderRec;
 	if (pLoaderRec == 0)
@@ -99,10 +99,10 @@ struct Loader *Loader_Init_8002e460(const char *pStageName)
 		mts_printf_8008BBA0(aNotFoundStageS, pStageName);
 	}
 
-	GV_ActorInit_8001514c(&pLoader->base, (TActorFunction)Loader_Act_8002e390, (TActorFunction)Loader_Kill_8002e41c, aLoaderC);
+	GV_SetNamedActor_8001514C(&pLoader->base, (TActorFunction)Loader_Act_8002e390, (TActorFunction)Loader_Kill_8002e41c, aLoaderC);
 
 	pLoader->field_28_bRunning = 1;
-	pLoader->field_24_proc_cancel_flags = (gFlags_800AB3D0 & 0xf);
-	gLoaderState_800ABA38 = 0;
+	pLoader->field_24_proc_cancel_flags = (GM_LoadRequest_800AB3D0 & 0xf);
+	GM_LoadComplete_800ABA38 = 0;
 	return pLoader;
 }

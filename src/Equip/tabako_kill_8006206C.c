@@ -5,9 +5,9 @@
 #include "map.h"
 #include <libgpu.h>
 
-extern int                  game_state_flags_800AB3CC;
+extern int                  GM_GameStatus_800AB3CC;
 extern GameState_800B4D98   gGameState_800B4D98;
-extern int                  gRenderedFramesCount_800AB330;
+extern int                  GV_Time_800AB330;
 extern int                  dword_8009F2C0;
 extern int                  GM_CurrentMap_800AB9B0;
 
@@ -59,17 +59,17 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
 
-        if (gRenderedFramesCount_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 && (gSna_init_flags_800ABA50 & 0x10) == 0)
+        if (GV_Time_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 && (gSna_init_flags_800ABA50 & 0x10) == 0)
         {
             anime_create_8005E6A4(&vec);
         }
     }
 
     // Snake, smoking is bad for your health!
-    if ((gRenderedFramesCount_800AB330 & 63) == 0 && gGameState_800B4D98.field_16_snake_current_health >= 2)
+    if ((GV_Time_800AB330 & 63) == 0 && gGameState_800B4D98.field_16_snake_current_health >= 2)
     {
         gGameState_800B4D98.field_16_snake_current_health--;
-        game_state_flags_800AB3CC |= 0x2000000u;
+        GM_GameStatus_800AB3CC |= 0x2000000u;
     }
 }
 
@@ -92,8 +92,8 @@ extern const char   aRcmL[];  // = "rcm_l";
 extern DG_TEX       *DG_FindTexture_8001D830(int);
 void                GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 void                GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-extern int          GV_StrCode_80016CCC(const char *string);
-DG_PRIM             *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+extern int          GV_Strcode_80016CCC(const char *string);
+DG_PRIM             *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 int                 DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 static inline void DG_GroupPrim(prim, group_id)
@@ -135,7 +135,7 @@ static inline void DG_SetPacketTexture4(POLY_FT4 *prims, DG_TEX *tex)
 
 static inline DG_PRIM *test(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
 {
-    DG_PRIM *pPrims = DG_Prim_Alloc_8001BABC(type, prim_count, chanl, pVec, pRect);
+    DG_PRIM *pPrims = DG_MakePrim_8001BABC(type, prim_count, chanl, pVec, pRect);
     if (pPrims) // beqz		$s0, 0xc0
     {
         DG_QueuePrim_80018274((DG_OBJS *)pPrims);
@@ -156,7 +156,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
     DG_PRIM *pPrimIter;       // $t0
     int ret;
 
-    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_StrCode_80016CCC(aCigar), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_Strcode_80016CCC(aCigar), 0x6D, 0);
     if (!pActor->field_20_pObj.objs)
     {
         return -1;
@@ -190,7 +190,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
 
     pPrims->field_2E_k500 = 250;
 
-    Texture_8001D830 = DG_FindTexture_8001D830(GV_StrCode_80016CCC(aRcmL));
+    Texture_8001D830 = DG_FindTexture_8001D830(GV_Strcode_80016CCC(aRcmL));
     pack_idx = 0;
     pPrimIter = _pPrims;
     do

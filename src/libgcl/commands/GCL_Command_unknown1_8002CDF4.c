@@ -19,13 +19,13 @@ extern short        word_8009F478;
 extern short        word_8009F47A;
 extern short        word_8009F47C;
 
-extern short        dword_800ABA48[3];
-//extern int          dword_800ABA48; // todo: update external
+extern short        GM_PhotoViewPos_800ABA48[3];
+//extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
 extern int          GM_AreaHistory_8002A848(int param_1);
 extern map_record   *Map_FindByNum_80031504(int);
 extern int          DG_PointCheckOne_8001C18C(SVECTOR *pOut3Words);
-extern int          sub_80037CD8(void);
+extern int          GM_StreamStatus_80037CD8(void);
 
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
@@ -36,7 +36,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 
     if (GCL_GetParam_80020968('v')) // vector
     {
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
         gGameState_800B4D98.field_0A_last_result = DG_PointCheckOne_8001C18C((SVECTOR*)vec);
     }
     if (GCL_GetParam_80020968('s')) // struct
@@ -54,7 +54,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('p')) // photo (used for ghosts)
     {
         param = GCL_GetNextParamValue_80020AD4();
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), dword_800ABA48);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), GM_PhotoViewPos_800ABA48);
         if (GCL_GetNextParamValue_80020AD4() == 0xD5CC) // 出る "leave"
         {
             param = 0;
@@ -75,7 +75,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('c'))
     {
-        gGameState_800B4D98.field_0A_last_result = sub_80037CD8();
+        gGameState_800B4D98.field_0A_last_result = GM_StreamStatus_80037CD8();
     }
     if (GCL_GetParam_80020968('n'))
     {

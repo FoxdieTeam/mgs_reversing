@@ -42,7 +42,7 @@ int Map_MarkUsed_80031324(int mapName)
 extern const char aDelmapNotFound[] ;
 extern const char aDelMapD[];
 
-int Map_MarkNotUsed_800313C0(int mapName)
+int GM_DelMap_800313C0(int mapName)
 {
     int counter;                 // $v1
     struct map_record *pRecIter; // $a1

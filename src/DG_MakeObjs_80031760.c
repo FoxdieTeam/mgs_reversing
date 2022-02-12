@@ -8,7 +8,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 
 int sub_80031710(DG_MDL *pMesh);
 extern void *GV_Malloc_8001620C(int size);
-extern void GV_ZeroMemory_8001619c(void *, int);
+extern void GV_ZeroMemory_8001619C(void *, int);
 
 DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
 {
@@ -26,7 +26,7 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
         int numMesh;
         DG_OBJ *pObjIter;
 
-        GV_ZeroMemory_8001619c(pAlloc, len);
+        GV_ZeroMemory_8001619C(pAlloc, len);
         pAlloc->world = DG_ZeroMatrix_8009D430;
 
         pAlloc->def = pFileData;

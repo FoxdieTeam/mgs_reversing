@@ -5,17 +5,17 @@
 GCL_COMMANDDEF *dword_800AB3B8 = 0; //sdata
 
 void GCL_ParseInit_80020B68(void);
-void GCL_InitVarsClear_80021264(void);
+void GCL_InitVar_80021264(void);
 void GCL_InitBasicCommands_8002040C(void);
 int GCL_LoadScript_80020064(unsigned char *);
 
-void GV_SetFileHandler_80015418(char, void *);
+void GV_SetLoader_80015418(char, void *);
 
 int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
 
 int SECTION(".sbss") dword_800AB994;
 
-int GCL_FileHandler_8001FC88(unsigned char *pFileData, int hashedName)
+int GCL_InitFunc_8001FC88(unsigned char *pFileData, int hashedName)
 {
     if (hashedName == gGcl_scriptNameHash_800AB990)
     {
@@ -24,7 +24,7 @@ int GCL_FileHandler_8001FC88(unsigned char *pFileData, int hashedName)
     return 1;
 }
 
-void GCL_SetScriptNameHash_8001FCB0(int isDemoScript)
+void GCL_ChangeSenerioCode_8001FCB0(int isDemoScript)
 {
     // 0x6 means hashed string
     // 0xA242 = "demo"
@@ -35,13 +35,13 @@ void GCL_SetScriptNameHash_8001FCB0(int isDemoScript)
 void GCL_StartDaemon_8001FCDC(void)
 {
     GCL_ParseInit_80020B68();
-    GCL_InitVarsClear_80021264();
+    GCL_InitVar_80021264();
     GCL_InitBasicCommands_8002040C();
-    GV_SetFileHandler_80015418('g', GCL_FileHandler_8001FC88);
-    GCL_SetScriptNameHash_8001FCB0(0);
+    GV_SetLoader_80015418('g', GCL_InitFunc_8001FC88);
+    GCL_ChangeSenerioCode_8001FCB0(0);
 }
 
-void GCL_Null_8001FD24(void)
+void GCL_ResetSystem_8001FD24(void)
 {
 }
 
@@ -56,7 +56,7 @@ int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain)
     return 0;
 }
 
-extern const char aCommandNotFoun[];
+//extern const char aCommandNotFoun[];
 
 GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
 {
@@ -76,7 +76,7 @@ GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
             pTableIter++;
         }
     }
-    mts_printf_8008BBA0(aCommandNotFoun);
+    mts_printf_8008BBA0("command not found\n");
     return 0;
 }
 
@@ -130,7 +130,7 @@ typedef struct
 } GCL_FileData;
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
-extern const char aProcXNotFound[];
+//extern const char aProcXNotFound[];
 
 unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
 {
@@ -142,7 +142,7 @@ unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
             return gGCL_fileData_800B3C18.field_4_pByteCode + pProcIter->offset;
         }
     }
-    mts_printf_8008BBA0(aProcXNotFound, procNameHashed);
+    mts_printf_8008BBA0("PROC %X NOT FOUND\n", procNameHashed);
     return 0;
 }
 
@@ -151,22 +151,22 @@ void GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs)
     GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
-extern const char aProcDCancel[];
+//extern const char aProcDCancel[];
 
-extern int gFlags_800AB3D0;
-extern int dword_800ABA50;
+extern int GM_LoadRequest_800AB3D0;
+extern int GM_PlayerStatus_800ABA50;
 
 int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
 {
-    if (gFlags_800AB3D0 || (dword_800ABA50 & 0x2000))
+    if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & 0x2000))
     {
-        mts_printf_8008BBA0(aProcDCancel, procNameHashed);
+        mts_printf_8008BBA0("proc %d cancel\n", procNameHashed);
         return 0;
     }
     return GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
-extern const char aTooManyArgsPro[];
+//extern const char aTooManyArgsPro[];
 
 #define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
 
@@ -191,7 +191,7 @@ int GCL_Proc_8001FFA0(unsigned char *pScript)
     {
         if (arg_idx >= 8)
         {
-            mts_printf_8008BBA0(aTooManyArgsPro);
+            mts_printf_8008BBA0("TOO MANY ARGS PROC\n");
         }
         args[arg_idx++] = value;
     }
@@ -229,8 +229,8 @@ int *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
 void GCL_UnsetArgStack_800208F0(int *pStack);
 void GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
 
-extern const char aScriptCommandE[];
-extern const char aErrorInScript[];
+//extern const char aScriptCommandE[];
+//extern const char aErrorInScript[];
 
 int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
 {
@@ -268,22 +268,22 @@ int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
                 return 0;
 
             default:
-                mts_printf_8008BBA0(aScriptCommandE, (unsigned int)*pScript);
+                mts_printf_8008BBA0("SCRIPT COMMAND ERROR %x\n", (unsigned int)*pScript);
         }
     }
-    mts_printf_8008BBA0(aErrorInScript);
+    mts_printf_8008BBA0("ERROR in script\n");
     return 1;
 }
 
-extern const char aNotScriptData[];
-extern GCL_ARGS gGCL_NullArgs_800AB3BC;
+//extern const char aNotScriptData[];
+extern GCL_ARGS gcl_null_args_800AB3BC;
 
 void GCL_ExecScript_80020228()
 {
     unsigned char *pMainProc = gGCL_fileData_800B3C18.field_8_pMainProc;
     if (*pMainProc != 0x40)
     {
-        mts_printf_8008BBA0(aNotScriptData);
+        mts_printf_8008BBA0("NOT SCRIPT DATA !!\n");
     }
-    GCL_ExecBlock_80020118(pMainProc + 3, &gGCL_NullArgs_800AB3BC);
+    GCL_ExecBlock_80020118(pMainProc + 3, &gcl_null_args_800AB3BC);
 }

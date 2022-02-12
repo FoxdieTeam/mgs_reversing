@@ -1,12 +1,12 @@
 
 
 extern void sub_8001D808(void);
-extern void sub_8001DBEC(void);
+extern void DG_ResetResidentTexture_8001DBEC(void);
 
 void sub_8001F25C(void)
 
 {
     sub_8001D808();
-    sub_8001DBEC();
+    DG_ResetResidentTexture_8001DBEC();
     return;
 }

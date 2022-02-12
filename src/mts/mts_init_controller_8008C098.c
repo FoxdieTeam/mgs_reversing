@@ -31,7 +31,7 @@ void mts_init_controller_8008C098(void)
     }
 }
 
-void mts_deinit_controller_8008C12C(void)
+void mts_stop_controller_8008C12C(void)
 {
     if (gMtsPadInited_800A3DBC != 0)
     {

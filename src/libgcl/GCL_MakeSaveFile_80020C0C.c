@@ -9,8 +9,8 @@ extern RadioMemory          gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 char SECTION(".gStageName_800B4D88") gStageName_800B4D88[16];
 
-extern int          CRC32_80020BB4(int a1, unsigned char *a2);
-extern int          GM_SaveAreaHistory_8002A730(AreaHistory *a1);
+extern int          crc32_80020BB4(int a1, unsigned char *a2);
+extern int          GM_GetAreaHistory_8002A730(AreaHistory *a1);
 extern char*        strcpy_8008E768(char *, char *);
 
 
@@ -40,14 +40,14 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
     save->f014_padding[2] =             0;
  
     strcpy_8008E768(save->f020_stageName, gStageName_800B4D88);
-    GM_SaveAreaHistory_8002A730(&save->f030_areaHistory);
+    GM_GetAreaHistory_8002A730(&save->f030_areaHistory);
 
     save->f040_gameState =              gGcl_gameStateVars_800B44C8;
     save->f100_gcl_vars =               gGcl_memVars_800b4588;
     *(RdMem*)&save->f900_radio_memory = *(RdMem*)&gRadioMemory_800BDB38;
 
     saveFile->f000_size = (void*)save + sizeof(SaveGame) - (void*)saveBuf;
-    saveFile->f004_checksum = CRC32_80020BB4(sizeof(SaveGame), (char*)save); // size 0xA38
+    saveFile->f004_checksum = crc32_80020BB4(sizeof(SaveGame), (char*)save); // size 0xA38
 
     return saveFile->f000_size;
 }

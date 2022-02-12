@@ -6,12 +6,12 @@
 
 void            spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
 void            spark_800742F0(POLY_FT4 *pPoly, int count, int a3);
-void            spark_loader2_80073DB0();
+void            InitRandamTable_80073DB0();
 void            spark_loader3_80073E48(int *a1, SVECTOR *a2, int a3, int a4);
 
-extern int      GV_StrCode_80016CCC(const char *string);
+extern int      GV_Strcode_80016CCC(const char *string);
 
-DG_PRIM         *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+DG_PRIM         *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 void            DG_SetPos_8001BC44(MATRIX *);
 void            DG_MovePos_8001BD20(SVECTOR *svector);
 void            ReadRotMatrix_80092DD8(MATRIX *m);
@@ -130,9 +130,9 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     DG_PRIM *pNewPrim;
 
     pActor->f020 = GM_CurrentMap_800AB9B0;
-    spark_loader2_80073DB0();
+    InitRandamTable_80073DB0();
     spark_loader3_80073E48(&pActor->f028, &pActor->f068, 8, a3);
-    pNewPrim = DG_Prim_Alloc_8001BABC(18, 8, 0, &pActor->f068, 0);
+    pNewPrim = DG_MakePrim_8001BABC(18, 8, 0, &pActor->f068, 0);
     if (pNewPrim)
     {
         DG_QueuePrim_80018274((DG_OBJS *)pNewPrim);
@@ -150,7 +150,7 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     pActor->f168 = a2->t[0];
     pActor->f16A = a2->t[1];
     pActor->f16C = a2->t[2];
-    pTexture = DG_FindTexture_8001D830(GV_StrCode_80016CCC(aSparkFl));
+    pTexture = DG_FindTexture_8001D830(GV_Strcode_80016CCC(aSparkFl));
 
     if (!pTexture)
     {
