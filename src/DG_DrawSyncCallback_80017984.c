@@ -2,7 +2,7 @@
 
 unsigned int GetRCnt_800996E8(unsigned int rcnt);
 
-short SECTION(".sbss") word_800AB980;
+short SECTION(".sbss") N_ChanlPerfMax_800AB980;
 short SECTION(".sbss") word_800AB982;
 
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;

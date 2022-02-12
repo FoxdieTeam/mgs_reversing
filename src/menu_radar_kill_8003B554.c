@@ -2,7 +2,7 @@
 
 void menu_radar_update_8003B350(struct Actor_MenuMan *a1, int a2);
 void menu_init_radar_helper_8003ADAC(void);
-void Menu_scale_80038E28(int);
+void MENU_SetRadarScale_80038E28(int);
 void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
 
 extern int gFn_radar_800AB48C;
@@ -26,7 +26,7 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
-    Menu_scale_80038E28(4096);
+    MENU_SetRadarScale_80038E28(4096);
 }
 
 void menu_radar_kill_8003B554(struct Actor_MenuMan *pActor)

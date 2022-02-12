@@ -2,7 +2,7 @@
 #include "delay.h"
 #include "actor.h"
 
-extern int gGameOverTimer_800AB3D4;
+extern int GM_GameOverTimer_800AB3D4;
 
 extern char aDelayC[];
 
@@ -24,9 +24,9 @@ typedef struct Delay
 
 void delay_act_800331A4(Delay *pDelay)
 {
-    if (pDelay->mActive == 0 && gGameOverTimer_800AB3D4 != 0)
+    if (pDelay->mActive == 0 && GM_GameOverTimer_800AB3D4 != 0)
     {
-        GV_ActorDelayedKill_800151c8(&pDelay->mBase);
+        GV_DestroyActor_800151C8(&pDelay->mBase);
         return;
     }
 
@@ -45,10 +45,10 @@ void delay_act_800331A4(Delay *pDelay)
         GCL_ExecProc_8001FF2C(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
     }
 
-    GV_ActorDelayedKill_800151c8(&pDelay->mBase);
+    GV_DestroyActor_800151C8(&pDelay->mBase);
 }
 
-Actor *delay_init_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
+Actor *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
 {
     unsigned short pSrcArgsCount;
     Delay *pDelay;
@@ -56,7 +56,7 @@ Actor *delay_init_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
     long *ppDstArgs;
     long *ppSrcArgs;
 
-    pDelay = (Delay *)GV_ActorAlloc_800150e4(6, sizeof(Delay));
+    pDelay = (Delay *)GV_NewActor_800150E4(6, sizeof(Delay));
     if (pDelay)
     {
         if (!pGCLArgs)
@@ -93,7 +93,7 @@ Actor *delay_init_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
         pDelay->mDelayCounter = script_tVar;
         pDelay->mProcIdOrScriptPtr.id = script_pVar;
 
-        GV_ActorInit_8001514c(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, aDelayC);
+        GV_SetNamedActor_8001514C(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, aDelayC);
     }
     return &pDelay->mBase;
 }

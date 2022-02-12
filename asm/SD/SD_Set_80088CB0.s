@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_Set_80088CB0
-SD_Set_80088CB0:
+	xdef sd_set_80088CB0
+sd_set_80088CB0:
 	dw 0x3C02800C ; 0x80088CB0
 	dw 0x8C42F000 ; 0x80088CB4
 	dw 0x27BDFFE8 ; 0x80088CB8

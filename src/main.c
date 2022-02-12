@@ -21,10 +21,10 @@ int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
 int __stacksize_800AB2E8 = 0x8000; // stack size, sdata
 
 extern const char aBislpm86247[];
-const char* off_800AB2EC = aBislpm86247; // sdata
+const char* MGS_MemoryCardName_800AB2EC = aBislpm86247; // sdata
 
 
-extern int SdIntReady_800886C4();
+extern int sd_task_active_800886C4();
 
 extern void memcard_init_80024E48(void);
 
@@ -59,7 +59,7 @@ static void task_main_800148B8(void)
 	mts_init_controller_8008C098();
 
 	mts_printf_8008BBA0("gv:"); // sdata
-	GV_StartDaemon_80014d18();
+	GV_StartDaemon_80014D18();
 
 	mts_printf_8008BBA0("fs:"); // sdata
 	FS_StartDaemon_80014A7C();
@@ -78,7 +78,7 @@ static void task_main_800148B8(void)
 	mts_set_stack_check_8008B648(5, mts_stack_end(sdStack_800AC3F0), sizeof(sdStack_800AC3F0));
 	mts_sta_tsk_8008B47C(5, SdMain_80081A18, mts_stack_end(sdStack_800AC3F0));
 
-	while (!SdIntReady_800886C4())
+	while (!sd_task_active_800886C4())
 	{
 		mts_wait_vbl_800895F4(1);
 	}

@@ -2,4 +2,4 @@
 
 
 const char SECTION(".sdata") aNone[] = "none";	
-const char* SECTION(".sdata") aNone2_800AB34C = aNone;	
+const char* SECTION(".sdata") GV_DebugMes_800AB34C = aNone;	

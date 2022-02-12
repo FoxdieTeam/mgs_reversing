@@ -63,6 +63,6 @@ typedef void    (*TChanl_Fn)(DG_CHNL *pOt, int idx);
 typedef int     (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
 
 void            DG_StartDaemon_8001F284(void);
-void            GV_SetFileHandler_80015418(int fileExtChar, TFileExtHandler pFn);
+void            GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 
 #endif // _DGD_H

@@ -7,7 +7,7 @@ typedef struct		EXPR_STACK
 } EXPR_STACK;
 
 extern char			*GCL_SetVar_8002171C(unsigned char *pScript, int value);
-extern int			GCL_Operator_Evaluate_80020430(int operation, int v1, int v2);
+extern int			calc_80020430(int operation, int v1, int v2);
 
 int	GCL_Expr_8002058C(unsigned char *pScript, int *retValue)
 {
@@ -39,7 +39,7 @@ int	GCL_Expr_8002058C(unsigned char *pScript, int *retValue)
 			} 
 			else
 			{
-				operands[-2].value = GCL_Operator_Evaluate_80020430(operator,
+				operands[-2].value = calc_80020430(operator,
 															operands[-2].value,
 															operands[-1].value);
 				operands[-2].ptr = 0;

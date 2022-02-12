@@ -5,7 +5,7 @@
 #include "game.h"
 #include "actor.h"
 
-Actor* door_init_8006FD00(int name, int where, int argc, char **argv);
+Actor* NewDoor_8006FD00(int name, int where, int argc, char **argv);
 
 struct Actor_Door_TParam_sub
 {

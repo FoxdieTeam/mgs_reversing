@@ -2,9 +2,9 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
 
-extern int FS_Seek_800240E0(DWORD);
+extern int FS_StreamGetData_800240E0(DWORD);
 extern void sub_800241B4(int);
-extern int sub_80024060(void);
+extern int FS_StreamOpen_80024060(void);
 extern DWORD gotohell_800B9358;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern const char aJimctrlC[];
@@ -21,7 +21,7 @@ Actor *jimctrl_init_80038568(DWORD flags)
     {
         toSeek = 7;
     }
-    seekResult = FS_Seek_800240E0(toSeek);
+    seekResult = FS_StreamGetData_800240E0(toSeek);
 
     if (gGameState_800B4D98.field_04_flags & 0x100)
     {
@@ -48,9 +48,9 @@ Actor *jimctrl_init_80038568(DWORD flags)
         flags &= 0xf;
         pJimActor->field_28 = 0;
         jimctrl_init_helper_clear_80037FB8();
-        GV_ActorPushBack_800150a8(1, &pJimActor->field_0_base, 0);
+        GV_InitActor_800150A8(1, &pJimActor->field_0_base, 0);
 
-        GV_ActorInit_8001514c(
+        GV_SetNamedActor_8001514C(
             &pJimActor->field_0_base,
             (TActorFunction)jimctrl_act_80038070,
             (TActorFunction)jimctrl_kill_8003853C,
@@ -59,7 +59,7 @@ Actor *jimctrl_init_80038568(DWORD flags)
 
         pJimActor->field_24 = flags;
 
-        sub_80024060();
+        FS_StreamOpen_80024060();
 
         pJimActor->field_30 = -1;
         pJimActor->field_2C = 0;

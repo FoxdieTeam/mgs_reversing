@@ -9,7 +9,7 @@ extern char          *GM_StageName_800AB918;
 char SECTION(".sbss") *GM_StageName_800AB918;
 
 extern char*        GCL_Read_String_80020A70(unsigned char *pScript);
-extern void         sub_8002B558(int index, int proc);
+extern void         GM_SetSystemCallbackProc_8002B558(int index, int proc);
 
 int GCL_Command_system_8002C7C8(void)
 {
@@ -24,7 +24,7 @@ int GCL_Command_system_8002C7C8(void)
             {
                 mts_printf_8008BBA0(aSystemCChangeP, aGcawi[i]);
             }
-            sub_8002B558(i, proc);
+            GM_SetSystemCallbackProc_8002B558(i, proc);
         }
     }
 

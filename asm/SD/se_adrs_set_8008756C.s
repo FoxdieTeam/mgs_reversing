@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef se_adrs_set_8008756C
+se_adrs_set_8008756C:
+	dw 0x3C02800C ; 0x8008756C
+	dw 0x8C42F0D4 ; 0x80087570
+	dw 0x3C03800C ; 0x80087574
+	dw 0x8C63057C ; 0x80087578
+	dw 0x00021200 ; 0x8008757C
+	dw 0xAC620038 ; 0x80087580
+	dw 0x03E00008 ; 0x80087584
+	dw 0xA0600034 ; 0x80087588

@@ -31,8 +31,8 @@ typedef struct GV_Heap
 } GV_Heap;
 
 
-void System_init_clear_3_heaps_80015AB0(void);
-void System_init_80015AF4(int index, int bIsDynamic, void *pMemory, unsigned int size);
+void GV_InitMemorySystemAll_80015AB0(void);
+void GV_InitMemorySystem_80015AF4(int index, int bIsDynamic, void *pMemory, unsigned int size);
 
 
 #endif // _SYSTEM_H

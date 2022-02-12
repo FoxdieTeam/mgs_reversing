@@ -122,6 +122,6 @@ int GCL_Command_ntrap_8002BE20(int argc, char **argv)
     tmp = gBinds_800ABA60;
     pBind->field_6 = (short)tmp;
     mts_printf_8008BBA0(aBind08x, tmp);
-    GM_SetBinds_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
+    HZD_SetBind_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
 }

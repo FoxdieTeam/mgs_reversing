@@ -65,7 +65,7 @@ void menu_init_subsystems_8003884C(MenuMan *pMenuMan)
 
 void menuman_init_80038954(void)
 {
-    GV_ActorInit_8001514c(&gMenuMan_800BD360.field_0_actor, (TActorFunction)menuman_act_800386A4, (TActorFunction)menuman_kill_800387E8, aMenumanC);
+    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, (TActorFunction)menuman_act_800386A4, (TActorFunction)menuman_kill_800387E8, aMenumanC);
     menu_init_subsystems_8003884C(&gMenuMan_800BD360);
     MENU_InitRadioTable_80049644();
 }
