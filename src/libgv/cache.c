@@ -31,7 +31,7 @@ int SECTION(".sbss") N_ResidentFileRecords_800AB938;
 /********************************************************************/
 
 /***externs*************************************************/
-extern int   GV_StrCode_80016CCC(const char* string );
+extern int   GV_Strcode_80016CCC(const char* string );
 extern void *GV_AllocResidentMemory_800163D8( long size );
 /**********************************************************/
 
@@ -108,7 +108,7 @@ int GV_CacheID_800152DC(int hashedFileName,int param_2)
 //to call cacheID along with the ext id.
 int GV_CacheID2_800152FC(const char* fileName, int extID)
 {
-  int hashedFileName = GV_StrCode_80016CCC(fileName);
+  int hashedFileName = GV_Strcode_80016CCC(fileName);
   return GV_CacheID_800152DC(hashedFileName, extID);
 }
 
@@ -171,7 +171,7 @@ int	GV_SetCache_800153C0( int id, void * buf )
 }
 
 //sets the loadfunc in the loader table. It is mapped to a char id
-void GV_SetFileHandler_80015418(int fileExtChar, TFileExtHandler pFn)
+void GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn)
 {
   const int idx = fileExtChar - 'a';
   gFileExtHandlers_800ACE80[idx] = pFn;

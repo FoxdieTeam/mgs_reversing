@@ -2,7 +2,7 @@
 
 // from leaked original MGS source code
 
-void            GV_ZeroMemory_8001619c( to, size )
+void            GV_ZeroMemory_8001619C( to, size )
 void            *to ;
 int             size ;
 {

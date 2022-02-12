@@ -1,13 +1,13 @@
 #include "gcl.h"
 
-extern int          dword_800AB9E4;
-extern int          dword_800ABA28;
-extern int          game_state_flags_800AB3CC;
+extern int          GM_DisableWeapon_800AB9E4;
+extern int          GM_DisableItem_800ABA28;
+extern int          GM_GameStatus_800AB3CC;
 
 extern void         item_all_items_and_weapons_unknown2_80033500(void);
 extern void         item_all_items_and_weapons_unknown_80033560(void);
 extern unsigned int sub_8002CA48(void);
-extern void         Menu_scale_80038E28(int);
+extern void         MENU_SetRadarScale_80038E28(int);
 
 
 int GCL_Command_menu_8002CAAC(void)
@@ -16,11 +16,11 @@ int GCL_Command_menu_8002CAAC(void)
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
-            game_state_flags_800AB3CC |= 0x800000;
+            GM_GameStatus_800AB3CC |= 0x800000;
         }
         else 
         {
-            game_state_flags_800AB3CC &= 0xff7fffff;
+            GM_GameStatus_800AB3CC &= 0xff7fffff;
         }
     }
 
@@ -40,11 +40,11 @@ int GCL_Command_menu_8002CAAC(void)
     {
         if (!(GCL_GetNextParamValue_80020AD4() & 1))
         {
-            game_state_flags_800AB3CC |= 0x80000;
+            GM_GameStatus_800AB3CC |= 0x80000;
         }
         else 
         {
-            game_state_flags_800AB3CC &= 0xfff7ffff;
+            GM_GameStatus_800AB3CC &= 0xfff7ffff;
         }
     }
 
@@ -54,14 +54,14 @@ int GCL_Command_menu_8002CAAC(void)
         switch (GCL_GetNextParamValue_80020AD4())
         {
             case 0:
-                game_state_flags_800AB3CC |= 0x20000;
+                GM_GameStatus_800AB3CC |= 0x20000;
                 break;
             case 1:
             case 3:
-                game_state_flags_800AB3CC &= 0xfffdffff;
+                GM_GameStatus_800AB3CC &= 0xfffdffff;
                 break;
             case 2:
-                game_state_flags_800AB3CC |= 0x10000;
+                GM_GameStatus_800AB3CC |= 0x10000;
                 break;
         }
     }
@@ -71,16 +71,16 @@ int GCL_Command_menu_8002CAAC(void)
         switch (GCL_GetNextParamValue_80020AD4())
         {
             case 0:
-                game_state_flags_800AB3CC |= 0x400000;
+                GM_GameStatus_800AB3CC |= 0x400000;
                 break;
             case 1:
-                game_state_flags_800AB3CC &= 0xffbfffff;
+                GM_GameStatus_800AB3CC &= 0xffbfffff;
                 break;
             case 2:
-                game_state_flags_800AB3CC |= 0x200000;
+                GM_GameStatus_800AB3CC |= 0x200000;
                 break;
             case 3:
-                game_state_flags_800AB3CC |= 0x100000;
+                GM_GameStatus_800AB3CC |= 0x100000;
                 break;
         }
     }
@@ -89,27 +89,27 @@ int GCL_Command_menu_8002CAAC(void)
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
-            game_state_flags_800AB3CC |= 0x4000;
+            GM_GameStatus_800AB3CC |= 0x4000;
         }
         else 
         {
-            game_state_flags_800AB3CC &= 0xffffbfff;
+            GM_GameStatus_800AB3CC &= 0xffffbfff;
         }
     }
 
     if (GCL_GetParam_80020968('s'))
     {
-        Menu_scale_80038E28(GCL_GetNextParamValue_80020AD4());
+        MENU_SetRadarScale_80038E28(GCL_GetNextParamValue_80020AD4());
     }
 
-    if (GCL_GetParam_80020968('w'))
+    if (GCL_GetParam_80020968('w')) // weapon
     {
-        dword_800AB9E4 = sub_8002CA48();
+        GM_DisableWeapon_800AB9E4 = sub_8002CA48();
     }
 
-    if (GCL_GetParam_80020968('i'))
+    if (GCL_GetParam_80020968('i')) // item
     {
-        dword_800ABA28 = sub_8002CA48();
+        GM_DisableItem_800ABA28 = sub_8002CA48();
     }
     return 0;
 }

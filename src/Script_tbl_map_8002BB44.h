@@ -162,6 +162,6 @@ enum                    WeaponsId
     ePSG1 = 9
 };
 
-void GM_SetBinds_80029A5C(int, BindStruct *, int);
+void HZD_SetBind_80029A5C(int, BindStruct *, int);
 
 #endif // SCRIPT_TBL_MAP_H

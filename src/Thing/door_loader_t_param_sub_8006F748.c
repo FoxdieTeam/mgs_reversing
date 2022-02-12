@@ -1,9 +1,9 @@
 #include "linker.h"
 #include "door.h"
 
-void sub_8006FEE4(short *a1, short *a2);
+void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 
-void GM_Control_RemoveIfScriptData_800260CC(Res_Control *pControl);
+void GM_FreeControl_800260CC(Res_Control *pControl);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
 static inline void do_nothing_vec_func(SVECTOR* vec)
@@ -15,7 +15,7 @@ void door_kill_8006F718(struct Actor_Door *pDoor)
 {
     SVECTOR unused;
     do_nothing_vec_func(&unused);
-    GM_Control_RemoveIfScriptData_800260CC(&pDoor->field_20_ctrl);
+    GM_FreeControl_800260CC(&pDoor->field_20_ctrl);
     GM_FreeObject_80034BF8((OBJECT*)&pDoor->field_9C);
 }
 
@@ -39,5 +39,5 @@ void door_loader_t_param_sub_8006F748(
 
     pTSub->field_C_y = vec1_y;
     pTSub->field_4_y = vec1_y;
-    sub_8006FEE4(&pTSub->field_0_x, &pTSub->field_0_x);
+    HZD_SetDynamicSegment_8006FEE4(&pTSub->field_0_x, &pTSub->field_0_x);
 }

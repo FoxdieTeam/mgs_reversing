@@ -17,7 +17,7 @@ const char SECTION(".rdata") aIllegalDisk[] = "illegal DISK\n";
 const char SECTION(".rdata") aCdfsSkipErrorD[] = "CDFS: skip error %d %d %d\n";
 
 const char SECTION(".rdata") asc_800105B4[] = "[T]";
-const char SECTION(".rdata") asc_800105B8[] = ".";
+const char SECTION(".rdata") a__800105B8[] = ".";
 const char SECTION(".rdata") aD[] ="[%d]";
 const char SECTION(".rdata") aFileSTopDSizeD[] = "FILE %s : top %d size %d set %d\n";
 const char SECTION(".rdata") aPlaystation[] = "PLAYSTATION";

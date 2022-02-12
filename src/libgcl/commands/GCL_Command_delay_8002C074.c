@@ -29,7 +29,7 @@ int GCL_Command_delay_8002C074(int argc, char **argv)
     }
     if (time && proc)
     {
-        delay_init_80033230(proc, 0, time);
+        GM_DelayedExecCommand_80033230(proc, 0, time);
         return 0;
     }
     return -1;

@@ -9,13 +9,13 @@ void DG_3OTsInit_80017B98(int);
 void DG_8001F1DC(void);
 void DG_ClearResidentTexture_8001DB10(void);
 
-int pcx_file_handler_8001F920(unsigned char *pFileData, int fileNameHashed);
-int kmd_file_handler_8001F4EC(unsigned char *pFileData, int fileNameHashed);
-int lit_file_handler_8001F6B4(unsigned char *pFileData, int fileNameHashed);
-int n_file_handler_8001F5F8(unsigned char *pFileData, int fileNameHashed);
-int oar_file_handler_8001F610(unsigned char *pFileData, int fileNameHashed);
-int zmd_file_handler_8001FAD0(unsigned char *pFileData, int fileNameHashed);
-int img_file_handler_8001F644(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitLit_8001F6B4(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitNar_8001F5F8(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed);
 int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed);
 
 void DG_Update2_8001F078(Actor *);
@@ -34,22 +34,22 @@ void DG_StartDaemon_8001F284(void)
     DG_3OTsInit_80017B98(320);
     DG_ClearResidentTexture_8001DB10();
     DG_8001F1DC();
-    GV_SetFileHandler_80015418('p', pcx_file_handler_8001F920);
-    GV_SetFileHandler_80015418('k', kmd_file_handler_8001F4EC);
-    GV_SetFileHandler_80015418('l', lit_file_handler_8001F6B4);
-    GV_SetFileHandler_80015418('n', n_file_handler_8001F5F8);
-    GV_SetFileHandler_80015418('o', oar_file_handler_8001F610);
-    GV_SetFileHandler_80015418('z', zmd_file_handler_8001FAD0);
-    GV_SetFileHandler_80015418('i', img_file_handler_8001F644);
-    GV_SetFileHandler_80015418('s', sgt_file_handler_8001F670);
+    GV_SetLoader_80015418('p', DG_LoadInitPcx_8001F920);
+    GV_SetLoader_80015418('k', DG_LoadInitKmd_8001F4EC);
+    GV_SetLoader_80015418('l', DG_LoadInitLit_8001F6B4);
+    GV_SetLoader_80015418('n', DG_LoadInitNar_8001F5F8);
+    GV_SetLoader_80015418('o', DG_LoadInitOar_8001F610);
+    GV_SetLoader_80015418('z', DG_LoadInitKmdar_8001FAD0);
+    GV_SetLoader_80015418('i', DG_LoadInitImg_8001F644);
+    GV_SetLoader_80015418('s', sgt_file_handler_8001F670);
 
     // 2D handler?
-    GV_ActorPushBack_800150a8(0, &gDgdActor2_800B3750, 0);
-    GV_ActorInit_8001514c(&gDgdActor2_800B3750, DG_Update2_8001F078, 0, aDgdC);
+    GV_InitActor_800150A8(0, &gDgdActor2_800B3750, 0);
+    GV_SetNamedActor_8001514C(&gDgdActor2_800B3750, DG_Update2_8001F078, 0, aDgdC);
 
     // 3D handler?
-    GV_ActorPushBack_800150a8(8, &gDgdActor1_800B3770, 0);
-    GV_ActorInit_8001514c(&gDgdActor1_800B3770, DG_Update1_8001F1BC, 0, aDgdC);
+    GV_InitActor_800150A8(8, &gDgdActor1_800B3770, 0);
+    GV_SetNamedActor_8001514C(&gDgdActor1_800B3770, DG_Update1_8001F1BC, 0, aDgdC);
 }
 
 extern unsigned char kVertexIndexingOrder_8009D46C[];

@@ -1,7 +1,7 @@
 #include "linker.h"
 
 // Used for save files
-unsigned int CRC32_80020BB4(int len, unsigned char* pData)
+unsigned int crc32_80020BB4(int len, unsigned char* pData)
 {
   unsigned int crc;
   int counter;

@@ -5,7 +5,7 @@ extern const char aVarsaveNotVar[];
 
 extern void     mts_printf_8008BBA0(const char*, ...);
 unsigned char*  GCL_VarSaveBuffer_800217F0(unsigned char *);
-void            GCL_80021314(void);
+void            GCL_SaveVar_80021314(void);
 
 int GCL_Command_varsave_8002C72C(int argc, char **argv)
 {
@@ -14,7 +14,7 @@ int GCL_Command_varsave_8002C72C(int argc, char **argv)
     param = GCL_Get_Param_Result_80020AA4();
     if (GCL_GetParam_80020968('a'))
     {
-        GCL_80021314();
+        GCL_SaveVar_80021314();
         return 0;
     }
     while (*param)

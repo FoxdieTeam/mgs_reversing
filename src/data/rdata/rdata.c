@@ -28,10 +28,10 @@ const char SECTION(".rdata") aPrimitiveQueue[] = "Primitive Queue %d\n";
 // Smaller strings get put into .DATA ??
 const char SECTION(".rdata") aDgdC[] = "dgd.c";
 
-const char SECTION(".rdata") aCommandNotFoun[] ="command not found\n";
-const char SECTION(".rdata") aProcXNotFound[] = "PROC %X NOT FOUND\n";
-const char SECTION(".rdata") aProcDCancel[] = "proc %d cancel\n";
-const char SECTION(".rdata") aTooManyArgsPro[] = "TOO MANY ARGS PROC\n";
-const char SECTION(".rdata") aScriptCommandE[] = "SCRIPT COMMAND ERROR %x\n";
-const char SECTION(".rdata") aErrorInScript[] ="ERROR in script\n";
-const char SECTION(".rdata") aNotScriptData[] = "NOT SCRIPT DATA !!\n";
+//const char SECTION(".rdata") aCommandNotFoun[] ="command not found\n";
+//const char SECTION(".rdata") aProcXNotFound[] = "PROC %X NOT FOUND\n";
+//const char SECTION(".rdata") aProcDCancel[] = "proc %d cancel\n";
+//const char SECTION(".rdata") aTooManyArgsPro[] = "TOO MANY ARGS PROC\n";
+//const char SECTION(".rdata") aScriptCommandE[] = "SCRIPT COMMAND ERROR %x\n";
+//const char SECTION(".rdata") aErrorInScript[] ="ERROR in script\n";
+//const char SECTION(".rdata") aNotScriptData[] = "NOT SCRIPT DATA !!\n";

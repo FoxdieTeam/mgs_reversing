@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef padSetAct_8009B49C
+padSetAct_8009B49C:
+	dw 0xAC850028 ; 0x8009B49C
+	dw 0x03E00008 ; 0x8009B4A0
+	dw 0xA0860034 ; 0x8009B4A4
+	dw 0xA0850037 ; 0x8009B4A8
+	dw 0xAC86002C ; 0x8009B4AC
+	dw 0x03E00008 ; 0x8009B4B0
+	dw 0xA0870036 ; 0x8009B4B4

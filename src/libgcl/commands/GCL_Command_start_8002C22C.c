@@ -10,10 +10,10 @@ int SECTION(".sbss") gBinds_800ABA60;
 extern const char aMenuInitEnd[];
 
 void MENU_InitRadioMemory_8004E0EC(void);
-void GCL_InitVars_800212CC(void);
-void menu_textureload_8002AC44(void);
+void GCL_InitClearVar_800212CC(void);
+void GM_InitReadError_8002AC44(void);
 void font_load_80044A9C(void);
-void GCL_InitVarsClear_80021264(void);
+void GCL_InitVar_80021264(void);
 
 extern int gTotalFrameTime_800AB9E8;
 
@@ -21,7 +21,7 @@ int GCL_Command_start_8002C22C(int argc, char **argv)
 {
     if (GCL_GetParam_80020968('s'))
     {
-        menu_textureload_8002AC44();
+        GM_InitReadError_8002AC44();
     }
 
     if (GCL_GetParam_80020968('m')) // menu
@@ -37,19 +37,19 @@ int GCL_Command_start_8002C22C(int argc, char **argv)
 
     if (GCL_GetParam_80020968('v'))
     {
-        GCL_InitVarsClear_80021264();
+        GCL_InitVar_80021264();
         MENU_InitRadioMemory_8004E0EC();
         gTotalFrameTime_800AB9E8 = 0;
     }
 
     if (GCL_GetParam_80020968('d')) // demo (1 to use demo.gcx instead of scenerio.gcx)
     {
-        GCL_SetScriptNameHash_8001FCB0(GCL_GetNextParamValue_80020AD4());
+        GCL_ChangeSenerioCode_8001FCB0(GCL_GetNextParamValue_80020AD4());
     }
 
     if (GCL_GetParam_80020968('c'))
     {
-        GCL_InitVars_800212CC();
+        GCL_InitClearVar_800212CC();
         MENU_InitRadioMemory_8004E0EC();
         gTotalFrameTime_800AB9E8 = 0;
     }

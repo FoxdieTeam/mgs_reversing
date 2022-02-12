@@ -77,8 +77,8 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     SetConf_800997BC(16, 12, (unsigned long)0x801FFF00);
     ResetCallback_80098318();
     mts_printf_8008BBA0(aMultiTaskSched, aJul111998, a221633);
-//    program_bottom_8008C598 = mts_get_program_bottom_8008C598();
-    mts_printf_8008BBA0(aProgramBottomX, mts_get_program_bottom_8008C598());
+//    program_bottom_8008C598 = mts_get_bss_tail_8008C598();
+    mts_printf_8008BBA0(aProgramBottomX, mts_get_bss_tail_8008C598());
     EnterCriticalSection_8009952C();
     eventDesc = OpenEvent_8009946C(0xF0000010, 4096, 4096, mts_event_cb_8008BBC0);
     gMts_Event1_800A3D70 = eventDesc;
@@ -110,7 +110,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aTaskCreateXX, mts_8008B0A4, mts_stack_end(byte_800C0DB8));
         mts_printf_8008BBA0(asc_80013E2C);
-        mts_dump_process_list_8008B77C();
+        mts_print_process_status_8008B77C();
     }
 
 
@@ -137,7 +137,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aTaskCreateXX, mts_8008BA88, mts_stack_end(dword_800C0FC0));
         mts_printf_8008BBA0(asc_80013E2C);
-        mts_dump_process_list_8008B77C();
+        mts_print_process_status_8008B77C();
     }
 
     pTask = &gTasks_800C0C30[11];
@@ -160,7 +160,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1199, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aBootTasknrD, boot_tasknr);
         mts_printf_8008BBA0(asc_80013E2C);
-        mts_dump_process_list_8008B77C();
+        mts_print_process_status_8008B77C();
     }
     if (gStackSize_800A3D94 > 0)
     {
@@ -174,7 +174,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aTaskCreateXX, pBootTaskFn, pStack);
         mts_printf_8008BBA0(asc_80013E2C);
-        mts_dump_process_list_8008B77C();
+        mts_print_process_status_8008B77C();
     }
 
     pBootTask->field_2 = -1;

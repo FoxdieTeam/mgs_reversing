@@ -81,7 +81,7 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     N_StageObjs_800ABAA4++;
 }
 
-void* HZD_Load_Helper_80021AE0(int* pHzdData, int default_0_flags_index, int default_48, int default_24);
+void* HZD_MakeHandler_80021AE0(int* pHzdData, int default_0_flags_index, int default_48, int default_24);
 
 void *Map_HZD_Load_80030F38(
     int resource_name_hashed,
@@ -96,7 +96,7 @@ void *Map_HZD_Load_80030F38(
 
     name = GV_CacheID_800152DC(resource_name_hashed, 'h');
     pHzdData = GV_GetCache_8001538C(name);
-    result = HZD_Load_Helper_80021AE0(pHzdData, flagsIndex, default_48, default_24);
+    result = HZD_MakeHandler_80021AE0(pHzdData, flagsIndex, default_48, default_24);
 
     // TODO: struct recovery
     *(short *)(result + 8) = bitIndex;
