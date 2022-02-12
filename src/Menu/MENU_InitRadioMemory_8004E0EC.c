@@ -24,7 +24,7 @@ extern const char aClear[];
 
 int dword_800AB770 = 0; //sdata
 
-void menu_radio_clear_or_set_var_8004E110(int varId, const char *pVarName)
+void MENU_SetRadioMemory_8004E110(int varId, const char *pVarName)
 {
     RadioMemory *pVar;
 

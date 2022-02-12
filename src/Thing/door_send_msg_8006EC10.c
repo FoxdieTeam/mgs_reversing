@@ -6,7 +6,7 @@
 
 int GV_SendMessage_80016504(GV_MSG *);
 void sub_80032858(SVECTOR *a1, int a2);
-int mts_doNothing_8008BB98(int, const char *, ...);
+int mts_nullsub_8_8008BB98(int, const char *, ...);
 
 extern int dword_800ABA0C;
 

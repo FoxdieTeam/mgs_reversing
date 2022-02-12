@@ -10,7 +10,7 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 
 STATIC_ASSERT_SIZE(BindStruct, 0x18);
 
-void GM_SetBinds_80029A5C(int, BindStruct *, int);
+void HZD_SetBind_80029A5C(int, BindStruct *, int);
 
 BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
 
@@ -63,7 +63,7 @@ int GCL_Command_trap_8002BD34(int argc, char **argv)
 
     tmp = gBinds_800ABA60;
     gBindsArray_800b58e0[i].field_6 = (short)tmp;
-    GM_SetBinds_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
+    HZD_SetBind_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
 
     return 0;
 }

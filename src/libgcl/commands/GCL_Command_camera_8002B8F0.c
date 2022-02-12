@@ -16,12 +16,12 @@ typedef struct  CAMERA
     char        field_13_param_p;
 } CAMERA;
 
-CAMERA      SECTION(".gCameraList_800B7718")        gCameraList_800B7718[8];
+CAMERA      SECTION(".GM_CameraList_800B7718")        GM_CameraList_800B7718[8];
 CAMERA      SECTION(".gCamera_param_a_800B780C")    gCamera_param_a_800B780C;
 
 extern const char   aSetCameraD[];
 
-extern int          game_state_flags_800AB3CC;
+extern int          GM_GameStatus_800AB3CC;
 
 extern void         GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
 extern void         sub_80030888(void *vec1, void *vec2, int param_3);
@@ -48,8 +48,8 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
 
     if (GCL_GetParam_80020968('b')) // bound
     {
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec2);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec2);
         sub_80030888(vec1, vec2, isEnabled);
     }
 
@@ -60,14 +60,14 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
 
     if (GCL_GetParam_80020968('l')) // limit
     {
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec2);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec2);
         sub_800308E0(vec1, vec2, isEnabled);
     }
 
     if (GCL_GetParam_80020968('r')) // rotate
     {
-        GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
         sub_80030938(vec1);
     }
 
@@ -79,13 +79,13 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
         if (camera_id < 8)
         {
             mts_printf_8008BBA0(aSetCameraD, camera_id); // "set camera %d\n"
-            cam = &gCameraList_800B7718[camera_id];
+            cam = &GM_CameraList_800B7718[camera_id];
             cam->field_10_param1 = GCL_GetNextParamValue_80020AD4();
             cam->field_11_param2 = GCL_GetNextParamValue_80020AD4();
             cam->field_12_param3 = GCL_GetNextParamValue_80020AD4();
             cam->field_13_param_p = param_p;
-            GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), cam->field_00_pos);
-            GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), cam->field_08_trg);
+            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), cam->field_00_pos);
+            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), cam->field_08_trg);
             if (GCL_Get_Param_Result_80020AA4())
             {
                 cam->field_0e_alertMask = GCL_GetNextParamValue_80020AD4();
@@ -107,11 +107,11 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
     {
         if (GCL_GetNextParamValue_80020AD4() == 0)
         {
-            game_state_flags_800AB3CC &= ~0x40;
+            GM_GameStatus_800AB3CC &= ~0x40;
         }
         else 
         {
-            game_state_flags_800AB3CC |= 0x40;
+            GM_GameStatus_800AB3CC |= 0x40;
         }
     }
 

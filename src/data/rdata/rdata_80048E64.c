@@ -42,7 +42,7 @@ const char SECTION(".rdata") aSSSSSS[] = "%s%s%s%s%s%s";
 const int SECTION(".rdata") dword_800122F4[] = {0x66826C82, 0xE7817282, 0};
 const char SECTION(".rdata") aSaveData[] = "SAVE DATA";
 const int SECTION(".rdata") jpt_8004C4E0[] = {0x8004C4E8, 0x8004C580, 0x8004CAF8, 0x8004CB7C, 0x8004CCD4, 0x8004CC34, 0x8004CDB4};
-const int SECTION(".rdata") dword_80012328[] = {0xCDA5B9A5, 0xAFA5BCA1, 0};
+const int SECTION(".rdata") aEEBEp_80012328[] = {0xCDA5B9A5, 0xAFA5BCA1, 0};
 const char SECTION(".rdata") aForceActCancel[] = "force act cancel\n";
 const char SECTION(".rdata") aRunMoveCancel[] = "run move cancel\n";
 const char SECTION(".rdata") aForceStanceCan[] = "force stance cancel\n";
@@ -101,8 +101,8 @@ const char SECTION(".rdata") aCigar[] = "cigar";
 const char SECTION(".rdata") aRcmL[] = "rcm_l";
 const char SECTION(".rdata") aTabakoC[] = "tabako.c";
 const char SECTION(".rdata") aZoomLevelD[] = "- ZOOM LEVEL - - %d -";
-const int SECTION(".rdata") dword_800129B4[] = {0x6425, 0x67676F67, 0x73656C, 0x706F6373, 0x632E65, 0x69736D67, 0x2E746867, 0x63, 0x45564153, 0x4F485020, 0x4F54, 0x73257325, 0x73257325, 0};
-const int SECTION(".rdata") dword_800129EC[] = {0x66826C82, 0xE7817282, 0};
+const int SECTION(".rdata") aD_4_800129B4[] = {0x6425, 0x67676F67, 0x73656C, 0x706F6373, 0x632E65, 0x69736D67, 0x2E746867, 0x63, 0x45564153, 0x4F485020, 0x4F54, 0x73257325, 0x73257325, 0};
+const int SECTION(".rdata") aVlvfvrbc_800129EC[] = {0x66826C82, 0xE7817282, 0};
 const int SECTION(".rdata") dword_800129F8[] = {0x4081, 0x67826F82, 0x73826E82, 0x6E82, 0x544F4850, 0x3025204F, 0xA6432};
 const char SECTION(".rdata") aSaveHeaderX[] = "save header = %x\n";
 const char SECTION(".rdata") aDTryQScaleDSiz[] = "%d try q_scale = %d size = %d\n";
@@ -713,7 +713,7 @@ const char SECTION(".rdata") aCloseDoorX_0[] = "CLOSE door %X\n";
 const char SECTION(".rdata") aDoorC[] = "door.c";
 
 const char SECTION(".rdata") aSgtrect3C[] = "sgtrect3.c";
-const int SECTION(".rdata") dword_80012E68[] = {0x7325, 0x68676973, 0x632E74, 0x6F6F6C62, 0x315F64, 0x6F6F6C62, 0x632E64, 0x12A00, 0x2FE0105, 0x80100, 0xCB0B0, 0xAFF0105, 0x64006400, 0xD010002, 0x105000C, 0x1E000AFF, 0xE8081E00, 0x2F8F8, 0xF0D01, 0x6C625F64, 0x2E646F6F, 0x63, 0x6374656B, 0x5F706168, 0x79657267, 0};
+const int SECTION(".rdata") aS_2_80012E68[] = {0x7325, 0x68676973, 0x632E74, 0x6F6F6C62, 0x315F64, 0x6F6F6C62, 0x632E64, 0x12A00, 0x2FE0105, 0x80100, 0xCB0B0, 0xAFF0105, 0x64006400, 0xD010002, 0x105000C, 0x1E000AFF, 0xE8081E00, 0x2F8F8, 0xF0D01, 0x6C625F64, 0x2E646F6F, 0x63, 0x6374656B, 0x5F706168, 0x79657267, 0};
 const char SECTION(".rdata") aDBloodrC[] = "d_bloodr.c";
 
 

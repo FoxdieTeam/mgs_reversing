@@ -8,7 +8,7 @@ extern int              GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 
 void                    sub_80079284(void);
-DG_PRIM                 *DG_Prim_Alloc_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+DG_PRIM                 *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 int                     DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 static inline void DG_GroupPrim(prim, group_id)
@@ -22,7 +22,7 @@ DG_PRIM* Takabe_MakeIndividualRect3DPrim_800793E8(int prim_count, SVECTOR *pVec)
 {
     DG_PRIM *pNewPrim;
 
-    pNewPrim = DG_Prim_Alloc_8001BABC(0x2012, prim_count, 0, pVec, 0);
+    pNewPrim = DG_MakePrim_8001BABC(0x2012, prim_count, 0, pVec, 0);
     if (pNewPrim)
     {
         DG_QueuePrim_80018274((DG_OBJS *)pNewPrim);

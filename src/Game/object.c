@@ -21,7 +21,7 @@ int SECTION(".sbss") mt_count_800ABAC0;
 //GV
 extern void *GV_GetCache_8001538C( int id );
 extern int GV_CacheID_800152DC( int file_id, int ext_id );
-extern void GV_ZeroMemory_8001619c( void* ptr, int size );
+extern void GV_ZeroMemory_8001619C( void* ptr, int size );
 void GV_AddVec3_80016D00( SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst );
 
 //GM
@@ -85,7 +85,7 @@ void sub_800348F4( OBJECT *obj )
 //Initialises an object by zeroing its memory and setting defaults
 void GM_InitObjectNoRots_800349B0( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory_8001619c( obj, sizeof( OBJECT_NO_ROTS ) ) ;
+    GV_ZeroMemory_8001619C( obj, sizeof( OBJECT_NO_ROTS ) ) ;
     obj->flag = flag;
     obj->light = &DG_LightMatrix_8009D384;
     obj->map_name = GM_CurrentMap_800AB9B0;
@@ -99,7 +99,7 @@ void GM_InitObjectNoRots_800349B0( OBJECT_NO_ROTS *obj, int model, int flag, int
 //calls initobjectnorots to init the rest
 void GM_InitObject_80034A18( OBJECT *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory_8001619c( obj->rots, sizeof( SVECTOR ) * DG_MAX_JOINTS );
+    GV_ZeroMemory_8001619C( obj->rots, sizeof( SVECTOR ) * DG_MAX_JOINTS );
     GM_InitObjectNoRots_800349B0( ( OBJECT_NO_ROTS * )obj, model, flag, motion );
 }
 
@@ -254,7 +254,7 @@ void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int inte
 }
 
 //calls configObjectAction with given values
-int GM_ConfigObjectMotion_80034D30( OBJECT *obj, int action_flag, int motion )
+int GM_ConfigObjectMotion_80034DE8( OBJECT *obj, int action_flag, int motion )
 {
     GM_ConfigObjectAction_80034CD4( obj, obj->action_flag, 0, motion);
     return 0;

@@ -14,9 +14,9 @@ void            sub_800470B4(int param_1, void *param_2, int param_3, int param_
 void            SwEnterCriticalSection_8009954C(void);
 void            SwExitCriticalSection_8009956C(void);
 void            sub_80037EE0(int, int);
-int             sub_80037CD8(void);
-void            mts_8008C408(int, int);
-void            mts_8008C454(int, int);
+int             GM_StreamStatus_80037CD8(void);
+void            mts_set_pad_vibration_8008C408(int, int);
+void            mts_set_pad_vibration2_8008C454(int, int);
 void            GM_Sound_80032C48(int, int code);
 int             rand_8008E6B8(void);
 unsigned char   *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
@@ -46,14 +46,14 @@ void            radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsig
     if (faceUnk >= 1)
     {
         sub_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 1);
-        mts_8008A400();
+        mts_slp_tsk_8008A400();
     }
     else
     {
         sub_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 0);
     }
     unk->field_0_state = 1;
-    mts_8008A400();
+    mts_slp_tsk_8008A400();
 }
 
 void            radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
@@ -81,7 +81,7 @@ void            radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *
                                                     faceUnk_cond);
     if (faceUnk_cond)
     {
-        mts_8008A400();
+        mts_slp_tsk_8008A400();
     }
     mts_printf_8008BBA0(aAnimeCharaDCod, faceCharaCode, faceImageName);
 }
@@ -100,7 +100,7 @@ void            radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScr
         unk->field_14_bInExecBlock = 1;
         menu_gcl_exec_block_800478B4(unk, pScript);
         unk->field_14_bInExecBlock = 0;
-        while (sub_80037CD8() != -1) // wait vox finish ?
+        while (GM_StreamStatus_80037CD8() != -1) // wait vox finish ?
         {
             mts_wait_vbl_800895F4(2);
         }
@@ -132,8 +132,8 @@ void            radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScr
             {
                 if (val > 0)
                 {
-                    mts_8008C408(1, 2);
-                    mts_8008C454(1, val);
+                    mts_set_pad_vibration_8008C408(1, 2);
+                    mts_set_pad_vibration2_8008C454(1, val);
                 }
                 mts_wait_vbl_800895F4(1);
             }
@@ -277,7 +277,7 @@ void            radio_add_contact_80047768(menu_chara_struct *unk, unsigned char
 
     pScript = menu_gcl_read_word_80047098(&contact_freq, pScript);
     mts_printf_8008BBA0(aSetDS, contact_freq, pScript);
-    menu_radio_clear_or_set_var_8004E110(contact_freq, pScript);
+    MENU_SetRadioMemory_8004E110(contact_freq, pScript);
 }
 
 void            radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
@@ -287,7 +287,7 @@ void            radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pS
     unk->field_0_state = 3;
     unk->field_C_pScript = GCL_Get_Param_Result_80020AA4();
     unk->field_1A = stageIndex;
-    mts_8008A400();
+    mts_slp_tsk_8008A400();
     unk->field_18 &= ~0x100;
 }
 
@@ -296,7 +296,7 @@ void            radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pSc
     unk->field_0_state = 4;
     unk->field_C_pScript = pScript;
     unk->field_1A = 0;
-    mts_8008A400();
+    mts_slp_tsk_8008A400();
 }
 
 void            radio_varsave_80047838(menu_chara_struct *unk, unsigned char *pScript)

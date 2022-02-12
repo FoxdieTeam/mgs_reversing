@@ -4,26 +4,26 @@
 #include "dgd.h"
 
 void MENU_Text_Init_80038b98(void);
-void mts_doNothing_8008BB98(void);
+void nullsub_8_8008BB98(void);
 
 extern int GV_Clock_800AB920;
 extern MenuGlue gMenuPrimBuffer_8009E2D0;
 extern DG_CHNL DG_Chanls_800B1800[3];
-extern int dword_800AB68C;
+extern int MENU_PrimUse_800AB68C;
 
 /*
-void menu_reset_ot_80038A88(void)
+void MENU_ResetSystem_80038A88(void)
 {
     MenuGlue* pGlue = &gMenuPrimBuffer_8009E2D0;
     MenuPrimBuffer* pPrimBuf = &pGlue->mPrimBuf;
     if (pPrimBuf->mOtEnd < pPrimBuf->mFreeLocation)
     {
-        mts_doNothing_8008BB98();
+        nullsub_8_8008BB98();
     }
 
     pPrimBuf->mOtEnd =  pGlue->mPrimPtrs[GV_Clock_800AB920] + 0x2000;
     pPrimBuf->mOt = DG_Chanls_800B1800[2].mOrderingTables[GV_Clock_800AB920];
-    dword_800AB68C = pPrimBuf->mFreeLocation - pGlue->mPrimPtrs[1 - GV_Clock_800AB920];
+    MENU_PrimUse_800AB68C = pPrimBuf->mFreeLocation - pGlue->mPrimPtrs[1 - GV_Clock_800AB920];
     pPrimBuf->mFreeLocation = pGlue->mPrimPtrs[GV_Clock_800AB920];
     MENU_Text_Init_80038b98();
 }

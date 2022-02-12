@@ -1,11 +1,11 @@
 #include "linker.h"
 #include "menuMan.h"
 
-extern int game_state_flags_800AB3CC;
+extern int GM_GameStatus_800AB3CC;
 
 void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pSubMenu)
 {
-    if ((game_state_flags_800AB3CC & 0x1020) != 0x20)
+    if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
         pSubMenu->field_8_pStru->field_18_pFnUpdate(
             pActor,
@@ -41,7 +41,7 @@ int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
         return 0;
     }
 
-    if ((game_state_flags_800AB3CC & 0x1020) == 0x20)
+    if ((GM_GameStatus_800AB3CC & 0x1020) == 0x20)
     {
         // TODO: probably a fake match, every return 0
         // is supposed to point to ret_zero but

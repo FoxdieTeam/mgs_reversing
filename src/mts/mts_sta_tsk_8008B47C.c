@@ -7,8 +7,8 @@ extern const char asc_80013E2C[]; // = "\n";
 extern const char aMtsNewC[]; // = "\n";
 
 void mts_send_8008982C(int dst, unsigned char *message);
-int mts_recv_80089D24(int src, unsigned char *message);
-void mts_dump_process_list_8008B77C(void);
+int mts_receive_80089D24(int src, unsigned char *message);
+void mts_print_process_status_8008B77C(void);
 
 extern int gTaskIdx_800C0DB0;
 
@@ -32,13 +32,13 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
     msg.field_0 = 0;
     msg.field_C = stack_pointer;
     mts_send_8008982C(0, (unsigned char *)&msg);
-    src_idx = mts_recv_80089D24(0, (unsigned char *)&msg);
+    src_idx = mts_receive_80089D24(0, (unsigned char *)&msg);
     if ( src_idx )
     {
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1344, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aMtsStaTskServe, src_idx);
         mts_printf_8008BBA0(asc_80013E2C);
-        mts_dump_process_list_8008B77C();
+        mts_print_process_status_8008B77C();
     }
     return msg.field_0;
 }

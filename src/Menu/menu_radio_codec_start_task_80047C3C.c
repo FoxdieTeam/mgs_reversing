@@ -3,7 +3,7 @@
 #include "mts_new.h"
 
 void* GV_AllocMemory_80015EB8(int idx, int size);
-void GV_ZeroMemory_8001619c(void* ptr, int size);
+void GV_ZeroMemory_8001619C(void* ptr, int size);
 
 extern const char aNoMemoryForSta[];
 extern const char aNoMemory[];
@@ -33,7 +33,7 @@ void menu_radio_codec_start_task_80047C3C(void)
 
 void sub_80047CB4(menu_chara_struct *unknown)
 {
-    GV_ZeroMemory_8001619c(unknown, sizeof(menu_chara_struct));
+    GV_ZeroMemory_8001619C(unknown, sizeof(menu_chara_struct));
     unknown->field_3C = 0;
     unknown->field_54 = 0;
 }

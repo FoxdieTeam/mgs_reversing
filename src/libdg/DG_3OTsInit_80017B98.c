@@ -2,7 +2,7 @@
 #include "libdg.h"
 #include "dgd.h"
 
-void SetDrawSyncCallBack_8008F76C(void*);
+void DrawSyncCallback_8008F76C(void*);
 
 void DG_DrawSyncCallback_80017984(void);
 
@@ -30,7 +30,7 @@ void DG_3OTsInit_80017B98(int width)
     DRAWENV drawEnv;
     DG_CHNL* ptr;
 
-    SetDrawSyncCallBack_8008F76C(DG_DrawSyncCallback_80017984);
+    DrawSyncCallback_8008F76C(DG_DrawSyncCallback_80017984);
     dword_800AB978 = width;
     ptr = DG_Chanls_800B1800;
     DG_Init_800179A8(ptr, (unsigned char*)dword_800B0630, 5, dword_800B0F60, 8, -1, 1);

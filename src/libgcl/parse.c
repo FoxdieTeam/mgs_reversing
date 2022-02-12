@@ -3,9 +3,9 @@
 #include "gcl.h"
 
 /***$gp*************************************************/
-int*			SECTION(".sbss") argstack_p_800AB998;
-unsigned char**	SECTION(".sbss") commandline_p_800AB99C;
-unsigned char*	SECTION(".sbss") pScript_800AB9A0;
+int*			SECTION(".sbss") GCL_ArgStackP_800AB998;
+unsigned char**	SECTION(".sbss") GCL_CommandLineP_800AB99C;
+unsigned char*	SECTION(".sbss") GCL_NextStrPtr_800AB9A0;
 
 //I think these bottom two sbss are actually instantiated later in another file
 int				SECTION(".sbss") dword_800AB9A4;
@@ -19,7 +19,7 @@ unsigned char*	SECTION(".commandlines_800B3CA8") commandlines_800B3CA8[8];
 
 void GCL_SetArgTop_80020690( unsigned char *top )
 {
-    pScript_800AB9A0 = top;
+    GCL_NextStrPtr_800AB9A0 = top;
 }
 
 extern int              GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
@@ -105,13 +105,13 @@ ADD_SIZE_80020834:
             mts_printf_8008BBA0("GCL:WRONG CODE %x\n", gcl_code);
             break;
     }
-    pScript_800AB9A0 = ptr;
+    GCL_NextStrPtr_800AB9A0 = ptr;
     return ptr;
 }
 
 void GCL_InitArgStack_80020868( void )
 {
-	argstack_p_800AB998 = argstack_800B3C28;
+	GCL_ArgStackP_800AB998 = argstack_800B3C28;
 }
 
 int *GCL_SetArgStack_8002087C( GCL_ARGS *args )
@@ -126,23 +126,23 @@ int *GCL_SetArgStack_8002087C( GCL_ARGS *args )
 		int* sp2;
 		int* argv = ( int* )&args->argv[args->argc - 1];
 		int i = args->argc;
-		int* org = argstack_p_800AB998;
+		int* org = GCL_ArgStackP_800AB998;
 
 		while ( i > 0 )
 		{
 			//stack push
-			sp = argstack_p_800AB998;
+			sp = GCL_ArgStackP_800AB998;
 			*sp = *argv;
-			argstack_p_800AB998 = sp + 1;
+			GCL_ArgStackP_800AB998 = sp + 1;
 
 			argv--;
 			i--;
 		}
 
 		//stack push
-		sp2 = argstack_p_800AB998;
+		sp2 = GCL_ArgStackP_800AB998;
 		*sp2 = args->argc;
-		argstack_p_800AB998 = sp2 + 1;
+		GCL_ArgStackP_800AB998 = sp2 + 1;
 
 		return org;
 	}
@@ -152,32 +152,32 @@ void GCL_UnsetArgStack_800208F0( void* stack )
 {
     if ( stack )
     {
-        argstack_p_800AB998 = stack;
+        GCL_ArgStackP_800AB998 = stack;
     }
     return;
 }
 
 int GCL_GetArgs_80020904( int argno )
 {
-    return argstack_p_800AB998[~argno];
+    return GCL_ArgStackP_800AB998[~argno];
 }
 
 void GCL_InitCommandLineBuffer_80020920( void )
 {
-    commandline_p_800AB99C = commandlines_800B3CA8;
+    GCL_CommandLineP_800AB99C = commandlines_800B3CA8;
 }
 
 void GCL_SetCommandLine_80020934(unsigned char* pValue)
 {
-    unsigned char** pStackTmp = commandline_p_800AB99C;
+    unsigned char** pStackTmp = GCL_CommandLineP_800AB99C;
     (*pStackTmp) = pValue;
     pStackTmp++;
-    commandline_p_800AB99C = pStackTmp;
+    GCL_CommandLineP_800AB99C = pStackTmp;
 }
 
 void GCL_UnsetCommandLine_80020950()
 {
-    commandline_p_800AB99C--;
+    GCL_CommandLineP_800AB99C--;
 }
 
 int GCL_GetParam_80020968(char paramName)
@@ -186,7 +186,7 @@ int GCL_GetParam_80020968(char paramName)
     int code;
     int value;
   
-    pScript = *(commandline_p_800AB99C - 1);
+    pScript = *(GCL_CommandLineP_800AB99C - 1);
     do 
     {
         pScript = GCL_GetNextValue_8002069C(pScript, &code, &value);
@@ -197,7 +197,7 @@ int GCL_GetParam_80020968(char paramName)
     }
     while (!GCL_IsParam(code) || (code >> 0x10 != (paramName & 0xff)));
 
-    pScript_800AB9A0 = (unsigned char*)value; // TODO: Union/any type return ??
+    GCL_NextStrPtr_800AB9A0 = (unsigned char*)value; // TODO: Union/any type return ??
     return value;
 }
 
@@ -206,11 +206,11 @@ int GCL_GetNextInt_800209E8(unsigned char* pScript)
 {
     int code;
     int value;  
-    pScript_800AB9A0 = GCL_GetNextValue_8002069C(pScript, &code, &value);
+    GCL_NextStrPtr_800AB9A0 = GCL_GetNextValue_8002069C(pScript, &code, &value);
     return value;
 }
 
-int GCL_ReadVector_80020A14(unsigned char* pInScript, short* pOut3Words)
+int GCL_GetSV_80020A14(unsigned char* pInScript, short* pOut3Words)
 {
     int counter = 0;
     unsigned short* pOutIter = pOut3Words;
@@ -225,7 +225,7 @@ int GCL_ReadVector_80020A14(unsigned char* pInScript, short* pOut3Words)
         pOutIter++;
     } while (counter < 3);
 
-    pScript_800AB9A0 = pScript;
+    GCL_NextStrPtr_800AB9A0 = pScript;
     return 0;
 }
 
@@ -235,7 +235,7 @@ char *GCL_Read_String_80020A70( char *ptr )
 	int value;
 
 	ptr = GCL_GetNextValue_8002069C( ptr, &type, &value );
-	pScript_800AB9A0 = ptr;
+	GCL_NextStrPtr_800AB9A0 = ptr;
 	
 	if ( ptr )
 	{
@@ -249,12 +249,12 @@ char *GCL_Read_String_80020A70( char *ptr )
 
 unsigned char *GCL_Get_Param_Result_80020AA4( void )
 {
-	if ( !*pScript_800AB9A0 || GCL_IsParam( *pScript_800AB9A0 ) )
+	if ( !*GCL_NextStrPtr_800AB9A0 || GCL_IsParam( *GCL_NextStrPtr_800AB9A0 ) )
 	{
 		return 0;
 	}
 
-	return pScript_800AB9A0;
+	return GCL_NextStrPtr_800AB9A0;
 }
 
 int GCL_GetNextParamValue_80020AD4(void)
@@ -264,7 +264,7 @@ int GCL_GetNextParamValue_80020AD4(void)
 
 void GCL_ReadParamVector_80020AFC(short *pOut3Words)
 {
-	GCL_ReadVector_80020A14(GCL_Get_Param_Result_80020AA4(), pOut3Words);
+	GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), pOut3Words);
 	return;
 }
 

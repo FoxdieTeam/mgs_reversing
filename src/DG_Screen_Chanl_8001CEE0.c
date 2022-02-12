@@ -23,7 +23,7 @@ void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
     }
 }
 
-void sub_8001CF80()
+void nullsub_47_8001CF80()
 {
 
 }

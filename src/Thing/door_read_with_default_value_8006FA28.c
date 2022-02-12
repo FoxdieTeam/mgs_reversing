@@ -6,9 +6,9 @@
 void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count);
 map_record *Map_FindByNum_80031504(int mapNameHash);
-extern void GV_ZeroMemory_8001619c(void *, int);
+extern void GV_ZeroMemory_8001619C(void *, int);
 
-int door_loader_hzd_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
+int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
 void door_loader_t_param_sub_8006F748(
     struct Actor_Door_TParam_sub *pTSub,
@@ -30,7 +30,7 @@ void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v)
     {
         pOffset = &pDoor->field_104[i];
 
-        GV_ZeroMemory_8001619c(pOffset->field_30, sizeof(pOffset->field_30));
+        GV_ZeroMemory_8001619C(pOffset->field_30, sizeof(pOffset->field_30));
         door_init_t_value_8006F7AC(pDoor, pOffset, pDoor->field_EA_param_h_v, param_w_alternating, a_param_v);
 
         param_w_alternating = -param_w_alternating;
