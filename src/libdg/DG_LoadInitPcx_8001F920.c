@@ -37,7 +37,7 @@ typedef struct          DG_Image {
 extern int              GV_Clock_800AB920;
 
 extern void             LoadImage_8008FB10(RECT *, unsigned char *);
-extern void             GV_FreeMemory2_80016078(unsigned int, void *);
+extern void             GV_FreeMemory2_80016078(unsigned int, void **);
 extern void             *GV_AllocMemory2_80015ED8( int which, int size, void** type);
 extern void             sub_8001D880(unsigned short int, unsigned short int, unsigned short int, DG_Image *, DG_Image *, short int);
 
@@ -193,7 +193,7 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
         width /= 2;
     }
 
-    if (GV_AllocMemory2_80015ED8(GV_Clock_800AB920, width * height + 528, &images))
+    if (GV_AllocMemory2_80015ED8(GV_Clock_800AB920, width * height + 528, (void**)&images))
     {
         DG_Image        *imageA;
         DG_Image        *imageB;
@@ -224,7 +224,7 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
         pcx_file_read_palette_8001F89C(palette, imageB->data, imageB->dim.w);
         LoadImage_8008FB10(&imageB->dim, imageB->data);
         LoadImage_8008FB10(&imageA->dim, imageA->data);
-        GV_FreeMemory2_80016078(GV_Clock_800AB920, &images);
+        GV_FreeMemory2_80016078(GV_Clock_800AB920, (void**)&images);
 
         if (fileNameHashed)
         {
