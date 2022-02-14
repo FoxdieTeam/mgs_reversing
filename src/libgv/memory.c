@@ -1,7 +1,17 @@
 #include "libgv.h"
 #include "mts_new.h"
 
+/**bss***************************************************************/
 GV_Heap SECTION(".MemorySystems_800AD2F0") MemorySystems_800AD2F0[3];
+/********************************************************************/
+
+/***$gp****************************************************************/
+extern void* GV_ResidentAreaBottom_800AB370;
+void *SECTION(".sbss") GV_ResidentAreaBottom_800AB370;
+
+extern unsigned char *GV_ResidentMemoryBottom_800AB940;
+unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
+/*********************************************************************/
 
 void* System_FindAlloc_80015758(GV_Heap* pHeap, void* a1)
 {
@@ -393,7 +403,7 @@ void *GV_AllocMemory2_80015ED8( int which, int size, void** type)
     if ( pHeap->mUnitsCount < 511 ) 
     {
 
-        size = (size + 15) & -16;
+        size = (size + 15) & -16; //todo: find out what this is doing
 
         pAlloc = sub_80015818(  pHeap, size );
 
@@ -424,4 +434,232 @@ void *GV_AllocMemory2_80015ED8( int which, int size, void** type)
     }
 
     return 0;
+}
+
+
+void GV_FreeMemory_80015FD0( int which, void* addr )
+{
+    int                     state;
+    GV_Heap*                pHeap;
+    GV_MemoryAllocation*    pAlloc;
+    GV_MemoryAllocation*    pAlloc2;
+
+    pHeap = &MemorySystems_800AD2F0[which];
+    pAlloc  = System_FindAlloc_80015758( pHeap, addr );
+
+    if (!pAlloc) return;
+
+    if (!pAlloc->mAllocType) return;
+
+    pAlloc->mAllocType = 0;
+    pAlloc2 = pAlloc;
+
+    state = GV_MemoryAllocation_States_Free_0;
+
+    if  (pAlloc != pHeap->mAllocs && !pAlloc2[-1].mAllocType)
+    {
+        state = GV_MemoryAllocation_States_Void_1;
+    }
+    else
+    {
+        pAlloc2++;
+    }
+
+    if (!pAlloc[1].mAllocType)
+    {
+        state++;
+    }
+
+    if (state)
+    {
+        sub_800158C8( pHeap, pAlloc2, state ) ;
+    }
+
+}
+
+void GV_FreeMemory2_80016078( int which, void ** addr)
+{
+    GV_Heap*                pHeap;
+    GV_MemoryAllocation*    pAlloc;
+
+    pHeap = &MemorySystems_800AD2F0[which];
+    pAlloc  = System_FindAlloc_80015758( pHeap, addr[0] );
+
+    if (!pAlloc) return;
+
+    pAlloc->mAllocType = 1;
+    pHeap->mFlags |= GV_Heap_Flags_Voided_2;
+}
+
+void GV_CopyMemory_800160D8( void * from, void * to, int size)
+{
+    typedef struct { long d0, d1, d2, d3 ; } Unit ;
+
+    int		i, i2 ;
+    Unit*   u0 ;
+    Unit*   u1 ;
+    char*   c0 ;
+    char*   c1 ;
+
+    c0 = (char*)from;
+    c1 = (char*)to;
+
+    i  = 3 & (long)from ;
+    i2 = 3 & (long)to ;
+
+    if ( i2 != i )
+    {
+        for (i = size ; i > 0 ; -- i ) 
+        {
+            *( c1 ++ ) = *( c0 ++ ) ;
+        }
+    }
+    else
+    {
+        size = size - i ;
+        for ( ; i > 0 ; -- i ) 
+        {
+            *( c1 ++ ) = *( c0 ++ ) ;
+        }
+        u0 = (Unit *)c0 ;
+        u1 = (Unit *)c1 ;
+        for ( i = size / sizeof( Unit ) ; i > 0 ; -- i ) 
+        {
+            *( u1 ++ ) = *( u0 ++ ) ;
+        }
+        c0 = (char *)u0 ;
+        c1 = (char *)u1 ;
+        for ( i = ( sizeof( Unit ) - 1 ) & size ; i > 0 ; -- i ) 
+        {
+            *( c1 ++ ) = *( c0 ++ ) ;
+        }
+    }
+
+}
+
+// from leaked original MGS source code
+
+void            GV_ZeroMemory_8001619C( to, size )
+void            *to ;
+int             size ;
+{
+        typedef struct  { long d0, d1, d2, d3 ; } Unit ;
+        Unit            *u ;
+        char            *c ;
+        int             i ;
+
+        c = (char *)to ;
+        i = 3 & (long)to ;
+        size -= i ;
+        for ( ; i > 0 ; -- i ) {
+                *( c ++ ) = 0 ;
+        }
+        u = (Unit *)c ;
+        for ( i = size / sizeof( Unit ) ; i > 0 ; -- i ) {
+                u->d0 = 0 ;
+                u->d1 = 0 ;
+                u->d2 = 0 ;
+                u->d3 = 0 ;
+                u ++ ;
+        }
+        c = (char *)u ;
+        for ( i = ( sizeof( Unit ) - 1 ) & size ; i > 0 ; -- i ) {
+                *( c ++ ) = 0 ;
+        }
+        
+}
+
+void	*GV_Malloc_8001620C( size )
+int		size ;
+{
+    return GV_AllocMemory_80015EB8( GV_NORMAL_MEMORY, size ) ;
+}
+
+void	GV_Free_80016230( addr )
+void	*addr ;
+{
+    GV_FreeMemory_80015FD0( GV_NORMAL_MEMORY, addr ) ;
+}
+
+void	GV_DelayedFree_80016254( void *addr )
+{
+    GV_FreeMemory2_80016078( GV_NORMAL_MEMORY, &addr ) ;
+}
+
+
+void *GV_GetMaxFreeMemory_8001627C( int which )
+{
+    int         i;
+    int         size ;
+    GV_Heap*    pHeap ;
+    GV_MemoryAllocation* pAlloc ;
+
+    size = 0;
+    pHeap = &MemorySystems_800AD2F0[which];
+    pAlloc = pHeap->mAllocs;
+
+    for ( i = pHeap->mUnitsCount ; i > 0 ; --i )
+    {
+        if (!pAlloc->mAllocType)
+        {
+            int diff = pAlloc[1].mPDataStart - pAlloc->mPDataStart;
+            if( size < diff)
+            {
+                size = diff;
+            }
+        }
+        pAlloc++;
+    }
+
+    return GV_AllocMemory_80015EB8( which, size ) ;
+}
+
+void *GV_ResizeMemory_8001630C( int which, void* addr, int size )
+{
+    void*                   new_addr;
+    GV_Heap*                pHeap;
+    GV_MemoryAllocation*    pAlloc;
+
+    pHeap = &MemorySystems_800AD2F0[which];
+    pAlloc  = System_FindAlloc_80015758( pHeap, addr );
+
+    if (!pAlloc) return 0;
+
+    if (pAlloc->mAllocType != 2) return 0;
+
+    if (pAlloc[1].mPDataStart - pAlloc->mPDataStart == size) return 0;
+
+    sub_80015874( pHeap, pAlloc );
+    new_addr = pAlloc->mPDataStart + size;
+    pAlloc[1].mPDataStart = new_addr;
+    pAlloc[1].mAllocType  = 0;
+
+    return new_addr;
+}
+
+//either this or the next is GV_InitResidentMemory
+void GV_ResidentHeapReset_800163B0( void )
+{
+    GV_ResidentMemoryBottom_800AB940 = GV_ResidentAreaBottom_800AB370;
+}
+
+void GV_SaveResidentTop_800163C4( void )
+{
+    GV_ResidentAreaBottom_800AB370 = GV_ResidentMemoryBottom_800AB940;
+}
+
+extern const char aResidentMemory[];
+extern unsigned char* gOverlayBase_800AB9C8;
+
+void *GV_AllocResidentMemory_800163D8( long size )
+{
+    size = (size + 3) & -4;
+
+    GV_ResidentMemoryBottom_800AB940 -= size;
+    if ( GV_ResidentMemoryBottom_800AB940 < gOverlayBase_800AB9C8 )
+    {
+        mts_printf_8008BBA0( aResidentMemory );
+    }
+
+    return GV_ResidentMemoryBottom_800AB940;
 }

@@ -49,7 +49,7 @@ extern const char aNo2[];       // = "no_mem\n";
 extern short word_8009D504;
 
 int FS_CdGetStageFileTop_80022DCC(char *pFileName);
-void *GV_GetMaxFreeMemory_8001627C(int size);
+void *GV_GetMaxFreeMemory_8001627C(int which);
 
 void CDBIOS_ReadRequest_8002280C(void *pHeap, int startSector, int sectorSize, void *fnCallBack);
 int Loader_CD_Read_CallBack_80023274(int *a1);
