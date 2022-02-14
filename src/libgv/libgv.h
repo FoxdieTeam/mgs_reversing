@@ -30,6 +30,7 @@ typedef struct CacheSystems
 } CacheSystems;
 
 #define MAX_UNITS 512
+#define GV_NORMAL_MEMORY 2 // seen from leaks
 
 enum GV_MemoryAllocation_States
 {
@@ -85,7 +86,7 @@ void *GV_GetMaxFreeMemory_8001627C( int which );
 void *GV_SplitMemory( int which, void *addr, int size ); //unsure what function this maps to
 
 	 
-void GV_InitResidentMemory_8001642C( void );
+void GV_InitResidentMemory( void );  //unsure what function this maps to
 void *GV_AllocResidentMemory_800163D8( long size );
 
 #endif // LIBGV_H
