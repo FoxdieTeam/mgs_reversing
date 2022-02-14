@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libdg.h"
 
-extern void GV_FreeMemory2_80016078(unsigned int, void *);
+extern void GV_FreeMemory2_80016078(unsigned int, void **);
 int DG_GetLightMatrix2_8001A670(DG_OBJ *pObj, int idx);
 void DG_WriteObjPacketUV_8001A6E4(DG_OBJ *pPrim, int idx);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
@@ -36,7 +36,7 @@ void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx)
     ppPack = &pObj->packs[idx];
     if (*ppPack)
     {
-        GV_FreeMemory2_80016078(idx, ppPack);
+        GV_FreeMemory2_80016078(idx, (void**)ppPack);
         *ppPack = 0;
     }
 }
