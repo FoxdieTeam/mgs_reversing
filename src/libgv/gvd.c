@@ -1,6 +1,6 @@
 #include <libsn.h>
 #include "actor.h"
-#include "system.h"
+#include "libgv.h"
 #include "mts_new.h"
 
 // sbss ===============================================
