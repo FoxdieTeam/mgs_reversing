@@ -17,11 +17,11 @@ typedef struct
     unsigned short message_len;
 } GV_MSG; // from mem leak
 
-struct GV_Messages
+typedef struct
 {
     int field_0_count;
     GV_MSG field_4_msgs[16];
-};
+} GV_Messages;
 
 //has to be in a struct to match
 typedef struct CacheSystems
