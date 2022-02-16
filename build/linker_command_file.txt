@@ -44,16 +44,12 @@
 	include	"..\obj\data\sdata\dword_800AB3B4.obj"
 
 	;libgv\message.c
-	include	"..\obj\libgv\GV_Message_8001642C.obj"
-	include	"..\obj\libgv\GV_InitMessageSystem_800164AC.obj"
-	include	"..\obj\GV_ClearMessageSystem_800164C8.obj"
-	include	"..\obj\libgv\GV_SendMessage_80016504.obj"
-	include	"..\obj\libgv\GV_ReceiveMessage_80016620.obj" ; GV_ReceiveMessage ?
+	include "..\obj\libgv\message.obj"
+
+	;libgv\pad.c
 	include	"..\obj\sub_800166AC.obj"
 	include	"..\obj\sub_800166F0.obj"
 	include	"..\obj\sub_80016750.obj"
-
-	;libgv\pad.c
 	include	"..\obj\libgv\GV_InitPadSystem_800167C8.obj" ; GV_InitPadSystem ?
 	include	"..\obj\GV_UpdatePadSystem_8001682C.obj" ; GV_UpdatePadSystem  ?
 	include	"..\obj\GV_OriginPadSystem_80016C78.obj" ; GV_OriginPadSystem  ?
