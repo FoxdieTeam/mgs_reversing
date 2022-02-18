@@ -1,17 +1,19 @@
 #include "linker.h"
 #include "menuMan.h"
 
-RadioMemory *menu_radio_table_find_8004D380(int toFind)
+RadioMemory *menu_radio_table_find_8004D380(int frequency)
 {
-    RadioMemory *pIter = gRadioMemory_800BDB38;
-    int i;
+    RadioMemory *contact;
+    int         i;
+
+    contact = &gRadioMemory_800BDB38[0];
     for (i = 0; i < RADIO_MEMORY_COUNT; i++)
     {
-        if (pIter->field_0_id == toFind)
+        if (contact->frequency == frequency)
         {
-            return pIter;
+            return contact;
         }
-        pIter++;
+        contact++;
     }
     return 0;
 }
