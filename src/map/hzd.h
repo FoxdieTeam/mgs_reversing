@@ -48,11 +48,11 @@ typedef struct      HZD_CAM // camera trigger
     u_short         name_id;
 } HZD_CAM; // 44
 */
-typedef union       HZD_CAM_TRP // cam or trap
+typedef union       HZD_TRG // trigger (cam or trap)
 {
     HZD_CAM         cam;
     HZD_TRP         trap;
-} HZD_CAM_TRP; // 32
+} HZD_TRG; // 32
 
 typedef struct      HZD_ZON // navmesh
 {
@@ -78,13 +78,13 @@ typedef struct      HZD_PAT // patrol routes
 
 typedef struct      HZD_AREA
 {
-    short           n_trapsAndCameras;
+    short           n_triggers;
     short           n_walls;
     short           n_altimetry;
     short           n_unknown; // some specific walls ?
     HZD_SEG         *walls;
     HZD_FLR         *altimetry;
-    HZD_CAM_TRP     *trapsAndCameras;
+    HZD_TRG         *triggers;
     int             *wallsFlags;
 } HZD_AREA; // 24
 
@@ -92,14 +92,14 @@ typedef struct      HZD_HEADER
 {
     void            *ptr_access[0];
     short           version;
-    short           min_x, min_y;
-    short           max_x, max_y;
-    short           n_areas;
-    short           n_navmeshes;
-    short           n_routes;
-    HZD_AREA        *areas;
-    HZD_ZON         *navmeshes;
-    HZD_PAT         *routes;
+    short           min_x, min_y; //2
+    short           max_x, max_y; //6
+    short           n_areas; //A
+    short           n_navmeshes; //C
+    short           n_routes; //E
+    HZD_AREA        *areas; //10
+    HZD_ZON         *navmeshes; //14
+    HZD_PAT         *routes; //18
 } HZD_HEADER; // 28
 
 
