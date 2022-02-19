@@ -33,8 +33,7 @@ void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
 	}
 }
 
-// TODO: OG name is GM_ReshadeMapAll
-void Map_ReshadeAll_800316C4() // from memleak
+void GM_ReshadeMapAll_800316C4() // from memleak
 {
 	DG_OBJS **obj;
 	int i;

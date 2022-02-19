@@ -1,9 +1,10 @@
 #include "hzd.h"
 #include "idaTypes.h"
+
 extern void     *GV_Malloc_8001620C(int size);
 extern void     HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, int *param_2); // navmeshes
 
-typedef struct      HzdMap
+typedef struct      HZD_MAP
 {
     HZD_HEADER      *f00_header;
     HZD_AREA        *f04_area;
@@ -18,15 +19,15 @@ typedef struct      HzdMap
     int             *f1C_pEndOfHzdMap;
     int             *f20_pAfterStructure_24;
     int             *f20_pAfterStructure_48;
-} HzdMap; // 28
+} HZD_MAP; // 28
 
-HzdMap* HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24)
+HZD_MAP* HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24)
 {
-    short           n_navmeshes;
-    void            *navmeshes;
-    HzdMap          *hzdMap;
-    int             i;
-    HZD_CAM_TRP     *trig;
+    short   n_navmeshes;
+    void    *navmeshes;
+    HZD_MAP *hzdMap;
+    int     i;
+    HZD_TRG *trig;
 
     if (*(int*)hzd == 0)
     {
@@ -39,7 +40,7 @@ HzdMap* HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48,
         }
     }
 
-    hzdMap = (HzdMap*)GV_Malloc_8001620C((4 * default_24) + sizeof(HzdMap) + (4 * default_48) + (2 * default_48));
+    hzdMap = (HZD_MAP*)GV_Malloc_8001620C((4 * default_24) + sizeof(HZD_MAP) + (4 * default_48) + (2 * default_48));
     if (hzdMap)
     {
         hzdMap->f1C_pEndOfHzdMap = (void*)&hzdMap[1];
@@ -54,8 +55,8 @@ HzdMap* HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48,
         hzdMap->f0C = 0;
         (int)hzdMap->f14_navmeshes = *(int*)hzd;
 
-        trig = hzdMap->f04_area->trapsAndCameras;
-        for (i = hzdMap->f04_area->n_trapsAndCameras; i > 0; i--)
+        trig = hzdMap->f04_area->triggers;
+        for (i = hzdMap->f04_area->n_triggers; i > 0; i--)
         {
             // stop when we find a camera (traps are stored after cameras)
             if (trig->trap.id2 == (char)-1)

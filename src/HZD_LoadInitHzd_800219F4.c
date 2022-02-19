@@ -3,13 +3,10 @@
 
 extern const char   aWarningOldVers[];
 
-extern void         HZD_Process_TableFlagIfTriggers_80021928(HZD_CAM_TRP *trapsAndCameras, int n_trapsAndCameras);
+extern void         HZD_Process_TableFlagIfTriggers_80021928(HZD_TRG *triggers, int n_triggers);
 extern void         sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 
-static inline void _OffsetToPointer(void *ptr, int *offset)
-{
-    *offset = (int)ptr + *offset;
-}
+#define OFFSET_TO_PTR(ptr, offset) (*(int*)offset = (int)ptr + *(int*)offset)
 
 void HZD_RoutesOffsetsToPtr_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 {
@@ -20,7 +17,7 @@ void HZD_RoutesOffsetsToPtr_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *
     points = (HZD_PTP*)((char*)routes + 4);
     for (i = n_routes - 1; i > -1; i--)
     {
-        _OffsetToPointer(hzm, (int*)points);
+        OFFSET_TO_PTR(hzm, points);
         points++;
     }
 }
@@ -39,21 +36,21 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
 
     hzm->ptr_access[0] = 0;
 
-    _OffsetToPointer(hzm, (int*)&hzm->areas);
-    _OffsetToPointer(hzm, (int*)&hzm->navmeshes);
-    _OffsetToPointer(hzm, (int*)&hzm->routes);
+    OFFSET_TO_PTR(hzm, &hzm->areas);
+    OFFSET_TO_PTR(hzm, &hzm->navmeshes);
+    OFFSET_TO_PTR(hzm, &hzm->routes);
 
     HZD_RoutesOffsetsToPtr_800219C8(hzm->routes, hzm->n_routes, hzm);
 
     area = hzm->areas;
     for (i = hzm->n_areas; i > 0; i--)
     {
-        _OffsetToPointer(hzm, (int*)&area->walls);
-        _OffsetToPointer(hzm, (int*)&area->altimetry);
-        _OffsetToPointer(hzm, (int*)&area->trapsAndCameras);
-        _OffsetToPointer(hzm, (int*)&area->wallsFlags);
+        OFFSET_TO_PTR(hzm, &area->walls);
+        OFFSET_TO_PTR(hzm, &area->altimetry);
+        OFFSET_TO_PTR(hzm, &area->triggers);
+        OFFSET_TO_PTR(hzm, &area->wallsFlags);
 
-        HZD_Process_TableFlagIfTriggers_80021928(area->trapsAndCameras, area->n_trapsAndCameras);
+        HZD_Process_TableFlagIfTriggers_80021928(area->triggers, area->n_triggers);
         area++;
     }
 
