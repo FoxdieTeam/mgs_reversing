@@ -3,6 +3,6 @@
 
 void DG_InitOT_80017B30(DG_CHNL *pChanl, int idx)
 {
-    pChanl->dword_6BC3C8_pStructure_rect = pChanl->dword_6BC3D0_rect;
-    pChanl->dword_6BC3D8_dst[idx] = pChanl->dword_6BC4D8_src_dr_env1[idx];
+    pChanl->field_5C_rect = pChanl->field_64_rect;
+    pChanl->field_6C_dr_env[idx] = pChanl->field_16C_dr_env[idx];
 }
