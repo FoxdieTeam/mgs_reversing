@@ -115,6 +115,7 @@
 	include	"..\obj\libdg\DG_DrawOTag_80017E4C.obj"
 	include	"..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
 	include	"..\obj\libdg\DG_RenderPipeline_80018028.obj"
+	include	"..\obj\libdg\DG_80018128.obj"
 	include	"..\obj\DG_QueueObjs_80018178.obj"
 	include	"..\obj\libdg\DG_DequeueObjs_800181E4.obj"
 	include	"..\obj\libdg\DG_QueuePrim_80018274.obj"
