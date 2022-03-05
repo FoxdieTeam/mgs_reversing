@@ -108,10 +108,8 @@
 	include	"..\obj\DG_800178D8.obj" ; draws something/changes tpage
 	include	"..\obj\DG_DrawSyncCallback_80017984.obj"
 	include	"..\obj\DG_Init_800179A8.obj"  ; another part of DG structure
-	include	"..\obj\DG_Init_800179F4.obj" ; another part of DG structure
 	include	"..\obj\DG_InitOT_80017B30.obj"
 	include	"..\obj\libdg\DG_3OTsInit_80017B98.obj"
-
 	include	"..\obj\libdg\DG_DrawOTag_80017E4C.obj"
 	include	"..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
 	include	"..\obj\libdg\DG_RenderPipeline_80018028.obj"
