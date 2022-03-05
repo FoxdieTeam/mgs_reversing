@@ -5,8 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-struct _DG_OBJS;
-struct DG_OBJS;
+#include "libdg.h"
 
 typedef struct          DG_CHNL
 {
@@ -21,14 +20,15 @@ typedef struct          DG_CHNL
     short               mTotalQueueSize;
     short               mFreePrimCount;
     short               mTotalObjectCount;
-    struct DG_OBJS      **mQueue;
-    RECT                dword_6BC3C8_pStructure_rect;
-    RECT                dword_6BC3D0_rect;
-    int                 dword_6BC3D8_dst[2][16]; // One for each active buffer
-    DR_ENV              dword_6BC458;
+    DG_OBJS**           mQueue;
+    RECT                field_5C_rect;
+    RECT                field_64_rect;
+    // One for each active buffer and for some reason passed as the root
+    // to DrawOTag
+    DR_ENV              field_6C_dr_env[2];
+    DR_ENV              dword_6BC458; // prob also an array of 2
     DR_ENV              dword_6BC498;
-    DR_ENV              dword_6BC4D8_src_dr_env1;
-    DR_ENV              dword_6BC518_src_offsetted_dr_evn;
+    DR_ENV              field_16C_dr_env[2];
 } DG_CHNL;
 
 typedef struct          DG_Vec3

@@ -27,6 +27,7 @@ SRCS_PSYQ_4 =	*.c	*/*.c */*/*.c
 SRCS_ASM =		*.s	*/*.s */*/*.s
 
 EXE_FILE = $(OBJS_PATH)/$(NAME).exe
+SOUND_BIN_FILE = $(OBJS_PATH)/Sound.bin
 CPE_FILE = $(OBJS_PATH)/$(NAME).cpe
 SYM_FILE = $(OBJS_PATH)/$(NAME).sym
 MAP_FILE = $(OBJS_PATH)/$(NAME).map
@@ -38,6 +39,11 @@ LINK_FILE = $(BUILD_PATH)/linker_command_file.txt
 TARGET_HASH = 4B8252B65953A02021486406CFCDCA1C7670D1D1A8F3CF6E750EF6E360DC3A2F
 ifeq ($(findstring compare,$(MAKECMDGOALS)),compare)
 CURRENT_HASH = $(shell powershell.exe -c "(Get-FileHash -Path $(EXE_FILE) -Algorithm SHA256).Hash")
+endif
+
+TARGET_SOUND_BIN_HASH = 4173D0FCBC7BFCD477D2E0FA6810B509BF6392EFB01FD58A7FA114F003849816
+ifeq ($(findstring compare,$(MAKECMDGOALS)),compare)
+CURRENT_SOUND_BIN_HASH = $(shell powershell.exe -c "(Get-FileHash -Path $(SOUND_BIN_FILE) -Algorithm SHA256).Hash")
 endif
 
 ifeq ($(PSYQ_SDK),)
@@ -256,6 +262,14 @@ else
 	@$(ECHO) "$(CRED)FAIL: $(EXE_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
 	@exit 1
 endif
+
+ifeq ($(TARGET_SOUND_BIN_HASH),$(CURRENT_SOUND_BIN_HASH)) # (Each access of CURRENT_HASH takes time)
+	@$(ECHO) "$(CGREEN)OK: $(SOUND_BIN_FILE) matches target hash$(ENDCOLOR) $(EMO_SUCCESS)"
+else
+	@$(ECHO) "$(CRED)FAIL: $(SOUND_BIN_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
+	@exit 1
+endif
+
 
 build:
 	@echo "Executing build.ps1"
