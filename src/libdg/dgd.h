@@ -5,8 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-struct _DG_OBJS;
-struct DG_OBJS;
+#include "libdg.h"
 
 typedef struct          DG_CHNL
 {
@@ -21,7 +20,7 @@ typedef struct          DG_CHNL
     short               mTotalQueueSize;
     short               mFreePrimCount;
     short               mTotalObjectCount;
-    struct DG_OBJS      **mQueue;
+    DG_OBJS**           mQueue;
     RECT                field_5C_rect;
     RECT                field_64_rect;
     // One for each active buffer and for some reason passed as the root
