@@ -16,5 +16,5 @@ void DG_DrawOTag_80017E4C(int activeBuffer)
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
     gCurrentRootCnt_800AB984 = GetRCnt_800996E8(0xF2000001);
-    DrawOTag_8008FE58(&DG_Chanls_800B1800[0].dword_6BC3D8_dst[activeBuffer][0]);
+    DrawOTag_8008FE58(&DG_Chanls_800B1800[0].dword_6BC3D8_dst[activeBuffer]);
 }
