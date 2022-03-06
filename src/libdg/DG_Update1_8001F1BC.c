@@ -1,10 +1,8 @@
 
 
-extern void DG_800172A8(void);
+extern void DG_RenderPipeline_80018028(void);
 
 void DG_Update1_8001F1BC(void)
-
 {
-    DG_800172A8();
-    return;
+    DG_RenderPipeline_80018028();
 }
