@@ -214,8 +214,7 @@
 	include	"..\obj\DG_ReflectMatrix_8001EDCC.obj" ; DG_PersVector ???
 	include	"..\obj\libdg\DG_DrawSyncResetGraph_8001F014.obj"
 	include	"..\obj\libdg\DG_Update2_8001F078.obj"
-	include	"..\obj\libdg\DG_Update1_8001F1BC.obj"
-	include	"..\obj\libdg\DG_8001F1DC.obj"
+	include	"..\obj\Equip\DG_Update1_8001F1BC.obj"
 	include	"..\obj\sub_8001F25C.obj"
 	include	"..\obj\libdg\dgd.obj"
 	include	"..\obj\libdg\kmd_file_handler_link_vertices_to_parent_8001F3CC.obj"
