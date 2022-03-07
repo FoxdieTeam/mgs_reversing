@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001D808
-sub_8001D808:
+	xdef DG_ClearTextureRecs_8001D808
+DG_ClearTextureRecs_8001D808:
 	dw 0x3C02800B ; 0x8001D808
 	dw 0x24421F50 ; 0x8001D80C
 	dw 0x24030200 ; 0x8001D810
