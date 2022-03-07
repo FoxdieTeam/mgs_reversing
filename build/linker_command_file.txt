@@ -379,7 +379,7 @@
 	include	"..\obj\sub_80021C64.obj"
 	include	"..\obj\HZD_MakeRoute_80021D6C.obj"
 	include	"..\obj\FS_ResetCdFilePosition_80021E2C.obj" ; fs load LBA tables ?
-	include	"..\obj\FS_CDInit_80021EC4.obj" ; fs inits ?
+	include	"..\obj\Equip\CDFS_Init_80021EC4.obj"
 	include	"..\obj\FS_LoadFileRequest_80021F0C.obj"
 	include	"..\obj\FS_LoadFileSync_80021F48.obj"
 	include	"..\obj\MakeFullPath_80021F68.obj"
@@ -2741,6 +2741,11 @@ group_byte_800C0DB8	group bss,org($800C0DB8)
 
 group_gLoaderRec_800B5288	group bss,org($800B5288)
 	section .gLoaderRec_800B5288, group_gLoaderRec_800B5288
+
+group_gDiskNum_800ACBF0	group bss,org($800ACBF0)
+	section .gDiskNum_800ACBF0, group_gDiskNum_800ACBF0
+
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
