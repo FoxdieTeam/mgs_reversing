@@ -174,7 +174,7 @@
 	include	"..\obj\DG_Shade_Chanl_8001D324.obj"
 	include	"..\obj\DG_Sort_Chanl_8001D5C8.obj"
 	include	"..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
-	include	"..\obj\sub_8001D808.obj"
+	include	"..\obj\DG_ClearTextureRecs_8001D808.obj"
 	include	"..\obj\libdg\DG_FindTexture_8001D830.obj"
 	include	"..\obj\sub_8001D880.obj"
 	include	"..\obj\libdg\DG_ClearResidentTexture_8001DB10.obj"
@@ -191,9 +191,8 @@
 	include	"..\obj\DG_ReflectMatrix_8001EDCC.obj" ; DG_PersVector ???
 	include	"..\obj\libdg\DG_DrawSyncResetGraph_8001F014.obj"
 	include	"..\obj\libdg\DG_Update2_8001F078.obj"
-	include	"..\obj\libdg\DG_Update1_8001F1BC.obj"
-	include	"..\obj\libdg\DG_8001F1DC.obj"
-	include	"..\obj\sub_8001F25C.obj"
+	include	"..\obj\Equip\DG_Update1_8001F1BC.obj"
+	include	"..\obj\DG_TextureCacheInit_8001F25C.obj"
 	include	"..\obj\libdg\dgd.obj"
 	include	"..\obj\libdg\kmd_file_handler_link_vertices_to_parent_8001F3CC.obj"
 	include	"..\obj\libdg\DG_LoadInitKmd_8001F4EC.obj"
@@ -357,7 +356,7 @@
 	include	"..\obj\sub_80021C64.obj"
 	include	"..\obj\HZD_MakeRoute_80021D6C.obj"
 	include	"..\obj\FS_ResetCdFilePosition_80021E2C.obj" ; fs load LBA tables ?
-	include	"..\obj\FS_CDInit_80021EC4.obj" ; fs inits ?
+	include	"..\obj\Equip\CDFS_Init_80021EC4.obj"
 	include	"..\obj\FS_LoadFileRequest_80021F0C.obj"
 	include	"..\obj\FS_LoadFileSync_80021F48.obj"
 	include	"..\obj\MakeFullPath_80021F68.obj"
@@ -2719,6 +2718,11 @@ group_byte_800C0DB8	group bss,org($800C0DB8)
 
 group_gLoaderRec_800B5288	group bss,org($800B5288)
 	section .gLoaderRec_800B5288, group_gLoaderRec_800B5288
+
+group_gDiskNum_800ACBF0	group bss,org($800ACBF0)
+	section .gDiskNum_800ACBF0, group_gDiskNum_800ACBF0
+
+
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
