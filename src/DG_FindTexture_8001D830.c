@@ -1,0 +1,24 @@
+#include "linker.h"
+#include "libdg.h"
+
+
+int SECTION(".sdata") last_searched_texture_name_800AB3A4 = 0xFFFFFFFF;
+
+
+int DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
+
+extern DG_TEX dword_8009D450;
+
+DG_TEX* DG_FindTexture_8001D830(int name)
+{
+    DG_TEX *pFound;
+    if ( !DG_SearchForTextureRecord_8001D778(name, &pFound) )
+    {
+        if ( name != last_searched_texture_name_800AB3A4 )
+        {
+            last_searched_texture_name_800AB3A4 = name;
+        }
+        pFound = &dword_8009D450;
+    }
+    return pFound;
+}
