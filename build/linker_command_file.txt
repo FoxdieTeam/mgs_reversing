@@ -37,11 +37,6 @@
 	include	"..\obj\data\sdata\DG_PacketCode_800AB394.obj"
 	include	"..\obj\data\sdata\dword_800AB398.obj"
 	include	"..\obj\data\sdata\DG_ZeroVector_800AB39C.obj"
-	include	"..\obj\data\sdata\dword_800AB3A4.obj"
-	include	"..\obj\data\sdata\dword_800AB3A8.obj"
-	include	"..\obj\data\sdata\dword_800AB3AC.obj"
-	include	"..\obj\data\sdata\dword_800AB3B0.obj"
-	include	"..\obj\data\sdata\dword_800AB3B4.obj"
 
 	;libgv\message.c
 	include "..\obj\libgv\message.obj"
@@ -175,7 +170,14 @@
 	include	"..\obj\DG_Sort_Chanl_8001D5C8.obj"
 	include	"..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
 	include	"..\obj\DG_ClearTextureRecs_8001D808.obj"
-	include	"..\obj\libdg\DG_FindTexture_8001D830.obj"
+
+	include	"..\obj\DG_FindTexture_8001D830.obj"
+
+	include	"..\obj\data\sdata\dword_800AB3A8.obj"
+	include	"..\obj\data\sdata\dword_800AB3AC.obj"
+	include	"..\obj\data\sdata\dword_800AB3B0.obj"
+	include	"..\obj\data\sdata\dword_800AB3B4.obj"
+
 	include	"..\obj\sub_8001D880.obj"
 	include	"..\obj\libdg\DG_ClearResidentTexture_8001DB10.obj"
 	include	"..\obj\sub_8001DB20.obj"
@@ -189,8 +191,6 @@
 	include	"..\obj\sub_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
 	include	"..\obj\DG_ReflectVector_8001ECB4.obj" ; DG_PaletteBuffer ???
 	include	"..\obj\DG_ReflectMatrix_8001EDCC.obj" ; DG_PersVector ???
-	include	"..\obj\libdg\DG_DrawSyncResetGraph_8001F014.obj"
-	include	"..\obj\libdg\DG_Update2_8001F078.obj"
 	include	"..\obj\Equip\DG_Update1_8001F1BC.obj"
 	include	"..\obj\DG_TextureCacheInit_8001F25C.obj"
 	include	"..\obj\libdg\dgd.obj"
@@ -2722,7 +2722,8 @@ group_gLoaderRec_800B5288	group bss,org($800B5288)
 group_gDiskNum_800ACBF0	group bss,org($800ACBF0)
 	section .gDiskNum_800ACBF0, group_gDiskNum_800ACBF0
 
-
+group_gPad1_800B05C0	group bss,org($800B05C0)
+	section .gPad1_800B05C0, group_gPad1_800B05C0
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

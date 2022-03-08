@@ -9,6 +9,7 @@
 #include "dgd.h"
 #include "door.h"
 #include "mts_new.h"
+#include "libdg.h"
 
 // sdata
 extern const char* aCigs[];
@@ -207,10 +208,7 @@ MATRIX SECTION(".data") DG_ZeroMatrix_8009D430 =
 	}
 };
 
-int SECTION(".data") dword_8009D450 = 0;
-int SECTION(".data") dword_8009D450_1 = 0;
-int SECTION(".data") dword_8009D450_2 = 0;
-
+DG_TEX SECTION(".data") dword_8009D450 = {};
 int SECTION(".data") DG_FrameRate_8009D45C = 2;
 int SECTION(".data") DG_HikituriFlag_8009D460 = 0;
 int SECTION(".data") DG_HikituriFlagOld_8009D464 = 0;
