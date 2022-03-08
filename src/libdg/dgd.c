@@ -25,6 +25,7 @@ extern const char aDgdC[];
 
 Actor SECTION(".gDgdActor2_800B3750") gDgdActor2_800B3750;
 Actor SECTION(".gDgdActor2_800B3750") gDgdActor1_800B3770; // same section as its directly after
+int SECTION(".gDgdActor2_800B3750") dword_800B3790;
 
 void DG_StartDaemon_8001F284(void)
 {

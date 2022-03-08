@@ -6,7 +6,7 @@
 // sbss ===============================================
 
 char SECTION(".sbss") *GM_StageName_800AB918; // sbss
-int SECTION(".sbss") GM_CurrentPadData_800AB91C; // sbss
+short* SECTION(".sbss") GM_CurrentPadData_800AB91C; // sbss
 int SECTION(".sbss") GV_Clock_800AB920; // sbss
 int SECTION(".sbss") GV_PassageTime_800AB924; // sbss
 
