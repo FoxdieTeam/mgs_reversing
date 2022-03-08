@@ -37,11 +37,22 @@
 	include	"..\obj\data\sdata\DG_PacketCode_800AB394.obj"
 	include	"..\obj\data\sdata\dword_800AB398.obj"
 	include	"..\obj\data\sdata\DG_ZeroVector_800AB39C.obj"
-	include	"..\obj\data\sdata\dword_800AB3A4.obj"
-	include	"..\obj\data\sdata\dword_800AB3A8.obj"
-	include	"..\obj\data\sdata\dword_800AB3AC.obj"
-	include	"..\obj\data\sdata\dword_800AB3B0.obj"
-	include	"..\obj\data\sdata\dword_800AB3B4.obj"
+
+
+	include	"..\obj\libgv\GV_AllocMemory_80015EB8.obj"
+	include	"..\obj\GV_AllocMemory2_80015ED8.obj"
+	include	"..\obj\libgv\GV_FreeMemory_80015FD0.obj"
+	include	"..\obj\GV_FreeMemory2_80016078.obj"
+	include	"..\obj\GV_CopyMemory_800160D8.obj"
+	include	"..\obj\libgv\GV_ZeroMemory_8001619C.obj"
+	include	"..\obj\libgv\GV_Malloc_8001620C.obj"
+	include	"..\obj\libgv\GV_Free_80016230.obj"
+	include	"..\obj\libgv\GV_DelayedFree_80016254.obj"
+	include	"..\obj\GV_GetMaxFreeMemory_8001627C.obj"
+	include	"..\obj\GV_ResizeMemory_8001630C.obj"
+	include	"..\obj\libgv\GV_ResidentHeapReset_800163B0.obj"
+	include	"..\obj\libgv\GV_SaveResidentTop_800163C4.obj"
+	include	"..\obj\libgv\GV_AllocResidentMemory_800163D8.obj"
 
 	;libgv\message.c
 	include "..\obj\libgv\message.obj"
@@ -175,7 +186,14 @@
 	include	"..\obj\DG_Sort_Chanl_8001D5C8.obj"
 	include	"..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
 	include	"..\obj\DG_ClearTextureRecs_8001D808.obj"
-	include	"..\obj\libdg\DG_FindTexture_8001D830.obj"
+
+	include	"..\obj\DG_FindTexture_8001D830.obj"
+
+	include	"..\obj\data\sdata\dword_800AB3A8.obj"
+	include	"..\obj\data\sdata\dword_800AB3AC.obj"
+	include	"..\obj\data\sdata\dword_800AB3B0.obj"
+	include	"..\obj\data\sdata\dword_800AB3B4.obj"
+
 	include	"..\obj\sub_8001D880.obj"
 	include	"..\obj\libdg\DG_ClearResidentTexture_8001DB10.obj"
 	include	"..\obj\sub_8001DB20.obj"
