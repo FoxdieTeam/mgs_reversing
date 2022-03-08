@@ -29,6 +29,27 @@ extern short* GM_CurrentPadData_800AB91C;
 
 unsigned short SECTION(".gPad1_800B05C0") gPad1_800B05C0[2][8];
 
+
+extern const char asc_80010208[];
+
+extern int ResetGraph(int mode);
+
+int DG_DrawSyncResetGraph_8001F014()
+{
+    if ( DrawSync(1) > 0 )
+    {
+        dword_800B3790++;
+        if ( dword_800B3790 < 30 )
+        {
+            return 0;
+        }
+        mts_printf_8008BBA0(asc_80010208);
+        ResetGraph(1);
+        dword_800B3790 = 0;
+    }
+    return 1;
+}
+
 void DG_Update2_8001F078(Actor *pActor)
 {
     int t;
