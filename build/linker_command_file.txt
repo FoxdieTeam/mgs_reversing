@@ -189,7 +189,6 @@
 	include	"..\obj\sub_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
 	include	"..\obj\DG_ReflectVector_8001ECB4.obj" ; DG_PaletteBuffer ???
 	include	"..\obj\DG_ReflectMatrix_8001EDCC.obj" ; DG_PersVector ???
-	include	"..\obj\libdg\DG_DrawSyncResetGraph_8001F014.obj"
 	include	"..\obj\Equip\DG_Update1_8001F1BC.obj"
 	include	"..\obj\DG_TextureCacheInit_8001F25C.obj"
 	include	"..\obj\libdg\dgd.obj"
