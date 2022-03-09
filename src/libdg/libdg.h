@@ -8,7 +8,7 @@
 typedef struct			DG_TEX
 {
     unsigned short		field_0_hash;
-    char				field_2_pad; // ?
+    char				field_2_bUsed;
     char				field_3_pad; // ?
     short				field_4_tPage;
     short				field_6_clut;

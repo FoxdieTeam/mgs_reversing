@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef DG_GetLightMatrix2_8001A670
-DG_GetLightMatrix2_8001A670:
+	xdef DG_AllocPacks_8001A670
+DG_AllocPacks_8001A670:
 	dw 0x27BDFFE8 ; 0x8001A670
 	dw 0xAFBF0010 ; 0x8001A674
 	dw 0x00803821 ; 0x8001A678
