@@ -7,9 +7,6 @@ short SECTION(".sbss") word_800AB982;
 
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
-int SECTION(".sbss") dword_800AB988;
-int SECTION(".sbss") dword_800AB98C;
-
 void DG_DrawSyncCallback_80017984(void)
 {
     word_800AB982 = GetRCnt_800996E8(0xf2000001);
