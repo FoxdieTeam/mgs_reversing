@@ -123,7 +123,7 @@
 	include	"..\obj\libdg\DG_GetLightVector_8001A1A8.obj"
 	include	"..\obj\libdg\DG_GetLightMatrix_8001A3C4.obj"
 	include	"..\obj\libdg\DG_GetLightMatrix2_8001A5D8.obj"
-	include	"..\obj\libdg\DG_GetLightMatrix2_8001A670.obj"
+	include	"..\obj\libdg\DG_AllocPacks_8001A670.obj"
 	include	"..\obj\libdg\DG_WriteObjPacketUV_8001A6E4.obj"
 	include	"..\obj\libdg\DG_WriteObjPacketUV_8001A774.obj"
 	include	"..\obj\libdg\DG_WriteObjPacketRGB_8001A9B8.obj"
@@ -169,7 +169,6 @@
 	include	"..\obj\DG_Shade_Chanl_8001D324.obj"
 	include	"..\obj\DG_Sort_Chanl_8001D5C8.obj"
 	include	"..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
-	include	"..\obj\DG_ClearTextureRecs_8001D808.obj"
 
 	include	"..\obj\DG_FindTexture_8001D830.obj"
 
@@ -2724,6 +2723,9 @@ group_gDiskNum_800ACBF0	group bss,org($800ACBF0)
 
 group_gPad1_800B05C0	group bss,org($800B05C0)
 	section .gPad1_800B05C0, group_gPad1_800B05C0
+
+group_gTextureRecs_800B1F50	group bss,org($800B1F50)
+	section .gTextureRecs_800B1F50, group_gTextureRecs_800B1F50
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

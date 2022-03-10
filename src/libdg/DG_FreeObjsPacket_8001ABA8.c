@@ -2,14 +2,14 @@
 #include "libdg.h"
 
 extern void GV_FreeMemory2_80016078(unsigned int, void **);
-int DG_GetLightMatrix2_8001A670(DG_OBJ *pObj, int idx);
+int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
 void DG_WriteObjPacketUV_8001A6E4(DG_OBJ *pPrim, int idx);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
 void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
 
 int DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags)
 {
-    if (DG_GetLightMatrix2_8001A670(pPrim, idx) < 0)
+    if (DG_AllocPacks_8001A670(pPrim, idx) < 0)
     {
         return -1;
     }
