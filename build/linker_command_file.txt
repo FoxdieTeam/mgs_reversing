@@ -156,7 +156,6 @@
 	include	"..\obj\sub_8001B5FC.obj"
 	include	"..\obj\DG_PrimChanl_8001B66C.obj"
 	include	"..\obj\libdg\DG_MakePrim_8001BABC.obj"
-	include	"..\obj\libdg\DG_FreePrim_8001BC04.obj"
 
 	include	"..\obj\libdg\helpers.obj"
 	include	"..\obj\sub_8001C708.obj"
