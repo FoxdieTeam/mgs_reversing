@@ -141,8 +141,6 @@
 ; 8001BEE0  DG_SetPos2
 
 	include	"..\obj\libdg\DG_FreeObjsPacket_8001ABA8.obj"
-	include	"..\obj\sub_8001AC08.obj"
-	include	"..\obj\sub_8001AC74.obj"
 	include	"..\obj\sub_8001AD28.obj"
 	include	"..\obj\sub_8001ADA0.obj"
 	include	"..\obj\sub_8001AE5C.obj"
@@ -156,7 +154,6 @@
 	include	"..\obj\sub_8001B5FC.obj"
 	include	"..\obj\DG_PrimChanl_8001B66C.obj"
 	include	"..\obj\libdg\DG_MakePrim_8001BABC.obj"
-	include	"..\obj\libdg\DG_FreePrim_8001BC04.obj"
 
 	include	"..\obj\libdg\helpers.obj"
 	include	"..\obj\sub_8001C708.obj"

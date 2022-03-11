@@ -6,6 +6,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 
 extern void *GV_Malloc_8001620C(int size);
 void GV_ZeroMemory_8001619C(void *ptr, int size);
+void GV_DelayedFree_80016254( void *addr );
 
 DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
 {
@@ -38,4 +39,20 @@ DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec
     pAllocated->field_40_pBuffers[1] = (union Prim_Union *)((char *)&pAllocated[1] + primSize);
 
     return pAllocated;
+}
+void DG_FreePrim_8001BC04(DG_OBJS *pPrim)
+{
+    if ( pPrim )
+    {
+        GV_DelayedFree_80016254(pPrim);
+    }
+}
+
+void sub_8001BC28(char primSize, char a2, char a3, char a4)
+{
+    struct DG_Rec_Unknown* pRec = &stru_8009D3D0[23];
+    pRec->field_0_prim_size = primSize;
+    pRec->field_1 = a2;
+    pRec->field_2 = a3;
+    pRec->field_3 = a4;
 }
