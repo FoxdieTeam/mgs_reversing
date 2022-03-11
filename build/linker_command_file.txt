@@ -124,7 +124,6 @@
 	include	"..\obj\libdg\DG_GetLightMatrix_8001A3C4.obj"
 	include	"..\obj\libdg\DG_GetLightMatrix2_8001A5D8.obj"
 	include	"..\obj\libdg\DG_AllocPacks_8001A670.obj"
-	include	"..\obj\libdg\DG_WriteObjPacketUV_8001A6E4.obj"
 	include	"..\obj\libdg\DG_WriteObjPacketUV_8001A774.obj"
 	include	"..\obj\libdg\DG_WriteObjPacketRGB_8001A9B8.obj"
 
