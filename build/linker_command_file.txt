@@ -141,8 +141,6 @@
 ; 8001BEE0  DG_SetPos2
 
 	include	"..\obj\libdg\DG_FreeObjsPacket_8001ABA8.obj"
-	include	"..\obj\sub_8001AC08.obj"
-	include	"..\obj\sub_8001AC74.obj"
 	include	"..\obj\sub_8001AD28.obj"
 	include	"..\obj\sub_8001ADA0.obj"
 	include	"..\obj\sub_8001AE5C.obj"
