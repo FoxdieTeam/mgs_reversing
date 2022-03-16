@@ -182,7 +182,8 @@
 	include	"..\obj\DG_Trans_Chanl_8001E3C0.obj" ; DG_MatrixRot ???
 	include	"..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
 	include	"..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
-	include	"..\obj\sub_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
+	include	"..\obj\DG_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
+	include	"..\obj\sub_8001EB38.obj"
 	include	"..\obj\DG_ReflectVector_8001ECB4.obj" ; DG_PaletteBuffer ???
 	include	"..\obj\DG_ReflectMatrix_8001EDCC.obj" ; DG_PersVector ???
 	include	"..\obj\Equip\DG_Update1_8001F1BC.obj"
@@ -2721,6 +2722,9 @@ group_gPad1_800B05C0	group bss,org($800B05C0)
 
 group_gTextureRecs_800B1F50	group bss,org($800B1F50)
 	section .gTextureRecs_800B1F50, group_gTextureRecs_800B1F50
+
+group_byte_800B1400	group bss,org($800B1400)
+	section .byte_800B1400, group_byte_800B1400
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 
