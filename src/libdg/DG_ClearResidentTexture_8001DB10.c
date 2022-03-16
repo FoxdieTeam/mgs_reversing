@@ -1,7 +1,9 @@
 #include "linker.h"
+#include "libdg.h"
+#include "dgd.h"
 
 int SECTION(".sbss") gTextureCacheSize_800AB988;
-int SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
+DG_TEX* SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
 
 void DG_ClearResidentTexture_8001DB10()
 {
