@@ -175,7 +175,6 @@
 
 	include	"..\obj\sub_8001D880.obj"
 	include	"..\obj\libdg\DG_ClearResidentTexture_8001DB10.obj"
-	include	"..\obj\sub_8001DB20.obj"
 	include	"..\obj\DG_ResetResidentTexture_8001DBEC.obj" ; DG_ClearTmpPacketSystem ???
 	include	"..\obj\sub_8001DC90.obj" ; DG_SortTmpPacketSystem ???
 	include	"..\obj\sub_8001DD90.obj" ; DG_GetTmpPacket ???
