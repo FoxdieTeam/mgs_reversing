@@ -61,7 +61,6 @@
 	include	"..\obj\libgv\GV_DirVec3_80016FA0.obj"
 	include	"..\obj\libgv\GV_DiffDirU_80017040.obj"
 	include	"..\obj\libgv\GV_DiffDirS_8001704C.obj"
-	include	"..\obj\libgv\GV_DiffDirAbs_8001706C.obj"
 	include	"..\obj\libgv\GV_RandU_80017090.obj"
 	include	"..\obj\libgv\GV_RandS_800170BC.obj"
 
