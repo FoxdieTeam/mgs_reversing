@@ -100,13 +100,16 @@ struct					DG_Rec_Unknown
 	unsigned char		field_3;
 };
 
+struct DG_PRIM;
+typedef void    (*TPrim_Fn)(struct DG_PRIM* pVec, void* primBuffer, int numPrims);
+
 typedef struct			_DG_PRIM
 {
 	MATRIX				world;
 	MATRIX				*root;
 	int					type;
 	u_short				group_id;
-	u_short				n_prims;
+	signed short				n_prims;
 	u_short				chanl;
 	u_short				field_2E_k500;
 	u_short				field_30_prim_size;
@@ -116,10 +119,10 @@ typedef struct			_DG_PRIM
 	SVECTOR*			field_38_pUnknown;
 	RECT*				field_3C;
 	union Prim_Union	*field_40_pBuffers[2];
-	u_short				field_48_prim_count;
+	signed short				field_48_prim_count;
 	u_short				field_4A;
 	int					field_4C;
-	int					field_50_pFn;
+	TPrim_Fn			field_50_pFn;
 } DG_PRIM;
 
 static inline u_long	LLOAD(from) void *from;
