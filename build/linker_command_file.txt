@@ -58,7 +58,6 @@
 	include	"..\obj\libgv\GV_LenVec3_80016DDC.obj"
 	include	"..\obj\libgv\GV_DiffVec3_80016E84.obj"
 	include	"..\obj\libgv\GV_VecDir2_80016EF8.obj"
-	include	"..\obj\libgv\GV_DirVec2_80016F24.obj"
 	include	"..\obj\libgv\GV_DirVec3_80016FA0.obj"
 	include	"..\obj\libgv\GV_DiffDirU_80017040.obj"
 	include	"..\obj\libgv\GV_DiffDirS_8001704C.obj"
