@@ -7,7 +7,6 @@
 	include "..\obj\data\data\data.obj"
 	include "..\obj\main.obj"
 	include	"..\obj\libfs\FS_StartDaemon_80014A7C.obj"
-	include	"..\obj\nullsub_10_80014AAC.obj"
 	include	"..\obj\PCopen_80014B1C.obj"
 	include	"..\obj\PCread_80014B24.obj"
 	include	"..\obj\PCclose_80014B2C.obj"
