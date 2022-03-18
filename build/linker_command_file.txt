@@ -65,7 +65,6 @@
 	include	"..\obj\libgv\GV_RandS_800170BC.obj"
 
 	include	"..\obj\libdg\DG_InitDispEnv_800170F0.obj"
-	include	"..\obj\libdg\DG_80017194.obj"
 	include	"..\obj\libdg\DG_800172A8.obj"
 	include	"..\obj\DG_800172D0.obj"
 	include	"..\obj\DG_800174DC.obj" ; do something with a gte result?
