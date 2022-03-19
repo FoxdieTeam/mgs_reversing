@@ -9,6 +9,15 @@ void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, sho
 void PutDrawEnv_8008FEC8(DRAWENV*);
 DISPENV* PutDispEnv_80090094(DISPENV*);
 
+void DG_OffsetDispEnv_80017784(int offset)
+{
+    gDispEnv_800B0600.screen.y += offset;
+    gDispEnv_800B0600.screen.h -= offset;
+    PutDispEnv_80090094(&gDispEnv_800B0600);
+    gDispEnv_800B0600.screen.y -= offset;
+    gDispEnv_800B0600.screen.h += offset;
+}
+
 void DG_ClipDispEnv_800177EC(int x, int y)
 {
     RECT screen; // [sp+10h] [-8h]
