@@ -1,4 +1,5 @@
 #include "linker.h"
+#include <sys/types.h>
+#include <libgte.h>
 
-int SECTION(".sdata") DG_Ambient_800AB38C = 0;
-
+SVECTOR SECTION(".sdata") DG_Ambient_800AB38C = { 0, 0, 0};
