@@ -10,10 +10,10 @@ int SECTION(".sbss") gClipHeights_800AB960[2];
 
 int SECTION(".sbss") DG_CurrentGroupID_800AB968;
 
-short SECTION(".sbss") DG_ClipMin_800AB96C;
-short SECTION(".sbss") word_800AB96E;
-short SECTION(".sbss") DG_ClipMax_800AB970[4];
+short SECTION(".sbss") DG_ClipMin_800AB96C[2];
+short SECTION(".sbss") DG_ClipMax_800AB970[2];
 
+int SECTION(".sbss") dword_800AB974;
 int SECTION(".sbss") dword_800AB978;
 
 unsigned char SECTION(".sbss") DG_r_800AB97C;
