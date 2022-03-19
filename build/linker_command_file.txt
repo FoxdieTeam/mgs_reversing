@@ -32,7 +32,6 @@
 	include	"..\obj\data\sdata\dword_800AB384.obj"
 	include	"..\obj\data\sdata\dword_800AB388.obj"
 	include	"..\obj\data\sdata\DG_Ambient_800AB38C.obj"
-	include	"..\obj\data\sdata\word_800AB390.obj"
 	include	"..\obj\data\sdata\DG_PacketCode_800AB394.obj"
 	include	"..\obj\data\sdata\dword_800AB398.obj"
 	include	"..\obj\data\sdata\DG_ZeroVector_800AB39C.obj"
