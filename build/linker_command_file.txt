@@ -32,7 +32,6 @@
 	include	"..\obj\data\sdata\dword_800AB384.obj"
 	include	"..\obj\data\sdata\dword_800AB388.obj"
 	include	"..\obj\data\sdata\DG_Ambient_800AB38C.obj"
-	include	"..\obj\data\sdata\word_800AB390.obj"
 	include	"..\obj\data\sdata\DG_PacketCode_800AB394.obj"
 	include	"..\obj\data\sdata\dword_800AB398.obj"
 	include	"..\obj\data\sdata\DG_ZeroVector_800AB39C.obj"
@@ -2718,6 +2717,9 @@ group_gTextureRecs_800B1F50	group bss,org($800B1F50)
 
 group_byte_800B1400	group bss,org($800B1400)
 	section .byte_800B1400, group_byte_800B1400
+
+group_D_800C0C00	group bss,org($800C0C00)
+	section .D_800C0C00, group_D_800C0C00
 
 	regs    pc=__SN_ENTRY_POINT_80098E6C
 

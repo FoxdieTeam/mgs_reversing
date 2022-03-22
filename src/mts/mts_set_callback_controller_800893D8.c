@@ -37,11 +37,11 @@ void mts_init_vsync_helper_800893E8()
     pNext = stru_800A3D7C.field_0;
     for (pUnknownIter = &stru_800A3D7C; pNext; pNext = pNext->field_0)
     {
-        if ((unsigned int)gMtsVSyncCount_800A3D78 >= pNext->field_C)
+        if ((unsigned int)gMtsVSyncCount_800A3D78 >= pNext->field_C_end_vblanks)
         {
             if (pNext->field_10 == 0 || pNext->field_10())
             {
-                pNext->field_8 = gMtsVSyncCount_800A3D78;
+                pNext->field_8_start_vblanks = gMtsVSyncCount_800A3D78;
                 gTasks_800C0C30[pNext->field_4_task_idx].field_0_state = 3;
                 gMts_bits_800C0DB4 |= 1 << pNext->field_4_task_idx;
                 if (v0 < 0)

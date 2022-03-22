@@ -53,8 +53,8 @@ void mts_set_vsync_task_800892B8(void)
         pTask->field_4_pMessage = pMsg;
         pMsg->field_0 = 0;
         pMsg->field_4_task_idx = task_idx;
-        pMsg->field_8 = 0;
-        pMsg->field_C = 0;
+        pMsg->field_8_start_vblanks = 0;
+        pMsg->field_C_end_vblanks = 0;
         pMsg->field_10 = 0;
     }
 
