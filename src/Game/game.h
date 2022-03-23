@@ -6,25 +6,34 @@
 
 typedef struct _MOTION_CONTROL
 {
-    unsigned long   field_00;       //0x00
-    unsigned long   field_04;       //0x04
-    unsigned long   field_08;       //0x08
+    void*   field_00_oar_ptr;       //0x00
+    unsigned short  field_04;       //0x04
+    unsigned short  field_06;       
+    unsigned short  field_08;       //0x08
+    unsigned short  field_0A;     
     unsigned long   field_0C;       //0x0C
     unsigned long   field_10;       //0x10
-    unsigned long   field_14;       //0x14
+    unsigned short  field_14;       //0x14
+    unsigned short  field_16;   
     short           field_18;       //0x18
     unsigned short  field_1A;       //0x1A
-    unsigned long   field_1C;       //0x1C
-    unsigned long   field_20;       //0x20
+    unsigned short  field_1C;       //0x1C
+    unsigned short  field_1E;      
+    unsigned short  field_20;       //0x20
+    unsigned short  field_22;      
     unsigned long   field_24;       //0x24
     unsigned long   field_28;       //0x28
-    unsigned long   field_2C;       //0x2C
+    unsigned short  field_2C;       //0x2C
+    unsigned short  field_2E;     
     unsigned short  field_30;       //0x30
     unsigned short  field_32;       //0x32
-    unsigned long   field_34;       //0x34
+    SVECTOR*        field_34;       //0x34
     SVECTOR        *step;           //0x38
-    unsigned long   field_3C;       //0x3C
+    unsigned short* field_3C;       //0x3C
     unsigned long   interp;         //0x40
+    SVECTOR field_44;
+    SVECTOR *field_4C;
+    // todo: padding field here?
 } MOTION_CONTROL;
 
 typedef struct _OBJECT

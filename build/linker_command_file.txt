@@ -757,7 +757,6 @@
 	;game\motion.c
 	include	"..\obj\sub_80034EAC.obj"
 	include	"..\obj\GM_ConfigMotionControl_80034F08.obj"
-	include	"..\obj\GM_ConfigMotionAdjust_80035008.obj"
 	include	"..\obj\sub_8003501C.obj"
 	include	"..\obj\sub_800350D4.obj"
 	include	"..\obj\Process_Oar_8003518C.obj"
@@ -1896,10 +1895,7 @@
 	include	"..\obj\Equip\gglsight_loader2_80078444.obj"
 	include	"..\obj\Equip\gglsight_init_80078520.obj"
 
-	include	"..\obj\Takabe\scn_mask_act_80078620.obj"
-	include	"..\obj\Takabe\scn_mask_kill_80078774.obj"
-	include	"..\obj\Takabe\scn_mask_loader_800787A4.obj"
-	include	"..\obj\Takabe\NewMissionScreen_8007895C.obj"
+	include	"..\obj\Equip\scn_mask_loader_800787A4.obj"
 	
 	include	"..\obj\goggleir_800789E0.obj"
 	include	"..\obj\goggleir_act_helper_80078AB8.obj"
