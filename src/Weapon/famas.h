@@ -9,8 +9,8 @@ typedef struct _Actor_Famas
     Actor field_0_actor;
     OBJECT f20_obj;
     int f44;
-    int f48;
-    int f4c;
+    OBJECT *parent_object;
+    int num_parent;
     int f50;
     int f54;
     int f58;
