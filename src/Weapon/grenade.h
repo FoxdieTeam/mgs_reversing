@@ -4,16 +4,21 @@
 #include "game.h"
 #include "actor.h"
 
+// @note(Voxel): Making this a generic unknown struct or now, not sure what it is yet.
+typedef struct _Unknown_Grenade_Member
+{
+    unsigned short a[4];
+} Unknown_Grenade_Member;
+
 typedef struct _Actor_Grenade
 {
     Actor field_0_actor;
     int f20;
-    int f24;
-    OBJECT f28_obj;
+    OBJECT *f24_parent_obj;
+    OBJECT f28_obj;    
     int f4c;
-    int f40;
-    int f54;
-    int f58;
+    int f50;
+    Unknown_Grenade_Member f54;
     int f5c;
     int f60;
     int f64;
