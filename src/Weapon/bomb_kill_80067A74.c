@@ -1,10 +1,8 @@
-#include "game.h"
+#include "bomb.h"
 
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
-void bomb_kill_80067A74(int param_1)
-
+void bomb_kill_80067A74(Actor_Bomb *actor)
 {
-    GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x28));
-    return;
+    GM_FreeObject_80034BF8(&actor->f28_obj);
 }
