@@ -21,3 +21,4 @@ build/obj_tool/Release
 .vs
 
 
+src/.vscode/settings.json

@@ -1,10 +1,8 @@
-#include "game.h"
+#include "famas.h"
 
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
-void famas_act_80066188(int param_1)
-
+void famas_act_80066188(Actor_Famas *famas)
 {
-    GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x20));
-    return;
+    GM_FreeObject_80034BF8(&famas->f20_obj);
 }
