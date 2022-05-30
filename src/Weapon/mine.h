@@ -8,9 +8,9 @@ typedef struct _Actor_Mine
 {
     Actor field_0_actor;
     int f20;
-    int f24;
+    OBJECT *parent_object;
     OBJECT f28_obj;
-    int f4c;
+    int num_parent;
     int f40;
     int f54;
 } Actor_Mine;

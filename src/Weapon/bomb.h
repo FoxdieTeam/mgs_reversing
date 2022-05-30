@@ -8,9 +8,9 @@ typedef struct _Actor_Bomb
 {
     Actor field_0_actor;
     int f20;
-    int f24;
+    OBJECT *parent_obj;
     OBJECT f28_obj;
-    int f4c;
+    int num_parent;
     int f50;
     int f54;
     int f58;
