@@ -109,7 +109,7 @@ typedef struct			_DG_PRIM
 	MATRIX				*root;
 	int					type;
 	u_short				group_id;
-	signed short				n_prims;
+	signed short		n_prims;
 	u_short				chanl;
 	u_short				field_2E_k500;
 	u_short				field_30_prim_size;
