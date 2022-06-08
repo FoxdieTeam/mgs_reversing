@@ -14,7 +14,7 @@ typedef struct _Actor_Aam
     int f50;
     int f54;
     int f58;
-    int f5c;
+    Actor* f5c;
 } Actor_Aam;
 
 STATIC_ASSERT_SIZE(Actor_Aam, 0x60);
