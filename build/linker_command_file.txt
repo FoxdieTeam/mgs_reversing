@@ -896,6 +896,7 @@
 	include	"..\obj\sub_8003EBDC.obj"
 	include	"..\obj\menu_right_init_8003EC2C.obj"
 	include	"..\obj\sub_8003ECAC.obj"
+	include	"..\obj\sub_8003ECC0.obj"
 	include	"..\obj\sub_8003ECCC.obj"
 	include	"..\obj\sub_8003ED4C.obj"
 	include	"..\obj\sub_8003F30C.obj"
