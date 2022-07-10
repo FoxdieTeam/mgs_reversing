@@ -8,10 +8,13 @@
 typedef struct _KCB
 {
     char char_arr[8];
-	int unknown;
+	RECT* rect_data;
 	RECT font_rect;
 	unsigned int* font_buffer;
-	short short_arr[4];
+	short width_info;
+	short short1;
+	short height_info;
+	short short3;
 	RECT font_clut_rect;
 	unsigned int* font_clut_buffer;
 } KCB;
