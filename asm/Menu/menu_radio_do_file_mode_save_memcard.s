@@ -1,8 +1,9 @@
+; called once per frame on memcard screen
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004B0A0
-sub_8004B0A0:
+	xdef menu_radio_do_file_mode_save_memcard
+menu_radio_do_file_mode_save_memcard:
 	dw 0x27BDFF28 ; 0x8004B0A0
 	dw 0xAFBF00D4 ; 0x8004B0A4
 	dw 0xAFBE00D0 ; 0x8004B0A8

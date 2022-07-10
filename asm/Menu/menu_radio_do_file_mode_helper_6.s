@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004AD40
-sub_8004AD40:
+	xdef menu_radio_do_file_mode_helper_6
+menu_radio_do_file_mode_helper_6:
 	dw 0x27BDFFD0 ; 0x8004AD40
 	dw 0xAFB10014 ; 0x8004AD44
 	dw 0x8F910898 ; 0x8004AD48
