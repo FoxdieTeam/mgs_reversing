@@ -4,7 +4,7 @@ extern int dword_800ABB80;
 
 int SECTION(".sbss") dword_800ABB80;
 
-int *sub_8004ABDC(int a1)
+int *menu_radio_do_file_mode_helper_5(int a1)
 {
     int *result;
 
