@@ -1,8 +1,10 @@
+; called once per frame
+; calls weapon init funcs
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_800511BC
-sna_init_800511BC:
+	xdef sna_init_weapon_switching_800511BC
+sna_init_weapon_switching_800511BC:
 	dw 0x27BDFFD0 ; 0x800511BC
 	dw 0xAFB00018 ; 0x800511C0
 	dw 0x00808021 ; 0x800511C4

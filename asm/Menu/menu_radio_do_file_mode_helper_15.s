@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004C04C
-sub_8004C04C:
+	xdef menu_radio_do_file_mode_helper_15
+menu_radio_do_file_mode_helper_15:
 	dw 0x27BDFFD0 ; 0x8004C04C
 	dw 0xAFB3001C ; 0x8004C050
 	dw 0x8FB30044 ; 0x8004C054
