@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef SetConf_helper2_80099A30
+SetConf_helper2_80099A30:
+	dw 0x01405024 ; 0x80099A30
+	dw 0x354A00C0 ; 0x80099A34
+	dw 0x01204824 ; 0x80099A38
+	dw 0x01400008 ; 0x80099A3C
+	dw 0x35290008 ; 0x80099A40
+	dw 0x03E00008 ; 0x80099A44
+	dw 0x00000000 ; 0x80099A48
