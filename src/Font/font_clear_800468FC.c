@@ -1,18 +1,17 @@
 #include "kcb.h"
 
-void font_clear_800468FC(KCB* kcb) {
+void font_clear_800468FC(KCB* kcb)
+{
     int* font_buffer;
-    unsigned var_v1;
+    int i;
 
-    if ((kcb->char_arr[6] & 0x10) == 0) {
+    if (!(kcb->char_arr[6] & 0x10))
+    {
         font_buffer = kcb->font_buffer;
-        var_v1 = (unsigned)(kcb->width_info * kcb->height_info) / 4;
-        if ((signed)var_v1 > 0) {
-            do {
-                *font_buffer = 0;
-                --var_v1;
-                ++font_buffer;
-            } while ((signed)var_v1 > 0);
+        i = (unsigned int)(kcb->width_info * kcb->height_info) / 4;
+        for (; i > 0; i--)
+        {
+            *font_buffer++ = 0;
         }
         kcb->char_arr[6] |= 0x10;
     }
