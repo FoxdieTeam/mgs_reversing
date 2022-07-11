@@ -6,7 +6,7 @@ extern void sub_800469A4(int param_1, char *param_2);
 extern int dword_800ABB04;
 int SECTION(".sbss") dword_800ABB04;
 
-void sub_800410E4(int param_1, int param_2)
+void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
 {
     int iVar1;
 
