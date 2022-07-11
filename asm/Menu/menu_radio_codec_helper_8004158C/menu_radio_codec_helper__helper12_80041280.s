@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80041280
-sub_80041280:
+	xdef menu_radio_codec_helper__helper12_80041280
+menu_radio_codec_helper__helper12_80041280:
 	dw 0x27BDFFB8 ; 0x80041280
 	dw 0xAFBE0040 ; 0x80041284
 	dw 0x00C0F021 ; 0x80041288
