@@ -1,0 +1,17 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef menu_radio_codec_helper_helper9_80047FF4
+menu_radio_codec_helper_helper9_80047FF4:
+	dw 0x27BDFFE8 ; 0x80047FF4
+	dw 0xAFBF0010 ; 0x80047FF8
+	dw 0x0C0087D2 ; 0x80047FFC
+	dw 0x00000000 ; 0x80048000
+	dw 0x00401821 ; 0x80048004
+	dw 0x1C600002 ; 0x80048008
+	dw 0x00000000 ; 0x8004800C
+	dw 0x00001021 ; 0x80048010
+	dw 0x8FBF0010 ; 0x80048014
+	dw 0x00000000 ; 0x80048018
+	dw 0x03E00008 ; 0x8004801C
+	dw 0x27BD0018 ; 0x80048020
