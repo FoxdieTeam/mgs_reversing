@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800459B0
-sub_800459B0:
+	xdef font_draw_string_helper3_helper2_800459B0
+font_draw_string_helper3_helper2_800459B0:
 	dw 0x27BDFFF8 ; 0x800459B0
 	dw 0x00006821 ; 0x800459B4
 	dw 0x00E0C021 ; 0x800459B8

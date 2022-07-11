@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80046DF4
-sub_80046DF4:
+	xdef menu_radio_draw_face_helper_helper_80046DF4
+menu_radio_draw_face_helper_helper_80046DF4:
 	dw 0x27BDFFD8 ; 0x80046DF4
 	dw 0xAFB20018 ; 0x80046DF8
 	dw 0x00809021 ; 0x80046DFC

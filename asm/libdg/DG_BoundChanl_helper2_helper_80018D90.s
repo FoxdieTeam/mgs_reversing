@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80018D90
-sub_80018D90:
+	xdef DG_BoundChanl_helper2_helper_80018D90
+DG_BoundChanl_helper2_helper_80018D90:
 	dw 0x27BDFFD8 ; 0x80018D90
 	dw 0xAFB20018 ; 0x80018D94
 	dw 0x00809021 ; 0x80018D98

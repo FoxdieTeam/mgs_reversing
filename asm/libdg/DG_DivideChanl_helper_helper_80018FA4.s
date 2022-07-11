@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80018FA4
-sub_80018FA4:
+	xdef DG_DivideChanl_helper_helper_80018FA4
+DG_DivideChanl_helper_helper_80018FA4:
 	dw 0x00005021 ; 0x80018FA4
 	dw 0x00041A00 ; 0x80018FA8
 	dw 0x00641821 ; 0x80018FAC

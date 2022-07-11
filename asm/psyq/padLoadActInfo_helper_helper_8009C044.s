@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009C044
-sub_8009C044:
+	xdef padLoadActInfo_helper_helper_8009C044
+padLoadActInfo_helper_helper_8009C044:
 	dw 0x24020046 ; 0x8009C044
 	dw 0xA0820037 ; 0x8009C048
 	dw 0x24820024 ; 0x8009C04C

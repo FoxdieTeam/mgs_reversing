@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002D300
-sub_8002D300:
+	xdef sna_init_act_helper2_helper_8002D300
+sna_init_act_helper2_helper_8002D300:
 	dw 0x94820002 ; 0x8002D300
 	dw 0x00000000 ; 0x8002D304
 	dw 0x14400037 ; 0x8002D308

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003E030
-sub_8003E030:
+	xdef menu_right_update_helper2_helper_8003E030
+menu_right_update_helper2_helper_8003E030:
 	dw 0x27BDFFE8 ; 0x8003E030
 	dw 0x3C05800A ; 0x8003E034
 	dw 0x24A3E5CC ; 0x8003E038

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002FD9C
-sub_8002FD9C:
+	xdef camera_act_helper6_helper_8002FD9C
+camera_act_helper6_helper_8002FD9C:
 	dw 0x27BDFFE0 ; 0x8002FD9C
 	dw 0xAFB20018 ; 0x8002FDA0
 	dw 0x00A09021 ; 0x8002FDA4

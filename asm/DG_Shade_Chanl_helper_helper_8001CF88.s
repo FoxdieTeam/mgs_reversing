@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001CF88
-sub_8001CF88:
+	xdef DG_Shade_Chanl_helper_helper_8001CF88
+DG_Shade_Chanl_helper_helper_8001CF88:
 	dw 0x00805021 ; 0x8001CF88
 	dw 0x24C6FFFF ; 0x8001CF8C
 	dw 0x04C00026 ; 0x8001CF90
