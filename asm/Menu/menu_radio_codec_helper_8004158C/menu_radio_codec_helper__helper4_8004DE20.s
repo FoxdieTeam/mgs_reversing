@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004DE20
-sub_8004DE20:
+	xdef menu_radio_codec_helper__helper4_8004DE20
+menu_radio_codec_helper__helper4_8004DE20:
 	dw 0x27BDFFE8 ; 0x8004DE20
 	dw 0xAFB00010 ; 0x8004DE24
 	dw 0xAFBF0014 ; 0x8004DE28

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003FC54
-sub_8003FC54:
+	xdef menu_radio_codec_helper__helper16_8003FC54
+menu_radio_codec_helper__helper16_8003FC54:
 	dw 0x8C820020 ; 0x8003FC54
 	dw 0x00A04021 ; 0x8003FC58
 	dw 0x8C470000 ; 0x8003FC5C
