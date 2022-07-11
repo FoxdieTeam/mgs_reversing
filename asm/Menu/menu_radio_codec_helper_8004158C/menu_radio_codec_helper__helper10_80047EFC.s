@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80047EFC
-sub_80047EFC:
+	xdef menu_radio_codec_helper__helper10_80047EFC
+menu_radio_codec_helper__helper10_80047EFC:
 	dw 0x00003021 ; 0x80047EFC
 	dw 0x24080001 ; 0x80047F00
 	dw 0x2407000A ; 0x80047F04
