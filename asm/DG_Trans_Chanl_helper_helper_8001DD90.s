@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8001DD90
-sub_8001DD90:
+	xdef DG_Trans_Chanl_helper_helper_8001DD90
+DG_Trans_Chanl_helper_helper_8001DD90:
 	dw 0x27BDFFD8 ; 0x8001DD90
 	dw 0xAFB3001C ; 0x8001DD94
 	dw 0x00809821 ; 0x8001DD98

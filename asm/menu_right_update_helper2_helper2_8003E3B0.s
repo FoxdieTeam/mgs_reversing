@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003E3B0
-sub_8003E3B0:
+	xdef menu_right_update_helper2_helper2_8003E3B0
+menu_right_update_helper2_helper2_8003E3B0:
 	dw 0x27BDFFE0 ; 0x8003E3B0
 	dw 0xAFB10014 ; 0x8003E3B4
 	dw 0x00808821 ; 0x8003E3B8

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800458B8
-sub_800458B8:
+	xdef font_draw_string_helper3_helper_800458B8
+font_draw_string_helper3_helper_800458B8:
 	dw 0x27BDFFD0 ; 0x800458B8
 	dw 0xAFB40020 ; 0x800458BC
 	dw 0x8F9403D0 ; 0x800458C0

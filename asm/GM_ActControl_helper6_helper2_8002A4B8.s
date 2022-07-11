@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002A4B8
-sub_8002A4B8:
+	xdef GM_ActControl_helper6_helper2_8002A4B8
+GM_ActControl_helper6_helper2_8002A4B8:
 	dw 0x27BDFFD8 ; 0x8002A4B8
 	dw 0xAFB3001C ; 0x8002A4BC
 	dw 0x00809821 ; 0x8002A4C0

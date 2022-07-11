@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002F384
-sub_8002F384:
+	xdef camera_act_helper2_helper_8002F384
+camera_act_helper2_helper_8002F384:
 	dw 0x27BDFFB8 ; 0x8002F384
 	dw 0x00801821 ; 0x8002F388
 	dw 0xAFB7003C ; 0x8002F38C

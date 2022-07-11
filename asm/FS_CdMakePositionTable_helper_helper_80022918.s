@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80022918
-sub_80022918:
+	xdef FS_CdMakePositionTable_helper_helper_80022918
+FS_CdMakePositionTable_helper_helper_80022918:
 	dw 0x27BDFFE0 ; 0x80022918
 	dw 0xAFB00010 ; 0x8002291C
 	dw 0x00A08021 ; 0x80022920
