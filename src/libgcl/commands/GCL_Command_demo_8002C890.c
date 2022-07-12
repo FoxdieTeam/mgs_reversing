@@ -14,7 +14,7 @@ int SECTION(".sbss") gBinds_800ABA60;
 extern void     mts_printf_8008BBA0(const char*, ...);
 char*           GCL_Read_String_80020A70(char *pScript);
 int             NewJimakuStr_8004955C(char*, int);
-int             sub_80037DD8(int, unsigned int);
+int             GCL_Command_demo_helper_80037DD8(int, unsigned int);
 
 int GCL_Command_demo_8002C890(int argc, char **argv) {
     int     param;
@@ -43,7 +43,7 @@ int GCL_Command_demo_8002C890(int argc, char **argv) {
     {
         DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_32;
-        sub_80037DD8(param, load_data);
+        GCL_Command_demo_helper_80037DD8(param, load_data);
     }
     else
     {

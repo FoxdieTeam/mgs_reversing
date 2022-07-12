@@ -6,7 +6,7 @@ extern int          GM_GameStatus_800AB3CC;
 
 extern void         item_all_items_and_weapons_unknown2_80033500(void);
 extern void         item_all_items_and_weapons_unknown_80033560(void);
-extern unsigned int sub_8002CA48(void);
+extern unsigned int GCL_Command_menu_helper_8002CA48(void);
 extern void         MENU_SetRadarScale_80038E28(int);
 
 
@@ -104,12 +104,12 @@ int GCL_Command_menu_8002CAAC(void)
 
     if (GCL_GetParam_80020968('w')) // weapon
     {
-        GM_DisableWeapon_800AB9E4 = sub_8002CA48();
+        GM_DisableWeapon_800AB9E4 = GCL_Command_menu_helper_8002CA48();
     }
 
     if (GCL_GetParam_80020968('i')) // item
     {
-        GM_DisableItem_800ABA28 = sub_8002CA48();
+        GM_DisableItem_800ABA28 = GCL_Command_menu_helper_8002CA48();
     }
     return 0;
 }
