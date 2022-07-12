@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_act_helper_800596FC
-sna_init_act_helper_800596FC:
+	xdef sna_init_act_helper2_800596FC
+sna_init_act_helper2_800596FC:
 	dw 0x27BDFFA0 ; 0x800596FC
 	dw 0xAFB20040 ; 0x80059700
 	dw 0x00809021 ; 0x80059704
