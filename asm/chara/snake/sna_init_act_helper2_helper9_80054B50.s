@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80054B50
-sub_80054B50:
+	xdef sna_init_act_helper2_helper9_80054B50
+sna_init_act_helper2_helper9_80054B50:
 	dw 0x27BDFFE8 ; 0x80054B50
 	dw 0xAFB00010 ; 0x80054B54
 	dw 0x00808021 ; 0x80054B58

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800605DC
-sub_800605DC:
+	xdef sna_act_unk_helper2_helper2_800605DC
+sna_act_unk_helper2_helper2_800605DC:
 	dw 0x27BDFFE0 ; 0x800605DC
 	dw 0xAFB00010 ; 0x800605E0
 	dw 0x00808021 ; 0x800605E4

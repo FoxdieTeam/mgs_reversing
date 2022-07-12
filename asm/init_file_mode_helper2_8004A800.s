@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004A800
-sub_8004A800:
+	xdef init_file_mode_helper2_8004A800
+init_file_mode_helper2_8004A800:
 	dw 0x27BDFFE8 ; 0x8004A800
 	dw 0x00002021 ; 0x8004A804
 	dw 0xAFBF0010 ; 0x8004A808

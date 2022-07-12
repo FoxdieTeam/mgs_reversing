@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800526BC
-sub_800526BC:
+	xdef sna_init_act_helper2_helper_helper_800526BC
+sna_init_act_helper2_helper_helper_800526BC:
 	dw 0x27BDFFE8 ; 0x800526BC
 	dw 0xAFB00010 ; 0x800526C0
 	dw 0x00808021 ; 0x800526C4

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80060684
-sub_80060684:
+	xdef sna_act_unk_helper2_helper3_80060684
+sna_act_unk_helper2_helper3_80060684:
 	dw 0x27BDFFD8 ; 0x80060684
 	dw 0xAFBF0024 ; 0x80060688
 	dw 0xAFB00020 ; 0x8006068C

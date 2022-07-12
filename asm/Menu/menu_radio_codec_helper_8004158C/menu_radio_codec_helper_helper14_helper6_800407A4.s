@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800407A4
-sub_800407A4:
+	xdef menu_radio_codec_helper_helper14_helper6_800407A4
+menu_radio_codec_helper_helper14_helper6_800407A4:
 	dw 0x27BDFFB0 ; 0x800407A4
 	dw 0xAFB20040 ; 0x800407A8
 	dw 0x00809021 ; 0x800407AC
