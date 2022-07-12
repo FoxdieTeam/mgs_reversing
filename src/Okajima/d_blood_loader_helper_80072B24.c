@@ -1,6 +1,8 @@
-int d_blood_loader_helper_80072B24(int param_1)
+#include "blood.h"
+
+int d_blood_loader_helper_80072B24(Actor_Blood* actor_blood)
 {
-    *(int *)(param_1 + 0x20) = 100;
-    *(int *)(param_1 + 0x24) = 0;
+    actor_blood->f20 = 100;
+    actor_blood->f24 = 0;
     return 0;
 }
