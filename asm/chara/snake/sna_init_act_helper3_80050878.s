@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_act_helper_80050878
-sna_init_act_helper_80050878:
+	xdef sna_init_act_helper3_80050878
+sna_init_act_helper3_80050878:
 	dw 0x27BDFFD8 ; 0x80050878
 	dw 0xAFB20020 ; 0x8005087C
 	dw 0x00809021 ; 0x80050880

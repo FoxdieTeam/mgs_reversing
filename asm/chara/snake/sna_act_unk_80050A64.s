@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_act_helper_80050A64
-sna_init_act_helper_80050A64:
+	xdef sna_unk_80050A64
+sna_unk_80050A64:
 	dw 0x27BDFFA8 ; 0x80050A64
 	dw 0xAFB20038 ; 0x80050A68
 	dw 0x00809021 ; 0x80050A6C

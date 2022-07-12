@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_act_helper_helper_8006070C
-sna_init_act_helper_helper_8006070C:
+	xdef sna_unk_helper2_helper_8006070C
+sna_unk_helper2_helper_8006070C:
 	dw 0x27BDFFC8 ; 0x8006070C
 	dw 0xAFB20020 ; 0x80060710
 	dw 0x00809021 ; 0x80060714
