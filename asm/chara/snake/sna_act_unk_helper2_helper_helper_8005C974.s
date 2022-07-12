@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005C974
-sub_8005C974:
+	xdef sna_act_unk_helper2_helper_helper_8005C974
+sna_act_unk_helper2_helper_helper_8005C974:
 	dw 0x27BDFFC8 ; 0x8005C974
 	dw 0xAFB7002C ; 0x8005C978
 	dw 0x0080B821 ; 0x8005C97C

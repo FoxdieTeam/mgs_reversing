@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004ED6C
-sub_8004ED6C:
+	xdef sna_init_act_helper2_helper3_8004ED6C
+sna_init_act_helper2_helper3_8004ED6C:
 	dw 0x27BDFFE8 ; 0x8004ED6C
 	dw 0xAFBF0010 ; 0x8004ED70
 	dw 0x84820A20 ; 0x8004ED74

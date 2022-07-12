@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004F090
-sub_8004F090:
+	xdef sna_init_act_helper2_helper4_8004F090
+sna_init_act_helper2_helper4_8004F090:
 	dw 0x27BDFFC8 ; 0x8004F090
 	dw 0xAFBF0034 ; 0x8004F094
 	dw 0xAFB00030 ; 0x8004F098

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004FA3C
-sub_8004FA3C:
+	xdef sna_act_unk_helper4_8004FA3C
+sna_act_unk_helper4_8004FA3C:
 	dw 0x3C02800B ; 0x8004FA3C
 	dw 0x84424DAE ; 0x8004FA40
 	dw 0x00000000 ; 0x8004FA44
