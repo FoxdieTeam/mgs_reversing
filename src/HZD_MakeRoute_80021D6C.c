@@ -3,7 +3,7 @@
 
 extern void*    GV_Malloc_8001620C(int size);
 extern void     GV_Free_80016230(void *ptr);
-extern void     sub_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
+extern void     HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
 
 void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
 {
@@ -22,7 +22,7 @@ void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
             argbuf = arg1;
             for (i = 0; i < n; i++)
             {
-                sub_80021C64(navmeshes, n, i, buf);
+                HZD_MakeRoute_helper_80021C64(navmeshes, n, i, buf);
                 for (j = i + 1; j < n; j++)
                 {
                     *argbuf++ = buf[j];

@@ -39,7 +39,7 @@ extern int              GV_Clock_800AB920;
 extern void             LoadImage_8008FB10(RECT *, unsigned char *);
 extern void             GV_FreeMemory2_80016078(unsigned int, void **);
 extern void             *GV_AllocMemory2_80015ED8( int which, int size, void** type);
-extern void             sub_8001D880(unsigned short int, unsigned short int, unsigned short int, DG_Image *, DG_Image *, short int);
+extern void             DG_LoadInitPcx_helper_8001D880(unsigned short int, unsigned short int, unsigned short int, DG_Image *, DG_Image *, short int);
 
 #define PCX_RLE_THRESHOLD 0xC0
 
@@ -228,7 +228,7 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
 
         if (fileNameHashed)
         {
-            sub_8001D880((unsigned short)fileNameHashed, flags & 1, (flags & 0x30) >> 4,
+            DG_LoadInitPcx_helper_8001D880((unsigned short)fileNameHashed, flags & 1, (flags & 0x30) >> 4,
                          imageA, imageB, imageB->dim.w);
         }
         return 1;
