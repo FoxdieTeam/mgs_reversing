@@ -172,6 +172,7 @@
 	include	"..\obj\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
 	include	"..\obj\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
 	include	"..\obj\DG_Trans_Chanl_8001E3C0.obj" ; DG_MatrixRot ???
+	include	"..\obj\sub_8001E588.obj" ; DG_MatrixRot ???
 	include	"..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
 	include	"..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
 	include	"..\obj\DG_TransposeMatrix_8001EAD8.obj" ; DG_MovePos + DG_PacketCode ? or DG_Transpo... ?
@@ -390,6 +391,7 @@
 	include	"..\obj\FS_StreamGetSize_80024188.obj"
 	include	"..\obj\sub_800241B4.obj"
 	include	"..\obj\Game\strctrl_act_helper2_800241C8.obj"
+	include	"..\obj\Game\sub_800242A4.obj"
 	include	"..\obj\libfs\FS_StreamGetEndFlag_800243B8.obj"
 	include	"..\obj\libfs\FS_StreamIsForceStop_800243C8.obj"
 	include	"..\obj\libfs\FS_StreamTickStart_800243D8.obj"
@@ -473,6 +475,7 @@
 	include	"..\obj\sub_800298C0.obj"
 	include	"..\obj\sub_800298DC.obj"
 	include	"..\obj\HZD_SlopeFloorLevel_800298F8.obj"
+	include	"..\obj\sub_8002992C.obj"
 	include	"..\obj\sub_80029A2C.obj"
 	include	"..\obj\Game\HZD_SetBind_80029A5C.obj"
 	include	"..\obj\Map_light_helper_80029A6C.obj"
@@ -624,6 +627,7 @@
 	include	"..\obj\Game\GM_Target_SetVector_8002D500.obj"
 	include	"..\obj\Game\GM_CaptureTarget_8002D530.obj"
 	include	"..\obj\Game\GM_C4Target_8002D620.obj"
+	include	"..\obj\Game\sub_8002D6D8.obj"
 	include	"..\obj\sub_8002D7DC.obj"
 	include	"..\obj\chara\snake\sna_init_act_helper_8002DA14.obj"
 	include	"..\obj\Game\GM_Target_8002DC74.obj"
@@ -632,11 +636,13 @@
 	include	"..\obj\sub_8002DD1C.obj"
 	include	"..\obj\sub_8002DDE0.obj"
 	include	"..\obj\sub_8002E1B8.obj"
+	include	"..\obj\sub_8002E2A8.obj"
 	include	"..\obj\sub_8002E374.obj"
 
 	;game\loader.c
 	include "..\obj\Game\loader.obj"
 	include	"..\obj\sub_8002E508.obj"
+	include	"..\obj\sub_8002E544.obj"
 	include	"..\obj\Game\GM_set_noise_sound_8002E588.obj"
 	include	"..\obj\sub_8002E614.obj"
 	include	"..\obj\Game\GM_SoundStart_8002E640.obj"
@@ -675,6 +681,7 @@
 	include	"..\obj\Game\camera_act_helper5_80030118.obj"
 	include	"..\obj\Game\camera_act_helper6_80030250.obj"
 	include	"..\obj\sub_800303E0.obj"
+	include	"..\obj\sub_8003049C.obj"
 	include	"..\obj\Game\camera_act_8003059C.obj"
 	include	"..\obj\Game\camera_init_800306A0.obj"
 	include	"..\obj\Game\GM_Reset_helper3_80030760.obj"
@@ -729,8 +736,10 @@
 	include	"..\obj\sub_800329C4.obj"
 	include	"..\obj\sub_80032AEC.obj"
 	include	"..\obj\sub_80032B40.obj"
+	include	"..\obj\sub_80032BC4.obj"
 	include	"..\obj\GM_Sound_80032C48.obj"
 	include	"..\obj\Game\GM_Reset_helper4_80032C68.obj"
+	include	"..\obj\Game\sub_80032C8C.obj"
 	include	"..\obj\sub_80032EAC.obj"
 	include	"..\obj\chara\snake\sna_init_act_helper2_helper2_80033054.obj"
 	include	"..\obj\Game\delay.obj"
@@ -750,6 +759,7 @@
 	include	"..\obj\Game\item_init_800344F8.obj"
 	include	"..\obj\Game\item_init_helper_800345C0.obj"
 	include	"..\obj\Game\item_init_80034758.obj"
+	include	"..\obj\Game\sub_80034834.obj"
 	
 	;game\object.c
 	include	"..\obj\Game\object.obj"
@@ -764,6 +774,7 @@
 	include	"..\obj\sub_8003556C.obj"
 	include	"..\obj\oar_related_800356FC.obj"
 	include	"..\obj\sub_80035F34.obj"
+	include	"..\obj\sub_80035FFC.obj"
 	include	"..\obj\sub_8003603C.obj"
 	include	"..\obj\sub_800360EC.obj"
 	include	"..\obj\sub_80036388.obj"
@@ -1029,6 +1040,7 @@
 	include	"..\obj\sub_80043FD0.obj"
 	include	"..\obj\sub_800442E4.obj"
 	include	"..\obj\sub_800445F8.obj"
+	include	"..\obj\sub_800448C0.obj"
 	include	"..\obj\Menu\menu_viewer_init_80044A70.obj"
 	include	"..\obj\menu_viewer_kill_80044A90.obj"
 	include	"..\obj\Font\font_load_80044A9C.obj"
@@ -1455,6 +1467,7 @@
 	include	"..\obj\sub_8005C6C4.obj" ; sna_init_act_helper
 	include	"..\obj\HZD_ReachTo_8005C89C.obj" ; sna_init_act_helper_helper_helper
 	include	"..\obj\chara\snake\sna_act_unk_helper2_helper_helper_8005C974.obj" ; sna_init_act_helper_helper_helper
+	include	"..\obj\chara\snake\sub_8005CB48.obj" ; sna_init_act_helper_helper_helper
 
 	include	"..\obj\vibrate_act_helper_8005D358.obj"
 	include	"..\obj\vibrate_act_helper_8005D3A4.obj"
@@ -1468,9 +1481,12 @@
 	include	"..\obj\Anime\animeconv\anime_create_8005DDE0.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005DE70.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005DF50.obj"
+	include	"..\obj\Anime\animeconv\sub_8005E090.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005E334.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005E508.obj"
+	include	"..\obj\Anime\animeconv\sub_8005E574.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005E6A4.obj"
+	include	"..\obj\Anime\animeconv\sub_8005E774.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005E7EC.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005E9E0.obj"
 	include	"..\obj\Anime\animeconv\anime_create_8005EA6C.obj"
@@ -1499,6 +1515,7 @@
 	include	"..\obj\Anime\animeconv\anime_loader_helper_8005F6EC.obj"
 	include	"..\obj\Anime\animeconv\anime_loader_8005F994.obj"
 	include	"..\obj\Anime\animeconv\anime_init_8005FBC8.obj"
+	include	"..\obj\Anime\animeconv\sub_8005FCA4.obj"
 
 	include	"..\obj\shadow_act_helper_8005FD28.obj"
 	include	"..\obj\shadow_act_helper_80060028.obj"
@@ -1510,8 +1527,10 @@
 	
 	include	"..\obj\chara\snake\afterse_act_800603EC.obj"
 	include	"..\obj\chara\snake\afterse_init_800604C0.obj"
+	include	"..\obj\chara\snake\sub_80060548.obj"
 	include	"..\obj\chara\snake\sna_act_unk_helper2_helper2_800605DC.obj"
 	include	"..\obj\chara\snake\sna_act_unk_helper2_helper3_80060684.obj"
+	include	"..\obj\chara\snake\sub_800606E4.obj"
 	include	"..\obj\chara\snake\sna_act_unk_helper2_helper_8006070C.obj" ; actually part of bodyarm ??
 	include	"..\obj\Equip\bodyarm_80060874.obj"
 	include	"..\obj\Equip\bodyarm_kill_8006090C.obj"
@@ -1686,6 +1705,7 @@
 	include	"..\obj\tenage_init_helper_80069E28.obj"
 	include	"..\obj\tenage_init_helper_80069E64.obj"
 	include	"..\obj\NewTenage_8006A010.obj"
+	include	"..\obj\sub_8006A100.obj"
 	include	"..\obj\NewTenage3_8006A128.obj"
 
 	include	"..\obj\Bullet\bakudan_act_8006A218.obj"
@@ -1745,7 +1765,9 @@
 	include	"..\obj\Bullet\NewBlast_8006DFDC.obj"
 	include	"..\obj\Bullet\NewBlast2_8006E0F0.obj"
 	include	"..\obj\AN_Blast_Single_8006E224.obj"
+	include	"..\obj\sub_8006E2A8.obj"
 	include	"..\obj\AN_Blast_Minimini_8006E32C.obj"
+	include	"..\obj\sub_8006E3B0.obj"
 	include	"..\obj\Thing\door_send_msg_8006EC10.obj"
 	include	"..\obj\Thing\door_open_8006ECB8.obj"
 	include	"..\obj\Thing\door_close_8006ED48.obj"
@@ -1865,6 +1887,7 @@
 	include	"..\obj\Okajima\NewBulletEnemy_80076420.obj"
 	include	"..\obj\Okajima\bullet_init_80076164.obj"
 	include	"..\obj\Okajima\NewBulletEx_80076708.obj"
+	include	"..\obj\Okajima\sub_8007692C.obj"
 	
 	include	"..\obj\Okajima\chafgrnd_loader_helper_800769EC.obj"
 	include	"..\obj\Okajima\chafgrnd_act_helper_80076A6C.obj"
@@ -1933,15 +1956,18 @@
 	include	"..\obj\Kojo\demothrd_8007D9C8.obj"
 	include	"..\obj\Kojo\AN_CaterpillerSmoke_8007DA28.obj"
 	include	"..\obj\Kojo\demothrd_8007DA94.obj"
+	include	"..\obj\Kojo\sub_8007DC24.obj"
 	include	"..\obj\Kojo\InitChain_8007F338.obj"
 	include	"..\obj\Kojo\demothrd_8007F350.obj"
 	include	"..\obj\Kojo\demothrd_8007F394.obj"
+	include	"..\obj\Kojo\sub_8007F3F8.obj"
 	include	"..\obj\Kojo\demothrd_8007FB90.obj"
 	include	"..\obj\Kojo\demothrd_8007FDD8.obj"
 	include	"..\obj\Kojo\demothrd_8007FF9C.obj"
 	include	"..\obj\Kojo\demothrd_800800D8.obj"
 	include	"..\obj\Kojo\demothrd_80080C20.obj"
 	include	"..\obj\Kojo\demothrd_80080D48.obj"
+	include	"..\obj\Kojo\sub_80080E14.obj"
 
 	include	"..\obj\M1E1GetCaterpillerVertex_800815FC.obj"
 	
@@ -1949,8 +1975,10 @@
 	include	"..\obj\SD\SdMain_80081A18.obj"
 	include	"..\obj\SD\SdInt_Task_80081BDC.obj"
 	include	"..\obj\SD\sd_init_80081C7C.obj"
+	include	"..\obj\SD\sub_80081F8C.obj"
 	include	"..\obj\SD\SD_80081FC4.obj"
 	include	"..\obj\SD\KeyOffStr_80081FE8.obj"
+	include	"..\obj\SD\sub_800820EC.obj"
 	include	"..\obj\SD\SD_80082170.obj"
 	include	"..\obj\SD\sd_sng_alloc_80082194.obj"
 	include	"..\obj\SD\StrFadeIn_800822C8.obj"
@@ -1963,12 +1991,14 @@
 	include	"..\obj\SD\StrSpuTransClose_80083394.obj"
 	include	"..\obj\SD\StrSpuTrans_800833FC.obj"
 	include	"..\obj\SD\SD_8008341C.obj"
+	include	"..\obj\SD\sub_80083804.obj"
 	include	"..\obj\SD\WaveSpuTrans_80083944.obj"
 	include	"..\obj\SD\SD_SongLoadData_8008394C.obj"
 	include	"..\obj\SD\SD_80083954.obj"
 	include	"..\obj\SD\SD_8008395C.obj"
 	include	"..\obj\SD\StrFadeWkSet_80083964.obj"
 	include	"..\obj\SD\StrFadeInt_800839C8.obj"
+	include	"..\obj\SD\sub_80083BB4.obj"
 	include	"..\obj\SD\num2char_80083E68.obj"
 	include	"..\obj\SD\SD_SngDataLoadInit_80083E8C.obj"
 	include	"..\obj\SD\SD_80083ED4.obj"
@@ -2059,6 +2089,7 @@
 	include	"..\obj\SD\sd_str_play_800886DC.obj"
 	include	"..\obj\SD\sd_set_cli_800887EC.obj"
 	include	"..\obj\SD\sd_set_path_8008880C.obj"
+	include	"..\obj\SD\sub_80088868.obj"
 	include	"..\obj\SD\SePlay_800888F8.obj"
 	include	"..\obj\SD\get_str_counter_80088CA0.obj"
 	include	"..\obj\SD\SD_Set_80088CB0.obj"
@@ -2211,6 +2242,7 @@
 	include	"..\obj\psyq\PutDispEnv_80090094.obj"
 	include	"..\obj\psyq\GetDispEnv_8009058C.obj"
 	include	"..\obj\psyq\SetTexWindow_800905F0.obj"
+	include	"..\obj\psyq\sub_80090670.obj"
 	include	"..\obj\psyq\SetDrawEnv_800906B0.obj"
 	include	"..\obj\psyq\sub_800908A8.obj"
 	include	"..\obj\psyq\sub_80090B18.obj"
@@ -2238,6 +2270,7 @@
 	include	"..\obj\psyq\sub_80091F10.obj"
 	include	"..\obj\psyq\sub_80091FB0.obj"
 	include	"..\obj\psyq\sub_8009209C.obj"
+	include	"..\obj\psyq\sub_80092188.obj"
 	include	"..\obj\psyq\_GPU_ResetCallback_800923C8.obj"
 	include	"..\obj\psyq\sub_800923F0.obj"
 	include	"..\obj\psyq\GetTPage_80092418.obj"
