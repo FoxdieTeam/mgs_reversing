@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80049EDC
-sub_80049EDC:
+	xdef init_file_mode_helper_helper_80049EDC
+init_file_mode_helper_helper_80049EDC:
 	dw 0x27BDFFD8 ; 0x80049EDC
 	dw 0xAFBF0020 ; 0x80049EE0
 	dw 0xAFB3001C ; 0x80049EE4

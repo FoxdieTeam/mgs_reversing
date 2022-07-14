@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002AB40
-sub_8002AB40:
+	xdef GM_Act_helper3_helper_8002AB40
+GM_Act_helper3_helper_8002AB40:
 	dw 0x27BDFFE8 ; 0x8002AB40
 	dw 0x3C02800B ; 0x8002AB44
 	dw 0xAFB00010 ; 0x8002AB48
