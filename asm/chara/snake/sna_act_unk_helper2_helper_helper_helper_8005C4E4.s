@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005C4E4
-sub_8005C4E4:
+	xdef sna_act_unk_helper2_helper_helper_helper_8005C4E4
+sna_act_unk_helper2_helper_helper_helper_8005C4E4:
 	dw 0x27BDFFC8 ; 0x8005C4E4
 	dw 0xAFB60028 ; 0x8005C4E8
 	dw 0x0080B021 ; 0x8005C4EC

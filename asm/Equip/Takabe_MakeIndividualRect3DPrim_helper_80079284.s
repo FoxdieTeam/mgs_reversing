@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80079284
-sub_80079284:
+	xdef Takabe_MakeIndividualRect3DPrim_helper_80079284
+Takabe_MakeIndividualRect3DPrim_helper_80079284:
 	dw 0x00A04821 ; 0x80079284
 	dw 0x24C6FFFF ; 0x80079288
 	dw 0x3C02800B ; 0x8007928C
