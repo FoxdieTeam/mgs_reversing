@@ -476,7 +476,7 @@ int main(int argc, const char** argv)
 	fclose(f);
 	
 	size_t totalFuncsToReverse = 1990;
-	size_t textSectionLength = 0x00088A24;
+	size_t textSectionLength = 0x00077D50;
 	float progress = ((float)totalFuncsSize / (float)textSectionLength) * 100.0f;
 	float funcsProgress = ((float)totalFuncs / (float)totalFuncsToReverse) * 100.0f;
 	
