@@ -5,7 +5,7 @@
 extern int              GV_PauseLevel_800AB928;
 
 extern unsigned int     sub_8002AAEC();
-extern unsigned long    sub_8002AB40();
+extern unsigned long    GM_Act_helper3_helper_8002AB40();
 
 int GM_Act_helper3_8002ABA4(void)
 {
@@ -20,7 +20,7 @@ int GM_Act_helper3_8002ABA4(void)
     {
         if ((var1 & 2) == 0)
         {
-            return sub_8002AB40();
+            return GM_Act_helper3_helper_8002AB40();
         }
         ret = sub_8002AAEC();
     }
