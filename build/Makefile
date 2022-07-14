@@ -36,19 +36,19 @@ LINK_FILE = $(BUILD_PATH)/linker_command_file.txt
 
 #-------------------------------------------------------------------------------
 
-TARGET_HASH = 4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f *../obj/_mgsi.exe
+TARGET_HASH = 4B8252B65953A02021486406CFCDCA1C7670D1D1A8F3CF6E750EF6E360DC3A2F
 ifeq ($(findstring compare,$(MAKECMDGOALS)),compare)
-CURRENT_HASH = $(shell sha256sum $(EXE_FILE))
+CURRENT_HASH = $(shell powershell.exe -c "(Get-FileHash -Path $(EXE_FILE) -Algorithm SHA256).Hash")
 endif
 
-TARGET_SOUND_BIN_HASH = 4173d0fcbc7bfcd477d2e0fa6810b509bf6392efb01fd58a7fa114f003849816 *../obj/Sound.bin
+TARGET_SOUND_BIN_HASH = 4173D0FCBC7BFCD477D2E0FA6810B509BF6392EFB01FD58A7FA114F003849816
 ifeq ($(findstring compare,$(MAKECMDGOALS)),compare)
-CURRENT_SOUND_BIN_HASH = $(shell sha256sum $(SOUND_BIN_FILE))
+CURRENT_SOUND_BIN_HASH = $(shell powershell.exe -c "(Get-FileHash -Path $(SOUND_BIN_FILE) -Algorithm SHA256).Hash")
 endif
 
 ifeq ($(PSYQ_SDK),)
 #default path
-PSYQ_SDK := ./psyq_sdk
+PSYQ_SDK := ../../psyq
 PSYQ_SDK_REALPATH := $(PSYQ_SDK)
 else
 PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
