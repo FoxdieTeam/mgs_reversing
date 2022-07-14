@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003A978
-sub_8003A978:
+	xdef draw_radar_helper3_helper4_8003A978
+draw_radar_helper3_helper4_8003A978:
 	dw 0x27BDFFD8 ; 0x8003A978
 	dw 0xAFB1001C ; 0x8003A97C
 	dw 0x00808821 ; 0x8003A980
