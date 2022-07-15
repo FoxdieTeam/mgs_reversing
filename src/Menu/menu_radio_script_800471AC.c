@@ -27,7 +27,7 @@ unsigned char   *GCL_VarSaveBuffer_800217F0(unsigned char *);
                         ((unsigned int)x[2] << 8) |    \
                         ((unsigned int)x[3])
 
-#define CHARA_SNAKE 0x21ca // スネーク
+#define CHARA_SNAKE 0x21ca
 
 void            radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *pScript)
 {
