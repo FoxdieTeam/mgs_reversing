@@ -5,7 +5,7 @@ extern int gStackSize_800A3D94;
 char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
 
 unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
-unsigned char SECTION(".byte_800C0DB8") dword_800C0FC0[1024] = {};
+unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
 
 void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
 void mts_event_cb_8008BBC0();
@@ -120,7 +120,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     pTask->field_8_fn = mts_8008B0A4;
     pTask->field_4_pMessage = 0;
 //    global_pointer_1 = GetGp_8009961C();
-    pTask->field_18_tcb = OpenTh_800994CC(mts_task_start_8008BBC8, dword_800C0FC0, GetGp_8009961C());
+    pTask->field_18_tcb = OpenTh_800994CC(mts_task_start_8008BBC8, dword_800C0FB8, GetGp_8009961C());
     pTask->field_1C = ((struct TCB**)0x110)[pTask->field_18_tcb]; //  (TCB *)(MEMORY[0x110] + 0xC0 * LOBYTE(gTasks_800C0C30[0].field_18_tcb));
     pTask->field_1C->reg[0x23] = 0x400;
     
@@ -130,12 +130,12 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     pTask->field_E = 0;
     SwExitCriticalSection_8009956C();
     // 0x800C13C0 - 0x400 =0x800C0FC0
-    mts_set_stack_check_8008B648(11, mts_stack_end(dword_800C0FC0), sizeof(dword_800C0FC0));
+    mts_set_stack_check_8008B648(11, mts_stack_end(dword_800C0FB8), sizeof(dword_800C0FB8));
     SwEnterCriticalSection_8009954C();
-    if (!mts_8008BA88 || !mts_stack_end(dword_800C0FC0))
+    if (!mts_8008BA88 || !mts_stack_end(dword_800C0FB8))
     {
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
-        mts_printf_8008BBA0(aTaskCreateXX, mts_8008BA88, mts_stack_end(dword_800C0FC0));
+        mts_printf_8008BBA0(aTaskCreateXX, mts_8008BA88, mts_stack_end(dword_800C0FB8));
         mts_printf_8008BBA0(asc_80013E2C);
         mts_print_process_status_8008B77C();
     }
