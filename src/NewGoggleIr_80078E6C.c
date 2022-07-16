@@ -1,31 +1,11 @@
-#include "actor.h"
-#include "game.h"
+#include "goggleir.h"
 
 extern char aGoggleirC[]; // = "goggleir.c"
-
-typedef struct _Actor_GoggleIr
-{
-    Actor field_0_actor;
-    OBJECT f20_obj;
-    int f44;
-    OBJECT *parent_object;
-    int num_parent;
-    int f50;
-    short f54;
-    short f56;
-    int f58;
-    int f5c;
-    int f60;
-    int f64;
-    int f68;
-} Actor_GoggleIr;
 
 extern int goggleir_act_80078BE0(int a1);
 extern int goggleir_kill_80078CE4(int a1);
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 extern int  goggleir_loader_80078D8C(Actor_GoggleIr *a1, OBJECT *a2);
-
-STATIC_ASSERT_SIZE(Actor_GoggleIr, 0x6C);
 
 Actor_GoggleIr *NewGoggleIr_80078E6C(int a1, OBJECT *parent_obj)
 {
