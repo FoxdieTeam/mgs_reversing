@@ -1991,7 +1991,7 @@
 	include	"..\obj\goggleir_kill_80078CE4.obj"
 	include	"..\obj\goggleir_loader_80078D8C.obj"
 	include	"..\obj\NewGoggleIr_80078E6C.obj"
-	include	"..\obj\sub_80078f04.obj"
+	include	"..\obj\sub_80078F04.obj"
 	include	"..\obj\DG_StorePaletteEffect_80078F30.obj"
 	include	"..\obj\DG_ResetPaletteEffect_80078FF8.obj"
 	include	"..\obj\sub_80079004.obj"
