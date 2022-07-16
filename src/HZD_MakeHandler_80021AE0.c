@@ -4,23 +4,6 @@
 extern void     *GV_Malloc_8001620C(int size);
 extern void     HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, int *param_2); // navmeshes
 
-typedef struct      HZD_MAP
-{
-    HZD_HEADER      *f00_header;
-    HZD_AREA        *f04_area;
-    short           f08_areaIndex;
-    short           f0A;
-    short           f0C;
-    short           f0E_n_cameras;
-    short           f10_24size;
-    short           f12_48size;
-    void            *f14_navmeshes;
-    HZD_TRP         *f18_traps;
-    int             *f1C_pEndOfHzdMap;
-    int             *f20_pAfterStructure_24;
-    int             *f20_pAfterStructure_48;
-} HZD_MAP; // 28
-
 HZD_MAP* HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24)
 {
     short   n_navmeshes;
