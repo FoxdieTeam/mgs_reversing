@@ -102,5 +102,21 @@ typedef struct      HZD_HEADER
     HZD_PAT         *routes; //18
 } HZD_HEADER; // 28
 
+typedef struct      HZD_MAP
+{
+    HZD_HEADER      *f00_header;
+    HZD_AREA        *f04_area;
+    short           f08_areaIndex;
+    short           f0A;
+    short           f0C;
+    short           f0E_n_cameras;
+    short           f10_24size;
+    short           f12_48size;
+    void            *f14_navmeshes;
+    HZD_TRP         *f18_traps;
+    int             *f1C_pEndOfHzdMap;
+    int             *f20_pAfterStructure_24;
+    int             *f20_pAfterStructure_48;
+} HZD_MAP; // 28
 
 #endif // _HZD_H_
