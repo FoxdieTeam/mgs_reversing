@@ -1,9 +1,9 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80078f04
-sub_80078f04:
-    dw 0x27BDFFE8 ; 0x80078F04
+	xdef sub_80078F04
+sub_80078F04:
+	dw 0x27BDFFE8 ; 0x80078F04
 	dw 0x3C04800A ; 0x80078F08
 	dw 0x3C05800B ; 0x80078F0C
 	dw 0x2484F734 ; 0x80078F10
