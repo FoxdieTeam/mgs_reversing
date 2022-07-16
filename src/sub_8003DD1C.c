@@ -1,15 +1,6 @@
 #include "linker.h"
-//#include "menuMan.h"
+#include "menuMan.h"
 #include "Script_tbl_map_8002BB44.h"
-
-typedef struct
-{
-    char field_0_x;
-    char field_1_y;
-    char field_2_w;
-    char field_3_h;
-    unsigned char field_4_pixel_ptr[0];
-} Menu_rpk_item;
 
 typedef struct
 {

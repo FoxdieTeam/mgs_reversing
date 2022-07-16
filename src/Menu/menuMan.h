@@ -1,3 +1,6 @@
+#ifndef _MENUMAN_H
+#define _MENUMAN_H
+
 #include <sys/types.h>
 #include <LIBGTE.h>
 #include <LIBGPU.h>
@@ -161,15 +164,14 @@ struct              Menu_Prim_Buffer
     int             *field_4_pOt;
 };
 
-struct              menu_rpk_item
+typedef struct _Menu_rpk_item
 {
-  char              field_0_x;
-  char              field_1_y;
-  char              field_2_w;
-  char              field_3_h;
-  // Pixel data after here
-};
-
+    char field_0_x;
+    char field_1_y;
+    char field_2_w;
+    char field_3_h;
+    unsigned char field_4_pixel_ptr[0];
+} Menu_rpk_item;
 
 typedef struct      Actor_MenuMan
 {
@@ -211,3 +213,5 @@ typedef struct      Actor_MenuMan
     int             field_220;
 } MenuMan;
 typedef void (*TInitKillFn)(MenuMan *);
+
+#endif // _MENUMAN_H
