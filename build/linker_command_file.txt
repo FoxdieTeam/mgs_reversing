@@ -1323,7 +1323,7 @@
 
 
 	include	"..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper_8004E198.obj"
-	include	"..\obj\sub_8004E1F4.obj"
+	include	"..\obj\chara\snake\sna_init_start_anim_8004E1F4.obj"
 	include	"..\obj\sub_8004E22C.obj"
 	include	"..\obj\sub_8004E260.obj"
 	include	"..\obj\Game\GM_CheckPlayerStatusFlag_8004E29C.obj"
