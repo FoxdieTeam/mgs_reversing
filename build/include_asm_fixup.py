@@ -8,6 +8,12 @@ import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+def disasm(code, addr):
+    from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS32
+    md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32)
+    for i in md.disasm(code, addr):
+        print("0x%x:\t%s\t%s" %(i.address, i.mnemonic, i.op_str))
+
 # psyq obj parser with one purpose: get the names, offsets, sizes, and bytes of all funcs
 def get_obj_funcs(path):
     pos = 0
@@ -158,7 +164,7 @@ def get_obj_funcs(path):
     for code, file_pos in code_blocks:
         func = funcs.get(pos)
         if func:
-            ret.append([func.decode(), file_pos, len(code), code])
+            ret.append([func, file_pos, len(code), code])
         pos += len(code)
     return ret
 
@@ -166,9 +172,9 @@ def fix_obj(obj_to_fix, objs_by_addr):
     code_start = 0x800148B8
     psyq_start = 0x8008C608
 
-    changed = False
+    fixed_funcs = 0
     funcs = get_obj_funcs(obj_to_fix)
-    for _, file_pos, size, code in funcs:
+    for old_name, file_pos, size, code in funcs:
         # only INCLUDE_ASM funcs start with a nop
         if code.startswith(b'\x00\x00\x00\x00'):
             # last 12 bytes is a return instruction encoded with the address of asm to include
@@ -177,6 +183,14 @@ def fix_obj(obj_to_fix, objs_by_addr):
             hi = struct.unpack('<H', return_instructions[0:2])[0] << 16
             lo = struct.unpack('<H', return_instructions[8:10])[0]
             addr_num = hi + lo
+            overwritten_name_char = addr_num >> 24
+            addr_num = (addr_num & 0x00FFFFFF) | (0x80 << 24)
+
+            name = old_name
+            name_chars = bytearray(name)
+            name_chars[0] = overwritten_name_char
+            name = bytes(name_chars)
+
             addr = format(addr_num, 'x').upper()
 
             assert code_start <= addr_num < psyq_start
@@ -191,16 +205,33 @@ def fix_obj(obj_to_fix, objs_by_addr):
             assert len(source_funcs) == 1
             _, _, source_size, source_code = source_funcs[0]
 
+            if size != source_size:
+                print('error: size mismatch! trying to import capstone for debugging..')
+                print('dummy func:')
+                disasm(code, addr_num)
+                print('orig func:')
+                disasm(source_code, addr_num)
+                raise Exception('code size mismatch')
+
             assert size == source_size
 
             with open(obj_to_fix, 'r+b') as f:
+                # write the code
                 f.seek(file_pos)
                 f.write(source_code)
 
-            changed = True
+                # now replace every occurance of the name
+                f.seek(0)
+                data = f.read()
+                assert old_name in data
+                data = data.replace(old_name, name)
+                f.seek(0)
+                f.write(data)
 
-    if changed:
-        print('Fixed IMPORT_ASM obj:', obj_to_fix)
+            fixed_funcs += 1
+
+    if fixed_funcs > 0:
+        print('Fixed {} IMPORT_ASM funcs in obj:', fixed_funcs, obj_to_fix)
 
 
 def main():
