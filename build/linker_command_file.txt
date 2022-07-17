@@ -1700,12 +1700,8 @@
 	; 800663A0 8006641C 80066894 800668B4 80066944 80066A4C 80066A74 80066AA0 80066ACC
 	include	"..\obj\Weapon\grenade.obj"
 
-	include	"..\obj\Weapon\rcm_loader_helper_80066AF8.obj"
-	include	"..\obj\Weapon\rcm_act_helper_80066B58.obj"
-	include	"..\obj\Weapon\rcm_act_80066BC0.obj"
-	include	"..\obj\Weapon\rcm_kill_80066E68.obj"
-	include	"..\obj\Weapon\rcm_loader_80066EB0.obj"
-	include	"..\obj\Weapon\NewRCM_80066FF0.obj"
+	; 80066AF8 80066B58 80066BC0 80066E68 80066EB0 80066FF0
+	include	"..\obj\Weapon\rcm.obj"
 	
 	include	"..\obj\Weapon\aam_act_800670CC.obj"
 	include	"..\obj\Weapon\aam_kill_800673B0.obj"

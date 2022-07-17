@@ -351,7 +351,7 @@ def main(path):
             print('error: INCLUDE_ASM referenced path was not found', file=sys.stderr)
             sys.exit(4)
 
-        func = FUNC_FMT.format(name, nops, hex(addr).upper()) + '\n'
+        func = FUNC_FMT.format(name, nops, hex(addr)) + '\n'
         processed.append(func)
         changed = True
 
