@@ -295,6 +295,8 @@ ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 TMP_DIR = 'include_asm_tmp'
 
 def get_names_by_addr():
+    if not os.path.exists(TMP_DIR):
+        os.mkdir(TMP_DIR)
     cache_file = os.path.join(TMP_DIR, 'all_asms.txt')
     if os.path.exists(cache_file):
         with open(cache_file) as f:
