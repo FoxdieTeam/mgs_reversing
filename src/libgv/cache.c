@@ -155,7 +155,7 @@ void* GV_GetCache_8001538C(int fileNameHashed)
 }
 
 //sets currently active cached file if it can be found
-int	GV_SetCache_800153C0( int id, void * buf )
+int	GV_SetCache_800153C0( int id, void* buf )
 {
     if ( !GV_FileCacheFind_80015240( id ) )
     {
@@ -300,7 +300,7 @@ static inline TFileExtHandler GV_GetLoadFunc( int id )
 }
 
 //loads given init function
-int	GV_LoadInit_800155BC( void * buf, int id, int region )
+int	GV_LoadInit_800155BC( void* buf, int id, int region )
 {
     int ret;
     TFileExtHandler func;
