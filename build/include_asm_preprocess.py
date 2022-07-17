@@ -280,7 +280,7 @@ import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-EPILOGUE_SIZE = 12 # just the return
+RETURN_SIZE = 12 # just the return
 NOP_SIZE = 4
 
 # #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s");
@@ -341,7 +341,11 @@ def main(path):
             print('error: INCLUDE_ASM addr suffix of referenced path is unknown', file=sys.stderr)
             sys.exit(3)
 
-        num_nops = func_size - EPILOGUE_SIZE
+        if func_size < RETURN_SIZE + NOP_SIZE:
+            print('error: INCLUDE_ASM func too small - consider matching it: ', addr_str, file=sys.stderr)
+            sys.exit(5)
+
+        num_nops = func_size - RETURN_SIZE
         assert(num_nops % NOP_SIZE == 0)
         nops = 'nop;' * int(num_nops / NOP_SIZE)
 
