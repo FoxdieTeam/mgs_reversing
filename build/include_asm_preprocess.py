@@ -292,8 +292,20 @@ FUNC_FMT = r'int {}(void) {{ asm("{}"); return {}; }}'
 # _800515BC.
 ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 
+TMP_DIR = 'include_asm_tmp'
+
 def get_names_by_addr():
-    asms = glob('../asm/**/*.s', recursive=True)
+    if not os.path.exists(TMP_DIR):
+        os.mkdir(TMP_DIR)
+    cache_file = os.path.join(TMP_DIR, 'all_asms.txt')
+    if os.path.exists(cache_file):
+        with open(cache_file) as f:
+            asms = f.read().splitlines()
+    else:
+        asms = glob('../asm/**/*.s', recursive=True)
+        with open(cache_file, 'w') as f:
+            f.write('\n'.join(asms))
+
     names_by_addr = {}
     for asm in asms:
         m = re.search(ADDR_SUFFIX_RE, asm)
@@ -363,7 +375,7 @@ def main(path):
         print(path)
     else:
         rel = os.path.relpath(path, '../src')
-        tmp_file = os.path.join('include_asm_tmp', rel)
+        tmp_file = os.path.join(TMP_DIR, rel)
         tmp_dir = os.path.dirname(tmp_file)
         os.makedirs(tmp_dir, exist_ok=True)
         with open(tmp_file, 'w') as f:
