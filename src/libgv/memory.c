@@ -477,7 +477,7 @@ void GV_FreeMemory_80015FD0( int which, void* addr )
 
 }
 
-void GV_FreeMemory2_80016078( int which, void ** addr)
+void GV_FreeMemory2_80016078( int which, void** addr)
 {
     GV_Heap*                pHeap;
     GV_MemoryAllocation*    pAlloc;
@@ -491,7 +491,7 @@ void GV_FreeMemory2_80016078( int which, void ** addr)
     pHeap->mFlags |= GV_Heap_Flags_Voided_2;
 }
 
-void GV_CopyMemory_800160D8( void * from, void * to, int size)
+void GV_CopyMemory_800160D8( void* from, void* to, int size)
 {
     typedef struct { long d0, d1, d2, d3 ; } Unit ;
 
