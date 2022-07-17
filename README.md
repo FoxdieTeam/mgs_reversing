@@ -4,13 +4,14 @@ This project aims to completely reverse engineer Metal Gear Solid for PlayStatio
 
 How to build.
 
-1.  Clone down the PSYQ SDK repo from: https://github.com/FoxdieTeam/psyq_sdk.git
-2.  Install "make" from [cygwin](https://cygwin.com/install.html)
-3.  Clone down this repo.
-4.  Open a terminal and cd into the build directory.
-5.  Issue the command "make PSYQ_SDK=YourPath" where 'YourPath' is the location of your cloned psyq_sdk depot.
+1.  Install python 3 if it isn't and make sure it's in your PATH
+2.  Clone down the PSYQ SDK repo from: https://github.com/FoxdieTeam/psyq_sdk.git
+3.  Install "make" from [cygwin](https://cygwin.com/install.html)
+4.  Clone down this repo.
+5.  Open a terminal and cd into the build directory.
+6.  Issue the command "make PSYQ_SDK=YourPath" where 'YourPath' is the location of your cloned psyq_sdk depot.
     - Alternatively you can add "PSYQ_SDK" in your environment variables before invoking "make".
-6.  At the end you should see a message confirming that the built binaries hash matches the original games binary hash.
+7.  At the end you should see a message confirming that the built binaries hash matches the original games binary hash.
 
 How to decompile a function.
 
