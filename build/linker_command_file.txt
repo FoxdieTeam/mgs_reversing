@@ -1693,11 +1693,8 @@
 	include	"..\obj\Weapon\socom_loader_80065B04.obj"
 	include	"..\obj\Weapon\NewSOCOM_80065D74.obj"
 
-	include	"..\obj\Weapon\famas_kill_80065E90.obj"
-	include	"..\obj\Weapon\famas_act_80066188.obj"
-	include	"..\obj\Weapon\famas_loader_800661A8.obj"
-	include	"..\obj\Weapon\NewFAMAS_8006623C.obj"
-	include	"..\obj\Weapon\famas_create_80066374.obj"
+	; 80065E90 80066188 800661A8 8006623C 80066374
+	include	"..\obj\Weapon\famas.obj"
 	
 	include	"..\obj\Weapon\grenade_800663A0.obj"
 	include	"..\obj\Weapon\grenade_act_8006641C.obj"

@@ -1,17 +1,48 @@
 #include "famas.h"
 #include "Script_tbl_map_8002BB44.h"
 
+extern void GM_FreeObject_80034BF8(OBJECT *obj);
+
+extern char aFamas[];   // = "famas"
+extern char aMpfive[];  // = "mpfive"
 extern char aFamasC[]; // = "famas.c"
+
+extern int GV_Strcode_80016CCC(const char *string);
+extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+
 extern short dword_800AB9EC;
 extern short dword_800ABA2C;
 extern GameState_800B4D98 gGameState_800B4D98;
 
-extern int famas_kill_80065E90(int a1);
-extern int famas_act_80066188(int a1);
-
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
-extern int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_parent, int flag);
 extern void GV_SetNamedActor_8001514C(Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
+
+#pragma INCLUDE_ASM("asm/Weapon/famas_kill_80065E90.s")
+
+void famas_act_80066188(Actor_Famas *famas)
+{
+    GM_FreeObject_80034BF8(&famas->f20_obj);
+}
+
+int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_parent, int flag)
+{
+    OBJECT *obj = &actor_famas->f20_obj;
+    int id;
+
+    if (flag == 0)
+        id = GV_Strcode_80016CCC(aFamas);
+    else
+        id = GV_Strcode_80016CCC(aMpfive);
+
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*)obj, id, 0x6d, 0);
+
+    if (!obj->objs)
+        return -1;
+
+    GM_ConfigObjectRoot_80034C5C(obj, parent_obj, num_parent);
+    return 0;
+}
 
 Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a4, int flag)
 {
@@ -59,4 +90,9 @@ Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a
     }
     
     return famas_actor;
+}
+
+Actor_Famas *famas_create_80066374(int a1, OBJECT *a2, int num_parent, int a4)
+{
+    return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)gGameState_800B4D98.field_02_diffcultyLevel >> 31);
 }
