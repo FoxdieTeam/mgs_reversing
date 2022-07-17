@@ -231,7 +231,7 @@ def fix_obj(obj_to_fix, objs_by_addr):
             fixed_funcs += 1
 
     if fixed_funcs > 0:
-        print('Fixed {} IMPORT_ASM funcs in obj:', fixed_funcs, obj_to_fix)
+        print('Fixed {} IMPORT_ASM funcs in obj:'.format(fixed_funcs), obj_to_fix)
 
 
 def main():
