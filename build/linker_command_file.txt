@@ -1693,21 +1693,12 @@
 	include	"..\obj\Weapon\socom_loader_80065B04.obj"
 	include	"..\obj\Weapon\NewSOCOM_80065D74.obj"
 
-	include	"..\obj\Weapon\famas_kill_80065E90.obj"
-	include	"..\obj\Weapon\famas_act_80066188.obj"
-	include	"..\obj\Weapon\famas_loader_800661A8.obj"
-	include	"..\obj\Weapon\NewFAMAS_8006623C.obj"
-	include	"..\obj\Weapon\famas_create_80066374.obj"
+        ; 80065E90 80066188 800661A8 8006623C 80066374
+	include	"..\obj\Weapon\famas.obj"
 	
-	include	"..\obj\Weapon\grenade_800663A0.obj"
-	include	"..\obj\Weapon\grenade_act_8006641C.obj"
-	include	"..\obj\Weapon\grenade_kill_80066894.obj"
-	include	"..\obj\Weapon\grenade_loader_800668B4.obj"
-	include	"..\obj\Weapon\grenade_init_80066944.obj"
-	include	"..\obj\Weapon\NewGrenade_80066A4C.obj"
-	include	"..\obj\Weapon\NewStanGrenade_80066A74.obj"
-	include	"..\obj\Weapon\NewChaffGrenade_80066AA0.obj"
-	include	"..\obj\Weapon\NewTimerBomb_80066ACC.obj"
+
+	; 800663A0 8006641C 80066894 800668B4 80066944 80066A4C 80066A74 80066AA0 80066ACC
+	include	"..\obj\Weapon\grenade.obj"
 
 	include	"..\obj\Weapon\rcm_loader_helper_80066AF8.obj"
 	include	"..\obj\Weapon\rcm_act_helper_80066B58.obj"
