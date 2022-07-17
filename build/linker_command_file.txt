@@ -1663,23 +1663,13 @@
 	include	"..\obj\Equip\jpegcam_kill_80065008.obj"
 	include	"..\obj\Equip\jpegcam_loader_80065098.obj"
 	include	"..\obj\Equip\jpegcam_init_80065118.obj"
-	
-	include	"..\obj\Weapon\socom_loader_helper_800651B0.obj"
-	include	"..\obj\Weapon\socom_act_helper_80065200.obj"
-	include	"..\obj\Weapon\socom_loader_helper_80065254.obj"
-	include	"..\obj\Weapon\socom_act_helper_8006528C.obj"
-	include	"..\obj\Weapon\socom_loader_helper_80065338.obj"
-	include	"..\obj\Weapon\socom_act_helper_80065384.obj"
-	include	"..\obj\Weapon\socom_act_helper_800653B8.obj"
-	include	"..\obj\Weapon\socom_act_helper_80065408.obj"
-	include	"..\obj\Weapon\socom_act_80065518.obj"
-	include	"..\obj\Weapon\socom_kill_80065A94.obj"
-	include	"..\obj\Weapon\socom_loader_80065B04.obj"
-	include	"..\obj\Weapon\NewSOCOM_80065D74.obj"
 
-        ; 80065E90 80066188 800661A8 8006623C 80066374
+	; 800651B0 80065200 80065254 8006528C 80065338 80065384 800653B8 80065408 80065518
+	; 80065A94 80065B04 80065D74
+	include "..\obj\Weapon\socom.obj"
+
+	; 80065E90 80066188 800661A8 8006623C 80066374
 	include	"..\obj\Weapon\famas.obj"
-	
 
 	; 800663A0 8006641C 80066894 800668B4 80066944 80066A4C 80066A74 80066AA0 80066ACC
 	include	"..\obj\Weapon\grenade.obj"
