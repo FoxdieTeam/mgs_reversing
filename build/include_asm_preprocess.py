@@ -358,7 +358,7 @@ def main(path):
             sys.exit(5)
 
         num_nops = func_size - RETURN_SIZE
-        assert(num_nops % NOP_SIZE == 0)
+        assert num_nops % NOP_SIZE == 0
         nops = 'nop;' * int(num_nops / NOP_SIZE)
 
         # assumes all .s filenames are == to the xdef name inside it
@@ -366,6 +366,19 @@ def main(path):
         if not name:
             print('error: INCLUDE_ASM referenced path was not found', file=sys.stderr)
             sys.exit(4)
+
+        first_char = ord(name[0])
+
+        upper_byte = addr >> 24
+        assert upper_byte == 0x80
+
+        # we need to temporarily rename the func without changing its size so
+        # encode first char of name into 0x80 part of addr since that's constant for us
+        addr = (addr & 0x00FFFFFF) | (first_char << 24)
+
+        name_chars = list(name)
+        name_chars[0] = '_'
+        name = ''.join(name_chars)
 
         func = FUNC_FMT.format(name, nops, hex(addr)) + '\n'
         processed.append(func)
