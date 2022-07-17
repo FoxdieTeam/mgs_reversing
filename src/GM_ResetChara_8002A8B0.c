@@ -1,6 +1,6 @@
 #include "linker.h"
 
-extern unsigned char * gOverlayBase_800AB9C8;
+extern unsigned char* gOverlayBase_800AB9C8;
 unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8;
 
 void GM_ResetChara_8002A8B0(void)
