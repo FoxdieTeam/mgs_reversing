@@ -34,8 +34,8 @@ MAP_FILE               = $(OBJS_PATH)/$(NAME).map
 
 LINK_FILE              = $(BUILD_PATH)/linker_command_file.txt
 
-INCLUDE_ASM_PREPROCESS = python $(BUILD_PATH)/include_asm_preprocess.py
-INCLUDE_ASM_FIXUP      = python $(BUILD_PATH)/include_asm_fixup.py
+INCLUDE_ASM_PREPROCESS = python3 $(BUILD_PATH)/include_asm_preprocess.py
+INCLUDE_ASM_FIXUP      = python3 $(BUILD_PATH)/include_asm_fixup.py
 
 #-------------------------------------------------------------------------------
 
