@@ -166,6 +166,7 @@ def fix_obj(obj_to_fix, objs_by_addr):
     code_start = 0x800148B8
     psyq_start = 0x8008C608
 
+    changed = False
     funcs = get_obj_funcs(obj_to_fix)
     for _, file_pos, size, code in funcs:
         # only INCLUDE_ASM funcs start with a nop
@@ -196,12 +197,10 @@ def fix_obj(obj_to_fix, objs_by_addr):
                 f.seek(file_pos)
                 f.write(source_code)
 
-                # f.seek(0)
-                # data = f.read()
-                # data = data.replace()
-                # f.seek(0)
+            changed = True
 
-            print('Fixed IMPORT_ASM obj:', obj_to_fix)
+    if changed:
+        print('Fixed IMPORT_ASM obj:', obj_to_fix)
 
 
 def main():
