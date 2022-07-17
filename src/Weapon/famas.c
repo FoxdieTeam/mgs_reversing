@@ -17,6 +17,7 @@ extern GameState_800B4D98 gGameState_800B4D98;
 
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 extern void GV_SetNamedActor_8001514C(Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
+extern int famas_kill_80065E90(int a1);
 
 #pragma INCLUDE_ASM("asm/Weapon/famas_kill_80065E90.s")
 
