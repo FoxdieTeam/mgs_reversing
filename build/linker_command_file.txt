@@ -844,7 +844,7 @@
     include "..\obj\sub_80038BB4.obj"
     include "..\obj\MENU_Text_80038C38.obj"
     include "..\obj\sub_80038D10.obj"
-    include "..\obj\MENU_GetPrimInfo_80038D68.obj"
+    include "..\obj\Menu\MENU_GetPrimInfo_80038D68.obj"
     include "..\obj\MENU_DrawBar_80038D74.obj"
     include "..\obj\MENU_DrawBar2_80038DE0.obj"
     include "..\obj\MENU_SetRadarScale_80038E28.obj"
