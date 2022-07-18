@@ -20,7 +20,7 @@ extern int GV_PauseLevel_800AB928;
 int mts_get_tick_count_8008BBB0(void);
 void GV_ClearMessageSystem_800164C8(void);
 
-void GV_Act_80014b60(Actor* pGv)
+void GV_Act_80014B60(Actor* pGv)
 {
 	int tmp;
 
@@ -103,7 +103,7 @@ void GV_StartDaemon_80014D18(void)
 	GV_InitCacheSystem_80015458();
 	GV_ResetSystem_80014CC8();
 	GV_InitActor_800150A8(0, &gGVActor_800acbf8, 0);
-	GV_SetNamedActor_8001514C(&gGVActor_800acbf8, GV_Act_80014b60, 0, "gvd.c"); // sdata
+	GV_SetNamedActor_8001514C(&gGVActor_800acbf8, GV_Act_80014B60, 0, "gvd.c"); // sdata
 	GV_Clock_800AB920 = 0;
 	GV_Time_800AB330 = 0;
 	mts_set_exception_func_800892A8(Callback_Hangup_80014B34);

@@ -3,7 +3,7 @@
 #include "menuMan.h"
 #include "dgd.h"
 
-void MENU_Text_Init_80038b98(void);
+void MENU_Text_Init_80038B98(void);
 void nullsub_8_8008BB98(void);
 
 extern int GV_Clock_800AB920;
@@ -25,7 +25,7 @@ void MENU_ResetSystem_80038A88(void)
     pPrimBuf->mOt = DG_Chanls_800B1800[2].mOrderingTables[GV_Clock_800AB920];
     MENU_PrimUse_800AB68C = pPrimBuf->mFreeLocation - pGlue->mPrimPtrs[1 - GV_Clock_800AB920];
     pPrimBuf->mFreeLocation = pGlue->mPrimPtrs[GV_Clock_800AB920];
-    MENU_Text_Init_80038b98();
+    MENU_Text_Init_80038B98();
 }
 */
 
@@ -58,7 +58,7 @@ void MENU_Color_80038B4C(int r, int g, int b)
 	pTextConfig->colour = newColour | unknown;
 }
 
-void MENU_Text_Init_80038b98(void)
+void MENU_Text_Init_80038B98(void)
 {
 	TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
 	pTextConfig->colour = 0x64808080;

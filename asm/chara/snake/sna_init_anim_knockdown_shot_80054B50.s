@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_anim_chokethrow_begin1_80054210
-sna_anim_chokethrow_begin1_80054210:
+	xdef sna_init_anim_knockdown_shot_80054B50
+sna_init_anim_knockdown_shot_80054B50:
 	dw 0x27BDFFE8 ; 0x80054B50
 	dw 0xAFB00010 ; 0x80054B54
 	dw 0x00808021 ; 0x80054B58
