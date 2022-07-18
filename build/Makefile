@@ -37,6 +37,8 @@ LINK_FILE              = $(BUILD_PATH)/linker_command_file.txt
 INCLUDE_ASM_PREPROCESS = python3 $(BUILD_PATH)/include_asm_preprocess.py
 INCLUDE_ASM_FIXUP      = python3 $(BUILD_PATH)/include_asm_fixup.py
 
+PYTHON3_VERSION := $(shell python3 --version 2>/dev/null)
+
 #-------------------------------------------------------------------------------
 
 TARGET_HASH = 4B8252B65953A02021486406CFCDCA1C7670D1D1A8F3CF6E750EF6E360DC3A2F
@@ -119,7 +121,15 @@ endif
 #-------------------------------------------------------------------------------
 # Main rule/target
 
-all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) TMP_DIRS $(EXE_FILE)
+all: DEPS_CHECK DEL_TMP_DIRS $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
+
+#-------------------------------------------------------------------------------
+# Check dependencies
+DEPS_CHECK:
+ifndef PYTHON3_VERSION
+	@echo 'python3' not found!
+	exit 1
+endif
 
 #-------------------------------------------------------------------------------
 # Create psyq.ini files
@@ -146,7 +156,7 @@ $(OBJS_DIRS):
 
 #-------------------------------------------------------------------------------
 # Delete temp dirs
-TMP_DIRS:
+DEL_TMP_DIRS:
 	@rm -r "$(INCLUDE_ASM_TMP)" 2>/dev/null || exit 0
 
 #-------------------------------------------------------------------------------
