@@ -1,7 +1,9 @@
 #include "libdg.h"
 #include "game.h"
 #include "idaTypes.h"
-#include "acm.h"
+#include "rcm.h"
+
+// nikita
 
 extern char         aNikita[]; // "nikita"
 extern char         aRcmL_0[]; // "rcl_l"

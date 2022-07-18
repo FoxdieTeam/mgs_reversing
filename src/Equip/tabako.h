@@ -7,6 +7,8 @@
 #include "GM_Control.h"
 #include "game.h"
 
+// cigarettes
+
 typedef struct      Actor_tabako
 {
     Actor           field_0;

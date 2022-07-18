@@ -1,10 +1,16 @@
 #include "rifle.h"
 
+// PSG1
+
 extern char aRifle_0[]; // = "rifle"
 
 extern int GV_Strcode_80016CCC(const char *string);
 extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+
+#pragma INCLUDE_ASM("asm/Weapon/rifle_act_helper_80067BFC.s")
+#pragma INCLUDE_ASM("asm/Weapon/rifle_act_80067D60.s")
+#pragma INCLUDE_ASM("asm/Weapon/rifle_kill_80068118.s")
 
 int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_parent)
 {
@@ -21,3 +27,5 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
     
     return 0;
 }
+
+#pragma INCLUDE_ASM("asm/Weapon/NewRifle_80068214.s")

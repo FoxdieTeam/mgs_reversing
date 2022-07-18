@@ -4,6 +4,8 @@
 #include "game.h"
 #include "actor.h"
 
+// stinger
+
 typedef struct _Actor_Aam
 {
     Actor field_0_actor;
