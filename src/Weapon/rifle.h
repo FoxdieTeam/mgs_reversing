@@ -4,6 +4,8 @@
 #include "game.h"
 #include "actor.h"
 
+// PSG1
+
 typedef struct _Actor_Rifle
 {
     Actor field_0_actor;

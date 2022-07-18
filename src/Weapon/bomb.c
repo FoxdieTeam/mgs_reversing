@@ -1,13 +1,36 @@
 #include "bomb.h"
 
-extern char aBombC[];
+extern char aC4Bomb[]; // "c4_bomb"
+extern char aBombC[];  // "bomb.c"
 extern short dword_800AB9EC;
 extern short dword_800ABA2C;
 
 extern void bomb_act_8006788C(int param_1);
-extern void bomb_kill_80067A74(int param_1);
-
 extern int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent);
+extern void GM_FreeObject_80034BF8(OBJECT *obj);
+extern int GV_Strcode_80016CCC(const char *string);
+extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+
+#pragma INCLUDE_ASM("asm/Weapon/bomb_act_8006788C.s")
+
+void bomb_kill_80067A74(Actor_Bomb *actor)
+{
+    GM_FreeObject_80034BF8(&actor->f28_obj);
+}
+
+int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent)
+{
+    OBJECT *obj = &actor_bomb->f28_obj;
+
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*)obj, GV_Strcode_80016CCC(aC4Bomb), 0x6d, 0);
+
+    if (!obj->objs)
+        return -1;
+
+    GM_ConfigObjectRoot_80034C5C(obj, parent_obj, num_parent);
+    return 0;
+}
 
 Actor_Bomb *NewBomb_80067B20(int a1, OBJECT *parent_obj, int num_parent, int a4, int a5)
 {
