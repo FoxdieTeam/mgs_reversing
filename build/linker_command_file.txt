@@ -1877,7 +1877,7 @@
     include "..\obj\Okajima\bullet_loader_800761A0.obj"
     include "..\obj\Okajima\bullet_loader2_80076274.obj"
     include "..\obj\Okajima\NewBulletEnemy_80076420.obj"
-    include "..\obj\Okajima\bullet_init_80076164.obj"
+    include "..\obj\Okajima\bullet_init_80076584.obj"
     include "..\obj\Okajima\NewBulletEx_80076708.obj"
     include "..\obj\Okajima\sub_8007692C.obj"
     

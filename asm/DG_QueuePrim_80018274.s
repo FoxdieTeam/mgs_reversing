@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80018274
-sub_80018274:
+	xdef DG_QueuePrim_80018274
+DG_QueuePrim_80018274:
 	dw 0x00803821 ; 0x80018274
 	dw 0x84E3002C ; 0x80018278
 	dw 0x00000000 ; 0x8001827C

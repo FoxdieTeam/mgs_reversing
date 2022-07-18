@@ -94,7 +94,7 @@ static void task_main_800148B8(void)
 	}
 }
 
-void _main()
+void _main_80014A40()
 {
 	static unsigned char SECTION(".0x800ABBF0") main_task_stack_800ABBF0[2048]; // 800AC3F0
 	__main_80098F14();
