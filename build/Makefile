@@ -81,8 +81,7 @@ OBJS_DIRS       = $(subst $(SRCS_PATH),$(OBJS_PATH),$(SRC_DIRS))                
                       $(subst $(ASM_PATH),$(OBJS_PATH),$(ASM_DIRS))
 OBJS_DIRS      := $(sort $(OBJS_DIRS))
 
-# these are rm -r, be careful
-TMP_DIRS       := $(BUILD_PATH)/include_asm_tmp
+INCLUDE_ASM_TMP       := $(BUILD_PATH)/include_asm_tmp
 
 export PSYQ_PATH           := $(PSYQ_4_PATH)/bin
 export C_PLUS_INCLUDE_PATH := $(PSYQ_4_PATH)/include
@@ -120,7 +119,7 @@ endif
 #-------------------------------------------------------------------------------
 # Main rule/target
 
-all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(TMP_DIRS) $(EXE_FILE)
+all: $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) TMP_DIRS $(EXE_FILE)
 
 #-------------------------------------------------------------------------------
 # Create psyq.ini files
@@ -147,8 +146,8 @@ $(OBJS_DIRS):
 
 #-------------------------------------------------------------------------------
 # Delete temp dirs
-$(TMP_DIRS):
-	@rm -r "$@" 2>/dev/null | exit 0
+TMP_DIRS:
+	@rm -r "$(INCLUDE_ASM_TMP)" 2>/dev/null || exit 0
 
 #-------------------------------------------------------------------------------
 # Compile .c files and generate .d files
