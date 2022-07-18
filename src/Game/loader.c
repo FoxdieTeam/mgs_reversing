@@ -51,7 +51,7 @@ int FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
 extern struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName);
 extern void FS_LoadStageComplete_80023804(struct Loader_Record *pImpl);
 
-void Loader_Act_8002e390(struct Loader *pLoader)
+void Loader_Act_8002E390(struct Loader *pLoader)
 {
 	pLoader->field_2C_counter++;
 
@@ -77,14 +77,14 @@ void Loader_Act_8002e390(struct Loader *pLoader)
 	}
 }
 
-void Loader_Kill_8002e41c(struct Loader *pLoader)
+void Loader_Kill_8002E41C(struct Loader *pLoader)
 {
 	mts_printf_8008BBA0(aLoadend);
 	FS_LoadStageComplete_80023804(pLoader->field_20_pFileName);
 	GM_LoadComplete_800ABA38 = -1;
 }
 
-struct Loader *Loader_Init_8002e460(const char *pStageName)
+struct Loader *Loader_Init_8002E460(const char *pStageName)
 {
 	struct Loader *pLoader;
 	struct Loader_Record *pLoaderRec;
@@ -99,7 +99,7 @@ struct Loader *Loader_Init_8002e460(const char *pStageName)
 		mts_printf_8008BBA0(aNotFoundStageS, pStageName);
 	}
 
-	GV_SetNamedActor_8001514C(&pLoader->base, (TActorFunction)Loader_Act_8002e390, (TActorFunction)Loader_Kill_8002e41c, aLoaderC);
+	GV_SetNamedActor_8001514C(&pLoader->base, (TActorFunction)Loader_Act_8002E390, (TActorFunction)Loader_Kill_8002E41C, aLoaderC);
 
 	pLoader->field_28_bRunning = 1;
 	pLoader->field_24_proc_cancel_flags = (GM_LoadRequest_800AB3D0 & 0xf);

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004E110
-sub_8004E110:
+	xdef MENU_SetRadioMemory_8004E110
+MENU_SetRadioMemory_8004E110:
 	dw 0x27BDFFE0 ; 0x8004E110
 	dw 0xAFB10014 ; 0x8004E114
 	dw 0x00808821 ; 0x8004E118
