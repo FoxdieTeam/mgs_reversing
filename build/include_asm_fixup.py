@@ -14,13 +14,18 @@ def disasm(code, addr):
     for i in md.disasm(code, addr):
         print("0x%x:\t%s\t%s" %(i.address, i.mnemonic, i.op_str))
 
+def hexdump(data):
+    return ' '.join(['{:02X}'.format(x) for x in data])
+
 # psyq obj parser with one purpose: get the names, offsets, sizes, and bytes of all funcs
 def get_obj_funcs(path):
     pos = 0
     current_section = None
+    current_func = ()
     text_section = None
     code_blocks = []
-    funcs = {}
+    funcs = []
+    xdefs = {}
 
     def u8():
         nonlocal pos
@@ -96,7 +101,8 @@ def get_obj_funcs(path):
             xdef_name_len = u8()
             xdef_name = b(xdef_name_len)
             if section == text_section:
-                funcs[offset] = xdef_name
+                xdefs[offset] = xdef_name
+                # print('xdef', xdef_name, offset)
         elif cmd == 14:
             pos += 2
             c = u8()
@@ -132,12 +138,25 @@ def get_obj_funcs(path):
             pos += 2 + 4 + 2
         elif cmd == 60:
             pos += 2
-        elif cmd == 74:
-            pos += 2 + 4 + 2 + 4 + 2 + 4 + 2 + 4 + 4
-            c = u8()
-            pos += c
-        elif cmd == 76:
-            pos += 2 + 4 + 4
+        elif cmd == 74: # function start def
+            assert not current_func
+            section = u16()
+            assert section == text_section
+            start_offset = u32()
+            pos += 2 + 4 + 2 + 4 + 2 + 4 + 4
+            func_name_len = u8()
+            name = b(func_name_len)
+            # print('funcdef', name, start_offset)
+            current_func = (name, start_offset)
+        elif cmd == 76: # function end def
+            assert current_func
+            section = u16()
+            assert section == text_section
+            end_offset = u32()
+            pos += 4
+            name, start_offset = current_func
+            funcs.append((name, start_offset, end_offset))
+            current_func = None
         elif cmd == 78:
             pos += 2 + 4 + 4
         elif cmd == 80:
@@ -159,14 +178,41 @@ def get_obj_funcs(path):
             print('unknown opcode', cmd, path)
             break
 
-    pos = 0
-    ret = []
+    ret = {}
+
+    all_code = b''.join([x[0] for x in code_blocks])
+    code_ranges = []
+
+    i = 0
     for code, file_pos in code_blocks:
-        func = funcs.get(pos)
-        if func:
-            ret.append([func, file_pos, len(code), code])
-        pos += len(code)
-    return ret
+        l = len(code)
+        code_ranges.append((i, file_pos))
+        i += l
+
+    i = 0
+    for code, file_pos in code_blocks:
+        name = xdefs.get(i)
+        if name:
+            ret[name] = (name, file_pos, code)
+        i += len(code)
+
+    # funcs take priority over xdefs
+    for name, start_offset, end_offset in funcs:
+        code = all_code[start_offset:end_offset]
+
+        offset = None
+        for range_start, file_pos in reversed(code_ranges):
+            if start_offset >= range_start:
+                # hack
+                if len(code_ranges) == 1:
+                    offset = file_pos + start_offset
+                else:
+                    offset = file_pos
+                break
+        assert offset is not None
+        ret[name] = (name, offset, code)
+
+    return list(ret.values())
 
 def fix_obj(obj_to_fix, objs_by_addr):
     code_start = 0x800148B8
@@ -174,7 +220,7 @@ def fix_obj(obj_to_fix, objs_by_addr):
 
     fixed_funcs = 0
     funcs = get_obj_funcs(obj_to_fix)
-    for old_name, file_pos, size, code in funcs:
+    for old_name, file_pos, code in funcs:
         # only INCLUDE_ASM funcs start with a nop
         if code.startswith(b'\x00\x00\x00\x00'):
             # last 12 bytes is a return instruction encoded with the address of asm to include
@@ -203,17 +249,16 @@ def fix_obj(obj_to_fix, objs_by_addr):
             source_funcs = get_obj_funcs(source_obj)
             # all of our .s files should have a single xdef
             assert len(source_funcs) == 1
-            _, _, source_size, source_code = source_funcs[0]
+            _, _, source_code = source_funcs[0]
 
-            if size != source_size:
+            if len(code) != len(source_code):
                 print('error: size mismatch! trying to import capstone for debugging..')
+                print(name)
                 print('dummy func:')
                 disasm(code, addr_num)
                 print('orig func:')
                 disasm(source_code, addr_num)
                 raise Exception('code size mismatch')
-
-            assert size == source_size
 
             with open(obj_to_fix, 'r+b') as f:
                 # write the code
