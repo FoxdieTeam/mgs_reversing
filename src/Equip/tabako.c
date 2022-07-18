@@ -4,6 +4,17 @@
 #include "GM_Control.h"
 #include "map.h"
 #include <libgpu.h>
+#include "linker.h"
+#include "tabako.h"
+#include "actor.h"
+
+// cigarettes
+
+/* struct Actor        *GV_NewActor_800150E4(int level, int memSize); */
+
+extern const char   aTabakoC[]; // = "tabako.c"
+extern const char   aCigar[];   // = "cigar";
+extern const char   aRcmL[];    // = "rcm_l";
 
 extern int                  GM_GameStatus_800AB3CC;
 extern GameState_800B4D98   gGameState_800B4D98;
@@ -14,15 +25,22 @@ extern int                  GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")                        GM_CurrentMap_800AB9B0;
 int SECTION(".gSna_init_flags_800ABA50")    gSna_init_flags_800ABA50;
 
-extern void                 DG_DequeuePrim_800182E0(DG_OBJS *param_1);
-extern void                 DG_FreePrim_8001BC04(int *param_1);
-extern void                 GM_FreeObject_80034BF8(OBJECT *obj);
+extern void    DG_DequeuePrim_800182E0(DG_OBJS *param_1);
+extern void    DG_FreePrim_8001BC04(int *param_1);
+extern void    GM_FreeObject_80034BF8(OBJECT *obj);
+void           GM_ActObject2_80034B88(OBJECT *obj);
+void           DG_SetPos_8001BC44(MATRIX *);
+void           DG_MovePos_8001BD20(SVECTOR *svector);
+void           ReadRotMatrix_80092DD8(MATRIX *m);
+int            anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
+extern DG_TEX *DG_FindTexture_8001D830(int);
+void          GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void          GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+extern int    GV_Strcode_80016CCC(const char *string);
+DG_PRIM       *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+int           DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
-void                        GM_ActObject2_80034B88(OBJECT *obj);
-void                        DG_SetPos_8001BC44(MATRIX *);
-void                        DG_MovePos_8001BD20(SVECTOR *svector);
-void                        ReadRotMatrix_80092DD8(MATRIX *m);
-int                         anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
+int           tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
 
 static inline void GM_SetCurrentMap(map) int map;
 {
@@ -85,16 +103,6 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
         DG_FreePrim_8001BC04(prims);
     }
 }
-
-extern const char   aCigar[]; // = "cigar";
-extern const char   aRcmL[];  // = "rcm_l";
-
-extern DG_TEX       *DG_FindTexture_8001D830(int);
-void                GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void                GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-extern int          GV_Strcode_80016CCC(const char *string);
-DG_PRIM             *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
-int                 DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 static inline void DG_GroupPrim(prim, group_id)
     DG_PRIM *prim;
@@ -208,3 +216,25 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
     return ret;
 }
 */
+
+#pragma INCLUDE_ASM("asm/Equip/tabako_loader_800620B4.s")
+
+Actor_tabako *NewTabako_80062274(Res_Control *pCtrl, OBJECT *pObj, int a3)
+{
+    Actor_tabako *pActor;
+
+    pActor = (Actor_tabako*)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
+    if (pActor)
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)tabako_act_80061EAC, (TActorFunction)tabako_kill_8006206C, aTabakoC);
+        if (tabako_loader_800620B4(pActor, pObj, a3) < 0)
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0);
+            return 0;
+        }
+        pActor->field_44_pCtrl = pCtrl;
+        pActor->field_48_pObj = pObj;
+        pActor->field_4C_unknown = a3;
+    }
+    return pActor;
+}

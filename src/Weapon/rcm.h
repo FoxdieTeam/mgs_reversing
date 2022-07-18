@@ -1,8 +1,10 @@
-#ifndef _ACM_H_
-#define _ACM_H_
+#ifndef _RCM_H_
+#define _RCM_H_
 
 #include "game.h"
 #include "actor.h"
+
+// nikita
 
 typedef struct _Actor_Acm
 {
@@ -28,4 +30,4 @@ typedef struct _Actor_Acm
 
 STATIC_ASSERT_SIZE(Actor_Rcm, 0x64);
 
-#endif  // _ACM_H_
+#endif  // _RCM_H_
