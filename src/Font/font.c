@@ -11,7 +11,14 @@ int SECTION(".sdata") dword_800AB6A8;
 extern int dword_800AB6B0;
 int SECTION(".sdata") dword_800AB6B0;
 
-// menu related?
+// Menu-related?
+
+extern int dword_800ABB2C;
+int SECTION(".sbss") dword_800ABB2C;
+
+extern int dword_800ABB30;
+int SECTION(".sbss") dword_800ABB30;
+
 extern int dword_800ABB34;
 int SECTION(".sbss") dword_800ABB34;
 
@@ -141,7 +148,13 @@ void sub_80045788(int param_1)
   dword_800AB6B0 = param_1;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper2_80045794.s")
+void font_draw_string_helper2_80045794(int param_1,int param_2,int param_3)
+{
+  dword_800ABB2C = param_2;
+  dword_800ABB30 = param_3;
+  dword_800ABB34 = param_1;
+  return;
+}
 
 void font_draw_string_helper7_800457A8(int param_1)
 {
