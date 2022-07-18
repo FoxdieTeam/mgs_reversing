@@ -73,7 +73,7 @@ void HZD_SetEvent_80029AB4(void *param_1, int param_2);
 void GV_ZeroMemory_8001619C(void *, int);
 struct map_record *Map_FromId_800314C0(int);
 
-int Res_Control_init_loader_44EB9E(Res_Control *pControl, int scriptData, int scriptBinds)
+int Res_Control_init_loader_8002599C(Res_Control *pControl, int scriptData, int scriptBinds)
 {
     struct map_record *pMapRec;
     const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;

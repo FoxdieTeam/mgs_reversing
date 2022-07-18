@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef bullet_init_80076164
-bullet_init_80076164:
+	xdef bullet_init_80076584
+bullet_init_80076584:
 	dw 0x27BDFFC8 ; 0x80076584
 	dw 0xAFB10024 ; 0x80076588
 	dw 0x00808821 ; 0x8007658C

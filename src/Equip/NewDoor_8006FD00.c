@@ -13,7 +13,7 @@ int door_read_with_default_value_8006FA28(int param_char, int defaul_val);
 void GM_ConfigControlString_800261C0(Res_Control *pControl, char *bReadVec1, char *bReadVec2);
 void GM_ConfigControlHazard_8002622C(Res_Control *pControl, short height, short f36, short f38);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
-int Res_Control_init_loader_44EB9E(Res_Control *pControl, int scriptData, int scriptBinds);
+// int Res_Control_init_loader_8002599C(Res_Control *pControl, int scriptData, int scriptBinds);
 void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
@@ -42,7 +42,7 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
     pCtrl = &pDoor->field_20_ctrl;
 
-    if (Res_Control_init_loader_44EB9E(&pDoor->field_20_ctrl, name, where) < 0)
+    if (Res_Control_init_loader_8002599C(&pDoor->field_20_ctrl, name, where) < 0)
     {
         return -1;
     }
