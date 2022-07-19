@@ -1,18 +1,14 @@
+#include "sna_init.h"
 
+extern void sub_80051FD0(Actor_SnaInit *snake);
+extern void sub_8004E330(Actor_SnaInit *snake, unsigned int flag);
 
-extern void sub_8004E330(int param_1, unsigned int param_2);
-extern void sub_80051FD0(int param_1);
-
-void sub_8004FA9C(int param_1)
-
+void sub_8004FA9C(Actor_SnaInit *snake)
 {
-    unsigned short uVar1;
-
-    uVar1 = **(unsigned short **)(param_1 + 0x9b0);
-    sub_80051FD0(param_1);
-    if ((uVar1 & 0x4000) != 0)
+    ushort action = *(ushort *)&snake->field_9B4_action_table->field_0;
+    sub_80051FD0(snake);
+    if (action & 0x4000)
     {
-        sub_8004E330(param_1, 1);
+        sub_8004E330(snake, 1);
     }
-    return;
 }

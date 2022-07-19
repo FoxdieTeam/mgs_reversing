@@ -1,8 +1,6 @@
+#include "sna_init.h"
 
-
-void sub_8004E330(int param_1, unsigned int param_2)
-
+void sub_8004E330(Actor_SnaInit *snake, unsigned int flag)
 {
-    *(unsigned int *)(param_1 + 0x898) = *(unsigned int *)(param_1 + 0x898) | param_2;
-    return;
+	snake->field_89C_pTarget = (GM_Target *)((unsigned int)snake->field_89C_pTarget | flag);
 }
