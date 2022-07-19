@@ -11,7 +11,7 @@ build_script:
  - g++ build\progress_script\symProgress.c -o build\progress_script\progress.exe
  - cd build
  - make multicore-fix
- - make PSYQ_SDK=c:\psyq C_DEPS=false -j8
+ - make PSYQ_SDK=c:\psyq C_DEPS=false -j4
  - make progress
  
 install:
