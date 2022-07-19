@@ -37,6 +37,7 @@ LINK_FILE              = $(BUILD_PATH)/linker_command_file.txt
 INCLUDE_ASM_PREPROCESS = python3 $(BUILD_PATH)/include_asm_preprocess.py
 INCLUDE_ASM_FIXUP      = python3 $(BUILD_PATH)/include_asm_fixup.py
 MULTICORE_PATCHER      = python3 $(BUILD_PATH)/patch-ccpsx-multicore.py
+COMPARE_SCRIPT         = python3 $(BUILD_PATH)/compare.py
 
 PYTHON3_VERSION := $(shell python3 --version 2>/dev/null)
 
@@ -279,25 +280,14 @@ $(EXE_FILE): $(CPE_FILE)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)/bin)
 	@$(ECHO) "Converting $(CMAGENTA)$(CPE_FILE)$(ENDCOLOR) to $(CGREEN)$(EXE_FILE)$(ENDCOLOR) using $(PSYQ_4_BIN_PATH)/cpe2exe.exe"
 	@"$(PSYQ_4_BIN_PATH)/cpe2exe.exe" /CJ $(CPE_FILE) > $(OBJS_PATH)/log.txt
-	@$(MAKE) --no-print-directory compare
+	@$(COMPARE_SCRIPT)
 
 #-------------------------------------------------------------------------------
 # Utils
 
 compare:
-ifeq ($(TARGET_HASH),$(CURRENT_HASH)) # (Each access of CURRENT_HASH takes time)
-	@$(ECHO) "$(CGREEN)OK: $(EXE_FILE) matches target hash$(ENDCOLOR) $(EMO_SUCCESS)"
-else
-	@$(ECHO) "$(CRED)FAIL: $(EXE_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
-	@exit 1
-endif
-
-ifeq ($(TARGET_SOUND_BIN_HASH),$(CURRENT_SOUND_BIN_HASH)) # (Each access of CURRENT_HASH takes time)
-	@$(ECHO) "$(CGREEN)OK: $(SOUND_BIN_FILE) matches target hash$(ENDCOLOR) $(EMO_SUCCESS)"
-else
-	@$(ECHO) "$(CRED)FAIL: $(SOUND_BIN_FILE) does not match target hash$(ENDCOLOR) $(EMO_FAIL)"
-	@exit 1
-endif
+	@$(MAKE) --no-print-directory check-deps
+	@$(COMPARE_SCRIPT)
 
 multicore-fix:
 	@$(MAKE) --no-print-directory check-deps
