@@ -42,7 +42,53 @@ typedef struct GM_Target
     int field_44;
 } GM_Target;
 
-struct Sna_ActionTable;
+
+typedef struct Sna_E1
+{
+  unsigned char field_0;
+  unsigned char field_1;
+  unsigned char field_2;
+  unsigned char field_3;
+  unsigned char field_4;
+  unsigned char field_5;
+  unsigned char field_6;
+  unsigned char field_7;
+} Sna_E1;
+
+typedef struct Sna_E2
+{
+  unsigned char field_0;
+  unsigned char field_1;
+  unsigned char field_2;
+  unsigned char field_3;
+  unsigned char field_4;
+  unsigned char field_5;
+  unsigned char field_6;
+  unsigned char field_7;
+  unsigned char field_8;
+  unsigned char field_9;
+  unsigned char field_A;
+  unsigned char field_B;
+} Sna_E2;
+
+typedef struct Sna_E6
+{
+  unsigned char field_0;
+  unsigned char field_1;
+  unsigned char field_2;
+  unsigned char field_3;
+} Sna_E6;
+
+typedef struct Sna_ActionTable
+{
+  Sna_E1 *field_0;
+  Sna_E2 *field_4;
+  Sna_E1 *field_8;
+  Sna_E2 *field_C;
+  Sna_E2 *field_10;
+  Sna_E6 *field_14;
+  Sna_E1 *field_18;
+} Sna_ActionTable;
 
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
@@ -722,7 +768,7 @@ typedef struct Actor_SnaInit
     int field_9A8;
     int field_9AC;
     unsigned short *field_9B0_pad_bits;
-    struct Sna_ActionTable *field_9B4_action_table;
+    Sna_ActionTable *field_9B4_action_table;
     // void(__fastcall *field_9B8_fn_anim)(Actor_SnaInit *, int);
     void *field_9B8_fn_anim;
 
