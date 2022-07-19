@@ -1314,7 +1314,7 @@
     include "..\obj\sub_8004E308.obj"
     include "..\obj\sub_8004E31C.obj"
     include "..\obj\sub_8004E330.obj"
-    include "..\obj\sub_8004E344.obj"
+    include "..\obj\sna_init_clear_flags_8004E344.obj"
     include "..\obj\sub_8004E358.obj"
     include "..\obj\CheckSnakeDead_8004E384.obj"
     include "..\obj\sub_8004E41C.obj"
