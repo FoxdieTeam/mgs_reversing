@@ -112,7 +112,7 @@ void GV_UpdatePadSystem_helper2_80016750( int* button, MTS_PAD_DATA* data )
     *button |= v1;
 }
 
-void GV_InitPadSystem_800167C8 ( void )
+void GV_InitPadSystem_800167C8( void )
 {
     int       i ;
     GV_PAD* pad ;
@@ -138,7 +138,7 @@ void GV_InitPadSystem_800167C8 ( void )
 }
 
 
-void GV_UpdatePadSystem_8001682C ( void )
+void GV_UpdatePadSystem_8001682C( void )
 {
 	int chan, prev;
     unsigned int t0, t1, t2, t3, t4, t5;
@@ -370,7 +370,7 @@ int GV_GetPadOrigin_80016C84( void )
     return GV_PadOrigin_800AB378;
 }
 
-int GV_GetPadDirNoPadOrg_80016C90 ( unsigned int button )
+int GV_GetPadDirNoPadOrg_80016C90( unsigned int button )
 {
     int value;
     short *table;

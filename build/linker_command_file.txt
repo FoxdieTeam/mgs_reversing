@@ -830,6 +830,8 @@
     include "..\obj\libgcl\commands\GCL_Command_demo_helper_80037DD8.obj"
     include "..\obj\GM_VoxStream_80037E40.obj"
     include "..\obj\sub_80037EE0.obj"
+
+    ;jimctrl.c
     include "..\obj\jimctrl_act_helper_set_first_80037F2C.obj"
     include "..\obj\jimctrl_helper_80037F68.obj"
     include "..\obj\jimctrl_init_helper_clear_80037FB8.obj"
@@ -859,6 +861,8 @@
     include "..\obj\Menu\MENU_GetPrimInfo_80038D68.obj"
     include "..\obj\MENU_DrawBar_80038D74.obj"
     include "..\obj\MENU_DrawBar2_80038DE0.obj"
+
+    ;radar.c
     include "..\obj\MENU_SetRadarScale_80038E28.obj"
     include "..\obj\MENU_SetRadarFunc_80038F30.obj"
     include "..\obj\draw_radar_helper2_helper_80038F3C.obj"
@@ -961,6 +965,8 @@
     include "..\obj\sub_8003F97C.obj"
     include "..\obj\menu_8003F9B4.obj"
     include "..\obj\menu_font_kill_8003FC0C.obj"
+
+    ;radio.c
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper16_8003FC54.obj"
     include "..\obj\sub_8003FD50.obj"
     include "..\obj\sub_8003FFB0.obj"
@@ -985,6 +991,7 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper11_8004150C.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_8004158C.obj"
     include "..\obj\menu_radio_update_helper5_80042160.obj"
+    
     include "..\obj\data\sdata\dword_800AB640.obj"
     include "..\obj\data\sdata\dword_800AB644.obj"
     include "..\obj\data\sdata\dword_800AB648.obj"
