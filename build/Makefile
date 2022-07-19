@@ -26,13 +26,13 @@ SRCS_PSYQ_3            = mts/*.c   SD/*.c
 SRCS_PSYQ_4            = *.c */*.c */*/*.c
 SRCS_ASM               = *.s */*.s */*/*.s
 
-EXE_FILE               = $(OBJS_PATH)/$(NAME).exe
-SOUND_BIN_FILE         = $(OBJS_PATH)/sound.bin
-CPE_FILE               = $(OBJS_PATH)/$(NAME).cpe
-SYM_FILE               = $(OBJS_PATH)/$(NAME).sym
-MAP_FILE               = $(OBJS_PATH)/$(NAME).map
+EXE_FILE               := $(OBJS_PATH)/$(NAME).exe
+SOUND_BIN_FILE         := $(OBJS_PATH)/sound.bin
+CPE_FILE               := $(OBJS_PATH)/$(NAME).cpe
+SYM_FILE               := $(OBJS_PATH)/$(NAME).sym
+MAP_FILE               := $(OBJS_PATH)/$(NAME).map
 
-LINK_FILE              = $(BUILD_PATH)/linker_command_file.txt
+LINK_FILE              := $(BUILD_PATH)/linker_command_file.txt
 
 INCLUDE_ASM_PREPROCESS = $(PYTHON) $(BUILD_PATH)/include_asm_preprocess.py
 INCLUDE_ASM_FIXUP      = $(PYTHON) $(BUILD_PATH)/include_asm_fixup.py
@@ -59,9 +59,9 @@ else ifeq (Python 3,$(findstring Python 3,$(PYTHON3_VERSION)))
 endif
 
 ifeq ($(PSYQ_SDK),)
-	#default path
-	PSYQ_SDK := ../../psyq
-	PSYQ_SDK_REALPATH := $(PSYQ_SDK)
+    #default path
+    PSYQ_SDK := ./psyq_sdk
+    PSYQ_SDK_REALPATH := $(PSYQ_SDK)
 else
     PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
 endif
