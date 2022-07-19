@@ -96,7 +96,7 @@ typedef struct Actor_SnaInit
     Actor field_0;
     GM_Control field_20_ctrl;
     OBJECT field_9C;
-    int field_C0;
+    int field_C0; // here until field_17F is zeroed during normal gameplay
     char field_C4;
     char field_C5;
     char field_C6;
@@ -284,9 +284,9 @@ typedef struct Actor_SnaInit
     char field_17C;
     char field_17D;
     char field_17E;
-    char field_17F;
+    char field_17F; // zeroed during normal gameplay end
     MOTION_CONTROL field_180;
-    int field_1D0;
+    int field_1D0; // start movement or animation related stuff
     int field_1D4;
     int field_1D8;
     int field_1DC;
@@ -438,8 +438,8 @@ typedef struct Actor_SnaInit
     int field_424;
     int field_428;
     int field_42C;
-    int field_430;
-    int field_434;
+    int field_430; // end movement or animation related stuff
+    int field_434; // weapon related stuff start ish
     int field_438;
     int field_43C;
     int field_440;
@@ -590,8 +590,8 @@ typedef struct Actor_SnaInit
     int field_684;
     int field_688;
     int field_68C;
-    int field_690;
-    SVECTOR field_694;
+    int field_690; // weapon related stuff end
+    SVECTOR field_694; // limb position start
     int field_69C;
     int field_6A0;
     int field_6A4;
@@ -621,7 +621,7 @@ typedef struct Actor_SnaInit
     int field_704;
     int field_708;
     int field_70C;
-    int field_710;
+    int field_710; // limb position end
     SVECTOR field_714;
     int field_71C;
     int field_720;
