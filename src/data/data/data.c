@@ -752,7 +752,6 @@ int SECTION(".data") dword_8009EF10[] = {0x8320250, 0x650048C, 0};
 int SECTION(".data") dword_8009EF1C = 0x4C4;
 int SECTION(".data") dword_8009EF20 = 0x494;
 int SECTION(".data") dword_8009EF24[] = {0x27F0200, 0};
-int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228};
 
 typedef struct WeaponCreateEntry
 {
@@ -782,7 +781,13 @@ Actor* NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int 
 Actor* NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor* NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 
+/*
+// TODO: Converting this entry de-syncs data
+int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228};
 WeaponCreateEntry kSnakeNoWeapon = {0, sna_init_anim_chokethrow_begin1_80054210};
+*/
+
+int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
 
 WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] =
 {
