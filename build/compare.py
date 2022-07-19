@@ -157,17 +157,23 @@ def main():
     exe_hash = sha256(OBJ_EXE)
     sound_hash = sha256(OBJ_SOUND)
 
+    failed = False
     if exe_hash != TARGET_HASH:
         fail(OBJ_EXE)
         diff_exe()
+        failed = True
     else:
         ok(OBJ_EXE)
         cache_good_exe()
 
     if sound_hash != TARGET_SOUND_HASH:
         fail(OBJ_SOUND)
+        failed = True
     else:
         ok(OBJ_SOUND)
+
+    if failed:
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
