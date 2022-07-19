@@ -13,7 +13,7 @@ typedef struct      Actor_tabako
 {
     Actor           field_0;
     OBJECT_NO_ROTS  field_20_pObj;
-    Res_Control     *field_44_pCtrl;
+    GM_Control     *field_44_pCtrl;
     OBJECT          *field_48_pObj;
     int             field_4C_unknown;
     DG_PRIM         *field_50_prims;
