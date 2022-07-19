@@ -34,23 +34,28 @@ MAP_FILE               = $(OBJS_PATH)/$(NAME).map
 
 LINK_FILE              = $(BUILD_PATH)/linker_command_file.txt
 
-INCLUDE_ASM_PREPROCESS = python3 $(BUILD_PATH)/include_asm_preprocess.py
-INCLUDE_ASM_FIXUP      = python3 $(BUILD_PATH)/include_asm_fixup.py
-MULTICORE_PATCHER      = python3 $(BUILD_PATH)/patch-ccpsx-multicore.py
-COMPARE_SCRIPT         = python3 $(BUILD_PATH)/compare.py
+INCLUDE_ASM_PREPROCESS = $(PYTHON) $(BUILD_PATH)/include_asm_preprocess.py
+INCLUDE_ASM_FIXUP      = $(PYTHON) $(BUILD_PATH)/include_asm_fixup.py
+MULTICORE_PATCHER      = $(PYTHON) $(BUILD_PATH)/patch-ccpsx-multicore.py
+COMPARE_SCRIPT         = $(PYTHON) $(BUILD_PATH)/compare.py
 
-PYTHON3_VERSION := $(shell python3 --version 2>/dev/null)
-
-#-------------------------------------------------------------------------------
-
-TARGET_HASH = 4B8252B65953A02021486406CFCDCA1C7670D1D1A8F3CF6E750EF6E360DC3A2F
-ifeq ($(findstring compare,$(MAKECMDGOALS)),compare)
-CURRENT_HASH = $(shell powershell.exe -c "(Get-FileHash -Path $(EXE_FILE) -Algorithm SHA256).Hash")
+ifeq ($(OS),Windows_NT)
+    MKDIR = mkdir
+    RMRF = rmdir /S /Q
+    NO_STDERR = 2>NUL
+else
+    MKDIR = mkdir -p
+    RMRF = rm -rf
+    NO_STDERR = 2>/dev/null
 endif
 
-TARGET_SOUND_BIN_HASH = 4173D0FCBC7BFCD477D2E0FA6810B509BF6392EFB01FD58A7FA114F003849816
-ifeq ($(findstring compare,$(MAKECMDGOALS)),compare)
-CURRENT_SOUND_BIN_HASH = $(shell powershell.exe -c "(Get-FileHash -Path $(SOUND_BIN_FILE) -Algorithm SHA256).Hash")
+PYTHON_VERSION := $(shell python --version $(NO_STDERR))
+PYTHON3_VERSION := $(shell python3 --version $(NO_STDERR))
+
+ifeq (Python 3,$(findstring Python 3,$(PYTHON_VERSION)))
+    PYTHON := python
+else ifeq (Python 3,$(findstring Python 3,$(PYTHON3_VERSION)))
+    PYTHON := python3
 endif
 
 ifeq ($(PSYQ_SDK),)
@@ -127,9 +132,10 @@ all: check-deps del-tmp-dirs $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq
 
 #-------------------------------------------------------------------------------
 # Check dependencies
+
 check-deps:
-ifndef PYTHON3_VERSION
-	@echo 'python3' not found!
+ifndef PYTHON
+	@echo python 3 not found!
 	@exit 1
 else
 	@exit 0
@@ -156,13 +162,13 @@ $(PSYQ_4_BIN_PATH)/psyq.ini: $(PSYQ_4_BIN_PATH)/psyq.ini.template
 # Create objects dirs
 
 $(OBJS_DIRS):
-	mkdir -p "$@"
+	@$(MKDIR) "$@" $(NO_STDERR) || exit 0
 
 #-------------------------------------------------------------------------------
 # Delete temp dirs
 
 del-tmp-dirs:
-	@rm -r "$(INCLUDE_ASM_TMP)" 2>/dev/null || exit 0
+	@$(RMRF) "$(INCLUDE_ASM_TMP)" $(NO_STDERR) || exit 0
 
 #-------------------------------------------------------------------------------
 # Compile .c files and generate .d files
@@ -308,11 +314,11 @@ progress:
 
 clean:
 	@$(ECHO) "Removing $(OBJS_PATH)"
-	@rm -rf "$(OBJS_PATH)"
+	@$(RMRF) "$(OBJS_PATH)"
 
 fclean: clean
 	@$(ECHO) "Removing $(EXE_FILE)"
-	@rm -rf "$(EXE_FILE)"
+	@$(RMRF) "$(EXE_FILE)"
 
 re: fclean
 	@$(MAKE) --no-print-directory
