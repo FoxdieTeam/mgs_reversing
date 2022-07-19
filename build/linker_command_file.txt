@@ -1303,14 +1303,9 @@
     include "..\obj\Game\GM_CheckPlayerStatusFlag_8004E29C.obj"
     include "..\obj\Game\GM_SetPlayerStatusFlag_8004E2B4.obj"
     include "..\obj\Game\GM_ClearPlayerStatusFlag_8004E2D4.obj"
-    include "..\obj\sub_8004E2F4.obj"
-    include "..\obj\sub_8004E308.obj"
-    include "..\obj\sub_8004E31C.obj"
-    include "..\obj\sub_8004E330.obj"
-    include "..\obj\sna_init_clear_flags_8004E344.obj"
-    include "..\obj\sub_8004E358.obj"
-    include "..\obj\CheckSnakeDead_8004E384.obj"
-    include "..\obj\sub_8004E41C.obj"
+	
+	; 8004E2F4 8004E308 8004E31C 8004E330 8004E358 8004E384 8004E41C
+    include "..\obj\chara\snake\sna_init.obj"
     include "..\obj\sub_8004E458.obj"
     include "..\obj\sub_8004E4C0.obj"
     include "..\obj\sub_8004E51C.obj"
