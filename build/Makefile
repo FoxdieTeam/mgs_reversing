@@ -2,6 +2,7 @@
 #    PSYQ_SDK=YourPath // Access for psyq folders from "YourPath"
 #    COLORS=false // Disable colors codes and emojis
 #    C_DEPS=false // Don't generate c files dependencies (.d files)
+#    WINE=true    // Use wine on linux
 #    compare // Compare hash from last compiled .exe with the target one hardcoded
 #    build // launch the old powershell compilation script "build.ps1"
 #    clean // Remove objects folder
@@ -9,22 +10,22 @@
 #    re // Remake the whole project
 #-------------------------------------------------------------------------------
 
-NAME = _mgsi
+NAME := _mgsi
 
-CFLAGS                 = -O2 -G 8 -g -Wall
-CFLAGS_STATICLIBS      = -O2 -G 0 -g -Wall
-AFLAGS                 = /l /q
-LFLAGS                 = /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m
+CFLAGS                 := -O2 -G 8 -g -Wall
+CFLAGS_STATICLIBS      := -O2 -G 0 -g -Wall
+AFLAGS                 := /l /q
+LFLAGS                 := /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m
 
-SRCS_PATH              = ../src
-ASM_PATH               = ../asm
-OBJS_PATH              = ../obj
-BUILD_PATH             = ../build
+SRCS_PATH              := ../src
+ASM_PATH               := ../asm
+OBJS_PATH              := ../obj
+BUILD_PATH             := ../build
 
 # Add entries here if more depth is needed for finding source files
-SRCS_PSYQ_3            = mts/*.c   SD/*.c
-SRCS_PSYQ_4            = *.c */*.c */*/*.c
-SRCS_ASM               = *.s */*.s */*/*.s
+SRCS_PSYQ_3            := mts/*.c   SD/*.c
+SRCS_PSYQ_4            := *.c */*.c */*/*.c
+SRCS_ASM               := *.s */*.s */*/*.s
 
 EXE_FILE               := $(OBJS_PATH)/$(NAME).exe
 SOUND_BIN_FILE         := $(OBJS_PATH)/sound.bin
@@ -43,13 +44,20 @@ ifeq ($(OS),Windows_NT)
     MKDIR         := mkdir
     RMRF          := rmdir /S /Q
     NO_STDERR     := 2>NUL
+    TOUCH         := type NUL >
 else
     MKDIR         := mkdir -p
     RMRF          := rm -rf
     NO_STDERR     := 2>/dev/null
+    TOUCH         := touch
 endif
 
-PYTHON_VERSION := $(shell python --version $(NO_STDERR))
+ifdef WINE
+    EXE_PFX     := wine
+    export WINEDEBUG := -all
+endif
+
+PYTHON_VERSION  := $(shell python --version $(NO_STDERR))
 PYTHON3_VERSION := $(shell python3 --version $(NO_STDERR))
 
 ifeq (Python 3,$(findstring Python 3,$(PYTHON_VERSION)))
@@ -60,7 +68,7 @@ endif
 
 ifeq ($(PSYQ_SDK),)
     #default path
-    PSYQ_SDK := ./psyq_sdk
+    PSYQ_SDK          := ./psyq_sdk
     PSYQ_SDK_REALPATH := $(PSYQ_SDK)
 else
     PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
@@ -114,8 +122,6 @@ CCYAN       := \e[96m
 CORANGE     := \e[38;5;172m
 CBROWN      := \e[38;5;94m
 ENDCOLOR    := \e[0m
-EMO_SUCCESS := 👌
-EMO_FAIL    := 💩
 endif
 
 #-------------------------------------------------------------------------------
@@ -144,19 +150,11 @@ endif
 #-------------------------------------------------------------------------------
 # Create psyq.ini files
 
-$(PSYQ_3_BIN_PATH)/PSYQ.ini.template $(PSYQ_4_BIN_PATH)/PSYQ.ini.template:
-	@echo Error: Could not access $@ or psyq.ini is older than template
-	@echo Make sure PSYQ_SDK is set with the correct path
-	@echo PSYQ_SDK: '$(PSYQ_SDK)'
-	@exit 1
+$(PSYQ_3_BIN_PATH)/psyq.ini:
+	@$(TOUCH) "$@"
 
-$(PSYQ_3_BIN_PATH)/psyq.ini: $(PSYQ_3_BIN_PATH)/PSYQ.ini.template
-	@echo "Creating $(PSYQ_3_PATH)\bin\psyq.ini"
-	@echo "$(subst $$PSYQ_PATH,$(PSYQ_3_PATH),$(shell more $(PSYQ_3_PATH)\bin\PSYQ.ini.template))" > $@
-
-$(PSYQ_4_BIN_PATH)/psyq.ini: $(PSYQ_4_BIN_PATH)/psyq.ini.template
-	@echo "Creating $(PSYQ_4_PATH)\bin\psyq.ini"
-	@echo "$(subst $$PSYQ_PATH,$(PSYQ_4_PATH),$(shell more $(PSYQ_4_PATH)\bin\PSYQ.ini.template))" > $@
+$(PSYQ_4_BIN_PATH)/psyq.ini:
+	@$(TOUCH) "$@"
 
 #-------------------------------------------------------------------------------
 # Create objects dirs
@@ -182,7 +180,7 @@ DEPFILES := $(OBJS_PSYQ_4:.obj=.obj.d)
 
 $(OBJS_PATH)/%.obj.d: $(patsubst $(OBJS_PATH)%.obj.d,$(SRCS_PATH)%.c,$(OBJS_PATH)/%.obj.d)
 	@$(ECHO) "$(CGREY)-> Updating dependencies $@$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/ccpsx.exe -c $(patsubst $(OBJS_PATH)%.obj.d,$(SRCS_PATH)%.c,$@) -o $@ $(INCLUDES) -M
+	@$(EXE_PFX) $(PSYQ_4_BIN_PATH)/ccpsx.exe -c $(patsubst $(OBJS_PATH)%.obj.d,$(SRCS_PATH)%.c,$@) -o $@ $(INCLUDES) -M
 
 else
 HEADERS_FILES := $(wildcard $(patsubst %.c,%.h,$(addprefix $(SRCS_PATH)/,$(SRCS_PSYQ_4))))
@@ -202,7 +200,7 @@ endif
 	@$(eval PSX_PATH = $(PSYQ_3_PATH)/bin)
 	$(ECHO) "-> Compiling with psyq_4.3 $(CBLUE)$<$(ENDCOLOR)"
 	@$(eval PREPROCESSED_FILE = $(shell $(INCLUDE_ASM_PREPROCESS) $<))
-	@$(PSYQ_3_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
+	@$(EXE_PFX) $(PSYQ_3_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
 
 ifneq ($(C_DEPS),false)
 $(OBJS_PATH)/SD/%.obj: $(SRCS_PATH)/SD/%.c $(OBJS_PATH)/SD/%.obj.d
@@ -217,7 +215,7 @@ endif
 	@$(eval PSX_PATH = $(PSYQ_3_PATH)/bin)
 	$(ECHO) "-> Compiling with psyq_4.3 $(CBLUE)$<$(ENDCOLOR)"
 	@$(eval PREPROCESSED_FILE = $(shell $(INCLUDE_ASM_PREPROCESS) $<))
-	@$(PSYQ_3_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
+	@$(EXE_PFX) $(PSYQ_3_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
 
 
 # Static libs
@@ -235,7 +233,7 @@ endif
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)/bin)
 	@$(ECHO) "-> Compiling $(CCYAN)$<$(ENDCOLOR) with -G 0"
 	@$(eval PREPROCESSED_FILE = $(shell $(INCLUDE_ASM_PREPROCESS) $<))
-	@$(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS_STATICLIBS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
+	@$(EXE_PFX) $(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS_STATICLIBS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
 
 
 ifneq ($(C_DEPS),false)
@@ -251,7 +249,7 @@ endif
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)/bin)
 	@$(ECHO) "-> Compiling with psyq_4.4 -G 4 $(CCYAN)$<$(ENDCOLOR)"
 	@$(eval PREPROCESSED_FILE = $(shell $(INCLUDE_ASM_PREPROCESS) $<))
-	@$(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
+	@$(EXE_PFX) $(PSYQ_4_BIN_PATH)/ccpsx.exe $(CFLAGS) -c $(PREPROCESSED_FILE) -o $@ $(INCLUDES)
 
 #-------------------------------------------------------------------------------
 # Compile .s files
@@ -263,7 +261,7 @@ $(OBJS_PATH)/%.obj: $(ASM_PATH)/%.s
 	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)/lib)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)/bin)
 	@$(ECHO) "-> Compiling $(CBROWN)$<$(ENDCOLOR)"
-	@$(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $<,$@
+	@$(EXE_PFX) $(PSYQ_4_BIN_PATH)/asmpsx.exe /j $(ASM_PATH) $(AFLAGS) $<,$@
 
 #-------------------------------------------------------------------------------
 # Link objects and generate .exe
@@ -276,7 +274,7 @@ $(CPE_FILE): $(OBJS_PSYQ_3) $(OBJS_PSYQ_4) $(OBJS_ASM)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)/bin)
 	@$(ECHO) "Linking to $(CMAGENTA)$(CPE_FILE)$(ENDCOLOR)"
 	@$(INCLUDE_ASM_FIXUP)
-	@$(PSYQ_4_BIN_PATH)/psylink.exe $(LFLAGS) @$(LINK_FILE),$(CPE_FILE),$(SYM_FILE),$(MAP_FILE)
+	@$(EXE_PFX) $(PSYQ_4_BIN_PATH)/psylink.exe $(LFLAGS) @$(LINK_FILE),$(CPE_FILE),$(SYM_FILE),$(MAP_FILE)
 
 $(EXE_FILE): $(CPE_FILE)
 	@$(eval PSYQ_PATH = $(PSYQ_4_PATH)/bin)
@@ -285,7 +283,7 @@ $(EXE_FILE): $(CPE_FILE)
 	@$(eval LIBRARY_PATH = $(PSYQ_4_PATH)/lib)
 	@$(eval PSX_PATH = $(PSYQ_4_PATH)/bin)
 	@$(ECHO) "Converting $(CMAGENTA)$(CPE_FILE)$(ENDCOLOR) to $(CGREEN)$(EXE_FILE)$(ENDCOLOR) using $(PSYQ_4_BIN_PATH)/cpe2exe.exe"
-	@"$(PSYQ_4_BIN_PATH)/cpe2exe.exe" /CJ $(CPE_FILE) > $(OBJS_PATH)/log.txt
+	@$(EXE_PFX) "$(PSYQ_4_BIN_PATH)/cpe2exe.exe" /CJ $(CPE_FILE) > $(OBJS_PATH)/log.txt
 	@$(COMPARE_SCRIPT)
 
 #-------------------------------------------------------------------------------
@@ -302,12 +300,12 @@ multicore-fix:
 
 build:
 	@echo "Executing build.ps1"
-	@powershell.exe -File build.ps1 -psyq_path4dot4 $(PSYQ_4_PATH)/bin -psyq_path4dot3 $(PSYQ_3_PATH)/bin
+	@$(EXE_PFX) powershell.exe -File build.ps1 -psyq_path4dot4 $(PSYQ_4_PATH)/bin -psyq_path4dot3 $(PSYQ_3_PATH)/bin
 
 #for appveyor only
 progress:
 	@echo "Executing progress.ps1"
-	@powershell.exe -File progress.ps1
+	@$(EXE_PFX) powershell.exe -File progress.ps1
 
 #-------------------------------------------------------------------------------
 # Clean objects and remake
