@@ -41,10 +41,17 @@ MULTICORE_PATCHER      = $(PYTHON) $(BUILD_PATH)/patch-ccpsx-multicore.py
 COMPARE_SCRIPT         = $(PYTHON) $(BUILD_PATH)/compare.py
 
 ifeq ($(OS),Windows_NT)
-    MKDIR         := mkdir
-    RMRF          := rmdir /S /Q
-    NO_STDERR     := 2>NUL
-    TOUCH         := type NUL >
+    ifneq (,$(findstring /cygdrive/,$(PATH)))
+        MKDIR         := mkdir -p
+        RMRF          := rm -rf
+        NO_STDERR     := 2>/dev/null
+        TOUCH         := touch
+    else
+        MKDIR         := mkdir
+        RMRF          := rmdir /S /Q
+        NO_STDERR     := 2>NUL
+        TOUCH         := type NUL >
+    endif
 else
     MKDIR         := mkdir -p
     RMRF          := rm -rf
