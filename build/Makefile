@@ -40,13 +40,13 @@ MULTICORE_PATCHER      = $(PYTHON) $(BUILD_PATH)/patch-ccpsx-multicore.py
 COMPARE_SCRIPT         = $(PYTHON) $(BUILD_PATH)/compare.py
 
 ifeq ($(OS),Windows_NT)
-    MKDIR = mkdir
-    RMRF = rmdir /S /Q
-    NO_STDERR = 2>NUL
+    MKDIR         := mkdir
+    RMRF          := rmdir /S /Q
+    NO_STDERR     := 2>NUL
 else
-    MKDIR = mkdir -p
-    RMRF = rm -rf
-    NO_STDERR = 2>/dev/null
+    MKDIR         := mkdir -p
+    RMRF          := rm -rf
+    NO_STDERR     := 2>/dev/null
 endif
 
 PYTHON_VERSION := $(shell python --version $(NO_STDERR))
@@ -63,7 +63,7 @@ ifeq ($(PSYQ_SDK),)
 	PSYQ_SDK := ../../psyq
 	PSYQ_SDK_REALPATH := $(PSYQ_SDK)
 else
-	PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
+    PSYQ_SDK_REALPATH := $(realpath $(PSYQ_SDK))
 endif
 PSYQ_3_PATH     = $(PSYQ_SDK)/psyq_4.3
 PSYQ_4_PATH     = $(PSYQ_SDK)/psyq_4.4
@@ -135,10 +135,10 @@ all: check-deps del-tmp-dirs $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq
 
 check-deps:
 ifndef PYTHON
-	@echo python 3 not found!
-	@exit 1
+    @echo python 3 not found!
+    @exit 1
 else
-	@exit 0
+    @exit 0
 endif
 
 #-------------------------------------------------------------------------------
