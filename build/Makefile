@@ -4,7 +4,6 @@
 #    C_DEPS=false // Don't generate c files dependencies (.d files)
 #    WINE=true    // Use wine on linux
 #    compare // Compare hash from last compiled .exe with the target one hardcoded
-#    build // launch the old powershell compilation script "build.ps1"
 #    clean // Remove objects folder
 #    fclean // Remove objects folder and executable
 #    re // Remake the whole project
@@ -304,10 +303,6 @@ multicore-fix:
 	@$(MAKE) --no-print-directory check-deps
 	@$(MULTICORE_PATCHER) $(PSYQ_3_PATH)/bin/ccpsx.exe
 	@$(MULTICORE_PATCHER) $(PSYQ_4_PATH)/bin/ccpsx.exe
-
-build:
-	@echo "Executing build.ps1"
-	@$(EXE_PFX) powershell.exe -File build.ps1 -psyq_path4dot4 $(PSYQ_4_PATH)/bin -psyq_path4dot3 $(PSYQ_3_PATH)/bin
 
 #for appveyor only
 progress:
