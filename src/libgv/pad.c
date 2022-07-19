@@ -1,4 +1,5 @@
 #include "libgv.h"
+#include "Script_tbl_map_8002BB44.h"
 
 /***bss****************************************************************/
 int     SECTION(".dword_800B05A8")      dword_800B05A8[6] ;
@@ -29,6 +30,8 @@ extern short    key_table_8009D32C[16];
 extern int      DG_UnDrawFrameCount_800AB380;
 extern int      GM_GameStatus_800AB3CC;
 extern int      GV_Time_800AB330;
+
+extern GameState_800B4D98   gGameState_800B4D98;
 
 extern long mts_PadRead_8008C324( int a0 );
 extern int mts_get_pad_8008C170 (int a0, MTS_PAD_DATA* data );
@@ -63,7 +66,7 @@ int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1 , int a2)
 
 int GV_UpdatePadSystem_helper_800166F0( int a0 )
 {
-    switch ( *(unsigned short* )0x800B4D9C & 7 ) 
+    switch ( gGameState_800B4D98.field_04_flags & 7 ) 
     {
     case GV_PAD_ANAJOY:
         return GV_UpdatePadSystem_helper_helper_800166AC(a0, 0x20, 0x40);
