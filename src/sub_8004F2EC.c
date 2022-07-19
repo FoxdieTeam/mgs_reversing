@@ -8,6 +8,6 @@ void sub_8004F2EC(Actor_SnaInit *snake)
 {
   GM_ClearPlayerStatusFlag_8004E2D4(0x800000);
   sna_init_clear_flags_8004E308(snake, 1);
-  **(ushort **)&snake->field_8A0 = **(ushort **)&snake->field_8A0 | 0x9e;
+  snake->field_89C_pTarget->field_0_flags |= 0x9e;
   return;
 }
