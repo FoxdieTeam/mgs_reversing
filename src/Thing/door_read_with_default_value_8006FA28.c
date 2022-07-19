@@ -23,7 +23,7 @@ void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v)
     int i;
     struct Actor_Door_TParam *pOffset;
 
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_vec, &pDoor->field_20_ctrl.field_8_vec);
+    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_vec);
 
     param_w_alternating = pDoor->field_E6_param_w_v;
     for (i = 0; i < pDoor->field_E4_t_param_v; i++)
