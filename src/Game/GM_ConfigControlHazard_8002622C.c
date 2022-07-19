@@ -18,7 +18,7 @@ void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECT
 {
     if (pVec1)
     {
-        pControl->field_0_vec = *pVec1;
+        pControl->field_0_position = *pVec1;
     }
 
     if (pVec2)
@@ -29,9 +29,9 @@ void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECT
 
 void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix)
 {
-    pControl->field_0_vec.vx = pMatrix->t[0];
-    pControl->field_0_vec.vy = pMatrix->t[1];
-    pControl->field_0_vec.vz = pMatrix->t[2];
+    pControl->field_0_position.vx = pMatrix->t[0];
+    pControl->field_0_position.vy = pMatrix->t[1];
+    pControl->field_0_position.vz = pMatrix->t[2];
 
     DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_vec);
 
@@ -42,7 +42,7 @@ void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char
 {
     if (bReadVec1)
     {
-        GCL_GetSV_80020A14(bReadVec1, &pControl->field_0_vec.vx);
+        GCL_GetSV_80020A14(bReadVec1, &pControl->field_0_position.vx);
     }
 
     if (bReadVec2)
