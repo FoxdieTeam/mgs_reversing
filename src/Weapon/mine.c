@@ -7,7 +7,7 @@ extern short dword_800ABA2C;
 
 extern void mine_act_80067558(int param_1);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
-extern int GV_Strcode_80016CCC(const char *string);
+extern int GV_StrCode_80016CCC(const char *string);
 extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 
@@ -22,7 +22,7 @@ int mine_loader_80067730(Actor_Mine *actor_mine, OBJECT *parent_obj, int num_par
 {
     OBJECT *obj = &actor_mine->f28_obj;
 
-    int id = GV_Strcode_80016CCC(aClaymore_0);
+    int id = GV_StrCode_80016CCC(aClaymore_0);
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*)obj, id, 0x36d, 0);
 
     if (!obj->objs)

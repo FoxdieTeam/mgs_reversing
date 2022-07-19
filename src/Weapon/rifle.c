@@ -10,7 +10,7 @@ extern short                dword_800B7800[];
 extern void                 GM_FreeObject_80034BF8(OBJECT *object);
 extern int                  sd_set_cli_800887EC(int sdCode, int unused);
 extern void                 GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill);
-extern int                  GV_Strcode_80016CCC(const char *string);
+extern int                  GV_StrCode_80016CCC(const char *string);
 extern void                 GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 extern void                 GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 
@@ -35,7 +35,7 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
 {
     OBJECT *obj = &actor_rifle->f20_obj;
     
-    int id = GV_Strcode_80016CCC(aRifle_0);
+    int id = GV_StrCode_80016CCC(aRifle_0);
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*)obj, id, 0x6d, 0);
 
     if (!obj->objs)

@@ -110,7 +110,7 @@ struct PauseKill SECTION(".data") gPauseKills_8009D308[9] =
 		{9, 4},
 		{0, 7}};
 
-int SECTION(".data") dword_8009D32C[] = {0x8000000, 0x6000400, 0, 0x200, 0xA000C00, 0, 0xE00, 0};
+short SECTION(".data") key_table_8009D32C[] = {0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000, 0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000};
 
 int SECTION(".data") dword_8009D34C[] = {0, 0xFFFFF000, 0, 0};
 

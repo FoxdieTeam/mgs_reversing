@@ -27,7 +27,7 @@ extern int GM_PlayerStatus_800ABA50;
 extern int DG_FrameRate_8009D45C;
 extern short* GM_CurrentPadData_800AB91C;
 
-unsigned short SECTION(".gPad1_800B05C0") gPad1_800B05C0[2][8];
+extern GV_PAD GV_PadData_800B05C0[4];
 
 
 extern const char asc_80010208[];
@@ -92,13 +92,13 @@ void DG_Update2_8001F078(Actor *pActor)
 
     DG_80017194();
     GV_UpdatePadSystem_8001682C();
-    GM_CurrentPadData_800AB91C = gPad1_800B05C0[0];
+    GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
 
     if ((GM_PlayerStatus_800ABA50 & 0x10000000) != 0)
     {
-        if (gPad1_800B05C0[1][0] | gPad1_800B05C0[1][2])
+        if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
         {
-            GM_CurrentPadData_800AB91C = gPad1_800B05C0[1];
+            GM_CurrentPadData_800AB91C = &GV_PadData_800B05C0[1];
         }
     }
 }

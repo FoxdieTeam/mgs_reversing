@@ -39,7 +39,7 @@ int GCL_Command_load_8002C308(int argc, char **argv)
             GV_ResidentHeapReset_800163B0();
             GV_InitCacheSystem_80015458();
             DG_ClearResidentTexture_8001DB10();
-            GM_SetArea_8002A7D8(GV_Strcode_80016CCC(scriptStageName), scriptStageName);
+            GM_SetArea_8002A7D8(GV_StrCode_80016CCC(scriptStageName), scriptStageName);
         }
         else
         {
@@ -53,7 +53,7 @@ int GCL_Command_load_8002C308(int argc, char **argv)
     }
 
     gGameState_800B4D98.field_94_previous_stage = gGameState_800B4D98.field_0C_current_stage;
-    gGameState_800B4D98.field_0C_current_stage = GV_Strcode_80016CCC(scriptStageName);
+    gGameState_800B4D98.field_0C_current_stage = GV_StrCode_80016CCC(scriptStageName);
 
     GM_SetArea_8002A7D8(gGameState_800B4D98.field_0C_current_stage, scriptStageName);
 
