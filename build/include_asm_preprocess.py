@@ -350,7 +350,7 @@ def main(path):
         func_size = FUNC_SIZES.get(addr)
 
         if not func_size:
-            print('error: INCLUDE_ASM addr suffix of referenced path is unknown', file=sys.stderr)
+            print('error: INCLUDE_ASM addr suffix of referenced path is unknown:', addr_str, file=sys.stderr)
             sys.exit(3)
 
         if func_size < RETURN_SIZE + NOP_SIZE:
@@ -364,7 +364,7 @@ def main(path):
         # assumes all .s filenames are == to the xdef name inside it
         name = names_by_addr.get(addr_str)
         if not name:
-            print('error: INCLUDE_ASM referenced path was not found', file=sys.stderr)
+            print('error: INCLUDE_ASM addr of referenced path was not found:', addr_str, file=sys.stderr)
             sys.exit(4)
 
         first_char = ord(name[0])
