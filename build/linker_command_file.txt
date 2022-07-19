@@ -89,7 +89,7 @@
     ;libdg\divide.c
     include "..\obj\libdg\DG_DivideChanl_helper_helper_80018FA4.obj"
     include "..\obj\libdg\DG_DivideChanl_helper_80019044.obj"
-    include "..\obj\sub_80019098.obj"
+    include "..\obj\nullsub\sub_80019098.obj"
     include "..\obj\sub_800190A0.obj"
     include "..\obj\sub_8001911C.obj"
     include "..\obj\sub_80019194.obj"
@@ -101,7 +101,7 @@
     include "..\obj\libdg\DG_DivideChanl_helper2_8001991C.obj"
     include "..\obj\libdg\DG_DivideChanl_helper3_80019CB0.obj"
     include "..\obj\libdg\DG_DivideChanl_80019D44.obj"
-    include "..\obj\sub_80019F38.obj"
+    include "..\obj\nullsub\sub_80019F38.obj"
 
     ;libdg\light.c
     include "..\obj\libdg\DG_InitLightSystem_80019F40.obj"
@@ -134,7 +134,7 @@
     include "..\obj\DG_PrimChanl_helper3_8001B534.obj"
     include "..\obj\sub_8001B5FC.obj"
     include "..\obj\DG_PrimChanl_8001B66C.obj"
-    include "..\obj\sub_8001BAB4.obj"
+    include "..\obj\nullsub\sub_8001BAB4.obj"
     include "..\obj\libdg\DG_MakePrim_8001BABC.obj"
 
     include "..\obj\libdg\helpers.obj"
@@ -146,7 +146,7 @@
     include "..\obj\DG_Shade_Chanl_helper_helper2_8001D034.obj"
     include "..\obj\DG_Shade_Chanl_helper_8001D19C.obj"
     include "..\obj\DG_Shade_Chanl_8001D324.obj"
-    include "..\obj\sub_8001D5C0.obj"
+    include "..\obj\nullsub\sub_8001D5C0.obj"
     include "..\obj\DG_Sort_Chanl_8001D5C8.obj"
 
     ;libdg\text.c
@@ -170,7 +170,7 @@
     include "..\obj\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
     include "..\obj\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
     include "..\obj\DG_Trans_Chanl_8001E3C0.obj"
-    include "..\obj\sub_8001E580.obj"
+    include "..\obj\nullsub\sub_8001E580.obj"
     include "..\obj\sub_8001E588.obj" ; DG_MatrixRot ???
     include "..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
     include "..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
@@ -834,7 +834,7 @@
     include "..\obj\jimctrl_helper_80037F68.obj"
     include "..\obj\jimctrl_init_helper_clear_80037FB8.obj"
     include "..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
-    include "..\obj\jimctrl_helper_null_80037FFC.obj"
+    include "..\obj\nullsub\jimctrl_helper_null_80037FFC.obj"
     include "..\obj\jimctrl_kill_helper_clear_80038004.obj"
     include "..\obj\jimctrl_act_80038070.obj"
     include "..\obj\jimctrl_kill_8003853C.obj"
@@ -1084,7 +1084,7 @@
     include "..\obj\menu_viewer_kill_80044A90.obj"
     include "..\obj\Font\font_load_80044A9C.obj"
     include "..\obj\Font\font_set_font_addr_80044BC0.obj"
-    include "..\obj\sub_80044BD8.obj"
+    include "..\obj\nullsub\sub_80044BD8.obj"
     
     ; 80044A9C 80044BC0 80044BD8 80044BE0 80044C90 80044DC4 80044F38 80044FD8 80044FE8 80044FF4 800450F4
     ; 80045124 8004544C 80045718 80045788 80045794 800457A8 800457B4 800458B8 800459B0 80045AE4 80045D0C
@@ -1991,7 +1991,7 @@
     include "..\obj\SD\StrFadeOutStop_80082380.obj"
     include "..\obj\SD\StartStream_80082448.obj"
     include "..\obj\SD\UserSpuIRQProc_80082640.obj"
-    include "..\obj\sub_8008279C.obj"
+    include "..\obj\nullsub\sub_8008279C.obj"
     include "..\obj\SD\SD_nullsub_20_800827A4.obj"
     include "..\obj\SD\StrSpuTransWithNoLoop_800827AC.obj"
     include "..\obj\SD\StrSpuTransClose_80083394.obj"
@@ -2080,12 +2080,12 @@
     include "..\obj\SD\SD_MDX_F7_800877CC.obj"
     include "..\obj\SD\SD_MDX_ED_80087834.obj"
     include "..\obj\SD\SD_MDX_EE_80087854.obj"
-    include "..\obj\sub_800878FC.obj"
+    include "..\obj\nullsub\sub_800878FC.obj"
     include "..\obj\SD\SD_MDX_D7_80087904.obj"
     include "..\obj\SD\SD_MDX_D8_8008798C.obj"
     include "..\obj\SD\SD_MDX_D9_800879E4.obj"
-    include "..\obj\sub_80087A48.obj"
-    include "..\obj\sub_80087A50.obj"
+    include "..\obj\nullsub\sub_80087A48.obj"
+    include "..\obj\nullsub\sub_80087A50.obj"
     include "..\obj\SD\SD_MDX_FF_80087A58.obj"
     include "..\obj\SD\no_cmd_80087A80.obj"
     include "..\obj\SD\SD_80087A88.obj"
@@ -2109,7 +2109,7 @@
     include "..\obj\SD\sd_set_cli_800887EC.obj"
     include "..\obj\SD\sd_set_path_8008880C.obj"
     include "..\obj\sub_80088838.obj"
-    include "..\obj\sub_80088860.obj"
+    include "..\obj\nullsub\sub_80088860.obj"
     include "..\obj\SD\sub_80088868.obj"
     include "..\obj\sub_800888B4.obj"
     include "..\obj\SD\SePlay_800888F8.obj"
@@ -2191,15 +2191,15 @@
     include "..\obj\mts\mts_get_bss_tail_8008C598.obj"
     include "..\obj\mts\sio_output_start_8008C5A8.obj"
     include "..\obj\mts\sio_output_stop_8008C5B0.obj"
-    include "..\obj\sub_8008C5B8.obj"
-    include "..\obj\sub_8008C5C0.obj"
-    include "..\obj\sub_8008C5C8.obj"
+    include "..\obj\nullsub\sub_8008C5B8.obj"
+    include "..\obj\nullsub\sub_8008C5C0.obj"
+    include "..\obj\nullsub\sub_8008C5C8.obj"
     include "..\obj\mts\sio_getchar2_8008C5D0.obj"
-    include "..\obj\sub_8008C5E0.obj"
-    include "..\obj\sub_8008C5E8.obj"
-    include "..\obj\sub_8008C5F0.obj"
-    include "..\obj\sub_8008C5F8.obj"
-    include "..\obj\sub_8008C600.obj"
+    include "..\obj\nullsub\sub_8008C5E0.obj"
+    include "..\obj\nullsub\sub_8008C5E8.obj"
+    include "..\obj\nullsub\sub_8008C5F0.obj"
+    include "..\obj\nullsub\sub_8008C5F8.obj"
+    include "..\obj\nullsub\sub_8008C600.obj"
 
     ; libcd.lib start
 
