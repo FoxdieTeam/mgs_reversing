@@ -7,7 +7,7 @@ extern char aAamC[];      // = "aam.c"
 extern short dword_800AB9EC;
 extern short dword_800ABA2C;
 
-extern int GV_Strcode_80016CCC(const char *string);
+extern int GV_StrCode_80016CCC(const char *string);
 extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 extern void GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill);
@@ -33,7 +33,7 @@ int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent
     int id;
     actor_aam->f5c = 0;
     
-    id = GV_Strcode_80016CCC(aStinger_0);
+    id = GV_StrCode_80016CCC(aStinger_0);
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*)obj, id, 0x6d, 0);
 
     if (!obj->objs)

@@ -31,7 +31,7 @@ int SECTION(".sbss") N_ResidentFileRecords_800AB938;
 /********************************************************************/
 
 /***externs*************************************************/
-extern int   GV_Strcode_80016CCC(const char* string );
+extern int   GV_StrCode_80016CCC(const char* string );
 extern void *GV_AllocResidentMemory_800163D8( long size );
 /**********************************************************/
 
@@ -108,7 +108,7 @@ int GV_CacheID_800152DC(int hashedFileName,int param_2)
 //to call cacheID along with the ext id.
 int GV_CacheID2_800152FC(const char* fileName, int extID)
 {
-  int hashedFileName = GV_Strcode_80016CCC(fileName);
+  int hashedFileName = GV_StrCode_80016CCC(fileName);
   return GV_CacheID_800152DC(hashedFileName, extID);
 }
 

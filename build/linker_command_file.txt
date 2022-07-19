@@ -26,7 +26,7 @@
 
     include "..\obj\data\sdata\sdata.obj"
     include "..\obj\data\sdata\GV_PadMask_800AB374.obj"
-    include "..\obj\data\sdata\dword_800AB378.obj"
+    include "..\obj\data\sdata\GV_PadOrigin_800AB378.obj"
     include "..\obj\data\sdata\dword_800AB37C.obj"
     include "..\obj\data\sdata\DG_UnDrawFrameCount_800AB380.obj"
     include "..\obj\data\sdata\dword_800AB384.obj"
@@ -40,30 +40,16 @@
     include "..\obj\libgv\message.obj"
 
     ;libgv\pad.c
-    include "..\obj\GV_UpdatePadSystem_helper_helper_800166AC.obj"
-    include "..\obj\GV_UpdatePadSystem_helper_800166F0.obj"
-    include "..\obj\GV_UpdatePadSystem_helper2_80016750.obj"
-    include "..\obj\libgv\GV_InitPadSystem_800167C8.obj"
-    include "..\obj\GV_UpdatePadSystem_8001682C.obj"
-    include "..\obj\GV_OriginPadSystem_80016C78.obj"
-    include "..\obj\GV_GetPadOrigin_80016C84.obj"
-    include "..\obj\sub_80016C90.obj"
+    include "..\obj\libgv\pad.obj"
 
     include "..\obj\libgv\strcode.obj"
 
-    ;libgv\math.c ?
-    include "..\obj\libgv\GV_AddVec3_80016D00.obj"
-    include "..\obj\libgv\GV_SubVec3_80016D40.obj"
-    include "..\obj\libgv\GV_VecLen3_80016D80.obj"
-    include "..\obj\libgv\GV_LenVec3_80016DDC.obj"
-    include "..\obj\libgv\GV_DiffVec3_80016E84.obj"
-    include "..\obj\libgv\GV_VecDir2_80016EF8.obj"
-    include "..\obj\libgv\GV_DirVec3_80016FA0.obj"
-    include "..\obj\libgv\GV_DiffDirU_80017040.obj"
-    include "..\obj\libgv\GV_DiffDirS_8001704C.obj"
-    include "..\obj\libgv\GV_RandU_80017090.obj"
-    include "..\obj\libgv\GV_RandS_800170BC.obj"
+    ;libgv\math.c
+    include "..\obj\libgv\math.obj"
 
+    ;libdg_start
+
+    ;libdg\display.c ?
     include "..\obj\libdg\DG_InitDispEnv_800170F0.obj"
     include "..\obj\libdg\DG_800172A8.obj"
     include "..\obj\DG_800172D0.obj"
@@ -78,6 +64,8 @@
     include "..\obj\DG_InitOT_80017B30.obj"
     include "..\obj\libdg\DG_3OTsInit_80017B98.obj"
     include "..\obj\libdg\DG_DrawOTag_80017E4C.obj"
+
+    ;libdg\chanl.c
     include "..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
     include "..\obj\libdg\DG_RenderPipeline_80018028.obj"
     include "..\obj\libdg\DG_80018128.obj"
@@ -89,12 +77,16 @@
     include "..\obj\DG_SetBackgroundRGB_80018464.obj"
     include "..\obj\libdg\DG_Set_RGB_800184F4.obj"
     include "..\obj\DG_BackGroundBlack_80018520.obj"
+
+    ;libdg\bound.c
     include "..\obj\libdg\DG_BoundChanl_helper_800185BC.obj"
     include "..\obj\libdg\DG_BoundChanl_800189A4.obj"
     include "..\obj\libdg\DG_BoundEnd_80018D20.obj"
     include "..\obj\libdg\DG_WriteObjClut_80018D28.obj"
     include "..\obj\libdg\DG_BoundChanl_helper2_helper_80018D90.obj"
     include "..\obj\libdg\DG_BoundChanl_helper2_80018E5C.obj"
+
+    ;libdg\divide.c
     include "..\obj\libdg\DG_DivideChanl_helper_helper_80018FA4.obj"
     include "..\obj\libdg\DG_DivideChanl_helper_80019044.obj"
     include "..\obj\sub_80019098.obj"
@@ -110,6 +102,8 @@
     include "..\obj\libdg\DG_DivideChanl_helper3_80019CB0.obj"
     include "..\obj\libdg\DG_DivideChanl_80019D44.obj"
     include "..\obj\sub_80019F38.obj"
+
+    ;libdg\light.c
     include "..\obj\libdg\DG_InitLightSystem_80019F40.obj"
     include "..\obj\libdg\DG_SetAmbient_80019F80.obj"
     include "..\obj\libdg\DG_SetMainLightDir_80019FF8.obj"
@@ -121,15 +115,18 @@
     include "..\obj\libdg\DG_GetLightMatrix_8001A3C4.obj"
     include "..\obj\sub_8001A5D0.obj"
     include "..\obj\libdg\DG_GetLightMatrix2_8001A5D8.obj"
+
+    ;libdg\opack.c
     include "..\obj\libdg\DG_AllocPacks_8001A670.obj"
     include "..\obj\libdg\DG_WriteObjPacketUV_8001A774.obj"
     include "..\obj\libdg\DG_WriteObjPacketRGB_8001A9B8.obj"
     include "..\obj\libdg\DG_FreeObjsPacket_8001ABA8.obj"
     include "..\obj\sub_8001AD28.obj"
+
+    ;libdg\prim.c
     include "..\obj\DG_PrimChanl_helper_helper_8001ADA0.obj"
     include "..\obj\DG_PrimChanl_helper_8001AE5C.obj"
-    include "..\obj\DG_PrimChanl_helper2_helper_8001AF90.obj"
-    
+    include "..\obj\DG_PrimChanl_helper2_helper_8001AF90.obj"    
     include "..\obj\DG_PrimChanl_helper2_8001B0B4.obj"
     include "..\obj\sub_8001B1E8.obj"
     include "..\obj\sub_8001B254.obj"
@@ -143,6 +140,7 @@
     include "..\obj\libdg\helpers.obj"
     include "..\obj\sub_8001C708.obj"
     
+    ;libdg\??
     include "..\obj\DG_Screen_Chanl_8001CEE0.obj"
     include "..\obj\DG_Shade_Chanl_helper_helper_8001CF88.obj"
     include "..\obj\DG_Shade_Chanl_helper_helper2_8001D034.obj"
@@ -150,6 +148,8 @@
     include "..\obj\DG_Shade_Chanl_8001D324.obj"
     include "..\obj\sub_8001D5C0.obj"
     include "..\obj\DG_Sort_Chanl_8001D5C8.obj"
+
+    ;libdg\text.c
     include "..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
 
     include "..\obj\DG_FindTexture_8001D830.obj"
@@ -164,6 +164,8 @@
     include "..\obj\sub_8001DAA8.obj"
     include "..\obj\libdg\DG_ClearResidentTexture_8001DB10.obj"
     include "..\obj\DG_ResetResidentTexture_8001DBEC.obj"
+
+    ;libdg\??
     include "..\obj\DG_Trans_Chanl_helper_helper_helper_8001DC90.obj" ; DG_SortTmpPacketSystem ???
     include "..\obj\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
     include "..\obj\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
@@ -178,7 +180,11 @@
     include "..\obj\DG_ReflectMatrix_8001EDCC.obj"
     include "..\obj\Equip\DG_Update1_8001F1BC.obj"
     include "..\obj\DG_TextureCacheInit_8001F25C.obj"
+
+    ;libdg\dgd.c
     include "..\obj\libdg\dgd.obj"
+
+    ;libdg\loader.c
     include "..\obj\libdg\kmd_file_handler_link_vertices_to_parent_8001F3CC.obj"
     include "..\obj\libdg\DG_LoadInitKmd_8001F4EC.obj"
     include "..\obj\libdg\DG_LoadInitNar_8001F5F8.obj"
@@ -190,6 +196,10 @@
     include "..\obj\libdg\DG_LoadInitKmdar_8001FAD0.obj"
     include "..\obj\libdg\DG_StorePalette_8001FC28.obj"
     include "..\obj\libdg\DG_ReloadPalette_8001FC58.obj"
+
+    ;libdg_end
+
+    ;libgcl_start
 
     include "..\obj\libgcl\gcl.obj"
 
@@ -332,6 +342,8 @@
     include "..\obj\data\sdata\dword_800AB630.obj"
     include "..\obj\data\sdata\dword_800AB634.obj"
     include "..\obj\data\sdata\dword_800AB638.obj"
+
+    ;libgcl_end
 
     include "..\obj\HZD_StartDaemon_80021900.obj"
     include "..\obj\HZD_Process_TableFlagIfTriggers_80021928.obj"
@@ -2176,7 +2188,7 @@
 
     include "..\obj\mts\mts_get_pad_8008C170.obj"
     include "..\obj\mts\mts_read_pad_8008C25C.obj"
-    include "..\obj\mts\mts_8008C324.obj"
+    include "..\obj\mts\mts_PadRead_8008C324.obj"
     include "..\obj\mts\mts_get_controller_data_8008C380.obj"
     include "..\obj\mts\mts_control_vibration_8008C3BC.obj"
 
@@ -2778,8 +2790,11 @@ group_gLoaderRec_800B5288    group bss,org($800B5288)
 group_gDiskNum_800ACBF0    group bss,org($800ACBF0)
     section .gDiskNum_800ACBF0, group_gDiskNum_800ACBF0
 
-group_gPad1_800B05C0    group bss,org($800B05C0)
-    section .gPad1_800B05C0, group_gPad1_800B05C0
+group_GV_PadData_800B05C0    group bss,org($800B05C0)
+    section .GV_PadData_800B05C0, group_GV_PadData_800B05C0
+
+group_dword_800B05A8    group bss,org($800B05A8)
+    section .dword_800B05A8, group_dword_800B05A8
 
 group_gTextureRecs_800B1F50    group bss,org($800B1F50)
     section .gTextureRecs_800B1F50, group_gTextureRecs_800B1F50

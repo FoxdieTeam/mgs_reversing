@@ -56,6 +56,21 @@ typedef struct mts_task
     struct TCB* field_1C;
 } mts_task;
 
+typedef struct MTS_PAD_DATA
+{
+	signed char channel;
+	char flag;
+	unsigned short button;
+	unsigned char rx;
+	unsigned char ry;
+	unsigned char lx;
+	unsigned char ly;
+} MTS_PAD_DATA;
+
+#define MTS_PAD_DIGITAL	1
+#define MTS_PAD_ANAJOY	2
+#define MTS_PAD_ANALOG	3
+
 #define MTS_STACK_COOKIE 0x12435687
 
 #endif // _MTS_NEW_H

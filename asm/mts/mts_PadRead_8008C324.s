@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef mts_8008C324
-mts_8008C324:
+	xdef mts_PadRead_8008C324
+mts_PadRead_8008C324:
 	dw 0x3C02800C ; 0x8008C324
 	dw 0x844214E0 ; 0x8008C328
 	dw 0x00000000 ; 0x8008C32C
