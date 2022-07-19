@@ -784,7 +784,7 @@ typedef struct Actor_SnaInit
     void *field_9CC;
 
     short field_9D0;
-    short field_9D2;
+    int field_9D2;
     short field_9D4;
     short field_9D6;
     short field_9D8;
@@ -813,8 +813,7 @@ typedef struct Actor_SnaInit
     int field_A1C;
     short field_A20;
     short field_A22_snake_current_health;
-    char field_A24;
-    char field_A25;
+    short field_A24;
     short field_A26_fn_stance_idx;
     short field_A28;
     short field_A2A;
