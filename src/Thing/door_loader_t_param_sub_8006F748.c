@@ -3,7 +3,7 @@
 
 void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 
-void GM_FreeControl_800260CC(Res_Control *pControl);
+void GM_FreeControl_800260CC(GM_Control *pControl);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
 static inline void do_nothing_vec_func(SVECTOR* vec)

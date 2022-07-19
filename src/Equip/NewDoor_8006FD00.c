@@ -10,10 +10,10 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where);
 void door_act_8006F318(struct Actor_Door *pDoor);
 void door_kill_8006F718(struct Actor_Door *pDoor);
 int door_read_with_default_value_8006FA28(int param_char, int defaul_val);
-void GM_ConfigControlString_800261C0(Res_Control *pControl, char *bReadVec1, char *bReadVec2);
-void GM_ConfigControlHazard_8002622C(Res_Control *pControl, short height, short f36, short f38);
+void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
+void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
-// int Res_Control_init_loader_8002599C(Res_Control *pControl, int scriptData, int scriptBinds);
+// int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
@@ -21,7 +21,7 @@ void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
 void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 
-static inline void SetFlag(Res_Control *pCtrl, int flag)
+static inline void SetFlag(GM_Control *pCtrl, int flag)
 {
     pCtrl->field_55_flags |= flag;
 }
@@ -30,7 +30,7 @@ static inline void SetFlag(Res_Control *pCtrl, int flag)
 /*
 int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 {
-    Res_Control *pCtrl; // $s2
+    GM_Control *pCtrl; // $s2
     char *door_dir;     // $v0
     char *door_pos;     // $s0
                         //    int door_model;           // $v0

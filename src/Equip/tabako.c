@@ -219,7 +219,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
 
 #pragma INCLUDE_ASM("asm/Equip/tabako_loader_800620B4.s")
 
-Actor_tabako *NewTabako_80062274(Res_Control *pCtrl, OBJECT *pObj, int a3)
+Actor_tabako *NewTabako_80062274(GM_Control *pCtrl, OBJECT *pObj, int a3)
 {
     Actor_tabako *pActor;
 

@@ -10,6 +10,9 @@
 #include "door.h"
 #include "mts_new.h"
 #include "libdg.h"
+#include "game.h"
+#include "actor.h"
+#include "GM_Control.h"
 
 // sdata
 extern const char* aCigs[];
@@ -749,30 +752,51 @@ int SECTION(".data") dword_8009EF10[] = {0x8320250, 0x650048C, 0};
 int SECTION(".data") dword_8009EF1C = 0x4C4;
 int SECTION(".data") dword_8009EF20 = 0x494;
 int SECTION(".data") dword_8009EF24[] = {0x27F0200, 0};
-int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
+int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228};
 
-int SECTION(".data") gSnakeWeapons_8009EF3C[] =
-	{
-		0x80065D74, // socom
-		0x800540D0,
-		0x80066374, // famas_create_80066374
-		0x800540D0,
-		0x80066A4C, // grenade
-		0x80058470,
-		0x80066FF0, // rcm
-		0x800540D0,
-		0x80067480, // aam
-		0x800570C0,
-		0x800677BC, // mine
-		0x80057474,
-		0x80067B20, // bomb
-		0x800541A8,
-		0x80066A74, // grenade
-		0x80058470,
-		0x80066AA0, // grenade
-		0x80058470,
-		0x80068214, // NewRifle_80068214
-		0x80056DDC};
+typedef struct WeaponCreateEntry
+{
+	void* mCreateActorFn;
+	void* mStateFn;
+} WeaponCreateEntry;
+
+struct Actor_SnaInit;
+
+void sna_init_anim_chokethrow_begin1_80054210(struct Actor_SnaInit *pActor, int a2);
+void sub_800540D0(struct Actor_SnaInit *pActor, int a2);
+void sub_800540D0(struct Actor_SnaInit *pActor, int a2);
+void sub_80058470(struct Actor_SnaInit *pActor, int a2);
+void sna_init_anim_stinger_800570C0(struct Actor_SnaInit *pActor, int a2);
+void sna_init_anim_claymore_80057474(struct Actor_SnaInit *pActor, int a2);
+void sub_800541A8(struct Actor_SnaInit *pActor, int a2);
+void sna_init_anim_psg1_80056DDC(struct Actor_SnaInit *pActor, int a2);
+
+Actor* NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* NewAAM_80067480(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor* NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+
+WeaponCreateEntry kSnakeNoWeapon = {0, sna_init_anim_chokethrow_begin1_80054210};
+
+WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] =
+{
+		{NewSOCOM_80065D74, sub_800540D0},
+		{famas_create_80066374, sub_800540D0},
+		{grenade_create_80066A4C, sub_80058470},
+		{NewRCM_80066FF0, sub_800540D0},
+		{NewAAM_80067480, sna_init_anim_stinger_800570C0},
+		{mine_init_800677BC, sna_init_anim_claymore_80057474},
+		{NewBomb_80067B20, sub_800541A8},
+		{NewStanGrenade_80066A74, sub_80058470},
+		{NewChaffGrenade_80066AA0, sub_80058470},
+		{NewRifle_80068214, sna_init_anim_psg1_80056DDC}
+};
 
 int SECTION(".data") gSnakeEquips_8009EF8C[] =
 	{
