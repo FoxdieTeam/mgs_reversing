@@ -18,7 +18,7 @@ typedef struct Res_Control_unknown
 
 struct map_record;
 
-typedef struct Res_Control
+typedef struct GM_Control
 {
     SVECTOR field_0_vec;
     SVECTOR field_8_vec;
@@ -51,7 +51,7 @@ typedef struct Res_Control
     SVECTOR* field_70[2];
     short field_78;
     short field_7A;
-} Res_Control;
+} GM_Control;
 
 #define MAX_CONTROLS 96
 

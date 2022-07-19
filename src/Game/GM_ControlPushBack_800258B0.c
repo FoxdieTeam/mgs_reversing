@@ -5,10 +5,10 @@
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
 
-Res_Control *SECTION(".GM_WhereList_800B56D0") GM_WhereList_800B56D0[96];
-Res_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
+GM_Control *SECTION(".GM_WhereList_800B56D0") GM_WhereList_800B56D0[96];
+GM_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
 
-int GM_ControlPushBack_800258B0(Res_Control *pControlToAdd)
+int GM_ControlPushBack_800258B0(GM_Control *pControlToAdd)
 {
     // sna_init must always be the first item
     if (pControlToAdd->field_30_scriptData == 0x21CA)
@@ -28,12 +28,12 @@ int GM_ControlPushBack_800258B0(Res_Control *pControlToAdd)
     return 0;
 }
 
-void GM_ControlRemove_80025904(Res_Control *pControl)
+void GM_ControlRemove_80025904(GM_Control *pControl)
 {
     int i = gControlCount_800AB9B4;
     int totalCount = gControlCount_800AB9B4;
 
-    Res_Control **pControlIter = GM_WhereList_800B56D0;
+    GM_Control **pControlIter = GM_WhereList_800B56D0;
 
     while (i > 0)
     {
@@ -73,13 +73,13 @@ void HZD_SetEvent_80029AB4(void *param_1, int param_2);
 void GV_ZeroMemory_8001619C(void *, int);
 struct map_record *Map_FromId_800314C0(int);
 
-int Res_Control_init_loader_8002599C(Res_Control *pControl, int scriptData, int scriptBinds)
+int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds)
 {
     struct map_record *pMapRec;
     const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
     GM_CurrentMap_800AB9B0 = mapId;
 
-    GV_ZeroMemory_8001619C(pControl, sizeof(Res_Control));
+    GV_ZeroMemory_8001619C(pControl, sizeof(GM_Control));
 
     pMapRec = Map_FromId_800314C0(mapId);
     pControl->field_2C_map = pMapRec;

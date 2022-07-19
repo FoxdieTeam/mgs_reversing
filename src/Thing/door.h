@@ -31,7 +31,7 @@ struct Actor_Door_TParam
 struct Actor_Door
 {
   Actor field_0_actor;
-  Res_Control field_20_ctrl;
+  GM_Control field_20_ctrl;
   OBJECT_NO_ROTS field_9C;
   short field_C0;
   short field_C2;
