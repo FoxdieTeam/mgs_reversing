@@ -13,6 +13,7 @@
 #include "game.h"
 #include "actor.h"
 #include "GM_Control.h"
+#include "sna_init.h"
 
 // sdata
 extern const char* aCigs[];
@@ -744,17 +745,173 @@ typedef struct Menu_Triangle
 Menu_Triangle SECTION(".data") stru_8009EC44 = { 155, 125, 160, 120, 165, 125, 0x80808080 };
 Menu_Triangle SECTION(".data") stru_8009EC54 = { 156, 212, 160, 216, 164, 212, 0x80808080 };
 
-int SECTION(".data") dword_8009EC54[] = {0x1713520C, 0xC1E1D18, 0};
+Sna_E2 SECTION(".data") e2_8009EC64 = { 12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009EC70 = { 10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009EC7C = { 11u, 9u, 18u, 23u, 24u, 27u, 28u, 73u, 110u, 111u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009EC88 = { 75u, 77u, 79u, 23u, 24u, 27u, 28u, 75u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009EC94 = { 92u, 91u, 93u, 23u, 24u, 29u, 30u, 92u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ECA0 = { 97u, 96u, 98u, 101u, 24u, 29u, 30u, 97u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ECAC = { 104u, 103u, 19u, 23u, 24u, 29u, 30u, 104u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ECB8 = { 63u, 65u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u };
+Sna_E2 SECTION(".data") e2_8009ECC4 = { 61u, 64u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u };
+Sna_E2 SECTION(".data") e2_8009ECD0 = { 62u, 83u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u };
+Sna_E2 SECTION(".data") e2_8009ECDC = { 136u, 136u, 35u, 136u, 36u, 37u, 38u, 39u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ECE8 = { 42u, 51u, 35u, 45u, 47u, 0u, 0u, 0u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ECF4 = { 5u, 52u, 34u, 46u, 48u, 0u, 0u, 0u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ED00 = { 74u, 136u, 136u, 136u, 105u, 0u, 0u, 0u, 0u, 0u, 0u, 0u };
+
+Sna_E2 SECTION(".data") e2_8009ED0C = { 74u, 136u, 34u, 46u, 81u, 0u, 0u, 0u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ED18 = { 43u, 136u, 35u, 136u, 53u, 55u, 49u, 54u, 56u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ED24 = { 57u, 136u, 35u, 136u, 58u, 59u, 0u, 0u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ED30 = { 60u, 136u, 35u, 136u, 50u, 0u, 0u, 0u, 0u, 0u, 0u, 0u };
+Sna_E2 SECTION(".data") e2_8009ED3C = { 44u, 136u, 136u, 136u, 136u, 0u, 0u, 0u, 0u, 0u, 0u, 0u };
 
 
-int SECTION(".data") dword_8009EC70[] = {0x1711080A, 0x501C1B18, 0x6B6A, 0x1712090B, 0x491C1B18, 0x6F6E, 0x174F4D4B, 0x4B1C1B18, 0, 0x175D5B5C, 0x5C1E1D18, 0, 0x65626061, 0x611E1D18, 0, 0x17136768, 0x681E1D18, 0, 0x4443413F, 0x48474645, 0x83827B42, 0x4443403D, 0x48474645, 0x83827B42, 0x4443533E, 0x48474645, 0x83827B42, 0x88238888, 0x27262524, 0, 0x2D23332A, 0x2F, 0, 0x2E223405, 0x30, 0, 0x8888884A, 0x69, 0, 0x2E22884A, 0x51, 0, 0x8823882B, 0x36313735, 0x38, 0x88238839, 0x3B3A, 0, 0x8823883C, 0x32, 0, 0x8888882C, 0x88, 0};
-int SECTION(".data") dword_8009ED48[] = {0x8573, 0x8570, 0x8571, 0x8888, 0x8472, 0x8574, 0x8575, 0x8576, 0xE040D07, 0x7C7720};
-int SECTION(".data") dword_8009ED70[] = {0x800AB78C, 0x8009EC64, 0x800AB7C4, 0x8009ECB8, 0x8009ECDC, 0x8009ED48, 0x8009ED68};
-int SECTION(".data") dword_8009ED8C[] = {0x800AB794, 0x8009EC70, 0x800AB7C4, 0x8009ECC4, 0x8009ECE8, 0x8009ED4C, 0x8009ED68, 0x800AB79C, 0x8009EC7C, 0x800AB7C4, 0x8009ECD0, 0x8009ECF4, 0x8009ED50, 0x8009ED68, 0x800AB7A4, 0x8009ECAC, 0x800AB7C4, 0x8009ECB8, 0x8009ED30, 0x8009ED64, 0x8009ED68, 0x800AB7B4, 0x8009EC88, 0x800AB7C4, 0x8009ECD0, 0x8009ED0C, 0x8009ED58, 0x8009ED68, 0x800AB79C, 0x8009EC7C, 0x800AB7C4, 0x8009ECD0, 0x8009ED00, 0x8009ED54, 0x8009ED68, 0x800AB7BC, 0x8009ECA0, 0x800AB7C4, 0x8009ECB8, 0x8009ED24, 0x8009ED60, 0x8009ED68, 0x800AB7AC, 0x8009EC94, 0x800AB7C4, 0x8009ECB8, 0x8009ED18, 0x8009ED5C, 0x8009ED68, 0x800AB7A4, 0x8009ECAC, 0x800AB7C4, 0x8009ECB8, 0x8009ED30, 0x8009ED64, 0x8009ED68, 0x800AB7A4, 0x8009ECAC, 0x800AB7C4, 0x8009ECB8, 0x8009ED30, 0x8009ED64, 0x8009ED68, 0x800AB78C, 0, 0x800AB7C4, 0x8009ECB8, 0x8009ED3C, 0x8009ED54, 0x8009ED68};
+Sna_E6 SECTION(".data") e6_8009ED48 = { 115u, 133u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED4C = { 112u, 133u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED50 = { 113u, 133u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED54 = { 136u, 136u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED58 = { 114u, 132u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED5C = { 116u, 133u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED60 = { 117u, 133u, 0u, 0u };
+Sna_E6 SECTION(".data") e6_8009ED64 = { 118u, 133u, 0u, 0u };
 
-int SECTION(".data") dword_8009EEA4[] = {0x8005275C, 0x800527DC, 0x800528BC};
-int SECTION(".data") dword_8009EEB0[] = {0x80052A5C, 0x80052CCC};
-int SECTION(".data") dword_8009EEB8[] = {0x8005292C, 0x8005292C, 0x800529C0};
+Sna_E1 SECTION(".data") e7_8009ED68 = { 7u, 13u, 4u, 14u, 32u, 119u, 124u, 0u };
+
+extern Sna_E1 e1_800AB78C;
+extern Sna_E1 e1_800AB7C4;
+extern Sna_E1 e1_800AB794;
+extern Sna_E1 e1_800AB79C;
+extern Sna_E1 e1_800AB7BC;
+extern Sna_E1 e1_800AB7AC;
+extern Sna_E1 e1_800AB7A4;
+extern Sna_E1 e1_800AB7B4;
+
+Sna_ActionTable SECTION(".data") actions_no_weapon_8009ED70 =
+{
+  &e1_800AB78C,
+  &e2_8009EC64,
+  &e1_800AB7C4,
+  &e2_8009ECB8,
+  &e2_8009ECDC,
+  &e6_8009ED48,
+  &e7_8009ED68
+};
+
+
+Sna_ActionTable SECTION(".data") weapon_actions_8009ED8C[9] =
+{
+  {
+    &e1_800AB794,
+    &e2_8009EC70,
+    &e1_800AB7C4,
+    &e2_8009ECC4,
+    &e2_8009ECE8,
+    &e6_8009ED4C,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB79C,
+    &e2_8009EC7C,
+    &e1_800AB7C4,
+    &e2_8009ECD0,
+    &e2_8009ECF4,
+    &e6_8009ED50,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB7A4,
+    &e2_8009ECAC,
+    &e1_800AB7C4,
+    &e2_8009ECB8,
+    &e2_8009ED30,
+    &e6_8009ED64,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB7B4,
+    &e2_8009EC88,
+    &e1_800AB7C4,
+    &e2_8009ECD0,
+    &e2_8009ED0C,
+    &e6_8009ED58,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB79C,
+    &e2_8009EC7C,
+    &e1_800AB7C4,
+    &e2_8009ECD0,
+    &e2_8009ED00,
+    &e6_8009ED54,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB7BC,
+    &e2_8009ECA0,
+    &e1_800AB7C4,
+    &e2_8009ECB8,
+    &e2_8009ED24,
+    &e6_8009ED60,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB7AC,
+    &e2_8009EC94,
+    &e1_800AB7C4,
+    &e2_8009ECB8,
+    &e2_8009ED18,
+    &e6_8009ED5C,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB7A4,
+    &e2_8009ECAC,
+    &e1_800AB7C4,
+    &e2_8009ECB8,
+    &e2_8009ED30,
+    &e6_8009ED64,
+    &e7_8009ED68
+  },
+  {
+    &e1_800AB7A4,
+    &e2_8009ECAC,
+    &e1_800AB7C4,
+    &e2_8009ECB8,
+    &e2_8009ED30,
+    &e6_8009ED64,
+    &e7_8009ED68
+  },
+   {
+    &e1_800AB78C,
+    NULL,
+    &e1_800AB7C4,
+    &e2_8009ECB8,
+    &e2_8009ED3C,
+    &e6_8009ED54,
+    &e7_8009ED68
+  }
+};
+
+int SECTION(".data") dword_8009EEA4[] =
+{
+	0x8005275C, // sna_init_anim_idle_8005275C
+	0x800527DC, // sna_init_anim_crouch_800527DC
+	0x800528BC  // sna_init_anim_prone_idle_800528BC
+};
+
+int SECTION(".data") dword_8009EEB0[] =
+{
+	0x80052A5C, // sna_init_anim_wall_idle_and_c4_80052A5C
+	0x80052CCC // sna_init_anim_wall_crouch_80052CCC
+};
+
+int SECTION(".data") dword_8009EEB8[] = 
+{
+	0x8005292C, // sna_init_anim_run_8005292C
+	0x8005292C, // sna_init_anim_run_8005292C
+	0x800529C0  // sna_init_anim_prone_move_800529C0
+};
 
 int SECTION(".data") dword_8009EEC4[] = {0xFA02EE, 0xFA};
 int SECTION(".data") dword_8009EECC[] = {0x1F0044C, 0x88};
