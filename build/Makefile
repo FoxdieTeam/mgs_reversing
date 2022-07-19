@@ -135,10 +135,10 @@ all: check-deps del-tmp-dirs $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq
 
 check-deps:
 ifndef PYTHON
-    @echo python 3 not found!
-    @exit 1
+	@echo python 3 not found!
+	@exit 1
 else
-    @exit 0
+	@exit 0
 endif
 
 #-------------------------------------------------------------------------------
