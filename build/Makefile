@@ -36,6 +36,7 @@ LINK_FILE              = $(BUILD_PATH)/linker_command_file.txt
 
 INCLUDE_ASM_PREPROCESS = python3 $(BUILD_PATH)/include_asm_preprocess.py
 INCLUDE_ASM_FIXUP      = python3 $(BUILD_PATH)/include_asm_fixup.py
+MULTICORE_PATCHER      = python3 $(BUILD_PATH)/patch-ccpsx-multicore.py
 
 PYTHON3_VERSION := $(shell python3 --version 2>/dev/null)
 
@@ -116,19 +117,21 @@ endif
 
 .ONESHELL:
 
-.PHONY: all clean fclean re compare build
+.PHONY: all clean fclean re compare build multicore-fix
 
 #-------------------------------------------------------------------------------
 # Main rule/target
 
-all: DEPS_CHECK DEL_TMP_DIRS $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
+all: check-deps del-tmp-dirs $(PSYQ_3_BIN_PATH)/psyq.ini $(PSYQ_4_BIN_PATH)/psyq.ini $(OBJS_DIRS) $(EXE_FILE)
 
 #-------------------------------------------------------------------------------
 # Check dependencies
-DEPS_CHECK:
+check-deps:
 ifndef PYTHON3_VERSION
 	@echo 'python3' not found!
-	exit 1
+	@exit 1
+else
+	@exit 0
 endif
 
 #-------------------------------------------------------------------------------
@@ -156,7 +159,8 @@ $(OBJS_DIRS):
 
 #-------------------------------------------------------------------------------
 # Delete temp dirs
-DEL_TMP_DIRS:
+
+del-tmp-dirs:
 	@rm -r "$(INCLUDE_ASM_TMP)" 2>/dev/null || exit 0
 
 #-------------------------------------------------------------------------------
@@ -295,6 +299,10 @@ else
 	@exit 1
 endif
 
+multicore-fix:
+	@$(MAKE) --no-print-directory check-deps
+	@$(MULTICORE_PATCHER) $(PSYQ_3_PATH)/bin/ccpsx.exe
+	@$(MULTICORE_PATCHER) $(PSYQ_4_PATH)/bin/ccpsx.exe
 
 build:
 	@echo "Executing build.ps1"
