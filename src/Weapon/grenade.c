@@ -8,7 +8,7 @@ extern unsigned short dword_8009F3E4[];
 extern struct Actor *GV_NewActor_800150E4(int level, int memSize);
 extern void GV_SetNamedActor_8001514C(Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
-extern int GV_Strcode_80016CCC(const char *string);
+extern int GV_StrCode_80016CCC(const char *string);
 extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 extern int grenade_act_8006641C(int a1);

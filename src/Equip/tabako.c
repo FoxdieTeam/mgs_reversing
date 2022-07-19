@@ -36,7 +36,7 @@ int            anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
 extern DG_TEX *DG_FindTexture_8001D830(int);
 void          GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 void          GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-extern int    GV_Strcode_80016CCC(const char *string);
+extern int    GV_StrCode_80016CCC(const char *string);
 DG_PRIM       *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 int           DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
@@ -164,7 +164,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
     DG_PRIM *pPrimIter;       // $t0
     int ret;
 
-    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_Strcode_80016CCC(aCigar), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_StrCode_80016CCC(aCigar), 0x6D, 0);
     if (!pActor->field_20_pObj.objs)
     {
         return -1;
@@ -198,7 +198,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
 
     pPrims->field_2E_k500 = 250;
 
-    Texture_8001D830 = DG_FindTexture_8001D830(GV_Strcode_80016CCC(aRcmL));
+    Texture_8001D830 = DG_FindTexture_8001D830(GV_StrCode_80016CCC(aRcmL));
     pack_idx = 0;
     pPrimIter = _pPrims;
     do
