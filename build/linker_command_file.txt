@@ -657,7 +657,7 @@
     include "..\obj\sub_8002DDE0.obj"
     include "..\obj\sub_8002E1B8.obj"
     include "..\obj\sub_8002E2A8.obj"
-    include "..\obj\sub_8002E374.obj"
+    include "..\obj\target.obj"
 
     ;game\loader.c
     include "..\obj\Game\loader.obj"
@@ -2792,5 +2792,8 @@ group_byte_800B1400    group bss,org($800B1400)
 
 group_D_800C0C00    group bss,org($800C0C00)
     section .D_800C0C00, group_D_800C0C00
+
+group_gTargets_800B64E0    group bss,org($800B64E0)
+    section .gTargets_800B64E0, group_gTargets_800B64E0
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
