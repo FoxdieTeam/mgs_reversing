@@ -1,4 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800ABA68;
+int SECTION(".sbss") gTargets_down_count_800ABA68;
 
