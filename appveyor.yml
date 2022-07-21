@@ -10,13 +10,17 @@ build_script:
  - set PATH=C:\cygwin64\bin;%PATH%
  - g++ build\progress_script\symProgress.c -o build\progress_script\progress.exe
  - cd build
- - make multicore-fix
- - make PSYQ_SDK=c:\psyq C_DEPS=false -j4
- - make progress
+ - python build.py --platform windows
+ - c:\mgs\ninja\ninja.exe build.ninja
+# - make multicore-fix
+# - make PSYQ_SDK=c:\psyq C_DEPS=false -j4
+# - make progress
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
  - git submodule update --init --recursive
- - choco install make --source=cygwin
+ - ps: Start-FileDownload https://github.com/ninja-build/ninja/releases/download/v1.11.0/ninja-win.zip
+ - 7z x ninja-win.zip -oC:\mgs\ninja
+# - choco install make --source=cygwin
 
 test: off
