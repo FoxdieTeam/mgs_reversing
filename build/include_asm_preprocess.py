@@ -337,7 +337,7 @@ def main(path, output):
         include_path = m.group(1)
 
         if '\\' in include_path:
-            print("error: INCLUDE_ASM paths should not use backslashes in: " + include_path, file=sys.stderr)
+            print("error: INCLUDE_ASM paths should not use backslashes in: ", include_path, file=sys.stderr)
             sys.exit(1)
 
         m = re.search(ADDR_SUFFIX_RE, include_path)
