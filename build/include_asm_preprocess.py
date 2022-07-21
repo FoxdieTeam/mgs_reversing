@@ -306,16 +306,17 @@ def get_files_recursive(path, ext):
     return collectedFiles
 
 def get_names_by_addr():
-    if not os.path.exists(TMP_DIR):
-        os.mkdir(TMP_DIR)
-    cache_file = os.path.join(TMP_DIR, 'all_asms.txt')
-    if os.path.exists(cache_file):
-        with open(cache_file) as f:
-            asms = f.read().splitlines()
-    else:
-        asms = get_files_recursive("../asm/", ".s")
-        with open(cache_file, 'w') as f:
-            f.write('\n'.join(asms))
+    #if not os.path.exists(TMP_DIR):
+    #    os.mkdir(TMP_DIR)
+    #cache_file = os.path.join(TMP_DIR, 'all_asms.txt')
+    #if os.path.exists(cache_file):
+    #    with open(cache_file) as f:
+    #        asms = f.read().splitlines()
+    #else:
+    # phat hack #2 don't use a cache file due to races with multiple concurrent instances
+    asms = get_files_recursive("../asm/", ".s")
+    #    with open(cache_file, 'w') as f:
+    #        f.write('\n'.join(asms))
 
     names_by_addr = {}
     for asm in asms:
