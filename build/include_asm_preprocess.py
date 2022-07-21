@@ -314,7 +314,7 @@ def get_names_by_addr():
             names_by_addr[addr] = os.path.basename(asm).replace('.s', '')
     return names_by_addr
 
-def main(path):
+def main(path, output):
     with open(path) as f:
         lines = f.readlines()
 
@@ -384,16 +384,18 @@ def main(path):
         processed.append(func)
         changed = True
 
-    if not changed:
-        print(path)
-    else:
-        rel = os.path.relpath(path, '../src')
-        tmp_file = os.path.join(TMP_DIR, rel)
-        tmp_dir = os.path.dirname(tmp_file)
-        os.makedirs(tmp_dir, exist_ok=True)
-        with open(tmp_file, 'w') as f:
-            f.write(''.join(processed))
-        print(tmp_file)
-
+    #if not changed:
+    #    print(path)
+    #else:
+    #     rel = os.path.relpath(path, '../src')
+    #     tmp_file = os.path.join(TMP_DIR, rel)
+    #     tmp_dir = os.path.dirname(tmp_file)
+    #     os.makedirs(tmp_dir, exist_ok=True)
+    with open(output, 'w') as f:
+        f.write(''.join(processed))
+        
 if __name__ == '__main__':
-    main(sys.argv[1].replace('\\', '/'))
+    src = sys.argv[1].replace('\\', '/')
+    dst = sys.argv[2].replace('\\', '/')
+    print("Asm preproc " + src + " to " + dst) 
+    main(src, dst)
