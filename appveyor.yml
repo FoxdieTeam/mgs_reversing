@@ -1,11 +1,8 @@
 version: 1.0.{build}
 image: Visual Studio 2017
 
-environment:
-  matrix:
-   - PYTHON: "C:\\Python36-x64"
 platform: 
- - x86
+ - x64
 
 clone_folder: c:\mgs
 
@@ -24,8 +21,9 @@ install:
  - git submodule update --init --recursive
  - ps: Start-FileDownload https://github.com/ninja-build/ninja/releases/download/v1.11.0/ninja-win.zip
  - 7z x ninja-win.zip -oC:\mgs\ninja
- - SET PATH= C:\Python36-x64;C:\Python36-x64\Scripts;%PATH%"
+ - SET PATH= C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%"
  - python --version
+ - C:\Python310-x64\python.exe --version
 
 # - choco install make --source=cygwin
 
