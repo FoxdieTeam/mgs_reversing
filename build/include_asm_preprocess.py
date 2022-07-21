@@ -295,6 +295,16 @@ ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 
 TMP_DIR = 'include_asm_tmp'
 
+# temp hack for appveyor - shouldn't need to read all these in the future anyway
+def get_files_recursive(path, ext):
+    collectedFiles = []
+    # r=root, d=directories, f = files
+    for r, d, f in os.walk(path):
+        for file in f:
+            if file.endswith(ext):
+                collectedFiles.append(os.path.join(r, file))
+    return collectedFiles
+
 def get_names_by_addr():
     if not os.path.exists(TMP_DIR):
         os.mkdir(TMP_DIR)
@@ -303,7 +313,7 @@ def get_names_by_addr():
         with open(cache_file) as f:
             asms = f.read().splitlines()
     else:
-        asms = glob('../asm/**/*.s', recursive=True)
+        asms = get_files_recursive("../asm/", ".s")
         with open(cache_file, 'w') as f:
             f.write('\n'.join(asms))
 
