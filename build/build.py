@@ -76,13 +76,13 @@ ninja.newline()
 ninja.rule("asm_include_preprocess_44", "python $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G 8 -g -Wall -O2 $in -o $out""", "Compile $in -> $out", pool="single_threaded")
+ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G 8 -g -Wall -O2 $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_c_preprocess_43", "$psyq_c_preprocessor_43_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out" , pool="single_threaded")
+ninja.rule("psyq_c_preprocess_43", "$psyq_c_preprocessor_43_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
