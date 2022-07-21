@@ -73,8 +73,14 @@ includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir -I $src_
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
+# deps="msvc"
 ninja.rule("asm_include_preprocess_44", "python $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
+
+ninja.rule("asm_include_postprocess", "python $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")
+ninja.newline()
+
+
 
 ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G 8 -g -Wall -O2 $in -o $out""", "Compile $in -> $out")
 ninja.newline()
@@ -92,9 +98,16 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_43", "$psyq_aspsx_43_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-
-ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/test2.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
+ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
 ninja.newline()
+
+# TODO: update the tool so we can set the output name optionally
+ninja.rule("cpe2exe", "$psyq_path/psyq_4.3/bin/cpe2exe.exe -CJ $in", "cpe2exe $in -> $out")
+ninja.newline()
+
+ninja.rule("hash_check", "python $src_dir/../build/compare.py $in", "Hash check $in")
+ninja.newline()
+
 
 def create_psyq_ini(sdkDir, psyqDir):
     data = ""
@@ -134,7 +147,6 @@ def gen_build_target(targetName):
     linkerDeps = []
 
     # TODO: Use the correct toolchain and -G flag for each c file
-    # TODO: Invoke the include_asm tools
     # TODO: .h file deps of .c files
 
     # build .s files
@@ -152,35 +164,40 @@ def gen_build_target(targetName):
         cOFile = cFile.replace("/src/", "/obj/")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
         cAsmPreProcFile = cOFile.replace(".c", ".c.asm.preproc")
+        cAsmPreProcFileDeps = cOFile.replace(".c", ".c.asm.preproc.deps")
         cAsmFile = cOFile.replace(".c", ".asm")
+        cTempOFile = cOFile.replace(".c", "_fixme.obj")
         cOFile = cOFile.replace(".c", ".obj")
         #print("Build step " + asmFile + " -> " + asmOFile)
         if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
-            ninja.build(cAsmPreProcFile, "asm_include_preprocess_44", cPreProcFile)
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
             ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile)
-            ninja.build(cOFile, "psyq_aspsx_assemble_44", cAsmFile)
+            ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
         else:
             #print("44:" + cFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
-            ninja.build(cAsmFile, "psyq_cc_43", cPreProcFile)
-            ninja.build(cOFile, "psyq_aspsx_assemble_43", cAsmFile)
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
+            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile)
+            ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
         linkerDeps.append(cOFile)
 
-        
     # run the linker to generate the cpe
-    cpeFile = os.path.abspath(".") + "/obj/" + "_mgsi" + ".cpe"
+    cpeFile = os.path.abspath("../obj/_mgsi.cpe")
+    print("cpeFile = " + cpeFile)
     ninja.build(cpeFile, "psylink", implicit=linkerDeps)
     ninja.newline()
 
-    # TODO: cpe to exe
-    #cpeAsExe = "build/" + targetName + ".exe"
-    #ninja.build(cpeAsExe, "cpe2exe", cpeFile)
-    #ninja.newline()
+    # cpe to exe
+    exeFile = os.path.abspath("../obj/_mgsi.exe")
+    ninja.build(exeFile, "cpe2exe", cpeFile)
+    ninja.newline()
 
     # exe hash check
-    #ninja.build("build/" + targetName + ".ok", "hash_check", targetName + ".sha1", implicit=[elfAsBinFile])
-    #ninja.newline()
+    ninja.build(exeFile + ".ok", "hash_check", exeFile)
+    ninja.newline()
 
 
 init_psyq_ini_files(args.psyq_path)
@@ -188,4 +205,4 @@ gen_build_target("SLPM_862.47")
 
 #gen_build_target("sound.bin")
 
-# todo: all overlays
+# TODO: all overlays

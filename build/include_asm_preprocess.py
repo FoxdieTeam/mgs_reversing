@@ -330,24 +330,31 @@ def main(path, output):
     with open(path) as f:
         lines = f.readlines()
 
-    names_by_addr = get_names_by_addr()
+    #names_by_addr = get_names_by_addr()
     processed = []
-    changed = False
+    dependsOnObjs = []
 
     for raw_line in lines:
         line = raw_line.strip()
-        if not line.startswith('#pragma'):
+        # #pragma INCLUDE_ASM("asm/Weapon/famas_kill_80065E90.s")
+        if not line.startswith('#pragma INCLUDE_ASM('):
             processed.append(raw_line)
             continue
 
-        m = re.match(PRAGMA_RE, line)
+        # Remove #pragma INCLUDE_ASM(
+        line = line[20:]
 
-        if not m:
-            processed.append(raw_line)
-            continue
+        # Get the string between the ()'s
+        pos = line.find(")")
+        if pos == -1:
+            print("error: INCLUDE_ASM path is missing closing ): ", include_path, file=sys.stderr)
+            sys.exit(1)
 
-        include_path = m.group(1)
-
+        # Get the string between the ()'s without the quotes
+        include_path = line[1:pos-1]
+        dependsOnObjs.append(include_path.replace(".s", ".obj").replace("asm/", "obj/"))
+        #print(include_path)
+        
         if '\\' in include_path:
             print("error: INCLUDE_ASM paths should not use backslashes in: ", include_path, file=sys.stderr)
             sys.exit(1)
@@ -374,11 +381,15 @@ def main(path, output):
         nops = 'nop;' * int(num_nops / NOP_SIZE)
 
         # assumes all .s filenames are == to the xdef name inside it
-        name = names_by_addr.get(addr_str)
-        if not name:
-            print('error: INCLUDE_ASM addr of referenced path was not found:', addr_str, file=sys.stderr)
-            sys.exit(4)
+        #name = names_by_addr.get(addr_str)
+        #if not name:
+        #    print('error: INCLUDE_ASM addr of referenced path was not found:', addr_str, file=sys.stderr)
+        #    sys.exit(4)
 
+        # get the .s file name only (from last / to before .s)
+        name = include_path[include_path.rfind("/")+1: -2]
+        #print(name)
+        
         first_char = ord(name[0])
 
         upper_byte = addr >> 24
@@ -394,7 +405,6 @@ def main(path, output):
 
         func = FUNC_FMT.format(name, nops, hex(addr)) + '\n'
         processed.append(func)
-        changed = True
 
     #if not changed:
     #    print(path)
@@ -405,9 +415,18 @@ def main(path, output):
     #     os.makedirs(tmp_dir, exist_ok=True)
     with open(output, 'w') as f:
         f.write(''.join(processed))
-        
+
+    with open(output + ".deps", 'w') as f:
+        for d in dependsOnObjs:
+            f.write(d + "\n")
+
+    # ninja picks these up for deps = msvc
+    #for d in dependsOnObjs:
+    #    print("Note: including file: " + d)
+
 if __name__ == '__main__':
+    #main("C:/Data/mgs_reversing/obj/Weapon/socom.c.preproc", "C:/Data/mgs_reversing/obj/Weapon/socom.c.asm.preproc")
     src = sys.argv[1].replace('\\', '/')
     dst = sys.argv[2].replace('\\', '/')
-    print("Asm preproc " + src + " to " + dst) 
+    #print("Asm preproc " + src + " to " + dst) 
     main(src, dst)

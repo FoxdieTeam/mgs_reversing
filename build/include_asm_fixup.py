@@ -6,6 +6,7 @@ import re
 import os
 import struct
 from objlib import get_obj_funcs
+import shutil
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -18,7 +19,13 @@ def disasm(code, addr):
 def hexdump(data):
     return ' '.join(['{:02X}'.format(x) for x in data])
 
-def fix_obj(obj_to_fix, objs_by_addr):
+def obj_with_name(inputObjs, toFind):
+    for obj in inputObjs:
+        if toFind in obj:
+            return obj 
+    return None
+
+def fix_obj(obj_to_fix, outputObj, inputObjs):
     code_start = 0x800148B8
     psyq_start = 0x8008C608
 
@@ -45,10 +52,11 @@ def fix_obj(obj_to_fix, objs_by_addr):
 
             assert code_start <= addr_num < psyq_start
 
-            source_obj = objs_by_addr.get(addr)
+            source_obj = obj_with_name(inputObjs, name.decode("utf-8") + ".obj")
             if not source_obj:
-                print('couldnt find source obj with addr:', addr)
+                print('couldnt find source obj with name:', name.decode("utf-8") )
                 continue
+            source_obj = "../" + source_obj
 
             source_funcs = get_obj_funcs(source_obj)
             # all of our .s files should have a single xdef
@@ -79,11 +87,14 @@ def fix_obj(obj_to_fix, objs_by_addr):
 
             fixed_funcs += 1
 
+    # EL hacko - copy input to output obj
+    shutil.copy2(obj_to_fix, outputObj)
+
     if fixed_funcs > 0:
         print('Fixed {} IMPORT_ASM funcs in obj:'.format(fixed_funcs), obj_to_fix)
 
 
-def main():
+def main_old():
     addr_suffix_re = r'_([0-9A-F]{8})\.'
 
     tmp = 'include_asm_tmp'
@@ -106,5 +117,15 @@ def main():
         if os.path.exists(path):
             fix_obj(path, objs_by_addr)
 
+def main(inputObj, outputObj, inputObjsFile):
+    inputObjs = []
+    with open(inputObjsFile) as f:
+        inputObjs = [line.rstrip() for line in f]
+    fix_obj(inputObj, outputObj, inputObjs)
+
 if __name__ == '__main__':
-    main()
+    src = sys.argv[1].replace('\\', '/')
+    dst = sys.argv[2].replace('\\', '/')
+    #src = "C:/Data/mgs_reversing/obj/Weapon/socom_fixme.obj"
+    #dst = "C:/Data/mgs_reversing/obj/Weapon/socom.obj"
+    main(src, dst, dst.replace(".obj", ".c.asm.preproc.deps"))
