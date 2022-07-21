@@ -11,7 +11,7 @@ build_script:
  - g++ build\progress_script\symProgress.c -o build\progress_script\progress.exe
  - cd build
  - python build.py --platform windows --psyq_path c:\psyq
- - c:\mgs\ninja\ninja.exe build.ninja
+ - c:\mgs\ninja\ninja.exe
 # - make multicore-fix
 # - make PSYQ_SDK=c:\psyq C_DEPS=false -j4
 # - make progress
