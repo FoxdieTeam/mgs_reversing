@@ -1,7 +1,5 @@
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
-
 void claymore_kill_800738F4(int param_1)
 {
     int prim;

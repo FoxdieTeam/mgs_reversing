@@ -1,7 +1,5 @@
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
-
 void d_bloodr_kill_80072BD4(int param_1)
 {
     int prim;
