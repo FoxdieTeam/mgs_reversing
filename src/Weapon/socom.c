@@ -1,9 +1,14 @@
 #include "socom.h"
 #include "game.h"
 #include "libdg.h"
+#include "libgv.h"
 #include "actor.h"
+#include "map.h"
+#include "target.h"
 
 extern int dword_800AB824;
+extern SVECTOR stru_8009F3D4[2];
+
 int SECTION(".sdata") dword_800AB824;
 
 extern char                 aSocomC[]; // = "socom.c"
@@ -16,6 +21,10 @@ extern int                  socom_act_80065518(int a1);
 extern int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
 
 extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
+
+// TODO: move me
+int sub_80028454(void* pHzd, SVECTOR *a2, SVECTOR *a3, char a4, int a5);
+void sub_80028890(SVECTOR *pVec);
 
 void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)
 {
@@ -90,7 +99,39 @@ void socom_act_helper_800653B8(Actor_Socom *socom)
 	}
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065408.s")
+int socom_act_helper_80065408(Actor_Socom *pActor)
+{
+    int bCalcLen;
+    map_record *field_2C_map;
+    int vecLen;
+    SVECTOR vecs[2];
+
+    bCalcLen = 0;
+    DG_SetPos_8001BC44(&pActor->field_48_parent_object->objs->objs[pActor->field_4C_obj_idx].world);
+    DG_PutVector_8001BE48(stru_8009F3D4, vecs, 2);
+    field_2C_map = pActor->field_44_pCtrl->field_2C_map;
+    if ( sub_80028454((int)field_2C_map->field_8_hzd, vecs, &vecs[1], 15, 4) )
+    {
+        sub_80028890(&vecs[1]);
+        bCalcLen = 1;
+    }
+    if ( GM_Target_8002E1B8(vecs, &vecs[1], field_2C_map->field_0_map_index_bit, &vecs[1], 1) )
+    {
+        bCalcLen = 1;
+    }
+    vecLen = 0;
+    if ( bCalcLen )
+    {
+        GV_SubVec3_80016D40(&vecs[1], vecs, vecs);
+        vecLen = GV_VecLen3_80016D80(vecs);
+        if ( vecLen >= 816 )
+        {
+            vecLen -= 815;
+        }
+    }
+    return vecLen;
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_80065518.s")
 
 void socom_kill_80065A94(Actor_Socom* a1)
