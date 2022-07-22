@@ -40,12 +40,12 @@ for obj in objs:
 total_funcs = c_funcs + s_funcs
 total_bytes = c_bytes + s_bytes
 
-print('Reversed funcs: {:,} / {:,} ({}%)'.format(
+print('Reversed funcs: {:,} / {:,} ({:.2f}%)'.format(
     c_funcs,
     total_funcs,
-    round(c_funcs/total_funcs*100), 2))
+    c_funcs / total_funcs * 100))
 
-print('Reversed bytes: {:,} / {:,} ({}%)'.format(
+print('Reversed bytes: {:,} / {:,} ({:.2f}%)'.format(
     c_bytes,
     total_bytes,
-    round(c_bytes/total_bytes*100), 2))
+    c_bytes /total_bytes * 100))
