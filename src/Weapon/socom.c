@@ -41,7 +41,25 @@ void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065200.s")
+void socom_set_poly_uvs_80065200(POLY_FT4* pIter, DG_TEX *pTexture, char a3)
+{
+    char yOff = pTexture->field_9_offy + (a3 & 63);
+    char xOff = pTexture->field_8_offx;
+    int i; // $t0
+
+    for ( i = 10; i > 0; i-- )
+    {
+        setUVWH(pIter, xOff, yOff, 8-1, 0);
+
+        // TODO: Fake match/hack no reason to assign these again but no match if we don't        
+        pIter->u3 = xOff + 7;
+        pIter->v3 = yOff;
+        
+        xOff += 8;
+
+        pIter++;
+    }
+}
 
 void socom_init_vectors_80065254(Actor_Socom *pActor)
 {
