@@ -71,4 +71,6 @@ typedef struct _OBJECT_NO_ROTS
     unsigned long      field_20;    //0x20
 } OBJECT_NO_ROTS;
 
+extern int GM_CurrentMap_800AB9B0;
+
 #endif //GAME_H

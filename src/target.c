@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "target.h"
+#include "game.h"
 
 GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
 
@@ -35,7 +36,16 @@ void GM_Reset_helper2_8002D3F0(void)
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_8002DA14.s")
 
-#pragma INCLUDE_ASM("asm/Game/GM_Target_8002DC74.s")
+void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
+{
+    short cur_map = GM_CurrentMap_800AB9B0;
+    pTarget->field_0_flags = targetFlags;
+    pTarget->field_2_side = whichSide;
+    pTarget->field_6_flags = 0;
+    pTarget->field_4_map = cur_map;
+    pTarget->field_10_size = *pSize;
+    pTarget->field_3C = 0;
+}
 
 void GM_Target_8002DCB4(char* arg0, short arg1, short arg2, int arg3, int arg4) {
     *(int*)(arg0 + 0x18) = arg3;
