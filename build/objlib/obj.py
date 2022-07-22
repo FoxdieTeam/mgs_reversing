@@ -5,11 +5,10 @@ import sys
 def get_obj_funcs(path):
     pos = 0
     current_section = None
-    current_func = ()
     text_section = None
     code_blocks = []
-    funcs = []
-    xdefs = {}
+    code_block_pos = 0
+    xdefs = []
 
     def u8():
         nonlocal pos
@@ -70,7 +69,8 @@ def get_obj_funcs(path):
             code_len = u16()
             code = b(code_len)
             if current_section == text_section:
-                code_blocks.append((code, pos - code_len))
+                code_blocks.append((code_block_pos, code, pos - code_len))
+                code_block_pos += code_len
         elif cmd == 6:
             current_section = u16()
         elif cmd == 8:
@@ -85,7 +85,7 @@ def get_obj_funcs(path):
             xdef_name_len = u8()
             xdef_name = b(xdef_name_len)
             if section == text_section:
-                xdefs[offset] = xdef_name
+                xdefs.append((offset, xdef_name))
                 # print('xdef', xdef_name, offset)
         elif cmd == 14:
             pos += 2
@@ -123,24 +123,11 @@ def get_obj_funcs(path):
         elif cmd == 60:
             pos += 2
         elif cmd == 74: # function start def
-            assert not current_func
-            section = u16()
-            assert section == text_section
-            start_offset = u32()
-            pos += 2 + 4 + 2 + 4 + 2 + 4 + 4
-            func_name_len = u8()
-            name = b(func_name_len)
-            # print('funcdef', name, start_offset)
-            current_func = (name, start_offset)
+            pos += 2 + 4 + 2 + 4 + 2 + 4 + 2 + 4 + 4
+            c = u8()
+            pos += c
         elif cmd == 76: # function end def
-            assert current_func
-            section = u16()
-            assert section == text_section
-            end_offset = u32()
-            pos += 4
-            name, start_offset = current_func
-            funcs.append((name, start_offset, end_offset))
-            current_func = None
+            pos += 2 + 4 + 4
         elif cmd == 78:
             pos += 2 + 4 + 4
         elif cmd == 80:
@@ -162,38 +149,27 @@ def get_obj_funcs(path):
             print('unknown opcode', cmd, path)
             break
 
-    ret = {}
+    ret = []
+    all_code = b''.join([x[1] for x in code_blocks])
 
-    all_code = b''.join([x[0] for x in code_blocks])
-    code_ranges = []
+    # sort by offset descending
+    xdefs.sort(key=lambda x: x[0], reverse=True)
 
-    i = 0
-    for code, file_pos in code_blocks:
-        l = len(code)
-        code_ranges.append((i, file_pos))
-        i += l
+    for xdef in xdefs:
+        offset, name = xdef
+        found = False
+        for code_pos, code_block, file_off in reversed(code_blocks):
+            if offset < code_pos or offset >= code_pos + len(code_block):
+                continue
+            code = all_code[offset:]
+            all_code = all_code[0:offset]
+            ret.append((name, file_off + (offset - code_pos), code))
+            found = True
+            break
+        if not found:
+            raise Exception('couldnt locate xdef in obj: {} {}'.format(name, path))
 
-    i = 0
-    for code, file_pos in code_blocks:
-        name = xdefs.get(i)
-        if name:
-            ret[name] = (name, file_pos, code)
-        i += len(code)
+    # sort by file offset ascending
+    ret.sort(key=lambda x:x[1])
 
-    # funcs take priority over xdefs
-    for name, start_offset, end_offset in funcs:
-        code = all_code[start_offset:end_offset]
-
-        offset = None
-        for range_start, file_pos in reversed(code_ranges):
-            if start_offset >= range_start:
-                # hack
-                if len(code_ranges) == 1:
-                    offset = file_pos + start_offset
-                else:
-                    offset = file_pos
-                break
-        assert offset is not None
-        ret[name] = (name, offset, code)
-
-    return list(ret.values())
+    return ret

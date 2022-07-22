@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from __future__ import print_function
 import sys
 from glob import glob
 import re
@@ -294,17 +295,28 @@ ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 
 TMP_DIR = 'include_asm_tmp'
 
+# temp hack for appveyor - shouldn't need to read all these in the future anyway
+def get_files_recursive(path, ext):
+    collectedFiles = []
+    # r=root, d=directories, f = files
+    for r, d, f in os.walk(path):
+        for file in f:
+            if file.endswith(ext):
+                collectedFiles.append(os.path.join(r, file))
+    return collectedFiles
+
 def get_names_by_addr():
-    if not os.path.exists(TMP_DIR):
-        os.mkdir(TMP_DIR)
-    cache_file = os.path.join(TMP_DIR, 'all_asms.txt')
-    if os.path.exists(cache_file):
-        with open(cache_file) as f:
-            asms = f.read().splitlines()
-    else:
-        asms = glob('../asm/**/*.s', recursive=True)
-        with open(cache_file, 'w') as f:
-            f.write('\n'.join(asms))
+    #if not os.path.exists(TMP_DIR):
+    #    os.mkdir(TMP_DIR)
+    #cache_file = os.path.join(TMP_DIR, 'all_asms.txt')
+    #if os.path.exists(cache_file):
+    #    with open(cache_file) as f:
+    #        asms = f.read().splitlines()
+    #else:
+    # phat hack #2 don't use a cache file due to races with multiple concurrent instances
+    asms = get_files_recursive("../asm/", ".s")
+    #    with open(cache_file, 'w') as f:
+    #        f.write('\n'.join(asms))
 
     names_by_addr = {}
     for asm in asms:
@@ -314,30 +326,37 @@ def get_names_by_addr():
             names_by_addr[addr] = os.path.basename(asm).replace('.s', '')
     return names_by_addr
 
-def main(path):
+def main(path, output):
     with open(path) as f:
         lines = f.readlines()
 
-    names_by_addr = get_names_by_addr()
+    #names_by_addr = get_names_by_addr()
     processed = []
-    changed = False
+    dependsOnObjs = []
 
     for raw_line in lines:
         line = raw_line.strip()
-        if not line.startswith('#pragma'):
+        # #pragma INCLUDE_ASM("asm/Weapon/famas_kill_80065E90.s")
+        if not line.startswith('#pragma INCLUDE_ASM('):
             processed.append(raw_line)
             continue
 
-        m = re.match(PRAGMA_RE, line)
+        # Remove #pragma INCLUDE_ASM(
+        line = line[20:]
 
-        if not m:
-            processed.append(raw_line)
-            continue
+        # Get the string between the ()'s
+        pos = line.find(")")
+        if pos == -1:
+            print("error: INCLUDE_ASM path is missing closing ): ", include_path, file=sys.stderr)
+            sys.exit(1)
 
-        include_path = m.group(1)
-
+        # Get the string between the ()'s without the quotes
+        include_path = line[1:pos-1]
+        dependsOnObjs.append(include_path.replace(".s", ".obj").replace("asm/", "obj/"))
+        #print(include_path)
+        
         if '\\' in include_path:
-            print('error: INCLUDE_ASM paths should not use backslashes', file=sys.stderr)
+            print("error: INCLUDE_ASM paths should not use backslashes in: ", include_path, file=sys.stderr)
             sys.exit(1)
 
         m = re.search(ADDR_SUFFIX_RE, include_path)
@@ -362,11 +381,15 @@ def main(path):
         nops = 'nop;' * int(num_nops / NOP_SIZE)
 
         # assumes all .s filenames are == to the xdef name inside it
-        name = names_by_addr.get(addr_str)
-        if not name:
-            print('error: INCLUDE_ASM addr of referenced path was not found:', addr_str, file=sys.stderr)
-            sys.exit(4)
+        #name = names_by_addr.get(addr_str)
+        #if not name:
+        #    print('error: INCLUDE_ASM addr of referenced path was not found:', addr_str, file=sys.stderr)
+        #    sys.exit(4)
 
+        # get the .s file name only (from last / to before .s)
+        name = include_path[include_path.rfind("/")+1: -2]
+        #print(name)
+        
         first_char = ord(name[0])
 
         upper_byte = addr >> 24
@@ -382,18 +405,28 @@ def main(path):
 
         func = FUNC_FMT.format(name, nops, hex(addr)) + '\n'
         processed.append(func)
-        changed = True
 
-    if not changed:
-        print(path)
-    else:
-        rel = os.path.relpath(path, '../src')
-        tmp_file = os.path.join(TMP_DIR, rel)
-        tmp_dir = os.path.dirname(tmp_file)
-        os.makedirs(tmp_dir, exist_ok=True)
-        with open(tmp_file, 'w') as f:
-            f.write(''.join(processed))
-        print(tmp_file)
+    #if not changed:
+    #    print(path)
+    #else:
+    #     rel = os.path.relpath(path, '../src')
+    #     tmp_file = os.path.join(TMP_DIR, rel)
+    #     tmp_dir = os.path.dirname(tmp_file)
+    #     os.makedirs(tmp_dir, exist_ok=True)
+    with open(output, 'w') as f:
+        f.write(''.join(processed))
+
+    with open(output + ".deps", 'w') as f:
+        for d in dependsOnObjs:
+            f.write(d + "\n")
+
+    # ninja picks these up for deps = msvc
+    #for d in dependsOnObjs:
+    #    print("Note: including file: " + d)
 
 if __name__ == '__main__':
-    main(sys.argv[1].replace('\\', '/'))
+    #main("C:/Data/mgs_reversing/obj/Weapon/socom.c.preproc", "C:/Data/mgs_reversing/obj/Weapon/socom.c.asm.preproc")
+    src = sys.argv[1].replace('\\', '/')
+    dst = sys.argv[2].replace('\\', '/')
+    #print("Asm preproc " + src + " to " + dst) 
+    main(src, dst)
