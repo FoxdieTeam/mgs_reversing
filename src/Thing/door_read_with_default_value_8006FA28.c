@@ -3,8 +3,6 @@
 #include "door.h"
 #include "map.h"
 
-void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
-void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count);
 map_record *Map_FindByNum_80031504(int mapNameHash);
 extern void GV_ZeroMemory_8001619C(void *, int);
 
