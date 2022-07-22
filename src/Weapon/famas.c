@@ -17,11 +17,11 @@ extern GameState_800B4D98 gGameState_800B4D98;
 
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 extern void GV_SetNamedActor_8001514C(Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
-extern int famas_kill_80065E90(int a1);
+extern int famas_act_80065E90(int a1);
 
-#pragma INCLUDE_ASM("asm/Weapon/famas_kill_80065E90.s")
+#pragma INCLUDE_ASM("asm/Weapon/famas_act_80065E90.s")
 
-void famas_act_80066188(Actor_Famas *famas)
+void famas_die_80066188(Actor_Famas *famas)
 {
     GM_FreeObject_80034BF8(&famas->f20_obj);
 }
@@ -52,7 +52,7 @@ Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a
     Actor_Famas *famas_actor = (Actor_Famas*)GV_NewActor_800150E4(6, sizeof(Actor_Famas));
     if (famas_actor)
     {
-        GV_SetNamedActor_8001514C(&famas_actor->field_0_actor, (TActorFunction)&famas_kill_80065E90, (TActorFunction)&famas_act_80066188, aFamasC);
+        GV_SetNamedActor_8001514C(&famas_actor->field_0_actor, (TActorFunction)famas_act_80065E90, (TActorFunction)famas_die_80066188, aFamasC);
         if (famas_loader_800661A8(famas_actor, parent_obj, num_parent, flag) < 0)
         {
             GV_DestroyActor_800151C8(&famas_actor->field_0_actor);

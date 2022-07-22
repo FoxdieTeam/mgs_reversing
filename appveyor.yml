@@ -7,14 +7,10 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - set PATH=C:\cygwin64\bin;%PATH%
- - g++ build\progress_script\symProgress.c -o build\progress_script\progress.exe
  - cd build
  - python build.py --platform windows --psyq_path c:\psyq
  - c:\mgs\ninja\ninja.exe
-# - make multicore-fix
-# - make PSYQ_SDK=c:\psyq C_DEPS=false -j4
-# - make progress
+ - powershell.exe -File progress.ps1
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1

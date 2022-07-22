@@ -39,7 +39,6 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern void *GV_GetCache_8001538C(int id);
 extern int GV_CacheID_800152DC(int file_id, int ext_id);
 void *DG_MakeObjs_80031760(void *, int, int);
-void DG_SetPos_8001BC44(MATRIX *);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
 void DG_QueueObjs_80018178(DG_OBJS *);

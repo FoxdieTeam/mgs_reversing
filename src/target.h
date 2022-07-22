@@ -37,4 +37,31 @@ typedef struct GM_Target
     int field_44;
 } GM_Target;
 
+enum
+{
+    TARGET_STALE = 0,         
+    TARGET_AVAIL = 1,         
+    TARGET_CAPTURE = 2,         
+    TARGET_POWER = 4,         
+    TARGET_PUSH = 8, 
+    TARGET_SEEK = 16,         
+    TARGET_DOWN = 32,         
+    TARGET_C4 = 64,             
+    TARGET_TOUCH = 128,         
+    TARGET_PUSH_OVER = 256,     
+    TARGET_NO_LOCKON = 512,
+    TARGET_C4_CLEAR = 1024,     
+    TARGET_DIE = 2048,    
+};
+
+enum 
+{
+    NO_SIDE = 0,             
+    PLAYER_SIDE = 1,         
+    ENEMY_SIDE = 2,             
+    BOTH_SIDE = 3             
+};
+
+int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
+
 #endif // _TARGET_H_
