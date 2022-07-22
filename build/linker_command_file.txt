@@ -655,7 +655,7 @@
     include "..\obj\sub_8002DD14.obj"
     include "..\obj\sub_8002DD1C.obj"
     include "..\obj\sub_8002DDE0.obj"
-    include "..\obj\sub_8002E1B8.obj"
+    include "..\obj\GM_Target_8002E1B8.obj"
     include "..\obj\sub_8002E2A8.obj"
     include "..\obj\target.obj"
 

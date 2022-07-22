@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8002E1B8
-sub_8002E1B8:
+	xdef GM_Target_8002E1B8
+GM_Target_8002E1B8:
 	dw 0x27BDFF88 ; 0x8002E1B8
 	dw 0xAFB30064 ; 0x8002E1BC
 	dw 0x00809821 ; 0x8002E1C0

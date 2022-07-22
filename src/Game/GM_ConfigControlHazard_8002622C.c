@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "GM_Control.h"
+#include "libgv.h"
 #include "gcl.h"
 
 void GM_ControlRemove_80025904(GM_Control *pControl);
@@ -69,8 +70,6 @@ void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a)
 {
     pControl->field_54 = f5a;
 }
-
-int GV_VecLen3_80016D80(SVECTOR *pVec);
 
 int GM_CheckControlTouches_8002624C(GM_Control *pControl, int param_2)
 {

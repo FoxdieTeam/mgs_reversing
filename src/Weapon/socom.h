@@ -4,12 +4,13 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "game.h"
 #include "actor.h"
+#include "GM_Control.h"
 
 typedef struct              _Actor_Socom
 {
     Actor                   field_0_actor;
     OBJECT                  field_20;
-    void                    *field_44_pCtrl;
+    GM_Control              *field_44_pCtrl;
     OBJECT                  *field_48_parent_object;
     int                     field_4C_obj_idx;
     int                     field_50_ptr;
