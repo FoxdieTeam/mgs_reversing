@@ -90,6 +90,7 @@ union					Prim_Union
 	LINE_G2				line_g2;
 	LINE_F4				line_f4;
 	POLY_FT4			poly_ft4;
+	TILE*				tiles;
 };
 
 struct					DG_Rec_Unknown
@@ -166,5 +167,12 @@ void *s2, *d2;
 }
 
 // TODO: There are others like this as seen in the memleak
+
+void DG_DequeuePrim_800182E0(DG_OBJS *pObjs);
+void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
+
+void DG_SetPos_8001BC44( MATRIX* matrix );
+void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
+void DG_PutVector_8001BE48( SVECTOR* svector, SVECTOR* svector2, int count );
 
 #endif //LIBDG_H

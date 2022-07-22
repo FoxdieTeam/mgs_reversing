@@ -1,7 +1,4 @@
-
-
-extern void DG_DequeuePrim_800182E0(int param_1);
-extern void DG_FreePrim_8001BC04(int param_1);
+#include "libdg.h"
 
 void claymore_kill_800738F4(int param_1)
 {

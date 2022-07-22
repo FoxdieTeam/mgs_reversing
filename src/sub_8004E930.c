@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "sna_init.h"
+#include "libdg.h"
 
-extern void DG_PutVector_8001BE48(SVECTOR *svector,SVECTOR *svector2,int param_3);
 extern int HZD_SlopeFloorLevel_800298F8(short *param_1,int arg1);
 extern long SquareRoot0_80092708(long a);
 extern int GV_VecDir2_80016EF8(SVECTOR *vec);
@@ -28,8 +28,9 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
 	vec1.vz = SquareRoot0_80092708(arg1 * arg1 - int1 * int1);
 	int0 = -GV_VecDir2_80016EF8(&vec1);
 
-	if (int0 < -0x800) {
-	int0 += 0x1000;
+	if (int0 < -0x800)
+	{
+		int0 += 0x1000;
 	}
 
 	return int0;

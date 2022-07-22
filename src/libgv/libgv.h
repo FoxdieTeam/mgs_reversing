@@ -127,5 +127,8 @@ extern	int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
 
 //math
 
+void GV_SubVec3_80016D40(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
+int GV_VecLen3_80016D80(SVECTOR* vec);
+
 
 #endif // LIBGV_H
