@@ -125,7 +125,7 @@ def main(inputObj, outputObj, inputObjsFile):
     if len(inputObjs) == 0:
          shutil.copy2(inputObj, outputObj)
     else:
-        print("Fixing " + inputObj)
+        #print("Fixing " + inputObj)
         fix_obj(inputObj, outputObj, inputObjs)
 
 if __name__ == '__main__':

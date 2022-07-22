@@ -2,6 +2,7 @@
 #include "game.h"
 #include "idaTypes.h"
 #include "rcm.h"
+#include "libdg.h"
 
 // nikita
 
@@ -16,7 +17,6 @@ extern void         GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj
 extern void         GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 extern DG_PRIM      *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, int *pRect);
 extern int          DG_QueuePrim_80018274(DG_OBJS *pPrim);
-extern void         DG_FreePrim_8001BC04(int param_1);
 extern void         GM_FreeObject_80034BF8(OBJECT *obj);
 
 // @todo(Voxel): Replace param_1 with Prim_Union and use the correct members. Fine for now.

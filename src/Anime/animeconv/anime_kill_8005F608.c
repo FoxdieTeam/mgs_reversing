@@ -1,7 +1,4 @@
-
-
-extern void DG_DequeuePrim_800182E0(int param_1);
-extern void DG_FreePrim_8001BC04(int param_1);
+#include "libdg.h"
 
 void anime_kill_8005F608(int param_1)
 
