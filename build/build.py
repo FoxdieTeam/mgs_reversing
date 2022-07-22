@@ -81,8 +81,10 @@ ninja.rule("asm_include_postprocess", "python $src_dir/../build/include_asm_fixu
 ninja.newline()
 
 
+ninja.variable("gSize", "4")
+ninja.newline()
 
-ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G 8 -g -Wall -O2 $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
@@ -92,7 +94,7 @@ ninja.rule("psyq_c_preprocess_43", "$psyq_c_preprocessor_43_exe -undef -D__GNUC_
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
-ninja.rule("psyq_cc_43", "cmd /c \"set TMPDIR=%TEMP%&& $psyq_cc_43_exe -quiet -O2 -g -Wall -O2 $in -o $out\"", "Compile $in -> $out", pool="single_threaded")
+ninja.rule("psyq_cc_43", "cmd /c \"set TMPDIR=%TEMP%&& $psyq_cc_43_exe -quiet -O2 -O2 -G $gSize -g -Wall -O2 $in -o $out\"", "Compile $in -> $out", pool="single_threaded")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_43", "$psyq_aspsx_43_exe -q $in -o $out", "Assemble $in -> $out")
@@ -172,14 +174,17 @@ def gen_build_target(targetName):
         if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile)
+            if cFile.find("/Equip/") != -1:
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
+            else:
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "4"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
         else:
-            #print("44:" + cFile)
+            #print("43:" + cFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile)
+            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "4"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
         linkerDeps.append(cOFile)
@@ -200,7 +205,7 @@ def gen_build_target(targetName):
     ninja.newline()
 
 
-init_psyq_ini_files(args.psyq_path)
+#init_psyq_ini_files(args.psyq_path)
 gen_build_target("SLPM_862.47")
 
 #gen_build_target("sound.bin")
