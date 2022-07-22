@@ -31,7 +31,9 @@ def fix_obj(obj_to_fix, outputObj, inputObjs):
 
     fixed_funcs = 0
     funcs = get_obj_funcs(obj_to_fix)
+    #print("func count " + str(len(funcs)))
     for old_name, file_pos, code in funcs:
+        #print(old_name)
         # only INCLUDE_ASM funcs start with a nop
         if code.startswith(b'\x00\x00\x00\x00'):
             # last 12 bytes is a return instruction encoded with the address of asm to include
@@ -93,7 +95,6 @@ def fix_obj(obj_to_fix, outputObj, inputObjs):
     if fixed_funcs > 0:
         print('Fixed {} IMPORT_ASM funcs in obj:'.format(fixed_funcs), obj_to_fix)
 
-
 def main_old():
     addr_suffix_re = r'_([0-9A-F]{8})\.'
 
@@ -121,11 +122,16 @@ def main(inputObj, outputObj, inputObjsFile):
     inputObjs = []
     with open(inputObjsFile) as f:
         inputObjs = [line.rstrip() for line in f]
-    fix_obj(inputObj, outputObj, inputObjs)
+    if len(inputObjs) == 0:
+         shutil.copy2(inputObj, outputObj)
+    else:
+        print("Fixing " + inputObj)
+        fix_obj(inputObj, outputObj, inputObjs)
 
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
     dst = sys.argv[2].replace('\\', '/')
-    #src = "C:/Data/mgs_reversing/obj/Weapon/socom_fixme.obj"
-    #dst = "C:/Data/mgs_reversing/obj/Weapon/socom.obj"
+    #src = "C:/Data/mgs_reversing/obj/Equip/tabako_fixme.obj"
+    #dst = "C:/Data/mgs_reversing/obj/Equip/tabako.obj"
     main(src, dst, dst.replace(".obj", ".c.asm.preproc.deps"))
+    #print("done")
