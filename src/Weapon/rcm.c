@@ -2,6 +2,7 @@
 #include "game.h"
 #include "idaTypes.h"
 #include "rcm.h"
+#include "libdg.h"
 
 // nikita
 
