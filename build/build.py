@@ -81,7 +81,7 @@ ninja.rule("asm_include_postprocess", "python $src_dir/../build/include_asm_fixu
 ninja.newline()
 
 
-ninja.variable("gSize", "4")
+ninja.variable("gSize", "8")
 ninja.newline()
 
 ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
@@ -177,14 +177,14 @@ def gen_build_target(targetName):
             if cFile.find("/Equip/") != -1:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
             else:
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "4"})
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
         else:
             #print("43:" + cFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "4"})
+            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
         linkerDeps.append(cOFile)
