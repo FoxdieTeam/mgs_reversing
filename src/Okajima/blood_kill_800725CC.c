@@ -1,8 +1,6 @@
 #include "blood.h"
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
-
 void blood_kill_800725CC(Actor_Blood* actor_blood)
 {
     int prim;

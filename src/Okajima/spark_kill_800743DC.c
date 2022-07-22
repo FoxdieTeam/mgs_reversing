@@ -1,7 +1,5 @@
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
-
 void spark_kill_800743DC(int param_1)
 {
     int prim;

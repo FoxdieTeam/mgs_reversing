@@ -1,7 +1,5 @@
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
-
 void bullet_kill_80076164(int param_1)
 {
     int prim;
