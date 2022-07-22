@@ -50,7 +50,15 @@ void socom_init_tiles_80065338(TILE* a1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065384.s")
+void socom_set_tiles_colour_80065384(TILE *pPrim, int colour)
+{
+    pPrim[0].r0 = colour;
+    pPrim[0].g0 = colour / 4;
+    pPrim[0].b0 = colour / 4;
+    pPrim[1].r0 = 255;
+    pPrim[1].g0 = 63;
+    pPrim[1].b0 = 63;
+}
 
 void socom_act_helper_800653B8(Actor_Socom *socom)
 {
