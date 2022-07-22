@@ -17,6 +17,8 @@ s_funcs = 0
 c_bytes = 0
 s_bytes = 0
 
+done_names = {}
+
 for obj in objs:
     deps_file = obj.replace('.obj', '.c.asm.preproc.deps')
     is_c_obj = os.path.exists(deps_file)
@@ -30,6 +32,10 @@ for obj in objs:
 
     for name, file_pos, code in get_obj_funcs(obj):
         name = name.decode()
+        if name in done_names:
+            # duplicate because the original INCLUDE_ASM objs are read too, lazy fix
+            continue
+        done_names[name] = obj
         if not is_c_obj or deps_has(deps, name):
             s_funcs += 1
             s_bytes += len(code)
