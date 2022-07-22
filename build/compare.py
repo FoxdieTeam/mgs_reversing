@@ -133,10 +133,13 @@ def cache_good_exe():
         shutil.copy(OBJ_EXE, CACHED_GOOD_EXE)
 
 def green(msg):
-    print('\033[92m{} 👌\033[0m'.format(msg))
+    print(msg)
+    # windows cmd hates this
+    #print('\033[92m{} 👌\033[0m'.format(msg))
 
 def red(msg):
-    print('\033[91m{} 💩\033[0m'.format(msg))
+    print(msg)
+    #print('\033[91m{} 💩\033[0m'.format(msg))
 
 def ok(name):
     func = green if COLORS else print
