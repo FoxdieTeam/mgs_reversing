@@ -7,6 +7,7 @@
 #include "linker.h"
 #include "tabako.h"
 #include "actor.h"
+#include "libdg.h"
 
 // cigarettes
 
@@ -25,8 +26,6 @@ extern int                  GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")                        GM_CurrentMap_800AB9B0;
 int SECTION(".gSna_init_flags_800ABA50")    gSna_init_flags_800ABA50;
 
-extern void    DG_DequeuePrim_800182E0(DG_OBJS *param_1);
-extern void    DG_FreePrim_8001BC04(int *param_1);
 extern void    GM_FreeObject_80034BF8(OBJECT *obj);
 void           GM_ActObject2_80034B88(OBJECT *obj);
 void           DG_SetPos_8001BC44(MATRIX *);

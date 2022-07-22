@@ -167,4 +167,7 @@ void *s2, *d2;
 
 // TODO: There are others like this as seen in the memleak
 
+void DG_DequeuePrim_800182E0(DG_OBJS *pObjs);
+void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
+
 #endif //LIBDG_H
