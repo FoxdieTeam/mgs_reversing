@@ -3,7 +3,6 @@
 #include "game.h"
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
 extern void GM_FreeControl_800260CC(int param_1);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
