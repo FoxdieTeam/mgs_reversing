@@ -1,6 +1,5 @@
 #include "libdg.h"
 
-extern void DG_FreePrim_8001BC04(int param_1);
 extern void sub_8007913C(void);
 
 void blast_kill_8006DD90(int param_1)

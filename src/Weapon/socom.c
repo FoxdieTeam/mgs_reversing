@@ -15,7 +15,6 @@ extern GameState_800B4D98   gGameState_800B4D98;
 extern int                  socom_act_80065518(int a1);
 extern int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
 
-extern void                 DG_FreePrim_8001BC04(int param_1);
 extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
 void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)

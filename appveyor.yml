@@ -12,9 +12,7 @@ build_script:
  - cd build
  - python build.py --platform windows --psyq_path c:\psyq
  - c:\mgs\ninja\ninja.exe
-# - make multicore-fix
-# - make PSYQ_SDK=c:\psyq C_DEPS=false -j4
-# - make progress
+ - ps: build\progress.ps1
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
