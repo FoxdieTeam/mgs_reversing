@@ -638,25 +638,6 @@
     include "..\obj\libgcl\GM_InitScript_8002D1DC.obj"
 
     ;game\target.c
-    include "..\obj\sub_8002D208.obj"
-    include "..\obj\chara\snake\sna_init_act_helper_helper_8002D300.obj"
-    include "..\obj\Game\GM_Reset_helper2_8002D3F0.obj"
-    include "..\obj\Game\GM_AllocTarget_8002D400.obj"
-    include "..\obj\Game\GM_FreeTarget_8002D4B0.obj"
-    include "..\obj\Game\GM_Target_SetVector_8002D500.obj"
-    include "..\obj\Game\GM_CaptureTarget_8002D530.obj"
-    include "..\obj\Game\GM_C4Target_8002D620.obj"
-    include "..\obj\Game\sub_8002D6D8.obj"
-    include "..\obj\sub_8002D7DC.obj"
-    include "..\obj\chara\snake\sna_init_act_helper_8002DA14.obj"
-    include "..\obj\Game\GM_Target_8002DC74.obj"
-    include "..\obj\Game\GM_Target_8002DCB4.obj"
-    include "..\obj\Game\GM_Target_8002DCCC.obj"
-    include "..\obj\sub_8002DD14.obj"
-    include "..\obj\sub_8002DD1C.obj"
-    include "..\obj\sub_8002DDE0.obj"
-    include "..\obj\GM_Target_8002E1B8.obj"
-    include "..\obj\sub_8002E2A8.obj"
     include "..\obj\target.obj"
 
     ;game\loader.c
