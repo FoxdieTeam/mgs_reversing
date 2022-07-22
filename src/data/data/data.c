@@ -1083,11 +1083,10 @@ int SECTION(".data") dword_8009F32C[] = {0x16131002, 0x221D1B1A, 0x18161010, 0x2
 int SECTION(".data") dword_8009F36C[] = {0x2D2D2D2D, 0x2D2D2D2D, 0xC23353F, 0xC1CBDDF4, 0xC5E8183B, 0x3B18E8C5, 0xDDC1F435, 0xCB0C3F23, 0x2DD3D32D, 0x2DD3D32D, 0x350CC123, 0xDD3FF4CB, 0xE83BC518, 0x18C53BE8, 0xC135DD0C, 0xF423CB3F};
 int SECTION(".data") dword_8009F3AC[] = {0, 0, 0, 0xC80};
 int SECTION(".data") dword_8009F3BC[] = {0xFE8E0014, 0x3C};
-char SECTION(".data") byte_8009F3C4[] = {0, 0, 0x29, 0xFF};
-char SECTION(".data") byte_8009F3C8[] = {0x20, 0, 0, 0};
-int SECTION(".data") dword_8009F3CC[] = {0xD7290000, 0x20};
 
-SVECTOR stru_8009F3D4[2] = { { 0, 600, 32, 0 }, { 0, -9640, 32, 0 } };
+SVECTOR SECTION(".data") stru_8009F3C4[2] = { { 0, -215, 32, 0 }, { 0, -10455, 32, 0 } };
+
+SVECTOR SECTION(".data") stru_8009F3D4[2] = { { 0, 600, 32, 0 }, { 0, -9640, 32, 0 } };
 
 int SECTION(".data") dword_8009F3E4[] = {0x7A643B88, 0xF83D7A64};
 int SECTION(".data") dword_8009F3EC[] = {0x800000, 0x96};
