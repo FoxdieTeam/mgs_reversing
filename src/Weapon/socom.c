@@ -20,7 +20,21 @@ extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
 #pragma INCLUDE_ASM("asm/Weapon/socom_loader_helper_800651B0.s")
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065200.s")
-#pragma INCLUDE_ASM("asm/Weapon/socom_loader_helper_80065254.s")
+
+void socom_init_vectors_80065254(Actor_Socom *pActor)
+{
+    int i;
+    SVECTOR *pIter;
+    pIter = pActor->field_60_array;
+    for ( i = 20; i > 0; i-- )
+    {
+        pIter->vx = 0;
+        pIter->vy = -215;
+        pIter->vz = 32;
+        ++pIter;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_8006528C.s")
 
 void socom_init_tiles_80065338(TILE* a1)
