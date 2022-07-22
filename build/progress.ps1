@@ -2,7 +2,7 @@
 
 if ($Env:APPVEYOR_URL -And !$Env:APPVEYOR_PULL_REQUEST_NUMBER)
 {
-	$progressToolOutput = (progress_script\progress.exe $PSScriptRoot\..\obj\asm.sym) | Out-String
+	$progressToolOutput = (python progress.py) | Out-String
 
 	$msg =
 "
