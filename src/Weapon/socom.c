@@ -1,5 +1,7 @@
 #include "socom.h"
 #include "game.h"
+#include "libdg.h"
+#include "actor.h"
 
 extern int dword_800AB824;
 int SECTION(".sdata") dword_800AB824;
@@ -11,10 +13,8 @@ extern short                dword_800ABA2C;
 extern GameState_800B4D98   gGameState_800B4D98;
 
 extern int                  socom_act_80065518(int a1);
-extern void                 GV_DestroyActor_800151C8(struct Actor *pActor);
 extern int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
 
-extern void                 DG_DequeuePrim_800182E0(int param_1);
 extern void                 DG_FreePrim_8001BC04(int param_1);
 extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
@@ -22,14 +22,28 @@ extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065200.s")
 #pragma INCLUDE_ASM("asm/Weapon/socom_loader_helper_80065254.s")
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_8006528C.s")
-#pragma INCLUDE_ASM("asm/Weapon/socom_loader_helper_80065338.s")
+
+void socom_init_tiles_80065338(TILE* a1)
+{
+    TILE* pIter = a1;
+    int i;
+    for ( i = 2; i > 0; i-- )
+    {
+        setTile(pIter);
+        setRGB0(pIter, 255, 63, 63);
+        setWH(pIter, 2, 2);
+        pIter++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065384.s")
 
 void socom_act_helper_800653B8(Actor_Socom *socom)
 {
 	int local_var = socom->field_100;
 	
-	if (local_var == 0) {
+	if (local_var == 0) 
+    {
 		socom->field_10C_pPrim->n_prims = 1;
 		(socom->field_110).vy = (short)dword_800AB824;
 	}
@@ -44,24 +58,25 @@ void socom_act_helper_800653B8(Actor_Socom *socom)
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065408.s")
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_80065518.s")
 
-void socom_kill_80065A94(int param_1)
+void socom_kill_80065A94(Actor_Socom* a1)
 {
-    int iVar1;
+    DG_PRIM *field_58_prim;
+    DG_PRIM *field_10C_pPrim;
 
-    GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x20));
-    iVar1 = *(int *)(param_1 + 0x58);
-    if (iVar1 != 0)
+    GM_FreeObject_80034BF8(&a1->field_20);
+    field_58_prim = a1->field_58_prim;
+    if ( field_58_prim )
     {
-        DG_DequeuePrim_800182E0(iVar1);
-        DG_FreePrim_8001BC04(iVar1);
+        DG_DequeuePrim_800182E0((DG_OBJS *)field_58_prim);
+        DG_FreePrim_8001BC04((DG_OBJS *)field_58_prim);
     }
-    iVar1 = *(int *)(param_1 + 0x10c);
-    if (iVar1 != 0)
+
+    field_10C_pPrim = a1->field_10C_pPrim;
+    if ( field_10C_pPrim )
     {
-        DG_DequeuePrim_800182E0(iVar1);
-        DG_FreePrim_8001BC04(iVar1);
+        DG_DequeuePrim_800182E0((DG_OBJS *)field_10C_pPrim);
+        DG_FreePrim_8001BC04((DG_OBJS *)field_10C_pPrim);
     }
-    return;
 }
 
 #pragma INCLUDE_ASM("asm/Weapon/socom_loader_80065B04.s")
