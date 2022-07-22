@@ -22,7 +22,6 @@ install:
  - SET PATH= C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%"
  - python --version
  - C:\Python310-x64\python.exe --version
-
-# - choco install make --source=cygwin
+ - choco install make --source=cygwin
 
 test: off
