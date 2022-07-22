@@ -8,14 +8,11 @@
 typedef struct GM_Target
 {
     short field_0_flags;
-    short field_2;
-    unsigned short field_4;
+    short field_2_side;
+    unsigned short field_4_map;
     short field_6_flags;
     SVECTOR field_8_vec;
-    short field_10;
-    short field_12;
-    short field_14;
-    short field_16;
+    SVECTOR field_10_size;
     int field_18;
     int field_1C;
     MATRIX *field_20;
