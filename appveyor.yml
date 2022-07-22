@@ -12,7 +12,7 @@ build_script:
  - cd build
  - python build.py --platform windows --psyq_path c:\psyq
  - c:\mgs\ninja\ninja.exe
- - .\progress.ps1
+ - powershell.exe -File progress.ps1
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
