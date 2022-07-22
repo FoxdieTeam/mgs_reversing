@@ -18,7 +18,21 @@ extern int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, i
 extern void                 DG_FreePrim_8001BC04(int param_1);
 extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_loader_helper_800651B0.s")
+void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)
+{
+    int i;
+    POLY_FT4* pIter = a1;
+    for ( i = 10; i > 0; i-- )
+    {
+        setPolyFT4(pIter);
+        setSemiTrans(pIter, 1);
+        setRGB0(pIter, 16, 16, 16);
+        pIter->tpage = pTexture->field_4_tPage;
+        pIter->clut = pTexture->field_6_clut;
+        pIter++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_80065200.s")
 
 void socom_init_vectors_80065254(Actor_Socom *pActor)
