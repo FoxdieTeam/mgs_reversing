@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef famas_kill_80065E90
-famas_kill_80065E90:
+	xdef famas_act_80065E90
+famas_act_80065E90:
 	dw 0x27BDFFC0 ; 0x80065E90
 	dw 0xAFB10034 ; 0x80065E94
 	dw 0x00808821 ; 0x80065E98
