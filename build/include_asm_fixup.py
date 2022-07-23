@@ -1,43 +1,35 @@
 #!/usr/bin/env python3
 
 import sys
-from glob import glob
-import re
-import os
 import struct
 from objlib import get_obj_funcs
 import shutil
-
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def disasm(code, addr):
     from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS32
     md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32)
     for i in md.disasm(code, addr):
-        print("0x%x:\t%s\t%s" %(i.address, i.mnemonic, i.op_str))
+        print('0x{:x}:\t{}\t{}'.format(i.address, i.mnemonic, i.op_str))
 
 def hexdump(data):
-    return ' '.join(['{:02X}'.format(x) for x in data])
+    return ' '.join([f'{x:02X}' for x in data])
 
-def obj_with_name(inputObjs, toFind):
-    for obj in inputObjs:
+def obj_with_name(deps, toFind):
+    for obj in deps:
         if toFind in obj:
-            return obj 
+            return obj
     return None
 
-def fix_obj(obj_to_fix, outputObj, inputObjs):
+def fix_obj(obj_to_fix, output_obj, deps):
     code_start = 0x800148B8
     psyq_start = 0x8008C608
 
     fixed_funcs = 0
-    funcs = get_obj_funcs(obj_to_fix)
-    #print("func count " + str(len(funcs)))
-    for old_name, file_pos, code in funcs:
-        #print(old_name)
+    for old_name, file_pos, code in get_obj_funcs(obj_to_fix):
         # only INCLUDE_ASM funcs start with a nop
         if code.startswith(b'\x00\x00\x00\x00'):
             # last 12 bytes is a return instruction encoded with the address of asm to include
-            return_instructions = code[-12:] # last 12 bytes is en
+            return_instructions = code[-12:]
 
             hi = struct.unpack('<H', return_instructions[0:2])[0] << 16
             lo = struct.unpack('<H', return_instructions[8:10])[0]
@@ -50,15 +42,12 @@ def fix_obj(obj_to_fix, outputObj, inputObjs):
             name_chars[0] = overwritten_name_char
             name = bytes(name_chars)
 
-            addr = format(addr_num, 'x').upper()
-
             assert code_start <= addr_num < psyq_start
 
-            source_obj = obj_with_name(inputObjs, name.decode("utf-8") + ".obj")
+            source_obj = obj_with_name(deps, name.decode() + '.obj')
             if not source_obj:
-                print('couldnt find source obj with name:', name.decode("utf-8") )
+                print('couldnt find source obj with name:', name.decode() )
                 continue
-            source_obj = "../" + source_obj
 
             source_funcs = get_obj_funcs(source_obj)
             # all of our .s files should have a single xdef
@@ -90,48 +79,21 @@ def fix_obj(obj_to_fix, outputObj, inputObjs):
             fixed_funcs += 1
 
     # EL hacko - copy input to output obj
-    shutil.copy2(obj_to_fix, outputObj)
+    shutil.copy2(obj_to_fix, output_obj)
 
     if fixed_funcs > 0:
-        print('Fixed {} IMPORT_ASM funcs in obj:'.format(fixed_funcs), obj_to_fix)
+        print(f'Fixed {fixed_funcs} IMPORT_ASM funcs in obj:', obj_to_fix)
 
-def main_old():
-    addr_suffix_re = r'_([0-9A-F]{8})\.'
-
-    tmp = 'include_asm_tmp'
-
-    if not os.path.exists(tmp):
-        return
-
-    objs = glob('../obj/**/*.obj', recursive=True)
-    objs_by_addr = {}
-    for file in objs:
-        m = re.search(addr_suffix_re, file)
-        if m:
-            addr = m.group(1)
-            objs_by_addr[addr] = file
-
-    preprocessed = glob('{}/**/*.c'.format(tmp), recursive=True)
-    for c_file in preprocessed:
-        path = os.path.relpath(c_file, tmp).replace('.c', '')
-        path = '../obj/{}.obj'.format(path)
-        if os.path.exists(path):
-            fix_obj(path, objs_by_addr)
-
-def main(inputObj, outputObj, inputObjsFile):
-    inputObjs = []
-    with open(inputObjsFile) as f:
-        inputObjs = [line.rstrip() for line in f]
-    if len(inputObjs) == 0:
-         shutil.copy2(inputObj, outputObj)
+def main(input_obj, output_obj, deps_file):
+    deps = []
+    with open(deps_file) as f:
+        deps = ['../' + line.rstrip() for line in f if len(line) > 1]
+    if len(deps) == 0:
+        shutil.copy2(input_obj, output_obj)
     else:
-        #print("Fixing " + inputObj)
-        fix_obj(inputObj, outputObj, inputObjs)
+        fix_obj(input_obj, output_obj, deps)
 
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
     dst = sys.argv[2].replace('\\', '/')
-    #src = "C:/Data/mgs_reversing/obj/Equip/tabako_fixme.obj"
-    #dst = "C:/Data/mgs_reversing/obj/Equip/tabako.obj"
-    main(src, dst, dst.replace(".obj", ".c.asm.preproc.deps"))
-    #print("done")
+    main(src, dst, dst.replace('.obj', '.c.asm.preproc.deps'))
