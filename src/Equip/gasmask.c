@@ -7,10 +7,27 @@ extern const char aGasMask_DUP[];
 
 // TODO: Move to a header
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
+void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 
+void gasmask_act_800609C0(Actor_gasmask *pActor);
 #pragma INCLUDE_ASM("asm/Equip/gasmask_act_800609C0.s")
 
-#pragma INCLUDE_ASM("asm/Equip/gasmask_kill_80060B0C.s")
+void gasmask_kill_80060B0C(Actor_gasmask *pActor)
+{
+    Actor *field_54_gmsight; // $a0
+
+    GM_FreeObject_80034BF8(&pActor->field_20_obj);
+    EQ_VisibleHead_80060DF0(
+        pActor->field_48_pParent,
+        &pActor->field_5A_head_saved_packs,
+        &pActor->field_5C_head_saved_raise);
+
+    field_54_gmsight = pActor->field_54_gmsight;
+    if ( field_54_gmsight )
+    {
+        GV_DestroyOtherActor_800151D8(field_54_gmsight);
+    }
+}
 
 int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
 {
@@ -30,9 +47,6 @@ int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
     pActor->field_54_gmsight = 0;
     return 0;
 }
-
-void gasmask_act_800609C0(Actor_gasmask *pActor);
-void gasmask_kill_80060B0C(Actor_gasmask *pActor);
 
 Actor* gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit)
 {
