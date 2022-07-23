@@ -8,14 +8,11 @@
 typedef struct GM_Target
 {
     short field_0_flags;
-    short field_2;
-    unsigned short field_4;
+    unsigned short field_2_side;
+    unsigned short field_4_map;
     short field_6_flags;
     SVECTOR field_8_vec;
-    short field_10;
-    short field_12;
-    short field_14;
-    short field_16;
+    SVECTOR field_10_size;
     int field_18;
     int field_1C;
     MATRIX *field_20;
@@ -23,9 +20,7 @@ typedef struct GM_Target
     short field_26_hp;
     short field_28;
     short field_2A;
-    short field_2C_vec;
-    short field_2E;
-    int field_30;
+    SVECTOR field_2C_vec;
     short field_34_vec;
     short field_36;
     short field_38;
@@ -63,5 +58,6 @@ enum
 };
 
 int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
+void GM_Targets_Reset_8002D3F0(void);
 
 #endif // _TARGET_H_
