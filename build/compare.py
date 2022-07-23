@@ -103,7 +103,7 @@ def compare_exes(a_path, b_path, have_capstone):
         _, _, _, b_code = b_funcs[i]
 
         if a_code != b_code:
-            if a_diff_found and multiple_funcs_warning:
+            if a_diff_found and multiple_funcs_warning and sys.stdout.isatty():
                 print('multiple funcs have differences, so the entire exe probably blew up.')
                 print('options:')
                 print('show next func: <Enter> - show remaining funcs a<Enter> - quit: q<Enter>')
