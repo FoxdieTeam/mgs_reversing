@@ -3,9 +3,11 @@
 from glob import glob
 from objlib import get_obj_funcs
 import os
+import json
 
 EXPECTED_TOTAL_FUNCS = 1993
 EXPECTED_TOTAL_BYTES = 490484
+APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json';
 
 objs = glob('../obj/**/*.obj', recursive=True)
 
@@ -49,13 +51,31 @@ for obj in objs:
 total_funcs = c_funcs + s_funcs
 total_bytes = c_bytes + s_bytes
 
-print('Reversed funcs: {:,} / {:,} ({:.2f}%)'.format(
+c_funcs_extra = ''
+c_bytes_extra = ''
+
+if os.environ.get('APPVEYOR'):
+    if os.path.exists(APPVEYOR_CACHE):
+        with open(APPVEYOR_CACHE, 'r') as f:
+            delta_obj = json.load(f)
+
+        c_funcs_delta = c_funcs - delta_obj['c_funcs']
+        c_bytes_delta = c_bytes - delta_obj['c_bytes']
+        c_funcs_extra = ' ({:+})'.format(c_funcs_delta)
+        c_bytes_extra = ' ({:+})'.format(c_bytes_delta)
+
+    with open(APPVEYOR_CACHE, 'w') as f:
+        json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes), f)
+
+print('Reversed funcs: {:,}{} / {:,} ({:.2f}%)'.format(
     c_funcs,
+    c_funcs_extra,
     total_funcs,
     c_funcs / total_funcs * 100))
 
-print('Reversed bytes: {:,} / {:,} ({:.2f}%)'.format(
+print('Reversed bytes: {:,}{} / {:,} ({:.2f}%)'.format(
     c_bytes,
+    c_bytes_extra,
     total_bytes,
     c_bytes /total_bytes * 100))
 
