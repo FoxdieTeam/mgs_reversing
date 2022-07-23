@@ -21,9 +21,7 @@ TEXT_SEG_OFFSET = 0x50B8
 TEXT_SEG_BASE = 0x800148B8
 HEXDUMP_COLUMNS = 16
 COLORS = os.environ.get('COLORS') != 'false'
-
-# not correct but does the job
-SUPPORTS_EMOJIS = os.name != 'nt' or locale.getpreferredencoding() != 'cp1252'
+SUPPORTS_EMOJIS = locale.getpreferredencoding().lower().startswith('utf')
 
 def get_functions():
     ret = []
