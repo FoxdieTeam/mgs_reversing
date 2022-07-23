@@ -4,6 +4,9 @@ from glob import glob
 from objlib import get_obj_funcs
 import os
 
+EXPECTED_TOTAL_FUNCS = 1993
+EXPECTED_TOTAL_BYTES = 490484
+
 objs = glob('../obj/**/*.obj', recursive=True)
 
 def deps_has(deps, name):
