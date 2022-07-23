@@ -24,7 +24,12 @@ void GM_Reset_helper2_8002D3F0(void)
 
 #pragma INCLUDE_ASM("asm/Game/GM_FreeTarget_8002D4B0.s")
 
-#pragma INCLUDE_ASM("asm/Game/GM_Target_SetVector_8002D500.s")
+void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec)
+{
+    short cur_map = GM_CurrentMap_800AB9B0;
+    pTarget->field_8_vec = *pVec;
+    pTarget->field_4_map = cur_map;
+}
 
 #pragma INCLUDE_ASM("asm/Game/GM_CaptureTarget_8002D530.s")
 
