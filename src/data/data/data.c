@@ -17,6 +17,7 @@
 #include "Equip\bodyarm.h"
 #include "Equip\gasmask.h"
 #include "Equip\box.h"
+#include "Equip\bandana.h"
 
 // sdata
 extern const char* aCigs[];
@@ -995,7 +996,7 @@ void* SECTION(".data") gSnakeEquips_8009EF8C[] =
 		bodyarm_init_80060940,
 		(void*)0x80072B60, // d_blood
 		(void*)0x800615FC, // kogaku2 - camera ??
-		(void*)0x80061E40, // bandana
+		NewBandana_80061E40,
 		(void*)0x80065118}; // jpegcam
 
 char SECTION(".data") byte_8009EFC0[] = {0, 0, 0xF4};
