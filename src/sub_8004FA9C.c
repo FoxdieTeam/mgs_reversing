@@ -5,7 +5,7 @@ extern void sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag);
 
 void sub_8004FA9C(Actor_SnaInit *snake)
 {
-    ushort action = *(ushort *)&snake->field_9B0_action_table->field_0;
+    ushort action = *snake->field_9B0_pad_bits;
     sub_80051FD0(snake);
     if (action & 0x4000)
     {

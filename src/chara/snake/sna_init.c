@@ -24,12 +24,12 @@ int sna_init_check_flags_8004E31C(Actor_SnaInit *snake, unsigned int flags)
 
 void sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag)
 {
-	snake->field_898_pTarget = (GM_Target *)((unsigned int)snake->field_898_pTarget | flag);
+	snake->field_898_flags = snake->field_898_flags | flag;
 }
 
 void sna_init_clear_flags_8004E344(Actor_SnaInit *snake, unsigned int flags)
 {
-  snake->field_898_pTarget = (GM_Target *)((unsigned int)snake->field_898_pTarget & ~flags);
+  snake->field_898_flags = snake->field_898_flags & ~flags;
 }
 
 unsigned int sna_init_sub_8004E358(Actor_SnaInit *snake, unsigned int param_2)
@@ -38,7 +38,7 @@ unsigned int sna_init_sub_8004E358(Actor_SnaInit *snake, unsigned int param_2)
 
 	if (gGameState_800B4D98.field_BE != 0)
 	{
-		result = (((unsigned int)snake->field_898_pTarget & param_2) != result);
+		result = (((unsigned int)snake->field_898_flags & param_2) != result);
 	}
 
 	return result;
