@@ -14,6 +14,7 @@
 #include "actor.h"
 #include "GM_Control.h"
 #include "sna_init.h"
+#include "Equip\bodyarm.h"
 
 // sdata
 extern const char* aCigs[];
@@ -979,21 +980,21 @@ WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] =
 		{NewRifle_80068214, sna_init_anim_psg1_80056DDC}
 };
 
-int SECTION(".data") gSnakeEquips_8009EF8C[] =
+void* SECTION(".data") gSnakeEquips_8009EF8C[] =
 	{
-		0x80062274, // tabako
-		0x80063508, // scope
-		0x80061C7C, // box
-		0x80061C7C, // box
-		0x80061C7C, // box
-		0x8007781C, // goggle
-		0x80078E6C, // goggleir
-		0x80060C14, // gasmask
-		0x80060940, // bodyarm
-		0x80072B60, // d_blood
-		0x800615FC, // kogaku2 - camera ??
-		0x80061E40, // bandana
-		0x80065118}; // jpegcam
+		(void*)0x80062274, // tabako
+		(void*)0x80063508, // scope
+		(void*)0x80061C7C, // box
+		(void*)0x80061C7C, // box
+		(void*)0x80061C7C, // box
+		(void*)0x8007781C, // goggle
+		(void*)0x80078E6C, // goggleir
+		(void*)0x80060C14, // gasmask
+		bodyarm_init_80060940,
+		(void*)0x80072B60, // d_blood
+		(void*)0x800615FC, // kogaku2 - camera ??
+		(void*)0x80061E40, // bandana
+		(void*)0x80065118}; // jpegcam
 
 char SECTION(".data") byte_8009EFC0[] = {0, 0, 0xF4};
 char SECTION(".data") byte_8009EFC3 = 1;
