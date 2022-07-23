@@ -7,17 +7,17 @@ GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
 extern int gTargets_down_count_800ABA68;
 int SECTION(".sbss") gTargets_down_count_800ABA68;
 
-extern int dword_800ABA6C;
-int SECTION(".sbss") dword_800ABA6C;
+extern int gTargets_up_count_800ABA6C;
+int SECTION(".sbss") gTargets_up_count_800ABA6C;
 
 #pragma INCLUDE_ASM("asm/sub_8002D208.s")
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s")
 
-void GM_Reset_helper2_8002D3F0(void)
+void GM_Targets_Reset_8002D3F0(void)
 {
     gTargets_down_count_800ABA68 = 0;
-    dword_800ABA6C = 0;
+    gTargets_up_count_800ABA6C = 0; 
 }
 
 #pragma INCLUDE_ASM("asm/Game/GM_AllocTarget_8002D400.s")
