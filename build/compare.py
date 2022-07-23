@@ -112,7 +112,7 @@ def compare_exes(a_path, b_path, have_capstone):
                 if selection == 'a':
                     multiple_funcs_warning = False
                 elif selection == 'q':
-                    sys.exit()
+                    sys.exit(1)
 
             dis_func = disasm if have_capstone else hexdump_lines
             a_dis = dis_func(a_code, addr)
