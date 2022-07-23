@@ -138,7 +138,6 @@ def cache_good_exe():
     if not os.path.exists(CACHED_GOOD_EXE):
         shutil.copy(OBJ_EXE, CACHED_GOOD_EXE)
 
-# TODO: check code page before printing emojis?
 def green(msg):
     extra = ' 👌' if SUPPORTS_EMOJIS else ''
     print(colored(msg, 'green') + extra)
