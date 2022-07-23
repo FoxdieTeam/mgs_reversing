@@ -9,8 +9,9 @@ clone_folder: c:\mgs
 build_script:
  - cd build
  - where pip
- - python -c 'import site; print(site.getsitepackages())'
+ - where python
  - pip install -r requirements.txt
+ - python -c "import site; print(site.getsitepackages())"
  - python build.py --psyq_path c:\psyq
  - powershell.exe -File progress.ps1
  
