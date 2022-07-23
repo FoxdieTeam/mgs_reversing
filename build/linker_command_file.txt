@@ -1537,8 +1537,6 @@
     include "..\obj\chara\snake\sna_act_unk_helper2_helper3_80060684.obj"
     include "..\obj\chara\snake\sub_800606E4.obj"
     include "..\obj\chara\snake\sna_act_unk_helper2_helper_8006070C.obj" ; actually part of bodyarm ??
-    include "..\obj\Equip\bodyarm_80060874.obj"
-    include "..\obj\Equip\bodyarm_kill_8006090C.obj"
     include "..\obj\Equip\bodyarm_init_80060940.obj"
     include "..\obj\Equip\gasmask_act_800609C0.obj"
     include "..\obj\Equip\gasmask_kill_80060B0C.obj"
