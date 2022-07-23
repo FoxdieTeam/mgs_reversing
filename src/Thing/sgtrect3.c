@@ -1,18 +1,18 @@
 #include "dgd.h"
 #include <sys/types.h>
 #include <libgte.h>
+#include <libgpu.h>
 
 extern void		DG_Clip_80017594(RECT *pClipRect,int dist);
 extern			DG_CHNL DG_Chanls_800B1800[3];
 extern char		byte_8009F5F8[];
 extern int		GM_PlayerStatus_800ABA50;
 
-void sgtrect3_act_helper_helper_80070040(unsigned int *param_1,unsigned int *param_2)
+void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
     if (!(GM_PlayerStatus_800ABA50 & 0x4000000))
     {
-        *param_2 = (*param_2 & 0xff000000) | (*param_1 & 0xffffff);
-        *param_1 = (*param_1 & 0xff000000) | ((unsigned int)param_2 & 0xffffff);
+        addPrim(ot, prim);
     }
 }
 
