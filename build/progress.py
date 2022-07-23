@@ -5,8 +5,8 @@ from objlib import get_obj_funcs
 import os
 import json
 
-EXPECTED_TOTAL_FUNCS = 1993
-EXPECTED_TOTAL_BYTES = 490484
+EXPECTED_TOTAL_FUNCS = 1992
+EXPECTED_TOTAL_BYTES = 490440
 APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json';
 
 objs = glob('../obj/**/*.obj', recursive=True)
