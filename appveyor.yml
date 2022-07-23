@@ -18,7 +18,7 @@ build_script:
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
  - git submodule update --init --recursive
- - SET PATH= C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%"
+ - SET PATH=C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%"
  - python --version
  - C:\Python310-x64\python.exe --version
 
