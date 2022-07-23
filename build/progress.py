@@ -67,17 +67,17 @@ if os.environ.get('APPVEYOR'):
     with open(APPVEYOR_CACHE, 'w') as f:
         json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes), f)
 
-print('Reversed funcs: {:,}{} / {:,} ({:.2f}%)'.format(
+print('Reversed funcs: {:,}{} / {:,} - {:.2f}%'.format(
     c_funcs,
     c_funcs_extra,
     total_funcs,
     c_funcs / total_funcs * 100))
 
-print('Reversed bytes: {:,}{} / {:,} ({:.2f}%)'.format(
+print('Reversed bytes: {:,}{} / {:,} - {:.2f}%'.format(
     c_bytes,
     c_bytes_extra,
     total_bytes,
-    c_bytes /total_bytes * 100))
+    c_bytes / total_bytes * 100))
 
 if total_funcs != EXPECTED_TOTAL_FUNCS or total_bytes != EXPECTED_TOTAL_BYTES:
     print('Warning: Totals seem incorrect, did someone forget to delete a .s?')
