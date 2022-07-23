@@ -1537,15 +1537,13 @@
     include "..\obj\chara\snake\sna_act_unk_helper2_helper3_80060684.obj"
     include "..\obj\chara\snake\sub_800606E4.obj"
     include "..\obj\chara\snake\sna_act_unk_helper2_helper_8006070C.obj" ; actually part of bodyarm ??
-    include "..\obj\Equip\bodyarm_init_80060940.obj"
-    include "..\obj\Equip\gasmask_act_800609C0.obj"
-    include "..\obj\Equip\gasmask_kill_80060B0C.obj"
-    include "..\obj\Equip\gasmask_loader_80060B5C.obj"
-    include "..\obj\Equip\gasmask_init_80060C14.obj"
+    
+    include "..\obj\Equip\bodyarm.obj"
+
+    include "..\obj\Equip\gasmask.obj"
 
     include "..\obj\face_item_helper_80060CB8.obj"
     include "..\obj\EQ_ChangeTexture_80060CE4.obj"
-    
     include "..\obj\Equip\EQ_InvisibleUnit_80060E68.obj"
     include "..\obj\Equip\EQ_VisibleUnit_80060F20.obj"
 

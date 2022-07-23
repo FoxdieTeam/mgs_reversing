@@ -1,3 +1,4 @@
+#include "object.h"
 #include "game.h"
 
 #include <KERNEL.H>
