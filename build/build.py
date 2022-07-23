@@ -1,24 +1,24 @@
-import ninja_syntax
+#!/usr/bin/env python3
 import glob
-import sys
 import argparse
 import os
+from ninja import ninja as ninja_run, ninja_syntax
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MGS Ninja build script generator')
 
     # Required
-    parser.add_argument('--platform', type=str, required=True,
-                        choices=['windows', 'wsl', 'linux'],
-                        help='Platform to generate the build script for"')
+    # parser.add_argument('--platform', type=str, required=True,
+    #                     choices=['windows', 'wsl', 'linux'],
+    #                     help='Platform to generate the build script for"')
 
     # Optional
-    parser.add_argument('--psyq_path', type=str, default="./../../psyq_sdk",
+    parser.add_argument('--psyq_path', type=str, default=os.environ.get("PSYQ_SDK") or "../../psyq_sdk",
                         help='Path to the root of the cloned PSYQ repo')
 
     args = parser.parse_args()
 
-    print("generate for platform " + args.platform)
+    # print("generate for platform " + args.platform)
 
     args.psyq_path = os.path.abspath(args.psyq_path).replace("\\","/")
     print("psyq_path = " + args.psyq_path)
@@ -26,7 +26,6 @@ def parse_arguments():
 
 args = parse_arguments()
 
-#ninja = ninja_syntax.Writer(sys.stdout)
 f = open("build.ninja", "w")
 ninja = ninja_syntax.Writer(f)
 
@@ -211,3 +210,7 @@ gen_build_target("SLPM_862.47")
 #gen_build_target("sound.bin")
 
 # TODO: all overlays
+
+f.close()
+
+ninja_run()
