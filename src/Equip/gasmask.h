@@ -5,7 +5,7 @@
 #include "game.h"
 #include "GM_Control.h"
 
-struct Actor_gasmask
+typedef struct Actor_gasmask
 {
   Actor field_0_actor;
   OBJECT field_20_obj;
@@ -18,7 +18,7 @@ struct Actor_gasmask
   short field_5A_head_saved_packs;
   short field_5C_head_saved_raise;
   short field_5E_maybe_pad; // padding
-};
+} Actor_gasmask;
 
 Actor* gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit);
 
