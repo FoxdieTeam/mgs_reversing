@@ -1276,14 +1276,11 @@
     include "..\obj\data\sdata\aStinger.obj"
     include "..\obj\data\sdata\aRifle.obj"
 
-    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper_8004E198.obj"
-    include "..\obj\chara\snake\sna_init_start_anim_8004E1F4.obj"
-    include "..\obj\sub_8004E22C.obj"
-    include "..\obj\sub_8004E260.obj"
-    include "..\obj\Game\GM_CheckPlayerStatusFlag_8004E29C.obj"
-    include "..\obj\Game\GM_SetPlayerStatusFlag_8004E2B4.obj"
-    include "..\obj\Game\GM_ClearPlayerStatusFlag_8004E2D4.obj"
+	include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper_8004E198.obj"
 	
+    ; 8004E1F4 8004E22C 8004E260 8004E29C 8004E2B4 8004E2D4    
+    include "..\obj\chara\snake\sna_init2.obj"	
+
 	; 8004E2F4 8004E308 8004E31C 8004E330 8004E358 8004E384 8004E41C
     include "..\obj\chara\snake\sna_init.obj"
     include "..\obj\sub_8004E458.obj"
