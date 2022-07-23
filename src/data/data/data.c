@@ -15,6 +15,7 @@
 #include "GM_Control.h"
 #include "sna_init.h"
 #include "Equip\bodyarm.h"
+#include "Equip\gasmask.h"
 
 // sdata
 extern const char* aCigs[];
@@ -989,7 +990,7 @@ void* SECTION(".data") gSnakeEquips_8009EF8C[] =
 		(void*)0x80061C7C, // box
 		(void*)0x8007781C, // goggle
 		(void*)0x80078E6C, // goggleir
-		(void*)0x80060C14, // gasmask
+		gasmask_init_80060C14,
 		bodyarm_init_80060940,
 		(void*)0x80072B60, // d_blood
 		(void*)0x800615FC, // kogaku2 - camera ??

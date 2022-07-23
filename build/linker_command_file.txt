@@ -1540,10 +1540,7 @@
     
     include "..\obj\Equip\bodyarm.obj"
 
-    include "..\obj\Equip\gasmask_act_800609C0.obj"
-    include "..\obj\Equip\gasmask_kill_80060B0C.obj"
-    include "..\obj\Equip\gasmask_loader_80060B5C.obj"
-    include "..\obj\Equip\gasmask_init_80060C14.obj"
+    include "..\obj\Equip\gasmask.obj"
 
     include "..\obj\face_item_helper_80060CB8.obj"
     include "..\obj\EQ_ChangeTexture_80060CE4.obj"
