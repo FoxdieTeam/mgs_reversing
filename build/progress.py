@@ -71,6 +71,13 @@ if os.environ.get('APPVEYOR'):
     with open(APPVEYOR_CACHE, 'w') as f:
         json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes), f)
 
+    pr = os.environ.get('APPVEYOR_PULL_REQUEST_NUMBER')
+    if pr:
+        print(f'https://github.com/FoxdieTeam/mgs_reversing/pull/f{pr}/')
+    title = os.environ.get('APPVEYOR_PULL_REQUEST_TITLE')
+    if title:
+        print(title)
+
 print('Reversed funcs: {:,}{} / {:,} - {:.2f}%'.format(
     c_funcs,
     c_funcs_extra,
