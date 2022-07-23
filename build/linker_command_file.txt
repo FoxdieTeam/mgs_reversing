@@ -1743,22 +1743,11 @@
     include "..\obj\sub_8006FE44.obj"
     include "..\obj\HZD_SetDynamicSegment_8006FEE4.obj"
     include "..\obj\sub_8006FF9C.obj"
-    include "..\obj\sub_8006FFE8.obj" ; no refs
-    include "..\obj\Thing\sgtrect3_act_helper_helper_80070040.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_8007009C.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_helper_800700E0.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_800701A8.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_8007020C.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_80070568.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_80070820.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_80070AB0.obj"
-    include "..\obj\Thing\sgtrect3_act_helper_80070CAC.obj"
-    include "..\obj\Thing\sgtrect3_act_80070E14.obj"
-    include "..\obj\Thing\sgtrect3_kill_80070EC0.obj"
-    include "..\obj\Thing\sgtrect3_loader_helper_80070ECC.obj"
-    include "..\obj\Thing\sgtrect3_loader_80070F4C.obj"
-    include "..\obj\Thing\sgtrect3_init_80071010.obj"
-    
+	include "..\obj\sub_8006FFE8.obj" ; no refs
+	
+	; 80070040 8007009C 800700E0 800701A8 8007020C 80070568 80070820 80070AB0 80070CAC 80070E14 80070EC0 80070ECC 80070F4C 80071010
+	include "..\obj\Thing\sgtrect3.obj"    
+	
     include "..\obj\Thing\sight_act_helper_8007111C.obj"
     include "..\obj\Thing\sight_800711C0.obj"
     include "..\obj\Thing\sight_act_helper_80071320.obj"
