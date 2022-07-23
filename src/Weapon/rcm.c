@@ -111,13 +111,15 @@ Actor_Rcm *NewRCM_80066FF0(int param_1,OBJECT *parent_obj,int num_parent,int par
 	rcm = (Actor_Rcm *)GV_NewActor_800150E4(6,100);
 	if (rcm != (Actor_Rcm *)0x0)
 	{
-			GV_SetNamedActor_8001514C((Actor *)rcm,rcm_act_80066BC0,rcm_kill_80066E68,aRcmC);
-			iVar1 = rcm_loader_80066EB0(rcm,parent_obj,num_parent);
+		GV_SetNamedActor_8001514C((Actor *)rcm,rcm_act_80066BC0,rcm_kill_80066E68,aRcmC);
+		iVar1 = rcm_loader_80066EB0(rcm,parent_obj,num_parent);
+		
 		if (iVar1 < 0)
 		{
 			GV_DestroyActor_800151C8((Actor *)rcm);
 			return (Actor_Rcm *)0x0;
 		}
+		
 		rcm->f44 = param_1;
 		rcm->f48 = (int)parent_obj;
 		rcm->f4c = num_parent;
