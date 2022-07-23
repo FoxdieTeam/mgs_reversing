@@ -1,2 +1,4 @@
 ninja
+colorama
+termcolor
 # capstone
