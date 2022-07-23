@@ -216,6 +216,8 @@ gen_build_target("SLPM_862.47")
 f.close()
 
 time_before = time.time()
-ninja_run('ninja', [])
+exit_code = ninja_run('ninja', [])
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
+
+sys.exit(exit_code)
