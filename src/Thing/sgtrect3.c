@@ -1,7 +1,5 @@
+#include "sgtrect3.h"
 #include "dgd.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
 
 extern void		DG_Clip_80017594(RECT *pClipRect,int dist);
 extern			DG_CHNL DG_Chanls_800B1800[3];
@@ -15,6 +13,7 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
         addPrim(ot, prim);
     }
 }
+
 
 void sgtrect3_act_helper_8007009C()
 {
@@ -33,7 +32,7 @@ void sgtrect3_act_helper_8007009C()
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070CAC.s")
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_80070E14.s")
 
-void sgtrect3_kill_80070EC0(struct Actor_Sgtrect3* actor_sgtrect3)
+void sgtrect3_kill_80070EC0(Actor_sgtrect3* actor_sgtrect3)
 {
     byte_8009F5F8[0] = 0;
 }
