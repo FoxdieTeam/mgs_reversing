@@ -1545,8 +1545,6 @@
 
     include "..\obj\face_item_helper_80060CB8.obj"
     include "..\obj\EQ_ChangeTexture_80060CE4.obj"
-    include "..\obj\EQ_InvisibleHead_80060D5C.obj"
-    include "..\obj\EQ_VisibleHead_80060DF0.obj"
     
     include "..\obj\Equip\EQ_InvisibleUnit_80060E68.obj"
     include "..\obj\Equip\EQ_VisibleUnit_80060F20.obj"
