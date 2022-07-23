@@ -154,7 +154,7 @@ def fail(name):
     
 def main():
     if os.name == 'nt':
-        colorama_init()
+        colorama_init(strip=False)
 
     if not os.path.exists(OBJ_EXE):
         print(OBJ_EXE, "doesn't exist")
