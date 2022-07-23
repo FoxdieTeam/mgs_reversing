@@ -53,14 +53,24 @@ void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, S
     pTarget->field_3C = 0;
 }
 
-void GM_Target_8002DCB4(char* arg0, short arg1, short arg2, int arg3, int arg4) {
-    *(int*)(arg0 + 0x18) = arg3;
-    *(short*)(arg0 + 0x3e) = arg1;
-    *(short*)(arg0 + 0x2a) = arg2;
-    *(int*)(arg0 + 0x1c) = arg4;
+void GM_Target_8002DCB4(GM_Target *pTarget, int a2, int a3, int a4, int a5)
+{
+    pTarget->field_18 = a4;
+    pTarget->field_3E = a2;
+    pTarget->field_2A = a3;
+    pTarget->field_1C = a5;
 }
 
-#pragma INCLUDE_ASM("asm/Game/GM_Target_8002DCCC.s")
+void GM_Target_8002DCCC(GM_Target *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6)
+{
+    pTarget->field_24 = a2;
+    pTarget->field_3E = a3;
+    pTarget->field_26_hp = hp;
+    pTarget->field_28 = 0;
+    pTarget->field_2A = a5;
+    pTarget->field_2C_vec = *a6;
+    pTarget->field_44 = -1;
+}
 
 void sub_8002DD14(int param_1, int param_2)
 {
