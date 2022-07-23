@@ -3,7 +3,8 @@ import glob
 import argparse
 import sys
 import os
-from ninja import ninja as ninja_run, ninja_syntax
+import time
+from ninja import _program as ninja_run, ninja_syntax
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MGS Ninja build script generator')
@@ -214,5 +215,7 @@ gen_build_target("SLPM_862.47")
 
 f.close()
 
-sys.argv = [] # hack - ninja_run passes argv to ninja
-ninja_run()
+time_before = time.time()
+ninja_run('ninja', [])
+took = time.time() - time_before
+print(f'build took {took:.2f} seconds')
