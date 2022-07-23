@@ -34,7 +34,26 @@ void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec)
 
 #pragma INCLUDE_ASM("asm/Game/GM_CaptureTarget_8002D530.s")
 
-#pragma INCLUDE_ASM("asm/Game/GM_C4Target_8002D620.s")
+GM_Target* GM_C4Target_8002D620(GM_Target *pTarget)
+{
+    int i;
+    GM_Target *pIter = gTargets_800B64E0;
+    for (i = gTargets_down_count_800ABA68; i > 0; --i)
+    {
+        if ( pTarget != pIter
+         && (pIter->field_0_flags & TARGET_C4)
+         && sub_8002D208(pIter, pTarget)
+         && !(pIter->field_6_flags & TARGET_C4) )
+        {
+            pIter->field_6_flags |= TARGET_C4;
+            pTarget->field_6_flags |= TARGET_C4;
+            return pIter;
+        }
+        ++pIter;
+    }
+    
+    return 0;
+}
 
 #pragma INCLUDE_ASM("asm/Game/sub_8002D6D8.s")
 
