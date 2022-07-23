@@ -173,5 +173,6 @@ void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
 void DG_SetPos_8001BC44( MATRIX* matrix );
 void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void DG_PutVector_8001BE48( SVECTOR* svector, SVECTOR* svector2, int count );
+void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
 
 #endif //LIBDG_H
