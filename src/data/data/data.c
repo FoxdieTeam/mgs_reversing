@@ -70,14 +70,14 @@ extern const char* dword_800122C0[];
 extern const char* dword_800122B4[];
 extern const char* dword_800122A8[];
 extern const char* aSaveData[];
-extern const char* aSnaChest1[];
-extern const char* aSnaChest2[];
-extern const char* aSnaChest3[];
-extern const char* aSnaHip1[];
-extern const char* aSnaArmer1[];
-extern const char* aSnaArmer2[];
-extern const char* aSnaArmer3[];
-extern const char* aSnaArmer4[];
+extern const char aSnaChest1[];
+extern const char aSnaChest2[];
+extern const char aSnaChest3[];
+extern const char aSnaHip1[];
+extern const char aSnaArmer1[];
+extern const char aSnaArmer2[];
+extern const char aSnaArmer3[];
+extern const char aSnaArmer4[];
 extern const char* aCbBox11[];
 extern const char* aCbBox12[];
 extern const char* aCbBox41[];
@@ -799,7 +799,7 @@ Sna_ActionTable SECTION(".data") actions_no_weapon_8009ED70 =
 };
 
 
-Sna_ActionTable SECTION(".data") weapon_actions_8009ED8C[9] =
+Sna_ActionTable SECTION(".data") weapon_actions_8009ED8C[10] =
 {
   {
     &e1_800AB794,
@@ -1066,8 +1066,10 @@ int SECTION(".data") anime_fn_table_8009F228[] =
 	0x8005F438
 };
 
-int SECTION(".data") off_8009F264[] = {(int)aSnaChest1, (int)aSnaChest2, (int)aSnaChest3, (int)aSnaHip1};
-int SECTION(".data") off_8009F274[] = {(int)aSnaArmer1, (int)aSnaArmer2, (int)aSnaArmer3, (int)aSnaArmer4};
+// TODO: Warning without const, but can't be const else would end up in rdata section?
+const char* SECTION(".data") off_8009F264[4] = {aSnaChest1, aSnaChest2, aSnaChest3, aSnaHip1};
+const char* SECTION(".data") off_8009F274[4] = {aSnaArmer1, aSnaArmer2, aSnaArmer3, aSnaArmer4};
+
 int SECTION(".data") dword_8009F284 = 0;
 int SECTION(".data") off_8009F288[] = {(int)aCbBox11, (int)aCbBox12, (int)aCbBox41, (int)aCbBox42, (int)aCbBox21, (int)aCbBox22, (int)aCbBox41, (int)aCbBox42};
 int SECTION(".data") off_8009F2A8[] = {(int)aSnaFace, (int)aSnaFace2, (int)aSnaFace3};
