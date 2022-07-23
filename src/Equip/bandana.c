@@ -7,8 +7,23 @@ extern short                d_800AB9EC_mag_size;
 
 extern const char aBandanaC[];
 
-extern void bandana_80061D14(OBJECT *param_1);
-#pragma INCLUDE_ASM("asm/Equip/bandana_80061D14.s")
+extern const char* off_8009F2A8[3];
+extern const char* off_8009F2B4[3];
+
+void bandana_80061D14(OBJECT *pObj)
+{
+    int i;
+
+    for (i = 0; i< 2; i++)
+    {
+        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], i);
+    }
+
+    for (i = 0; i< 3; i++)
+    {
+        EQ_ChangeTexture_80060CE4(off_8009F2A8[i], off_8009F2B4[i]);
+    }
+}
 
 /*
 short SECTION(".snake_mag_size_800BDCB8") snake_mag_size_800BDCB8;
