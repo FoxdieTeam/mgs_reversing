@@ -272,7 +272,13 @@ void sub_8004F034(int param_1, unsigned int param_2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper4_8004F090.s")
 #pragma INCLUDE_ASM("asm/sub_8004F14C.s")
 #pragma INCLUDE_ASM("asm/sub_8004F204.s")
-#pragma INCLUDE_ASM("asm/sub_8004F2A0.s")
+
+void sna_init_8004F2A0(Actor_SnaInit *pActor, char a2)
+{
+    GM_SetPlayerStatusFlag_8004E2B4(0x800000);
+    pActor->field_A24 = a2;
+    pActor->field_89C_pTarget->field_0_flags &= ~0x96u;
+}
 
 extern void sna_init_clear_flags_8004E308(Actor_SnaInit *snake, unsigned int flags);
 
