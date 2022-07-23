@@ -2284,7 +2284,7 @@
     include "..\obj\psyq\GetTPage_80092418.obj"
     include "..\obj\psyq\sub_80092458.obj"
     include "..\obj\psyq\sub_80092488.obj"
-    include "..\obj\psyq\sub_800924A8.obj"
+    include "..\obj\psyq\SetDrawTPage_800924A8.obj"
     include "..\obj\psyq\SetDrawStp_800924D8.obj"
     include "..\obj\psyq\rsin_80092508.obj"
     include "..\obj\psyq\sin_1_80092544.obj"
