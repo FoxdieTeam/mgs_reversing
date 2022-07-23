@@ -2,11 +2,9 @@
 
 import sys
 import os
-import re
 import hashlib
 import shutil
 import locale
-from difflib import unified_diff
 from colorama import init as colorama_init
 from termcolor import colored
 
@@ -22,6 +20,7 @@ TEXT_SEG_BASE = 0x800148B8
 HEXDUMP_COLUMNS = 16
 COLORS = os.environ.get('COLORS') != 'false'
 SUPPORTS_EMOJIS = locale.getpreferredencoding().lower().startswith('utf')
+SIDE_BY_SIDE_PADDING = 40
 
 def get_functions():
     ret = []
@@ -38,7 +37,7 @@ def disasm(code, addr):
     md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32)
     dis = []
     for i in md.disasm(code, addr):
-        dis.append("0x%X:\t%s\t%s" %(i.address, i.mnemonic, i.op_str) + '\n')
+        dis.append("0x%X: %s %s" %(i.address, i.mnemonic, i.op_str))
     return dis
 
 def chunk(xs, n):
@@ -55,7 +54,7 @@ def hexdump_lines(data, addr):
     i = 0
     ret = []
     for c in chunks:
-        ret.append('0x{:X}:\t{}'.format(addr + i, ' '.join(c)) + '\n')
+        ret.append('0x{:X}: {}'.format(addr + i, ' '.join(c)))
         i += 4
     return ret
 
@@ -97,19 +96,48 @@ def compare_exes(a_path, b_path, have_capstone):
     assert len(a_funcs) == len(b_funcs)
 
     a_diff_found = False
+    multiple_funcs_warning = True
+
     for i in range(len(a_funcs)):
         addr, size, name, a_code = a_funcs[i]
         _, _, _, b_code = b_funcs[i]
 
         if a_code != b_code:
+            if a_diff_found and multiple_funcs_warning:
+                print('multiple funcs have differences, so the entire exe probably blew up.')
+                print('options:')
+                print('show next func: <Enter> - show remaining funcs a<Enter> - quit: q<Enter>')
+                selection = input('selection: ')
+                print()
+                if selection == 'a':
+                    multiple_funcs_warning = False
+                elif selection == 'q':
+                    sys.exit()
+
             dis_func = disasm if have_capstone else hexdump_lines
             a_dis = dis_func(a_code, addr)
             b_dis = dis_func(b_code, addr)
 
-            diff = unified_diff(b_dis, a_dis,
-                    tofile   ='this   ' + name,
-                    fromfile ='target ' + name)
-            sys.stdout.writelines(diff)
+            a_len = len(a_dis)
+            b_len = len(b_dis)
+            print('-', name, '-')
+            for i in range(max(a_len, b_len)):
+                a = '' if i >= a_len else a_dis[i]
+                b = '' if i >= b_len else b_dis[i]
+
+                padding_needed = 0
+                if have_capstone:
+                    padding_needed = SIDE_BY_SIDE_PADDING - len(a)
+                    a_padded = a + (' ' * padding_needed)
+                else:
+                    a_padded = a + '  '
+
+                line = a_padded + '  ' + b
+                if COLORS and a != b:
+                    print(colored(line, 'red'))
+                else:
+                    print(line)
+            print()
             a_diff_found = True
 
     if not a_diff_found:
@@ -169,7 +197,8 @@ def main():
     failed = False
     if exe_hash != TARGET_HASH:
         fail(OBJ_EXE)
-        diff_exe()
+        if not os.environ.get('APPVEYOR'):
+            diff_exe()
         failed = True
     else:
         ok(OBJ_EXE)
