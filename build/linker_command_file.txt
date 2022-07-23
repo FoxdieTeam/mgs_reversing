@@ -1551,11 +1551,7 @@
     ; 800615FC 80061708
     include "..\obj\Equip\kogaku2.obj"
 
-    include "..\obj\Equip\BoxCheckMessage_8006195C.obj"
-    include "..\obj\Equip\BoxAct_80061A14.obj"
-    include "..\obj\Equip\BoxDie_80061B30.obj"
-    include "..\obj\Equip\BoxGetResources_80061BA0.obj"
-    include "..\obj\Equip\NewBox_80061C7C.obj"
+    include "..\obj\Equip\box.obj"
 
     ; 80061D14 80061DA0 80061E1C 80061E40
     include "..\obj\Equip\bandana.obj"
