@@ -60,5 +60,6 @@ enum
 };
 
 int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
+void GM_Targets_Reset_8002D3F0(void);
 
 #endif // _TARGET_H_
