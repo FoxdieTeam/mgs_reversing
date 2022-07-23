@@ -8,10 +8,7 @@ clone_folder: c:\mgs
 
 build_script:
  - cd build
- - where pip
- - where python
  - pip install -r requirements.txt
- - python -c "import site; print(site.getsitepackages())"
  - python build.py --psyq_path c:\psyq
  - powershell.exe -File progress.ps1
  
@@ -20,8 +17,5 @@ install:
  - git submodule update --init --recursive
  - SET PATH=C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%"
  - python --version
- - C:\Python310-x64\python.exe --version
-
-# - choco install make --source=cygwin
 
 test: off
