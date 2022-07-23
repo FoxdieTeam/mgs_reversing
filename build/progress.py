@@ -55,3 +55,6 @@ print('Reversed bytes: {:,} / {:,} ({:.2f}%)'.format(
     c_bytes,
     total_bytes,
     c_bytes /total_bytes * 100))
+
+if total_funcs != EXPECTED_TOTAL_FUNCS or total_bytes != EXPECTED_TOTAL_BYTES:
+    print('Warning: Totals seem incorrect, did someone forget to delete a .s?')
