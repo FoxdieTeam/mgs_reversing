@@ -59,13 +59,14 @@ if os.environ.get('APPVEYOR'):
     if not os.path.exists(dirr):
         os.mkdir(dirr)
 
-    with open(APPVEYOR_CACHE, 'r') as f:
-        delta_obj = json.load(f)
+    if os.path.exists(APPVEYOR_CACHE):
+        with open(APPVEYOR_CACHE, 'r') as f:
+            delta_obj = json.load(f)
 
-    c_funcs_delta = c_funcs - delta_obj['c_funcs']
-    c_bytes_delta = c_bytes - delta_obj['c_bytes']
-    c_funcs_extra = ' ({:+})'.format(c_funcs_delta)
-    c_bytes_extra = ' ({:+})'.format(c_bytes_delta)
+        c_funcs_delta = c_funcs - delta_obj['c_funcs']
+        c_bytes_delta = c_bytes - delta_obj['c_bytes']
+        c_funcs_extra = ' ({:+})'.format(c_funcs_delta)
+        c_bytes_extra = ' ({:+})'.format(c_bytes_delta)
 
     with open(APPVEYOR_CACHE, 'w') as f:
         json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes), f)
