@@ -1,7 +1,7 @@
 #include "grenade.h"
 
 extern const char aGrenadeC[];  // = "grenade.c"
-extern short dword_800AB9EC;
+extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 extern unsigned short dword_8009F3E4[];
 
@@ -58,7 +58,7 @@ Actor_Grenade *grenade_init_80066944(Unknown_Grenade_Member *a1, OBJECT *parent_
     }
     
     dword_800ABA2C = 0;
-    dword_800AB9EC = 0;
+    d_800AB9EC_mag_size = 0;
     
     return actor_grenade;
 }
