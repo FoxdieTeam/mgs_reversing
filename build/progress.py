@@ -55,8 +55,9 @@ c_funcs_extra = ''
 c_bytes_extra = ''
 
 if os.environ.get('APPVEYOR'):
-    if not os.path.exists(APPVEYOR_CACHE):
-        os.mkdir(APPVEYOR_CACHE)
+    dirr = os.path.dirname(APPVEYOR_CACHE)
+    if not os.path.exists(dirr):
+        os.mkdir(dirr)
 
     with open(APPVEYOR_CACHE, 'r') as f:
         delta_obj = json.load(f)
