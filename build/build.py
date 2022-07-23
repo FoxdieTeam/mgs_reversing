@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import glob
 import argparse
+import sys
 import os
 from ninja import ninja as ninja_run, ninja_syntax
 
@@ -213,4 +214,5 @@ gen_build_target("SLPM_862.47")
 
 f.close()
 
+sys.argv = [] # hack - ninja_run passes argv to ninja
 ninja_run()
