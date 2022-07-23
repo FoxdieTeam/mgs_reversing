@@ -11,6 +11,7 @@ extern int gTargets_up_count_800ABA6C;
 int SECTION(".sbss") gTargets_up_count_800ABA6C;
 
 #pragma INCLUDE_ASM("asm/sub_8002D208.s")
+int sub_8002D208(GM_Target *pTarget, GM_Target *a2);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s")
 
@@ -68,10 +69,41 @@ void sub_8002DD14(int param_1, int param_2)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8002DD1C.s")
+void sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, GM_Target *a3);
 
 #pragma INCLUDE_ASM("asm/sub_8002DDE0.s")
+int sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, GM_Target *a3, SVECTOR *a4);
 
-#pragma INCLUDE_ASM("asm/GM_Target_8002E1B8.s")
+int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side)
+{
+    GM_Target *pIter;
+    int i;
+    int bResult;
+    GM_Target target;
+
+    target.field_4_map = map_bit;
+    target.field_2_side = 0;
+    sub_8002DD1C(pVec, pVec1, &target);
+    
+    pIter = gTargets_800B64E0;
+    i = gTargets_down_count_800ABA68;
+    for ( bResult = 0; i > 0; ++pIter )
+    {
+        if ( pIter->field_2_side != side && (pIter->field_0_flags & TARGET_SEEK) != 0 )
+        {
+            if ( sub_8002D208(pIter, &target) )
+            {
+                if ( sub_8002DDE0(pVec, pVec1, pIter, pVec2) )
+                {
+                    sub_8002DD1C(pVec, pVec2, &target);
+                    bResult = 1;
+                }
+            }
+        }
+        --i;
+    }
+    return bResult;
+}
 
 #pragma INCLUDE_ASM("asm/sub_8002E2A8.s")
 
