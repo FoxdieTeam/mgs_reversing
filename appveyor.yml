@@ -8,19 +8,14 @@ clone_folder: c:\mgs
 
 build_script:
  - cd build
- - python build.py --platform windows --psyq_path c:\psyq
- - c:\mgs\ninja\ninja.exe
+ - pip install -r requirements.txt
+ - python build.py --psyq_path c:\psyq
  - powershell.exe -File progress.ps1
  
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
  - git submodule update --init --recursive
- - ps: Start-FileDownload https://github.com/ninja-build/ninja/releases/download/v1.11.0/ninja-win.zip
- - 7z x ninja-win.zip -oC:\mgs\ninja
- - SET PATH= C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%"
+ - set PATH=C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%
  - python --version
- - C:\Python310-x64\python.exe --version
-
-# - choco install make --source=cygwin
 
 test: off
