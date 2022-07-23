@@ -19,3 +19,6 @@ install:
  - python --version
 
 test: off
+
+cache:
+  - C:\mgs-cache
