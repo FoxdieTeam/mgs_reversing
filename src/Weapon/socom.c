@@ -13,7 +13,7 @@ int SECTION(".sdata") dword_800AB824;
 
 extern char                 aSocomC[]; // = "socom.c"
 
-extern short                dword_800AB9EC;
+extern short                d_800AB9EC_mag_size;
 extern short                dword_800ABA2C;
 extern GameState_800B4D98   gGameState_800B4D98;
 
@@ -203,7 +203,7 @@ Actor_Socom *NewSOCOM_80065D74(void *a1, OBJECT *parentObj, int unit, int a4, in
 
     }
     mag = 12;
-    if (dword_800AB9EC)
+    if (d_800AB9EC_mag_size)
     {
         mag++;
     }
@@ -213,6 +213,6 @@ Actor_Socom *NewSOCOM_80065D74(void *a1, OBJECT *parentObj, int unit, int a4, in
         ammo = mag;
     }
     dword_800ABA2C = mag;
-    dword_800AB9EC = ammo;
+    d_800AB9EC_mag_size = ammo;
     return pActor;
 }

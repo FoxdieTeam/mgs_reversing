@@ -11,7 +11,7 @@ extern int GV_StrCode_80016CCC(const char *string);
 extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 
-extern short dword_800AB9EC;
+extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 extern GameState_800B4D98 gGameState_800B4D98;
 
@@ -69,7 +69,7 @@ Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a
     }
     
     v11 = 25;
-    if (dword_800AB9EC)
+    if (d_800AB9EC_mag_size)
         v11 = 26;
     
     if (flag == 0)
@@ -81,12 +81,12 @@ Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a
         }
         
         dword_800ABA2C = v11;
-        dword_800AB9EC = temp;
+        d_800AB9EC_mag_size = temp;
     }
     else
     {
         // @note(Voxel): Comments are possibly what is happening here. Suggested by WantedThing.
-        dword_800AB9EC = v11;    // Set famas max magazine ammo.
+        d_800AB9EC_mag_size = v11;    // Set famas max magazine ammo.
         dword_800ABA2C = v11;    // Set current ammo.
     }
     

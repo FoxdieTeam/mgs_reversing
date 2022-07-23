@@ -1,12 +1,56 @@
 #include "bandana.h"
+#include "Script_tbl_map_8002BB44.h"
+
+extern GameState_800B4D98   gGameState_800B4D98;
+
+extern short                d_800AB9EC_mag_size;
 
 extern const char aBandanaC[];
 
-extern void bandana_80061D14(OBJECT *param_1);
-#pragma INCLUDE_ASM("asm/Equip/bandana_80061D14.s")
+extern const char* off_8009F2A8[3];
+extern const char* off_8009F2B4[3];
 
-void bandana_act_80061DA0(Actor_bandana *pActor);
+void bandana_80061D14(OBJECT *pObj)
+{
+    int i;
+
+    for (i = 0; i< 2; i++)
+    {
+        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], i);
+    }
+
+    for (i = 0; i< 3; i++)
+    {
+        EQ_ChangeTexture_80060CE4(off_8009F2A8[i], off_8009F2B4[i]);
+    }
+}
+
+/*
+short SECTION(".snake_mag_size_800BDCB8") snake_mag_size_800BDCB8;
+short SECTION(".snake_mag_size_800BDCB8") snake_weapon_idx_800BDCBA;
+short SECTION(".snake_mag_size_800BDCB8") snake_weapon_max_ammo_800BDCBC;
+*/
+
+// not matching yet
 #pragma INCLUDE_ASM("asm/Equip/bandana_act_80061DA0.s")
+void bandana_act_80061DA0(Actor_bandana *pActor);
+
+/*
+void bandana_act_80061DA0(Actor_bandana *pActor)
+{
+    if ( snake_weapon_idx_800BDCBA >= 0 )
+    {
+        if ( gGameState_800B4D98.field_22_weapon_states[gGameState_800B4D98.field_1C_equipped_weapon] < snake_weapon_max_ammo_800BDCBC )
+        {
+            gGameState_800B4D98.field_22_weapon_states[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
+        }
+        if ( d_800AB9EC_mag_size < snake_mag_size_800BDCB8 )
+        {
+            d_800AB9EC_mag_size = snake_mag_size_800BDCB8;
+        }
+    }
+}
+*/
 
 void bandana_kill_80061E1C(Actor_bandana *pActor)
 {

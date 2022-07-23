@@ -2,7 +2,7 @@
 
 extern char aC4Bomb[]; // "c4_bomb"
 extern char aBombC[];  // "bomb.c"
-extern short dword_800AB9EC;
+extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 
 extern void bomb_act_8006788C(int param_1);
@@ -53,7 +53,7 @@ Actor_Bomb *NewBomb_80067B20(int a1, OBJECT *parent_obj, int num_parent, int a4,
     }
     
     dword_800ABA2C = 0;
-    dword_800AB9EC = 0;
+    d_800AB9EC_mag_size = 0;
     
     return actor;
 }
