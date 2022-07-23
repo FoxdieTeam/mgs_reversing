@@ -2,7 +2,7 @@
 
 extern const char aClaymore_0[]; // = "claymore";
 extern char aMineC[];            // = "mine.c"
-extern short dword_800AB9EC;
+extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 
 extern void mine_act_80067558(int param_1);
@@ -53,7 +53,7 @@ Actor_Mine *mine_init_800677BC(int a1, OBJECT *parent_object, int num_parent, in
     }
     
     dword_800ABA2C = 0;
-    dword_800AB9EC = 0;
+    d_800AB9EC_mag_size = 0;
     
     return actor;
 }

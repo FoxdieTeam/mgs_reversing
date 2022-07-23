@@ -4,7 +4,7 @@
 
 extern char aStinger_0[]; // = "stinger"
 extern char aAamC[];      // = "aam.c"
-extern short dword_800AB9EC;
+extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 
 extern int GV_StrCode_80016CCC(const char *string);
@@ -64,7 +64,7 @@ Actor_Aam *NewAAM_80067480(int a1, OBJECT *parent_object, int num_parent, int a4
     }
     
     dword_800ABA2C = 0;
-    dword_800AB9EC = 0;
+    d_800AB9EC_mag_size = 0;
     
     return actor_aam;
 }

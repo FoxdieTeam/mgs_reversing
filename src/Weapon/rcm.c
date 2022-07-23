@@ -12,7 +12,7 @@ extern int          aDd_800AB878;
 extern SVECTOR      dword_800AB880;
 extern const char 	aRcmC[];
 extern int          GM_CurrentMap_800AB9B0;
-extern short 		dword_800AB9EC;
+extern short 		d_800AB9EC_mag_size;
 extern short 		dword_800ABA2C;
 
 extern int          GV_StrCode_80016CCC(const char *string);
@@ -129,6 +129,6 @@ Actor_Rcm *NewRCM_80066FF0(int param_1,OBJECT *parent_obj,int num_parent,int par
 		rcm->f58 = 0;
 	}
 	dword_800ABA2C = 0;
-	dword_800AB9EC = 0;
+	d_800AB9EC_mag_size = 0;
 	return rcm;
 }

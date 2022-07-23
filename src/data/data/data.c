@@ -90,12 +90,12 @@ extern const char* aCbBox21[];
 extern const char* aCbBox22[];
 extern const char* aCbBox41[];
 extern const char* aCbBox42[];
-extern const char* aSnaFace[];
-extern const char* aSnaFace2[];
-extern const char* aSnaFace3[];
-extern const char* aSnaMf1[];
-extern const char* aSnaMf2[];
-extern const char* aSnaMf3[];
+extern const char aSnaFace[];
+extern const char aSnaFace2[];
+extern const char aSnaFace3[];
+extern const char aSnaMf1[];
+extern const char aSnaMf2[];
+extern const char aSnaMf3[];
 
 GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] =
 	{
@@ -1076,8 +1076,11 @@ const char* SECTION(".data") off_8009F274[4] = {aSnaArmer1, aSnaArmer2, aSnaArme
 
 int SECTION(".data") dword_8009F284 = 0;
 int SECTION(".data") off_8009F288[] = {(int)aCbBox11, (int)aCbBox12, (int)aCbBox41, (int)aCbBox42, (int)aCbBox21, (int)aCbBox22, (int)aCbBox41, (int)aCbBox42};
-int SECTION(".data") off_8009F2A8[] = {(int)aSnaFace, (int)aSnaFace2, (int)aSnaFace3};
-int SECTION(".data") off_8009F2B4[] = {(int)aSnaMf1, (int)aSnaMf2, (int)aSnaMf3};
+
+// TODO: Ditto const stuff
+const char* SECTION(".data") off_8009F2A8[3] = {aSnaFace, aSnaFace2, aSnaFace3};
+const char* SECTION(".data") off_8009F2B4[3] = {aSnaMf1, aSnaMf2, aSnaMf3};
+
 int SECTION(".data") dword_8009F2C0 = 0;
 short SECTION(".data") word_8009F2C4 = 0;
 int SECTION(".data") dword_8009F2C8[] = {0, 0, 0, 0xC80};
