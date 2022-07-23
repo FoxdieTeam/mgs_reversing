@@ -1861,7 +1861,7 @@
     include "..\obj\Okajima\NewBulletEx_80076708.obj"
     include "..\obj\Okajima\sub_8007692C.obj"
     
-    include "..\obj\Okajima\chafgrnd_loader_helper_800769EC.obj"
+    include "..\obj\Okajima\chafgrnd.obj"
     include "..\obj\Okajima\chafgrnd_act_helper_80076A6C.obj"
     include "..\obj\Okajima\chafgrnd_act_helper_80076A98.obj"
     include "..\obj\Okajima\chafgrnd_act_80076B28.obj"

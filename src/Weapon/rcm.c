@@ -10,7 +10,10 @@ extern char         aNikita[]; // "nikita"
 extern char         aRcmL_0[]; // "rcl_l"
 extern int          aDd_800AB878;
 extern SVECTOR      dword_800AB880;
+extern const char 	aRcmC[];
 extern int          GM_CurrentMap_800AB9B0;
+extern short 		dword_800AB9EC;
+extern short 		dword_800ABA2C;
 
 extern int          GV_StrCode_80016CCC(const char *string);
 extern void         GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
@@ -19,38 +22,27 @@ extern DG_PRIM      *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, S
 extern int          DG_QueuePrim_80018274(DG_OBJS *pPrim);
 extern void         GM_FreeObject_80034BF8(OBJECT *obj);
 
-// @todo(Voxel): Replace param_1 with Prim_Union and use the correct members. Fine for now.
-void rcm_loader_helper_80066AF8(int param_1, DG_TEX *texture)
+
+
+void rcm_loader_helper_80066AF8(POLY_FT4 *poly,DG_TEX *texture)
 {
-  char cVar1;
-  char cVar2;
-  char cVar3;
-  char cVar4;
-  char cVar5;
-  char cVar6;
+    u_char offx;
+    u_char offy;
+    u_char offx_width;
+    u_char offy_height;
+    
+    setPolyFT4(poly);
+    setSemiTrans(poly, 1);
+    
+    offx = texture->field_8_offx;
+    offx_width = offx + texture->field_A_width;
 
-  *((char *) (param_1 + 3)) = 9;
-  *((char *) (param_1 + 7)) = 0x2e;
+    offy = texture->field_9_offy;
+    offy_height = offy + texture->field_B_height;
 
-  cVar1 = texture->field_8_offx;
-  cVar5 = cVar1 + texture->field_A_width;
-  *((char *) (param_1 + 7)) = 0x2e;
-
-  cVar2 = texture->field_B_height;
-  cVar3 = texture->field_9_offy;
-
-  *((char *) (param_1 + 0xd)) = cVar3;
-  *((char *) (param_1 + 0x15)) = cVar3;
-  cVar6 = cVar3 + cVar2;
-
-  *((char *) (param_1 + 0xc)) = cVar1;
-  *((char *) (param_1 + 0x14)) = cVar5;
-  *((char *) (param_1 + 0x1c)) = cVar1;
-  *((char *) (param_1 + 0x1d)) = cVar6;
-  *((char *) (param_1 + 0x24)) = cVar5;
-  *((char *) (param_1 + 0x25)) = cVar6;
-  *((short *) (param_1 + 0x16)) = texture->field_4_tPage;
-  *((short *) (param_1 + 0xe)) = texture->field_6_clut;
+    setUV4(poly, offx, offy, offx_width, offy, offx, offy_height, offx_width, offy_height);
+    poly->tpage = texture->field_4_tPage;
+    poly->clut = texture->field_6_clut;
 }
 
 #pragma INCLUDE_ASM("asm/Weapon/rcm_act_helper_80066B58.s")
@@ -109,4 +101,32 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, int *a2, int a3)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/NewRCM_80066FF0.s")
+void rcm_act_80066BC0(int param_1,int param_2,int param_3,unsigned int param_4);
+
+Actor_Rcm *NewRCM_80066FF0(int param_1,OBJECT *parent_obj,int num_parent,int param_4,int param_5)
+{
+	Actor_Rcm *rcm;
+	int iVar1;
+
+	rcm = (Actor_Rcm *)GV_NewActor_800150E4(6,100);
+	if (rcm != (Actor_Rcm *)0x0)
+	{
+			GV_SetNamedActor_8001514C((Actor *)rcm,rcm_act_80066BC0,rcm_kill_80066E68,aRcmC);
+			iVar1 = rcm_loader_80066EB0(rcm,parent_obj,num_parent);
+		if (iVar1 < 0)
+		{
+			GV_DestroyActor_800151C8((Actor *)rcm);
+			return (Actor_Rcm *)0x0;
+		}
+		rcm->f44 = param_1;
+		rcm->f48 = (int)parent_obj;
+		rcm->f4c = num_parent;
+		rcm->f50 = param_4;
+		rcm->f54 = param_5;
+		rcm->f60 = 0;
+		rcm->f58 = 0;
+	}
+	dword_800ABA2C = 0;
+	dword_800AB9EC = 0;
+	return rcm;
+}
