@@ -218,4 +218,4 @@ f.close()
 time_before = time.time()
 ninja_run('ninja', [])
 took = time.time() - time_before
-print(f'took {took:.2f} seconds')
+print(f'build took {took:.2f} seconds')
