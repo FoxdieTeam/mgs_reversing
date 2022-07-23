@@ -68,6 +68,6 @@ void sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 		target->field_6_flags &= ~flags;
 		snake->field_8E8_pTarget = 0;
 		snake->field_A54 = 0;
-		snake->field_89C_pTarget->field_10 = 300;
+		snake->field_89C_pTarget->field_10_size.vx = 300;
 	}
 }
