@@ -4,6 +4,7 @@ import argparse
 import sys
 import os
 import time
+import subprocess
 from ninja import _program as ninja_run, ninja_syntax
 
 def parse_arguments():
@@ -201,10 +202,6 @@ def gen_build_target(targetName):
     ninja.build(exeFile, "cpe2exe", cpeFile)
     ninja.newline()
 
-    # exe hash check
-    ninja.build(exeFile + ".ok", "hash_check", exeFile)
-    ninja.newline()
-
 
 #init_psyq_ini_files(args.psyq_path)
 gen_build_target("SLPM_862.47")
@@ -219,5 +216,9 @@ time_before = time.time()
 exit_code = ninja_run('ninja', [])
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
+
+if exit_code == 0:
+    ret = subprocess.run([sys.executable, 'compare.py'])
+    exit_code = ret.returncode
 
 sys.exit(exit_code)
