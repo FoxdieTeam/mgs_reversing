@@ -1283,6 +1283,7 @@
 
 	; 8004E2F4 8004E308 8004E31C 8004E330 8004E358 8004E384 8004E41C
     include "..\obj\chara\snake\sna_init.obj"
+
     include "..\obj\sub_8004E458.obj"
     include "..\obj\sub_8004E4C0.obj"
     include "..\obj\sub_8004E51C.obj"
@@ -1314,6 +1315,7 @@
     include "..\obj\sub_8004F454.obj"
     include "..\obj\sub_8004F544.obj"
     include "..\obj\sub_8004F628.obj"
+
     include "..\obj\OPERATOR_8004F6E8.obj"
     include "..\obj\sub_8004F8E4.obj"
     include "..\obj\chara\snake\sna_act_unk_helper4_8004FA3C.obj"
@@ -1327,7 +1329,6 @@
     include "..\obj\Game\GM_ClearBulName_8004FBE4.obj"
     include "..\obj\Game\GM_CheckShukanReverse_8004FBF8.obj"
     include "..\obj\Game\GM_CheckShukanReverseAnalog_8004FC70.obj"
-
     include "..\obj\sub_8004FCB8.obj"
     include "..\obj\sub_8004FDE8.obj"
     include "..\obj\chara\snake\sna_init_act_helper2_helper5_8004FF88.obj"
@@ -1432,18 +1433,19 @@
     include "..\obj\chara\snake\sna_init_anim_punch_80058C10.obj"
     include "..\obj\chara\snake\sna_init_anim_chokethrow_begin2_80058C80.obj"
     include "..\obj\chara\snake\sna_init_anim_choke_80058E88.obj"
-    include "..\obj\chara\snake\sna_init_anim_choke_rechoke_80058EF4.obj" ; only by sub_8005951C
+    include "..\obj\chara\snake\sna_init_anim_choke_rechoke_80058EF4.obj"
     include "..\obj\chara\snake\sna_init_anim_choke_kill_80058F88.obj"
     include "..\obj\chara\snake\sna_init_anim_choke_drag_80059054.obj"
     include "..\obj\chara\snake\sna_init_anim_choke_hold_80059154.obj"
     include "..\obj\sub_800591BC.obj"
     include "..\obj\sub_800591F4.obj"
-    include "..\obj\sub_8005951C.obj" ; only by sub_80058E88
-    include "..\obj\sub_8005961C.obj" ; only by sub_80058EF4
+    include "..\obj\sub_8005951C.obj"
+    include "..\obj\sub_8005961C.obj"
     include "..\obj\chara\snake\sna_init_act_helper2_800596FC.obj"
     include "..\obj\chara\snake\sna_init_act_8005AD10.obj"
     include "..\obj\chara\snake\sna_init_kill_8005B52C.obj"
     include "..\obj\chara\snake\sna_init_init_8005B650.obj"
+
     include "..\obj\sub_8005BF84.obj"
     include "..\obj\sub_8005BFDC.obj"
     include "..\obj\sub_8005C05C.obj"
