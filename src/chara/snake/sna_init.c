@@ -19,6 +19,9 @@ Sna_E1 SECTION(".sdata") e1_800AB7C4;
 extern int dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
 
+extern int dword_800ABBA4;
+int SECTION(".sbss") dword_800ABBA4;
+
 extern int dword_800ABBB4;
 int SECTION(".sbss") dword_800ABBB4;
 
@@ -131,7 +134,7 @@ int sna_init_check_flags_8004E31C(Actor_SnaInit *snake, unsigned int flags)
   return (snake->field_894_flags & flags) != 0;
 }
 
-void sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag)
+void sna_init_8004E330(Actor_SnaInit *snake, unsigned int flag)
 {
 	snake->field_898_flags = snake->field_898_flags | flag;
 }
@@ -300,7 +303,7 @@ extern short dword_800B7800[];
 
 extern void  sna_init_set_flags_8004E2F4(Actor_SnaInit *snake, unsigned int flag);
 extern void  sd_set_cli_800887EC(int code, int unused);
-extern void  sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag);
+extern void  sna_init_8004E330(Actor_SnaInit *snake, unsigned int flag);
 
 void sna_init_8004EC8C(Actor_SnaInit *pActor)
 {
@@ -315,7 +318,7 @@ void sna_init_8004EC8C(Actor_SnaInit *pActor)
     pActor->field_9D8.vx = v2;
     pActor->field_9D8.vz = v2;
     sd_set_cli_800887EC(0x1FFFF20, 0);
-    sna_init_sub_8004E330(pActor, 0x10);
+    sna_init_8004E330(pActor, 0x10);
     GM_ClearPlayerStatusFlag_8004E2D4(1);
 }
 
@@ -391,7 +394,7 @@ void sub_8004FA9C(Actor_SnaInit *snake)
     sna_init_80051FD0(snake);
     if (action & 0x4000)
     {
-        sna_init_sub_8004E330(snake, 1);
+        sna_init_8004E330(snake, 1);
     }
 }
 
@@ -644,7 +647,29 @@ void sna_init_8005425C(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80054318.s")
+
+void sna_init_80054318(Actor_SnaInit *pActor, int a2)
+{
+
+    if ( a2 == 2 && dword_800ABBA4 >= 0 )
+    {
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_run_8005292C);
+        return;
+    }
+
+    if ( (*pActor->field_9B0_pad_bits & 0x4000) != 0 )
+    {
+        sna_init_8004E330(pActor, 1);
+    }
+
+    if ( pActor->field_9C.field_1A )
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(16);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+        return;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_800543A8.s")
 #pragma INCLUDE_ASM("asm/sub_80054424.s")
 
