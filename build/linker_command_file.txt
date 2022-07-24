@@ -768,14 +768,8 @@
     include "..\obj\sub_80036388.obj"
     include "..\obj\negate_rots_800366B8.obj"
     
-    include "..\obj\Game\over_act_helper_80036A10.obj"
-    include "..\obj\Game\over_act_helper_80036B40.obj"
-    include "..\obj\Game\over_act_helper_80036BA4.obj"
-    include "..\obj\Game\over_act_helper_80037128.obj"
-    include "..\obj\Game\over_act_8003721C.obj"
-    include "..\obj\Game\over_kill_80037514.obj"
-    include "..\obj\Game\over_loader_80037600.obj"
-    include "..\obj\Game\over_init_800376F8.obj"
+	; 80036A10 80036B40 80036BA4 80037128 8003721C 80037514 80037600 800376F8
+	include "..\obj\over.obj"
 
     include "..\obj\Game\strctrl_act_helper_800377EC.obj"
     include "..\obj\Game\strctrl_act_80037820.obj"
