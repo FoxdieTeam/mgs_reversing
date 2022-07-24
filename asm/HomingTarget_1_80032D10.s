@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80032D10
-sub_80032D10:
+	xdef HomingTarget_1_80032D10
+HomingTarget_1_80032D10:
 	dw 0x27BDFFB0 ; 0x80032D10
 	dw 0xAFB70044 ; 0x80032D14
 	dw 0x00C0B821 ; 0x80032D18
