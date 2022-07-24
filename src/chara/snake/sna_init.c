@@ -31,9 +31,11 @@ extern int  GM_PlayerStatus_800ABA50;
 extern void GM_ConfigObjectAction_80034CD4( OBJECT *obj, int action_flag, int motion, int interp );
 
 
+void sna_init_fn_800535B8(Actor_SnaInit *pActor);
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
-void sub_8004E22C(int param_1, int param_2, int param_3)
+void sna_init_8004E22C(int param_1, int param_2, int param_3)
 {
     if (*(short *)(param_1 + 0xaa) != param_2)
     {
@@ -337,7 +339,7 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_800501F8.s")
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
 #pragma INCLUDE_ASM("asm/sub_80050398.s")
-#pragma INCLUDE_ASM("asm/sub_80050440.s")
+#pragma INCLUDE_ASM("asm/sna_init_80050440.s")
 #pragma INCLUDE_ASM("asm/sub_80050568.s")
 #pragma INCLUDE_ASM("asm/sub_80050668.s")
 #pragma INCLUDE_ASM("asm/sub_800507D8.s")
@@ -350,7 +352,11 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_80051BA4.s")
 #pragma INCLUDE_ASM("asm/sub_80051DA0.s")
 #pragma INCLUDE_ASM("asm/sub_80051FD0.s")
-#pragma INCLUDE_ASM("asm/sub_80052120.s")
+
+void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
+#pragma INCLUDE_ASM("asm/sna_init_fn_80052120.s")
+
+
 #pragma INCLUDE_ASM("asm/sub_8005230C.s")
 #pragma INCLUDE_ASM("asm/sub_80052468.s")
 #pragma INCLUDE_ASM("asm/sub_80052540.s")
@@ -360,7 +366,33 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_crouch_800527DC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_idle_800528BC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_run_8005292C.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_move_800529C0.s")
+
+void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int a2)
+{
+    int local_field_A54; // $v1
+    int action_flag; // $a1
+
+    if ( !a2 )
+    {
+        pActor->field_A28 = 450;
+        GM_SetPlayerStatusFlag_8004E2B4(0x10);
+        pActor->field_9C8 = sna_init_fn_800535B8;
+        local_field_A54 = pActor->field_A54;
+        pActor->field_9CC = sna_init_fn_80052120;
+        if ( local_field_A54 )
+        {
+            action_flag = pActor->field_9B4_action_table->field_4->field_4;
+        }
+        else
+        {
+            action_flag = pActor->field_9B4_action_table->field_4->field_3;
+        }
+        sna_init_8004E22C(pActor, action_flag, 4);
+        pActor->field_A54 = 0;
+    }
+    sna_init_80050440(pActor);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_80052A5C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_80052BA8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_80052CCC.s")
@@ -368,7 +400,7 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_80053014.s")
 #pragma INCLUDE_ASM("asm/sub_800531F4.s")
 #pragma INCLUDE_ASM("asm/sub_80053360.s")
-#pragma INCLUDE_ASM("asm/sub_800535B8.s")
+#pragma INCLUDE_ASM("asm/sna_init_fn_800535B8.s")
 #pragma INCLUDE_ASM("asm/sub_800537D4.s")
 #pragma INCLUDE_ASM("asm/sub_800538CC.s")
 #pragma INCLUDE_ASM("asm/sub_80053A54.s")
@@ -405,7 +437,7 @@ void sub_80054488(int param_1, int param_2)
         *(void **)(param_1 + 0x9cc) = (void*)&sub_80052468;
     }
     *(short *)(param_1 + 0xa62) = *(short *)(param_1 + 0x98) + 0xfa;
-    sub_80050440(param_1);
+    sna_init_80050440(param_1);
     return;
 }
 
