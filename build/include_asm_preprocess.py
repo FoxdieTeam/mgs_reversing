@@ -363,6 +363,11 @@ def main(path, output):
     with open(output + '.deps', 'w') as f:
         f.write('\n'.join(depends) + '\n')
 
+    # nina picks this up due to deps=msvc which ensures the post process
+    # will only run after these required objs are built
+    for d in depends:
+        print(d)
+
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
     dst = sys.argv[2].replace('\\', '/')
