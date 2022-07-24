@@ -7,7 +7,6 @@ platform:
 clone_folder: c:\mgs
 
 build_script:
- - set
  - cd build
  - pip install -r requirements.txt
  - python build.py --psyq_path c:\psyq
