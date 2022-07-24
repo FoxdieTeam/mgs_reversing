@@ -5,7 +5,7 @@
 
 int DG_DrawSyncResetGraph_8001F014(void);
 void DG_InitDispEnv_800170F0(int, int, int, int, int);
-void DG_3OTsInit_80017B98(int);
+void DG_InitChanlSystem_80017B98(int);
 void DG_8001F1DC(void);
 void DG_ClearResidentTexture_8001DB10(void);
 
@@ -32,7 +32,7 @@ void DG_StartDaemon_8001F284(void)
     mts_set_vsync_task_800892B8();
     mts_set_callback_800893B4(DG_DrawSyncResetGraph_8001F014);
     DG_InitDispEnv_800170F0(0, 0, 320, 240, 320);
-    DG_3OTsInit_80017B98(320);
+    DG_InitChanlSystem_80017B98(320);
     DG_ClearResidentTexture_8001DB10();
     DG_8001F1DC();
     GV_SetLoader_80015418('p', DG_LoadInitPcx_8001F920);
