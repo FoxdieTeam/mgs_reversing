@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80051DA0
-sub_80051DA0:
+	xdef sna_init_80051DA0
+sna_init_80051DA0:
 	dw 0x27BDFFD0 ; 0x80051DA0
 	dw 0xAFB30024 ; 0x80051DA4
 	dw 0x00809821 ; 0x80051DA8
