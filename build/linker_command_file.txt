@@ -1330,33 +1330,14 @@
 	; 80062320 8006237C 800624BC 800624F4 8006258C 800626D0 80062998 80062BDC 80062C7C 80062DA8 80062E8C 8006317C 80063238 80063274 800632D4 80063368 800633D4 80063508
 	include "..\obj\scope.obj"    
 
+
     include "..\obj\Equip\gmsight_act_800635BC.obj"
     include "..\obj\Equip\gmsight_kill_80063644.obj"
     include "..\obj\Equip\gmsight_loader_80063650.obj"
     include "..\obj\Equip\NewGasmaskSight_80063668.obj"
 
-    include "..\obj\Equip\jpegcam_80063704.obj"
-    include "..\obj\Equip\jpegcam_80063888.obj"
-    include "..\obj\Equip\jpegcam_800638B4.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_8006392C.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_80063988.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_800639E8.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_80063B94.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_80063C10.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_80063CD0.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_80063DDC.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_helper_80063EB0.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_helper_80064054.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_helper_800641C0.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_80064378.obj"
-    include "..\obj\Equip\jpegcam_act_helper_80064454.obj"
-    include "..\obj\Equip\jpegcam_act_helper_80064588.obj"
-    include "..\obj\Equip\jpegcam_act_helper_helper_800649F4.obj"
-    include "..\obj\Equip\jpegcam_act_helper_80064A94.obj"
-    include "..\obj\Equip\jpegcam_act_80064C50.obj"
-    include "..\obj\Equip\jpegcam_kill_80065008.obj"
-    include "..\obj\Equip\jpegcam_loader_80065098.obj"
-    include "..\obj\Equip\jpegcam_init_80065118.obj"
+	; 80063704 80063888 800638B4 8006392C 80063988 800639E8 80063B94 80063C10 80063CD0 80063DDC 80063EB0 80064054 800641C0 80064378 80064454 80064588 800649F4 80064A94 80064C50 80065008 80065098 80065118
+	include "..\obj\jpegcam.obj"
 
     ; 800651B0 80065200 80065254 8006528C 80065338 80065384 800653B8 80065408 80065518
     ; 80065A94 80065B04 80065D74
