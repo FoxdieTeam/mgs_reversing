@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80056AD8
-sub_80056AD8:
+	xdef sna_init_fn_80056AD8
+sna_init_fn_80056AD8:
 	dw 0x8F8208C0 ; 0x80056AD8
 	dw 0x27BDFFE8 ; 0x80056ADC
 	dw 0xAFB00010 ; 0x80056AE0
