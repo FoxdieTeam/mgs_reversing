@@ -1,16 +1,13 @@
+#include "sna_init.h"
 
+extern void sub_80050668(Actor_SnaInit *pActor);
 
-extern void sub_80050668(void);
-
-void sub_80056A1C(int param_1)
+void sna_init_fn_80056A1C(Actor_SnaInit *pActor)
 {
-  unsigned short* unk;
-    
-  unk = *(unsigned short **)(param_1 + 0x9b0);
-  if (unk[1]) {
-    sub_80050668();
-  }
-  return;
+    if ( pActor->field_9B0_pad_bits[1] )
+    {
+        sub_80050668(pActor);
+    }
 }
 
 #pragma INCLUDE_ASM("asm/sna_init_80056A54.s")
