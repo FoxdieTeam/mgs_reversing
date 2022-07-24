@@ -709,14 +709,8 @@ typedef struct Actor_SnaInit
   int field_9C4;
   void *field_9C8;
   void *field_9CC;
-  short field_9D0;
-  short field_9D2;
-  short field_9D4;
-  short field_9D6;
-  short field_9D8;
-  short field_9DA;
-  short field_9DC;
-  short field_9DE;
+  SVECTOR field_9D0;
+  SVECTOR field_9D8;
   short field_9E0;
   short field_9E2;
   short field_9E4;

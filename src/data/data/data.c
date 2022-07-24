@@ -999,18 +999,13 @@ void* SECTION(".data") gSnakeEquips_8009EF8C[] =
 		NewBandana_80061E40,
 		(void*)0x80065118}; // jpegcam
 
-char SECTION(".data") byte_8009EFC0[] = {0, 0, 0xF4};
-char SECTION(".data") byte_8009EFC3 = 1;
-char SECTION(".data") byte_8009EFC4[] = {0, 0, 0x40};
-char SECTION(".data") byte_8009EFC7 = 1;
-char SECTION(".data") byte_8009EFC8[] = {0x90, 1, 0x40};
-char SECTION(".data") byte_8009EFCB = 1;
-char SECTION(".data") byte_8009EFCC[] = {0x90, 1, 0x20};
-char SECTION(".data") byte_8009EFCF = 0;
-char SECTION(".data") byte_8009EFD0[] = {0x20, 0, 0};
-char SECTION(".data") byte_8009EFD3 = 0;
-int SECTION(".data") dword_8009EFD4[] = {0xC8FF9C, 0xC8};
-int SECTION(".data") dword_8009EFDC[] = {0x12FF6A, 0xC8};
+SVECTOR SECTION(".data") stru_8009EFC0 = { 0, 500, 0, 320 };
+SVECTOR SECTION(".data") stru_8009EFC8 = { 400, 320, 400, 32 };
+
+int SECTION(".data") dword_8009EFD0 = 32;
+
+SVECTOR SECTION(".data") stru_8009EFD4 = { -100, 200, 200, 0 };
+SVECTOR SECTION(".data") stru_8009EFDC = { -150, 18, 200, 0 };
 
 SVECTOR SECTION(".data") stru_8009EFE4[4] = { { 0, 0, 300, 0 }, { 400, 600, 400, 0 }, { 0, 0, 0, 0 }, { 64, 0, 0, 0 } };
 
