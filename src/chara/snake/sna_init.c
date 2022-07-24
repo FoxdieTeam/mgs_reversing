@@ -38,6 +38,8 @@ void sna_init_80053360(Actor_SnaInit *pActor);
 void sna_init_80050440(Actor_SnaInit *pActor);
 void sna_init_fn_800531F4(Actor_SnaInit *pActor);
 void sna_init_fn_80052E58(Actor_SnaInit *pActor);
+void sna_init_8004EC00(Actor_SnaInit *pActor);
+void sna_init_8004EE28(Actor_SnaInit *pActor);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
@@ -228,7 +230,7 @@ void sub_8004EA50(int param_1, int param_2)
 #pragma INCLUDE_ASM("asm/sub_8004EAA8.s")
 #pragma INCLUDE_ASM("asm/sub_8004EB14.s")
 #pragma INCLUDE_ASM("asm/sub_8004EB74.s")
-#pragma INCLUDE_ASM("asm/sub_8004EC00.s")
+#pragma INCLUDE_ASM("asm/sna_init_8004EC00.s")
 
 extern short dword_800B7800[];
 
@@ -254,7 +256,7 @@ void sub_8004EC8C(Actor_SnaInit *snake)
 }
 #pragma INCLUDE_ASM("asm/sub_8004ED08.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper3_8004ED6C.s")
-#pragma INCLUDE_ASM("asm/sub_8004EE28.s")
+#pragma INCLUDE_ASM("asm/sna_init_8004EE28.s")
 #pragma INCLUDE_ASM("asm/sub_8004EEB0.s")
 #pragma INCLUDE_ASM("asm/sub_8004EF14.s")
 #pragma INCLUDE_ASM("asm/sub_8004EFE4.s")
@@ -311,7 +313,7 @@ void sub_8004F2EC(Actor_SnaInit *snake)
 
 extern void sna_init_clear_flags_8004E344(Actor_SnaInit* param_1, unsigned int param_2);
 
-void sub_8004FA74(Actor_SnaInit* param_1)
+void sna_init_8004FA74(Actor_SnaInit* param_1)
 {
     sna_init_clear_flags_8004E344(param_1, 0x20);
     GM_ClearPlayerStatusFlag_8004E2D4(0x8408);
@@ -367,7 +369,31 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
 #pragma INCLUDE_ASM("asm/sub_80052468.s")
 #pragma INCLUDE_ASM("asm/sub_80052540.s")
 #pragma INCLUDE_ASM("asm/sub_800525F8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_helper_800526BC.s")
+
+void sna_init_act_helper2_helper_helper_800526BC(Actor_SnaInit *pActor)
+{
+    if ( (*pActor->field_9B0_pad_bits & 0x10) == 0 )
+    {
+        if ( GM_CheckPlayerStatusFlag_8004E29C(2) )
+        {
+            pActor->field_A56 = 0;
+            GM_ClearPlayerStatusFlag_8004E2D4(0x8009);
+        }
+        else if ( !gGameState_800B4D98.field_BE )
+        {
+            sna_init_8004EC00(pActor);
+        }
+        else
+        {
+            sna_init_8004FA74(pActor);
+        }
+    }
+
+    if ( !GM_CheckPlayerStatusFlag_8004E29C(2) )
+    {
+        sna_init_8004EE28(pActor);
+    }
+}
 
 void sna_init_anim_idle_8005275C(Actor_SnaInit *pActor, int a2)
 {
