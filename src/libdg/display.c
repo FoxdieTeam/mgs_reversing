@@ -191,41 +191,10 @@ void DG_800172D0 ( DG_CHNL* chnl, SVECTOR* svec, SVECTOR* svec2, short camera_pr
 
 void DG_800174DC( MATRIX* matrix )
 {
-    int check;
-
-    //probably some division or something
-    check = matrix->m[1][0] * 0x3A;
-
-    if (check < 0)
-    {
-        check = check + 0x3f;
-    }
-
-    matrix->m[1][0] = check >> 6;
-    check = matrix->m[1][1] * 0x3A;
-
-    if (check < 0)
-    {
-        check = check + 0x3f;
-    }
-
-    matrix->m[1][1] = check >> 6;
-    check = matrix->m[1][2] * 0x3A;
-
-    if (check < 0)
-    {
-        check = check + 0x3f;
-    }
-
-    matrix->m[1][2] = check >> 6;
-    check =  matrix->t[1] * 0x3A;
-
-    if (check < 0)
-    {
-        check = check + 0x3f;
-    }
-
-    matrix->t[1] = check >> 6;
+    matrix->m[1][0] = (matrix->m[1][0] * 58) / 64;
+    matrix->m[1][1] = (matrix->m[1][1] * 58) / 64;
+    matrix->m[1][2] = (matrix->m[1][2] * 58) / 64;
+    matrix->t[1]    = (matrix->t[1] * 58) / 64;
 }
 
 void DG_Clip_80017594(RECT *pClipRect, int dist)
@@ -298,52 +267,38 @@ void DG_PutDrawEnv_From_DispEnv_80017890(void)
     PutDrawEnv_8008FEC8(&drawEnv);
 }
 
-//Need to find Prims that these structs correlate to
-typedef struct {
-    char field_00;
-    char field_01;
-    char field_02;
-    char field_03;
-    long field_04;
-} PRIM1;
+#define SetPackedRGB(p, r, g, b)  \
+    (p)->rgbc = ( ( r << 16 ) | ( g << 8 ) ) | b;
 
 typedef struct {
-    char  field_00;
-    char  field_01;
-    char  field_02;
-    char  field_03;
-    long  field_04;
-    short field_08;
-    short field_0A;
-    short field_0C;
-    short field_0E;
-} PRIM2;
+	u_long	tag;
+    long    rgbc;
+	short	x0,	y0;
+	short	w,	h;
+} TILE_PACKED;
 
 void DG_800178D8( int a0 )
 {
-    unsigned short val;
-    PRIM1 prim;
-    PRIM2 prim2;
+    DR_TPAGE tpage;
+    TILE_PACKED tile;
 
     DG_PutDrawEnv_From_DispEnv_80017890() ;
 
-    prim.field_03 = 1;
-    val = GetTPage_80092418( 0, 2, 0, 0 ) ;
+    setDrawTPage(&tpage, 1, 1, GetTPage_80092418( 0, 2, 0, 0 ) );
     
-    prim.field_04 = (val & 0x09FF) | 0xE1000600 ;
-    DrawPrim_8008FDFC( &prim );
+    DrawPrim_8008FDFC( &tpage );
 
-    prim2.field_0C = 0x140;
-    prim2.field_0E = 0xE0;
+    tile.w = 0x140;
+    tile.h = 0xE0;
 
-    prim2.field_04 = ( ( a0 << 16 ) | ( a0 << 8 ) ) | a0;
-    prim2.field_03 = 3;
-    prim2.field_08 = 0;
-    prim2.field_0A = 0;
+    SetPackedRGB( &tile, a0, a0, a0 );
 
-    *((char*)(&prim2.field_04) + 3) = 0x62;
+    tile.x0 = 0;
+    tile.y0 = 0;
 
-    DrawPrim_8008FDFC( &prim2 );
+    setTile( &tile );
+    setSemiTrans( &tile, 1 );
+    DrawPrim_8008FDFC( &tile );
 }
 
 //guessed function name
