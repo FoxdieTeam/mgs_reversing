@@ -20,6 +20,28 @@ def obj_with_name(deps, toFind):
             return obj
     return None
 
+def write_code(f, code):
+    # most of the time, func code is contiguous, but for larger funcs it's split into
+    # multiple code defs
+    # for proper fix objlib needs to be updated to return multiple file offsets
+
+    known_split_size = 1628 # could be wrong
+    code_len = len(code)
+    if code_len < known_split_size:
+        f.write(code)
+        return
+
+    f.seek(-3, 1)
+    i = 0
+    while i < code_len:
+        cmd = f.read(1)
+        size = struct.unpack('<H', f.read(2))[0]
+        # hack. fix objlib as stated above if this ever fails
+        if cmd != b'\x02' or not 0 < size <= known_split_size:
+            size = code_len
+        f.write(code[i:i+size])
+        i += size
+
 def fix_obj(obj_to_fix, output_obj, deps):
     code_start = 0x800148B8
     psyq_start = 0x8008C608
@@ -66,7 +88,7 @@ def fix_obj(obj_to_fix, output_obj, deps):
             with open(obj_to_fix, 'r+b') as f:
                 # write the code
                 f.seek(file_pos)
-                f.write(source_code)
+                write_code(f, source_code)
 
                 # now replace every occurance of the name
                 f.seek(0)
