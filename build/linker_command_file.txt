@@ -1327,25 +1327,9 @@
     ; cigarettes
     include "..\obj\Equip\tabako.obj"
 
-    include "..\obj\Equip\scope_act_helper_helper_80062320.obj"
-    include "..\obj\Equip\scope_act_helper_helper_8006237C.obj"
-    include "..\obj\Equip\scope_act_helper_800624BC.obj"
-    include "..\obj\Equip\scope_act_helper_helper_800624F4.obj"
-    include "..\obj\Equip\scope_act_helper_8006258C.obj"
-    include "..\obj\Equip\scope_act_helper_800626D0.obj"
-    include "..\obj\Equip\scope_act_helper_80062998.obj"
-    include "..\obj\Equip\scope_act_helper_80062BDC.obj"
-    include "..\obj\Equip\scope_act_helper_80062C7C.obj"
-    include "..\obj\Equip\scope_draw_text_80062DA8.obj"
-    include "..\obj\Equip\scope_act_80062E8C.obj"
-    include "..\obj\Equip\scope_kill_8006317C.obj"
-    include "..\obj\Equip\scope_loader_helper_80063238.obj"
-    include "..\obj\Equip\scope_loader_helper_80063274.obj"
-    include "..\obj\Equip\scope_loader_helper_800632D4.obj"
-    include "..\obj\Equip\scope_loader_helper_80063368.obj"
-    include "..\obj\Equip\scope_loader_800633D4.obj"
-    include "..\obj\Equip\NewScope_80063508.obj"
-    
+	; 80062320 8006237C 800624BC 800624F4 8006258C 800626D0 80062998 80062BDC 80062C7C 80062DA8 80062E8C 8006317C 80063238 80063274 800632D4 80063368 800633D4 80063508
+	include "..\obj\scope.obj"    
+
     include "..\obj\Equip\gmsight_act_800635BC.obj"
     include "..\obj\Equip\gmsight_kill_80063644.obj"
     include "..\obj\Equip\gmsight_loader_80063650.obj"
