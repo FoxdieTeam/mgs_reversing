@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef kogaku2_act_helper_helper_800610A4
-kogaku2_act_helper_helper_800610A4:
+	xdef kogaku2_tpage_uv_rgb_update_800610A4
+kogaku2_tpage_uv_rgb_update_800610A4:
 	dw 0x3C02800B ; 0x800610A4
 	dw 0x8C42B920 ; 0x800610A8
 	dw 0x27BDFFD0 ; 0x800610AC

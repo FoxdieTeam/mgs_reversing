@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef kogaku2_act_helper_800612BC
-kogaku2_act_helper_800612BC:
+	xdef kogaku2_update_prims2_800612BC
+kogaku2_update_prims2_800612BC:
 	dw 0x27BDFFD0 ; 0x800612BC
 	dw 0xAFB3001C ; 0x800612C0
 	dw 0x00809821 ; 0x800612C4
