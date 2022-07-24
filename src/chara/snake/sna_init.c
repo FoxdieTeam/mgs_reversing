@@ -37,6 +37,7 @@ void sna_init_fn_800535B8(Actor_SnaInit *pActor);
 void sna_init_80053360(Actor_SnaInit *pActor);
 void sna_init_80050440(Actor_SnaInit *pActor);
 void sna_init_fn_800531F4(Actor_SnaInit *pActor);
+void sna_init_fn_80052E58(Actor_SnaInit *pActor);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
@@ -367,7 +368,31 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
 #pragma INCLUDE_ASM("asm/sub_80052540.s")
 #pragma INCLUDE_ASM("asm/sub_800525F8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_helper_800526BC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_idle_8005275C.s")
+
+void sna_init_anim_idle_8005275C(Actor_SnaInit *pActor, int a2)
+{
+    int action_flag; // $a1
+
+    if ( !a2 )
+    {
+        pActor->field_A26_fn_stance_idx = 0;
+
+        pActor->field_9C8 = sna_init_fn_80052E58;
+        pActor->field_9CC = sna_init_fn_80052120;
+
+        if ( GM_AlertMode_800ABA00 >= 3 )
+        {
+            action_flag = pActor->field_9B4_action_table->field_0->field_1;
+        }
+        else
+        {
+            action_flag = pActor->field_9B4_action_table->field_0->field_0;
+        }
+
+        sna_init_8004E22C(pActor, action_flag, 4);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_crouch_800527DC.s")
 
 void sna_init_anim_prone_idle_800528BC(Actor_SnaInit *pActor, int a2)
@@ -431,7 +456,7 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_80052A5C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_80052BA8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_80052CCC.s")
-#pragma INCLUDE_ASM("asm/sub_80052E58.s")
+#pragma INCLUDE_ASM("asm/sna_init_fn_80052E58.s")
 #pragma INCLUDE_ASM("asm/sub_80053014.s")
 #pragma INCLUDE_ASM("asm/sna_init_fn_800531F4.s")
 #pragma INCLUDE_ASM("asm/sna_init_80053360.s")
