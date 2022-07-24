@@ -241,7 +241,27 @@ void sub_8004EA50(int param_1, int param_2)
     *(short *)(param_1 + 0x70) = (short)uVar1;
     return;
 }
-#pragma INCLUDE_ASM("asm/sub_8004EAA8.s")
+
+int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
+{
+    if ( a2 == 0 )
+    {
+        return pActor->field_9B4_action_table->field_0->field_0;
+    }
+
+    if ( a2 == 1 )
+    {
+        return pActor->field_9B4_action_table->field_0->field_2;
+    }
+
+    if ( a2 == 2 )
+    {
+        return pActor->field_9B4_action_table->field_0->field_3;
+    }
+
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004EB14.s")
 #pragma INCLUDE_ASM("asm/sub_8004EB74.s")
 #pragma INCLUDE_ASM("asm/sna_init_8004EC00.s")
