@@ -13,7 +13,7 @@ void sub_80056A1C(int param_1)
   return;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80056A54.s")
+#pragma INCLUDE_ASM("asm/sna_init_80056A54.s")
 #pragma INCLUDE_ASM("asm/sub_80056AD8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_80056B88.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_begin_80056BDC.s")
