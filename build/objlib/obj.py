@@ -146,7 +146,7 @@ def get_obj_funcs(path):
             c = u8()
             pos += c
         else:
-            print('unknown opcode', cmd, path)
+            print('unknown opcode', cmd, pos, path)
             break
 
     ret = []
