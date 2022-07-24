@@ -5,6 +5,7 @@
 
 // TODO: Header
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
+void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int interp, int a4 );
 
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;
@@ -59,7 +60,22 @@ void sna_init_800571B8(Actor_SnaInit *pActor, int a2);
 void sna_init_80057118(Actor_SnaInit *pActor, int a2);
 int sna_init_8004FDE8(Actor_SnaInit *pActor, SVECTOR *pVec);
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
+void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
+{
+    short vec_x = 0;
+    pActor->field_9B8_fn_anim = pFn;
+    pActor->field_9BC_fn_anim_arg2 = 0;
+    pActor->field_A3A = 0;
+    pActor->field_A38 = 0;
+
+    if ( (GM_PlayerStatus_800ABA50 & 0x40) != 0 )
+    {
+        vec_x = pActor->field_A2A;
+    }
+
+    pActor->field_20_ctrl.field_4C_turn_vec.vx = vec_x;
+    pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
+}
 
 void sna_init_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
 {
