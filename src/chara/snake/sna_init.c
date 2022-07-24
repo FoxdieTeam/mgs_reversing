@@ -66,6 +66,7 @@ void sna_init_fn_80056A1C(Actor_SnaInit *pActor);
 void sna_init_fn_80052540(Actor_SnaInit *pActor);
 void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2);
 void sna_init_80050568(Actor_SnaInit *pActor);
+int sna_init_80050398(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -412,7 +413,7 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")
 #pragma INCLUDE_ASM("asm/sub_800501F8.s")
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
-#pragma INCLUDE_ASM("asm/sub_80050398.s")
+#pragma INCLUDE_ASM("asm/sna_init_80050398.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050440.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050568.s")
 #pragma INCLUDE_ASM("asm/sub_80050668.s")
@@ -637,7 +638,7 @@ void sna_init_8005425C(Actor_SnaInit *pActor, int a2)
     if ( pActor->field_9C.field_1A )
     {
         GM_ClearPlayerStatusFlag_8004E2D4(0x400200);
-        sna_init_start_anim_8004E1F4(pActor, (int)sna_init_anim_prone_idle_800528BC);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_prone_idle_800528BC);
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 0);
         new_y = pActor->field_20_ctrl.field_4C_turn_vec.vy + 2048;
         pActor->field_20_ctrl.field_4C_turn_vec.vy = new_y;
@@ -670,7 +671,20 @@ void sna_init_80054318(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_800543A8.s")
+void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2)
+{
+    if ( !GM_CheckPlayerStatusFlag_8004E29C(2) && a2 >= 16 )
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(0x20008000);
+        if ( sna_init_80050398(pActor) )
+        {
+            sna_init_8004F2EC(pActor);
+            sna_init_clear_flags_8004E308(pActor, 0x236);
+            sna_init_clear_flags_8004E344(pActor, 0x100);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80054424.s")
 
 extern void sub_80056928(void);
