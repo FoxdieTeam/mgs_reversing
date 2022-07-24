@@ -6,6 +6,10 @@
 // TODO: Header
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
 
+extern SVECTOR stru_8009EFC0;
+extern SVECTOR stru_8009EFC8;
+extern int dword_8009EFD0;
+
 extern SVECTOR stru_8009EFE4[4];
 
 extern Sna_E1 e1_800AB7C4;
@@ -272,22 +276,23 @@ extern void  sna_init_set_flags_8004E2F4(Actor_SnaInit *snake, unsigned int flag
 extern void  sd_set_cli_800887EC(int code, int unused);
 extern void  sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag);
 
-void sub_8004EC8C(Actor_SnaInit *snake)
+void sna_init_8004EC8C(Actor_SnaInit *pActor)
 {
-    ushort sVar0;
-    
-    sna_init_set_flags_8004E2F4(snake, 0x800);
-    snake->field_A28 = 0x1cc;
+    ushort v2; // $v1
+
+    sna_init_set_flags_8004E2F4(pActor, 2048);
+    pActor->field_A28 = 460;
     dword_800B7800[5] = 1;
-    sVar0 = *(ushort*)&e1_800AB7C4.field_4;
-    snake->field_A20 = -6;
-    snake->field_9D4 = 0x140;
-    snake->field_9D8 = sVar0;
-    snake->field_9DC = sVar0;
-    sd_set_cli_800887EC(0x1ffff20, 0);
-    sna_init_sub_8004E330(snake,0x10);
+    v2 = *(ushort *)&e1_800AB7C4.field_4;
+    pActor->field_A20 = -6;
+    pActor->field_9D0.vz = 320;
+    pActor->field_9D8.vx = v2;
+    pActor->field_9D8.vz = v2;
+    sd_set_cli_800887EC(0x1FFFF20, 0);
+    sna_init_sub_8004E330(pActor, 0x10);
     GM_ClearPlayerStatusFlag_8004E2D4(1);
 }
+
 #pragma INCLUDE_ASM("asm/sub_8004ED08.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper3_8004ED6C.s")
 #pragma INCLUDE_ASM("asm/sna_init_8004EE28.s")
