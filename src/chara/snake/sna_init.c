@@ -356,7 +356,7 @@ void sna_init_8004F2A0(Actor_SnaInit *pActor, char a2)
 extern void sna_init_clear_flags_8004E308(Actor_SnaInit *snake, unsigned int flags);
 
 
-void sub_8004F2EC(Actor_SnaInit *snake)
+void sna_init_8004F2EC(Actor_SnaInit *snake)
 {
   GM_ClearPlayerStatusFlag_8004E2D4(0x800000);
   sna_init_clear_flags_8004E308(snake, 1);
@@ -618,7 +618,32 @@ void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_chokethrow_begin1_80054210.s")
-#pragma INCLUDE_ASM("asm/sub_8005425C.s")
+
+void sna_init_8005425C(Actor_SnaInit *pActor, int a2)
+{
+    short new_y; // $v0
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, 134, 4);
+        sna_init_set_flags_8004E2F4(pActor, 0x2000000);
+    }
+
+    if ( pActor->field_9C.field_1A )
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(0x400200);
+        sna_init_start_anim_8004E1F4(pActor, (int)sna_init_anim_prone_idle_800528BC);
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 0);
+        new_y = pActor->field_20_ctrl.field_4C_turn_vec.vy + 2048;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = new_y;
+        pActor->field_20_ctrl.field_8_vec.vy = new_y;
+        sna_init_clear_flags_8004E308(pActor, 0x2000004);
+        sna_init_8004F2EC(pActor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80054318.s")
 #pragma INCLUDE_ASM("asm/sub_800543A8.s")
 #pragma INCLUDE_ASM("asm/sub_80054424.s")
