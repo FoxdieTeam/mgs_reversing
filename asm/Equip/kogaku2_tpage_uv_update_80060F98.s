@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef kogaku2_act_helper_helper_80060F98
-kogaku2_act_helper_helper_80060F98:
+	xdef kogaku2_tpage_uv_update_80060F98
+kogaku2_tpage_uv_update_80060F98:
 	dw 0x3C02800B ; 0x80060F98
 	dw 0x8C42B920 ; 0x80060F9C
 	dw 0x27BDFFD8 ; 0x80060FA0

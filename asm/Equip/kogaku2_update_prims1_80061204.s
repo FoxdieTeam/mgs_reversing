@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef kogaku2_act_helper_80061204
-kogaku2_act_helper_80061204:
+	xdef kogaku2_update_prims1_80061204
+kogaku2_update_prims1_80061204:
 	dw 0x27BDFFD8 ; 0x80061204
 	dw 0xAFBF0024 ; 0x80061208
 	dw 0xAFB40020 ; 0x8006120C
