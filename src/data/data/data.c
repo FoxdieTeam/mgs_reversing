@@ -999,8 +999,7 @@ void* SECTION(".data") gSnakeEquips_8009EF8C[] =
 		NewBandana_80061E40,
 		(void*)0x80065118}; // jpegcam
 
-SVECTOR SECTION(".data") stru_8009EFC0 = { 0, 500, 0, 320 };
-SVECTOR SECTION(".data") stru_8009EFC8 = { 400, 320, 400, 32 };
+SVECTOR SECTION(".data") stru_8009EFC0[2] = {{ 0, 500, 0, 320 },  { 400, 320, 400, 32 }};
 
 int SECTION(".data") dword_8009EFD0 = 32;
 
