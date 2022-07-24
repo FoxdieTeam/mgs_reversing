@@ -366,7 +366,7 @@ def main(path, output):
     # nina picks this up due to deps=msvc which ensures the post process
     # will only run after these required objs are built
     for d in depends:
-        print("Note: including file: " + os.path.abspath(d))
+        print("Note: including file: " + "../" + d)
 
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
