@@ -19,6 +19,9 @@ Sna_E1 SECTION(".sdata") e1_800AB7C4;
 extern int dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
 
+extern int dword_800ABBA4;
+int SECTION(".sbss") dword_800ABBA4;
+
 extern int dword_800ABBB4;
 int SECTION(".sbss") dword_800ABBB4;
 
@@ -59,6 +62,11 @@ void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn); // TODO: fn
 void sna_init_800571B8(Actor_SnaInit *pActor, int a2);
 void sna_init_80057118(Actor_SnaInit *pActor, int a2);
 int sna_init_8004FDE8(Actor_SnaInit *pActor, SVECTOR *pVec);
+void sna_init_fn_80056A1C(Actor_SnaInit *pActor);
+void sna_init_fn_80052540(Actor_SnaInit *pActor);
+void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2);
+void sna_init_80050568(Actor_SnaInit *pActor);
+int sna_init_80050398(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -127,7 +135,7 @@ int sna_init_check_flags_8004E31C(Actor_SnaInit *snake, unsigned int flags)
   return (snake->field_894_flags & flags) != 0;
 }
 
-void sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag)
+void sna_init_8004E330(Actor_SnaInit *snake, unsigned int flag)
 {
 	snake->field_898_flags = snake->field_898_flags | flag;
 }
@@ -296,7 +304,7 @@ extern short dword_800B7800[];
 
 extern void  sna_init_set_flags_8004E2F4(Actor_SnaInit *snake, unsigned int flag);
 extern void  sd_set_cli_800887EC(int code, int unused);
-extern void  sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag);
+extern void  sna_init_8004E330(Actor_SnaInit *snake, unsigned int flag);
 
 void sna_init_8004EC8C(Actor_SnaInit *pActor)
 {
@@ -311,7 +319,7 @@ void sna_init_8004EC8C(Actor_SnaInit *pActor)
     pActor->field_9D8.vx = v2;
     pActor->field_9D8.vz = v2;
     sd_set_cli_800887EC(0x1FFFF20, 0);
-    sna_init_sub_8004E330(pActor, 0x10);
+    sna_init_8004E330(pActor, 0x10);
     GM_ClearPlayerStatusFlag_8004E2D4(1);
 }
 
@@ -322,7 +330,7 @@ void sna_init_8004EC8C(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/sub_8004EF14.s")
 #pragma INCLUDE_ASM("asm/sub_8004EFE4.s")
 
-extern int  sub_8004EFE4(int param_1, int param_2);
+extern int  sub_8004EFE4(Actor_SnaInit* param_1, int param_2);
 
 void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 {
@@ -352,7 +360,7 @@ void sna_init_8004F2A0(Actor_SnaInit *pActor, char a2)
 extern void sna_init_clear_flags_8004E308(Actor_SnaInit *snake, unsigned int flags);
 
 
-void sub_8004F2EC(Actor_SnaInit *snake)
+void sna_init_8004F2EC(Actor_SnaInit *snake)
 {
   GM_ClearPlayerStatusFlag_8004E2D4(0x800000);
   sna_init_clear_flags_8004E308(snake, 1);
@@ -367,7 +375,7 @@ void sub_8004F2EC(Actor_SnaInit *snake)
 
 
 #pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s")
-#pragma INCLUDE_ASM("asm/sub_8004F8E4.s")
+#pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper4_8004FA3C.s")
 
 extern void sna_init_clear_flags_8004E344(Actor_SnaInit* param_1, unsigned int param_2);
@@ -387,7 +395,7 @@ void sub_8004FA9C(Actor_SnaInit *snake)
     sna_init_80051FD0(snake);
     if (action & 0x4000)
     {
-        sna_init_sub_8004E330(snake, 1);
+        sna_init_8004E330(snake, 1);
     }
 }
 
@@ -405,9 +413,9 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")
 #pragma INCLUDE_ASM("asm/sub_800501F8.s")
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
-#pragma INCLUDE_ASM("asm/sub_80050398.s")
+#pragma INCLUDE_ASM("asm/sna_init_80050398.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050440.s")
-#pragma INCLUDE_ASM("asm/sub_80050568.s")
+#pragma INCLUDE_ASM("asm/sna_init_80050568.s")
 #pragma INCLUDE_ASM("asm/sub_80050668.s")
 #pragma INCLUDE_ASM("asm/sub_800507D8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s")
@@ -426,7 +434,7 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
 
 #pragma INCLUDE_ASM("asm/sub_8005230C.s")
 #pragma INCLUDE_ASM("asm/sub_80052468.s")
-#pragma INCLUDE_ASM("asm/sub_80052540.s")
+#pragma INCLUDE_ASM("asm/sna_init_fn_80052540.s")
 
 #pragma INCLUDE_ASM("asm/sna_init_fn_800525F8.s")
 /*
@@ -614,9 +622,69 @@ void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_chokethrow_begin1_80054210.s")
-#pragma INCLUDE_ASM("asm/sub_8005425C.s")
-#pragma INCLUDE_ASM("asm/sub_80054318.s")
-#pragma INCLUDE_ASM("asm/sub_800543A8.s")
+
+void sna_init_8005425C(Actor_SnaInit *pActor, int a2)
+{
+    short new_y; // $v0
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, 134, 4);
+        sna_init_set_flags_8004E2F4(pActor, 0x2000000);
+    }
+
+    if ( pActor->field_9C.field_1A )
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(0x400200);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_prone_idle_800528BC);
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 0);
+        new_y = pActor->field_20_ctrl.field_4C_turn_vec.vy + 2048;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = new_y;
+        pActor->field_20_ctrl.field_8_vec.vy = new_y;
+        sna_init_clear_flags_8004E308(pActor, 0x2000004);
+        sna_init_8004F2EC(pActor);
+    }
+}
+
+
+void sna_init_80054318(Actor_SnaInit *pActor, int a2)
+{
+
+    if ( a2 == 2 && dword_800ABBA4 >= 0 )
+    {
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_run_8005292C);
+        return;
+    }
+
+    if ( (*pActor->field_9B0_pad_bits & 0x4000) != 0 )
+    {
+        sna_init_8004E330(pActor, 1);
+    }
+
+    if ( pActor->field_9C.field_1A )
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(16);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+        return;
+    }
+}
+
+void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2)
+{
+    if ( !GM_CheckPlayerStatusFlag_8004E29C(2) && a2 >= 16 )
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(0x20008000);
+        if ( sna_init_80050398(pActor) )
+        {
+            sna_init_8004F2EC(pActor);
+            sna_init_clear_flags_8004E308(pActor, 0x236);
+            sna_init_clear_flags_8004E344(pActor, 0x100);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80054424.s")
 
 extern void sub_80056928(void);
@@ -637,7 +705,44 @@ void sna_init_80054488(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shot_flinch_800544E0.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper7_80054648.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper8_80054710.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_knockdown_idle_80054930.s")
+
+void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int a2)
+{
+    int local_field_A54; // $v1
+    int action_flag; // $a1
+    short v5; // $a1
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sna_init_fn_80056A1C;
+        pActor->field_9CC = sna_init_fn_80052540;
+        sna_init_set_flags_8004E2F4(pActor, 0x10);
+        GM_SetPlayerStatusFlag_8004E2B4(0x240);
+        GM_ClearPlayerStatusFlag_8004E2D4(0x100);
+        local_field_A54 = pActor->field_A54;
+        pActor->field_A26_fn_stance_idx = 2;
+        if ( local_field_A54 == 1 )
+        {
+            action_flag = pActor->field_9B4_action_table->field_C->field_4;
+        }
+        else
+        {
+            action_flag = pActor->field_9B4_action_table->field_C->field_5;
+        }
+        sna_init_8004E22C(pActor, action_flag, 4);
+        if ( pActor->field_89C_pTarget->field_26_hp <= 0 )
+        {
+            v5 = 127;
+            if ( pActor->field_A54 == 1 )
+            {
+                v5 = 126;
+            }
+            sna_init_8004F8E4(pActor, v5);
+        }
+        sna_init_80050568(pActor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_knockdown_getup_80054A10.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_knockdown_shot_80054B50.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper10_80054C08.s")
