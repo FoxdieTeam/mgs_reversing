@@ -6,6 +6,8 @@
 // TODO: Header
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
 
+extern SVECTOR stru_8009EFE4[4];
+
 extern Sna_E1 e1_800AB7C4;
 Sna_E1 SECTION(".sdata") e1_800AB7C4;
 
@@ -49,6 +51,9 @@ void sna_init_80056A54(Actor_SnaInit *pActor);
 void sna_init_fn_800525F8(Actor_SnaInit *pActor);
 void sna_init_fn_80056AD8(Actor_SnaInit *pActor);
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn); // TODO: fn type
+void sna_init_800571B8(Actor_SnaInit *pActor, int a2);
+void sna_init_80057118(Actor_SnaInit *pActor, int a2);
+int sna_init_8004FDE8(Actor_SnaInit *pActor, SVECTOR *pVec);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
@@ -350,7 +355,7 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/Game/GM_CheckShukanReverse_8004FBF8.s")
 #pragma INCLUDE_ASM("asm/Game/GM_CheckShukanReverseAnalog_8004FC70.s")
 #pragma INCLUDE_ASM("asm/sub_8004FCB8.s")
-#pragma INCLUDE_ASM("asm/sub_8004FDE8.s")
+#pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s")
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")
 #pragma INCLUDE_ASM("asm/sub_800501F8.s")
@@ -544,7 +549,25 @@ void sna_init_fn_nothing_80053B80(void)
 #pragma INCLUDE_ASM("asm/sub_80053E9C.s")
 #pragma INCLUDE_ASM("asm/sub_80053FAC.s")
 #pragma INCLUDE_ASM("asm/sub_800540D0.s")
-#pragma INCLUDE_ASM("asm/sub_800541A8.s")
+
+void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
+{
+    void *pFn; // $a1
+
+    GM_ClearPlayerStatusFlag_8004E2D4(0x10);
+    pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+    pActor->field_9CC = sna_init_fn_nothing_80053B80;
+    if ( sna_init_8004FDE8(pActor, stru_8009EFE4) )
+    {
+        pFn = sna_init_800571B8;
+    }
+    else
+    {
+        pFn = sna_init_80057118;
+    }
+    sna_init_start_anim_8004E1F4(pActor, pFn);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_chokethrow_begin1_80054210.s")
 #pragma INCLUDE_ASM("asm/sub_8005425C.s")
 #pragma INCLUDE_ASM("asm/sub_80054318.s")
