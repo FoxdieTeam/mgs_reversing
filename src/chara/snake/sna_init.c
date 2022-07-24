@@ -22,6 +22,8 @@ extern int GV_VecDir2_80016EF8(SVECTOR *vec);
 extern int dword_800ABBB8;
 int SECTION(".sbss") dword_800ABBB8;
 
+extern int GM_AlertMode_800ABA00;
+
 extern GameState_800B4D98   gGameState_800B4D98;
 extern int                  GM_GameOverTimer_800AB3D4;
 extern int                  GM_GameStatus_800AB3CC;
@@ -32,6 +34,8 @@ extern void GM_ConfigObjectAction_80034CD4( OBJECT *obj, int action_flag, int mo
 
 
 void sna_init_fn_800535B8(Actor_SnaInit *pActor);
+void sna_init_80053360(Actor_SnaInit *pActor);
+void sna_init_80050440(Actor_SnaInit *pActor);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
@@ -365,11 +369,30 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_idle_8005275C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_crouch_800527DC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_idle_800528BC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_run_8005292C.s")
+
+void sna_init_anim_run_8005292C(Actor_SnaInit *pActor, int a2)
+{
+    int action_flag; // $a1
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sna_init_80053360;
+        pActor->field_9CC = sna_init_fn_80052120;
+        GM_SetPlayerStatusFlag_8004E2B4(16);
+        if ( GM_AlertMode_800ABA00 >= 3 )
+        {
+            action_flag = pActor->field_9B4_action_table->field_4->field_7;
+        }
+        else
+        {
+            action_flag = pActor->field_9B4_action_table->field_4->field_0;
+        }
+        sna_init_8004E22C(pActor, action_flag, 4);
+    }
+}
 
 void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int a2)
 {
-    int local_field_A54; // $v1
     int action_flag; // $a1
 
     if ( !a2 )
@@ -377,9 +400,8 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int a2)
         pActor->field_A28 = 450;
         GM_SetPlayerStatusFlag_8004E2B4(0x10);
         pActor->field_9C8 = sna_init_fn_800535B8;
-        local_field_A54 = pActor->field_A54;
         pActor->field_9CC = sna_init_fn_80052120;
-        if ( local_field_A54 )
+        if ( pActor->field_A54 )
         {
             action_flag = pActor->field_9B4_action_table->field_4->field_4;
         }
@@ -399,7 +421,7 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/sub_80052E58.s")
 #pragma INCLUDE_ASM("asm/sub_80053014.s")
 #pragma INCLUDE_ASM("asm/sub_800531F4.s")
-#pragma INCLUDE_ASM("asm/sub_80053360.s")
+#pragma INCLUDE_ASM("asm/sna_init_80053360.s")
 #pragma INCLUDE_ASM("asm/sna_init_fn_800535B8.s")
 #pragma INCLUDE_ASM("asm/sub_800537D4.s")
 #pragma INCLUDE_ASM("asm/sub_800538CC.s")
