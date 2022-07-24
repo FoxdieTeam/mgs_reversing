@@ -3,6 +3,9 @@
 #include "linker.h"
 #include "libdg.h"
 
+// TODO: Header
+void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
+
 extern Sna_E1 e1_800AB7C4;
 Sna_E1 SECTION(".sdata") e1_800AB7C4;
 
@@ -44,6 +47,7 @@ void sna_init_anim_box_idle_800553EC(Actor_SnaInit *pActor, int a2);
 void sna_init_80051DA0(Actor_SnaInit *pActor);
 void sna_init_80056A54(Actor_SnaInit *pActor);
 void sna_init_fn_800525F8(Actor_SnaInit *pActor);
+void sna_init_fn_80056AD8(Actor_SnaInit *pActor);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
@@ -592,7 +596,21 @@ void sna_init_anim_box_idle_800553EC(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_box_run_8005544C.s")
+void sna_init_8005544C(Actor_SnaInit *pActor, int a2)
+{
+    Sna_ActionTable *field_9B4_action_table; // $v1
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sna_init_fn_80056AD8;
+        field_9B4_action_table = pActor->field_9B4_action_table;
+        pActor->field_9CC = sna_init_fn_800525F8;
+        sna_init_8004E22C(pActor, field_9B4_action_table->field_18->field_3, 4);
+        GM_SetPlayerStatusFlag_8004E2B4(16);
+        GM_ConfigControlInterp_80026244(&pActor->field_20_ctrl, 4);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_box_stop_800554B4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_dying_80055524.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_800559D8.s")
