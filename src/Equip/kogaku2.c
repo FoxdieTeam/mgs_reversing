@@ -1,7 +1,9 @@
 #include "actor.h"
+#include "kogaku2.h"
 
 extern void EQ_InvisibleUnit_80060E68(int param_1, int param_2, int param_3);
 extern void DG_WriteObjPacketUV_8001A774(int param_1, int param_2);
+
 
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_act_helper_helper_80060F98.s")
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_act_helper_helper_800610A4.s")
