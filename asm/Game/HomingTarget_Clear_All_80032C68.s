@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef GM_Reset_helper4_80032C68
-GM_Reset_helper4_80032C68:
+	xdef HomingTarget_Clear_All_80032C68
+HomingTarget_Clear_All_80032C68:
 	dw 0x3C02800C ; 0x80032C68
 	dw 0x24428230 ; 0x80032C6C
 	dw 0x24030008 ; 0x80032C70

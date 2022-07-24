@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80032C8C
-sub_80032C8C:
+	xdef HomingTarget_Alloc_80032C8C
+HomingTarget_Alloc_80032C8C:
 	dw 0x27BDFFE8 ; 0x80032C8C
 	dw 0xAFBF0010 ; 0x80032C90
 	dw 0x3C02800C ; 0x80032C94
