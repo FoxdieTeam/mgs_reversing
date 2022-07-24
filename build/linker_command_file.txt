@@ -53,6 +53,7 @@
     include "..\obj\libdg\display.obj"
 
     ;libdg\chanl.c
+    include "..\obj\libdg\chanl.obj"
     include "..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
     include "..\obj\libdg\DG_RenderPipeline_80018028.obj"
     include "..\obj\libdg\DG_80018128.obj"
