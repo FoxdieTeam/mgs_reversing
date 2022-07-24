@@ -50,20 +50,7 @@
     ;libdg_start
 
     ;libdg\display.c ?
-    include "..\obj\libdg\DG_InitDispEnv_800170F0.obj"
-    include "..\obj\libdg\DG_800172A8.obj"
-    include "..\obj\DG_800172D0.obj"
-    include "..\obj\DG_800174DC.obj" ; do something with a gte result?
-    include "..\obj\DG_Clip_80017594.obj"
-    include "..\obj\sub_800175E0.obj"
-    include "..\obj\libdg\DG_PutDrawEnv_From_DispEnv_80017890.obj"
-    include "..\obj\DG_800178D8.obj" ; draws something/changes tpage
-    include "..\obj\sub_80017978.obj"
-    include "..\obj\DG_DrawSyncCallback_80017984.obj"
-    include "..\obj\DG_Init_800179A8.obj"
-    include "..\obj\DG_InitOT_80017B30.obj"
-    include "..\obj\libdg\DG_3OTsInit_80017B98.obj"
-    include "..\obj\libdg\DG_DrawOTag_80017E4C.obj"
+    include "..\obj\libdg\display.obj"
 
     ;libdg\chanl.c
     include "..\obj\libdg\DG_ClearChanlSystem_80017E9C.obj"
@@ -2424,6 +2411,9 @@ group_gDgdActor2_800B3750    group bss,org($800B3750)
 
 group_gDispEnv_800B0600    group bss,org($800B0600)
     section .gDispEnv_800B0600, group_gDispEnv_800B0600
+
+group_gUnknownVector_800B0620    group bss,org($800B0620)
+    section .gUnknownVector_800B0620, group_gUnknownVector_800B0620
 
 group_gStuff_800B52C0    group bss,org($800B52C0)
     section .gStuff_800B52C0, group_gStuff_800B52C0
