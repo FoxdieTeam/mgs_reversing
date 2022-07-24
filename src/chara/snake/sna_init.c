@@ -40,14 +40,14 @@ void sna_init_fn_800531F4(Actor_SnaInit *pActor);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_start_anim_8004E1F4.s")
 
-void sna_init_8004E22C(int param_1, int param_2, int param_3)
+void sna_init_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
 {
-    if (*(short *)(param_1 + 0xaa) != param_2)
+    if ( pActor->field_9C.action_flag != action_flag )
     {
-        GM_ConfigObjectAction_80034CD4((OBJECT *)(param_1 + 0x9c), param_2, 0, param_3);
+        GM_ConfigObjectAction_80034CD4(&pActor->field_9C, action_flag, 0, interp);
     }
-    return;
 }
+
 #pragma INCLUDE_ASM("asm/sub_8004E260.s")
 
 int GM_CheckPlayerStatusFlag_8004E29C(int arg0)
@@ -463,20 +463,17 @@ void nullsub_18_80053B80(void)
 extern void sub_80056928(void);
 extern void sub_80052468(void);
 
-void sub_80054488(int param_1, int param_2)
+void sna_init_80054488(Actor_SnaInit *pActor, int a2)
 {
-    if (param_2 == 0)
+    if ( !a2 )
     {
-        GM_SetPlayerStatusFlag_8004E2B4(0x10);
-        *(void **)(param_1 + 0x9c8) = (void*)&sub_80056928;
-        *(void **)(param_1 + 0x9cc) = (void*)&sub_80052468;
+        GM_SetPlayerStatusFlag_8004E2B4(16);
+        pActor->field_9C8 = sub_80056928;
+        pActor->field_9CC = sub_80052468;
     }
-    *(short *)(param_1 + 0xa62) = *(short *)(param_1 + 0x98) + 0xfa;
-    sna_init_80050440(param_1);
-    return;
+    pActor->field_A60.vy = pActor->field_20_ctrl.field_78 + 250;
+    sna_init_80050440(pActor);
 }
-
-
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shot_flinch_800544E0.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper7_80054648.s")
