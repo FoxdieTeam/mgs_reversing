@@ -947,7 +947,7 @@ void sub_800540D0(struct Actor_SnaInit *pActor, int a2);
 void sub_80058470(struct Actor_SnaInit *pActor, int a2);
 void sna_init_anim_stinger_800570C0(struct Actor_SnaInit *pActor, int a2);
 void sna_init_anim_claymore_80057474(struct Actor_SnaInit *pActor, int a2);
-void sub_800541A8(struct Actor_SnaInit *pActor, int a2);
+void sna_init_bomb_800541A8(struct Actor_SnaInit *pActor, int a2);
 void sna_init_anim_psg1_80056DDC(struct Actor_SnaInit *pActor, int a2);
 
 Actor* NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
@@ -977,7 +977,7 @@ WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] =
 		{NewRCM_80066FF0, sub_800540D0},
 		{NewAAM_80067480, sna_init_anim_stinger_800570C0},
 		{mine_init_800677BC, sna_init_anim_claymore_80057474},
-		{NewBomb_80067B20, sub_800541A8},
+		{NewBomb_80067B20, sna_init_bomb_800541A8},
 		{NewStanGrenade_80066A74, sub_80058470},
 		{NewChaffGrenade_80066AA0, sub_80058470},
 		{NewRifle_80068214, sna_init_anim_psg1_80056DDC}
@@ -999,20 +999,16 @@ void* SECTION(".data") gSnakeEquips_8009EF8C[] =
 		NewBandana_80061E40,
 		(void*)0x80065118}; // jpegcam
 
-char SECTION(".data") byte_8009EFC0[] = {0, 0, 0xF4};
-char SECTION(".data") byte_8009EFC3 = 1;
-char SECTION(".data") byte_8009EFC4[] = {0, 0, 0x40};
-char SECTION(".data") byte_8009EFC7 = 1;
-char SECTION(".data") byte_8009EFC8[] = {0x90, 1, 0x40};
-char SECTION(".data") byte_8009EFCB = 1;
-char SECTION(".data") byte_8009EFCC[] = {0x90, 1, 0x20};
-char SECTION(".data") byte_8009EFCF = 0;
-char SECTION(".data") byte_8009EFD0[] = {0x20, 0, 0};
-char SECTION(".data") byte_8009EFD3 = 0;
-int SECTION(".data") dword_8009EFD4[] = {0xC8FF9C, 0xC8};
-int SECTION(".data") dword_8009EFDC[] = {0x12FF6A, 0xC8};
+SVECTOR SECTION(".data") stru_8009EFC0[2] = {{ 0, 500, 0, 320 },  { 400, 320, 400, 32 }};
 
-int SECTION(".data") dword_8009EFE4[] = {0, 0x12C, 0x2580190, 0x190, 0, 0, 0x40, 0};
+int SECTION(".data") dword_8009EFD0 = 32;
+
+SVECTOR SECTION(".data") stru_8009EFD4 = { -100, 200, 200, 0 };
+SVECTOR SECTION(".data") stru_8009EFDC = { -150, 18, 200, 0 };
+
+SVECTOR SECTION(".data") stru_8009EFE4[4] = { { 0, 0, 300, 0 }, { 400, 600, 400, 0 }, { 0, 0, 0, 0 }, { 64, 0, 0, 0 } };
+
+
 int SECTION(".data") dword_8009F004[] = {0xFE70, 0x258, 0x2580190, 0x190, 0, 0, 0x24, 5};
 int SECTION(".data") dword_8009F024[] = {0x190, 0x258, 0x2580190, 0x190, 0, 0, 0x24, 5};
 int SECTION(".data") dword_8009F044[] = {0, 0, 0x25801F5, 0x1F5, 0, 0, 7, 0};
