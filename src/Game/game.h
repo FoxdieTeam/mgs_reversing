@@ -43,7 +43,7 @@ typedef struct _OBJECT
     MATRIX            *light;       //0x08
     unsigned short     map_name;    //0x0C
     short              action_flag; //0x0E
-    unsigned short     field_10;    //0x10
+    short     field_10;    //0x10 no match with unsigned in sna_init_8004E260
     unsigned short     field_12;    //0x12
     MOTION_CONTROL    *m_ctrl;      //0x14
     unsigned short     field_18;    //0x18

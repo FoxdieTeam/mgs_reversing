@@ -69,7 +69,13 @@ void sna_init_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004E260.s")
+void sna_init_8004E260(Actor_SnaInit *pActor, int a2, int interp, int a4)
+{
+    if ( pActor->field_9C.field_10 != a2 )
+    {
+        GM_ConfigObjectOverride_80034D30(&pActor->field_9C, a2, 0, interp, a4);
+    }
+}
 
 int GM_CheckPlayerStatusFlag_8004E29C(int arg0)
 {
