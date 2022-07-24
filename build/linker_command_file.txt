@@ -1282,11 +1282,8 @@
     include "..\obj\sub_8005D188.obj"
     include "..\obj\sub_8005D288.obj"
 
-    include "..\obj\vibrate_act_helper_8005D358.obj"
-    include "..\obj\vibrate_act_helper_8005D3A4.obj"
-    include "..\obj\vibrate_act_8005D424.obj"
-    include "..\obj\vibrate_init_8005D508.obj"
-    include "..\obj\vibrate_init2_8005D58C.obj"
+	; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
+	include "..\obj\vibrate.obj"
 
     include "..\obj\Anime\animeconv\anime_create_8005D604.obj"
     include "..\obj\Anime\animeconv\anime_create_8005D6BC.obj"
