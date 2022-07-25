@@ -36,12 +36,12 @@
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_13_8005F408.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_14_8005F438.s")
 
-void anime_act_helper_8005F46C(short *param_1, int param_2)
+
+void anime_act_helper_8005F46C(SVECTOR *vec, SVECTOR *vec_arr)
 {
-    *param_1 = *param_1 + *(short *)(param_2 + 8);
-    param_1[1] = param_1[1] + *(short *)(param_2 + 10);
-    param_1[2] = param_1[2] + *(short *)(param_2 + 0xc);
-    return;
+    vec->vx += vec_arr[1].vx;
+    vec->vy += vec_arr[1].vy;
+    vec->vz += vec_arr[1].vz;
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_8005F4AC.s")
