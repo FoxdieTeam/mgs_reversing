@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800540D0
-sub_800540D0:
+	xdef sna_init_gun_800540D0
+sna_init_gun_800540D0:
 	dw 0x27BDFFE0 ; 0x800540D0
 	dw 0xAFB00010 ; 0x800540D4
 	dw 0x00808021 ; 0x800540D8
