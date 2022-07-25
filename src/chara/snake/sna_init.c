@@ -44,6 +44,7 @@ extern int                  GM_GameStatus_800AB3CC;
 extern int  GM_PlayerStatus_800ABA50;
 
 extern void GM_ConfigObjectAction_80034CD4( OBJECT *obj, int action_flag, int motion, int interp );
+void sub_80032858(SVECTOR *pVec, int a2);
 
 
 void sna_init_fn_800535B8(Actor_SnaInit *pActor);
@@ -73,6 +74,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2);
 void sna_init_gun_800540D0(Actor_SnaInit *pActor, int a2);
 void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2);
 void sub_80057BF0(Actor_SnaInit *pActor, int a2);
+void sub_80057590(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -880,7 +882,18 @@ void sna_init_fn_80056A1C(Actor_SnaInit *pActor)
 
 #pragma INCLUDE_ASM("asm/sna_init_80056A54.s")
 #pragma INCLUDE_ASM("asm/sna_init_fn_80056AD8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_80056B88.s")
+
+void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
+{
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sub_80057590;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_1, 4);
+        GM_ClearPlayerStatusFlag_8004E2D4(16);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_begin_80056BDC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_80056C3C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s")
