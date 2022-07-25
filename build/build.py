@@ -5,7 +5,10 @@ import sys
 import os
 import time
 import subprocess
-from ninja import _program as ninja_run, ninja_syntax
+#from ninja import _program as ninja_run, ninja_syntax
+import ninja_syntax
+
+print(ninja_syntax.__file__ )
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MGS Ninja build script generator')
@@ -75,8 +78,8 @@ includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir -I $src_
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
-# deps="msvc"
-ninja.rule("asm_include_preprocess_44", "python $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out", deps="msvc")
+# note: removed deps="msvc" as it adds header edges to the graph for the NEXT build
+ninja.rule("asm_include_preprocess_44", "python $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
 
 ninja.rule("asm_include_postprocess", "python $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")
@@ -167,6 +170,7 @@ def gen_build_target(targetName):
         cFile = cFile.replace("\\", "/")
         cOFile = cFile.replace("/src/", "/obj/")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
+        cDynDepFile = cOFile.replace(".c", ".c.dyndep")
         cAsmPreProcFile = cOFile.replace(".c", ".c.asm.preproc")
         cAsmPreProcFileDeps = cOFile.replace(".c", ".c.asm.preproc.deps")
         cAsmFile = cOFile.replace(".c", ".asm")
@@ -175,13 +179,15 @@ def gen_build_target(targetName):
         #print("Build step " + asmFile + " -> " + asmOFile)
         if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
             if cFile.find("/Equip/") != -1:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
             else:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
+            #   def build(self, outputs, rule, inputs=None, implicit=None, order_only=None,
+            #  variables=None, implicit_outputs=None, pool=None, dyndep=None):
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         else:
             #print("43:" + cFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
@@ -213,12 +219,12 @@ gen_build_target("SLPM_862.47")
 f.close()
 
 time_before = time.time()
-exit_code = ninja_run('ninja', [])
-took = time.time() - time_before
-print(f'build took {took:.2f} seconds')
+#exit_code = ninja_run('ninja', [])
+#took = time.time() - time_before
+#print(f'build took {took:.2f} seconds')
 
-if exit_code == 0:
-    ret = subprocess.run([sys.executable, 'compare.py'])
-    exit_code = ret.returncode
+#if exit_code == 0:
+#    ret = subprocess.run([sys.executable, 'compare.py'])
+#    exit_code = ret.returncode
 
-sys.exit(exit_code)
+#sys.exit(exit_code)
