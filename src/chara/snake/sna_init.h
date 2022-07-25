@@ -70,6 +70,26 @@ typedef struct Sna_1F4
     char  field_23;
 } Sna_1F4;
 
+typedef struct Sna_Joint_Rotations
+{
+    SVECTOR field_0_lower_body;
+    SVECTOR field_10_upper_body;
+    SVECTOR field_18_right_shoulder;
+    SVECTOR field_20_right_elbow;
+    SVECTOR field_28_right_wrist;
+    SVECTOR field_30_neck;
+    SVECTOR field_38_neck2;
+    SVECTOR field_40_right_shoulder;
+    SVECTOR field_40_right_elbow;
+    SVECTOR field_48_right_wrist;
+    SVECTOR field_50_right_leg;
+    SVECTOR field_58_right_knee;
+    SVECTOR field_60_right_ankle;
+    SVECTOR field_68_left_leg;
+    SVECTOR field_70_left_knee;
+    SVECTOR field_78_left_ankle;
+} Sna_Joint_Rotations;
+
 typedef struct Sna_ActionTable
 {
   Sna_E1 *field_0;
@@ -287,37 +307,7 @@ typedef struct Actor_SnaInit
   int field_1EC;
   int field_1F0;
   Sna_1F4 field_1F4[33]; // bottom half of array is weapon related
-  SVECTOR field_698; // limb positions start
-  int field_6A0;
-  int field_6A4;
-  int field_6A8;
-  int field_6AC;
-  int field_6B0;
-  int field_6B4;
-  int field_6B8;
-  int field_6BC;
-  int field_6C0;
-  int field_6C4;
-  int field_6C8;
-  int field_6CC;
-  int field_6D0;
-  int field_6D4;
-  int field_6D8;
-  int field_6DC;
-  int field_6E0;
-  int field_6E4;
-  int field_6E8;
-  int field_6EC;
-  int field_6F0;
-  int field_6F4;
-  int field_6F8;
-  int field_6FC;
-  int field_700;
-  int field_704;
-  int field_708;
-  int field_70C;
-  int field_710; // limb position end
-  int field_714;
+  Sna_Joint_Rotations field_698_joint_rotations;
   SVECTOR field_718[16];
   int field_798;
   int field_79C;
