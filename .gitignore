@@ -25,3 +25,5 @@ build/obj_tool/Release
 build/include_asm_tmp
 src/.vscode/settings.json
 *.log
+*.swp
+*.swo
