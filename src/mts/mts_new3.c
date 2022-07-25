@@ -631,16 +631,18 @@ void mts_lock_sem_8008A6CC(int taskNr)
 extern mts_task gTasks_800C0C30[];
 extern int gTaskIdx_800C0DB0;
 extern int gMts_bits_800C0DB4;
-
 extern int gMts_active_task_idx_800C13C0;
 
 int SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0 = 0;
+signed char SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
+char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
+unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
+unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
 
 extern void SwEnterCriticalSection_8009954C(void);
 extern void SwExitCriticalSection_8009956C(void);
 extern int ChangeTh_800994EC(int thread);
 
-signed char SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
 
 void mts_unlock_sem_8008A85C(int taskNum)
 {
@@ -758,10 +760,6 @@ void mts_reset_interrupt_overrun_8008AAA0(void)
 #include "linker.h"
 #include "mts_new.h"
 
-char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
-
-unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
-unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
 
 extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
 extern const char aMtsStaTskServe[];
@@ -770,22 +768,16 @@ extern const char aMtsNewC[]; // = "\n";
 extern const char aMultiTaskSched[];
 extern const char aJul111998[];
 extern const char a221633[];
-extern const char aAssertionFaled[];
 extern const char aTaskCreateXX[];
 extern const char aBootTasknrD[];
-extern const char asc_80013E2C[];
 extern const char aProgramBottomX[];
-extern const char aMtsNewC[];
 
 extern int gMts_Event1_800A3D70;
 extern int gMts_Event2_800A3D90;
 extern int gStackSize_800A3D94;
 
-extern int gTaskIdx_800C0DB0;
-extern mts_task gTasks_800C0C30[];
 extern int gMts_active_task_idx_800C13C0;
 extern volatile int gMts_bits_800C0DB4;
-extern int gStackSize_800A3D94;
 extern signed char byte_800C0C10[32];
 
 extern mts_msg gMtsMsgs_800C13D0[8];
@@ -797,8 +789,6 @@ extern int  dword_800A3DB0;
 extern int  dword_800A3DB4;
 extern int  dword_800A3DB4;
 extern int  dword_800A3DB8;
-extern int gMts_Event1_800A3D70;
-extern int gMts_Event2_800A3D90;
 
 void mts_send_8008982C(int dst, unsigned char *message);
 int mts_receive_80089D24(int src, unsigned char *message);

@@ -1818,6 +1818,8 @@
     include "..\obj\mts\mts_get_tick_count_8008BBB0.obj"
     include "..\obj\mts\mts_event_cb_8008BBC0.obj"
     include "..\obj\mts\mts_task_start_8008BBC8.obj"
+
+    ; pad.c ?
     include "..\obj\mts\mts_8008BC8C.obj"
     include "..\obj\mts\mts_callback_controller_8008BDEC.obj"
     include "..\obj\mts\mts_init_controller_8008C098.obj"
