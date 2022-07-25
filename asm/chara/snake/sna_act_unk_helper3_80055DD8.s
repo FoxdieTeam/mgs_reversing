@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_unk_helper3_80055DD8
-sna_unk_helper3_80055DD8:
+	xdef sna_act_unk_helper3_80055DD8
+sna_act_unk_helper3_80055DD8:
 	dw 0x27BDFFE0 ; 0x80055DD8
 	dw 0xAFB00010 ; 0x80055DDC
 	dw 0x00808021 ; 0x80055DE0
