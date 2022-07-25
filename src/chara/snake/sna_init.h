@@ -45,9 +45,26 @@ typedef struct Sna_E6
   unsigned char field_3;
 } Sna_E6;
 
+typedef struct Sna_1D0
+{
+    // types are wrong. lots of mixed read/write sizes so hard to tell
+    // most seem to be shorts though
+    int field_1D0;
+    int field_1D4;
+    int field_1D8;
+    int field_1DC;
+    int field_1E0;
+    int field_1E4;
+    int field_1E8;
+    int field_1EC;
+    int field_1F0;
+} Sna_1D0;
+
 // probably animation related, probably has vectors
 typedef struct Sna_1F4
 {
+    // first 32 bytes seem consistent with a MATRIX,
+    // but asm doesnt look like gte macro
     short field_0; // vec1?
     short field_2;
     short field_4;
@@ -297,18 +314,10 @@ typedef struct Actor_SnaInit
     char field_17E;
     char field_17F; // zeroed during normal gameplay end
     MOTION_CONTROL field_180;
-  int field_1D0;  // start movement or animation related stuff
-  int field_1D4;
-  int field_1D8;
-  int field_1DC;
-  int field_1E0;
-  int field_1E4;
-  int field_1E8;
-  int field_1EC;
-  int field_1F0;
+  Sna_1D0 field_1D0;
   Sna_1F4 field_1F4[33]; // bottom half of array is weapon related
   Sna_Joint_Rotations field_698_joint_rotations;
-  SVECTOR field_718[16];
+  SVECTOR field_718[16]; // same size as above, related / same struct?
   int field_798;
   int field_79C;
   int field_7A0;
@@ -353,15 +362,8 @@ typedef struct Actor_SnaInit
   int field_83C;
   int field_840;
   int field_844;
-  MATRIX field_848_mtx;
-  int field_868;
-  int field_86C;
-  int field_870;
-  int field_874;
-  int field_878;
-  int field_87C;
-  int field_880;
-  int field_884;
+  MATRIX field_848_lighting_mtx; // .t is R, G, B
+  MATRIX field_868_lighting_mtx2;
   Actor *field_888_pShadow;
   unsigned int *field_88C;
   unsigned short field_890;
