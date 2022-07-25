@@ -770,7 +770,7 @@ void sna_init_anim_box_idle_800553EC(Actor_SnaInit *pActor, int a2)
     }
 }
 
-void sna_init_8005544C(Actor_SnaInit *pActor, int a2)
+void sna_init_anim_box_move_8005544C(Actor_SnaInit *pActor, int a2)
 {
     if ( !a2 )
     {
