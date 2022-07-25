@@ -6,6 +6,8 @@ import os
 import time
 import subprocess
 #from ninja import _program as ninja_run, ninja_syntax
+from ninja import _program as ninja_run
+# local copy as the pip version doesn't have dyndeps in build() func
 import ninja_syntax
 
 print(ninja_syntax.__file__ )
@@ -219,12 +221,12 @@ gen_build_target("SLPM_862.47")
 f.close()
 
 time_before = time.time()
-#exit_code = ninja_run('ninja', [])
-#took = time.time() - time_before
-#print(f'build took {took:.2f} seconds')
+exit_code = ninja_run('ninja', [])
+took = time.time() - time_before
+print(f'build took {took:.2f} seconds')
 
-#if exit_code == 0:
-#    ret = subprocess.run([sys.executable, 'compare.py'])
-#    exit_code = ret.returncode
+if exit_code == 0:
+    ret = subprocess.run([sys.executable, 'compare.py'])
+    exit_code = ret.returncode
 
-#sys.exit(exit_code)
+sys.exit(exit_code)

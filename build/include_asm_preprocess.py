@@ -379,14 +379,15 @@ def main(path, output):
     with open(dynDepName, 'w') as f:
         f.write("ninja_dyndep_version = 1\n")
         depsStr = ""
-        for d in depends:
-            d = os.path.abspath("..\\" + d)
-            d = d.replace("\\", "/")
-            d = d.replace("C:/", "C$:/")
-            depsStr = depsStr + " |  " + d
-            # TODO: more than one is screwed, need multiple commands?
-            break
-        f.write("build " + targetAddTo + ": dyndep" + depsStr + "\n")
+        if len(depends) > 0:
+            for d in depends:
+                d = os.path.abspath("..\\" + d)
+                d = d.replace("\\", "/")
+                d = d.replace("C:/", "C$:/")
+                depsStr = depsStr + " " + d
+            f.write("build " + targetAddTo + ": dyndep | " + depsStr + "\n")
+        else:
+            f.write("build " + targetAddTo + ": dyndep" + depsStr + "\n")
 
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
