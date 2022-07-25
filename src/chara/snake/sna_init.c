@@ -79,6 +79,7 @@ void sub_80057BF0(Actor_SnaInit *pActor, int a2);
 void sub_80057590(Actor_SnaInit *pActor);
 void sub_8005688C(Actor_SnaInit *pActor);
 void sub_80052468(Actor_SnaInit *pActor);
+void sna_init_8005684C(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -972,7 +973,30 @@ void sna_init_anim_box_stop_800554B4(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s")
 #pragma INCLUDE_ASM("asm/sub_8005684C.s")
-#pragma INCLUDE_ASM("asm/sub_8005688C.s")
+
+void sub_8005688C(Actor_SnaInit *pActor)
+{
+    int action_flag; // $a1
+
+    if ( (*pActor->field_9B0_pad_bits & 0x5000) != 0 )
+    {
+        if ( (*pActor->field_9B0_pad_bits & 0x1000) != 0 )
+        {
+            action_flag = pActor->field_9B4_action_table->field_4->field_3;
+        }
+        else
+        {
+            action_flag = pActor->field_9B4_action_table->field_4->field_4;
+        }
+        sna_init_8004E22C(pActor, action_flag, 4);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_80054488);
+    }
+    else
+    {
+        sub_8005684C(pActor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80056928.s")
 
 void sna_init_fn_80056A1C(Actor_SnaInit *pActor)
