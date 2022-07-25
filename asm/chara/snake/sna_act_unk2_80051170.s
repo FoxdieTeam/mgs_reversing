@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_unk2_80051170
-sna_unk2_80051170:
+	xdef sna_act_unk2_80051170
+sna_act_unk2_80051170:
 	dw 0x94820006 ; 0x80051170
 	dw 0xA4800028 ; 0x80051174
 	dw 0xA480002A ; 0x80051178
