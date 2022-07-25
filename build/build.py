@@ -187,16 +187,14 @@ def gen_build_target(targetName):
             else:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
-            #   def build(self, outputs, rule, inputs=None, implicit=None, order_only=None,
-            #  variables=None, implicit_outputs=None, pool=None, dyndep=None):
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         else:
             #print("43:" + cFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps], "asm_include_preprocess_44", cPreProcFile)
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
             ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps])
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         linkerDeps.append(cOFile)
 
     # run the linker to generate the cpe
