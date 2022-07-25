@@ -561,7 +561,7 @@
     include "..\obj\sub_8002B600.obj"
     include "..\obj\GM_ContinueStart_8002B62C.obj"
     include "..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
-    include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
+    ;include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
 
     ;game\script.c
     include "..\obj\libgcl\commands\GCL_Command_light_8002B854.obj"
