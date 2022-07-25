@@ -67,6 +67,9 @@ void sna_init_fn_80052540(Actor_SnaInit *pActor);
 void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2);
 void sna_init_80050568(Actor_SnaInit *pActor);
 int sna_init_80050398(Actor_SnaInit *pActor);
+void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int a2);
+void sub_80050668(Actor_SnaInit *pActor);
+void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -621,7 +624,22 @@ void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
     sna_init_start_anim_8004E1F4(pActor, pFn);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_chokethrow_begin1_80054210.s")
+// or sna_init_no_weapon_80054210 ?
+void sna_init_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor)
+{
+    void* pFn;
+    pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+    pActor->field_9CC = sna_init_fn_nothing_80053B80;
+    if ( dword_800ABBA4 >= 0 )
+    {
+        pFn = sna_init_anim_throw_800589C8;
+    }
+    else
+    {
+        pFn = sna_init_anim_chokethrow_begin2_80058C80;
+    }
+    sna_init_start_anim_8004E1F4(pActor, pFn);
+}
 
 void sna_init_8005425C(Actor_SnaInit *pActor, int a2)
 {
