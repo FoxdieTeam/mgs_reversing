@@ -3,7 +3,7 @@
 
 #include "linker.h"
 #include "mts_new.h"
-
+#include "message.h"
 #include <sys/types.h>
 #include <LIBGTE.H>
 
@@ -13,13 +13,6 @@ typedef struct
     void *mFileBuffer;
 } LibGV_FileRecord;
 
-typedef struct
-{
-    unsigned short address;
-    unsigned short _len;
-    unsigned short message[7];
-    unsigned short message_len;
-} GV_MSG; // from mem leak
 
 typedef struct
 {
