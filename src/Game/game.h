@@ -3,6 +3,15 @@
 
 #include "linker.h"
 #include "libdg.h"
+#include "actor.h"
+
+typedef struct Actor_GM_Daemon
+{
+  Actor field_0;
+  int field_20;
+  int field_24;
+} Actor_GM_Daemon;
+
 
 typedef struct _MOTION_CONTROL
 {

@@ -9,9 +9,8 @@ int SECTION(".sbss") GM_GameStatus_800AB3CC;
 
 void sub_8002AAEC(void)
 {
-    GV_PauseLevel_800AB928 &= 0xfffffffd;
+    GV_PauseLevel_800AB928 &= ~2u;
     GM_Sound_80032C48(0x1ffff02, 0);
     MENU_JimakuClear_80049518();
-    GM_GameStatus_800AB3CC &= 0xffffff7f;
-    return;
+    GM_GameStatus_800AB3CC &= ~0x80u;
 }
