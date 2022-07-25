@@ -365,8 +365,28 @@ def main(path, output):
 
     # nina picks this up due to deps=msvc which ensures the post process
     # will only run after these required objs are built
-    for d in depends:
-        print("Note: including file: " + "../" + d)
+    #for d in depends:
+    #    print("Note: including file: " + os.path.abspath(d))
+    #print("output = " + output)
+    
+    dynDepName = output.replace(".c.asm.preproc", ".c.dyndep")
+    #print("Dyndep file = " + dynDepName)
+
+    targetAddTo = output.replace(".c.asm.preproc", ".obj")
+    targetAddTo = targetAddTo.replace("C:/", "C$:/")
+    #print("targetAddTo = " + targetAddTo)
+ 
+    with open(dynDepName, 'w') as f:
+        f.write("ninja_dyndep_version = 1\n")
+        depsStr = ""
+        for d in depends:
+            d = os.path.abspath("..\\" + d)
+            d = d.replace("\\", "/")
+            d = d.replace("C:/", "C$:/")
+            depsStr = depsStr + " |  " + d
+            # TODO: more than one is screwed, need multiple commands?
+            break
+        f.write("build " + targetAddTo + ": dyndep" + depsStr + "\n")
 
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
