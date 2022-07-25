@@ -2,6 +2,22 @@
 #include "mts_new.h"
 #include <kernel.h>
 
+extern const char aMtsNewC[];
+extern const char asc_80013E2C[]; // = "\n";
+extern const char aAssertionFaled[];  // = "assertion faled : %s line %d : Task %d\n";
+extern const char aWupDeadD[];
+extern const char aMtsStaTskServe[];
+extern const char aMultiTaskSched[];
+extern const char aJul111998[];
+extern const char a221633[];
+extern const char aTaskCreateXX[];
+extern const char aBootTasknrD[];
+extern const char aProgramBottomX[];
+extern const char aWaitvblD[];
+extern const char aIsendDstD[];
+extern const char aIsendStateDead[];
+extern const char aGetNewVblContr[];
+
 mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
 mts_msg *SECTION(".D_800C0C00") D_800C0C00 = 0;
 mts_msg *SECTION(".D_800C0C00") D_800C0C04 = 0;
@@ -12,75 +28,26 @@ unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
 unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
 
 extern int dword_800A3D68[2];
-extern const char aAssertionFaled[];
-extern const char aMtsNewC[];
-extern const char aGetNewVblContr[];
-extern const char asc_80013E2C[];
+
 extern int gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
-extern mts_task gTasks_800C0C30[];
-extern int gTaskIdx_800C0DB0;
+extern int gMts_active_task_idx_800C13C0;
+extern int gMts_bits_800C0DB4;
+
 extern void (*gControllerCallBack_800A3D74)(void);
+
 extern int gMtsVSyncCount_800A3D78;
+
 extern mts_msg stru_800A3D7C;
-extern mts_task gTasks_800C0C30[];
-extern int gTaskIdx_800C0DB0;
-extern int gMts_bits_800C0DB4;
-extern int gMts_active_task_idx_800C13C0;
-extern int gMtsVSyncCount_800A3D78;
-extern mts_task gTasks_800C0C30[];
-extern int gTaskIdx_800C0DB0;
-extern int gMtsVSyncCount_800A3D78;
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-extern const char aMtsNewC[];
-extern const char asc_80013E2C[];
-extern const char aAssertionFaled[];
-extern const char aWaitvblD[];
-extern mts_msg stru_800A3D7C;
-extern const char aAssertionFaled[];
-extern const char aMtsNewC[];
-extern const char aIsendDstD[];
-extern const char aIsendStateDead[];
-extern const char asc_80013E2C[];
-extern int gTaskIdx_800C0DB0;
-extern mts_task gTasks_800C0C30[];
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-extern int gTaskIdx_800C0DB0;
-extern mts_task gTasks_800C0C30[];
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-extern mts_task gTasks_800C0C30[];
-extern int gTaskIdx_800C0DB0;
-extern int gMtsVSyncCount_800A3D78;
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-extern const char aMtsNewC[];
-extern const char asc_80013E2C[];
-extern const char aAssertionFaled[];
-extern const char aWupDeadD[];
-extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char aMtsStaTskServe[];
-extern const char asc_80013E2C[]; // = "\n";
-extern const char aMtsNewC[]; // = "\n";
-extern const char aMultiTaskSched[];
-extern const char aJul111998[];
-extern const char a221633[];
-extern const char aTaskCreateXX[];
-extern const char aBootTasknrD[];
-extern const char aProgramBottomX[];
-extern int gMtsVSyncCount_800A3D78;
+
 extern int gMts_Event1_800A3D70;
 extern int gMts_Event2_800A3D90;
+
 extern int gStackSize_800A3D94;
-extern int gMts_bits_800C0DB4;
+
 extern mts_msg gMtsMsgs_800C13D0[8];
-extern mts_task gTasks_800C0C30[];
-extern int  gTaskIdx_800C0DB0;
+
 extern int  dword_800A3DB0;
-extern int  dword_800A3DB0;
-extern int  dword_800A3DB4;
 extern int  dword_800A3DB4;
 extern int  dword_800A3DB8;
 
