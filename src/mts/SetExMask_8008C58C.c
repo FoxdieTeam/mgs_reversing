@@ -2,6 +2,6 @@
 
 void SetExMask_8008C58C()
 {
-    // TODO
+    // unknown psyq-specific debug function ?
     __asm__  ("break 1030");
 }
