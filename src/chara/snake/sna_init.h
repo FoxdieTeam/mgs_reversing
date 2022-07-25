@@ -73,13 +73,13 @@ typedef struct Sna_1F4
 typedef struct Sna_Joint_Rotations
 {
     SVECTOR field_0_lower_body;
-    SVECTOR field_10_upper_body;
-    SVECTOR field_18_right_shoulder;
-    SVECTOR field_20_right_elbow;
-    SVECTOR field_28_right_wrist;
-    SVECTOR field_30_neck;
-    SVECTOR field_38_neck2;
-    SVECTOR field_40_right_shoulder;
+    SVECTOR field_8_upper_body;
+    SVECTOR field_10_right_shoulder;
+    SVECTOR field_18_right_elbow;
+    SVECTOR field_20_right_wrist;
+    SVECTOR field_28_neck;
+    SVECTOR field_30_neck2;
+    SVECTOR field_38_right_shoulder;
     SVECTOR field_40_right_elbow;
     SVECTOR field_48_right_wrist;
     SVECTOR field_50_right_leg;
