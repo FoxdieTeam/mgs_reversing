@@ -942,8 +942,7 @@ typedef struct WeaponCreateEntry
 struct Actor_SnaInit;
 
 void sna_init_anim_chokethrow_begin1_80054210(struct Actor_SnaInit *pActor, int a2);
-void sub_800540D0(struct Actor_SnaInit *pActor, int a2);
-void sub_800540D0(struct Actor_SnaInit *pActor, int a2);
+void sna_init_gun_800540D0(struct Actor_SnaInit *pActor, int a2);
 void sub_80058470(struct Actor_SnaInit *pActor, int a2);
 void sna_init_anim_stinger_800570C0(struct Actor_SnaInit *pActor, int a2);
 void sna_init_anim_claymore_80057474(struct Actor_SnaInit *pActor, int a2);
@@ -971,10 +970,10 @@ int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
 
 WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] =
 {
-		{NewSOCOM_80065D74, sub_800540D0},
-		{famas_create_80066374, sub_800540D0},
+		{NewSOCOM_80065D74, sna_init_gun_800540D0},
+		{famas_create_80066374, sna_init_gun_800540D0},
 		{grenade_create_80066A4C, sub_80058470},
-		{NewRCM_80066FF0, sub_800540D0},
+		{NewRCM_80066FF0, sna_init_gun_800540D0},
 		{NewAAM_80067480, sna_init_anim_stinger_800570C0},
 		{mine_init_800677BC, sna_init_anim_claymore_80057474},
 		{NewBomb_80067B20, sna_init_bomb_800541A8},
