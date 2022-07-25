@@ -11,7 +11,8 @@ build_script:
  - pip install -r requirements.txt
  - python build.py --psyq_path c:\psyq
  - powershell.exe -File progress.ps1
- 
+ - ninja
+
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
  - git submodule update --init --recursive
