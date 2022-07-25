@@ -373,7 +373,7 @@ def main(path, output):
     #print("Dyndep file = " + dynDepName)
 
     targetAddTo = output.replace(".c.asm.preproc", ".obj")
-    targetAddTo = targetAddTo.replace("C:/", "C$:/")
+    targetAddTo = targetAddTo.replace(":", "$:") # escape colon in drive path
     #print("targetAddTo = " + targetAddTo)
  
     with open(dynDepName, 'w') as f:
@@ -383,7 +383,7 @@ def main(path, output):
             for d in depends:
                 d = os.path.abspath("..\\" + d)
                 d = d.replace("\\", "/")
-                d = d.replace("C:/", "C$:/")
+                d = d.replace(":", "$:") # escape colon in drive path
                 depsStr = depsStr + " " + d
             f.write("build " + targetAddTo + ": dyndep | " + depsStr + "\n")
         else:
