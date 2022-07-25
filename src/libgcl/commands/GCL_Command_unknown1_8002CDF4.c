@@ -2,15 +2,9 @@
 #include "gcl.h"
 #include "linker.h"
 #include "map.h"
+#include "GM_Control.h"
 
-typedef struct      unk_800AB9F4
-{
-    short           vec0[3];
-    short           unk6;
-    short           unk8;
-    short           unkA;
-} unk_800AB9F4;
-extern int          dword_800AB9F4; // todo: update external
+extern GM_Control*          gControl_800AB9F4; // todo: update external
 
 extern int          GM_Photocode_800ABA04;
 extern int          dword_8009F46C;
@@ -30,7 +24,7 @@ extern int          GM_StreamStatus_80037CD8(void);
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
     short           vec[3];
-    unk_800AB9F4    *unkStruct;
+    GM_Control    *unkStruct;
     int             param;
     map_record      *map;
 
@@ -41,11 +35,11 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('s')) // struct
     {
-        unkStruct = (unk_800AB9F4*)dword_800AB9F4;
-        gGameState_800B4D98.field_10_snake_position.x = unkStruct->vec0[0];
-        gGameState_800B4D98.field_10_snake_position.y = unkStruct->vec0[1];
-        gGameState_800B4D98.field_10_snake_position.z = unkStruct->vec0[2];
-        gGameState_800B4D98.field_0A_last_result = unkStruct->unkA;
+        unkStruct = gControl_800AB9F4;
+        gGameState_800B4D98.field_10_snake_position.x = unkStruct->field_0_position.vx;
+        gGameState_800B4D98.field_10_snake_position.y = unkStruct->field_0_position.vy;
+        gGameState_800B4D98.field_10_snake_position.z = unkStruct->field_0_position.vz;
+        gGameState_800B4D98.field_0A_last_result = unkStruct->field_8_vec.vy;  
     }
     if (GCL_GetParam_80020968('a')) // area?
     {
