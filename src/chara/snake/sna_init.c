@@ -772,7 +772,33 @@ void sna_init_80054488(Actor_SnaInit *pActor, int a2)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shot_flinch_800544E0.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper7_80054648.s")
+
+void sna_init_act_helper2_helper7_80054648(Actor_SnaInit *pActor, int a2)
+{
+    if ( !a2 )
+    {
+        sna_init_8004F2A0(pActor, 0);
+        pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC = sna_init_fn_800525F8;
+        
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_4, 4);
+
+        if ( pActor->field_89C_pTarget->field_26_hp <= 0 )
+        {
+            GM_Sound_80032968(0, 63, 0x1Au);
+            sna_init_8004F8E4(pActor, 128);
+        }
+    }
+
+    if ( pActor->field_9C.field_1A )
+    {
+        sna_init_8004F2A0(pActor, 0x20);
+        GM_ClearPlayerStatusFlag_8004E2D4(0x100);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_box_idle_800553EC);
+        sna_init_clear_flags_8004E308(pActor, 0x20);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper8_80054710.s")
 
 void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int a2)
