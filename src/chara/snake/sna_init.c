@@ -70,6 +70,9 @@ int sna_init_80050398(Actor_SnaInit *pActor);
 void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int a2);
 void sub_80050668(Actor_SnaInit *pActor);
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2);
+void sna_init_gun_800540D0(Actor_SnaInit *pActor, int a2);
+void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2);
+void sub_80057BF0(Actor_SnaInit *pActor, int a2);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -603,8 +606,52 @@ void sna_init_fn_nothing_80053B80(void)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_begin_80053BE8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_standup_80053D74.s")
 #pragma INCLUDE_ASM("asm/sub_80053E9C.s")
-#pragma INCLUDE_ASM("asm/sub_80053FAC.s")
-#pragma INCLUDE_ASM("asm/sub_800540D0.s")
+
+void sub_80053FAC(Actor_SnaInit *pActor, int a2)
+{
+    short vec_y; // $v1
+    unsigned short pad_bits; // $s1
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_3, 2);
+        sna_init_set_flags_8004E2F4(pActor, 4);
+        GM_ClearPlayerStatusFlag_8004E2D4(2048);
+        vec_y = pActor->field_A54;
+        pActor->field_A54 = 0;
+        pActor->field_90C_pWeaponFn = sna_init_gun_800540D0;
+        pActor->field_910 = 0;
+        pActor->field_926 = 0;
+        pActor->field_924 = 0;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = vec_y;
+        sna_init_8004E260(pActor, 0, 4, 0);
+    }
+
+    pad_bits = *pActor->field_9B0_pad_bits;
+    if ( pActor->field_9C.field_1A || (pad_bits & 0x80) == 0 )
+    {
+        sna_init_clear_flags_8004E308(pActor, 4);
+        pActor->field_910 = 0;
+        if ( (pad_bits & 0x80) != 0 )
+        {
+            sub_80032858(&pActor->field_20_ctrl.field_0_position, 9);
+            GM_SetPlayerStatusFlag_8004E2B4(0x800);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_shoot_weapon_80056B88);
+            pActor->field_90C_pWeaponFn = sub_80057BF0;
+            pActor->field_910 = 0;
+            pActor->field_926 = 0;
+            pActor->field_924 = 0;
+        }
+        else
+        {
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+        }
+    }
+}
+
+#pragma INCLUDE_ASM("asm/sna_init_gun_800540D0.s")
 
 void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
 {
