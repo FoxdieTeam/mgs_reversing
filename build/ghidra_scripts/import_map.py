@@ -4,7 +4,7 @@
 code_start = 0x800148B8
 code_end = 0x8009D2DB
 
-f = open('../../obj/_mgsi.map')
+f = open(r'/home/thomas/psx/re/mgs/mgs_reversing/obj/asm.map')
 lines = f.readlines()
 
 for line in lines:
