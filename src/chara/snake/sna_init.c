@@ -7,6 +7,8 @@
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
 void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int interp, int a4 );
 
+extern unsigned int GM_Sound_80032968(int a1, int a2, int a3);
+
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;
 extern int dword_8009EFD0;
@@ -811,7 +813,27 @@ void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int a2)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_knockdown_getup_80054A10.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_knockdown_shot_80054B50.s")
+
+void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
+{
+    pActor->field_9C8 = sna_init_fn_80056A1C;
+    pActor->field_9CC = sna_init_fn_80052540;
+
+    GM_ClearPlayerStatusFlag_8004E2D4(0x100);
+
+    if ( pActor->field_89C_pTarget->field_26_hp <= 0 && !GM_GameOverTimer_800AB3D4 )
+    {
+        GM_Sound_80032968(0, 63, 0x1Au);
+        sna_init_8004F8E4(pActor, pActor->field_A54 == 1 ? 126 : 127);
+    }
+    else
+    {
+        sna_init_8004F2A0(pActor, 32);
+    }
+
+    sna_init_start_anim_8004E1F4(pActor, sna_init_anim_knockdown_idle_80054930);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper10_80054C08.s")
 #pragma INCLUDE_ASM("asm/sub_80054D68.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s")
