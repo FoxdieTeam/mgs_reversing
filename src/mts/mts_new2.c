@@ -8,6 +8,7 @@ extern char OverlayCharas[];
 
 #pragma INCLUDE_ASM("asm/mts/mts_reset_graph_8008C534.s")
 
+
 void SetExMask_8008C58C()
 {
     // unknown psyq-specific debug function ?

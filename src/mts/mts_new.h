@@ -15,7 +15,7 @@ void mts_init_controller_8008C098(void);
 void mts_set_callback_800893B4(void*); // TODO: Func ptr type
 
 void mts_printf_8008BBA0(const char* formatStr, ...);
-void mts_null_printf_8008BBA8(const char* formatStr, ...);
+void mts_null_printf_8008BBA8(void);
 void mts_printf_8008BBA0(const char* formatStr, ...);
 
 void mts_slp_tsk_8008A400(void);

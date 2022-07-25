@@ -38,6 +38,7 @@ extern void (*gControllerCallBack_800A3D74)(void);
 
 extern int gMtsVSyncCount_800A3D78;
 
+
 extern mts_msg stru_800A3D7C;
 
 extern int gMts_Event1_800A3D70;

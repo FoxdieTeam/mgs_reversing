@@ -1811,15 +1811,9 @@
 
 	; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88 8008BB4C 8008BB60 8008BB78 8008BB88
 	include "..\obj\mts\mts_new3.obj"
-    
-    include "..\obj\mts\mts_nullsub_8_8008BB98.obj"
-    include "..\obj\mts\mts_printf_8008BBA0.obj"
-    include "..\obj\mts\mts_null_printf_8008BBA8.obj"
-    include "..\obj\mts\mts_get_tick_count_8008BBB0.obj"
-    include "..\obj\mts\mts_event_cb_8008BBC0.obj"
-    include "..\obj\mts\mts_task_start_8008BBC8.obj"
 
-    ; pad.c ?
+	; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8    
+	include "..\obj\mts\mts_new4.obj"
 
 	; 8008BC8C 8008BDEC 8008C098 8008C170 8008C25C 8008C324 8008C380 8008C3BC 8008C408 8008C454 8008C4BC
 	include "..\obj\mts\pad.obj"
