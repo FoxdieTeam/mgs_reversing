@@ -1,33 +1,148 @@
-
-
-extern int dword_800A3D68[2];
-
-void mts_set_exception_func_800892A8(int param_1)
-{
-  dword_800A3D68[0] = param_1;
-}
-
-
 #include "linker.h"
 #include "mts_new.h"
+#include <kernel.h>
 
+mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
+mts_msg *SECTION(".D_800C0C00") D_800C0C00 = 0;
+mts_msg *SECTION(".D_800C0C00") D_800C0C04 = 0;
+int SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0 = 0;
+signed char SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
+char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
+unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
+unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
+
+extern int dword_800A3D68[2];
 extern const char aAssertionFaled[];
 extern const char aMtsNewC[];
 extern const char aGetNewVblContr[];
 extern const char asc_80013E2C[];
-
-void mts_print_process_status_8008B77C(void);
-
 extern int gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
+extern mts_task gTasks_800C0C30[];
+extern int gTaskIdx_800C0DB0;
+extern void (*gControllerCallBack_800A3D74)(void);
+extern int gMtsVSyncCount_800A3D78;
+extern mts_msg stru_800A3D7C;
+extern mts_task gTasks_800C0C30[];
+extern int gTaskIdx_800C0DB0;
+extern int gMts_bits_800C0DB4;
+extern int gMts_active_task_idx_800C13C0;
+extern int gMtsVSyncCount_800A3D78;
+extern mts_task gTasks_800C0C30[];
+extern int gTaskIdx_800C0DB0;
+extern int gMtsVSyncCount_800A3D78;
+extern int gMts_active_task_idx_800C13C0;
+extern int gMts_bits_800C0DB4;
+extern const char aMtsNewC[];
+extern const char asc_80013E2C[];
+extern const char aAssertionFaled[];
+extern const char aWaitvblD[];
+extern mts_msg stru_800A3D7C;
+extern const char aAssertionFaled[];
+extern const char aMtsNewC[];
+extern const char aIsendDstD[];
+extern const char aIsendStateDead[];
+extern const char asc_80013E2C[];
+extern int gTaskIdx_800C0DB0;
+extern mts_task gTasks_800C0C30[];
+extern int gMts_active_task_idx_800C13C0;
+extern int gMts_bits_800C0DB4;
+extern int gTaskIdx_800C0DB0;
+extern mts_task gTasks_800C0C30[];
+extern int gMts_active_task_idx_800C13C0;
+extern int gMts_bits_800C0DB4;
+extern mts_task gTasks_800C0C30[];
+extern int gTaskIdx_800C0DB0;
+extern int gMtsVSyncCount_800A3D78;
+extern int gMts_active_task_idx_800C13C0;
+extern int gMts_bits_800C0DB4;
+extern const char aMtsNewC[];
+extern const char asc_80013E2C[];
+extern const char aAssertionFaled[];
+extern const char aWupDeadD[];
+extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
+extern const char aMtsStaTskServe[];
+extern const char asc_80013E2C[]; // = "\n";
+extern const char aMtsNewC[]; // = "\n";
+extern const char aMultiTaskSched[];
+extern const char aJul111998[];
+extern const char a221633[];
+extern const char aTaskCreateXX[];
+extern const char aBootTasknrD[];
+extern const char aProgramBottomX[];
+extern int gMtsVSyncCount_800A3D78;
+extern int gMts_Event1_800A3D70;
+extern int gMts_Event2_800A3D90;
+extern int gStackSize_800A3D94;
+extern int gMts_bits_800C0DB4;
+extern mts_msg gMtsMsgs_800C13D0[8];
+extern mts_task gTasks_800C0C30[];
+extern int  gTaskIdx_800C0DB0;
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB8;
 
-mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
+void mts_print_process_status_8008B77C(void);
+int VSync_80098108(int);
+void mts_init_vsync_helper_800893E8(void);
+int VSync_80098108(int);
+void VSyncCallback_800983A8(void (*func)());
+void mts_print_process_status_8008B77C(void);
+extern void SwEnterCriticalSection_8009954C(void);
+extern void SwExitCriticalSection_8009956C(void);
+extern int ChangeTh_800994EC(int thread);
+void mts_print_process_status_8008B77C(void);
+extern void SwEnterCriticalSection_8009954C(void);
+extern void SwExitCriticalSection_8009956C(void);
+extern int ChangeTh_800994EC(int thread);
+extern void SwEnterCriticalSection_8009954C(void);
+extern void SwExitCriticalSection_8009956C(void);
+extern int ChangeTh_800994EC(int thread);
+void mts_print_process_status_8008B77C(void);
+void mts_send_8008982C(int dst, unsigned char *message);
+int mts_receive_80089D24(int src, unsigned char *message);
+void mts_print_process_status_8008B77C(void);
+void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
+void mts_event_cb_8008BBC0();
+void mts_task_start_8008BBC8(void);
+void mts_8008BA88();
+void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
+void mts_8008B0A4();
+void CloseEvent_8009947C(int event);
+extern long TestEvent_8009949C(long);
+extern long EnableEvent_800994AC(long);
+void EnterCriticalSection_8009952C(void);
+void ExitCriticalSection_8009953C(void);
+extern long SetConf_800997BC(unsigned long,unsigned long,unsigned long);
+extern long OpenTh_800994CC(long (*func)(), unsigned long , unsigned long);
+long OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
+extern void SwEnterCriticalSection_8009954C(void);
+extern void SwExitCriticalSection_8009956C(void);
+extern int ChangeTh_800994EC(int thread);
+int ResetCallback_80098318(void);
+
+// TODO: is mts_msg wrong ??
+typedef struct mts_msg2
+{
+    int field_0;
+    int field_4_task_idx;
+    void (*field_8)(void);
+    void* field_C;
+    //void* field_10;
+} mts_msg2;
 
 #define mts_assert(functionName, lineNum) \
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0);\
     mts_printf_8008BBA0(functionName);\
     mts_printf_8008BBA0(asc_80013E2C);\
     mts_print_process_status_8008B77C();
+
+void mts_set_exception_func_800892A8(int param_1)
+{
+  dword_800A3D68[0] = param_1;
+}
 
 void mts_set_vsync_task_800892B8(void)
 {
@@ -70,30 +185,10 @@ void mts_set_vsync_task_800892B8(void)
 
 }
 
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
-extern int gTaskIdx_800C0DB0;
-
 void mts_set_callback_800893B4(void* cb)
 {
     gTasks_800C0C30[gTaskIdx_800C0DB0].field_4_pMessage->field_10 = cb;
 }
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern void (*gControllerCallBack_800A3D74)(void);
-
-extern int gMtsVSyncCount_800A3D78;
-extern mts_msg stru_800A3D7C;
-extern mts_task gTasks_800C0C30[];
-extern int gTaskIdx_800C0DB0;
-extern int gMts_bits_800C0DB4;
-extern int gMts_active_task_idx_800C13C0;
-
-int VSync_80098108(int);
 
 void mts_set_callback_controller_800893D8(void *pControllerCallBack)
 {
@@ -178,16 +273,6 @@ void mts_init_vsync_helper_800893E8(void)
     }
 }
 
-#include "linker.h"
-#include "mts_new.h"
-
-extern int gMtsVSyncCount_800A3D78;
-
-void mts_init_vsync_helper_800893E8(void);
-
-int VSync_80098108(int);
-void VSyncCallback_800983A8(void (*func)());
-
 void mts_init_vsync_800895AC(void)
 {
     if (gMtsVSyncCount_800A3D78 == -1)
@@ -196,32 +281,6 @@ void mts_init_vsync_800895AC(void)
         VSyncCallback_800983A8(mts_init_vsync_helper_800893E8);
     }
 }
-
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
-
-extern int gTaskIdx_800C0DB0;
-extern int gMtsVSyncCount_800A3D78;
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-
-extern const char aMtsNewC[];
-extern const char asc_80013E2C[];
-extern const char aAssertionFaled[];
-extern const char aWaitvblD[];
-
-extern mts_msg stru_800A3D7C;
-
-mts_msg *SECTION(".D_800C0C00") D_800C0C00 = 0;
-mts_msg *SECTION(".D_800C0C00") D_800C0C04 = 0;
-
-void mts_print_process_status_8008B77C(void);
-extern void SwEnterCriticalSection_8009954C(void);
-extern void SwExitCriticalSection_8009956C(void);
-extern int ChangeTh_800994EC(int thread);
 
 int mts_wait_vbl_800895F4(int wait_vblanks)
 {
@@ -309,24 +368,8 @@ int mts_wait_vbl_800895F4(int wait_vblanks)
     SwExitCriticalSection_8009956C();
     return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_send_8008982C.s")
-
-#include "linker.h"
-#include "mts_new.h"
-#include <kernel.h>
-
-extern const char aAssertionFaled[];
-extern const char aMtsNewC[];
-extern const char aIsendDstD[];
-extern const char aIsendStateDead[];
-extern const char asc_80013E2C[];
-
-extern int gTaskIdx_800C0DB0;
-extern mts_task gTasks_800C0C30[];
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-
-void mts_print_process_status_8008B77C(void);
 
 int mts_isend_80089B04(int isend_dst)
 {
@@ -405,19 +448,8 @@ int mts_isend_80089B04(int isend_dst)
 
     return 1;
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_receive_80089D24.s")
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern int gTaskIdx_800C0DB0;
-extern mts_task gTasks_800C0C30[];
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-
-extern void SwEnterCriticalSection_8009954C(void);
-extern void SwExitCriticalSection_8009956C(void);
-extern int ChangeTh_800994EC(int thread);
 
 void mts_slp_tsk_8008A400()
 {
@@ -470,28 +502,6 @@ void mts_slp_tsk_8008A400()
     }
     SwExitCriticalSection_8009956C();
 }
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
-
-extern int gTaskIdx_800C0DB0;
-extern int gMtsVSyncCount_800A3D78;
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-
-extern const char aMtsNewC[];
-extern const char asc_80013E2C[];
-
-extern const char aAssertionFaled[];
-extern const char aWupDeadD[];
-
-extern void SwEnterCriticalSection_8009954C(void);
-extern void SwExitCriticalSection_8009956C(void);
-extern int ChangeTh_800994EC(int thread);
-
-void mts_print_process_status_8008B77C(void);
 
 void mts_wup_tsk_8008A540(int taskNr)
 {
@@ -551,22 +561,6 @@ void mts_wup_tsk_8008A540(int taskNr)
     }
 }
 
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
-
-extern int gTaskIdx_800C0DB0;
-extern int gMtsVSyncCount_800A3D78;
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
-
-extern signed char byte_800C0C10[];
-
-extern void SwEnterCriticalSection_8009954C(void);
-extern void SwExitCriticalSection_8009956C(void);
-extern int ChangeTh_800994EC(int thread);
-
 void mts_lock_sem_8008A6CC(int taskNr)
 {
     mts_task *pIter;          // $a0
@@ -624,72 +618,6 @@ void mts_lock_sem_8008A6CC(int taskNr)
     byte_800C0C10[taskNr] = gTaskIdx_800C0DB0;
     SwExitCriticalSection_8009956C();
 }
-
-#include "linker.h"
-#include "mts_new.h"
-
-int SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0 = 0;
-signed char SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
-char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
-unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
-unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
-
-extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char aMtsStaTskServe[];
-extern const char asc_80013E2C[]; // = "\n";
-extern const char aMtsNewC[]; // = "\n";
-extern const char aMultiTaskSched[];
-extern const char aJul111998[];
-extern const char a221633[];
-extern const char aTaskCreateXX[];
-extern const char aBootTasknrD[];
-extern const char aProgramBottomX[];
-
-extern int gMts_Event1_800A3D70;
-extern int gMts_Event2_800A3D90;
-extern int gStackSize_800A3D94;
-extern int gMts_bits_800C0DB4;
-extern mts_msg gMtsMsgs_800C13D0[8];
-extern mts_task gTasks_800C0C30[];
-extern int  gTaskIdx_800C0DB0;
-extern int  dword_800A3DB0;
-extern int  dword_800A3DB0;
-extern int  dword_800A3DB4;
-extern int  dword_800A3DB4;
-extern int  dword_800A3DB8;
-
-void mts_send_8008982C(int dst, unsigned char *message);
-int mts_receive_80089D24(int src, unsigned char *message);
-void mts_print_process_status_8008B77C(void);
-void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
-void mts_event_cb_8008BBC0();
-void mts_task_start_8008BBC8(void);
-void mts_8008BA88();
-void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
-void mts_8008B0A4();
-
-void CloseEvent_8009947C(int event);
-extern long TestEvent_8009949C(long);
-extern long EnableEvent_800994AC(long);
-void EnterCriticalSection_8009952C(void);
-void ExitCriticalSection_8009953C(void);
-extern long SetConf_800997BC(unsigned long,unsigned long,unsigned long);
-extern long OpenTh_800994CC(long (*func)(), unsigned long , unsigned long);
-long OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
-extern void SwEnterCriticalSection_8009954C(void);
-extern void SwExitCriticalSection_8009956C(void);
-extern int ChangeTh_800994EC(int thread);
-int ResetCallback_80098318(void);
-
-// TODO: is mts_msg wrong ??
-typedef struct mts_msg2
-{
-    int field_0;
-    int field_4_task_idx;
-    void (*field_8)(void);
-    void* field_C;
-    //void* field_10;
-} mts_msg2;
 
 void mts_unlock_sem_8008A85C(int taskNum)
 {
