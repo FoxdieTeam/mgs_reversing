@@ -7,7 +7,7 @@ import json
 
 EXPECTED_TOTAL_FUNCS = 1992
 EXPECTED_TOTAL_BYTES = 490440
-APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json';
+APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json'
 
 objs = glob('../obj/**/*.obj', recursive=True)
 
@@ -71,10 +71,12 @@ if os.environ.get('APPVEYOR'):
     with open(APPVEYOR_CACHE, 'w') as f:
         json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes), f)
 
-    author = os.environ.get('APPVEYOR_REPO_COMMIT_AUTHOR')
-    msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
-    if msg and author:
-        print(f'"{msg}" by {author}')
+    msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE')
+    if msg:
+        print(msg)
+    msg_ext = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
+    if msg_ext:
+        print(msg_ext)
 
 print('Reversed funcs: {:,}{} / {:,} - {:.2f}%'.format(
     c_funcs,
