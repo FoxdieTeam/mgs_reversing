@@ -545,7 +545,6 @@
     include "..\obj\data\sbss\dword_800ABA58.obj"
     include "..\obj\data\sbss\dword_800ABA5C.obj"
 
-    include "..\obj\Game\GM_StartDaemon_helper_8002A960.obj"
     include "..\obj\Game\GM_Reset_helper_8002A978.obj"
     include "..\obj\Game\GM_Act_helper_8002AA10.obj"
     include "..\obj\sub_8002AA48.obj"
