@@ -92,17 +92,8 @@
     include "..\obj\nullsub\sub_80019F38.obj"
 
     ;libdg\light.c
-    include "..\obj\libdg\DG_InitLightSystem_80019F40.obj"
-    include "..\obj\libdg\DG_SetAmbient_80019F80.obj"
-    include "..\obj\libdg\DG_SetMainLightDir_80019FF8.obj"
-    include "..\obj\libdg\DG_ResetFixedLight_8001A06C.obj"
-    include "..\obj\libdg\DG_SetFixedLight_8001A094.obj"
-    include "..\obj\libdg\DG_ClearTmpLight_8001A0E4.obj"
-    include "..\obj\libdg\DG_SetTmpLight_8001A114.obj"
-    include "..\obj\libdg\DG_GetLightVector_8001A1A8.obj"
-    include "..\obj\libdg\DG_GetLightMatrix_8001A3C4.obj"
-    include "..\obj\sub_8001A5D0.obj"
-    include "..\obj\libdg\DG_GetLightMatrix2_8001A5D8.obj"
+    ; 8001A06C 8001A094 80019F40 80019F80 80019FF8 8001A0E4 8001A114 8001A1A8 8001A3C4 8001A5D0 8001A5D8
+    include "..\obj\libdg\Light.obj"
 
     ;libdg\opack.c
     include "..\obj\libdg\DG_AllocPacks_8001A670.obj"

@@ -126,6 +126,23 @@ typedef struct			_DG_PRIM
 	TPrim_Fn			field_50_pFn;
 } DG_PRIM;
 
+typedef struct
+{
+    short int field_0_x;
+    short int field_2_y;
+    short int field_4_z;
+    short int field_6_w; // padding?
+    short int field_8_brightness;
+    short int field_A_radius;
+    CVECTOR field_C_colour;
+} Light;
+
+typedef struct
+{
+    int field_0_lightCount;
+    Light *field_4_pLights;
+} DG_FixedLight;
+
 static inline u_long	LLOAD(from) void *from;
 {
 	return *(u_long *)from;
