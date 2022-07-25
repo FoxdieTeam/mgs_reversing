@@ -1020,6 +1020,18 @@ void mts_print_process_status_8008B77C(void);
 
 extern int gTaskIdx_800C0DB0;
 
+#include "linker.h"
+#include "mts_new.h"
+
+extern mts_task gTasks_800C0C30[];
+extern int  gTaskIdx_800C0DB0;
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB8;
+
+
 // TODO: is mts_msg wrong ??
 typedef struct mts_msg2
 {
@@ -1050,35 +1062,22 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
     }
     return msg.field_0;
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s")
 #pragma INCLUDE_ASM("asm/mts/mts_send_msg_8008B590.s")
 #pragma INCLUDE_ASM("asm/mts/mts_recv_msg_8008B5B8.s")
-
-
-
-
-extern int  gTaskIdx_800C0DB0;
 
 int mts_8008B608(void)
 {
     return gTaskIdx_800C0DB0;
 }
 
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
-
 int mts_get_task_status_8008B618(int task_idx)
 {
     return gTasks_800C0C30[task_idx].field_0_state;
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_get_task_res1_8008B630.s")
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
 
 void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize)
 {
@@ -1091,39 +1090,23 @@ void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSi
         stackSize -= sizeof(unsigned int);
     }
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_get_use_stack_size_8008B68C.s")
 #pragma INCLUDE_ASM("asm/mts/mts_print_process_status_8008B77C.s")
-
-
-
-#include "idaTypes.h"
-
-extern int  dword_800A3DB0;
 
 void mts_lock_sio_8008BA64(void)
 {
     dword_800A3DB0 = 0;
 }
 
-
-
-#include "idaTypes.h"
-
-extern int  dword_800A3DB0;
-
 int mts_unlock_sio_8008BA74(void)
 {
     dword_800A3DB0 = 1;
     return 1;
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_8008BA88.s")
 #pragma INCLUDE_ASM("asm/mts/mts_8008BB4C.s")
-
-
-
-#include "idaTypes.h"
-
-extern int  dword_800A3DB4;
 
 int mts_8008BB60(int arg0)
 {
@@ -1134,22 +1117,10 @@ int mts_8008BB60(int arg0)
     return ret;
 }
 
-
-
-#include "idaTypes.h"
-
-extern int  dword_800A3DB4;
-
 void mts_8008BB78(void)
 {
     dword_800A3DB4 = 0;
 }
-
-
-
-#include "idaTypes.h"
-
-extern int  dword_800A3DB8;
 
 void mts_8008BB88(int arg0)
 {
