@@ -2,6 +2,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
 #include "libdg.h"
+#include "object.h"
 
 // TODO: Header
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
@@ -26,6 +27,9 @@ int SECTION(".sbss") dword_800ABBA4;
 
 extern int dword_800ABBB4;
 int SECTION(".sbss") dword_800ABBB4;
+
+extern GM_Control* gControl_800AB9F4;
+extern OBJECT* dword_800ABA20;
 
 extern int    sub_800296C4(int param_1, short *param_2, unsigned int param_3);
 extern void   sub_800298DC(int *param_1);
@@ -80,6 +84,9 @@ void sub_80057590(Actor_SnaInit *pActor);
 void sub_8005688C(Actor_SnaInit *pActor);
 void sub_80052468(Actor_SnaInit *pActor);
 void sna_init_8005684C(Actor_SnaInit *pActor);
+void sub_80054424(Actor_SnaInit *pActor, int a2);
+void sub_80053E9C(Actor_SnaInit *pActor, int a2);
+void sub_8005684C(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -446,7 +453,36 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
 
 
 #pragma INCLUDE_ASM("asm/sub_8005230C.s")
+/* TODO
+void sub_8005230C(Actor_SnaInit *pActor)
+{
+    GM_ClearPlayerStatusFlag_8004E2D4(0x10);
+
+    if ( GM_CheckPlayerStatusFlag_8004E29C(2) )
+    {
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
+        if ( (*pActor->field_9B0_pad_bits & 0x10) == 0 )
+        {
+            pActor->field_A56 = 0;
+            GM_ClearPlayerStatusFlag_8004E2D4(0x8409);
+            sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+            sna_init_clear_flags_8004E344(pActor, 0x20);
+        }
+        sna_init_80051DA0(pActor);
+        sna_init_80051FD0(pActor);
+    }
+    else
+    {
+        pActor->field_A56 = 0;
+        GM_ClearPlayerStatusFlag_8004E2D4(0x8409);
+        sna_init_8004F2A0(pActor, 0);
+        sna_init_start_anim_8004E1F4(pActor, sub_80053E9C);
+    }
+}
+*/
+
 #pragma INCLUDE_ASM("asm/sub_80052468.s")
+
 #pragma INCLUDE_ASM("asm/sna_init_fn_80052540.s")
 
 #pragma INCLUDE_ASM("asm/sna_init_fn_800525F8.s")
@@ -1054,5 +1090,62 @@ void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/sub_8005961C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_800596FC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_kill_8005B52C.s")
+
+//#pragma INCLUDE_ASM("asm/chara/snake/sna_init_kill_8005B52C.s")
+void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
+{
+    GM_Control *pCtrl; // $s2
+    DG_OBJS *pObjs; // $s0
+    Actor *pShadow; // $a0
+    Actor *pWeapon; // $a0
+    Actor *pItem; // $a0
+
+    if ( (pActor->field_898_flags & 0x1000) != 0 )
+    {
+        gGameState_800B4D98.field_BE = 1;
+    }
+
+    pCtrl = &pActor->field_20_ctrl;
+    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
+    GM_FreeObject_80034BF8(&pActor->field_9C);
+    GM_FreeTarget_8002D4B0(pActor->field_89C_pTarget);
+    
+    pObjs = pActor->field_92C;
+    if ( pObjs )
+    {
+        DG_DequeuePrim_800182E0(pActor->field_92C);
+        DG_FreePrim_8001BC04(pObjs);
+    }
+    
+    gGameState_800B4D98.field_20_snake_stance = pActor->field_A26_fn_stance_idx;
+    
+    pShadow = pActor->field_888_pShadow;
+    if ( pShadow )
+    {
+        GV_DestroyOtherActor_800151D8(pShadow);
+    }
+
+    pWeapon = pActor->field_908_weapon_actor;
+    if ( pWeapon )
+    {
+        GV_DestroyOtherActor_800151D8(pWeapon);
+    }
+
+    pItem = pActor->field_9A4_item_actor;
+    if ( pItem )
+    {
+        GV_DestroyOtherActor_800151D8(pItem);
+    }
+
+    if ( gControl_800AB9F4 == pCtrl )
+    {
+        gControl_800AB9F4 = 0;
+    }
+
+    if ( dword_800ABA20 == &pActor->field_9C )
+    {
+        dword_800ABA20 = 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_init_8005B650.s")
