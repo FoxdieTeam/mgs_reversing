@@ -77,6 +77,8 @@ void sna_init_gun_800540D0(Actor_SnaInit *pActor, int a2);
 void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2);
 void sub_80057BF0(Actor_SnaInit *pActor, int a2);
 void sub_80057590(Actor_SnaInit *pActor);
+void sub_8005688C(Actor_SnaInit *pActor);
+void sub_80052468(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -754,10 +756,18 @@ void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80054424.s")
+void sub_80054424(Actor_SnaInit *pActor, int a2)
+{
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sub_8005688C;
+        pActor->field_9CC = sub_80052468;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
+    }
+    pActor->field_A60.vy = pActor->field_20_ctrl.field_78 + 150;
+}
 
 extern void sub_80056928(void);
-extern void sub_80052468(void);
 
 void sna_init_80054488(Actor_SnaInit *pActor, int a2)
 {
