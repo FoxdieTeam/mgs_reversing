@@ -758,19 +758,60 @@ void mts_reset_interrupt_overrun_8008AAA0(void)
 #include "linker.h"
 #include "mts_new.h"
 
-extern int gStackSize_800A3D94;
 char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
 
 unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
 unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
 
+extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
+extern const char aMtsStaTskServe[];
+extern const char asc_80013E2C[]; // = "\n";
+extern const char aMtsNewC[]; // = "\n";
+extern const char aMultiTaskSched[];
+extern const char aJul111998[];
+extern const char a221633[];
+extern const char aAssertionFaled[];
+extern const char aTaskCreateXX[];
+extern const char aBootTasknrD[];
+extern const char asc_80013E2C[];
+extern const char aProgramBottomX[];
+extern const char aMtsNewC[];
+
+extern int gMts_Event1_800A3D70;
+extern int gMts_Event2_800A3D90;
+extern int gStackSize_800A3D94;
+
+extern int gTaskIdx_800C0DB0;
+extern mts_task gTasks_800C0C30[];
+extern int gMts_active_task_idx_800C13C0;
+extern volatile int gMts_bits_800C0DB4;
+extern int gStackSize_800A3D94;
+extern signed char byte_800C0C10[32];
+
+extern mts_msg gMtsMsgs_800C13D0[8];
+
+extern mts_task gTasks_800C0C30[];
+extern int  gTaskIdx_800C0DB0;
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB8;
+extern int gMts_Event1_800A3D70;
+extern int gMts_Event2_800A3D90;
+
+void mts_send_8008982C(int dst, unsigned char *message);
+int mts_receive_80089D24(int src, unsigned char *message);
+void mts_print_process_status_8008B77C(void);
+void EnterCriticalSection_8009952C(void);
+void ExitCriticalSection_8009953C(void);
+void CloseEvent_8009947C(int event);
 void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
 void mts_event_cb_8008BBC0();
 void mts_task_start_8008BBC8(void);
 void mts_8008BA88();
 void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
 void mts_8008B0A4();
-
 
 extern long TestEvent_8009949C(long);
 extern long EnableEvent_800994AC(long);
@@ -785,27 +826,16 @@ extern int ChangeTh_800994EC(int thread);
 int ResetCallback_80098318(void);
 
 
-extern const char aMultiTaskSched[];
-extern const char aJul111998[];
-extern const char a221633[];
-extern const char aAssertionFaled[];
-extern const char aTaskCreateXX[];
-extern const char aBootTasknrD[];
-extern const char asc_80013E2C[];
-extern const char aProgramBottomX[];
-extern const char aMtsNewC[];
+// TODO: is mts_msg wrong ??
+typedef struct mts_msg2
+{
+    int field_0;
+    int field_4_task_idx;
+    void (*field_8)(void);
+    void* field_C;
+    //void* field_10;
+} mts_msg2;
 
-extern int gMts_Event1_800A3D70;
-extern int gMts_Event2_800A3D90;
-
-extern int gTaskIdx_800C0DB0;
-extern mts_task gTasks_800C0C30[];
-extern int gMts_active_task_idx_800C13C0;
-extern volatile int gMts_bits_800C0DB4;
-extern int gStackSize_800A3D94;
-extern signed char byte_800C0C10[32];
-
-extern mts_msg gMtsMsgs_800C13D0[8];
 
 void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, long stackSize)
 {
@@ -978,15 +1008,6 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
 */
 #pragma INCLUDE_ASM("asm/mts/mts_start_8008AAEC.s")
 
-#include "mts_new.h"
-
-extern int gMts_Event1_800A3D70;
-extern int gMts_Event2_800A3D90;
-
-void EnterCriticalSection_8009952C(void);
-void ExitCriticalSection_8009953C(void);
-void CloseEvent_8009947C(int event);
-
 void mts_shutdown_8008B044(void)
 {
     EnterCriticalSection_8009952C();
@@ -1003,44 +1024,9 @@ void mts_shutdown_8008B044(void)
 
     ExitCriticalSection_8009953C();
 }
+
 #pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s")
 #pragma INCLUDE_ASM("asm/mts/mts_8008B450.s")
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char aMtsStaTskServe[];
-extern const char asc_80013E2C[]; // = "\n";
-extern const char aMtsNewC[]; // = "\n";
-
-void mts_send_8008982C(int dst, unsigned char *message);
-int mts_receive_80089D24(int src, unsigned char *message);
-void mts_print_process_status_8008B77C(void);
-
-extern int gTaskIdx_800C0DB0;
-
-#include "linker.h"
-#include "mts_new.h"
-
-extern mts_task gTasks_800C0C30[];
-extern int  gTaskIdx_800C0DB0;
-extern int  dword_800A3DB0;
-extern int  dword_800A3DB0;
-extern int  dword_800A3DB4;
-extern int  dword_800A3DB4;
-extern int  dword_800A3DB8;
-
-
-// TODO: is mts_msg wrong ??
-typedef struct mts_msg2
-{
-    int field_0;
-    int field_4_task_idx;
-    void (*field_8)(void);
-    void* field_C;
-    //void* field_10;
-} mts_msg2;
 
 int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
 {
