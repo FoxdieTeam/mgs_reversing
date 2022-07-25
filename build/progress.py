@@ -92,3 +92,4 @@ print('Reversed bytes: {:,}{} / {:,} - {:.2f}%'.format(
 
 if total_funcs != EXPECTED_TOTAL_FUNCS or total_bytes != EXPECTED_TOTAL_BYTES:
     print('Warning: Totals seem incorrect, did someone forget to delete a .s?')
+    print('.. or rename a .s without renaming the xdef inside it?')
