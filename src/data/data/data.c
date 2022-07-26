@@ -18,6 +18,7 @@
 #include "Equip\gasmask.h"
 #include "Equip\box.h"
 #include "Equip\bandana.h"
+#include "sna_init.h"
 
 // sdata
 extern const char* aCigs[];
@@ -1005,16 +1006,16 @@ int SECTION(".data") dword_8009EFD0 = 32;
 SVECTOR SECTION(".data") stru_8009EFD4 = { -100, 200, 200, 0 };
 SVECTOR SECTION(".data") stru_8009EFDC = { -150, 18, 200, 0 };
 
-SVECTOR SECTION(".data") stru_8009EFE4[4] = { { 0, 0, 300, 0 }, { 400, 600, 400, 0 }, { 0, 0, 0, 0 }, { 64, 0, 0, 0 } };
+Target_Data SECTION(".data") stru_8009EFE4 = { { 0, 0, 300, 0 }, { 400, 600, 400, 0 }, 0, 0, 64, 0 };
+Target_Data SECTION(".data") stru_8009F004 = { { -400, 0, 600, 0 }, { 400, 600, 400, 0 }, 0, 0, 36, 5 };
+Target_Data SECTION(".data") stru_8009F024 = { { 400, 0, 600, 0 }, { 400, 600, 400, 0 }, 0, 0, 36, 5 };
+Target_Data SECTION(".data") stru_8009F044 = { { 0, 0, 0, 0 }, { 501, 600, 501, 0 }, 0, 0, 7, 0 };
 
+MATRIX SECTION(".data") stru_8009F064 = { { { -200, 200, 600 }, { 0, 400, 200 }, { 400, 0, 5 } }, { 50, 0, 1 } };
+MATRIX SECTION(".data") stru_8009F084 = { { { 200, 200, 600 }, { 0, 400, 200 }, { 400, 0, -5 } }, { 50, 0, 1 } };
+MATRIX SECTION(".data") stru_8009F0A4 = { { { 0, 200, 600 }, { 0, 500, 250 }, { 500, 0, 0 } }, { 100, 0, 3 } };
 
-int SECTION(".data") dword_8009F004[] = {0xFE70, 0x258, 0x2580190, 0x190, 0, 0, 0x24, 5};
-int SECTION(".data") dword_8009F024[] = {0x190, 0x258, 0x2580190, 0x190, 0, 0, 0x24, 5};
-int SECTION(".data") dword_8009F044[] = {0, 0, 0x25801F5, 0x1F5, 0, 0, 7, 0};
-int SECTION(".data") dword_8009F064[] = {0xC8FF38, 0x258, 0xC80190, 0x190, 5, 0x32, 0, 1};
-int SECTION(".data") dword_8009F084[] = {0xC800C8, 0x258, 0xC80190, 0x190, 0xFFFB, 0x32, 0, 1};
-int SECTION(".data") dword_8009F0A4[] = {0xC80000, 0x258, 0xFA01F4, 0x1F4, 0, 0x64, 0, 3};
-int SECTION(".data") dword_8009F0C4[] = {0, 0, 0xFFFF, 0};
+short SECTION(".data") word_8009F0C4[8] = { 0, 0, 0, 0, -1, 0, 0, 0 }; // TODO: some padding likely
 
 struct Anim_Data SECTION(".data") stru_8009F0D4 = { -8302, 2, 262146, 1, 0, 5, 50, 50, 250, 0, (void*)0x800124A8 };
 struct Anim_Data SECTION(".data") stru_8009F0F0 = { 20781, 8, 1966084, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C };
