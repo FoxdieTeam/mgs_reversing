@@ -92,17 +92,8 @@
     include "..\obj\nullsub\sub_80019F38.obj"
 
     ;libdg\light.c
-    include "..\obj\libdg\DG_InitLightSystem_80019F40.obj"
-    include "..\obj\libdg\DG_SetAmbient_80019F80.obj"
-    include "..\obj\libdg\DG_SetMainLightDir_80019FF8.obj"
-    include "..\obj\libdg\DG_ResetFixedLight_8001A06C.obj"
-    include "..\obj\libdg\DG_SetFixedLight_8001A094.obj"
-    include "..\obj\libdg\DG_ClearTmpLight_8001A0E4.obj"
-    include "..\obj\libdg\DG_SetTmpLight_8001A114.obj"
-    include "..\obj\libdg\DG_GetLightVector_8001A1A8.obj"
-    include "..\obj\libdg\DG_GetLightMatrix_8001A3C4.obj"
-    include "..\obj\sub_8001A5D0.obj"
-    include "..\obj\libdg\DG_GetLightMatrix2_8001A5D8.obj"
+    ; 8001A06C 8001A094 80019F40 80019F80 80019FF8 8001A0E4 8001A114 8001A1A8 8001A3C4 8001A5D0 8001A5D8
+    include "..\obj\libdg\Light.obj"
 
     ;libdg\opack.c
     include "..\obj\libdg\DG_AllocPacks_8001A670.obj"
@@ -465,7 +456,7 @@
     include "..\obj\sub_80028830.obj"
     include "..\obj\GM_ActControl_helper2_80028840.obj"
     include "..\obj\sub_80028890.obj"
-    include "..\obj\sub_800288BC.obj"
+    include "..\obj\CopyVectorToScratchpad_800288BC.obj"
     include "..\obj\sub_800288E0.obj"
     include "..\obj\sub_80028930.obj"
     include "..\obj\sub_80028CF8.obj"
@@ -474,7 +465,7 @@
     include "..\obj\GM_ActControl_helper3_800292E4.obj"
     include "..\obj\GM_ActControl_helper4_80029304.obj"
     include "..\obj\GM_ActControl_helper5_80029324.obj"
-    include "..\obj\sub_80029360.obj"
+    include "..\obj\CopyVectorFromScratchpad_80029360.obj"
     include "..\obj\sub_80029384.obj"
     include "..\obj\sub_80029514.obj"
     include "..\obj\sub_80029604.obj"
@@ -545,7 +536,6 @@
     include "..\obj\data\sbss\dword_800ABA58.obj"
     include "..\obj\data\sbss\dword_800ABA5C.obj"
 
-    include "..\obj\Game\GM_StartDaemon_helper_8002A960.obj"
     include "..\obj\Game\GM_Reset_helper_8002A978.obj"
     include "..\obj\Game\GM_Act_helper_8002AA10.obj"
     include "..\obj\sub_8002AA48.obj"
@@ -555,16 +545,14 @@
     include "..\obj\Game\GM_Act_helper3_helper_8002AB40.obj"
     include "..\obj\Game\GM_Act_helper3_8002ABA4.obj"
     include "..\obj\Game\GM_Reset_8002ABF4.obj"
-    include "..\obj\GM_InitReadError_8002AC44.obj"
     include "..\obj\DrawReadError_8002AC9C.obj"
     include "..\obj\Game\GM_Act_8002ADBC.obj"
     include "..\obj\GM_SetSystemCallbackProc_8002B558.obj"
     include "..\obj\Game\GM_CallSystemCallbackProc_8002B570.obj"
     include "..\obj\sub_8002B600.obj"
     include "..\obj\GM_ContinueStart_8002B62C.obj"
-    include "..\obj\GM_GameOver_8002B6C8.obj"
     include "..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
-    include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
+    ;include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
 
     ;game\script.c
     include "..\obj\libgcl\commands\GCL_Command_light_8002B854.obj"
@@ -859,8 +847,8 @@
     include "..\obj\sub_8003D0D0.obj"
     include "..\obj\sub_8003D124.obj"
     include "..\obj\sub_8003D184.obj"
-    include "..\obj\sub_8003D1A8.obj"
-    include "..\obj\sub_8003D1B8.obj"
+    include "..\obj\AssignXY_8003D1A8.obj"
+    include "..\obj\AssignXYFromVec_8003D1B8.obj"
     include "..\obj\sub_8003D1DC.obj"
     include "..\obj\sub_8003D2BC.obj"
     include "..\obj\sub_8003D34C.obj"
@@ -1808,91 +1796,18 @@
     include "..\obj\SD\SePlay_800888F8.obj"
     include "..\obj\SD\get_str_counter_80088CA0.obj"
     include "..\obj\SD\SD_Set_80088CB0.obj"
-    include "..\obj\SD\mts_set_exception_func_800892A8.obj"
-    
-    include "..\obj\mts\mts_set_vsync_task_800892B8.obj"
-    include "..\obj\mts\mts_set_callback_800893B4.obj"
-    include "..\obj\mts\mts_set_callback_controller_800893D8.obj"
-    include "..\obj\mts\mts_init_vsync_800895AC.obj"
-    include "..\obj\mts\mts_wait_vbl_800895F4.obj"
-    include "..\obj\mts\mts_send_8008982C.obj"
-    include "..\obj\mts\mts_isend_80089B04.obj"
-    include "..\obj\mts\mts_receive_80089D24.obj"
-    include "..\obj\mts\mts_slp_tsk_8008A400.obj"
-    include "..\obj\mts\mts_wup_tsk_8008A540.obj"
-    include "..\obj\mts\mts_lock_sem_8008A6CC.obj"
-    include "..\obj\mts\mts_reset_interrupt_wait_8008A990.obj"
-    include "..\obj\mts\mts_new.obj"
-    include "..\obj\mts\mts_start_8008AAEC.obj"
-    include "..\obj\mts\mts_shutdown_8008B044.obj"
-    include "..\obj\mts\mts_8008B0A4.obj"
-    include "..\obj\mts\mts_8008B450.obj"
-    include "..\obj\mts\mts_sta_tsk_8008B47C.obj"
-    include "..\obj\mts\mts_8008B51C.obj"
 
-    include "..\obj\mts\mts_send_msg_8008B590.obj"
-    include "..\obj\mts\mts_recv_msg_8008B5B8.obj"
-    include "..\obj\mts\mts_8008B608.obj"
+	; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88 8008BB4C 8008BB60 8008BB78 8008BB88
+	include "..\obj\mts\mts_new3.obj"
 
-    include "..\obj\mts\mts_get_task_status_8008B618.obj"
-    include "..\obj\mts\mts_get_task_res1_8008B630.obj"
+	; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8    
+	include "..\obj\mts\mts_new4.obj"
 
-    include "..\obj\mts\mts_set_stack_check_8008B648.obj"
-    include "..\obj\mts\mts_get_use_stack_size_8008B68C.obj"
-    include "..\obj\mts\mts_print_process_status_8008B77C.obj"
-    include "..\obj\mts\mts_lock_sio_8008BA64.obj"
-    include "..\obj\mts\mts_unlock_sio_8008BA74.obj"
+	; 8008BC8C 8008BDEC 8008C098 8008C170 8008C25C 8008C324 8008C380 8008C3BC 8008C408 8008C454 8008C4BC
+	include "..\obj\mts\pad.obj"
 
-
-    
-    include "..\obj\mts\mts_8008BA88.obj"
-    include "..\obj\mts\mts_8008BB4C.obj"
-    include "..\obj\mts\mts_8008BB60.obj"
-
-    
-    include "..\obj\mts\mts_8008BB78.obj"
-
-    
-
-    include "..\obj\mts\mts_8008BB88.obj"
-    include "..\obj\mts\mts_nullsub_8_8008BB98.obj"
-    include "..\obj\mts\mts_printf_8008BBA0.obj"
-    include "..\obj\mts\mts_null_printf_8008BBA8.obj"
-    include "..\obj\mts\mts_get_tick_count_8008BBB0.obj"
-    include "..\obj\mts\mts_event_cb_8008BBC0.obj"
-    include "..\obj\mts\mts_task_start_8008BBC8.obj"
-    include "..\obj\mts\mts_8008BC8C.obj"
-    include "..\obj\mts\mts_callback_controller_8008BDEC.obj"
-    include "..\obj\mts\mts_init_controller_8008C098.obj"
-
-    include "..\obj\mts\mts_get_pad_8008C170.obj"
-    include "..\obj\mts\mts_read_pad_8008C25C.obj"
-    include "..\obj\mts\mts_PadRead_8008C324.obj"
-    include "..\obj\mts\mts_get_controller_data_8008C380.obj"
-    include "..\obj\mts\mts_control_vibration_8008C3BC.obj"
-
-    
-
-    include "..\obj\mts\mts_set_pad_vibration_8008C408.obj"
-    include "..\obj\mts\mts_set_pad_vibration2_8008C454.obj"
-    include "..\obj\mts\mts_get_pad_vibration_type_8008C4BC.obj"
-    include "..\obj\mts\mts_reset_graph_8008C534.obj"
-    include "..\obj\mts\SetExMask_8008C58C.obj"
-
-    
-
-    include "..\obj\mts\mts_get_bss_tail_8008C598.obj"
-    include "..\obj\mts\sio_output_start_8008C5A8.obj"
-    include "..\obj\mts\sio_output_stop_8008C5B0.obj"
-    include "..\obj\nullsub\sub_8008C5B8.obj"
-    include "..\obj\nullsub\sub_8008C5C0.obj"
-    include "..\obj\nullsub\sub_8008C5C8.obj"
-    include "..\obj\mts\sio_getchar2_8008C5D0.obj"
-    include "..\obj\nullsub\sub_8008C5E0.obj"
-    include "..\obj\nullsub\sub_8008C5E8.obj"
-    include "..\obj\nullsub\sub_8008C5F0.obj"
-    include "..\obj\nullsub\sub_8008C5F8.obj"
-    include "..\obj\nullsub\sub_8008C600.obj"
+	; 8008C534 8008C58C 8008C598 8008C5A8 8008C5B0 8008C5B8 8008C5C0 8008C5C8 8008C5D0 8008C5E0 8008C5E8 8008C5F0 8008C5F8 8008C600    
+	include "..\obj\mts\mts_new2.obj"
 
     ; libcd.lib start
 
@@ -2499,7 +2414,11 @@ group_int_800B4E74    group bss,org($800B4E74) ; CD / FS / loading related
 group_int_800B4E58    group bss,org($800B4E58) ; CDBIOS_TaskState_80022888
     section .int_800B4E58, group_int_800B4E58
 
+group_gMenuTextureRec_800B58B0    group bss,org($800B58B0) ; CDBIOS_TaskState_80022888
+    section .gMenuTextureRec_800B58B0, group_gMenuTextureRec_800B58B0
+    
 group_gUnkMaybeCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_800579A0
     section .gUnkMaybeCameraStruct_800B77B8, group_gUnkMaybeCameraStruct_800B77B8
+
 
     regs    pc=__SN_ENTRY_POINT_80098E6C

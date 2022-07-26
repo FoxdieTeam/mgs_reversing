@@ -1,5 +1,9 @@
 #include "linker.h"
 #include "gcl.h"
+#include "Script_tbl_map_8002BB44.h"
+
+extern GCL_Vars             gGcl_vars_800B3CC8;
+extern GameState_800B4D98   gGameState_800B4D98;
 
 extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
 
@@ -41,4 +45,10 @@ TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id)
     } while (i < 2);
 
     return 0;
+}
+
+void GM_ClearWeaponAndItem_8002A960()
+{
+    gGameState_800B4D98.field_1C_equipped_weapon = -1;
+    gGameState_800B4D98.field_1E_equipped_item = -1;
 }

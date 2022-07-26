@@ -27,4 +27,19 @@ typedef struct
     int dword_8009E28C;
 } unk_8009E280;
 
+struct Anim_Data
+{
+  short field_0;
+  short field_2;
+  int field_4;
+  short field_8_count;
+  short field_A;
+  short field_C;
+  short field_E;
+  short field_10;
+  short field_12;
+  int field_14;
+  void *field_18;
+};
+
 #endif // DATA_H

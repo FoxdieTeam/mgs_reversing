@@ -1,3 +1,4 @@
 #include "linker.h"
+#include "GM_Control.h"
 
-int SECTION(".sbss") dword_800AB9F4;
+GM_Control* SECTION(".sbss") gControl_800AB9F4;
