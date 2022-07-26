@@ -116,7 +116,7 @@ void DG_InitChanlSystem_80017B98(int width)
     DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 1;
     DG_SetChanlDrawEnv_800179F4(ptr, &drawEnv, 1);
-    DG_CopyChanlDrawEnv_80017B30(ptr, 0);
+    DG_CopyChanlDrawEnv_80017B30(ptr, 0);q
     DG_CopyChanlDrawEnv_80017B30(ptr, 1);
 
     ptr++;
