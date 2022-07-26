@@ -432,7 +432,15 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_8004FBA0.s")
 #pragma INCLUDE_ASM("asm/Game/GM_ClearBulName_8004FBE4.s")
 #pragma INCLUDE_ASM("asm/Game/GM_CheckShukanReverse_8004FBF8.s")
-#pragma INCLUDE_ASM("asm/Game/GM_CheckShukanReverseAnalog_8004FC70.s")
+
+void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
+{
+    if ( (gGameState_800B4D98.field_04_flags & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0 )
+    {
+        *pInput = ~*pInput;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004FCB8.s")
 #pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s")
