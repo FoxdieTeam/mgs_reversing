@@ -166,7 +166,8 @@ for root, subdirs, files in os.walk(root_dir + '/src'):
                             if (defines[possible_number].isdigit()):
                                 num_elements = int(defines[possible_number], 10)
                         else:
-                            assert False
+                            # @todo: fix headers that contain relevant #defines possibly being read after the files that need them.
+                            continue
                     
                     key = var_name.partition('[')[0]
                     print_stuff = key.__contains__('ItemTypes')
