@@ -3,29 +3,23 @@
 
 #include "game.h"
 #include "actor.h"
+#include "GM_Control.h"
+#include "libdg.h"
 
 // nikita
 
-typedef struct _Actor_Acm
+typedef struct Actor_Rcm
 {
     Actor field_0_actor;
-    OBJECT* f20_obj;
-    int f24;
-    int f28;
-    int f2c;
-    int f30;
-    int f34;
-    int f38;
-    int f3c;
-    int f40;
-    int f44;
-    int f48;
-    int f4c;
-    int f50;
-    int f54;
-    int f58;
-    DG_PRIM *f5c_prim;
-    int f60;
+    OBJECT f20_obj;
+    GM_Control* field_44_pCtrl;
+    OBJECT* field_48_pParent;
+    int field_4C_obj_idx;
+    unsigned int *field_50_pUnknown;
+    int field_54_whichSide;
+    int field_58_counter;
+    DG_PRIM *field_5C_pPrim;
+    int field_60_rgb;
 } Actor_Rcm;
 
 STATIC_ASSERT_SIZE(Actor_Rcm, 0x64);
