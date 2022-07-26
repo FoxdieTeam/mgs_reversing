@@ -1,3 +1,7 @@
 #include "linker.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
-int SECTION(".sdata") dword_800AB870 = 0xFCE0FF9C;
+SVECTOR SECTION(".sdata") stru_800AB870 = { -100, -800, 80, 0 };
+

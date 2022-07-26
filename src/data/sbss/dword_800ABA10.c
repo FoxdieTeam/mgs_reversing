@@ -1,3 +1,6 @@
 #include "linker.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
-int SECTION(".sbss") dword_800ABA10;
+SVECTOR SECTION(".sbss") stru_800ABA10;
