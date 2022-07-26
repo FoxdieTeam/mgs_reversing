@@ -720,11 +720,8 @@
     include "..\obj\sub_80032BC4.obj"
     include "..\obj\GM_Sound_80032C48.obj"
 
-    include "..\obj\Game\HomingTarget_Clear_All_80032C68.obj"
-    include "..\obj\Game\HomingTarget_Alloc_80032C8C.obj"
-    include "..\obj\HomingTarget_Free_80032CFC.obj"
-    include "..\obj\HomingTarget_1_80032D10.obj"
-    include "..\obj\HomingTarget_2_80032EAC.obj"
+	; 80032C68 80032C8C 80032CFC 80032D10 80032EAC
+	include "..\obj\homing_target.obj"
 
     include "..\obj\chara\snake\sna_init_act_helper2_helper2_80033054.obj"
     include "..\obj\Game\delay.obj"
