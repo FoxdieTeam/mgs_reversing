@@ -366,8 +366,8 @@ typedef struct Actor_SnaInit
   MATRIX field_868_lighting_mtx2;
   Actor *field_888_pShadow;
   unsigned int *field_88C;
-  unsigned short field_890;
-  unsigned short field_892;
+  unsigned short field_890_autoaim_max_dist;
+  unsigned short field_892_autoaim_min_angle;
   int field_894_flags;
   unsigned int field_898_flags;
   GM_Target *field_89C_pTarget;

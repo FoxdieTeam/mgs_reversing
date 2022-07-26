@@ -2,6 +2,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
 #include "libdg.h"
+#include "map.h"
 
 // TODO: Header
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
@@ -827,7 +828,83 @@ void sna_init_fn_80056A1C(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/sub_80057590.s")
 #pragma INCLUDE_ASM("asm/sub_800577B4.s")
 #pragma INCLUDE_ASM("asm/sub_80057844.s")
-#pragma INCLUDE_ASM("asm/sub_800579A0.s")
+
+extern int  HomingTarget_2_80032EAC(short *a1, short a2, int *a3, int *a4, int a5, int a6, int a7);
+
+// move to own file when needed / researched
+// camera references this is a lot
+typedef struct gUnkMaybeCameraStruct_800B77B8_t
+{
+    int field_0;
+    int field_4;
+    int field_8;
+    short field_C;
+    short field_E;
+    int field_10;
+    int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
+    short field_28_aim_assist; // dont know what this really is
+    short field_2A;
+    int field_2C;
+} gUnkMaybeCameraStruct_800B77B8_t;
+STATIC_ASSERT_SIZE(gUnkMaybeCameraStruct_800B77B8_t, 0x30)
+
+gUnkMaybeCameraStruct_800B77B8_t SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
+extern int dword_800ABBA4;
+
+void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
+{
+    int unk;
+    int out_x_copy;
+    int snake_not_moving;
+    int out_x;
+    int out_y;
+    int diff;
+
+    // loops enemies and finds candidate to aim at, returns angle to auto turn/aim to
+    // melee also uses this in a different func
+    HomingTarget_2_80032EAC(
+        &(pActor->field_9C.objs[8].chanl), // ?
+        pActor->field_20_ctrl.field_8_vec.vy, // input snake horizontal facing angle
+        &out_y,
+        &out_x,
+        pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit,
+        pActor->field_890_autoaim_max_dist,
+        pActor->field_892_autoaim_min_angle); // min angle to activate auto aim
+
+    // ?
+    unk = pActor->field_718[2].vx;
+    diff = unk - out_x;
+    if (diff >= 65)
+    {
+        out_x = unk - 64;
+    }
+    else if (diff < -64)
+    {
+        out_x = unk + 64;
+    }
+    
+    // ?
+    out_x_copy = out_x;
+    pActor->field_718[2].vx = out_x;
+    pActor->field_718[6].vx = out_x;
+    snake_not_moving = dword_800ABBA4 < 0; // snake move angle
+    pActor->field_718[7].vx = 3 * out_x_copy / 2; // maybe aim gun/head up/down??
+    
+    if (snake_not_moving && out_y >= 0) // if not moving, set snake turn angle
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = out_y;
+    }
+    
+    if (sna_init_sub_8004E358(pActor, 16))
+    {
+        gUnkMaybeCameraStruct_800B77B8.field_28_aim_assist = out_x;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80057A90.s")
 #pragma INCLUDE_ASM("asm/sub_80057BF0.s")
 #pragma INCLUDE_ASM("asm/sub_80057FD4.s")

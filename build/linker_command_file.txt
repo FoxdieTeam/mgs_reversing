@@ -2499,4 +2499,7 @@ group_int_800B4E74    group bss,org($800B4E74) ; CD / FS / loading related
 group_int_800B4E58    group bss,org($800B4E58) ; CDBIOS_TaskState_80022888
     section .int_800B4E58, group_int_800B4E58
 
+group_gUnkMaybeCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_800579A0
+    section .gUnkMaybeCameraStruct_800B77B8, group_gUnkMaybeCameraStruct_800B77B8
+
     regs    pc=__SN_ENTRY_POINT_80098E6C
