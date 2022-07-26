@@ -92,6 +92,7 @@ void sub_80053E9C(Actor_SnaInit *pActor, int a2);
 void sub_8005684C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2);
 void sub_800591F4(Actor_SnaInit *pActor, int a2);
+void sub_8005951C(Actor_SnaInit *pActor);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -1245,7 +1246,21 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_80058E88.s")
+void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2)
+{
+    short action_flag; // $s0
+
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sub_8005951C;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+
+        action_flag = pActor->field_9B4_action_table->field_18->field_0;
+        sna_init_8004E22C(pActor, action_flag, 4);
+        pActor->field_8E8_pTarget->field_3E = action_flag;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_80058EF4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_kill_80058F88.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_drag_80059054.s")
