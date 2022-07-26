@@ -392,12 +392,9 @@ typedef struct Actor_SnaInit
   DG_TEX *field_928;
   DG_OBJS *field_92C;
   SVECTOR field_930;
-  int field_938;
-  int field_93C;
-  int field_940;
-  int field_944;
-  int field_948;
-  int field_94C;
+  SVECTOR field_938;
+  SVECTOR field_940;
+  SVECTOR field_948;
   int field_950;
   int field_954;
   int field_958;
