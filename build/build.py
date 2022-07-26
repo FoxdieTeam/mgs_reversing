@@ -182,7 +182,7 @@ def gen_build_target(targetName):
         if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            if cFile.find("/Equip/") != -1:
+            if cFile.find("/Equip/") != -1 or cFile.find("/Bullet/") != -1:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
             else:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})

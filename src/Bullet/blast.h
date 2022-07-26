@@ -7,15 +7,15 @@
 #include "actor.h"
 #include "target.h"
 
-typedef struct Target_Data
+typedef struct Blast_Data
 {
-  SVECTOR field_0;
-  SVECTOR field_8_size;
+  int field_0;
+  int field_4;
+  int field_8_z;
+  int field_C;
   int field_10;
   int field_14;
-  int field_18;
-  unsigned int field_1C;
-} Target_Data;
+} Blast_Data;
 
 typedef struct Actor_Blast
 {
