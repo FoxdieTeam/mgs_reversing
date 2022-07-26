@@ -454,7 +454,7 @@
     include "..\obj\sub_80028454.obj"
     include "..\obj\sub_80028820.obj"
     include "..\obj\sub_80028830.obj"
-    include "..\obj\GM_ActControl_helper2_80028840.obj"
+    include "..\obj\GetVecFromScratchpad_80028840.obj"
     include "..\obj\sub_80028890.obj"
     include "..\obj\CopyVectorToScratchpad_800288BC.obj"
     include "..\obj\sub_800288E0.obj"
