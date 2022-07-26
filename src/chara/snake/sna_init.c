@@ -1268,7 +1268,41 @@ void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_80058EF4.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_kill_80058F88.s")
+
+void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int a2)
+{
+    GM_Target *field_8E8_pTarget; // $s0
+    int action_flag; // $s1
+
+    if ( !a2 )
+    {
+        field_8E8_pTarget = pActor->field_8E8_pTarget;
+        action_flag = pActor->field_9B4_action_table->field_10->field_7;
+
+        pActor->field_9C8 = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+
+        sna_init_8004E22C(pActor, action_flag, 4);
+       
+        field_8E8_pTarget->field_3E = action_flag;
+        field_8E8_pTarget->field_28 = 5;
+        field_8E8_pTarget->field_2A--;
+        pActor->field_A54 = 0;
+    }
+
+    if ( pActor->field_9C.field_1A )
+    {
+        sna_init_sub_8004E41C(pActor, 2);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+        sna_init_clear_flags_8004E308(pActor, 4);
+    }
+
+    if ( sna_init_sub_8004E358(pActor, 16) )
+    {
+        sub_8004FAE8(pActor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_drag_80059054.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_hold_80059154.s")
 #pragma INCLUDE_ASM("asm/sub_800591BC.s")
@@ -1278,7 +1312,6 @@ void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_800596FC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")
 
-//#pragma INCLUDE_ASM("asm/chara/snake/sna_init_kill_8005B52C.s")
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 {
     GM_Control *pCtrl; // $s2
