@@ -75,7 +75,39 @@ void DG_SetFixedLight_8001A094(Light *pLight, int light_count)
 
 #pragma INCLUDE_ASM("asm/libdg/DG_ClearTmpLight_8001A0E4.s")
 #pragma INCLUDE_ASM("asm/libdg/DG_SetTmpLight_8001A114.s")
-#pragma INCLUDE_ASM("asm/libdg/DG_GetLightVector_8001A1A8.s")
+
+void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec)
+{
+	int vec_length;
+	int val;
+	int multiplier;
+	VECTOR vec_squared;
+
+	Square0_80093340(in_vec,&vec_squared);
+	vec_length = SquareRoot0_80092708(vec_squared.vx + vec_squared.vy + vec_squared.vz);
+	if (vec_length == 0)
+	{
+		vec_length = 1;
+	}
+	multiplier = divisor * 2 - vec_length;
+	if (multiplier < 0)
+	{
+		multiplier = 0;
+	}
+
+	val = in_vec->vx * 0xc00;
+	val = (val / vec_length) * multiplier;
+	out_vec->vx = val / divisor;
+
+	val = in_vec->vy * 0xc00;
+	val = (val / vec_length) * multiplier;
+	out_vec->vy = val / divisor;
+
+	val = in_vec->vz * 0xc00;
+	val = (val / vec_length) * multiplier;
+	out_vec->vz = val / divisor;
+}
+
 #pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix_8001A3C4.s")
 
 void sub_8001A5D0(int param_1, int param_2)
