@@ -46,7 +46,7 @@ typedef struct GM_Control
     signed char field_58;
     char field_59;
     char field_5A[2];
-    int field_5C_mesg;
+    struct GV_MSG *field_5C_mesg;
     SVECTOR field_60_vecs_ary[2];
     SVECTOR* field_70[2];
     short field_78;
