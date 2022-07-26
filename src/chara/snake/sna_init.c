@@ -91,6 +91,7 @@ void sub_80054424(Actor_SnaInit *pActor, int a2);
 void sub_80053E9C(Actor_SnaInit *pActor, int a2);
 void sub_8005684C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2);
+void sub_800591F4(Actor_SnaInit *pActor, int a2);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
@@ -1157,7 +1158,19 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/sub_80058644.s")
 #pragma INCLUDE_ASM("asm/sub_80058780.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_throw_800589C8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_80058C10.s")
+
+void sna_init_anim_punch_800058C10(Actor_SnaInit *pActor, int a2)
+{
+    if ( !a2 )
+    {
+        pActor->field_9C8 = sub_800591F4;
+        pActor->field_9CC = sna_init_fn_nothing_80053B80;
+        GM_ClearPlayerStatusFlag_8004E2D4(16);
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_2, 1);
+        pActor->field_A38 = 0;
+        sna_init_set_flags_8004E2F4(pActor, 48);
+    }
+}
 
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2)
 {
