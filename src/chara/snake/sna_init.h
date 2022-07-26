@@ -45,6 +45,17 @@ typedef struct Sna_E6
   unsigned char field_3;
 } Sna_E6;
 
+typedef struct Target_Data
+{
+  SVECTOR field_0;
+  SVECTOR field_8_size;
+  int field_10;
+  int field_14;
+  int field_18;
+  unsigned int field_1C;
+} Target_Data;
+
+
 typedef struct Sna_1D0
 {
     // types are wrong. lots of mixed read/write sizes so hard to tell
@@ -373,8 +384,7 @@ typedef struct Actor_SnaInit
   GM_Target *field_89C_pTarget;
   GM_Target field_8A0_target;
   GM_Target *field_8E8_pTarget;
-  GM_Target *field_8EC_pTarget;
-  int field_8F0;
+  SVECTOR field_8EC_vec;
   int field_8F4;
   int field_8F8;
   int field_8FC;
@@ -392,12 +402,9 @@ typedef struct Actor_SnaInit
   DG_TEX *field_928;
   DG_OBJS *field_92C;
   SVECTOR field_930;
-  int field_938;
-  int field_93C;
-  int field_940;
-  int field_944;
-  int field_948;
-  int field_94C;
+  SVECTOR field_938;
+  SVECTOR field_940;
+  SVECTOR field_948;
   int field_950;
   int field_954;
   int field_958;

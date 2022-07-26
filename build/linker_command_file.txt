@@ -1171,7 +1171,6 @@
     include "..\obj\data\sdata\dword_800AB7F4.obj"
     include "..\obj\data\sdata\dword_800AB7F8.obj"
     include "..\obj\data\sdata\dword_800AB7FC.obj"
-    include "..\obj\data\sdata\dword_800AB800.obj"
     include "..\obj\data\sdata\dword_800AB804.obj"
     include "..\obj\data\sdata\dword_800AB808.obj"
     include "..\obj\data\sdata\dword_800AB80C.obj"
