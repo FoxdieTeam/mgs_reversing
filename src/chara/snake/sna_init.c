@@ -432,7 +432,15 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/sub_8004FBA0.s")
 #pragma INCLUDE_ASM("asm/Game/GM_ClearBulName_8004FBE4.s")
 #pragma INCLUDE_ASM("asm/Game/GM_CheckShukanReverse_8004FBF8.s")
-#pragma INCLUDE_ASM("asm/Game/GM_CheckShukanReverseAnalog_8004FC70.s")
+
+void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
+{
+    if ( (gGameState_800B4D98.field_04_flags & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0 )
+    {
+        *pInput = ~*pInput;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004FCB8.s")
 #pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s")
@@ -491,8 +499,6 @@ void sub_8005230C(Actor_SnaInit *pActor)
 
 #pragma INCLUDE_ASM("asm/sna_init_fn_80052540.s")
 
-#pragma INCLUDE_ASM("asm/sna_init_fn_800525F8.s")
-/*
 void sna_init_fn_800525F8(Actor_SnaInit *pActor)
 {
     GM_ClearPlayerStatusFlag_8004E2D4(0x10);
@@ -504,24 +510,24 @@ void sna_init_fn_800525F8(Actor_SnaInit *pActor)
         }
     }
 
-    if ( (*pActor->field_9B0_pad_bits & 0x10) != 0 )
+    if ( !(*pActor->field_9B0_pad_bits & 0x10)  )
+    {
+        if ( !gGameState_800B4D98.field_BE )
+        {
+            sna_init_8004EC00(pActor);
+        }
+        else
+        {
+            sna_init_8004FA74(pActor);
+        }
+        pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
+    }
+    else
     {
         sna_init_80051DA0(pActor);
         sna_init_80051FD0(pActor);
     }
-    else
-    {
-        if ( gGameState_800B4D98.field_BE )
-        {
-            sna_init_8004FA74(pActor);
-        }
-        else
-        {
-            sna_init_8004EC00(pActor);
-        }
-        pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
-    }
-}*/
+}
 
 void sna_init_act_helper2_helper_helper_800526BC(Actor_SnaInit *pActor)
 {
