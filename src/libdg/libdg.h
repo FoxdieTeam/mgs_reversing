@@ -185,6 +185,19 @@ void *s2, *d2;
 
 // TODO: There are others like this as seen in the memleak
 
+// invented name
+static inline void DG_SetObjectGroupId(DG_OBJS* objs, int id)
+{
+    objs->group_id = id;
+}
+
+// invented name
+static inline void DG_SetPrimGroupId(DG_PRIM* pPrim, int id)
+{
+    pPrim->group_id = id;
+}
+
+
 void DG_DequeuePrim_800182E0(DG_OBJS *pObjs);
 void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
 

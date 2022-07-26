@@ -81,5 +81,19 @@ typedef struct _OBJECT_NO_ROTS
 } OBJECT_NO_ROTS;
 
 extern int GM_CurrentMap_800AB9B0;
+extern int GM_NoisePower_800ABA24;
+extern int GM_NoiseLength_800ABA30;
+extern SVECTOR GM_NoisePosition_800AB9F8;
+
+static inline void GM_SetNoise(int power, int length, SVECTOR* pos)
+{
+    int old = GM_NoisePower_800ABA24;
+    if ( power < old) return;
+    if ( power == old && length < GM_NoiseLength_800ABA30) return;
+    
+    GM_NoisePower_800ABA24 = power;
+    GM_NoiseLength_800ABA30 = length;
+    GM_NoisePosition_800AB9F8 = *pos;          
+}
 
 #endif //GAME_H
