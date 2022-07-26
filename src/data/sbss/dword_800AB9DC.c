@@ -1,3 +1,3 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800AB9DC;
+int SECTION(".sbss") claymore_map_800AB9DC;
