@@ -1,0 +1,159 @@
+#include "homing_target.h"
+#include "linker.h"
+#include "mts_new.h"
+#include "map.h"
+#include "libgv.h"
+
+extern const char aHomingTargetOv[];
+
+extern int GV_VecDir2_80016EF8(SVECTOR *vec);
+int GV_DiffDirAbs_8001706C(int a1, int a2);
+long ratan2_80094308(long x, long y);
+
+Homing_Target SECTION(".gHomingTargets_800B8230") gHomingTargets_800B8230[8];
+
+void HomingTarget_Clear_All_80032C68()
+{
+    Homing_Target *pIter; // $v0
+    int i; // $v1
+
+    pIter = gHomingTargets_800B8230;
+    for ( i = 8; i > 0; --i )
+    {
+        pIter->field_C_bUsed = 0;
+        ++pIter;
+    }
+}
+
+Homing_Target* HomingTarget_Alloc_80032C8C(MATRIX* a1, GM_Control* a2)
+{
+    int pos; // $v1
+    Homing_Target* pIter = gHomingTargets_800B8230;
+    for ( pos = 8; pos > 0; --pos )
+    {
+        if ( !pIter->field_C_bUsed )
+        {
+            break;
+        }
+        ++pIter;
+    }
+
+    if ( !pos )
+    {
+        mts_printf_8008BBA0(aHomingTargetOv);
+        return 0;
+        
+    }
+  
+    pIter->field_0 = a1;
+    pIter->field_4 = a2;
+    pIter->field_8 = 0;
+    pIter->field_C_bUsed = 1;
+    return pIter;
+}
+
+void HomingTarget_Free_80032CFC(Homing_Target *pTarget)
+{
+    if ( pTarget )
+    {
+        pTarget->field_C_bUsed = 0;
+    }
+}
+
+void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit)
+{
+    int smallest_len; // $s6
+    Homing_Target *pTargetIter; // $s3
+    int i; // $s5
+    int len; // $s1
+    int retY; // $s0
+    SVECTOR vec1;
+    SVECTOR vec2;
+    SVECTOR vec3;
+
+    smallest_len = 6100;
+    pTargetIter = &gHomingTargets_800B8230[0];
+    i = 8;
+    vec1.vx = pMtx->t[0];
+    vec1.vy = pMtx->t[1];
+    vec1.vz = pMtx->t[2];
+    *pRetY = -1;
+    *pRetX = 0;
+    do
+    {
+        if ( pTargetIter->field_C_bUsed )
+        {
+            if ( (pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) != 0
+              && pTargetIter->field_8 == 1 )
+            {
+                vec2.vx = pTargetIter->field_0->t[0];
+                vec2.vy = pTargetIter->field_0->t[1];
+                vec2.vz = pTargetIter->field_0->t[2];
+                GV_SubVec3_80016D40(&vec2, &vec1, &vec3);
+                len = GV_VecLen3_80016D80(&vec3);
+                if ( len < smallest_len )
+                {
+                    retY = GV_VecDir2_80016EF8(&vec3);
+                    if ( GV_DiffDirAbs_8001706C(vecY, retY) < 512 )
+                    {
+                        smallest_len = len;
+                        *pRetY = retY;
+                        *pRetX = (ratan2_80094308(len, vec2.vy - vec1.vy) & 4095) - 1024;
+                    }
+                }
+            }
+        }
+        ++pTargetIter;
+        --i;
+    }
+    while ( i > 0 );
+}
+
+void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
+{
+    int smallest_len; // $s6
+    Homing_Target *pTargetIter; // $s3
+    int i; // $s5
+    int len; // $s1
+    int retY; // $s0
+    SVECTOR vec1;
+    SVECTOR vec2;
+    SVECTOR vec3;
+
+    smallest_len = max_dist + 100;
+    pTargetIter = &gHomingTargets_800B8230[0];
+    i = 8;
+    vec1.vx = pMtx->t[0];
+    vec1.vy = pMtx->t[1];
+    vec1.vz = pMtx->t[2];
+    *pRetY = -1;
+    *pRetX = 0;
+    do
+    {
+        if ( pTargetIter->field_C_bUsed )
+        {
+            if ( (pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) != 0
+              && pTargetIter->field_8 == 1 )
+            {
+                vec2.vx = pTargetIter->field_0->t[0];
+                vec2.vy = pTargetIter->field_0->t[1];
+                vec2.vz = pTargetIter->field_0->t[2];
+                GV_SubVec3_80016D40(&vec2, &vec1, &vec3);
+                len = GV_VecLen3_80016D80(&vec3);
+                if ( len < smallest_len )
+                {
+                    retY = GV_VecDir2_80016EF8(&vec3);
+                    if ( GV_DiffDirAbs_8001706C(vecY, retY) < min_angle )
+                    {
+                        smallest_len = len;
+                        *pRetY = retY;
+                        *pRetX = (ratan2_80094308(len, vec2.vy - vec1.vy) & 4095) - 1024;
+                    }
+                }
+            }
+        }
+        ++pTargetIter;
+        --i;
+    }
+    while ( i > 0 );
+}
