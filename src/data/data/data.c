@@ -1016,21 +1016,6 @@ int SECTION(".data") dword_8009F084[] = {0xC800C8, 0x258, 0xC80190, 0x190, 0xFFF
 int SECTION(".data") dword_8009F0A4[] = {0xC80000, 0x258, 0xFA01F4, 0x1F4, 0, 0x64, 0, 3};
 int SECTION(".data") dword_8009F0C4[] = {0, 0, 0xFFFF, 0};
 
-struct Anim_Data
-{
-  short field_0;
-  short field_2;
-  int field_4;
-  short field_8_count;
-  short field_A;
-  short field_C;
-  short field_E;
-  short field_10;
-  short field_12;
-  int field_14;
-  void *field_18;
-};
-
 struct Anim_Data SECTION(".data") stru_8009F0D4 = { -8302, 2, 262146, 1, 0, 5, 50, 50, 250, 0, (void*)0x800124A8 };
 struct Anim_Data SECTION(".data") stru_8009F0F0 = { 20781, 8, 1966084, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C };
 struct Anim_Data SECTION(".data") stru_8009F10C = { -6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x800125CC };
