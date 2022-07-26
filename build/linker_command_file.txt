@@ -2414,5 +2414,7 @@ group_gMenuTextureRec_800B58B0    group bss,org($800B58B0) ; CDBIOS_TaskState_80
 group_gUnkMaybeCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_800579A0
     section .gUnkMaybeCameraStruct_800B77B8, group_gUnkMaybeCameraStruct_800B77B8
 
+group_gHomingTargets_800B8230    group bss,org($800B8230)
+    section .gHomingTargets_800B8230, group_gHomingTargets_800B8230
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
