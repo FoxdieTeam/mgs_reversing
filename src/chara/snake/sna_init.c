@@ -1091,7 +1091,7 @@ typedef struct gUnkMaybeCameraStruct_800B77B8_t
     short field_2A;
     int field_2C;
 } gUnkMaybeCameraStruct_800B77B8_t;
-STATIC_ASSERT_SIZE(gUnkMaybeCameraStruct_800B77B8_t, 0x30)
+STATIC_ASSERT_SIZE(gUnkMaybeCameraStruct_800B77B8_t, 0x30);
 
 gUnkMaybeCameraStruct_800B77B8_t SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
 extern int dword_800ABBA4;
