@@ -1,3 +1,6 @@
 #include "linker.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
-int SECTION(".sbss") dword_800AB9F8;
+SVECTOR SECTION(".sbss") GM_NoisePosition_800AB9F8;
