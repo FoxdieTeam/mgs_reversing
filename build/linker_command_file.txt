@@ -2416,7 +2416,9 @@ group_int_800B4E58    group bss,org($800B4E58) ; CDBIOS_TaskState_80022888
 
 group_gMenuTextureRec_800B58B0    group bss,org($800B58B0) ; CDBIOS_TaskState_80022888
     section .gMenuTextureRec_800B58B0, group_gMenuTextureRec_800B58B0
-
+    
+group_gUnkMaybeCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_800579A0
+    section .gUnkMaybeCameraStruct_800B77B8, group_gUnkMaybeCameraStruct_800B77B8
 
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
