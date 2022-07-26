@@ -536,7 +536,6 @@
     include "..\obj\data\sbss\dword_800ABA58.obj"
     include "..\obj\data\sbss\dword_800ABA5C.obj"
 
-    include "..\obj\Game\GM_StartDaemon_helper_8002A960.obj"
     include "..\obj\Game\GM_Reset_helper_8002A978.obj"
     include "..\obj\Game\GM_Act_helper_8002AA10.obj"
     include "..\obj\sub_8002AA48.obj"
@@ -546,16 +545,14 @@
     include "..\obj\Game\GM_Act_helper3_helper_8002AB40.obj"
     include "..\obj\Game\GM_Act_helper3_8002ABA4.obj"
     include "..\obj\Game\GM_Reset_8002ABF4.obj"
-    include "..\obj\GM_InitReadError_8002AC44.obj"
     include "..\obj\DrawReadError_8002AC9C.obj"
     include "..\obj\Game\GM_Act_8002ADBC.obj"
     include "..\obj\GM_SetSystemCallbackProc_8002B558.obj"
     include "..\obj\Game\GM_CallSystemCallbackProc_8002B570.obj"
     include "..\obj\sub_8002B600.obj"
     include "..\obj\GM_ContinueStart_8002B62C.obj"
-    include "..\obj\GM_GameOver_8002B6C8.obj"
     include "..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
-    include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
+    ;include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
 
     ;game\script.c
     include "..\obj\libgcl\commands\GCL_Command_light_8002B854.obj"
@@ -2416,5 +2413,10 @@ group_int_800B4E74    group bss,org($800B4E74) ; CD / FS / loading related
 
 group_int_800B4E58    group bss,org($800B4E58) ; CDBIOS_TaskState_80022888
     section .int_800B4E58, group_int_800B4E58
+
+group_gMenuTextureRec_800B58B0    group bss,org($800B58B0) ; CDBIOS_TaskState_80022888
+    section .gMenuTextureRec_800B58B0, group_gMenuTextureRec_800B58B0
+
+
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
