@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_80050398
-sna_init_80050398:
+	xdef sna_init_prone_check_standup_80050398
+sna_init_prone_check_standup_80050398:
 	dw 0x27BDFFE0 ; 0x80050398
 	dw 0xAFB00018 ; 0x8005039C
 	dw 0x00808021 ; 0x800503A0

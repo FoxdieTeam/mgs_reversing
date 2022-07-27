@@ -50,9 +50,9 @@ void anime_act_helper_8005F46C(SVECTOR *vec, SVECTOR *vec_arr)
 
 void anime_kill_8005F608(int param_1)
 {
-    int iVar1;
+    DG_OBJS *iVar1;
 
-    iVar1 = *(int *)(param_1 + 0x24);
+    iVar1 = *(DG_OBJS **)(param_1 + 0x24);
     if (iVar1 != 0)
     {
         DG_DequeuePrim_800182E0(iVar1);
@@ -78,7 +78,7 @@ Actor * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct An
 	if (pActor = GV_NewActor_800150E4(6,count * 0x3c + 0x4c))
 	{
 		pActor[2].mFnUpdate = (TActorFunction)((int)pActor + 0x4c + count * 0x34);
-		GV_SetNamedActor_8001514C(pActor,anime_act_8005F4AC,anime_kill_8005F608,aAnimeC);
+		GV_SetNamedActor_8001514C(pActor, (TActorFunction)anime_act_8005F4AC, (TActorFunction)anime_kill_8005F608, aAnimeC);
 		loaded = anime_loader_8005F994(pActor,param_2,param_3);
 		if (loaded < 0)
 		{

@@ -2,9 +2,9 @@
 
 void spark_kill_800743DC(int param_1)
 {
-    int prim;
+    DG_OBJS *prim;
 
-    prim = *(int *)(param_1 + 0x24);
+    prim = *(DG_OBJS **)(param_1 + 0x24);
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);

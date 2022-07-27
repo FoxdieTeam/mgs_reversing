@@ -52,11 +52,11 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 void item_kill_80033F88(int param_1)
 {
     char *pScript;
-    int iVar2;
+    DG_OBJS *iVar2;
 
     GM_FreeControl_800260CC(param_1 + 0x20);
     GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x9c));
-    iVar2 = *(int *)(param_1 + 0x15c);
+    iVar2 = *(DG_OBJS **)(param_1 + 0x15c);
     if (iVar2 != 0)
     {
         DG_DequeuePrim_800182E0(iVar2);

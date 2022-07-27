@@ -2,9 +2,9 @@
 
 void bullet_kill_80076164(int param_1)
 {
-    int prim;
+    DG_OBJS *prim;
 
-    prim = *(int *)(param_1 + 0x8c);
+    prim = *(DG_OBJS **)(param_1 + 0x8c);
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);
