@@ -65,6 +65,7 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")
 
+extern int anime_loader_8005F994(Actor *pActor, char *param_2, struct Anim_Data *param_3);
 extern void anime_act_8005F4AC(Actor *param_1,int param_2,int param_3);
 extern const char aAnimeC[];
 
@@ -75,7 +76,7 @@ Actor * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct An
 	short count;
 	
 	count = param_3->field_8_count;
-	if (pActor = GV_NewActor_800150E4(6,count * 0x3c + 0x4c))
+	if ((pActor = GV_NewActor_800150E4(6,count * 0x3c + 0x4c)))
 	{
 		pActor[2].mFnUpdate = (TActorFunction)((int)pActor + 0x4c + count * 0x34);
 		GV_SetNamedActor_8001514C(pActor, (TActorFunction)anime_act_8005F4AC, (TActorFunction)anime_kill_8005F608, aAnimeC);
