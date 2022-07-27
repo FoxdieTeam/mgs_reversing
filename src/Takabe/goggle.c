@@ -17,12 +17,19 @@ typedef struct _Actor_Goggle
     int f5c;
 } Actor_Goggle;
 
+
 extern int goggle_act_800775B4(int a1);
 extern int goggle_kill_800776AC(int a1);
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 extern int  goggle_loader_8007773C(Actor_Goggle *a1, OBJECT *a2);
 
 STATIC_ASSERT_SIZE(Actor_Goggle, 0x60);
+
+#pragma INCLUDE_ASM("asm/Takabe/goggle_8007743C.s")
+#pragma INCLUDE_ASM("asm/Takabe/goggle_act_helper_800774C0.s")
+#pragma INCLUDE_ASM("asm/Takabe/goggle_act_800775B4.s")
+#pragma INCLUDE_ASM("asm/Takabe/goggle_kill_800776AC.s")
+#pragma INCLUDE_ASM("asm/Takabe/goggle_loader_8007773C.s")
 
 Actor_Goggle *NewGoggle_8007781C(int a1, OBJECT *parent_obj)
 {
