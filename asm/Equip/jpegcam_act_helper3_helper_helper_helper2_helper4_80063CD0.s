@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef jpegcam_act_helper_helper_helper_helper_helper_80063CD0
-jpegcam_act_helper_helper_helper_helper_helper_80063CD0:
+	xdef jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0
+jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0:
 	dw 0x8C8D0084 ; 0x80063CD0
 	dw 0x00005821 ; 0x80063CD4
 	dw 0x3C02800C ; 0x80063CD8

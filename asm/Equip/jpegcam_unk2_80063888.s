@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef jpegcam_80063888
-jpegcam_80063888:
+	xdef jpegcam_unk2_80063888
+jpegcam_unk2_80063888:
 	dw 0x27BDFFE8 ; 0x80063888
 	dw 0x3C028001 ; 0x8006388C
 	dw 0xAFBF0010 ; 0x80063890
