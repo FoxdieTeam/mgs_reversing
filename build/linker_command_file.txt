@@ -2332,4 +2332,9 @@ group_gUnkMaybeCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_
 group_gHomingTargets_800B8230    group bss,org($800B8230)
     section .gHomingTargets_800B8230, group_gHomingTargets_800B8230
 
+group_stru_800BDE78    group bss,org($800BDE78)
+    section .stru_800BDE78, group_stru_800BDE78
+
+
+
     regs    pc=__SN_ENTRY_POINT_80098E6C
