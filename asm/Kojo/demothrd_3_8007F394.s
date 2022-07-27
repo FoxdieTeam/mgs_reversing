@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_8007F394
-demothrd_8007F394:
+	xdef demothrd_3_8007F394
+demothrd_3_8007F394:
 	dw 0x27BDFFE8 ; 0x8007F394
 	dw 0xAFBF0010 ; 0x8007F398
 	dw 0x00803021 ; 0x8007F39C

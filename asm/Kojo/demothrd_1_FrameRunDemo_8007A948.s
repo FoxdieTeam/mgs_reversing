@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef FrameRunDemo_8007A948
-FrameRunDemo_8007A948:
+	xdef demothrd_1_FrameRunDemo_8007A948
+demothrd_1_FrameRunDemo_8007A948:
 	dw 0x27BDFFB0 ; 0x8007A948
 	dw 0xAFB40040 ; 0x8007A94C
 	dw 0x00A0A021 ; 0x8007A950

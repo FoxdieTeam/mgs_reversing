@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_8007F350
-demothrd_8007F350:
+	xdef demothrd_1_FrameRunDemo_helper6_8007F350
+demothrd_1_FrameRunDemo_helper6_8007F350:
 	dw 0x1080000E ; 0x8007F350
 	dw 0x00000000 ; 0x8007F354
 	dw 0x10A0000C ; 0x8007F358
