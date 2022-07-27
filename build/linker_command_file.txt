@@ -1536,21 +1536,12 @@
     include "..\obj\Okajima\NewBulletEx_80076708.obj"
     include "..\obj\Okajima\sub_8007692C.obj"
     
-    include "..\obj\Okajima\chafgrnd.obj"
-    include "..\obj\Okajima\chafgrnd_act_helper_80076A6C.obj"
-    include "..\obj\Okajima\chafgrnd_act_helper_80076A98.obj"
-    include "..\obj\Okajima\chafgrnd_act_80076B28.obj"
-    include "..\obj\Okajima\chafgrnd_loader_80077014.obj"
-    include "..\obj\Okajima\chafgrnd_kill_8007721C.obj"
-    include "..\obj\Okajima\NewChaffGrd_80077264.obj"
+	; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
+	include "..\obj\Okajima\chafgrnd.obj"
 
-    include "..\obj\Takabe\goggle_8007743C.obj"
-    include "..\obj\Takabe\goggle_act_helper_800774C0.obj"
-    include "..\obj\Takabe\goggle_act_800775B4.obj"
-    include "..\obj\Takabe\goggle_kill_800776AC.obj"
-    include "..\obj\Takabe\goggle_loader_8007773C.obj"
-    include "..\obj\Takabe\NewGoggle_8007781C.obj"
-    
+	; 8007743C 800774C0 800775B4 800776AC 8007773C 8007781C
+	include "..\obj\Takabe\goggle.obj"    
+
     include "..\obj\Equip\gglmng_act_800778B4.obj"
     include "..\obj\Equip\gglmng_kill_80077988.obj"
     include "..\obj\Equip\gglmng_init_800779B8.obj"
