@@ -1371,17 +1371,8 @@
     include "..\obj\Bullet\bakudan_8006A54C.obj"
     include "..\obj\Bullet\NewBakudan_8006A6CC.obj"
 
-    include "..\obj\jirai_loader_helper_8006A798.obj"
-    include "..\obj\jirai_act_helper_8006A8F4.obj"
-    include "..\obj\jirai_act_helper_8006A950.obj"
-    include "..\obj\jirai_act_8006AB5C.obj"
-    include "..\obj\jirai_kill_8006B05C.obj"
-    include "..\obj\jirai_loader_helper_8006B124.obj"
-    include "..\obj\jirai_loader_helper_8006B268.obj"
-    include "..\obj\jirai_loader_8006B2A4.obj"
-    include "..\obj\NewJirai_8006B48C.obj"
-    include "..\obj\jirai_loader_8006B564.obj"
-    include "..\obj\NewScenarioJirai_8006B76C.obj"
+	; 8006A798 8006A8F4 8006A950 8006AB5C 8006B05C 8006B124 8006B268 8006B2A4 8006B48C 8006B564 8006B76C
+	include "..\obj\Bullet\jirai.obj"
 
     include "..\obj\Bullet\rmissile_loader_helper4_8006B800.obj"
     include "..\obj\Bullet\rmissile_8006B888.obj"
@@ -2340,5 +2331,10 @@ group_gUnkMaybeCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_
 
 group_gHomingTargets_800B8230    group bss,org($800B8230)
     section .gHomingTargets_800B8230, group_gHomingTargets_800B8230
+
+group_stru_800BDE78    group bss,org($800BDE78)
+    section .stru_800BDE78, group_stru_800BDE78
+
+
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
