@@ -14,7 +14,7 @@ int DG_QueuePrim_80018274(DG_OBJS *pPrim)
         return -1;
     }
     idx = idx - 1;
-    pOt->mQueue[idx] = (struct DG_OBJS*)pPrim; // 58
+    pOt->mQueue[idx] = pPrim; // 58
     pOt->mFreePrimCount = idx;
     return 0;
 }

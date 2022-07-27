@@ -5,7 +5,7 @@
 SVECTOR* sub_8001AD28(SVECTOR *a1, int count);
 
 // read vecs from spad
-unsigned char* sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
+unsigned short* sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
 
 extern int  GV_Clock_800AB920;
 

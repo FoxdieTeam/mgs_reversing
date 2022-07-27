@@ -19,7 +19,7 @@ void kogaku2_kill_helper_80061384(int param_1)
     iVar1 = **(int **)(param_1 + 0x20);
     iVar2 = iVar1 + 0x48;
     iVar3 = (int) *(short *)(iVar1 + 0x2e);
-    *(unsigned int *)(iVar1 + 0x28) = *(unsigned int *)(iVar1 + 0x28) & 0x80 | *(unsigned int *)(param_1 + 0x28) & 0xffffff7f;
+    *(unsigned int *)(iVar1 + 0x28) = (*(unsigned int *)(iVar1 + 0x28) & 0x80) | (*(unsigned int *)(param_1 + 0x28) & 0xffffff7f);
     while (0 < iVar3)
     {
         DG_WriteObjPacketUV_8001A774(iVar2, 0);

@@ -85,7 +85,7 @@ void GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec)
 
 unsigned int GV_DiffDirU_80017040(int param_1, int param_2)
 {
-    return param_2 - param_1 & 0xfff;
+    return (param_2 - param_1) & 0xfff;
 }
 
 int GV_DiffDirS_8001704C(int param_1, int param_2)

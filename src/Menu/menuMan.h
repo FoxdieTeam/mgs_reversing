@@ -208,7 +208,7 @@ typedef struct      Actor_MenuMan
     short           field_210;
     short           field_212;
     int             field_214_font;
-    int             field_218;
+    menu_chara_struct * field_218;
     int             field_21C;
     int             field_220;
 } MenuMan;

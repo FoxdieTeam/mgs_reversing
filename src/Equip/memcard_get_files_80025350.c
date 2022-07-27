@@ -79,7 +79,7 @@ void memcard_hwcard_read_write_handler_8002546C(int op)
         gMemCard_io_size_800B5648 -= 128;
         if ( !gMemCard_io_size_800B5648 )
         {
-            gHwCard_do_op_800B52E8 = memcard_hwcard_do_op_800244DC;
+            gHwCard_do_op_800B52E8 = (TMemCardFunc)memcard_hwcard_do_op_800244DC;
         }
     }
     else
@@ -102,7 +102,7 @@ void memcard_swcard_read_write_handler_800254D4(int op)
     {
         mts_printf_8008BBA0(aErrorMemcardRe);
     }
-    gSwCard_do_op_800B52EC = memcard_swcard_do_op_800244EC;
+    gSwCard_do_op_800B52EC = (TMemCardFunc)memcard_swcard_do_op_800244EC;
 }
 
 void memcard_set_read_write_8002551C(int fileSize)

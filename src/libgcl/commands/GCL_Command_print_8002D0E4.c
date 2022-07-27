@@ -7,9 +7,9 @@ extern const char aD_3[];
 extern const char asc_800AB428[];
 
 extern void     mts_printf_8008BBA0(const char*, ...);
-unsigned char*  GCL_GetNextValue_8002069C(unsigned char* pScript, int* ppScript, int* pRet);
+/* unsigned char*  GCL_GetNextValue_8002069C(unsigned char* pScript, int* ppScript, int* pRet); */
 
-int GCL_Command_print_8002D0E4(int argc, char **argv)
+int GCL_Command_print_8002D0E4(unsigned char *argc, char **argv) // argc ??
 {
     int code;
     int value;

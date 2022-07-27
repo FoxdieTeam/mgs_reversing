@@ -1,5 +1,5 @@
-
 #include "linker.h"
+#include "libdg.h"
 #include "dgd.h"
 
 
@@ -50,7 +50,7 @@ void DG_DrawSyncCallback_80017984(void)
 }
 
 //guessed function name
-void DG_SetChanlOrderingTable_800179A8(DG_CHNL *pStruct, unsigned char *pOtBuffer, unsigned int otLen, void **pQueue, short queueSize, short param_6, short param_7)
+void DG_SetChanlOrderingTable_800179A8(DG_CHNL *pStruct, unsigned char *pOtBuffer, unsigned int otLen, DG_OBJS **pQueue, short queueSize, short param_6, short param_7)
 {
     unsigned char* pEnd = pOtBuffer + ((((1 << (otLen))) + 1) * 4); // TODO: Aligning the end ptr? Also not sure if type is correct
     pStruct->mOrderingTables[0] = pOtBuffer;
@@ -112,7 +112,7 @@ void DG_InitChanlSystem_80017B98(int width)
     DrawSyncCallback_8008F76C(DG_DrawSyncCallback_80017984);
     dword_800AB978 = width;
     ptr = DG_Chanls_800B1800;
-    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char*)dword_800B0630, 5, (void**)dword_800B0F60, 8, -1, 1);
+    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char*)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
     DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
     drawEnv.isbg = 1;
     DG_SetChanlDrawEnv_800179F4(ptr, &drawEnv, 1);
@@ -120,7 +120,7 @@ void DG_InitChanlSystem_80017B98(int width)
     DG_CopyChanlDrawEnv_80017B30(ptr, 1);
 
     ptr++;
-    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char*)dword_800B0740, 8, (void**)dword_800B0F80, 256, 16, 1);
+    DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char*)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
     DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
     drawEnv.ofs[0] = 160;
     drawEnv.ofs[1] = 112;

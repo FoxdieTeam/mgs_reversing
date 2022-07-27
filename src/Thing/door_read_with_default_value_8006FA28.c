@@ -15,6 +15,8 @@ void door_loader_t_param_sub_8006F748(
     int param_v);
 
 
+extern void door_init_t_value_8006F7AC(struct Actor_Door *pDoor, struct Actor_Door_TParam *pOffset,
+    short, int, int);
 void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v)
 {
     int param_w_alternating;

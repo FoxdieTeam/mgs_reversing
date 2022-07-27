@@ -47,7 +47,7 @@ Actor_Grenade *grenade_init_80066944(Unknown_Grenade_Member *a1, OBJECT *parent_
             return 0;
         }
         
-        actor_grenade->f20 = a1->a;
+        actor_grenade->f20 = (int)a1->a;
         actor_grenade->f24_parent_obj = parent_obj;
         actor_grenade->f4c = num_parent;
         actor_grenade->f50 = a4;

@@ -1360,6 +1360,8 @@ void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int a2)
 }
 */
 
+extern void sub_8004FAE8(Actor_SnaInit *pActor);
+
 void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int a2)
 {
     GM_Target *field_8E8_pTarget; // $s0
