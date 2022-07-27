@@ -1,11 +1,11 @@
-#include "idaTypes.h"
-#include "actor.h"
+#include "jirai.h"
+
 
 extern const char   aJiraiC[];
 
-extern int          jirai_act_8006AB5C(int a1);
-extern int          jirai_kill_8006B05C(int a1);
-extern int          jirai_loader_8006B564(struct Actor *pActor, int a2, int a3);
+extern int          jirai_act_8006AB5C(Actor_Jirai *pActor);
+extern int          jirai_kill_8006B05C(Actor_Jirai *pActor);
+extern int          jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
 
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s")
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s")
@@ -18,22 +18,17 @@ extern int          jirai_loader_8006B564(struct Actor *pActor, int a2, int a3);
 #pragma INCLUDE_ASM("asm/NewJirai_8006B48C.s")
 #pragma INCLUDE_ASM("asm/jirai_loader_8006B564.s")
 
-struct Actor *NewScenarioJirai_8006B76C(int arg0, int arg1)
+Actor_Jirai* NewScenarioJirai_8006B76C(int a1, int where)
 {
-    struct Actor *actor;
-
-    actor = GV_NewActor_800150E4(6, 0x154);
-    if (actor)
+    Actor_Jirai *pActor = (Actor_Jirai *)GV_NewActor_800150E4(6, sizeof(Actor_Jirai));
+    if ( pActor )
     {
-        GV_SetNamedActor_8001514C(actor,
-                            (TActorFunction)&jirai_act_8006AB5C,
-                            (TActorFunction)&jirai_kill_8006B05C,
-                            aJiraiC);
-        if (jirai_loader_8006B564(actor, arg0, arg1) < 0)
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C, (TActorFunction)jirai_kill_8006B05C, aJiraiC);
+        if (jirai_loader_8006B564(pActor, a1, where) < 0)
         {
-            GV_DestroyActor_800151C8(actor);
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;
         }
     }
-    return actor;
+    return &pActor->field_0_actor;
 }
