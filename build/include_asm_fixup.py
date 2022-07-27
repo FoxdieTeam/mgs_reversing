@@ -103,8 +103,8 @@ def fix_obj(obj_to_fix, output_obj, deps):
     # EL hacko - copy input to output obj
     shutil.copy2(obj_to_fix, output_obj)
 
-    if fixed_funcs > 0:
-        print(f'Fixed {fixed_funcs} IMPORT_ASM funcs in obj:', obj_to_fix)
+    # if fixed_funcs > 0:
+    #     print(f'Fixed {fixed_funcs} IMPORT_ASM funcs in obj:', obj_to_fix)
 
 def main(input_obj, output_obj, deps_file):
     deps = []
