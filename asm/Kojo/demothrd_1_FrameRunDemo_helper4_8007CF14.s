@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_8007CF14
-demothrd_8007CF14:
+	xdef demothrd_1_FrameRunDemo_helper4_8007CF14
+demothrd_1_FrameRunDemo_helper4_8007CF14:
 	dw 0x27BDFFE0 ; 0x8007CF14
 	dw 0xAFBF0018 ; 0x8007CF18
 	dw 0xAFB10014 ; 0x8007CF1C
