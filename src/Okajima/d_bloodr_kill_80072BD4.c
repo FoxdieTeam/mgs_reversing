@@ -2,9 +2,9 @@
 
 void d_bloodr_kill_80072BD4(int param_1)
 {
-    int prim;
+    DG_OBJS *prim;
 
-    prim = *(int *)(param_1 + 0x20);
+    prim = *(DG_OBJS **)(param_1 + 0x20);
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);

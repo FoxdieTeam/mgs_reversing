@@ -76,7 +76,7 @@ void sna_init_fn_80056A1C(Actor_SnaInit *pActor);
 void sna_init_fn_80052540(Actor_SnaInit *pActor);
 void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2);
 void sna_init_80050568(Actor_SnaInit *pActor);
-int sna_init_80050398(Actor_SnaInit *pActor);
+int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor);
 void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int a2);
 void sub_80050668(Actor_SnaInit *pActor);
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2);
@@ -212,7 +212,47 @@ void sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 	}
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004E458.s")
+// ... categorize move/turn direction by angle?
+// param_1: snake->field_20_ctrl.field_4C_turn_vec.vy
+// param_2: _dword_800ABBA4_snake_move_angle (guessed name)
+int sub_8004E458(short param_1, int param_2)
+{
+    short uVar2;
+
+     if ( param_2 < 0 )
+    {
+        return 0;
+    }
+    
+    uVar2 = (param_2 - param_1) & 0xFFF;
+    
+    if ( uVar2 < 0x800 )
+    {
+        if ( uVar2 < 0x100)
+        {
+            return 1;
+        }
+        else if ( uVar2 > 0x500)
+        {
+            return 3;
+        }
+
+        return 4;
+    }
+    else
+    {
+        if ( uVar2 > 0xF00)
+        {
+            return 1;
+        }
+        else if ( uVar2 < 0xB00 )
+        {
+            return 3;
+        }
+
+        return 2;
+    }
+}
 
 int sub_8004E4C0(int unused, int param_2)
 {
@@ -475,7 +515,7 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")
 #pragma INCLUDE_ASM("asm/sub_800501F8.s")
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
-#pragma INCLUDE_ASM("asm/sna_init_80050398.s")
+#pragma INCLUDE_ASM("asm/sna_init_prone_check_standup_80050398.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050440.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050568.s")
 #pragma INCLUDE_ASM("asm/sub_80050668.s")
@@ -824,7 +864,7 @@ void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2)
     if ( !GM_CheckPlayerStatusFlag_8004E29C(2) && a2 >= 16 )
     {
         GM_ClearPlayerStatusFlag_8004E2D4(0x20008000);
-        if ( sna_init_80050398(pActor) )
+        if ( sna_init_prone_check_standup_80050398(pActor) )
         {
             sna_init_8004F2EC(pActor);
             sna_init_clear_flags_8004E308(pActor, 0x236);

@@ -22,7 +22,7 @@ void DG_8001B254(DG_PRIM *pDGPrim)
 {
     SVECTOR *pVec = pDGPrim->field_38_pUnknown;
     int n_prims = (signed short)pDGPrim->n_prims;
-    unsigned char *pPrims = (unsigned char*)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
+    short *pPrims = (short*)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
     
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS)
