@@ -1,10 +1,14 @@
 #import _mgsi.map
 #@category _MGS
 
+import os
+
 code_start = 0x800148B8
 code_end = 0x8009D2DB
 
-f = open(r'/home/thomas/psx/re/mgs/mgs_reversing/obj/asm.map')
+root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../../'))
+
+f = open(os.path.join(root_dir, 'obj/asm.map'))
 lines = f.readlines()
 
 for line in lines:

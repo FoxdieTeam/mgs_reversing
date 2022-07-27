@@ -1,3 +1,5 @@
+#@category _MGS
+
 """
 Instructions:
 
@@ -50,7 +52,6 @@ Instructions:
 4. Change the root_dir and run it from Ghidra's Script Manager.
 """
 
-#@category _MGS
 import os
 import sys
 import string
@@ -59,7 +60,7 @@ from ghidra.program.model.data import ArrayDataType, DataUtilities
 
 dtm = currentProgram.getDataTypeManager()
 
-root_dir = r'/home/thomas/psx/re/mgs/mgs_reversing'
+root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../../'))
 
 symbol_address_map = { }
 
