@@ -727,7 +727,7 @@
     include "..\obj\Game\delay.obj"
 	
     ; 8003330C 80033384 800333F8 80033500 80033560 800335D0 800336A4 80033704 80033784 80033F88 80034020 800340D0 800344F8 800345C0 80034758
-	include "..\obj\item.obj"    
+	include "..\obj\Game\item.obj"    
     
     include "..\obj\Game\sub_80034834.obj"
     
