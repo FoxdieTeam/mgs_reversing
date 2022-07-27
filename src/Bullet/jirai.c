@@ -7,6 +7,17 @@ extern int          jirai_act_8006AB5C(int a1);
 extern int          jirai_kill_8006B05C(int a1);
 extern int          jirai_loader_8006B564(struct Actor *pActor, int a2, int a3);
 
+#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s")
+#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s")
+#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s")
+#pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s")
+#pragma INCLUDE_ASM("asm/jirai_kill_8006B05C.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006B124.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006B268.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_8006B2A4.s")
+#pragma INCLUDE_ASM("asm/NewJirai_8006B48C.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_8006B564.s")
+
 struct Actor *NewScenarioJirai_8006B76C(int arg0, int arg1)
 {
     struct Actor *actor;
