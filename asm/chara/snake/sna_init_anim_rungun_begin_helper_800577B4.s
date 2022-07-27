@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800577B4
-sub_800577B4:
+	xdef sna_init_anim_rungun_begin_helper_800577B4
+sna_init_anim_rungun_begin_helper_800577B4:
 	dw 0x27BDFFE8 ; 0x800577B4
 	dw 0xAFB00010 ; 0x800577B8
 	dw 0x00808021 ; 0x800577BC

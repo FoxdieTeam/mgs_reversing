@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80057FD4
-sub_80057FD4:
+	xdef sna_init_anim_psg1_helper_80057FD4
+sna_init_anim_psg1_helper_80057FD4:
 	dw 0x27BDFFE0 ; 0x80057FD4
 	dw 0xAFB00010 ; 0x80057FD8
 	dw 0x00808021 ; 0x80057FDC

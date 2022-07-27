@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80049E94
-sub_80049E94:
+	xdef init_file_mode_helper_helper_helper3_80049E94
+init_file_mode_helper_helper_helper3_80049E94:
 	dw 0x27BDFFE8 ; 0x80049E94
 	dw 0x00802821 ; 0x80049E98
 	dw 0x3C048001 ; 0x80049E9C

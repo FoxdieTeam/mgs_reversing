@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80058780
-sub_80058780:
+	xdef sna_init_anim_claymore_helper_80058780
+sna_init_anim_claymore_helper_80058780:
 	dw 0x27BDFFE0 ; 0x80058780
 	dw 0xAFB00010 ; 0x80058784
 	dw 0x00808021 ; 0x80058788

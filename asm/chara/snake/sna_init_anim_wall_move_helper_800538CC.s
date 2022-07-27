@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800538CC
-sub_800538CC:
+	xdef sna_init_anim_wall_move_helper_800538CC
+sna_init_anim_wall_move_helper_800538CC:
 	dw 0x27BDFFE0 ; 0x800538CC
 	dw 0xAFB00010 ; 0x800538D0
 	dw 0x00808021 ; 0x800538D4

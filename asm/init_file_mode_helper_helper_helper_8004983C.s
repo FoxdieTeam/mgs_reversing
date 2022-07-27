@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8004983C
-sub_8004983C:
+	xdef init_file_mode_helper_helper_helper_8004983C
+init_file_mode_helper_helper_helper_8004983C:
 	dw 0x27BDFFB8 ; 0x8004983C
 	dw 0xAFB60038 ; 0x80049840
 	dw 0x0080B021 ; 0x80049844

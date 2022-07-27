@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800537D4
-sub_800537D4:
+	xdef sna_init_anim_wall_idle_and_c4_helper_800537D4
+sna_init_anim_wall_idle_and_c4_helper_800537D4:
 	dw 0x27BDFFE0 ; 0x800537D4
 	dw 0xAFB00010 ; 0x800537D8
 	dw 0x00808021 ; 0x800537DC

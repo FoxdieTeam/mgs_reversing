@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80058378
-sub_80058378:
+	xdef sna_init_anim_stinger_helper_80058378
+sna_init_anim_stinger_helper_80058378:
 	dw 0x27BDFFE0 ; 0x80058378
 	dw 0xAFB00010 ; 0x8005837C
 	dw 0x00808021 ; 0x80058380

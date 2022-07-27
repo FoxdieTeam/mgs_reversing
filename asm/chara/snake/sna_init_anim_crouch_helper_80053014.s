@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80053014
-sub_80053014:
+	xdef sna_init_anim_crouch_helper_80053014
+sna_init_anim_crouch_helper_80053014:
 	dw 0x27BDFFD8 ; 0x80053014
 	dw 0xAFB00018 ; 0x80053018
 	dw 0x00808021 ; 0x8005301C

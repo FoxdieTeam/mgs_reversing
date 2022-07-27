@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80053A54
-sub_80053A54:
+	xdef sna_init_anim_wall_crouch_helper_80053A54
+sna_init_anim_wall_crouch_helper_80053A54:
 	dw 0x27BDFFD8 ; 0x80053A54
 	dw 0xAFB1001C ; 0x80053A58
 	dw 0x00808821 ; 0x80053A5C

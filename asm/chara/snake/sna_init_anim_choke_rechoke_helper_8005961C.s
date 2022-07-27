@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8005961C
-sub_8005961C:
+	xdef sna_init_anim_choke_rechoke_helper_8005961C
+sna_init_anim_choke_rechoke_helper_8005961C:
 	dw 0x27BDFFE8 ; 0x8005961C
 	dw 0xAFB00010 ; 0x80059620
 	dw 0x00808021 ; 0x80059624
