@@ -89,7 +89,26 @@ void Chain_Add_8007F350(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pAdd)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_3_8007F394.s")
+void Chain_Remove_8007F394(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pRemove)
+{
+    Actor_demothrd_sub * pPrev;
+    
+    if (pRoot && pRemove)
+    {
+        pPrev = pRemove->field_0_pPrev == pRoot;
+        if (pPrev)
+        {
+          pRoot->field_4_pNext = pRemove->field_4_pNext;
+        }
+        else
+        {
+          pRemove->field_0_pPrev->field_4_pNext = pRemove->field_4_pNext;
+        }
+        pRemove->field_4_pNext->field_0_pPrev = pRemove->field_0_pPrev;
+        InitChain_8007F338(pRemove);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007F3F8.s")
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper_8007FB90.s")
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper2_8007FDD8.s")
