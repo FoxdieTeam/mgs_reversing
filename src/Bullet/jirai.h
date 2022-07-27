@@ -38,7 +38,7 @@ typedef struct Actor_Jirai
   int field_128;
   int field_12C;
   int field_130;
-  int field_134_gcl_arg;
+  long field_134_gcl_arg;
   int field_138_gcl;
   int field_13C_idx;
   int field_140;
