@@ -19,3 +19,10 @@ void chafgrnd_init_tiles_800769EC(TILE* a1)
         pIter++;
     }
 }
+
+#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_helper_80076A6C.s")
+#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_helper_80076A98.s")
+#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_80076B28.s")
+#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_loader_80077014.s")
+#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_kill_8007721C.s")
+#pragma INCLUDE_ASM("asm/Okajima/NewChaffGrd_80077264.s")
