@@ -74,11 +74,16 @@ ninja.pool("single_threaded", 1)
 
 includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir -I $src_dir\\font -I $src_dir\\memcard -I $src_dir\\chara\\snake -I $src_dir\\Thing -I $src_dir\\data\\data -I $src_dir\\data\\rdata -I $src_dir\\data\\sdata -I $src_dir\\libgv -I $src_dir\\libgcl -I $src_dir\\libdg -I $src_dir\\Game -I $src_dir\\Menu -I $src_dir\\mts -I $src_dir\\map -I $src_dir\\util"
 
-# NOTE: -M option will write header deps
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
-# note: removed deps="msvc" as it adds header edges to the graph for the NEXT build
+# generate header deps, adds edges to the build graph for the next build -M option will write header deps
+ninja.rule("psyq_c_preprocess_44_headers", "$psyq_c_preprocessor_44_exe -M -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess for includes $in -> $out")
+ninja.newline()
+
+ninja.rule("header_deps", "python $src_dir/../build/hash_include_msvc_formatter.py $in $out", "Include deps fix $in -> $out", deps="msvc")
+ninja.newline()
+
 ninja.rule("asm_include_preprocess_44", "python $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
 
@@ -169,6 +174,8 @@ def gen_build_target(targetName):
     for cFile in cFiles:
         cFile = cFile.replace("\\", "/")
         cOFile = cFile.replace("/src/", "/obj/")
+        cPreProcHeadersFile = cOFile.replace(".c", ".c.preproc.headers")
+        cPreProcHeadersFixedFile = cOFile.replace(".c", ".c.preproc.headers_fixed")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
         cDynDepFile = cOFile.replace(".c", ".c.dyndep")
         cAsmPreProcFile = cOFile.replace(".c", ".c.asm.preproc")
@@ -178,19 +185,23 @@ def gen_build_target(targetName):
         cOFile = cOFile.replace(".c", ".obj")
         #print("Build step " + asmFile + " -> " + asmOFile)
         if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
+            ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
+            ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
             if cFile.find("/Equip/") != -1 or cFile.find("/Bullet/") != -1:
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
             else:
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
             ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         else:
             #print("43:" + cFile)
+            ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
+            ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"})
+            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
             ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         linkerDeps.append(cOFile)
