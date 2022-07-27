@@ -1423,18 +1423,9 @@
     include "..\obj\sub_8006E4A4.obj"
     include "..\obj\sub_8006E6CC.obj"
 
-    include "..\obj\Thing\door_send_msg_8006EC10.obj"
-    include "..\obj\Thing\door_open_8006ECB8.obj"
-    include "..\obj\Thing\door_close_8006ED48.obj"
-    include "..\obj\Thing\door_act_helper_8006EDB8.obj"
-    include "..\obj\Thing\door_act_helper_8006F184.obj"
-    include "..\obj\Thing\door_act_helper_8006F290.obj"
-    include "..\obj\Thing\door_act_8006F318.obj"
-    include "..\obj\Thing\door_loader_t_param_sub_8006F748.obj"
-    include "..\obj\Thing\door_init_t_value_8006F7AC.obj"
-    include "..\obj\Thing\door_read_with_default_value_8006FA28.obj"
-    include "..\obj\Thing\door_loader_8006FA60.obj"
-    include "..\obj\Equip\NewDoor_8006FD00.obj"
+	; 8006EC10 8006ECB8 8006ED48 8006EDB8 8006F184 8006F290 8006F318 8006F748 8006F7AC 8006FA28 8006FA60 8006FD00
+	include "..\obj\Thing\door.obj"
+    
     include "..\obj\Thing\HZD_QueueDynamicSegment2_8006FDDC.obj"
     include "..\obj\sub_8006FE44.obj"
     include "..\obj\HZD_SetDynamicSegment_8006FEE4.obj"
