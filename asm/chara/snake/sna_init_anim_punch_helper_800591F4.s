@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800591F4
-sub_800591F4:
+	xdef sna_init_anim_punch_helper_800591F4
+sna_init_anim_punch_helper_800591F4:
 	dw 0x27BDFFC8 ; 0x800591F4
 	dw 0xAFB1002C ; 0x800591F8
 	dw 0x00808821 ; 0x800591FC

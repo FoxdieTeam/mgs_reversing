@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80057590
-sub_80057590:
+	xdef sna_init_anim_shoot_weapon_helper_80057590
+sna_init_anim_shoot_weapon_helper_80057590:
 	dw 0x27BDFFE0 ; 0x80057590
 	dw 0xAFB00010 ; 0x80057594
 	dw 0x00808021 ; 0x80057598

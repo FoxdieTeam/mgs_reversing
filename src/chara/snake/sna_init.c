@@ -83,7 +83,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2);
 void sna_init_gun_800540D0(Actor_SnaInit *pActor, int a2);
 void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2);
 void sub_80057BF0(Actor_SnaInit *pActor, int a2);
-void sub_80057590(Actor_SnaInit *pActor);
+void sna_init_anim_shoot_weapon_helper_80057590(Actor_SnaInit *pActor);
 void sub_8005688C(Actor_SnaInit *pActor);
 void sub_80052468(Actor_SnaInit *pActor);
 void sna_init_8005684C(Actor_SnaInit *pActor);
@@ -91,8 +91,8 @@ void sub_80054424(Actor_SnaInit *pActor, int a2);
 void sub_80053E9C(Actor_SnaInit *pActor, int a2);
 void sub_8005684C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2);
-void sub_800591F4(Actor_SnaInit *pActor, int a2);
-void sub_8005951C(Actor_SnaInit *pActor);
+void sna_init_anim_punch_helper_800591F4(Actor_SnaInit *pActor, int a2);
+void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int a2);
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
@@ -1130,7 +1130,7 @@ void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
 {
     if ( !a2 )
     {
-        pActor->field_9C8 = sub_80057590;
+        pActor->field_9C8 = sna_init_anim_shoot_weapon_helper_80057590;
         pActor->field_9CC = sna_init_fn_nothing_80053B80;
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_1, 4);
         GM_ClearPlayerStatusFlag_8004E2D4(16);
@@ -1145,7 +1145,7 @@ void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/sna_init_80057118.s")
 #pragma INCLUDE_ASM("asm/sna_init_800571B8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_80057474.s")
-#pragma INCLUDE_ASM("asm/sub_80057590.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_helper_80057590.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_begin_helper_800577B4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s")
 
@@ -1238,7 +1238,7 @@ void sna_init_anim_punch_800058C10(Actor_SnaInit *pActor, int a2)
 {
     if ( !a2 )
     {
-        pActor->field_9C8 = sub_800591F4;
+        pActor->field_9C8 = sna_init_anim_punch_helper_800591F4;
         pActor->field_9CC = sna_init_fn_nothing_80053B80;
         GM_ClearPlayerStatusFlag_8004E2D4(16);
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_2, 1);
@@ -1326,7 +1326,7 @@ void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2)
 
     if ( !a2 )
     {
-        pActor->field_9C8 = sub_8005951C;
+        pActor->field_9C8 = sna_init_anim_choke_helper_8005951C;
         pActor->field_9CC = sna_init_fn_nothing_80053B80;
 
         action_flag = pActor->field_9B4_action_table->field_18->field_0;
@@ -1399,8 +1399,8 @@ void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_drag_80059054.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_hold_80059154.s")
 #pragma INCLUDE_ASM("asm/sub_800591BC.s")
-#pragma INCLUDE_ASM("asm/sub_800591F4.s")
-#pragma INCLUDE_ASM("asm/sub_8005951C.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_helper_8005951C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_helper_8005961C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_800596FC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")
