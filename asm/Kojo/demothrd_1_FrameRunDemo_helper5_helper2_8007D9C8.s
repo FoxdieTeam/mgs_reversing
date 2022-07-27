@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_8007D9C8
-demothrd_8007D9C8:
+	xdef demothrd_1_FrameRunDemo_helper5_helper2_8007D9C8
+demothrd_1_FrameRunDemo_helper5_helper2_8007D9C8:
 	dw 0x8CE401A0 ; 0x8007D9C8
 	dw 0x00000000 ; 0x8007D9CC
 	dw 0x8C830008 ; 0x8007D9D0

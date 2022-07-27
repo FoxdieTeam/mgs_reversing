@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_8007DA94
-demothrd_8007DA94:
+	xdef demothrd_2_8007DA94
+demothrd_2_8007DA94:
 	dw 0x27BDFF80 ; 0x8007DA94
 	dw 0xAFB60078 ; 0x8007DA98
 	dw 0x0080B021 ; 0x8007DA9C
