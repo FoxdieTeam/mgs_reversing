@@ -10,8 +10,6 @@ from ninja import _program as ninja_run
 # local copy as the pip version doesn't have dyndeps in build() func
 import ninja_syntax
 
-print(ninja_syntax.__file__ )
-
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MGS Ninja build script generator')
 
@@ -111,7 +109,7 @@ ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
-ninja.rule("cpe2exe", "$psyq_path/psyq_4.3/bin/cpe2exe.exe -CJ $in", "cpe2exe $in -> $out")
+ninja.rule("cpe2exe", "$psyq_path/psyq_4.3/bin/cpe2exe.exe -CJ $in > NUL", "cpe2exe $in -> $out")
 ninja.newline()
 
 ninja.rule("hash_check", "python $src_dir/../build/compare.py $in", "Hash check $in")
