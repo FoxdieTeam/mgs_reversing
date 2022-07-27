@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_80080C20
-demothrd_80080C20:
+	xdef demothrd_4_helper_80080C20
+demothrd_4_helper_80080C20:
 	dw 0x27BDFFE0 ; 0x80080C20
 	dw 0xAFB00010 ; 0x80080C24
 	dw 0x00808021 ; 0x80080C28

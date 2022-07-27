@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_8007FB90
-demothrd_8007FB90:
+	xdef demothrd_4_helper_helper_8007FB90
+demothrd_4_helper_helper_8007FB90:
 	dw 0x27BDFFE0 ; 0x8007FB90
 	dw 0xAFB00010 ; 0x8007FB94
 	dw 0x00808021 ; 0x8007FB98
