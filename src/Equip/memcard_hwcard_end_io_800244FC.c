@@ -76,8 +76,8 @@ void memcard_swcard_new_80024664()
 
 void memcard_set_sw_hw_card_fns_8002469C()
 {
-    gHwCard_do_op_800B52E8 = memcard_hwcard_do_op_800244DC;
-    gSwCard_do_op_800B52EC = memcard_swcard_do_op_800244EC;
+    gHwCard_do_op_800B52E8 = (TMemCardFunc)memcard_hwcard_do_op_800244DC;
+    gSwCard_do_op_800B52EC = (TMemCardFunc)memcard_swcard_do_op_800244EC;
 }
 
 extern const char aEasyFormatTest[];
@@ -117,7 +117,7 @@ int memcard_easy_format_test_800246C0(int hCard)
         mts_wait_vbl_800895F4(1);
     } while (!gHwCardLastOp_800B52F4);
 
-    if (gHwCardLastOp_800B52F4 != 1)
+    if (gHwCardLastOp_800B52F4 != (volatile TMemCardSetFunc)1) // ?
     {
         mts_printf_8008BBA0(aCardError);
         return 2;

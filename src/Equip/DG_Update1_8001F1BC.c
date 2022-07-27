@@ -25,7 +25,7 @@ extern int GM_GameStatus_800AB3CC;
 extern int dword_8009D468;
 extern int GM_PlayerStatus_800ABA50;
 extern int DG_FrameRate_8009D45C;
-extern short* GM_CurrentPadData_800AB91C;
+extern GV_PAD* GM_CurrentPadData_800AB91C;
 
 extern GV_PAD GV_PadData_800B05C0[4];
 

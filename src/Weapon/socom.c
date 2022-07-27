@@ -128,7 +128,7 @@ int socom_act_helper_80065408(Actor_Socom *pActor)
     DG_SetPos_8001BC44(&pActor->field_48_parent_object->objs->objs[pActor->field_4C_obj_idx].world);
     DG_PutVector_8001BE48(stru_8009F3D4, vecs, 2);
     field_2C_map = pActor->field_44_pCtrl->field_2C_map;
-    if ( sub_80028454((int)field_2C_map->field_8_hzd, vecs, &vecs[1], 15, 4) )
+    if ( sub_80028454(field_2C_map->field_8_hzd, vecs, &vecs[1], 15, 4) )
     {
         sub_80028890(&vecs[1]);
         bCalcLen = 1;
