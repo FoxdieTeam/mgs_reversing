@@ -1,10 +1,5 @@
-#include "linker.h"
-#include "gcl.h"
-#include "kernel.h"
-#include "game.h"
-#include "libdg.h"
+#include "item.h"
 
-extern void GM_FreeControl_800260CC(int param_1);
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")
@@ -13,6 +8,7 @@ extern void GM_FreeObject_80034BF8(OBJECT *obj);
 #pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown2_80033500.s")
 #pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown_80033560.s")
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s")
+
 
 void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 {
@@ -49,32 +45,36 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_80033704.s")
 #pragma INCLUDE_ASM("asm/Game/item_act_80033784.s")
 
-void item_kill_80033F88(int param_1)
+void item_kill_80033F88(Actor_Item* pActor)
 {
-    char *pScript;
-    DG_OBJS *iVar2;
+    DG_PRIM *field_15C_pPrim; // $s0
+    unsigned char *field_120_pScript; // $a0
 
-    GM_FreeControl_800260CC(param_1 + 0x20);
-    GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x9c));
-    iVar2 = *(DG_OBJS **)(param_1 + 0x15c);
-    if (iVar2 != 0)
+    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
+    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+
+    field_15C_pPrim = pActor->field_15C_pPrim;
+    if ( field_15C_pPrim )
     {
-        DG_DequeuePrim_800182E0(iVar2);
-        DG_FreePrim_8001BC04(iVar2);
+        DG_DequeuePrim_800182E0((DG_OBJS *)pActor->field_15C_pPrim);
+        DG_FreePrim_8001BC04((DG_OBJS *)field_15C_pPrim);
     }
-    if ((*(char *)(param_1 + 0x112) == '\x02') &&
-        (pScript = *(char **)(param_1 + 0x120),  pScript != NULL))
+
+    if ( pActor->field_112_state == 2 )
     {
-        if ((int)pScript < 0)
+        field_120_pScript = pActor->field_120_pScript;
+        if ( field_120_pScript )
         {
-            GCL_ExecBlock_80020118(pScript, NULL);
-        }
-        else 
-        {
-            GCL_ExecProc_8001FF2C((unsigned int)pScript, NULL);
+            if ( (int)field_120_pScript < 0 )
+            {
+                GCL_ExecBlock_80020118(field_120_pScript, 0);
+            }
+            else
+            {
+                GCL_ExecProc_8001FF2C((int)field_120_pScript, 0);
+            }
         }
     }
-    return;
 }
 
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s")
