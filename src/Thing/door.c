@@ -16,7 +16,7 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
 void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
-// int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
+int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
@@ -158,16 +158,16 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
     }
     return defaul_val;
 }
-#pragma INCLUDE_ASM("asm/Thing/door_loader_8006FA60.s")
 
+#pragma INCLUDE_ASM("asm/Thing/door_loader_8006FA60.s")
 
 static inline void SetFlag(GM_Control *pCtrl, int flag)
 {
     pCtrl->field_55_flags |= flag;
 }
 
-// not matching, a few reg swaps
 /*
+// not matching, a few reg swaps
 int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 {
     GM_Control *pCtrl; // $s2
@@ -197,7 +197,7 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
     GM_InitObjectNoRots_800349B0((OBJECT *)&pDoor->field_9C, GCL_GetNextInt_800209E8(GCL_GetParam_80020968('m')), 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_vec, &pDoor->field_20_ctrl.field_8_vec);
+    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_vec);
     DG_PutObjs_8001BDB8(&pDoor->field_9C.objs->world);
     GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
 
@@ -241,8 +241,8 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
         //  SVECTOR *p = &v15;
         GV_DirVec2_80016F24((pCtrl->field_8_vec.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &v15);
-        pCtrl->field_0_vec.vx += v15.vx;
-        pCtrl->field_0_vec.vz += v15.vz; // lhu		$v0, 4($s0)
+        pCtrl->field_0_position.vx += v15.vx;
+        pCtrl->field_0_position.vz += v15.vz; // lhu		$v0, 4($s0)
     }
 
     pDoor->field_F2_door_counter = 0;

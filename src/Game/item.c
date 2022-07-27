@@ -1,9 +1,17 @@
 #include "item.h"
+#include "object.h"
 
 extern const char aItemC[];
 
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 extern unsigned int GM_Sound_80032968(int a1, int a2, int a3);
+
+void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
+void GM_ConfigObjectStep_80034C54( OBJECT* obj, SVECTOR* step );
+void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
+void GM_ConfigObjectJoint_80034CB4( OBJECT *obj );
+
+int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")
@@ -86,7 +94,58 @@ void item_kill_80033F88(Actor_Item* pActor)
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s")
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")
 #pragma INCLUDE_ASM("asm/Game/item_init_800344F8.s")
-#pragma INCLUDE_ASM("asm/Game/item_init_helper_800345C0.s")
+
+int item_init_helper_helper_80034020(Actor_Item *pActor, int type);
+
+int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
+{
+    
+    int type; // $s3
+
+    const char *str_name; // $v0
+
+    int i; // $v1
+
+    GM_Control* pCtrl;
+    
+    type = pItemInfo->field_4_type;
+    pActor->field_114_item_id = pItemInfo->field_6_id;
+    pActor->field_116_ammo_amount = pItemInfo->field_8_amount;
+    str_name = pItemInfo->field_0_pName;
+    pActor->field_120_pScript = 0;
+    pActor->field_118_str =  str_name;
+    if ( !item_init_helper_helper_80034020(pActor, type))
+    {
+        return -1;
+    }
+    
+    pCtrl= &pActor->field_20_ctrl;
+    if (Res_Control_init_loader_8002599C(pCtrl, 0x5D43, where) < 0 )
+    {
+        return -1;
+    }
+
+    GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
+    GM_ConfigControlInterp_80026244(pCtrl, 0);
+
+    pCtrl->field_55_flags = 3;
+    pCtrl->field_44_vec = *a3;
+    pCtrl->field_44_vec.vy = 160;
+    pCtrl->field_0_position = *pPos;
+
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*)&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
+    GM_ConfigObjectJoint_80034CB4(&pActor->field_9C_kmd);
+    GM_ConfigObjectLight_80034C44(&pActor->field_9C_kmd, &pActor->field_C8_mtx);
+    GM_ConfigObjectStep_80034C54(&pActor->field_9C_kmd, &pCtrl->field_44_vec);
+    
+    for (i = 0; i < 2; i++)
+    {
+        setLineF4(&pActor->field_124_lineF4_array[i]);
+        setRGB0(&pActor->field_124_lineF4_array[i], 255, 255, 255);
+    }
+
+    return 0;
+}
 
 Actor* item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 {
@@ -112,5 +171,5 @@ Actor* item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 
         GM_Sound_80032968(0, 63, 0xDu);
     }
-    return pActor;
+    return &pActor->field_0;
 }
