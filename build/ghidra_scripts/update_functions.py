@@ -21,7 +21,7 @@ def find_data_type(typename):
             break
     return data_type
 
-root_dir = '/home/thomas/psx/re/mgs/mgs_reversing'
+root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../../'))
 
 symbol_address_map = { }
 with open(root_dir + '/obj/asm.map') as mapfile:
