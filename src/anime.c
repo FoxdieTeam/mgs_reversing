@@ -1,15 +1,45 @@
 #include "anime.h"
+#include "GM_Control.h"
 
 Actor_anime * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct Anim_Data *param_3);
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
+extern Anim_Data stru_8009F160;
 extern Anim_Data stru_8009F17C;
 
 unsigned int GV_RandU_80017090(unsigned int input);
 
+Actor_anime* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
+{
+	signed int rnd; // $v1
+    anime_data_0x14 data;
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D604.s")
+    data.field_0_vec.vx = pMtx->t[0];
+    data.field_0_vec.vy = pMtx->t[1];
+    data.field_0_vec.vz = pMtx->t[2];
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+    data.field_10_anim_idx = 0;
+    data.field_12 = 0;
+
+    rnd = GV_RandU_80017090(16);
+    if ( rnd >= 5 )
+    {
+        data.field_12 = 2;
+    }
+    else if (rnd > 0)
+    {
+        data.field_12 = 1;
+    }
+    else
+    {
+        data.field_12 = 0;
+    }
+
+    stru_8009F160.field_14 = &data;
+    return anime_init_8005FBC8(0, 0, &stru_8009F160);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D988.s")
 
