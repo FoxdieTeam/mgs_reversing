@@ -91,7 +91,7 @@ void Chain_Add_8007F350(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pAdd)
 
 void Chain_Remove_8007F394(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pRemove)
 {
-    Actor_demothrd_sub * pPrev;
+    int pPrev;
     
     if (pRoot && pRemove)
     {
