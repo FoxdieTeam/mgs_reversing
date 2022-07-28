@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80050668
-sub_80050668:
+	xdef sna_init_knockdown_getup_80050668
+sna_init_knockdown_getup_80050668:
 	dw 0x27BDFFD8 ; 0x80050668
 	dw 0xAFB00020 ; 0x8005066C
 	dw 0x00808021 ; 0x80050670
