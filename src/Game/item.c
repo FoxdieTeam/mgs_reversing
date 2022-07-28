@@ -2,6 +2,7 @@
 #include "object.h"
 
 extern const char aItemC[];
+extern const char aItemMapD[];
 
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 extern unsigned int GM_Sound_80032968(int a1, int a2, int a3);
@@ -93,7 +94,44 @@ void item_kill_80033F88(Actor_Item* pActor)
 
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s")
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")
-#pragma INCLUDE_ASM("asm/Game/item_init_800344F8.s")
+
+int item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
+
+extern int mts_nullsub_8_8008BB98(int, const char *, ...);
+
+Actor* item_init_800344F8(int name, int where, int argc, char **argv)
+{
+    Actor_Item *pActor; // $s0
+    int inited; // $s1
+
+    pActor = (Actor_Item *)GV_NewActor_800150E4(5, sizeof(Actor_Item));
+    if ( pActor )
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)item_act_80033784, (TActorFunction)item_kill_80033F88, aItemC);
+        pActor->field_112_state = 0;
+        inited = item_init_helper_800340D0(pActor, name, where);
+        if (inited > 0)
+        {
+            pActor->field_10E = -1;
+            pActor->field_108_where = where;
+            mts_nullsub_8_8008BB98(1, aItemMapD, where);
+            pActor->field_10C_64 = 64;  
+        }
+        else
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0);
+            if (inited == 0)
+            {
+                return (Actor*)pActor;
+            }
+            else
+            {
+                return (Actor*)0;
+            }
+        }
+    }
+    return (Actor*)pActor;
+}
 
 int item_init_helper_helper_80034020(Actor_Item *pActor, int type);
 
