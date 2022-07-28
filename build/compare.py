@@ -17,7 +17,6 @@ FUNCTIONS_FILE = 'functions.txt'
 EXE_SIZE = 641024
 TEXT_SEG_OFFSET = 0x50B8
 TEXT_SEG_BASE = 0x800148B8
-HEXDUMP_COLUMNS = 16
 COLORS = os.environ.get('COLORS') != 'false'
 SUPPORTS_EMOJIS = locale.getpreferredencoding().lower().startswith('utf')
 SIDE_BY_SIDE_PADDING = 40
@@ -98,47 +97,65 @@ def compare_exes(a_path, b_path, have_capstone):
     a_diff_found = False
     multiple_funcs_warning = True
 
+    diff_funcs = []
+
     for i in range(len(a_funcs)):
         addr, size, name, a_code = a_funcs[i]
         _, _, _, b_code = b_funcs[i]
 
         if a_code != b_code:
-            if a_diff_found and multiple_funcs_warning and sys.stdout.isatty():
-                print('multiple funcs have differences, so the entire exe probably blew up.')
-                print('options:')
-                print('show next func: <Enter> - show remaining funcs a<Enter> - quit: q<Enter>')
-                selection = input('selection: ')
-                print()
-                if selection == 'a':
-                    multiple_funcs_warning = False
-                elif selection == 'q':
-                    sys.exit(1)
+            diff_funcs.append((addr, name, a_code, b_code))
 
-            dis_func = disasm if have_capstone else hexdump_lines
-            a_dis = dis_func(a_code, addr)
-            b_dis = dis_func(b_code, addr)
+    print('differing funcs:', len(diff_funcs))
 
-            a_len = len(a_dis)
-            b_len = len(b_dis)
-            print('-', name, '-')
-            for i in range(max(a_len, b_len)):
-                a = '' if i >= a_len else a_dis[i]
-                b = '' if i >= b_len else b_dis[i]
-
-                padding_needed = 0
-                if have_capstone:
-                    padding_needed = SIDE_BY_SIDE_PADDING - len(a)
-                    a_padded = a + (' ' * padding_needed)
-                else:
-                    a_padded = a + '  '
-
-                line = a_padded + '  ' + b
-                if COLORS and a != b:
-                    print(colored(line, 'red'))
-                else:
-                    print(line)
+    jump_to_func = None
+    for addr, name, a_code, b_code in diff_funcs:
+        if a_diff_found and multiple_funcs_warning and sys.stdout.isatty() and not jump_to_func:
+            print('multiple funcs have differences, so the entire exe probably blew up.')
+            print('options:')
+            print('show next func: <Enter> - show remaining funcs a<Enter> - quit: q<Enter>')
+            print('jump to func: <search query><Enter>')
+            print('note: this tool currently assumes funcs are at the correct offsets in the built exe')
+            selection = input('selection: ')
             print()
-            a_diff_found = True
+            if selection == 'a':
+                multiple_funcs_warning = False
+            elif selection == 'q':
+                sys.exit(1)
+            elif selection != '':
+                jump_to_func = selection.lower()
+
+        if jump_to_func and jump_to_func not in name.lower():
+            continue
+        elif jump_to_func:
+            multiple_funcs_warning = True
+            jump_to_func = None
+
+        dis_func = disasm if have_capstone else hexdump_lines
+        a_dis = dis_func(a_code, addr)
+        b_dis = dis_func(b_code, addr)
+
+        a_len = len(a_dis)
+        b_len = len(b_dis)
+        print('-', name, '-')
+        for i in range(max(a_len, b_len)):
+            a = '' if i >= a_len else a_dis[i]
+            b = '' if i >= b_len else b_dis[i]
+
+            padding_needed = 0
+            if have_capstone:
+                padding_needed = SIDE_BY_SIDE_PADDING - len(a)
+                a_padded = a + (' ' * padding_needed)
+            else:
+                a_padded = a + '  '
+
+            line = a_padded + '  ' + b
+            if COLORS and a != b:
+                print(colored(line, 'red'))
+            else:
+                print(line)
+        print()
+        a_diff_found = True
 
     if not a_diff_found:
         print('nothing to diff found. the changed bytes were probably outside the functions?')
