@@ -6,6 +6,7 @@
 #include <libgpu.h>
 #include "game.h"
 #include "actor.h"
+#include "target.h"
 #include "GM_Control.h"
 
 typedef struct Actor_bakudan
