@@ -5,9 +5,12 @@ Actor_anime * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, str
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
+extern int GV_Time_800AB330;
+
 extern Anim_Data stru_8009F160;
 extern Anim_Data stru_8009F17C;
 
+extern Anim_Data stru_8009F208;
 extern Anim_Data stru_8009F144;
 
 unsigned int GV_RandU_80017090(unsigned int input);
@@ -67,7 +70,27 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E508.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E6A4.s")
+
+void anime_create_8005E6A4(SVECTOR *pVec)
+{
+    SVECTOR vec1; // [sp+10h] [-28h] BYREF
+    SVECTOR vec2; // [sp+18h] [-20h] BYREF
+    anime_data_0x14 data; // [sp+20h] [-18h] BYREF
+    
+    vec1 = DG_ZeroVector_800AB39C;
+    vec1.vy = GV_Time_800AB330 * 128;
+    data.field_0_vec = *pVec;
+
+    vec2.vx = 0;
+    vec2.vy = GV_RandU_80017090(2) + 10;
+    vec2.vz = 2;
+
+    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec1);
+    DG_PutVector_8001BE48(&vec2, &data.field_8_vec, 1);
+    data.field_10_anim_idx = 0;
+    stru_8009F208.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F208);
+}
 
 void sub_8005E774(SVECTOR *pVec)
 {
