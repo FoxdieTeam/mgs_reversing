@@ -19,6 +19,7 @@
 #include "Equip\box.h"
 #include "Equip\bandana.h"
 #include "sna_init.h"
+#include "anime.h"
 
 // sdata
 extern const char* aCigs[];

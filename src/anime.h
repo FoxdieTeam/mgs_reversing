@@ -56,10 +56,26 @@ typedef struct anime_data_0x14
   short field_12;
 } anime_data_0x14;
 
+// TODO: not used by any code yet
 typedef struct anime_item_8
 {
   int field_0;
   int field_4;
 } anime_item_8;
+
+typedef struct Anim_Data
+{
+  short field_0_texture_hash;
+  short field_2;
+  int field_4;
+  short field_8_count;
+  short field_A;
+  short field_C;
+  short field_E_xw;
+  short field_10_yh;
+  short field_12_rgb;
+  anime_data_0x14 *field_14;
+  void *field_18_ptr;
+} Anim_Data;
 
 #endif // _ANIME_H_
