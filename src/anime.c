@@ -8,6 +8,8 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern Anim_Data stru_8009F160;
 extern Anim_Data stru_8009F17C;
 
+extern Anim_Data stru_8009F144;
+
 unsigned int GV_RandU_80017090(unsigned int input);
 
 Actor_anime* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
@@ -66,7 +68,23 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E508.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E6A4.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E774.s")
+
+void sub_8005E774(SVECTOR *pVec)
+{
+    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    Anim_Data* p = &stru_8009F144;
+    
+    data.field_0_vec = *pVec;
+    data.field_8_vec.vx = 0;
+    data.field_8_vec.vy = 0;
+    data.field_8_vec.vz = 0;
+    data.field_10_anim_idx = 0;
+    data.field_12 = GV_RandU_80017090(4);
+    
+    p->field_14 = &data;
+    anime_init_8005FBC8(0, 0, p);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E7EC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E9E0.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EA6C.s")
