@@ -27,10 +27,18 @@ void blast_kill_8006DD90(int param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Bullet/blast_8006DDEC.s")
-#pragma INCLUDE_ASM("asm/Bullet/blast_8006DF8C.s")
+void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
 
-
-int blast_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker);
+int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker)
+{
+    pBlast->field_38 = 0;
+    pBlast->field_20_map_bits = GM_CurrentMap_800AB9B0;
+    pBlast->field_24_vec.vx = pMtx->t[0];
+    pBlast->field_24_vec.vy = pMtx->t[1];
+    pBlast->field_24_vec.vz = pMtx->t[2];
+    blast_8006DDEC(pBlastData, pBlast, targetSidePicker);
+    return 0;
+}
 
 void blast_act_8006DD18(Actor_Blast* pActor);
 
@@ -44,7 +52,7 @@ Actor* NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18, (TActorFunction)blast_kill_8006DD90, aBlastC);
         claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
 
-        if ( blast_8006DF8C(pBlastData, pActor, pMtx, 1) < 0 )
+        if ( blast_init_8006DF8C(pBlastData, pActor, pMtx, 1) < 0 )
         {
 
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
@@ -66,7 +74,7 @@ Actor_Blast* NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSoun
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18, (TActorFunction)blast_kill_8006DD90, aBlastC);
         claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
-        if ( blast_8006DF8C(pBlastData, pActor, pMtx, whichSidePicker) < 0 )
+        if ( blast_init_8006DF8C(pBlastData, pActor, pMtx, whichSidePicker) < 0 )
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;
