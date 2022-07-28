@@ -84,6 +84,7 @@ GM_Target* GM_C4Target_8002D620(GM_Target *pTarget)
 #pragma INCLUDE_ASM("asm/Game/sub_8002D6D8.s")
 
 #pragma INCLUDE_ASM("asm/sub_8002D7DC.s")
+int GM_Target_8002D7DC(GM_Target *pTarget);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_8002DA14.s")
 
