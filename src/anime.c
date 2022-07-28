@@ -1,7 +1,7 @@
 #include "anime.h"
 #include "GM_Control.h"
 
-Actor_anime * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct Anim_Data *param_3);
+Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData);
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
@@ -157,33 +157,33 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")
 
-extern int anime_loader_8005F994(Actor *pActor, char *param_2, struct Anim_Data *param_3);
-extern void anime_act_8005F4AC(Actor *param_1,int param_2,int param_3);
+extern int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
+extern void anime_act_8005F4AC(Actor_anime *param_1,int param_2,int param_3);
 extern const char aAnimeC[];
 
-Actor_anime * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct Anim_Data *param_3)
+Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
 {
-	Actor *pActor;
-	int loaded;
-	short count;
-	
-	count = param_3->field_8_count;
-	if ((pActor = GV_NewActor_800150E4(6,count * 0x3c + 0x4c)))
-	{
-		pActor[2].mFnUpdate = (TActorFunction)((int)pActor + 0x4c + count * 0x34);
-		GV_SetNamedActor_8001514C(pActor, (TActorFunction)anime_act_8005F4AC, (TActorFunction)anime_kill_8005F608, aAnimeC);
-		loaded = anime_loader_8005F994(pActor,param_2,param_3);
-		if (loaded < 0)
-		{
-			GV_DestroyActor_800151C8(pActor);
-			return 0;
-		}
+    int count; // $s1
+    Actor_anime *pActor; // $v0
+
+    count = pAnimData->field_8_count;
+    pActor = (Actor_anime *)GV_NewActor_800150E4(6, ((sizeof(anime_0x34) + sizeof(SVECTOR)) * count) + sizeof(Actor_anime));
+    if ( pActor )
+    {
+        pActor->field_48_pPrimVec = (SVECTOR *)&pActor->field_4C_items[count]; // count vectors after the items
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)anime_act_8005F4AC, (TActorFunction)anime_kill_8005F608, aAnimeC);
+        if ( anime_loader_8005F994(pActor, map, pAnimData) < 0 )
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return 0;
+        }
 		else
 		{
-			pActor[1].mFreeFunc = param_1;
+	        pActor->field_30_mtx = pMtx;
 		}
-	}
-	return (Actor_anime*)pActor;
+    }
+    return &pActor->field_0_actor;
 }
+
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005FCA4.s")
