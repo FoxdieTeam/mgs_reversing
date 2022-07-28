@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80054D68
-sub_80054D68:
+	xdef sna_init_knock_80054D68
+sna_init_knock_80054D68:
 	dw 0x27BDFFD8 ; 0x80054D68
 	dw 0xAFB00020 ; 0x80054D6C
 	dw 0x00808021 ; 0x80054D70
