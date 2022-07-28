@@ -59,7 +59,29 @@ Actor* NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
     return &pActor->field_0_actor;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/NewBlast2_8006E0F0.s")
+Actor_Blast* NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
+{
+    Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
+    if ( pActor )
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18, (TActorFunction)blast_kill_8006DD90, aBlastC);
+        claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
+        if ( blast_8006DF8C(pBlastData, pActor, pMtx, whichSidePicker) < 0 )
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return 0;
+        }
+
+        if ( doSound )
+        {
+            GM_SetNoise(255, 32, &pActor->field_24_vec);
+        }
+
+        sub_800790E8();
+    }
+    return pActor;
+}
+
 #pragma INCLUDE_ASM("asm/AN_Blast_Single_8006E224.s")
 #pragma INCLUDE_ASM("asm/sub_8006E2A8.s")
 #pragma INCLUDE_ASM("asm/AN_Blast_Minimini_8006E32C.s")
