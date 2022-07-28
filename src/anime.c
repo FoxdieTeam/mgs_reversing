@@ -1,12 +1,31 @@
 #include "anime.h"
 
+Actor_anime * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct Anim_Data *param_3);
+
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+extern Anim_Data stru_8009F17C;
+
+unsigned int GV_RandU_80017090(unsigned int input);
+
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D604.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D988.s")
 
+void anime_create_8005DDE0(MATRIX *pMtx)
+{
+    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DDE0.s")
+    data.field_0_vec.vx = pMtx->t[0];
+    data.field_0_vec.vy = pMtx->t[1];
+    data.field_0_vec.vz = pMtx->t[2];
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+    data.field_10_anim_idx = GV_RandU_80017090(2);
+    data.field_12 = 0;
+    stru_8009F17C.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F17C);
+}
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s")
@@ -71,7 +90,7 @@ extern int anime_loader_8005F994(Actor *pActor, char *param_2, struct Anim_Data 
 extern void anime_act_8005F4AC(Actor *param_1,int param_2,int param_3);
 extern const char aAnimeC[];
 
-Actor * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct Anim_Data *param_3)
+Actor_anime * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct Anim_Data *param_3)
 {
 	Actor *pActor;
 	int loaded;
@@ -93,7 +112,7 @@ Actor * anime_init_8005FBC8(TActorFreeFunction param_1, char *param_2, struct An
 			pActor[1].mFreeFunc = param_1;
 		}
 	}
-	return pActor;
+	return (Actor_anime*)pActor;
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005FCA4.s")

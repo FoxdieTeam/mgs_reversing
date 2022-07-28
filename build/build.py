@@ -189,7 +189,7 @@ def gen_build_target(targetName):
             ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            if cFile.find("/Equip/") != -1 or cFile.find("/Bullet/") != -1 or cFile.find("/Thing/") != -1 or cFile.find("item.c") != -1:
+            if cFile.find("/Equip/") != -1 or cFile.find("/Bullet/") != -1 or cFile.find("/Thing/") != -1 or cFile.find("item.c") != -1 or cFile.find("anime.c") != -1:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
             else:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
