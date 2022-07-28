@@ -1365,11 +1365,8 @@
     include "..\obj\sub_8006A100.obj"
     include "..\obj\NewTenage3_8006A128.obj"
 
-    include "..\obj\Bullet\bakudan_act_8006A218.obj"
-    include "..\obj\Bullet\bakudan_kill_8006A4A4.obj"
-    include "..\obj\Bullet\bakudan_8006A510.obj"
-    include "..\obj\Bullet\bakudan_8006A54C.obj"
-    include "..\obj\Bullet\NewBakudan_8006A6CC.obj"
+	; 8006A218 8006A4A4 8006A510 8006A54C 8006A6CC
+	include "..\obj\Bullet\bakudan.obj"
 
 	; 8006A798 8006A8F4 8006A950 8006AB5C 8006B05C 8006B124 8006B268 8006B2A4 8006B48C 8006B564 8006B76C
 	include "..\obj\Bullet\jirai.obj"
@@ -2335,6 +2332,7 @@ group_gHomingTargets_800B8230    group bss,org($800B8230)
 group_stru_800BDE78    group bss,org($800BDE78)
     section .stru_800BDE78, group_stru_800BDE78
 
-
+group_stru_800BDD78    group bss,org($800BDD78)
+    section .stru_800BDD78, group_stru_800BDD78
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
