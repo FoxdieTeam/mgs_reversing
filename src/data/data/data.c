@@ -258,8 +258,7 @@ struct FS_FILE_INFO_8009D49C SECTION(".data") fs_file_info_8009D49C[] =
 		{0, 0}};
 
 int SECTION(".data") dword_8009D4DC = -1;
-int SECTION(".data") dword_8009D4E0 = 0;
-int SECTION(".data") dword_8009D4E4 = 0;
+int SECTION(".data") dword_8009D4E0[] = {0, 0};
 int SECTION(".data") dword_8009D4E8 = 0;
 int SECTION(".data") dword_8009D4EC = 0;
 int SECTION(".data") dword_8009D4F0 = 0;
