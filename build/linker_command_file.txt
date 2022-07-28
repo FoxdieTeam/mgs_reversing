@@ -2332,6 +2332,7 @@ group_gHomingTargets_800B8230    group bss,org($800B8230)
 group_stru_800BDE78    group bss,org($800BDE78)
     section .stru_800BDE78, group_stru_800BDE78
 
-
+group_stru_800BDD78    group bss,org($800BDD78)
+    section .stru_800BDD78, group_stru_800BDD78
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
