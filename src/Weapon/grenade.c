@@ -1,4 +1,5 @@
 #include "grenade.h"
+#include "target.h"
 
 extern const char aGrenadeC[];  // = "grenade.c"
 extern short d_800AB9EC_mag_size;
@@ -13,7 +14,23 @@ extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int nu
 extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 extern int grenade_act_8006641C(int a1);
 
-#pragma INCLUDE_ASM("asm/Weapon/grenade_800663A0.s")
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR stru_800ABA10;
+extern int sub_8002D7DC(GM_Target *pTarget);
+void grenade_800663A0(void)
+{
+  GM_Target GStack88;
+  SVECTOR local_10;
+  
+  local_10.vz = 0xfa;
+  local_10.vy = 0xfa;
+  local_10.vx = 0xfa;
+  GM_SetTarget_8002DC74(&GStack88, 4, 0, &local_10);
+  GM_Target_8002DCCC(&GStack88, 3, 1, 0x40, -1, (SVECTOR *)&DG_ZeroVector_800AB39C);
+  GM_Target_SetVector_8002D500(&GStack88, (SVECTOR *)&stru_800ABA10);
+  sub_8002D7DC(&GStack88);
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/grenade_act_8006641C.s")
 
 void grenade_kill_80066894(Actor_Grenade *grenade)

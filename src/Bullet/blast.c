@@ -130,6 +130,8 @@ void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSideP
 }
 */
 
+extern void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
+
 int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker)
 {
     pBlast->field_38 = 0;
