@@ -60,5 +60,9 @@ enum
 int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
 void GM_Targets_Reset_8002D3F0(void);
 void GM_FreeTarget_8002D4B0(GM_Target *pTarget);
+void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, SVECTOR *pSize);
+void GM_Target_8002DCCC(GM_Target *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6);
+void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec);
+int GM_Target_8002D7DC(GM_Target *pTarget);
 
 #endif // _TARGET_H_

@@ -1,12 +1,20 @@
 #include "blast.h"
 #include "libdg.h"
 #include "game.h"
+#include "target.h"
 
 extern const char aBlastC[];
 extern int claymore_map_800AB9DC;
 
 void AN_Blast_Single_8006E224(SVECTOR *pVec);
 void sub_8007913C();
+void sub_80032858(SVECTOR *pVec, int a2);
+
+extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target*, int);
+extern short GM_uBombHoming_800AB3E4;
+
+
+extern SVECTOR stru_8009F558[2];
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {
@@ -50,7 +58,77 @@ void blast_kill_8006DD90(int param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Bullet/blast_8006DDEC.s")
-void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
+//void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
+/*
+void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker)
+{
+    GM_Target *pTarget; // $s1
+    short whichSide; // $a2
+    short v8; // $v1
+    int v10; // $v0
+    SVECTOR *pVec; // $a0
+    SVECTOR vec; // [sp+18h] [-8h] BYREF
+
+    pTarget = &pBlast->field_3C_target;
+    vec.vz = pBlastData->field_8_z;
+    vec.vy = vec.vz;
+    vec.vx = vec.vz;
+
+    if ( targetSidePicker )
+    {
+        whichSide = 0;
+    }
+    else
+    {
+        whichSide = 2;
+    }
+
+    GM_SetTarget_8002DC74(&pBlast->field_3C_target, 4, whichSide, &vec);
+    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, pBlastData->field_4, stru_8009F558);
+    pTarget->field_44 = pBlastData->field_10;
+    GM_Target_SetVector_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
+    sub_8002D7DC(pTarget);
+
+
+    v8 = pBlastData->field_C;
+    stru_8009F558[0].vx = 50;
+    vec.vz = v8;
+    vec.vy = v8;
+    vec.vx = v8;
+
+    if ( targetSidePicker )
+    {
+        whichSide = 0;
+    }
+    else
+    {
+        whichSide = 2;
+    }
+
+    GM_SetTarget_8002DC74(pTarget, 4, whichSide, &vec);
+    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, 3, stru_8009F558);
+    pTarget->field_44 = pBlastData->field_10;
+    GM_Target_SetVector_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
+    sub_8002D7DC(pTarget);
+
+    if ( GM_lpfnBombExplosion_800AB3F0 )
+    {
+        v10 = GM_lpfnBombExplosion_800AB3F0(&pBlast->field_3C_target, GM_uBombHoming_800AB3E4);
+        pVec = &pBlast->field_24_vec;
+        if ( v10 )
+        {
+            ++pBlast->field_38;
+            return;
+        }
+    }
+    else
+    {
+        pVec = &pBlast->field_24_vec;
+    }
+
+    sub_80032858(pVec, 41);
+}
+*/
 
 int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker)
 {
