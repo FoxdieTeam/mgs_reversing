@@ -1234,7 +1234,7 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_helper_80058780.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_throw_800589C8.s")
 
-void sna_init_anim_punch_800058C10(Actor_SnaInit *pActor, int a2)
+void sna_init_anim_punch_80058C10(Actor_SnaInit *pActor, int a2)
 {
     if ( !a2 )
     {
