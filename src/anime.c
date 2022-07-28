@@ -1,11 +1,13 @@
-#include "libdg.h"
-#include "actor.h"
-#include "data.h"
+#include "anime.h"
+
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D604.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D988.s")
+
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DDE0.s")
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E090.s")
