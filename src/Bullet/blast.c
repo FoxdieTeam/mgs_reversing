@@ -2,13 +2,36 @@
 #include "libdg.h"
 #include "game.h"
 
-#pragma INCLUDE_ASM("asm/Bullet/blast_act_8006DD18.s")
-
 extern const char aBlastC[];
-
 extern int claymore_map_800AB9DC;
 
-extern void sub_8007913C(void);
+void AN_Blast_Single_8006E224(SVECTOR *pVec);
+void sub_8007913C();
+
+void blast_act_8006DD18(Actor_Blast *pActor)
+{
+    int new_38; // $s0
+
+    GM_CurrentMap_800AB9B0 = pActor->field_20_map_bits;
+ 
+    new_38 = pActor->field_38 + 1;
+    pActor->field_38 = new_38;
+    
+    if ( new_38 == 1  )
+    {
+        AN_Blast_Single_8006E224(&pActor->field_24_vec);
+    }
+     
+    if ( new_38 == 2 )
+    {
+        sub_8007913C();
+    }
+      
+    if ( new_38 >= 30 )
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+}
 
 void blast_kill_8006DD90(int param_1)
 {
