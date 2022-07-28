@@ -72,13 +72,13 @@ void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn); // TODO: fn
 void sna_init_800571B8(Actor_SnaInit *pActor, int a2);
 void sna_init_80057118(Actor_SnaInit *pActor, int a2);
 int sna_init_8004FDE8(Actor_SnaInit *pActor, Target_Data *pVec);
-void sna_init_fn_80056A1C(Actor_SnaInit *pActor);
+void sna_init_knockdown_check_getup_80056A1C(Actor_SnaInit *pActor);
 void sna_init_fn_80052540(Actor_SnaInit *pActor);
 void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2);
 void sna_init_80050568(Actor_SnaInit *pActor);
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor);
 void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int a2);
-void sub_80050668(Actor_SnaInit *pActor);
+void sna_init_knockdown_getup_80050668(Actor_SnaInit *pActor);
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int a2);
 void sna_init_gun_800540D0(Actor_SnaInit *pActor, int a2);
 void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2);
@@ -513,12 +513,12 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 #pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s")
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")
-#pragma INCLUDE_ASM("asm/sub_800501F8.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_check_knock_800501F8.s")
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
 #pragma INCLUDE_ASM("asm/sna_init_prone_check_standup_80050398.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050440.s")
 #pragma INCLUDE_ASM("asm/sna_init_80050568.s")
-#pragma INCLUDE_ASM("asm/sub_80050668.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knockdown_getup_80050668.s")
 #pragma INCLUDE_ASM("asm/sub_800507D8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s")
@@ -936,7 +936,7 @@ void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int a2)
 
     if ( !a2 )
     {
-        pActor->field_9C8 = sna_init_fn_80056A1C;
+        pActor->field_9C8 = sna_init_knockdown_check_getup_80056A1C;
         pActor->field_9CC = sna_init_fn_80052540;
         sna_init_set_flags_8004E2F4(pActor, 0x10);
         GM_SetPlayerStatusFlag_8004E2B4(0x240);
@@ -1014,7 +1014,7 @@ void sna_init_anim_knockdown_getup_80054A10(Actor_SnaInit *pActor, int a2)
 
 void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
 {
-    pActor->field_9C8 = sna_init_fn_80056A1C;
+    pActor->field_9C8 = sna_init_knockdown_check_getup_80056A1C;
     pActor->field_9CC = sna_init_fn_80052540;
 
     GM_ClearPlayerStatusFlag_8004E2D4(0x100);
@@ -1033,7 +1033,7 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper10_80054C08.s")
-#pragma INCLUDE_ASM("asm/sub_80054D68.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knock_80054D68.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_scope_80055334.s")
 
@@ -1115,11 +1115,11 @@ void sub_8005688C(Actor_SnaInit *pActor)
 
 #pragma INCLUDE_ASM("asm/sub_80056928.s")
 
-void sna_init_fn_80056A1C(Actor_SnaInit *pActor)
+void sna_init_knockdown_check_getup_80056A1C(Actor_SnaInit *pActor)
 {
-    if ( pActor->field_9B0_pad_bits[1] )
+    if ( pActor->field_9B0_pad_bits[1] ) // x
     {
-        sub_80050668(pActor);
+        sna_init_knockdown_getup_80050668(pActor);
     }
 }
 
