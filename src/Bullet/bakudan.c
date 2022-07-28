@@ -10,6 +10,12 @@ extern int used_counter_8009F42C;
 
 Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
 
+void bakudan_act_8006A218(Actor_bakudan* pActor);
+void bakudan_kill_8006A4A4(Actor_bakudan* pActor);
+int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMatrix, SVECTOR *pVec, int a4, GM_Target *pTarget);
+void GM_ClearBulName_8004FBE4(int idx);
+
+
 void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
 {
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
@@ -23,14 +29,20 @@ void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/bakudan_8006A510.s")
+int bakudan_next_free_item_8006A510()
+{
+    int i;
+    for (i=0; i<16; i++)
+    {
+        if (!stru_800BDD78[i].field_4_pActor)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/bakudan_8006A54C.s")
-
-void bakudan_act_8006A218(Actor_bakudan* pActor);
-void bakudan_kill_8006A4A4(Actor_bakudan* pActor);
-int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMatrix, SVECTOR *pVec, int a4, GM_Target *pTarget);
-void GM_ClearBulName_8004FBE4(int idx);
-
 
 Actor* NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, GM_Target *pTarget)
 {
