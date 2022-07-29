@@ -498,7 +498,7 @@ typedef struct Actor_SnaInit
   int field_A1C;
   short field_A20;
   short field_A22_snake_current_health;
-  char field_A24;
+  char field_A24_invuln_frames;
   char field_A25;
   short field_A26_fn_stance_idx;
   short field_A28;
