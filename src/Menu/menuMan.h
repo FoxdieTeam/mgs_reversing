@@ -111,7 +111,8 @@ struct              menu_left_right
 {
     short           field_0_rpk_idx;
     short           field_2;
-    int             field_4;
+    short           field_4;
+    short           field_6;
     struct menu_8009E544 *field_8_pStru;
     int             field_C_alloc;
     char            field_10;
