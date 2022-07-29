@@ -132,11 +132,17 @@ short anime_read_maybe_randomised_short_8005EA6C(unsigned char *pData, int opCod
 void anime_read_vec_8005EB30(SVECTOR *pVec, unsigned char *pData, int opCode)
 {
     pVec->vx = anime_read_maybe_randomised_short_8005EA6C(pData, opCode); 
-    pVec->vy = anime_read_maybe_randomised_short_8005EA6C(pData+2, opCode);
-    pVec->vz = anime_read_maybe_randomised_short_8005EA6C(pData+4, opCode);
+    pVec->vy = anime_read_maybe_randomised_short_8005EA6C(pData + 2, opCode);
+    pVec->vz = anime_read_maybe_randomised_short_8005EA6C(pData + 4, opCode);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB98.s")
+void anime_adjust_vec_8005EB98(SVECTOR *pVec, unsigned char *pData, int opCode)
+{
+    pVec->vx += anime_read_maybe_randomised_short_8005EA6C(pData, opCode);
+    pVec->vy += anime_read_maybe_randomised_short_8005EA6C(pData + 2, opCode);
+    pVec->vz += anime_read_maybe_randomised_short_8005EA6C(pData + 4, opCode);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_1_8005ED0C.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_2_8005ED74.s")
