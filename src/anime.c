@@ -10,12 +10,14 @@ extern int GV_Time_800AB330;
 extern Anim_Data stru_8009F160;
 extern Anim_Data stru_8009F17C;
 
+extern Anim_Data stru_8009F10C;
 extern Anim_Data stru_8009F1EC;
 extern Anim_Data stru_8009F208;
 extern Anim_Data stru_8009F144;
 
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
+void *memset_8008E688(void *pSrc, int value, int len);
 
 extern int GV_Clock_800AB920;
 
@@ -82,7 +84,37 @@ void anime_create_8005E508(SVECTOR *pVec)
     anime_init_8005FBC8(0, 0, &stru_8009F1EC);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
+//#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
+void sub_8005E574(MATRIX *pMtx)
+{
+    SVECTOR vec; // [sp+10h] [-20h] BYREF
+    anime_data_0x14 data; // [sp+18h] [-18h] BYREF
+
+    stru_8009F10C.field_14 = &data;
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+    data.field_12 = GV_RandU_80017090(4);
+    vec.vx = 0;
+    vec.vy = -270;
+    vec.vz = 0;
+    DG_SetPos_8001BC44(pMtx);
+    DG_PutVector_8001BE48(&vec, &data.field_0_vec, 1);
+    data.field_10_anim_idx = 0;
+    anime_init_8005FBC8(0, 0, &stru_8009F10C);
+    vec.vx = 0;
+    vec.vy = -370;
+    vec.vz = 0;
+    DG_SetPos_8001BC44(pMtx);
+    DG_PutVector_8001BE48(&vec, &data.field_0_vec, 1);
+    data.field_10_anim_idx = 1;
+    anime_init_8005FBC8(0, 0, &stru_8009F10C);
+    vec.vx = 0;
+    vec.vy = -420;
+    vec.vz = 0;
+    DG_SetPos_8001BC44(pMtx);
+    DG_PutVector_8001BE48(&vec, &data.field_0_vec, 1);
+    data.field_10_anim_idx = 2;
+    anime_init_8005FBC8(0, 0, &stru_8009F10C);
+}
 
 void anime_create_8005E6A4(SVECTOR *pVec)
 {
