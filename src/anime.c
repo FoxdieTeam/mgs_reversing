@@ -14,8 +14,9 @@ extern Anim_Data stru_8009F208;
 extern Anim_Data stru_8009F144;
 
 unsigned int GV_RandU_80017090(unsigned int input);
+int rand_8008E6B8(void);
 
-Actor_anime* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
+Actor* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
 {
 	signed int rnd; // $v1
     anime_data_0x14 data;
@@ -110,7 +111,25 @@ void sub_8005E774(SVECTOR *pVec)
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E7EC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E9E0.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EA6C.s")
+
+short anime_create_8005EA6C(unsigned char *pData, char opCode)
+{
+    const short temp = (pData[1]) | (pData[0] << 8);
+    if ( opCode & 0x80 )
+    {
+        if ( temp < 0 )
+        {
+            return -(rand_8008E6B8() % -temp);
+        }
+        else
+        {
+            return (rand_8008E6B8() % temp);
+        }
+    }
+    return temp;
+}
+
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB30.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB98.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
