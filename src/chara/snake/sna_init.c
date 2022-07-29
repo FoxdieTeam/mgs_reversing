@@ -726,7 +726,54 @@ void sna_init_fn_nothing_80053B80(void)
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_run_begin_80053B88.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_begin_80053BE8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_standup_80053D74.s")
+
+void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int param_2)
+{
+    int a2;
+
+    if (param_2 == 0)
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PRONE);
+        param_1->field_9C8 = sna_init_fn_nothing_80053B80;
+        param_1->field_9CC = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_8->field_2, 4);
+
+        a2 = 8;
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000) != 0)
+        {
+            a2 = 0xb7;
+        }
+        sub_80032858(&param_1->field_20_ctrl.field_0_position, a2);
+        sna_init_set_flags_8004E2F4(param_1, 0x30);
+    }
+
+    if (param_1->field_20_ctrl.field_32_height >= 250)
+    {
+        param_1->field_20_ctrl.field_55_flags |= 8;
+    }
+
+    if (param_1->field_20_ctrl.field_32_height > 500)
+    {
+        param_1->field_A26_fn_stance_idx = 0;
+    }
+
+    if (param_2 == 2)
+    {
+        param_1->field_20_ctrl.field_4C_turn_vec.vx = 0;
+    }
+
+    if (param_2 == 7)
+    {
+        param_1->field_20_ctrl.field_55_flags |= 2;
+    }
+
+    if (param_1->field_9C.field_1A != 0)
+    {
+        param_1->field_20_ctrl.field_55_flags &= 0xf5;
+        sna_init_start_anim_8004E1F4(param_1, sna_init_anim_idle_8005275C);
+        sna_init_clear_flags_8004E308(param_1, 0x30);
+    }
+}
 
 void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2);
 
@@ -810,7 +857,45 @@ void sub_80053FAC(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_gun_800540D0.s")
+void sna_init_gun_800540D0(Actor_SnaInit *pActor,int a2)
+{
+    int iVar1;
+    int a4;
+
+    if (a2 == 0)
+    {
+        iVar1 = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING);
+        a4 = 0xffff;
+        if (iVar1 != 0)
+        {
+            a4 = 0x3fe;
+        }
+        sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_10->field_0, 4, a4);
+        pActor->field_A38 = 0;
+    }
+
+    if ((pActor->field_9B0_pad_bits[2] & 0x80) != 0)
+    {
+        pActor->field_A38 = 1;
+    }
+
+    if ((*pActor->field_9B0_pad_bits & 0x80) != 0)
+    {
+        pActor->field_926++;
+    }
+    else
+    {
+        pActor->field_926 = 0;
+    }
+
+    if (a2 == 8)
+    {
+        pActor->field_90C_pWeaponFn = sub_80057BF0;
+        pActor->field_910 = 0;
+        pActor->field_926 = 0;
+        pActor->field_924 = 0;
+    }
+}
 
 void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
 {
@@ -1124,7 +1209,27 @@ void sna_init_anim_box_stop_800554B4(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_800559D8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s")
-#pragma INCLUDE_ASM("asm/sub_8005684C.s")
+
+void sub_8005684C(Actor_SnaInit *pActor)
+{
+    int y;
+    
+    if ((*pActor->field_9B0_pad_bits & 0xa000) == 0)
+    {
+        return;
+    }
+    
+    y = pActor->field_20_ctrl.field_4C_turn_vec.vy;
+    if ((*pActor->field_9B0_pad_bits & 0x8000) != 0)
+    {
+        y += 32;
+    }
+    else
+    {
+        y -= 32;
+    }
+    pActor->field_20_ctrl.field_4C_turn_vec.vy = y;
+}
 
 void sub_8005688C(Actor_SnaInit *pActor)
 {
@@ -1173,8 +1278,29 @@ void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_begin_80056BDC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_80056C3C.s")
+void sna_init_anim_rungun_begin_helper_800577B4(void); // dummy signature
+void sna_init_anim_rungun_begin_80056BDC(Actor_SnaInit *param_1,int param_2)
+{
+    if (param_2 == 0) {
+        param_1->field_9C8 = sna_init_anim_rungun_begin_helper_800577B4;
+        param_1->field_9CC = sna_init_fn_nothing_80053B80;
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+        sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_4->field_1, 4);
+    }
+}
+
+void sna_init_anim_rungun_helper_80057844(void); // dummy signature
+void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int param_2)
+{
+    if (param_2 == 0)
+    {
+        param_1->field_9C8 = sna_init_anim_rungun_helper_80057844;
+        param_1->field_9CC = sna_init_fn_nothing_80053B80;
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+        sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_4->field_0, 4);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_80056DDC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_stinger_800570C0.s")
