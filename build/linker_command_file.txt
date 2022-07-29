@@ -324,13 +324,9 @@
 
     ;libgcl_end
 
-    include "..\obj\HZD_StartDaemon_80021900.obj"
-    include "..\obj\HZD_Process_TableFlagIfTriggers_80021928.obj"
-    include "..\obj\HZD_LoadInitHzd_800219F4.obj"
-    include "..\obj\HZD_MakeHandler_80021AE0.obj"
-    include "..\obj\HZD_FreeHandler_80021C40.obj"
-    include "..\obj\HZD_MakeRoute_helper_80021C64.obj"
-    include "..\obj\HZD_MakeRoute_80021D6C.obj"
+    ; 80021900 80021928 800219F4 80021AE0 80021C40 80021C64 80021D6C
+    include "..\obj\map\hzd.obj"
+
     include "..\obj\libfs\FS_ResetCdFilePosition_80021E2C.obj"
     include "..\obj\Equip\CDFS_Init_80021EC4.obj"
     include "..\obj\libfs\FS_LoadFileRequest_80021F0C.obj"
