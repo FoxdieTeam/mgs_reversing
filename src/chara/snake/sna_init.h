@@ -9,6 +9,43 @@
 #include <LIBGTE.h>
 #include <LIBGPU.h>
 
+// TODO: move to game.h?
+enum
+{
+    PLAYER_STATUS_FIRST_PERSON                =  0x1,
+    PLAYER_STATUS_FIRST_PERSON_DUCT           =  0x2,
+    PLAYER_STATUS_UNK4                        =  0x4,
+    PLAYER_STATUS_UNK8                        =  0x8,
+    PLAYER_STATUS_MOVING                      =  0x10,
+    PLAYER_STATUS_CROUCHING                   =  0x20,
+    PLAYER_STATUS_PRONE                       =  0x40,
+    PLAYER_STATUS_UNK80                       =  0x80,
+    PLAYER_STATUS_UNK100                      =  0x100,
+    PLAYER_STATUS_UNK200                      =  0x200,
+    PLAYER_STATUS_UNK400                      =  0x400,
+    PLAYER_STATUS_PREVENT_FIRST_PERSON        =  0x800,
+    PLAYER_STATUS_UNK1000                     =  0x1000,
+    PLAYER_STATUS_UNK2000                     =  0x2000,
+    PLAYER_STATUS_UNK4000                     =  0x4000,
+    PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH  =  0x8000,
+    PLAYER_STATUS_ON_WALL                     =  0x10000,
+    PLAYER_STATUS_KNOCKING                    =  0x20000,
+    PLAYER_STATUS_UNK40000                    =  0x40000,
+    PLAYER_STATUS_UNK80000                    =  0x80000,
+    PLAYER_STATUS_UNK100000                   =  0x100000,
+    PLAYER_STATUS_PREVENT_ITEM_SWITCH         =  0x200000,
+    PLAYER_STATUS_PREVENT_WEAPON_SWITCH       =  0x400000,
+    PLAYER_STATUS_INVULNERABLE                =  0x800000,
+    PLAYER_STATUS_UNK1000000                  =  0x1000000,
+    PLAYER_STATUS_UNK2000000                  =  0x2000000,
+    PLAYER_STATUS_UNK4000000                  =  0x4000000,
+    PLAYER_STATUS_UNK8000000                  =  0x8000000,
+    PLAYER_STATUS_UNK10000000                 =  0x10000000,
+    PLAYER_STATUS_UNK20000000                 =  0x20000000,
+    PLAYER_STATUS_UNK40000000                 =  0x40000000,
+    PLAYER_STATUS_UNK80000000                 =  0x80000000,
+};
+
 typedef struct Sna_E1
 {
   unsigned char field_0;
