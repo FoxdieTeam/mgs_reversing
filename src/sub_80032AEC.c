@@ -1,7 +1,7 @@
 extern int GM_GameStatus_800AB3CC;
 extern void sd_set_cli_800887EC(int code, int unused);
 
-void sub_80032968(int byte_2, int byte_1, int byte_0)
+void sub_80032AEC(int byte_2, int byte_1, int byte_0)
 {
     int lowest_byte;
     if (GM_GameStatus_800AB3CC > -1)
