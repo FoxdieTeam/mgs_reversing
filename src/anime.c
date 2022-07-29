@@ -10,6 +10,7 @@ extern int GV_Time_800AB330;
 extern Anim_Data stru_8009F160;
 extern Anim_Data stru_8009F17C;
 
+extern Anim_Data stru_8009F1EC;
 extern Anim_Data stru_8009F208;
 extern Anim_Data stru_8009F144;
 
@@ -71,7 +72,16 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 #pragma INCLUDE_ASM("asm/sub_8005E1A0.s")
 #pragma INCLUDE_ASM("asm/sub_8005E258.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E508.s")
+
+void anime_create_8005E508(SVECTOR *pVec)
+{
+    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    memset_8008E688(&data, 0, sizeof(anime_data_0x14));
+    data.field_0_vec = *pVec;
+    stru_8009F1EC.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F1EC);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
 
 void anime_create_8005E6A4(SVECTOR *pVec)
