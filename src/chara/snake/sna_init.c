@@ -514,11 +514,95 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_check_knock_800501F8.s")
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
-#pragma INCLUDE_ASM("asm/sna_init_prone_check_standup_80050398.s")
+
+int sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
+void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int param_2);
+int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
+{
+    if ((pActor->field_9B0_pad_bits[1] & 0x40) != 0 &&
+        sub_8004E808(pActor, 1, 0, 0xfffffd92, 0x5dc) == 0)
+    {
+
+        pActor->field_A28 = 450;
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_prone_standup_80053D74);
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_2, 4);
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = pActor->field_20_ctrl.field_8_vec.vy;
+        return 1;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/sna_init_80050440.s")
-#pragma INCLUDE_ASM("asm/sna_init_80050568.s")
+
+void sna_init_80050568(Actor_SnaInit *pActor)
+{
+  short dir;
+  DG_OBJS *pDVar3;
+  SVECTOR local_10;
+  
+  sna_init_80050440(pActor);
+  if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0) {
+    pDVar3 = pActor->field_9C.objs;
+    pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
+    pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
+    pActor->field_20_ctrl.field_44_vec.vz = 0;
+    pActor->field_20_ctrl.field_44_vec.vx = 0;
+    pDVar3->flag |= 0x80;
+    sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+    pActor->field_A54 = 0;
+    sna_init_set_invuln_8004F2A0(pActor, 24);
+    sna_init_set_flags_8004E2F4(pActor, 1);
+    GM_ClearPlayerStatusFlag_8004E2D4(
+        PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_UNK200 | PLAYER_STATUS_UNK100);
+    sna_init_clear_flags_8004E308(pActor, 0x16);
+    sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 0);
+
+    pDVar3 = (pActor->field_9C).objs;
+    // TODO: clean this up
+    local_10.vx = *(short *)&pDVar3[8].movs - *(short *)pDVar3[1].world.t;
+    pDVar3 = (pActor->field_9C).objs;
+    local_10.vz = pDVar3[9].world.m[0][2] - *(short *)(pDVar3[1].world.t + 2);
+
+    dir = GV_VecDir2_80016EF8(&local_10);
+    pActor->field_20_ctrl.field_4C_turn_vec.vy = dir;
+    pActor->field_20_ctrl.field_8_vec.vy = dir;
+    pActor->field_20_ctrl.field_55_flags &= 0xf7;
+  }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_knockdown_getup_80050668.s")
-#pragma INCLUDE_ASM("asm/sub_800507D8.s")
+
+extern int dword_800ABBC4;
+extern int dword_8009EEA4[];
+int SECTION(".sbss") dword_800ABBC4;
+
+void GM_ExitBehindCamera_80030AEC(void);
+int sub_800507D8(Actor_SnaInit *param_1)
+{
+    int ret;
+
+    if (dword_800ABBC4 == 0 && param_1->field_A38 == 0)
+    {
+        param_1->field_A28 = 0x1c2;
+        GM_ClearPlayerStatusFlag_8004E2D4(
+            PLAYER_STATUS_KNOCKING | PLAYER_STATUS_ON_WALL | PLAYER_STATUS_MOVING);
+        sna_init_start_anim_8004E1F4(param_1, (void*)dword_8009EEA4[param_1->field_A26_fn_stance_idx]);
+        sna_init_clear_flags_8004E308(param_1, 0x100);
+        param_1->field_9C0 = 0;
+        sna_init_8004E260(param_1, 0, 4, 0);
+        GM_ExitBehindCamera_80030AEC();
+        ret = 1;
+    }
+    else
+    {
+        ret = 0;
+    }
+
+    return ret;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk2_80051170.s")
