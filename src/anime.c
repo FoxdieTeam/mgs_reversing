@@ -10,11 +10,14 @@ extern int GV_Time_800AB330;
 extern Anim_Data stru_8009F160;
 extern Anim_Data stru_8009F17C;
 
+extern Anim_Data stru_8009F1EC;
 extern Anim_Data stru_8009F208;
 extern Anim_Data stru_8009F144;
 
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
+
+extern int GV_Clock_800AB920;
 
 Actor* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
 {
@@ -69,7 +72,16 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 #pragma INCLUDE_ASM("asm/sub_8005E1A0.s")
 #pragma INCLUDE_ASM("asm/sub_8005E258.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E508.s")
+
+void anime_create_8005E508(SVECTOR *pVec)
+{
+    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    memset_8008E688(&data, 0, sizeof(anime_data_0x14));
+    data.field_0_vec = *pVec;
+    stru_8009F1EC.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F1EC);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
 
 void anime_create_8005E6A4(SVECTOR *pVec)
@@ -109,10 +121,24 @@ void sub_8005E774(SVECTOR *pVec)
     anime_init_8005FBC8(0, 0, p);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E7EC.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E9E0.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s")
+void anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
 
-short anime_create_8005EA6C(unsigned char *pData, char opCode)
+
+void anime_change_polygon_8005E9E0(Actor_anime *pActor, int idx)
+{
+    anime_0x34* pItem = &pActor->field_4C_items[0];
+    if ( (pActor->field_38_active_buff & (GV_Clock_800AB920 + 1)) != 0 )
+    {
+        anime_change_prim_8005E7EC(
+            &pActor->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920][idx].poly_ft4,
+            pActor->field_20_pTexture,
+            pItem->field_4,
+            pActor);
+        pActor->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
+    }
+}
+short anime_read_maybe_randomised_short_8005EA6C(unsigned char *pData, int opCode)
 {
     const short temp = (pData[1]) | (pData[0] << 8);
     if ( opCode & 0x80 )
@@ -129,9 +155,20 @@ short anime_create_8005EA6C(unsigned char *pData, char opCode)
     return temp;
 }
 
+void anime_read_vec_8005EB30(SVECTOR *pVec, unsigned char *pData, int opCode)
+{
+    pVec->vx = anime_read_maybe_randomised_short_8005EA6C(pData, opCode); 
+    pVec->vy = anime_read_maybe_randomised_short_8005EA6C(pData + 2, opCode);
+    pVec->vz = anime_read_maybe_randomised_short_8005EA6C(pData + 4, opCode);
+}
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB30.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB98.s")
+void anime_adjust_vec_8005EB98(SVECTOR *pVec, unsigned char *pData, int opCode)
+{
+    pVec->vx += anime_read_maybe_randomised_short_8005EA6C(pData, opCode);
+    pVec->vy += anime_read_maybe_randomised_short_8005EA6C(pData + 2, opCode);
+    pVec->vz += anime_read_maybe_randomised_short_8005EA6C(pData + 4, opCode);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_1_8005ED0C.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_2_8005ED74.s")
