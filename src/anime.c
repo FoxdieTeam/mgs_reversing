@@ -84,7 +84,6 @@ void anime_create_8005E508(SVECTOR *pVec)
     anime_init_8005FBC8(0, 0, &stru_8009F1EC);
 }
 
-//#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E574.s")
 void sub_8005E574(MATRIX *pMtx)
 {
     SVECTOR vec; // [sp+10h] [-20h] BYREF
@@ -241,8 +240,13 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_11_8005F2F4.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_13_8005F408.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_14_8005F438.s")
 
+int anime_fn_14_8005F438(Actor_anime *pActor, int idx)
+{
+    pActor->field_24_pPrim->type |= 0x100u;
+    GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    return 1;
+}
 
 void anime_act_helper_8005F46C(SVECTOR *vec, SVECTOR *vec_arr)
 {
