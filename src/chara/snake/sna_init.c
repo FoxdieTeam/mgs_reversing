@@ -414,8 +414,70 @@ void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper4_8004F090.s")
-#pragma INCLUDE_ASM("asm/sub_8004F14C.s")
-#pragma INCLUDE_ASM("asm/sub_8004F204.s")
+
+extern unsigned short GM_WeaponTypes_8009D580[];
+extern Sna_ActionTable actions_no_weapon_8009ED70;
+void GV_DestroyActorQuick_80015164(struct Actor *pActor);
+void sna_init_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor);
+void sub_8004F14C(Actor_SnaInit *param_1)
+{
+    param_1->field_91C_weapon_idx = -1;
+    gGameState_800B4D98.field_1C_equipped_weapon = -1;
+
+    if (param_1->field_908_weapon_actor != 0)
+    {
+        GV_DestroyActorQuick_80015164(param_1->field_908_weapon_actor);
+    }
+
+    param_1->field_908_weapon_actor = 0;
+    param_1->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[0];
+    param_1->field_918_pWeaponState = 0;
+    param_1->field_9B4_action_table = &actions_no_weapon_8009ED70;
+    param_1->field_90C_pWeaponFn = sna_init_anim_chokethrow_begin1_80054210;
+    param_1->field_910 = 0;
+    param_1->field_926 = 0;
+    param_1->field_924 = 0;
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
+    {
+        param_1->field_A56 = 0;
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
+            PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+        sna_init_clear_flags_8004E344(param_1, 0x20);
+    }
+    else
+    {
+        sna_init_8004EC00(param_1);
+    }
+}
+
+extern int GM_ItemTypes_8009D598[];
+void sub_8004F204(Actor_SnaInit *param_1)
+{
+    if (param_1->field_9A4_item_actor != 0)
+    {
+        GV_DestroyActorQuick_80015164(param_1->field_9A4_item_actor);
+    }
+
+    param_1->field_9A4_item_actor = 0;
+    param_1->field_9A8 = -1;
+    gGameState_800B4D98.field_1E_equipped_item = -1;
+    param_1->field_9AC = (unsigned short)GM_ItemTypes_8009D598[0];
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
+    {
+        param_1->field_A56 = 0;
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
+            PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+        sna_init_clear_flags_8004E344(param_1, 0x20);
+    }
+    else
+    {
+        sna_init_8004EC00(param_1);
+    }
+
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_UNK1000);
+}
 
 void sna_init_set_invuln_8004F2A0(Actor_SnaInit *pActor, char invuln_frames)
 {
@@ -434,7 +496,48 @@ void sna_init_clear_invuln_8004F2EC(Actor_SnaInit *snake)
   snake->field_89C_pTarget->field_0_flags |= 0x9e;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004F338.s")
+int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
+void GM_ExitBehindCamera_80030AEC(void);
+void sub_8004F338(Actor_SnaInit *param_1)
+{
+  int iVar2;
+  
+  iVar2 = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT);
+  if (iVar2 != 0) {
+
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
+        PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+    sna_init_clear_flags_8004E344(param_1,0x20);
+    param_1->field_A56 = 0;
+  }
+  else {
+    sna_init_8004EC00(param_1);
+  }
+
+  sna_init_clear_invuln_8004F2EC(param_1);
+  param_1->field_A24_invuln_frames = 0;
+  sna_init_sub_8004E41C(param_1,2);
+  GM_ConfigMotionAdjust_80035008(&param_1->field_9C, 0);
+  sna_init_clear_flags_8004E308(param_1, 0x100);
+  param_1->field_9C0 = 0;
+  sna_init_8004E260(param_1, 0, 4, 0);
+  param_1->field_92C->def = (DG_DEF *)((int)param_1->field_92C->def | 0x100);
+  GM_ExitBehindCamera_80030AEC();
+
+  GM_PlayerStatus_800ABA50 &= PLAYER_STATUS_UNK10000000 | PLAYER_STATUS_UNK4000000 |
+      PLAYER_STATUS_UNK2000 | PLAYER_STATUS_UNK1000 | PLAYER_STATUS_FIRST_PERSON_DUCT |
+      PLAYER_STATUS_UNK4 | PLAYER_STATUS_CROUCHING | PLAYER_STATUS_PRONE;
+
+  if ((param_1->field_920_tbl_8009D580 & 0x200U) != 0) {
+    GM_SetPlayerStatusFlag_8004E2B4(1);
+  }
+
+  param_1->field_A28 = 0x1c2;
+  param_1->field_894_flags &= 0x18080000;
+  param_1->field_20_ctrl.field_55_flags &= 0xf7;
+  sna_init_clear_flags_8004E344(param_1, 0x100);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004F454.s")
 #pragma INCLUDE_ASM("asm/sub_8004F544.s")
 #pragma INCLUDE_ASM("asm/sub_8004F628.s")
@@ -442,7 +545,15 @@ void sna_init_clear_invuln_8004F2EC(Actor_SnaInit *snake)
 
 #pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s")
 #pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper4_8004FA3C.s")
+
+int sna_act_unk_helper4_8004FA3C(void)
+{
+    if (gGameState_800B4D98.field_16_snake_current_health == 0 || GM_GameOverTimer_800AB3D4 != 0)
+    {
+        return 1;
+    }
+    return 0;
+}
 
 extern void sna_init_clear_flags_8004E344(Actor_SnaInit* param_1, unsigned int param_2);
 
@@ -578,7 +689,6 @@ extern int dword_800ABBC4;
 extern int dword_8009EEA4[];
 int SECTION(".sbss") dword_800ABBC4;
 
-void GM_ExitBehindCamera_80030AEC(void);
 int sub_800507D8(Actor_SnaInit *param_1)
 {
     int ret;
