@@ -112,7 +112,7 @@ void sub_8005E774(SVECTOR *pVec)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E7EC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E9E0.s")
 
-short anime_create_8005EA6C(unsigned char *pData, char opCode)
+short anime_read_maybe_randomised_short_8005EA6C(unsigned char *pData, int opCode)
 {
     const short temp = (pData[1]) | (pData[0] << 8);
     if ( opCode & 0x80 )
@@ -129,8 +129,13 @@ short anime_create_8005EA6C(unsigned char *pData, char opCode)
     return temp;
 }
 
+void anime_read_vec_8005EB30(SVECTOR *pVec, unsigned char *pData, int opCode)
+{
+    pVec->vx = anime_read_maybe_randomised_short_8005EA6C(pData, opCode); 
+    pVec->vy = anime_read_maybe_randomised_short_8005EA6C(pData+2, opCode);
+    pVec->vz = anime_read_maybe_randomised_short_8005EA6C(pData+4, opCode);
+}
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB30.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005EB98.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_1_8005ED0C.s")
