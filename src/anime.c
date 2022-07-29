@@ -16,6 +16,8 @@ extern Anim_Data stru_8009F144;
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 
+extern int GV_Clock_800AB920;
+
 Actor* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
 {
 	signed int rnd; // $v1
@@ -109,9 +111,23 @@ void sub_8005E774(SVECTOR *pVec)
     anime_init_8005FBC8(0, 0, p);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E7EC.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E9E0.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s")
+void anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
 
+
+void anime_change_polygon_8005E9E0(Actor_anime *pActor, int idx)
+{
+    anime_0x34* pItem = &pActor->field_4C_items[0];
+    if ( (pActor->field_38_active_buff & (GV_Clock_800AB920 + 1)) != 0 )
+    {
+        anime_change_prim_8005E7EC(
+            &pActor->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920][idx].poly_ft4,
+            pActor->field_20_pTexture,
+            pItem->field_4,
+            pActor);
+        pActor->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
+    }
+}
 short anime_read_maybe_randomised_short_8005EA6C(unsigned char *pData, int opCode)
 {
     const short temp = (pData[1]) | (pData[0] << 8);
