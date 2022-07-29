@@ -239,7 +239,14 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_10_8005F288.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_11_8005F2F4.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_13_8005F408.s")
+
+int anime_fn_13_8005F408(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $a2
+    pItem = &pActor->field_4C_items[idx];
+    pItem->field_18_op_code = pItem->field_14;
+    return 1;
+}
 
 int anime_fn_14_8005F438(Actor_anime *pActor, int idx)
 {
