@@ -529,7 +529,7 @@ void sub_8004F338(Actor_SnaInit *param_1)
       PLAYER_STATUS_UNK4 | PLAYER_STATUS_CROUCHING | PLAYER_STATUS_PRONE;
 
   if ((param_1->field_920_tbl_8009D580 & 0x200U) != 0) {
-    GM_SetPlayerStatusFlag_8004E2B4(1);
+    GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON);
   }
 
   param_1->field_A28 = 0x1c2;
