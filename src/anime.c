@@ -120,7 +120,32 @@ void sub_8005E774(SVECTOR *pVec)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_4_8005EE44.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_5_8005EEA4.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_6_8005EF04.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_7_8005EFF8.s")
+
+int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $a2
+    int i; // $a0
+    unsigned char *pOpData; // $a1
+    unsigned char rgb_incr[3];
+    
+    pItem = &pActor->field_4C_items[idx];
+    pOpData = pItem->field_18_op_code;
+ 
+    for (i = 0; i < 3; i++)
+    {
+        pOpData++;
+        rgb_incr[i] = *pOpData;
+    }
+    
+    pItem->field_10_r += rgb_incr[0];
+    pItem->field_11_g += rgb_incr[1];
+    pItem->field_12_b += rgb_incr[2];
+
+    pItem->field_18_op_code += 4;
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_helper_8005F094.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_9_8005F180.s")
