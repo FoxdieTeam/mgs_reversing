@@ -2,6 +2,7 @@
 #include "libdg.h"
 #include "game.h"
 #include "target.h"
+#include "anime.h"
 
 extern const char aBlastC[];
 extern int claymore_map_800AB9DC;
@@ -13,8 +14,10 @@ void sub_80032858(SVECTOR *pVec, int a2);
 extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target*, int);
 extern short GM_uBombHoming_800AB3E4;
 
-
+extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR stru_8009F558[2];
+
+extern Anim_Data stru_8009F568;
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {
@@ -193,6 +196,17 @@ Actor_Blast* NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSoun
     return pActor;
 }
 
-#pragma INCLUDE_ASM("asm/AN_Blast_Single_8006E224.s")
+void AN_Blast_Single_8006E224(SVECTOR *pVec)
+{
+    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+
+    data.field_0_vec = *pVec;
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+    data.field_12 = 0;
+    data.field_10_anim_idx = 0;
+    stru_8009F568.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F568);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8006E2A8.s")
 #pragma INCLUDE_ASM("asm/AN_Blast_Minimini_8006E32C.s")
