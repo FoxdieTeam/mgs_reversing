@@ -29,9 +29,31 @@ int sub_8005BF84(int a1, int a2, int a3, int a4)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8005BFDC.s")
-#pragma INCLUDE_ASM("asm/sub_8005C05C.s")
-#pragma INCLUDE_ASM("asm/sub_8005C140.s")
+int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec);
 
+#pragma INCLUDE_ASM("asm/sub_8005C05C.s")
+
+int sna_init_8005C140(HZD_MAP *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
+{
+    unsigned char *nears; // $s2
+    int i; // $s1
+    int cur_near; // $s0
+
+    nears = pZon2->nears;
+    for ( i = 6; i > 0; --i )
+    {
+        cur_near = *nears++;
+        if ( cur_near == 255 )
+        {
+            break;
+        }
+        if ( sub_8005BFDC(&pZon1->f00_header->navmeshes[cur_near], pVec) )
+        {
+            return cur_near;
+        }
+    }
+    return -1;
+}
 
 int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
 {
