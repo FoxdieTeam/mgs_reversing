@@ -26,8 +26,7 @@ typedef struct          DG_CHNL
     // One for each active buffer and for some reason passed as the root
     // to DrawOTag
     DR_ENV              field_6C_dr_env[2];
-    DR_ENV              dword_6BC458; // prob also an array of 2
-    DR_ENV              dword_6BC498;
+    DR_ENV              field_EC_dr_env[2];
     DR_ENV              field_16C_dr_env[2];
 } DG_CHNL;
 
