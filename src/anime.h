@@ -47,6 +47,8 @@ typedef struct Actor_anime
   anime_0x34 field_4C_items[0];
 } Actor_anime;
 
+typedef int (*TAnimeVMFn)(Actor_anime*, int);
+
 typedef struct anime_data_0x14
 {
   SVECTOR field_0_vec;

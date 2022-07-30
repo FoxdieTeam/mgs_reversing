@@ -22,6 +22,12 @@ void sub_80032858(SVECTOR *pVec, int a2);
 int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 extern int GV_Clock_800AB920;
+extern const char aScriptActErr[];
+
+extern TAnimeVMFn anime_fn_table_8009F228[]; 
+
+int mts_nullsub_8_8008BB98(int, const char *, ...);
+void DG_PutPrim_8001BE00( MATRIX* matrix );
 
 Actor* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
 {
@@ -393,14 +399,58 @@ int anime_fn_14_8005F438(Actor_anime *pActor, int idx)
     return 1;
 }
 
-void anime_act_helper_8005F46C(SVECTOR *vec, SVECTOR *vec_arr)
+void anime_act_helper_8005F46C(SVECTOR *pVec, anime_0x34 *pItem)
 {
-    vec->vx += vec_arr[1].vx;
-    vec->vy += vec_arr[1].vy;
-    vec->vz += vec_arr[1].vz;
+    pVec->vx += pItem->field_8_vec.vx;
+    pVec->vy += pItem->field_8_vec.vy;
+    pVec->vz += pItem->field_8_vec.vz;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_8005F4AC.s")
+void anime_act_8005F4AC(Actor_anime *pActor)
+{
+    anime_0x34 *pItemsIter; // $s0
+    SVECTOR *field_48_pPrimVec; // $s3
+    int i; // $s1
+    unsigned int script_op_code; // $v1
+    int opCodeRet; // $v0
+
+    pItemsIter = pActor->field_4C_items;
+    pActor->field_24_pPrim->type &= ~0x100u;
+    field_48_pPrimVec = pActor->field_48_pPrimVec;
+    for ( i = 0; i < pActor->field_42_count;  ++i)
+    {
+        if ( pItemsIter->field_0_counter <= 0 )
+        {
+            while ( 1 )
+            {
+                script_op_code = *pItemsIter->field_18_op_code & 0x7F;
+                if ( script_op_code > 15 )
+                {
+                    mts_nullsub_8_8008BB98(1, aScriptActErr);//  SCRIPT ACT ERR!! \n
+                    GV_DestroyActor_800151C8(&pActor->field_0_actor);
+                    break;
+                }
+                opCodeRet = anime_fn_table_8009F228[script_op_code - 1](pActor, i);
+                if ( opCodeRet )
+                {
+                    break;
+                }
+            }           
+        }
+        anime_act_helper_8005F46C(field_48_pPrimVec, pItemsIter);        
+        anime_change_polygon_8005E9E0(pActor, i);
+        ++field_48_pPrimVec;
+        --pItemsIter->field_0_counter; 
+        ++pItemsIter;
+    }
+    anime_act_helper_8005F094(pActor);
+    GM_CurrentMap_800AB9B0 = pActor->field_34_map;
+    if ( pActor->field_30_mtx )
+    {
+        DG_SetPos_8001BC44(pActor->field_30_mtx);
+        DG_PutPrim_8001BE00(&pActor->field_24_pPrim->world);
+    }
+}
 
 void anime_kill_8005F608(int param_1)
 {
@@ -420,7 +470,7 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")
 
 extern int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
-extern void anime_act_8005F4AC(Actor_anime *param_1,int param_2,int param_3);
+extern void anime_act_8005F4AC(Actor_anime *param_1);
 extern const char aAnimeC[];
 
 Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)

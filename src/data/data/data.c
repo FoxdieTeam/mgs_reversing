@@ -1032,23 +1032,23 @@ struct Anim_Data SECTION(".data") stru_8009F208 = { 20781, 8, 1966084, 1, 1000, 
 
 int SECTION(".data") dword_8009F224 = 0;
 
-int SECTION(".data") anime_fn_table_8009F228[] = 
+TAnimeVMFn SECTION(".data") anime_fn_table_8009F228[] = 
 {
-	0x8005EC1C,
-	0x8005ED0C,
-	0x8005ED74,
-	0x8005EDDC,
-	0x8005EE44,
-	0x8005EEA4,
-	0x8005EF04,
-	0x8005EFF8,
-	0x8005F0F0,
-	0x8005F180,
-	0x8005F288,
-	0x8005F2F4,
-	0x8005F37C,
-	0x8005F408,
-	0x8005F438
+	(void*)0x8005EC1C,
+	(void*)0x8005ED0C,
+	(void*)0x8005ED74,
+	(void*)0x8005EDDC,
+	(void*)0x8005EE44,
+	(void*)0x8005EEA4,
+	(void*)0x8005EF04,
+	(void*)0x8005EFF8,
+	(void*)0x8005F0F0,
+	(void*)0x8005F180,
+	(void*)0x8005F288,
+	(void*)0x8005F2F4,
+	(void*)0x8005F37C,
+	(void*)0x8005F408,
+	(void*)0x8005F438
 };
 
 // TODO: Warning without const, but can't be const else would end up in rdata section?
