@@ -1,11 +1,30 @@
 #include "idaTypes.h"
 #include "actor.h"
+#include "libdg.h"
 
 extern const char   aDBloodrC[];
 
 extern int          d_bloodr_act_80072C10(int a1);
-extern int          d_bloodr_kill_80072BD4(int a1);
+extern void          d_bloodr_kill_80072BD4(int a1);
 extern int          d_bloodr_loader_800730EC(struct Actor *pActor, int a2);
+
+void d_bloodr_kill_80072BD4(int param_1)
+{
+    DG_OBJS *prim;
+
+    prim = *(DG_OBJS **)(param_1 + 0x20);
+    if (prim)
+    {
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
+    }
+    return;
+}
+
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_act_80072C10.s")
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_helper_80072DE8.s")
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_80072EFC.s")
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_800730EC.s")
 
 struct Actor *NewKetchap_r_80073148(int arg0)
 {
