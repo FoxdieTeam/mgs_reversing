@@ -18,6 +18,7 @@ extern Anim_Data stru_8009F144;
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 void *memset_8008E688(void *pSrc, int value, int len);
+void sub_80032858(SVECTOR *pVec, int a2);
 
 extern int GV_Clock_800AB920;
 
@@ -236,7 +237,16 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_helper_8005F094.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_9_8005F180.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_10_8005F288.s")
+
+int anime_fn_10_8005F288(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $s0
+
+    pItem = &pActor->field_4C_items[idx];
+    sub_80032858(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
+    pItem->field_18_op_code += 2;
+    return 0;
+}
 
 int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
 {
