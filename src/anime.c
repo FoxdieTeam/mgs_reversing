@@ -201,7 +201,33 @@ void anime_adjust_vec_8005EB98(SVECTOR *pVec, unsigned char *pData, int opCode)
     pVec->vz += anime_read_maybe_randomised_short_8005EA6C(pData + 4, opCode);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
+int anime_fn_0_8005EC1C(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $s0
+    int next_op; // $v1
+
+    pItem = &pActor->field_4C_items[idx];
+    next_op = pItem->field_18_op_code[1];
+    if ( next_op == 255 )
+    {
+        pItem->field_4++;
+        if ( pItem->field_4 >= pActor->field_3E_maybe_data_count )
+        {
+            pItem->field_4 = 0;
+        }
+    }
+    else
+    {
+        if ( next_op == 254 )
+        {
+            next_op = rand_8008E6B8() % pActor->field_3E_maybe_data_count;
+        }
+        pItem->field_4 = next_op;
+    }
+    pActor->field_38_active_buff = 3;
+    pItem->field_18_op_code += 2;
+    return 0;
+}
 
 int anime_fn_1_8005ED0C(Actor_anime *pActor, int idx)
 {
