@@ -1,8 +1,6 @@
 #include "anime.h"
 #include "GM_Control.h"
 
-Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData);
-
 extern SVECTOR DG_ZeroVector_800AB39C;
 
 extern int GV_Time_800AB330;
