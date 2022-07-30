@@ -25,7 +25,8 @@ enum
     PLAYER_STATUS_UNK400                      =  0x400,
     PLAYER_STATUS_PREVENT_FIRST_PERSON        =  0x800,
     PLAYER_STATUS_UNK1000                     =  0x1000,
-    PLAYER_STATUS_UNK2000                     =  0x2000,
+    // triggers game over when set. could this be the 'dead' flag?
+    PLAYER_STATUS_GAMEOVER                    =  0x2000,
     PLAYER_STATUS_UNK4000                     =  0x4000,
     PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH  =  0x8000,
     PLAYER_STATUS_ON_WALL                     =  0x10000,
