@@ -1440,12 +1440,8 @@
 	; 80074644 800746B4 80074730 80074844 800748B8 800748D8 80074B5C 80074CA4 80074D28
 	include "..\obj\Okajima\stngrnd.obj"
 
-    include "..\obj\Okajima\stgfd_io_act_helper_80074DAC.obj"
-    include "..\obj\Okajima\stgfd_io_act_helper_80074F44.obj"
-    include "..\obj\Okajima\stgfd_io_act_80074F5C.obj"
-    include "..\obj\Okajima\stgfd_io_kill_80075164.obj"
-    include "..\obj\Okajima\stgfd_io_loader_80075194.obj"
-    include "..\obj\Okajima\NewStnFade_800752A0.obj"
+	; 80074DAC 80074F44 80074F5C 80075164 80075194 800752A0
+	include "..\obj\Okajima\stgfd_io.obj"
     
 
     include "..\obj\Okajima\bullet_80075314.obj"
