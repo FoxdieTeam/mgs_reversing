@@ -235,7 +235,14 @@ int anime_fn_4_8005EE44(Actor_anime *pActor, int idx)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_5_8005EEA4.s")
+int anime_fn_5_8005EEA4(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    anime_adjust_vec_8005EB98(&pItem->field_8_vec, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 7;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_6_8005EF04.s")
 
 int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
