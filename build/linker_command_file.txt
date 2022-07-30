@@ -1226,7 +1226,7 @@
     include "..\obj\sub_8005BFDC.obj"
     include "..\obj\sub_8005C05C.obj"
     include "..\obj\sub_8005C140.obj"
-    include "..\obj\sub_8005C1E4.obj"
+    include "..\obj\chara\snake\sub_8005C1E4.obj"
     include "..\obj\sub_8005C298.obj"
     include "..\obj\sub_8005C354.obj"
     include "..\obj\HZD_ReachTo_helper_8005C404.obj"
