@@ -202,7 +202,15 @@ void anime_adjust_vec_8005EB98(SVECTOR *pVec, unsigned char *pData, int opCode)
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_1_8005ED0C.s")
+
+int anime_fn_1_8005ED0C(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    pItem->field_0_counter = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 3;
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_2_8005ED74.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_3_8005EDDC.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_4_8005EE44.s")
