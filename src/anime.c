@@ -298,7 +298,31 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_helper_8005F094.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_9_8005F180.s")
+
+int anime_fn_9_8005F180(Actor_anime *pActor, int idx)
+{
+    int i; // $s2
+    anime_0x34 *pItem; // $s3
+    unsigned char *opCode_pos; // $s0
+    short rect_wh_offset[2]; // [sp+10h] [-8h] BYREF
+    RECT* pRect;
+    
+    pItem = &pActor->field_4C_items[idx];
+    opCode_pos = pItem->field_18_op_code + 1;
+    for (i = 0; i < 2; i++)
+    {
+        rect_wh_offset[i] = anime_read_maybe_randomised_short_8005EA6C(opCode_pos, 0);
+        opCode_pos += 2;
+    }
+
+    pRect = &pActor->field_28_prim_rect;
+    pRect->w += rect_wh_offset[0];
+    pRect->h += rect_wh_offset[1];
+    pRect->x = pRect->w / 2;
+    pRect->y = pRect->h / 2;
+    pItem->field_18_op_code += 5;
+    return 0;
+}
 
 int anime_fn_10_8005F288(Actor_anime *pActor, int idx)
 {
