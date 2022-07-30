@@ -171,7 +171,6 @@ for root, subdirs, files in os.walk(root_dir + '/src'):
                             continue
                     
                     key = var_name.partition('[')[0]
-                    print_stuff = key.__contains__('ItemTypes')
                     if key in symbol_address_map:
                         address = symbol_address_map[key]
                         if ishex(address) and len(address) == 8 and address.startswith('80'):
