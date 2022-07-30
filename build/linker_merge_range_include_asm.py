@@ -93,7 +93,7 @@ out_file_obj = '..\\obj\\{}.obj'.format(out_file.replace('/', '\\'))
 out_file_obj = out_file_obj.replace(".c.obj", ".obj")
 out_file_obj = out_file_obj.replace("..\\src\\", "")
 
-lines[start_line_no] = '\n\tinclude "{}\n"'.format(out_file_obj)
+lines[start_line_no] = '\n\tinclude "{}"\n'.format(out_file_obj)
 
 lines.insert(start_line_no, '\t; ' + ' '.join(addresses))
 
