@@ -1422,16 +1422,8 @@
 	; 8007111C 800711C0 80071320 800713FC 80071498 800714EC 800719C8 80071A54 80071CDC 80071DC8 80071EA8 80071F98	
 	include "..\obj\Thing\sight.obj"
 
-    include "..\obj\Okajima\blood_loader2_helper2_80072080.obj"
-    include "..\obj\Okajima\blood_act_helper_80072394.obj"
-    include "..\obj\Okajima\blood_loader2_helper_80072478.obj"
-    include "..\obj\Okajima\blood_act_helper_8007250C.obj"
-    include "..\obj\Okajima\blood_act_80072538.obj"
-    include "..\obj\Okajima\blood_kill_800725CC.obj"
-    include "..\obj\Okajima\blood_loader2_80072608.obj"
-    include "..\obj\Okajima\NewBlood_80072728.obj"
-    include "..\obj\Okajima\AN_Blood_Mist_80072934.obj"
-    
+	; 80072080 80072394 80072478 8007250C 80072538 800725CC 80072608 80072728 80072934
+	include "..\obj\Okajima\blood.obj"    
 
     include "..\obj\Okajima\d_blood_kill_null_800729AC.obj"
     include "..\obj\Okajima\d_blood_act_helper_800729B4.obj"
