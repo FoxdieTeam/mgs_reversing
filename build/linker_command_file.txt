@@ -1226,7 +1226,7 @@
     include "..\obj\sub_8005BFDC.obj"
     include "..\obj\sub_8005C05C.obj"
     include "..\obj\sub_8005C140.obj"
-    include "..\obj\sub_8005C1E4.obj"
+    include "..\obj\chara\snake\sub_8005C1E4.obj"
     include "..\obj\sub_8005C298.obj"
     include "..\obj\sub_8005C354.obj"
     include "..\obj\HZD_ReachTo_helper_8005C404.obj"
@@ -1252,13 +1252,8 @@
 	; 8005D604 8005D6BC 8005D988 8005DDE0 8005DE70 8005DF50 8005E090 8005E1A0 8005E258 8005E334 8005E508 8005E574 8005E6A4 8005E774 8005E7EC 8005E9E0 8005EA6C 8005EB30 8005EB98 8005EC1C 8005ED0C 8005ED74 8005EDDC 8005EE44 8005EEA4 8005EF04 8005EFF8 8005F094 8005F0F0 8005F180 8005F288 8005F2F4 8005F37C 8005F408 8005F438 8005F46C 8005F4AC 8005F608 8005F644 8005F6EC 8005F994 8005FBC8 8005FCA4
 	include "..\obj\anime.obj"
 
-    include "..\obj\shadow_act_helper_8005FD28.obj"
-    include "..\obj\shadow_act_helper_80060028.obj"
-    include "..\obj\shadow_act_800600E4.obj"
-    include "..\obj\shadow_kill_80060190.obj"
-    include "..\obj\shadow_loader_800601B0.obj"
-    include "..\obj\shadow_init_800602CC.obj"
-    include "..\obj\shadow_init2_80060384.obj"
+	; 8005FD28 80060028 800600E4 80060190 800601B0 800602CC 80060384
+	include "..\obj\chara\snake\shadow.obj"
     
     include "..\obj\chara\snake\afterse_act_800603EC.obj"
     include "..\obj\chara\snake\afterse_init_800604C0.obj"
@@ -1353,13 +1348,8 @@
     include "..\obj\Weapon\NewRifleSight_8006989C.obj"
     include "..\obj\Weapon\NewRifleSightFast_80069920.obj"
 
-    include "..\obj\tenage_act_800699A4.obj"
-    include "..\obj\tenage_kill_80069DBC.obj"
-    include "..\obj\tenage_init_helper_80069E28.obj"
-    include "..\obj\tenage_init_helper_80069E64.obj"
-    include "..\obj\NewTenage_8006A010.obj"
-    include "..\obj\sub_8006A100.obj"
-    include "..\obj\NewTenage3_8006A128.obj"
+	; 800699A4 80069DBC 80069E28 80069E64 8006A010 8006A100 8006A128
+	include "..\obj\Bullet\tenage.obj"
 
 	; 8006A218 8006A4A4 8006A510 8006A54C 8006A6CC
 	include "..\obj\Bullet\bakudan.obj"
@@ -1367,42 +1357,16 @@
 	; 8006A798 8006A8F4 8006A950 8006AB5C 8006B05C 8006B124 8006B268 8006B2A4 8006B48C 8006B564 8006B76C
 	include "..\obj\Bullet\jirai.obj"
 
-    include "..\obj\Bullet\rmissile_loader_helper4_8006B800.obj"
-    include "..\obj\Bullet\rmissile_8006B888.obj"
-    include "..\obj\Bullet\rmissile_8006B924.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006B9B0.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006BA70.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006BB10.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BD24.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BE50.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BE90.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BEEC.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BFD4.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006C0A4.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006C114.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006C37C.obj"
-    include "..\obj\Bullet\rmissile_act_8006C5C4.obj"
-    include "..\obj\Bullet\rmissile_kill_8006CB40.obj"
-    include "..\obj\Bullet\rmissile_loader_helper3_8006CBD8.obj"
-    include "..\obj\Bullet\rmissile_loader_helper2_8006CC50.obj"
-    include "..\obj\Bullet\rmissile_loader_helper_helper_8006CD1C.obj"
-    include "..\obj\Bullet\rmissile_loader_helper_8006CE54.obj"
-    include "..\obj\Bullet\rmissile_loader_8006CF44.obj"
-    include "..\obj\Bullet\NewRMissile_8006D124.obj"
+	; 8006B800 8006B888 8006B924 8006B9B0 8006BA70 8006BB10 8006BD24 8006BE50 8006BE90 8006BEEC 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54 8006CF44 8006D124
+	include "..\obj\Bullet\rmissile.obj"
     
-    include "..\obj\Bullet\amissile_loader_helper_8006D1F4.obj"
-    include "..\obj\Bullet\amissile_act_helper_8006D2A0.obj"
-    include "..\obj\Bullet\amissile_act_helper_8006D37C.obj"
-    include "..\obj\Bullet\amissile_act_helper_8006D600.obj"
-    include "..\obj\Bullet\amissile_act_8006D608.obj"
-    include "..\obj\Bullet\amissile_kill_8006D99C.obj"
-    include "..\obj\Bullet\amissile_loader_8006DA0C.obj"
-    include "..\obj\Bullet\NewAMissile_8006DC50.obj"
+	; 8006D1F4 8006D2A0 8006D37C 8006D600 8006D608 8006D99C 8006DA0C 8006DC50
+	include "..\obj\Bullet\amissile.obj"
 
 	; 8006DD18 8006DD90 8006DDEC 8006DF8C 8006DFDC 8006E0F0 8006E224 8006E2A8 8006E32C
 	include "..\obj\Bullet\blast.obj"
 
-    ; maybe part of blast.c
+    ; TODO: part of blast.c
     include "..\obj\sub_8006E3B0.obj"
     include "..\obj\sub_8006E4A4.obj"
     include "..\obj\sub_8006E6CC.obj"
@@ -1434,52 +1398,18 @@
 	; 800731CC 800731F8 800732B0 80073364 80073490 800735A0 800736B0 800738F4 80073930 800739EC 80073B8C
 	include "..\obj\Okajima\claymore.obj"
 
-    include "..\obj\Okajima\InitRandamTable_80073DB0.obj"
-    include "..\obj\Okajima\spark_loader3_80073E48.obj"
-    include "..\obj\Okajima\spark_act_helper_80074118.obj"
-    include "..\obj\Okajima\spark_loader4_80074234.obj"
-    include "..\obj\Okajima\spark_800742F0.obj"
-    include "..\obj\Okajima\spark_act_80074334.obj"
-    include "..\obj\Okajima\spark_kill_800743DC.obj"
-    include "..\obj\Equip\spark_loader_80074418.obj"
-    include "..\obj\Okajima\NewSpark_80074564.obj"
+	; 80073DB0 80073E48 80074118 80074234 800742F0 80074334 800743DC 80074418 80074564
+	include "..\obj\Okajima\spark.obj"
 
+	; 80074644 800746B4 80074730 80074844 800748B8 800748D8 80074B5C 80074CA4 80074D28
+	include "..\obj\Okajima\stngrnd.obj"
 
-    include "..\obj\Okajima\stngrnd_loader2_80074644.obj"
-    include "..\obj\Okajima\stngrnd_800746B4.obj"
-    include "..\obj\Okajima\stngrnd_act_80074730.obj"
-    include "..\obj\Okajima\stngrnd_free_80074844.obj"
-    include "..\obj\Okajima\stngrnd_kill_800748B8.obj"
-    include "..\obj\Okajima\stngrnd_loader_800748D8.obj"
-    include "..\obj\Okajima\NewStanBlast_80074B5C.obj"
-    include "..\obj\Okajima\AN_Stn_G_Sonic_80074CA4.obj"
-    include "..\obj\Okajima\AN_Stn_G_Center_80074D28.obj"
-
-
-    include "..\obj\Okajima\stgfd_io_act_helper_80074DAC.obj"
-    include "..\obj\Okajima\stgfd_io_act_helper_80074F44.obj"
-    include "..\obj\Okajima\stgfd_io_act_80074F5C.obj"
-    include "..\obj\Okajima\stgfd_io_kill_80075164.obj"
-    include "..\obj\Okajima\stgfd_io_loader_80075194.obj"
-    include "..\obj\Okajima\NewStnFade_800752A0.obj"
+	; 80074DAC 80074F44 80074F5C 80075164 80075194 800752A0
+	include "..\obj\Okajima\stgfd_io.obj"
     
-
-    include "..\obj\Okajima\bullet_80075314.obj"
-    include "..\obj\Okajima\bullet_loader2_helper_80075358.obj"
-    include "..\obj\Okajima\bullet_act_helper_80075414.obj"
-    include "..\obj\Okajima\bullet_act_helper_800754E4.obj"
-    include "..\obj\Okajima\bullet_loader2_helper_80075610.obj"
-    include "..\obj\Okajima\bullet_loader3_8007575C.obj"
-    include "..\obj\Okajima\bullet_act_80075DD4.obj"
-    include "..\obj\Okajima\bullet_kill_80076164.obj"
-    include "..\obj\Okajima\bullet_loader_800761A0.obj"
-    include "..\obj\Okajima\bullet_loader2_80076274.obj"
-    include "..\obj\Okajima\NewBulletEnemy_80076420.obj"
-    include "..\obj\Okajima\bullet_init_80076584.obj"
-    include "..\obj\Okajima\NewBulletEx_80076708.obj"
-    include "..\obj\Okajima\sub_8007692C.obj"
+	; 80075314 80075358 80075414 800754E4 80075610 8007575C 80075DD4 80076164 800761A0 80076274 80076420 80076584 80076708 8007692C
+	include "..\obj\Okajima\bullet.obj"
     
-
 	; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
 	include "..\obj\Okajima\chafgrnd.obj"
 
