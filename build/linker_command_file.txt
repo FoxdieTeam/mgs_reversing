@@ -1444,20 +1444,8 @@
 	include "..\obj\Okajima\stgfd_io.obj"
     
 
-    include "..\obj\Okajima\bullet_80075314.obj"
-    include "..\obj\Okajima\bullet_loader2_helper_80075358.obj"
-    include "..\obj\Okajima\bullet_act_helper_80075414.obj"
-    include "..\obj\Okajima\bullet_act_helper_800754E4.obj"
-    include "..\obj\Okajima\bullet_loader2_helper_80075610.obj"
-    include "..\obj\Okajima\bullet_loader3_8007575C.obj"
-    include "..\obj\Okajima\bullet_act_80075DD4.obj"
-    include "..\obj\Okajima\bullet_kill_80076164.obj"
-    include "..\obj\Okajima\bullet_loader_800761A0.obj"
-    include "..\obj\Okajima\bullet_loader2_80076274.obj"
-    include "..\obj\Okajima\NewBulletEnemy_80076420.obj"
-    include "..\obj\Okajima\bullet_init_80076584.obj"
-    include "..\obj\Okajima\NewBulletEx_80076708.obj"
-    include "..\obj\Okajima\sub_8007692C.obj"
+	; 80075314 80075358 80075414 800754E4 80075610 8007575C 80075DD4 80076164 800761A0 80076274 80076420 80076584 80076708 8007692C
+	include "..\obj\Okajima\bullet.obj"
     
 
 	; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
