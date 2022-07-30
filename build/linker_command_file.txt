@@ -1370,19 +1370,13 @@
 	; 8006B800 8006B888 8006B924 8006B9B0 8006BA70 8006BB10 8006BD24 8006BE50 8006BE90 8006BEEC 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54 8006CF44 8006D124
 	include "..\obj\Bullet\rmissile.obj"
     
-    include "..\obj\Bullet\amissile_loader_helper_8006D1F4.obj"
-    include "..\obj\Bullet\amissile_act_helper_8006D2A0.obj"
-    include "..\obj\Bullet\amissile_act_helper_8006D37C.obj"
-    include "..\obj\Bullet\amissile_act_helper_8006D600.obj"
-    include "..\obj\Bullet\amissile_act_8006D608.obj"
-    include "..\obj\Bullet\amissile_kill_8006D99C.obj"
-    include "..\obj\Bullet\amissile_loader_8006DA0C.obj"
-    include "..\obj\Bullet\NewAMissile_8006DC50.obj"
+	; 8006D1F4 8006D2A0 8006D37C 8006D600 8006D608 8006D99C 8006DA0C 8006DC50
+	include "..\obj\Bullet\amissile.obj"
 
 	; 8006DD18 8006DD90 8006DDEC 8006DF8C 8006DFDC 8006E0F0 8006E224 8006E2A8 8006E32C
 	include "..\obj\Bullet\blast.obj"
 
-    ; maybe part of blast.c
+    ; TODO: part of blast.c
     include "..\obj\sub_8006E3B0.obj"
     include "..\obj\sub_8006E4A4.obj"
     include "..\obj\sub_8006E6CC.obj"
