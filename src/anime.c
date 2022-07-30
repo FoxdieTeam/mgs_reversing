@@ -296,7 +296,25 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_helper_8005F094.s")
+void anime_act_helper_8005F094(Actor_anime *pActor)
+{
+    int i; // $a1
+    union Prim_Union* pPrimStart; // $v1
+    anime_0x34 *pOffIter; // $a0
+    POLY_FT4 *pPrim; // $v1
+
+    pPrimStart = pActor->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920];
+    pPrim = &pPrimStart->poly_ft4;
+    pOffIter = &pActor->field_4C_items[0];
+    
+    for (i = pActor->field_42_count; i > 0; i--)
+    {
+        setRGB0(pPrim, pOffIter->field_10_r, pOffIter->field_11_g, pOffIter->field_12_b);
+        pPrim++;
+        pOffIter++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
 
 int anime_fn_9_8005F180(Actor_anime *pActor, int idx)
