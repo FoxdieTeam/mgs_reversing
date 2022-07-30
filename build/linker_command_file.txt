@@ -1428,15 +1428,8 @@
 	; 800729AC 800729B4 80072A0C 80072B24 80072B38 80072B60
 	include "..\obj\Okajima\d_blood.obj"
 
-    ; Okajima\d_bloodr.c
-
-
-    include "..\obj\Okajima\d_bloodr_kill_80072BD4.obj"
-    include "..\obj\Okajima\d_bloodr_act_80072C10.obj"
-    include "..\obj\Okajima\d_bloodr_loader_helper_helper_80072DE8.obj"
-    include "..\obj\Okajima\d_bloodr_loader_helper_80072EFC.obj"
-    include "..\obj\Okajima\d_bloodr_loader_800730EC.obj"
-    include "..\obj\Okajima\NewKetchap_r_80073148.obj"
+	; 80072BD4 80072C10 80072DE8 80072EFC 800730EC 80073148
+	include "..\obj\Okajima\d_bloodr.obj"
 
 
     include "..\obj\Okajima\claymore_800731CC.obj"
