@@ -16,13 +16,12 @@ typedef struct anime_0x34
   char field_10_r;
   char field_11_g;
   char field_12_b;
-  char field_13;
+  unsigned char field_13; // some countr
   unsigned char* field_14; // loop/jump target?
   unsigned char *field_18_op_code;
-  int field_1C;
+  short field_1C[2]; // todo: might be biggr
   int field_20;
-  int field_24;
-  int field_28;
+  unsigned char* field_24_saved_op_code[2]; // todo: might be bigger
   int field_2C;
   int field_30;
 } anime_0x34;

@@ -18,6 +18,7 @@ extern Anim_Data stru_8009F144;
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 void *memset_8008E688(void *pSrc, int value, int len);
+void sub_80032858(SVECTOR *pVec, int a2);
 
 extern int GV_Clock_800AB920;
 
@@ -200,12 +201,74 @@ void anime_adjust_vec_8005EB98(SVECTOR *pVec, unsigned char *pData, int opCode)
     pVec->vz += anime_read_maybe_randomised_short_8005EA6C(pData + 4, opCode);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_0_8005EC1C.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_1_8005ED0C.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_2_8005ED74.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_3_8005EDDC.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_4_8005EE44.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_5_8005EEA4.s")
+int anime_fn_0_8005EC1C(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $s0
+    int next_op; // $v1
+
+    pItem = &pActor->field_4C_items[idx];
+    next_op = pItem->field_18_op_code[1];
+    if ( next_op == 255 )
+    {
+        pItem->field_4++;
+        if ( pItem->field_4 >= pActor->field_3E_maybe_data_count )
+        {
+            pItem->field_4 = 0;
+        }
+    }
+    else
+    {
+        if ( next_op == 254 )
+        {
+            next_op = rand_8008E6B8() % pActor->field_3E_maybe_data_count;
+        }
+        pItem->field_4 = next_op;
+    }
+    pActor->field_38_active_buff = 3;
+    pItem->field_18_op_code += 2;
+    return 0;
+}
+
+int anime_fn_1_8005ED0C(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    pItem->field_0_counter = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 3;
+    return 1;
+}
+
+int anime_fn_2_8005ED74(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    anime_read_vec_8005EB30(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 7;
+    return 0;
+}
+
+int anime_fn_3_8005EDDC(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    anime_adjust_vec_8005EB98(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 7;
+    return 0;
+}
+
+int anime_fn_4_8005EE44(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    anime_read_vec_8005EB30(&pItem->field_8_vec, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 7;
+    return 0;
+}
+
+int anime_fn_5_8005EEA4(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem = &pActor->field_4C_items[idx];
+    anime_adjust_vec_8005EB98(&pItem->field_8_vec, pItem->field_18_op_code + 1, *pItem->field_18_op_code);
+    pItem->field_18_op_code += 7;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_6_8005EF04.s")
 
 int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
@@ -235,9 +298,58 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_act_helper_8005F094.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_9_8005F180.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_10_8005F288.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_11_8005F2F4.s")
+
+int anime_fn_9_8005F180(Actor_anime *pActor, int idx)
+{
+    int i; // $s2
+    anime_0x34 *pItem; // $s3
+    unsigned char *opCode_pos; // $s0
+    short rect_wh_offset[2]; // [sp+10h] [-8h] BYREF
+    RECT* pRect;
+    
+    pItem = &pActor->field_4C_items[idx];
+    opCode_pos = pItem->field_18_op_code + 1;
+    for (i = 0; i < 2; i++)
+    {
+        rect_wh_offset[i] = anime_read_maybe_randomised_short_8005EA6C(opCode_pos, 0);
+        opCode_pos += 2;
+    }
+
+    pRect = &pActor->field_28_prim_rect;
+    pRect->w += rect_wh_offset[0];
+    pRect->h += rect_wh_offset[1];
+    pRect->x = pRect->w / 2;
+    pRect->y = pRect->h / 2;
+    pItem->field_18_op_code += 5;
+    return 0;
+}
+
+int anime_fn_10_8005F288(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $s0
+
+    pItem = &pActor->field_4C_items[idx];
+    sub_80032858(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
+    pItem->field_18_op_code += 2;
+    return 0;
+}
+
+int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $s0
+    int maybe_randomised_short_8005EA6C; // $v0
+    int new_idx; // $a0
+
+    pItem = &pActor->field_4C_items[idx];
+    maybe_randomised_short_8005EA6C = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
+    pItem->field_13++;
+    new_idx = pItem->field_13;
+    pItem->field_18_op_code += 3;
+    pItem->field_1C[new_idx] = maybe_randomised_short_8005EA6C;
+    pItem->field_24_saved_op_code[new_idx] = pItem->field_18_op_code;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s")
 
 int anime_fn_13_8005F408(Actor_anime *pActor, int idx)
