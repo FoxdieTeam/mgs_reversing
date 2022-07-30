@@ -19,6 +19,7 @@ extern SVECTOR stru_8009F558[2];
 
 extern Anim_Data stru_8009F568;
 extern Anim_Data stru_8009F5A0;
+extern Anim_Data stru_8009F5BC;
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {
@@ -221,4 +222,14 @@ void sub_8006E2A8(SVECTOR *pVec)
     anime_init_8005FBC8(0, 0, &stru_8009F5A0);
 }
 
-#pragma INCLUDE_ASM("asm/AN_Blast_Minimini_8006E32C.s")
+void AN_Blast_Minimini_8006E32C(SVECTOR *pVec)
+{
+    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+
+    data.field_0_vec = *pVec;
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+    data.field_12 = 0;
+    stru_8009F5BC.field_14 = &data;
+    data.field_10_anim_idx = 0;
+    anime_init_8005FBC8(0, 0, &stru_8009F5BC);
+}
