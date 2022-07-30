@@ -80,7 +80,16 @@ int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
 #pragma INCLUDE_ASM("asm/sub_8005C298.s")
 #pragma INCLUDE_ASM("asm/sub_8005C354.s")
 #pragma INCLUDE_ASM("asm/HZD_ReachTo_helper_8005C404.s")
-#pragma INCLUDE_ASM("asm/sub_8005C458.s")
+
+char sna_init_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if return value correct
+{
+    if ( a2 != 255 && a3 != 255 )
+    {
+        return sub_8005BF84(pHzd->f14_navmeshes, a2, a3, pHzd->f00_header->n_navmeshes);
+    }
+    return 255;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8005C498.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_helper_helper_helper_8005C4E4.s")
 #pragma INCLUDE_ASM("asm/sub_8005C5D4.s")
