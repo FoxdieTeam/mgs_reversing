@@ -2,6 +2,7 @@
 #include "map.h"
 #include "libdg.h"
 #include "dgd.h"
+#include "hzd.h"
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;
@@ -80,7 +81,7 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     N_StageObjs_800ABAA4++;
 }
 
-void* HZD_MakeHandler_80021AE0(int* pHzdData, int default_0_flags_index, int default_48, int default_24);
+HZD_MAP* HZD_MakeHandler_80021AE0(int* pHzdData, int default_0_flags_index, int default_48, int default_24);
 
 void *Map_HZD_Load_80030F38(
     int resource_name_hashed,
