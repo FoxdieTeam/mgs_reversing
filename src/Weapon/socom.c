@@ -23,7 +23,7 @@ extern int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, i
 extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
 // TODO: move me
-int sub_80028454(void* pHzd, SVECTOR *a2, SVECTOR *a3, char a4, int a5);
+int sub_80028454(void* pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void sub_80028890(SVECTOR *pVec);
 
 void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)

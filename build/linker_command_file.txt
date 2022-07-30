@@ -2248,6 +2248,11 @@ group_gGcl_memVars_800b4588    group bss,org($800b4588)
 group_byte_800B7A50    group bss,org($800B7A50)
     section .byte_800B7A50, group_byte_800B7A50
 
+; TODO: this is a struct
+group_word_800B77E8    group bss,org($800B77E8)
+    section .word_800B77E8, group_word_800B77E8
+
+; TODO: this is actually a member of struct 800b77e8
 group_dword_800B7800    group bss,org($800B7800)
     section .dword_800B7800, group_dword_800B7800
 
