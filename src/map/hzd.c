@@ -30,7 +30,7 @@ void        HZD_RoutesOffsetsToPtr_800219C8(HZD_PAT *routes, int n_routes, HZD_H
     HZD_PTP *points;
     int     i;
 
-    points = &routes->points;
+    points = (HZD_PTP *)&routes->points;
     for (i = n_routes - 1; i > -1; i--)
     {
         OFFSET_TO_PTR(hzm, points);
