@@ -112,7 +112,7 @@ typedef struct      HZD_MAP
     short           f0E_n_cameras;
     short           f10_24size;
     short           f12_48size;
-    void            *f14_navmeshes;
+    HZD_ZON         *f14_navmeshes;
     HZD_TRP         *f18_traps;
     int             *f1C_pEndOfHzdMap;
     int             *f20_pAfterStructure_24;
