@@ -1367,28 +1367,8 @@
 	; 8006A798 8006A8F4 8006A950 8006AB5C 8006B05C 8006B124 8006B268 8006B2A4 8006B48C 8006B564 8006B76C
 	include "..\obj\Bullet\jirai.obj"
 
-    include "..\obj\Bullet\rmissile_loader_helper4_8006B800.obj"
-    include "..\obj\Bullet\rmissile_8006B888.obj"
-    include "..\obj\Bullet\rmissile_8006B924.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006B9B0.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006BA70.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006BB10.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BD24.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BE50.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BE90.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BEEC.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006BFD4.obj"
-    include "..\obj\Bullet\rmissile_act_helper_helper_8006C0A4.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006C114.obj"
-    include "..\obj\Bullet\rmissile_act_helper_8006C37C.obj"
-    include "..\obj\Bullet\rmissile_act_8006C5C4.obj"
-    include "..\obj\Bullet\rmissile_kill_8006CB40.obj"
-    include "..\obj\Bullet\rmissile_loader_helper3_8006CBD8.obj"
-    include "..\obj\Bullet\rmissile_loader_helper2_8006CC50.obj"
-    include "..\obj\Bullet\rmissile_loader_helper_helper_8006CD1C.obj"
-    include "..\obj\Bullet\rmissile_loader_helper_8006CE54.obj"
-    include "..\obj\Bullet\rmissile_loader_8006CF44.obj"
-    include "..\obj\Bullet\NewRMissile_8006D124.obj"
+	; 8006B800 8006B888 8006B924 8006B9B0 8006BA70 8006BB10 8006BD24 8006BE50 8006BE90 8006BEEC 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54 8006CF44 8006D124
+	include "..\obj\Bullet\rmissile.obj"
     
     include "..\obj\Bullet\amissile_loader_helper_8006D1F4.obj"
     include "..\obj\Bullet\amissile_act_helper_8006D2A0.obj"
@@ -1443,11 +1423,9 @@
 	; 80074DAC 80074F44 80074F5C 80075164 80075194 800752A0
 	include "..\obj\Okajima\stgfd_io.obj"
     
-
 	; 80075314 80075358 80075414 800754E4 80075610 8007575C 80075DD4 80076164 800761A0 80076274 80076420 80076584 80076708 8007692C
 	include "..\obj\Okajima\bullet.obj"
     
-
 	; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
 	include "..\obj\Okajima\chafgrnd.obj"
 
