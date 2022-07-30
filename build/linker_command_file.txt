@@ -1431,19 +1431,8 @@
 	; 80072BD4 80072C10 80072DE8 80072EFC 800730EC 80073148
 	include "..\obj\Okajima\d_bloodr.obj"
 
-
-    include "..\obj\Okajima\claymore_800731CC.obj"
-    include "..\obj\Okajima\claymore_loader_helper2_800731F8.obj"
-    include "..\obj\Okajima\claymore_act_helper_800732B0.obj"
-    include "..\obj\Okajima\claymore_act_helper_80073364.obj"
-    include "..\obj\Okajima\claymore_loader_helper_80073490.obj"
-    include "..\obj\Okajima\claymore_loader_helper_800735A0.obj"
-    include "..\obj\Okajima\claymore_act_800736B0.obj"
-    include "..\obj\Okajima\claymore_kill_800738F4.obj"
-    include "..\obj\Okajima\claymore_loader_80073930.obj"
-    include "..\obj\Okajima\claymore_loader_800739EC.obj"
-    include "..\obj\Okajima\NewClaymore_80073B8C.obj"
-
+	; 800731CC 800731F8 800732B0 80073364 80073490 800735A0 800736B0 800738F4 80073930 800739EC 80073B8C
+	include "..\obj\Okajima\claymore.obj"
 
     include "..\obj\Okajima\InitRandamTable_80073DB0.obj"
     include "..\obj\Okajima\spark_loader3_80073E48.obj"
