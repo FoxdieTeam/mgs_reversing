@@ -1425,12 +1425,10 @@
 	; 80072080 80072394 80072478 8007250C 80072538 800725CC 80072608 80072728 80072934
 	include "..\obj\Okajima\blood.obj"    
 
-    include "..\obj\Okajima\d_blood_kill_null_800729AC.obj"
-    include "..\obj\Okajima\d_blood_act_helper_800729B4.obj"
-    include "..\obj\Okajima\d_blood_act_80072A0C.obj"
-    include "..\obj\Okajima\d_blood_loader_helper_80072B24.obj"
-    include "..\obj\Okajima\d_blood_loader_80072B38.obj"
-    include "..\obj\Okajima\NewKetchap_80072B60.obj"
+	; 800729AC 800729B4 80072A0C 80072B24 80072B38 80072B60
+	include "..\obj\Okajima\d_blood.obj"
+
+    ; Okajima\d_bloodr.c
 
 
     include "..\obj\Okajima\d_bloodr_kill_80072BD4.obj"
