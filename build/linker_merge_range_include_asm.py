@@ -29,12 +29,23 @@ for i in range(start_line_no, end_line_no+1):
     line = lines[i]
     stripped = line.strip()
 
+    commentPos = stripped.rfind(";")
+    if commentPos != -1:
+        stripped = stripped[:commentPos]
+
+    if len(stripped) == 0:
+        print("Skip empty line: " + str(i))
+        continue
+
     if stripped == ';':
+        print("Skip commented out line: " + str(i))
         continue
 
     m = re.match(INCLUDE_RE, line)
     if not m and len(stripped) > 0:
         fail('dont know what to do for line:', line)
+
+    print("Process line: " + stripped)
 
     path = m.group(1)
     c = path.replace('.obj', '.c').replace('obj\\', 'src\\')
@@ -79,6 +90,9 @@ for i in reversed(range(start_line_no+1, end_line_no+1)):
     popped = lines.pop(i)
 
 out_file_obj = '..\\obj\\{}.obj'.format(out_file.replace('/', '\\'))
+out_file_obj = out_file_obj.replace(".c.obj", ".obj")
+out_file_obj = out_file_obj.replace("..\\src\\", "")
+
 lines[start_line_no] = '\tinclude "{}"'.format(out_file_obj)
 
 lines.insert(start_line_no-1, '\t; ' + ' '.join(addresses))
