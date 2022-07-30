@@ -237,7 +237,23 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_9_8005F180.s")
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_10_8005F288.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_11_8005F2F4.s")
+
+int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem; // $s0
+    int maybe_randomised_short_8005EA6C; // $v0
+    int new_idx; // $a0
+
+    pItem = &pActor->field_4C_items[idx];
+    maybe_randomised_short_8005EA6C = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
+    pItem->field_13++;
+    new_idx = pItem->field_13;
+    pItem->field_18_op_code += 3;
+    pItem->field_1C[new_idx] = maybe_randomised_short_8005EA6C;
+    pItem->field_24_saved_op_code[new_idx] = pItem->field_18_op_code;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s")
 
 int anime_fn_13_8005F408(Actor_anime *pActor, int idx)
