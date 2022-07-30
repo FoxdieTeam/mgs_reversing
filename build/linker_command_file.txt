@@ -1353,13 +1353,8 @@
     include "..\obj\Weapon\NewRifleSight_8006989C.obj"
     include "..\obj\Weapon\NewRifleSightFast_80069920.obj"
 
-    include "..\obj\tenage_act_800699A4.obj"
-    include "..\obj\tenage_kill_80069DBC.obj"
-    include "..\obj\tenage_init_helper_80069E28.obj"
-    include "..\obj\tenage_init_helper_80069E64.obj"
-    include "..\obj\NewTenage_8006A010.obj"
-    include "..\obj\sub_8006A100.obj"
-    include "..\obj\NewTenage3_8006A128.obj"
+	; 800699A4 80069DBC 80069E28 80069E64 8006A010 8006A100 8006A128
+	include "..\obj\Bullet\tenage.obj"
 
 	; 8006A218 8006A4A4 8006A510 8006A54C 8006A6CC
 	include "..\obj\Bullet\bakudan.obj"
