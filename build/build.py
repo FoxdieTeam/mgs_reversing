@@ -204,7 +204,7 @@ def gen_build_target(targetName):
                     g0 = True
                     break
             if g0:
-                print("-G 0: " + cFile)
+                # print("-G 0: " + cFile)
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
             else:
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
