@@ -2,7 +2,6 @@
 #include "hzd.h"
 
 int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3);
-extern void sub_8005C498(void);
 
 int sub_8005BF84(int a1, int a2, int a3, int a4)
 {
@@ -90,7 +89,26 @@ char sna_init_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if retur
     return 255;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8005C498.s")
+int sub_8005C498(HZD_MAP *pHzd, int idx, int *pOutNear)
+{
+    int i; // $a3
+    u_char *nears; // $v1
+    int cur_near; // $v0
+
+    nears = pHzd->f00_header->navmeshes[idx].nears;
+    for (i = 0; i < 6; i++)
+    {
+        cur_near = *nears++;
+        *pOutNear = cur_near;
+        if ( cur_near == 255 )
+        {
+            break;
+        }
+        ++pOutNear;
+    }
+    return i;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_helper_helper_helper_8005C4E4.s")
 #pragma INCLUDE_ASM("asm/sub_8005C5D4.s")
 #pragma INCLUDE_ASM("asm/sub_8005C6C4.s")
@@ -102,9 +120,9 @@ char sna_init_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if retur
 #pragma INCLUDE_ASM("asm/sub_8005CFAC.s")
 #pragma INCLUDE_ASM("asm/sub_8005D134.s")
 
-void sub_8005D168(void)
+void sub_8005D168(HZD_MAP *pHzd, int a2, int *a3)
 {
-    sub_8005C498();
+    sub_8005C498(pHzd, a2, a3);
 }
 
 #pragma INCLUDE_ASM("asm/sub_8005D188.s")
