@@ -25,7 +25,21 @@ void shadow_act_helper_80060028(Actor_Shadow *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/shadow_act_800600E4.s")
+void shadow_act_800600E4(Actor_Shadow *pActor)
+{
+    if ( (pActor->field_24_pObj->objs->flag & 0x80) != 0 || !pActor->field_90_bEnable )
+    {
+        pActor->field_28_obj.objs->flag |= 0x80u;
+    }
+    else
+    {
+        pActor->field_28_obj.objs->flag &= ~0x80u;
+        shadow_act_helper_8005FD28(pActor);
+        shadow_act_helper_80060028(pActor);
+        DG_SetObjectGroupId(pActor->field_28_obj.objs,pActor->field_24_pObj->map_name);
+    }
+}
+
 
 void shadow_kill_80060190(int param_1)
 {
