@@ -1222,29 +1222,8 @@
 	; 80056A1C 80056A54 80056AD8 80056B88 80056BDC 80056C3C 80056C9C 80056DDC 800570C0 80057118 800571B8 80057474 80057590 800577B4 80057844 800579A0 80057A90 80057BF0 80057FD4 80058378 80058470 80058644 80058780 800589C8 80058C10 80058C80 80058E88 80058EF4 80058F88 80059054 80059154 800591BC 800591F4 8005951C 8005961C 800596FC 8005AD10 8005B52C 8005B650
     include "..\obj\chara\snake\sna_init.obj"
 
-    include "..\obj\sub_8005BF84.obj"
-    include "..\obj\sub_8005BFDC.obj"
-    include "..\obj\sub_8005C05C.obj"
-    include "..\obj\sub_8005C140.obj"
-    include "..\obj\chara\snake\sub_8005C1E4.obj"
-    include "..\obj\sub_8005C298.obj"
-    include "..\obj\sub_8005C354.obj"
-    include "..\obj\HZD_ReachTo_helper_8005C404.obj"
-    include "..\obj\sub_8005C458.obj"
-    include "..\obj\sub_8005C498.obj"
-    include "..\obj\chara\snake\sna_act_unk_helper2_helper_helper_helper_8005C4E4.obj"
-    include "..\obj\sub_8005C5D4.obj"
-    include "..\obj\sub_8005C6C4.obj"
-    include "..\obj\HZD_ReachTo_8005C89C.obj"
-    include "..\obj\chara\snake\sna_act_unk_helper2_helper_helper_8005C974.obj"
-    include "..\obj\chara\snake\sub_8005CB48.obj"
-    include "..\obj\sub_8005CD1C.obj"
-    include "..\obj\sub_8005CE5C.obj"
-    include "..\obj\sub_8005CFAC.obj"
-    include "..\obj\sub_8005D134.obj"
-    include "..\obj\sub_8005D168.obj"
-    include "..\obj\sub_8005D188.obj"
-    include "..\obj\sub_8005D288.obj"
+	; 8005BF84 8005BFDC 8005C05C 8005C140 8005C1E4 8005C298 8005C354 8005C404 8005C458 8005C498 8005C4E4 8005C5D4 8005C6C4 8005C89C 8005C974 8005CB48 8005CD1C 8005CE5C 8005CFAC 8005D134 8005D168 8005D188 8005D288
+	include "..\obj\chara\snake\sna_hzd.obj"
 
 	; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
 	include "..\obj\vibrate.obj"
