@@ -4,13 +4,14 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
+#include "hzd.h"
 
 typedef struct map_record
 {
     int                 field_0_map_index_bit;
     unsigned short      field_4_mapNameHash;
     unsigned short      field_6_bUsed;
-    void                *field_8_hzd;
+    HZD_MAP             *field_8_hzd;
     struct LitHeader    *field_C_lit_file;
     int                 field_10_zone_id;
 } map_record;
