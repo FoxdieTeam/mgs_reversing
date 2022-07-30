@@ -1418,56 +1418,21 @@
 	
 	; 80070040 8007009C 800700E0 800701A8 8007020C 80070568 80070820 80070AB0 80070CAC 80070E14 80070EC0 80070ECC 80070F4C 80071010
 	include "..\obj\Thing\sgtrect3.obj"    
-	
-    include "..\obj\Thing\sight_act_helper_8007111C.obj"
-    include "..\obj\Thing\sight_800711C0.obj"
-    include "..\obj\Thing\sight_act_helper_80071320.obj"
-    include "..\obj\Thing\sight_act_helper_800713FC.obj"
-    include "..\obj\Thing\sight_act_helper_80071498.obj"
-    include "..\obj\Thing\sight_act_800714EC.obj"
-    include "..\obj\Thing\sight_kill_800719C8.obj"
-    include "..\obj\Thing\sight_loader_80071A54.obj"
-    include "..\obj\Thing\NewSight_80071CDC.obj"
-    include "..\obj\Thing\sight_init_80071DC8.obj"
-    include "..\obj\Thing\sight_init_80071EA8.obj"
-    include "..\obj\Thing\sight_init_80071F98.obj"
-    include "..\obj\sub_80072074.obj"
 
-    include "..\obj\Okajima\blood_loader2_helper2_80072080.obj"
-    include "..\obj\Okajima\blood_act_helper_80072394.obj"
-    include "..\obj\Okajima\blood_loader2_helper_80072478.obj"
-    include "..\obj\Okajima\blood_act_helper_8007250C.obj"
-    include "..\obj\Okajima\blood_act_80072538.obj"
-    include "..\obj\Okajima\blood_kill_800725CC.obj"
-    include "..\obj\Okajima\blood_loader2_80072608.obj"
-    include "..\obj\Okajima\NewBlood_80072728.obj"
-    include "..\obj\Okajima\AN_Blood_Mist_80072934.obj"
-    
-    include "..\obj\Okajima\d_blood_kill_null_800729AC.obj"
-    include "..\obj\Okajima\d_blood_act_helper_800729B4.obj"
-    include "..\obj\Okajima\d_blood_act_80072A0C.obj"
-    include "..\obj\Okajima\d_blood_loader_helper_80072B24.obj"
-    include "..\obj\Okajima\d_blood_loader_80072B38.obj"
-    include "..\obj\Okajima\NewKetchap_80072B60.obj"
+	; 8007111C 800711C0 80071320 800713FC 80071498 800714EC 800719C8 80071A54 80071CDC 80071DC8 80071EA8 80071F98	
+	include "..\obj\Thing\sight.obj"
 
-    include "..\obj\Okajima\d_bloodr_kill_80072BD4.obj"
-    include "..\obj\Okajima\d_bloodr_act_80072C10.obj"
-    include "..\obj\Okajima\d_bloodr_loader_helper_helper_80072DE8.obj"
-    include "..\obj\Okajima\d_bloodr_loader_helper_80072EFC.obj"
-    include "..\obj\Okajima\d_bloodr_loader_800730EC.obj"
-    include "..\obj\Okajima\NewKetchap_r_80073148.obj"
+	; 80072080 80072394 80072478 8007250C 80072538 800725CC 80072608 80072728 80072934
+	include "..\obj\Okajima\blood.obj"    
 
-    include "..\obj\Okajima\claymore_800731CC.obj"
-    include "..\obj\Okajima\claymore_loader_helper2_800731F8.obj"
-    include "..\obj\Okajima\claymore_act_helper_800732B0.obj"
-    include "..\obj\Okajima\claymore_act_helper_80073364.obj"
-    include "..\obj\Okajima\claymore_loader_helper_80073490.obj"
-    include "..\obj\Okajima\claymore_loader_helper_800735A0.obj"
-    include "..\obj\Okajima\claymore_act_800736B0.obj"
-    include "..\obj\Okajima\claymore_kill_800738F4.obj"
-    include "..\obj\Okajima\claymore_loader_80073930.obj"
-    include "..\obj\Okajima\claymore_loader_800739EC.obj"
-    include "..\obj\Okajima\NewClaymore_80073B8C.obj"
+	; 800729AC 800729B4 80072A0C 80072B24 80072B38 80072B60
+	include "..\obj\Okajima\d_blood.obj"
+
+	; 80072BD4 80072C10 80072DE8 80072EFC 800730EC 80073148
+	include "..\obj\Okajima\d_bloodr.obj"
+
+	; 800731CC 800731F8 800732B0 80073364 80073490 800735A0 800736B0 800738F4 80073930 800739EC 80073B8C
+	include "..\obj\Okajima\claymore.obj"
 
     include "..\obj\Okajima\InitRandamTable_80073DB0.obj"
     include "..\obj\Okajima\spark_loader3_80073E48.obj"
@@ -1479,6 +1444,7 @@
     include "..\obj\Equip\spark_loader_80074418.obj"
     include "..\obj\Okajima\NewSpark_80074564.obj"
 
+
     include "..\obj\Okajima\stngrnd_loader2_80074644.obj"
     include "..\obj\Okajima\stngrnd_800746B4.obj"
     include "..\obj\Okajima\stngrnd_act_80074730.obj"
@@ -1489,6 +1455,7 @@
     include "..\obj\Okajima\AN_Stn_G_Sonic_80074CA4.obj"
     include "..\obj\Okajima\AN_Stn_G_Center_80074D28.obj"
 
+
     include "..\obj\Okajima\stgfd_io_act_helper_80074DAC.obj"
     include "..\obj\Okajima\stgfd_io_act_helper_80074F44.obj"
     include "..\obj\Okajima\stgfd_io_act_80074F5C.obj"
@@ -1496,6 +1463,7 @@
     include "..\obj\Okajima\stgfd_io_loader_80075194.obj"
     include "..\obj\Okajima\NewStnFade_800752A0.obj"
     
+
     include "..\obj\Okajima\bullet_80075314.obj"
     include "..\obj\Okajima\bullet_loader2_helper_80075358.obj"
     include "..\obj\Okajima\bullet_act_helper_80075414.obj"
@@ -1511,6 +1479,7 @@
     include "..\obj\Okajima\NewBulletEx_80076708.obj"
     include "..\obj\Okajima\sub_8007692C.obj"
     
+
 	; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
 	include "..\obj\Okajima\chafgrnd.obj"
 
