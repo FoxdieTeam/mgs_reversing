@@ -19,6 +19,7 @@ unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 void *memset_8008E688(void *pSrc, int value, int len);
 void sub_80032858(SVECTOR *pVec, int a2);
+int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 extern int GV_Clock_800AB920;
 
@@ -315,7 +316,14 @@ void anime_act_helper_8005F094(Actor_anime *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_8_8005F0F0.s")
+int anime_fn_8_8005F0F0(Actor_anime *pActor, int idx)
+{
+    anime_0x34* pItem = &pActor->field_4C_items[idx];
+    short value = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
+    DG_SetTmpLight_8001A114(&pActor->field_48_pPrimVec[idx], 512, value);
+    pItem->field_18_op_code += 3;
+    return 0;
+}
 
 int anime_fn_9_8005F180(Actor_anime *pActor, int idx)
 {
