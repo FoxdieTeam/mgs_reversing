@@ -1437,16 +1437,8 @@
 	; 80073DB0 80073E48 80074118 80074234 800742F0 80074334 800743DC 80074418 80074564
 	include "..\obj\Okajima\spark.obj"
 
-    include "..\obj\Okajima\stngrnd_loader2_80074644.obj"
-    include "..\obj\Okajima\stngrnd_800746B4.obj"
-    include "..\obj\Okajima\stngrnd_act_80074730.obj"
-    include "..\obj\Okajima\stngrnd_free_80074844.obj"
-    include "..\obj\Okajima\stngrnd_kill_800748B8.obj"
-    include "..\obj\Okajima\stngrnd_loader_800748D8.obj"
-    include "..\obj\Okajima\NewStanBlast_80074B5C.obj"
-    include "..\obj\Okajima\AN_Stn_G_Sonic_80074CA4.obj"
-    include "..\obj\Okajima\AN_Stn_G_Center_80074D28.obj"
-
+	; 80074644 800746B4 80074730 80074844 800748B8 800748D8 80074B5C 80074CA4 80074D28
+	include "..\obj\Okajima\stngrnd.obj"
 
     include "..\obj\Okajima\stgfd_io_act_helper_80074DAC.obj"
     include "..\obj\Okajima\stgfd_io_act_helper_80074F44.obj"
