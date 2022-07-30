@@ -273,7 +273,17 @@ int sub_8004E4C0(int unused, int param_2)
   return param_2;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004E51C.s")
+int sub_80028454(void* pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
+void sub_80028890(SVECTOR *pVec);
+int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
+{
+    if (sub_80028454(param_2, param_1, &param_1[1], param_3, param_4) == 0) {
+        return -1;
+    }
+    sub_80028890(&param_1[1]);
+    GV_SubVec3_80016D40(&param_1[1], param_1, param_1);
+    return GV_VecLen3_80016D80(param_1);
+}
 
 void sub_8004E588(int param_1, short *param_2, int *param_3)
 {
@@ -364,10 +374,56 @@ int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8004EB14.s")
-#pragma INCLUDE_ASM("asm/sub_8004EB74.s")
-#pragma INCLUDE_ASM("asm/sna_init_8004EC00.s")
 
 extern short dword_800B7800[];
+extern void sd_set_cli_800887EC(int code, int unused);
+void sub_8004EB74(Actor_SnaInit *pActor)
+{
+    if (dword_800B7800[5] == 0) {
+        if ((short)(pActor->field_9B0_pad_bits[4]) == (short)0xffff)
+        {
+            pActor->field_A20 = -6;
+        }
+        else
+        {
+            pActor->field_A20 = -3;
+        }
+    }
+
+    dword_800B7800[5] = 1;
+    pActor->field_A56 = 0;
+    GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON);
+
+    if (gGameState_800B4D98.field_BE == 0) {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
+    }
+
+    sd_set_cli_800887EC(0x1ffff20, 0);
+}
+
+// TODO: this is a struct
+short SECTION(".word_800B77E8") word_800B77E8[18]; // dummy size
+void sna_init_8004EC00(Actor_SnaInit *pActor)
+{
+  if (word_800B77E8[17] == 1) {
+    pActor->field_A20 = 6;
+  }
+    
+  word_800B77E8[17] = 0;
+  pActor->field_A56 = 0;
+    
+  GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+  sna_init_clear_flags_8004E308(pActor, 0x8000);
+    
+  if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) == 0) {
+    sd_set_cli_800887EC(0x1ffff21,0);
+  }
+
+  sna_init_clear_flags_8004E344(pActor, 0x30);
+  GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK400);
+}
+
+/* extern short dword_800B7800[]; */
 
 extern void  sna_init_set_flags_8004E2F4(Actor_SnaInit *snake, unsigned int flag);
 extern void  sd_set_cli_800887EC(int code, int unused);
@@ -390,11 +446,46 @@ void sna_init_8004EC8C(Actor_SnaInit *pActor)
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_FIRST_PERSON);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004ED08.s")
+void sub_8004EB14(Actor_SnaInit *pActor);
+void sub_8004ED08(Actor_SnaInit *pActor)
+{
+    sna_init_clear_flags_8004E308(pActor, 0x800);
+    pActor->field_A28 = 0x1c2;
+    dword_800B7800[5] = 0; // weapon related?
+    pActor->field_A20 = 6;
+    sub_8004EB14(pActor);
+    sd_set_cli_800887EC(0x1ffff21,0);
+    sna_init_clear_flags_8004E344(pActor, 0x30);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper3_8004ED6C.s")
+
+// need bss: short 800b77e0
 #pragma INCLUDE_ASM("asm/sna_init_8004EE28.s")
-#pragma INCLUDE_ASM("asm/sub_8004EEB0.s")
+
+int sub_80026418(int arg0, int arg1);
+short sub_8002646C(int, int, char); // dummy signature
+void sub_8004EEB0(Actor_SnaInit *pActor)
+{
+    short sVar1;
+    int iVar2;
+    int arg0;
+
+    if (dword_800ABBA4 >= 0) // snake move angle
+    {
+        arg0 = pActor->field_20_ctrl.field_4C_turn_vec.vy;
+        if (GV_DiffDirS_8001704C(arg0, dword_800ABBA4))
+        {
+            iVar2 = sub_80026418(arg0, dword_800ABBA4);
+            sVar1 = sub_8002646C(iVar2, dword_800ABBA4, 0x40);
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = sVar1;
+        }
+    }
+}
+
+// https://decomp.me/scratch/k2Awn regswap
 #pragma INCLUDE_ASM("asm/sub_8004EF14.s")
+
 #pragma INCLUDE_ASM("asm/sub_8004EFE4.s")
 
 extern int  sub_8004EFE4(Actor_SnaInit* param_1, int param_2);
@@ -413,7 +504,41 @@ void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper4_8004F090.s")
+extern int dword_800AB7D4;
+extern int dword_800AB7DC;
+void DG_MovePos_8001BD20(SVECTOR *svector);
+void DG_RotatePos_8001BD64(SVECTOR* svector);
+void ReadRotMatrix_80092DD8(MATRIX *m);
+void NewBlood_80072728(MATRIX*,int); // dummy signature
+void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
+{
+    int iVar1;
+    MATRIX mtx;
+
+    DG_SetPos_8001BC44(&pActor->field_9C.objs->objs[6].world);
+    DG_MovePos_8001BD20((SVECTOR *)&dword_800AB7D4);
+    DG_RotatePos_8001BD64((SVECTOR *)&dword_800AB7DC);
+    ReadRotMatrix_80092DD8(&mtx);
+
+    iVar1 = -1;
+    switch (param_2)
+    {
+        case 3:
+            iVar1 = 0;
+            break;
+        case 1:
+        case 4:
+            iVar1 = 1;
+            break;
+        case 2:
+            iVar1 = 2;
+            break;
+    }
+
+    if (iVar1 >= 0) {
+        NewBlood_80072728(&mtx, iVar1);
+    }
+}
 
 extern unsigned short GM_WeaponTypes_8009D580[];
 extern Sna_ActionTable actions_no_weapon_8009ED70;
