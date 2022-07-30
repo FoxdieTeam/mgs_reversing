@@ -99,7 +99,7 @@ void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void* pFn)
 {
     short vec_x = 0;
     pActor->field_9B8_fn_anim = pFn;
-    pActor->field_9BC_fn_anim_arg2 = 0;
+    pActor->field_9BC_anim_frame = 0;
     pActor->field_A3A = 0;
     pActor->field_A38 = 0;
 
@@ -752,7 +752,7 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 #pragma INCLUDE_ASM("asm/sub_8005027C.s")
 
 int sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
-void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int param_2);
+void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame);
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
     if ((pActor->field_9B0_pad_bits[1] & 0x40) != 0 &&
@@ -1046,11 +1046,11 @@ void sna_init_fn_nothing_80053B80(void)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_run_begin_80053B88.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_begin_80053BE8.s")
 
-void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int param_2)
+void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame)
 {
     int a2;
 
-    if (param_2 == 0)
+    if (anim_frame == 0)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PRONE);
         param_1->field_9C8 = sna_init_fn_nothing_80053B80;
@@ -1076,12 +1076,12 @@ void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int param_2)
         param_1->field_A26_fn_stance_idx = 0;
     }
 
-    if (param_2 == 2)
+    if (anim_frame == 2)
     {
         param_1->field_20_ctrl.field_4C_turn_vec.vx = 0;
     }
 
-    if (param_2 == 7)
+    if (anim_frame == 7)
     {
         param_1->field_20_ctrl.field_55_flags |= 2;
     }
@@ -1098,9 +1098,9 @@ void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2);
 
 // probably sna_init_anim_prone_first_person
 // aka duct moving
-void sub_80053E9C(Actor_SnaInit *pActor, int a2)
+void sub_80053E9C(Actor_SnaInit *pActor, int anim_frame)
 {
-  if (a2 == 0) {
+  if (anim_frame == 0) {
     pActor->field_9C8 = sna_init_fn_800543A8;
     pActor->field_9CC = sna_init_fn_nothing_80053B80;
     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
@@ -1116,7 +1116,7 @@ void sub_80053E9C(Actor_SnaInit *pActor, int a2)
     }
   }
     
-  if (a2 == pActor->field_A38) {
+  if (anim_frame == pActor->field_A38) {
     sna_init_clear_invuln_8004F2EC(pActor);
     sna_init_80050440(pActor);
     sna_init_clear_flags_8004E308(pActor, 0x34);
@@ -1478,11 +1478,11 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_scope_80055334.s")
 
 
-extern void sna_init_anim_scope_80055334(int param_1, int param_2);
+extern void sna_init_anim_scope_80055334(int param_1, int anim_frame);
 
-void sna_init_anim_jpegcam_800553CC(int param_1, int param_2)
+void sna_init_anim_jpegcam_800553CC(int param_1, int anim_frame)
 {
-    sna_init_anim_scope_80055334(param_1, param_2);
+    sna_init_anim_scope_80055334(param_1, anim_frame);
 }
 
 void sna_init_anim_box_idle_800553EC(Actor_SnaInit *pActor, int a2)
@@ -1586,9 +1586,9 @@ void sna_init_knockdown_check_getup_80056A1C(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/sna_init_80056A54.s")
 #pragma INCLUDE_ASM("asm/sna_init_fn_80056AD8.s")
 
-void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
+void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int anim_frame)
 {
-    if ( !a2 )
+    if (anim_frame == 0)
     {
         pActor->field_9C8 = sna_init_anim_shoot_weapon_helper_80057590;
         pActor->field_9CC = sna_init_fn_nothing_80053B80;
@@ -1598,9 +1598,9 @@ void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int a2)
 }
 
 void sna_init_anim_rungun_begin_helper_800577B4(void); // dummy signature
-void sna_init_anim_rungun_begin_80056BDC(Actor_SnaInit *param_1,int param_2)
+void sna_init_anim_rungun_begin_80056BDC(Actor_SnaInit *param_1, int anim_frame)
 {
-    if (param_2 == 0) {
+    if (anim_frame == 0) {
         param_1->field_9C8 = sna_init_anim_rungun_begin_helper_800577B4;
         param_1->field_9CC = sna_init_fn_nothing_80053B80;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
@@ -1609,9 +1609,9 @@ void sna_init_anim_rungun_begin_80056BDC(Actor_SnaInit *param_1,int param_2)
 }
 
 void sna_init_anim_rungun_helper_80057844(void); // dummy signature
-void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int param_2)
+void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int anim_frame)
 {
-    if (param_2 == 0)
+    if (anim_frame == 0)
     {
         param_1->field_9C8 = sna_init_anim_rungun_helper_80057844;
         param_1->field_9CC = sna_init_fn_nothing_80053B80;
@@ -1877,12 +1877,12 @@ void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int a2)
     }
 }
 
-void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int param_2)
+void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame)
 {
     int bVar2;
     int iVar3;
     
-    if (param_2 == 0)
+    if (anim_frame == 0)
     {
         pActor->field_9C8 = sna_init_fn_nothing_80053B80;
         pActor->field_9CC = sna_init_fn_nothing_80053B80;
@@ -1922,7 +1922,7 @@ void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int param_2)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_helper_8005951C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_helper_8005961C.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_800596FC.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_main_logic_800596FC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")
 
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
