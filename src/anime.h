@@ -79,4 +79,6 @@ typedef struct Anim_Data
   void *field_18_ptr;
 } Anim_Data;
 
+Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData);
+
 #endif // _ANIME_H_

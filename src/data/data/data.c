@@ -1131,17 +1131,16 @@ int SECTION(".data") dword_8009F544[] = {0, 0, 1, 1, 0xFFFFFFFF};
 
 SVECTOR SECTION(".data") stru_8009F558[2] = { { 100, 0, 0, 0 }, { 2000, 2000, 4000, 4000 } };
 
+Anim_Data SECTION(".data") stru_8009F568 = { -21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void*)0x80012BAC };
+Anim_Data SECTION(".data") stru_8009F584 = { -21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void*)0x80012BEC };
+Anim_Data SECTION(".data") stru_8009F5A0 = { -21358, 4, 1048580, 1, 2000, 1, 500, 500, 128, NULL, (void*)0x80012C2C };
+Anim_Data SECTION(".data") stru_8009F5BC = { -21358, 4, 1048580, 1, 2000, 1, 200, 200, 128, NULL, (void*)0x80012C6C };
+Anim_Data SECTION(".data") stru_8009F5D8 = { -21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void*)0x80012CAC };
 
-int SECTION(".data") dword_8009F568[] = {0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8};
-int SECTION(".data") dword_8009F57C[] = {0, 0x80012BAC};
-int SECTION(".data") dword_8009F584[] = {0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8, 0, 0x80012BEC};
-int SECTION(".data") dword_8009F5A0[] = {0x4AC92, 0x100004, 0x7D00001, 0x1F40001, 0x8001F4};
-int SECTION(".data") dword_8009F5B4[] = {0, 0x80012C2C};
-int SECTION(".data") dword_8009F5BC[] = {0x4AC92, 0x100004, 0x7D00001, 0xC80001, 0x8000C8};
-int SECTION(".data") dword_8009F5D0[] = {0, 0x80012C6C};
-int SECTION(".data") dword_8009F5D8[] = {0x4AC92, 0x100004, 0x7D00001, 0x3E80001, 0x8003E8};
-int SECTION(".data") dword_8009F5EC[] = {0, 0x80012CAC};
+
+
 int SECTION(".data") door_where_8009F5F4 = 0;
+
 char SECTION(".data") byte_8009F5F8[] = {0, 0, 0, 0};
 short SECTION(".data") word_8009F5FC = 1;
 int SECTION(".data") dword_8009F600 = 0;
