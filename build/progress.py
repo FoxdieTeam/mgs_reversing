@@ -46,6 +46,8 @@ for obj in objs:
             s_bytes += len(code)
         else:
             c_funcs += 1
+            # to generate matches.txt
+            #print("0x" + name[name.rfind("_")+1:])
             c_bytes += len(code)
 
 total_funcs = c_funcs + s_funcs
