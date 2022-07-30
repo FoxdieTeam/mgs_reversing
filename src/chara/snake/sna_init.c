@@ -1121,7 +1121,19 @@ void sna_init_fn_nothing_80053B80(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_run_begin_80053B88.s")
+/* #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_run_begin_80053B88.s") */
+
+void sna_init_80054318(Actor_SnaInit *pActor, int anim_frame);
+void sna_init_anim_run_begin_80053B88(Actor_SnaInit *param_1, int anim_frame)
+{
+    if (anim_frame == 0) {
+        param_1->field_9C8_anim_update_fn_3p = sna_init_80054318;
+        param_1->field_9CC_anim_update_fn_1p = sna_init_fn_80052120;
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+        sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_4->field_1, 4);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_begin_80053BE8.s")
 
 void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame)
@@ -1361,7 +1373,6 @@ void sna_init_8005425C(Actor_SnaInit *pActor, int anim_frame)
 
 void sna_init_80054318(Actor_SnaInit *pActor, int anim_frame)
 {
-
     if (anim_frame == 2 && dword_800ABBA4 >= 0)
     {
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_run_8005292C);
@@ -2047,8 +2058,27 @@ void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_hold_80059154.s")
-#pragma INCLUDE_ASM("asm/sub_800591BC.s")
+void sna_init_anim_choke_hold_80059154(Actor_SnaInit *pActor, int anim_frame)
+{
+    if (anim_frame == 0)
+    {
+        pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_6, 4);
+    }
+        
+    if (pActor->field_9C.field_1A != 0)
+    {
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+    }
+}
+
+void sub_800591BC(Actor_SnaInit *pActor)
+{
+    sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+    sna_init_clear_flags_8004E308(pActor, 0x34);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_helper_8005951C.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_helper_8005961C.s")
