@@ -1,6 +1,4 @@
-
-#include "idaTypes.h"
-#include "actor.h"
+#include "stgfd_io.h"
 
 extern const char   aStgfdIoC[];
 
