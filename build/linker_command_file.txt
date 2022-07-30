@@ -1434,16 +1434,8 @@
 	; 800731CC 800731F8 800732B0 80073364 80073490 800735A0 800736B0 800738F4 80073930 800739EC 80073B8C
 	include "..\obj\Okajima\claymore.obj"
 
-    include "..\obj\Okajima\InitRandamTable_80073DB0.obj"
-    include "..\obj\Okajima\spark_loader3_80073E48.obj"
-    include "..\obj\Okajima\spark_act_helper_80074118.obj"
-    include "..\obj\Okajima\spark_loader4_80074234.obj"
-    include "..\obj\Okajima\spark_800742F0.obj"
-    include "..\obj\Okajima\spark_act_80074334.obj"
-    include "..\obj\Okajima\spark_kill_800743DC.obj"
-    include "..\obj\Equip\spark_loader_80074418.obj"
-    include "..\obj\Okajima\NewSpark_80074564.obj"
-
+	; 80073DB0 80073E48 80074118 80074234 800742F0 80074334 800743DC 80074418 80074564
+	include "..\obj\Okajima\spark.obj"
 
     include "..\obj\Okajima\stngrnd_loader2_80074644.obj"
     include "..\obj\Okajima\stngrnd_800746B4.obj"

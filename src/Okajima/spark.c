@@ -123,6 +123,26 @@ static inline int GM_GetCurrentMap()
 
 extern const char aSparkFl[];
 
+#pragma INCLUDE_ASM("asm/Okajima/InitRandamTable_80073DB0.s")
+#pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s")
+#pragma INCLUDE_ASM("asm/Okajima/spark_act_helper_80074118.s")
+#pragma INCLUDE_ASM("asm/Okajima/spark_loader4_80074234.s")
+#pragma INCLUDE_ASM("asm/Okajima/spark_800742F0.s")
+#pragma INCLUDE_ASM("asm/Okajima/spark_act_80074334.s")
+
+void spark_kill_800743DC(int param_1)
+{
+    DG_OBJS *prim;
+
+    prim = *(DG_OBJS **)(param_1 + 0x24);
+    if (prim)
+    {
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
+    }
+    return;
+}
+
 int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
 {
     DG_TEX  *pTexture;
@@ -164,3 +184,5 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     pActor->f170_counter = 12;
     return 0;
 }
+
+#pragma INCLUDE_ASM("asm/Okajima/NewSpark_80074564.s")
