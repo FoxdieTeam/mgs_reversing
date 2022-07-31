@@ -75,7 +75,7 @@ void socom_init_vectors_80065254(Actor_Socom *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_8006528C.s")
+#pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_8006528C.s") // 172 bytes
 
 void socom_init_tiles_80065338(TILE* a1)
 {
@@ -150,7 +150,7 @@ int socom_act_helper_80065408(Actor_Socom *pActor)
     return vecLen;
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_act_80065518.s")
+#pragma INCLUDE_ASM("asm/Weapon/socom_act_80065518.s") // 1404 bytes
 
 void socom_kill_80065A94(Actor_Socom* a1)
 {
@@ -173,7 +173,7 @@ void socom_kill_80065A94(Actor_Socom* a1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/socom_loader_80065B04.s")
+#pragma INCLUDE_ASM("asm/Weapon/socom_loader_80065B04.s") // 624 bytes
 
 Actor_Socom *NewSOCOM_80065D74(void *a1, OBJECT *parentObj, int unit, int a4, int a5)
 {

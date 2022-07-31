@@ -23,7 +23,7 @@ void        HZD_StartDaemon_80021900(void)
     GV_SetLoader_80015418(0x68, (TFileExtHandler)&HZD_LoadInitHzd_800219F4);
 }
 
-#pragma INCLUDE_ASM("asm/HZD_Process_TableFlagIfTriggers_80021928.s")
+#pragma INCLUDE_ASM("asm/HZD_Process_TableFlagIfTriggers_80021928.s") // 160 bytes
 
 void        HZD_RoutesOffsetsToPtr_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 {
@@ -133,7 +133,7 @@ void        HZD_FreeHandler_80021C40(void* param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/HZD_MakeRoute_helper_80021C64.s")
+#pragma INCLUDE_ASM("asm/HZD_MakeRoute_helper_80021C64.s") // 264 bytes
 
 void        HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
 {

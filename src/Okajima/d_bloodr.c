@@ -21,10 +21,10 @@ void d_bloodr_kill_80072BD4(int param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_act_80072C10.s")
-#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_helper_80072DE8.s")
-#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_80072EFC.s")
-#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_800730EC.s")
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_act_80072C10.s") // 472 bytes
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_helper_80072DE8.s") // 276 bytes
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_80072EFC.s") // 496 bytes
+#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_800730EC.s") // 92 bytes
 
 struct Actor *NewKetchap_r_80073148(int arg0)
 {

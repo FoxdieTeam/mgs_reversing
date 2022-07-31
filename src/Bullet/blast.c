@@ -62,7 +62,7 @@ void blast_kill_8006DD90(int param_1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/blast_8006DDEC.s")
+#pragma INCLUDE_ASM("asm/Bullet/blast_8006DDEC.s") // 416 bytes
 //void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
 /*
 void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker)

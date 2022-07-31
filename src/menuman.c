@@ -28,8 +28,8 @@ extern void menu_right_unknown_8003DEB0(void);
 void MENU_Text_Init_80038B98(void);
 void nullsub_8_8008BB98(void);
 
-#pragma INCLUDE_ASM("asm/Menu/menuman_act_800386A4.s")
-#pragma INCLUDE_ASM("asm/menuman_kill_800387E8.s")
+#pragma INCLUDE_ASM("asm/Menu/menuman_act_800386A4.s") // 324 bytes
+#pragma INCLUDE_ASM("asm/menuman_kill_800387E8.s") // 100 bytes
 
 void menu_init_subsystems_8003884C(MenuMan *pMenuMan)
 {
@@ -75,7 +75,7 @@ void menuman_init_80038954(void)
     MENU_InitRadioTable_80049644();
 }
 
-#pragma INCLUDE_ASM("asm/sub_800389A8.s")
+#pragma INCLUDE_ASM("asm/sub_800389A8.s") // 88 bytes
 
 void MENU_ResetTexture_80038A00(void)
 {
@@ -98,7 +98,7 @@ void menu_radio_update_helper2_80038A7C(void)
   gMenuMan_800BD360.field_1D8 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/MENU_ResetSystem_80038A88.s")
+#pragma INCLUDE_ASM("asm/MENU_ResetSystem_80038A88.s") // 172 bytes
 
 /*
 void MENU_ResetSystem_80038A88(void)
@@ -154,7 +154,7 @@ void MENU_Text_Init_80038B98(void)
 	pTextConfig->flags = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80038BB4.s")
+#pragma INCLUDE_ASM("asm/sub_80038BB4.s") // 132 bytes
 
 extern int sprintf_8008E878(char *buffer, const char *fmt, ...);
 extern int strlen_8008E7B8(char *s);
@@ -190,12 +190,12 @@ int MENU_Text_80038C38(char *fmt, const char *str, int param_3, int param_4, int
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80038D10.s")
+#pragma INCLUDE_ASM("asm/sub_80038D10.s") // 88 bytes
 
 MenuGlue* MENU_GetPrimInfo_80038D68(void)
 {
   return &gMenuPrimBuffer_8009E2D0;
 }
 
-#pragma INCLUDE_ASM("asm/MENU_DrawBar_80038D74.s")
-#pragma INCLUDE_ASM("asm/MENU_DrawBar2_80038DE0.s")
+#pragma INCLUDE_ASM("asm/MENU_DrawBar_80038D74.s") // 108 bytes
+#pragma INCLUDE_ASM("asm/MENU_DrawBar2_80038DE0.s") // 72 bytes

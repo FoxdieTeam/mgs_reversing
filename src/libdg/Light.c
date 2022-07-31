@@ -8,8 +8,8 @@ extern MATRIX DG_ColorMatrix_8009D3A4;
 
 void VectorNormal_80092838(VECTOR* v0, VECTOR* v1);
 
-#pragma INCLUDE_ASM("asm/libdg/DG_InitLightSystem_80019F40.s")
-#pragma INCLUDE_ASM("asm/libdg/DG_SetAmbient_80019F80.s")
+#pragma INCLUDE_ASM("asm/libdg/DG_InitLightSystem_80019F40.s") // 64 bytes
+#pragma INCLUDE_ASM("asm/libdg/DG_SetAmbient_80019F80.s") // 120 bytes
 
 void DG_SetMainLightDir_80019FF8(int x, int y, int z)
 {
@@ -73,8 +73,8 @@ void DG_SetFixedLight_8001A094(Light *pLight, int light_count)
     }
 }
 
-#pragma INCLUDE_ASM("asm/libdg/DG_ClearTmpLight_8001A0E4.s")
-#pragma INCLUDE_ASM("asm/libdg/DG_SetTmpLight_8001A114.s")
+#pragma INCLUDE_ASM("asm/libdg/DG_ClearTmpLight_8001A0E4.s") // 48 bytes
+#pragma INCLUDE_ASM("asm/libdg/DG_SetTmpLight_8001A114.s") // 148 bytes
 
 extern void Square0_80093340(VECTOR *in_vec, VECTOR *);
 extern int SquareRoot0_80092708(int);
@@ -110,7 +110,7 @@ void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec)
 	out_vec->vz = val / divisor;
 }
 
-#pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix_8001A3C4.s")
+#pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix_8001A3C4.s") // 524 bytes
 
 void sub_8001A5D0(int param_1, int param_2)
 {
@@ -118,4 +118,4 @@ void sub_8001A5D0(int param_1, int param_2)
   return;
 }
 
-#pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix2_8001A5D8.s")
+#pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix2_8001A5D8.s") // 152 bytes
