@@ -75,12 +75,12 @@ void door_act_helper_8006EC48(struct Actor_Door *pDoor)
     GCL_ExecProc_8001FF2C(pDoor->field_100_param_f_v, &arg_struct);
   }
 }
-#pragma INCLUDE_ASM("asm/Thing/door_open_8006ECB8.s")
-#pragma INCLUDE_ASM("asm/Thing/door_close_8006ED48.s")
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s")
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s")
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F290.s")
-#pragma INCLUDE_ASM("asm/Thing/door_act_8006F318.s")
+#pragma INCLUDE_ASM("asm/Thing/door_open_8006ECB8.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_close_8006ED48.s") // 112 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s") // 268 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F290.s") // 136 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_act_8006F318.s") // 1024 bytes
 
 
 static inline void do_nothing_vec_func(SVECTOR* vec)
@@ -119,7 +119,7 @@ void door_loader_t_param_sub_8006F748(
     HZD_SetDynamicSegment_8006FEE4(&pTSub->field_0_x, &pTSub->field_0_x);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_init_t_value_8006F7AC.s")
+#pragma INCLUDE_ASM("asm/Thing/door_init_t_value_8006F7AC.s") // 460 bytes
 
 void door_loader_t_param_sub_8006F748(
     struct Actor_Door_TParam_sub *pTSub,
@@ -159,7 +159,7 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
     return defaul_val;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_loader_8006FA60.s")
+#pragma INCLUDE_ASM("asm/Thing/door_loader_8006FA60.s") // 672 bytes
 
 static inline void SetFlag(GM_Control *pCtrl, int flag)
 {

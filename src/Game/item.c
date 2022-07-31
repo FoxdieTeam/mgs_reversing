@@ -14,12 +14,12 @@ void GM_ConfigObjectJoint_80034CB4( OBJECT *obj );
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 
-#pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")
-#pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")
-#pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s")
-#pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown2_80033500.s")
-#pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown_80033560.s")
-#pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s")
+#pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s") // 120 bytes
+#pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s") // 116 bytes
+#pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s") // 264 bytes
+#pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown2_80033500.s") // 96 bytes
+#pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown_80033560.s") // 112 bytes
+#pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s") // 212 bytes
 
 int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
 
@@ -56,8 +56,8 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     prims->clut = tex->field_6_clut;
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_act_helper_80033704.s")
-#pragma INCLUDE_ASM("asm/Game/item_act_80033784.s")
+#pragma INCLUDE_ASM("asm/Game/item_act_helper_80033704.s") // 128 bytes
+#pragma INCLUDE_ASM("asm/Game/item_act_80033784.s") // 2052 bytes
 void item_act_80033784(Actor_Item* pActor);
 
 void item_kill_80033F88(Actor_Item* pActor)
@@ -92,8 +92,8 @@ void item_kill_80033F88(Actor_Item* pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s")
-#pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")
+#pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s") // 176 bytes
+#pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s") // 1064 bytes
 
 int item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
 

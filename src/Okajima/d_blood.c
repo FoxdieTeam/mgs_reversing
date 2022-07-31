@@ -7,8 +7,8 @@ void d_blood_kill_null_800729AC(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/d_blood_act_helper_800729B4.s")
-#pragma INCLUDE_ASM("asm/Okajima/d_blood_act_80072A0C.s")
+#pragma INCLUDE_ASM("asm/Okajima/d_blood_act_helper_800729B4.s") // 88 bytes
+#pragma INCLUDE_ASM("asm/Okajima/d_blood_act_80072A0C.s") // 280 bytes
 
 
 int d_blood_loader_helper_80072B24(Actor_Blood* actor_blood)
@@ -25,4 +25,4 @@ int d_blood_loader_80072B38(Actor_Blood* actor_blood)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/NewKetchap_80072B60.s")
+#pragma INCLUDE_ASM("asm/Okajima/NewKetchap_80072B60.s") // 116 bytes

@@ -2,7 +2,7 @@
 
 extern void GM_FreeObject_80034BF8(OBJECT *obj);
 
-#pragma INCLUDE_ASM("asm/shadow_act_helper_8005FD28.s")
+#pragma INCLUDE_ASM("asm/shadow_act_helper_8005FD28.s") // 768 bytes
 
 MATRIX* RotMatrixY_80093BC8(long r, MATRIX *m);
 int GV_NearExp8_800263E4(int arg0, int arg1);
@@ -47,6 +47,6 @@ void shadow_kill_80060190(int param_1)
     GM_FreeObject_80034BF8((OBJECT *)(param_1 + 0x28));
 }
 
-#pragma INCLUDE_ASM("asm/shadow_loader_800601B0.s")
-#pragma INCLUDE_ASM("asm/shadow_init_800602CC.s")
-#pragma INCLUDE_ASM("asm/shadow_init2_80060384.s")
+#pragma INCLUDE_ASM("asm/shadow_loader_800601B0.s") // 284 bytes
+#pragma INCLUDE_ASM("asm/shadow_init_800602CC.s") // 184 bytes
+#pragma INCLUDE_ASM("asm/shadow_init2_80060384.s") // 104 bytes

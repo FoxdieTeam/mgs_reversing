@@ -123,12 +123,12 @@ static inline int GM_GetCurrentMap()
 
 extern const char aSparkFl[];
 
-#pragma INCLUDE_ASM("asm/Okajima/InitRandamTable_80073DB0.s")
-#pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s")
-#pragma INCLUDE_ASM("asm/Okajima/spark_act_helper_80074118.s")
-#pragma INCLUDE_ASM("asm/Okajima/spark_loader4_80074234.s")
-#pragma INCLUDE_ASM("asm/Okajima/spark_800742F0.s")
-#pragma INCLUDE_ASM("asm/Okajima/spark_act_80074334.s")
+#pragma INCLUDE_ASM("asm/Okajima/InitRandamTable_80073DB0.s") // 152 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s") // 720 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_act_helper_80074118.s") // 284 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_loader4_80074234.s") // 188 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_800742F0.s") // 68 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_act_80074334.s") // 168 bytes
 
 void spark_kill_800743DC(int param_1)
 {
@@ -185,4 +185,4 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/NewSpark_80074564.s")
+#pragma INCLUDE_ASM("asm/Okajima/NewSpark_80074564.s") // 224 bytes

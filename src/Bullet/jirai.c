@@ -13,16 +13,16 @@ extern int counter_8009F448;
 extern int dword_8009F444;
 extern int dword_8009F440;
 
-#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s")
-#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s")
-#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s")
-#pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
+#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s") // 92 bytes
+#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
+#pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s") // 1280 bytes
 
 void jirai_kill_8006B05C(Actor_Jirai *pActor);
 
 Jirai_unknown SECTION(".stru_800BDE78") stru_800BDE78[8];
 
-#pragma INCLUDE_ASM("asm/jirai_kill_8006B05C.s")
+#pragma INCLUDE_ASM("asm/jirai_kill_8006B05C.s") // 200 bytes
 /*
 void jirai_kill_8006B05C(Actor_Jirai *pActor)
 {
@@ -59,7 +59,7 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
 }
 */
 
-#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006B124.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006B124.s") // 324 bytes
 
 int jirai_get_free_item_8006B268()
 {
@@ -74,9 +74,9 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/jirai_loader_8006B2A4.s")
-#pragma INCLUDE_ASM("asm/NewJirai_8006B48C.s")
-#pragma INCLUDE_ASM("asm/jirai_loader_8006B564.s")
+#pragma INCLUDE_ASM("asm/jirai_loader_8006B2A4.s") // 488 bytes
+#pragma INCLUDE_ASM("asm/NewJirai_8006B48C.s") // 216 bytes
+#pragma INCLUDE_ASM("asm/jirai_loader_8006B564.s") // 520 bytes
 
 Actor* NewScenarioJirai_8006B76C(int a1, int where)
 {

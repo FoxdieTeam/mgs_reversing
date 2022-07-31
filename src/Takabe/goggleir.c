@@ -20,10 +20,10 @@ extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 int SECTION(".dword_800BDFA8") dword_800BDFA8;
 
-#pragma INCLUDE_ASM("asm/goggleir_pal_convert_800789E0.s")
+#pragma INCLUDE_ASM("asm/goggleir_pal_convert_800789E0.s") // 216 bytes
 void goggleir_pal_convert_800789E0(void);
 
-#pragma INCLUDE_ASM("asm/goggleir_pal_cb_80078AB8.s")
+#pragma INCLUDE_ASM("asm/goggleir_pal_cb_80078AB8.s") // 296 bytes
 void goggleir_pal_cb_80078AB8(void);
 
 void set_pal_effect_fns_80079194(void* fn1, void* fn2);
