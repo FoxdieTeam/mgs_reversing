@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef goggleir_800789E0
-goggleir_800789E0:
+	xdef goggleir_pal_convert_800789E0
+goggleir_pal_convert_800789E0:
 	dw 0x30827FFF ; 0x800789E0
 	dw 0x14400003 ; 0x800789E4
 	dw 0x00801821 ; 0x800789E8
