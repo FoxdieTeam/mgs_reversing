@@ -4,6 +4,7 @@
 #include "linker.h"
 #include "map.h"
 #include "object.h"
+#include "..\Kojo\demothrd.h"
 
 // TODO: Header
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
@@ -409,16 +410,17 @@ void sub_8004EB74(Actor_SnaInit *pActor)
     sd_set_cli_800887EC(0x1ffff20, 0);
 }
 
-// TODO: this is a struct
-short SECTION(".word_800B77E8") word_800B77E8[18]; // dummy size
+// TODO: Not confirmed if this structure is correct yet
+demothrd_2Vec SECTION(".word_800B77E8") stru_800B77E8[9];
+
 void sna_init_8004EC00(Actor_SnaInit *pActor)
 {
-    if (word_800B77E8[17] == 1)
+    if (stru_800B77E8[2].field_0.vy == 1)
     {
         pActor->field_A20 = 6;
     }
 
-    word_800B77E8[17] = 0;
+    stru_800B77E8[2].field_0.vy = 0;
     pActor->field_A56 = 0;
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
