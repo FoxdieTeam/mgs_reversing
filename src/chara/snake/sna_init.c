@@ -2146,7 +2146,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
     short press;
     short status;
 
-    sinceLastChoke = ++pActor->field_904_frames_last_choke; // frames since last choke, lets go of enemy at 90
+    sinceLastChoke = ++pActor->field_904_frames_last_choke;
 
     if (((pActor->field_8E8_pTarget->field_26_hp < 1 || sinceLastChoke >= 90) ||
         pActor->field_8E8_pTarget->field_42 == 0))
@@ -2157,7 +2157,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
         return;
     }
 
-    press = pActor->field_9B0_pad_ptr->press; // these vars probably not needed but helps score rn
+    press = pActor->field_9B0_pad_ptr->press;
     status = pActor->field_9B0_pad_ptr->status;
 
     if ((press & PAD_SQUARE) != 0)
@@ -2166,7 +2166,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
     }
     else if ((status & PAD_SQUARE) == 0)
     {
-        // A38 is snake stop movement frames
+        // A38 is snake stop movement frames, counts down
         if (++pActor->field_A38 >= 9)
         {
             sna_init_sub_8004E41C(pActor, 2);
