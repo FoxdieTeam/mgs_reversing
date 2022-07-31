@@ -467,7 +467,7 @@ typedef struct Actor_SnaInit
   Actor *field_9A4_item_actor;
   int field_9A8;
   int field_9AC;
-  unsigned short *field_9B0_pad_bits;
+  GV_PAD *field_9B0_pad_ptr;
   Sna_ActionTable *field_9B4_action_table;
   void *field_9B8_fn_anim;
   int field_9BC_anim_frame;

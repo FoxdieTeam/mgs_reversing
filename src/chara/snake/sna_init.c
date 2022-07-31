@@ -387,7 +387,7 @@ void sub_8004EB74(Actor_SnaInit *pActor)
 {
     if (dword_800B7800[5] == 0)
     {
-        if ((short)(pActor->field_9B0_pad_bits[4]) == (short)0xffff)
+        if (pActor->field_9B0_pad_ptr->dir == (short)-1)
         {
             pActor->field_A20 = -6;
         }
@@ -706,9 +706,9 @@ extern void sna_init_sub_8004E330(Actor_SnaInit *snake, unsigned int flag);
 
 void sub_8004FA9C(Actor_SnaInit *snake)
 {
-    ushort action = *snake->field_9B0_pad_bits;
+    ushort action = snake->field_9B0_pad_ptr->status;
     sna_init_80051FD0(snake);
-    if (action & 0x4000)
+    if (action & PAD_DOWN)
     {
         sna_init_8004E330(snake, 1);
     }
@@ -767,7 +767,7 @@ int sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame);
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
-    if ((pActor->field_9B0_pad_bits[1] & 0x40) != 0 && sub_8004E808(pActor, 1, 0, 0xfffffd92, 0x5dc) == 0)
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sub_8004E808(pActor, 1, 0, 0xfffffd92, 0x5dc) == 0)
     {
 
         pActor->field_A28 = 450;
@@ -869,19 +869,19 @@ void sna_init_80051FD0(Actor_SnaInit *snake)
     SVECTOR *vec_arr;
 
     vec_arr = snake->field_9D0;
-    uVar2 = *snake->field_9B0_pad_bits;
-    if ((uVar2 & 0xa000) != 0)
+    uVar2 = snake->field_9B0_pad_ptr->status;
+    if ((uVar2 & (PAD_LEFT | PAD_RIGHT)) != 0)
     {
         iVar1 = snake->field_20_ctrl.field_4C_turn_vec.vy;
         uVar3 = sna_init_check_flags_8004E31C(snake, 0x4000);
         sVar4 = 1;
         sVar5 = 1;
-        if (uVar2 & 0x8000)
+        if (uVar2 & PAD_LEFT)
         {
             if ((uVar3 & 0xff) != 0)
             {
                 sVar4 = 0x40;
-                sVar5 = 0x40 - (*((unsigned char *)(snake->field_9B0_pad_bits + 7)));
+                sVar5 = 0x40 - (*((unsigned char *)((short*)snake->field_9B0_pad_ptr + 7)));
             }
             iVar6 = ((int)vec_arr[2].vx) * (sVar5 & 0xff);
             iVar1 += iVar6 / sVar4;
@@ -891,7 +891,7 @@ void sna_init_80051FD0(Actor_SnaInit *snake)
             if ((uVar3 & 0xff) != 0)
             {
                 sVar4 = 0x3f;
-                sVar5 = (*((unsigned char *)(snake->field_9B0_pad_bits + 7))) + 0x40;
+                sVar5 = (*((unsigned char *)((short*)snake->field_9B0_pad_ptr + 7))) + 0x40;
             }
             iVar6 = ((int)vec_arr[1].pad) * (sVar5 & 0xff);
             iVar1 -= iVar6 / sVar4;
@@ -947,7 +947,7 @@ void sna_init_fn_800525F8(Actor_SnaInit *pActor)
         }
     }
 
-    if (!(*pActor->field_9B0_pad_bits & 0x10))
+    if (!(pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE))
     {
         if (!gGameState_800B4D98.field_BE)
         {
@@ -968,7 +968,7 @@ void sna_init_fn_800525F8(Actor_SnaInit *pActor)
 
 void sna_init_act_helper2_helper_helper_800526BC(Actor_SnaInit *pActor)
 {
-    if ((*pActor->field_9B0_pad_bits & 0x10) == 0)
+    if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
     {
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT))
         {
@@ -1230,7 +1230,7 @@ void sub_80053E9C(Actor_SnaInit *pActor, int anim_frame)
 void sub_80053FAC(Actor_SnaInit *pActor, int anim_frame)
 {
     short vec_y;             // $v1
-    unsigned short pad_bits; // $s1
+    unsigned short pad_status; // $s1
 
     if (anim_frame == 0)
     {
@@ -1249,12 +1249,12 @@ void sub_80053FAC(Actor_SnaInit *pActor, int anim_frame)
         sna_init_8004E260(pActor, 0, 4, 0);
     }
 
-    pad_bits = *pActor->field_9B0_pad_bits;
-    if (pActor->field_9C.field_1A || (pad_bits & 0x80) == 0)
+    pad_status = pActor->field_9B0_pad_ptr->status;
+    if (pActor->field_9C.field_1A || (pad_status & PAD_SQUARE) == 0)
     {
         sna_init_clear_flags_8004E308(pActor, 4);
         pActor->field_910 = 0;
-        if ((pad_bits & 0x80) != 0)
+        if ((pad_status & PAD_SQUARE) != 0)
         {
             sub_80032858(&pActor->field_20_ctrl.field_0_position, 9);
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_FIRST_PERSON);
@@ -1288,12 +1288,12 @@ void sna_init_gun_800540D0(Actor_SnaInit *pActor, int anim_frame)
         pActor->field_A38 = 0;
     }
 
-    if ((pActor->field_9B0_pad_bits[2] & 0x80) != 0)
+    if ((pActor->field_9B0_pad_ptr->release & PAD_SQUARE) != 0)
     {
         pActor->field_A38 = 1;
     }
 
-    if ((*pActor->field_9B0_pad_bits & 0x80) != 0)
+    if ((pActor->field_9B0_pad_ptr->status & PAD_SQUARE) != 0)
     {
         pActor->field_926++;
     }
@@ -1379,7 +1379,7 @@ void sna_init_80054318(Actor_SnaInit *pActor, int anim_frame)
         return;
     }
 
-    if ((*pActor->field_9B0_pad_bits & 0x4000) != 0)
+    if ((pActor->field_9B0_pad_ptr->status & PAD_DOWN) != 0)
     {
         sna_init_8004E330(pActor, 1);
     }
@@ -1625,13 +1625,13 @@ void sub_8005684C(Actor_SnaInit *pActor)
 {
     int y;
 
-    if ((*pActor->field_9B0_pad_bits & 0xa000) == 0)
+    if ((pActor->field_9B0_pad_ptr->status & (PAD_LEFT | PAD_RIGHT)) == 0)
     {
         return;
     }
 
     y = pActor->field_20_ctrl.field_4C_turn_vec.vy;
-    if ((*pActor->field_9B0_pad_bits & 0x8000) != 0)
+    if ((pActor->field_9B0_pad_ptr->status & PAD_LEFT) != 0)
     {
         y += 32;
     }
@@ -1646,9 +1646,9 @@ void sub_8005688C(Actor_SnaInit *pActor)
 {
     int action_flag; // $a1
 
-    if ((*pActor->field_9B0_pad_bits & 0x5000) != 0)
+    if ((pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP)) != 0)
     {
-        if ((*pActor->field_9B0_pad_bits & 0x1000) != 0)
+        if ((pActor->field_9B0_pad_ptr->status & PAD_UP) != 0)
         {
             action_flag = pActor->field_9B4_action_table->field_4->field_3;
         }
@@ -1669,7 +1669,7 @@ void sub_8005688C(Actor_SnaInit *pActor)
 
 void sna_init_knockdown_check_getup_80056A1C(Actor_SnaInit *pActor)
 {
-    if (pActor->field_9B0_pad_bits[1]) // x
+    if (pActor->field_9B0_pad_ptr->press)
     {
         sna_init_knockdown_getup_80050668(pActor);
     }
@@ -1686,7 +1686,7 @@ void sna_init_80056A54(Actor_SnaInit *pActor)
     }
     else
     {
-        if ((*pActor->field_9B0_pad_bits & 0x5000) != 0)
+        if ((pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP)) != 0)
         {
             sna_init_start_anim_8004E1F4(pActor, sna_init_anim_box_move_8005544C);
         }
@@ -2036,7 +2036,7 @@ void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame)
     iVar3 = pActor->field_904 + 1;
     pActor->field_904 = iVar3;
 
-    if ((dword_800ABBA4 < 0 || ((pActor->field_9B0_pad_bits[0] & 0x80) == 0)))
+    if ((dword_800ABBA4 < 0 || ((pActor->field_9B0_pad_ptr->status & PAD_SQUARE) == 0)))
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_80058E88);
