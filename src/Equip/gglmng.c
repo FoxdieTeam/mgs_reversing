@@ -1,12 +1,51 @@
 #include "gglmng.h"
 #include "../Kojo/demothrd.h"
+#include "Script_tbl_map_8002BB44.h"
+
 
 extern const char aGglmngC[];
-
 extern demothrd_2Vec stru_800B77E8[9];
+extern GameState_800B4D98 gGameState_800B4D98;
+extern int GM_PlayerStatus_800ABA50;
+extern int dword_8009F46C;
 
-#pragma INCLUDE_ASM("asm/Equip/gglmng_act_800778B4.s") // 212 bytes
-void gglmng_act_800778B4(Actor_gglmng* pActor);
+Actor* gglsight_init_80078520(int type);
+
+void gglmng_act_800778B4(Actor_gglmng *pActor)
+{
+    if ( stru_800B77E8[2].field_0.vy )
+    {
+        if ( gGameState_800B4D98.field_1C_equipped_weapon == 4
+          || gGameState_800B4D98.field_1C_equipped_weapon == 9
+          || dword_8009F46C == 1
+          || (GM_PlayerStatus_800ABA50 & 0x4000000) != 0 )
+        {
+            pActor->field_24 = 0;
+            if (  pActor->field_28_pGglsight )
+            {
+                GV_DestroyOtherActor_800151D8( pActor->field_28_pGglsight);
+                pActor->field_28_pGglsight = 0;
+            }
+        }
+        else
+        {
+            pActor->field_24++;
+            if ( pActor->field_24 == 8 )
+            {
+                pActor->field_28_pGglsight = gglsight_init_80078520(pActor->field_20_type);
+            }
+        }
+    }
+    else
+    {
+        if ( pActor->field_28_pGglsight )
+        {
+            GV_DestroyOtherActor_800151D8(pActor->field_28_pGglsight);
+            pActor->field_28_pGglsight = 0;
+        }
+        pActor->field_24 = 0;
+    }
+}
 
 void gglmng_kill_80077988(Actor_gglmng *pActor)
 {
