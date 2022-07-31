@@ -389,7 +389,7 @@ typedef struct Actor_SnaInit
   int field_8F8;
   int field_8FC;
   int field_900;
-  int field_904;
+  int field_904_frames_last_choke;
   Actor *field_908_weapon_actor;
   void *field_90C_pWeaponFn;
   int field_910;
