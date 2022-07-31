@@ -3,21 +3,51 @@
 #include "strcode.h"
 
 extern char aGoggleirC[]; // = "goggleir.c"
+extern const char aGoggles_1[];
 
 extern void goggleir_act_80078BE0(Actor_GoggleIr* pActor);
-extern void goggleir_kill_80078CE4(Actor_GoggleIr* pActor);
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 //extern int  goggleir_loader_80078D8C(Actor_GoggleIr *a1, OBJECT *a2);
 Actor* gglmng_init_800779B8(int type);
 
+// TODO: Move to a header
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
+void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
+
+void DG_ResetExtPaletteMakeFunc_800791E4();
+
+extern int GM_GameStatus_800AB3CC;
 
 #pragma INCLUDE_ASM("asm/goggleir_800789E0.s")
 #pragma INCLUDE_ASM("asm/goggleir_act_helper_80078AB8.s")
 #pragma INCLUDE_ASM("asm/goggleir_act_80078BE0.s")
-#pragma INCLUDE_ASM("asm/goggleir_kill_80078CE4.s")
 
-extern const char aGoggles_1[];
+void goggleir_kill_80078CE4(Actor_GoggleIr *pActor)
+{
+    GM_GameStatus_800AB3CC &= ~8u;
+    DG_ResetExtPaletteMakeFunc_800791E4();
+
+    if (  pActor->field_54_pScn_mask )
+    {
+        GV_DestroyOtherActor_800151D8( pActor->field_54_pScn_mask);
+    }
+
+    if ( pActor->field_58_actor_unknown )
+    {
+        GV_DestroyOtherActor_800151D8(pActor->field_58_actor_unknown);
+    }
+
+    if (  pActor->field_64_pGglmng )
+    {
+        GV_DestroyOtherActor_800151D8( pActor->field_64_pGglmng);
+    }
+
+    if ( pActor->field_4C_head_hidden )
+    {
+        GM_FreeObject_80034BF8(&pActor->field_20_obj);
+        EQ_VisibleHead_80060DF0(pActor->field_48_pParent, &pActor->field_68_savedNPacks, &pActor->field_6A_saved_raise);
+    }
+}
 
 int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
 {
