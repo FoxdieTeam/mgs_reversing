@@ -1415,7 +1415,7 @@
     include "..\obj\sub_80079004.obj"
     include "..\obj\sub_800790E8.obj"
     include "..\obj\sub_8007913C.obj"
-    include "..\obj\goggle_common_act_80079194.obj"
+    include "..\obj\set_pal_effect_fns_80079194.obj"
     include "..\obj\libdg\DG_ResetExtPaletteMakeFunc_800791E4.obj"
     include "..\obj\sub_80079220.obj"
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_helper_80079284.obj"
@@ -2204,5 +2204,9 @@ group_stru_800BDE78    group bss,org($800BDE78)
 
 group_stru_800BDD78    group bss,org($800BDD78)
     section .stru_800BDD78, group_stru_800BDD78
+
+group_dword_800BDFA8    group bss,org($800BDFA8)
+    section .dword_800BDFA8, group_dword_800BDFA8
+
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
