@@ -6,6 +6,7 @@
 #include "message.h"
 #include <sys/types.h>
 #include <LIBGTE.H>
+#include <LIBETC.H>
 
 typedef struct
 {
@@ -83,6 +84,25 @@ enum	{
 	GV_PAD_ANAJOY = 1,
 	GV_PAD_ANALOG = 2
 } ;
+
+// TODO: typedef enum and use type in GV_PAD?
+enum
+{
+    PAD_UP       = PADLup,    //  0x1000
+    PAD_DOWN     = PADLdown,  //  0x4000
+    PAD_LEFT     = PADLleft,  //  0x8000
+    PAD_RIGHT    = PADLright, //  0x2000
+    PAD_TRIANGLE = PADRup,    //  0x0010
+    PAD_CROSS    = PADRdown,  //  0x0040
+    PAD_SQUARE   = PADRleft,  //  0x0080
+    PAD_CIRCLE   = PADRright, //  0x0020
+    PAD_L1       = PADL1,     //  0x0004
+    PAD_L2       = PADL2,     //  0x0001
+    PAD_R1       = PADR1,     //  0x0008
+    PAD_R2       = PADR2,     //  0x0002
+    PAD_START    = PADstart,  //  0x0800
+    PAD_SELECT   = PADselect, //  0x0100
+};
 
 //cache
 
