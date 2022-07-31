@@ -5,11 +5,11 @@
 extern void		DG_Clip_80017594(RECT *pClipRect,int dist);
 extern			DG_CHNL DG_Chanls_800B1800[3];
 extern char		byte_8009F5F8[];
-extern int		GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag		GM_PlayerStatus_800ABA50;
 
 void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
-    if (!(GM_PlayerStatus_800ABA50 & 0x4000000))
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
     {
         addPrim(ot, prim);
     }

@@ -48,7 +48,7 @@ extern GameState_800B4D98 gGameState_800B4D98;
 extern int GM_GameOverTimer_800AB3D4;
 extern int GM_GameStatus_800AB3CC;
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern int GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern Target_Data stru_8009F044;
 extern SVECTOR stru_800AB7FC;
 
@@ -128,12 +128,12 @@ void sna_init_8004E260(Actor_SnaInit *pActor, int a2, int interp, int a4)
     }
 }
 
-int GM_CheckPlayerStatusFlag_8004E29C(int arg0)
+int GM_CheckPlayerStatusFlag_8004E29C(PlayerStatusFlag arg0)
 {
     return (GM_PlayerStatus_800ABA50 & arg0) != 0;
 }
 
-int GM_SetPlayerStatusFlag_8004E2B4(int arg0)
+int GM_SetPlayerStatusFlag_8004E2B4(PlayerStatusFlag arg0)
 {
     int temp_v0;
 
@@ -142,7 +142,7 @@ int GM_SetPlayerStatusFlag_8004E2B4(int arg0)
     return temp_v0;
 }
 
-void GM_ClearPlayerStatusFlag_8004E2D4(int flag)
+void GM_ClearPlayerStatusFlag_8004E2D4(PlayerStatusFlag flag)
 {
     GM_PlayerStatus_800ABA50 &= ~flag;
 }
