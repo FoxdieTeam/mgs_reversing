@@ -1384,7 +1384,6 @@
 	; 80074644 800746B4 80074730 80074844 800748B8 800748D8 80074B5C 80074CA4 80074D28
 	include "..\obj\Okajima\stngrnd.obj"
 
-  
 	; 80074DAC 80074F44 80074F5C 80075164 80075194 800752A0
 	include "..\obj\Okajima\stgfd_io.obj"
     
@@ -1399,14 +1398,11 @@
 	; 8007743C 800774C0 800775B4 800776AC 8007773C 8007781C
 	include "..\obj\Takabe\goggle.obj"    
 
-    include "..\obj\Equip\gglmng_act_800778B4.obj"
-    include "..\obj\Equip\gglmng_kill_80077988.obj"
-    include "..\obj\Equip\gglmng_init_800779B8.obj"
-
+	; 800778B4 80077988 800779B8
+	include "..\obj\Equip\gglmng.obj"
 
 	; 80077A24 80077C6C 80077D24 80077F70 80078054 80078228 800783F8 80078404 80078444 80078520
 	include "..\obj\Equip\gglsight.obj"
-
 
     include "..\obj\Takabe\scn_mask.obj"
     
