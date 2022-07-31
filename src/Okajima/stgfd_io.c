@@ -5,10 +5,11 @@ extern const char   aStgfdIoC[];
 
 extern void          stgfd_io_act_80074F5C(Actor_stgfd_io *pActor);
 extern void          stgfd_io_kill_80075164(Actor_stgfd_io *pActor);
-extern int          stgfd_io_loader_80075194(struct Actor *pActor);
+extern int          stgfd_io_loader_80075194(Actor_stgfd_io *pActor);
 
 extern int GV_PauseLevel_800AB928;
 extern int GV_Clock_800AB920;
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
@@ -92,7 +93,37 @@ void stgfd_io_kill_80075164(Actor_stgfd_io *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/stgfd_io_loader_80075194.s")
+int stgfd_io_loader_80075194(Actor_stgfd_io *pActor)
+{
+    Actor_stgfd_io_0x30 *pAlloc = GV_Malloc_8001620C(sizeof(Actor_stgfd_io_0x30));
+    pActor->field_20_pAlloc0x30 = pAlloc;
+    if ( !pAlloc )
+    {
+        return -1;
+    }
+
+    setDrawTPage(&pAlloc->field_0_dr_tpage[0], 0, 1, 0x20);
+    setDrawTPage(&pAlloc->field_0_dr_tpage[1], 0, 1, 0x20);
+  
+    setTile(&pAlloc->field_10_tile[0]);
+    setSemiTrans(&pAlloc->field_10_tile[0], 1);
+    setXY0(&pAlloc->field_10_tile[0], -160, -112);
+    setWH(&pAlloc->field_10_tile[0], 320, 224);
+    
+
+    pAlloc->field_10_tile[1] = pAlloc->field_10_tile[0];
+    setRGB0(&pAlloc->field_10_tile[0], 0, 0, 0);
+    setRGB0(&pAlloc->field_10_tile[1], 0, 0, 0);
+
+    pActor->field_28 = 0;
+    pActor->field_2C = DG_ZeroVector_800AB39C;
+    pActor->field_34.vx = 240;
+    pActor->field_34.vy = 240;
+    pActor->field_34.vz = 240;
+    pActor->field_24 = 1;
+    pActor->field_3C_state = 0;
+    return 0;
+}
 
 struct Actor *NewStnFade_800752A0(void)
 {
