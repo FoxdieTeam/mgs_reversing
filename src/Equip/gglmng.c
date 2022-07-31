@@ -5,8 +5,13 @@ extern const char aGglmngC[];
 #pragma INCLUDE_ASM("asm/Equip/gglmng_act_800778B4.s") // 212 bytes
 void gglmng_act_800778B4(Actor_gglmng* pActor);
 
-#pragma INCLUDE_ASM("asm/Equip/gglmng_kill_80077988.s") // 48 bytes
-void gglmng_kill_80077988(Actor_gglmng* pActor);
+void gglmng_kill_80077988(Actor_gglmng *pActor)
+{
+    if ( pActor->field_28_pGglsight )
+    {
+        GV_DestroyOtherActor_800151D8(pActor->field_28_pGglsight);
+    }
+}
 
 Actor_gglmng* gglmng_init_800779B8(int type)
 {
