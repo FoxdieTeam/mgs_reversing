@@ -1403,16 +1403,10 @@
     include "..\obj\Equip\gglmng_kill_80077988.obj"
     include "..\obj\Equip\gglmng_init_800779B8.obj"
 
-    include "..\obj\Equip\gglsight_act_helper_80077A24.obj"
-    include "..\obj\Equip\gglsight_act_helper_80077C6C.obj"
-    include "..\obj\Equip\gglsight_act_helper_80077D24.obj"
-    include "..\obj\Equip\gglsight_act_helper_80077F70.obj"
-    include "..\obj\Equip\gglsight_act_helper_80078054.obj"
-    include "..\obj\Equip\gglsight_act_80078228.obj"
-    include "..\obj\Equip\gglsight_kill_800783F8.obj"
-    include "..\obj\Equip\gglsight_loader1_80078404.obj"
-    include "..\obj\Equip\gglsight_loader2_80078444.obj"
-    include "..\obj\Equip\gglsight_init_80078520.obj"
+
+	; 80077A24 80077C6C 80077D24 80077F70 80078054 80078228 800783F8 80078404 80078444 80078520
+	include "..\obj\Equip\gglsight.obj"
+
 
     include "..\obj\Takabe\scn_mask.obj"
     
