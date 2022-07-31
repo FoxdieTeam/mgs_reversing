@@ -1,6 +1,9 @@
 #include "gglmng.h"
+#include "../Kojo/demothrd.h"
 
 extern const char aGglmngC[];
+
+extern demothrd_2Vec stru_800B77E8[9];
 
 #pragma INCLUDE_ASM("asm/Equip/gglmng_act_800778B4.s") // 212 bytes
 void gglmng_act_800778B4(Actor_gglmng* pActor);
