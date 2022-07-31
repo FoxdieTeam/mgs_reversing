@@ -932,7 +932,35 @@ sub_80053E9C);
 }
 */
 
-#pragma INCLUDE_ASM("asm/sub_80052468.s")
+void sub_80052468(Actor_SnaInit *pActor)
+{
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) == 0)
+    {
+        pActor->field_A56 = 0;
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
+            PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+        sna_init_start_anim_8004E1F4(pActor, sub_80053E9C);
+    }
+    else
+    {
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
+
+        if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
+        {
+            pActor->field_A56 = 0;
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
+                PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+            sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+            sna_init_clear_flags_8004E344(pActor, 0x20);
+        }
+
+        sna_init_80051DA0(pActor);
+        sna_init_80051FD0(pActor);
+    }
+}
 
 #pragma INCLUDE_ASM("asm/sna_init_fn_80052540.s")
 
@@ -1695,7 +1723,33 @@ void sna_init_80056A54(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_fn_80056AD8.s")
+void sna_init_fn_80056AD8(Actor_SnaInit *pActor)
+{
+    if (dword_800ABBA4 < 0) // move angle
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_box_stop_800554B4);
+    }
+    else
+    {
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_3, 4);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+
+        if (sna_init_sub_8004E358(pActor, 0x10) == 0)
+        {
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = (short)dword_800ABBA4;
+        }
+        else if ((pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP)) == 0)
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_box_stop_800554B4);
+        }
+        else 
+        {
+            sub_8004FA9C(pActor);
+        }
+    }
+}
 
 void sna_init_anim_shoot_weapon_80056B88(Actor_SnaInit *pActor, int anim_frame)
 {
