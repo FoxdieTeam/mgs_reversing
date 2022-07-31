@@ -22,7 +22,7 @@ extern SVECTOR stru_800ABA10;
 extern int DG_CurrentGroupID_800AB968;
 
 extern GameState_800B4D98   gGameState_800B4D98;
-extern int GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int GV_Clock_800AB920;
 
 extern int          GV_StrCode_80016CCC(const char *string);
@@ -112,7 +112,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
     
     GM_CurrentMap_800AB9B0 = mapBit;
     
-    if ( ( pActor->field_48_pParent->objs->flag & 0x80) || (GM_PlayerStatus_800ABA50 & 0x1000) )
+    if ( ( pActor->field_48_pParent->objs->flag & 0x80) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK1000) )
     {
         pActor->f20_obj.objs->flag |= 0x80u;
         pActor->field_5C_pPrim->type |= 0x100u;
