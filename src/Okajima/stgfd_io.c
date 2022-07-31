@@ -6,16 +6,23 @@ extern int          stgfd_io_act_80074F5C(int *a1);
 extern int          stgfd_io_kill_80075164(int a1);
 extern int          stgfd_io_loader_80075194(struct Actor *pActor);
 
-#pragma INCLUDE_ASM("asm/Okajima/stgfd_io_act_helper_80074DAC.s")
+extern int GV_PauseLevel_800AB928;
+extern int GV_Clock_800AB920;
 
-int stgfd_io_act_helper_80074F44(char* arg0, int arg1, short arg2, short arg3, int arg4) {
-    *(int*)(arg0 + 0x24) = arg1;
-    *(short*)(arg0 + 0x34) = arg2;
-    *(short*)(arg0 + 0x36) = arg3;
-    *(short*)(arg0 + 0x38) = (short)arg4;
-    return arg4;
+#pragma INCLUDE_ASM("asm/Okajima/stgfd_io_act_helper_80074DAC.s")
+void stgfd_io_act_helper_80074DAC(Actor_stgfd_io *pActor);
+
+void stgfd_io_act_helper_80074F44(Actor_stgfd_io *pActor, int a2, int x, int y, int z)
+{
+    pActor->field_24 = a2;
+    pActor->field_34.vx = x;
+    pActor->field_34.vy = y;
+    pActor->field_34.vz = z;
 }
+
+
 #pragma INCLUDE_ASM("asm/Okajima/stgfd_io_act_80074F5C.s")
+
 #pragma INCLUDE_ASM("asm/Okajima/stgfd_io_kill_80075164.s")
 #pragma INCLUDE_ASM("asm/Okajima/stgfd_io_loader_80075194.s")
 
