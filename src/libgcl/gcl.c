@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "gcl.h"
 #include "mts_new.h"
+#include "game.h"
 
 GCL_COMMANDDEF *dword_800AB3B8 = 0; //sdata
 
@@ -154,11 +155,11 @@ void GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs)
 //extern const char aProcDCancel[];
 
 extern int GM_LoadRequest_800AB3D0;
-extern int GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
 {
-    if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & 0x2000))
+    if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_GAMEOVER))
     {
         mts_printf_8008BBA0("proc %d cancel\n", procNameHashed);
         return 0;

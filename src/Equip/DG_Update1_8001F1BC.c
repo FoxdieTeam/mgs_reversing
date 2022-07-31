@@ -4,6 +4,7 @@
 #include "dgd.h"
 #include "actor.h"
 #include "mts_new.h"
+#include "game.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
@@ -23,7 +24,7 @@ extern int DG_HikituriFlag_8009D460;
 extern int DG_HikituriFlagOld_8009D464;
 extern int GM_GameStatus_800AB3CC;
 extern int dword_8009D468;
-extern int GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int DG_FrameRate_8009D45C;
 extern GV_PAD* GM_CurrentPadData_800AB91C;
 
@@ -94,7 +95,7 @@ void DG_Update2_8001F078(Actor *pActor)
     GV_UpdatePadSystem_8001682C();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
 
-    if ((GM_PlayerStatus_800ABA50 & 0x10000000) != 0)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK10000000) != 0)
     {
         if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
         {

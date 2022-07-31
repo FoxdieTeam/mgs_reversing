@@ -1,6 +1,7 @@
 #include "linker.h"
+#include "game.h"
 
-int SECTION(".sbss") GM_PlayerStatus_800ABA50;
+PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
 /**
  * Some known settings via GM_SetPlayerStatusFlag_8004E2B4():
  * |= 0x20008000 if Snake dies from sna_init_check_dead_8004E384() and sna_init_anim_dying_80055524().
