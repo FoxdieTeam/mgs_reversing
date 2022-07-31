@@ -10,10 +10,10 @@ int SECTION(".sbss") gTargets_down_count_800ABA68;
 extern int gTargets_up_count_800ABA6C;
 int SECTION(".sbss") gTargets_up_count_800ABA6C;
 
-#pragma INCLUDE_ASM("asm/sub_8002D208.s")
+#pragma INCLUDE_ASM("asm/sub_8002D208.s") // 248 bytes
 int sub_8002D208(GM_Target *pTarget, GM_Target *a2);
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s") // 240 bytes
 
 void GM_Targets_Reset_8002D3F0(void)
 {
@@ -21,9 +21,9 @@ void GM_Targets_Reset_8002D3F0(void)
     gTargets_up_count_800ABA6C = 0; 
 }
 
-#pragma INCLUDE_ASM("asm/Game/GM_AllocTarget_8002D400.s")
+#pragma INCLUDE_ASM("asm/Game/GM_AllocTarget_8002D400.s") // 176 bytes
 
-#pragma INCLUDE_ASM("asm/Game/GM_FreeTarget_8002D4B0.s")
+#pragma INCLUDE_ASM("asm/Game/GM_FreeTarget_8002D4B0.s") // 80 bytes
 
 void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec)
 {
@@ -81,12 +81,12 @@ GM_Target* GM_C4Target_8002D620(GM_Target *pTarget)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Game/sub_8002D6D8.s")
+#pragma INCLUDE_ASM("asm/Game/sub_8002D6D8.s") // 260 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8002D7DC.s")
+#pragma INCLUDE_ASM("asm/sub_8002D7DC.s") // 568 bytes
 //int GM_Target_8002D7DC(GM_Target *pTarget);
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_8002DA14.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_8002DA14.s") // 608 bytes
 
 void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
 {
@@ -124,10 +124,10 @@ void sub_8002DD14(int param_1, int param_2)
   return;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002DD1C.s")
+#pragma INCLUDE_ASM("asm/sub_8002DD1C.s") // 196 bytes
 void sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, GM_Target *a3);
 
-#pragma INCLUDE_ASM("asm/sub_8002DDE0.s")
+#pragma INCLUDE_ASM("asm/sub_8002DDE0.s") // 984 bytes
 int sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, GM_Target *a3, SVECTOR *a4);
 
 int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side)
@@ -161,7 +161,7 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
     return bResult;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002E2A8.s")
+#pragma INCLUDE_ASM("asm/sub_8002E2A8.s") // 204 bytes
 
 void GM_Target_8002E374(int *ppDownCount, GM_Target **ppTargets)
 {

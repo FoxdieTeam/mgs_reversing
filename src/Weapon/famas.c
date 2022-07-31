@@ -19,7 +19,7 @@ extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 extern void GV_SetNamedActor_8001514C(Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
 extern int famas_act_80065E90(int a1);
 
-#pragma INCLUDE_ASM("asm/Weapon/famas_act_80065E90.s")
+#pragma INCLUDE_ASM("asm/Weapon/famas_act_80065E90.s") // 760 bytes
 
 void famas_die_80066188(Actor_Famas *famas)
 {

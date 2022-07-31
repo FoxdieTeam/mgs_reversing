@@ -6,10 +6,10 @@ extern int GV_Clock_800AB920;
 extern void EQ_InvisibleUnit_80060E68(int param_1, int param_2, int param_3);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s")
+#pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s") // 268 bytes
 POLY_GT4* kogaku2_tpage_uv_update_80060F98(POLY_GT4 *pPrims, int pack_count);
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_rgb_update_800610A4.s")
+#pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_rgb_update_800610A4.s") // 352 bytes
 POLY_GT4* kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *pPack, int pack_count, int ypos);
 
 void kogaku2_update_prims1_80061204(Actor_kogaku2 *pActor)
@@ -79,18 +79,18 @@ void kogaku2_kill_helper_80061384(Actor_kogaku2 *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_act_800613FC.s")
+#pragma INCLUDE_ASM("asm/Equip/kogaku2_act_800613FC.s") // 268 bytes
 
 void kogaku2_kill_80061508(Actor_kogaku2 *pActor)
 {
     kogaku2_kill_helper_80061384(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_act_helper_80061528.s")
+#pragma INCLUDE_ASM("asm/Equip/kogaku2_act_helper_80061528.s") // 204 bytes
 
 void kogaku2_act_nullsub_800615F4(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/Equip/NewKogaku2_800615FC.s")
-#pragma INCLUDE_ASM("asm/Equip/NewKogaku3_80061708.s")
+#pragma INCLUDE_ASM("asm/Equip/NewKogaku2_800615FC.s") // 268 bytes
+#pragma INCLUDE_ASM("asm/Equip/NewKogaku3_80061708.s") // 596 bytes

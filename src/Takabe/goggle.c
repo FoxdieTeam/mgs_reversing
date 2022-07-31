@@ -25,11 +25,11 @@ extern int  goggle_loader_8007773C(Actor_Goggle *a1, OBJECT *a2);
 
 STATIC_ASSERT_SIZE(Actor_Goggle, 0x60);
 
-#pragma INCLUDE_ASM("asm/Takabe/goggle_8007743C.s")
-#pragma INCLUDE_ASM("asm/Takabe/goggle_act_helper_800774C0.s")
-#pragma INCLUDE_ASM("asm/Takabe/goggle_act_800775B4.s")
-#pragma INCLUDE_ASM("asm/Takabe/goggle_kill_800776AC.s")
-#pragma INCLUDE_ASM("asm/Takabe/goggle_loader_8007773C.s")
+#pragma INCLUDE_ASM("asm/Takabe/goggle_8007743C.s") // 132 bytes
+#pragma INCLUDE_ASM("asm/Takabe/goggle_act_helper_800774C0.s") // 244 bytes
+#pragma INCLUDE_ASM("asm/Takabe/goggle_act_800775B4.s") // 248 bytes
+#pragma INCLUDE_ASM("asm/Takabe/goggle_kill_800776AC.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/Takabe/goggle_loader_8007773C.s") // 224 bytes
 
 Actor_Goggle *NewGoggle_8007781C(int a1, OBJECT *parent_obj)
 {

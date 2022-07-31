@@ -57,8 +57,8 @@ Actor* anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
     return anime_init_8005FBC8(0, 0, &stru_8009F160);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D988.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s") // 716 bytes
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D988.s") // 1112 bytes
 
 void anime_create_8005DDE0(MATRIX *pMtx)
 {
@@ -74,12 +74,12 @@ void anime_create_8005DDE0(MATRIX *pMtx)
     anime_init_8005FBC8(0, 0, &stru_8009F17C);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E090.s")
-#pragma INCLUDE_ASM("asm/sub_8005E1A0.s")
-#pragma INCLUDE_ASM("asm/sub_8005E258.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s") // 224 bytes
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s") // 320 bytes
+#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E090.s") // 272 bytes
+#pragma INCLUDE_ASM("asm/sub_8005E1A0.s") // 184 bytes
+#pragma INCLUDE_ASM("asm/sub_8005E258.s") // 220 bytes
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s") // 468 bytes
 
 void anime_create_8005E508(SVECTOR *pVec)
 {
@@ -158,7 +158,7 @@ void sub_8005E774(SVECTOR *pVec)
     anime_init_8005FBC8(0, 0, p);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s") // 500 bytes
 void anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
 
 
@@ -274,7 +274,7 @@ int anime_fn_5_8005EEA4(Actor_anime *pActor, int idx)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_6_8005EF04.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_6_8005EF04.s") // 244 bytes
 
 int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 {
@@ -380,7 +380,7 @@ int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s") // 140 bytes
 
 int anime_fn_13_8005F408(Actor_anime *pActor, int idx)
 {
@@ -463,9 +463,9 @@ void anime_kill_8005F608(int param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F644.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s")
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F644.s") // 168 bytes
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
+#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s") // 564 bytes
 
 extern int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
 extern void anime_act_8005F4AC(Actor_anime *param_1);
@@ -496,4 +496,4 @@ Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
 }
 
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005FCA4.s")
+#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005FCA4.s") // 132 bytes

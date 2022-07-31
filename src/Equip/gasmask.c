@@ -10,7 +10,7 @@ void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 
 void gasmask_act_800609C0(Actor_gasmask *pActor);
-#pragma INCLUDE_ASM("asm/Equip/gasmask_act_800609C0.s")
+#pragma INCLUDE_ASM("asm/Equip/gasmask_act_800609C0.s") // 332 bytes
 
 void gasmask_kill_80060B0C(Actor_gasmask *pActor)
 {
