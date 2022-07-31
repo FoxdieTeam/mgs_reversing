@@ -3,7 +3,7 @@
 
 int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3);
 
-int sub_8005BF84(int a1, int a2, int a3, int a4)
+int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
 {
 	int iVar1;
 	int iVar2;
@@ -24,7 +24,7 @@ int sub_8005BF84(int a1, int a2, int a3, int a4)
 		}
 	}
 
-	return *((unsigned char *) (((((a2 * ((iVar2 - a2) - 3)) / 2) + a3) + a1) - 1));
+	return *((unsigned char *) (((((a2 * ((iVar2 - a2) - 3)) / 2) + a3) + (int)a1) - 1));
 }
 
 #pragma INCLUDE_ASM("asm/sub_8005BFDC.s")
@@ -118,11 +118,15 @@ int sub_8005C498(HZD_MAP *pHzd, int idx, int *pOutNear)
 #pragma INCLUDE_ASM("asm/sub_8005CD1C.s")
 #pragma INCLUDE_ASM("asm/sub_8005CE5C.s")
 #pragma INCLUDE_ASM("asm/sub_8005CFAC.s")
-#pragma INCLUDE_ASM("asm/sub_8005D134.s")
 
-void sub_8005D168(HZD_MAP *pHzd, int a2, int *a3)
+int sub_8005D134(HZD_MAP *pHzd, SVECTOR* pVec, int idx)
 {
-    sub_8005C498(pHzd, a2, a3);
+    return sub_8005BFDC(&pHzd->f00_header->navmeshes[idx], pVec);
+}
+
+int sub_8005D168(HZD_MAP *pHzd, int a2, int *a3)
+{
+    return sub_8005C498(pHzd, a2, a3);
 }
 
 #pragma INCLUDE_ASM("asm/sub_8005D188.s")
