@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef goggle_common_act_80079194
-goggle_common_act_80079194:
+	xdef set_pal_effect_fns_80079194
+set_pal_effect_fns_80079194:
 	dw 0x27BDFFE8 ; 0x80079194
 	dw 0x00803021 ; 0x80079198
 	dw 0x3C02800C ; 0x8007919C

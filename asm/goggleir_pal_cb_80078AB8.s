@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef goggleir_act_helper_80078AB8
-goggleir_act_helper_80078AB8:
+	xdef goggleir_pal_cb_80078AB8
+goggleir_pal_cb_80078AB8:
 	dw 0x27BDFFC8 ; 0x80078AB8
 	dw 0xAFB20018 ; 0x80078ABC
 	dw 0x2412000F ; 0x80078AC0
