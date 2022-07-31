@@ -1416,12 +1416,9 @@
 
     include "..\obj\Equip\scn_mask_loader_800787A4.obj"
     
-    include "..\obj\goggleir_800789E0.obj"
-    include "..\obj\goggleir_act_helper_80078AB8.obj"
-    include "..\obj\goggleir_act_80078BE0.obj"
-    include "..\obj\goggleir_kill_80078CE4.obj"
-    include "..\obj\goggleir_loader_80078D8C.obj"
-    include "..\obj\NewGoggleIr_80078E6C.obj"
+	; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
+	include "..\obj\Takabe\goggleir.obj"
+    
     include "..\obj\sub_80078F04.obj"
     include "..\obj\libdg\DG_StorePaletteEffect_80078F30.obj"
     include "..\obj\libdg\DG_ResetPaletteEffect_80078FF8.obj"
