@@ -87,8 +87,8 @@ void sna_init_anim_shoot_weapon_helper_80057590(Actor_SnaInit *pActor);
 void sub_8005688C(Actor_SnaInit *pActor);
 void sub_80052468(Actor_SnaInit *pActor);
 void sna_init_8005684C(Actor_SnaInit *pActor);
-void sub_80054424(Actor_SnaInit *pActor, int a2);
-void sub_80053E9C(Actor_SnaInit *pActor, int a2);
+void sna_init_anim_duct_move_80054424(Actor_SnaInit *pActor, int a2);
+void sna_init_anim_enter_duct_80053E9C(Actor_SnaInit *pActor, int a2);
 void sub_8005684C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int a2);
 void sna_init_anim_punch_helper_800591F4(Actor_SnaInit *pActor, int a2);
@@ -798,7 +798,7 @@ void sna_init_80050568(Actor_SnaInit *pActor)
         pActor->field_20_ctrl.field_44_vec.vz = 0;
         pActor->field_20_ctrl.field_44_vec.vx = 0;
         pDVar3->flag |= 0x80;
-        sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
         pActor->field_A54 = 0;
         sna_init_set_invuln_8004F2A0(pActor, 24);
         sna_init_set_flags_8004E2F4(pActor, 1);
@@ -916,7 +916,7 @@ void sub_8005230C(Actor_SnaInit *pActor)
         {
             pActor->field_A56 = 0;
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_UNK400 |
-PLAYER_STATUS_MOVING | PLAYER_STATUS_FIRST_PERSON); sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+PLAYER_STATUS_MOVING | PLAYER_STATUS_FIRST_PERSON); sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
             sna_init_clear_flags_8004E344(pActor, 0x20);
         }
         sna_init_80051DA0(pActor);
@@ -942,7 +942,7 @@ void sub_80052468(Actor_SnaInit *pActor)
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
             PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
         sna_init_set_invuln_8004F2A0(pActor, 0);
-        sna_init_start_anim_8004E1F4(pActor, sub_80053E9C);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_enter_duct_80053E9C);
     }
     else
     {
@@ -953,7 +953,7 @@ void sub_80052468(Actor_SnaInit *pActor)
             pActor->field_A56 = 0;
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
                 PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
-            sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
             sna_init_clear_flags_8004E344(pActor, 0x20);
         }
 
@@ -1214,9 +1214,7 @@ void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame
 
 void sna_init_fn_800543A8(Actor_SnaInit *pActor, int a2);
 
-// probably sna_init_anim_prone_first_person
-// aka duct moving
-void sub_80053E9C(Actor_SnaInit *pActor, int anim_frame)
+void sna_init_anim_enter_duct_80053E9C(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
     {
@@ -1246,7 +1244,7 @@ void sub_80053E9C(Actor_SnaInit *pActor, int anim_frame)
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
         {
-            sna_init_start_anim_8004E1F4(pActor, sub_80054424);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
         }
         else
         {
@@ -1434,7 +1432,7 @@ void sna_init_fn_800543A8(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-void sub_80054424(Actor_SnaInit *pActor, int anim_frame)
+void sna_init_anim_duct_move_80054424(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
     {
@@ -1447,7 +1445,7 @@ void sub_80054424(Actor_SnaInit *pActor, int anim_frame)
 
 extern void sub_80056928(void);
 
-void sna_init_80054488(Actor_SnaInit *pActor, int anim_frame)
+void sna_init_anim_duct_idle_80054488(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
     {
@@ -1645,8 +1643,14 @@ void sna_init_anim_box_stop_800554B4(Actor_SnaInit *pActor, int anim_frame)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_dying_80055524.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_800559D8.s")
+
+// things like "a surveillance camera??" where player control is halted
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_mini_cutscene_800559D8.s")
+
+// similar to above, seems freeze snake and make him look at a certain direction or track something
+// triggers on first elevator ride at dock and right before mantis fight to look at meryl
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s")
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s")
 
 void sub_8005684C(Actor_SnaInit *pActor)
@@ -1685,7 +1689,7 @@ void sub_8005688C(Actor_SnaInit *pActor)
             action_flag = pActor->field_9B4_action_table->field_4->field_4;
         }
         sna_init_8004E22C(pActor, action_flag, 4);
-        sna_init_start_anim_8004E1F4(pActor, sna_init_80054488);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_idle_80054488);
     }
     else
     {

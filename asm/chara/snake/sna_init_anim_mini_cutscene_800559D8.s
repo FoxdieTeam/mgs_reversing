@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_act_unk_helper2_800559D8
-sna_act_unk_helper2_800559D8:
+	xdef sna_init_anim_mini_cutscene_800559D8
+sna_init_anim_mini_cutscene_800559D8:
 	dw 0x27BDFFD0 ; 0x800559D8
 	dw 0xAFB20020 ; 0x800559DC
 	dw 0x00809021 ; 0x800559E0
