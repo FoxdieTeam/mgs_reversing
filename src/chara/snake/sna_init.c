@@ -2040,7 +2040,8 @@ void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor,int anim_frame)
 {
     short bVar1;
 
-    if (anim_frame == 0 || (pActor->field_9B0_pad_ptr->press & 0x80) != 0) {
+    if (anim_frame == 0 || (pActor->field_9B0_pad_ptr->press & PAD_SQUARE) != 0)
+    {
         pActor->field_9C.action_flag = -1;
         pActor->field_9C8_anim_update_fn_3p = sna_init_anim_choke_rechoke_helper_8005961C;
         pActor->field_904_frames_last_choke = 0;
