@@ -3,11 +3,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-
-const int SECTION(".rdata") dword_80012F74[] = {0x80075084, 0x80075098, 0x800750B0, 0x800750D4, 0x800750EC, 0x80075104, 0x8007511C};
-
-const char SECTION(".rdata") aStgfdIoC[] = "stgfd_io.c"; // 80012F90
-const char SECTION(".rdata") aBullet[] = "bullet";
+const char SECTION(".rdata") aBullet[] = "bullet";// 80012F9C
 const char SECTION(".rdata") aBulletC[] = "bullet.c";
 const char SECTION(".rdata") aEffect[] = "effect";
 const char SECTION(".rdata") aChafgrndC[] = "chafgrnd.c";
