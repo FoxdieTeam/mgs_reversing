@@ -215,7 +215,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
 }
 */
 
-#pragma INCLUDE_ASM("asm/Equip/tabako_loader_800620B4.s")
+#pragma INCLUDE_ASM("asm/Equip/tabako_loader_800620B4.s") // 448 bytes
 
 Actor_tabako *NewTabako_80062274(GM_Control *pCtrl, OBJECT *pObj, int a3)
 {

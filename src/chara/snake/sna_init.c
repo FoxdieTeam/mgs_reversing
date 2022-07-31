@@ -307,9 +307,9 @@ void sub_8004E588(int param_1, short *param_2, int *param_3)
     }
     return;
 }
-#pragma INCLUDE_ASM("asm/sub_8004E5E8.s")
-#pragma INCLUDE_ASM("asm/sub_8004E71C.s")
-#pragma INCLUDE_ASM("asm/sub_8004E808.s")
+#pragma INCLUDE_ASM("asm/sub_8004E5E8.s") // 308 bytes
+#pragma INCLUDE_ASM("asm/sub_8004E71C.s") // 236 bytes
+#pragma INCLUDE_ASM("asm/sub_8004E808.s") // 296 bytes
 
 int sub_8004E930(Actor_SnaInit *snake, int arg1)
 {
@@ -338,7 +338,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     return int0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004E9D0.s")
+#pragma INCLUDE_ASM("asm/sub_8004E9D0.s") // 128 bytes
 
 extern unsigned int GV_DiffDirS_8001704C(int param_1, int param_2);
 
@@ -379,7 +379,7 @@ int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004EB14.s")
+#pragma INCLUDE_ASM("asm/sub_8004EB14.s") // 96 bytes
 
 extern short dword_800B7800[];
 extern void sd_set_cli_800887EC(int code, int unused);
@@ -468,10 +468,10 @@ void sub_8004ED08(Actor_SnaInit *pActor)
     sna_init_clear_flags_8004E344(pActor, 0x30);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper3_8004ED6C.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper3_8004ED6C.s") // 188 bytes
 
 // need bss: short 800b77e0
-#pragma INCLUDE_ASM("asm/sna_init_8004EE28.s")
+#pragma INCLUDE_ASM("asm/sna_init_8004EE28.s") // 136 bytes
 
 int sub_80026418(int arg0, int arg1);
 short sub_8002646C(int, int, char); // dummy signature
@@ -494,9 +494,9 @@ void sub_8004EEB0(Actor_SnaInit *pActor)
 }
 
 // https://decomp.me/scratch/k2Awn regswap
-#pragma INCLUDE_ASM("asm/sub_8004EF14.s")
+#pragma INCLUDE_ASM("asm/sub_8004EF14.s") // 208 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8004EFE4.s")
+#pragma INCLUDE_ASM("asm/sub_8004EFE4.s") // 80 bytes
 
 extern int sub_8004EFE4(Actor_SnaInit *param_1, int param_2);
 
@@ -676,12 +676,12 @@ void sub_8004F338(Actor_SnaInit *param_1)
     sna_init_clear_flags_8004E344(param_1, 0x100);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004F454.s")
-#pragma INCLUDE_ASM("asm/sub_8004F544.s")
-#pragma INCLUDE_ASM("asm/sub_8004F628.s")
+#pragma INCLUDE_ASM("asm/sub_8004F454.s") // 240 bytes
+#pragma INCLUDE_ASM("asm/sub_8004F544.s") // 228 bytes
+#pragma INCLUDE_ASM("asm/sub_8004F628.s") // 192 bytes
 
-#pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s")
-#pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s")
+#pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s") // 508 bytes
+#pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s") // 344 bytes
 
 int sna_act_unk_helper4_8004FA3C(void)
 {
@@ -714,12 +714,12 @@ void sub_8004FA9C(Actor_SnaInit *snake)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004FAE8.s")
-#pragma INCLUDE_ASM("asm/sub_8004FB38.s")
-#pragma INCLUDE_ASM("asm/sub_8004FB4C.s")
-#pragma INCLUDE_ASM("asm/sub_8004FB90.s")
-#pragma INCLUDE_ASM("asm/sub_8004FBA0.s")
-#pragma INCLUDE_ASM("asm/Game/GM_ClearBulName_8004FBE4.s")
+#pragma INCLUDE_ASM("asm/sub_8004FAE8.s") // 80 bytes
+#pragma INCLUDE_ASM("asm/sub_8004FB38.s") // 20 bytes
+#pragma INCLUDE_ASM("asm/sub_8004FB4C.s") // 68 bytes
+#pragma INCLUDE_ASM("asm/sub_8004FB90.s") // 16 bytes
+#pragma INCLUDE_ASM("asm/sub_8004FBA0.s") // 68 bytes
+#pragma INCLUDE_ASM("asm/Game/GM_ClearBulName_8004FBE4.s") // 20 bytes
 
 void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
 {
@@ -756,12 +756,12 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004FCB8.s")
-#pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s")
-#pragma INCLUDE_ASM("asm/sub_8005009C.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_check_knock_800501F8.s")
-#pragma INCLUDE_ASM("asm/sub_8005027C.s")
+#pragma INCLUDE_ASM("asm/sub_8004FCB8.s") // 304 bytes
+#pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s") // 416 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s") // 276 bytes
+#pragma INCLUDE_ASM("asm/sub_8005009C.s") // 348 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_check_knock_800501F8.s") // 132 bytes
+#pragma INCLUDE_ASM("asm/sub_8005027C.s") // 284 bytes
 
 int sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame);
@@ -781,7 +781,7 @@ int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_80050440.s")
+#pragma INCLUDE_ASM("asm/sna_init_80050440.s") // 296 bytes
 
 void sna_init_80050568(Actor_SnaInit *pActor)
 {
@@ -820,7 +820,7 @@ void sna_init_80050568(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knockdown_getup_80050668.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knockdown_getup_80050668.s") // 368 bytes
 
 extern int dword_800ABBC4;
 extern int dword_8009EEA4[];
@@ -849,14 +849,14 @@ int sub_800507D8(Actor_SnaInit *param_1)
     return ret;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk2_80051170.s")
-#pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")
-#pragma INCLUDE_ASM("asm/sub_80051A10.s")
-#pragma INCLUDE_ASM("asm/sub_80051BA4.s")
-#pragma INCLUDE_ASM("asm/sna_init_80051DA0.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s") // 492 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s") // 1804 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk2_80051170.s") // 76 bytes
+#pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s") // 1024 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s") // 1108 bytes
+#pragma INCLUDE_ASM("asm/sub_80051A10.s") // 404 bytes
+#pragma INCLUDE_ASM("asm/sub_80051BA4.s") // 508 bytes
+#pragma INCLUDE_ASM("asm/sna_init_80051DA0.s") // 560 bytes
 
 void sna_init_80051FD0(Actor_SnaInit *snake)
 {
@@ -901,9 +901,9 @@ void sna_init_80051FD0(Actor_SnaInit *snake)
 }
 
 void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
-#pragma INCLUDE_ASM("asm/sna_init_fn_80052120.s")
+#pragma INCLUDE_ASM("asm/sna_init_fn_80052120.s") // 492 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8005230C.s")
+#pragma INCLUDE_ASM("asm/sub_8005230C.s") // 348 bytes
 /* TODO
 void sub_8005230C(Actor_SnaInit *pActor)
 {
@@ -962,7 +962,7 @@ void sub_80052468(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_fn_80052540.s")
+#pragma INCLUDE_ASM("asm/sna_init_fn_80052540.s") // 184 bytes
 
 void sna_init_fn_800525F8(Actor_SnaInit *pActor)
 {
@@ -1133,17 +1133,17 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int anim_frame)
     sna_init_80050440(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_80052A5C.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_80052BA8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_80052CCC.s")
-#pragma INCLUDE_ASM("asm/sna_init_fn_80052E58.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_crouch_helper_80053014.s")
-#pragma INCLUDE_ASM("asm/sna_init_fn_800531F4.s")
-#pragma INCLUDE_ASM("asm/sna_init_80053360.s")
-#pragma INCLUDE_ASM("asm/sna_init_fn_800535B8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_helper_800537D4.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_helper_800538CC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_helper_80053A54.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_80052A5C.s") // 332 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_80052BA8.s") // 292 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_80052CCC.s") // 396 bytes
+#pragma INCLUDE_ASM("asm/sna_init_fn_80052E58.s") // 444 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_crouch_helper_80053014.s") // 480 bytes
+#pragma INCLUDE_ASM("asm/sna_init_fn_800531F4.s") // 364 bytes
+#pragma INCLUDE_ASM("asm/sna_init_80053360.s") // 600 bytes
+#pragma INCLUDE_ASM("asm/sna_init_fn_800535B8.s") // 540 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_helper_800537D4.s") // 248 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_helper_800538CC.s") // 392 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_helper_80053A54.s") // 300 bytes
 
 void sna_init_fn_nothing_80053B80(void)
 {
@@ -1162,7 +1162,7 @@ void sna_init_anim_run_begin_80053B88(Actor_SnaInit *param_1, int anim_frame)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_begin_80053BE8.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_prone_begin_80053BE8.s") // 396 bytes
 
 void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame)
 {
@@ -1457,7 +1457,7 @@ void sna_init_anim_duct_idle_80054488(Actor_SnaInit *pActor, int anim_frame)
     sna_init_80050440(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shot_flinch_800544E0.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shot_flinch_800544E0.s") // 360 bytes
 
 void sna_init_act_helper2_helper7_80054648(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -1485,7 +1485,7 @@ void sna_init_act_helper2_helper7_80054648(Actor_SnaInit *pActor, int anim_frame
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper8_80054710.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper8_80054710.s") // 544 bytes
 
 void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -1591,10 +1591,10 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
     sna_init_start_anim_8004E1F4(pActor, sna_init_anim_knockdown_idle_80054930);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper10_80054C08.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knock_80054D68.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_scope_80055334.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper10_80054C08.s") // 352 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knock_80054D68.s") // 404 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s") // 1080 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_scope_80055334.s") // 152 bytes
 
 extern void sna_init_anim_scope_80055334(int param_1, int anim_frame);
 
@@ -1642,16 +1642,16 @@ void sna_init_anim_box_stop_800554B4(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_dying_80055524.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_dying_80055524.s") // 1204 bytes
 
 // things like "a surveillance camera??" where player control is halted
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_mini_cutscene_800559D8.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_mini_cutscene_800559D8.s") // 1024 bytes
 
 // similar to above, seems freeze snake and make him look at a certain direction or track something
 // triggers on first elevator ride at dock and right before mantis fight to look at meryl
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s") // 2168 bytes
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s") // 508 bytes
 
 void sub_8005684C(Actor_SnaInit *pActor)
 {
@@ -1697,7 +1697,7 @@ void sub_8005688C(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80056928.s")
+#pragma INCLUDE_ASM("asm/sub_80056928.s") // 244 bytes
 
 void sna_init_knockdown_check_getup_80056A1C(Actor_SnaInit *pActor)
 {
@@ -1790,8 +1790,8 @@ void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int anim_frame)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_80056DDC.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s") // 320 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_80056DDC.s") // 740 bytes
 
 void sna_init_anim_stinger_helper_80058378(void); // dummy signature
 void sna_init_anim_stinger_800570C0(Actor_SnaInit *pActor, int anim_frame)
@@ -1830,11 +1830,11 @@ void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
     sub_8004E9D0(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_800571B8.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_80057474.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_helper_80057590.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_begin_helper_800577B4.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s")
+#pragma INCLUDE_ASM("asm/sna_init_800571B8.s") // 700 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_80057474.s") // 284 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_helper_80057590.s") // 548 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_begin_helper_800577B4.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s") // 348 bytes
 
 extern int HomingTarget_2_80032EAC(short *a1, short a2, int *a3, int *a4, int a5, int a6, int a7);
 
@@ -1909,14 +1909,14 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80057A90.s")
-#pragma INCLUDE_ASM("asm/sub_80057BF0.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_helper_80057FD4.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_stinger_helper_80058378.s")
-#pragma INCLUDE_ASM("asm/sub_80058470.s")
-#pragma INCLUDE_ASM("asm/sub_80058644.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_helper_80058780.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_throw_800589C8.s")
+#pragma INCLUDE_ASM("asm/sub_80057A90.s") // 352 bytes
+#pragma INCLUDE_ASM("asm/sub_80057BF0.s") // 996 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_helper_80057FD4.s") // 932 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_stinger_helper_80058378.s") // 248 bytes
+#pragma INCLUDE_ASM("asm/sub_80058470.s") // 468 bytes
+#pragma INCLUDE_ASM("asm/sub_80058644.s") // 316 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_helper_80058780.s") // 584 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_throw_800589C8.s") // 584 bytes
 
 void sna_init_anim_punch_80058C10(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -2015,7 +2015,7 @@ void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_80058EF4.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_80058EF4.s") // 148 bytes
 void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame);
 /*
 void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame)
@@ -2138,7 +2138,7 @@ void sub_800591BC(Actor_SnaInit *pActor)
     sna_init_clear_flags_8004E308(pActor, 0x34);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s") // 808 bytes
 
 void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
 {
@@ -2209,8 +2209,8 @@ void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int anim
     sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_80058E88);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_main_logic_800596FC.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_main_logic_800596FC.s") // 5652 bytes
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s") // 2076 bytes
 
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 {
@@ -2268,4 +2268,4 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_init_8005B650.s")
+#pragma INCLUDE_ASM("asm/chara/snake/sna_init_init_8005B650.s") // 2356 bytes

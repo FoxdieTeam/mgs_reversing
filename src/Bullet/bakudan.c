@@ -6,7 +6,7 @@ extern const char aBakudanC[];
 
 extern int used_counter_8009F42C;
 
-#pragma INCLUDE_ASM("asm/Bullet/bakudan_act_8006A218.s")
+#pragma INCLUDE_ASM("asm/Bullet/bakudan_act_8006A218.s") // 652 bytes
 
 Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
 
@@ -42,7 +42,7 @@ int bakudan_next_free_item_8006A510()
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/bakudan_8006A54C.s")
+#pragma INCLUDE_ASM("asm/Bullet/bakudan_8006A54C.s") // 384 bytes
 
 Actor* NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, GM_Target *pTarget)
 {

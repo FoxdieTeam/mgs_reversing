@@ -22,7 +22,7 @@ extern int DG_CurrentGroupID_800AB968;
 extern int counter_8009F448;
 extern GM_Target* GM_BombSeg_800ABBD8;
 
-#pragma INCLUDE_ASM("asm/Weapon/mine_act_80067558.s")
+#pragma INCLUDE_ASM("asm/Weapon/mine_act_80067558.s") // 440 bytes
 void mine_act_80067558(Actor_Mine *pActor);
 
 void mine_kill_80067710(Actor_Mine* mine)

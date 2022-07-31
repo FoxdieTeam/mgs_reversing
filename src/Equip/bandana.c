@@ -34,7 +34,7 @@ short SECTION(".snake_mag_size_800BDCB8") snake_weapon_max_ammo_800BDCBC;
 */
 
 // not matching yet
-#pragma INCLUDE_ASM("asm/Equip/bandana_act_80061DA0.s")
+#pragma INCLUDE_ASM("asm/Equip/bandana_act_80061DA0.s") // 124 bytes
 void bandana_act_80061DA0(Actor_bandana *pActor);
 
 /*

@@ -31,7 +31,7 @@ void grenade_800663A0(void)
   sub_8002D7DC(&GStack88);
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/grenade_act_8006641C.s")
+#pragma INCLUDE_ASM("asm/Weapon/grenade_act_8006641C.s") // 1144 bytes
 
 void grenade_kill_80066894(Actor_Grenade *grenade)
 {

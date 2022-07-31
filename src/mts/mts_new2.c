@@ -6,7 +6,7 @@
 // Each overlay defines this symbol
 extern char OverlayCharas[];
 
-#pragma INCLUDE_ASM("asm/mts/mts_reset_graph_8008C534.s")
+#pragma INCLUDE_ASM("asm/mts/mts_reset_graph_8008C534.s") // 88 bytes
 
 
 void SetExMask_8008C58C()

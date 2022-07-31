@@ -338,7 +338,7 @@ int mts_wait_vbl_800895F4(int wait_vblanks)
     return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_send_8008982C.s")
+#pragma INCLUDE_ASM("asm/mts/mts_send_8008982C.s") // 728 bytes
 
 int mts_isend_80089B04(int isend_dst)
 {
@@ -418,7 +418,7 @@ int mts_isend_80089B04(int isend_dst)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_receive_80089D24.s")
+#pragma INCLUDE_ASM("asm/mts/mts_receive_80089D24.s") // 1756 bytes
 
 void mts_slp_tsk_8008A400()
 {
@@ -872,7 +872,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     SwExitCriticalSection_8009956C();
 }
 */
-#pragma INCLUDE_ASM("asm/mts/mts_start_8008AAEC.s")
+#pragma INCLUDE_ASM("asm/mts/mts_start_8008AAEC.s") // 1368 bytes
 
 void mts_shutdown_8008B044(void)
 {
@@ -891,8 +891,8 @@ void mts_shutdown_8008B044(void)
     ExitCriticalSection_8009953C();
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s")
-#pragma INCLUDE_ASM("asm/mts/mts_8008B450.s")
+#pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s") // 940 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_8008B450.s") // 44 bytes
 
 int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
 {
@@ -915,9 +915,9 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
     return msg.field_0;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s")
-#pragma INCLUDE_ASM("asm/mts/mts_send_msg_8008B590.s")
-#pragma INCLUDE_ASM("asm/mts/mts_recv_msg_8008B5B8.s")
+#pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s") // 116 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_send_msg_8008B590.s") // 40 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_recv_msg_8008B5B8.s") // 80 bytes
 
 int mts_8008B608(void)
 {
@@ -929,7 +929,7 @@ int mts_get_task_status_8008B618(int task_idx)
     return gTasks_800C0C30[task_idx].field_0_state;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_task_res1_8008B630.s")
+#pragma INCLUDE_ASM("asm/mts/mts_get_task_res1_8008B630.s") // 24 bytes
 
 void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize)
 {
@@ -943,8 +943,8 @@ void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSi
     }
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_use_stack_size_8008B68C.s")
-#pragma INCLUDE_ASM("asm/mts/mts_print_process_status_8008B77C.s")
+#pragma INCLUDE_ASM("asm/mts/mts_get_use_stack_size_8008B68C.s") // 240 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_print_process_status_8008B77C.s") // 744 bytes
 
 void mts_lock_sio_8008BA64(void)
 {
@@ -957,8 +957,8 @@ int mts_unlock_sio_8008BA74(void)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008BA88.s")
-#pragma INCLUDE_ASM("asm/mts/mts_8008BB4C.s")
+#pragma INCLUDE_ASM("asm/mts/mts_8008BA88.s") // 196 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_8008BB4C.s") // 20 bytes
 
 int mts_8008BB60(int arg0)
 {

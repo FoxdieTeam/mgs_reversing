@@ -25,20 +25,20 @@ void sgtrect3_act_helper_8007009C()
     SetTransMatrix_80093248(&chnl->field_10_matrix);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_helper_800700E0.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_800701A8.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_8007020C.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070568.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070AB0.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070CAC.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_80070E14.s")
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_helper_800700E0.s") // 200 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_800701A8.s") // 100 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_8007020C.s") // 860 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070568.s") // 696 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s") // 656 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070AB0.s") // 508 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070CAC.s") // 360 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_80070E14.s") // 172 bytes
 
 void sgtrect3_kill_80070EC0(Actor_sgtrect3* actor_sgtrect3)
 {
     byte_8009F5F8[0] = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_helper_80070ECC.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_80070F4C.s")
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s")
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_helper_80070ECC.s") // 128 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_80070F4C.s") // 196 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s") // 268 bytes

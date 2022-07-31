@@ -95,7 +95,7 @@ int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3, int arg4, int 
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_set_color_80044DC4.s")
+#pragma INCLUDE_ASM("asm/Font/font_set_color_80044DC4.s") // 372 bytes
 
 int font_get_buffer_size_80044F38(KCB* kcb)
 {
@@ -126,7 +126,7 @@ void* font_get_buffer_ptr_80044FE8(KCB* kcb)
     return kcb->font_clut_buffer;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper4_80044FF4.s")
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper4_80044FF4.s") // 256 bytes
 
 int sub_800450F4(int a1)
 {
@@ -139,9 +139,9 @@ int sub_800450F4(int a1)
     return *(int *)(4 * a1 + dword_800AB6A8);
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper5_80045124.s")
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper6_8004544C.s")
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper_80045718.s")
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper5_80045124.s") // 808 bytes
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper6_8004544C.s") // 716 bytes
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper_80045718.s") // 112 bytes
 
 void sub_80045788(int param_1)
 {
@@ -161,11 +161,11 @@ void font_draw_string_helper7_800457A8(int param_1)
     dword_800ABB34 = param_1;
 }
 
-#pragma INCLUDE_ASM("asm/Font/sub_800457B4.s")
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper_800458B8.s")
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper2_800459B0.s")
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_80045AE4.s")
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_80045D0C.s")
+#pragma INCLUDE_ASM("asm/Font/sub_800457B4.s") // 260 bytes
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper_800458B8.s") // 248 bytes
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper2_800459B0.s") // 308 bytes
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_80045AE4.s") // 552 bytes
+#pragma INCLUDE_ASM("asm/Font/font_draw_string_80045D0C.s") // 3056 bytes
 
 void font_clear_800468FC(KCB* kcb)
 {
