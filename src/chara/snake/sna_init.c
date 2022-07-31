@@ -1940,7 +1940,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int anim_fr
 
     if (anim_frame == 0)
     {
-        pActor->field_904 = 0;
+        pActor->field_904_frames_last_choke = 0;
         pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
@@ -1981,7 +1981,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int anim_fr
 
     if (anim_frame < 4)
     {
-        ++pActor->field_904;
+        ++pActor->field_904_frames_last_choke;
         GV_AddVec3_80016D00(&pActor->field_20_ctrl.field_44_vec, &pActor->field_8EC_vec,
                             &pActor->field_20_ctrl.field_44_vec);
     }
@@ -2016,6 +2016,7 @@ void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int anim_frame)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_80058EF4.s")
+void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame);
 /*
 void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -2030,7 +2031,7 @@ void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame)
 
         pActor->field_9C.action_flag = -1;
         pActor->field_9C8_anim_update_fn_3p = sub_8005961C;
-        pActor->field_904 = 0;
+        pActor->field_904_frames_last_choke = 0;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
         action_flag = field_9B4_action_table->field_10->field_6;
         sna_init_8004E22C(pActor, field_9B4_action_table->field_10->field_6, 4);
@@ -2091,8 +2092,8 @@ void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame)
         pActor->field_8E8_pTarget->field_3E = bVar2;
     }
 
-    iVar3 = pActor->field_904 + 1;
-    pActor->field_904 = iVar3;
+    iVar3 = pActor->field_904_frames_last_choke + 1;
+    pActor->field_904_frames_last_choke = iVar3;
 
     if ((dword_800ABBA4 < 0 || ((pActor->field_9B0_pad_ptr->status & PAD_SQUARE) == 0)))
     {
@@ -2138,7 +2139,50 @@ void sub_800591BC(Actor_SnaInit *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_helper_8005951C.s")
+
+void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
+{
+    int sinceLastChoke;
+    short press;
+    short status;
+
+    sinceLastChoke = ++pActor->field_904_frames_last_choke; // frames since last choke, lets go of enemy at 90
+
+    if (((pActor->field_8E8_pTarget->field_26_hp < 1 || sinceLastChoke >= 90) ||
+        pActor->field_8E8_pTarget->field_42 == 0))
+    {
+        sna_init_sub_8004E41C(pActor, 2);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_hold_80059154);
+        sna_init_clear_flags_8004E308(pActor, 4);
+        return;
+    }
+
+    press = pActor->field_9B0_pad_ptr->press; // these vars probably not needed but helps score rn
+    status = pActor->field_9B0_pad_ptr->status;
+
+    if ((press & PAD_SQUARE) != 0)
+    {
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_rechoke_80058EF4);
+    }
+    else if ((status & PAD_SQUARE) == 0)
+    {
+        // A38 is snake stop movement frames
+        if (++pActor->field_A38 >= 9)
+        {
+            sna_init_sub_8004E41C(pActor, 2);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_hold_80059154);
+            sna_init_clear_flags_8004E308(pActor, 4);
+        }
+    }
+    else
+    {
+        pActor->field_A38 = 0;
+        if (dword_800ABBA4 >= 0) // snake move angle
+        {
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_drag_80059054);
+        }
+    }
+}
 
 extern int dword_8009EF24[];
 extern int dword_8009EF2C[];
