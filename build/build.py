@@ -197,7 +197,8 @@ def gen_build_target(targetName):
                  "/Thing/",
                  "/Okajima/",
                  "item.c", # todo figure out if correct, why not all .c files in this dir ??
-                 "anime.c" # ditto
+                 "anime.c", # ditto
+                 "/Takabe/"
                  ]
             for item in buildWithG0:
                 if cFile.find(item) != -1:

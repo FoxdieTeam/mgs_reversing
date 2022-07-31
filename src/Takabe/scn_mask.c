@@ -1,31 +1,11 @@
-#include "linker.h"
-#include "actor.h"
-#include "libdg.h"
-#include "dgd.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include "scn_mask.h"
 
 extern void *GV_Malloc_8001620C(int size);
 void GV_DelayedFree_80016254(void *addr);
 extern int GV_Clock_800AB920;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-struct scn_mask_prims
-{
-    DR_TPAGE field_0_unknown1[2];
-    TILE field_10_tile_big[2];
-    DR_TPAGE field_30_unknown2[2];
-    TILE field_40_tile_lines[2][112];
-};
-
-struct Actor_scn_mask
-{
-    Actor field_0_actor;
-    struct scn_mask_prims *field_20_pPrims;
-    int field_24;
-    int field_28;
-};
+extern const char aScnMaskC[];
 
 void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
 {
@@ -125,8 +105,6 @@ int scn_mask_loader_800787A4(struct Actor_scn_mask *pActor, int a2)
 
     return 0;
 }
-
-extern const char aScnMaskC[];
 
 struct Actor_scn_mask* new_scn_mask_8007895C(int a1)
 {

@@ -1414,7 +1414,7 @@
     include "..\obj\Equip\gglsight_loader2_80078444.obj"
     include "..\obj\Equip\gglsight_init_80078520.obj"
 
-    include "..\obj\Equip\scn_mask_loader_800787A4.obj"
+    include "..\obj\Takabe\scn_mask.obj"
     
 	; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
 	include "..\obj\Takabe\goggleir.obj"
