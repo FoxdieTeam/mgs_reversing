@@ -25,6 +25,7 @@ void shadow_act_helper_80060028(Actor_Shadow *pActor)
     }
 }
 
+void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature
 void shadow_act_800600E4(Actor_Shadow *pActor)
 {
     if ( (pActor->field_24_pObj->objs->flag & 0x80) != 0 || !pActor->field_90_bEnable )
