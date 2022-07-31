@@ -208,7 +208,7 @@ void sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
     {
         target->field_6_flags &= ~flags;
         snake->field_8E8_pTarget = 0;
-        snake->field_A54 = 0;
+        snake->field_A54.choke_count = 0;
         snake->field_89C_pTarget->field_10_size.vx = 300;
     }
 }
@@ -799,7 +799,7 @@ void sna_init_80050568(Actor_SnaInit *pActor)
         pActor->field_20_ctrl.field_44_vec.vx = 0;
         pDVar3->flag |= 0x80;
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
-        pActor->field_A54 = 0;
+        pActor->field_A54.prone_bool_thing = 0;
         sna_init_set_invuln_8004F2A0(pActor, 24);
         sna_init_set_flags_8004E2F4(pActor, 1);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_UNK200 |
@@ -1119,7 +1119,7 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int anim_frame)
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
         pActor->field_9C8_anim_update_fn_3p = sna_init_fn_800535B8;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_80052120;
-        if (pActor->field_A54)
+        if (pActor->field_A54.prone_bool_thing)
         {
             action_flag = pActor->field_9B4_action_table->field_4->field_4;
         }
@@ -1128,7 +1128,7 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int anim_frame)
             action_flag = pActor->field_9B4_action_table->field_4->field_3;
         }
         sna_init_8004E22C(pActor, action_flag, 4);
-        pActor->field_A54 = 0;
+        pActor->field_A54.prone_bool_thing = 0;
     }
     sna_init_80050440(pActor);
 }
@@ -1265,8 +1265,8 @@ void sub_80053FAC(Actor_SnaInit *pActor, int anim_frame)
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_3, 2);
         sna_init_set_flags_8004E2F4(pActor, 4);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_FIRST_PERSON);
-        vec_y = pActor->field_A54;
-        pActor->field_A54 = 0;
+        vec_y = pActor->field_A54.prone_bool_thing;
+        pActor->field_A54.prone_bool_thing = 0;
         pActor->field_90C_pWeaponFn = sna_init_gun_800540D0;
         pActor->field_910 = 0;
         pActor->field_926 = 0;
@@ -1500,7 +1500,7 @@ void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int anim_frame
         sna_init_set_flags_8004E2F4(pActor, 0x10);
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK200 | PLAYER_STATUS_PRONE);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK100);
-        local_field_A54 = pActor->field_A54;
+        local_field_A54 = pActor->field_A54.prone_bool_thing;
         pActor->field_A26_fn_stance_idx = 2;
         if (local_field_A54 == 1)
         {
@@ -1514,7 +1514,7 @@ void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int anim_frame
         if (pActor->field_89C_pTarget->field_26_hp <= 0)
         {
             v5 = 127;
-            if (pActor->field_A54 == 1)
+            if (pActor->field_A54.prone_bool_thing == 1)
             {
                 v5 = 126;
             }
@@ -1532,7 +1532,7 @@ void sna_init_anim_knockdown_getup_80054A10(Actor_SnaInit *pActor, int anim_fram
     {
         pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_80052540;
-        if (pActor->field_A54 == 1)
+        if (pActor->field_A54.prone_bool_thing == 1)
         {
             action_flag = pActor->field_9B4_action_table->field_C->field_6;
         }
@@ -1541,7 +1541,7 @@ void sna_init_anim_knockdown_getup_80054A10(Actor_SnaInit *pActor, int anim_fram
             action_flag = pActor->field_9B4_action_table->field_C->field_7;
         }
         sna_init_8004E22C(pActor, action_flag, 4);
-        pActor->field_A54 = 0;
+        pActor->field_A54.prone_bool_thing = 0;
     }
 
     if (pActor->field_20_ctrl.field_32_height >= 250)
@@ -1581,7 +1581,7 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
     if (pActor->field_89C_pTarget->field_26_hp <= 0 && !GM_GameOverTimer_800AB3D4)
     {
         GM_Sound_80032968(0, 63, 0x1Au);
-        sna_init_8004F8E4(pActor, pActor->field_A54 == 1 ? 126 : 127);
+        sna_init_8004F8E4(pActor, pActor->field_A54.prone_bool_thing == 1 ? 126 : 127);
     }
     else
     {
@@ -1945,7 +1945,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int anim_fr
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
         bClear = 0;
-        pActor->field_A54 = 0;
+        pActor->field_A54.choke_count = 0;
 
         if (!sna_init_8004FDE8(pActor, &stru_8009F044))
         {
@@ -2060,7 +2060,7 @@ void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int anim_frame)
         field_8E8_pTarget->field_3E = action_flag;
         field_8E8_pTarget->field_28 = 5;
         field_8E8_pTarget->field_2A--;
-        pActor->field_A54 = 0;
+        pActor->field_A54.choke_count = 0;
     }
 
     if (pActor->field_9C.field_1A)
@@ -2139,7 +2139,32 @@ void sub_800591BC(Actor_SnaInit *pActor)
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_helper_8005951C.s")
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_choke_rechoke_helper_8005961C.s")
+
+extern int dword_8009EF24[];
+extern int dword_8009EF2C[];
+void vibrate_init2_8005D58C(int*, int); // dummy signature, first arg is an actor
+void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int anim_frame)
+{
+    if (anim_frame == 0 || (pActor->field_9B0_pad_ptr->press & PAD_SQUARE) != 0)
+    {
+        pActor->field_8E8_pTarget->field_2A--;
+
+        if (++pActor->field_A54.choke_count >= 10) // feels good
+        {
+            vibrate_init2_8005D58C(dword_8009EF24, 1);
+            vibrate_init2_8005D58C(dword_8009EF2C, 2);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_kill_80058F88);
+            return;
+        }
+    }
+
+    if (pActor->field_9C.field_1A == 0 && pActor->field_8E8_pTarget->field_42 != 0) {
+        return;
+    }
+
+    sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_80058E88);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_main_logic_800596FC.s")
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")
 
