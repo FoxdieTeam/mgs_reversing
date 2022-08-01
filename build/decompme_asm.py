@@ -40,9 +40,11 @@ def dw_to_code(path):
                 code += a
     return code
 
+root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj'))
+
 def get_map():
     ret = {}
-    with open('../obj/asm.map') as f:
+    with open(root_dir + '/asm.map') as f:
         for line in f:
             line = line.rstrip().replace('  ', ' ')
             tok = line.split(' ')
