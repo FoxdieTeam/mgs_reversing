@@ -9,7 +9,7 @@ int SECTION(".sbss") dword_800ABB84[5];
 int SECTION(".sbss") dword_800ABB98;
 int SECTION(".sbss") dword_800ABB9C[2];
 
-int SECTION(".sbss") dword_800ABBA4;
+int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 
 int SECTION(".sbss") dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBAC;
