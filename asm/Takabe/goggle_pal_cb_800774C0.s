@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef goggle_act_helper_800774C0
-goggle_act_helper_800774C0:
+	xdef goggle_pal_cb_800774C0
+goggle_pal_cb_800774C0:
 	dw 0x27BDFFC8 ; 0x800774C0
 	dw 0xAFB3001C ; 0x800774C4
 	dw 0x2413000F ; 0x800774C8
