@@ -95,7 +95,7 @@ void DG_Update2_8001F078(Actor *pActor)
     GV_UpdatePadSystem_8001682C();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK10000000) != 0)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_CAN_USE_CONTROLLER_PORT_2) != 0)
     {
         if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
         {
