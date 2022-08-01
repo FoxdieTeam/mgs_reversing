@@ -498,7 +498,36 @@ void sub_8004EEB0(Actor_SnaInit *pActor)
 // https://decomp.me/scratch/k2Awn regswap
 #pragma INCLUDE_ASM("asm/sub_8004EF14.s") // 208 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8004EFE4.s") // 80 bytes
+int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
+{
+    int ret;
+    SVECTOR *vec; // not sure if correct
+
+    if (param_2 == 1)
+    {
+        vec = (SVECTOR *)&pActor->field_180.field_04;
+    }
+    else
+    {
+        vec = (SVECTOR *)&pActor->field_180.field_1C;
+    }
+
+    if (param_2 == 1)
+    {
+        ret = pActor->field_9C.action_flag;
+    }
+    else
+    {
+        ret = pActor->field_9C.field_10;
+    }
+
+    if (vec->vx + vec->vy == 1)
+    {
+        return ret;
+    }
+
+    return -1;
+}
 
 extern int sub_8004EFE4(Actor_SnaInit *param_1, int param_2);
 
@@ -717,9 +746,21 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8004FAE8.s") // 80 bytes
-#pragma INCLUDE_ASM("asm/sub_8004FB38.s") // 20 bytes
+
+extern int dword_800ABB9C[2];
+int SECTION(".sbss") dword_800ABB9C[2];
+int sub_8004FB38(void)
+{
+  return *(int *)(dword_800ABB9C[1] + 0x9a8);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004FB4C.s") // 68 bytes
-#pragma INCLUDE_ASM("asm/sub_8004FB90.s") // 16 bytes
+
+int *sub_8004FB90(void)
+{
+    return &dword_800ABBB8;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004FBA0.s") // 68 bytes
 #pragma INCLUDE_ASM("asm/Game/GM_ClearBulName_8004FBE4.s") // 20 bytes
 
@@ -762,11 +803,32 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 #pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s") // 416 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s") // 276 bytes
 #pragma INCLUDE_ASM("asm/sub_8005009C.s") // 348 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_check_knock_800501F8.s") // 132 bytes
+
+void sna_init_knock_80054D68(void); // dummy signature
+void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int anim_frame)
+{
+    void *func;
+    
+    if (anim_frame >= 8)
+    {
+        if (pActor->field_91C_weapon_idx != 6 ||
+            GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING) != 0)
+        {
+            if ((pActor->field_9B0_pad_ptr->press & PAD_CIRCLE) != 0)
+            {
+                func = sna_init_knock_80054D68;
+                sna_init_set_flags_8004E2F4(pActor, 0x100);
+                pActor->field_9C0 = func;
+                pActor->field_9C4 = 0;
+            }
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_8005027C.s") // 284 bytes
 
 int sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
-void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *param_1, int anim_frame);
+void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *pActor, int anim_frame);
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
     if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sub_8004E808(pActor, 1, 0, 0xfffffd92, 0x5dc) == 0)
