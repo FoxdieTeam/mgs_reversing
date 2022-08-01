@@ -24,8 +24,8 @@ Sna_E1 SECTION(".sdata") e1_800AB7C4;
 extern int dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
 
-extern int dword_800ABBA4;
-int SECTION(".sbss") dword_800ABBA4;
+extern int gSnaMoveDir_800ABBA4;
+int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 
 extern int dword_800ABBB4;
 int SECTION(".sbss") dword_800ABBB4;
@@ -216,7 +216,7 @@ void sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 
 // ... categorize move/turn direction by angle?
 // param_1: snake->field_20_ctrl.field_4C_turn_vec.vy
-// param_2: _dword_800ABBA4_snake_move_angle (guessed name)
+// param_2: _gSnaMoveDir_800ABBA4_snake_move_angle (guessed name)
 int sub_8004E458(short param_1, int param_2)
 {
     short uVar2;
@@ -501,13 +501,13 @@ void sub_8004EEB0(Actor_SnaInit *pActor)
     int iVar2;
     int arg0;
 
-    if (dword_800ABBA4 >= 0) // snake move angle
+    if (gSnaMoveDir_800ABBA4 >= 0)
     {
         arg0 = pActor->field_20_ctrl.field_4C_turn_vec.vy;
-        if (GV_DiffDirS_8001704C(arg0, dword_800ABBA4))
+        if (GV_DiffDirS_8001704C(arg0, gSnaMoveDir_800ABBA4))
         {
-            iVar2 = sub_80026418(arg0, dword_800ABBA4);
-            sVar1 = sub_8002646C(iVar2, dword_800ABBA4, 0x40);
+            iVar2 = sub_80026418(arg0, gSnaMoveDir_800ABBA4);
+            sVar1 = sub_8002646C(iVar2, gSnaMoveDir_800ABBA4, 0x40);
             pActor->field_20_ctrl.field_4C_turn_vec.vy = sVar1;
         }
     }
@@ -1236,7 +1236,8 @@ void sna_init_fn_nothing_80053B80(void)
 void sna_init_80054318(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_run_begin_80053B88(Actor_SnaInit *param_1, int anim_frame)
 {
-    if (anim_frame == 0) {
+    if (anim_frame == 0)
+    {
         param_1->field_9C8_anim_update_fn_3p = sna_init_80054318;
         param_1->field_9CC_anim_update_fn_1p = sna_init_fn_80052120;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
@@ -1443,7 +1444,7 @@ void sna_init_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor)
     void *pFn;
     pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
     pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
-    if (dword_800ABBA4 >= 0)
+    if (gSnaMoveDir_800ABBA4 >= 0)
     {
         pFn = sna_init_anim_throw_800589C8;
     }
@@ -1481,7 +1482,7 @@ void sna_init_8005425C(Actor_SnaInit *pActor, int anim_frame)
 
 void sna_init_80054318(Actor_SnaInit *pActor, int anim_frame)
 {
-    if (anim_frame == 2 && dword_800ABBA4 >= 0)
+    if (anim_frame == 2 && gSnaMoveDir_800ABBA4 >= 0)
     {
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_run_8005292C);
         return;
@@ -1825,7 +1826,7 @@ void sna_init_80056A54(Actor_SnaInit *pActor)
 {
     if (sna_init_sub_8004E358(pActor, 0x10) == 0)
     {
-        if (dword_800ABBA4 >= 0)
+        if (gSnaMoveDir_800ABBA4 >= 0)
         {
             sna_init_start_anim_8004E1F4(pActor, sna_init_anim_box_move_8005544C);
         }
@@ -1843,7 +1844,7 @@ void sna_init_80056A54(Actor_SnaInit *pActor)
 
 void sna_init_fn_80056AD8(Actor_SnaInit *pActor)
 {
-    if (dword_800ABBA4 < 0) // move angle
+    if (gSnaMoveDir_800ABBA4 < 0)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_box_stop_800554B4);
@@ -1855,7 +1856,7 @@ void sna_init_fn_80056AD8(Actor_SnaInit *pActor)
 
         if (sna_init_sub_8004E358(pActor, 0x10) == 0)
         {
-            pActor->field_20_ctrl.field_4C_turn_vec.vy = (short)dword_800ABBA4;
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = (short)gSnaMoveDir_800ABBA4;
         }
         else if ((pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP)) == 0)
         {
@@ -1949,7 +1950,7 @@ void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
 
 void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int anim_frame)
 {
-    if (anim_frame == 2 && dword_800ABBA4 >= 0) // move angle
+    if (anim_frame == 2 && gSnaMoveDir_800ABBA4 >= 0)
     {
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_rungun_80056C3C);
     }
@@ -1994,7 +1995,7 @@ typedef struct gUnkMaybeCameraStruct_800B77B8_t
 STATIC_ASSERT_SIZE(gUnkMaybeCameraStruct_800B77B8_t, 0x30);
 
 gUnkMaybeCameraStruct_800B77B8_t SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
-extern int dword_800ABBA4;
+extern int gSnaMoveDir_800ABBA4;
 
 void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 {
@@ -2029,7 +2030,7 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
     out_x_copy = out_x;
     pActor->field_718[2].vx = out_x;
     pActor->field_718[6].vx = out_x;
-    snake_not_moving = dword_800ABBA4 < 0;        // snake move angle
+    snake_not_moving = gSnaMoveDir_800ABBA4 < 0;
     pActor->field_718[7].vx = 3 * out_x_copy / 2; // maybe aim gun/head up/down??
 
     if (snake_not_moving && out_y >= 0) // if not moving, set snake turn angle
@@ -2244,7 +2245,7 @@ void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame)
     iVar3 = pActor->field_904_frames_last_choke + 1;
     pActor->field_904_frames_last_choke = iVar3;
 
-    if ((dword_800ABBA4 < 0 || ((pActor->field_9B0_pad_ptr->status & PAD_SQUARE) == 0)))
+    if ((gSnaMoveDir_800ABBA4 < 0 || ((pActor->field_9B0_pad_ptr->status & PAD_SQUARE) == 0)))
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_80058E88);
@@ -2261,7 +2262,7 @@ void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame)
         }
         else
         {
-            pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBA4 + 0x800;
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = gSnaMoveDir_800ABBA4 + 0x800;
         }
     }
 }
@@ -2326,7 +2327,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
     else
     {
         pActor->field_A38 = 0;
-        if (dword_800ABBA4 >= 0) // snake move angle
+        if (gSnaMoveDir_800ABBA4 >= 0)
         {
             sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_drag_80059054);
         }
@@ -2351,7 +2352,8 @@ void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int anim
         }
     }
 
-    if (pActor->field_9C.field_1A == 0 && pActor->field_8E8_pTarget->field_42 != 0) {
+    if (pActor->field_9C.field_1A == 0 && pActor->field_8E8_pTarget->field_42 != 0)
+    {
         return;
     }
 
