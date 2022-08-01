@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef goggle_8007743C
-goggle_8007743C:
+	xdef goggle_pal_convert_8007743C
+goggle_pal_convert_8007743C:
 	dw 0x30827FFF ; 0x8007743C
 	dw 0x14400003 ; 0x80077440
 	dw 0x00801821 ; 0x80077444
