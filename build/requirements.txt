@@ -2,3 +2,4 @@ ninja
 colorama
 termcolor
 capstone
+iterfzf
