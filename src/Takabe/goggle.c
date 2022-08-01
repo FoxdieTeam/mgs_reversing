@@ -22,18 +22,45 @@ typedef struct Actor_google
 } Actor_google;
 
 
+// TODO: Move to a header
+void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
+void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
+
+void DG_ResetExtPaletteMakeFunc_800791E4();
 
 extern int goggle_act_800775B4(int a1);
-extern int goggle_kill_800776AC(int a1);
 extern void GV_DestroyActor_800151C8(struct Actor *pActor);
 extern int  goggle_loader_8007773C(Actor_google *a1, OBJECT *a2);
+
+extern int GM_GameStatus_800AB3CC;
 
 Actor* gglmng_init_800779B8(int type);
 
 #pragma INCLUDE_ASM("asm/Takabe/goggle_8007743C.s") // 132 bytes
 #pragma INCLUDE_ASM("asm/Takabe/goggle_act_helper_800774C0.s") // 244 bytes
 #pragma INCLUDE_ASM("asm/Takabe/goggle_act_800775B4.s") // 248 bytes
-#pragma INCLUDE_ASM("asm/Takabe/goggle_kill_800776AC.s") // 144 bytes
+
+void goggle_kill_800776AC(Actor_google *pActor)
+{
+    GM_GameStatus_800AB3CC &= ~4u;
+    DG_ResetExtPaletteMakeFunc_800791E4();
+
+    if ( pActor->field_54_pScn_mask )
+    {
+        GV_DestroyOtherActor_800151D8(pActor->field_54_pScn_mask);
+    }
+
+    if ( pActor->field_58_actor_unknown )
+    {
+        GV_DestroyOtherActor_800151D8(pActor->field_58_actor_unknown);
+    }
+
+    if ( pActor->field_4C_head_hidden )
+    {
+        GM_FreeObject_80034BF8(&pActor->field_20_obj);
+        EQ_VisibleHead_80060DF0(pActor->field_48_pObj, &pActor->field_5C_saved_n_packs, &pActor->field_5E_saved_rise);
+    }
+}
 
 int goggle_loader_8007773C(Actor_google *pActor, OBJECT *pParent)
 {
