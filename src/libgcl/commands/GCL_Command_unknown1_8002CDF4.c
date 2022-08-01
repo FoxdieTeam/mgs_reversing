@@ -3,6 +3,7 @@
 #include "linker.h"
 #include "map.h"
 #include "GM_Control.h"
+#include "hash.h"
 
 extern GM_Control*          gControl_800AB9F4; // todo: update external
 
@@ -49,7 +50,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     {
         param = GCL_GetNextParamValue_80020AD4();
         GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), GM_PhotoViewPos_800ABA48);
-        if (GCL_GetNextParamValue_80020AD4() == 0xD5CC) // 出る "leave"
+        if (GCL_GetNextParamValue_80020AD4() == HASH_LEAVE)
         {
             param = 0;
         }
