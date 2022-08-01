@@ -423,7 +423,7 @@ void sna_init_8004EC00(Actor_SnaInit *pActor)
     stru_800B77E8[2].field_0.vy = 0;
     pActor->field_A56 = 0;
 
-    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
     sna_init_clear_flags_8004E308(pActor, 0x8000);
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) == 0)
@@ -580,7 +580,7 @@ void sub_8004F14C(Actor_SnaInit *param_1)
     {
         param_1->field_A56 = 0;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_UNK400 |
-                                          PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+                                          PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
         sna_init_clear_flags_8004E344(param_1, 0x20);
     }
     else
@@ -606,7 +606,7 @@ void sub_8004F204(Actor_SnaInit *param_1)
     {
         param_1->field_A56 = 0;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_UNK400 |
-                                          PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+                                          PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
         sna_init_clear_flags_8004E344(param_1, 0x20);
     }
     else
@@ -644,7 +644,7 @@ void sub_8004F338(Actor_SnaInit *param_1)
     {
 
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_UNK400 |
-                                          PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+                                          PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
         sna_init_clear_flags_8004E344(param_1, 0x20);
         param_1->field_A56 = 0;
     }
@@ -663,7 +663,7 @@ void sub_8004F338(Actor_SnaInit *param_1)
     param_1->field_92C->def = (DG_DEF *)((int)param_1->field_92C->def | 0x100);
     GM_ExitBehindCamera_80030AEC();
 
-    GM_PlayerStatus_800ABA50 &= PLAYER_STATUS_UNK10000000 | PLAYER_STATUS_UNK4000000 | PLAYER_STATUS_GAMEOVER |
+    GM_PlayerStatus_800ABA50 &= PLAYER_STATUS_CAN_USE_CONTROLLER_PORT_2 | PLAYER_STATUS_UNK4000000 | PLAYER_STATUS_GAMEOVER |
                                 PLAYER_STATUS_UNK1000 | PLAYER_STATUS_FIRST_PERSON_DUCT | PLAYER_STATUS_UNK4 |
                                 PLAYER_STATUS_CROUCHING | PLAYER_STATUS_PRONE;
 
@@ -700,7 +700,7 @@ void sna_init_8004FA74(Actor_SnaInit *param_1)
 {
     sna_init_clear_flags_8004E344(param_1, 0x20);
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_UNK400 |
-                                      PLAYER_STATUS_UNK8);
+                                      PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK);
 }
 
 extern void sna_init_80051FD0(Actor_SnaInit *snake);
@@ -942,7 +942,7 @@ void sub_80052468(Actor_SnaInit *pActor)
     {
         pActor->field_A56 = 0;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
-            PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+            PLAYER_STATUS_UNK400 | PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
         sna_init_set_invuln_8004F2A0(pActor, 0);
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_enter_duct_80053E9C);
     }
@@ -954,7 +954,7 @@ void sub_80052468(Actor_SnaInit *pActor)
         {
             pActor->field_A56 = 0;
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
-                PLAYER_STATUS_UNK400 | PLAYER_STATUS_UNK8 | PLAYER_STATUS_FIRST_PERSON);
+                PLAYER_STATUS_UNK400 | PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
             sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
             sna_init_clear_flags_8004E344(pActor, 0x20);
         }
@@ -1003,7 +1003,7 @@ void sna_init_act_helper2_helper_helper_800526BC(Actor_SnaInit *pActor)
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT))
         {
             pActor->field_A56 = 0;
-            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_UNK8 |
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK |
                                               PLAYER_STATUS_FIRST_PERSON);
         }
         else if (!gGameState_800B4D98.field_BE)
