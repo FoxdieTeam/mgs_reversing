@@ -20,6 +20,7 @@
 #include "Equip\bandana.h"
 #include "sna_init.h"
 #include "anime.h"
+#include "hash.h"
 
 // sdata
 extern const char* aCigs[];
@@ -101,10 +102,10 @@ extern const char aSnaMf3[];
 
 GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] =
 	{
-		{0x21CA, (TGCL_ActorCreateFn)0x8005B650}, // sna_init
-		{0x8767, (TGCL_ActorCreateFn)0x800344F8}, // item
-		{0xB997, NewDoor_8006FD00}, // door
-		{0, 0}};
+		{CHARA_SNAKE,	(TGCL_ActorCreateFn)0x8005B650}, // sna_init.c
+		{CHARA_ITEM,	(TGCL_ActorCreateFn)0x800344F8},
+		{CHARA_DOOR,	(TGCL_ActorCreateFn)&NewDoor_8006FD00},
+		{0,	0}};
 
 const char *SECTION(".data") MGS_DiskName_8009D2FC[] = {aSlpm86247, aSlpm86248, 0};
 
@@ -224,15 +225,20 @@ int SECTION(".data") DG_HikituriFlag_8009D460 = 0;
 int SECTION(".data") DG_HikituriFlagOld_8009D464 = 0;
 int SECTION(".data") dword_8009D468 = -1;
 
+int GCL_Command_if_80020274( char *top );
+int GCL_Command_eval_80020318(unsigned char *pScript);
+int GCL_Cmd_Return_80020404( void );
+int GCL_Command_foreach_8002033C(unsigned char *pScript);
+
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
 unsigned char kVertexIndexingOrder_8009D46C[] = { 0, 1, 3, 2 };
 
 GCL_COMMANDLIST SECTION(".data") commlist_8009D470[] =
-	{
-		{0x0D86, (TGCL_CommandFn)0x80020274}, // if
-		{0x64C0, (TGCL_CommandFn)0x80020318}, // eval
-		{0xCD3A, (TGCL_CommandFn)0x80020404}, // return
-		{0x7636, (TGCL_CommandFn)0x8002033C}  // foreach
+{
+	{HASH_CMD_if,		&GCL_Command_if_80020274},
+	{HASH_CMD_eval,		&GCL_Command_eval_80020318},
+	{HASH_CMD_return,	&GCL_Cmd_Return_80020404},
+	{HASH_CMD_foreach,	&GCL_Command_foreach_8002033C}
 };
 
 GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 =
@@ -310,9 +316,9 @@ int GCL_Command_ntrap_8002BE20(int argc, char **argv);
 int GCL_Command_delay_8002C074(int argc, char **argv);
 int GCL_Command_pad_8002C988(int argc, char **argv);
 int GCL_Command_varsave_8002C72C(int argc, char **argv);
-
+int GCL_Command_system_8002C7C8(void);
 int GCL_Command_sound_8002CA28(int argc, char **argv);
-
+int GCL_Command_menu_8002CAAC(void);
 int GCL_Command_rand_8002CD94(int argc, char **argv);
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv);
 int GCL_Command_unknown2_8002CFBC(int argc, char **argv);
@@ -321,30 +327,30 @@ int GCL_Command_jimaku_8002D188(int argc, char **argv);
 
 GCL_COMMANDLIST SECTION(".data") Commands_8009D5CC[] =
 	{
-		{0x22FF, (TGCL_CommandFn)&GCL_Command_mesg_8002C138}, // mesg
-		{0xD4CB, (TGCL_CommandFn)&GCL_Command_trap_8002BD34}, // trap
-		{0x9906, (TGCL_CommandFn)&GCL_Command_chara_8002C1B0}, // chara
-		{0xC091, (TGCL_CommandFn)&GCL_Command_map_8002BB44}, // map
-		{0x7D50, (TGCL_CommandFn)&GCL_Command_hzd_8002BD04}, // hzd ??
-		{0xEEE9, (TGCL_CommandFn)&GCL_Command_camera_8002B8F0}, // camera
-		{0x306A, (TGCL_CommandFn)&GCL_Command_light_8002B854}, // light
-		{0x9A1F, (TGCL_CommandFn)&GCL_Command_start_8002C22C}, // start
-		{0xC8BB, (TGCL_CommandFn)&GCL_Command_load_8002C308}, // load
-		{0x24E1, (TGCL_CommandFn)&GCL_Command_radio_8002C4A8}, // radio
-		{0xE43C, (TGCL_CommandFn)&GCL_Command_strstatus_8002C6A4}, // str_status
-		{0xA242, (TGCL_CommandFn)&GCL_Command_demo_8002C890}, // demo
-		{0xDBAB, (TGCL_CommandFn)&GCL_Command_ntrap_8002BE20}, // ntrap
-		{0x430D, (TGCL_CommandFn)&GCL_Command_delay_8002C074}, // delay
-		{0xCC85, (TGCL_CommandFn)&GCL_Command_pad_8002C988}, // pad
-		{0x5C9E, (TGCL_CommandFn)&GCL_Command_varsave_8002C72C}, // varsave
-		{0x4AD9, (TGCL_CommandFn)0x8002C7C8}, // system
-		{0x698D, (TGCL_CommandFn)&GCL_Command_sound_8002CA28}, // sound
-		{0x226D, (TGCL_CommandFn)0x8002CAAC}, // menu
-		{0x925E, (TGCL_CommandFn)&GCL_Command_rand_8002CD94}, // rand
-		{0xE257, (TGCL_CommandFn)&GCL_Command_unknown1_8002CDF4}, // ??
-		{0xA2BF, (TGCL_CommandFn)&GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
-		{0xB96E, (TGCL_CommandFn)&GCL_Command_print_8002D0E4}, // print
-		{0xEC9D, (TGCL_CommandFn)&GCL_Command_jimaku_8002D188}  // jimaku
+		{HASH_CMD_mesg,			(TGCL_CommandFn)&GCL_Command_mesg_8002C138},
+		{HASH_CMD_trap,			(TGCL_CommandFn)&GCL_Command_trap_8002BD34},
+		{HASH_CMD_chara,		(TGCL_CommandFn)&GCL_Command_chara_8002C1B0},
+		{HASH_CMD_map,			(TGCL_CommandFn)&GCL_Command_map_8002BB44},
+		{HASH_CMD_hzd,			(TGCL_CommandFn)&GCL_Command_hzd_8002BD04},
+		{HASH_CMD_camera,		(TGCL_CommandFn)&GCL_Command_camera_8002B8F0},
+		{HASH_CMD_light,		(TGCL_CommandFn)&GCL_Command_light_8002B854},
+		{HASH_CMD_start,		(TGCL_CommandFn)&GCL_Command_start_8002C22C},
+		{HASH_CMD_load,			(TGCL_CommandFn)&GCL_Command_load_8002C308},
+		{HASH_CMD_radio,		(TGCL_CommandFn)&GCL_Command_radio_8002C4A8},
+		{HASH_CMD_str_status,	(TGCL_CommandFn)&GCL_Command_strstatus_8002C6A4},
+		{HASH_CMD_demo,			(TGCL_CommandFn)&GCL_Command_demo_8002C890},
+		{HASH_CMD_ntrap,		(TGCL_CommandFn)&GCL_Command_ntrap_8002BE20},
+		{HASH_CMD_delay,		(TGCL_CommandFn)&GCL_Command_delay_8002C074},
+		{HASH_CMD_pad,			(TGCL_CommandFn)&GCL_Command_pad_8002C988},
+		{HASH_CMD_varsave,		(TGCL_CommandFn)&GCL_Command_varsave_8002C72C},
+		{HASH_CMD_system,		(TGCL_CommandFn)&GCL_Command_system_8002C7C8},
+		{HASH_CMD_sound,		(TGCL_CommandFn)&GCL_Command_sound_8002CA28},
+		{HASH_CMD_menu,			(TGCL_CommandFn)&GCL_Command_menu_8002CAAC},
+		{HASH_CMD_rand,			(TGCL_CommandFn)&GCL_Command_rand_8002CD94},
+		{HASH_CMD_unk1,			(TGCL_CommandFn)&GCL_Command_unknown1_8002CDF4}, // ??
+		{HASH_CMD_unk2,			(TGCL_CommandFn)&GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
+		{HASH_CMD_print,		(TGCL_CommandFn)&GCL_Command_print_8002D0E4},
+		{HASH_CMD_jimaku,		(TGCL_CommandFn)&GCL_Command_jimaku_8002D188}
 };
 
 GCL_COMMANDDEF SECTION(".data") script_commands_8009D68C =

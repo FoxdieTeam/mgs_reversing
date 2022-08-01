@@ -1,0 +1,429 @@
+#ifndef HASH_H
+#define HASH_H
+
+//------------------------------------------------------------------------------
+// Commands
+//------------------------------------------------------------------------------
+
+// Key words
+#define HASH_CMD_if         0x0d86
+#define HASH_CMD_eval       0x64c0
+#define HASH_CMD_return     0xcd3a
+#define HASH_CMD_foreach    0x7636
+
+// Commands
+#define HASH_CMD_mesg       0x22ff
+#define HASH_CMD_trap       0xd4cb
+#define HASH_CMD_chara      0x9906
+#define HASH_CMD_map        0xc091
+#define HASH_CMD_hzd        0x7d50 // wrong
+#define HASH_CMD_camera     0xeee9
+#define HASH_CMD_light      0x306a
+#define HASH_CMD_start      0x9a1f
+#define HASH_CMD_load       0xc8bb
+#define HASH_CMD_radio      0x24e1
+#define HASH_CMD_str_status 0xe43c
+#define HASH_CMD_demo       0xa242
+#define HASH_CMD_ntrap      0xdbab
+#define HASH_CMD_delay      0x430d
+#define HASH_CMD_pad        0xcc85
+#define HASH_CMD_varsave    0x5c9e
+#define HASH_CMD_system     0x4ad9
+#define HASH_CMD_sound      0x698d
+#define HASH_CMD_menu       0x226d
+#define HASH_CMD_rand       0x925e
+#define HASH_CMD_unk1       0xe257 // used by traps
+#define HASH_CMD_unk2       0xa2bf // ?? not in pc ver, demo thread related ??
+#define HASH_CMD_print      0xb96e
+#define HASH_CMD_jimaku     0xec9d // subtitle
+
+//------------------------------------------------------------------------------
+// Traps
+//------------------------------------------------------------------------------
+
+#define HASH_TRAP_ALL       0x14c9
+
+//  Events
+#define HASH_ENTER          0x0dd2 // 入る
+#define HASH_LEAVE          0xd5cc // 出る
+
+//------------------------------------------------------------------------------
+// HZD
+//------------------------------------------------------------------------------
+
+#define HASH_MAIN           0x7df9 // メイン - Refers to the main area of the map to load
+
+//------------------------------------------------------------------------------
+// Charas
+//------------------------------------------------------------------------------
+
+#define CHARA_SNAKE             0x21ca // スネーク
+#define CHARA_DOOR              0xb997
+#define CHARA_ITEM              0x8767
+
+
+// Other charas shouldn't be needed for the main exe
+/*
+#define CHARA_UNKNOWN_002A      0x002a // ???
+#define CHARA_UNKNOWN_002F      0x002f // ???
+#define CHARA_BLST_LN           0x0030
+#define CHARA_BLOOD             0x0009 // not sure!
+#define CHARA_D_BLOODS          0x000d
+#define CHARA_BLOOD_DRP         0x0048 // blooddrp.c
+#define CHARA_BLOOD_HZD         0x0047 // bloodhzd.c
+#define CHARA_SPLASH            0x000a
+#define CHARA_BLOOD_BL          0x0025
+#define CHARA_BOMBLED           0x004a
+#define CHARA_UNKNOWN_000E      0x000e // ???
+#define CHARA_BUBBLE_T          0x0012
+#define CHARA_BUBBLE_P          0x0013
+#define CHARA_BULLET            0x000b
+#define CHARA_UNKNOWN_0033      0x0033 // ???
+#define CHARA_CELOFAN           0x003a
+#define CHARA_CELOFAN2          0x0040
+#define CHARA_CRSH_SMK          0x0039
+#define CHARA_UNKNOWN_0034      0x0034 // ???
+#define CHARA_GOGGLE            0x0015
+#define CHARA_GGLSIGHT          0x0016
+#define CHARA_RED_ALERT         0x0037 // red_alrt.c
+#define CHARA_ITEM_DOT          0x0038,
+#define CHARA_ENVMAP3           0x001c
+#define CHARA_BLAST             0x0001
+#define CHARA_FADEIO            0x0003
+#define CHARA_FADEIO_0004       0x0004
+#define CHARA_FAMASLIT          0x0045
+#define CHARA_DEMOASI           0x0010
+#define CHARA_FALL_SPL          0x0044
+#define CHARA_UNKNOWN_0019      0x0019 // ???
+#define CHARA_GAS_EFCT          0x0042
+#define CHARA_GASMASK_SIGHT     0x0022 // gmsight.c
+#define CHARA_REALSHDW          0x0046
+#define CHARA_INVERLT           0x003b
+#define CHARA_INVERLT2          0x003f
+#define CHARA_GOGGLE_IR         0x0017 // goggleir.c
+#define CHARA_GOGGLE_SIGHT      0x0018 // gglsight.c
+#define CHARA_MGREXLZR          0x0020
+#define CHARA_METAL_GEAR_ROOM   0x004b // mg_room.c
+#define CHARA_UNKNOWN_000C      0x000c // ???
+#define CHARA_SEPIA             0x0028
+#define CHARA_UNKNOWN_0011      0x0011 // ???
+#define CHARA_WINDCRCL          0x0049
+#define CHARA_NINJALZR          0x0041
+#define CHARA_KATANA            0x002d
+#define CHARA_UNKNOWN_0035      0x0035 // ??
+#define CHARA_UNKNOWN_0036      0x0036 // ??
+#define CHARA_KOGAKU2_001A      0x001a
+#define CHARA_KOGAKU2_001B      0x001b
+#define CHARA_PLASMA_001D       0x001d
+#define CHARA_PLASMA_0024       0x0024
+#define CHARA_UNKNOWN_0007      0x0007
+#define CHARA_RFSIGHT           0x0029
+#define CHARA_SCOPE             0x0014
+#define CHARA_SEPIA             0x001f
+#define CHARA_DEMOKAGE          0x000f
+#define CHARA_M1E1SMKE          0x0032
+#define CHARA_SIGHT             0x002c
+#define CHARA_UNKNOWN_0008      0x0008 // ???
+#define CHARA_UNKNOWN_0002      0x0002 // ???
+#define CHARA_SMKE_LN           0x0031
+#define CHARA_SPARK2            0x003c
+#define CHARA_SPARK             0x003d
+#define CHARA_UNKNOWN_003E      0x003e // ???
+#define CHARA_UNKNOWN_0026      0x0026 // ???
+#define CHARA_UNKNOWN_0027      0x0027 // ???
+#define CHARA_SUB_ROOM          0x002e
+#define CHARA_SUB_EFFECT        0x0043 // sub_efct.c
+#define CHARA_UNKNOWN_0006      0x0006 // ???
+#define CHARA_SHUTER            0x0005
+#define CHARA_UNKNOWN_004C      0x004c
+#define CHARA_SUB_EFCT          0x0021
+#define CHARA_D_BLOODS_0023     0x0023
+#define CHARA_D_BLOODS_002B     0x002b
+#define CHARA_WINDCRCL          0x001e
+#define CHARA_10A_DEMO          0x40e9
+#define CHARA_S11_OBJS          0xe068
+#define CHARA_11B_DEMO          0xd53c
+#define CHARA_11G_DEMO          0x153e
+#define CHARA_LOADER            0x9ffd
+#define CHARA_SECOND            0x2d0a
+#define CHARA_ABST              0x566f
+#define CHARA_AB_DEMO1          0x4974
+#define CHARA_AB_DEMO2          0x4975
+#define CHARA_A_SHOWER          0x05ef
+#define CHARA_GCL_ARRAY         0x2a90 // gclarray.c
+#define CHARA_ASIATO            0x02c4 // FOOTPRINTS ? 
+#define CHARA_ASIOTO            0x92bc // FOOTSTEPS ?
+#define CHARA_AT                0x9988
+#define CHARA_BELONG            0xf59e
+#define CHARA_B_SMOKE           0x6b6c
+#define CHARA_BLINK_TX          0x8185
+#define CHARA_BLOODY_MERYL      0x1158 // mel10.c - 血まみれメリル
+#define CHARA_BLOOD_CL          0x4e95
+#define CHARA_BLOOD_BL_6A4C     0x6a4c
+#define CHARA_BLOOD_BL_9093     0x9093
+#define CHARA_BOXALL            0xf74b
+#define CHARA_BREAK_OBJECT      0x32fc // breakobj.c
+#define CHARA_BTN_CHK           0x6471
+#define CHARA_BUBBLE_S          0x1a02
+#define CHARA_B_SELECT          0x93b6
+#define CHARA_WIRE              0x7eca
+#define CHARA_CAMERA            0x6e90 // カメラ
+#define CHARA_CAMERA2           0x56cc
+#define CHARA_GUNCAME           0xa9c5
+#define CHARA_CAMERA_SHAKE      0x7bc2 // camshake.c
+#define CHARA_CAPE              0xb99f
+#define CHARA_CAT_IN            0x51c6
+#define CHARA_CHANGE            0xf722
+#define CHARA_INFRARED_CENSOR   0x43a0 // ir_cens.c
+#define CHARA_CHAIR             0x788d
+#define CHARA_CINEMA            0x7a05
+#define CHARA_LAND_MINE         0x3c0c // jirai
+#define CHARA_COMMAND           0xc6d7
+#define CHARA_DYNCON            0xcc45
+#define CHARA_TIMER             0x22c6
+#define CHARA_PAUSE             0xeced // not sure!
+#define CHARA_CRANE             0xa3fb
+#define CHARA_CROW              0x8e60
+#define CHARA_DEATH_SP          0xbe79
+#define CHARA_DSMOKE            0x6a98
+#define CHARA_DSMOKE2           0x76bc
+#define CHARA_CANCEL            0xb4e6
+#define CHARA_DOLL              0xe97e
+#define CHARA_DEMOSEL           0x3686
+#define CHARA_DISPLAY           0x9f7d // displ.c
+#define CHARA_DUMMY_FLOOR       0x9d00 // dummy_fl.c
+#define CHARA_DUMMY_WALL        0x58f0 // dummy_wl.c
+#define CHARA_DOG               0x6c0e
+#define CHARA_DOOR              0xb997
+#define CHARA_DOOR2             0x73f8
+#define CHARA_DRUM              0xb58d
+#define CHARA_DRUM2             0x4be8
+#define CHARA_DUCTMOUS          0x3303
+#define CHARA_DYNAMIC_FLOOR     0xaf6c // DYMC_FLR
+#define CHARA_DYNAMIC_SEGMENT   0xb103 // DYMC_SEG
+#define CHARA_ED_TELOP          0xe75a
+#define CHARA_ELECTRIC_DAMAGE   0x107c // elc_damg.c
+#define CHARA_ELECTRIC_FLOOR    0xaef2 // elc_flr.c
+#define CHARA_ELEVATOR          0x2abc
+#define CHARA_ELE_CROW          0x9ab9
+#define CHARA_ELEVATOR_PANEL    0xe253 // evpanel.c
+#define CHARA_EMITTER           0x32e5
+#define CHARA_EMITTER2          0xa9dd
+#define CHARA_ENDING2           0xb789
+#define CHARA_ENV_SOUND         0x3f9a // env_snd.c
+#define CHARA_ENV_TEST          0x76fe
+#define CHARA_FADE_IN_OUT       0xa12e // fadeio.c
+#define CHARA_FALL_SPLASH       0xc73e // fall_spl.c
+#define CHARA_O2_DAMAGE         0x5d64 // o2_damge.c
+#define CHARA_FIND_TRAP         0x118c // findtrap.c
+#define CHARA_FOG               0xd6fb
+#define CHARA_FONT_TEXT         0x84e1 // fonttext.c
+#define CHARA_MOTION_SEQUENCE   0x0fad // motse.c
+#define CHARA_FURNACE           0xadd8
+#define CHARA_GAS_DAMAGE        0x8d5a // gasdamge
+#define CHARA_GAS_EFFECT        0x5a50 // gas_efct
+#define CHARA_JEEP_EMY          0x2477
+#define CHARA_FALL_SPLASH       0xccd3 // fall_spl.c
+#define CHARA_GLASS             0x8e70
+#define CHARA_GOAL              0xdb1f
+#define CHARA_GODZCOM           0x9eb7
+#define CHARA_GODZILA           0xcb1f
+#define CHARA_GROUND_CAMERA     0x5f5a // grd_cam
+#define CHARA_BG_HEX            0xcbeb
+#define CHARA_BG_HEX_S          0x0d9b
+#define CHARA_HIYOKO            0x42e4
+#define CHARA_INTR_CAM          0xdd8b
+#define CHARA_ITEM              0x8767
+#define CHARA_JEEP_SRL          0x6a48
+#define CHARA_JDRUM             0xa27e
+#define CHARA_COUNTDWN          0xb757
+#define CHARA_JOHNNY            0x1ef9
+#define CHARA_DEMOSEL           0x81c7
+#define CHARA_SCOPE             0x4f02
+#define CHARA_KEY_ITEM          0xc6ac
+#define CHARA_KIKEN             0x52bf
+#define CHARA_KMDARUTL          0xa6f6 // not sure!
+#define CHARA_LANDING           0x8b1a
+#define CHARA_LIFE_UP           0x711f
+#define CHARA_LIFT              0x425f
+#define CHARA_LIFT2             0x921b
+#define CHARA_LIQUID            0x7bf2
+#define CHARA_AB_CH             0xcf72
+#define CHARA_MLOAD             0x53c7
+#define CHARA_M1E1              0x9d71
+#define CHARA_M1E1CAME          0xd5ec
+#define CHARA_DOLL2             0xe448
+#define CHARA_HAIR_M            0x450f
+#define CHARA_MEMPSY            0xaf72
+#define CHARA_MERYL3            0xc755
+#define CHARA_MERYL7            0x5078
+#define CHARA_MERYL72           0xe271
+#define CHARA_MGREX             0x4754
+#define CHARA_MG_DEMO1          0x954b
+#define CHARA_HIND_s11g         0x1787
+#define CHARA_MIRROR            0xc218
+#define CHARA_EVPANEL           0xa2b5
+#define CHARA_MODEL_DT          0x7acf
+#define CHARA_MONITOR1          0x6d78
+#define CHARA_MOSAIC            0x0065
+#define CHARA_MOUSE             0xd4a5
+#define CHARA_UNKNOWN_3453      0x3453 // ???
+#define CHARA_MOVIE             0x5345
+#define CHARA_M_DOOR            0xb98c
+#define CHARA_MEMPSY            0xd3c0
+#define CHARA_HAIR_N            0xf002
+#define CHARA_NINJA             0x30ba
+#define CHARA_OBJECT            0x4811
+#define CHARA_OPEN              0xcf79
+#define CHARA_OPENA             0x3ac3
+#define CHARA_OPENP             0xcfef
+#define CHARA_OPT               0x976c
+#define CHARA_OPTA              0x8d31
+#define CHARA_OPTP              0xb916
+#define CHARA_PAD               0xcbf8
+#define CHARA_PAD_DEMO          0x3ed7
+#define CHARA_PADDEMO2          0x720d
+#define CHARA_VIBRATE           0xfed1
+#define CHARA_PANEL             0x20f2
+#define CHARA_PANEL2            0xdd95
+#define CHARA_PAPER             0x5f02
+#define CHARA_PATO_LAMP         0x30ce // pato_lmp.c
+#define CHARA_POCKET            0xfdb6
+#define CHARA_COUNTDWN          0x8fdc
+#define CHARA_POCKET            0x6414
+#define CHARA_UNKNOWN_AA13      0xaa13 // ???
+#define CHARA_UNKNOWN_CF00      0xcf00 // ???
+#define CHARA_PERAPICT          0x10ff
+#define CHARA_PHOTOSEL          0xedeb
+#define CHARA_SCN_ANIM          0x8427
+#define CHARA_BG_SP             0x17f5
+#define CHARA_BG_STAGE          0x1fa5
+#define CHARA_BG_ST1            0xb032
+#define CHARA_BG_ST2            0xb033
+#define CHARA_BG_SP_CM          0xb7ae
+#define CHARA_BG_SP_ST          0xbc76
+#define CHARA_PK_GATE           0x9c6c
+#define CHARA_PJEEP             0xb47a
+#define CHARA_PLASMA            0x9bc2
+#define CHARA_FLR_SPA           0xfc0b
+#define CHARA_UNKNOWN_3AD2      0x3ad2 // ???
+#define CHARA_BG_HEX_P          0xcc89
+#define CHARA_PREOPE            0x6d1b
+#define CHARA_NINJA_D8DD        0xd8dd
+#define CHARA_OTACOM            0xbf66
+#define CHARA_SNE_03C_A404      0xa404
+#define CHARA_SNE_03C_27A2      0x27a2
+#define CHARA_PSYCO             0xa76f
+#define CHARA_MERYL07B          0xf4b0
+#define CHARA_PSYOBJ            0x710d
+#define CHARA_PUTHZD            0x91aa
+#define CHARA_P_LAMP            0x169c
+#define CHARA_POINT             0x5147
+#define CHARA_ITEM_DOT          0x917b
+#define CHARA_RANK              0x04f2
+#define CHARA_RASEN             0x5fd9
+#define CHARA_RASEN_EL          0xaa21
+#define CHARA_RED_ALERT         0xe397 // red_alrt.c
+#define CHARA_REVOLVER          0x05af
+#define CHARA_RSURFACE          0x81ea
+#define CHARA_RIPPLES           0x63aa
+#define CHARA_ROPE              0xbda8
+#define CHARA_PIPE              0xc35f
+#define CHARA_HIND              0x11e9
+#define CHARA_HIND2             0xb959
+#define CHARA_MLOAD             0x9302
+#define CHARA_SCN_BOMB          0x600d
+#define CHARA_SCN_MARK          0xee63
+#define CHARA_SEARCH_LIGHT      0xf50f // searchli.c
+#define CHARA_SHAKE_MODEL       0xba52 // shakemdl.c
+#define CHARA_SHUTER            0x03d9
+#define CHARA_SMOKE             0x170c
+#define CHARA_SNAKE             0x21ca // スネーク
+#define CHARA_SNAKE18           0x760e
+#define CHARA_SNWARP            0x672e
+#define CHARA_BUB_D_SN          0xc0fe
+#define CHARA_SNE17A            0xa791
+#define CHARA_BREATH            0x4170
+#define CHARA_SNOW              0x18e3 // 雪
+#define CHARA_SSTORM            0xa6f5
+#define CHARA_SNOWAREA          0x901e
+#define CHARA_SNDTST            0x4efc
+#define CHARA_MOVIE             0xfaa8,
+#define CHARA_SPHERE            0x73ea
+#define CHARA_SPHERE2           0xbee1
+#define CHARA_SELECT            0xd2f6
+#define CHARA_SMKTRGT           0x175b
+#define CHARA_TELOP             0x7ff7
+#define CHARA_TEXANIME          0xdcac
+#define CHARA_TEX_SCRL          0x6865
+#define CHARA_LAMP              0x1ad3
+#define CHARA_TOBCNT            0xaefb
+#define CHARA_TORTURE           0xe608
+#define CHARA_TRACK_TRAP        0xcb3a // tracktrp.c
+#define CHARA_BED               0x2a21
+#define CHARA_REVOLVER          0x050c
+#define CHARA_UJI               0xf5c5
+#define CHARA_VALCAN            0x9ff5
+#define CHARA_VIB_EDIT          0x6c66
+#define CHARA_VMODEL            0x0a02
+#define CHARA_VOICE_SYSTEM      0x0dc9 // voicesys.c
+#define CHARA_VR                0xed86
+#define CHARA_VR2               0x30c8
+#define CHARA_BACKGROUND        0xd07f // backgrnd.c
+#define CHARA_BG2               0x1454
+#define CHARA_BG3               0x1455
+#define CHARA_VRBOX_DF07        0xdf0f
+#define CHARA_VRBOX2_548E       0x548e
+#define CHARA_VRBOX2_548F       0x548f
+#define CHARA_VRBOX_5490        0x5490
+#define CHARA_VRCLEAR           0x4deb
+#define CHARA_VRCLEAR2_C249     0xc249
+#define CHARA_VRCLEAR2_C24A     0xc24a
+#define CHARA_CLUTER            0xb95f
+#define CHARA_DEMOMNGR          0x8a46
+#define CHARA_VRGLASS_49D2      0x49d2
+#define CHARA_VRGLASS_03BF      0x03bf
+#define CHARA_VRSPARK           0x0c09
+#define CHARA_VRTITLE           0x5667
+#define CHARA_VRWINDOW          0xd44e
+#define CHARA_WINMNGR           0x3d26
+#define CHARA_PAUSE_MENU        0xa5dc // pausmenu.c
+#define CHARA_SNAKE_E1          0xb162
+#define CHARA_WAKE              0x41a3
+#define CHARA_OBSTACLE          0xec77
+#define CHARA_PUT_OBJECT        0xf4c3 // put_obj.c
+#define CHARA_WALL_SPA          0x2b24
+#define CHARA_WATCHER           0x6e9a
+#define CHARA_WATER             0x96b5
+#define CHARA_WSURFACE          0xeea7
+#define CHARA_WOLF2             0x962c
+#define CHARA_WT_AREA           0xdba3
+#define CHARA_WT_AREA2          0xa480
+#define CHARA_WT_OBJ            0x69ad
+#define CHARA_WT_VIEW           0x8e45
+#define CHARA_ZAKO              0xed87
+#define CHARA_ZAKO10            0x31e3
+#define CHARA_ZK10COM           0x8e64
+#define CHARA_ZAKO11A           0xa608
+#define CHARA_ZK11ACOM          0x5efa
+#define CHARA_ZAKO11E           0xa60c
+#define CHARA_ZK11ECOM          0x5f0a
+#define CHARA_ZAKO11F           0xa60d
+#define CHARA_ZK11FCOM          0x5f0e
+#define CHARA_ZAKO14            0x31e7
+#define CHARA_ZK14COM           0x8e74
+#define CHARA_ZAKO19            0x31ec
+#define CHARA_ZK19COM           0x8e88
+#define CHARA_ZAKOCOM           0x7cf7
+#define CHARA_NINJA_PLAYABLE    0xb8d4 // njaplay.c
+#define CHARA_WINMNGR           0xae06
+#define CHARA_LOADREP           0xc8ca
+#define CHARA_SAVE_MANAGER      0xc5b7 // savemngr.c
+#define CHARA_PLAY_DEMO         0x3f9d // playdemo.c
+#define CHARA_REC_DEMO          0xf364 // recdemo.c
+#define CHARA_VR_CHECK          0x26bc
+#define CHARA_PRESENT           0xaf75
+
+*/
+
+#endif // HASH_H

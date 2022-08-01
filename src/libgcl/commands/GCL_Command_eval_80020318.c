@@ -1,11 +1,11 @@
-#include <util/idaTypes.h>
+
 #include "gcl.h"
 
-DWORD GCL_Command_eval_80020318(BYTE* cmd)
+int GCL_Command_eval_80020318(unsigned char *pScript)
 {
-    DWORD code;
-    DWORD value;
+    int code;
+    int value;
 
-    GCL_GetNextValue_8002069C(cmd, &code, &value);
+    GCL_GetNextValue_8002069C(pScript, &code, &value);
     return 0;
 }

@@ -1,6 +1,7 @@
 #include "gcl.h"
 #include "menuMan.h"
 #include "mts_new.h"
+#include "hash.h"
 
 extern const char   aWrongCodeForRa[];
 
@@ -31,11 +32,11 @@ int GCL_Command_radio_8002C4A8(int argc, char **argv)
     if (GCL_GetParam_80020968('o'))
     {
         int hash = GCL_GetNextParamValue_80020AD4();
-        if (hash == 0xDD2) // 入る "enter"
+        if (hash == HASH_ENTER)
         {
             hash = 0;
         }
-        else if (hash == 0xD5CC) // 出る "leave"
+        else if (hash == HASH_LEAVE)
         {
             hash = 1;
         }

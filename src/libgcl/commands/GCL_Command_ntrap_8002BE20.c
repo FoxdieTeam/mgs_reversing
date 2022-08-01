@@ -2,6 +2,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "gcl.h"
 #include "mts_new.h"
+#include "hash.h"
 
 extern int gBinds_800ABA60;
 extern int gBindsCount_800ABA64;
@@ -31,13 +32,13 @@ int GCL_Command_ntrap_8002BE20(int argc, char **argv)
     // bindIdx = gBindsCount_800ABA64; // 780 gp
     pBind = gBindsArray_800b58e0 + gBindsCount_800ABA64;
     arg = GCL_GetNextParamValue_80020AD4();
-    if (arg == 0x14c9)
+    if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
     }
     pBind->field_4 = arg;
     arg = GCL_GetNextParamValue_80020AD4();
-    if (arg == 0x14c9)
+    if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
     }
@@ -47,7 +48,7 @@ int GCL_Command_ntrap_8002BE20(int argc, char **argv)
     if (GCL_GetParam_80020968('m')) // mask
     {
         arg = GCL_GetNextParamValue_80020AD4();
-        if (arg == 0x14c9)
+        if (arg == HASH_TRAP_ALL)
         {
             arg = 0;
         }
