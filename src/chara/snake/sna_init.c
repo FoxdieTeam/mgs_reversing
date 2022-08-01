@@ -339,7 +339,25 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     return int0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004E9D0.s") // 128 bytes
+int GV_NearExp2_80026384(int param_1, int param_2);
+void sub_8004E9D0(Actor_SnaInit *pActor)
+{
+    int iVar1;
+
+    if (dword_800ABBB8 != 0)
+    {
+        iVar1 = sub_8004E930(pActor, 500);
+        iVar1 = iVar1 / 2;
+    }
+    else
+    {
+        iVar1 = 0;
+    }
+
+    pActor->field_718[1].vx = GV_NearExp2_80026384(pActor->field_718[1].vx, iVar1);
+    pActor->field_718[4].vx = GV_NearExp2_80026384(pActor->field_718[4].vx, -iVar1);
+    pActor->field_718[9].vx = GV_NearExp2_80026384(pActor->field_718[9].vx, -iVar1);
+}
 
 extern unsigned int GV_DiffDirS_8001704C(int param_1, int param_2);
 
@@ -1507,7 +1525,7 @@ void sna_init_anim_duct_move_80054424(Actor_SnaInit *pActor, int anim_frame)
     pActor->field_A60.vy = pActor->field_20_ctrl.field_78 + 150;
 }
 
-extern void sub_80056928(void);
+void sub_80056928(Actor_SnaInit *pActor);
 
 void sna_init_anim_duct_idle_80054488(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -1761,7 +1779,39 @@ void sub_8005688C(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80056928.s") // 244 bytes
+void sub_80056928(Actor_SnaInit *param_1)
+{
+    char bVar1;
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) == 0)
+    {
+        sna_init_start_anim_8004E1F4(param_1, sna_init_anim_enter_duct_80053E9C);
+        sna_init_set_invuln_8004F2A0(param_1, 0);
+    }
+    else
+    {
+        if ((param_1->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP)) == 0)
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+            sna_init_start_anim_8004E1F4(param_1, sna_init_anim_duct_move_80054424);
+            sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_0->field_3, 4);
+        }
+        else
+        {
+            if ((param_1->field_9B0_pad_ptr->status & PAD_UP) != 0)
+            {
+                bVar1 = param_1->field_9B4_action_table->field_4->field_3;
+            }
+            else
+            {
+                bVar1 = param_1->field_9B4_action_table->field_4->field_4;
+            }
+
+            sna_init_8004E22C(param_1, bVar1, 4);
+            sub_8005684C(param_1);
+        }
+    }
+}
 
 void sna_init_knockdown_check_getup_80056A1C(Actor_SnaInit *pActor)
 {
@@ -1873,7 +1923,6 @@ void sna_init_anim_stinger_800570C0(Actor_SnaInit *pActor, int anim_frame)
 
 extern int used_counter_8009F42C;
 void sub_80058644(void); // dummy signature
-void sub_8004E9D0(Actor_SnaInit *pActor);
 void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
