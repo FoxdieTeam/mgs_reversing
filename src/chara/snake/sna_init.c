@@ -1677,13 +1677,50 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper10_80054C08.s") // 352 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_knock_80054D68.s") // 404 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s") // 1080 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_scope_80055334.s") // 152 bytes
 
-extern void sna_init_anim_scope_80055334(int param_1, int anim_frame);
-
-void sna_init_anim_jpegcam_800553CC(int param_1, int anim_frame)
+extern short dword_800ABBDC;
+extern short dword_800ABBD4;
+short SECTION(".sbss") dword_800ABBDC;
+short SECTION(".sbss") dword_800ABBD4;
+void sna_init_anim_scope_80055334(Actor_SnaInit *param_1, int anim_frame)
 {
-    sna_init_anim_scope_80055334(param_1, anim_frame);
+    int action_flag;
+    int sVar2;
+
+    if (anim_frame == 0)
+    {
+        param_1->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        param_1->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+
+        if (param_1->field_A26_fn_stance_idx == 0)
+        {
+            action_flag = 0x87;
+        }
+        else
+        {
+            action_flag = sna_init_8004EAA8(param_1, param_1->field_A26_fn_stance_idx);
+        }
+
+        sna_init_8004E22C(param_1, action_flag, 4);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
+    }
+
+    sVar2 = param_1->field_A2A;
+    if (sVar2 < dword_800ABBDC)
+    {
+        sVar2 = dword_800ABBDC;
+    }
+    else if (dword_800ABBD4 < sVar2)
+    {
+        sVar2 = dword_800ABBD4;
+    }
+
+    param_1->field_20_ctrl.field_4C_turn_vec.vx = sVar2;
+}
+
+void sna_init_anim_jpegcam_800553CC(Actor_SnaInit *pActor, int anim_frame)
+{
+    sna_init_anim_scope_80055334(pActor, anim_frame);
 }
 
 void sna_init_anim_box_idle_800553EC(Actor_SnaInit *pActor, int anim_frame)
