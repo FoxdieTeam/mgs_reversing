@@ -2,6 +2,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "gcl.h"
 #include "mts_new.h"
+#include "hash.h"
 
 extern int gBinds_800ABA60;
 extern int gBindsCount_800ABA64;
@@ -32,7 +33,7 @@ int GCL_Command_trap_8002BD34(int argc, char **argv)
 
     // Trap id
     arg = GCL_GetNextParamValue_80020AD4();
-    if (arg == 0x14c9)
+    if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
     }
@@ -40,7 +41,7 @@ int GCL_Command_trap_8002BD34(int argc, char **argv)
 
     // Entity id
     arg = GCL_GetNextParamValue_80020AD4();
-    if (arg == 0x14c9)
+    if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
     }
@@ -48,7 +49,7 @@ int GCL_Command_trap_8002BD34(int argc, char **argv)
 
     // Event condition
     arg = GCL_GetNextParamValue_80020AD4();
-    if (arg == 0x14c9)
+    if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
     }

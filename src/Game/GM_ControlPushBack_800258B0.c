@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "GM_Control.h"
 #include "mts_new.h"
+#include "hash.h"
 
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
@@ -11,7 +12,7 @@ GM_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
 int GM_ControlPushBack_800258B0(GM_Control *pControlToAdd)
 {
     // sna_init must always be the first item
-    if (pControlToAdd->field_30_scriptData == 0x21CA)
+    if (pControlToAdd->field_30_scriptData == CHARA_SNAKE)
     {
         GM_WhereList_800B56D0[0] = pControlToAdd;
     }
