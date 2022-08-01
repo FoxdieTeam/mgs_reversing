@@ -216,7 +216,7 @@ void sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 
 // ... categorize move/turn direction by angle?
 // param_1: snake->field_20_ctrl.field_4C_turn_vec.vy
-// param_2: _gSnaMoveDir_800ABBA4_snake_move_angle (guessed name)
+// param_2: gSnaMoveDir_800ABBA4
 int sub_8004E458(short param_1, int param_2)
 {
     short uVar2;
