@@ -94,7 +94,7 @@ def disasm(code, addr, name):
     for inst in md.disasm(code, addr):
         if inst.id in branch_inst:
             val = inst.operands[len(inst.operands)-1].value.imm
-            if val < addr + l:
+            if val >= addr and val < addr + l:
                 labels[val] = f'.LAB_0x{val:x}'
 
     # second pass
