@@ -94,6 +94,7 @@ typedef enum
     PLAYER_STATUS_MOVING                      =  0x10,
     PLAYER_STATUS_CROUCHING                   =  0x20,
     PLAYER_STATUS_PRONE                       =  0x40,
+    // stops movement and actions. - item/weap switching + pause/radio still available
     PLAYER_STATUS_UNK80                       =  0x80,
     // hit flinch, step on claymore
     PLAYER_STATUS_UNK100                      =  0x100,
@@ -107,7 +108,6 @@ typedef enum
     PLAYER_STATUS_GAMEOVER                    =  0x2000,
     // anther first person flag
     PLAYER_STATUS_UNK4000                     =  0x4000,
-    // stops movement and actions. - item/weap switching + pause/radio still available
     PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH  =  0x8000,
     PLAYER_STATUS_ON_WALL                     =  0x10000,
     PLAYER_STATUS_KNOCKING                    =  0x20000,
