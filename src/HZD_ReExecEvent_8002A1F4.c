@@ -1,17 +1,16 @@
 
+#include "hash.h"
 
-extern void sub_8002A090(int param_1, unsigned short *param_2, unsigned int param_3, unsigned int param_4);
+extern void sub_8002A090(int param_1, unsigned short *param_2, unsigned int flags, unsigned int param_4);
 
-void HZD_ReExecEvent_8002A1F4(int param_1, unsigned short *param_2, unsigned int param_3)
-
+void HZD_ReExecEvent_8002A1F4(int param_1, unsigned short *param_2, unsigned int flags)
 {
-    if ((param_3 & 0x200) != 0)
+    if (flags & 0x200)
     {
-        sub_8002A090(param_1, param_2, param_3, 0xd5cc);
+        sub_8002A090(param_1, param_2, flags, HASH_LEAVE);
     }
-    if ((param_3 & 0x100) != 0)
+    if (flags & 0x100)
     {
-        sub_8002A090(param_1, param_2, param_3, 0xdd2);
+        sub_8002A090(param_1, param_2, flags, HASH_ENTER);
     }
-    return;
 }
