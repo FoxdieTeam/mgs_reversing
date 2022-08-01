@@ -14,6 +14,19 @@ void gglsight_kill_800783F8(void)
     word_8009F714[0] = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Equip/gglsight_loader1_80078404.s") // 64 bytes
+void gglsight_loader1_80078404(Actor_gglsight *pActor)
+{
+    int i;
+    TILE_1* pIter = &pActor->field_40_tile1[0][0];
+    for (i = 0; i < 48; i++)
+    {
+        *(int *)&pIter->r0 = pActor->field_28_rgb;
+        setTile1(pIter);
+        pIter->y0 = 144;
+        pIter++;
+
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/gglsight_loader2_80078444.s") // 220 bytes
 #pragma INCLUDE_ASM("asm/Equip/gglsight_init_80078520.s") // 256 bytes
