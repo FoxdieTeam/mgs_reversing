@@ -779,9 +779,22 @@ int *sub_8004FB90(void)
     return &dword_800ABBB8;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004FBA0.s") // 68 bytes
 
 unsigned char SECTION(".gRadioMemory_800BDB38") gBulNames_800BDC78[64];
+
+int GM_Next_BulName_8004FBA0()
+{
+    int i; // $a0
+    for (i =1; i < 64; i++) // for some reason skip the first one ??
+    {
+        if ( !gBulNames_800BDC78[i] )
+        {
+            gBulNames_800BDC78[i] = 1;
+            return i;
+        }
+    }
+    return 0;
+}
 
 void GM_ClearBulName_8004FBE4(int idx)
 {
