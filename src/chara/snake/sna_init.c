@@ -1694,55 +1694,55 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
 }
 
 void sub_80026734(short*, SVECTOR*, int);
-void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *param_1, int param_2)
+void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *pActor, int anim_frame)
 {
     char bVar1;
 
-    if (param_2 == 0)
+    if (anim_frame == 0)
     {
-        param_1->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
-        param_1->field_9CC_anim_update_fn_1p = sna_init_fn_80052540;
-        sna_init_set_invuln_8004F2A0(param_1, 0);
+        pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_80052540;
+        sna_init_set_invuln_8004F2A0(pActor, 0);
 
-        if (param_1->field_A54.prone_bool_thing == 1)
+        if (pActor->field_A54.prone_bool_thing == 1)
         {
-            bVar1 = param_1->field_9B4_action_table->field_C->field_A;
+            bVar1 = pActor->field_9B4_action_table->field_C->field_A;
         }
         else
         {
-            bVar1 = param_1->field_9B4_action_table->field_C->field_B;
+            bVar1 = pActor->field_9B4_action_table->field_C->field_B;
         }
 
-        sna_init_8004E22C(param_1, bVar1, 4);
+        sna_init_8004E22C(pActor, bVar1, 4);
 
-        if (param_1->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer_800AB3D4 == 0)
+        if (pActor->field_89C_pTarget->field_26_hp < 1 && GM_GameOverTimer_800AB3D4 == 0)
         {
             GM_Sound_80032968(0, 0x3f, 0x1a);
             GM_GameOverTimer_800AB3D4 = -1;
-            sna_init_set_flags_8004E2F4(param_1, 0x80000);
+            sna_init_set_flags_8004E2F4(pActor, 0x80000);
         }
     }
 
-    if (param_1->field_9C.field_1A != 0)
+    if (pActor->field_9C.field_1A != 0)
     {
-        sna_init_set_invuln_8004F2A0(param_1, 32);
-        sna_init_start_anim_8004E1F4(param_1, sna_init_anim_knockdown_idle_80054930);
+        sna_init_set_invuln_8004F2A0(pActor, 32);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_knockdown_idle_80054930);
     }
     else
     {
-        if (param_2 == 0xc)
+        if (anim_frame == 12)
         {
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PRONE);
         }
 
-        if (0x10 < param_2)
+        if (anim_frame > 16)
         {
-            sub_80026734((short*)&param_1->field_A2C, &DG_ZeroVector_800AB39C, 3);
+            sub_80026734((short*)&pActor->field_A2C, &DG_ZeroVector_800AB39C, 3);
         }
 
-        param_1->field_20_ctrl.field_44_vec.vx = param_1->field_A2C;
-        param_1->field_20_ctrl.field_44_vec.vz = param_1->field_A30;
-        sna_init_80050568(param_1);
+        pActor->field_20_ctrl.field_44_vec.vx = pActor->field_A2C;
+        pActor->field_20_ctrl.field_44_vec.vz = pActor->field_A30;
+        sna_init_80050568(pActor);
     }
 }
 
@@ -2031,7 +2031,7 @@ void sna_init_anim_stinger_800570C0(Actor_SnaInit *pActor, int anim_frame)
 }
 
 extern int used_counter_8009F42C;
-void sub_80058644(Actor_SnaInit *param_1, int param_2);
+void sub_80058644(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
@@ -2199,28 +2199,28 @@ void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
 
 extern int DG_UnDrawFrameCount_800AB380;
 int sub_8004E5E8(Actor_SnaInit *pActor, int param_2);
-void sub_80058644(Actor_SnaInit *param_1, int anim_frame)
+void sub_80058644(Actor_SnaInit *pActor, int anim_frame)
 {
     int iVar1;
 
-    param_1->field_914 = 1;
+    pActor->field_914 = 1;
 
     if (anim_frame >= 10)
     {
-        iVar1 = (int)param_1->field_A38;
+        iVar1 = (int)pActor->field_A38;
         if (iVar1 == 0)
         {
-            sub_8004EEB0(param_1);
+            sub_8004EEB0(pActor);
         }
         
-        if ((param_1->field_9B0_pad_ptr->status & 0x80) == 0 && iVar1 == 0 && DG_UnDrawFrameCount_800AB380 == 0)
+        if ((pActor->field_9B0_pad_ptr->status & PAD_SQUARE) == 0 && iVar1 == 0 && DG_UnDrawFrameCount_800AB380 == 0)
         {
-            iVar1 = sub_8004E5E8(param_1, 0x80);
+            iVar1 = sub_8004E5E8(pActor, 0x80);
             if (iVar1 == 1)
             {
-                sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_10->field_8, 1);
-                param_1->field_A38 = 1;
-                param_1->field_914 |= 2;
+                sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_8, 1);
+                pActor->field_A38 = 1;
+                pActor->field_914 |= 2;
             }
             else if (iVar1 == 2)
             {
@@ -2228,13 +2228,13 @@ void sub_80058644(Actor_SnaInit *param_1, int anim_frame)
             }
         }
         
-        if ((iVar1 == 1 && param_1->field_9C.field_1A != 0) || iVar1 == 2)
+        if ((iVar1 == 1 && pActor->field_9C.field_1A != 0) || iVar1 == 2)
         {
-            sna_init_clear_flags_8004E308(param_1, 4);
-            sna_init_start_anim_8004E1F4(param_1, sna_init_anim_idle_8005275C);
+            sna_init_clear_flags_8004E308(pActor, 4);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
         }
         
-        param_1->field_A2E = -100;
+        pActor->field_A2E = -100;
     }
 }
 
