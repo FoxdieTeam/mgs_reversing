@@ -2,9 +2,11 @@
 #include "kogaku2.h"
 
 extern int GV_Clock_800AB920;
+extern int GM_GameStatus_800AB3CC;
 
-extern void EQ_InvisibleUnit_80060E68(int param_1, int param_2, int param_3);
+extern void EQ_InvisibleUnit_80060E68(DG_OBJS* param_1, int param_2, int param_3);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
+void DG_FreeObjsPacket_8001ABA8(DG_OBJS *pObjs, int idx);
 
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s") // 268 bytes
 POLY_GT4* kogaku2_tpage_uv_update_80060F98(POLY_GT4 *pPrims, int pack_count);
@@ -79,7 +81,38 @@ void kogaku2_kill_helper_80061384(Actor_kogaku2 *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_act_800613FC.s") // 268 bytes
+void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor);
+void kogaku2_act_helper_80061528(Actor_kogaku2 *pActor);
+
+void kogaku2_act_800613FC(Actor_kogaku2 *pActor)
+{
+    int field_2C_ypos2 = pActor->field_2C_ypos2;
+    if ( pActor->field_30_ypos1 < field_2C_ypos2 )
+    {
+        pActor->field_2C_ypos2 = field_2C_ypos2 - pActor->field_38_ninja_var;
+        kogaku2_update_prims2_800612BC(pActor);
+        
+        field_2C_ypos2 = pActor->field_2C_ypos2;
+        if ( pActor->field_30_ypos1 >=field_2C_ypos2 )
+        {
+            EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 0);
+        }
+    }
+    else
+    {
+        EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 1);
+        kogaku2_update_prims1_80061204(pActor);
+       
+    }
+    if ( (GM_GameStatus_800AB3CC & 8) != 0 )
+    {
+        pActor->field_20_pObj->objs->flag = pActor->field_28_obj_old_flag;
+        DG_FreeObjsPacket_8001ABA8(pActor->field_20_pObj->objs, 0);
+        DG_FreeObjsPacket_8001ABA8(pActor->field_20_pObj->objs, 1);
+        pActor->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_helper_80061528;
+        pActor->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_act_nullsub_800615F4;
+    }
+}
 
 void kogaku2_kill_80061508(Actor_kogaku2 *pActor)
 {
@@ -88,7 +121,7 @@ void kogaku2_kill_80061508(Actor_kogaku2 *pActor)
 
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_act_helper_80061528.s") // 204 bytes
 
-void kogaku2_act_nullsub_800615F4(void)
+void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor)
 {
 }
 
