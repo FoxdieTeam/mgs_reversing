@@ -1127,7 +1127,7 @@ void sna_init_anim_idle_8005275C(Actor_SnaInit *pActor, int anim_frame)
 
     if (anim_frame == 0)
     {
-        pActor->field_A26_fn_stance_idx = 0;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
 
         pActor->field_9C8_anim_update_fn_3p = sna_init_fn_80052E58;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_80052120;
@@ -1152,7 +1152,7 @@ void sna_init_anim_crouch_800527DC(Actor_SnaInit *param_1, int anim_frame)
 
     if (anim_frame == 0)
     {
-        if (param_1->field_A26_fn_stance_idx != 1)
+        if (param_1->field_A26_fn_stance_idx != SNA_STANCE_CROUCH)
         {
             a2 = 8;
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000) != 0)
@@ -1168,11 +1168,11 @@ void sna_init_anim_crouch_800527DC(Actor_SnaInit *param_1, int anim_frame)
         param_1->field_A2E = -128;
     }
 
-    if ((anim_frame == 0 && param_1->field_A26_fn_stance_idx != 0)
-        || (anim_frame == 4 && param_1->field_A26_fn_stance_idx == 0))
+    if ((anim_frame == 0 && param_1->field_A26_fn_stance_idx != SNA_STANCE_STANDING)
+        || (anim_frame == 4 && param_1->field_A26_fn_stance_idx == SNA_STANCE_STANDING))
     {
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_CROUCHING);
-        param_1->field_A26_fn_stance_idx = 1;
+        param_1->field_A26_fn_stance_idx = SNA_STANCE_CROUCH;
     }
 }
 
@@ -1180,7 +1180,7 @@ void sna_init_anim_prone_idle_800528BC(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
     {
-        pActor->field_A26_fn_stance_idx = 2;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_GROUND;
         pActor->field_A28 = 450;
         pActor->field_9C8_anim_update_fn_3p = sna_init_fn_800531F4;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_80052120;
@@ -1272,7 +1272,7 @@ void sna_init_anim_prone_begin_80053BE8(Actor_SnaInit *pActor, int anim_frame)
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
         sna_init_set_flags1_8004E2F4(pActor, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_0, 4);
-        pActor->field_A26_fn_stance_idx = 2;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_GROUND;
         pActor->field_20_ctrl.field_55_flags |= 10;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_CROUCHING);
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PRONE);
@@ -1341,7 +1341,7 @@ void sna_init_anim_prone_standup_80053D74(Actor_SnaInit *pActor, int anim_frame)
 
     if (pActor->field_20_ctrl.field_32_height > 500)
     {
-        pActor->field_A26_fn_stance_idx = 0;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
     }
 
     if (anim_frame == 2)
@@ -1624,22 +1624,23 @@ void sna_init_anim_shot_flinch_800544E0(Actor_SnaInit *pActor, int anim_frame)
         if (pActor->field_89C_pTarget->field_26_hp < 1)
         {
             GM_Sound_80032968(0, 0x3f, 0x1a);
-            sna_init_8004F8E4(pActor, pActor->field_A26_fn_stance_idx == 2 ? 0x7d : 0x80);
+            sna_init_8004F8E4(pActor, pActor->field_A26_fn_stance_idx ==
+                SNA_STANCE_GROUND ? 125 : 128);
         }
         
-        if (pActor->field_A26_fn_stance_idx == 2)
+        if (pActor->field_A26_fn_stance_idx == SNA_STANCE_GROUND)
         {
             action_flag = pActor->field_9B4_action_table->field_C->field_8;
         }
         else if ((GV_Time_800AB330 & 1) != 0)
         {
             action_flag = pActor->field_9B4_action_table->field_C->field_0;
-            pActor->field_A26_fn_stance_idx = 0;
+            pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
         }
         else
         {
             action_flag = pActor->field_9B4_action_table->field_C->field_1;
-            pActor->field_A26_fn_stance_idx = 0;
+            pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
         }
         
         sna_init_8004E22C(pActor, action_flag, 4);
@@ -1652,7 +1653,7 @@ void sna_init_anim_shot_flinch_800544E0(Actor_SnaInit *pActor, int anim_frame)
         sna_init_start_anim_8004E1F4(pActor, (void *)dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
     }
     
-    if (pActor->field_A26_fn_stance_idx == 2)
+    if (pActor->field_A26_fn_stance_idx == SNA_STANCE_GROUND)
     {
         sna_init_80050568(pActor);
     }
@@ -1695,7 +1696,7 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int anim_frame
     if (anim_frame == 0)
     {
         pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
-        pActor->field_A26_fn_stance_idx = 0;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_80052540;
         sna_init_set_invuln_8004F2A0(pActor, 0);
         
@@ -1724,7 +1725,7 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int anim_frame
     
     if (pActor->field_20_ctrl.field_32_height < 500)
     {
-        pActor->field_A26_fn_stance_idx = 2;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_GROUND;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PRONE);
     }
     
@@ -1776,7 +1777,7 @@ void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int anim_frame
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK200 | PLAYER_STATUS_PRONE);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK100);
         local_field_A54 = pActor->field_A54.prone_bool_thing;
-        pActor->field_A26_fn_stance_idx = 2;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_GROUND;
         if (local_field_A54 == 1)
         {
             action_flag = pActor->field_9B4_action_table->field_C->field_4;
@@ -1826,7 +1827,7 @@ void sna_init_anim_knockdown_getup_80054A10(Actor_SnaInit *pActor, int anim_fram
 
     if (pActor->field_20_ctrl.field_32_height >= 501)
     {
-        pActor->field_A26_fn_stance_idx = 0;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
     }
 
     if (anim_frame == 2)
@@ -1935,7 +1936,7 @@ void sna_init_anim_scope_80055334(Actor_SnaInit *param_1, int anim_frame)
         param_1->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
         param_1->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
 
-        if (param_1->field_A26_fn_stance_idx == 0)
+        if (param_1->field_A26_fn_stance_idx == SNA_STANCE_STANDING)
         {
             action_flag = 0x87;
         }
@@ -1973,7 +1974,7 @@ void sna_init_anim_box_idle_800553EC(Actor_SnaInit *pActor, int anim_frame)
         pActor->field_9C8_anim_update_fn_3p = sna_init_80056A54;
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_800525F8;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PRONE | PLAYER_STATUS_CROUCHING);
-        pActor->field_A26_fn_stance_idx = 0;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_2, 4);
     }
 }
@@ -2196,7 +2197,7 @@ void sna_init_anim_stinger_800570C0(Actor_SnaInit *pActor, int anim_frame)
         pActor->field_9C8_anim_update_fn_3p = sna_init_anim_stinger_helper_80058378;
         pActor->field_9CC_anim_update_fn_1p = sna_init_anim_stinger_helper_80058378;
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_0, 4);
-        pActor->field_A26_fn_stance_idx = 0;
+        pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
             PLAYER_STATUS_PRONE | PLAYER_STATUS_CROUCHING);
     }
