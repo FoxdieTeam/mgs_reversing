@@ -93,9 +93,9 @@ out_file_obj = '..\\obj\\{}.obj'.format(out_file.replace('/', '\\'))
 out_file_obj = out_file_obj.replace(".c.obj", ".obj")
 out_file_obj = out_file_obj.replace("..\\src\\", "")
 
-lines[start_line_no] = '\n\tinclude "{}"\n'.format(out_file_obj)
+lines[start_line_no] = '\n    include "{}"\n'.format(out_file_obj)
 
-lines.insert(start_line_no, '\t; ' + ' '.join(addresses))
+lines.insert(start_line_no, '    ; ' + ' '.join(addresses))
 
 with open('linker_command_file.txt', 'w') as f:
     f.write(''.join(lines))
