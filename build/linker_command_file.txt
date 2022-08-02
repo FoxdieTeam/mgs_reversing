@@ -2208,5 +2208,8 @@ group_stru_800BDD78    group bss,org($800BDD78)
 group_dword_800BDFA8    group bss,org($800BDFA8)
     section .dword_800BDFA8, group_dword_800BDFA8
 
+group_tenage_ctrls_800BDD30    group bss,org($800BDD30)
+    section .tenage_ctrls_800BDD30, group_tenage_ctrls_800BDD30
+
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
