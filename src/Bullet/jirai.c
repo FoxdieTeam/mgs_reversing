@@ -19,7 +19,31 @@ extern GM_Control*          gControl_800AB9F4;
 
 void jirai_loader_helper_8006A798(MATRIX *pMtx1, MATRIX *pMtx2, GM_Target *pTarget);
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
-#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s") // 92 bytes
+
+extern int GM_PlayerStatus_800ABA50;
+extern SVECTOR stru_800ABA10;
+
+int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
+{
+    int local_10E; // $v1
+    GM_Control *p_field_20_ctrl; // $a0
+    SVECTOR v;
+
+    if ( (GM_PlayerStatus_800ABA50 & 0x40) == 0 )
+    {
+        return 0;
+    }
+
+    local_10E = pActor->field_10E;
+    p_field_20_ctrl = &pActor->field_20_ctrl;
+    if ( local_10E == 1 )
+    {
+        return 0;
+    }
+    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_position, &stru_800ABA10, &v);
+    return GV_VecLen3_80016D80(&v) < 800;
+}
+
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
 #pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s") // 1280 bytes
 
@@ -91,7 +115,7 @@ extern int ratan2_80094308(int,int);
 void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
 void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
 extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
-int sub_8004FBA0();
+int GM_Next_BulName_8004FBA0();
 
 int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
 {
@@ -109,7 +133,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     pActor->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
     pActor->field_14C = map;
-    if ( Res_Control_init_loader_8002599C(pCtrl, sub_8004FBA0(), 0) < 0 )
+    if ( Res_Control_init_loader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0 )
     {
         return -1;
     }
@@ -161,7 +185,31 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/NewJirai_8006B48C.s") // 216 bytes
+Actor_Jirai* NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
+{
+    Actor_Jirai *pActor; // $s0
+
+    if ( counter_8009F448 == 8 )
+    {
+        return 0;
+    }
+
+    pActor = (Actor_Jirai *)GV_NewActor_800150E4(5, sizeof(Actor_Jirai));
+    if ( pActor )
+    {
+        pActor->field_104 = gControl_800AB9F4->field_8_vec;
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C, (TActorFunction)jirai_kill_8006B05C, aJiraiC);
+
+        if ( jirai_loader_8006B2A4(pActor, &pObj->world, pTarget) < 0 )
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return 0;
+        }
+    }
+
+    return pActor;
+}
+
 #pragma INCLUDE_ASM("asm/jirai_loader_8006B564.s") // 520 bytes
 
 Actor* NewScenarioJirai_8006B76C(int a1, int where)
