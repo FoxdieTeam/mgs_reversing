@@ -129,6 +129,78 @@ typedef struct Sna_ActionTable
   Sna_E1 *field_18;
 } Sna_ActionTable;
 
+typedef enum
+{
+    SNA_FLAG1_UNK1  = 0x1,
+    SNA_FLAG1_UNK2  = 0x2,
+    SNA_FLAG1_UNK3  = 0x4,
+    SNA_FLAG1_UNK4  = 0x8,
+    SNA_FLAG1_UNK5  = 0x10,
+    SNA_FLAG1_UNK6  = 0x20,
+    SNA_FLAG1_UNK7  = 0x40,
+    SNA_FLAG1_UNK8  = 0x80,
+    SNA_FLAG1_UNK9  = 0x100,
+    SNA_FLAG1_UNK10 = 0x200,
+    SNA_FLAG1_UNK11 = 0x400,
+    SNA_FLAG1_UNK12 = 0x800,
+    SNA_FLAG1_UNK13 = 0x1000,
+    SNA_FLAG1_UNK14 = 0x2000,
+    SNA_FLAG1_UNK15 = 0x4000,
+    SNA_FLAG1_UNK16 = 0x8000,
+    SNA_FLAG1_UNK17 = 0x10000,
+    SNA_FLAG1_UNK18 = 0x20000,
+    SNA_FLAG1_UNK19 = 0x40000,
+    SNA_FLAG1_UNK20 = 0x80000,
+    SNA_FLAG1_UNK21 = 0x100000,
+    SNA_FLAG1_UNK22 = 0x200000,
+    SNA_FLAG1_UNK23 = 0x400000,
+    SNA_FLAG1_UNK24 = 0x800000,
+    SNA_FLAG1_UNK25 = 0x1000000,
+    SNA_FLAG1_UNK26 = 0x2000000,
+    SNA_FLAG1_UNK27 = 0x4000000,
+    SNA_FLAG1_UNK28 = 0x8000000,
+    SNA_FLAG1_UNK29 = 0x10000000,
+    SNA_FLAG1_UNK30 = 0x20000000,
+    SNA_FLAG1_UNK31 = 0x40000000,
+    SNA_FLAG1_UNK32 = 0x80000000,
+} SnaFlag1;
+
+typedef enum
+{
+    SNA_FLAG2_UNK1  = 0x1,
+    SNA_FLAG2_UNK2  = 0x2,
+    SNA_FLAG2_UNK3  = 0x4,
+    SNA_FLAG2_UNK4  = 0x8,
+    SNA_FLAG2_UNK5  = 0x10,
+    SNA_FLAG2_UNK6  = 0x20,
+    SNA_FLAG2_UNK7  = 0x40,
+    SNA_FLAG2_UNK8  = 0x80,
+    SNA_FLAG2_UNK9  = 0x100,
+    SNA_FLAG2_UNK10 = 0x200,
+    SNA_FLAG2_UNK11 = 0x400,
+    SNA_FLAG2_UNK12 = 0x800,
+    SNA_FLAG2_UNK13 = 0x1000,
+    SNA_FLAG2_UNK14 = 0x2000,
+    SNA_FLAG2_UNK15 = 0x4000,
+    SNA_FLAG2_UNK16 = 0x8000,
+    SNA_FLAG2_UNK17 = 0x10000,
+    SNA_FLAG2_UNK18 = 0x20000,
+    SNA_FLAG2_UNK19 = 0x40000,
+    SNA_FLAG2_UNK20 = 0x80000,
+    SNA_FLAG2_UNK21 = 0x100000,
+    SNA_FLAG2_UNK22 = 0x200000,
+    SNA_FLAG2_UNK23 = 0x400000,
+    SNA_FLAG2_UNK24 = 0x800000,
+    SNA_FLAG2_UNK25 = 0x1000000,
+    SNA_FLAG2_UNK26 = 0x2000000,
+    SNA_FLAG2_UNK27 = 0x4000000,
+    SNA_FLAG2_UNK28 = 0x8000000,
+    SNA_FLAG2_UNK29 = 0x10000000,
+    SNA_FLAG2_UNK30 = 0x20000000,
+    SNA_FLAG2_UNK31 = 0x40000000,
+    SNA_FLAG2_UNK32 = 0x80000000,
+} SnaFlag2;
+
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
 {
@@ -379,8 +451,8 @@ typedef struct Actor_SnaInit
   unsigned int *field_88C;
   unsigned short field_890_autoaim_max_dist;
   unsigned short field_892_autoaim_min_angle;
-  int field_894_flags;
-  unsigned int field_898_flags;
+  SnaFlag1 field_894_flags1;
+  SnaFlag2 field_898_flags2;
   GM_Target *field_89C_pTarget;
   GM_Target field_8A0_target;
   GM_Target *field_8E8_pTarget;
