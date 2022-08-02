@@ -119,7 +119,22 @@ void kogaku2_kill_80061508(Actor_kogaku2 *pActor)
     kogaku2_kill_helper_80061384(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_act_helper_80061528.s") // 204 bytes
+void kogaku2_act_helper_80061528(Actor_kogaku2 *pActor)
+{
+    if ( !(GM_GameStatus_800AB3CC & 8) )
+    {
+        pActor->field_20_pObj->objs->flag &= ~8u;
+        pActor->field_20_pObj->objs->flag &= ~0x10u;
+        pActor->field_20_pObj->objs->flag |= 0x20u;
+        EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 0);
+        pActor->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_800613FC;
+        pActor->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_kill_80061508;
+    }
+    else
+    {
+        pActor->field_2C_ypos2 = pActor->field_30_ypos1;
+    }
+}
 
 void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor)
 {
