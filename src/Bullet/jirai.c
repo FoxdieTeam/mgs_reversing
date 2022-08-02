@@ -115,7 +115,7 @@ extern int ratan2_80094308(int,int);
 void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
 void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
 extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
-int sub_8004FBA0();
+int GM_Next_BulName_8004FBA0();
 
 int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
 {
@@ -133,7 +133,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     pActor->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
     pActor->field_14C = map;
-    if ( Res_Control_init_loader_8002599C(pCtrl, sub_8004FBA0(), 0) < 0 )
+    if ( Res_Control_init_loader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0 )
     {
         return -1;
     }
