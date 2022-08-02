@@ -25,8 +25,7 @@ typedef struct Actor_Jirai
   int field_F8;
   int field_FC;
   GM_Target *field_100_pTarget;
-  int field_104;
-  int field_108;
+  SVECTOR field_104;
   short field_10C;
   short field_10E;
   int field_110;
