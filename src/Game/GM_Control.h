@@ -18,6 +18,18 @@ typedef struct Res_Control_unknown
 
 struct map_record;
 
+enum
+{
+    CONTROL_FLAG_UNK1 = 0x1,
+    CONTROL_FLAG_UNK2 = 0x2,
+    CONTROL_FLAG_UNK4 = 0x4, // affects collision
+    CONTROL_FLAG_UNK8 = 0x8,
+    CONTROL_FLAG_UNK10 = 0x10,
+    CONTROL_FLAG_UNK20 = 0x20,
+    CONTROL_FLAG_UNK40 = 0x40,
+    CONTROL_FLAG_UNK80 = 0x80,
+}; // can't typedef char enums :(
+
 typedef struct GM_Control
 {
     SVECTOR field_0_position;
@@ -40,7 +52,7 @@ typedef struct GM_Control
     SVECTOR field_44_vec;
     SVECTOR field_4C_turn_vec;
     char field_54;
-    unsigned char field_55_flags;
+    unsigned char field_55_flags; // CONTROL_FLAG_...
     char field_56;
     char field_57;
     signed char field_58;

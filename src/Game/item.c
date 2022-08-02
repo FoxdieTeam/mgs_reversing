@@ -166,7 +166,7 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
     GM_ConfigControlInterp_80026244(pCtrl, 0);
 
-    pCtrl->field_55_flags = 3;
+    pCtrl->field_55_flags = (CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2);
     pCtrl->field_44_vec = *a3;
     pCtrl->field_44_vec.vy = 160;
     pCtrl->field_0_position = *pPos;
