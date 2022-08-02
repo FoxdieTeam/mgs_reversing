@@ -2254,28 +2254,7 @@ void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int anim_
 
 extern int HomingTarget_2_80032EAC(short *a1, short a2, int *a3, int *a4, int a5, int a6, int a7);
 
-// move to own file when needed / researched
-// camera references this is a lot
-typedef struct gUnkMaybeCameraStruct_800B77B8_t
-{
-    int field_0;
-    int field_4;
-    int field_8;
-    short field_C;
-    short field_E;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    short field_28_aim_assist; // dont know what this really is
-    short field_2A;
-    int field_2C;
-} gUnkMaybeCameraStruct_800B77B8_t;
-STATIC_ASSERT_SIZE(gUnkMaybeCameraStruct_800B77B8_t, 0x30);
-
-gUnkMaybeCameraStruct_800B77B8_t SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
+UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
 extern int gSnaMoveDir_800ABBA4;
 
 void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)

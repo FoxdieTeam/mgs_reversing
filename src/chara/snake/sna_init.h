@@ -11,50 +11,49 @@
 
 typedef struct Sna_E1
 {
-  unsigned char field_0;
-  unsigned char field_1;
-  unsigned char field_2;
-  unsigned char field_3;
-  unsigned char field_4;
-  unsigned char field_5;
-  unsigned char field_6;
-  unsigned char field_7;
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    unsigned char field_4;
+    unsigned char field_5;
+    unsigned char field_6;
+    unsigned char field_7;
 } Sna_E1;
 
 typedef struct Sna_E2
 {
-  unsigned char field_0;
-  unsigned char field_1;
-  unsigned char field_2;
-  unsigned char field_3;
-  unsigned char field_4;
-  unsigned char field_5;
-  unsigned char field_6;
-  unsigned char field_7;
-  unsigned char field_8;
-  unsigned char field_9;
-  unsigned char field_A;
-  unsigned char field_B;
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    unsigned char field_4;
+    unsigned char field_5;
+    unsigned char field_6;
+    unsigned char field_7;
+    unsigned char field_8;
+    unsigned char field_9;
+    unsigned char field_A;
+    unsigned char field_B;
 } Sna_E2;
 
 typedef struct Sna_E6
 {
-  unsigned char field_0;
-  unsigned char field_1;
-  unsigned char field_2;
-  unsigned char field_3;
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
 } Sna_E6;
 
 typedef struct Target_Data
 {
-  SVECTOR field_0;
-  SVECTOR field_8_size;
-  int field_10;
-  int field_14;
-  int field_18;
-  unsigned int field_1C;
+    SVECTOR field_0;
+    SVECTOR field_8_size;
+    int field_10;
+    int field_14;
+    int field_18;
+    unsigned int field_1C;
 } Target_Data;
-
 
 typedef struct Sna_1D0
 {
@@ -128,6 +127,27 @@ typedef struct Sna_ActionTable
   Sna_E6 *field_14;
   Sna_E1 *field_18;
 } Sna_ActionTable;
+
+// might belong in another header
+// camera references this is a lot
+typedef struct UnkMaybeCameraStruct // @ 800B77B8
+{
+    int field_0;
+    int field_4;
+    int field_8;
+    short field_C;
+    short field_E;
+    int field_10;
+    int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
+    short field_28_aim_assist; // dont know what this really is
+    short field_2A;
+    int field_2C;
+} UnkMaybeCameraStruct;
+STATIC_ASSERT_SIZE(UnkMaybeCameraStruct, 0x30);
 
 typedef enum
 {
@@ -405,166 +425,166 @@ typedef struct Actor_SnaInit
     char field_17E;
     char field_17F; // zeroed during normal gameplay end
     MOTION_CONTROL field_180;
-  Sna_1D0 field_1D0;
-  Sna_1F4 field_1F4[33]; // bottom half of array is weapon related
-  Sna_Joint_Rotations field_698_joint_rotations;
-  SVECTOR field_718[16]; // same size as above, related / same struct?
-  int field_798;
-  int field_79C;
-  int field_7A0;
-  int field_7A4;
-  int field_7A8;
-  int field_7AC;
-  int field_7B0;
-  int field_7B4;
-  int field_7B8;
-  int field_7BC;
-  int field_7C0;
-  int field_7C4;
-  int field_7C8;
-  int field_7CC;
-  int field_7D0;
-  int field_7D4;
-  int field_7D8;
-  int field_7DC;
-  int field_7E0;
-  int field_7E4;
-  int field_7E8;
-  int field_7EC;
-  int field_7F0;
-  int field_7F4;
-  int field_7F8;
-  int field_7FC;
-  int field_800;
-  int field_804;
-  int field_808;
-  int field_80C;
-  int field_810;
-  int field_814;
-  int field_818;
-  int field_81C;
-  int field_820;
-  int field_824;
-  int field_828;
-  int field_82C;
-  int field_830;
-  int field_834;
-  int field_838;
-  int field_83C;
-  int field_840;
-  int field_844;
-  MATRIX field_848_lighting_mtx; // .t is R, G, B
-  MATRIX field_868_lighting_mtx2;
-  Actor *field_888_pShadow;
-  unsigned int *field_88C;
-  unsigned short field_890_autoaim_max_dist;
-  unsigned short field_892_autoaim_min_angle;
-  SnaFlag1 field_894_flags1;
-  SnaFlag2 field_898_flags2;
-  GM_Target *field_89C_pTarget;
-  GM_Target field_8A0_target;
-  GM_Target *field_8E8_pTarget;
-  SVECTOR field_8EC_vec;
-  int field_8F4;
-  int field_8F8;
-  int field_8FC;
-  int field_900;
-  int field_904_frames_last_choke;
-  Actor *field_908_weapon_actor;
-  void *field_90C_pWeaponFn;
-  int field_910;
-  int field_914;
-  short *field_918_pWeaponState;
-  int field_91C_weapon_idx;
-  int field_920_tbl_8009D580;
-  short field_924;
-  short field_926;
-  DG_TEX *field_928;
-  DG_OBJS *field_92C;
-  SVECTOR field_930;
-  SVECTOR field_938;
-  SVECTOR field_940;
-  SVECTOR field_948;
-  int field_950;
-  int field_954;
-  int field_958;
-  int field_95C;
-  int field_960;
-  int field_964;
-  int field_968;
-  int field_96C;
-  int field_970;
-  int field_974;
-  int field_978;
-  int field_97C;
-  int field_980;
-  int field_984;
-  int field_988;
-  int field_98C;
-  int field_990;
-  int field_994;
-  int field_998;
-  int field_99C;
-  int field_9A0;
-  Actor *field_9A4_item_actor;
-  int field_9A8;
-  int field_9AC;
-  GV_PAD *field_9B0_pad_ptr;
-  Sna_ActionTable *field_9B4_action_table;
-  void *field_9B8_fn_anim;
-  int field_9BC_anim_frame;
-  void *field_9C0;
-  int field_9C4;
-  void *field_9C8_anim_update_fn_3p; // called for every anim/state while in third person
-  void *field_9CC_anim_update_fn_1p; // same except first person. caller: 8005a7e0
-  SVECTOR field_9D0[3];
-  short field_9E8;
-  short field_9EA;
-  short field_9EC;
-  short field_9EE;
-  short field_9F0;
-  short field_9F2;
-  int field_9F4;
-  int field_9F8;
-  int field_9FC;
-  SVECTOR field_A00;
-  int field_A08;
-  int field_A0C;
-  int field_A10;
-  int field_A14;
-  int field_A18;
-  int field_A1C;
-  short field_A20;
-  short field_A22_snake_current_health;
-  char field_A24_invuln_frames;
-  char field_A25;
-  short field_A26_fn_stance_idx; // SNA_STANCE_...
-  short field_A28;
-  short field_A2A;
-  short field_A2C;
-  short field_A2E;
-  short field_A30;
-  short field_A32;
-  int field_A34;
-  short field_A38;
-  short field_A3A;
-  int field_A3C;
-  int field_A40;
-  int field_A44;
-  short field_A48;
-  short field_A4A;
-  int field_A4C;
-  short field_A50;
-  short field_A52;
-  // var reused in differenet contexts, union is better than a generic name for all contexts
-  union { short choke_count; short prone_bool_thing; } field_A54;
-  short field_A56;
-  short field_A58;
-  short field_A5A;
-  int field_A5C;
-  SVECTOR field_A60;
-  SVECTOR field_A68;
-  int field_A70;
+    Sna_1D0 field_1D0;
+    Sna_1F4 field_1F4[33]; // bottom half of array is weapon related
+    Sna_Joint_Rotations field_698_joint_rotations;
+    SVECTOR field_718[16]; // same size as above, related / same struct?
+    int field_798;
+    int field_79C;
+    int field_7A0;
+    int field_7A4;
+    int field_7A8;
+    int field_7AC;
+    int field_7B0;
+    int field_7B4;
+    int field_7B8;
+    int field_7BC;
+    int field_7C0;
+    int field_7C4;
+    int field_7C8;
+    int field_7CC;
+    int field_7D0;
+    int field_7D4;
+    int field_7D8;
+    int field_7DC;
+    int field_7E0;
+    int field_7E4;
+    int field_7E8;
+    int field_7EC;
+    int field_7F0;
+    int field_7F4;
+    int field_7F8;
+    int field_7FC;
+    int field_800;
+    int field_804;
+    int field_808;
+    int field_80C;
+    int field_810;
+    int field_814;
+    int field_818;
+    int field_81C;
+    int field_820;
+    int field_824;
+    int field_828;
+    int field_82C;
+    int field_830;
+    int field_834;
+    int field_838;
+    int field_83C;
+    int field_840;
+    int field_844;
+    MATRIX field_848_lighting_mtx; // .t is R, G, B
+    MATRIX field_868_lighting_mtx2;
+    Actor *field_888_pShadow;
+    unsigned int *field_88C;
+    unsigned short field_890_autoaim_max_dist;
+    unsigned short field_892_autoaim_min_angle;
+    SnaFlag1 field_894_flags1;
+    SnaFlag2 field_898_flags2;
+    GM_Target *field_89C_pTarget;
+    GM_Target field_8A0_target;
+    GM_Target *field_8E8_pTarget;
+    SVECTOR field_8EC_vec;
+    int field_8F4;
+    int field_8F8;
+    int field_8FC;
+    int field_900;
+    int field_904_frames_last_choke;
+    Actor *field_908_weapon_actor;
+    void *field_90C_pWeaponFn;
+    int field_910;
+    int field_914;
+    short *field_918_pWeaponState;
+    int field_91C_weapon_idx;
+    int field_920_tbl_8009D580;
+    short field_924;
+    short field_926;
+    DG_TEX *field_928;
+    DG_OBJS *field_92C;
+    SVECTOR field_930;
+    SVECTOR field_938;
+    SVECTOR field_940;
+    SVECTOR field_948;
+    int field_950;
+    int field_954;
+    int field_958;
+    int field_95C;
+    int field_960;
+    int field_964;
+    int field_968;
+    int field_96C;
+    int field_970;
+    int field_974;
+    int field_978;
+    int field_97C;
+    int field_980;
+    int field_984;
+    int field_988;
+    int field_98C;
+    int field_990;
+    int field_994;
+    int field_998;
+    int field_99C;
+    int field_9A0;
+    Actor *field_9A4_item_actor;
+    int field_9A8;
+    int field_9AC;
+    GV_PAD *field_9B0_pad_ptr;
+    Sna_ActionTable *field_9B4_action_table;
+    void *field_9B8_fn_anim;
+    int field_9BC_anim_frame;
+    void *field_9C0;
+    int field_9C4;
+    void *field_9C8_anim_update_fn_3p; // called for every anim/state while in third person
+    void *field_9CC_anim_update_fn_1p; // same except first person. caller: 8005a7e0
+    SVECTOR field_9D0[3];
+    short field_9E8;
+    short field_9EA;
+    short field_9EC;
+    short field_9EE;
+    short field_9F0;
+    short field_9F2;
+    int field_9F4;
+    int field_9F8;
+    int field_9FC;
+    SVECTOR field_A00;
+    int field_A08;
+    int field_A0C;
+    int field_A10;
+    int field_A14;
+    int field_A18;
+    int field_A1C;
+    short field_A20;
+    short field_A22_snake_current_health;
+    char field_A24_invuln_frames;
+    char field_A25;
+    short field_A26_fn_stance_idx; // SNA_STANCE_...
+    short field_A28;
+    short field_A2A;
+    short field_A2C;
+    short field_A2E;
+    short field_A30;
+    short field_A32;
+    int field_A34;
+    short field_A38;
+    short field_A3A;
+    int field_A3C;
+    int field_A40;
+    int field_A44;
+    short field_A48;
+    short field_A4A;
+    int field_A4C;
+    short field_A50;
+    short field_A52;
+    // var reused in differenet contexts, union is better than a generic name for all contexts
+    union { short choke_count; short prone_bool_thing; } field_A54;
+    short field_A56;
+    short field_A58;
+    short field_A5A;
+    int field_A5C;
+    SVECTOR field_A60;
+    SVECTOR field_A68;
+    int field_A70;
 } Actor_SnaInit;
 
 #endif // _SNA_INIT_H_
