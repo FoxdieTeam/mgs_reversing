@@ -1,6 +1,9 @@
 #include "gasmask.h"
 #include "object.h"
 #include "strcode.h"
+#include "../Kojo/demothrd.h"
+#include "map.h"
+#include "Script_tbl_map_8002BB44.h"
 
 extern const char aGasmaskC[];
 extern const char aGasMask_DUP[];
@@ -9,8 +12,50 @@ extern const char aGasMask_DUP[];
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 
-void gasmask_act_800609C0(Actor_gasmask *pActor);
-#pragma INCLUDE_ASM("asm/Equip/gasmask_act_800609C0.s") // 332 bytes
+extern int DG_CurrentGroupID_800AB968;
+extern int dword_8009F46C;
+extern demothrd_2Vec stru_800B77E8[9];
+
+Actor* NewGasmaskSight_80063668(void);
+
+extern GameState_800B4D98 gGameState_800B4D98;
+
+void gasmask_act_800609C0(Actor_gasmask *pActor)
+{
+    int map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    DG_SetObjectGroupId(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+    GM_CurrentMap_800AB9B0 = map;
+    if ( pActor->field_48_pParent->objs->flag & 0x80 )
+    {
+        pActor->field_20_obj.objs->flag |= 0x80u;
+    }
+    else
+    {
+        pActor->field_20_obj.objs->flag &= ~0x80u;
+    }
+    
+    if ( stru_800B77E8[2].field_0.vy
+      && (pActor->field_48_pParent->objs->flag & 0x80) != 0
+      && gGameState_800B4D98.field_1C_equipped_weapon != 4
+      && gGameState_800B4D98.field_1C_equipped_weapon != 9
+      && dword_8009F46C != 1 )
+    {
+        pActor->field_50_count++;
+        if ( pActor->field_50_count >= 9 && !pActor->field_54_gmsight )
+        {
+            pActor->field_54_gmsight = NewGasmaskSight_80063668();
+        }
+    }
+    else
+    {
+        pActor->field_50_count = 0;
+        if ( pActor->field_54_gmsight )
+        {
+            GV_DestroyOtherActor_800151D8(pActor->field_54_gmsight);
+            pActor->field_54_gmsight = 0;
+        }
+    }
+}
 
 void gasmask_kill_80060B0C(Actor_gasmask *pActor)
 {
