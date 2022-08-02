@@ -780,7 +780,13 @@ int *sub_8004FB90(void)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8004FBA0.s") // 68 bytes
-#pragma INCLUDE_ASM("asm/Game/GM_ClearBulName_8004FBE4.s") // 20 bytes
+
+unsigned char SECTION(".gRadioMemory_800BDB38") gBulNames_800BDC78[64];
+
+void GM_ClearBulName_8004FBE4(int idx)
+{
+    gBulNames_800BDC78[idx] = 0;
+}
 
 void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
 {
