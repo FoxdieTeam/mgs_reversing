@@ -105,7 +105,7 @@ int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int s
     pControl->field_38 = 450;
     pControl->field_36 = 450;
     pControl->field_59 = 2;
-    pControl->field_55_flags = 2;
+    pControl->field_55_flags = CONTROL_FLAG_UNK2;
     pControl->field_78 = -32000;
     pControl->field_7A = 32000;
 
