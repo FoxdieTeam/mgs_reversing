@@ -19,7 +19,31 @@ extern GM_Control*          gControl_800AB9F4;
 
 void jirai_loader_helper_8006A798(MATRIX *pMtx1, MATRIX *pMtx2, GM_Target *pTarget);
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
-#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s") // 92 bytes
+
+extern int GM_PlayerStatus_800ABA50;
+extern SVECTOR stru_800ABA10;
+
+int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
+{
+    int local_10E; // $v1
+    GM_Control *p_field_20_ctrl; // $a0
+    SVECTOR v;
+
+    if ( (GM_PlayerStatus_800ABA50 & 0x40) == 0 )
+    {
+        return 0;
+    }
+
+    local_10E = pActor->field_10E;
+    p_field_20_ctrl = &pActor->field_20_ctrl;
+    if ( local_10E == 1 )
+    {
+        return 0;
+    }
+    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_position, &stru_800ABA10, &v);
+    return GV_VecLen3_80016D80(&v) < 800;
+}
+
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
 #pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s") // 1280 bytes
 
@@ -174,7 +198,7 @@ Actor_Jirai* NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
     if ( pActor )
     {
         pActor->field_104 = gControl_800AB9F4->field_8_vec;
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, jirai_act_8006AB5C, jirai_kill_8006B05C, aJiraiC);
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C, (TActorFunction)jirai_kill_8006B05C, aJiraiC);
 
         if ( jirai_loader_8006B2A4(pActor, &pObj->world, pTarget) < 0 )
         {
