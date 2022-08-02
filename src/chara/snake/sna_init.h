@@ -201,6 +201,14 @@ typedef enum
     SNA_FLAG2_UNK32 = 0x80000000,
 } SnaFlag2;
 
+enum
+{
+    SNA_STANCE_STANDING = 0,
+    SNA_STANCE_CROUCH = 1,
+    SNA_STANCE_GROUND = 2, // prone + knocked down
+    // ... more?
+};
+
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
 {
@@ -530,7 +538,7 @@ typedef struct Actor_SnaInit
   short field_A22_snake_current_health;
   char field_A24_invuln_frames;
   char field_A25;
-  short field_A26_fn_stance_idx;
+  short field_A26_fn_stance_idx; // SNA_STANCE_...
   short field_A28;
   short field_A2A;
   short field_A2C;
