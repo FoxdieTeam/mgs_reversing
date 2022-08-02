@@ -1,5 +1,8 @@
 #include "jirai.h"
 #include "gcl.h"
+#include "object.h"
+#include "strcode.h"
+#include "libdg.h"
 
 extern const char   aJiraiC[];
 
@@ -12,7 +15,9 @@ void GM_ClearBulName_8004FBE4(int idx);
 extern int counter_8009F448;
 extern int dword_8009F444;
 extern int dword_8009F440;
+extern GM_Control*          gControl_800AB9F4;
 
+void jirai_loader_helper_8006A798(MATRIX *pMtx1, MATRIX *pMtx2, GM_Target *pTarget);
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A8F4.s") // 92 bytes
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
@@ -74,7 +79,88 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/jirai_loader_8006B2A4.s") // 488 bytes
+void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
+
+extern const char aClaymore_2[];
+
+extern int dword_800ABA0C;
+
+int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
+int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
+extern int ratan2_80094308(int,int);
+void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
+void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
+extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
+int sub_8004FBA0();
+
+int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
+{
+    int map; // $v1
+    GM_Control *pCtrl; // $s2
+    Jirai_unknown *pUnknown; // $a0
+    MATRIX matrix; // [sp+10h] [-20h] BYREF
+    SVECTOR *vec;
+    OBJECT *obj;
+  
+
+    map = dword_800ABA0C;
+    pCtrl = &pActor->field_20_ctrl;
+    pActor->field_138_gcl = -1;
+    pActor->field_13C_idx = -1;
+    GM_CurrentMap_800AB9B0 = map;
+    pActor->field_14C = map;
+    if ( Res_Control_init_loader_8002599C(pCtrl, sub_8004FBA0(), 0) < 0 )
+    {
+        return -1;
+    }
+
+    GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
+    jirai_loader_helper_8006A798(&matrix, pMtx, pTarget);
+    GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
+    pActor->field_144.vy = ratan2_80094308(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
+    pActor->field_144.vx = ratan2_80094308(matrix.m[1][0], 4096) & 4095;
+    pActor->field_144.vz = 0;
+    GM_ConfigControlAttribute_8002623C(pCtrl, 0);
+    obj = &pActor->field_9C_obj;
+    GM_InitObjectNoRots_800349B0(( OBJECT_NO_ROTS * )obj, GV_StrCode_80016CCC(aClaymore_2), 877, 0);
+    if ( !obj->objs )
+    {
+        return -1;
+    }
+
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pActor->field_20_ctrl.field_8_vec);
+    DG_PutObjs_8001BDB8(obj->objs);
+    GM_ConfigObjectLight_80034C44(obj, &pActor->field_C0_mtx);
+
+    pActor->field_130 = 0;
+    pActor->field_138_gcl = -1;
+    pActor->field_134_gcl_arg = 0;
+    pActor->field_140 = 0;
+
+    if ( jirai_loader_helper_8006B124(pActor, pMtx, 0) < 0 )
+    {
+        return -1;
+    }
+
+    pActor->field_13C_idx = jirai_get_free_item_8006B268();
+    if ( pActor->field_13C_idx < 0 )
+    {
+        return -1;
+    }
+
+    pUnknown = &stru_800BDE78[pActor->field_13C_idx];
+    pUnknown->field_4_pActor = pActor;
+    pUnknown->field_8_pCtrl = pCtrl;
+    pUnknown->field_C_pTarget = pTarget;
+
+    vec = &pActor->field_20_ctrl.field_3C;
+    vec->vy = 2000;
+    vec->vz = 1024;
+    ++counter_8009F448;
+    vec->vx =  gControl_800AB9F4->field_8_vec.vy;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/NewJirai_8006B48C.s") // 216 bytes
 #pragma INCLUDE_ASM("asm/jirai_loader_8006B564.s") // 520 bytes
 
