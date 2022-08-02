@@ -106,5 +106,5 @@ void GM_ConfigControlRadarparam_800262EC(GM_Control *pControl, short param_2, sh
 
 void GM_ConfigControlTrapCheck_80026308(GM_Control *pControl)
 {
-    pControl->field_55_flags &= ~0x02;
+    pControl->field_55_flags &= ~CONTROL_FLAG_UNK2;
 }
