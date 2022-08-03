@@ -4,6 +4,7 @@ from glob import glob
 from objlib import get_obj_funcs
 import os
 import json
+import re
 
 EXPECTED_TOTAL_FUNCS = 1992
 EXPECTED_TOTAL_BYTES = 490440
@@ -75,6 +76,7 @@ if os.environ.get('APPVEYOR'):
 
     msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE')
     if msg:
+        msg = re.sub(r'\(#(\d+)\)', r'[(#\1)](https://github.com/FoxdieTeam/mgs_reversing/pull/\1)', msg)
         print(msg)
     msg_ext = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
     if msg_ext:
