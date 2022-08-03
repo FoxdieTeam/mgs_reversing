@@ -247,13 +247,7 @@ GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 =
 		COUNTOF(commlist_8009D470),
 		commlist_8009D470};
 
-struct FS_FILE_INFO_8009D49C
-{
-	const char *pDatName;
-	int unknown;
-};
-
-struct FS_FILE_INFO_8009D49C SECTION(".data") fs_file_info_8009D49C[] =
+FS_FILE_INFO_8009D49C SECTION(".data") gDirFiles_8009D49C[] =
 	{
 		{aStageDir, 0},
 		{aRadioDat, 0},
@@ -277,9 +271,9 @@ short SECTION(".data") word_8009D504 = 0;
 short SECTION(".data") word_8009D506 = 0;
 short SECTION(".data") word_8009D508 = 0;
 int SECTION(".data") dword_8009D50C = 0;
-int SECTION(".data") dword_8009D510 = -1;
+int SECTION(".data") fs_stream_tick_start_8009D510 = -1;
 int SECTION(".data") dword_8009D514 = 0;
-int SECTION(".data") dword_8009D518 = 0;
+int SECTION(".data") fs_stream_is_force_stop_8009D518 = 0;
 int SECTION(".data") dword_8009D51C = 1;
 int SECTION(".data") dword_8009D520 = 0;
 int SECTION(".data") gmem_card_system_inited_8009D524 = 0;

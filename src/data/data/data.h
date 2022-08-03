@@ -27,4 +27,10 @@ typedef struct
     int dword_8009E28C;
 } unk_8009E280;
 
+typedef struct FS_FILE_INFO_8009D49C
+{
+	const char *pDatName;
+	int field_4_sector;
+} FS_FILE_INFO_8009D49C;
+
 #endif // DATA_H
