@@ -677,8 +677,8 @@
     include "..\obj\Prim_Calc_CVECTOR_len_80031ED4.obj"
     include "..\obj\libdg\DG_MakePreshade_80031F04.obj"
     include "..\obj\Prim_free_colour_buffer_80032110.obj"
-    include "..\obj\sub_8003214C.obj"
-    include "..\obj\sub_800321AC.obj"
+    
+  ;  include "..\obj\sub_800321AC.obj"
     include "..\obj\sub_800321F8.obj"
     include "..\obj\sub_80032308.obj"
     include "..\obj\sub_80032420.obj"
