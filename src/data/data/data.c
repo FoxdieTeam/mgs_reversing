@@ -274,7 +274,7 @@ int SECTION(".data") dword_8009D50C = 0;
 int SECTION(".data") fs_stream_tick_start_8009D510 = -1;
 int SECTION(".data") dword_8009D514 = 0;
 int SECTION(".data") fs_stream_is_force_stop_8009D518 = 0;
-int SECTION(".data") dword_8009D51C = 1;
+int SECTION(".data") fs_stream_end_flag_8009D51C = 1;
 int SECTION(".data") dword_8009D520 = 0;
 int SECTION(".data") gmem_card_system_inited_8009D524 = 0;
 
