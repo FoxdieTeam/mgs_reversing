@@ -1,6 +1,6 @@
 #include "menuMan.h"
 
-extern void menu_radio_update_80042198(void);
+void menu_radio_update_80042198(void);
 void menu_radio_init_80042700(MenuMan* pMenu)
 {
     pMenu->m7FnPtrs_field_2C[4] = menu_radio_update_80042198;

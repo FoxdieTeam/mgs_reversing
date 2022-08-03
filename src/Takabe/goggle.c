@@ -31,8 +31,8 @@ void DG_ResetExtPaletteMakeFunc_800791E4();
 
 struct Actor* new_scn_mask_8007895C(int a1);
 
-extern void GV_DestroyActor_800151C8(struct Actor *pActor);
-extern int  goggle_loader_8007773C(Actor_google *a1, OBJECT *a2);
+void GV_DestroyActor_800151C8(struct Actor *pActor);
+int  goggle_loader_8007773C(Actor_google *a1, OBJECT *a2);
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;

@@ -1,9 +1,9 @@
 #include <util/idaTypes.h>
 #include "game.h"
 
-extern void		face_item_helper_80060CB8(WORD *in, WORD *out);
-extern int		GV_StrCode_80016CCC(const char* string );
-extern WORD		*DG_FindTexture_8001D830(int);
+void		face_item_helper_80060CB8(WORD *in, WORD *out);
+int		GV_StrCode_80016CCC(const char* string );
+WORD		*DG_FindTexture_8001D830(int);
 
 void EQ_ChangeTexture_80060CE4(const char* itemName1, const char* itemName2)
 {

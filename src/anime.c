@@ -16,7 +16,7 @@ extern Anim_Data stru_8009F144;
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 void *memset_8008E688(void *pSrc, int value, int len);
-void sub_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 extern int GV_Clock_800AB920;
@@ -359,7 +359,7 @@ int anime_fn_10_8005F288(Actor_anime *pActor, int idx)
     anime_0x34 *pItem; // $s0
 
     pItem = &pActor->field_4C_items[idx];
-    sub_80032858(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
+    GM_SeSet_80032858(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
     pItem->field_18_op_code += 2;
     return 0;
 }
@@ -467,8 +467,8 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s") // 564 bytes
 
-extern int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
-extern void anime_act_8005F4AC(Actor_anime *param_1);
+int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
+void anime_act_8005F4AC(Actor_anime *param_1);
 extern const char aAnimeC[];
 
 Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)

@@ -9,9 +9,9 @@ extern RadioMemory          gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 extern char                 gStageName_800B4D88[16];
 extern GCL_Vars             gGcl_vars_800B3CC8;
 
-extern unsigned int crc32_80020BB4(int param_1, char *param_2);
-extern void         GM_SetAreaHistory_8002A784(AreaHistory *param_1);
-extern char*        strcpy_8008E768(char *, char *);
+unsigned int crc32_80020BB4(int param_1, char *param_2);
+void         GM_SetAreaHistory_8002A784(AreaHistory *param_1);
+char*        strcpy_8008E768(char *, char *);
 
 int GCL_SetLoadFile_80020EAC(char *saveBuf)
 {

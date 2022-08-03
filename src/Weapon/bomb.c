@@ -5,12 +5,12 @@ extern char aBombC[];  // "bomb.c"
 extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 
-extern void bomb_act_8006788C(int param_1);
-extern int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent);
-extern void GM_FreeObject_80034BF8(OBJECT *obj);
-extern int GV_StrCode_80016CCC(const char *string);
-extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+void bomb_act_8006788C(int param_1);
+int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent);
+void GM_FreeObject_80034BF8(OBJECT *obj);
+int GV_StrCode_80016CCC(const char *string);
+void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 
 #pragma INCLUDE_ASM("asm/Weapon/bomb_act_8006788C.s") // 488 bytes
 

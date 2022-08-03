@@ -57,7 +57,7 @@ typedef struct _OBJECT
     MOTION_CONTROL    *m_ctrl;      //0x14
     unsigned short     field_18;    //0x18
     short     field_1A;    //0x1A must be signed for sna_init_anim_box_stop_800554B4 to match
-    unsigned short     field_1C;    //0x1C
+    short     field_1C;    //0x1C
     unsigned short     field_1E;    //0x1C
     unsigned long      field_20;    //0x20
     SVECTOR            rots[ 0 ];   //0x24
@@ -155,6 +155,24 @@ static inline void GM_SetNoise(int power, int length, SVECTOR* pos)
     GM_NoisePower_800ABA24 = power;
     GM_NoiseLength_800ABA30 = length;
     GM_NoisePosition_800AB9F8 = *pos;          
+}
+
+extern int GM_GameStatus_800AB3CC;
+int sd_set_cli_800887EC(int code, int unused);
+static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
+{
+    int lowest_byte;
+    if (!(GM_GameStatus_800AB3CC & 0x84000000))
+    {
+        byte_2 &= 0xff;
+        byte_1 &= 0xff;
+        if (0x3f < byte_1)
+        {
+            byte_1 = 0x3f;
+        }
+        lowest_byte = byte_0 & 0xff;
+        sd_set_cli_800887EC(byte_2 << 0x10 | byte_1 << 8 | lowest_byte, 0);
+    }
 }
 
 #endif //GAME_H

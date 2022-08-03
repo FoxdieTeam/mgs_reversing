@@ -1,6 +1,6 @@
 #include "linker.h"
 
-extern void         GV_FreeMemory_80015FD0(int, void*);
+void         GV_FreeMemory_80015FD0(int, void*);
 
 
 extern int dword_800ABB04;

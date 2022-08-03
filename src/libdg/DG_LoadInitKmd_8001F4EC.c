@@ -1,7 +1,7 @@
 #include "dgd.h"
 #include "libdg.h"
 
-extern void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
 
 typedef struct DG_KmdFile
 {

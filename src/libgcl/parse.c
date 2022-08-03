@@ -22,9 +22,9 @@ void GCL_SetArgTop_80020690( unsigned char *top )
     GCL_NextStrPtr_800AB9A0 = top;
 }
 
-extern int              GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
-extern unsigned char*   GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue);
-extern int              GCL_GetArgs_80020904(int param_1);
+int              GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
+unsigned char*   GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue);
+int              GCL_GetArgs_80020904(int param_1);
 
 unsigned char*  GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, int *retValue)
 {

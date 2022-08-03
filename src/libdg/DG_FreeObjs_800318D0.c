@@ -2,7 +2,7 @@
 #include "libdg.h"
 
 void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
-extern void GV_Free_80016230(void *ptr);
+void GV_Free_80016230(void *ptr);
 void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim);
 
 void DG_FreeObjs_800318D0(DG_OBJS *pObjs)

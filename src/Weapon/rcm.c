@@ -25,17 +25,17 @@ extern GameState_800B4D98   gGameState_800B4D98;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int GV_Clock_800AB920;
 
-extern int          GV_StrCode_80016CCC(const char *string);
-extern void         GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-extern void         GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-extern DG_PRIM      *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, int *pRect);
-extern int          DG_QueuePrim_80018274(DG_OBJS *pPrim);
-extern void         GM_FreeObject_80034BF8(OBJECT *obj);
+int          GV_StrCode_80016CCC(const char *string);
+void         GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void         GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+DG_PRIM      *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, int *pRect);
+int          DG_QueuePrim_80018274(DG_OBJS *pPrim);
+void         GM_FreeObject_80034BF8(OBJECT *obj);
 
 void            DG_MovePos_8001BD20(SVECTOR *svector);
 void            ReadRotMatrix_80092DD8(MATRIX *m);
-void sub_80032858(SVECTOR *pVec, int a2);
-extern MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
+MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
 
 Actor* NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
 
@@ -129,7 +129,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
     weapon_state_3 = gGameState_800B4D98.field_22_weapon_states[3];
     if ( !weapon_state_3 && (p_flags & 2) != 0 )
     {
-        sub_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
+        GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
         GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_position);
         return;
     }
@@ -166,7 +166,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             {
                 weapon_state_3--;
                 gGameState_800B4D98.field_22_weapon_states[3] = weapon_state_3;
-                sub_80032858(&pActor->field_44_pCtrl->field_0_position, 76);
+                GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 76);
                 GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
             }
         }
