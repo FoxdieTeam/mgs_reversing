@@ -132,7 +132,8 @@ typedef struct Sna_ActionTable
 // camera references this is a lot
 typedef struct UnkMaybeCameraStruct // @ 800B77B8
 {
-    int field_0;
+    short field_0;
+    short field_2;
     int field_4;
     int field_8;
     short field_C;
