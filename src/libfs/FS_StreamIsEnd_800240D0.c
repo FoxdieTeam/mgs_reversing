@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "mts_new.h"
+#include "data.h"
 
 int SECTION(".int_800B5298") fs_stream_ref_count_800B5298;
 
@@ -16,6 +17,24 @@ extern const char aStreamInitXX[];
 extern int fs_stream_is_force_stop_8009D518;
 extern int fs_stream_end_flag_8009D51C;
 extern int fs_stream_task_state_800B52C0;
+
+extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
+
+int FS_StreamGetTop_80023F94(int is_movie)
+{
+    int dir_idx;
+    switch (is_movie)
+    {
+        case 0:
+            dir_idx = 4;
+            break;
+        case 1:
+            dir_idx = 5;
+            break;
+    }
+    return gDirFiles_8009D49C[dir_idx].field_4_sector;
+}
+
 
 int FS_StreamInit_80023FD4(void* pHeap, int heapSize)
 {
