@@ -23,7 +23,21 @@ void GM_Targets_Reset_8002D3F0(void)
 
 #pragma INCLUDE_ASM("asm/Game/GM_AllocTarget_8002D400.s") // 176 bytes
 
-#pragma INCLUDE_ASM("asm/Game/GM_FreeTarget_8002D4B0.s") // 80 bytes
+void GM_FreeTarget_8002D4B0(GM_Target *pTarget)
+{
+    if ( pTarget )
+    {
+        if ( pTarget == &gTargets_800B64E0[gTargets_down_count_800ABA68-1] )
+        {
+            --gTargets_down_count_800ABA68;
+        }
+        else
+        {
+            ++gTargets_up_count_800ABA6C;
+        }
+        pTarget->field_0_flags = 0;
+    }
+}
 
 void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec)
 {
