@@ -45,7 +45,60 @@ void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077D24.s") // 588 bytes
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077F70.s") // 228 bytes
+
+extern const char aScan[];
+extern const char aModeB[];
+extern const char aModeA[];
+
+void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
+{
+    int old_380; // $s1
+    int r; // $a0
+    int g; // $a1
+    int b; // $a2
+
+    if ( pActor->field_3C >= 6 )
+    {
+        old_380 = pActor->field_380;
+        MENU_Text_XY_Flags_80038B34(41, 42, 304);
+        if ( pActor->field_20_type == 5 )
+        {
+            r = 255;
+            g = 0;
+            b = 0;
+        }
+        else
+        {
+            r = 65;
+            g = 160;
+            b = 74;
+        }
+        MENU_Color_80038B4C(r, g, b);
+        
+        pActor->field_380++;
+        if ( pActor->field_380 >= 17 )
+        {
+            pActor->field_380 = -16;
+        }
+
+        if ( old_380 > 0 )
+        {
+            MENU_Text_80038C38(aScan);   // scan
+        }
+
+        MENU_Text_XY_Flags_80038B34(137, 42, 304);
+
+        if ( pActor->field_20_type == 5 )
+        {
+            MENU_Text_80038C38(aModeB);         // MODE - B
+        }
+        else
+        {
+            MENU_Text_80038C38(aModeA);   // MODE - A
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80078054.s") // 468 bytes
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_80078228.s") // 464 bytes
 
