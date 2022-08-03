@@ -366,7 +366,6 @@
     include "..\obj\libfs\FS_StreamSync_80023E24.obj"
     include "..\obj\libfs\FS_StreamCD_80023F8C.obj"
     include "..\obj\libfs\FS_StreamGetTop_80023F94.obj"
-    include "..\obj\libfs\FS_StreamInit_80023FD4.obj"
     include "..\obj\libfs\FS_StreamIsEnd_800240D0.obj"
     include "..\obj\libfs\FS_StreamGetData_800240E0.obj"
     include "..\obj\libfs\FS_StreamGetSize_80024188.obj"
@@ -2244,5 +2243,7 @@ group_dword_800BDFA8    group bss,org($800BDFA8)
 group_tenage_ctrls_800BDD30    group bss,org($800BDD30)
     section .tenage_ctrls_800BDD30, group_tenage_ctrls_800BDD30
 
+group_fs_stream_heap_800B52A4    group bss,org($800B52A4)
+    section .fs_stream_heap_800B52A4, group_fs_stream_heap_800B52A4
 
     regs    pc=__SN_ENTRY_POINT_80098E6C
