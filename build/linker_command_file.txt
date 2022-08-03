@@ -5,35 +5,26 @@
     include "..\obj\data\rdata\rdata.obj"
 
     include "..\obj\data\data\data.obj"
-    include "..\obj\main.obj"
-    include "..\obj\libfs\FS_StartDaemon_80014A7C.obj"
-    include "..\obj\PCopen_80014B1C.obj"
-    include "..\obj\PCread_80014B24.obj"
-    include "..\obj\PCclose_80014B2C.obj"
-    include "..\obj\Callback_Hangup_80014B34.obj"
-    include "..\obj\libgv\gvd.obj"
-    include "..\obj\libgv\actor.obj"
+
+    ;main
+    include "..\obj\main.obj"           ;main.c
+
+    ;libfs
+    include "..\obj\libfs\select.obj"   ;select.c
+
+    ;libgv
+    include "..\obj\libgv\gvd.obj"      ;gvd.c
+    include "..\obj\libgv\actor.obj"    ;actor.c
+
     include "..\obj\data\sdata\sdata2.obj"
-    
-    ;cache.c
-    include "..\obj\libgv\cache.obj"
 
-    ;debug.c ?
-    include "..\obj\libgv\debug.obj"
-
-    ;libgv\memory.c
-    include "..\obj\libgv\memory.obj"
-
-    ;libgv\message.c
-    include "..\obj\libgv\message.obj"
-
-    ;libgv\pad.c
-    include "..\obj\libgv\pad.obj"
-
-    include "..\obj\libgv\strcode.obj"
-
-    ;libgv\math.c
-    include "..\obj\libgv\math.obj"
+    include "..\obj\libgv\cache.obj"    ;cache.c
+    include "..\obj\libgv\debug.obj"    ;debug.c    ?
+    include "..\obj\libgv\memory.obj"   ;memory.c
+    include "..\obj\libgv\message.obj"  ;message.c
+    include "..\obj\libgv\pad.obj"      ;pad.c
+    include "..\obj\libgv\strcode.obj"  ;strcode.c
+    include "..\obj\libgv\math.obj"     ;math.c     ?
 
     include "..\obj\data\sdata\sdata.obj"
     include "..\obj\data\sdata\GV_PadMask_800AB374.obj"
@@ -47,19 +38,11 @@
     include "..\obj\data\sdata\dword_800AB398.obj"
     include "..\obj\data\sdata\DG_ZeroVector_800AB39C.obj"
 
-    ;libdg_start
-
-    ;libdg\display.c ?
-    include "..\obj\libdg\display.obj"
-
-    ;libdg\chanl.c
-    include "..\obj\libdg\chanl.obj"
-
-    ;libdg\bound.c
-    include "..\obj\libdg\bound.obj"
-
-    ;oclut.c ? not sure if these are still bound files 
-    include "..\obj\libdg\oclut.obj"
+    ;libdg
+    include "..\obj\libdg\display.obj"  ;display.c
+    include "..\obj\libdg\chanl.obj"    ;chanl.c
+    include "..\obj\libdg\bound.obj"    ;bound.c
+    include "..\obj\libdg\oclut.obj"    ;oclut.c    ?
 
     ;libdg\divide.c
     include "..\obj\nullsub\sub_80019098.obj"
@@ -863,8 +846,13 @@
     include "..\obj\menu_radio_codec_task_proc_helper_80046F3C.obj"
     include "..\obj\Menu\menu_gcl_read_word_80047098.obj"
     include "..\obj\sub_800470B4.obj"
+
+    ;800474EC = radiomes.c
+
     include "..\obj\Menu\menu_radio_draw_face_helper_800470F4.obj"
     include "..\obj\Menu\menu_radio_script_800471AC.obj"
+    ;800478B4 = radiomes.c
+
     include "..\obj\data\rdata\rdata_80048E64.obj"
 
     include "..\obj\menu_radio_codec_task_proc_80047AA0.obj"
@@ -962,7 +950,7 @@
     include "..\obj\Menu\sub_8004D4A0.obj"
     include "..\obj\Menu\sub_8004D580.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
-    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj"
+    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
     include "..\obj\data\sbss\dword_800ABB3C.obj"
     include "..\obj\data\sbss\MENU_JimakuTextBody_800ABB40.obj"
@@ -982,7 +970,7 @@
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper2_8004DF68.obj"
-    include "..\obj\Menu\MENU_InitRadioMemory_8004E0EC.obj"
+    include "..\obj\Menu\MENU_InitRadioMemory_8004E0EC.obj" ; in radiomem.c
     
     include "..\obj\data\sdata\a03d.obj"
     include "..\obj\data\sdata\a02d_0.obj"
@@ -1068,6 +1056,8 @@
     ; 80058E88 80058EF4 80058F88 80059054 80059154 800591BC 800591F4 8005951C 8005961C 800596FC
     ; 8005AD10 8005B52C 8005B650
     include "..\obj\chara\snake\sna_init.obj"
+    ;80050A64 is in event.c
+    ;also mentions of weapon.c and unique.c
 
     ; 8005BF84 8005BFDC 8005C05C 8005C140 8005C1E4 8005C298 8005C354 8005C404 8005C458 8005C498
     ; 8005C4E4 8005C5D4 8005C6C4 8005C89C 8005C974 8005CB48 8005CD1C 8005CE5C 8005CFAC 8005D134
