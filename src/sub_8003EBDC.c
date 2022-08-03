@@ -1,7 +1,7 @@
 #include "menuMan.h"
 
-extern MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
-extern void sub_8003CFE0(unsigned int **images, int index);
+MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
+void sub_8003CFE0(unsigned int **images, int index);
 
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
 {

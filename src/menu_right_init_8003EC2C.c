@@ -1,15 +1,15 @@
 #include "menuMan.h"
 
-extern void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned int *param_2);
-extern void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
+void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned int *param_2);
+void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
                                             int param_4, short *param_5);
 
-extern void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
-extern void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
+void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
                                                 int param_4, short *param_5);
-extern int *sub_8003D6A8(struct menu_left_right *a1, int a2, int *a3);
-extern void menu_inventory_right_init_items_8003DE50(void);
-extern int sub_8003EBDC(struct Actor_MenuMan *a1);
+int *sub_8003D6A8(struct menu_left_right *a1, int a2, int *a3);
+void menu_inventory_right_init_items_8003DE50(void);
+int sub_8003EBDC(struct Actor_MenuMan *a1);
 
 extern int dword_800ABAE8;
 int SECTION(".sbss") dword_800ABAE8;

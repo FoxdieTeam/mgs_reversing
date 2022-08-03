@@ -1,4 +1,4 @@
-extern int jimctrl_helper_80037F68(int);
+int jimctrl_helper_80037F68(int);
 
 int menu_radio_draw_face_helper6_800486A0(unsigned short *a1)
 {

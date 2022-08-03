@@ -6,7 +6,7 @@
 
 extern const char aHomingTargetOv[];
 
-extern int GV_VecDir2_80016EF8(SVECTOR *vec);
+int GV_VecDir2_80016EF8(SVECTOR *vec);
 int GV_DiffDirAbs_8001706C(int a1, int a2);
 long ratan2_80094308(long x, long y);
 

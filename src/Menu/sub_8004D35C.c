@@ -2,7 +2,7 @@
 
 extern MenuMan gMenuMan_800BD360;
 
-extern void sub_8004124C(int param_1);
+void sub_8004124C(int param_1);
 
 void sub_8004D35C(void)
 {

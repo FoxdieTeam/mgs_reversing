@@ -4,7 +4,7 @@
 extern struct DG_Rec_Unknown stru_8009D3D0[23];
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-extern void *GV_Malloc_8001620C(int size);
+void *GV_Malloc_8001620C(int size);
 void GV_ZeroMemory_8001619C(void *ptr, int size);
 void GV_DelayedFree_80016254( void *addr );
 

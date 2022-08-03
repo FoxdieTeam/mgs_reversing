@@ -467,8 +467,8 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s") // 564 bytes
 
-extern int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
-extern void anime_act_8005F4AC(Actor_anime *param_1);
+int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
+void anime_act_8005F4AC(Actor_anime *param_1);
 extern const char aAnimeC[];
 
 Actor* anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
