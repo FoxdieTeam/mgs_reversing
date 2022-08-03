@@ -9,8 +9,8 @@ extern GCL_Vars             gGcl_memVars_800b4588;
 
 extern char                 gStageName_800B4D88[16];
 
-extern char*                GM_GetArea_8002A880(char*);
-extern char*                strcpy_8008E768(char *, char *);
+char*                GM_GetArea_8002A880(char*);
+char*                strcpy_8008E768(char *, char *);
 
 void GCL_SaveVar_80021314(void)
 {

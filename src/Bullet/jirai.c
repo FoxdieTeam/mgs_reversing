@@ -6,8 +6,8 @@
 
 extern const char   aJiraiC[];
 
-extern int          jirai_act_8006AB5C(Actor_Jirai *pActor);
-extern int          jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
+int          jirai_act_8006AB5C(Actor_Jirai *pActor);
+int          jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
 
 void sub_8007913C();
 void GM_ClearBulName_8004FBE4(int idx);
@@ -111,10 +111,10 @@ extern int dword_800ABA0C;
 
 int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
-extern int ratan2_80094308(int,int);
+int ratan2_80094308(int,int);
 void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
 void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
-extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
+int DG_PutObjs_8001BDB8( DG_OBJS* objs );
 int GM_Next_BulName_8004FBA0();
 
 int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)

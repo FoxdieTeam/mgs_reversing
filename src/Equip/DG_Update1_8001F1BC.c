@@ -8,7 +8,7 @@
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-extern void DG_RenderPipeline_800172A8(void);
+void DG_RenderPipeline_800172A8(void);
 
 void DG_InitLightSystem_80019F40(void);
 void DG_RenderPipeline_Init_8001715C(void);
@@ -32,7 +32,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 extern const char asc_80010208[];
 
-extern int ResetGraph(int mode);
+int ResetGraph(int mode);
 
 int DG_DrawSyncResetGraph_8001F014()
 {

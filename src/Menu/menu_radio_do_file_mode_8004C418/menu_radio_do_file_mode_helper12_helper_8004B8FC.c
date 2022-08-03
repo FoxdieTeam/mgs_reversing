@@ -1,4 +1,4 @@
-extern char*                strcpy_8008E768(char *, char *);
+char*                strcpy_8008E768(char *, char *);
 
 void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2)
 {

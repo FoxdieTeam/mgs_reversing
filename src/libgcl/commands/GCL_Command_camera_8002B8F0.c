@@ -23,11 +23,11 @@ extern const char   aSetCameraD[];
 
 extern int          GM_GameStatus_800AB3CC;
 
-extern void         GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
-extern void         GCL_Command_camera_helper_80030888(void *vec1, void *vec2, int param_3);
-extern void         GCL_Command_camera_helper2_800308E0(void *vec1, void *vec2, int param_3);
-extern void         GCL_Command_camera_helper3_80030938(void *vec);
-extern void         GCL_Command_camera_helper4_80030980(int param_1);
+void         GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
+void         GCL_Command_camera_helper_80030888(void *vec1, void *vec2, int param_3);
+void         GCL_Command_camera_helper2_800308E0(void *vec1, void *vec2, int param_3);
+void         GCL_Command_camera_helper3_80030938(void *vec);
+void         GCL_Command_camera_helper4_80030980(int param_1);
 
 /*
 proc AGL_FIRST_VF {

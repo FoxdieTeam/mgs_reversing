@@ -8,8 +8,8 @@ extern const char   aSystemCChangeP[];
 extern char          *GM_StageName_800AB918;
 char SECTION(".sbss") *GM_StageName_800AB918;
 
-extern char*        GCL_Read_String_80020A70(unsigned char *pScript);
-extern void         GM_SetSystemCallbackProc_8002B558(int index, int proc);
+char*        GCL_Read_String_80020A70(unsigned char *pScript);
+void         GM_SetSystemCallbackProc_8002B558(int index, int proc);
 
 int GCL_Command_system_8002C7C8(void)
 {

@@ -25,17 +25,17 @@ void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 
 map_record *Map_FindByNum_80031504(int mapNameHash);
-extern void GV_ZeroMemory_8001619C(void *, int);
+void GV_ZeroMemory_8001619C(void *, int);
 
 int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
 void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 
 void GM_FreeControl_800260CC(GM_Control *pControl);
-extern void GM_FreeObject_80034BF8(OBJECT *obj);
+void GM_FreeObject_80034BF8(OBJECT *obj);
 
 int GV_SendMessage_80016504(GV_MSG *);
-void sub_80032858(SVECTOR *a1, int a2);
+void GM_SeSet_80032858(SVECTOR *a1, unsigned int a2);
 int mts_nullsub_8_8008BB98(int, const char *, ...);
 
 extern int dword_800ABA0C;
@@ -128,7 +128,7 @@ void door_loader_t_param_sub_8006F748(
     short param_v);
 
 
-extern void door_init_t_value_8006F7AC(struct Actor_Door *pDoor, struct Actor_Door_TParam *pOffset,
+void door_init_t_value_8006F7AC(struct Actor_Door *pDoor, struct Actor_Door_TParam *pOffset,
     short, int, int);
 void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v)
 {

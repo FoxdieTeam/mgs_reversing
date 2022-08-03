@@ -26,15 +26,15 @@ extern int                GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")      GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 
-extern void GM_FreeObject_80034BF8(OBJECT *obj);
+void GM_FreeObject_80034BF8(OBJECT *obj);
 void GM_ActObject2_80034B88(OBJECT *obj);
 void DG_MovePos_8001BD20(SVECTOR *svector);
 void ReadRotMatrix_80092DD8(MATRIX *m);
 int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
-extern DG_TEX *DG_FindTexture_8001D830(int);
+DG_TEX *DG_FindTexture_8001D830(int);
 void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
 void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-extern int GV_StrCode_80016CCC(const char *string);
+int GV_StrCode_80016CCC(const char *string);
 DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
 int DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
