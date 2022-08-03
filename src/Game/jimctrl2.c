@@ -1,16 +1,62 @@
+#include <util/idaTypes.h>
+#include "linker.h"
 #include "jimctrl.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "linker.h"
+#include "data.h"
 
 int FS_StreamGetData_800240E0(DWORD);
 void sub_800241B4(int);
 int FS_StreamOpen_80024060(void);
+void FS_StreamClose_80024098(void);
+
+extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
+extern unk_8009E280 dword_8009E280;
+
 extern DWORD gotohell_800B9358;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern const char aJimctrlC[];
 extern dword_800B9358_struct array_800B9358[2];
 
 Actor_JimCtrl SECTION(".gJimCtrlActor_800B82F0") jimCtrlActor_800B82F0;
+
+
+void jimctrl_helper_null_80037FFC(void)
+{
+}
+
+void MENU_JimakuClear_80049518(void);
+
+void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
+{
+    array_800B933C_child *pIter;
+    int i;
+
+    if (pJimCtrl->field_44 != 0)
+    {
+        MENU_JimakuClear_80049518();
+    }
+
+    if (pJimCtrl->field_38 != 0)
+    {
+        i = 0;
+        pIter = &array_800B933C[i] + 1;
+        for (; i < array_800B933C_SIZE - 1; i++)
+        {
+            pIter->field_2 = 0;
+            pIter->field_3 = 0;
+            pIter++;
+        }
+    }
+}
+#pragma INCLUDE_ASM("asm/jimctrl_act_80038070.s")
+
+
+void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
+{
+    jimctrl_kill_helper_clear_80038004(pJimCtrl);
+    dword_8009E280.dword_8009E28C = 0;
+    FS_StreamClose_80024098();
+}
 
 Actor *jimctrl_init_80038568(DWORD flags)
 {
