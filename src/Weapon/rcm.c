@@ -34,7 +34,7 @@ extern void         GM_FreeObject_80034BF8(OBJECT *obj);
 
 void            DG_MovePos_8001BD20(SVECTOR *svector);
 void            ReadRotMatrix_80092DD8(MATRIX *m);
-void GM_SeSet_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 extern MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
 
 Actor* NewRMissile_8006D124(MATRIX *pMtx, int whichSide);

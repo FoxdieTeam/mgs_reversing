@@ -16,7 +16,7 @@ extern Anim_Data stru_8009F144;
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 void *memset_8008E688(void *pSrc, int value, int len);
-void GM_SeSet_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 extern int GV_Clock_800AB920;

@@ -54,7 +54,7 @@ extern Target_Data stru_8009F044;
 extern SVECTOR stru_800AB7FC;
 
 extern void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp);
-void GM_SeSet_80032858(SVECTOR *pVec, int sound_id);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int sound_id);
 void GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 
 void sna_init_fn_800535B8(Actor_SnaInit *pActor);
