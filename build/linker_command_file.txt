@@ -743,12 +743,11 @@
     ;jimctrl.c
     ; 80037F2C 80037F68 80037FB8
     include "..\obj\Game\jimctrl1.obj"
+    
     include "..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
-    include "..\obj\nullsub\jimctrl_helper_null_80037FFC.obj"
-    include "..\obj\jimctrl_kill_helper_clear_80038004.obj"
-    include "..\obj\jimctrl_act_80038070.obj"
-    include "..\obj\jimctrl_kill_8003853C.obj"
-    include "..\obj\jimctrl_init_80038568.obj"
+
+    ; 80037FFC 80038004 80038070 8003853C 80038568
+    include "..\obj\Game\jimctrl2.obj"
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper17_80038678.obj"
     include "..\obj\sub_80038688.obj"
