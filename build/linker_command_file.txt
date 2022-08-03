@@ -330,7 +330,7 @@
 
     include "..\obj\libfs\FS_ResetCdFilePosition_80021E2C.obj"
     include "..\obj\Equip\CDFS_Init_80021EC4.obj"
-    include "..\obj\libfs\FS_LoadFileRequest_80021F0C.obj"
+    
     include "..\obj\libfs\FS_LoadFileSync_80021F48.obj"
     include "..\obj\MakeFullPath_80021F68.obj"
     include "..\obj\CDBIOS_Reset_80021F70.obj"

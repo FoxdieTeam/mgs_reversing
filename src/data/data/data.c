@@ -247,13 +247,7 @@ GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 =
 		COUNTOF(commlist_8009D470),
 		commlist_8009D470};
 
-struct FS_FILE_INFO_8009D49C
-{
-	const char *pDatName;
-	int unknown;
-};
-
-struct FS_FILE_INFO_8009D49C SECTION(".data") fs_file_info_8009D49C[] =
+FS_FILE_INFO_8009D49C SECTION(".data") gDirFiles_8009D49C[] =
 	{
 		{aStageDir, 0},
 		{aRadioDat, 0},
