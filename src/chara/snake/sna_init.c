@@ -310,6 +310,8 @@ void sub_8004E588(int param_1, short *param_2, int *param_3)
 }
 #pragma INCLUDE_ASM("asm/sub_8004E5E8.s") // 308 bytes
 #pragma INCLUDE_ASM("asm/sub_8004E71C.s") // 236 bytes
+
+// https://decomp.me/scratch/P8McA
 #pragma INCLUDE_ASM("asm/sub_8004E808.s") // 296 bytes
 
 int sub_8004E930(Actor_SnaInit *snake, int arg1)
@@ -2682,7 +2684,8 @@ void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
     sub_8004E9D0(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_800571B8.s") // 700 bytes
+#pragma INCLUDE_ASM("asm/sna_init_800571B8.s") // 448 bytes
+#pragma INCLUDE_ASM("asm/sna_init_80057378.s") // 252 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_80057474.s") // 284 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_helper_80057590.s") // 548 bytes
 
@@ -2707,6 +2710,7 @@ void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int anim_
     }
 }
 
+// https://decomp.me/scratch/rNvHM
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s") // 348 bytes
 
 int HomingTarget_2_80032EAC(short *a1, short a2, int *a3, int *a4, int a5, int a6, int a7);
@@ -2760,7 +2764,9 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
     }
 }
 
+// https://decomp.me/scratch/bbu8N
 #pragma INCLUDE_ASM("asm/sub_80057A90.s") // 352 bytes
+
 #pragma INCLUDE_ASM("asm/sub_80057BF0.s") // 996 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_helper_80057FD4.s") // 932 bytes
 
@@ -2803,6 +2809,7 @@ void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
     }
 }
 
+// https://decomp.me/scratch/b53h8
 #pragma INCLUDE_ASM("asm/sub_80058470.s") // 468 bytes
 
 extern int DG_UnDrawFrameCount_800AB380;
