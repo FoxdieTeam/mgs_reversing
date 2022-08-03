@@ -6,6 +6,7 @@ extern DG_CHNL  DG_Chanls_800B1800[3];
 
 extern void GV_Free_80016230(void *ptr);
 extern int ratan2_80094308(int,int);
+extern int rcos_800925D8(int a1);
 
 void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim)
 {
@@ -25,4 +26,14 @@ void sub_8003214C(SVECTOR *pVec, int *pRet)
     pVec->vy = mtx->t[1];
     pVec->vz = mtx->t[2];
     *pRet = ratan2_80094308(mtx->m[0][2], mtx->m[2][2]);
+}
+
+int sub_800321AC(int a1, int a2)
+{
+    int v2 = rcos_800925D8(a1 & 4095) * a2 / 4096;
+    if (v2 < 0)
+    {
+        return v2 + 255;
+    }
+    return v2;
 }
