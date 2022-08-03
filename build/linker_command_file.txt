@@ -328,7 +328,6 @@
     ; 80021900 80021928 800219F4 80021AE0 80021C40 80021C64 80021D6C
     include "..\obj\map\hzd.obj"
 
-    include "..\obj\libfs\FS_ResetCdFilePosition_80021E2C.obj"
     include "..\obj\Equip\CDFS_Init_80021EC4.obj"
     
     include "..\obj\libfs\FS_LoadFileSync_80021F48.obj"
