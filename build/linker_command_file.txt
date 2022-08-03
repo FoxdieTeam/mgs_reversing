@@ -379,7 +379,6 @@
     include "..\obj\Game\sub_800242A4.obj"
     include "..\obj\libfs\FS_StreamGetEndFlag_800243B8.obj"
     include "..\obj\libfs\FS_StreamIsForceStop_800243C8.obj"
-    include "..\obj\libfs\FS_StreamSoundMode_80024404.obj"
     include "..\obj\libfs\FS_StreamGetTick_80024420.obj"
 
     include "..\obj\Equip\memcard_hwcard_end_io_800244FC.obj"
