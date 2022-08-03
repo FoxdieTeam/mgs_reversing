@@ -2,7 +2,7 @@
 
 extern int dword_8009F728;
 
-unsigned short SECTION(".ppfn_800BDFB4") (*ppfn_800BDFB4)(unsigned short);
+unsigned short SECTION(".pfn_800BDFB4") (*pfn_800BDFB4)(unsigned short);
 
 void sub_80079220(unsigned short *param_1, int param_2)
 {   
@@ -14,7 +14,7 @@ void sub_80079220(unsigned short *param_1, int param_2)
         return;
     }
 
-    do {
-        *param_1 = ppfn_800BDFB4(*param_1);
-    } while (--param_2 > 0);
+    for (; param_2 > 0; param_2--) {
+        *param_1 = pfn_800BDFB4(*param_1);
+    }
 }
