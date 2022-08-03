@@ -606,8 +606,8 @@ void GV_DestroyActorQuick_80015164(struct Actor *pActor);
 void sna_init_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor);
 void sub_8004F14C(Actor_SnaInit *param_1)
 {
-    param_1->field_91C_weapon_idx = -1;
-    gGameState_800B4D98.field_1C_equipped_weapon = -1;
+    param_1->field_91C_weapon_idx = WEAPON_NONE;
+    gGameState_800B4D98.field_1C_equipped_weapon = WEAPON_NONE;
 
     if (param_1->field_908_weapon_actor != 0)
     {
@@ -847,7 +847,7 @@ void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int anim_frame)
     
     if (anim_frame >= 8)
     {
-        if (pActor->field_91C_weapon_idx != 6 ||
+        if (pActor->field_91C_weapon_idx != WEAPON_C4 ||
             GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING) != 0)
         {
             if ((pActor->field_9B0_pad_ptr->press & PAD_CIRCLE) != 0)
@@ -1263,7 +1263,7 @@ void sna_init_anim_wall_idle_and_c4_80052A5C(Actor_SnaInit *pActor, int anim_fra
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_ON_WALL);
         }
 
-        sVar3 = pActor->field_91C_weapon_idx != 6 ? 300 : 472;
+        sVar3 = pActor->field_91C_weapon_idx != WEAPON_C4 ? 300 : 472;
 
         pActor->field_9C8_anim_update_fn_3p = sna_init_anim_wall_idle_and_c4_helper_800537D4;
         pActor->field_A28 = sVar3;
@@ -1355,7 +1355,7 @@ void sna_init_anim_wall_crouch_80052CCC(Actor_SnaInit *pActor, int anim_frame)
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_CROUCHING | PLAYER_STATUS_ON_WALL);
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_5, 4);
         
-        pActor->field_A28 = pActor->field_91C_weapon_idx != 6 ? 300 : 472;
+        pActor->field_A28 = pActor->field_91C_weapon_idx != WEAPON_C4 ? 300 : 472;
     }
 
     GM_CheckBehindCamera_80030B3C(((pActor->field_20_ctrl).field_2C_map)->field_8_hzd,

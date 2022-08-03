@@ -20,7 +20,7 @@ extern void                 GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, in
 void rifle_kill_80068118(Actor_Rifle *rifle)
 {
 	GM_FreeObject_80034BF8(&rifle->f20_obj);
-	if (gGameState_800B4D98.field_1C_equipped_weapon != 9)
+	if (gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_PSG1)
 	{
 		dword_800B7800[4] = 0x140;
 	}
