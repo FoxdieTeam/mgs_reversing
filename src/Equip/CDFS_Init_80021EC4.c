@@ -15,6 +15,31 @@ extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 
 int SECTION(".gDiskNum_800ACBF0") gDiskNum_800ACBF0;
 
+extern const char aDiskD[];
+extern const char aIllegalDisk[];
+extern const char aPositionEnd[];
+
+int FS_CdMakePositionTable_80022B5C(void *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
+void FS_CdStageFileInit_80022D00(void* pHeap, int startSector);
+void FS_MovieFileInit_80023860(void *pHeap, int startSector);
+
+int FS_ResetCdFilePosition_80021E2C(void *pHeap)
+{
+    int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, gDirFiles_8009D49C);
+    mts_printf_8008BBA0(aPositionEnd);
+    if ( disk_num >= 0 )
+    {
+        mts_printf_8008BBA0(aDiskD, disk_num);
+        FS_CdStageFileInit_80022D00(pHeap, gDirFiles_8009D49C[0].field_4_sector);
+        FS_MovieFileInit_80023860(pHeap, gDirFiles_8009D49C[3].field_4_sector);
+    }
+    else
+    {
+        mts_printf_8008BBA0(aIllegalDisk); 
+    }
+    return disk_num;
+}
+
 void CDFS_Init_80021EC4()
 {
     CDBIOS_Reset_80021F70();
