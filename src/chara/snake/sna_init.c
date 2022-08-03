@@ -1004,10 +1004,92 @@ void sna_init_80051FD0(Actor_SnaInit *pActor)
     }
 }
 
-void sna_init_fn_80052120(Actor_SnaInit *pActor, int a2);
+void sna_init_anim_idle_8005275C(Actor_SnaInit *pActor, int anim_frame);
+void sna_init_anim_crouch_800527DC(Actor_SnaInit *pActor, int anim_frame);
+void sna_init_fn_80052120(Actor_SnaInit *pActor, int anim_frame)
+{
+    unsigned short press;
+    int sound;
 
-// https://decomp.me/scratch/ckKym
-#pragma INCLUDE_ASM("asm/sna_init_fn_80052120.s") // 492 bytes
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
+    {
+        if (gGameState_800B4D98.field_BE == 0)
+        {
+            sna_init_8004EC00(pActor);
+        }
+        else
+        {
+            sna_init_8004FA74(pActor);
+        }
+        
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_enter_duct_80053E9C);
+    }
+    else
+    {
+        press = pActor->field_9B0_pad_ptr->press;
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_8004E22C(pActor,
+            sna_init_8004EAA8(pActor, (int)pActor->field_A26_fn_stance_idx), 4);
+        
+        if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
+        {
+            if (gGameState_800B4D98.field_BE == 0)
+            {
+                sna_init_8004EC00(pActor);
+            }
+            else
+            {
+                sna_init_8004FA74(pActor);
+            }
+            
+            sna_init_start_anim_8004E1F4(pActor, (void *)dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+        }
+        else
+        {
+            if (sub_80051BA4(pActor) != 0)
+            {
+                return;
+            }
+            
+            sna_init_80051DA0(pActor);
+            sna_init_80051FD0(pActor);
+            
+            if ((press & PAD_CROSS) != 0)
+            {
+                switch (pActor->field_A26_fn_stance_idx)
+                {
+                case 0:
+                    sna_init_start_anim_8004E1F4(pActor, sna_init_anim_crouch_800527DC);
+                    break;
+                case 2:
+                    if (sub_8004E808(pActor, 1, 0, -0x26e, 0x5dc) != 0)
+                    {
+                        return;
+                    }
+                default:
+                    if (sub_8004E808(pActor, 0, 0, 0, 0x5dc) != 0)
+                    {
+                        return;
+                    }
+
+                    pActor->field_20_ctrl.field_4C_turn_vec.vy = pActor->field_20_ctrl.field_8_vec.vy;
+                    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_CROUCHING | PLAYER_STATUS_PRONE);
+                    
+                    sound = 8;
+                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000) != 0)
+                    {
+                        sound = 0xb7;
+                    }
+                    
+                    GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_position, sound);
+                    sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+                    break;
+                }
+            }
+        }
+    }
+}
 
 void sna_init_anim_wall_crouch_80052CCC(Actor_SnaInit *pActor, int anim_frame);
 void sub_8005230C(Actor_SnaInit *pActor)
