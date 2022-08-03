@@ -2,7 +2,7 @@
 #include "linker.h"
 #include "jimctrl.h"
 
-extern void MENU_JimakuClear_80049518(void);
+void MENU_JimakuClear_80049518(void);
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 

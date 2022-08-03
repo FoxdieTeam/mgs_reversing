@@ -70,8 +70,8 @@ void GV_Memory_Init_80014C70(void)
 	mts_printf_8008BBA0(aResidentTopX, GV_ResidentMemoryBottom_800AB940);
 }
 
-extern void GV_InitMessageSystem_800164AC(void);
-extern void GV_InitPadSystem_800167C8(void);
+void GV_InitMessageSystem_800164AC(void);
+void GV_InitPadSystem_800167C8(void);
 
 void GV_ResetSystem_80014CC8(void)
 {
@@ -79,7 +79,7 @@ void GV_ResetSystem_80014CC8(void)
 	GV_InitPadSystem_800167C8();
 }
 
-extern void GV_FreeCacheSystem_80015540(void);
+void GV_FreeCacheSystem_80015540(void);
 
 void GV_ResetMemory_80014CF0(void)
 {
@@ -87,11 +87,11 @@ void GV_ResetMemory_80014CF0(void)
 	GV_Memory_Init_80014C70();
 }
 
-extern void GV_ResidentHeapReset_800163B0(void);
-extern void GD_ClearFileHandlers_80015434(void);
-extern void GV_InitCacheSystem_80015458(void);
-extern void mts_set_exception_func_800892A8(void*);
-extern void Callback_Hangup_80014B34(void);
+void GV_ResidentHeapReset_800163B0(void);
+void GD_ClearFileHandlers_80015434(void);
+void GV_InitCacheSystem_80015458(void);
+void mts_set_exception_func_800892A8(void*);
+void Callback_Hangup_80014B34(void);
 
 struct Actor SECTION(".gGVActor_800acbf8") gGVActor_800acbf8;
 

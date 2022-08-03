@@ -1,6 +1,6 @@
 
 
-extern void GV_Free_80016230(void *ptr);
+void GV_Free_80016230(void *ptr);
 
 void sub_8003D184(void *param_1)
 {

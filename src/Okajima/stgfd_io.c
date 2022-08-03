@@ -3,9 +3,9 @@
 
 //extern const char   aStgfdIoC[];
 
-extern void          stgfd_io_act_80074F5C(Actor_stgfd_io *pActor);
-extern void          stgfd_io_kill_80075164(Actor_stgfd_io *pActor);
-extern int          stgfd_io_loader_80075194(Actor_stgfd_io *pActor);
+void          stgfd_io_act_80074F5C(Actor_stgfd_io *pActor);
+void          stgfd_io_kill_80075164(Actor_stgfd_io *pActor);
+int          stgfd_io_loader_80075194(Actor_stgfd_io *pActor);
 
 extern int GV_PauseLevel_800AB928;
 extern int GV_Clock_800AB920;

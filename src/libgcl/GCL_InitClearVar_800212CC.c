@@ -4,8 +4,8 @@ extern GCL_Vars             gGcl_vars_800B3CC8;
 
 extern GameState_800B4D98   gGameState_800B4D98;
 
-extern void*        memset_8008E688(void *pSrc, int value, int len);
-extern int          GCL_SaveVar_80021314();
+void*        memset_8008E688(void *pSrc, int value, int len);
+int          GCL_SaveVar_80021314();
 
 int GCL_InitClearVar_800212CC()
 {

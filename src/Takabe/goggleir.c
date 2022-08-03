@@ -6,7 +6,7 @@
 extern char aGoggleirC[]; // = "goggleir.c"
 extern const char aGoggles_1[];
 
-extern void GV_DestroyActor_800151C8(struct Actor *pActor);
+void GV_DestroyActor_800151C8(struct Actor *pActor);
 //extern int  goggleir_loader_80078D8C(Actor_GoggleIr *a1, OBJECT *a2);
 Actor* gglmng_init_800779B8(int type);
 

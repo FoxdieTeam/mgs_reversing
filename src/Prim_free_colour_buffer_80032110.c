@@ -4,9 +4,9 @@
 
 extern DG_CHNL  DG_Chanls_800B1800[3];
 
-extern void GV_Free_80016230(void *ptr);
-extern int ratan2_80094308(int,int);
-extern int rcos_800925D8(int a1);
+void GV_Free_80016230(void *ptr);
+int ratan2_80094308(int,int);
+int rcos_800925D8(int a1);
 
 void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim)
 {

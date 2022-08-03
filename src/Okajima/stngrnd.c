@@ -5,7 +5,7 @@ extern Anim_Data stru_8009F68C;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern void stngrnd_free_80074844(int param_1, int param_2);
+void stngrnd_free_80074844(int param_1, int param_2);
 
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader2_80074644.s") // 112 bytes
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_800746B4.s") // 124 bytes

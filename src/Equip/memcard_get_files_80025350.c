@@ -3,9 +3,9 @@
 #include "mts_new.h"
 #include "memcard.h"
 
-extern void memcard_load_files_80024960(int);
-extern int erase_800995FC(char *);
-extern int sprintf_8008E878(char *buffer, const char *format, ...);
+void memcard_load_files_80024960(int);
+int erase_800995FC(char *);
+int sprintf_8008E878(char *buffer, const char *format, ...);
 
 
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;

@@ -24,9 +24,9 @@ void ExitCriticalSection_8009953C(void);
 void CloseEvent_8009947C(int event);
 long EnableEvent_800994AC(long);
 long OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
-extern void InitCARD_8009908C(long val);
-extern long StartCARD_800990F8(void);
-extern void bu_init_80098FEC(void);
+void InitCARD_8009908C(long val);
+long StartCARD_800990F8(void);
+void bu_init_80098FEC(void);
 
 extern struct mem_card gMemCards_800B52F8[2];
 

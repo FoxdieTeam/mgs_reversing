@@ -2,9 +2,9 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
 
-extern int FS_StreamGetData_800240E0(DWORD);
-extern void sub_800241B4(int);
-extern int FS_StreamOpen_80024060(void);
+int FS_StreamGetData_800240E0(DWORD);
+void sub_800241B4(int);
+int FS_StreamOpen_80024060(void);
 extern DWORD gotohell_800B9358;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern const char aJimctrlC[];
