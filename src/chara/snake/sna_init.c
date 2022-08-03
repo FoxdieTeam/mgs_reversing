@@ -2684,7 +2684,63 @@ void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
     sub_8004E9D0(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_800571B8.s") // 448 bytes
+extern int dword_800AB7EC; // TODO: convert these to SVECTOR
+extern int dword_800AB7F4;
+Actor* NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, GM_Target *pTarget);
+void sna_init_800571B8(Actor_SnaInit *pActor, int anim_frame)
+{
+    SVECTOR *vec1;
+    GM_Target *pGVar3;
+    SVECTOR *vec2;
+
+    vec2 = &pActor->field_8EC_vec;
+    
+    if (anim_frame == 0)
+    {
+        if (used_counter_8009F42C >= 16)
+        {
+            sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+            pActor->field_8E8_pTarget->field_6_flags &= ~(0x40);
+            pActor->field_8E8_pTarget = NULL;
+            return;
+        }
+        
+        pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_6, 4);
+        pGVar3 = pActor->field_8E8_pTarget;
+        DG_PutVector_8001BE48((SVECTOR *)&dword_800AB7EC, vec2, 1);
+        GV_SubVec3_80016D40(&pGVar3->field_8_vec, vec2, vec2);
+
+        vec2->vx /= 4;
+        vec2->vy /= 4;
+        vec2->vz /= 4;
+    }
+    
+    vec1 = &pActor->field_20_ctrl.field_44_vec;
+    
+    if (anim_frame < 4)
+    {
+        GV_AddVec3_80016D00(vec1, vec2, vec1);
+    }
+    
+    if (anim_frame == 6)
+    {
+        GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_position, 49);
+        NewBakudan_8006A6CC(pActor->field_8E8_pTarget->field_20, (SVECTOR *)&dword_800AB7F4, 1, 1,
+                            pActor->field_8E8_pTarget);
+        pActor->field_914 = 5;
+        pActor->field_8E8_pTarget->field_6_flags &= ~(0x40);
+        pActor->field_8E8_pTarget = 0;
+    }
+    
+    if (pActor->field_9C_obj.field_1A != 0)
+    {
+        sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+    }
+}
 
 extern int dword_800ABBB0;
 int SECTION(".sbss") dword_800ABBB0;
