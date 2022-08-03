@@ -831,17 +831,10 @@
     include "..\obj\sub_8003EBDC.obj"
     include "..\obj\menu_right_init_8003EC2C.obj"
     include "..\obj\sub_8003ECAC.obj"
-    include "..\obj\sub_8003ECC0.obj"
-    include "..\obj\menu_bars_update_helper_8003ECCC.obj"
-    include "..\obj\sub_8003ED4C.obj"
-    include "..\obj\menu_bars_update_helper2_8003F30C.obj"
-    include "..\obj\sub_8003F408.obj"
-    include "..\obj\sub_8003F464.obj"
-    include "..\obj\sub_8003F4B8.obj"
-    include "..\obj\menu_font_kill_helper_8003F50C.obj"
-    include "..\obj\menu_bars_update_8003F530.obj"
-    include "..\obj\menu_bars_init_8003F7E0.obj"
-    include "..\obj\sub_8003F838.obj"
+    
+    ; 8003ECC0 8003ECCC 8003ED4C 8003F30C 8003F408 8003F464 8003F4B8 8003F50C 8003F530 8003F7E0 8003F838
+    include "..\obj\Menu\menu_bars.obj"
+
     include "..\obj\sub_8003F84C.obj"
     include "..\obj\sub_8003F97C.obj"
     include "..\obj\menu_8003F9B4.obj"
