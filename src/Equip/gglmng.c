@@ -15,8 +15,8 @@ void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
     if ( stru_800B77E8[2].field_0.vy )
     {
-        if ( gGameState_800B4D98.field_1C_equipped_weapon == 4
-          || gGameState_800B4D98.field_1C_equipped_weapon == 9
+        if ( gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_STINGER
+          || gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_PSG1
           || dword_8009F46C == 1
           || (GM_PlayerStatus_800ABA50 & 0x4000000) != 0 )
         {
