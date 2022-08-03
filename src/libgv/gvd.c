@@ -20,6 +20,14 @@ extern int GV_PauseLevel_800AB928;
 int mts_get_tick_count_8008BBB0(void);
 void GV_ClearMessageSystem_800164C8(void);
 
+extern const char* GV_DebugMes_800AB34C;
+extern const char aHangupS[];
+
+void Callback_Hangup_80014B34(void)
+{
+  mts_printf_8008BBA0(aHangupS, GV_DebugMes_800AB34C);
+}
+
 void GV_Act_80014B60(Actor* pGv)
 {
 	int tmp;
@@ -91,7 +99,6 @@ void GV_ResidentHeapReset_800163B0(void);
 void GD_ClearFileHandlers_80015434(void);
 void GV_InitCacheSystem_80015458(void);
 void mts_set_exception_func_800892A8(void*);
-void Callback_Hangup_80014B34(void);
 
 struct Actor SECTION(".gGVActor_800acbf8") gGVActor_800acbf8;
 
