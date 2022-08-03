@@ -40,14 +40,14 @@ unsigned short  SECTION(".gOldRootCnt_800B1DC8") gOldRootCnt_800B1DC8[32];
 /****************************************************************************/
 
 /**funcs************************************************************************************************************************/
-extern void             DrawSyncCallback_8008F76C(void*);
-extern void             GV_ZeroMemory_8001619C(void *, int);
+void             DrawSyncCallback_8008F76C(void*);
+void             GV_ZeroMemory_8001619C(void *, int);
 unsigned int            GetRCnt_800996E8(unsigned int rcnt);
 void                    DrawOTag_8008FE58(unsigned int *pOt);
-extern u_long           *ClearOTagR_8008FD50(u_long *ot, int n);
-extern void             SetDrawEnv_800906B0(DR_ENV *dr_env, DRAWENV *env);
+u_long           *ClearOTagR_8008FD50(u_long *ot, int n);
+void             SetDrawEnv_800906B0(DR_ENV *dr_env, DRAWENV *env);
 void                    DG_FreeObjsPacket_8001ABA8(DG_OBJS *pObjs, int idx);
-extern void             DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
+void             DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
 /*****************************************************************************************************************************/
 
 #define pow2(n) \

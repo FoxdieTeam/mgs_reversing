@@ -1,7 +1,7 @@
 
 
-extern void*    GV_Malloc_8001620C(int size);
-extern void     GV_ZeroMemory_8001619C(void *, int);
+void*    GV_Malloc_8001620C(int size);
+void     GV_ZeroMemory_8001619C(void *, int);
 
 int * sub_8003D124(int param_1)
 

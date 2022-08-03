@@ -11,7 +11,7 @@ extern int          DG_UnDrawFrameCount_800AB380;
 
 int SECTION(".sbss") gBinds_800ABA60;
 
-extern void     mts_printf_8008BBA0(const char*, ...);
+void     mts_printf_8008BBA0(const char*, ...);
 char*           GCL_Read_String_80020A70(char *pScript);
 int             NewJimakuStr_8004955C(char*, int);
 int             GCL_Command_demo_helper_80037DD8(int, unsigned int);

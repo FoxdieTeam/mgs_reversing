@@ -7,8 +7,8 @@ extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ZeroMatrix_8009D430;
 
 int DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
-extern void *GV_Malloc_8001620C(int size);
-extern void GV_ZeroMemory_8001619C(void *, int);
+void *GV_Malloc_8001620C(int size);
+void GV_ZeroMemory_8001619C(void *, int);
 
 DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
 {

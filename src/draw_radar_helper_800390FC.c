@@ -1,6 +1,6 @@
 #include "menuMan.h"
 
-extern void sub_8003DB2C(struct Menu_Prim_Buffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
+void sub_8003DB2C(struct Menu_Prim_Buffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
 
 void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
 {

@@ -1,9 +1,9 @@
 #include "linker.h"
 #include "kcb.h"
 
-extern void* memset_8008E688(void *pSrc, int value, int len);
-extern void LoadImage_8008FB10(RECT *, unsigned char *);
-extern int font_set_kcb_80044C90(KCB* kcb, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
+void* memset_8008E688(void *pSrc, int value, int len);
+void LoadImage_8008FB10(RECT *, unsigned char *);
+int font_set_kcb_80044C90(KCB* kcb, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 
 extern int dword_800AB6A8;
 int SECTION(".sdata") dword_800AB6A8;

@@ -11,9 +11,9 @@ extern const char   aErrorDemoThrea[];
 
 extern int          GM_CurrentMap_800AB9B0;
 
-extern char*        GCL_Read_String_80020A70(char *pScript);
-extern int          DM_ThreadStream_80079460(int param_1, int param_2);
-extern int          DM_ThreadFile_800794E4(int param_1, int param_2);
+char*        GCL_Read_String_80020A70(char *pScript);
+int          DM_ThreadStream_80079460(int param_1, int param_2);
+int          DM_ThreadFile_800794E4(int param_1, int param_2);
 
 int GCL_Command_unknown2_8002CFBC(int argc, char **argv)
 {

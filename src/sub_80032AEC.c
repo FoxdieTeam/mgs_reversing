@@ -1,5 +1,5 @@
 extern int GM_GameStatus_800AB3CC;
-extern int sd_set_cli_800887EC(int code, int unused);
+int sd_set_cli_800887EC(int code, int unused);
 
 void sub_80032AEC(int byte_2, int byte_1, int byte_0)
 {

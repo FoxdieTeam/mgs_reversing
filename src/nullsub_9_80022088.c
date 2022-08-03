@@ -1,8 +1,8 @@
 #include "mts_new.h"
 
-extern int  CdGetSector(void *madr, int size);
-extern void sub_80021FE0(void);
-extern void sub_80022024(void);
+int  CdGetSector(void *madr, int size);
+void sub_80021FE0(void);
+void sub_80022024(void);
 
 /*
 extern int gVSyncCount_800B4E68;
