@@ -23,7 +23,36 @@ void sub_8003ECC0(void)
   dword_800ABAE8 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/menu_bars_update_helper_8003ECCC.s")
+int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
+{
+    short snakeHp = pBars->field_6_snake_hp;
+    if ( snakeHp == gGameState_800B4D98.field_16_snake_current_health )
+    {
+        pBars->field_A_k10_decrement = 10;
+        return 0;
+    }
+    else
+    {
+        if ( gGameState_800B4D98.field_16_snake_current_health < snakeHp )
+        {
+            if ( pBars->field_A_k10_decrement == 0 )
+            {
+                pBars->field_6_snake_hp = snakeHp - 64;
+            }
+            else
+            {
+                --pBars->field_A_k10_decrement;
+            }
+        }
+        
+        if ( pBars->field_6_snake_hp < gGameState_800B4D98.field_16_snake_current_health )
+        {
+            pBars->field_6_snake_hp = gGameState_800B4D98.field_16_snake_current_health;
+        }
+        return 1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/menu_bar_draw_8003ED4C.s")
 #pragma INCLUDE_ASM("asm/menu_bars_update_helper2_8003F30C.s")
 #pragma INCLUDE_ASM("asm/sub_8003F408.s")
