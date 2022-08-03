@@ -233,9 +233,9 @@ enum
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
 {
-    Actor field_0;
+    Actor field_0_actor;
     GM_Control field_20_ctrl;
-    OBJECT field_9C;
+    OBJECT field_9C_obj;
     int field_C0; // here until field_17F is zeroed during normal gameplay
     char field_C4;
     char field_C5;
