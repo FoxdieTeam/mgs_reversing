@@ -18,12 +18,12 @@ typedef struct			DG_TEX
     char				field_B_height;
 } DG_TEX;
 
-struct					KmdVec3
+typedef struct			KmdVec3
 {
 	int					field_0_x;
 	int					field_4_y;
 	int					field_8_z;
-};
+} KmdVec3;
 
 typedef struct			_DG_MDL
 {
@@ -125,6 +125,12 @@ typedef struct			_DG_PRIM
 	int					field_4C;
 	TPrim_Fn			field_50_pFn;
 } DG_PRIM;
+
+typedef struct DG_Bounds
+{
+    KmdVec3 max;
+    KmdVec3 min;
+} DG_Bounds;
 
 typedef struct
 {
