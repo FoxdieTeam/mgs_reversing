@@ -1,7 +1,7 @@
 #include "linker.h"
 
-extern void init_file_mode_helper_8004A424(int param_1);
-extern void init_file_mode_helper2_8004A800(void);
+void init_file_mode_helper_8004A424(int param_1);
+void init_file_mode_helper2_8004A800(void);
 
 extern int dword_800ABB80;
 extern int dword_800ABB4C;

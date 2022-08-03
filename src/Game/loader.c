@@ -48,8 +48,8 @@ void DG_OffsetDispEnv_80017784(int offset);
 
 int FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
 
-extern struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName);
-extern void FS_LoadStageComplete_80023804(struct Loader_Record *pImpl);
+struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName);
+void FS_LoadStageComplete_80023804(struct Loader_Record *pImpl);
 
 void Loader_Act_8002E390(struct Loader *pLoader)
 {

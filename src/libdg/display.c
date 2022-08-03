@@ -37,22 +37,22 @@ extern DG_CHNL  DG_Chanls_800B1800[3];
 /****************************************************************************/
 
 /**funcs************************************************************************************************************************/
-extern void             DG_ClearChanlSystem_80017E9C(int bufferIdx);
-extern void             DG_RenderPipeline_80018028(int bufferIdx);
+void             DG_ClearChanlSystem_80017E9C(int bufferIdx);
+void             DG_RenderPipeline_80018028(int bufferIdx);
 DISPENV*                PutDispEnv_80090094(DISPENV *env);
-extern void             DG_DrawOTag_80017E4C(int activeBuffer);
-extern void             MENU_ResetSystem_80038A88();
-extern void             DG_ClearTmpLight_8001A0E4();
-extern void             GV_ClearMemorySystem_80015B4C( int which );
-extern void             PutDrawEnv_8008FEC8(DRAWENV*);
-extern unsigned short   GetTPage_80092418( int tp, int abr, int x, int y );
-extern void             DrawPrim_8008FDFC( void *p );
-extern unsigned int     GetRCnt_800996E8(unsigned int rcnt);
-extern void             DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
-extern void             VectorNormal_80092838(VECTOR *v0, VECTOR *v1);
-extern void             OuterProduct12_800933AC(VECTOR *v0, VECTOR *v1, VECTOR *v2);
-extern VECTOR*          ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
-extern void             DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
+void             DG_DrawOTag_80017E4C(int activeBuffer);
+void             MENU_ResetSystem_80038A88();
+void             DG_ClearTmpLight_8001A0E4();
+void             GV_ClearMemorySystem_80015B4C( int which );
+void             PutDrawEnv_8008FEC8(DRAWENV*);
+unsigned short   GetTPage_80092418( int tp, int abr, int x, int y );
+void             DrawPrim_8008FDFC( void *p );
+unsigned int     GetRCnt_800996E8(unsigned int rcnt);
+void             DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
+void             VectorNormal_80092838(VECTOR *v0, VECTOR *v1);
+void             OuterProduct12_800933AC(VECTOR *v0, VECTOR *v1, VECTOR *v2);
+VECTOR*          ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
+void             DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
 /*****************************************************************************************************************************/
 
 

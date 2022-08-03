@@ -5,7 +5,7 @@ extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
 Menu_rpk_item* menu_rpk_get_img_8003DDB4(int idx);
 
-extern void LoadImage_8008FB10(RECT *, unsigned char *);
+void LoadImage_8008FB10(RECT *, unsigned char *);
 
 void menu_radar_load_rpk_8003AD64()
 {

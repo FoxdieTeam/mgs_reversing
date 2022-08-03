@@ -5,8 +5,8 @@
 
 MATRIX SECTION(".gUnknown_Matrix_800B19FC") gUnknown_Matrix_800B19FC;
 
-extern MATRIX* RotMatrixYXZ_gte_80094108( SVECTOR* r, MATRIX* m) ;
-extern MATRIX* MulRotMatrix_80092B58( MATRIX *m0 );
+MATRIX* RotMatrixYXZ_gte_80094108( SVECTOR* r, MATRIX* m) ;
+MATRIX* MulRotMatrix_80092B58( MATRIX *m0 );
 
 //GTE MVMVA Command: Vector 0 (V0) * Rotation Matrix (RT) + Translation Vector (TR) - 8 Cycles
 #define rtv0tr() __asm__ volatile ( \

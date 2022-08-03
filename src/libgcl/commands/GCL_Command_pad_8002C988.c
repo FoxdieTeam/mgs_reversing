@@ -3,7 +3,7 @@
 extern int  GV_PadMask_800AB374;
 extern int  GM_GameStatus_800AB3CC;
 
-extern void GV_UpdatePadSystem_8001682C(void);
+void GV_UpdatePadSystem_8001682C(void);
 
 int GCL_Command_pad_8002C988(int argc, char **argv)
 {

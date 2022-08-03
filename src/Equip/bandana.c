@@ -10,7 +10,7 @@ extern const char aBandanaC[];
 extern const char* off_8009F2A8[3];
 extern const char* off_8009F2B4[3];
 
-extern void EQ_ChangeTexture_80060CE4(const char* itemName1, const char* itemName2);
+void EQ_ChangeTexture_80060CE4(const char* itemName1, const char* itemName2);
 
 void bandana_80061D14(OBJECT *pObj)
 {

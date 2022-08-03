@@ -7,13 +7,13 @@ extern const char   aWrongCodeForRa[];
 
 extern int          GM_GameStatus_800AB3CC;
 
-extern char*        GCL_Read_String_80020A70(char *pScript);
-extern void         MENU_ClearRadioTable_8004967C(void);
-extern void         MENU_RadioCall_80042730(int param_1, int param_2, int param_3);
-extern void         MENU_ResetCall_80042814(void);
-extern void         MENU_SetRadioCallbackProc_8004283C(int param_1);
-extern void         MENU_SetRadioBaseCall_80049764(int param_1, int param_2);
-extern void         MENU_SetRadioOverCall_80049794(int param_1, int param_2);
+char*        GCL_Read_String_80020A70(char *pScript);
+void         MENU_ClearRadioTable_8004967C(void);
+void         MENU_RadioCall_80042730(int param_1, int param_2, int param_3);
+void         MENU_ResetCall_80042814(void);
+void         MENU_SetRadioCallbackProc_8004283C(int param_1);
+void         MENU_SetRadioBaseCall_80049764(int param_1, int param_2);
+void         MENU_SetRadioOverCall_80049794(int param_1, int param_2);
 
 int GCL_Command_radio_8002C4A8(int argc, char **argv)
 {

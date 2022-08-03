@@ -10,7 +10,7 @@
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
 void GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
 
-extern unsigned int GM_Sound_80032968(int a1, int a2, int a3);
+unsigned int GM_Sound_80032968(int a1, int a2, int a3);
 
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;
@@ -33,12 +33,12 @@ int SECTION(".sbss") dword_800ABBB4;
 extern GM_Control *gControl_800AB9F4;
 extern OBJECT *dword_800ABA20;
 
-extern int sub_800296C4(int param_1, short *param_2, unsigned int param_3);
-extern void sub_800298DC(int *param_1);
+int sub_800296C4(int param_1, short *param_2, unsigned int param_3);
+void sub_800298DC(int *param_1);
 
-extern int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
-extern long SquareRoot0_80092708(long a);
-extern int GV_VecDir2_80016EF8(SVECTOR *vec);
+int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
+long SquareRoot0_80092708(long a);
+int GV_VecDir2_80016EF8(SVECTOR *vec);
 
 extern int dword_800ABBB8;
 int SECTION(".sbss") dword_800ABBB8;
@@ -53,7 +53,7 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern Target_Data stru_8009F044;
 extern SVECTOR stru_800AB7FC;
 
-extern void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp);
+void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp);
 void GM_SeSet_80032858(SVECTOR *pVec, unsigned int sound_id);
 void GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 
@@ -359,7 +359,7 @@ void sub_8004E9D0(Actor_SnaInit *pActor)
     pActor->field_718[9].vx = GV_NearExp2_80026384(pActor->field_718[9].vx, -iVar1);
 }
 
-extern unsigned int GV_DiffDirS_8001704C(int param_1, int param_2);
+unsigned int GV_DiffDirS_8001704C(int param_1, int param_2);
 
 void sub_8004EA50(int param_1, int param_2)
 {
@@ -401,7 +401,7 @@ int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
 #pragma INCLUDE_ASM("asm/sub_8004EB14.s") // 96 bytes
 
 extern short dword_800B7800[];
-extern int sd_set_cli_800887EC(int code, int unused);
+int sd_set_cli_800887EC(int code, int unused);
 void sub_8004EB74(Actor_SnaInit *pActor)
 {
     if (dword_800B7800[5] == 0)
@@ -455,8 +455,8 @@ void sna_init_8004EC00(Actor_SnaInit *pActor)
 
 /* extern short dword_800B7800[]; */
 
-extern void sna_init_set_flags1_8004E2F4(Actor_SnaInit *snake, SnaFlag1 flag);
-extern void sna_init_set_flags2_8004E330(Actor_SnaInit *snake, SnaFlag2 flag);
+void sna_init_set_flags1_8004E2F4(Actor_SnaInit *snake, SnaFlag1 flag);
+void sna_init_set_flags2_8004E330(Actor_SnaInit *snake, SnaFlag2 flag);
 
 void sna_init_8004EC8C(Actor_SnaInit *pActor)
 {
@@ -546,7 +546,7 @@ int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
     return -1;
 }
 
-extern int sub_8004EFE4(Actor_SnaInit *param_1, int param_2);
+int sub_8004EFE4(Actor_SnaInit *param_1, int param_2);
 
 void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 {
@@ -670,7 +670,7 @@ void sna_init_set_invuln_8004F2A0(Actor_SnaInit *pActor, char invuln_frames)
     pActor->field_89C_pTarget->field_0_flags &= ~0x96u;
 }
 
-extern void sna_init_clear_flags1_8004E308(Actor_SnaInit *snake, SnaFlag1);
+void sna_init_clear_flags1_8004E308(Actor_SnaInit *snake, SnaFlag1);
 
 void sna_init_clear_invuln_8004F2EC(Actor_SnaInit *snake)
 {
@@ -740,7 +740,7 @@ int sna_act_unk_helper4_8004FA3C(void)
     return 0;
 }
 
-extern void sna_init_clear_flags1_8004E344(Actor_SnaInit *param_1, unsigned int param_2);
+void sna_init_clear_flags1_8004E344(Actor_SnaInit *param_1, unsigned int param_2);
 
 void sna_init_8004FA74(Actor_SnaInit *param_1)
 {
@@ -749,7 +749,7 @@ void sna_init_8004FA74(Actor_SnaInit *param_1)
                                       PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK);
 }
 
-extern void sna_init_80051FD0(Actor_SnaInit *snake);
+void sna_init_80051FD0(Actor_SnaInit *snake);
 
 void sub_8004FA9C(Actor_SnaInit *snake)
 {
@@ -2709,7 +2709,7 @@ void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int anim_
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s") // 348 bytes
 
-extern int HomingTarget_2_80032EAC(short *a1, short a2, int *a3, int *a4, int a5, int a6, int a7);
+int HomingTarget_2_80032EAC(short *a1, short a2, int *a3, int *a4, int a5, int a6, int a7);
 
 extern int gSnaMoveDir_800ABBA4;
 
@@ -2987,7 +2987,7 @@ void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame)
 }
 */
 
-extern void sub_8004FAE8(Actor_SnaInit *pActor);
+void sub_8004FAE8(Actor_SnaInit *pActor);
 
 void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int anim_frame)
 {

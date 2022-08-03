@@ -4,11 +4,11 @@
 
 extern const char   aNoHzd[];
 
-extern int                  GV_CacheID_800152DC(int hashedFileName, int param_2);
-extern void                 *GV_GetCache_8001538C(int hash);
-extern struct map_record    *Map_GetNextFreeRecord_80030E30(int mapNum);
-extern void                 *Map_HZD_Load_80030F38(int param_1, int param_2, int param_3, int param_4, int param_5);
-extern void                 Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap);
+int                  GV_CacheID_800152DC(int hashedFileName, int param_2);
+void                 *GV_GetCache_8001538C(int hash);
+struct map_record    *Map_GetNextFreeRecord_80030E30(int mapNum);
+void                 *Map_HZD_Load_80030F38(int param_1, int param_2, int param_3, int param_4, int param_5);
+void                 Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap);
 
 struct map_record *GCL_Command_hzd_impl_800310D0(void)
 {

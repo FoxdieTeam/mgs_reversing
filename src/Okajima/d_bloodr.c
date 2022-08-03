@@ -4,9 +4,9 @@
 
 extern const char   aDBloodrC[];
 
-extern int          d_bloodr_act_80072C10(int a1);
-extern void          d_bloodr_kill_80072BD4(int a1);
-extern int          d_bloodr_loader_800730EC(struct Actor *pActor, int a2);
+int          d_bloodr_act_80072C10(int a1);
+void          d_bloodr_kill_80072BD4(int a1);
+int          d_bloodr_loader_800730EC(struct Actor *pActor, int a2);
 
 void d_bloodr_kill_80072BD4(int param_1)
 {

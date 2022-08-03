@@ -1,6 +1,6 @@
 #include "scn_mask.h"
 
-extern void *GV_Malloc_8001620C(int size);
+void *GV_Malloc_8001620C(int size);
 void GV_DelayedFree_80016254(void *addr);
 extern int GV_Clock_800AB920;
 extern DG_CHNL DG_Chanls_800B1800[3];

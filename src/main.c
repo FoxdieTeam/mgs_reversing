@@ -9,12 +9,12 @@
 #include "gcl.h"
 #include "dgd.h"
 
-extern void __main_80098F14(void);
+void __main_80098F14(void);
 
-extern void SetDispMask_8008F7CC(int);
-extern void InitGeom_80092680(void);
+void SetDispMask_8008F7CC(int);
+void InitGeom_80092680(void);
 
-extern void SdMain_80081A18(void);
+void SdMain_80081A18(void);
 
 
 int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
@@ -24,13 +24,13 @@ extern const char aBislpm86247[];
 const char* MGS_MemoryCardName_800AB2EC = aBislpm86247; // sdata
 
 
-extern int sd_task_active_800886C4();
+int sd_task_active_800886C4();
 
-extern void memcard_init_80024E48(void);
+void memcard_init_80024E48(void);
 
-extern void FS_StartDaemon_80014A7C(void);
-extern void HZD_StartDaemon_80021900(void);
-extern void GM_StartDaemon_8002B77C(void);
+void FS_StartDaemon_80014A7C(void);
+void HZD_StartDaemon_80021900(void);
+void GM_StartDaemon_8002B77C(void);
 
 static void task_main_800148B8(void)
 {

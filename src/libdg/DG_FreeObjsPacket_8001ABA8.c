@@ -2,7 +2,7 @@
 #include "libdg.h"
 #include <libgpu.h>
 
-extern void GV_FreeMemory2_80016078(unsigned int, void **);
+void GV_FreeMemory2_80016078(unsigned int, void **);
 int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
 void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pPrim, int idx);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);

@@ -3,7 +3,7 @@
 #include "jimctrl.h"
 
 extern unk_8009E280 dword_8009E280;
-extern void FS_StreamClose_80024098(void);
+void FS_StreamClose_80024098(void);
 
 void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 {
