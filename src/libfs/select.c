@@ -13,7 +13,7 @@ void FS_StartDaemon_80014A7C(void)
     sio_output_stop_8008C5B0(); // empty func
 }
 
-void FS_Null_80014AAC()
+void FS_CdStageProgBinFix_80014AAC()
 {
 
 }
@@ -44,4 +44,19 @@ void DsDataCallback_80014AEC(int a1)
 int PCinit_80014B14()
 {
     return -1;
+}
+
+int PCopen_80014B1C(void)
+{
+    return 0;
+}
+
+int PCread_80014B24(void)
+{
+    return 0;
+}
+
+int PCclose_80014B2C(void)
+{
+    return 0;
 }
