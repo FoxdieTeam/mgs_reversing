@@ -16,7 +16,7 @@ extern Anim_Data stru_8009F144;
 unsigned int GV_RandU_80017090(unsigned int input);
 int rand_8008E6B8(void);
 void *memset_8008E688(void *pSrc, int value, int len);
-void sub_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 extern int GV_Clock_800AB920;
@@ -359,7 +359,7 @@ int anime_fn_10_8005F288(Actor_anime *pActor, int idx)
     anime_0x34 *pItem; // $s0
 
     pItem = &pActor->field_4C_items[idx];
-    sub_80032858(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
+    GM_SeSet_80032858(&pActor->field_48_pPrimVec[idx], pItem->field_18_op_code[1]);
     pItem->field_18_op_code += 2;
     return 0;
 }

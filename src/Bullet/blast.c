@@ -9,7 +9,7 @@ extern int claymore_map_800AB9DC;
 
 void AN_Blast_Single_8006E224(SVECTOR *pVec);
 void sub_8007913C();
-void sub_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 
 extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target*, int);
 extern short GM_uBombHoming_800AB3E4;
@@ -131,7 +131,7 @@ void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSideP
         pVec = &pBlast->field_24_vec;
     }
 
-    sub_80032858(pVec, 41);
+    GM_SeSet_80032858(pVec, 41);
 }
 */
 

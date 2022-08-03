@@ -157,4 +157,22 @@ static inline void GM_SetNoise(int power, int length, SVECTOR* pos)
     GM_NoisePosition_800AB9F8 = *pos;          
 }
 
+extern int GM_GameStatus_800AB3CC;
+int sd_set_cli_800887EC(int code, int unused);
+static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
+{
+    int lowest_byte;
+    if (!(GM_GameStatus_800AB3CC & 0x84000000))
+    {
+        byte_2 &= 0xff;
+        byte_1 &= 0xff;
+        if (0x3f < byte_1)
+        {
+            byte_1 = 0x3f;
+        }
+        lowest_byte = byte_0 & 0xff;
+        sd_set_cli_800887EC(byte_2 << 0x10 | byte_1 << 8 | lowest_byte, 0);
+    }
+}
+
 #endif //GAME_H

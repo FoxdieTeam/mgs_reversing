@@ -688,7 +688,7 @@
     include "..\obj\sub_80032748.obj"
     include "..\obj\sub_800327BC.obj"
     include "..\obj\sub_80032820.obj"
-    include "..\obj\sub_80032858.obj"
+    include "..\obj\Game\GM_SeSet_80032858.obj"
     include "..\obj\Game\GM_Sound_80032968.obj"
     include "..\obj\sub_800329C4.obj"
     include "..\obj\sub_80032AEC.obj"
