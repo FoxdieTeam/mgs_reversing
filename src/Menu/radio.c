@@ -79,7 +79,7 @@ void sub_8004124C(int param_1)
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s")
 
-void menu_radio_update_helper5_80042160(MenuMan *menuMan)
+void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
 {
     dword_800AB63C = 0;
     dword_800ABB10 = 0;
@@ -95,13 +95,13 @@ void menu_radio_init_nullsub_80042190(void)
 
 #pragma INCLUDE_ASM("asm/menu_radio_update_80042198.s")
 
-void menu_radio_init_80042700(MenuMan* pMenu)
+void menu_radio_init_80042700(Actor_MenuMan* pMenu)
 {
     pMenu->m7FnPtrs_field_2C[4] = menu_radio_update_80042198;
     pMenu->field_28_flags |= 0x10u;
 }
 
-void menu_radio_kill_8004271C(MenuMan* pMenu)
+void menu_radio_kill_8004271C(Actor_MenuMan* pMenu)
 {
     pMenu->field_28_flags &= ~0x10u;
 }

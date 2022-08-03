@@ -11,6 +11,8 @@
 
 #define MAX_HISTORY 8
 
+#define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
+
 typedef struct      AreaHistory
 {
     short           history[MAX_HISTORY];
@@ -120,17 +122,6 @@ struct              menu_left_right
     short           field_12;
 };
 
-typedef struct      MenuMan_MenuBars
-{
-    BYTE            field_0_state;
-    BYTE            field_1_O2_hp;
-    short int       field_2_bar_x;
-    short int       field_4_bar_y;
-    short int       field_6_snake_hp;
-    short int       field_8;
-    short int       field_A_k10_decrement;
-} MenuMan_MenuBars;
-
 typedef struct      MenuMan_Inventory_Menu_0x14
 {
     //MenuMan_Inventory_Sub field_0_invent;
@@ -159,11 +150,11 @@ typedef struct      MenuGlue
     unsigned char   *mPrimPtrs[2];
 } MenuGlue;
 
-struct              Menu_Prim_Buffer
+typedef struct              Menu_Prim_Buffer
 {
     int             field_0_pBuffer;
     int             *field_4_pOt;
-};
+} Menu_Prim_Buffer;
 
 typedef struct _Menu_rpk_item
 {
@@ -173,6 +164,26 @@ typedef struct _Menu_rpk_item
     char field_3_h;
     unsigned char field_4_pixel_ptr[0];
 } Menu_rpk_item;
+
+typedef struct BarConfig
+{
+  const char *field_0_text;
+  unsigned char field_4_rgb_left[3];
+  unsigned char field_7_rgb_right[3];
+  short field_A_bar_height;
+} BarConfig;
+
+
+typedef struct      MenuMan_MenuBars
+{
+    BYTE            field_0_state;
+    BYTE            field_1_O2_hp;
+    short int       field_2_bar_x;
+    short int       field_4_bar_y;
+    short int       field_6_snake_hp;
+    short int       field_8;
+    short int       field_A_k10_decrement;
+} MenuMan_MenuBars;
 
 typedef struct      Actor_MenuMan
 {
@@ -199,20 +210,14 @@ typedef struct      Actor_MenuMan
     char            field_1DB;
     struct menu_left_right field_1DC_menu_left;
     struct menu_left_right field_1F0_menu_right;
-    char            field_204;
-    char            field_205;
-    short           field_206;
-    short           field_208;
-    short           field_20A_snake_current_health;
-    short           field_20C;
-    short           field_20E;
+    MenuMan_MenuBars field_204_bars;
     short           field_210;
     short           field_212;
     int             field_214_font;
     menu_chara_struct * field_218;
     int             field_21C;
     int             field_220;
-} MenuMan;
-typedef void (*TInitKillFn)(MenuMan *);
+} Actor_MenuMan;
+typedef void (*TInitKillFn)(Actor_MenuMan *);
 
 #endif // _MENUMAN_H
