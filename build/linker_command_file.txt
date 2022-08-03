@@ -369,7 +369,6 @@
     include "..\obj\libfs\FS_StreamInit_80023FD4.obj"
     include "..\obj\libfs\FS_StreamStop__80024028.obj"
     include "..\obj\libfs\FS_StreamOpen_80024060.obj"
-    include "..\obj\libfs\FS_StreamClose_80024098.obj"
     include "..\obj\libfs\FS_StreamIsEnd_800240D0.obj"
     include "..\obj\libfs\FS_StreamGetData_800240E0.obj"
     include "..\obj\libfs\FS_StreamGetSize_80024188.obj"
