@@ -1031,7 +1031,7 @@ void sub_8005230C(Actor_SnaInit *pActor)
         {
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
 
-            if (pActor->field_A26_fn_stance_idx == 0)
+            if (pActor->field_A26_fn_stance_idx == SNA_STANCE_STANDING)
             {
                 action = pActor->field_9B4_action_table->field_0->field_4;
             }
@@ -1054,7 +1054,7 @@ void sub_8005230C(Actor_SnaInit *pActor)
         
         if (sub_80051BA4(pActor) == 0 && (press & PAD_CROSS) != 0)
         {
-            if (pActor->field_A26_fn_stance_idx == 0)
+            if (pActor->field_A26_fn_stance_idx == SNA_STANCE_STANDING)
             {
                 sna_init_start_anim_8004E1F4(pActor, sna_init_anim_wall_crouch_80052CCC);
             }
