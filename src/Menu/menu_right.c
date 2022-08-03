@@ -52,7 +52,7 @@ extern int GM_GameStatus_800AB3CC;
 
 int SECTION(".sbss") dword_800ABAE8;
 int SECTION(".sbss") dword_800ABAEC;
-int SECTION(".sbss") dword_800ABAF0;
+int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 int SECTION(".sbss") dword_800ABAF4;
 int SECTION(".sbss") dword_800ABAF8;
 int SECTION(".sbss") dword_800ABAFC;

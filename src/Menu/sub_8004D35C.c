@@ -1,6 +1,6 @@
 #include "menuMan.h"
 
-extern MenuMan gMenuMan_800BD360;
+extern Actor_MenuMan gMenuMan_800BD360;
 
 void sub_8004124C(int param_1);
 
