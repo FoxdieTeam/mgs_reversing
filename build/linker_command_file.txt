@@ -744,6 +744,7 @@
     ; 80037F2C 80037F68 80037FB8
     include "..\obj\Game\jimctrl1.obj"
     
+    ; TODO: merge these into jimctrl.c but the data is broken and causes the file to no longer match
     include "..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
 
     ; 80037FFC 80038004 80038070 8003853C 80038568
