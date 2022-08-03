@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 
-extern int  sub_80026440(int param_1, int param_2, int param_3);
+int  sub_80026440(int param_1, int param_2, int param_3);
 
 void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {

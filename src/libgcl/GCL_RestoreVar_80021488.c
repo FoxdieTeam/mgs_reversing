@@ -9,10 +9,10 @@ extern GCL_Vars             gGcl_memVars_800b4588;
 
 extern char                 gStageName_800B4D88[16];
 
-extern char*                GM_GetArea_8002A880(char*);
-extern char*                strcpy_8008E768(char *, char *);
-extern int                  GV_StrCode_80016CCC(const char* string );
-extern int                  GM_SetArea_8002A7D8(int stageNameHash, char *pStageName);
+char*                GM_GetArea_8002A880(char*);
+char*                strcpy_8008E768(char *, char *);
+int                  GV_StrCode_80016CCC(const char* string );
+int                  GM_SetArea_8002A7D8(int stageNameHash, char *pStageName);
 
 void *memcpy_8008E648(void *destination, const void *source, int num);
 

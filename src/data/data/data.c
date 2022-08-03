@@ -21,6 +21,7 @@
 #include "sna_init.h"
 #include "anime.h"
 #include "hash.h"
+#include "menuman.h"
 
 // sdata
 extern const char* aCigs[];
@@ -144,7 +145,7 @@ TChanl_Fn SECTION(".data") off_8009D35C[] =
 		DG_DivideChanl_80019D44,
 		DG_Sort_Chanl_8001D5C8};
 
-int SECTION(".data") dword_8009D378[] = {0, 0, 0};
+DG_TEX SECTION(".data") DG_UnknownTexture_8009D378 = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 MATRIX SECTION(".data") DG_LightMatrix_8009D384 =
 {
@@ -677,7 +678,11 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] =
 	{(char*)aSuppr, 0xD}
 };
 
-int SECTION(".data") dword_8009E544[] = {0xB80010, 1, 0x6000, 0x9000, 0x8003D64C, 0x8003D594, 0, 0xB80100, 2, 0x3000, 0xC000, 0x8003D594, 0x8003D5F0, 0};
+struct menu_8009E544 SECTION(".data") stru_8009E544[2] =
+{
+  { 16, 184, 1, 24576, 36864, (void*)0x8003D64C, (void*)0x8003D594, 0 },
+  { 256, 184, 2, 12288, 49152, (void*)0x8003D594, (void*)0x8003D5F0, 0 }
+};
 
 menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = 
 {

@@ -2,7 +2,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-extern unsigned int GV_RandU_80017090(unsigned int input);
+unsigned int GV_RandU_80017090(unsigned int input);
 
 void chafgrnd_init_tiles_800769EC(TILE* a1)
 {

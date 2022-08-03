@@ -11,11 +11,11 @@ extern const char aLoadDirSStart[];  // = "load_dir %s start\n";
 extern const char aTotalDFilesUse[]; // = "TOTAL %d FILES used %d block\n";
 extern const char aNoFile[];         // = "NO FILE\n";
 
-extern struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
-extern struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
+struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
+struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
 
-extern int sprintf_8008E878(char *buffer, const char *format, ...);
-extern void mts_printf_8008BBA0(const char *, ...);
+int sprintf_8008E878(char *buffer, const char *format, ...);
+void mts_printf_8008BBA0(const char *, ...);
 
 // still has large diffs
 /*

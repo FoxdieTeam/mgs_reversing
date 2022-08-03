@@ -10,7 +10,7 @@ int SECTION(".sbss") gMapsChanged_800ABAAC;
 
 extern struct map_record gMapRecs_800B7910[16];
 
-extern void mts_printf_8008BBA0(const char *, ...);
+void mts_printf_8008BBA0(const char *, ...);
 
 extern const char aAddMapD[];
 extern const char aAddmapNotFound[];

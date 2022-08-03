@@ -17,10 +17,10 @@ extern short                d_800AB9EC_mag_size;
 extern short                dword_800ABA2C;
 extern GameState_800B4D98   gGameState_800B4D98;
 
-extern int                  socom_act_80065518(int a1);
-extern int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
+int                  socom_act_80065518(int a1);
+int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
 
-extern void                 GM_FreeObject_80034BF8(OBJECT *param_1);
+void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
 // TODO: move me
 int sub_80028454(void* pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
