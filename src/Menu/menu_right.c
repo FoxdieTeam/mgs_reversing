@@ -83,7 +83,6 @@ void*    GV_Malloc_8001620C(int size);
 void     GV_ZeroMemory_8001619C(void *, int);
 void GV_Free_80016230(void *ptr);
 
-#pragma INCLUDE_ASM("asm/sub_8003CC74.s")
 #pragma INCLUDE_ASM("asm/sub_8003CC88.s")
 #pragma INCLUDE_ASM("asm/sub_8003CE40.s")
 

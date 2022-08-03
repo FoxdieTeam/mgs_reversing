@@ -116,7 +116,7 @@ struct              menu_left_right
     struct menu_8009E544 *field_8_pStru;
     int             field_C_alloc;
     char            field_10;
-    char            field_11;
+    signed char            field_11;
     short           field_12;
 };
 
