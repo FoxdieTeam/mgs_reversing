@@ -1360,7 +1360,7 @@
     include "..\obj\sub_8007913C.obj"
     include "..\obj\set_pal_effect_fns_80079194.obj"
     include "..\obj\libdg\DG_ResetExtPaletteMakeFunc_800791E4.obj"
-    include "..\obj\sub_80079220.obj"
+    include "..\obj\Takabe\sub_80079220.obj"
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_helper_80079284.obj"
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
     
@@ -2156,6 +2156,9 @@ group_stru_800BDD78    group bss,org($800BDD78)
 
 group_dword_800BDFA8    group bss,org($800BDFA8)
     section .dword_800BDFA8, group_dword_800BDFA8
+
+group_pfn_800BDFB4    group bss,org($800BDFB4)
+    section .pfn_800BDFB4, group_pfn_800BDFB4
 
 group_tenage_ctrls_800BDD30    group bss,org($800BDD30)
     section .tenage_ctrls_800BDD30, group_tenage_ctrls_800BDD30
