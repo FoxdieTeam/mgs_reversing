@@ -36,8 +36,8 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
     
     if ( stru_800B77E8[2].field_0.vy
       && (pActor->field_48_pParent->objs->flag & 0x80) != 0
-      && gGameState_800B4D98.field_1C_equipped_weapon != 4
-      && gGameState_800B4D98.field_1C_equipped_weapon != 9
+      && gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_STINGER
+      && gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_PSG1
       && dword_8009F46C != 1 )
     {
         pActor->field_50_count++;

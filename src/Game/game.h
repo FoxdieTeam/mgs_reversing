@@ -131,6 +131,21 @@ typedef enum
     PLAYER_STATUS_UNK80000000                 =  0x80000000,
 } PlayerStatusFlag;
 
+enum
+{
+    WEAPON_NONE        = -1,
+    WEAPON_SOCOM       =  0,
+    WEAPON_FAMAS       =  1,
+    WEAPON_GRENADE     =  2,
+    WEAPON_NIKITA      =  3,
+    WEAPON_STINGER     =  4,
+    WEAPON_CLAYMORE    =  5,
+    WEAPON_C4          =  6,
+    WEAPON_STUNGRENADE =  7,
+    WEAPON_CHAFF       =  8,
+    WEAPON_PSG1        =  9,
+};
+
 static inline void GM_SetNoise(int power, int length, SVECTOR* pos)
 {
     int old = GM_NoisePower_800ABA24;
