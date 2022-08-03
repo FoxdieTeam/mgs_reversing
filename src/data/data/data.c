@@ -60,8 +60,8 @@ extern const char* aRope[];
 extern const char* aScarf[];
 extern const char* aSuppr[];
 
-extern const char* aLife[];
-extern const char* aO2[];
+extern const char aLife[];
+extern const char aO2[];
 extern const char* aError[];
 extern const char* aComplete[];
 extern const char* dword_800AB728[];
@@ -699,8 +699,9 @@ menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] =
 };
 
 int SECTION(".data") dword_8009E5CC[] = {0x80011A8C, 0x80011A30, 0x800119C0, 0x80011954, 0x800118DC, 0x8001187C, 0x80011838, 0x800117C4, 0x80011750, 0x800116E8};
-int SECTION(".data") off_8009E5F4[] = {(int)aLife, 0x1F7F8F10, 0x3FDF};
-int SECTION(".data") off_8009E600[] = {(int)aO2, 0x1FC03F1F, 0x1FF7F};
+
+BarConfig SECTION(".data") gSnakeLifeBarConfig_8009E5F4 = { aLife, { 16u, 143u, 127u }, { 31u, 223u, 63u }, 0 };
+BarConfig SECTION(".data") gSnakeO2BarConfig_8009E600 = { aO2, { 31u, 63u, 192u }, { 31u, 127u, 255u }, 1 };
 
 int SECTION(".data") dword_8009E60C[] = {0x6D5D2477, 0x257B6B2E, 0x6F7F};
 int SECTION(".data") dword_8009E618[] = {0x2070001, 0x7020100, 0x7020107, 0x2070701, 0x7020900, 0x7020907, 0x2070F01};
