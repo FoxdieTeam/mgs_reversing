@@ -2157,9 +2157,6 @@ group_gMessageQueue_800B0320    group bss,org($800B0320)
 group_gOldRootCnt_800B1DC8    group bss,org($800B1DC8)
     section .gOldRootCnt_800B1DC8, group_gOldRootCnt_800B1DC8
 
-group_gSna_init_flags_800ABA50    group bss,org($800ABA50)
-    section .gSna_init_flags_800ABA50, group_gSna_init_flags_800ABA50
-
 group_gUnknown_Matrix_800B19FC    group bss,org($800B19FC)
     section .gUnknown_Matrix_800B19FC, group_gUnknown_Matrix_800B19FC
 
