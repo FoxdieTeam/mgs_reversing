@@ -264,7 +264,6 @@ void GV_DestroyActor_800151C8(struct Actor *pActor)
     pActor->mFnUpdate = GV_DestroyActorQuick_80015164;
 }
 
-extern void mts_printf_8008BBA0(const char *, ...);
 
 void GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill)
 {
