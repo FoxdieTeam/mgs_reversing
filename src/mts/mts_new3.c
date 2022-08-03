@@ -56,7 +56,6 @@ extern int  dword_800A3DB8;
 void mts_print_process_status_8008B77C(void);
 int VSync_80098108(int);
 void mts_init_vsync_helper_800893E8(void);
-int VSync_80098108(int);
 void VSyncCallback_800983A8(void (*func)());
 void mts_print_process_status_8008B77C(void);
 extern void SwEnterCriticalSection_8009954C(void);
