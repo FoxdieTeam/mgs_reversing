@@ -11,6 +11,8 @@
 
 #define MAX_HISTORY 8
 
+#define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
+
 typedef struct      AreaHistory
 {
     short           history[MAX_HISTORY];
