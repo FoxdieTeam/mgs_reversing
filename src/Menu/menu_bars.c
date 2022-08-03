@@ -99,8 +99,17 @@ void menu_bars_update_helper2_8003F30C(Menu_Prim_Buffer *ot, MenuMan_MenuBars *p
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003F408.s")
-#pragma INCLUDE_ASM("asm/sub_8003F464.s")
+unsigned int menu_8003F408(Menu_Prim_Buffer *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+{
+    GM_GameStatus_800AB3CC |= 0x8000u;
+    return menu_bar_draw_8003ED4C(ot, 16, ypos + gSnakeLifeYPos_800ABAF0 - 16, a3, a4, a5, pConfig);
+}
+
+unsigned int menu_8003F464(Menu_Prim_Buffer *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
+{
+    GM_GameStatus_800AB3CC |= 0x8000u;
+    return menu_bar_draw_8003ED4C(ot, xpos, ypos + gSnakeLifeYPos_800ABAF0 - 16, a4, a5, a6, pBarConfig);
+}
 
 unsigned int Menu_render_snake_life_bar_8003F4B8(Menu_Prim_Buffer *ot, int xpos, int ypos)
 {
