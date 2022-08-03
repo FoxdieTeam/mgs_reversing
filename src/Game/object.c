@@ -20,29 +20,29 @@ int SECTION(".sbss") mt_count_800ABAC0;
 
 /*----Externs--------------------------------------------------------------*/
 //GV
-extern void *GV_GetCache_8001538C( int id );
-extern int GV_CacheID_800152DC( int file_id, int ext_id );
-extern void GV_ZeroMemory_8001619C( void* ptr, int size );
+void *GV_GetCache_8001538C( int id );
+int GV_CacheID_800152DC( int file_id, int ext_id );
+void GV_ZeroMemory_8001619C( void* ptr, int size );
 void GV_AddVec3_80016D00( SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst );
 
 //GM
 //obj
-extern int GM_ConfigObjectModel_80034E10( OBJECT_NO_ROTS* obj, int model );
+int GM_ConfigObjectModel_80034E10( OBJECT_NO_ROTS* obj, int model );
 
 //mt
-extern void sub_8003501C( MOTION_CONTROL* m_ctrl, int a1, int motion);
-extern void sub_800350D4( MOTION_CONTROL* m_ctrl, int a1, int motion);
-extern void sub_8003556C( MOTION_CONTROL* m_ctrl);
+void sub_8003501C( MOTION_CONTROL* m_ctrl, int a1, int motion);
+void sub_800350D4( MOTION_CONTROL* m_ctrl, int a1, int motion);
+void sub_8003556C( MOTION_CONTROL* m_ctrl);
 
 //DG
-extern int DG_PutObjs_8001BDB8( DG_OBJS* objs );
-extern void DG_FreeObjs_800318D0( DG_OBJS* objs );
-extern void DG_QueueObjs_80018178( DG_OBJS* objs );
-extern void DG_DequeueObjs_800181E4( DG_OBJS* objs );
-extern void *DG_MakeObjs_80031760( void* buf, int flag, int a2 );
+int DG_PutObjs_8001BDB8( DG_OBJS* objs );
+void DG_FreeObjs_800318D0( DG_OBJS* objs );
+void DG_QueueObjs_80018178( DG_OBJS* objs );
+void DG_DequeueObjs_800181E4( DG_OBJS* objs );
+void *DG_MakeObjs_80031760( void* buf, int flag, int a2 );
 
 //psx
-extern long GetRCnt_800996E8( unsigned long rcnt );
+long GetRCnt_800996E8( unsigned long rcnt );
 /*-----------------------------------------------------------------------*/
 
 #define DCache 0x1F8003FC

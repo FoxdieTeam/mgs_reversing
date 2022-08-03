@@ -4,8 +4,8 @@
 
 extern int              GV_PauseLevel_800AB928;
 
-extern unsigned int     sub_8002AAEC();
-extern unsigned long    GM_Act_helper3_helper_8002AB40();
+unsigned int     sub_8002AAEC();
+unsigned long    GM_Act_helper3_helper_8002AB40();
 
 int GM_Act_helper3_8002ABA4(void)
 {

@@ -83,7 +83,8 @@ def fix_obj(obj_to_fix, output_obj, deps):
                 disasm(code, addr_num)
                 print('orig func:')
                 disasm(source_code, addr_num)
-                raise Exception('code size mismatch')
+                raise Exception('code size mismatch: {} {} {}'.format(addr_num, len(code),
+                    len(source_code)))
 
             with open(obj_to_fix, 'r+b') as f:
                 # write the code

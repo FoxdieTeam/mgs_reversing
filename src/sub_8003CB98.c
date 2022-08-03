@@ -1,6 +1,6 @@
-extern int  menu_restore_nouse_80043470();
-extern int  sub_8003CFE0(int a1, int a2);
-extern int  sub_8003B5E0(int a1);
+int  menu_restore_nouse_80043470();
+int  sub_8003CFE0(int a1, int a2);
+int  sub_8003B5E0(int a1);
 
 int sub_8003CB98(int a1)
 {

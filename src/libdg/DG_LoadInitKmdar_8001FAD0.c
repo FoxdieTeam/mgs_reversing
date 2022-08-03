@@ -23,9 +23,9 @@ typedef struct DG_ZmdFile
     DG_ZmdEntry zmdEntries[0];
 } DG_ZmdFile;
 
-extern int GV_CacheID_800152DC(int hashedFileName, int param_2);
-extern void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
-extern int GV_SetCache_800153C0( int id, void * buf );
+int GV_CacheID_800152DC(int hashedFileName, int param_2);
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
+int GV_SetCache_800153C0( int id, void * buf );
 
 int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData)
 {

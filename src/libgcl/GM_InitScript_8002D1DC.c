@@ -2,7 +2,7 @@
 
 extern GCL_COMMANDDEF script_commands_8009D68C;
 
-extern int       GCL_BindsInit_8002D1A8(void);
+int       GCL_BindsInit_8002D1A8(void);
 
 void GM_InitScript_8002D1DC(void)
 {

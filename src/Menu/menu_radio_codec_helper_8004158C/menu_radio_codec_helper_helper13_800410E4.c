@@ -1,7 +1,7 @@
 #include "linker.h"
 
-extern void font_update_8004695C(int param_1);
-extern void sub_800469A4(int param_1, char *param_2);
+void font_update_8004695C(int param_1);
+void sub_800469A4(int param_1, char *param_2);
 
 extern int dword_800ABB04;
 int SECTION(".sbss") dword_800ABB04;

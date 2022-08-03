@@ -1,6 +1,6 @@
 #include "shadow.h"
 
-extern void GM_FreeObject_80034BF8(OBJECT *obj);
+void GM_FreeObject_80034BF8(OBJECT *obj);
 
 #pragma INCLUDE_ASM("asm/shadow_act_helper_8005FD28.s") // 768 bytes
 

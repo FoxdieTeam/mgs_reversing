@@ -4,8 +4,8 @@
 extern const char aItemC[];
 extern const char aItemMapD[];
 
-extern void GM_FreeObject_80034BF8(OBJECT *obj);
-extern unsigned int GM_Sound_80032968(int a1, int a2, int a3);
+void GM_FreeObject_80034BF8(OBJECT *obj);
+unsigned int GM_Sound_80032968(int a1, int a2, int a3);
 
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void GM_ConfigObjectStep_80034C54( OBJECT* obj, SVECTOR* step );
@@ -97,7 +97,7 @@ void item_kill_80033F88(Actor_Item* pActor)
 
 int item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
 
-extern int mts_nullsub_8_8008BB98(int, const char *, ...);
+int mts_nullsub_8_8008BB98(int, const char *, ...);
 
 Actor* item_init_800344F8(int name, int where, int argc, char **argv)
 {

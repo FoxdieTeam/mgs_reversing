@@ -3,10 +3,10 @@
 #include "inline_n.h"
 
 /**funcs********************************************************************/
-extern void DG_Clip_80017594(RECT *pClipRect, int dist);
-extern void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
-extern int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
-extern void DG_BoundChanl_helper2_80018E5C( DG_CHNL* chnl, int idx );
+void DG_Clip_80017594(RECT *pClipRect, int dist);
+void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
+int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
+void DG_BoundChanl_helper2_80018E5C( DG_CHNL* chnl, int idx );
 /**************************************************************************/
 
 /**sbss********************************/

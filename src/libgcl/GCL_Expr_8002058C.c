@@ -6,8 +6,8 @@ typedef struct		EXPR_STACK
 	unsigned char	*ptr; 
 } EXPR_STACK;
 
-extern char			*GCL_SetVar_8002171C(unsigned char *pScript, int value);
-extern int			calc_80020430(int operation, int v1, int v2);
+char			*GCL_SetVar_8002171C(unsigned char *pScript, int value);
+int			calc_80020430(int operation, int v1, int v2);
 
 int	GCL_Expr_8002058C(unsigned char *pScript, int *retValue)
 {

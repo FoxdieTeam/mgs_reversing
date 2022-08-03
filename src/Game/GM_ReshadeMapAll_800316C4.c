@@ -14,7 +14,7 @@ extern const char aReshadeNullMap[];
 
 struct map_record* Map_FromId_800314C0(int id);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
-extern void mts_printf_8008BBA0(const char*, ...);
+void mts_printf_8008BBA0(const char*, ...);
 
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
 {

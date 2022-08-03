@@ -1,4 +1,4 @@
-extern void sub_8003603C(int, int);
+void sub_8003603C(int, int);
 
 void sub_8003601C(int param_1)
 {
