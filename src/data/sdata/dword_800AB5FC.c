@@ -1,4 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sdata") dword_800AB5FC = 0;
+int SECTION(".sdata") gTakeDamageCounter_800AB5FC = 0;
 

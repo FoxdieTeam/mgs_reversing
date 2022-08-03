@@ -5,16 +5,21 @@
 
 extern GameState_800B4D98   gGameState_800B4D98;
 
+extern int  GM_GameStatus_800AB3CC;
+extern short GM_O2_800ABA34;
+
+extern BarConfig gSnakeLifeBarConfig_8009E5F4;
+extern BarConfig gSnakeO2BarConfig_8009E600;
+
 // force gp
 extern int           dword_800ABAE8;
 int SECTION(".sbss") dword_800ABAE8;
 
-extern int  GM_GameStatus_800AB3CC;
-
 extern int gSnakeLifeYPos_800ABAF0;
 int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 
-extern BarConfig gSnakeLifeBarConfig_8009E5F4;
+extern int gTakeDamageCounter_800AB5FC;
+int SECTION(".sbss") gTakeDamageCounter_800AB5FC;
 
 unsigned int menu_bar_draw_8003ED4C(Menu_Prim_Buffer *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
 
@@ -54,7 +59,46 @@ int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 }
 
 #pragma INCLUDE_ASM("asm/menu_bar_draw_8003ED4C.s")
-#pragma INCLUDE_ASM("asm/menu_bars_update_helper2_8003F30C.s")
+
+void menu_bars_update_helper2_8003F30C(Menu_Prim_Buffer *ot, MenuMan_MenuBars *pBars)
+{
+    BarConfig *pBar = &gSnakeLifeBarConfig_8009E5F4;
+    gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
+
+    if ( (GM_GameStatus_800AB3CC & 0x2000000) != 0 )
+    {
+        gTakeDamageCounter_800AB5FC = 8;
+        GM_GameStatus_800AB3CC &= ~0x2000000u;
+    }
+
+    if ( gTakeDamageCounter_800AB5FC > 0 )
+    {
+        --gTakeDamageCounter_800AB5FC;
+        pBar = UNTAG_PTR(BarConfig, pBar); // pointer flag to make it render in red
+    }
+
+    menu_bar_draw_8003ED4C(
+        ot,
+        pBars->field_2_bar_x,
+        pBars->field_4_bar_y,
+        pBars->field_6_snake_hp,
+        gGameState_800B4D98.field_16_snake_current_health,
+        gGameState_800B4D98.field_18_snake_max_health,
+        pBar);
+
+    if ( pBars->field_1_O2_hp )
+    {
+        menu_bar_draw_8003ED4C(
+            ot,
+            pBars->field_2_bar_x,
+            pBars->field_4_bar_y + 12,
+            GM_O2_800ABA34,
+            GM_O2_800ABA34,
+            1024,
+            &gSnakeO2BarConfig_8009E600);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_8003F408.s")
 #pragma INCLUDE_ASM("asm/sub_8003F464.s")
 
