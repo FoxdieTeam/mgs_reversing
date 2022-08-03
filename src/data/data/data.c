@@ -1149,8 +1149,7 @@ int SECTION(".data") dword_8009F608 = 0;
 
 RECT SECTION(".data") a22dd_8009F60C = { 50, 50, 100, 100 };
 
-int SECTION(".data") dword_8009F614[] = {0x17B54, 0x10001, 0x1F40001, 0x12C0003, 0xC8012C};
-int SECTION(".data") dword_8009F628[] = {0, 0x80012E84};
+Anim_Data SECTION(".data") stru_8009F614 = { 31572, 1, 65537, 1, 500, 3, 300, 300, 200, NULL, (void*)0x80012E84 };
 
 SVECTOR SECTION(".data") stru_8009F630[4] =
 { 
@@ -1166,7 +1165,7 @@ SVECTOR SECTION(".data") stru_8009F650[2] =
 	{ 0, 0, 10000, 0 }
 };
 
-SVECTOR SECTION(".data") aDdd_1_8009F660 = { 100, 100, 100, 0 };
+SVECTOR SECTION(".data") stru_8009F660 = { 100, 100, 100, 0 };
 
 int SECTION(".data") dword_8009F668 = 0xFFFFFFFF;
 int SECTION(".data") dword_8009F66C = 0;

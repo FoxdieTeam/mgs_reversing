@@ -1,5 +1,4 @@
-#include "linker.h"
-#include "libdg.h"
+#include "claymore.h"
 
 extern SVECTOR stru_8009F630[4];
 
@@ -28,6 +27,21 @@ void claymore_kill_800738F4(int param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_80073930.s") // 188 bytes
+extern SVECTOR stru_8009F660;
+
+void claymore_loader_80073930(Actor_Claymore *pActor)
+{
+    SVECTOR vec;
+
+    GM_Target *pTarget = &pActor->field_3C_target;
+    GM_SetTarget_8002DC74(&pActor->field_3C_target, 4, 0, &stru_8009F660);
+    vec.vx = pActor->field_34.vx / 32;
+    vec.vy = pActor->field_34.vy / 32;
+    vec.vz = pActor->field_34.vz / 32;
+    GM_Target_8002DCCC(pTarget, 0, 2, 256, 0, &vec);
+    pTarget->field_44 = 5;
+}
+
+
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_800739EC.s") // 416 bytes
 #pragma INCLUDE_ASM("asm/Okajima/NewClaymore_80073B8C.s") // 548 bytes

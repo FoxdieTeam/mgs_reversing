@@ -1,11 +1,104 @@
 #include "gglsight.h"
+#include "GM_Control.h"
 
 extern short    word_8009F714[];
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077A24.s") // 584 bytes
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077C6C.s") // 184 bytes
+
+void MENU_Text_XY_Flags_80038B34(int x, int y, int flags);
+void MENU_Color_80038B4C(int r, int g, int b);
+void MENU_Text_80038C38(const char *pStr, ...);
+
+extern const char aLd[];
+
+extern GM_Control *gControl_800AB9F4;
+
+void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
+{
+    int r; // $a0
+    int g; // $a1
+    int b; // $a2
+    int vy; // $s0
+
+    if ( pActor->field_3C >= 6 )
+    {
+        MENU_Text_XY_Flags_80038B34(40, 56, 0x120);
+       
+        if ( pActor->field_20_type == 5 )
+        {
+            r = 255;
+            g = 0;
+            b = 0;
+        }
+        else
+        {
+            r = 65;
+            g = 160;
+            b = 74;
+        }
+        MENU_Color_80038B4C(r, g, b);
+        vy = gControl_800AB9F4->field_8_vec.vy;
+        MENU_Text_80038C38(aLd, 8 * (vy & 2047));
+        MENU_Text_80038C38(aLd, 4 * (vy & 4095));
+        MENU_Text_80038C38(aLd, 16 * (vy & 1023));
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077D24.s") // 588 bytes
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077F70.s") // 228 bytes
+
+extern const char aScan[];
+extern const char aModeB[];
+extern const char aModeA[];
+
+void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
+{
+    int old_380; // $s1
+    int r; // $a0
+    int g; // $a1
+    int b; // $a2
+
+    if ( pActor->field_3C >= 6 )
+    {
+        old_380 = pActor->field_380;
+        MENU_Text_XY_Flags_80038B34(41, 42, 304);
+        if ( pActor->field_20_type == 5 )
+        {
+            r = 255;
+            g = 0;
+            b = 0;
+        }
+        else
+        {
+            r = 65;
+            g = 160;
+            b = 74;
+        }
+        MENU_Color_80038B4C(r, g, b);
+        
+        pActor->field_380++;
+        if ( pActor->field_380 >= 17 )
+        {
+            pActor->field_380 = -16;
+        }
+
+        if ( old_380 > 0 )
+        {
+            MENU_Text_80038C38(aScan);   // scan
+        }
+
+        MENU_Text_XY_Flags_80038B34(137, 42, 304);
+
+        if ( pActor->field_20_type == 5 )
+        {
+            MENU_Text_80038C38(aModeB);         // MODE - B
+        }
+        else
+        {
+            MENU_Text_80038C38(aModeA);   // MODE - A
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80078054.s") // 468 bytes
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_80078228.s") // 464 bytes
 
