@@ -76,7 +76,7 @@ if os.environ.get('APPVEYOR'):
 
     msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE')
     if msg:
-        msg = re.sub(r'\(#(\d+)\)', r'[(#\1)](https://github.com/FoxdieTeam/mgs_reversing/pull/\1)', msg)
+        msg = re.sub(r'#(\d+)', r'[#\1](https://github.com/FoxdieTeam/mgs_reversing/pull/\1)', msg)
         print(msg)
     msg_ext = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED')
     if msg_ext:
