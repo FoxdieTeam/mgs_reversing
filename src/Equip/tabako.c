@@ -1,44 +1,44 @@
-#include "game.h"
 #include "tabako.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "GM_Control.h"
-#include "map.h"
-#include <libgpu.h>
-#include "linker.h"
-#include "tabako.h"
+#include "Script_tbl_map_8002BB44.h"
 #include "actor.h"
+#include "game.h"
 #include "libdg.h"
+#include "linker.h"
+#include "map.h"
+#include "tabako.h"
+#include <libgpu.h>
 
 // cigarettes
 
 /* struct Actor        *GV_NewActor_800150E4(int level, int memSize); */
 
-extern const char   aTabakoC[]; // = "tabako.c"
-extern const char   aCigar[];   // = "cigar";
-extern const char   aRcmL[];    // = "rcm_l";
+extern const char aTabakoC[]; // = "tabako.c"
+extern const char aCigar[];   // = "cigar";
+extern const char aRcmL[];    // = "rcm_l";
 
-extern int                  GM_GameStatus_800AB3CC;
-extern GameState_800B4D98   gGameState_800B4D98;
-extern int                  GV_Time_800AB330;
-extern int                  dword_8009F2C0;
-extern int                  GM_CurrentMap_800AB9B0;
+extern int                GM_GameStatus_800AB3CC;
+extern GameState_800B4D98 gGameState_800B4D98;
+extern int                GV_Time_800AB330;
+extern int                dword_8009F2C0;
+extern int                GM_CurrentMap_800AB9B0;
 
-int SECTION(".sbss")                        GM_CurrentMap_800AB9B0;
-int SECTION(".gSna_init_flags_800ABA50")    gSna_init_flags_800ABA50;
+int SECTION(".sbss")      GM_CurrentMap_800AB9B0;
+extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 
-extern void    GM_FreeObject_80034BF8(OBJECT *obj);
-void           GM_ActObject2_80034B88(OBJECT *obj);
-void           DG_MovePos_8001BD20(SVECTOR *svector);
-void           ReadRotMatrix_80092DD8(MATRIX *m);
-int            anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
+extern void GM_FreeObject_80034BF8(OBJECT *obj);
+void GM_ActObject2_80034B88(OBJECT *obj);
+void DG_MovePos_8001BD20(SVECTOR *svector);
+void ReadRotMatrix_80092DD8(MATRIX *m);
+int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
 extern DG_TEX *DG_FindTexture_8001D830(int);
-void          GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void          GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-extern int    GV_StrCode_80016CCC(const char *string);
-DG_PRIM       *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
-int           DG_QueuePrim_80018274(DG_OBJS *pPrim);
+void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+extern int GV_StrCode_80016CCC(const char *string);
+DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+int DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
-int           tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
+int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
 
 static inline void GM_SetCurrentMap(map) int map;
 {
@@ -48,10 +48,10 @@ static inline void GM_SetCurrentMap(map) int map;
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
     SVECTOR vec;
-    MATRIX  rotMtx;
-    OBJECT  *obj;
+    MATRIX rotMtx;
+    OBJECT *obj;
 
-    obj = (OBJECT*)&pActor->field_20_pObj;
+    obj = (OBJECT *)&pActor->field_20_pObj;
 
     GM_SetCurrentMap(pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
 
@@ -75,7 +75,8 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
 
-        if (GV_Time_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 && (gSna_init_flags_800ABA50 & 0x10) == 0)
+        if (GV_Time_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 &&
+            (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_MOVING) == 0)
         {
             anime_create_8005E6A4(&vec);
         }
@@ -93,7 +94,7 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
 {
     void *prims;
 
-    GM_FreeObject_80034BF8((OBJECT*)&pActor->field_20_pObj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_pObj);
     prims = pActor->field_50_prims;
     if (prims)
     {
@@ -102,8 +103,7 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
     }
 }
 
-static inline void DG_GroupPrim(prim, group_id)
-    DG_PRIM *prim;
+static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
 int group_id;
 {
     prim->group_id = group_id;
@@ -221,10 +221,11 @@ Actor_tabako *NewTabako_80062274(GM_Control *pCtrl, OBJECT *pObj, int a3)
 {
     Actor_tabako *pActor;
 
-    pActor = (Actor_tabako*)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
+    pActor = (Actor_tabako *)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
     if (pActor)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)tabako_act_80061EAC, (TActorFunction)tabako_kill_8006206C, aTabakoC);
+        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)tabako_act_80061EAC,
+                                  (TActorFunction)tabako_kill_8006206C, aTabakoC);
         if (tabako_loader_800620B4(pActor, pObj, a3) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0);
