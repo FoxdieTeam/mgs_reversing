@@ -460,7 +460,7 @@ void sub_80018574(unsigned char *a1)
   a1[6] = DG_g_800AB97E;
 }
 
-TChanl_Fn DG_SetPipelineFunc_80018598(int idx, TChanl_Fn newFunc)
+TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc)
 {
   TChanl_Fn oldFunc = off_8009D35C[idx];
   off_8009D35C[idx] = newFunc;

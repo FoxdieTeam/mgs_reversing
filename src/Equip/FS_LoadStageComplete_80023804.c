@@ -29,7 +29,7 @@ extern const char aLoadCompleteTi[]; // "load complete time %d\n";
 int VSync_80098108(int);
 void mts_printf_8008BBA0(const char *, ...);
 void GV_Free_80016230(void *ptr);
-void FS_Null_80014AAC(void);
+void FS_CdStageProgBinFix_80014AAC(void);
 
 extern int DG_FrameRate_8009D45C;
 
@@ -115,6 +115,6 @@ void FS_LoadStageComplete_80023804(struct Loader_Record *pFileName)
     vBlanks = VSync_80098108(-1);
     mts_printf_8008BBA0(aLoadCompleteTi, vBlanks - gLoaderStartTime_800B528C);
     GV_Free_80016230(pFileName);
-    FS_Null_80014AAC();
+    FS_CdStageProgBinFix_80014AAC();
     DG_FrameRate_8009D45C = 2;
 }
