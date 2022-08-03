@@ -741,9 +741,8 @@
     include "..\obj\sub_80037EE0.obj"
 
     ;jimctrl.c
-    include "..\obj\jimctrl_act_helper_set_first_80037F2C.obj"
-    include "..\obj\jimctrl_helper_80037F68.obj"
-    include "..\obj\jimctrl_init_helper_clear_80037FB8.obj"
+    ; 80037F2C 80037F68 80037FB8
+    include "..\obj\Game\jimctrl1.obj"
     include "..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
     include "..\obj\nullsub\jimctrl_helper_null_80037FFC.obj"
     include "..\obj\jimctrl_kill_helper_clear_80038004.obj"
