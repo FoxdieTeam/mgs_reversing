@@ -38,7 +38,7 @@ void sub_80047CB4(menu_chara_struct *unknown)
     unknown->field_54 = 0;
 }
 
-void menu_radio_codec_create_state_80047CE4(MenuMan *pMenuMan)
+void menu_radio_codec_create_state_80047CE4(Actor_MenuMan *pMenuMan)
 {
     menu_chara_struct *pAllocated = GV_AllocMemory_80015EB8(0, sizeof(menu_chara_struct));
     if (!pAllocated)

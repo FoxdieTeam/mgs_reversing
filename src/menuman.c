@@ -5,7 +5,7 @@
 #include "data.h"
 #include "dgd.h"
 
-MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
+Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
 unsigned char SECTION(".gPrimBackingBuffers_800B9360") gPrimBackingBuffers_800B9360[2][8192];
 
 extern const char aItem[]; // sdata
@@ -20,9 +20,9 @@ extern int MENU_PrimUse_800AB68C;
 void menu_rpk_init_8003DD1C(const char *);
 void SetDrawEnv_800906B0(DR_ENV *dr_env, DRAWENV *env);
 void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
-void menuman_act_800386A4(MenuMan *);
-void menuman_kill_800387E8(MenuMan *);
-void menu_viewer_init_80044A70(MenuMan *);
+void menuman_act_800386A4(Actor_MenuMan *);
+void menuman_kill_800387E8(Actor_MenuMan *);
+void menu_viewer_init_80044A70(Actor_MenuMan *);
 void MENU_InitRadioTable_80049644(void);
 void menu_right_unknown_8003DEB0(void);
 void MENU_Text_Init_80038B98(void);
@@ -31,7 +31,7 @@ void nullsub_8_8008BB98(void);
 #pragma INCLUDE_ASM("asm/Menu/menuman_act_800386A4.s") // 324 bytes
 #pragma INCLUDE_ASM("asm/menuman_kill_800387E8.s") // 100 bytes
 
-void menu_init_subsystems_8003884C(MenuMan *pMenuMan)
+void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
 {
     TInitKillFn *pIter;
     DRAWENV drawEnv;

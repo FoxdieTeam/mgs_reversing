@@ -3,7 +3,7 @@
 void init_radio_message_board_80040F74(int param_1);
 void init_file_mode_8004D24C(int param_1, int param_2);
 
-extern MenuMan gMenuMan_800BD360;
+extern Actor_MenuMan gMenuMan_800BD360;
 
 void sub_8004D2FC(int param_1)
 {
