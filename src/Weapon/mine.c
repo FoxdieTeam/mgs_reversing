@@ -16,7 +16,7 @@ extern void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int nu
 extern void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 
 Actor* NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget);
-void sub_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, int a2);
 
 extern int DG_CurrentGroupID_800AB968;
 extern int counter_8009F448;

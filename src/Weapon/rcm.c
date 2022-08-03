@@ -34,7 +34,7 @@ extern void         GM_FreeObject_80034BF8(OBJECT *obj);
 
 void            DG_MovePos_8001BD20(SVECTOR *svector);
 void            ReadRotMatrix_80092DD8(MATRIX *m);
-void sub_80032858(SVECTOR *pVec, int a2);
+void GM_SeSet_80032858(SVECTOR *pVec, int a2);
 extern MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
 
 Actor* NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
@@ -129,7 +129,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
     weapon_state_3 = gGameState_800B4D98.field_22_weapon_states[3];
     if ( !weapon_state_3 && (p_flags & 2) != 0 )
     {
-        sub_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
+        GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
         GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_position);
         return;
     }
@@ -166,7 +166,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             {
                 weapon_state_3--;
                 gGameState_800B4D98.field_22_weapon_states[3] = weapon_state_3;
-                sub_80032858(&pActor->field_44_pCtrl->field_0_position, 76);
+                GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 76);
                 GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
             }
         }
