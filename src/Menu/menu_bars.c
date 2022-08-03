@@ -14,17 +14,33 @@ extern int  GM_GameStatus_800AB3CC;
 extern int gSnakeLifeYPos_800ABAF0;
 int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 
+extern BarConfig gSnakeLifeBarConfig_8009E5F4;
+
+unsigned int menu_bar_draw_8003ED4C(Menu_Prim_Buffer *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
+
 void sub_8003ECC0(void)
 {
   dword_800ABAE8 = 0;
 }
 
 #pragma INCLUDE_ASM("asm/menu_bars_update_helper_8003ECCC.s")
-#pragma INCLUDE_ASM("asm/sub_8003ED4C.s")
+#pragma INCLUDE_ASM("asm/menu_bar_draw_8003ED4C.s")
 #pragma INCLUDE_ASM("asm/menu_bars_update_helper2_8003F30C.s")
 #pragma INCLUDE_ASM("asm/sub_8003F408.s")
 #pragma INCLUDE_ASM("asm/sub_8003F464.s")
-#pragma INCLUDE_ASM("asm/sub_8003F4B8.s")
+
+unsigned int Menu_render_snake_life_bar_8003F4B8(Menu_Prim_Buffer *ot, int xpos, int ypos)
+{
+    GM_GameStatus_800AB3CC |= 0x8000u;
+    return menu_bar_draw_8003ED4C(
+               ot,
+               xpos,
+               ypos,
+               gGameState_800B4D98.field_16_snake_current_health,
+               gGameState_800B4D98.field_16_snake_current_health,
+               gGameState_800B4D98.field_18_snake_max_health,
+               &gSnakeLifeBarConfig_8009E5F4);
+}
 
 void menu_font_kill_helper_8003F50C(void)
 {

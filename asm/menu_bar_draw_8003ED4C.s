@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003ED4C
-sub_8003ED4C:
+	xdef menu_bar_draw_8003ED4C
+menu_bar_draw_8003ED4C:
 	dw 0x3C02800B ; 0x8003ED4C
 	dw 0x8C42B3CC ; 0x8003ED50
 	dw 0x27BDFFA8 ; 0x8003ED54

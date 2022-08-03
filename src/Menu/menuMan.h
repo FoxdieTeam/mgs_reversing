@@ -148,11 +148,11 @@ typedef struct      MenuGlue
     unsigned char   *mPrimPtrs[2];
 } MenuGlue;
 
-struct              Menu_Prim_Buffer
+typedef struct              Menu_Prim_Buffer
 {
     int             field_0_pBuffer;
     int             *field_4_pOt;
-};
+} Menu_Prim_Buffer;
 
 typedef struct _Menu_rpk_item
 {
@@ -162,6 +162,15 @@ typedef struct _Menu_rpk_item
     char field_3_h;
     unsigned char field_4_pixel_ptr[0];
 } Menu_rpk_item;
+
+typedef struct BarConfig
+{
+  const char *field_0_text;
+  unsigned char field_4_rgb_left[3];
+  unsigned char field_7_rgb_right[3];
+  short field_A_bar_height;
+} BarConfig;
+
 
 typedef struct      MenuMan_MenuBars
 {
