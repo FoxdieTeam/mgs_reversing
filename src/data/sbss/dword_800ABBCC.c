@@ -1,4 +1,6 @@
 #include "linker.h"
+#include <sys/types.h>
+#include <LIBGTE.h>
 
-int SECTION(".sbss") dword_800ABBCC;
+SVECTOR * SECTION(".sbss") pVec_800ABBCC;
 

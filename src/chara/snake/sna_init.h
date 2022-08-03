@@ -577,7 +577,7 @@ typedef struct Actor_SnaInit
     short field_A50;
     short field_A52;
     // var reused in differenet contexts, union is better than a generic name for all contexts
-    union { short choke_count; short prone_bool_thing; } field_A54;
+    union { short choke_count; short prone_bool_thing; short wall_thing; } field_A54;
     short field_A56;
     short field_A58;
     short field_A5A;
