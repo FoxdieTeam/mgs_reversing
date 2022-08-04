@@ -30,7 +30,7 @@ int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 extern int dword_800ABBB4;
 int SECTION(".sbss") dword_800ABBB4;
 
-extern GM_Control *gControl_800AB9F4;
+extern GM_Control *gSnaControl_800AB9F4;
 extern OBJECT *dword_800ABA20;
 
 int sub_800296C4(int param_1, short *param_2, unsigned int param_3);
@@ -3311,9 +3311,9 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
         GV_DestroyOtherActor_800151D8(pItem);
     }
 
-    if (gControl_800AB9F4 == pCtrl)
+    if (gSnaControl_800AB9F4 == pCtrl)
     {
-        gControl_800AB9F4 = 0;
+        gSnaControl_800AB9F4 = 0;
     }
 
     if (dword_800ABA20 == &pActor->field_9C_obj)
