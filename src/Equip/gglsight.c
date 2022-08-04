@@ -11,7 +11,7 @@ void MENU_Text_80038C38(const char *pStr, ...);
 
 extern const char aLd[];
 
-extern GM_Control *gControl_800AB9F4;
+extern GM_Control *gSnaControl_800AB9F4;
 
 void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
 {
@@ -37,7 +37,7 @@ void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
             b = 74;
         }
         MENU_Color_80038B4C(r, g, b);
-        vy = gControl_800AB9F4->field_8_vec.vy;
+        vy = gSnaControl_800AB9F4->field_8_vec.vy;
         MENU_Text_80038C38(aLd, 8 * (vy & 2047));
         MENU_Text_80038C38(aLd, 4 * (vy & 4095));
         MENU_Text_80038C38(aLd, 16 * (vy & 1023));

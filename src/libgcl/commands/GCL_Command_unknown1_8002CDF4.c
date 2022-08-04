@@ -5,7 +5,7 @@
 #include "GM_Control.h"
 #include "hash.h"
 
-extern GM_Control*          gControl_800AB9F4; // todo: update external
+extern GM_Control*          gSnaControl_800AB9F4; // todo: update external
 
 extern int          GM_Photocode_800ABA04;
 extern int          dword_8009F46C;
@@ -36,7 +36,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('s')) // struct
     {
-        unkStruct = gControl_800AB9F4;
+        unkStruct = gSnaControl_800AB9F4;
         gGameState_800B4D98.field_10_snake_position.x = unkStruct->field_0_position.vx;
         gGameState_800B4D98.field_10_snake_position.y = unkStruct->field_0_position.vy;
         gGameState_800B4D98.field_10_snake_position.z = unkStruct->field_0_position.vz;

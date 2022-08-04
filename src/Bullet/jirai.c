@@ -15,7 +15,7 @@ void GM_ClearBulName_8004FBE4(int idx);
 extern int counter_8009F448;
 extern int dword_8009F444;
 extern int dword_8009F440;
-extern GM_Control*          gControl_800AB9F4;
+extern GM_Control*          gSnaControl_800AB9F4;
 
 void jirai_loader_helper_8006A798(MATRIX *pMtx1, MATRIX *pMtx2, GM_Target *pTarget);
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
@@ -181,7 +181,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     vec->vy = 2000;
     vec->vz = 1024;
     ++counter_8009F448;
-    vec->vx =  gControl_800AB9F4->field_8_vec.vy;
+    vec->vx =  gSnaControl_800AB9F4->field_8_vec.vy;
     return 0;
 }
 
@@ -197,7 +197,7 @@ Actor_Jirai* NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
     pActor = (Actor_Jirai *)GV_NewActor_800150E4(5, sizeof(Actor_Jirai));
     if ( pActor )
     {
-        pActor->field_104 = gControl_800AB9F4->field_8_vec;
+        pActor->field_104 = gSnaControl_800AB9F4->field_8_vec;
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C, (TActorFunction)jirai_kill_8006B05C, aJiraiC);
 
         if ( jirai_loader_8006B2A4(pActor, &pObj->world, pTarget) < 0 )
