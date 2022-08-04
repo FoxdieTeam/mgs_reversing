@@ -1,9 +1,9 @@
-#include "door.h"
+#include "Thing/door.h"
 #include "linker.h"
-#include "libgv.h"
-#include "gcl.h"
-#include "libdg.h"
-#include "map.h"
+#include "libgv/libgv.h"
+#include "libgcl/gcl.h"
+#include "libdg/libdg.h"
+#include "map/map.h"
 
 extern int door_where_8009F5F4;
 

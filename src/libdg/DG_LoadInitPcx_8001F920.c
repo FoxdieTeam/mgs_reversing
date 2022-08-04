@@ -1,6 +1,6 @@
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 #include "linker.h"
 
 typedef struct DG_PcxFile

@@ -1,6 +1,6 @@
 
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 
 extern int  dword_8009F7B4;
 

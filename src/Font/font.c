@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "kcb.h"
+#include "Font/kcb.h"
 
 void* memset_8008E688(void *pSrc, int value, int len);
 void LoadImage_8008FB10(RECT *, unsigned char *);

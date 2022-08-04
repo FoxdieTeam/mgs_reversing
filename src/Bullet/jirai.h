@@ -1,13 +1,13 @@
 #ifndef _JIRAI_H_
 #define _JIRAI_H_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
-#include "idaTypes.h"
-#include "actor.h"
-#include "object.h"
-#include "GM_Control.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "util/idaTypes.h"
+#include "libgv/actor.h"
+#include "Game/object.h"
+#include "Game/GM_Control.h"
 #include "target.h"
 
 typedef struct Actor_Jirai

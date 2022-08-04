@@ -1,4 +1,4 @@
-#include "rifle.h"
+#include "Weapon/rifle.h"
 #include "Script_tbl_map_8002BB44.h"
 
 // PSG1

@@ -1,4 +1,4 @@
-#include "libgv.h"
+#include "libgv/libgv.h"
 
 /**bss****************************************************************************/
 GV_Messages SECTION(".gMessageQueue_800B0320") gMessageQueue_800B0320[2];

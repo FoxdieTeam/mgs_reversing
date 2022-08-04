@@ -1,4 +1,4 @@
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 
 extern Actor_MenuMan gMenuMan_800BD360;
 

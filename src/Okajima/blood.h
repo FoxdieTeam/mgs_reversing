@@ -1,9 +1,9 @@
 #ifndef _BLOOD_H
 #define _BLOOD_H
 
-#include "game.h"
-#include "actor.h"
-#include "libdg.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
+#include "libdg/libdg.h"
 
 typedef struct _Actor_Blood
 {

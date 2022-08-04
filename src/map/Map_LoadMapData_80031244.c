@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "map.h"
+#include "map/map.h"
 
 extern const char aSetMapD[];
 

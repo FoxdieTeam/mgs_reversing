@@ -1,4 +1,4 @@
-#include "shadow.h"
+#include "chara/snake/shadow.h"
 
 void GM_FreeObject_80034BF8(OBJECT *obj);
 

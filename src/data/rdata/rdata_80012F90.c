@@ -1,7 +1,7 @@
 #include "linker.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 const char SECTION(".rdata") aBullet[] = "bullet";// 80012F9C
 const char SECTION(".rdata") aBulletC[] = "bullet.c";

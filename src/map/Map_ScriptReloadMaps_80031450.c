@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "map.h"
-#include "gcl.h"
+#include "map/map.h"
+#include "libgcl/gcl.h"
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;

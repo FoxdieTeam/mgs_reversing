@@ -1,7 +1,7 @@
-#include "sys/types.h"
-#include "libgte.h"
-#include "libgpu.h"
-#include "game.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "Game/game.h"
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 

@@ -2,10 +2,10 @@
 #define GAME_H
 
 #include "linker.h"
-#include "libdg.h"
-#include "actor.h"
-#include "GM_Control.h"
-#include "hzd.h"
+#include "libdg/libdg.h"
+#include "libgv/actor.h"
+#include "Game/GM_Control.h"
+#include "map/hzd.h"
 
 typedef struct Actor_GM_Daemon
 {

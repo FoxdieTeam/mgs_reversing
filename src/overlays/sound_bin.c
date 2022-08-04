@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 
 // Overlay chara used only in sound.bin

@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "mts_new.h"
+#include "mts/mts_new.h"
 
 // force gp usage
 extern unsigned char* gOverlayBase_800AB9C8;

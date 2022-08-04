@@ -3,8 +3,8 @@
 
 #define array_800B933C_SIZE 7
 
-#include "actor.h"
-#include <util/idaTypes.h>
+#include "libgv/actor.h"
+#include "util/idaTypes.h"
 
 typedef struct
 {

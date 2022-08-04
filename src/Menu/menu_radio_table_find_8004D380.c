@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 
 RadioMemory *menu_radio_table_find_8004D380(int frequency)
 {

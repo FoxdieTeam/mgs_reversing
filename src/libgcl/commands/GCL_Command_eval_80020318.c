@@ -1,5 +1,5 @@
 
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 int GCL_Command_eval_80020318(unsigned char *pScript)
 {

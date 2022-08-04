@@ -1,4 +1,4 @@
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 extern int  GV_PadMask_800AB374;
 extern int  GM_GameStatus_800AB3CC;

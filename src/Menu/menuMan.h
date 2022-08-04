@@ -1,11 +1,11 @@
 #ifndef _MENUMAN_H
 #define _MENUMAN_H
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
-#include "actor.h"
+#include "libgv/actor.h"
 
 #include "util/idaTypes.h"
 

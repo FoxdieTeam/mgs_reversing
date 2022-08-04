@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "game.h"
+#include "Game/game.h"
 
 PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
 /**

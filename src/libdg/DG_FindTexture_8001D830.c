@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 int SECTION(".sdata") last_searched_texture_name_800AB3A4 = 0xFFFFFFFF;
 

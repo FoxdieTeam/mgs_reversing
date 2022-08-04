@@ -1,5 +1,5 @@
-#include "bakudan.h"
-#include "jirai.h"
+#include "Bullet/bakudan.h"
+#include "Bullet/jirai.h"
 #include "linker.h"
 
 extern const char aBakudanC[];

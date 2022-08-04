@@ -1,5 +1,5 @@
-#include <sys/types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 #define SCRPAD_ADDR 0x1F800000
 

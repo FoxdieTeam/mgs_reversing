@@ -1,4 +1,4 @@
-#include "mts_new.h"
+#include "mts/mts_new.h"
 
 int  CdGetSector(void *madr, int size);
 void sub_80021FE0(void);

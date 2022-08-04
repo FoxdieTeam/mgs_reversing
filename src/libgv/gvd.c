@@ -1,7 +1,7 @@
-#include <libsn.h>
-#include "actor.h"
-#include "libgv.h"
-#include "mts_new.h"
+#include <LIBSN.H>
+#include "libgv/actor.h"
+#include "libgv/libgv.h"
+#include "mts/mts_new.h"
 
 // sbss ===============================================
 

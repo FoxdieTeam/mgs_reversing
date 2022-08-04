@@ -72,7 +72,7 @@ ninja.newline()
 
 ninja.pool("single_threaded", 1)
 
-includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir -I $src_dir\\font -I $src_dir\\memcard -I $src_dir\\chara\\snake -I $src_dir\\Thing -I $src_dir\\data\\data -I $src_dir\\data\\rdata -I $src_dir\\data\\sdata -I $src_dir\\libgv -I $src_dir\\libgcl -I $src_dir\\libdg -I $src_dir\\Game -I $src_dir\\Menu -I $src_dir\\mts -I $src_dir\\map -I $src_dir\\util -I $src_dir\\chara\\snake -I $src_dir\\Okajima -I $src_dir\\Bullet -I $src_dir\\Weapon"
+includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir"
 
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()

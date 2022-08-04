@@ -1,5 +1,5 @@
-#include "stgfd_io.h"
-#include "dgd.h"
+#include "Okajima/stgfd_io.h"
+#include "libdg/dgd.h"
 
 //extern const char   aStgfdIoC[];
 

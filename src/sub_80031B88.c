@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 int* Prim_80031B88(DG_MDL *pMdl, int *pRgbs)
 {

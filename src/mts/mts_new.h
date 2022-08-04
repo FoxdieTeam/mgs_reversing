@@ -1,7 +1,7 @@
 #ifndef _MTS_NEW_H
 #define _MTS_NEW_H
 
-#include <kernel.h>
+#include <KERNEL.H>
 
 void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void* pStack, long stackSize);
 

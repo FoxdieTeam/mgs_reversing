@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game/game.h"
 
 extern int GM_GameStatus_800AB3CC;
 

@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 extern const char aPrint[];
 extern const char aS_2[];

@@ -1,4 +1,4 @@
-#include "gcl.h"
+#include "libgcl/gcl.h"
 #include "linker.h"
 
 extern int          GM_GameOverVox_800AB45C;

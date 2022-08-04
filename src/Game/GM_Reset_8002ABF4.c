@@ -1,5 +1,5 @@
 #include "target.h"
-#include "game.h"
+#include "Game/game.h"
 
 int  GCL_BindsInit_8002D1A8();
 int  GM_AlertModeInit_8002EAA8();

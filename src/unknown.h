@@ -1,5 +1,5 @@
-#include <LIBGTE.h>
-#include "GM_Control.h"
+#include <LIBGTE.H>
+#include "Game/GM_Control.h"
 
 // all funcs that don't have header to go in yet
 

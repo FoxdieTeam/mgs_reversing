@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
 void GV_Free_80016230(void *ptr);

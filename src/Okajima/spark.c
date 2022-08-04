@@ -1,8 +1,8 @@
 #include "linker.h"
-#include "libdg.h"
-#include "map.h"
-#include "actor.h"
-#include <libgpu.h>
+#include "libdg/libdg.h"
+#include "map/map.h"
+#include "libgv/actor.h"
+#include <LIBGPU.H>
 
 void            spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
 void            spark_800742F0(POLY_FT4 *pPoly, int count, int a3);

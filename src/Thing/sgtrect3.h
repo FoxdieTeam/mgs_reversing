@@ -1,13 +1,13 @@
 #ifndef _SGTRECT3_H_
 #define _SGTRECT3_H_
 
-#include "actor.h"
-#include "Game.h"
-#include "GM_Control.h"
+#include "libgv/actor.h"
+#include "Game/game.h"
+#include "Game/GM_Control.h"
 #include "target.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 typedef struct sgtrect3_lines
 {

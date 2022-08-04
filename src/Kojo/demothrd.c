@@ -1,4 +1,4 @@
-#include "demothrd.h"
+#include "Kojo/demothrd.h"
 
 extern const char aDemothrdC[];
 

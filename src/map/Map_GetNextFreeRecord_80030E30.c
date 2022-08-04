@@ -1,8 +1,8 @@
 #include "linker.h"
-#include "map.h"
-#include "libdg.h"
-#include "dgd.h"
-#include "hzd.h"
+#include "map/map.h"
+#include "libdg/libdg.h"
+#include "libdg/dgd.h"
+#include "map/hzd.h"
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;

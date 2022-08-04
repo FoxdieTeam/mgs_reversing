@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "libdg.h"
-#include <libgpu.h>
+#include "libdg/libdg.h"
+#include <LIBGPU.H>
 
 void GV_FreeMemory2_80016078(unsigned int, void **);
 int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);

@@ -1,10 +1,10 @@
 #ifndef _RCM_H_
 #define _RCM_H_
 
-#include "game.h"
-#include "actor.h"
-#include "GM_Control.h"
-#include "libdg.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
+#include "Game/GM_Control.h"
+#include "libdg/libdg.h"
 
 // nikita
 

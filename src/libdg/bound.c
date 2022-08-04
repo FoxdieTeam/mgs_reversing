@@ -1,6 +1,6 @@
-#include "dgd.h"
-#include "libdg.h"
-#include "inline_n.h"
+#include "libdg/dgd.h"
+#include "libdg/libdg.h"
+#include "libdg/inline_n.h"
 
 /**funcs********************************************************************/
 void DG_Clip_80017594(RECT *pClipRect, int dist);

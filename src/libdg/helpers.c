@@ -1,6 +1,6 @@
 //Not sure what this file is acutally called. Rename at a later date.
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 #include <INLINE_C.H>
 
 MATRIX SECTION(".gUnknown_Matrix_800B19FC") gUnknown_Matrix_800B19FC;

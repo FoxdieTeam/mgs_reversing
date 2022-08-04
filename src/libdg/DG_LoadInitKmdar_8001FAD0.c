@@ -1,5 +1,5 @@
-#include "dgd.h"
-#include "libdg.h"
+#include "libdg/dgd.h"
+#include "libdg/libdg.h"
 
 typedef struct DG_ZmdObject
 {

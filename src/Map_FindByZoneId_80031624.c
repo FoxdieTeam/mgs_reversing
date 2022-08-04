@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "map.h"
+#include "map/map.h"
 
 extern struct map_record gMapRecs_800B7910[16];
 extern int gMapCount_800ABAA8;

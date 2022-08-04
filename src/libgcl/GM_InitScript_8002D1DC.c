@@ -1,4 +1,4 @@
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 extern GCL_COMMANDDEF script_commands_8009D68C;
 

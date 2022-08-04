@@ -1,4 +1,4 @@
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 #include "linker.h"
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;

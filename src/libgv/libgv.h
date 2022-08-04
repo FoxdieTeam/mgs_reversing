@@ -2,9 +2,9 @@
 #define LIBGV_H_
 
 #include "linker.h"
-#include "mts_new.h"
-#include "message.h"
-#include <sys/types.h>
+#include "mts/mts_new.h"
+#include "libgv/message.h"
+#include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBETC.H>
 
