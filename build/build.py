@@ -199,7 +199,8 @@ def gen_build_target(targetName):
                  "item.c", # todo figure out if correct, why not all .c files in this dir ??
                  "anime.c", # ditto
                  "/Takabe/",
-                 "/libfs/"
+                 "/libfs/",
+                 "DG_ResetExtPaletteMakeFunc_800791E4.c" # Despite the name, this might be related to Takabe due to proximity?
                  ]
             for item in buildWithG0:
                 if cFile.find(item) != -1:
