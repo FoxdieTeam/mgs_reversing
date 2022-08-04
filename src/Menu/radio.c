@@ -146,7 +146,7 @@ void menu_number_kill_80042980(void)
 #pragma INCLUDE_ASM("asm/sub_800448C0.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_viewer_init_80044A70.s")
 
-void menu_viewer_kill_80044A90(void)
+void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
 {
     dword_800ABB20 = 0;
     return;

@@ -16,6 +16,7 @@ extern TInitKillFn gMenuInitFns_8009E290[];
 extern int GV_Clock_800AB920;
 extern DG_CHNL DG_Chanls_800B1800[3];
 extern int MENU_PrimUse_800AB68C;
+extern TInitKillFn gMenuKillFns_8009E2B4[];
 
 void menu_rpk_init_8003DD1C(const char *);
 void SetDrawEnv_800906B0(DR_ENV *dr_env, DRAWENV *env);
@@ -27,9 +28,23 @@ void MENU_InitRadioTable_80049644(void);
 void menu_right_unknown_8003DEB0(void);
 void MENU_Text_Init_80038B98(void);
 void nullsub_8_8008BB98(void);
+void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
 
 #pragma INCLUDE_ASM("asm/Menu/menuman_act_800386A4.s") // 324 bytes
-#pragma INCLUDE_ASM("asm/menuman_kill_800387E8.s") // 100 bytes
+
+void menuman_kill_800387E8(Actor_MenuMan *pActor)
+{
+    TInitKillFn* pIter = gMenuKillFns_8009E2B4;
+    while ( *pIter )
+    {
+        (*pIter)(pActor);
+        pIter++;
+    }
+    
+    menu_viewer_kill_80044A90(pActor);
+}
+
+
 
 void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
 {
