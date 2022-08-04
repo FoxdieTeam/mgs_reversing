@@ -37,8 +37,31 @@ extern OBJECT *dword_800ABA20;
 extern int dword_800ABBB8;
 int SECTION(".sbss") dword_800ABBB8;
 
-extern int GM_AlertMode_800ABA00;
+extern int dword_800ABB9C[2];
+int SECTION(".sbss") dword_800ABB9C[2];
 
+extern int dword_800ABBC4;
+int SECTION(".sbss") dword_800ABBC4;
+
+extern SVECTOR *pVec_800ABBCC;
+SVECTOR * SECTION(".sbss") pVec_800ABBCC;
+
+extern int dword_800ABBD0;
+int SECTION(".sbss") dword_800ABBD0;
+
+extern short dword_800ABBDC;
+short SECTION(".sbss") dword_800ABBDC;
+
+extern short dword_800ABBD4;
+short SECTION(".sbss") dword_800ABBD4;
+
+extern int dword_800ABBB0;
+int SECTION(".sbss") dword_800ABBB0;
+
+extern GM_Target* GM_BombSeg_800ABBD8;
+GM_Target * SECTION(".sbss") GM_BombSeg_800ABBD8;
+
+extern int GM_AlertMode_800ABA00;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern int GM_GameOverTimer_800AB3D4;
 extern int GM_GameStatus_800AB3CC;
@@ -46,6 +69,21 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern Target_Data stru_8009F044;
 extern SVECTOR stru_800AB7FC;
+extern short dword_800B7800[];
+extern int dword_800AB7D4;
+extern int dword_800AB7DC;
+extern unsigned short GM_WeaponTypes_8009D580[];
+extern Sna_ActionTable actions_no_weapon_8009ED70;
+extern int GM_ItemTypes_8009D598[];
+extern int dword_8009EEA4[];
+extern int GV_Time_800AB330;
+extern int used_counter_8009F42C;
+extern int dword_800AB7EC; // TODO: convert these to SVECTOR
+extern int dword_800AB7F4;
+extern int gSnaMoveDir_800ABBA4;
+extern int DG_UnDrawFrameCount_800AB380;
+extern int dword_8009EF24[];
+extern int dword_8009EF2C[];
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -349,7 +387,6 @@ int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
 
 #pragma INCLUDE_ASM("asm/sub_8004EB14.s") // 96 bytes
 
-extern short dword_800B7800[];
 void sub_8004EB74(Actor_SnaInit *pActor)
 {
     if (dword_800B7800[5] == 0)
@@ -400,8 +437,6 @@ void sna_init_8004EC00(Actor_SnaInit *pActor)
     sna_init_clear_flags2_8004E344(pActor, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK400);
 }
-
-/* extern short dword_800B7800[]; */
 
 void sna_init_8004EC8C(Actor_SnaInit *pActor)
 {
@@ -502,8 +537,6 @@ void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
     }
 }
 
-extern int dword_800AB7D4;
-extern int dword_800AB7DC;
 void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
 {
     int iVar1;
@@ -535,8 +568,6 @@ void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
     }
 }
 
-extern unsigned short GM_WeaponTypes_8009D580[];
-extern Sna_ActionTable actions_no_weapon_8009ED70;
 void sub_8004F14C(Actor_SnaInit *param_1)
 {
     param_1->field_91C_weapon_idx = WEAPON_NONE;
@@ -569,7 +600,6 @@ void sub_8004F14C(Actor_SnaInit *param_1)
     }
 }
 
-extern int GM_ItemTypes_8009D598[];
 void sub_8004F204(Actor_SnaInit *param_1)
 {
     if (param_1->field_9A4_item_actor != 0)
@@ -688,8 +718,6 @@ void sub_8004FA9C(Actor_SnaInit *snake)
 
 #pragma INCLUDE_ASM("asm/sub_8004FAE8.s") // 80 bytes
 
-extern int dword_800ABB9C[2];
-int SECTION(".sbss") dword_800ABB9C[2];
 int sub_8004FB38(void)
 {
   return *(int *)(dword_800ABB9C[1] + 0x9a8);
@@ -846,10 +874,6 @@ void sna_init_80050568(Actor_SnaInit *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_knockdown_getup_80050668.s") // 368 bytes
-
-extern int dword_800ABBC4;
-extern int dword_8009EEA4[];
-int SECTION(".sbss") dword_800ABBC4;
 
 int sub_800507D8(Actor_SnaInit *param_1)
 {
@@ -1288,12 +1312,6 @@ void sna_init_anim_prone_move_800529C0(Actor_SnaInit *pActor, int anim_frame)
     }
     sna_init_80050440(pActor);
 }
-
-extern SVECTOR *pVec_800ABBCC;
-SVECTOR * SECTION(".sbss") pVec_800ABBCC;
-
-extern int dword_800ABBD0;
-int SECTION(".sbss") dword_800ABBD0;
 
 void sna_init_anim_wall_idle_and_c4_80052A5C(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -1966,7 +1984,6 @@ void sna_init_anim_duct_idle_80054488(Actor_SnaInit *pActor, int anim_frame)
     sna_init_80050440(pActor);
 }
 
-extern int GV_Time_800AB330;
 void sna_init_anim_shot_flinch_800544E0(Actor_SnaInit *pActor, int anim_frame)
 {
     int action_flag;
@@ -2041,7 +2058,6 @@ void sna_init_act_helper2_helper7_80054648(Actor_SnaInit *pActor, int anim_frame
     }
 }
 
-extern int GV_Time_800AB330;
 void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int anim_frame)
 {
     int bVar1;
@@ -2275,10 +2291,6 @@ void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *pActor, int anim_fram
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_knock_80054D68.s") // 404 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s") // 1080 bytes
 
-extern short dword_800ABBDC;
-extern short dword_800ABBD4;
-short SECTION(".sbss") dword_800ABBDC;
-short SECTION(".sbss") dword_800ABBD4;
 void sna_init_anim_scope_80055334(Actor_SnaInit *param_1, int anim_frame)
 {
     int action_flag;
@@ -2554,7 +2566,6 @@ void sna_init_anim_stinger_800570C0(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-extern int used_counter_8009F42C;
 void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0)
@@ -2575,8 +2586,6 @@ void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
     sub_8004E9D0(pActor);
 }
 
-extern int dword_800AB7EC; // TODO: convert these to SVECTOR
-extern int dword_800AB7F4;
 void sna_init_800571B8(Actor_SnaInit *pActor, int anim_frame)
 {
     SVECTOR *vec1;
@@ -2631,12 +2640,6 @@ void sna_init_800571B8(Actor_SnaInit *pActor, int anim_frame)
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
     }
 }
-
-extern int dword_800ABBB0;
-int SECTION(".sbss") dword_800ABBB0;
-
-extern GM_Target* GM_BombSeg_800ABBD8;
-GM_Target * SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 void sna_init_80057378(Actor_SnaInit *pActor, int anim_frame)
 {
@@ -2701,8 +2704,6 @@ void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int anim_
 
 // https://decomp.me/scratch/rNvHM
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s") // 348 bytes
-
-extern int gSnaMoveDir_800ABBA4;
 
 void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 {
@@ -2799,7 +2800,6 @@ void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
 // https://decomp.me/scratch/b53h8
 #pragma INCLUDE_ASM("asm/sub_80058470.s") // 468 bytes
 
-extern int DG_UnDrawFrameCount_800AB380;
 void sub_80058644(Actor_SnaInit *pActor, int anim_frame)
 {
     int iVar1;
@@ -3121,8 +3121,6 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
     }
 }
 
-extern int dword_8009EF24[];
-extern int dword_8009EF2C[];
 void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int anim_frame)
 {
     if (anim_frame == 0 || (pActor->field_9B0_pad_ptr->press & PAD_SQUARE) != 0)
