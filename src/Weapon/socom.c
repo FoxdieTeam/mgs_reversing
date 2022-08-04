@@ -1,4 +1,4 @@
-#include "Weapon/socom.h"
+#include "socom.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

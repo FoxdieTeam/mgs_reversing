@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "gcl.h"
 
 typedef struct		EXPR_STACK
 {

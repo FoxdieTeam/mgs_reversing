@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "map/map.h"
+#include "map.h"
 #include "libgcl/gcl.h"
 
 // re-declare to force GP usage

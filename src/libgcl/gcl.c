@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "gcl.h"
 #include "mts/mts_new.h"
 #include "Game/game.h"
 

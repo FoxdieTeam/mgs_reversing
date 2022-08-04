@@ -1,4 +1,4 @@
-#include "Okajima/blood.h"
+#include "blood.h"
 #include "libdg/libdg.h"
 
 #pragma INCLUDE_ASM("asm/Okajima/blood_loader2_helper2_80072080.s") // 788 bytes

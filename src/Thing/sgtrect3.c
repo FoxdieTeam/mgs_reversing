@@ -1,4 +1,4 @@
-#include "Thing/sgtrect3.h"
+#include "sgtrect3.h"
 #include "libdg/dgd.h"
 #include <LIBGTE.H>
 

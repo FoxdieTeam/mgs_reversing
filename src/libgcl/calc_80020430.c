@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "gcl.h"
 
 int calc_80020430(int operation, int v1, int v2)
 {

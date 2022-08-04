@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "data/data/data.h"
+#include "data.h"
 
 #include "data/rdata/rdata.h"
 #include "libgv/actor.h"

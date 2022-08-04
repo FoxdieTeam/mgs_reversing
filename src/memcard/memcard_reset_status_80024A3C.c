@@ -1,4 +1,4 @@
-#include "memcard/memcard.h"
+#include "memcard.h"
 
 extern struct mem_card gMemCards_800B52F8[2];
 

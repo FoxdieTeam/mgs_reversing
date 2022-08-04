@@ -1,4 +1,4 @@
-#include "Equip/gglmng.h"
+#include "gglmng.h"
 #include "Kojo/demothrd.h"
 #include "Script_tbl_map_8002BB44.h"
 

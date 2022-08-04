@@ -1,4 +1,4 @@
-#include "Weapon/grenade.h"
+#include "grenade.h"
 #include "target.h"
 
 extern const char aGrenadeC[];  // = "grenade.c"

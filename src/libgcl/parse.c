@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "mts/mts_new.h"
-#include "libgcl/gcl.h"
+#include "gcl.h"
 
 /***$gp*************************************************/
 int*			SECTION(".sbss") GCL_ArgStackP_800AB998;

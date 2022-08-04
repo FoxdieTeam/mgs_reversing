@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "mts/mts_new.h"
-#include "Game/game.h"
+#include "game.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libgv/actor.h"
 #include "libdg/dgd.h"

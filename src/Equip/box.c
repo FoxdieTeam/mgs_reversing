@@ -1,4 +1,4 @@
-#include "Equip/box.h"
+#include "box.h"
 
 extern const char aBoxC[];
 

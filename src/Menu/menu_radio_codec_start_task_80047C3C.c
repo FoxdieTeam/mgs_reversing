@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "Menu/menuMan.h"
+#include "menuMan.h"
 #include "mts/mts_new.h"
 
 void* GV_AllocMemory_80015EB8(int idx, int size);

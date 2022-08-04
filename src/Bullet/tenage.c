@@ -1,4 +1,4 @@
-#include "Bullet/tenage.h"
+#include "tenage.h"
 
 #pragma INCLUDE_ASM("asm/tenage_act_800699A4.s") // 1048 bytes
 

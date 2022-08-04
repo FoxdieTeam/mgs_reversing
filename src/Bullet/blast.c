@@ -1,4 +1,4 @@
-#include "Bullet/blast.h"
+#include "blast.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "target.h"

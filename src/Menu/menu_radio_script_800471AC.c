@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "mts/mts_new.h"
-#include "Menu/menuMan.h"
+#include "menuMan.h"
 #include "libgcl/gcl.h"
 #include "libgcl/hash.h"
 

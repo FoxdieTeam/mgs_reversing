@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "libdg/libdg.h"
-#include "libdg/dgd.h"
+#include "libdg.h"
+#include "dgd.h"
 
 void DG_800174DC(MATRIX *m);
 

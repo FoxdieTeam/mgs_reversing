@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "Menu/menuMan.h"
-#include "Game/game.h"
+#include "game.h"
 #include <SYS/TYPES.H>
 
 void *memset_8008E688(void *pSrc, int value, int len);

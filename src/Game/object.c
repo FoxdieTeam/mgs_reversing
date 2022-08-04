@@ -1,5 +1,5 @@
-#include "Game/object.h"
-#include "Game/game.h"
+#include "object.h"
+#include "game.h"
 
 #include <KERNEL.H>
 

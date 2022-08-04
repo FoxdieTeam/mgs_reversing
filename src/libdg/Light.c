@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg/libdg.h"
+#include "libdg.h"
 
 static DG_FixedLight SECTION(".bss_800B1E08") gFixedLights_800B1E08[8];
 

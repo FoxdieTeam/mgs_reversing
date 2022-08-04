@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "Game/GM_Control.h"
+#include "GM_Control.h"
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 

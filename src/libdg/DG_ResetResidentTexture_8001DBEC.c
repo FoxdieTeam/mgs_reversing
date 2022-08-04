@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "libdg/libdg.h"
-#include "libdg/dgd.h"
+#include "libdg.h"
+#include "dgd.h"
 
 int DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
 

@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "gcl.h"
 
 /********* sdata ******************/
 extern GCL_COMMANDLIST commlist_8009D470[];
