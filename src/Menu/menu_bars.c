@@ -21,7 +21,7 @@ int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 extern int gTakeDamageCounter_800AB5FC;
 int SECTION(".sbss") gTakeDamageCounter_800AB5FC;
 
-unsigned int menu_bar_draw_8003ED4C(Menu_Prim_Buffer *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
+unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
 
 void sub_8003ECC0(void)
 {
@@ -60,7 +60,7 @@ int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 
 #pragma INCLUDE_ASM("asm/menu_bar_draw_8003ED4C.s")
 
-void menu_bars_update_helper2_8003F30C(Menu_Prim_Buffer *ot, MenuMan_MenuBars *pBars)
+void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
 {
     BarConfig *pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
@@ -99,19 +99,19 @@ void menu_bars_update_helper2_8003F30C(Menu_Prim_Buffer *ot, MenuMan_MenuBars *p
     }
 }
 
-unsigned int menu_8003F408(Menu_Prim_Buffer *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+unsigned int menu_8003F408(MenuGlue *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
     return menu_bar_draw_8003ED4C(ot, 16, ypos + gSnakeLifeYPos_800ABAF0 - 16, a3, a4, a5, pConfig);
 }
 
-unsigned int menu_8003F464(Menu_Prim_Buffer *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
+unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
     return menu_bar_draw_8003ED4C(ot, xpos, ypos + gSnakeLifeYPos_800ABAF0 - 16, a4, a5, a6, pBarConfig);
 }
 
-unsigned int Menu_render_snake_life_bar_8003F4B8(Menu_Prim_Buffer *ot, int xpos, int ypos)
+unsigned int Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
     return menu_bar_draw_8003ED4C(
@@ -130,7 +130,7 @@ void menu_font_kill_helper_8003F50C(void)
 }
 
 #pragma INCLUDE_ASM("asm/menu_bars_update_8003F530.s")
-void menu_bars_update_8003F530(Actor_MenuMan *pActor, int **ot);
+void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 
 void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
 {
