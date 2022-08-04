@@ -30,7 +30,17 @@ void MENU_Text_Init_80038B98(void);
 void nullsub_8_8008BB98(void);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
 
+extern int GV_PauseLevel_800AB928;
+extern int GM_LoadComplete_800ABA38;
+extern int GM_GameStatus_800AB3CC;
+extern int GM_LoadRequest_800AB3D0;
+
+extern short* GM_CurrentPadData_800AB91C; // sbss
+
+void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
+
 #pragma INCLUDE_ASM("asm/Menu/menuman_act_800386A4.s") // 324 bytes
+
 
 void menuman_kill_800387E8(Actor_MenuMan *pActor)
 {
