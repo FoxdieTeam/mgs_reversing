@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8009209C
-sub_8009209C:
+	xdef StoreImage2_8009209C
+StoreImage2_8009209C:
 	dw 0x27BDFFE0 ; 0x8009209C
 	dw 0xAFB00010 ; 0x800920A0
 	dw 0x00808021 ; 0x800920A4

@@ -14,3 +14,5 @@ int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 int sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void sub_80028890(SVECTOR *pVec);
 void sub_80079004(unsigned short);
+int LoadImage2_80091FB0(RECT *, u_long *);
+int StoreImage2_8009209C(RECT *, u_long *);
