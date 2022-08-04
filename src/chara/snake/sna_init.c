@@ -58,7 +58,7 @@ short SECTION(".sbss") dword_800ABBD4;
 extern int dword_800ABBB0;
 int SECTION(".sbss") dword_800ABBB0;
 
-extern GM_Target* GM_BombSeg_800ABBD8;
+extern GM_Target* GM_BombSeg_800ABBD8; // probably wrong type?
 GM_Target * SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern int GM_AlertMode_800ABA00;
@@ -84,6 +84,7 @@ extern int gSnaMoveDir_800ABBA4;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int dword_8009EF24[];
 extern int dword_8009EF2C[];
+extern SVECTOR dword_800AB7CC;
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -279,7 +280,7 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     return GV_VecLen3_80016D80(param_1);
 }
 
-void sub_8004E588(int param_1, short *param_2, int *param_3)
+void sub_8004E588(HZD_MAP *param_1, SVECTOR *param_2, int *param_3)
 {
     unsigned int uVar1;
 
@@ -293,10 +294,56 @@ void sub_8004E588(int param_1, short *param_2, int *param_3)
     {
         param_3[1] = 0x7fff;
     }
-    return;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004E5E8.s") // 308 bytes
+int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
+{
+    int i;
+    SVECTOR vec;
+    int unk1[2];
+    int unk2[2];
+
+    vec.vx = pActor->field_9C_obj.objs->objs[4].world.t[0];
+    vec.vy = pActor->field_9C_obj.objs->objs[4].world.t[1];
+    vec.vz = pActor->field_9C_obj.objs->objs[4].world.t[2];
+
+    DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_vec);
+    DG_PutVector_8001BE48(&dword_800AB7CC, &vec, 1);
+    sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, unk1);
+
+    i = -1;
+
+    if ((sub_80029A2C() & flag) == 0)
+    {
+        sub_800298C0(unk2);
+
+        if (vec.vy - unk1[0] < 350)
+        {
+            i = 0;
+        }
+        else if (unk1[1] - vec.vy < 125)
+        {
+            i = 1;
+        }
+
+        if (i >= 0)
+        {
+            if (!unk2[i])
+            {
+                GM_BombSeg_800ABBD8 = 0;
+            }
+            else
+            {
+                GM_BombSeg_800ABBD8 = (GM_Target *)(unk2[i] & ~0x80000000);
+            }
+
+            return 1;
+        }
+    }
+
+    return 2;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004E71C.s") // 236 bytes
 
 // https://decomp.me/scratch/P8McA
