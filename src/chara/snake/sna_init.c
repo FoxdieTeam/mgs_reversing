@@ -70,16 +70,16 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern Target_Data stru_8009F044;
 extern SVECTOR stru_800AB7FC;
 extern short dword_800B7800[];
-extern int dword_800AB7D4;
-extern int dword_800AB7DC;
+extern SVECTOR dword_800AB7D4;
+extern SVECTOR dword_800AB7DC;
 extern unsigned short GM_WeaponTypes_8009D580[];
 extern Sna_ActionTable actions_no_weapon_8009ED70;
 extern int GM_ItemTypes_8009D598[];
 extern int dword_8009EEA4[];
 extern int GV_Time_800AB330;
 extern int used_counter_8009F42C;
-extern int dword_800AB7EC; // TODO: convert these to SVECTOR
-extern int dword_800AB7F4;
+extern SVECTOR dword_800AB7EC;
+extern SVECTOR dword_800AB7F4;
 extern int gSnaMoveDir_800ABBA4;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int dword_8009EF24[];
@@ -543,8 +543,8 @@ void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
     MATRIX mtx;
 
     DG_SetPos_8001BC44(&pActor->field_9C_obj.objs->objs[6].world);
-    DG_MovePos_8001BD20((SVECTOR *)&dword_800AB7D4);
-    DG_RotatePos_8001BD64((SVECTOR *)&dword_800AB7DC);
+    DG_MovePos_8001BD20(&dword_800AB7D4);
+    DG_RotatePos_8001BD64(&dword_800AB7DC);
     ReadRotMatrix_80092DD8(&mtx);
 
     iVar1 = -1;
@@ -2609,7 +2609,7 @@ void sna_init_800571B8(Actor_SnaInit *pActor, int anim_frame)
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_6, 4);
         pGVar3 = pActor->field_8E8_pTarget;
-        DG_PutVector_8001BE48((SVECTOR *)&dword_800AB7EC, vec2, 1);
+        DG_PutVector_8001BE48(&dword_800AB7EC, vec2, 1);
         GV_SubVec3_80016D40(&pGVar3->field_8_vec, vec2, vec2);
 
         vec2->vx /= 4;
@@ -2627,7 +2627,7 @@ void sna_init_800571B8(Actor_SnaInit *pActor, int anim_frame)
     if (anim_frame == 6)
     {
         GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_position, 49);
-        NewBakudan_8006A6CC(pActor->field_8E8_pTarget->field_20, (SVECTOR *)&dword_800AB7F4, 1, 1,
+        NewBakudan_8006A6CC(pActor->field_8E8_pTarget->field_20, &dword_800AB7F4, 1, 1,
                             pActor->field_8E8_pTarget);
         pActor->field_914 = 5;
         pActor->field_8E8_pTarget->field_6_flags &= ~(0x40);
