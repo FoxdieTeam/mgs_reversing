@@ -1352,7 +1352,7 @@
     ; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
     include "..\obj\Takabe\goggleir.obj"
     
-    include "..\obj\sub_80078F04.obj"
+    include "..\obj\Takabe\sub_80078F04.obj"
     include "..\obj\libdg\DG_StorePaletteEffect_80078F30.obj"
     include "..\obj\libdg\DG_ResetPaletteEffect_80078FF8.obj"
     include "..\obj\sub_80079004.obj"
@@ -1948,6 +1948,9 @@ group_heap_80182000    group bss,org($80182000)
 
 group_gDgdActor2_800B3750    group bss,org($800B3750)
     section .gDgdActor2_800B3750, group_gDgdActor2_800B3750
+
+group_dword_800B3818    group bss,org($800B3818)
+    section .dword_800B3818, group_dword_800B3818
 
 group_gDispEnv_800B0600    group bss,org($800B0600)
     section .gDispEnv_800B0600, group_gDispEnv_800B0600
