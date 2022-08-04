@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 void Map_LoadMapData_80031244(int mapNum, int resourceNameHashed);
 

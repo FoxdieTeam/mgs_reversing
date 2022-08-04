@@ -1,5 +1,5 @@
-#include "gcl.h"
-#include "mts_new.h"
+#include "libgcl/gcl.h"
+#include "mts/mts_new.h"
 #include "linker.h"
 
 extern int          gBinds_800ABA60;

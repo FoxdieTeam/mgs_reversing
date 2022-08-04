@@ -1,10 +1,10 @@
 
 #include "linker.h"
-#include "libdg.h"
-#include "dgd.h"
-#include "actor.h"
-#include "mts_new.h"
-#include "game.h"
+#include "libdg/libdg.h"
+#include "libdg/dgd.h"
+#include "libgv/actor.h"
+#include "mts/mts_new.h"
+#include "Game/game.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 

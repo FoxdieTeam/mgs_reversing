@@ -1,4 +1,4 @@
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 int GCL_Command_foreach_8002033C(unsigned char *pScript)
 {

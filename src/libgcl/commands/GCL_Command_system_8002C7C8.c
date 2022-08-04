@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "gcl.h"
-#include "mts_new.h"
+#include "libgcl/gcl.h"
+#include "mts/mts_new.h"
 
 extern char         aGcawi[5];
 extern const char   aSystemCChangeP[];

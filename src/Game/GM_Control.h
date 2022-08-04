@@ -1,8 +1,8 @@
 #ifndef GM_CONTROL_H
 #define GM_CONTROL_H
 
-#include <sys/types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 typedef struct Res_Control_unknown
 {

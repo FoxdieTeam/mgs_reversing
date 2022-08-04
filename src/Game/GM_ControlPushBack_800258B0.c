@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "GM_Control.h"
-#include "mts_new.h"
-#include "hash.h"
+#include "mts/mts_new.h"
+#include "libgcl/hash.h"
 
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;

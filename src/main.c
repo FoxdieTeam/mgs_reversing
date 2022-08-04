@@ -1,13 +1,13 @@
-#include <sys/types.h>
-#include <libcd.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBCD.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 #include "linker.h"
-#include "actor.h"
-#include "gvd.h"
-#include "mts_new.h"
-#include "gcl.h"
-#include "dgd.h"
+#include "libgv/actor.h"
+#include "libgv/gvd.h"
+#include "mts/mts_new.h"
+#include "libgcl/gcl.h"
+#include "libdg/dgd.h"
 
 void __main_80098F14(void);
 

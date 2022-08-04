@@ -1,9 +1,9 @@
 #ifndef LIBDG_H
 #define LIBDG_H
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 typedef struct			DG_TEX
 {

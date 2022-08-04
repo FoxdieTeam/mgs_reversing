@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "memcard.h"
+#include "memcard/memcard.h"
 
 extern volatile long gMemCard_io_size_800B5648;
 

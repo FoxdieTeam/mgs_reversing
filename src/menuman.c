@@ -1,9 +1,9 @@
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 #include "linker.h"
-#include <LIBGTE.h>
-#include <LIBGPU.h>
-#include "data.h"
-#include "dgd.h"
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "data/data/data.h"
+#include "libdg/dgd.h"
 
 Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
 unsigned char SECTION(".gPrimBackingBuffers_800B9360") gPrimBackingBuffers_800B9360[2][8192];

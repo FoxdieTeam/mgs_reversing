@@ -1,6 +1,6 @@
 #include "mine.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "map.h"
+#include "map/map.h"
 #include "target.h"
 
 extern GameState_800B4D98   gGameState_800B4D98;

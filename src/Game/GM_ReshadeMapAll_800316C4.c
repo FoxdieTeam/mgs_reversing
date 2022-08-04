@@ -1,7 +1,7 @@
 #include "linker.h"
-#include "libdg.h"
-#include "dgd.h"
-#include "map\map.h"
+#include "libdg/libdg.h"
+#include "libdg/dgd.h"
+#include "map/map.h"
 
 DG_OBJS *SECTION(".StageObjs_800B7890") StageObjs_800B7890[32];
 

@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "GM_Control.h"
-#include "libgv.h"
-#include "gcl.h"
+#include "libgv/libgv.h"
+#include "libgcl/gcl.h"
 
 void GM_ControlRemove_80025904(GM_Control *pControl);
 

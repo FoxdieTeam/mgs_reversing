@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 extern const char   aDemoNoCode[];
 extern const char   aDemoNoDataOnCd[];

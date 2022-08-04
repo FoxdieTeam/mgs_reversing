@@ -1,4 +1,4 @@
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 void DG_SetAmbient_80019F80(int param_1, int param_2, int param_3);
 void DG_SetMainLightCol_8001A048(int param_1, int param_2, int param_3);

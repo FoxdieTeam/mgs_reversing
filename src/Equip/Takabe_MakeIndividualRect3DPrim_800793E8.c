@@ -1,9 +1,9 @@
-#include "game.h"
+#include "Game/game.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "GM_Control.h"
-#include "map.h"
-#include "libdg.h"
-#include <libgpu.h>
+#include "Game/GM_Control.h"
+#include "map/map.h"
+#include "libdg/libdg.h"
+#include <LIBGPU.H>
 
 extern int              GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;

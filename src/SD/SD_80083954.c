@@ -1,6 +1,6 @@
 
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 
 int SD_80083954(void)
 {

@@ -1,5 +1,5 @@
 #include "gglsight.h"
-#include "GM_Control.h"
+#include "Game/GM_Control.h"
 
 extern short    word_8009F714[];
 

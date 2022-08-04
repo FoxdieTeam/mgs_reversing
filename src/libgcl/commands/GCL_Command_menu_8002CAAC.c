@@ -1,4 +1,4 @@
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 extern int          GM_DisableWeapon_800AB9E4;
 extern int          GM_DisableItem_800ABA28;

@@ -1,8 +1,8 @@
-#include "gcl.h"
-#include "mts_new.h"
-//#include <libgte.h>
+#include "libgcl/gcl.h"
+#include "mts/mts_new.h"
+//#include <LIBGTE.H>
 #include "linker.h"
-#include "GM_Control.h"
+#include "Game/GM_Control.h"
 
 typedef struct  CAMERA
 {

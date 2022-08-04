@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "hzd.h"
+#include "map/hzd.h"
 
 int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3);
 

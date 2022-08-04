@@ -1,8 +1,8 @@
 #include "jirai.h"
-#include "gcl.h"
-#include "object.h"
-#include "strcode.h"
-#include "libdg.h"
+#include "libgcl/gcl.h"
+#include "Game/object.h"
+#include "libgv/strcode.h"
+#include "libdg/libdg.h"
 
 extern const char   aJiraiC[];
 

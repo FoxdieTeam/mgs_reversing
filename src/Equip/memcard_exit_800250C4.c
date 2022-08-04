@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "memcard.h"
+#include "memcard/memcard.h"
 
 extern int gmem_card_system_inited_8009D524;
 

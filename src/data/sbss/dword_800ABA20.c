@@ -1,4 +1,4 @@
 #include "linker.h"
-#include "game.h"
+#include "Game/game.h"
 
 OBJECT* SECTION(".sbss") dword_800ABA20;

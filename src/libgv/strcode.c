@@ -1,5 +1,5 @@
 #include "strcode.h"
-#include <sys/types.h>
+#include <SYS/TYPES.H>
 
 int GV_StrCode_80016CCC(const char* string )
 {

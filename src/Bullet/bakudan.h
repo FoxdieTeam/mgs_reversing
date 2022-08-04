@@ -1,13 +1,13 @@
 #ifndef _BAKUDAN_H_
 #define _BAKUDAN_H_
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-#include "game.h"
-#include "actor.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "Game/game.h"
+#include "libgv/actor.h"
 #include "target.h"
-#include "GM_Control.h"
+#include "Game/GM_Control.h"
 
 typedef struct Actor_bakudan
 {

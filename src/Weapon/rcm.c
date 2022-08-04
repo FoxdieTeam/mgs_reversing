@@ -1,10 +1,10 @@
 #include "rcm.h"
-#include "libdg.h"
-#include "libgv.h"
-#include "idaTypes.h"
-#include "map.h"
+#include "libdg/libdg.h"
+#include "libgv/libgv.h"
+#include "util/idaTypes.h"
+#include "map/map.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 #include "psyq.h"
 
 // nikita

@@ -1,4 +1,4 @@
-#include "mts_new.h"
+#include "mts/mts_new.h"
 #include "Script_tbl_map_8002BB44.h"
 
 extern int                  gTotalFrameTime_800AB9E8;

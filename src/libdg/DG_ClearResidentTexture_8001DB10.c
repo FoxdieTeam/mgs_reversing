@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libdg.h"
 #include "dgd.h"
-#include "libgv.h"
+#include "libgv/libgv.h"
 
 int SECTION(".sbss") gTextureCacheSize_800AB988;
 DG_TEX* SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;

@@ -2,9 +2,9 @@
 #define _SOCOM_H
 
 #include "Script_tbl_map_8002BB44.h"
-#include "game.h"
-#include "actor.h"
-#include "GM_Control.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
+#include "Game/GM_Control.h"
 
 typedef struct              _Actor_Socom
 {

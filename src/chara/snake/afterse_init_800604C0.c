@@ -1,4 +1,4 @@
-#include "actor.h"
+#include "libgv/actor.h"
 
 void afterse_act_800603EC(); // dummy signature
 extern char aAfterseC[]; // = "afterse.c"

@@ -1,7 +1,7 @@
 #include "linker.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 const int SECTION(".rdata") jpt_80011EB8[] = {0x80048F4C, 0x80048E6C, 0x80048EB8, 0x80048F30, 0x80048F3C};
 const char SECTION(".rdata") aJimakuFontBuff[] = "jimaku_font_buffer_size %d\n";

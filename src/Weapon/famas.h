@@ -1,8 +1,8 @@
 #ifndef _FAMAS_H_
 #define _FAMAS_H_
 
-#include "game.h"
-#include "actor.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
 
 typedef struct _Actor_Famas
 {

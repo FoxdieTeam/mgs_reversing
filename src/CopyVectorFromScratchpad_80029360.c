@@ -1,5 +1,5 @@
-#include <sys/types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 /**
  * Used in collision detection, called every frame for Snake and each enemy on the map.

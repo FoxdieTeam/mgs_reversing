@@ -10,8 +10,8 @@
 #include "linker.h"
 #include "linker.h"
 #include "linker.h"
-#include <sys/types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 #include "linker.h"
 
 typedef struct

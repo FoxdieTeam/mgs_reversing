@@ -1,6 +1,6 @@
-#include "gcl.h"
-#include "mts_new.h"
-#include "map\map.h"
+#include "libgcl/gcl.h"
+#include "mts/mts_new.h"
+#include "map/map.h"
 
 extern const char   aNoHzd[];
 

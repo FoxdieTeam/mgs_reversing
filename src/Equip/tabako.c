@@ -1,13 +1,13 @@
 #include "tabako.h"
-#include "GM_Control.h"
+#include "Game/GM_Control.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "actor.h"
-#include "game.h"
-#include "libdg.h"
+#include "libgv/actor.h"
+#include "Game/game.h"
+#include "libdg/libdg.h"
 #include "linker.h"
-#include "map.h"
+#include "map/map.h"
 #include "psyq.h"
-#include <libgpu.h>
+#include <LIBGPU.H>
 
 // cigarettes
 

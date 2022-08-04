@@ -1,9 +1,9 @@
 #ifndef _GASMASK_H_
 #define _GASMASK_H_
 
-#include "actor.h"
-#include "game.h"
-#include "GM_Control.h"
+#include "libgv/actor.h"
+#include "Game/game.h"
+#include "Game/GM_Control.h"
 
 typedef struct Actor_gasmask
 {

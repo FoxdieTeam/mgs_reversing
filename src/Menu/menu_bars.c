@@ -1,6 +1,6 @@
-#include "menuman.h"
+#include "menuMan.h"
 #include "linker.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 #include "Script_tbl_map_8002BB44.h"
 
 extern GameState_800B4D98   gGameState_800B4D98;

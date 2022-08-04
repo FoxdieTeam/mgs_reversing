@@ -1,4 +1,4 @@
-#include "menuman.h"
+#include "menuMan.h"
 #include "linker.h"
 
 void font_update_8004695C(int param_1);

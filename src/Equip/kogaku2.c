@@ -1,4 +1,4 @@
-#include "actor.h"
+#include "libgv/actor.h"
 #include "kogaku2.h"
 
 extern int GV_Clock_800AB920;
