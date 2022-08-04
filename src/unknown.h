@@ -1,3 +1,4 @@
+#include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include "Game/GM_Control.h"
 
@@ -12,3 +13,4 @@ short sub_8002646C(int, int, char); // dummy signature
 int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 int sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void sub_80028890(SVECTOR *pVec);
+void sub_80079004(unsigned short);
