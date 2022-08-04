@@ -70,7 +70,7 @@ MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_8
 void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 void sub_8003CFE0(unsigned int **images, int index);
-void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned int *param_2);
+void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
 void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
                                             int param_4, short *param_5);
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
@@ -249,7 +249,27 @@ int sub_8003DAFC(int param_1, unsigned short *param_2)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003DB2C.s")
+TILE* Menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb)
+{
+    TILE *pTile; // $v0
+
+    pTile = (TILE *)pOt->mPrimBuf.mFreeLocation;
+    pOt->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    *(int *)&pTile->r0 = rgb;
+
+    pTile->x0 = x;
+    pTile->y0 = y;
+
+    pTile->w = w;
+    pTile->h = h; 
+
+    setTile(pTile);
+    addPrim(pOt->mPrimBuf.mOt, pTile);
+
+    return pTile;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8003DBAC.s")
 
 Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
