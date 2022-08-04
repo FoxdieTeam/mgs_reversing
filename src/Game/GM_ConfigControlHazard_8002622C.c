@@ -2,10 +2,9 @@
 #include "GM_Control.h"
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
+#include "libdg/libdg.h"
 
 void GM_ControlRemove_80025904(GM_Control *pControl);
-
-void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
 
 void GM_FreeControl_800260CC(GM_Control *pControl)
 {
