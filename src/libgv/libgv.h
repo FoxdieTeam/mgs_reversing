@@ -142,6 +142,10 @@ extern	int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
 
 void GV_SubVec3_80016D40(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
 int GV_VecLen3_80016D80(SVECTOR* vec);
-
+int GV_VecDir2_80016EF8(SVECTOR* vec);
+void GV_AddVec3_80016D00(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
+int GV_NearExp2_80026384(int param_1, int param_2);
+int GV_DiffDirS_8001704C(int param_1, int param_2);
+int GV_DiffDirAbs_8001706C(int a1, int a2);
 
 #endif // LIBGV_H

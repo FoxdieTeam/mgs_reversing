@@ -22,6 +22,7 @@
 #include "anime.h"
 #include "hash.h"
 #include "menuman.h"
+#include "sna_init.h"
 
 // sdata
 extern const char* aCigs[];
@@ -927,27 +928,6 @@ int SECTION(".data") dword_8009EF10[] = {0x8320250, 0x650048C, 0};
 int SECTION(".data") dword_8009EF1C = 0x4C4;
 int SECTION(".data") dword_8009EF20 = 0x494;
 int SECTION(".data") dword_8009EF24[] = {0x27F0200, 0};
-
-struct Actor_SnaInit;
-
-void sna_init_anim_chokethrow_begin1_80054210(struct Actor_SnaInit *pActor, int a2);
-void sna_init_gun_800540D0(struct Actor_SnaInit *pActor, int a2);
-void sub_80058470(struct Actor_SnaInit *pActor, int a2);
-void sna_init_anim_stinger_800570C0(struct Actor_SnaInit *pActor, int a2);
-void sna_init_anim_claymore_80057474(struct Actor_SnaInit *pActor, int a2);
-void sna_init_bomb_800541A8(struct Actor_SnaInit *pActor, int a2);
-void sna_init_anim_psg1_80056DDC(struct Actor_SnaInit *pActor, int a2);
-
-Actor* NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewAAM_80067480(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 
 /*
 // TODO: Converting this entry de-syncs data

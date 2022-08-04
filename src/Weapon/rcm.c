@@ -1,9 +1,11 @@
 #include "rcm.h"
+#include "libdg.h"
 #include "libgv.h"
 #include "idaTypes.h"
 #include "map.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libdg.h"
+#include "psyq.h"
 
 // nikita
 
@@ -32,8 +34,6 @@ DG_PRIM      *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR 
 int          DG_QueuePrim_80018274(DG_OBJS *pPrim);
 void         GM_FreeObject_80034BF8(OBJECT *obj);
 
-void            DG_MovePos_8001BD20(SVECTOR *svector);
-void            ReadRotMatrix_80092DD8(MATRIX *m);
 void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
 
