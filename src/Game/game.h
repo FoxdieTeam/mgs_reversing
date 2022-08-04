@@ -4,6 +4,8 @@
 #include "linker.h"
 #include "libdg.h"
 #include "actor.h"
+#include "GM_Control.h"
+#include "hzd.h"
 
 typedef struct Actor_GM_Daemon
 {
@@ -174,5 +176,13 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
         sd_set_cli_800887EC(byte_2 << 0x10 | byte_1 << 8 | lowest_byte, 0);
     }
 }
+
+void GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
+void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
+void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
+void GM_ConfigObjectOverride_80034D30( OBJECT *obj, int a1, int motion, int interp, int a4 );
+void GM_ExitBehindCamera_80030AEC(void);
+void GM_CheckBehindCamera_80030B3C(HZD_MAP *map, GM_Control *control);
+int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
 
 #endif //GAME_H

@@ -35,7 +35,6 @@ extern GameState_800B4D98   gGameState_800B4D98;
 
 long mts_PadRead_8008C324( int a0 );
 int mts_get_pad_8008C170 (int a0, MTS_PAD_DATA* data );
-int GV_VecDir2_80016EF8(SVECTOR* vec);
 
 int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1 , int a2)
 {

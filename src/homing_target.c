@@ -6,10 +6,6 @@
 
 extern const char aHomingTargetOv[];
 
-int GV_VecDir2_80016EF8(SVECTOR *vec);
-int GV_DiffDirAbs_8001706C(int a1, int a2);
-long ratan2_80094308(long x, long y);
-
 Homing_Target SECTION(".gHomingTargets_800B8230") gHomingTargets_800B8230[8];
 
 void HomingTarget_Clear_All_80032C68()

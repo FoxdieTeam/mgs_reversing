@@ -8,7 +8,6 @@ extern GameState_800B4D98   gGameState_800B4D98;
 extern short                dword_800B7800[];
 
 void                 GM_FreeObject_80034BF8(OBJECT *object);
-int                  sd_set_cli_800887EC(int sdCode, int unused);
 void                 GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill);
 int                  GV_StrCode_80016CCC(const char *string);
 void                 GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
