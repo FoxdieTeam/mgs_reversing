@@ -11,6 +11,7 @@
 #include "bakudan.h"
 #include "homing_target.h"
 #include "vibrate.h"
+#include "psyq.h"
 
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;

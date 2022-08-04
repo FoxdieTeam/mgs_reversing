@@ -142,11 +142,6 @@ extern	int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
 
 void GV_SubVec3_80016D40(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
 int GV_VecLen3_80016D80(SVECTOR* vec);
-int SquareRoot0_80092708(int);
-int Square0_80093340(VECTOR*, VECTOR*);
-int ratan2_80094308(int,int);
-int rsin_80092508(int a1);
-int rcos_800925D8(int a1);
 int GV_VecDir2_80016EF8(SVECTOR* vec);
 void GV_AddVec3_80016D00(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
 int GV_NearExp2_80026384(int param_1, int param_2);

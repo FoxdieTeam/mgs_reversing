@@ -3,6 +3,7 @@
 #include "mts_new.h"
 #include "map.h"
 #include "libgv.h"
+#include "psyq.h"
 
 extern const char aHomingTargetOv[];
 
