@@ -3,12 +3,9 @@
 #include "mts_new.h"
 #include "map.h"
 #include "libgv.h"
+#include "psyq.h"
 
 extern const char aHomingTargetOv[];
-
-int GV_VecDir2_80016EF8(SVECTOR *vec);
-int GV_DiffDirAbs_8001706C(int a1, int a2);
-long ratan2_80094308(long x, long y);
 
 Homing_Target SECTION(".gHomingTargets_800B8230") gHomingTargets_800B8230[8];
 

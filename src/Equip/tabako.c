@@ -6,7 +6,7 @@
 #include "libdg.h"
 #include "linker.h"
 #include "map.h"
-#include "tabako.h"
+#include "psyq.h"
 #include <libgpu.h>
 
 // cigarettes
@@ -28,8 +28,6 @@ extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 
 void GM_FreeObject_80034BF8(OBJECT *obj);
 void GM_ActObject2_80034B88(OBJECT *obj);
-void DG_MovePos_8001BD20(SVECTOR *svector);
-void ReadRotMatrix_80092DD8(MATRIX *m);
 int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
 DG_TEX *DG_FindTexture_8001D830(int);
 void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);

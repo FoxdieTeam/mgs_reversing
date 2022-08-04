@@ -1,11 +1,7 @@
 #include "libgv.h"
+#include "psyq.h"
 
 MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
-int Square0_80093340(VECTOR*, VECTOR*);
-int SquareRoot0_80092708(int);
-int ratan2_80094308(int,int);
-int rsin_80092508(int a1);
-int rcos_800925D8(int a1);
 
 void GV_AddVec3_80016D00(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst)
 {

@@ -23,7 +23,6 @@ int SECTION(".sbss") mt_count_800ABAC0;
 void *GV_GetCache_8001538C( int id );
 int GV_CacheID_800152DC( int file_id, int ext_id );
 void GV_ZeroMemory_8001619C( void* ptr, int size );
-void GV_AddVec3_80016D00( SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst );
 
 //GM
 //obj

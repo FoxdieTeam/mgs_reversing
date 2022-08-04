@@ -14,4 +14,6 @@ typedef struct Homing_Target
   int field_C_bUsed; // auto_aimable 
 } Homing_Target;
 
+void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle);
+
 #endif // _HOMING_TARGET_H_
