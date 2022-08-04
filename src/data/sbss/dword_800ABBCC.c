@@ -1,6 +1,6 @@
 #include "linker.h"
-#include <sys/types.h>
-#include <LIBGTE.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 SVECTOR * SECTION(".sbss") pVec_800ABBCC;
 

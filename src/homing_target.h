@@ -1,10 +1,10 @@
 #ifndef _HOMING_TARGET_H_
 #define _HOMING_TARGET_H_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
-#include "GM_Control.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "Game/GM_Control.h"
 
 typedef struct Homing_Target
 {

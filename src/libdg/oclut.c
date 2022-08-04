@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libdg.h"
 #include "dgd.h"
-#include "libgv.h"
+#include "libgv/libgv.h"
 
 //funcs
 extern DG_TEX *DG_FindTexture_8001D830( int code );

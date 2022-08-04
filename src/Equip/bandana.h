@@ -1,9 +1,9 @@
 #ifndef _BANDANA_H_
 #define _BANDANA_H_
 
-#include "actor.h"
-#include "Game.h"
-#include "GM_Control.h"
+#include "libgv/actor.h"
+#include "Game/game.h"
+#include "Game/GM_Control.h"
 
 typedef struct Actor_bandana
 {

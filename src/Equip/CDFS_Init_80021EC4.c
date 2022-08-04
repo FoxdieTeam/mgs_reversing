@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "mts_new.h"
-#include "data.h"
+#include "mts/mts_new.h"
+#include "data/data/data.h"
 
 void CDBIOS_Reset_80021F70(void);
 void FS_StreamCD_80023F8C(void);

@@ -1,8 +1,8 @@
 #ifndef _BOMB_H_
 #define _BOMB_H_
 
-#include "game.h"
-#include "actor.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
 
 typedef struct _Actor_Bomb
 {

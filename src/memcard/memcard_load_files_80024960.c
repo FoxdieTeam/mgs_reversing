@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "memcard.h"
-#include <kernel.h>
+#include <KERNEL.H>
 
 extern struct mem_card gMemCards_800B52F8[2];
 

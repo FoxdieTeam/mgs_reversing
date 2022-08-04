@@ -1,7 +1,7 @@
-#include <libsn.h>
+#include <LIBSN.H>
 #include "linker.h"
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 
 // Each overlay defines this symbol
 extern char OverlayCharas[];

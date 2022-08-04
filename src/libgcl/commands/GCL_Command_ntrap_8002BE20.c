@@ -1,8 +1,8 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "gcl.h"
-#include "mts_new.h"
-#include "hash.h"
+#include "libgcl/gcl.h"
+#include "mts/mts_new.h"
+#include "libgcl/hash.h"
 
 extern int gBinds_800ABA60;
 extern int gBindsCount_800ABA64;

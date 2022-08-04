@@ -1,10 +1,10 @@
 #ifndef _BLAST_H_
 #define _BLAST_H_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
-#include "actor.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "libgv/actor.h"
 #include "target.h"
 
 typedef struct Blast_Data

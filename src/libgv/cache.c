@@ -1,5 +1,5 @@
 #include "libgv.h"
-#include "mts_new.h"
+#include "mts/mts_new.h"
 
 #define MAX_TAGS 128
 #define MAX_FILE_HANDLERS 26

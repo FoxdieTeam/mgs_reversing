@@ -1,6 +1,6 @@
 #include "linker.h"
-#include <sys\types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out)
 {

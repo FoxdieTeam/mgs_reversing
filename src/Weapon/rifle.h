@@ -1,8 +1,8 @@
 #ifndef _RIFLE_H_
 #define _RIFLE_H_
 
-#include "game.h"
-#include "actor.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
 
 // PSG1
 

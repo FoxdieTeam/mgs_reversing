@@ -1,7 +1,7 @@
-#include <util/idaTypes.h>
+#include "util/idaTypes.h"
 #include "linker.h"
-#include "mts_new.h"
-#include "memcard.h"
+#include "mts/mts_new.h"
+#include "memcard/memcard.h"
 
 void memcard_load_files_80024960(int);
 int erase_800995FC(char *);

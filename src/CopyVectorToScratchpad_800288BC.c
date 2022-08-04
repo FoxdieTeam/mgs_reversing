@@ -1,5 +1,5 @@
-#include <sys/types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 void CopyVectorToScratchpad_800288BC(SVECTOR *vec_1, SVECTOR *vec_2)
 {

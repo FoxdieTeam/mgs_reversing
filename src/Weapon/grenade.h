@@ -1,8 +1,8 @@
 #ifndef _GRENADE_H_
 #define _GRENADE_H_
 
-#include "game.h"
-#include "actor.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
 
 // @note(Voxel): Making this a generic unknown struct or now, not sure what it is yet.
 typedef struct _Unknown_Grenade_Member

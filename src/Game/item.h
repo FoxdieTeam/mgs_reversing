@@ -2,12 +2,12 @@
 #define _ITEM_H_
 
 #include "linker.h"
-#include "actor.h"
-#include "gcl.h"
-#include "kernel.h"
-#include "game.h"
-#include "libdg.h"
-#include "GM_Control.h"
+#include "libgv/actor.h"
+#include "libgcl/gcl.h"
+#include <KERNEL.H>
+#include "Game/game.h"
+#include "libdg/libdg.h"
+#include "Game/GM_Control.h"
 
 typedef struct Item_Info
 {

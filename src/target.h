@@ -1,9 +1,9 @@
 #ifndef _TARGET_H_
 #define _TARGET_H_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 typedef struct GM_Target
 {

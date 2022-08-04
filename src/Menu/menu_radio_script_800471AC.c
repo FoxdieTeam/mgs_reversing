@@ -1,8 +1,8 @@
 #include "linker.h"
-#include "mts_new.h"
+#include "mts/mts_new.h"
 #include "menuMan.h"
-#include "gcl.h"
-#include "hash.h"
+#include "libgcl/gcl.h"
+#include "libgcl/hash.h"
 
 extern const char aSetCharaCodeD[];
 extern const char aAnimeCharaDCod[];

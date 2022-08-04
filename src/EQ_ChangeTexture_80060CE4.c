@@ -1,5 +1,5 @@
-#include <util/idaTypes.h>
-#include "game.h"
+#include "util/idaTypes.h"
+#include "Game/game.h"
 
 void		face_item_helper_80060CB8(WORD *in, WORD *out);
 int		GV_StrCode_80016CCC(const char* string );

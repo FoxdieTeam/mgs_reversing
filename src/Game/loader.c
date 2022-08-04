@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "actor.h"
-#include "mts_new.h"
+#include "libgv/actor.h"
+#include "mts/mts_new.h"
 
 extern const char aLoadreq[];
 extern const char aNotFoundStageS[];

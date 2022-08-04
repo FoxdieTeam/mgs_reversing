@@ -1,8 +1,8 @@
-#include <util/idaTypes.h>
+#include "util/idaTypes.h"
 #include "linker.h"
 #include "jimctrl.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "data.h"
+#include "data/data/data.h"
 
 int FS_StreamGetData_800240E0(DWORD);
 void sub_800241B4(int);

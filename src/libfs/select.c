@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "mts_new.h"
+#include "mts/mts_new.h"
 
 void SetMem_8009944C(int);
 void CDFS_Init_80021EC4(void);

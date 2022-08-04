@@ -1,6 +1,6 @@
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 unsigned int GV_RandU_80017090(unsigned int input);
 

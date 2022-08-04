@@ -1,8 +1,8 @@
 #ifndef ACTOR_H_
 #define ACTOR_H_
 
-#include <libsn.h>
-#include "libgv.h"
+#include <LIBSN.H>
+#include "libgv/libgv.h"
 
 struct Actor;
 

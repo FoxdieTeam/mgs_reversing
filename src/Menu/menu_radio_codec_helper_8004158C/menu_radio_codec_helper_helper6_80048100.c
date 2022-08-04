@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 
 extern menu_chara_struct* dword_800ABB38;
 menu_chara_struct* SECTION(".sbss") dword_800ABB38;

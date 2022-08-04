@@ -1,4 +1,4 @@
-#include "libdg\libdg.h"
+#include "libdg.h"
 
 int DG_MakeObjs_helper_80031710(DG_MDL *pMesh)
 

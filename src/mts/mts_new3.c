@@ -1,7 +1,7 @@
 #include "linker.h"
 #define _BUILDING_MTS_
 #include "mts_new.h"
-#include <kernel.h>
+#include <KERNEL.H>
 
 extern const char aMtsNewC[];
 extern const char asc_80013E2C[]; // = "\n";

@@ -1,5 +1,5 @@
 #include "anime.h"
-#include "GM_Control.h"
+#include "Game/GM_Control.h"
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 

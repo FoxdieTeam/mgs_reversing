@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "dgd.h"
-#include "mts_new.h"
-#include "actor.h"
+#include "mts/mts_new.h"
+#include "libgv/actor.h"
 
 int DG_DrawSyncResetGraph_8001F014(void);
 void DG_InitDispEnv_800170F0(int, int, int, int, int);

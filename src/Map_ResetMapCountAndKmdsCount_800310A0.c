@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg\libdg.h"
+#include "libdg/libdg.h"
 
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;

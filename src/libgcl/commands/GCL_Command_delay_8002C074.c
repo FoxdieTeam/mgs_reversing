@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "gcl.h"
-#include "delay.h"
+#include "libgcl/gcl.h"
+#include "Game/delay.h"
 
 int GCL_Command_delay_8002C074(int argc, char **argv)
 {

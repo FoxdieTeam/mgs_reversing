@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "target.h"
-#include "game.h"
+#include "Game/game.h"
 
 GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
 

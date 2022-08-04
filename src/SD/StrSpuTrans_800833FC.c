@@ -1,6 +1,6 @@
 
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 
 int  StrSpuTransWithNoLoop_800827AC();
 

@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "gcl.h"
-#include "mts_new.h"
-#include "game.h"
+#include "mts/mts_new.h"
+#include "Game/game.h"
 
 GCL_COMMANDDEF *dword_800AB3B8 = 0; //sdata
 

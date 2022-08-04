@@ -1,9 +1,9 @@
 #ifndef _MINE_H_
 #define _MINE_H_
 
-#include "game.h"
-#include "actor.h"
-#include "GM_Control.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
+#include "Game/GM_Control.h"
 
 typedef struct Actor_Mine
 {

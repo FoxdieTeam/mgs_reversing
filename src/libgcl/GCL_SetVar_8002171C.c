@@ -1,5 +1,5 @@
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 #include "gcl.h"
 #include "Script_tbl_map_8002BB44.h"
 
