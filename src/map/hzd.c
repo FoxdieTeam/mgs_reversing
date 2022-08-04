@@ -1,5 +1,5 @@
 
-#include "map/hzd.h"
+#include "hzd.h"
 #include "mts/mts_new.h"
 #include "libdg/dgd.h"
 

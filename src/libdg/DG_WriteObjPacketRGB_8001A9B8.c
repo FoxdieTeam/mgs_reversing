@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg/libdg.h"
+#include "libdg.h"
 
 void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx)
 {

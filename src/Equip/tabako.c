@@ -1,4 +1,4 @@
-#include "Equip/tabako.h"
+#include "tabako.h"
 #include "Game/GM_Control.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libgv/actor.h"

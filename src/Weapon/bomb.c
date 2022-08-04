@@ -1,4 +1,4 @@
-#include "Weapon/bomb.h"
+#include "bomb.h"
 
 extern char aC4Bomb[]; // "c4_bomb"
 extern char aBombC[];  // "bomb.c"

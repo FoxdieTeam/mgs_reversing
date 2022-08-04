@@ -1,4 +1,4 @@
-#include "chara/snake/sna_init.h"
+#include "sna_init.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libdg/libdg.h"
 #include "linker.h"

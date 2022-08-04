@@ -1,4 +1,4 @@
-#include "Menu/menuMan.h"
+#include "menuMan.h"
 #include "linker.h"
 
 // force gp

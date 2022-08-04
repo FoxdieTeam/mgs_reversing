@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg/libdg.h"
+#include "libdg.h"
 #include <LIBGPU.H>
 
 void GV_FreeMemory2_80016078(unsigned int, void **);

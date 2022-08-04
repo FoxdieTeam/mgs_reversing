@@ -1,4 +1,4 @@
-#include "Equip/gglsight.h"
+#include "gglsight.h"
 #include "Game/GM_Control.h"
 
 extern short    word_8009F714[];

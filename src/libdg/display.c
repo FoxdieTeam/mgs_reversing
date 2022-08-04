@@ -3,8 +3,8 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-#include "libdg/inline_n.h"
-#include "libdg/dgd.h" //need to switch to libdg.h
+#include "inline_n.h"
+#include "dgd.h" //need to switch to libdg.h
 
 /**data************************/
 extern VECTOR vector_8009D34C;

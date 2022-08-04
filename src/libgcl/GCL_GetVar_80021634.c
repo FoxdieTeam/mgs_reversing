@@ -1,7 +1,7 @@
 #include "util/idaTypes.h"
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "libgcl/gcl.h"
+#include "gcl.h"
 
 GCL_Vars SECTION(".gGcl_vars_800B3CC8") gGcl_vars_800B3CC8;
 

@@ -1,4 +1,4 @@
-#include "libgv/libgv.h"
+#include "libgv.h"
 #include "psyq.h"
 
 MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);

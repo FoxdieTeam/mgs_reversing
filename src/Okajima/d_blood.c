@@ -1,4 +1,4 @@
-#include "Okajima/blood.h" // TODO: Wrong? Should be using Actor_DBlood not Actor_Blood ??
+#include "blood.h" // TODO: Wrong? Should be using Actor_DBlood not Actor_Blood ??
 
 extern int GM_CurrentMap_800AB9B0;
 

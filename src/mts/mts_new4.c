@@ -1,6 +1,6 @@
 #include "linker.h"
 #define _BUILDING_MTS_
-#include "mts/mts_new.h"
+#include "mts_new.h"
 #include "util/idaTypes.h"
 
 extern const char aTaskStartDX[]; // = "TASK START: %d %X\n";

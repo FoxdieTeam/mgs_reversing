@@ -1,4 +1,4 @@
-#include "Equip/gasmask.h"
+#include "gasmask.h"
 #include "Game/object.h"
 #include "libgv/strcode.h"
 #include "Kojo/demothrd.h"

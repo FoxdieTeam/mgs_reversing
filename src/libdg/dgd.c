@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg/dgd.h"
+#include "dgd.h"
 #include "mts/mts_new.h"
 #include "libgv/actor.h"
 

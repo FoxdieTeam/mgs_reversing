@@ -1,4 +1,4 @@
-#include "Thing/door.h"
+#include "door.h"
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"

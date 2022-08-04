@@ -1,4 +1,4 @@
-#include "Bullet/jirai.h"
+#include "jirai.h"
 #include "libgcl/gcl.h"
 #include "Game/object.h"
 #include "libgv/strcode.h"

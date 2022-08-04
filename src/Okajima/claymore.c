@@ -1,4 +1,4 @@
-#include "Okajima/claymore.h"
+#include "claymore.h"
 
 extern SVECTOR stru_8009F630[4];
 

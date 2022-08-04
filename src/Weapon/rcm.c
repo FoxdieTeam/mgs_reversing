@@ -1,4 +1,4 @@
-#include "Weapon/rcm.h"
+#include "rcm.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "util/idaTypes.h"
