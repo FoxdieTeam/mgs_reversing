@@ -236,6 +236,7 @@ MenuGlue* MENU_GetPrimInfo_80038D68(void)
 
 
 unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
+unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 
 void MENU_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig)
 {
@@ -244,4 +245,7 @@ void MENU_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfi
     MENU_Text_PrimUnknown_80038BB4();
 }
 
-#pragma INCLUDE_ASM("asm/MENU_DrawBar2_80038DE0.s") // 72 bytes
+void MENU_DrawBar2_80038DE0(int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+{
+    menu_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, a3, a4, a5, pConfig);
+}
