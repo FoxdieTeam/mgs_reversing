@@ -234,5 +234,14 @@ MenuGlue* MENU_GetPrimInfo_80038D68(void)
   return &gMenuPrimBuffer_8009E2D0;
 }
 
-#pragma INCLUDE_ASM("asm/MENU_DrawBar_80038D74.s") // 108 bytes
+
+unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
+
+void MENU_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig)
+{
+    GM_GameStatus_800AB3CC |= 0x8000u;
+    menu_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, a3, a4, 1024, pConfig);
+    MENU_Text_PrimUnknown_80038BB4();
+}
+
 #pragma INCLUDE_ASM("asm/MENU_DrawBar2_80038DE0.s") // 72 bytes
