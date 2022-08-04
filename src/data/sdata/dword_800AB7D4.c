@@ -1,3 +1,6 @@
 #include "linker.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
-int SECTION(".sdata") dword_800AB7D4 = 0;
+SVECTOR SECTION(".sdata") dword_800AB7D4 = {0x0, 0x0, 0x64, 0x0};
