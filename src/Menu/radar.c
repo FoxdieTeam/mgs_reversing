@@ -9,9 +9,9 @@ extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
 Menu_rpk_item* menu_rpk_get_img_8003DDB4(int idx);
 
-void sub_8003DB2C(struct Menu_Prim_Buffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
+void Menu_render_rect_8003DB2C(struct Menu_Prim_Buffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
 void LoadImage_8008FB10(RECT *, unsigned char *);
-void menu_radar_update_8003B350(struct Actor_MenuMan *a1, int a2);
+void menu_radar_update_8003B350(struct Actor_MenuMan *a1, unsigned char* a2);
 void menu_init_radar_helper_8003ADAC(void);
 void MENU_SetRadarScale_80038E28(int);
 void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
@@ -33,10 +33,10 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
     y1 = menuMan->field_1D6_clipY1;
     x2 = x1 + 0xea;
     y2 = y1 + 0xf;
-    sub_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 0x35, 0);
-    sub_8003DB2C(menuMan->field_20_otBuf, x2, y2, 0x46, 1, 0);
-    sub_8003DB2C(menuMan->field_20_otBuf, x1 + 0x130, y2, 1, 0x36, 0);
-    sub_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 0x44, 0x46, 1, 0);
+    Menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 0x35, 0);
+    Menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 0x46, 1, 0);
+    Menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 0x130, y2, 1, 0x36, 0);
+    Menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 0x44, 0x46, 1, 0);
 }
 
 #pragma INCLUDE_ASM("asm/draw_radar_helper2_800391D0.s")
