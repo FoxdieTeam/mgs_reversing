@@ -741,18 +741,6 @@ int SECTION(".data") off_8009EC1C[] = {(int)dword_800122D8, (int)dword_800122CC,
 char SECTION(".data") byte_8009EC30[] = {0x47, 0, 0, 1};
 int SECTION(".data") dword_8009EC34[] = {(int)aSaveData, 0x8004D008, 0x8004D14C, 0x8004D1D0};
 
-
-typedef struct Menu_Triangle
-{
-  short field_0_x0;
-  short field_2_y0;
-  short field_4_x1;
-  short field_6_y1;
-  short field_8_x2;
-  short field_A_y2;
-  unsigned int field_C_rgb;
-} Menu_Triangle;
-
 Menu_Triangle SECTION(".data") stru_8009EC44 = { 155, 125, 160, 120, 165, 125, 0x80808080 };
 Menu_Triangle SECTION(".data") stru_8009EC54 = { 156, 212, 160, 216, 164, 212, 0x80808080 };
 
@@ -939,12 +927,6 @@ int SECTION(".data") dword_8009EF10[] = {0x8320250, 0x650048C, 0};
 int SECTION(".data") dword_8009EF1C = 0x4C4;
 int SECTION(".data") dword_8009EF20 = 0x494;
 int SECTION(".data") dword_8009EF24[] = {0x27F0200, 0};
-
-typedef struct WeaponCreateEntry
-{
-	void* mCreateActorFn;
-	void* mStateFn;
-} WeaponCreateEntry;
 
 struct Actor_SnaInit;
 

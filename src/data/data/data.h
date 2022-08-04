@@ -33,4 +33,21 @@ typedef struct FS_FILE_INFO_8009D49C
 	int field_4_sector;
 } FS_FILE_INFO_8009D49C;
 
+typedef struct Menu_Triangle
+{
+  short field_0_x0;
+  short field_2_y0;
+  short field_4_x1;
+  short field_6_y1;
+  short field_8_x2;
+  short field_A_y2;
+  unsigned int field_C_rgb;
+} Menu_Triangle;
+
+typedef struct WeaponCreateEntry
+{
+	void* mCreateActorFn;
+	void* mStateFn;
+} WeaponCreateEntry;
+
 #endif // DATA_H
