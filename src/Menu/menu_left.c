@@ -58,7 +58,7 @@ int sub_8003CB98(struct Actor_MenuMan* a1)
     int v4;
 
     menu_restore_nouse_80043470();
-    v2 = a1->field_1DC_menu_left.field_0_rpk_idx;
+    v2 = a1->field_1DC_menu_left.field_0.field_0_item_id_idx;
     result = -1;
     if (v2 != -1 || (v2 = a1->field_1DC_menu_left.field_11, v2 != -1))
     {
@@ -72,10 +72,10 @@ void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
     menuMan->m7FnPtrs_field_2C[2] = menu_inventory_left_update_8003C95C;
-    menuMan->field_1DC_menu_left.field_0_rpk_idx = val;
+    menuMan->field_1DC_menu_left.field_0.field_0_item_id_idx = val;
     menuMan->field_1DC_menu_left.field_10 = 0;
-    menuMan->field_1DC_menu_left.field_4 = 0;
-    menuMan->field_1DC_menu_left.field_6 = 1;
+    menuMan->field_1DC_menu_left.field_0.field_4 = 0;
+    menuMan->field_1DC_menu_left.field_0.field_6 = 1;
     menuMan->field_1DC_menu_left.field_11 = val;
     menuMan->field_28_flags |= 4;
     dword_800ABAD0 = 0;
