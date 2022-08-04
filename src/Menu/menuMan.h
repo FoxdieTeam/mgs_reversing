@@ -134,7 +134,7 @@ typedef struct      MenuMan_Inventory_Menu_0x14
 
 struct Actor_MenuMan;
 
-typedef void (*TMenuUpdateFn)(struct Actor_MenuMan *, int); //todo
+typedef void (*TMenuUpdateFn)(struct Actor_MenuMan *, unsigned char*); //todo
 typedef void (*ButtonStates)(void);                         //todo
 
 typedef struct      MenuPrimBuffer
@@ -185,6 +185,9 @@ typedef struct      MenuMan_MenuBars
     short int       field_A_k10_decrement;
 } MenuMan_MenuBars;
 
+struct Actor_MenuMan;
+typedef void (*TInitKillFn)(struct Actor_MenuMan *);
+
 typedef struct      Actor_MenuMan
 {
     Actor           field_0_actor;
@@ -194,7 +197,7 @@ typedef struct      Actor_MenuMan
     char            field_29;
     unsigned char   field_2A_state;
     char            field_2B;
-    void            *m7FnPtrs_field_2C[7];
+    TMenuUpdateFn            m7FnPtrs_field_2C[7];
     int             field_48;
     DR_ENV          field_4C_drawEnv[2];
     DR_ENV          field_CC[2];
@@ -218,6 +221,5 @@ typedef struct      Actor_MenuMan
     int             field_21C;
     int             field_220;
 } Actor_MenuMan;
-typedef void (*TInitKillFn)(Actor_MenuMan *);
 
 #endif // _MENUMAN_H
