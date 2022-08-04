@@ -1859,8 +1859,8 @@ group_heap_80182000    group bss,org($80182000)
 group_gDgdActor2_800B3750    group bss,org($800B3750)
     section .gDgdActor2_800B3750, group_gDgdActor2_800B3750
 
-group_dword_800B3818    group bss,org($800B3818)
-    section .dword_800B3818, group_dword_800B3818
+group_image_data_800B3818    group bss,org($800B3818)
+    section .image_data_800B3818, group_image_data_800B3818
 
 group_gDispEnv_800B0600    group bss,org($800B0600)
     section .gDispEnv_800B0600, group_gDispEnv_800B0600

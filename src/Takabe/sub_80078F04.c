@@ -1,12 +1,11 @@
 #include "linker.h"
+#include "psyq.h"
 
-extern char byte_8009F734[];
+extern RECT rect_8009F734;
 
-int SECTION(".dword_800B3818") dword_800B3818;
-
-int StoreImage_8008FB70(char *, int *);
+u_long SECTION(".image_data_800B3818") image_data_800B3818[256];
 
 void sub_80078F04(void)
 {
-	StoreImage_8008FB70(byte_8009F734, &dword_800B3818);
+	StoreImage_8008FB70(&rect_8009F734, image_data_800B3818);
 }
