@@ -536,8 +536,28 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
     }
 }
 
-// need bss: short 800b77e0
-#pragma INCLUDE_ASM("asm/sna_init_8004EE28.s") // 136 bytes
+UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
+void sna_init_8004EE28(Actor_SnaInit *Snake)
+{
+    MATRIX mat1;
+    MATRIX mat2;
+    SVECTOR vec;
+    int vx;
+    MATRIX *chanl = (MATRIX *)&(Snake->field_9C_obj).objs[8].chanl;
+
+    ReadRotMatrix_80092DD8(&mat1);
+    DG_TransposeMatrix_8001EAD8(&mat1, &mat2);
+    MulMatrix0_80092A48(&mat2, chanl, &mat2);
+    DG_MatrixRotZYX_8001E92C(&mat2, &vec);
+    SetRotMatrix_80093218(&mat1);
+    vx = vec.vx;
+    if (vx < 0)
+    {
+        vx += 0xf;
+    }
+    vx &= 0xfff0;
+    gUnkMaybeCameraStruct_800B77B8.field_28_aim_assist = vx;
+}
 
 void sub_8004EEB0(Actor_SnaInit *pActor)
 {
@@ -1184,7 +1204,6 @@ void sub_80052468(Actor_SnaInit *pActor)
     }
 }
 
-UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
 void sna_init_fn_80052540(Actor_SnaInit *pActor)
 {
     if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
