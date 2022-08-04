@@ -736,6 +736,7 @@ int sub_80051BA4(Actor_SnaInit *pActor);
 int sub_8004EFE4(Actor_SnaInit *pActor, int param_2);
 int sub_8004E5E8(Actor_SnaInit *pActor, int param_2);
 
+// TODO: move these to indivudual weapon headers
 Actor* NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor* famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor* grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);

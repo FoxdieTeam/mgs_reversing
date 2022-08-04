@@ -9,10 +9,6 @@ void sub_80026734(short*, SVECTOR*, int);
 void sub_800329C4(GM_Control*, int, int);
 int sub_80026418(int arg0, int arg1);
 short sub_8002646C(int, int, char); // dummy signature
-
 int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 int sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void sub_80028890(SVECTOR *pVec);
-
-// TODO: move to psyq.h?
-void ReadRotMatrix_80092DD8(MATRIX *m);

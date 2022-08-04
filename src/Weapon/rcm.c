@@ -5,7 +5,7 @@
 #include "map.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libdg.h"
-#include "unknown.h"
+#include "psyq.h"
 
 // nikita
 
