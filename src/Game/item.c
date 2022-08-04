@@ -1,11 +1,11 @@
 #include "item.h"
 #include "object.h"
+#include "game.h"
 
 extern const char aItemC[];
 extern const char aItemMapD[];
 
 void GM_FreeObject_80034BF8(OBJECT *obj);
-unsigned int GM_Sound_80032968(int a1, int a2, int a3);
 
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void GM_ConfigObjectStep_80034C54( OBJECT* obj, SVECTOR* step );

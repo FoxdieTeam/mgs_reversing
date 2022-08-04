@@ -5,6 +5,7 @@
 #include "actor.h"
 #include "map.h"
 #include "target.h"
+#include "unknown.h"
 
 extern int dword_800AB824;
 extern SVECTOR stru_8009F3D4[2];
@@ -21,10 +22,6 @@ int                  socom_act_80065518(int a1);
 int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
 
 void                 GM_FreeObject_80034BF8(OBJECT *param_1);
-
-// TODO: move me
-int sub_80028454(void* pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
-void sub_80028890(SVECTOR *pVec);
 
 void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)
 {

@@ -45,5 +45,6 @@ void GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction f
 void GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
 void GV_DestroyActor_800151C8(struct Actor *pActor);
 void GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill);
+void GV_DestroyActorQuick_80015164(struct Actor *pActor);
 
 #endif // ACTOR_H_

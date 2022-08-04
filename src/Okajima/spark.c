@@ -12,8 +12,6 @@ void            spark_loader3_80073E48(int *a1, SVECTOR *a2, int a3, int a4);
 int      GV_StrCode_80016CCC(const char *string);
 
 DG_PRIM         *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
-void            DG_MovePos_8001BD20(SVECTOR *svector);
-void            ReadRotMatrix_80092DD8(MATRIX *m);
 int             DG_QueuePrim_80018274(DG_OBJS *pPrim);
 void            DG_PutPrim_8001BE00(MATRIX *matrix);
 DG_TEX   *DG_FindTexture_8001D830(int);
