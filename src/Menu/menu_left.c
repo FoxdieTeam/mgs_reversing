@@ -10,7 +10,7 @@ void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, in
 int  menu_restore_nouse_80043470();
 int  sub_8003CFE0(int a1, int a2);
 int  sub_8003B5E0(int a1);
-void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
+void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned char *param_2);
 void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4, short *param_5);
 int *sub_8003D6A8(struct menu_left_right *a1, int a2, int *a3);
 void menu_sub_8003B568(void);
@@ -85,4 +85,7 @@ void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
     menu_init_nouse_800434A8();
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003CC74.s")
+void menu_left_kill_8003CC74(Actor_MenuMan *pMenu)
+{
+    pMenu->field_28_flags &= ~4u;
+}
