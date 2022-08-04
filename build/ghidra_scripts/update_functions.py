@@ -123,6 +123,7 @@ with open(root_dir + '/build/ghidra_scripts/update_functions.log', 'w') as logfi
                             if param_name == param_type:
                                 param_name += '_' + str(i)
 
+                            print('updating function: ' + func_name + '; parameter number: ' + str(i))
                             updated_ghidra_params.append(ParameterImpl(param_name, data_type, currentProgram))
 
                         func.updateFunction(None, ReturnParameterImpl(returnType, currentProgram), Function.FunctionUpdateType.DYNAMIC_STORAGE_ALL_PARAMS, True, SourceType.IMPORTED, updated_ghidra_params)
