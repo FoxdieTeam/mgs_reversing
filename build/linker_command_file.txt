@@ -1266,7 +1266,7 @@
     include "..\obj\libdg\DG_StorePaletteEffect_80078F30.obj"
     include "..\obj\libdg\DG_ResetPaletteEffect_80078FF8.obj"
     include "..\obj\sub_80079004.obj"
-    include "..\obj\sub_800790E8.obj"
+    include "..\obj\Takabe\sub_800790E8.obj"
     include "..\obj\Takabe\sub_8007913C.obj"
     include "..\obj\Takabe\set_pal_effect_fns_80079194.obj"
     include "..\obj\libdg\DG_ResetExtPaletteMakeFunc_800791E4.obj"
