@@ -97,7 +97,7 @@ struct              menu_left_right;
 
 typedef void (*menu_8009E544_update)(struct Actor_MenuMan *,  int, int, int, struct menu_left_right *);
 
-struct              menu_8009E544
+typedef struct              menu_8009E544
 {
     short           field_0;
     short           field_2;
@@ -107,30 +107,44 @@ struct              menu_8009E544
     void            *field_10;
     void            *field_14;
     menu_8009E544_update field_18_pFnUpdate;
-};
+} menu_8009E544;
 
-struct              menu_left_right
+typedef struct Menu_Item_Unknown_Main
 {
-    short           field_0_rpk_idx;
-    short           field_2;
-    short           field_4;
-    short           field_6;
+    int field_0_array_count;
+    int field_4_selected_idx;
+    int field_8;
+    int field_C;
+    int field_10;
+    int field_14_fn_ctx;
+    int field_18;
+    void* field_1C_fn;
+} Menu_Item_Unknown_Main;
+
+typedef struct Menu_Item_Unknown_Array_Item
+{
+    short field_0_item_id_idx;
+    short field_2_current_amount;
+    short field_4; // max amount ?
+    short field_6;
+} Menu_Item_Unknown_Array_Item;
+
+typedef struct Menu_Item_Unknown
+{
+    Menu_Item_Unknown_Main field_0_main;
+    Menu_Item_Unknown_Array_Item field_20_array;
+} Menu_Item_Unknown;
+
+typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
+{
+    Menu_Item_Unknown_Array_Item       field_0;
     struct menu_8009E544 *field_8_pStru;
-    int             field_C_alloc;
-    char            field_10;
-    signed char            field_11;
+    struct Menu_Item_Unknown* field_C_alloc;
+    char            field_10; // state ?
+    signed char     field_11; // item_idx ?
     short           field_12;
-};
+} menu_left_right;
 
-typedef struct      MenuMan_Inventory_Menu_0x14
-{
-    //MenuMan_Inventory_Sub field_0_invent;
-    //Menu_Item_Unknown* field_C_pItem_sys_alloc;
-    int             a[4]; //todo remove, return the other ones
-    char            field_10_state;
-    char            field_11_item_idx;
-    short           field_12;
-} MenuMan_Inventory_Menu_0x14;
 
 struct Actor_MenuMan;
 
@@ -149,12 +163,6 @@ typedef struct      MenuGlue
     MenuPrimBuffer  mPrimBuf;
     unsigned char   *mPrimPtrs[2];
 } MenuGlue;
-
-typedef struct              Menu_Prim_Buffer
-{
-    int             field_0_pBuffer;
-    int             *field_4_pOt;
-} Menu_Prim_Buffer;
 
 typedef struct _Menu_rpk_item
 {
@@ -191,17 +199,17 @@ typedef void (*TInitKillFn)(struct Actor_MenuMan *);
 typedef struct      Actor_MenuMan
 {
     Actor           field_0_actor;
-    struct Menu_Prim_Buffer *field_20_otBuf;
+    MenuPrimBuffer *field_20_otBuf;
     int             field_24_pInput;
     unsigned char   field_28_flags;
     char            field_29;
     unsigned char   field_2A_state;
     char            field_2B;
-    TMenuUpdateFn            m7FnPtrs_field_2C[7];
+    TMenuUpdateFn   m7FnPtrs_field_2C[7];
     int             field_48;
     DR_ENV          field_4C_drawEnv[2];
     DR_ENV          field_CC[2];
-    int             field_14C;
+    int             field_14C; // RECT ?
     int             field_150;
     DR_ENV          field_154;
     DR_ENV          field_194;

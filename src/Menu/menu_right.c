@@ -97,29 +97,25 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003D070.s")
 #pragma INCLUDE_ASM("asm/sub_8003D0D0.s")
 
-int * sub_8003D124(int param_1)
+Menu_Item_Unknown* menu_alloc_panel_8003D124(int count)
 {
-    int *piVar1;
-    int iVar2;
-
-    iVar2 = param_1 * 8 + 0x20;
-    piVar1 = (int *)GV_Malloc_8001620C(iVar2);
-    if (piVar1 != (int *)0x0)
+    const int totalLen = (sizeof(Menu_Item_Unknown_Array_Item) * count) + sizeof(Menu_Item_Unknown_Main);
+    Menu_Item_Unknown* pUnknown = (Menu_Item_Unknown *)GV_Malloc_8001620C(totalLen);
+    if ( pUnknown )
     {
-        GV_ZeroMemory_8001619C(piVar1, iVar2);
-        *piVar1 = param_1;
-        piVar1[4] = 0;
+        GV_ZeroMemory_8001619C(pUnknown, totalLen);
+        pUnknown->field_0_main.field_0_array_count = count;
+        pUnknown->field_0_main.field_10 = 0;
     }
-    return piVar1;
+    return pUnknown;
 }
 
-void sub_8003D184(void *param_1)
+void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
 {
-    if (param_1 != 0)
+    if ( pPanel )
     {
-        GV_Free_80016230(param_1);
+        GV_Free_80016230(pPanel);
     }
-    return;
 }
 
 void AssignXY_8003D1A8(SVECTOR *vec, short vx, short vy)
@@ -372,7 +368,7 @@ void sub_8003EBDC(struct Actor_MenuMan *menuMan)
     MenuMan_Inventory_14h_Unk *inventory_unk;
     int weapon_index;
 
-    weapon_index = (int)(menuMan->field_1F0_menu_right).field_0_rpk_idx;
+    weapon_index = (int)(menuMan->field_1F0_menu_right.field_0).field_0_item_id_idx;
     if ((weapon_index != -1) ||
         (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_right).field_11), weapon_index != -1))
     {
@@ -386,11 +382,11 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
     menuMan->m7FnPtrs_field_2C[1] = menu_right_update_8003E990;
-    menuMan->field_1F0_menu_right.field_0_rpk_idx = val;
+    menuMan->field_1F0_menu_right.field_0.field_0_item_id_idx = val;
     menuMan->field_1F0_menu_right.field_10 = 0;
     menuMan->field_1F0_menu_right.field_12 = 0;
-    menuMan->field_1F0_menu_right.field_4 = 0;
-    menuMan->field_1F0_menu_right.field_6 = 1;
+    menuMan->field_1F0_menu_right.field_0.field_4 = 0;
+    menuMan->field_1F0_menu_right.field_0.field_6 = 1;
     menuMan->field_1F0_menu_right.field_11 = val;
     menuMan->field_28_flags |= 2;
     dword_800ABAE8 = 0;
