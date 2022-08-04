@@ -9,3 +9,5 @@ int ratan2_80094308(int,int);
 int rsin_80092508(int a1);
 int rcos_800925D8(int a1);
 int StoreImage_8008FB70(RECT*, u_long*);
+int LoadImage2_80091FB0(RECT*, u_long*);
+int StoreImage2_8009209C(RECT*, u_long*);
