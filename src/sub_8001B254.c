@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 // process vecs in spad
 SVECTOR* sub_8001AD28(SVECTOR *a1, int count);

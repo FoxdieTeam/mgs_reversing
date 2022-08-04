@@ -1,10 +1,10 @@
 #ifndef _GGLSIGHT_H
 #define _GGLSIGHT_H
 
-#include "actor.h"
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
+#include "libgv/actor.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 typedef struct Actor_gglsight
 {

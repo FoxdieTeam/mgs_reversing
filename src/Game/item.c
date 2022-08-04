@@ -1,6 +1,6 @@
-#include "item.h"
-#include "object.h"
-#include "game.h"
+#include "Game/item.h"
+#include "Game/object.h"
+#include "Game/game.h"
 
 extern const char aItemC[];
 extern const char aItemMapD[];

@@ -1,7 +1,7 @@
-#include "bodyarm.h"
+#include "Equip/bodyarm.h"
 
 #include "Script_tbl_map_8002BB44.h" // todo move game state
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 extern GameState_800B4D98   gGameState_800B4D98;
 const char* off_8009F264[4];

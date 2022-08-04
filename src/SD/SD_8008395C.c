@@ -1,6 +1,6 @@
 
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 
 int  StrFadeIn_800822C8(unsigned int fade);
 

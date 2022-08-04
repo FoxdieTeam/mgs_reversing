@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "memcard.h"
+#include "memcard/memcard.h"
 
 void mts_printf_8008BBA0(const char *formatStr, ...);
 extern const char aHwCardError[];

@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 
 char                *strcpy_8008E768(char *, const char *);
 int                 strcmp_8008E6F8(const char *str1, const char *str2);

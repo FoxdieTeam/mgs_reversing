@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game/game.h"
 
 void GM_Sound_80032C48(int code, int notUsed)
 {

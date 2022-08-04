@@ -1,5 +1,5 @@
-#include "dgd.h"
-#include "libdg.h"
+#include "libdg/dgd.h"
+#include "libdg/libdg.h"
 
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
 

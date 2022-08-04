@@ -1,6 +1,6 @@
-#include <libsn.h>
-#include "actor.h"
-#include "mts_new.h"
+#include <LIBSN.H>
+#include "libgv/actor.h"
+#include "mts/mts_new.h"
 
 int SECTION(".sbss") GV_PauseLevel_800AB928;
 

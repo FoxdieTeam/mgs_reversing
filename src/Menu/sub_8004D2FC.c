@@ -1,4 +1,4 @@
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 
 void init_radio_message_board_80040F74(int param_1);
 void init_file_mode_8004D24C(int param_1, int param_2);

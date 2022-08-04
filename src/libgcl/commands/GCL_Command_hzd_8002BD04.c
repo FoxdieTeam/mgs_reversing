@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 
 struct map_record *GCL_Command_hzd_impl_800310D0(void);
 

@@ -1,8 +1,8 @@
-#include "gasmask.h"
-#include "object.h"
-#include "strcode.h"
-#include "../Kojo/demothrd.h"
-#include "map.h"
+#include "Equip/gasmask.h"
+#include "Game/object.h"
+#include "libgv/strcode.h"
+#include "Kojo/demothrd.h"
+#include "map/map.h"
 #include "Script_tbl_map_8002BB44.h"
 
 extern const char aGasmaskC[];

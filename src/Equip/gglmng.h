@@ -1,7 +1,7 @@
 #ifndef _GGMNG_H_
 #define _GGMNG_H_
 
-#include "actor.h"
+#include "libgv/actor.h"
 
 typedef struct Actor_gglmng
 {

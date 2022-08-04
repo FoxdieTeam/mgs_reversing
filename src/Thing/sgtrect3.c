@@ -1,6 +1,6 @@
-#include "sgtrect3.h"
-#include "dgd.h"
-#include <libgte.h>
+#include "Thing/sgtrect3.h"
+#include "libdg/dgd.h"
+#include <LIBGTE.H>
 
 void		DG_Clip_80017594(RECT *pClipRect,int dist);
 extern			DG_CHNL DG_Chanls_800B1800[3];

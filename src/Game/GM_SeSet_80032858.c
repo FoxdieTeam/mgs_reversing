@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Game/game.h"
 #include "unknown.h"
 
 typedef struct Point

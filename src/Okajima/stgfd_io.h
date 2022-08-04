@@ -1,11 +1,11 @@
 #ifndef _STGFD_IO_
 #define _STGFD_IO_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
-#include "idaTypes.h"
-#include "actor.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "util/idaTypes.h"
+#include "libgv/actor.h"
 
 typedef struct Actor_stgfd_io_0x30
 {

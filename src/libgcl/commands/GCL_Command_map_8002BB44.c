@@ -1,13 +1,13 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "gcl.h"
-#include "delay.h"
-#include "strcode.h"
-#include "mts_new.h"
-//#include "menuMan.h"
-#include "map.h"
-#include <sys/types.h>
-#include <libgte.h>
+#include "libgcl/gcl.h"
+#include "Game/delay.h"
+#include "libgv/strcode.h"
+#include "mts/mts_new.h"
+//#include "Menu/menuMan.h"
+#include "map/map.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 void Map_ScriptLoadMapBlocks_800312D0(void);
 void Map_ScriptReloadMaps_80031450(int);

@@ -1,12 +1,12 @@
 #ifndef _ANIME_H_
 #define _ANIME_H_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
-#include "libdg.h"
-#include "actor.h"
-#include "data.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "libdg/libdg.h"
+#include "libgv/actor.h"
+#include "data/data/data.h"
 
 typedef struct anime_0x34
 {

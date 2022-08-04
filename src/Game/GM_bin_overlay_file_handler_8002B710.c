@@ -1,9 +1,9 @@
 #include "linker.h"
-#include "mts_new.h"
-#include "game.h"
+#include "mts/mts_new.h"
+#include "Game/game.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "actor.h"
-#include "dgd.h"
+#include "libgv/actor.h"
+#include "libdg/dgd.h"
 
 extern GameState_800B4D98    gGameState_800B4D98;
 

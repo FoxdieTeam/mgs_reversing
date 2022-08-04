@@ -1,5 +1,5 @@
-#include "libgv.h"
-#include "mts_new.h"
+#include "libgv/libgv.h"
+#include "mts/mts_new.h"
 
 /**bss***************************************************************/
 GV_Heap SECTION(".MemorySystems_800AD2F0") MemorySystems_800AD2F0[3];

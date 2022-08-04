@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "Menu/menuMan.h"
 
 unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript)
 {

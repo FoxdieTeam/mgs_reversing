@@ -1,11 +1,11 @@
 #ifndef _TABAKO_H_
 #define _TABAKO_H_
 
-#include "actor.h"
-#include "libgv.h"
-#include "libdg.h"
-#include "GM_Control.h"
-#include "game.h"
+#include "libgv/actor.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "Game/GM_Control.h"
+#include "Game/game.h"
 
 // cigarettes
 

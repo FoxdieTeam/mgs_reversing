@@ -1,13 +1,13 @@
 #ifndef _SNA_INIT_H_
 #define _SNA_INIT_H_
 
-#include "actor.h"
-#include "GM_Control.h"
-#include "game.h"
+#include "libgv/actor.h"
+#include "Game/GM_Control.h"
+#include "Game/game.h"
 #include "target.h"
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 typedef struct Sna_E1
 {

@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "dgd.h"
-#include "libdg.h"
+#include "libdg/dgd.h"
+#include "libdg/libdg.h"
 
 void *GV_AllocMemory2_80015ED8( int which, int size, void** type);
 

@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "map/map.h"
-#include "libdg.h"
-#include "dgd.h"
+#include "libdg/libdg.h"
+#include "libdg/dgd.h"
 
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ZeroMatrix_8009D430;

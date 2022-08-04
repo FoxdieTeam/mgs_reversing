@@ -1,10 +1,10 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-#include "hzd.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+#include "map/hzd.h"
 
 typedef struct map_record
 {

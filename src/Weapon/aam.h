@@ -1,8 +1,8 @@
 #ifndef _AAM_H_
 #define _AAM_H_
 
-#include "game.h"
-#include "actor.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
 
 // stinger
 

@@ -1,7 +1,7 @@
-#include "goggleir.h"
-#include "object.h"
-#include "strcode.h"
-#include "map.h"
+#include "Takabe/goggleir.h"
+#include "Game/object.h"
+#include "libgv/strcode.h"
+#include "map/map.h"
 
 extern char aGoggleirC[]; // = "goggleir.c"
 extern const char aGoggles_1[];

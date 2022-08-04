@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "libdg.h"
-#include "dgd.h"
+#include "libdg/libdg.h"
+#include "libdg/dgd.h"
 
 
 /**data************************/

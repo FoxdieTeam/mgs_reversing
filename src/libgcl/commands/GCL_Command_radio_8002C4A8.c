@@ -1,7 +1,7 @@
-#include "gcl.h"
-#include "menuMan.h"
-#include "mts_new.h"
-#include "hash.h"
+#include "libgcl/gcl.h"
+#include "Menu/menuMan.h"
+#include "mts/mts_new.h"
+#include "libgcl/hash.h"
 
 extern const char   aWrongCodeForRa[];
 

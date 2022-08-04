@@ -1,9 +1,9 @@
 #ifndef _THING_DOOR_H_
 #define _THING_DOOR_H_
 
-#include "GM_Control.h"
-#include "game.h"
-#include "actor.h"
+#include "Game/GM_Control.h"
+#include "Game/game.h"
+#include "libgv/actor.h"
 
 Actor* NewDoor_8006FD00(int name, int where, int argc, char **argv);
 

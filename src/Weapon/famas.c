@@ -1,4 +1,4 @@
-#include "famas.h"
+#include "Weapon/famas.h"
 #include "Script_tbl_map_8002BB44.h"
 
 void GM_FreeObject_80034BF8(OBJECT *obj);

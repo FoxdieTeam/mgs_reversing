@@ -2,12 +2,12 @@
 #define _SCN_MASK_H_
 
 #include "linker.h"
-#include "actor.h"
-#include "libdg.h"
-#include "dgd.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include "libgv/actor.h"
+#include "libdg/libdg.h"
+#include "libdg/dgd.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
 typedef struct scn_mask_prims
 {

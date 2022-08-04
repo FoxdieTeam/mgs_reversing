@@ -1,6 +1,6 @@
-#include "blast.h"
-#include "libdg.h"
-#include "game.h"
+#include "Bullet/blast.h"
+#include "libdg/libdg.h"
+#include "Game/game.h"
 #include "target.h"
 #include "anime.h"
 

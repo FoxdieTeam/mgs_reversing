@@ -1,13 +1,13 @@
 #ifndef _CLAYMORE_H_
 #define _CLAYMORE_H_
 
-#include <sys/types.h>
-#include <LIBGTE.h>
-#include <LIBGPU.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 #include "linker.h"
-#include "actor.h"
+#include "libgv/actor.h"
 #include "target.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 typedef struct Actor_Claymore
 {

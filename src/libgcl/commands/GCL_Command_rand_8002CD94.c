@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "gcl.h"
-#include "idaTypes.h"
+#include "libgcl/gcl.h"
+#include "util/idaTypes.h"
 #include "Script_tbl_map_8002BB44.h"
 
 unsigned int rand_8008E6B8(void);

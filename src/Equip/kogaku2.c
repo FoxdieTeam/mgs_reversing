@@ -1,5 +1,5 @@
-#include "actor.h"
-#include "kogaku2.h"
+#include "libgv/actor.h"
+#include "Equip/kogaku2.h"
 
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;

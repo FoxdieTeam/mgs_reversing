@@ -1,5 +1,5 @@
 #include "jimctrl.h"
-#include <util/idaTypes.h>
+#include "util/idaTypes.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 

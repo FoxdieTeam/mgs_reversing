@@ -1,8 +1,8 @@
 #include "linker.h"
 #include "homing_target.h"
-#include "mts_new.h"
-#include "map.h"
-#include "libgv.h"
+#include "mts/mts_new.h"
+#include "map/map.h"
+#include "libgv/libgv.h"
 #include "psyq.h"
 
 extern const char aHomingTargetOv[];

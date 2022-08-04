@@ -1,6 +1,6 @@
 
 
-#include "idaTypes.h"
+#include "util/idaTypes.h"
 
 extern int              GV_PauseLevel_800AB928;
 

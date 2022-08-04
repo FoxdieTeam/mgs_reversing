@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "gcl.h"
-#include "strcode.h"
+#include "libgcl/gcl.h"
+#include "libgv/strcode.h"
 
 extern int GM_LoadRequest_800AB3D0;
 extern char dword_800ABA58[8];

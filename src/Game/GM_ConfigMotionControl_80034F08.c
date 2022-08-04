@@ -1,6 +1,6 @@
 #include "linker.h"
-#include "game.h"
-#include "GM_Control.h"
+#include "Game/game.h"
+#include "Game/GM_Control.h"
 
 int                  GV_CacheID_800152DC(int hashedFileName, int param_2);
 void                 *GV_GetCache_8001538C(int hash);

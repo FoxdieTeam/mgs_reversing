@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 extern struct DG_Rec_Unknown stru_8009D3D0[23];
 extern MATRIX DG_ZeroMatrix_8009D430;

@@ -1,9 +1,9 @@
 #include "Script_tbl_map_8002BB44.h"
-#include "gcl.h"
+#include "libgcl/gcl.h"
 #include "linker.h"
-#include "map.h"
-#include "GM_Control.h"
-#include "hash.h"
+#include "map/map.h"
+#include "Game/GM_Control.h"
+#include "libgcl/hash.h"
 
 extern GM_Control*          gSnaControl_800AB9F4; // todo: update external
 

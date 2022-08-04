@@ -1,5 +1,5 @@
-#include <sys/types.h>
-#include <libgte.h>
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 int  sub_80026440(int param_1, int param_2, int param_3);
 

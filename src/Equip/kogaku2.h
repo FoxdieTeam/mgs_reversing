@@ -1,9 +1,9 @@
 #ifndef _KOGAKU2_H_
 #define _KOGAKU2_H_
 
-#include "actor.h"
-#include "Game.h"
-#include "GM_Control.h"
+#include "libgv/actor.h"
+#include "Game/game.h"
+#include "Game/GM_Control.h"
 
 typedef struct Actor_kogaku2
 {

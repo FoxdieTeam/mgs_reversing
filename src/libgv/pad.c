@@ -1,4 +1,4 @@
-#include "libgv.h"
+#include "libgv/libgv.h"
 #include "Script_tbl_map_8002BB44.h"
 
 /***bss****************************************************************/

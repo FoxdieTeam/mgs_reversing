@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 #define SCRATCH_PAD_MEM 0x1F800000
 

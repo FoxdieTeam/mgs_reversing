@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libdg.h"
+#include "libdg/libdg.h"
 
 int Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef)
 {
