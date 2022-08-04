@@ -9,7 +9,7 @@ extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
 Menu_rpk_item* menu_rpk_get_img_8003DDB4(int idx);
 
-void Menu_render_rect_8003DB2C(struct Menu_Prim_Buffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
+void Menu_render_rect_8003DB2C(MenuPrimBuffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
 void LoadImage_8008FB10(RECT *, unsigned char *);
 void menu_radar_update_8003B350(struct Actor_MenuMan *a1, unsigned char* a2);
 void menu_init_radar_helper_8003ADAC(void);
