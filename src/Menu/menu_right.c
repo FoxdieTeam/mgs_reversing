@@ -97,6 +97,7 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003D070.s")
 #pragma INCLUDE_ASM("asm/sub_8003D0D0.s")
 
+
 int * sub_8003D124(int param_1)
 {
     int *piVar1;
@@ -372,7 +373,7 @@ void sub_8003EBDC(struct Actor_MenuMan *menuMan)
     MenuMan_Inventory_14h_Unk *inventory_unk;
     int weapon_index;
 
-    weapon_index = (int)(menuMan->field_1F0_menu_right).field_0_rpk_idx;
+    weapon_index = (int)(menuMan->field_1F0_menu_right.field_0).field_0_item_id_idx;
     if ((weapon_index != -1) ||
         (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_right).field_11), weapon_index != -1))
     {
@@ -386,11 +387,11 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
     menuMan->m7FnPtrs_field_2C[1] = menu_right_update_8003E990;
-    menuMan->field_1F0_menu_right.field_0_rpk_idx = val;
+    menuMan->field_1F0_menu_right.field_0.field_0_item_id_idx = val;
     menuMan->field_1F0_menu_right.field_10 = 0;
     menuMan->field_1F0_menu_right.field_12 = 0;
-    menuMan->field_1F0_menu_right.field_4 = 0;
-    menuMan->field_1F0_menu_right.field_6 = 1;
+    menuMan->field_1F0_menu_right.field_0.field_4 = 0;
+    menuMan->field_1F0_menu_right.field_0.field_6 = 1;
     menuMan->field_1F0_menu_right.field_11 = val;
     menuMan->field_28_flags |= 2;
     dword_800ABAE8 = 0;
