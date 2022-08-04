@@ -211,6 +211,8 @@ void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
 void DG_MovePos_8001BD20(SVECTOR *svector);
 void DG_RotatePos_8001BD64(SVECTOR *svector);
 
-extern void DG_MatrixRotZYX_8001E92C(MATRIX *mat, SVECTOR *vec);
+void DG_MatrixRotZYX_8001E92C(MATRIX *mat, SVECTOR *vec);
+void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
+void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
 
 #endif // LIBDG_H

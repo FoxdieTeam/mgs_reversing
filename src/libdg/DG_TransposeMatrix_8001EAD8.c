@@ -1,6 +1,7 @@
 #include "linker.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
+#include "libdg.h"
 
 void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out)
 {
@@ -18,8 +19,7 @@ void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out)
     out->m[2][1] = in->m[1][2];
     out->m[1][2] = temp;
 
-
-    if ( in != out )
+    if (in != out)
     {
         out->m[0][0] = in->m[0][0];
         out->m[1][1] = in->m[1][1];
