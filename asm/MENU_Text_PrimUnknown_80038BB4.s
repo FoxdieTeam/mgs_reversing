@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80038BB4
-sub_80038BB4:
+	xdef MENU_Text_PrimUnknown_80038BB4
+MENU_Text_PrimUnknown_80038BB4:
 	dw 0x3C03E100 ; 0x80038BB4
 	dw 0x3463061F ; 0x80038BB8
 	dw 0x3C05800A ; 0x80038BBC

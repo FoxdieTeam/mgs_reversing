@@ -178,13 +178,13 @@ void MENU_Text_Init_80038B98(void)
 	pTextConfig->flags = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80038BB4.s") // 132 bytes
+#pragma INCLUDE_ASM("asm/MENU_Text_PrimUnknown_80038BB4.s") // 132 bytes
 
 int sprintf_8008E878(char *buffer, const char *fmt, ...);
 int strlen_8008E7B8(char *s);
 void _menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
 void _menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
-void sub_80038BB4();
+void MENU_Text_PrimUnknown_80038BB4();
 
 int MENU_Text_80038C38(char *fmt, const char *str, int param_3, int param_4, int param_5)
 {
@@ -208,13 +208,26 @@ int MENU_Text_80038C38(char *fmt, const char *str, int param_3, int param_4, int
                 _menu_number_draw_string_80042BF4(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4.xpos,
                                                    string_buffer);
             }
-            sub_80038BB4();
+            MENU_Text_PrimUnknown_80038BB4();
         }
     }
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80038D10.s") // 88 bytes
+void _menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
+void MENU_Text_PrimUnknown_80038BB4(void);
+
+int menu_draw_num_80038D10(int number)
+{
+    if ( !gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation )
+    {
+       
+        return gMenuTextConfig_8009E2E4.xpos;
+    }
+    _menu_number_draw_80042988(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4, number);
+    MENU_Text_PrimUnknown_80038BB4();
+    return gMenuTextConfig_8009E2E4.xpos;
+}
 
 MenuGlue* MENU_GetPrimInfo_80038D68(void)
 {
