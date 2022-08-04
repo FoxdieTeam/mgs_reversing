@@ -25,4 +25,24 @@ int d_blood_loader_80072B38(Actor_Blood* actor_blood)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/NewKetchap_80072B60.s") // 116 bytes
+void d_blood_act_80072A0C(void); // dummy signature
+extern const char aDBloodC[];
+Actor_Blood *NewKetchap_80072B60(void)
+{
+    Actor_Blood *actor_blood;
+    int iVar1;
+
+    actor_blood = (Actor_Blood *)GV_NewActor_800150E4(6, 0x3c);
+    if (actor_blood != (Actor_Blood *)0x0)
+    {
+        GV_SetNamedActor_8001514C((Actor *)actor_blood, (TActorFunction)d_blood_act_80072A0C,
+            (TActorFunction)d_blood_kill_null_800729AC, aDBloodC);
+        iVar1 = d_blood_loader_80072B38(actor_blood);
+        if (iVar1 < 0)
+        {
+            GV_DestroyActor_800151C8((Actor *)actor_blood);
+            return 0;
+        }
+    }
+    return actor_blood;
+}
