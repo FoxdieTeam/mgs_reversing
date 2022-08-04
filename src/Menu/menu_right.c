@@ -97,30 +97,25 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003D070.s")
 #pragma INCLUDE_ASM("asm/sub_8003D0D0.s")
 
-
-int * sub_8003D124(int param_1)
+Menu_Item_Unknown* menu_alloc_panel_8003D124(int count)
 {
-    int *piVar1;
-    int iVar2;
-
-    iVar2 = param_1 * 8 + 0x20;
-    piVar1 = (int *)GV_Malloc_8001620C(iVar2);
-    if (piVar1 != (int *)0x0)
+    const int totalLen = (sizeof(Menu_Item_Unknown_Array_Item) * count) + sizeof(Menu_Item_Unknown_Main);
+    Menu_Item_Unknown* pUnknown = (Menu_Item_Unknown *)GV_Malloc_8001620C(totalLen);
+    if ( pUnknown )
     {
-        GV_ZeroMemory_8001619C(piVar1, iVar2);
-        *piVar1 = param_1;
-        piVar1[4] = 0;
+        GV_ZeroMemory_8001619C(pUnknown, totalLen);
+        pUnknown->field_0_main.field_0_array_count = count;
+        pUnknown->field_0_main.field_10 = 0;
     }
-    return piVar1;
+    return pUnknown;
 }
 
-void sub_8003D184(void *param_1)
+void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
 {
-    if (param_1 != 0)
+    if ( pPanel )
     {
-        GV_Free_80016230(param_1);
+        GV_Free_80016230(pPanel);
     }
-    return;
 }
 
 void AssignXY_8003D1A8(SVECTOR *vec, short vx, short vy)
