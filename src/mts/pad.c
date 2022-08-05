@@ -10,14 +10,6 @@ unsigned char SECTION(".gMtsPadSendBuffers_800C14D0") gMtsPadSendBuffers_800C14D
 extern int gMtsPadInited_800A3DBC;
 extern int dword_800A3DC8;
 
-void PadInitDirect_8009C6CC(unsigned char *pad1, unsigned char *pad2);
-void PadSetAct_8009A678(int port, unsigned char *data, int len);
-void PadStartCom_8009A22C(void);
-void StopPAD_80099F08(void);
-void ChangeClearPAD_8009960C(long val);
-void mts_set_callback_controller_800893D8(void *ptr);
-void mts_callback_controller_8008BDEC(void);
-
 #pragma INCLUDE_ASM("asm/mts/mts_8008BC8C.s")                     // 352 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_callback_controller_8008BDEC.s") // 684 bytes
 

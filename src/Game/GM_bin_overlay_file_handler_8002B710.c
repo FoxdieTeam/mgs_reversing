@@ -5,6 +5,8 @@
 #include "libgv/actor.h"
 #include "libgv/libgv.h"
 #include "libdg/dgd.h"
+#include "Menu/menuMan.h"
+#include "unknown.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
@@ -43,25 +45,15 @@ extern int gDiskNum_800ACBF0;
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-void GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
-void MENU_StartDeamon_80038A20(void);
-void GM_InitArea_8002A704(void);
-void GM_InitChara_8002A890();
-void GM_InitScript_8002D1DC(void);
-void sub_8002AA48(void);
-void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor);
-void GM_ResetMemory_8002AA80(void);
-void GM_ClearWeaponAndItem_8002A960();
-void GV_SaveResidentTop_800163C4(void);
-void GM_CreateLoader_8002AAB0();
-
 int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameHashed)
 {
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
         mts_printf_8008BBA0(aTooLargeStageB);
     }
+
     memcpy_8008E648(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);
+
     return 1;
 }
 

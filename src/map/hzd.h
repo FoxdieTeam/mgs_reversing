@@ -118,4 +118,7 @@ typedef struct HZD_MAP
     int        *f20_pAfterStructure_48;
 } HZD_MAP; // 28
 
+void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
+void HZD_StartDaemon_80021900(void);
+
 #endif // _HZD_H_

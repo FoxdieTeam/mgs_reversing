@@ -3,12 +3,12 @@
 #include "Game/game.h"
 #include "target.h"
 #include "anime.h"
+#include "unknown.h"
 
 extern const char aBlastC[];
 extern int        claymore_map_800AB9DC;
 
 void AN_Blast_Single_8006E224(SVECTOR *pVec);
-void sub_8007913C();
 void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 
 extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target *, int);

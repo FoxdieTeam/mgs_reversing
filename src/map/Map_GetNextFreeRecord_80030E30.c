@@ -38,7 +38,6 @@ extern DG_OBJS *StageObjs_800B7890[32];
 extern MATRIX   DG_ZeroMatrix_8009D430;
 
 void *DG_MakeObjs_80031760(void *, int, int);
-void  DG_PutObjs_8001BDB8(DG_OBJS *);
 void  DG_QueueObjs_80018178(DG_OBJS *);
 
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
