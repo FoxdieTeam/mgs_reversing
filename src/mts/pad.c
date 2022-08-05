@@ -4,7 +4,7 @@
 #include "psyq.h"
 
 unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36] = {};
-int SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2] = {};
+int           SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2] = {};
 unsigned char SECTION(".gMtsPadSendBuffers_800C14D0") gMtsPadSendBuffers_800C14D0[2][8] = {};
 
 extern int gMtsPadInited_800A3DBC;
@@ -18,7 +18,7 @@ void ChangeClearPAD_8009960C(long val);
 void mts_set_callback_controller_800893D8(void *ptr);
 void mts_callback_controller_8008BDEC(void);
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008BC8C.s") // 352 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_8008BC8C.s")                     // 352 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_callback_controller_8008BDEC.s") // 684 bytes
 
 void mts_init_controller_8008C098(void)
@@ -47,9 +47,9 @@ void mts_stop_controller_8008C12C(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_pad_8008C170.s") // 236 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_read_pad_8008C25C.s") // 200 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_PadRead_8008C324.s") // 92 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_get_pad_8008C170.s")             // 236 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_read_pad_8008C25C.s")            // 200 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_PadRead_8008C324.s")             // 92 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_get_controller_data_8008C380.s") // 60 bytes
 
 int mts_control_vibration_8008C3BC(int arg0)
@@ -65,6 +65,6 @@ int mts_control_vibration_8008C3BC(int arg0)
     return ret;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_set_pad_vibration_8008C408.s") // 76 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_set_pad_vibration2_8008C454.s") // 104 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_set_pad_vibration_8008C408.s")      // 76 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_set_pad_vibration2_8008C454.s")     // 104 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_get_pad_vibration_type_8008C4BC.s") // 120 bytes

@@ -17,7 +17,8 @@ int GCL_Command_print_8002D0E4(unsigned char *argc, char **argv) // argc ??
     mts_printf_8008BBA0(aPrint); // "print: "
     if (argc)
     {
-        do {
+        do
+        {
             argc = GCL_GetNextValue_8002069C(argc, &code, &value);
             if (code == GCLCODE_NULL)
                 break;

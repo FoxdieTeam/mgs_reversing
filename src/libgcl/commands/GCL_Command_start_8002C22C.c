@@ -5,7 +5,7 @@
 //#include "Menu/menuMan.h"
 
 extern int gBinds_800ABA60;
-int SECTION(".sbss") gBinds_800ABA60;
+int        SECTION(".sbss") gBinds_800ABA60;
 
 extern const char aMenuInitEnd[];
 

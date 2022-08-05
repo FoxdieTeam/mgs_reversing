@@ -1,7 +1,7 @@
 #include "linker.h"
 
 extern int gMapsChanged_800ABAAC;
-int SECTION(".sbss") gMapsChanged_800ABAAC;
+int        SECTION(".sbss") gMapsChanged_800ABAAC;
 
 int Map_light_80030C6C(int a1);
 

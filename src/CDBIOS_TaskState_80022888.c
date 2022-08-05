@@ -9,16 +9,16 @@ int CDBIOS_TaskState_80022888(void)
 
 void CDFS_ParseFileName_80022898(char *pOutput, char *pInput, int input_len)
 {
-    while ( input_len > 0 )
+    while (input_len > 0)
     {
         *pOutput++ = *pInput++;
-        if ( !*pInput )
+        if (!*pInput)
         {
             break;
         }
-        
+
         --input_len;
-        if ( *pInput == ';' )
+        if (*pInput == ';')
         {
             break;
         }

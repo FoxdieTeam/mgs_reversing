@@ -16,12 +16,11 @@
 
 typedef struct
 {
-    unsigned char field_0_count1;
-    unsigned char field_1_count2;
-    short pad;
+    unsigned char  field_0_count1;
+    unsigned char  field_1_count2;
+    short          pad;
     Menu_rpk_item *items[0]; // pointers ??
 } RpkHeader;
-
 
 DWORD SECTION(".sbss") dword_800ABADC;
 
@@ -29,26 +28,23 @@ DWORD SECTION(".sbss") dword_800ABADC;
 
 int SECTION(".sbss") dword_800ABAE0;
 
-
 extern struct menu_8009E544 *dword_800AB584;
-struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
+struct menu_8009E544        *SECTION(".sdata") dword_800AB584;
 
 int SECTION(".dword_800B7800") dword_800B7800;
 
-
 struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
-
 
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
-int GV_CacheID2_800152FC(const char* fileName, int extID);
+int   GV_CacheID2_800152FC(const char *fileName, int extID);
 void *GV_GetCache_8001538C(int hash);
 
 extern struct menu_8009E544 *dword_800AB584;
-extern menu_weapon_rpk_info gMenuWeaponRpkInfo_8009E57C[];
-extern GameState_800B4D98 gGameState_800B4D98;
-extern int dword_8009E544[];
-extern int GM_GameStatus_800AB3CC;
+extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
+extern GameState_800B4D98    gGameState_800B4D98;
+extern int                   dword_8009E544[];
+extern int                   GM_GameStatus_800AB3CC;
 
 int SECTION(".sbss") dword_800ABAE8;
 int SECTION(".sbss") dword_800ABAEC;
@@ -66,17 +62,16 @@ MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_8
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
-
-void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
+void                       sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
-void sub_8003CFE0(unsigned int **images, int index);
-void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
-void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
-                                            int param_4, short *param_5);
+void                       sub_8003CFE0(unsigned int **images, int index);
+void                       menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
+void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
+                                     short *param_5);
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3,
-                                                int param_4, short *param_5);
-void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void* pUpdateFn);
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
+                                         short *param_5);
+void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void menu_inventory_right_init_items_8003DE50(void);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 
@@ -94,11 +89,11 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003D070.s")
 #pragma INCLUDE_ASM("asm/sub_8003D0D0.s")
 
-Menu_Item_Unknown* menu_alloc_panel_8003D124(int count)
+Menu_Item_Unknown *menu_alloc_panel_8003D124(int count)
 {
-    const int totalLen = (sizeof(Menu_Item_Unknown_Array_Item) * count) + sizeof(Menu_Item_Unknown_Main);
-    Menu_Item_Unknown* pUnknown = (Menu_Item_Unknown *)GV_Malloc_8001620C(totalLen);
-    if ( pUnknown )
+    const int          totalLen = (sizeof(Menu_Item_Unknown_Array_Item) * count) + sizeof(Menu_Item_Unknown_Main);
+    Menu_Item_Unknown *pUnknown = (Menu_Item_Unknown *)GV_Malloc_8001620C(totalLen);
+    if (pUnknown)
     {
         GV_ZeroMemory_8001619C(pUnknown, totalLen);
         pUnknown->field_0_main.field_0_array_count = count;
@@ -109,7 +104,7 @@ Menu_Item_Unknown* menu_alloc_panel_8003D124(int count)
 
 void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
 {
-    if ( pPanel )
+    if (pPanel)
     {
         GV_Free_80016230(pPanel);
     }
@@ -167,7 +162,7 @@ int menu_8003D538(void)
 
 extern struct menu_8009E544 stru_8009E544[];
 
-void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void* pUpdateFn)
+void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn)
 {
     struct menu_8009E544 *pStru; // $v1
 
@@ -183,23 +178,15 @@ void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct 
 {
     if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
-        pSubMenu->field_8_pStru->field_18_pFnUpdate(
-            pActor,
-            a2,
-            pSubMenu->field_8_pStru->field_0,
-            pSubMenu->field_8_pStru->field_2,
-            pSubMenu);
+        pSubMenu->field_8_pStru->field_18_pFnUpdate(pActor, a2, pSubMenu->field_8_pStru->field_0,
+                                                    pSubMenu->field_8_pStru->field_2, pSubMenu);
     }
 }
 
 void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2)
 {
-    pLeftRight->field_8_pStru->field_18_pFnUpdate(
-        pActor,
-        a2,
-        pLeftRight->field_8_pStru->field_0 + off1,
-        pLeftRight->field_8_pStru->field_2 + off2,
-        pLeftRight);
+    pLeftRight->field_8_pStru->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_pStru->field_0 + off1,
+                                                  pLeftRight->field_8_pStru->field_2 + off2, pLeftRight);
 }
 
 int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
@@ -234,7 +221,7 @@ int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
 int sub_8003DAFC(int param_1, unsigned short *param_2)
 {
     // clean this up before push but it matches
-    if (((unsigned int) *param_2 & *(unsigned int *)(*(int *)(param_1 + 8) + 4)) == 0)
+    if (((unsigned int)*param_2 & *(unsigned int *)(*(int *)(param_1 + 8) + 4)) == 0)
     {
         dword_800AB584 = 0;
         return 1;
@@ -242,7 +229,7 @@ int sub_8003DAFC(int param_1, unsigned short *param_2)
     return 0;
 }
 
-TILE* Menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb)
+TILE *Menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb)
 {
     TILE *pTile; // $v0
 
@@ -255,7 +242,7 @@ TILE* Menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int r
     pTile->y0 = y;
 
     pTile->w = w;
-    pTile->h = h; 
+    pTile->h = h;
 
     setTile(pTile);
     addPrim(pOt->mPrimBuf.mOt, pTile);
@@ -269,9 +256,9 @@ Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
 {
     Menu_rpk_item **pEnd;
     Menu_rpk_item **pIter;
-    int i;
-    int count;
-    RpkHeader *pFileData = GV_GetCache_8001538C(GV_CacheID2_800152FC(pFileName, 'r'));
+    int             i;
+    int             count;
+    RpkHeader      *pFileData = GV_GetCache_8001538C(GV_CacheID2_800152FC(pFileName, 'r'));
     if (!pFileData)
     {
         return 0;
@@ -317,8 +304,6 @@ void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, in
     pUnk->field_4_word_ptr_pixels = (short *)&pPal->field_4_pixel_ptr[0];
 }
 
-
-
 void menu_inventory_right_init_items_8003DE50(void)
 {
     int i = 0;
@@ -335,8 +320,7 @@ void menu_right_unknown_8003DEB0(void)
     sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
 }
 
-
-MenuMan_Inventory_14h_Unk* menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
+MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
     if ((weaponIdx == eSOCOM) && (gGameState_800B4D98.field_4A_item_states[eSUPPR] == 0))
@@ -359,11 +343,10 @@ MenuMan_Inventory_14h_Unk* menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx
 #pragma INCLUDE_ASM("asm/menu_right_update_helper2_8003E674.s")
 #pragma INCLUDE_ASM("asm/menu_right_update_8003E990.s")
 
-
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
 {
     MenuMan_Inventory_14h_Unk *inventory_unk;
-    int weapon_index;
+    int                        weapon_index;
 
     weapon_index = (int)(menuMan->field_1F0_menu_right.field_0).field_0_item_id_idx;
     if ((weapon_index != -1) ||
@@ -394,6 +377,6 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
 
 void sub_8003ECAC(int param_1)
 {
-  *(char *)(param_1 + 0x28) &= 0xfd;
-  return;
+    *(char *)(param_1 + 0x28) &= 0xfd;
+    return;
 }

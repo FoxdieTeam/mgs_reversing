@@ -5,19 +5,18 @@
 #include "libdg/libdg.h"
 #include <LIBGPU.H>
 
-extern int              GM_CurrentMap_800AB9B0;
-int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap_800AB9B0;
+int        SECTION(".sbss") GM_CurrentMap_800AB9B0;
 
-void                    Takabe_MakeIndividualRect3DPrim_helper_80079284(void);
+void Takabe_MakeIndividualRect3DPrim_helper_80079284(void);
 
-static inline void DG_GroupPrim(prim, group_id)
-    DG_PRIM *prim;
-int group_id;
+static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
+int                group_id;
 {
     prim->group_id = group_id;
 }
 
-DG_PRIM* Takabe_MakeIndividualRect3DPrim_800793E8(int prim_count, SVECTOR *pVec)
+DG_PRIM *Takabe_MakeIndividualRect3DPrim_800793E8(int prim_count, SVECTOR *pVec)
 {
     DG_PRIM *pNewPrim;
 

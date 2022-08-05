@@ -14,13 +14,14 @@ void BoxDie_80061B30(Actor_Box *pActor);
 #pragma INCLUDE_ASM("asm/Equip/BoxGetResources_80061BA0.s") // 220 bytes
 int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent);
 
-Actor* NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pObj)
+Actor *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pObj)
 {
-    Actor_Box *pActor = (Actor_Box*)GV_NewActor_800150E4(6, sizeof(Actor_Box));
-    if ( pActor )
+    Actor_Box *pActor = (Actor_Box *)GV_NewActor_800150E4(6, sizeof(Actor_Box));
+    if (pActor)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)BoxAct_80061A14, (TActorFunction)BoxDie_80061B30, aBoxC);
-        if ( BoxGetResources_80061BA0(pActor, pObj) < 0 )
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)BoxAct_80061A14,
+                                  (TActorFunction)BoxDie_80061B30, aBoxC);
+        if (BoxGetResources_80061BA0(pActor, pObj) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;

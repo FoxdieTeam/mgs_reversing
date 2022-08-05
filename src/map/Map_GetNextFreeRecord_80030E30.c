@@ -6,13 +6,13 @@
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;
-int SECTION(".sbss") gMapCount_800ABAA8;
+int        SECTION(".sbss") gMapCount_800ABAA8;
 
 extern struct map_record gMapRecs_800B7910[16];
 
 struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
 {
-    int count;
+    int                count;
     struct map_record *pIter;
 
     count = gMapCount_800ABAA8;
@@ -32,26 +32,26 @@ struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
 
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;
-int SECTION(".sbss") N_StageObjs_800ABAA4;
+int        SECTION(".sbss") N_StageObjs_800ABAA4;
 
 extern DG_OBJS *StageObjs_800B7890[32];
-extern MATRIX DG_ZeroMatrix_8009D430;
+extern MATRIX   DG_ZeroMatrix_8009D430;
 
 void *GV_GetCache_8001538C(int id);
 void *DG_MakeObjs_80031760(void *, int, int);
-void DG_PutObjs_8001BDB8(DG_OBJS *);
-void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
-void DG_QueueObjs_80018178(DG_OBJS *);
+void  DG_PutObjs_8001BDB8(DG_OBJS *);
+void  DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
+void  DG_QueueObjs_80018178(DG_OBJS *);
 
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 {
-    int hashedName;             // $v0
-    DG_DEF *pLitModel;          // $v0
-    DG_OBJS *pPrim;             // $s0
-    struct LitHeader *lit_file; // $a1
-    int field_0_num_lights;     // $a2
-    short *pLitData;            // $a1
-    int temp;
+    int               hashedName;         // $v0
+    DG_DEF           *pLitModel;          // $v0
+    DG_OBJS          *pPrim;              // $s0
+    struct LitHeader *lit_file;           // $a1
+    int               field_0_num_lights; // $a2
+    short            *pLitData;           // $a1
+    int               temp;
 
     hashedName = GV_CacheID_800152DC(pLitName, 'k');
     pLitModel = (DG_DEF *)GV_GetCache_8001538C(hashedName);
@@ -80,18 +80,13 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     N_StageObjs_800ABAA4++;
 }
 
-HZD_MAP* HZD_MakeHandler_80021AE0(HZD_HEADER* pHzdData, int default_0_flags_index, int default_48, int default_24);
+HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *pHzdData, int default_0_flags_index, int default_48, int default_24);
 
-HZD_MAP *Map_HZD_Load_80030F38(
-    int resource_name_hashed,
-    int flagsIndex,
-    short bitIndex,
-    int default_48,
-    int default_24)
+HZD_MAP *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, short bitIndex, int default_48, int default_24)
 {
-    int name;     // $v0
-    void* pHzdData; // $v0
-    HZD_MAP* result;   // $v0
+    int      name;     // $v0
+    void    *pHzdData; // $v0
+    HZD_MAP *result;   // $v0
 
     name = GV_CacheID_800152DC(resource_name_hashed, 'h');
     pHzdData = GV_GetCache_8001538C(name);

@@ -4,8 +4,8 @@
 int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed)
 {
     DG_KmdFile *kmd = (DG_KmdFile *)pFileData;
-    DG_MDL *current = kmd->objects;
-    int remaining = kmd->num_objects;
+    DG_MDL     *current = kmd->objects;
+    int         remaining = kmd->num_objects;
 
     while (--remaining >= 0)
     {
@@ -35,8 +35,7 @@ int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed)
         }
         if (current->parent_2C >= 0)
         {
-            kmd_file_handler_link_vertices_to_parent_8001F3CC(
-                    current, &kmd->objects[current->parent_2C]);
+            kmd_file_handler_link_vertices_to_parent_8001F3CC(current, &kmd->objects[current->parent_2C]);
         }
         ++current;
     }

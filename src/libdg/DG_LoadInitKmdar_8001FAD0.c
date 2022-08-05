@@ -4,16 +4,16 @@
 
 int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed)
 {
-    DG_ZmdFile *zmdFile = (DG_ZmdFile *)pFileData;
+    DG_ZmdFile  *zmdFile = (DG_ZmdFile *)pFileData;
     DG_ZmdEntry *zmdEntry = &zmdFile->zmdEntries[0];
     unsigned int offset = (unsigned int)zmdEntry + zmdFile->vertOffset;
-    int numZmds = zmdFile->numZmds + 1;
+    int          numZmds = zmdFile->numZmds + 1;
     while (--numZmds > 0)
     {
         DG_ZmdObject *zmdObject = &zmdEntry->data;
-        int nameHashed;
-        int numMeshes = zmdObject->numMeshes;
-        DG_MDL *kmdObject = &zmdObject->kmdObjects[0];
+        int           nameHashed;
+        int           numMeshes = zmdObject->numMeshes;
+        DG_MDL       *kmdObject = &zmdObject->kmdObjects[0];
         while (--numMeshes >= 0)
         {
             (char *)kmdObject->vertexIndexOffset_38 += offset;

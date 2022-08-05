@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libdg/libdg.h"
 
-int* Prim_80031B88(DG_MDL *pMdl, int *pRgbs)
+int *Prim_80031B88(DG_MDL *pMdl, int *pRgbs)
 {
     int colour;      // $v1
     int faceCounter; // $v0

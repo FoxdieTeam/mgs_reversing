@@ -8,15 +8,15 @@ int SECTION(".sbss") dword_0x800AB92C;
 
 LibGV_FileRecord *SECTION(".sbss") GV_CurrentTag_800AB930;
 LibGV_FileRecord *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
-int SECTION(".sbss") N_ResidentFileRecords_800AB938;
+int               SECTION(".sbss") N_ResidentFileRecords_800AB938;
 
-short SECTION(".sbss") pad1;
+short          SECTION(".sbss") pad1;
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
-int SECTION(".sbss") dword_800AB944;
-int SECTION(".sbss") active_msg_queue_800AB948; 
-int SECTION(".sbss") dword_800AB94C; 
-int SECTION(".sbss") dword_800AB950;
-int SECTION(".sbss") dword_800AB954;
+int            SECTION(".sbss") dword_800AB944;
+int            SECTION(".sbss") active_msg_queue_800AB948;
+int            SECTION(".sbss") dword_800AB94C;
+int            SECTION(".sbss") dword_800AB950;
+int            SECTION(".sbss") dword_800AB954;
 
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
@@ -29,7 +29,7 @@ extern struct PauseKill gPauseKills_8009D308[9];
 
 void GV_InitActorSystem_80014D98(void)
 {
-    int i;
+    int               i;
     struct ActorList *pActorList = gActorsList;
 
     for (i = 0; i < ACTOR_LIST_COUNT; i++)
@@ -71,7 +71,7 @@ extern const char aLvD04d02d08xS[];
 
 void GV_DumpActorSystem_80014E2C(void)
 {
-    int i;
+    int               i;
     struct ActorList *pActorList = gActorsList;
 
     mts_null_printf_8008BBA8(aDumpactorsyste);
@@ -103,7 +103,8 @@ void GV_DumpActorSystem_80014E2C(void)
                 }
 
                 // "Lv%d %04d.%02d %08X %s\n"
-                mts_null_printf_8008BBA8(aLvD04d02d08xS, i, unknown / 100, unknown % 100, pActor->mFnUpdate, pActor->mName);
+                mts_null_printf_8008BBA8(aLvD04d02d08xS, i, unknown / 100, unknown % 100, pActor->mFnUpdate,
+                                         pActor->mName);
 
                 pActor->field_1C = 0;
                 pActor->field_18 = 0;
@@ -122,7 +123,7 @@ void GV_DumpActorSystem_80014E2C(void)
 
 void GV_ExecActorSystem_80014F88(void)
 {
-    int i;
+    int               i;
     struct ActorList *pActorList = gActorsList;
 
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
@@ -156,7 +157,7 @@ void GV_ExecActorSystem_80014F88(void)
 
 void GV_DestroyActorSystem_80015010(int level)
 {
-    int i;
+    int               i;
     struct ActorList *pActorList = gActorsList;
 
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
@@ -212,7 +213,8 @@ struct Actor *GV_NewActor_800150E4(int level, int memSize)
     return pActor;
 }
 
-void GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName)
+void GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
+                               const char *pActorName)
 {
     pActor->mFnUpdate = pFnUpdate;
     pActor->mFnShutdown = pFnShutdown;
@@ -260,12 +262,11 @@ void GV_DestroyActor_800151C8(struct Actor *pActor)
     pActor->mFnUpdate = GV_DestroyActorQuick_80015164;
 }
 
-
 void GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill)
 {
-    struct Actor *pNext;
+    struct Actor     *pNext;
     struct ActorList *pActorList;
-    int i;
+    int               i;
 
     pActorList = gActorsList;
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
