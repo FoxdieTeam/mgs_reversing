@@ -1,8 +1,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-
-unsigned int GV_RandU_80017090(unsigned int input);
+#include "libgv/libgv.h"
 
 void chafgrnd_init_tiles_800769EC(TILE* a1)
 {

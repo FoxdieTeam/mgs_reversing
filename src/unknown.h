@@ -1,3 +1,6 @@
+#ifndef _UNKNOWN_H_
+#define _UNKNOWN_H_
+
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include "Game/GM_Control.h"
@@ -18,3 +21,5 @@ void sub_80028890(SVECTOR *pVec);
 void sub_80079004(unsigned short);
 int sub_80029A2C(void);
 void sub_800298C0(int* int_arr);
+
+#endif // _UNKNOWN_H_

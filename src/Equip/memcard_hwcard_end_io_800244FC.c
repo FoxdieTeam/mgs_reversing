@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "memcard/memcard.h"
+#include "psyq.h"
 
 void mts_printf_8008BBA0(const char *formatStr, ...);
 extern const char aHwCardError[];
@@ -88,7 +89,6 @@ extern const char aCardUnformat[];
 extern const char aCardError[];
 
 long card_read_8009901C(long chan, long block, unsigned char *buf);
-void *memset_8008E688(void *pSrc, int value, int len);
 void mts_wait_vbl_800895F4(int count);
 
 int memcard_easy_format_test_800246C0(int hCard)

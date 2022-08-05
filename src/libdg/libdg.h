@@ -203,6 +203,7 @@ static inline void DG_SetPrimGroupId(DG_PRIM *pPrim, int id)
 
 void DG_DequeuePrim_800182E0(DG_OBJS *pObjs);
 void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
+void DG_PutPrim_8001BE00( MATRIX* matrix );
 
 void DG_SetPos_8001BC44(MATRIX *matrix);
 void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
@@ -210,9 +211,12 @@ void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count);
 void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
 void DG_MovePos_8001BD20(SVECTOR *svector);
 void DG_RotatePos_8001BD64(SVECTOR *svector);
+void DG_RotVector_8001BE98( SVECTOR* svector, SVECTOR* svector2, int count );
 
 void DG_MatrixRotZYX_8001E92C(MATRIX *mat, SVECTOR *vec);
 void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
 void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
+
+int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 #endif // LIBDG_H
