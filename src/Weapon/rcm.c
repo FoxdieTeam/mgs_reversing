@@ -6,12 +6,13 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "libdg/libdg.h"
 #include "psyq.h"
+#include "Game/object.h"
 
 // nikita
 
 extern char         aNikita[]; // "nikita"
 extern char         aRcmL_0[]; // "rcl_l"
-extern int          aDd_800AB878;
+extern int          aDd_800AB878; // TODO: convert to RECT
 extern SVECTOR      dword_800AB880;
 extern const char 	aRcmC[];
 extern int          GM_CurrentMap_800AB9B0;
@@ -27,20 +28,7 @@ extern GameState_800B4D98   gGameState_800B4D98;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int GV_Clock_800AB920;
 
-int          GV_StrCode_80016CCC(const char *string);
-void         GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void         GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-DG_PRIM      *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, int *pRect);
-int          DG_QueuePrim_80018274(DG_OBJS *pPrim);
-void         GM_FreeObject_80034BF8(OBJECT *obj);
-
-void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
-MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
-
 Actor* NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
-
-DG_TEX *DG_FindTexture_8001D830(int name);
-
 
 void rcm_loader_helper_80066AF8(POLY_FT4 *poly,DG_TEX *texture)
 {
@@ -204,7 +192,7 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
 
     GM_ConfigObjectRoot_80034C5C(obj, a2, unit);
     
-    pNewPrim = DG_MakePrim_8001BABC(1042, 1, 0, &dword_800AB880, &aDd_800AB878);
+    pNewPrim = DG_MakePrim_8001BABC(1042, 1, 0, &dword_800AB880, (RECT *)&aDd_800AB878);
     if (pNewPrim)
     {
         DG_QueuePrim_80018274((DG_OBJS*)pNewPrim);

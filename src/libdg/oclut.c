@@ -4,7 +4,6 @@
 #include "libgv/libgv.h"
 
 //funcs
-extern DG_TEX *DG_FindTexture_8001D830( int code );
 int sub_800190A0( GV_Heap* heap, long* a0, long* a1 );
 
 //data

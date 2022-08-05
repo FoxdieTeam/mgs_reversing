@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "libdg/libdg.h"
+#include "Game/object.h"
 #include "map/map.h"
 
 extern int door_where_8009F5F4;
@@ -17,7 +18,6 @@ void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
@@ -32,7 +32,6 @@ int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub 
 void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 
 void GM_FreeControl_800260CC(GM_Control *pControl);
-void GM_FreeObject_80034BF8(OBJECT *obj);
 
 int GV_SendMessage_80016504(GV_MSG *);
 void GM_SeSet_80032858(SVECTOR *a1, unsigned int a2);

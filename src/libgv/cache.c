@@ -31,7 +31,6 @@ int SECTION(".sbss") N_ResidentFileRecords_800AB938;
 /********************************************************************/
 
 /***externs*************************************************/
-int   GV_StrCode_80016CCC(const char* string );
 void *GV_AllocResidentMemory_800163D8( long size );
 /**********************************************************/
 

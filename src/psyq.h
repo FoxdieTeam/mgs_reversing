@@ -5,6 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
+MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
 void SetRotMatrix_80093218(MATRIX *m);
 void ReadRotMatrix_80092DD8(MATRIX *m);
 int SquareRoot0_80092708(int);

@@ -1,8 +1,6 @@
 #include "libgv.h"
 #include "psyq.h"
 
-MATRIX *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
-
 void GV_AddVec3_80016D00(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst)
 {
     dst->vx = vec1->vx + vec2->vx;

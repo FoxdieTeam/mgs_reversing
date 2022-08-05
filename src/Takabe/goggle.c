@@ -2,7 +2,6 @@
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 #include "Game/object.h"
-#include "libgv/strcode.h"
 #include "map/map.h"
 
 extern const char aGoggleC[]; // = "goggle.c"

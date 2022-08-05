@@ -1,6 +1,5 @@
 #include "goggleir.h"
 #include "Game/object.h"
-#include "libgv/strcode.h"
 #include "map/map.h"
 
 extern char aGoggleirC[]; // = "goggleir.c"

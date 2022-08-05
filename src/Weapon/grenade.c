@@ -1,17 +1,12 @@
 #include "grenade.h"
 #include "target.h"
+#include "Game/object.h"
 
 extern const char aGrenadeC[];  // = "grenade.c"
 extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 extern unsigned short dword_8009F3E4[];
 
-struct Actor *GV_NewActor_800150E4(int level, int memSize);
-void GV_SetNamedActor_8001514C(Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown, const char *pActorName);
-void GM_FreeObject_80034BF8(OBJECT *obj);
-int GV_StrCode_80016CCC(const char *string);
-void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 int grenade_act_8006641C(int a1);
 
 extern SVECTOR DG_ZeroVector_800AB39C;

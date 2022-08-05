@@ -2,6 +2,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "map/map.h"
 #include "target.h"
+#include "Game/object.h"
 
 extern GameState_800B4D98   gGameState_800B4D98;
 
@@ -10,13 +11,7 @@ extern char aMineC[];            // = "mine.c"
 extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 
-void GM_FreeObject_80034BF8(OBJECT *obj);
-int GV_StrCode_80016CCC(const char *string);
-void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-
 Actor* NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget);
-void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
 
 extern int DG_CurrentGroupID_800AB968;
 extern int counter_8009F448;

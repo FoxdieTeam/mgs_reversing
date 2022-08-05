@@ -7,7 +7,6 @@ void GM_InitWhereSystem_8002597C(void);
 int  GM_Reset_helper_8002A978();
 int  GM_Reset_helper3_80030760();
 void HomingTarget_Clear_All_80032C68();
-DG_TEX   *DG_FindTexture_8001D830(int);
 
 DG_TEX SECTION(".gMenuTextureRec_800B58B0") gMenuTextureRec_800B58B0;
 
