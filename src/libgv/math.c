@@ -1,29 +1,29 @@
 #include "libgv.h"
 #include "psyq.h"
 
-void GV_AddVec3_80016D00(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst)
+void GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
 {
     dst->vx = vec1->vx + vec2->vx;
     dst->vy = vec1->vy + vec2->vy;
     dst->vz = vec1->vz + vec2->vz;
 }
 
-void GV_SubVec3_80016D40(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst)
+void GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
 {
     dst->vx = vec1->vx - vec2->vx;
     dst->vy = vec1->vy - vec2->vy;
     dst->vz = vec1->vz - vec2->vz;
 }
 
-int GV_VecLen3_80016D80(SVECTOR* vec)
+int GV_VecLen3_80016D80(SVECTOR *vec)
 {
-    int length;
+    int    length;
     VECTOR vec2;
 
     vec2.vx = vec->vx;
     vec2.vy = vec->vy;
     vec2.vz = vec->vz;
-    Square0_80093340(&vec2,&vec2);
+    Square0_80093340(&vec2, &vec2);
     length = SquareRoot0_80092708(vec2.vx + vec2.vy + vec2.vz);
     return length;
 }
@@ -42,20 +42,20 @@ void GV_LenVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int pa
     pDstVec->vz = pSrcVec->vz * param_4 / 4096;
 }
 
-int GV_DiffVec3_80016E84(SVECTOR* vec1, SVECTOR* vec2)
+int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
 {
     VECTOR diff;
     diff.vx = vec1->vx - vec2->vx;
     diff.vy = vec1->vy - vec2->vy;
     diff.vz = vec1->vz - vec2->vz;
-    
+
     Square0_80093340(&diff, &diff);
     return SquareRoot0_80092708(diff.vx + diff.vy + diff.vz);
 }
 
-int GV_VecDir2_80016EF8(SVECTOR* vec)
+int GV_VecDir2_80016EF8(SVECTOR *vec)
 {
-   return ratan2_80094308(vec->vx,vec->vz) & (4096-1);
+    return ratan2_80094308(vec->vx, vec->vz) & (4096 - 1);
 }
 
 void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3)
@@ -94,7 +94,7 @@ int GV_DiffDirAbs_8001706C(int a1, int a2)
 {
     int v2 = (a2 - a1) & 4095;
 
-    if ( v2 < 2049 )
+    if (v2 < 2049)
     {
         return v2;
     }

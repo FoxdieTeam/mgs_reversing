@@ -2,24 +2,25 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 
-extern const char   aDemoNoCode[];
-extern const char   aDemoNoDataOnCd[];
+extern const char aDemoNoCode[];
+extern const char aDemoNoDataOnCd[];
 
-extern int          GM_CurrentMap_800AB9B0;
-extern int          gBinds_800ABA60;
-extern int          GM_GameStatus_800AB3CC;
-extern int          DG_UnDrawFrameCount_800AB380;
+extern int GM_CurrentMap_800AB9B0;
+extern int gBinds_800ABA60;
+extern int GM_GameStatus_800AB3CC;
+extern int DG_UnDrawFrameCount_800AB380;
 
 int SECTION(".sbss") gBinds_800ABA60;
 
-char*           GCL_Read_String_80020A70(char *pScript);
-int             NewJimakuStr_8004955C(char*, int);
-int             GCL_Command_demo_helper_80037DD8(int, unsigned int);
+char *GCL_Read_String_80020A70(char *pScript);
+int   NewJimakuStr_8004955C(char *, int);
+int   GCL_Command_demo_helper_80037DD8(int, unsigned int);
 
-int GCL_Command_demo_8002C890(int argc, char **argv) {
-    int     param;
-    int     load_data;
-    char    *msg;
+int GCL_Command_demo_8002C890(int argc, char **argv)
+{
+    int   param;
+    int   load_data;
+    char *msg;
 
     if (GCL_GetParam_80020968('s') == 0)
     {
@@ -62,7 +63,7 @@ int GCL_Command_demo_8002C890(int argc, char **argv) {
         }
         else
         {
-            msg = (char*)aDemoNoDataOnCd;
+            msg = (char *)aDemoNoDataOnCd;
         }
         NewJimakuStr_8004955C(msg, load_data);
     }

@@ -5,7 +5,7 @@
 void DG_8001CDB8(DG_OBJS *pObjs)
 {
     MATRIX *root = pObjs->root;
-    int n_models = pObjs->n_models;
+    int     n_models = pObjs->n_models;
     if (root)
     {
         pObjs->world = *root;
@@ -34,7 +34,7 @@ void DG_8001CDB8(DG_OBJS *pObjs)
 void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
 {
     DG_OBJS **mQueue;
-    int i;
+    int       i;
 
     mQueue = pOt->mQueue;
 

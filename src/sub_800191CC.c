@@ -10,7 +10,7 @@ void sub_800191CC(int param_1)
     {
         bVar1 = 1;
     }
-    else 
+    else
     {
         if (0xa0 < *(short *)(param_1 + 0xc))
         {
@@ -21,7 +21,7 @@ void sub_800191CC(int param_1)
     {
         bVar1 = bVar1 | 4;
     }
-    else 
+    else
     {
         if (0x70 < *(short *)(param_1 + 0xe))
         {

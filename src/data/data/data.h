@@ -17,7 +17,7 @@ typedef struct TextConfig
     int colour;
 } TextConfig;
 
-extern struct TextConfig gMenuTextConfig_8009E2E4;  
+extern struct TextConfig gMenuTextConfig_8009E2E4;
 
 typedef struct
 {
@@ -29,25 +29,25 @@ typedef struct
 
 typedef struct FS_FILE_INFO_8009D49C
 {
-	const char *pDatName;
-	int field_4_sector;
+    const char *pDatName;
+    int         field_4_sector;
 } FS_FILE_INFO_8009D49C;
 
 typedef struct Menu_Triangle
 {
-  short field_0_x0;
-  short field_2_y0;
-  short field_4_x1;
-  short field_6_y1;
-  short field_8_x2;
-  short field_A_y2;
-  unsigned int field_C_rgb;
+    short        field_0_x0;
+    short        field_2_y0;
+    short        field_4_x1;
+    short        field_6_y1;
+    short        field_8_x2;
+    short        field_A_y2;
+    unsigned int field_C_rgb;
 } Menu_Triangle;
 
 typedef struct WeaponCreateEntry
 {
-	void* mCreateActorFn;
-	void* mStateFn;
+    void *mCreateActorFn;
+    void *mStateFn;
 } WeaponCreateEntry;
 
 #endif // DATA_H

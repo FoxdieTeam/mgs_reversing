@@ -1,12 +1,12 @@
 #include "libgv/actor.h"
 
-void afterse_act_800603EC(); // dummy signature
-extern char aAfterseC[]; // = "afterse.c"
+void        afterse_act_800603EC(); // dummy signature
+extern char aAfterseC[];            // = "afterse.c"
 
 Actor *afterse_init_800604C0(short param_1, short param_2)
 {
     Actor *pActor;
-    
+
     if (param_1 != 0 && param_2 != 0)
     {
         pActor = (Actor *)GV_NewActor_800150E4(6, 0x24);

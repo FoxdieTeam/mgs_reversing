@@ -4,18 +4,18 @@
 #include "libgv/libgv.h"
 
 extern int gBinds_800ABA60;
-int SECTION(".sbss") gBinds_800ABA60;
+int        SECTION(".sbss") gBinds_800ABA60;
 
 int GV_SendMessage_80016504(GV_MSG *);
 
 int GCL_Command_mesg_8002C138(int argc, char **argv)
 {
     unsigned char *uParm1;
-    int iVar1;
-    int ret;
-    short *pMsgDst;
-    GV_MSG mesg;
-    int count;
+    int            iVar1;
+    int            ret;
+    short         *pMsgDst;
+    GV_MSG         mesg;
+    int            count;
 
     mesg.address = GCL_GetNextParamValue_80020AD4();
     pMsgDst = &mesg.message[0];

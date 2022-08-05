@@ -9,6 +9,6 @@
  */
 void GM_ActControl_helper4_80029304(char *char_arr)
 {
-	char_arr[0] = *(char*)(SCRPAD_ADDR + 0x74);
-	char_arr[1] = *(char*)(SCRPAD_ADDR + 0x90);
+    char_arr[0] = *(char *)(SCRPAD_ADDR + 0x74);
+    char_arr[1] = *(char *)(SCRPAD_ADDR + 0x90);
 }

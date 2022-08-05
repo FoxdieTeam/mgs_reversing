@@ -3,8 +3,8 @@
 int DG_MakeObjs_helper_80031710(DG_MDL *pMesh)
 
 {
-    int iVar1;
-    int iVar2;
+    int          iVar1;
+    int          iVar2;
     unsigned int uVar3;
 
     uVar3 = pMesh->flags_0;

@@ -1,5 +1,4 @@
 #include "linker.h"
 #include "Menu/menuMan.h"
 
-struct Menu_rpk_item* SECTION(".sbss") gRadar_rpk_800ABAC8;
-
+struct Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
