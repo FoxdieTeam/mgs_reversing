@@ -6,6 +6,8 @@
 
     include "..\obj\data\data\data.obj"
 
+    include "..\obj\data\bss.obj"
+
     ;main
     include "..\obj\main.obj"           ;main.c
 
