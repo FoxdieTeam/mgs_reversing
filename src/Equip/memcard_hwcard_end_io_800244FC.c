@@ -89,7 +89,6 @@ extern const char aCardUnformat[];
 extern const char aCardError[];
 
 long card_read_8009901C(long chan, long block, unsigned char *buf);
-void mts_wait_vbl_800895F4(int count);
 
 int memcard_easy_format_test_800246C0(int hCard)
 {

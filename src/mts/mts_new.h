@@ -55,7 +55,7 @@ typedef struct MTS_PAD_DATA
 
 void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void* pStack, long stackSize);
 
-int mts_wait_vbl_800895F4(int count);
+int mts_wait_vbl_800895F4(int wait_vblanks);
 void mts_set_stack_check_8008B648(int taskNum, unsigned int* pStack, int stackSize);
 void mts_set_exception_func_800892A8(int param_1);
 int mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void* pStack);
