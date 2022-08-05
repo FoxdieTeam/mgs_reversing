@@ -880,7 +880,31 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004FCB8.s")                                      // 304 bytes
+int sub_8004FCB8(Actor_SnaInit *snake, UnkSnakeStruct *unkSnakeStruct, int param_3)
+{
+    int sub_8004E51C_result;
+    GM_Target *pTarget;
+    SVECTOR vec;
+    SVECTOR vec_arr[2];
+
+    pTarget = &snake->field_8A0_target;
+    GM_SetTarget_8002DC74(pTarget, 4, 1, &unkSnakeStruct->field_0_vectors[1]);
+    DG_RotVector_8001BE98(&unkSnakeStruct->field_0_vectors[2], &vec, 1);
+    GM_Target_8002DCCC(pTarget, 3, param_3, unkSnakeStruct->field_18_ints[0], unkSnakeStruct->field_18_ints[1], &vec);
+    DG_PutVector_8001BE48(unkSnakeStruct->field_0_vectors, &vec, 1);
+    vec_arr[0].vx = snake->field_9C_obj.objs->objs[5].world.t[0];
+    vec_arr[0].vy = snake->field_9C_obj.objs->objs[5].world.t[1];
+    vec_arr[0].vz = snake->field_9C_obj.objs->objs[5].world.t[2];
+    vec_arr[1] = vec;
+    sub_8004E51C_result = sub_8004E51C(vec_arr, ((snake->field_20_ctrl).field_2C_map)->field_8_hzd, 0xf, 1);
+    if (sub_8004E51C_result < 0)
+    {
+        GM_Target_SetVector_8002D500(pTarget, &vec);
+        return sub_8002D7DC(pTarget);
+    }
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")                                 // 416 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s") // 276 bytes
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")                                      // 348 bytes
