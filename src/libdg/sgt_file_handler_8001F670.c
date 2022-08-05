@@ -1,12 +1,4 @@
-typedef struct SgtFile
-{
-    unsigned int unknown0;
-    unsigned char *unknown1;
-    unsigned char *unknown2;
-    unsigned char *unknown3;
-    unsigned char *unknown4;
-    unsigned char *unknown5;
-} SgtFile;
+#include "libdg.h"
 
 int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed)
 {

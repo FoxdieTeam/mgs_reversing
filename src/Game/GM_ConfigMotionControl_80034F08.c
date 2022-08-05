@@ -1,8 +1,8 @@
 #include "linker.h"
 #include "game.h"
 #include "GM_Control.h"
+#include "libgv/libgv.h"
 
-int                  GV_CacheID_800152DC(int hashedFileName, int param_2);
 void                 *GV_GetCache_8001538C(int hash);
 
 int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, int a4, int a5, GM_Control *pCtrl, SVECTOR *rots)

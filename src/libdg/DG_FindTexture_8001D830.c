@@ -3,8 +3,6 @@
 
 int SECTION(".sdata") last_searched_texture_name_800AB3A4 = 0xFFFFFFFF;
 
-int DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
-
 extern DG_TEX dword_8009D450;
 
 DG_TEX SECTION(".gTextureRecs_800B1F50") gTextureRecs_800B1F50[512];

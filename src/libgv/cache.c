@@ -12,8 +12,6 @@ enum CACHE_REGION
     GV_RESIDENT_CACHE,
 };
 
-typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
-
 /**bss***********************************************************************************************/
 CacheSystems    SECTION(".CacheSystems_800ACEF0") GV_CacheSystem;
 TFileExtHandler SECTION(".gFileExtHandlers_800ACE80") gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
@@ -29,10 +27,6 @@ LibGV_FileRecord *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
 extern int N_ResidentFileRecords_800AB938;
 int SECTION(".sbss") N_ResidentFileRecords_800AB938;
 /********************************************************************/
-
-/***externs*************************************************/
-void *GV_AllocResidentMemory_800163D8( long size );
-/**********************************************************/
 
 /***rdata*********************************/
 extern const char aIdConflict[];
@@ -177,7 +171,7 @@ void GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn)
 }
 
 //initialises the loader table by setting all values to 0
-void GD_ClearFileHandlers_80015434(void)
+void GV_InitLoader_80015434(void)
 {
   TFileExtHandler *pExtIter;
   int i;

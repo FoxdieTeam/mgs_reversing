@@ -1,13 +1,13 @@
 #include "linker.h"
 #include "map.h"
+#include "mts/mts_new.h"
+#include "libgv/libgv.h"
 
 extern const char aSetMapD[];
 
-void mts_printf_8008BBA0(const char*, ...);
 struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed);
 void* GV_GetCache_8001538C(int fileNameHashed);
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap);
-int GV_CacheID_800152DC(int hashedFileName, int param_2);
 
 HZD_MAP* Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24);
 

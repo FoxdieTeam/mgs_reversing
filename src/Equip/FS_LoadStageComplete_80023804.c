@@ -1,4 +1,8 @@
 #include "linker.h"
+#include "unknown.h"
+#include "psyq.h"
+#include "mts/mts_new.h"
+#include "libgv/libgv.h"
 
 struct Loader_Rec_2
 {
@@ -26,9 +30,6 @@ struct Loader_Record // TODO: Share in a header
 
 extern const char aLoadCompleteTi[]; // "load complete time %d\n";
 
-int VSync_80098108(int);
-void mts_printf_8008BBA0(const char *, ...);
-void GV_Free_80016230(void *ptr);
 void FS_CdStageProgBinFix_80014AAC(void);
 
 extern int DG_FrameRate_8009D45C;
@@ -40,7 +41,6 @@ int SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
 
 int Loader_80023624(struct Loader_Record *pRec);
 int CDBIOS_ReadSync_80022854(void);
-void *GV_Malloc_8001620C(int size);
 
 extern const char aLoadS[];     // = "load %s\n";
 extern const char aNotFoundS[]; // = "NOT FOUND %s\n";

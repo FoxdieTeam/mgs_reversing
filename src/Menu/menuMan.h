@@ -230,4 +230,6 @@ typedef struct      Actor_MenuMan
     int             field_220;
 } Actor_MenuMan;
 
+void MENU_ResetSystem_80038A88();
+
 #endif // _MENUMAN_H
