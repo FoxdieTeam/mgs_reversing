@@ -83,18 +83,18 @@ typedef struct Sna_1F4
     short field_A;
     short field_C;
     short field_E;
-    int   field_10;
-    int   field_14;
+    int field_10;
+    int field_14;
     short field_18;
     short field_1A;
-    char  field_1C;
-    char  field_1D;
-    char  field_1E;
-    char  field_1F;
-    char  field_20;
-    char  field_21; // these next three are guessed
-    char  field_22;
-    char  field_23;
+    char field_1C;
+    char field_1D;
+    char field_1E;
+    char field_1F;
+    char field_20;
+    char field_21; // these next three are guessed
+    char field_22;
+    char field_23;
 } Sna_1F4;
 
 typedef struct Sna_Joint_Rotations
@@ -119,13 +119,13 @@ typedef struct Sna_Joint_Rotations
 
 typedef struct Sna_ActionTable
 {
-  Sna_E1 *field_0;
-  Sna_E2 *field_4;
-  Sna_E1 *field_8;
-  Sna_E2 *field_C;
-  Sna_E2 *field_10;
-  Sna_E6 *field_14;
-  Sna_E1 *field_18;
+    Sna_E1 *field_0;
+    Sna_E2 *field_4;
+    Sna_E1 *field_8;
+    Sna_E2 *field_C;
+    Sna_E2 *field_10;
+    Sna_E6 *field_14;
+    Sna_E1 *field_18;
 } Sna_ActionTable;
 
 // might belong in another header
@@ -150,15 +150,15 @@ STATIC_ASSERT_SIZE(UnkMaybeCameraStruct, 0x30);
 
 typedef enum
 {
-    SNA_FLAG1_UNK1  = 0x1,
-    SNA_FLAG1_UNK2  = 0x2,
-    SNA_FLAG1_UNK3  = 0x4,
-    SNA_FLAG1_UNK4  = 0x8,
-    SNA_FLAG1_UNK5  = 0x10,
-    SNA_FLAG1_UNK6  = 0x20,
-    SNA_FLAG1_UNK7  = 0x40,
-    SNA_FLAG1_UNK8  = 0x80,
-    SNA_FLAG1_UNK9  = 0x100,
+    SNA_FLAG1_UNK1 = 0x1,
+    SNA_FLAG1_UNK2 = 0x2,
+    SNA_FLAG1_UNK3 = 0x4,
+    SNA_FLAG1_UNK4 = 0x8,
+    SNA_FLAG1_UNK5 = 0x10,
+    SNA_FLAG1_UNK6 = 0x20,
+    SNA_FLAG1_UNK7 = 0x40,
+    SNA_FLAG1_UNK8 = 0x80,
+    SNA_FLAG1_UNK9 = 0x100,
     SNA_FLAG1_UNK10 = 0x200,
     SNA_FLAG1_UNK11 = 0x400,
     SNA_FLAG1_UNK12 = 0x800,
@@ -186,15 +186,15 @@ typedef enum
 
 typedef enum
 {
-    SNA_FLAG2_UNK1  = 0x1,
-    SNA_FLAG2_UNK2  = 0x2,
-    SNA_FLAG2_UNK3  = 0x4,
-    SNA_FLAG2_UNK4  = 0x8,
-    SNA_FLAG2_UNK5  = 0x10,
-    SNA_FLAG2_UNK6  = 0x20,
-    SNA_FLAG2_UNK7  = 0x40,
-    SNA_FLAG2_UNK8  = 0x80,
-    SNA_FLAG2_UNK9  = 0x100,
+    SNA_FLAG2_UNK1 = 0x1,
+    SNA_FLAG2_UNK2 = 0x2,
+    SNA_FLAG2_UNK3 = 0x4,
+    SNA_FLAG2_UNK4 = 0x8,
+    SNA_FLAG2_UNK5 = 0x10,
+    SNA_FLAG2_UNK6 = 0x20,
+    SNA_FLAG2_UNK7 = 0x40,
+    SNA_FLAG2_UNK8 = 0x80,
+    SNA_FLAG2_UNK9 = 0x100,
     SNA_FLAG2_UNK10 = 0x200,
     SNA_FLAG2_UNK11 = 0x400,
     SNA_FLAG2_UNK12 = 0x800,
@@ -227,6 +227,13 @@ enum
     SNA_STANCE_GROUND = 2, // prone + knocked down
     // ... more?
 };
+
+// Consumed by sub_8004FCB8().
+typedef struct UnkSnakeStruct
+{
+    SVECTOR field_0_vectors[3];
+    int field_18_ints[2];
+} UnkSnakeStruct;
 
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
@@ -576,7 +583,11 @@ typedef struct Actor_SnaInit
     short field_A50;
     short field_A52;
     // var reused in differenet contexts, union is better than a generic name for all contexts
-    union { short choke_count; short prone_bool_thing; short wall_thing; } field_A54;
+    union {
+        short choke_count;
+        short prone_bool_thing;
+        short wall_thing;
+    } field_A54;
     short field_A56;
     short field_A58;
     short field_A5A;
@@ -700,7 +711,7 @@ void sub_80058644(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_punch_80058C10(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_choke_80058E88(Actor_SnaInit *pActor, int anim_frame);
-void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor,int anim_frame);
+void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_anim_choke_drag_80059054(Actor_SnaInit *pActor, int anim_frame);
@@ -735,15 +746,15 @@ int sub_8004EFE4(Actor_SnaInit *pActor, int param_2);
 int sub_8004E5E8(Actor_SnaInit *pActor, int param_2);
 
 // TODO: move these to indivudual weapon headers
-Actor* NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewAAM_80067480(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor* NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewAAM_80067480(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 
 #endif // _SNA_INIT_H_
