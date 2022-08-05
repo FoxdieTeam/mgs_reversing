@@ -4,9 +4,6 @@
 
 extern const char aVarsaveNotVar[];
 
-unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *);
-void           GCL_SaveVar_80021314(void);
-
 int GCL_Command_varsave_8002C72C(int argc, char **argv)
 {
     unsigned char *param;

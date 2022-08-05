@@ -4,7 +4,6 @@
 #pragma INCLUDE_ASM("asm/shadow_act_helper_8005FD28.s") // 768 bytes
 
 MATRIX *RotMatrixY_80093BC8(long r, MATRIX *m);
-int     GV_NearExp8_800263E4(int arg0, int arg1);
 
 void shadow_act_helper_80060028(Actor_Shadow *pActor)
 {

@@ -11,9 +11,6 @@ int        SECTION(".sbss") N_StageObjs_800ABAA4;
 
 extern const char aReshadeNullMap[];
 
-struct map_record *Map_FromId_800314C0(int id);
-void               DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
-
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
 {
     struct map_record *map;

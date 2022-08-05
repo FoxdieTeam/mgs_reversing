@@ -3,6 +3,7 @@
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
+#include "map/map.h"
 
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
@@ -72,7 +73,6 @@ void GM_InitWhereSystem_8002597C(void)
 extern const char aInitcontrolNoM[];
 
 void               HZD_SetEvent_80029AB4(void *param_1, int param_2);
-struct map_record *Map_FromId_800314C0(int);
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds)
 {

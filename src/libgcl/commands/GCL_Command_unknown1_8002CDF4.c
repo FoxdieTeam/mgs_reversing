@@ -4,6 +4,7 @@
 #include "map/map.h"
 #include "Game/GM_Control.h"
 #include "libgcl/hash.h"
+#include "Game/game.h"
 
 extern GM_Control *gSnaControl_800AB9F4; // todo: update external
 
@@ -20,7 +21,6 @@ extern short GM_PhotoViewPos_800ABA48[3];
 int         GM_AreaHistory_8002A848(int param_1);
 map_record *Map_FindByNum_80031504(int);
 int         DG_PointCheckOne_8001C18C(SVECTOR *pOut3Words);
-int         GM_StreamStatus_80037CD8(void);
 
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {

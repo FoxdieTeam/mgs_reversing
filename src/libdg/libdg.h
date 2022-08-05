@@ -419,5 +419,9 @@ void DG_ClearChanlSystem_80017E9C(int which);
 void DG_RenderPipeline_80018028(int idx);
 void DG_DrawOTag_80017E4C(int activeBuffer);
 int  sub_800190A0(GV_Heap *heap, long *a0, long *a1);
+void DG_ResetExtPaletteMakeFunc_800791E4(void);
+void DG_Set_RGB_800184F4(int r, int b, int g);
+void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
+
 
 #endif // LIBDG_H

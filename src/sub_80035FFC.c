@@ -1,4 +1,4 @@
-void sub_8003603C(int, int);
+#include "unknown.h"
 
 void sub_80035FFC(int param_1)
 {

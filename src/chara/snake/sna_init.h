@@ -637,10 +637,14 @@ void         sna_init_8004FA74(Actor_SnaInit *param_1);
 void         sub_8004FA9C(Actor_SnaInit *snake);
 int          sub_8004FB38(void);
 int         *sub_8004FB90(void);
+
+// TODO: move these to game.h even though theyre defined in sna_init.c?
+// .. or move the implementation to a static inline in game.h which the definition in sna_init calls?
 int          GM_Next_BulName_8004FBA0();
 void         GM_ClearBulName_8004FBE4(int idx);
 void         GM_CheckShukanReverse_8004FBF8(unsigned short *pInput);
 void         GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput);
+
 void         sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int anim_frame);
 int          sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor);
 void         sna_init_80050440(Actor_SnaInit *pActor);
