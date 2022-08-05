@@ -1825,15 +1825,11 @@ group_other    group org($8009D2DC)
     section .sdata2, group_other
     section .sdata, group_other
     section .sbss, group_other
-    section .bss, group_other
+
+group_actual_bss    group bss,org($800ABBF0)
+    section .bss, group_actual_bss
 
 ; main
-group_800ABBF0    group bss,org($800ABBF0)
-    section .0x800ABBF0, group_800ABBF0
-    
-group_800AC3F0    group bss,org($800AC3F0)
-    section .0x800AC3F0, group_800AC3F0
-
 group_800ACC18    group bss,org($800ACC18)
     section .0x800ACC18, group_800ACC18
 
