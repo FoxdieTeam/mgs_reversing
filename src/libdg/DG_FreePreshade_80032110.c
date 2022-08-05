@@ -1,14 +1,13 @@
 #include "linker.h"
-#include "libdg/libdg.h"
-#include "libdg/dgd.h"
+#include "libdg.h"
+#include "dgd.h"
 
-extern DG_CHNL  DG_Chanls_800B1800[3];
+extern DG_CHNL DG_Chanls_800B1800[3];
 
-void GV_Free_80016230(void *ptr);
-int ratan2_80094308(int,int);
+int ratan2_80094308(int, int);
 int rcos_800925D8(int a1);
 
-void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim)
+void DG_FreePreshade_80032110(DG_OBJS *pPrim)
 {
     CVECTOR *pBuffer = pPrim->objs[0].rgbs;
     if (pBuffer)
@@ -20,8 +19,8 @@ void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim)
 
 void sub_8003214C(SVECTOR *pVec, int *pRet)
 {
-    DG_CHNL* pChanl = &DG_Chanls_800B1800[1];
-    MATRIX* mtx = &pChanl->dword_6BC39C;
+    DG_CHNL *pChanl = &DG_Chanls_800B1800[1];
+    MATRIX  *mtx = &pChanl->dword_6BC39C;
     pVec->vx = mtx->t[0];
     pVec->vy = mtx->t[1];
     pVec->vz = mtx->t[2];

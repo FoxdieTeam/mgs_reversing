@@ -2,12 +2,13 @@
 #include "GM_Control.h"
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
+#include "libgv/libgv.h"
 
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
 
 GM_Control *SECTION(".GM_WhereList_800B56D0") GM_WhereList_800B56D0[96];
-GM_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
+GM_Control  SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
 
 int GM_ControlPushBack_800258B0(GM_Control *pControlToAdd)
 {
@@ -70,14 +71,13 @@ void GM_InitWhereSystem_8002597C(void)
 
 extern const char aInitcontrolNoM[];
 
-void HZD_SetEvent_80029AB4(void *param_1, int param_2);
-void GV_ZeroMemory_8001619C(void *, int);
+void               HZD_SetEvent_80029AB4(void *param_1, int param_2);
 struct map_record *Map_FromId_800314C0(int);
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds)
 {
     struct map_record *pMapRec;
-    const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
+    const int          mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
     GM_CurrentMap_800AB9B0 = mapId;
 
     GV_ZeroMemory_8001619C(pControl, sizeof(GM_Control));

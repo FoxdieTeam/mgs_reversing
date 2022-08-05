@@ -10,21 +10,20 @@
 
 typedef struct
 {
-    int mId;
+    int   mId;
     void *mFileBuffer;
 } LibGV_FileRecord;
 
-
 typedef struct
 {
-    int field_0_count;
+    int    field_0_count;
     GV_MSG field_4_msgs[16];
 } GV_Messages;
 
-//has to be in a struct to match
+// has to be in a struct to match
 typedef struct CacheSystems
 {
-	LibGV_FileRecord tags[128];
+    LibGV_FileRecord tags[128];
 } CacheSystems;
 
 #define MAX_UNITS 512
@@ -37,16 +36,15 @@ enum GV_MemoryAllocation_States
     GV_MemoryAllocation_States_Used_2 = 2,
 };
 
-typedef union AllocType
-{
-    int     type;
-    void**  addr;
+typedef union AllocType {
+    int    type;
+    void **addr;
 } AllocType;
 
 typedef struct GV_MemoryAllocation
 {
     void *mPDataStart;
-    int mAllocType;     //might be union if its > 2 its void** ?
+    int   mAllocType; // might be union if its > 2 its void** ?
 } GV_MemoryAllocation;
 
 enum GV_Heap_Flags
@@ -58,95 +56,109 @@ enum GV_Heap_Flags
 
 typedef struct GV_Heap
 {
-    int mFlags;
-    void *mStartAddr;
-    void *mEndAddr;
-    int mUnitsCount;
+    int                 mFlags;
+    void               *mStartAddr;
+    void               *mEndAddr;
+    int                 mUnitsCount;
     GV_MemoryAllocation mAllocs[MAX_UNITS];
 } GV_Heap;
 
-typedef	struct	{
-	unsigned short	status ;	 
-	unsigned short	press ;		 
-	unsigned short	release ;	 
-	unsigned short	quick ;		 
-	short		    dir ;		 
+typedef struct
+{
+    unsigned short status;
+    unsigned short press;
+    unsigned short release;
+    unsigned short quick;
+    short          dir;
 
-	short		    analog ;
-	unsigned char	right_dx ;
-	unsigned char	right_dy ;
-	unsigned char	left_dx ;
-	unsigned char	left_dy ;
-} GV_PAD ;
+    short         analog;
+    unsigned char right_dx;
+    unsigned char right_dy;
+    unsigned char left_dx;
+    unsigned char left_dy;
+} GV_PAD;
 
-enum	{
-	GV_PAD_DIGITAL = 0,
-	GV_PAD_ANAJOY = 1,
-	GV_PAD_ANALOG = 2
-} ;
+enum
+{
+    GV_PAD_DIGITAL = 0,
+    GV_PAD_ANAJOY = 1,
+    GV_PAD_ANALOG = 2
+};
 
 // TODO: typedef enum and use type in GV_PAD?
 enum
 {
-    PAD_UP       = PADLup,    //  0x1000
-    PAD_DOWN     = PADLdown,  //  0x4000
-    PAD_LEFT     = PADLleft,  //  0x8000
-    PAD_RIGHT    = PADLright, //  0x2000
-    PAD_TRIANGLE = PADRup,    //  0x0010
-    PAD_CROSS    = PADRdown,  //  0x0040
-    PAD_SQUARE   = PADRleft,  //  0x0080
-    PAD_CIRCLE   = PADRright, //  0x0020
-    PAD_L1       = PADL1,     //  0x0004
-    PAD_L2       = PADL2,     //  0x0001
-    PAD_R1       = PADR1,     //  0x0008
-    PAD_R2       = PADR2,     //  0x0002
-    PAD_START    = PADstart,  //  0x0800
-    PAD_SELECT   = PADselect, //  0x0100
+    PAD_UP = PADLup,        //  0x1000
+    PAD_DOWN = PADLdown,    //  0x4000
+    PAD_LEFT = PADLleft,    //  0x8000
+    PAD_RIGHT = PADLright,  //  0x2000
+    PAD_TRIANGLE = PADRup,  //  0x0010
+    PAD_CROSS = PADRdown,   //  0x0040
+    PAD_SQUARE = PADRleft,  //  0x0080
+    PAD_CIRCLE = PADRright, //  0x0020
+    PAD_L1 = PADL1,         //  0x0004
+    PAD_L2 = PADL2,         //  0x0001
+    PAD_R1 = PADR1,         //  0x0008
+    PAD_R2 = PADR2,         //  0x0002
+    PAD_START = PADstart,   //  0x0800
+    PAD_SELECT = PADselect, //  0x0100
 };
 
-//cache
+// cache
+void GV_InitCacheSystem_80015458(void);
+void GV_InitLoader_80015434(void);
+void GV_FreeCacheSystem_80015540(void);
+int  GV_CacheID_800152DC(int hashedFileName, int param_2);
+typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
+void GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
+int  GV_SetCache_800153C0(int id, void *buf);
 
-//memory
-extern	void	GV_InitMemorySystemAll_80015AB0() ;
-extern	void	GV_InitMemorySystem_80015AF4( int, int, void *, int ) ;
-extern	void	*GV_AllocMemory_80015EB8( int, int ) ;
-extern	void	*GV_AllocMemory2_80015ED8( int, int, void ** ) ;
-extern	void	GV_FreeMemory_80015FD0( int, void * ) ;
-extern	void	GV_FreeMemory2_80016078( int, void ** ) ;
-extern	void	GV_ClearMemorySystem_80015B4C( int ) ;
-extern	void	GV_CheckMemorySystem_80015BF8( int ) ;
-extern	void	GV_DumpMemorySystem_80015D48( int ) ;
-extern	void	GV_CopyMemory_800160D8( void *, void *, int ) ;
-extern	void	GV_ZeroMemory_8001619C( void *, int ) ;
-extern	void	*GV_Malloc_8001620C( int ) ;
-extern	void	GV_Free_80016230( void * ) ;
-extern	void	GV_DelayedFree_80016254( void * ) ;
+// memory
+void  GV_InitMemorySystemAll_80015AB0();
+void  GV_InitMemorySystem_80015AF4(int, int, void *, int);
+void *GV_AllocMemory_80015EB8(int, int);
+void *GV_AllocMemory2_80015ED8(int, int, void **);
+void  GV_FreeMemory_80015FD0(int, void *);
+void  GV_FreeMemory2_80016078(int, void **);
+void  GV_ClearMemorySystem_80015B4C(int);
+void  GV_CheckMemorySystem_80015BF8(int);
+void  GV_DumpMemorySystem_80015D48(int);
+void  GV_CopyMemory_800160D8(void *, void *, int);
+void  GV_ZeroMemory_8001619C(void *, int);
+void *GV_Malloc_8001620C(int);
+void  GV_Free_80016230(void *);
+void  GV_DelayedFree_80016254(void *);
+void  GV_ResidentHeapReset_800163B0(void);
 
-void *GV_GetMaxFreeMemory_8001627C( int which );
-void *GV_SplitMemory( int which, void *addr, int size ); //unsure what function this maps to
-	 
-void GV_InitResidentMemory( void );  //unsure what function this maps to
-void *GV_AllocResidentMemory_800163D8( long size );
+void *GV_GetMaxFreeMemory_8001627C(int which);
+void *GV_SplitMemory(int which, void *addr, int size); // unsure what function this maps to
 
-//pad
-extern	void    GV_InitPadSystem_800167C8 ( void ) ;
-extern	void    GV_UpdatePadSystem_8001682C ( void ) ;
-extern	void    GV_OriginPadSystem_80016C78( int ) ;
-extern	int     GV_GetPadOrigin_80016C84( void ) ;
-extern	int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
+void  GV_InitResidentMemory(void); // unsure what function this maps to
+void *GV_AllocResidentMemory_800163D8(long size);
 
-//strCode
-extern  int     GV_StrCode_80016CCC( const char* string );
+// pad
+void GV_InitPadSystem_800167C8(void);
+void GV_UpdatePadSystem_8001682C(void);
+void GV_OriginPadSystem_80016C78(int);
+int  GV_GetPadOrigin_80016C84(void);
+int  GV_GetPadDirNoPadOrg_80016C90(unsigned int);
 
-//math
+// strCode
+int GV_StrCode_80016CCC(const char *string);
 
-void GV_SubVec3_80016D40(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
-int GV_VecLen3_80016D80(SVECTOR* vec);
-int GV_VecDir2_80016EF8(SVECTOR* vec);
-void GV_AddVec3_80016D00(SVECTOR* vec1, SVECTOR* vec2, SVECTOR* dst);
-int GV_NearExp2_80026384(int param_1, int param_2);
-int GV_DiffDirS_8001704C(int param_1, int param_2);
-int GV_DiffDirAbs_8001706C(int a1, int a2);
+// math
+
+void         GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
+int          GV_VecLen3_80016D80(SVECTOR *vec);
+int          GV_VecDir2_80016EF8(SVECTOR *vec);
+void         GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
+int          GV_NearExp2_80026384(int param_1, int param_2);
+int          GV_DiffDirS_8001704C(int param_1, int param_2);
+int          GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
+
+// message
+void GV_InitMessageSystem_800164AC();
+void GV_ClearMessageSystem_800164C8(void);
 
 #endif // LIBGV_H

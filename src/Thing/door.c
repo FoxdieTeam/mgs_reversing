@@ -10,14 +10,14 @@ extern int door_where_8009F5F4;
 
 extern const char aDoorC[]; // "door.c";
 
-int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where);
+int  door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where);
 void door_act_8006F318(struct Actor_Door *pDoor);
 void door_kill_8006F718(struct Actor_Door *pDoor);
-int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
+int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
 void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
-int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
+int  Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
@@ -25,7 +25,6 @@ void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 
 map_record *Map_FindByNum_80031504(int mapNameHash);
-void GV_ZeroMemory_8001619C(void *, int);
 
 int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
@@ -33,55 +32,54 @@ void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 
 void GM_FreeControl_800260CC(GM_Control *pControl);
 
-int GV_SendMessage_80016504(GV_MSG *);
+int  GV_SendMessage_80016504(GV_MSG *);
 void GM_SeSet_80032858(SVECTOR *a1, unsigned int a2);
 
 extern int dword_800ABA0C;
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {
-  GV_MSG msg;
+    GV_MSG msg;
 
-  msg.message[0] = 0xF9AD;
-  msg.address = addr;
-  msg.message[1] = a2;
-  msg.message_len = 2;
-  GV_SendMessage_80016504(&msg);
+    msg.message[0] = 0xF9AD;
+    msg.address = addr;
+    msg.message[1] = a2;
+    msg.message_len = 2;
+    GV_SendMessage_80016504(&msg);
 }
 
 void door_act_helper_8006EC48(struct Actor_Door *pDoor)
 {
-  int v1;
-  GCL_ARGS arg_struct;
-  long args[4];
+    int      v1;
+    GCL_ARGS arg_struct;
+    long     args[4];
 
-  if (pDoor->field_100_param_f_v >= 0)
-  {
-    v1 = 54732;
-    if (pDoor->field_E2_maybe_state == 2)
+    if (pDoor->field_100_param_f_v >= 0)
     {
-      v1 = 3538;
+        v1 = 54732;
+        if (pDoor->field_E2_maybe_state == 2)
+        {
+            v1 = 3538;
+        }
+
+        args[0] = v1;
+        args[1] = pDoor->field_F0;
+        args[2] = (unsigned short)pDoor->field_F6_map_num;
+
+        arg_struct.argc = 3;
+        arg_struct.argv = args;
+
+        GCL_ExecProc_8001FF2C(pDoor->field_100_param_f_v, &arg_struct);
     }
-
-    args[0] = v1;
-    args[1] = pDoor->field_F0;
-    args[2] = (unsigned short)pDoor->field_F6_map_num;
-
-    arg_struct.argc = 3;
-    arg_struct.argv = args;
-
-    GCL_ExecProc_8001FF2C(pDoor->field_100_param_f_v, &arg_struct);
-  }
 }
-#pragma INCLUDE_ASM("asm/Thing/door_open_8006ECB8.s") // 144 bytes
-#pragma INCLUDE_ASM("asm/Thing/door_close_8006ED48.s") // 112 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_open_8006ECB8.s")       // 144 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_close_8006ED48.s")      // 112 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s") // 268 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F290.s") // 136 bytes
-#pragma INCLUDE_ASM("asm/Thing/door_act_8006F318.s") // 1024 bytes
+#pragma INCLUDE_ASM("asm/Thing/door_act_8006F318.s")        // 1024 bytes
 
-
-static inline void do_nothing_vec_func(SVECTOR* vec)
+static inline void do_nothing_vec_func(SVECTOR *vec)
 {
     // Perhaps this had an SVECTOR on the stack with some compiled out code that used it?
 }
@@ -91,14 +89,11 @@ void door_kill_8006F718(struct Actor_Door *pDoor)
     SVECTOR unused;
     do_nothing_vec_func(&unused);
     GM_FreeControl_800260CC(&pDoor->field_20_ctrl);
-    GM_FreeObject_80034BF8((OBJECT*)&pDoor->field_9C);
+    GM_FreeObject_80034BF8((OBJECT *)&pDoor->field_9C);
 }
 
-void door_loader_t_param_sub_8006F748(
-    struct Actor_Door_TParam_sub *pTSub,
-    SVECTOR *pVec1,
-    SVECTOR *pVec2,
-    short param_v)
+void door_loader_t_param_sub_8006F748(struct Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2,
+                                      short param_v)
 {
     short vec1_y;
 
@@ -119,19 +114,14 @@ void door_loader_t_param_sub_8006F748(
 
 #pragma INCLUDE_ASM("asm/Thing/door_init_t_value_8006F7AC.s") // 460 bytes
 
-void door_loader_t_param_sub_8006F748(
-    struct Actor_Door_TParam_sub *pTSub,
-    SVECTOR *pVec1,
-    SVECTOR *pVec2,
-    short param_v);
+void door_loader_t_param_sub_8006F748(struct Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2,
+                                      short param_v);
 
-
-void door_init_t_value_8006F7AC(struct Actor_Door *pDoor, struct Actor_Door_TParam *pOffset,
-    short, int, int);
+void door_init_t_value_8006F7AC(struct Actor_Door *pDoor, struct Actor_Door_TParam *pOffset, short, int, int);
 void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v)
 {
-    int param_w_alternating;
-    int i;
+    int                       param_w_alternating;
+    int                       i;
     struct Actor_Door_TParam *pOffset;
 
     DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_vec);
@@ -193,8 +183,8 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
     SetFlag(pCtrl, 2u);
 
-    GM_InitObjectNoRots_800349B0((OBJECT *)&pDoor->field_9C, GCL_GetNextInt_800209E8(GCL_GetParam_80020968('m')), 23, 0);
-    GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
+    GM_InitObjectNoRots_800349B0((OBJECT *)&pDoor->field_9C, GCL_GetNextInt_800209E8(GCL_GetParam_80020968('m')), 23,
+0); GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
     DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_vec);
     DG_PutObjs_8001BDB8(&pDoor->field_9C.objs->world);
     GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
@@ -267,7 +257,7 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
 Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv)
 {
-    int t_param_v;
+    int                t_param_v;
     struct Actor_Door *pDoor;
 
     if (GCL_GetParam_80020968('t'))
@@ -279,14 +269,16 @@ Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv)
         t_param_v = 1;
     }
 
-    pDoor = (struct Actor_Door *)GV_NewActor_800150E4(5, sizeof(struct Actor_Door) + (sizeof(struct Actor_Door_TParam) * (t_param_v - 1)));
+    pDoor = (struct Actor_Door *)GV_NewActor_800150E4(5, sizeof(struct Actor_Door) +
+                                                             (sizeof(struct Actor_Door_TParam) * (t_param_v - 1)));
 
     door_where_8009F5F4 = 0;
 
     if (pDoor)
     {
 
-        GV_SetNamedActor_8001514C(&pDoor->field_0_actor, (TActorFunction)door_act_8006F318, (TActorFunction)door_kill_8006F718, aDoorC);
+        GV_SetNamedActor_8001514C(&pDoor->field_0_actor, (TActorFunction)door_act_8006F318,
+                                  (TActorFunction)door_kill_8006F718, aDoorC);
 
         pDoor->field_E4_t_param_v = t_param_v;
 

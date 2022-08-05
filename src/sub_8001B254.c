@@ -2,28 +2,28 @@
 #include "libdg/libdg.h"
 
 // process vecs in spad
-SVECTOR* sub_8001AD28(SVECTOR *a1, int count);
+SVECTOR *sub_8001AD28(SVECTOR *a1, int count);
 
 // read vecs from spad
-unsigned short* sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
+unsigned short *sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
 
-extern int  GV_Clock_800AB920;
+extern int GV_Clock_800AB920;
 
 // scratch pad memory max size in bytes
 #define SPAD_SIZE 1024
 
 // how many SVECTORS we can fit in the scratch pad bar one
-#define MAX_SPAD_SVECTORS (int)(SPAD_SIZE / sizeof(SVECTOR))-1 
+#define MAX_SPAD_SVECTORS (int)(SPAD_SIZE / sizeof(SVECTOR)) - 1
 
 // how many SVECTORS to process each iteration
-#define BATCH_SIZE (MAX_SPAD_SVECTORS-1)
+#define BATCH_SIZE (MAX_SPAD_SVECTORS - 1)
 
 void DG_8001B254(DG_PRIM *pDGPrim)
 {
     SVECTOR *pVec = pDGPrim->field_38_pUnknown;
-    int n_prims = (signed short)pDGPrim->n_prims;
-    short *pPrims = (short*)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
-    
+    int      n_prims = (signed short)pDGPrim->n_prims;
+    short   *pPrims = (short *)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
+
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS)
     {

@@ -11,30 +11,28 @@ extern const char aIllegalCodeX[];
 extern const char aSetDS[];
 extern const char aBlockExecError[];
 
-void            sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
-void            SwEnterCriticalSection_8009954C(void);
-void            SwExitCriticalSection_8009956C(void);
-void            sub_80037EE0(int, int);
-int             GM_StreamStatus_80037CD8(void);
-void            mts_set_pad_vibration_8008C408(int, int);
-void            mts_set_pad_vibration2_8008C454(int, int);
-void            GM_Sound_80032C48(int, int code);
-int             rand_8008E6B8(void);
-unsigned char   *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
-unsigned char   *GCL_VarSaveBuffer_800217F0(unsigned char *);
+void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
+void           SwEnterCriticalSection_8009954C(void);
+void           SwExitCriticalSection_8009956C(void);
+void           sub_80037EE0(int, int);
+int            GM_StreamStatus_80037CD8(void);
+void           mts_set_pad_vibration_8008C408(int, int);
+void           mts_set_pad_vibration2_8008C454(int, int);
+void           GM_Sound_80032C48(int, int code);
+int            rand_8008E6B8(void);
+unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
+unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *);
 
-#define MakeVoxCode(x)  ((unsigned int)x[0] << 0x18) | \
-                        ((unsigned int)x[1] << 0x10) | \
-                        ((unsigned int)x[2] << 8) |    \
-                        ((unsigned int)x[3])
+#define MakeVoxCode(x)                                                                                                 \
+    ((unsigned int)x[0] << 0x18) | ((unsigned int)x[1] << 0x10) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])
 
-void            radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *pScript)
+void radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *pScript)
 {
-    int             faceCharaCode;
-    int             faceImageName;
-    int             faceUnk;
-    unsigned char   *ptr;
-    int             isSnake;
+    int            faceCharaCode;
+    int            faceImageName;
+    int            faceUnk;
+    unsigned char *ptr;
+    int            isSnake;
 
     ptr = menu_gcl_read_word_80047098(&faceCharaCode, pScript);
     ptr = menu_gcl_read_word_80047098(&faceImageName, ptr);
@@ -55,7 +53,7 @@ void            radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsig
     mts_slp_tsk_8008A400();
 }
 
-void            radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
+void radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
 {
     int faceCharaCode;
     int faceImageName;
@@ -74,10 +72,7 @@ void            radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *
         faceUnk_cond = 0;
         faceUnk -= 0x100;
     }
-    sub_800470B4(faceCharaCode == CHARA_SNAKE, unk, faceCharaCode,
-                                                    faceImageName,
-                                                    faceUnk,
-                                                    faceUnk_cond);
+    sub_800470B4(faceCharaCode == CHARA_SNAKE, unk, faceCharaCode, faceImageName, faceUnk, faceUnk_cond);
     if (faceUnk_cond)
     {
         mts_slp_tsk_8008A400();
@@ -85,7 +80,7 @@ void            radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *
     mts_printf_8008BBA0(aAnimeCharaDCod, faceCharaCode, faceImageName);
 }
 
-void            radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
+void radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
 {
     unsigned int voxCode = MakeVoxCode(pScript);
 
@@ -110,44 +105,44 @@ void            radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScr
     }
 }
 
-void            radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScript)
+void radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScript)
 {
-    unsigned char   *ptr;
-    int             val;
-    int             i;
+    unsigned char *ptr;
+    int            val;
+    int            i;
 
     switch (*pScript)
     {
-        case 0x00:
-            ptr = pScript;
-            ptr++;
-            GM_Sound_80032C48(MakeVoxCode(ptr), 0);
-            break;
+    case 0x00:
+        ptr = pScript;
+        ptr++;
+        GM_Sound_80032C48(MakeVoxCode(ptr), 0);
+        break;
 
-        case 0x01:
-            val = pScript[1];
-            i = (signed short int)(pScript[3] | (pScript[2] << 8));
-            for (; i > 0; i--)
+    case 0x01:
+        val = pScript[1];
+        i = (signed short int)(pScript[3] | (pScript[2] << 8));
+        for (; i > 0; i--)
+        {
+            if (val > 0)
             {
-                if (val > 0)
-                {
-                    mts_set_pad_vibration_8008C408(1, 2);
-                    mts_set_pad_vibration2_8008C454(1, val);
-                }
-                mts_wait_vbl_800895F4(1);
+                mts_set_pad_vibration_8008C408(1, 2);
+                mts_set_pad_vibration2_8008C454(1, val);
             }
-            break;
+            mts_wait_vbl_800895F4(1);
+        }
+        break;
     }
 }
 
-unsigned char   *radio_getNextValue_800474EC(int *retValue, unsigned char *pScript)
+unsigned char *radio_getNextValue_800474EC(int *retValue, unsigned char *pScript)
 {
     int code;
 
     return GCL_GetNextValue_8002069C(pScript, &code, retValue);
 }
 
-void            radio_if_80047514(menu_chara_struct *unk, unsigned char *pScript)
+void radio_if_80047514(menu_chara_struct *unk, unsigned char *pScript)
 {
     int expr_result;
     int code;
@@ -189,7 +184,7 @@ void            radio_if_80047514(menu_chara_struct *unk, unsigned char *pScript
     }
 }
 
-void            radio_switch_800475B8(menu_chara_struct *unk, unsigned char *pScript)
+void radio_switch_800475B8(menu_chara_struct *unk, unsigned char *pScript)
 {
     int switchValue;
     int caseValue;
@@ -229,7 +224,7 @@ void            radio_switch_800475B8(menu_chara_struct *unk, unsigned char *pSc
     }
 }
 
-void            radio_randSwitch_80047660(menu_chara_struct *unk, unsigned char *pScript)
+void radio_randSwitch_80047660(menu_chara_struct *unk, unsigned char *pScript)
 {
     int randValue;
     int caseValue;
@@ -263,14 +258,14 @@ void            radio_randSwitch_80047660(menu_chara_struct *unk, unsigned char 
     }
 }
 
-void            radio_eval_80047748(menu_chara_struct *unk, unsigned char *pScript)
+void radio_eval_80047748(menu_chara_struct *unk, unsigned char *pScript)
 {
     int value;
 
     radio_getNextValue_800474EC(&value, pScript);
 }
 
-void            radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
+void radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
 {
     int contact_freq;
 
@@ -279,7 +274,7 @@ void            radio_add_contact_80047768(menu_chara_struct *unk, unsigned char
     MENU_SetRadioMemory_8004E110(contact_freq, pScript);
 }
 
-void            radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
+void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
 {
     int stageIndex = GCL_GetNextInt_800209E8(pScript);
 
@@ -290,7 +285,7 @@ void            radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pS
     unk->field_18 &= ~0x100;
 }
 
-void            radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pScript)
+void radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pScript)
 {
     unk->field_0_state = 4;
     unk->field_C_pScript = pScript;
@@ -298,7 +293,7 @@ void            radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pSc
     mts_slp_tsk_8008A400();
 }
 
-void            radio_varsave_80047838(menu_chara_struct *unk, unsigned char *pScript)
+void radio_varsave_80047838(menu_chara_struct *unk, unsigned char *pScript)
 {
     while (*pScript)
     {
@@ -306,7 +301,7 @@ void            radio_varsave_80047838(menu_chara_struct *unk, unsigned char *pS
     }
 }
 
-unsigned char   *radio_moveToNext_80047880(menu_chara_struct* unk, unsigned char *pScript)
+unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript)
 {
     int size;
 
@@ -315,12 +310,12 @@ unsigned char   *radio_moveToNext_80047880(menu_chara_struct* unk, unsigned char
     return pScript + size;
 }
 
-unsigned char   *menu_gcl_exec_block_800478B4(menu_chara_struct *unk, unsigned char *pScript)
+unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unk, unsigned char *pScript)
 {
-    const int       totalSize = ((pScript[1] << 8) | (pScript[2]));
-    unsigned char   *ptr = pScript + 3;
-    int             code;
-    int             size;
+    const int      totalSize = ((pScript[1] << 8) | (pScript[2]));
+    unsigned char *ptr = pScript + 3;
+    int            code;
+    int            size;
 
     while (*ptr)
     {
@@ -330,57 +325,57 @@ unsigned char   *menu_gcl_exec_block_800478B4(menu_chara_struct *unk, unsigned c
             ptr = menu_gcl_read_word_80047098(&size, ptr + 2);
             switch (code)
             {
-                case RDCODE_TALK:
-                    radio_anim_with_subtitles_800471AC(unk, ptr);
-                    break;
+            case RDCODE_TALK:
+                radio_anim_with_subtitles_800471AC(unk, ptr);
+                break;
 
-                case RDCODE_VOICE:
-                    radio_voice_80047330(unk, ptr);
-                    break;
+            case RDCODE_VOICE:
+                radio_voice_80047330(unk, ptr);
+                break;
 
-                case RDCODE_ANIM:
-                    radio_anim_face_80047280(unk, ptr);
-                    break;
+            case RDCODE_ANIM:
+                radio_anim_face_80047280(unk, ptr);
+                break;
 
-                case RDCODE_ADD_CONTACT:
-                    radio_add_contact_80047768(unk, ptr);
-                    break;
+            case RDCODE_ADD_CONTACT:
+                radio_add_contact_80047768(unk, ptr);
+                break;
 
-                case RDCODE_MEMSAVE:
-                    radio_memsave_800477B0(unk, ptr);
-                    break;
+            case RDCODE_MEMSAVE:
+                radio_memsave_800477B0(unk, ptr);
+                break;
 
-                case RDCODE_SOUND:
-                    radio_sound_80047414(unk, ptr);
-                    break;
+            case RDCODE_SOUND:
+                radio_sound_80047414(unk, ptr);
+                break;
 
-                case RDCODE_PROMPT:
-                    radio_prompt_8004780C(unk, ptr);
-                    break;
+            case RDCODE_PROMPT:
+                radio_prompt_8004780C(unk, ptr);
+                break;
 
-                case RDCODE_VARSAVE:
-                    radio_varsave_80047838(unk, ptr);
-                    break;
+            case RDCODE_VARSAVE:
+                radio_varsave_80047838(unk, ptr);
+                break;
 
-                case RDCODE_IF:
-                    radio_if_80047514(unk, ptr);
-                    break;
+            case RDCODE_IF:
+                radio_if_80047514(unk, ptr);
+                break;
 
-                case RDCODE_SWITCH: // not seen yet
-                    radio_switch_800475B8(unk, ptr);
-                    break;
+            case RDCODE_SWITCH: // not seen yet
+                radio_switch_800475B8(unk, ptr);
+                break;
 
-                case RDCODE_RANDSWITCH:
-                    radio_randSwitch_80047660(unk, ptr);
-                    break;
+            case RDCODE_RANDSWITCH:
+                radio_randSwitch_80047660(unk, ptr);
+                break;
 
-                case RDCODE_EVAL:
-                    radio_eval_80047748(unk, ptr);
-                    break;
+            case RDCODE_EVAL:
+                radio_eval_80047748(unk, ptr);
+                break;
 
-                default:
-                    mts_printf_8008BBA0(aBlockExecError);
-                    break;
+            default:
+                mts_printf_8008BBA0(aBlockExecError);
+                break;
             }
             ptr += size - sizeof(short);
         }

@@ -2,9 +2,9 @@
 
 int GV_NearExp4_800263B0(int arg0, int arg1)
 {
-    int temp_v1;
+    int          temp_v1;
     unsigned int temp_a2;
-    int phi_v0;
+    int          phi_v0;
 
     temp_v1 = arg1 - arg0;
     temp_a2 = temp_v1 + 3;

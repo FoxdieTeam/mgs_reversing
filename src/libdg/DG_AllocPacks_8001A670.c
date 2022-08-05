@@ -2,12 +2,10 @@
 #include "dgd.h"
 #include "libdg.h"
 
-void *GV_AllocMemory2_80015ED8( int which, int size, void** type);
-
 int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
 {
-    int totalPolys = 0;
-    DG_OBJ* pObjIter = pObj;
+    int     totalPolys = 0;
+    DG_OBJ *pObjIter = pObj;
     while (pObjIter)
     {
         totalPolys += pObjIter->n_packs;
@@ -27,16 +25,16 @@ void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx)
 
     int rgbCode = 0x3E808080;
     // semi trans ?
-    if ( (pObj->model->flags_0 & 2) == 0 )
+    if ((pObj->model->flags_0 & 2) == 0)
     {
         rgbCode = 0x3C808080;
     }
 
     pPack = pObj->packs[idx];
-    while ( pObj )
+    while (pObj)
     {
         int n_packs;
-        for ( n_packs = pObj->n_packs; n_packs > 0; n_packs-- )
+        for (n_packs = pObj->n_packs; n_packs > 0; n_packs--)
         {
             setPolyGT4(pPack);
 

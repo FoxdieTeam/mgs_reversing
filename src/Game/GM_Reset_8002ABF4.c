@@ -10,8 +10,7 @@ void HomingTarget_Clear_All_80032C68();
 
 DG_TEX SECTION(".gMenuTextureRec_800B58B0") gMenuTextureRec_800B58B0;
 
-
-void GM_Reset_8002ABF4(Actor_GM_Daemon* pActor)
+void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem_8002597C();
