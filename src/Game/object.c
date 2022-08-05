@@ -1,7 +1,7 @@
 #include "object.h"
 #include "game.h"
-
 #include <KERNEL.H>
+#include "psyq.h"
 
 /*-----sdata-----------------------------------------*/
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -21,7 +21,6 @@ int SECTION(".sbss") mt_count_800ABAC0;
 /*----Externs--------------------------------------------------------------*/
 //GV
 void *GV_GetCache_8001538C( int id );
-int GV_CacheID_800152DC( int file_id, int ext_id );
 void GV_ZeroMemory_8001619C( void* ptr, int size );
 
 //GM
@@ -39,9 +38,6 @@ void DG_FreeObjs_800318D0( DG_OBJS* objs );
 void DG_QueueObjs_80018178( DG_OBJS* objs );
 void DG_DequeueObjs_800181E4( DG_OBJS* objs );
 void *DG_MakeObjs_80031760( void* buf, int flag, int a2 );
-
-//psx
-long GetRCnt_800996E8( unsigned long rcnt );
 /*-----------------------------------------------------------------------*/
 
 #define DCache 0x1F8003FC

@@ -1,9 +1,9 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
+#include "mts/mts_new.h"
 
 extern const char aVarsaveNotVar[];
 
-void     mts_printf_8008BBA0(const char*, ...);
 unsigned char*  GCL_VarSaveBuffer_800217F0(unsigned char *);
 void            GCL_SaveVar_80021314(void);
 

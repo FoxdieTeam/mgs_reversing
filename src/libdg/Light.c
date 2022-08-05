@@ -1,12 +1,11 @@
 #include "linker.h"
 #include "libdg.h"
+#include "psyq.h"
 
 static DG_FixedLight SECTION(".bss_800B1E08") gFixedLights_800B1E08[8];
 
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ColorMatrix_8009D3A4;
-
-void VectorNormal_80092838(VECTOR* v0, VECTOR* v1);
 
 #pragma INCLUDE_ASM("asm/libdg/DG_InitLightSystem_80019F40.s") // 64 bytes
 #pragma INCLUDE_ASM("asm/libdg/DG_SetAmbient_80019F80.s") // 120 bytes
@@ -76,8 +75,6 @@ void DG_SetFixedLight_8001A094(Light *pLight, int light_count)
 #pragma INCLUDE_ASM("asm/libdg/DG_ClearTmpLight_8001A0E4.s") // 48 bytes
 #pragma INCLUDE_ASM("asm/libdg/DG_SetTmpLight_8001A114.s") // 148 bytes
 
-void Square0_80093340(VECTOR *in_vec, VECTOR *);
-int SquareRoot0_80092708(int);
 void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec)
 {
 	int vec_length;

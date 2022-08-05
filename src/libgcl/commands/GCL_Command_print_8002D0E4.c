@@ -1,12 +1,12 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
+#include "mts/mts_new.h"
 
 extern const char aPrint[];
 extern const char aS_2[];
 extern const char aD_3[];
 extern const char asc_800AB428[];
 
-void     mts_printf_8008BBA0(const char*, ...);
 /* unsigned char*  GCL_GetNextValue_8002069C(unsigned char* pScript, int* ppScript, int* pRet); */
 
 int GCL_Command_print_8002D0E4(unsigned char *argc, char **argv) // argc ??

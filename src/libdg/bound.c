@@ -2,13 +2,6 @@
 #include "libdg.h"
 #include "inline_n.h"
 
-/**funcs********************************************************************/
-void DG_Clip_80017594(RECT *pClipRect, int dist);
-void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
-int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
-void DG_BoundChanl_helper2_80018E5C( DG_CHNL* chnl, int idx );
-/**************************************************************************/
-
 /**sbss********************************/
 extern int DG_CurrentGroupID_800AB968;
 /**************************************/
@@ -33,8 +26,6 @@ static inline void set_svec_from_bounding_box( int i, SVECTOR* svec )
     svec->vy = i & 2 ? ((long*)SCRPAD_ADDR)[4] : ((long*)SCRPAD_ADDR)[1];
     svec->vz = i & 4 ? ((long*)SCRPAD_ADDR)[5] : ((long*)SCRPAD_ADDR)[2];
 }
-
-
 
 void DG_BoundStart_800185B4(void)
 {

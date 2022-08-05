@@ -105,22 +105,30 @@ enum
 };
 
 //cache
+void GV_InitCacheSystem_80015458( void );
+void GV_InitLoader_80015434(void);
+void GV_FreeCacheSystem_80015540( void );
+int GV_CacheID_800152DC(int hashedFileName,int param_2);
+typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
+void GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
+int GV_SetCache_800153C0( int id, void* buf );
 
 //memory
-extern	void	GV_InitMemorySystemAll_80015AB0() ;
-extern	void	GV_InitMemorySystem_80015AF4( int, int, void *, int ) ;
-extern	void	*GV_AllocMemory_80015EB8( int, int ) ;
-extern	void	*GV_AllocMemory2_80015ED8( int, int, void ** ) ;
-extern	void	GV_FreeMemory_80015FD0( int, void * ) ;
-extern	void	GV_FreeMemory2_80016078( int, void ** ) ;
-extern	void	GV_ClearMemorySystem_80015B4C( int ) ;
-extern	void	GV_CheckMemorySystem_80015BF8( int ) ;
-extern	void	GV_DumpMemorySystem_80015D48( int ) ;
-extern	void	GV_CopyMemory_800160D8( void *, void *, int ) ;
-extern	void	GV_ZeroMemory_8001619C( void *, int ) ;
-extern	void	*GV_Malloc_8001620C( int ) ;
-extern	void	GV_Free_80016230( void * ) ;
-extern	void	GV_DelayedFree_80016254( void * ) ;
+void	GV_InitMemorySystemAll_80015AB0() ;
+void	GV_InitMemorySystem_80015AF4( int, int, void *, int ) ;
+void	*GV_AllocMemory_80015EB8( int, int ) ;
+void	*GV_AllocMemory2_80015ED8( int, int, void ** ) ;
+void	GV_FreeMemory_80015FD0( int, void * ) ;
+void	GV_FreeMemory2_80016078( int, void ** ) ;
+void	GV_ClearMemorySystem_80015B4C( int ) ;
+void	GV_CheckMemorySystem_80015BF8( int ) ;
+void	GV_DumpMemorySystem_80015D48( int ) ;
+void	GV_CopyMemory_800160D8( void *, void *, int ) ;
+void	GV_ZeroMemory_8001619C( void *, int ) ;
+void	*GV_Malloc_8001620C( int ) ;
+void	GV_Free_80016230( void * ) ;
+void	GV_DelayedFree_80016254( void * ) ;
+void GV_ResidentHeapReset_800163B0( void );
 
 void *GV_GetMaxFreeMemory_8001627C( int which );
 void *GV_SplitMemory( int which, void *addr, int size ); //unsure what function this maps to
@@ -129,14 +137,14 @@ void GV_InitResidentMemory( void );  //unsure what function this maps to
 void *GV_AllocResidentMemory_800163D8( long size );
 
 //pad
-extern	void    GV_InitPadSystem_800167C8 ( void ) ;
-extern	void    GV_UpdatePadSystem_8001682C ( void ) ;
-extern	void    GV_OriginPadSystem_80016C78( int ) ;
-extern	int     GV_GetPadOrigin_80016C84( void ) ;
-extern	int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
+void    GV_InitPadSystem_800167C8 ( void ) ;
+void    GV_UpdatePadSystem_8001682C ( void ) ;
+void    GV_OriginPadSystem_80016C78( int ) ;
+int     GV_GetPadOrigin_80016C84( void ) ;
+int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
 
 //strCode
-extern  int     GV_StrCode_80016CCC( const char* string );
+int     GV_StrCode_80016CCC( const char* string );
 
 //math
 
@@ -148,5 +156,9 @@ int GV_NearExp2_80026384(int param_1, int param_2);
 int GV_DiffDirS_8001704C(int param_1, int param_2);
 int GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
+
+// message
+void GV_InitMessageSystem_800164AC();
+void GV_ClearMessageSystem_800164C8( void );
 
 #endif // LIBGV_H

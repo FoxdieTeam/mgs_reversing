@@ -53,8 +53,6 @@ int GV_DiffVec3_80016E84(SVECTOR* vec1, SVECTOR* vec2)
     return SquareRoot0_80092708(diff.vx + diff.vy + diff.vz);
 }
 
-
-
 int GV_VecDir2_80016EF8(SVECTOR* vec)
 {
    return ratan2_80094308(vec->vx,vec->vz) & (4096-1);

@@ -6,8 +6,6 @@
 extern const char   aWarningOldVers[];
 
 void     sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
-void     *GV_Malloc_8001620C(int size);
-void     GV_Free_80016230(void *ptr);
 
 int      HZD_LoadInitHzd_800219F4(void *hzmFile);
 void     HZD_Process_TableFlagIfTriggers_80021928(HZD_TRG *triggers, int n_triggers);

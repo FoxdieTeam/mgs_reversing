@@ -2,9 +2,10 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-
 #include "inline_n.h"
 #include "dgd.h" //need to switch to libdg.h
+#include "psyq.h"
+#include "Menu/menuMan.h"
 
 /**data************************/
 extern VECTOR vector_8009D34C;
@@ -35,26 +36,6 @@ VECTOR          SECTION(".gUnknownVector_800B0620") gUnknownVector_800B0620;
 
 extern DG_CHNL  DG_Chanls_800B1800[3];
 /****************************************************************************/
-
-/**funcs************************************************************************************************************************/
-void             DG_ClearChanlSystem_80017E9C(int bufferIdx);
-void             DG_RenderPipeline_80018028(int bufferIdx);
-DISPENV*                PutDispEnv_80090094(DISPENV *env);
-void             DG_DrawOTag_80017E4C(int activeBuffer);
-void             MENU_ResetSystem_80038A88();
-void             DG_ClearTmpLight_8001A0E4();
-void             GV_ClearMemorySystem_80015B4C( int which );
-void             PutDrawEnv_8008FEC8(DRAWENV*);
-unsigned short   GetTPage_80092418( int tp, int abr, int x, int y );
-void             DrawPrim_8008FDFC( void *p );
-unsigned int     GetRCnt_800996E8(unsigned int rcnt);
-void             DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
-void             VectorNormal_80092838(VECTOR *v0, VECTOR *v1);
-void             OuterProduct12_800933AC(VECTOR *v0, VECTOR *v1, VECTOR *v2);
-VECTOR*          ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
-void             DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
-/*****************************************************************************************************************************/
-
 
 void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
 {
@@ -266,16 +247,6 @@ void DG_PutDrawEnv_From_DispEnv_80017890(void)
     DG_Init_DrawEnv_80018384(&drawEnv, gDispEnv_800B0600.disp.x, gDispEnv_800B0600.disp.y, gDispEnv_800B0600.disp.w, gDispEnv_800B0600.disp.h);
     PutDrawEnv_8008FEC8(&drawEnv);
 }
-
-#define SetPackedRGB(p, r, g, b)  \
-    (p)->rgbc = ( ( r << 16 ) | ( g << 8 ) ) | b;
-
-typedef struct {
-	u_long	tag;
-    long    rgbc;
-	short	x0,	y0;
-	short	w,	h;
-} TILE_PACKED;
 
 void DG_800178D8( int a0 )
 {

@@ -2,11 +2,9 @@
 #include "linker.h"
 #include "libdg.h"
 #include <INLINE_C.H>
+#include "psyq.h"
 
 MATRIX SECTION(".gUnknown_Matrix_800B19FC") gUnknown_Matrix_800B19FC;
-
-MATRIX* RotMatrixYXZ_gte_80094108( SVECTOR* r, MATRIX* m) ;
-MATRIX* MulRotMatrix_80092B58( MATRIX *m0 );
 
 //GTE MVMVA Command: Vector 0 (V0) * Rotation Matrix (RT) + Translation Vector (TR) - 8 Cycles
 #define rtv0tr() __asm__ volatile ( \

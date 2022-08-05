@@ -2,6 +2,7 @@
 #define _BUILDING_MTS_
 #include "mts_new.h"
 #include <KERNEL.H>
+#include "psyq.h"
 
 extern const char aMtsNewC[];
 extern const char asc_80013E2C[]; // = "\n";
@@ -54,7 +55,6 @@ extern int  dword_800A3DB4;
 extern int  dword_800A3DB8;
 
 void mts_print_process_status_8008B77C(void);
-int VSync_80098108(int);
 void mts_init_vsync_helper_800893E8(void);
 void VSyncCallback_800983A8(void (*func)());
 void mts_print_process_status_8008B77C(void);

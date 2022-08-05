@@ -10,8 +10,6 @@ void GCL_InitVar_80021264(void);
 void GCL_InitBasicCommands_8002040C(void);
 int GCL_LoadScript_80020064(unsigned char *);
 
-void GV_SetLoader_80015418(char, void *);
-
 int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
 
 int SECTION(".sbss") dword_800AB994;

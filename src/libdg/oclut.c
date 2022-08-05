@@ -3,9 +3,6 @@
 #include "dgd.h"
 #include "libgv/libgv.h"
 
-//funcs
-int sub_800190A0( GV_Heap* heap, long* a0, long* a1 );
-
 //data
 extern DG_TEX DG_UnknownTexture_8009D378;
 
@@ -16,16 +13,6 @@ extern int GM_GameStatus_800AB3CC;
 extern GV_Heap MemorySystems_800AD2F0[3];
 
 #define SCRPAD_ADDR 0x1F800000
-
-typedef struct unknown_scrpad_struct
-{
-    long pad[8]; 
-    GV_Heap* pHeap;
-    long unknown_24;
-    long unknown_28;
-    long unknown_2C;
-    long unknown_30;
-} unknown_scrpad_struct;
 
 void DG_WriteObjClut_80018D28(DG_OBJ *pObj, int idx)
 {

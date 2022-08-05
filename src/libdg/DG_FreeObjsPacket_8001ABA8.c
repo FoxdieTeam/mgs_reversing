@@ -2,12 +2,6 @@
 #include "libdg.h"
 #include <LIBGPU.H>
 
-void GV_FreeMemory2_80016078(unsigned int, void **);
-int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
-void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pPrim, int idx);
-void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
-void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
-
 extern int GV_Clock_800AB920;
 
 int DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags)

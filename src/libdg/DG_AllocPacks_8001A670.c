@@ -2,8 +2,6 @@
 #include "dgd.h"
 #include "libdg.h"
 
-void *GV_AllocMemory2_80015ED8( int which, int size, void** type);
-
 int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
 {
     int totalPolys = 0;

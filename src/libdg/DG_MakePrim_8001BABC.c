@@ -4,10 +4,6 @@
 extern struct DG_Rec_Unknown stru_8009D3D0[23];
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-void *GV_Malloc_8001620C(int size);
-void GV_ZeroMemory_8001619C(void *ptr, int size);
-void GV_DelayedFree_80016254( void *addr );
-
 DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
 {
     const struct DG_Rec_Unknown* pRec = &stru_8009D3D0[type & 31];

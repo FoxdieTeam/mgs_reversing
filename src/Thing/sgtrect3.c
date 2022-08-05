@@ -2,7 +2,6 @@
 #include "libdg/dgd.h"
 #include <LIBGTE.H>
 
-void		DG_Clip_80017594(RECT *pClipRect,int dist);
 extern			DG_CHNL DG_Chanls_800B1800[3];
 extern char		byte_8009F5F8[];
 extern PlayerStatusFlag		GM_PlayerStatus_800ABA50;

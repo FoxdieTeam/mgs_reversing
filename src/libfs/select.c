@@ -1,9 +1,10 @@
 #include "linker.h"
 #include "mts/mts_new.h"
+#include "unknown.h"
+#include "psyq.h"
 
-void SetMem_8009944C(int);
-void CDFS_Init_80021EC4(void);
-void sio_output_stop_8008C5B0(void);
+extern const char aDsdatacallback[];
+extern const char aDsreadycallbac[];
 
 void FS_StartDaemon_80014A7C(void)
 {
@@ -27,9 +28,6 @@ void CdReadMode_80014ABC()
 {
 
 }
-
-extern const char aDsdatacallback[];
-extern const char aDsreadycallbac[];
 
 void DsReadyCallback_80014AC4(int a1)
 {

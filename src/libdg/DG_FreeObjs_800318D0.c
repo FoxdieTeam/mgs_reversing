@@ -1,10 +1,6 @@
 #include "linker.h"
 #include "libdg.h"
 
-void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
-void GV_Free_80016230(void *ptr);
-void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim);
-
 void DG_FreeObjs_800318D0(DG_OBJS *pObjs)
 {
     int n_models;
@@ -19,7 +15,7 @@ void DG_FreeObjs_800318D0(DG_OBJS *pObjs)
         --n_models;
          ++pObj;
     }
-    Prim_free_colour_buffer_80032110(pObjs);
+    DG_FreePreshade_80032110(pObjs);
     GV_Free_80016230(pObjs);
 }
 

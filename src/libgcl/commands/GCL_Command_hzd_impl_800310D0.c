@@ -1,10 +1,10 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "map/map.h"
+#include "libgv/libgv.h"
 
 extern const char   aNoHzd[];
 
-int                  GV_CacheID_800152DC(int hashedFileName, int param_2);
 void                 *GV_GetCache_8001538C(int hash);
 struct map_record    *Map_GetNextFreeRecord_80030E30(int mapNum);
 void                 *Map_HZD_Load_80030F38(int param_1, int param_2, int param_3, int param_4, int param_5);

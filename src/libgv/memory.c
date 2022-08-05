@@ -13,6 +13,19 @@ extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
 /*********************************************************************/
 
+extern const char aSystemD[];
+extern const char aDynamic[];
+extern const char asc_800AB360[];
+extern const char aAddr08x08xUnit[];
+extern const char aFreeDDVoidedDM[];
+extern const char aResidentMemory[];
+extern const char aDynamic[];
+extern const char a8dBytesFrom08x[];
+extern const char a8dBytesFrom08x_0[];
+extern const char a8dBytesFrom08x_1[];
+extern const char a8dBytesFrom08x_2[];
+extern unsigned char* gOverlayBase_800AB9C8;
+
 void* System_FindAlloc_80015758(GV_Heap* pHeap, void* a1)
 {
     int                  i ;
@@ -184,7 +197,6 @@ void System_dynamic_reset_800159B8(GV_Heap* pHeap)
     pHeap->mUnitsCount = (pAlloc - pHeap->mAllocs);
 }
 
-
 void GV_InitMemorySystemAll_80015AB0(void)
 {
     int i = 0;
@@ -237,13 +249,6 @@ void GV_ClearMemorySystem_80015B4C( int which )
     }
     pHeap->mFlags &= ~(GV_Heap_Flags_Failed_4 | GV_Heap_Flags_Voided_2);
 }
-
-
-extern const char aSystemD[];
-extern const char aDynamic[];
-extern const char asc_800AB360[];
-extern const char aAddr08x08xUnit[];
-extern const char aFreeDDVoidedDM[];
 
 void GV_CheckMemorySystem_80015BF8(int heapIdx)
 {
@@ -316,12 +321,6 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
                        voidedCount,
                        maxFree);
 }
-
-extern const char aDynamic[];
-extern const char a8dBytesFrom08x[];
-extern const char a8dBytesFrom08x_0[];
-extern const char a8dBytesFrom08x_1[];
-extern const char a8dBytesFrom08x_2[];
 
 void GV_DumpMemorySystem_80015D48(int heapIdx)
 {
@@ -435,7 +434,6 @@ void *GV_AllocMemory2_80015ED8( int which, int size, void** type)
 
     return 0;
 }
-
 
 void GV_FreeMemory_80015FD0( int which, void* addr )
 {
@@ -586,7 +584,6 @@ void	GV_DelayedFree_80016254( void *addr )
     GV_FreeMemory2_80016078( GV_NORMAL_MEMORY, &addr ) ;
 }
 
-
 void *GV_GetMaxFreeMemory_8001627C( int which )
 {
     int         i;
@@ -647,9 +644,6 @@ void GV_SaveResidentTop_800163C4( void )
 {
     GV_ResidentAreaBottom_800AB370 = GV_ResidentMemoryBottom_800AB940;
 }
-
-extern const char aResidentMemory[];
-extern unsigned char* gOverlayBase_800AB9C8;
 
 void *GV_AllocResidentMemory_800163D8( long size )
 {

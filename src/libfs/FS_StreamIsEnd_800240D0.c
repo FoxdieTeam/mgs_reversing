@@ -1,16 +1,13 @@
 #include "linker.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
+#include "unknown.h"
 
 int SECTION(".int_800B5298") fs_stream_ref_count_800B5298;
 
 void* SECTION(".fs_stream_heap_800B52A4") fs_stream_heap_800B52A4;
 void* SECTION(".fs_stream_heap_800B52A4") fs_stream_heap_end_800B52A8;
 int SECTION(".fs_stream_heap_800B52A4") fs_stream_heapSize_800B52AC;
-
-void mts_lock_sem_8008A6CC(int taskNr);
-void mts_unlock_sem_8008A85C(int taskNum);
-void CDBIOS_ForceStop_80022864(void);
 
 extern const char aStreamInitXX[];
 

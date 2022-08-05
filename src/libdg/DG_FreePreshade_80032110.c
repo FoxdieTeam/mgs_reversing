@@ -1,14 +1,13 @@
 #include "linker.h"
-#include "libdg/libdg.h"
-#include "libdg/dgd.h"
+#include "libdg.h"
+#include "dgd.h"
 
 extern DG_CHNL  DG_Chanls_800B1800[3];
 
-void GV_Free_80016230(void *ptr);
 int ratan2_80094308(int,int);
 int rcos_800925D8(int a1);
 
-void Prim_free_colour_buffer_80032110(DG_OBJS *pPrim)
+void DG_FreePreshade_80032110(DG_OBJS *pPrim)
 {
     CVECTOR *pBuffer = pPrim->objs[0].rgbs;
     if (pBuffer)

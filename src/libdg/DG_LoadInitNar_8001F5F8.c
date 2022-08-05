@@ -1,8 +1,4 @@
-typedef struct NFile
-{
-    unsigned int unknown0;
-    unsigned char *unknown1;
-} NFile;
+#include "libdg.h"
 
 int DG_LoadInitNar_8001F5F8(unsigned char *pFileData, int fileNameHashed)
 {
