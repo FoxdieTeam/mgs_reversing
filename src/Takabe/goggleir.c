@@ -1,6 +1,7 @@
 #include "goggleir.h"
 #include "Game/object.h"
 #include "map/map.h"
+#include "psyq.h"
 
 extern char aGoggleirC[]; // = "goggleir.c"
 extern const char aGoggles_1[];
@@ -20,10 +21,53 @@ extern int DG_CurrentGroupID_800AB968;
 int SECTION(".dword_800BDFA8") dword_800BDFA8;
 
 #pragma INCLUDE_ASM("asm/goggleir_pal_convert_800789E0.s") // 216 bytes
-void goggleir_pal_convert_800789E0(void);
+ushort goggleir_pal_convert_800789E0(ushort value);
 
-#pragma INCLUDE_ASM("asm/goggleir_pal_cb_80078AB8.s") // 296 bytes
-void goggleir_pal_cb_80078AB8(void);
+extern RECT rect_8009F718;
+extern RECT rect_8009F720;
+
+extern u_long image_data_800B3818[256];
+
+void goggleir_pal_cb_80078AB8(void)
+{
+    int iVar1;
+    ushort *puVar2;
+    int iVar3;
+    ushort uVar4;
+    
+    iVar1 = 0xf;
+    
+    rect_8009F718.y = 0xe2;
+    rect_8009F720.y = 0xc4;
+    
+    for (; iVar1 > 0; iVar1--) {
+        DrawSync(0);
+        StoreImage2_8009209C(&rect_8009F720, image_data_800B3818);
+        DrawSync(0);
+
+        puVar2 = (ushort *)image_data_800B3818;
+        iVar3 = 0x200;
+    
+        for (; iVar3 > 0; iVar3--) {
+            *puVar2++ = goggleir_pal_convert_800789E0(*puVar2);
+        }
+    
+        if (iVar1 == 1) {
+            uVar4 = goggleir_pal_convert_800789E0(0xffff);
+            puVar2 = (ushort *)&image_data_800B3818[248];
+            iVar3 = 0x10;
+        
+            for (; iVar3 > 0; iVar3--) {
+                *puVar2++ = uVar4;
+            }
+        }
+        
+        LoadImage2_80091FB0(&rect_8009F718, image_data_800B3818);
+
+        rect_8009F720.y += 2;
+        rect_8009F718.y += 2;
+    }
+}
 
 void set_pal_effect_fns_80079194(void* fn1, void* fn2);
 
