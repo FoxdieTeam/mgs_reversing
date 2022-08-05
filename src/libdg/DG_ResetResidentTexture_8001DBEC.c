@@ -23,7 +23,7 @@ void DG_ResetResidentTexture_8001DBEC()
             DG_TEX *pFoundRec;
             DG_SearchForTextureRecord_8001D778(pSrc->field_0_hash, &pFoundRec);
             *pFoundRec = *pSrc++;
-            pFoundRec->field_2_bUsed = 1;
+            pFoundRec->field_2_bUsed.b1 = 1;
         }
     }
 }

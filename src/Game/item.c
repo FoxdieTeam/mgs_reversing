@@ -5,8 +5,6 @@
 extern const char aItemC[];
 extern const char aItemMapD[];
 
-void GM_FreeObject_80034BF8(OBJECT *obj);
-
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void GM_ConfigObjectStep_80034C54( OBJECT* obj, SVECTOR* step );
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);

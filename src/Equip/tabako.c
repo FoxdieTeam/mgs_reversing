@@ -3,6 +3,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "libgv/actor.h"
 #include "Game/game.h"
+#include "Game/object.h"
 #include "libdg/libdg.h"
 #include "linker.h"
 #include "map/map.h"
@@ -26,15 +27,8 @@ extern int                GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")      GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 
-void GM_FreeObject_80034BF8(OBJECT *obj);
 void GM_ActObject2_80034B88(OBJECT *obj);
 int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
-DG_TEX *DG_FindTexture_8001D830(int);
-void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
-int GV_StrCode_80016CCC(const char *string);
-DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
-int DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
 

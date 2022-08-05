@@ -136,7 +136,7 @@ extern	int     GV_GetPadOrigin_80016C84( void ) ;
 extern	int     GV_GetPadDirNoPadOrg_80016C90 ( unsigned int ) ;
 
 //strCode
-//extern  int     GV_StrCode_80016CCC( const char* string );
+extern  int     GV_StrCode_80016CCC( const char* string );
 
 //math
 

@@ -9,8 +9,6 @@ extern int              GM_CurrentMap_800AB9B0;
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 
 void                    Takabe_MakeIndividualRect3DPrim_helper_80079284(void);
-DG_PRIM                 *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
-int                     DG_QueuePrim_80018274(DG_OBJS *pPrim);
 
 static inline void DG_GroupPrim(prim, group_id)
     DG_PRIM *prim;

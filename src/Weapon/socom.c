@@ -1,5 +1,6 @@
 #include "socom.h"
 #include "Game/game.h"
+#include "Game/object.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgv/actor.h"
@@ -20,8 +21,6 @@ extern GameState_800B4D98   gGameState_800B4D98;
 
 int                  socom_act_80065518(int a1);
 int                  socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
-
-void                 GM_FreeObject_80034BF8(OBJECT *param_1);
 
 void socom_set_poly_texture_800651B0(POLY_FT4* a1, DG_TEX *pTexture)
 {
