@@ -33,9 +33,6 @@ extern int      GV_Time_800AB330;
 
 extern GameState_800B4D98   gGameState_800B4D98;
 
-long mts_PadRead_8008C324( int a0 );
-int mts_get_pad_8008C170 (int a0, MTS_PAD_DATA* data );
-
 int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1 , int a2)
 {
     int v1, i;
@@ -135,7 +132,6 @@ void GV_InitPadSystem_800167C8( void )
         dword_800B05A8[i] = 0 ;
     }
 }
-
 
 void GV_UpdatePadSystem_8001682C( void )
 {

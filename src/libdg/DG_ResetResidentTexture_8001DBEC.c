@@ -2,8 +2,6 @@
 #include "libdg.h"
 #include "dgd.h"
 
-int DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
-
 // re-declare to force GP usage
 extern int gTextureCacheSize_800AB988;
 int SECTION(".sbss") gTextureCacheSize_800AB988;

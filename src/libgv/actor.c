@@ -21,10 +21,6 @@ int SECTION(".sbss") dword_800AB954;
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
-void GV_ZeroMemory_8001619C(void *ptr, int size);
-void *GV_Malloc_8001620C(int size);
-void GV_Free_80016230(void *ptr);
-
 #define ACTOR_LIST_COUNT 9
 
 struct ActorList SECTION(".0x800ACC18") gActorsList[ACTOR_LIST_COUNT];

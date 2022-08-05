@@ -2,7 +2,6 @@
 #include "kcb.h"
 #include "psyq.h"
 
-void LoadImage_8008FB10(RECT *, unsigned char *);
 int font_set_kcb_80044C90(KCB* kcb, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
 
 extern int dword_800AB6A8;

@@ -4,6 +4,9 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
+#include "libgv/libgv.h"
+#include "libgv/actor.h"
+
 
 typedef struct DG_TEX
 {
@@ -147,6 +150,153 @@ typedef struct
     Light *field_4_pLights;
 } DG_FixedLight;
 
+typedef struct ImgFile
+{
+    unsigned int unknown0;
+    unsigned int unknown1;
+    unsigned char *unknown2;
+    unsigned char *unknown3;
+    unsigned char *unknown4;
+} ImgFile;
+
+typedef struct DG_KmdFile
+{
+    int unknown0;
+    unsigned int num_objects;
+    int unknown1[6];
+    DG_MDL objects[0];
+} DG_KmdFile;
+
+typedef struct          DG_Vec3
+{
+    int                 x, y, z;
+} DG_Vec3;
+
+typedef struct DG_ZmdObject
+{
+    unsigned int numFaces;
+    unsigned int numMeshes;
+    DG_Vec3 start;
+    DG_Vec3 end;
+    DG_MDL kmdObjects[0];
+} DG_ZmdObject;
+
+typedef struct DG_ZmdEntry
+{
+    unsigned int fileNameHashed;
+    DG_ZmdObject data;
+} DG_ZmdEntry;
+
+typedef struct DG_ZmdFile
+{
+    unsigned int magic;
+    unsigned int numZmds;
+    unsigned int vertOffset;
+    unsigned int bodyLength;
+    DG_ZmdEntry zmdEntries[0];
+} DG_ZmdFile;
+
+typedef struct NFile
+{
+    unsigned int unknown0;
+    unsigned char *unknown1;
+} NFile;
+
+typedef struct OarFile
+{
+    unsigned char *deep;
+    unsigned int recordSize;
+    unsigned int count;
+    unsigned char *start;
+    char oarData[0];
+} OarFile;
+
+typedef struct DG_PcxFile
+{
+    unsigned char signature;
+    unsigned char version;
+    unsigned char encoding;
+    unsigned char bpp;
+    unsigned short xMin, yMin;
+    unsigned short xMax, yMax;
+    unsigned short hDpi, vDpi;
+    unsigned char palette[48];
+    unsigned char reserved0;
+    unsigned char channels;
+    unsigned short bytesPerLine;
+    unsigned short paletteMode;
+    unsigned short hres, vres;
+    // Unused 54 bytes in official PCX file format
+    // MGS HEADER
+    unsigned short mgsMagic; // always 1234
+    unsigned short flags;
+    unsigned short px, py; // pixels
+    unsigned short cx, cy; // clut
+    unsigned short n_colors;
+    unsigned char unused1[40];
+    // Image data
+    unsigned char data[0];
+} DG_PcxFile;
+
+typedef struct DG_Image
+{
+    RECT dim;
+    unsigned char data[512];
+} DG_Image;
+
+#define SetPackedRGB(p, r, g, b)  \
+    (p)->rgbc = ( ( r << 16 ) | ( g << 8 ) ) | b;
+
+typedef struct {
+	u_long	tag;
+    long    rgbc;
+	short	x0,	y0;
+	short	w,	h;
+} TILE_PACKED;
+
+typedef struct unknown_scrpad_struct
+{
+    long pad[8]; 
+    GV_Heap* pHeap;
+    long unknown_24;
+    long unknown_28;
+    long unknown_2C;
+    long unknown_30;
+} unknown_scrpad_struct;
+
+typedef struct SgtFile
+{
+    unsigned int unknown0;
+    unsigned char *unknown1;
+    unsigned char *unknown2;
+    unsigned char *unknown3;
+    unsigned char *unknown4;
+    unsigned char *unknown5;
+} SgtFile;
+
+typedef struct          DG_CHNL
+{
+    unsigned char       *mOrderingTables[2]; // 257 pointers? // One for each active buffer
+    short               word_6BC374_8;
+    short               word_6BC376_16;
+    short               word_6BC378_1;
+    short               word_6BC37A_0_1EC_size;
+    MATRIX              field_10_matrix;
+    MATRIX              dword_6BC39C;
+    short               word_6BC3BC; // Camera number?
+    short               mTotalQueueSize;
+    short               mFreePrimCount;
+    short               mTotalObjectCount;
+    DG_OBJS**           mQueue;
+    RECT                field_5C_rect;
+    RECT                field_64_rect;
+    // One for each active buffer and for some reason passed as the root
+    // to DrawOTag
+    DR_ENV              field_6C_dr_env[2];
+    DR_ENV              field_EC_dr_env[2];
+    DR_ENV              field_16C_dr_env[2];
+} DG_CHNL;
+
 static inline u_long LLOAD(from) void *from;
 {
     return *(u_long *)from;
@@ -205,11 +355,13 @@ int DG_QueuePrim_80018274(DG_OBJS *pPrim);
 void DG_DequeuePrim_800182E0(DG_OBJS *pObjs);
 void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
 void DG_PutPrim_8001BE00( MATRIX* matrix );
+void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
 
 void DG_SetPos_8001BC44(MATRIX *matrix);
 void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count);
 void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx);
+void DG_FreeObjsPacket_8001ABA8(DG_OBJS *pObjs, int idx);
 void DG_MovePos_8001BD20(SVECTOR *svector);
 void DG_RotatePos_8001BD64(SVECTOR *svector);
 void DG_RotVector_8001BE98( SVECTOR* svector, SVECTOR* svector2, int count );
@@ -218,8 +370,52 @@ void DG_MatrixRotZYX_8001E92C(MATRIX *mat, SVECTOR *vec);
 void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
 void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
 
+int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitLit_8001F6B4(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitNar_8001F5F8(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed);
+int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed);
+int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed);
+
+void DG_ClearTmpLight_8001A0E4();
 int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 
 DG_TEX *DG_FindTexture_8001D830(int name);
+int DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
+void DG_ClearTextureRecs_8001D808();
+void DG_ResetResidentTexture_8001DBEC();
+
+// unsorted
+void DG_Clip_80017594(RECT *pClipRect, int dist);
+int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
+void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
+void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
+void DG_BoundChanl_helper2_80018E5C( DG_CHNL* chnl, int idx );
+void DG_FreePreshade_80032110(DG_OBJS *pPrim);
+int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
+void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx);
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
+void DG_LoadInitPcx_helper_8001D880(unsigned short param_1, unsigned short param_2, unsigned short param_3,
+                                    DG_Image *param_4, DG_Image *param_5, short param_6);
+int DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
+void DG_StorePaletteEffect_80078F30(void);
+void DG_800174DC( MATRIX* matrix );
+void sub_8001C248( DG_OBJS* objs, int n_obj );
+void sub_8001C708(DG_OBJS *objs, int n_obj);
+void sub_8001C5CC(DG_OBJS *objs, int n_obj);
+void sub_8001C460(DG_OBJS *objs, int n_obj);
+int DG_DrawSyncResetGraph_8001F014(void);
+void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH);
+void DG_InitChanlSystem_80017B98(int width);
+void DG_8001F1DC(void);
+void DG_ClearResidentTexture_8001DB10(void);
+void DG_Update2_8001F078(Actor *pActor);
+void DG_Update1_8001F1BC(void);
+void DG_ClearChanlSystem_80017E9C( int which );
+void DG_RenderPipeline_80018028(int idx);
+void DG_DrawOTag_80017E4C(int activeBuffer);
+int sub_800190A0( GV_Heap* heap, long* a0, long* a1 );
 
 #endif // LIBDG_H

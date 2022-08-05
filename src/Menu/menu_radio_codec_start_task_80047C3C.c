@@ -3,7 +3,6 @@
 #include "mts/mts_new.h"
 
 void* GV_AllocMemory_80015EB8(int idx, int size);
-void GV_ZeroMemory_8001619C(void* ptr, int size);
 
 extern const char aNoMemoryForSta[];
 extern const char aNoMemory[];

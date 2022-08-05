@@ -1,7 +1,4 @@
-
-
-void DG_ClearTextureRecs_8001D808(void);
-void DG_ResetResidentTexture_8001DBEC(void);
+#include "libdg.h"
 
 void DG_TextureCacheInit_8001F25C(void)
 {

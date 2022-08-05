@@ -15,7 +15,6 @@ struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
 
 int sprintf_8008E878(char *buffer, const char *format, ...);
-void mts_printf_8008BBA0(const char *, ...);
 
 // still has large diffs
 /*

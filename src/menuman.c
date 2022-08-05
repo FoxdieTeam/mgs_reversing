@@ -4,6 +4,7 @@
 #include <LIBGPU.H>
 #include "data/data/data.h"
 #include "libdg/dgd.h"
+#include "psyq.h"
 
 Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
 unsigned char SECTION(".gPrimBackingBuffers_800B9360") gPrimBackingBuffers_800B9360[2][8192];
@@ -20,8 +21,6 @@ extern int MENU_PrimUse_800AB68C;
 extern TInitKillFn gMenuKillFns_8009E2B4[];
 
 void menu_rpk_init_8003DD1C(const char *);
-void SetDrawEnv_800906B0(DR_ENV *dr_env, DRAWENV *env);
-void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2);
 void menuman_act_800386A4(Actor_MenuMan *);
 void menuman_kill_800387E8(Actor_MenuMan *);
 void menu_viewer_init_80044A70(Actor_MenuMan *);

@@ -79,9 +79,6 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void* pUpdateFn);
 void menu_inventory_right_init_items_8003DE50(void);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
-void*    GV_Malloc_8001620C(int size);
-void     GV_ZeroMemory_8001619C(void *, int);
-void GV_Free_80016230(void *ptr);
 
 #pragma INCLUDE_ASM("asm/sub_8003CC88.s")
 #pragma INCLUDE_ASM("asm/sub_8003CE40.s")

@@ -5,8 +5,6 @@ extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;
 
 void EQ_InvisibleUnit_80060E68(DG_OBJS* param_1, int param_2, int param_3);
-void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
-void DG_FreeObjsPacket_8001ABA8(DG_OBJS *pObjs, int idx);
 
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s") // 268 bytes
 POLY_GT4* kogaku2_tpage_uv_update_80060F98(POLY_GT4 *pPrims, int pack_count);

@@ -2,25 +2,9 @@
 #include "dgd.h"
 #include "mts/mts_new.h"
 #include "libgv/actor.h"
+#include "libgv/libgv.h"
 
-int DG_DrawSyncResetGraph_8001F014(void);
-void DG_InitDispEnv_800170F0(int, int, int, int, int);
-void DG_InitChanlSystem_80017B98(int);
-void DG_8001F1DC(void);
-void DG_ClearResidentTexture_8001DB10(void);
-
-int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed);
-int DG_LoadInitKmd_8001F4EC(unsigned char *pFileData, int fileNameHashed);
-int DG_LoadInitLit_8001F6B4(unsigned char *pFileData, int fileNameHashed);
-int DG_LoadInitNar_8001F5F8(unsigned char *pFileData, int fileNameHashed);
-int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed);
-int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed);
-int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed);
-int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed);
-
-void DG_Update2_8001F078(Actor *);
-void DG_Update1_8001F1BC(Actor *);
-
+extern unsigned char kVertexIndexingOrder_8009D46C[];
 extern const char aDgdC[];
 
 Actor SECTION(".gDgdActor2_800B3750") gDgdActor2_800B3750;
@@ -46,14 +30,12 @@ void DG_StartDaemon_8001F284(void)
 
     // 2D handler?
     GV_InitActor_800150A8(0, &gDgdActor2_800B3750, 0);
-    GV_SetNamedActor_8001514C(&gDgdActor2_800B3750, DG_Update2_8001F078, 0, aDgdC);
+    GV_SetNamedActor_8001514C(&gDgdActor2_800B3750, (TActorFunction)DG_Update2_8001F078, 0, aDgdC);
 
     // 3D handler?
     GV_InitActor_800150A8(8, &gDgdActor1_800B3770, 0);
-    GV_SetNamedActor_8001514C(&gDgdActor1_800B3770, DG_Update1_8001F1BC, 0, aDgdC);
+    GV_SetNamedActor_8001514C(&gDgdActor1_800B3770, (TActorFunction)DG_Update1_8001F1BC, 0, aDgdC);
 }
-
-extern unsigned char kVertexIndexingOrder_8009D46C[];
 
 /*
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL* pKmdObj, DG_MDL* pParentObj)

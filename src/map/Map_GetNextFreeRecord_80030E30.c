@@ -38,7 +38,6 @@ extern DG_OBJS *StageObjs_800B7890[32];
 extern MATRIX DG_ZeroMatrix_8009D430;
 
 void *GV_GetCache_8001538C(int id);
-int GV_CacheID_800152DC(int file_id, int ext_id);
 void *DG_MakeObjs_80031760(void *, int, int);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);

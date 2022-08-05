@@ -1,11 +1,4 @@
-typedef struct ImgFile
-{
-    unsigned int unknown0;
-    unsigned int unknown1;
-    unsigned char *unknown2;
-    unsigned char *unknown3;
-    unsigned char *unknown4;
-} ImgFile;
+#include "libdg.h"
 
 int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed)
 {
