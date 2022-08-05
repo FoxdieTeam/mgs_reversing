@@ -6,20 +6,19 @@ extern int GM_GameOverTimer_800AB3D4;
 
 extern char aDelayC[];
 
-typedef union ProcIdOrScript 
-{
-    int id;
-    unsigned char* pScript;
+typedef union ProcIdOrScript {
+    int            id;
+    unsigned char *pScript;
 } ProcIdOrScript;
 
 typedef struct Delay
 {
-    Actor mBase;
+    Actor          mBase;
     ProcIdOrScript mProcIdOrScriptPtr;
-    GCL_ARGS mGclProcArgs;
-    int mDelayCounter;
-    int mActive;
-    long field_34_args_array[8];
+    GCL_ARGS       mGclProcArgs;
+    int            mDelayCounter;
+    int            mActive;
+    long           field_34_args_array[8];
 } Delay;
 
 void delay_act_800331A4(Delay *pDelay)
@@ -51,10 +50,10 @@ void delay_act_800331A4(Delay *pDelay)
 Actor *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
 {
     unsigned short pSrcArgsCount;
-    Delay *pDelay;
-    int argCounter;
-    long *ppDstArgs;
-    long *ppSrcArgs;
+    Delay         *pDelay;
+    int            argCounter;
+    long          *ppDstArgs;
+    long          *ppSrcArgs;
 
     pDelay = (Delay *)GV_NewActor_800150E4(6, sizeof(Delay));
     if (pDelay)

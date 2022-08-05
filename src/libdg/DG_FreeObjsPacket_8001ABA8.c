@@ -33,7 +33,7 @@ void DG_FreeObjPacket_8001AAD0(DG_OBJ *pObj, int idx)
     ppPack = &pObj->packs[idx];
     if (*ppPack)
     {
-        GV_FreeMemory2_80016078(idx, (void**)ppPack);
+        GV_FreeMemory2_80016078(idx, (void **)ppPack);
         *ppPack = 0;
     }
 }
@@ -62,7 +62,7 @@ int DG_MakeObjsPacket_8001AB14(DG_OBJS *pObjs, int idx)
 
 void DG_FreeObjsPacket_8001ABA8(DG_OBJS *pObjs, int idx)
 {
-    int n_models;
+    int     n_models;
     DG_OBJ *pObj;
 
     n_models = pObjs->n_models;
@@ -92,17 +92,17 @@ void DG_8001AC08(Prim_Point *xy0, Prim_Point *xy1, Prim_Point *xy2, Prim_Point *
     int x1_x0_diff = x1 - x0;
     int y1_y0_diff = y1 - y0;
 
-    if ( x1_x0_diff < 0 )
+    if (x1_x0_diff < 0)
     {
         x1_x0_diff = -x1_x0_diff;
     }
 
-    if ( y1_y0_diff < 0 )
+    if (y1_y0_diff < 0)
     {
         y1_y0_diff = -y1_y0_diff;
     }
 
-    if ( y1_y0_diff >= x1_x0_diff )
+    if (y1_y0_diff >= x1_x0_diff)
     {
         xy2->x = x0 + 2;
         xy2->y = y0;
@@ -121,11 +121,11 @@ void DG_8001AC08(Prim_Point *xy0, Prim_Point *xy1, Prim_Point *xy2, Prim_Point *
 void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
 {
     // TODO: Check if these prim types are actually correct when we have more context
-    if ( prim_type == 21 )
+    if (prim_type == 21)
     {
-        int n_prims;
+        int       n_prims;
         POLY_FT4 *i = (POLY_FT4 *)pPrims->field_40_pBuffers[GV_Clock_800AB920];
-        for (n_prims = (signed short)pPrims->n_prims ; n_prims > 0; --n_prims )
+        for (n_prims = (signed short)pPrims->n_prims; n_prims > 0; --n_prims)
         {
             DG_8001AC08((Prim_Point *)&i->x0, (Prim_Point *)&i->x1, (Prim_Point *)&i->x2, (Prim_Point *)&i->x3);
             i++;
@@ -133,13 +133,12 @@ void DG_8001AC74(DG_PRIM *pPrims, int prim_type)
     }
     else // prim_type == 22 ?
     {
-        int n_prims;
+        int       n_prims;
         POLY_GT4 *i = (POLY_GT4 *)pPrims->field_40_pBuffers[GV_Clock_800AB920];
-        for (n_prims = (signed short)pPrims->n_prims ; n_prims > 0; --n_prims )
+        for (n_prims = (signed short)pPrims->n_prims; n_prims > 0; --n_prims)
         {
             DG_8001AC08((Prim_Point *)&i->x0, (Prim_Point *)&i->x1, (Prim_Point *)&i->x2, (Prim_Point *)&i->x3);
             i++;
         }
     }
 }
-

@@ -6,13 +6,12 @@ GV_Messages SECTION(".gMessageQueue_800B0320") gMessageQueue_800B0320[2];
 
 /**$gp******************************************/
 extern int active_msg_queue_800AB948;
-int SECTION(".sbss") active_msg_queue_800AB948;
+int        SECTION(".sbss") active_msg_queue_800AB948;
 /***********************************************/
 
 /**sbss****************************/
 extern int GV_PauseLevel_800AB928;
 /**********************************/
-
 
 void GV_SlideMessageForward_8001642C(GV_MSG *pMsg, int msg_count)
 {
@@ -32,32 +31,33 @@ void GV_InitMessageSystem_800164AC()
     active_msg_queue_800AB948 = 0;
 }
 
-void GV_ClearMessageSystem_800164C8( void )
+void GV_ClearMessageSystem_800164C8(void)
 {
-    GV_Messages* list;
+    GV_Messages *list;
     active_msg_queue_800AB948 = 1 - active_msg_queue_800AB948;
 
-    list = &gMessageQueue_800B0320[ 1 - active_msg_queue_800AB948 ];
+    list = &gMessageQueue_800B0320[1 - active_msg_queue_800AB948];
     list->field_0_count = 0;
 }
 
-int GV_SendMessage_80016504( GV_MSG *send )
+int GV_SendMessage_80016504(GV_MSG *send)
 {
-    int             address, n_msg, length;
-    GV_Messages*    list;
-    GV_MSG*         message;
+    int          address, n_msg, length;
+    GV_Messages *list;
+    GV_MSG      *message;
 
-    list = &gMessageQueue_800B0320[  1 - active_msg_queue_800AB948 ];
+    list = &gMessageQueue_800B0320[1 - active_msg_queue_800AB948];
 
     n_msg = list->field_0_count;
-    if (n_msg > 15) return -1;
+    if (n_msg > 15)
+        return -1;
 
     message = list->field_4_msgs;
     list->field_0_count = n_msg + 1;
     length = 0;
 
     address = send->address;
-    for ( ; n_msg > 0 ; --n_msg )
+    for (; n_msg > 0; --n_msg)
     {
         if (message->address == address)
         {
@@ -76,9 +76,9 @@ int GV_SendMessage_80016504( GV_MSG *send )
 
 int GV_ReceiveMessage_80016620(int msg_type, GV_MSG **ppFound)
 {
-    GV_Messages *pMsgs; // $v1
-    int count;                 // $a2
-    GV_MSG *pMsgIter;          // $v1
+    GV_Messages *pMsgs;    // $v1
+    int          count;    // $a2
+    GV_MSG      *pMsgIter; // $v1
 
     if (GV_PauseLevel_800AB928)
     {

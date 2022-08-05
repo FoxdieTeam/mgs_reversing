@@ -4,21 +4,20 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "data/data/data.h"
 
-int FS_StreamGetData_800240E0(DWORD);
+int  FS_StreamGetData_800240E0(DWORD);
 void sub_800241B4(int);
-int FS_StreamOpen_80024060(void);
+int  FS_StreamOpen_80024060(void);
 void FS_StreamClose_80024098(void);
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
-extern unk_8009E280 dword_8009E280;
+extern unk_8009E280         dword_8009E280;
 
-extern DWORD gotohell_800B9358;
-extern GameState_800B4D98 gGameState_800B4D98;
-extern const char aJimctrlC[];
+extern DWORD                 gotohell_800B9358;
+extern GameState_800B4D98    gGameState_800B4D98;
+extern const char            aJimctrlC[];
 extern dword_800B9358_struct array_800B9358[2];
 
 Actor_JimCtrl SECTION(".gJimCtrlActor_800B82F0") jimCtrlActor_800B82F0;
-
 
 void jimctrl_helper_null_80037FFC(void)
 {
@@ -29,7 +28,7 @@ void MENU_JimakuClear_80049518(void);
 void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 {
     array_800B933C_child *pIter;
-    int i;
+    int                   i;
 
     if (pJimCtrl->field_44 != 0)
     {
@@ -50,7 +49,6 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 }
 #pragma INCLUDE_ASM("asm/jimctrl_act_80038070.s")
 
-
 void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 {
     jimctrl_kill_helper_clear_80038004(pJimCtrl);
@@ -60,8 +58,8 @@ void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 
 Actor *jimctrl_init_80038568(DWORD flags)
 {
-    int seekResult;
-    DWORD toSeek = 4;
+    int            seekResult;
+    DWORD          toSeek = 4;
     Actor_JimCtrl *pJimActor = &jimCtrlActor_800B82F0;
     if (flags & 0x80)
     {
@@ -96,12 +94,8 @@ Actor *jimctrl_init_80038568(DWORD flags)
         jimctrl_init_helper_clear_80037FB8();
         GV_InitActor_800150A8(1, &pJimActor->field_0_base, 0);
 
-        GV_SetNamedActor_8001514C(
-            &pJimActor->field_0_base,
-            (TActorFunction)jimctrl_act_80038070,
-            (TActorFunction)jimctrl_kill_8003853C,
-            aJimctrlC
-        );
+        GV_SetNamedActor_8001514C(&pJimActor->field_0_base, (TActorFunction)jimctrl_act_80038070,
+                                  (TActorFunction)jimctrl_kill_8003853C, aJimctrlC);
 
         pJimActor->field_24 = flags;
 
@@ -115,5 +109,4 @@ Actor *jimctrl_init_80038568(DWORD flags)
 
         return &jimCtrlActor_800B82F0.field_0_base;
     }
-
 }

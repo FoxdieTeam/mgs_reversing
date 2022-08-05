@@ -1,12 +1,12 @@
 #include "libgcl/gcl.h"
 #include "linker.h"
 
-extern int          GM_GameOverVox_800AB45C;
-extern int          dword_800ABA58;
+extern int GM_GameOverVox_800AB45C;
+extern int dword_800ABA58;
 
-extern int          dword_800ABA78;
-extern int          dword_800ABA7C;
-extern int          dword_800ABA70;
+extern int dword_800ABA78;
+extern int dword_800ABA7C;
+extern int dword_800ABA70;
 // Force last 3 variables to use $gp register
 int SECTION(".sbss") dword_800ABA78;
 int SECTION(".sbss") dword_800ABA7C;
@@ -17,7 +17,7 @@ unsigned int GM_Sound_80032968(int a1, int a2, int a3);
 void         GM_Sound_80032C48(int code, int notUsed);
 int          GM_set_noise_sound_8002E588(int a1);
 int          sub_8002E508(int a1);
-char*        GM_VoxStream_80037E40(int param_1, unsigned int param_2);
+char        *GM_VoxStream_80037E40(int param_1, unsigned int param_2);
 
 void GCL_Command_sound_impl_8002E688()
 {
@@ -42,7 +42,7 @@ void GCL_Command_sound_impl_8002E688()
         {
             dword_800ABA70 &= ~2;
         }
-        else 
+        else
         {
             dword_800ABA70 |= 2;
         }
@@ -58,9 +58,8 @@ void GCL_Command_sound_impl_8002E688()
     }
     if (GCL_GetParam_80020968('e'))
     {
-        GM_Sound_80032968(  GCL_GetNextParamValue_80020AD4(),
-                            GCL_GetNextParamValue_80020AD4(),
-                            GCL_GetNextParamValue_80020AD4());
+        GM_Sound_80032968(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
+                          GCL_GetNextParamValue_80020AD4());
     }
     if (GCL_GetParam_80020968('v')) // vox
     {
@@ -93,4 +92,3 @@ void GCL_Command_sound_impl_8002E688()
         GM_SoundStart_8002E640();
     }
 }
-

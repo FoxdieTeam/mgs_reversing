@@ -4,7 +4,7 @@
 RadioMemory *menu_radio_table_find_8004D380(int frequency)
 {
     RadioMemory *contact;
-    int         i;
+    int          i;
 
     contact = &gRadioMemory_800BDB38[0];
     for (i = 0; i < RADIO_MEMORY_COUNT; i++)

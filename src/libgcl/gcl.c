@@ -3,12 +3,12 @@
 #include "mts/mts_new.h"
 #include "Game/game.h"
 
-GCL_COMMANDDEF *dword_800AB3B8 = 0; //sdata
+GCL_COMMANDDEF *dword_800AB3B8 = 0; // sdata
 
 void GCL_ParseInit_80020B68(void);
 void GCL_InitVar_80021264(void);
 void GCL_InitBasicCommands_8002040C(void);
-int GCL_LoadScript_80020064(unsigned char *);
+int  GCL_LoadScript_80020064(unsigned char *);
 
 int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
 
@@ -55,13 +55,13 @@ int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain)
     return 0;
 }
 
-//extern const char aCommandNotFoun[];
+// extern const char aCommandNotFoun[];
 
 GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
 {
     GCL_COMMANDLIST *pTableIter;
-    int commandCount;
-    GCL_COMMANDDEF *pChainIter;
+    int              commandCount;
+    GCL_COMMANDDEF  *pChainIter;
 
     for (pChainIter = dword_800AB3B8; pChainIter; pChainIter = pChainIter->next)
     {
@@ -82,7 +82,6 @@ GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
 void GCL_SetCommandLine_80020934(unsigned char *);
 void GCL_SetArgTop_80020690(unsigned char *);
 void GCL_UnsetCommandLine_80020950(void);
-
 
 int GCL_Command_8001FDB0(unsigned char *pScript)
 {
@@ -114,8 +113,8 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
     GCL_ProcTableEntry *pIter = pTable;
     while (*(int *)pIter)
     {
-        pIter->procNameHashed = (unsigned short)GCL_GetShort((char*)&pIter->procNameHashed);
-        pIter->offset = (unsigned short)GCL_GetShort((char*)&pIter->offset);
+        pIter->procNameHashed = (unsigned short)GCL_GetShort((char *)&pIter->procNameHashed);
+        pIter->offset = (unsigned short)GCL_GetShort((char *)&pIter->offset);
         pIter++;
     }
     return pIter + 1;
@@ -124,12 +123,12 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
 typedef struct
 {
     GCL_ProcTableEntry *field_0_procTable;
-    unsigned char *field_4_pByteCode;
-    unsigned char *field_8_pMainProc;
+    unsigned char      *field_4_pByteCode;
+    unsigned char      *field_8_pMainProc;
 } GCL_FileData;
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
-//extern const char aProcXNotFound[];
+// extern const char aProcXNotFound[];
 
 unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
 {
@@ -150,9 +149,9 @@ void GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs)
     GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
-//extern const char aProcDCancel[];
+// extern const char aProcDCancel[];
 
-extern int GM_LoadRequest_800AB3D0;
+extern int              GM_LoadRequest_800AB3D0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
@@ -165,17 +164,17 @@ int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
     return GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
-//extern const char aTooManyArgsPro[];
+// extern const char aTooManyArgsPro[];
 
 #define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
 
 int GCL_Proc_8001FFA0(unsigned char *pScript)
 {
-    long args[8];
+    long     args[8];
     GCL_ARGS argsPtr;
-    int code;
-    int value;
-    int arg_idx;
+    int      code;
+    int      value;
+    int      arg_idx;
 
     int b1 = pScript[0];
     int b2 = pScript[1];
@@ -207,8 +206,8 @@ void font_set_font_addr_80044BC0(int arg1, void *data);
 int GCL_LoadScript_80020064(unsigned char *pScript)
 {
     GCL_ProcTableEntry *pTableStart;
-    unsigned char *tmp;
-    unsigned int len;
+    unsigned char      *tmp;
+    unsigned int        len;
 
     pTableStart = (GCL_ProcTableEntry *)(pScript + sizeof(int));
 
@@ -228,8 +227,8 @@ int *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
 void GCL_UnsetArgStack_800208F0(int *pStack);
 void GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
 
-//extern const char aScriptCommandE[];
-//extern const char aErrorInScript[];
+// extern const char aScriptCommandE[];
+// extern const char aErrorInScript[];
 
 int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
 {
@@ -238,43 +237,42 @@ int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
     {
         switch (*pScript)
         {
-            case GCLCODE_EXPRESSION:
+        case GCLCODE_EXPRESSION: {
+            int auStack24[2]; // TODO: probably an arg pair ??
+            GCL_Expr_8002058C(pScript + 2, auStack24);
+            pScript++;
+            pScript += *pScript;
+        }
+        break;
+
+        case GCLCODE_COMMAND:
+            if (GCL_Command_8001FDB0(pScript + 3) == 1)
             {
-                int auStack24[2]; // TODO: probably an arg pair ??
-                GCL_Expr_8002058C(pScript + 2, auStack24);
-                pScript++;
-                pScript += *pScript;
+                return 1;
             }
+            pScript++;
+            pScript += (short)GCL_MakeShort(pScript[1], pScript[0]);
             break;
 
-            case GCLCODE_COMMAND:
-                if (GCL_Command_8001FDB0(pScript + 3) == 1)
-                {
-                    return 1;
-                }
-                pScript++;
-                pScript += (short)GCL_MakeShort(pScript[1], pScript[0]);
-                break;
+        case GCLCODE_PROC:
+            GCL_Proc_8001FFA0(pScript + 2);
+            pScript++;
+            pScript += *pScript;
+            break;
 
-            case GCLCODE_PROC:
-                GCL_Proc_8001FFA0(pScript + 2);
-                pScript++;
-                pScript += *pScript;
-                break;
+        case GCLCODE_NULL:
+            GCL_UnsetArgStack_800208F0(pOldStack);
+            return 0;
 
-            case GCLCODE_NULL:
-                GCL_UnsetArgStack_800208F0(pOldStack);
-                return 0;
-
-            default:
-                mts_printf_8008BBA0("SCRIPT COMMAND ERROR %x\n", (unsigned int)*pScript);
+        default:
+            mts_printf_8008BBA0("SCRIPT COMMAND ERROR %x\n", (unsigned int)*pScript);
         }
     }
     mts_printf_8008BBA0("ERROR in script\n");
     return 1;
 }
 
-//extern const char aNotScriptData[];
+// extern const char aNotScriptData[];
 extern GCL_ARGS gcl_null_args_800AB3BC;
 
 void GCL_ExecScript_80020228()

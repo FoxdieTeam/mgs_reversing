@@ -5,18 +5,13 @@
 
 unsigned char SECTION(".byte_800B7A50") byte_800B7A50[2016];
 
-void Prim_lighting_80031954(
-    SVECTOR *pVerts,
-    int numVerts,
-    unsigned char *workBuf,
-    short *pSrcData,
-    int srcDataLen);
+void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen);
 
 void Prim_80031B00(DG_MDL *pMdl, short *pData, int dataCount)
 {
-    unsigned int remainderVertCount; // $s1
-    SVECTOR *pVerts;                 // $s0
-    unsigned char *workBuf;          // $a2
+    unsigned int   remainderVertCount; // $s1
+    SVECTOR       *pVerts;             // $s0
+    unsigned char *workBuf;            // $a2
 
     remainderVertCount = pMdl->numVertex_34;
     pVerts = pMdl->vertexIndexOffset_38;

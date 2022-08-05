@@ -5,11 +5,11 @@
 #include "libgv/libgv.h"
 
 extern unsigned char kVertexIndexingOrder_8009D46C[];
-extern const char aDgdC[];
+extern const char    aDgdC[];
 
 Actor SECTION(".gDgdActor2_800B3750") gDgdActor2_800B3750;
 Actor SECTION(".gDgdActor2_800B3750") gDgdActor1_800B3770; // same section as its directly after
-int SECTION(".gDgdActor2_800B3750") dword_800B3790;
+int   SECTION(".gDgdActor2_800B3750") dword_800B3790;
 
 void DG_StartDaemon_8001F284(void)
 {
@@ -73,14 +73,14 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL* pKmdObj, DG_MDL* 
         {
             if ((unsigned short)pVertOff->pad != 0xffff)
             {
-              
-                
+
+
                 pIdxOffs = pParentObj->indexOfs_3C;
                 parentFaceCount = pParentObj->field_4_numFaces << 2;
-               
+
                 while (parentFaceCount > 0)
                 {
-                
+
                     parentFaceCount--;
                     if (((unsigned int)*pIdxOffs & 0x7f) != pVertOff->pad)
                     {
@@ -94,7 +94,8 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL* pKmdObj, DG_MDL* 
                     //pbVar1 = pIdxOffs + 3;
                     pbVar1 += 3;
                 }
-                pVertOff->pad = (ushort)(kVertexIndexingOrder_8009D46C)[pbVar1 & 3] * 0xc + (short)((pbVar1 / 4) * sizeof(POLY_GT4)) + 8;
+                pVertOff->pad = (ushort)(kVertexIndexingOrder_8009D46C)[pbVar1 & 3] * 0xc + (short)((pbVar1 / 4) *
+sizeof(POLY_GT4)) + 8;
             }
             pVertOff++;
         }

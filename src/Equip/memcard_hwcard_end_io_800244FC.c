@@ -98,9 +98,8 @@ int memcard_easy_format_test_800246C0(int hCard)
     memset_8008E688(pData, 0, 128);
     mts_printf_8008BBA0(aR);
 
-    while (
-        (char *)gHwCard_do_op_800B52E8 != (char *)memcard_hwcard_do_op_800244DC ||
-        (char *)gSwCard_do_op_800B52EC != (char *)memcard_swcard_do_op_800244EC)
+    while ((char *)gHwCard_do_op_800B52E8 != (char *)memcard_hwcard_do_op_800244DC ||
+           (char *)gSwCard_do_op_800B52EC != (char *)memcard_swcard_do_op_800244EC)
     {
         mts_printf_8008BBA0(aAccessWait);
         mts_wait_vbl_800895F4(2);

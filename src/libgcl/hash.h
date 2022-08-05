@@ -6,61 +6,60 @@
 //------------------------------------------------------------------------------
 
 // Key words
-#define HASH_CMD_if         0x0d86
-#define HASH_CMD_eval       0x64c0
-#define HASH_CMD_return     0xcd3a
-#define HASH_CMD_foreach    0x7636
+#define HASH_CMD_if 0x0d86
+#define HASH_CMD_eval 0x64c0
+#define HASH_CMD_return 0xcd3a
+#define HASH_CMD_foreach 0x7636
 
 // Commands
-#define HASH_CMD_mesg       0x22ff
-#define HASH_CMD_trap       0xd4cb
-#define HASH_CMD_chara      0x9906
-#define HASH_CMD_map        0xc091
-#define HASH_CMD_hzd        0x7d50 // wrong
-#define HASH_CMD_camera     0xeee9
-#define HASH_CMD_light      0x306a
-#define HASH_CMD_start      0x9a1f
-#define HASH_CMD_load       0xc8bb
-#define HASH_CMD_radio      0x24e1
+#define HASH_CMD_mesg 0x22ff
+#define HASH_CMD_trap 0xd4cb
+#define HASH_CMD_chara 0x9906
+#define HASH_CMD_map 0xc091
+#define HASH_CMD_hzd 0x7d50 // wrong
+#define HASH_CMD_camera 0xeee9
+#define HASH_CMD_light 0x306a
+#define HASH_CMD_start 0x9a1f
+#define HASH_CMD_load 0xc8bb
+#define HASH_CMD_radio 0x24e1
 #define HASH_CMD_str_status 0xe43c
-#define HASH_CMD_demo       0xa242
-#define HASH_CMD_ntrap      0xdbab
-#define HASH_CMD_delay      0x430d
-#define HASH_CMD_pad        0xcc85
-#define HASH_CMD_varsave    0x5c9e
-#define HASH_CMD_system     0x4ad9
-#define HASH_CMD_sound      0x698d
-#define HASH_CMD_menu       0x226d
-#define HASH_CMD_rand       0x925e
-#define HASH_CMD_unk1       0xe257 // used by traps
-#define HASH_CMD_unk2       0xa2bf // ?? not in pc ver, demo thread related ??
-#define HASH_CMD_print      0xb96e
-#define HASH_CMD_jimaku     0xec9d // subtitle
+#define HASH_CMD_demo 0xa242
+#define HASH_CMD_ntrap 0xdbab
+#define HASH_CMD_delay 0x430d
+#define HASH_CMD_pad 0xcc85
+#define HASH_CMD_varsave 0x5c9e
+#define HASH_CMD_system 0x4ad9
+#define HASH_CMD_sound 0x698d
+#define HASH_CMD_menu 0x226d
+#define HASH_CMD_rand 0x925e
+#define HASH_CMD_unk1 0xe257 // used by traps
+#define HASH_CMD_unk2 0xa2bf // ?? not in pc ver, demo thread related ??
+#define HASH_CMD_print 0xb96e
+#define HASH_CMD_jimaku 0xec9d // subtitle
 
 //------------------------------------------------------------------------------
 // Traps
 //------------------------------------------------------------------------------
 
-#define HASH_TRAP_ALL       0x14c9
+#define HASH_TRAP_ALL 0x14c9
 
 //  Events
-#define HASH_ENTER          0x0dd2 // 入る
-#define HASH_LEAVE          0xd5cc // 出る
+#define HASH_ENTER 0x0dd2 // 入る
+#define HASH_LEAVE 0xd5cc // 出る
 
 //------------------------------------------------------------------------------
 // HZD
 //------------------------------------------------------------------------------
 
-#define HASH_MAIN           0x7df9 // メイン - Refers to the main area of the map to load
+#define HASH_MAIN 0x7df9 // メイン - Refers to the main area of the map to load
 
 //------------------------------------------------------------------------------
 // Charas
 //------------------------------------------------------------------------------
 
-#define CHARA_SNAKE             0x21ca // スネーク
-#define CHARA_DOOR              0xb997
-#define CHARA_ITEM              0x8767
-
+#define CHARA_SNAKE 0x21ca // スネーク
+#define CHARA_DOOR 0xb997
+#define CHARA_ITEM 0x8767
 
 // Other charas shouldn't be needed for the main exe
 /*
@@ -151,7 +150,7 @@
 #define CHARA_AB_DEMO2          0x4975
 #define CHARA_A_SHOWER          0x05ef
 #define CHARA_GCL_ARRAY         0x2a90 // gclarray.c
-#define CHARA_ASIATO            0x02c4 // FOOTPRINTS ? 
+#define CHARA_ASIATO            0x02c4 // FOOTPRINTS ?
 #define CHARA_ASIOTO            0x92bc // FOOTSTEPS ?
 #define CHARA_AT                0x9988
 #define CHARA_BELONG            0xf59e
