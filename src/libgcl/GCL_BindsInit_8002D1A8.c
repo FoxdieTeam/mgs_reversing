@@ -1,9 +1,9 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
 
-extern int          gBinds_800ABA60;
-extern int          gBindsCount_800ABA64;
-extern BindStruct   gBindsArray_800b58e0;
+extern int        gBinds_800ABA60;
+extern int        gBindsCount_800ABA64;
+extern BindStruct gBindsArray_800b58e0;
 
 // $gp
 int SECTION(".sbss") gBinds_800ABA60;

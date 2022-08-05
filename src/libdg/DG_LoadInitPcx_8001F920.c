@@ -2,47 +2,14 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "linker.h"
-
-typedef struct DG_PcxFile
-{
-    unsigned char signature;
-    unsigned char version;
-    unsigned char encoding;
-    unsigned char bpp;
-    unsigned short xMin, yMin;
-    unsigned short xMax, yMax;
-    unsigned short hDpi, vDpi;
-    unsigned char palette[48];
-    unsigned char reserved0;
-    unsigned char channels;
-    unsigned short bytesPerLine;
-    unsigned short paletteMode;
-    unsigned short hres, vres;
-    // Unused 54 bytes in official PCX file format
-    // MGS HEADER
-    unsigned short mgsMagic; // always 1234
-    unsigned short flags;
-    unsigned short px, py; // pixels
-    unsigned short cx, cy; // clut
-    unsigned short n_colors;
-    unsigned char unused1[40];
-    // Image data
-    unsigned char data[0];
-} DG_PcxFile;
-
-typedef struct DG_Image
-{
-    RECT dim;
-    unsigned char data[512];
-} DG_Image;
+#include "libdg.h"
+#include "psyq.h"
 
 extern int GV_Clock_800AB920;
 
-void LoadImage_8008FB10(RECT *, unsigned char *);
-void GV_FreeMemory2_80016078(unsigned int, void **);
-void *GV_AllocMemory2_80015ED8(int which, int size, void **type);
-void DG_LoadInitPcx_helper_8001D880(unsigned short param_1, unsigned short param_2, unsigned short param_3,
-                                    DG_Image *param_4, DG_Image *param_5, short param_6);
+// The size of this buffer is just a guess based on the next address of a
+// variable that IDA knows about.
+unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer[128];
 
 #define PCX_RLE_THRESHOLD 0xC0
 
@@ -59,7 +26,7 @@ unsigned char *pcx_file_read_8BPP_8001F6BC(unsigned char *pcxData, unsigned char
         }
         else
         {
-            int runLength = maybeRunLength - PCX_RLE_THRESHOLD;
+            int  runLength = maybeRunLength - PCX_RLE_THRESHOLD;
             char color = *pcxData++;
             imageSize -= runLength;
             while (--runLength >= 0)
@@ -72,10 +39,6 @@ unsigned char *pcx_file_read_8BPP_8001F6BC(unsigned char *pcxData, unsigned char
     return palette;
 }
 
-// The size of this buffer is just a guess based on the next address of a
-// variable that IDA knows about.
-unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer[128];
-
 unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char *imageData, int bytesPerLine,
                                            int width, int height)
 {
@@ -86,7 +49,7 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
         unsigned char *gp;
         unsigned char *bp;
         unsigned char *ap;
-        int lineRemaining;
+        int            lineRemaining;
 
         unsigned char *pos = pcxBuffer;
         lineRemaining = 4 * bytesPerLine;
@@ -100,7 +63,7 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
             }
             else
             {
-                int runLength = maybeRunLength - PCX_RLE_THRESHOLD;
+                int           runLength = maybeRunLength - PCX_RLE_THRESHOLD;
                 unsigned char color = *pcxData++;
                 lineRemaining -= runLength;
                 while (--runLength >= 0)
@@ -156,9 +119,9 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
 void pcx_file_read_palette_8001F89C(unsigned char *pcxPalette, unsigned char *imageData, int width)
 {
     unsigned short *imagePalette;
-    int remaining;
-    unsigned char r, g, b;
-    unsigned short color;
+    int             remaining;
+    unsigned char   r, g, b;
+    unsigned short  color;
 
     imagePalette = (unsigned short *)imageData;
     remaining = width;
@@ -183,11 +146,11 @@ void pcx_file_read_palette_8001F89C(unsigned char *pcxPalette, unsigned char *im
 
 int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
 {
-    DG_PcxFile *pcx;
+    DG_PcxFile    *pcx;
     unsigned short flags;
-    int xMin, yMin;
-    int width, height;
-    DG_Image *images;
+    int            xMin, yMin;
+    int            width, height;
+    DG_Image      *images;
 
     pcx = (DG_PcxFile *)pFileData;
     flags = pcx->flags;
@@ -203,8 +166,8 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
 
     if (GV_AllocMemory2_80015ED8(GV_Clock_800AB920, width * height + 528, (void **)&images))
     {
-        DG_Image *imageA;
-        DG_Image *imageB;
+        DG_Image      *imageA;
+        DG_Image      *imageB;
         unsigned char *palette;
 
         imageB = images;

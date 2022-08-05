@@ -12,16 +12,16 @@ typedef struct _Unknown_Grenade_Member
 
 typedef struct _Actor_Grenade
 {
-    Actor field_0_actor;
-    int f20;
-    OBJECT *f24_parent_obj;
-    OBJECT f28_obj;    
-    int f4c;
-    int f50;
+    Actor                  field_0_actor;
+    int                    f20;
+    OBJECT                *f24_parent_obj;
+    OBJECT                 f28_obj;
+    int                    f4c;
+    int                    f50;
     Unknown_Grenade_Member f54;
-    int f5c;
-    int f60;
-    int f64;
+    int                    f5c;
+    int                    f60;
+    int                    f64;
 } Actor_Grenade;
 
 STATIC_ASSERT_SIZE(Actor_Grenade, 0x68);

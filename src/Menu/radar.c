@@ -1,17 +1,17 @@
 #include "menuMan.h"
 #include "linker.h"
+#include "psyq.h"
 
 // force gp
 extern int gFn_radar_800AB48C;
-int SECTION(".sdata") gFn_radar_800AB48C;
+int        SECTION(".sdata") gFn_radar_800AB48C;
 
 extern Menu_rpk_item *gRadar_rpk_800ABAC8;
-Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
-Menu_rpk_item* menu_rpk_get_img_8003DDB4(int idx);
+Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
+Menu_rpk_item        *menu_rpk_get_img_8003DDB4(int idx);
 
 void Menu_render_rect_8003DB2C(MenuPrimBuffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
-void LoadImage_8008FB10(RECT *, unsigned char *);
-void menu_radar_update_8003B350(struct Actor_MenuMan *a1, unsigned char* a2);
+void menu_radar_update_8003B350(struct Actor_MenuMan *a1, unsigned char *a2);
 void menu_init_radar_helper_8003ADAC(void);
 void MENU_SetRadarScale_80038E28(int);
 void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
@@ -56,7 +56,7 @@ void menu_radar_load_rpk_8003AD64()
     rect.y = 336;
     rect.w = gRadar_rpk_800ABAC8->field_2_w;
     rect.h = gRadar_rpk_800ABAC8->field_3_h;
-    LoadImage_8008FB10(&rect, (unsigned char*)&gRadar_rpk_800ABAC8[1]);
+    LoadImage_8008FB10(&rect, (unsigned char *)&gRadar_rpk_800ABAC8[1]);
 }
 
 void menu_init_radar_helper_8003ADAC(void)
@@ -74,7 +74,7 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
     unsigned char field_28_flags; // $v1
 
     field_28_flags = pActor->field_28_flags;
-    pActor->m7FnPtrs_field_2C[3]  = menu_radar_update_8003B350;
+    pActor->m7FnPtrs_field_2C[3] = menu_radar_update_8003B350;
     pActor->field_1D8 = 1;
     pActor->field_1D4_clipX1 = 0;
     pActor->field_1D6_clipY1 = 0;

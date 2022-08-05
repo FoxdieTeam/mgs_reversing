@@ -4,9 +4,8 @@
 #include "memcard/memcard.h"
 
 void memcard_load_files_80024960(int);
-int erase_800995FC(char *);
-int sprintf_8008E878(char *buffer, const char *format, ...);
-
+int  erase_800995FC(char *);
+int  sprintf_8008E878(char *buffer, const char *format, ...);
 
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
@@ -18,15 +17,14 @@ long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
 long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
 long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
 
-TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
-TMemCardFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
+TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
+TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
 volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
 volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
 
 struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
 
 volatile long SECTION(".gMemoryCardFiles_800B52C8") gMemCard_io_size_800B5648;
-
 
 extern const char SECTION(".rdata") aBu02xS[];
 extern const char SECTION(".rdata") aDeletedFileS[];
@@ -69,15 +67,14 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
 void memcard_swcard_do_op_800244EC(TMemCardSetFunc op);
 
-
 void memcard_set_sw_hw_card_fns_8002469C();
 
 void memcard_hwcard_read_write_handler_8002546C(int op)
 {
-    if ( op == 1 )
+    if (op == 1)
     {
         gMemCard_io_size_800B5648 -= 128;
-        if ( !gMemCard_io_size_800B5648 )
+        if (!gMemCard_io_size_800B5648)
         {
             gHwCard_do_op_800B52E8 = (TMemCardFunc)memcard_hwcard_do_op_800244DC;
         }
@@ -94,7 +91,7 @@ extern const char aErrorMemcardRe[];
 
 void memcard_swcard_read_write_handler_800254D4(int op)
 {
-    if ( op == 1 )
+    if (op == 1)
     {
         mts_printf_8008BBA0(aMemcardReadWri);
     }

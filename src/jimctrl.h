@@ -23,16 +23,16 @@ typedef struct
 {
     Actor field_0_base;
     DWORD field_20;
-    WORD field_24;
-    BYTE field_26;
-    BYTE field_27;
+    WORD  field_24;
+    BYTE  field_26;
+    BYTE  field_27;
     DWORD field_28;
     DWORD field_2C;
     DWORD field_30;
     DWORD field_34;
-    int field_38;
-    BYTE field_3C_pad[8];
-    int field_44;
+    int   field_38;
+    BYTE  field_3C_pad[8];
+    int   field_44;
 } Actor_JimCtrl;
 
 void jimctrl_init_helper_clear_80037FB8(void);

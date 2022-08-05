@@ -15,76 +15,76 @@
 
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;
-extern int dword_8009EFD0;
+extern int     dword_8009EFD0;
 
 extern Target_Data stru_8009EFE4;
 
 extern Sna_E1 e1_800AB7C4;
-Sna_E1 SECTION(".sdata") e1_800AB7C4;
+Sna_E1        SECTION(".sdata") e1_800AB7C4;
 
 extern int dword_800ABBA8;
-int SECTION(".sbss") dword_800ABBA8;
+int        SECTION(".sbss") dword_800ABBA8;
 
 extern int gSnaMoveDir_800ABBA4;
-int SECTION(".sbss") gSnaMoveDir_800ABBA4;
+int        SECTION(".sbss") gSnaMoveDir_800ABBA4;
 
 extern int dword_800ABBB4;
-int SECTION(".sbss") dword_800ABBB4;
+int        SECTION(".sbss") dword_800ABBB4;
 
 extern GM_Control *gSnaControl_800AB9F4;
-extern OBJECT *dword_800ABA20;
+extern OBJECT     *dword_800ABA20;
 
 extern int dword_800ABBB8;
-int SECTION(".sbss") dword_800ABBB8;
+int        SECTION(".sbss") dword_800ABBB8;
 
 extern int dword_800ABB9C[2];
-int SECTION(".sbss") dword_800ABB9C[2];
+int        SECTION(".sbss") dword_800ABB9C[2];
 
 extern int dword_800ABBC4;
-int SECTION(".sbss") dword_800ABBC4;
+int        SECTION(".sbss") dword_800ABBC4;
 
 extern SVECTOR *pVec_800ABBCC;
-SVECTOR *SECTION(".sbss") pVec_800ABBCC;
+SVECTOR        *SECTION(".sbss") pVec_800ABBCC;
 
 extern int dword_800ABBD0;
-int SECTION(".sbss") dword_800ABBD0;
+int        SECTION(".sbss") dword_800ABBD0;
 
 extern short dword_800ABBDC;
-short SECTION(".sbss") dword_800ABBDC;
+short        SECTION(".sbss") dword_800ABBDC;
 
 extern short dword_800ABBD4;
-short SECTION(".sbss") dword_800ABBD4;
+short        SECTION(".sbss") dword_800ABBD4;
 
 extern int dword_800ABBB0;
-int SECTION(".sbss") dword_800ABBB0;
+int        SECTION(".sbss") dword_800ABBB0;
 
 extern GM_Target *GM_BombSeg_800ABBD8; // probably wrong type?
-GM_Target *SECTION(".sbss") GM_BombSeg_800ABBD8;
+GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
-extern int GM_AlertMode_800ABA00;
+extern int                GM_AlertMode_800ABA00;
 extern GameState_800B4D98 gGameState_800B4D98;
-extern int GM_GameOverTimer_800AB3D4;
-extern int GM_GameStatus_800AB3CC;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern Target_Data stru_8009F044;
-extern SVECTOR stru_800AB7FC;
-extern short dword_800B7800[];
-extern SVECTOR dword_800AB7D4;
-extern SVECTOR dword_800AB7DC;
-extern unsigned short GM_WeaponTypes_8009D580[];
-extern Sna_ActionTable actions_no_weapon_8009ED70;
-extern int GM_ItemTypes_8009D598[];
-extern int dword_8009EEA4[];
-extern int GV_Time_800AB330;
-extern int used_counter_8009F42C;
-extern SVECTOR dword_800AB7EC;
-extern SVECTOR dword_800AB7F4;
-extern int gSnaMoveDir_800ABBA4;
-extern int DG_UnDrawFrameCount_800AB380;
-extern int dword_8009EF24[];
-extern int dword_8009EF2C[];
-extern SVECTOR dword_800AB7CC;
+extern int                GM_GameOverTimer_800AB3D4;
+extern int                GM_GameStatus_800AB3CC;
+extern SVECTOR            DG_ZeroVector_800AB39C;
+extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
+extern Target_Data        stru_8009F044;
+extern SVECTOR            stru_800AB7FC;
+extern short              dword_800B7800[];
+extern SVECTOR            dword_800AB7D4;
+extern SVECTOR            dword_800AB7DC;
+extern unsigned short     GM_WeaponTypes_8009D580[];
+extern Sna_ActionTable    actions_no_weapon_8009ED70;
+extern int                GM_ItemTypes_8009D598[];
+extern int                dword_8009EEA4[];
+extern int                GV_Time_800AB330;
+extern int                used_counter_8009F42C;
+extern SVECTOR            dword_800AB7EC;
+extern SVECTOR            dword_800AB7F4;
+extern int                gSnaMoveDir_800ABBA4;
+extern int                DG_UnDrawFrameCount_800AB380;
+extern int                dword_8009EF24[];
+extern int                dword_8009EF2C[];
+extern SVECTOR            dword_800AB7CC;
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -298,10 +298,10 @@ void sub_8004E588(HZD_MAP *param_1, SVECTOR *param_2, int *param_3)
 
 int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
 {
-    int i;
+    int     i;
     SVECTOR vec;
-    int unk1[2];
-    int unk2[2];
+    int     unk1[2];
+    int     unk2[2];
 
     vec.vx = pActor->field_9C_obj.objs->objs[4].world.t[0];
     vec.vy = pActor->field_9C_obj.objs->objs[4].world.t[1];
@@ -351,8 +351,8 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
 
 int sub_8004E930(Actor_SnaInit *snake, int arg1)
 {
-    int int0;
-    int int1;
+    int     int0;
+    int     int1;
     SVECTOR vec0;
     SVECTOR vec1;
 
@@ -537,12 +537,12 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
 }
 
 UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
-void sna_init_8004EE28(Actor_SnaInit *snake)
+void                 sna_init_8004EE28(Actor_SnaInit *snake)
 {
-    MATRIX mat1;
-    MATRIX mat2;
+    MATRIX  mat1;
+    MATRIX  mat2;
     SVECTOR vec;
-    int vx;
+    int     vx;
     MATRIX *world = &snake->field_9C_obj.objs->objs[6].world;
 
     ReadRotMatrix_80092DD8(&mat1);
@@ -562,8 +562,8 @@ void sna_init_8004EE28(Actor_SnaInit *snake)
 void sub_8004EEB0(Actor_SnaInit *pActor)
 {
     short sVar1;
-    int iVar2;
-    int arg0;
+    int   iVar2;
+    int   arg0;
 
     if (gSnaMoveDir_800ABBA4 >= 0)
     {
@@ -582,7 +582,7 @@ void sub_8004EEB0(Actor_SnaInit *pActor)
 
 int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
 {
-    int ret;
+    int      ret;
     SVECTOR *vec; // not sure if correct
 
     if (param_2 == 1)
@@ -627,7 +627,7 @@ void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 
 void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
 {
-    int iVar1;
+    int    iVar1;
     MATRIX mtx;
 
     DG_SetPos_8001BC44(&pActor->field_9C_obj.objs->objs[6].world);
@@ -848,8 +848,8 @@ void GM_ClearBulName_8004FBE4(int idx)
 void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
 {
     unsigned short old;
-    unsigned int v2; // $v1
-    unsigned int v3; // $v0
+    unsigned int   v2; // $v1
+    unsigned int   v3; // $v0
 
     if ((gGameState_800B4D98.field_04_flags & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0)
     {
@@ -882,10 +882,10 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 
 int sub_8004FCB8(Actor_SnaInit *snake, UnkSnakeStruct *unkSnakeStruct, int param_3)
 {
-    int sub_8004E51C_result;
+    int        sub_8004E51C_result;
     GM_Target *pTarget;
-    SVECTOR vec;
-    SVECTOR vec_arr[2];
+    SVECTOR    vec;
+    SVECTOR    vec_arr[2];
 
     pTarget = &snake->field_8A0_target;
     GM_SetTarget_8002DC74(pTarget, 4, 1, &unkSnakeStruct->field_0_vectors[1]);
@@ -952,9 +952,9 @@ int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 
 void sna_init_80050568(Actor_SnaInit *pActor)
 {
-    short dir;
+    short    dir;
     DG_OBJS *pDVar3;
-    SVECTOR local_10;
+    SVECTOR  local_10;
 
     sna_init_80050440(pActor);
 
@@ -1024,13 +1024,13 @@ int sub_800507D8(Actor_SnaInit *param_1)
 
 void sna_init_80051FD0(Actor_SnaInit *pActor)
 {
-    int iVar1;
-    ushort uVar2;
+    int          iVar1;
+    ushort       uVar2;
     unsigned int uVar3;
-    short sVar4;
-    short sVar5;
-    int iVar6;
-    SVECTOR *vec_arr;
+    short        sVar4;
+    short        sVar5;
+    int          iVar6;
+    SVECTOR     *vec_arr;
 
     vec_arr = pActor->field_9D0;
     uVar2 = pActor->field_9B0_pad_ptr->status;
@@ -1067,7 +1067,7 @@ void sna_init_80051FD0(Actor_SnaInit *pActor)
 void sna_init_fn_80052120(Actor_SnaInit *pActor, int anim_frame)
 {
     unsigned short press;
-    int sound;
+    int            sound;
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
     {
@@ -1150,7 +1150,7 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int anim_frame)
 
 void sub_8005230C(Actor_SnaInit *pActor)
 {
-    int action;
+    int            action;
     unsigned short status;
     unsigned short press;
 
@@ -1889,7 +1889,7 @@ void sna_init_anim_enter_duct_80053E9C(Actor_SnaInit *pActor, int anim_frame)
 
 void sub_80053FAC(Actor_SnaInit *pActor, int anim_frame)
 {
-    short vec_y;               // $v1
+    short          vec_y;      // $v1
     unsigned short pad_status; // $s1
 
     if (anim_frame == 0)
@@ -2239,9 +2239,9 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int anim_frame
 
 void sna_init_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int anim_frame)
 {
-    int local_field_A54; // $v1
-    int action_flag;     // $a1
-    short v5;            // $a1
+    int   local_field_A54; // $v1
+    int   action_flag;     // $a1
+    short v5;              // $a1
 
     if (anim_frame == 0)
     {
@@ -2693,9 +2693,9 @@ void sna_init_80057118(Actor_SnaInit *pActor, int anim_frame)
 
 void sna_init_800571B8(Actor_SnaInit *pActor, int anim_frame)
 {
-    SVECTOR *vec1;
+    SVECTOR   *vec1;
     GM_Target *pGVar3;
-    SVECTOR *vec2;
+    SVECTOR   *vec2;
 
     vec2 = &pActor->field_8EC_vec;
 
@@ -2863,7 +2863,7 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 
 void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
 {
-    int iVar2;
+    int      iVar2;
     SVECTOR *vec;
 
     iVar2 = 1;
@@ -2960,10 +2960,10 @@ void sna_init_anim_punch_80058C10(Actor_SnaInit *pActor, int anim_frame)
 
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int anim_frame)
 {
-    int bClear;                   // $s0
+    int        bClear;            // $s0
     GM_Target *field_8E8_pTarget; // $v1
-    int action_flag;              // $a1
-    SVECTOR *p;
+    int        action_flag;       // $a1
+    SVECTOR   *p;
 
     if (anim_frame == 0)
     {
@@ -3085,7 +3085,7 @@ void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int anim_frame)
 void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int anim_frame)
 {
     GM_Target *field_8E8_pTarget; // $s0
-    int action_flag;              // $s1
+    int        action_flag;       // $s1
 
     if (anim_frame == 0)
     {
@@ -3181,7 +3181,7 @@ void sub_800591BC(Actor_SnaInit *pActor)
 
 void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
 {
-    int sinceLastChoke;
+    int   sinceLastChoke;
     short press;
     short status;
 
@@ -3251,11 +3251,11 @@ void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int anim
 
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 {
-    GM_Control *pCtrl; // $s2
-    DG_OBJS *pObjs;    // $s0
-    Actor *pShadow;    // $a0
-    Actor *pWeapon;    // $a0
-    Actor *pItem;      // $a0
+    GM_Control *pCtrl;   // $s2
+    DG_OBJS    *pObjs;   // $s0
+    Actor      *pShadow; // $a0
+    Actor      *pWeapon; // $a0
+    Actor      *pItem;   // $a0
 
     if ((pActor->field_898_flags2 & 0x1000) != 0)
     {

@@ -11,8 +11,9 @@ void DG_StorePaletteEffect_80078F30(void)
     RECT rect2 = rect_8009F734;
 
     int count = 0xf;
-    
-    for (; count > 0; count--) {
+
+    for (; count > 0; count--)
+    {
         DrawSync(0);
         StoreImage2_8009209C(&rect2, image_data_800B3818);
         DrawSync(0);

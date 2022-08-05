@@ -5,105 +5,104 @@
 #include "libdg/libdg.h"
 #include <LIBGPU.H>
 
-void            spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
-void            spark_800742F0(POLY_FT4 *pPoly, int count, int a3);
-void            InitRandamTable_80073DB0();
-void            spark_loader3_80073E48(int *a1, SVECTOR *a2, int a3, int a4);
+void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
+void spark_800742F0(POLY_FT4 *pPoly, int count, int a3);
+void InitRandamTable_80073DB0();
+void spark_loader3_80073E48(int *a1, SVECTOR *a2, int a3, int a4);
 
-struct          Actor_Spark
+struct Actor_Spark
 {
-    Actor       f000_actor;
-    int         f020;
-    DG_PRIM     *f024_pPrim;
-    int         f028;
-    int         f02C;
-    int         f030;
-    int         f034;
-    int         f038;
-    int         f03C;
-    int         f040;
-    int         f044;
-    int         f048;
-    int         f04C;
-    int         f050;
-    int         f054;
-    int         f058;
-    int         f05C;
-    int         f060;
-    int         f064;
-    SVECTOR     f068;
-    int         f070;
-    int         f074;
-    int         f078;
-    int         f07C;
-    int         f080;
-    int         f084;
-    int         f088;
-    int         f08C;
-    int         f090;
-    int         f094;
-    int         f098;
-    int         f09C;
-    int         f0A0;
-    int         f0A4;
-    int         f0A8;
-    int         f0AC;
-    int         f0B0;
-    int         f0B4;
-    int         f0B8;
-    int         f0BC;
-    int         f0C0;
-    int         f0C4;
-    int         f0C8;
-    int         f0CC;
-    int         f0D0;
-    int         f0D4;
-    int         f0D8;
-    int         f0DC;
-    int         f0E0;
-    int         f0E4;
-    int         f0E8;
-    int         f0EC;
-    int         f0F0;
-    int         f0F4;
-    int         f0F8;
-    int         f0FC;
-    int         f100;
-    int         f104;
-    int         f108;
-    int         f10C;
-    int         f110;
-    int         f114;
-    int         f118;
-    int         f11C;
-    int         f120;
-    int         f124;
-    int         f128;
-    int         f12C;
-    int         f130;
-    int         f134;
-    int         f138;
-    int         f13C;
-    int         f140;
-    int         f144;
-    int         f148;
-    int         f14C;
-    int         f150;
-    int         f154;
-    int         f158;
-    int         f15C;
-    int         f160;
-    int         f164;
-    short       f168;
-    short       f16A;
-    short       f16C;
-    short       f16E;
-    int         f170_counter;
+    Actor    f000_actor;
+    int      f020;
+    DG_PRIM *f024_pPrim;
+    int      f028;
+    int      f02C;
+    int      f030;
+    int      f034;
+    int      f038;
+    int      f03C;
+    int      f040;
+    int      f044;
+    int      f048;
+    int      f04C;
+    int      f050;
+    int      f054;
+    int      f058;
+    int      f05C;
+    int      f060;
+    int      f064;
+    SVECTOR  f068;
+    int      f070;
+    int      f074;
+    int      f078;
+    int      f07C;
+    int      f080;
+    int      f084;
+    int      f088;
+    int      f08C;
+    int      f090;
+    int      f094;
+    int      f098;
+    int      f09C;
+    int      f0A0;
+    int      f0A4;
+    int      f0A8;
+    int      f0AC;
+    int      f0B0;
+    int      f0B4;
+    int      f0B8;
+    int      f0BC;
+    int      f0C0;
+    int      f0C4;
+    int      f0C8;
+    int      f0CC;
+    int      f0D0;
+    int      f0D4;
+    int      f0D8;
+    int      f0DC;
+    int      f0E0;
+    int      f0E4;
+    int      f0E8;
+    int      f0EC;
+    int      f0F0;
+    int      f0F4;
+    int      f0F8;
+    int      f0FC;
+    int      f100;
+    int      f104;
+    int      f108;
+    int      f10C;
+    int      f110;
+    int      f114;
+    int      f118;
+    int      f11C;
+    int      f120;
+    int      f124;
+    int      f128;
+    int      f12C;
+    int      f130;
+    int      f134;
+    int      f138;
+    int      f13C;
+    int      f140;
+    int      f144;
+    int      f148;
+    int      f14C;
+    int      f150;
+    int      f154;
+    int      f158;
+    int      f15C;
+    int      f160;
+    int      f164;
+    short    f168;
+    short    f16A;
+    short    f16C;
+    short    f16E;
+    int      f170_counter;
 };
 
-static inline void DG_GroupPrim(prim, group_id)
-    DG_PRIM *prim;
-int group_id;
+static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
+int                group_id;
 {
     prim->group_id = group_id;
 }
@@ -115,12 +114,12 @@ static inline int GM_GetCurrentMap()
 
 extern const char aSparkFl[];
 
-#pragma INCLUDE_ASM("asm/Okajima/InitRandamTable_80073DB0.s") // 152 bytes
-#pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s") // 720 bytes
+#pragma INCLUDE_ASM("asm/Okajima/InitRandamTable_80073DB0.s")  // 152 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s")    // 720 bytes
 #pragma INCLUDE_ASM("asm/Okajima/spark_act_helper_80074118.s") // 284 bytes
-#pragma INCLUDE_ASM("asm/Okajima/spark_loader4_80074234.s") // 188 bytes
-#pragma INCLUDE_ASM("asm/Okajima/spark_800742F0.s") // 68 bytes
-#pragma INCLUDE_ASM("asm/Okajima/spark_act_80074334.s") // 168 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_loader4_80074234.s")    // 188 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_800742F0.s")            // 68 bytes
+#pragma INCLUDE_ASM("asm/Okajima/spark_act_80074334.s")        // 168 bytes
 
 void spark_kill_800743DC(int param_1)
 {
@@ -157,7 +156,7 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     }
 
     DG_SetPos_8001BC44(a2);
-    DG_PutPrim_8001BE00((MATRIX*)pNewPrim);
+    DG_PutPrim_8001BE00((MATRIX *)pNewPrim);
     pActor->f168 = a2->t[0];
     pActor->f16A = a2->t[1];
     pActor->f16C = a2->t[2];

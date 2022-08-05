@@ -2,22 +2,22 @@
 #include "Script_tbl_map_8002BB44.h"
 
 // force GP
-extern int                  GM_LoadRequest_800AB3D0;
-int SECTION(".sdata")       GM_LoadRequest_800AB3D0;
+extern int GM_LoadRequest_800AB3D0;
+int        SECTION(".sdata") GM_LoadRequest_800AB3D0;
 
-extern GameState_800B4D98   gGameState_800B4D98;
+extern GameState_800B4D98 gGameState_800B4D98;
 
 // forcec gp
 extern int GM_GameOverTimer_800AB3D4;
-int SECTION(".sdata") GM_GameOverTimer_800AB3D4;
+int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
 
 // force gp
-extern int  GM_GameStatus_800AB3CC;
-int SECTION(".sbss") GM_GameStatus_800AB3CC;
+extern int GM_GameStatus_800AB3CC;
+int        SECTION(".sbss") GM_GameStatus_800AB3CC;
 
-void                        GM_CallSystemCallbackProc_8002B570(int id, int arg);
-void                        GCL_RestoreVar_80021488(void);
-void                        sub_8002B600(int);
+void GM_CallSystemCallbackProc_8002B570(int id, int arg);
+void GCL_RestoreVar_80021488(void);
+void sub_8002B600(int);
 
 void GM_ContinueStart_8002B62C()
 {
@@ -49,7 +49,7 @@ void GM_ContinueStart_8002B62C()
 
 void GM_GameOver_8002B6C8()
 {
-    if ( !GM_GameOverTimer_800AB3D4 )
+    if (!GM_GameOverTimer_800AB3D4)
     {
         GM_GameOverTimer_800AB3D4 = 4;
         GM_CallSystemCallbackProc_8002B570(0, 0);

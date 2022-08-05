@@ -15,14 +15,14 @@ extern Anim_Data stru_8009F17C;
 extern Anim_Data stru_8009F1EC;
 extern Anim_Data stru_8009F208;
 
-extern int GV_Clock_800AB920;
+extern int        GV_Clock_800AB920;
 extern const char aScriptActErr[];
 
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
 Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
 {
-    signed int rnd; // $v1
+    signed int      rnd; // $v1
     anime_data_0x14 data;
 
     data.field_0_vec.vx = pMtx->t[0];
@@ -85,7 +85,7 @@ void anime_create_8005E508(SVECTOR *pVec)
 
 void sub_8005E574(MATRIX *pMtx)
 {
-    SVECTOR vec;          // [sp+10h] [-20h] BYREF
+    SVECTOR         vec;  // [sp+10h] [-20h] BYREF
     anime_data_0x14 data; // [sp+18h] [-18h] BYREF
 
     stru_8009F10C.field_14 = &data;
@@ -116,8 +116,8 @@ void sub_8005E574(MATRIX *pMtx)
 
 void anime_create_8005E6A4(SVECTOR *pVec)
 {
-    SVECTOR vec1;         // [sp+10h] [-28h] BYREF
-    SVECTOR vec2;         // [sp+18h] [-20h] BYREF
+    SVECTOR         vec1; // [sp+10h] [-28h] BYREF
+    SVECTOR         vec2; // [sp+18h] [-20h] BYREF
     anime_data_0x14 data; // [sp+20h] [-18h] BYREF
 
     vec1 = DG_ZeroVector_800AB39C;
@@ -138,7 +138,7 @@ void anime_create_8005E6A4(SVECTOR *pVec)
 void sub_8005E774(SVECTOR *pVec)
 {
     anime_data_0x14 data; // [sp+10h] [-18h] BYREF
-    Anim_Data *p = &stru_8009F144;
+    Anim_Data      *p = &stru_8009F144;
 
     data.field_0_vec = *pVec;
     data.field_8_vec.vx = 0;
@@ -197,8 +197,8 @@ void anime_adjust_vec_8005EB98(SVECTOR *pVec, unsigned char *pData, int opCode)
 
 int anime_fn_0_8005EC1C(Actor_anime *pActor, int idx)
 {
-    anime_0x34 *pItem; // $s0
-    int next_op;       // $v1
+    anime_0x34 *pItem;   // $s0
+    int         next_op; // $v1
 
     pItem = &pActor->field_4C_items[idx];
     next_op = pItem->field_18_op_code[1];
@@ -268,10 +268,10 @@ int anime_fn_5_8005EEA4(Actor_anime *pActor, int idx)
 
 int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 {
-    anime_0x34 *pItem;      // $a2
-    int i;                  // $a0
+    anime_0x34    *pItem;   // $a2
+    int            i;       // $a0
     unsigned char *pOpData; // $a1
-    unsigned char rgb_incr[3];
+    unsigned char  rgb_incr[3];
 
     pItem = &pActor->field_4C_items[idx];
     pOpData = pItem->field_18_op_code;
@@ -293,10 +293,10 @@ int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 
 void anime_act_helper_8005F094(Actor_anime *pActor)
 {
-    int i;                        // $a1
+    int               i;          // $a1
     union Prim_Union *pPrimStart; // $v1
-    anime_0x34 *pOffIter;         // $a0
-    POLY_FT4 *pPrim;              // $v1
+    anime_0x34       *pOffIter;   // $a0
+    POLY_FT4         *pPrim;      // $v1
 
     pPrimStart = pActor->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920];
     pPrim = &pPrimStart->poly_ft4;
@@ -313,7 +313,7 @@ void anime_act_helper_8005F094(Actor_anime *pActor)
 int anime_fn_8_8005F0F0(Actor_anime *pActor, int idx)
 {
     anime_0x34 *pItem = &pActor->field_4C_items[idx];
-    short value = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
+    short       value = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
     DG_SetTmpLight_8001A114(&pActor->field_48_pPrimVec[idx], 512, value);
     pItem->field_18_op_code += 3;
     return 0;
@@ -321,11 +321,11 @@ int anime_fn_8_8005F0F0(Actor_anime *pActor, int idx)
 
 int anime_fn_9_8005F180(Actor_anime *pActor, int idx)
 {
-    int i;                     // $s2
-    anime_0x34 *pItem;         // $s3
-    unsigned char *opCode_pos; // $s0
-    short rect_wh_offset[2];   // [sp+10h] [-8h] BYREF
-    RECT *pRect;
+    int            i;                 // $s2
+    anime_0x34    *pItem;             // $s3
+    unsigned char *opCode_pos;        // $s0
+    short          rect_wh_offset[2]; // [sp+10h] [-8h] BYREF
+    RECT          *pRect;
 
     pItem = &pActor->field_4C_items[idx];
     opCode_pos = pItem->field_18_op_code + 1;
@@ -356,9 +356,9 @@ int anime_fn_10_8005F288(Actor_anime *pActor, int idx)
 
 int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
 {
-    anime_0x34 *pItem;                   // $s0
-    int maybe_randomised_short_8005EA6C; // $v0
-    int new_idx;                         // $a0
+    anime_0x34 *pItem;                           // $s0
+    int         maybe_randomised_short_8005EA6C; // $v0
+    int         new_idx;                         // $a0
 
     pItem = &pActor->field_4C_items[idx];
     maybe_randomised_short_8005EA6C = anime_read_maybe_randomised_short_8005EA6C(pItem->field_18_op_code + 1, 0);
@@ -396,11 +396,11 @@ void anime_act_helper_8005F46C(SVECTOR *pVec, anime_0x34 *pItem)
 
 void anime_act_8005F4AC(Actor_anime *pActor)
 {
-    anime_0x34 *pItemsIter;      // $s0
-    SVECTOR *field_48_pPrimVec;  // $s3
-    int i;                       // $s1
-    unsigned int script_op_code; // $v1
-    int opCodeRet;               // $v0
+    anime_0x34  *pItemsIter;        // $s0
+    SVECTOR     *field_48_pPrimVec; // $s3
+    int          i;                 // $s1
+    unsigned int script_op_code;    // $v1
+    int          opCodeRet;         // $v0
 
     pItemsIter = pActor->field_4C_items;
     pActor->field_24_pPrim->type &= ~0x100u;
@@ -457,13 +457,13 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")        // 564 bytes
 
-int anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
-void anime_act_8005F4AC(Actor_anime *param_1);
+int               anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
+void              anime_act_8005F4AC(Actor_anime *param_1);
 extern const char aAnimeC[];
 
 Actor *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
 {
-    int count;           // $s1
+    int          count;  // $s1
     Actor_anime *pActor; // $v0
 
     count = pAnimData->field_8_count;

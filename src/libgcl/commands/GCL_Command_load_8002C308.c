@@ -1,19 +1,16 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libgcl/gcl.h"
+#include "libdg/libdg.h"
 
-extern int GM_LoadRequest_800AB3D0;
+extern int  GM_LoadRequest_800AB3D0;
 extern char dword_800ABA58[8];
 
 char *GCL_Read_String_80020A70(char *pScript);
 char *GM_GetArea_8002A880(char *);
-int GM_SetArea_8002A7D8(int, char *);
+int   GM_SetArea_8002A7D8(int, char *);
 
 char *strcpy_8008E768(char *, char *);
-
-void GV_ResidentHeapReset_800163B0(void);
-void GV_InitCacheSystem_80015458(void);
-void DG_ClearResidentTexture_8001DB10(void);
 
 GameState_800B4D98 SECTION(".gGameState_800B4D98") gGameState_800B4D98;
 

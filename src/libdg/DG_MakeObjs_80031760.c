@@ -6,16 +6,12 @@
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-int DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
-void *GV_Malloc_8001620C(int size);
-void GV_ZeroMemory_8001619C(void *, int);
-
 DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
 {
     DG_MDL *pMeshIter = (DG_MDL *)&pFileData[1];
 
     const int len = sizeof(DG_OBJS) + (sizeof(DG_OBJ) * pFileData->num_mesh_4);
-    DG_OBJS *pAlloc = (DG_OBJS *)GV_Malloc_8001620C(len);
+    DG_OBJS  *pAlloc = (DG_OBJS *)GV_Malloc_8001620C(len);
 
     if (!pAlloc)
     {
@@ -23,7 +19,7 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl)
     }
     else
     {
-        int numMesh;
+        int     numMesh;
         DG_OBJ *pObjIter;
 
         GV_ZeroMemory_8001619C(pAlloc, len);

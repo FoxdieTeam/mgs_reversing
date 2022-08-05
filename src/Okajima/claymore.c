@@ -8,11 +8,11 @@ void claymore_800731CC(SVECTOR *param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper2_800731F8.s") // 184 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_800732B0.s") // 180 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_80073364.s") // 300 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s") // 272 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s") // 272 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_act_800736B0.s") // 580 bytes
+#pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_800732B0.s")     // 180 bytes
+#pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_80073364.s")     // 300 bytes
+#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s")  // 272 bytes
+#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s")  // 272 bytes
+#pragma INCLUDE_ASM("asm/Okajima/claymore_act_800736B0.s")            // 580 bytes
 
 void claymore_kill_800738F4(int param_1)
 {
@@ -42,6 +42,5 @@ void claymore_loader_80073930(Actor_Claymore *pActor)
     pTarget->field_44 = 5;
 }
 
-
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_800739EC.s") // 416 bytes
-#pragma INCLUDE_ASM("asm/Okajima/NewClaymore_80073B8C.s") // 548 bytes
+#pragma INCLUDE_ASM("asm/Okajima/NewClaymore_80073B8C.s")     // 548 bytes

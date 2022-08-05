@@ -2,20 +2,18 @@
 #include "libdg.h"
 #include "dgd.h"
 
-int DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
-
 // re-declare to force GP usage
 extern int gTextureCacheSize_800AB988;
-int SECTION(".sbss") gTextureCacheSize_800AB988;
+int        SECTION(".sbss") gTextureCacheSize_800AB988;
 
-extern DG_TEX* gResidentTextureCacheCopy_800AB98C;
-DG_TEX* SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
+extern DG_TEX *gResidentTextureCacheCopy_800AB98C;
+DG_TEX        *SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
 
 void DG_ResetResidentTexture_8001DBEC()
 {
-    int counter;
+    int     counter;
     DG_TEX *pSrc;
-    if ( gResidentTextureCacheCopy_800AB98C )
+    if (gResidentTextureCacheCopy_800AB98C)
     {
         pSrc = gResidentTextureCacheCopy_800AB98C;
         for (counter = gTextureCacheSize_800AB988; counter > 0; counter--)
@@ -30,5 +28,4 @@ void DG_ResetResidentTexture_8001DBEC()
 
 void sub_8001DC88()
 {
-
 }

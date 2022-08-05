@@ -1,4 +1,8 @@
 #include "linker.h"
+#include "unknown.h"
+#include "psyq.h"
+#include "mts/mts_new.h"
+#include "libgv/libgv.h"
 
 struct Loader_Rec_2
 {
@@ -8,39 +12,35 @@ struct Loader_Rec_2
 
 struct Loader_Record // TODO: Share in a header
 {
-    int field_0;
-    int field_4; // cnf count?
+    int                  field_0;
+    int                  field_4; // cnf count?
     struct Loader_Rec_2 *field_8_p2Alloc;
-    int field_C; // str ptr?
-    int field_10;
-    int field_14; // last size?
-    int field_18; // state ?
-    int field_1C; // cnf ptr?
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
+    int                  field_C; // str ptr?
+    int                  field_10;
+    int                  field_14; // last size?
+    int                  field_18; // state ?
+    int                  field_1C; // cnf ptr?
+    int                  field_20;
+    int                  field_24;
+    int                  field_28;
+    int                  field_2C;
+    int                  field_30;
+    int                  field_34;
 };
 
 extern const char aLoadCompleteTi[]; // "load complete time %d\n";
 
-int VSync_80098108(int);
-void mts_printf_8008BBA0(const char *, ...);
-void GV_Free_80016230(void *ptr);
 void FS_CdStageProgBinFix_80014AAC(void);
 
 extern int DG_FrameRate_8009D45C;
 
 struct Loader_Record *SECTION(".gLoaderRec_800B5288") gLoaderRec_800B5288;
-int SECTION(".gLoaderRec_800B5288") gLoaderStartTime_800B528C;
-int SECTION(".gLoaderRec_800B5288") gOverlayBinSize_800B5290;
-int SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
+int                   SECTION(".gLoaderRec_800B5288") gLoaderStartTime_800B528C;
+int                   SECTION(".gLoaderRec_800B5288") gOverlayBinSize_800B5290;
+int                   SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
 
 int Loader_80023624(struct Loader_Record *pRec);
 int CDBIOS_ReadSync_80022854(void);
-void *GV_Malloc_8001620C(int size);
 
 extern const char aLoadS[];     // = "load %s\n";
 extern const char aNotFoundS[]; // = "NOT FOUND %s\n";
@@ -48,19 +48,17 @@ extern const char aNo2[];       // = "no_mem\n";
 
 extern short word_8009D504;
 
-int FS_CdGetStageFileTop_80022DCC(char *pFileName);
+int   FS_CdGetStageFileTop_80022DCC(char *pFileName);
 void *GV_GetMaxFreeMemory_8001627C(int which);
 
 void CDBIOS_ReadRequest_8002280C(void *pHeap, int startSector, int sectorSize, void *fnCallBack);
-int Loader_CD_Read_CallBack_80023274(int *a1);
-
-
+int  Loader_CD_Read_CallBack_80023274(int *a1);
 
 struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
 {
-    int sector;                // $s1
+    int                   sector;     // $s1
     struct Loader_Record *pLoaderRec; // $s0
-    struct Loader_Rec_2 *p2Alloc;     // $v0
+    struct Loader_Rec_2  *p2Alloc;    // $v0
 
     DG_FrameRate_8009D45C = 1;
     mts_printf_8008BBA0(aLoadS, pFileName);
@@ -77,7 +75,9 @@ struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
         mts_printf_8008BBA0(aNo2);
     }
     p2Alloc = (struct Loader_Rec_2 *)GV_GetMaxFreeMemory_8001627C(2);
-    do { } while (0); // TODO: Figure out what this was, a compiled out macro, checking mem alloc didn't fail ?
+    do
+    {
+    } while (0); // TODO: Figure out what this was, a compiled out macro, checking mem alloc didn't fail ?
 
     pLoaderRec->field_8_p2Alloc = p2Alloc;
 
@@ -90,10 +90,9 @@ struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
     return pLoaderRec;
 }
 
-
-static inline struct Loader_Rec_2* DoIt( struct Loader_Record *pLoaderRec)
+static inline struct Loader_Rec_2 *DoIt(struct Loader_Record *pLoaderRec)
 {
-    struct Loader_Rec_2* rec;
+    struct Loader_Rec_2 *rec;
     rec = pLoaderRec->field_8_p2Alloc;
     return rec;
 }

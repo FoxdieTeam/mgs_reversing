@@ -3,8 +3,8 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "game.h"
 
-extern GCL_Vars             gGcl_vars_800B3CC8;
-extern GameState_800B4D98   gGameState_800B4D98;
+extern GCL_Vars           gGcl_vars_800B3CC8;
+extern GameState_800B4D98 gGameState_800B4D98;
 
 extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
 
@@ -20,7 +20,7 @@ TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript)
 TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id)
 {
     GCL_ActorTableEntry *pSrcTable;
-    int i = 0;
+    int                  i = 0;
     do
     {
         // First search the fixed set of commands

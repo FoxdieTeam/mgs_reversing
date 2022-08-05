@@ -8,11 +8,11 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 
-void Map_ScriptLoadMapBlocks_800312D0(void);
-void Map_ScriptReloadMaps_80031450(int);
+void        Map_ScriptLoadMapBlocks_800312D0(void);
+void        Map_ScriptReloadMaps_80031450(int);
 map_record *Map_FindByNum_80031504(int);
-void Map_MarkUsed_80031324(int);
-void GM_DelMap_800313C0(int);
+void        Map_MarkUsed_80031324(int);
+void        GM_DelMap_800313C0(int);
 
 void DG_Set_RGB_800184F4(int, int, int);
 
@@ -25,7 +25,7 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 int GCL_Command_map_8002BB44(int argc, char **argv)
 {
     map_record *pMapRecord;
-    short colourVec[3];
+    short       colourVec[3];
 
     if (GCL_GetParam_80020968('d'))
     {

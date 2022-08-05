@@ -6,8 +6,8 @@
 
 extern int gBinds_800ABA60;
 extern int gBindsCount_800ABA64;
-int SECTION(".sbss") gBinds_800ABA60;
-int SECTION(".sbss") gBindsCount_800ABA64;
+int        SECTION(".sbss") gBinds_800ABA60;
+int        SECTION(".sbss") gBindsCount_800ABA64;
 
 BindStruct gBindsArray_800b58e0[128];
 
@@ -21,9 +21,9 @@ int GCL_Command_ntrap_8002BE20(int argc, char **argv)
 {
     // int bindIdx;
     BindStruct *pBind;
-    int flags;
-    int arg;
-    int tmp;
+    int         flags;
+    int         arg;
+    int         tmp;
 
     if (gBindsCount_800ABA64 > 127) // 780 gp
     {
@@ -44,8 +44,8 @@ int GCL_Command_ntrap_8002BE20(int argc, char **argv)
     }
     pBind->field_0 = arg;
     pBind->field_8_param_i_c_flags = 0; // v0
-    flags = 0; // still s1
-    if (GCL_GetParam_80020968('m')) // mask
+    flags = 0;                          // still s1
+    if (GCL_GetParam_80020968('m'))     // mask
     {
         arg = GCL_GetNextParamValue_80020AD4();
         if (arg == HASH_TRAP_ALL)

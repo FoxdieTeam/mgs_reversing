@@ -13,15 +13,15 @@
  */
 void GM_ActControl_helper5_80029324(SVECTOR *vectors)
 {
-	short *sVar1, *sVar2;
+    short *sVar1, *sVar2;
 
-	sVar1 = (short*)(SCRPAD_ADDR + 0x68);
-	vectors->vx = sVar1[8];
-	vectors->vy = 0;
-	vectors->vz = sVar1[9];
+    sVar1 = (short *)(SCRPAD_ADDR + 0x68);
+    vectors->vx = sVar1[8];
+    vectors->vy = 0;
+    vectors->vz = sVar1[9];
 
-	sVar2 = (short*)(SCRPAD_ADDR + 0x84);
-	vectors[1].vx = sVar2[8];
-	vectors[1].vy = 0;
-	vectors[1].vz = sVar2[9];
+    sVar2 = (short *)(SCRPAD_ADDR + 0x84);
+    vectors[1].vx = sVar2[8];
+    vectors[1].vy = 0;
+    vectors[1].vz = sVar2[9];
 }

@@ -11,6 +11,6 @@
  */
 void GM_ActControl_helper3_800292E4(SVECTOR **vectors_ptr)
 {
-	vectors_ptr[0] = *(SVECTOR**)(SCRPAD_ADDR + 0x70);
-	vectors_ptr[1] = *(SVECTOR**)(SCRPAD_ADDR + 0x8c);
+    vectors_ptr[0] = *(SVECTOR **)(SCRPAD_ADDR + 0x70);
+    vectors_ptr[1] = *(SVECTOR **)(SCRPAD_ADDR + 0x8c);
 }

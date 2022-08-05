@@ -15,7 +15,7 @@ int sub_800326D4(Point *out, SVECTOR *pos);
 void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id)
 {
     Point point;
-    
+
     if (pos)
     {
         if (sound_id == 41)

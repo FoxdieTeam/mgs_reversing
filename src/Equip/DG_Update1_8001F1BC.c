@@ -18,17 +18,16 @@ void DG_Set_RGB_800184F4(int, int, int);
 void GV_UpdatePadSystem_8001682C(void);
 void DG_80017194(void);
 
-extern int dword_800B3790;
-extern int DG_HikituriFlag_8009D460;
-extern int DG_HikituriFlagOld_8009D464;
-extern int GM_GameStatus_800AB3CC;
-extern int dword_8009D468;
+extern int              dword_800B3790;
+extern int              DG_HikituriFlag_8009D460;
+extern int              DG_HikituriFlagOld_8009D464;
+extern int              GM_GameStatus_800AB3CC;
+extern int              dword_8009D468;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int DG_FrameRate_8009D45C;
-extern GV_PAD* GM_CurrentPadData_800AB91C;
+extern int              DG_FrameRate_8009D45C;
+extern GV_PAD          *GM_CurrentPadData_800AB91C;
 
 extern GV_PAD GV_PadData_800B05C0[4];
-
 
 extern const char asc_80010208[];
 
@@ -36,10 +35,10 @@ int ResetGraph(int mode);
 
 int DG_DrawSyncResetGraph_8001F014()
 {
-    if ( DrawSync(1) > 0 )
+    if (DrawSync(1) > 0)
     {
         dword_800B3790++;
-        if ( dword_800B3790 < 30 )
+        if (dword_800B3790 < 30)
         {
             return 0;
         }

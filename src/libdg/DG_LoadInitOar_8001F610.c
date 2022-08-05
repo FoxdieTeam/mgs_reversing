@@ -1,11 +1,4 @@
-typedef struct OarFile
-{
-    unsigned char *deep;
-    unsigned int recordSize;
-    unsigned int count;
-    unsigned char *start;
-    char oarData[0];
-} OarFile;
+#include "libdg.h"
 
 int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed)
 {

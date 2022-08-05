@@ -3,7 +3,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-const char SECTION(".rdata") aBullet[] = "bullet";// 80012F9C
+const char SECTION(".rdata") aBullet[] = "bullet"; // 80012F9C
 const char SECTION(".rdata") aBulletC[] = "bullet.c";
 const char SECTION(".rdata") aEffect[] = "effect";
 const char SECTION(".rdata") aChafgrndC[] = "chafgrnd.c";
@@ -81,13 +81,30 @@ const char SECTION(".rdata") aHinddemo[] = "hinddemo";
 const char SECTION(".rdata") aNull[] = "null";
 const char SECTION(".rdata") aNoloadModelNul[] = "Noload model ( null.kmd )\n";
 const char SECTION(".rdata") aErrorInitContr_0[] = "Error init control ( null.kmd )\n";
-const int SECTION(".rdata") jpt_80013334[] = {0x8007AED4, 0x8007AEFC, 0x8007AF04, 0x8007AF04, 0x8007AFB8, 0x8007AFE0, 0x8007B014, 0x8007B048, 0x8007B050, 0x8007B0A4, 0x8007B10C, 0x8007B114, 0x8007B170, 0x8007B178, 0x8007B2B4, 0x8007B340, 0x8007B3C4, 0x8007B3CC, 0x8007B498, 0x8007B498, 0x8007B498, 0x8007B66C, 0x8007B674, 0x8007B7A8, 0x8007B89C, 0x8007B928, 0x8007B950, 0x8007B994, 0x8007BA64, 0x8007B498, 0x8007BAA4, 0x8007BB10, 0x8007BBDC, 0x8007BC24, 0x8007BC68, 0x8007BCF8, 0x8007BD1C, 0x8007BD40, 0x8007BDF0, 0x8007BDF8, 0x8007BE58, 0x8007BF3C, 0x8007C030, 0x8007C09C, 0x8007C0E8, 0x8007C134, 0x8007C1D8, 0x8007C200, 0x8007C224, 0x8007C22C, 0x8007C254, 0x8007C27C, 0x8007C348, 0x8007C8D8, 0x8007C3AC, 0x8007C430, 0x8007C438, 0x8007C4DC, 0x8007C520, 0x8007C58C, 0x8007C61C, 0x8007C6A8, 0x8007C7DC, 0x8007C8D8, 0x8007C90C, 0x8007C930, 0x8007C948, 0x8007CA4C, 0x8007CBB8, 0x8007CBEC, 0x8007CC18, 0x8007CC44, 0x8007CC6C, 0x8007CCF4};
-const int SECTION(".rdata") dword_8001345C[] = {0x12700, 0xCFE0105, 0xFF010500, 0x64000A, 0xF1F10864, 0x10002F1, 0x5000C0D, 0x10AFF01, 0x82C012C, 0x2E2E2E2, 0xF0D0100, 0x24A00, 0x1200007, 0x5000CFE, 0x2FF01, 0xC0D01, 0x8FF010A, 0x2FAFAFA, 0xF0D0100, 0xCFE01, 0x2C010A04, 0xFF012C01, 0xD010002, 0xA0A000C, 0x46004600, 0x2FF01, 0xC0D01, 0xAFF010A, 0x50005000, 0xF0F0F008, 0xD010002, 0xF, 0x12C00, 0xCFE0105, 0xFF010500, 0xD010002, 0x105000C, 0x5000AFF, 0x20500, 0xC0D01, 0x8FF010F, 0xAF0F0F0, 0x5000500, 0xD010002, 0xF, 0x34900, 0x1E0009, 0xCFE0138, 0x20400, 0xC0D01, 0xECEC0804, 0x10002EC, 0xFE010F0D, 0xFC18FC0A, 0x4000C18, 0xD010002, 0x804000C, 0x2ECECEC, 0xF0D0100, 0xFB0AFE01, 0xC50FB50, 0x20400, 0xC0D01, 0xECEC0804, 0x10002EC, 0xF0D};
+const int  SECTION(".rdata") jpt_80013334[] = {
+     0x8007AED4, 0x8007AEFC, 0x8007AF04, 0x8007AF04, 0x8007AFB8, 0x8007AFE0, 0x8007B014, 0x8007B048, 0x8007B050,
+     0x8007B0A4, 0x8007B10C, 0x8007B114, 0x8007B170, 0x8007B178, 0x8007B2B4, 0x8007B340, 0x8007B3C4, 0x8007B3CC,
+     0x8007B498, 0x8007B498, 0x8007B498, 0x8007B66C, 0x8007B674, 0x8007B7A8, 0x8007B89C, 0x8007B928, 0x8007B950,
+     0x8007B994, 0x8007BA64, 0x8007B498, 0x8007BAA4, 0x8007BB10, 0x8007BBDC, 0x8007BC24, 0x8007BC68, 0x8007BCF8,
+     0x8007BD1C, 0x8007BD40, 0x8007BDF0, 0x8007BDF8, 0x8007BE58, 0x8007BF3C, 0x8007C030, 0x8007C09C, 0x8007C0E8,
+     0x8007C134, 0x8007C1D8, 0x8007C200, 0x8007C224, 0x8007C22C, 0x8007C254, 0x8007C27C, 0x8007C348, 0x8007C8D8,
+     0x8007C3AC, 0x8007C430, 0x8007C438, 0x8007C4DC, 0x8007C520, 0x8007C58C, 0x8007C61C, 0x8007C6A8, 0x8007C7DC,
+     0x8007C8D8, 0x8007C90C, 0x8007C930, 0x8007C948, 0x8007CA4C, 0x8007CBB8, 0x8007CBEC, 0x8007CC18, 0x8007CC44,
+     0x8007CC6C, 0x8007CCF4};
+const int SECTION(".rdata") dword_8001345C[] = {
+    0x12700,    0xCFE0105,  0xFF010500, 0x64000A,   0xF1F10864, 0x10002F1, 0x5000C0D, 0x10AFF01, 0x82C012C,  0x2E2E2E2,
+    0xF0D0100,  0x24A00,    0x1200007,  0x5000CFE,  0x2FF01,    0xC0D01,   0x8FF010A, 0x2FAFAFA, 0xF0D0100,  0xCFE01,
+    0x2C010A04, 0xFF012C01, 0xD010002,  0xA0A000C,  0x46004600, 0x2FF01,   0xC0D01,   0xAFF010A, 0x50005000, 0xF0F0F008,
+    0xD010002,  0xF,        0x12C00,    0xCFE0105,  0xFF010500, 0xD010002, 0x105000C, 0x5000AFF, 0x20500,    0xC0D01,
+    0x8FF010F,  0xAF0F0F0,  0x5000500,  0xD010002,  0xF,        0x34900,   0x1E0009,  0xCFE0138, 0x20400,    0xC0D01,
+    0xECEC0804, 0x10002EC,  0xFE010F0D, 0xFC18FC0A, 0x4000C18,  0xD010002, 0x804000C, 0x2ECECEC, 0xF0D0100,  0xFB0AFE01,
+    0xC50FB50,  0x20400,    0xC0D01,    0xECEC0804, 0x10002EC,  0xF0D};
 const char SECTION(".rdata") aSoundLaunchArg[] = "SOUND_LAUNCH(argc:%d)\n";
 const char SECTION(".rdata") aArgDS[] = "ARG%d:[%s]\n";
 const char SECTION(".rdata") aStartTaskSdmai[] = "Start Task:SdMain\n";
 const char SECTION(".rdata") aBgmTerminate[] = "***BGM Terminate***\n";
-const int SECTION(".rdata") jpt_800135B4[] = {0x80081B40, 0x80081B78, 0x80081B78, 0x80081B78, 0x80081B78, 0x80081BA0, 0x80081B88};
+const int  SECTION(".rdata") jpt_800135B4[] = {0x80081B40, 0x80081B78, 0x80081B78, 0x80081B78,
+                                               0x80081B78, 0x80081BA0, 0x80081B88};
 const char SECTION(".rdata") aStartTaskSdint[] = "Start Task:SdInt\n";
 const char SECTION(".rdata") aBlankDataAddrX[] = "blank_data_addr=%x\n";
 const char SECTION(".rdata") aSpuWaveStartPt[] = "spu_wave_start_ptr=%x\n";
@@ -107,11 +124,11 @@ const char SECTION(".rdata") aStrHeaderX[] = "str_header %X\n";
 const char SECTION(".rdata") aCanceledStrFad[] = "Canceled STR FadeOut(%x:%x:%x)";
 const char SECTION(".rdata") aStreamFilePosE[] = "Stream:File Pos Error\n";
 const char SECTION(".rdata") aStartstreamXVo[] = "StartStream(%x:vol=%x)\n";
-const int SECTION(".rdata") jpt_8001378C[] = {0x8008272C, 0x8008272C, 0x8008267C, 0x8008268C, 0x800826CC};
+const int  SECTION(".rdata") jpt_8001378C[] = {0x8008272C, 0x8008272C, 0x8008267C, 0x8008268C, 0x800826CC};
 const char SECTION(".rdata") aSoundStreaming[] = "\nSOUND STREAMING ERROR:NO LAST LEFT DATA\n";
 const char SECTION(".rdata") aStrUnplaySizeX[] = "str_unplay_size=%x\n";
 const char SECTION(".rdata") asc_800137E0[] = "*";
-const int SECTION(".rdata") jpt_800137E4[] = {0x80082828, 0x80082A28, 0x80082BC8, 0x80082D20, 0x800832BC, 0x80083358};
+const int  SECTION(".rdata") jpt_800137E4[] = {0x80082828, 0x80082A28, 0x80082BC8, 0x80082D20, 0x800832BC, 0x80083358};
 const char SECTION(".rdata") aErrorSeFileAlr[] = "ERROR:SE File Already Opened.\n";
 const char SECTION(".rdata") aLoadsefileFile[] = "LoadSeFile:File Open Error(%x)\n";
 const char SECTION(".rdata") aErrorWaveFileA[] = "ERROR:Wave File Already Opened.\n";
@@ -165,11 +182,16 @@ const char SECTION(".rdata") aStrFoSStop[] = "*** STR FO(S)+STOP ***\n";
 const char SECTION(".rdata") aStrFoMStop[] = "*** STR FO(M)+STOP ***\n";
 const char SECTION(".rdata") aStrFoLStop[] = "*** STR FO(L)+STOP ***\n";
 const char SECTION(".rdata") aStrFoLlStop[] = "*** STR FO(LL)+STOP ***\n";
-const int SECTION(".rdata") dword_80013D10[] = {0x3F3F3F, 0xDDA1AAA5, 0xDDA1D0A5, 0xEDA5D5A5, 0xDDA1, 0xD7A5B3A5, 0xEDA5, 0xF3CCBDCD, 0xE1CEBFCC, 0, 0xECA5D6A5, 0xAFA5DDA1, 0xA4A5DDA5, 0xC8A5F3A5, 0};
-const int SECTION(".rdata") dword_80013D4C[] = {0xB9A5B7A5, 0xE0A5C6A5, 0xDDA1B3A5, 0xEBA5, 0xDDA1C7A5, 0xD0A5BFA5, 0xA8A5B9A5, 0xDDA1E9A5, 0};
-const int SECTION(".rdata") dword_80013D70[] = {0xE1CEBFCC, 0xB9A5D0A5, 0xE9A5A8A5, 0xDDA1, 0xC8A5B9A5, 0xFEBBA2A5, 0xC9A5A2A5, 0xB9A5ECA5, 0xE9A5A8A5, 0xDDA1, 0xDDA1EDA5, 0xFEBBC9A5, 0xC9A5A2A5, 0xB9A5ECA5, 0xE9A5A8A5, 0xDDA1, 0x53424C54, 0};
+const int  SECTION(".rdata") dword_80013D10[] = {0x3F3F3F,   0xDDA1AAA5, 0xDDA1D0A5, 0xEDA5D5A5, 0xDDA1,
+                                                 0xD7A5B3A5, 0xEDA5,     0xF3CCBDCD, 0xE1CEBFCC, 0,
+                                                 0xECA5D6A5, 0xAFA5DDA1, 0xA4A5DDA5, 0xC8A5F3A5, 0};
+const int  SECTION(".rdata") dword_80013D4C[] = {0xB9A5B7A5, 0xE0A5C6A5, 0xDDA1B3A5, 0xEBA5, 0xDDA1C7A5,
+                                                 0xD0A5BFA5, 0xA8A5B9A5, 0xDDA1E9A5, 0};
+const int  SECTION(".rdata") dword_80013D70[] = {0xE1CEBFCC, 0xB9A5D0A5, 0xE9A5A8A5, 0xDDA1, 0xC8A5B9A5, 0xFEBBA2A5,
+                                                 0xC9A5A2A5, 0xB9A5ECA5, 0xE9A5A8A5, 0xDDA1, 0xDDA1EDA5, 0xFEBBC9A5,
+                                                 0xC9A5A2A5, 0xB9A5ECA5, 0xE9A5A8A5, 0xDDA1, 0x53424C54, 0};
 const char SECTION(".rdata") aTlbl[] = "TLBL";
-const int SECTION(".rdata") dword_80013DC0[] = {0x646F4D, 0xF4C9B0B3, 0xEAA4E4B3, 0xDFA4FEB9, 0};
+const int  SECTION(".rdata") dword_80013DC0[] = {0x646F4D, 0xF4C9B0B3, 0xEAA4E4B3, 0xDFA4FEB9, 0};
 const char SECTION(".rdata") aTaskStartDX[] = "TASK START: %d %X\n";
 const char SECTION(".rdata") aAssertionFaled[] = "assertion faled : %s line %d : Task %d\n";
 const char SECTION(".rdata") aMtsNewC[] = "mts_new.c";
@@ -215,7 +237,7 @@ const char SECTION(".rdata") aProcessList[] = "\nProcess list\n";
 const char SECTION(".rdata") aC[] = "%c";
 const char SECTION(".rdata") aTask02dSp04dUs[] = "Task %02d SP %04d USE %04d/%04d";
 const char SECTION(".rdata") aTask02dSpUse[] = " Task %02d SP ---- USE ----/----";
-const int SECTION(".rdata") dword_800140F0 = 0x732520;
+const int  SECTION(".rdata") dword_800140F0 = 0x732520;
 const char SECTION(".rdata") aRunning[] = "Running";
 const char SECTION(".rdata") aD_0[] = " %d\n";
 const char SECTION(".rdata") aTaskState08x[] = "TASK STATE = %08X\n";
@@ -223,9 +245,9 @@ const char SECTION(".rdata") aVblWaitCue[] = "VBL wait cue";
 const char SECTION(".rdata") a02dD[] = " : %02d (%d)";
 const char SECTION(".rdata") aTickCountD[] = "Tick count %d\n\n";
 const char SECTION(".rdata") aCdinitInitFail[] = "CdInit: Init failed\n";
-const int SECTION(".rdata") dword_crap9[] = {0, 0};
+const int  SECTION(".rdata") dword_crap9[] = {0, 0};
 const char SECTION(".rdata") aNone_0[] = "none";
-const int SECTION(".rdata") dword_crap10[] = {0, 0};
+const int  SECTION(".rdata") dword_crap10[] = {0, 0};
 const char SECTION(".rdata") aCdlreads[] = "CdlReadS";
 const char SECTION(".rdata") aCdlseekp[] = "CdlSeekP";
 const char SECTION(".rdata") aCdlseekl[] = "CdlSeekL";
@@ -233,7 +255,8 @@ const char SECTION(".rdata") aCdlgettd[] = "CdlGetTD";
 const char SECTION(".rdata") aCdlgettn[] = "CdlGetTN";
 const char SECTION(".rdata") aCdlgetlocp[] = "CdlGetlocP";
 const char SECTION(".rdata") aCdlgetlocl[] = "CdlGetlocL";
-const int SECTION(".rdata") dword_800141CC[] = {0x3F, 0x536C6443, 0x6F6D7465, 0x6564, 0x536C6443, 0x69667465, 0x7265746C, 0};
+const int  SECTION(".rdata") dword_800141CC[] = {0x3F,       0x536C6443, 0x6F6D7465, 0x6564,
+                                                 0x536C6443, 0x69667465, 0x7265746C, 0};
 const char SECTION(".rdata") aCdldemute[] = "CdlDemute";
 const char SECTION(".rdata") aCdlmute[] = "CdlMute";
 const char SECTION(".rdata") aCdlreset[] = "CdlReset";
@@ -259,8 +282,8 @@ const char SECTION(".rdata") aDiskerror[] = "DiskError: ";
 const char SECTION(".rdata") aComSCode02x02x[] = "com=%s,code=(%02x:%02x)\n";
 const char SECTION(".rdata") aCdromUnknownIn[] = "CDROM: unknown intr";
 const char SECTION(".rdata") aD_1[] = "(%d)\n";
-const int SECTION(".rdata") dword_crap11 = 0;
-const int SECTION(".rdata") jpt_80014328[] = {0x8008D290, 0x8008D244, 0x8008D144, 0x8008D310, 0x8008D390};
+const int  SECTION(".rdata") dword_crap11 = 0;
+const int  SECTION(".rdata") jpt_80014328[] = {0x8008D290, 0x8008D244, 0x8008D144, 0x8008D310, 0x8008D390};
 const char SECTION(".rdata") aCdSync[] = "CD_sync";
 const char SECTION(".rdata") aCdReady[] = "CD_ready";
 const char SECTION(".rdata") aS[] = "%s...\n";
@@ -270,12 +293,18 @@ const char SECTION(".rdata") aIdBiosCV186199[] = "$Id: bios.c,v 1.86 1997/03/28 
 const char SECTION(".rdata") aCdInit[] = "CD_init:";
 const char SECTION(".rdata") aAddr08x[] = "addr=%08x\n";
 const char SECTION(".rdata") aCdDatasync[] = "CD_datasync";
-const int SECTION(".rdata") dword_crap12[] = {0, 0, 0};
+const int  SECTION(".rdata") dword_crap12[] = {0, 0, 0};
 const char SECTION(".rdata") a0123456789abcd[] = "0123456789ABCDEF";
 const char SECTION(".rdata") a0123456789abcd_0[] = "0123456789abcdef";
-const int SECTION(".rdata") jpt_80014400[] = {0x8008EB50, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008EE08, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008EF20, 0x8008EB7C, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008EB38, 0x8008EB7C, 0x8008F000, 0x8008F000, 0x8008EB44, 0x8008F000, 0x8008EFCC, 0x8008ECF4, 0x8008EDF4, 0x8008F000, 0x8008F000, 0x8008EF40, 0x8008F000, 0x8008EBD4, 0x8008F000, 0x8008F000, 0x8008EE14, 0};
+const int  SECTION(".rdata") jpt_80014400[] = {
+     0x8008EB50, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000,
+     0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008EE08, 0x8008F000, 0x8008F000, 0x8008F000,
+     0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008EF20,
+     0x8008EB7C, 0x8008F000, 0x8008F000, 0x8008F000, 0x8008EB38, 0x8008EB7C, 0x8008F000, 0x8008F000,
+     0x8008EB44, 0x8008F000, 0x8008EFCC, 0x8008ECF4, 0x8008EDF4, 0x8008F000, 0x8008F000, 0x8008EF40,
+     0x8008F000, 0x8008EBD4, 0x8008F000, 0x8008F000, 0x8008EE14, 0};
 const char SECTION(".rdata") aNull_0[] = "<NULL>";
-const int SECTION(".rdata") dword_crap13[] = {0, 0};
+const int  SECTION(".rdata") dword_crap13[] = {0, 0};
 const char SECTION(".rdata") aIdSysCV1140199[] = "$Id: sys.c,v 1.140 1998/01/12 07:52:27 noda Exp yos $";
 const char SECTION(".rdata") aResetgraphJtb0[] = "ResetGraph:jtb=%08x,env=%08x\n";
 const char SECTION(".rdata") aResetgraphD[] = "ResetGraph(%d)...\n";
@@ -304,20 +333,24 @@ const char SECTION(".rdata") aSpuTOS[] = "SPU:T/O [%s]\n";
 const char SECTION(".rdata") aWaitReset[] = "wait (reset)";
 const char SECTION(".rdata") aWaitWrdyHL[] = "wait (wrdy H -> L)";
 const char SECTION(".rdata") aWaitDmafClearW[] = "wait (dmaf clear/W)";
-const int SECTION(".rdata") dword_crap14[] = {0, 0};
+const int  SECTION(".rdata") dword_crap14[] = {0, 0};
 const char SECTION(".rdata") aSpuTOS_0[] = "SPU:T/O [%s]\n";
 const char SECTION(".rdata") aWaitIrqOn[] = "wait (IRQ/ON)";
 const char SECTION(".rdata") aWaitIrqOff[] = "wait (IRQ/OFF)";
-const int SECTION(".rdata") jpt_80014768[] = {0x800970C8, 0x80097090, 0x80097098, 0x800970A0, 0x800970A8, 0x800970B0, 0x800970B8, 0x800970C0};
-const int SECTION(".rdata") jpt_80014788[] = {0x80097188, 0x80097150, 0x80097158, 0x80097160, 0x80097168, 0x80097170, 0x80097178, 0x80097180};
-const int SECTION(".rdata") jpt_800147A8[] = {0x80097654, 0x8009765C, 0x80097664, 0x8009766C, 0x80097674, 0x8009767C, 0x80097684, 0};
-const int SECTION(".rdata") jpt_800147C8[] = {0x80097734, 0x8009773C, 0x80097744, 0x8009774C, 0x80097754, 0x8009775C, 0x80097764, 0};
+const int  SECTION(".rdata") jpt_80014768[] = {0x800970C8, 0x80097090, 0x80097098, 0x800970A0,
+                                               0x800970A8, 0x800970B0, 0x800970B8, 0x800970C0};
+const int  SECTION(".rdata") jpt_80014788[] = {0x80097188, 0x80097150, 0x80097158, 0x80097160,
+                                               0x80097168, 0x80097170, 0x80097178, 0x80097180};
+const int  SECTION(".rdata") jpt_800147A8[] = {0x80097654, 0x8009765C, 0x80097664, 0x8009766C,
+                                               0x80097674, 0x8009767C, 0x80097684, 0};
+const int  SECTION(".rdata") jpt_800147C8[] = {0x80097734, 0x8009773C, 0x80097744, 0x8009774C,
+                                               0x80097754, 0x8009775C, 0x80097764, 0};
 const char SECTION(".rdata") aVsyncTimeout[] = "VSync: timeout\n";
 const char SECTION(".rdata") aIdIntrCV175199[] = "$Id: intr.c,v 1.75 1997/02/07 09:00:36 makoto Exp $";
 const char SECTION(".rdata") aUnexpectedInte[] = "unexpected interrupt(%04x)\n";
 const char SECTION(".rdata") aIntrTimeout04x[] = "intr timeout(%04x:%04x)\n";
-const int SECTION(".rdata") dword_crap15 = 0;
+const int  SECTION(".rdata") dword_crap15 = 0;
 const char SECTION(".rdata") aDmaBusErrorCod[] = "DMA bus error: code=%08x\n";
 const char SECTION(".rdata") aMadrD08x[] = "MADR[%d]=%08x\n";
-const int SECTION(".rdata") dword_crap16 = 0;
-const int SECTION(".rdata") jpt_80014898[] = {0x8009A4FC, 0x8009A508, 0x8009A514, 0x8009A520, 0x8009A52C, 0, 0, 0};
+const int  SECTION(".rdata") dword_crap16 = 0;
+const int  SECTION(".rdata") jpt_80014898[] = {0x8009A4FC, 0x8009A508, 0x8009A514, 0x8009A520, 0x8009A52C, 0, 0, 0};
