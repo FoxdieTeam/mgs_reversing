@@ -228,6 +228,10 @@ typedef struct Actor_MenuMan
     int                    field_220;
 } Actor_MenuMan;
 
+// TODO: this header or another?
 void MENU_ResetSystem_80038A88();
+void MENU_InitRadioTable_80049644();
+void MENU_Text_PrimUnknown_80038BB4(void);
+void MENU_SetRadarScale_80038E28(int);
 
 #endif // _MENUMAN_H

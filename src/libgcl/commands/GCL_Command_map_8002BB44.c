@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "libgcl/gcl.h"
+#include "libdg/libdg.h"
 #include "Game/delay.h"
 #include "mts/mts_new.h"
 //#include "Menu/menuMan.h"
@@ -10,10 +11,7 @@
 
 void        Map_ScriptLoadMapBlocks_800312D0(void);
 void        Map_ScriptReloadMaps_80031450(int);
-void        Map_MarkUsed_80031324(int);
 void        GM_DelMap_800313C0(int);
-
-void DG_Set_RGB_800184F4(int, int, int);
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_UnDrawFrameCount_800AB380;

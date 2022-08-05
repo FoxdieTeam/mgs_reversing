@@ -6,8 +6,6 @@
 extern int gBinds_800ABA60;
 int        SECTION(".sbss") gBinds_800ABA60;
 
-int GV_SendMessage_80016504(GV_MSG *);
-
 int GCL_Command_mesg_8002C138(int argc, char **argv)
 {
     unsigned char *uParm1;

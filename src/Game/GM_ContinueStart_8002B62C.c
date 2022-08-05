@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
+#include "Game/game.h"
 
 // force GP
 extern int GM_LoadRequest_800AB3D0;
@@ -15,7 +16,6 @@ int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
 extern int GM_GameStatus_800AB3CC;
 int        SECTION(".sbss") GM_GameStatus_800AB3CC;
 
-void GM_CallSystemCallbackProc_8002B570(int id, int arg);
 void GCL_RestoreVar_80021488(void);
 void sub_8002B600(int);
 

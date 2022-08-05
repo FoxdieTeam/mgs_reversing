@@ -6,15 +6,12 @@
 extern char       aGoggleirC[]; // = "goggleir.c"
 extern const char aGoggles_1[];
 
-void GV_DestroyActor_800151C8(struct Actor *pActor);
 // extern int  goggleir_loader_80078D8C(Actor_GoggleIr *a1, OBJECT *a2);
 Actor *gglmng_init_800779B8(int type);
 
 // TODO: Move to a header
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
-
-void DG_ResetExtPaletteMakeFunc_800791E4();
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;

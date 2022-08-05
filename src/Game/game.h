@@ -189,6 +189,8 @@ int   GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
 char *GM_GetArea_8002A880(int unused);
 int   GM_SetArea_8002A7D8(int stage_id, char *pStageName);
 void  GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
+int   GM_StreamStatus_80037CD8(void);
+void  GM_CallSystemCallbackProc_8002B570(int id, int arg);
 
 int   Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 

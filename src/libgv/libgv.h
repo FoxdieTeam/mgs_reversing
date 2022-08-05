@@ -154,6 +154,7 @@ int          GV_VecLen3_80016D80(SVECTOR *vec);
 int          GV_VecDir2_80016EF8(SVECTOR *vec);
 void         GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 int          GV_NearExp2_80026384(int param_1, int param_2);
+int          GV_NearExp8_800263E4(int arg0, int arg1);
 int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
@@ -161,5 +162,6 @@ unsigned int GV_RandU_80017090(unsigned int input);
 // message
 void GV_InitMessageSystem_800164AC();
 void GV_ClearMessageSystem_800164C8(void);
+int GV_SendMessage_80016504(GV_MSG *send);
 
 #endif // LIBGV_H

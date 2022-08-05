@@ -39,7 +39,6 @@ extern MATRIX   DG_ZeroMatrix_8009D430;
 
 void *DG_MakeObjs_80031760(void *, int, int);
 void  DG_PutObjs_8001BDB8(DG_OBJS *);
-void  DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
 void  DG_QueueObjs_80018178(DG_OBJS *);
 
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
@@ -81,7 +80,7 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 
 HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *pHzdData, int default_0_flags_index, int default_48, int default_24);
 
-HZD_MAP *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, short bitIndex, int default_48, int default_24)
+HZD_MAP *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24)
 {
     int      name;     // $v0
     void    *pHzdData; // $v0
