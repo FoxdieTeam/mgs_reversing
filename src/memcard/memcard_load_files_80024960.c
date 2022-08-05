@@ -14,8 +14,6 @@ extern const char aNoFile[];         // = "NO FILE\n";
 struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
 
-int sprintf_8008E878(char *buffer, const char *format, ...);
-
 // still has large diffs
 /*
 int memcard_loaddir_800247E8(int idx, int *pFreeBlockCount)

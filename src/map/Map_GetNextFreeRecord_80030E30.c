@@ -37,7 +37,6 @@ int        SECTION(".sbss") N_StageObjs_800ABAA4;
 extern DG_OBJS *StageObjs_800B7890[32];
 extern MATRIX   DG_ZeroMatrix_8009D430;
 
-void *GV_GetCache_8001538C(int id);
 void *DG_MakeObjs_80031760(void *, int, int);
 void  DG_PutObjs_8001BDB8(DG_OBJS *);
 void  DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);

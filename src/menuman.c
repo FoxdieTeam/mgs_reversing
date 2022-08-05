@@ -177,7 +177,6 @@ void MENU_Text_Init_80038B98(void)
 
 #pragma INCLUDE_ASM("asm/MENU_Text_PrimUnknown_80038BB4.s") // 132 bytes
 
-int  sprintf_8008E878(char *buffer, const char *fmt, ...);
 int  strlen_8008E7B8(char *s);
 void _menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
 void _menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);

@@ -178,12 +178,18 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
     }
 }
 
-void GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
-void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
-void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
-void GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
-void GM_ExitBehindCamera_80030AEC(void);
-void GM_CheckBehindCamera_80030B3C(HZD_MAP *map, GM_Control *control);
-int  GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
+void  GM_Sound_80032C48(int code, int notUsed);
+void  GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
+void  GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
+void  GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
+void  GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
+void  GM_ExitBehindCamera_80030AEC(void);
+void  GM_CheckBehindCamera_80030B3C(HZD_MAP *map, GM_Control *control);
+int   GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
+char *GM_GetArea_8002A880(int unused);
+int   GM_SetArea_8002A7D8(int stage_id, char *pStageName);
+void  GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
+
+int   Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 
 #endif // GAME_H

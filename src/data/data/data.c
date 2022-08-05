@@ -184,9 +184,9 @@ int GCL_Command_foreach_8002033C(unsigned char *pScript);
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
 unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
 
-GCL_COMMANDLIST SECTION(".data") commlist_8009D470[] = {{HASH_CMD_if, &GCL_Command_if_80020274},
+GCL_COMMANDLIST SECTION(".data") commlist_8009D470[] = {{HASH_CMD_if, (TGCL_CommandFn)&GCL_Command_if_80020274},
                                                         {HASH_CMD_eval, &GCL_Command_eval_80020318},
-                                                        {HASH_CMD_return, &GCL_Cmd_Return_80020404},
+                                                        {HASH_CMD_return, (TGCL_CommandFn)&GCL_Cmd_Return_80020404},
                                                         {HASH_CMD_foreach, &GCL_Command_foreach_8002033C}};
 
 GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 = {0, COUNTOF(commlist_8009D470), commlist_8009D470};

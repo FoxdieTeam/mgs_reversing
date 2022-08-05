@@ -17,7 +17,6 @@ int      SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4 = 0;
 
 void ExitCriticalSection_8009953C(void);
 void mts_8008B51C(void);
-void mts_print_process_status_8008B77C(void);
 
 void mts_nullsub_8_8008BB98(void)
 {

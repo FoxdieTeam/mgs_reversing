@@ -17,6 +17,7 @@ extern int fs_stream_task_state_800B52C0;
 
 extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 
+// warning/bug here is probably in OG code, unless this is an incorrect match
 int FS_StreamGetTop_80023F94(int is_movie)
 {
     int dir_idx;
