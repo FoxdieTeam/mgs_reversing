@@ -30,10 +30,11 @@ void FS_StartDaemon_80014A7C(void);
 void HZD_StartDaemon_80021900(void);
 void GM_StartDaemon_8002B77C(void);
 
+extern unsigned int sdStack_800AC3F0[512];
+
 static void task_main_800148B8(void)
 {
     RECT                rect;
-    static unsigned int SECTION(".0x800AC3F0") sdStack_800AC3F0[512];
 
     ResetGraph(0);
     SetGraphDebug(0);
@@ -92,9 +93,9 @@ static void task_main_800148B8(void)
     }
 }
 
+extern  unsigned char main_task_stack_800ABBF0[2048];
 void _main_80014A40()
 {
-    static unsigned char SECTION(".0x800ABBF0") main_task_stack_800ABBF0[2048]; // 800AC3F0
     __main_80098F14();
     mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0),
                            sizeof(main_task_stack_800ABBF0));
