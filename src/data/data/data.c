@@ -143,7 +143,7 @@ TChanl_Fn SECTION(".data") off_8009D35C[] =
 		DG_DivideChanl_80019D44,
 		DG_Sort_Chanl_8001D5C8};
 
-DG_TEX SECTION(".data") DG_UnknownTexture_8009D378 = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+DG_TEX SECTION(".data") DG_UnknownTexture_8009D378 = { 0, {.s=0}, 0, 0, 0, 0, 0, 0 };
 
 MATRIX SECTION(".data") DG_LightMatrix_8009D384 =
 {

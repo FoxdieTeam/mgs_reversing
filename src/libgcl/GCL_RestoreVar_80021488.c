@@ -11,7 +11,6 @@ extern char                 gStageName_800B4D88[16];
 
 char*                GM_GetArea_8002A880(char*);
 char*                strcpy_8008E768(char *, char *);
-int                  GV_StrCode_80016CCC(const char* string );
 int                  GM_SetArea_8002A7D8(int stageNameHash, char *pStageName);
 
 void *memcpy_8008E648(void *destination, const void *source, int num);

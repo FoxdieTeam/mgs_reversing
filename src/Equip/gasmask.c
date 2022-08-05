@@ -1,6 +1,5 @@
 #include "gasmask.h"
 #include "Game/object.h"
-#include "libgv/strcode.h"
 #include "Kojo/demothrd.h"
 #include "map/map.h"
 #include "Script_tbl_map_8002BB44.h"
