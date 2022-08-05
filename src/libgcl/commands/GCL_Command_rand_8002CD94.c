@@ -2,8 +2,7 @@
 #include "libgcl/gcl.h"
 #include "util/idaTypes.h"
 #include "Script_tbl_map_8002BB44.h"
-
-unsigned int rand_8008E6B8(void);
+#include "psyq.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 

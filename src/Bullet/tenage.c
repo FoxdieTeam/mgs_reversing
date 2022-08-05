@@ -1,11 +1,10 @@
 #include "tenage.h"
+#include "chara/snake/sna_init.h"
 
 #pragma INCLUDE_ASM("asm/tenage_act_800699A4.s") // 1048 bytes
 
 GM_Control *SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_800BDD30[16];
 int         SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_count_800BDD70;
-
-void GM_ClearBulName_8004FBE4(int idx);
 
 void tenage_kill_80069DBC(Actor_tenage *pActor)
 {

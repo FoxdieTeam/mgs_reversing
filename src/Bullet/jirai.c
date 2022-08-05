@@ -9,7 +9,6 @@ int jirai_act_8006AB5C(Actor_Jirai *pActor);
 int jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
 
 void sub_8007913C();
-void GM_ClearBulName_8004FBE4(int idx);
 
 extern int         counter_8009F448;
 extern int         dword_8009F444;

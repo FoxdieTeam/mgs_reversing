@@ -14,8 +14,6 @@ void DG_InitLightSystem_80019F40(void);
 void DG_RenderPipeline_Init_8001715C(void);
 void DG_ReloadPalette_8001FC58(void);
 void DG_ResetPaletteEffect_80078FF8(void);
-void DG_Set_RGB_800184F4(int, int, int);
-void GV_UpdatePadSystem_8001682C(void);
 void DG_80017194(void);
 
 extern int              dword_800B3790;

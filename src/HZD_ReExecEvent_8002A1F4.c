@@ -1,7 +1,5 @@
-
+#include "unknown.h"
 #include "libgcl/hash.h"
-
-void sub_8002A090(int param_1, unsigned short *param_2, unsigned int flags, unsigned int param_4);
 
 void HZD_ReExecEvent_8002A1F4(int param_1, unsigned short *param_2, unsigned int flags)
 {

@@ -13,7 +13,6 @@ Menu_rpk_item        *menu_rpk_get_img_8003DDB4(int idx);
 void Menu_render_rect_8003DB2C(MenuPrimBuffer *prim_buffer, int x0, int y0, int w, int h, unsigned int param_6);
 void menu_radar_update_8003B350(struct Actor_MenuMan *a1, unsigned char *a2);
 void menu_init_radar_helper_8003ADAC(void);
-void MENU_SetRadarScale_80038E28(int);
 void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
 
 #pragma INCLUDE_ASM("asm/MENU_SetRadarScale_80038E28.s")

@@ -6,7 +6,6 @@
 GCL_COMMANDDEF *dword_800AB3B8 = 0; // sdata
 
 void GCL_ParseInit_80020B68(void);
-void GCL_InitVar_80021264(void);
 void GCL_InitBasicCommands_8002040C(void);
 int  GCL_LoadScript_80020064(unsigned char *);
 
@@ -225,7 +224,6 @@ int GCL_LoadScript_80020064(unsigned char *pScript)
 
 int *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
 void GCL_UnsetArgStack_800208F0(int *pStack);
-void GCL_Expr_8002058C(unsigned char *pScript, void *ptr);
 
 // extern const char aScriptCommandE[];
 // extern const char aErrorInScript[];

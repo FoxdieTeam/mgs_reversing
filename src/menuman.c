@@ -24,7 +24,6 @@ void menu_rpk_init_8003DD1C(const char *);
 void menuman_act_800386A4(Actor_MenuMan *);
 void menuman_kill_800387E8(Actor_MenuMan *);
 void menu_viewer_init_80044A70(Actor_MenuMan *);
-void MENU_InitRadioTable_80049644(void);
 void menu_right_unknown_8003DEB0(void);
 void MENU_Text_Init_80038B98(void);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
@@ -180,7 +179,6 @@ void MENU_Text_Init_80038B98(void)
 int  strlen_8008E7B8(char *s);
 void _menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
 void _menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
-void MENU_Text_PrimUnknown_80038BB4();
 
 int MENU_Text_80038C38(char *fmt, const char *str, int param_3, int param_4, int param_5)
 {
@@ -212,7 +210,6 @@ int MENU_Text_80038C38(char *fmt, const char *str, int param_3, int param_4, int
 }
 
 void _menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
-void MENU_Text_PrimUnknown_80038BB4(void);
 
 int menu_draw_num_80038D10(int number)
 {
