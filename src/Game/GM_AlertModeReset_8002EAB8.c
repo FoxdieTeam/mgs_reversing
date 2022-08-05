@@ -1,4 +1,4 @@
-void GM_CallSystemCallbackProc_8002B570(int id, int arg);
+#include "Game/game.h"
 
 void GM_AlertModeReset_8002EAB8(void)
 {

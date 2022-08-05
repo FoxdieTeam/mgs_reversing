@@ -28,8 +28,6 @@ void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 
 void GM_FreeControl_800260CC(GM_Control *pControl);
 
-int  GV_SendMessage_80016504(GV_MSG *);
-
 extern int dword_800ABA0C;
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)

@@ -164,8 +164,7 @@ static inline char GCL_GetByte(char *ptr) // leak
 #define GCL_AdvanceShort(p) p += sizeof(short)
 #define GCL_AdvanceByte(p) p += sizeof(unsigned char)
 
-void GCL_StartDaemon_8001FCDC(void);
-
+void           GCL_StartDaemon_8001FCDC(void);
 int            GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs);
 int            GCL_ExecProc_8001FF2C(int procId, GCL_ARGS *pArgs);
 int            GCL_GetParam_80020968(char paramName);
@@ -175,9 +174,13 @@ unsigned char *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, i
 int            GCL_GetSV_80020A14(unsigned char *pInScript, short *pOut3Words);
 void           GCL_ChangeSenerioCode_8001FCB0(int bMain);
 char          *GCL_Read_String_80020A70(char *pScript);
-
-int GCL_GetNextInt_800209E8(unsigned char *pScript);
-
-int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain);
+unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript);
+void           GCL_InitVar_80021264();
+void           GCL_SaveVar_80021314(void);
+unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue);
+int            GCL_Expr_8002058C(unsigned char *pScript, int *retValue);
+int            GCL_GetNextInt_800209E8(unsigned char *pScript);
+int            GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain);
+int            GCL_BindsInit_8002D1A8(void);
 
 #endif // GCL_H

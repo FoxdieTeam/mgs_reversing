@@ -15,12 +15,9 @@ extern const char aBlockExecError[];
 
 void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
 void           sub_80037EE0(int, int);
-int            GM_StreamStatus_80037CD8(void);
 void           mts_set_pad_vibration_8008C408(int, int);
 void           mts_set_pad_vibration2_8008C454(int, int);
-int            rand_8008E6B8(void);
 unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
-unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *);
 
 #define MakeVoxCode(x)                                                                                                 \
     ((unsigned int)x[0] << 0x18) | ((unsigned int)x[1] << 0x10) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])

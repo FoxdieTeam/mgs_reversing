@@ -25,11 +25,8 @@ typedef struct Actor_google
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 
-void DG_ResetExtPaletteMakeFunc_800791E4();
-
 struct Actor *new_scn_mask_8007895C(int a1);
 
-void GV_DestroyActor_800151C8(struct Actor *pActor);
 int  goggle_loader_8007773C(Actor_google *a1, OBJECT *a2);
 
 extern int GM_GameStatus_800AB3CC;

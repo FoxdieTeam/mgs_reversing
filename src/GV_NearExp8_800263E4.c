@@ -1,5 +1,3 @@
-
-
 int GV_NearExp8_800263E4(int arg0, int arg1)
 {
     int          temp_v1;

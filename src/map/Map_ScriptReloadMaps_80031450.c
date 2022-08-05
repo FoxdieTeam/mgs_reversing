@@ -11,8 +11,6 @@ extern struct map_record gMapRecs_800B7910[16];
 extern int gMapsChanged_800ABAAC;
 int        SECTION(".sbss") gMapsChanged_800ABAAC;
 
-void Map_MarkUsed_80031324(int);
-
 int Map_ScriptReloadMaps_80031450(int a1)
 {
     int                counter;                 // $v1

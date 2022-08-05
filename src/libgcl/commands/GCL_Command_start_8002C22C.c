@@ -13,7 +13,6 @@ void MENU_InitRadioMemory_8004E0EC(void);
 void GCL_InitClearVar_800212CC(void);
 void GM_InitReadError_8002AC44(void);
 void font_load_80044A9C(void);
-void GCL_InitVar_80021264(void);
 
 extern int gTotalFrameTime_800AB9E8;
 

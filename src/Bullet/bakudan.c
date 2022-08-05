@@ -1,6 +1,7 @@
 #include "bakudan.h"
 #include "jirai.h"
 #include "linker.h"
+#include "chara/snake/sna_init.h"
 
 extern const char aBakudanC[];
 
@@ -9,11 +10,6 @@ extern int used_counter_8009F42C;
 #pragma INCLUDE_ASM("asm/Bullet/bakudan_act_8006A218.s") // 652 bytes
 
 Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
-
-void bakudan_act_8006A218(Actor_bakudan *pActor);
-void bakudan_kill_8006A4A4(Actor_bakudan *pActor);
-int  bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMatrix, SVECTOR *pVec, int a4, GM_Target *pTarget);
-void GM_ClearBulName_8004FBE4(int idx);
 
 void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
 {

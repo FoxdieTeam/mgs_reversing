@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "memcard/memcard.h"
+#include "psyq.h"
 
 extern int gmem_card_system_inited_8009D524;
 
@@ -18,32 +19,11 @@ extern long          gSwCard_do_op_800B52EC;
 extern volatile long gSwCardLastOp_800B52F0;
 extern volatile long gHwCardLastOp_800B52F4;
 
-void StopCARD_80099130(void);
-void EnterCriticalSection_8009952C(void);
-void ExitCriticalSection_8009953C(void);
-void CloseEvent_8009947C(int event);
-long EnableEvent_800994AC(long);
-long OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
-void InitCARD_8009908C(long val);
-long StartCARD_800990F8(void);
 void bu_init_80098FEC(void);
 
 extern struct mem_card gMemCards_800B52F8[2];
 
-int  memcard_check_80024A54(int idx);
-int  memcard_easy_format_test_800246C0(long hCard);
-void memcard_reset_status_80024A3C();
-void memcard_set_sw_hw_card_fns_8002469C();
 void mts_set_vsync_task_800892B8(void);
-
-long memcard_hwcard_end_io_800244FC();
-long memcard_hwcard_end_write_80024524();
-long memcard_hwcard_timeout_8002455C();
-long memcard_hwcard_new_80024594();
-long memcard_swcard_end_io_800245CC();
-long memcard_swcard_end_write_800245F4();
-long memcard_swcard_timeout_8002462C();
-long memcard_swcard_new_80024664();
 
 void memcard_init_80024E48()
 {

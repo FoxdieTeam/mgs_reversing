@@ -1,7 +1,7 @@
 #include "target.h"
 #include "game.h"
+#include "libgcl/gcl.h"
 
-int  GCL_BindsInit_8002D1A8();
 int  GM_AlertModeInit_8002EAA8();
 void GM_InitWhereSystem_8002597C(void);
 int  GM_Reset_helper_8002A978();
