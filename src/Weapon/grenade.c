@@ -16,7 +16,6 @@ int grenade_act_8006641C(int a1);
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR stru_800ABA10;
-int sub_8002D7DC(GM_Target *pTarget);
 void grenade_800663A0(void)
 {
   GM_Target GStack88;

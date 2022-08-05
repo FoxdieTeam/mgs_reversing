@@ -36,7 +36,6 @@ void GM_FreeObject_80034BF8(OBJECT *obj);
 
 int GV_SendMessage_80016504(GV_MSG *);
 void GM_SeSet_80032858(SVECTOR *a1, unsigned int a2);
-int mts_nullsub_8_8008BB98(int, const char *, ...);
 
 extern int dword_800ABA0C;
 

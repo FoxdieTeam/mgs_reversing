@@ -1,3 +1,6 @@
+#ifndef _PSYQ_H_
+#define _PSYQ_H_
+
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
@@ -13,3 +16,7 @@ int rcos_800925D8(int a1);
 int StoreImage_8008FB70(RECT *, u_long *);
 int LoadImage2_80091FB0(RECT *, u_long *);
 int StoreImage2_8009209C(RECT *, u_long *);
+void *memset_8008E688(void *pSrc, int value, int len);
+int rand_8008E6B8(void);
+
+#endif // _PSYQ_H_
