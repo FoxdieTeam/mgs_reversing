@@ -158,6 +158,7 @@ int          GV_NearExp8_800263E4(int arg0, int arg1);
 int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
+void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 
 // message
 void GV_InitMessageSystem_800164AC();

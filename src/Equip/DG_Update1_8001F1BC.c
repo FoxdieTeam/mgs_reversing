@@ -8,14 +8,6 @@
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-void DG_RenderPipeline_800172A8(void);
-
-void DG_InitLightSystem_80019F40(void);
-void DG_RenderPipeline_Init_8001715C(void);
-void DG_ReloadPalette_8001FC58(void);
-void DG_ResetPaletteEffect_80078FF8(void);
-void DG_80017194(void);
-
 extern int              dword_800B3790;
 extern int              DG_HikituriFlag_8009D460;
 extern int              DG_HikituriFlagOld_8009D464;

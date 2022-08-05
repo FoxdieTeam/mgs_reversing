@@ -61,4 +61,9 @@ typedef struct Actor_Item
     short          field_17E;
 } Actor_Item;
 
+int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
+void item_act_80033784(Actor_Item *pActor);
+int item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
+int item_init_helper_helper_80034020(Actor_Item *pActor, int type);
+
 #endif // _ITEM_H_

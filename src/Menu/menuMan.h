@@ -229,6 +229,7 @@ typedef struct Actor_MenuMan
 } Actor_MenuMan;
 
 // TODO: this header or another?
+void MENU_StartDeamon_80038A20(void);
 void MENU_ResetSystem_80038A88();
 void MENU_InitRadioTable_80049644();
 void MENU_Text_PrimUnknown_80038BB4(void);

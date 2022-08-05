@@ -35,6 +35,19 @@ typedef struct
     long          *argv;
 } GCL_ARGS;
 
+typedef struct
+{
+    unsigned short procNameHashed;
+    unsigned short offset;
+} GCL_ProcTableEntry;
+
+typedef struct
+{
+    GCL_ProcTableEntry *field_0_procTable;
+    unsigned char      *field_4_pByteCode;
+    unsigned char      *field_8_pMainProc;
+} GCL_FileData;
+
 enum GCLOperators
 {
     eNegate = 1,
@@ -182,5 +195,14 @@ int            GCL_Expr_8002058C(unsigned char *pScript, int *retValue);
 int            GCL_GetNextInt_800209E8(unsigned char *pScript);
 int            GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain);
 int            GCL_BindsInit_8002D1A8(void);
+void           GCL_ParseInit_80020B68(void);
+void           GCL_InitBasicCommands_8002040C(void);
+int            GCL_LoadScript_80020064(unsigned char *);
+void           GCL_SetCommandLine_80020934(unsigned char *);
+void           GCL_SetArgTop_80020690(unsigned char *);
+void           GCL_UnsetCommandLine_80020950(void);
+int           *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
+// void           GCL_UnsetArgStack_800208F0(int *pStack);
+void           GCL_UnsetArgStack_800208F0(void *stack);
 
 #endif // GCL_H

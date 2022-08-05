@@ -383,6 +383,7 @@ int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed);
 
 void DG_ClearTmpLight_8001A0E4();
 int  DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
+void DG_InitLightSystem_80019F40(void);
 
 DG_TEX *DG_FindTexture_8001D830(int name);
 int     DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
@@ -390,38 +391,42 @@ void    DG_ClearTextureRecs_8001D808();
 void    DG_ResetResidentTexture_8001DBEC();
 
 // unsorted
-void DG_Clip_80017594(RECT *pClipRect, int dist);
-int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
-void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
-void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
-void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx);
-void DG_FreePreshade_80032110(DG_OBJS *pPrim);
 int  DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
-void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx);
-void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
-void DG_LoadInitPcx_helper_8001D880(unsigned short param_1, unsigned short param_2, unsigned short param_3,
-                                    DG_Image *param_4, DG_Image *param_5, short param_6);
-int  DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
-void DG_StorePaletteEffect_80078F30(void);
-void DG_800174DC(MATRIX *matrix);
-void sub_8001C248(DG_OBJS *objs, int n_obj);
-void sub_8001C708(DG_OBJS *objs, int n_obj);
-void sub_8001C5CC(DG_OBJS *objs, int n_obj);
-void sub_8001C460(DG_OBJS *objs, int n_obj);
 int  DG_DrawSyncResetGraph_8001F014(void);
-void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH);
-void DG_InitChanlSystem_80017B98(int width);
-void DG_8001F1DC(void);
-void DG_ClearResidentTexture_8001DB10(void);
-void DG_Update2_8001F078(Actor *pActor);
-void DG_Update1_8001F1BC(void);
-void DG_ClearChanlSystem_80017E9C(int which);
-void DG_RenderPipeline_80018028(int idx);
-void DG_DrawOTag_80017E4C(int activeBuffer);
+int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
+int  DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
 int  sub_800190A0(GV_Heap *heap, long *a0, long *a1);
-void DG_ResetExtPaletteMakeFunc_800791E4(void);
-void DG_Set_RGB_800184F4(int r, int b, int g);
+void DG_80017194(void);
+void DG_800174DC(MATRIX *matrix);
+void DG_8001F1DC(void);
+void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx);
+void DG_ClearChanlSystem_80017E9C(int which);
+void DG_ClearResidentTexture_8001DB10(void);
+void DG_Clip_80017594(RECT *pClipRect, int dist);
+void DG_DrawOTag_80017E4C(int activeBuffer);
+void DG_FreePreshade_80032110(DG_OBJS *pPrim);
+void DG_InitChanlSystem_80017B98(int width);
+void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH);
+void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx);
+void DG_LoadInitPcx_helper_8001D880(unsigned short param_1, unsigned short param_2, unsigned short param_3, DG_Image *param_4, DG_Image *param_5, short param_6);
 void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
-
+void DG_PutObjs_8001BDB8(DG_OBJS *objs);
+void DG_ReloadPalette_8001FC58(void);
+void DG_RenderPipeline_800172A8(void);
+void DG_RenderPipeline_80018028(int idx);
+void DG_RenderPipeline_Init_8001715C(void);
+void DG_ResetExtPaletteMakeFunc_800791E4(void);
+void DG_ResetPaletteEffect_80078FF8(void);
+void DG_Set_RGB_800184F4(int r, int b, int g);
+void DG_StorePaletteEffect_80078F30(void);
+void DG_Update1_8001F1BC(void);
+void DG_Update2_8001F078(Actor *pActor);
+void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
+void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
+void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
+void sub_8001C248(DG_OBJS *objs, int n_obj);
+void sub_8001C460(DG_OBJS *objs, int n_obj);
+void sub_8001C5CC(DG_OBJS *objs, int n_obj);
+void sub_8001C708(DG_OBJS *objs, int n_obj);
 
 #endif // LIBDG_H
