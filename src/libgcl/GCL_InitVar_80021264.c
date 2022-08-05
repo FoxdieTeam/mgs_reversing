@@ -1,11 +1,10 @@
 #include "Script_tbl_map_8002BB44.h"
+#include "psyq.h"
 
-extern GCL_Vars             gGcl_vars_800B3CC8;
-extern GameState_800B4D98   gGameState_800B4D98;
+extern GCL_Vars gGcl_vars_800B3CC8;
+extern GameState_800B4D98 gGameState_800B4D98;
 
-void*        memset_8008E688(void *pSrc, int value, int len);
-
-void    GCL_InitVar_80021264()
+void GCL_InitVar_80021264()
 {
     int flags;
     int difficulty;

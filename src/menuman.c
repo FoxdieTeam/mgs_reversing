@@ -29,7 +29,6 @@ void MENU_InitRadioTable_80049644(void);
 void menu_right_unknown_8003DEB0(void);
 void MENU_Text_Init_80038B98(void);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
-int mts_nullsub_8_8008BB98(int, const char *, ...);
 
 extern int GV_PauseLevel_800AB928;
 extern int GM_LoadComplete_800ABA38;

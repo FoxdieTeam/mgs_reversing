@@ -1,9 +1,7 @@
 #include "linker.h"
 #include "Menu/menuMan.h"
 #include "game.h"
-#include <SYS/TYPES.H>
-
-void *memset_8008E688(void *pSrc, int value, int len);
+#include "psyq.h"
 
 AreaHistory SECTION(".gAreaHistory_800B5850") gAreaHistory_800B5850;
 char SECTION(".gAreaHistory_800B5850") exe_name_800B5860[32];

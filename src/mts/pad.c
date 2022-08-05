@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "mts_new.h"
 #include "util/idaTypes.h"
+#include "psyq.h"
 
 unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36] = {};
 int SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2] = {};
@@ -16,7 +17,6 @@ void StopPAD_80099F08(void);
 void ChangeClearPAD_8009960C(long val);
 void mts_set_callback_controller_800893D8(void *ptr);
 void mts_callback_controller_8008BDEC(void);
-void* memset_8008E688(void *pSrc, int value, int len);
 
 #pragma INCLUDE_ASM("asm/mts/mts_8008BC8C.s") // 352 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_callback_controller_8008BDEC.s") // 684 bytes
