@@ -20,7 +20,6 @@ int        SECTION(".sbss") mt_count_800ABAC0;
 
 /*----Externs--------------------------------------------------------------*/
 // GV
-void *GV_GetCache_8001538C(int id);
 void  GV_ZeroMemory_8001619C(void *ptr, int size);
 
 // GM

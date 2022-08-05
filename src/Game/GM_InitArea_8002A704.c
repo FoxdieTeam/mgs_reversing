@@ -24,8 +24,6 @@ void GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory)
 
 extern char gCurrentStageName_800AB3C4[8];
 
-char *strcpy_8008E768(char *, char *);
-
 short SECTION(".sbss") sCurrentAreaName_800AB9C0;
 short SECTION(".sbss") pad3_;
 short SECTION(".sbss") pad3;
@@ -59,7 +57,7 @@ int GM_AreaHistory_8002A848(int stage_id)
     return i;
 }
 
-char *GM_GetArea_8002A880(void)
+char *GM_GetArea_8002A880(int unused)
 {
     return gCurrentStageName_800AB3C4;
 }

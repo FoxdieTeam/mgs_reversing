@@ -1,5 +1,7 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
+#include "psyq.h"
+#include "Game/game.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
@@ -8,9 +10,6 @@ extern GCL_Vars gGcl_vars_800B3CC8;
 extern GCL_Vars gGcl_memVars_800b4588;
 
 extern char gStageName_800B4D88[16];
-
-char *GM_GetArea_8002A880(char *);
-char *strcpy_8008E768(char *, char *);
 
 void GCL_SaveVar_80021314(void)
 {

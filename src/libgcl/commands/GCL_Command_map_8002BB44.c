@@ -10,7 +10,6 @@
 
 void        Map_ScriptLoadMapBlocks_800312D0(void);
 void        Map_ScriptReloadMaps_80031450(int);
-map_record *Map_FindByNum_80031504(int);
 void        Map_MarkUsed_80031324(int);
 void        GM_DelMap_800313C0(int);
 

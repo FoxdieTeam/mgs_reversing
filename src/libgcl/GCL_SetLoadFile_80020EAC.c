@@ -1,5 +1,6 @@
 #include "mts/mts_new.h"
 #include "Script_tbl_map_8002BB44.h"
+#include "psyq.h"
 
 extern int                gTotalFrameTime_800AB9E8;
 extern GameState_800B4D98 gGameState_800B4D98;
@@ -11,7 +12,6 @@ extern GCL_Vars           gGcl_vars_800B3CC8;
 
 unsigned int crc32_80020BB4(int param_1, char *param_2);
 void         GM_SetAreaHistory_8002A784(AreaHistory *param_1);
-char        *strcpy_8008E768(char *, char *);
 
 int GCL_SetLoadFile_80020EAC(char *saveBuf)
 {
