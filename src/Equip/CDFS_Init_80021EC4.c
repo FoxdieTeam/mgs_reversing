@@ -13,7 +13,7 @@ extern unsigned char heap_80117000[];
 
 extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 
-int SECTION(".gDiskNum_800ACBF0") gDiskNum_800ACBF0;
+extern int gDiskNum_800ACBF0;
 
 extern const char aDiskD[];
 extern const char aIllegalDisk[];
