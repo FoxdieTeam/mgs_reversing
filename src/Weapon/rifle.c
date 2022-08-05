@@ -1,17 +1,12 @@
 #include "rifle.h"
 #include "Script_tbl_map_8002BB44.h"
+#include "Game/object.h"
 
 // PSG1
 
 extern char aRifle_0[];     // = "rifle"
 extern GameState_800B4D98   gGameState_800B4D98;
 extern short                dword_800B7800[];
-
-void                 GM_FreeObject_80034BF8(OBJECT *object);
-void                 GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill);
-int                  GV_StrCode_80016CCC(const char *string);
-void                 GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_parent);
-void                 GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 
 #pragma INCLUDE_ASM("asm/Weapon/rifle_act_helper_80067BFC.s") // 356 bytes
 #pragma INCLUDE_ASM("asm/Weapon/rifle_act_80067D60.s") // 952 bytes

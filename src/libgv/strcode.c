@@ -1,4 +1,3 @@
-#include "strcode.h"
 #include <SYS/TYPES.H>
 
 int GV_StrCode_80016CCC(const char* string )

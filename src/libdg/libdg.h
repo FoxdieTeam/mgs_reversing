@@ -8,8 +8,7 @@
 typedef struct DG_TEX
 {
     unsigned short field_0_hash;
-    char field_2_bUsed;
-    char field_3_pad; // ?
+    union { short s; char b1, b2; } field_2_bUsed;
     short field_4_tPage;
     short field_6_clut;
     char field_8_offx;
@@ -201,6 +200,8 @@ static inline void DG_SetPrimGroupId(DG_PRIM *pPrim, int id)
     pPrim->group_id = id;
 }
 
+DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+int DG_QueuePrim_80018274(DG_OBJS *pPrim);
 void DG_DequeuePrim_800182E0(DG_OBJS *pObjs);
 void DG_FreePrim_8001BC04(DG_OBJS *pPrim);
 void DG_PutPrim_8001BE00( MATRIX* matrix );
@@ -218,5 +219,7 @@ void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector);
 void DG_TransposeMatrix_8001EAD8(MATRIX *in, MATRIX *out);
 
 int DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
+
+DG_TEX *DG_FindTexture_8001D830(int name);
 
 #endif // LIBDG_H

@@ -2,7 +2,6 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "libgcl/gcl.h"
 #include "Game/delay.h"
-#include "libgv/strcode.h"
 #include "mts/mts_new.h"
 //#include "Menu/menuMan.h"
 #include "map/map.h"
