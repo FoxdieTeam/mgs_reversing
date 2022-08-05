@@ -20,6 +20,7 @@ int mts_printf_8008BBA0(const char* formatStr, ...);
 // we define it with no args in mts itself since its stubbed, using ... adds instructions
 #else
 int mts_null_printf_8008BBA8(const char* formatStr, ...);
+int mts_nullsub_8_8008BB98(int, const char *, ...);
 #endif
 
 int mts_printf_8008BBA0(const char* formatStr, ...);

@@ -97,8 +97,6 @@ void item_kill_80033F88(Actor_Item* pActor)
 
 int item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
 
-int mts_nullsub_8_8008BB98(int, const char *, ...);
-
 Actor* item_init_800344F8(int name, int where, int argc, char **argv)
 {
     Actor_Item *pActor; // $s0
