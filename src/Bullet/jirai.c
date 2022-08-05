@@ -2,20 +2,17 @@
 #include "libgcl/gcl.h"
 #include "Game/object.h"
 #include "libdg/libdg.h"
+#include "chara/snake/sna_init.h"
+#include "unknown.h"
+#include "psyq.h"
 
 extern const char aJiraiC[];
-
-int jirai_act_8006AB5C(Actor_Jirai *pActor);
-int jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
-
-void sub_8007913C();
 
 extern int         counter_8009F448;
 extern int         dword_8009F444;
 extern int         dword_8009F440;
 extern GM_Control *gSnaControl_800AB9F4;
 
-void jirai_loader_helper_8006A798(MATRIX *pMtx1, MATRIX *pMtx2, GM_Target *pTarget);
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
 
 extern int     GM_PlayerStatus_800ABA50;
@@ -44,8 +41,6 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
 #pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s")        // 1280 bytes
-
-void jirai_kill_8006B05C(Actor_Jirai *pActor);
 
 Jirai_unknown SECTION(".stru_800BDE78") stru_800BDE78[8];
 
@@ -104,13 +99,6 @@ int jirai_get_free_item_8006B268()
 extern const char aClaymore_2[];
 
 extern int dword_800ABA0C;
-
-int  jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
-int  ratan2_80094308(int, int);
-void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
-void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
-int  DG_PutObjs_8001BDB8(DG_OBJS *objs);
-int  GM_Next_BulName_8004FBA0();
 
 int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
 {

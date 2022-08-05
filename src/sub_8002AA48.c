@@ -5,7 +5,6 @@ void GV_ResetSystem_80014CC8(void);
 void sub_800389A8(void);
 
 void sub_8002AA48(void)
-
 {
     sub_800389A8();
     GV_ResetSystem_80014CC8();

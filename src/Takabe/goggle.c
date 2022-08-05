@@ -3,11 +3,12 @@
 #include "Game/GM_Control.h"
 #include "Game/object.h"
 #include "map/map.h"
+#include "unknown.h"
 
 extern const char aGoggleC[]; // = "goggle.c"
 extern const char aGoggles_0[];
 
-typedef struct Actor_google
+typedef struct Actor_goggle
 {
     Actor       field_0_actor;
     OBJECT      field_20_obj;
@@ -19,15 +20,13 @@ typedef struct Actor_google
     Actor      *field_58_actor_unknown;
     short       field_5C_saved_n_packs;
     short       field_5E_saved_rise;
-} Actor_google;
+} Actor_goggle;
 
 // TODO: Move to a header
-void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
-void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 
 struct Actor *new_scn_mask_8007895C(int a1);
 
-int  goggle_loader_8007773C(Actor_google *a1, OBJECT *a2);
+int  goggle_loader_8007773C(Actor_goggle *a1, OBJECT *a2);
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
@@ -42,7 +41,7 @@ void goggle_pal_convert_8007743C();
 #pragma INCLUDE_ASM("asm/Takabe/goggle_pal_cb_800774C0.s") // 244 bytes
 void goggle_pal_cb_800774C0();
 
-void goggle_act_800775B4(Actor_google *pActor)
+void goggle_act_800775B4(Actor_goggle *pActor)
 {
     DG_OBJS *objs;    // $a1
     int      new_map; // $a0
@@ -77,7 +76,7 @@ void goggle_act_800775B4(Actor_google *pActor)
     }
 }
 
-void goggle_kill_800776AC(Actor_google *pActor)
+void goggle_kill_800776AC(Actor_goggle *pActor)
 {
     GM_GameStatus_800AB3CC &= ~4u;
     DG_ResetExtPaletteMakeFunc_800791E4();
@@ -99,7 +98,7 @@ void goggle_kill_800776AC(Actor_google *pActor)
     }
 }
 
-int goggle_loader_8007773C(Actor_google *pActor, OBJECT *pParent)
+int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
 {
     OBJECT *pObj = &pActor->field_20_obj;
     if (pParent->objs->n_models >= 7)
@@ -128,9 +127,9 @@ int goggle_loader_8007773C(Actor_google *pActor, OBJECT *pParent)
     return 0;
 }
 
-Actor_google *NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj)
+Actor_goggle *NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj)
 {
-    Actor_google *goggle_actor = (Actor_google *)GV_NewActor_800150E4(6, sizeof(Actor_google));
+    Actor_goggle *goggle_actor = (Actor_goggle *)GV_NewActor_800150E4(6, sizeof(Actor_goggle));
 
     if (goggle_actor)
     {

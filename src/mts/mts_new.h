@@ -78,6 +78,9 @@ void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
 void mts_task_start_8008BBC8(void);
 void mts_unlock_sem_8008A85C(int taskNum);
 void sio_output_stop_8008C5B0(void);
+void mts_set_callback_controller_800893D8(void *ptr);
+void mts_callback_controller_8008BDEC(void);
+
 
 #ifdef _BUILDING_MTS_
 // we define it with no args in mts itself since its stubbed, using ... adds instructions

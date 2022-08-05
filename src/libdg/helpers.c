@@ -116,9 +116,9 @@ void DG_RotatePos_8001BD64(SVECTOR *svector)
     gte_SetRotMatrix(&matrix);
 }
 
-void DG_PutObjs_8001BDB8(MATRIX *matrix)
+void DG_PutObjs_8001BDB8(DG_OBJS *objs)
 {
-    gte_ReadRotMatrix(matrix);
+    gte_ReadRotMatrix(&objs->world);
 }
 
 void DG_PutPrim_8001BE00(MATRIX *matrix)

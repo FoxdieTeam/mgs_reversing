@@ -5,18 +5,12 @@
 extern const char aItemC[];
 extern const char aItemMapD[];
 
-void GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
-void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
-void GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
-
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")              // 120 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s")                     // 264 bytes
 #pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown2_80033500.s") // 96 bytes
 #pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown_80033560.s")  // 112 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s")                     // 212 bytes
-
-int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
 
 void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 {
@@ -52,7 +46,6 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_80033704.s") // 128 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_80033784.s")        // 2052 bytes
-void item_act_80033784(Actor_Item *pActor);
 
 void item_kill_80033F88(Actor_Item *pActor)
 {
@@ -89,8 +82,6 @@ void item_kill_80033F88(Actor_Item *pActor)
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s") // 176 bytes
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")        // 1064 bytes
 
-int item_init_helper_800340D0(Actor_Item *pActor, int name, int where);
-
 Actor *item_init_800344F8(int name, int where, int argc, char **argv)
 {
     Actor_Item *pActor; // $s0
@@ -125,8 +116,6 @@ Actor *item_init_800344F8(int name, int where, int argc, char **argv)
     }
     return (Actor *)pActor;
 }
-
-int item_init_helper_helper_80034020(Actor_Item *pActor, int type);
 
 int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
 {
