@@ -8,27 +8,19 @@
 #include "mts/mts_new.h"
 #include "libgcl/gcl.h"
 #include "libdg/dgd.h"
+#include "psyq.h"
+#include "unknown.h"
+#include "memcard/memcard.h"
+#include "map/hzd.h"
+#include "Game/game.h"
 
 void __main_80098F14(void);
-
-void SetDispMask_8008F7CC(int);
-void InitGeom_80092680(void);
-
-void SdMain_80081A18(void);
 
 int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
 int __stacksize_800AB2E8 = 0x8000; // stack size, sdata
 
 extern const char aBislpm86247[];
 const char       *MGS_MemoryCardName_800AB2EC = aBislpm86247; // sdata
-
-int sd_task_active_800886C4();
-
-void memcard_init_80024E48(void);
-
-void FS_StartDaemon_80014A7C(void);
-void HZD_StartDaemon_80021900(void);
-void GM_StartDaemon_8002B77C(void);
 
 extern unsigned int sdStack_800AC3F0[512];
 

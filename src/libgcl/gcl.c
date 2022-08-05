@@ -2,12 +2,9 @@
 #include "gcl.h"
 #include "mts/mts_new.h"
 #include "Game/game.h"
+#include "unknown.h"
 
 GCL_COMMANDDEF *dword_800AB3B8 = 0; // sdata
-
-void GCL_ParseInit_80020B68(void);
-void GCL_InitBasicCommands_8002040C(void);
-int  GCL_LoadScript_80020064(unsigned char *);
 
 int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
 
@@ -78,10 +75,6 @@ GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
     return 0;
 }
 
-void GCL_SetCommandLine_80020934(unsigned char *);
-void GCL_SetArgTop_80020690(unsigned char *);
-void GCL_UnsetCommandLine_80020950(void);
-
 int GCL_Command_8001FDB0(unsigned char *pScript)
 {
     int commandRet;
@@ -101,12 +94,6 @@ int GCL_Command_8001FDB0(unsigned char *pScript)
     return commandRet;
 }
 
-typedef struct
-{
-    unsigned short procNameHashed;
-    unsigned short offset;
-} GCL_ProcTableEntry;
-
 GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
 {
     GCL_ProcTableEntry *pIter = pTable;
@@ -118,13 +105,6 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
     }
     return pIter + 1;
 }
-
-typedef struct
-{
-    GCL_ProcTableEntry *field_0_procTable;
-    unsigned char      *field_4_pByteCode;
-    unsigned char      *field_8_pMainProc;
-} GCL_FileData;
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
 // extern const char aProcXNotFound[];
@@ -200,8 +180,6 @@ int GCL_Proc_8001FFA0(unsigned char *pScript)
     return 0;
 }
 
-void font_set_font_addr_80044BC0(int arg1, void *data);
-
 int GCL_LoadScript_80020064(unsigned char *pScript)
 {
     GCL_ProcTableEntry *pTableStart;
@@ -221,9 +199,6 @@ int GCL_LoadScript_80020064(unsigned char *pScript)
 
     return 0;
 }
-
-int *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
-void GCL_UnsetArgStack_800208F0(int *pStack);
 
 // extern const char aScriptCommandE[];
 // extern const char aErrorInScript[];

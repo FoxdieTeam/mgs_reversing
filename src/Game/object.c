@@ -2,6 +2,7 @@
 #include "game.h"
 #include <KERNEL.H>
 #include "psyq.h"
+#include "libdg/libdg.h"
 
 /*-----sdata-----------------------------------------*/
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -32,7 +33,6 @@ void sub_800350D4(MOTION_CONTROL *m_ctrl, int a1, int motion);
 void sub_8003556C(MOTION_CONTROL *m_ctrl);
 
 // DG
-int   DG_PutObjs_8001BDB8(DG_OBJS *objs);
 void  DG_FreeObjs_800318D0(DG_OBJS *objs);
 void  DG_QueueObjs_80018178(DG_OBJS *objs);
 void  DG_DequeueObjs_800181E4(DG_OBJS *objs);

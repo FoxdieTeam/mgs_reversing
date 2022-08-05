@@ -6,27 +6,11 @@
 #include "libgv/libgv.h"
 #include "Game/object.h"
 #include "map/map.h"
+#include "map/hzd.h"
 
 extern int door_where_8009F5F4;
 
 extern const char aDoorC[]; // "door.c";
-
-int  door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where);
-void door_act_8006F318(struct Actor_Door *pDoor);
-void door_kill_8006F718(struct Actor_Door *pDoor);
-int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
-void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
-void DG_PutObjs_8001BDB8(DG_OBJS *);
-void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
-void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
-void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
-
-int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
-
-void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
-
-void GM_FreeControl_800260CC(GM_Control *pControl);
 
 extern int dword_800ABA0C;
 
@@ -65,6 +49,7 @@ void door_act_helper_8006EC48(struct Actor_Door *pDoor)
         GCL_ExecProc_8001FF2C(pDoor->field_100_param_f_v, &arg_struct);
     }
 }
+
 #pragma INCLUDE_ASM("asm/Thing/door_open_8006ECB8.s")       // 144 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_close_8006ED48.s")      // 112 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes

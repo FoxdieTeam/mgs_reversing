@@ -186,6 +186,15 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
     }
 }
 
+void  GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
+void  GM_InitArea_8002A704(void);
+void  GM_InitChara_8002A890();
+void  GM_InitScript_8002D1DC(void);
+void  GM_Reset_8002ABF4(Actor_GM_Daemon *pActor);
+void  GM_ResetMemory_8002AA80(void);
+void  GM_ClearWeaponAndItem_8002A960();
+void  GV_SaveResidentTop_800163C4(void);
+void  GM_CreateLoader_8002AAB0();
 void  GM_Sound_80032C48(int code, int notUsed);
 void  GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
 void  GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
@@ -199,6 +208,18 @@ int   GM_SetArea_8002A7D8(int stage_id, char *pStageName);
 void  GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 int   GM_StreamStatus_80037CD8(void);
 void  GM_CallSystemCallbackProc_8002B570(int id, int arg);
+void  GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
+void  GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
+void  GM_ReshadeObjs_80031660(DG_OBJS *pObj);
+void  GM_StartDaemon_8002B77C();
+void  GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
+void  GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
+void  GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
+void  GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
+void  GM_AlertModeInit_8002EAA8(void);
+void  GM_InitWhereSystem_8002597C(void);
+int   GM_Reset_helper_8002A978();
+int   GM_Reset_helper3_80030760();
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 

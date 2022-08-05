@@ -64,4 +64,13 @@ struct Actor_Door
     struct Actor_Door_TParam field_104[1];
 };
 
+int  door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where);
+void door_act_8006F318(struct Actor_Door *pDoor);
+void door_kill_8006F718(struct Actor_Door *pDoor);
+int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
+void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
+
+// TODO: move to hzd.h? but this pTSub struct is weird
+int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
+
 #endif // _THING_DOOR_H_
