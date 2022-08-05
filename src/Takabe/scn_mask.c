@@ -1,16 +1,16 @@
 #include "scn_mask.h"
 
-extern int GV_Clock_800AB920;
+extern int     GV_Clock_800AB920;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
 extern const char aScnMaskC[];
 
 void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
 {
-    int i;
-    TILE *pTiles;
+    int            i;
+    TILE          *pTiles;
     unsigned char *pOt;
-    DG_CHNL *chanl = DG_Chanls_800B1800 + 1;
+    DG_CHNL       *chanl = DG_Chanls_800B1800 + 1;
 
     pOt = chanl->mOrderingTables[GV_Clock_800AB920];
 
@@ -38,9 +38,9 @@ void scn_mask_kill_80078774(struct Actor_scn_mask *pActor)
 int scn_mask_loader_800787A4(struct Actor_scn_mask *pActor, int a2)
 {
     struct scn_mask_prims *pPrims;
-    TILE *p2nd;
-    int k112_counter;
-    TILE *p1st;
+    TILE                  *p2nd;
+    int                    k112_counter;
+    TILE                  *p1st;
     pPrims = (struct scn_mask_prims *)GV_Malloc_8001620C(sizeof(struct scn_mask_prims));
     pActor->field_20_pPrims = pPrims;
     if (!pPrims)
@@ -104,12 +104,13 @@ int scn_mask_loader_800787A4(struct Actor_scn_mask *pActor, int a2)
     return 0;
 }
 
-struct Actor_scn_mask* new_scn_mask_8007895C(int a1)
+struct Actor_scn_mask *new_scn_mask_8007895C(int a1)
 {
     struct Actor_scn_mask *pActor = (struct Actor_scn_mask *)GV_NewActor_800150E4(2, sizeof(struct Actor_scn_mask));
     if (pActor)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)scn_mask_act_80078620, (TActorFunction)scn_mask_kill_80078774, aScnMaskC);
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)scn_mask_act_80078620,
+                                  (TActorFunction)scn_mask_kill_80078774, aScnMaskC);
 
         if (scn_mask_loader_800787A4(pActor, a1) < 0)
         {

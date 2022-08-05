@@ -8,7 +8,7 @@ extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ColorMatrix_8009D3A4;
 
 #pragma INCLUDE_ASM("asm/libdg/DG_InitLightSystem_80019F40.s") // 64 bytes
-#pragma INCLUDE_ASM("asm/libdg/DG_SetAmbient_80019F80.s") // 120 bytes
+#pragma INCLUDE_ASM("asm/libdg/DG_SetAmbient_80019F80.s")      // 120 bytes
 
 void DG_SetMainLightDir_80019FF8(int x, int y, int z)
 {
@@ -35,7 +35,7 @@ void DG_SetMainLightCol_8001A048(int r, int g, int b)
 DG_FixedLight *DG_ResetFixedLight_8001A06C(void)
 {
     DG_FixedLight *pLightIter = &gFixedLights_800B1E08[0];
-    int i = COUNTOF(gFixedLights_800B1E08);
+    int            i = COUNTOF(gFixedLights_800B1E08);
     while (i > 0)
     {
         i--;
@@ -49,8 +49,8 @@ DG_FixedLight *DG_ResetFixedLight_8001A06C(void)
 void DG_SetFixedLight_8001A094(Light *pLight, int light_count)
 {
     DG_FixedLight *pLightIter;
-    Light **current_light;
-    int i;
+    Light        **current_light;
+    int            i;
 
     pLightIter = &gFixedLights_800B1E08[0];
     i = 7;
@@ -73,46 +73,46 @@ void DG_SetFixedLight_8001A094(Light *pLight, int light_count)
 }
 
 #pragma INCLUDE_ASM("asm/libdg/DG_ClearTmpLight_8001A0E4.s") // 48 bytes
-#pragma INCLUDE_ASM("asm/libdg/DG_SetTmpLight_8001A114.s") // 148 bytes
+#pragma INCLUDE_ASM("asm/libdg/DG_SetTmpLight_8001A114.s")   // 148 bytes
 
 void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec)
 {
-	int vec_length;
-	int val;
-	int multiplier;
-	VECTOR vec_squared;
+    int    vec_length;
+    int    val;
+    int    multiplier;
+    VECTOR vec_squared;
 
-	Square0_80093340(in_vec,&vec_squared);
-	vec_length = SquareRoot0_80092708(vec_squared.vx + vec_squared.vy + vec_squared.vz);
-	if (vec_length == 0)
-	{
-		vec_length = 1;
-	}
-	multiplier = divisor * 2 - vec_length;
-	if (multiplier < 0)
-	{
-		multiplier = 0;
-	}
+    Square0_80093340(in_vec, &vec_squared);
+    vec_length = SquareRoot0_80092708(vec_squared.vx + vec_squared.vy + vec_squared.vz);
+    if (vec_length == 0)
+    {
+        vec_length = 1;
+    }
+    multiplier = divisor * 2 - vec_length;
+    if (multiplier < 0)
+    {
+        multiplier = 0;
+    }
 
-	val = in_vec->vx * 0xc00;
-	val = (val / vec_length) * multiplier;
-	out_vec->vx = val / divisor;
+    val = in_vec->vx * 0xc00;
+    val = (val / vec_length) * multiplier;
+    out_vec->vx = val / divisor;
 
-	val = in_vec->vy * 0xc00;
-	val = (val / vec_length) * multiplier;
-	out_vec->vy = val / divisor;
+    val = in_vec->vy * 0xc00;
+    val = (val / vec_length) * multiplier;
+    out_vec->vy = val / divisor;
 
-	val = in_vec->vz * 0xc00;
-	val = (val / vec_length) * multiplier;
-	out_vec->vz = val / divisor;
+    val = in_vec->vz * 0xc00;
+    val = (val / vec_length) * multiplier;
+    out_vec->vz = val / divisor;
 }
 
 #pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix_8001A3C4.s") // 524 bytes
 
 void sub_8001A5D0(int param_1, int param_2)
 {
-  *(int *)(param_1 + 0x34) = param_2;
-  return;
+    *(int *)(param_1 + 0x34) = param_2;
+    return;
 }
 
 #pragma INCLUDE_ASM("asm/libdg/DG_GetLightMatrix2_8001A5D8.s") // 152 bytes

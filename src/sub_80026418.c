@@ -2,7 +2,7 @@
 
 int sub_80026418(int arg0, int arg1)
 {
-    int temp_a0;
+    int   temp_a0;
     short phi_v1;
 
     temp_a0 = (arg0 - arg1) & 0xFFF;

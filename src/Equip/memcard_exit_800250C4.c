@@ -13,8 +13,8 @@ extern long gSoftware_end_write_800B52DC;
 extern long gSoftware_timeout_800B52E0;
 extern long gSoftware_new_device_800B52E4;
 
-extern long gHwCard_do_op_800B52E8;
-extern long gSwCard_do_op_800B52EC;
+extern long          gHwCard_do_op_800B52E8;
+extern long          gSwCard_do_op_800B52EC;
 extern volatile long gSwCardLastOp_800B52F0;
 extern volatile long gHwCardLastOp_800B52F4;
 
@@ -30,8 +30,8 @@ void bu_init_80098FEC(void);
 
 extern struct mem_card gMemCards_800B52F8[2];
 
-int memcard_check_80024A54(int idx);
-int memcard_easy_format_test_800246C0(long hCard);
+int  memcard_check_80024A54(int idx);
+int  memcard_easy_format_test_800246C0(long hCard);
 void memcard_reset_status_80024A3C();
 void memcard_set_sw_hw_card_fns_8002469C();
 void mts_set_vsync_task_800892B8(void);
@@ -59,13 +59,19 @@ void memcard_init_80024E48()
 
         EnterCriticalSection_8009952C();
 
-        gHardware_end_io_800B52C8 = OpenEvent_8009946C(0xF0000011, 4, 0x1000, memcard_hwcard_end_io_800244FC);            // f = hardware, 11 = HwCARD, 4 = EvSpIOE = end io
-        gHardware_end_write_800B52CC = OpenEvent_8009946C(0xF0000011, 0x8000, 0x1000, memcard_hwcard_end_write_80024524); // EvSpIOEW = end write
-        gHardware_timeout_800B52D0 = OpenEvent_8009946C(0xF0000011, 0x100, 0x1000, memcard_hwcard_timeout_8002455C);      // EvSpTIMOUT
-        gHardware_new_device_800B52D4 = OpenEvent_8009946C(0xF0000011, 0x2000, 0x1000, memcard_hwcard_new_80024594);      // EvSpNEW new device
+        gHardware_end_io_800B52C8 = OpenEvent_8009946C(
+            0xF0000011, 4, 0x1000, memcard_hwcard_end_io_800244FC); // f = hardware, 11 = HwCARD, 4 = EvSpIOE = end io
+        gHardware_end_write_800B52CC =
+            OpenEvent_8009946C(0xF0000011, 0x8000, 0x1000, memcard_hwcard_end_write_80024524); // EvSpIOEW = end write
+        gHardware_timeout_800B52D0 =
+            OpenEvent_8009946C(0xF0000011, 0x100, 0x1000, memcard_hwcard_timeout_8002455C); // EvSpTIMOUT
+        gHardware_new_device_800B52D4 =
+            OpenEvent_8009946C(0xF0000011, 0x2000, 0x1000, memcard_hwcard_new_80024594); // EvSpNEW new device
 
-        gSoftware_end_io_800B52D8 = OpenEvent_8009946C(0xF4000001, 4, 0x1000, memcard_swcard_end_io_800245CC); // f4 = bios/software, 1 = SwCARD, EvSpIOE
-        gSoftware_end_write_800B52DC = OpenEvent_8009946C(0xF4000001, 0x8000, 0x1000, memcard_swcard_end_write_800245F4);
+        gSoftware_end_io_800B52D8 = OpenEvent_8009946C(
+            0xF4000001, 4, 0x1000, memcard_swcard_end_io_800245CC); // f4 = bios/software, 1 = SwCARD, EvSpIOE
+        gSoftware_end_write_800B52DC =
+            OpenEvent_8009946C(0xF4000001, 0x8000, 0x1000, memcard_swcard_end_write_800245F4);
         gSoftware_timeout_800B52E0 = OpenEvent_8009946C(0xF4000001, 0x100, 0x1000, memcard_swcard_timeout_8002462C);
         gSoftware_new_device_800B52E4 = OpenEvent_8009946C(0xF4000001, 0x2000, 0x1000, memcard_swcard_new_80024664);
 

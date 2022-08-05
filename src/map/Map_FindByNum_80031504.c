@@ -3,13 +3,13 @@
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;
-int SECTION(".sbss") gMapCount_800ABAA8;
+int        SECTION(".sbss") gMapCount_800ABAA8;
 
 map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
 
 map_record *Map_FindByNum_80031504(int mapNameHash)
 {
-    map_record  *map;
+    map_record *map;
     int         i;
 
     map = gMapRecs_800B7910;
@@ -26,7 +26,7 @@ map_record *Map_FindByNum_80031504(int mapNameHash)
 
 int sub_8003153C(map_record *map)
 {
-    map_record  *current_map;
+    map_record *current_map;
     int         i;
 
     current_map = gMapRecs_800B7910;

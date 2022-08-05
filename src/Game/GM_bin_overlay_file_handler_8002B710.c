@@ -6,13 +6,13 @@
 #include "libgv/libgv.h"
 #include "libdg/dgd.h"
 
-extern GameState_800B4D98    gGameState_800B4D98;
+extern GameState_800B4D98 gGameState_800B4D98;
 
-extern unsigned char* GV_ResidentMemoryBottom_800AB940;
+extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
 void *memcpy_8008E648(void *destination, const void *source, int num);
 
-extern unsigned char* gOverlayBase_800AB9C8;
+extern unsigned char *gOverlayBase_800AB9C8;
 
 extern const char aTooLargeStageB[];
 extern const char aGamedC[];
@@ -21,28 +21,27 @@ extern int gOverlayBinSize_800B5290;
 
 // forcec gp
 extern int GM_GameOverTimer_800AB3D4;
-int SECTION(".sdata") GM_GameOverTimer_800AB3D4;
+int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
 
 // force GP
-extern int                  GM_LoadRequest_800AB3D0;
-int SECTION(".sdata")       GM_LoadRequest_800AB3D0;
+extern int GM_LoadRequest_800AB3D0;
+int        SECTION(".sdata") GM_LoadRequest_800AB3D0;
 
 // force gp
 extern int gTotalFrameTime_800AB9E8;
-int SECTION(".sbss") gTotalFrameTime_800AB9E8;
-
+int        SECTION(".sbss") gTotalFrameTime_800AB9E8;
 
 extern int GM_LoadComplete_800ABA38;
-int SECTION(".sbss") GM_LoadComplete_800ABA38;
+int        SECTION(".sbss") GM_LoadComplete_800ABA38;
 
-extern GV_PAD* GM_CurrentPadData_800AB91C;
-GV_PAD* SECTION(".sbss") GM_CurrentPadData_800AB91C; // sbss
+extern GV_PAD *GM_CurrentPadData_800AB91C;
+GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C; // sbss
 
 extern Actor_GM_Daemon GM_Daemon_800B5880;
 
 extern int gDiskNum_800ACBF0;
 
-extern GV_PAD GV_PadData_800B05C0[4] ;
+extern GV_PAD GV_PadData_800B05C0[4];
 
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
 void MENU_StartDeamon_80038A20(void);
@@ -50,10 +49,10 @@ void GM_InitArea_8002A704(void);
 void GM_InitChara_8002A890();
 void GM_InitScript_8002D1DC(void);
 void sub_8002AA48(void);
-void GM_Reset_8002ABF4(Actor_GM_Daemon* pActor);
+void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor);
 void GM_ResetMemory_8002AA80(void);
 void GM_ClearWeaponAndItem_8002A960();
-void GV_SaveResidentTop_800163C4( void );
+void GV_SaveResidentTop_800163C4(void);
 void GM_CreateLoader_8002AAB0();
 
 int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameHashed)

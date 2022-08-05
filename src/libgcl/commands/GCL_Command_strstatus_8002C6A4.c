@@ -6,9 +6,9 @@ extern int GM_LoadRequest_800AB3D0;
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
-void    sub_8002B600(int);
-int     GM_SetArea_8002A7D8(int areaName, char *pStageName);
-char*   GM_GetArea_8002A880(char*);
+void  sub_8002B600(int);
+int   GM_SetArea_8002A7D8(int areaName, char *pStageName);
+char *GM_GetArea_8002A880(char *);
 
 int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
 {
@@ -17,7 +17,7 @@ int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
     if (GCL_GetParam_80020968('p'))
     {
         val = GCL_GetNextParamValue_80020AD4();
-    } 
+    }
     else
     {
         val = -1;
@@ -29,8 +29,7 @@ int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('a')) // area
     {
-        GM_SetArea_8002A7D8((int)gGameState_800B4D98.field_0C_current_stage,
-                                    GM_GetArea_8002A880(0));
+        GM_SetArea_8002A7D8((int)gGameState_800B4D98.field_0C_current_stage, GM_GetArea_8002A880(0));
     }
     return 0;
 }

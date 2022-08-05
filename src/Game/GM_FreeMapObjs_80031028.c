@@ -4,7 +4,7 @@
 
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;
-int SECTION(".sbss") N_StageObjs_800ABAA4;
+int        SECTION(".sbss") N_StageObjs_800ABAA4;
 
 extern DG_OBJS *StageObjs_800B7890[32];
 
@@ -13,7 +13,7 @@ void DG_FreeObjs_800318D0(DG_OBJS *objs);
 
 void GM_FreeMapObjs_80031028()
 {
-    int counter;         // $s1
+    int       counter;  // $s1
     DG_OBJS **pObjIter; // $s0
 
     counter = N_StageObjs_800ABAA4;

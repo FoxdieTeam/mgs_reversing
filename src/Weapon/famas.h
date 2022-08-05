@@ -6,15 +6,15 @@
 
 typedef struct _Actor_Famas
 {
-    Actor field_0_actor;
-    OBJECT f20_obj;
-    int f44;
+    Actor   field_0_actor;
+    OBJECT  f20_obj;
+    int     f44;
     OBJECT *parent_object;
-    int num_parent;
-    int f50;
-    int f54;
-    int f58;
-    int f5c;
+    int     num_parent;
+    int     f50;
+    int     f54;
+    int     f58;
+    int     f5c;
 } Actor_Famas;
 
 STATIC_ASSERT_SIZE(Actor_Famas, 0x60);

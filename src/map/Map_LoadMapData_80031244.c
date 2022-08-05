@@ -6,10 +6,10 @@
 extern const char aSetMapD[];
 
 struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed);
-void* GV_GetCache_8001538C(int fileNameHashed);
-void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap);
+void              *GV_GetCache_8001538C(int fileNameHashed);
+void               Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap);
 
-HZD_MAP* Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24);
+HZD_MAP *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24);
 
 void Map_LoadMapData_80031244(int mapNum, int resourceNameHashed)
 {

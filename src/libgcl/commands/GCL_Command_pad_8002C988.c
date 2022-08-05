@@ -1,7 +1,7 @@
 #include "libgcl/gcl.h"
 
-extern int  GV_PadMask_800AB374;
-extern int  GM_GameStatus_800AB3CC;
+extern int GV_PadMask_800AB374;
+extern int GM_GameStatus_800AB3CC;
 
 void GV_UpdatePadSystem_8001682C(void);
 

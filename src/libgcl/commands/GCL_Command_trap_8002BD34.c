@@ -6,8 +6,8 @@
 
 extern int gBinds_800ABA60;
 extern int gBindsCount_800ABA64;
-int SECTION(".sbss") gBinds_800ABA60;
-int SECTION(".sbss") gBindsCount_800ABA64;
+int        SECTION(".sbss") gBinds_800ABA60;
+int        SECTION(".sbss") gBindsCount_800ABA64;
 
 STATIC_ASSERT_SIZE(BindStruct, 0x18);
 
@@ -20,8 +20,8 @@ extern const char aBindsOver[];
 int GCL_Command_trap_8002BD34(int argc, char **argv)
 {
     BindStruct *pBind;
-    int i, arg, code, value;
-    int tmp;
+    int         i, arg, code, value;
+    int         tmp;
 
     if (0x7f < gBindsCount_800ABA64)
     {

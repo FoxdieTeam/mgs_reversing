@@ -4,10 +4,10 @@
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;
-int SECTION(".sbss") gMapCount_800ABAA8;
+int        SECTION(".sbss") gMapCount_800ABAA8;
 
 extern int gMapsChanged_800ABAAC;
-int SECTION(".sbss") gMapsChanged_800ABAAC;
+int        SECTION(".sbss") gMapsChanged_800ABAAC;
 
 extern struct map_record gMapRecs_800B7910[16];
 
@@ -16,7 +16,7 @@ extern const char aAddmapNotFound[];
 
 int Map_MarkUsed_80031324(int mapName)
 {
-    int counter;                 // $v1
+    int                counter;  // $v1
     struct map_record *pRecIter; // $a1
 
     pRecIter = gMapRecs_800B7910;
@@ -38,12 +38,12 @@ int Map_MarkUsed_80031324(int mapName)
     return 0;
 }
 
-extern const char aDelmapNotFound[] ;
+extern const char aDelmapNotFound[];
 extern const char aDelMapD[];
 
 int GM_DelMap_800313C0(int mapName)
 {
-    int counter;                 // $v1
+    int                counter;  // $v1
     struct map_record *pRecIter; // $a1
 
     pRecIter = gMapRecs_800B7910;

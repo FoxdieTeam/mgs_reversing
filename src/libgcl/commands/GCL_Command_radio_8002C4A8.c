@@ -3,17 +3,17 @@
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
 
-extern const char   aWrongCodeForRa[];
+extern const char aWrongCodeForRa[];
 
-extern int          GM_GameStatus_800AB3CC;
+extern int GM_GameStatus_800AB3CC;
 
-char*        GCL_Read_String_80020A70(char *pScript);
-void         MENU_ClearRadioTable_8004967C(void);
-void         MENU_RadioCall_80042730(int param_1, int param_2, int param_3);
-void         MENU_ResetCall_80042814(void);
-void         MENU_SetRadioCallbackProc_8004283C(int param_1);
-void         MENU_SetRadioBaseCall_80049764(int param_1, int param_2);
-void         MENU_SetRadioOverCall_80049794(int param_1, int param_2);
+char *GCL_Read_String_80020A70(char *pScript);
+void  MENU_ClearRadioTable_8004967C(void);
+void  MENU_RadioCall_80042730(int param_1, int param_2, int param_3);
+void  MENU_ResetCall_80042814(void);
+void  MENU_SetRadioCallbackProc_8004283C(int param_1);
+void  MENU_SetRadioBaseCall_80049764(int param_1, int param_2);
+void  MENU_SetRadioOverCall_80049794(int param_1, int param_2);
 
 int GCL_Command_radio_8002C4A8(int argc, char **argv)
 {
@@ -57,8 +57,8 @@ int GCL_Command_radio_8002C4A8(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('c')) // call
     {
-        MENU_RadioCall_80042730(GCL_GetNextParamValue_80020AD4(), // contactFrequency
-                                GCL_GetNextParamValue_80020AD4(), // radioTableCode
+        MENU_RadioCall_80042730(GCL_GetNextParamValue_80020AD4(),  // contactFrequency
+                                GCL_GetNextParamValue_80020AD4(),  // radioTableCode
                                 GCL_GetNextParamValue_80020AD4()); // ring duration ?
     }
     if (GCL_GetParam_80020968('p')) // proc
@@ -71,9 +71,8 @@ int GCL_Command_radio_8002C4A8(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('m')) // mesg string (example: "clear")
     {
-        MENU_SetRadioMemory_8004E110(
-                    GCL_GetNextParamValue_80020AD4(), // contactFrequency
-                    GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4())); // string
+        MENU_SetRadioMemory_8004E110(GCL_GetNextParamValue_80020AD4(),                           // contactFrequency
+                                     GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4())); // string
     }
     if (GCL_GetParam_80020968('d')) // disable?
     {

@@ -5,8 +5,8 @@
 #include "psyq.h"
 
 extern const char aMtsNewC[];
-extern const char asc_80013E2C[]; // = "\n";
-extern const char aAssertionFaled[];  // = "assertion faled : %s line %d : Task %d\n";
+extern const char asc_80013E2C[];    // = "\n";
+extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
 extern const char aWupDeadD[];
 extern const char aMtsStaTskServe[];
 extern const char aMultiTaskSched[];
@@ -20,26 +20,25 @@ extern const char aIsendDstD[];
 extern const char aIsendStateDead[];
 extern const char aGetNewVblContr[];
 
-mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
-mts_msg *SECTION(".D_800C0C00") D_800C0C00 = 0;
-mts_msg *SECTION(".D_800C0C00") D_800C0C04 = 0;
-int SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0 = 0;
-signed char SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
-char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
+mts_msg       SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
+mts_msg      *SECTION(".D_800C0C00") D_800C0C00 = 0;
+mts_msg      *SECTION(".D_800C0C00") D_800C0C04 = 0;
+int           SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0 = 0;
+signed char   SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
+char          SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
 unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
 unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
 
 extern int dword_800A3D68[2];
 
-extern int gTaskIdx_800C0DB0;
+extern int      gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
-extern int gMts_active_task_idx_800C13C0;
-extern int gMts_bits_800C0DB4;
+extern int      gMts_active_task_idx_800C13C0;
+extern int      gMts_bits_800C0DB4;
 
 extern void (*gControllerCallBack_800A3D74)(void);
 
 extern int gMtsVSyncCount_800A3D78;
-
 
 extern mts_msg stru_800A3D7C;
 
@@ -50,46 +49,46 @@ extern int gStackSize_800A3D94;
 
 extern mts_msg gMtsMsgs_800C13D0[8];
 
-extern int  dword_800A3DB0;
-extern int  dword_800A3DB4;
-extern int  dword_800A3DB8;
+extern int dword_800A3DB0;
+extern int dword_800A3DB4;
+extern int dword_800A3DB8;
 
-void mts_print_process_status_8008B77C(void);
-void mts_init_vsync_helper_800893E8(void);
-void VSyncCallback_800983A8(void (*func)());
-void mts_print_process_status_8008B77C(void);
-void SwEnterCriticalSection_8009954C(void);
-void SwExitCriticalSection_8009956C(void);
-int ChangeTh_800994EC(int thread);
-void mts_print_process_status_8008B77C(void);
-void SwEnterCriticalSection_8009954C(void);
-void SwExitCriticalSection_8009956C(void);
-int ChangeTh_800994EC(int thread);
-void SwEnterCriticalSection_8009954C(void);
-void SwExitCriticalSection_8009956C(void);
-int ChangeTh_800994EC(int thread);
-void mts_print_process_status_8008B77C(void);
-void mts_send_8008982C(int dst, unsigned char *message);
-int mts_receive_80089D24(int src, unsigned char *message);
-void mts_print_process_status_8008B77C(void);
-void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
-void mts_event_cb_8008BBC0();
-void mts_task_start_8008BBC8(void);
-void mts_8008BA88();
-void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
-void mts_8008B0A4();
-void CloseEvent_8009947C(int event);
-long TestEvent_8009949C(long);
-long EnableEvent_800994AC(long);
-void EnterCriticalSection_8009952C(void);
-void ExitCriticalSection_8009953C(void);
-long SetConf_800997BC(unsigned long,unsigned long,unsigned long);
-extern long OpenTh_800994CC(long (*func)(), unsigned long , unsigned long);
-long OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
-void SwEnterCriticalSection_8009954C(void);
-void SwExitCriticalSection_8009956C(void);
-int ChangeTh_800994EC(int thread);
-int ResetCallback_80098318(void);
+void        mts_print_process_status_8008B77C(void);
+void        mts_init_vsync_helper_800893E8(void);
+void        VSyncCallback_800983A8(void (*func)());
+void        mts_print_process_status_8008B77C(void);
+void        SwEnterCriticalSection_8009954C(void);
+void        SwExitCriticalSection_8009956C(void);
+int         ChangeTh_800994EC(int thread);
+void        mts_print_process_status_8008B77C(void);
+void        SwEnterCriticalSection_8009954C(void);
+void        SwExitCriticalSection_8009956C(void);
+int         ChangeTh_800994EC(int thread);
+void        SwEnterCriticalSection_8009954C(void);
+void        SwExitCriticalSection_8009956C(void);
+int         ChangeTh_800994EC(int thread);
+void        mts_print_process_status_8008B77C(void);
+void        mts_send_8008982C(int dst, unsigned char *message);
+int         mts_receive_80089D24(int src, unsigned char *message);
+void        mts_print_process_status_8008B77C(void);
+void        mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
+void        mts_event_cb_8008BBC0();
+void        mts_task_start_8008BBC8(void);
+void        mts_8008BA88();
+void        mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
+void        mts_8008B0A4();
+void        CloseEvent_8009947C(int event);
+long        TestEvent_8009949C(long);
+long        EnableEvent_800994AC(long);
+void        EnterCriticalSection_8009952C(void);
+void        ExitCriticalSection_8009953C(void);
+long        SetConf_800997BC(unsigned long, unsigned long, unsigned long);
+extern long OpenTh_800994CC(long (*func)(), unsigned long, unsigned long);
+long        OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
+void        SwEnterCriticalSection_8009954C(void);
+void        SwExitCriticalSection_8009956C(void);
+int         ChangeTh_800994EC(int thread);
+int         ResetCallback_80098318(void);
 
 // TODO: is mts_msg wrong ??
 typedef struct mts_msg2
@@ -97,28 +96,28 @@ typedef struct mts_msg2
     int field_0;
     int field_4_task_idx;
     void (*field_8)(void);
-    void* field_C;
-    //void* field_10;
+    void *field_C;
+    // void* field_10;
 } mts_msg2;
 
-#define mts_assert(functionName, lineNum) \
-    mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0);\
-    mts_printf_8008BBA0(functionName);\
-    mts_printf_8008BBA0(asc_80013E2C);\
+#define mts_assert(functionName, lineNum)                                                                              \
+    mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0);                                        \
+    mts_printf_8008BBA0(functionName);                                                                                 \
+    mts_printf_8008BBA0(asc_80013E2C);                                                                                 \
     mts_print_process_status_8008B77C();
 
 void mts_set_exception_func_800892A8(int param_1)
 {
-  dword_800A3D68[0] = param_1;
+    dword_800A3D68[0] = param_1;
 }
 
 void mts_set_vsync_task_800892B8(void)
 {
-    int task_idx; // $s1
-    mts_task* pTask; // $s0
-    int idx; // $a0
-    mts_msg* pIter; // $a1
-    mts_msg* pMsg; // $v0
+    int       task_idx; // $s1
+    mts_task *pTask;    // $s0
+    int       idx;      // $a0
+    mts_msg  *pIter;    // $a1
+    mts_msg  *pMsg;     // $v0
 
     if (!gTasks_800C0C30[gTaskIdx_800C0DB0].field_4_pMessage)
     {
@@ -150,10 +149,9 @@ void mts_set_vsync_task_800892B8(void)
         pMsg->field_C_end_vblanks = 0;
         pMsg->field_10 = 0;
     }
-
 }
 
-void mts_set_callback_800893B4(void* cb)
+void mts_set_callback_800893B4(void *cb)
 {
     gTasks_800C0C30[gTaskIdx_800C0DB0].field_4_pMessage->field_10 = cb;
 }
@@ -165,12 +163,12 @@ void mts_set_callback_controller_800893D8(void *pControllerCallBack)
 
 void mts_init_vsync_helper_800893E8(void)
 {
-    int v0;
+    int      v0;
     mts_msg *pNext;
     mts_msg *pUnknownIter;
-    int bitMask;
-    int task_idx;
-    int bChangeThreadContext;
+    int      bitMask;
+    int      task_idx;
+    int      bChangeThreadContext;
 
     gMtsVSyncCount_800A3D78 = VSync_80098108(-1);
 
@@ -245,21 +243,21 @@ void mts_init_vsync_800895AC(void)
 {
     if (gMtsVSyncCount_800A3D78 == -1)
     {
-        gMtsVSyncCount_800A3D78 =  VSync_80098108(-1);
+        gMtsVSyncCount_800A3D78 = VSync_80098108(-1);
         VSyncCallback_800983A8(mts_init_vsync_helper_800893E8);
     }
 }
 
 int mts_wait_vbl_800895F4(int wait_vblanks)
 {
-    mts_msg *field_4_pMessage; // $s0
-    unsigned int cur_vblanks;  // $v1
-    unsigned int end_vblanks;  // $v0
-    mts_msg *pMsgIter;         // $v1
-    int bitMask;               // $a1
-    int task_idx;              // $a0
-    int mts_bits;              // $v1
-    int bChangeThreadContext;  // $v0
+    mts_msg     *field_4_pMessage;     // $s0
+    unsigned int cur_vblanks;          // $v1
+    unsigned int end_vblanks;          // $v0
+    mts_msg     *pMsgIter;             // $v1
+    int          bitMask;              // $a1
+    int          task_idx;             // $a0
+    int          mts_bits;             // $v1
+    int          bChangeThreadContext; // $v0
 
     field_4_pMessage = gTasks_800C0C30[gTaskIdx_800C0DB0].field_4_pMessage;
     if (!field_4_pMessage)
@@ -342,9 +340,9 @@ int mts_wait_vbl_800895F4(int wait_vblanks)
 int mts_isend_80089B04(int isend_dst)
 {
     mts_task *pDstTask;
-    int bitMask;
-    int task_idx;
-    int bChangeThreadContext;
+    int       bitMask;
+    int       task_idx;
+    int       bChangeThreadContext;
 
     if ((unsigned int)(isend_dst - 1) >= 10)
     {
@@ -421,11 +419,11 @@ int mts_isend_80089B04(int isend_dst)
 
 void mts_slp_tsk_8008A400()
 {
-    mts_task *pTask;          // $a1
-    int bitMask;              // $a0
-    int task_idx;             // $v1
-    int bChangeThreadContext; // $v0
-    int rCount;
+    mts_task *pTask;                // $a1
+    int       bitMask;              // $a0
+    int       task_idx;             // $v1
+    int       bChangeThreadContext; // $v0
+    int       rCount;
     SwEnterCriticalSection_8009954C();
 
     pTask = &gTasks_800C0C30[gTaskIdx_800C0DB0];
@@ -473,10 +471,10 @@ void mts_slp_tsk_8008A400()
 
 void mts_wup_tsk_8008A540(int taskNr)
 {
-    mts_task *pTask;          // $s0
-    int bitMask;              // $a1
-    int task_idx;             // $v1
-    int bChangeThreadContext; // $v0
+    mts_task *pTask;                // $s0
+    int       bitMask;              // $a1
+    int       task_idx;             // $v1
+    int       bChangeThreadContext; // $v0
 
     pTask = &gTasks_800C0C30[taskNr];
     if (!pTask->field_0_state)
@@ -531,10 +529,10 @@ void mts_wup_tsk_8008A540(int taskNr)
 
 void mts_lock_sem_8008A6CC(int taskNr)
 {
-    mts_task *pIter;          // $a0
-    int task_idx;             // $a0
-    int bitMask;              // $a1
-    int bChangeThreadContext; // $v0
+    mts_task *pIter;                // $a0
+    int       task_idx;             // $a0
+    int       bitMask;              // $a1
+    int       bChangeThreadContext; // $v0
 
     SwEnterCriticalSection_8009954C();
     gTasks_800C0C30[gTaskIdx_800C0DB0].field_D = -1;
@@ -589,11 +587,11 @@ void mts_lock_sem_8008A6CC(int taskNr)
 
 void mts_unlock_sem_8008A85C(int taskNum)
 {
-    mts_task *pTask;          // $a1
-    int bits;                 // $a0
-    int task_idx;             // $v1
-    int bitMask;              // $a1
-    int bChangeThreadContext; // $v0
+    mts_task *pTask;                // $a1
+    int       bits;                 // $a0
+    int       task_idx;             // $v1
+    int       bitMask;              // $a1
+    int       bChangeThreadContext; // $v0
 
     SwEnterCriticalSection_8009954C();
 
@@ -645,11 +643,11 @@ void mts_unlock_sem_8008A85C(int taskNum)
 
 void mts_reset_interrupt_wait_8008A990(int idx)
 {
-    mts_task *pTask;                   // $s0
+    mts_task    *pTask;                // $s0
     unsigned int bitMask;              // $a0
-    int task_idx;                      // $v1
+    int          task_idx;             // $v1
     unsigned int bChangeThreadContext; // $v0
-    int mtsBits;
+    int          mtsBits;
 
     pTask = &gTasks_800C0C30[idx];
 
@@ -695,12 +693,10 @@ void mts_reset_interrupt_wait_8008A990(int idx)
     SwExitCriticalSection_8009956C();
 }
 
-
 void mts_reset_interrupt_overrun_8008AAA0(void)
 {
     gTasks_800C0C30[gTaskIdx_800C0DB0].field_E = 0;
 }
-
 
 void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, long stackSize)
 {
@@ -773,9 +769,9 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     pTask->field_4_pMessage = 0;
 //    global_pointer_1 = GetGp_8009961C();
     pTask->field_18_tcb = OpenTh_800994CC(mts_task_start_8008BBC8, dword_800C0FB8, GetGp_8009961C());
-    pTask->field_1C = ((struct TCB**)0x110)[pTask->field_18_tcb]; //  (TCB *)(MEMORY[0x110] + 0xC0 * LOBYTE(gTasks_800C0C30[0].field_18_tcb));
-    pTask->field_1C->reg[0x23] = 0x400;
-    
+    pTask->field_1C = ((struct TCB**)0x110)[pTask->field_18_tcb]; //  (TCB *)(MEMORY[0x110] + 0xC0 *
+LOBYTE(gTasks_800C0C30[0].field_18_tcb)); pTask->field_1C->reg[0x23] = 0x400;
+
     pTask->field_0_state = 3; // v1, $zero, 3
 
     gMts_bits_800C0DB4 |= 1u;
@@ -851,7 +847,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
 
     SwEnterCriticalSection_8009954C();
     gMts_active_task_idx_800C13C0 = 0;
-    
+
     if (gTaskIdx_800C0DB0)
     {
         gTaskIdx_800C0DB0 = 0;
@@ -860,7 +856,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     else
     {
         bChangeThreadContext = 0;
-        
+
     }
 
     if (bChangeThreadContext)
@@ -876,7 +872,7 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
 void mts_shutdown_8008B044(void)
 {
     EnterCriticalSection_8009952C();
-    
+
     if (gMts_Event1_800A3D70)
     {
         CloseEvent_8009947C(gMts_Event1_800A3D70);
@@ -893,10 +889,10 @@ void mts_shutdown_8008B044(void)
 #pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s") // 940 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_8008B450.s") // 44 bytes
 
-int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
+int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
 {
     mts_msg2 msg;
-    int src_idx;
+    int      src_idx;
 
     msg.field_4_task_idx = tasknr;
     msg.field_8 = proc;
@@ -904,7 +900,7 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
     msg.field_C = stack_pointer;
     mts_send_8008982C(0, (unsigned char *)&msg);
     src_idx = mts_receive_80089D24(0, (unsigned char *)&msg);
-    if ( src_idx )
+    if (src_idx)
     {
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1344, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aMtsStaTskServe, src_idx);
@@ -914,7 +910,7 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void* stack_pointer)
     return msg.field_0;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s") // 116 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s")          // 116 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_send_msg_8008B590.s") // 40 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_recv_msg_8008B5B8.s") // 80 bytes
 
@@ -942,7 +938,7 @@ void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSi
     }
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_use_stack_size_8008B68C.s") // 240 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_get_use_stack_size_8008B68C.s")   // 240 bytes
 #pragma INCLUDE_ASM("asm/mts/mts_print_process_status_8008B77C.s") // 744 bytes
 
 void mts_lock_sio_8008BA64(void)

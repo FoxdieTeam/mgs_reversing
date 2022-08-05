@@ -23,5 +23,4 @@ void CDFS_80022024()
 
 void nullsub_9_80022088(void)
 {
-
 }

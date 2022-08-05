@@ -24,11 +24,11 @@ extern int                GV_Time_800AB330;
 extern int                dword_8009F2C0;
 extern int                GM_CurrentMap_800AB9B0;
 
-int SECTION(".sbss")      GM_CurrentMap_800AB9B0;
-extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
+int                     SECTION(".sbss") GM_CurrentMap_800AB9B0;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 void GM_ActObject2_80034B88(OBJECT *obj);
-int anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
+int  anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
 
 int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
 
@@ -40,7 +40,7 @@ static inline void GM_SetCurrentMap(map) int map;
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
     SVECTOR vec;
-    MATRIX rotMtx;
+    MATRIX  rotMtx;
     OBJECT *obj;
 
     obj = (OBJECT *)&pActor->field_20_pObj;
@@ -96,7 +96,7 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
 }
 
 static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
-int group_id;
+int                group_id;
 {
     prim->group_id = group_id;
 }
