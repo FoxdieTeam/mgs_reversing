@@ -174,6 +174,7 @@ unsigned char *GCL_Get_Param_Result_80020AA4(void);
 unsigned char *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, int *retValue);
 int            GCL_GetSV_80020A14(unsigned char *pInScript, short *pOut3Words);
 void           GCL_ChangeSenerioCode_8001FCB0(int bMain);
+char          *GCL_Read_String_80020A70(char *pScript);
 
 int GCL_GetNextInt_800209E8(unsigned char *pScript);
 

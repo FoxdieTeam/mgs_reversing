@@ -7,7 +7,6 @@ extern const char aWrongCodeForRa[];
 
 extern int GM_GameStatus_800AB3CC;
 
-char *GCL_Read_String_80020A70(char *pScript);
 void  MENU_ClearRadioTable_8004967C(void);
 void  MENU_RadioCall_80042730(int param_1, int param_2, int param_3);
 void  MENU_ResetCall_80042814(void);

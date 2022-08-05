@@ -36,5 +36,11 @@ void           OuterProduct12_800933AC(VECTOR *v0, VECTOR *v1, VECTOR *v2);
 VECTOR        *ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
 MATRIX        *RotMatrixYXZ_gte_80094108(SVECTOR *r, MATRIX *m);
 MATRIX        *MulRotMatrix_80092B58(MATRIX *m0);
+char          *strcpy_8008E768(char *dest, const char *src);
+int            strcmp_8008E6F8(const char *str1, const char *str2);
+void           SwEnterCriticalSection_8009954C(void);
+void           SwExitCriticalSection_8009956C(void);
+int            sprintf_8008E878(char *buffer, const char *format, ...);
+int            ChangeTh_800994EC(int thread);
 
 #endif // _PSYQ_H_

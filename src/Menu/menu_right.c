@@ -38,7 +38,6 @@ struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
 int   GV_CacheID2_800152FC(const char *fileName, int extID);
-void *GV_GetCache_8001538C(int hash);
 
 extern struct menu_8009E544 *dword_800AB584;
 extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];

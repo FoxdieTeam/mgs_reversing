@@ -3,6 +3,8 @@
 #include "menuMan.h"
 #include "libgcl/gcl.h"
 #include "libgcl/hash.h"
+#include "psyq.h"
+#include "Game/game.h"
 
 extern const char aSetCharaCodeD[];
 extern const char aAnimeCharaDCod[];
@@ -12,13 +14,10 @@ extern const char aSetDS[];
 extern const char aBlockExecError[];
 
 void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
-void           SwEnterCriticalSection_8009954C(void);
-void           SwExitCriticalSection_8009956C(void);
 void           sub_80037EE0(int, int);
 int            GM_StreamStatus_80037CD8(void);
 void           mts_set_pad_vibration_8008C408(int, int);
 void           mts_set_pad_vibration2_8008C454(int, int);
-void           GM_Sound_80032C48(int, int code);
 int            rand_8008E6B8(void);
 unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
 unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *);

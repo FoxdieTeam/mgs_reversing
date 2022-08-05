@@ -1,6 +1,5 @@
 #include "linker.h"
-
-void GV_FreeMemory_80015FD0(int, void *);
+#include "libgv/libgv.h"
 
 int SECTION(".sbss") dword_800ABB78;
 int SECTION(".sbss") dword_800ABB7C;

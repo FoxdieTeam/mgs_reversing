@@ -1,7 +1,8 @@
+#include "psyq.h"
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
 
 extern char aPHOTO[]; // "PHOTO %02d\n"
-int         sprintf_8008E878(char *buffer, const char *format, ...);
 
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
