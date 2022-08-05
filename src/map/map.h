@@ -21,4 +21,6 @@ struct LitHeader
     int field_0_num_lights;
 };
 
+map_record *Map_FindByNum_80031504(int mapNameHash);
+
 #endif // _MAP_H_

@@ -5,7 +5,6 @@ void font_update_8004695C(int param_1);
 void sub_800469A4(int param_1, char *param_2);
 void font_clear_800468FC(int param_1);
 void font_update_8004695C(int param_1);
-void GV_FreeMemory_80015FD0(int, void *);
 void menu_radio_codec_create_state_80047CE4(void);
 void menu_radio_update_80042198(void);
 
@@ -94,7 +93,7 @@ void menu_radio_init_nullsub_80042190(void)
 
 void menu_radio_init_80042700(Actor_MenuMan *pMenu)
 {
-    pMenu->m7FnPtrs_field_2C[4] = menu_radio_update_80042198;
+    pMenu->m7FnPtrs_field_2C[4] = (TMenuUpdateFn)menu_radio_update_80042198;
     pMenu->field_28_flags |= 0x10u;
 }
 

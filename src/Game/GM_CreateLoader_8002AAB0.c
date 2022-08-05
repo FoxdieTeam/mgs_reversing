@@ -1,8 +1,8 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
+#include "Game/game.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
-char                     *GM_GetArea_8002A880();
 struct Loader            *Loader_Init_8002E460(char *pStageName);
 
 extern char aInit[]; // = "init";

@@ -53,24 +53,10 @@ extern int dword_800A3DB0;
 extern int dword_800A3DB4;
 extern int dword_800A3DB8;
 
-void        mts_print_process_status_8008B77C(void);
 void        mts_init_vsync_helper_800893E8(void);
 void        VSyncCallback_800983A8(void (*func)());
-void        mts_print_process_status_8008B77C(void);
-void        SwEnterCriticalSection_8009954C(void);
-void        SwExitCriticalSection_8009956C(void);
-int         ChangeTh_800994EC(int thread);
-void        mts_print_process_status_8008B77C(void);
-void        SwEnterCriticalSection_8009954C(void);
-void        SwExitCriticalSection_8009956C(void);
-int         ChangeTh_800994EC(int thread);
-void        SwEnterCriticalSection_8009954C(void);
-void        SwExitCriticalSection_8009956C(void);
-int         ChangeTh_800994EC(int thread);
-void        mts_print_process_status_8008B77C(void);
 void        mts_send_8008982C(int dst, unsigned char *message);
 int         mts_receive_80089D24(int src, unsigned char *message);
-void        mts_print_process_status_8008B77C(void);
 void        mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
 void        mts_event_cb_8008BBC0();
 void        mts_task_start_8008BBC8(void);
@@ -85,9 +71,6 @@ void        ExitCriticalSection_8009953C(void);
 long        SetConf_800997BC(unsigned long, unsigned long, unsigned long);
 extern long OpenTh_800994CC(long (*func)(), unsigned long, unsigned long);
 long        OpenEvent_8009946C(unsigned long desc, long spec, long mode, long (*func)());
-void        SwEnterCriticalSection_8009954C(void);
-void        SwExitCriticalSection_8009956C(void);
-int         ChangeTh_800994EC(int thread);
 int         ResetCallback_80098318(void);
 
 // TODO: is mts_msg wrong ??

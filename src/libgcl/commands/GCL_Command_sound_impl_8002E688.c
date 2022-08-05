@@ -1,5 +1,6 @@
 #include "libgcl/gcl.h"
 #include "linker.h"
+#include "Game/game.h"
 
 extern int GM_GameOverVox_800AB45C;
 extern int dword_800ABA58;
@@ -13,8 +14,6 @@ int SECTION(".sbss") dword_800ABA7C;
 int SECTION(".sbss") dword_800ABA70;
 
 int          GM_SoundStart_8002E640();
-unsigned int GM_Sound_80032968(int a1, int a2, int a3);
-void         GM_Sound_80032C48(int code, int notUsed);
 int          GM_set_noise_sound_8002E588(int a1);
 int          sub_8002E508(int a1);
 char        *GM_VoxStream_80037E40(int param_1, unsigned int param_2);

@@ -5,12 +5,9 @@
 extern const char aItemC[];
 extern const char aItemMapD[];
 
-void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
 void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
 void GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
-
-int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")              // 120 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes

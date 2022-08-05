@@ -102,14 +102,11 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
-
 extern const char aClaymore_2[];
 
 extern int dword_800ABA0C;
 
 int  jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
-int  Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 int  ratan2_80094308(int, int);
 void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
 void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);

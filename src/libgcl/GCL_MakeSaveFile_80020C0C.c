@@ -1,5 +1,6 @@
 #include "util/idaTypes.h"
 #include "Script_tbl_map_8002BB44.h"
+#include "psyq.h"
 
 extern int                gTotalFrameTime_800AB9E8;
 extern GameState_800B4D98 gGameState_800B4D98;
@@ -11,7 +12,6 @@ char SECTION(".gStageName_800B4D88") gStageName_800B4D88[16];
 
 int   crc32_80020BB4(int a1, unsigned char *a2);
 int   GM_GetAreaHistory_8002A730(AreaHistory *a1);
-char *strcpy_8008E768(char *, char *);
 
 int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 {

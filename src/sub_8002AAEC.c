@@ -1,6 +1,6 @@
 #include "linker.h"
+#include "Game/game.h"
 
-void       GM_Sound_80032C48(int, int);
 void       MENU_JimakuClear_80049518(void);
 extern int GM_GameStatus_800AB3CC;
 extern int GV_PauseLevel_800AB928;

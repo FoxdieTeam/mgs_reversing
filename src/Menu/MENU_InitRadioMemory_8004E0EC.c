@@ -1,8 +1,7 @@
 #include "linker.h"
 #include "menuMan.h"
+#include "psyq.h"
 
-char *strcpy_8008E768(char *, const char *);
-int   strcmp_8008E6F8(const char *str1, const char *str2);
 void  menu_radio_compact_free_vars_8004D3D8(void);
 
 extern const char aClear[];

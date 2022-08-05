@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "libdg/libdg.h"
+#include "libgv/libgv.h"
 #include "Game/object.h"
 #include "map/map.h"
 
@@ -15,16 +16,11 @@ void door_act_8006F318(struct Actor_Door *pDoor);
 void door_kill_8006F718(struct Actor_Door *pDoor);
 int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
 void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
-void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
 void DG_PutObjs_8001BDB8(DG_OBJS *);
-int  Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 void GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
-void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2);
 void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
-
-map_record *Map_FindByNum_80031504(int mapNameHash);
 
 int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
@@ -33,7 +29,6 @@ void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 void GM_FreeControl_800260CC(GM_Control *pControl);
 
 int  GV_SendMessage_80016504(GV_MSG *);
-void GM_SeSet_80032858(SVECTOR *a1, unsigned int a2);
 
 extern int dword_800ABA0C;
 
