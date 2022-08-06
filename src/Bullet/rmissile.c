@@ -1,3 +1,6 @@
+#include "rmissile.h"
+
+// nikita missile
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper4_8006B800.s")       // 136 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B888.s")                      // 156 bytes

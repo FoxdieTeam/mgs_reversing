@@ -1,16 +1,6 @@
 #include "game.h"
 #include "unknown.h"
 
-typedef struct Point
-{
-    short x, y;
-} Point;
-
-int sub_80032748(Point *out, SVECTOR *pos);
-int sub_800327BC(Point *out, SVECTOR *pos);
-int sub_80032820(Point *out, SVECTOR *pos);
-int sub_800326D4(Point *out, SVECTOR *pos);
-
 // play sound effect at pos by id
 void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id)
 {

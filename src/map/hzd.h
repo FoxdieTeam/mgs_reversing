@@ -120,6 +120,9 @@ typedef struct HZD_MAP
 
 void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 void HZD_StartDaemon_80021900(void);
+HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24);
+void HZD_SetEvent_80029AB4(void *param_1, int param_2);
+void HZD_FreeHandler_80021C40(void *param_1);
 
 // including Script_tbl_map_8002BB44 in this file causes the match to fail for some reason..
 struct BindStruct;

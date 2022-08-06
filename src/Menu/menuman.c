@@ -1,3 +1,4 @@
+#define _BUILDING_MENUMAN_
 #include "menuman.h"
 #include "linker.h"
 #include <LIBGTE.H>
@@ -165,7 +166,7 @@ void menu_Text_Init_80038B98(void)
 
 #pragma INCLUDE_ASM("asm/menu_Text_PrimUnknown_80038BB4.s") // 132 bytes
 
-int menu_Text_80038C38(char *fmt, const char *str, int param_3, int param_4, int param_5)
+int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5)
 {
     int          string_length;
     unsigned int free_space;

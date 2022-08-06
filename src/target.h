@@ -65,5 +65,8 @@ void GM_Target_8002DCCC(GM_Target *pTarget, int a2, int a3, int hp, int a5, SVEC
 void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec);
 // int GM_Target_8002D7DC(GM_Target *pTarget);
 int sub_8002D7DC(GM_Target *pTarget);
+int sub_8002D208(GM_Target *pTarget, GM_Target *a2);
+void sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, GM_Target *a3);
+int sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, GM_Target *a3, SVECTOR *a4);
 
 #endif // _TARGET_H_

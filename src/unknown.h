@@ -27,7 +27,8 @@ void  sub_8002AA48(void);
 void  sub_8007913C();
 void  sub_80037EE0(int, int);
 void  sub_800790E8(); // Takabe
-
+void  sub_800241B4(int);
+int   sub_80026440(int param_1, int param_2, int param_3);
 
 unsigned int crc32_80020BB4(int len, unsigned char *pData);
 
@@ -36,10 +37,14 @@ int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 // TODO: make sd.h?
 void SdMain_80081A18(void);
 int sd_task_active_800886C4();
+void sd_set_80088CB0(int sdCode);
+int StrSpuTransWithNoLoop_800827AC();
 
 // no idea where these go, Equip/util.h ?
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_InvisibleUnit_80060E68(DG_OBJS *param_1, int param_2, int param_3);
+void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2);
+void face_item_helper_80060CB8(WORD *in, WORD *out);
 
 #endif // _UNKNOWN_H_

@@ -1,7 +1,6 @@
 #include "linker.h"
 #include "map/map.h"
-
-void HZD_FreeHandler_80021C40(void *param_1);
+#include "map/hzd.h"
 
 // re-declare to force GP usage
 extern int gMapCount_800ABAA8;

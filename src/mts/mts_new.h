@@ -82,7 +82,9 @@ void mts_unlock_sem_8008A85C(int taskNum);
 void sio_output_stop_8008C5B0(void);
 void mts_set_callback_controller_800893D8(void *ptr);
 void mts_callback_controller_8008BDEC(void);
+unsigned char *mts_get_bss_tail_8008C598();
 
+void mts_8008B51C(void);
 
 #ifdef _BUILDING_MTS_
 // we define it with no args in mts itself since its stubbed, using ... adds instructions
