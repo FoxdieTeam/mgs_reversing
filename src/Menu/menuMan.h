@@ -99,8 +99,13 @@ typedef void (*menu_8009E544_update)(struct Actor_MenuMan *, int, int, int, stru
 
 typedef struct menu_8009E544
 {
-    short                field_0;
-    short                field_2;
+    // X offset from left of screen.
+    short field_0;
+    // Y offset from top of screen.
+    short field_2;
+    // 8003D6CC() reads this in the following instructions and, if the field is set to 0:
+    // - @ 0x8003d700, it will not allow the menu to open;
+    // - @ 0x8003d768, it will not allow the menu to remain open.
     int                  field_4_input;
     int                  field_8;
     int                  field_C;
@@ -142,7 +147,8 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
     struct Menu_Item_Unknown    *field_C_alloc;
     char                         field_10; // state ?
     signed char                  field_11; // item_idx ?
-    short                        field_12;
+    // Current frame of the "flashing" animation played when the menu is closed, counts down from 0xa to 0x0.
+    short field_12;
 } menu_left_right;
 
 struct Actor_MenuMan;
@@ -196,23 +202,35 @@ typedef void (*TInitKillFn)(struct Actor_MenuMan *);
 
 typedef struct Actor_MenuMan
 {
-    Actor                  field_0_actor;
-    MenuPrimBuffer        *field_20_otBuf;
-    int                    field_24_pInput;
-    unsigned char          field_28_flags;
-    char                   field_29;
-    unsigned char          field_2A_state;
-    char                   field_2B;
-    TMenuUpdateFn          m7FnPtrs_field_2C[7];
-    int                    field_48;
-    DR_ENV                 field_4C_drawEnv[2];
-    DR_ENV                 field_CC[2];
-    int                    field_14C; // RECT ?
-    int                    field_150;
-    DR_ENV                 field_154;
-    DR_ENV                 field_194;
-    short                  field_1D4_clipX1;
-    short                  field_1D6_clipY1;
+    Actor           field_0_actor;
+    MenuPrimBuffer *field_20_otBuf;
+    int             field_24_pInput;
+    // Bit 0: ?
+    // Bit 1: can open right menu.
+    // Bit 2: can open left menu.
+    // Bit 4: can open codec.
+    unsigned char field_28_flags;
+    char          field_29;
+    // Bit 0: browsing right menu.
+    // Bit 1: browsing left menu.
+    // Bit 2: using codec.
+    unsigned char field_2A_state;
+    char          field_2B;
+    TMenuUpdateFn m7FnPtrs_field_2C[7];
+    int           field_48;
+    DR_ENV        field_4C_drawEnv[2];
+    DR_ENV        field_CC[2];
+    int           field_14C; // RECT ?
+    int           field_150;
+    DR_ENV        field_154;
+    DR_ENV        field_194;
+    // Radar X offset from default X position (not from top of screen).
+    short field_1D4_clipX1;
+    // Radar Y offset from default Y position (not from left of screen).
+    short field_1D6_clipY1;
+    // Health bar display countdown from 0x96 to 0x0, handled by 8003F530():
+    // - 0x8003f784: resets the countdown to 0x96;
+    // - 0x8003f7a0: decrements the value.
     char                   field_1D8;
     char                   field_1D9;
     char                   field_1DA;
@@ -225,7 +243,8 @@ typedef struct Actor_MenuMan
     int                    field_214_font;
     menu_chara_struct     *field_218;
     int                    field_21C;
-    int                    field_220;
+    // Some kind of radar horizontal stretch value.
+    int field_220;
 } Actor_MenuMan;
 
 // TODO: this header or another?
