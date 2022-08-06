@@ -3,6 +3,7 @@
 #include <KERNEL.H>
 #include "psyq.h"
 #include "libdg/libdg.h"
+#include "motion.h"
 
 /*-----sdata-----------------------------------------*/
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -18,24 +19,6 @@ int        SECTION(".sbss") mt_rt2_800ABAB8;
 extern int mt_count_800ABAC0;
 int        SECTION(".sbss") mt_count_800ABAC0;
 /*------------------------------------------------*/
-
-/*----Externs--------------------------------------------------------------*/
-// GV
-void  GV_ZeroMemory_8001619C(void *ptr, int size);
-
-// GM
-// obj
-int GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model);
-
-// mt
-void sub_8003501C(MOTION_CONTROL *m_ctrl, int a1, int motion);
-void sub_800350D4(MOTION_CONTROL *m_ctrl, int a1, int motion);
-void sub_8003556C(MOTION_CONTROL *m_ctrl);
-
-// DG
-void  DG_FreeObjs_800318D0(DG_OBJS *objs);
-void  DG_DequeueObjs_800181E4(DG_OBJS *objs);
-/*-----------------------------------------------------------------------*/
 
 #define DCache 0x1F8003FC
 
