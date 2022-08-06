@@ -4,7 +4,7 @@
 #include <LIBGPU.H>
 #include "linker.h"
 #include "libgv/actor.h"
-#include "libgv/gvd.h"
+#include "libgv/libgv.h"
 #include "mts/mts_new.h"
 #include "libgcl/gcl.h"
 #include "libdg/dgd.h"
