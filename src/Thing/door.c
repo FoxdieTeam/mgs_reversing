@@ -3,7 +3,6 @@
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "libdg/libdg.h"
-#include "libgv/libgv.h"
 #include "Game/object.h"
 #include "map/map.h"
 #include "map/hzd.h"

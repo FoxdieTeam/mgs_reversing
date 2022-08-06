@@ -2,7 +2,6 @@
 #include "mts/mts_new.h"
 #include "game.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "libgv/actor.h"
 #include "libgv/libgv.h"
 #include "libdg/dgd.h"
 #include "Menu/menuman.h"

@@ -1,5 +1,4 @@
 #include <LIBSN.H>
-#include "actor.h"
 #include "libgv.h"
 #include "mts/mts_new.h"
 

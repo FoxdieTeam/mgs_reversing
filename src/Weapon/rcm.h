@@ -2,7 +2,7 @@
 #define _RCM_H_
 
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/GM_Control.h"
 #include "libdg/libdg.h"
 

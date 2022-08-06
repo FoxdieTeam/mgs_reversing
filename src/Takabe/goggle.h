@@ -1,7 +1,7 @@
 #ifndef _GOGGLE_H
 #define _GOGGLE_H
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 
