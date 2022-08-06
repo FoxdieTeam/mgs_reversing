@@ -16,7 +16,7 @@ void jimctrl_act_helper_set_first_80037F2C(int index, int value)
     }
 }
 
-DWORD jimctrl_helper_80037F68(DWORD header)
+unsigned int jimctrl_helper_80037F68(unsigned int header)
 {
     WORD                  field_2_preClear;
     array_800B933C_child *pIter;

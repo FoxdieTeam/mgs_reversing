@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_GetRadioCode_800497C4
-MENU_GetRadioCode_800497C4:
+	xdef menu_GetRadioCode_800497C4
+menu_GetRadioCode_800497C4:
 	dw 0x27BDFFE8 ; 0x800497C4
 	dw 0xAFB00010 ; 0x800497C8
 	dw 0x00808021 ; 0x800497CC

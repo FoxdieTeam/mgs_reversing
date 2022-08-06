@@ -5,7 +5,7 @@
 #include "inline_n.h"
 #include "dgd.h" //need to switch to libdg.h
 #include "psyq.h"
-#include "Menu/menuMan.h"
+#include "Menu/menuman.h"
 
 /**data************************/
 extern VECTOR vector_8009D34C;
@@ -104,7 +104,7 @@ void DG_80017194()
     {
         GV_ClearMemorySystem_80015B4C(2);
     }
-    MENU_ResetSystem_80038A88();
+    menu_ResetSystem_80038A88();
     DG_ClearChanlSystem_80017E9C(activeBuffer);
     DG_ClearTmpLight_8001A0E4();
 }

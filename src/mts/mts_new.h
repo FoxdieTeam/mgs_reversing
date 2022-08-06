@@ -52,6 +52,8 @@ typedef struct MTS_PAD_DATA
 
 #define MTS_STACK_COOKIE 0x12435687
 
+void mts_set_pad_vibration_8008C408(int, int);
+void mts_set_pad_vibration2_8008C454(int, int);
 int  mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int  mts_get_tick_count_8008BBB0(void);
 int  mts_printf_8008BBA0(const char *formatStr, ...);

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_ResetCall_80042814
-MENU_ResetCall_80042814:
+	xdef menu_ResetCall_80042814
+menu_ResetCall_80042814:
 	dw 0x3C02800A ; 0x80042814
 	dw 0xA440E708 ; 0x80042818
 	dw 0x2442E708 ; 0x8004281C

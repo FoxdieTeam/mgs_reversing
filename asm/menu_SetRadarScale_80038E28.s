@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_SetRadarScale_80038E28
-MENU_SetRadarScale_80038E28:
+	xdef menu_SetRadarScale_80038E28
+menu_SetRadarScale_80038E28:
 	dw 0x27BDFFD8 ; 0x80038E28
 	dw 0x00041040 ; 0x80038E2C
 	dw 0x00441021 ; 0x80038E30

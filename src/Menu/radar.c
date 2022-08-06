@@ -1,4 +1,4 @@
-#include "menuMan.h"
+#include "menuman.h"
 #include "linker.h"
 #include "psyq.h"
 
@@ -15,9 +15,9 @@ void menu_radar_update_8003B350(struct Actor_MenuMan *a1, unsigned char *a2);
 void menu_init_radar_helper_8003ADAC(void);
 void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
 
-#pragma INCLUDE_ASM("asm/MENU_SetRadarScale_80038E28.s")
+#pragma INCLUDE_ASM("asm/menu_SetRadarScale_80038E28.s")
 
-void MENU_SetRadarFunc_80038F30(int param_1)
+void menu_SetRadarFunc_80038F30(int param_1)
 {
     gFn_radar_800AB48C = param_1;
 }
@@ -86,7 +86,7 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
-    MENU_SetRadarScale_80038E28(4096);
+    menu_SetRadarScale_80038E28(4096);
 }
 
 void menu_radar_kill_8003B554(struct Actor_MenuMan *pActor)
