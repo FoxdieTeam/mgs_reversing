@@ -14,11 +14,6 @@ extern int GM_LoadComplete_800ABA38;
 extern int GM_LoadRequest_800AB3D0;
 extern int GM_PadVibration2_800ABA54;
 
-/* int FS_LoadStageSync_800237C0(struct Loader_Record *pRec); */
-/*  */
-/* struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName); */
-/* void                  FS_LoadStageComplete_80023804(struct Loader_Record *pImpl); */
-
 void Loader_Act_8002E390(struct Loader *pLoader)
 {
     pLoader->field_2C_counter++;
