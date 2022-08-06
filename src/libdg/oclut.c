@@ -1,18 +1,14 @@
 #include "linker.h"
 #include "libdg.h"
 #include "dgd.h"
-#include "libgv/libgv.h"
 
-// data
+//**data**********************************//
 extern DG_TEX DG_UnknownTexture_8009D378;
+//****************************************//
 
-// sbss
+//**sbss****************************//
 extern int GM_GameStatus_800AB3CC;
-
-// bss
-extern GV_Heap MemorySystems_800AD2F0[3];
-
-#define SCRPAD_ADDR 0x1F800000
+//*********************************//
 
 void DG_WriteObjClut_80018D28(DG_OBJ *pObj, int idx)
 {
@@ -123,46 +119,4 @@ void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
             }
         }
     }
-}
-
-GV_Heap *DG_DivideChanl_helper_helper_80018FA4(int memIdx, long *unknown, int a2)
-{
-    int                  sum;
-    int                  i, t2;
-    GV_Heap             *heap;
-    GV_MemoryAllocation *alloc;
-
-    t2 = 0;
-    heap = &MemorySystems_800AD2F0[memIdx];
-
-    alloc = heap->mAllocs;
-    i = heap->mUnitsCount;
-    while (i > 0)
-    {
-        if (alloc->mAllocType == GV_MemoryAllocation_States_Free_0)
-        {
-            sum = (alloc[1].mPDataStart - alloc[0].mPDataStart) / a2;
-            t2 += sum;
-        }
-        --i;
-        alloc++;
-    }
-
-    unknown[0] = t2;
-    return heap;
-}
-
-void DG_DivideChanl_helper_80019044(int memIdx)
-{
-    long     ret;
-    GV_Heap *heap;
-
-    unknown_scrpad_struct *unknown = (unknown_scrpad_struct *)(SCRPAD_ADDR);
-
-    heap = DG_DivideChanl_helper_helper_80018FA4(memIdx, &unknown->unknown_28, 0x34);
-    unknown->pHeap = heap;
-    unknown->unknown_24 = 0;
-    ret = sub_800190A0(heap, &unknown->unknown_24, &unknown->unknown_30);
-
-    unknown->unknown_2C = ret;
 }

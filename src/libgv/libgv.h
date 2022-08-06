@@ -3,7 +3,6 @@
 
 #include "linker.h"
 #include "mts/mts_new.h"
-#include "libgv/message.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBETC.H>
@@ -13,6 +12,14 @@ typedef struct
     int   mId;
     void *mFileBuffer;
 } LibGV_FileRecord;
+
+typedef struct
+{
+    unsigned short address;
+    unsigned short _len;
+    unsigned short message[7];
+    unsigned short message_len;
+} GV_MSG; // from mem leak
 
 typedef struct
 {
@@ -104,49 +111,58 @@ enum
     PAD_SELECT = PADselect, //  0x0100
 };
 
+// gvd
+void         GV_StartDaemon_80014D18(void);
+
 // cache
-void GV_InitCacheSystem_80015458(void);
-void GV_InitLoader_80015434(void);
-void GV_FreeCacheSystem_80015540(void);
-int  GV_CacheID_800152DC(int hashedFileName, int param_2);
-typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
-void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
-int   GV_SetCache_800153C0(int id, void *buf);
-void *GV_GetCache_8001538C(int fileNameHashed);
-int   GV_CacheID2_800152FC(const char *fileName, int extID);
+void         GV_InitCacheSystem_80015458(void);
+void         GV_InitLoader_80015434(void);
+void         GV_FreeCacheSystem_80015540(void);
+int          GV_CacheID_800152DC(int hashedFileName, int param_2);
+typedef int  (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
+void         GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
+int          GV_SetCache_800153C0(int id, void *buf);
+void        *GV_GetCache_8001538C(int fileNameHashed);
+int          GV_CacheID2_800152FC(const char *fileName, int extID);
 
 // memory
-void  GV_InitMemorySystemAll_80015AB0();
-void  GV_InitMemorySystem_80015AF4(int, int, void *, int);
-void *GV_AllocMemory_80015EB8(int, int);
-void *GV_AllocMemory2_80015ED8(int, int, void **);
-void  GV_FreeMemory_80015FD0(int, void *);
-void  GV_FreeMemory2_80016078(int, void **);
-void  GV_ClearMemorySystem_80015B4C(int);
-void  GV_CheckMemorySystem_80015BF8(int);
-void  GV_DumpMemorySystem_80015D48(int);
-void  GV_CopyMemory_800160D8(void *, void *, int);
-void  GV_ZeroMemory_8001619C(void *, int);
-void *GV_Malloc_8001620C(int);
-void  GV_Free_80016230(void *);
-void  GV_DelayedFree_80016254(void *);
-void  GV_ResidentHeapReset_800163B0(void);
+void         GV_InitMemorySystemAll_80015AB0();
+void         GV_InitMemorySystem_80015AF4(int, int, void *, int);
+void        *GV_AllocMemory_80015EB8(int, int);
+void        *GV_AllocMemory2_80015ED8(int, int, void **);
+void         GV_FreeMemory_80015FD0(int, void *);
+void         GV_FreeMemory2_80016078(int, void **);
+void         GV_ClearMemorySystem_80015B4C(int);
+void         GV_CheckMemorySystem_80015BF8(int);
+void         GV_DumpMemorySystem_80015D48(int);
+void         GV_CopyMemory_800160D8(void *, void *, int);
+void         GV_ZeroMemory_8001619C(void *, int);
+void        *GV_Malloc_8001620C(int);
+void         GV_Free_80016230(void *);
+void         GV_DelayedFree_80016254(void *);
+void         GV_ResidentHeapReset_800163B0(void);
 
-void *GV_GetMaxFreeMemory_8001627C(int which);
-void *GV_SplitMemory(int which, void *addr, int size); // unsure what function this maps to
+void        *GV_GetMaxFreeMemory_8001627C(int which);
+void        *GV_SplitMemory_80018FA4(int which, void *addr, int size);
 
-void  GV_InitResidentMemory(void); // unsure what function this maps to
-void *GV_AllocResidentMemory_800163D8(long size);
+void         GV_InitResidentMemory(void); // unsure what function this maps to
+void        *GV_AllocResidentMemory_800163D8(long size);
+
+// message
+void         GV_InitMessageSystem_800164AC();
+void         GV_ClearMessageSystem_800164C8(void);
+int          GV_SendMessage_80016504(GV_MSG *send);
+int          GV_ReceiveMessage_80016620(int msg_type, GV_MSG **ppFound);
 
 // pad
-void GV_InitPadSystem_800167C8(void);
-void GV_UpdatePadSystem_8001682C(void);
-void GV_OriginPadSystem_80016C78(int);
-int  GV_GetPadOrigin_80016C84(void);
-int  GV_GetPadDirNoPadOrg_80016C90(unsigned int);
+void         GV_InitPadSystem_800167C8(void);
+void         GV_UpdatePadSystem_8001682C(void);
+void         GV_OriginPadSystem_80016C78(int);
+int          GV_GetPadOrigin_80016C84(void);
+int          GV_GetPadDirNoPadOrg_80016C90(unsigned int);
 
 // strCode
-int GV_StrCode_80016CCC(const char *string);
+int          GV_StrCode_80016CCC(const char *string);
 
 // math
 
@@ -160,10 +176,5 @@ int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
 void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
-
-// message
-void GV_InitMessageSystem_800164AC();
-void GV_ClearMessageSystem_800164C8(void);
-int GV_SendMessage_80016504(GV_MSG *send);
 
 #endif // LIBGV_H
