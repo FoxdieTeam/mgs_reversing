@@ -2,6 +2,8 @@
 #include "libdg/dgd.h"
 #include <LIBGTE.H>
 
+// stinger missile first person HUD + stinger HUD?
+
 extern DG_CHNL          DG_Chanls_800B1800[3];
 extern char             byte_8009F5F8[];
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;

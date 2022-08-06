@@ -4,6 +4,8 @@
 #include "Game/game.h"
 #include "libgv/actor.h"
 
+// c4 (in hands)
+
 typedef struct _Actor_Bomb
 {
     Actor   field_0_actor;

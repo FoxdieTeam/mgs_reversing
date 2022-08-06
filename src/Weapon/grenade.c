@@ -2,6 +2,8 @@
 #include "target.h"
 #include "Game/object.h"
 
+// grenade/stun/chaff (in hands)
+
 extern const char     aGrenadeC[]; // = "grenade.c"
 extern short          d_800AB9EC_mag_size;
 extern short          dword_800ABA2C;

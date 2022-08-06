@@ -9,6 +9,8 @@
 #include "target.h"
 #include "Game/GM_Control.h"
 
+// c4 (armed)
+
 typedef struct Actor_bakudan
 {
     Actor           field_0;

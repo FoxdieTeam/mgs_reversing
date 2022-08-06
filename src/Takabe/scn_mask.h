@@ -25,4 +25,6 @@ typedef struct Actor_scn_mask
     int                    field_28;
 } Actor_scn_mask;
 
+struct Actor_scn_mask *new_scn_mask_8007895C(int a1);
+
 #endif // _SCN_MASK_H_

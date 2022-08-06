@@ -1,24 +1,21 @@
 #include "goggleir.h"
+#include "goggle.h"
 #include "Game/object.h"
 #include "map/map.h"
 #include "psyq.h"
+#include "unknown.h"
+#include "scn_mask.h"
+
+// thermal goggles (screen effect)
 
 extern char       aGoggleirC[]; // = "goggleir.c"
 extern const char aGoggles_1[];
-
-// extern int  goggleir_loader_80078D8C(Actor_GoggleIr *a1, OBJECT *a2);
-Actor *gglmng_init_800779B8(int type);
-
-// TODO: Move to a header
-void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
-void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 int        SECTION(".dword_800BDFA8") dword_800BDFA8;
 
 #pragma INCLUDE_ASM("asm/goggleir_pal_convert_800789E0.s") // 216 bytes
-ushort goggleir_pal_convert_800789E0(ushort value);
 
 extern RECT rect_8009F718;
 extern RECT rect_8009F720;
@@ -66,10 +63,6 @@ void goggleir_pal_cb_80078AB8(void)
     }
 }
 
-void set_pal_effect_fns_80079194(void *fn1, void *fn2);
-
-Actor *new_scn_mask_8007895C(int type);
-
 void goggleir_act_80078BE0(Actor_GoggleIr *pActor)
 {
     int new_map; // $a0
@@ -93,7 +86,7 @@ void goggleir_act_80078BE0(Actor_GoggleIr *pActor)
         set_pal_effect_fns_80079194(goggleir_pal_cb_80078AB8, goggleir_pal_convert_800789E0);
         GM_GameStatus_800AB3CC |= 8u;
         dword_800BDFA8 = 1;
-        pActor->field_54_pScn_mask = new_scn_mask_8007895C(1);
+        pActor->field_54_pScn_mask = (Actor *)new_scn_mask_8007895C(1);
     }
 
     if (pActor->field_50 < 11)

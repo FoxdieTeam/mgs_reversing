@@ -1,3 +1,4 @@
+// used for all first person HUDs
 
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_8007111C.s") // 164 bytes
 #pragma INCLUDE_ASM("asm/Thing/sight_800711C0.s")            // 352 bytes

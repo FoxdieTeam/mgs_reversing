@@ -8,9 +8,6 @@
 extern const char aBlastC[];
 extern int        claymore_map_800AB9DC;
 
-void AN_Blast_Single_8006E224(SVECTOR *pVec);
-void GM_SeSet_80032858(SVECTOR *pVec, unsigned int a2);
-
 extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target *, int);
 extern short GM_uBombHoming_800AB3E4;
 
@@ -135,8 +132,6 @@ void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSideP
 }
 */
 
-void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
-
 int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker)
 {
     pBlast->field_38 = 0;
@@ -147,10 +142,6 @@ int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMt
     blast_8006DDEC(pBlastData, pBlast, targetSidePicker);
     return 0;
 }
-
-void blast_act_8006DD18(Actor_Blast *pActor);
-
-void sub_800790E8();
 
 Actor *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
 {

@@ -204,7 +204,7 @@ int sub_8003DAFC(int param_1, unsigned short *param_2)
     return 0;
 }
 
-TILE *Menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb)
+TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb)
 {
     TILE *pTile; // $v0
 

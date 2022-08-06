@@ -6,6 +6,8 @@
 #include "unknown.h"
 #include "psyq.h"
 
+// claymore (on ground)
+
 extern const char aJiraiC[];
 
 extern int         counter_8009F448;

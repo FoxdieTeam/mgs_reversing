@@ -3,6 +3,8 @@
 #include <LIBGPU.H>
 #include "Game/game.h"
 
+// stnsight = stinger first person HUD?
+
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)

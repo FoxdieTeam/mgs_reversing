@@ -29,4 +29,8 @@ typedef struct Actor_Blast
     GM_Target field_3C_target;
 } Actor_Blast;
 
+void blast_act_8006DD18(Actor_Blast *pActor);
+void AN_Blast_Single_8006E224(SVECTOR *pVec);
+void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
+
 #endif // _BLAST_H_

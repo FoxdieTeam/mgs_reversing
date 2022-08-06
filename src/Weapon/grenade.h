@@ -4,6 +4,8 @@
 #include "Game/game.h"
 #include "libgv/actor.h"
 
+// grenade/stun/chaff (in hands)
+
 // @note(Voxel): Making this a generic unknown struct or now, not sure what it is yet.
 typedef struct _Unknown_Grenade_Member
 {

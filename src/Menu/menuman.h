@@ -304,5 +304,7 @@ void menu_SetRadioCallbackProc_8004283C(int param_1);
 void menu_SetRadioBaseCall_80049764(int param_1, int param_2);
 void menu_SetRadioOverCall_80049794(int param_1, int param_2);
 void menu_InitRadioMemory_8004E0EC(void);
+TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb);
+Menu_rpk_item *menu_rpk_get_img_8003DDB4(int idx);
 
 #endif // _MENUMAN_H

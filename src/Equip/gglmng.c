@@ -2,6 +2,9 @@
 #include "Kojo/demothrd.h"
 #include "Script_tbl_map_8002BB44.h"
 
+// Goggle Manager?
+// used by all items and weapons that can go first person in order to transition into their first person modes?
+
 extern const char         aGglmngC[];
 extern demothrd_2Vec      stru_800B77E8[9];
 extern GameState_800B4D98 gGameState_800B4D98;

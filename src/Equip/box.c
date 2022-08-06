@@ -3,16 +3,9 @@
 extern const char aBoxC[];
 
 #pragma INCLUDE_ASM("asm/Equip/BoxCheckMessage_8006195C.s") // 184 bytes
-int BoxCheckMessage_8006195C(Actor_Box *pActor);
-
 #pragma INCLUDE_ASM("asm/Equip/BoxAct_80061A14.s") // 284 bytes
-void BoxAct_80061A14(Actor_Box *pActor);
-
 #pragma INCLUDE_ASM("asm/Equip/BoxDie_80061B30.s") // 112 bytes
-void BoxDie_80061B30(Actor_Box *pActor);
-
 #pragma INCLUDE_ASM("asm/Equip/BoxGetResources_80061BA0.s") // 220 bytes
-int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent);
 
 Actor *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pObj)
 {

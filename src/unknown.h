@@ -26,6 +26,8 @@ void  sub_8002A090(int param_1, unsigned short *param_2, unsigned int flags, uns
 void  sub_8002AA48(void);
 void  sub_8007913C();
 void  sub_80037EE0(int, int);
+void  sub_800790E8(); // Takabe
+
 
 unsigned int crc32_80020BB4(int len, unsigned char *pData);
 
@@ -35,8 +37,9 @@ int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 void SdMain_80081A18(void);
 int sd_task_active_800886C4();
 
-// no idea where these go
+// no idea where these go, Equip/util.h ?
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
+void EQ_InvisibleUnit_80060E68(DG_OBJS *param_1, int param_2, int param_3);
 
 #endif // _UNKNOWN_H_

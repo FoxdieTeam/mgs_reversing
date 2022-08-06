@@ -9,6 +9,8 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
+// stinger missile first person HUD + stinger HUD?
+
 typedef struct sgtrect3_lines
 {
     LINE_F4 field_0[24];
