@@ -9,10 +9,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 
-void        Map_ScriptLoadMapBlocks_800312D0(void);
-void        Map_ScriptReloadMaps_80031450(int);
-void        GM_DelMap_800313C0(int);
-
 extern int GM_GameStatus_800AB3CC;
 extern int DG_UnDrawFrameCount_800AB380;
 

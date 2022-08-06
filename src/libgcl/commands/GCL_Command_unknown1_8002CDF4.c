@@ -5,6 +5,7 @@
 #include "Game/GM_Control.h"
 #include "libgcl/hash.h"
 #include "Game/game.h"
+#include "libdg/libdg.h"
 
 extern GM_Control *gSnaControl_800AB9F4; // todo: update external
 
@@ -18,10 +19,6 @@ extern short              word_8009F47C;
 extern short GM_PhotoViewPos_800ABA48[3];
 // extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
-int         GM_AreaHistory_8002A848(int param_1);
-map_record *Map_FindByNum_80031504(int);
-int         DG_PointCheckOne_8001C18C(SVECTOR *pOut3Words);
-
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
     short       vec[3];
@@ -32,7 +29,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('v')) // vector
     {
         GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
-        gGameState_800B4D98.field_0A_last_result = DG_PointCheckOne_8001C18C((SVECTOR *)vec);
+        gGameState_800B4D98.field_0A_last_result = DG_PointCheckOne_8001C18C((DVECTOR *)vec);
     }
     if (GCL_GetParam_80020968('s')) // struct
     {

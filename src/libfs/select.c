@@ -2,6 +2,7 @@
 #include "mts/mts_new.h"
 #include "unknown.h"
 #include "psyq.h"
+#include "libfs.h"
 
 extern const char aDsdatacallback[];
 extern const char aDsreadycallbac[];

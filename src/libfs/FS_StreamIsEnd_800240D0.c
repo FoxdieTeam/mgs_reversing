@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
-#include "unknown.h"
+#include "libfs.h"
 
 int SECTION(".int_800B5298") fs_stream_ref_count_800B5298;
 

@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "mts/mts_new.h"
-#include "Font/kcb.h"
+#include "Font/font.h"
 #include "unknown.h"
 
 extern const char aJimakuFontBuff[];

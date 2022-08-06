@@ -1,6 +1,4 @@
-
-
-void GCL_Command_sound_impl_8002E688(void);
+#include "libgcl/gcl.h"
 
 int GCL_Command_sound_8002CA28(int argc, char **argv)
 {

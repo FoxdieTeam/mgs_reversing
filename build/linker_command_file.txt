@@ -298,7 +298,7 @@
     ; 80021900 80021928 800219F4 80021AE0 80021C40 80021C64 80021D6C
     include "..\obj\map\hzd.obj"
 
-    include "..\obj\Equip\CDFS_Init_80021EC4.obj"
+    include "..\obj\libfs\CDFS_Init_80021EC4.obj"
     
     include "..\obj\libfs\FS_LoadFileSync_80021F48.obj"
     include "..\obj\MakeFullPath_80021F68.obj"
@@ -310,9 +310,9 @@
     include "..\obj\CDBIOS_TaskStart_helper_80022264.obj"
     include "..\obj\CDBIOS_TaskStart_800227A8.obj"
     include "..\obj\CDBIOS_ReadRequest_8002280C.obj"
-    include "..\obj\CDBIOS_ReadSync_80022854.obj"
-    include "..\obj\CDBIOS_ForceStop_80022864.obj"
-    include "..\obj\CDBIOS_TaskState_80022888.obj"
+    include "..\obj\libfs\CDBIOS_ReadSync_80022854.obj"
+    include "..\obj\libfs\CDBIOS_ForceStop_80022864.obj"
+    include "..\obj\libfs\CDBIOS_TaskState_80022888.obj"
     include "..\obj\libfs\FS_CdMakePositionTable_helper2_800228D4.obj"
     include "..\obj\libfs\FS_CdMakePositionTable_helper_helper_80022918.obj"
     include "..\obj\libfs\FS_CdMakePositionTable_helper_8002297C.obj"
@@ -326,7 +326,7 @@
     include "..\obj\Loader_helper_8002336C.obj"
     include "..\obj\Loader_helper2_80023460.obj"
     include "..\obj\Loader_80023624.obj"
-    include "..\obj\Equip\FS_LoadStageComplete_80023804.obj"
+    include "..\obj\libfs\FS_LoadStageComplete_80023804.obj"
     include "..\obj\libfs\FS_MovieFileInit_80023860.obj"
     include "..\obj\sub_8002399C.obj"
     include "..\obj\sub_80023C40.obj"

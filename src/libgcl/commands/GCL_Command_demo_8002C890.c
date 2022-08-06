@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
+#include "Menu/menuman.h"
 
 extern const char aDemoNoCode[];
 extern const char aDemoNoDataOnCd[];
@@ -11,9 +12,6 @@ extern int GM_GameStatus_800AB3CC;
 extern int DG_UnDrawFrameCount_800AB380;
 
 int SECTION(".sbss") gBinds_800ABA60;
-
-int   NewJimakuStr_8004955C(char *, int);
-int   GCL_Command_demo_helper_80037DD8(int, unsigned int);
 
 int GCL_Command_demo_8002C890(int argc, char **argv)
 {

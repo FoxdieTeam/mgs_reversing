@@ -2,17 +2,13 @@
 #include "Script_tbl_map_8002BB44.h"
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
-//#include "Menu/menuman.h"
+#include "Font/font.h"
+#include "Game/game.h"
 
 extern int gBinds_800ABA60;
 int        SECTION(".sbss") gBinds_800ABA60;
 
 extern const char aMenuInitEnd[];
-
-void menu_InitRadioMemory_8004E0EC(void);
-void GCL_InitClearVar_800212CC(void);
-void GM_InitReadError_8002AC44(void);
-void font_load_80044A9C(void);
 
 extern int gTotalFrameTime_800AB9E8;
 
