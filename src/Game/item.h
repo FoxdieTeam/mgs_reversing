@@ -2,7 +2,7 @@
 #define _ITEM_H_
 
 #include "linker.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include <KERNEL.H>
 #include "Game/game.h"

@@ -4,7 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "util/idaTypes.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 

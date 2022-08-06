@@ -4,7 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "target.h"
 
 typedef struct Blast_Data

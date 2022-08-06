@@ -1,7 +1,7 @@
 #ifndef _LOADER_H_
 #define _LOADER_H_
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 struct Loader_Rec_2
 {

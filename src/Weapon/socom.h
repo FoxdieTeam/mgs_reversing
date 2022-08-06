@@ -3,7 +3,7 @@
 
 #include "Script_tbl_map_8002BB44.h"
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/GM_Control.h"
 
 typedef struct _Actor_Socom
