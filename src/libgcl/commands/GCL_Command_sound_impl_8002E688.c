@@ -13,11 +13,6 @@ int SECTION(".sbss") dword_800ABA78;
 int SECTION(".sbss") dword_800ABA7C;
 int SECTION(".sbss") dword_800ABA70;
 
-int          GM_SoundStart_8002E640();
-int          GM_set_noise_sound_8002E588(int a1);
-int          sub_8002E508(int a1);
-char        *GM_VoxStream_80037E40(int param_1, unsigned int param_2);
-
 void GCL_Command_sound_impl_8002E688()
 {
     int sdCode, xCode, voxCode, proc;

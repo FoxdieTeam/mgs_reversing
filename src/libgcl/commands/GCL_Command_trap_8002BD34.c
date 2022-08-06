@@ -3,6 +3,7 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
+#include "map/hzd.h"
 
 extern int gBinds_800ABA60;
 extern int gBindsCount_800ABA64;
@@ -10,8 +11,6 @@ int        SECTION(".sbss") gBinds_800ABA60;
 int        SECTION(".sbss") gBindsCount_800ABA64;
 
 STATIC_ASSERT_SIZE(BindStruct, 0x18);
-
-void HZD_SetBind_80029A5C(int, BindStruct *, int);
 
 BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
 

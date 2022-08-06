@@ -7,7 +7,7 @@ void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor);
 
 void FS_StreamOpen_80024060();
 
-int DM_ThreadStream_80079460(int flag)
+int DM_ThreadStream_80079460(int flag, int unused)
 {
     Actor_demothrd *pDemoThrd = (Actor_demothrd *)GV_NewActor_800150E4(1, sizeof(Actor_demothrd));
     if (!pDemoThrd)

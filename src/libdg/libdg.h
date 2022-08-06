@@ -384,11 +384,14 @@ int sgt_file_handler_8001F670(unsigned char *pFileData, int fileNameHashed);
 void DG_ClearTmpLight_8001A0E4();
 int  DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 void DG_InitLightSystem_80019F40(void);
+void DG_SetAmbient_80019F80(int param_1, int param_2, int param_3);
 
 DG_TEX *DG_FindTexture_8001D830(int name);
 int     DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
 void    DG_ClearTextureRecs_8001D808();
 void    DG_ResetResidentTexture_8001DBEC();
+void    DG_SetMainLightCol_8001A048(int r, int g, int b);
+void    DG_SetMainLightDir_80019FF8(int x, int y, int z);
 
 // unsorted
 int  DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
@@ -423,7 +426,10 @@ void DG_Update1_8001F1BC(void);
 void DG_Update2_8001F078(Actor *pActor);
 void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
+int  DG_PointCheckOne_8001C18C(DVECTOR *line);
+
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
+
 void sub_8001C248(DG_OBJS *objs, int n_obj);
 void sub_8001C460(DG_OBJS *objs, int n_obj);
 void sub_8001C5CC(DG_OBJS *objs, int n_obj);

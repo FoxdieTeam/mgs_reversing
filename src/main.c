@@ -10,6 +10,7 @@
 #include "libdg/dgd.h"
 #include "psyq.h"
 #include "unknown.h"
+#include "libfs/libfs.h"
 #include "memcard/memcard.h"
 #include "map/hzd.h"
 #include "Game/game.h"

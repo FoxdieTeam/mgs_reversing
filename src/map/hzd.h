@@ -121,4 +121,8 @@ typedef struct HZD_MAP
 void HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
 void HZD_StartDaemon_80021900(void);
 
+// including Script_tbl_map_8002BB44 in this file causes the match to fail for some reason..
+struct BindStruct;
+void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
+
 #endif // _HZD_H_
