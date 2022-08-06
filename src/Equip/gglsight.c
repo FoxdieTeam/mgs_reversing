@@ -9,6 +9,7 @@ extern short word_8009F714[];
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077A24.s") // 584 bytes
 
 extern const char aLd[]; // = "%ld\n"
+extern char aGglsightC[]; // = "gglsight.c"
 
 extern GM_Control *gSnaControl_800AB9F4;
 
@@ -100,7 +101,6 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80078054.s") // 468 bytes
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_80078228.s")        // 464 bytes
-void gglsight_act_80078228(Actor *);
 
 void gglsight_kill_800783F8(Actor *pActor)
 {
@@ -121,7 +121,6 @@ void gglsight_loader1_80078404(Actor_gglsight *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_loader2_80078444.s") // 220 bytes
-void gglsight_loader2_80078444(Actor_gglsight *pActor);
 
 Actor_gglsight * gglsight_init_80078520(int type)
 {
