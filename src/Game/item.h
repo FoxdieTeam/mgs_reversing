@@ -25,10 +25,14 @@ typedef struct Actor_Item
     OBJECT         field_9C_kmd;
     char           field_C0[8];
     MATRIX         field_C8_mtx;
-    int            field_E8;
-    int            field_EC;
-    int            field_F0;
-    int            field_F4;
+    short          field_E8;
+    short          field_EA;
+    short          field_EC;
+    short          field_EE;
+    short          field_F0;
+    short          field_F2;
+    short          field_F4;
+    short          field_F6;
     int            field_F8;
     int            field_FC;
     int            field_100;
