@@ -1,7 +1,6 @@
 #include "afterse.h"
 #include "libgv/actor.h"
 
-void        afterse_act_800603EC(); // dummy signature
 extern char aAfterseC[];            // = "afterse.c"
 
 #pragma INCLUDE_ASM("asm/chara/snake/afterse_act_800603EC.s")
