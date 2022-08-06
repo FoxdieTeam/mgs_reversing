@@ -37,34 +37,34 @@ typedef struct menu_chara_struct
 {
     int            field_0_state;
     int            field_4;
-    int            field_8;
+    void          *field_8;
     unsigned char *field_C_pScript;
-    int            field_10;
+    void          *field_10;              // Points to subtitle data.
     int            field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
     unsigned short field_1A;
-    int            field_1C;
+    void          *field_1C;
     int            field_20_pFaceMemory;
-    int            field_24;
+    void          *field_24;
     int           *field_28_pStack;
-    int            field_2C;
+    void          *field_2C;
     int            field_30_face_data_num;
-    int            field_34;
+    void         **field_34;
     int            field_38;
-    short          field_3C;
+    short          field_3C; // Begin Codec left portrait data?
     short          field_3E;
     int            field_40;
     int            field_44;
     int            field_48;
-    int            field_4C;
-    int            field_50;
-    short          field_54;
+    int            field_4C; // Animation frame of left Codec portrait, valid values 0-3.
+    void          *field_50;
+    short          field_54; // Begin Codec right portrait data?
     short          field_56;
     int            field_58;
     int            field_5C;
     int            field_60;
-    int            field_64;
-    int            field_68;
+    int            field_64; // Animation frame of right Codec portrait, valid values 0-3.
+    void          *field_68;
 } menu_chara_struct;
 
 typedef struct MenuMan_Inventory_14h_Unk
@@ -211,16 +211,17 @@ typedef struct Actor_MenuMan
 {
     Actor           field_0_actor;
     MenuPrimBuffer *field_20_otBuf;
-    int             field_24_pInput;
+    void           *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
     // Bit 0: ?
     // Bit 1: can open right menu.
     // Bit 2: can open left menu.
-    // Bit 4: can open codec.
+    // Bit 3: can see radar.
+    // Bit 4: can open Codec.
     unsigned char field_28_flags;
     char          field_29;
     // Bit 0: browsing right menu.
     // Bit 1: browsing left menu.
-    // Bit 2: using codec.
+    // Bit 2: using Codec.
     unsigned char field_2A_state;
     char          field_2B;
     TMenuUpdateFn m7FnPtrs_field_2C[7];
