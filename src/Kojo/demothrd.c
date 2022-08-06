@@ -1,11 +1,7 @@
 #include "demothrd.h"
+#include "libfs/libfs.h"
 
 extern const char aDemothrdC[];
-
-void demothrd_1_80079664(Actor_demothrd *pActor);
-void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor);
-
-void FS_StreamOpen_80024060();
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {

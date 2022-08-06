@@ -1,12 +1,6 @@
 #include "linker.h"
 #include "libdg/libdg.h"
 
-// process vecs in spad
-SVECTOR *sub_8001AD28(SVECTOR *a1, int count);
-
-// read vecs from spad
-unsigned short *sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
-
 extern int GV_Clock_800AB920;
 
 // scratch pad memory max size in bytes

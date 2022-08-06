@@ -1,8 +1,7 @@
 #include "util/idaTypes.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
-
-void face_item_helper_80060CB8(WORD *in, WORD *out);
+#include "unknown.h"
 
 void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
 {

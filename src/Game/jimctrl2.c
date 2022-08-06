@@ -3,11 +3,9 @@
 #include "jimctrl.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "data/data/data.h"
-
-int  FS_StreamGetData_800240E0(DWORD);
-void sub_800241B4(int);
-int  FS_StreamOpen_80024060(void);
-void FS_StreamClose_80024098(void);
+#include "Menu/menuman.h"
+#include "unknown.h"
+#include "libfs/libfs.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 extern unk_8009E280         dword_8009E280;
@@ -22,8 +20,6 @@ Actor_JimCtrl SECTION(".gJimCtrlActor_800B82F0") jimCtrlActor_800B82F0;
 void jimctrl_helper_null_80037FFC(void)
 {
 }
-
-void menu_JimakuClear_80049518(void);
 
 void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 {

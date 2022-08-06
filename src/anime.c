@@ -17,6 +17,7 @@ extern Anim_Data stru_8009F208;
 
 extern int        GV_Clock_800AB920;
 extern const char aScriptActErr[];
+extern const char aAnimeC[];
 
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
@@ -152,7 +153,6 @@ void sub_8005E774(SVECTOR *pVec)
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s") // 500 bytes
-void anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
 
 void anime_change_polygon_8005E9E0(Actor_anime *pActor, int idx)
 {
@@ -164,6 +164,7 @@ void anime_change_polygon_8005E9E0(Actor_anime *pActor, int idx)
         pActor->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
     }
 }
+
 short anime_read_maybe_randomised_short_8005EA6C(unsigned char *pData, int opCode)
 {
     const short temp = (pData[1]) | (pData[0] << 8);
@@ -456,10 +457,6 @@ void anime_kill_8005F608(int param_1)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F644.s") // 168 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")        // 564 bytes
-
-int               anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
-void              anime_act_8005F4AC(Actor_anime *param_1);
-extern const char aAnimeC[];
 
 Actor *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
 {

@@ -21,5 +21,6 @@ typedef struct Actor_gasmask
 } Actor_gasmask;
 
 Actor *gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit);
+Actor *NewGasmaskSight_80063668(void);
 
 #endif // _GASMASK_H_

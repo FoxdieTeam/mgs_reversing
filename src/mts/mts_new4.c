@@ -2,6 +2,7 @@
 #define _BUILDING_MTS_
 #include "mts_new.h"
 #include "util/idaTypes.h"
+#include "psyq.h"
 
 extern const char aTaskStartDX[];    // = "TASK START: %d %X\n";
 extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
@@ -14,9 +15,6 @@ extern int gMtsVSyncCount_800A3D78;
 int      SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0 = 0;
 mts_task SECTION(".gTasks_800C0C30") gTasks_800C0C30[12] = {};
 int      SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4 = 0;
-
-void ExitCriticalSection_8009953C(void);
-void mts_8008B51C(void);
 
 void mts_nullsub_8_8008BB98(void)
 {

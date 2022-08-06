@@ -3,8 +3,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "libdg/libdg.h"
-
-void GM_ControlRemove_80025904(GM_Control *pControl);
+#include "Game/game.h"
 
 void GM_FreeControl_800260CC(GM_Control *pControl)
 {

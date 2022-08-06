@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "Game/game.h"
+#include "Menu/menuman.h"
 
-void       menu_JimakuClear_80049518(void);
 extern int GM_GameStatus_800AB3CC;
 extern int GV_PauseLevel_800AB928;
 

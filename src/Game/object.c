@@ -34,9 +34,7 @@ void sub_8003556C(MOTION_CONTROL *m_ctrl);
 
 // DG
 void  DG_FreeObjs_800318D0(DG_OBJS *objs);
-void  DG_QueueObjs_80018178(DG_OBJS *objs);
 void  DG_DequeueObjs_800181E4(DG_OBJS *objs);
-void *DG_MakeObjs_80031760(void *buf, int flag, int a2);
 /*-----------------------------------------------------------------------*/
 
 #define DCache 0x1F8003FC

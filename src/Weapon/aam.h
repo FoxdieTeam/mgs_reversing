@@ -21,4 +21,6 @@ typedef struct _Actor_Aam
 
 STATIC_ASSERT_SIZE(Actor_Aam, 0x60);
 
+void aam_act_800670CC(int param_1);
+
 #endif // _AAM
