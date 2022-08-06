@@ -24,38 +24,42 @@ extern u_long image_data_800B3818[256];
 
 void goggleir_pal_cb_80078AB8(void)
 {
-    int iVar1;
+    int     iVar1;
     ushort *puVar2;
-    int iVar3;
-    ushort uVar4;
-    
+    int     iVar3;
+    ushort  uVar4;
+
     iVar1 = 0xf;
-    
+
     rect_8009F718.y = 0xe2;
     rect_8009F720.y = 0xc4;
-    
-    for (; iVar1 > 0; iVar1--) {
+
+    for (; iVar1 > 0; iVar1--)
+    {
         DrawSync(0);
         StoreImage2_8009209C(&rect_8009F720, image_data_800B3818);
         DrawSync(0);
 
         puVar2 = (ushort *)image_data_800B3818;
         iVar3 = 0x200;
-    
-        for (; iVar3 > 0; iVar3--) {
+
+        for (; iVar3 > 0; iVar3--)
+        {
             *puVar2++ = goggleir_pal_convert_800789E0(*puVar2);
         }
-    
-        if (iVar1 == 1) {
+
+        if (iVar1 == 1)
+        {
             uVar4 = goggleir_pal_convert_800789E0(0xffff);
             puVar2 = (ushort *)&image_data_800B3818[248];
             iVar3 = 0x10;
-        
-            for (; iVar3 > 0; iVar3--) {
+
+            for (; iVar3 > 0; iVar3--)
+            {
                 *puVar2++ = uVar4;
             }
         }
-        
+
         LoadImage2_80091FB0(&rect_8009F718, image_data_800B3818);
 
         rect_8009F720.y += 2;

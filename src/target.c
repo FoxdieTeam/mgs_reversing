@@ -10,7 +10,7 @@ int        SECTION(".sbss") gTargets_down_count_800ABA68;
 extern int gTargets_up_count_800ABA6C;
 int        SECTION(".sbss") gTargets_up_count_800ABA6C;
 
-#pragma INCLUDE_ASM("asm/sub_8002D208.s") // 248 bytes
+#pragma INCLUDE_ASM("asm/sub_8002D208.s")                                    // 248 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s") // 240 bytes
 
 void GM_Targets_Reset_8002D3F0(void)

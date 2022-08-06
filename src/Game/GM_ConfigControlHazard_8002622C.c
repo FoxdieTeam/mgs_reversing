@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
+#include "game.h"
 
 void GM_FreeControl_800260CC(GM_Control *pControl)
 {

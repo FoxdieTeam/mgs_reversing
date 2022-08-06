@@ -255,35 +255,35 @@ typedef struct
     short  w, h;
 } TILE_PACKED;
 
-//still figuring this one out
-typedef struct DG_DivideFile 
+// still figuring this one out
+typedef struct DG_DivideFile
 {
-    short   field_00;
-    short   field_02;
-    short   field_04;
-    char    field_06;
-    char    field_07;
-    char    field_08;
-    char    field_09;
-    char    field_0A;
-    char    field_0B;
-    short   field_0C;
-    short   field_0E;
-    int     field_10;
+    short field_00;
+    short field_02;
+    short field_04;
+    char  field_06;
+    char  field_07;
+    char  field_08;
+    char  field_09;
+    char  field_0A;
+    char  field_0B;
+    short field_0C;
+    short field_0E;
+    int   field_10;
 } DG_DivideFile;
 
-//MallocLog?
+// MallocLog?
 typedef struct DG_DivideMem
 {
-    long                    pad[3];
-    int                     field_0C;   //0x0C
-    unsigned long           field_10[4];//0x10
-    GV_Heap*                pHeap;      //0x20
-    GV_MemoryAllocation*    pAlloc;     //0x24
-    void*                   addr;       //0x28
-    void*                   pDataStart; //0x2C
-    int                     size;       //0x30
-    DG_DivideFile*          divide_file;//0x34
+    long                 pad[3];
+    int                  field_0C;    // 0x0C
+    unsigned long        field_10[4]; // 0x10
+    GV_Heap             *pHeap;       // 0x20
+    GV_MemoryAllocation *pAlloc;      // 0x24
+    void                *addr;        // 0x28
+    void                *pDataStart;  // 0x2C
+    int                  size;        // 0x30
+    DG_DivideFile       *divide_file; // 0x34
 } DG_DivideMem;
 
 typedef struct SgtFile
@@ -414,47 +414,48 @@ void    DG_SetMainLightCol_8001A048(int r, int g, int b);
 void    DG_SetMainLightDir_80019FF8(int x, int y, int z);
 
 // divide
-void*   sub_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc_list, int* size );
+void *sub_800190A0(GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size);
 
 // unsorted
-int  DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
-int  DG_DrawSyncResetGraph_8001F014(void);
-int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
-int  DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
-void DG_80017194(void);
-void DG_800174DC(MATRIX *matrix);
-void DG_8001F1DC(void);
-void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx);
-void DG_ClearChanlSystem_80017E9C(int which);
-void DG_ClearResidentTexture_8001DB10(void);
-void DG_Clip_80017594(RECT *pClipRect, int dist);
-void DG_DrawOTag_80017E4C(int activeBuffer);
-void DG_FreePreshade_80032110(DG_OBJS *pPrim);
-void DG_InitChanlSystem_80017B98(int width);
-void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH);
-void DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx);
-void DG_LoadInitPcx_helper_8001D880(unsigned short param_1, unsigned short param_2, unsigned short param_3, DG_Image *param_4, DG_Image *param_5, short param_6);
-void DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
-void DG_PutObjs_8001BDB8(DG_OBJS *objs);
-void DG_ReloadPalette_8001FC58(void);
-void DG_RenderPipeline_800172A8(void);
-void DG_RenderPipeline_80018028(int idx);
-void DG_RenderPipeline_Init_8001715C(void);
-void DG_ResetExtPaletteMakeFunc_800791E4(void);
-void DG_ResetPaletteEffect_80078FF8(void);
-void DG_Set_RGB_800184F4(int r, int b, int g);
-void DG_StorePaletteEffect_80078F30(void);
-void DG_Update1_8001F1BC(void);
-void DG_Update2_8001F078(Actor *pActor);
-void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
-void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
-int  DG_PointCheckOne_8001C18C(DVECTOR *line);
-void DG_OffsetDispEnv_80017784(int offset);
-void DG_TextureCacheInit_8001F25C(void);
+int      DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
+int      DG_DrawSyncResetGraph_8001F014(void);
+int      DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
+int      DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
+void     DG_80017194(void);
+void     DG_800174DC(MATRIX *matrix);
+void     DG_8001F1DC(void);
+void     DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx);
+void     DG_ClearChanlSystem_80017E9C(int which);
+void     DG_ClearResidentTexture_8001DB10(void);
+void     DG_Clip_80017594(RECT *pClipRect, int dist);
+void     DG_DrawOTag_80017E4C(int activeBuffer);
+void     DG_FreePreshade_80032110(DG_OBJS *pPrim);
+void     DG_InitChanlSystem_80017B98(int width);
+void     DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH);
+void     DG_InitPolyGT4Pack_8001A6E4(DG_OBJ *pObj, int idx);
+void     DG_LoadInitPcx_helper_8001D880(unsigned short param_1, unsigned short param_2, unsigned short param_3,
+                                        DG_Image *param_4, DG_Image *param_5, short param_6);
+void     DG_MakePreshade_80031F04(DG_OBJS *pPrim, short *pData, int dataCount);
+void     DG_PutObjs_8001BDB8(DG_OBJS *objs);
+void     DG_ReloadPalette_8001FC58(void);
+void     DG_RenderPipeline_800172A8(void);
+void     DG_RenderPipeline_80018028(int idx);
+void     DG_RenderPipeline_Init_8001715C(void);
+void     DG_ResetExtPaletteMakeFunc_800791E4(void);
+void     DG_ResetPaletteEffect_80078FF8(void);
+void     DG_Set_RGB_800184F4(int r, int b, int g);
+void     DG_StorePaletteEffect_80078F30(void);
+void     DG_Update1_8001F1BC(void);
+void     DG_Update2_8001F078(Actor *pActor);
+void     DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
+void     DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
+int      DG_PointCheckOne_8001C18C(DVECTOR *line);
+void     DG_OffsetDispEnv_80017784(int offset);
+void     DG_TextureCacheInit_8001F25C(void);
 DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl);
-int DG_QueueObjs_80018178(DG_OBJS *pPrim);
-void DG_DequeueObjs_800181E4(DG_OBJS *objs);
-void DG_FreeObjs_800318D0(DG_OBJS *pObjs);
+int      DG_QueueObjs_80018178(DG_OBJS *pPrim);
+void     DG_DequeueObjs_800181E4(DG_OBJS *objs);
+void     DG_FreeObjs_800318D0(DG_OBJS *pObjs);
 
 void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen);
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
