@@ -6,6 +6,7 @@
 #include "libgv/actor.h"
 #include "Game/GM_Control.h"
 #include "map/hzd.h"
+#include "Menu/menuman.h"
 
 typedef struct Actor_GM_Daemon
 {
@@ -221,6 +222,17 @@ void  GM_AlertModeInit_8002EAA8(void);
 void  GM_InitWhereSystem_8002597C(void);
 int   GM_Reset_helper_8002A978();
 int   GM_Reset_helper3_80030760();
+void  GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy);
+void  GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
+int   GM_AreaHistory_8002A848(int stage_id);
+int   GM_SoundStart_8002E640();
+int   GM_set_noise_sound_8002E588(int a1);
+char *GM_VoxStream_80037E40(int param_1, unsigned int param_2);
+void  GM_InitReadError_8002AC44();
+void  GM_SetSystemCallbackProc_8002B558(int index, int proc);
+
+int   sub_8002E508(int a1);
+void  sub_8002B600(int);
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 

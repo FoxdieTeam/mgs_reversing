@@ -2,6 +2,7 @@
 #include "linker.h"
 #include "gcl.h"
 #include "Game/game.h"
+#include "psyq.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
@@ -10,8 +11,6 @@ extern GCL_Vars gGcl_vars_800B3CC8;
 extern GCL_Vars gGcl_memVars_800b4588;
 
 extern char gStageName_800B4D88[16];
-
-void *memcpy_8008E648(void *destination, const void *source, int num);
 
 void GCL_RestoreVar_80021488(void)
 {

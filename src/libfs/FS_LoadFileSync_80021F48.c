@@ -1,4 +1,4 @@
-#include "unknown.h"
+#include "libfs.h"
 
 void FS_LoadFileSync_80021F48(void)
 {

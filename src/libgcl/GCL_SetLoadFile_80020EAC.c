@@ -1,6 +1,8 @@
 #include "mts/mts_new.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "psyq.h"
+#include "unknown.h"
+#include "Game/game.h"
 
 extern int                gTotalFrameTime_800AB9E8;
 extern GameState_800B4D98 gGameState_800B4D98;
@@ -9,9 +11,6 @@ extern GCL_Vars           gGcl_memVars_800b4588;
 extern RadioMemory        gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 extern char               gStageName_800B4D88[16];
 extern GCL_Vars           gGcl_vars_800B3CC8;
-
-unsigned int crc32_80020BB4(int param_1, char *param_2);
-void         GM_SetAreaHistory_8002A784(AreaHistory *param_1);
 
 int GCL_SetLoadFile_80020EAC(char *saveBuf)
 {

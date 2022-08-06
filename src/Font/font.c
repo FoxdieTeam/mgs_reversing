@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "kcb.h"
+#include "font.h"
 #include "psyq.h"
 
 int font_set_kcb_80044C90(KCB *kcb, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);

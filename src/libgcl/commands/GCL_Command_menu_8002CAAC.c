@@ -1,13 +1,10 @@
 #include "libgcl/gcl.h"
 #include "Menu/menuman.h"
+#include "Game/item.h"
 
 extern int GM_DisableWeapon_800AB9E4;
 extern int GM_DisableItem_800ABA28;
 extern int GM_GameStatus_800AB3CC;
-
-void         item_all_items_and_weapons_unknown2_80033500(void);
-void         item_all_items_and_weapons_unknown_80033560(void);
-unsigned int GCL_Command_menu_helper_8002CA48(void);
 
 int GCL_Command_menu_8002CAAC(void)
 {

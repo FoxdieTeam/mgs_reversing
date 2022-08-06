@@ -6,7 +6,7 @@
 #include "Game/GM_Control.h"
 #include "map/map.h"
 #include "Game/game.h"
-#include "Font/kcb.h"
+#include "Font/font.h"
 
 // all funcs that don't have header to go in yet
 
@@ -27,24 +27,9 @@ void  sub_8002AA48(void);
 void  sub_8007913C();
 void  sub_80037EE0(int, int);
 
+unsigned int crc32_80020BB4(int len, unsigned char *pData);
+
 int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
-
-// TODO: make font.h
-void font_set_font_addr_80044BC0(int arg1, void *data);
-void font_update_8004695C(KCB *kcb);
-void font_clear_800468FC(KCB *kcb);
-int font_get_buffer_size_80044F38(KCB *kcb);
-int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, short x, short y);
-void font_set_buffer_80044FD8(KCB *kcb, void *buffer);
-void  font_set_color_80044DC4(KCB *kcb, int arg1, int arg2, int arg3);
-int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-void font_clut_update_80046980(KCB *kcb);
-
-// TODO: make libfs.h?
-void FS_StartDaemon_80014A7C(void);
-void CDFS_Init_80021EC4();
-void CDBIOS_ForceStop_80022864(void);
-int  CDBIOS_ReadSync_80022854(void);
 
 // TODO: make sd.h?
 void SdMain_80081A18(void);

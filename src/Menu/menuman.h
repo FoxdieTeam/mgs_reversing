@@ -295,5 +295,14 @@ void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper2_8004A800(void);
 void sub_80047CB4(menu_chara_struct *unknown);
+int  NewJimakuStr_8004955C(char *, int);
+void NewJimaku_800495A8(void);
+void menu_ClearRadioTable_8004967C(void);
+void menu_RadioCall_80042730(int param_1, int param_2, int param_3);
+void menu_ResetCall_80042814(void);
+void menu_SetRadioCallbackProc_8004283C(int param_1);
+void menu_SetRadioBaseCall_80049764(int param_1, int param_2);
+void menu_SetRadioOverCall_80049794(int param_1, int param_2);
+void menu_InitRadioMemory_8004E0EC(void);
 
 #endif // _MENUMAN_H

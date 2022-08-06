@@ -48,6 +48,12 @@ typedef struct
     unsigned char      *field_8_pMainProc;
 } GCL_FileData;
 
+typedef struct EXPR_STACK
+{
+    int            value;
+    unsigned char *ptr;
+} EXPR_STACK;
+
 enum GCLOperators
 {
     eNegate = 1,
@@ -202,7 +208,26 @@ void           GCL_SetCommandLine_80020934(unsigned char *);
 void           GCL_SetArgTop_80020690(unsigned char *);
 void           GCL_UnsetCommandLine_80020950(void);
 int           *GCL_SetArgStack_8002087C(GCL_ARGS *pArgs);
-// void           GCL_UnsetArgStack_800208F0(int *pStack);
 void           GCL_UnsetArgStack_800208F0(void *stack);
+int            GCL_GetArgs_80020904(int param_1);
+unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value);
+void           GCL_InitClearVar_800212CC(void);
+int            calc_80020430(int operation, int v1, int v2);
+TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript);
+
+struct map_record *GCL_Command_hzd_impl_800310D0(void);
+void               GCL_Command_camera_helper_80030888(void *vec1, void *vec2, int param_3);
+void               GCL_Command_camera_helper2_800308E0(void *vec1, void *vec2, int param_3);
+void               GCL_Command_camera_helper3_80030938(void *vec);
+void               GCL_Command_camera_helper4_80030980(int param_1);
+int                GCL_Command_demo_helper_80037DD8(int, unsigned int);
+unsigned int       GCL_Command_menu_helper_8002CA48(void);
+void               GCL_Command_sound_impl_8002E688(void);
+
+// TODO: it's defined here, make a static inline in game.h?
+void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
+
+// TODO: move to game.h?
+void sub_8002FCF0(void);
 
 #endif // GCL_H

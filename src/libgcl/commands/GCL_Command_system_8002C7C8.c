@@ -1,14 +1,13 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
+#include "Game/game.h"
 
 extern char       aGcawi[5];
 extern const char aSystemCChangeP[];
 
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
-
-void  GM_SetSystemCallbackProc_8002B558(int index, int proc);
 
 int GCL_Command_system_8002C7C8(void)
 {

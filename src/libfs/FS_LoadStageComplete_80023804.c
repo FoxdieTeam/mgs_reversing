@@ -3,34 +3,9 @@
 #include "psyq.h"
 #include "mts/mts_new.h"
 #include "libgv/libgv.h"
-
-struct Loader_Rec_2
-{
-    char field_0;
-    char field_1;
-};
-
-struct Loader_Record // TODO: Share in a header
-{
-    int                  field_0;
-    int                  field_4; // cnf count?
-    struct Loader_Rec_2 *field_8_p2Alloc;
-    int                  field_C; // str ptr?
-    int                  field_10;
-    int                  field_14; // last size?
-    int                  field_18; // state ?
-    int                  field_1C; // cnf ptr?
-    int                  field_20;
-    int                  field_24;
-    int                  field_28;
-    int                  field_2C;
-    int                  field_30;
-    int                  field_34;
-};
+#include "libfs.h"
 
 extern const char aLoadCompleteTi[]; // "load complete time %d\n";
-
-void FS_CdStageProgBinFix_80014AAC(void);
 
 extern int DG_FrameRate_8009D45C;
 
@@ -39,20 +14,11 @@ int                   SECTION(".gLoaderRec_800B5288") gLoaderStartTime_800B528C;
 int                   SECTION(".gLoaderRec_800B5288") gOverlayBinSize_800B5290;
 int                   SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
 
-int Loader_80023624(struct Loader_Record *pRec);
-int CDBIOS_ReadSync_80022854(void);
-
 extern const char aLoadS[];     // = "load %s\n";
 extern const char aNotFoundS[]; // = "NOT FOUND %s\n";
 extern const char aNo2[];       // = "no_mem\n";
 
 extern short word_8009D504;
-
-int   FS_CdGetStageFileTop_80022DCC(char *pFileName);
-void *GV_GetMaxFreeMemory_8001627C(int which);
-
-void CDBIOS_ReadRequest_8002280C(void *pHeap, int startSector, int sectorSize, void *fnCallBack);
-int  Loader_CD_Read_CallBack_80023274(int *a1);
 
 struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
 {
