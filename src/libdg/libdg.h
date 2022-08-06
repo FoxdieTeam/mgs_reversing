@@ -256,15 +256,36 @@ typedef struct
     short  w, h;
 } TILE_PACKED;
 
-typedef struct unknown_scrpad_struct
+//still figuring this one out
+typedef struct DG_DivideFile 
 {
-    long     pad[8];
-    GV_Heap *pHeap;
-    long     unknown_24;
-    long     unknown_28;
-    long     unknown_2C;
-    long     unknown_30;
-} unknown_scrpad_struct;
+    short   field_00;
+    short   field_02;
+    short   field_04;
+    char    field_06;
+    char    field_07;
+    char    field_08;
+    char    field_09;
+    char    field_0A;
+    char    field_0B;
+    short   field_0C;
+    short   field_0E;
+    int     field_10;
+} DG_DivideFile;
+
+//MallocLog?
+typedef struct DG_DivideMem
+{
+    long                    pad[3];
+    int                     field_0C;   //0x0C
+    unsigned long           field_10[4];//0x10
+    GV_Heap*                pHeap;      //0x20
+    GV_MemoryAllocation*    pAlloc;     //0x24
+    void*                   addr;       //0x28
+    void*                   pDataStart; //0x2C
+    int                     size;       //0x30
+    DG_DivideFile*          divide_file;//0x34
+} DG_DivideMem;
 
 typedef struct SgtFile
 {
@@ -393,12 +414,14 @@ void    DG_ResetResidentTexture_8001DBEC();
 void    DG_SetMainLightCol_8001A048(int r, int g, int b);
 void    DG_SetMainLightDir_80019FF8(int x, int y, int z);
 
+// divide
+void*   sub_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc_list, int* size );
+
 // unsorted
 int  DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
 int  DG_DrawSyncResetGraph_8001F014(void);
 int  DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags);
 int  DG_MakeObjs_helper_80031710(DG_MDL *pMesh);
-int  sub_800190A0(GV_Heap *heap, long *a0, long *a1);
 void DG_80017194(void);
 void DG_800174DC(MATRIX *matrix);
 void DG_8001F1DC(void);
