@@ -1,6 +1,9 @@
 #include "linker.h"
 #include "libgv/actor.h"
 #include "mts/mts_new.h"
+#include "libdg/libdg.h"
+#include "libfs/libfs.h"
+#include "loader.h"
 
 extern const char aLoadreq[];
 extern const char aNotFoundStageS[];
@@ -11,45 +14,10 @@ extern int GM_LoadComplete_800ABA38;
 extern int GM_LoadRequest_800AB3D0;
 extern int GM_PadVibration2_800ABA54;
 
-struct Loader_Rec_2
-{
-    char field_0;
-    char field_1;
-};
-
-struct Loader_Record
-{
-    int                  field_0;
-    int                  field_4; // cnf count?
-    struct Loader_Rec_2 *field_8_p2Alloc;
-    int                  field_C; // str ptr?
-    int                  field_10;
-    int                  field_14; // last size?
-    int                  field_18; // state ?
-    int                  field_1C; // cnf ptr?
-    int                  field_20;
-    int                  field_24;
-    int                  field_28;
-    int                  field_2C;
-    int                  field_30;
-    int                  field_34;
-};
-
-struct Loader
-{
-    struct Actor          base;
-    struct Loader_Record *field_20_pFileName;
-    int                   field_24_proc_cancel_flags;
-    int                   field_28_bRunning;
-    int                   field_2C_counter;
-};
-
-void DG_OffsetDispEnv_80017784(int offset);
-
-int FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
-
-struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName);
-void                  FS_LoadStageComplete_80023804(struct Loader_Record *pImpl);
+/* int FS_LoadStageSync_800237C0(struct Loader_Record *pRec); */
+/*  */
+/* struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pStageName); */
+/* void                  FS_LoadStageComplete_80023804(struct Loader_Record *pImpl); */
 
 void Loader_Act_8002E390(struct Loader *pLoader)
 {

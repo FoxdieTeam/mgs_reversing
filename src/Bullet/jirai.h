@@ -10,6 +10,8 @@
 #include "Game/GM_Control.h"
 #include "target.h"
 
+// claymore (on ground)
+
 typedef struct Actor_Jirai
 {
     Actor      field_0_actor;

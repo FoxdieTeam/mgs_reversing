@@ -5,6 +5,8 @@
 #include "libgv/actor.h"
 #include "Game/GM_Control.h"
 
+// claymore (in hands)
+
 typedef struct Actor_Mine
 {
     Actor       field_0_actor;

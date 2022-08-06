@@ -64,5 +64,6 @@ void           StopPAD_80099F08(void);
 void           ChangeClearPAD_8009960C(long val);
 int            strlen_8008E7B8(char *s);
 void          *memcpy_8008E648(void *destination, const void *source, int num);
+int            erase_800995FC(char *);
 
 #endif // _PSYQ_H_

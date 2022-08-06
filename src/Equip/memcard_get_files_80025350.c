@@ -4,9 +4,6 @@
 #include "memcard/memcard.h"
 #include "psyq.h"
 
-void memcard_load_files_80024960(int);
-int  erase_800995FC(char *);
-
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
 long SECTION(".gMemoryCardFiles_800B52C8") gHardware_timeout_800B52D0;
@@ -63,11 +60,6 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
     }
     return 0;
 }
-
-void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
-void memcard_swcard_do_op_800244EC(TMemCardSetFunc op);
-
-void memcard_set_sw_hw_card_fns_8002469C();
 
 void memcard_hwcard_read_write_handler_8002546C(int op)
 {

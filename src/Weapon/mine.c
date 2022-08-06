@@ -4,6 +4,8 @@
 #include "target.h"
 #include "Game/object.h"
 
+// claymore (in hands)
+
 extern GameState_800B4D98 gGameState_800B4D98;
 
 extern const char aClaymore_0[]; // = "claymore";

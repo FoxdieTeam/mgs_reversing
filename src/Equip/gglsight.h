@@ -1,6 +1,8 @@
 #ifndef _GGLSIGHT_H
 #define _GGLSIGHT_H
 
+// night vision goggles / thermal goggles first person
+
 #include "libgv/actor.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>

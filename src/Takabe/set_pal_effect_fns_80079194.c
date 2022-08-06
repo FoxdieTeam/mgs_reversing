@@ -3,13 +3,12 @@
 extern int   dword_8009F728;
 extern void *pfn_800BDFB4;
 
-typedef void (*pfn)(void);
-pfn SECTION(".pfn_800BDFB0") pfn_800BDFB0;
+void SECTION(".pfn_800BDFB0") (*pfn_800BDFB0)();
 
-void set_pal_effect_fns_80079194(pfn param_1, void *param_2)
+void set_pal_effect_fns_80079194(void (*param_1)(void), void (*param_2)(void))
 {
     pfn_800BDFB0 = param_1;
-    pfn_800BDFB4 = param_2;
+    pfn_800BDFB4 = (void *)param_2;
 
     dword_8009F728 |= 2;
 

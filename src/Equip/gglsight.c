@@ -1,6 +1,8 @@
 #include "gglsight.h"
 #include "Game/GM_Control.h"
 
+// night vision goggles / thermal goggles first person
+
 extern short word_8009F714[];
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077A24.s") // 584 bytes

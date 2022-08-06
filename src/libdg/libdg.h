@@ -450,6 +450,7 @@ void DG_Update2_8001F078(Actor *pActor);
 void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
 int  DG_PointCheckOne_8001C18C(DVECTOR *line);
+void DG_OffsetDispEnv_80017784(int offset);
 
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
 
