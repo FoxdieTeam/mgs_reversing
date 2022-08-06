@@ -10,4 +10,3 @@ int SECTION(".bss") gDiskNum_800ACBF0;
 int SECTION(".bss") pad_800ACBF0;
 
 struct Actor SECTION(".bss") gGVActor_800acbf8;
-

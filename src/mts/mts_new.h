@@ -52,36 +52,36 @@ typedef struct MTS_PAD_DATA
 
 #define MTS_STACK_COOKIE 0x12435687
 
-void mts_set_pad_vibration_8008C408(int, int);
-void mts_set_pad_vibration2_8008C454(int, int);
-int  mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
-int  mts_get_tick_count_8008BBB0(void);
-int  mts_printf_8008BBA0(const char *formatStr, ...);
-int  mts_receive_80089D24(int src, unsigned char *message);
-int  mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void *pStack);
-int  mts_wait_vbl_800895F4(int wait_vblanks);
-long mts_PadRead_8008C324(int a0);
-void mts_8008B0A4();
-void mts_8008BA88();
-void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, long stackSize);
-void mts_event_cb_8008BBC0();
-void mts_init_controller_8008C098(void);
-void mts_init_vsync_800895AC(void);
-void mts_init_vsync_helper_800893E8(void);
-void mts_lock_sem_8008A6CC(int taskNr);
-void mts_print_process_status_8008B77C();
-void mts_send_8008982C(int dst, unsigned char *message);
-void mts_set_callback_800893B4(void *); // TODO: Func ptr type
-void mts_set_exception_func_800892A8(int param_1);
-void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
-void mts_set_vsync_task_800892B8(void);
-void mts_slp_tsk_8008A400(void);
-void mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
-void mts_task_start_8008BBC8(void);
-void mts_unlock_sem_8008A85C(int taskNum);
-void sio_output_stop_8008C5B0(void);
-void mts_set_callback_controller_800893D8(void *ptr);
-void mts_callback_controller_8008BDEC(void);
+void           mts_set_pad_vibration_8008C408(int, int);
+void           mts_set_pad_vibration2_8008C454(int, int);
+int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
+int            mts_get_tick_count_8008BBB0(void);
+int            mts_printf_8008BBA0(const char *formatStr, ...);
+int            mts_receive_80089D24(int src, unsigned char *message);
+int            mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void *pStack);
+int            mts_wait_vbl_800895F4(int wait_vblanks);
+long           mts_PadRead_8008C324(int a0);
+void           mts_8008B0A4();
+void           mts_8008BA88();
+void           mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, long stackSize);
+void           mts_event_cb_8008BBC0();
+void           mts_init_controller_8008C098(void);
+void           mts_init_vsync_800895AC(void);
+void           mts_init_vsync_helper_800893E8(void);
+void           mts_lock_sem_8008A6CC(int taskNr);
+void           mts_print_process_status_8008B77C();
+void           mts_send_8008982C(int dst, unsigned char *message);
+void           mts_set_callback_800893B4(void *); // TODO: Func ptr type
+void           mts_set_exception_func_800892A8(int param_1);
+void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
+void           mts_set_vsync_task_800892B8(void);
+void           mts_slp_tsk_8008A400(void);
+void           mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
+void           mts_task_start_8008BBC8(void);
+void           mts_unlock_sem_8008A85C(int taskNum);
+void           sio_output_stop_8008C5B0(void);
+void           mts_set_callback_controller_800893D8(void *ptr);
+void           mts_callback_controller_8008BDEC(void);
 unsigned char *mts_get_bss_tail_8008C598();
 
 void mts_8008B51C(void);

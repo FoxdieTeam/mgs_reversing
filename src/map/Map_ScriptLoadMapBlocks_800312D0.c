@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
-#include "map/map.h"
+#include "map.h"
 
 extern struct map_record gMapRecs_800B7910[16];
 

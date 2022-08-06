@@ -255,31 +255,34 @@ typedef struct Actor_MenuMan
 } Actor_MenuMan;
 
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
-Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName);
-int  menu_restore_nouse_80043470();
-int  sub_8003B5E0(int a1);
-int  sub_8003CB98(struct Actor_MenuMan *a1);
-int menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
-int sub_8003CFE0(unsigned int **images, int index);
+Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
+int                        menu_restore_nouse_80043470();
+int                        sub_8003B5E0(int a1);
+int                        sub_8003CB98(struct Actor_MenuMan *a1);
+int          menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
+int          sub_8003CFE0(unsigned int **images, int index);
 unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
-unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
-void menu_InitRadioTable_80049644();
-void menu_ResetSystem_80038A88();
-void menu_SetRadarScale_80038E28(int);
-void menu_StartDeamon_80038A20(void);
-void menu_Text_Init_80038B98(void);
-void menu_Text_PrimUnknown_80038BB4(void);
-void menu_init_nouse_800434A8(void);
-void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx);
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4, short *param_5);
+unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp,
+                                    BarConfig *pConfig);
+void         menu_InitRadioTable_80049644();
+void         menu_ResetSystem_80038A88();
+void         menu_SetRadarScale_80038E28(int);
+void         menu_StartDeamon_80038A20(void);
+void         menu_Text_Init_80038B98(void);
+void         menu_Text_PrimUnknown_80038BB4(void);
+void         menu_init_nouse_800434A8(void);
+void         menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx);
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
+                                         short *param_5);
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
 void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
 void menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
 void menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
-void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4, short *param_5);
+void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
+                                     short *param_5);
 void menu_right_unknown_8003DEB0(void);
 void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
 void menu_sub_8003B568(void);
@@ -305,17 +308,17 @@ void menu_SetRadioCallbackProc_8004283C(int param_1);
 void menu_SetRadioBaseCall_80049764(int param_1, int param_2);
 void menu_SetRadioOverCall_80049794(int param_1, int param_2);
 void menu_InitRadioMemory_8004E0EC(void);
-TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb);
+TILE          *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb);
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int idx);
-void menu_JimakuClear_80049518(void);
-void menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags);
-void menu_Color_80038B4C(int r, int g, int b);
-void menu_radio_codec_start_task_80047C3C(void);
+void           menu_JimakuClear_80049518(void);
+void           menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags);
+void           menu_Color_80038B4C(int r, int g, int b);
+void           menu_radio_codec_start_task_80047C3C(void);
 
 #ifdef _BUILDING_MENUMAN_
 int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
 #else
-int  menu_Text_80038C38(const char *fmt, ...);
+int menu_Text_80038C38(const char *fmt, ...);
 #endif
 
 #endif // _MENUMAN_H

@@ -36,6 +36,6 @@ struct Loader
     int                   field_2C_counter;
 };
 
-struct Loader            *Loader_Init_8002E460(const char *pStageName);
+struct Loader *Loader_Init_8002E460(const char *pStageName);
 
 #endif // _LOADER_H_

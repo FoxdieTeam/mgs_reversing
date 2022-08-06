@@ -1,4 +1,4 @@
-#include "Menu/menuman.h"
+#include "menuman.h"
 
 void menu_ClearRadioTable_8004967C(void)
 {

@@ -35,8 +35,8 @@ typedef struct Actor_bakudan
 } Actor_bakudan;
 
 Actor *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, GM_Target *pTarget);
-void bakudan_act_8006A218(Actor_bakudan *pActor);
-void bakudan_kill_8006A4A4(Actor_bakudan *pActor);
-int  bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMatrix, SVECTOR *pVec, int a4, GM_Target *pTarget);
+void   bakudan_act_8006A218(Actor_bakudan *pActor);
+void   bakudan_kill_8006A4A4(Actor_bakudan *pActor);
+int    bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMatrix, SVECTOR *pVec, int a4, GM_Target *pTarget);
 
 #endif // _BAKUDAN_H_
