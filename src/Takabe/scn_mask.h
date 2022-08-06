@@ -2,7 +2,7 @@
 #define _SCN_MASK_H_
 
 #include "linker.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libdg/dgd.h"
 #include <SYS/TYPES.H>

@@ -4,7 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 

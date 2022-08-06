@@ -2,7 +2,7 @@
 #define _RIFLE_H_
 
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 // PSG1
 

@@ -1,7 +1,7 @@
 #ifndef _SGTRECT3_H_
 #define _SGTRECT3_H_
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 #include "target.h"

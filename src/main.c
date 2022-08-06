@@ -3,7 +3,6 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "linker.h"
-#include "libgv/actor.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
 #include "libgcl/gcl.h"

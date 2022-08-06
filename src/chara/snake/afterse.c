@@ -1,5 +1,5 @@
 #include "afterse.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 extern char aAfterseC[];            // = "afterse.c"
 

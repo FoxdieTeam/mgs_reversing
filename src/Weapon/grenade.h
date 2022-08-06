@@ -2,7 +2,7 @@
 #define _GRENADE_H_
 
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 // grenade/stun/chaff (in hands)
 

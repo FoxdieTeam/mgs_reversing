@@ -1,7 +1,7 @@
 #ifndef _BANDANA_H_
 #define _BANDANA_H_
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 
