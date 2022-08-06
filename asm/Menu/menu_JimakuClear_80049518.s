@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_JimakuClear_80049518
-MENU_JimakuClear_80049518:
+	xdef menu_JimakuClear_80049518
+menu_JimakuClear_80049518:
 	dw 0x3C02800C ; 0x80049518
 	dw 0x2444DA70 ; 0x8004951C
 	dw 0x90830012 ; 0x80049520

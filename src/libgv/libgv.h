@@ -113,6 +113,7 @@ typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
 void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 int   GV_SetCache_800153C0(int id, void *buf);
 void *GV_GetCache_8001538C(int fileNameHashed);
+int   GV_CacheID2_800152FC(const char *fileName, int extID);
 
 // memory
 void  GV_InitMemorySystemAll_80015AB0();

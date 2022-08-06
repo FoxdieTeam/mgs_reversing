@@ -4,10 +4,9 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-
 #include "libgv/actor.h"
-
 #include "util/idaTypes.h"
+#include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 
 #define MAX_HISTORY 8
 
@@ -86,7 +85,7 @@ typedef struct MenuMan_Inventory_14h_Unk
 RadioMemory   *menu_radio_table_find_8004D380(int toFind);
 RadioMemory   *menu_radio_table_next_free_8004D3B8(void);
 unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
-void           MENU_SetRadioMemory_8004E110(int varId, const char *pVarName);
+void           menu_SetRadioMemory_8004E110(int varId, const char *pVarName);
 void           menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript);
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 
@@ -178,6 +177,14 @@ typedef struct _Menu_rpk_item
     unsigned char field_4_pixel_ptr[0];
 } Menu_rpk_item;
 
+typedef struct
+{
+    unsigned char  field_0_count1;
+    unsigned char  field_1_count2;
+    short          pad;
+    Menu_rpk_item *items[0]; // pointers ??
+} RpkHeader;
+
 typedef struct BarConfig
 {
     const char   *field_0_text;
@@ -247,11 +254,46 @@ typedef struct Actor_MenuMan
     int field_220;
 } Actor_MenuMan;
 
-// TODO: this header or another?
-void MENU_StartDeamon_80038A20(void);
-void MENU_ResetSystem_80038A88();
-void MENU_InitRadioTable_80049644();
-void MENU_Text_PrimUnknown_80038BB4(void);
-void MENU_SetRadarScale_80038E28(int);
+MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
+Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName);
+int  menu_restore_nouse_80043470();
+int  sub_8003B5E0(int a1);
+int  sub_8003CB98(struct Actor_MenuMan *a1);
+int menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
+int sub_8003CFE0(unsigned int **images, int index);
+unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
+unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
+unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
+void menu_InitRadioTable_80049644();
+void menu_ResetSystem_80038A88();
+void menu_SetRadarScale_80038E28(int);
+void menu_StartDeamon_80038A20(void);
+void menu_Text_Init_80038B98(void);
+void menu_Text_PrimUnknown_80038BB4(void);
+void menu_init_nouse_800434A8(void);
+void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx);
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4, short *param_5);
+void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
+void menu_inventory_right_init_items_8003DE50(void);
+void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
+void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
+void menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
+void menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
+void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4, short *param_5);
+void menu_right_unknown_8003DEB0(void);
+void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
+void menu_sub_8003B568(void);
+void menu_viewer_init_80044A70(Actor_MenuMan *);
+void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
+void menuman_act_800386A4(Actor_MenuMan *);
+void menuman_kill_800387E8(Actor_MenuMan *);
+void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
+void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
+void sub_8003EBDC(struct Actor_MenuMan *a1);
+void sub_800469A4(int param_1, char *param_2); // probably a font func, move if so
+void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
+void init_file_mode_helper_8004A424(int param_1);
+void init_file_mode_helper2_8004A800(void);
+void sub_80047CB4(menu_chara_struct *unknown);
 
 #endif // _MENUMAN_H

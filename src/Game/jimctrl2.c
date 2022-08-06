@@ -23,7 +23,7 @@ void jimctrl_helper_null_80037FFC(void)
 {
 }
 
-void MENU_JimakuClear_80049518(void);
+void menu_JimakuClear_80049518(void);
 
 void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 {
@@ -32,7 +32,7 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 
     if (pJimCtrl->field_44 != 0)
     {
-        MENU_JimakuClear_80049518();
+        menu_JimakuClear_80049518();
     }
 
     if (pJimCtrl->field_38 != 0)

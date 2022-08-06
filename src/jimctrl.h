@@ -39,7 +39,7 @@ void jimctrl_init_helper_clear_80037FB8(void);
 void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl);
 void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl);
 void sub_80037FE0(int index, WORD value);
-
-extern void jimctrl_act_80038070(void);
+void jimctrl_act_80038070(void);
+unsigned int jimctrl_helper_80037F68(unsigned int);
 
 #endif // JIMCTRL_H

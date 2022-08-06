@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef _menu_number_draw_string_80042BF4
-_menu_number_draw_string_80042BF4:
+	xdef menu_number_draw_string_80042BF4
+menu_number_draw_string_80042BF4:
 	dw 0x27BDFFC8 ; 0x80042BF4
 	dw 0xAFB20020 ; 0x80042BF8
 	dw 0x00809021 ; 0x80042BFC

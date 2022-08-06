@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_SetRadioBaseCall_80049764
-MENU_SetRadioBaseCall_80049764:
+	xdef menu_SetRadioBaseCall_80049764
+menu_SetRadioBaseCall_80049764:
 	dw 0x27BDFFE8 ; 0x80049764
 	dw 0x00801021 ; 0x80049768
 	dw 0x00A03021 ; 0x8004976C

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_AreaNameWrite_80049534
-MENU_AreaNameWrite_80049534:
+	xdef menu_AreaNameWrite_80049534
+menu_AreaNameWrite_80049534:
 	dw 0x27BDFFE8 ; 0x80049534
 	dw 0xAFBF0010 ; 0x80049538
 	dw 0x0C01253A ; 0x8004953C

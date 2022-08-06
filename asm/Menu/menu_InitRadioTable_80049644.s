@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_InitRadioTable_80049644
-MENU_InitRadioTable_80049644:
+	xdef menu_InitRadioTable_80049644
+menu_InitRadioTable_80049644:
 	dw 0x00002821 ; 0x80049644
 	dw 0x3C02800C ; 0x80049648
 	dw 0x2444DAF8 ; 0x8004964C

@@ -28,3 +28,4 @@ src/.vscode/settings.json
 *.swp
 *.swo
 research/
+.cache/

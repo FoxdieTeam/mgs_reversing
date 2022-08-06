@@ -4,7 +4,7 @@
 #include "data/rdata/rdata.h"
 #include "libgv/actor.h"
 #include "libgcl/gcl.h"
-#include "Menu/menuMan.h"
+#include "Menu/menuman.h"
 #include "libdg/libdg.h"
 #include "libdg/dgd.h"
 #include "Thing/door.h"
@@ -19,7 +19,7 @@
 #include "Equip/bandana.h"
 #include "anime.h"
 #include "libgcl/hash.h"
-#include "Menu/menuMan.h"
+#include "Menu/menuman.h"
 
 // sdata
 extern const char *aCigs[];
