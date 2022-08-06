@@ -16,9 +16,7 @@ typedef struct Actor_gglsight
     int   field_28_rgb;
 
     // TODO: Field types might be correct here
-    short field_2C_4Array[4];
-    int   field_34;
-    int   field_38;
+    short field_2C_8Array[8];
     int   field_3C;
     // end likely wrongness
 
