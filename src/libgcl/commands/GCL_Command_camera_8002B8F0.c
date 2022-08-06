@@ -1,9 +1,9 @@
+#include "linker.h"
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
-//#include <LIBGTE.H>
-#include "linker.h"
 #include "Game/GM_Control.h"
 
+// TODO: move this and the data to a Game/ file?
 typedef struct CAMERA
 {
     short field_00_pos[3];
@@ -22,12 +22,6 @@ CAMERA SECTION(".gCamera_param_a_800B780C") gCamera_param_a_800B780C;
 extern const char aSetCameraD[];
 
 extern int GM_GameStatus_800AB3CC;
-
-void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
-void GCL_Command_camera_helper_80030888(void *vec1, void *vec2, int param_3);
-void GCL_Command_camera_helper2_800308E0(void *vec1, void *vec2, int param_3);
-void GCL_Command_camera_helper3_80030938(void *vec);
-void GCL_Command_camera_helper4_80030980(int param_1);
 
 /*
 proc AGL_FIRST_VF {

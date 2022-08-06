@@ -7,13 +7,6 @@ extern const char aWrongCodeForRa[];
 
 extern int GM_GameStatus_800AB3CC;
 
-void  menu_ClearRadioTable_8004967C(void);
-void  menu_RadioCall_80042730(int param_1, int param_2, int param_3);
-void  menu_ResetCall_80042814(void);
-void  menu_SetRadioCallbackProc_8004283C(int param_1);
-void  menu_SetRadioBaseCall_80049764(int param_1, int param_2);
-void  menu_SetRadioOverCall_80049794(int param_1, int param_2);
-
 int GCL_Command_radio_8002C4A8(int argc, char **argv)
 {
     int contactFrequency;

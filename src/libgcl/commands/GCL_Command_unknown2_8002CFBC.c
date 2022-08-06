@@ -1,6 +1,7 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "linker.h"
+#include "Kojo/demothrd.h"
 
 extern int gBinds_800ABA60;
 int        SECTION(".sdata") gBinds_800ABA60;
@@ -10,9 +11,6 @@ int        SECTION(".sdata") demodebug_finish_proc_800AB414;
 extern const char aErrorDemoThrea[];
 
 extern int GM_CurrentMap_800AB9B0;
-
-int   DM_ThreadStream_80079460(int param_1, int param_2);
-int   DM_ThreadFile_800794E4(int param_1, int param_2);
 
 int GCL_Command_unknown2_8002CFBC(int argc, char **argv)
 {

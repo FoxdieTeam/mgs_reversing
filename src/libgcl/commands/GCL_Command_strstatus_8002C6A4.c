@@ -7,8 +7,6 @@ extern int GM_LoadRequest_800AB3D0;
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
-void  sub_8002B600(int);
-
 int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
 {
     int val;
