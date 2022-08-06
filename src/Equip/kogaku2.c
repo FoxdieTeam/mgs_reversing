@@ -1,16 +1,12 @@
 #include "libgv/actor.h"
 #include "kogaku2.h"
+#include "unknown.h"
 
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;
 
-void EQ_InvisibleUnit_80060E68(DG_OBJS *param_1, int param_2, int param_3);
-
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s") // 268 bytes
-POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *pPrims, int pack_count);
-
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_rgb_update_800610A4.s") // 352 bytes
-POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *pPack, int pack_count, int ypos);
 
 void kogaku2_update_prims1_80061204(Actor_kogaku2 *pActor)
 {
@@ -78,9 +74,6 @@ void kogaku2_kill_helper_80061384(Actor_kogaku2 *pActor)
         --n_models;
     }
 }
-
-void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor);
-void kogaku2_act_helper_80061528(Actor_kogaku2 *pActor);
 
 void kogaku2_act_800613FC(Actor_kogaku2 *pActor)
 {

@@ -3,6 +3,8 @@
 #include "linker.h"
 #include "chara/snake/sna_init.h"
 
+// c4 (armed)
+
 extern const char aBakudanC[];
 
 extern int used_counter_8009F42C;

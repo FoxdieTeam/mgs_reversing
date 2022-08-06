@@ -1,29 +1,7 @@
 #ifndef _LIBFS_H_
 #define _LIBFS_H_
 
-struct Loader_Rec_2
-{
-    char field_0;
-    char field_1;
-};
-
-struct Loader_Record // TODO: Share in a header
-{
-    int                  field_0;
-    int                  field_4; // cnf count?
-    struct Loader_Rec_2 *field_8_p2Alloc;
-    int                  field_C; // str ptr?
-    int                  field_10;
-    int                  field_14; // last size?
-    int                  field_18; // state ?
-    int                  field_1C; // cnf ptr?
-    int                  field_20;
-    int                  field_24;
-    int                  field_28;
-    int                  field_2C;
-    int                  field_30;
-    int                  field_34;
-};
+#include "Game/loader.h"
 
 #include "data/data/data.h" // TODO: move FS_FILE_INFO_8009D49C here
 
@@ -43,5 +21,8 @@ void FS_CdStageProgBinFix_80014AAC(void);
 int  Loader_80023624(struct Loader_Record *pRec);
 int  FS_CdGetStageFileTop_80022DCC(char *pFileName);
 int  Loader_CD_Read_CallBack_80023274(int *a1);
+int  FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
+struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName);
+void FS_LoadStageComplete_80023804(struct Loader_Record *pFileName);
 
 #endif // _LIBFS_H_

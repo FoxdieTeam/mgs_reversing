@@ -1,45 +1,23 @@
+#include "goggle.h"
 #include "libgv/actor.h"
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 #include "Game/object.h"
 #include "map/map.h"
 #include "unknown.h"
+#include "scn_mask.h"
+#include "Equip/gglmng.h"
+
+// night vision goggles (screen effect)
 
 extern const char aGoggleC[]; // = "goggle.c"
 extern const char aGoggles_0[];
 
-typedef struct Actor_goggle
-{
-    Actor       field_0_actor;
-    OBJECT      field_20_obj;
-    GM_Control *field_44_pCtrl;
-    OBJECT     *field_48_pObj;
-    int         field_4C_head_hidden;
-    int         field_50;
-    Actor      *field_54_pScn_mask;
-    Actor      *field_58_actor_unknown;
-    short       field_5C_saved_n_packs;
-    short       field_5E_saved_rise;
-} Actor_goggle;
-
-// TODO: Move to a header
-
-struct Actor *new_scn_mask_8007895C(int a1);
-
-int  goggle_loader_8007773C(Actor_goggle *a1, OBJECT *a2);
-
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
-Actor *gglmng_init_800779B8(int type);
-
-void set_pal_effect_fns_80079194(void *fn1, void *fn2);
-
 #pragma INCLUDE_ASM("asm/Takabe/goggle_pal_convert_8007743C.s") // 132 bytes
-void goggle_pal_convert_8007743C();
-
 #pragma INCLUDE_ASM("asm/Takabe/goggle_pal_cb_800774C0.s") // 244 bytes
-void goggle_pal_cb_800774C0();
 
 void goggle_act_800775B4(Actor_goggle *pActor)
 {
@@ -67,7 +45,7 @@ void goggle_act_800775B4(Actor_goggle *pActor)
     {
         GM_GameStatus_800AB3CC |= 4u;
         set_pal_effect_fns_80079194(goggle_pal_cb_800774C0, goggle_pal_convert_8007743C);
-        pActor->field_54_pScn_mask = new_scn_mask_8007895C(0);
+        pActor->field_54_pScn_mask = (Actor *)new_scn_mask_8007895C(0);
     }
 
     if (pActor->field_50 < 11)
@@ -118,7 +96,7 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
         pActor->field_4C_head_hidden = 1;
     }
 
-    pActor->field_58_actor_unknown = gglmng_init_800779B8(5);
+    pActor->field_58_actor_unknown = (Actor *)gglmng_init_800779B8(5);
     if (!pActor->field_58_actor_unknown)
     {
         return -1;

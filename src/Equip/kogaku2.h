@@ -19,4 +19,9 @@ typedef struct Actor_kogaku2
     int     field_40_rgb;
 } Actor_kogaku2;
 
+POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *pPrims, int pack_count);
+POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *pPack, int pack_count, int ypos);
+void      kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor);
+void      kogaku2_act_helper_80061528(Actor_kogaku2 *pActor);
+
 #endif // _KOGAKU2_H_

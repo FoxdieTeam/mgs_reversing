@@ -1,6 +1,8 @@
 #include "bomb.h"
 #include "Game/object.h"
 
+// c4 (in hands)
+
 extern char  aC4Bomb[]; // "c4_bomb"
 extern char  aBombC[];  // "bomb.c"
 extern short d_800AB9EC_mag_size;
