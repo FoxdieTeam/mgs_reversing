@@ -26,7 +26,7 @@ extern unsigned int sdStack_800AC3F0[512];
 
 static void task_main_800148B8(void)
 {
-    RECT                rect;
+    RECT rect;
 
     ResetGraph(0);
     SetGraphDebug(0);
@@ -85,8 +85,8 @@ static void task_main_800148B8(void)
     }
 }
 
-extern  unsigned char main_task_stack_800ABBF0[2048];
-void _main_80014A40()
+extern unsigned char main_task_stack_800ABBF0[2048];
+void                 _main_80014A40()
 {
     __main_80098F14();
     mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0),

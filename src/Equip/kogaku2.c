@@ -5,7 +5,7 @@
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;
 
-#pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s") // 268 bytes
+#pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_update_80060F98.s")     // 268 bytes
 #pragma INCLUDE_ASM("asm/Equip/kogaku2_tpage_uv_rgb_update_800610A4.s") // 352 bytes
 
 void kogaku2_update_prims1_80061204(Actor_kogaku2 *pActor)

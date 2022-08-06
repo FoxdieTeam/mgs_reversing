@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "Game/game.h"
-#include "Game/loader.h"
+#include "game.h"
+#include "loader.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 

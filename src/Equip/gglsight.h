@@ -28,7 +28,7 @@ typedef struct Actor_gglsight
 } Actor_gglsight;
 
 Actor_gglsight *gglsight_init_80078520(int type);
-void gglsight_act_80078228(Actor *);
-void gglsight_loader2_80078444(Actor_gglsight *pActor);
+void            gglsight_act_80078228(Actor *);
+void            gglsight_loader2_80078444(Actor_gglsight *pActor);
 
 #endif // _GGLSIGHT_H

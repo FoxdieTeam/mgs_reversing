@@ -17,7 +17,7 @@ extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
 #pragma INCLUDE_ASM("asm/Takabe/goggle_pal_convert_8007743C.s") // 132 bytes
-#pragma INCLUDE_ASM("asm/Takabe/goggle_pal_cb_800774C0.s") // 244 bytes
+#pragma INCLUDE_ASM("asm/Takabe/goggle_pal_cb_800774C0.s")      // 244 bytes
 
 void goggle_act_800775B4(Actor_goggle *pActor)
 {

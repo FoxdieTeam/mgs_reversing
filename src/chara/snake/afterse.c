@@ -1,7 +1,7 @@
 #include "afterse.h"
 #include "libgv/libgv.h"
 
-extern char aAfterseC[];            // = "afterse.c"
+extern char aAfterseC[]; // = "afterse.c"
 
 #pragma INCLUDE_ASM("asm/chara/snake/afterse_act_800603EC.s")
 

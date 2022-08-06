@@ -1,4 +1,4 @@
-//I'm guessing this got compiled further into the linker file becuase it doesn't get used until later
+// I'm guessing this got compiled further into the linker file becuase it doesn't get used until later
 #include "libgv.h"
 
 //**bss*************************************//
@@ -13,7 +13,7 @@ void *GV_SplitMemory_80018FA4(int which, void *addr, int size)
     GV_MemoryAllocation *alloc;
 
     t2 = 0;
-    heap = &MemorySystems_800AD2F0[ which ];
+    heap = &MemorySystems_800AD2F0[which];
 
     alloc = heap->mAllocs;
     i = heap->mUnitsCount;
@@ -28,6 +28,6 @@ void *GV_SplitMemory_80018FA4(int which, void *addr, int size)
         alloc++;
     }
 
-    *(long*)addr = t2;
+    *(long *)addr = t2;
     return heap;
 }
