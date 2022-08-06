@@ -2,8 +2,6 @@
 #include "font.h"
 #include "psyq.h"
 
-int font_set_kcb_80044C90(KCB *kcb, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
-
 extern int dword_800AB6A8;
 int        SECTION(".sdata") dword_800AB6A8;
 

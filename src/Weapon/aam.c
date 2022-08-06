@@ -8,8 +8,6 @@ extern char  aAamC[];      // = "aam.c"
 extern short d_800AB9EC_mag_size;
 extern short dword_800ABA2C;
 
-void aam_act_800670CC(int param_1);
-
 #pragma INCLUDE_ASM("asm/Weapon/aam_act_800670CC.s") // 740 bytes
 
 void aam_kill_800673B0(Actor_Aam *actor)

@@ -14,5 +14,6 @@ typedef struct Actor_bandana
 } Actor_bandana;
 
 Actor *NewBandana_80061E40(GM_Control *pCtrl, OBJECT *pParent);
+void bandana_act_80061DA0(Actor_bandana *pActor);
 
 #endif // _BANDANA_H_

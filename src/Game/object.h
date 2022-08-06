@@ -8,5 +8,6 @@ void GM_ConfigObjectRoot_80034C5C(OBJECT *obj, OBJECT *parent_obj, int num_paren
 void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, int interp);
 void GM_ConfigObjectLight_80034C44(OBJECT *obj, MATRIX *light);
 void GM_FreeObject_80034BF8(OBJECT *obj);
+void GM_ActObject2_80034B88(OBJECT *obj);
 
 #endif // _OBJECT_H_

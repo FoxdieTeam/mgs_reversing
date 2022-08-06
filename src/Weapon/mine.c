@@ -3,6 +3,7 @@
 #include "map/map.h"
 #include "target.h"
 #include "Game/object.h"
+#include "Bullet/jirai.h"
 
 // claymore (in hands)
 
@@ -13,14 +14,11 @@ extern char       aMineC[];      // = "mine.c"
 extern short      d_800AB9EC_mag_size;
 extern short      dword_800ABA2C;
 
-Actor *NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget);
-
 extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
 extern GM_Target *GM_BombSeg_800ABBD8;
 
 #pragma INCLUDE_ASM("asm/Weapon/mine_act_80067558.s") // 440 bytes
-void mine_act_80067558(Actor_Mine *pActor);
 
 void mine_kill_80067710(Actor_Mine *mine)
 {

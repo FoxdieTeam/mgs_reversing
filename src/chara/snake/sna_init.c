@@ -909,7 +909,6 @@ int sub_8004FCB8(Actor_SnaInit *snake, UnkSnakeStruct *unkSnakeStruct, int param
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s") // 276 bytes
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")                                      // 348 bytes
 
-void sna_init_knock_80054D68(void); // dummy signature
 void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int anim_frame)
 {
     void *func;
@@ -931,7 +930,6 @@ void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int anim_frame)
 
 #pragma INCLUDE_ASM("asm/sub_8005027C.s") // 284 bytes
 
-int sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
     if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sub_8004E808(pActor, 1, 0, 0xfffffd92, 1500) == 0)
@@ -2643,7 +2641,6 @@ void sna_init_anim_rungun_begin_80056BDC(Actor_SnaInit *param_1, int anim_frame)
     }
 }
 
-void sna_init_anim_rungun_helper_80057844(void); // dummy signature
 void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int anim_frame)
 {
     if (anim_frame == 0)

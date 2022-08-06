@@ -1,9 +1,8 @@
 #include "shadow.h"
 #include "Game/object.h"
+#include "psyq.h"
 
 #pragma INCLUDE_ASM("asm/shadow_act_helper_8005FD28.s") // 768 bytes
-
-MATRIX *RotMatrixY_80093BC8(long r, MATRIX *m);
 
 void shadow_act_helper_80060028(Actor_Shadow *pActor)
 {
@@ -23,7 +22,6 @@ void shadow_act_helper_80060028(Actor_Shadow *pActor)
     }
 }
 
-void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature
 void shadow_act_800600E4(Actor_Shadow *pActor)
 {
     if ((pActor->field_24_pObj->objs->flag & 0x80) != 0 || !pActor->field_90_bEnable)

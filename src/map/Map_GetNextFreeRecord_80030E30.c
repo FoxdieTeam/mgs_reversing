@@ -37,9 +37,6 @@ int        SECTION(".sbss") N_StageObjs_800ABAA4;
 extern DG_OBJS *StageObjs_800B7890[32];
 extern MATRIX   DG_ZeroMatrix_8009D430;
 
-void *DG_MakeObjs_80031760(void *, int, int);
-void  DG_QueueObjs_80018178(DG_OBJS *);
-
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 {
     int               hashedName;         // $v0
@@ -76,8 +73,6 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     StageObjs_800B7890[N_StageObjs_800ABAA4] = pPrim;
     N_StageObjs_800ABAA4++;
 }
-
-HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *pHzdData, int default_0_flags_index, int default_48, int default_24);
 
 HZD_MAP *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24)
 {

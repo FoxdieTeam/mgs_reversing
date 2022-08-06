@@ -1071,8 +1071,8 @@
     ; 8005FD28 80060028 800600E4 80060190 800601B0 800602CC 80060384
     include "..\obj\chara\snake\shadow.obj"
     
-    include "..\obj\chara\snake\afterse_act_800603EC.obj"
-    include "..\obj\chara\snake\afterse_init_800604C0.obj"
+    ; 800603EC 800604C0
+    include "..\obj\chara\snake\afterse.obj"
     include "..\obj\chara\snake\sub_80060548.obj"
     include "..\obj\chara\snake\sna_act_unk_helper2_helper2_800605DC.obj"
     include "..\obj\sub_80060644.obj"

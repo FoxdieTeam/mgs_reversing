@@ -24,4 +24,6 @@ typedef struct Actor_tabako
     // short field_62;
 } Actor_tabako;
 
+int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
+
 #endif // _TABAKO_H_

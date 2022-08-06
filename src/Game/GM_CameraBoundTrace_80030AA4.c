@@ -1,4 +1,4 @@
-void sub_8002EADC(void);
+#include "Game/game.h"
 
 void GM_CameraBoundTrace_80030AA4(void)
 {

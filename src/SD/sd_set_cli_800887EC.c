@@ -1,6 +1,5 @@
 #include "linker.h"
-
-void sd_set_80088CB0(int sdCode);
+#include "unknown.h"
 
 int sd_set_cli_800887EC(int sdCode, int unused)
 {

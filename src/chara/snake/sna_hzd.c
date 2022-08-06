@@ -1,7 +1,6 @@
 #include "linker.h"
+#include "sna_hzd.h"
 #include "map/hzd.h"
-
-int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3);
 
 int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
 {
@@ -28,7 +27,6 @@ int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8005BFDC.s") // 128 bytes
-int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec);
 
 #pragma INCLUDE_ASM("asm/sub_8005C05C.s") // 228 bytes
 

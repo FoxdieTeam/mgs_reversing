@@ -7,6 +7,12 @@
 #include "Game/GM_Control.h"
 #include "map/hzd.h"
 #include "Menu/menuman.h"
+#include "libgcl/gcl.h"
+
+extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_NoisePower_800ABA24;
+extern int     GM_NoiseLength_800ABA30;
+extern SVECTOR GM_NoisePosition_800AB9F8;
 
 typedef struct Actor_GM_Daemon
 {
@@ -91,10 +97,10 @@ typedef struct _OBJECT_NO_ROTS
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;
 
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_NoisePower_800ABA24;
-extern int     GM_NoiseLength_800ABA30;
-extern SVECTOR GM_NoisePosition_800AB9F8;
+typedef struct Point
+{
+    short x, y;
+} Point;
 
 typedef enum
 {
@@ -230,9 +236,21 @@ int   GM_set_noise_sound_8002E588(int a1);
 char *GM_VoxStream_80037E40(int param_1, unsigned int param_2);
 void  GM_InitReadError_8002AC44();
 void  GM_SetSystemCallbackProc_8002B558(int index, int proc);
+void  GM_ResetChara_8002A8B0(void);
+void  GM_ControlRemove_80025904(GM_Control *pControl);
+TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
 
-int   sub_8002E508(int a1);
-void  sub_8002B600(int);
+// SeSet helpers
+int sub_80032748(Point *out, SVECTOR *pos);
+int sub_800327BC(Point *out, SVECTOR *pos);
+int sub_80032820(Point *out, SVECTOR *pos);
+int sub_800326D4(Point *out, SVECTOR *pos);
+
+int           sub_8002E508(int a1);
+void          sub_8002B600(int);
+void          sub_8002AAEC();
+void          sub_8002EADC(void);
+void          GM_Act_helper3_helper_8002AB40();
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 

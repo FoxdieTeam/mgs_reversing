@@ -9,6 +9,7 @@
 #include "map/map.h"
 #include "psyq.h"
 #include <LIBGPU.H>
+#include "anime.h"
 
 // cigarettes
 
@@ -26,11 +27,6 @@ extern int                GM_CurrentMap_800AB9B0;
 
 int                     SECTION(".sbss") GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-
-void GM_ActObject2_80034B88(OBJECT *obj);
-int  anime_create_8005E6A4(SVECTOR *); // todo: type is prob bigger
-
-int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
 
 static inline void GM_SetCurrentMap(map) int map;
 {

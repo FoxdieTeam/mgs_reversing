@@ -1,5 +1,6 @@
 #include "gglsight.h"
 #include "Game/GM_Control.h"
+#include "Menu/menuman.h"
 
 // night vision goggles / thermal goggles first person
 
@@ -7,11 +8,7 @@ extern short word_8009F714[];
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077A24.s") // 584 bytes
 
-void menu_Text_XY_Flags_80038B34(int x, int y, int flags);
-void menu_Color_80038B4C(int r, int g, int b);
-void menu_Text_80038C38(const char *pStr, ...);
-
-extern const char aLd[];
+extern const char aLd[]; // = "%ld\n"
 
 extern GM_Control *gSnaControl_800AB9F4;
 
