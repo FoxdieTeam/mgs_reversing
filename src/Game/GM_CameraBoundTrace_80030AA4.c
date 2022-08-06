@@ -1,4 +1,4 @@
-#include "Game/game.h"
+#include "game.h"
 
 void GM_CameraBoundTrace_80030AA4(void)
 {

@@ -36,9 +36,9 @@ int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 
 // TODO: make sd.h?
 void SdMain_80081A18(void);
-int sd_task_active_800886C4();
+int  sd_task_active_800886C4();
 void sd_set_80088CB0(int sdCode);
-int StrSpuTransWithNoLoop_800827AC();
+int  StrSpuTransWithNoLoop_800827AC();
 
 // no idea where these go, Equip/util.h ?
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);

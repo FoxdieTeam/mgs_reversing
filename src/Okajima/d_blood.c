@@ -3,7 +3,7 @@
 extern int GM_CurrentMap_800AB9B0;
 
 // TODO: move to header
-void              d_blood_act_80072A0C(void); // dummy signature
+void d_blood_act_80072A0C(void); // dummy signature
 
 void d_blood_kill_null_800729AC(void)
 {

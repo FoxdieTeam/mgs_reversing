@@ -1,4 +1,4 @@
-#include "Game/game.h"
+#include "game.h"
 
 void GM_AlertModeReset_8002EAB8(void)
 {

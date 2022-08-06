@@ -149,8 +149,8 @@ typedef struct Actor_demothrd
     int                field_2F8_old_equipped_weapon;
 } Actor_demothrd;
 
-int DM_ThreadStream_80079460(int flag, int unused);
-int DM_ThreadFile_800794E4(int param_1, int param_2);
+int  DM_ThreadStream_80079460(int flag, int unused);
+int  DM_ThreadFile_800794E4(int param_1, int param_2);
 void demothrd_1_80079664(Actor_demothrd *pActor);
 void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor);
 

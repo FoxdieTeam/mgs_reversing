@@ -22,7 +22,6 @@ extern const char     aResidentTopX[];
 unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
 unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
 
-
 extern struct Actor gGVActor_800acbf8;
 
 void Callback_Hangup_80014B34(void)

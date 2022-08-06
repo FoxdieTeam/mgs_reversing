@@ -182,12 +182,12 @@ int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_
             if (gMenuTextConfig_8009E2E4.flags & 0x10U)
             {
                 menu_number_draw_string2_80043220(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4.xpos,
-                                                   string_buffer);
+                                                  string_buffer);
             }
             else
             {
                 menu_number_draw_string_80042BF4(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4.xpos,
-                                                  string_buffer);
+                                                 string_buffer);
             }
             menu_Text_PrimUnknown_80038BB4();
         }
