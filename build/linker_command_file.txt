@@ -46,14 +46,12 @@
     include "..\obj\libdg\bound.obj"    ;bound.c
     include "..\obj\libdg\oclut.obj"    ;oclut.c    ?
 
-    ;libdg\divide.c
-    include "..\obj\nullsub\sub_80019098.obj"
-    include "..\obj\sub_800190A0.obj"
-    include "..\obj\sub_8001911C.obj"
-    include "..\obj\sub_80019194.obj"
-    include "..\obj\sub_800191CC.obj"
-    include "..\obj\sub_8001923C.obj"
-    include "..\obj\sub_80019318.obj"
+    ;libgv
+    include "..\obj\libgv\memory_2.obj" ;memory.c
+
+    ;libdg
+    include "..\obj\libdg\divide.obj"   ;divide.c
+
     include "..\obj\sub_80019448.obj"
     include "..\obj\sub_800196B4.obj"
     include "..\obj\libdg\DG_DivideChanl_helper2_8001991C.obj"
