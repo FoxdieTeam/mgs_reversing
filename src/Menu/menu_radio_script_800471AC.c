@@ -1,10 +1,12 @@
 #include "linker.h"
 #include "mts/mts_new.h"
-#include "menuMan.h"
+#include "menuman.h"
 #include "libgcl/gcl.h"
 #include "libgcl/hash.h"
 #include "psyq.h"
 #include "Game/game.h"
+#include "radio.h"
+#include "unknown.h"
 
 extern const char aSetCharaCodeD[];
 extern const char aAnimeCharaDCod[];
@@ -12,12 +14,6 @@ extern const char aVoxcodeX[];
 extern const char aIllegalCodeX[];
 extern const char aSetDS[];
 extern const char aBlockExecError[];
-
-void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
-void           sub_80037EE0(int, int);
-void           mts_set_pad_vibration_8008C408(int, int);
-void           mts_set_pad_vibration2_8008C454(int, int);
-unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
 
 #define MakeVoxCode(x)                                                                                                 \
     ((unsigned int)x[0] << 0x18) | ((unsigned int)x[1] << 0x10) | ((unsigned int)x[2] << 8) | ((unsigned int)x[3])
@@ -267,7 +263,7 @@ void radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
 
     pScript = menu_gcl_read_word_80047098(&contact_freq, pScript);
     mts_printf_8008BBA0(aSetDS, contact_freq, pScript);
-    MENU_SetRadioMemory_8004E110(contact_freq, pScript);
+    menu_SetRadioMemory_8004E110(contact_freq, pScript);
 }
 
 void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)

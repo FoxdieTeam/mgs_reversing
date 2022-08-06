@@ -1,4 +1,4 @@
-int jimctrl_helper_80037F68(int);
+#include "jimctrl.h"
 
 int menu_radio_draw_face_helper6_800486A0(unsigned short *a1)
 {

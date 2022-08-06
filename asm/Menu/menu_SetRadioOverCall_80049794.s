@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_SetRadioOverCall_80049794
-MENU_SetRadioOverCall_80049794:
+	xdef menu_SetRadioOverCall_80049794
+menu_SetRadioOverCall_80049794:
 	dw 0x27BDFFE8 ; 0x80049794
 	dw 0x00801021 ; 0x80049798
 	dw 0x00A03021 ; 0x8004979C

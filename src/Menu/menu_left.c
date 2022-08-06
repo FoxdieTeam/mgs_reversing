@@ -1,22 +1,10 @@
-#include "menuMan.h"
+#include "menuman.h"
 #include "linker.h"
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
 
 extern int dword_800ABAD0;
 int        SECTION(".sbss") dword_800ABAD0;
-
-void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx);
-int  menu_restore_nouse_80043470();
-int  sub_8003CFE0(int a1, int a2);
-int  sub_8003B5E0(int a1);
-void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned char *param_2);
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
-                                         short *param_5);
-int *sub_8003D6A8(struct menu_left_right *a1, int a2, int *a3);
-void menu_sub_8003B568(void);
-int  sub_8003CB98(struct Actor_MenuMan *a1);
-void menu_init_nouse_800434A8(void);
 
 void menu_sub_8003B568(void)
 {
@@ -64,7 +52,7 @@ int sub_8003CB98(struct Actor_MenuMan *a1)
     if (v2 != -1 || (v2 = a1->field_1DC_menu_left.field_11, v2 != -1))
     {
         v4 = sub_8003B5E0(v2);
-        result = sub_8003CFE0(v4, 0);
+        result = sub_8003CFE0((unsigned int **)v4, 0); // TODO: make sub_8003B5E0 return this casted type
     }
     return result;
 }
@@ -72,7 +60,7 @@ int sub_8003CB98(struct Actor_MenuMan *a1)
 void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
-    menuMan->m7FnPtrs_field_2C[2] = menu_inventory_left_update_8003C95C;
+    menuMan->m7FnPtrs_field_2C[2] = (TMenuUpdateFn)menu_inventory_left_update_8003C95C;
     menuMan->field_1DC_menu_left.field_0.field_0_item_id_idx = val;
     menuMan->field_1DC_menu_left.field_10 = 0;
     menuMan->field_1DC_menu_left.field_0.field_4 = 0;

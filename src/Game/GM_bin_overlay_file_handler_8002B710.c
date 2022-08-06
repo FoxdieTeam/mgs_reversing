@@ -5,7 +5,7 @@
 #include "libgv/actor.h"
 #include "libgv/libgv.h"
 #include "libdg/dgd.h"
-#include "Menu/menuMan.h"
+#include "Menu/menuman.h"
 #include "unknown.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
@@ -63,7 +63,7 @@ void GM_StartDaemon_8002B77C()
     GM_GameOverTimer_800AB3D4 = 0;
     GM_LoadRequest_800AB3D0 = 0;
     GM_LoadComplete_800ABA38 = 0;
-    MENU_StartDeamon_80038A20();
+    menu_StartDeamon_80038A20();
     GM_InitArea_8002A704();
     GM_InitChara_8002A890();
     GM_InitScript_8002D1DC();

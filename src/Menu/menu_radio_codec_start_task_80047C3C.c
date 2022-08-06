@@ -1,15 +1,12 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "menuman.h"
+#include "radio.h"
 #include "mts/mts_new.h"
-
-void *GV_AllocMemory_80015EB8(int idx, int size);
 
 extern const char aNoMemoryForSta[];
 extern const char aNoMemory[];
 
 #define CODEC_TASK_STACK_SIZE 0x800
-
-void menu_radio_codec_task_proc_80047AA0(void);
 
 menu_chara_struct *SECTION(".sbss") dword_800ABB38;
 

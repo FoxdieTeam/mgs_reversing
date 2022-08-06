@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_RadioCall_helper_800403E4
-MENU_RadioCall_helper_800403E4:
+	xdef menu_RadioCall_helper_800403E4
+menu_RadioCall_helper_800403E4:
 	dw 0x27BDFFD8 ; 0x800403E4
 	dw 0x3C04800B ; 0x800403E8
 	dw 0x2484B618 ; 0x800403EC

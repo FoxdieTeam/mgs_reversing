@@ -2,8 +2,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_SetLoad_800427E8
-MENU_SetLoad_800427E8:
+	xdef menu_SetLoad_800427E8
+menu_SetLoad_800427E8:
 	dw 0x3C02800A ; 0x800427E8
 	dw 0xA446E708 ; 0x800427EC
 	dw 0x2442E708 ; 0x800427F0

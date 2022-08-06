@@ -1,6 +1,5 @@
-#include "menuMan.h"
+#include "menuman.h"
 
-int                  menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
 extern Actor_MenuMan gMenuMan_800BD360;
 
 // num args could be wrong

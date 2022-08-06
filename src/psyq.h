@@ -62,6 +62,6 @@ void           PadSetAct_8009A678(int port, unsigned char *data, int len);
 void           PadStartCom_8009A22C(void);
 void           StopPAD_80099F08(void);
 void           ChangeClearPAD_8009960C(long val);
-
+int            strlen_8008E7B8(char *s);
 
 #endif // _PSYQ_H_

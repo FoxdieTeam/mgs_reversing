@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_RadioCall_80042730
-MENU_RadioCall_80042730:
+	xdef menu_RadioCall_80042730
+menu_RadioCall_80042730:
 	dw 0x27BDFFE8 ; 0x80042730
 	dw 0x3C02800A ; 0x80042734
 	dw 0xAFB00010 ; 0x80042738

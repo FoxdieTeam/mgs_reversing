@@ -1,5 +1,5 @@
 #include "libgcl/gcl.h"
-#include "Menu/menuMan.h"
+#include "Menu/menuman.h"
 
 extern int GM_DisableWeapon_800AB9E4;
 extern int GM_DisableItem_800ABA28;
@@ -97,7 +97,7 @@ int GCL_Command_menu_8002CAAC(void)
 
     if (GCL_GetParam_80020968('s'))
     {
-        MENU_SetRadarScale_80038E28(GCL_GetNextParamValue_80020AD4());
+        menu_SetRadarScale_80038E28(GCL_GetNextParamValue_80020AD4());
     }
 
     if (GCL_GetParam_80020968('w')) // weapon

@@ -1,4 +1,4 @@
-#include "menuMan.h"
+#include "menuman.h"
 #include "linker.h"
 #include "libgcl/gcl.h"
 #include "Script_tbl_map_8002BB44.h"
@@ -20,9 +20,6 @@ int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 
 extern int gTakeDamageCounter_800AB5FC;
 int        SECTION(".sbss") gTakeDamageCounter_800AB5FC;
-
-unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp,
-                                    BarConfig *pConfig);
 
 void sub_8003ECC0(void)
 {
@@ -115,7 +112,6 @@ void menu_font_kill_helper_8003F50C(void)
 }
 
 #pragma INCLUDE_ASM("asm/menu_bars_update_8003F530.s")
-void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 
 void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
 {

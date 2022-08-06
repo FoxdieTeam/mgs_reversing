@@ -1,15 +1,14 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "menuman.h"
+#include "radio.h"
 #include "psyq.h"
-
-void  menu_radio_compact_free_vars_8004D3D8(void);
 
 extern const char aClear[];
 int               dword_800AB770 = 0; // sdata
 
 RadioMemory SECTION(".gRadioMemory_800BDB38") gRadioMemory_800BDB38[RADIO_MEMORY_COUNT] = {};
 
-void MENU_InitRadioMemory_8004E0EC(void)
+void menu_InitRadioMemory_8004E0EC(void)
 {
     RadioMemory *contact;
     int          i;
@@ -22,7 +21,7 @@ void MENU_InitRadioMemory_8004E0EC(void)
     }
 }
 
-void MENU_SetRadioMemory_8004E110(int frequency, const char *name)
+void menu_SetRadioMemory_8004E110(int frequency, const char *name)
 {
     RadioMemory *contact;
 
