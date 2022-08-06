@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "Game/delay.h"
 #include "mts/mts_new.h"
-//#include "Menu/menuMan.h"
+//#include "Menu/menuman.h"
 #include "map/map.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>

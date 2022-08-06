@@ -742,7 +742,7 @@
 
     ; 800386A4 800387E8 80038954 800389A8 80038A00 80038A20 80038A6C 80038A7C 80038A88 80038B4C
     ; 80038BB4 80038C38 80038D10 80038D68 80038D74 80038DE0
-    include "..\obj\menuman.obj"
+    include "..\obj\Menu\menuman.obj"
 
     ;radar.c
     ; 80038E28 80038F30 80038F3C 800390FC 800391D0 80039D5C 80039DB4 80039EC4 8003A0BC 8003A2D0 8003A664 8003A978 8003AA2C 8003ADAC 8003ADD8 8003AEC0 8003B350 8003B554
@@ -891,18 +891,18 @@
     include "..\obj\Menu\menu_jimaku_act_80048FD4.obj"
     include "..\obj\Menu\menu_jimaku_init_helper_800493F8.obj"
     include "..\obj\Menu\menu_jimaku_init_800494C4.obj"
-    include "..\obj\Menu\MENU_JimakuWrite_800494E8.obj"
-    include "..\obj\Menu\MENU_JimakuClear_80049518.obj"
-    include "..\obj\Menu\MENU_AreaNameWrite_80049534.obj"
+    include "..\obj\Menu\menu_JimakuWrite_800494E8.obj"
+    include "..\obj\Menu\menu_JimakuClear_80049518.obj"
+    include "..\obj\Menu\menu_AreaNameWrite_80049534.obj"
     include "..\obj\Menu\NewJimakuStr_8004955C.obj"
     include "..\obj\Menu\NewJimaku_800495A8.obj"
-    include "..\obj\Menu\MENU_InitRadioTable_80049644.obj"
-    include "..\obj\Menu\MENU_ClearRadioTable_8004967C.obj"
+    include "..\obj\Menu\menu_InitRadioTable_80049644.obj"
+    include "..\obj\Menu\menu_ClearRadioTable_8004967C.obj"
     include "..\obj\Menu\sub_8004969C.obj" ; MENU_SetRadioBaseCall / MENU_SetRadioOverCall
     include "..\obj\Menu\sub_80049710.obj"
-    include "..\obj\Menu\MENU_SetRadioBaseCall_80049764.obj"
-    include "..\obj\Menu\MENU_SetRadioOverCall_80049794.obj"
-    include "..\obj\Menu\MENU_GetRadioCode_800497C4.obj"
+    include "..\obj\Menu\menu_SetRadioBaseCall_80049764.obj"
+    include "..\obj\Menu\menu_SetRadioOverCall_80049794.obj"
+    include "..\obj\Menu\menu_GetRadioCode_800497C4.obj"
     include "..\obj\Menu\init_file_mode_helper_helper_helper_8004983C.obj"
     include "..\obj\Menu\init_file_mode_helper_helper_helper2_80049CE8.obj"
     include "..\obj\Menu\init_file_mode_helper_helper_helper3_80049E94.obj"
@@ -972,7 +972,7 @@
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper2_8004DF68.obj"
-    include "..\obj\Menu\MENU_InitRadioMemory_8004E0EC.obj" ; in radiomem.c
+    include "..\obj\Menu\menu_InitRadioMemory_8004E0EC.obj" ; in radiomem.c
     
     include "..\obj\data\sdata\a03d.obj"
     include "..\obj\data\sdata\a02d_0.obj"

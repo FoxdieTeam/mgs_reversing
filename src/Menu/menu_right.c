@@ -1,11 +1,9 @@
 #include "linker.h"
-#include "menuMan.h"
+#include "menuman.h"
 #include "linker.h"
-#include "menuMan.h"
+#include "menuman.h"
 #include "linker.h"
-#include "menuMan.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "menuMan.h"
 #include "util/idaTypes.h"
 #include "linker.h"
 #include "linker.h"
@@ -13,14 +11,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include "linker.h"
-
-typedef struct
-{
-    unsigned char  field_0_count1;
-    unsigned char  field_1_count2;
-    short          pad;
-    Menu_rpk_item *items[0]; // pointers ??
-} RpkHeader;
 
 DWORD SECTION(".sbss") dword_800ABADC;
 
@@ -36,8 +26,6 @@ int SECTION(".dword_800B7800") dword_800B7800;
 struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
 
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
-
-int   GV_CacheID2_800152FC(const char *fileName, int extID);
 
 extern struct menu_8009E544 *dword_800AB584;
 extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
@@ -60,19 +48,6 @@ int SECTION(".sbss") dword_800ABB0C;
 MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
-
-void                       sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
-MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
-void                       sub_8003CFE0(unsigned int **images, int index);
-void                       menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
-void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
-                                     short *param_5);
-void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
-                                         short *param_5);
-void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
-void menu_inventory_right_init_items_8003DE50(void);
-void sub_8003EBDC(struct Actor_MenuMan *a1);
 
 #pragma INCLUDE_ASM("asm/sub_8003CC88.s")
 #pragma INCLUDE_ASM("asm/sub_8003CE40.s")
@@ -154,6 +129,7 @@ int menu_8003D538(void)
 
     return 0;
 }
+
 #pragma INCLUDE_ASM("asm/sub_8003D568.s")
 #pragma INCLUDE_ASM("asm/sub_8003D594.s")
 #pragma INCLUDE_ASM("asm/sub_8003D5F0.s")

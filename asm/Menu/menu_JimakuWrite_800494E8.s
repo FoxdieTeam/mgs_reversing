@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef MENU_JimakuWrite_800494E8
-MENU_JimakuWrite_800494E8:
+	xdef menu_JimakuWrite_800494E8
+menu_JimakuWrite_800494E8:
 	dw 0x3C02800C ; 0x800494E8
 	dw 0x2443DA70 ; 0x800494EC
 	dw 0xA040DA70 ; 0x800494F0
