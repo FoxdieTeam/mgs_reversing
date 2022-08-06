@@ -2,7 +2,7 @@
 #define _BOMB_H_
 
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 // c4 (in hands)
 

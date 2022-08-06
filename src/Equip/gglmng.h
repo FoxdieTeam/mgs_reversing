@@ -1,7 +1,7 @@
 #ifndef _GGMNG_H_
 #define _GGMNG_H_
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 // Goggle Manager?
 // used by all items and weapons that can go first person in order to transition into their first person modes?

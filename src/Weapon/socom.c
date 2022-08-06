@@ -3,7 +3,6 @@
 #include "Game/object.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "libgv/actor.h"
 #include "map/map.h"
 #include "target.h"
 #include "unknown.h"

@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "delay.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 extern int GM_GameOverTimer_800AB3D4;
 

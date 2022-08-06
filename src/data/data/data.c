@@ -2,7 +2,7 @@
 #include "data.h"
 
 #include "data/rdata/rdata.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"
@@ -10,7 +10,6 @@
 #include "Thing/door.h"
 #include "mts/mts_new.h"
 #include "Game/game.h"
-#include "libgv/actor.h"
 #include "Game/GM_Control.h"
 #include "chara/snake/sna_init.h"
 #include "Equip/bodyarm.h"

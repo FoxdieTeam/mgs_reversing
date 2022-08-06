@@ -2,7 +2,7 @@
 #define _FAMAS_H_
 
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 typedef struct _Actor_Famas
 {

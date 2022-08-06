@@ -1,7 +1,7 @@
 #ifndef _RMISSILE_H_
 #define _RMISSILE_H_
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 // nikita missile
 
