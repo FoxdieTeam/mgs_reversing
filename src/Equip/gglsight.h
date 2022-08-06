@@ -3,7 +3,7 @@
 
 // night vision goggles / thermal goggles first person
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>

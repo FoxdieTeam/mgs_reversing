@@ -3,7 +3,7 @@
 
 #include "linker.h"
 #include "libdg/libdg.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/GM_Control.h"
 #include "map/hzd.h"
 #include "Menu/menuman.h"

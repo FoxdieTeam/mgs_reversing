@@ -1,5 +1,5 @@
 #include <LIBSN.H>
-#include "actor.h"
+#include "libgv.h"
 #include "mts/mts_new.h"
 
 int SECTION(".sbss") GV_PauseLevel_800AB928;
@@ -10,7 +10,7 @@ LibGV_FileRecord *SECTION(".sbss") GV_CurrentTag_800AB930;
 LibGV_FileRecord *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
 int               SECTION(".sbss") N_ResidentFileRecords_800AB938;
 
-short          SECTION(".sbss") pad1;
+int            SECTION(".sbss") dword_800AB93C;
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
 int            SECTION(".sbss") dword_800AB944;
 int            SECTION(".sbss") active_msg_queue_800AB948;
@@ -26,6 +26,8 @@ int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 struct ActorList SECTION(".0x800ACC18") gActorsList[ACTOR_LIST_COUNT];
 
 extern struct PauseKill gPauseKills_8009D308[9];
+
+extern int GM_CurrentMap_800AB9B0;
 
 void GV_InitActorSystem_80014D98(void)
 {

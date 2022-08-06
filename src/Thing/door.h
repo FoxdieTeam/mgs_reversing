@@ -3,7 +3,7 @@
 
 #include "Game/GM_Control.h"
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 
 Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv);
 

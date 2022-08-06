@@ -1,7 +1,7 @@
 #ifndef _SNA_INIT_H_
 #define _SNA_INIT_H_
 
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "Game/GM_Control.h"
 #include "Game/game.h"
 #include "target.h"

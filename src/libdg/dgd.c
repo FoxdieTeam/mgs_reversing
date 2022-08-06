@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "dgd.h"
 #include "mts/mts_new.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libgv/libgv.h"
 
 extern unsigned char kVertexIndexingOrder_8009D46C[];

@@ -1,4 +1,4 @@
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "kogaku2.h"
 #include "unknown.h"
 

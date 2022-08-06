@@ -5,7 +5,6 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
-#include "libgv/actor.h"
 
 typedef struct DG_TEX
 {

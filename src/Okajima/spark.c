@@ -1,10 +1,12 @@
 #include "linker.h"
 #include "libdg/libdg.h"
 #include "map/map.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include <LIBGPU.H>
 #include "spark.h"
+
+extern int GM_CurrentMap_800AB9B0;
 
 static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
 int                group_id;

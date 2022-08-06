@@ -1,6 +1,6 @@
 #include "bss.h"
 #include "linker.h"
-#include "libgv\actor.h"
+#include "libgv\libgv.h"
 
 unsigned char SECTION(".bss") main_task_stack_800ABBF0[2048]; // 800ABBEC
 

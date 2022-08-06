@@ -2,7 +2,7 @@
 #define _BLOOD_H
 
 #include "Game/game.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
 typedef struct _Actor_Blood

@@ -1,5 +1,5 @@
 #include "util/idaTypes.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
 extern const char aDBloodrC[];

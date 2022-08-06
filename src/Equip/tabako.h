@@ -1,7 +1,6 @@
 #ifndef _TABAKO_H_
 #define _TABAKO_H_
 
-#include "libgv/actor.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/GM_Control.h"

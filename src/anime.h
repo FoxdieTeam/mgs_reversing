@@ -5,7 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libdg/libdg.h"
-#include "libgv/actor.h"
+#include "libgv/libgv.h"
 #include "data/data/data.h"
 
 typedef struct anime_0x34
