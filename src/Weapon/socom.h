@@ -29,4 +29,7 @@ typedef struct _Actor_Socom
 
 STATIC_ASSERT_SIZE(Actor_Socom, 0x120);
 
+int socom_act_80065518(int a1);
+int socom_loader_80065B04(Actor_Socom *a1, OBJECT *a2, int a3);
+
 #endif // _SOCOM_H

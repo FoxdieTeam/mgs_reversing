@@ -1,4 +1,4 @@
-void SpuSetKey_80096C18(int, int);
+#include "psyq.h"
 
 void SD_80082170(int param_1)
 {

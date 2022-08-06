@@ -19,4 +19,6 @@ typedef struct _Actor_Famas
 
 STATIC_ASSERT_SIZE(Actor_Famas, 0x60);
 
+int famas_act_80065E90(int a1);
+
 #endif // _FAMAS_H_

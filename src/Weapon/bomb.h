@@ -20,4 +20,7 @@ typedef struct _Actor_Bomb
 
 STATIC_ASSERT_SIZE(Actor_Bomb, 0x5c);
 
+void bomb_act_8006788C(int param_1);
+int  bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent);
+
 #endif // _BOMB_H_

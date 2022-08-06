@@ -1,5 +1,6 @@
 #include "bandana.h"
 #include "Script_tbl_map_8002BB44.h"
+#include "unknown.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
@@ -9,8 +10,6 @@ extern const char aBandanaC[];
 
 extern const char *off_8009F2A8[3];
 extern const char *off_8009F2B4[3];
-
-void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2);
 
 void bandana_80061D14(OBJECT *pObj)
 {
@@ -35,7 +34,6 @@ short SECTION(".snake_mag_size_800BDCB8") snake_weapon_max_ammo_800BDCBC;
 
 // not matching yet
 #pragma INCLUDE_ASM("asm/Equip/bandana_act_80061DA0.s") // 124 bytes
-void bandana_act_80061DA0(Actor_bandana *pActor);
 
 /*
 void bandana_act_80061DA0(Actor_bandana *pActor)

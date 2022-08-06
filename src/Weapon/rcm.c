@@ -7,6 +7,7 @@
 #include "libdg/libdg.h"
 #include "psyq.h"
 #include "Game/object.h"
+#include "Bullet/rmissile.h"
 
 // nikita
 
@@ -27,8 +28,6 @@ extern int DG_CurrentGroupID_800AB968;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern int                GV_Clock_800AB920;
-
-Actor *NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
 
 void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
 {

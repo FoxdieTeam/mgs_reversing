@@ -1,12 +1,9 @@
+#include "d_bloodr.h"
 #include "util/idaTypes.h"
 #include "libgv/actor.h"
 #include "libdg/libdg.h"
 
 extern const char aDBloodrC[];
-
-int  d_bloodr_act_80072C10(int a1);
-void d_bloodr_kill_80072BD4(int a1);
-int  d_bloodr_loader_800730EC(struct Actor *pActor, int a2);
 
 void d_bloodr_kill_80072BD4(int param_1)
 {
@@ -18,7 +15,6 @@ void d_bloodr_kill_80072BD4(int param_1)
         DG_DequeuePrim_800182E0(prim);
         DG_FreePrim_8001BC04(prim);
     }
-    return;
 }
 
 #pragma INCLUDE_ASM("asm/Okajima/d_bloodr_act_80072C10.s")                  // 472 bytes

@@ -1,14 +1,12 @@
 #include "bodyarm.h"
-
 #include "Script_tbl_map_8002BB44.h" // todo move game state
 #include "libdg/libdg.h"
+#include "unknown.h"
 
 extern GameState_800B4D98 gGameState_800B4D98;
 const char               *off_8009F264[4];
 const char               *off_8009F274[4];
 extern const char         aBodyarmC[];
-
-void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2);
 
 void bodyarm_free_80060874(OBJECT *a1)
 {

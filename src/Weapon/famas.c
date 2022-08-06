@@ -10,8 +10,6 @@ extern short              d_800AB9EC_mag_size;
 extern short              dword_800ABA2C;
 extern GameState_800B4D98 gGameState_800B4D98;
 
-int famas_act_80065E90(int a1);
-
 #pragma INCLUDE_ASM("asm/Weapon/famas_act_80065E90.s") // 760 bytes
 
 void famas_die_80066188(Actor_Famas *famas)
