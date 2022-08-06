@@ -1,13 +1,8 @@
-
-
-#include "util/idaTypes.h"
+#include "game.h"
 
 extern int GV_PauseLevel_800AB928;
 
-unsigned int  sub_8002AAEC();
-unsigned long GM_Act_helper3_helper_8002AB40();
-
-int GM_Act_helper3_8002ABA4(void)
+void GM_Act_helper3_8002ABA4(void)
 {
     int var1;
     int var2;
@@ -20,9 +15,9 @@ int GM_Act_helper3_8002ABA4(void)
     {
         if ((var1 & 2) == 0)
         {
-            return GM_Act_helper3_helper_8002AB40();
+            GM_Act_helper3_helper_8002AB40();
+            return;
         }
-        ret = sub_8002AAEC();
+        sub_8002AAEC();
     }
-    return ret;
 }

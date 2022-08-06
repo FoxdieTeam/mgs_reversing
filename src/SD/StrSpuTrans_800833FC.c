@@ -1,8 +1,4 @@
-
-
-#include "util/idaTypes.h"
-
-int StrSpuTransWithNoLoop_800827AC();
+#include "unknown.h"
 
 void StrSpuTrans_800833FC(void)
 {

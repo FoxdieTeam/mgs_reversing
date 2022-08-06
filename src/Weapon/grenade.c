@@ -9,8 +9,6 @@ extern short          d_800AB9EC_mag_size;
 extern short          dword_800ABA2C;
 extern unsigned short dword_8009F3E4[];
 
-int grenade_act_8006641C(int a1);
-
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR stru_800ABA10;
 void           grenade_800663A0(void)

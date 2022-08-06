@@ -10,8 +10,6 @@ extern const char aSwCardError[];
 extern const char aCSTO[];
 extern const char aSwCardNew[];
 
-void memcard_hwcard_read_write_handler_8002546C(int op);
-
 extern TMemCardFunc gHwCard_do_op_800B52E8;
 extern TMemCardFunc gSwCard_do_op_800B52EC;
 
@@ -87,8 +85,6 @@ extern const char aAccessWait[];
 extern const char aCardNormal[];
 extern const char aCardUnformat[];
 extern const char aCardError[];
-
-long card_read_8009901C(long chan, long block, unsigned char *buf);
 
 int memcard_easy_format_test_800246C0(int hCard)
 {

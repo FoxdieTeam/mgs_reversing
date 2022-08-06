@@ -5,6 +5,7 @@
 #include "libgv/actor.h"
 #include "mts/mts_new.h"
 #include "Game/game.h"
+#include "psyq.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
@@ -20,8 +21,6 @@ extern GV_PAD          *GM_CurrentPadData_800AB91C;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern const char asc_80010208[];
-
-int ResetGraph(int mode);
 
 int DG_DrawSyncResetGraph_8001F014()
 {

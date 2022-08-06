@@ -451,12 +451,22 @@ void DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
 void DG_WriteObjPacketUV_8001A774(DG_OBJ *pObj, int idx);
 int  DG_PointCheckOne_8001C18C(DVECTOR *line);
 void DG_OffsetDispEnv_80017784(int offset);
+void DG_TextureCacheInit_8001F25C(void);
+DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl);
+int DG_QueueObjs_80018178(DG_OBJS *pPrim);
+void DG_DequeueObjs_800181E4(DG_OBJS *objs);
+void DG_FreeObjs_800318D0(DG_OBJS *pObjs);
 
+void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen);
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
 
 void sub_8001C248(DG_OBJS *objs, int n_obj);
 void sub_8001C460(DG_OBJS *objs, int n_obj);
 void sub_8001C5CC(DG_OBJS *objs, int n_obj);
 void sub_8001C708(DG_OBJS *objs, int n_obj);
+// process vecs in spad
+SVECTOR *sub_8001AD28(SVECTOR *a1, int count);
+// read vecs from spad
+unsigned short *sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
 
 #endif // LIBDG_H

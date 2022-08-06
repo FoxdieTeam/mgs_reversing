@@ -20,4 +20,6 @@ typedef struct Actor_Mine
 
 STATIC_ASSERT_SIZE(Actor_Mine, 0x58);
 
+void mine_act_80067558(Actor_Mine *pActor);
+
 #endif // _MINE_H

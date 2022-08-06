@@ -29,6 +29,8 @@ struct map_record *Map_GetNextFreeRecord_80030E30(int mapNameHashed);
 struct map_record *Map_FromId_800314C0(int id);
 struct map_record *Map_ScriptLoadMapBlocks_800312D0();
 int                Map_ScriptReloadMaps_80031450(int a1);
+void               Map_LoadMapData_80031244(int mapNum, int resourceNameHashed);
+int                Map_light_80030C6C(int a1);
 
 int GM_DelMap_800313C0(int mapName);
 
