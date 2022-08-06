@@ -2,6 +2,9 @@
 
 extern int GM_CurrentMap_800AB9B0;
 
+// TODO: move to header
+void              d_blood_act_80072A0C(void); // dummy signature
+
 void d_blood_kill_null_800729AC(void)
 {
 }
@@ -23,7 +26,6 @@ int d_blood_loader_80072B38(Actor_Blood *actor_blood)
     return 0;
 }
 
-void              d_blood_act_80072A0C(void); // dummy signature
 extern const char aDBloodC[];
 Actor_Blood      *NewKetchap_80072B60(void)
 {

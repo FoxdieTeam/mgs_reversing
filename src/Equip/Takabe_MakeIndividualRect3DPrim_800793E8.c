@@ -8,6 +8,7 @@
 extern int GM_CurrentMap_800AB9B0;
 int        SECTION(".sbss") GM_CurrentMap_800AB9B0;
 
+// TODO: move to header
 void Takabe_MakeIndividualRect3DPrim_helper_80079284(void);
 
 static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;

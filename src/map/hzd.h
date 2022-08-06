@@ -123,6 +123,13 @@ void HZD_StartDaemon_80021900(void);
 HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24);
 void HZD_SetEvent_80029AB4(void *param_1, int param_2);
 void HZD_FreeHandler_80021C40(void *param_1);
+int  HZD_LoadInitHzd_800219F4(void *hzmFile);
+void HZD_Process_TableFlagIfTriggers_80021928(HZD_TRG *triggers, int n_triggers);
+void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1); // navmeshes
+void HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
+
+
+void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 
 // including Script_tbl_map_8002BB44 in this file causes the match to fail for some reason..
 struct BindStruct;
