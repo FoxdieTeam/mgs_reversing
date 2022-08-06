@@ -291,6 +291,7 @@ void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(int param_1, char *param_2); // probably a font func, move if so
+void sub_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper2_8004A800(void);
@@ -306,5 +307,15 @@ void menu_SetRadioOverCall_80049794(int param_1, int param_2);
 void menu_InitRadioMemory_8004E0EC(void);
 TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb);
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int idx);
+void menu_JimakuClear_80049518(void);
+void menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags);
+void menu_Color_80038B4C(int r, int g, int b);
+void menu_radio_codec_start_task_80047C3C(void);
+
+#ifdef _BUILDING_MENUMAN_
+int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
+#else
+int  menu_Text_80038C38(const char *fmt, ...);
+#endif
 
 #endif // _MENUMAN_H

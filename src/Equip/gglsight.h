@@ -27,4 +27,6 @@ typedef struct Actor_gglsight
     int      field_380;
 } Actor_gglsight;
 
+Actor *gglsight_init_80078520(int type);
+
 #endif // _GGLSIGHT_H

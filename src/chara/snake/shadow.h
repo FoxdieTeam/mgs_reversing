@@ -32,4 +32,6 @@ typedef struct Actor_Shadow
     int         field_98_a5;
 } Actor_Shadow;
 
+void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature
+
 #endif // _SHADOW_H_

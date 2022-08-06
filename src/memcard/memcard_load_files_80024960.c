@@ -1,18 +1,14 @@
 #include "linker.h"
 #include "memcard.h"
 #include <KERNEL.H>
+#include "psyq.h"
 
 extern struct mem_card gMemCards_800B52F8[2];
-
-int memcard_loaddir_800247E8(int idx, int *pFreeBlockCount);
 
 extern const char aBu02x[];          // = "bu%02X:*";
 extern const char aLoadDirSStart[];  // = "load_dir %s start\n";
 extern const char aTotalDFilesUse[]; // = "TOTAL %d FILES used %d block\n";
 extern const char aNoFile[];         // = "NO FILE\n";
-
-struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
-struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
 
 // still has large diffs
 /*

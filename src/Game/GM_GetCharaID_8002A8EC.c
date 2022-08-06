@@ -10,8 +10,6 @@ extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
 
 unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
 
-TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
-
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript)
 {
     return GM_GetCharaID_8002A8EC(GCL_GetNextInt_800209E8(pScript));

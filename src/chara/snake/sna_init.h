@@ -744,10 +744,15 @@ void sna_init_anim_wall_idle_and_c4_helper_800537D4(Actor_SnaInit *pActor, int a
 void sna_init_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int anim_frame);
 void sub_8004FAE8(Actor_SnaInit *pActor);
 void sna_init_anim_wall_move_helper_800538CC(Actor_SnaInit *pActor, int anim_frame);
+void sna_init_knock_80054D68(void); // dummy signature
+void sna_init_anim_rungun_helper_80057844(void); // dummy signature
 int  sub_8005009C(void);
 int  sub_80051BA4(Actor_SnaInit *pActor);
 int  sub_8004EFE4(Actor_SnaInit *pActor, int param_2);
 int  sub_8004E5E8(Actor_SnaInit *pActor, int param_2);
+int  sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
+int  sna_act_unk_helper2_helper3_80060684(void);
+
 
 // TODO: move these to indivudual weapon headers
 Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);

@@ -1,7 +1,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
-
-int sub_80026440(int param_1, int param_2, int param_3);
+#include "unknown.h"
 
 void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {

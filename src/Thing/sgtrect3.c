@@ -1,6 +1,7 @@
 #include "sgtrect3.h"
 #include "libdg/dgd.h"
 #include <LIBGTE.H>
+#include "psyq.h"
 
 // stinger missile first person HUD + stinger HUD?
 
@@ -16,8 +17,6 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
     }
 }
 
-void SetTransMatrix_80093248(MATRIX *);
-void SetRotMatrix_80093218(MATRIX *);
 void sgtrect3_act_helper_8007009C()
 {
     DG_CHNL *chnl = &DG_Chanls_800B1800[1];

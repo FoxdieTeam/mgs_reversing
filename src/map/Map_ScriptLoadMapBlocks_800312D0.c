@@ -1,7 +1,6 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
-
-void Map_LoadMapData_80031244(int mapNum, int resourceNameHashed);
+#include "map/map.h"
 
 extern struct map_record gMapRecs_800B7910[16];
 

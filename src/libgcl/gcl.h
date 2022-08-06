@@ -212,6 +212,8 @@ void           GCL_UnsetArgStack_800208F0(void *stack);
 int            GCL_GetArgs_80020904(int param_1);
 unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value);
 void           GCL_InitClearVar_800212CC(void);
+void           GCL_ResetSystem_8001FD24(void);
+void           GCL_RestoreVar_80021488(void);
 int            calc_80020430(int operation, int v1, int v2);
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript);
 

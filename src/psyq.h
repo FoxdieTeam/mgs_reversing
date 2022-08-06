@@ -10,7 +10,9 @@ MATRIX        *MulMatrix0_80092A48(MATRIX *m0, MATRIX *m1, MATRIX *m2);
 MATRIX        *MulRotMatrix_80092B58(MATRIX *m0);
 MATRIX        *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
 MATRIX        *RotMatrixYXZ_gte_80094108(SVECTOR *r, MATRIX *m);
+MATRIX        *RotMatrixY_80093BC8(long r, MATRIX *m);
 VECTOR        *ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
+void           SetTransMatrix_80093248(MATRIX *);
 char          *strcpy_8008E768(char *dest, const char *src);
 int            ChangeTh_800994EC(int thread);
 int            LoadImage2_80091FB0(RECT *, u_long *);
@@ -65,5 +67,12 @@ void           ChangeClearPAD_8009960C(long val);
 int            strlen_8008E7B8(char *s);
 void          *memcpy_8008E648(void *destination, const void *source, int num);
 int            erase_800995FC(char *);
+long           card_read_8009901C(long chan, long block, unsigned char *buf);
+void           bu_init_80098FEC(void);
+int            ResetGraph(int mode);
+void           SpuSetKey_80096C18(int, int);
+
+struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
+struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
 
 #endif // _PSYQ_H_

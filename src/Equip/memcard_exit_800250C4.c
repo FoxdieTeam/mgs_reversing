@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "memcard/memcard.h"
 #include "psyq.h"
+#include "mts/mts_new.h"
 
 extern int gmem_card_system_inited_8009D524;
 
@@ -19,11 +20,7 @@ extern long          gSwCard_do_op_800B52EC;
 extern volatile long gSwCardLastOp_800B52F0;
 extern volatile long gHwCardLastOp_800B52F4;
 
-void bu_init_80098FEC(void);
-
 extern struct mem_card gMemCards_800B52F8[2];
-
-void mts_set_vsync_task_800892B8(void);
 
 void memcard_init_80024E48()
 {

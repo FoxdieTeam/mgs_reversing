@@ -28,4 +28,6 @@ typedef struct _Actor_Grenade
 
 STATIC_ASSERT_SIZE(Actor_Grenade, 0x68);
 
+int grenade_act_8006641C(int a1);
+
 #endif // _GRENADE_H_

@@ -113,6 +113,7 @@ enum
 
 // gvd
 void         GV_StartDaemon_80014D18(void);
+void         GV_ResetSystem_80014CC8(void);
 
 // cache
 void         GV_InitCacheSystem_80015458(void);
@@ -128,6 +129,7 @@ int          GV_CacheID2_800152FC(const char *fileName, int extID);
 // memory
 void         GV_InitMemorySystemAll_80015AB0();
 void         GV_InitMemorySystem_80015AF4(int, int, void *, int);
+void         GV_ResetMemory_80014CF0(void);
 void        *GV_AllocMemory_80015EB8(int, int);
 void        *GV_AllocMemory2_80015ED8(int, int, void **);
 void         GV_FreeMemory_80015FD0(int, void *);

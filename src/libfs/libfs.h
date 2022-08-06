@@ -24,5 +24,9 @@ int  Loader_CD_Read_CallBack_80023274(int *a1);
 int  FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
 struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName);
 void FS_LoadStageComplete_80023804(struct Loader_Record *pFileName);
+int  FS_StreamGetData_800240E0(unsigned int);
+void FS_StreamOpen_80024060();
+void FS_StreamClose_80024098(void);
+
 
 #endif // _LIBFS_H_

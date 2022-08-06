@@ -1,11 +1,9 @@
 #include "linker.h"
 #include "libdg.h"
 #include "dgd.h"
+#include "psyq.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
-
-int ratan2_80094308(int, int);
-int rcos_800925D8(int a1);
 
 void DG_FreePreshade_80032110(DG_OBJS *pPrim)
 {
