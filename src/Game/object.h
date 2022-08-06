@@ -9,5 +9,6 @@ void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, in
 void GM_ConfigObjectLight_80034C44(OBJECT *obj, MATRIX *light);
 void GM_FreeObject_80034BF8(OBJECT *obj);
 void GM_ActObject2_80034B88(OBJECT *obj);
+int  GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model);
 
 #endif // _OBJECT_H_
