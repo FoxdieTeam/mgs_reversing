@@ -84,23 +84,27 @@ void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
     }
 }
 
-void AssignXY_8003D1A8(SVECTOR *vec, short vx, short vy)
+void AssignXY_8003D1A8(Menu_Item_Unknown_Array_Item *pArray, short idx, short amount)
 {
-    vec->vx = vx;
-    vec->vy = vy;
-    vec->pad = 0;
+    pArray->field_0_item_id_idx = idx;
+    pArray->field_2_current_amount = amount;
+    pArray->field_6 = 0;
 }
 
-void AssignXYFromVec_8003D1B8(SVECTOR *vec_1, SVECTOR *vec_2)
+void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther)
 {
-    vec_1->vx = vec_2->vx;
-    vec_1->vy = vec_2->vy;
-    vec_1->pad = 1;
-    vec_1->vz = 0;
-}
+    short amount; // $v1
 
+    pArray->field_0_item_id_idx = pOther->field_0_item_id_idx;
+    amount = pOther->field_2_current_amount;
+    pArray->field_6 = 1;
+    pArray->field_4 = 0;
+    pArray->field_2_current_amount = amount;
+}
 #pragma INCLUDE_ASM("asm/sub_8003D1DC.s")
+
 #pragma INCLUDE_ASM("asm/sub_8003D2BC.s")
+
 #pragma INCLUDE_ASM("asm/sub_8003D34C.s")
 #pragma INCLUDE_ASM("asm/sub_8003D3A4.s")
 #pragma INCLUDE_ASM("asm/sub_8003D3FC.s")
@@ -328,7 +332,7 @@ void sub_8003EBDC(struct Actor_MenuMan *menuMan)
         (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_right).field_11), weapon_index != -1))
     {
         inventory_unk = menu_right_get_weapon_rpk_info_8003DED8(weapon_index);
-        sub_8003CFE0((unsigned int **)&inventory_unk->field_0_pixels, 1);
+        sub_8003CFE0(inventory_unk, 1);
     }
 }
 
