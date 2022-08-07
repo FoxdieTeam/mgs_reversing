@@ -26,13 +26,13 @@ int SECTION(".bss") pad_800ACBF0;
 
 struct Actor SECTION(".bss") gGVActor_800acbf8;
 
-int    SECTION(".dword_800B05A8") dword_800B05A8[6];
+int SECTION(".dword_800B05A8") dword_800B05A8[6];
 
-DG_CHNL        SECTION(".DG_Chanls_800B1800") DG_Chanls_800B1800[3];
+DG_CHNL SECTION(".DG_Chanls_800B1800") DG_Chanls_800B1800[3];
 
-unsigned char  SECTION(".byte_800B1400") byte_800B1400[1024];
+unsigned char SECTION(".byte_800B1400") byte_800B1400[1024];
 
-char          SECTION(".byte_801FFF00") byte_801FFF00[240];
+char SECTION(".byte_801FFF00") byte_801FFF00[240];
 
 unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512];
 
@@ -42,21 +42,21 @@ unsigned char SECTION(".byte_800B7A50") byte_800B7A50[2016];
 
 UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
 
-signed char   SECTION(".byte_800C0C10") byte_800C0C10[32];
+signed char SECTION(".byte_800C0C10") byte_800C0C10[32];
 
-int           SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0;
+int SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0;
 
-mts_msg       SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8];
+mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8];
 
 DISPENV SECTION(".gDispEnv_800B0600") gDispEnv_800B0600;
 
-VECTOR  SECTION(".gUnknownVector_800B0620") gUnknownVector_800B0620;
+VECTOR SECTION(".gUnknownVector_800B0620") gUnknownVector_800B0620;
 
 GM_Control *SECTION(".GM_WhereList_800B56D0") GM_WhereList_800B56D0[96];
 
-GM_Control  SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
+GM_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
 
-int        SECTION(".dword_800BDFA8") dword_800BDFA8;
+int SECTION(".dword_800BDFA8") dword_800BDFA8;
 
 int SECTION(".dword_800B7800") dword_800B7800;
 
@@ -64,28 +64,28 @@ unsigned short SECTION(".gOldRootCnt_800B1DC8") gOldRootCnt_800B1DC8[32];
 
 unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36];
 
-int           SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2];
+int SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2];
 
 unsigned char SECTION(".gMtsPadSendBuffers_800C14D0") gMtsPadSendBuffers_800C14D0[2][8];
 
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_timeout_800B52D0;
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_new_device_800B52D4;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_io_800B52D8;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_timeout_800B52D0;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_new_device_800B52D4;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_io_800B52D8;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
+long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
 TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
 TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
 volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
 volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
-struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
-volatile long SECTION(".gMemoryCardFiles_800B52C8") gMemCard_io_size_800B5648;
+struct mem_card          SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
+volatile long            SECTION(".gMemoryCardFiles_800B52C8") gMemCard_io_size_800B5648;
 
 GCL_Vars SECTION(".gGcl_memVars_800b4588") gGcl_memVars_800b4588;
 
-RadioMemory SECTION(".gRadioMemory_800BDB38") gRadioMemory_800BDB38[RADIO_MEMORY_COUNT] = {};
+RadioMemory   SECTION(".gRadioMemory_800BDB38") gRadioMemory_800BDB38[RADIO_MEMORY_COUNT] = {};
 unsigned char SECTION(".gRadioMemory_800BDB38") gBulNames_800BDC78[64];
 
 Actor SECTION(".gDgdActor2_800B3750") gDgdActor2_800B3750;
@@ -104,8 +104,9 @@ map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
-MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0") stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
-                                                                      //
+MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0")
+    stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
+                      //
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
 
 Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
@@ -121,11 +122,11 @@ int                   SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
 
 GameState_800B4D98 SECTION(".gGcl_gameStateVars_800B44C8") gGcl_gameStateVars_800B44C8;
 
-int      SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0;
+int SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0;
 
 mts_task SECTION(".gTasks_800C0C30") gTasks_800C0C30[12];
 
-int      SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4;
+int SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4;
 
 CAMERA SECTION(".GM_CameraList_800B7718") GM_CameraList_800B7718[8];
 
@@ -148,7 +149,7 @@ GV_Messages SECTION(".gMessageQueue_800B0320") gMessageQueue_800B0320[2];
 
 GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
 
-CacheSystems    SECTION(".CacheSystems_800ACEF0") GV_CacheSystem;
+CacheSystems SECTION(".CacheSystems_800ACEF0") GV_CacheSystem;
 
 TFileExtHandler SECTION(".gFileExtHandlers_800ACE80") gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 
@@ -162,7 +163,7 @@ Actor_GM_Daemon SECTION(".gAreaHistory_800B5850") GM_Daemon_800B5880;
 
 void SECTION(".pfn_800BDFB0") (*pfn_800BDFB0)();
 
-int            SECTION(".argstack_800B3C28") argstack_800B3C28[32];
+int SECTION(".argstack_800B3C28") argstack_800B3C28[32];
 
 unsigned char *SECTION(".commandlines_800B3CA8") commandlines_800B3CA8[8];
 
@@ -184,8 +185,8 @@ DG_OBJS *SECTION(".StageObjs_800B7890") StageObjs_800B7890[32];
 
 int SECTION(".int_800B4E74") int_800B4E74;
 
-mts_msg      *SECTION(".D_800C0C00") D_800C0C00;
-mts_msg      *SECTION(".D_800C0C00") D_800C0C04;
+mts_msg *SECTION(".D_800C0C00") D_800C0C00;
+mts_msg *SECTION(".D_800C0C00") D_800C0C04;
 
 int SECTION(".int_800B5298") fs_stream_ref_count_800B5298;
 
@@ -197,12 +198,12 @@ int SECTION(".int_800B4E58") cd_bios_task_state_800B4E58;
 
 DG_FixedLight SECTION(".bss_800B1E08") gFixedLights_800B1E08[8];
 
-int            SECTION(".dword_800B0630") dword_800B0630[68];
-int            SECTION(".dword_800B0630") dword_800B0740[516];
-int            SECTION(".dword_800B0630") dword_800B0F50[4];
-DG_OBJS       *SECTION(".dword_800B0630") dword_800B0F60[8];
-DG_OBJS       *SECTION(".dword_800B0630") dword_800B0F80[256];
-DR_ENV         SECTION(".dword_800B0630") stru_800B1380[2];
+int      SECTION(".dword_800B0630") dword_800B0630[68];
+int      SECTION(".dword_800B0630") dword_800B0740[516];
+int      SECTION(".dword_800B0630") dword_800B0F50[4];
+DG_OBJS *SECTION(".dword_800B0630") dword_800B0F60[8];
+DG_OBJS *SECTION(".dword_800B0630") dword_800B0F80[256];
+DR_ENV   SECTION(".dword_800B0630") stru_800B1380[2];
 
 GM_Control *SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_800BDD30[16];
 int         SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_count_800BDD70;
