@@ -2,7 +2,6 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "map/map.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "libdg/libdg.h"
 #include "psyq.h"
 #include "Game/object.h"

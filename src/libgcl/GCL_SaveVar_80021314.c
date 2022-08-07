@@ -1,4 +1,3 @@
-#include "Script_tbl_map_8002BB44.h"
 #include "linker.h"
 #include "psyq.h"
 #include "Game/game.h"

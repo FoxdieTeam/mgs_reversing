@@ -7,14 +7,7 @@
 #include "libgv/libgv.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 
-#define MAX_HISTORY 8
-
 #define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
-
-typedef struct AreaHistory
-{
-    short history[MAX_HISTORY];
-} AreaHistory;
 
 typedef struct
 {

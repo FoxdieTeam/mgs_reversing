@@ -1,5 +1,4 @@
 #include "bodyarm.h"
-#include "Script_tbl_map_8002BB44.h" // todo move game state
 #include "libdg/libdg.h"
 #include "unknown.h"
 

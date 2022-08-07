@@ -1,5 +1,4 @@
 #include "linker.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "Font/font.h"

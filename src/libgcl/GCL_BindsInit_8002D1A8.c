@@ -1,4 +1,4 @@
-#include "Script_tbl_map_8002BB44.h"
+#include "gcl.h"
 #include "linker.h"
 #include "map/hzd.h"
 
