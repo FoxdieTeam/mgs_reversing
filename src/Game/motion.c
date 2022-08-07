@@ -45,7 +45,42 @@ int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003501C.s")
+void sub_8003501C(MOTION_CONTROL *pCtrl, int action_flag, int motion)
+{
+    Motion_0x18* pSub;
+    MATRIX mtx; // [sp+10h] [-20h] BYREF
+
+    ReadRotMatrix_80092DD8(&mtx);
+
+    pSub = &pCtrl->field_04;
+    if ( pSub->field_0 )
+    {
+        sub_8003603C(pCtrl, pSub);
+    }
+
+    if ( !motion )
+    {
+        Process_Oar_8003518C(pCtrl, pSub, action_flag);
+
+    }
+    else
+    {
+        sub_800360EC(pCtrl, pSub, action_flag, motion);
+    }
+
+    if ( pSub->field_0 == 1 )
+    {
+        pSub->field_14 = 2;
+        pSub->field_10 = action_flag;
+    }
+    else
+    {
+        pSub->field_14 = 1;
+        pSub->field_10 = action_flag;
+    }
+
+    SetRotMatrix_80093218(&mtx);
+}
 
 void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 {
