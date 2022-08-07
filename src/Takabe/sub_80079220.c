@@ -2,7 +2,7 @@
 
 extern int dword_8009F728;
 
-unsigned short SECTION(".pfn_800BDFB4") (*pfn_800BDFB4)(unsigned short);
+extern unsigned short (*pfn_800BDFB4)(unsigned short);
 
 void sub_80079220(unsigned short *param_1, int param_2)
 {

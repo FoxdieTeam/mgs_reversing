@@ -106,7 +106,7 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
     return pIter + 1;
 }
 
-GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
+extern GCL_FileData gGCL_fileData_800B3C18;
 // extern const char aProcXNotFound[];
 
 unsigned char *GCL_FindProc_8001FE80(int procNameHashed)

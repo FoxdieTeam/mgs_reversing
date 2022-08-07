@@ -16,6 +16,8 @@ extern int     GM_NoisePower_800ABA24;
 extern int     GM_NoiseLength_800ABA30;
 extern SVECTOR GM_NoisePosition_800AB9F8;
 
+#define ACTOR_LIST_COUNT 9
+
 typedef struct Actor_GM_Daemon
 {
     Actor field_0;

@@ -5,7 +5,7 @@
 extern int gMapCount_800ABAA8;
 int        SECTION(".sbss") gMapCount_800ABAA8;
 
-map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
+extern map_record gMapRecs_800B7910[16];
 
 map_record *Map_FindByNum_80031504(int mapNameHash)
 {

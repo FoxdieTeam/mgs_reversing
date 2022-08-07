@@ -3,9 +3,9 @@
 #include "game.h"
 #include "psyq.h"
 
-AreaHistory     SECTION(".gAreaHistory_800B5850") gAreaHistory_800B5850;
-char            SECTION(".gAreaHistory_800B5850") exe_name_800B5860[32];
-Actor_GM_Daemon SECTION(".gAreaHistory_800B5850") GM_Daemon_800B5880;
+extern AreaHistory     gAreaHistory_800B5850;
+extern char            exe_name_800B5860[32];
+extern Actor_GM_Daemon GM_Daemon_800B5880;
 
 void GM_InitArea_8002A704(void)
 {

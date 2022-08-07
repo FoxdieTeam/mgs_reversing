@@ -3,8 +3,8 @@
 
 #pragma INCLUDE_ASM("asm/tenage_act_800699A4.s") // 1048 bytes
 
-GM_Control *SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_800BDD30[16];
-int         SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_count_800BDD70;
+extern GM_Control *tenage_ctrls_800BDD30[16];
+extern int         tenage_ctrls_count_800BDD70;
 
 void tenage_kill_80069DBC(Actor_tenage *pActor)
 {

@@ -13,7 +13,7 @@ extern const char aGoggles_1[];
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
-int        SECTION(".dword_800BDFA8") dword_800BDFA8;
+extern int        dword_800BDFA8;
 
 #pragma INCLUDE_ASM("asm/goggleir_pal_convert_800789E0.s") // 216 bytes
 

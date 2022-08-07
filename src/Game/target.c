@@ -2,7 +2,7 @@
 #include "target.h"
 #include "Game/game.h"
 
-GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
+extern GM_Target gTargets_800B64E0[64];
 
 extern int gTargets_down_count_800ABA68;
 int        SECTION(".sbss") gTargets_down_count_800ABA68;

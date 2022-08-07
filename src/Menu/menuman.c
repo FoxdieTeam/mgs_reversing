@@ -7,8 +7,8 @@
 #include "libdg/dgd.h"
 #include "psyq.h"
 
-Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
-unsigned char SECTION(".gPrimBackingBuffers_800B9360") gPrimBackingBuffers_800B9360[2][8192];
+extern Actor_MenuMan gMenuMan_800BD360;
+extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 
 extern const char aItem[]; // sdata
 extern const char aMenumanC[];

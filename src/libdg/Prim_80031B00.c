@@ -3,7 +3,7 @@
 
 #define SCRATCH_PAD_MEM 0x1F800000
 
-unsigned char SECTION(".byte_800B7A50") byte_800B7A50[2016];
+extern unsigned char byte_800B7A50[2016];
 
 void Prim_80031B00(DG_MDL *pMdl, short *pData, int dataCount)
 {

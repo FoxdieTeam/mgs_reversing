@@ -21,9 +21,7 @@ int            SECTION(".sbss") dword_800AB954;
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
-#define ACTOR_LIST_COUNT 9
-
-struct ActorList SECTION(".0x800ACC18") gActorsList[ACTOR_LIST_COUNT];
+extern struct ActorList gActorsList[ACTOR_LIST_COUNT];
 
 extern struct PauseKill gPauseKills_8009D308[9];
 

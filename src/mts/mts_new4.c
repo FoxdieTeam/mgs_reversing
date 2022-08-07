@@ -11,9 +11,9 @@ extern const char asc_80013E2C[];    // = "\n";
 
 extern int gMtsVSyncCount_800A3D78;
 
-int      SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0 = 0;
-mts_task SECTION(".gTasks_800C0C30") gTasks_800C0C30[12] = {};
-int      SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4 = 0;
+extern int      gTaskIdx_800C0DB0;
+extern mts_task gTasks_800C0C30[12];
+extern int      gMts_bits_800C0DB4;
 
 void mts_nullsub_8_8008BB98(void)
 {

@@ -14,7 +14,7 @@ int SECTION(".sbss") dword_800ABAE0;
 extern struct menu_8009E544 *dword_800AB584;
 struct menu_8009E544        *SECTION(".sdata") dword_800AB584;
 
-int SECTION(".dword_800B7800") dword_800B7800;
+extern int dword_800B7800;
 
 struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
 
@@ -37,8 +37,7 @@ int SECTION(".sbss") dword_800ABB04;
 int SECTION(".sbss") dword_800ABB08;
 int SECTION(".sbss") dword_800ABB0C;
 
-#define MENU_ITEMS_RIGHT_COUNT 11
-MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
+extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
