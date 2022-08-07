@@ -613,14 +613,14 @@ int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
 
 void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 {
-    if (bits != pActor->field_180.field_0C)
+    if ( bits != pActor->field_180.field_04.field_8 )
     {
-        pActor->field_180.field_24 = ~bits;
-        pActor->field_180.field_0C = bits;
-        if (bits == 0xFFFF && sub_8004EFE4(pActor, 2) >= 0)
+        pActor->field_180.field_1C.field_8 = ~bits;
+        pActor->field_180.field_04.field_8 = bits;
+        if ( bits == 0xFFFF && sub_8004EFE4(pActor, 2) >= 0 )
         {
             pActor->field_180.interp = 4;
-            pActor->field_180.field_30 = 2;
+            pActor->field_180.field_1C.field_14 = 2;
         }
     }
 }
