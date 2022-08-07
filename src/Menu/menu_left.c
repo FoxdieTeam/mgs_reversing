@@ -1,12 +1,17 @@
 #include "menuman.h"
 #include "linker.h"
+#include "Script_tbl_map_8002BB44.h"
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
 MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0") stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
 extern menu_weapon_rpk_info gMenuItemRpkInfo_8009E484[];
+extern GameState_800B4D98 gGameState_800B4D98;
 
 extern int dword_800ABAD0;
 int        SECTION(".sbss") dword_800ABAD0;
+
+void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
+int Menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
 
 void menu_sub_8003B568(void)
 {
@@ -36,10 +41,12 @@ MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
 }
 
 #pragma INCLUDE_ASM("asm/menu_8003B614.s")
-#pragma INCLUDE_ASM("asm/menu_8003B6D0.s")
+#pragma INCLUDE_ASM("asm/Menu_inventory_Is_Item_Disabled_8003B6D0.s")
 #pragma INCLUDE_ASM("asm/menu_8003B794.s")
 #pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s")
+
 #pragma INCLUDE_ASM("asm/menu_8003BBEC.s")
+
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper_8003BCD4.s")
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper2_8003BF1C.s")
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper3_8003C24C.s")
