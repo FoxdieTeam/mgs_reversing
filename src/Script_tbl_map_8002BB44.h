@@ -1,7 +1,6 @@
 #ifndef SCRIPT_TBL_MAP_H
 #define SCRIPT_TBL_MAP_H
 
-#include "util/idaTypes.h"
 #include "Menu/menuman.h"
 
 // todo: remove this file and put this stuff in libgcl\gcl.h

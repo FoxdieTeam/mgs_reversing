@@ -1,7 +1,6 @@
 #include "linker.h"
 #define _BUILDING_MTS_
 #include "mts_new.h"
-#include "util/idaTypes.h"
 #include "psyq.h"
 
 extern const char aTaskStartDX[];    // = "TASK START: %d %X\n";

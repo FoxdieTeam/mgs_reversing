@@ -1,8 +1,8 @@
-#include "util/idaTypes.h"
+#include <SYS/TYPES.H>
 
-void face_item_helper_80060CB8(WORD *in, WORD *out)
+void face_item_helper_80060CB8(u_short *in, u_short *out)
 {
-    WORD i;
+    u_short i;
     for (i = 0; i < 5; i++)
     {
         *out++ = *in++;

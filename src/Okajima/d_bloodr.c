@@ -1,5 +1,4 @@
 #include "d_bloodr.h"
-#include "util/idaTypes.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 

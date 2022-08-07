@@ -1,5 +1,6 @@
 #define _BUILDING_MENUMAN_
 #include "menuman.h"
+#include "radar.h"
 #include "linker.h"
 #include <LIBGTE.H>
 #include <LIBGPU.H>
