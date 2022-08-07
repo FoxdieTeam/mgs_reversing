@@ -17,6 +17,8 @@ int        SECTION(".sbss") dword_800ABB10; // declared
 extern unsigned char dword_800ABB20;
 unsigned char        SECTION(".sbss") dword_800ABB20;
 
+extern int GV_Time_800AB330;
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s")
 #pragma INCLUDE_ASM("asm/sub_8003FFB0.s")
@@ -67,7 +69,31 @@ void sub_8004124C(int param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s")
-#pragma INCLUDE_ASM("asm/draw_radio_wait_mark_8004143C.s")
+
+void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
+{
+    MenuGlue *pOtBuffer; // $v1
+    POLY_F3 *pPrim; // $a0
+
+    if ( GV_Time_800AB330 % 16 >= 4 )
+    {
+        pOtBuffer = pActor->field_20_otBuf;
+        pPrim = (POLY_F3 *)pOtBuffer->mPrimBuf.mFreeLocation;
+        pOtBuffer->mPrimBuf.mFreeLocation += sizeof(POLY_F3);
+        pPrim->x1 = 288;
+        pPrim->y1 = 210;
+
+        pPrim->x0 = pPrim->x1 - 4;
+        pPrim->x2 = pPrim->x1 + 4;
+
+        pPrim->y0 = pPrim->y2 = pPrim->y1 - 4;
+
+         *(int *)&pPrim->r0 = 0x80808080;
+        setPolyF3(pPrim);
+        addPrim(pOt, pPrim);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s")
 
