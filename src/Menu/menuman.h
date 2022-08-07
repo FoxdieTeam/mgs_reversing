@@ -258,10 +258,10 @@ typedef struct Actor_MenuMan
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 int                        menu_restore_nouse_80043470();
-int                        sub_8003B5E0(int a1);
+MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx);
 int                        sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
-int          sub_8003CFE0(unsigned int **images, int index);
+int          sub_8003CFE0(MenuMan_Inventory_14h_Unk *images, int index);
 unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
 unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp,
