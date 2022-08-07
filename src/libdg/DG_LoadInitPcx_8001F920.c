@@ -9,7 +9,7 @@ extern int GV_Clock_800AB920;
 
 // The size of this buffer is just a guess based on the next address of a
 // variable that IDA knows about.
-unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer[128];
+extern unsigned char pcxBuffer[128];
 
 #define PCX_RLE_THRESHOLD 0xC0
 

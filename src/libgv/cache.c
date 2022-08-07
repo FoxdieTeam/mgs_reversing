@@ -2,7 +2,6 @@
 #include "mts/mts_new.h"
 
 #define MAX_TAGS 128
-#define MAX_FILE_HANDLERS 26
 #define RESIDENT_REGION_FLAG 0x1000000
 
 enum CACHE_REGION
@@ -13,8 +12,8 @@ enum CACHE_REGION
 };
 
 /**bss***********************************************************************************************/
-CacheSystems    SECTION(".CacheSystems_800ACEF0") GV_CacheSystem;
-TFileExtHandler SECTION(".gFileExtHandlers_800ACE80") gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
+extern CacheSystems    GV_CacheSystem;
+extern TFileExtHandler gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 /***************************************************************************************************/
 
 /***$gp***************************************************************/

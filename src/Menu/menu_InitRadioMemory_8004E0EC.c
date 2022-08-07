@@ -6,7 +6,7 @@
 extern const char aClear[];
 int               dword_800AB770 = 0; // sdata
 
-RadioMemory SECTION(".gRadioMemory_800BDB38") gRadioMemory_800BDB38[RADIO_MEMORY_COUNT] = {};
+extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 void menu_InitRadioMemory_8004E0EC(void)
 {

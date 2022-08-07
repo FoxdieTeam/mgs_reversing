@@ -11,7 +11,7 @@ extern int used_counter_8009F42C;
 
 #pragma INCLUDE_ASM("asm/Bullet/bakudan_act_8006A218.s") // 652 bytes
 
-Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
+extern Jirai_unknown stru_800BDD78[16];
 
 void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
 {

@@ -28,15 +28,15 @@ extern int       DG_UnDrawFrameCount_800AB380;
 /*************************************************/
 
 /**bss************************************************************************/
-DG_CHNL        SECTION(".DG_Chanls_800B1800") DG_Chanls_800B1800[3];
-int            SECTION(".dword_800B0630") dword_800B0630[68];
-int            SECTION(".dword_800B0630") dword_800B0740[516];
-int            SECTION(".dword_800B0630") dword_800B0F50[4];
-DG_OBJS       *SECTION(".dword_800B0630") dword_800B0F60[8];
-DG_OBJS       *SECTION(".dword_800B0630") dword_800B0F80[256];
-DR_ENV         SECTION(".dword_800B0630") stru_800B1380[2];
-unsigned char  SECTION(".byte_800B1400") byte_800B1400[1024];
-unsigned short SECTION(".gOldRootCnt_800B1DC8") gOldRootCnt_800B1DC8[32];
+extern DG_CHNL         DG_Chanls_800B1800[3];
+extern int            dword_800B0630[68];
+extern int            dword_800B0740[516];
+extern int            dword_800B0F50[4];
+extern DG_OBJS       *dword_800B0F60[8];
+extern DG_OBJS       *dword_800B0F80[256];
+extern DR_ENV         stru_800B1380[2];
+extern unsigned char   byte_800B1400[1024];
+extern unsigned short gOldRootCnt_800B1DC8[32];
 /****************************************************************************/
 
 #define pow2(n) 1 << n

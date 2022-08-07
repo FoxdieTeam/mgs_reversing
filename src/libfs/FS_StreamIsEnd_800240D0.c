@@ -3,11 +3,11 @@
 #include "data/data/data.h"
 #include "libfs.h"
 
-int SECTION(".int_800B5298") fs_stream_ref_count_800B5298;
+extern int fs_stream_ref_count_800B5298;
 
-void *SECTION(".fs_stream_heap_800B52A4") fs_stream_heap_800B52A4;
-void *SECTION(".fs_stream_heap_800B52A4") fs_stream_heap_end_800B52A8;
-int   SECTION(".fs_stream_heap_800B52A4") fs_stream_heapSize_800B52AC;
+extern void *fs_stream_heap_800B52A4;
+extern void *fs_stream_heap_end_800B52A8;
+extern int   fs_stream_heapSize_800B52AC;
 
 extern const char aStreamInitXX[];
 

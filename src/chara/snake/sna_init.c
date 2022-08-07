@@ -460,7 +460,7 @@ void sub_8004EB74(Actor_SnaInit *pActor)
 }
 
 // TODO: Not confirmed if this structure is correct yet
-demothrd_2Vec SECTION(".word_800B77E8") stru_800B77E8[9];
+extern demothrd_2Vec stru_800B77E8[9];
 
 void sna_init_8004EC00(Actor_SnaInit *pActor)
 {
@@ -535,7 +535,7 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
     }
 }
 
-UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
+extern UnkMaybeCameraStruct gUnkMaybeCameraStruct_800B77B8;
 void                 sna_init_8004EE28(Actor_SnaInit *snake)
 {
     MATRIX  mat1;
@@ -823,7 +823,7 @@ int *sub_8004FB90(void)
     return &dword_800ABBB8;
 }
 
-unsigned char SECTION(".gRadioMemory_800BDB38") gBulNames_800BDC78[64];
+extern unsigned char gBulNames_800BDC78[64];
 
 int GM_Next_BulName_8004FBA0()
 {

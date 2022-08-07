@@ -2,8 +2,8 @@
 #include "linker.h"
 #include "Game/gamestate.h"
 
-MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
-MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0") stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
+extern MenuMan_Inventory_14h_Unk dword_800BD5A0;
+extern MenuMan_Inventory_14h_Unk stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
 extern menu_weapon_rpk_info gMenuItemRpkInfo_8009E484[];
 extern GameState_800B4D98 gGameState_800B4D98;
 
