@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "Script_tbl_map_8002BB44.h"
+#include "libgcl/gcl.h"
 
 extern int gLastBindNum_800AB9B8;
 int        SECTION(".sbss") gLastBindNum_800AB9B8;

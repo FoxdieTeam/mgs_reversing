@@ -1,5 +1,4 @@
 #include "mts/mts_new.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "psyq.h"
 #include "unknown.h"
 #include "Game/game.h"

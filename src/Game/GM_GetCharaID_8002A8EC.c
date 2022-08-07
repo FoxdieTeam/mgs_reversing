@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "game.h"
 
 extern GCL_Vars           gGcl_vars_800B3CC8;

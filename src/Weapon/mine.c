@@ -1,5 +1,4 @@
 #include "mine.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "map/map.h"
 #include "target.h"
 #include "Game/object.h"
