@@ -21,7 +21,6 @@ void  sub_80028890(SVECTOR *pVec);
 void  sub_80079004(unsigned short);
 int   sub_80029A2C(void);
 void  sub_800298C0(int *int_arr);
-void  sub_8003603C(int, int);
 void  sub_8002A090(int param_1, unsigned short *param_2, unsigned int flags, unsigned int param_4);
 void  sub_8002AA48(void);
 void  sub_8007913C();

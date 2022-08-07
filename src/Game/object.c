@@ -49,8 +49,8 @@ void sub_800348F4(OBJECT *obj)
     sub_8003556C(obj->m_ctrl); // motion streaming related
     ResetSpadStack();
 
-    obj->field_1A = obj->m_ctrl->field_1A;
-    obj->field_1C = obj->m_ctrl->field_32;
+    obj->field_1A = obj->m_ctrl->field_04.field_16;
+    obj->field_1C = obj->m_ctrl->field_1C.field_16;;
 
     outtime = GetRCnt_800996E8(RCntCNT1);
     mt_rt2_800ABAB8 += (outtime - intime) & 0xffff;
@@ -222,18 +222,18 @@ void GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int inter
     }
     else
     {
-        obj->m_ctrl->field_30 = 0;
-        if (!obj->m_ctrl->field_18)
+        obj->m_ctrl->field_1C.field_14 = 0;
+        if (!obj->m_ctrl->field_04.field_14)
         {
-            obj->m_ctrl->field_18 = 2;
+            obj->m_ctrl->field_04.field_14 = 2;
         }
     }
 
     obj->field_10 = a1;
     obj->field_1C = 0;
     obj->m_ctrl->interp = interp;
-    obj->m_ctrl->field_0C = a4;
-    obj->m_ctrl->field_24 = ~a4;
+    obj->m_ctrl->field_04.field_8 = a4;
+    obj->m_ctrl->field_1C.field_8 = ~a4;
 }
 
 // calls configObjectAction with given values

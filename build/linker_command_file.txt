@@ -692,21 +692,8 @@
     include "..\obj\Game\object.obj"
 
     ;game\motion.c
-    include "..\obj\sub_80034EAC.obj"
-    include "..\obj\Game\GM_ConfigMotionControl_80034F08.obj"
-    include "..\obj\sub_8003501C.obj"
-    include "..\obj\sub_800350D4.obj"
-    include "..\obj\Process_Oar_8003518C.obj"
-    include "..\obj\Kmd_Oar_Inflate_800353E4.obj"
-    include "..\obj\sub_8003556C.obj"
-    include "..\obj\oar_related_800356FC.obj"
-    include "..\obj\sub_80035F34.obj"
-    include "..\obj\sub_80035FFC.obj"
-    include "..\obj\sub_8003601C.obj"
-    include "..\obj\sub_8003603C.obj"
-    include "..\obj\sub_800360EC.obj"
-    include "..\obj\sub_80036388.obj"
-    include "..\obj\negate_rots_800366B8.obj"
+    ; 80034EAC 80034F08 8003501C 800350D4 8003518C 800353E4 8003556C 800356FC 80035F34 80035FFC 8003601C 8003603C 800360EC 80036388 800366B8
+    include "..\obj\Game\motion.obj"
     
     ; 80036A10 80036B40 80036BA4 80037128 8003721C 80037514 80037600 800376F8
     include "..\obj\over.obj"
