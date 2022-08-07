@@ -126,7 +126,7 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, number);
+    menu_number_draw_80042988((MenuGlue *)pActor->field_20_otBuf, &textConfig, number); // TODO: fix cast
     return textConfig.xpos;
 }
 

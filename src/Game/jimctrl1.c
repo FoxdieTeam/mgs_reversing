@@ -1,5 +1,4 @@
 #include "jimctrl.h"
-#include "util/idaTypes.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
@@ -18,9 +17,9 @@ void jimctrl_act_helper_set_first_80037F2C(int index, int value)
 
 unsigned int jimctrl_helper_80037F68(unsigned int header)
 {
-    WORD                  field_2_preClear;
+    u_short                  field_2_preClear;
     array_800B933C_child *pIter;
-    BYTE                 *pField;
+    u_char                 *pField;
     int                   i;
 
     pIter = &array_800B933C[1];

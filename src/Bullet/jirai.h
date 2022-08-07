@@ -4,7 +4,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "util/idaTypes.h"
 #include "libgv/libgv.h"
 #include "Game/object.h"
 #include "Game/GM_Control.h"

@@ -5,7 +5,6 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
-#include "util/idaTypes.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 
 #define MAX_HISTORY 8
@@ -81,13 +80,6 @@ typedef struct MenuMan_Inventory_14h_Unk
     short           field_10_w;
     short           field_12_h;
 } MenuMan_Inventory_14h_Unk;
-
-RadioMemory   *menu_radio_table_find_8004D380(int toFind);
-RadioMemory   *menu_radio_table_next_free_8004D3B8(void);
-unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
-void           menu_SetRadioMemory_8004E110(int varId, const char *pVarName);
-void           menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript);
-unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 
 void menuman_init_80038954(void);
 
@@ -195,8 +187,8 @@ typedef struct BarConfig
 
 typedef struct MenuMan_MenuBars
 {
-    BYTE      field_0_state;
-    BYTE      field_1_O2_hp;
+    u_char      field_0_state;
+    u_char      field_1_O2_hp;
     short int field_2_bar_x;
     short int field_4_bar_y;
     short int field_6_snake_hp;
@@ -319,6 +311,16 @@ void           menu_JimakuClear_80049518(void);
 void           menu_Text_XY_Flags_80038B34(int xpos, int ypos, int flags);
 void           menu_Color_80038B4C(int r, int g, int b);
 void           menu_radio_codec_start_task_80047C3C(void);
+void           menu_bars_init_8003F7E0(Actor_MenuMan *pActor);
+RadioMemory   *menu_radio_table_find_8004D380(int toFind);
+RadioMemory   *menu_radio_table_next_free_8004D3B8(void);
+unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
+void           menu_SetRadioMemory_8004E110(int varId, const char *pVarName);
+void           menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript);
+unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
+int            menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
+
+void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 
 #ifdef _BUILDING_MENUMAN_
 int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
