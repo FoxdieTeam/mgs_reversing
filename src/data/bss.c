@@ -96,8 +96,6 @@ DG_TEX SECTION(".gTextureRecs_800B1F50") gTextureRecs_800B1F50[512];
 
 unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer[128];
 
-MATRIX SECTION(".gUnknown_Matrix_800B19FC") gUnknown_Matrix_800B19FC;
-
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
 
 map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
