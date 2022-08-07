@@ -1,8 +1,8 @@
 #include "blast.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
-#include "target.h"
-#include "anime.h"
+#include "Game/target.h"
+#include "anime/animeconv/anime.h"
 #include "unknown.h"
 
 extern const char aBlastC[];

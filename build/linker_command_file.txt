@@ -76,10 +76,10 @@
     include "..\obj\libdg\DG_PrimChanl_helper2_helper_8001AF90.obj"    
     include "..\obj\libdg\DG_PrimChanl_helper2_8001B0B4.obj"
     include "..\obj\sub_8001B1E8.obj"
-    include "..\obj\sub_8001B254.obj"
+    include "..\obj\libdg\sub_8001B254.obj"
     include "..\obj\libdg\DG_PrimChanl_helper3_helper_8001B31C.obj"
     include "..\obj\libdg\DG_PrimChanl_helper3_8001B534.obj"
-    include "..\obj\sub_8001B5FC.obj"
+    include "..\obj\libdg\sub_8001B5FC.obj"
     include "..\obj\libdg\DG_PrimChanl_8001B66C.obj"
     include "..\obj\nullsub\sub_8001BAB4.obj"
     include "..\obj\libdg\DG_MakePrim_8001BABC.obj"
@@ -167,7 +167,7 @@
     ;libgcl\variable.c
     include "..\obj\libgcl\GCL_SaveLinkVar_80020B90.obj"
     include "..\obj\data\rdata\rdata_80020704.obj"
-    include "..\obj\CRC32_80020BB4.obj"
+    include "..\obj\libgcl\crc32_80020BB4.obj"
     include "..\obj\libgcl\GCL_MakeSaveFile_80020C0C.obj"
     include "..\obj\libgcl\GCL_SetLoadFile_80020EAC.obj"
     include "..\obj\libgcl\GCL_InitVar_80021264.obj"
@@ -299,11 +299,11 @@
     include "..\obj\libfs\CDFS_Init_80021EC4.obj"
     
     include "..\obj\libfs\FS_LoadFileSync_80021F48.obj"
-    include "..\obj\MakeFullPath_80021F68.obj"
+    include "..\obj\libfs\MakeFullPath_80021F68.obj"
     include "..\obj\CDBIOS_Reset_80021F70.obj"
     include "..\obj\sub_80021FE0.obj"
     include "..\obj\sub_80022024.obj"
-    include "..\obj\nullsub_9_80022088.obj"
+    include "..\obj\nullsub\nullsub_9_80022088.obj"
     include "..\obj\CDBIOS_TaskStart_helper_helper_80022090.obj"
     include "..\obj\CDBIOS_TaskStart_helper_80022264.obj"
     include "..\obj\CDBIOS_TaskStart_800227A8.obj"
@@ -337,7 +337,7 @@
     include "..\obj\libfs\FS_StreamGetData_800240E0.obj"
     include "..\obj\libfs\FS_StreamGetSize_80024188.obj"
     include "..\obj\sub_80024194.obj"
-    include "..\obj\sub_800241B4.obj"
+    include "..\obj\libfs\sub_800241B4.obj"
     include "..\obj\Game\strctrl_act_helper2_800241C8.obj"
     include "..\obj\Game\sub_800242A4.obj"
     include "..\obj\libfs\FS_StreamGetEndFlag_800243B8.obj"
@@ -369,11 +369,11 @@
     include "..\obj\data\sbss\dword_800AB9B8.obj"
     include "..\obj\data\sbss\dword_800AB9BC.obj"
 
-    include "..\obj\GV_NearExp2_80026384.obj"
-    include "..\obj\GV_NearExp4_800263B0.obj"
-    include "..\obj\GV_NearExp8_800263E4.obj"
-    include "..\obj\sub_80026418.obj"
-    include "..\obj\sub_80026440.obj"
+    include "..\obj\libgv\GV_NearExp2_80026384.obj"
+    include "..\obj\libgv\GV_NearExp4_800263B0.obj"
+    include "..\obj\libgv\GV_NearExp8_800263E4.obj"
+    include "..\obj\libgv\sub_80026418.obj"
+    include "..\obj\libgv\sub_80026440.obj"
     include "..\obj\sub_8002646C.obj"
     include "..\obj\sub_800264B0.obj"
     include "..\obj\sub_80026504.obj"
@@ -410,10 +410,10 @@
     include "..\obj\sub_80028454.obj"
     include "..\obj\sub_80028820.obj"
     include "..\obj\sub_80028830.obj"
-    include "..\obj\GetVecFromScratchpad_80028840.obj"
+    include "..\obj\libgv\GetVecFromScratchpad_80028840.obj"
     include "..\obj\sub_80028890.obj"
-    include "..\obj\CopyVectorToScratchpad_800288BC.obj"
-    include "..\obj\sub_800288E0.obj"
+    include "..\obj\libgv\CopyVectorToScratchpad_800288BC.obj"
+    include "..\obj\libgv\sub_800288E0.obj"
     include "..\obj\sub_80028930.obj"
     include "..\obj\sub_80028CF8.obj"
     include "..\obj\sub_80028DAC.obj"
@@ -421,7 +421,7 @@
     include "..\obj\Game\GM_ActControl_helper3_800292E4.obj"
     include "..\obj\Game\GM_ActControl_helper4_80029304.obj"
     include "..\obj\Game\GM_ActControl_helper5_80029324.obj"
-    include "..\obj\CopyVectorFromScratchpad_80029360.obj"
+    include "..\obj\libgv\CopyVectorFromScratchpad_80029360.obj"
     include "..\obj\sub_80029384.obj"
     include "..\obj\sub_80029514.obj"
     include "..\obj\sub_80029604.obj"
@@ -432,13 +432,13 @@
     include "..\obj\sub_8002992C.obj"
     include "..\obj\sub_80029A2C.obj"
     include "..\obj\Game\HZD_SetBind_80029A5C.obj"
-    include "..\obj\Map_light_helper_80029A6C.obj"
+    include "..\obj\map\Map_light_helper_80029A6C.obj"
     include "..\obj\Game\HZD_SetEvent_80029AB4.obj"
     include "..\obj\sub_80029AEC.obj"
     include "..\obj\sub_80029B9C.obj"
     include "..\obj\sub_80029D50.obj"
     include "..\obj\sub_8002A090.obj"
-    include "..\obj\HZD_ReExecEvent_8002A1F4.obj"
+    include "..\obj\map\HZD_ReExecEvent_8002A1F4.obj"
     include "..\obj\sub_8002A258.obj"
     include "..\obj\Game\GM_ActControl_helper6_helper_8002A27C.obj"
     include "..\obj\Game\GM_ActControl_helper6_helper2_8002A4B8.obj"
@@ -492,10 +492,10 @@
 
     include "..\obj\Game\GM_Reset_helper_8002A978.obj"
     include "..\obj\Game\GM_Act_helper_8002AA10.obj"
-    include "..\obj\sub_8002AA48.obj"
+    include "..\obj\Game\sub_8002AA48.obj"
     include "..\obj\Game\GM_ResetMemory_8002AA80.obj"
     include "..\obj\Game\GM_CreateLoader_8002AAB0.obj"
-    include "..\obj\sub_8002AAEC.obj"
+    include "..\obj\Game\sub_8002AAEC.obj"
     include "..\obj\Game\GM_Act_helper3_helper_8002AB40.obj"
     include "..\obj\Game\GM_Act_helper3_8002ABA4.obj"
     include "..\obj\Game\GM_Reset_8002ABF4.obj"
@@ -503,7 +503,7 @@
     include "..\obj\Game\GM_Act_8002ADBC.obj"
     include "..\obj\Game\GM_SetSystemCallbackProc_8002B558.obj"
     include "..\obj\Game\GM_CallSystemCallbackProc_8002B570.obj"
-    include "..\obj\sub_8002B600.obj"
+    include "..\obj\Game\sub_8002B600.obj"
     include "..\obj\Game\GM_ContinueStart_8002B62C.obj"
     include "..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
     ;include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
@@ -568,7 +568,7 @@
     include "..\obj\libgcl\GM_InitScript_8002D1DC.obj"
 
     ;game\target.c
-    include "..\obj\target.obj"
+    include "..\obj\Game\target.obj"
 
     ;game\loader.c
     include "..\obj\Game\loader.obj"
@@ -584,7 +584,7 @@
     include "..\obj\Game\GM_AlertModeInit_8002EAA8.obj"
     include "..\obj\Game\GM_AlertModeReset_8002EAB8.obj"
     include "..\obj\sub_8002EADC.obj"
-    include "..\obj\sub_8002EB80.obj"
+    include "..\obj\Game\sub_8002EB80.obj"
     include "..\obj\sub_8002EBE8.obj"
     include "..\obj\sub_8002EC8C.obj"
     include "..\obj\sub_8002ECE4.obj"
@@ -633,10 +633,10 @@
     include "..\obj\Game\GM_CheckBehindCamera_80030B3C.obj"
     include "..\obj\Map_light_80030C6C.obj"
     include "..\obj\map\Map_GetNextFreeRecord_80030E30.obj"
-    include "..\obj\Map_80030FA4.obj"
+    include "..\obj\map\Map_80030FA4.obj"
     include "..\obj\Game\GM_DieMap_80030FD0.obj"
     include "..\obj\Game\GM_FreeMapObjs_80031028.obj"
-    include "..\obj\Map_ResetMapCountAndKmdsCount_800310A0.obj"
+    include "..\obj\map\Map_ResetMapCountAndKmdsCount_800310A0.obj"
     include "..\obj\libgcl\commands\GCL_Command_hzd_impl_800310D0.obj"
     include "..\obj\map\Map_LoadMapData_80031244.obj"
     include "..\obj\map\Map_ScriptLoadMapBlocks_800312D0.obj"
@@ -645,16 +645,16 @@
     include "..\obj\map\Map_FromId_800314C0.obj"
     include "..\obj\map\Map_FindByNum_80031504.obj"
     include "..\obj\Map_Enum_Get_Hzd_80031580.obj"
-    include "..\obj\Map_FindByZoneId_80031624.obj"
+    include "..\obj\map\Map_FindByZoneId_80031624.obj"
     include "..\obj\Game\GM_ReshadeMapAll_800316C4.obj"
     include "..\obj\libdg\DG_MakeObjs_helper_80031710.obj"
     include "..\obj\libdg\DG_MakeObjs_80031760.obj"
     include "..\obj\libdg\DG_FreeObjs_800318D0.obj"
     include "..\obj\Prim_lighting_80031954.obj"
-    include "..\obj\Prim_80031B00.obj"
-    include "..\obj\sub_80031B88.obj"
+    include "..\obj\libdg\Prim_80031B00.obj"
+    include "..\obj\libdg\sub_80031B88.obj"
     include "..\obj\libdg\DG_MakePreshade_helper_80031BD4.obj"
-    include "..\obj\Prim_Calc_CVECTOR_len_80031ED4.obj"
+    include "..\obj\libdg\Prim_Calc_CVECTOR_len_80031ED4.obj"
     include "..\obj\libdg\DG_MakePreshade_80031F04.obj"
     include "..\obj\libdg\DG_FreePreshade_80032110.obj"
     
@@ -677,7 +677,7 @@
     include "..\obj\Game\GM_Sound_80032C48.obj"
 
     ; 80032C68 80032C8C 80032CFC 80032D10 80032EAC
-    include "..\obj\homing_target.obj"
+    include "..\obj\Game\homing_target.obj"
 
     include "..\obj\chara\snake\sna_init_act_helper2_helper2_80033054.obj"
     include "..\obj\Game\delay.obj"
@@ -696,7 +696,7 @@
     include "..\obj\Game\motion.obj"
     
     ; 80036A10 80036B40 80036BA4 80037128 8003721C 80037514 80037600 800376F8
-    include "..\obj\over.obj"
+    include "..\obj\Game\over.obj"
 
     include "..\obj\Game\strctrl_act_helper_800377EC.obj"
     include "..\obj\Game\strctrl_act_80037820.obj"
@@ -716,7 +716,7 @@
     include "..\obj\Game\jimctrl1.obj"
     
     ; TODO: merge these into jimctrl.c but the data is broken and causes the file to no longer match
-    include "..\obj\jimctrl_act_helper_clear_first_80037FE0.obj"
+    include "..\obj\Game\jimctrl_act_helper_clear_first_80037FE0.obj"
 
     ; 80037FFC 80038004 80038070 8003853C 80038568
     include "..\obj\Game\jimctrl2.obj"
@@ -819,10 +819,9 @@
 
     ; 80044A9C 80044BC0 80044BD8 80044BE0 80044C90 80044DC4 80044F38 80044FD8 80044FE8 80044FF4
     ; 800450F4 80045124 8004544C 80045718 80045788 80045794 800457A8 800457B4 800458B8 800459B0
-    ; 80045AE4 80045D0C 800468FC 8004695C 80046980
+    ; 80045AE4 80045D0C 800468FC 8004695C 80046980 800469A4
     include "..\obj\Font\font.obj"
     
-    include "..\obj\sub_800469A4.obj"
     include "..\obj\sub_800469F0.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
     include "..\obj\sub_80046B10.obj"
@@ -1046,14 +1045,14 @@
     include "..\obj\chara\snake\sna_hzd.obj"
 
     ; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
-    include "..\obj\vibrate.obj"
+    include "..\obj\Game\vibrate.obj"
 
     ; 8005D604 8005D6BC 8005D988 8005DDE0 8005DE70 8005DF50 8005E090 8005E1A0 8005E258 8005E334
     ; 8005E508 8005E574 8005E6A4 8005E774 8005E7EC 8005E9E0 8005EA6C 8005EB30 8005EB98 8005EC1C
     ; 8005ED0C 8005ED74 8005EDDC 8005EE44 8005EEA4 8005EF04 8005EFF8 8005F094 8005F0F0 8005F180
     ; 8005F288 8005F2F4 8005F37C 8005F408 8005F438 8005F46C 8005F4AC 8005F608 8005F644 8005F6EC
     ; 8005F994 8005FBC8 8005FCA4
-    include "..\obj\anime.obj"
+    include "..\obj\anime\animeconv\anime.obj"
 
     ; 8005FD28 80060028 800600E4 80060190 800601B0 800602CC 80060384
     include "..\obj\chara\snake\shadow.obj"
@@ -1071,8 +1070,8 @@
 
     include "..\obj\Equip\gasmask.obj"
 
-    include "..\obj\face_item_helper_80060CB8.obj"
-    include "..\obj\EQ_ChangeTexture_80060CE4.obj"
+    include "..\obj\Equip\face_item_helper_80060CB8.obj"
+    include "..\obj\Equip\EQ_ChangeTexture_80060CE4.obj"
     include "..\obj\Equip\EQ_InvisibleUnit_80060E68.obj"
     include "..\obj\Equip\EQ_VisibleUnit_80060F20.obj"
 
@@ -1091,7 +1090,7 @@
 
     ; 80062320 8006237C 800624BC 800624F4 8006258C 800626D0 80062998 80062BDC 80062C7C 80062DA8
     ; 80062E8C 8006317C 80063238 80063274 800632D4 80063368 800633D4 80063508
-    include "..\obj\scope.obj"    
+    include "..\obj\Equip\scope.obj"    
 
 
     include "..\obj\Equip\gmsight_act_800635BC.obj"
@@ -1102,7 +1101,7 @@
     ; 80063704 80063888 800638B4 8006392C 80063988 800639E8 80063B94 80063C10 80063CD0 80063DDC
     ; 80063EB0 80064054 800641C0 80064378 80064454 80064588 800649F4 80064A94 80064C50 80065008
     ; 80065098 80065118
-    include "..\obj\jpegcam.obj"
+    include "..\obj\Equip\jpegcam.obj"
 
     ; 800651B0 80065200 80065254 8006528C 80065338 80065384 800653B8 80065408 80065518
     ; 80065A94 80065B04 80065D74

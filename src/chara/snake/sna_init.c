@@ -8,8 +8,8 @@
 #include "unknown.h"
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
-#include "homing_target.h"
-#include "vibrate.h"
+#include "Game/homing_target.h"
+#include "Game/vibrate.h"
 #include "psyq.h"
 
 extern SVECTOR stru_8009EFC0;

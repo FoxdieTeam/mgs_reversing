@@ -14,7 +14,6 @@ int   sub_800296C4(HZD_MAP *param_1, SVECTOR *param_2, unsigned int param_3);
 void  sub_800298DC(int *param_1);
 void  sub_80026734(short *, SVECTOR *, int);
 void  sub_800329C4(GM_Control *, int, int);
-int   sub_80026418(int arg0, int arg1);
 short sub_8002646C(int, int, char); // dummy signature
 int   sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void  sub_80028890(SVECTOR *pVec);
@@ -22,14 +21,10 @@ void  sub_80079004(unsigned short);
 int   sub_80029A2C(void);
 void  sub_800298C0(int *int_arr);
 void  sub_8002A090(int param_1, unsigned short *param_2, unsigned int flags, unsigned int param_4);
-void  sub_8002AA48(void);
 void  sub_8007913C();
 void  sub_80037EE0(int, int);
 void  sub_800790E8(); // Takabe
 void  sub_800241B4(int);
-int   sub_80026440(int param_1, int param_2, int param_3);
-
-unsigned int crc32_80020BB4(int len, unsigned char *pData);
 
 int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 
