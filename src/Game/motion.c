@@ -2,6 +2,9 @@
 #include "game.h"
 #include "GM_Control.h"
 #include "libgv/libgv.h"
+#include "unknown.h"
+
+#pragma INCLUDE_ASM("asm/sub_80034EAC.s")
 
 int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, int a5, GM_Control *pCtrl,
                                     SVECTOR *rots)
@@ -41,3 +44,26 @@ int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust)
     pObj->objs->adjust = adjust;
     return 0;
 }
+
+#pragma INCLUDE_ASM("asm/sub_8003501C.s")
+#pragma INCLUDE_ASM("asm/sub_800350D4.s")
+#pragma INCLUDE_ASM("asm/Process_Oar_8003518C.s")
+#pragma INCLUDE_ASM("asm/Kmd_Oar_Inflate_800353E4.s")
+#pragma INCLUDE_ASM("asm/sub_8003556C.s")
+#pragma INCLUDE_ASM("asm/oar_related_800356FC.s")
+#pragma INCLUDE_ASM("asm/sub_80035F34.s")
+
+void sub_80035FFC(int param_1)
+{
+    sub_8003603C(param_1, param_1 + 4);
+}
+
+void sub_8003601C(int param_1)
+{
+    sub_8003603C(param_1, param_1 + 0x1c);
+}
+
+#pragma INCLUDE_ASM("asm/sub_8003603C.s")
+#pragma INCLUDE_ASM("asm/sub_800360EC.s")
+#pragma INCLUDE_ASM("asm/sub_80036388.s")
+#pragma INCLUDE_ASM("asm/negate_rots_800366B8.s")
