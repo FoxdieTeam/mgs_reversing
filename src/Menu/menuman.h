@@ -241,8 +241,7 @@ typedef struct Actor_MenuMan
     // - 0x8003f7a0: decrements the value.
     char                   field_1D8;
     char                   field_1D9;
-    char                   field_1DA;
-    char                   field_1DB;
+    short                  field_1DA;
     struct menu_left_right field_1DC_menu_left;
     struct menu_left_right field_1F0_menu_right;
     MenuMan_MenuBars       field_204_bars;
@@ -295,7 +294,7 @@ void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(int param_1, char *param_2); // probably a font func, move if so
-void sub_800389A8(void);
+void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper2_8004A800(void);
