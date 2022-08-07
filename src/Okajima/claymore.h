@@ -6,7 +6,7 @@
 #include <LIBGPU.H>
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "target.h"
+#include "Game/target.h"
 #include "libdg/libdg.h"
 
 typedef struct Actor_Claymore

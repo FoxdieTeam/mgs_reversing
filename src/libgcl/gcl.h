@@ -323,6 +323,8 @@ int                GCL_Command_demo_helper_80037DD8(int, unsigned int);
 unsigned int       GCL_Command_menu_helper_8002CA48(void);
 void               GCL_Command_sound_impl_8002E688(void);
 
+unsigned int       crc32_80020BB4(int len, unsigned char *pData);
+
 // TODO: it's defined here, make a static inline in game.h?
 void GM_CameraSetAlertMask_80030850(unsigned int param_1, unsigned int param_2);
 

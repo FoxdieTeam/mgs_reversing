@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "map/map.h"
-#include "target.h"
+#include "Game/target.h"
 #include "unknown.h"
 
 extern int     dword_800AB824;

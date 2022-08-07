@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "libdg/libdg.h"
-#include "target.h"
+#include "Game/target.h"
 
 #pragma INCLUDE_ASM("asm/Okajima/bullet_80075314.s")                // 68 bytes
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_helper_80075358.s") // 188 bytes

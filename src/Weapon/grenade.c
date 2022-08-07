@@ -1,5 +1,5 @@
 #include "grenade.h"
-#include "target.h"
+#include "Game/target.h"
 #include "Game/object.h"
 
 // grenade/stun/chaff (in hands)
