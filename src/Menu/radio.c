@@ -117,7 +117,19 @@ void menu_number_kill_80042980(void)
 #pragma INCLUDE_ASM("asm/menu_draw_number_draw_helper_80042B64.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042F78.s")
+
+int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos, int number, int flags)
+{
+    TextConfig textConfig; // [sp+10h] [-10h] BYREF
+
+    textConfig.xpos = xpos;
+    textConfig.ypos = ypos;
+    textConfig.colour = 0x64808080;
+    textConfig.flags = flags;
+    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, number);
+    return textConfig.xpos;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s")
