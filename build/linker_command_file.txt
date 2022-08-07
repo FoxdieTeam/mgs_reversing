@@ -1131,20 +1131,9 @@
     ; psg1
     include "..\obj\Weapon\rifle.obj"
 
-    include "..\obj\Weapon\stnsight_act_helper_helper_80068320.obj"
-    include "..\obj\Weapon\stnsight_act_helper_8006837C.obj"
-    include "..\obj\Weapon\stnsight_act_helper_80068420.obj"
-    include "..\obj\Weapon\stnsight_act_helper_80068798.obj"
-    include "..\obj\Weapon\stnsight_act_helper_80068A24.obj"
-    include "..\obj\Weapon\stnsight_act_helper_80068BF4.obj"
-    include "..\obj\Weapon\stnsight_act_80068D0C.obj"
-    include "..\obj\Weapon\stnsight_kill_80068ED8.obj"
-    include "..\obj\Weapon\stnsight_init_helper_helper_80068F74.obj"
-    include "..\obj\Weapon\stnsight_init_helper_helper_80069100.obj"
-    include "..\obj\Weapon\stnsight_init_helper_helper_80069184.obj"
-    include "..\obj\Weapon\stnsight_init_helper_helper_80069234.obj"
-    include "..\obj\Weapon\stnsight_init_helper_800692D0.obj"
-    include "..\obj\Weapon\NewStnSight_800693E0.obj"
+    ; 80068320 8006837C 80068420 80068798 80068A24 80068BF4 80068D0C 80068ED8 80068F74 80069100 80069184 80069234
+    ; 800692D0 800693E0
+    include "..\obj\Weapon\stnsight.obj"
 
     include "..\obj\Weapon\rfsight_init_helper_helper_80069478.obj"
     include "..\obj\Weapon\rfsight_init_helper_800696CC.obj"
@@ -1253,7 +1242,6 @@
     include "..\obj\Takabe\sub_80079220.obj"
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_helper_80079284.obj"
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
-    
 
     ; 80079460 800794E4 80079664 800797CC 800797FC 80079960 800799A8 80079A1C 80079A2C 80079AE4
     ; 80079B50 8007A66C 8007A948 8007AE10 8007CD60 8007CDF8 8007CF14 8007CFE8 8007D404 8007D9C8
