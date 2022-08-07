@@ -1,6 +1,7 @@
 #include "gglsight.h"
 #include "Game/GM_Control.h"
 #include "Menu/menuman.h"
+#include "psyq.h"
 
 // night vision goggles / thermal goggles first person
 
@@ -9,7 +10,7 @@ extern short word_8009F714[];
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077A24.s") // 584 bytes
 
 extern const char aLd[];        // = "%ld\n"
-extern char       aGglsightC[]; // = "gglsight.c"
+extern const char aGglsightC[]; // = "gglsight.c"
 
 extern GM_Control *gSnaControl_800AB9F4;
 
@@ -120,7 +121,49 @@ void gglsight_loader1_80078404(Actor_gglsight *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/gglsight_loader2_80078444.s") // 220 bytes
+void gglsight_loader2_80078444(Actor_gglsight *actor)
+{
+    int pos, count;
+    
+    DR_TPAGE *tpage;
+    LINE_F2  *line;
+    POLY_F4  *poly;
+
+    tpage = actor->field_370_dr_tpage;
+    line = &actor->field_280_lineF2[0];
+    poly = &actor->field_2E0_polyF4[0];
+    pos = 40;
+    
+    for (count = 0; count < 6; count++) {
+        if (count == 3) pos = 40;
+
+        *(int *)&line->r0 = actor->field_28_rgb;
+
+        setLineF2(line);
+        setSemiTrans(line, 1);
+        line->x0 = pos + 3;
+        line->x1 = pos + 6;
+        
+        *(int *)&poly->r0 = actor->field_28_rgb;
+
+        setPolyF4(poly);
+        setSemiTrans(poly, 1);
+        poly->x2 = pos;
+        poly->x0 = pos;
+        poly->x3 = pos + 3;
+        poly->x1 = pos + 3;
+        poly->y3 = 0x8c;
+        poly->y2 = 0x8c;
+
+        line++;
+        poly++;
+
+        pos += 12;
+    }
+
+    SetDrawTPage_800924A8(&tpage[0], 0, 1, 32);
+    SetDrawTPage_800924A8(&tpage[1], 0, 1, 32);
+}
 
 Actor_gglsight *gglsight_init_80078520(int type)
 {

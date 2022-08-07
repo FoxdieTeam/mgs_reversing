@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800924A8
-sub_800924A8:
+	xdef SetDrawTPage_800924A8
+SetDrawTPage_800924A8:
 	dw 0x24020001 ; 0x800924A8
 	dw 0xA0820003 ; 0x800924AC
 	dw 0x10C00002 ; 0x800924B0

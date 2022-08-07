@@ -21,7 +21,7 @@ typedef struct Actor_gglsight
     // end likely wrongness
 
     TILE_1   field_40_tile1[2][24];
-    LINE_F2  field_280_linef2[6];
+    LINE_F2  field_280_lineF2[6];
     POLY_F4  field_2E0_polyF4[6];
     DR_TPAGE field_370_dr_tpage[2];
     int      field_380;
