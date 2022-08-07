@@ -22,7 +22,7 @@ unsigned char SECTION(".bss") main_task_stack_800ABBF0[2048]; // 800ABBEC
 unsigned int SECTION(".bss") sdStack_800AC3F0[512]; // 800AC3F0
 
 int SECTION(".bss") gDiskNum_800ACBF0;
-int SECTION(".bss") pad_800ACBF0;
+int SECTION(".bss") pad_800ACBF4;
 
 struct Actor SECTION(".bss") gGVActor_800acbf8;
 
@@ -94,7 +94,7 @@ int   SECTION(".gDgdActor2_800B3750") dword_800B3790;
 
 DG_TEX SECTION(".gTextureRecs_800B1F50") gTextureRecs_800B1F50[512];
 
-unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer[128];
+unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer_800B3798[128];
 
 GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
 
@@ -147,7 +147,7 @@ GV_Messages SECTION(".gMessageQueue_800B0320") gMessageQueue_800B0320[2];
 
 GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
 
-CacheSystems SECTION(".CacheSystems_800ACEF0") GV_CacheSystem;
+CacheSystems SECTION(".CacheSystems_800ACEF0") GV_CacheSystem_800ACEF0;
 
 TFileExtHandler SECTION(".gFileExtHandlers_800ACE80") gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 
@@ -177,7 +177,7 @@ unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
 
 unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
 
-struct ActorList SECTION(".0x800ACC18") gActorsList[ACTOR_LIST_COUNT];
+struct ActorList SECTION(".0x800ACC18") gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
 DG_OBJS *SECTION(".StageObjs_800B7890") StageObjs_800B7890[32];
 
