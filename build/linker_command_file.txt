@@ -1324,7 +1324,7 @@
     include "..\obj\SD\tempo_ch_80086C08.obj"
     include "..\obj\SD\SD_80086C98.obj"
 
-
+    ; SD\sd_sub2.c"
     include "..\obj\SD\SD_MDX_F2_80086D18.obj"
     include "..\obj\SD\tie_set_80086D9C.obj"
     include "..\obj\SD\SD_MDX_D2_80086E38.obj"
