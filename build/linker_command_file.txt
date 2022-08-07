@@ -1335,15 +1335,9 @@
     include "..\obj\sub_800886F4.obj"
     include "..\obj\sub_8008870C.obj"
     include "..\obj\sub_8008877C.obj"
-    include "..\obj\SD\sd_set_cli_800887EC.obj"
-    include "..\obj\SD\sd_set_path_8008880C.obj"
-    include "..\obj\sub_80088838.obj"
-    include "..\obj\nullsub\sub_80088860.obj"
-    include "..\obj\SD\sub_80088868.obj"
-    include "..\obj\sub_800888B4.obj"
-    include "..\obj\SD\SePlay_800888F8.obj"
-    include "..\obj\SD\get_str_counter_80088CA0.obj"
-    include "..\obj\SD\SD_Set_80088CB0.obj"
+
+    ; 800887EC 8008880C 80088838 80088860 80088868 800888B4 800888F8 80088CA0 80088CB0
+    include "..\obj\SD\sd_cli.obj"
 
     ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
     ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
