@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef Menu_inventory_Is_Item_Disabled_8003B6D0
-Menu_inventory_Is_Item_Disabled_8003B6D0:
+	xdef menu_inventory_Is_Item_Disabled_8003B6D0
+menu_inventory_Is_Item_Disabled_8003B6D0:
 	dw 0x3C03800A ; 0x8003B6D0
 	dw 0x3C02800B ; 0x8003B6D4
 	dw 0x84424DB4 ; 0x8003B6D8

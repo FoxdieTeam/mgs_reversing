@@ -1,4 +1,3 @@
-#include "util/idaTypes.h"
 #include "linker.h"
 #include "jimctrl.h"
 #include "Script_tbl_map_8002BB44.h"
@@ -10,7 +9,7 @@
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 extern unk_8009E280         dword_8009E280;
 
-extern DWORD                 gotohell_800B9358;
+extern u_long                 gotohell_800B9358;
 extern GameState_800B4D98    gGameState_800B4D98;
 extern const char            aJimctrlC[];
 extern dword_800B9358_struct array_800B9358[2];
@@ -52,10 +51,10 @@ void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
     FS_StreamClose_80024098();
 }
 
-Actor *jimctrl_init_80038568(DWORD flags)
+Actor *jimctrl_init_80038568(u_long flags)
 {
     int            seekResult;
-    DWORD          toSeek = 4;
+    u_long          toSeek = 4;
     Actor_JimCtrl *pJimActor = &jimCtrlActor_800B82F0;
     if (flags & 0x80)
     {

@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
-#include "util/idaTypes.h"
 #include "Script_tbl_map_8002BB44.h"
 #include "psyq.h"
 
