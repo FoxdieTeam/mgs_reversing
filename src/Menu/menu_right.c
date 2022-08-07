@@ -157,15 +157,15 @@ void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct 
 {
     if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
-        pSubMenu->field_8_pStru->field_18_pFnUpdate(pActor, a2, pSubMenu->field_8_pStru->field_0,
-                                                    pSubMenu->field_8_pStru->field_2, pSubMenu);
+        pSubMenu->field_8_pStru->field_18_pFnUpdate(pActor, a2, pSubMenu->field_8_pStru->field_0_xOffset,
+                                                    pSubMenu->field_8_pStru->field_2_yOffset, pSubMenu);
     }
 }
 
 void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2)
 {
-    pLeftRight->field_8_pStru->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_pStru->field_0 + off1,
-                                                  pLeftRight->field_8_pStru->field_2 + off2, pLeftRight);
+    pLeftRight->field_8_pStru->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_pStru->field_0_xOffset + off1,
+                                                  pLeftRight->field_8_pStru->field_2_yOffset + off2, pLeftRight);
 }
 
 int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
@@ -343,7 +343,7 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
     menuMan->m7FnPtrs_field_2C[1] = menu_right_update_8003E990;
     menuMan->field_1F0_menu_right.field_0.field_0_item_id_idx = val;
     menuMan->field_1F0_menu_right.field_10 = 0;
-    menuMan->field_1F0_menu_right.field_12 = 0;
+    menuMan->field_1F0_menu_right.field_12_flashingAnimationFrame = 0;
     menuMan->field_1F0_menu_right.field_0.field_4 = 0;
     menuMan->field_1F0_menu_right.field_0.field_6 = 1;
     menuMan->field_1F0_menu_right.field_11 = val;

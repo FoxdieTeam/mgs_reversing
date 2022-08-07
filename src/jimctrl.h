@@ -37,7 +37,7 @@ typedef struct
     // Pointer to subtitles, mainly used by 80038070():
     // - @ 0x80038240 (R): reads the current subtitle; if disabled, the subtitles no longer update.
     // - @ 0x80038340 (W): updates the pointer; if disabled, all the subtitles play in one go.
-    void *field_44;
+    void *field_44_subtitles;
 } Actor_JimCtrl;
 
 void         jimctrl_init_helper_clear_80037FB8(void);

@@ -136,7 +136,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pActor->field_20_ctrl.field_8_vec);
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutObjs_8001BDB8(obj->objs);
     GM_ConfigObjectLight_80034C44(obj, &pActor->field_C0_mtx);
 
@@ -165,7 +165,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     vec->vy = 2000;
     vec->vz = 1024;
     ++counter_8009F448;
-    vec->vx = gSnaControl_800AB9F4->field_8_vec.vy;
+    vec->vx = gSnaControl_800AB9F4->field_8_rotator.vy;
     return 0;
 }
 
@@ -181,7 +181,7 @@ Actor_Jirai *NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
     pActor = (Actor_Jirai *)GV_NewActor_800150E4(5, sizeof(Actor_Jirai));
     if (pActor)
     {
-        pActor->field_104 = gSnaControl_800AB9F4->field_8_vec;
+        pActor->field_104 = gSnaControl_800AB9F4->field_8_rotator;
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C,
                                   (TActorFunction)jirai_kill_8006B05C, aJiraiC);
 

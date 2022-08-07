@@ -23,8 +23,8 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
 {
     int x1, y1, x2, y2;
 
-    x1 = menuMan->field_1D4_clipX1;
-    y1 = menuMan->field_1D6_clipY1;
+    x1 = menuMan->field_1D4_radarXOffsetFromDefault;
+    y1 = menuMan->field_1D6_radarYOffsetFromDefault;
     x2 = x1 + 0xea;
     y2 = y1 + 0xf;
     menu_render_rect_8003DB2C((MenuGlue *)menuMan->field_20_otBuf, x2, y2, 1, 53, 0); // TODO: fix cast
@@ -69,9 +69,9 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
 
     field_28_flags = pActor->field_28_flags;
     pActor->m7FnPtrs_field_2C[3] = menu_radar_update_8003B350;
-    pActor->field_1D8 = 1;
-    pActor->field_1D4_clipX1 = 0;
-    pActor->field_1D6_clipY1 = 0;
+    pActor->field_1D8_healthBarDisplayCountdown = 1;
+    pActor->field_1D4_radarXOffsetFromDefault = 0;
+    pActor->field_1D6_radarYOffsetFromDefault = 0;
     pActor->field_28_flags = field_28_flags | 8;
     menu_radar_helper_8003ADD8(pActor, 0);
     menu_radar_helper_8003ADD8(pActor, 1);
