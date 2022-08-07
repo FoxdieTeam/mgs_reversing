@@ -14,7 +14,7 @@ typedef struct Motion_0x18
   short field_4;
   short field_6;
   unsigned int field_8;
-  unsigned int field_C;
+  void* field_C;
   short field_10;
   short field_12;
   short field_14;
@@ -42,5 +42,9 @@ typedef struct _MOTION_CONTROL
 void sub_8003501C(MOTION_CONTROL *m_ctrl, int a1, int motion);
 void sub_800350D4(MOTION_CONTROL *m_ctrl, int a1, int motion);
 void sub_8003556C(MOTION_CONTROL *m_ctrl);
+
+int sub_8003603C(MOTION_CONTROL *pCtrl, Motion_0x18 *pSub);
+int Process_Oar_8003518C(MOTION_CONTROL *pCtrl, Motion_0x18 *a2, int a3);
+int sub_800360EC(MOTION_CONTROL *pCtrl, Motion_0x18 *a2, int a3, int a4);
 
 #endif // _MOTION_H_
