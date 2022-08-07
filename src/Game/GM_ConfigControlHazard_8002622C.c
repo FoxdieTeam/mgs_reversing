@@ -22,7 +22,7 @@ void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECT
 
     if (pVec2)
     {
-        pControl->field_8_vec = *pVec2;
+        pControl->field_8_rotator = *pVec2;
     }
 }
 
@@ -32,9 +32,9 @@ void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix)
     pControl->field_0_position.vy = pMatrix->t[1];
     pControl->field_0_position.vz = pMatrix->t[2];
 
-    DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_vec);
+    DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_rotator);
 
-    pControl->field_4C_turn_vec = pControl->field_8_vec;
+    pControl->field_4C_turn_vec = pControl->field_8_rotator;
 }
 
 void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2)
@@ -46,10 +46,10 @@ void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char
 
     if (bReadVec2)
     {
-        GCL_GetSV_80020A14(bReadVec2, &pControl->field_8_vec.vx);
+        GCL_GetSV_80020A14(bReadVec2, &pControl->field_8_rotator.vx);
     }
 
-    pControl->field_4C_turn_vec = pControl->field_8_vec;
+    pControl->field_4C_turn_vec = pControl->field_8_rotator;
 }
 
 void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38)

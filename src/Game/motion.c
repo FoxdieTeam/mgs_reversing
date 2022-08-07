@@ -6,13 +6,13 @@
 
 #pragma INCLUDE_ASM("asm/sub_80034EAC.s")
 
-int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void* a5, GM_Control *pCtrl,
-                                    SVECTOR *rots)
+int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5,
+                                    GM_Control *pCtrl, SVECTOR *rots)
 {
     pMCtrl->field_00_oar_ptr = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'o'));
     pMCtrl->field_3C = &pObj->field_18;
     pMCtrl->field_04.field_0 = 0;
-    pMCtrl->field_04.field_2 = 0;
+    pMCtrl->field_04.field_2_footstepsFrame = 0;
     pMCtrl->field_04.field_4 = 0;
     pMCtrl->field_04.field_8 = 0;
     pMCtrl->field_04.field_C = a4;
@@ -21,7 +21,7 @@ int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int na
     pMCtrl->field_04.field_14 = 0;
     pMCtrl->field_04.field_16 = 0;
     pMCtrl->field_1C.field_0 = 0;
-    pMCtrl->field_1C.field_2 = 0;
+    pMCtrl->field_1C.field_2_footstepsFrame = 0;
     pMCtrl->field_1C.field_4 = 0;
     pMCtrl->field_1C.field_8 = -1;
     pMCtrl->field_1C.field_10 = 0;
@@ -30,8 +30,8 @@ int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int na
     pMCtrl->field_1C.field_16 = 0;
     pMCtrl->interp = 0;
     pMCtrl->field_4C = rots;
-    pMCtrl->field_34 = &pCtrl->field_8_vec;
-    pMCtrl->step = &pCtrl->field_44_vec;
+    pMCtrl->field_34 = &pCtrl->field_8_rotator;
+    pMCtrl->step = &pCtrl->field_44_movementVector;
     pMCtrl->field_1C.field_C = a5;
     pObj->objs->rots = rots;
     pObj->objs->waist_rot = &pMCtrl->field_44;
@@ -47,28 +47,27 @@ int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust)
 
 void sub_8003501C(MOTION_CONTROL *pCtrl, int action_flag, int motion)
 {
-    Motion_0x18* pSub;
-    MATRIX mtx; // [sp+10h] [-20h] BYREF
+    Motion_0x18 *pSub;
+    MATRIX       mtx; // [sp+10h] [-20h] BYREF
 
     ReadRotMatrix_80092DD8(&mtx);
 
     pSub = &pCtrl->field_04;
-    if ( pSub->field_0 )
+    if (pSub->field_0)
     {
         sub_8003603C(pCtrl, pSub);
     }
 
-    if ( !motion )
+    if (!motion)
     {
         Process_Oar_8003518C(pCtrl, pSub, action_flag);
-
     }
     else
     {
         sub_800360EC(pCtrl, pSub, action_flag, motion);
     }
 
-    if ( pSub->field_0 == 1 )
+    if (pSub->field_0 == 1)
     {
         pSub->field_14 = 2;
         pSub->field_10 = action_flag;
@@ -84,28 +83,27 @@ void sub_8003501C(MOTION_CONTROL *pCtrl, int action_flag, int motion)
 
 void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 {
-    Motion_0x18* pSub;
+    Motion_0x18 *pSub;
 
     MATRIX mtx; // [sp+10h] [-20h] BYREF
     ReadRotMatrix_80092DD8(&mtx);
 
     pSub = &pCtrl->field_1C;
-    if ( pSub->field_0 )
+    if (pSub->field_0)
     {
         sub_8003603C(pCtrl, pSub);
     }
-    
-    if ( !a3 )
+
+    if (!a3)
     {
         Process_Oar_8003518C(pCtrl, pSub, a2);
-
     }
     else
     {
         sub_800360EC(pCtrl, pSub, a2, a3);
     }
-    
-    if ( pSub->field_0 == 1 )
+
+    if (pSub->field_0 == 1)
     {
         pSub->field_14 = 2;
         pSub->field_10 = a2;
@@ -115,7 +113,7 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
         pSub->field_14 = 1;
         pSub->field_10 = a2;
     }
-    
+
     SetRotMatrix_80093218(&mtx);
 }
 

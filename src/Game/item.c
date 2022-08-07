@@ -149,14 +149,14 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     GM_ConfigControlInterp_80026244(pCtrl, 0);
 
     pCtrl->field_55_flags = (CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2);
-    pCtrl->field_44_vec = *a3;
-    pCtrl->field_44_vec.vy = 160;
+    pCtrl->field_44_movementVector = *a3;
+    pCtrl->field_44_movementVector.vy = 160;
     pCtrl->field_0_position = *pPos;
 
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
     GM_ConfigObjectJoint_80034CB4(&pActor->field_9C_kmd);
     GM_ConfigObjectLight_80034C44(&pActor->field_9C_kmd, &pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54(&pActor->field_9C_kmd, &pCtrl->field_44_vec);
+    GM_ConfigObjectStep_80034C54(&pActor->field_9C_kmd, &pCtrl->field_44_movementVector);
 
     for (i = 0; i < 2; i++)
     {
