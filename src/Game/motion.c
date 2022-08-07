@@ -11,28 +11,28 @@ int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int na
 {
     pMCtrl->field_00_oar_ptr = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'o'));
     pMCtrl->field_3C = &pObj->field_18;
-    pMCtrl->field_04 = 0;
-    pMCtrl->field_06 = 0;
-    pMCtrl->field_08 = 0;
-    pMCtrl->field_0C = 0;
-    pMCtrl->field_10 = a4;
-    pMCtrl->field_14 = 0;
-    pMCtrl->field_16 = 0;
-    pMCtrl->field_18 = 0;
-    pMCtrl->field_1A = 0;
-    pMCtrl->field_1C = 0;
-    pMCtrl->field_1E = 0;
-    pMCtrl->field_20 = 0;
-    pMCtrl->field_24 = -1;
-    pMCtrl->field_2C = 0;
-    pMCtrl->field_2E = 0;
-    pMCtrl->field_30 = 0;
-    pMCtrl->field_32 = 0;
+    pMCtrl->field_04.field_0 = 0;
+    pMCtrl->field_04.field_2 = 0;
+    pMCtrl->field_04.field_4 = 0;
+    pMCtrl->field_04.field_8 = 0;
+    pMCtrl->field_04.field_C = a4;
+    pMCtrl->field_04.field_10 = 0;
+    pMCtrl->field_04.field_12 = 0;
+    pMCtrl->field_04.field_14 = 0;
+    pMCtrl->field_04.field_16 = 0;
+    pMCtrl->field_1C.field_0 = 0;
+    pMCtrl->field_1C.field_2 = 0;
+    pMCtrl->field_1C.field_4 = 0;
+    pMCtrl->field_1C.field_8 = -1;
+    pMCtrl->field_1C.field_10 = 0;
+    pMCtrl->field_1C.field_12 = 0;
+    pMCtrl->field_1C.field_14 = 0;
+    pMCtrl->field_1C.field_16 = 0;
     pMCtrl->interp = 0;
     pMCtrl->field_4C = rots;
     pMCtrl->field_34 = &pCtrl->field_8_vec;
     pMCtrl->step = &pCtrl->field_44_vec;
-    pMCtrl->field_28 = a5;
+    pMCtrl->field_1C.field_C = a5;
     pObj->objs->rots = rots;
     pObj->objs->waist_rot = &pMCtrl->field_44;
     pObj->m_ctrl = pMCtrl;
@@ -53,14 +53,14 @@ int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust)
 #pragma INCLUDE_ASM("asm/oar_related_800356FC.s")
 #pragma INCLUDE_ASM("asm/sub_80035F34.s")
 
-void sub_80035FFC(int param_1)
+void sub_80035FFC(MOTION_CONTROL *pCtrl)
 {
-    sub_8003603C(param_1, param_1 + 4);
+    sub_8003603C(pCtrl, &pCtrl->field_04);
 }
 
-void sub_8003601C(int param_1)
+void sub_8003601C(MOTION_CONTROL *pCtrl)
 {
-    sub_8003603C(param_1, param_1 + 0x1c);
+    sub_8003603C(pCtrl, &pCtrl->field_1C);
 }
 
 #pragma INCLUDE_ASM("asm/sub_8003603C.s")
