@@ -16,7 +16,7 @@
 #include "Equip/gasmask.h"
 #include "Equip/box.h"
 #include "Equip/bandana.h"
-#include "anime.h"
+#include "anime/animeconv/anime.h"
 #include "libgcl/hash.h"
 #include "Menu/menuman.h"
 

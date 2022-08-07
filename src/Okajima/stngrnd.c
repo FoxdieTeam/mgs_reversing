@@ -1,5 +1,5 @@
 #include "stngrnd.h"
-#include "anime.h"
+#include "anime/animeconv/anime.h"
 
 extern Anim_Data stru_8009F670;
 extern Anim_Data stru_8009F68C;
