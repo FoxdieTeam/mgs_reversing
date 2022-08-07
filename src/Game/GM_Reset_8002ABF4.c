@@ -3,7 +3,7 @@
 #include "libgcl/gcl.h"
 #include "homing_target.h"
 
-DG_TEX SECTION(".gMenuTextureRec_800B58B0") gMenuTextureRec_800B58B0;
+extern DG_TEX gMenuTextureRec_800B58B0;
 
 void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
 {

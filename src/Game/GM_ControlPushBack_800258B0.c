@@ -9,8 +9,8 @@
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;
 
-GM_Control *SECTION(".GM_WhereList_800B56D0") GM_WhereList_800B56D0[96];
-GM_Control  SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
+extern GM_Control *GM_WhereList_800B56D0[96];
+extern GM_Control  gDefaultControl_800B5650;
 
 int GM_ControlPushBack_800258B0(GM_Control *pControlToAdd)
 {

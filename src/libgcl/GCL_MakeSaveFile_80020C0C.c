@@ -8,7 +8,7 @@ extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
 extern GCL_Vars           gGcl_memVars_800b4588;
 extern RadioMemory        gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
-char SECTION(".gStageName_800B4D88") gStageName_800B4D88[16];
+extern char gStageName_800B4D88[16];
 
 int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 {

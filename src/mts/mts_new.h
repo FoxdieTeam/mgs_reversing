@@ -5,6 +5,7 @@
 
 // Point to the end of the buffer - since its a stack it grows "up"
 #define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
+#define MAX_FILE_HANDLERS 26
 
 typedef int (*TMtsFn)(void);
 

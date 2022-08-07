@@ -3,21 +3,8 @@
 #include "mts/mts_new.h"
 #include "Game/GM_Control.h"
 
-// TODO: move this and the data to a Game/ file?
-typedef struct CAMERA
-{
-    short field_00_pos[3];
-    short field_06_unknown;
-    short field_08_trg[3];
-    short field_0e_alertMask;
-    char  field_10_param1; // example: d:CAM_FIX
-    char  field_11_param2; // example: d:CAM_INTERP_LINER
-    char  field_12_param3; // example: d:CAM_CAM_TO_TRG
-    char  field_13_param_p;
-} CAMERA;
-
-CAMERA SECTION(".GM_CameraList_800B7718") GM_CameraList_800B7718[8];
-CAMERA SECTION(".gCamera_param_a_800B780C") gCamera_param_a_800B780C;
+extern CAMERA GM_CameraList_800B7718[8];
+extern CAMERA gCamera_param_a_800B780C;
 
 extern const char aSetCameraD[];
 

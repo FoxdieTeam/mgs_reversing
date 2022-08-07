@@ -5,7 +5,7 @@ int SECTION(".sdata") last_searched_texture_name_800AB3A4 = 0xFFFFFFFF;
 
 extern DG_TEX dword_8009D450;
 
-DG_TEX SECTION(".gTextureRecs_800B1F50") gTextureRecs_800B1F50[512];
+extern DG_TEX gTextureRecs_800B1F50[512];
 
 void DG_ClearTextureRecs_8001D808()
 {

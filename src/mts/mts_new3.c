@@ -20,14 +20,14 @@ extern const char aIsendDstD[];
 extern const char aIsendStateDead[];
 extern const char aGetNewVblContr[];
 
-mts_msg       SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8] = {};
-mts_msg      *SECTION(".D_800C0C00") D_800C0C00 = 0;
-mts_msg      *SECTION(".D_800C0C00") D_800C0C04 = 0;
-int           SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0 = 0;
-signed char   SECTION(".byte_800C0C10") byte_800C0C10[32] = {};
-char          SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
-unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512] = {};
-unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024] = {};
+extern mts_msg       gMtsMsgs_800C13D0[8];
+extern mts_msg      *D_800C0C00;
+extern mts_msg      *D_800C0C04;
+extern int           gMts_active_task_idx_800C13C0;
+extern signed char   byte_800C0C10[32];
+extern char          byte_801FFF00[240];
+extern unsigned char byte_800C0DB8[512];
+extern unsigned char dword_800C0FB8[1024];
 
 extern int dword_800A3D68[2];
 

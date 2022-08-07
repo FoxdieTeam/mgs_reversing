@@ -3,7 +3,7 @@
 #include "libdg/dgd.h"
 #include "map/map.h"
 
-DG_OBJS *SECTION(".StageObjs_800B7890") StageObjs_800B7890[32];
+extern DG_OBJS *StageObjs_800B7890[32];
 
 // re-declare to force GP usage
 extern int N_StageObjs_800ABAA4;

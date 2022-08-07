@@ -31,8 +31,8 @@ extern int DG_HikituriFlagOld_8009D464;
 /****************************************/
 
 /**bss************************************************************************/
-DISPENV SECTION(".gDispEnv_800B0600") gDispEnv_800B0600;
-VECTOR  SECTION(".gUnknownVector_800B0620") gUnknownVector_800B0620;
+extern DISPENV gDispEnv_800B0600;
+extern VECTOR  gUnknownVector_800B0620;
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 /****************************************************************************/

@@ -2,7 +2,7 @@
 #include "libdg.h"
 #include "psyq.h"
 
-static DG_FixedLight SECTION(".bss_800B1E08") gFixedLights_800B1E08[8];
+extern DG_FixedLight gFixedLights_800B1E08[8];
 
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ColorMatrix_8009D3A4;
