@@ -26,7 +26,7 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
     array_800B933C_child *pIter;
     int                   i;
 
-    if (pJimCtrl->field_44 != 0)
+    if (pJimCtrl->field_44_subtitles != 0)
     {
         menu_JimakuClear_80049518();
     }

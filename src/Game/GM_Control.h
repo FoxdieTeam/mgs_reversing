@@ -50,7 +50,7 @@ typedef struct GM_Control
     // - vy: yaw;
     // - vz: roll.
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
-    SVECTOR             field_8_vec;
+    SVECTOR             field_8_rotator;
     Res_Control_unknown field_10_pStruct_hzd_unknown;
     struct map_record  *field_2C_map;
     unsigned short      field_30_scriptData;
@@ -74,7 +74,7 @@ typedef struct GM_Control
     // Movement vector, added to the position vector each frame to determine Snake's new position.
     // 800356FC() @ 0x80035974 (vx) and 0x8003597c (vz) seems to be the main function responsible for calculating the
     // movement vector, since it is the only writing function which if disabled prevents Snake from moving entirely.
-    SVECTOR       field_44_vec;
+    SVECTOR       field_44_movementVector;
     SVECTOR       field_4C_turn_vec;
     char          field_54;
     unsigned char field_55_flags; // CONTROL_FLAG_...

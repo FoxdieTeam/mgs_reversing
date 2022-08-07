@@ -5,27 +5,27 @@
 
 typedef struct Motion_0x18
 {
+    short field_0;
     // Controls the sound of Snake's footsteps; values, ranging from 0x0-0x11 (with intermediary jumps to 0x80 and
     // 0xff), appear to be the current frame of the sound sample (with frame 0x8 corresponding to the hard footstep
     // sound). Disabling any of the reads or writes causes Snake's footsteps no longer to make any noise, such that he
     // can for instance walk in puddles without being heard by enemies.
-  short field_0;
-  short field_2;
-  short field_4;
-  short field_6;
-  unsigned int field_8;
-  void* field_C;
-  short field_10;
-  short field_12;
-  short field_14;
-  unsigned short field_16;
+    short          field_2_footstepsFrame;
+    short          field_4;
+    short          field_6;
+    unsigned int   field_8;
+    void          *field_C;
+    short          field_10;
+    short          field_12;
+    short          field_14;
+    unsigned short field_16;
 } Motion_0x18;
 
 typedef struct _MOTION_CONTROL
 {
-    void          *field_00_oar_ptr; // 0x00
+    void       *field_00_oar_ptr; // 0x00
     Motion_0x18 field_04;         // 0x04
-    Motion_0x18 field_1C; // 0x1C
+    Motion_0x18 field_1C;         // 0x1C
 
     // In Actor_SnaInit, this is a pointer to his GM_Control's rotator (0x20->0x8).
     SVECTOR *field_34; // 0x34

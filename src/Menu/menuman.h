@@ -39,7 +39,7 @@ typedef struct menu_chara_struct
     int            field_4;
     void          *field_8;
     unsigned char *field_C_pScript;
-    void          *field_10;              // Points to subtitle data.
+    void          *field_10_subtitles;    // Points to subtitle data.
     int            field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
     unsigned short field_1A;
@@ -56,14 +56,14 @@ typedef struct menu_chara_struct
     int            field_40;
     int            field_44;
     int            field_48;
-    int            field_4C; // Animation frame of left Codec portrait, valid values 0-3.
+    int            field_4C_leftCodecPortraitFrame; // Animation frame of left Codec portrait, valid values 0-3.
     void          *field_50;
     short          field_54; // Begin Codec right portrait data?
     short          field_56;
     int            field_58;
     int            field_5C;
     int            field_60;
-    int            field_64; // Animation frame of right Codec portrait, valid values 0-3.
+    int            field_64_rightCodecPortraitFrame; // Animation frame of right Codec portrait, valid values 0-3.
     void          *field_68;
 } menu_chara_struct;
 
@@ -99,9 +99,9 @@ typedef void (*menu_8009E544_update)(struct Actor_MenuMan *, int, int, int, stru
 typedef struct menu_8009E544
 {
     // X offset from left of screen.
-    short field_0;
+    short field_0_xOffset;
     // Y offset from top of screen.
-    short field_2;
+    short field_2_yOffset;
     // 8003D6CC() reads this in the following instructions and, if the field is set to 0:
     // - @ 0x8003d700, it will not allow the menu to open;
     // - @ 0x8003d768, it will not allow the menu to remain open.
@@ -147,7 +147,7 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
     char                         field_10; // state ?
     signed char                  field_11; // item_idx ?
     // Current frame of the "flashing" animation played when the menu is closed, counts down from 0xa to 0x0.
-    short field_12;
+    short field_12_flashingAnimationFrame;
 } menu_left_right;
 
 struct Actor_MenuMan;
@@ -207,18 +207,23 @@ typedef struct MenuMan_MenuBars
 struct Actor_MenuMan;
 typedef void (*TInitKillFn)(struct Actor_MenuMan *);
 
+enum
+{
+    MENUFLAGS_CAN_OPEN_RIGHT_MENU = 0x2,
+    MENUFLAGS_CAN_OPEN_LEFT_MENU = 0x4,
+    MENUFLAGS_CAN_SEE_RADAR = 0x8,
+    MENUFLAGS_CAN_OPEN_CODEC = 0x10
+};
+
+typedef unsigned char MenuFlags;
+
 typedef struct Actor_MenuMan
 {
     Actor           field_0_actor;
     MenuPrimBuffer *field_20_otBuf;
     void           *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
-    // Bit 0: ?
-    // Bit 1: can open right menu.
-    // Bit 2: can open left menu.
-    // Bit 3: can see radar.
-    // Bit 4: can open Codec.
-    unsigned char field_28_flags;
-    char          field_29;
+    MenuFlags       field_28_flags;
+    char            field_29;
     // Bit 0: browsing right menu.
     // Bit 1: browsing left menu.
     // Bit 2: using Codec.
@@ -233,13 +238,13 @@ typedef struct Actor_MenuMan
     DR_ENV        field_154;
     DR_ENV        field_194;
     // Radar X offset from default X position (not from top of screen).
-    short field_1D4_clipX1;
+    short field_1D4_radarXOffsetFromDefault;
     // Radar Y offset from default Y position (not from left of screen).
-    short field_1D6_clipY1;
+    short field_1D6_radarYOffsetFromDefault;
     // Health bar display countdown from 0x96 to 0x0, handled by 8003F530():
     // - 0x8003f784: resets the countdown to 0x96;
     // - 0x8003f7a0: decrements the value.
-    char                   field_1D8;
+    char                   field_1D8_healthBarDisplayCountdown;
     char                   field_1D9;
     short                  field_1DA;
     struct menu_left_right field_1DC_menu_left;

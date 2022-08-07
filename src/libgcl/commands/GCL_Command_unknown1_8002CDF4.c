@@ -37,7 +37,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
         gGameState_800B4D98.field_10_snake_position.x = unkStruct->field_0_position.vx;
         gGameState_800B4D98.field_10_snake_position.y = unkStruct->field_0_position.vy;
         gGameState_800B4D98.field_10_snake_position.z = unkStruct->field_0_position.vz;
-        gGameState_800B4D98.field_0A_last_result = unkStruct->field_8_vec.vy;
+        gGameState_800B4D98.field_0A_last_result = unkStruct->field_8_rotator.vy;
     }
     if (GCL_GetParam_80020968('a')) // area?
     {
