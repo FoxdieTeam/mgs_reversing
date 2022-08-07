@@ -1,5 +1,3 @@
-
-
 int sub_80026418(int arg0, int arg1)
 {
     int   temp_a0;

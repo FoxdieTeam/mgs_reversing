@@ -1,4 +1,4 @@
-#include "jimctrl.h"
+#include "Game/jimctrl.h"
 
 int menu_radio_draw_face_helper6_800486A0(unsigned short *a1)
 {

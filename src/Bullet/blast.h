@@ -5,7 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
-#include "target.h"
+#include "Game/target.h"
 
 typedef struct Blast_Data
 {

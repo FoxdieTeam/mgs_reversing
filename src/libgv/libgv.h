@@ -221,5 +221,7 @@ int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
 void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
+int          sub_80026418(int arg0, int arg1); // probably a NearExp
+int          sub_80026440(int param_1, int param_2, int param_3);
 
 #endif // LIBGV_H
