@@ -19,20 +19,25 @@ typedef struct
     DWORD dword_800B935C;
 } dword_800B9358_struct;
 
+// Actor used for subtitles.
 typedef struct
 {
     Actor field_0_base;
-    DWORD field_20;
-    WORD  field_24;
-    BYTE  field_26;
-    BYTE  field_27;
-    DWORD field_28;
-    DWORD field_2C;
-    DWORD field_30;
-    DWORD field_34;
-    int   field_38;
-    BYTE  field_3C_pad[8];
-    int   field_44;
+    int   field_20;
+    short field_24;
+    char  field_26;
+    char  field_27;
+    int   field_28;
+    int   field_2C;
+    int   field_30;
+    void *field_34;
+    void *field_38; // Pointer to data used to update Codec portraits, mainly by 80038070().
+    int   field_3C;
+    int   field_40;
+    // Pointer to subtitles, mainly used by 80038070():
+    // - @ 0x80038240 (R): reads the current subtitle; if disabled, the subtitles no longer update.
+    // - @ 0x80038340 (W): updates the pointer; if disabled, all the subtitles play in one go.
+    void *field_44;
 } Actor_JimCtrl;
 
 void         jimctrl_init_helper_clear_80037FB8(void);
