@@ -10,13 +10,10 @@ extern GameState_800B4D98 gGameState_800B4D98;
 extern int dword_800ABAD0;
 int        SECTION(".sbss") dword_800ABAD0;
 
-void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
-int Menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
-
 void menu_sub_8003B568(void)
 {
     int   imgIdx;
-    DWORD palIdx;
+    u_long palIdx;
     int   i;
 
     for (i = 0; i < 0x15; i++)
@@ -41,7 +38,7 @@ MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
 }
 
 #pragma INCLUDE_ASM("asm/menu_8003B614.s")
-#pragma INCLUDE_ASM("asm/Menu_inventory_Is_Item_Disabled_8003B6D0.s")
+#pragma INCLUDE_ASM("asm/menu_inventory_Is_Item_Disabled_8003B6D0.s")
 #pragma INCLUDE_ASM("asm/menu_8003B794.s")
 #pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s")
 

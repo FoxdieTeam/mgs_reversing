@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "mts_new.h"
-#include "util/idaTypes.h"
 #include "psyq.h"
 
 unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36] = {};

@@ -4,7 +4,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "util/idaTypes.h"
 #include "libgv/libgv.h"
 
 typedef struct Actor_stgfd_io_0x30

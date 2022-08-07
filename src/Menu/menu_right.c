@@ -4,7 +4,6 @@
 #include "menuman.h"
 #include "linker.h"
 #include "Script_tbl_map_8002BB44.h"
-#include "util/idaTypes.h"
 #include "linker.h"
 #include "linker.h"
 #include "linker.h"
@@ -12,7 +11,7 @@
 #include <LIBGTE.H>
 #include "linker.h"
 
-DWORD SECTION(".sbss") dword_800ABADC;
+u_long SECTION(".sbss") dword_800ABADC;
 
 // menu related?
 
