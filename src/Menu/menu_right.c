@@ -1,15 +1,9 @@
 #include "linker.h"
 #include "menuman.h"
-#include "linker.h"
-#include "menuman.h"
-#include "linker.h"
-#include "Script_tbl_map_8002BB44.h"
-#include "linker.h"
-#include "linker.h"
-#include "linker.h"
+#include "Game/gamestate.h"
+#include "libgcl/gcl.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
-#include "linker.h"
 
 u_long SECTION(".sbss") dword_800ABADC;
 

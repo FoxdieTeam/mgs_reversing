@@ -4,11 +4,12 @@
 #include "linker.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "GM_Control.h"
 #include "map/hzd.h"
 #include "Menu/menuman.h"
 #include "libgcl/gcl.h"
-#include "Game/motion.h"
+#include "motion.h"
+#include "gamestate.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_NoisePower_800ABA24;

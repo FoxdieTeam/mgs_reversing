@@ -1,5 +1,4 @@
 #include "linker.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "libgcl/gcl.h"
 
 int GCL_Command_hzd_8002BD04(int argc, char **argv)
