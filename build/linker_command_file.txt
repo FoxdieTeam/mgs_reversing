@@ -1332,7 +1332,6 @@
     include "..\obj\SD\svp_set_80086EB8.obj"
     include "..\obj\SD\use_set_80086EF8.obj"
     include "..\obj\SD\SD_80086F00.obj"
-    include "..\obj\SD\SD_MDX_DD_80086F08.obj"
     include "..\obj\SD\SD_MDX_DE_80086F50.obj"
     include "..\obj\SD\SD_MDX_E1_80087018.obj"
     include "..\obj\SD\SD_MDX_E2_80087120.obj"
