@@ -2053,4 +2053,9 @@ group_tenage_ctrls_800BDD30    group bss,org($800BDD30)
 group_fs_stream_heap_800B52A4    group bss,org($800B52A4)
     section .fs_stream_heap_800B52A4, group_fs_stream_heap_800B52A4
 
+group_stru_800BD4B0    group bss,org($800BD4B0)
+    section .stru_800BD4B0, group_stru_800BD4B0
+
+
+
     regs    pc=__SN_ENTRY_POINT_80098E6C

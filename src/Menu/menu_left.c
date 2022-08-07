@@ -2,6 +2,8 @@
 #include "linker.h"
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
+MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0") stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
+extern menu_weapon_rpk_info gMenuItemRpkInfo_8009E484[];
 
 extern int dword_800ABAD0;
 int        SECTION(".sbss") dword_800ABAD0;
@@ -28,7 +30,11 @@ void menu_sub_8003B568(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003B5E0.s")
+MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
+{
+    return &stru_800BD4B0[gMenuItemRpkInfo_8009E484[idx].field_4_rpk_idx];
+}
+
 #pragma INCLUDE_ASM("asm/menu_8003B614.s")
 #pragma INCLUDE_ASM("asm/menu_8003B6D0.s")
 #pragma INCLUDE_ASM("asm/menu_8003B794.s")
@@ -40,19 +46,20 @@ void menu_sub_8003B568(void)
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper4_8003C4EC.s")
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_8003C95C.s")
 
-int sub_8003CB98(struct Actor_MenuMan *a1)
+int sub_8003CB98(struct Actor_MenuMan *pActor)
 {
-    int v2;
+    int field_0_item_id_idx; // $a0
+    MenuMan_Inventory_14h_Unk *pItem; // $v0
     int result;
-    int v4;
 
     menu_restore_nouse_80043470();
-    v2 = a1->field_1DC_menu_left.field_0.field_0_item_id_idx;
+    field_0_item_id_idx = pActor->field_1DC_menu_left.field_0.field_0_item_id_idx;
     result = -1;
-    if (v2 != -1 || (v2 = a1->field_1DC_menu_left.field_11, v2 != -1))
+    if ( field_0_item_id_idx != -1
+      || (field_0_item_id_idx = pActor->field_1DC_menu_left.field_11, field_0_item_id_idx != -1) )
     {
-        v4 = sub_8003B5E0(v2);
-        result = sub_8003CFE0((unsigned int **)v4, 0); // TODO: make sub_8003B5E0 return this casted type
+        pItem = menu_rpk_8003B5E0(field_0_item_id_idx);
+        result = sub_8003CFE0(pItem, 0);
     }
     return result;
 }
