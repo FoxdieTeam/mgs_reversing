@@ -136,7 +136,7 @@ typedef struct Menu_Item_Unknown_Array_Item
 typedef struct Menu_Item_Unknown
 {
     Menu_Item_Unknown_Main       field_0_main;
-    Menu_Item_Unknown_Array_Item field_20_array;
+    Menu_Item_Unknown_Array_Item field_20_array[0];
 } Menu_Item_Unknown;
 
 typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
