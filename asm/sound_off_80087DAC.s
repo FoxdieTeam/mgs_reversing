@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80087DAC
-sub_80087DAC:
+	xdef sound_off_80087DAC
+sound_off_80087DAC:
 	dw 0x00002821 ; 0x80087DAC
 	dw 0x24080007 ; 0x80087DB0
 	dw 0x24070001 ; 0x80087DB4

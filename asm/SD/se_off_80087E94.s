@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_80087E94
-SD_80087E94:
+	xdef se_off_80087E94
+se_off_80087E94:
 	dw 0x2484000D ; 0x80087E94
 	dw 0x00041100 ; 0x80087E98
 	dw 0x00441023 ; 0x80087E9C
