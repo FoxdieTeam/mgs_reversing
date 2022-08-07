@@ -11,7 +11,7 @@ int        SECTION(".sbss") gBindsCount_800ABA64;
 
 STATIC_ASSERT_SIZE(BindStruct, 0x18);
 
-BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
+extern BindStruct gBindsArray_800b58e0[128];
 
 extern const char aBindsOver[];
 

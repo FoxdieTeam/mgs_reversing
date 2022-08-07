@@ -3,7 +3,7 @@
 
 extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
 
-GCL_Vars SECTION(".gGcl_memVars_800b4588") gGcl_memVars_800b4588;
+extern GCL_Vars gGcl_memVars_800b4588;
 
 unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
 {

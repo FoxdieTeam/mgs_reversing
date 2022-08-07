@@ -13,8 +13,8 @@ int SECTION(".sbss") dword_800AB9A8[2];
 /*******************************************************/
 
 /***** bss ************************************************************/
-int            SECTION(".argstack_800B3C28") argstack_800B3C28[32];
-unsigned char *SECTION(".commandlines_800B3CA8") commandlines_800B3CA8[8];
+extern int            argstack_800B3C28[32];
+extern unsigned char *commandlines_800B3CA8[8];
 /*********************************************************************/
 
 void GCL_SetArgTop_80020690(unsigned char *top)

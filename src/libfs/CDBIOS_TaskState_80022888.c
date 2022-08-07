@@ -1,6 +1,6 @@
 #include "linker.h"
 
-int SECTION(".int_800B4E58") cd_bios_task_state_800B4E58;
+extern int cd_bios_task_state_800B4E58;
 
 int CDBIOS_TaskState_80022888(void)
 {

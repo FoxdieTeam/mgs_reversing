@@ -44,7 +44,7 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 #pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
 #pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s")        // 1280 bytes
 
-Jirai_unknown SECTION(".stru_800BDE78") stru_800BDE78[8];
+extern Jirai_unknown stru_800BDE78[8];
 
 #pragma INCLUDE_ASM("asm/jirai_kill_8006B05C.s") // 200 bytes
 /*

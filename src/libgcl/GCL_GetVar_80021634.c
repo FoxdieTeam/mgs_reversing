@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "gcl.h"
 
-GCL_Vars SECTION(".gGcl_vars_800B3CC8") gGcl_vars_800B3CC8;
+extern GCL_Vars gGcl_vars_800B3CC8;
 
 extern GameState_800B4D98 gGameState_800B4D98;
 

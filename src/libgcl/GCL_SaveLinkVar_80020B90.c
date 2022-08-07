@@ -3,7 +3,7 @@
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
-GameState_800B4D98 SECTION(".gGcl_gameStateVars_800B44C8") gGcl_gameStateVars_800B44C8;
+extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
 
 void GCL_SaveLinkVar_80020B90(short *gameVar)
 {

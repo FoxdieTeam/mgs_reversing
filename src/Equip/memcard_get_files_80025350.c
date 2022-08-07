@@ -3,24 +3,24 @@
 #include "memcard/memcard.h"
 #include "psyq.h"
 
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_timeout_800B52D0;
-long SECTION(".gMemoryCardFiles_800B52C8") gHardware_new_device_800B52D4;
+extern long gHardware_end_io_800B52C8;
+extern long gHardware_end_write_800B52CC;
+extern long gHardware_timeout_800B52D0;
+extern long gHardware_new_device_800B52D4;
 
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_io_800B52D8;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
-long SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
+extern long gSoftware_end_io_800B52D8;
+extern long gSoftware_end_write_800B52DC;
+extern long gSoftware_timeout_800B52E0;
+extern long gSoftware_new_device_800B52E4;
 
-TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
-TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
-volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
-volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
+extern TMemCardFunc             gHwCard_do_op_800B52E8;
+extern TMemCardFunc             gSwCard_do_op_800B52EC;
+extern volatile TMemCardSetFunc gSwCardLastOp_800B52F0;
+extern volatile TMemCardSetFunc gHwCardLastOp_800B52F4;
 
-struct mem_card SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
+extern struct mem_card gMemCards_800B52F8[2];
 
-volatile long SECTION(".gMemoryCardFiles_800B52C8") gMemCard_io_size_800B5648;
+extern volatile long gMemCard_io_size_800B5648;
 
 extern const char SECTION(".rdata") aBu02xS[];
 extern const char SECTION(".rdata") aDeletedFileS[];

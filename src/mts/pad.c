@@ -2,9 +2,9 @@
 #include "mts_new.h"
 #include "psyq.h"
 
-unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36] = {};
-int           SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2] = {};
-unsigned char SECTION(".gMtsPadSendBuffers_800C14D0") gMtsPadSendBuffers_800C14D0[2][8] = {};
+extern unsigned char gMtsPadRecvBuffers_800C1480[2][36];
+extern int           gMtsPadInitStates_800C14F0[2];
+extern unsigned char gMtsPadSendBuffers_800C14D0[2][8];
 
 extern int gMtsPadInited_800A3DBC;
 extern int dword_800A3DC8;
