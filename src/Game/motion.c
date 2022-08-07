@@ -46,7 +46,44 @@ int GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8003501C.s")
-#pragma INCLUDE_ASM("asm/sub_800350D4.s")
+
+void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
+{
+    Motion_0x18* pSub;
+
+    MATRIX mtx; // [sp+10h] [-20h] BYREF
+    ReadRotMatrix_80092DD8(&mtx);
+
+    pSub = &pCtrl->field_1C;
+    if ( pSub->field_0 )
+    {
+        sub_8003603C(pCtrl, pSub);
+    }
+    
+    if ( !a3 )
+    {
+        Process_Oar_8003518C(pCtrl, pSub, a2);
+
+    }
+    else
+    {
+        sub_800360EC(pCtrl, pSub, a2, a3);
+    }
+    
+    if ( pSub->field_0 == 1 )
+    {
+        pSub->field_14 = 2;
+        pSub->field_10 = a2;
+    }
+    else
+    {
+        pSub->field_14 = 1;
+        pSub->field_10 = a2;
+    }
+    
+    SetRotMatrix_80093218(&mtx);
+}
+
 #pragma INCLUDE_ASM("asm/Process_Oar_8003518C.s")
 #pragma INCLUDE_ASM("asm/Kmd_Oar_Inflate_800353E4.s")
 #pragma INCLUDE_ASM("asm/sub_8003556C.s")
