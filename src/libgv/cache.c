@@ -12,7 +12,7 @@ enum CACHE_REGION
 };
 
 /**bss***********************************************************************************************/
-extern CacheSystems    GV_CacheSystem;
+extern CacheSystems    GV_CacheSystem_800ACEF0;
 extern TFileExtHandler gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 /***************************************************************************************************/
 
@@ -44,7 +44,7 @@ LibGV_FileRecord *GV_FileCacheFind_80015240(int id)
 
     selectedTag = 0;
     pos = id % 0x80;
-    tag = &GV_CacheSystem.tags[pos];
+    tag = &GV_CacheSystem_800ACEF0.tags[pos];
 
     remainder = 0x80 - pos;
     i = 0x80;
@@ -74,7 +74,7 @@ LibGV_FileRecord *GV_FileCacheFind_80015240(int id)
                 tag++;
                 if (!remainder)
                 {
-                    tag = GV_CacheSystem.tags;
+                    tag = GV_CacheSystem_800ACEF0.tags;
                 }
                 i--;
             }
@@ -188,7 +188,7 @@ void GV_InitLoader_80015434(void)
 void GV_InitCacheSystem_80015458(void)
 {
     int               i;
-    LibGV_FileRecord *tag = GV_CacheSystem.tags;
+    LibGV_FileRecord *tag = GV_CacheSystem_800ACEF0.tags;
 
     for (i = MAX_TAGS; i > 0; i--)
     {
@@ -209,7 +209,7 @@ void GV_ResidentFileCache_80015484(void)
     int               n_resident_tags;
     LibGV_FileRecord *tag;
     LibGV_FileRecord *temp_tag;
-    tag = (LibGV_FileRecord *)&GV_CacheSystem.tags;
+    tag = (LibGV_FileRecord *)&GV_CacheSystem_800ACEF0.tags;
     n_resident_tags = 0;
 
     for (i = MAX_TAGS; i > 0; i--)
@@ -222,7 +222,7 @@ void GV_ResidentFileCache_80015484(void)
         tag++;
     }
 
-    temp_tag = (LibGV_FileRecord *)&GV_CacheSystem.tags;
+    temp_tag = (LibGV_FileRecord *)&GV_CacheSystem_800ACEF0.tags;
 
     if (n_resident_tags)
     {
@@ -251,7 +251,7 @@ void GV_FreeCacheSystem_80015540(void)
 {
     int               i;
     LibGV_FileRecord *tag;
-    tag = GV_CacheSystem.tags;
+    tag = GV_CacheSystem_800ACEF0.tags;
 
     for (i = MAX_TAGS; i > 0; i--)
     {

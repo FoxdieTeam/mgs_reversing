@@ -21,7 +21,7 @@ int            SECTION(".sbss") dword_800AB954;
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
-extern struct ActorList gActorsList[ACTOR_LIST_COUNT];
+extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
 extern struct PauseKill gPauseKills_8009D308[9];
 
@@ -30,7 +30,7 @@ extern int GM_CurrentMap_800AB9B0;
 void GV_InitActorSystem_80014D98(void)
 {
     int               i;
-    struct ActorList *pActorList = gActorsList;
+    struct ActorList *pActorList = gActorsList_800ACC18;
 
     for (i = 0; i < ACTOR_LIST_COUNT; i++)
     {
@@ -60,7 +60,7 @@ void GV_InitActorSystem_80014D98(void)
 
 void GV_ConfigActorSystem_80014E08(int index, short pause, short kill)
 {
-    struct ActorList *pActorList = &gActorsList[index];
+    struct ActorList *pActorList = &gActorsList_800ACC18[index];
     pActorList->mPause = pause;
     pActorList->mKill = kill;
 }
@@ -72,7 +72,7 @@ extern const char aLvD04d02d08xS[];
 void GV_DumpActorSystem_80014E2C(void)
 {
     int               i;
-    struct ActorList *pActorList = gActorsList;
+    struct ActorList *pActorList = gActorsList_800ACC18;
 
     mts_null_printf_8008BBA8(aDumpactorsyste);
 
@@ -124,7 +124,7 @@ void GV_DumpActorSystem_80014E2C(void)
 void GV_ExecActorSystem_80014F88(void)
 {
     int               i;
-    struct ActorList *pActorList = gActorsList;
+    struct ActorList *pActorList = gActorsList_800ACC18;
 
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
@@ -158,7 +158,7 @@ void GV_ExecActorSystem_80014F88(void)
 void GV_DestroyActorSystem_80015010(int level)
 {
     int               i;
-    struct ActorList *pActorList = gActorsList;
+    struct ActorList *pActorList = gActorsList_800ACC18;
 
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
@@ -188,7 +188,7 @@ void GV_DestroyActorSystem_80015010(int level)
 
 void GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction fnFree)
 {
-    struct Actor *pLast = &gActorsList[level].last;
+    struct Actor *pLast = &gActorsList_800ACC18[level].last;
     struct Actor *pLastPrevious = pLast->pPrevious;
 
     pLast->pPrevious = pActor;
@@ -268,7 +268,7 @@ void GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill)
     struct ActorList *pActorList;
     int               i;
 
-    pActorList = gActorsList;
+    pActorList = gActorsList_800ACC18;
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
         struct Actor *pCurActor = &pActorList->first;
