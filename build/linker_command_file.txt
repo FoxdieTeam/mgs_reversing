@@ -1365,19 +1365,10 @@
     include "..\obj\nullsub\sub_80087A50.obj"
     include "..\obj\SD\SD_MDX_FF_80087A58.obj"
     include "..\obj\SD\no_cmd_80087A80.obj"
-    include "..\obj\SD\SD_80087A88.obj"
-    include "..\obj\sub_80087DAC.obj"
-    include "..\obj\SD\sng_off_80087E2C.obj"
-    include "..\obj\SD\SD_80087E94.obj"
-    include "..\obj\SD\sng_pause_80087EF4.obj"
-    include "..\obj\SD\sng_pause_off_80087F24.obj"
-    include "..\obj\SD\keyon_80087F58.obj"
-    include "..\obj\SD\keyoff_80087F80.obj"
-    include "..\obj\SD\tone_set_80087FA8.obj"
-    include "..\obj\SD\pan_set2_800882E4.obj"
-    include "..\obj\SD\vol_set_80088320.obj"
-    include "..\obj\SD\freq_set_800885D4.obj"
-    include "..\obj\SD\drum_set_80088694.obj"
+
+    ; 80087A88 80087DAC 80087E2C 80087E94 80087EF4 80087F24 80087F58 80087F80 80087FA8 800882E4 80088320 800885D4 80088694
+    include "..\obj\SD\sd_ioset.obj"
+
     include "..\obj\SD\sd_task_active_800886C4.obj"
     include "..\obj\SD\sd_str_play_800886DC.obj"
     include "..\obj\sub_800886F4.obj"

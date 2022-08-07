@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_80087A88
-SD_80087A88:
+	xdef SD_spuwr_80087A88
+SD_spuwr_80087A88:
 	dw 0x3C05800C ; 0x80087A88
 	dw 0x8CA5F29C ; 0x80087A8C
 	dw 0x27BDFF88 ; 0x80087A90
