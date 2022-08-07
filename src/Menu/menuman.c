@@ -51,7 +51,7 @@ void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
     pMenuMan->field_29 = 0;
     pMenuMan->field_28_flags = 0;
 
-    pMenuMan->field_20_otBuf = &gMenuPrimBuffer_8009E2D0.mPrimBuf;
+    pMenuMan->field_20_otBuf = &gMenuPrimBuffer_8009E2D0;
 
     gMenuPrimBuffer_8009E2D0.mPrimPtrs[0] = &gPrimBackingBuffers_800B9360[0][0];
     gMenuPrimBuffer_8009E2D0.mPrimPtrs[1] = &gPrimBackingBuffers_800B9360[1][0];
