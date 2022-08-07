@@ -1,5 +1,5 @@
 #include "libgv.h"
-#include "Script_tbl_map_8002BB44.h"
+#include "Game/gamestate.h"
 
 /***bss****************************************************************/
 int    SECTION(".dword_800B05A8") dword_800B05A8[6];

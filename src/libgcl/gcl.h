@@ -1,6 +1,9 @@
 #ifndef GCL_H
 #define GCL_H
 
+#include "Game/gamestate.h"
+#include "Menu/menuman.h"
+
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct Actor;
 typedef struct Actor *(*TGCL_ActorCreateFn)(int name, int where, int argc, char **argv);
@@ -53,6 +56,100 @@ typedef struct EXPR_STACK
     int            value;
     unsigned char *ptr;
 } EXPR_STACK;
+
+typedef struct GCL_Vars
+{
+    short var[1024];
+} GCL_Vars;
+
+typedef struct SaveGame
+{
+    int                f008_version;
+    int                f00C_version2;
+    int                f010_totalFrameTime;
+    int                f014_padding[3];
+    char               f020_stageName[16];
+    AreaHistory        f030_areaHistory;
+    GameState_800B4D98 f040_gameState;
+    GCL_Vars           f100_gcl_vars;
+    RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
+} SaveGame; // size 0xA38
+
+typedef struct SaveFile
+{
+    int      f000_size;
+    int      f004_checksum;
+    SaveGame f008_saveGame;
+} SaveFile;
+
+typedef struct BindStruct
+{
+    short field_0;
+    short field_2_param_m;
+
+    short          field_4;
+    unsigned short field_6;
+
+    unsigned char field_8_param_i_c_flags;
+    char          field_9_param_s;
+    char          field_A_param_b;
+    unsigned char field_B_param_e;
+
+    short field_C_param_d;
+    short field_E_param_d_or_512;
+
+    int field_10_every;
+    int field_14_proc_and_block;
+} BindStruct;
+
+enum ItemsId
+{
+    eCIGS = 0,
+    eSCOPE = 1,
+    eC_BOX_A = 2,
+    eC_BOX_B = 3,
+    eC_BOX_C = 4,
+    eN_V_G = 5,
+    eTHERM_G = 6,
+    eGASMASK = 7,
+    eB_ARMOR = 8,
+    eKETCHUP = 9,
+    eSTEALTH = 10,
+    eBANDANA = 11,
+    eCAMERA = 12,
+    eRATION = 13,
+    eMEDICINE = 14,
+    eDIAZEPAM = 15,
+    ePAL_KEY = 16,
+    eCARD = 17,
+    eTIMER_B = 18,
+    eMINE_D = 19,
+    eDISC = 20,
+    eROPE = 21,
+    eHANDKER = 22,
+    eSUPPR = 23
+};
+
+enum ConsummableItemsId
+{
+    eRATION_capacity = 0,
+    eMEDICINE_capacity = 1,
+    eDIAZEPAM_capacity = 2
+};
+
+enum WeaponsId
+{
+    eSOCOM = 0,
+    eFAMAS = 1,
+    eGRENADE = 2,
+    eNIKITA = 3,
+    eSTINGER = 4,
+    eCLAYMORE = 5,
+    eC4 = 6,
+    eSTUN_G = 7,
+    eCHAFF_G = 8,
+    ePSG1 = 9
+};
 
 enum GCLOperators
 {

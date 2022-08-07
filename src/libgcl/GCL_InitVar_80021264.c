@@ -1,4 +1,5 @@
-#include "Script_tbl_map_8002BB44.h"
+#include "gcl.h"
+#include "Game/gamestate.h"
 #include "psyq.h"
 
 extern GCL_Vars           gGcl_vars_800B3CC8;

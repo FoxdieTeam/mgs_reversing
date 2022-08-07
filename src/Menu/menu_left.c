@@ -1,6 +1,6 @@
 #include "menuman.h"
 #include "linker.h"
-#include "Script_tbl_map_8002BB44.h"
+#include "Game/gamestate.h"
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
 MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0") stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?

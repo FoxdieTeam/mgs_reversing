@@ -1,6 +1,5 @@
 #include "famas.h"
 #include "Game/object.h"
-#include "Script_tbl_map_8002BB44.h"
 
 extern char aFamas[];  // = "famas"
 extern char aMpfive[]; // = "mpfive"

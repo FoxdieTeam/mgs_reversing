@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "gcl.h"
-#include "Script_tbl_map_8002BB44.h"
 
 extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
 

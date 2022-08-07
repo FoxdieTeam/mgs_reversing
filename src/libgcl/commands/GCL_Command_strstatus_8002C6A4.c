@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "Game/game.h"
 
 extern int GM_LoadRequest_800AB3D0;

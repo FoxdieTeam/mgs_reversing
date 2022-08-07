@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "jimctrl.h"
-#include "Script_tbl_map_8002BB44.h"
 #include "data/data/data.h"
 #include "Menu/menuman.h"
 #include "unknown.h"

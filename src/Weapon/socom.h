@@ -1,7 +1,6 @@
 #ifndef _SOCOM_H
 #define _SOCOM_H
 
-#include "Script_tbl_map_8002BB44.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
 #include "Game/GM_Control.h"

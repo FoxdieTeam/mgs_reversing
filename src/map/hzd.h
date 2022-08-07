@@ -130,7 +130,6 @@ void     HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_
 
 void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 
-// including Script_tbl_map_8002BB44 in this file causes the match to fail for some reason..
 struct BindStruct;
 void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
 
