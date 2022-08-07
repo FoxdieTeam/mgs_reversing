@@ -9,7 +9,7 @@ extern int GV_Clock_800AB920;
 
 // The size of this buffer is just a guess based on the next address of a
 // variable that IDA knows about.
-extern unsigned char pcxBuffer[128];
+extern unsigned char pcxBuffer_800B3798[128];
 
 #define PCX_RLE_THRESHOLD 0xC0
 
@@ -51,7 +51,7 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
         unsigned char *ap;
         int            lineRemaining;
 
-        unsigned char *pos = pcxBuffer;
+        unsigned char *pos = pcxBuffer_800B3798;
         lineRemaining = 4 * bytesPerLine;
         do
         {
@@ -73,7 +73,7 @@ unsigned char *pcx_file_read_4BPP_8001F71C(unsigned char *pcxData, unsigned char
             }
         } while (lineRemaining > 0);
 
-        rp = pcxBuffer;
+        rp = pcxBuffer_800B3798;
         gp = rp + bytesPerLine;
         bp = gp + bytesPerLine;
         ap = bp + bytesPerLine;
