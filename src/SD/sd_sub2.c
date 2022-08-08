@@ -174,7 +174,12 @@ void SD_MDX_E7_lp1_start_800871B4()
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EB_8008736C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EC_80087384.s")
-#pragma INCLUDE_ASM("asm/SD/tempo_set_800873CC.s")
+
+void tempo_set_800873CC()
+{
+    sptr_800C057C->field_B8_tmp = mdata2_800BF0D4;
+}
+
 #pragma INCLUDE_ASM("asm/SD/tempo_move_800873E4.s")
 
 void trans_set_8008750C()
