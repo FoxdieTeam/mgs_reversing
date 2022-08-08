@@ -12,6 +12,7 @@
 #include "Game/homing_target.h"
 #include "Bullet/jirai.h"
 #include "Kojo/demothrd.h"
+#include "SD/sd.h"
 
 #define BSS SECTION(".bss")
 #define gap char BSS
@@ -204,7 +205,15 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x12A8]; // 4776 bytes
+gap gap_800BDFB8[0x111C]; // 4380 bytes
+
+int BSS mdata2_800BF0D4; // 0x4 (4) bytes
+
+gap gap_800BF0D8[0x114]; // 276 bytes
+
+int BSS mtrack_800BF1EC; // 0x4 (4) bytes
+
+gap gap_800BF1F0[0x70]; // 112 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
 
@@ -216,7 +225,15 @@ gap gap_800BF2A0[0x1284]; // 4740 bytes
 
 int BSS keyd_800C0524; // 0x4 (4) bytes
 
-gap gap_800C0528[0x6D8]; // 1752 bytes
+gap gap_800C0528[0x54]; // 84 bytes
+
+SOUND_W* BSS sptr_800C057C; // 0x4 (4) bytes
+
+gap gap_800C0580[0xD8]; // 216 bytes
+
+SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
+
+gap gap_800C0BBC[0x44]; // 68 bytes
 
 mts_msg *BSS D_800C0C00; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C04; // 0x4 (4) bytes
