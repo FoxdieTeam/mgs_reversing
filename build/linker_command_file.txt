@@ -1256,6 +1256,8 @@
     include "..\obj\SD\SdMain_80081A18.obj"
     include "..\obj\sub_80081BC4.obj"
     include "..\obj\SD\SdInt_Task_80081BDC.obj"
+
+    ; sd_main.c
     include "..\obj\SD\sd_init_80081C7C.obj"
     include "..\obj\SD\sub_80081F8C.obj"
     include "..\obj\SD\SD_80081FC4.obj"
@@ -1292,37 +1294,12 @@
     include "..\obj\SD\SD_80083F54.obj"
     include "..\obj\SD\SD_WavLoadBuf_800841D4.obj"
     include "..\obj\SD\SD_Unload_800843BC.obj"
-    include "..\obj\SD\IntSdMain_80084494.obj"
-    include "..\obj\SD\SD_SongFadeIn_80084CCC.obj"
-    include "..\obj\SD\SD_SongFadeOutAndPause_80084D60.obj"
-    include "..\obj\SD\SD_SongFadeoutAndStop_80084E48.obj"
-    include "..\obj\SD\SD_SongKaihiMode_80084F88.obj"
-    include "..\obj\SD\SD_80085020.obj"
-    include "..\obj\SD\SD_80085164.obj"
-    include "..\obj\SD\SD_80085480.obj"
-    include "..\obj\SD\SD_800854F0.obj"
-    include "..\obj\SD\SD_8008559C.obj"
-    include "..\obj\SD\sng_adrs_set_80085658.obj"
-    include "..\obj\SD\SD_8008576C.obj"
-    include "..\obj\SD\SD_800859B8.obj"
-    include "..\obj\SD\SD_80085A50.obj"
-    include "..\obj\SD\tx_read_80085B84.obj"
-    include "..\obj\SD\note_set_80085CD8.obj"
-    include "..\obj\sub_80085D98.obj"
-    include "..\obj\SD\note_compute_80085DE0.obj"
-    include "..\obj\SD\swpadset_80085F98.obj"
-    include "..\obj\SD\SD_8008604C.obj"
-    include "..\obj\SD\SD_80086198.obj"
-    include "..\obj\sub_80086220.obj"
-    include "..\obj\SD\SD_80086280.obj"
-    include "..\obj\SD\SD_80086504.obj"
-    include "..\obj\SD\vib_compute_800865CC.obj"
-    include "..\obj\sub_80086694.obj"
-    include "..\obj\SD\SD_80086734.obj"
-    include "..\obj\SD\note_cntl_8008686C.obj"
-    include "..\obj\SD\SD_80086B84.obj"
-    include "..\obj\SD\tempo_ch_80086C08.obj"
-    include "..\obj\SD\SD_80086C98.obj"
+
+    ; 80084494 80084CCC 80084D60 80084E48 80084F88 80085020 80085164 80085480 800854F0 8008559C 80085658 8008576C 800859B8
+    include "..\obj\SD\sd_drv.obj"
+
+    ; 80085A50 80085B84 80085CD8 80085D98 80085DE0 80085F98 8008604C 80086198 80086220 80086280 80086504 800865CC 80086694 80086734 8008686C 80086B84 80086C08 80086C98
+    include "..\obj\SD\sd_sub1.obj"
 
     ; 80086D18 80086D9C 80086E38 80086E78 80086EB8 80086EF8 80086F00 80086F50 80087018 80087120 8008716C 800871B4 800871E0 800872C0 800872EC 8008736C 80087384 800873CC 800873E4 8008750C 80087524 8008756C 8008758C 80087670 800876D4 80087730 8008774C 80087754 8008775C 80087764 800877CC 80087834 80087854 800878FC 80087904 8008798C 800879E4 80087A48 80087A50 80087A58 80087A80
     include "..\obj\SD\sd_sub2.obj"
@@ -1335,15 +1312,9 @@
     include "..\obj\sub_800886F4.obj"
     include "..\obj\sub_8008870C.obj"
     include "..\obj\sub_8008877C.obj"
-    include "..\obj\SD\sd_set_cli_800887EC.obj"
-    include "..\obj\SD\sd_set_path_8008880C.obj"
-    include "..\obj\sub_80088838.obj"
-    include "..\obj\nullsub\sub_80088860.obj"
-    include "..\obj\SD\sub_80088868.obj"
-    include "..\obj\sub_800888B4.obj"
-    include "..\obj\SD\SePlay_800888F8.obj"
-    include "..\obj\SD\get_str_counter_80088CA0.obj"
-    include "..\obj\SD\SD_Set_80088CB0.obj"
+
+    ; 800887EC 8008880C 80088838 80088860 80088868 800888B4 800888F8 80088CA0 80088CB0
+    include "..\obj\SD\sd_cli.obj"
 
     ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
     ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
