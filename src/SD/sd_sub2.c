@@ -78,7 +78,35 @@ void SD_pan_set_80086F00()
     sptr_800C057C->field_45_panc = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_DE_80086F50.s")
+void SD_MDX_DE_pan_move_80086F50()
+{
+    unsigned char temp1; // $v0
+    int temp2; // $v0
+
+    sptr_800C057C->field_45_panc = mdata2_800BF0D4;
+    temp1 = (mdata3_800BF0D8 + 0x14);
+    sptr_800C057C->field_50_panm = temp1 << 8;
+    temp2 = temp1 - sptr_800C057C->field_54_panf;
+
+    if ( temp2 < 0 )
+    {
+        sptr_800C057C->field_4C_panad = -(((-temp2) << 8) / (unsigned int)mdata2_800BF0D4);
+        if ( sptr_800C057C->field_4C_panad < -2032 )
+        {
+            sptr_800C057C->field_4C_panad = -2032;
+        }
+    }
+    else
+    {
+        sptr_800C057C->field_4C_panad = (temp2 << 8) / (unsigned int)mdata2_800BF0D4;
+        if ( sptr_800C057C->field_4C_panad > 2032 )
+        {
+            sptr_800C057C->field_4C_panad = 2032;
+        }
+        
+    }
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E1_80087018.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E2_80087120.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E3_8008716C.s")
