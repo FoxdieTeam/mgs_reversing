@@ -1,6 +1,9 @@
 #include "linker.h"
 #include "stnsight.h"
+#include "chara/snake/sna_init.h"
 #include "Game/game.h"
+#include "Thing/sgtrect3.h"
+#include "Thing/sight.h"
 
 // stinger first person HUD
 
@@ -19,11 +22,86 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068798.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068BF4.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_80068D0C.s")
 
 // re-declare to force GP usage
 extern short word_800AB8EC;
 short        SECTION(".word_800AB8EC") word_800AB8EC;
+
+extern const char aStinger[]; // = "stinger"
+
+extern DG_CHNL DG_Chanls_800B1800[];
+
+extern int GV_Clock_800AB920;
+extern int GV_PauseLevel_800AB928;
+
+void stnsight_act_80068D0C(Actor_stnsight *actor)
+{
+    unsigned char *uVar1;
+    int iVar3;
+    int iVar4;
+    int local_20[2];
+    ushort local_18;
+    DG_CHNL *channel;
+
+    if (actor->field_94 > 0) {
+        if (!GV_PauseLevel_800AB928) {
+            actor->field_94--;
+        }
+
+        return;
+    }
+    
+    if (actor->field_84_4Array[2] == 0) {
+        actor->field_84_4Array[2] = NewSight_80071CDC(GV_StrCode_80016CCC(aStinger), GV_StrCode_80016CCC(aStinger), &word_800AB8EC, 1, 0);
+    }
+
+    if (actor->field_84_4Array[3] == 0) {
+        local_20[0] = 0x41412e;
+        local_20[1] = 0x293df6;
+        actor->field_84_4Array[3] = sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
+    }
+
+    channel = DG_Chanls_800B1800 + 1;
+    uVar1 = channel[1].mOrderingTables[GV_Clock_800AB920];
+
+    stnsight_act_helper_80068420(actor, uVar1);
+    stnsight_act_helper_80068798(actor, uVar1);
+    stnsight_act_helper_80068A24(actor, uVar1);
+    stnsight_act_helper_80068BF4(actor, uVar1);
+    stnsight_act_helper_8006837C(actor);
+    menu_Text_Init_80038B98();
+
+    if (GV_PauseLevel_800AB928 != 0) {
+        return;
+    }
+    
+    local_18 = actor->field_24_pad_data->status;
+    GM_CheckShukanReverse_8004FBF8(&local_18);
+    
+    iVar3 = actor->field_58;
+            
+    if ((iVar3 != 0) && ((local_18 & 0x5000) == 0)) {
+        iVar4 = iVar3 - 1;
+                
+        if (iVar3 < 1) {
+            iVar4 = iVar3 + 1;
+        }
+    
+        actor->field_58 = iVar4;
+    }
+
+    iVar3 = actor->field_5C;
+            
+    if ((iVar3 != 0) && ((local_18 & 0xa000) == 0)) {
+        iVar4 = iVar3 - 1;
+                
+        if (iVar3 < 1) {
+            iVar4 = iVar3 + 1;
+        }
+
+        actor->field_5C = iVar4;
+    }
+}
 
 void stnsight_kill_80068ED8(Actor_stnsight *actor)
 {
