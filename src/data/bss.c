@@ -33,8 +33,6 @@ DG_CHNL SECTION(".DG_Chanls_800B1800") DG_Chanls_800B1800[3];
 
 unsigned char SECTION(".byte_800B1400") byte_800B1400[1024];
 
-char SECTION(".byte_801FFF00") byte_801FFF00[240];
-
 unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512];
 
 unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024];
@@ -101,9 +99,6 @@ map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
 
 MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
-MenuMan_Inventory_14h_Unk SECTION(".stru_800BD4B0")
-    stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
-                      //
 MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
 
 Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
@@ -168,10 +163,6 @@ u_long SECTION(".image_data_800B3818") image_data_800B3818[256];
 GV_PAD SECTION(".GV_PadData_800B05C0") GV_PadData_800B05C0[4];
 
 GV_Heap SECTION(".MemorySystems_800AD2F0") MemorySystems_800AD2F0[3];
-
-unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
-
-unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
 
 struct ActorList SECTION(".0x800ACC18") gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
