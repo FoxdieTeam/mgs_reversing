@@ -14,7 +14,19 @@ extern int dword_800BF210;
 extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF064;
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_F2_80086D18.s")
+void keyoff_80087F80(void);
+
+void SD_MDX_F2_rest_set_80086D18()
+{
+    sptr_800C057C->field_CC_rest_fg = 1;
+    keyoff_80087F80();
+    sptr_800C057C->field_6_ngs = mdata2_800BF0D4;
+    sptr_800C057C->field_7_ngg = 0;
+    sptr_800C057C->field_44_vol = 0;
+    sptr_800C057C->field_4_ngc = sptr_800C057C->field_6_ngs;
+    sptr_800C057C->field_5_ngo = 0;
+}
+
 #pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D2_80086E38.s")
 #pragma INCLUDE_ASM("asm/SD/svl_set_80086E78.s")
