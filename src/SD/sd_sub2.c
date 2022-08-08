@@ -179,7 +179,33 @@ void SD_MDX_E7_lp1_start_800871B4()
 #pragma INCLUDE_ASM("asm/SD/trans_set_8008750C.s")
 #pragma INCLUDE_ASM("asm/sub_80087524.s")
 #pragma INCLUDE_ASM("asm/SD/se_adrs_set_8008756C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_D6_8008758C.s")
+
+void SD_MDX_D6_vol_move_8008758C()
+{
+    int temp; // $a0
+
+    sptr_800C057C->field_34_pvoc = mdata2_800BF0D4;
+    sptr_800C057C->field_40_pvom = mdata3_800BF0D8;
+    temp = (mdata3_800BF0D8 << 8);
+    temp = temp - sptr_800C057C->field_38_pvod;
+    if ( temp < 0 )
+    {
+        sptr_800C057C->field_3C_pvoad = -(-temp / sptr_800C057C->field_34_pvoc);
+        if ( sptr_800C057C->field_3C_pvoad < -2032 )
+        {
+            sptr_800C057C->field_3C_pvoad = -2032;
+        }
+    }
+    else
+    {
+        sptr_800C057C->field_3C_pvoad = temp / sptr_800C057C->field_34_pvoc;
+        if ( sptr_800C057C->field_3C_pvoad > 0x7F0 )
+        {
+            sptr_800C057C->field_3C_pvoad = 0x7F0;
+        }
+       
+    }
+}
 
 void SD_MDX_E6_por_set_80087670()
 {
