@@ -1,0 +1,15 @@
+#include "SD/sd.h"
+
+#pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s")
+#pragma INCLUDE_ASM("asm/SD/SD_SongFadeIn_80084CCC.s")
+#pragma INCLUDE_ASM("asm/SD/SD_SongFadeOutAndPause_80084D60.s")
+#pragma INCLUDE_ASM("asm/SD/SD_SongFadeoutAndStop_80084E48.s")
+#pragma INCLUDE_ASM("asm/SD/SD_SongKaihiMode_80084F88.s")
+#pragma INCLUDE_ASM("asm/SD/SD_80085020.s")
+#pragma INCLUDE_ASM("asm/SD/SD_80085164.s")
+#pragma INCLUDE_ASM("asm/SD/SD_80085480.s")
+#pragma INCLUDE_ASM("asm/SD/SD_800854F0.s")
+#pragma INCLUDE_ASM("asm/SD/SD_8008559C.s")
+#pragma INCLUDE_ASM("asm/SD/sng_adrs_set_80085658.s")
+#pragma INCLUDE_ASM("asm/SD/SD_8008576C.s")
+#pragma INCLUDE_ASM("asm/SD/SD_800859B8.s")
