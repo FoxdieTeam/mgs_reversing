@@ -59,8 +59,6 @@ GM_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
 
 int SECTION(".dword_800BDFA8") dword_800BDFA8;
 
-int SECTION(".dword_800B7800") dword_800B7800;
-
 unsigned short SECTION(".gOldRootCnt_800B1DC8") gOldRootCnt_800B1DC8[32];
 
 unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36];

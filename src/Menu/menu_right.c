@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "menuman.h"
-#include "Game/gamestate.h"
+#include "Game/game.h"
 #include "libgcl/gcl.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
@@ -14,7 +14,7 @@ int SECTION(".sbss") dword_800ABAE0;
 extern struct menu_8009E544 *dword_800AB584;
 struct menu_8009E544        *SECTION(".sdata") dword_800AB584;
 
-extern int dword_800B7800;
+extern GM_Camera GM_Camera_800B77E8;
 
 struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
 
@@ -164,7 +164,7 @@ int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
 {
     struct menu_8009E544 *field_8_pStru; // $a0
 
-    if ((dword_800B7800 & 0x101) != 0)
+    if ((GM_Camera_800B77E8.field_18_flags & 0x101) != 0)
     {
     ret_zero:
         return 0;
