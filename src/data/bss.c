@@ -127,12 +127,9 @@ int SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4;
 
 CAMERA SECTION(".GM_CameraList_800B7718") GM_CameraList_800B7718[8];
 
-CAMERA SECTION(".gCamera_param_a_800B780C") gCamera_param_a_800B780C;
-
 GCL_Vars SECTION(".gGcl_vars_800B3CC8") gGcl_vars_800B3CC8;
 
 array_800B933C_child  SECTION(".gStuff_800B933C") array_800B933C[array_800B933C_SIZE]; // todo figure out
-dword_800B9358_struct SECTION(".gStuff_800B933C") array_800B9358[2];                   // todo figure out real size
 
 char SECTION(".gStageName_800B4D88") gStageName_800B4D88[16];
 
