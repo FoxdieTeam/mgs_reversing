@@ -68,7 +68,7 @@ extern SVECTOR            DG_ZeroVector_800AB39C;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern Target_Data        stru_8009F044;
 extern SVECTOR            stru_800AB7FC;
-extern short              dword_800B7800[];
+extern GM_Camera GM_Camera_800B77E8;
 extern SVECTOR            dword_800AB7D4;
 extern SVECTOR            dword_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
@@ -435,7 +435,7 @@ int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
 
 void sub_8004EB74(Actor_SnaInit *pActor)
 {
-    if (dword_800B7800[5] == 0)
+    if (GM_Camera_800B77E8.field_22 == 0)
     {
         if (pActor->field_9B0_pad_ptr->dir == (short)-1)
         {
@@ -447,7 +447,7 @@ void sub_8004EB74(Actor_SnaInit *pActor)
         }
     }
 
-    dword_800B7800[5] = 1;
+    GM_Camera_800B77E8.field_22 = 1;
     pActor->field_A56 = 0;
     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON);
 
@@ -458,8 +458,6 @@ void sub_8004EB74(Actor_SnaInit *pActor)
 
     sd_set_cli_800887EC(0x1ffff20, 0);
 }
-
-extern GM_Camera GM_Camera_800B77E8;
 
 void sna_init_8004EC00(Actor_SnaInit *pActor)
 {
@@ -489,7 +487,7 @@ void sna_init_8004EC8C(Actor_SnaInit *pActor)
 
     sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK12);
     pActor->field_A28 = 460;
-    dword_800B7800[5] = 1;
+    GM_Camera_800B77E8.field_22 = 1;
     v2 = *(ushort *)&e1_800AB7C4.field_4;
     pActor->field_A20 = -6;
     pActor->field_9D0[0].vz = 320;
@@ -504,7 +502,7 @@ void sub_8004ED08(Actor_SnaInit *pActor)
 {
     sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK12);
     pActor->field_A28 = 0x1c2;
-    dword_800B7800[5] = 0; // weapon related?
+    GM_Camera_800B77E8.field_22 = 0; // weapon related?
     pActor->field_A20 = 6;
     sub_8004EB14(pActor);
     sd_set_cli_800887EC(0x1ffff21, 0);
@@ -518,7 +516,7 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
         if (snake->field_A20 >= 1)
         {
 
-            if ((dword_800B7800[5] == 0) && (--snake->field_A20 == 0))
+            if ((GM_Camera_800B77E8.field_22 == 0) && (--snake->field_A20 == 0))
             {
                 (snake->field_9C_obj).objs->flag &= -0x81;
                 if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4))
@@ -527,7 +525,7 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
                 }
             }
         }
-        else if ((dword_800B7800[5] != 0) && (++snake->field_A20 == 0))
+        else if ((GM_Camera_800B77E8.field_22 != 0) && (++snake->field_A20 == 0))
         {
             (snake->field_9C_obj).objs->flag |= 0x80;
         }

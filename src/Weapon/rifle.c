@@ -1,11 +1,12 @@
 #include "rifle.h"
 #include "Game/object.h"
+#include "Game/game.h"
 
 // PSG1
 
 extern char               aRifle_0[]; // = "rifle"
 extern GameState_800B4D98 gGameState_800B4D98;
-extern short              dword_800B7800[];
+extern GM_Camera   GM_Camera_800B77E8;
 
 #pragma INCLUDE_ASM("asm/Weapon/rifle_act_helper_80067BFC.s") // 356 bytes
 #pragma INCLUDE_ASM("asm/Weapon/rifle_act_80067D60.s")        // 952 bytes
@@ -15,7 +16,7 @@ void rifle_kill_80068118(Actor_Rifle *rifle)
     GM_FreeObject_80034BF8(&rifle->f20_obj);
     if (gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_PSG1)
     {
-        dword_800B7800[4] = 0x140;
+        GM_Camera_800B77E8.field_20 = 0x140;
     }
     sd_set_cli_800887EC(0x1ffff21, 0);
     if ((Actor *)rifle->f5c)
