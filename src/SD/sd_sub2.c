@@ -44,7 +44,11 @@ void use_set_80086EF8(void)
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D6_8008758C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E6_80087670.s")
 #pragma INCLUDE_ASM("asm/SD/sws_set_800876D4.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E0_80087730.s")
+
+void SD_MDX_E0_detune_set_80087730()
+{
+    sptr_800C057C->field_B0_tund = (signed char)mdata2_800BF0D4 << 2;
+}
 
 void swp_set_8008774C(void)
 {
