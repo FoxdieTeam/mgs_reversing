@@ -208,8 +208,10 @@ unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 gap gap_800BDFB8[0x111C]; // 4380 bytes
 
 int BSS mdata2_800BF0D4; // 0x4 (4) bytes
+int BSS mdata3_800BF0D8; // 0x4 (4) bytes
+int BSS mdata4_800BF0DC; // 0x4 (4) bytes
 
-gap gap_800BF0D8[0x114]; // 276 bytes
+gap gap_800BF0E0[0x10C]; // 268 bytes
 
 int BSS mtrack_800BF1EC; // 0x4 (4) bytes
 
