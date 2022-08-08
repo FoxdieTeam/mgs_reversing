@@ -178,7 +178,12 @@ void SD_MDX_E7_lp1_start_800871B4()
 #pragma INCLUDE_ASM("asm/SD/tempo_move_800873E4.s")
 #pragma INCLUDE_ASM("asm/SD/trans_set_8008750C.s")
 #pragma INCLUDE_ASM("asm/sub_80087524.s")
-#pragma INCLUDE_ASM("asm/SD/se_adrs_set_8008756C.s")
+
+void vol_chg_8008756C()
+{
+    sptr_800C057C->field_38_pvod = mdata2_800BF0D4 << 8;
+    sptr_800C057C->field_34_pvoc = 0;
+}
 
 void SD_MDX_D6_vol_move_8008758C()
 {
