@@ -87,7 +87,7 @@ STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
 
 // see comment above
 // extern demothrd_2Vec stru_800B77E8[9];
-typedef struct UnkCameraStruct2 // @ 800B77E8
+typedef struct GM_Camera // @ 800B77E8
 {
     int field_0[8]; // not sure if array, maybe VECTOR[2]
     short field_20; // array? vector?
@@ -104,8 +104,8 @@ typedef struct UnkCameraStruct2 // @ 800B77E8
     int field_74;
     int field_78;
     // int field_7C; // padding?
-} UnkCameraStruct2;
-STATIC_ASSERT_SIZE(UnkCameraStruct2, 0x7C);
+} GM_Camera;
+STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
 // there's another struct after this one that needs to be done ^
 
 typedef enum

@@ -459,16 +459,16 @@ void sub_8004EB74(Actor_SnaInit *pActor)
     sd_set_cli_800887EC(0x1ffff20, 0);
 }
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B77E8;
+extern GM_Camera GM_Camera_800B77E8;
 
 void sna_init_8004EC00(Actor_SnaInit *pActor)
 {
-    if (gUnkCameraStruct2_800B77E8.field_22 == 1)
+    if (GM_Camera_800B77E8.field_22 == 1)
     {
         pActor->field_A20 = 6;
     }
 
-    gUnkCameraStruct2_800B77E8.field_22 = 0;
+    GM_Camera_800B77E8.field_22 = 0;
     pActor->field_A56 = 0;
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
