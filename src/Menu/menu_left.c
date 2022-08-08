@@ -3,7 +3,7 @@
 #include "Game/gamestate.h"
 
 extern MenuMan_Inventory_14h_Unk dword_800BD5A0;
-extern MenuMan_Inventory_14h_Unk stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
+// extern MenuMan_Inventory_14h_Unk stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
 extern menu_weapon_rpk_info gMenuItemRpkInfo_8009E484[];
 extern GameState_800B4D98 gGameState_800B4D98;
 
@@ -32,10 +32,11 @@ void menu_sub_8003B568(void)
     }
 }
 
-MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
-{
-    return &stru_800BD4B0[gMenuItemRpkInfo_8009E484[idx].field_4_rpk_idx];
-}
+#pragma INCLUDE_ASM("asm/menu_rpk_8003B5E0.s")
+// MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
+// {
+//     return &stru_800BD4B0[gMenuItemRpkInfo_8009E484[idx].field_4_rpk_idx];
+// }
 
 #pragma INCLUDE_ASM("asm/menu_8003B614.s")
 #pragma INCLUDE_ASM("asm/menu_inventory_Is_Item_Disabled_8003B6D0.s")
