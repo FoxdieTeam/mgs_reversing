@@ -904,7 +904,7 @@ void tempo_move_800873E4(void);
 void SD_MDX_D2_sno_set_80086E38(void);
 void svl_set_80086E78(void);
 void svp_set_80086EB8(void);
-void se_adrs_set_8008756C(void);
+void vol_chg_8008756C(void);
 void SD_MDX_D6_vol_move_8008758C(void);
 void SD_MDX_D7_80087904(void);
 void SD_MDX_D8_srs_set_8008798C(void);
@@ -1022,7 +1022,7 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                SD_MDX_D2_sno_set_80086E38,
                                                svl_set_80086E78,
                                                svp_set_80086EB8,
-                                               se_adrs_set_8008756C,
+                                               vol_chg_8008756C,
                                                SD_MDX_D6_vol_move_8008758C,
                                                SD_MDX_D7_80087904,
                                                SD_MDX_D8_srs_set_8008798C,
