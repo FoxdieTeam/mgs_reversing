@@ -6,14 +6,14 @@
 // used by all items and weapons that can go first person in order to transition into their first person modes?
 
 extern const char         aGglmngC[];
-extern UnkCameraStruct2 gUnkCameraStruct2_800B77E8;
+extern GM_Camera GM_Camera_800B77E8;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern int                GM_PlayerStatus_800ABA50;
 extern int                dword_8009F46C;
 
 void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
-    if (gUnkCameraStruct2_800B77E8.field_22 != 0)
+    if (GM_Camera_800B77E8.field_22 != 0)
     {
         if (gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_STINGER ||
             gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_PSG1 || dword_8009F46C == 1 ||

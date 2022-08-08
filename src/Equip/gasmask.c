@@ -8,7 +8,7 @@ extern const char aGasMask_DUP[];
 
 extern int           DG_CurrentGroupID_800AB968;
 extern int           dword_8009F46C;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B77E8;
+extern GM_Camera GM_Camera_800B77E8;
 
 extern GameState_800B4D98 gGameState_800B4D98;
 
@@ -26,7 +26,7 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
         pActor->field_20_obj.objs->flag &= ~0x80u;
     }
 
-    if (gUnkCameraStruct2_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & 0x80) != 0 &&
+    if (GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & 0x80) != 0 &&
         gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_STINGER &&
         gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_PSG1 && dword_8009F46C != 1)
     {
