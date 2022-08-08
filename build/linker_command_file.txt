@@ -1292,6 +1292,8 @@
     include "..\obj\SD\SD_80083F54.obj"
     include "..\obj\SD\SD_WavLoadBuf_800841D4.obj"
     include "..\obj\SD\SD_Unload_800843BC.obj"
+
+    ; sd_drv.c
     include "..\obj\SD\IntSdMain_80084494.obj"
     include "..\obj\SD\SD_SongFadeIn_80084CCC.obj"
     include "..\obj\SD\SD_SongFadeOutAndPause_80084D60.obj"
@@ -1305,24 +1307,9 @@
     include "..\obj\SD\sng_adrs_set_80085658.obj"
     include "..\obj\SD\SD_8008576C.obj"
     include "..\obj\SD\SD_800859B8.obj"
-    include "..\obj\SD\SD_80085A50.obj"
-    include "..\obj\SD\tx_read_80085B84.obj"
-    include "..\obj\SD\note_set_80085CD8.obj"
-    include "..\obj\sub_80085D98.obj"
-    include "..\obj\SD\note_compute_80085DE0.obj"
-    include "..\obj\SD\swpadset_80085F98.obj"
-    include "..\obj\SD\SD_8008604C.obj"
-    include "..\obj\SD\SD_80086198.obj"
-    include "..\obj\sub_80086220.obj"
-    include "..\obj\SD\SD_80086280.obj"
-    include "..\obj\SD\SD_80086504.obj"
-    include "..\obj\SD\vib_compute_800865CC.obj"
-    include "..\obj\sub_80086694.obj"
-    include "..\obj\SD\SD_80086734.obj"
-    include "..\obj\SD\note_cntl_8008686C.obj"
-    include "..\obj\SD\SD_80086B84.obj"
-    include "..\obj\SD\tempo_ch_80086C08.obj"
-    include "..\obj\SD\SD_80086C98.obj"
+
+    ; 80085A50 80085B84 80085CD8 80085D98 80085DE0 80085F98 8008604C 80086198 80086220 80086280 80086504 800865CC 80086694 80086734 8008686C 80086B84 80086C08 80086C98
+    include "..\obj\SD\sd_sub1.obj"
 
     ; 80086D18 80086D9C 80086E38 80086E78 80086EB8 80086EF8 80086F00 80086F50 80087018 80087120 8008716C 800871B4 800871E0 800872C0 800872EC 8008736C 80087384 800873CC 800873E4 8008750C 80087524 8008756C 8008758C 80087670 800876D4 80087730 8008774C 80087754 8008775C 80087764 800877CC 80087834 80087854 800878FC 80087904 8008798C 800879E4 80087A48 80087A50 80087A58 80087A80
     include "..\obj\SD\sd_sub2.obj"
