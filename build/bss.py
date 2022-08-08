@@ -36,7 +36,7 @@ def cc1():
         '-undef',
         '-D__GNUC__=2',
         '-D__OPTIMIZE__',
-        '-I', os.path.join(args.psyq_path,'psyq_4.4/include'),
+        '-I', os.path.join(args.psyq_path, 'psyq_4.4/include'),
         '-I', '../src',
         '-lang-c',
         '-Dmips',
