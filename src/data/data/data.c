@@ -901,40 +901,40 @@ int   SECTION(".data") dword_8009F7B4 = 0xFFFFFFFF;
 void no_cmd_80087A80(void);
 void tempo_set_800873CC(void);
 void tempo_move_800873E4(void);
-void SD_MDX_D2_80086E38(void);
+void SD_MDX_D2_sno_set_80086E38(void);
 void svl_set_80086E78(void);
 void svp_set_80086EB8(void);
-void se_adrs_set_8008756C(void);
-void SD_MDX_D6_8008758C(void);
+void vol_chg_8008756C(void);
+void SD_MDX_D6_vol_move_8008758C(void);
 void SD_MDX_D7_80087904(void);
-void SD_MDX_D8_8008798C(void);
+void SD_MDX_D8_srs_set_8008798C(void);
 void SD_MDX_D9_800879E4(void);
-void SD_80086F00(void);
-void SD_MDX_DE_80086F50(void);
+void SD_pan_set_80086F00(void);
+void SD_MDX_DE_pan_move_80086F50(void);
 void trans_set_8008750C(void);
-void SD_MDX_E0_80087730(void);
-void SD_MDX_E1_80087018(void);
-void SD_MDX_E2_80087120(void);
-void SD_MDX_E3_8008716C(void);
+void SD_MDX_E0_detune_set_80087730(void);
+void SD_MDX_E1_vib_set_80087018(void);
+void SD_MDX_E2_vib_change_80087120(void);
+void SD_MDX_E3_rdm_set_8008716C(void);
 void swp_set_8008774C(void);
 void sws_set_800876D4(void);
-void SD_MDX_E6_80087670(void);
-void SD_MDX_E7_800871B4(void);
+void SD_MDX_E6_por_set_80087670(void);
+void SD_MDX_E7_lp1_start_800871B4(void);
 void SD_MDX_E8_800871E0(void);
-void SD_MDX_E9_800872C0(void);
+void SD_MDX_E9_lp2_start_800872C0(void);
 void SD_MDX_EA_800872EC(void);
-void SD_MDX_EB_8008736C(void);
-void SD_MDX_EC_80087384(void);
-void SD_MDX_ED_80087834(void);
-void SD_MDX_EE_80087854(void);
+void SD_MDX_EB_l3s_set_8008736C(void);
+void SD_MDX_EC_l3e_set_80087384(void);
+void SD_MDX_ED_kakko_start_80087834(void);
+void SD_MDX_EE_kakko_end_80087854(void);
 void use_set_80086EF8(void);
-void SD_MDX_F2_80086D18(void);
+void SD_MDX_F2_rest_set_80086D18(void);
 void tie_set_80086D9C(void);
 void echo_set1_80087754(void);
 void echo_set2_8008775C(void);
 void SD_MDX_F6_80087764(void);
 void SD_MDX_F7_800877CC(void);
-void SD_MDX_FF_80087A58(void);
+void SD_MDX_FF_block_end_80087A58(void);
 
 void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                no_cmd_80087A80,
@@ -1019,39 +1019,39 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                no_cmd_80087A80,
                                                tempo_set_800873CC,
                                                tempo_move_800873E4,
-                                               SD_MDX_D2_80086E38,
+                                               SD_MDX_D2_sno_set_80086E38,
                                                svl_set_80086E78,
                                                svp_set_80086EB8,
-                                               se_adrs_set_8008756C,
-                                               SD_MDX_D6_8008758C,
+                                               vol_chg_8008756C,
+                                               SD_MDX_D6_vol_move_8008758C,
                                                SD_MDX_D7_80087904,
-                                               SD_MDX_D8_8008798C,
+                                               SD_MDX_D8_srs_set_8008798C,
                                                SD_MDX_D9_800879E4,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
-                                               SD_80086F00,
-                                               SD_MDX_DE_80086F50,
+                                               SD_pan_set_80086F00,
+                                               SD_MDX_DE_pan_move_80086F50,
                                                trans_set_8008750C,
-                                               SD_MDX_E0_80087730,
-                                               SD_MDX_E1_80087018,
-                                               SD_MDX_E2_80087120,
-                                               SD_MDX_E3_8008716C,
+                                               SD_MDX_E0_detune_set_80087730,
+                                               SD_MDX_E1_vib_set_80087018,
+                                               SD_MDX_E2_vib_change_80087120,
+                                               SD_MDX_E3_rdm_set_8008716C,
                                                swp_set_8008774C,
                                                sws_set_800876D4,
-                                               SD_MDX_E6_80087670,
-                                               SD_MDX_E7_800871B4,
+                                               SD_MDX_E6_por_set_80087670,
+                                               SD_MDX_E7_lp1_start_800871B4,
                                                SD_MDX_E8_800871E0,
-                                               SD_MDX_E9_800872C0,
+                                               SD_MDX_E9_lp2_start_800872C0,
                                                SD_MDX_EA_800872EC,
-                                               SD_MDX_EB_8008736C,
-                                               SD_MDX_EC_80087384,
-                                               SD_MDX_ED_80087834,
-                                               SD_MDX_EE_80087854,
+                                               SD_MDX_EB_l3s_set_8008736C,
+                                               SD_MDX_EC_l3e_set_80087384,
+                                               SD_MDX_ED_kakko_start_80087834,
+                                               SD_MDX_EE_kakko_end_80087854,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
                                                use_set_80086EF8,
-                                               SD_MDX_F2_80086D18,
+                                               SD_MDX_F2_rest_set_80086D18,
                                                tie_set_80086D9C,
                                                echo_set1_80087754,
                                                echo_set2_8008775C,
@@ -1064,7 +1064,7 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
-                                               SD_MDX_FF_80087A58};
+                                               SD_MDX_FF_block_end_80087A58};
 
 int SECTION(".data") rdm_tbl_8009F9BC[] = {
     0x52B23C9F, 0x89C745AF, 0x9DE07F10, 0x16611FDC, 0xEB9CC939, 0xF8660857, 0xEBF245A,  0xDB4B153E, 0xC31F5AB,
