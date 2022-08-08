@@ -1293,20 +1293,8 @@
     include "..\obj\SD\SD_WavLoadBuf_800841D4.obj"
     include "..\obj\SD\SD_Unload_800843BC.obj"
 
-    ; sd_drv.c
-    include "..\obj\SD\IntSdMain_80084494.obj"
-    include "..\obj\SD\SD_SongFadeIn_80084CCC.obj"
-    include "..\obj\SD\SD_SongFadeOutAndPause_80084D60.obj"
-    include "..\obj\SD\SD_SongFadeoutAndStop_80084E48.obj"
-    include "..\obj\SD\SD_SongKaihiMode_80084F88.obj"
-    include "..\obj\SD\SD_80085020.obj"
-    include "..\obj\SD\SD_80085164.obj"
-    include "..\obj\SD\SD_80085480.obj"
-    include "..\obj\SD\SD_800854F0.obj"
-    include "..\obj\SD\SD_8008559C.obj"
-    include "..\obj\SD\sng_adrs_set_80085658.obj"
-    include "..\obj\SD\SD_8008576C.obj"
-    include "..\obj\SD\SD_800859B8.obj"
+    ; 80084494 80084CCC 80084D60 80084E48 80084F88 80085020 80085164 80085480 800854F0 8008559C 80085658 8008576C 800859B8
+    include "..\obj\SD\sd_drv.obj"
 
     ; 80085A50 80085B84 80085CD8 80085D98 80085DE0 80085F98 8008604C 80086198 80086220 80086280 80086504 800865CC 80086694 80086734 8008686C 80086B84 80086C08 80086C98
     include "..\obj\SD\sd_sub1.obj"
