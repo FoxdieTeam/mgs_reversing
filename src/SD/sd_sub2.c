@@ -181,7 +181,14 @@ void SD_MDX_E7_lp1_start_800871B4()
 #pragma INCLUDE_ASM("asm/SD/se_adrs_set_8008756C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D6_8008758C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E6_80087670.s")
-#pragma INCLUDE_ASM("asm/SD/sws_set_800876D4.s")
+
+void sws_set_800876D4()
+{
+    sptr_800C057C->field_6A_swsk = 0;
+    sptr_800C057C->field_69_swshc = mdata2_800BF0D4;
+    sptr_800C057C->field_68_swsc = mdata3_800BF0D8;
+    sptr_800C057C->field_6C_swss = mdata4_800BF0DC << 8;
+}
 
 void SD_MDX_E0_detune_set_80087730()
 {
