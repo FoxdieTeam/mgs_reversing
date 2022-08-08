@@ -17,6 +17,7 @@ extern int stop_jouchuu_se_800BF1A0;
 
 void keyoff_80087F80(void);
 void tone_set_80087FA8(int a1); // TODO: char ?
+void SD_MDX_FF_block_end_80087A58();
 
 void SD_MDX_F2_rest_set_80086D18()
 {
@@ -173,7 +174,18 @@ void SD_MDX_E7_lp1_start_800871B4()
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E9_800872C0.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EB_8008736C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_EC_80087384.s")
+
+void SD_MDX_EC_l3e_set_80087384()
+{
+    if ( sptr_800C057C->field_24_lp3_addr )
+    {
+        mptr_800C0570 = sptr_800C057C->field_24_lp3_addr;
+    }
+    else
+    {
+        SD_MDX_FF_block_end_80087A58();
+    }
+}
 
 void tempo_set_800873CC()
 {
