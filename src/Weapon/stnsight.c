@@ -20,7 +20,35 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068BF4.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_80068D0C.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_kill_80068ED8.s")
+
+// re-declare to force GP usage
+extern short word_800AB8EC;
+short        SECTION(".word_800AB8EC") word_800AB8EC;
+
+void stnsight_kill_80068ED8(Actor_stnsight *actor)
+{
+    if (actor->field_28_lines) {
+        GV_DelayedFree_80016254(actor->field_28_lines);
+    }
+
+    if (actor->field_48_tiles) {
+        GV_DelayedFree_80016254(actor->field_48_tiles);
+    }
+
+    if (actor->field_38_lines) {
+        GV_DelayedFree_80016254(actor->field_38_lines);
+    }
+
+    if (actor->field_40_lines) {
+        GV_DelayedFree_80016254(actor->field_40_lines);
+    }
+
+    if (actor->field_50_polys) {
+        GV_DelayedFree_80016254(actor->field_50_polys);
+    }
+
+    word_800AB8EC = 0;
+}
 
 int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
 {
@@ -220,15 +248,11 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, int type)
 
 extern const char aStnsightC[]; // = "stnsight.c"
 
-// re-declare to force GP usage
-extern int dword_800AB8EC;
-int        SECTION(".dword_800AB8EC") dword_800AB8EC;
-
 Actor_stnsight * NewStnSight_800693E0(int type)
 {
     Actor_stnsight *actor;
 
-    if ((short)dword_800AB8EC != 0) {
+    if (word_800AB8EC != 0) {
         return 0;
     }
 
@@ -242,7 +266,7 @@ Actor_stnsight * NewStnSight_800693E0(int type)
             return 0;
         }
 
-        *(short *)&dword_800AB8EC = 1;
+        word_800AB8EC = 1;
     }
 
     return actor;

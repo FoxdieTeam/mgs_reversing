@@ -1007,7 +1007,7 @@
     include "..\obj\data\sdata\dword_800AB8D8.obj"
     include "..\obj\data\sdata\aRifle_0.obj"
     include "..\obj\data\sdata\aRifleC.obj"
-    include "..\obj\data\sdata\dword_800AB8EC.obj"
+    include "..\obj\data\sdata\word_800AB8EC.obj"
     include "..\obj\data\sdata\a0D.obj"
     include "..\obj\data\sdata\a0D_0.obj"
     include "..\obj\data\sdata\aD_2.obj"
