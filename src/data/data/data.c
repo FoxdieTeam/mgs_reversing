@@ -918,7 +918,7 @@ void SD_MDX_E2_vib_change_80087120(void);
 void SD_MDX_E3_rdm_set_8008716C(void);
 void swp_set_8008774C(void);
 void sws_set_800876D4(void);
-void SD_MDX_E6_80087670(void);
+void SD_MDX_E6_por_set_80087670(void);
 void SD_MDX_E7_lp1_start_800871B4(void);
 void SD_MDX_E8_800871E0(void);
 void SD_MDX_E9_800872C0(void);
@@ -1039,7 +1039,7 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                SD_MDX_E3_rdm_set_8008716C,
                                                swp_set_8008774C,
                                                sws_set_800876D4,
-                                               SD_MDX_E6_80087670,
+                                               SD_MDX_E6_por_set_80087670,
                                                SD_MDX_E7_lp1_start_800871B4,
                                                SD_MDX_E8_800871E0,
                                                SD_MDX_E9_800872C0,

@@ -180,7 +180,20 @@ void SD_MDX_E7_lp1_start_800871B4()
 #pragma INCLUDE_ASM("asm/sub_80087524.s")
 #pragma INCLUDE_ASM("asm/SD/se_adrs_set_8008756C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D6_8008758C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E6_80087670.s")
+
+void SD_MDX_E6_por_set_80087670()
+{
+    sptr_800C057C->field_69_swshc = 0;
+    sptr_800C057C->field_68_swsc = mdata2_800BF0D4;
+    if ( !mdata2_800BF0D4 )
+    {
+        sptr_800C057C->field_6A_swsk = 0;
+    }
+    else
+    {
+        sptr_800C057C->field_6A_swsk = 1;
+    }
+}
 
 void sws_set_800876D4()
 {
