@@ -13,6 +13,7 @@ extern int spu_ch_tbl_800A2AC8[];
 extern int dword_800BF210;
 extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF064;
+extern int stop_jouchuu_se_800BF1A0;
 
 void keyoff_80087F80(void);
 void tone_set_80087FA8(int a1); // TODO: char ?
@@ -168,6 +169,7 @@ void SD_MDX_E7_lp1_start_800871B4()
 }
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E8_800871E0.s")
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E9_800872C0.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EB_8008736C.s")
