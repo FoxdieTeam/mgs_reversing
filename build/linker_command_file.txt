@@ -73,7 +73,7 @@
     ;libdg\prim.c
     include "..\obj\libdg\DG_PrimChanl_helper_helper_8001ADA0.obj"
     include "..\obj\libdg\DG_PrimChanl_helper_8001AE5C.obj"
-    include "..\obj\libdg\DG_PrimChanl_helper2_helper_8001AF90.obj"    
+    include "..\obj\libdg\DG_PrimChanl_helper2_helper_8001AF90.obj"
     include "..\obj\libdg\DG_PrimChanl_helper2_8001B0B4.obj"
     include "..\obj\sub_8001B1E8.obj"
     include "..\obj\libdg\sub_8001B254.obj"
@@ -86,7 +86,7 @@
 
     include "..\obj\libdg\helpers.obj"
     include "..\obj\sub_8001C708.obj"
-    
+
     ;libdg\??
     include "..\obj\libdg\DG_Screen_Chanl_8001CEE0.obj"
     include "..\obj\libdg\DG_Shade_Chanl_helper_helper_8001CF88.obj"
@@ -297,7 +297,7 @@
     include "..\obj\map\hzd.obj"
 
     include "..\obj\libfs\CDFS_Init_80021EC4.obj"
-    
+
     include "..\obj\libfs\FS_LoadFileSync_80021F48.obj"
     include "..\obj\libfs\MakeFullPath_80021F68.obj"
     include "..\obj\CDBIOS_Reset_80021F70.obj"
@@ -452,7 +452,7 @@
 
 
     include "..\obj\Game\GM_GetCharaID_8002A8EC.obj"
-    
+
 
     include "..\obj\data\sbss\dword_800AB9CC.obj"
     include "..\obj\data\sbss\dword_800AB9D0.obj"
@@ -657,8 +657,7 @@
     include "..\obj\libdg\Prim_Calc_CVECTOR_len_80031ED4.obj"
     include "..\obj\libdg\DG_MakePreshade_80031F04.obj"
     include "..\obj\libdg\DG_FreePreshade_80032110.obj"
-    
-  ;  include "..\obj\sub_800321AC.obj"
+
     include "..\obj\sub_800321F8.obj"
     include "..\obj\sub_80032308.obj"
     include "..\obj\sub_80032420.obj"
@@ -681,20 +680,20 @@
 
     include "..\obj\chara\snake\sna_init_act_helper2_helper2_80033054.obj"
     include "..\obj\Game\delay.obj"
-    
+
     ; 8003330C 80033384 800333F8 80033500 80033560 800335D0 800336A4 80033704 80033784 80033F88
     ; 80034020 800340D0 800344F8 800345C0 80034758
-    include "..\obj\Game\item.obj"    
-    
+    include "..\obj\Game\item.obj"
+
     include "..\obj\Game\sub_80034834.obj"
-    
+
     ;game\object.c
     include "..\obj\Game\object.obj"
 
     ;game\motion.c
     ; 80034EAC 80034F08 8003501C 800350D4 8003518C 800353E4 8003556C 800356FC 80035F34 80035FFC 8003601C 8003603C 800360EC 80036388 800366B8
     include "..\obj\Game\motion.obj"
-    
+
     ; 80036A10 80036B40 80036BA4 80037128 8003721C 80037514 80037600 800376F8
     include "..\obj\Game\over.obj"
 
@@ -714,7 +713,7 @@
     ;jimctrl.c
     ; 80037F2C 80037F68 80037FB8
     include "..\obj\Game\jimctrl1.obj"
-    
+
     ; TODO: merge these into jimctrl.c but the data is broken and causes the file to no longer match
     include "..\obj\Game\jimctrl_act_helper_clear_first_80037FE0.obj"
 
@@ -732,7 +731,7 @@
     ;radar.c
     ; 80038E28 80038F30 80038F3C 800390FC 800391D0 80039D5C 80039DB4 80039EC4 8003A0BC 8003A2D0 8003A664 8003A978 8003AA2C 8003ADAC 8003ADD8 8003AEC0 8003B350 8003B554
     include "..\obj\Menu\radar.obj"
-    
+
     ; 8003B568 8003B5E0 8003B614 8003B6D0 8003B794 8003B8F0 8003BBEC 8003BCD4 8003BF1C 8003C24C 8003C4EC 8003C95C 8003CB98 8003CBF0 8003CC74
     include "..\obj\Menu\menu_left.obj"
 
@@ -750,7 +749,7 @@
     ;radio.c
     ; 8003FC54 8003FD50 8003FFB0 80040034 800401AC 800402A0 800403E4 80040498 80040590 8004064C 800407A4 800408BC 80040B8C 80040DC4 80040F74 800410E4 80041118 8004114C 8004124C 80041280 8004143C 8004150C 8004158C 80042160 80042190 80042198 80042730 800427E8 80042814 8004283C 80042848 80042980 80042988 80042B64 80042BF4 80042E38 80042F78 80042FC0 800430F0 80043138 80043220 80043470 800434A8 800434F4 800435A4 800435C8 800435EC 80043678 80043A24 80043FD0 800442E4 800445F8 800448C0 80044A70 80044A90 80044A9C 80044BC0 80044BD8
     include "..\obj\Menu\radio.obj"
-    
+
     include "..\obj\data\sdata\dword_800AB640.obj"
     include "..\obj\data\sdata\dword_800AB644.obj"
     include "..\obj\data\sdata\dword_800AB648.obj"
@@ -821,7 +820,7 @@
     ; 800450F4 80045124 8004544C 80045718 80045788 80045794 800457A8 800457B4 800458B8 800459B0
     ; 80045AE4 80045D0C 800468FC 8004695C 80046980 800469A4
     include "..\obj\Font\font.obj"
-    
+
     include "..\obj\sub_800469F0.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
     include "..\obj\sub_80046B10.obj"
@@ -957,12 +956,12 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper2_8004DF68.obj"
     include "..\obj\Menu\menu_InitRadioMemory_8004E0EC.obj" ; in radiomem.c
-    
+
     include "..\obj\data\sdata\a03d.obj"
     include "..\obj\data\sdata\a02d_0.obj"
     include "..\obj\data\sdata\aClear.obj"
     include "..\obj\data\sdata\dword_800AB78C.obj"
-    
+
     include "..\obj\data\sdata\dword_800AB7CC.obj"
     include "..\obj\data\sdata\dword_800AB7D4.obj"
     include "..\obj\data\sdata\dword_800AB7DC.obj"
@@ -1016,7 +1015,7 @@
     include "..\obj\data\sdata\aRifle.obj"
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper_8004E198.obj"
-    
+
     ; 8004E1F4 8004E22C 8004E260 8004E29C 8004E2B4 8004E2D4 8004E2F4 8004E308 8004E31C 8004E330
     ; 8004E358 8004E384 8004E41C 8004E458 8004E4C0 8004E51C 8004E588 8004E5E8 8004E71C 8004E808
     ; 8004E930 8004E9D0 8004EA50 8004EAA8 8004EB14 8004EB74 8004EC00 8004EC8C 8004ED08 8004ED6C
@@ -1056,7 +1055,7 @@
 
     ; 8005FD28 80060028 800600E4 80060190 800601B0 800602CC 80060384
     include "..\obj\chara\snake\shadow.obj"
-    
+
     ; 800603EC 800604C0
     include "..\obj\chara\snake\afterse.obj"
     include "..\obj\chara\snake\sub_80060548.obj"
@@ -1065,7 +1064,7 @@
     include "..\obj\chara\snake\sna_act_unk_helper2_helper3_80060684.obj"
     include "..\obj\chara\snake\sub_800606E4.obj"
     include "..\obj\chara\snake\sna_act_unk_helper2_helper_8006070C.obj" ; actually part of bodyarm ??
-    
+
     include "..\obj\Equip\bodyarm.obj"
 
     include "..\obj\Equip\gasmask.obj"
@@ -1090,7 +1089,7 @@
 
     ; 80062320 8006237C 800624BC 800624F4 8006258C 800626D0 80062998 80062BDC 80062C7C 80062DA8
     ; 80062E8C 8006317C 80063238 80063274 800632D4 80063368 800633D4 80063508
-    include "..\obj\Equip\scope.obj"    
+    include "..\obj\Equip\scope.obj"
 
 
     include "..\obj\Equip\gmsight_act_800635BC.obj"
@@ -1156,7 +1155,7 @@
     ; 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54
     ; 8006CF44 8006D124
     include "..\obj\Bullet\rmissile.obj"
-    
+
     ; 8006D1F4 8006D2A0 8006D37C 8006D600 8006D608 8006D99C 8006DA0C 8006DC50
     include "..\obj\Bullet\amissile.obj"
 
@@ -1171,23 +1170,23 @@
     ; 8006EC10 8006ECB8 8006ED48 8006EDB8 8006F184 8006F290 8006F318 8006F748 8006F7AC 8006FA28
     ; 8006FA60 8006FD00
     include "..\obj\Thing\door.obj"
-    
+
     include "..\obj\Thing\HZD_QueueDynamicSegment2_8006FDDC.obj"
     include "..\obj\sub_8006FE44.obj"
     include "..\obj\HZD_SetDynamicSegment_8006FEE4.obj"
     include "..\obj\sub_8006FF9C.obj"
     include "..\obj\sub_8006FFE8.obj" ; no refs
-    
+
     ; 80070040 8007009C 800700E0 800701A8 8007020C 80070568 80070820 80070AB0 80070CAC 80070E14
     ; 80070EC0 80070ECC 80070F4C 80071010
-    include "..\obj\Thing\sgtrect3.obj"    
+    include "..\obj\Thing\sgtrect3.obj"
 
     ; 8007111C 800711C0 80071320 800713FC 80071498 800714EC 800719C8 80071A54 80071CDC 80071DC8
     ; 80071EA8 80071F98
     include "..\obj\Thing\sight.obj"
 
     ; 80072080 80072394 80072478 8007250C 80072538 800725CC 80072608 80072728 80072934
-    include "..\obj\Okajima\blood.obj"    
+    include "..\obj\Okajima\blood.obj"
 
     ; 800729AC 800729B4 80072A0C 80072B24 80072B38 80072B60
     include "..\obj\Okajima\d_blood.obj"
@@ -1207,18 +1206,18 @@
 
     ; 80074DAC 80074F44 80074F5C 80075164 80075194 800752A0
     include "..\obj\Okajima\stgfd_io.obj"
-    
+
     include "..\obj\data\rdata\rdata_80012F90.obj"
 
     ; 80075314 80075358 80075414 800754E4 80075610 8007575C 80075DD4 80076164 800761A0 80076274
     ; 80076420 80076584 80076708 8007692C
     include "..\obj\Okajima\bullet.obj"
-    
+
     ; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
     include "..\obj\Okajima\chafgrnd.obj"
 
     ; 8007743C 800774C0 800775B4 800776AC 8007773C 8007781C
-    include "..\obj\Takabe\goggle.obj"    
+    include "..\obj\Takabe\goggle.obj"
 
     ; 800778B4 80077988 800779B8
     include "..\obj\Equip\gglmng.obj"
@@ -1227,10 +1226,10 @@
     include "..\obj\Equip\gglsight.obj"
 
     include "..\obj\Takabe\scn_mask.obj"
-    
+
     ; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
     include "..\obj\Takabe\goggleir.obj"
-    
+
     include "..\obj\Takabe\sub_80078F04.obj"
     include "..\obj\libdg\DG_StorePaletteEffect_80078F30.obj"
     include "..\obj\libdg\DG_ResetPaletteEffect_80078FF8.obj"
@@ -1249,9 +1248,9 @@
     ; 8007F1DC 8007F338 8007F350 8007F394 8007F3F8 8007FB90 8007FDD8 8007FF9C 800800D8 80080C20
     ; 80080D48 80080E14 800815FC
     include "..\obj\Kojo\demothrd.obj"
-    
+
     include "..\obj\sub_80081910.obj"
-    
+
     include "..\obj\SD\SD_nullsub_7_80081A10.obj"
     include "..\obj\SD\SdMain_80081A18.obj"
     include "..\obj\sub_80081BC4.obj"
@@ -1322,7 +1321,7 @@
     ; 8008BB4C 8008BB60 8008BB78 8008BB88
     include "..\obj\mts\mts_new3.obj"
 
-    ; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8    
+    ; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8
     include "..\obj\mts\mts_new4.obj"
 
     ; 8008BC8C 8008BDEC 8008C098 8008C170 8008C25C 8008C324 8008C380 8008C3BC 8008C408 8008C454
@@ -1330,7 +1329,7 @@
     include "..\obj\mts\pad.obj"
 
     ; 8008C534 8008C58C 8008C598 8008C5A8 8008C5B0 8008C5B8 8008C5C0 8008C5C8 8008C5D0 8008C5E0
-    ; 8008C5E8 8008C5F0 8008C5F8 8008C600    
+    ; 8008C5E8 8008C5F0 8008C5F8 8008C600
     include "..\obj\mts\mts_new2.obj"
 
     ; libcd.lib start
@@ -1724,6 +1723,16 @@ group_other    group org($8009D2DC)
 group_actual_bss    group bss,org($800ABBF0)
     section .bss, group_actual_bss
 
+; ram
+group_heap_80117000    group bss,org($80117000)
+    section .heap_80117000, group_heap_80117000
+
+group_heap_80182000    group bss,org($80182000)
+    section .heap_80182000, group_heap_80182000
+
+group_byte_801FFF00    group bss,org($801FFF00)
+    section .byte_801FFF00, group_byte_801FFF00
+
 ; main
 group_800ACC18    group bss,org($800ACC18)
     section .0x800ACC18, group_800ACC18
@@ -1733,12 +1742,6 @@ group_gFileExtHandlers_800ACE80    group bss,org($800ACE80)
 
 group_800B1E08    group bss,org($800B1E08)
     section .bss_800B1E08, group_800B1E08
-
-group_heap_80117000    group bss,org($80117000)
-    section .heap_80117000, group_heap_80117000
-
-group_heap_80182000    group bss,org($80182000)
-    section .heap_80182000, group_heap_80182000
 
 group_gDgdActor2_800B3750    group bss,org($800B3750)
     section .gDgdActor2_800B3750, group_gDgdActor2_800B3750
@@ -1760,7 +1763,7 @@ group_gMemoryCardFiles_800B52C8    group bss,org($800B52C8)
 
 group_GM_WhereList_800B56D0    group bss,org($800B56D0)
     section .GM_WhereList_800B56D0, group_GM_WhereList_800B56D0
-    
+
 group_gDefaultControl_800B5650    group bss,org($800B5650)
     section .gDefaultControl_800B5650, group_gDefaultControl_800B5650
 
@@ -1894,9 +1897,6 @@ group_gProgramBottom_800C3208    group org($800C3208), file("..\obj\sound.bin"),
     include "..\obj\overlays\sound_bin.obj"
     include "..\obj\overlays\sndtst.obj"
 
-group_byte_801FFF00    group bss,org($801FFF00)
-    section .byte_801FFF00, group_byte_801FFF00
-
 group_byte_800C0DB8    group bss,org($800C0DB8)
     section .byte_800C0DB8, group_byte_800C0DB8
 
@@ -1932,7 +1932,7 @@ group_int_800B4E58    group bss,org($800B4E58) ; CDBIOS_TaskState_80022888
 
 group_gMenuTextureRec_800B58B0    group bss,org($800B58B0) ; CDBIOS_TaskState_80022888
     section .gMenuTextureRec_800B58B0, group_gMenuTextureRec_800B58B0
-    
+
 group_gUnkCameraStruct_800B77B8    group bss,org($800B77B8) ; sna_auto_aim_800579A0
     section .gUnkCameraStruct_800B77B8, group_gUnkCameraStruct_800B77B8
 
