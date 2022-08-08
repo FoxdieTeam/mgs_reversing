@@ -20,11 +20,180 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068BF4.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_80068D0C.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_kill_80068ED8.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80068F74.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069100.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069184.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069234.s")
+
+// re-declare to force GP usage
+extern short word_800AB8EC;
+short        SECTION(".word_800AB8EC") word_800AB8EC;
+
+void stnsight_kill_80068ED8(Actor_stnsight *actor)
+{
+    if (actor->field_28_lines) {
+        GV_DelayedFree_80016254(actor->field_28_lines);
+    }
+
+    if (actor->field_48_tiles) {
+        GV_DelayedFree_80016254(actor->field_48_tiles);
+    }
+
+    if (actor->field_38_lines) {
+        GV_DelayedFree_80016254(actor->field_38_lines);
+    }
+
+    if (actor->field_40_lines) {
+        GV_DelayedFree_80016254(actor->field_40_lines);
+    }
+
+    if (actor->field_50_polys) {
+        GV_DelayedFree_80016254(actor->field_50_polys);
+    }
+
+    word_800AB8EC = 0;
+}
+
+int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
+{
+    LINE_F4 *lines;
+    TILE_1 *tiles;
+    int count;
+
+    // NOTE: despite allocating 56 LINE_F4s, this function only inits 42
+    actor->field_28_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 56);
+    
+    if (!lines) {
+        return -1;
+    }
+
+    actor->field_2C_lines = lines + 14;
+    actor->field_30_lines = lines + 28;
+    actor->field_34_lines = lines + 42;
+
+    actor->field_48_tiles = tiles = GV_Malloc_8001620C(sizeof(TILE_1) * 14);
+
+    if (!tiles) {
+        return -1;
+    }
+
+    actor->field_4C_tiles = tiles + 7;
+    
+    for (count = 0; count < 14; count++) {
+        *(int *)&lines->r0 = 0x41412e;
+        lines->x3 = 18;
+        lines->x0 = 18;
+        lines->x2 = 41;
+        lines->x1 = 41;
+        setLineF4(lines);
+        lines++;
+
+        *(int *)&lines->r0 = 0x41412e;
+        lines->x1 = 18;
+        lines->x0 = 18;
+        setLineF2(lines);
+        lines++;
+    }
+
+    for (count = 0; count < 28; count++) {
+        *(int *)&lines->r0 = 0x41412e;
+        lines->x2 = 42;
+        lines->x1 = 42;
+        lines->x0 = 42;
+        lines->x3 = 45;
+        setLineF4(lines);
+        lines++;
+    }
+
+    tiles = actor->field_48_tiles;
+    
+    for (count = 0; count < 14; count++) {
+        *(int *)&tiles->r0 = 0x68b187;
+        tiles->x0 = 47;
+        setTile1(tiles);
+        tiles++;
+    }
+        
+    return 0;
+}
+
+int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
+{
+    LINE_F4 *lines;
+    int count;
+  
+    actor->field_38_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+
+    if (!lines) {
+        return -1;
+    }
+    
+    actor->field_3C_lines = lines + 2;
+    
+    for (count = 0; count < 4; count++) {
+        *(int *)&lines->r0 = 0x41412e;
+        setLineF4(lines);
+        lines++;
+    }
+
+    return 0;
+}
+
+int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
+{
+    LINE_F4 *lines;
+    int count;
+    
+    actor->field_40_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
+
+    if (!lines) {
+        return -1;
+    }
+    
+    actor->field_44_lines = lines + 3;
+
+    for (count = 0; count < 2; count++) {
+        *(int *)&lines->r0 = 0x7f7972;
+        setLineF4(lines);
+        lines++;
+
+        *(int *)&lines->r0 = 0x7f7972;
+        setLineF2(lines);
+        lines++;
+
+        *(int *)&lines->r0 = 0x7f7972;
+        setLineF4(lines);
+        lines++;
+    }
+
+    return 0;
+}
+
+int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
+{
+    POLY_G4 *polys;
+    int count;
+  
+    actor->field_50_polys = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
+
+    if (!polys) {
+        return -1;
+    }
+
+    actor->field_54_polys = polys + 32;
+
+    for (count = 0; count < 64; count++) {
+        *(int *)&polys->r0 = 0x41412e;
+        *(int *)&polys->r1 = 0x41412e;
+        *(int *)&polys->r2 = 0x41412e;
+        *(int *)&polys->r3 = 0x41412e;
+        setPolyG4(polys);
+        setSemiTrans(polys, 1);
+        polys->y1 = 20;
+        polys->y0 = 20;
+        polys->y3 = 25;
+        polys->y2 = 25;
+        polys++;
+    }
+
+    return 0;
+}
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -65,7 +234,7 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, int type)
     actor->field_60_18Array[16] = 0xae;
     actor->field_60_18Array[17] = 0x78;
     actor->field_24_pad_data = GV_PadData_800B05C0;
-    actor->field_5c = 0;
+    actor->field_5C = 0;
     actor->field_58 = 0;
     actor->field_20_type = type;
     actor->field_84_4Array[0] = 0;
@@ -79,15 +248,11 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, int type)
 
 extern const char aStnsightC[]; // = "stnsight.c"
 
-// re-declare to force GP usage
-extern int dword_800AB8EC;
-int        SECTION(".dword_800AB8EC") dword_800AB8EC;
-
 Actor_stnsight * NewStnSight_800693E0(int type)
 {
     Actor_stnsight *actor;
 
-    if ((short)dword_800AB8EC != 0) {
+    if (word_800AB8EC != 0) {
         return 0;
     }
 
@@ -101,7 +266,7 @@ Actor_stnsight * NewStnSight_800693E0(int type)
             return 0;
         }
 
-        *(short *)&dword_800AB8EC = 1;
+        word_800AB8EC = 1;
     }
 
     return actor;
