@@ -6,6 +6,8 @@ extern SOUND_W* sptr_800C057C;
 extern int mtrack_800BF1EC;
 extern SPU_TRACK_REG spu_tr_wk_800C0658[];
 extern int mdata2_800BF0D4;
+extern int mdata3_800BF0D8;
+extern int mdata4_800BF0DC;
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F2_80086D18.s")
 #pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
@@ -64,7 +66,14 @@ void sub_800878FC(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_D7_80087904.s")
+void SD_MDX_D7_80087904()
+{
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_18_a_mode = 1;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_1C_ar = ~mdata2_800BF0D4 & 0x7F;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_1E_dr = ~mdata3_800BF0D8 & 0xF;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_2A_sl = mdata4_800BF0DC & 0xF;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_20_env1_fg = 1;
+}
 
 void SD_MDX_D8_srs_set_8008798C()
 {
