@@ -910,7 +910,7 @@ void SD_MDX_D7_80087904(void);
 void SD_MDX_D8_srs_set_8008798C(void);
 void SD_MDX_D9_800879E4(void);
 void SD_pan_set_80086F00(void);
-void SD_MDX_DE_80086F50(void);
+void SD_MDX_DE_pan_move_80086F50(void);
 void trans_set_8008750C(void);
 void SD_MDX_E0_detune_set_80087730(void);
 void SD_MDX_E1_80087018(void);
@@ -1031,7 +1031,7 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
                                                SD_pan_set_80086F00,
-                                               SD_MDX_DE_80086F50,
+                                               SD_MDX_DE_pan_move_80086F50,
                                                trans_set_8008750C,
                                                SD_MDX_E0_detune_set_80087730,
                                                SD_MDX_E1_80087018,
