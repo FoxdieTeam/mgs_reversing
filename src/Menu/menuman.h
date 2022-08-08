@@ -24,8 +24,6 @@ typedef struct RadioMemory
 #define RADIO_MEMORY_COUNT 16
 #define MENU_ITEMS_RIGHT_COUNT 11
 
-extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
-
 typedef struct menu_chara_struct
 {
     int            field_0_state;
