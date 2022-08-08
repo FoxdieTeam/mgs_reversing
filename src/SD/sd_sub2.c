@@ -65,7 +65,13 @@ void sub_800878FC(void)
 }
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D7_80087904.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_D8_8008798C.s")
+
+void SD_MDX_D8_srs_set_8008798C()
+{
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_24_s_mode = 3;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_28_sr = ~mdata2_800BF0D4 & 0x7F;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_2C_env2_fg = 1;
+}
 
 void SD_MDX_D9_800879E4()
 {
