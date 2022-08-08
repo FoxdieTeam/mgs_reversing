@@ -205,7 +205,11 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x10AC]; // 4268 bytes
+gap gap_800BDFB8[0x10A4]; // 4260 bytes
+
+int BSS sd_KaihiMode_800BF05C; // 0x4 (4) bytes
+
+gap gap_800BF060[0x4]; // 4 bytes
 
 int BSS dword_800BF064; // 0x4 (4) bytes
 SEPLAYTBL BSS se_playing_800BF068[8]; // 0x60 (96) bytes
@@ -216,7 +220,11 @@ int BSS mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS mdata4_800BF0DC; // 0x4 (4) bytes
 
-gap gap_800BF0E0[0xC0]; // 192 bytes
+gap gap_800BF0E0[0x78]; // 120 bytes
+
+int BSS sng_status_800BF158; // 0x4 (4) bytes
+
+gap gap_800BF15C[0x44]; // 68 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 
@@ -236,7 +244,15 @@ gap gap_800BF264[0x38]; // 56 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
-gap gap_800BF2A0[0x1284]; // 4740 bytes
+gap gap_800BF2A0[0x1190]; // 4496 bytes
+
+int BSS sng_fade_time_800C0430[14]; // 0x38 (56) bytes
+
+gap gap_800C0468[0xB0]; // 176 bytes
+
+int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
+
+gap gap_800C051C[0x8]; // 8 bytes
 
 int BSS keyd_800C0524; // 0x4 (4) bytes
 
