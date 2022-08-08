@@ -1,6 +1,8 @@
 #include "linker.h"
 #include "menuman.h"
 
+extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
+
 RadioMemory *menu_radio_table_find_8004D380(int frequency)
 {
     RadioMemory *contact;
