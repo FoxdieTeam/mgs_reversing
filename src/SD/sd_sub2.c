@@ -59,7 +59,12 @@ void echo_set2_8008775C(void)
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F6_80087764.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F7_800877CC.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_ED_80087834.s")
+
+void SD_MDX_ED_kakko_start_80087834()
+{
+    sptr_800C057C->field_2C_kak1ptr = mptr_800C0570;
+    sptr_800C057C->field_28_kakfg = 0;
+}
 
 void SD_MDX_EE_kakko_end_80087854()
 {
