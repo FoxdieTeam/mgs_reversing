@@ -85,7 +85,28 @@ int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069100.s")
+int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
+{
+    LINE_F4 *lines;
+    int count;
+  
+    actor->field_38_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+
+    if (!lines) {
+        return -1;
+    }
+    
+    actor->field_3C_lines = lines + 2;
+    
+    for (count = 0; count < 4; count++) {
+        *(int *)&lines->r0 = 0x41412e;
+        setLineF4(lines);
+        lines++;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069184.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069234.s")
 

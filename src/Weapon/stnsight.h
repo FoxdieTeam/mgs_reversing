@@ -17,8 +17,8 @@ typedef struct Actor_stnsight {
     LINE_F4 *field_2C_lines;
     LINE_F4 *field_30_lines;
     LINE_F4 *field_34_lines;
-    int field_38;
-    int field_3C;
+    LINE_F4 *field_38_lines;
+    LINE_F4 *field_3C_lines;
     int field_40;
     int field_44;
     TILE_1 *field_48_tiles;
