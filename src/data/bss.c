@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/GM_Control.h"
+#include "Game/game.h"
 #include "chara/snake/sna_init.h"
 #include "memcard/memcard.h"
 #include "map/map.h"
@@ -40,7 +41,7 @@ unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024];
 
 unsigned char SECTION(".byte_800B7A50") byte_800B7A50[2016];
 
-UnkMaybeCameraStruct SECTION(".gUnkMaybeCameraStruct_800B77B8") gUnkMaybeCameraStruct_800B77B8;
+UnkCameraStruct SECTION(".gUnkCameraStruct_800B77B8") gUnkCameraStruct_800B77B8;
 
 signed char SECTION(".byte_800C0C10") byte_800C0C10[32];
 
@@ -210,4 +211,4 @@ Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
 
 Jirai_unknown SECTION(".stru_800BDE78") stru_800BDE78[8];
 
-demothrd_2Vec SECTION(".word_800B77E8") stru_800B77E8[9];
+UnkCameraStruct2 SECTION(".word_800B77E8") gUnkCameraStruct2_800B77E8;

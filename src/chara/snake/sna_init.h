@@ -128,26 +128,6 @@ typedef struct Sna_ActionTable
     Sna_E1 *field_18;
 } Sna_ActionTable;
 
-// might belong in another header
-// camera references this is a lot
-typedef struct UnkMaybeCameraStruct // @ 800B77B8
-{
-    short   field_0;
-    short   field_2;
-    int     field_4;
-    int     field_8;
-    short   field_C;
-    short   field_E;
-    int     field_10;
-    int     field_14;
-    int     field_18;
-    int     field_1C;
-    int     field_20;
-    int     field_24;
-    SVECTOR field_28_aim_assist; // dont know what this really is
-} UnkMaybeCameraStruct;
-STATIC_ASSERT_SIZE(UnkMaybeCameraStruct, 0x30);
-
 typedef enum
 {
     SNA_FLAG1_UNK1 = 0x1,

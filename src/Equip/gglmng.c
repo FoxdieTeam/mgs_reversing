@@ -1,19 +1,19 @@
 #include "gglmng.h"
-#include "Kojo/demothrd.h"
 #include "gglsight.h"
+#include "Game/game.h"
 
 // Goggle Manager?
 // used by all items and weapons that can go first person in order to transition into their first person modes?
 
 extern const char         aGglmngC[];
-extern demothrd_2Vec      stru_800B77E8[9];
+extern UnkCameraStruct2 gUnkCameraStruct2_800B77E8;
 extern GameState_800B4D98 gGameState_800B4D98;
 extern int                GM_PlayerStatus_800ABA50;
 extern int                dword_8009F46C;
 
 void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
-    if (stru_800B77E8[2].field_0.vy)
+    if (gUnkCameraStruct2_800B77E8.field_22 != 0)
     {
         if (gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_STINGER ||
             gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_PSG1 || dword_8009F46C == 1 ||

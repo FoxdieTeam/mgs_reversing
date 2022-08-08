@@ -2,7 +2,7 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/target.h"
-#include "anime/animeconv/anime.h"
+#include "Anime/animeconv/anime.h"
 #include "unknown.h"
 
 extern const char aBlastC[];

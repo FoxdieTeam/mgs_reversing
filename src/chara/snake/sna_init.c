@@ -459,17 +459,16 @@ void sub_8004EB74(Actor_SnaInit *pActor)
     sd_set_cli_800887EC(0x1ffff20, 0);
 }
 
-// TODO: Not confirmed if this structure is correct yet
-extern demothrd_2Vec stru_800B77E8[9];
+extern UnkCameraStruct2 gUnkCameraStruct2_800B77E8;
 
 void sna_init_8004EC00(Actor_SnaInit *pActor)
 {
-    if (stru_800B77E8[2].field_0.vy == 1)
+    if (gUnkCameraStruct2_800B77E8.field_22 == 1)
     {
         pActor->field_A20 = 6;
     }
 
-    stru_800B77E8[2].field_0.vy = 0;
+    gUnkCameraStruct2_800B77E8.field_22 = 0;
     pActor->field_A56 = 0;
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
@@ -535,7 +534,7 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
     }
 }
 
-extern UnkMaybeCameraStruct gUnkMaybeCameraStruct_800B77B8;
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 void                 sna_init_8004EE28(Actor_SnaInit *snake)
 {
     MATRIX  mat1;
@@ -555,7 +554,7 @@ void                 sna_init_8004EE28(Actor_SnaInit *snake)
         vx += 0xf;
     }
     vx &= 0xfff0;
-    gUnkMaybeCameraStruct_800B77B8.field_28_aim_assist.vx = vx;
+    gUnkCameraStruct_800B77B8.field_28_aim_assist.vx = vx;
 }
 
 void sub_8004EEB0(Actor_SnaInit *pActor)
@@ -808,7 +807,7 @@ void sub_8004FAE8(Actor_SnaInit *snake)
     SVECTOR vec;
 
     DG_MatrixRotYXZ_8001E734(&snake->field_9C_obj.objs->objs[6].world, &vec);
-    gUnkMaybeCameraStruct_800B77B8.field_28_aim_assist = vec;
+    gUnkCameraStruct_800B77B8.field_28_aim_assist = vec;
 }
 
 int sub_8004FB38(void)
@@ -1251,7 +1250,7 @@ void sna_init_fn_80052540(Actor_SnaInit *pActor)
         sna_init_knockdown_getup_80050668(pActor);
     }
 
-    gUnkMaybeCameraStruct_800B77B8.field_2 += 320;
+    gUnkCameraStruct_800B77B8.field_2 += 320;
     sna_init_8004EE28(pActor);
 }
 
@@ -2847,7 +2846,7 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 
     if (sna_init_sub_8004E358(pActor, SNA_FLAG2_UNK5))
     {
-        gUnkMaybeCameraStruct_800B77B8.field_28_aim_assist.vx = out_x;
+        gUnkCameraStruct_800B77B8.field_28_aim_assist.vx = out_x;
     }
 }
 
