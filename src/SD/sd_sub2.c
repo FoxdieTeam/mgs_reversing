@@ -15,6 +15,7 @@ extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF064;
 
 void keyoff_80087F80(void);
+void tone_set_80087FA8(int a1); // TODO: char ?
 
 void SD_MDX_F2_rest_set_80086D18()
 {
@@ -44,7 +45,14 @@ void tie_set_80086D9C()
     sptr_800C057C->field_5_ngo = temp1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_D2_80086E38.s")
+void SD_MDX_D2_sno_set_80086E38()
+{
+    sptr_800C057C->field_A4_snos = mdata2_800BF0D4;
+    keyoff_80087F80();
+    tone_set_80087FA8((char)mdata2_800BF0D4); // TODO: Arg type wrong?
+}
+
+
 #pragma INCLUDE_ASM("asm/SD/svl_set_80086E78.s")
 #pragma INCLUDE_ASM("asm/SD/svp_set_80086EB8.s")
 

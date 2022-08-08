@@ -901,7 +901,7 @@ int   SECTION(".data") dword_8009F7B4 = 0xFFFFFFFF;
 void no_cmd_80087A80(void);
 void tempo_set_800873CC(void);
 void tempo_move_800873E4(void);
-void SD_MDX_D2_80086E38(void);
+void SD_MDX_D2_sno_set_80086E38(void);
 void svl_set_80086E78(void);
 void svp_set_80086EB8(void);
 void se_adrs_set_8008756C(void);
@@ -1019,7 +1019,7 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                no_cmd_80087A80,
                                                tempo_set_800873CC,
                                                tempo_move_800873E4,
-                                               SD_MDX_D2_80086E38,
+                                               SD_MDX_D2_sno_set_80086E38,
                                                svl_set_80086E78,
                                                svp_set_80086EB8,
                                                se_adrs_set_8008756C,

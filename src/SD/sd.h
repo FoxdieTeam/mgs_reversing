@@ -96,7 +96,7 @@ typedef struct SOUND_W
   char field_9F_trecad;
   char field_A0_trehs;
   char field_A1_pad[3];
-  int field_A4_snos;
+  unsigned int field_A4_snos;
   int field_A8_ptps;
   int field_AC_dec_vol;
   int field_B0_tund;
