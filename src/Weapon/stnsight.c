@@ -107,7 +107,36 @@ int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069184.s")
+int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
+{
+    LINE_F4 *lines;
+    int count;
+    
+    actor->field_40_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
+
+    if (!lines) {
+        return -1;
+    }
+    
+    actor->field_44_lines = lines + 3;
+
+    for (count = 0; count < 2; count++) {
+        *(int *)&lines->r0 = 0x7f7972;
+        setLineF4(lines);
+        lines++;
+
+        *(int *)&lines->r0 = 0x7f7972;
+        setLineF2(lines);
+        lines++;
+
+        *(int *)&lines->r0 = 0x7f7972;
+        setLineF4(lines);
+        lines++;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069234.s")
 
 extern GV_PAD GV_PadData_800B05C0[4];
