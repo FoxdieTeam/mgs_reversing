@@ -25,7 +25,7 @@ unsigned int jimctrl_helper_80037F68(unsigned int header)
     pIter = &array_800B933C[1];
     i = 0;
     pField = &pIter->field_2;
-    for (; i < array_800B933C_SIZE - 1; i++)
+    for (; i < array_800B933C_SIZE - 2; i++)
     {
         if (pIter->field_0 == header)
         {
@@ -42,7 +42,7 @@ unsigned int jimctrl_helper_80037F68(unsigned int header)
 
 void jimctrl_init_helper_clear_80037FB8(void)
 {
-    int                   i = array_800B933C_SIZE - 2;
+    int                   i = array_800B933C_SIZE - 3;
     array_800B933C_child *pIter = &array_800B933C[i] + 1;
     for (; i >= 0; i--)
     {

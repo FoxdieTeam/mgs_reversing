@@ -2,9 +2,10 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "Game/GM_Control.h"
+#include "game/game.h"
 
 extern CAMERA GM_CameraList_800B7718[8];
-extern CAMERA gCamera_param_a_800B780C;
+extern GM_Camera GM_Camera_800B77E8;
 
 extern const char aSetCameraD[];
 
@@ -81,7 +82,7 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
 
     if (GCL_GetParam_80020968('a'))
     {
-        gCamera_param_a_800B780C.field_00_pos[0] = GCL_GetNextParamValue_80020AD4();
+        GM_Camera_800B77E8.field_24_gcl_param_a = GCL_GetNextParamValue_80020AD4();
     }
 
     if (GCL_GetParam_80020968('c'))
