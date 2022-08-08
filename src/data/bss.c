@@ -205,8 +205,9 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x10B0]; // 4272 bytes
+gap gap_800BDFB8[0x10AC]; // 4268 bytes
 
+int BSS dword_800BF064; // 0x4 (4) bytes
 SEPLAYTBL BSS se_playing_800BF068[8]; // 0x60 (96) bytes
 
 gap gap_800BF0C8[0xC]; // 12 bytes
