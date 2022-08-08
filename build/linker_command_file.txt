@@ -1256,6 +1256,8 @@
     include "..\obj\SD\SdMain_80081A18.obj"
     include "..\obj\sub_80081BC4.obj"
     include "..\obj\SD\SdInt_Task_80081BDC.obj"
+
+    ; sd_main.c
     include "..\obj\SD\sd_init_80081C7C.obj"
     include "..\obj\SD\sub_80081F8C.obj"
     include "..\obj\SD\SD_80081FC4.obj"
