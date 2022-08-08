@@ -8,6 +8,7 @@ extern SPU_TRACK_REG spu_tr_wk_800C0658[];
 extern int mdata2_800BF0D4;
 extern int mdata3_800BF0D8;
 extern int mdata4_800BF0DC;
+extern unsigned char* mptr_800C0570;
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F2_80086D18.s")
 #pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
@@ -59,7 +60,27 @@ void echo_set2_8008775C(void)
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F6_80087764.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F7_800877CC.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_ED_80087834.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_EE_80087854.s")
+
+void SD_MDX_EE_kakko_end_80087854()
+{
+    switch (sptr_800C057C->field_28_kakfg)
+    {
+    case 0:
+        sptr_800C057C->field_28_kakfg++;
+        break;
+
+    case 1:
+        sptr_800C057C->field_28_kakfg++;
+        sptr_800C057C->field_30_kak2ptr = mptr_800C0570;
+        mptr_800C0570 = sptr_800C057C->field_2C_kak1ptr;
+        break;
+
+    case 2:
+        sptr_800C057C->field_28_kakfg--;
+        mptr_800C0570 = sptr_800C057C->field_30_kak2ptr;
+        break;
+    }
+}
 
 void sub_800878FC(void)
 {
