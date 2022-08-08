@@ -107,7 +107,44 @@ void SD_MDX_DE_pan_move_80086F50()
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E1_80087018.s")
+void SD_MDX_E1_vib_set_80087018()
+{
+    sptr_800C057C->field_84_vibhs = mdata2_800BF0D4;
+    sptr_800C057C->field_86_vibcad = mdata3_800BF0D8;
+    if ( sptr_800C057C->field_86_vibcad < 64 )
+    {
+        if ( sptr_800C057C->field_86_vibcad < 32 )
+        {
+            sptr_800C057C->field_79_vib_tc_ofst = 1;
+            sptr_800C057C->field_86_vibcad = sptr_800C057C->field_86_vibcad << 3;
+        }
+        else
+        {
+            sptr_800C057C->field_79_vib_tc_ofst = 2;
+            sptr_800C057C->field_86_vibcad = sptr_800C057C->field_86_vibcad << 2;
+        }
+    }
+    else
+    {
+        if ( sptr_800C057C->field_86_vibcad < 128 )
+        {
+            sptr_800C057C->field_79_vib_tc_ofst = 4;
+            sptr_800C057C->field_86_vibcad = sptr_800C057C->field_86_vibcad << 1;
+        }
+        else if ( sptr_800C057C->field_86_vibcad != 255 )
+        {
+            sptr_800C057C->field_79_vib_tc_ofst = 8;
+        }
+        else
+        {
+            sptr_800C057C->field_79_vib_tc_ofst = 16;
+        }
+    }
+
+    sptr_800C057C->field_7C_vibd = mdata4_800BF0DC << 8;
+    sptr_800C057C->field_80_vibdm = mdata4_800BF0DC << 8;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E2_80087120.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E3_8008716C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E7_800871B4.s")
