@@ -27,7 +27,23 @@ void SD_MDX_F2_rest_set_80086D18()
     sptr_800C057C->field_5_ngo = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
+void tie_set_80086D9C()
+{
+    int temp1; // $v1
+
+    sptr_800C057C->field_CC_rest_fg = 1;
+    sptr_800C057C->field_6_ngs = mdata2_800BF0D4;
+    sptr_800C057C->field_7_ngg = mdata3_800BF0D8;
+    sptr_800C057C->field_4_ngc = sptr_800C057C->field_6_ngs;
+    temp1 = (sptr_800C057C->field_7_ngg * sptr_800C057C->field_4_ngc) / 100;
+    if ( !temp1 )
+    {
+       temp1 = 1;
+    }
+
+    sptr_800C057C->field_5_ngo = temp1;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D2_80086E38.s")
 #pragma INCLUDE_ASM("asm/SD/svl_set_80086E78.s")
 #pragma INCLUDE_ASM("asm/SD/svp_set_80086EB8.s")
