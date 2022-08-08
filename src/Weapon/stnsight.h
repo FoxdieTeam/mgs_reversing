@@ -1,6 +1,10 @@
 #ifndef _STNSIGHT_H_
 #define _STNSIGHT_H_
 
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+
 #include "libgv/libgv.h"
 
 // stinger first person HUD
@@ -9,10 +13,20 @@ typedef struct Actor_stnsight {
     Actor field_0_actor;
     int field_20_type;
     GV_PAD *field_24_pad_data;
-    int field_28;
-    char field_2c_padding[44];
+    LINE_F4 *field_28_lines;
+    LINE_F4 *field_2C_lines;
+    LINE_F4 *field_30_lines;
+    LINE_F4 *field_34_lines;
+    int field_38;
+    int field_3C;
+    int field_40;
+    int field_44;
+    TILE_1 *field_48_tiles;
+    TILE_1 *field_4C_tiles;
+    int field_50;
+    int field_54;
     int field_58;
-    int field_5c;
+    int field_5C;
     short field_60_18Array[18];
     int field_84_4Array[4];
     int field_94;
