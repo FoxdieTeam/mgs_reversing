@@ -173,7 +173,7 @@ def main():
     if out_source != source:
         with open(OUT, 'w') as f:
             f.write(out_source)
-        print('wrote', SOURCE)
+        print('wrote', OUT)
     else:
         print('nothing changed')
 
