@@ -52,9 +52,19 @@ void SD_MDX_D2_sno_set_80086E38()
     tone_set_80087FA8((char)mdata2_800BF0D4); // TODO: Arg type wrong?
 }
 
+void svl_set_80086E78()
+{
+    sptr_800C057C->field_A4_snos = mdata2_800BF0D4;
+    keyoff_80087F80();
+    tone_set_80087FA8((char)mdata2_800BF0D4);
+}
 
-#pragma INCLUDE_ASM("asm/SD/svl_set_80086E78.s")
-#pragma INCLUDE_ASM("asm/SD/svp_set_80086EB8.s")
+void svp_set_80086EB8()
+{
+    sptr_800C057C->field_A4_snos = mdata2_800BF0D4;
+    keyoff_80087F80();
+    tone_set_80087FA8((char)mdata2_800BF0D4);
+}
 
 void use_set_80086EF8(void)
 {
