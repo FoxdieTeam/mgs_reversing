@@ -13,188 +13,227 @@
 #include "Bullet/jirai.h"
 #include "Kojo/demothrd.h"
 
-// please separate different SECTIONs by newlines
+#define BSS SECTION(".bss")
+#define gap char BSS
 
-// TODO: script that sorts these by address and adds comments for all the missing gaps with sizes
-// and detect overlaps
+// simply add a new var at any random place below the line then run bss.py and it will automatically put it in then
+// correct place and re-adjust the gaps, sizes, and byte size comments. the only thing allowed below the line are 
+// var declarations. put everything else in a header. all comments below the line will also be deleted.
+// you must use "BSS" instead of SECTION, and for EVERY var.
 
-unsigned char SECTION(".bss") main_task_stack_800ABBF0[2048]; // 800ABBEC
+// note: if any included headers has an extern to the same vars defined here, matches will fail. never put extern
+// data in a header.
 
-unsigned int SECTION(".bss") sdStack_800AC3F0[512]; // 800AC3F0
+// --------------------------------------------------------------------------------------------------------------------
 
-int SECTION(".bss") gDiskNum_800ACBF0;
-int SECTION(".bss") pad_800ACBF4;
+unsigned char BSS main_task_stack_800ABBF0[2048]; // 0x800 (2048) bytes
+unsigned int BSS sdStack_800AC3F0[512]; // 0x800 (2048) bytes
+int BSS gDiskNum_800ACBF0; // 0x4 (4) bytes
+int BSS pad_800ACBF4; // 0x4 (4) bytes
+struct Actor BSS gGVActor_800acbf8; // 0x20 (32) bytes
+struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
 
-struct Actor SECTION(".bss") gGVActor_800acbf8;
+gap gap_800ACE7C[0x4]; // 4 bytes
 
-int SECTION(".dword_800B05A8") dword_800B05A8[6];
+TFileExtHandler BSS gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) bytes
 
-DG_CHNL SECTION(".DG_Chanls_800B1800") DG_Chanls_800B1800[3];
+gap gap_800ACEE8[0x8]; // 8 bytes
 
-unsigned char SECTION(".byte_800B1400") byte_800B1400[1024];
+CacheSystems BSS GV_CacheSystem_800ACEF0; // 0x400 (1024) bytes
+GV_Heap BSS MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
+GV_Messages BSS gMessageQueue_800B0320[2]; // 0x288 (648) bytes
+int BSS dword_800B05A8[6]; // 0x18 (24) bytes
+GV_PAD BSS GV_PadData_800B05C0[4]; // 0x40 (64) bytes
+DISPENV BSS gDispEnv_800B0600; // 0x14 (20) bytes
 
-unsigned char SECTION(".byte_800C0DB8") byte_800C0DB8[512];
+gap gap_800B0614[0xC]; // 12 bytes
 
-unsigned char SECTION(".byte_800C0DB8") dword_800C0FB8[1024];
+VECTOR BSS gUnknownVector_800B0620; // 0x10 (16) bytes
+int BSS dword_800B0630[68]; // 0x110 (272) bytes
+int BSS dword_800B0740[516]; // 0x810 (2064) bytes
+int BSS dword_800B0F50[4]; // 0x10 (16) bytes
+DG_OBJS *BSS dword_800B0F60[8]; // 0x20 (32) bytes
+DG_OBJS *BSS dword_800B0F80[256]; // 0x400 (1024) bytes
+DR_ENV BSS stru_800B1380[2]; // 0x80 (128) bytes
+unsigned char BSS byte_800B1400[1024]; // 0x400 (1024) bytes
+DG_CHNL BSS DG_Chanls_800B1800[3]; // 0x5C4 (1476) bytes
 
-unsigned char SECTION(".byte_800B7A50") byte_800B7A50[2016];
+gap gap_800B1DC4[0x4]; // 4 bytes
 
-UnkCameraStruct SECTION(".gUnkCameraStruct_800B77B8") gUnkCameraStruct_800B77B8;
+unsigned short BSS gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
+DG_FixedLight BSS gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 
-signed char SECTION(".byte_800C0C10") byte_800C0C10[32];
+gap gap_800B1E48[0x108]; // 264 bytes
 
-int SECTION(".gMts_active_task_idx_800C13C0") gMts_active_task_idx_800C13C0;
+DG_TEX BSS gTextureRecs_800B1F50[512]; // 0x1800 (6144) bytes
+Actor BSS gDgdActor2_800B3750; // 0x20 (32) bytes
+Actor BSS gDgdActor1_800B3770; // 0x20 (32) bytes
+int BSS dword_800B3790; // 0x4 (4) bytes
 
-mts_msg SECTION(".gMtsMsgs_800C13D0") gMtsMsgs_800C13D0[8];
+gap gap_800B3794[0x4]; // 4 bytes
 
-DISPENV SECTION(".gDispEnv_800B0600") gDispEnv_800B0600;
+unsigned char BSS pcxBuffer_800B3798[128]; // 0x80 (128) bytes
+u_long BSS image_data_800B3818[256]; // 0x400 (1024) bytes
+GCL_FileData BSS gGCL_fileData_800B3C18; // 0xC (12) bytes
 
-VECTOR SECTION(".gUnknownVector_800B0620") gUnknownVector_800B0620;
+gap gap_800B3C24[0x4]; // 4 bytes
 
-GM_Control *SECTION(".GM_WhereList_800B56D0") GM_WhereList_800B56D0[96];
+int BSS argstack_800B3C28[32]; // 0x80 (128) bytes
+unsigned char *BSS commandlines_800B3CA8[8]; // 0x20 (32) bytes
+GCL_Vars BSS gGcl_vars_800B3CC8; // 0x800 (2048) bytes
+GameState_800B4D98 BSS gGcl_gameStateVars_800B44C8; // 0xC0 (192) bytes
+GCL_Vars BSS gGcl_memVars_800b4588; // 0x800 (2048) bytes
+char BSS gStageName_800B4D88[16]; // 0x10 (16) bytes
+GameState_800B4D98 BSS gGameState_800B4D98; // 0xC0 (192) bytes
+int BSS cd_bios_task_state_800B4E58; // 0x4 (4) bytes
 
-GM_Control SECTION(".gDefaultControl_800B5650") gDefaultControl_800B5650;
+gap gap_800B4E5C[0x18]; // 24 bytes
 
-int SECTION(".dword_800BDFA8") dword_800BDFA8;
+int BSS int_800B4E74; // 0x4 (4) bytes
 
-unsigned short SECTION(".gOldRootCnt_800B1DC8") gOldRootCnt_800B1DC8[32];
+gap gap_800B4E78[0x410]; // 1040 bytes
 
-unsigned char SECTION(".gMtsPadRecvBuffers_800C1480") gMtsPadRecvBuffers_800C1480[2][36];
+struct Loader_Record *BSS gLoaderRec_800B5288; // 0x4 (4) bytes
+int BSS gLoaderStartTime_800B528C; // 0x4 (4) bytes
+int BSS gOverlayBinSize_800B5290; // 0x4 (4) bytes
+int BSS gSaveCache_800B5294; // 0x4 (4) bytes
+int BSS fs_stream_ref_count_800B5298; // 0x4 (4) bytes
 
-int SECTION(".gMtsPadInitStates_800C14F0") gMtsPadInitStates_800C14F0[2];
+gap gap_800B529C[0x8]; // 8 bytes
 
-unsigned char SECTION(".gMtsPadSendBuffers_800C14D0") gMtsPadSendBuffers_800C14D0[2][8];
+void *BSS fs_stream_heap_800B52A4; // 0x4 (4) bytes
+void *BSS fs_stream_heap_end_800B52A8; // 0x4 (4) bytes
+int BSS fs_stream_heapSize_800B52AC; // 0x4 (4) bytes
 
-long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_io_800B52C8;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_end_write_800B52CC;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_timeout_800B52D0;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gHardware_new_device_800B52D4;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_io_800B52D8;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_end_write_800B52DC;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_timeout_800B52E0;
-long                     SECTION(".gMemoryCardFiles_800B52C8") gSoftware_new_device_800B52E4;
-TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gHwCard_do_op_800B52E8;
-TMemCardFunc             SECTION(".gMemoryCardFiles_800B52C8") gSwCard_do_op_800B52EC;
-volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gSwCardLastOp_800B52F0;
-volatile TMemCardSetFunc SECTION(".gMemoryCardFiles_800B52C8") gHwCardLastOp_800B52F4;
-struct mem_card          SECTION(".gMemoryCardFiles_800B52C8") gMemCards_800B52F8[2];
-volatile long            SECTION(".gMemoryCardFiles_800B52C8") gMemCard_io_size_800B5648;
+gap gap_800B52B0[0x10]; // 16 bytes
 
-GCL_Vars SECTION(".gGcl_memVars_800b4588") gGcl_memVars_800b4588;
+unsigned int BSS fs_stream_task_state_800B52C0; // 0x4 (4) bytes
 
-RadioMemory   SECTION(".gRadioMemory_800BDB38") gRadioMemory_800BDB38[RADIO_MEMORY_COUNT] = {};
-unsigned char SECTION(".gRadioMemory_800BDB38") gBulNames_800BDC78[64];
+gap gap_800B52C4[0x4]; // 4 bytes
 
-Actor SECTION(".gDgdActor2_800B3750") gDgdActor2_800B3750;
-Actor SECTION(".gDgdActor2_800B3750") gDgdActor1_800B3770;
-int   SECTION(".gDgdActor2_800B3750") dword_800B3790;
+long BSS gHardware_end_io_800B52C8; // 0x4 (4) bytes
+long BSS gHardware_end_write_800B52CC; // 0x4 (4) bytes
+long BSS gHardware_timeout_800B52D0; // 0x4 (4) bytes
+long BSS gHardware_new_device_800B52D4; // 0x4 (4) bytes
+long BSS gSoftware_end_io_800B52D8; // 0x4 (4) bytes
+long BSS gSoftware_end_write_800B52DC; // 0x4 (4) bytes
+long BSS gSoftware_timeout_800B52E0; // 0x4 (4) bytes
+long BSS gSoftware_new_device_800B52E4; // 0x4 (4) bytes
+TMemCardFunc BSS gHwCard_do_op_800B52E8; // 0x4 (4) bytes
+TMemCardFunc BSS gSwCard_do_op_800B52EC; // 0x4 (4) bytes
+volatile TMemCardSetFunc BSS gSwCardLastOp_800B52F0; // 0x4 (4) bytes
+volatile TMemCardSetFunc BSS gHwCardLastOp_800B52F4; // 0x4 (4) bytes
+struct mem_card BSS gMemCards_800B52F8[2]; // 0x350 (848) bytes
+volatile long BSS gMemCard_io_size_800B5648; // 0x4 (4) bytes
 
-DG_TEX SECTION(".gTextureRecs_800B1F50") gTextureRecs_800B1F50[512];
+gap gap_800B564C[0x4]; // 4 bytes
 
-unsigned char SECTION(".gPcxBuffer_800B3798") pcxBuffer_800B3798[128];
+GM_Control BSS gDefaultControl_800B5650; // 0x7C (124) bytes
 
-GCL_FileData SECTION(".gGCL_fileData_800B3C18") gGCL_fileData_800B3C18;
+gap gap_800B56CC[0x4]; // 4 bytes
 
-map_record SECTION(".gMapRecs_800B7910") gMapRecs_800B7910[16];
+GM_Control *BSS GM_WhereList_800B56D0[96]; // 0x180 (384) bytes
+AreaHistory BSS gAreaHistory_800B5850; // 0x10 (16) bytes
+char BSS exe_name_800B5860[32]; // 0x20 (32) bytes
+Actor_GM_Daemon BSS GM_Daemon_800B5880; // 0x28 (40) bytes
 
-MenuMan_Inventory_14h_Unk SECTION(".gMenuRightItems_800BD888") gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
+gap gap_800B58A8[0x8]; // 8 bytes
 
-MenuMan_Inventory_14h_Unk SECTION(".gMenuMan_800BD5A0") dword_800BD5A0;
+DG_TEX BSS gMenuTextureRec_800B58B0; // 0xC (12) bytes
 
-Actor_MenuMan SECTION(".gMenuMan_800BD360") gMenuMan_800BD360;
+gap gap_800B58BC[0x24]; // 36 bytes
 
-unsigned int SECTION(".gStuff_800B52C0") fs_stream_task_state_800B52C0;
+BindStruct BSS gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
+GM_Target BSS gTargets_800B64E0[64]; // 0x1200 (4608) bytes
 
-unsigned char SECTION(".gPrimBackingBuffers_800B9360") gPrimBackingBuffers_800B9360[2][8192];
+gap gap_800B76E0[0x38]; // 56 bytes
 
-struct Loader_Record *SECTION(".gLoaderRec_800B5288") gLoaderRec_800B5288;
-int                   SECTION(".gLoaderRec_800B5288") gLoaderStartTime_800B528C;
-int                   SECTION(".gLoaderRec_800B5288") gOverlayBinSize_800B5290;
-int                   SECTION(".gLoaderRec_800B5288") gSaveCache_800B5294;
+CAMERA BSS GM_CameraList_800B7718[8]; // 0xA0 (160) bytes
+UnkCameraStruct BSS gUnkCameraStruct_800B77B8; // 0x30 (48) bytes
+GM_Camera BSS GM_Camera_800B77E8; // 0x7C (124) bytes
 
-GameState_800B4D98 SECTION(".gGcl_gameStateVars_800B44C8") gGcl_gameStateVars_800B44C8;
+gap gap_800B7864[0x2C]; // 44 bytes
 
-int SECTION(".gTaskIdx_800C0DB0") gTaskIdx_800C0DB0;
+DG_OBJS *BSS StageObjs_800B7890[32]; // 0x80 (128) bytes
+map_record BSS gMapRecs_800B7910[16]; // 0x140 (320) bytes
+unsigned char BSS byte_800B7A50[2016]; // 0x7E0 (2016) bytes
+Homing_Target BSS gHomingTargets_800B8230[8]; // 0x80 (128) bytes
 
-mts_task SECTION(".gTasks_800C0C30") gTasks_800C0C30[12];
+gap gap_800B82B0[0x40]; // 64 bytes
 
-int SECTION(".gMts_bits_800C0DB4") gMts_bits_800C0DB4;
+Actor_JimCtrl BSS jimCtrlActor_800B82F0; // 0x48 (72) bytes
 
-CAMERA SECTION(".GM_CameraList_800B7718") GM_CameraList_800B7718[8];
+gap gap_800B8338[0x1004]; // 4100 bytes
 
-GCL_Vars SECTION(".gGcl_vars_800B3CC8") gGcl_vars_800B3CC8;
+array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x20 (32) bytes
 
-array_800B933C_child  SECTION(".gStuff_800B933C") array_800B933C[array_800B933C_SIZE]; // todo figure out
+gap gap_800B935C[0x4]; // 4 bytes
 
-char SECTION(".gStageName_800B4D88") gStageName_800B4D88[16];
+unsigned char BSS gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
+Actor_MenuMan BSS gMenuMan_800BD360; // 0x224 (548) bytes
 
-DG_TEX SECTION(".gMenuTextureRec_800B58B0") gMenuTextureRec_800B58B0;
+gap gap_800BD584[0x1C]; // 28 bytes
 
-BindStruct SECTION(".gBindsArray_800b58e0") gBindsArray_800b58e0[128];
+MenuMan_Inventory_14h_Unk BSS dword_800BD5A0; // 0x14 (20) bytes
 
-Actor_JimCtrl SECTION(".gJimCtrlActor_800B82F0") jimCtrlActor_800B82F0;
+gap gap_800BD5B4[0x2D4]; // 724 bytes
 
-GV_Messages SECTION(".gMessageQueue_800B0320") gMessageQueue_800B0320[2];
+MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
-GM_Target SECTION(".gTargets_800B64E0") gTargets_800B64E0[64];
+gap gap_800BD964[0x1D4]; // 468 bytes
 
-CacheSystems SECTION(".CacheSystems_800ACEF0") GV_CacheSystem_800ACEF0;
+RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
+unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
 
-TFileExtHandler SECTION(".gFileExtHandlers_800ACE80") gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
+gap gap_800BDCB8[0x78]; // 120 bytes
 
-GameState_800B4D98 SECTION(".gGameState_800B4D98") gGameState_800B4D98;
+GM_Control *BSS tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
+int BSS tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
-Homing_Target SECTION(".gHomingTargets_800B8230") gHomingTargets_800B8230[8];
+gap gap_800BDD74[0x4]; // 4 bytes
 
-AreaHistory     SECTION(".gAreaHistory_800B5850") gAreaHistory_800B5850;
-char            SECTION(".gAreaHistory_800B5850") exe_name_800B5860[32];
-Actor_GM_Daemon SECTION(".gAreaHistory_800B5850") GM_Daemon_800B5880;
+Jirai_unknown BSS stru_800BDD78[16]; // 0x100 (256) bytes
+Jirai_unknown BSS stru_800BDE78[8]; // 0x80 (128) bytes
 
-void SECTION(".pfn_800BDFB0") (*pfn_800BDFB0)();
+gap gap_800BDEF8[0xB0]; // 176 bytes
 
-int SECTION(".argstack_800B3C28") argstack_800B3C28[32];
+int BSS dword_800BDFA8; // 0x4 (4) bytes
 
-unsigned char *SECTION(".commandlines_800B3CA8") commandlines_800B3CA8[8];
+gap gap_800BDFAC[0x4]; // 4 bytes
 
-unsigned short SECTION(".pfn_800BDFB4") (*pfn_800BDFB4)(unsigned short);
+void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
+unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-u_long SECTION(".image_data_800B3818") image_data_800B3818[256];
+gap gap_800BDFB8[0x2C48]; // 11336 bytes
 
-GV_PAD SECTION(".GV_PadData_800B05C0") GV_PadData_800B05C0[4];
+mts_msg *BSS D_800C0C00; // 0x4 (4) bytes
+mts_msg *BSS D_800C0C04; // 0x4 (4) bytes
 
-GV_Heap SECTION(".MemorySystems_800AD2F0") MemorySystems_800AD2F0[3];
+gap gap_800C0C08[0x8]; // 8 bytes
 
-struct ActorList SECTION(".0x800ACC18") gActorsList_800ACC18[ACTOR_LIST_COUNT];
+signed char BSS byte_800C0C10[32]; // 0x20 (32) bytes
+mts_task BSS gTasks_800C0C30[12]; // 0x180 (384) bytes
+int BSS gTaskIdx_800C0DB0; // 0x4 (4) bytes
+int BSS gMts_bits_800C0DB4; // 0x4 (4) bytes
+unsigned char BSS byte_800C0DB8[512]; // 0x200 (512) bytes
+unsigned char BSS dword_800C0FB8[1024]; // 0x400 (1024) bytes
 
-DG_OBJS *SECTION(".StageObjs_800B7890") StageObjs_800B7890[32];
+gap gap_800C13B8[0x8]; // 8 bytes
 
-int SECTION(".int_800B4E74") int_800B4E74;
+int BSS gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
-mts_msg *SECTION(".D_800C0C00") D_800C0C00;
-mts_msg *SECTION(".D_800C0C00") D_800C0C04;
+gap gap_800C13C4[0xC]; // 12 bytes
 
-int SECTION(".int_800B5298") fs_stream_ref_count_800B5298;
+mts_msg BSS gMtsMsgs_800C13D0[8]; // 0xA0 (160) bytes
 
-void *SECTION(".fs_stream_heap_800B52A4") fs_stream_heap_800B52A4;
-void *SECTION(".fs_stream_heap_800B52A4") fs_stream_heap_end_800B52A8;
-int   SECTION(".fs_stream_heap_800B52A4") fs_stream_heapSize_800B52AC;
+gap gap_800C1470[0x10]; // 16 bytes
 
-int SECTION(".int_800B4E58") cd_bios_task_state_800B4E58;
+unsigned char BSS gMtsPadRecvBuffers_800C1480[2][36]; // 0x48 (72) bytes
 
-DG_FixedLight SECTION(".bss_800B1E08") gFixedLights_800B1E08[8];
+gap gap_800C14C8[0x8]; // 8 bytes
 
-int      SECTION(".dword_800B0630") dword_800B0630[68];
-int      SECTION(".dword_800B0630") dword_800B0740[516];
-int      SECTION(".dword_800B0630") dword_800B0F50[4];
-DG_OBJS *SECTION(".dword_800B0630") dword_800B0F60[8];
-DG_OBJS *SECTION(".dword_800B0630") dword_800B0F80[256];
-DR_ENV   SECTION(".dword_800B0630") stru_800B1380[2];
+unsigned char BSS gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
 
-GM_Control *SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_800BDD30[16];
-int         SECTION(".tenage_ctrls_800BDD30") tenage_ctrls_count_800BDD70;
+gap gap_800C14E0[0x10]; // 16 bytes
 
-Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
-
-Jirai_unknown SECTION(".stru_800BDE78") stru_800BDE78[8];
-
-GM_Camera SECTION(".word_800B77E8") GM_Camera_800B77E8;
+int BSS gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
