@@ -227,7 +227,11 @@ gap gap_800BF2A0[0x1284]; // 4740 bytes
 
 int BSS keyd_800C0524; // 0x4 (4) bytes
 
-gap gap_800C0528[0x54]; // 84 bytes
+gap gap_800C0528[0x48]; // 72 bytes
+
+unsigned char* BSS mptr_800C0570; // 0x4 (4) bytes
+
+gap gap_800C0574[0x8]; // 8 bytes
 
 SOUND_W* BSS sptr_800C057C; // 0x4 (4) bytes
 
