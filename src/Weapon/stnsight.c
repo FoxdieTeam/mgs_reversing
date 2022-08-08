@@ -137,7 +137,35 @@ int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_init_helper_helper_80069234.s")
+int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
+{
+    POLY_G4 *polys;
+    int count;
+  
+    actor->field_50_polys = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
+
+    if (!polys) {
+        return -1;
+    }
+
+    actor->field_54_polys = polys + 32;
+
+    for (count = 0; count < 64; count++) {
+        *(int *)&polys->r0 = 0x41412e;
+        *(int *)&polys->r1 = 0x41412e;
+        *(int *)&polys->r2 = 0x41412e;
+        *(int *)&polys->r3 = 0x41412e;
+        setPolyG4(polys);
+        setSemiTrans(polys, 1);
+        polys->y1 = 20;
+        polys->y0 = 20;
+        polys->y3 = 25;
+        polys->y2 = 25;
+        polys++;
+    }
+
+    return 0;
+}
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
