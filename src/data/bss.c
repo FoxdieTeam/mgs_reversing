@@ -216,7 +216,11 @@ int BSS mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS mdata4_800BF0DC; // 0x4 (4) bytes
 
-gap gap_800BF0E0[0x10C]; // 268 bytes
+gap gap_800BF0E0[0xC0]; // 192 bytes
+
+int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
+
+gap gap_800BF1A4[0x48]; // 72 bytes
 
 int BSS mtrack_800BF1EC; // 0x4 (4) bytes
 
