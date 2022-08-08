@@ -171,7 +171,14 @@ void SD_MDX_E7_lp1_start_800871B4()
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E8_800871E0.s")
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E9_800872C0.s")
+void SD_MDX_E9_lp2_start_800872C0()
+{
+    sptr_800C057C->field_20_lp2_addr = mptr_800C0570;
+    sptr_800C057C->field_9_lp2_cnt = 0;
+    sptr_800C057C->field_18_lp2_freq = 0;
+    sptr_800C057C->field_10_lp2_vol = 0;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
 
 void SD_MDX_EB_l3s_set_8008736C()
