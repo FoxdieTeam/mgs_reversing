@@ -127,4 +127,6 @@ typedef struct Actor_sgtrect3
     DR_TPAGE       field_23B8_prim[2];
 } Actor_sgtrect3;
 
+int sgtrect3_init_80071010(short *, int, int *, int);
+
 #endif // _SGTRECT3_H_
