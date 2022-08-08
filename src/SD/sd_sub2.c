@@ -2,6 +2,10 @@
 
 extern int keyoffs_800BF29C;
 extern int keyd_800C0524;
+extern SOUND_W* sptr_800C057C;
+extern int mtrack_800BF1EC;
+extern SPU_TRACK_REG spu_tr_wk_800C0658[];
+extern int mdata2_800BF0D4;
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F2_80086D18.s")
 #pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
@@ -62,7 +66,15 @@ void sub_800878FC(void)
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D7_80087904.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D8_8008798C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_D9_800879E4.s")
+
+void SD_MDX_D9_800879E4()
+{
+    const short flags = ~mdata2_800BF0D4 & 0x1F;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_30_r_mode = 3;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = flags;
+    sptr_800C057C->field_D2_rrd = flags;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+}
 
 void sub_80087A48(void)
 {
