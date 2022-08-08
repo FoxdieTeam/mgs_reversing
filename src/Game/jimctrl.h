@@ -1,7 +1,7 @@
 #ifndef JIMCTRL_H
 #define JIMCTRL_H
 
-#define array_800B933C_SIZE 7
+#define array_800B933C_SIZE 8
 
 #include "libgv/libgv.h"
 

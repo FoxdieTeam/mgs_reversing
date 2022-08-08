@@ -99,7 +99,7 @@ typedef struct GM_Camera // @ 800B77E8
     int field_1C;
     short field_20; // array? vector?
     short field_22;
-    short field_24;
+    short field_24_gcl_param_a;
     short field_26;
     short field_28;
     short field_2A;
