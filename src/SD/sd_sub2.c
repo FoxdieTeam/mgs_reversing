@@ -9,6 +9,9 @@ extern int mdata2_800BF0D4;
 extern int mdata3_800BF0D8;
 extern int mdata4_800BF0DC;
 extern unsigned char* mptr_800C0570;
+extern int spu_ch_tbl_800A2AC8[];
+extern int dword_800BF210;
+extern SEPLAYTBL se_playing_800BF068[8];
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F2_80086D18.s")
 #pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
@@ -58,7 +61,14 @@ void echo_set2_8008775C(void)
 }
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F6_80087764.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_F7_800877CC.s")
+
+void SD_MDX_F7_800877CC()
+{
+    if ( (unsigned int)(mtrack_800BF1EC - 13) < 8 && !se_playing_800BF068[mtrack_800BF1EC - 13].field_1_kind )
+    {
+        dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+    }
+}
 
 void SD_MDX_ED_kakko_start_80087834()
 {
