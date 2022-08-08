@@ -65,6 +65,49 @@ typedef struct Point
     short x, y;
 } Point;
 
+// probably belongs in camera.h or something
+// camera references this is a lot
+typedef struct UnkCameraStruct // @ 800B77B8
+{
+    short   field_0;
+    short   field_2;
+    int     field_4;
+    int     field_8;
+    short   field_C;
+    short   field_E;
+    int     field_10;
+    int     field_14;
+    int     field_18;
+    int     field_1C;
+    int     field_20;
+    int     field_24;
+    SVECTOR field_28_aim_assist; // dont know what this really is
+} UnkCameraStruct;
+STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
+
+// see comment above
+// extern demothrd_2Vec stru_800B77E8[9];
+typedef struct UnkCameraStruct2 // @ 800B77E8
+{
+    int field_0[8]; // not sure if array, maybe VECTOR[2]
+    short field_20; // array? vector?
+    short field_22;
+    short field_24;
+    short field_26;
+    short field_28;
+    short field_2A;
+    short field_2C;
+    short field_2E;
+    short field_30;
+    short field_32;
+    SVECTOR field_34[8]; // correct, see 8003078C for initializer
+    int field_74;
+    int field_78;
+    // int field_7C; // padding?
+} UnkCameraStruct2;
+STATIC_ASSERT_SIZE(UnkCameraStruct2, 0x7C);
+// there's another struct after this one that needs to be done ^
+
 typedef enum
 {
     PLAYER_STATUS_FIRST_PERSON = 0x1,

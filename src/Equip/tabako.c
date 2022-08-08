@@ -8,7 +8,7 @@
 #include "map/map.h"
 #include "psyq.h"
 #include <LIBGPU.H>
-#include "anime/animeconv/anime.h"
+#include "Anime/animeconv/anime.h"
 
 // cigarettes
 
