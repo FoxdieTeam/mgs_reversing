@@ -82,7 +82,7 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
 
     if (GCL_GetParam_80020968('a'))
     {
-        GM_Camera_800B77E8.field_24 = GCL_GetNextParamValue_80020AD4();
+        GM_Camera_800B77E8.field_24_gcl_param_a = GCL_GetNextParamValue_80020AD4();
     }
 
     if (GCL_GetParam_80020968('c'))
