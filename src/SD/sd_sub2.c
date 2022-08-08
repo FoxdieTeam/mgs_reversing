@@ -159,7 +159,14 @@ void SD_MDX_E3_rdm_set_8008716C()
     sptr_800C057C->field_90_rdmo = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E7_800871B4.s")
+void SD_MDX_E7_lp1_start_800871B4()
+{
+    sptr_800C057C->field_1C_lp1_addr = mptr_800C0570;
+    sptr_800C057C->field_8_lp1_cnt = 0;
+    sptr_800C057C->field_14_lp1_freq = 0;
+    sptr_800C057C->field_C_lp1_vol = 0;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E8_800871E0.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E9_800872C0.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
