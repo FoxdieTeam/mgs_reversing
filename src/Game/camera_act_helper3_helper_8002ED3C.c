@@ -1,8 +1,11 @@
-extern int dword_800B7800[];
+#include "Game/game.h"
 
-static inline int DoIt(int mask)
+extern GM_Camera GM_Camera_800B77E8;
+
+// move to camera.h when it exists?
+static inline int CheckFlag(int mask)
 {
-    return dword_800B7800[0] & mask;
+    return GM_Camera_800B77E8.field_18_flags & mask;
 }
 
 int camera_act_helper3_helper_8002ED3C(void)
@@ -11,11 +14,11 @@ int camera_act_helper3_helper_8002ED3C(void)
     int uVar2;
 
     uVar2 = 0x20;
-    uVar1 = DoIt(uVar2);
+    uVar1 = CheckFlag(uVar2);
     while (uVar1)
     {
         uVar2 >>= 1;
-        uVar1 = DoIt(uVar2);
+        uVar1 = CheckFlag(uVar2);
     }
     return uVar1;
 }
