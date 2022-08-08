@@ -211,4 +211,4 @@ Jirai_unknown SECTION(".stru_800BDD78") stru_800BDD78[16];
 
 Jirai_unknown SECTION(".stru_800BDE78") stru_800BDE78[8];
 
-UnkCameraStruct2 SECTION(".word_800B77E8") gUnkCameraStruct2_800B77E8;
+GM_Camera SECTION(".word_800B77E8") GM_Camera_800B77E8;
