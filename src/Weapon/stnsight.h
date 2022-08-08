@@ -34,6 +34,12 @@ typedef struct Actor_stnsight {
 
 STATIC_ASSERT_SIZE(Actor_stnsight, 0x98);
 
+void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned char *);
+void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned char *);
+void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned char *);
+void stnsight_act_helper_80068BF4(Actor_stnsight *actor, unsigned char *);
+void stnsight_act_helper_8006837C(Actor_stnsight *actor);
+
 void stnsight_act_80068D0C(Actor_stnsight *actor);
 void stnsight_kill_80068ED8(Actor_stnsight *actor);
 int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor);
