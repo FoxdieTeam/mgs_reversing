@@ -36,7 +36,7 @@ def cc1():
         '-undef',
         '-D__GNUC__=2',
         '-D__OPTIMIZE__',
-        '-I', 'psyq_sdk/psyq_4.4/include',
+        '-I', os.path.join(args.psyq_path, 'psyq_4.4/include'),
         '-I', '../src',
         '-lang-c',
         '-Dmips',
@@ -127,7 +127,7 @@ def main():
         name = m.group(1)
         # find addr suffix of var name
         m = re.search(r'[A-Fa-f0-9]{8}$', name)
-        assert m, f'func name with no address: {name}'
+        assert m, f'var name with no address suffix: {name}'
         addr = int(m.group(0), 16)
         sorted_statements.append(dict(name=name, statement=s, addr=addr))
     # sort var decls by addr suffix
@@ -156,8 +156,8 @@ def main():
                 output_lines.append('\n')
             elif gap < 0:
                 print(file=sys.stderr)
-                print('ERROR: {} overlaps into {} by {} bytes'.format(last_name, name, abs(gap)))
-                print('.. or {} is actually a part of {}'.format(name, last_name))
+                print('ERROR: {} overlaps into {} by {} bytes'.format(last_name, name, abs(gap)), file=sys.stderr)
+                print('.. or {} is actually a part of {}'.format(name, last_name), file=sys.stderr)
                 sys.exit(2)
 
         output_lines.append(f'{line}; // 0x{size:X} ({size}) bytes\n')
