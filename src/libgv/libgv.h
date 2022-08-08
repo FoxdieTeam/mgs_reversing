@@ -223,6 +223,7 @@ unsigned int GV_RandU_80017090(unsigned int input);
 void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 int          sub_80026418(int arg0, int arg1); // probably a NearExp
 int          sub_80026440(int param_1, int param_2, int param_3);
+void         GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec);
 
 typedef struct GV_Vec
 {

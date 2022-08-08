@@ -605,7 +605,7 @@
     include "..\obj\sub_8002FAAC.obj"
     include "..\obj\Game\camera_act_helper7_8002FB54.obj"
     include "..\obj\sub_8002FBC0.obj"
-    include "..\obj\sub_8002FC58.obj"
+    include "..\obj\Game\sub_8002FC58.obj"
     include "..\obj\sub_8002FCA4.obj"
     include "..\obj\sub_8002FCF0.obj"
     include "..\obj\sub_8002FD84.obj"

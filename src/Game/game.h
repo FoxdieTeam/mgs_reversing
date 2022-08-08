@@ -264,6 +264,7 @@ void sub_8002B600(int);
 void sub_8002AAEC();
 void sub_8002EADC(void);
 void sub_8002AA48(void);
+void sub_8002EC8C(short*, short*, short*);
 void GM_Act_helper3_helper_8002AB40();
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
