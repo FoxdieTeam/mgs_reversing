@@ -139,4 +139,14 @@ typedef struct SPU_TRACK_REG
   int field_38_env3_fg;
 } SPU_TRACK_REG;
 
+typedef struct SEPLAYTBL
+{
+  unsigned char field_0_pri;
+  char field_1_kind;
+  char field_2_character;
+  char field_3_pad;
+  int field_4_addr;
+  int field_8_code;
+} SEPLAYTBL;
+
 #endif // _SD_H_

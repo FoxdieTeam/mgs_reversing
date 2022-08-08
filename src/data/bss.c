@@ -205,7 +205,11 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x111C]; // 4380 bytes
+gap gap_800BDFB8[0x10B0]; // 4272 bytes
+
+SEPLAYTBL BSS se_playing_800BF068[8]; // 0x60 (96) bytes
+
+gap gap_800BF0C8[0xC]; // 12 bytes
 
 int BSS mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS mdata3_800BF0D8; // 0x4 (4) bytes
@@ -215,7 +219,11 @@ gap gap_800BF0E0[0x10C]; // 268 bytes
 
 int BSS mtrack_800BF1EC; // 0x4 (4) bytes
 
-gap gap_800BF1F0[0x70]; // 112 bytes
+gap gap_800BF1F0[0x20]; // 32 bytes
+
+int BSS dword_800BF210; // 0x4 (4) bytes
+
+gap gap_800BF214[0x4C]; // 76 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
 
