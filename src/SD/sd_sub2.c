@@ -145,7 +145,12 @@ void SD_MDX_E1_vib_set_80087018()
     sptr_800C057C->field_80_vibdm = mdata4_800BF0DC << 8;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E2_80087120.s")
+void SD_MDX_E2_vib_change_80087120()
+{
+    sptr_800C057C->field_85_vibcs = mdata2_800BF0D4;
+    sptr_800C057C->field_88_vibad = sptr_800C057C->field_80_vibdm / (unsigned int)mdata2_800BF0D4;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E3_8008716C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E7_800871B4.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E8_800871E0.s")
