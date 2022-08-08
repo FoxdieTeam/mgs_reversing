@@ -924,7 +924,7 @@ void SD_MDX_E8_800871E0(void);
 void SD_MDX_E9_800872C0(void);
 void SD_MDX_EA_800872EC(void);
 void SD_MDX_EB_8008736C(void);
-void SD_MDX_EC_80087384(void);
+void SD_MDX_EC_l3e_set_80087384(void);
 void SD_MDX_ED_kakko_start_80087834(void);
 void SD_MDX_EE_kakko_end_80087854(void);
 void use_set_80086EF8(void);
@@ -1045,7 +1045,7 @@ void *SECTION(".data") gMdxTable_8009F7B8[] = {0,
                                                SD_MDX_E9_800872C0,
                                                SD_MDX_EA_800872EC,
                                                SD_MDX_EB_8008736C,
-                                               SD_MDX_EC_80087384,
+                                               SD_MDX_EC_l3e_set_80087384,
                                                SD_MDX_ED_kakko_start_80087834,
                                                SD_MDX_EE_kakko_end_80087854,
                                                no_cmd_80087A80,
