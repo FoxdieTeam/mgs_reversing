@@ -182,8 +182,12 @@ void trans_set_8008750C()
     sptr_800C057C->field_A8_ptps = (signed char)mdata2_800BF0D4;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80087524.s")
-
+void tre_set_80087524()
+{
+    sptr_800C057C->field_A0_trehs = mdata2_800BF0D4;
+    sptr_800C057C->field_9F_trecad = mdata3_800BF0D8;
+    sptr_800C057C->field_9E_tred = mdata4_800BF0DC;
+}
 
 void vol_chg_8008756C()
 {
