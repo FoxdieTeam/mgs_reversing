@@ -173,7 +173,11 @@ void SD_MDX_E7_lp1_start_800871B4()
 
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E9_800872C0.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_EB_8008736C.s")
+
+void SD_MDX_EB_l3s_set_8008736C()
+{
+    sptr_800C057C->field_24_lp3_addr = mptr_800C0570;
+}
 
 void SD_MDX_EC_l3e_set_80087384()
 {
