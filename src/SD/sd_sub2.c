@@ -70,8 +70,14 @@ void use_set_80086EF8(void)
 {
 
 }
+void SD_pan_set_80086F00()
+{
+    sptr_800C057C->field_56_panmod = mdata2_800BF0D4;
+    sptr_800C057C->field_54_panf = mdata3_800BF0D8 + 20;
+    sptr_800C057C->field_48_pand = sptr_800C057C->field_54_panf << 8;
+    sptr_800C057C->field_45_panc = 0;
+}
 
-#pragma INCLUDE_ASM("asm/SD/SD_80086F00.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_DE_80086F50.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E1_80087018.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_E2_80087120.s")
