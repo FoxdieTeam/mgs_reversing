@@ -1,5 +1,8 @@
 #include "SD/sd.h"
 
+extern int keyoffs_800BF29C;
+extern int keyd_800C0524;
+
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_F2_80086D18.s")
 #pragma INCLUDE_ASM("asm/SD/tie_set_80086D9C.s")
 #pragma INCLUDE_ASM("asm/SD/SD_MDX_D2_80086E38.s")
@@ -71,7 +74,10 @@ void sub_80087A50(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_FF_80087A58.s")
+void SD_MDX_FF_block_end_80087A58()
+{
+    keyoffs_800BF29C |= keyd_800C0524;
+}
 
 void no_cmd_80087A80(void)
 {

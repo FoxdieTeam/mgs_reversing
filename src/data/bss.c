@@ -204,7 +204,19 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x2C48]; // 11336 bytes
+gap gap_800BDFB8[0x12A8]; // 4776 bytes
+
+int BSS keyons_800BF260; // 0x4 (4) bytes
+
+gap gap_800BF264[0x38]; // 56 bytes
+
+int BSS keyoffs_800BF29C; // 0x4 (4) bytes
+
+gap gap_800BF2A0[0x1284]; // 4740 bytes
+
+int BSS keyd_800C0524; // 0x4 (4) bytes
+
+gap gap_800C0528[0x6D8]; // 1752 bytes
 
 mts_msg *BSS D_800C0C00; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C04; // 0x4 (4) bytes
