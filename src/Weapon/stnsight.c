@@ -48,10 +48,83 @@ void stnsight_act_helper_8006837C(Actor_stnsight *actor)
 }
 
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068420.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068798.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
 
 extern int GV_Clock_800AB920;
+
+void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
+{
+    LINE_F4 *p = actor->field_40_lines_2Array[GV_Clock_800AB920];
+    DVECTOR *coords = actor->field_60_coords_9Array;
+    int ybase = actor->field_58_ybase;
+    int xbase = actor->field_5C_xbase;
+    short xoff = xbase;
+    short yoff;
+    
+    p->x0 = coords[0].vx;
+    p->y0 = coords[0].vy;
+    p->x1 = coords[1].vx;
+    p->y1 = coords[1].vy;
+    p->x2 = coords[2].vx;
+    p->y2 = coords[2].vy;
+    p->x3 = coords[3].vx;
+    p->y3 = coords[3].vy;
+    
+    if (actor->field_58_ybase < 0) {
+        yoff = ybase;
+    } else {
+        yoff = 0;
+    }
+
+    p->x0 += xoff;
+    p->y0 += yoff;
+    p->x1 += xoff;
+    p->y1 += yoff;
+    p->x2 += xoff;
+    p->y2 += yoff;
+    p->x3 += xoff;
+    p->y3 += yoff;
+    stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
+    p++;
+    
+    p->x0 = coords[3].vx;
+    p->y0 = coords[3].vy;
+    p->x1 = coords[4].vx;
+    p->y1 = coords[4].vy;
+    p->x0 += xoff;
+    p->y0 += yoff;
+    p->x1 += xoff;
+    p->y1 += yoff;
+    stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
+    p++;
+    
+    p->x0 = coords[5].vx;
+    p->y0 = coords[5].vy;
+    p->x1 = coords[6].vx;
+    p->y1 = coords[6].vy;
+    p->x2 = coords[7].vx;
+    p->y2 = coords[7].vy;
+    p->x3 = coords[8].vx;
+    p->y3 = coords[8].vy;
+
+    if (actor->field_58_ybase > 0) {
+        yoff = ybase;
+    } else {
+        yoff = 0;
+    }
+
+    p->x0 -= xoff;
+    p->y0 += yoff;
+    p->x1 -= xoff;
+    p->y1 += yoff;
+    p->x2 -= xoff;
+    p->y2 += yoff;
+    p->x3 -= xoff;
+    p->y3 += yoff;
+    stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
+}
+
+#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
+
 extern short N_ChanlPerfMax_800AB980;
 extern unsigned short gOldRootCnt_800B1DC8[];
 
@@ -103,7 +176,7 @@ extern int GV_PauseLevel_800AB928;
 
 void stnsight_act_80068D0C(Actor_stnsight *actor)
 {
-    unsigned char *uVar1;
+    unsigned int *uVar1;
     int iVar3;
     int iVar4;
     int local_20[2];
@@ -129,12 +202,12 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
     }
 
     channel = DG_Chanls_800B1800 + 1;
-    uVar1 = channel[1].mOrderingTables[GV_Clock_800AB920];
+    uVar1 = (unsigned int *)channel[1].mOrderingTables[GV_Clock_800AB920];
 
     stnsight_act_helper_80068420(actor, uVar1);
     stnsight_act_helper_80068798(actor, uVar1);
     stnsight_act_helper_80068A24(actor, uVar1);
-    stnsight_act_helper_80068BF4(actor, (unsigned int *)uVar1);
+    stnsight_act_helper_80068BF4(actor, uVar1);
     stnsight_act_helper_8006837C(actor);
     menu_Text_Init_80038B98();
 
@@ -145,7 +218,7 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
     local_18 = actor->field_24_pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&local_18);
     
-    iVar3 = actor->field_58;
+    iVar3 = actor->field_58_ybase;
             
     if ((iVar3 != 0) && ((local_18 & 0x5000) == 0)) {
         iVar4 = iVar3 - 1;
@@ -154,10 +227,10 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
             iVar4 = iVar3 + 1;
         }
     
-        actor->field_58 = iVar4;
+        actor->field_58_ybase = iVar4;
     }
 
-    iVar3 = actor->field_5C;
+    iVar3 = actor->field_5C_xbase;
             
     if ((iVar3 != 0) && ((local_18 & 0xa000) == 0)) {
         iVar4 = iVar3 - 1;
@@ -166,7 +239,7 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
             iVar4 = iVar3 + 1;
         }
 
-        actor->field_5C = iVar4;
+        actor->field_5C_xbase = iVar4;
     }
 }
 
@@ -180,12 +253,12 @@ void stnsight_kill_80068ED8(Actor_stnsight *actor)
         GV_DelayedFree_80016254(actor->field_48_tiles);
     }
 
-    if (actor->field_38_lines) {
-        GV_DelayedFree_80016254(actor->field_38_lines);
+    if (actor->field_38_lines_2Array[0]) {
+        GV_DelayedFree_80016254(actor->field_38_lines_2Array[0]);
     }
 
-    if (actor->field_40_lines) {
-        GV_DelayedFree_80016254(actor->field_40_lines);
+    if (actor->field_40_lines_2Array[0]) {
+        GV_DelayedFree_80016254(actor->field_40_lines_2Array[0]);
     }
 
     if (actor->field_50_polys_2Array[0]) {
@@ -263,13 +336,13 @@ int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
     LINE_F4 *lines;
     int count;
   
-    actor->field_38_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+    actor->field_38_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
 
     if (!lines) {
         return -1;
     }
     
-    actor->field_3C_lines = lines + 2;
+    actor->field_38_lines_2Array[1] = lines + 2;
     
     for (count = 0; count < 4; count++) {
         *(int *)&lines->r0 = 0x41412e;
@@ -285,13 +358,13 @@ int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
     LINE_F4 *lines;
     int count;
     
-    actor->field_40_lines = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
+    actor->field_40_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
 
     if (!lines) {
         return -1;
     }
     
-    actor->field_44_lines = lines + 3;
+    actor->field_40_lines_2Array[1] = lines + 3;
 
     for (count = 0; count < 2; count++) {
         *(int *)&lines->r0 = 0x7f7972;
@@ -360,27 +433,27 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, int type)
         return -1;
     }
 
-    actor->field_60_18Array[0] = 0x93;
-    actor->field_60_18Array[1] = 0x75;
-    actor->field_60_18Array[2] = 0x93;
-    actor->field_60_18Array[3] = 0x68;
-    actor->field_60_18Array[4] = 0x9f;
-    actor->field_60_18Array[5] = 0x74;
-    actor->field_60_18Array[6] = 0xab;
-    actor->field_60_18Array[7] = 0x68;
-    actor->field_60_18Array[8] = 0xab;
-    actor->field_60_18Array[9] = 0x75;
-    actor->field_60_18Array[10] = 0x90;
-    actor->field_60_18Array[11] = 0x78;
-    actor->field_60_18Array[12] = 0x90;
-    actor->field_60_18Array[13] = 0x7b;
-    actor->field_60_18Array[14] = 0xae;
-    actor->field_60_18Array[15] = 0x7b;
-    actor->field_60_18Array[16] = 0xae;
-    actor->field_60_18Array[17] = 0x78;
+    actor->field_60_coords_9Array[0].vx = 147;
+    actor->field_60_coords_9Array[0].vy = 117;
+    actor->field_60_coords_9Array[1].vx = 147;
+    actor->field_60_coords_9Array[1].vy = 104;
+    actor->field_60_coords_9Array[2].vx = 159;
+    actor->field_60_coords_9Array[2].vy = 116;
+    actor->field_60_coords_9Array[3].vx = 171;
+    actor->field_60_coords_9Array[3].vy = 104;
+    actor->field_60_coords_9Array[4].vx = 171;
+    actor->field_60_coords_9Array[4].vy = 117;
+    actor->field_60_coords_9Array[5].vx = 144;
+    actor->field_60_coords_9Array[5].vy = 120;
+    actor->field_60_coords_9Array[6].vx = 144;
+    actor->field_60_coords_9Array[6].vy = 123;
+    actor->field_60_coords_9Array[7].vx = 174;
+    actor->field_60_coords_9Array[7].vy = 123;
+    actor->field_60_coords_9Array[8].vx = 174;
+    actor->field_60_coords_9Array[8].vy = 120;
     actor->field_24_pad_data = GV_PadData_800B05C0;
-    actor->field_5C = 0;
-    actor->field_58 = 0;
+    actor->field_5C_xbase = 0;
+    actor->field_58_ybase = 0;
     actor->field_20_type = type;
     actor->field_84_4Array[0] = 0;
     actor->field_84_4Array[1] = 0;
