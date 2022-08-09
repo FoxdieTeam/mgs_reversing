@@ -243,8 +243,7 @@
     include "..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
     include "..\obj\Game\GM_CheckMessage_8002631C.obj"
 
-    include "..\obj\data\sbss\dword_800AB9B8.obj"
-    include "..\obj\data\sbss\dword_800AB9BC.obj"
+    include "..\obj\data\sbss\sbss.obj"
 
     include "..\obj\libgv\GV_NearExp2_80026384.obj"
     include "..\obj\libgv\GV_NearExp4_800263B0.obj"
