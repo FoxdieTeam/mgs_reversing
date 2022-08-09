@@ -721,7 +721,7 @@
     include "..\obj\Game\jimctrl2.obj"
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper17_80038678.obj"
-    include "..\obj\sub_80038688.obj"
+    include "..\obj\Menu\sub_80038688.obj"
     include "..\obj\sub_80038698.obj"
 
     ; 800386A4 800387E8 80038954 800389A8 80038A00 80038A20 80038A6C 80038A7C 80038A88 80038B4C
