@@ -1,7 +1,8 @@
 #include "linker.h"
 #include "Game/game.h"
 
-PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
+// breaks when merged into preceding sbss file..?
+
 /**
  * Some known settings via GM_SetPlayerStatusFlag_8004E2B4():
  * |= 0x20008000 if Snake dies from sna_init_check_dead_8004E384() and sna_init_anim_dying_80055524().
@@ -16,3 +17,5 @@ PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
  * |= 0x10020 if Snake crouches while up against a wall from sna_init_anim_wall_crouch_80052CCC().
  * |= 0x10 from sna_init_anim_choke_drag_80059054().
  */
+PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
+
