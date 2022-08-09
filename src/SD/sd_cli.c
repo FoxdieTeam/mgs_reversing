@@ -4,6 +4,7 @@
 
 extern char byte_800C0468[];
 extern unsigned int sng_status_800C04F8;
+extern const char aXaSoundStart[];
 
 int sd_set_cli_800887EC(int sdCode, int unused)
 {
@@ -31,8 +32,20 @@ void sub_80088860(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/SD/sub_80088868.s")
+void XA_Start_80088868()
+{
+    SpuCommonAttr attr; // [sp+10h] [-28h] BYREF
+
+    attr.mask = 704;
+    attr.cd.volume.left = 0x7FFF;
+    attr.cd.volume.right = 0x7FFF;
+    attr.cd.mix = 1;
+    SpuSetCommonAttr_80097038(&attr);
+    mts_printf_8008BBA0(aXaSoundStart);
+}
+
 #pragma INCLUDE_ASM("asm/sub_800888B4.s")
+
 #pragma INCLUDE_ASM("asm/SD/SePlay_800888F8.s")
 
 extern int dword_8009F7B4;
