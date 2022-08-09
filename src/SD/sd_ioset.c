@@ -21,7 +21,16 @@ void sng_pause_80087EF4()
     SpuSetCommonAttr_80097038(&attr);
 }
 
-#pragma INCLUDE_ASM("asm/SD/sng_pause_off_80087F24.s")
+void sng_pause_off_80087F24()
+{
+    SpuCommonAttr attr; // [sp+10h] [-28h] BYREF
+
+    attr.mask = 3;
+    attr.mvol.left = 0x3FFF;
+    attr.mvol.right = 0x3FFF;
+    SpuSetCommonAttr_80097038(&attr);
+}
+
 #pragma INCLUDE_ASM("asm/SD/keyon_80087F58.s")
 #pragma INCLUDE_ASM("asm/SD/keyoff_80087F80.s")
 #pragma INCLUDE_ASM("asm/SD/tone_set_80087FA8.s")
