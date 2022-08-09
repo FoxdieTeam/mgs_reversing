@@ -4,6 +4,9 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
+#include <LIBSPU.H>
+
+void SpuSetCommonAttr_80097038(SpuCommonAttr *attr);
 
 DISPENV       *PutDispEnv_80090094(DISPENV *env);
 MATRIX        *MulMatrix0_80092A48(MATRIX *m0, MATRIX *m1, MATRIX *m2);
