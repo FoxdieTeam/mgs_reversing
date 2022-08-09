@@ -125,7 +125,7 @@ def main():
             continue
         # extract var name
         m = re.search(r'BSS.*?(?:\(\*)?([A-Za-z0-9_]+)(?:[\[|)]|$)', s)
-        assert m, f'not a valid var decl: {s}'
+        assert m, f'not a valid var decl: {s} (did you forget "BSS"?)'
         name = m.group(1)
         # find addr suffix of var name
         m = re.search(r'[A-Fa-f0-9]{8}$', name)

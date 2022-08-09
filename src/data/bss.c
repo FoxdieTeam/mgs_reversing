@@ -186,7 +186,11 @@ gap gap_800BD964[0x1D4]; // 468 bytes
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
 
-gap gap_800BDCB8[0x78]; // 120 bytes
+gap gap_800BDCB8[0x8]; // 8 bytes
+
+short BSS word_800BDCC0; // 0x4 (4) bytes - padded
+
+gap gap_800BDCC4[0x6C]; // 108 bytes
 
 GM_Control *BSS tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
 int BSS tenage_ctrls_count_800BDD70; // 0x4 (4) bytes

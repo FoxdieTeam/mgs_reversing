@@ -1,3 +1,4 @@
 #include "linker.h"
 
-int SECTION(".sbss") dword_800ABBE0;
+short SECTION(".sbss") word_800ABBE0;
+short SECTION(".sbss") word_800ABBE2;
