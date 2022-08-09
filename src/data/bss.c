@@ -244,7 +244,11 @@ gap gap_800BF214[0x4C]; // 76 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
 
-gap gap_800BF264[0x38]; // 56 bytes
+gap gap_800BF264[0x28]; // 40 bytes
+
+int BSS dword_800BF28C; // 0x4 (4) bytes
+
+gap gap_800BF290[0xC]; // 12 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
