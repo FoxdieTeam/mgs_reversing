@@ -17,7 +17,36 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_8006837C.s")
+extern int dword_800BDF00;
+
+extern const char aLockOn[]; // = "LOCK_ON\n"
+
+void stnsight_act_helper_8006837C(Actor_stnsight *actor)
+{
+    int iVar1;
+    
+    if (dword_800BDF00 == 0) {
+        actor->field_84_4Array[1] = 0;
+        return;
+    }
+
+    iVar1 = actor->field_84_4Array[1]++;
+    
+    if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0) {
+        return;
+    }
+
+    
+    if (((iVar1 / 8) & 1) != 0) {
+        return;
+    }
+
+    menu_Color_80038B4C(0x2e, 0x41, 0x41);
+    menu_Text_XY_Flags_80038B34(0xb4, 0x10, 0);
+    menu_Text_80038C38(aLockOn);
+    menu_Text_Init_80038B98();
+}
+
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068420.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068798.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
