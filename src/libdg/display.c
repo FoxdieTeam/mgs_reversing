@@ -121,8 +121,8 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, short camera_prop
     VECTOR  empty_vec;
     MATRIX *chnl_matrix;
 
-    chnl->word_6BC3BC = camera_property;
-    chnl_matrix = &chnl->dword_6BC39C;
+    chnl->field_4C_clip_distance = camera_property;
+    chnl_matrix = &chnl->field_2E_matrix;
 
     chnl_matrix->t[0] = svec->vx;
     chnl_matrix->t[1] = svec->vy;
@@ -160,13 +160,13 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, short camera_prop
     chnl_matrix->m[2][1] = empty_vec_2.vz;
     chnl_matrix->m[2][2] = vec.vz;
 
-    DG_TransposeMatrix_8001EAD8(chnl_matrix, &chnl->field_10_matrix);
+    DG_TransposeMatrix_8001EAD8(chnl_matrix, &chnl->field_10_transformation_matrix);
 
     vec.vx = -chnl_matrix->t[0];
     vec.vy = -chnl_matrix->t[1];
     vec.vz = -chnl_matrix->t[2];
 
-    ApplyMatrixLV_80092C48(&chnl->field_10_matrix, &vec, (VECTOR *)(&chnl->field_10_matrix.t[0]));
+    ApplyMatrixLV_80092C48(&chnl->field_10_transformation_matrix, &vec, (VECTOR *)(&chnl->field_10_transformation_matrix.t[0]));
 }
 
 void DG_800174DC(MATRIX *matrix)
