@@ -23,8 +23,7 @@ typedef struct Actor_stnsight {
     LINE_F4 *field_44_lines;
     TILE_1 *field_48_tiles;
     TILE_1 *field_4C_tiles;
-    POLY_G4 *field_50_polys;
-    POLY_G4 *field_54_polys;
+    POLY_G4 *field_50_polys_2Array[2];
     int field_58;
     int field_5C;
     short field_60_18Array[18];
@@ -34,10 +33,12 @@ typedef struct Actor_stnsight {
 
 STATIC_ASSERT_SIZE(Actor_stnsight, 0x98);
 
+void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim);
+
 void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned char *);
 void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned char *);
 void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned char *);
-void stnsight_act_helper_80068BF4(Actor_stnsight *actor, unsigned char *);
+void stnsight_act_helper_80068BF4(Actor_stnsight *actor, unsigned int *);
 void stnsight_act_helper_8006837C(Actor_stnsight *actor);
 
 void stnsight_act_80068D0C(Actor_stnsight *actor);
