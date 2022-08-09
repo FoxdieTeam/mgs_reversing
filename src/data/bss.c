@@ -288,8 +288,9 @@ gap gap_800C0580[0xD8]; // 216 bytes
 
 SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
-gap gap_800C0BBC[0x44]; // 68 bytes
+gap gap_800C0BBC[0x40]; // 64 bytes
 
+volatile int BSS sd_flags_800C0BFC; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C00; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C04; // 0x4 (4) bytes
 
