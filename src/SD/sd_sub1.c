@@ -4,15 +4,39 @@ void vol_set_80088320(unsigned int a1);
 
 unsigned char rdm_tbl_8009F9BC[129];
 extern SOUND_W* sptr_800C057C;
+extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
+extern int mtrack_800BF1EC;
 
 #pragma INCLUDE_ASM("asm/SD/SD_80085A50.s")
 #pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s")
 #pragma INCLUDE_ASM("asm/SD/note_set_80085CD8.s")
-#pragma INCLUDE_ASM("asm/sub_80085D98.s")
+
+void adsr_reset_80085D98()
+{
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = sptr_800C057C->field_D2_rrd;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+}
+
 #pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s")
 #pragma INCLUDE_ASM("asm/SD/swpadset_80085F98.s")
 #pragma INCLUDE_ASM("asm/SD/SD_8008604C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80086198.s")
+
+void pan_generate_80086198()
+{
+    if ( sptr_800C057C->field_45_panc )
+    {
+        if ( !--sptr_800C057C->field_45_panc )
+        {
+            sptr_800C057C->field_48_pand = sptr_800C057C->field_50_panm;
+        }
+        else
+        {
+            sptr_800C057C->field_48_pand += sptr_800C057C->field_4C_panad;
+        }
+        sptr_800C057C->field_54_panf = sptr_800C057C->field_48_pand >> 8;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80086220.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80086280.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80086504.s")
