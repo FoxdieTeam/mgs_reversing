@@ -9,8 +9,10 @@ extern int keyons_800BF260;
 extern int keyd_800C0524;
 extern int keyoffs_800BF29C;
 extern int song_end_800C04E8;
+extern unsigned int spu_ch_tbl_800A2AC8[];
 
 #pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
+
 #pragma INCLUDE_ASM("asm/sound_off_80087DAC.s")
 
 void sng_off_80087E2C()
