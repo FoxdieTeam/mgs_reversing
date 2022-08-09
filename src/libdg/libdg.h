@@ -303,14 +303,14 @@ typedef struct DG_CHNL
     short          word_6BC376_16;
     short          word_6BC378_1;
     short          word_6BC37A_0_1EC_size;
-    MATRIX         field_10_matrix;
-    MATRIX         dword_6BC39C;
-    short          word_6BC3BC; // Camera number?
+    MATRIX         field_10_transformation_matrix;
+    MATRIX         field_2E_matrix;
+    short          field_4C_clip_distance;
     short          mTotalQueueSize;
     short          mFreePrimCount;
     short          mTotalObjectCount;
     DG_OBJS      **mQueue;
-    RECT           field_5C_rect;
+    RECT           field_5C_clip_rect;
     RECT           field_64_rect;
     // One for each active buffer and for some reason passed as the root
     // to DrawOTag

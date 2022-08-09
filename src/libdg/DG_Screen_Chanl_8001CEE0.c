@@ -38,7 +38,7 @@ void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
 
     mQueue = pOt->mQueue;
 
-    *((MATRIX *)0x1F800000) = pOt->field_10_matrix;
+    *((MATRIX *)0x1F800000) = pOt->field_10_transformation_matrix;
     DG_800174DC((MATRIX *)0x1F800000);
 
     for (i = pOt->mTotalObjectCount; i > 0; --i)

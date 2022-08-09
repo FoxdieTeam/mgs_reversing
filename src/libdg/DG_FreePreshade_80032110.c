@@ -18,7 +18,7 @@ void DG_FreePreshade_80032110(DG_OBJS *pPrim)
 void sub_8003214C(SVECTOR *pVec, int *pRet)
 {
     DG_CHNL *pChanl = &DG_Chanls_800B1800[1];
-    MATRIX  *mtx = &pChanl->dword_6BC39C;
+    MATRIX  *mtx = &pChanl->field_2E_matrix;
     pVec->vx = mtx->t[0];
     pVec->vy = mtx->t[1];
     pVec->vz = mtx->t[2];

@@ -75,6 +75,7 @@ long           card_read_8009901C(long chan, long block, unsigned char *buf);
 void           bu_init_80098FEC(void);
 int            ResetGraph(int mode);
 void           SpuSetKey_80096C18(int, int);
+long           RotTransPers_80093478(SVECTOR *v0, long *sxy, long *p, long *flag);
 
 struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
