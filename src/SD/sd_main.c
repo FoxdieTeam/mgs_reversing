@@ -4,6 +4,9 @@
 
 extern int sng_status_800BF158;
 extern int dword_800BF28C;
+extern int bstr_fade_inProgress_800BF0CC;
+extern int gStreamVol_800BF15C;
+extern int dword_800C04F4;
 
 #pragma INCLUDE_ASM("asm/SD/sd_init_80081C7C.s")
 #pragma INCLUDE_ASM("asm/SD/sub_80081F8C.s")
@@ -22,7 +25,17 @@ void SD_80082170(int param_1)
 }
 
 #pragma INCLUDE_ASM("asm/SD/sd_sng_alloc_80082194.s")
-#pragma INCLUDE_ASM("asm/SD/StrFadeIn_800822C8.s")
+
+void StrFadeIn_800822C8(unsigned int a1)
+{
+    bstr_fade_inProgress_800BF0CC = gStreamVol_800BF15C / a1;
+    if ( !(gStreamVol_800BF15C / a1) )
+    {
+        bstr_fade_inProgress_800BF0CC = 1;
+    }
+    dword_800C04F4 = 0;
+}
+
 #pragma INCLUDE_ASM("asm/SD/StrFadeOut_80082310.s")
 #pragma INCLUDE_ASM("asm/SD/StrFadeOutStop_80082380.s")
 #pragma INCLUDE_ASM("asm/SD/StartStream_80082448.s")

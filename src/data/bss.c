@@ -226,7 +226,11 @@ gap gap_800BF060[0x4]; // 4 bytes
 int BSS dword_800BF064; // 0x4 (4) bytes
 SEPLAYTBL BSS se_playing_800BF068[8]; // 0x60 (96) bytes
 
-gap gap_800BF0C8[0xC]; // 12 bytes
+gap gap_800BF0C8[0x4]; // 4 bytes
+
+int BSS bstr_fade_inProgress_800BF0CC; // 0x4 (4) bytes
+
+gap gap_800BF0D0[0x4]; // 4 bytes
 
 int BSS mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS mdata3_800BF0D8; // 0x4 (4) bytes
@@ -235,8 +239,9 @@ int BSS mdata4_800BF0DC; // 0x4 (4) bytes
 gap gap_800BF0E0[0x78]; // 120 bytes
 
 int BSS sng_status_800BF158; // 0x4 (4) bytes
+int BSS gStreamVol_800BF15C; // 0x4 (4) bytes
 
-gap gap_800BF15C[0x10]; // 16 bytes
+gap gap_800BF160[0xC]; // 12 bytes
 
 unsigned int BSS dword_800BF16C; // 0x4 (4) bytes
 
@@ -272,7 +277,11 @@ gap gap_800C0468[0x80]; // 128 bytes
 
 int BSS song_end_800C04E8; // 0x4 (4) bytes
 
-gap gap_800C04EC[0x2C]; // 44 bytes
+gap gap_800C04EC[0x8]; // 8 bytes
+
+int BSS dword_800C04F4; // 0x4 (4) bytes
+
+gap gap_800C04F8[0x20]; // 32 bytes
 
 int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 
