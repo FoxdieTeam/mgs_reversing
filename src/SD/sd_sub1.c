@@ -20,7 +20,23 @@ void adsr_reset_80085D98()
 #pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s")
 #pragma INCLUDE_ASM("asm/SD/swpadset_80085F98.s")
 #pragma INCLUDE_ASM("asm/SD/SD_8008604C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80086198.s")
+
+void pan_generate_80086198()
+{
+    if ( sptr_800C057C->field_45_panc )
+    {
+        if ( !--sptr_800C057C->field_45_panc )
+        {
+            sptr_800C057C->field_48_pand = sptr_800C057C->field_50_panm;
+        }
+        else
+        {
+            sptr_800C057C->field_48_pand += sptr_800C057C->field_4C_panad;
+        }
+        sptr_800C057C->field_54_panf = sptr_800C057C->field_48_pand >> 8;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_80086220.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80086280.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80086504.s")
