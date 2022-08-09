@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef tenage_init_helper_80069E64
-tenage_init_helper_80069E64:
+	xdef tenage_loader_80069E64
+tenage_loader_80069E64:
 	dw 0x27BDFFD0 ; 0x80069E64
 	dw 0xAFB20018 ; 0x80069E68
 	dw 0x8FB20044 ; 0x80069E6C
