@@ -3,7 +3,7 @@
 #include "unknown.h"
 
 extern int sng_status_800BF158;
-extern int dword_800BF28C;
+extern int se_load_code_800BF28C;
 extern int bstr_fade_inProgress_800BF0CC;
 extern int gStreamVol_800BF15C;
 extern int dword_800C04F4;
@@ -112,7 +112,7 @@ void SD_80083ED4(void)
 
 void SD_80083EF8(void)
 {
-    dword_800BF28C = 0;
+    se_load_code_800BF28C = 0;
 }
 
 #pragma INCLUDE_ASM("asm/SD/LoadInit_80083F08.s")
