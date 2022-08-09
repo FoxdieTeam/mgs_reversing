@@ -45,7 +45,16 @@ void keyoff_80087F80()
 }
 
 #pragma INCLUDE_ASM("asm/SD/tone_set_80087FA8.s")
-#pragma INCLUDE_ASM("asm/SD/pan_set2_800882E4.s")
+
+void pan_set2_800882E4(unsigned char a1)
+{
+    if ( !sptr_800C057C->field_55 )
+    {
+        sptr_800C057C->field_54_panf = 2 * a1;
+        sptr_800C057C->field_48_pand = a1 << 9;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/SD/vol_set_80088320.s")
 
 void freq_set_800885D4(unsigned int a1)
