@@ -217,7 +217,15 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x10A4]; // 4260 bytes
+gap gap_800BDFB8[0x1048]; // 4168 bytes
+
+int BSS dword_800BF000; // 0x4 (4) bytes
+
+gap gap_800BF004[0x14]; // 20 bytes
+
+int BSS sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
+
+gap gap_800BF058[0x4]; // 4 bytes
 
 int BSS sd_KaihiMode_800BF05C; // 0x4 (4) bytes
 
@@ -236,21 +244,27 @@ int BSS mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS mdata4_800BF0DC; // 0x4 (4) bytes
 
-gap gap_800BF0E0[0x78]; // 120 bytes
+gap gap_800BF0E0[0x64]; // 100 bytes
+
+int BSS dword_800BF144; // 0x4 (4) bytes
+
+gap gap_800BF148[0x10]; // 16 bytes
 
 int BSS sng_status_800BF158; // 0x4 (4) bytes
 int BSS gStreamVol_800BF15C; // 0x4 (4) bytes
+int BSS dword_800BF160; // 0x4 (4) bytes
 
-gap gap_800BF160[0xC]; // 12 bytes
+gap gap_800BF164[0x8]; // 8 bytes
 
-unsigned int BSS dword_800BF16C; // 0x4 (4) bytes
+int BSS gStr_FadeOut1_800BF16C; // 0x4 (4) bytes
 
 gap gap_800BF170[0x30]; // 48 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 
-gap gap_800BF1A4[0x48]; // 72 bytes
+gap gap_800BF1A4[0x44]; // 68 bytes
 
+int BSS bgm_idx_800BF1E8; // 0x4 (4) bytes
 int BSS mtrack_800BF1EC; // 0x4 (4) bytes
 
 gap gap_800BF1F0[0x20]; // 32 bytes
@@ -261,42 +275,61 @@ gap gap_800BF214[0x4C]; // 76 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
 
-gap gap_800BF264[0x28]; // 40 bytes
+gap gap_800BF264[0x8]; // 8 bytes
 
-int BSS dword_800BF28C; // 0x4 (4) bytes
+int BSS dword_800BF26C; // 0x4 (4) bytes
+
+gap gap_800BF270[0xC]; // 12 bytes
+
+int BSS dword_800BF27C; // 0x4 (4) bytes
+
+gap gap_800BF280[0xC]; // 12 bytes
+
+int BSS se_load_code_800BF28C; // 0x4 (4) bytes
 
 gap gap_800BF290[0xC]; // 12 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
-gap gap_800BF2A0[0x1190]; // 4496 bytes
+gap gap_800BF2A0[0x1170]; // 4464 bytes
+
+int BSS dword_800C0410; // 0x4 (4) bytes
+
+gap gap_800C0414[0x1C]; // 28 bytes
 
 int BSS sng_fade_time_800C0430[14]; // 0x38 (56) bytes
 char BSS byte_800C0468[128]; // 0x80 (128) bytes
 int BSS song_end_800C04E8; // 0x4 (4) bytes
-
-gap gap_800C04EC[0x8]; // 8 bytes
-
+int BSS dword_800C04EC; // 0x4 (4) bytes
+int BSS gStream_800C04F0; // 0x4 (4) bytes
 int BSS dword_800C04F4; // 0x4 (4) bytes
 unsigned int BSS sng_status_800C04F8; // 0x4 (4) bytes
 
-gap gap_800C04FC[0x1C]; // 28 bytes
+gap gap_800C04FC[0x10]; // 16 bytes
+
+int BSS dword_800C050C; // 0x4 (4) bytes
+
+gap gap_800C0510[0x8]; // 8 bytes
 
 int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 
 gap gap_800C051C[0x8]; // 8 bytes
 
 int BSS keyd_800C0524; // 0x4 (4) bytes
+int BSS wave_load_code_800C0528; // 0x4 (4) bytes
 
-gap gap_800C0528[0x48]; // 72 bytes
+gap gap_800C052C[0x44]; // 68 bytes
 
 unsigned char* BSS mptr_800C0570; // 0x4 (4) bytes
-
-gap gap_800C0574[0x8]; // 8 bytes
-
+int BSS se_rev_on_800C0574; // 0x4 (4) bytes
+int BSS wave_save_code_800C0578; // 0x4 (4) bytes
 SOUND_W* BSS sptr_800C057C; // 0x4 (4) bytes
 
-gap gap_800C0580[0xD8]; // 216 bytes
+gap gap_800C0580[0x4]; // 4 bytes
+
+int BSS gStr_fadeout_2_800C0584; // 0x4 (4) bytes
+
+gap gap_800C0588[0xD0]; // 208 bytes
 
 SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
