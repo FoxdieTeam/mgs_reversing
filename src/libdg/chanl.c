@@ -100,7 +100,7 @@ void DG_SetChanlDrawEnv_800179F4(DG_CHNL *pOt, DRAWENV *pDrawEnv, int a3)
 // guessed function name
 void DG_CopyChanlDrawEnv_80017B30(DG_CHNL *pChanl, int idx)
 {
-    pChanl->field_5C_rect = pChanl->field_64_rect;
+    pChanl->field_5C_clip_rect = pChanl->field_64_rect;
     pChanl->field_6C_dr_env[idx] = pChanl->field_16C_dr_env[idx];
 }
 

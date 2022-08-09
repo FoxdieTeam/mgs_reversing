@@ -201,7 +201,7 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
     long        *test;
     unsigned int flag;
 
-    DG_Clip_80017594(&chnl->field_5C_rect, chnl->word_6BC3BC);
+    DG_Clip_80017594(&chnl->field_5C_clip_rect, chnl->field_4C_clip_distance);
 
     objs = chnl->mQueue;
     n_objs = chnl->mTotalObjectCount;
