@@ -891,8 +891,10 @@ int   SECTION(".data") dword_8009F73C[] = {0x8512D, 0x1E0004, 0x3E80001, 0x1F400
 int   SECTION(".data") dword_8009F750[] = {0, 0x8001345C};
 int   SECTION(".data") dword_8009F758[] = {0x8512D, 0x1E0004, 3, 0x3E80001, 0x4003E8};
 int   SECTION(".data") dword_8009F76C[] = {0, 0x80013488};
-int   SECTION(".data") dword_8009F774[] = {0x8512D, 0x1E0004, 8, 0x8980003, 0xFF0898};
-int   SECTION(".data") dword_8009F788[] = {0, 0x800134DC};
+
+Anim_Data SECTION(".data") stru_8009F774 = { 20781, 8, 1966084, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC };
+
+
 int   SECTION(".data") dword_8009F790[] = {0x22447, 0x40002, 0x12C0001, 0x13880001, 0x801388};
 int   SECTION(".data") dword_8009F7A4[] = {0, 0x80013510};
 int   SECTION(".data") dword_8009F7AC[] = {0xFF0000, 0};
