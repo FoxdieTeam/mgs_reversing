@@ -2,6 +2,7 @@
 #include "psyq.h"
 #include "unknown.h"
 
+extern int sng_status_800BF158;
 extern int dword_800BF28C;
 
 #pragma INCLUDE_ASM("asm/SD/sd_init_80081C7C.s")
@@ -88,7 +89,12 @@ int num2char_80083E68(unsigned int num)
 }
 
 #pragma INCLUDE_ASM("asm/SD/SD_SngDataLoadInit_80083E8C.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80083ED4.s")
+
+void SD_80083ED4(void)
+{
+    sng_status_800BF158 = 2;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_80083EE8.s")
 
 void SD_80083EF8(void)
