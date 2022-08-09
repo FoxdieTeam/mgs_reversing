@@ -179,7 +179,18 @@ void SD_MDX_E9_lp2_start_800872C0()
     sptr_800C057C->field_10_lp2_vol = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_EA_800872EC.s")
+void SD_MDX_EA_lp2_end_800872EC(void)
+{
+    unsigned char cnt; // $v1
+    cnt = sptr_800C057C->field_9_lp2_cnt + 1;
+    sptr_800C057C->field_9_lp2_cnt = cnt;
+    if ( cnt != mdata2_800BF0D4 || !cnt )
+    {
+        sptr_800C057C->field_10_lp2_vol += (signed char)mdata3_800BF0D8;
+        sptr_800C057C->field_18_lp2_freq +=  8 * (signed char)mdata4_800BF0DC;
+        mptr_800C0570 =  sptr_800C057C->field_20_lp2_addr;
+    }
+}
 
 void SD_MDX_EB_l3s_set_8008736C()
 {
