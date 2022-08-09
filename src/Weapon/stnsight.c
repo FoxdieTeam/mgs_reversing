@@ -21,7 +21,46 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068420.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068798.s")
 #pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068BF4.s")
+
+extern int GV_Clock_800AB920;
+extern short N_ChanlPerfMax_800AB980;
+extern unsigned short gOldRootCnt_800B1DC8[];
+
+void stnsight_act_helper_80068BF4(Actor_stnsight *actor, unsigned int *ot)
+{
+    int x;
+    int s0;
+    int s2 = 24;
+    int v1;
+    unsigned short *s4 = gOldRootCnt_800B1DC8;
+    int uVar9 = s4[0];
+    POLY_G4 *poly = actor->field_50_polys_2Array[GV_Clock_800AB920]; // s5
+
+    ++s4;
+    for (x = N_ChanlPerfMax_800AB980 - 1; x > 0; --x)
+    {
+        s0 = (*s4++ - uVar9) & 0xffff;
+      
+        if (s0 > 0x1ff) {
+            s0 = 0x1ff;
+        }
+
+        s0 /= 10;
+        v1 = s2 + s0;
+      
+        if (v1 > 240) {
+            break;
+        }
+
+        poly->x0 = poly->x2 = s2;
+        poly->x1 = poly->x3 = v1;
+      
+        stnsight_act_helper_helper_80068320(ot, (unsigned int *)poly);
+
+        s2 += s0 + 1;
+        poly++;
+    }
+}
 
 // re-declare to force GP usage
 extern short word_800AB8EC;
@@ -31,7 +70,6 @@ extern const char aStinger[]; // = "stinger"
 
 extern DG_CHNL DG_Chanls_800B1800[];
 
-extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 
 void stnsight_act_80068D0C(Actor_stnsight *actor)
@@ -67,7 +105,7 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
     stnsight_act_helper_80068420(actor, uVar1);
     stnsight_act_helper_80068798(actor, uVar1);
     stnsight_act_helper_80068A24(actor, uVar1);
-    stnsight_act_helper_80068BF4(actor, uVar1);
+    stnsight_act_helper_80068BF4(actor, (unsigned int *)uVar1);
     stnsight_act_helper_8006837C(actor);
     menu_Text_Init_80038B98();
 
@@ -121,8 +159,8 @@ void stnsight_kill_80068ED8(Actor_stnsight *actor)
         GV_DelayedFree_80016254(actor->field_40_lines);
     }
 
-    if (actor->field_50_polys) {
-        GV_DelayedFree_80016254(actor->field_50_polys);
+    if (actor->field_50_polys_2Array[0]) {
+        GV_DelayedFree_80016254(actor->field_50_polys_2Array[0]);
     }
 
     word_800AB8EC = 0;
@@ -248,13 +286,13 @@ int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
     POLY_G4 *polys;
     int count;
   
-    actor->field_50_polys = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
+    actor->field_50_polys_2Array[0] = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
 
     if (!polys) {
         return -1;
     }
 
-    actor->field_54_polys = polys + 32;
+    actor->field_50_polys_2Array[1] = polys + 32;
 
     for (count = 0; count < 64; count++) {
         *(int *)&polys->r0 = 0x41412e;
