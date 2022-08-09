@@ -7,6 +7,7 @@ extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
 extern int mtrack_800BF1EC;
 extern int keyons_800BF260;
 extern int keyd_800C0524;
+extern int keyoffs_800BF29C;
 
 #pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
 #pragma INCLUDE_ASM("asm/sound_off_80087DAC.s")
@@ -38,7 +39,11 @@ void keyon_80087F58()
     keyons_800BF260 |= keyd_800C0524;
 }
 
-#pragma INCLUDE_ASM("asm/SD/keyoff_80087F80.s")
+void keyoff_80087F80()
+{
+    keyoffs_800BF29C |= keyd_800C0524;
+}
+
 #pragma INCLUDE_ASM("asm/SD/tone_set_80087FA8.s")
 #pragma INCLUDE_ASM("asm/SD/pan_set2_800882E4.s")
 #pragma INCLUDE_ASM("asm/SD/vol_set_80088320.s")
