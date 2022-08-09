@@ -85,7 +85,7 @@ typedef struct SOUND_W
   char field_86_vibcad;
   char field_87_pad;
   int field_88_vibad;
-  int field_8C_rdmc;
+  unsigned int field_8C_rdmc;
   int field_90_rdmo;
   char field_94_rdms;
   char field_95_pad[3];
