@@ -12,7 +12,18 @@ extern int song_end_800C04E8;
 
 #pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
 #pragma INCLUDE_ASM("asm/sound_off_80087DAC.s")
-#pragma INCLUDE_ASM("asm/SD/sng_off_80087E2C.s")
+
+void sng_off_80087E2C()
+{
+    int i; // $a0
+    for (i = 0; i < 13; i++)
+    {
+        spu_tr_wk_800C0658[i].field_34_rr = 7;
+        spu_tr_wk_800C0658[i].field_38_env3_fg = 1;
+    }
+    song_end_800C04E8 |= 0x1FFFu;
+    keyoffs_800BF29C |= 0x1FFFu;
+}
 
 #pragma INCLUDE_ASM("asm/SD/se_off_80087E94.s")
 
