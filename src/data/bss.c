@@ -278,8 +278,9 @@ int BSS song_end_800C04E8; // 0x4 (4) bytes
 gap gap_800C04EC[0x8]; // 8 bytes
 
 int BSS dword_800C04F4; // 0x4 (4) bytes
+unsigned int BSS sng_status_800C04F8; // 0x4 (4) bytes
 
-gap gap_800C04F8[0x20]; // 32 bytes
+gap gap_800C04FC[0x1C]; // 28 bytes
 
 int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 
