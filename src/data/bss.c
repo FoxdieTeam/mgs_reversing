@@ -232,7 +232,11 @@ gap gap_800BF0E0[0x78]; // 120 bytes
 
 int BSS sng_status_800BF158; // 0x4 (4) bytes
 
-gap gap_800BF15C[0x44]; // 68 bytes
+gap gap_800BF15C[0x10]; // 16 bytes
+
+unsigned int BSS dword_800BF16C; // 0x4 (4) bytes
+
+gap gap_800BF170[0x30]; // 48 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 
