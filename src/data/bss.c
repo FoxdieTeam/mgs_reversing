@@ -160,7 +160,11 @@ map_record BSS gMapRecs_800B7910[16]; // 0x140 (320) bytes
 unsigned char BSS byte_800B7A50[2016]; // 0x7E0 (2016) bytes
 Homing_Target BSS gHomingTargets_800B8230[8]; // 0x80 (128) bytes
 
-gap gap_800B82B0[0x40]; // 64 bytes
+gap gap_800B82B0[0x30]; // 48 bytes
+
+int BSS dword_800B82E0; // 0x4 (4) bytes
+
+gap gap_800B82E4[0xC]; // 12 bytes
 
 Actor_JimCtrl BSS jimCtrlActor_800B82F0; // 0x48 (72) bytes
 
@@ -186,7 +190,11 @@ gap gap_800BD964[0x1D4]; // 468 bytes
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
 
-gap gap_800BDCB8[0x78]; // 120 bytes
+gap gap_800BDCB8[0x8]; // 8 bytes
+
+short BSS word_800BDCC0; // 0x4 (4) bytes - padded
+
+gap gap_800BDCC4[0x6C]; // 108 bytes
 
 GM_Control *BSS tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
 int BSS tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
@@ -224,7 +232,11 @@ gap gap_800BF0E0[0x78]; // 120 bytes
 
 int BSS sng_status_800BF158; // 0x4 (4) bytes
 
-gap gap_800BF15C[0x44]; // 68 bytes
+gap gap_800BF15C[0x10]; // 16 bytes
+
+unsigned int BSS dword_800BF16C; // 0x4 (4) bytes
+
+gap gap_800BF170[0x30]; // 48 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 
@@ -240,7 +252,11 @@ gap gap_800BF214[0x4C]; // 76 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
 
-gap gap_800BF264[0x38]; // 56 bytes
+gap gap_800BF264[0x28]; // 40 bytes
+
+int BSS dword_800BF28C; // 0x4 (4) bytes
+
+gap gap_800BF290[0xC]; // 12 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
@@ -272,8 +288,9 @@ gap gap_800C0580[0xD8]; // 216 bytes
 
 SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
-gap gap_800C0BBC[0x44]; // 68 bytes
+gap gap_800C0BBC[0x40]; // 64 bytes
 
+volatile int BSS sd_flags_800C0BFC; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C00; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C04; // 0x4 (4) bytes
 
