@@ -2,12 +2,19 @@
 #include "linker.h"
 #include "unknown.h"
 
+extern char byte_800C0468[];
+
 int sd_set_cli_800887EC(int sdCode, int unused)
 {
     sd_set_80088CB0(sdCode);
     return 0;
 }
-#pragma INCLUDE_ASM("asm/SD/sd_set_path_8008880C.s")
+
+void sd_set_path_8008880C(const char *pName)
+{
+    strcpy_8008E768(byte_800C0468, pName);
+}
+
 #pragma INCLUDE_ASM("asm/sub_80088838.s")
 
 void sub_80088860(void)
