@@ -1,4 +1,5 @@
 #include "SD/sd.h"
+#include "psyq.h"
 
 extern SOUND_W* sptr_800C057C;
 extern int freq_tbl_8009FC08[108];
@@ -9,7 +10,17 @@ extern int mtrack_800BF1EC;
 #pragma INCLUDE_ASM("asm/sound_off_80087DAC.s")
 #pragma INCLUDE_ASM("asm/SD/sng_off_80087E2C.s")
 #pragma INCLUDE_ASM("asm/SD/se_off_80087E94.s")
-#pragma INCLUDE_ASM("asm/SD/sng_pause_80087EF4.s")
+
+void sng_pause_80087EF4()
+{
+    SpuCommonAttr attr; // [sp+10h] [-28h] BYREF
+
+    attr.mask = 3; // TODO constants
+    attr.mvol.left = 0;
+    attr.mvol.right = 0;
+    SpuSetCommonAttr_80097038(&attr);
+}
+
 #pragma INCLUDE_ASM("asm/SD/sng_pause_off_80087F24.s")
 #pragma INCLUDE_ASM("asm/SD/keyon_80087F58.s")
 #pragma INCLUDE_ASM("asm/SD/keyoff_80087F80.s")
