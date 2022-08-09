@@ -1,9 +1,13 @@
 #include "linker.h"
 #include "stnsight.h"
+#include "psyq.h"
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"
+#include "libdg/libdg.h"
+#include "Menu/menuman.h"
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
+
 
 // stinger first person HUD
 
@@ -123,7 +127,78 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
     stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
 }
 
-#pragma INCLUDE_ASM("asm/Weapon/stnsight_act_helper_80068A24.s")
+extern int dword_8009F490;
+extern SVECTOR svector_8009F494;
+
+extern DG_CHNL DG_Chanls_800B1800[];
+
+extern const char aDD[]; // = "%d %d\n"
+
+void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
+{
+    LINE_F4 *lines;
+    struct DG_CHNL *channel;
+    short sxy[2];
+    long p, flag;
+    int x, sx;
+    int y, sy;
+    
+    if (dword_8009F490 != 0) {
+        if (++actor->field_84_4Array[0] < 28) {
+            return;
+        }
+
+        lines = actor->field_38_lines_2Array[GV_Clock_800AB920];
+        channel = &DG_Chanls_800B1800[1];
+
+        DG_Clip_80017594(&channel->field_5C_clip_rect, channel->field_4C_clip_distance);
+        SetRotMatrix_80093218(&channel->field_10_transformation_matrix);
+        SetTransMatrix_80093248(&channel->field_10_transformation_matrix);
+        RotTransPers_80093478(&svector_8009F494, (long *)&sxy, &p, &flag);
+
+        sx = sxy[0];
+        sy = sxy[1];
+        
+        x = sx + 0xa0;
+        y = sy + 0x70;
+        
+        if (x >= 320u || y < 0 || y >= 224) {
+            return;
+        }
+
+        lines->x3 = sx + 0x9f;
+        lines->x0 = sx + 0x9f;
+        lines->x2 = sx + 0x8d;
+        lines->x1 = sx + 0x8d;
+        lines->y1 = sy + 0x62;
+        lines->y0 = sy + 0x62;
+        lines->y3 = sy + 0x7e;
+        lines->y2 = sy + 0x7e;
+        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
+        lines++;
+
+            
+        lines->x3 = sx + 0xa1;
+        lines->x0 = sx + 0xa1;
+        lines->x2 = sx + 0xb3;
+        lines->x1 = sx + 0xb3;
+        lines->y1 = sy + 0x62;
+        lines->y0 = sy + 0x62;
+        lines->y3 = sy + 0x7e;
+        lines->y2 = sy + 0x7e;
+    
+        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
+
+        menu_Text_XY_Flags_80038B34(sx + 0x8d, sy + 0x7f, 0);
+        menu_Color_80038B4C(0x1d, 0x29, 0x29);
+
+        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0) {
+            menu_Text_80038C38(aDD, ((ushort)svector_8009F494.vx << 16) >> 20, ((ushort)svector_8009F494.vy << 16) >> 20);
+        }
+    } else {
+        actor->field_84_4Array[0] = 0;
+    }
+}
 
 extern short N_ChanlPerfMax_800AB980;
 extern unsigned short gOldRootCnt_800B1DC8[];
@@ -169,8 +244,6 @@ extern short word_800AB8EC;
 short        SECTION(".word_800AB8EC") word_800AB8EC;
 
 extern const char aStinger[]; // = "stinger"
-
-extern DG_CHNL DG_Chanls_800B1800[];
 
 extern int GV_PauseLevel_800AB928;
 
