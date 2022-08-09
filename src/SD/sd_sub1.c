@@ -1,5 +1,7 @@
 #include "SD/sd.h"
 
+void vol_set_80088320(unsigned int a1);
+
 unsigned char rdm_tbl_8009F9BC[129];
 extern SOUND_W* sptr_800C057C;
 
@@ -42,4 +44,25 @@ unsigned int random_80086B84()
 }
 
 #pragma INCLUDE_ASM("asm/SD/tempo_ch_80086C08.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80086C98.s")
+
+void volxset_80086C98(unsigned char a1)
+{
+    int temp; // $a1
+    int temp2;
+
+    temp = sptr_800C057C->field_44_vol;
+    temp -= a1;
+    temp += sptr_800C057C->field_C_lp1_vol;
+    temp += sptr_800C057C->field_10_lp2_vol;
+    if ( temp < 0 )
+    {
+        temp = 0;
+        
+    } 
+    else if ( temp >= 128 )
+    {
+        temp = 127;
+    }
+    temp2 = (sptr_800C057C->field_38_pvod >> 8) & 0xFF;
+    vol_set_80088320(((temp2 * temp) >> 8) & 0xFF);
+}
