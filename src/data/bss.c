@@ -204,7 +204,11 @@ gap gap_800BDD74[0x4]; // 4 bytes
 Jirai_unknown BSS stru_800BDD78[16]; // 0x100 (256) bytes
 Jirai_unknown BSS stru_800BDE78[8]; // 0x80 (128) bytes
 
-gap gap_800BDEF8[0xB0]; // 176 bytes
+gap gap_800BDEF8[0x8]; // 8 bytes
+
+int BSS dword_800BDF00; // 0x4 (4) bytes
+
+gap gap_800BDF04[0xA4]; // 164 bytes
 
 int BSS dword_800BDFA8; // 0x4 (4) bytes
 
