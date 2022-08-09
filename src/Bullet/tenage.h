@@ -8,6 +8,8 @@
 #include "Game/GM_Control.h"
 #include "Game/object.h"
 
+// the projectile for all types of grenades
+
 typedef struct Actor_tenage
 {
     Actor      field_0_actor;
@@ -31,5 +33,11 @@ typedef struct Actor_tenage
     int        field_11C;
     int        field_120_ctrl_idx;
 } Actor_tenage;
+STATIC_ASSERT_SIZE(Actor_tenage, 0x124);
+
+Actor_tenage *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5);
+int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2, int, int, int, int);
+void tenage_act_800699A4(Actor_tenage *pActor);
+void tenage_kill_80069DBC(Actor_tenage *pActor);
 
 #endif // _TENAGE_H_
