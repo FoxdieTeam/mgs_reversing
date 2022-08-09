@@ -201,7 +201,7 @@ void DG_PointCheck_8001BF34(SVECTOR *svector, int n_points)
 
     gte_ReadRotMatrix(matrix2);
 
-    matrix = &DG_Chanls_800B1800[1].field_10_matrix;
+    matrix = &DG_Chanls_800B1800[1].field_10_transformation_matrix;
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 
@@ -240,7 +240,7 @@ int DG_PointCheckOne_8001C18C(DVECTOR *line)
     DVECTOR first_points;
     DVECTOR second_points;
 
-    MATRIX *matrix = &DG_Chanls_800B1800[1].field_10_matrix;
+    MATRIX *matrix = &DG_Chanls_800B1800[1].field_10_transformation_matrix;
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 
