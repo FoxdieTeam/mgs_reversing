@@ -9,6 +9,8 @@ import argparse
 import shutil
 import difflib
 
+# TODO: check for dupe vars. they will emit a .comm which isn't handled
+
 os.chdir(os.path.dirname(__file__))
 
 BSS_START = 0x800ABBF0
