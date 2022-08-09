@@ -1,3 +1,4 @@
+; data $at
 	opt	c+, at+, e+, n-
 	section .text
 
