@@ -887,7 +887,11 @@ int mts_get_task_status_8008B618(int task_idx)
     return gTasks_800C0C30[task_idx].field_0_state;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_task_res1_8008B630.s") // 24 bytes
+// return could be wrong
+int mts_get_task_res1_8008B630(int param_1)
+{
+    return (int)gTasks_800C0C30[param_1].field_F_recv_idx;
+}
 
 void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize)
 {

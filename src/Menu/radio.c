@@ -18,6 +18,7 @@ extern unsigned char dword_800ABB20;
 unsigned char        SECTION(".sbss") dword_800ABB20;
 
 extern int GV_Time_800AB330;
+extern void *dword_8009E75C[];
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s")
@@ -181,7 +182,11 @@ void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Font/font_load_80044A9C.s")
-#pragma INCLUDE_ASM("asm/Font/font_set_font_addr_80044BC0.s")
+
+void font_set_font_addr_80044BC0(int arg1, void *data)
+{
+    dword_8009E75C[arg1] = data;
+}
 
 void sub_80044BD8(void)
 {

@@ -29,7 +29,7 @@ typedef struct mts_task
     signed char field_C_ref_count;
     signed char field_D;
     char        field_E;
-    char        field_F_recv_idx;
+    signed char        field_F_recv_idx;
     void       *field_10_pStack;
     int         field_14_stackSize;
     int         field_18_tcb;
