@@ -70,6 +70,8 @@ def cc1():
         print('compile error ^', file=sys.stderr)
         sys.exit(1)
 
+    # print(cc1.stdout.decode())
+
     return cc1.stdout.decode().split('\r\n')
 
 # return dict mapping vars to their sizes
@@ -146,6 +148,10 @@ def main():
         assert name in sizes, name
         size = sizes[name]
 
+        padding = size % 4
+        if padding:
+            size += 4 - padding
+
         if last_addr is not None:
             gap = addr - last_addr - last_size
             if gap > 0:
@@ -160,7 +166,8 @@ def main():
                 print('.. or {} is actually a part of {}'.format(name, last_name), file=sys.stderr)
                 sys.exit(2)
 
-        output_lines.append(f'{line}; // 0x{size:X} ({size}) bytes\n')
+        extra = ' - padded' if padding > 0 else ''
+        output_lines.append(f'{line}; // 0x{size:X} ({size}) bytes{extra}\n')
 
         # TODO: emit trailing gap to BSS_END
 
