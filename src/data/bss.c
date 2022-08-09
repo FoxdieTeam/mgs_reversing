@@ -248,7 +248,11 @@ gap gap_800BF2A0[0x1190]; // 4496 bytes
 
 int BSS sng_fade_time_800C0430[14]; // 0x38 (56) bytes
 
-gap gap_800C0468[0xB0]; // 176 bytes
+gap gap_800C0468[0x80]; // 128 bytes
+
+int BSS song_end_800C04E8; // 0x4 (4) bytes
+
+gap gap_800C04EC[0x2C]; // 44 bytes
 
 int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 

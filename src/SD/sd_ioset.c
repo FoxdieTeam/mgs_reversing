@@ -8,10 +8,12 @@ extern int mtrack_800BF1EC;
 extern int keyons_800BF260;
 extern int keyd_800C0524;
 extern int keyoffs_800BF29C;
+extern int song_end_800C04E8;
 
 #pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
 #pragma INCLUDE_ASM("asm/sound_off_80087DAC.s")
 #pragma INCLUDE_ASM("asm/SD/sng_off_80087E2C.s")
+
 #pragma INCLUDE_ASM("asm/SD/se_off_80087E94.s")
 
 void sng_pause_80087EF4()
