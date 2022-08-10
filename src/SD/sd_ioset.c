@@ -44,7 +44,13 @@ void sng_off_80087E2C()
     keyoffs_800BF29C |= 0x1FFFu;
 }
 
-#pragma INCLUDE_ASM("asm/SD/se_off_80087E94.s")
+void se_off_80087E94(int a1)
+{
+    spu_tr_wk_800C0658[a1 + 13].field_38_env3_fg = 1;
+    spu_tr_wk_800C0658[a1 + 13].field_34_rr = 0;
+    song_end_800C04E8 |= 1 << (a1 + 13);
+    keyoffs_800BF29C |= 1 << (a1 + 13);
+}
 
 void sng_pause_80087EF4()
 {
