@@ -78,7 +78,7 @@ int SD_80083954(void)
     return -1;
 }
 
-int SD_8008395C(void)
+int SD_8008395C(int a1, int a2)
 {
     return -1;
 }

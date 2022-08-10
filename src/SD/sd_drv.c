@@ -1,4 +1,5 @@
 #include "SD/sd.h"
+#include "mts/mts_new.h"
 
 extern int sng_status_800BF158;
 extern int sng_fout_term_800C0518;
@@ -11,8 +12,16 @@ extern int keyoffs_800BF29C;
 extern SOUND_W sound_w_800BF2A8[21];
 extern unsigned int sng_status_800C04F8;
 extern int dword_800C0428;
+extern int sd_sng_data_800C0420;
+extern int dword_800BF1D8;
+
+extern const char aLoadsngdataFil[];
+extern const char aCompletedloads[];
 
 void sng_track_init_800859B8(SOUND_W *pSoundW);
+int SD_SongLoadData_8008394C(int a1, int a2);
+int SD_80083954(int a1, int a2, int a3);
+int SD_8008395C(int a1, int a2);
 
 #pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s")
 #pragma INCLUDE_ASM("asm/SD/SD_SongFadeIn_80084CCC.s")
@@ -60,7 +69,29 @@ int SngFadeOutP_80084D60(unsigned int a1)
 #pragma INCLUDE_ASM("asm/SD/SD_80085020.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80085164.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80085480.s")
-#pragma INCLUDE_ASM("asm/SD/SD_800854F0.s")
+
+int SD_800854F0()
+{
+    int result; // $v0
+
+    dword_800BF1D8 = SD_SongLoadData_8008394C(dword_800C0428, 3);
+    if ( dword_800BF1D8 < 0 )
+    {
+        dword_800BF1D8 = 0;
+        mts_printf_8008BBA0(aLoadsngdataFil, dword_800C0428);
+        result = -1;
+        dword_800C0428 = 0;
+    }
+    else
+    {
+        SD_80083954(dword_800BF1D8, sd_sng_data_800C0420, 0x4000);
+        SD_8008395C(dword_800BF1D8, 3);
+        dword_800BF1D8 = 0;
+        mts_printf_8008BBA0(aCompletedloads, dword_800C0428);
+        return 0;
+    }
+    return result;
+}
 
 void init_sng_work_8008559C()
 {
