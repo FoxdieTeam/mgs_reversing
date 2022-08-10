@@ -35,6 +35,11 @@ extern int dword_800BF1A4;
 extern int dword_800BF26C;
 extern int gStr_FadeOut1_800BF16C;
 
+void nullsub_7_80081A10(void)
+{
+    
+}
+
 void SdMain_80081A18()
 {
     sd_flags_800C0BFC = 0;

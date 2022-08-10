@@ -10,6 +10,9 @@ extern int keyd_800C0524;
 extern int keyoffs_800BF29C;
 extern int song_end_800C04E8;
 extern unsigned int spu_ch_tbl_800A2AC8[];
+extern volatile int sd_flags_800C0BFC;
+extern unsigned int gStr_FadeOut1_800BF16C;
+extern int sng_status_800BF158;
 
 #pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
 
@@ -100,3 +103,28 @@ void freq_set_800885D4(unsigned int a1)
 }
 
 #pragma INCLUDE_ASM("asm/SD/drum_set_80088694.s")
+
+// TODO: Might be part of sd_cli.c or another file
+// from here on
+int sd_task_active_800886C4(void)
+{
+    if (sd_flags_800C0BFC & 0x80)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+int sd_str_play_800886DC(void)
+{
+    return gStr_FadeOut1_800BF16C > 4;
+}
+
+int SD_800886F4(void)
+{
+    return sng_status_800BF158 > 2;
+}
+
+#pragma INCLUDE_ASM("asm/sub_8008870C.s")
+#pragma INCLUDE_ASM("asm/sub_8008877C.s")
