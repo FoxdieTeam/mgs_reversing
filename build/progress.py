@@ -6,7 +6,7 @@ import os
 import json
 import re
 
-EXPECTED_TOTAL_FUNCS = 1992
+EXPECTED_TOTAL_FUNCS = 1991
 EXPECTED_TOTAL_BYTES = 490440
 APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json'
 
