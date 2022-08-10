@@ -26,6 +26,13 @@ void  sub_80037EE0(int, int);
 void  sub_800790E8(); // Takabe
 void  sub_800241B4(int);
 
+// TODO: camera.h?
+Actor *camera_init_800306A0(void);
+
+// TODO: over.h?
+Actor *over_init_800376F8(int); // dummy, returns actor
+
+void DrawReadError_8002AC9C(void);
 int HZD_SlopeFloorLevel_800298F8(short *param_1, int arg1);
 
 // TODO: make sd.h?

@@ -76,6 +76,19 @@ void           bu_init_80098FEC(void);
 int            ResetGraph(int mode);
 void           SpuSetKey_80096C18(int, int);
 long           RotTransPers_80093478(SVECTOR *v0, long *sxy, long *p, long *flag);
+long           LoadExec_8009940C(char *, unsigned long, unsigned long);
+void           SpuGetAllKeysStatus_8009748C(char *status);
+void           _96_init_8009941C(void);
+void           _96_remove_80099434(void);
+void           StopCallback_8009840C(void);
+long           SpuSetIRQ_80096A28(long on_off);
+void           StrFadeIn_800822C8(unsigned int a1);
+int            StrFadeOutStop_80082380(unsigned int fadeSpeed);
+int            SePlay_800888F8(int a1);
+int            StrFadeOut_80082310(unsigned int a1);
+int            CdInit(void); // TODO: needs address
+void           SpuInit_80094568(void);
+void           PadStopCom_8009A24C(void);
 
 struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);

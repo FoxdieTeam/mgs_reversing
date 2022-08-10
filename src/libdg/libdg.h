@@ -445,6 +445,7 @@ void     DG_ResetExtPaletteMakeFunc_800791E4(void);
 void     DG_ResetPaletteEffect_80078FF8(void);
 void     DG_Set_RGB_800184F4(int r, int b, int g);
 void     DG_StorePaletteEffect_80078F30(void);
+void     DG_StorePalette_8001FC28(void);
 void     DG_Update1_8001F1BC(void);
 void     DG_Update2_8001F078(Actor *pActor);
 void     DG_WriteObjPacketRGB_8001A9B8(DG_OBJ *pDGObj, int idx);
@@ -456,6 +457,7 @@ DG_OBJS *DG_MakeObjs_80031760(DG_DEF *pFileData, int flag, int chanl);
 int      DG_QueueObjs_80018178(DG_OBJS *pPrim);
 void     DG_DequeueObjs_800181E4(DG_OBJS *objs);
 void     DG_FreeObjs_800318D0(DG_OBJS *pObjs);
+void     DG_SaveTexureCacheToResidentMem_8001DB20();
 
 void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen);
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);
