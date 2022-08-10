@@ -1,12 +1,46 @@
 #include "SD/sd.h"
 #include "psyq.h"
 #include "unknown.h"
+#include "mts/mts_new.h"
 
 extern int sng_status_800BF158;
 extern int se_load_code_800BF28C;
 extern int bstr_fade_inProgress_800BF0CC;
 extern int gStreamVol_800BF15C;
 extern int dword_800C04F4;
+
+extern const char aStartTaskSdint[];
+
+void sd_init_80081C7C();
+void IntSdMain_80084494();
+void WaveSpuTrans_80083944(void);
+int SpuIsTransferCompleted_80096F58(int a1);
+void StrSpuTrans_800833FC(void);
+int StrFadeInt_800839C8();
+
+void SdInt_Task_80081BDC()
+{
+    char buffer[100]; // not enough stack used without this
+    mts_printf_8008BBA0(aStartTaskSdint);
+    sd_init_80081C7C();
+    mts_wup_tsk_8008A540(5);
+    while ( 1 )
+    {
+        mts_receive_80089D24(-1, 0);
+        IntSdMain_80084494();
+        if ( SpuIsTransferCompleted_80096F58(0) == 1 )
+        {
+            WaveSpuTrans_80083944();
+            mts_wup_tsk_8008A540(5);
+        }
+        StrFadeInt_800839C8();
+        if ( SpuIsTransferCompleted_80096F58(0) == 1 )
+        {
+            StrSpuTrans_800833FC();
+            mts_wup_tsk_8008A540(5);
+        }
+    }
+}
 
 #pragma INCLUDE_ASM("asm/SD/sd_init_80081C7C.s")
 #pragma INCLUDE_ASM("asm/SD/sub_80081F8C.s")
