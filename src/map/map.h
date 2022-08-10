@@ -31,7 +31,11 @@ struct map_record *Map_ScriptLoadMapBlocks_800312D0();
 int                Map_ScriptReloadMaps_80031450(int a1);
 void               Map_LoadMapData_80031244(int mapNum, int resourceNameHashed);
 int                Map_light_80030C6C(int a1);
+void               Map_80030FA4();
+void               Map_ResetMapCountAndKmdsCount_800310A0();
 
-int GM_DelMap_800313C0(int mapName);
+void GM_DieMap_80030FD0();
+int  GM_DelMap_800313C0(int mapName);
+void GM_FreeMapObjs_80031028();
 
 #endif // _MAP_H_

@@ -23,6 +23,7 @@ typedef void (*TMemCardFunc)(int);
 typedef void (*TMemCardSetFunc)(TMemCardFunc);
 
 void memcard_init_80024E48();
+void memcard_exit_800250C4();
 int  memcard_check_80024A54(int idx);
 int  memcard_easy_format_test_800246C0(int hCard);
 void memcard_reset_status_80024A3C();
