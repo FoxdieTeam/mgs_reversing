@@ -15,7 +15,98 @@ extern unsigned int gStr_FadeOut1_800BF16C;
 extern int sng_status_800BF158;
 extern SEPLAYTBL se_playing_800BF068[8];
 
-#pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
+extern int dword_800BF064;
+extern int dword_800BF210;
+extern int spu_wave_start_ptr_800C052C;
+
+void SD_spuwr_80087A88()
+{
+    int i; // $s7
+    SpuVoiceAttr voiceAttr; // [sp+10h] [-40h] BYREF
+
+    if ( keyoffs_800BF29C )
+    {
+        SpuSetKey_80096C18(0, keyoffs_800BF29C);
+        keyoffs_800BF29C = 0;
+    }
+
+    if ( dword_800BF210 )
+    {
+        SpuSetReverbVoice_80096858(0, dword_800BF210);
+        dword_800BF210 = 0;
+    }
+
+    for (i =0; i < 21; i++)
+    {
+        voiceAttr.mask = 0;
+        voiceAttr.voice = spu_ch_tbl_800A2AC8[i];
+        if ( spu_tr_wk_800C0658[i].field_4_vol_fg )
+        {
+            voiceAttr.mask = 3;
+            voiceAttr.volume.left = spu_tr_wk_800C0658[i].field_0_vol_l;
+            voiceAttr.volume.right = spu_tr_wk_800C0658[i].field_2_vol_r;
+            spu_tr_wk_800C0658[i].field_4_vol_fg = 0;
+        }
+
+        if ( spu_tr_wk_800C0658[i].field_C_pitch_fg )
+        {
+            voiceAttr.mask |= 0x10u;
+            voiceAttr.pitch = spu_tr_wk_800C0658[i].field_8_pitch;
+            spu_tr_wk_800C0658[i].field_C_pitch_fg = 0;
+        }
+
+        if ( spu_tr_wk_800C0658[i].field_14_addr_fg )
+        {
+            voiceAttr.mask |= 0x80u;
+            voiceAttr.addr = spu_tr_wk_800C0658[i].field_10_addr + spu_wave_start_ptr_800C052C;
+            spu_tr_wk_800C0658[i].field_14_addr_fg = 0;
+        }
+
+        if ( spu_tr_wk_800C0658[i].field_20_env1_fg )
+        {
+            voiceAttr.mask |= 0x1900u;
+            voiceAttr.a_mode = spu_tr_wk_800C0658[i].field_18_a_mode;
+            voiceAttr.ar = spu_tr_wk_800C0658[i].field_1C_ar;
+            voiceAttr.dr = spu_tr_wk_800C0658[i].field_1E_dr;
+            spu_tr_wk_800C0658[i].field_20_env1_fg = 0;
+        }
+
+        if ( spu_tr_wk_800C0658[i].field_2C_env2_fg )
+        {
+            voiceAttr.mask |= 0xA200u;
+            voiceAttr.s_mode = spu_tr_wk_800C0658[i].field_24_s_mode;
+            voiceAttr.sr = spu_tr_wk_800C0658[i].field_28_sr;
+            voiceAttr.sl = spu_tr_wk_800C0658[i].field_2A_sl;
+            spu_tr_wk_800C0658[i].field_2C_env2_fg = 0;
+        }
+
+        if ( spu_tr_wk_800C0658[i].field_38_env3_fg )
+        {
+            voiceAttr.mask |= 0x4400u;
+            voiceAttr.r_mode = spu_tr_wk_800C0658[i].field_30_r_mode;
+            voiceAttr.rr = spu_tr_wk_800C0658[i].field_34_rr;
+            spu_tr_wk_800C0658[i].field_38_env3_fg = 0;
+        }
+
+        if ( voiceAttr.mask )
+        {
+            SpuSetVoiceAttr_80097518(&voiceAttr);
+        }
+
+    }
+
+    if ( dword_800BF064 )
+    {
+        SpuSetReverbVoice_80096858(1, dword_800BF064);
+        dword_800BF064 = 0;
+    }
+
+    if ( keyons_800BF260 )
+    {
+        SpuSetKey_80096C18(1, keyons_800BF260);
+        keyons_800BF260 = 0;
+    }
+}
 
 void sound_off_80087DAC()
 {
