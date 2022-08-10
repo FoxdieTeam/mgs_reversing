@@ -3,7 +3,7 @@
 extern int keyoffs_800BF29C;
 extern int keyd_800C0524;
 extern SOUND_W* sptr_800C057C;
-extern int mtrack_800BF1EC;
+extern unsigned int mtrack_800BF1EC;
 extern SPU_TRACK_REG spu_tr_wk_800C0658[];
 extern int mdata2_800BF0D4;
 extern int mdata3_800BF0D8;
