@@ -18,6 +18,109 @@ int SpuIsTransferCompleted_80096F58(int a1);
 void StrSpuTrans_800833FC(void);
 int StrFadeInt_800839C8();
 
+void SdInt_Task_80081BDC();
+void SD_nullsub_20_800827A4();
+int SD_8008341C();
+int SD_800854F0();
+void KeyOffStr_80081FE8();
+int StartStream_80082448();
+
+extern const char aBgmTerminate[];
+extern const char aStartTaskSdmai[];
+
+extern int sd_flags_800C0BFC;
+extern int dword_800BEFC8;
+extern int dword_800BEFCC;
+extern int dword_800BF1A4;
+extern int dword_800BF26C;
+extern int gStr_FadeOut1_800BF16C;
+
+/*
+void SdMain_80081A18()
+{
+    sd_flags_800C0BFC = 0;
+    mts_printf_8008BBA0(aStartTaskSdmai);
+    sd_sng_alloc_80082194();
+    mts_set_stack_check_8008B648(1, &dword_800BEFC8, 2048);
+    mts_sta_tsk_8008B47C(1, SdInt_Task_80081BDC, (int)&dword_800BEFC8);
+    mts_slp_tsk_8008A400();
+    sd_flags_800C0BFC = 128;
+    while ( 1 )
+    {
+        mts_slp_tsk_8008A400();
+        if ( sng_status_800BF158 == 1 )
+        {
+            if ( SD_800854F0() )
+            {
+                sng_status_800BF158 = 0;
+            }
+            else
+            {
+                sng_status_800BF158 = 2;
+            }
+        }
+        
+        if ( dword_800BF26C == 1 )
+        {
+            dword_800BF26C = 2;
+        }
+        
+        if ( dword_800BEFCC )
+        {
+            KeyOffStr_80081FE8();
+            dword_800BEFCC = 0;
+        }
+
+
+
+        switch ( (unsigned int)gStr_FadeOut1_800BF16C )
+        {     
+                case 1:
+                if ( StartStream_80082448() )
+                {
+                    gStr_FadeOut1_800BF16C = 0;
+                }
+                else
+                {
+                    gStr_FadeOut1_800BF16C = 2;
+                    dword_800BF1A4 = 0;
+                }
+                break;
+            
+         
+         
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                
+                SD_nullsub_20_800827A4();
+                break;
+           
+           
+               case 6:
+                case 7:
+                KeyOffStr_80081FE8();
+                mts_printf_8008BBA0(aBgmTerminate);
+                break;
+            
+       
+         
+            default:
+                break;
+        }
+
+        if ( se_load_code_800BF28C )
+        {
+            SD_8008341C();
+        }
+    }
+}
+*/
+
+#pragma INCLUDE_ASM("asm/SD/SdMain_80081A18.s")
+#pragma INCLUDE_ASM("asm/sub_80081BC4.s")
+
 void SdInt_Task_80081BDC()
 {
     char buffer[100]; // not enough stack used without this

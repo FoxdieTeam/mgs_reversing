@@ -217,7 +217,12 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x1038]; // 4152 bytes
+gap gap_800BDFB8[0x1010]; // 4112 bytes
+
+int BSS dword_800BEFC8; // 0x4 (4) bytes
+int BSS dword_800BEFCC; // 0x4 (4) bytes
+
+gap gap_800BEFD0[0x20]; // 32 bytes
 
 int BSS dword_800BEFF0; // 0x4 (4) bytes
 
@@ -265,9 +270,7 @@ int BSS gStr_FadeOut1_800BF16C; // 0x4 (4) bytes
 gap gap_800BF170[0x30]; // 48 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
-
-gap gap_800BF1A4[0x4]; // 4 bytes
-
+int BSS dword_800BF1A4; // 0x4 (4) bytes
 int BSS dword_800BF1A8; // 0x4 (4) bytes
 
 gap gap_800BF1AC[0x2C]; // 44 bytes
