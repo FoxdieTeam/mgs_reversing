@@ -35,7 +35,6 @@ extern int dword_800BF1A4;
 extern int dword_800BF26C;
 extern int gStr_FadeOut1_800BF16C;
 
-/*
 void SdMain_80081A18()
 {
     sd_flags_800C0BFC = 0;
@@ -71,11 +70,9 @@ void SdMain_80081A18()
             dword_800BEFCC = 0;
         }
 
-
-
         switch ( (unsigned int)gStr_FadeOut1_800BF16C )
         {     
-                case 1:
+            case 1:
                 if ( StartStream_80082448() )
                 {
                     gStr_FadeOut1_800BF16C = 0;
@@ -87,8 +84,6 @@ void SdMain_80081A18()
                 }
                 break;
             
-         
-         
             case 2:
             case 3:
             case 4:
@@ -96,16 +91,13 @@ void SdMain_80081A18()
                 
                 SD_nullsub_20_800827A4();
                 break;
-           
-           
-               case 6:
-                case 7:
+
+            case 7:
                 KeyOffStr_80081FE8();
                 mts_printf_8008BBA0(aBgmTerminate);
                 break;
             
-       
-         
+            case 6:
             default:
                 break;
         }
@@ -116,10 +108,6 @@ void SdMain_80081A18()
         }
     }
 }
-*/
-
-#pragma INCLUDE_ASM("asm/SD/SdMain_80081A18.s")
-#pragma INCLUDE_ASM("asm/sub_80081BC4.s")
 
 void SdInt_Task_80081BDC()
 {
