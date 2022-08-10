@@ -14,6 +14,8 @@ extern unsigned int sng_status_800C04F8;
 extern int dword_800C0428;
 extern int sd_sng_data_800C0420;
 extern int dword_800BF1D8;
+extern int sng_fade_in_2_800C0BC0;
+extern int sng_fade_in_2_800BF290;
 
 extern const char aLoadsngdataFil[];
 extern const char aCompletedloads[];
@@ -72,15 +74,14 @@ int SngFadeOutP_80084D60(unsigned int a1)
 
 int SD_800854F0()
 {
-    int result; // $v0
-
     dword_800BF1D8 = SD_SongLoadData_8008394C(dword_800C0428, 3);
+
     if ( dword_800BF1D8 < 0 )
     {
         dword_800BF1D8 = 0;
         mts_printf_8008BBA0(aLoadsngdataFil, dword_800C0428);
-        result = -1;
         dword_800C0428 = 0;
+        return -1;
     }
     else
     {
@@ -90,7 +91,6 @@ int SD_800854F0()
         mts_printf_8008BBA0(aCompletedloads, dword_800C0428);
         return 0;
     }
-    return result;
 }
 
 void init_sng_work_8008559C()
