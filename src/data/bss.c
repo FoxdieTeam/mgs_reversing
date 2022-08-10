@@ -273,7 +273,7 @@ int BSS dword_800BF1A8; // 0x4 (4) bytes
 gap gap_800BF1AC[0x3C]; // 60 bytes
 
 int BSS bgm_idx_800BF1E8; // 0x4 (4) bytes
-int BSS mtrack_800BF1EC; // 0x4 (4) bytes
+unsigned int BSS mtrack_800BF1EC; // 0x4 (4) bytes
 
 gap gap_800BF1F0[0x20]; // 32 bytes
 
@@ -299,11 +299,19 @@ gap gap_800BF290[0xC]; // 12 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
-gap gap_800BF2A0[0x1170]; // 4464 bytes
+gap gap_800BF2A0[0x8]; // 8 bytes
+
+SOUND_W BSS sound_w_800BF2A8[21]; // 0x1164 (4452) bytes
+
+gap gap_800C040C[0x4]; // 4 bytes
 
 int BSS dword_800C0410; // 0x4 (4) bytes
 
-gap gap_800C0414[0x1C]; // 28 bytes
+gap gap_800C0414[0x14]; // 20 bytes
+
+int BSS dword_800C0428; // 0x4 (4) bytes
+
+gap gap_800C042C[0x4]; // 4 bytes
 
 int BSS sng_fade_time_800C0430[14]; // 0x38 (56) bytes
 char BSS byte_800C0468[128]; // 0x80 (128) bytes
