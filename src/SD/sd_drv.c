@@ -70,7 +70,28 @@ int SngFadeOutP_80084D60(unsigned int a1)
 #pragma INCLUDE_ASM("asm/SD/SD_SongKaihiMode_80084F88.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80085020.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80085164.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80085480.s")
+
+void SD_80085480()
+{
+    if ( sng_fade_in_2_800BF290 != 0 )
+    {
+        if ( sng_fade_in_2_800C0BC0 < 256 )
+        {
+            sng_fade_in_2_800C0BC0++;
+        }
+    }
+    else if ( sng_fade_in_2_800C0BC0 != 0 )
+    {
+        if ( sng_fade_in_2_800C0BC0 <= 16 )
+        {
+            sng_fade_in_2_800C0BC0 = 0;
+        }
+        else
+        {
+            sng_fade_in_2_800C0BC0 -= 16;
+        }
+    }
+}
 
 int SD_800854F0()
 {
