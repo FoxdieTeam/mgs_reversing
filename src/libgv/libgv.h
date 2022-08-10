@@ -151,6 +151,7 @@ void GV_ResetSystem_80014CC8(void);
 void          GV_ExecActorSystem_80014F88(void);
 struct Actor *GV_NewActor_800150E4(int level, int memSize);
 void          GV_InitActorSystem_80014D98(void);
+void          GV_DestroyActorSystem_80015010(int level);
 void          GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction fnFree);
 void          GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
                                         const char *pActorName);
@@ -168,6 +169,7 @@ void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 int   GV_SetCache_800153C0(int id, void *buf);
 void *GV_GetCache_8001538C(int fileNameHashed);
 int   GV_CacheID2_800152FC(const char *fileName, int extID);
+void  GV_ResidentFileCache_80015484(void);
 
 // memory
 void  GV_InitMemorySystemAll_80015AB0();

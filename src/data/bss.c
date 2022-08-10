@@ -217,7 +217,11 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x1048]; // 4168 bytes
+gap gap_800BDFB8[0x1038]; // 4152 bytes
+
+int BSS dword_800BEFF0; // 0x4 (4) bytes
+
+gap gap_800BEFF4[0xC]; // 12 bytes
 
 int BSS dword_800BF000; // 0x4 (4) bytes
 
@@ -262,7 +266,11 @@ gap gap_800BF170[0x30]; // 48 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 
-gap gap_800BF1A4[0x44]; // 68 bytes
+gap gap_800BF1A4[0x4]; // 4 bytes
+
+int BSS dword_800BF1A8; // 0x4 (4) bytes
+
+gap gap_800BF1AC[0x3C]; // 60 bytes
 
 int BSS bgm_idx_800BF1E8; // 0x4 (4) bytes
 int BSS mtrack_800BF1EC; // 0x4 (4) bytes
@@ -274,12 +282,12 @@ int BSS dword_800BF210; // 0x4 (4) bytes
 gap gap_800BF214[0x4C]; // 76 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
-
-gap gap_800BF264[0x8]; // 8 bytes
-
+int BSS dword_800BF264; // 0x4 (4) bytes
+int BSS dword_800BF268; // 0x4 (4) bytes
 int BSS dword_800BF26C; // 0x4 (4) bytes
+int BSS dword_800BF270; // 0x4 (4) bytes
 
-gap gap_800BF270[0xC]; // 12 bytes
+gap gap_800BF274[0x8]; // 8 bytes
 
 int BSS dword_800BF27C; // 0x4 (4) bytes
 
