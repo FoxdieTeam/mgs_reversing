@@ -27,5 +27,6 @@ void                  FS_LoadStageComplete_80023804(struct Loader_Record *pFileN
 int                   FS_StreamGetData_800240E0(unsigned int);
 void                  FS_StreamOpen_80024060();
 void                  FS_StreamClose_80024098(void);
+int                   CDBIOS_TaskState_80022888(void);
 
 #endif // _LIBFS_H_

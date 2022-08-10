@@ -9,16 +9,6 @@ extern const char aXaSoundStart[];
 extern const char aXaSoundStop[];
 extern int dword_8009F7B4;
 
-void mts_wup_tsk_8008A540(int taskNr); // TODO mts_new.h
-
-// TODO: psyq.h
-long SpuSetIRQ_80096A28(long on_off);
-
-void StrFadeIn_800822C8(unsigned int a1);
-int StrFadeOutStop_80082380(unsigned int fadeSpeed);
-int SePlay_800888F8(int a1);
-int StrFadeOut_80082310(unsigned int a1);
-
 int sd_set_cli_800887EC(int sdCode, int unused)
 {
     sd_set_80088CB0(sdCode);

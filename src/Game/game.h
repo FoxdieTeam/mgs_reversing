@@ -252,6 +252,9 @@ void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);
 void               GM_ControlRemove_80025904(GM_Control *pControl);
 TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
+void               GM_AlertAct_8002E91C(void);
+void               GM_StreamPlayStop_80037D64(void);
+void               GM_AlertModeReset_8002EAB8(void);
 
 // SeSet helpers
 int sub_80032748(Point *out, SVECTOR *pos);
@@ -266,6 +269,9 @@ void sub_8002EADC(void);
 void sub_8002AA48(void);
 void sub_8002EC8C(short*, short*, short*);
 void GM_Act_helper3_helper_8002AB40();
+void GM_Act_helper_8002AA10(void); // noise/alert thing
+void GM_Act_helper3_8002ABA4(void);
+void GM_Act_helper2_8002E8D4(void);
 
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 
