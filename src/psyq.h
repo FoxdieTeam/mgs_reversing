@@ -7,6 +7,8 @@
 #include <LIBSPU.H>
 
 void SpuSetCommonAttr_80097038(SpuCommonAttr *attr);
+extern unsigned long SpuSetReverbVoice_80096858(long on_off, unsigned long voice_bit);
+extern void SpuSetVoiceAttr_80097518(SpuVoiceAttr *arg);
 
 DISPENV       *PutDispEnv_80090094(DISPENV *env);
 MATRIX        *MulMatrix0_80092A48(MATRIX *m0, MATRIX *m1, MATRIX *m2);
