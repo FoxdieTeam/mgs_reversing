@@ -298,8 +298,9 @@ int BSS dword_800BF27C; // 0x4 (4) bytes
 gap gap_800BF280[0xC]; // 12 bytes
 
 int BSS se_load_code_800BF28C; // 0x4 (4) bytes
+int BSS sng_fade_in_2_800BF290; // 0x4 (4) bytes
 
-gap gap_800BF290[0xC]; // 12 bytes
+gap gap_800BF294[0x8]; // 8 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
@@ -357,7 +358,11 @@ gap gap_800C0588[0xD0]; // 208 bytes
 
 SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
-gap gap_800C0BBC[0x40]; // 64 bytes
+gap gap_800C0BBC[0x4]; // 4 bytes
+
+int BSS sng_fade_in_2_800C0BC0; // 0x4 (4) bytes
+
+gap gap_800C0BC4[0x38]; // 56 bytes
 
 volatile int BSS sd_flags_800C0BFC; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C00; // 0x4 (4) bytes
