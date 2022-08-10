@@ -1,9 +1,29 @@
 #include "SD/sd.h"
+#include "mts/mts_new.h"
 
 extern int sng_status_800BF158;
 extern int sng_fout_term_800C0518;
 extern int sng_fade_time_800C0430[14];
 extern int sd_KaihiMode_800BF05C;
+extern unsigned int mtrack_800BF1EC;
+extern SOUND_W* sptr_800C057C;
+extern int keyons_800BF260;
+extern int keyoffs_800BF29C;
+extern SOUND_W sound_w_800BF2A8[21];
+extern unsigned int sng_status_800C04F8;
+extern int dword_800C0428;
+extern int sd_sng_data_800C0420;
+extern int dword_800BF1D8;
+extern int sng_fade_in_2_800C0BC0;
+extern int sng_fade_in_2_800BF290;
+
+extern const char aLoadsngdataFil[];
+extern const char aCompletedloads[];
+
+void sng_track_init_800859B8(SOUND_W *pSoundW);
+int SD_SongLoadData_8008394C(int a1, int a2);
+int SD_80083954(int a1, int a2, int a3);
+int SD_8008395C(int a1, int a2);
 
 #pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s")
 #pragma INCLUDE_ASM("asm/SD/SD_SongFadeIn_80084CCC.s")
@@ -51,8 +71,48 @@ int SngFadeOutP_80084D60(unsigned int a1)
 #pragma INCLUDE_ASM("asm/SD/SD_80085020.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80085164.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80085480.s")
-#pragma INCLUDE_ASM("asm/SD/SD_800854F0.s")
-#pragma INCLUDE_ASM("asm/SD/SD_8008559C.s")
+
+int SD_800854F0()
+{
+    dword_800BF1D8 = SD_SongLoadData_8008394C(dword_800C0428, 3);
+
+    if ( dword_800BF1D8 < 0 )
+    {
+        dword_800BF1D8 = 0;
+        mts_printf_8008BBA0(aLoadsngdataFil, dword_800C0428);
+        dword_800C0428 = 0;
+        return -1;
+    }
+    else
+    {
+        SD_80083954(dword_800BF1D8, sd_sng_data_800C0420, 0x4000);
+        SD_8008395C(dword_800BF1D8, 3);
+        dword_800BF1D8 = 0;
+        mts_printf_8008BBA0(aCompletedloads, dword_800C0428);
+        return 0;
+    }
+}
+
+void init_sng_work_8008559C()
+{
+    SOUND_W *pIter; // $a0
+
+    for (mtrack_800BF1EC = 0; mtrack_800BF1EC < 21; mtrack_800BF1EC++)
+    {
+        pIter = &sound_w_800BF2A8[mtrack_800BF1EC];
+        sptr_800C057C = pIter;
+        pIter->field_0_mpointer = 0;
+        pIter->field_24_lp3_addr = 0;
+        pIter->field_20_lp2_addr = 0;
+        pIter->field_1C_lp1_addr = 0;
+        sng_track_init_800859B8(pIter);
+    }
+
+    keyons_800BF260 = 0;
+    keyoffs_800BF29C = 0;
+    sng_status_800C04F8 = 0;
+    dword_800C0428 = 0; // TODO: sng_play_code?
+}
 #pragma INCLUDE_ASM("asm/SD/sng_adrs_set_80085658.s")
 #pragma INCLUDE_ASM("asm/SD/SD_8008576C.s")
 

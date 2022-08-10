@@ -217,7 +217,12 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x1038]; // 4152 bytes
+gap gap_800BDFB8[0x1010]; // 4112 bytes
+
+int BSS dword_800BEFC8; // 0x4 (4) bytes
+int BSS dword_800BEFCC; // 0x4 (4) bytes
+
+gap gap_800BEFD0[0x20]; // 32 bytes
 
 int BSS dword_800BEFF0; // 0x4 (4) bytes
 
@@ -265,15 +270,17 @@ int BSS gStr_FadeOut1_800BF16C; // 0x4 (4) bytes
 gap gap_800BF170[0x30]; // 48 bytes
 
 int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
-
-gap gap_800BF1A4[0x4]; // 4 bytes
-
+int BSS dword_800BF1A4; // 0x4 (4) bytes
 int BSS dword_800BF1A8; // 0x4 (4) bytes
 
-gap gap_800BF1AC[0x3C]; // 60 bytes
+gap gap_800BF1AC[0x2C]; // 44 bytes
+
+int BSS dword_800BF1D8; // 0x4 (4) bytes
+
+gap gap_800BF1DC[0xC]; // 12 bytes
 
 int BSS bgm_idx_800BF1E8; // 0x4 (4) bytes
-int BSS mtrack_800BF1EC; // 0x4 (4) bytes
+unsigned int BSS mtrack_800BF1EC; // 0x4 (4) bytes
 
 gap gap_800BF1F0[0x20]; // 32 bytes
 
@@ -294,16 +301,29 @@ int BSS dword_800BF27C; // 0x4 (4) bytes
 gap gap_800BF280[0xC]; // 12 bytes
 
 int BSS se_load_code_800BF28C; // 0x4 (4) bytes
+int BSS sng_fade_in_2_800BF290; // 0x4 (4) bytes
 
-gap gap_800BF290[0xC]; // 12 bytes
+gap gap_800BF294[0x8]; // 8 bytes
 
 int BSS keyoffs_800BF29C; // 0x4 (4) bytes
 
-gap gap_800BF2A0[0x1170]; // 4464 bytes
+gap gap_800BF2A0[0x8]; // 8 bytes
+
+SOUND_W BSS sound_w_800BF2A8[21]; // 0x1164 (4452) bytes
+
+gap gap_800C040C[0x4]; // 4 bytes
 
 int BSS dword_800C0410; // 0x4 (4) bytes
 
-gap gap_800C0414[0x1C]; // 28 bytes
+gap gap_800C0414[0xC]; // 12 bytes
+
+int BSS sd_sng_data_800C0420; // 0x4 (4) bytes
+
+gap gap_800C0424[0x4]; // 4 bytes
+
+int BSS dword_800C0428; // 0x4 (4) bytes
+
+gap gap_800C042C[0x4]; // 4 bytes
 
 int BSS sng_fade_time_800C0430[14]; // 0x38 (56) bytes
 char BSS byte_800C0468[128]; // 0x80 (128) bytes
@@ -341,7 +361,11 @@ gap gap_800C0588[0xD0]; // 208 bytes
 
 SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
-gap gap_800C0BBC[0x40]; // 64 bytes
+gap gap_800C0BBC[0x4]; // 4 bytes
+
+int BSS sng_fade_in_2_800C0BC0; // 0x4 (4) bytes
+
+gap gap_800C0BC4[0x38]; // 56 bytes
 
 volatile int BSS sd_flags_800C0BFC; // 0x4 (4) bytes
 mts_msg *BSS D_800C0C00; // 0x4 (4) bytes

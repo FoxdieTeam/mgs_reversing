@@ -222,14 +222,15 @@ def gen_build_target(targetName):
             ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            #if "SD" in cFile:
-            #    # print("-G 0: " + cFile)
-            #    ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
-            #else:
-            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
+            if "SD" in cFile:
+                #print("-G 0: " + cFile)
+                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
+            else:
+                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
             ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         linkerDeps.append(cOFile)
+        linkerDeps.append("linker_command_file.txt")
 
     # run the linker to generate the cpe
     cpeFile = os.path.abspath("../obj/_mgsi.cpe")
