@@ -13,6 +13,7 @@ extern unsigned int spu_ch_tbl_800A2AC8[];
 extern volatile int sd_flags_800C0BFC;
 extern unsigned int gStr_FadeOut1_800BF16C;
 extern int sng_status_800BF158;
+extern SEPLAYTBL se_playing_800BF068[8];
 
 #pragma INCLUDE_ASM("asm/SD/SD_spuwr_80087A88.s")
 
@@ -126,5 +127,38 @@ int SD_800886F4(void)
     return sng_status_800BF158 > 2;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8008870C.s")
-#pragma INCLUDE_ASM("asm/sub_8008877C.s")
+int sub_8008870C()
+{
+    int i; // $a1
+    int bits; // $a0
+
+    i = 0;
+    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
+    for (i =0; i < 8; i ++)
+    {
+        if ( (bits & 1) == 0 && se_playing_800BF068[i].field_0_pri != 255 )
+        {
+            return se_playing_800BF068[i].field_8_code;
+        }
+        bits >>= 1;
+    }
+    return 0;
+}
+
+int sub_8008877C()
+{
+    int i; // $a1
+    int bits; // $a0
+
+    i = 0;
+    bits = (unsigned int)song_end_800C04E8 >> 13; // TODO: Fix type
+    for (i =0; i < 8; i ++)
+    {
+        if ( (bits & 1) == 0 && se_playing_800BF068[i].field_0_pri == 255 )
+        {
+            return se_playing_800BF068[i].field_8_code;
+        }
+        bits >>= 1;
+    }
+    return 0;
+}
