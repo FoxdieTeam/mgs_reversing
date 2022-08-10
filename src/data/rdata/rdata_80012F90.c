@@ -105,5 +105,6 @@ const char SECTION(".rdata") aStartTaskSdmai[] = "Start Task:SdMain\n";
 const char SECTION(".rdata") aBgmTerminate[] = "***BGM Terminate***\n";
 
 
-const int  SECTION(".rdata") jpt_800135B4[] = {0x80081B40, 0x80081B78, 0x80081B78, 0x80081B78,
-                                               0x80081B78, 0x80081BA0, 0x80081B88};
+// For SdMain_80081A18
+//const int  SECTION(".rdata") jpt_800135B4[] = {0x80081B40, 0x80081B78, 0x80081B78, 0x80081B78,
+//                                               0x80081B78, 0x80081BA0, 0x80081B88};
