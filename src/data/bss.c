@@ -270,7 +270,11 @@ gap gap_800BF1A4[0x4]; // 4 bytes
 
 int BSS dword_800BF1A8; // 0x4 (4) bytes
 
-gap gap_800BF1AC[0x3C]; // 60 bytes
+gap gap_800BF1AC[0x2C]; // 44 bytes
+
+int BSS dword_800BF1D8; // 0x4 (4) bytes
+
+gap gap_800BF1DC[0xC]; // 12 bytes
 
 int BSS bgm_idx_800BF1E8; // 0x4 (4) bytes
 unsigned int BSS mtrack_800BF1EC; // 0x4 (4) bytes
@@ -307,7 +311,11 @@ gap gap_800C040C[0x4]; // 4 bytes
 
 int BSS dword_800C0410; // 0x4 (4) bytes
 
-gap gap_800C0414[0x14]; // 20 bytes
+gap gap_800C0414[0xC]; // 12 bytes
+
+int BSS sd_sng_data_800C0420; // 0x4 (4) bytes
+
+gap gap_800C0424[0x4]; // 4 bytes
 
 int BSS dword_800C0428; // 0x4 (4) bytes
 
