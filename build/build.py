@@ -230,6 +230,7 @@ def gen_build_target(targetName):
             ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         linkerDeps.append(cOFile)
+        linkerDeps.append("linker_command_file.txt")
 
     # run the linker to generate the cpe
     cpeFile = os.path.abspath("../obj/_mgsi.cpe")
