@@ -5,7 +5,7 @@ void vol_set_80088320(unsigned int a1);
 unsigned char rdm_tbl_8009F9BC[129];
 extern SOUND_W* sptr_800C057C;
 extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
-extern int mtrack_800BF1EC;
+extern unsigned int mtrack_800BF1EC;
 
 #pragma INCLUDE_ASM("asm/SD/SD_80085A50.s")
 #pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s")
