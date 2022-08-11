@@ -89,12 +89,13 @@ STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
 // extern demothrd_2Vec stru_800B77E8[9];
 typedef struct GM_Camera // @ 800B77E8
 {
-    int field_0;
+    short field_0;
+    short field_2;
     int field_4;
-    int field_8;
+    short field_8;
+    short field_A;
     int field_C;
-    int field_10;
-    int field_14;
+    SVECTOR field_10;
     int field_18_flags;
     int field_1C;
     short field_20; // array? vector?
@@ -110,7 +111,6 @@ typedef struct GM_Camera // @ 800B77E8
     SVECTOR field_34[8]; // correct, see 8003078C for initializer
     int field_74;
     int field_78;
-    // int field_7C; // padding?
 } GM_Camera;
 STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
 // there's another struct after this one that needs to be done ^
