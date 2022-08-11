@@ -1,10 +1,26 @@
 #include <LIBSN.H>
 #include "linker.h"
+#include "libgcl/gcl.h"
+#include "psyq.h"
 
 // Each overlay defines this symbol
 extern char OverlayCharas[];
+extern int dword_800A3DCC;
 
-#pragma INCLUDE_ASM("asm/mts/mts_reset_graph_8008C534.s") // 88 bytes
+void mts_reset_graph_8008C534(void)
+{
+    if (dword_800A3DCC == 0)
+    {
+        ResetGraph(0);
+        SetGraphDebug(0);
+        InitGeom_80092680();
+        dword_800A3DCC = 1;
+    }
+    else
+    {
+        ResetGraph(1);
+    }
+}
 
 void SetExMask_8008C58C()
 {
