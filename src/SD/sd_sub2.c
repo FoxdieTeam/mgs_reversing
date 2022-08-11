@@ -169,7 +169,34 @@ void SD_MDX_E7_lp1_start_800871B4()
     sptr_800C057C->field_C_lp1_vol = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_MDX_E8_800871E0.s")
+void SD_MDX_E8_800871E0()
+{
+    char v1;
+
+    if ( stop_jouchuu_se_800BF1A0 && !mdata2_800BF0D4 )
+    {
+        sptr_800C057C->field_C_lp1_vol = 0;
+        sptr_800C057C->field_14_lp1_freq = 0;
+        ++stop_jouchuu_se_800BF1A0;
+    }
+    else
+    {
+        v1 = sptr_800C057C->field_8_lp1_cnt + 1;
+        sptr_800C057C->field_8_lp1_cnt = v1;
+        
+        if ( v1 != mdata2_800BF0D4 || v1  == 0 )
+        {
+            sptr_800C057C->field_C_lp1_vol += (signed char)mdata3_800BF0D8;
+            sptr_800C057C->field_14_lp1_freq += (signed char)mdata4_800BF0DC * 8;
+            mptr_800C0570 = sptr_800C057C->field_1C_lp1_addr;
+        }
+        else
+        {
+            sptr_800C057C->field_C_lp1_vol = 0;
+            sptr_800C057C->field_14_lp1_freq = 0;
+        }
+    }
+}
 
 void SD_MDX_E9_lp2_start_800872C0()
 {
