@@ -149,4 +149,6 @@ typedef struct SEPLAYTBL
   int field_8_code;
 } SEPLAYTBL;
 
+void sd_sng_alloc_80082194(void);
+
 #endif // _SD_H_

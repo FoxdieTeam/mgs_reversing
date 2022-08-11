@@ -5,6 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include <LIBSPU.H>
+#include <LIBCD.H>
 
 void SpuSetCommonAttr_80097038(SpuCommonAttr *attr);
 extern unsigned long SpuSetReverbVoice_80096858(long on_off, unsigned long voice_bit);
