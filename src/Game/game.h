@@ -109,8 +109,7 @@ typedef struct GM_Camera // @ 800B77E8
     short field_30;
     short field_32;
     SVECTOR field_34[8]; // correct, see 8003078C for initializer
-    int field_74;
-    int field_78;
+    int field_74_2Array[2];
 } GM_Camera;
 STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
 // there's another struct after this one that needs to be done ^
