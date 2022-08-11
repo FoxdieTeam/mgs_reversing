@@ -103,7 +103,7 @@ typedef struct SOUND_W
   int field_B4_tmpd;
   char field_B8_tmp;
   char field_B9_pad[3];
-  int field_BC_tmpad;
+  signed int field_BC_tmpad;
   char field_C0_tmpc;
   char field_C1_pad[3];
   int field_C4_tmpw;

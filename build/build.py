@@ -56,7 +56,7 @@ ninja.newline()
 ninja.variable("psyq_cc_43_exe", "$psyq_path/psyq_4.3/bin/CC1PSX.exe")
 ninja.newline()
 
-ninja.variable("psyq_aspsx_43_exe", "$psyq_path/psyq_4.3/bin/aspsx.exe")
+ninja.variable("psyq_aspsx_2_56_exe", "$psyq_path/ASPSX/2.56/ASPSX.EXE")
 ninja.newline()
 
 ninja.variable("psyq_psylink_exe", "$psyq_path/psyq_4.4/bin/psylink.exe")
@@ -107,7 +107,7 @@ ninja.newline()
 ninja.rule("psyq_cc_43", "cmd /c \"set TMPDIR=%TEMP%&& $psyq_cc_43_exe -quiet -O2 -G $gSize -g -Wall $in -o $out\"", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_43", "$psyq_aspsx_43_exe -q $in -o $out", "Assemble $in -> $out")
+ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
 ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
@@ -227,7 +227,7 @@ def gen_build_target(targetName):
                 ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
             else:
                 ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_43", cAsmFile)
+            ninja.build(cTempOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         linkerDeps.append(cOFile)
         linkerDeps.append("linker_command_file.txt")
