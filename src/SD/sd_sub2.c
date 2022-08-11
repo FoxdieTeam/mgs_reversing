@@ -214,7 +214,44 @@ void tempo_set_800873CC()
     sptr_800C057C->field_B8_tmp = mdata2_800BF0D4;
 }
 
-#pragma INCLUDE_ASM("asm/SD/tempo_move_800873E4.s")
+
+void tempo_move_800873E4()
+{
+    int temp; // $a0
+
+    sptr_800C057C->field_C0_tmpc = mdata2_800BF0D4;
+    sptr_800C057C->field_C8_tmpm = mdata3_800BF0D8;
+    sptr_800C057C->field_C4_tmpw = sptr_800C057C->field_B8_tmp << 8;
+
+
+    temp = (unsigned char)sptr_800C057C->field_C8_tmpm - (unsigned char)sptr_800C057C->field_B8_tmp;
+    if ( temp < 0 )
+    {
+        if ( temp < -127 )
+        {
+            temp = -127;
+        }
+        sptr_800C057C->field_BC_tmpad = -((-temp << 8) / (unsigned char)sptr_800C057C->field_C0_tmpc);
+        if ( (unsigned int)sptr_800C057C->field_BC_tmpad < -2032 ) // madness, but works
+        {
+            sptr_800C057C->field_BC_tmpad = -2032;
+        }
+       
+    }
+    else
+    {
+        if ( temp > 127 )
+        {
+            temp = 127;
+        }
+
+        sptr_800C057C->field_BC_tmpad =  (temp << 8) / (unsigned char)sptr_800C057C->field_C0_tmpc;
+        if ((unsigned int)sptr_800C057C->field_BC_tmpad > 0x7F0 )
+        {
+            sptr_800C057C->field_BC_tmpad = 0x7F0;
+        }    
+    }
+}
 
 void trans_set_8008750C()
 {
