@@ -67,7 +67,21 @@ unsigned int random_80086B84()
     return temp;
 }
 
-#pragma INCLUDE_ASM("asm/SD/tempo_ch_80086C08.s")
+void tempo_ch_80086C08()
+{
+    if (  sptr_800C057C->field_C0_tmpc )
+    {
+        if ( !--sptr_800C057C->field_C0_tmpc )
+        {
+            sptr_800C057C->field_C4_tmpw = (unsigned char)sptr_800C057C->field_C8_tmpm << 8;
+        }
+        else
+        {
+            sptr_800C057C->field_C4_tmpw += sptr_800C057C->field_BC_tmpad;
+        }
+        sptr_800C057C->field_B8_tmp = (unsigned int)sptr_800C057C->field_C4_tmpw >> 8;
+    }
+}
 
 void volxset_80086C98(unsigned char a1)
 {
