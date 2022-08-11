@@ -29,7 +29,13 @@ int DM_ThreadStream_80079460(int flag, int unused)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_update_800797FC.s")                         // 356 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_kill_80079960.s")                           // 72 bytes
 #pragma INCLUDE_ASM("asm/Kojo/FS_EnableMemfile_800799A8.s")                        // 116 bytes
-#pragma INCLUDE_ASM("asm/sub_80079A1C.s")                                          // 16 bytes
+
+void sub_80079A1C(void)
+{
+    // Debug build address
+    *(int *)0x80700000 = 0;
+}
+
 #pragma INCLUDE_ASM("asm/sub_80079A2C.s")                                          // 184 bytes
 #pragma INCLUDE_ASM("asm/sub_80079AE4.s")                                          // 108 bytes
 #pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes

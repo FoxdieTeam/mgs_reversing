@@ -164,7 +164,11 @@ gap gap_800B82B0[0x30]; // 48 bytes
 
 int BSS dword_800B82E0; // 0x4 (4) bytes
 
-gap gap_800B82E4[0xC]; // 12 bytes
+gap gap_800B82E4[0x4]; // 4 bytes
+
+int BSS dword_800B82E8; // 0x4 (4) bytes
+
+gap gap_800B82EC[0x4]; // 4 bytes
 
 Actor_JimCtrl BSS jimCtrlActor_800B82F0; // 0x48 (72) bytes
 
