@@ -178,7 +178,7 @@
     include "..\obj\libfs\FS_LoadFileSync_80021F48.obj"
     include "..\obj\libfs\MakeFullPath_80021F68.obj"
     include "..\obj\CDBIOS_Reset_80021F70.obj"
-    include "..\obj\sub_80021FE0.obj"
+    include "..\obj\libfs\sub_80021FE0.obj"
     include "..\obj\sub_80022024.obj"
     include "..\obj\nullsub\nullsub_9_80022088.obj"
     include "..\obj\CDBIOS_TaskStart_helper_helper_80022090.obj"
