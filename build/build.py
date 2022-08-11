@@ -262,4 +262,8 @@ if exit_code == 0:
     ret = subprocess.run([sys.executable, 'compare.py'])
     exit_code = ret.returncode
 
+if exit_code == 0:
+    ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
+    exit_code = ret.returncode
+
 sys.exit(exit_code)
