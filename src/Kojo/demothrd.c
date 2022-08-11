@@ -28,7 +28,32 @@ int DM_ThreadStream_80079460(int flag, int unused)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper_800797CC.s")          // 48 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_update_800797FC.s")                         // 356 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_kill_80079960.s")                           // 72 bytes
-#pragma INCLUDE_ASM("asm/Kojo/FS_EnableMemfile_800799A8.s")                        // 116 bytes
+
+extern int dword_800BDFB8;
+extern int dword_800BDFBC;
+extern int dword_800BDFC0;
+extern int dword_800BDFC4;
+
+extern const char aCacheBufferCle[]; // = "Cache Buffer Cleared\n";
+extern const char aCacheReadEnabl[]; // = "Cache Read Enable\n";
+
+void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
+{
+    dword_800BDFB8 = cache_read_enable;
+    dword_800BDFBC = clear_cache_buffer;
+
+    if (clear_cache_buffer != 0) {
+        mts_printf_8008BBA0(aCacheBufferCle);
+        dword_800BDFC4 = 0x80700c00;
+        // Debug build address
+        *(int *)0x80700000 = 0;
+        dword_800BDFC0 = 0x80700000;
+    }
+
+    if (cache_read_enable) {
+        mts_printf_8008BBA0(aCacheReadEnabl);
+    }
+}
 
 void sub_80079A1C(void)
 {
