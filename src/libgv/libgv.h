@@ -218,6 +218,9 @@ int          GV_VecLen3_80016D80(SVECTOR *vec);
 int          GV_VecDir2_80016EF8(SVECTOR *vec);
 void         GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 int          GV_NearExp2_80026384(int param_1, int param_2);
+int          GV_NearExp4_800263B0(int arg0, int arg1);
+void         GV_NearExp4V_800266D4(short *param_1,short *param_2,int param_3);
+void         GV_NearExp4PV_800269A0(short *param_1,short *param_2,int param_3);
 int          GV_NearExp8_800263E4(int arg0, int arg1);
 int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
@@ -226,6 +229,12 @@ void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 int          sub_80026418(int arg0, int arg1); // probably a NearExp
 int          sub_80026440(int param_1, int param_2, int param_3);
 void         GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec);
+void         sub_8002ECE4(short *param_1, short *param_2, short *param_3);
+void         sub_8002EC8C(short *param_1, short *param_2, short *param_3);
+// these 3 are definitely a NearExps
+int          sub_800268AC(short *param_1, short *param_2, int param_3, int param_4);
+int          sub_80026BC4(short *param_1, short *param_2, int param_3, int param_4);
+int          sub_800264B0(int param_1,int param_2,int param_3);
 
 typedef struct GV_Vec
 {
