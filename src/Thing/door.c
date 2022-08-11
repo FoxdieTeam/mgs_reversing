@@ -120,28 +120,20 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
     return defaul_val;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_loader_8006FA60.s") // 672 bytes
-
 static inline void SetFlag(GM_Control *pCtrl, int flag)
 {
     pCtrl->field_55_flags |= flag;
 }
 
-/*
-// not matching, a few reg swaps
 int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 {
-    GM_Control *pCtrl; // $s2
-    char *door_dir;     // $v0
-    char *door_pos;     // $s0
-                        //    int door_model;           // $v0
-                        //    int door_model_v;         // $v0
-    int a_param_v;      // $s2
-    int have_c_param;   // $s0
-                        //    int param_g_v;            // $v0
-                        //    short field_E6_param_w_v; // $v1
-
-    pCtrl = &pDoor->field_20_ctrl;
+    int door_model_v;
+    int a_param_v;
+    int have_c_param;
+    char *m_param;
+    OBJECT_NO_ROTS *obj;
+    char *door_dir;
+    char *door_pos;
 
     if (Res_Control_init_loader_8002599C(&pDoor->field_20_ctrl, name, where) < 0)
     {
@@ -149,20 +141,26 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
     }
 
     pDoor->field_E0_where = where;
-    door_pos = GCL_GetParam_80020968('p');
-    door_dir = GCL_GetParam_80020968('d');
+
+    door_pos = (char *)GCL_GetParam_80020968('p');
+    door_dir = (char *)GCL_GetParam_80020968('d');
+
     GM_ConfigControlString_800261C0(&pDoor->field_20_ctrl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(&pDoor->field_20_ctrl, -1, -1, -1);
 
-    SetFlag(pCtrl, 2u);
+    SetFlag(&pDoor->field_20_ctrl, 2);
 
-    GM_InitObjectNoRots_800349B0((OBJECT *)&pDoor->field_9C, GCL_GetNextInt_800209E8(GCL_GetParam_80020968('m')), 23,
-0); GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
+    m_param = (char *)GCL_GetParam_80020968('m');
+    obj = &pDoor->field_9C;
+    door_model_v = GCL_GetNextInt_800209E8(m_param);
+
+    GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
+    GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
     DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_rotator);
-    DG_PutObjs_8001BDB8(&pDoor->field_9C.objs->world);
+    DG_PutObjs_8001BDB8(pDoor->field_9C.objs);
     GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
 
-    pDoor->field_E6_param_w_v = pDoor->field_9C.objs->def[2].num_bones_0;
+    pDoor->field_E6_param_w_v = pDoor->field_9C.objs->def[2].num_bones_0; // is this correct?
 
     pDoor->field_E6_param_w_v = door_read_with_default_value_8006FA28('w', 1000);
     pDoor->field_E8_param_s_v = door_read_with_default_value_8006FA28('s', 100);
@@ -197,13 +195,11 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
-        SVECTOR v15; // [sp+10h] [-8h] BYREF
-        pCtrl = &pDoor->field_20_ctrl;
-
-        //  SVECTOR *p = &v15;
-        GV_DirVec2_80016F24((pCtrl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &v15);
-        pCtrl->field_0_position.vx += v15.vx;
-        pCtrl->field_0_position.vz += v15.vz; // lhu		$v0, 4($s0)
+        SVECTOR vec;
+        GM_Control *pCtrl = &pDoor->field_20_ctrl;
+        GV_DirVec2_80016F24((pCtrl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
+        pCtrl->field_0_position.vx += vec.vx;
+        pCtrl->field_0_position.vz += vec.vz;
     }
 
     pDoor->field_F2_door_counter = 0;
@@ -226,7 +222,6 @@ int door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where)
 
     return 0;
 }
-*/
 
 Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv)
 {
