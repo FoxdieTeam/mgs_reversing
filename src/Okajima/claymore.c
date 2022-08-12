@@ -14,17 +14,15 @@ void claymore_800731CC(SVECTOR *param_1)
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s")  // 272 bytes
 #pragma INCLUDE_ASM("asm/Okajima/claymore_act_800736B0.s")            // 580 bytes
 
-void claymore_kill_800738F4(int param_1)
+void claymore_kill_800738F4(Actor_Claymore *claymore)
 {
-    DG_OBJS *prim;
+    DG_OBJS *objs;
 
-    prim = *(DG_OBJS **)(param_1 + 0x84);
-    if (prim)
+    if (objs = (DG_OBJS *)claymore->field_84_pPrim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim_800182E0(objs);
+        DG_FreePrim_8001BC04(objs);
     }
-    return;
 }
 
 extern SVECTOR stru_8009F660;

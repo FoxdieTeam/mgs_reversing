@@ -43,19 +43,18 @@ void blast_act_8006DD18(Actor_Blast *pActor)
     }
 }
 
-void blast_kill_8006DD90(int param_1)
+void blast_kill_8006DD90(Actor_Blast *blast)
 {
-    DG_OBJS *iVar1;
+    DG_OBJS *objs;
 
-    if (*(int *)(param_1 + 0x38) < 2)
+    if (blast->field_38 < 2)
     {
         sub_8007913C();
     }
-    iVar1 = *(DG_OBJS **)(param_1 + 0x2c);
-    if (iVar1 != 0)
+    if (objs = (DG_OBJS *)blast->field_2C)
     {
-        DG_DequeuePrim_800182E0(iVar1);
-        DG_FreePrim_8001BC04(iVar1);
+        DG_DequeuePrim_800182E0(objs);
+        DG_FreePrim_8001BC04(objs);
     }
 }
 
