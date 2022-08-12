@@ -401,6 +401,7 @@ void DG_ClearTmpLight_8001A0E4();
 int  DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 void DG_InitLightSystem_80019F40(void);
 void DG_SetAmbient_80019F80(int param_1, int param_2, int param_3);
+int  DG_GetLightMatrix2_8001A5D8(SVECTOR *vec, MATRIX *mtx);
 
 DG_TEX *DG_FindTexture_8001D830(int name);
 int     DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
