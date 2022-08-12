@@ -355,7 +355,7 @@ int BSS keyd_800C0524; // 0x4 (4) bytes
 int BSS wave_load_code_800C0528; // 0x4 (4) bytes
 int BSS spu_wave_start_ptr_800C052C; // 0x4 (4) bytes
 
-gap gap_800C0530[0x40]; // 64 bytes
+WAVE_W BSS voice_tbl_800C0530[4]; // 64 bytes
 
 unsigned char* BSS mptr_800C0570; // 0x4 (4) bytes
 int BSS se_rev_on_800C0574; // 0x4 (4) bytes
