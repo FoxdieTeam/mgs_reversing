@@ -441,17 +441,15 @@ void anime_act_8005F4AC(Actor_anime *pActor)
     }
 }
 
-void anime_kill_8005F608(int param_1)
+void anime_kill_8005F608(Actor_anime *anime)
 {
-    DG_OBJS *iVar1;
+    DG_OBJS *objs;
 
-    iVar1 = *(DG_OBJS **)(param_1 + 0x24);
-    if (iVar1 != 0)
+    if (objs = (DG_OBJS *)anime->field_24_pPrim)
     {
-        DG_DequeuePrim_800182E0(iVar1);
-        DG_FreePrim_8001BC04(iVar1);
+        DG_DequeuePrim_800182E0(objs);
+        DG_FreePrim_8001BC04(objs);
     }
-    return;
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F644.s") // 168 bytes
