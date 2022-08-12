@@ -46,7 +46,7 @@ void SdMain_80081A18()
     mts_printf_8008BBA0(aStartTaskSdmai);
     sd_sng_alloc_80082194();
     mts_set_stack_check_8008B648(1, &dword_800BEFC8, 2048);
-    mts_sta_tsk_8008B47C(1, SdInt_Task_80081BDC, (int)&dword_800BEFC8);
+    mts_sta_tsk_8008B47C(1, SdInt_Task_80081BDC, &dword_800BEFC8);
     mts_slp_tsk_8008A400();
     sd_flags_800C0BFC = 128;
     while ( 1 )

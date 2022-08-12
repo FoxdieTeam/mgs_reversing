@@ -319,36 +319,32 @@ typedef struct DG_CHNL
     DR_ENV field_16C_dr_env[2];
 } DG_CHNL;
 
-static inline u_long LLOAD(from) void *from;
+static inline u_long LLOAD(void *from)
 {
     return *(u_long *)from;
 }
 
-static inline void LSTORE(from, to) u_long from;
-void              *to;
+static inline void LSTORE(u_long from, void *to)
 {
     *(u_long *)to = from;
 }
 
-static inline u_short SLOADL(from) void *from;
+static inline u_short SLOADL(void *from)
 {
     return *(u_short *)from;
 }
 
-static inline void SSTOREL(from, to) // name restored
-    u_short from;
-void *to;
+static inline void SSTOREL(u_short from, void *to) // name restored
 {
     *(u_short *)to = from;
 }
 
-static inline void LCOPY(s1, d1) void *s1, *d1;
+static inline void LCOPY(void *s1, void *d1)
 {
     *(u_long *)d1 = *(u_long *)s1;
 }
 
-static inline void LCOPY2(s1, d1, s2, d2) void *s1, *d1;
-void              *s2, *d2;
+static inline void LCOPY2(void *s1, void *d1, void *s2, void *d2)
 {
     u_long r1, r2;
 
