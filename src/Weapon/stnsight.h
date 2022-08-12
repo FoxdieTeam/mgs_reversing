@@ -9,18 +9,21 @@
 
 // stinger first person HUD
 
+// this structure is passed down from the parent of the parent of this actor, not sure what it is yet
+typedef struct Actor_stnsight_unk {
+    char pad[76];
+    short field_4C;
+} Actor_stnsight_unk;
+
 typedef struct Actor_stnsight {
     Actor field_0_actor;
-    int field_20_type;
+    Actor_stnsight_unk *field_20;
     GV_PAD *field_24_pad_data;
-    LINE_F4 *field_28_lines;
-    LINE_F4 *field_2C_lines;
-    LINE_F4 *field_30_lines;
-    LINE_F4 *field_34_lines;
+    LINE_F4 *field_28_lines_2Array[2];
+    LINE_F4 *field_30_lines_2Array[2];
     LINE_F4 *field_38_lines_2Array[2];
     LINE_F4 *field_40_lines_2Array[2];
-    TILE_1 *field_48_tiles;
-    TILE_1 *field_4C_tiles;
+    TILE_1 *field_48_tiles_2Array[2];
     POLY_G4 *field_50_polys_2Array[2];
     int field_58_ybase;
     int field_5C_xbase;
@@ -45,7 +48,7 @@ int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor);
 int stnsight_init_helper_helper_80069100(Actor_stnsight *actor);
 int stnsight_init_helper_helper_80069184(Actor_stnsight *actor);
 int stnsight_init_helper_helper_80069234(Actor_stnsight *actor);
-int stnsight_init_helper_800692D0(Actor_stnsight *actor, int type);
-Actor_stnsight * NewStnSight_800693E0(int type);
+int stnsight_init_helper_800692D0(Actor_stnsight *actor, void *unknown);
+Actor_stnsight * NewStnSight_800693E0(void *unknown);
 
 #endif // _STNSIGHT_H_
