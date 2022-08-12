@@ -1351,7 +1351,7 @@ void sna_init_anim_crouch_800527DC(Actor_SnaInit *param_1, int anim_frame)
         param_1->field_9C8_anim_update_fn_3p = sna_init_anim_crouch_helper_80053014;
         param_1->field_9CC_anim_update_fn_1p = sna_init_fn_80052120;
         sna_init_8004E22C(param_1, param_1->field_9B4_action_table->field_0->field_2, 4);
-        param_1->field_A2E = -128;
+        param_1->field_A2C.vy = -128;
     }
 
     if ((anim_frame == 0 && param_1->field_A26_fn_stance_idx != SNA_STANCE_STANDING) ||
@@ -2216,7 +2216,7 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int anim_frame
 
         if (anim_frame > 16)
         {
-            sub_80026734(&pActor->field_A2C, &DG_ZeroVector_800AB39C, 3);
+            sub_80026734(&pActor->field_A2C.vx, &DG_ZeroVector_800AB39C, 3);
         }
 
         if ((pActor->field_A54.prone_bool_thing == 1 && anim_frame == 12) ||
@@ -2225,8 +2225,8 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int anim_frame
             sub_800329C4(&pActor->field_20_ctrl, 51, 1);
         }
 
-        pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C;
-        pActor->field_20_ctrl.field_44_movementVector.vz = pActor->field_A30;
+        pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C.vx;
+        pActor->field_20_ctrl.field_44_movementVector.vz = pActor->field_A2C.vz;
         sna_init_80050568(pActor);
     }
 }
@@ -2378,11 +2378,11 @@ void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *pActor, int anim_fram
 
         if (anim_frame > 16)
         {
-            sub_80026734((short *)&pActor->field_A2C, &DG_ZeroVector_800AB39C, 3);
+            sub_80026734(&pActor->field_A2C.vx, &DG_ZeroVector_800AB39C, 3);
         }
 
-        pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C;
-        pActor->field_20_ctrl.field_44_movementVector.vz = pActor->field_A30;
+        pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C.vx;
+        pActor->field_20_ctrl.field_44_movementVector.vz = pActor->field_A2C.vz;
         sna_init_80050568(pActor);
     }
 }
@@ -2931,7 +2931,7 @@ void sub_80058644(Actor_SnaInit *pActor, int anim_frame)
             sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
         }
 
-        pActor->field_A2E = -100;
+        pActor->field_A2C.vy = -100;
     }
 }
 

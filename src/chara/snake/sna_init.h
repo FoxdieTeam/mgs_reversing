@@ -523,10 +523,14 @@ typedef struct Actor_SnaInit
     int                 field_9C4;
     void               *field_9C8_anim_update_fn_3p; // called for every anim/state while in third person
     void               *field_9CC_anim_update_fn_1p; // same except first person. caller: 8005a7e0
-    SVECTOR             field_9D0[3];
+    SVECTOR             field_9D0[2];
+    short               field_9E0;
+    short               field_9E2;
+    short               field_9E4;
+    short               field_9E6;
     short               field_9E8;
     short               field_9EA;
-    short               field_9EC;
+    short               field_9EC_flags3;
     short               field_9EE;
     short               field_9F0;
     short               field_9F2;
@@ -547,10 +551,7 @@ typedef struct Actor_SnaInit
     short               field_A26_fn_stance_idx; // SNA_STANCE_...
     short               field_A28;
     short               field_A2A;
-    short               field_A2C;
-    short               field_A2E;
-    short               field_A30;
-    short               field_A32;
+    SVECTOR             field_A2C;
     int                 field_A34;
     short               field_A38;
     short               field_A3A;
