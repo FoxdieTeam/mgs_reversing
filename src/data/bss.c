@@ -164,7 +164,11 @@ gap gap_800B82B0[0x30]; // 48 bytes
 
 int BSS dword_800B82E0; // 0x4 (4) bytes
 
-gap gap_800B82E4[0xC]; // 12 bytes
+gap gap_800B82E4[0x4]; // 4 bytes
+
+int BSS dword_800B82E8; // 0x4 (4) bytes
+
+gap gap_800B82EC[0x4]; // 4 bytes
 
 Actor_JimCtrl BSS jimCtrlActor_800B82F0; // 0x48 (72) bytes
 
@@ -216,8 +220,12 @@ gap gap_800BDFAC[0x4]; // 4 bytes
 
 void BSS (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
+int BSS dword_800BDFB8; // 0x4 (4) bytes
+int BSS dword_800BDFBC; // 0x4 (4) bytes
+int BSS dword_800BDFC0; // 0x4 (4) bytes
+int BSS dword_800BDFC4; // 0x4 (4) bytes
 
-gap gap_800BDFB8[0x1010]; // 4112 bytes
+gap gap_800BDFC8[0x1000]; // 4096 bytes
 
 int BSS dword_800BEFC8; // 0x4 (4) bytes
 int BSS dword_800BEFCC; // 0x4 (4) bytes
