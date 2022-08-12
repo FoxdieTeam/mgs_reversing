@@ -202,9 +202,11 @@ typedef enum
 
 enum
 {
+    // ... negative ones too?
     SNA_STANCE_STANDING = 0,
     SNA_STANCE_CROUCH = 1,
     SNA_STANCE_GROUND = 2, // prone + knocked down
+    SNA_STANCE_UNK = 3, // first person prone?
     // ... more?
 };
 
@@ -214,6 +216,19 @@ typedef struct UnkSnakeStruct
     SVECTOR field_0_vectors[3];
     int     field_18_ints[2];
 } UnkSnakeStruct;
+
+// sub struct of Actor_SnaInit
+typedef struct UnkSnakeStruct2
+{
+    unsigned short field_9E4;
+    short          field_9E6;
+    short          field_9E8;
+    short          field_9EA;
+    short          field_9EC_flags3;
+    short          field_9EE;
+    short          field_9F0;
+    short          field_9F2;
+} UnkSnakeStruct2;
 
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
@@ -526,14 +541,7 @@ typedef struct Actor_SnaInit
     SVECTOR             field_9D0[2];
     short               field_9E0;
     short               field_9E2;
-    short               field_9E4;
-    short               field_9E6;
-    short               field_9E8;
-    short               field_9EA;
-    short               field_9EC_flags3;
-    short               field_9EE;
-    short               field_9F0;
-    short               field_9F2;
+    UnkSnakeStruct2     field_9E4;
     int                 field_9F4;
     int                 field_9F8;
     int                 field_9FC;
