@@ -41,6 +41,12 @@ extern const char aArgDS[];
 
 extern int sd_debug_800BEFD4;
 extern unsigned int byte_800BE7C8[512];
+extern const char aSoundErrorSpuO[];
+extern const char aSoundErrorSpuO_0[];
+
+extern int gStream_800C04F0;
+extern int dword_800BF258;
+extern int dword_800C0580;
 
 void sub_80081910(int argc, const char **argv)
 {
@@ -173,7 +179,47 @@ void SD_80081FC4(int param_1)
     SpuSetKey_80096C18(0, param_1);
 }
 
-#pragma INCLUDE_ASM("asm/SD/KeyOffStr_80081FE8.s")
+void KeyOffStr_80081FE8()
+{
+    SpuVoiceAttr attr; // [sp+10h] [-40h] BYREF
+
+    switch (SpuGetKeyStatus_80096DD8(0x600000))
+    {
+        case SPU_OFF: 
+            break;
+        
+        case SPU_ON:
+        case SPU_ON_ENV_OFF:
+            SpuSetKey_80096C18(0, 0x600000);
+            break;
+        
+        case SPU_OFF_ENV_ON:
+            attr.voice = 0x200000;
+            SpuGetVoiceAttr_80097D18(&attr);
+            if ( attr.rr != 8 )
+            {
+                mts_printf_8008BBA0(aSoundErrorSpuO, attr.rr);
+            }
+            attr.voice = 0x400000;
+            SpuGetVoiceAttr_80097D18(&attr);
+            if ( attr.rr != 8 )
+            {
+                mts_printf_8008BBA0(aSoundErrorSpuO_0, attr.rr);
+            }
+    }
+    
+    dword_800C0580 = 0;
+    gStream_800C04F0 = 0;
+    
+    if ( dword_800BF258 )
+    {
+        SD_8008395C(dword_800BF258, 1);
+        dword_800BF258 = 0;
+    }
+    gStr_FadeOut1_800BF16C = 0;
+    StrSpuTransClose_80083394();  
+}
+
 #pragma INCLUDE_ASM("asm/SD/sub_800820EC.s")
 
 void SD_80082170(int param_1)
