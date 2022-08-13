@@ -13,9 +13,44 @@ extern const char aGoggles_1[];
 
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
-extern int        dword_800BDFA8;
+extern int dword_800BDFA8;
 
-#pragma INCLUDE_ASM("asm/goggleir_pal_convert_800789E0.s") // 216 bytes
+ushort goggleir_pal_convert_800789E0(ushort base)
+{
+    int r, r2;
+    int g;
+    int b;
+    int a;
+
+    if ((base & 0x7fff) == 0)
+    {
+        return base;
+    }
+
+    r = base & 31;
+    r2 = r;
+
+    g = ((base & 0x3E0) >> 5) & 31;
+    if (g > r2) r2 = g;
+
+    b = ((base & 0x7C00) >> 10) & 31;
+    if (b > r2) r2 = b;
+    
+    a = base & 0x8000;
+    
+    r2 = 4 * r2 / 3;
+    
+    r = r2 / 2 + 2;
+    if (r > 31) r = 31;
+    
+    g = r2 / 4;
+    if ((r2 / 4) > 31) g = 31; // why
+    
+    b = r2 / 4;
+    if (b > 31) b = 31;
+    
+    return r | g << 5 | b << 10 | a;
+}
 
 extern RECT rect_8009F718;
 extern RECT rect_8009F720;
