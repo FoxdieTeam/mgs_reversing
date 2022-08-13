@@ -243,7 +243,11 @@ gap gap_800BEFF4[0xC]; // 12 bytes
 
 int BSS dword_800BF000; // 0x4 (4) bytes
 
-gap gap_800BF004[0x10]; // 16 bytes
+gap gap_800BF004[0x8]; // 8 bytes
+
+int BSS blank_data_addr_800BF00C; // 0x4 (4) bytes
+
+gap gap_800BF010[0x4]; // 4 bytes
 
 int BSS se_fp_800BF014; // 0x4 (4) bytes
 int BSS sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
@@ -251,14 +255,10 @@ int BSS sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
 gap gap_800BF058[0x4]; // 4 bytes
 
 int BSS sd_KaihiMode_800BF05C; // 0x4 (4) bytes
-
-gap gap_800BF060[0x4]; // 4 bytes
-
+int BSS spu_bgm_start_ptr_l_800BF060; // 0x4 (4) bytes
 int BSS dword_800BF064; // 0x4 (4) bytes
 SEPLAYTBL BSS se_playing_800BF068[8]; // 0x60 (96) bytes
-
-gap gap_800BF0C8[0x4]; // 4 bytes
-
+int BSS spu_bgm_start_ptr_r_800BF0C8; // 0x4 (4) bytes
 int BSS bstr_fade_inProgress_800BF0CC; // 0x4 (4) bytes
 
 gap gap_800BF0D0[0x4]; // 4 bytes
@@ -300,8 +300,9 @@ gap gap_800BF1F0[0x20]; // 32 bytes
 
 int BSS dword_800BF210; // 0x4 (4) bytes
 
-gap gap_800BF214[0x44]; // 68 bytes
+gap gap_800BF214[0x4]; // 4 bytes
 
+SpuVoiceAttr BSS voiceAttr_800BF218; // 0x40 (64) bytes
 int BSS dword_800BF258; // 0x4 (4) bytes
 
 gap gap_800BF25C[0x4]; // 4 bytes
@@ -379,8 +380,9 @@ int BSS wave_save_code_800C0578; // 0x4 (4) bytes
 SOUND_W* BSS sptr_800C057C; // 0x4 (4) bytes
 int BSS dword_800C0580; // 0x4 (4) bytes
 int BSS gStr_fadeout_2_800C0584; // 0x4 (4) bytes
+unsigned char BSS byte_800C0588[200]; // 0xC8 (200) bytes
 
-gap gap_800C0588[0xD0]; // 208 bytes
+gap gap_800C0650[0x8]; // 8 bytes
 
 SPU_TRACK_REG BSS spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
