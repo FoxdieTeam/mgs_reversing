@@ -233,9 +233,12 @@ const char SECTION(".rdata") aDoorC[] = "door.c";
 const char SECTION(".rdata") aSgtrect3C[] = "sgtrect3.c";
 
 // AN_Blood_Mist_80072934
-const int SECTION(".rdata") aS_2_80012E68[] = {
-    0x7325,  0x68676973, 0x632E74,   0x6F6F6C62, 0x315F64,  0x6F6F6C62, 0x632E64,   0x12A00, 0x2FE0105, 0x80100,
-    0xCB0B0, 0xAFF0105,  0x64006400, 0xD010002,  0x105000C, 0x1E000AFF, 0xE8081E00, 0x2F8F8, 0xF0D01};
+const char SECTION(".rdata") aStringFormat[] = "%s";
+const char SECTION(".rdata") aSightC[] = "sight.c";
+const char SECTION(".rdata") aBlood_1[] = "blood_1";
+const char SECTION(".rdata") aBloodC[] = "blood.c";
+const int  SECTION(".rdata") aS_2_80012E68[] = {0x12A00,   0x2FE0105, 0x80100,    0xCB0B0,    0xAFF0105, 0x64006400,
+                                                0xD010002, 0x105000C, 0x1E000AFF, 0xE8081E00, 0x2F8F8,   0xF0D01};
 
 const char SECTION(".rdata") aDBloodC[] = "d_blood.c";
 const char SECTION(".rdata") aKetchapGrey[] = "ketchap_grey";

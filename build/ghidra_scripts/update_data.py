@@ -226,7 +226,7 @@ for root, subdirs, files in os.walk(root_dir + '/src'):
                                 defined_data_end = start_end_pairs[1]
                                 if address_as_int <= defined_data_end and end_address_as_int >= defined_data_start:
                                     print('WARNING: OVERLAPPING DATA')
-                                    print(var_name + ' in range ' + base_address + ' - ' + hex(end_address_as_int))
+                                    print(var_name + ' in range ' + address + ' - ' + hex(end_address_as_int))
                                     print('overlaps ' + getSymbolAt(toAddr(defined_data_start)).getName() + ' in range ' + hex(defined_data_start) + ' - ' + hex(defined_data_end))
                                     print('*****************************')
                             defined_data_ranges.append((address_as_int, end_address_as_int))
