@@ -3,3 +3,4 @@ colorama
 termcolor
 capstone
 iterfzf
+pyperclip
