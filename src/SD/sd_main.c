@@ -194,7 +194,7 @@ extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF210;
 extern int dword_800BF064;
 extern int dword_800BF1A8;
-extern int blank_data_800A2B28;
+unsigned char blank_data_800A2B28[512];
 extern int dword_800BF27C;
 
 extern unsigned char byte_800C0588[200];
@@ -206,7 +206,92 @@ extern SpuVoiceAttr voiceAttr_800BF218;
 
 void UserSpuIRQProc_80082640();
 
-#pragma INCLUDE_ASM("asm/SD/sd_init_80081C7C.s")
+void sd_init_80081C7C()
+{
+    int spuMem;  
+    int i;  
+    SpuCommonAttr attr;  
+    SpuReverbAttr reverbAttr;  
+
+    SpuInit_80094568();
+    SpuInitMalloc_800952D8(24, byte_800C0588);   
+    attr.mask = 3;
+    attr.mvol.left = 0;
+    attr.mvol.right = 0;
+    SpuSetCommonAttr_80097038(&attr);
+    SpuSetPitchLFOVoice_80097008(0, 0xFFFFFF);
+    SpuSetNoiseVoice_80095908(0, 0xFFFFFF);
+    SpuSetReverb_80095BF8(0);
+    SpuSetTransferMode_80096F28(0);
+    blank_data_addr_800BF00C = SpuMalloc_80095338(512);
+    mts_printf_8008BBA0(aBlankDataAddrX, blank_data_addr_800BF00C);
+    spu_wave_start_ptr_800C052C = SpuMalloc_80095338(0x73E00);
+    mts_printf_8008BBA0(aSpuWaveStartPt, spu_wave_start_ptr_800C052C);
+    spu_bgm_start_ptr_r_800BF0C8 = SpuMalloc_80095338(0x2000);
+    mts_printf_8008BBA0(aSpuBgmStartPtr, spu_bgm_start_ptr_r_800BF0C8);
+    spuMem = SpuMalloc_80095338(0x2000);
+    spu_bgm_start_ptr_l_800BF060 = spuMem;
+    if ( spuMem == -1 )
+    {
+        mts_printf_8008BBA0(aSpuBufferOver);
+    }
+    else
+    {
+        mts_printf_8008BBA0(aSpuBgmStartPtr_0, spuMem);
+    }
+    SpuSetReverb_80095BF8(0);
+    SpuReserveReverbWorkArea_80096788(1);
+    SpuClearReverbWorkArea_80096888(4);
+    reverbAttr.mask = 1;
+    reverbAttr.mode = 4;
+    if ( SpuSetReverbModeParam_80095DD8(&reverbAttr) )
+    {
+        mts_printf_8008BBA0(aSpuReverbBuffe);
+    }
+    reverbAttr.mask = 6;
+    reverbAttr.depth.left = 0x4000;
+    reverbAttr.depth.right = 0x4000;
+    SpuSetReverbDepth_800967D8(&reverbAttr);
+    SpuSetReverb_80095BF8(1);
+    dword_800BF210 = 0;
+    dword_800BF064 = 0x1FFF;
+    SpuSetReverbVoice_80096858(1, 0x1FFF);
+    init_sng_work_8008559C();
+    dword_800BF27C = 0;
+    gStr_FadeOut1_800BF16C = 0;
+    for (i=0; i<8 ;i++)
+    {
+        se_playing_800BF068[i].field_8_code = 0;
+    }
+    SpuSetTransferStartAddr_80096EC8(blank_data_addr_800BF00C);
+    SpuWrite_80096E68(blank_data_800A2B28, 512);
+    SpuIsTransferCompleted_80096F58(1);
+    SpuSetIRQ_80096A28(0);
+    SpuSetIRQAddr_80096B68(blank_data_addr_800BF00C);
+    dword_800BF1A8 = 0;
+    SpuSetIRQCallback_80096BA8(UserSpuIRQProc_80082640);
+    SpuSetIRQ_80096A28(1);
+    voiceAttr_800BF218.mask = 0xFF93;
+    voiceAttr_800BF218.voice = 0x800000;
+    voiceAttr_800BF218.pitch = 4096;
+    voiceAttr_800BF218.a_mode = 1;
+    voiceAttr_800BF218.s_mode = 1;
+    voiceAttr_800BF218.volume.left = 0;
+    voiceAttr_800BF218.volume.right = 0;
+    voiceAttr_800BF218.r_mode = 3;
+    voiceAttr_800BF218.ar = 0;
+    voiceAttr_800BF218.dr = 0;
+    voiceAttr_800BF218.sr = 0;
+    voiceAttr_800BF218.rr = 0;
+    voiceAttr_800BF218.sl = 15;
+    voiceAttr_800BF218.addr = blank_data_addr_800BF00C;
+    SpuSetVoiceAttr_80097518(&voiceAttr_800BF218);
+    SD_80082170(0x800000);
+    attr.mask = 3;
+    attr.mvol.left = 0x3FFF;
+    attr.mvol.right = 0x3FFF;
+    SpuSetCommonAttr_80097038(&attr);
+}
 
 #pragma INCLUDE_ASM("asm/SD/sub_80081F8C.s")
 
