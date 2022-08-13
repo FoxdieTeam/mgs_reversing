@@ -345,6 +345,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     return 2;
 }
 
+// https://decomp.me/scratch/OFGNo
 #pragma INCLUDE_ASM("asm/sub_8004E71C.s") // 236 bytes
 
 // https://decomp.me/scratch/P8McA
@@ -770,7 +771,34 @@ void sub_8004F338(Actor_SnaInit *param_1)
     sna_init_clear_flags2_8004E344(param_1, SNA_FLAG2_UNK9);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004F454.s")      // 240 bytes
+void sub_8004F454(Actor_SnaInit *pActor)
+{
+    int i;
+
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING | PLAYER_STATUS_PREVENT_FIRST_PERSON |
+                                      PLAYER_STATUS_KNOCKING);
+    GM_ConfigMotionAdjust_80035008(&pActor->field_9C_obj, NULL);
+
+    for (i = 0; i < (int)(sizeof(pActor->field_718) / sizeof(SVECTOR)); i++) // 16
+    {
+        pActor->field_718[i] = DG_ZeroVector_800AB39C;
+    }
+
+    sna_init_8004E260(pActor, 0, 4, 0);
+    sna_init_sub_8004E41C(pActor, 2);
+    sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK2 | SNA_FLAG1_UNK3 | SNA_FLAG1_UNK26);
+    pActor->field_92C->def = (DG_DEF *)((unsigned int)pActor->field_92C->def | 0x100); // ?
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_ON_WALL) == 0)
+    {
+        pActor->field_A28 = 450;
+        GM_ExitBehindCamera_80030AEC();
+    }
+
+    pActor->field_20_ctrl.field_55_flags &= ~8;
+    sna_init_clear_flags2_8004E344(pActor, SNA_FLAG2_UNK9);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004F544.s")      // 228 bytes
 #pragma INCLUDE_ASM("asm/sub_8004F628.s")      // 192 bytes
 #pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s") // 508 bytes
@@ -2711,6 +2739,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int anim_frame)
 // triggers on first elevator ride at dock and right before mantis fight to look at meryl
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s") // 2168 bytes
 
+// https://decomp.me/scratch/lM3zb
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s") // 508 bytes
 
 void sub_8005684C(Actor_SnaInit *pActor)
@@ -2880,6 +2909,7 @@ void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int anim_frame)
     }
 }
 
+// https://decomp.me/scratch/XqwyZ
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s") // 320 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_80056DDC.s")   // 740 bytes
 
