@@ -20,6 +20,7 @@ extern const char aErrorSeFileAlr[];
 extern int se_fp_800BF014;
 extern int dword_800C0500;
 extern int gStr_fadeout_2_800C0584;
+extern const char aCanceledStrFad[];
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -34,6 +35,10 @@ int SD_8008341C();
 int SD_800854F0();
 void KeyOffStr_80081FE8();
 int StartStream_80082448();
+
+void SD_80082170(int param_1);
+
+void sng_off_80087E2C();
 
 extern const char aBgmTerminate[];
 extern const char aStartTaskSdmai[];
@@ -79,7 +84,7 @@ void sub_80081910(int argc, const char **argv)
     mts_sta_tsk_8008B47C(5, SdMain_80081A18, byte_800BE7C8);
 }
 
-void nullsub_7_80081A10(int a1, int a2, int a3)
+void nullsub_7_80081A10(int* a1, int a2, int a3)
 {
     
 }
@@ -401,7 +406,30 @@ int StrFadeOut_80082310(unsigned int a1)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/StrFadeOutStop_80082380.s")
+int StrFadeOutStop_80082380(unsigned int fadeSpeed)
+{
+    if ( gStr_FadeOut1_800BF16C && (gStr_fadeout_2_800C0584 != gStreamVol_800BF15C || bstr_fade_inProgress_800BF0CC) )
+    {
+        dword_800C04F4 = gStreamVol_800BF15C / fadeSpeed;
+        if ( !(gStreamVol_800BF15C / fadeSpeed) )
+        {
+            dword_800C04F4 = 1;
+        }
+        bstr_fade_inProgress_800BF0CC = 0;
+        gStream_800C04F0 = -1;
+        return 0;
+    }
+    else
+    {
+        mts_printf_8008BBA0(
+            aCanceledStrFad,
+            gStr_FadeOut1_800BF16C,
+            gStr_fadeout_2_800C0584,
+            gStreamVol_800BF15C);
+        return -1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/SD/StartStream_80082448.s")
 #pragma INCLUDE_ASM("asm/SD/UserSpuIRQProc_80082640.s")
 
