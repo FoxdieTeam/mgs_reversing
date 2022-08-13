@@ -299,7 +299,11 @@ gap gap_800BF1F0[0x20]; // 32 bytes
 
 int BSS dword_800BF210; // 0x4 (4) bytes
 
-gap gap_800BF214[0x4C]; // 76 bytes
+gap gap_800BF214[0x44]; // 68 bytes
+
+int BSS dword_800BF258; // 0x4 (4) bytes
+
+gap gap_800BF25C[0x4]; // 4 bytes
 
 int BSS keyons_800BF260; // 0x4 (4) bytes
 int BSS dword_800BF264; // 0x4 (4) bytes
@@ -367,9 +371,7 @@ unsigned char* BSS mptr_800C0570; // 0x4 (4) bytes
 int BSS se_rev_on_800C0574; // 0x4 (4) bytes
 int BSS wave_save_code_800C0578; // 0x4 (4) bytes
 SOUND_W* BSS sptr_800C057C; // 0x4 (4) bytes
-
-gap gap_800C0580[0x4]; // 4 bytes
-
+int BSS dword_800C0580; // 0x4 (4) bytes
 int BSS gStr_fadeout_2_800C0584; // 0x4 (4) bytes
 
 gap gap_800C0588[0xD0]; // 208 bytes
