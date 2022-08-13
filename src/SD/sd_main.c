@@ -19,6 +19,7 @@ extern const char aErrorSeFileAlr[];
 
 extern int se_fp_800BF014;
 extern int dword_800C0500;
+extern int gStr_fadeout_2_800C0584;
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -249,7 +250,24 @@ void StrFadeIn_800822C8(unsigned int a1)
     dword_800C04F4 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/StrFadeOut_80082310.s")
+int StrFadeOut_80082310(unsigned int a1)
+{
+    if ( gStr_FadeOut1_800BF16C )
+    {
+        if ( gStr_fadeout_2_800C0584 != gStreamVol_800BF15C )
+        {
+            dword_800C04F4 = gStreamVol_800BF15C / a1;
+            if ( !(gStreamVol_800BF15C / a1) )
+            {
+                dword_800C04F4 = 1;
+            }
+            bstr_fade_inProgress_800BF0CC = 0;
+            return 0;
+        }
+    }
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/SD/StrFadeOutStop_80082380.s")
 #pragma INCLUDE_ASM("asm/SD/StartStream_80082448.s")
 #pragma INCLUDE_ASM("asm/SD/UserSpuIRQProc_80082640.s")
