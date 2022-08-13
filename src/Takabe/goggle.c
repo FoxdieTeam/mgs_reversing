@@ -16,7 +16,47 @@ extern const char aGoggles_0[];
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
-#pragma INCLUDE_ASM("asm/Takabe/goggle_pal_convert_8007743C.s") // 132 bytes
+ushort goggle_pal_convert_8007743C(ushort value)
+{
+    int r, r2;
+    int g;
+    int b;
+    int a;
+    
+    if ((value & 0x7fff) == 0)
+    {
+        return value;
+    }
+
+    r = value & 0x1f;
+    r2 = r;
+    
+    g = (value & 0x3e0) >> 5;
+    if (r2 < g)
+    {
+        r2 = g;
+    }
+
+    b = (value & 0x7c00) >> 10;
+    if (r2 < b)
+    {
+        r2 = b;
+    }
+
+    a = value & 0x8000;
+
+    r2 <<= 1;
+    if (r2 > 31)
+    {
+        r2 = 31;
+    }
+
+    r = r2;
+    g = r;
+    b = r;
+
+    return r | g << 5 | b << 10 | a;
+}
 
 extern RECT rect_8009F704;
 extern RECT rect_8009F70C;
