@@ -14,6 +14,11 @@ extern const char aSdSngdataloadi[];
 
 extern unsigned int sng_status_800C04F8;
 extern int sd_sng_data_800C0420;
+extern const char aLoadsefileFile[];
+extern const char aErrorSeFileAlr[];
+
+extern int se_fp_800BF014;
+extern int dword_800C0500;
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -73,7 +78,7 @@ void sub_80081910(int argc, const char **argv)
     mts_sta_tsk_8008B47C(5, SdMain_80081A18, byte_800BE7C8);
 }
 
-void nullsub_7_80081A10(void)
+void nullsub_7_80081A10(int a1, int a2, int a3)
 {
     
 }
@@ -267,7 +272,32 @@ void StrSpuTrans_800833FC(void)
     StrSpuTransWithNoLoop_800827AC();
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_8008341C.s")
+int SD_8008341C()
+{
+    if ( se_fp_800BF014 )
+    {
+        mts_printf_8008BBA0(aErrorSeFileAlr);
+        SD_8008395C(se_fp_800BF014, 4);
+        se_fp_800BF014 = 0;
+    }
+    se_fp_800BF014 = SD_SongLoadData_8008394C(se_load_code_800BF28C, 4);
+    if ( se_fp_800BF014 < 0 )
+    {
+        se_fp_800BF014 = 0;
+        mts_printf_8008BBA0(aLoadsefileFile, se_load_code_800BF28C);
+        nullsub_7_80081A10(&dword_800C0500, -4, se_load_code_800BF28C); // TODO: Not sure if last arg exists
+        return -1;
+    }
+    else
+    {
+        SD_80083954(se_fp_800BF014, se_exp_table_800C0520, 0x2800);
+        SD_8008395C(se_fp_800BF014, 4);
+        se_load_code_800BF28C = 0;
+        se_fp_800BF014 = 0;
+        return 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_800834FC.s")
 #pragma INCLUDE_ASM("asm/SD/sub_80083804.s")
 
