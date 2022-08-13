@@ -358,8 +358,9 @@ gap gap_800C0510[0x8]; // 8 bytes
 
 int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 
-gap gap_800C051C[0x8]; // 8 bytes
+gap gap_800C051C[0x4]; // 4 bytes
 
+int BSS se_exp_table_800C0520; // 0x4 (4) bytes
 int BSS keyd_800C0524; // 0x4 (4) bytes
 int BSS wave_load_code_800C0528; // 0x4 (4) bytes
 int BSS spu_wave_start_ptr_800C052C; // 0x4 (4) bytes
