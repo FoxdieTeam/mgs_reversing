@@ -85,6 +85,7 @@ extern int                DG_UnDrawFrameCount_800AB380;
 extern int                dword_8009EF24[];
 extern int                dword_8009EF2C[];
 extern SVECTOR            dword_800AB7CC;
+extern int                counter_8009F448;
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -3005,7 +3006,41 @@ void sna_init_80057378(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_80057474.s")            // 284 bytes
+void sna_init_anim_claymore_80057474(Actor_SnaInit *pActor, int anim_frame)
+{
+    int              i;
+    int              down_count;
+    GM_Target       *targets;
+
+    if (anim_frame == 0)
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        GM_Target_8002E374(&down_count, &targets);
+
+        if (counter_8009F448 == 8 || down_count == 64)
+        {
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+            GM_Sound_80032968(0, 63, 35);
+            sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
+            return;
+        }
+
+        pActor->field_9C8_anim_update_fn_3p = sna_init_anim_claymore_helper_80058780;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_0, 4);
+
+        for (i = 0; i < (int)(sizeof(pActor->field_718) / sizeof(SVECTOR)); i++) // 16
+        {
+            pActor->field_718[i] = DG_ZeroVector_800AB39C;
+        }
+
+        GM_ConfigMotionAdjust_80035008(&pActor->field_9C_obj, pActor->field_718);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK26);
+    }
+
+    sub_8004E9D0(pActor);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_shoot_weapon_helper_80057590.s") // 548 bytes
 
 void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int anim_frame)
