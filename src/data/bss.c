@@ -225,12 +225,17 @@ int BSS dword_800BDFBC; // 0x4 (4) bytes
 int BSS dword_800BDFC0; // 0x4 (4) bytes
 int BSS dword_800BDFC4; // 0x4 (4) bytes
 
-gap gap_800BDFC8[0x1000]; // 4096 bytes
+gap gap_800BDFC8[0x800]; // 2048 bytes
 
+unsigned int BSS byte_800BE7C8[512]; // 0x800 (2048) bytes
 int BSS dword_800BEFC8; // 0x4 (4) bytes
 int BSS dword_800BEFCC; // 0x4 (4) bytes
 
-gap gap_800BEFD0[0x20]; // 32 bytes
+gap gap_800BEFD0[0x4]; // 4 bytes
+
+int BSS sd_debug_800BEFD4; // 0x4 (4) bytes
+
+gap gap_800BEFD8[0x18]; // 24 bytes
 
 int BSS dword_800BEFF0; // 0x4 (4) bytes
 
@@ -354,8 +359,9 @@ gap gap_800C051C[0x8]; // 8 bytes
 int BSS keyd_800C0524; // 0x4 (4) bytes
 int BSS wave_load_code_800C0528; // 0x4 (4) bytes
 int BSS spu_wave_start_ptr_800C052C; // 0x4 (4) bytes
+WAVE_W* BSS voice_tbl_800C0530; // 0x4 (4) bytes
 
-WAVE_W BSS voice_tbl_800C0530[4]; // 64 bytes
+gap gap_800C0534[0x3C]; // 60 bytes
 
 unsigned char* BSS mptr_800C0570; // 0x4 (4) bytes
 int BSS se_rev_on_800C0574; // 0x4 (4) bytes
