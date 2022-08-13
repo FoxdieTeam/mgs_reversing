@@ -182,7 +182,32 @@ void SdInt_Task_80081BDC()
     }
 }
 
+extern const char aBlankDataAddrX[];
+extern const char aSpuWaveStartPt[];
+extern const char aSpuBgmStartPtr[];
+extern const char aSpuBgmStartPtr_0[];
+extern const char aSpuReverbBuffe[];
+extern const char aSpuBufferOver[];
+
+extern SEPLAYTBL se_playing_800BF068[8];
+
+extern int dword_800BF210;
+extern int dword_800BF064;
+extern int dword_800BF1A8;
+extern int blank_data_800A2B28;
+extern int dword_800BF27C;
+
+extern unsigned char byte_800C0588[200];
+extern int blank_data_addr_800BF00C;
+extern int spu_bgm_start_ptr_r_800BF0C8;
+extern int spu_bgm_start_ptr_l_800BF060;
+extern int spu_wave_start_ptr_800C052C;
+extern SpuVoiceAttr voiceAttr_800BF218;
+
+void UserSpuIRQProc_80082640();
+
 #pragma INCLUDE_ASM("asm/SD/sd_init_80081C7C.s")
+
 #pragma INCLUDE_ASM("asm/SD/sub_80081F8C.s")
 
 void SD_80081FC4(int param_1)
