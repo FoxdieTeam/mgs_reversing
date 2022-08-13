@@ -35,6 +35,33 @@ extern int dword_800BF1A4;
 extern int dword_800BF26C;
 extern int gStr_FadeOut1_800BF16C;
 
+
+extern const char aSoundLaunchArg[];
+extern const char aArgDS[];
+
+extern int sd_debug_800BEFD4;
+extern unsigned int byte_800BE7C8[512];
+
+void sub_80081910(int argc, const char **argv)
+{
+    int i; // $s1
+
+    sd_debug_800BEFD4 = 0;
+    mts_printf_8008BBA0(aSoundLaunchArg, argc);
+    
+    for (i = 0 ; i < argc; ++i )
+    {
+        if ( argv[i][0] == '-' && argv[i][1] == 'd' )
+        {
+            sd_debug_800BEFD4 = 1;
+        }
+        mts_printf_8008BBA0(aArgDS, i, argv[i]);
+    }
+
+    mts_set_stack_check_8008B648(5, byte_800BE7C8, 0x800);
+    mts_sta_tsk_8008B47C(5, SdMain_80081A18, byte_800BE7C8);
+}
+
 void nullsub_7_80081A10(void)
 {
     
@@ -46,7 +73,7 @@ void SdMain_80081A18()
     mts_printf_8008BBA0(aStartTaskSdmai);
     sd_sng_alloc_80082194();
     mts_set_stack_check_8008B648(1, &dword_800BEFC8, 2048);
-    mts_sta_tsk_8008B47C(1, SdInt_Task_80081BDC, &dword_800BEFC8);
+    mts_sta_tsk_8008B47C(1, SdInt_Task_80081BDC, &dword_800BEFC8); // TODO: Alloc BSS stack buffer
     mts_slp_tsk_8008A400();
     sd_flags_800C0BFC = 128;
     while ( 1 )
