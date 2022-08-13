@@ -741,6 +741,7 @@ int  sub_8004EFE4(Actor_SnaInit *pActor, int param_2);
 int  sub_8004E5E8(Actor_SnaInit *pActor, int param_2);
 int  sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 int  sna_act_unk_helper2_helper3_80060684(void);
+void sna_init_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int anim_frame);
 
 // TODO: move these to indivudual weapon headers
 Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
