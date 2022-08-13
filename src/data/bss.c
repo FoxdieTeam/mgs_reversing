@@ -243,8 +243,9 @@ gap gap_800BEFF4[0xC]; // 12 bytes
 
 int BSS dword_800BF000; // 0x4 (4) bytes
 
-gap gap_800BF004[0x14]; // 20 bytes
+gap gap_800BF004[0x10]; // 16 bytes
 
+int BSS se_fp_800BF014; // 0x4 (4) bytes
 int BSS sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
 
 gap gap_800BF058[0x4]; // 4 bytes
@@ -350,7 +351,11 @@ int BSS gStream_800C04F0; // 0x4 (4) bytes
 int BSS dword_800C04F4; // 0x4 (4) bytes
 unsigned int BSS sng_status_800C04F8; // 0x4 (4) bytes
 
-gap gap_800C04FC[0x10]; // 16 bytes
+gap gap_800C04FC[0x4]; // 4 bytes
+
+int BSS dword_800C0500; // 0x4 (4) bytes
+
+gap gap_800C0504[0x8]; // 8 bytes
 
 int BSS dword_800C050C; // 0x4 (4) bytes
 
@@ -358,8 +363,9 @@ gap gap_800C0510[0x8]; // 8 bytes
 
 int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 
-gap gap_800C051C[0x8]; // 8 bytes
+gap gap_800C051C[0x4]; // 4 bytes
 
+int BSS se_exp_table_800C0520; // 0x4 (4) bytes
 int BSS keyd_800C0524; // 0x4 (4) bytes
 int BSS wave_load_code_800C0528; // 0x4 (4) bytes
 int BSS spu_wave_start_ptr_800C052C; // 0x4 (4) bytes
