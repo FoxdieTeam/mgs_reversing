@@ -22,8 +22,8 @@ typedef struct Actor_goggle
 } Actor_goggle;
 
 void set_pal_effect_fns_80079194(void *fn1, void *fn2);
-void goggle_pal_convert_8007743C();
-void goggle_pal_cb_800774C0();
+ushort goggle_pal_convert_8007743C(ushort);
+void goggle_pal_cb_800774C0(void);
 int  goggle_loader_8007773C(Actor_goggle *a1, OBJECT *a2);
 
 #endif // _GOGGLE_H
