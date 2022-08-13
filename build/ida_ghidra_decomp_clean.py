@@ -2,6 +2,7 @@
 
 import pyperclip
 import subprocess
+import re
 from shutil import which
 
 data = pyperclip.paste()
@@ -24,6 +25,9 @@ replaces = {
     '_WORD': 'unsigned short',
     '__int8': 'char',
     '__int16': 'short',
+    '__fastcall ': '',
+    '__cdecl ': '',
+}
 
 for fromm, to in replaces.items():
     data = data.replace(fromm, to)
@@ -33,6 +37,12 @@ if which('clang-format'):
     data = res.stdout
 else:
     print('warning: couldnt find clang-format, not formatting code')
+
+# surround blocks with newlines
+data = data.replace('}\n', '}\n\n')
+data = re.sub(r'^(\s+(?:if|do|while))', r'\n\1', data, flags=re.MULTILINE)
+data = re.sub(r'(while.*;.*)', r'\1\n', data)
+data = data.replace('\n\n\n', '\n\n')
 
 pyperclip.copy(data)
 
