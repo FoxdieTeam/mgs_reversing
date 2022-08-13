@@ -3006,13 +3006,13 @@ void sna_init_80057378(Actor_SnaInit *pActor, int anim_frame)
     }
 }
 
-void sna_init_anim_claymore_80057474(Actor_SnaInit *pActor, int a2)
+void sna_init_anim_claymore_80057474(Actor_SnaInit *pActor, int anim_frame)
 {
     int              i;
     int              down_count;
     GM_Target       *targets;
 
-    if (!a2)
+    if (anim_frame == 0)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
         GM_Target_8002E374(&down_count, &targets);
