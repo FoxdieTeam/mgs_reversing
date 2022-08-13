@@ -6,6 +6,8 @@ from shutil import which
 
 data = pyperclip.paste()
 
+# TODO: with a little more effort we can fix ghidra's "-1 < var" too
+
 replaces = {
     # ghidra
     'undefined4': 'int',
@@ -16,11 +18,12 @@ replaces = {
     'byte': 'unsigned char',
 
     # ida
-    'BYTE': 'unsigned char',
-    'QWORD': 'unsigned long long',
-    'DWORD': 'unsigned int',
-    'WORD': 'unsigned short',
-}
+    '_BYTE': 'unsigned char',
+    '_QWORD': 'unsigned long long',
+    '_DWORD': 'unsigned int',
+    '_WORD': 'unsigned short',
+    '__int8': 'char',
+    '__int16': 'short',
 
 for fromm, to in replaces.items():
     data = data.replace(fromm, to)
