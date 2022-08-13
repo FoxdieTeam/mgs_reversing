@@ -47,6 +47,7 @@ extern const char aSoundErrorSpuO_0[];
 extern int gStream_800C04F0;
 extern int dword_800BF258;
 extern int dword_800C0580;
+extern int se_exp_table_800C0520;
 
 void sub_80081910(int argc, const char **argv)
 {
@@ -311,7 +312,10 @@ void SD_80083ED4(void)
     sng_status_800BF158 = 2;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_80083EE8.s")
+int SD_80083EE8()
+{
+    return se_exp_table_800C0520;
+}
 
 void SD_80083EF8(void)
 {
