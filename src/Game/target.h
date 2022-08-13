@@ -63,6 +63,7 @@ void GM_FreeTarget_8002D4B0(GM_Target *pTarget);
 void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, SVECTOR *pSize);
 void GM_Target_8002DCCC(GM_Target *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6);
 void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec);
+void GM_Target_8002E374(int *ppDownCount, GM_Target **ppTargets);
 // int GM_Target_8002D7DC(GM_Target *pTarget);
 int  sub_8002D7DC(GM_Target *pTarget);
 int  sub_8002D208(GM_Target *pTarget, GM_Target *a2);
