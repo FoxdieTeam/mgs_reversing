@@ -17,7 +17,38 @@ extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
 #pragma INCLUDE_ASM("asm/Takabe/goggle_pal_convert_8007743C.s") // 132 bytes
-#pragma INCLUDE_ASM("asm/Takabe/goggle_pal_cb_800774C0.s")      // 244 bytes
+
+extern RECT rect_8009F704;
+extern RECT rect_8009F70C;
+
+extern u_long image_data_800B3818[256];
+
+void goggle_pal_cb_800774C0(void)
+{
+    int iVar1;
+    int iVar2;
+    ushort *ptr;
+    
+    rect_8009F704.y = 0xe2;
+    rect_8009F70C.y = 0xc4;
+
+    for (iVar1 = 15; iVar1 > 0; iVar1--) {
+        DrawSync(0);
+        StoreImage2_8009209C(&rect_8009F70C, image_data_800B3818);
+        DrawSync(0);
+
+        ptr = (ushort *)image_data_800B3818;
+        
+        for (iVar2 = 512; iVar2 > 0; iVar2--) {
+            *ptr++ = goggle_pal_convert_8007743C(*ptr);
+        }
+
+        LoadImage2_80091FB0(&rect_8009F704, image_data_800B3818);
+
+        rect_8009F70C.y += 2;
+        rect_8009F704.y += 2;
+    }
+}
 
 void goggle_act_800775B4(Actor_goggle *pActor)
 {
