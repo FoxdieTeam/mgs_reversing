@@ -10,6 +10,10 @@ extern int gStreamVol_800BF15C;
 extern int dword_800C04F4;
 
 extern const char aStartTaskSdint[];
+extern const char aSdSngdataloadi[];
+
+extern unsigned int sng_status_800C04F8;
+extern int sd_sng_data_800C0420;
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -305,7 +309,14 @@ int num2char_80083E68(unsigned int num)
     return num & 0xff;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_SngDataLoadInit_80083E8C.s")
+int SD_SngDataLoadInit_80083E8C()
+{
+    sng_status_800C04F8 = 0;
+    sng_status_800BF158 = 0;
+    sng_off_80087E2C();
+    mts_printf_8008BBA0(aSdSngdataloadi);
+    return sd_sng_data_800C0420;
+}
 
 void SD_80083ED4(void)
 {
