@@ -10,6 +10,16 @@ extern int gStreamVol_800BF15C;
 extern int dword_800C04F4;
 
 extern const char aStartTaskSdint[];
+extern const char aSdSngdataloadi[];
+
+extern unsigned int sng_status_800C04F8;
+extern int sd_sng_data_800C0420;
+extern const char aLoadsefileFile[];
+extern const char aErrorSeFileAlr[];
+
+extern int se_fp_800BF014;
+extern int dword_800C0500;
+extern int gStr_fadeout_2_800C0584;
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -47,6 +57,7 @@ extern const char aSoundErrorSpuO_0[];
 extern int gStream_800C04F0;
 extern int dword_800BF258;
 extern int dword_800C0580;
+extern int se_exp_table_800C0520;
 
 void sub_80081910(int argc, const char **argv)
 {
@@ -68,7 +79,7 @@ void sub_80081910(int argc, const char **argv)
     mts_sta_tsk_8008B47C(5, SdMain_80081A18, byte_800BE7C8);
 }
 
-void nullsub_7_80081A10(void)
+void nullsub_7_80081A10(int a1, int a2, int a3)
 {
     
 }
@@ -239,7 +250,24 @@ void StrFadeIn_800822C8(unsigned int a1)
     dword_800C04F4 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/StrFadeOut_80082310.s")
+int StrFadeOut_80082310(unsigned int a1)
+{
+    if ( gStr_FadeOut1_800BF16C )
+    {
+        if ( gStr_fadeout_2_800C0584 != gStreamVol_800BF15C )
+        {
+            dword_800C04F4 = gStreamVol_800BF15C / a1;
+            if ( !(gStreamVol_800BF15C / a1) )
+            {
+                dword_800C04F4 = 1;
+            }
+            bstr_fade_inProgress_800BF0CC = 0;
+            return 0;
+        }
+    }
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/SD/StrFadeOutStop_80082380.s")
 #pragma INCLUDE_ASM("asm/SD/StartStream_80082448.s")
 #pragma INCLUDE_ASM("asm/SD/UserSpuIRQProc_80082640.s")
@@ -262,7 +290,32 @@ void StrSpuTrans_800833FC(void)
     StrSpuTransWithNoLoop_800827AC();
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_8008341C.s")
+int SD_8008341C()
+{
+    if ( se_fp_800BF014 )
+    {
+        mts_printf_8008BBA0(aErrorSeFileAlr);
+        SD_8008395C(se_fp_800BF014, 4);
+        se_fp_800BF014 = 0;
+    }
+    se_fp_800BF014 = SD_SongLoadData_8008394C(se_load_code_800BF28C, 4);
+    if ( se_fp_800BF014 < 0 )
+    {
+        se_fp_800BF014 = 0;
+        mts_printf_8008BBA0(aLoadsefileFile, se_load_code_800BF28C);
+        nullsub_7_80081A10(&dword_800C0500, -4, se_load_code_800BF28C); // TODO: Not sure if last arg exists
+        return -1;
+    }
+    else
+    {
+        SD_80083954(se_fp_800BF014, se_exp_table_800C0520, 0x2800);
+        SD_8008395C(se_fp_800BF014, 4);
+        se_load_code_800BF28C = 0;
+        se_fp_800BF014 = 0;
+        return 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_800834FC.s")
 #pragma INCLUDE_ASM("asm/SD/sub_80083804.s")
 
@@ -304,14 +357,24 @@ int num2char_80083E68(unsigned int num)
     return num & 0xff;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_SngDataLoadInit_80083E8C.s")
+int SD_SngDataLoadInit_80083E8C()
+{
+    sng_status_800C04F8 = 0;
+    sng_status_800BF158 = 0;
+    sng_off_80087E2C();
+    mts_printf_8008BBA0(aSdSngdataloadi);
+    return sd_sng_data_800C0420;
+}
 
 void SD_80083ED4(void)
 {
     sng_status_800BF158 = 2;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_80083EE8.s")
+int SD_80083EE8()
+{
+    return se_exp_table_800C0520;
+}
 
 void SD_80083EF8(void)
 {
