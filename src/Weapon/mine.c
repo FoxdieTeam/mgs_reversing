@@ -11,7 +11,7 @@ extern GameState_800B4D98 gGameState_800B4D98;
 extern const char aClaymore_0[]; // = "claymore";
 extern char       aMineC[];      // = "mine.c"
 extern short      d_800AB9EC_mag_size;
-extern short      dword_800ABA2C;
+extern short      d_800ABA2C_ammo;
 
 extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
@@ -58,7 +58,7 @@ Actor_Mine *mine_init_800677BC(GM_Control *a1, OBJECT *parent_object, int num_pa
         actor->field_54_counter = 0;
     }
 
-    dword_800ABA2C = 0;
+    d_800ABA2C_ammo = 0;
     d_800AB9EC_mag_size = 0;
 
     return actor;

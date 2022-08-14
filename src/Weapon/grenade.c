@@ -6,7 +6,7 @@
 
 extern const char     aGrenadeC[]; // = "grenade.c"
 extern short          d_800AB9EC_mag_size;
-extern short          dword_800ABA2C;
+extern short          d_800ABA2C_ammo;
 extern unsigned short dword_8009F3E4[];
 
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -70,7 +70,7 @@ Actor_Grenade *grenade_init_80066944(Unknown_Grenade_Member *a1, OBJECT *parent_
         actor_grenade->f54 = *a1;
     }
 
-    dword_800ABA2C = 0;
+    d_800ABA2C_ammo = 0;
     d_800AB9EC_mag_size = 0;
 
     return actor_grenade;

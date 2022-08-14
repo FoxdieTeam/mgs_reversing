@@ -41,8 +41,7 @@ char SECTION(".sdata") aSocom2[] = "socom2";
 char SECTION(".sdata") aLsight[] = "lsight";
 char SECTION(".sdata") aSocomC[] = "socom.c";
 
-int SECTION(".sdata") dword_800AB850 = 0xFE0C0005;
-int SECTION(".sdata") dword_800AB854 = 0x50;
+SVECTOR SECTION(".sdata") stru_800AB850 = { 5, -500, 80, 0 };
 
 char SECTION(".sdata") aFamas[] = "famas";
 char SECTION(".sdata") aMpfive[] = "mpfive";

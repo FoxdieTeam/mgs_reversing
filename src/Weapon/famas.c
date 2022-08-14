@@ -1,15 +1,26 @@
 #include "famas.h"
 #include "Game/object.h"
+#include "map/map.h"
 
 extern char aFamas[];  // = "famas"
 extern char aMpfive[]; // = "mpfive"
 extern char aFamasC[]; // = "famas.c"
 
 extern short              d_800AB9EC_mag_size;
-extern short              dword_800ABA2C;
+extern short              d_800ABA2C_ammo;
 extern GameState_800B4D98 gGameState_800B4D98;
+extern int DG_CurrentGroupID_800AB968;
+extern int GV_Clock_800AB920;
+extern SVECTOR stru_800AB850;
 
+
+Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2);
+void anime_create_8005D6BC(MATRIX *pMtx, int a2);
+Actor* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+
+// https://decomp.me/scratch/PEF5G
 #pragma INCLUDE_ASM("asm/Weapon/famas_act_80065E90.s") // 760 bytes
+void famas_act_80065E90(Actor_Famas *pActor);
 
 void famas_die_80066188(Actor_Famas *famas)
 {
@@ -35,7 +46,7 @@ int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_
     return 0;
 }
 
-Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a4, int flag)
+Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
 {
     int v11;
 
@@ -50,13 +61,13 @@ Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a
             return 0;
         }
 
-        famas_actor->f44 = a1;
+        famas_actor->field_44_pCtrl = a1;
         famas_actor->parent_object = parent_obj;
         famas_actor->num_parent = num_parent;
-        famas_actor->f50 = a4;
-        famas_actor->f54 = 1;
-        famas_actor->f58 = 0;
-        famas_actor->f5c = flag;
+        famas_actor->field_50_pFlags = a4;
+        famas_actor->field_54 = 1;
+        famas_actor->field_58_counter = 0;
+        famas_actor->field_5C_mp5 = flag;
     }
 
     v11 = 25;
@@ -71,20 +82,20 @@ Actor_Famas *NewFAMAS_8006623C(int a1, OBJECT *parent_obj, int num_parent, int a
             temp = (short)v11;
         }
 
-        dword_800ABA2C = v11;
+        d_800ABA2C_ammo = v11;
         d_800AB9EC_mag_size = temp;
     }
     else
     {
         // @note(Voxel): Comments are possibly what is happening here. Suggested by WantedThing.
         d_800AB9EC_mag_size = v11; // Set famas max magazine ammo.
-        dword_800ABA2C = v11;      // Set current ammo.
+        d_800ABA2C_ammo = v11;      // Set current ammo.
     }
 
     return famas_actor;
 }
 
-Actor_Famas *famas_create_80066374(int a1, OBJECT *a2, int num_parent, int a4)
+Actor_Famas *famas_create_80066374(GM_Control* a1, OBJECT *a2, int num_parent, int* a4)
 {
     return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)gGameState_800B4D98.field_02_diffcultyLevel >> 31);
 }
