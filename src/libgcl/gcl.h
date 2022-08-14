@@ -332,7 +332,6 @@ void               GCL_Command_camera_helper_80030888(void *vec1, void *vec2, in
 void               GCL_Command_camera_helper2_800308E0(void *vec1, void *vec2, int param_3);
 void               GCL_Command_camera_helper3_80030938(void *vec);
 void               GCL_Command_camera_helper4_80030980(int param_1);
-int                GCL_Command_demo_helper_80037DD8(int, unsigned int);
 unsigned int       GCL_Command_menu_helper_8002CA48(void);
 void               GCL_Command_sound_impl_8002E688(void);
 
