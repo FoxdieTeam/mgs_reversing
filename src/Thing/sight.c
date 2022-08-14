@@ -125,7 +125,35 @@ Actor_Sight *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
     return sight;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sight_init_80071EA8.s") // 240 bytes
+Actor_Sight *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *equippedItemIndicator, short itemId,
+                                 short *xyOffsetBuffer)
+{
+    Actor_Sight *sight = (Actor_Sight *)0x0;
+
+    if (dword_8009F604 != -1 && dword_8009F604 != hashedFileName1)
+    {
+        return sight;
+    }
+
+    sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
+    if (sight)
+    {
+        GV_SetNamedActor_8001514C((Actor *)sight, sight_act_800714EC, sight_kill_800719C8, aSightC);
+        sight->field_54_maybeFlags = 2;
+
+        if (sight_loader_80071A54(sight, hashedFileName0, equippedItemIndicator, itemId, xyOffsetBuffer) < 0)
+        {
+            GV_DestroyActor_800151C8((Actor *)sight);
+            return 0;
+        }
+
+        dword_8009F600++;
+        dword_8009F604 = hashedFileName1;
+    }
+
+    return sight;
+}
+
 #pragma INCLUDE_ASM("asm/Thing/sight_init_80071F98.s") // 220 bytes
 
 extern short word_8009F5FC;
