@@ -146,30 +146,54 @@ def get_obj_funcs(path):
             c = u8()
             pos += c
         else:
-            print('unknown opcode', cmd, pos, path)
-            break
+            print('unknown opcode', cmd, pos, path, file=sys.stderr)
+            raise Exception('unknown opcode')
 
     ret = []
     all_code = b''.join([x[1] for x in code_blocks])
 
     # sort by offset descending
+    # don't know the size of each xdef so iter reverse
     xdefs.sort(key=lambda x: x[0], reverse=True)
 
     for xdef in xdefs:
-        offset, name = xdef
+        xdef_off, name = xdef
         found = False
-        for code_pos, code_block, file_off in reversed(code_blocks):
-            if offset < code_pos or offset >= code_pos + len(code_block):
+        segments = []
+
+        for block_idx, (code_pos, code_block, file_off) in reversed(list(enumerate(code_blocks))):
+            # check if it starts in this code block
+            if xdef_off < code_pos or xdef_off >= code_pos + len(code_block):
                 continue
-            code = all_code[offset:]
-            all_code = all_code[0:offset]
-            ret.append((name, file_off + (offset - code_pos), code))
+
+            # handle when code is split across code blocks (take all remaining code after this start block)
+            for code_pos2, code_block2, file_off2 in code_blocks[block_idx+1:]:
+                can_take = len(code_block2)
+                code = all_code[code_pos2:code_pos2+can_take]
+                all_code = all_code[0:code_pos2] + all_code[code_pos2+can_take:]
+                if len(code) == 0:
+                    break
+                segments.append((file_off2, code))
+
+            can_take = len(code_block) - (xdef_off - code_pos)
+            code = all_code[xdef_off:xdef_off+can_take]
+            assert len(code) > 0
+            all_code = all_code[0:xdef_off] + all_code[xdef_off+can_take:]
+
+            xdef_file_off = file_off + (xdef_off - code_pos)
+            segments.append((xdef_file_off, code))
+
+            # sort segments by offset ascending
+            segments.sort(key=lambda x: x[0])
+            ret.append((name, segments))
+
             found = True
             break
+
         if not found:
             raise Exception('couldnt locate xdef in obj: {} {}'.format(name, path))
 
-    # sort by file offset ascending
-    ret.sort(key=lambda x:x[1])
+    # sort funcs by offset ascending
+    ret.sort(key=lambda x: x[1][0])
 
     return ret
