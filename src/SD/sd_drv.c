@@ -135,7 +135,21 @@ void init_sng_work_8008559C()
     dword_800C0428 = 0; // TODO: sng_play_code?
 }
 #pragma INCLUDE_ASM("asm/SD/sng_adrs_set_80085658.s")
+
+extern SEPLAYTBL se_request_800BF0E0[8];
+extern SEPLAYTBL se_playing_800BF068[8];
+extern int se_vol_800BF1F0[8];
+extern int se_pan_800BF1B8[8];
+extern int song_end_800C04E8;
+extern int se_rev_on_800C0574;
+extern int dword_800BF064;
+extern int dword_800BF210;
+
+extern int spu_ch_tbl_800A2AC8[];
+
+// https://decomp.me/scratch/sro0f
 #pragma INCLUDE_ASM("asm/SD/SD_8008576C.s")
+
 
 void sng_track_init_800859B8(SOUND_W *pSoundW)
 {
