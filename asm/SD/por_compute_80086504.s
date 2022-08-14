@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_80086504
-SD_80086504:
+	xdef por_compute_80086504
+por_compute_80086504:
 	dw 0x3C04800C ; 0x80086504
 	dw 0x8C84057C ; 0x80086508
 	dw 0x00000000 ; 0x8008650C

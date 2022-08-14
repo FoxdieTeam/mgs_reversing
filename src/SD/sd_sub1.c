@@ -7,6 +7,8 @@ extern SOUND_W* sptr_800C057C;
 extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
 extern unsigned int mtrack_800BF1EC;
 
+unsigned int random_80086B84();
+
 #pragma INCLUDE_ASM("asm/SD/SD_80085A50.s")
 #pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s")
 #pragma INCLUDE_ASM("asm/SD/note_set_80085CD8.s")
@@ -38,8 +40,123 @@ void pan_generate_80086198()
 }
 
 #pragma INCLUDE_ASM("asm/sub_80086220.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80086280.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80086504.s")
+
+void keych_80086280()
+{
+    int field_57_swpc; // $a0
+    int bSetFreq; // $s1
+    int field_58_swphc; // $v0
+    int field_80_vibdm; // $a1
+    int computed_vib; // $s0
+    int field_70_vibhc; // $v1
+    int rnd; // $v0
+
+    if ( (unsigned char)sptr_800C057C->field_7_ngg < 0x64u
+      && sptr_800C057C->field_4_ngc == 1
+      && (unsigned short)sptr_800C057C->field_D2_rrd >= 8u )
+    {
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = 7;
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+    }
+
+    if ( sptr_800C057C->field_5_ngo )
+    {
+        sptr_800C057C->field_5_ngo--;
+        if ( !sptr_800C057C->field_5_ngo )
+        {
+            keyoff_80087F80();
+        }
+
+    }
+    
+    bSetFreq = 0;
+    
+    field_57_swpc = sptr_800C057C->field_57_swpc;
+    if ( field_57_swpc )
+    {
+        field_58_swphc = (unsigned char)sptr_800C057C->field_58_swphc;
+        if ( field_58_swphc )
+        {
+            sptr_800C057C->field_58_swphc--;
+           
+        }
+        else
+        {
+            if ( !sptr_800C057C->field_6A_swsk )
+            {
+                sptr_800C057C->field_57_swpc = field_57_swpc - 1;
+                if ( !((field_57_swpc - 1) & 0xFF) )
+                {
+                    sptr_800C057C->field_5C_swpd = sptr_800C057C->field_64_swpm;
+                }
+                else
+                {
+                    sptr_800C057C->field_5C_swpd += sptr_800C057C->field_60_swpad;
+                }
+               
+            }
+            else
+            {
+               por_compute_80086504();
+            }
+            bSetFreq = 1;        
+        }
+    }
+    
+    field_80_vibdm = sptr_800C057C->field_80_vibdm;
+    computed_vib = 0;
+
+    if ( field_80_vibdm )
+    {
+        field_70_vibhc = (unsigned char)sptr_800C057C->field_70_vibhc;
+        if ( field_70_vibhc != (unsigned char)sptr_800C057C->field_84_vibhs )
+        {
+            sptr_800C057C->field_70_vibhc = field_70_vibhc + 1;
+            
+        }
+        else
+        {
+           if ( sptr_800C057C->field_7A == sptr_800C057C->field_85_vibcs )
+            {
+                sptr_800C057C->field_7C_vibd = field_80_vibdm;
+            }
+            else
+            {
+                if ( sptr_800C057C->field_7A )
+                {
+                    
+                    sptr_800C057C->field_7C_vibd = sptr_800C057C->field_7C_vibd + sptr_800C057C->field_88_vibad;
+                }
+                else
+                {
+                    sptr_800C057C->field_7C_vibd = sptr_800C057C->field_88_vibad;
+                }
+                ++sptr_800C057C->field_7A;
+            }
+            sptr_800C057C->field_74_vib_tmp_cnt = sptr_800C057C->field_74_vib_tmp_cnt + sptr_800C057C->field_86_vibcad;
+            if ( (unsigned)sptr_800C057C->field_74_vib_tmp_cnt >= 256 )
+            {
+                sptr_800C057C->field_74_vib_tmp_cnt = sptr_800C057C->field_74_vib_tmp_cnt & 0xFF;
+                computed_vib = vib_compute_800865CC();
+                bSetFreq = 1;
+            }
+        }
+    }
+    
+    rnd = random_80086B84();
+    if ( rnd )
+    {
+        computed_vib += rnd;
+        bSetFreq = 1;
+    }
+    
+    if ( bSetFreq )
+    {
+        freq_set_800885D4( sptr_800C057C->field_5C_swpd + computed_vib );
+    }
+}
+
+#pragma INCLUDE_ASM("asm/SD/por_compute_80086504.s")
 #pragma INCLUDE_ASM("asm/SD/vib_compute_800865CC.s")
 #pragma INCLUDE_ASM("asm/sub_80086694.s")
 #pragma INCLUDE_ASM("asm/SD/SD_80086734.s")
