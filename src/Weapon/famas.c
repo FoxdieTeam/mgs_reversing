@@ -20,6 +20,7 @@ Actor* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 // https://decomp.me/scratch/PEF5G
 #pragma INCLUDE_ASM("asm/Weapon/famas_act_80065E90.s") // 760 bytes
+void famas_act_80065E90(Actor_Famas *pActor);
 
 void famas_die_80066188(Actor_Famas *famas)
 {
