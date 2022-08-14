@@ -21,6 +21,9 @@ extern int se_fp_800BF014;
 extern int dword_800C0500;
 extern int gStr_fadeout_2_800C0584;
 extern const char aCanceledStrFad[];
+extern int stream_data_ptr_800BEFE4;
+extern int dword_800BEFF0;
+extern int dword_8009F7B8;
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -444,7 +447,22 @@ void SD_nullsub_20_800827A4()
 }
 
 #pragma INCLUDE_ASM("asm/SD/StrSpuTransWithNoLoop_800827AC.s")
-#pragma INCLUDE_ASM("asm/SD/StrSpuTransClose_80083394.s")
+
+void StrSpuTransClose_80083394()
+{
+    if ( stream_data_ptr_800BEFE4 )
+    {
+        sub_800241B4(stream_data_ptr_800BEFE4);
+        stream_data_ptr_800BEFE4 = 0;
+    }
+    if ( dword_8009F7B8 )
+    {
+        sub_800241B4(dword_8009F7B8);
+        dword_8009F7B8 = 0;
+    }
+    dword_800BEFF0 = 0;
+    FS_StreamClose_80024098();
+}
 
 void StrSpuTrans_800833FC(void)
 {
