@@ -226,7 +226,11 @@ gap gap_800BEFD0[0x4]; // 4 bytes
 
 int BSS sd_debug_800BEFD4; // 0x4 (4) bytes
 
-gap gap_800BEFD8[0x18]; // 24 bytes
+gap gap_800BEFD8[0xC]; // 12 bytes
+
+int BSS stream_data_ptr_800BEFE4; // 0x4 (4) bytes
+
+gap gap_800BEFE8[0x8]; // 8 bytes
 
 int BSS dword_800BEFF0; // 0x4 (4) bytes
 
