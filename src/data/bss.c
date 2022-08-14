@@ -261,8 +261,9 @@ gap gap_800BF0D0[0x4]; // 4 bytes
 int BSS mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS mdata4_800BF0DC; // 0x4 (4) bytes
+SEPLAYTBL BSS se_request_800BF0E0[8]; // 0x60 (96) bytes
 
-gap gap_800BF0E0[0x64]; // 100 bytes
+gap gap_800BF140[0x4]; // 4 bytes
 
 int BSS dword_800BF144; // 0x4 (4) bytes
 
@@ -282,17 +283,16 @@ int BSS stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 int BSS dword_800BF1A4; // 0x4 (4) bytes
 int BSS dword_800BF1A8; // 0x4 (4) bytes
 
-gap gap_800BF1AC[0x2C]; // 44 bytes
+gap gap_800BF1AC[0xC]; // 12 bytes
 
+int BSS se_pan_800BF1B8[8]; // 0x20 (32) bytes
 int BSS dword_800BF1D8; // 0x4 (4) bytes
 
 gap gap_800BF1DC[0xC]; // 12 bytes
 
 int BSS bgm_idx_800BF1E8; // 0x4 (4) bytes
 unsigned int BSS mtrack_800BF1EC; // 0x4 (4) bytes
-
-gap gap_800BF1F0[0x20]; // 32 bytes
-
+int BSS se_vol_800BF1F0[8]; // 0x20 (32) bytes
 int BSS dword_800BF210; // 0x4 (4) bytes
 
 gap gap_800BF214[0x4]; // 4 bytes
