@@ -24,6 +24,7 @@ extern const char aCanceledStrFad[];
 extern int stream_data_ptr_800BEFE4;
 extern int dword_800BEFF0;
 extern int dword_8009F7B8;
+extern int dword_800C04EC;
 
 void sd_init_80081C7C();
 void IntSdMain_80084494();
@@ -518,7 +519,27 @@ int SD_8008395C(int a1, int a2)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/StrFadeWkSet_80083964.s")
+void StrFadeWkSet_80083964()
+{
+    unsigned int amount; // $a0
+
+    if ( dword_800C04EC == 0xFF0000F8 )
+    {
+        amount = 100;
+    }
+    else
+    {
+        amount = 400;
+        if ( dword_800C04EC != 0xFF0000F9 )
+        {
+            return;
+        }
+    }
+    StrFadeIn_800822C8(amount);
+    dword_800C04EC = 0;
+    gStr_fadeout_2_800C0584 = gStreamVol_800BF15C;
+}
+
 #pragma INCLUDE_ASM("asm/SD/StrFadeInt_800839C8.s")
 #pragma INCLUDE_ASM("asm/SD/sub_80083BB4.s")
 
