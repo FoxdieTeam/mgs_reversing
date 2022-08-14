@@ -1,6 +1,7 @@
 #include "strctrl.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
+#include "libgcl/gcl.h"
 
 extern Actor_strctrl strctrl_800B82B0;
 extern int GM_GameStatus_800AB3CC;
@@ -13,15 +14,22 @@ extern int str_8009E288;
 
 int FS_StreamGetTop_80023F94(int is_movie);
 Actor_strctrl* strctrl_init_80037B64(int sector, int gcl_proc, int a3);
+
 void srand_8008E6E8(int s);
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_act_helper_800377EC.s")
+void strctrl_act_helper_800377EC(Actor_strctrl *pActor)
+{
+    if ( !FS_StreamTaskState_80023E0C() )
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s")
 
 
 void strctrl_kill_80037AE4(Actor_strctrl *pActor)
 {
-    int gmStatus; // $v0
     int field_38_proc; // $a1
 
     field_38_proc = pActor->field_38_proc;
@@ -44,6 +52,7 @@ void strctrl_kill_80037AE4(Actor_strctrl *pActor)
 #pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s")
 #pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s")
 #pragma INCLUDE_ASM("asm/Game/GM_StreamPlayStart_80037D1C.s")
+
 
 void GM_StreamPlayStop_80037D64()
 {
