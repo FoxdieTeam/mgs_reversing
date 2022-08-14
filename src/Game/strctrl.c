@@ -7,6 +7,7 @@ extern Actor_strctrl strctrl_800B82B0;
 extern int GM_GameStatus_800AB3CC;
 extern const char aVoxstreamD[];
 extern const char aGmStreamplayst[];
+extern const char aStreamIsNotRea[];
 
 extern int str_sector_8009E280;
 extern int str_gcl_proc_8009E284;
@@ -51,8 +52,19 @@ void strctrl_kill_80037AE4(Actor_strctrl *pActor)
 
 #pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s")
 #pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s")
-#pragma INCLUDE_ASM("asm/Game/GM_StreamPlayStart_80037D1C.s")
 
+void GM_StreamPlayStart_80037D1C()
+{
+    // TODO: Probably a switch
+    if ( (unsigned int)(unsigned short)strctrl_800B82B0.field_20_state - 1 < 2 )
+    {
+        strctrl_800B82B0.field_22_sub_state = 0;
+    }
+    else
+    {
+        mts_printf_8008BBA0(aStreamIsNotRea); 
+    }
+}
 
 void GM_StreamPlayStop_80037D64()
 {
