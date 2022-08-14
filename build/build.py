@@ -197,6 +197,7 @@ def gen_build_target(targetName):
                  "/Thing/",
                  "/Okajima/",
                  "item.c", # todo figure out if correct, why not all .c files in this dir ??
+                 "vibrate.c",
                  "anime.c", # ditto
                  "/Takabe/",
                  "/libfs/",
