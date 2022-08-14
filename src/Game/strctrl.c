@@ -1,3 +1,4 @@
+#include "strctrl.h"
 
 extern int dword_800B82E8;
 extern int dword_800B82E0;
