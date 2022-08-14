@@ -205,7 +205,8 @@ def gen_build_target(targetName):
                  "DG_StorePaletteEffect_80078F30.c", # Same as above
                  "demothrd1.c",
                  "sub_80037DB8.c",
-                 "Kojo/demothrd.c"
+                 "Kojo/demothrd.c",
+                 "strctrl.c"
                  ]
             for item in buildWithG0:
                 if cFile.find(item) != -1:
