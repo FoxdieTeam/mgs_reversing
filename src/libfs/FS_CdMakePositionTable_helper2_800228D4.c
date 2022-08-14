@@ -1,7 +1,7 @@
 #include "libfs.h"
 #include "mts/mts_new.h"
 
-int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int sectorSize)
+int FS_CdMakePositionTable_helper2_80021E2C(void *pBuffer, int startSector, int sectorSize)
 {
     CDBIOS_ReadRequest_8002280C(pBuffer, startSector + 150, sectorSize, 0);
 
