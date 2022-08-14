@@ -36,11 +36,33 @@ void sight_act_helper_8007111C(void)
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_800713FC.s") // 156 bytes
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_80071498.s") // 84 bytes
 #pragma INCLUDE_ASM("asm/Thing/sight_act_800714EC.s")        // 1244 bytes
-#pragma INCLUDE_ASM("asm/Thing/sight_kill_800719C8.s")       // 140 bytes
-#pragma INCLUDE_ASM("asm/Thing/sight_loader_80071A54.s")     // 648 bytes
 
-extern int        dword_8009F600;
-extern int        dword_8009F604;
+extern int dword_8009F600;
+extern int dword_8009F604;
+extern int dword_8009F608;
+
+void sight_kill_800719C8(Actor_Sight *sight)
+{
+    if (sight->field_38_menuStructBuffer)
+    {
+        GV_DelayedFree_80016254(sight->field_38_menuStructBuffer);
+    }
+
+    if (sight->field_44_tPageBuffer)
+    {
+        GV_DelayedFree_80016254(sight->field_44_tPageBuffer);
+    }
+
+    if ((0 < dword_8009F600) && (--dword_8009F600 == 0))
+    {
+        dword_8009F604 = -1;
+    }
+
+    dword_8009F608 &= ~1;
+}
+
+#pragma INCLUDE_ASM("asm/Thing/sight_loader_80071A54.s") // 648 bytes
+
 extern const char aSightC[];
 
 Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
