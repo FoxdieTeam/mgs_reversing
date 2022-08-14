@@ -515,18 +515,8 @@
     ; 80036A10 80036B40 80036BA4 80037128 8003721C 80037514 80037600 800376F8
     include "..\obj\Game\over.obj"
 
-    include "..\obj\Game\strctrl_act_helper_800377EC.obj"
-    include "..\obj\Game\strctrl_act_80037820.obj"
-    include "..\obj\Game\strctrl_kill_80037AE4.obj"
-    include "..\obj\Game\strctrl_init_80037B64.obj"
-    include "..\obj\Game\GM_StreamStatus_80037CD8.obj"
-    include "..\obj\Game\GM_StreamPlayStart_80037D1C.obj"
-    include "..\obj\Game\GM_StreamPlayStop_80037D64.obj"
-    include "..\obj\sub_80037DB8.obj"
-    include "..\obj\Game\GM_StreamGetLastCode_80037DC8.obj"
-    include "..\obj\libgcl\commands\GCL_Command_demo_helper_80037DD8.obj"
-    include "..\obj\Game\GM_VoxStream_80037E40.obj"
-    include "..\obj\sub_80037EE0.obj"
+    ; 800377EC 80037820 80037AE4 80037B64 80037CD8 80037D1C 80037D64 80037DB8 80037DC8 80037DD8 80037E40 80037EE0
+    include "..\obj\Game\strctrl.obj"
 
     ;jimctrl.c
     ; 80037F2C 80037F68 80037FB8
