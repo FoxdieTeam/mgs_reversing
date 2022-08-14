@@ -36,20 +36,21 @@ for obj in objs:
     if 'psyq' in obj or '_fixme' in obj:
         continue
 
-    for name, file_pos, code in get_obj_funcs(obj):
+    for name, segments in get_obj_funcs(obj):
         name = name.decode()
+        code_len = sum([len(x[1]) for x in segments])
         if name in done_names:
             # duplicate because the original INCLUDE_ASM objs are read too, lazy fix
             continue
         done_names[name] = obj
         if not is_c_obj or deps_has(deps, name):
             s_funcs += 1
-            s_bytes += len(code)
+            s_bytes += code_len
         else:
             c_funcs += 1
             # to generate matches.txt
             #print("0x" + name[name.rfind("_")+1:])
-            c_bytes += len(code)
+            c_bytes += code_len
 
 total_funcs = c_funcs + s_funcs
 total_bytes = c_bytes + s_bytes
