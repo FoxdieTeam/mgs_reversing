@@ -221,21 +221,8 @@
     include "..\obj\libfs\FS_StreamIsForceStop_800243C8.obj"
     include "..\obj\libfs\FS_StreamGetTick_80024420.obj"
 
-    include "..\obj\Equip\memcard_hwcard_end_io_800244FC.obj"
-
-    include "..\obj\memcard\memcard_loaddir_800247E8.obj"
-    include "..\obj\memcard\memcard_load_files_80024960.obj"
-    include "..\obj\memcard\memcard_retry_helper_800249CC.obj"
-    include "..\obj\memcard\memcard_reset_status_80024A3C.obj"
-    include "..\obj\memcard\memcard_check_80024A54.obj"
-    include "..\obj\Equip\memcard_exit_800250C4.obj"
-    include "..\obj\memcard\memcard_retry_80025178.obj"
-    include "..\obj\Equip\memcard_get_files_80025350.obj"
-
-    include "..\obj\memcard\memcard_write_8002554C.obj"
-    include "..\obj\memcard\memcard_read_8002569C.obj"
-    include "..\obj\Equip\memcard_get_status_800257B0.obj"
-    include "..\obj\memcard\memcard_format_800257C0.obj"
+    ; 800244FC 800247E8 80024960 800249CC 80024A3C 80024A54 800250C4 80025178 80025350 8002554C 8002569C 800257B0 800257C0
+    include "..\obj\memcard\memcard.obj"
 
     ;game\control.c
     include "..\obj\Game\GM_ControlPushBack_800258B0.obj"
@@ -449,6 +436,8 @@
     include "..\obj\Game\GM_CameraLimitTrace_80030AC4.obj"
     include "..\obj\Game\GM_ExitBehindCamera_80030AEC.obj"
     include "..\obj\Game\GM_CheckBehindCamera_80030B3C.obj"
+
+    ; map.c?
     include "..\obj\Map_light_80030C6C.obj"
     include "..\obj\map\Map_GetNextFreeRecord_80030E30.obj"
     include "..\obj\map\Map_80030FA4.obj"
@@ -465,6 +454,7 @@
     include "..\obj\Map_Enum_Get_Hzd_80031580.obj"
     include "..\obj\map\Map_FindByZoneId_80031624.obj"
     include "..\obj\Game\GM_ReshadeMapAll_800316C4.obj"
+
     include "..\obj\libdg\DG_MakeObjs_helper_80031710.obj"
     include "..\obj\libdg\DG_MakeObjs_80031760.obj"
     include "..\obj\libdg\DG_FreeObjs_800318D0.obj"
