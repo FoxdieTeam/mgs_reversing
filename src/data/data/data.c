@@ -371,7 +371,10 @@ unsigned int SECTION(".data") dword_8009DEC4[] = {
     0x120006A, 0x127006A, 0x11A0061, 0x11E0064, 0x10B0060, 0x1060064, 0x10C0079, 0x10E0060, 0x430058,  0x370064,
     0x350079,  0x2F007D,  0x350087,  0x117007D, 0x11A007D, 0x2F0087,  0x11A0087, 0x1170087, 0x7D};
 
-unk_8009E280 SECTION(".data") dword_8009E280 = {0, 0, 0, 0};
+int SECTION(".data") str_sector_8009E280 = 0;
+int SECTION(".data") str_gcl_proc_8009E284 = 0;
+int SECTION(".data") str_8009E288 = 0;
+int SECTION(".data") dword_8009E28C = 0;
 
 /* For menu code reversing help
 enum
