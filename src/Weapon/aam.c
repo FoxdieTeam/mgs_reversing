@@ -6,7 +6,7 @@
 extern char  aStinger_0[]; // = "stinger"
 extern char  aAamC[];      // = "aam.c"
 extern short d_800AB9EC_mag_size;
-extern short dword_800ABA2C;
+extern short d_800ABA2C_ammo;
 
 #pragma INCLUDE_ASM("asm/Weapon/aam_act_800670CC.s") // 740 bytes
 
@@ -57,7 +57,7 @@ Actor_Aam *NewAAM_80067480(int a1, OBJECT *parent_object, int num_parent, int a4
         actor_aam->f58 = 0;
     }
 
-    dword_800ABA2C = 0;
+    d_800ABA2C_ammo = 0;
     d_800AB9EC_mag_size = 0;
 
     return actor_aam;
