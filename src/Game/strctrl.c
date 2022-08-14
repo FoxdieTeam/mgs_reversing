@@ -1,7 +1,9 @@
 #include "strctrl.h"
 
-extern int dword_800B82E8;
-extern int dword_800B82E0;
+extern Actor_strctrl strctrl_800B82B0;
+
+int FS_StreamGetTop_80023F94(int is_movie);
+Actor_strctrl* strctrl_init_80037B64(int sector, int gcl_proc, int a3);
 
 #pragma INCLUDE_ASM("asm/Game/strctrl_act_helper_800377EC.s")
 #pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s")
@@ -13,14 +15,22 @@ extern int dword_800B82E0;
 
 void sub_80037DB8(void)
 {
-    dword_800B82E8 = -1;
+    strctrl_800B82B0.field_38_proc = -1;
 }
 
 int GM_StreamGetLastCode_80037DC8(void)
 {
-    return dword_800B82E0;
+    return strctrl_800B82B0.field_30_voxStream;
 }
 
 #pragma INCLUDE_ASM("asm/libgcl/commands/GCL_Command_demo_helper_80037DD8.s")
 #pragma INCLUDE_ASM("asm/Game/GM_VoxStream_80037E40.s")
-#pragma INCLUDE_ASM("asm/sub_80037EE0.s")
+
+Actor_strctrl* sub_80037EE0(int voxStream, int gclProc)
+{
+    int pTop; // $v0
+
+    strctrl_800B82B0.field_30_voxStream = voxStream;
+    pTop = FS_StreamGetTop_80023F94(0);
+    return strctrl_init_80037B64(voxStream + pTop, gclProc, 1);
+}
