@@ -16,7 +16,7 @@ extern SVECTOR    dword_800AB880;
 extern const char aRcmC[];
 extern int        GM_CurrentMap_800AB9B0;
 extern short      d_800AB9EC_mag_size;
-extern short      dword_800ABA2C;
+extern short      d_800ABA2C_ammo;
 
 extern SVECTOR stru_800AB870;
 extern SVECTOR stru_800ABA10;
@@ -237,7 +237,7 @@ Actor_Rcm *NewRCM_80066FF0(GM_Control *pCtrl, OBJECT *parent_obj, int num_parent
         rcm->field_60_rgb = 0;
         rcm->field_58_counter = 0;
     }
-    dword_800ABA2C = 0;
+    d_800ABA2C_ammo = 0;
     d_800AB9EC_mag_size = 0;
     return rcm;
 }
