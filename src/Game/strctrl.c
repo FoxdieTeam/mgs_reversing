@@ -1,10 +1,15 @@
 #include "strctrl.h"
 #include "mts/mts_new.h"
+#include "data/data/data.h"
 
 extern Actor_strctrl strctrl_800B82B0;
 extern int GM_GameStatus_800AB3CC;
 extern const char aVoxstreamD[];
 extern const char aGmStreamplayst[];
+
+extern int str_sector_8009E280;
+extern int str_gcl_proc_8009E284;
+extern int str_8009E288;
 
 int FS_StreamGetTop_80023F94(int is_movie);
 Actor_strctrl* strctrl_init_80037B64(int sector, int gcl_proc, int a3);
@@ -12,7 +17,30 @@ void srand_8008E6E8(int s);
 
 #pragma INCLUDE_ASM("asm/Game/strctrl_act_helper_800377EC.s")
 #pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s")
-#pragma INCLUDE_ASM("asm/Game/strctrl_kill_80037AE4.s")
+
+
+void strctrl_kill_80037AE4(Actor_strctrl *pActor)
+{
+    int gmStatus; // $v0
+    int field_38_proc; // $a1
+
+    field_38_proc = pActor->field_38_proc;
+    pActor->field_20_state = 0;
+    GM_GameStatus_800AB3CC &= ~0x20u;
+    if ( field_38_proc >= 0 )
+    {
+        pActor->field_38_proc = -1;
+        GCL_ExecProc_8001FF2C( field_38_proc, 0);
+        
+    }
+    if ( str_sector_8009E280 )
+    {
+        strctrl_init_80037B64(str_sector_8009E280, str_gcl_proc_8009E284, str_8009E288);
+        str_sector_8009E280 = 0;
+    }
+}
+
+
 #pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s")
 #pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s")
 #pragma INCLUDE_ASM("asm/Game/GM_StreamPlayStart_80037D1C.s")

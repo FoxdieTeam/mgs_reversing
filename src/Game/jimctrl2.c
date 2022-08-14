@@ -6,7 +6,7 @@
 #include "libfs/libfs.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
-extern unk_8009E280         dword_8009E280;
+extern int dword_8009E28C;
 
 extern u_long                 gotohell_800B9358;
 extern GameState_800B4D98    gGameState_800B4D98;
@@ -45,7 +45,7 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 {
     jimctrl_kill_helper_clear_80038004(pJimCtrl);
-    dword_8009E280.dword_8009E28C = 0;
+    dword_8009E28C = 0;
     FS_StreamClose_80024098();
 }
 
