@@ -53,7 +53,9 @@ STATIC_ASSERT_SIZE(Actor_Sight, 0x5c);
 Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
                                short *xyOffsetBuffer);
 
-extern void sight_act_800714EC(Actor_Sight *sight);
-extern void sight_kill_800719C8(Actor_Sight *sight);
+void sight_act_800714EC(Actor_Sight *sight);
+void sight_kill_800719C8(Actor_Sight *sight);
+int  sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEquippedIndicator, short itemId,
+                           short *xyOffsetBuffer);
 
 #endif // _SIGHT_H_
