@@ -154,7 +154,35 @@ Actor_Sight *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short
     return sight;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sight_init_80071F98.s") // 220 bytes
+Actor_Sight *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
+{
+    Actor_Sight *sight = (Actor_Sight *)0x0;
+
+    if (dword_8009F604 != -1 && dword_8009F604 != hashedFileName)
+    {
+        return sight;
+    }
+
+    dword_8009F600++;
+    dword_8009F604 = hashedFileName;
+
+    sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
+    if (sight)
+    {
+        GV_SetNamedActor_8001514C((Actor *)sight, sight_act_800714EC, sight_kill_800719C8, aSightC);
+        sight->field_54_maybeFlags = 2;
+
+        if (sight_loader_80071A54(sight, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
+        {
+            GV_DestroyActor_800151C8((Actor *)sight);
+            return 0;
+        }
+
+        word_8009F5FC = 1;
+    }
+
+    return sight;
+}
 
 extern short word_8009F5FC;
 
