@@ -2,6 +2,7 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "Menu/menuman.h"
+#include "Game/strctrl.h"
 
 extern const char aDemoNoCode[];
 extern const char aDemoNoDataOnCd[];

@@ -2,6 +2,7 @@
 #include "psyq.h"
 #include "unknown.h"
 #include "mts/mts_new.h"
+#include "libfs/libfs.h"
 
 extern int sng_status_800BF158;
 extern int se_load_code_800BF28C;
@@ -504,12 +505,12 @@ void WaveSpuTrans_80083944(void)
 
 }
 
-int SD_SongLoadData_8008394C(void)
+int SD_SongLoadData_8008394C(int a1, int a2)
 {
     return -1;
 }
 
-int SD_80083954(void)
+int SD_80083954(int a1, int a2, int a3)
 {
     return -1;
 }

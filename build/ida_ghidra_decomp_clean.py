@@ -17,6 +17,8 @@ replaces = {
     'ushort': 'unsigned short',
     'uint': 'unsigned int',
     'byte': 'unsigned char',
+    'uchar': 'unsigned char',
+    'code *': 'void *',
 
     # ida
     '_BYTE': 'unsigned char',

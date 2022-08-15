@@ -15,7 +15,6 @@ extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF064;
 extern int stop_jouchuu_se_800BF1A0;
 
-void keyoff_80087F80(void);
 void tone_set_80087FA8(int a1); // TODO: char ?
 void SD_MDX_FF_block_end_80087A58();
 

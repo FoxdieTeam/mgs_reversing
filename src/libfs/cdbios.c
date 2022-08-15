@@ -1,9 +1,9 @@
-
 #include "linker.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
 #include "libfs.h"
 #include "mts/mts_new.h"
+#include <LIBCD.H>
 
 extern unsigned char heap_80117000[];
 extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];

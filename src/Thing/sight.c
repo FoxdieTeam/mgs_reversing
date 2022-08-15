@@ -1,5 +1,6 @@
 #include "sight.h"
 #include "libgv/libgv.h"
+#include "Menu/menuman.h"
 
 // used for all first person HUDs
 

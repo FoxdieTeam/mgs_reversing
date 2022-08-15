@@ -3520,8 +3520,9 @@ void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int anim
 
         if (++pActor->field_A54.choke_count >= 10) // feels good
         {
-            vibrate_init2_8005D58C(dword_8009EF24, 1);
-            vibrate_init2_8005D58C(dword_8009EF2C, 2);
+            // TODO: fix data when vibrate is figured out
+            vibrate_init2_8005D58C((unsigned char *)dword_8009EF24, 1);
+            vibrate_init2_8005D58C((unsigned char *)dword_8009EF2C, 2);
             sna_init_start_anim_8004E1F4(pActor, sna_init_anim_choke_kill_80058F88);
             return;
         }
