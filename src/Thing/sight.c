@@ -34,8 +34,17 @@ void sight_act_helper_8007111C(void)
 #pragma INCLUDE_ASM("asm/Thing/sight_800711C0.s")            // 352 bytes
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_80071320.s") // 220 bytes
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_800713FC.s") // 156 bytes
-#pragma INCLUDE_ASM("asm/Thing/sight_act_helper_80071498.s") // 84 bytes
-#pragma INCLUDE_ASM("asm/Thing/sight_act_800714EC.s")        // 1244 bytes
+
+extern const char aStringFormat[];
+
+void sight_act_helper_80071498(UnknownMenuStruct *param_1, int param_2, int param_3, int param_4)
+{
+    menu_Text_XY_Flags_80038B34(param_1->field_8_posX, param_1->field_A_posY, 0);
+    menu_Color_80038B4C(param_1->field_4_r, param_1->field_5_g, param_1->field_6_b);
+    menu_Text_80038C38(aStringFormat, param_1->field_C_text);
+}
+
+#pragma INCLUDE_ASM("asm/Thing/sight_act_800714EC.s") // 1244 bytes
 
 extern int dword_8009F600;
 extern int dword_8009F604;
