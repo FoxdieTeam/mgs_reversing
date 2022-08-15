@@ -248,9 +248,9 @@ void memcard_init_80024E48()
     if (!gmem_card_system_inited_8009D524)
     {
         gmem_card_system_inited_8009D524 = !gmem_card_system_inited_8009D524;
-        gHwCardLastOp_800B52F4 = 1;
+        gHwCardLastOp_800B52F4 = (TMemCardSetFunc)1;
 
-        gSwCardLastOp_800B52F0 = 1;
+        gSwCardLastOp_800B52F0 = (TMemCardSetFunc)1;
         memcard_set_sw_hw_card_fns_8002469C();
 
         EnterCriticalSection_8009952C();

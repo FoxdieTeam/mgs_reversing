@@ -19,5 +19,7 @@ typedef struct Actor_strctrl
   int field_3C;
 } Actor_strctrl;
 
+// TODO: rename
+Actor_strctrl* GCL_Command_demo_helper_80037DD8(int base_sector, int gcl_proc);
 
 #endif // _STRCTRL_H_

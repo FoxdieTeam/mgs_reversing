@@ -151,5 +151,14 @@ typedef struct SEPLAYTBL
 
 void sd_sng_alloc_80082194(void);
 void pan_set2_800882E4(unsigned char a1);
+void keyoff_80087F80(void);
+void StrSpuTransClose_80083394();
+int  SD_8008395C(int a1, int a2);
+int  SD_80083954(int a1, int a2, int a3);
+void init_sng_work_8008559C();
+int  SD_SongLoadData_8008394C(int a1, int a2);
+void por_compute_80086504(void);
+int  vib_compute_800865CC(void);
+void freq_set_800885D4(unsigned int a1);
 
 #endif // _SD_H_

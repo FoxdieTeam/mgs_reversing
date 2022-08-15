@@ -367,25 +367,31 @@ extern const char aStinger[]; // = "stinger"
 void stnsight_act_80068D0C(Actor_stnsight *actor)
 {
     unsigned int *uVar1;
-    int iVar3;
-    int iVar4;
-    int local_20[2];
-    ushort local_18;
-    DG_CHNL *channel;
+    int           iVar3;
+    int           iVar4;
+    int           local_20[2];
+    ushort        local_18;
+    DG_CHNL      *channel;
 
-    if (actor->field_94 > 0) {
-        if (!GV_PauseLevel_800AB928) {
+    if (actor->field_94 > 0)
+    {
+        if (!GV_PauseLevel_800AB928)
+        {
             actor->field_94--;
         }
 
         return;
     }
-    
-    if (actor->field_84_4Array[2] == 0) {
-        actor->field_84_4Array[2] = NewSight_80071CDC(GV_StrCode_80016CCC(aStinger), GV_StrCode_80016CCC(aStinger), &word_800AB8EC, 1, 0);
+
+    if (actor->field_84_4Array[2] == 0)
+    {
+        // TODO: fix data
+        actor->field_84_4Array[2] =
+            (int)NewSight_80071CDC(GV_StrCode_80016CCC(aStinger), GV_StrCode_80016CCC(aStinger), &word_800AB8EC, 1, 0);
     }
 
-    if (actor->field_84_4Array[3] == 0) {
+    if (actor->field_84_4Array[3] == 0)
+    {
         local_20[0] = 0x41412e;
         local_20[1] = 0x293df6;
         actor->field_84_4Array[3] = sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
@@ -401,31 +407,36 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
     stnsight_act_helper_8006837C(actor);
     menu_Text_Init_80038B98();
 
-    if (GV_PauseLevel_800AB928 != 0) {
+    if (GV_PauseLevel_800AB928 != 0)
+    {
         return;
     }
-    
+
     local_18 = actor->field_24_pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&local_18);
-    
+
     iVar3 = actor->field_58_ybase;
-            
-    if ((iVar3 != 0) && ((local_18 & 0x5000) == 0)) {
+
+    if ((iVar3 != 0) && ((local_18 & 0x5000) == 0))
+    {
         iVar4 = iVar3 - 1;
-                
-        if (iVar3 < 1) {
+
+        if (iVar3 < 1)
+        {
             iVar4 = iVar3 + 1;
         }
-    
+
         actor->field_58_ybase = iVar4;
     }
 
     iVar3 = actor->field_5C_xbase;
-            
-    if ((iVar3 != 0) && ((local_18 & 0xa000) == 0)) {
+
+    if ((iVar3 != 0) && ((local_18 & 0xa000) == 0))
+    {
         iVar4 = iVar3 - 1;
-                
-        if (iVar3 < 1) {
+
+        if (iVar3 < 1)
+        {
             iVar4 = iVar3 + 1;
         }
 

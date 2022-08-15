@@ -21,8 +21,6 @@ extern const char aLoadsngdataFil[];
 extern const char aCompletedloads[];
 
 void sng_track_init_800859B8(SOUND_W *pSoundW);
-int SD_SongLoadData_8008394C(int a1, int a2);
-int SD_80083954(int a1, int a2, int a3);
 int SD_8008395C(int a1, int a2);
 
 #pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s")

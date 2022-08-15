@@ -51,7 +51,9 @@ void blast_kill_8006DD90(Actor_Blast *blast)
     {
         sub_8007913C();
     }
-    if (objs = (DG_OBJS *)blast->field_2C)
+
+    objs = (DG_OBJS *)blast->field_2C;
+    if (objs)
     {
         DG_DequeuePrim_800182E0(objs);
         DG_FreePrim_8001BC04(objs);
