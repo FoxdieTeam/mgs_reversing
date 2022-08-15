@@ -5,8 +5,9 @@ import sys
 import os
 import time
 import subprocess
+import re
 #from ninja import _program as ninja_run, ninja_syntax
-from ninja import _program as ninja_run
+from ninja import BIN_DIR
 # local copy as the pip version doesn't have dyndeps in build() func
 import ninja_syntax
 
@@ -29,6 +30,39 @@ def parse_arguments():
     args.psyq_path = os.path.abspath(args.psyq_path).replace("\\","/")
     print("psyq_path = " + args.psyq_path)
     return args
+
+def ninja_run():
+    ninja = os.path.join(BIN_DIR, 'ninja')
+    ninja_args = [] # TODO: pass through args to ninja?
+
+
+    # warrnings that were probably in the original code
+    # TODO: hide these when building locally
+    warning_whitelist = [
+        r'sd_drv\.c:\d+: warning: `temp\' might be used uninitialized in this function',
+        r'FS_StreamIsEnd_800240D0\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
+        r'sd_main\.c:\d+: warning: unused variable `buffer\'',
+    ]
+
+    if os.environ.get('APPVEYOR'):
+        with subprocess.Popen([ninja] + ninja_args, stdout=subprocess.PIPE, encoding='utf8') as proc:
+            for line in proc.stdout:
+                sys.stdout.write(line)
+                if 'warning: ' in line:
+                    found = False
+                    for whitelisted in warning_whitelist:
+                        if re.search(whitelisted, line):
+                            found = True
+                            break
+                    if not found:
+                        print('^ this warning must be fixed in order to merge', file=sys.stderr)
+                        print('.. and all other warnings minus these:')
+                        for whitelisted in warning_whitelist:
+                            print('    ', whitelisted)
+                        sys.exit(1)
+            return proc.wait()
+    else:
+        return subprocess.call([ninja] + ninja_args)
 
 args = parse_arguments()
 
@@ -260,7 +294,7 @@ gen_build_target("SLPM_862.47")
 f.close()
 
 time_before = time.time()
-exit_code = ninja_run('ninja', [])
+exit_code = ninja_run()
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
