@@ -28,5 +28,7 @@ int                   FS_StreamGetData_800240E0(unsigned int);
 void                  FS_StreamOpen_80024060();
 void                  FS_StreamClose_80024098(void);
 int                   CDBIOS_TaskState_80022888(void);
+unsigned int          FS_StreamTaskState_80023E0C(void);
+void                  FS_StreamStop_80024028();
 
 #endif // _LIBFS_H_

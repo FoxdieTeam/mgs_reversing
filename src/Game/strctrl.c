@@ -2,6 +2,7 @@
 #include "mts/mts_new.h"
 #include "data/data/data.h"
 #include "libgcl/gcl.h"
+#include "libfs/libfs.h"
 
 extern Actor_strctrl strctrl_800B82B0;
 extern int GM_GameStatus_800AB3CC;
