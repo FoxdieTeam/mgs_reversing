@@ -29,6 +29,8 @@ extern void *dword_8009E75C[];
 extern DG_TEX gTextureRecs_800B1F50[512];
 
 extern MenuMan_Inventory_14h_Unk dword_800BDA10;
+extern MenuMan_Inventory_14h_Unk dword_800BDA30;
+extern RadioCall gRadioCall_8009E708;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s")
@@ -134,7 +136,16 @@ void menu_radio_kill_8004271C(Actor_MenuMan *pMenu)
 
 #pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_80042730.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_SetLoad_800427E8.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_ResetCall_80042814.s")
+
+void menu_ResetCall_80042814()
+{
+    gRadioCall_8009E708.field_0 = 0;
+    gRadioCall_8009E708.field_4 = 0;
+    gRadioCall_8009E708.field_2 = 0;
+    gRadioCall_8009E708.field_8 = 0;
+    
+    dword_800ABB08 = -1;
+}
 
 void menu_SetRadioCallbackProc_8004283C(int param_1)
 {
@@ -178,7 +189,11 @@ void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
     sub_800434F4(param_1, param_2, param_3, &dword_800BDA10);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_frozen_800435C8.s")
+void menu_draw_frozen_800435C8(unsigned int **param_1, int param_2, int param_3)
+{
+    sub_800434F4(param_1, param_2, param_3, &dword_800BDA30);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s")
 #pragma INCLUDE_ASM("asm/sub_80043678.s")
 #pragma INCLUDE_ASM("asm/sub_80043A24.s")
