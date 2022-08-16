@@ -920,7 +920,6 @@ int mts_unlock_sio_8008BA74(void)
 }
 
 #pragma INCLUDE_ASM("asm/mts/mts_8008BA88.s") // 196 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_8008BB4C.s") // 20 bytes
 
 int mts_8008BB60(int arg0)
 {
