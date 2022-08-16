@@ -76,7 +76,30 @@ int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
 
 #pragma INCLUDE_ASM("asm/sub_8005C298.s")                // 188 bytes
 #pragma INCLUDE_ASM("asm/sub_8005C354.s")                // 176 bytes
-#pragma INCLUDE_ASM("asm/HZD_ReachTo_helper_8005C404.s") // 84 bytes
+
+int HZD_ReachTo_helper_8005C404(HZD_MAP *pHzd, int near_idx, int toFind)
+{
+    int i; // $a3
+    u_char *nears; // $v1
+    int near; // $v0
+
+    nears = pHzd->f00_header->navmeshes[near_idx].nears;
+    for (i = 6; i > 0; i--)
+    {
+        near = *nears++;
+        if ( near == 255 )
+        {
+            break;
+        }
+
+        if ( near == toFind )
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 char sna_init_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if return value correct
 {
