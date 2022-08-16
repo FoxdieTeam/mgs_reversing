@@ -17,8 +17,18 @@ int        SECTION(".sbss") dword_800ABB10; // declared
 extern unsigned char dword_800ABB20;
 unsigned char        SECTION(".sbss") dword_800ABB20;
 
+extern short word_800ABB22;
+short        SECTION(".sbss") word_800ABB22;
+
+extern int dword_800ABB24;
+int SECTION(".sbss") dword_800ABB24;
+
 extern int GV_Time_800AB330;
 extern void *dword_8009E75C[];
+
+extern DG_TEX gTextureRecs_800B1F50[512];
+
+extern MenuMan_Inventory_14h_Unk dword_800BDA10;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s")
@@ -56,7 +66,6 @@ void sub_80041118(int param_1)
     dword_800ABB04 = 0;
     font_clear_800468FC((KCB *)iVar1); // TODO: iVar1 is KCB*
     font_update_8004695C((KCB *)iVar1);
-    return;
 }
 
 #pragma INCLUDE_ASM("asm/draw_radio_message_8004114C.s")
@@ -66,7 +75,6 @@ void sub_8004124C(int param_1)
     GV_FreeMemory_80015FD0(0, *(void **)(param_1 + 0x214));
     *(int *)(param_1 + 0x214) = 0;
     dword_800ABB04 = 0;
-    return;
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s")
@@ -164,7 +172,12 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
 #pragma INCLUDE_ASM("asm/Menu/menu_restore_nouse_80043470.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_init_nouse_800434A8.s")
 #pragma INCLUDE_ASM("asm/sub_800434F4.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_nouse_800435A4.s")
+
+void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
+{
+    sub_800434F4(param_1, param_2, param_3, &dword_800BDA10);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_frozen_800435C8.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s")
 #pragma INCLUDE_ASM("asm/sub_80043678.s")
@@ -173,7 +186,13 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
 #pragma INCLUDE_ASM("asm/sub_800442E4.s")
 #pragma INCLUDE_ASM("asm/sub_800445F8.s")
 #pragma INCLUDE_ASM("asm/sub_800448C0.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_viewer_init_80044A70.s")
+
+void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
+{
+    dword_800ABB20 = 0;
+    dword_800ABB24 = (int)gTextureRecs_800B1F50;
+    word_800ABB22 = -1;
+}
 
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
 {
