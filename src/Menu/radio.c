@@ -11,6 +11,9 @@ int        SECTION(".sbss") dword_800ABB04;
 extern int dword_800ABB08;
 int        SECTION(".sbss") dword_800ABB08;
 
+extern short word_800ABB0C;
+short SECTION(".sbss") word_800ABB0C;
+
 extern int dword_800ABB10;
 int        SECTION(".sbss") dword_800ABB10; // declared
 
@@ -30,7 +33,8 @@ extern DG_TEX gTextureRecs_800B1F50[512];
 
 extern MenuMan_Inventory_14h_Unk dword_800BDA10;
 extern MenuMan_Inventory_14h_Unk dword_800BDA30;
-extern RadioCall gRadioCall_8009E708;
+extern RadioIncomingCall gRadioIncomingCall_8009E708;
+extern int GV_PadMask_800AB374;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s")
@@ -134,15 +138,53 @@ void menu_radio_kill_8004271C(Actor_MenuMan *pMenu)
     pMenu->field_28_flags &= ~0x10u;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_80042730.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_SetLoad_800427E8.s")
+void menu_RadioCall_80042730(int param_1, int param_2, int time)
+{
+    gRadioIncomingCall_8009E708.field_0 = param_1;
+    gRadioIncomingCall_8009E708.field_4 = param_2;
+
+    if (time == 0)
+    {
+        gRadioIncomingCall_8009E708.field_2_timer = 360;
+        gRadioIncomingCall_8009E708.field_8 = 0;
+        menu_RadioCall_helper_800403E4();
+    }
+
+    else
+    {
+        if (time >= 5)
+        {
+            menu_RadioCall_helper_800403E4();
+            gRadioIncomingCall_8009E708.field_8 = 1;
+            gRadioIncomingCall_8009E708.field_2_timer = 40;
+            GV_PadMask_800AB374 = 0x100;
+            GM_GameStatus_800AB3CC |= 0x8000000;
+        }
+        else
+        {
+            gRadioIncomingCall_8009E708.field_2_timer = -time;
+            gRadioIncomingCall_8009E708.field_8 = 0;
+        }
+
+        GM_GameStatus_800AB3CC |= 0x80000;
+    }
+}
+
+void menu_SetLoad_800427E8(int param_1, int param_2, short param_3)
+{
+    gRadioIncomingCall_8009E708.field_0 = param_3;
+    gRadioIncomingCall_8009E708.field_2_timer = -1;
+    gRadioIncomingCall_8009E708.field_4 = param_2;
+    dword_800ABB08 = param_1;
+    word_800ABB0C = 1;
+}
 
 void menu_ResetCall_80042814()
 {
-    gRadioCall_8009E708.field_0 = 0;
-    gRadioCall_8009E708.field_4 = 0;
-    gRadioCall_8009E708.field_2 = 0;
-    gRadioCall_8009E708.field_8 = 0;
+    gRadioIncomingCall_8009E708.field_0 = 0;
+    gRadioIncomingCall_8009E708.field_4 = 0;
+    gRadioIncomingCall_8009E708.field_2_timer = 0;
+    gRadioIncomingCall_8009E708.field_8 = 0;
     
     dword_800ABB08 = -1;
 }

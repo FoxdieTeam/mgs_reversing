@@ -35,7 +35,8 @@ int SECTION(".sbss") dword_800ABAFC;
 int SECTION(".sbss") dword_800ABB00;
 int SECTION(".sbss") dword_800ABB04;
 int SECTION(".sbss") dword_800ABB08;
-int SECTION(".sbss") dword_800ABB0C;
+short SECTION(".sbss") word_800ABB0C;
+short SECTION(".sbss") word_800ABB0E;
 
 extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
