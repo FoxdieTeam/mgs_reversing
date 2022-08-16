@@ -180,7 +180,15 @@ gap gap_800BD5B4[0x2D4]; // 724 bytes
 
 MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
-gap gap_800BD964[0x10C]; // 268 bytes
+gap gap_800BD964[0xAC]; // 172 bytes
+
+MenuMan_Inventory_14h_Unk BSS dword_800BDA10; // 0x14 (20) bytes
+
+gap gap_800BDA24[0xC]; // 12 bytes
+
+MenuMan_Inventory_14h_Unk BSS dword_800BDA30; // 0x14 (20) bytes
+
+gap gap_800BDA44[0x2C]; // 44 bytes
 
 UnkJimakuStruct BSS gUnkJimakuStruct_800BDA70; // 0x44 (68) bytes
 
