@@ -283,6 +283,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
+void menu_JimakuWrite_800494E8(const char *str, int frames);
 void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
 void menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
 void menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
@@ -304,7 +305,7 @@ void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper2_8004A800(void);
 void sub_80047CB4(menu_chara_struct *unknown);
-int  NewJimakuStr_8004955C(char *, int);
+void NewJimakuStr_8004955C(const char *str, int int_1);
 void NewJimaku_800495A8(void);
 void menu_ClearRadioTable_8004967C(void);
 void menu_RadioCall_80042730(int param_1, int param_2, int param_3);
