@@ -887,17 +887,16 @@ RECT  SECTION(".data") rect_8009F720 = {768, 196, 256, 2};
 int   SECTION(".data") dword_8009F728 = 0;
 RECT  SECTION(".data") rect_8009F72C = {768, 226, 256, 2};
 RECT  SECTION(".data") rect_8009F734 = {768, 196, 256, 2};
-int   SECTION(".data") dword_8009F73C[] = {0x8512D, 0x1E0004, 0x3E80001, 0x1F40003, 0xFF01F4};
-int   SECTION(".data") dword_8009F750[] = {0, 0x8001345C};
-int   SECTION(".data") dword_8009F758[] = {0x8512D, 0x1E0004, 3, 0x3E80001, 0x4003E8};
-int   SECTION(".data") dword_8009F76C[] = {0, 0x80013488};
 
+Anim_Data SECTION(".data") stru_8009F73C = { 20781, 8, 1966084, 1, 1000, 3, 500, 500, 255, NULL, (void*)0x8001345C };
+Anim_Data SECTION(".data") stru_8009F758 = { 20781, 8, 1966084, 3, 0, 1, 1000, 1000, 64, NULL, (void *)0x80013488 };
 Anim_Data SECTION(".data") stru_8009F774 = { 20781, 8, 1966084, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC };
+Anim_Data SECTION(".data") stru_8009F790 = { 9287, 2, 262146, 1, 300, 1, 5000, 5000, 128, NULL, (void *)0x80013510 };
 
+SVECTOR SECTION(".data") stru_8009F7AC = { 0, 255, 0, 0 };
 
-int   SECTION(".data") dword_8009F790[] = {0x22447, 0x40002, 0x12C0001, 0x13880001, 0x801388};
-int   SECTION(".data") dword_8009F7A4[] = {0, 0x80013510};
-int   SECTION(".data") dword_8009F7AC[] = {0xFF0000, 0};
+// SD data start
+
 int   SECTION(".data") dword_8009F7B4 = 0xFFFFFFFF;
 
 void no_cmd_80087A80(void);
