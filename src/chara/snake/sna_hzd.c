@@ -74,8 +74,46 @@ int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
     return -1;
 }
 
+int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3);
+
 #pragma INCLUDE_ASM("asm/sub_8005C298.s")                // 188 bytes
-#pragma INCLUDE_ASM("asm/sub_8005C354.s")                // 176 bytes
+
+int sna_init_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
+{
+    int smallest_idx; // $s3
+    HZD_HEADER *pHeader; // $s4
+    int navMeshCount; // $s0
+    HZD_ZON *pNavMeshes; // $s1
+    int smallest_val; // $s2
+    int inited; // $v1
+
+    smallest_idx = -1;
+    pHeader = pHzd->f00_header;
+    navMeshCount = pHzd->f00_header->n_navmeshes;
+    pNavMeshes = pHzd->f00_header->navmeshes;
+    smallest_val = 0x1000000;
+
+    while (navMeshCount > 0)
+    {
+        inited = sub_8005C298(pNavMeshes, pVec, smallest_val);
+        if ( inited < smallest_val )
+        {
+            smallest_val = inited;
+            smallest_idx = navMeshCount;
+        }
+        --navMeshCount;
+         ++pNavMeshes;
+    }
+
+    if ( smallest_idx < 0 )
+    {
+        return 0;
+    }
+    else
+    {
+        return pHeader->n_navmeshes - smallest_idx;
+    }
+}
 
 int HZD_ReachTo_helper_8005C404(HZD_MAP *pHzd, int near_idx, int toFind)
 {
