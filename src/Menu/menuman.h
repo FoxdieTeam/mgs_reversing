@@ -254,8 +254,8 @@ typedef struct UnkJimakuStruct // @ 800BDA70
     int field_8_y;
     KCB field_C_font;
     const char *field_38_str; // the string to display
-    int field_3C;
-    int field_40;
+    int field_3C; // hashed proc name used as first arg to GCL_ExecProc_8001FF2C
+    int field_40; // char * gcl string?
     // int field_44 // padding?
 } UnkJimakuStruct;
 
