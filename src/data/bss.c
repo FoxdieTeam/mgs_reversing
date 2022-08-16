@@ -180,7 +180,11 @@ gap gap_800BD5B4[0x2D4]; // 724 bytes
 
 MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
-gap gap_800BD964[0x1D4]; // 468 bytes
+gap gap_800BD964[0x10C]; // 268 bytes
+
+UnkJimakuStruct BSS gUnkJimakuStruct_800BDA70; // 0x44 (68) bytes
+
+gap gap_800BDAB4[0x84]; // 132 bytes
 
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
