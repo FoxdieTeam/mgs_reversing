@@ -92,9 +92,7 @@ typedef struct GM_Camera // @ 800B77E8
     short field_0;
     short field_2;
     int field_4;
-    short field_8;
-    short field_A;
-    int field_C;
+    SVECTOR field_8;
     SVECTOR field_10;
     int field_18_flags;
     int field_1C;
@@ -261,6 +259,7 @@ int sub_800327BC(Point *out, SVECTOR *pos);
 int sub_80032820(Point *out, SVECTOR *pos);
 int sub_800326D4(Point *out, SVECTOR *pos);
 
+void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 int  sub_8002E508(int a1);
 void sub_8002B600(int);
 void sub_8002AAEC();
