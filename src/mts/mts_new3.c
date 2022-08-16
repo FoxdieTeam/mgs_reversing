@@ -874,8 +874,26 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
 }
 
 #pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s")          // 116 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_send_msg_8008B590.s") // 40 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_recv_msg_8008B5B8.s") // 80 bytes
+
+void mts_send_msg_8008B590(int param_1, int param_2, int param_3)
+{
+    int msg[4]; // is this mt_msg? but it's 4 bytes too big?
+
+    msg[0] = param_2;
+    msg[1] = param_3;
+    mts_send_8008982C(param_1, (unsigned char *)&msg);
+}
+
+int mts_recv_msg_8008B5B8(int param_1, int *param_2, int *param_3)
+{
+    int msg[4]; // is this mt_msg? but it's 4 bytes too big?
+    int res;
+
+    res = mts_receive_80089D24(param_1, (unsigned char *)&msg);
+    *param_2 = msg[0];
+    *param_3 = msg[1];
+    return res;
+}
 
 int mts_8008B608(void)
 {

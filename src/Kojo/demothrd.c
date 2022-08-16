@@ -5,6 +5,7 @@
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern Anim_Data stru_8009F774;
+extern int DG_UnDrawFrameCount_800AB380;
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
@@ -25,7 +26,14 @@ int DM_ThreadStream_80079460(int flag, int unused)
 
 #pragma INCLUDE_ASM("asm/Kojo/DM_ThreadFile_800794E4.s")                           // 384 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_80079664.s")                              // 360 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper_800797CC.s")          // 48 bytes
+
+void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor)
+{
+    DestroyDemo_8007A66C(pActor);
+    FS_StreamClose_80024098();
+    DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_update_800797FC.s")                         // 356 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_kill_80079960.s")                           // 72 bytes
 
