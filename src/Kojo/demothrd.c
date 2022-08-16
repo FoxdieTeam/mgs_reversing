@@ -73,7 +73,19 @@ void sub_80079A1C(void)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper_8007D404.s")  // 1476 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper2_8007D9C8.s") // 96 bytes
-#pragma INCLUDE_ASM("asm/Kojo/AN_CaterpillerSmoke_8007DA28.s")                     // 108 bytes
+
+extern Anim_Data stru_8009F73C;
+
+void AN_CaterpillerSmoke_8007DA28(SVECTOR *pVec)
+{
+    anime_data_0x14 data;
+
+    memset_8008E688(&data, 0, sizeof(anime_data_0x14));
+    data.field_0_vec = *pVec;
+    stru_8009F73C.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F73C);
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
 #pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
