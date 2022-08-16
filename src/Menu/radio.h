@@ -3,6 +3,15 @@
 
 #include "menuman.h"
 
+// name guessed from "menu_ResetCall_80042814" func
+typedef struct RadioCall // @ 8009E708
+{
+    short field_0;
+    short field_2;
+    int field_4;
+    int field_8;
+} RadioCall;
+
 void           sub_8004124C(int param_1);
 void           menu_radio_codec_create_state_80047CE4(Actor_MenuMan *menuMan);
 void           menu_radio_update_80042198(void);
