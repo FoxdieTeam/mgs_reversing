@@ -89,7 +89,43 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pVec)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
 #pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
-#pragma INCLUDE_ASM("asm/sub_8007DF10.s")                                          // 412 bytes
+
+extern Anim_Data stru_8009F790;
+
+void sub_8007DF10(SVECTOR *pVec1, SVECTOR *pVec2)
+{
+    SVECTOR vecs1[3]; // [sp+10h] [-48h] BYREF
+    SVECTOR vecs2[3]; // [sp+28h] [-30h] BYREF
+    anime_data_0x14 data; // [sp+40h] [-18h] BYREF
+    
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+
+    vecs1[0] = DG_ZeroVector_800AB39C;
+    vecs1[0].vz = 500;
+
+    vecs1[1] = DG_ZeroVector_800AB39C;
+    vecs1[1].vz = 2000;
+
+    vecs1[2] = DG_ZeroVector_800AB39C;
+    vecs1[2].vz = 3000;
+
+    DG_SetPos2_8001BC8C(pVec2, pVec1);
+    DG_PutVector_8001BE48(vecs1, vecs2, 3);
+
+    stru_8009F790.field_14 = &data;
+
+    data.field_0_vec = vecs2[0];
+    data.field_10_anim_idx = 0;
+    anime_init_8005FBC8(0, 0, &stru_8009F790);
+
+    data.field_0_vec = vecs2[1];
+    data.field_10_anim_idx = 1;
+    anime_init_8005FBC8(0, 0, &stru_8009F790);
+
+    data.field_0_vec = vecs2[2];
+    data.field_10_anim_idx = 2;
+    anime_init_8005FBC8(0, 0, &stru_8009F790);
+}
 
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
