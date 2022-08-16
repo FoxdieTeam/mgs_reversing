@@ -329,6 +329,7 @@ void           menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsig
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 int            menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
 void           menu_ResetTexture_80038A00(void);
+void           menu_jimaku_init_helper_800493F8(KCB *kcb);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 
