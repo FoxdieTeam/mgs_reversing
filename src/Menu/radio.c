@@ -20,7 +20,7 @@ unsigned char        SECTION(".sbss") dword_800ABB20;
 extern short word_800ABB22;
 short        SECTION(".sbss") word_800ABB22;
 
-int dword_800ABB24;
+extern int dword_800ABB24;
 int SECTION(".sbss") dword_800ABB24;
 
 extern int GV_Time_800AB330;
