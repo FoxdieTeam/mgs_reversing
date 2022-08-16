@@ -5,6 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
+#include "Font/font.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 
 #define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
@@ -242,6 +243,21 @@ typedef struct Actor_MenuMan
     // Some kind of radar horizontal stretch value.
     int field_220;
 } Actor_MenuMan;
+
+// here or jimctl.h?
+typedef struct UnkJimakuStruct // @ 800BDA70
+{
+    char field_0_active; // if true, display on screen and count down timer
+    char field_1_type; // 0, 1, 2? - 1: pause
+    short field_2_timer; // how many frames to be active
+    int field_4_x; // location on screen
+    int field_8_y;
+    KCB field_C_font;
+    const char *field_38_str; // the string to display
+    int field_3C;
+    int field_40;
+    // int field_44 // padding?
+} UnkJimakuStruct;
 
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
