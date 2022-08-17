@@ -330,6 +330,7 @@ unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned
 int            menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
 void           menu_ResetTexture_80038A00(void);
 void           menu_jimaku_init_helper_800493F8(KCB *kcb);
+void           menu_font_kill_helper_8003F50C(void);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 

@@ -541,8 +541,7 @@ void GV_CopyMemory_800160D8(void *from, void *to, int size)
 
 // from leaked original MGS source code
 
-void GV_ZeroMemory_8001619C(to, size) void *to;
-int  size;
+void GV_ZeroMemory_8001619C(void *to, int size)
 {
     typedef struct
     {
@@ -575,13 +574,12 @@ int  size;
     }
 }
 
-void *GV_Malloc_8001620C(size)
-int   size;
+void *GV_Malloc_8001620C(int size)
 {
     return GV_AllocMemory_80015EB8(GV_NORMAL_MEMORY, size);
 }
 
-void GV_Free_80016230(addr) void *addr;
+void GV_Free_80016230(void *addr)
 {
     GV_FreeMemory_80015FD0(GV_NORMAL_MEMORY, addr);
 }
