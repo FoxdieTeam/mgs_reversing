@@ -83,13 +83,13 @@ if os.environ.get('APPVEYOR'):
     if msg_ext:
         print(msg_ext)
 
-print('Reversed funcs: {:,}{} / {:,}  -  {:.2f}%'.format(
+print('Reversed funcs: {:,}{} / {:,} | {:.2f}%'.format(
     c_funcs,
     c_funcs_extra,
     total_funcs,
     c_funcs / total_funcs * 100))
 
-print('Reversed bytes: {:,}{} / {:,}  -  {:.2f}%'.format(
+print('Reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
     c_bytes,
     c_bytes_extra,
     total_bytes,
