@@ -764,7 +764,7 @@ const char *SECTION(".data") off_8009F2A8[3] = {aSnaFace, aSnaFace2, aSnaFace3};
 const char *SECTION(".data") off_8009F2B4[3] = {aSnaMf1, aSnaMf2, aSnaMf3};
 
 int   SECTION(".data") dword_8009F2C0 = 0;
-short SECTION(".data") word_8009F2C4 = 0;
+short SECTION(".data") scope_created_8009F2C4 = 0;
 int   SECTION(".data") dword_8009F2C8[] = {0, 0, 0, 0xC80};
 char  SECTION(".data") byte_8009F2D8[] = {0x43, 4, 0, 2};
 int   SECTION(".data") dword_8009F2DC[] = {0x800129D4, 0x80063704, 0x80063888, 0x800638B4};
