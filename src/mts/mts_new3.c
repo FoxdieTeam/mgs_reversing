@@ -849,8 +849,7 @@ void mts_shutdown_8008B044(void)
     ExitCriticalSection_8009953C();
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s") // 940 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_8008B450.s") // 44 bytes
+#pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s") // 984 bytes
 
 int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
 {

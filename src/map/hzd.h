@@ -4,6 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
+#include "Game/GM_Control.h"
 
 typedef struct HZD_VEC
 {
@@ -127,6 +128,7 @@ int      HZD_LoadInitHzd_800219F4(void *hzmFile);
 void     HZD_Process_TableFlagIfTriggers_80021928(HZD_TRG *triggers, int n_triggers);
 void     HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1); // navmeshes
 void     HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
+void     HZD_ReExecEvent_8002A1F4(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags);
 
 void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 
