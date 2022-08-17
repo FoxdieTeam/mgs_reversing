@@ -261,9 +261,7 @@ int BSS dword_800BF000; // 0x4 (4) bytes
 gap gap_800BF004[0x8]; // 8 bytes
 
 int BSS blank_data_addr_800BF00C; // 0x4 (4) bytes
-
-gap gap_800BF010[0x4]; // 4 bytes
-
+int BSS dword_800BF010; // 0x4 (4) bytes
 int BSS se_fp_800BF014; // 0x4 (4) bytes
 int BSS sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
 
