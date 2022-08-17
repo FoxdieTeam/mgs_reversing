@@ -303,7 +303,12 @@ void sd_init_80081C7C()
     SpuSetCommonAttr_80097038(&attr);
 }
 
-#pragma INCLUDE_ASM("asm/SD/sub_80081F8C.s")
+void sub_80081F8C(void)
+{
+    SpuSetIRQCallback_80096BA8(NULL);
+    SpuSetKey_80096C18(0, 0xffffff);
+    SpuQuit_80095258();
+}
 
 void SD_80081FC4(int param_1)
 {
