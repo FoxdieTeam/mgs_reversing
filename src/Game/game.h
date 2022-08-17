@@ -69,7 +69,7 @@ typedef struct Point
 // camera references this is a lot
 typedef struct UnkCameraStruct // @ 800B77B8
 {
-    short   field_0;
+    short   field_0; // maybe SVECTOR
     short   field_2;
     int     field_4;
     int     field_8;
@@ -89,9 +89,7 @@ STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
 // extern demothrd_2Vec stru_800B77E8[9];
 typedef struct GM_Camera // @ 800B77E8
 {
-    short field_0;
-    short field_2;
-    int field_4;
+    SVECTOR field_0;
     SVECTOR field_8;
     SVECTOR field_10;
     int field_18_flags;
@@ -260,6 +258,7 @@ int sub_80032820(Point *out, SVECTOR *pos);
 int sub_800326D4(Point *out, SVECTOR *pos);
 int sub_80032308(SVECTOR *pos, int param_2, Point *out);
 
+void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 int  sub_8002E508(int a1);
 void sub_8002B600(int);

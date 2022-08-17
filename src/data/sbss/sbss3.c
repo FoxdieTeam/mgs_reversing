@@ -11,8 +11,7 @@ int SECTION(".sbss") dword_800ABA78;
 int SECTION(".sbss") dword_800ABA7C;
 int SECTION(".sbss") dword_800ABA80;
 int SECTION(".sbss") dword_800ABA84;
-int SECTION(".sbss") dword_800ABA88;
-int SECTION(".sbss") dword_800ABA8C;
+SVECTOR SECTION(".sbss") dword_800ABA88;
 int SECTION(".sbss") dword_800ABA90;
 int SECTION(".sbss") dword_800ABA94;
 
