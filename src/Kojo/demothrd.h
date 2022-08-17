@@ -154,5 +154,6 @@ int  DM_ThreadFile_800794E4(int param_1, int param_2);
 void demothrd_1_80079664(Actor_demothrd *pActor);
 void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor);
 int  DestroyDemo_8007A66C(Actor_demothrd *pActor);
+void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer);
 
 #endif // _DEMOTHRD_H_
