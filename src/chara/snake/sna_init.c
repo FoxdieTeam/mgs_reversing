@@ -1278,7 +1278,7 @@ void sna_init_fn_80052540(Actor_SnaInit *pActor)
         sna_init_knockdown_getup_80050668(pActor);
     }
 
-    gUnkCameraStruct_800B77B8.field_2 += 320;
+    gUnkCameraStruct_800B77B8.field_0.vy += 320;
     sna_init_8004EE28(pActor);
 }
 

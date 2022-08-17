@@ -50,9 +50,9 @@ void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int endSector, vo
     CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, endSector, 0);
 }
 
-void FS_LoadFileSync_80021F48(void)
+int FS_LoadFileSync_80021F48(void)
 {
-    CDBIOS_ReadSync_80022854();
+    return CDBIOS_ReadSync_80022854();
 }
 
 void MakeFullPath_80021F68(void)

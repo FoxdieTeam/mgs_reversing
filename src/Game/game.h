@@ -69,12 +69,8 @@ typedef struct Point
 // camera references this is a lot
 typedef struct UnkCameraStruct // @ 800B77B8
 {
-    short   field_0; // maybe SVECTOR
-    short   field_2;
-    int     field_4;
-    int     field_8;
-    short   field_C;
-    short   field_E;
+    SVECTOR field_0;
+    SVECTOR field_8;
     int     field_10;
     int     field_14;
     int     field_18;
