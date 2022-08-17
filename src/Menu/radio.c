@@ -228,7 +228,14 @@ void menu_restore_nouse_80043470()
     sub_8003CFE0(&dword_800BDA30, 3);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_init_nouse_800434A8.s")
+void menu_init_nouse_800434A8()
+{
+    dword_800BDA10.field_8_index = 0;
+    menu_init_rpk_item_8003DDCC(&dword_800BDA10, 40, 39);
+    menu_init_rpk_item_8003DDCC(&dword_800BDA30, 48, 39);
+    menu_restore_nouse_80043470();
+}
+
 #pragma INCLUDE_ASM("asm/sub_800434F4.s")
 
 void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
