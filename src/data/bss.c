@@ -143,7 +143,11 @@ gap gap_800B58A8[0x8]; // 8 bytes
 
 DG_TEX BSS gMenuTextureRec_800B58B0; // 0xC (12) bytes
 
-gap gap_800B58BC[0x24]; // 36 bytes
+gap gap_800B58BC[0x4]; // 4 bytes
+
+unsigned short BSS gSystemCallbackProcs_800B58C0[5]; // 0xC (12) bytes - padded
+
+gap gap_800B58CC[0x14]; // 20 bytes
 
 BindStruct BSS gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
 GM_Target BSS gTargets_800B64E0[64]; // 0x1200 (4608) bytes
