@@ -763,7 +763,8 @@ const char *SECTION(".data") off_8009F2B4[3] = {aSnaMf1, aSnaMf2, aSnaMf3};
 
 int   SECTION(".data") dword_8009F2C0 = 0;
 short SECTION(".data") scope_created_8009F2C4 = 0;
-int   SECTION(".data") dword_8009F2C8[] = {0, 0, 0, 0xC80};
+SVECTOR   SECTION(".data") svec_8009F2C8 = {0, 0, 0, 0};
+int   SECTION(".data") dword_8009F2D0[] = {0, 0xC80};
 char  SECTION(".data") byte_8009F2D8[] = {0x43, 4, 0, 2};
 int   SECTION(".data") dword_8009F2DC[] = {0x800129D4, 0x80063704, 0x80063888, 0x800638B4};
 char  SECTION(".data") byte_8009F2EC[] = {0, 1, 8, 0x10};
@@ -776,7 +777,8 @@ int   SECTION(".data") dword_8009F32C[] = {0x16131002, 0x221D1B1A, 0x18161010, 0
 int   SECTION(".data") dword_8009F36C[] = {0x2D2D2D2D, 0x2D2D2D2D, 0xC23353F,  0xC1CBDDF4, 0xC5E8183B, 0x3B18E8C5,
                                            0xDDC1F435, 0xCB0C3F23, 0x2DD3D32D, 0x2DD3D32D, 0x350CC123, 0xDD3FF4CB,
                                            0xE83BC518, 0x18C53BE8, 0xC135DD0C, 0xF423CB3F};
-int   SECTION(".data") dword_8009F3AC[] = {0, 0, 0, 0xC80};
+SVECTOR   SECTION(".data") dword_8009F3AC = {0, 0, 0, 0};
+int   SECTION(".data") dword_8009F3B4[] = {0, 0xC80};
 int   SECTION(".data") dword_8009F3BC[] = {0xFE8E0014, 0x3C};
 
 SVECTOR SECTION(".data") stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
@@ -789,7 +791,8 @@ int     SECTION(".data") dword_8009F3F4[] = {0x320000, 0xC8};
 int     SECTION(".data") dword_8009F3FC[] = {0x200000, 0x20, 0x1180000, 0x50};
 int     SECTION(".data") dword_8009F40C[] = {0x47F0200, 0};
 int     SECTION(".data") dword_8009F414[] = {0xA4B0491, 0};
-int     SECTION(".data") dword_8009F41C[] = {0, 0, 0, 0xBB8};
+SVECTOR SECTION(".data") dword_8009F41C = {0, 0, 0, 0};
+int     SECTION(".data") dword_8009F424[] = {0, 0xBB8};
 int     SECTION(".data") used_counter_8009F42C = 0;
 int     SECTION(".data") dword_8009F430 = 0;
 int     SECTION(".data") dword_8009F434 = 0;
@@ -797,8 +800,8 @@ int     SECTION(".data") dword_8009F438[] = {0xC00, 0};
 int     SECTION(".data") dword_8009F440 = 0;
 int     SECTION(".data") dword_8009F444 = 0;
 int     SECTION(".data") counter_8009F448 = 0;
-int     SECTION(".data") dword_8009F44C[] = {0xFF06FD8F, 0x2EE};
-int     SECTION(".data") dword_8009F454[] = {0xFF06FE0C, 0x2EE};
+SVECTOR SECTION(".data") svec_8009F44C = {0xFD8F, 0xFF06, 0x2EE, 0};
+SVECTOR SECTION(".data") svec_8009F454 = {0xFE0C, 0xFF06, 0x2EE, 0};
 char    SECTION(".data") byte_8009F45C[] = {0xF4, 1, 0xC8};
 char    SECTION(".data") byte_8009F45F = 0;
 char    SECTION(".data") byte_8009F460[] = {0xF4, 1, 0};
@@ -866,17 +869,17 @@ struct Anim_Data SECTION(".data") stru_8009F68C = {
     21926, 1, 65537, 1, 500, 3, 600, 600, 180, 0, (void *)dword_80012F50};
 
 int   SECTION(".data") dword_8009F6A8 = 0;
-short SECTION(".data") word_8009F6AC[] = {0, 0, 0, 0};
+SVECTOR SECTION(".data") svec_8009F6AC = {0, 0, 0, 0};
 short SECTION(".data") word_8009F6B4[] = {0, 0, 0, 0, 0, 0};
 short SECTION(".data") word_8009F6C0[] = {0, 0, 0, 0};
 short SECTION(".data") word_8009F6C8[] = {0, 0};
-int   SECTION(".data") dword_8009F6CC[] = {0x1900000, 0};
+SVECTOR   SECTION(".data") svec_8009F6CC = {0, 400, 0, 0};
 int   SECTION(".data") dword_8009F6D4 = 0;
 int   SECTION(".data") dword_8009F6D8[] = {0, 0, 0};
 int   SECTION(".data") dword_8009F6E4[] = {0xD8F00000, 0};
 int   SECTION(".data") aDdd_8009F6EC[] = {0x640064, 0x64};
 short SECTION(".data") word_8009F6F4[] = {0, 0, 0, 0};
-int   SECTION(".data") dword_8009F6FC[] = {0x1900000, 0};
+SVECTOR   SECTION(".data") svec_8009F6FC = {0, 400, 0, 0};
 RECT  SECTION(".data") rect_8009F704 = {768, 226, 256, 2};
 RECT  SECTION(".data") rect_8009F70C = {768, 196, 256, 2};
 short SECTION(".data") word_8009F714[] = {0, 0};
