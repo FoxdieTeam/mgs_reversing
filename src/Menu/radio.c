@@ -55,13 +55,12 @@ extern int GV_PadMask_800AB374;
 
 void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
 {
-    int iVar1;
+    KCB *iVar1;
 
-    iVar1 = *(int *)(param_1 + 0x214);
+    iVar1 = *(KCB **)(param_1 + 0x214);
     dword_800ABB04 = param_2;
     sub_800469A4(iVar1, (char *)param_2);
-    font_update_8004695C((KCB *)iVar1); // TODO: iVar1 is KCB*
-    return;
+    font_update_8004695C(iVar1);
 }
 
 void sub_80041118(int param_1)

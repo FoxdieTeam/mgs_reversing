@@ -411,8 +411,8 @@
     include "..\obj\libgcl\commands\GCL_Command_camera_helper3_80030938.obj"
     include "..\obj\libgcl\commands\GCL_Command_camera_helper4_80030980.obj"
     include "..\obj\Game\GM_CameraEventReset_800309A8.obj"
-    include "..\obj\sub_800309B4.obj"
-    include "..\obj\sub_800309F8.obj"
+    include "..\obj\Game\sub_800309B4.obj"
+    include "..\obj\Game\sub_800309F8.obj"
     include "..\obj\sub_80030A30.obj"
     include "..\obj\Game\GM_CameraBoundTrace_80030AA4.obj"
     include "..\obj\Game\GM_CameraLimitTrace_80030AC4.obj"
@@ -522,7 +522,7 @@
     include "..\obj\Menu\menu_bars.obj"
 
     include "..\obj\sub_8003F84C.obj"
-    include "..\obj\sub_8003F97C.obj"
+    include "..\obj\Menu\sub_8003F97C.obj"
     include "..\obj\menu_8003F9B4.obj"
     include "..\obj\menu_font_kill_8003FC0C.obj"
 

@@ -184,7 +184,11 @@ gap gap_800BD5B4[0x2D4]; // 724 bytes
 
 MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
-gap gap_800BD964[0xAC]; // 172 bytes
+gap gap_800BD964[0x4]; // 4 bytes
+
+KCB BSS font_800BD968; // 0x2C (44) bytes
+
+gap gap_800BD994[0x7C]; // 124 bytes
 
 MenuMan_Inventory_14h_Unk BSS dword_800BDA10; // 0x14 (20) bytes
 
