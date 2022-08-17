@@ -39,4 +39,34 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_800632D4.s")     // 148 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063368.s")     // 108 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_800633D4.s")            // 308 bytes
-#pragma INCLUDE_ASM("asm/Equip/NewScope_80063508.s")                // 180 bytes
+
+extern const char aScopeC[];
+
+extern short scope_created_8009F2C4;
+
+void scope_act_80062E8C(Actor_scope *pActor);
+void scope_kill_8006317C(Actor_scope *pActor);
+int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pObj);
+
+Actor_scope* NewScope_80063508(GM_Control *a1, OBJECT *a2)
+{
+    Actor_scope *pActor; // $s0
+
+    if ( scope_created_8009F2C4 )
+    {
+        return 0;
+    }
+
+    pActor = (Actor_scope *)GV_NewActor_800150E4(7, sizeof(Actor_scope));
+    if ( pActor )
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, aScopeC);
+        if ( scope_loader_800633D4(pActor, a1, a2) < 0 )
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_scope);
+            return 0;
+        }
+        scope_created_8009F2C4 = 1;
+    }
+    return pActor;
+}
