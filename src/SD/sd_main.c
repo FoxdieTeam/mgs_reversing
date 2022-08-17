@@ -53,6 +53,7 @@ extern int dword_800BEFC8;
 extern int dword_800BEFCC;
 extern int dword_800BF1A4;
 extern int dword_800BF26C;
+extern int dword_800BF010;
 extern int gStr_FadeOut1_800BF16C;
 
 
@@ -63,6 +64,7 @@ extern int sd_debug_800BEFD4;
 extern unsigned int byte_800BE7C8[512];
 extern const char aSoundErrorSpuO[];
 extern const char aSoundErrorSpuO_0[];
+extern const char aLoadinitD[];
 
 extern int gStream_800C04F0;
 extern int dword_800BF258;
@@ -587,7 +589,19 @@ void SD_80083EF8(void)
     se_load_code_800BF28C = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/LoadInit_80083F08.s")
+int LoadInit_80083F08(void)
+{
+    int ret;
+    if (dword_800BF27C != 0)
+    {
+        mts_printf_8008BBA0(aLoadinitD, dword_800BF27C); // = "LoadInit %d\n";
+        *(int*)1 = 0;
+    }
+    ret = dword_800BF010;
+    dword_800BF27C = 1;
+    return ret;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_80083F54.s")
 #pragma INCLUDE_ASM("asm/SD/SD_WavLoadBuf_800841D4.s")
 #pragma INCLUDE_ASM("asm/SD/SD_Unload_800843BC.s")

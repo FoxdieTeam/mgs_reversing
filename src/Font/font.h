@@ -30,5 +30,6 @@ int          font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3, int a
 void         font_clut_update_80046980(KCB *kcb);
 void         font_load_80044A9C(void);
 unsigned int font_draw_string_80045D0C(KCB *param_1, unsigned int param_2, int param_3, char *param_4, int param_5);
+void        *font_get_buffer_ptr_80044FE8(KCB *kcb);
 
 #endif // _FONT_H_
