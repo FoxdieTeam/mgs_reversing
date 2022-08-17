@@ -221,7 +221,13 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_restore_nouse_80043470.s")
+
+void menu_restore_nouse_80043470()
+{
+    sub_8003CFE0(&dword_800BDA10, 2);
+    sub_8003CFE0(&dword_800BDA30, 3);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_init_nouse_800434A8.s")
 #pragma INCLUDE_ASM("asm/sub_800434F4.s")
 
