@@ -261,7 +261,7 @@ typedef struct UnkJimakuStruct // @ 800BDA70
 
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
-int                        menu_restore_nouse_80043470();
+void                       menu_restore_nouse_80043470();
 MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx);
 int                        sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
