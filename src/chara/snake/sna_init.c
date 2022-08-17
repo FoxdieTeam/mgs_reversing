@@ -363,7 +363,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     vec0.vz = (short)arg1;
     DG_PutVector_8001BE48(&vec0, &vec0, 1);
 
-    int1 = HZD_SlopeFloorLevel_800298F8(&vec0.vx, dword_800ABBB8);
+    int1 = HZD_SlopeFloorLevel_800298F8(&vec0, dword_800ABBB8);
     int1 -= snake->field_20_ctrl.field_78;
 
     vec1.vx = int1;
