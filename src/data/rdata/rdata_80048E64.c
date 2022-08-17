@@ -147,10 +147,14 @@ const char SECTION(".rdata") aTabakoC[] = "tabako.c";
 const char SECTION(".rdata") aZoomLevelD[] = "- ZOOM LEVEL - - %d -";
 const char SECTION(".rdata") aD_44[] = "%d";
 
+const char SECTION(".rdata") aGoggles_2[] = "goggles";
+const char SECTION(".rdata") aScopeC[] ="scope.c";
+
 // TODO: Some kanji text in here
-const int  SECTION(".rdata") aD_4_800129B4[] = {0x67676F67, 0x73656C,   0x706F6373, 0x632E65,
-                                                0x69736D67, 0x2E746867, 0x63,       0x45564153, 0x4F485020,
+const int  SECTION(".rdata") aD_4_800129B4[] = {0x69736D67, 0x2E746867, 0x63,       0x45564153, 0x4F485020,
                                                 0x4F54,     0x73257325, 0x73257325, 0};
+
+
 const int  SECTION(".rdata") aVlvfvrbc_800129EC[] = {0x66826C82, 0xE7817282, 0};
 const int  SECTION(".rdata") dword_800129F8[] = {0x4081, 0x67826F82, 0x73826E82, 0x6E82};
 const char SECTION(".rdata") aPHOTO[] = "PHOTO %02d\n";
