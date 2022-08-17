@@ -3,7 +3,5 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-short SECTION(".sdata") word_800AB3A8 = 768;
-short SECTION(".sdata") word_800AB3AA = 226;
-int SECTION(".sdata") dword_800AB3AC = 0x1E0100;
+RECT SECTION(".sdata") rect_800AB3A8 = {768, 226, 256, 30};
 RECT SECTION(".sdata") rect_800AB3B0 = {768, 196, 256, 30};
