@@ -360,7 +360,7 @@
     ;game\loader.c
     include "..\obj\Game\loader.obj"
     include "..\obj\Game\sub_8002E508.obj"
-    include "..\obj\sub_8002E544.obj"
+    include "..\obj\Game\sub_8002E544.obj"
     include "..\obj\Game\GM_set_noise_sound_8002E588.obj"
     include "..\obj\sub_8002E614.obj"
     include "..\obj\Game\GM_SoundStart_8002E640.obj"
@@ -393,7 +393,7 @@
     include "..\obj\Game\camera_act_helper7_8002FB54.obj"
     include "..\obj\sub_8002FBC0.obj"
     include "..\obj\Game\sub_8002FC58.obj"
-    include "..\obj\sub_8002FCA4.obj"
+    include "..\obj\Game\sub_8002FCA4.obj"
     include "..\obj\sub_8002FCF0.obj"
     include "..\obj\sub_8002FD84.obj"
     include "..\obj\Game\camera_act_helper6_helper_8002FD9C.obj"
