@@ -326,6 +326,7 @@ void               GCL_RestoreVar_80021488(void);
 int                calc_80020430(int operation, int v1, int v2);
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript);
 void               GCL_ExecScript_80020228();
+void               GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs);
 
 struct map_record *GCL_Command_hzd_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(void *vec1, void *vec2, int param_3);
