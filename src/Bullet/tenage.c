@@ -23,7 +23,21 @@ void tenage_kill_80069DBC(Actor_tenage *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/tenage_init_helper_80069E28.s") // 60 bytes
+int tenage_get_free_ctrl_80069E28(void)
+{
+    int i;
+
+    for (i = 0; i < (int)(sizeof(tenage_ctrls_800BDD30) / sizeof(GM_Control *)); i++)
+    {
+        if (tenage_ctrls_800BDD30[i] == 0)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/tenage_loader_80069E64.s")      // 428 bytes
 
 Actor_tenage *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5)
