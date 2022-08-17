@@ -111,6 +111,7 @@ SpuIRQCallbackProc SpuSetIRQCallback_80096BA8(SpuIRQCallbackProc);
 long               SpuSetReverbModeParam_80095DD8(SpuReverbAttr *attr);
 long               SpuSetReverbDepth_800967D8(SpuReverbAttr *attr);
 void               SpuGetVoiceAttr_80097D18(SpuVoiceAttr *arg);
+int                MoveImage_8008FBD0(RECT *rect, int x, int y);
 
 struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
