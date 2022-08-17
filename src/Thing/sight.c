@@ -132,8 +132,7 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
     {
         return -1;
     }
-
-    if (primitiveBuffer)
+    else
     {
         sight->field_3C_primitiveBuffer = (unsigned int *)(((char *)primitiveBuffer) + primitiveBufferSize);
         originBuffer = sight->field_34_primitiveBufferInfo->field_8_primitiveBuffer;
