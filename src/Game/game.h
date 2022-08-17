@@ -96,7 +96,7 @@ typedef struct GM_Camera // @ 800B77E8
     SVECTOR field_10;
     int field_18_flags;
     int field_1C;
-    short field_20; // array? vector?
+    short field_20; // zoom leve, up to 320 levels?
     short field_22;
     short field_24_gcl_param_a;
     short field_26;
