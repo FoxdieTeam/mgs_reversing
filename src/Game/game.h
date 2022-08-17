@@ -256,7 +256,7 @@ int sub_80032308(SVECTOR *pos, int param_2, Point *out);
 
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
-int  sub_8002E508(int a1);
+void sub_8002E508(int a1);
 void sub_8002B600(int);
 void sub_8002AAEC();
 void sub_8002EADC(void);
