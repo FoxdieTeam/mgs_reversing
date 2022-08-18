@@ -36,22 +36,22 @@ extern MenuMan_Inventory_14h_Unk dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
-#pragma INCLUDE_ASM("asm/sub_8003FD50.s")
-#pragma INCLUDE_ASM("asm/sub_8003FFB0.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_helper_800403E4.s")
-#pragma INCLUDE_ASM("asm/menu_radio_update_helper3_80040498.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
+#pragma INCLUDE_ASM("asm/sub_8003FFB0.s") // 132 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_helper_800403E4.s") // 180 bytes
+#pragma INCLUDE_ASM("asm/menu_radio_update_helper3_80040498.s") // 248 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 3028 bytes
 #pragma INCLUDE_ASM(                                                                                                   \
     "asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_helper_8004064C.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_800407A4.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s")
-#pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_800407A4.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s") // 368 bytes
 
 void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
 {
@@ -73,7 +73,7 @@ void sub_80041118(int param_1)
     font_update_8004695C((KCB *)iVar1);
 }
 
-#pragma INCLUDE_ASM("asm/draw_radio_message_8004114C.s")
+#pragma INCLUDE_ASM("asm/draw_radio_message_8004114C.s") // 256 bytes
 
 void sub_8004124C(int param_1)
 {
@@ -82,7 +82,7 @@ void sub_8004124C(int param_1)
     dword_800ABB04 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s") // 3028 bytes
 
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
@@ -108,8 +108,8 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s") // 3028 bytes
 
 void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
 {
@@ -124,7 +124,7 @@ void menu_radio_init_nullsub_80042190(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/menu_radio_update_80042198.s")
+#pragma INCLUDE_ASM("asm/menu_radio_update_80042198.s") // 1384 bytes
 
 void menu_radio_init_80042700(Actor_MenuMan *pMenu)
 {
@@ -194,16 +194,16 @@ void menu_SetRadioCallbackProc_8004283C(int param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_init_80042848.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_number_init_80042848.s") // 312 bytes
 
 void menu_number_kill_80042980(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s")
-#pragma INCLUDE_ASM("asm/menu_draw_number_draw_helper_80042B64.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s") // 476 bytes
+#pragma INCLUDE_ASM("asm/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s") // 320 bytes
 
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos, int number, int flags)
 {
@@ -217,10 +217,10 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
     return textConfig.xpos;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s") // 304 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s") // 72 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s") // 232 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s") // 592 bytes
 
 void menu_restore_nouse_80043470()
 {
@@ -236,7 +236,7 @@ void menu_init_nouse_800434A8()
     menu_restore_nouse_80043470();
 }
 
-#pragma INCLUDE_ASM("asm/sub_800434F4.s")
+#pragma INCLUDE_ASM("asm/sub_800434F4.s") // 176 bytes
 
 void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
 {
@@ -248,13 +248,13 @@ void menu_draw_frozen_800435C8(unsigned int **param_1, int param_2, int param_3)
     sub_800434F4(param_1, param_2, param_3, &dword_800BDA30);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s")
-#pragma INCLUDE_ASM("asm/sub_80043678.s")
-#pragma INCLUDE_ASM("asm/sub_80043A24.s")
-#pragma INCLUDE_ASM("asm/sub_80043FD0.s")
-#pragma INCLUDE_ASM("asm/sub_800442E4.s")
-#pragma INCLUDE_ASM("asm/sub_800445F8.s")
-#pragma INCLUDE_ASM("asm/sub_800448C0.s")
+#pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s") // 140 bytes
+#pragma INCLUDE_ASM("asm/sub_80043678.s") // 940 bytes
+#pragma INCLUDE_ASM("asm/sub_80043A24.s") // 1452 bytes
+#pragma INCLUDE_ASM("asm/sub_80043FD0.s") // 788 bytes
+#pragma INCLUDE_ASM("asm/sub_800442E4.s") // 788 bytes
+#pragma INCLUDE_ASM("asm/sub_800445F8.s") // 712 bytes
+#pragma INCLUDE_ASM("asm/sub_800448C0.s") // 432 bytes
 
 void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 {
@@ -269,7 +269,7 @@ void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_load_80044A9C.s")
+#pragma INCLUDE_ASM("asm/Font/font_load_80044A9C.s") // 292 bytes
 
 void font_set_font_addr_80044BC0(int arg1, void *data)
 {

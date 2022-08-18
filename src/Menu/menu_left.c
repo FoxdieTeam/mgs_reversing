@@ -32,24 +32,24 @@ void menu_sub_8003B568(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/menu_rpk_8003B5E0.s")
+#pragma INCLUDE_ASM("asm/menu_rpk_8003B5E0.s") // 52 bytes
 // MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
 // {
 //     return &stru_800BD4B0[gMenuItemRpkInfo_8009E484[idx].field_4_rpk_idx];
 // }
 
-#pragma INCLUDE_ASM("asm/menu_8003B614.s")
-#pragma INCLUDE_ASM("asm/menu_inventory_Is_Item_Disabled_8003B6D0.s")
-#pragma INCLUDE_ASM("asm/menu_8003B794.s")
-#pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s")
+#pragma INCLUDE_ASM("asm/menu_8003B614.s") // 188 bytes
+#pragma INCLUDE_ASM("asm/menu_inventory_Is_Item_Disabled_8003B6D0.s") // 196 bytes
+#pragma INCLUDE_ASM("asm/menu_8003B794.s") // 348 bytes
+#pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s") // 764 bytes
 
-#pragma INCLUDE_ASM("asm/menu_8003BBEC.s")
+#pragma INCLUDE_ASM("asm/menu_8003BBEC.s") // 232 bytes
 
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper_8003BCD4.s")
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper2_8003BF1C.s")
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper3_8003C24C.s")
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper4_8003C4EC.s")
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_8003C95C.s")
+#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper_8003BCD4.s") // 584 bytes
+#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper2_8003BF1C.s") // 816 bytes
+#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
+#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
+#pragma INCLUDE_ASM("asm/menu_inventory_left_update_8003C95C.s") // 572 bytes
 
 int sub_8003CB98(struct Actor_MenuMan *pActor)
 {

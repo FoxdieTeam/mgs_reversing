@@ -9,9 +9,9 @@ extern unsigned int mtrack_800BF1EC;
 
 unsigned int random_80086B84();
 
-#pragma INCLUDE_ASM("asm/SD/SD_80085A50.s")
-#pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s")
-#pragma INCLUDE_ASM("asm/SD/note_set_80085CD8.s")
+#pragma INCLUDE_ASM("asm/SD/SD_80085A50.s") // 308 bytes
+#pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s") // 340 bytes
+#pragma INCLUDE_ASM("asm/SD/note_set_80085CD8.s") // 192 bytes
 
 void adsr_reset_80085D98()
 {
@@ -19,9 +19,9 @@ void adsr_reset_80085D98()
     spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s")
-#pragma INCLUDE_ASM("asm/SD/swpadset_80085F98.s")
-#pragma INCLUDE_ASM("asm/SD/SD_8008604C.s")
+#pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s") // 440 bytes
+#pragma INCLUDE_ASM("asm/SD/swpadset_80085F98.s") // 180 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_8008604C.s") // 332 bytes
 
 void pan_generate_80086198()
 {
@@ -39,7 +39,7 @@ void pan_generate_80086198()
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80086220.s")
+#pragma INCLUDE_ASM("asm/sub_80086220.s") // 96 bytes
 
 void keych_80086280()
 {
@@ -156,11 +156,11 @@ void keych_80086280()
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/por_compute_80086504.s")
-#pragma INCLUDE_ASM("asm/SD/vib_compute_800865CC.s")
-#pragma INCLUDE_ASM("asm/sub_80086694.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80086734.s")
-#pragma INCLUDE_ASM("asm/SD/note_cntl_8008686C.s")
+#pragma INCLUDE_ASM("asm/SD/por_compute_80086504.s") // 200 bytes
+#pragma INCLUDE_ASM("asm/SD/vib_compute_800865CC.s") // 200 bytes
+#pragma INCLUDE_ASM("asm/sub_80086694.s") // 160 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_80086734.s") // 312 bytes
+#pragma INCLUDE_ASM("asm/SD/note_cntl_8008686C.s") // 792 bytes
 
 unsigned int random_80086B84()
 {
