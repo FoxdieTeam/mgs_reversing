@@ -80,7 +80,7 @@ int CDBIOS_Reset_80021F70(void)
     
 success:
     param = 0xa0;
-    while (!CdControl(14, &param, 0));
+    while (!CdControl(CdlSetmode, &param, 0));
       
     mts_wait_vbl_800895F4(3);
     return 1;
@@ -91,7 +91,7 @@ void sub_80021FE0(void)
     CdReadyCallback(0);
     CdSyncCallback(0);
     CdFlush();
-    CdControl('\t', 0, 0);
+    CdControl(CdlPause, 0, 0);
     dword_8009D4DC = 0;
 }
 
