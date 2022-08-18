@@ -3,6 +3,7 @@
 #include "data/data/data.h"
 #include "libfs.h"
 #include "mts/mts_new.h"
+#include "psyq.h"
 #include <LIBCD.H>
 
 extern unsigned char heap_80117000[];
@@ -206,4 +207,25 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s")
 #pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_helper_80022CBC.s")
 #pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_80022D00.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdGetStageFileTop_80022DCC.s")
+
+extern FS_FILE_TABLE fs_file_table_8009D4E8;
+
+int FS_CdGetStageFileTop_80022DCC(char *pFileName)
+{
+    FS_FILE *file;
+    int count;
+  
+    file = fs_file_table_8009D4E8.field_C_files;
+
+    for (count = fs_file_table_8009D4E8.field_8_count; count > 0; count--)
+    {
+        if (!strncmp_8008E7F8(file->field_0_name, pFileName, 8))
+        {
+            return file->field_4_offset + fs_file_table_8009D4E8.field_0_base;
+        }
+      
+        file++;
+    }
+
+    return -1;
+}
