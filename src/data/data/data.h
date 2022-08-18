@@ -19,12 +19,6 @@ typedef struct TextConfig
 
 extern struct TextConfig gMenuTextConfig_8009E2E4;
 
-typedef struct FS_FILE_INFO_8009D49C
-{
-    const char *pDatName;
-    int         field_4_sector;
-} FS_FILE_INFO_8009D49C;
-
 typedef struct Menu_Triangle
 {
     short        field_0_x0;

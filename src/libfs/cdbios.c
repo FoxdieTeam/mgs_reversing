@@ -202,7 +202,21 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_helper_80022918.s") // 100 bytes
+FS_FILE_INFO_8009D49C * FS_CdMakePositionTable_helper_helper_80022918(char *pFileName, FS_FILE_INFO_8009D49C *pFile)
+{
+    FS_FILE_INFO_8009D49C *file;
+
+    for (file = pFile; file->pDatName; file++)
+    {
+        if (!strcmp_8008E6F8(pFileName, file->pDatName))
+        {
+            return file;
+        }
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s") // 480 bytes
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s") // 352 bytes
 #pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_helper_80022CBC.s") // 68 bytes
