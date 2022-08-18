@@ -3,7 +3,7 @@
 
 #include "Game/loader.h"
 
-#include "data/data/data.h" // TODO: move FS_FILE_INFO_8009D49C here
+#include "data/data/data.h"
 
 typedef struct _CDBIOS_TASK {
     int field_0_state;
@@ -16,6 +16,12 @@ typedef struct _CDBIOS_TASK {
     int field_1C_remaining;
     void *field_20_callback;
 } CDBIOS_TASK;
+
+typedef struct _FS_FILE_INFO_8009D49C
+{
+    const char *pDatName;
+    int         field_4_sector;
+} FS_FILE_INFO_8009D49C;
 
 typedef struct _FS_FILE {
     char field_0_name[8];
