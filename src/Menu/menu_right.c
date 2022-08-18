@@ -4,7 +4,7 @@
 #include "libgcl/gcl.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
-#include "game/Camera.h"
+#include "Game/camera.h"
 
 u_long SECTION(".sbss") dword_800ABADC;
 
