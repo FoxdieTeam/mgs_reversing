@@ -10,7 +10,7 @@ typedef struct _CDBIOS_TASK {
     int field_4_sector;
     void *field_8_buffer;
     int field_C;
-    int field_10;
+    int field_10_ticks;
     int field_14;
     int field_18_size;
     int field_1C_remaining;
