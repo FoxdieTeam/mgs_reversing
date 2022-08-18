@@ -364,7 +364,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     vec0.vz = (short)arg1;
     DG_PutVector_8001BE48(&vec0, &vec0, 1);
 
-    int1 = HZD_SlopeFloorLevel_800298F8(&vec0.vx, dword_800ABBB8);
+    int1 = HZD_SlopeFloorLevel_800298F8(&vec0, dword_800ABBB8);
     int1 -= snake->field_20_ctrl.field_78;
 
     vec1.vx = int1;
@@ -1040,7 +1040,17 @@ int sub_800507D8(Actor_SnaInit *param_1)
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s") // 492 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s")          // 1804 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk2_80051170.s")         // 76 bytes
+
+void sna_act_unk2_80051170(GM_Target *param_1)
+{
+    param_1->field_28 = 0;
+    param_1->field_2A = 0;
+    param_1->field_6_flags &= ~(0x80 | 0x04);
+    param_1->field_2C_vec = DG_ZeroVector_800AB39C;
+    param_1->field_44 = -1;
+    param_1->field_3E = 0;
+}
+
 #pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s")        // 1024 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
 #pragma INCLUDE_ASM("asm/sub_80051A10.s")                              // 404 bytes
@@ -1279,7 +1289,7 @@ void sna_init_fn_80052540(Actor_SnaInit *pActor)
         sna_init_knockdown_getup_80050668(pActor);
     }
 
-    gUnkCameraStruct_800B77B8.field_2 += 320;
+    gUnkCameraStruct_800B77B8.field_0.vy += 320;
     sna_init_8004EE28(pActor);
 }
 

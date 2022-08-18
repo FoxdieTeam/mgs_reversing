@@ -6,7 +6,7 @@ import os
 import json
 import re
 
-EXPECTED_TOTAL_FUNCS = 1990
+EXPECTED_TOTAL_FUNCS = 1989
 EXPECTED_TOTAL_BYTES = 490440
 APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json'
 
@@ -83,13 +83,13 @@ if os.environ.get('APPVEYOR'):
     if msg_ext:
         print(msg_ext)
 
-print('Reversed funcs: {:,}{} / {:,} - {:.2f}%'.format(
+print('Reversed funcs: {:,}{} / {:,} | {:.2f}%'.format(
     c_funcs,
     c_funcs_extra,
     total_funcs,
     c_funcs / total_funcs * 100))
 
-print('Reversed bytes: {:,}{} / {:,} - {:.2f}%'.format(
+print('Reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
     c_bytes,
     c_bytes_extra,
     total_bytes,

@@ -11,7 +11,7 @@ This project aims to completely reverse engineer *Metal Gear Solid* for PlayStat
 5.  Issue the command `pip install -r requirements.txt`.
 6.  Issue the command `python build.py --psyq_path=YourPath` where `YourPath` is the location of your cloned psyq_sdk depot.
     - Alternatively you can add `PSYQ_SDK` to your environment variables before invoking `python build.py`.
-7.  At the end you should see a message confirming that the built binary's hash matches the original game's binary's hash.
+7.  At the end you should see a message confirming that the built binary's hash matches the original game's binary's hash. If your code caused the compiler to emit warnings, try to fix them without breaking the match.
 
 # How to decompile a function
 
