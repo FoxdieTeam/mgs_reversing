@@ -113,8 +113,8 @@ void nullsub_9_80022088(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_helper_80022090.s")
-#pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_80022264.s")
+#pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_helper_80022090.s") // 468 bytes
+#pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_80022264.s") // 1348 bytes
 
 extern struct Loader_Record *gLoaderRec_800B5288;
 
@@ -201,9 +201,9 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_helper_80022918.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_helper_80022CBC.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_80022D00.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdGetStageFileTop_80022DCC.s")
+#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_helper_80022918.s") // 100 bytes
+#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s") // 480 bytes
+#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s") // 352 bytes
+#pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_helper_80022CBC.s") // 68 bytes
+#pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_80022D00.s") // 204 bytes
+#pragma INCLUDE_ASM("asm/libfs/FS_CdGetStageFileTop_80022DCC.s") // 132 bytes
