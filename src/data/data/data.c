@@ -2,6 +2,7 @@
 #include "data.h"
 
 #include "data/rdata/rdata.h"
+#include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libgcl/gcl.h"
 #include "Menu/menuman.h"
@@ -194,13 +195,12 @@ GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 = {0, COUNTOF(commlist
 FS_FILE_INFO_8009D49C SECTION(".data") gDirFiles_8009D49C[] = {
     {aStageDir, 0}, {aRadioDat, 0}, {aFaceDat, 0}, {aZmovieStr, 0}, {aVoxDat, 0}, {aDemoDat, 0}, {aBrfDat, 0}, {0, 0}};
 
-int   SECTION(".data") dword_8009D4DC = -1;
-int   SECTION(".data") dword_8009D4E0 = 0;
-int   SECTION(".data") dword_8009D4E4 = 0;
-int   SECTION(".data") dword_8009D4E8 = 0;
-int   SECTION(".data") dword_8009D4EC = 0;
-int   SECTION(".data") dword_8009D4F0 = 0;
-int   SECTION(".data") dword_8009D4F4 = 0;
+int SECTION(".data") dword_8009D4DC = -1;
+int SECTION(".data") dword_8009D4E0 = 0;
+int SECTION(".data") dword_8009D4E4 = 0;
+
+FS_FILE_TABLE SECTION(".data") fs_file_table_8009D4E8 = { 0, 0, 0, 0 };
+
 int   SECTION(".data") dword_8009D4F8 = 0;
 int   SECTION(".data") dword_8009D4FC = 0;
 int   SECTION(".data") dword_8009D500 = 0;
