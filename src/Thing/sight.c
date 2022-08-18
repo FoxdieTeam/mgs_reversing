@@ -32,7 +32,95 @@ void sight_act_helper_8007111C(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sight_800711C0.s")            // 352 bytes
+static inline int calc(int diff, int offset)
+{
+    int mult = diff * offset;
+
+    if (mult < 0)
+    {
+        mult += 3;
+    }
+
+    return mult >> 2;
+}
+
+// Only called for the scope and the box, not the thermal goggles, NV goggles or camera.
+// Effect of disabling: messes up the animation of the prims in the transition into first-person view.
+// Various permutations show the logic is sound but getting it to match is hard and is essentially forced here by the
+// use of absurd intermediates.
+void sight_800711C0(Actor_Sight *sight, int frameCount, void *primitive, int primOffsetIndicesOffset,
+                    SightPrimOffsetIndices *primOffsetIndices, SightPrimOffsetInfo *primOffsetInfo, int primOffset,
+                    unsigned int flags)
+
+{
+    void                *currentPrimX;
+    char                 code;
+    int                  gouraudShaded;
+    void                *primBuf;
+    int                  step;
+    int                  index;
+    void                *currentPrimY;
+    int                  currentPrimOffsetIndex;
+    SightPrimOffsetInfo *currentPrimOffsetInfo;
+    int                  diff;
+    char                *indices;
+    int                  invalid;
+    int                 *frameCountPtr;
+
+    DVECTOR localXY;
+
+    currentPrimX = primitive + 8;
+    index = 0;
+    invalid = -1;
+    currentPrimY = primitive + 10;
+
+    primOffsetIndices += primOffsetIndicesOffset - 1;
+    indices = primOffsetIndices->indices;
+
+    code = getcode(primitive);
+    gouraudShaded = (code >> 2) & 4;
+    step = gouraudShaded + 4;
+
+    primBuf = sight->field_34_primitiveBufferInfo->field_8_primitiveBuffer + primOffset + 8;
+
+    for (; index < 4; primBuf += step, currentPrimY += step, currentPrimX += step, index++)
+    {
+        currentPrimOffsetIndex = indices[index];
+        if (currentPrimOffsetIndex != 0)
+        {
+            currentPrimOffsetInfo = &primOffsetInfo[currentPrimOffsetIndex - 1];
+            if (frameCount == invalid)
+            {
+                diff = currentPrimOffsetInfo->field_0_nextFrame - currentPrimOffsetInfo->field_1_prevFrame;
+            }
+            else
+            {
+                if (currentPrimOffsetInfo->field_0_nextFrame >= frameCount)
+                {
+                    continue;
+                }
+                if ((currentPrimOffsetInfo->field_1_prevFrame + 1 < frameCount) && ((flags & 0x8000) != 0))
+                {
+                    continue;
+                }
+
+                *(int *)currentPrimX = *(int *)primBuf;
+                diff = *(frameCountPtr = &frameCount) - currentPrimOffsetInfo->field_1_prevFrame;
+                if (diff >= 0)
+                {
+                    continue;
+                }
+            }
+
+            localXY.vx = calc(diff, currentPrimOffsetInfo->field_2_xOffsetMultiplier);
+            localXY.vy = calc(diff, currentPrimOffsetInfo->field_3_yOffsetMultiplier);
+
+            *(short *)currentPrimX += localXY.vx;
+            *(short *)currentPrimY += localXY.vy;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_80071320.s") // 220 bytes
 #pragma INCLUDE_ASM("asm/Thing/sight_act_helper_800713FC.s") // 156 bytes
 
@@ -104,10 +192,10 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
     DR_TPAGE *tPageMem;
 
     // Other.
-    unsigned int   flags;
-    unsigned char *field_C; // @todo: document these 3 fields.
-    unsigned char *field_10;
-    unsigned char  unkBool;
+    unsigned int            flags;
+    SightPrimOffsetIndices *primOffsetIndices;
+    SightPrimOffsetInfo    *primOffsetInfo;
+    char                    unkBool;
 
     flags = sight->field_54_maybeFlags;
     cacheId = GV_CacheID_800152DC(hashedFileName, 's');
@@ -122,9 +210,9 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
     ancillaryInfo = info->field_4_ancillaryInfo;
     primitiveBufferSize = info->field_0_primitiveBufferSize;
     a = info->field_3;
-    field_C = info->field_C;
+    primOffsetIndices = info->field_C_primOffsetIndicesArray;
     tPageCount = 0;
-    field_10 = info->field_10;
+    primOffsetInfo = info->field_10_primOffsetInfoArray;
     primitiveBuffer = (unsigned int *)GV_Malloc_8001620C(primitiveBufferSize * 2);
     sight->field_38_primitiveBuffer = primitiveBuffer;
 
@@ -161,12 +249,12 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
 
                 if (unkBool != 0)
                 {
-                    sight_800711C0(sight, -1, (SightTextPseudoPrim *)currentPrimitive, ancillaryInfo->field_0, field_C,
-                                   field_10, 0, 0);
+                    sight_800711C0(sight, -1, currentPrimitive, ancillaryInfo->field_0, primOffsetIndices,
+                                   primOffsetInfo, 0, 0);
                 }
             }
 
-            code = *(((unsigned char *)currentPrimitive) + 7);
+            code = getcode(currentPrimitive);
 
             if ((code & 2) != 0)
             {
