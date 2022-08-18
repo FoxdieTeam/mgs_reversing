@@ -61,7 +61,30 @@ void MakeFullPath_80021F68(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/CDBIOS_Reset_80021F70.s")
+int CDBIOS_Reset_80021F70(void)
+{
+    int retries;
+    char param;
+  
+    CDBIOS_TaskStart_800227A8();
+    
+    for (retries = 4; retries >= 0; retries--)
+    {
+        if (CdInit())
+        {
+            goto success;
+        }
+    }
+
+    return 0;
+    
+success:
+    param = 0xa0;
+    while (!CdControl(14, &param, 0));
+      
+    mts_wait_vbl_800895F4(3);
+    return 1;
+}
 
 void sub_80021FE0(void)
 {
