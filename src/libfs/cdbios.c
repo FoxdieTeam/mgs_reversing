@@ -64,7 +64,7 @@ void MakeFullPath_80021F68(void)
 int CDBIOS_Reset_80021F70(void)
 {
     int retries;
-    char params[8];
+    unsigned char params[8];
   
     CDBIOS_TaskStart_800227A8();
     
