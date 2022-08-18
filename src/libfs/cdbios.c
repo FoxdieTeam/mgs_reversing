@@ -95,7 +95,18 @@ void sub_80021FE0(void)
     dword_8009D4DC = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80022024.s")
+void sub_80022024(void)
+{   
+    if (cd_bios_task_800B4E58.field_10_ticks == 0)
+    {
+        cd_bios_task_800B4E58.field_10_ticks = mts_get_tick_count_8008BBB0();   
+    }
+
+    dword_8009D4DC = 3;
+    CdReadyCallback(0);
+    CdSyncCallback(0);
+    CdFlush();
+}
 
 void nullsub_9_80022088(void)
 {
