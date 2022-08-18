@@ -381,7 +381,7 @@ def main(path, output):
         depsStr = ""
         if len(depends) > 0:
             for d in depends:
-                d = os.path.abspath("..\\" + d)
+                d = '../' + d
                 d = d.replace("\\", "/")
                 d = d.replace(":", "$:") # escape colon in drive path
                 depsStr = depsStr + " " + d
