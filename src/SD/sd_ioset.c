@@ -244,7 +244,7 @@ void pan_set2_800882E4(unsigned char a1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/vol_set_80088320.s")
+#pragma INCLUDE_ASM("asm/SD/vol_set_80088320.s") // 692 bytes
 
 void freq_set_800885D4(unsigned int a1)
 {
@@ -273,7 +273,7 @@ void freq_set_800885D4(unsigned int a1)
     spu_tr_wk_800C0658[mtrack_800BF1EC].field_C_pitch_fg = 1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/drum_set_80088694.s")
+#pragma INCLUDE_ASM("asm/SD/drum_set_80088694.s") // 48 bytes
 
 // TODO: Might be part of sd_cli.c or another file
 // from here on

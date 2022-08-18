@@ -23,8 +23,8 @@ extern const char aCompletedloads[];
 void sng_track_init_800859B8(SOUND_W *pSoundW);
 int SD_8008395C(int a1, int a2);
 
-#pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s")
-#pragma INCLUDE_ASM("asm/SD/SD_SongFadeIn_80084CCC.s")
+#pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s") // 2104 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_SongFadeIn_80084CCC.s") // 148 bytes
 
 int SngFadeOutP_80084D60(unsigned int a1)
 {
@@ -64,10 +64,10 @@ int SngFadeOutP_80084D60(unsigned int a1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_SongFadeoutAndStop_80084E48.s")
-#pragma INCLUDE_ASM("asm/SD/SD_SongKaihiMode_80084F88.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80085020.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80085164.s")
+#pragma INCLUDE_ASM("asm/SD/SD_SongFadeoutAndStop_80084E48.s") // 320 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_SongKaihiMode_80084F88.s") // 152 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_80085020.s") // 324 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_80085164.s") // 796 bytes
 
 void SD_80085480()
 {
@@ -132,7 +132,7 @@ void init_sng_work_8008559C()
     sng_status_800C04F8 = 0;
     dword_800C0428 = 0; // TODO: sng_play_code?
 }
-#pragma INCLUDE_ASM("asm/SD/sng_adrs_set_80085658.s")
+#pragma INCLUDE_ASM("asm/SD/sng_adrs_set_80085658.s") // 276 bytes
 
 extern SEPLAYTBL se_request_800BF0E0[8];
 extern SEPLAYTBL se_playing_800BF068[8];
@@ -146,7 +146,7 @@ extern int dword_800BF210;
 extern int spu_ch_tbl_800A2AC8[];
 
 // https://decomp.me/scratch/sro0f
-#pragma INCLUDE_ASM("asm/SD/SD_8008576C.s")
+#pragma INCLUDE_ASM("asm/SD/SD_8008576C.s") // 588 bytes
 
 
 void sng_track_init_800859B8(SOUND_W *pSoundW)

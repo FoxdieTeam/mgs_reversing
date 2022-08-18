@@ -43,19 +43,19 @@ extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
-#pragma INCLUDE_ASM("asm/sub_8003CC88.s")
-#pragma INCLUDE_ASM("asm/sub_8003CE40.s")
+#pragma INCLUDE_ASM("asm/sub_8003CC88.s") // 440 bytes
+#pragma INCLUDE_ASM("asm/sub_8003CE40.s") // 56 bytes
 
 void sub_8003CE78(void)
 {
     dword_800ABADC = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003CE84.s")
-#pragma INCLUDE_ASM("asm/sub_8003CEF8.s")
-#pragma INCLUDE_ASM("asm/sub_8003CFE0.s")
-#pragma INCLUDE_ASM("asm/sub_8003D070.s")
-#pragma INCLUDE_ASM("asm/sub_8003D0D0.s")
+#pragma INCLUDE_ASM("asm/sub_8003CE84.s") // 116 bytes
+#pragma INCLUDE_ASM("asm/sub_8003CEF8.s") // 232 bytes
+#pragma INCLUDE_ASM("asm/sub_8003CFE0.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D070.s") // 96 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D0D0.s") // 84 bytes
 
 Menu_Item_Unknown *menu_alloc_panel_8003D124(int count)
 {
@@ -95,15 +95,15 @@ void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Un
     pArray->field_4 = 0;
     pArray->field_2_current_amount = amount;
 }
-#pragma INCLUDE_ASM("asm/sub_8003D1DC.s")
+#pragma INCLUDE_ASM("asm/sub_8003D1DC.s") // 224 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8003D2BC.s")
+#pragma INCLUDE_ASM("asm/sub_8003D2BC.s") // 144 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8003D34C.s")
-#pragma INCLUDE_ASM("asm/sub_8003D3A4.s")
-#pragma INCLUDE_ASM("asm/sub_8003D3FC.s")
-#pragma INCLUDE_ASM("asm/sub_8003D44C.s")
-#pragma INCLUDE_ASM("asm/sub_8003D4CC.s")
+#pragma INCLUDE_ASM("asm/sub_8003D34C.s") // 88 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D3A4.s") // 88 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D3FC.s") // 80 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D44C.s") // 128 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D4CC.s") // 84 bytes
 
 void sub_8003D520(void)
 {
@@ -141,9 +141,9 @@ int sub_8003D568()
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D594.s")
-#pragma INCLUDE_ASM("asm/sub_8003D5F0.s")
-#pragma INCLUDE_ASM("asm/sub_8003D64C.s")
+#pragma INCLUDE_ASM("asm/sub_8003D594.s") // 92 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D5F0.s") // 92 bytes
+#pragma INCLUDE_ASM("asm/sub_8003D64C.s") // 92 bytes
 
 extern struct menu_8009E544 stru_8009E544[];
 
@@ -156,8 +156,8 @@ void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdate
     pStru->field_18_pFnUpdate = pUpdateFn;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D6CC.s")
-#pragma INCLUDE_ASM("asm/menu_8003D7DC.s")
+#pragma INCLUDE_ASM("asm/sub_8003D6CC.s") // 272 bytes
+#pragma INCLUDE_ASM("asm/menu_8003D7DC.s") // 560 bytes
 
 void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pSubMenu)
 {
@@ -235,7 +235,7 @@ TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int r
     return pTile;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003DBAC.s")
+#pragma INCLUDE_ASM("asm/sub_8003DBAC.s") // 368 bytes
 
 Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
 {
@@ -320,13 +320,13 @@ MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx
     return gMenuRightItems_800BD888 + rpkIdx;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003DF30.s")
-#pragma INCLUDE_ASM("asm/menu_right_update_helper2_helper_8003E030.s")
-#pragma INCLUDE_ASM("asm/menu_right_init_helper_8003E0E8.s")
-#pragma INCLUDE_ASM("asm/menu_right_update_helper2_helper2_8003E3B0.s")
-#pragma INCLUDE_ASM("asm/menu_right_update_helper_8003E4B8.s")
-#pragma INCLUDE_ASM("asm/menu_right_update_helper2_8003E674.s")
-#pragma INCLUDE_ASM("asm/menu_right_update_8003E990.s")
+#pragma INCLUDE_ASM("asm/sub_8003DF30.s") // 256 bytes
+#pragma INCLUDE_ASM("asm/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
+#pragma INCLUDE_ASM("asm/menu_right_init_helper_8003E0E8.s") // 712 bytes
+#pragma INCLUDE_ASM("asm/menu_right_update_helper2_helper2_8003E3B0.s") // 264 bytes
+#pragma INCLUDE_ASM("asm/menu_right_update_helper_8003E4B8.s") // 444 bytes
+#pragma INCLUDE_ASM("asm/menu_right_update_helper2_8003E674.s") // 796 bytes
+#pragma INCLUDE_ASM("asm/menu_right_update_8003E990.s") // 588 bytes
 
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
 {

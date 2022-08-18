@@ -158,7 +158,7 @@ int memcard_easy_format_test_800246C0(int hCard)
     }
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_loaddir_800247E8.s")
+#pragma INCLUDE_ASM("asm/memcard/memcard_loaddir_800247E8.s") // 376 bytes
 
 // still has large diffs
 /*
@@ -231,7 +231,7 @@ void memcard_load_files_80024960(int idx)
     gMemCards_800B52F8[idx].field_3_free_blocks = 15 - freeBlockCount;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_retry_helper_800249CC.s")
+#pragma INCLUDE_ASM("asm/memcard/memcard_retry_helper_800249CC.s") // 112 bytes
 
 void memcard_reset_status_80024A3C(void)
 {
@@ -239,7 +239,7 @@ void memcard_reset_status_80024A3C(void)
     gMemCards_800B52F8[1].field_1_last_op = 2;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_check_80024A54.s")
+#pragma INCLUDE_ASM("asm/memcard/memcard_check_80024A54.s") // 1012 bytes
 
 void memcard_init_80024E48()
 {
@@ -333,7 +333,7 @@ void memcard_exit_800250C4()
     gmem_card_system_inited_8009D524 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_retry_80025178.s")
+#pragma INCLUDE_ASM("asm/memcard/memcard_retry_80025178.s") // 472 bytes
 
 struct mem_card *memcard_get_files_80025350(int idx)
 {
@@ -406,12 +406,12 @@ void memcard_set_read_write_8002551C(int fileSize)
     gMemCard_io_size_800B5648 = fileSize;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_write_8002554C.s")
-#pragma INCLUDE_ASM("asm/memcard/memcard_read_8002569C.s")
+#pragma INCLUDE_ASM("asm/memcard/memcard_write_8002554C.s") // 336 bytes
+#pragma INCLUDE_ASM("asm/memcard/memcard_read_8002569C.s") // 276 bytes
 
 int memcard_get_status_800257B0()
 {
     return gMemCard_io_size_800B5648;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_format_800257C0.s")
+#pragma INCLUDE_ASM("asm/memcard/memcard_format_800257C0.s") // 240 bytes

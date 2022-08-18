@@ -3,7 +3,7 @@
 extern GM_Camera GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
-#pragma INCLUDE_ASM("asm/sub_8002EADC.s")
+#pragma INCLUDE_ASM("asm/sub_8002EADC.s") // 164 bytes
 
 void sub_8002FC58(short *param_1, short *param_2, SVECTOR *param_3, int *param_4);
 void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
@@ -21,9 +21,9 @@ void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
     vec_1->vy = (short)iVar1;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002EBE8.s")
-#pragma INCLUDE_ASM("asm/sub_8002EC8C.s")
-#pragma INCLUDE_ASM("asm/sub_8002ECE4.s")
+#pragma INCLUDE_ASM("asm/sub_8002EBE8.s") // 164 bytes
+#pragma INCLUDE_ASM("asm/sub_8002EC8C.s") // 88 bytes
+#pragma INCLUDE_ASM("asm/sub_8002ECE4.s") // 88 bytes
 
 extern GM_Camera GM_Camera_800B77E8;
 
@@ -48,12 +48,12 @@ int camera_act_helper3_helper_8002ED3C(void)
     }
     return uVar1;
 }
-#pragma INCLUDE_ASM("asm/sub_8002ED68.s")
-#pragma INCLUDE_ASM("asm/sub_8002EE04.s")
-#pragma INCLUDE_ASM("asm/sub_8002EE80.s")
-#pragma INCLUDE_ASM("asm/sub_8002EF08.s")
-#pragma INCLUDE_ASM("asm/sub_8002EF88.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper_helper_8002F008.s")
+#pragma INCLUDE_ASM("asm/sub_8002ED68.s") // 156 bytes
+#pragma INCLUDE_ASM("asm/sub_8002EE04.s") // 124 bytes
+#pragma INCLUDE_ASM("asm/sub_8002EE80.s") // 136 bytes
+#pragma INCLUDE_ASM("asm/sub_8002EF08.s") // 128 bytes
+#pragma INCLUDE_ASM("asm/sub_8002EF88.s") // 128 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper_helper_8002F008.s") // 140 bytes
 
 void camera_act_helper_helper2_8002F094(int param_1)
 {
@@ -83,17 +83,17 @@ void camera_act_helper_helper2_8002F094(int param_1)
     GV_OriginPadSystem_80016C78(0);
 }
 
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper_8002F1C8.s")
-#pragma INCLUDE_ASM("asm/sub_8002F274.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper2_helper_8002F384.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper2_8002F5C4.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper3_8002F64C.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper4_8002F78C.s")
-#pragma INCLUDE_ASM("asm/sub_8002FAAC.s")
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper_8002F1C8.s") // 172 bytes
+#pragma INCLUDE_ASM("asm/sub_8002F274.s") // 272 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper2_helper_8002F384.s") // 576 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper2_8002F5C4.s") // 136 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper3_8002F64C.s") // 320 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper4_8002F78C.s") // 800 bytes
+#pragma INCLUDE_ASM("asm/sub_8002FAAC.s") // 168 bytes
 
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper7_8002FB54.s")
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper7_8002FB54.s") // 108 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8002FBC0.s")
+#pragma INCLUDE_ASM("asm/sub_8002FBC0.s") // 152 bytes
 
 void sub_8002FC58(short *param_1, short *param_2, SVECTOR *param_3, int *param_4)
 {
@@ -110,17 +110,17 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
     sub_8002ECE4(param_2, &vec, param_1);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002FCF0.s")
+#pragma INCLUDE_ASM("asm/sub_8002FCF0.s") // 148 bytes
 
 void sub_8002FD84(int index, int value)
 {
     GM_Camera_800B77E8.field_74_2Array[index] = value;
 }
 
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_helper_8002FD9C.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper5_80030118.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_80030250.s")
-#pragma INCLUDE_ASM("asm/sub_800303E0.s")
-#pragma INCLUDE_ASM("asm/sub_8003049C.s")
-#pragma INCLUDE_ASM("asm/Game/camera_act_8003059C.s")
-#pragma INCLUDE_ASM("asm/Game/camera_init_800306A0.s")
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_helper_8002FD9C.s") // 892 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper5_80030118.s") // 312 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_80030250.s") // 400 bytes
+#pragma INCLUDE_ASM("asm/sub_800303E0.s") // 188 bytes
+#pragma INCLUDE_ASM("asm/sub_8003049C.s") // 256 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_act_8003059C.s") // 260 bytes
+#pragma INCLUDE_ASM("asm/Game/camera_init_800306A0.s") // 192 bytes

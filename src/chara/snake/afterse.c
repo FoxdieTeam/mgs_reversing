@@ -3,7 +3,7 @@
 
 extern char aAfterseC[]; // = "afterse.c"
 
-#pragma INCLUDE_ASM("asm/chara/snake/afterse_act_800603EC.s")
+#pragma INCLUDE_ASM("asm/chara/snake/afterse_act_800603EC.s") // 212 bytes
 
 Actor *afterse_init_800604C0(short param_1, short param_2)
 {
