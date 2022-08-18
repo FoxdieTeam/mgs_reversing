@@ -195,7 +195,8 @@ FS_FILE_INFO_8009D49C SECTION(".data") gDirFiles_8009D49C[] = {
     {aStageDir, 0}, {aRadioDat, 0}, {aFaceDat, 0}, {aZmovieStr, 0}, {aVoxDat, 0}, {aDemoDat, 0}, {aBrfDat, 0}, {0, 0}};
 
 int   SECTION(".data") dword_8009D4DC = -1;
-int   SECTION(".data") dword_8009D4E0[] = {0, 0};
+int   SECTION(".data") dword_8009D4E0 = 0;
+int   SECTION(".data") dword_8009D4E4 = 0;
 int   SECTION(".data") dword_8009D4E8 = 0;
 int   SECTION(".data") dword_8009D4EC = 0;
 int   SECTION(".data") dword_8009D4F0 = 0;
