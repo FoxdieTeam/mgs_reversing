@@ -64,7 +64,7 @@ void MakeFullPath_80021F68(void)
 int CDBIOS_Reset_80021F70(void)
 {
     int retries;
-    char param;
+    char params[8];
   
     CDBIOS_TaskStart_800227A8();
     
@@ -79,8 +79,8 @@ int CDBIOS_Reset_80021F70(void)
     return 0;
     
 success:
-    param = 0xa0;
-    while (!CdControl(CdlSetmode, &param, 0));
+    params[0] = CdlModeSpeed | CdlModeSize1;
+    while (!CdControl(CdlSetmode, params, 0));
       
     mts_wait_vbl_800895F4(3);
     return 1;
