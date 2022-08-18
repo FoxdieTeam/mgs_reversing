@@ -1,5 +1,5 @@
 #include "game.h"
-#include "Camera.h"
+#include "camera.h"
 
 extern GM_Camera GM_Camera_800B77E8;
 

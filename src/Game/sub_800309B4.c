@@ -1,5 +1,5 @@
 #include "game.h"
-#include "Camera.h"
+#include "camera.h"
 
 extern SVECTOR dword_800ABA88;
 extern GM_Camera GM_Camera_800B77E8;

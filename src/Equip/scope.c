@@ -1,5 +1,5 @@
 #include "scope.h"
-#include "menu/menuman.h"
+#include "Menu/menuman.h"
 #include "Game/camera.h"
 
 extern const char aZoomLevelD[];

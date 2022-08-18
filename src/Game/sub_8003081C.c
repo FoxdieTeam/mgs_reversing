@@ -1,5 +1,5 @@
 #include "game.h"
-#include "Camera.h"
+#include "camera.h"
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
