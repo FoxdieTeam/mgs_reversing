@@ -6,18 +6,23 @@ import os
 import time
 import subprocess
 import re
-#from ninja import _program as ninja_run, ninja_syntax
+import tempfile
+from shutil import which
 from ninja import BIN_DIR
 # local copy as the pip version doesn't have dyndeps in build() func
 import ninja_syntax
 
+os.environ['WINEDEBUG'] = '-all'
+os.environ['TMPDIR'] = tempfile.gettempdir()
+
+has_wine = bool(which('wine'))
+has_wibo = bool(which('wibo'))
+has_cpp = bool(which('cpp'))
+
+# TODO: make r3000.h and asm.h case sensitive symlinks on linux
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='MGS Ninja build script generator')
-
-    # Required
-    # parser.add_argument('--platform', type=str, required=True,
-    #                     choices=['windows', 'wsl', 'linux'],
-    #                     help='Platform to generate the build script for"')
 
     # Optional
     parser.add_argument('--psyq_path', type=str, default=os.environ.get("PSYQ_SDK") or "../../psyq_sdk",
@@ -25,16 +30,20 @@ def parse_arguments():
 
     args = parser.parse_args()
 
-    # print("generate for platform " + args.platform)
-
-    args.psyq_path = os.path.abspath(args.psyq_path).replace("\\","/")
+    args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
     print("psyq_path = " + args.psyq_path)
     return args
+
+def prefix(pfx, cmd):
+    if pfx == "wibo" and has_wibo:
+        return f"wibo {cmd}"
+    if has_wine:
+        return f"wine {cmd}"
+    return cmd
 
 def ninja_run():
     ninja = os.path.join(BIN_DIR, 'ninja')
     ninja_args = [] # TODO: pass through args to ninja?
-
 
     # warrnings that were probably in the original code
     # TODO: hide these when building locally
@@ -72,31 +81,39 @@ ninja = ninja_syntax.Writer(f)
 ninja.variable("psyq_path", args.psyq_path)
 ninja.newline()
 
-ninja.variable("psyq_asmpsx_44_exe", "$psyq_path/psyq_4.4/bin/asmpsx.exe")
+ninja.variable("psyq_path_backslashed", args.psyq_path.replace('/', '\\'))
 ninja.newline()
 
-ninja.variable("psyq_c_preprocessor_44_exe", "$psyq_path/psyq_4.4/bin/CPPPSX.exe")
+ninja.variable("psyq_asmpsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/asmpsx.exe"))
 ninja.newline()
 
-ninja.variable("psyq_cc_44_exe", "$psyq_path/psyq_4.4/bin/CC1PSX.exe")
+if has_cpp:
+    ninja.variable("psyq_c_preprocessor_44_exe", "cpp -nostdinc")
+else:
+    ninja.variable("psyq_c_preprocessor_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/CPPPSX.exe"))
 ninja.newline()
 
-ninja.variable("psyq_aspsx_44_exe", "$psyq_path/psyq_4.4/bin/aspsx.exe")
+ninja.variable("psyq_cc_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/CC1PSX.EXE"))
 ninja.newline()
 
-ninja.variable("psyq_c_preprocessor_43_exe", "$psyq_path/psyq_4.3/bin/CPPPSX.exe")
+ninja.variable("psyq_aspsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/aspsx.exe"))
 ninja.newline()
 
-ninja.variable("psyq_cc_43_exe", "$psyq_path/psyq_4.3/bin/CC1PSX.exe")
+if has_cpp:
+    ninja.variable("psyq_c_preprocessor_43_exe", "cpp -nostdinc")
+else:
+    ninja.variable("psyq_c_preprocessor_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/CPPPSX.exe"))
 ninja.newline()
 
-ninja.variable("psyq_aspsx_2_56_exe", "$psyq_path/ASPSX/2.56/ASPSX.EXE")
+ninja.variable("psyq_cc_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/CC1PSX.EXE"))
 ninja.newline()
 
-ninja.variable("psyq_psylink_exe", "$psyq_path/psyq_4.4/bin/psylink.exe")
+ninja.variable("psyq_aspsx_2_56_exe", prefix("wibo", "$psyq_path/ASPSX/2.56/ASPSX.EXE"))
+
+ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink.exe"))
 ninja.newline()
 
-ninja.variable("src_dir", os.path.abspath("../src"))
+ninja.variable("src_dir", "../src")
 ninja.newline()
 
 # /l = produce linkable output file
@@ -104,9 +121,7 @@ ninja.newline()
 ninja.rule("psyq_asmpsx_assemble", "$psyq_asmpsx_44_exe /l /q $in,$out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.pool("single_threaded", 1)
-
-includes = "-I " + args.psyq_path + "/psyq_4.4/include" + " -I $src_dir"
+includes = "-I " + args.psyq_path + "/psyq_4.4/INCLUDE" + " -I $src_dir"
 
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
@@ -115,15 +130,14 @@ ninja.newline()
 ninja.rule("psyq_c_preprocess_44_headers", "$psyq_c_preprocessor_44_exe -M -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess for includes $in -> $out")
 ninja.newline()
 
-ninja.rule("header_deps", "python $src_dir/../build/hash_include_msvc_formatter.py $in $out", "Include deps fix $in -> $out", deps="msvc")
+ninja.rule("header_deps", f"{sys.executable} $src_dir/../build/hash_include_msvc_formatter.py $in $out", "Include deps fix $in -> $out", deps="msvc")
 ninja.newline()
 
-ninja.rule("asm_include_preprocess_44", "python $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
+ninja.rule("asm_include_preprocess_44", f"{sys.executable} $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
 ninja.newline()
 
-ninja.rule("asm_include_postprocess", "python $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")
+ninja.rule("asm_include_postprocess", f"{sys.executable} $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")
 ninja.newline()
-
 
 ninja.variable("gSize", "8")
 ninja.newline()
@@ -138,7 +152,7 @@ ninja.rule("psyq_c_preprocess_43", "$psyq_c_preprocessor_43_exe -undef -D__GNUC_
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
-ninja.rule("psyq_cc_43", "cmd /c \"set TMPDIR=%TEMP%&& $psyq_cc_43_exe -quiet -O2 -G $gSize -g -Wall $in -o $out\"", "Compile $in -> $out")
+ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g -Wall $in -o $out", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
@@ -148,10 +162,11 @@ ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
-ninja.rule("cpe2exe", "cmd /c \"$psyq_path/psyq_4.3/bin/cpe2exe.exe -CJ $in > NUL\"", "cpe2exe $in -> $out")
+# cmd /c doesn't like forward slashed relative paths
+ninja.rule("cpe2exe", prefix("wine", "cmd /c \"$psyq_path_backslashed\\psyq_4.3\\bin\\cpe2exe.exe -CJ $in > NUL\""), "cpe2exe $in -> $out")
 ninja.newline()
 
-ninja.rule("hash_check", "python $src_dir/../build/compare.py $in", "Hash check $in")
+ninja.rule("hash_check", f"{sys.executable} $src_dir/../build/compare.py $in", "Hash check $in")
 ninja.newline()
 
 
@@ -180,14 +195,10 @@ def get_files_recursive(path, ext):
 def gen_build_target(targetName):
     ninja.comment("Build target " + targetName)
 
-    asmPath = os.path.abspath("../asm/")
-    print("asm files path " + asmPath)
-    asmFiles = get_files_recursive(asmPath, ".s")
+    asmFiles = get_files_recursive("../asm", ".s")
     print("Got " + str(len(asmFiles)) + " asm files")
 
-    sourcePath = os.path.abspath("../src/")
-    print("source files files path " + sourcePath)
-    cFiles = get_files_recursive(sourcePath, ".c")
+    cFiles = get_files_recursive("../src", ".c")
     print("Got " + str(len(cFiles)) + " source files")
 
     linkerDeps = []
@@ -276,13 +287,12 @@ def gen_build_target(targetName):
         linkerDeps.append("linker_command_file.txt")
 
     # run the linker to generate the cpe
-    cpeFile = os.path.abspath("../obj/_mgsi.cpe")
-    print("cpeFile = " + cpeFile)
+    cpeFile = "../obj/_mgsi.cpe"
     ninja.build(cpeFile, "psylink", implicit=linkerDeps)
     ninja.newline()
 
     # cpe to exe
-    exeFile = os.path.abspath("../obj/_mgsi.exe")
+    exeFile = "../obj/_mgsi.exe"
     ninja.build(exeFile, "cpe2exe", cpeFile)
     ninja.newline()
 
