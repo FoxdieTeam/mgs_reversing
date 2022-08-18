@@ -1,14 +1,12 @@
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include "unknown.h"
-#include "Game/game.h"
-#include "Game/game.h"
-#include "libgv/libgv.h"
+#include "camera.h"
 
 extern GM_Camera GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
 #pragma INCLUDE_ASM("asm/sub_8002EADC.s")
+
+void sub_8002FC58(short *param_1, short *param_2, SVECTOR *param_3, int *param_4);
+void sub_8002FCA4(short *a1, short *a2, SVECTOR *a3, int *a4);
 
 void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {
@@ -34,6 +32,7 @@ static inline int CheckFlag(int mask)
 {
     return GM_Camera_800B77E8.field_18_flags & mask;
 }
+
 
 int camera_act_helper3_helper_8002ED3C(void)
 {
@@ -63,21 +62,21 @@ void camera_act_helper_helper2_8002F094(int param_1)
 
     if (param_1 < 6)
     {
-        GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8, &gUnkCameraStruct_800B77B8.field_0, 3);
+        GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0, 3);
         GV_NearExp4PV_800269A0(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28_aim_assist.vx, 3);
         GM_Camera_800B77E8.field_1C = GV_NearExp4_800263B0(GM_Camera_800B77E8.field_1C, 1000);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
-        sub_8002ECE4(&GM_Camera_800B77E8.field_8, &vec.vx, &GM_Camera_800B77E8.field_0);
+        sub_8002ECE4(&GM_Camera_800B77E8.field_8.vx, &vec.vx, &GM_Camera_800B77E8.field_0.vx);
         GM_Camera_800B77E8.field_28 = 0;
     }
     else
     {
         iVar1 = 12 - param_1;
-        sub_800268AC(&GM_Camera_800B77E8.field_0, &gUnkCameraStruct_800B77B8.field_0, iVar1, 3);
+        sub_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0, iVar1, 3);
         sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28_aim_assist.vx, iVar1, 3);
         GM_Camera_800B77E8.field_1C = sub_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
-        sub_8002EC8C(&GM_Camera_800B77E8.field_0, &vec.vx, &GM_Camera_800B77E8.field_8);
+        sub_8002EC8C(&GM_Camera_800B77E8.field_0.vx, &vec.vx, &GM_Camera_800B77E8.field_8.vx);
         GM_Camera_800B77E8.field_28 = 0;
     }
 
@@ -91,7 +90,9 @@ void camera_act_helper_helper2_8002F094(int param_1)
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper3_8002F64C.s")
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper4_8002F78C.s")
 #pragma INCLUDE_ASM("asm/sub_8002FAAC.s")
+
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper7_8002FB54.s")
+
 #pragma INCLUDE_ASM("asm/sub_8002FBC0.s")
 
 void sub_8002FC58(short *param_1, short *param_2, SVECTOR *param_3, int *param_4)
