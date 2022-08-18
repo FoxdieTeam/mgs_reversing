@@ -40,7 +40,7 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/jimctrl_act_80038070.s")
+#pragma INCLUDE_ASM("asm/jimctrl_act_80038070.s") // 1228 bytes
 
 void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 {
