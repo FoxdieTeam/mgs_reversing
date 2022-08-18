@@ -22,7 +22,7 @@ def main(path, output):
                 # ignore psyq headers
                 if line.find("4.4") == -1 and line.find("4.3") == -1:
                     includes = line.split(' ')
-                    for include in reversed(includes):
+                    for include in includes:
                         print("Note: including file: " + include)
                         f.write(include + '\n')
 
