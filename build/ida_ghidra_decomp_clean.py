@@ -40,6 +40,7 @@ if which('clang-format'):
 else:
     print('warning: couldnt find clang-format, not formatting code')
 
+data = '// https://github.com/FoxdieTeam/mgs_reversing\n\n' + data
 # surround blocks with newlines
 data = data.replace('}\n', '}\n\n')
 data = re.sub(r'^(\s+(?:if|do|while))', r'\n\1', data, flags=re.MULTILINE)
