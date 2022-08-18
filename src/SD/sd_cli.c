@@ -59,14 +59,14 @@ void XA_Stop_800888B4()
     mts_printf_8008BBA0(aXaSoundStop);
 }
 
-#pragma INCLUDE_ASM("asm/SD/SePlay_800888F8.s")
+#pragma INCLUDE_ASM("asm/SD/SePlay_800888F8.s") // 936 bytes
 
 int get_str_counter_80088CA0(void)
 {
     return dword_8009F7B4;
 }
 
-#pragma INCLUDE_ASM("asm/SD/sd_set_80088CB0.s")
+#pragma INCLUDE_ASM("asm/SD/sd_set_80088CB0.s") // 1528 bytes
 
 extern const char aSdcodeX[];
 extern const char aToomuchbgmsoun[];

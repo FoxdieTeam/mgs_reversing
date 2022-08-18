@@ -27,7 +27,7 @@ void strctrl_act_helper_800377EC(Actor_strctrl *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s")
+#pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s") // 708 bytes
 
 
 void strctrl_kill_80037AE4(Actor_strctrl *pActor)
@@ -51,8 +51,8 @@ void strctrl_kill_80037AE4(Actor_strctrl *pActor)
 }
 
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s")
-#pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s")
+#pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s") // 372 bytes
+#pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s") // 68 bytes
 
 void GM_StreamPlayStart_80037D1C()
 {
@@ -101,7 +101,7 @@ Actor_strctrl* GCL_Command_demo_helper_80037DD8(int base_sector, int gcl_proc)
     return strctrl_init_80037B64(total_sector, gcl_proc, 2);
 }
 
-#pragma INCLUDE_ASM("asm/Game/GM_VoxStream_80037E40.s")
+#pragma INCLUDE_ASM("asm/Game/GM_VoxStream_80037E40.s") // 160 bytes
 
 Actor_strctrl* sub_80037EE0(int voxStream, int gclProc)
 {
