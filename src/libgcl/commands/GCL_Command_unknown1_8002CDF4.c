@@ -15,20 +15,20 @@ extern short              word_8009F478;
 extern short              word_8009F47A;
 extern short              word_8009F47C;
 
-extern short GM_PhotoViewPos_800ABA48[3];
+extern SVECTOR GM_PhotoViewPos_800ABA48;
 // extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
-    short       vec[3];
+    SVECTOR       vec;
     GM_Control *unkStruct;
     int         param;
     map_record *map;
 
     if (GCL_GetParam_80020968('v')) // vector
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
-        gGameState_800B4D98.field_0A_last_result = DG_PointCheckOne_8001C18C((DVECTOR *)vec);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
+        gGameState_800B4D98.field_0A_last_result = DG_PointCheckOne_8001C18C((DVECTOR *)&vec);
     }
     if (GCL_GetParam_80020968('s')) // struct
     {
@@ -45,7 +45,7 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('p')) // photo (used for ghosts)
     {
         param = GCL_GetNextParamValue_80020AD4();
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), GM_PhotoViewPos_800ABA48);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &GM_PhotoViewPos_800ABA48);
         if (GCL_GetNextParamValue_80020AD4() == HASH_LEAVE)
         {
             param = 0;
