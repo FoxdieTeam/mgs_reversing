@@ -20,9 +20,11 @@ def main(path, output):
             line = line.strip()
             if len(line) > 0:
                 # ignore psyq headers
-                if line.find("4.4") == -1 and line.find("4.3") == -1:
+                if '4.4' not in line and '4.3' not in line:
+                    line = line.replace('\\ ', '|SPACE|')
                     includes = line.split(' ')
                     for include in includes:
+                        include = include.replace('|SPACE|', ' ')
                         print("Note: including file: " + include)
                         f.write(include + '\n')
 
