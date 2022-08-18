@@ -44,5 +44,6 @@ unsigned int          FS_StreamTaskState_80023E0C(void);
 void                  FS_StreamStop_80024028();
 int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
+void                  CDBIOS_TaskStart_helper_80022264(void);
 
 #endif // _LIBFS_H_

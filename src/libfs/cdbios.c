@@ -115,7 +115,19 @@ void nullsub_9_80022088(void)
 
 #pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_helper_80022090.s")
 #pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_80022264.s")
-#pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_800227A8.s")
+
+extern struct Loader_Record *gLoaderRec_800B5288;
+
+void CDBIOS_TaskStart_800227A8(void)
+{
+    cd_bios_task_800B4E58.field_0_state = 0;
+
+    dword_8009D4DC = -1;
+    dword_8009D4E4 = 0;
+    
+    mts_set_stack_check_8008B648(10, (unsigned int *)&gLoaderRec_800B5288, 1024);
+    mts_sta_tsk_8008B47C(10, &CDBIOS_TaskStart_helper_80022264, &gLoaderRec_800B5288);
+}
 
 void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
 {   
