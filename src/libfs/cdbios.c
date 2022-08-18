@@ -206,9 +206,34 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s")
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s")
 #pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_helper_80022CBC.s")
-#pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_80022D00.s")
 
 extern FS_FILE_TABLE fs_file_table_8009D4E8;
+extern const char aXXD[]; // = "%X %X %d\n"
+
+void FS_CdStageFileInit_80022D00(void *pHeap, int startSector)
+{
+    int size;
+  
+    fs_file_table_8009D4E8.field_0_start = startSector;
+    CDBIOS_ReadRequest_8002280C(pHeap, startSector, 2048, &FS_CdStageFileInit_helper_80022CBC);
+
+    while (CDBIOS_ReadSync_80022854() > 0)
+    {
+        mts_wait_vbl_800895F4(1);
+    }
+
+    size = fs_file_table_8009D4E8.field_4_size;
+    
+    if (!fs_file_table_8009D4E8.field_C_files)
+    {
+        fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory_800163D8(fs_file_table_8009D4E8.field_4_size);
+    }
+
+    mts_printf_8008BBA0(aXXD, (char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
+    GV_CopyMemory_800160D8((char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
+
+    fs_file_table_8009D4E8.field_8_count = size / sizeof(FS_FILE);
+}
 
 int FS_CdGetStageFileTop_80022DCC(char *pFileName)
 {
