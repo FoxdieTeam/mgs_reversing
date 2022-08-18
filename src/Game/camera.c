@@ -6,7 +6,7 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 #pragma INCLUDE_ASM("asm/sub_8002EADC.s")
 
 void sub_8002FC58(short *param_1, short *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FCA4(short *a1, short *a2, SVECTOR *a3, int *a4);
+void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
 
 void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {
@@ -62,17 +62,17 @@ void camera_act_helper_helper2_8002F094(int param_1)
 
     if (param_1 < 6)
     {
-        GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0, 3);
+        GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0.vx, 3);
         GV_NearExp4PV_800269A0(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28_aim_assist.vx, 3);
         GM_Camera_800B77E8.field_1C = GV_NearExp4_800263B0(GM_Camera_800B77E8.field_1C, 1000);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
-        sub_8002ECE4(&GM_Camera_800B77E8.field_8.vx, &vec.vx, &GM_Camera_800B77E8.field_0.vx);
+        sub_8002ECE4(&GM_Camera_800B77E8.field_8, &vec, &GM_Camera_800B77E8.field_0);
         GM_Camera_800B77E8.field_28 = 0;
     }
     else
     {
         iVar1 = 12 - param_1;
-        sub_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0, iVar1, 3);
+        sub_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
         sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28_aim_assist.vx, iVar1, 3);
         GM_Camera_800B77E8.field_1C = sub_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
@@ -102,7 +102,14 @@ void sub_8002FC58(short *param_1, short *param_2, SVECTOR *param_3, int *param_4
     sub_8002EC8C(param_1, &vec.vx, param_2);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002FCA4.s")
+void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
+{
+    SVECTOR vec;
+
+    GV_DirVec3_80016FA0(param_3, *param_4, &vec);
+    sub_8002ECE4(param_2, &vec, param_1);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8002FCF0.s")
 
 void sub_8002FD84(int index, int value)
