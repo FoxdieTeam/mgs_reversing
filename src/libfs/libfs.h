@@ -21,7 +21,7 @@ int                   CDBIOS_ReadSync_80022854(void);
 int                   FS_CdMakePositionTable_80022B5C(void *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
 int                   FS_ResetCdFilePosition_80021E2C(void *pHeap);
 void                  CDBIOS_ForceStop_80022864(void);
-void                  CDBIOS_Reset_80021F70(void);
+int                   CDBIOS_Reset_80021F70(void);
 void                  CDFS_Init_80021EC4();
 void                  FS_CdStageFileInit_80022D00(void *pHeap, int startSector);
 void                  FS_MovieFileInit_80023860(void *pHeap, int startSector);
@@ -43,5 +43,6 @@ int                   CDBIOS_TaskState_80022888(void);
 unsigned int          FS_StreamTaskState_80023E0C(void);
 void                  FS_StreamStop_80024028();
 int                   FS_LoadFileSync_80021F48(void);
+void                  CDBIOS_TaskStart_800227A8(void);
 
 #endif // _LIBFS_H_
