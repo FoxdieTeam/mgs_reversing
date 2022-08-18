@@ -11,6 +11,9 @@ int        SECTION(".sbss") dword_800ABB04;
 extern int dword_800ABB08;
 int        SECTION(".sbss") dword_800ABB08;
 
+extern short word_800ABB0C;
+short SECTION(".sbss") word_800ABB0C;
+
 extern int dword_800ABB10;
 int        SECTION(".sbss") dword_800ABB10; // declared
 
@@ -29,6 +32,9 @@ extern void *dword_8009E75C[];
 extern DG_TEX gTextureRecs_800B1F50[512];
 
 extern MenuMan_Inventory_14h_Unk dword_800BDA10;
+extern MenuMan_Inventory_14h_Unk dword_800BDA30;
+extern RadioIncomingCall gRadioIncomingCall_8009E708;
+extern int GV_PadMask_800AB374;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s")
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s")
@@ -49,13 +55,12 @@ extern MenuMan_Inventory_14h_Unk dword_800BDA10;
 
 void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
 {
-    int iVar1;
+    KCB *iVar1;
 
-    iVar1 = *(int *)(param_1 + 0x214);
+    iVar1 = *(KCB **)(param_1 + 0x214);
     dword_800ABB04 = param_2;
     sub_800469A4(iVar1, (char *)param_2);
-    font_update_8004695C((KCB *)iVar1); // TODO: iVar1 is KCB*
-    return;
+    font_update_8004695C(iVar1);
 }
 
 void sub_80041118(int param_1)
@@ -132,9 +137,56 @@ void menu_radio_kill_8004271C(Actor_MenuMan *pMenu)
     pMenu->field_28_flags &= ~0x10u;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_80042730.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_SetLoad_800427E8.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_ResetCall_80042814.s")
+void menu_RadioCall_80042730(int param_1, int param_2, int time)
+{
+    gRadioIncomingCall_8009E708.field_0 = param_1;
+    gRadioIncomingCall_8009E708.field_4 = param_2;
+
+    if (time == 0)
+    {
+        gRadioIncomingCall_8009E708.field_2_timer = 360;
+        gRadioIncomingCall_8009E708.field_8 = 0;
+        menu_RadioCall_helper_800403E4();
+    }
+
+    else
+    {
+        if (time >= 5)
+        {
+            menu_RadioCall_helper_800403E4();
+            gRadioIncomingCall_8009E708.field_8 = 1;
+            gRadioIncomingCall_8009E708.field_2_timer = 40;
+            GV_PadMask_800AB374 = 0x100;
+            GM_GameStatus_800AB3CC |= 0x8000000;
+        }
+        else
+        {
+            gRadioIncomingCall_8009E708.field_2_timer = -time;
+            gRadioIncomingCall_8009E708.field_8 = 0;
+        }
+
+        GM_GameStatus_800AB3CC |= 0x80000;
+    }
+}
+
+void menu_SetLoad_800427E8(int param_1, int param_2, short param_3)
+{
+    gRadioIncomingCall_8009E708.field_0 = param_3;
+    gRadioIncomingCall_8009E708.field_2_timer = -1;
+    gRadioIncomingCall_8009E708.field_4 = param_2;
+    dword_800ABB08 = param_1;
+    word_800ABB0C = 1;
+}
+
+void menu_ResetCall_80042814()
+{
+    gRadioIncomingCall_8009E708.field_0 = 0;
+    gRadioIncomingCall_8009E708.field_4 = 0;
+    gRadioIncomingCall_8009E708.field_2_timer = 0;
+    gRadioIncomingCall_8009E708.field_8 = 0;
+    
+    dword_800ABB08 = -1;
+}
 
 void menu_SetRadioCallbackProc_8004283C(int param_1)
 {
@@ -169,8 +221,21 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s")
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_restore_nouse_80043470.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_init_nouse_800434A8.s")
+
+void menu_restore_nouse_80043470()
+{
+    sub_8003CFE0(&dword_800BDA10, 2);
+    sub_8003CFE0(&dword_800BDA30, 3);
+}
+
+void menu_init_nouse_800434A8()
+{
+    dword_800BDA10.field_8_index = 0;
+    menu_init_rpk_item_8003DDCC(&dword_800BDA10, 40, 39);
+    menu_init_rpk_item_8003DDCC(&dword_800BDA30, 48, 39);
+    menu_restore_nouse_80043470();
+}
+
 #pragma INCLUDE_ASM("asm/sub_800434F4.s")
 
 void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
@@ -178,7 +243,11 @@ void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
     sub_800434F4(param_1, param_2, param_3, &dword_800BDA10);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_frozen_800435C8.s")
+void menu_draw_frozen_800435C8(unsigned int **param_1, int param_2, int param_3)
+{
+    sub_800434F4(param_1, param_2, param_3, &dword_800BDA30);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s")
 #pragma INCLUDE_ASM("asm/sub_80043678.s")
 #pragma INCLUDE_ASM("asm/sub_80043A24.s")

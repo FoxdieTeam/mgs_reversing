@@ -14,9 +14,10 @@ extern const char aIllegalDisk[];
 extern const char aPositionEnd[];
 
 extern int dword_8009D4DC;
-extern int int_800B4E74;
-extern int dword_8009D4E0[];
-extern int cd_bios_task_state_800B4E58;
+extern int dword_8009D4E0;
+extern int dword_8009D4E4;
+
+extern CDBIOS_TASK cd_bios_task_800B4E58;
 
 int FS_ResetCdFilePosition_80021E2C(void *pHeap)
 {
@@ -50,9 +51,9 @@ void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int endSector, vo
     CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, endSector, 0);
 }
 
-void FS_LoadFileSync_80021F48(void)
+int FS_LoadFileSync_80021F48(void)
 {
-    CDBIOS_ReadSync_80022854();
+    return CDBIOS_ReadSync_80022854();
 }
 
 void MakeFullPath_80021F68(void)
@@ -60,14 +61,37 @@ void MakeFullPath_80021F68(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/CDBIOS_Reset_80021F70.s")
+int CDBIOS_Reset_80021F70(void)
+{
+    int retries;
+    unsigned char params[8];
+  
+    CDBIOS_TaskStart_800227A8();
+    
+    for (retries = 4; retries >= 0; retries--)
+    {
+        if (CdInit())
+        {
+            goto success;
+        }
+    }
+
+    return 0;
+    
+success:
+    params[0] = CdlModeSpeed | CdlModeSize1;
+    while (!CdControl(CdlSetmode, params, 0));
+      
+    mts_wait_vbl_800895F4(3);
+    return 1;
+}
 
 void sub_80021FE0(void)
 {
     CdReadyCallback(0);
     CdSyncCallback(0);
     CdFlush();
-    CdControl('\t', 0, 0);
+    CdControl(CdlPause, 0, 0);
     dword_8009D4DC = 0;
 }
 
@@ -81,24 +105,42 @@ void nullsub_9_80022088(void)
 #pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_helper_80022090.s")
 #pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_80022264.s")
 #pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_800227A8.s")
-#pragma INCLUDE_ASM("asm/CDBIOS_ReadRequest_8002280C.s")
+
+void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
+{   
+    cd_bios_task_800B4E58.field_8_buffer = pHeap;
+
+    if (sectorSize == 0)
+    {
+        sectorSize = 0x7fff0000;
+    }
+
+    cd_bios_task_800B4E58.field_1C_remaining = (sectorSize + 3) >> 2;
+    cd_bios_task_800B4E58.field_18_size = (sectorSize + 3) >> 2;
+    cd_bios_task_800B4E58.field_4_sector = startSector;
+    cd_bios_task_800B4E58.field_20_callback = fnCallBack;
+    cd_bios_task_800B4E58.field_14 = 0;
+
+    dword_8009D4E4 = 0;
+    dword_8009D4E0 = 1;
+}
 
 int CDBIOS_ReadSync_80022854(void)
 {
-    return int_800B4E74 * 4;
+    return cd_bios_task_800B4E58.field_1C_remaining * 4;
 }
 
 void CDBIOS_ForceStop_80022864(void)
 {
-    if (cd_bios_task_state_800B4E58 != 0)
+    if (cd_bios_task_800B4E58.field_0_state != 0)
     {
-        dword_8009D4E0[1] = 1;
+        dword_8009D4E4 = 1;
     }
 }
 
 int CDBIOS_TaskState_80022888(void)
 {
-    return cd_bios_task_state_800B4E58;
+    return cd_bios_task_800B4E58.field_0_state;
 }
 
 void CDFS_ParseFileName_80022898(char *pOutput, char *pInput, int input_len)

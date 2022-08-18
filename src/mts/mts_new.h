@@ -88,6 +88,7 @@ unsigned short mts_read_pad_8008C25C(int);
 void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
 int            mts_get_pad_vibration_type_8008C4BC(int);
+int            mts_get_task_status_8008B618(int task_idx);
 
 void mts_8008B51C(void);
 

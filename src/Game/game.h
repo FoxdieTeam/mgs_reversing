@@ -212,8 +212,11 @@ int sub_80032748(Point *out, SVECTOR *pos);
 int sub_800327BC(Point *out, SVECTOR *pos);
 int sub_80032820(Point *out, SVECTOR *pos);
 int sub_800326D4(Point *out, SVECTOR *pos);
+int sub_80032308(SVECTOR *pos, int param_2, Point *out);
 
-int  sub_8002E508(int a1);
+void sub_800309B4(int param_1, int param_2);
+void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
+void sub_8002E508(int a1);
 void sub_8002B600(int);
 void sub_8002AAEC();
 void sub_8002EADC(void);

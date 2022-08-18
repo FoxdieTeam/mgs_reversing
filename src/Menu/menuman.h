@@ -261,7 +261,7 @@ typedef struct UnkJimakuStruct // @ 800BDA70
 
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
-int                        menu_restore_nouse_80043470();
+void                       menu_restore_nouse_80043470();
 MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx);
 int                        sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
@@ -299,7 +299,7 @@ void menuman_kill_800387E8(Actor_MenuMan *);
 void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
-void sub_800469A4(int param_1, char *param_2); // probably a font func, move if so
+void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
 void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
@@ -330,6 +330,7 @@ unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned
 int            menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
 void           menu_ResetTexture_80038A00(void);
 void           menu_jimaku_init_helper_800493F8(KCB *kcb);
+void           menu_font_kill_helper_8003F50C(void);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 

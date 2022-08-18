@@ -36,7 +36,8 @@ int SECTION(".sbss") dword_800ABAFC;
 int SECTION(".sbss") dword_800ABB00;
 int SECTION(".sbss") dword_800ABB04;
 int SECTION(".sbss") dword_800ABB08;
-int SECTION(".sbss") dword_800ABB0C;
+short SECTION(".sbss") word_800ABB0C;
+short SECTION(".sbss") word_800ABB0E;
 
 extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
@@ -127,7 +128,19 @@ int menu_8003D538(void)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D568.s")
+int sub_8003D568()
+{
+    dword_800ABAE0 -= 0x40;
+
+    if (dword_800ABAE0 < 1)
+    {
+        dword_800ABAE0 = 0;
+        return 1;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8003D594.s")
 #pragma INCLUDE_ASM("asm/sub_8003D5F0.s")
 #pragma INCLUDE_ASM("asm/sub_8003D64C.s")

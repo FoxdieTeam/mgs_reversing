@@ -1,7 +1,7 @@
 #include "unknown.h"
 #include "libgcl/hash.h"
 
-void HZD_ReExecEvent_8002A1F4(int param_1, unsigned short *param_2, unsigned int flags)
+void HZD_ReExecEvent_8002A1F4(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags)
 {
     if (flags & 0x200)
     {

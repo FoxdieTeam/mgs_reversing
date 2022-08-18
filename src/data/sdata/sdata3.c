@@ -1,6 +1,7 @@
 #include "linker.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
 
-int SECTION(".sdata") dword_800AB3A8 = 0xE20300;
-int SECTION(".sdata") dword_800AB3AC = 0x1E0100;
-int SECTION(".sdata") dword_800AB3B0 = 0xC40300;
-int SECTION(".sdata") dword_800AB3B4 = 0x1E0100;
+RECT SECTION(".sdata") rect_800AB3A8 = {768, 226, 256, 30};
+RECT SECTION(".sdata") rect_800AB3B0 = {768, 196, 256, 30};
