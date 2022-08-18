@@ -1,6 +1,7 @@
 #include "box.h"
 #include "map/map.h"
 #include "Thing/sight.h"
+#include "Game/camera.h"
 
 extern const char aBoxC[];
 extern int DG_CurrentGroupID_800AB968;

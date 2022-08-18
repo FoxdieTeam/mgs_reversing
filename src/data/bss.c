@@ -14,6 +14,7 @@
 #include "Bullet/jirai.h"
 #include "Kojo/demothrd.h"
 #include "SD/sd.h"
+#include "Game/camera.h"
 
 #define BSS SECTION(".bss")
 #define gap char BSS
