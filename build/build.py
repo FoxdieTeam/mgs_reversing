@@ -81,6 +81,9 @@ ninja = ninja_syntax.Writer(f)
 ninja.variable("psyq_path", args.psyq_path)
 ninja.newline()
 
+ninja.variable("psyq_path_backslashed", args.psyq_path.replace('/', '\\'))
+ninja.newline()
+
 ninja.variable("psyq_asmpsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/asmpsx.exe"))
 ninja.newline()
 
@@ -159,7 +162,8 @@ ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
-ninja.rule("cpe2exe", prefix("wine", "cmd /c \"$psyq_path/psyq_4.3/bin/cpe2exe.exe -CJ $in > NUL\""), "cpe2exe $in -> $out")
+# cmd /c doesn't like "../"
+ninja.rule("cpe2exe", prefix("wine", "cmd /c \"$psyq_path_backslashed/psyq_4.3/bin/cpe2exe.exe -CJ $in > NUL\""), "cpe2exe $in -> $out")
 ninja.newline()
 
 ninja.rule("hash_check", f"{sys.executable} $src_dir/../build/compare.py $in", "Hash check $in")
