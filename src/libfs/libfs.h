@@ -17,6 +17,18 @@ typedef struct _CDBIOS_TASK {
     void *field_20_callback;
 } CDBIOS_TASK;
 
+typedef struct _FS_FILE {
+    char field_0_name[8];
+    int  field_4_offset;
+} FS_FILE;
+
+typedef struct _FS_FILE_TABLE {
+    int      field_0_start;
+    int      field_4_size;
+    int      field_8_count;
+    FS_FILE *field_C_files;
+} FS_FILE_TABLE;
+
 int                   CDBIOS_ReadSync_80022854(void);
 int                   FS_CdMakePositionTable_80022B5C(void *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
 int                   FS_ResetCdFilePosition_80021E2C(void *pHeap);
@@ -45,5 +57,6 @@ void                  FS_StreamStop_80024028();
 int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
 void                  CDBIOS_TaskStart_helper_80022264(void);
+void                  FS_CdStageFileInit_helper_80022CBC(void);
 
 #endif // _LIBFS_H_
