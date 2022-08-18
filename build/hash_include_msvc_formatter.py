@@ -21,9 +21,10 @@ def main(path, output):
             if len(line) > 0:
                 # ignore psyq headers
                 if line.find("4.4") == -1 and line.find("4.3") == -1:
-                    print("Note: including file: " + line)
-                    line = line.replace(' ', '\n')
-                    f.write(line + "\n")
+                    includes = line.split(' ')
+                    for include in reversed(includes):
+                        print("Note: including file: " + include)
+                        f.write(include + '\n')
 
 if __name__ == '__main__':
     src = sys.argv[1].replace('\\', '/')
