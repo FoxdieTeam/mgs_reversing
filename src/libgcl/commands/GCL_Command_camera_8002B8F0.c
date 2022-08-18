@@ -3,6 +3,7 @@
 #include "mts/mts_new.h"
 #include "Game/GM_Control.h"
 #include "game/game.h"
+#include "game/Camera.h"
 
 extern CAMERA GM_CameraList_800B7718[8];
 extern GM_Camera GM_Camera_800B77E8;

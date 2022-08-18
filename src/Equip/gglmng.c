@@ -1,6 +1,7 @@
 #include "gglmng.h"
 #include "gglsight.h"
 #include "Game/game.h"
+#include "Game/camera.h"
 
 // Goggle Manager?
 // used by all items and weapons that can go first person in order to transition into their first person modes?
