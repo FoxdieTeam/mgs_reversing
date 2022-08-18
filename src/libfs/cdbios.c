@@ -226,7 +226,7 @@ void FS_CdStageFileInit_80022D00(void *pHeap, int startSector)
     
     if (!fs_file_table_8009D4E8.field_C_files)
     {
-        fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory_800163D8(fs_file_table_8009D4E8.field_4_size);
+        fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory_800163D8(size);
     }
 
     mts_printf_8008BBA0(aXXD, (char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
