@@ -221,9 +221,9 @@ def gen_build_target(targetName):
         if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
             ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
             ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
-            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile)
+            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            
+
             g0 = False
             buildWithG0 = [
                 "/Equip/",
@@ -251,24 +251,27 @@ def gen_build_target(targetName):
                     break
             if g0:
                 # print("-G 0: " + cFile)
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
             else:
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+
         else:
             #print("43:" + cFile)
             ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
             ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
-            ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile)
+            ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
+
             if "SD" in cFile:
                 #print("-G 0: " + cFile)
-                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"}, implicit=[cPreProcHeadersFixedFile])
+                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"})
             else:
-                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"}, implicit=[cPreProcHeadersFixedFile])
+                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"})
             ninja.build(cTempOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+
         linkerDeps.append(cOFile)
         linkerDeps.append("linker_command_file.txt")
 
