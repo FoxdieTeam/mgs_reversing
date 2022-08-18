@@ -205,10 +205,10 @@ int GCL_GetNextInt_800209E8(unsigned char *pScript)
     return value;
 }
 
-int GCL_GetSV_80020A14(unsigned char *pInScript, short *pOut3Words)
+int GCL_GetSV_80020A14(unsigned char *pInScript, SVECTOR *pOut3Words)
 {
     int             counter = 0;
-    unsigned short *pOutIter = pOut3Words;
+    unsigned short *pOutIter = (unsigned short *)pOut3Words;
     unsigned char  *pScript = pInScript;
     do
     {
@@ -257,7 +257,7 @@ int GCL_GetNextParamValue_80020AD4(void)
     return GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
 }
 
-void GCL_ReadParamVector_80020AFC(short *pOut3Words)
+void GCL_ReadParamVector_80020AFC(SVECTOR *pOut3Words)
 {
     GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), pOut3Words);
     return;
