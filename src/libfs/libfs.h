@@ -23,8 +23,8 @@ typedef struct _FS_FILE {
 } FS_FILE;
 
 typedef struct _FS_FILE_TABLE {
-    int      field_0_base;
-    int      field_4;
+    int      field_0_start;
+    int      field_4_size;
     int      field_8_count;
     FS_FILE *field_C_files;
 } FS_FILE_TABLE;

@@ -221,7 +221,7 @@ int FS_CdGetStageFileTop_80022DCC(char *pFileName)
     {
         if (!strncmp_8008E7F8(file->field_0_name, pFileName, 8))
         {
-            return file->field_4_offset + fs_file_table_8009D4E8.field_0_base;
+            return file->field_4_offset + fs_file_table_8009D4E8.field_0_start;
         }
       
         file++;
