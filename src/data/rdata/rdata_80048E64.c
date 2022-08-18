@@ -26,8 +26,11 @@ const int SECTION(".rdata") dword_8001203C[] = {0x6D01B82,  0xC813682,  0x891079
 const int SECTION(".rdata") dword_800120B4[] = {
     0x6D04D82,  0xC812982,  0x8910791,  0x3E811781, 0x1F811781, 0x3D0,      0x9C23582,  0x3E8206D0,
     0x288223C2, 0x3E811781, 0xB811981,  0x3FC0,     0x27900B91, 0x17810D81, 0x48812681, 0x17814D81,
-    0x27810481, 0xB811981,  0x3FC0,     0x4D524F46, 0x4F205441, 0x3F4B,     0x5245564F, 0x54495257,
-    0x4B4F2045, 0x3F,       0x55514552, 0x20545345, 0xA5825,    0x55534552, 0x2520544C, 0xA58};
+    0x27810481, 0xB811981,  0x3FC0};
+const char SECTION(".rdata") aFormatOk[] = "FORMAT OK?";
+const char SECTION(".rdata") aOverwriteOk[] = "OVERWRITE OK?";
+const char SECTION(".rdata") aRequestX[] = "REQUEST %X\n";
+const char SECTION(".rdata") aResultX[] = "RESULT %X\n";
 const char SECTION(".rdata") aNoMemoryForSta_0[] = "NO MEMORY FOR STACK\n";
 const char SECTION(".rdata") aComplete[] = "COMPLETE";
 const char SECTION(".rdata") aNoMemoryForObj[] = "NO MEMORY FOR OBJ\n";
