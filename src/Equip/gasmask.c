@@ -2,6 +2,7 @@
 #include "Game/object.h"
 #include "map/map.h"
 #include "unknown.h"
+#include "Game/camera.h"
 
 extern const char aGasmaskC[];
 extern const char aGasMask_DUP[];

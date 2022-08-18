@@ -1,6 +1,7 @@
 #include "rifle.h"
 #include "Game/object.h"
 #include "Game/game.h"
+#include "game/Camera.h"
 
 // PSG1
 

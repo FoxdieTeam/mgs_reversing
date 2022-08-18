@@ -11,6 +11,7 @@
 #include "Game/homing_target.h"
 #include "Game/vibrate.h"
 #include "psyq.h"
+#include "Game/camera.h"
 
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;
