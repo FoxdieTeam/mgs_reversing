@@ -1,4 +1,6 @@
 #include "linker.h"
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
 
 int SECTION(".sbss") GM_NoisePower_800ABA24;
 int SECTION(".sbss") GM_DisableItem_800ABA28;
@@ -10,5 +12,4 @@ int SECTION(".sbss") GM_LoadComplete_800ABA38;
 int SECTION(".sbss") GM_PadVibration_800ABA3C;
 int SECTION(".sbss") GM_PlayerAction_800ABA40;
 int SECTION(".sbss") dword_800ABA44;
-int SECTION(".sbss") GM_PhotoViewPos_800ABA48;
-int SECTION(".sbss") dword_800ABA4C;
+SVECTOR SECTION(".sbss") GM_PhotoViewPos_800ABA48;

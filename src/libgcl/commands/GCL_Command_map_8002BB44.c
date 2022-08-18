@@ -17,7 +17,7 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 int GCL_Command_map_8002BB44(int argc, char **argv)
 {
     map_record *pMapRecord;
-    short       colourVec[3];
+    SVECTOR       colourVec;
 
     if (GCL_GetParam_80020968('d'))
     {
@@ -82,8 +82,8 @@ int GCL_Command_map_8002BB44(int argc, char **argv)
 
     if (GCL_GetParam_80020968('b'))
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &colourVec[0]);
-        DG_Set_RGB_800184F4(colourVec[0], colourVec[1], colourVec[2]);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &colourVec);
+        DG_Set_RGB_800184F4(colourVec.vx, colourVec.vy, colourVec.vz);
     }
 
     return 0;
