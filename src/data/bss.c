@@ -1,5 +1,6 @@
 #include "bss.h"
 #include "linker.h"
+#include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/GM_Control.h"
@@ -87,13 +88,9 @@ GameState_800B4D98 BSS gGcl_gameStateVars_800B44C8; // 0xC0 (192) bytes
 GCL_Vars BSS gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS gStageName_800B4D88[16]; // 0x10 (16) bytes
 GameState_800B4D98 BSS gGameState_800B4D98; // 0xC0 (192) bytes
-int BSS cd_bios_task_state_800B4E58; // 0x4 (4) bytes
+CDBIOS_TASK BSS cd_bios_task_800B4E58; // 0x24 (36) bytes
 
-gap gap_800B4E5C[0x18]; // 24 bytes
-
-int BSS int_800B4E74; // 0x4 (4) bytes
-
-gap gap_800B4E78[0x410]; // 1040 bytes
+gap gap_800B4E7C[0x40C]; // 1036 bytes
 
 struct Loader_Record *BSS gLoaderRec_800B5288; // 0x4 (4) bytes
 int BSS gLoaderStartTime_800B528C; // 0x4 (4) bytes
