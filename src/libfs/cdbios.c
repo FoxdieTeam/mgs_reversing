@@ -218,7 +218,67 @@ FS_FILE_INFO_8009D49C * FS_CdMakePositionTable_helper_helper_80022918(char *pFil
 }
 
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s") // 480 bytes
-#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s") // 352 bytes
+
+extern const char aPlaystation[]; // = "PLAYSTATION"
+extern const char aMgs[]; // = "MGS"
+extern const char aMgsReadSectorD[]; // = "MGS read_sector %d\n"
+
+int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs)
+{
+    char *buffer2;
+    char *dir_block_ptr;
+    int directory_block;
+    int path_table_size;
+    int ret;
+    int uVar7;
+    int directory_length;
+    char *directory_block_data;
+    char directory_name[16];
+
+    FS_CdMakePositionTable_helper2_800228D4(pHeap, 16, 2048);
+    
+    if (strncmp_8008E7F8(pHeap + 8, aPlaystation, 11))
+    {
+        return -1;
+    }
+    
+    path_table_size = *(int *)(pHeap + 0x84);
+    
+    FS_CdMakePositionTable_helper2_800228D4(pHeap, *(int *)(pHeap + 0x8c), path_table_size);
+    directory_block_data = pHeap + ((((unsigned int)path_table_size + 3) >> 2) << 2);
+
+    ret = -1;
+    buffer2 = pHeap;
+    
+    while (path_table_size > 0)
+    {
+        directory_length = *buffer2;
+        uVar7 = directory_length + 8;
+      
+        CDFS_ParseFileName_80022898(directory_name, buffer2 + 8, directory_length);
+
+        dir_block_ptr = buffer2 + 2;
+        directory_block = *dir_block_ptr | (*(dir_block_ptr + 1) << 8) | (*(dir_block_ptr + 2) << 16) | (*(dir_block_ptr + 3) << 24);
+      
+        if (!strcmp_8008E6F8(directory_name, aMgs))
+        {
+            mts_printf_8008BBA0(aMgsReadSectorD, directory_block);
+            FS_CdMakePositionTable_helper2_800228D4(directory_block_data, directory_block, 2048);
+            ret = FS_CdMakePositionTable_helper_8002297C(directory_block_data, pDirRecs);
+        }
+      
+        if (uVar7 & 1)
+        {
+            uVar7 = directory_length + 9;
+        }
+
+        path_table_size -= uVar7;
+        buffer2 += uVar7;
+    }
+
+    return ret;
+}
+
 
 extern FS_FILE_TABLE fs_file_table_8009D4E8;
 

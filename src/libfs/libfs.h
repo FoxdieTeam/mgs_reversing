@@ -36,7 +36,7 @@ typedef struct _FS_FILE_TABLE {
 } FS_FILE_TABLE;
 
 int                   CDBIOS_ReadSync_80022854(void);
-int                   FS_CdMakePositionTable_80022B5C(void *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
+int                   FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
 int                   FS_ResetCdFilePosition_80021E2C(void *pHeap);
 void                  CDBIOS_ForceStop_80022864(void);
 int                   CDBIOS_Reset_80021F70(void);
@@ -64,5 +64,6 @@ int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
 void                  CDBIOS_TaskStart_helper_80022264(void);
 int                   FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task);
+int                   FS_CdMakePositionTable_helper_8002297C(void *pDirBlock, FS_FILE_INFO_8009D49C *pDirRecs);
 
 #endif // _LIBFS_H_
