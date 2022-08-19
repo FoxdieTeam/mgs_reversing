@@ -16,7 +16,7 @@ extern const char aPositionEnd[];
 
 extern int dword_8009D4DC;
 extern int dword_8009D4E0;
-extern int dword_8009D4E4;
+extern int dword_cdbios_stop_8009D4E4;
 
 extern CDBIOS_TASK cd_bios_task_800B4E58;
 
@@ -114,7 +114,96 @@ void nullsub_9_80022088(void)
 
 }
 
-#pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_helper_80022090.s") // 468 bytes
+static inline unsigned long get_time(CdlLOC *loc)
+{
+    return (btoi(loc->minute) * 4500 + btoi(loc->second) * 75 + btoi(loc->sector));
+}
+
+extern const char aCdfsSkipErrorD[]; // = "CDFS: skip error %d %d %d\n"
+
+void CDBIOS_TaskStart_helper_helper_80022090(char status)
+{
+    int sector;
+    int callback_status;
+    unsigned int size;
+    CDBIOS_TASK *task;
+    CdlLOC loc[3];
+
+    if (dword_cdbios_stop_8009D4E4 != 0)
+    {
+        sub_80021FE0();
+        return;
+    }
+
+    if (status == 1)
+    {   
+        task = &cd_bios_task_800B4E58;
+        
+        CdGetSector(loc, 3);
+
+        sector = get_time(&loc[0]);
+      
+        if (sector < task->field_4_sector)
+        {
+            return;
+        }
+
+        if (sector > task->field_4_sector)
+        {
+            mts_printf_8008BBA0(aCdfsSkipErrorD, task->field_10_ticks, sector, task->field_4_sector);
+        }
+        else
+        {
+            size = 0x200;
+        
+            if (task->field_1C_remaining <= 512u)
+            {
+                size = task->field_1C_remaining;
+            }
+
+            if (task->field_8_buffer)
+            {
+                CdGetSector(task->field_8_buffer, size);
+            }
+                
+            task->field_1C_remaining -= size;
+            task->field_C = size;
+        
+            if (task->field_20_callback)
+            {
+                callback_status = task->field_20_callback(&cd_bios_task_800B4E58);
+          
+                if (callback_status == 0)
+                {
+                    sub_80021FE0();
+                }
+                else if (callback_status == 2)
+                {
+                    size = 0;
+                }
+            }
+
+            if (task->field_8_buffer)
+            {
+                task->field_8_buffer = (int *)task->field_8_buffer + size;
+            }
+            
+            task->field_4_sector++;
+            task->field_14++;                
+            task->field_10_ticks = 0;
+                
+            if (task->field_1C_remaining <= 0)
+            {
+                sub_80021FE0();
+            }
+
+            return;
+        }
+    }
+
+    sub_80022024();
+}
+
 #pragma INCLUDE_ASM("asm/CDBIOS_TaskStart_helper_80022264.s") // 1348 bytes
 
 extern struct Loader_Record *gLoaderRec_800B5288;
@@ -124,7 +213,7 @@ void CDBIOS_TaskStart_800227A8(void)
     cd_bios_task_800B4E58.field_0_state = 0;
 
     dword_8009D4DC = -1;
-    dword_8009D4E4 = 0;
+    dword_cdbios_stop_8009D4E4 = 0;
     
     mts_set_stack_check_8008B648(10, (unsigned int *)&gLoaderRec_800B5288, 1024);
     mts_sta_tsk_8008B47C(10, &CDBIOS_TaskStart_helper_80022264, &gLoaderRec_800B5288);
@@ -145,7 +234,7 @@ void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned
     cd_bios_task_800B4E58.field_20_callback = fnCallBack;
     cd_bios_task_800B4E58.field_14 = 0;
 
-    dword_8009D4E4 = 0;
+    dword_cdbios_stop_8009D4E4 = 0;
     dword_8009D4E0 = 1;
 }
 
@@ -158,7 +247,7 @@ void CDBIOS_ForceStop_80022864(void)
 {
     if (cd_bios_task_800B4E58.field_0_state != 0)
     {
-        dword_8009D4E4 = 1;
+        dword_cdbios_stop_8009D4E4 = 1;
     }
 }
 
