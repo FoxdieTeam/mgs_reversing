@@ -219,9 +219,27 @@ FS_FILE_INFO_8009D49C * FS_CdMakePositionTable_helper_helper_80022918(char *pFil
 
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s") // 480 bytes
 #pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_80022B5C.s") // 352 bytes
-#pragma INCLUDE_ASM("asm/libfs/FS_CdStageFileInit_helper_80022CBC.s") // 68 bytes
 
 extern FS_FILE_TABLE fs_file_table_8009D4E8;
+
+int FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task)
+{
+    unsigned int size, rounded;
+  
+    if (!task->field_14)
+    {
+        size = *(unsigned int *)task->field_8_buffer;
+        rounded = (size + 3) / 4;
+
+        task->field_18_size = rounded;
+        task->field_1C_remaining = rounded - 512;
+
+        fs_file_table_8009D4E8.field_4_size = size;
+    }
+
+    return 1;
+}
+
 extern const char aXXD[]; // = "%X %X %d\n"
 
 void FS_CdStageFileInit_80022D00(void *pHeap, int startSector)
