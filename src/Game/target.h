@@ -10,7 +10,7 @@ typedef struct GM_Target
     unsigned short field_0_flags;
     unsigned short field_2_side;
     unsigned short field_4_map;
-    short          field_6_flags;
+    unsigned short field_6_flags;
     SVECTOR        field_8_vec;
     SVECTOR        field_10_size;
     int            field_18;

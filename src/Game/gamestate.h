@@ -12,6 +12,9 @@ typedef struct AreaHistory
     short history[MAX_HISTORY];
 } AreaHistory;
 
+#define GAMESTATE_ITEM_STATES 24
+#define GAMESTATE_WEAPON_STATES 10
+
 typedef struct GameState_800B4D98
 {
     short  field_00;

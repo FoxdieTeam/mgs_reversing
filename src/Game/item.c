@@ -4,11 +4,30 @@
 
 extern const char aItemC[];
 extern const char aItemMapD[];
+extern GameState_800B4D98 gGameState_800B4D98;
 
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")              // 120 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s")                     // 264 bytes
-#pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown2_80033500.s") // 96 bytes
+
+void item_all_items_and_weapons_unknown2_80033500()
+{
+    int    i;
+    short *ptr;
+
+    ptr = gGameState_800B4D98.field_4A_item_states;
+    for (i = 0; i < GAMESTATE_ITEM_STATES; i++)
+    {
+        ptr[i] |= 0x8000;
+    }
+
+    ptr = gGameState_800B4D98.field_22_weapon_states;
+    for (i = 0; i < GAMESTATE_WEAPON_STATES; i++)
+    {
+        ptr[i] |= 0x8000;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown_80033560.s")  // 112 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s")                     // 212 bytes
 
