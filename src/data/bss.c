@@ -149,8 +149,9 @@ gap gap_800B58CC[0x14]; // 20 bytes
 
 BindStruct BSS gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
 GM_Target BSS gTargets_800B64E0[64]; // 0x1200 (4608) bytes
+char BSS GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
-gap gap_800B76E0[0x38]; // 56 bytes
+gap gap_800B76EC[0x2C]; // 44 bytes
 
 CAMERA BSS GM_CameraList_800B7718[8]; // 0xA0 (160) bytes
 UnkCameraStruct BSS gUnkCameraStruct_800B77B8; // 0x30 (48) bytes
