@@ -362,7 +362,7 @@
     include "..\obj\Game\sub_8002E508.obj"
     include "..\obj\Game\sub_8002E544.obj"
     include "..\obj\Game\GM_set_noise_sound_8002E588.obj"
-    include "..\obj\sub_8002E614.obj"
+    include "..\obj\Game\GM_GetNoiseSound_8002E614.obj"
     include "..\obj\Game\GM_SoundStart_8002E640.obj"
     include "..\obj\libgcl\commands\GCL_Command_sound_impl_8002E688.obj"
     include "..\obj\Game\GM_Act_helper2_8002E8D4.obj"
