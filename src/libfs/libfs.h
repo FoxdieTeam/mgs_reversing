@@ -63,6 +63,6 @@ void                  FS_StreamStop_80024028();
 int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
 void                  CDBIOS_TaskStart_helper_80022264(void);
-void                  FS_CdStageFileInit_helper_80022CBC(void);
+int                   FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task);
 
 #endif // _LIBFS_H_
