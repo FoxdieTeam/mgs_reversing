@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "vibrate.h"
 #include "libgcl/gcl.h"
+#include "libgcl/hash.h"
 
 extern int            GM_GameStatus_800AB3CC;
 
@@ -12,7 +13,7 @@ extern int            GM_PadVibration2_800ABA54;
 
 extern const char     aVibrateC[];
 
-int vibrate_act_helper_8005D358(struct Actor_Vibrate *pActor)
+int vibrate_act_helper_8005D358(Actor_Vibrate *pActor)
 {
     unsigned char *pData;
 
@@ -28,7 +29,7 @@ int vibrate_act_helper_8005D358(struct Actor_Vibrate *pActor)
     return 1;
 }
 
-int vibrate_act_helper_8005D3A4(struct Actor_Vibrate *pActor)
+int vibrate_act_helper_8005D3A4(Actor_Vibrate *pActor)
 {
     GCL_SetArgTop_80020690(pActor->field_24_pData);
 
@@ -47,7 +48,7 @@ int vibrate_act_helper_8005D3A4(struct Actor_Vibrate *pActor)
     return 1;
 }
 
-void vibrate_act_8005D424(struct Actor_Vibrate *pActor)
+void vibrate_act_8005D424(Actor_Vibrate *pActor)
 {
     int amount;
     int bAlive;
@@ -84,20 +85,20 @@ void vibrate_act_8005D424(struct Actor_Vibrate *pActor)
     }
 }
 
-struct Actor_Vibrate *vibrate_init_8005D508(int a1)
+Actor_Vibrate *vibrate_init_8005D508(int pan)
 {
-    struct Actor_Vibrate *pActor;
-    char flags;
-    unsigned char *pData;
+    Actor_Vibrate   *pActor;
+    char            flags;
+    unsigned char   *pData;
 
-    pActor = (struct Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
+    pActor = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
             (TActorFunction)vibrate_act_8005D424, 0, aVibrateC);
 
         flags = 2;
-        if (a1 == 37419)
+        if (pan == HASH_PAN2)
         {
             flags = 1;
         }
@@ -109,11 +110,11 @@ struct Actor_Vibrate *vibrate_init_8005D508(int a1)
     return pActor;
 }
 
-struct Actor_Vibrate *vibrate_init2_8005D58C(unsigned char *pData, int flags)
+Actor_Vibrate *vibrate_init2_8005D58C(unsigned char *pData, int flags)
 {
-    struct Actor_Vibrate *pActor;
+    Actor_Vibrate *pActor;
 
-    pActor = (struct Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
+    pActor = (Actor_Vibrate *)GV_NewActor_800150E4(5, 40);
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
