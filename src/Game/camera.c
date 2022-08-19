@@ -1,7 +1,11 @@
 #include "camera.h"
 
+extern SVECTOR vec_800ABA88;
+extern int GV_PauseLevel_800AB928;
 extern GM_Camera GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+extern DG_CHNL DG_Chanls_800B1800[3];
 
 #pragma INCLUDE_ASM("asm/sub_8002EADC.s") // 164 bytes
 
@@ -122,5 +126,49 @@ void sub_8002FD84(int index, int value)
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper6_80030250.s") // 400 bytes
 #pragma INCLUDE_ASM("asm/sub_800303E0.s") // 188 bytes
 #pragma INCLUDE_ASM("asm/sub_8003049C.s") // 256 bytes
-#pragma INCLUDE_ASM("asm/Game/camera_act_8003059C.s") // 260 bytes
+
+void camera_act_8003059C(Actor *pActor)
+{
+    int iVar1;
+    int iVar2;
+
+    if (GM_GameStatus_800AB3CC >= 0)
+    {
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            camera_act_helper5_80030118(pActor);
+            iVar1 = camera_act_helper6_80030250(pActor);
+            camera_act_helper3_8002F64C();
+
+            if (GM_Camera_800B77E8.field_22 == 1)
+            {
+                camera_act_helper_8002F1C8();
+                camera_act_helper7_8002FB54();
+            }
+            else
+            {
+                iVar2 = camera_act_helper2_8002F5C4();
+                camera_act_helper7_8002FB54();
+
+                if (iVar2 > 0)
+                {
+                    sub_8002EADC(iVar2 - 1);
+                }
+            }
+
+            if (iVar1)
+            {
+                vec_800ABA88 = GM_Camera_800B77E8.field_0;
+            }
+
+            camera_act_helper4_8002F78C();
+        }
+
+        DG_800172D0(&DG_Chanls_800B1800[1],
+            &gUnkCameraStruct2_800B7868.field_0,
+            &gUnkCameraStruct2_800B7868.field_8,
+            gUnkCameraStruct2_800B7868.field_1C);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Game/camera_init_800306A0.s") // 192 bytes

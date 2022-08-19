@@ -49,7 +49,24 @@ typedef struct GM_Camera // @ 800B77E8
     int field_74_2Array[2];
 } GM_Camera;
 STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
-// there's another struct after this one that needs to be done ^
 
+typedef struct UnkCameraStruct2 // @ 800B7868
+{
+    SVECTOR field_0;
+    SVECTOR field_8;
+    SVECTOR field_10;
+    int field_18; // VECTOR?
+    int field_1C;
+    int field_20;
+    // int field_24; // padding?
+} UnkCameraStruct2;
+
+void camera_act_helper5_80030118(Actor *pActor);
+int  camera_act_helper6_80030250(Actor *pActor);
+void camera_act_helper3_8002F64C();
+void camera_act_helper_8002F1C8();
+void camera_act_helper7_8002FB54();
+int  camera_act_helper2_8002F5C4();
+void camera_act_helper4_8002F78C();
 
 #endif // _CAMERA_H_

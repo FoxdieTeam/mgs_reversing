@@ -114,7 +114,7 @@ void DG_RenderPipeline_800172A8(void)
     DG_RenderPipeline_80018028(GV_Clock_800AB920);
 }
 
-void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, short camera_property)
+void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_property)
 {
     VECTOR  vec;
     VECTOR  empty_vec_2;
