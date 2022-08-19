@@ -5,6 +5,8 @@
 
 #include "data/data/data.h"
 
+typedef int (*cdbios_task_pfn)(void *);
+
 typedef struct _CDBIOS_TASK {
     int field_0_state;
     int field_4_sector;
@@ -14,7 +16,7 @@ typedef struct _CDBIOS_TASK {
     int field_14;
     int field_18_size;
     int field_1C_remaining;
-    void *field_20_callback;
+    cdbios_task_pfn field_20_callback;
 } CDBIOS_TASK;
 
 typedef struct _FS_FILE_INFO_8009D49C
