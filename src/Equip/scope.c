@@ -5,10 +5,17 @@
 extern const char aZoomLevelD[];
 extern const char aD_44[];  // = "%d"
 
-extern int GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GM_Camera GM_Camera_800B77E8;
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_helper_80062320.s") // 92 bytes
+void scope_act_helper_helper_80062320(int *a1, int *a2)
+{
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) == 0)
+    {
+        addPrim(a1, a2);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_helper_8006237C.s") // 320 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800624BC.s")        // 56 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_helper_800624F4.s") // 152 bytes
@@ -21,7 +28,7 @@ extern GM_Camera GM_Camera_800B77E8;
 
 void scope_draw_text_80062DA8(Actor_scope *pActor)
 {
-    if ( (GM_PlayerStatus_800ABA50 & 0x4000000) == 0 )
+    if ( (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) == 0 )
     {
         menu_Text_XY_Flags_80038B34(20, 34, 0);
         menu_Color_80038B4C(127, 166, 97);
