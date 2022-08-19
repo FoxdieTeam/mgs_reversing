@@ -213,7 +213,7 @@ void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 void sub_8002E508(int a1);
 void sub_8002B600(int);
 void sub_8002AAEC();
-void sub_8002EADC(void);
+void sub_8002EADC(int);
 void sub_8002AA48(void);
 void sub_8002EC8C(short*, short*, short*);
 void GM_Act_helper3_helper_8002AB40();
