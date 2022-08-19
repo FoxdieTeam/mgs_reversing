@@ -477,7 +477,7 @@ typedef struct Actor_SnaInit
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
     Actor              *field_888_pShadow;
-    unsigned int       *field_88C;
+    unsigned int       *field_88C; // shadow enabled?
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
@@ -545,13 +545,7 @@ typedef struct Actor_SnaInit
     int                 field_9F4;
     int                 field_9F8;
     int                 field_9FC;
-    SVECTOR             field_A00;
-    int                 field_A08;
-    int                 field_A0C;
-    int                 field_A10;
-    int                 field_A14;
-    int                 field_A18;
-    int                 field_A1C;
+    SVECTOR             field_A00[4];
     short               field_A20;
     short               field_A22_snake_current_health;
     char                field_A24_invuln_frames;
