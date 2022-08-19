@@ -184,7 +184,17 @@ extern Anim_Data stru_8009F774;
 
 #pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
 #pragma INCLUDE_ASM("asm/sub_8007EF34.s")                                          // 312 bytes
-#pragma INCLUDE_ASM("asm/sub_8007F06C.s")                                          // 100 bytes
+
+void sub_8007F06C(int *param_1, int *param_2, int *param_3)
+{
+    param_1[0] = param_2[0];
+    param_1[1] = param_2[1];
+    param_1[2] = param_2[2];
+    param_1[3] = param_3[0] - param_2[0];
+    param_1[4] = param_3[1] - param_2[1];
+    param_1[5] = param_3[2] - param_2[2];
+}
+
 #pragma INCLUDE_ASM("asm/sub_8007F0D0.s")                                          // 268 bytes
 #pragma INCLUDE_ASM("asm/sub_8007F1DC.s")                                          // 348 bytes
 
