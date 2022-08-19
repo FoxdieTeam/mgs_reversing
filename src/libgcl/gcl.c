@@ -3,6 +3,7 @@
 #include "mts/mts_new.h"
 #include "Game/game.h"
 #include "unknown.h"
+#include "hash.h"
 
 GCL_COMMANDDEF *dword_800AB3B8 = 0; // sdata
 

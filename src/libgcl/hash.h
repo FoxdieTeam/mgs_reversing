@@ -38,26 +38,33 @@
 #define HASH_CMD_jimaku 0xec9d // subtitle
 
 //------------------------------------------------------------------------------
+
+#define HASH_PAN2 0x922b // GV_StrCode( "pan2" )
+
+//#define HASH_DEMO 0xA242 // GV_StrCode( "demo" )
+//#define HASH_SCENERIO 0xEA54 // GV_StrCode( "scenerio" )
+
+//------------------------------------------------------------------------------
 // Traps
 //------------------------------------------------------------------------------
 
 #define HASH_TRAP_ALL 0x14c9
 
 //  Events
-#define HASH_ENTER 0x0dd2 // 入る
-#define HASH_LEAVE 0xd5cc // 出る
+#define HASH_ENTER 0x0dd2 // GV_StrCode( "入る" )
+#define HASH_LEAVE 0xd5cc // GV_StrCode( "出る" )
 
 //------------------------------------------------------------------------------
 // HZD
 //------------------------------------------------------------------------------
 
-#define HASH_MAIN 0x7df9 // メイン - Refers to the main area of the map to load
+#define HASH_MAIN 0x7df9 // GV_StrCode( "メイン" ) - Refers to the main area of the map to load
 
 //------------------------------------------------------------------------------
 // Charas
 //------------------------------------------------------------------------------
 
-#define CHARA_SNAKE 0x21ca // スネーク
+#define CHARA_SNAKE 0x21ca // GV_StrCode( "スネーク" )
 #define CHARA_DOOR 0xb997
 #define CHARA_ITEM 0x8767
 
