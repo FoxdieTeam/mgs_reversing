@@ -1,5 +1,4 @@
-int GCL_GetNextParamValue_80020AD4();                /* extern */
-int GCL_Get_Param_Result_80020AA4();                /* extern */
+#include "libgcl/gcl.h"
 
 char GM_NoiseSound_800B76E0[4][3];
 
