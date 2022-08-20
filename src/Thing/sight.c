@@ -1,12 +1,12 @@
 #include "sight.h"
 #include "libgv/libgv.h"
 #include "Menu/menuman.h"
-
-// used for all first person HUDs
+#include "libdg/libdg.h"
+#include "Game/game.h"
 
 extern int dword_8009F608;
 
-void sight_act_helper_8007111C(void)
+void sight_act_helper_8007111C(Actor_Sight *sight)
 {
     int     message_result;
     GV_MSG *message;
@@ -44,11 +44,10 @@ static inline int calc(int diff, int offset)
     return mult >> 2;
 }
 
-// Only called for the scope and the box, not the thermal goggles, NV goggles or camera.
-// Effect of disabling: messes up the animation of the prims in the transition into first-person view.
+// Handles the animation of the HUD when transitioning into the scope view or the box or gas mask's first-person view.
 // Various permutations show the logic is sound but getting it to match is hard and is essentially forced here by the
 // use of absurd intermediates.
-void sight_800711C0(Actor_Sight *sight, int frameCount, void *primitive, int primOffsetIndicesOffset,
+void sight_800711C0(Actor_Sight *sight, int frameCount, void *primitive, int primOffsetIndicesIndex,
                     SightPrimOffsetIndices *primOffsetIndices, SightPrimOffsetInfo *primOffsetInfo, int primOffset,
                     unsigned int flags)
 
@@ -74,7 +73,7 @@ void sight_800711C0(Actor_Sight *sight, int frameCount, void *primitive, int pri
     invalid = -1;
     currentPrimY = primitive + 10;
 
-    primOffsetIndices += primOffsetIndicesOffset - 1;
+    primOffsetIndices += primOffsetIndicesIndex - 1;
     indices = primOffsetIndices->indices;
 
     code = getcode(primitive);
@@ -121,34 +120,173 @@ void sight_800711C0(Actor_Sight *sight, int frameCount, void *primitive, int pri
     }
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sight_act_helper_80071320.s") // 220 bytes
-#pragma INCLUDE_ASM("asm/Thing/sight_act_helper_800713FC.s") // 156 bytes
+// Called every frame when in the first-person view with the thermal goggles or night-vision goggles.
+void sight_act_helper_80071320(Actor_Sight *sight, void *targetPrim, short *xyOffsetBuffer, int primOffset)
+{
+    void *posX;
+    void *posY;
+    void *primBuf;
+    char  code;
+    void *copiedPrim;
+    void *copiedXY;
+    int   gouraudShaded;
+    int   tag;
+    int   iterations;
+    int   gouraudShadedShifted;
+    int   index;
+    int   step;
+
+    posX = targetPrim + 8;
+    if (sight->field_50 < 3)
+    {
+        primBuf = sight->field_34_primitiveBufferInfo->field_8_primitiveBuffer;
+        copiedPrim = primBuf + primOffset;
+
+        code = getcode(targetPrim);
+        gouraudShaded = (code >> 4) & 1;
+
+        tag = *(int *)copiedPrim;
+        if (tag == 0xff)
+        {
+            iterations = 1;
+        }
+        else
+        {
+            if ((code & 0x40) != 0)
+            {
+                if ((code & 0x4) == 0)
+                {
+                    if ((code & 0x8) != 0)
+                    {
+                        iterations = 3;
+                    }
+                    else
+                    {
+                        iterations = 2;
+                    }
+                }
+                else
+                {
+                    iterations = 4;
+                }
+            }
+            else
+            {
+                if ((code & 0x8) != 0)
+                {
+                    iterations = 4;
+                }
+                else
+                {
+                    iterations = 3;
+                }
+            }
+        }
+
+        copiedXY = copiedPrim + 8; // Access (x,y) coordinates.
+        do
+        {
+            index = 0;
+        } while (0); // Force a match because of regswap.
+        if (iterations != 0)
+        {
+            gouraudShadedShifted = gouraudShaded << 2;
+            step = gouraudShadedShifted + 4;
+            posY = posX + 2;
+
+            do
+            {
+                // Copy (x,y) coordinates.
+                *(int *)posX = *(int *)copiedXY;
+                copiedXY += step;
+
+                // Now apply (x,y) offsets.
+                *(short *)posX += xyOffsetBuffer[0];
+                posX += step;
+
+                *(short *)posY += xyOffsetBuffer[1];
+                posY += step;
+
+                index++;
+            } while (index < iterations);
+        }
+    }
+}
+
+// Called when transitioning into the first-person view with any relevant items.
+void sight_act_helper_800713FC(Actor_Sight *sight, int clock)
+{
+    void                     *primBuf;
+    unsigned int             *primBufIter;
+    SightPrimitiveBufferInfo *primBufInfo;
+    int                       primBufSize;
+    int                       numPrims;
+    SightPrimBufInfoStruct   *ancillaryInfo;
+    unsigned int             *origBuf;
+    int                       index;
+    int                       primOffset;
+    void                     *currentPrim;
+    int                       tag;
+
+    primBuf = sight->field_38_primitiveDoubleBuffer[clock];
+    primBufIter = primBuf;
+
+    primBufInfo = sight->field_34_primitiveBufferInfo;
+    ancillaryInfo = primBufInfo->field_4_ancillaryInfo;
+    numPrims = primBufInfo->field_3_primCount;
+    primBufSize = primBufInfo->field_0_primitiveBufferSize;
+    origBuf = primBufInfo->field_8_primitiveBuffer;
+
+    for (index = 0; index < (primBufSize / 4); index++)
+    {
+        *primBufIter++ = *origBuf++;
+    }
+
+    while (--numPrims >= 0)
+    {
+        primOffset = ancillaryInfo->field_2_primOffset;
+        currentPrim = (char *)primBuf + primOffset;
+        tag = *(int *)currentPrim;
+        if (tag != 0xff)
+        {
+            *(char *)(currentPrim + 3) = tag;
+        }
+        ++ancillaryInfo;
+    }
+}
 
 extern const char aStringFormat[];
 
-void sight_act_helper_80071498(SightTextPseudoPrim *param_1, int param_2, int param_3, int param_4)
+// Called every frame to display the scope's text pseudo-primitives.
+void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 {
-    menu_Text_XY_Flags_80038B34(param_1->field_8_posX, param_1->field_A_posY, 0);
-    menu_Color_80038B4C(param_1->field_4_r, param_1->field_5_g, param_1->field_6_b);
-    menu_Text_80038C38(aStringFormat, param_1->field_C_text);
+    menu_Text_XY_Flags_80038B34(textPrim->field_8_posX, textPrim->field_A_posY, 0);
+    menu_Color_80038B4C(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
+    menu_Text_80038C38(aStringFormat, textPrim->field_C_text);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sight_act_800714EC.s") // 1244 bytes
+extern int     GV_Clock_800AB920;
+extern int     GM_CurrentMap_800AB9B0;
+extern DG_CHNL DG_Chanls_800B1800[3];
+extern int     GM_PlayerStatus_800ABA50;
+extern int     GV_PauseLevel_800AB928;
+
+// Regswap: https://decomp.me/scratch/6Ch1p
+#pragma INCLUDE_ASM("asm/Thing/sight_act_800714EC.s") // 1248 bytes
 
 extern int dword_8009F600;
 extern int dword_8009F604;
-extern int dword_8009F608;
 
 void sight_kill_800719C8(Actor_Sight *sight)
 {
-    if (sight->field_38_primitiveBuffer)
+    if (*sight->field_38_primitiveDoubleBuffer)
     {
-        GV_DelayedFree_80016254(sight->field_38_primitiveBuffer);
+        GV_DelayedFree_80016254(*sight->field_38_primitiveDoubleBuffer);
     }
 
-    if (sight->field_44_tPageBuffer)
+    if (*sight->field_44_tPageDoubleBuffer)
     {
-        GV_DelayedFree_80016254(sight->field_44_tPageBuffer);
+        GV_DelayedFree_80016254(*sight->field_44_tPageDoubleBuffer);
     }
 
     if ((0 < dword_8009F600) && (--dword_8009F600 == 0))
@@ -158,8 +296,6 @@ void sight_kill_800719C8(Actor_Sight *sight)
 
     dword_8009F608 &= ~1;
 }
-
-extern int GV_Clock_800AB920;
 
 int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEquippedIndicator, short itemId,
                           short *xyOffsetBuffer)
@@ -179,12 +315,12 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
 
     // Iterators/counters.
     int i;
-    int a; // @todo: name this properly once SightPrimitiveBufferInfo's field_3 is understood.
+    int primCount;
 
     // Primitive iteration and access.
     unsigned int   code;
     unsigned int  *currentPrimitive;
-    unsigned short offset;
+    unsigned short primOffset;
     unsigned int   tag;
 
     // TPage information.
@@ -195,7 +331,7 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
     unsigned int            flags;
     SightPrimOffsetIndices *primOffsetIndices;
     SightPrimOffsetInfo    *primOffsetInfo;
-    char                    unkBool;
+    char                    offsetIndicesIndex;
 
     flags = sight->field_54_maybeFlags;
     cacheId = GV_CacheID_800152DC(hashedFileName, 's');
@@ -209,12 +345,12 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
 
     ancillaryInfo = info->field_4_ancillaryInfo;
     primitiveBufferSize = info->field_0_primitiveBufferSize;
-    a = info->field_3;
+    primCount = info->field_3_primCount;
     primOffsetIndices = info->field_C_primOffsetIndicesArray;
     tPageCount = 0;
     primOffsetInfo = info->field_10_primOffsetInfoArray;
     primitiveBuffer = (unsigned int *)GV_Malloc_8001620C(primitiveBufferSize * 2);
-    sight->field_38_primitiveBuffer = primitiveBuffer;
+    sight->field_38_primitiveDoubleBuffer[0] = primitiveBuffer;
 
     if (!primitiveBuffer)
     {
@@ -222,7 +358,7 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
     }
     else
     {
-        sight->field_3C_primitiveBuffer = (unsigned int *)(((char *)primitiveBuffer) + primitiveBufferSize);
+        sight->field_38_primitiveDoubleBuffer[1] = (unsigned int *)(((char *)primitiveBuffer) + primitiveBufferSize);
         originBuffer = sight->field_34_primitiveBufferInfo->field_8_primitiveBuffer;
         targetBuffer = primitiveBuffer;
         firstPrimitiveBuffer = targetBuffer;
@@ -232,10 +368,10 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
             *(targetBuffer++) = *(originBuffer++);
         }
 
-        while ((--a) >= 0)
+        while (--primCount >= 0)
         {
-            offset = ancillaryInfo->field_2;
-            currentPrimitive = (unsigned int *)(((char *)firstPrimitiveBufferCopy) + offset);
+            primOffset = ancillaryInfo->field_2_primOffset;
+            currentPrimitive = (unsigned int *)(((char *)firstPrimitiveBufferCopy) + primOffset);
             tag = *currentPrimitive;
 
             if (tag != 0xff)
@@ -245,12 +381,14 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
 
             if ((flags & 2) == 0)
             {
-                unkBool = ancillaryInfo->field_0;
+                offsetIndicesIndex = ancillaryInfo->field_0_offsetIndicesIndex;
 
-                if (unkBool != 0)
+                if (offsetIndicesIndex != 0)
                 {
-                    sight_800711C0(sight, -1, currentPrimitive, ancillaryInfo->field_0, primOffsetIndices,
-                                   primOffsetInfo, 0, 0);
+                    // Handle the animation of the HUD when transitioning into the scope view or the box or gas mask's
+                    // first-person view.
+                    sight_800711C0(sight, -1, currentPrimitive, ancillaryInfo->field_0_offsetIndicesIndex,
+                                   primOffsetIndices, primOffsetInfo, 0, 0);
                 }
             }
 
@@ -287,8 +425,8 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
 
         if (tPageCount == 0)
         {
-            sight->field_44_tPageBuffer = (DR_TPAGE *)0x0;
-            sight->field_48_tPageBuffer = (DR_TPAGE *)0x0;
+            sight->field_44_tPageDoubleBuffer[0] = (DR_TPAGE *)0x0;
+            sight->field_44_tPageDoubleBuffer[1] = (DR_TPAGE *)0x0;
         }
 
         else
@@ -300,8 +438,8 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
                 return -1;
             }
 
-            sight->field_44_tPageBuffer = tPageMem;
-            sight->field_48_tPageBuffer = tPageMem + tPageCount;
+            sight->field_44_tPageDoubleBuffer[0] = tPageMem;
+            sight->field_44_tPageDoubleBuffer[1] = tPageMem + tPageCount;
         }
 
         sight->field_40 = tPageCount;
