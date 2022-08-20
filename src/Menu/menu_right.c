@@ -6,6 +6,7 @@
 #include <LIBGTE.H>
 #include "Game/camera.h"
 
+u_long SECTION(".sbss") dword_800ABAD8;
 u_long SECTION(".sbss") dword_800ABADC;
 
 // menu related?
@@ -44,7 +45,23 @@ extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
 #pragma INCLUDE_ASM("asm/sub_8003CC88.s") // 440 bytes
-#pragma INCLUDE_ASM("asm/sub_8003CE40.s") // 56 bytes
+
+void sub_8003CE40(MenuMan_Inventory_14h_Unk *items, int count)
+{
+    int i;
+    int neg1;
+
+    for (i = 0; i < count; i++)
+    {
+        neg1 = -1;
+        items->field_8_index = neg1;
+        *(unsigned int *)&items->field_C_u = 0;
+        items += 1;
+    }
+  
+    dword_800ABAD8 = 0;
+    dword_800ABADC = 0;
+}
 
 void sub_8003CE78(void)
 {
