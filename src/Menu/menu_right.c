@@ -56,7 +56,7 @@ void sub_8003CE40(MenuMan_Inventory_14h_Unk *items, int count)
         neg1 = -1;
         items->field_8_index = neg1;
         *(unsigned int *)&items->field_C_u = 0;
-        items += 1;
+        items++;
     }
   
     dword_800ABAD8 = 0;
