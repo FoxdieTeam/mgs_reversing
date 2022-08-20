@@ -207,7 +207,9 @@ int   SECTION(".data") dword_8009D500 = 0;
 short SECTION(".data") word_8009D504 = 0;
 short SECTION(".data") word_8009D506 = 0;
 short SECTION(".data") word_8009D508 = 0;
-int   SECTION(".data") dword_8009D50C = 0;
+
+FS_MOVIE_FILE_TABLE *SECTION(".data") fs_movie_file_table_8009D50C = 0;
+
 int   SECTION(".data") fs_stream_tick_start_8009D510 = -1;
 int   SECTION(".data") fs_dword_8009D514 = 0;
 int   SECTION(".data") fs_stream_is_force_stop_8009D518 = 0;
