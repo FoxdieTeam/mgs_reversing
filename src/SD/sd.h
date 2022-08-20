@@ -160,5 +160,6 @@ int  SD_SongLoadData_8008394C(int a1, int a2);
 void por_compute_80086504(void);
 int  vib_compute_800865CC(void);
 void freq_set_800885D4(unsigned int a1);
+int  get_str_counter_80088CA0(void);
 
 #endif // _SD_H_
