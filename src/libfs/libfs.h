@@ -25,6 +25,7 @@ typedef struct _FS_FILE_INFO_8009D49C
     int         field_4_sector;
 } FS_FILE_INFO_8009D49C;
 
+// TODO: This is a stage file
 typedef struct _FS_FILE {
     char field_0_name[8];
     int  field_4_offset;
@@ -36,6 +37,19 @@ typedef struct _FS_FILE_TABLE {
     int      field_8_count;
     FS_FILE *field_C_files;
 } FS_FILE_TABLE;
+
+typedef struct _FS_MOVIE_FILE
+{
+    unsigned short field_0_id;
+    unsigned short field_2_frame;
+    int            field_4_pos;
+} FS_MOVIE_FILE;
+
+typedef struct _FS_MOVIE_FILE_TABLE
+{
+    int           field_0_tablenum;
+    FS_MOVIE_FILE field_4_files_8Array[8];
+} FS_MOVIE_FILE_TABLE;
 
 int                   CDBIOS_ReadSync_80022854(void);
 int                   FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
