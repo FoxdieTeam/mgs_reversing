@@ -12,6 +12,7 @@
 #include "Game/vibrate.h"
 #include "psyq.h"
 #include "Game/camera.h"
+#include "Weapon/grenade.h"
 
 extern SVECTOR stru_8009EFC0;
 extern SVECTOR stru_8009EFC8;
@@ -577,8 +578,41 @@ void sub_8004EEB0(Actor_SnaInit *pActor)
     }
 }
 
-// https://decomp.me/scratch/k2Awn regswap
-#pragma INCLUDE_ASM("asm/sub_8004EF14.s") // 208 bytes
+void sub_8004EF14(Actor_SnaInit *param_1)
+{
+    int actionFlag;
+    int diff;
+    int y;
+
+    y = param_1->field_20_ctrl.field_4C_turn_vec.vy;
+
+    diff = GV_DiffDirS_8001704C(y, gSnaMoveDir_800ABBA4);
+    if (diff == 0)
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        y = param_1->field_9B4_action_table->field_0->field_1;
+        sna_init_8004E22C(param_1, y, 4);
+    }
+    else
+    {
+        short sVar2;
+        int   iVar4;
+
+        if (diff < 0)
+        {
+            actionFlag = param_1->field_9B4_action_table->field_4->field_8;
+        }
+        else
+        {
+            actionFlag = param_1->field_9B4_action_table->field_4->field_9;
+        }
+
+        sna_init_8004E22C(param_1, actionFlag, 4);
+        iVar4 = sub_80026418(y, gSnaMoveDir_800ABBA4);
+        sVar2 = sub_8002646C(iVar4, gSnaMoveDir_800ABBA4, 0x40);
+        param_1->field_20_ctrl.field_4C_turn_vec.vy = sVar2;
+    }
+}
 
 int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
 {
@@ -2750,8 +2784,86 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int anim_frame)
 // triggers on first elevator ride at dock and right before mantis fight to look at meryl
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s") // 2168 bytes
 
-// https://decomp.me/scratch/lM3zb
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_helper_80056650.s") // 508 bytes
+void sna_init_act_helper3_helper_80056650(Actor_SnaInit *pActor, int anim_frame)
+{
+    int            result;
+    int            footstepsFrame; // guessed
+
+    if (anim_frame == 0)
+    {
+        int *status = &GM_GameStatus_800AB3CC;
+
+        pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+
+        *status |= 0x10000000;
+
+        sub_8004F338(pActor);
+        pActor->field_20_ctrl.field_55_flags &= ~2;
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_CROUCHING | PLAYER_STATUS_PRONE);
+        sub_8004F14C(pActor);
+        sub_8004F204(pActor);
+        pActor->field_A26_fn_stance_idx = 0;
+        sna_init_8004E22C(pActor, 3, 1);
+    }
+
+    if (!pActor->field_908_weapon_actor)
+    {
+        Actor_Grenade *timerBomb;
+        timerBomb = NewTimerBomb_80066ACC(&pActor->field_20_ctrl, &pActor->field_9C_obj, 4,
+                                           &pActor->field_914, 1);
+        pActor->field_908_weapon_actor = &timerBomb->field_0_actor;
+        pActor->field_924 = 0;
+        sna_init_8004E22C(pActor, 0x3c, 4);
+
+        if (!pActor->field_908_weapon_actor)
+        {
+            return;
+        }
+    }
+
+    result = 1;
+    footstepsFrame = pActor->field_180.field_04.field_2_footstepsFrame;
+    switch (pActor->field_924)
+    {
+    case 0:
+        if (pActor->field_9C_obj.field_1A != 0)
+        {
+            sna_init_8004E22C(pActor, 3, 1);
+            pActor->field_924 = 1;
+        }
+        break;
+    case 1:
+        sna_init_8004E22C(pActor, 0x32, 1);
+        pActor->field_924 = 2;
+        break;
+    case 2:
+        if (footstepsFrame == 6)
+        {
+            result = 3;
+            pActor->field_924 = 3;
+        }
+        break;
+    case 3:
+        result = 0;
+
+        if (pActor->field_9C_obj.field_1A != 0)
+        {
+            sna_init_clear_invuln_8004F2EC(pActor);
+            GM_GameStatus_800AB3CC &= ~0x10000000;
+            GV_DestroyActorQuick_80015164(pActor->field_908_weapon_actor);
+            pActor->field_908_weapon_actor = NULL;
+            pActor->field_924 = 0;
+            pActor->field_9E4.field_9F0 = 0;
+            sna_init_set_flags1_8004E2F4(pActor, 0x200000);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+        }
+        break;
+    }
+
+    pActor->field_914 = result;
+}
 
 void sub_8005684C(Actor_SnaInit *pActor)
 {
