@@ -37,4 +37,3 @@ struct Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
 int SECTION(".sbss") dword_800ABACC;
 int SECTION(".sbss") dword_800ABAD0;
 int SECTION(".sbss") dword_800ABAD4;
-int SECTION(".sbss") dword_800ABAD8;
