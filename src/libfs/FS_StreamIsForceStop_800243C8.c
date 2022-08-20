@@ -2,7 +2,7 @@
 
 extern int fs_stream_is_force_stop_8009D518;
 extern int fs_stream_tick_start_8009D510;
-extern int dword_8009D514;
+extern int fs_dword_8009D514;
 
 int FS_StreamIsForceStop_800243C8(void)
 {
@@ -25,5 +25,5 @@ void FS_StreamTickStart_800243D8()
 void FS_StreamSoundMode_80024404()
 {
     fs_stream_tick_start_8009D510 = -1;
-    dword_8009D514 = 1;
+    fs_dword_8009D514 = 1;
 }
