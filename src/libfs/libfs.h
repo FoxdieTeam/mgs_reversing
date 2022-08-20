@@ -68,4 +68,6 @@ void                  CDBIOS_TaskStart_helper_80022264(void);
 int                   FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task);
 int                   FS_CdMakePositionTable_helper_8002297C(void *pDirBlock, FS_FILE_INFO_8009D49C *pDirRecs);
 
+void                  sub_80023C40(void);
+
 #endif // _LIBFS_H_
