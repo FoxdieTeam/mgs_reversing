@@ -46,15 +46,18 @@ extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT
 
 #pragma INCLUDE_ASM("asm/sub_8003CC88.s") // 440 bytes
 
+static inline int sub_8003CE40_index()
+{
+    return -1;
+}
+
 void sub_8003CE40(MenuMan_Inventory_14h_Unk *items, int count)
 {
     int i;
-    int neg1;
 
     for (i = 0; i < count; i++)
     {
-        neg1 = -1;
-        items->field_8_index = neg1;
+        items->field_8_index = sub_8003CE40_index();
         *(unsigned int *)&items->field_C_u = 0;
         items++;
     }
