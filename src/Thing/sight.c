@@ -271,8 +271,173 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 extern int     GM_PlayerStatus_800ABA50;
 extern int     GV_PauseLevel_800AB928;
 
-// Regswap: https://decomp.me/scratch/6Ch1p
-#pragma INCLUDE_ASM("asm/Thing/sight_act_800714EC.s") // 1248 bytes
+void sight_act_800714EC(Actor_Sight *sight)
+{
+    SightPrimitiveBufferInfo *primBufInfo;
+    SightPrimBufInfoStruct   *ancillaryInfo;
+    int                       primCount; // primBufInof->field_3 is currently a char.
+    DR_TPAGE                 *tPageBuf;
+    unsigned int              frameCount;
+    int                       field30;
+    int                       frameCountPositive;
+    DG_CHNL                  *chnl;
+    unsigned char            *ot;
+    int                       field54Flags;
+    void                     *primBuf;
+    int                       flag;
+    unsigned char             offsetIndicesIndex;
+    int  primOffset; // ancillaryInfo->field_2 is currently an unsigned short, but this has to be a signed int.
+    char tPageInfo;
+    char ancField1Anded;
+    char ancField1Shifted;
+    SightPrimOffsetIndices *primOffsetIndicesArray;
+    void                   *offsetPrimBuf;
+    SightPrimBufInfo_0x14  *infoField14;
+    char                    infoField14Field0;
+    SightPrimOffsetInfo    *primOffsetInfoArray;
+    int                     frameCountMod;
+    char                    infoField14Field1;
+    int                     tag;
+    char                    code;
+    short                  *xyOffsetBuffer;
+
+    if (sight->field_20_itemId != *sight->field_24_itemEquippedIndicator)
+    {
+        GV_DestroyActor_800151C8((Actor *)sight);
+        return;
+    }
+
+    sight->field_54_maybeFlags &= 0xffff7fff;
+
+    if (sight->field_58_clock != GV_Clock_800AB920 && (++sight->field_5A_maybeFlags & 0xffff) == 2)
+    {
+        sight->field_54_maybeFlags |= 0x8000;
+        sight->field_5A_maybeFlags = 0;
+    }
+
+    sight->field_58_clock = GV_Clock_800AB920;
+    sight_act_helper_8007111C(sight);
+    sight->field_28_currentMap = GM_CurrentMap_800AB9B0;
+
+    primBufInfo = sight->field_34_primitiveBufferInfo;
+    primCount = primBufInfo->field_3_primCount;
+    ancillaryInfo = primBufInfo->field_4_ancillaryInfo;
+
+    tPageBuf = sight->field_44_tPageDoubleBuffer[GV_Clock_800AB920];
+
+    frameCount = sight->field_2C_frameCount;
+    field30 = sight->field_30;
+
+    chnl = &DG_Chanls_800B1800[1];
+    ot = (chnl + 1)->mOrderingTables[GV_Clock_800AB920];
+
+    primOffsetIndicesArray = primBufInfo->field_C_primOffsetIndicesArray;
+    primOffsetInfoArray = primBufInfo->field_10_primOffsetInfoArray;
+    primBuf = sight->field_38_primitiveDoubleBuffer[GV_Clock_800AB920];
+
+    if (field30 == 0 && primBufInfo->field_2 < sight->field_2C_frameCount)
+    {
+        flag = (0x100 << GV_Clock_800AB920);
+        if (!(sight->field_54_maybeFlags & flag))
+        {
+            sight->field_54_maybeFlags |= flag;
+            sight_act_helper_800713FC(sight, GV_Clock_800AB920);
+        }
+        if ((sight->field_54_maybeFlags & 0x300) == 0x300)
+        {
+            sight->field_30 = 1;
+        }
+    }
+
+    xyOffsetBuffer = sight->field_4C_xyOffsetBuffer;
+    field54Flags = sight->field_54_maybeFlags;
+    if (xyOffsetBuffer != (short *)0x0)
+    {
+        if (xyOffsetBuffer[0] == 0 && xyOffsetBuffer[1] == 0)
+        {
+            if (++sight->field_50 >= 3 && !(field54Flags & 0x8000))
+            {
+                sight->field_50 = 2;
+            }
+        }
+        else
+        {
+            sight->field_50 = 0;
+        }
+    }
+
+    frameCountPositive = 0;
+    if (!(field54Flags & (0x100 << GV_Clock_800AB920)))
+    {
+        frameCountPositive = (0 < frameCount);
+    }
+
+    while (--primCount >= 0)
+    {
+        primOffset = ancillaryInfo->field_2_primOffset;                 // 0x1(s5)
+        tPageInfo = ancillaryInfo->field_1_tPageInfo;                   // 0x0(s5)
+        offsetIndicesIndex = ancillaryInfo->field_0_offsetIndicesIndex; // 0x0(t0)
+
+        ancillaryInfo++;
+        offsetPrimBuf = primBuf + primOffset;
+        ancField1Anded = tPageInfo & 0x3f; // This keeps the 6 LSBs.
+        ancField1Shifted = tPageInfo >> 6;
+
+        if (frameCountPositive != 0 && offsetIndicesIndex != 0)
+        {
+            sight_800711C0(sight, frameCount, offsetPrimBuf, offsetIndicesIndex, primOffsetIndicesArray,
+                           primOffsetInfoArray, primOffset, field54Flags);
+        }
+
+        if (ancField1Anded != 0)
+        {
+            infoField14 = &sight->field_34_primitiveBufferInfo->field_14_array[ancField1Anded - 1];
+            infoField14Field0 = infoField14->field_0;
+            frameCountMod = sight->field_2C_frameCount % infoField14Field0;
+            infoField14Field1 = infoField14->field_1;
+            if (frameCountMod < infoField14Field1)
+            {
+                continue;
+            }
+        }
+        if (field30 != 0 && xyOffsetBuffer != (short *)0x0)
+        {
+            sight_act_helper_80071320(sight, offsetPrimBuf, xyOffsetBuffer, primOffset);
+        }
+        tag = *(int *)offsetPrimBuf;
+        if (tag == 0xff)
+        {
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+            {
+                sight_act_helper_80071498(offsetPrimBuf);
+            }
+        }
+        else
+        {
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+            {
+                addPrim(ot, offsetPrimBuf);
+            }
+            code = getcode(offsetPrimBuf);
+            if ((code & 2) != 0) // Checking for semi-transparency.
+            {
+                SetDrawTPage_800924A8(tPageBuf, 0, 1, ancField1Shifted << 5);
+                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+                {
+                    addPrim(ot, tPageBuf);
+                }
+                tPageBuf += 1;
+            }
+        }
+    }
+
+    if (sight->field_2C_frameCount < 0x7fff0000 && GV_PauseLevel_800AB928 == 0)
+    {
+        sight->field_2C_frameCount++;
+    }
+
+    menu_Text_Init_80038B98();
+}
 
 extern int dword_8009F600;
 extern int dword_8009F604;
