@@ -26,8 +26,11 @@ const int SECTION(".rdata") dword_8001203C[] = {0x6D01B82,  0xC813682,  0x891079
 const int SECTION(".rdata") dword_800120B4[] = {
     0x6D04D82,  0xC812982,  0x8910791,  0x3E811781, 0x1F811781, 0x3D0,      0x9C23582,  0x3E8206D0,
     0x288223C2, 0x3E811781, 0xB811981,  0x3FC0,     0x27900B91, 0x17810D81, 0x48812681, 0x17814D81,
-    0x27810481, 0xB811981,  0x3FC0,     0x4D524F46, 0x4F205441, 0x3F4B,     0x5245564F, 0x54495257,
-    0x4B4F2045, 0x3F,       0x55514552, 0x20545345, 0xA5825,    0x55534552, 0x2520544C, 0xA58};
+    0x27810481, 0xB811981,  0x3FC0};
+const char SECTION(".rdata") aFormatOk[] = "FORMAT OK?";
+const char SECTION(".rdata") aOverwriteOk[] = "OVERWRITE OK?";
+const char SECTION(".rdata") aRequestX[] = "REQUEST %X\n";
+const char SECTION(".rdata") aResultX[] = "RESULT %X\n";
 const char SECTION(".rdata") aNoMemoryForSta_0[] = "NO MEMORY FOR STACK\n";
 const char SECTION(".rdata") aComplete[] = "COMPLETE";
 const char SECTION(".rdata") aNoMemoryForObj[] = "NO MEMORY FOR OBJ\n";
@@ -145,9 +148,16 @@ const char SECTION(".rdata") aCigar[] = "cigar";
 const char SECTION(".rdata") aRcmL[] = "rcm_l";
 const char SECTION(".rdata") aTabakoC[] = "tabako.c";
 const char SECTION(".rdata") aZoomLevelD[] = "- ZOOM LEVEL - - %d -";
-const int  SECTION(".rdata") aD_4_800129B4[] = {0x6425,     0x67676F67, 0x73656C,   0x706F6373, 0x632E65,
-                                                0x69736D67, 0x2E746867, 0x63,       0x45564153, 0x4F485020,
+const char SECTION(".rdata") aD_44[] = "%d";
+
+const char SECTION(".rdata") aGoggles_2[] = "goggles";
+const char SECTION(".rdata") aScopeC[] ="scope.c";
+
+// TODO: Some kanji text in here
+const int  SECTION(".rdata") aD_4_800129B4[] = {0x69736D67, 0x2E746867, 0x63,       0x45564153, 0x4F485020,
                                                 0x4F54,     0x73257325, 0x73257325, 0};
+
+
 const int  SECTION(".rdata") aVlvfvrbc_800129EC[] = {0x66826C82, 0xE7817282, 0};
 const int  SECTION(".rdata") dword_800129F8[] = {0x4081, 0x67826F82, 0x73826E82, 0x6E82};
 const char SECTION(".rdata") aPHOTO[] = "PHOTO %02d\n";

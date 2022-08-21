@@ -4,7 +4,7 @@
 // play sound effect at pos by id
 void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id)
 {
-    Point point;
+    DVECTOR point;
 
     if (pos)
     {
@@ -39,9 +39,9 @@ void GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id)
     }
     else
     {
-        point.y = 63;
-        point.x = 0;
+        point.vy = 63;
+        point.vx = 0;
     }
 
-    GM_Sound(point.x, point.y, sound_id);
+    GM_Sound(point.vx, point.vy, sound_id);
 }

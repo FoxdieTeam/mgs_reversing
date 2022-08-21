@@ -5,6 +5,8 @@
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern Anim_Data stru_8009F774;
+extern int DG_UnDrawFrameCount_800AB380;
+extern int demodebug_finish_proc_800AB414;
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
@@ -25,9 +27,26 @@ int DM_ThreadStream_80079460(int flag, int unused)
 
 #pragma INCLUDE_ASM("asm/Kojo/DM_ThreadFile_800794E4.s")                           // 384 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_80079664.s")                              // 360 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper_800797CC.s")          // 48 bytes
+
+void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor)
+{
+    DestroyDemo_8007A66C(pActor);
+    FS_StreamClose_80024098();
+    DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_update_800797FC.s")                         // 356 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_kill_80079960.s")                           // 72 bytes
+
+void demothrd_kill_80079960(Actor_demothrd *pActor)
+{
+    DestroyDemo_8007A66C(pActor);
+    FS_EnableMemfile_800799A8(1, 1);
+
+    if (demodebug_finish_proc_800AB414 != -1)
+    {
+        GCL_ExecProc_8001FF2C(demodebug_finish_proc_800AB414, NULL);
+    }
+}
 
 extern int dword_800BDFB8;
 extern int dword_800BDFBC;
@@ -73,11 +92,59 @@ void sub_80079A1C(void)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper_8007D404.s")  // 1476 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper2_8007D9C8.s") // 96 bytes
-#pragma INCLUDE_ASM("asm/Kojo/AN_CaterpillerSmoke_8007DA28.s")                     // 108 bytes
+
+extern Anim_Data stru_8009F73C;
+
+void AN_CaterpillerSmoke_8007DA28(SVECTOR *pVec)
+{
+    anime_data_0x14 data;
+
+    memset_8008E688(&data, 0, sizeof(anime_data_0x14));
+    data.field_0_vec = *pVec;
+    stru_8009F73C.field_14 = &data;
+    anime_init_8005FBC8(0, 0, &stru_8009F73C);
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
 #pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
-#pragma INCLUDE_ASM("asm/sub_8007DF10.s")                                          // 412 bytes
+
+extern Anim_Data stru_8009F790;
+
+void sub_8007DF10(SVECTOR *pVec1, SVECTOR *pVec2)
+{
+    SVECTOR vecs1[3]; // [sp+10h] [-48h] BYREF
+    SVECTOR vecs2[3]; // [sp+28h] [-30h] BYREF
+    anime_data_0x14 data; // [sp+40h] [-18h] BYREF
+    
+    data.field_8_vec = DG_ZeroVector_800AB39C;
+
+    vecs1[0] = DG_ZeroVector_800AB39C;
+    vecs1[0].vz = 500;
+
+    vecs1[1] = DG_ZeroVector_800AB39C;
+    vecs1[1].vz = 2000;
+
+    vecs1[2] = DG_ZeroVector_800AB39C;
+    vecs1[2].vz = 3000;
+
+    DG_SetPos2_8001BC8C(pVec2, pVec1);
+    DG_PutVector_8001BE48(vecs1, vecs2, 3);
+
+    stru_8009F790.field_14 = &data;
+
+    data.field_0_vec = vecs2[0];
+    data.field_10_anim_idx = 0;
+    anime_init_8005FBC8(0, 0, &stru_8009F790);
+
+    data.field_0_vec = vecs2[1];
+    data.field_10_anim_idx = 1;
+    anime_init_8005FBC8(0, 0, &stru_8009F790);
+
+    data.field_0_vec = vecs2[2];
+    data.field_10_anim_idx = 2;
+    anime_init_8005FBC8(0, 0, &stru_8009F790);
+}
 
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -117,7 +184,17 @@ extern Anim_Data stru_8009F774;
 
 #pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
 #pragma INCLUDE_ASM("asm/sub_8007EF34.s")                                          // 312 bytes
-#pragma INCLUDE_ASM("asm/sub_8007F06C.s")                                          // 100 bytes
+
+void sub_8007F06C(int *param_1, int *param_2, int *param_3)
+{
+    param_1[0] = param_2[0];
+    param_1[1] = param_2[1];
+    param_1[2] = param_2[2];
+    param_1[3] = param_3[0] - param_2[0];
+    param_1[4] = param_3[1] - param_2[1];
+    param_1[5] = param_3[2] - param_2[2];
+}
+
 #pragma INCLUDE_ASM("asm/sub_8007F0D0.s")                                          // 268 bytes
 #pragma INCLUDE_ASM("asm/sub_8007F1DC.s")                                          // 348 bytes
 

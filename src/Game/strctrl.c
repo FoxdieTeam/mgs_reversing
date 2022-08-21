@@ -2,23 +2,24 @@
 #include "mts/mts_new.h"
 #include "data/data/data.h"
 #include "libgcl/gcl.h"
+#include "libfs/libfs.h"
 
-extern Actor_strctrl strctrl_800B82B0;
-extern int GM_GameStatus_800AB3CC;
-extern const char aVoxstreamD[];
-extern const char aGmStreamplayst[];
-extern const char aStreamIsNotRea[];
+extern Actor_strctrl    strctrl_800B82B0;
+extern int              GM_GameStatus_800AB3CC;
+extern const char       aVoxstreamD[];
+extern const char       aGmStreamplayst[];
+extern const char       aStreamIsNotRea[];
 
-extern int str_sector_8009E280;
-extern int str_gcl_proc_8009E284;
-extern int str_8009E288;
+extern int              str_sector_8009E280;
+extern int              str_gcl_proc_8009E284;
+extern int              str_8009E288;
 
-int FS_StreamGetTop_80023F94(int is_movie);
-Actor_strctrl* strctrl_init_80037B64(int sector, int gcl_proc, int a3);
+Actor_strctrl           *strctrl_init_80037B64(int sector, int gcl_proc, int a3);
+void                    srand_8008E6E8(int s);
 
-void srand_8008E6E8(int s);
+//------------------------------------------------------------------------------
 
-void strctrl_act_helper_800377EC(Actor_strctrl *pActor)
+void            strctrl_act_helper_800377EC(Actor_strctrl *pActor)
 {
     if ( !FS_StreamTaskState_80023E0C() )
     {
@@ -26,10 +27,9 @@ void strctrl_act_helper_800377EC(Actor_strctrl *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s")
+#pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s") // 708 bytes
 
-
-void strctrl_kill_80037AE4(Actor_strctrl *pActor)
+void            strctrl_kill_80037AE4(Actor_strctrl *pActor)
 {
     int field_38_proc; // $a1
 
@@ -49,11 +49,10 @@ void strctrl_kill_80037AE4(Actor_strctrl *pActor)
     }
 }
 
+#pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s") // 372 bytes
+#pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s") // 68 bytes
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s")
-#pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s")
-
-void GM_StreamPlayStart_80037D1C()
+void            GM_StreamPlayStart_80037D1C()
 {
     // TODO: Probably a switch
     if ( (unsigned int)(unsigned short)strctrl_800B82B0.field_20_state - 1 < 2 )
@@ -66,7 +65,7 @@ void GM_StreamPlayStart_80037D1C()
     }
 }
 
-void GM_StreamPlayStop_80037D64()
+void            GM_StreamPlayStop_80037D64()
 {
     mts_printf_8008BBA0(aGmStreamplayst);
     FS_StreamStop_80024028();
@@ -78,17 +77,17 @@ void GM_StreamPlayStop_80037D64()
     }
 }
 
-void sub_80037DB8(void)
+void            sub_80037DB8(void)
 {
     strctrl_800B82B0.field_38_proc = -1;
 }
 
-int GM_StreamGetLastCode_80037DC8(void)
+int             GM_StreamGetLastCode_80037DC8(void)
 {
     return strctrl_800B82B0.field_30_voxStream;
 }
 
-Actor_strctrl* GCL_Command_demo_helper_80037DD8(int base_sector, int gcl_proc)
+Actor_strctrl   *GCL_Command_demo_helper_80037DD8(int base_sector, int gcl_proc)
 {
     int total_sector; // $s0
 
@@ -100,9 +99,24 @@ Actor_strctrl* GCL_Command_demo_helper_80037DD8(int base_sector, int gcl_proc)
     return strctrl_init_80037B64(total_sector, gcl_proc, 2);
 }
 
-#pragma INCLUDE_ASM("asm/Game/GM_VoxStream_80037E40.s")
+Actor_strctrl   *GM_VoxStream_80037E40(int voxCode, int proc)
+{
+    strctrl_800B82B0.field_30_voxStream = voxCode;
+    voxCode++; voxCode--;
+    if (GM_GameStatus_800AB3CC & 0x4000000)
+    {
+        return 0;
+    }
+    
+    mts_printf_8008BBA0(aVoxstreamD, voxCode);
+    if (!(proc & 0x40000000))
+    {
+        GM_GameStatus_800AB3CC |= 0x20;
+    }
+    return strctrl_init_80037B64(voxCode + FS_StreamGetTop_80023F94(0), proc, 0);
+}
 
-Actor_strctrl* sub_80037EE0(int voxStream, int gclProc)
+Actor_strctrl   *sub_80037EE0(int voxStream, int gclProc)
 {
     int pTop; // $v0
 

@@ -26,7 +26,10 @@ void sgtrect3_act_helper_8007009C()
 }
 
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_helper_800700E0.s") // 200 bytes
+
+// https://decomp.me/scratch/hexBm
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_800701A8.s")        // 100 bytes
+
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_8007020C.s")        // 860 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070568.s")        // 696 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s")        // 656 bytes

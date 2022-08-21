@@ -1,5 +1,6 @@
 #include "bss.h"
 #include "linker.h"
+#include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/GM_Control.h"
@@ -14,6 +15,7 @@
 #include "Bullet/jirai.h"
 #include "Kojo/demothrd.h"
 #include "SD/sd.h"
+#include "Game/camera.h"
 
 #define BSS SECTION(".bss")
 #define gap char BSS
@@ -87,13 +89,9 @@ GameState_800B4D98 BSS gGcl_gameStateVars_800B44C8; // 0xC0 (192) bytes
 GCL_Vars BSS gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS gStageName_800B4D88[16]; // 0x10 (16) bytes
 GameState_800B4D98 BSS gGameState_800B4D98; // 0xC0 (192) bytes
-int BSS cd_bios_task_state_800B4E58; // 0x4 (4) bytes
+CDBIOS_TASK BSS cd_bios_task_800B4E58; // 0x24 (36) bytes
 
-gap gap_800B4E5C[0x18]; // 24 bytes
-
-int BSS int_800B4E74; // 0x4 (4) bytes
-
-gap gap_800B4E78[0x410]; // 1040 bytes
+gap gap_800B4E7C[0x40C]; // 1036 bytes
 
 struct Loader_Record *BSS gLoaderRec_800B5288; // 0x4 (4) bytes
 int BSS gLoaderStartTime_800B528C; // 0x4 (4) bytes
@@ -101,14 +99,18 @@ int BSS gOverlayBinSize_800B5290; // 0x4 (4) bytes
 int BSS gSaveCache_800B5294; // 0x4 (4) bytes
 int BSS fs_stream_ref_count_800B5298; // 0x4 (4) bytes
 
-gap gap_800B529C[0x8]; // 8 bytes
+gap gap_800B529C[0x4]; // 4 bytes
 
+int BSS fs_dword_800B52A0; // 0x4 (4) bytes
 void *BSS fs_stream_heap_800B52A4; // 0x4 (4) bytes
 void *BSS fs_stream_heap_end_800B52A8; // 0x4 (4) bytes
 int BSS fs_stream_heapSize_800B52AC; // 0x4 (4) bytes
 
-gap gap_800B52B0[0x10]; // 16 bytes
+gap gap_800B52B0[0x4]; // 4 bytes
 
+void *BSS fs_ptr_800B52B4; // 0x4 (4) bytes
+void *BSS fs_ptr_800B52B8; // 0x4 (4) bytes
+void *BSS fs_ptr_800B52BC; // 0x4 (4) bytes
 unsigned int BSS fs_stream_task_state_800B52C0; // 0x4 (4) bytes
 
 gap gap_800B52C4[0x4]; // 4 bytes
@@ -143,18 +145,27 @@ gap gap_800B58A8[0x8]; // 8 bytes
 
 DG_TEX BSS gMenuTextureRec_800B58B0; // 0xC (12) bytes
 
-gap gap_800B58BC[0x24]; // 36 bytes
+gap gap_800B58BC[0x4]; // 4 bytes
+
+unsigned short BSS gSystemCallbackProcs_800B58C0[5]; // 0xC (12) bytes - padded
+
+gap gap_800B58CC[0x14]; // 20 bytes
 
 BindStruct BSS gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
 GM_Target BSS gTargets_800B64E0[64]; // 0x1200 (4608) bytes
+char BSS GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
-gap gap_800B76E0[0x38]; // 56 bytes
+gap gap_800B76EC[0x2C]; // 44 bytes
 
 CAMERA BSS GM_CameraList_800B7718[8]; // 0xA0 (160) bytes
 UnkCameraStruct BSS gUnkCameraStruct_800B77B8; // 0x30 (48) bytes
 GM_Camera BSS GM_Camera_800B77E8; // 0x7C (124) bytes
 
-gap gap_800B7864[0x2C]; // 44 bytes
+gap gap_800B7864[0x4]; // 4 bytes
+
+UnkCameraStruct2 BSS gUnkCameraStruct2_800B7868; // 0x24 (36) bytes
+
+gap gap_800B788C[0x4]; // 4 bytes
 
 DG_OBJS *BSS StageObjs_800B7890[32]; // 0x80 (128) bytes
 map_record BSS gMapRecs_800B7910[16]; // 0x140 (320) bytes
@@ -180,7 +191,23 @@ gap gap_800BD5B4[0x2D4]; // 724 bytes
 
 MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
-gap gap_800BD964[0x1D4]; // 468 bytes
+gap gap_800BD964[0x4]; // 4 bytes
+
+KCB BSS font_800BD968; // 0x2C (44) bytes
+
+gap gap_800BD994[0x7C]; // 124 bytes
+
+MenuMan_Inventory_14h_Unk BSS dword_800BDA10; // 0x14 (20) bytes
+
+gap gap_800BDA24[0xC]; // 12 bytes
+
+MenuMan_Inventory_14h_Unk BSS dword_800BDA30; // 0x14 (20) bytes
+
+gap gap_800BDA44[0x2C]; // 44 bytes
+
+UnkJimakuStruct BSS gUnkJimakuStruct_800BDA70; // 0x44 (68) bytes
+
+gap gap_800BDAB4[0x84]; // 132 bytes
 
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
@@ -241,9 +268,7 @@ int BSS dword_800BF000; // 0x4 (4) bytes
 gap gap_800BF004[0x8]; // 8 bytes
 
 int BSS blank_data_addr_800BF00C; // 0x4 (4) bytes
-
-gap gap_800BF010[0x4]; // 4 bytes
-
+int BSS dword_800BF010; // 0x4 (4) bytes
 int BSS se_fp_800BF014; // 0x4 (4) bytes
 int BSS sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
 

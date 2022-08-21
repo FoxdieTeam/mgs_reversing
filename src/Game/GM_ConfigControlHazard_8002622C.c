@@ -41,12 +41,12 @@ void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char
 {
     if (bReadVec1)
     {
-        GCL_GetSV_80020A14(bReadVec1, &pControl->field_0_position.vx);
+        GCL_GetSV_80020A14(bReadVec1, &pControl->field_0_position);
     }
 
     if (bReadVec2)
     {
-        GCL_GetSV_80020A14(bReadVec2, &pControl->field_8_rotator.vx);
+        GCL_GetSV_80020A14(bReadVec2, &pControl->field_8_rotator);
     }
 
     pControl->field_4C_turn_vec = pControl->field_8_rotator;

@@ -60,60 +60,6 @@ typedef struct _OBJECT_NO_ROTS
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;
 
-typedef struct Point
-{
-    short x, y;
-} Point;
-
-// probably belongs in camera.h or something
-// camera references this is a lot
-typedef struct UnkCameraStruct // @ 800B77B8
-{
-    short   field_0;
-    short   field_2;
-    int     field_4;
-    int     field_8;
-    short   field_C;
-    short   field_E;
-    int     field_10;
-    int     field_14;
-    int     field_18;
-    int     field_1C;
-    int     field_20;
-    int     field_24;
-    SVECTOR field_28_aim_assist; // dont know what this really is
-} UnkCameraStruct;
-STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
-
-// see comment above
-// extern demothrd_2Vec stru_800B77E8[9];
-typedef struct GM_Camera // @ 800B77E8
-{
-    short field_0;
-    short field_2;
-    int field_4;
-    short field_8;
-    short field_A;
-    int field_C;
-    SVECTOR field_10;
-    int field_18_flags;
-    int field_1C;
-    short field_20; // array? vector?
-    short field_22;
-    short field_24_gcl_param_a;
-    short field_26;
-    short field_28;
-    short field_2A;
-    short field_2C;
-    short field_2E;
-    short field_30;
-    short field_32;
-    SVECTOR field_34[8]; // correct, see 8003078C for initializer
-    int field_74_2Array[2];
-} GM_Camera;
-STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
-// there's another struct after this one that needs to be done ^
-
 typedef enum
 {
     PLAYER_STATUS_FIRST_PERSON = 0x1,
@@ -256,15 +202,18 @@ void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
 
 // SeSet helpers
-int sub_80032748(Point *out, SVECTOR *pos);
-int sub_800327BC(Point *out, SVECTOR *pos);
-int sub_80032820(Point *out, SVECTOR *pos);
-int sub_800326D4(Point *out, SVECTOR *pos);
+int sub_80032748(DVECTOR *out, SVECTOR *pos);
+int sub_800327BC(DVECTOR *out, SVECTOR *pos);
+int sub_80032820(DVECTOR *out, SVECTOR *pos);
+int sub_800326D4(DVECTOR *out, SVECTOR *pos);
+int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out);
 
-int  sub_8002E508(int a1);
+void sub_800309B4(int param_1, int param_2);
+void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
+void sub_8002E508(int a1);
 void sub_8002B600(int);
 void sub_8002AAEC();
-void sub_8002EADC(void);
+void sub_8002EADC(int);
 void sub_8002AA48(void);
 void sub_8002EC8C(short*, short*, short*);
 void GM_Act_helper3_helper_8002AB40();

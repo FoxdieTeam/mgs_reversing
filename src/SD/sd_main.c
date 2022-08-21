@@ -2,6 +2,7 @@
 #include "psyq.h"
 #include "unknown.h"
 #include "mts/mts_new.h"
+#include "libfs/libfs.h"
 
 extern int sng_status_800BF158;
 extern int se_load_code_800BF28C;
@@ -52,6 +53,7 @@ extern int dword_800BEFC8;
 extern int dword_800BEFCC;
 extern int dword_800BF1A4;
 extern int dword_800BF26C;
+extern int dword_800BF010;
 extern int gStr_FadeOut1_800BF16C;
 
 
@@ -62,6 +64,7 @@ extern int sd_debug_800BEFD4;
 extern unsigned int byte_800BE7C8[512];
 extern const char aSoundErrorSpuO[];
 extern const char aSoundErrorSpuO_0[];
+extern const char aLoadinitD[];
 
 extern int gStream_800C04F0;
 extern int dword_800BF258;
@@ -302,7 +305,12 @@ void sd_init_80081C7C()
     SpuSetCommonAttr_80097038(&attr);
 }
 
-#pragma INCLUDE_ASM("asm/SD/sub_80081F8C.s")
+void sub_80081F8C(void)
+{
+    SpuSetIRQCallback_80096BA8(NULL);
+    SpuSetKey_80096C18(0, 0xffffff);
+    SpuQuit_80095258();
+}
 
 void SD_80081FC4(int param_1)
 {
@@ -380,7 +388,7 @@ void SD_80082170(int param_1)
     SpuSetKey_80096C18(1, param_1);
 }
 
-#pragma INCLUDE_ASM("asm/SD/sd_sng_alloc_80082194.s")
+#pragma INCLUDE_ASM("asm/SD/sd_sng_alloc_80082194.s") // 308 bytes
 
 void StrFadeIn_800822C8(unsigned int a1)
 {
@@ -434,8 +442,8 @@ int StrFadeOutStop_80082380(unsigned int fadeSpeed)
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/StartStream_80082448.s")
-#pragma INCLUDE_ASM("asm/SD/UserSpuIRQProc_80082640.s")
+#pragma INCLUDE_ASM("asm/SD/StartStream_80082448.s") // 504 bytes
+#pragma INCLUDE_ASM("asm/SD/UserSpuIRQProc_80082640.s") // 348 bytes
 
 void sub_8008279C(void)
 {
@@ -447,7 +455,7 @@ void SD_nullsub_20_800827A4()
     
 }
 
-#pragma INCLUDE_ASM("asm/SD/StrSpuTransWithNoLoop_800827AC.s")
+#pragma INCLUDE_ASM("asm/SD/StrSpuTransWithNoLoop_800827AC.s") // 3048 bytes
 
 void StrSpuTransClose_80083394()
 {
@@ -496,20 +504,20 @@ int SD_8008341C()
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_800834FC.s")
-#pragma INCLUDE_ASM("asm/SD/sub_80083804.s")
+#pragma INCLUDE_ASM("asm/sub_800834FC.s") // 776 bytes
+#pragma INCLUDE_ASM("asm/SD/sub_80083804.s") // 320 bytes
 
 void WaveSpuTrans_80083944(void)
 {
 
 }
 
-int SD_SongLoadData_8008394C(void)
+int SD_SongLoadData_8008394C(int a1, int a2)
 {
     return -1;
 }
 
-int SD_80083954(void)
+int SD_80083954(int a1, int a2, int a3)
 {
     return -1;
 }
@@ -540,8 +548,8 @@ void StrFadeWkSet_80083964()
     gStr_fadeout_2_800C0584 = gStreamVol_800BF15C;
 }
 
-#pragma INCLUDE_ASM("asm/SD/StrFadeInt_800839C8.s")
-#pragma INCLUDE_ASM("asm/SD/sub_80083BB4.s")
+#pragma INCLUDE_ASM("asm/SD/StrFadeInt_800839C8.s") // 492 bytes
+#pragma INCLUDE_ASM("asm/SD/sub_80083BB4.s") // 692 bytes
 
 int num2char_80083E68(unsigned int num)
 {
@@ -581,7 +589,19 @@ void SD_80083EF8(void)
     se_load_code_800BF28C = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/LoadInit_80083F08.s")
-#pragma INCLUDE_ASM("asm/SD/SD_80083F54.s")
-#pragma INCLUDE_ASM("asm/SD/SD_WavLoadBuf_800841D4.s")
-#pragma INCLUDE_ASM("asm/SD/SD_Unload_800843BC.s")
+int LoadInit_80083F08(void)
+{
+    int ret;
+    if (dword_800BF27C != 0)
+    {
+        mts_printf_8008BBA0(aLoadinitD, dword_800BF27C); // = "LoadInit %d\n";
+        *(int*)1 = 0;
+    }
+    ret = dword_800BF010;
+    dword_800BF27C = 1;
+    return ret;
+}
+
+#pragma INCLUDE_ASM("asm/SD/SD_80083F54.s") // 640 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_WavLoadBuf_800841D4.s") // 488 bytes
+#pragma INCLUDE_ASM("asm/SD/SD_Unload_800843BC.s") // 216 bytes

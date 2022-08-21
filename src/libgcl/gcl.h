@@ -104,9 +104,8 @@ typedef struct BindStruct
 
 typedef struct CAMERA
 {
-    short field_00_pos[3];
-    short field_06_unknown;
-    short field_08_trg[3];
+    SVECTOR field_00_pos;
+    short field_08_trg[3]; // SVECTOR w/ padding as alertMask?
     short field_0e_alertMask;
     char  field_10_param1; // example: d:CAM_FIX
     char  field_11_param2; // example: d:CAM_INTERP_LINER
@@ -299,7 +298,7 @@ int                GCL_GetParam_80020968(char paramName);
 int                GCL_GetNextParamValue_80020AD4(void);
 unsigned char     *GCL_Get_Param_Result_80020AA4(void);
 unsigned char     *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, int *retValue);
-int                GCL_GetSV_80020A14(unsigned char *pInScript, short *pOut3Words);
+int                GCL_GetSV_80020A14(unsigned char *pInScript, SVECTOR *pOut3Words);
 void               GCL_ChangeSenerioCode_8001FCB0(int bMain);
 char              *GCL_Read_String_80020A70(char *pScript);
 unsigned char     *GCL_VarSaveBuffer_800217F0(unsigned char *pScript);
@@ -326,10 +325,11 @@ void               GCL_RestoreVar_80021488(void);
 int                calc_80020430(int operation, int v1, int v2);
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript);
 void               GCL_ExecScript_80020228();
+void               GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs);
 
 struct map_record *GCL_Command_hzd_impl_800310D0(void);
-void               GCL_Command_camera_helper_80030888(void *vec1, void *vec2, int param_3);
-void               GCL_Command_camera_helper2_800308E0(void *vec1, void *vec2, int param_3);
+void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
+void               GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper3_80030938(void *vec);
 void               GCL_Command_camera_helper4_80030980(int param_1);
 unsigned int       GCL_Command_menu_helper_8002CA48(void);

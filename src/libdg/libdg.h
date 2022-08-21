@@ -455,6 +455,8 @@ int      DG_QueueObjs_80018178(DG_OBJS *pPrim);
 void     DG_DequeueObjs_800181E4(DG_OBJS *objs);
 void     DG_FreeObjs_800318D0(DG_OBJS *pObjs);
 void     DG_SaveTexureCacheToResidentMem_8001DB20();
+void     DG_FreeObjectQueue_800183D4();
+void     DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_property);
 
 void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen);
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *, DG_MDL *);

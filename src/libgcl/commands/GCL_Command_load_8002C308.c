@@ -12,7 +12,7 @@ extern GameState_800B4D98 gGameState_800B4D98;
 int GCL_Command_load_8002C308(int argc, char **argv)
 {
     char *scriptStageName;
-    short vec[3];
+    SVECTOR vec;
 
     scriptStageName = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
     if (*scriptStageName == '\0')
@@ -55,10 +55,10 @@ int GCL_Command_load_8002C308(int argc, char **argv)
 
     if (GCL_GetParam_80020968('p')) // pos
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec[0]);
-        gGameState_800B4D98.field_10_snake_position.x = vec[0];
-        gGameState_800B4D98.field_10_snake_position.y = vec[1];
-        gGameState_800B4D98.field_10_snake_position.z = vec[2];
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
+        gGameState_800B4D98.field_10_snake_position.x = vec.vx;
+        gGameState_800B4D98.field_10_snake_position.y = vec.vy;
+        gGameState_800B4D98.field_10_snake_position.z = vec.vz;
     }
 
     if (GCL_GetParam_80020968('s'))

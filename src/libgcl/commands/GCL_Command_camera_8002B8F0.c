@@ -2,7 +2,8 @@
 #include "libgcl/gcl.h"
 #include "mts/mts_new.h"
 #include "Game/GM_Control.h"
-#include "game/game.h"
+#include "Game/game.h"
+#include "Game/camera.h"
 
 extern CAMERA GM_CameraList_800B7718[8];
 extern GM_Camera GM_Camera_800B77E8;
@@ -23,16 +24,16 @@ proc AGL_FIRST_VF {
 int GCL_Command_camera_8002B8F0(int argc, char **argv)
 {
     int     isEnabled, param_p, camera_id;
-    short   vec1[3], vec2[3];
+    SVECTOR   vec1, vec2;
     CAMERA *cam;
 
     isEnabled = GCL_GetParam_80020968('e') != 0; // enabled
 
     if (GCL_GetParam_80020968('b')) // bound
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec2);
-        GCL_Command_camera_helper_80030888(vec1, vec2, isEnabled);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec2);
+        GCL_Command_camera_helper_80030888(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetParam_80020968('t')) // track
@@ -42,15 +43,15 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
 
     if (GCL_GetParam_80020968('l')) // limit
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec2);
-        GCL_Command_camera_helper2_800308E0(vec1, vec2, isEnabled);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec2);
+        GCL_Command_camera_helper2_800308E0(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetParam_80020968('r')) // rotate
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec1);
-        GCL_Command_camera_helper3_80030938(vec1);
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
+        GCL_Command_camera_helper3_80030938(&vec1);
     }
 
     param_p = GCL_GetParam_80020968('p') != 0;
@@ -66,8 +67,8 @@ int GCL_Command_camera_8002B8F0(int argc, char **argv)
             cam->field_11_param2 = GCL_GetNextParamValue_80020AD4();
             cam->field_12_param3 = GCL_GetNextParamValue_80020AD4();
             cam->field_13_param_p = param_p;
-            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), cam->field_00_pos);
-            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), cam->field_08_trg);
+            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &cam->field_00_pos);
+            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), (SVECTOR *)&cam->field_08_trg);
             if (GCL_Get_Param_Result_80020AA4())
             {
                 cam->field_0e_alertMask = GCL_GetNextParamValue_80020AD4();

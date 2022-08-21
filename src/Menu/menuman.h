@@ -5,6 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
+#include "Font/font.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 
 #define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
@@ -243,9 +244,24 @@ typedef struct Actor_MenuMan
     int field_220;
 } Actor_MenuMan;
 
+// here or jimctl.h?
+typedef struct UnkJimakuStruct // @ 800BDA70
+{
+    char field_0_active; // if true, display on screen and count down timer
+    char field_1_type; // 0, 1, 2? - 1: pause
+    short field_2_timer; // how many frames to be active
+    int field_4_x; // location on screen
+    int field_8_y;
+    KCB field_C_font;
+    const char *field_38_str; // the string to display
+    int field_3C; // hashed proc name used as first arg to GCL_ExecProc_8001FF2C
+    int field_40; // char * gcl string?
+    // int field_44 // padding?
+} UnkJimakuStruct;
+
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
-int                        menu_restore_nouse_80043470();
+void                       menu_restore_nouse_80043470();
 MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx);
 int                        sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
@@ -267,6 +283,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *menuMan, unsigned
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
+void menu_JimakuWrite_800494E8(const char *str, int frames);
 void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
 void menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
 void menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
@@ -282,13 +299,13 @@ void menuman_kill_800387E8(Actor_MenuMan *);
 void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
-void sub_800469A4(int param_1, char *param_2); // probably a font func, move if so
+void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
 void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper2_8004A800(void);
 void sub_80047CB4(menu_chara_struct *unknown);
-int  NewJimakuStr_8004955C(char *, int);
+void NewJimakuStr_8004955C(const char *str, int int_1);
 void NewJimaku_800495A8(void);
 void menu_ClearRadioTable_8004967C(void);
 void menu_RadioCall_80042730(int param_1, int param_2, int param_3);
@@ -312,6 +329,8 @@ void           menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsig
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 int            menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
 void           menu_ResetTexture_80038A00(void);
+void           menu_jimaku_init_helper_800493F8(KCB *kcb);
+void           menu_font_kill_helper_8003F50C(void);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 

@@ -18,7 +18,8 @@ void claymore_kill_800738F4(Actor_Claymore *claymore)
 {
     DG_OBJS *objs;
 
-    if (objs = (DG_OBJS *)claymore->field_84_pPrim)
+    objs = (DG_OBJS *)claymore->field_84_pPrim;
+    if (objs)
     {
         DG_DequeuePrim_800182E0(objs);
         DG_FreePrim_8001BC04(objs);
