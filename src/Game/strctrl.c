@@ -1,15 +1,20 @@
+#include "game.h"
 #include "strctrl.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
 #include "libgcl/gcl.h"
 #include "libfs/libfs.h"
 
-extern Actor_strctrl    strctrl_800B82B0;
-extern int              GM_GameStatus_800AB3CC;
+
 extern const char       aVoxstreamD[];
 extern const char       aGmStreamplayst[];
 extern const char       aStreamIsNotRea[];
+extern const char       aNewstreamD[];
+extern const char       aPend[];
+extern const char       aStrctrlC[];
 
+extern int              GM_GameStatus_800AB3CC;
+extern Actor_strctrl    strctrl_800B82B0;
 extern int              str_sector_8009E280;
 extern int              str_gcl_proc_8009E284;
 extern int              str_8009E288;
@@ -28,6 +33,7 @@ void            strctrl_act_helper_800377EC(Actor_strctrl *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s") // 708 bytes
+void            strctrl_act_80037820(int);
 
 void            strctrl_kill_80037AE4(Actor_strctrl *pActor)
 {
@@ -49,7 +55,54 @@ void            strctrl_kill_80037AE4(Actor_strctrl *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_init_80037B64.s") // 372 bytes
+Actor_strctrl *strctrl_init_80037B64(int stream_code, int gcl_proc, int flags)
+{
+    mts_printf_8008BBA0( aNewstreamD, stream_code );
+    
+    if ( strctrl_800B82B0.field_20_state )
+    {
+        mts_printf_8008BBA0( aPend );
+        if ( str_sector_8009E280 )
+        {
+            if ( str_gcl_proc_8009E284 < 0 )
+            {
+                GCL_ExecProc_8001FF2C( str_gcl_proc_8009E284 & 0xFFFF, 0 );
+            }
+        }
+        GM_StreamPlayStop_80037D64();
+        str_sector_8009E280 = stream_code;
+        str_gcl_proc_8009E284 = gcl_proc;
+        str_8009E288 = flags;
+        return &strctrl_800B82B0;
+    }
+    
+    FS_StreamInit_80023FD4( (void *)0x801E7800, 0x18000 );
+    GV_InitActor_800150A8( 1, (Actor *)&strctrl_800B82B0, 0 );
+    GV_SetNamedActor_8001514C(  (Actor *)&strctrl_800B82B0,
+                                (TActorFunction)&strctrl_act_80037820,
+                                (TActorFunction)&strctrl_kill_80037AE4,
+                                aStrctrlC );
+    
+    strctrl_800B82B0.field_20_state = 1;
+    strctrl_800B82B0.field_38_proc = ( gcl_proc < 0 )
+                                    ? ( gcl_proc & 0xFFFF )
+                                    : -1;
+    if ( gcl_proc & 0x40000000 )
+    {
+        strctrl_800B82B0.field_22_sub_state = 1;
+    }
+    else 
+    {
+        strctrl_800B82B0.field_22_sub_state = 0;
+    }
+    strctrl_800B82B0.field_26_flags = flags;
+    strctrl_800B82B0.field_24 = 0;
+    strctrl_800B82B0.field_2C_map = GM_CurrentMap_800AB9B0;
+    
+    FS_StreamTaskStart_80023D94( stream_code );
+    return &strctrl_800B82B0;
+}
+
 #pragma INCLUDE_ASM("asm/Game/GM_StreamStatus_80037CD8.s") // 68 bytes
 
 void            GM_StreamPlayStart_80037D1C()
