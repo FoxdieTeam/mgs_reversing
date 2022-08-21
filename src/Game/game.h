@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "linker.h"
+#include "strctrl.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "GM_Control.h"
@@ -191,7 +192,7 @@ void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
 int                GM_AreaHistory_8002A848(int stage_id);
 int                GM_SoundStart_8002E640();
 int                GM_set_noise_sound_8002E588(int a1);
-char              *GM_VoxStream_80037E40(int param_1, unsigned int param_2);
+Actor_strctrl      *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);
