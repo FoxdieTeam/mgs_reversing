@@ -70,7 +70,8 @@ typedef struct SightTextPseudoPrim
 // - the gas mask in first-person view;
 // - the thermal goggles;
 // - the night-vision goggles;
-// - the camera.
+// - the camera;
+// - the Stinger missile.
 typedef struct Actor_Sight
 {
     Actor                     field_0_actor;
