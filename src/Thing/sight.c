@@ -275,7 +275,7 @@ void sight_act_800714EC(Actor_Sight *sight)
 {
     SightPrimitiveBufferInfo *primBufInfo;
     SightPrimBufInfoStruct   *ancillaryInfo;
-    int                       primCount; // primBufInof->field_3 is currently a char.
+    int                       primCount;
     DR_TPAGE                 *tPageBuf;
     unsigned int              frameCount;
     int                       field30;
@@ -286,20 +286,20 @@ void sight_act_800714EC(Actor_Sight *sight)
     void                     *primBuf;
     int                       flag;
     unsigned char             offsetIndicesIndex;
-    int  primOffset; // ancillaryInfo->field_2 is currently an unsigned short, but this has to be a signed int.
-    char tPageInfo;
-    char ancField1Anded;
-    char ancField1Shifted;
-    SightPrimOffsetIndices *primOffsetIndicesArray;
-    void                   *offsetPrimBuf;
-    SightPrimBufInfo_0x14  *infoField14;
-    char                    infoField14Field0;
-    SightPrimOffsetInfo    *primOffsetInfoArray;
-    int                     frameCountMod;
-    char                    infoField14Field1;
-    int                     tag;
-    char                    code;
-    short                  *xyOffsetBuffer;
+    int                       primOffset;
+    char                      tPageInfo;
+    char                      ancField1Anded;
+    char                      ancField1Shifted;
+    SightPrimOffsetIndices   *primOffsetIndicesArray;
+    void                     *offsetPrimBuf;
+    SightPrimBufInfo_0x14    *infoField14;
+    char                      infoField14Field0;
+    SightPrimOffsetInfo      *primOffsetInfoArray;
+    int                       frameCountMod;
+    char                      infoField14Field1;
+    int                       tag;
+    char                      code;
+    short                    *xyOffsetBuffer;
 
     if (sight->field_20_itemId != *sight->field_24_itemEquippedIndicator)
     {
@@ -328,6 +328,7 @@ void sight_act_800714EC(Actor_Sight *sight)
     frameCount = sight->field_2C_frameCount;
     field30 = sight->field_30;
 
+    // todo: fix when static inline DG_Chanls-related getters work.
     chnl = &DG_Chanls_800B1800[1];
     ot = (chnl + 1)->mOrderingTables[GV_Clock_800AB920];
 
