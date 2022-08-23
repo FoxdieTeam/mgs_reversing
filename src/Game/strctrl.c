@@ -10,26 +10,14 @@
 #include "libgcl/gcl.h"
 #include "libfs/libfs.h"
 
-extern const char       aDoublePcm[];
-extern const char       aStreamplayEnd[];
-extern const char       aWrongTypeHeade[];
-
-extern const char       aVoxstreamD[];
-extern const char       aGmStreamplayst[];
-extern const char       aStreamIsNotRea[];
-extern const char       aNewstreamD[];
-extern const char       aPend[];
-extern const char       aStrctrlC[];
+//------------------------------------------------------------------------------
 
 extern int              GM_GameStatus_800AB3CC;
 extern Actor_strctrl    strctrl_800B82B0;
 extern int              str_sector_8009E280;
 extern int              str_gcl_proc_8009E284;
 extern int              str_8009E288;
-
 extern int              DG_UnDrawFrameCount_800AB380;
-
-int                     strctrl_act_helper2_800241C8(int*, int);
 
 //------------------------------------------------------------------------------
 
@@ -93,7 +81,7 @@ loop_case3:
                         GM_Sound_80032C48( sd_code, 0 );
                         break;
                     }
-                    mts_printf_8008BBA0( aDoublePcm );
+                    mts_printf_8008BBA0( "Double Pcm !!\n" );
                     return;
                 case 5:
                     DG_UnDrawFrameCount_800AB380 = 3;
@@ -107,7 +95,7 @@ loop_case3:
                     jimctrl_init_80038568( actor->field_26_flags | 0x80 );
                     break;
                 default:
-                    mts_printf_8008BBA0( aWrongTypeHeade );
+                    mts_printf_8008BBA0( "??? WRONG TYPE HEADER!!\n" );
                     break;
                 }
                 sub_800241B4( ( int )actor->field_34_pStreamData );
@@ -123,7 +111,7 @@ loop_case3:
         if ( ( !actor->field_22_sub_state || FS_StreamIsForceStop_800243C8() )
             && FS_StreamIsEnd_800240D0() && !FS_StreamSync_80023E24() )
         {
-            mts_printf_8008BBA0( aStreamplayEnd );
+            mts_printf_8008BBA0( "StreamPlay end\n" );
             if ( actor->field_24 )
             {
                 DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
@@ -136,15 +124,15 @@ loop_case3:
 
 void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
 {
-    int field_38_proc; // $a1
+    int cb_proc;
 
-    field_38_proc = pActor->field_38_proc;
+    cb_proc = pActor->field_38_proc;
     pActor->field_20_state = 0;
     GM_GameStatus_800AB3CC &= ~0x20u;
-    if ( field_38_proc >= 0 )
+    if ( cb_proc >= 0 )
     {
         pActor->field_38_proc = -1;
-        GCL_ExecProc_8001FF2C( field_38_proc, 0);
+        GCL_ExecProc_8001FF2C( cb_proc, 0 );
         
     }
     if ( str_sector_8009E280 )
@@ -156,11 +144,11 @@ void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
 
 Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags )
 {
-    mts_printf_8008BBA0( aNewstreamD, stream_code );
+    mts_printf_8008BBA0( "NewStream %d\n", stream_code );
     
     if ( strctrl_800B82B0.field_20_state )
     {
-        mts_printf_8008BBA0( aPend );
+        mts_printf_8008BBA0( "pend!!\n" );
         if ( str_sector_8009E280 )
         {
             if ( str_gcl_proc_8009E284 < 0 )
@@ -175,12 +163,12 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
         return &strctrl_800B82B0;
     }
     
-    FS_StreamInit_80023FD4( (void *)0x801E7800, 0x18000 );
-    GV_InitActor_800150A8( 1, (Actor *)&strctrl_800B82B0, 0 );
-    GV_SetNamedActor_8001514C(  (Actor *)&strctrl_800B82B0,
-                                (TActorFunction)&strctrl_act_80037820,
-                                (TActorFunction)&strctrl_kill_80037AE4,
-                                aStrctrlC );
+    FS_StreamInit_80023FD4( ( void * )0x801E7800, 0x18000 );
+    GV_InitActor_800150A8( 1, ( Actor * )&strctrl_800B82B0, 0 );
+    GV_SetNamedActor_8001514C(  ( Actor * )&strctrl_800B82B0,
+                                ( TActorFunction )&strctrl_act_80037820,
+                                ( TActorFunction )&strctrl_kill_80037AE4,
+                                "strctrl.c" );
     
     strctrl_800B82B0.field_20_state = 1;
     strctrl_800B82B0.field_38_proc = ( gcl_proc < 0 )
@@ -223,13 +211,13 @@ void            GM_StreamPlayStart_80037D1C()
     }
     else
     {
-        mts_printf_8008BBA0( aStreamIsNotRea ); 
+        mts_printf_8008BBA0( "stream is not ready\n" ); 
     }
 }
 
 void            GM_StreamPlayStop_80037D64()
 {
-    mts_printf_8008BBA0( aGmStreamplayst );
+    mts_printf_8008BBA0( "GM_StreamPlayStop\n" );
     FS_StreamStop_80024028();
 
     // TODO: Probably a switch
@@ -270,7 +258,7 @@ Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
         return 0;
     }
     
-    mts_printf_8008BBA0( aVoxstreamD, vox_code );
+    mts_printf_8008BBA0( "VoxStream %d\n", vox_code );
     if ( !(proc & 0x40000000) )
     {
         GM_GameStatus_800AB3CC |= 0x20;
