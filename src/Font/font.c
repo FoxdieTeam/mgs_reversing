@@ -21,7 +21,7 @@ int        SECTION(".sbss") dword_800ABB34;
 
 int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, short x, short y)
 {
-    memset_8008E688((char *)kcb, 0, 44);
+    *kcb = ( KCB ){{ 0 }};
     kcb->rect_data = rect_data;
     kcb->font_rect = *rect_data;
     kcb->font_clut_rect.w = 16;
@@ -31,7 +31,8 @@ int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, short x, short y)
     return font_set_kcb_80044C90(kcb, -1, -1, 0, 0, 4, 0);
 }
 
-int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
+int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
+                                    int arg4, int arg5, int arg6)
 {
     int quotient0;
     int quotient1;

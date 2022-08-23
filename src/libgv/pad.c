@@ -1,5 +1,6 @@
 #include "libgv.h"
 #include "Game/gamestate.h"
+#include "psyq.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];

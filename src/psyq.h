@@ -6,6 +6,7 @@
 #include <LIBGPU.H>
 #include <LIBSPU.H>
 #include <LIBCD.H>
+#include <MEMORY.H>
 
 // TODO: drop the addr suffixes for all psyq funcs in .s then just use psyq headers?
 
@@ -66,7 +67,7 @@ void               StopCARD_80099130(void);
 void               SwEnterCriticalSection_8009954C(void);
 void               SwExitCriticalSection_8009956C(void);
 void               VectorNormal_80092838(VECTOR *v0, VECTOR *v1);
-void              *memset_8008E688(void *pSrc, int value, int len);
+//void              *memset_8008E688(void *pSrc, int value, int len);
 void               SetDispMask_8008F7CC(int);
 void               InitGeom_80092680(void);
 void               PadInitDirect_8009C6CC(unsigned char *pad1, unsigned char *pad2);

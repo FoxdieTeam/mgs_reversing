@@ -52,7 +52,7 @@ int mts_control_vibration_8008C3BC(int arg0)
     {
         dword_800A3DC8 = arg0;
     }
-    memset_8008E688(gMtsPadSendBuffers_800C14D0, 0, 0x10);
+    memset(gMtsPadSendBuffers_800C14D0, 0, sizeof(gMtsPadSendBuffers_800C14D0));
     return ret;
 }
 
