@@ -939,7 +939,7 @@
     ; libc start
 
     include "..\obj\psyq\memcpy_8008E648.obj"
-    include "..\obj\psyq\memset_8008E688.obj"
+    include "..\obj\psyq\memset.obj"
     include "..\obj\psyq\rand_8008E6B8.obj"
     include "..\obj\psyq\srand_8008E6E8.obj"
     include "..\obj\psyq\strcmp_8008E6F8.obj"
