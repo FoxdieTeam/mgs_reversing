@@ -32,6 +32,7 @@ int                StoreImage_8008FB70(RECT *, u_long *);
 int                VSync_80098108(int);
 void               VSyncCallback_800983A8(void (*func)());
 int                rand_8008E6B8(void);
+void               srand_8008E6E8(int s);
 int                ratan2_80094308(int, int);
 int                rcos_800925D8(int a1);
 int                rsin_80092508(int a1);
