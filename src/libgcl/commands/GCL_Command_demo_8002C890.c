@@ -14,56 +14,54 @@ extern int DG_UnDrawFrameCount_800AB380;
 
 int SECTION(".sbss") gBinds_800ABA60;
 
-int GCL_Command_demo_8002C890(int argc, char **argv)
+int GCL_Command_demo_8002C890( int argc, char **argv )
 {
-    int   param;
-    int   load_data;
-    char *msg;
+    int   code, cb_proc;
+    char  *msg;
 
-    if (GCL_GetParam_80020968('s') == 0)
+    if ( !GCL_GetParam_80020968( 's' ) ) // scene ?
     {
-        mts_printf_8008BBA0(aDemoNoCode);
+        mts_printf_8008BBA0( aDemoNoCode );
     }
+    code = GCL_GetNextParamValue_80020AD4();
 
-    param = GCL_GetNextParamValue_80020AD4();
-
-    if (GCL_GetParam_80020968('p') == 0)
+    if ( GCL_GetParam_80020968( 'p' ) ) // proc
     {
-        load_data = 0;
+        cb_proc = GCL_GetNextParamValue_80020AD4() | GAME_FLAG_BIT_32;
     }
     else
     {
-        load_data = GCL_GetNextParamValue_80020AD4() | GAME_FLAG_BIT_32;
+        cb_proc = 0;
     }
 
     GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
 
-    if (param >= 0)
+    if ( code >= 0 )
     {
         DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_32;
-        GCL_Command_demo_helper_80037DD8(param, load_data);
+        GCL_Command_demo_helper_80037DD8( code, cb_proc );
     }
     else
     {
-        if (load_data < 0)
+        if ( cb_proc < 0 )
         {
-            load_data &= 0xFFFF;
+            cb_proc &= 0xFFFF;
         }
         else
         {
-            load_data = -1;
+            cb_proc = -1;
         }
 
-        if (GCL_GetParam_80020968('f'))
+        if ( GCL_GetParam_80020968( 'f' ) ) // file
         {
-            msg = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+            msg = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
         }
         else
         {
-            msg = (char *)aDemoNoDataOnCd;
+            msg = ( char* )aDemoNoDataOnCd;
         }
-        NewJimakuStr_8004955C(msg, load_data);
+        NewJimakuStr_8004955C( msg, cb_proc );
     }
     return 0;
 }

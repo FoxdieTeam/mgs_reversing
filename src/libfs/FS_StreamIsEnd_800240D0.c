@@ -21,6 +21,7 @@ extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 int FS_StreamGetTop_80023F94(int is_movie)
 {
     int dir_idx;
+
     switch (is_movie)
     {
     case 0:

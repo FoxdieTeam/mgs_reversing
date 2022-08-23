@@ -68,13 +68,13 @@ int                   Loader_80023624(struct Loader_Record *pRec);
 int                   FS_CdGetStageFileTop_80022DCC(char *pFileName);
 int                   Loader_CD_Read_CallBack_80023274(int *a1);
 int                   FS_LoadStageSync_800237C0(struct Loader_Record *pRec);
-struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName);
+struct Loader_Record  *FS_LoadStageRequest_800236E0(const char *pFileName);
 void                  FS_LoadStageComplete_80023804(struct Loader_Record *pFileName);
 int                   FS_StreamGetData_800240E0(unsigned int);
 void                  FS_StreamOpen_80024060();
 void                  FS_StreamClose_80024098(void);
 int                   CDBIOS_TaskState_80022888(void);
-unsigned int          FS_StreamTaskState_80023E0C(void);
+int                   FS_StreamTaskState_80023E0C(void);
 void                  FS_StreamStop_80024028();
 int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
@@ -84,7 +84,13 @@ int                   FS_CdMakePositionTable_helper_8002297C(void *pDirBlock, FS
 int                   FS_StreamGetTop_80023F94(int is_movie);
 void                  FS_StreamTaskStart_80023D94(int param_1);
 int                   FS_StreamInit_80023FD4(void *pHeap, int heapSize);
+void                  FS_StreamTickStart_800243D8();
+int                   FS_StreamGetTick_80024420(void);
+int                   FS_StreamIsForceStop_800243C8(void);
+void                  FS_StreamSoundMode_80024404();
+int                   FS_StreamIsEnd_800240D0(void);
 
+int                   FS_StreamSync_80023E24();
 void                  sub_80023C40(void);
 
 #endif // _LIBFS_H_

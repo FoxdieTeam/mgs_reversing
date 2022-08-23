@@ -22,7 +22,7 @@ int   sub_80029A2C(void);
 void  sub_800298C0(int *int_arr);
 void  sub_8002A090(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags, unsigned int param_4);
 void  sub_8007913C();
-void  sub_80037EE0(int, int);
+Actor_strctrl   *sub_80037EE0(int vox_stream, int gcl_proc); 
 void  sub_800790E8(); // Takabe
 void  sub_800241B4(int);
 int   sub_80029514(int);

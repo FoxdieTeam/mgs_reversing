@@ -172,7 +172,8 @@ void SdMain_80081A18()
 
 void SdInt_Task_80081BDC()
 {
-    char buffer[100]; // not enough stack used without this
+    char buf[98]; (void)buf; // not enough stack used without this
+
     mts_printf_8008BBA0(aStartTaskSdint);
     sd_init_80081C7C();
     mts_wup_tsk_8008A540(5);

@@ -1,10 +1,18 @@
 #include "game.h"
+#include "SD/sd.h"
+#include "unknown.h"
+#include "Kojo/demothrd.h"
 #include "strctrl.h"
+#include "jimctrl.h"
+#include "psyq.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
 #include "libgcl/gcl.h"
 #include "libfs/libfs.h"
 
+extern const char       aDoublePcm[];
+extern const char       aStreamplayEnd[];
+extern const char       aWrongTypeHeade[];
 
 extern const char       aVoxstreamD[];
 extern const char       aGmStreamplayst[];
@@ -19,8 +27,9 @@ extern int              str_sector_8009E280;
 extern int              str_gcl_proc_8009E284;
 extern int              str_8009E288;
 
-Actor_strctrl           *strctrl_init_80037B64(int sector, int gcl_proc, int a3);
-void                    srand_8008E6E8(int s);
+extern int              DG_UnDrawFrameCount_800AB380;
+
+int                     strctrl_act_helper2_800241C8(int*, int);
 
 //------------------------------------------------------------------------------
 
@@ -32,8 +41,98 @@ void            strctrl_act_helper_800377EC( Actor_strctrl *pActor )
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/strctrl_act_80037820.s") // 708 bytes
-void            strctrl_act_80037820( int );
+void            strctrl_act_80037820( Actor_strctrl *actor )
+{
+    int sd_code;
+    int stream_data;
+
+    GM_CurrentMap_800AB9B0 = actor->field_2C_map;
+    FS_StreamSync_80023E24();
+    switch ( actor->field_20_state )
+    {
+    case 1:
+        if ( FS_StreamTaskState_80023E0C() < 0 )
+        {
+            return;
+        }
+        actor->field_20_state = 2;
+    
+    case 2:
+        if ( !actor->field_22_sub_state )
+        {
+            actor->field_20_state = 3;
+            GM_GameStatus_800AB3CC |= 0x20;
+            actor->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 );
+            FS_StreamTickStart_800243D8();
+            actor->field_22_sub_state = 1;
+            return;
+        }
+        break;
+        
+    case 3:
+loop_case3:
+        if ( actor->field_34_pStreamData ||
+            ( actor->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 ) ) )
+        {
+            stream_data = *actor->field_34_pStreamData;
+            if ( ( FS_StreamGetTick_80024420() >= ( stream_data >> 8 ) ) &&
+                !FS_StreamIsForceStop_800243C8() )
+            {
+                switch ( stream_data & 0xFF )
+                {
+                case 1:
+                    if ( !sd_str_play_800886DC() )
+                    {
+                        strctrl_act_helper2_800241C8( actor->field_34_pStreamData, 1 );
+                        FS_StreamSoundMode_80024404();
+                        sd_code = 0xE0000000;
+                        if ( !actor->field_26_flags )
+                        {
+                            sd_code++;
+                        }
+                        GM_Sound_80032C48( sd_code, 0 );
+                        break;
+                    }
+                    mts_printf_8008BBA0( aDoublePcm );
+                    return;
+                case 5:
+                    DG_UnDrawFrameCount_800AB380 = 3;
+                    DM_ThreadStream_80079460( 1, 0 );
+                    actor->field_24 = 1;
+                    break;
+                case 3:
+                    jimctrl_init_80038568( actor->field_26_flags );
+                    break;
+                case 6:
+                    jimctrl_init_80038568( actor->field_26_flags | 0x80 );
+                    break;
+                default:
+                    mts_printf_8008BBA0( aWrongTypeHeade );
+                    break;
+                }
+                sub_800241B4( ( int )actor->field_34_pStreamData );
+                actor->field_34_pStreamData = NULL;
+                actor->field_22_sub_state = 2;
+                goto loop_case3;
+            }
+        }
+        if ( actor->field_22_sub_state == 2 && !FS_StreamIsEnd_800240D0() )
+        {
+            actor->field_22_sub_state = 0;
+        }
+        if ( ( !actor->field_22_sub_state || FS_StreamIsForceStop_800243C8() )
+            && FS_StreamIsEnd_800240D0() && !FS_StreamSync_80023E24() )
+        {
+            mts_printf_8008BBA0( aStreamplayEnd );
+            if ( actor->field_24 )
+            {
+                DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
+            }
+            actor->field_0_actor.mFnUpdate = ( TActorFunction )&strctrl_act_helper_800377EC;
+        }
+        break;
+    }
+}
 
 void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
 {
@@ -103,7 +202,7 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
     return &strctrl_800B82B0;
 }
 
-int GM_StreamStatus_80037CD8( void )
+int             GM_StreamStatus_80037CD8( void )
 {
     int state;
     
