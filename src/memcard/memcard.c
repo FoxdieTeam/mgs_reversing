@@ -118,7 +118,7 @@ int memcard_easy_format_test_800246C0(int hCard)
     char pData[128]; // [sp+10h] [-80h] BYREF
 
     mts_printf_8008BBA0(aEasyFormatTest);
-    memset_8008E688(pData, 0, 128);
+    memset(pData, 0, sizeof(pData));
     mts_printf_8008BBA0(aR);
 
     while ((char *)gHwCard_do_op_800B52E8 != (char *)memcard_hwcard_do_op_800244DC ||

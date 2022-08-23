@@ -77,8 +77,8 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 
 void anime_create_8005E508(SVECTOR *pVec)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
-    memset_8008E688(&data, 0, sizeof(anime_data_0x14));
+    anime_data_0x14 data = {{ 0 }}; // [sp+10h] [-18h] BYREF
+
     data.field_0_vec = *pVec;
     stru_8009F1EC.field_14 = &data;
     anime_init_8005FBC8(0, 0, &stru_8009F1EC);

@@ -97,9 +97,8 @@ extern Anim_Data stru_8009F73C;
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pVec)
 {
-    anime_data_0x14 data;
+    anime_data_0x14 data = {{ 0 }};
 
-    memset_8008E688(&data, 0, sizeof(anime_data_0x14));
     data.field_0_vec = *pVec;
     stru_8009F73C.field_14 = &data;
     anime_init_8005FBC8(0, 0, &stru_8009F73C);

@@ -17,7 +17,7 @@ short SECTION(".sbss")  pad3;
 
 void GM_InitArea_8002A704(void)
 {
-    memset_8008E688(&gAreaHistory_800B5850, 0, sizeof(gAreaHistory_800B5850));
+    gAreaHistory_800B5850 = ( AreaHistory ){{ 0 }};
 }
 
 void GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy)
