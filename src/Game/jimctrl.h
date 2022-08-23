@@ -45,5 +45,6 @@ void         jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl);
 void         sub_80037FE0(int index, u_short value);
 void         jimctrl_act_80038070(void);
 unsigned int jimctrl_helper_80037F68(unsigned int);
+Actor        *jimctrl_init_80038568(u_long flags);
 
 #endif // JIMCTRL_H

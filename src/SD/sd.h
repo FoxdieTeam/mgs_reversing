@@ -161,5 +161,6 @@ void por_compute_80086504(void);
 int  vib_compute_800865CC(void);
 void freq_set_800885D4(unsigned int a1);
 int  get_str_counter_80088CA0(void);
+int  sd_str_play_800886DC(void);
 
 #endif // _SD_H_
