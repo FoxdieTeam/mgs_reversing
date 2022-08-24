@@ -13,6 +13,7 @@ replaces = {
     # ghidra
     'undefined4': 'int',
     'undefined2': 'short',
+    'undefined1': 'char',
     'undefined': 'char',
     'ushort': 'unsigned short',
     'uint': 'unsigned int',
