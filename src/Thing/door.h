@@ -7,7 +7,7 @@
 
 Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv);
 
-struct Actor_Door_TParam_sub
+typedef struct Actor_Door_TParam_sub
 {
     short field_0_x;
     short field_2_z;
@@ -18,17 +18,17 @@ struct Actor_Door_TParam_sub
     short field_A_z;
     short field_C_y;
     short field_E_param_v1;
-};
+} Actor_Door_TParam_sub;
 
-struct Actor_Door_TParam
+typedef struct Actor_Door_TParam
 {
-    struct Actor_Door_TParam_sub field_0;
-    struct Actor_Door_TParam_sub field_10;
-    struct Actor_Door_TParam_sub field_20;
+    Actor_Door_TParam_sub field_0;
+    Actor_Door_TParam_sub field_10;
+    Actor_Door_TParam_sub field_20;
     int                          field_30[2];
-};
+} Actor_Door_TParam;
 
-struct Actor_Door
+typedef struct Actor_Door
 {
     Actor                    field_0_actor;
     GM_Control               field_20_ctrl;
@@ -58,22 +58,22 @@ struct Actor_Door
     short                    field_F6_map_num;
     short                    field_F8_maps[2];
     short                    field_FC_param_u_v;
-    unsigned char            field_FE_e_param_v1;
+    unsigned char            field_FE_sound_effect;
     char                     field_FF_e_param_v2;
     int                      field_100_param_f_v;
-    struct Actor_Door_TParam field_104[1];
-};
+    Actor_Door_TParam field_104[1];
+} Actor_Door;
 
-int  door_loader_8006FA60(struct Actor_Door *pDoor, int name, int where);
-void door_act_8006F318(struct Actor_Door *pDoor);
-void door_kill_8006F718(struct Actor_Door *pDoor);
+int  door_loader_8006FA60(Actor_Door *pDoor, int name, int where);
+void door_act_8006F318(Actor_Door *pDoor);
+void door_kill_8006F718(Actor_Door *pDoor);
 int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
-void door_loader_param_h_8006F978(struct Actor_Door *pDoor, int a_param_v);
-void door_init_t_value_8006F7AC(struct Actor_Door *pDoor, struct Actor_Door_TParam *pOffset, short, int, int);
-void door_loader_t_param_sub_8006F748(struct Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2,
+void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v);
+void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, short, int, int);
+void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2,
                                       short param_v);
 
 // TODO: move to hzd.h? but this pTSub struct is weird
-int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, struct Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
+int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
 #endif // _THING_DOOR_H_
