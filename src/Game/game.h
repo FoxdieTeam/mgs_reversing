@@ -11,6 +11,7 @@
 #include "libgcl/gcl.h"
 #include "motion.h"
 #include "gamestate.h"
+#include "SD/sd.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_NoisePower_800ABA24;
@@ -136,7 +137,6 @@ static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
 }
 
 extern int         GM_GameStatus_800AB3CC;
-int                sd_set_cli_800887EC(int code, int unused);
 static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
 {
     int lowest_byte;
