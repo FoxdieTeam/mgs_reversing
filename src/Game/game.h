@@ -208,6 +208,9 @@ int sub_800327BC(DVECTOR *out, SVECTOR *pos);
 int sub_80032820(DVECTOR *out, SVECTOR *pos);
 int sub_800326D4(DVECTOR *out, SVECTOR *pos);
 int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out);
+int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out);
+int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out);
+int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out);
 
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
