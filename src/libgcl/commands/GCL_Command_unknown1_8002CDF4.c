@@ -11,16 +11,14 @@ extern GM_Control *gSnaControl_800AB9F4; // todo: update external
 extern int                GM_Photocode_800ABA04;
 extern int                dword_8009F46C;
 extern GameState_800B4D98 gGameState_800B4D98;
-extern short              word_8009F478;
-extern short              word_8009F47A;
-extern short              word_8009F47C;
+extern SVECTOR            svector_8009F478;
 
 extern SVECTOR GM_PhotoViewPos_800ABA48;
 // extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
-    SVECTOR       vec;
+    SVECTOR     vec;
     GM_Control *unkStruct;
     int         param;
     map_record *map;
@@ -71,9 +69,9 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('n'))
     {
         gGameState_800B4D98.field_0A_last_result = dword_8009F46C;
-        gGameState_800B4D98.field_10_snake_position.x = word_8009F478;
-        gGameState_800B4D98.field_10_snake_position.y = word_8009F47A;
-        gGameState_800B4D98.field_10_snake_position.z = word_8009F47C;
+        gGameState_800B4D98.field_10_snake_position.x = svector_8009F478.vx;
+        gGameState_800B4D98.field_10_snake_position.y = svector_8009F478.vy;
+        gGameState_800B4D98.field_10_snake_position.z = svector_8009F478.vz;
     }
     return 0;
 }
