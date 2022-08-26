@@ -9,7 +9,22 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader2_80074644.s") // 112 bytes
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_800746B4.s")         // 124 bytes
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_act_80074730.s")     // 276 bytes
-#pragma INCLUDE_ASM("asm/Okajima/stngrnd_free_80074844.s")    // 116 bytes
+
+void stngrnd_free_80074844(int pActor, int num)
+{
+    int i;
+
+    for (i = 0; i < num; i++)
+    {
+        int *a = (int *)pActor;
+        DG_OBJS *objs = (DG_OBJS *)a[0x18 + i];
+        if (objs)
+        {
+            DG_DequeuePrim_800182E0(objs);
+            DG_FreePrim_8001BC04(objs);
+        }
+    }
+}
 
 void stngrnd_kill_800748B8(int param_1)
 {

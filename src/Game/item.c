@@ -28,7 +28,30 @@ void item_all_items_and_weapons_unknown2_80033500()
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_all_items_and_weapons_unknown_80033560.s")  // 112 bytes
+void item_all_items_and_weapons_unknown_80033560()
+{
+    int    i;
+    short *ptr;
+
+    ptr = gGameState_800B4D98.field_4A_item_states;
+    for (i = 0; i < GAMESTATE_ITEM_STATES; i++)
+    {
+        if (ptr[i] != -1)
+        {
+            ptr[i] &= 0x7FFF;
+        }
+    }
+
+    ptr = gGameState_800B4D98.field_22_weapon_states;
+    for (i = 0; i < GAMESTATE_WEAPON_STATES; i++)
+    {
+        if (ptr[i] != -1)
+        {
+            ptr[i] &= 0x7FFF;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s")                     // 212 bytes
 
 void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
