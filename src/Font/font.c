@@ -139,7 +139,24 @@ int sub_800450F4(int a1)
 
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper5_80045124.s") // 808 bytes
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper6_8004544C.s") // 716 bytes
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper_80045718.s")  // 112 bytes
+
+unsigned int font_draw_string_helper_80045718(int a1)
+{
+    if (a1 == 0x8000)
+    {
+        return 0;
+    }
+
+    if (a1 <= 33023)
+    {
+        if (a1 != 32803 && (unsigned int)(a1 - 32784) >= 16)
+        {
+            return ((unsigned int)sub_800450F4((char)a1) >> 24) & 0x0F;
+        }
+    }
+
+    return 12;
+}
 
 void sub_80045788(int param_1)
 {
