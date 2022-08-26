@@ -231,7 +231,22 @@ void memcard_load_files_80024960(int idx)
     gMemCards_800B52F8[idx].field_3_free_blocks = 15 - freeBlockCount;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_retry_helper_800249CC.s") // 112 bytes
+int memcard_retry_helper_800249CC(int state)
+{
+    switch (state)
+    {
+    case 1:
+        return 0;
+    case 4:
+        return 0x01000000;
+    case 2:
+        return 0xc0000002;
+    case 3:
+        return 0xc0000003;
+    default:
+        return 0x80000000;
+    }
+}
 
 void memcard_reset_status_80024A3C(void)
 {
