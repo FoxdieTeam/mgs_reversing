@@ -19,6 +19,7 @@ extern const char aWaitvblD[];
 extern const char aIsendDstD[];
 extern const char aIsendStateDead[];
 extern const char aGetNewVblContr[];
+extern const char aMtsExtTsk[];
 
 extern mts_msg       gMtsMsgs_800C13D0[8];
 extern mts_msg      *D_800C0C00;
@@ -872,7 +873,18 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
     return msg.field_0;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008B51C.s")          // 116 bytes
+void mts_8008B51C()
+{
+    int msg[4]; // is this mt_msg? but it's 4 bytes too big?
+
+    msg[0] = 1;
+    mts_send_8008982C(0, (unsigned char *)msg);
+
+    mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1359, gTaskIdx_800C0DB0);
+    mts_printf_8008BBA0(aMtsExtTsk);
+    mts_printf_8008BBA0(asc_80013E2C);
+    mts_print_process_status_8008B77C();
+}
 
 void mts_send_msg_8008B590(int param_1, int param_2, int param_3)
 {
@@ -880,7 +892,7 @@ void mts_send_msg_8008B590(int param_1, int param_2, int param_3)
 
     msg[0] = param_2;
     msg[1] = param_3;
-    mts_send_8008982C(param_1, (unsigned char *)&msg);
+    mts_send_8008982C(param_1, (unsigned char *)msg);
 }
 
 int mts_recv_msg_8008B5B8(int param_1, int *param_2, int *param_3)
@@ -888,7 +900,7 @@ int mts_recv_msg_8008B5B8(int param_1, int *param_2, int *param_3)
     int msg[4]; // is this mt_msg? but it's 4 bytes too big?
     int res;
 
-    res = mts_receive_80089D24(param_1, (unsigned char *)&msg);
+    res = mts_receive_80089D24(param_1, (unsigned char *)msg);
     *param_2 = msg[0];
     *param_3 = msg[1];
     return res;

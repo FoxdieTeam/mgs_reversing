@@ -385,7 +385,7 @@
     include "..\obj\Game\GM_CameraEventReset_800309A8.obj"
     include "..\obj\Game\sub_800309B4.obj"
     include "..\obj\Game\sub_800309F8.obj"
-    include "..\obj\sub_80030A30.obj"
+    include "..\obj\Game\sub_80030A30.obj"
     include "..\obj\Game\GM_CameraBoundTrace_80030AA4.obj"
     include "..\obj\Game\GM_CameraLimitTrace_80030AC4.obj"
     include "..\obj\Game\GM_ExitBehindCamera_80030AEC.obj"

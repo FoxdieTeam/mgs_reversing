@@ -237,7 +237,7 @@ typedef struct Actor_MenuMan
     MenuMan_MenuBars       field_204_bars;
     short                  field_210;
     short                  field_212;
-    int                    field_214_font;
+    KCB                   *field_214_font;
     menu_chara_struct     *field_218;
     int                    field_21C;
     // Some kind of radar horizontal stretch value.
