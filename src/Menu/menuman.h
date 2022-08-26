@@ -303,6 +303,7 @@ void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if
 void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
+void init_file_mode_helper_helper_80049EDC(void);
 void init_file_mode_helper2_8004A800(void);
 void sub_80047CB4(menu_chara_struct *unknown);
 void NewJimakuStr_8004955C(const char *str, int int_1);

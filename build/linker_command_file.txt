@@ -424,7 +424,7 @@
     include "..\obj\sub_80032308.obj"
     include "..\obj\sub_80032420.obj"
     include "..\obj\sub_80032534.obj"
-    include "..\obj\sub_8003265C.obj"
+    include "..\obj\Game\sub_8003265C.obj"
     include "..\obj\Game\sub_800326D4.obj"
     include "..\obj\Game\sub_80032748.obj"
     include "..\obj\Game\sub_800327BC.obj"
