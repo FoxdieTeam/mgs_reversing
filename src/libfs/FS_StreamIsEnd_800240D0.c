@@ -22,6 +22,10 @@ int FS_StreamGetTop_80023F94(int is_movie)
 {
     int dir_idx;
 
+#ifndef NO_WARNING_WORKAROUNDS
+    dir_idx = *&dir_idx;
+#endif
+
     switch (is_movie)
     {
     case 0:
