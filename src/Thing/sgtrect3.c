@@ -26,7 +26,7 @@ void sgtrect3_act_helper_8007009C()
     SetTransMatrix_80093248(&chnl->field_10_transformation_matrix);
 }
 
-unsigned int sgtrect3_act_helper_helper_800700E0(GM_Target *target, SVECTOR *vector)
+unsigned int sgtrect3_act_helper_helper_800700E0(GM_Target *target, DVECTOR *vector)
 {
     int     vyAddend;
     int     vyDiff;
@@ -69,7 +69,148 @@ int sgtrect3_act_helper_800701A8(GM_Target *target)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_8007020C.s") // 860 bytes
+extern int     dword_8009F46C;
+extern int     dword_8009F490;
+extern SVECTOR stru_800ABA10;
+extern SVECTOR svector_8009F478;
+
+void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCoordsArray, GM_Target **outTargetsArray,
+                                  ushort *outResultsArray)
+{
+    int         downCount;
+    GM_Target  *targets, *currentTarget;
+    SVECTOR     vector, vector2;
+    int         targetCount;
+    DVECTOR     screenCoordinates;
+    long        interpolatedValue;
+    long        flag;
+    int         result;
+    int         shortestVecLen;
+    int         vecLen;
+    int         vx, vy;
+    DVECTOR    *outScreenCoordsIter;
+    GM_Target **outTargetsIter;
+    ushort     *outResultsIter;
+
+    targets = (GM_Target *)0x0;
+    GM_Target_8002E374(&downCount, &targets);
+    if (downCount != 1)
+    {
+        GM_Target *lastTarget;
+
+        if (dword_8009F46C != 0)
+        {
+            vector = svector_8009F478;
+        }
+        else
+        {
+            vector = stru_800ABA10;
+        }
+
+        targetCount = 0;
+        shortestVecLen = -1;
+        lastTarget = (GM_Target *)0x0;
+        outScreenCoordsIter = outScreenCoordsArray;
+        outTargetsIter = outTargetsArray;
+        outResultsIter = outResultsArray;
+
+        while (--downCount >= 0)
+        {
+            currentTarget = targets;
+            targets++;
+            if (sgtrect3_act_helper_800701A8(currentTarget))
+            {
+                if (RotTransPers_80093478(&currentTarget->field_8_vec, (long *)&screenCoordinates, &interpolatedValue,
+                                          &flag) > 0)
+                {
+                    vx = screenCoordinates.vx;
+                    vy = screenCoordinates.vy;
+                    result = sgtrect3_act_helper_helper_800700E0(currentTarget, &screenCoordinates) & 0xffff;
+                    if (result != 0 && vx + result >= -160 && vx - result < 161 && vy + result >= -112 &&
+                        vy - result < 113)
+                    {
+                        if (vx < result && -result < vx && vy < result && -result < vy)
+                        {
+                            vector2.vx = vx;
+                            vector2.vy = vy;
+                            vector2.vz = 0;
+
+                            if (shortestVecLen < 0)
+                            {
+                                shortestVecLen = 60000;
+                            }
+
+                            GV_SubVec3_80016D40(&currentTarget->field_8_vec, &vector, &vector2);
+                            vecLen = GV_VecLen3_80016D80(&vector2);
+                            if (vecLen < shortestVecLen && vecLen >= 2401)
+                            {
+                                shortestVecLen = vecLen;
+                                lastTarget = currentTarget;
+                            }
+                        }
+
+                        targetCount++;
+                        *outScreenCoordsIter++ = screenCoordinates;
+                        *outResultsIter++ = result;
+                        *outTargetsIter++ = currentTarget;
+                        if (targetCount == 0x1f)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (dword_8009F490 == 0)
+        {
+            if (lastTarget == (GM_Target *)0x0)
+            {
+                if (sgtrect3->field_30_target != (GM_Target *)0x0)
+                {
+                    sgtrect3->field_34_count++;
+                    sgtrect3->field_38++;
+                    if (sgtrect3->field_38 >= 24)
+                    {
+                        sgtrect3->field_34_count = 0;
+                        sgtrect3->field_38 = 0;
+                        sgtrect3->field_30_target = (GM_Target *)0x0;
+                    }
+                }
+            }
+            else
+            {
+                sgtrect3->field_38 = 0;
+                if (sgtrect3->field_30_target == lastTarget)
+                {
+                    sgtrect3->field_34_count++;
+                }
+                else
+                {
+                    sgtrect3->field_34_count = 0;
+                }
+                sgtrect3->field_30_target = lastTarget;
+            }
+        }
+        else if (sgtrect3->field_30_target != (GM_Target *)0x0)
+        {
+            if (!sgtrect3_act_helper_800701A8(sgtrect3->field_30_target))
+            {
+                sgtrect3->field_34_count = 0;
+                sgtrect3->field_38 = 0;
+                sgtrect3->field_30_target = (GM_Target *)0x0;
+            }
+            else
+            {
+                sgtrect3->field_34_count++;
+                sgtrect3->field_38 = 24;
+            }
+        }
+
+        sgtrect3->field_21AC_target_count = targetCount;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070568.s") // 696 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s") // 656 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070AB0.s") // 508 bytes
