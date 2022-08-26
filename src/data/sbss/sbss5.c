@@ -7,7 +7,7 @@ void *SECTION(".sbss") MENU_JimakuTextBody_800ABB40;
 int SECTION(".sbss") dword_800ABB44;
 int SECTION(".sbss") dword_800ABB48;
 int SECTION(".sbss") dword_800ABB4C;
-int SECTION(".sbss") dword_800ABB50;
+void *SECTION(".sbss") dword_800ABB50;
 int SECTION(".sbss") dword_800ABB54;
 int SECTION(".sbss") dword_800ABB58;
 int SECTION(".sbss") dword_800ABB5C;
