@@ -98,14 +98,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
     {
         GM_Target *lastTarget;
 
-        if (dword_8009F46C != 0)
-        {
-            vector = svector_8009F478;
-        }
-        else
-        {
-            vector = stru_800ABA10;
-        }
+        vector = (dword_8009F46C != 0) ? svector_8009F478 : stru_800ABA10;
 
         targetCount = 0;
         shortestVecLen = -1;
@@ -214,7 +207,6 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
 extern int GV_Clock_800AB920;
 
 void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *lineF3Arr)
-
 {
     int count;
     int index;
@@ -286,8 +278,49 @@ void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *l
 
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s") // 656 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070AB0.s") // 508 bytes
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070CAC.s") // 360 bytes
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_80070E14.s")        // 172 bytes
+
+extern int GV_PauseLevel_800AB928;
+
+void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
+{
+    int     vecLen;
+    SVECTOR vector2;
+    SVECTOR vector;
+
+    if (GV_PauseLevel_800AB928 != 0)
+    {
+        return;
+    }
+    if (sgtrect3->field_21B4 == 0)
+    {
+        sgtrect3->field_21B0++;
+        if (!sgtrect3->field_30_target)
+        {
+            return;
+        }
+
+        vector = (dword_8009F46C != 0) ? svector_8009F478 : stru_800ABA10;
+
+        GV_SubVec3_80016D40(&sgtrect3->field_30_target->field_8_vec, &vector, &vector2);
+        vecLen = GV_VecLen3_80016D80(&vector2);
+        vecLen = (vecLen * 3) / 2000;
+        if (vecLen == 0)
+        {
+            vecLen = 1;
+        }
+        if (sgtrect3->field_21B0 % vecLen != 0)
+        {
+            return;
+        }
+    }
+    else if (!sgtrect3->field_30_target)
+    {
+        return;
+    }
+    GM_Sound_80032968(0, 0x3f, 0x4f);
+}
+
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_80070E14.s") // 172 bytes
 
 void sgtrect3_kill_80070EC0(Actor_sgtrect3 *actor_sgtrect3)
 {
