@@ -1,6 +1,7 @@
 #include "camera.h"
 
-extern SVECTOR vec_800ABA88;
+extern SVECTOR svec_800B76F0[2];
+extern SVECTOR svec_800ABA88;
 extern int GV_PauseLevel_800AB928;
 extern GM_Camera GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
@@ -53,11 +54,43 @@ int camera_act_helper3_helper_8002ED3C(void)
     return uVar1;
 }
 #pragma INCLUDE_ASM("asm/sub_8002ED68.s") // 156 bytes
-#pragma INCLUDE_ASM("asm/sub_8002EE04.s") // 124 bytes
+
+void sub_8002EE04()
+{
+    GM_Camera_800B77E8.field_0 = svec_800B76F0[0];
+    GM_Camera_800B77E8.field_8 = svec_800B76F0[1];
+    GM_Camera_800B77E8.field_28 = 0;
+    sub_8002ED68(0);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8002EE80.s") // 136 bytes
-#pragma INCLUDE_ASM("asm/sub_8002EF08.s") // 128 bytes
-#pragma INCLUDE_ASM("asm/sub_8002EF88.s") // 128 bytes
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper_helper_8002F008.s") // 140 bytes
+
+void sub_8002EF08()
+{
+    GM_Camera_800B77E8.field_0 = svec_800B76F0[0];
+    GM_Camera_800B77E8.field_8 = gUnkCameraStruct_800B77B8.field_8;
+    GM_Camera_800B77E8.field_28 = 0;
+    sub_8002ED68(1);
+}
+
+void sub_8002EF88()
+{
+    int unused[2]; (void)unused;
+    GM_Camera_800B77E8.field_8 = gUnkCameraStruct_800B77B8.field_8;
+    GM_Camera_800B77E8.field_1C = gUnkCameraStruct_800B77B8.field_18;
+    GM_Camera_800B77E8.field_10 = gUnkCameraStruct_800B77B8.field_10;
+    GM_Camera_800B77E8.field_28 = 2;
+    GV_OriginPadSystem_80016C78(0);
+}
+
+void camera_act_helper_helper_8002F008()
+{
+    GM_Camera_800B77E8.field_0 = gUnkCameraStruct_800B77B8.field_0;
+    GM_Camera_800B77E8.field_1C = 1000;
+    GM_Camera_800B77E8.field_10 = gUnkCameraStruct_800B77B8.field_28_aim_assist;
+    GM_Camera_800B77E8.field_28 = 1;
+    GV_OriginPadSystem_80016C78(gUnkCameraStruct_800B77B8.field_28_aim_assist.vy + 2048);
+}
 
 void camera_act_helper_helper2_8002F094(int param_1)
 {
@@ -174,7 +207,7 @@ void camera_act_8003059C(Actor *pActor)
 
             if (iVar1)
             {
-                vec_800ABA88 = GM_Camera_800B77E8.field_0;
+                svec_800ABA88 = GM_Camera_800B77E8.field_0;
             }
 
             camera_act_helper4_8002F78C();

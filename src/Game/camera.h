@@ -16,8 +16,7 @@ typedef struct UnkCameraStruct // @ 800B77B8
 {
     SVECTOR field_0;
     SVECTOR field_8;
-    int     field_10;
-    int     field_14;
+    SVECTOR field_10;
     int     field_18;
     int     field_1C;
     int     field_20;
@@ -68,5 +67,6 @@ void camera_act_helper_8002F1C8();
 void camera_act_helper7_8002FB54();
 int  camera_act_helper2_8002F5C4();
 void camera_act_helper4_8002F78C();
+void sub_8002ED68(int param_1);
 
 #endif // _CAMERA_H_
