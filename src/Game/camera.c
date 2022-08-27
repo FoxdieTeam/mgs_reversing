@@ -1,5 +1,18 @@
 #include "camera.h"
 
+extern int dword_800ABA90;
+int SECTION(".sbss") dword_800ABA90;
+
+extern int GM_event_camera_flag_800ABA9C;
+int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
+
+extern int GM_CameraTrackOrg_800AB43C;
+int SECTION(".sdata") GM_CameraTrackOrg_800AB43C;
+
+extern int GM_CameraTrackOrg_800AB440;
+int SECTION(".sdata") GM_CameraTrackOrg_800AB440;
+
+extern const char aCameraC[];
 extern SVECTOR svec_800B76F0[2];
 extern SVECTOR svec_800ABA88;
 extern int GV_PauseLevel_800AB928;
@@ -87,9 +100,9 @@ void camera_act_helper_helper_8002F008()
 {
     GM_Camera_800B77E8.field_0 = gUnkCameraStruct_800B77B8.field_0;
     GM_Camera_800B77E8.field_1C = 1000;
-    GM_Camera_800B77E8.field_10 = gUnkCameraStruct_800B77B8.field_28_aim_assist;
+    GM_Camera_800B77E8.field_10 = gUnkCameraStruct_800B77B8.field_28;
     GM_Camera_800B77E8.field_28 = 1;
-    GV_OriginPadSystem_80016C78(gUnkCameraStruct_800B77B8.field_28_aim_assist.vy + 2048);
+    GV_OriginPadSystem_80016C78(gUnkCameraStruct_800B77B8.field_28.vy + 2048);
 }
 
 void camera_act_helper_helper2_8002F094(int param_1)
@@ -100,7 +113,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     if (param_1 < 6)
     {
         GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0.vx, 3);
-        GV_NearExp4PV_800269A0(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28_aim_assist.vx, 3);
+        GV_NearExp4PV_800269A0(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, 3);
         GM_Camera_800B77E8.field_1C = GV_NearExp4_800263B0(GM_Camera_800B77E8.field_1C, 1000);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002ECE4(&GM_Camera_800B77E8.field_8, &vec, &GM_Camera_800B77E8.field_0);
@@ -110,7 +123,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     {
         iVar1 = 12 - param_1;
         sub_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
-        sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28_aim_assist.vx, iVar1, 3);
+        sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, iVar1, 3);
         GM_Camera_800B77E8.field_1C = sub_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002EC8C(&GM_Camera_800B77E8.field_0, &vec, &GM_Camera_800B77E8.field_8);
@@ -220,4 +233,32 @@ void camera_act_8003059C(Actor *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/camera_init_800306A0.s") // 192 bytes
+Actor *camera_init_800306A0()
+{
+    Actor *pActor;
+
+    pActor = GV_NewActor_800150E4(2, 0x20);
+    if (pActor)
+    {
+        GV_SetNamedActor_8001514C(pActor, camera_act_8003059C, NULL, aCameraC); // "camera.c"
+    }
+
+    GM_Camera_800B77E8.field_20 = 320;
+    GM_Camera_800B77E8.field_22 = 0;
+    GM_Camera_800B77E8.field_18_flags = 0;
+    GM_Camera_800B77E8.field_32 = 0;
+    gUnkCameraStruct2_800B7868.field_1C = 320;
+    dword_800ABA90 = 0;
+    GM_event_camera_flag_800ABA9C = 0;
+    GM_CameraTrackOrg_800AB43C = 0;
+    GM_CameraTrackOrg_800AB440 = 0;
+    gUnkCameraStruct_800B77B8.field_18 = 10000;
+    GM_Camera_800B77E8.field_1C = 10000;
+    gUnkCameraStruct2_800B7868.field_18 = 10000;
+    sub_8002FCF0();
+    gUnkCameraStruct_800B77B8.field_28.vx = 0;
+    gUnkCameraStruct_800B77B8.field_28.vy = 2048;
+    gUnkCameraStruct_800B77B8.field_28.vz = 0;
+
+    return pActor;
+}

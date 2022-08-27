@@ -21,7 +21,7 @@ typedef struct UnkCameraStruct // @ 800B77B8
     int     field_1C;
     int     field_20;
     int     field_24;
-    SVECTOR field_28_aim_assist; // dont know what this really is
+    SVECTOR field_28;
 } UnkCameraStruct;
 STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
 
