@@ -130,6 +130,7 @@ typedef struct Actor_sgtrect3
     DR_TPAGE       field_23B8_prim[2];
 } Actor_sgtrect3;
 
-int sgtrect3_init_80071010(short *, int, int *, int);
+int  sgtrect3_init_80071010(short *, int, int *, int);
+void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoords, GM_Target **targets, ushort *shorts);
 
 #endif // _SGTRECT3_H_
