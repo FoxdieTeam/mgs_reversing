@@ -101,7 +101,10 @@ typedef struct Actor_sgtrect3
     short          field_24;
     short          field_26;
     int            field_28;
-    int            field_2C;
+    char           field_2C;
+    char           field_2D;
+    char           field_2E;
+    char           field_2F;
     GM_Target     *field_30_target;
     int            field_34_count;
     int            field_38;
