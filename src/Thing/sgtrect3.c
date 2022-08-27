@@ -320,7 +320,27 @@ void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
     GM_Sound_80032968(0, 0x3f, 0x4f);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_80070E14.s") // 172 bytes
+extern GM_Target *target_800BDF00;
+
+void sgtrect3_act_80070E14(Actor_sgtrect3 *sgtrect3)
+{
+    DVECTOR    screenCoords[32];
+    GM_Target *targets[32];
+    ushort     shorts[32];
+
+    if (sgtrect3->field_24 != *(short *)sgtrect3->field_20)
+    {
+        GV_DestroyActor_800151C8((Actor *)sgtrect3);
+        return;
+    }
+
+    target_800BDF00 = NULL;
+    sgtrect3_act_helper_8007009C();
+    sgtrect3_act_helper_8007020C(sgtrect3, screenCoords, targets, shorts);
+    sgtrect3_act_helper_80070AB0(sgtrect3, screenCoords, targets, shorts);
+    sgtrect3_act_helper_80070CAC(sgtrect3);
+    target_800BDF00 = sgtrect3->field_30_target;
+}
 
 void sgtrect3_kill_80070EC0(Actor_sgtrect3 *actor_sgtrect3)
 {

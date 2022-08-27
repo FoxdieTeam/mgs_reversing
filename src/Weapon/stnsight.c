@@ -8,7 +8,6 @@
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
 
-
 // stinger first person HUD
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -21,27 +20,29 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
     }
 }
 
-extern int dword_800BDF00;
+extern GM_Target *target_800BDF00;
 
 extern const char aLockOn[]; // = "LOCK_ON\n"
 
 void stnsight_act_helper_8006837C(Actor_stnsight *actor)
 {
     int iVar1;
-    
-    if (dword_800BDF00 == 0) {
+
+    if (!target_800BDF00)
+    {
         actor->field_84_4Array[1] = 0;
         return;
     }
 
     iVar1 = actor->field_84_4Array[1]++;
-    
-    if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0) {
+
+    if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
+    {
         return;
     }
 
-    
-    if (((iVar1 / 8) & 1) != 0) {
+    if (((iVar1 / 8) & 1) != 0)
+    {
         return;
     }
 
@@ -62,12 +63,12 @@ extern const char aD_2[];  // = "%d"
 
 void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
 {
-    ushort pad_status;
+    ushort   pad_status;
     LINE_F4 *lines;
     LINE_F4 *lines2;
-    TILE_1 *tiles;
-    int ybase;
-    
+    TILE_1  *tiles;
+    int      ybase;
+
     int v3; // $a2
     int v4; // $a1
     int v5; // $v1
@@ -77,7 +78,8 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
     pad_status = actor->field_24_pad_data->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
-    if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & 0x20000000) != 0)) {
+    if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & 0x20000000) != 0))
+    {
         pad_status = 0;
     }
 
@@ -98,11 +100,11 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
     {
         if (abs(actor->field_58_ybase) < 8)
         {
-            if ( (pad_status & 0x1000) != 0 )
+            if ((pad_status & 0x1000) != 0)
             {
                 actor->field_58_ybase--;
             }
-            if ( (pad_status & 0x4000) != 0 )
+            if ((pad_status & 0x4000) != 0)
             {
                 actor->field_58_ybase++;
             }
@@ -111,12 +113,12 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
 
     if (abs(actor->field_5C_xbase) < 8)
     {
-        if ( (pad_status & 0x8000) != 0 )
+        if ((pad_status & 0x8000) != 0)
         {
             actor->field_5C_xbase--;
         }
 
-        if ( (pad_status & 0x2000) != 0 )
+        if ((pad_status & 0x2000) != 0)
         {
             actor->field_5C_xbase++;
         }
@@ -126,20 +128,28 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
     lines2 = actor->field_28_lines_2Array[GV_Clock_800AB920];
     tiles = actor->field_48_tiles_2Array[GV_Clock_800AB920];
     ybase = actor->field_58_ybase;
-    
+
     menu_Color_80038B4C(0x68, 0x6f, 0x74);
 
-    for (; v6 < 210; v6 += 16, v7 -= 5) {
+    for (; v6 < 210; v6 += 16, v7 -= 5)
+    {
         menu_Text_XY_Flags_80038B34(0x28, v6 - 2, 1);
-    
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0) {
-            if (abs(v7) < 10) {
-                if (v7 < 0) {
+
+        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+        {
+            if (abs(v7) < 10)
+            {
+                if (v7 < 0)
+                {
                     menu_Text_80038C38(a0D, -v7);
-                } else {
+                }
+                else
+                {
                     menu_Text_80038C38(a0D_0, v7);
                 }
-            } else {
+            }
+            else
+            {
                 menu_Text_80038C38(aD_2, v7);
             }
         }
@@ -151,22 +161,23 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
         lines++;
 
-        if (v7 != 10 * (v7 / 10)) {
+        if (v7 != 10 * (v7 / 10))
+        {
             continue;
         }
-        
+
         tiles->y0 = v6 + ybase;
 
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)tiles);
         tiles++;
-        
+
         lines2->y1 = v6 + ybase - 4;
         lines2->y0 = v6 + ybase - 4;
         lines2->y3 = v6 + ybase + 4;
         lines2->y2 = v6 + ybase + 4;
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines2);
         lines2++;
-        
+
         lines2->y0 = v6 + ybase - 4;
         lines2->y1 = v6 + ybase + 4;
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines2);
@@ -178,11 +189,11 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
 {
     LINE_F4 *p = actor->field_40_lines_2Array[GV_Clock_800AB920];
     DVECTOR *coords = actor->field_60_coords_9Array;
-    int ybase = actor->field_58_ybase;
-    int xbase = actor->field_5C_xbase;
-    short xoff = xbase;
-    short yoff;
-    
+    int      ybase = actor->field_58_ybase;
+    int      xbase = actor->field_5C_xbase;
+    short    xoff = xbase;
+    short    yoff;
+
     p->x0 = coords[0].vx;
     p->y0 = coords[0].vy;
     p->x1 = coords[1].vx;
@@ -191,10 +202,13 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
     p->y2 = coords[2].vy;
     p->x3 = coords[3].vx;
     p->y3 = coords[3].vy;
-    
-    if (actor->field_58_ybase < 0) {
+
+    if (actor->field_58_ybase < 0)
+    {
         yoff = ybase;
-    } else {
+    }
+    else
+    {
         yoff = 0;
     }
 
@@ -208,7 +222,7 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
     p->y3 += yoff;
     stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
     p++;
-    
+
     p->x0 = coords[3].vx;
     p->y0 = coords[3].vy;
     p->x1 = coords[4].vx;
@@ -219,7 +233,7 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
     p->y1 += yoff;
     stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
     p++;
-    
+
     p->x0 = coords[5].vx;
     p->y0 = coords[5].vy;
     p->x1 = coords[6].vx;
@@ -229,9 +243,12 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
     p->x3 = coords[8].vx;
     p->y3 = coords[8].vy;
 
-    if (actor->field_58_ybase > 0) {
+    if (actor->field_58_ybase > 0)
+    {
         yoff = ybase;
-    } else {
+    }
+    else
+    {
         yoff = 0;
     }
 
@@ -246,7 +263,7 @@ void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
     stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
 }
 
-extern int dword_8009F490;
+extern int     dword_8009F490;
 extern SVECTOR svector_8009F494;
 
 extern DG_CHNL DG_Chanls_800B1800[];
@@ -255,15 +272,17 @@ extern const char aDD[]; // = "%d %d\n"
 
 void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
 {
-    LINE_F4 *lines;
+    LINE_F4        *lines;
     struct DG_CHNL *channel;
-    short sxy[2];
-    long p, flag;
-    int x, sx;
-    int y, sy;
-    
-    if (dword_8009F490 != 0) {
-        if (++actor->field_84_4Array[0] < 28) {
+    short           sxy[2];
+    long            p, flag;
+    int             x, sx;
+    int             y, sy;
+
+    if (dword_8009F490 != 0)
+    {
+        if (++actor->field_84_4Array[0] < 28)
+        {
             return;
         }
 
@@ -277,11 +296,12 @@ void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
 
         sx = sxy[0];
         sy = sxy[1];
-        
+
         x = sx + 0xa0;
         y = sy + 0x70;
-        
-        if (x >= 320u || y < 0 || y >= 224) {
+
+        if (x >= 320u || y < 0 || y >= 224)
+        {
             return;
         }
 
@@ -296,7 +316,6 @@ void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
         lines++;
 
-            
         lines->x3 = sx + 0xa1;
         lines->x0 = sx + 0xa1;
         lines->x2 = sx + 0xb3;
@@ -305,52 +324,58 @@ void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
         lines->y0 = sy + 0x62;
         lines->y3 = sy + 0x7e;
         lines->y2 = sy + 0x7e;
-    
+
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
 
         menu_Text_XY_Flags_80038B34(sx + 0x8d, sy + 0x7f, 0);
         menu_Color_80038B4C(0x1d, 0x29, 0x29);
 
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0) {
-            menu_Text_80038C38(aDD, ((ushort)svector_8009F494.vx << 16) >> 20, ((ushort)svector_8009F494.vy << 16) >> 20);
+        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+        {
+            menu_Text_80038C38(aDD, ((ushort)svector_8009F494.vx << 16) >> 20,
+                               ((ushort)svector_8009F494.vy << 16) >> 20);
         }
-    } else {
+    }
+    else
+    {
         actor->field_84_4Array[0] = 0;
     }
 }
 
-extern short N_ChanlPerfMax_800AB980;
+extern short          N_ChanlPerfMax_800AB980;
 extern unsigned short gOldRootCnt_800B1DC8[];
 
 void stnsight_act_helper_80068BF4(Actor_stnsight *actor, unsigned int *ot)
 {
-    int x;
-    int s0;
-    int s2 = 24;
-    int v1;
+    int             x;
+    int             s0;
+    int             s2 = 24;
+    int             v1;
     unsigned short *s4 = gOldRootCnt_800B1DC8;
-    int uVar9 = s4[0];
-    POLY_G4 *poly = actor->field_50_polys_2Array[GV_Clock_800AB920]; // s5
+    int             uVar9 = s4[0];
+    POLY_G4        *poly = actor->field_50_polys_2Array[GV_Clock_800AB920]; // s5
 
     ++s4;
     for (x = N_ChanlPerfMax_800AB980 - 1; x > 0; --x)
     {
         s0 = (*s4++ - uVar9) & 0xffff;
-      
-        if (s0 > 0x1ff) {
+
+        if (s0 > 0x1ff)
+        {
             s0 = 0x1ff;
         }
 
         s0 /= 10;
         v1 = s2 + s0;
-      
-        if (v1 > 240) {
+
+        if (v1 > 240)
+        {
             break;
         }
 
         poly->x0 = poly->x2 = s2;
         poly->x1 = poly->x3 = v1;
-      
+
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)poly);
 
         s2 += s0 + 1;
@@ -446,23 +471,28 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
 
 void stnsight_kill_80068ED8(Actor_stnsight *actor)
 {
-    if (actor->field_28_lines_2Array[0]) {
+    if (actor->field_28_lines_2Array[0])
+    {
         GV_DelayedFree_80016254(actor->field_28_lines_2Array[0]);
     }
 
-    if (actor->field_48_tiles_2Array[0]) {
+    if (actor->field_48_tiles_2Array[0])
+    {
         GV_DelayedFree_80016254(actor->field_48_tiles_2Array[0]);
     }
 
-    if (actor->field_38_lines_2Array[0]) {
+    if (actor->field_38_lines_2Array[0])
+    {
         GV_DelayedFree_80016254(actor->field_38_lines_2Array[0]);
     }
 
-    if (actor->field_40_lines_2Array[0]) {
+    if (actor->field_40_lines_2Array[0])
+    {
         GV_DelayedFree_80016254(actor->field_40_lines_2Array[0]);
     }
 
-    if (actor->field_50_polys_2Array[0]) {
+    if (actor->field_50_polys_2Array[0])
+    {
         GV_DelayedFree_80016254(actor->field_50_polys_2Array[0]);
     }
 
@@ -472,12 +502,13 @@ void stnsight_kill_80068ED8(Actor_stnsight *actor)
 int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
 {
     LINE_F4 *lines;
-    TILE_1 *tiles;
-    int count;
+    TILE_1  *tiles;
+    int      count;
 
     actor->field_28_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 56);
-    
-    if (!lines) {
+
+    if (!lines)
+    {
         return -1;
     }
 
@@ -487,13 +518,15 @@ int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
 
     actor->field_48_tiles_2Array[0] = tiles = GV_Malloc_8001620C(sizeof(TILE_1) * 14);
 
-    if (!tiles) {
+    if (!tiles)
+    {
         return -1;
     }
 
     actor->field_48_tiles_2Array[1] = tiles + 7;
-    
-    for (count = 0; count < 14; count++) {
+
+    for (count = 0; count < 14; count++)
+    {
         *(int *)&lines->r0 = 0x41412e;
         lines->x3 = 18;
         lines->x0 = 18;
@@ -509,7 +542,8 @@ int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
         lines++;
     }
 
-    for (count = 0; count < 28; count++) {
+    for (count = 0; count < 28; count++)
+    {
         *(int *)&lines->r0 = 0x41412e;
         lines->x2 = 42;
         lines->x1 = 42;
@@ -520,31 +554,34 @@ int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
     }
 
     tiles = actor->field_48_tiles_2Array[0];
-    
-    for (count = 0; count < 14; count++) {
+
+    for (count = 0; count < 14; count++)
+    {
         *(int *)&tiles->r0 = 0x68b187;
         tiles->x0 = 47;
         setTile1(tiles);
         tiles++;
     }
-        
+
     return 0;
 }
 
 int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
 {
     LINE_F4 *lines;
-    int count;
-  
+    int      count;
+
     actor->field_38_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
 
-    if (!lines) {
+    if (!lines)
+    {
         return -1;
     }
-    
+
     actor->field_38_lines_2Array[1] = lines + 2;
-    
-    for (count = 0; count < 4; count++) {
+
+    for (count = 0; count < 4; count++)
+    {
         *(int *)&lines->r0 = 0x41412e;
         setLineF4(lines);
         lines++;
@@ -556,17 +593,19 @@ int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
 int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
 {
     LINE_F4 *lines;
-    int count;
-    
+    int      count;
+
     actor->field_40_lines_2Array[0] = lines = GV_Malloc_8001620C(sizeof(LINE_F4) * 6);
 
-    if (!lines) {
+    if (!lines)
+    {
         return -1;
     }
-    
+
     actor->field_40_lines_2Array[1] = lines + 3;
 
-    for (count = 0; count < 2; count++) {
+    for (count = 0; count < 2; count++)
+    {
         *(int *)&lines->r0 = 0x7f7972;
         setLineF4(lines);
         lines++;
@@ -586,17 +625,19 @@ int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
 int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
 {
     POLY_G4 *polys;
-    int count;
-  
+    int      count;
+
     actor->field_50_polys_2Array[0] = polys = GV_Malloc_8001620C(sizeof(POLY_G4) * 64);
 
-    if (!polys) {
+    if (!polys)
+    {
         return -1;
     }
 
     actor->field_50_polys_2Array[1] = polys + 32;
 
-    for (count = 0; count < 64; count++) {
+    for (count = 0; count < 64; count++)
+    {
         *(int *)&polys->r0 = 0x41412e;
         *(int *)&polys->r1 = 0x41412e;
         *(int *)&polys->r2 = 0x41412e;
@@ -616,20 +657,24 @@ int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
 extern GV_PAD GV_PadData_800B05C0[4];
 
 int stnsight_init_helper_800692D0(Actor_stnsight *actor, void *unknown)
-{  
-    if (stnsight_init_helper_helper_80068F74(actor) < 0) {
+{
+    if (stnsight_init_helper_helper_80068F74(actor) < 0)
+    {
         return -1;
     }
 
-    if (stnsight_init_helper_helper_80069100(actor) < 0) {
+    if (stnsight_init_helper_helper_80069100(actor) < 0)
+    {
         return -1;
     }
-    
-    if (stnsight_init_helper_helper_80069184(actor) < 0) {
+
+    if (stnsight_init_helper_helper_80069184(actor) < 0)
+    {
         return -1;
     }
-    
-    if (stnsight_init_helper_helper_80069234(actor) < 0) {
+
+    if (stnsight_init_helper_helper_80069234(actor) < 0)
+    {
         return -1;
     }
 
@@ -666,20 +711,24 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, void *unknown)
 
 extern const char aStnsightC[]; // = "stnsight.c"
 
-Actor_stnsight * NewStnSight_800693E0(void *unknown)
+Actor_stnsight *NewStnSight_800693E0(void *unknown)
 {
     Actor_stnsight *actor;
 
-    if (word_800AB8EC != 0) {
+    if (word_800AB8EC != 0)
+    {
         return 0;
     }
 
     actor = (Actor_stnsight *)GV_NewActor_800150E4(7, sizeof(Actor_stnsight));
 
-    if (actor) {
-        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)stnsight_act_80068D0C, (TActorFunction)stnsight_kill_80068ED8, aStnsightC);
+    if (actor)
+    {
+        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
+                                  (TActorFunction)stnsight_kill_80068ED8, aStnsightC);
 
-        if (stnsight_init_helper_800692D0(actor, unknown) < 0) {
+        if (stnsight_init_helper_800692D0(actor, unknown) < 0)
+        {
             GV_DestroyActor_800151C8(&actor->field_0_actor);
             return 0;
         }
