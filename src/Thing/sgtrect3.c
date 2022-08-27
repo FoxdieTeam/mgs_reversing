@@ -92,7 +92,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
     GM_Target **outTargetsIter;
     ushort     *outResultsIter;
 
-    targets = (GM_Target *)0x0;
+    targets = NULL;
     GM_Target_8002E374(&downCount, &targets);
     if (downCount != 1)
     {
@@ -109,7 +109,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
 
         targetCount = 0;
         shortestVecLen = -1;
-        lastTarget = (GM_Target *)0x0;
+        lastTarget = NULL;
         outScreenCoordsIter = outScreenCoordsArray;
         outTargetsIter = outTargetsArray;
         outResultsIter = outResultsArray;
@@ -164,9 +164,9 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
 
         if (dword_8009F490 == 0)
         {
-            if (lastTarget == (GM_Target *)0x0)
+            if (!lastTarget)
             {
-                if (sgtrect3->field_30_target != (GM_Target *)0x0)
+                if (sgtrect3->field_30_target)
                 {
                     sgtrect3->field_34_count++;
                     sgtrect3->field_38++;
@@ -174,7 +174,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
                     {
                         sgtrect3->field_34_count = 0;
                         sgtrect3->field_38 = 0;
-                        sgtrect3->field_30_target = (GM_Target *)0x0;
+                        sgtrect3->field_30_target = NULL;
                     }
                 }
             }
@@ -192,13 +192,13 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
                 sgtrect3->field_30_target = lastTarget;
             }
         }
-        else if (sgtrect3->field_30_target != (GM_Target *)0x0)
+        else if (sgtrect3->field_30_target)
         {
             if (!sgtrect3_act_helper_800701A8(sgtrect3->field_30_target))
             {
                 sgtrect3->field_34_count = 0;
                 sgtrect3->field_38 = 0;
-                sgtrect3->field_30_target = (GM_Target *)0x0;
+                sgtrect3->field_30_target = NULL;
             }
             else
             {
@@ -211,7 +211,79 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
     }
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070568.s") // 696 bytes
+extern int GV_Clock_800AB920;
+
+void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *lineF3Arr)
+
+{
+    int count;
+    int index;
+
+    LINE_F4 *firstLineF4;
+    LINE_F4 *secondLineF4;
+
+    int   firstLineX_0_3;
+    int   firstLineX_1_2;
+    int   secondLineX_0_3;
+    int   secondLineX_1_2;
+    int   xOffset;
+    short yCoord_0_1;
+    short yCoord_2_3;
+
+    int multiplicand;
+
+    count = sgtrect3->field_34_count;
+    if (0xc < count)
+    {
+        count = 0xc;
+    }
+
+    firstLineF4 = sgtrect3->field_1C3C_lines[GV_Clock_800AB920].field_0;
+    secondLineF4 = firstLineF4 + 1;
+    for (index = 0; index < count; index++)
+    {
+        firstLineX_1_2 = (lineF3Arr->x0 * index) / 12;
+        secondLineX_1_2 = ((lineF3Arr->x1 - 319) * index) / 12 + 319;
+        yCoord_0_1 = (((lineF3Arr->y0 - 29) * index) / 12) + 29;
+        yCoord_2_3 = (((lineF3Arr->y2 - 210) * index) / 12) + 210;
+
+        xOffset = ((secondLineX_1_2 - firstLineX_1_2) / 6);
+        firstLineX_0_3 = firstLineX_1_2 + xOffset;
+        secondLineX_0_3 = secondLineX_1_2 - xOffset;
+
+        firstLineF4->x0 = firstLineF4->x3 = firstLineX_0_3;
+        secondLineF4->x0 = secondLineF4->x3 = secondLineX_0_3;
+        firstLineF4->x1 = firstLineF4->x2 = firstLineX_1_2;
+        secondLineF4->x1 = secondLineF4->x2 = secondLineX_1_2;
+        firstLineF4->y0 = firstLineF4->y1 = secondLineF4->y0 = secondLineF4->y1 = yCoord_0_1;
+        firstLineF4->y2 = firstLineF4->y3 = secondLineF4->y2 = secondLineF4->y3 = yCoord_2_3;
+
+        if (index != 11)
+        {
+            multiplicand = 16 - (sgtrect3->field_34_count - index);
+
+            if (multiplicand < 0)
+            {
+                multiplicand = 0;
+            }
+
+            firstLineF4->r0 = (unsigned int)(sgtrect3->field_2C * multiplicand) >> 4;
+            firstLineF4->g0 = (unsigned int)(sgtrect3->field_2D * multiplicand) >> 4;
+            firstLineF4->b0 = (unsigned int)(sgtrect3->field_2E * multiplicand) >> 4;
+            secondLineF4->r0 = firstLineF4->r0;
+            secondLineF4->g0 = firstLineF4->g0;
+            secondLineF4->b0 = firstLineF4->b0;
+        }
+
+        sgtrect3_act_helper_helper_80070040(ot, firstLineF4);
+        sgtrect3_act_helper_helper_80070040(ot, secondLineF4);
+        firstLineF4 += 2;
+        secondLineF4 += 2;
+    }
+
+    sgtrect3_act_helper_helper_80070040(ot, sgtrect3->field_23B8_prim + GV_Clock_800AB920);
+}
+
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s") // 656 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070AB0.s") // 508 bytes
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070CAC.s") // 360 bytes
