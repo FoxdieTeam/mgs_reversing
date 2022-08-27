@@ -557,7 +557,7 @@ void                 sna_init_8004EE28(Actor_SnaInit *snake)
         vx += 0xf;
     }
     vx &= 0xfff0;
-    gUnkCameraStruct_800B77B8.field_28_aim_assist.vx = vx;
+    gUnkCameraStruct_800B77B8.field_28.vx = vx;
 }
 
 void sub_8004EEB0(Actor_SnaInit *pActor)
@@ -870,7 +870,7 @@ void sub_8004FAE8(Actor_SnaInit *snake)
     SVECTOR vec;
 
     DG_MatrixRotYXZ_8001E734(&snake->field_9C_obj.objs->objs[6].world, &vec);
-    gUnkCameraStruct_800B77B8.field_28_aim_assist = vec;
+    gUnkCameraStruct_800B77B8.field_28 = vec;
 }
 
 int sub_8004FB38(void)
@@ -3263,7 +3263,7 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 
     if (sna_init_sub_8004E358(pActor, SNA_FLAG2_UNK5))
     {
-        gUnkCameraStruct_800B77B8.field_28_aim_assist.vx = out_x;
+        gUnkCameraStruct_800B77B8.field_28.vx = out_x;
     }
 }
 
