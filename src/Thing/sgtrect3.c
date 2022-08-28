@@ -434,5 +434,30 @@ void sgtrect3_loader_helper_80070ECC(Actor_sgtrect3 *sgtrect3, unsigned int rgb)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_80070F4C.s") // 196 bytes
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s")   // 268 bytes
+int sgtrect3_loader_80070F4C(Actor_sgtrect3 *sgtrect3, unsigned int *rgb2)
+{
+    int       outerIndex;
+    int       innerIndex;
+    DR_TPAGE *tPageIter_21B8;
+    DR_TPAGE *tPageIter_23B8;
+
+    tPageIter_23B8 = &sgtrect3->field_23B8_prim[0];
+
+    for (outerIndex = 0; outerIndex < 2; outerIndex++, tPageIter_23B8++)
+    {
+        tPageIter_21B8 = sgtrect3->field_21B8[outerIndex].field_0;
+
+        for (innerIndex = 0; innerIndex < 32; innerIndex++, tPageIter_21B8++)
+        {
+            SetDrawTPage_800924A8(tPageIter_21B8, 0, 1, 0);
+        }
+
+        SetDrawTPage_800924A8(tPageIter_23B8, 0, 1, 32);
+    }
+
+    sgtrect3_loader_helper_80070ECC(sgtrect3, rgb2[1]);
+
+    return 0;
+}
+
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s") // 268 bytes
