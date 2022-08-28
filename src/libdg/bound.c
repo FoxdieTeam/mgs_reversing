@@ -43,8 +43,8 @@ void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     DG_OBJ    *obj;
     DVECTOR   *dvec;
     SVECTOR   *svec;
-    KmdVec3   *vec3_1;
-    KmdVec3   *vec3_2;
+    DG_VECTOR   *vec3_1;
+    DG_VECTOR   *vec3_2;
     DG_Bounds *mdl_bounds;
 
     n_models = objs->n_models;
@@ -64,8 +64,8 @@ void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
                 mdl_bounds = (DG_Bounds *)&obj->model->max_8;
                 copy_bounding_box_to_spad(mdl_bounds);
-                vec3_1 = (KmdVec3 *)(SCRPAD_ADDR + 0x30);
-                vec3_2 = (KmdVec3 *)(SCRPAD_ADDR + 0x60);
+                vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
+                vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
                 i = 9;
 
                 while (i > 0)
@@ -194,8 +194,8 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
     int          local_group_id;
     DVECTOR     *dvec;
     SVECTOR     *svec;
-    KmdVec3     *vec3_1;
-    KmdVec3     *vec3_2;
+    DG_VECTOR     *vec3_1;
+    DG_VECTOR     *vec3_2;
     DG_Bounds   *mdl_bounds;
     int          n_bounding_box_vec;
     long        *test;
@@ -227,8 +227,8 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
                     svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
                     mdl_bounds = (DG_Bounds *)&current_objs->def->max;
                     copy_bounding_box_to_spad(mdl_bounds);
-                    vec3_1 = (KmdVec3 *)(SCRPAD_ADDR + 0x30);
-                    vec3_2 = (KmdVec3 *)(SCRPAD_ADDR + 0x60);
+                    vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
+                    vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
                     i = 9;
 
                     while (i > 0)
