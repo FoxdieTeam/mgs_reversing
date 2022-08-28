@@ -6,6 +6,27 @@
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
 
+typedef struct DG_VECTOR
+{
+    int field_0_x;
+    int field_4_y;
+    int field_8_z;
+} DG_VECTOR;    /* long word type 3D vector with padding removed*/
+
+typedef struct DG_SVECTOR {
+    short vx;
+    short vy;
+    short vz;
+} DG_SVECTOR;   /* short word type 3D vector with padding removed */
+
+typedef struct DG_RVECTOR {
+	DG_SVECTOR v;
+	unsigned char uv[2];
+	CVECTOR c;
+	DVECTOR sxy;
+	unsigned long  sz;
+} DG_RVECTOR;   /* division vertex data with padding removed*/
+
 typedef struct DG_TEX
 {
     unsigned short field_0_hash;
@@ -21,20 +42,13 @@ typedef struct DG_TEX
     char  field_B_height;
 } DG_TEX;
 
-typedef struct KmdVec3
-{
-    int field_0_x;
-    int field_4_y;
-    int field_8_z;
-} KmdVec3;
-
 typedef struct _DG_MDL
 {
     int                 flags_0;
     int                 numFaces_4;
-    struct KmdVec3      max_8;
-    struct KmdVec3      min_14;
-    struct KmdVec3      pos_20;
+    struct DG_VECTOR      max_8;
+    struct DG_VECTOR      min_14;
+    struct DG_VECTOR      pos_20;
     int                 parent_2C;
     int                 unknownA_30;
     int                 numVertex_34;
@@ -52,8 +66,8 @@ typedef struct _DG_DEF
 {
     int            num_bones_0; // or "model" count ?
     int            num_mesh_4;
-    struct KmdVec3 max;
-    struct KmdVec3 min;
+    struct DG_VECTOR max;
+    struct DG_VECTOR min;
 } DG_DEF;
 
 typedef struct _DG_OBJ
@@ -130,8 +144,8 @@ typedef struct _DG_PRIM
 
 typedef struct DG_Bounds
 {
-    KmdVec3 max;
-    KmdVec3 min;
+    DG_VECTOR max;
+    DG_VECTOR min;
 } DG_Bounds;
 
 typedef struct
@@ -275,15 +289,21 @@ typedef struct DG_DivideFile
 // MallocLog?
 typedef struct DG_DivideMem
 {
-    long                 pad[3];
-    int                  field_0C;    // 0x0C
-    unsigned long        field_10[4]; // 0x10
-    GV_Heap             *pHeap;       // 0x20
-    GV_MemoryAllocation *pAlloc;      // 0x24
-    void                *addr;        // 0x28
-    void                *pDataStart;  // 0x2C
-    int                  size;        // 0x30
-    DG_DivideFile       *divide_file; // 0x34
+    long*                   ot;         //0x00
+    short                   field_04;   //0x04
+    unsigned short          raise;      //0x06
+    long                    opz;        //0x08 outer product
+    int                     field_0C;   //0x0C  some sort of delta
+    long                    field_10;   //0x10
+    long                    field_14;   //0x14
+    long                    field_18;   //0x18
+    POLY_GT4               *pack;       //0x1C
+    GV_Heap*                pHeap;      //0x20
+    GV_MemoryAllocation*    pAlloc;     //0x24
+    int                     n_packs;    //0x28
+    void*                   pDataStart; //0x2C
+    int                     size;       //0x30
+    DG_RVECTOR*             rvec;       //0x34
 } DG_DivideMem;
 
 typedef struct SgtFile
@@ -352,6 +372,21 @@ static inline void LCOPY2(void *s1, void *d1, void *s2, void *d2)
     r2 = *(u_long *)s2;
     *(u_long *)d1 = r1;
     *(u_long *)d2 = r2;
+}
+
+static inline void SCOPYL(void *s1, void *d1)
+{
+	*(u_short *)d1 = *(u_short *)s1;
+}
+
+static inline void SCOPYL2(void *s1, void *d1, void *s2, void *d2)
+{
+	u_short r1, r2;
+
+	r1 = *(u_short *)s1;
+	r2 = *(u_short *)s2;
+	*(u_short *)d1 = r1;
+	*(u_short *)d2 = r2;
 }
 
 // TODO: There are others like this as seen in the memleak
