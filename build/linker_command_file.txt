@@ -36,16 +36,13 @@
     include "..\obj\libdg\bound.obj"    ;bound.c
     include "..\obj\libdg\oclut.obj"    ;oclut.c    ?
 
-    ;libgv
-    include "..\obj\libgv\memory_2.obj" ;memory.c
-
     ;libdg
     include "..\obj\libdg\divide.obj"   ;divide.c
 
-    include "..\obj\sub_80019448.obj"
-    include "..\obj\sub_800196B4.obj"
-    include "..\obj\libdg\DG_DivideChanl_helper2_8001991C.obj"
-    include "..\obj\libdg\DG_DivideChanl_helper3_80019CB0.obj"
+    ;include "..\obj\sub_80019448.obj"
+    ;include "..\obj\sub_800196B4.obj"
+    ;include "..\obj\libdg\DG_DivideChanl_helper2_8001991C.obj"
+    ;include "..\obj\libdg\DG_DivideChanl_helper3_80019CB0.obj"
     include "..\obj\libdg\DG_DivideChanl_80019D44.obj"
     include "..\obj\nullsub\sub_80019F38.obj"
 

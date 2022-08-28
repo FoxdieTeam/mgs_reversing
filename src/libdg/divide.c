@@ -1,5 +1,9 @@
 #include "libdg.h"
 
+//I''ll move these to libdg.h once I've redone helpers.c
+#include "inline_n.h"
+#include <GTEMAC.H>
+
 #define SCRPAD_ADDR 0x1F800000
 
 static inline DG_DivideMem *get_mem()
@@ -7,35 +11,64 @@ static inline DG_DivideMem *get_mem()
     return (DG_DivideMem *)(SCRPAD_ADDR);
 }
 
-void DG_DivideChanl_helper_80019044(int memIdx)
+//**bss*************************************//
+extern GV_Heap MemorySystems_800AD2F0[3];
+//******************************************//
+
+void *DG_SplitMemory_80018FA4( int memIdx, int* n_split, int size )
 {
-    void    *ret;
-    GV_Heap *heap;
+    int i, split_count;
+    GV_Heap* heap;
+    GV_MemoryAllocation* alloc;
 
-    DG_DivideMem *unknown = get_mem();
+    split_count = 0;
+    heap = &MemorySystems_800AD2F0[ memIdx ];
+    
+    alloc = heap->mAllocs;
+    i = heap->mUnitsCount;
+    while ( i > 0 )
+    {
+        if (alloc->mAllocType == GV_MemoryAllocation_States_Free_0)
+        {
+            split_count += (alloc[1].mPDataStart - alloc[0].mPDataStart ) / size;
+        }
+        --i;
+        alloc++;
+    }
 
-    heap = GV_SplitMemory_80018FA4(memIdx, &unknown->addr, 0x34);
+    *n_split = split_count;
+    return heap;
+}
 
-    unknown->pHeap = heap;
-    unknown->pAlloc = 0;
-    ret = sub_800190A0(heap, &unknown->pAlloc, &unknown->size);
+void DG_DivideChanl_helper_80019044( int memIdx )
+{
+    POLY_GT4* pack;
+    GV_Heap*  heap;
 
-    unknown->pDataStart = ret;
+    DG_DivideMem* divide_mem = get_mem();
+    
+    heap = DG_SplitMemory_80018FA4( memIdx, &divide_mem->n_packs, 0x34 );
+
+    divide_mem->pHeap = heap;
+    divide_mem->pAlloc = 0;
+    pack = sub_800190A0( heap, &divide_mem->pAlloc, &divide_mem->size );
+    
+    divide_mem->pDataStart = pack;
 }
 
 void DG_DivideStart_80019098(void)
 {
 }
 
-void *sub_800190A0(GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size)
+void* sub_800190A0( GV_Heap* heap, GV_MemoryAllocation** alloc_list, int* size )
 {
-    int                  i;
-    int                  alloc_idx;
-    GV_MemoryAllocation *allocs;
+    int i;
+    int alloc_idx;
+    GV_MemoryAllocation* allocs;
 
     allocs = *alloc_list;
 
-    if (!allocs)
+    if (!allocs) 
     {
         allocs = heap->mAllocs;
     }
@@ -43,17 +76,17 @@ void *sub_800190A0(GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size)
     {
         allocs++;
     }
-
-    // gets the number of allocs between the current one and the total
-    alloc_idx = (int)(allocs - 2);
+    
+    //gets the number of allocs between the current one and the total
+    alloc_idx  = (int)(allocs - 2);
     alloc_idx -= (int)heap;
     alloc_idx >>= 3;
-
+    
     i = heap->mUnitsCount - alloc_idx;
 
-    for (; i > 0; --i)
+    for ( ; i > 0 ; --i )
     {
-        if (allocs->mAllocType == GV_MemoryAllocation_States_Free_0)
+        if ( allocs->mAllocType == GV_MemoryAllocation_States_Free_0 )
         {
             alloc_list[0] = allocs;
             *size = allocs[1].mPDataStart - allocs[0].mPDataStart;
@@ -63,166 +96,446 @@ void *sub_800190A0(GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size)
     }
 
     *size = 0;
-    return 0;
+    return  0;
 }
 
-void *sub_8001911C()
+POLY_GT4* sub_8001911C( void ) 
 {
-    void         *org_addr;
-    DG_DivideMem *divide_mem;
+    POLY_GT4*       pack_addr;
+    DG_DivideMem*   divide_mem;
 
     divide_mem = get_mem();
-
+  
     divide_mem->size = divide_mem->size - 0x34;
 
     if (divide_mem->size < 0)
     {
-        divide_mem->pDataStart = sub_800190A0(divide_mem->pHeap, &divide_mem->pAlloc, &divide_mem->size);
+        divide_mem->pDataStart =  sub_800190A0( divide_mem->pHeap, &divide_mem->pAlloc, &divide_mem->size );
     }
     else
     {
-        divide_mem->addr -= 1;
-        org_addr = divide_mem->pDataStart;
+        divide_mem->n_packs -= 1;
+        pack_addr = divide_mem->pDataStart;
         divide_mem->pDataStart += 0x34;
-        return org_addr;
+        return pack_addr;
     }
-
-    if (divide_mem->pDataStart)
+    
+    if ( divide_mem->pDataStart ) 
     {
         return sub_8001911C();
     }
     else
     {
-        divide_mem->addr = 0;
+        divide_mem->n_packs = 0;
         return 0;
     }
 }
 
-char sub_80019194(DG_DivideFile *a0)
+
+int sub_80019194( DG_RVECTOR* rvec )
 {
-    int v0, v1;
+    int code;
 
-    if (!a0->field_0B)
-        return 0;
+    if ( !rvec->c.cd ) return 0;
 
-    v1 = a0[3].field_0B;
+    code = rvec[3].c.cd;
 
-    v0 = a0->field_0B & a0[1].field_0B;
-    v0 &= v1;
-    v0 &= a0[4].field_0B;
-
-    return v0;
+    return rvec->c.cd & rvec[1].c.cd & code & rvec[4].c.cd;
 }
 
 // set some flag?
-void sub_800191CC(DG_DivideFile *a0)
+void sub_800191CC( DG_RVECTOR* rvec )
 {
-    char result = 0;
+    char code = 0;
 
-    if (a0->field_0C < -160)
+    if ( rvec->sxy.vx < -160 )
     {
-        result = 1;
+        code = 1;
     }
-    else if (160 < a0->field_0C)
+    else if ( 160 < rvec->sxy.vx  )
     {
-        result = 2;
-    }
-
-    if (a0->field_0E < -112)
-    {
-        result |= 4;
-    }
-    else if (112 < a0->field_0E)
-    {
-        result |= 8;
+        code = 2;
     }
 
-    if (!a0->field_10)
+    if ( rvec->sxy.vy < -112 )
     {
-        result |= 16;
+        code |= 4;
+    }
+    else if ( 112 < rvec->sxy.vy )
+    {
+        code |= 8;
     }
 
-    a0->field_0B = result;
+    if ( !rvec->sz )
+    {
+        code |= 16;
+    }
+
+    rvec->c.cd = code;
 }
 
-void sub_8001923C(DG_DivideFile *a0, DG_DivideFile *a1, DG_DivideFile *a2)
+void sub_8001923C( DG_RVECTOR* rvec1, DG_RVECTOR* rvec2, DG_RVECTOR* rvec3 )
 {
-    a2->field_00 = (a0->field_00 + a1->field_00) / 2;
-    a2->field_02 = (a0->field_02 + a1->field_02) / 2;
-    a2->field_04 = (a0->field_04 + a1->field_04) / 2;
-    a2->field_06 = (a0->field_06 + a1->field_06) / 2;
-    a2->field_07 = (a0->field_07 + a1->field_07) / 2;
-    a2->field_08 = (a0->field_08 + a1->field_08) / 2;
-    a2->field_09 = (a0->field_09 + a1->field_09) / 2;
-    a2->field_0A = (a0->field_0A + a1->field_0A) / 2;
+    rvec3->v.vx = (rvec1->v.vx + rvec2->v.vx) / 2;
+    rvec3->v.vy = (rvec1->v.vy + rvec2->v.vy) / 2;
+    rvec3->v.vz = (rvec1->v.vz + rvec2->v.vz) / 2;
+
+    rvec3->uv[0] = (rvec1->uv[0] + rvec2->uv[0]) / 2;
+    rvec3->uv[1] = (rvec1->uv[1] + rvec2->uv[1]) / 2;
+
+    rvec3->c.r = (rvec1->c.r + rvec2->c.r) / 2;
+    rvec3->c.g = (rvec1->c.g + rvec2->c.g) / 2;
+    rvec3->c.b = (rvec1->c.b + rvec2->c.b) / 2;
 }
 
-// this is probably just some really simple divide
-void sub_80019318(DG_DivideFile *file_1, DG_DivideFile *file_2, DG_DivideFile *a3)
+void sub_80019318( DG_RVECTOR* rvec1, DG_RVECTOR* rvec2, DG_RVECTOR* rvec3 )
 {
-    int a2, a0, v1;
+    int vy_diff, vx_diff, delta;
 
-    a2 = file_2->field_0E - file_1->field_0E;
-    a0 = file_1->field_0C - file_2->field_0C;
-    v1 = get_mem()->field_0C;
+    vy_diff = rvec2->sxy.vy - rvec1->sxy.vy;
+    vx_diff = rvec1->sxy.vx - rvec2->sxy.vx;
+    delta = get_mem()->field_0C;
 
-    if (a2 >= 0)
+    if ( vy_diff >= 0 )
     {
-        if (a0 >= 0)
+        if (vx_diff >= 0)
         {
-            if (a0 / 2 < a2)
+            if ( vx_diff / 2 < vy_diff )
             {
-                a3->field_0C += v1;
+                rvec3->sxy.vx += delta;
             }
-            // loc_80019370:
-            if (a2 / 2 < a0)
+            //loc_80019370:
+            if (vy_diff / 2 < vx_diff)
             {
-                a3->field_0E += v1;
+                rvec3->sxy.vy += delta;
             }
         }
         else
         {
-            // loc_80019398
-            a0 = -a0;
-            if (a0 / 2 < a2)
+            //loc_80019398
+            vx_diff = -vx_diff;
+            if ( vx_diff / 2 < vy_diff )
             {
-                a3->field_0C += v1;
+                rvec3->sxy.vx += delta;
             }
-            // loc_8001941C:
-            if (a2 / 2 < a0)
+            //loc_8001941C:
+            if (vy_diff / 2 < vx_diff)
             {
-                a3->field_0E -= v1;
+                rvec3->sxy.vy -= delta;
             }
         }
     }
     else
     {
-        a2 = -a2;
-        if (a0 >= 0)
+        vy_diff = -vy_diff;
+        if (vx_diff >= 0)
         {
-            if (a0 / 2 < a2)
+            if ( vx_diff / 2 < vy_diff )
             {
-                a3->field_0C -= v1;
+                rvec3->sxy.vx -= delta;
             }
-            // loc_80019370:
-            if (a2 / 2 < a0)
+            //loc_80019370:
+            if (vy_diff / 2 < vx_diff)
             {
-                a3->field_0E += v1;
+                rvec3->sxy.vy += delta;
             }
         }
         else
         {
-            // loc_800193EC
-            a0 = -a0;
-            if (a0 / 2 < a2)
+            //loc_800193EC
+            vx_diff = -vx_diff;
+            if ( vx_diff / 2 < vy_diff )
             {
-                a3->field_0C -= v1;
+                rvec3->sxy.vx -= delta;
             }
-            // loc_8001941C:
-            if (a2 / 2 < a0)
+            //loc_8001941C:
+            if (vy_diff / 2 < vx_diff)
             {
-                a3->field_0E -= v1;
+                rvec3->sxy.vy -= delta;
             }
         }
+    }
+}
+
+//DELETE FROM HERE ONWARDS
+
+int sub_80019448( DG_RVECTOR* rvec )
+{
+    int v1;
+    DG_DivideMem    *divide_mem;
+    DG_DivideMem    *divide_mem2; 
+    POLY_GT4        *pack;
+    POLY_GT4        *pack2;
+    unsigned long   *ot;
+    int              z_idx;
+
+    if ( sub_80019194( rvec ) ) return 0;
+
+    divide_mem = get_mem();
+
+    if ( ( (unsigned int)divide_mem->rvec < 0x1f800254 ) && ( divide_mem->n_packs >= 4 ) )
+    {
+        gte_NormalClip( *(int*)&rvec->sxy, *(int*)&rvec[1].sxy, *(int*)&rvec[3].sxy, &divide_mem->opz );
+        v1 = divide_mem->opz;
+
+        if ( v1 < 0 ) v1 = -v1;
+
+        if ( divide_mem->field_14 < v1 )
+        {
+            DG_RVECTOR *rvec_temp = divide_mem->rvec;
+            rvec_temp[0] = rvec[0];
+            rvec_temp[2] = rvec[1];
+            rvec_temp[6] = rvec[3];
+            rvec_temp[8] = rvec[4];
+            return 1;
+        }
+    }
+
+    pack = sub_8001911C();
+
+    if ( !pack ) return 0;
+
+    divide_mem2 = get_mem();
+
+    z_idx = (unsigned short)( ( ( rvec->sz + rvec[4].sz ) / 2 ) - divide_mem2->raise );
+
+    if ( z_idx < 0 ) z_idx = 0;
+
+    //loc_800195F0
+    LCOPY2( &rvec[0].sxy, &pack->x0, &rvec[1].sxy, &pack->x1 );
+    LCOPY2( &rvec[3].sxy, &pack->x2, &rvec[4].sxy, &pack->x3 );
+
+    SCOPYL2( &rvec[0].uv, &pack->u0, &rvec[1].uv, &pack->u1 );
+    SCOPYL2( &rvec[3].uv, &pack->u2, &rvec[4].uv, &pack->u3 );
+
+    LCOPY2( &rvec[0].c, &pack->r0, &rvec[1].c, &pack->r1 );
+    LCOPY2( &rvec[3].c, &pack->r2, &rvec[4].c, &pack->r3 );
+
+    pack2 = divide_mem2->pack;
+    pack->code = pack2->code;
+
+    SCOPYL( &pack2->clut,  &pack->clut );
+    SCOPYL( &pack2->tpage, &pack->tpage );
+
+    ot = divide_mem2->ot;
+    ot = &ot[ ( unsigned char ) z_idx ];
+
+    //should be addPrim but has extra  stuff in there
+    pack->tag = ( ( z_idx & 0xFF00 ) << 16 ) | ot[0];
+    ot[0] = ( int )pack & 0xFFFFFF;
+    return 0;
+}
+
+static inline void divide_setup()
+{
+    DG_RVECTOR* rvec;
+    rvec = get_mem()->rvec;
+
+    sub_8001923C( &rvec[0], &rvec[2], &rvec[1] );
+    sub_8001923C( &rvec[6], &rvec[8], &rvec[7] );
+
+    gte_ldv3( &rvec[1], &rvec[1], &rvec[7] );
+    gte_rtpt();
+
+    sub_8001923C( &rvec[0], &rvec[6], &rvec[3] );
+    sub_8001923C( &rvec[1], &rvec[7], &rvec[4] );
+    sub_8001923C( &rvec[2], &rvec[8], &rvec[5] );
+
+    gte_stsxy3( &rvec[1].sxy, &rvec[1].sxy, &rvec[7].sxy );
+    gte_stsz3(  &rvec[1].sz, &rvec[1].sz, &rvec[7].sz );
+    gte_ldv3( &rvec[3], &rvec[4] , &rvec[5] );
+    gte_rtpt();
+
+    sub_800191CC( &rvec[1] );
+    sub_800191CC( &rvec[7] );
+    sub_80019318( &rvec[0], &rvec[2], &rvec[1] );
+    sub_80019318( &rvec[8], &rvec[6], &rvec[7] );
+
+    gte_stsxy3( &rvec[3].sxy, &rvec[4].sxy, &rvec[5].sxy );
+    gte_stsz3(  &rvec[3].sz, &rvec[4].sz, &rvec[5].sz );
+
+    sub_800191CC( &rvec[3] );
+    sub_800191CC( &rvec[4] );
+    sub_800191CC( &rvec[5] );
+    sub_80019318( &rvec[2], &rvec[8], &rvec[5] );
+    sub_80019318( &rvec[6], &rvec[0], &rvec[3] );
+}
+
+//todo: odd function requires do while hack, need to revisit
+void sub_800196B4( void )
+{
+    DG_DivideMem*  divide_mem;
+
+    divide_setup();
+    do {} while (0); //hack thats needed to make it use the right registers
+
+    divide_mem = get_mem();
+
+    divide_mem->rvec += 9;
+
+    if ( sub_80019448( &divide_mem->rvec[-9] ) ) sub_800196B4();
+    if ( sub_80019448( &divide_mem->rvec[-8] ) ) sub_800196B4();
+    if ( sub_80019448( &divide_mem->rvec[-6] ) ) sub_800196B4();
+    if ( sub_80019448( &divide_mem->rvec[-5] ) ) sub_800196B4();
+
+    //divide_mem->divide_file -= 9
+    //todo: above line didnt provide working match so used asm
+    __asm__  ("lw    $2,  0x34(%0)": : "r"(divide_mem));
+    __asm__  ("addiu $2, -0xB4");
+    __asm__  ("sw    $2,  0x34(%0)": : "r"(divide_mem));
+}
+
+typedef struct cpystrct {
+    unsigned long cpy[2];
+} cpystrct;
+
+static inline void copy_verts(unsigned char* faceIndexOffset, SVECTOR* vertexIndexOffset)
+{
+    *(cpystrct*)0x1F800038 = *(cpystrct*)&vertexIndexOffset[faceIndexOffset[0]];
+    *(cpystrct*)0x1F800060 = *(cpystrct*)&vertexIndexOffset[faceIndexOffset[1]];
+    *(cpystrct*)0x1F8000B0 = *(cpystrct*)&vertexIndexOffset[faceIndexOffset[3]];
+    *(cpystrct*)0x1F8000D8 = *(cpystrct*)&vertexIndexOffset[faceIndexOffset[2]];
+}
+
+//function seems to call scratchpad addresses directly rather than through a struct
+void DG_DivideChanl_helper2_8001991C( DG_OBJ* obj,  int idx )
+{
+    POLY_GT4     *pack;
+    POLY_GT4     *org_pack;
+    int           n_packs;
+
+    org_pack = obj->packs[ idx ];
+    *(short*)0x1F800006 = obj->raise;
+
+    while ( obj ) 
+    {
+        unsigned char*  faceIndexOffset   = obj->model->faceIndexOffset_3C;
+        SVECTOR*        vertexIndexOffset = obj->model->vertexIndexOffset_38;
+        n_packs = obj->n_packs;
+        pack = org_pack;
+
+        for ( --n_packs ; n_packs >= 0 ; --n_packs )
+        {
+            int pack_raise = pack->tag & 0xFFFF;
+            int pack_addr  = pack->tag >> 8;
+
+            if ( ( *(unsigned int*)0x1F800014 < pack_addr ) && 
+                 ( pack_raise < *(int*)0x1F800018 )         && 
+                 ( *(int*)0x1F800028 >= 4 ) )
+            {
+                *(short*)pack = 0;
+                *(int*)0x1F80001C = (int)pack;
+
+                if ( pack_addr & 0x100 )
+                {
+                    *(int*)0x1F80000C = -*(int*)0x1F800010;
+                }
+                else
+                {
+                    *(int*)0x1F80000C = *(int*)0x1F800010;
+                }
+
+                //loc_80019A04:
+                *(int*)0x1F800034 = (int)0x1F800038;
+
+                copy_verts( faceIndexOffset, vertexIndexOffset );
+
+                LCOPY2(  &pack->x0 , (void*)0x1F800044 , &pack->x1 , (void*)0x1F80006C );
+                LCOPY2(  &pack->x2 , (void*)0x1F8000BC , &pack->x3 , (void*)0x1F8000E4 );
+                SCOPYL2( &pack->u0 , (void*)0x1F80003E , &pack->u1 , (void*)0x1F800066 );
+                SCOPYL2( &pack->u2 , (void*)0x1F8000B6 , &pack->u3 , (void*)0x1F8000DE );
+                LCOPY2(  &pack->r0 , (void*)0x1F800040 , &pack->r1 , (void*)0x1F800068 );
+                LCOPY2(  &pack->r2 , (void*)0x1F8000B8 , &pack->r3 , (void*)0x1F8000E0 );
+
+                gte_ldv3( 0x1F800060 , 0x1F8000B0 , 0x1F8000D8 );
+                gte_rtpt();
+                gte_stsz3( 0x1F800070 , 0x1F8000C0 , 0x1F8000E8 );
+
+                gte_ldv0( 0x1F800038 );
+                gte_rtps();
+                gte_stsz( 0x1F800048 );
+
+                sub_800191CC( (DG_RVECTOR*)0x1F800038 );
+                sub_800191CC( (DG_RVECTOR*)0x1F800060 );
+                sub_800191CC( (DG_RVECTOR*)0x1F8000B0 );
+                sub_800191CC( (DG_RVECTOR*)0x1F8000D8 );
+                sub_800196B4();
+
+            }
+            else
+            {
+                if ( pack_raise )
+                {
+                    unsigned int  *ot;
+                    unsigned short raise;
+
+                    ot    =  ( unsigned int* )(*( unsigned int* )0x1F800000);
+                    raise = *( unsigned short* )0x1F800006;
+
+                    raise = pack_raise - raise;
+                    pack_raise = raise;
+                    ot = &ot[ ( unsigned char ) pack_raise ];
+
+                    //should be addPrim but has extra value
+                    pack->tag = ( ( pack_raise & 0xFF00 ) << 0x10 ) | ( int )*ot;
+                    *ot = ( int )pack & 0xFFFFFF;
+                }
+            }
+            pack++;
+            faceIndexOffset += 4;
+        }
+
+        obj = obj->extend;
+        org_pack = pack;
+    }
+}
+
+static inline void add_prim_mid( unsigned long* ot, POLY_GT4* pack, int z_idx, int raise )
+{
+    unsigned long* temp;
+    z_idx = (z_idx - raise);
+    z_idx &= 0xFFFF;
+    
+    temp = &ot[ ( unsigned char ) z_idx ];
+
+    //should be addPrim but has extra value
+    pack->tag = ( ( z_idx & 0xFF00 ) << 0x10 ) | ( int )*temp;
+    *temp = ( int )pack;
+}
+
+void DG_DivideChanl_helper3_80019CB0( DG_OBJ* obj, int idx )
+{
+    POLY_GT4      *org_pack;
+    POLY_GT4      *pack;
+    int            raise;
+    int            n_packs;
+    unsigned long *ot;
+    unsigned long *ot_temp;
+    unsigned short pack_raise;
+
+    org_pack  = obj->packs[ idx ];
+    raise = obj->raise; //t1
+
+    while ( obj )
+    {        
+        n_packs = obj->n_packs;
+        pack = (POLY_GT4*)getaddr( &org_pack );
+
+        //TODO: below three lines don't seem right but provide fake match
+        ot = (unsigned long*)0x1F800000;
+        ot = (unsigned long*)ot[0];
+        ot_temp = ot;
+
+        for ( --n_packs ; n_packs >= 0 ; --n_packs )
+        {
+            pack_raise = pack->tag;
+            if ( pack_raise )
+            {
+                add_prim_mid( ot_temp, pack, pack_raise, raise );
+            }
+            pack++;
+        }
+        obj = obj->extend;
+        org_pack = pack;
     }
 }
