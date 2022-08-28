@@ -411,6 +411,28 @@ void sgtrect3_kill_80070EC0(Actor_sgtrect3 *actor_sgtrect3)
     byte_8009F5F8[0] = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_helper_80070ECC.s") // 128 bytes
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_80070F4C.s")        // 196 bytes
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s")          // 268 bytes
+void sgtrect3_loader_helper_80070ECC(Actor_sgtrect3 *sgtrect3, unsigned int rgb)
+{
+    int      index;
+    int      lineIndex;
+    LINE_F4 *line;
+
+    for (index = 0; index < 2; index++)
+    {
+        line = sgtrect3->field_1C3C_lines[index].field_0;
+        for (lineIndex = 0; lineIndex < 24; lineIndex++, line++)
+        {
+            *(unsigned int *)&line->r0 = rgb; // LCOPY() doesn't work here.
+            setLineF4(line);
+            setSemiTrans(line, 1);
+        }
+    }
+
+    for (index = 0; index < 12; index++)
+    {
+        sgtrect3->field_217C[index] = 0;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_loader_80070F4C.s") // 196 bytes
+#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s")   // 268 bytes
