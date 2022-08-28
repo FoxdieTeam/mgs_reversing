@@ -28,70 +28,7 @@ typedef struct sgtrect3_0x800
 
 typedef struct sgtrect3_0x100
 {
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    int field_58;
-    int field_5C;
-    int field_60;
-    int field_64;
-    int field_68;
-    int field_6C;
-    int field_70;
-    int field_74;
-    int field_78;
-    int field_7C;
-    int field_80;
-    int field_84;
-    int field_88;
-    int field_8C;
-    int field_90;
-    int field_94;
-    int field_98;
-    int field_9C;
-    int field_A0;
-    int field_A4;
-    int field_A8;
-    int field_AC;
-    int field_B0;
-    int field_B4;
-    int field_B8;
-    int field_BC;
-    int field_C0;
-    int field_C4;
-    int field_C8;
-    int field_CC;
-    int field_D0;
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
-    int field_F4;
-    int field_F8;
-    int field_FC;
+    DR_TPAGE field_0[32];
 } sgtrect3_0x100;
 
 typedef struct Actor_sgtrect3
@@ -100,11 +37,14 @@ typedef struct Actor_sgtrect3
     int            field_20;
     short          field_24;
     short          field_26;
-    int            field_28;
-    char           field_2C;
-    char           field_2D;
-    char           field_2E;
-    char           field_2F;
+    char           field_28_r;
+    char           field_28_g;
+    char           field_28_b;
+    char           field_28_pad;
+    char           field_2C_r;
+    char           field_2D_g;
+    char           field_2E_b;
+    char           field_2F_pad;
     GM_Target     *field_30_target;
     int            field_34_count;
     int            field_38;
@@ -131,6 +71,7 @@ typedef struct Actor_sgtrect3
 } Actor_sgtrect3;
 
 int  sgtrect3_init_80071010(short *, int, int *, int);
-void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoords, GM_Target **targets, ushort *shorts);
+void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
+                                  ushort offset, unsigned int rgb);
 
 #endif // _SGTRECT3_H_
