@@ -259,9 +259,9 @@ void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *l
                 multiplicand = 0;
             }
 
-            firstLineF4->r0 = (unsigned int)(sgtrect3->field_2C * multiplicand) >> 4;
-            firstLineF4->g0 = (unsigned int)(sgtrect3->field_2D * multiplicand) >> 4;
-            firstLineF4->b0 = (unsigned int)(sgtrect3->field_2E * multiplicand) >> 4;
+            firstLineF4->r0 = (unsigned int)(sgtrect3->field_2C_r * multiplicand) >> 4;
+            firstLineF4->g0 = (unsigned int)(sgtrect3->field_2D_g * multiplicand) >> 4;
+            firstLineF4->b0 = (unsigned int)(sgtrect3->field_2E_b * multiplicand) >> 4;
             secondLineF4->r0 = firstLineF4->r0;
             secondLineF4->g0 = firstLineF4->g0;
             secondLineF4->b0 = firstLineF4->b0;
@@ -273,11 +273,75 @@ void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *l
         secondLineF4 += 2;
     }
 
-    sgtrect3_act_helper_helper_80070040(ot, sgtrect3->field_23B8_prim + GV_Clock_800AB920);
+    sgtrect3_act_helper_helper_80070040(ot, &sgtrect3->field_23B8_prim[GV_Clock_800AB920]);
 }
 
 #pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s") // 656 bytes
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070AB0.s") // 508 bytes
+
+void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoordsArray, GM_Target **inTargets,
+                                  unsigned short *offsets)
+{
+    unsigned int  rgb;
+    unsigned int *rgbFields;
+
+    int            field_21B4;
+    DVECTOR        screenCoords;
+    int            targetCount;
+    GM_Target     *field_30_target;
+    GM_Target     *currentTarget;
+    unsigned short currentOffset;
+
+    DG_CHNL  *chnl;
+    void     *ot;
+    LINE_F3  *lineF3Arr;
+    LINE_F2  *lineF2Arr;
+    DR_TPAGE *tPageArr;
+
+    rgbFields = (unsigned int *)&sgtrect3->field_28_r;
+    targetCount = sgtrect3->field_21AC_target_count;
+    field_21B4 = sgtrect3->field_21B4;
+    lineF3Arr = sgtrect3->field_3C[GV_Clock_800AB920].field_0;
+    lineF2Arr = sgtrect3->field_C3C[GV_Clock_800AB920].field_0;
+    tPageArr = sgtrect3->field_21B8[GV_Clock_800AB920].field_0;
+    chnl = &DG_Chanls_800B1800[1];
+    ot = chnl[1].mOrderingTables[GV_Clock_800AB920]; // todo: fix when static inline DG_Chanl getter works.
+    field_30_target = sgtrect3->field_30_target;
+
+    for (targetCount--; targetCount >= 0; screenCoordsArray++, inTargets++, offsets++, targetCount--)
+    {
+        currentOffset = *offsets;
+        currentTarget = *inTargets;
+
+        if ((currentTarget != field_30_target) || (field_21B4 == 0))
+        {
+            rgb = rgbFields[0];
+        }
+        else if ((((unsigned short)(screenCoordsArray->vx + 160) < 321) && (-113 < screenCoordsArray->vy)) &&
+                 (screenCoordsArray->vy < 113))
+        {
+            rgb = rgbFields[1];
+        }
+        else
+        {
+            continue;
+        }
+
+        screenCoords = *screenCoordsArray;
+        screenCoords.vx += 160;
+        screenCoords.vy += 112;
+        sgtrect3_act_helper_80070820(ot, lineF3Arr, lineF2Arr, &screenCoords, currentOffset, rgb);
+        sgtrect3_act_helper_helper_80070040(ot, tPageArr);
+
+        if ((currentTarget == field_30_target) && (field_21B4 != 0))
+        {
+            sgtrect3_act_helper_80070568(sgtrect3, ot, lineF3Arr);
+        }
+
+        lineF3Arr += 2;
+        lineF2Arr += 4;
+        tPageArr++;
+    }
+}
 
 extern int GV_PauseLevel_800AB928;
 
@@ -326,7 +390,7 @@ void sgtrect3_act_80070E14(Actor_sgtrect3 *sgtrect3)
 {
     DVECTOR    screenCoords[32];
     GM_Target *targets[32];
-    ushort     shorts[32];
+    ushort     offsets[32];
 
     if (sgtrect3->field_24 != *(short *)sgtrect3->field_20)
     {
@@ -336,8 +400,8 @@ void sgtrect3_act_80070E14(Actor_sgtrect3 *sgtrect3)
 
     target_800BDF00 = NULL;
     sgtrect3_act_helper_8007009C();
-    sgtrect3_act_helper_8007020C(sgtrect3, screenCoords, targets, shorts);
-    sgtrect3_act_helper_80070AB0(sgtrect3, screenCoords, targets, shorts);
+    sgtrect3_act_helper_8007020C(sgtrect3, screenCoords, targets, offsets);
+    sgtrect3_act_helper_80070AB0(sgtrect3, screenCoords, targets, offsets);
     sgtrect3_act_helper_80070CAC(sgtrect3);
     target_800BDF00 = sgtrect3->field_30_target;
 }
