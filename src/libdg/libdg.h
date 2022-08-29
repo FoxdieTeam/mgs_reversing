@@ -446,7 +446,7 @@ void    DG_SetMainLightCol_8001A048(int r, int g, int b);
 void    DG_SetMainLightDir_80019FF8(int x, int y, int z);
 
 // divide
-void *sub_800190A0(GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size);
+void *DG_AllocDividePackMem_800190A0(GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size);
 
 // unsorted
 int      DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx);
