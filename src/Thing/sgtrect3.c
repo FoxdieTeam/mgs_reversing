@@ -259,9 +259,9 @@ void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *l
                 multiplicand = 0;
             }
 
-            firstLineF4->r0 = (unsigned int)(sgtrect3->field_2C_r * multiplicand) >> 4;
-            firstLineF4->g0 = (unsigned int)(sgtrect3->field_2D_g * multiplicand) >> 4;
-            firstLineF4->b0 = (unsigned int)(sgtrect3->field_2E_b * multiplicand) >> 4;
+            firstLineF4->r0 = (unsigned int)(sgtrect3->field_2C_rgb.rgbChars[0] * multiplicand) >> 4;
+            firstLineF4->g0 = (unsigned int)(sgtrect3->field_2C_rgb.rgbChars[1] * multiplicand) >> 4;
+            firstLineF4->b0 = (unsigned int)(sgtrect3->field_2C_rgb.rgbChars[2] * multiplicand) >> 4;
             secondLineF4->r0 = firstLineF4->r0;
             secondLineF4->g0 = firstLineF4->g0;
             secondLineF4->b0 = firstLineF4->b0;
@@ -297,7 +297,7 @@ void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoord
     LINE_F2  *lineF2Arr;
     DR_TPAGE *tPageArr;
 
-    rgbFields = (unsigned int *)&sgtrect3->field_28_r;
+    rgbFields = &sgtrect3->field_28_rgb.rgbWord;
     targetCount = sgtrect3->field_21AC_target_count;
     field_21B4 = sgtrect3->field_21B4;
     lineF3Arr = sgtrect3->field_3C[GV_Clock_800AB920].field_0;
@@ -392,7 +392,7 @@ void sgtrect3_act_80070E14(Actor_sgtrect3 *sgtrect3)
     GM_Target *targets[32];
     ushort     offsets[32];
 
-    if (sgtrect3->field_24 != *(short *)sgtrect3->field_20)
+    if (sgtrect3->field_24 != *sgtrect3->field_20)
     {
         GV_DestroyActor_800151C8((Actor *)sgtrect3);
         return;
@@ -460,4 +460,48 @@ int sgtrect3_loader_80070F4C(Actor_sgtrect3 *sgtrect3, unsigned int *rgb2)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_init_80071010.s") // 268 bytes
+extern const char aSgtrect3C[];
+
+Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4)
+{
+    Actor_sgtrect3 *sgtrect3;
+
+    if (byte_8009F5F8[0])
+    {
+        return NULL;
+    }
+
+    sgtrect3 = (Actor_sgtrect3 *)GV_NewActor_800150E4(7, 0x23c8);
+    if (!sgtrect3)
+    {
+        return NULL;
+    }
+
+    GV_SetNamedActor_8001514C((Actor *)sgtrect3, (TActorFunction)sgtrect3_act_80070E14,
+                              (TActorFunction)sgtrect3_kill_80070EC0, aSgtrect3C);
+
+    if (sgtrect3_loader_80070F4C(sgtrect3, rgb2) < 0)
+    {
+        GV_DestroyActor_800151C8((Actor *)sgtrect3);
+        return NULL;
+    }
+
+    byte_8009F5F8[0] = 1;
+    sgtrect3->field_28_rgb.rgbWord = rgb2[0];
+    sgtrect3->field_2C_rgb.rgbWord = rgb2[1];
+    sgtrect3->field_20 = param_1;
+    sgtrect3->field_24 = param_2;
+
+    if (dword_8009F490 == 0)
+    {
+        target_800BDF00 = NULL;
+    }
+
+    sgtrect3->field_34_count = 0;
+    sgtrect3->field_38 = 0;
+    sgtrect3->field_21B4 = param_4;
+    sgtrect3->field_21B0 = 0;
+    sgtrect3->field_30_target = target_800BDF00;
+
+    return sgtrect3;
+}
