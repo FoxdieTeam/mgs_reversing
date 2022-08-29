@@ -35,16 +35,7 @@
     include "..\obj\libdg\chanl.obj"    ;chanl.c
     include "..\obj\libdg\bound.obj"    ;bound.c
     include "..\obj\libdg\oclut.obj"    ;oclut.c    ?
-
-    ;libdg
     include "..\obj\libdg\divide.obj"   ;divide.c
-
-    ;include "..\obj\sub_80019448.obj"
-    ;include "..\obj\sub_800196B4.obj"
-    ;include "..\obj\libdg\DG_DivideChanl_helper2_8001991C.obj"
-    ;include "..\obj\libdg\DG_DivideChanl_helper3_80019CB0.obj"
-    include "..\obj\libdg\DG_DivideChanl_80019D44.obj"
-    include "..\obj\nullsub\sub_80019F38.obj"
 
     ;libdg\light.c
     ; 8001A06C 8001A094 80019F40 80019F80 80019FF8 8001A0E4 8001A114 8001A1A8 8001A3C4 8001A5D0 8001A5D8
