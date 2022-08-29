@@ -419,7 +419,8 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
     {
         local_20[0] = 0x41412e;
         local_20[1] = 0x293df6;
-        actor->field_84_4Array[3] = sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
+        // todo: fix data.
+        actor->field_84_4Array[3] = (int)sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
     }
 
     channel = DG_Chanls_800B1800 + 1;

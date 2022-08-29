@@ -31,20 +31,19 @@ typedef struct sgtrect3_0x100
     DR_TPAGE field_0[32];
 } sgtrect3_0x100;
 
+typedef union rgbUnion {
+    unsigned int rgbWord;
+    char         rgbChars[4]; // 4th is padding.
+} rgbUnion;
+
 typedef struct Actor_sgtrect3
 {
     Actor          field_0_actor;
-    int            field_20;
+    short         *field_20;
     short          field_24;
     short          field_26;
-    char           field_28_r;
-    char           field_28_g;
-    char           field_28_b;
-    char           field_28_pad;
-    char           field_2C_r;
-    char           field_2D_g;
-    char           field_2E_b;
-    char           field_2F_pad;
+    rgbUnion       field_28_rgb;
+    rgbUnion       field_2C_rgb;
     GM_Target     *field_30_target;
     int            field_34_count;
     int            field_38;
@@ -59,8 +58,8 @@ typedef struct Actor_sgtrect3
     DR_TPAGE       field_23B8_prim[2];
 } Actor_sgtrect3;
 
-int  sgtrect3_init_80071010(short *, int, int *, int);
-void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
-                                  ushort offset, unsigned int rgb);
+Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4);
+void            sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
+                                             ushort offset, unsigned int rgb);
 
 #endif // _SGTRECT3_H_
