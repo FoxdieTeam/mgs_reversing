@@ -2665,7 +2665,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int anim_frame)
             pActor->field_20_ctrl.field_0_position.vy = y_pos;
             pActor->field_9C_obj.objs->world.t[1] = y_pos;
 
-            DG_GetLightMatrix2_8001A5D8(&pActor->field_20_ctrl.field_0_position, &pActor->field_848_lighting_mtx);
+            DG_GetLightMatrix2_8001A5D8((MATRIX*)&pActor->field_20_ctrl.field_0_position, &pActor->field_848_lighting_mtx);
         }
     }
     else
