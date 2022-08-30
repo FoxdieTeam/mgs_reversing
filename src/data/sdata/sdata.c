@@ -19,10 +19,8 @@ int SECTION(".sdata") dword_800AB384 = 0xFFFFFFFF;
 
 int SECTION(".sdata") gObjectQueueVoided_800AB388 = 0;
 
-SVECTOR SECTION(".sdata") DG_Ambient_800AB38C = {0, 0, 0};
+SVECTOR SECTION(".sdata") DG_Ambient_800AB38C = {0, 0, 0, 0};
 
-int SECTION(".sdata") DG_PacketCode_800AB394 = 0x3C808080;
-
-int SECTION(".sdata") dword_800AB398 = 0x3E808080;
+int SECTION(".sdata") DG_PacketCode_800AB394[2] = {0x3C808080, 0x3E808080};
 
 SVECTOR SECTION(".sdata") DG_ZeroVector_800AB39C = {0, 0, 0, 0};
