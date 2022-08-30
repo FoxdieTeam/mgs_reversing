@@ -148,22 +148,25 @@ typedef struct DG_Bounds
     DG_VECTOR min;
 } DG_Bounds;
 
-typedef struct
+typedef struct DG_Light
 {
-    short int field_0_x;
-    short int field_2_y;
-    short int field_4_z;
-    short int field_6_w; // padding?
+    SVECTOR   pos;
     short int field_8_brightness;
     short int field_A_radius;
     CVECTOR   field_C_colour;
-} Light;
+} DG_Light;
 
-typedef struct
+typedef struct DG_FixedLight
 {
     int    field_0_lightCount;
-    Light *field_4_pLights;
+    DG_Light *field_4_pLights;
 } DG_FixedLight;
+
+typedef struct DG_TmpLightList
+{
+	int n_lights;
+	DG_Light lights[8];
+} DG_TmpLightList;
 
 typedef struct ImgFile
 {
@@ -436,7 +439,9 @@ void DG_ClearTmpLight_8001A0E4();
 int  DG_SetTmpLight_8001A114(SVECTOR *a1, int a2, int a3);
 void DG_InitLightSystem_80019F40(void);
 void DG_SetAmbient_80019F80(int param_1, int param_2, int param_3);
-int  DG_GetLightMatrix2_8001A5D8(SVECTOR *vec, MATRIX *mtx);
+int DG_GetLightMatrix_8001A3C4( MATRIX* mtx, MATRIX* mtx2 );
+int DG_GetLightMatrix2_8001A5D8( MATRIX* mtx, MATRIX* mtx2 );
+void DG_ResetFixedLight_8001A06C(void);
 
 DG_TEX *DG_FindTexture_8001D830(int name);
 int     DG_SearchForTextureRecord_8001D778(int hash, DG_TEX **ppFound);
