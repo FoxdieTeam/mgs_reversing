@@ -39,7 +39,7 @@
 
     ;libdg\light.c
     ; 8001A06C 8001A094 80019F40 80019F80 80019FF8 8001A0E4 8001A114 8001A1A8 8001A3C4 8001A5D0 8001A5D8
-    include "..\obj\libdg\Light.obj"
+    include "..\obj\libdg\light.obj"
 
     ;libdg\opack.c
     include "..\obj\libdg\DG_AllocPacks_8001A670.obj"
