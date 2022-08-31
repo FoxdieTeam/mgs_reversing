@@ -276,7 +276,74 @@ void sgtrect3_act_helper_80070568(Actor_sgtrect3 *sgtrect3, void *ot, LINE_F3 *l
     sgtrect3_act_helper_helper_80070040(ot, &sgtrect3->field_23B8_prim[GV_Clock_800AB920]);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/sgtrect3_act_helper_80070820.s") // 656 bytes
+void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
+                                  ushort currentOffset, unsigned int rgb)
+{
+    short sVar1;
+
+    LINE_F3 *firstLineF3;
+    LINE_F3 *secondLineF3;
+
+    LINE_F2 *firstLineF2;
+    LINE_F2 *secondLineF2;
+
+    firstLineF3 = lineF3Arr;
+    secondLineF3 = lineF3Arr + 1;
+    *(unsigned int *)&lineF3Arr[0].r0 = rgb;
+    *(unsigned int *)&lineF3Arr[1].r0 = rgb;
+    setLineF3(firstLineF3);
+    setLineF3(secondLineF3);
+    setSemiTrans(firstLineF3, 1);
+    setSemiTrans(secondLineF3, 1);
+
+    firstLineF3->x0 = secondLineF3->x0 = secondLineF3->x1 = screenCoords->vx - currentOffset;
+    firstLineF3->y0 = secondLineF3->y0 = firstLineF3->y1 = screenCoords->vy - currentOffset;
+    firstLineF3->x2 = secondLineF3->x2 = firstLineF3->x1 = screenCoords->vx + currentOffset;
+    firstLineF3->y2 = secondLineF3->y2 = secondLineF3->y1 = screenCoords->vy + currentOffset;
+    sgtrect3_act_helper_helper_80070040(ot, firstLineF3);
+    sgtrect3_act_helper_helper_80070040(ot, secondLineF3);
+
+    firstLineF2 = lineF2Arr;
+    secondLineF2 = lineF2Arr + 1;
+    *(unsigned int *)&lineF2Arr[0].r0 = rgb;
+    *(unsigned int *)&lineF2Arr[1].r0 = rgb;
+    setLineF2(firstLineF2);
+    setLineF2(secondLineF2);
+    setSemiTrans(firstLineF2, 1);
+    setSemiTrans(secondLineF2, 1);
+
+    firstLineF2->x0 = firstLineF2->x1 = secondLineF2->x0 = secondLineF2->x1 = screenCoords->vx;
+
+    sVar1 = ((currentOffset >> 2) << 2) + (currentOffset >> 2);
+    firstLineF2->y0 = screenCoords->vy - sVar1;
+    firstLineF2->y1 = screenCoords->vy - currentOffset;
+    secondLineF2->y0 = screenCoords->vy + sVar1;
+    secondLineF2->y1 = screenCoords->vy + currentOffset;
+    sgtrect3_act_helper_helper_80070040(ot, firstLineF2);
+    sgtrect3_act_helper_helper_80070040(ot, secondLineF2);
+
+    firstLineF2 = lineF2Arr + 2;
+    ++lineF2Arr;
+    --lineF2Arr;
+    while (0)
+        ;
+    secondLineF2 = lineF2Arr + 3;
+    *(unsigned int *)&firstLineF2->r0 = rgb;
+    *(unsigned int *)&secondLineF2->r0 = rgb;
+
+    setLineF2(firstLineF2);
+    setLineF2(secondLineF2);
+    setSemiTrans(firstLineF2, 1);
+    setSemiTrans(secondLineF2, 1);
+
+    firstLineF2->y0 = firstLineF2->y1 = secondLineF2->y0 = secondLineF2->y1 = screenCoords->vy;
+    firstLineF2->x0 = screenCoords->vx - sVar1;
+    firstLineF2->x1 = screenCoords->vx - currentOffset;
+    secondLineF2->x0 = screenCoords->vx + sVar1;
+    secondLineF2->x1 = screenCoords->vx + currentOffset;
+    sgtrect3_act_helper_helper_80070040(ot, firstLineF2);
+    sgtrect3_act_helper_helper_80070040(ot, secondLineF2);
+}
 
 void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoordsArray, GM_Target **inTargets,
                                   unsigned short *offsets)
