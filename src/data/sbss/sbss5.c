@@ -20,7 +20,10 @@ int SECTION(".sbss") dword_800ABB74;
 int SECTION(".sbss") dword_800ABB78;
 int SECTION(".sbss") dword_800ABB7C;
 int SECTION(".sbss") dword_800ABB80;
-int SECTION(".sbss") dword_800ABB84[5];
+int SECTION(".sbss") dword_800ABB84;
+int SECTION(".sbss") dword_800ABB88;
+int SECTION(".sbss") dword_800ABB8C;
+int SECTION(".sbss") dword_800ABB90[2];
 int SECTION(".sbss") dword_800ABB98;
 int SECTION(".sbss") dword_800ABB9C[2];
 
