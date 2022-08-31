@@ -1,6 +1,6 @@
 #include "linker.h"
 
-extern dword_800ABB8C;
+extern int dword_800ABB8C;
 int SECTION(".sbss") dword_800ABB8C;
 
 extern char byte_8009EC30;
