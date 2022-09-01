@@ -36,19 +36,13 @@
     include "..\obj\libdg\bound.obj"    ;bound.c
     include "..\obj\libdg\oclut.obj"    ;oclut.c    ?
     include "..\obj\libdg\divide.obj"   ;divide.c
+    include "..\obj\libdg\light.obj"    ;light.c
+    include "..\obj\libdg\opack.obj"    ;opack.c
 
-    ;libdg\light.c
-    ; 8001A06C 8001A094 80019F40 80019F80 80019FF8 8001A0E4 8001A114 8001A1A8 8001A3C4 8001A5D0 8001A5D8
-    include "..\obj\libdg\light.obj"
-
-    ;libdg\opack.c
-    include "..\obj\libdg\DG_AllocPacks_8001A670.obj"
-    include "..\obj\libdg\DG_WriteObjPacketUV_8001A774.obj"
-    include "..\obj\libdg\DG_WriteObjPacketRGB_8001A9B8.obj"
-    include "..\obj\libdg\DG_FreeObjsPacket_8001ABA8.obj"
-    include "..\obj\sub_8001AD28.obj"
 
     ;libdg\prim.c
+    include "..\obj\libdg\prim.obj"
+
     include "..\obj\libdg\DG_PrimChanl_helper_helper_8001ADA0.obj"
     include "..\obj\libdg\DG_PrimChanl_helper_8001AE5C.obj"
     include "..\obj\libdg\DG_PrimChanl_helper2_helper_8001AF90.obj"
