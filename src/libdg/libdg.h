@@ -129,10 +129,10 @@ typedef struct _DG_PRIM
     signed short      n_prims;
     u_short           chanl;
     u_short           field_2E_k500;
-    u_short           field_30_prim_size;
-    u_short           field_32;
-    u_short           field_34;
-    u_short           field_36;
+    short             field_30_prim_size;
+    short             field_32;
+    short             field_34;
+    short             field_36;
     SVECTOR          *field_38_pUnknown;
     RECT             *field_3C;
     union Prim_Union *field_40_pBuffers[2];
