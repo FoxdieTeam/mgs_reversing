@@ -97,7 +97,7 @@
     include "..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
     include "..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
     include "..\obj\libdg\DG_TransposeMatrix_8001EAD8.obj"
-    include "..\obj\sub_8001EB38.obj"
+    include "..\obj\libdg\sub_8001EB38.obj"
     include "..\obj\libdg\DG_ReflectVector_8001ECB4.obj"
     include "..\obj\libdg\DG_ReflectMatrix_8001EDCC.obj"
     include "..\obj\Equip\DG_Update1_8001F1BC.obj"
