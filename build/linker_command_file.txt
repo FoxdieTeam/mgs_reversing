@@ -93,7 +93,7 @@
     include "..\obj\libdg\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
     include "..\obj\libdg\DG_Trans_Chanl_8001E3C0.obj"
     include "..\obj\nullsub\sub_8001E580.obj"
-    include "..\obj\sub_8001E588.obj" ; DG_MatrixRot ???
+    include "..\obj\libdg\DG_MatrixRotXYZ_8001E588.obj"
     include "..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
     include "..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
     include "..\obj\libdg\DG_TransposeMatrix_8001EAD8.obj"
