@@ -15,7 +15,7 @@ void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
     
     if (y < 0)
     {
-        pElement = pMatrixOut->m;
+        pElement = &pMatrixOut->m[0][0];
 
         for (count = 3; count > 0; count--)
         {
