@@ -243,10 +243,9 @@ exit:
     return 2 - lightsAvailable;
 }
 
-void sub_8001A5D0(int param_1, int param_2)
+void DG_SetLightMatrix_8001A5D0( MATRIX* mtx, int trans_x )
 {
-    *(int *)(param_1 + 0x34) = param_2;
-    return;
+    mtx[1].t[0] = trans_x;
 }
 
 int DG_GetLightMatrix2_8001A5D8(SVECTOR* vec, MATRIX* mtx) 
