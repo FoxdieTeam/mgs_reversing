@@ -15,7 +15,7 @@ void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
     
     if (y < 0)
     {
-        pElement = pMatrixOut->m[0];
+        pElement = pMatrixOut->m;
 
         for (count = 3; count > 0; count--)
         {
@@ -28,7 +28,7 @@ void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
             }
 
             iVar3 = z * iVar1;
-            *pElement -= iVar2 >> 12;
+            pElement[0] -= iVar2 >> 12;
 
             if (iVar3 < 0)
             {
