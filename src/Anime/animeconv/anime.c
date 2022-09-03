@@ -383,7 +383,7 @@ int anime_fn_13_8005F408(Actor_anime *pActor, int idx)
 
 int anime_fn_14_8005F438(Actor_anime *pActor, int idx)
 {
-    pActor->field_24_pPrim->type |= 0x100u;
+    DG_InvisiblePrim(pActor->field_24_pPrim);
     GV_DestroyActor_800151C8(&pActor->field_0_actor);
     return 1;
 }

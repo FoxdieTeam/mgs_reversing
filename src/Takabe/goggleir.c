@@ -108,7 +108,7 @@ void goggleir_act_80078BE0(Actor_GoggleIr *pActor)
     if (pActor->field_4C_head_hidden)
     {
         new_map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
-        DG_SetObjectGroupId(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
         GM_CurrentMap_800AB9B0 = new_map;
         if (pActor->field_48_pParent->objs->flag & 0x80)
         {

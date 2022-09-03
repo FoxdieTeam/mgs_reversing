@@ -8,12 +8,6 @@
 
 extern int GM_CurrentMap_800AB9B0;
 
-static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
-int                group_id;
-{
-    prim->group_id = group_id;
-}
-
 static inline int GM_GetCurrentMap()
 {
     return GM_CurrentMap_800AB9B0;
