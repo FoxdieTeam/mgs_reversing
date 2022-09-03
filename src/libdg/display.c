@@ -121,8 +121,8 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_proper
     VECTOR  empty_vec;
     MATRIX *chnl_matrix;
 
-    chnl->field_4C_clip_distance = camera_property;
-    chnl_matrix = &chnl->field_2E_matrix;
+    chnl->field_50_clip_distance = camera_property;
+    chnl_matrix = &chnl->field_30_matrix;
 
     chnl_matrix->t[0] = svec->vx;
     chnl_matrix->t[1] = svec->vy;
