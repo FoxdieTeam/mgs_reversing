@@ -90,12 +90,6 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
     }
 }
 
-static inline void DG_GroupPrim(prim, group_id) DG_PRIM *prim;
-int                group_id;
-{
-    prim->group_id = group_id;
-}
-
 /*
 static inline void DG_SetPacketTexture4(POLY_FT4 *prims, DG_TEX *tex)
 {

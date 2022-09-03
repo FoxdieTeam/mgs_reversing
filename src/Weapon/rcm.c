@@ -92,34 +92,34 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
     mapBit = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
 
-    DG_SetObjectGroupId(pActor->f20_obj.objs, DG_CurrentGroupID_800AB968);
-    DG_SetPrimGroupId(pActor->field_5C_pPrim, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(pActor->f20_obj.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupPrim(pActor->field_5C_pPrim, DG_CurrentGroupID_800AB968);
 
     GM_CurrentMap_800AB9B0 = mapBit;
 
-    if ((pActor->field_48_pParent->objs->flag & 0x80) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK1000))
+    if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK1000))
     {
-        pActor->f20_obj.objs->flag |= 0x80u;
-        pActor->field_5C_pPrim->type |= 0x100u;
+        DG_InvisibleObjs( pActor->f20_obj.objs );
+        DG_InvisiblePrim( pActor->field_5C_pPrim );
     }
     else
     {
-        pActor->f20_obj.objs->flag &= ~0x80u;
-        pActor->field_5C_pPrim->type &= ~0x100u;
+        DG_VisibleObjs( pActor->f20_obj.objs );
+        DG_VisiblePrim( pActor->field_5C_pPrim );
     }
 
     p_flags = *pActor->field_50_pUnknown;
     rcm_act_helper_80066B58(pActor, p_flags);
 
     weapon_state_3 = gGameState_800B4D98.field_22_weapon_states[3];
-    if (!weapon_state_3 && (p_flags & 2) != 0)
+    if (!weapon_state_3 && (p_flags & 2))
     {
         GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
         GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_position);
         return;
     }
 
-    if (weapon_state_3 > 0 && (p_flags & 2) != 0)
+    if (weapon_state_3 > 0 && (p_flags & 2))
     {
         pActor->field_58_counter = 6;
         return;
