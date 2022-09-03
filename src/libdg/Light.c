@@ -137,7 +137,7 @@ int DG_SetTmpLight_8001A114( SVECTOR* svec, int brightness, int radius )
     return 0;
 }
 
-void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec)
+void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, DG_SVECTOR *out_vec)
 {
     int    vec_length;
     int    val;
@@ -176,12 +176,12 @@ int DG_GetLightMatrix_8001A3C4(SVECTOR *vec, MATRIX *mtx)
     DG_Light *pLightIter;
     short *pColorOut;
     int lightsAvailable;
-    SVECTOR *lightOut;
+    DG_SVECTOR *lightOut;
     DG_FixedLight *pFixedLightsIter;
     VECTOR lightDistance;
     DG_TmpLightList *pTmpLightList;
     
-    lightOut = (SVECTOR *)mtx->m[1];
+    lightOut = (DG_SVECTOR *)mtx->m[1];
     pColorOut = &mtx[1].m[0][1];
     pFixedLightsIter = gFixedLights_800B1E08;
     lightsAvailable = 2;
@@ -197,7 +197,7 @@ int DG_GetLightMatrix_8001A3C4(SVECTOR *vec, MATRIX *mtx)
     {
         for (lightCount = lightCount2; lightCount > 0; lightCount--, pLightIter++)
         {
-            lightRadius = (ushort)pLightIter->field_A_radius;
+            lightRadius = pLightIter->field_A_radius;
             
             lightDistance.vx = vec->vx - pLightIter->pos.vx;
             
@@ -211,8 +211,8 @@ int DG_GetLightMatrix_8001A3C4(SVECTOR *vec, MATRIX *mtx)
                     
                     if (lightDistance.vz >= -lightRadius && lightDistance.vz <= lightRadius)
                     {
-                        DG_GetLightVector_8001A1A8(&lightDistance, (ushort)pLightIter->field_8_brightness, lightOut);
-                        lightOut = (SVECTOR *)((char *)lightOut + 6);
+                        DG_GetLightVector_8001A1A8(&lightDistance, pLightIter->field_8_brightness, lightOut);
+                        lightOut++;
 
                         pColorOut[0] = pLightIter->field_C_colour.r << 4;
                         pColorOut[3] = pLightIter->field_C_colour.g << 4;

@@ -150,10 +150,10 @@ typedef struct DG_Bounds
 
 typedef struct DG_Light
 {
-    SVECTOR   pos;
-    short int field_8_brightness;
-    short int field_A_radius;
-    CVECTOR   field_C_colour;
+    SVECTOR        pos;
+    unsigned short field_8_brightness;
+    unsigned short field_A_radius;
+    CVECTOR        field_C_colour;
 } DG_Light;
 
 typedef struct DG_FixedLight
