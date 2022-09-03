@@ -15,7 +15,7 @@ void BoxAct_80061A14(Actor_Box *pActor)
 {
     GM_CurrentMap_800AB9B0 =  pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
 
-    DG_SetObjectGroupId(pActor->field_20.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(pActor->field_20.objs, DG_CurrentGroupID_800AB968);
 
     BoxCheckMessage_8006195C(pActor);
     if ( pActor->field_4C_bFound )

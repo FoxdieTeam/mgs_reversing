@@ -342,6 +342,31 @@ typedef struct DG_CHNL
     DR_ENV field_16C_dr_env[2];
 } DG_CHNL;
 
+enum DG_FLAGS
+{
+    DG_FLAG_TEXT		= 0x0001,	 
+	DG_FLAG_PAINT		= 0x0002,	 
+	DG_FLAG_TRANS		= 0x0004,	 
+	DG_FLAG_SHADE		= 0x0008,	 
+	DG_FLAG_BOUND		= 0x0010,	 
+	DG_FLAG_GBOUND		= 0x0020,	 
+	DG_FLAG_ONEPIECE	= 0x0040,	 
+	DG_FLAG_INVISIBLE	= 0x0080,
+    DG_FLAG_AMBIENT		= 0x0100,
+//    DG_FLAG_IRTE...
+};
+
+enum DG_PRIM_FLAGS
+{
+    DG_PRIM_VISIBLE     = 0x0000,
+    DG_PRIM_INVISIBLE   = 0x0100,
+// ...
+    DG_PRIM_SORTONLY    = 0x0800,
+// ...
+    DG_PRIM_FREEPACKS   = 0x2000,
+// ...
+};
+
 static inline u_long LLOAD(void *from)
 {
     return *(u_long *)from;
@@ -392,18 +417,42 @@ static inline void SCOPYL2(void *s1, void *d1, void *s2, void *d2)
 	*(u_short *)d2 = r2;
 }
 
-// TODO: There are others like this as seen in the memleak
-
-// invented name
-static inline void DG_SetObjectGroupId(DG_OBJS *objs, int id)
+static	inline	void    DG_VisibleObjs( objs )
+DG_OBJS			*objs ;
 {
-    objs->group_id = id;
+	objs->flag &= ~DG_FLAG_INVISIBLE ;
 }
 
-// invented name
-static inline void DG_SetPrimGroupId(DG_PRIM *pPrim, int id)
+static	inline	void	DG_InvisibleObjs( objs )
+DG_OBJS			*objs ;
 {
-    pPrim->group_id = id;
+	objs->flag |= DG_FLAG_INVISIBLE ;
+}
+
+static inline void      DG_GroupObjs( objs, group_id)
+DG_OBJS			*objs ;
+int			group_id ;
+{
+    objs->group_id = group_id;
+}
+
+static	inline	void	DG_GroupPrim( prim, group_id )
+DG_PRIM			*prim ;
+int			group_id ;
+{
+	prim->group_id = group_id ;
+}
+
+static	inline	void	DG_VisiblePrim( prim )
+DG_PRIM			*prim ;
+{
+	prim->type &= ~DG_PRIM_INVISIBLE ;
+}
+
+static	inline	void	DG_InvisiblePrim( prim )
+DG_PRIM			*prim ;
+{
+	prim->type |= DG_PRIM_INVISIBLE ;
 }
 
 DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);

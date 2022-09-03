@@ -23,6 +23,8 @@ typedef struct  Actor_strctrl
 Actor_strctrl   *GCL_Command_demo_helper_80037DD8(int base_sector, int gcl_proc);
 int             strctrl_act_helper2_800241C8(int*, int);
 
+int             strctrl_act_helper2_800241C8(int*, int);
+
 //------------------------------------------------------------------------------
 // strctrl.c
 

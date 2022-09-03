@@ -3,6 +3,7 @@
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
+//#include "map/map.h"
 
 typedef struct Res_Control_unknown
 {

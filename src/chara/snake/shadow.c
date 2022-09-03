@@ -33,7 +33,7 @@ void shadow_act_800600E4(Actor_Shadow *pActor)
         pActor->field_28_obj.objs->flag &= ~0x80u;
         shadow_act_helper_8005FD28(pActor);
         shadow_act_helper_80060028(pActor);
-        DG_SetObjectGroupId(pActor->field_28_obj.objs, pActor->field_24_pObj->map_name);
+        DG_GroupObjs(pActor->field_28_obj.objs, pActor->field_24_pObj->map_name);
     }
 }
 

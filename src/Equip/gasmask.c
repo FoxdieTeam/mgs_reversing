@@ -16,7 +16,7 @@ extern GameState_800B4D98 gGameState_800B4D98;
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {
     int map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
-    DG_SetObjectGroupId(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
     GM_CurrentMap_800AB9B0 = map;
     if (pActor->field_48_pParent->objs->flag & 0x80)
     {
