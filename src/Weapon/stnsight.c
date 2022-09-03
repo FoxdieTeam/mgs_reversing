@@ -289,7 +289,7 @@ void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
         lines = actor->field_38_lines_2Array[GV_Clock_800AB920];
         channel = &DG_Chanls_800B1800[1];
 
-        DG_Clip_80017594(&channel->field_5C_clip_rect, channel->field_4C_clip_distance);
+        DG_Clip_80017594(&channel->field_5C_clip_rect, channel->field_50_clip_distance);
         SetRotMatrix_80093218(&channel->field_10_transformation_matrix);
         SetTransMatrix_80093248(&channel->field_10_transformation_matrix);
         RotTransPers_80093478(&svector_8009F494, (long *)&sxy, &p, &flag);

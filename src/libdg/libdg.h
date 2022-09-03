@@ -327,8 +327,8 @@ typedef struct DG_CHNL
     short          word_6BC378_1;
     short          word_6BC37A_0_1EC_size;
     MATRIX         field_10_transformation_matrix;
-    MATRIX         field_2E_matrix;
-    short          field_4C_clip_distance;
+    MATRIX         field_30_matrix;
+    short          field_50_clip_distance;
     short          mTotalQueueSize;
     short          mFreePrimCount;
     short          mTotalObjectCount;
