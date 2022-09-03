@@ -21,7 +21,7 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 void sgtrect3_act_helper_8007009C()
 {
     DG_CHNL *chnl = &DG_Chanls_800B1800[1];
-    DG_Clip_80017594(&chnl->field_5C_clip_rect, chnl->field_4C_clip_distance);
+    DG_Clip_80017594(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
     SetRotMatrix_80093218(&chnl->field_10_transformation_matrix);
     SetTransMatrix_80093248(&chnl->field_10_transformation_matrix);
 }
