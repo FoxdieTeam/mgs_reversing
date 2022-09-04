@@ -27,7 +27,7 @@ int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent
     actor_aam->f5c = 0;
 
     id = GV_StrCode_80016CCC(aStinger_0);
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, 0x6d, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;

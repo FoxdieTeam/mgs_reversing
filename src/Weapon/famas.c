@@ -37,7 +37,7 @@ int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_
     else
         id = GV_StrCode_80016CCC(aMpfive);
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, 0x6d, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;

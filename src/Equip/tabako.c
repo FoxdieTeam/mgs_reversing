@@ -143,7 +143,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
     DG_PRIM *pPrimIter;       // $t0
     int ret;
 
-    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_StrCode_80016CCC(aCigar), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_StrCode_80016CCC(aCigar), WEAPON_FLAG, 0);
     if (!pActor->field_20_pObj.objs)
     {
         return -1;

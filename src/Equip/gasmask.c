@@ -70,7 +70,7 @@ int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
     pActor->field_48_pParent = pChild;
     pActor->field_4C_unit = unit;
     pActor->field_50_count = 0;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aGasMask_DUP), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aGasMask_DUP), WEAPON_FLAG, 0);
     if (!pActor->field_20_obj.objs)
     {
         return -1;
