@@ -557,6 +557,6 @@ void sub_8001C708(DG_OBJS *objs, int n_obj);
 // process vecs in spad
 SVECTOR *sub_8001AD28(SVECTOR *a1, int count);
 // read vecs from spad
-unsigned short *sub_8001B1E8(DG_PRIM *pDGPrim, short *pPrims, int prim_count);
+char *sub_8001B1E8( DG_PRIM* prim, char* ptr, int count );
 
 #endif // LIBDG_H
