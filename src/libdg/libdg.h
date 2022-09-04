@@ -332,7 +332,7 @@ typedef struct DG_CHNL
     short          mTotalQueueSize;
     short          mFreePrimCount;
     short          mTotalObjectCount;
-    DG_OBJS      **mQueue;
+    DG_OBJS      **mQueue;                  //queue can contain DG_PRIM as well, probably void*
     RECT           field_5C_clip_rect;
     RECT           field_64_rect;
     // One for each active buffer and for some reason passed as the root
@@ -353,16 +353,17 @@ enum DG_FLAGS
 	DG_FLAG_ONEPIECE	= 0x0040,	 
 	DG_FLAG_INVISIBLE	= 0x0080,
     DG_FLAG_AMBIENT		= 0x0100,
-//    DG_FLAG_IRTE...
+    DG_FLAG_IRTEXTURE   = 0x0200,
 };
 
 enum DG_PRIM_FLAGS
 {
     DG_PRIM_VISIBLE     = 0x0000,
     DG_PRIM_INVISIBLE   = 0x0100,
-// ...
+	DG_PRIM_UNKNOWN_200 = 0x0200,
+	DG_PRIM_UNKNOWN_400 = 0x0400,
     DG_PRIM_SORTONLY    = 0x0800,
-// ...
+    DG_PRIM_ONEFREE		= 0x1000,
     DG_PRIM_FREEPACKS   = 0x2000,
 // ...
 };

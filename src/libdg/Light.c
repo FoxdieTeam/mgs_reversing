@@ -16,10 +16,12 @@ extern DG_FixedLight   gFixedLights_800B1E08[8];
 extern DG_TmpLightList LightSystems_800B1E48[2];
 /*****************************************************/
 
+/**sbss**********************************/
 extern int    GV_Time_800AB330;
 extern int    GM_GameStatus_800AB3CC;
 extern MATRIX DG_LightMatrix_8009D384;
 extern MATRIX DG_ColorMatrix_8009D3A4;
+/****************************************/
 
 static inline DG_TmpLightList *getTempLight( int idx )
 {

@@ -2,8 +2,15 @@
 #include "inline_n.h"
 #include <GTEMAC.H>
 
+/**sbss**********************************/
 extern int      GV_Clock_800AB920;
+extern int      DG_CurrentGroupID_800AB968;
 extern MATRIX   DG_ZeroMatrix_8009D430;
+/****************************************/
+
+/**data*****************************************/
+extern struct DG_Rec_Unknown stru_8009D3D0[23];
+/***********************************************/
 
 void DG_PrimStart_8001AC00()
 {
@@ -429,4 +436,156 @@ void DG_8001B5FC(DG_PRIM *pPrim)
     union Prim_Union *prim_buffer = pPrim->field_40_pBuffers[GV_Clock_800AB920];
     sub_8001AD28(pPrim->field_38_pUnknown, pPrim->field_48_prim_count);
     pPrim->field_50_pFn((struct DG_PRIM *)pPrim, prim_buffer, n_prims);
+}
+
+//todo: this is dumb, must be something else
+static inline void div_mtx(MATRIX* matrix, int val)
+{
+    matrix->m[1][0] = val;
+    //matrix->m[1][0] = (matrix->m[1][0] * 58) / 64;
+    matrix->m[1][1] = (matrix->m[1][1] * 58) / 64;
+    matrix->m[1][2] = (matrix->m[1][2] * 58) / 64;
+
+    matrix->t[1]    = (matrix->t[1]    * 58) / 64;
+}
+
+void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
+{
+    int       i, type, group_id;
+    MATRIX    local_mtx;
+    MATRIX   *eye;
+    DG_PRIM  *prim;
+    DG_PRIM **prim_queue;
+    RECT     *rect;
+    int x;
+    //s0 = chnl;
+
+    i = chnl->mTotalQueueSize - chnl->mFreePrimCount;
+
+    rect = &chnl->field_5C_clip_rect;
+    if ( !i ) return;
+
+    DG_Clip_80017594( rect, chnl->field_50_clip_distance );
+    group_id = DG_CurrentGroupID_800AB968;
+    eye = &chnl->field_10_transformation_matrix;
+    prim_queue = (DG_PRIM**)&chnl->mQueue[ chnl->mFreePrimCount ];
+
+    for ( ; i > 0 ; i-- )
+    {
+        prim = *prim_queue;
+        prim_queue++;
+        type = prim->type;
+        
+        if ( type & ( DG_PRIM_INVISIBLE | DG_PRIM_SORTONLY ) ) continue;
+
+        if ( prim->group_id && !( prim->group_id & group_id ) ) continue;
+
+        if ( ! ( type & DG_PRIM_UNKNOWN_200 ) )
+        {
+            if ( prim->root )
+            {
+                prim->world = *prim->root;
+            }
+
+            gte_CompMatrix( eye, &prim->world, &local_mtx );
+            x = (local_mtx.m[1][0] * 58) / 64;
+            div_mtx( &local_mtx, x );
+            gte_SetRotMatrix( &local_mtx );
+            gte_SetTransMatrix( &local_mtx );
+        }
+        else
+        {
+            gte_SetRotMatrix( &DG_ZeroMatrix_8009D430 );
+            gte_SetTransMatrix( &DG_ZeroMatrix_8009D430 );
+        }
+
+        if ( ! ( type & DG_PRIM_FREEPACKS ) )
+        {
+            if ( ! ( type & DG_PRIM_UNKNOWN_400 ) )
+            {
+                if (  ( type & DG_PRIM_ONEFREE ) )
+                {
+                    DG_PrimChanl_helper2_8001B0B4( prim );
+                }
+                else
+                {
+                    DG_PrimChanl_helper_8001AE5C( prim );
+                }
+            }
+            else
+            {
+                if ( prim->field_32 == 1 )
+                {
+                    DG_8001B254( prim );
+                }
+                else
+                {
+                    DG_PrimChanl_helper3_8001B534( prim );
+                }
+            }
+        }
+        else
+        {
+            DG_8001B5FC( prim );
+        }
+        
+        type &= 0x1F;
+        if ( type - 0x15 < 2u )
+        {
+            DG_8001AC74( prim, type );
+        }
+    }
+}
+
+void DG_PrimEnd_8001BAB4( void )
+{
+}
+
+DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
+{
+    const struct DG_Rec_Unknown *pRec = &stru_8009D3D0[type & 31];
+    const int                    primSize = pRec->field_0_prim_size * prim_count;
+
+    DG_PRIM *pAllocated = GV_Malloc_8001620C(sizeof(DG_PRIM) + (primSize * 2));
+    if (!pAllocated)
+    {
+        return 0;
+    }
+
+    GV_ZeroMemory_8001619C(pAllocated, sizeof(DG_PRIM));
+    pAllocated->world = DG_ZeroMatrix_8009D430;
+
+    pAllocated->type = type;
+    pAllocated->n_prims = prim_count;
+    pAllocated->chanl = chanl;
+    pAllocated->field_38_pUnknown = pVec;
+    pAllocated->field_3C = pRect;
+
+    // Copy struct
+    pAllocated->field_30_prim_size = pRec->field_0_prim_size;
+    pAllocated->field_32 = pRec->field_1;
+    pAllocated->field_34 = pRec->field_2;
+    pAllocated->field_36 = pRec->field_3;
+
+    // Point to data after the end of the structure
+    pAllocated->field_40_pBuffers[0] = (union Prim_Union *)&pAllocated[1];
+    pAllocated->field_40_pBuffers[1] = (union Prim_Union *)((char *)&pAllocated[1] + primSize);
+
+    return pAllocated;
+}
+void DG_FreePrim_8001BC04(DG_OBJS *pPrim)
+{
+    if (pPrim)
+    {
+        GV_DelayedFree_80016254(pPrim);
+    }
+}
+
+void sub_8001BC28(char primSize, char a2, char a3, char a4)
+{
+    struct DG_Rec_Unknown *pRec = &stru_8009D3D0[23];
+    pRec->field_0_prim_size = primSize;
+    pRec->field_1 = a2;
+    pRec->field_2 = a3;
+    pRec->field_3 = a4;
 }
