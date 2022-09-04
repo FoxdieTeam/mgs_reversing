@@ -43,13 +43,6 @@
     ;libdg\prim.c
     include "..\obj\libdg\prim.obj"
 
-    include "..\obj\libdg\DG_PrimChanl_helper2_helper_8001AF90.obj"
-    include "..\obj\libdg\DG_PrimChanl_helper2_8001B0B4.obj"
-    include "..\obj\sub_8001B1E8.obj"
-    include "..\obj\libdg\sub_8001B254.obj"
-    include "..\obj\libdg\DG_PrimChanl_helper3_helper_8001B31C.obj"
-    include "..\obj\libdg\DG_PrimChanl_helper3_8001B534.obj"
-    include "..\obj\libdg\sub_8001B5FC.obj"
     include "..\obj\libdg\DG_PrimChanl_8001B66C.obj"
     include "..\obj\nullsub\sub_8001BAB4.obj"
     include "..\obj\libdg\DG_MakePrim_8001BABC.obj"
