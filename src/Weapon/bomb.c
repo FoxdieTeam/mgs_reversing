@@ -19,7 +19,7 @@ int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_par
 {
     OBJECT *obj = &actor_bomb->f28_obj;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aC4Bomb), 0x6d, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aC4Bomb), WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
