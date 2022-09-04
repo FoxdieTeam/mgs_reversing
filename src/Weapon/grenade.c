@@ -234,6 +234,7 @@ Actor_Grenade *grenade_init_80066944(
 	return actor_grenade;
 }
 
+<<<<<<< HEAD
 Actor_Grenade *grenade_create_80066A4C( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_GRENADE );
@@ -252,4 +253,24 @@ Actor_Grenade *NewChaffGrenade_80066AA0( GM_Control *ctrl, OBJECT *parent_obj, i
 Actor_Grenade *NewTimerBomb_80066ACC( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_TBOMB );
+=======
+Actor_Grenade *grenade_create_80066A4C( GM_Control *ctrl, OBJECT *a2, int num_parent, int *flags, int unused )
+{
+	return grenade_init_80066944( ctrl, a2, num_parent, flags, unused, GRD_GRENADE );
+}
+
+Actor_Grenade *NewStanGrenade_80066A74( GM_Control *ctrl, OBJECT *obj, int num_parent, int *flags, int unused )
+{
+	return grenade_init_80066944( ctrl, obj, num_parent, flags, unused, GRD_STUN );
+}
+
+Actor_Grenade *NewChaffGrenade_80066AA0( GM_Control *ctrl, OBJECT *a2, int num_parent, int *flags, int unused )
+{
+	return grenade_init_80066944( ctrl, a2, num_parent, flags, unused, GRD_CHAFF );
+}
+
+Actor_Grenade *NewTimerBomb_80066ACC( GM_Control *ctrl, OBJECT *a2, int num_parent, int *flags, int unused )
+{
+	return grenade_init_80066944( ctrl, a2, num_parent, flags, unused, GRD_TBOMB );
+>>>>>>> 5327b862 (some norm and renames)
 }
