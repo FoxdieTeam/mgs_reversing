@@ -1,80 +1,44 @@
 // Not sure what this file is acutally called. Rename at a later date.
 #include "linker.h"
 #include "libdg.h"
-#include <INLINE_C.H>
+
+#include "inline_n.h"
+#include <GTEMAC.H>
 #include "psyq.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-// GTE MVMVA Command: Vector 0 (V0) * Rotation Matrix (RT) + Translation Vector (TR) - 8 Cycles
-#define rtv0tr()                                                                                                       \
-    __asm__ volatile("nop;"                                                                                            \
-                     "nop;"                                                                                            \
-                     "cop2 0x0480012")
+extern MATRIX DG_ZeroMatrix_8009D430;
 
-// GTE MVMVA Command: Vector 3 (IR) * Rotation Matrix (RT) - 8 Cycles
-#define rtir12()                                                                                                       \
-    __asm__ volatile("nop;"                                                                                            \
-                     "nop;"                                                                                            \
-                     "cop2 0x049E012")
-
-// GTE Coordinate Calculation Commands: Perspective Transformation (Single) - 15 Cycles
-#define rtps()                                                                                                         \
-    __asm__ volatile("nop;"                                                                                            \
-                     "nop;"                                                                                            \
-                     "cop2 0x0180001")
-
-// RTPT  equ 0x0280030 ; GTE Coordinate Calculation Commands: Perspective Transformation (Triple) - 23 Cycles
-#define rtpt()                                                                                                         \
-    __asm__ volatile("nop;"                                                                                            \
-                     "nop;"                                                                                            \
-                     "cop2 0x0280030")
-
-#define rtpt_b() __asm__ volatile("cop2 0x0280030")
-
-#define gte_MulMatrix0(r1, r2, r3)                                                                                     \
+#define gte_MulMatrix02(r1, r2, r3)                                                                                    \
     {                                                                                                                  \
-        gte_SetRotMatrix(r1);                                                                                          \
+        gte_ldlv0(r1);                                                                                                 \
+        gte_rt();                                                                                                      \
+        gte_stlvnl(r1);                                                                                                \
         gte_ldclmv(r2);                                                                                                \
-        rtir12();                                                                                                      \
+        gte_rtir();                                                                                                      \
         gte_stclmv(r3);                                                                                                \
         gte_ldclmv((char *)r2 + 2);                                                                                    \
-        rtir12();                                                                                                      \
+        gte_rtir();                                                                                                      \
         gte_stclmv((char *)r3 + 2);                                                                                    \
         gte_ldclmv((char *)r2 + 4);                                                                                    \
-        rtir12();                                                                                                      \
+        gte_rtir();                                                                                                      \
         gte_stclmv((char *)r3 + 4);                                                                                    \
-    }
-
-#define gte_CompMatrix(r1, r2, r3)                                                                                     \
-    {                                                                                                                  \
-        gte_MulMatrix0(r1, r2, r3);                                                                                    \
-        gte_SetTransMatrix(r1);                                                                                        \
-        gte_ldlv0((char *)r2 + 20);                                                                                    \
-        rtv0tr();                                                                                                      \
-        gte_stlvnl((char *)r3 + 20);                                                                                   \
-    }
-
-#define gte_ApplyRotMatrix(r1, r2)                                                                                     \
-    {                                                                                                                  \
-        gte_ldv0(r1);                                                                                                  \
-        rtv0tr();                                                                                                      \
-        gte_stlvnl(r2);                                                                                                \
     }
 
 #define gte_MulMatrix02(r1, r2, r3)                                                                                    \
     {                                                                                                                  \
         gte_ldlv0(r1);                                                                                                 \
-        rtv0tr();                                                                                                      \
+        gte_rt();                                                                                                      \
         gte_stlvnl(r1);                                                                                                \
         gte_ldclmv(r2);                                                                                                \
-        rtir12();                                                                                                      \
+        gte_rtir();                                                                                                    \
         gte_stclmv(r3);                                                                                                \
         gte_ldclmv((char *)r2 + 2);                                                                                    \
-        rtir12();                                                                                                      \
+        gte_rtir();                                                                                                    \
         gte_stclmv((char *)r3 + 2);                                                                                    \
         gte_ldclmv((char *)r2 + 4);                                                                                    \
-        rtir12();                                                                                                      \
+        gte_rtir();                                                                                                    \
         gte_stclmv((char *)r3 + 4);                                                                                    \
     }
 
@@ -102,7 +66,7 @@ void DG_MovePos_8001BD20(SVECTOR *svector)
     VECTOR vec;
 
     gte_ldv0(svector);
-    rtv0tr();
+    gte_rt();
     gte_stlvnl(&vec);
     gte_SetTransVector(&vec);
 }
@@ -131,7 +95,7 @@ void DG_PutVector_8001BE48(SVECTOR *svector, SVECTOR *svector2, int count)
     while (--count > -1)
     {
         gte_ldv0(svector);
-        rtv0tr();
+        gte_rt();
         gte_stsv(svector2);
         svector++;
         svector2++;
@@ -143,7 +107,7 @@ void DG_RotVector_8001BE98(SVECTOR *svector, SVECTOR *svector2, int count)
     while (--count > -1)
     {
         gte_ldsv(svector);
-        rtir12();
+        gte_rtir();
         gte_stsv(svector2);
         svector++;
         svector2++;
@@ -155,7 +119,7 @@ void DG_PersVector_8001BEF8(SVECTOR *svector, DVECTOR *dvector, int count)
     while (--count > -1)
     {
         gte_ldv0(svector);
-        rtps();
+        gte_rtps();
         gte_stsxy(dvector);
         svector++;
         dvector++;
@@ -211,14 +175,14 @@ void DG_PointCheck_8001BF34(SVECTOR *svector, int n_points)
     second_points = (DVECTOR *)(SCRPAD_ADDR + 0x2C); // 3 sets of dvector
 
     svector += 3;
-    rtpt_b();
+    gte_rtpt_b();
 
     for (n_initial_points = n_points - 3; n_initial_points > 0; n_initial_points -= 3)
     {
         gte_stsxy3c(first_points);
         gte_stsz3c(second_points);
         gte_ldv3c(svector);
-        rtpt();
+        gte_rtpt();
 
         check_touches(svector - 3, first_points, second_points, 3);
 
@@ -245,7 +209,7 @@ int DG_PointCheckOne_8001C18C(DVECTOR *line)
     gte_SetTransMatrix(matrix);
 
     gte_ldv0(line);
-    rtps();
+    gte_rtps();
 
     gte_stsxy(&first_points);
     gte_stsz(&second_points);
@@ -275,21 +239,21 @@ void sub_8001C248(DG_OBJS *objs, int n_obj)
     gte_SetRotMatrix(matrix);
 
     gte_ldclmv(&matrix[1]);
-    rtir12();
+    gte_rtir();
 
     gte_stclmv(&matrix[2]);
     gte_ldclmv(&matrix[1].m[0][1]);
-    rtir12();
+    gte_rtir();
 
     gte_stclmv(&matrix[2].m[0][1]);
     gte_ldclmv(&matrix[1].m[0][2]);
-    rtir12();
+    gte_rtir();
 
     gte_stclmv(&matrix[2].m[0][2]);
 
     gte_SetTransMatrix((MATRIX *)SCRPAD_ADDR);
     gte_ldlv0(&matrix[1].t);
-    rtv0tr();
+    gte_rt();
 
     gte_stlvnl(&matrix[2].t);
 
@@ -324,19 +288,19 @@ void sub_8001C460(DG_OBJS *objs, int n_obj)
     for (; n_obj > 0; n_obj--)
     {
         gte_ldlv0(matrix->t);
-        rtv0tr();
+        gte_rt();
 
         gte_stlvnl(&obj->screen.t);
         gte_ldclmv(matrix);
-        rtir12();
+        gte_rtir();
 
         gte_stclmv(&obj->screen);
         gte_ldclmv(&matrix->m[0][1]);
-        rtir12();
+        gte_rtir();
 
         gte_stclmv(&obj->screen.m[0][1]);
         gte_ldclmv(&matrix->m[0][2]);
-        rtir12();
+        gte_rtir();
 
         gte_stclmv(&obj->screen.m[0][2]);
         obj++;
@@ -367,7 +331,7 @@ void sub_8001C5CC(DG_OBJS *objs, int n_obj)
         MATRIX *parentMatrix = (MATRIX *)(SCRPAD_ADDR + 0x40);
         gte_SetTransMatrix(&parentMatrix[obj->model->parent_2C]);
         gte_ldv0(movs);
-        rtv0tr();
+        gte_rt();
 
         gte_ReadRotMatrix(matrix2);
         gte_stlvnl(matrix2->t);
@@ -380,38 +344,42 @@ void sub_8001C5CC(DG_OBJS *objs, int n_obj)
     }
 }
 
-/* //unmatching, incorrect register order
 void sub_8001C708( DG_OBJS* objs, int n_obj )
 {
     int i;
-    DG_MDL*temp_mdl;
     MATRIX* matrix4;
-    DG_OBJ* local_obj;
-    MATRIX* temp_matrix;
-    MATRIX* matrix  = (MATRIX*)(SCRPAD_ADDR + 0x040); //s2
-    DG_OBJ* obj = objs->objs;                         //s5
-    MATRIX* matrix2 = (MATRIX*)(SCRPAD_ADDR + 0x360); //0x40+var_30($sp)
+    MATRIX* matrix;
+    MATRIX* matrix2;
+    SVECTOR* rots;
+    MATRIX* matrix3;
+    DG_OBJ* obj;
+    SVECTOR* adjust;
+    SVECTOR* waist_rot;
+    void* temp_matrix;
+    DG_MDL* mdl;
+    DG_MDL* temp_mdl;
+    
+    matrix  = (MATRIX*)(SCRPAD_ADDR + 0x040);
+    obj = objs->objs;
+    matrix2 = (MATRIX*)(SCRPAD_ADDR + 0x360);
 
-    SVECTOR* rots       = objs->rots;                 //0x40+var_2C($sp)
-    SVECTOR* adjust     = objs->adjust;               //s7
-    SVECTOR* waist_rot  = objs->waist_rot;            //a0
-
-    DG_MDL* mdl = obj->model;                         //s1
-    MATRIX* matrix3 = (MATRIX*)(SCRPAD_ADDR + 0x340); //fp
-
-    waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) :
+    rots       = objs->rots;
+    adjust     = objs->adjust;
+    waist_rot  = objs->waist_rot;
+    
+    mdl = obj->model;
+    matrix3 = (MATRIX*)(SCRPAD_ADDR + 0x340);
+   
+    waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) : 
                 RotMatrixZYX_gte_80093F08( rots,      matrix3 ) ;
 
-    matrix3->t[0] = mdl->pos.vx;
-    matrix3->t[1] = mdl->pos.vy;
-    matrix3->t[2] = mdl->pos.vz;
-    // *(VECTOR3*)matrix3->t = mdl->pos; //this makes matrix3 fp like we want but messes other stuff up
+    matrix3->t[0] = mdl->pos_20.field_0_x;
+    matrix3->t[1] = mdl->pos_20.field_4_y;
+    matrix3->t[2] = mdl->pos_20.field_8_z;
 
     if (!adjust)
     {
-        matrix4 = (MATRIX*)(SCRPAD_ADDR + 0x20);
-        gte_CompMatrix( matrix4, matrix3, matrix3 );
-
+        gte_CompMatrix( 0x1F800020, matrix3, matrix3 );
     }
     else
     {
@@ -422,31 +390,35 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
 
     for ( i = n_obj; i > 0; i-- )
     {
-        //MATRIX* parentMatrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
         temp_mdl = obj->model;
-        temp_matrix = &((MATRIX* )(SCRPAD_ADDR  + 0x40))[temp_mdl->parent];
+        mdl = temp_mdl; //provides fake match
+        temp_matrix = (void*)temp_mdl->parent_2C;
+        temp_matrix = (void*)((int)temp_matrix << 5) ; 
+        temp_matrix +=  SCRPAD_ADDR  + 0x40;
+        //MATRIX* temp_matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
+        //temp_matrix = &temp_matrix[mdl->parent_2C]; should be this but registers dont match
         RotMatrixZYX_gte_80093F08( rots, matrix );
 
-        matrix->t[0] = temp_mdl->pos.vx;
-        matrix->t[1] = temp_mdl->pos.vy;
-        matrix->t[2] = temp_mdl->pos.vz;
+        matrix->t[0] = mdl->pos_20.field_0_x;
+        matrix->t[1] = mdl->pos_20.field_4_y;
+        matrix->t[2] = mdl->pos_20.field_8_z;
 
-        if (i == (n_obj - 1))
+        if ( i == ( n_obj - 1 ) ) 
         {
             temp_matrix = matrix3;
         }
 
         gte_CompMatrix( temp_matrix, matrix, matrix );
 
-        if (!adjust)
+        if ( !adjust )
         {
             obj->world = *matrix;
         }
         else
         {
-            if (adjust->vz) RotMatrixZ_80093D68( adjust->vz, matrix );
-            if (adjust->vx) RotMatrixX_80093A28( adjust->vx, matrix );
-            if (adjust->vy) RotMatrixY_80093BC8( adjust->vy, matrix );
+            if  (adjust->vz ) RotMatrixZ_80093D68( adjust->vz, matrix );
+            if  (adjust->vx ) RotMatrixX_80093A28( adjust->vx, matrix );
+            if  (adjust->vy ) RotMatrixY_80093BC8( adjust->vy, matrix ); 
             adjust++;
         }
 
@@ -455,21 +427,64 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         rots++;
     }
 
-    if (adjust)
+    if ( adjust )
     {
         matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
-        local_obj = objs->objs;
+        obj = objs->objs;
         gte_SetRotMatrix  ( matrix2 );
         gte_SetTransMatrix( matrix2 );
 
-        for (i = n_obj; i > 0; i--)
+        for ( i = n_obj; i > 0; i-- )
         {
             gte_MulMatrix02( matrix->t, matrix, matrix );
-            local_obj->world = *matrix;
-            local_obj++;
+            obj->world = *matrix;
+            obj++;
             matrix++;
         }
-
     }
 }
-*/
+
+void DG_8001CDB8(DG_OBJS *pObjs)
+{
+    MATRIX *root = pObjs->root;
+    int     n_models = pObjs->n_models;
+    if (root)
+    {
+        pObjs->world = *root;
+    }
+
+    *((MATRIX *)0x1F800020) = pObjs->world;
+
+    if ((pObjs->flag & 0x40) != 0)
+    {
+        sub_8001C248(pObjs, n_models);
+    }
+    else
+    {
+        if (pObjs->rots)
+        {
+            sub_8001C708(pObjs, n_models);
+        }
+        else if (pObjs->movs)
+        {
+            sub_8001C5CC(pObjs, n_models);
+        }
+        sub_8001C460(pObjs, n_models);
+    }
+}
+
+void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
+{
+    DG_OBJS **mQueue;
+    int       i;
+
+    mQueue = pOt->mQueue;
+
+    *((MATRIX *)0x1F800000) = pOt->field_10_transformation_matrix;
+    DG_800174DC((MATRIX *)0x1F800000);
+
+    for (i = pOt->mTotalObjectCount; i > 0; --i)
+    {
+        DG_8001CDB8(*mQueue++);
+    }
+}
