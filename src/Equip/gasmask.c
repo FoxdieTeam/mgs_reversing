@@ -11,7 +11,7 @@ extern int           DG_CurrentGroupID_800AB968;
 extern int           dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {

@@ -15,7 +15,7 @@ typedef struct AreaHistory
 #define GAMESTATE_ITEM_STATES 24
 #define GAMESTATE_WEAPON_STATES 10
 
-typedef struct GameState_800B4D98
+typedef struct GameState
 {
     short  field_00;
     short  field_02_diffcultyLevel; // -1,0,1,2,3
@@ -68,6 +68,19 @@ typedef struct GameState_800B4D98
     short  field_BA_last_save_hours;
     short  field_BC_last_save_seconds;
     short  field_BE;
-} GameState_800B4D98;
+} GameState;
+
+
+static inline short      *GM_GetCurrentWeapon( void )
+{
+    extern GameState gGameState_800B4D98;
+	return &gGameState_800B4D98.field_22_weapon_states[ gGameState_800B4D98.field_1C_equipped_weapon ];
+}
+
+static inline short      *GM_GetWeapon( int weapon_id )
+{
+    extern GameState gGameState_800B4D98;
+	return &gGameState_800B4D98.field_22_weapon_states[ weapon_id ];
+}
 
 #endif // _GAMESTATE_H_

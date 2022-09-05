@@ -4,7 +4,7 @@
 
 extern const char aItemC[];
 extern const char aItemMapD[];
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")              // 120 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes

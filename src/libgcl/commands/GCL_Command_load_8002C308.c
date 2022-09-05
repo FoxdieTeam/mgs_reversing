@@ -7,7 +7,7 @@
 extern int  GM_LoadRequest_800AB3D0;
 extern char dword_800ABA58[8];
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 int GCL_Command_load_8002C308(int argc, char **argv)
 {

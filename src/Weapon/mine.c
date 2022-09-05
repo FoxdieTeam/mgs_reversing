@@ -6,7 +6,7 @@
 
 // claymore (in hands)
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 extern const char aClaymore_0[]; // = "claymore";
 extern char       aMineC[];      // = "mine.c"

@@ -1,7 +1,7 @@
 #include "gcl.h"
 
 extern GCL_Vars           gGcl_vars_800B3CC8;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
 {

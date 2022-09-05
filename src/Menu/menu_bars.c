@@ -2,7 +2,7 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 extern int   GM_GameStatus_800AB3CC;
 extern short GM_O2_800ABA34;

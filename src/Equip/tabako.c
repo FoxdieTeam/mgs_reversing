@@ -19,7 +19,7 @@ extern const char aCigar[];   // = "cigar";
 extern const char aRcmL[];    // = "rcm_l";
 
 extern int                GM_GameStatus_800AB3CC;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern int                GV_Time_800AB330;
 extern int                dword_8009F2C0;
 extern int                GM_CurrentMap_800AB9B0;

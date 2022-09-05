@@ -70,7 +70,7 @@ typedef struct SaveGame
     int                f014_padding[3];
     char               f020_stageName[16];
     AreaHistory        f030_areaHistory;
-    GameState_800B4D98 f040_gameState;
+   GameState f040_gameState;
     GCL_Vars           f100_gcl_vars;
     RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
 } SaveGame; // size 0xA38

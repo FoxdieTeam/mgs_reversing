@@ -3,8 +3,8 @@
 #include "Game/game.h"
 #include "psyq.h"
 
-extern GameState_800B4D98 gGameState_800B4D98;
-extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
+extern GameState gGameState_800B4D98;
+extern GameState gGcl_gameStateVars_800B44C8;
 
 extern GCL_Vars gGcl_vars_800B3CC8;
 extern GCL_Vars gGcl_memVars_800b4588;

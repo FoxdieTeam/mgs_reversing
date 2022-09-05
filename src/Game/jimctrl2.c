@@ -9,7 +9,7 @@ extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 extern int dword_8009E28C;
 
 extern u_long                 gotohell_800B9358;
-extern GameState_800B4D98    gGameState_800B4D98;
+extern GameState    gGameState_800B4D98;
 extern const char            aJimctrlC[];
 
 extern Actor_JimCtrl jimCtrlActor_800B82F0;

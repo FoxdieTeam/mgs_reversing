@@ -24,7 +24,7 @@ Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
 extern struct menu_8009E544 *dword_800AB584;
 extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
-extern GameState_800B4D98    gGameState_800B4D98;
+extern GameState    gGameState_800B4D98;
 extern int                   dword_8009E544[];
 extern int                   GM_GameStatus_800AB3CC;
 

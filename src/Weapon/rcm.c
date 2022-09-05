@@ -23,7 +23,7 @@ extern SVECTOR stru_800ABA10;
 
 extern int DG_CurrentGroupID_800AB968;
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern int                GV_Clock_800AB920;
 

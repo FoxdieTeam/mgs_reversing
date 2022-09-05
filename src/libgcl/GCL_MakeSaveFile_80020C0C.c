@@ -3,8 +3,8 @@
 #include "Game/game.h"
 
 extern int                gTotalFrameTime_800AB9E8;
-extern GameState_800B4D98 gGameState_800B4D98;
-extern GameState_800B4D98 gGcl_gameStateVars_800B44C8;
+extern GameState gGameState_800B4D98;
+extern GameState gGcl_gameStateVars_800B44C8;
 extern GCL_Vars           gGcl_memVars_800b4588;
 extern RadioMemory        gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 

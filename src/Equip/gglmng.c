@@ -8,7 +8,7 @@
 
 extern const char         aGglmngC[];
 extern GM_Camera GM_Camera_800B77E8;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern int                GM_PlayerStatus_800ABA50;
 extern int                dword_8009F46C;
 

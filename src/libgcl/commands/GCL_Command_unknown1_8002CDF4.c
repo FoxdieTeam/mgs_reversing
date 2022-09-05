@@ -10,7 +10,7 @@ extern GM_Control *gSnaControl_800AB9F4; // todo: update external
 
 extern int                GM_Photocode_800ABA04;
 extern int                dword_8009F46C;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern SVECTOR            svector_8009F478;
 
 extern SVECTOR GM_PhotoViewPos_800ABA48;

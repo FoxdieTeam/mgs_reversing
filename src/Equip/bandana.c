@@ -1,7 +1,7 @@
 #include "bandana.h"
 #include "unknown.h"
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 extern short d_800AB9EC_mag_size;
 

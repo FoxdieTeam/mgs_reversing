@@ -2,7 +2,7 @@
 #include "libdg/libdg.h"
 #include "unknown.h"
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 const char               *off_8009F264[4];
 const char               *off_8009F274[4];
 extern const char         aBodyarmC[];

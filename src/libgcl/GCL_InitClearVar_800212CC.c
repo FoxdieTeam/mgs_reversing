@@ -3,7 +3,7 @@
 
 extern GCL_Vars gGcl_vars_800B3CC8;
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 void GCL_InitClearVar_800212CC()
 {

@@ -6,7 +6,7 @@
 extern int GM_LoadRequest_800AB3D0;
 int        SECTION(".sdata") GM_LoadRequest_800AB3D0;
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 // forcec gp
 extern int GM_GameOverTimer_800AB3D4;

@@ -1443,7 +1443,7 @@
 80065200 84 socom_set_poly_uvs_80065200
 80065254 56 socom_init_vectors_80065254
 8006528C 172 socom_act_helper_8006528C
-80065338 76 socom_init_tiles_80065338
+80065338 76 socom_InitLight_80065338
 80065384 52 socom_set_tiles_colour_80065384
 800653B8 80 socom_act_helper_800653B8
 80065408 272 socom_act_helper_80065408
