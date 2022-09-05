@@ -2,7 +2,7 @@
 #include "libgcl/gcl.h"
 #include "psyq.h"
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 int GCL_Command_rand_8002CD94(int argc, char **argv)
 {

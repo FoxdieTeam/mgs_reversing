@@ -6,7 +6,7 @@
 // PSG1
 
 extern char               aRifle_0[]; // = "rifle"
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern GM_Camera   GM_Camera_800B77E8;
 
 #pragma INCLUDE_ASM("asm/Weapon/rifle_act_helper_80067BFC.s") // 356 bytes

@@ -3,7 +3,7 @@
 #include "psyq.h"
 
 extern GCL_Vars           gGcl_vars_800B3CC8;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 void GCL_InitVar_80021264()
 {
@@ -13,7 +13,7 @@ void GCL_InitVar_80021264()
     flags = gGameState_800B4D98.field_04_flags;
     difficulty = gGameState_800B4D98.field_02_diffcultyLevel;
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
-    gGameState_800B4D98 = ( GameState_800B4D98 ){ 0 };
+    gGameState_800B4D98 = ( GameState ){ 0 };
     gGameState_800B4D98.field_02_diffcultyLevel = difficulty;
     gGameState_800B4D98.field_04_flags = flags;
 }

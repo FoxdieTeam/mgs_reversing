@@ -64,7 +64,7 @@ GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern int                GM_GameOverTimer_800AB3D4;
 extern int                GM_GameStatus_800AB3CC;
 extern SVECTOR            DG_ZeroVector_800AB39C;

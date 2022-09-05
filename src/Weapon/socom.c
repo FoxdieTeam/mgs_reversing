@@ -16,7 +16,7 @@ extern char aSocomC[]; // = "socom.c"
 
 extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 void socom_set_poly_texture_800651B0(POLY_FT4 *a1, DG_TEX *pTexture)
 {
@@ -69,18 +69,18 @@ void socom_init_vectors_80065254(Actor_Socom *pActor)
 
 #pragma INCLUDE_ASM("asm/Weapon/socom_act_helper_8006528C.s") // 172 bytes
 
-void socom_init_tiles_80065338(TILE *a1)
+void socom_InitLight_80065338( TILE *packs )
 {
-    TILE *pIter = a1;
-    int   i;
-    for (i = 2; i > 0; i--)
-    {
-        setTile(pIter);
-        setRGB0(pIter, 255, 63, 63);
-        setWH(pIter, 2, 2);
-        pIter++;
-    }
+	int		i ;
+
+	for ( i = 2 ; i > 0 ; -- i ) {
+		setTile( packs ) ;
+		setRGB0( packs, 255, 63, 63 ) ;
+		setWH( packs, 2, 2 ) ;
+		packs ++ ;
+	}
 }
+
 
 void socom_set_tiles_colour_80065384(TILE *pPrim, int colour)
 {
