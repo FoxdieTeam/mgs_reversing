@@ -134,11 +134,7 @@ typedef struct _DG_PRIM
 	u_short           group_id;
 	signed short      n_prims;
 	u_short           chanl;
-<<<<<<< HEAD
 	short             field_2E_k500;
-=======
-	u_short           field_2E_k500;
->>>>>>> 5327b862 (some norm and renames)
 	short             field_30_prim_size;
 	short             field_32;
 	short             field_34;
@@ -382,6 +378,8 @@ enum DG_PRIM_FLAGS
                     DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE) // 0x32d
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
                     DG_FLAG_ONEPIECE) // 0x6d
+
+#define INIT_VEC( vec,xx,yy,zz ) { (vec).vx = xx; (vec).vy = yy; (vec).vz = zz; }
 
 static inline u_long LLOAD( void *from )
 {

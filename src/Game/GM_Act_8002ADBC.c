@@ -59,7 +59,7 @@ extern int        gSaveCache_800B5294;
 extern const char aLoadS_0[];
 extern int        GV_PauseLevel_800AB928;
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 {

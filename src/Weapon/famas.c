@@ -8,7 +8,7 @@ extern char aFamasC[]; // = "famas.c"
 
 extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 extern int DG_CurrentGroupID_800AB968;
 extern int GV_Clock_800AB920;
 extern SVECTOR stru_800AB850;

@@ -7,7 +7,7 @@
 #include "unknown.h"
 #include "psyq.h"
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 

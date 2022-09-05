@@ -32,7 +32,7 @@ extern int   DG_UnDrawFrameCount_800AB380;
 extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1, int a2)
 {

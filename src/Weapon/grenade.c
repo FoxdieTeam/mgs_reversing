@@ -17,7 +17,7 @@ extern SVECTOR            DG_ZeroVector_800AB39C;
 extern SVECTOR            stru_800ABA10;
 
 extern int                DG_CurrentGroupID_800AB968;
-extern GameState_800B4D98 gGameState_800B4D98;
+extern GameState gGameState_800B4D98;
 
 extern Blast_Data         dword_8009F4B8;
 extern ushort             dword_8009F3E4[];
@@ -28,23 +28,18 @@ extern int                GM_PlayerStatus_800ABA50;
 
 void                      NewChaffGrd_80077264( MATRIX *pMtx );
 
-static inline short      *GetCurrentWeapon()
-{
-	return &gGameState_800B4D98.field_22_weapon_states[ gGameState_800B4D98.field_1C_equipped_weapon ];
-}
-
 //------------------------------------------------------------------------------
 
 void grenade_800663A0( void )
 {
 	GM_Target target;
-	SVECTOR   local_10;
+	SVECTOR   pos;
 
-	local_10.vz = 250;
-	local_10.vy = 250;
-	local_10.vx = 250;
-	GM_SetTarget_8002DC74( &target, 4, 0, &local_10 );
-	GM_Target_8002DCCC( &target, 3, 1, 0x40, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
+	pos.vz = 250;
+	pos.vy = 250;
+	pos.vx = 250;
+	GM_SetTarget_8002DC74( &target, 4, 0, &pos );
+	GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
 	GM_Target_SetVector_8002D500( &target, (SVECTOR *)&stru_800ABA10 );
 	sub_8002D7DC( &target );
 }
@@ -100,10 +95,10 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 				break;
 			default:
 			}
-			actor->f5c = 0xa8;
+			actor->f5c = 168;
 			if ( grenade_type != GRD_TBOMB )
 			{
-				--*GetCurrentWeapon();
+				--*GM_GetCurrentWeapon();
 			}
 			actor->f64 = 1;
 			flags &= -0xf;
@@ -114,7 +109,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 		}
 		else
 		{
-			ammo = *GetCurrentWeapon();
+			ammo = *GM_GetCurrentWeapon();
 		}
 		if ( ( ammo > 0 ) && ( flags & 0xe ) )
 		{
@@ -144,12 +139,10 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			DG_RotVector_8001BE98( svector, &local_28, 1 );
 			if ( GM_PlayerStatus_800ABA50 & PLAYER_STATUS_MOVING )
 			{
-				local_28.vx = local_28.vx + ( svector_00->vx - actor->f54_pos.vx );
-				local_28.vz = local_28.vz + ( svector_00->vz - actor->f54_pos.vz );
+				local_28.vx = svector_00->vx - actor->f54_pos.vx + local_28.vx;
+				local_28.vz = svector_00->vz - actor->f54_pos.vz + local_28.vz;
 			}
-			local_30.vx = world->t[ 0 ];
-			local_30.vy = world->t[ 1 ];
-			local_30.vz = world->t[ 2 ];
+			INIT_VEC(local_30, world->t[ 0 ], world->t[ 1 ], world->t[ 2 ]);
 			tenage = NewTenage_8006A010( &local_30,
 										 &local_28,
 										 actor->f5c,
@@ -158,15 +151,15 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			if ( tenage )
 			{
 				DG_InvisibleObjs( actor->f28_obj.objs );
-				actor->f5c = 0xa8;
+				actor->f5c = 168;
 				if ( grenade_type != GRD_TBOMB )
 				{
-					*GetCurrentWeapon() = --ammo;
+					*GM_GetCurrentWeapon() = --ammo;
 				}
 			}
 		}
 	}
-	else if ( ( grenade_type == GRD_TBOMB ) || ( *GetCurrentWeapon() > 0 ) )
+	else if ( ( grenade_type == GRD_TBOMB ) || ( *GM_GetCurrentWeapon() > 0 ) )
 	{
 		if ( actor->f5c > 120 )
 		{
@@ -247,7 +240,6 @@ Actor_Grenade *grenade_init_80066944(
 	return actor_grenade;
 }
 
-<<<<<<< HEAD
 Actor_Grenade *grenade_create_80066A4C( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_GRENADE );
@@ -266,24 +258,4 @@ Actor_Grenade *NewChaffGrenade_80066AA0( GM_Control *ctrl, OBJECT *parent_obj, i
 Actor_Grenade *NewTimerBomb_80066ACC( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_TBOMB );
-=======
-Actor_Grenade *grenade_create_80066A4C( GM_Control *ctrl, OBJECT *a2, int num_parent, int *flags, int unused )
-{
-	return grenade_init_80066944( ctrl, a2, num_parent, flags, unused, GRD_GRENADE );
-}
-
-Actor_Grenade *NewStanGrenade_80066A74( GM_Control *ctrl, OBJECT *obj, int num_parent, int *flags, int unused )
-{
-	return grenade_init_80066944( ctrl, obj, num_parent, flags, unused, GRD_STUN );
-}
-
-Actor_Grenade *NewChaffGrenade_80066AA0( GM_Control *ctrl, OBJECT *a2, int num_parent, int *flags, int unused )
-{
-	return grenade_init_80066944( ctrl, a2, num_parent, flags, unused, GRD_CHAFF );
-}
-
-Actor_Grenade *NewTimerBomb_80066ACC( GM_Control *ctrl, OBJECT *a2, int num_parent, int *flags, int unused )
-{
-	return grenade_init_80066944( ctrl, a2, num_parent, flags, unused, GRD_TBOMB );
->>>>>>> 5327b862 (some norm and renames)
 }
