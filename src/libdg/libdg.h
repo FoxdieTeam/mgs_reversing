@@ -36,7 +36,7 @@ typedef struct DG_TEX
 	union
 	{
 		short s;
-		char  b1, b2;
+		char  c[2];
 	} field_2_bUsed;
 
 	short field_4_tPage;
