@@ -136,11 +136,7 @@ typedef struct _DG_PRIM
 	u_short           group_id;
 	signed short      n_prims;
 	u_short           chanl;
-<<<<<<< HEAD
 	short             field_2E_k500;
-=======
-	u_short           field_2E_k500;
->>>>>>> 5327b862 (some norm and renames)
 	short             field_30_prim_size;
 	short             field_32;
 	short             field_34;
