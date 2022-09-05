@@ -16,7 +16,7 @@ void DG_ClearTextureRecs_8001D808()
     for (i = 512; i > 0; --i)
     {
         pIter->field_0_hash = 0;
-        pIter->field_2_bUsed.b1 = 0;
+        pIter->field_2_bUsed.c[0] = 0;
         ++pIter;
     }
 }
