@@ -35,7 +35,7 @@ extern int            dword_800B0F50[4];
 extern DG_OBJS       *dword_800B0F60[8];
 extern DG_OBJS       *dword_800B0F80[256];
 extern DR_ENV         stru_800B1380[2];
-extern unsigned char   byte_800B1400[1024];
+extern unsigned int  *ptr_800B1400[256];
 extern unsigned short gOldRootCnt_800B1DC8[32];
 /****************************************************************************/
 
@@ -237,7 +237,7 @@ void DG_RenderPipeline_80018028(int idx)
     }
     else
     {
-        GV_ZeroMemory_8001619C(byte_800B1400, 1024);
+        GV_ZeroMemory_8001619C(ptr_800B1400, sizeof(ptr_800B1400));
         pRenderFns = off_8009D35C;
 
         if (!DG_HikituriFlag_8009D460)

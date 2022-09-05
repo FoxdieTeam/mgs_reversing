@@ -128,7 +128,7 @@ typedef struct _DG_PRIM
     u_short           group_id;
     signed short      n_prims;
     u_short           chanl;
-    u_short           field_2E_k500;
+    short             field_2E_k500;
     short             field_30_prim_size;
     short             field_32;
     short             field_34;
@@ -292,7 +292,7 @@ typedef struct DG_DivideFile
 // MallocLog?
 typedef struct DG_DivideMem
 {
-    long*                   ot;         //0x00
+    unsigned int           *ot;         //0x00
     short                   field_04;   //0x04
     unsigned short          raise;      //0x06
     long                    opz;        //0x08 outer product
