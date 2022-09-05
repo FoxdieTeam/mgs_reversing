@@ -12,8 +12,8 @@ static inline DG_DivideMem *get_mem()
 }
 
 //**bss*************************************//
-extern  GV_Heap         MemorySystems_800AD2F0[3];
-extern  unsigned char   byte_800B1400[1024];
+extern  GV_Heap       MemorySystems_800AD2F0[3];
+extern  unsigned int *ptr_800B1400[256];
 //******************************************//
 
 //Guessed function name
@@ -273,7 +273,7 @@ int DG_CopyPackToRVector_80019448( DG_RVECTOR* rvec )
     DG_DivideMem    *divide_mem2; 
     POLY_GT4        *pack;
     POLY_GT4        *pack2;
-    unsigned long   *ot;
+    long            *ot;
     int              z_idx;
 
     if ( DG_GetRVectorCode_80019194( rvec ) ) return 0;
@@ -578,7 +578,7 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
     DG_Clip_80017594( &chnl->field_5C_clip_rect , chnl->field_50_clip_distance );
 
     divide_mem = get_mem();
-    divide_mem->ot = ( unsigned long* )byte_800B1400;
+    divide_mem->ot = (long *)ptr_800B1400;
     divide_mem->field_14 = 0x800;
 
     if ( chnl->field_50_clip_distance > 1000) 

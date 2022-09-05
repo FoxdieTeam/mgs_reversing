@@ -134,7 +134,7 @@ typedef struct _DG_PRIM
 	u_short           group_id;
 	signed short      n_prims;
 	u_short           chanl;
-	u_short           field_2E_k500;
+	short             field_2E_k500;
 	short             field_30_prim_size;
 	short             field_32;
 	short             field_34;
