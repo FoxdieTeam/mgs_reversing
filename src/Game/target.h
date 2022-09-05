@@ -49,6 +49,8 @@ enum
     TARGET_DIE = 2048,
 };
 
+#define	TARGET_FLAG	( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK ) // 0x9e
+
 enum
 {
     NO_SIDE = 0,

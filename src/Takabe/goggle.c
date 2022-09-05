@@ -152,7 +152,7 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
     OBJECT *pObj = &pActor->field_20_obj;
     if (pParent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC(aGoggles_0), 0x6D, 0);
+        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC(aGoggles_0), WEAPON_FLAG, 0);
         if (!pObj->objs)
         {
             return -1;

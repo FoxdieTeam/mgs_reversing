@@ -31,7 +31,7 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
     OBJECT *obj = &actor_rifle->f20_obj;
 
     int id = GV_StrCode_80016CCC(aRifle_0);
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, 0x6d, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;

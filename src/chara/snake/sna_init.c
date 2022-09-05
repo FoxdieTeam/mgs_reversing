@@ -760,7 +760,7 @@ void sna_init_clear_invuln_8004F2EC(Actor_SnaInit *snake)
 {
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_INVULNERABLE);
     sna_init_clear_flags1_8004E308(snake, SNA_FLAG1_UNK1);
-    snake->field_89C_pTarget->field_0_flags |= 0x9e;
+    snake->field_89C_pTarget->field_0_flags |= TARGET_FLAG;
 }
 
 void sub_8004F338(Actor_SnaInit *param_1)
