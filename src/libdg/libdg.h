@@ -526,12 +526,7 @@ void  DG_FreePreshade_80032110( DG_OBJS *pPrim );
 void  DG_InitChanlSystem_80017B98( int width );
 void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
 void  DG_InitPolyGT4Pack_8001A6E4( DG_OBJ *pObj, int idx );
-void  DG_LoadInitPcx_helper_8001D880( unsigned short param_1,
-									  unsigned short param_2,
-									  unsigned short param_3,
-									  DG_Image      *param_4,
-									  DG_Image      *param_5,
-									  short          param_6 );
+void  DG_LoadInitPcx_helper_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6 );
 void  DG_MakePreshade_80031F04( DG_OBJS *pPrim, short *pData, int dataCount );
 void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
 void  DG_ReloadPalette_8001FC58( void );
