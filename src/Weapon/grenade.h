@@ -19,9 +19,9 @@ typedef struct _Actor_Grenade
 	int         f4c_map_id;
 	int        *f50_flags;
 	SVECTOR     f54_pos;
-	int         f5c;
+	int         f5c_timer;
 	int         f60_grenade_type;
-	int         f64;
+	int         f64_has_exploded;
 } Actor_Grenade;
 
 enum GRENADE_TYPE
