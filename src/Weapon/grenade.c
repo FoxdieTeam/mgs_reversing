@@ -48,16 +48,14 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 {
 	unsigned int  parent_objs_flag;
 	SVECTOR      *svector;
-	SVECTOR      *svector_00;
+	SVECTOR      *ctrl_pos;
 	int           flags;
 	int           grenade_type;
 	int           ammo;
 	MATRIX       *world;
-	SVECTOR       local_30;
-	SVECTOR       local_28;
+	SVECTOR       tenage_vec1;
+	SVECTOR       tenage_vec2;
 	Actor_tenage *tenage;
-	DG_OBJS      *objs;
-	DG_OBJ       *obj;
 
 	GM_CurrentMap_800AB9B0 = actor->f20_ctrl->field_2C_map->field_0_map_index_bit;
 	DG_GroupObjs( actor->f28_obj.objs, DG_CurrentGroupID_800AB968 );
@@ -65,19 +63,17 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 
 	if ( !( parent_objs_flag ) )
 	{
-		actor->f28_obj.objs->flag &= 0xffffff7f;
+		DG_VisibleObjs( actor->f28_obj.objs );
 	}
+
 	flags = *actor->f50_flags;
 	grenade_type = actor->f60_grenade_type;
-
-	objs = actor->f24_parent_obj->objs;
-	obj = &objs->objs[ actor->f4c_map_id ];
-	world = &obj->world;
+	world = &actor->f24_parent_obj->objs->objs[ actor->f4c_map_id ].world;
 
 	if ( flags & 1 )
 	{
-		actor->f28_obj.objs->flag &= 0xffffff7f;
-		if ( --actor->f5c < 1 )
+		DG_VisibleObjs( actor->f28_obj.objs );
+		if ( --actor->f5c_timer < 1 )
 		{
 			switch ( grenade_type )
 			{
@@ -95,13 +91,13 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 				break;
 			default:
 			}
-			actor->f5c = 168;
+			actor->f5c_timer = 168;
 			if ( grenade_type != GRD_TBOMB )
 			{
 				--*GM_GetCurrentWeapon();
 			}
-			actor->f64 = 1;
-			flags &= -0xf;
+			actor->f64_has_exploded = TRUE;
+			flags &= ~( 2 | 4 | 8 );
 		}
 		if ( grenade_type == GRD_TBOMB )
 		{
@@ -111,15 +107,15 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 		{
 			ammo = *GM_GetCurrentWeapon();
 		}
-		if ( ( ammo > 0 ) && ( flags & 0xe ) )
+		if ( ( ammo > 0 ) && ( flags & ( 2 | 4 | 8 ) ) )
 		{
-			if ( actor->f64 && ( flags & 8 ) )
+			if ( actor->f64_has_exploded && ( flags & 8 ) )
 			{
-				actor->f64 = 0;
+				actor->f64_has_exploded = FALSE;
 				return;
 			}
-			svector_00 = &actor->f20_ctrl->field_0_position;
-			DG_SetPos2_8001BC8C( svector_00, svector_00 + 1 );
+			ctrl_pos = &actor->f20_ctrl->field_0_position;
+			DG_SetPos2_8001BC8C( &ctrl_pos[ 0 ], &ctrl_pos[ 1 ] );
 			if ( !( flags & 4 ) )
 			{
 				svector = dword_8009F3EC;
@@ -136,22 +132,22 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			{
 				svector += 3;
 			}
-			DG_RotVector_8001BE98( svector, &local_28, 1 );
+			DG_RotVector_8001BE98( svector, &tenage_vec2, 1 );
 			if ( GM_PlayerStatus_800ABA50 & PLAYER_STATUS_MOVING )
 			{
-				local_28.vx = svector_00->vx - actor->f54_pos.vx + local_28.vx;
-				local_28.vz = svector_00->vz - actor->f54_pos.vz + local_28.vz;
+				tenage_vec2.vx += ctrl_pos->vx - actor->f54_pos.vx;
+				tenage_vec2.vz += ctrl_pos->vz - actor->f54_pos.vz;
 			}
-			INIT_VEC(local_30, world->t[ 0 ], world->t[ 1 ], world->t[ 2 ]);
-			tenage = NewTenage_8006A010( &local_30,
-										 &local_28,
-										 actor->f5c,
+			INIT_VEC( tenage_vec1, world->t[ 0 ], world->t[ 1 ], world->t[ 2 ] );
+			tenage = NewTenage_8006A010( &tenage_vec1,
+										 &tenage_vec2,
+										 actor->f5c_timer,
 										 actor->f60_grenade_type,
 										 (int)dword_8009F3E4[ actor->f60_grenade_type ] );
 			if ( tenage )
 			{
 				DG_InvisibleObjs( actor->f28_obj.objs );
-				actor->f5c = 168;
+				actor->f5c_timer = 168;
 				if ( grenade_type != GRD_TBOMB )
 				{
 					*GM_GetCurrentWeapon() = --ammo;
@@ -161,21 +157,21 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 	}
 	else if ( ( grenade_type == GRD_TBOMB ) || ( *GM_GetCurrentWeapon() > 0 ) )
 	{
-		if ( actor->f5c > 120 )
+		if ( actor->f5c_timer > 120 )
 		{
-			actor->f5c--;
+			actor->f5c_timer--;
 			DG_InvisibleObjs( actor->f28_obj.objs );
 		}
 		else
 		{
 			DG_VisibleObjs( actor->f28_obj.objs );
-			actor->f5c = 120;
+			actor->f5c_timer = 120;
 		}
 	}
 	else
 	{
 		DG_InvisibleObjs( actor->f28_obj.objs );
-		actor->f5c = 120;
+		actor->f5c_timer = 120;
 	}
 	if ( parent_objs_flag == 1 )
 	{
@@ -228,9 +224,9 @@ Actor_Grenade *grenade_init_80066944(
 		actor_grenade->f24_parent_obj = parent_obj;
 		actor_grenade->f4c_map_id = num_parent;
 		actor_grenade->f50_flags = flags;
-		actor_grenade->f5c = 120;
+		actor_grenade->f5c_timer = 120;
 		actor_grenade->f60_grenade_type = grd_type;
-		actor_grenade->f64 = 0;
+		actor_grenade->f64_has_exploded = FALSE;
 		actor_grenade->f54_pos = ctrl->field_0_position;
 	}
 

@@ -6,6 +6,7 @@
 #include <LIBGPU.H>
 #include <LIBSPU.H>
 #include <LIBCD.H>
+#include <LIBPAD.H>
 #include <MEMORY.H>
 
 // TODO: drop the addr suffixes for all psyq funcs in .s then just use psyq headers?
