@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libdg/libdg.h"
 
-int *Prim_80031B88(DG_MDL *pMdl, int *pRgbs)
+CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs)
 {
     int colour;      // $v1
     int faceCounter; // $v0
@@ -12,10 +12,10 @@ int *Prim_80031B88(DG_MDL *pMdl, int *pRgbs)
         colour = 0x3E808080;
     }
 
-    for (faceCounter = 4 * pMdl->numFaces_4; faceCounter > 0; ++pRgbs)
+    for (faceCounter = 4 * pMdl->numFaces_4; faceCounter > 0; ++pRgbs, --faceCounter)
     {
-        *pRgbs = colour;
-        --faceCounter;
+        LSTORE(colour, pRgbs);
     }
+
     return pRgbs;
 }
