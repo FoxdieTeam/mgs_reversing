@@ -37,9 +37,8 @@ char SECTION(".sdata") aD_3[] = "%d ";
 const char SECTION(".sdata") asc_800AB428[] = "\n";
 
 int SECTION(".sdata") GM_CameraTrackSave_800AB42C = 0x2710;
-int SECTION(".sdata") GM_CameraRotateSave_800AB430 = 0x08000280;
 
-int SECTION(".sdata") dword_800AB434 = 0;
+SVECTOR SECTION(".sdata") GM_CameraRotateSave_800AB430 = { 0x0280, 0x0800, 0, 0 };
 
 int SECTION(".sdata") GM_CameraTrackOrg_800AB438 = 0x2710;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB43C = 0;
