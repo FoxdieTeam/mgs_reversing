@@ -110,13 +110,6 @@ def disasm(code, addr, name):
     while processing_addr < (addr + l):
         # second pass
         for inst in md.disasm(code, processing_addr):
-            processing_addr += 4
-
-            this_label = labels.get(inst.address)
-            
-            if this_label:
-                ret.append(this_label + ':')
-
             off = inst.address - addr
             replace = None
 
@@ -143,16 +136,33 @@ def disasm(code, addr, name):
             if replace:
                 a, b = replace
                 op = op.replace(a, b)
+
+            # these are due to bad disassembly of arguments
+            if inst.mnemonic in ["mfc2", "cfc2", "mtc2", "ctc2"]:
+                break
+
+            this_label = labels.get(inst.address)
+            
+            if this_label:
+                ret.append(this_label + ':')
+
             ret.append('/* 0x{:04x} 0x{:x} */ {} {}'.format(off, inst.address, inst.mnemonic, op))
+            processing_addr += 4
 
         if processing_addr >= (addr + l):
             break
 
+        # check if there's a label for this unsupported instruction
+        this_label = labels.get(processing_addr)
+            
+        if this_label:
+            ret.append(this_label + ':')
+
         code = code[processing_addr - last_processed:]
 
         # TODO: disassemble manually
-        for i in range(4):
-            ret.append('/* 0x{:04x} 0x{:x} */ .byte 0x{:02x}'.format(processing_addr - addr, processing_addr + i, code[3 - i]))
+        # decompme will do it for us anyway so maybe not?
+        ret.append('/* 0x{:04x} 0x{:x} */ .long 0x{:02x}{:02x}{:02x}{:02x}'.format(processing_addr - addr, processing_addr, code[3], code[2], code[1], code[0]))
 
         processing_addr += 4
         last_processed = processing_addr
