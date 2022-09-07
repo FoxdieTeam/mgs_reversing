@@ -1,5 +1,7 @@
 #include "libdg.h"
 
+extern unsigned long DG_PacketCode_800AB394[2];
+
 void DG_ShadeStart_8001CF80()
 {
 }
@@ -134,4 +136,61 @@ POLY_GT4 *DG_Shade_Chanl_helper_helper2_8001D034( unsigned int *face_normals, PO
     }
     
     return packs;
+}
+
+void DG_Shade_Chanl_helper_8001D19C( DG_OBJ* obj, int idx )
+{
+    int n_normals;
+    DG_VECTOR* nidx;
+    DG_VECTOR* scrpd_nidx;
+    DG_VECTOR* scrpd_nidx2;
+    unsigned long *code;
+    POLY_GT4* pack;
+    DG_MDL* mdl;
+
+    pack = obj->packs[ idx ];
+
+    while ( obj )
+    {
+        mdl = obj->model; //t1;
+        code = DG_PacketCode_800AB394;
+        if ( mdl->flags_0 & 2 )
+        {
+            code = &DG_PacketCode_800AB394[1];
+        }
+
+        gte_ldrgb( code );
+        scrpd_nidx = (DG_VECTOR*)0x1F800020;
+        nidx = (DG_VECTOR*)mdl->normalIndexOffset_44; //a2
+        n_normals = mdl->numNormals_40;
+
+        scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
+        scrpd_nidx[1] = nidx[1];
+
+        scrpd_nidx2 = (DG_VECTOR*)0x1F800020;
+        while ( n_normals > 0 )
+        {
+            
+            gte_ldv3c( scrpd_nidx2 );
+            n_normals  -= 3;
+            nidx += 2;
+            gte_nct_b();
+            scrpd_nidx2++;
+
+            scrpd_nidx2[0] = nidx[0];
+            scrpd_nidx2[1] = nidx[1];
+
+            gte_strgb3( &scrpd_nidx2[-1].field_0_x, &scrpd_nidx2[-1].field_4_y, &scrpd_nidx2[-1].field_8_z );
+        }
+
+        if ( !( mdl->flags_0 & 0x10000 ) )
+        {
+            pack = DG_Shade_Chanl_helper_helper_8001CF88( (unsigned int*)mdl->normalFaceOffset_48, pack, obj->n_packs );
+        }
+        else
+        {
+            pack = DG_Shade_Chanl_helper_helper2_8001D034( (unsigned int*)mdl->normalFaceOffset_48, pack, obj->n_packs, (unsigned int*)mdl->faceIndexOffset_3C );
+        }
+        obj = obj->extend;
+    }
 }
