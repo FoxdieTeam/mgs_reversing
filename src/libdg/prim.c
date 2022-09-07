@@ -1,6 +1,4 @@
 #include "libdg.h"
-#include "inline_n.h"
-#include <GTEMAC.H>
 
 /**sbss**********************************/
 extern int      GV_Clock_800AB920;

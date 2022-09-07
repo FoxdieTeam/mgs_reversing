@@ -1,9 +1,5 @@
 #include "libdg.h"
 
-//I''ll move these to libdg.h once I've redone helpers.c
-#include "inline_n.h"
-#include <GTEMAC.H>
-
 #define SCRPAD_ADDR 0x1F800000
 
 static inline DG_DivideMem *get_mem()
