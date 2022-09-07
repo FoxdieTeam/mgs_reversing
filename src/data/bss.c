@@ -155,9 +155,9 @@ char BSS GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
 gap gap_800B76EC[0x4]; // 4 bytes
 
-SVECTOR BSS svec_800B76F0[2]; // 0x10 (16) bytes
+UnkCameraStruct2 BSS gUnkCameraStruct2_800B76F0; // 0x24 (36) bytes
 
-gap gap_800B7700[0x18]; // 24 bytes
+gap gap_800B7714[0x4]; // 4 bytes
 
 CAMERA BSS GM_CameraList_800B7718[8]; // 0xA0 (160) bytes
 UnkCameraStruct BSS gUnkCameraStruct_800B77B8; // 0x30 (48) bytes
