@@ -1,6 +1,5 @@
 #include "dgd.h"
 #include "libdg.h"
-#include "inline_n.h"
 
 /**sbss********************************/
 extern int DG_CurrentGroupID_800AB968;

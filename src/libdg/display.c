@@ -2,8 +2,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "inline_n.h"
-#include "dgd.h" //need to switch to libdg.h
+#include "libdg.h"
 #include "psyq.h"
 #include "Menu/menuman.h"
 
