@@ -531,7 +531,7 @@ void  DG_InitChanlSystem_80017B98( int width );
 void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
 void  DG_InitPolyGT4Pack_8001A6E4( DG_OBJ *pObj, int idx );
 void  DG_LoadInitPcx_helper_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6 );
-void  DG_MakePreshade_80031F04( DG_OBJS *pPrim, short *pData, int dataCount );
+int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, short *pData, int dataCount );
 void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
 void  DG_ReloadPalette_8001FC58( void );
 void  DG_RenderPipeline_800172A8( void );
@@ -569,5 +569,10 @@ void     sub_8001C708( DG_OBJS *objs, int n_obj );
 SVECTOR *sub_8001AD28( SVECTOR *a1, int count );
 // read vecs from spad
 char    *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count );
+
+void      Prim_80031B00(DG_MDL *pMdl, short *pData, int dataCount);
+CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs);
+CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS *pObjs);
+int       Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef);
 
 #endif // LIBDG_H
