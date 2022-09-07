@@ -105,8 +105,6 @@ def disasm(code, addr, name):
     processing_addr = addr
     last_processed = addr
 
-    print(addr, l)
-
     while processing_addr < (addr + l):
         # second pass
         for inst in md.disasm(code, processing_addr):
