@@ -5,6 +5,8 @@
 #include <LIBGPU.H>
 #include <LIBGTE.H>
 #include <SYS/TYPES.H>
+#include "inline_n.h"
+#include <GTEMAC.H>
 
 typedef struct DG_VECTOR
 {

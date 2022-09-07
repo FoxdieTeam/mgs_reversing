@@ -1,7 +1,6 @@
 #include "linker.h"
 #include "libdg.h"
 #include "psyq.h"
-#include "inline_n.h"
 
 /**gp***********************************************************/
 extern          SVECTOR           DG_Ambient_800AB38C;
