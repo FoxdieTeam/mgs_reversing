@@ -330,7 +330,7 @@ void               GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArg
 struct map_record *GCL_Command_hzd_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void               GCL_Command_camera_helper3_80030938(void *vec);
+void               GCL_Command_camera_helper3_80030938(SVECTOR *pVec);
 void               GCL_Command_camera_helper4_80030980(int param_1);
 unsigned int       GCL_Command_menu_helper_8002CA48(void);
 void               GCL_Command_sound_impl_8002E688(void);
