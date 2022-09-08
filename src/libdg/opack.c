@@ -102,7 +102,7 @@ void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx )
                 if ( current_id != id )
                 {
                     id = assign(current_id);
-                    texture = DG_FindTexture_8001D830( current_id );
+                    texture = DG_GetTexture_8001D830( current_id );
                 }
                 
                 Apply(texture, uv, pack);

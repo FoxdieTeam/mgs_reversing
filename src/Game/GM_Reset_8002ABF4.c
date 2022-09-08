@@ -18,7 +18,7 @@ void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
 
 void GM_InitReadError_8002AC44()
 {
-    DG_TEX *pTexture = DG_FindTexture_8001D830(0xA0BE);
+    DG_TEX *pTexture = DG_GetTexture_8001D830(0xA0BE);
     gMenuTextureRec_800B58B0 = *pTexture;
     gMenuTextureRec_800B58B0.field_0_hash = 0;
 }

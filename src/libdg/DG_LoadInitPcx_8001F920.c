@@ -199,7 +199,7 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
 
         if (fileNameHashed)
         {
-            DG_LoadInitPcx_helper_8001D880((unsigned short)fileNameHashed, flags & 1, (flags & 0x30) >> 4, imageA,
+            DG_SetTexture_8001D880((unsigned short)fileNameHashed, flags & 1, (flags & 0x30) >> 4, imageA,
                                            imageB, imageB->dim.w);
         }
         return 1;

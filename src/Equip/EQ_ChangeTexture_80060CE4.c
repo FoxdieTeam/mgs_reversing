@@ -8,8 +8,8 @@ void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
     DG_TEX *pTexture2;
     u_short    buff[5];
 
-    pTexture1 = DG_FindTexture_8001D830(GV_StrCode_80016CCC(itemName1));
-    pTexture2 = DG_FindTexture_8001D830(GV_StrCode_80016CCC(itemName2));
+    pTexture1 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(itemName1));
+    pTexture2 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(itemName2));
 
     face_item_helper_80060CB8(&pTexture1->field_2_bUsed.s, buff);
     face_item_helper_80060CB8(&pTexture2->field_2_bUsed.s, &pTexture1->field_2_bUsed.s);

@@ -198,7 +198,7 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     actor->field_5C_pPrim = pNewPrim;
     if (pNewPrim)
     {
-        pTexture = DG_FindTexture_8001D830(GV_StrCode_80016CCC(aRcmL_0));
+        pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRcmL_0));
         if (pTexture)
         {
             rcm_loader_helper_80066AF8(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTexture);

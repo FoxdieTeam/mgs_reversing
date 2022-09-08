@@ -40,30 +40,20 @@
     include "..\obj\libdg\opack.obj"    ;opack.c
     include "..\obj\libdg\prim.obj"     ;prim.c
     include "..\obj\libdg\screen.obj"   ;screen.c
-    include "..\obj\libdg\shade.obj"    ;shade.c    
+    include "..\obj\libdg\shade.obj"    ;shade.c
+    include "..\obj\libdg\sort.obj"     ;sort.c
+    include "..\obj\libdg\text.obj"     ;text.c
 
-    ;libdg\sort.c
-    include "..\obj\libdg\DG_Sort_Chanl_8001D5C8.obj"
+    ;libdg\trans.c
+    include "..\obj\libdg\trans.obj"    ;trans.c
 
-    ;libdg\text.c
-    include "..\obj\libdg\DG_SearchForTextureRecord_8001D778.obj"
-
-    include "..\obj\libdg\DG_FindTexture_8001D830.obj"
-
-    include "..\obj\data\sdata\sdata3.obj"
-
-    include "..\obj\libdg\DG_LoadInitPcx_helper_8001D880.obj"
-    include "..\obj\sub_8001D9EC.obj"
-    include "..\obj\sub_8001DAA8.obj"
-    include "..\obj\libdg\DG_ClearResidentTexture_8001DB10.obj"
-    include "..\obj\libdg\DG_ResetResidentTexture_8001DBEC.obj"
-
-    ;libdg\??
     include "..\obj\libdg\DG_Trans_Chanl_helper_helper_helper_8001DC90.obj" ; DG_SortTmpPacketSystem ???
     include "..\obj\libdg\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
     include "..\obj\libdg\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
     include "..\obj\libdg\DG_Trans_Chanl_8001E3C0.obj"
-    include "..\obj\nullsub\sub_8001E580.obj"
+    include "..\obj\nullsub\DG_TransEnd_8001E580.obj"
+
+    ;libdg\matrix.c ?
     include "..\obj\libdg\DG_MatrixRotXYZ_8001E588.obj"
     include "..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
     include "..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"

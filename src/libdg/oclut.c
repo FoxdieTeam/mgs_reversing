@@ -63,7 +63,7 @@ void DG_WriteObjClutUV_80018D90(DG_OBJ *obj, int idx)
                 if ((current_id & 0xFFFF) != id)
                 {
                     id = current_id;
-                    texture = DG_FindTexture_8001D830(id);
+                    texture = DG_GetTexture_8001D830(id);
                 }
                 pack->clut = texture->field_6_clut;
                 pack++;
