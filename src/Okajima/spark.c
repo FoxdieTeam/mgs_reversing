@@ -61,7 +61,7 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     pActor->f168 = a2->t[0];
     pActor->f16A = a2->t[1];
     pActor->f16C = a2->t[2];
-    pTexture = DG_FindTexture_8001D830(GV_StrCode_80016CCC(aSparkFl));
+    pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSparkFl));
 
     if (!pTexture)
     {
