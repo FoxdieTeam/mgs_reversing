@@ -177,7 +177,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
 
     pPrims->field_2E_k500 = 250;
 
-    Texture_8001D830 = DG_FindTexture_8001D830(GV_StrCode_80016CCC(aRcmL));
+    Texture_8001D830 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRcmL));
     pack_idx = 0;
     pPrimIter = _pPrims;
     do
