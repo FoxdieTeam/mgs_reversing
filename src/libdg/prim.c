@@ -579,11 +579,11 @@ void DG_FreePrim_8001BC04(DG_OBJS *pPrim)
     }
 }
 
-void sub_8001BC28(char primSize, char a2, char a3, char a4)
+void DG_SetFreePrimParam_8001BC28(int psize, int verts, int voffset, int vstep)
 {
     struct DG_Rec_Unknown *pRec = &stru_8009D3D0[23];
-    pRec->field_0_prim_size = primSize;
-    pRec->field_1 = a2;
-    pRec->field_2 = a3;
-    pRec->field_3 = a4;
+    pRec->field_0_prim_size = psize;
+    pRec->field_1 = verts;
+    pRec->field_2 = voffset;
+    pRec->field_3 = vstep;
 }
