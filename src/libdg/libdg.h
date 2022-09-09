@@ -575,4 +575,7 @@ CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs);
 CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS *pObjs);
 int       Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef);
 
+void      DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx);
+void      DG_Trans_Chanl_helper_8001DF48(DG_OBJ *pObj, int idx);
+
 #endif // LIBDG_H
