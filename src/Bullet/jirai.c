@@ -18,7 +18,7 @@ extern GM_Control *gSnaControl_800AB9F4;
 #pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
 
 extern int     GM_PlayerStatus_800ABA50;
-extern SVECTOR stru_800ABA10;
+extern SVECTOR svector_800ABA10;
 
 int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 {
@@ -37,7 +37,7 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
     {
         return 0;
     }
-    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_position, &stru_800ABA10, &v);
+    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_position, &svector_800ABA10, &v);
     return GV_VecLen3_80016D80(&v) < 800;
 }
 

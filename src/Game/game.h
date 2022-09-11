@@ -183,6 +183,7 @@ void               GM_ConfigControlAttribute_8002623C(GM_Control *pControl, shor
 void               GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
 void               GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
+void               GM_ConfigControlTrapCheck_80026308(GM_Control *pControl);
 void               GM_AlertModeInit_8002EAA8(void);
 void               GM_InitWhereSystem_8002597C(void);
 int                GM_Reset_helper_8002A978();
