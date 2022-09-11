@@ -75,7 +75,19 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper3_8006CBD8.s")       // 120 bytes
+extern SVECTOR svector_8009F488;
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
+{
+    GM_Target *target = &pActor->field_120_target;
+
+    GM_SetTarget_8002DC74(target, 0x4, whichSide, &svector_8009F488);
+    GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_SetVector_8002D500(target, &pActor->field_20_ctrl.field_0_position);
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper2_8006CC50.s")       // 204 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_8006CE54.s")        // 240 bytes
