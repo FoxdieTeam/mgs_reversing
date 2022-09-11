@@ -23,4 +23,43 @@
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_8006CE54.s")        // 240 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_8006CF44.s")               // 480 bytes
-#pragma INCLUDE_ASM("asm/Bullet/NewRMissile_8006D124.s")                   // 208 bytes
+
+extern int   dword_8009F480;
+extern short Nik_Blast_8009F484;
+
+extern const char rRmissileC[]; // = "rmissile.c";
+
+Actor_rmissile * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
+{
+    Actor_rmissile *actor;
+
+    actor = (Actor_rmissile *)GV_NewActor_800150E4(6, sizeof(Actor_rmissile));
+
+    if (actor)
+    {
+        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)&rmissile_act_8006C5C4,
+                                  (TActorFunction)&rmissile_kill_8006CB40, rRmissileC);
+
+        if (rmissile_loader_8006CF44(actor, pMtx, whichSide) < 0)
+        {
+            GV_DestroyActor_800151C8(&actor->field_0_actor);
+            return 0;
+        }
+
+        actor->field_111 = 30;
+        actor->field_112 = 0;
+        actor->field_113 = 0;
+        actor->field_117 = 0;
+        actor->field_114 = 0;
+        actor->field_115 = 0;
+        actor->field_116 = 0;
+        dword_8009F480 = 0;
+        actor->field_118 = 0;
+        actor->field_11A = 0;
+        actor->field_11C = 0;
+        actor->field_168 = 0;
+        Nik_Blast_8009F484 = 0;
+    }
+
+    return actor;
+}
