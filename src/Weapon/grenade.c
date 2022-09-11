@@ -14,7 +14,7 @@ extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
 
 extern SVECTOR            DG_ZeroVector_800AB39C;
-extern SVECTOR            stru_800ABA10;
+extern SVECTOR            svector_800ABA10;
 
 extern int                DG_CurrentGroupID_800AB968;
 extern GameState gGameState_800B4D98;
@@ -40,7 +40,7 @@ void grenade_800663A0( void )
 	pos.vx = 250;
 	GM_SetTarget_8002DC74( &target, 4, 0, &pos );
 	GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
-	GM_Target_SetVector_8002D500( &target, (SVECTOR *)&stru_800ABA10 );
+	GM_Target_SetVector_8002D500( &target, &svector_800ABA10 );
 	sub_8002D7DC( &target );
 }
 
