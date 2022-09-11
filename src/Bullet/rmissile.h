@@ -15,7 +15,11 @@ typedef struct Actor_rmissile
     Actor      field_0_actor;
     GM_Control field_20_ctrl;
     OBJECT     field_9C_kmd;
-    char       field_C0[81];
+    MATRIX     field_C0_matrix;
+    char       field_E0[32];
+    SVECTOR    field_100_svector;
+    SVECTOR    field_108_svector;
+    char       field_110;
     char       field_111;
     char       field_112;
     char       field_113;
@@ -32,7 +36,8 @@ typedef struct Actor_rmissile
     void      *field_174;
     char       field_178[352];
     DG_OBJS   *field_2D8_objs;
-    char       field_2DC[76];
+    char       field_2DC[70];
+    int        field_324;
 } Actor_rmissile;
 
 STATIC_ASSERT_SIZE(Actor_rmissile, 0x328);
@@ -40,6 +45,11 @@ STATIC_ASSERT_SIZE(Actor_rmissile, 0x328);
 void rmissile_8006B924(Actor_rmissile *pActor);
 void rmissile_act_8006C5C4(Actor_rmissile *pActor);
 void rmissile_kill_8006CB40(Actor_rmissile *pActor);
+
+int  rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor);
+int  rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide);
+void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor);
+void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor);
 int  rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide);
 
 Actor_rmissile *NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
