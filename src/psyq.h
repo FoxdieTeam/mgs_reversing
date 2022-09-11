@@ -120,6 +120,8 @@ void               SpuGetVoiceAttr_80097D18(SpuVoiceAttr *arg);
 int                MoveImage_8008FBD0(RECT *rect, int x, int y);
 void               SpuQuit_80095258(void);
 int                strncmp_8008E7F8(const char *s1, const char *s2, int size);
+void               SetSemiTrans_80092458(void *p, int abe);
+void               SetPolyF4_80092488(void *p);
 
 struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
