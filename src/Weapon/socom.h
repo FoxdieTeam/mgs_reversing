@@ -24,6 +24,8 @@ typedef struct _Actor_Socom
     DG_PRIM    *field_10C_pPrim;
     SVECTOR     field_110;
     SVECTOR     field_118;
+//    int         field_11B; // ?
+//    int         field_11F; // ?
 } Actor_Socom;
 
 STATIC_ASSERT_SIZE(Actor_Socom, 0x120);

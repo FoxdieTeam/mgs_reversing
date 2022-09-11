@@ -580,4 +580,19 @@ void         DG_Trans_Chanl_helper_8001DF48(DG_OBJ *pObj, int idx);
 POLY_GT4 *   DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int nPacks);
 unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90(unsigned int index, POLY_GT4 *pPoly);
 
+
+static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
+{
+	extern int	GM_CurrentMap_800AB9B0;
+	DG_PRIM		*prim;
+
+	prim = DG_MakePrim_8001BABC( type, prim_count, chanl, vec, pRect );
+	if ( prim )
+	{
+		DG_QueuePrim_80018274( (DG_OBJS *)prim );
+		DG_GroupPrim( prim, GM_CurrentMap_800AB9B0 );
+	}
+	return prim;
+}
+
 #endif // LIBDG_H
