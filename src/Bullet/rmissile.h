@@ -6,6 +6,7 @@
 
 #include "Game/camera.h"
 #include "Game/game.h"
+#include "Game/target.h"
 #include "libdg/libdg.h"
 #include "libgcl/gcl.h"
 #include "libgv/libgv.h"
@@ -32,7 +33,7 @@ typedef struct Actor_rmissile
     short           field_118;
     short           field_11A;
     int             field_11C;
-    char            field_120[72];
+    GM_Target       field_120_target;
     short           field_168;
     char            field_16A[10];
     void           *field_174;
