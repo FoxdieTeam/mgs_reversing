@@ -1,5 +1,7 @@
 #include "rmissile.h"
 
+#include "Game/object.h"
+
 // nikita missile
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper4_8006B800.s")       // 136 bytes
@@ -17,15 +19,52 @@
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C114.s")           // 616 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C37C.s")           // 584 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_8006C5C4.s")                  // 1404 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_kill_8006CB40.s")                 // 152 bytes
+
+extern int   dword_8009F46C;
+extern int   dword_8009F470;
+extern short Nik_Blast_8009F484;
+
+void rmissile_kill_8006CB40(Actor_rmissile *pActor)
+{
+    DG_OBJS *objs;
+    
+    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
+    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+
+    if (pActor->field_174)
+    {
+        GV_DelayedFree_80016254(pActor->field_174);
+        dword_8009F46C = 0;
+    }
+    else
+    {
+        dword_8009F46C = 0;
+    }
+    
+    dword_8009F470 = 0;
+    Nik_Blast_8009F484 = 0;
+
+    objs = pActor->field_2D8_objs;
+    
+    if (objs)
+    {
+        DG_DequeuePrim_800182E0(objs);
+        DG_FreePrim_8001BC04(objs);
+    }
+
+    if (!pActor->field_117)
+    {
+        rmissile_8006B924(pActor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper3_8006CBD8.s")       // 120 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper2_8006CC50.s")       // 204 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_8006CE54.s")        // 240 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_8006CF44.s")               // 480 bytes
 
-extern int   dword_8009F480;
-extern short Nik_Blast_8009F484;
+extern int dword_8009F480;
 
 extern const char rRmissileC[]; // = "rmissile.c";
 
