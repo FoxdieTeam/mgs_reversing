@@ -3,6 +3,7 @@
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
+#include <LIBGPU.H>
 
 #include "Game/camera.h"
 #include "Game/game.h"
@@ -36,8 +37,7 @@ typedef struct Actor_rmissile
     GM_Target       field_120_target;
     short           field_168;
     char            field_16A[10];
-    void           *field_174;
-    char            field_178[4];
+    POLY_F4        *field_174_polys_2Array[2];
     GM_Camera       field_17C_camera;
     UnkCameraStruct field_1F8;
     CAMERA          field_228_camera[8];

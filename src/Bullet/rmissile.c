@@ -1,6 +1,6 @@
-#include "rmissile.h"
-
 #include "Game/object.h"
+#include "psyq.h"
+#include "rmissile.h"
 
 // nikita missile
 
@@ -48,9 +48,9 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
 
-    if (pActor->field_174)
+    if (pActor->field_174_polys_2Array[0])
     {
-        GV_DelayedFree_80016254(pActor->field_174);
+        GV_DelayedFree_80016254(pActor->field_174_polys_2Array[0]);
         dword_8009F46C = 0;
     }
     else
@@ -88,7 +88,46 @@ int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper2_8006CC50.s")       // 204 bytes
+int rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor)
+{
+    POLY_F4 *poly;
+    POLY_F4 *poly2;
+
+    pActor->field_174_polys_2Array[0] = poly = GV_Malloc_8001620C(sizeof(POLY_F4) * 2);
+
+    if (!poly)
+    {
+        return -1;
+    }
+
+    pActor->field_174_polys_2Array[1] = poly + 1;
+
+    LSTORE(0x8AB89E, &poly[0].r0);
+    LSTORE(0x8AB89E, &poly[1].r0);
+
+    poly2 = poly + 1;
+
+    SetPolyF4_80092488(poly);
+    SetPolyF4_80092488(poly2);
+    SetSemiTrans_80092458(poly, 1);
+    SetSemiTrans_80092458(poly2, 1);
+
+    poly2->x2 = 31;
+    poly2->x0 = 31;
+    poly->x2 = 31;
+    poly->x0 = 31;
+    poly2->y1 = 39;
+    poly2->y0 = 39;
+    poly->y1 = 39;
+    poly->y0 = 39;
+    poly2->y3 = 49;
+    poly2->y2 = 49;
+    poly->y3 = 49;
+    poly->y2 = 49;
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_8006CE54.s")        // 240 bytes
 

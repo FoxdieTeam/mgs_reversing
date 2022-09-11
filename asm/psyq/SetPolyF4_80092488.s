@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092488
-sub_80092488:
+	xdef SetPolyF4_80092488
+SetPolyF4_80092488:
 	dw 0x24020005 ; 0x80092488
 	dw 0xA0820003 ; 0x8009248C
 	dw 0x24020028 ; 0x80092490
