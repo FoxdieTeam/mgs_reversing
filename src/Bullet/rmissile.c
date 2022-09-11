@@ -4,7 +4,24 @@
 
 // nikita missile
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper4_8006B800.s")       // 136 bytes
+extern int             GM_CameraTrackSave_800AB42C;
+extern SVECTOR         GM_CameraRotateSave_800AB430;
+extern int             GM_event_camera_flag_800ABA9C;
+extern GM_Camera       GM_Camera_800B77E8;
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern CAMERA          GM_CameraList_800B7718[8];
+
+void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
+{
+    GV_CopyMemory_800160D8(&GM_Camera_800B77E8,           &pActor->field_17C_camera,  sizeof(pActor->field_17C_camera));
+    GV_CopyMemory_800160D8(&gUnkCameraStruct_800B77B8,    &pActor->field_1F8,         sizeof(pActor->field_1F8));
+    GV_CopyMemory_800160D8(GM_CameraList_800B7718,        &pActor->field_228_camera,  sizeof(pActor->field_228_camera));
+    GV_CopyMemory_800160D8(&GM_CameraRotateSave_800AB430, &pActor->field_2CC_svector, sizeof(pActor->field_2CC_svector));
+
+    pActor->field_2C8 = GM_CameraTrackSave_800AB42C;
+    pActor->field_2D4 = GM_event_camera_flag_800ABA9C;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B888.s")                      // 156 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B924.s")                      // 140 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
@@ -130,7 +147,6 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
     rmissile_loader_helper_8006CE54(pActor);
     return 0;
 }
-
 
 extern int dword_8009F480;
 
