@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80092458
-sub_80092458:
+	xdef SetSemiTrans_80092458
+SetSemiTrans_80092458:
 	dw 0x10A00004 ; 0x80092458
 	dw 0x00000000 ; 0x8009245C
 	dw 0x90820007 ; 0x80092460
