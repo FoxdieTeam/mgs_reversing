@@ -1,3 +1,4 @@
+#include "Equip/Takabe.h"
 #include "Game/object.h"
 #include "psyq.h"
 #include "rmissile.h"
@@ -43,7 +44,7 @@ extern short Nik_Blast_8009F484;
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 {
-    DG_OBJS *objs;
+    DG_PRIM *prim;
 
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
@@ -61,12 +62,12 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
     dword_8009F470 = 0;
     Nik_Blast_8009F484 = 0;
 
-    objs = pActor->field_2D8_objs;
+    prim = pActor->field_2D8_prim;
 
-    if (objs)
+    if (prim)
     {
-        DG_DequeuePrim_800182E0(objs);
-        DG_FreePrim_8001BC04(objs);
+        DG_DequeuePrim_800182E0((DG_OBJS *)prim);
+        DG_FreePrim_8001BC04((DG_OBJS *)prim);
     }
 
     if (!pActor->field_117)
@@ -129,7 +130,38 @@ int rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_8006CE54.s")        // 240 bytes
+
+extern const char aSocomF[]; // = "socom_f"
+
+extern MATRIX DG_ZeroMatrix_8009D430;
+
+void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
+{
+    int hash;
+    DG_TEX *tex;
+    SVECTOR *vec;
+    DG_PRIM *prim;
+    int count;
+
+    hash = GV_StrCode_80016CCC(aSocomF);
+    tex = DG_GetTexture_8001D830(hash);
+
+    pActor->field_2DC_tex = tex;
+    prim = pActor->field_2D8_prim  = Takabe_MakeIndividualRect3DPrim_800793E8(8, &pActor->field_2E4_svector);
+
+    rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 8);
+    rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 8);
+
+    prim->world = DG_ZeroMatrix_8009D430;
+    prim->field_2E_k500 = 100;
+
+    vec = &pActor->field_2E4_svector;
+
+    for (count = 8; count > 0; count--)
+    {
+        (vec++)->pad = 0;
+    }
+}
 
 extern SVECTOR svector_8009F478;
 extern SVECTOR svector_800ABA10;
@@ -201,7 +233,7 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
 
 extern int dword_8009F480;
 
-extern const char rRmissileC[]; // = "rmissile.c";
+extern const char rRmissileC[]; // = "rmissile.c"
 
 Actor_rmissile * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
 {
