@@ -44,8 +44,11 @@ typedef struct Actor_rmissile
     int             field_2C8;
     SVECTOR         field_2CC_svector;
     int             field_2D4;
-    DG_OBJS        *field_2D8_objs;
-    char            field_2DC[70];
+    DG_PRIM        *field_2D8_prim;
+    DG_TEX         *field_2DC_tex;
+    char            field_2E0[4];
+    SVECTOR         field_2E4_svector;
+    char            field_2EC[54];
     int             field_324;
 } Actor_rmissile;
 
@@ -60,6 +63,7 @@ int  rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide);
 void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor);
 void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor);
 int  rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide);
+void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *pPoly, DG_TEX *pTex, int primCount);
 
 Actor_rmissile *NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
 
