@@ -1,10 +1,28 @@
-#include "rmissile.h"
-
+#include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "psyq.h"
+#include "rmissile.h"
 
 // nikita missile
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper4_8006B800.s")       // 136 bytes
+extern int             GM_CameraTrackSave_800AB42C;
+extern SVECTOR         GM_CameraRotateSave_800AB430;
+extern int             GM_event_camera_flag_800ABA9C;
+extern GM_Camera       GM_Camera_800B77E8;
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern CAMERA          GM_CameraList_800B7718[8];
+
+void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
+{
+    GV_CopyMemory_800160D8(&GM_Camera_800B77E8,           &pActor->field_17C_camera,  sizeof(pActor->field_17C_camera));
+    GV_CopyMemory_800160D8(&gUnkCameraStruct_800B77B8,    &pActor->field_1F8,         sizeof(pActor->field_1F8));
+    GV_CopyMemory_800160D8(GM_CameraList_800B7718,        &pActor->field_228_camera,  sizeof(pActor->field_228_camera));
+    GV_CopyMemory_800160D8(&GM_CameraRotateSave_800AB430, &pActor->field_2CC_svector, sizeof(pActor->field_2CC_svector));
+
+    pActor->field_2C8 = GM_CameraTrackSave_800AB42C;
+    pActor->field_2D4 = GM_event_camera_flag_800ABA9C;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B888.s")                      // 156 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B924.s")                      // 140 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
@@ -26,14 +44,14 @@ extern short Nik_Blast_8009F484;
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 {
-    DG_OBJS *objs;
+    DG_PRIM *prim;
 
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
 
-    if (pActor->field_174)
+    if (pActor->field_174_polys_2Array[0])
     {
-        GV_DelayedFree_80016254(pActor->field_174);
+        GV_DelayedFree_80016254(pActor->field_174_polys_2Array[0]);
         dword_8009F46C = 0;
     }
     else
@@ -44,12 +62,12 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
     dword_8009F470 = 0;
     Nik_Blast_8009F484 = 0;
 
-    objs = pActor->field_2D8_objs;
+    prim = pActor->field_2D8_prim;
 
-    if (objs)
+    if (prim)
     {
-        DG_DequeuePrim_800182E0(objs);
-        DG_FreePrim_8001BC04(objs);
+        DG_DequeuePrim_800182E0((DG_OBJS *)prim);
+        DG_FreePrim_8001BC04((DG_OBJS *)prim);
     }
 
     if (!pActor->field_117)
@@ -58,10 +76,92 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper3_8006CBD8.s")       // 120 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper2_8006CC50.s")       // 204 bytes
+extern SVECTOR svector_8009F488;
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
+{
+    GM_Target *target = &pActor->field_120_target;
+
+    GM_SetTarget_8002DC74(target, 0x4, whichSide, &svector_8009F488);
+    GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_SetVector_8002D500(target, &pActor->field_20_ctrl.field_0_position);
+    return 0;
+}
+
+int rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor)
+{
+    POLY_F4 *poly;
+    POLY_F4 *poly2;
+
+    pActor->field_174_polys_2Array[0] = poly = GV_Malloc_8001620C(sizeof(POLY_F4) * 2);
+
+    if (!poly)
+    {
+        return -1;
+    }
+
+    pActor->field_174_polys_2Array[1] = poly + 1;
+
+    LSTORE(0x8AB89E, &poly[0].r0);
+    LSTORE(0x8AB89E, &poly[1].r0);
+
+    poly2 = poly + 1;
+
+    SetPolyF4_80092488(poly);
+    SetPolyF4_80092488(poly2);
+    SetSemiTrans_80092458(poly, 1);
+    SetSemiTrans_80092458(poly2, 1);
+
+    poly2->x2 = 31;
+    poly2->x0 = 31;
+    poly->x2 = 31;
+    poly->x0 = 31;
+    poly2->y1 = 39;
+    poly2->y0 = 39;
+    poly->y1 = 39;
+    poly->y0 = 39;
+    poly2->y3 = 49;
+    poly2->y2 = 49;
+    poly->y3 = 49;
+    poly->y2 = 49;
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_8006CE54.s")        // 240 bytes
+
+extern const char aSocomF[]; // = "socom_f"
+
+extern MATRIX DG_ZeroMatrix_8009D430;
+
+void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
+{
+    int hash;
+    DG_TEX *tex;
+    SVECTOR *vec;
+    DG_PRIM *prim;
+    int count;
+
+    hash = GV_StrCode_80016CCC(aSocomF);
+    tex = DG_GetTexture_8001D830(hash);
+
+    pActor->field_2DC_tex = tex;
+    prim = pActor->field_2D8_prim  = Takabe_MakeIndividualRect3DPrim_800793E8(8, &pActor->field_2E4_svector);
+
+    rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 8);
+    rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 8);
+
+    prim->world = DG_ZeroMatrix_8009D430;
+    prim->field_2E_k500 = 100;
+
+    vec = &pActor->field_2E4_svector;
+
+    for (count = 8; count > 0; count--)
+    {
+        (vec++)->pad = 0;
+    }
+}
 
 extern SVECTOR svector_8009F478;
 extern SVECTOR svector_800ABA10;
@@ -131,10 +231,9 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
     return 0;
 }
 
-
 extern int dword_8009F480;
 
-extern const char rRmissileC[]; // = "rmissile.c";
+extern const char rRmissileC[]; // = "rmissile.c"
 
 Actor_rmissile * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
 {
