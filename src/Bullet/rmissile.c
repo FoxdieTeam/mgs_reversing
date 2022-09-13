@@ -129,7 +129,57 @@ int rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_loader_helper_helper_8006CD1C.s") // 312 bytes
+static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *pPoly, DG_TEX *pTex)
+{
+    int u, v, w, h;
+
+    setPolyFT4(pPoly);
+    setSemiTrans(pPoly, 1);
+
+    u = pTex->field_8_offx;
+    w = (pTex->field_A_width + 1) / 2;
+    pPoly->u2 = u;
+    pPoly->u0 = u;
+    u += w;
+    pPoly->u3 = u - 1;
+    pPoly->u1 = u - 1;
+
+    v = pTex->field_9_offy;
+    h = (pTex->field_B_height + 1) / 2;
+    pPoly->v1 = v;
+    pPoly->v0 = v;
+    v += h;
+    pPoly->v3 = v - 1;
+    pPoly->v2 = v - 1;
+
+    pPoly->tpage = pTex->field_4_tPage;
+    pPoly->clut = pTex->field_6_clut;
+}
+
+void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *pPoly, DG_TEX *pTex, int primCount)
+{
+    rmissile_loader_helper_helper_8006CD1C_set_poly(pPoly, pTex);
+    pPoly->tpage = (pPoly->tpage & 0xff9f) | 0x20;
+
+    pPoly->r0 = 0;
+    pPoly->g0 = 0;
+    pPoly->b0 = 0;
+
+    pPoly++;
+    primCount--;
+
+    while (primCount-- != 0)
+    {
+        rmissile_loader_helper_helper_8006CD1C_set_poly(pPoly, pTex);
+        pPoly->tpage = pPoly->tpage | 0x60;
+
+        pPoly->r0 = 0;
+        pPoly->g0 = 0;
+        pPoly->b0 = 0;
+
+        pPoly++;
+    }
+}
 
 extern const char aSocomF[]; // = "socom_f"
 
