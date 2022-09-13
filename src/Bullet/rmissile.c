@@ -23,7 +23,20 @@ void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
     pActor->field_2D4 = GM_event_camera_flag_800ABA9C;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B888.s")                      // 156 bytes
+void rmissile_8006B888(Actor_rmissile *pActor)
+{
+    GV_CopyMemory_800160D8(&pActor->field_17C_camera,  &GM_Camera_800B77E8,           sizeof(pActor->field_17C_camera));
+    GV_CopyMemory_800160D8(&pActor->field_1F8,         &gUnkCameraStruct_800B77B8,    sizeof(pActor->field_1F8));
+    GV_CopyMemory_800160D8(&pActor->field_228_camera,  &GM_CameraList_800B7718,       sizeof(pActor->field_228_camera));
+    GV_CopyMemory_800160D8(&pActor->field_2CC_svector, &GM_CameraRotateSave_800AB430, sizeof(pActor->field_2CC_svector));
+
+    GM_CameraTrackSave_800AB42C = pActor->field_2C8;
+    GM_event_camera_flag_800ABA9C = pActor->field_2D4;
+
+    sub_800309B4(2, 30);
+    GM_CameraEventReset_800309A8();
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B924.s")                      // 140 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
