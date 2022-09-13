@@ -226,6 +226,8 @@ void GM_Act_helper_8002AA10(void); // noise/alert thing
 void GM_Act_helper3_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
 
+void GM_CameraEventReset_800309A8(void);
+
 int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
 
 #endif // GAME_H

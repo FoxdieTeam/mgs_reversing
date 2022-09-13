@@ -1,5 +1,6 @@
 #include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "map/hzd.h"
 #include "psyq.h"
 #include "rmissile.h"
 
@@ -23,8 +24,42 @@ void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
     pActor->field_2D4 = GM_event_camera_flag_800ABA9C;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B888.s")                      // 156 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B924.s")                      // 140 bytes
+void rmissile_8006B888(Actor_rmissile *pActor)
+{
+    GV_CopyMemory_800160D8(&pActor->field_17C_camera,  &GM_Camera_800B77E8,           sizeof(pActor->field_17C_camera));
+    GV_CopyMemory_800160D8(&pActor->field_1F8,         &gUnkCameraStruct_800B77B8,    sizeof(pActor->field_1F8));
+    GV_CopyMemory_800160D8(&pActor->field_228_camera,  &GM_CameraList_800B7718,       sizeof(pActor->field_228_camera));
+    GV_CopyMemory_800160D8(&pActor->field_2CC_svector, &GM_CameraRotateSave_800AB430, sizeof(pActor->field_2CC_svector));
+
+    GM_CameraTrackSave_800AB42C = pActor->field_2C8;
+    GM_event_camera_flag_800ABA9C = pActor->field_2D4;
+
+    sub_800309B4(2, 30);
+    GM_CameraEventReset_800309A8();
+}
+
+extern int GM_GameStatus_800AB3CC;
+extern GM_Control *gSnaControl_800AB9F4;
+
+void rmissile_8006B924(Actor_rmissile *pActor)
+{
+    GM_Control *ctrl;
+
+    ctrl = &pActor->field_20_ctrl;
+    ctrl->field_55_flags |= CONTROL_FLAG_UNK2;
+
+    rmissile_8006B888(pActor);
+    GM_GameStatus_800AB3CC &= ~0x40;
+    sub_8002A258(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown);
+
+    ctrl = gSnaControl_800AB9F4;
+
+    if (ctrl)
+    {
+        HZD_ReExecEvent_8002A1F4(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown, 0x102);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
