@@ -1,5 +1,6 @@
 #include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "map/hzd.h"
 #include "psyq.h"
 #include "rmissile.h"
 
@@ -37,7 +38,28 @@ void rmissile_8006B888(Actor_rmissile *pActor)
     GM_CameraEventReset_800309A8();
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_8006B924.s")                      // 140 bytes
+extern int GM_GameStatus_800AB3CC;
+extern GM_Control *gSnaControl_800AB9F4;
+
+void rmissile_8006B924(Actor_rmissile *pActor)
+{
+    GM_Control *ctrl;
+
+    ctrl = &pActor->field_20_ctrl;
+    ctrl->field_55_flags |= CONTROL_FLAG_UNK2;
+
+    rmissile_8006B888(pActor);
+    GM_GameStatus_800AB3CC &= ~0x40;
+    sub_8002A258(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown);
+
+    ctrl = gSnaControl_800AB9F4;
+
+    if (ctrl)
+    {
+        HZD_ReExecEvent_8002A1F4(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown, 0x102);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
