@@ -1,5 +1,6 @@
 #include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "Menu/menuman.h"
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
 #include "map/hzd.h"
@@ -87,11 +88,43 @@ void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern GM_Target        *target_800BDF00;
+
+extern const char aEnemy[]; // = "ENEMY\n"
+
+void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
+{
+    if (!target_800BDF00)
+    {
+        pActor->field_168 = 0;
+        return;
+    }
+
+    pActor->field_168++;
+
+    if (pActor->field_168 <= 16)
+    {
+        return;
+
+    }
+
+    if (pActor->field_168 == 32)
+    {
+        pActor->field_168 = 0;
+    }
+
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+    {
+        menu_Color_80038B4C(158, 184, 138);
+        menu_Text_XY_Flags_80038B34(116, 98, 0);
+        menu_Text_80038C38(aEnemy);
+        menu_Text_Init_80038B98();
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BD24.s")           // 300 bytes
-
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
 {
