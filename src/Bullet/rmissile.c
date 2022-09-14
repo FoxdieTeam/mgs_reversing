@@ -64,9 +64,22 @@ void rmissile_8006B924(Actor_rmissile *pActor)
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BD24.s")           // 300 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BE50.s")           // 64 bytes
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+
+void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
+{
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    {
+        return;
+    }
+
+    if (arg1 >= 0 && pActor->field_20_ctrl.field_4C_turn_vec.vy != arg1)
+    {
+        pActor->field_111 = 30;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = arg1;
+    }
+}
 
 void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
 {
