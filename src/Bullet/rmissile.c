@@ -215,7 +215,28 @@ void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BEEC.s")           // 232 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BFD4.s")           // 208 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006C0A4.s")    // 112 bytes
+
+int rmissile_act_helper_helper_8006C0A4(void)
+{
+    GV_MSG *message;
+    int length;
+
+    length = GV_ReceiveMessage_80016620(0x15A9, &message);
+
+    if (length > 0)
+    {
+        for (length--; length >= 0; message++, length--)
+        {
+            if (message->message[0] == 0x3223)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C114.s")           // 616 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C37C.s")           // 584 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_8006C5C4.s")                  // 1404 bytes
