@@ -1,5 +1,8 @@
 #include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "Menu/menuman.h"
+#include "Thing/sgtrect3.h"
+#include "Thing/sight.h"
 #include "map/hzd.h"
 #include "psyq.h"
 #include "rmissile.h"
@@ -60,12 +63,105 @@ void rmissile_8006B924(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
+extern short Nik_Blast_8009F484;
+extern int   dword_8009F604;
+extern int   dword_800BDEF8[];
+
+void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
+{
+    Nik_Blast_8009F484 = 1;
+
+    if (dword_8009F604 != 0x15A9)
+    {
+        NewSight_80071CDC(0x15A9, 0x15A9, &Nik_Blast_8009F484, 1, 0);
+    }
+
+    GM_Camera_800B77E8.field_22 = 1;
+
+    if (pActor->field_113 == 0)
+    {
+        pActor->field_113 = 1;
+        dword_800BDEF8[0] = 0x5A875D;
+        dword_800BDEF8[1] = 0xC1A80;
+        sgtrect3_init_80071010(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
+        GM_Sound_80032968(0, 0x3F, 0x15);
+    }
+}
+
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern GM_Target        *target_800BDF00;
+
+extern const char aEnemy[]; // = "ENEMY\n"
+
+void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
+{
+    if (!target_800BDF00)
+    {
+        pActor->field_168 = 0;
+        return;
+    }
+
+    pActor->field_168++;
+
+    if (pActor->field_168 <= 16)
+    {
+        return;
+
+    }
+
+    if (pActor->field_168 == 32)
+    {
+        pActor->field_168 = 0;
+    }
+
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+    {
+        menu_Color_80038B4C(158, 184, 138);
+        menu_Text_XY_Flags_80038B34(116, 98, 0);
+        menu_Text_80038C38(aEnemy);
+        menu_Text_Init_80038B98();
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BD24.s")           // 300 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BE50.s")           // 64 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BE90.s")           // 92 bytes
+
+void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
+{
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    {
+        return;
+    }
+
+    if (arg1 >= 0 && pActor->field_20_ctrl.field_4C_turn_vec.vy != arg1)
+    {
+        pActor->field_111 = 30;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = arg1;
+    }
+}
+
+void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
+{
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    {
+        return;
+    }
+
+    if (arg1 & 0x8000)
+    {
+        pActor->field_111 = 30;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy += 64;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy &= 0xFFF;
+    }
+
+    if (arg1 & 0x2000)
+    {
+        pActor->field_111 = 30;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy -= 64;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy &= 0xFFF;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BEEC.s")           // 232 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BFD4.s")           // 208 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006C0A4.s")    // 112 bytes
@@ -75,7 +171,6 @@ void rmissile_8006B924(Actor_rmissile *pActor)
 
 extern int   dword_8009F46C;
 extern int   dword_8009F470;
-extern short Nik_Blast_8009F484;
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 {
