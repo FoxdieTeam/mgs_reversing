@@ -242,7 +242,41 @@ void rmissile_act_helper_8006BEEC(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BFD4.s")           // 208 bytes
+void rmissile_act_helper_8006BFD4(Actor_rmissile *pActor)
+{
+    if (pActor->field_111)
+    {
+        pActor->field_111--;
+
+        if (!pActor->field_111)
+        {
+            GM_Sound_80032968(0, 63, 77);
+            pActor->field_116 = 12;
+        }
+
+        pActor->field_11A = 50;
+
+        if (!pActor->field_112)
+        {
+            pActor->field_11C = 0;
+        }
+    }
+    else
+    {
+        if (pActor->field_116)
+        {
+            pActor->field_116--;
+            gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS_800170BC(512) * pActor->field_116 / 32;
+        }
+
+        pActor->field_11A = 200;
+
+        if (!pActor->field_112)
+        {
+            pActor->field_11C = 8;
+        }
+    }
+}
 
 int rmissile_act_helper_helper_8006C0A4(void)
 {
