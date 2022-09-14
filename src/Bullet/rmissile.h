@@ -36,7 +36,8 @@ typedef struct Actor_rmissile
     int             field_11C;
     GM_Target       field_120_target;
     short           field_168;
-    char            field_16A[10];
+    short           field_16A;
+    SVECTOR         field_16C_svector;
     POLY_F4        *field_174_polys_2Array[2];
     GM_Camera       field_17C_camera;
     UnkCameraStruct field_1F8;
