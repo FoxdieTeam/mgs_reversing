@@ -124,7 +124,58 @@ void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BD24.s")           // 300 bytes
+
+void rmissile_act_helper_8006BD24(Actor_rmissile *pActor, int arg1)
+{
+    if (pActor->field_112 || pActor->field_117 || pActor->field_110)
+    {
+        return;
+    }
+
+    if (arg1 & 0x10)
+    {
+        rmissile_act_helper_helper_8006B9B0(pActor);
+
+        gUnkCameraStruct_800B77B8.field_28.vx = 0;
+        gUnkCameraStruct_800B77B8.field_28.vy = pActor->field_20_ctrl.field_8_rotator.vy;
+        gUnkCameraStruct_800B77B8.field_28.vz = 0;
+
+        pActor->field_9C_kmd.objs->flag |= 0x80;
+
+        pActor->field_11C = -2;
+
+        if (pActor->field_114 < 16)
+        {
+            pActor->field_114++;
+            return;
+        }
+
+        rmissile_act_helper_helper_8006BB10(pActor);
+        rmissile_act_helper_helper_8006BA70(pActor);
+        return;
+    }
+
+    if (pActor->field_113 != 0)
+    {
+        pActor->field_115 = 5;
+    }
+
+    pActor->field_114 = 0;
+    pActor->field_113 = 0;
+
+    GM_Camera_800B77E8.field_22 = 0;
+    Nik_Blast_8009F484 = 0;
+
+    if (pActor->field_115)
+    {
+        pActor->field_115--;
+
+        if (!pActor->field_115)
+        {
+            pActor->field_9C_kmd.objs->flag &= ~0x80;
+        }
+    }
+}
 
 void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
 {
