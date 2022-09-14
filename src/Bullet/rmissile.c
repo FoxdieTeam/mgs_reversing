@@ -213,7 +213,35 @@ void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BEEC.s")           // 232 bytes
+extern int dword_8009F474;
+
+void rmissile_act_helper_8006BEEC(Actor_rmissile *pActor)
+{
+    if (pActor->field_117)
+    {
+        return;
+    }
+
+    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & 0x800001)
+    {
+        pActor->field_117 = 1;
+        pActor->field_16A = 15;
+        pActor->field_16C_svector = pActor->field_20_ctrl.field_0_position;
+        pActor->field_113 = 0;
+
+        GM_Camera_800B77E8.field_22 = 0;
+        Nik_Blast_8009F484 = 0;
+
+        if (!pActor->field_112)
+        {
+            pActor->field_9C_kmd.objs->flag &= ~0x80;
+        }
+
+        dword_8009F474 = 0;
+        rmissile_8006B924(pActor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BFD4.s")           // 208 bytes
 
 int rmissile_act_helper_helper_8006C0A4(void)
