@@ -1,5 +1,7 @@
 #include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "Thing/sgtrect3.h"
+#include "Thing/sight.h"
 #include "map/hzd.h"
 #include "psyq.h"
 #include "rmissile.h"
@@ -60,7 +62,31 @@ void rmissile_8006B924(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006B9B0.s")    // 192 bytes
+extern short Nik_Blast_8009F484;
+extern int   dword_8009F604;
+extern int   dword_800BDEF8[];
+
+void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
+{
+    Nik_Blast_8009F484 = 1;
+
+    if (dword_8009F604 != 0x15A9)
+    {
+        NewSight_80071CDC(0x15A9, 0x15A9, &Nik_Blast_8009F484, 1, 0);
+    }
+
+    GM_Camera_800B77E8.field_22 = 1;
+
+    if (pActor->field_113 == 0)
+    {
+        pActor->field_113 = 1;
+        dword_800BDEF8[0] = 0x5A875D;
+        dword_800BDEF8[1] = 0xC1A80;
+        sgtrect3_init_80071010(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
+        GM_Sound_80032968(0, 0x3F, 0x15);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BA70.s")    // 160 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006BD24.s")           // 300 bytes
@@ -112,7 +138,6 @@ void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
 
 extern int   dword_8009F46C;
 extern int   dword_8009F470;
-extern short Nik_Blast_8009F484;
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 {
