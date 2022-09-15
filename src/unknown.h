@@ -27,6 +27,7 @@ void  sub_800790E8(); // Takabe
 void  sub_800241B4(int);
 int   sub_80029514(int);
 void  sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
+int   sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
 
 // TODO: camera.h?
 Actor *camera_init_800306A0(void);

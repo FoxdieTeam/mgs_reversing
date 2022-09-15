@@ -21,6 +21,7 @@
 #include "libgcl/hash.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
+#include "Bullet/blast.h"
 
 // sdata
 extern const char *aCigs[];
@@ -788,45 +789,46 @@ SVECTOR SECTION(".data") stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0
 
 SVECTOR SECTION(".data") stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
-int     SECTION(".data") dword_8009F3E4[] = {0x7A643B88, 0xF83D7A64};
-int     SECTION(".data") dword_8009F3EC[] = {0x800000, 0x96};
-int     SECTION(".data") dword_8009F3F4[] = {0x320000, 0xC8};
-int     SECTION(".data") dword_8009F3FC[] = {0x200000, 0x20, 0x1180000, 0x50};
-int     SECTION(".data") dword_8009F40C[] = {0x47F0200, 0};
-int     SECTION(".data") dword_8009F414[] = {0xA4B0491, 0};
-SVECTOR SECTION(".data") dword_8009F41C = {0, 0, 0, 0};
-int     SECTION(".data") dword_8009F424[] = {0, 0xBB8};
-int     SECTION(".data") used_counter_8009F42C = 0;
-int     SECTION(".data") dword_8009F430 = 0;
-int     SECTION(".data") dword_8009F434 = 0;
-int     SECTION(".data") dword_8009F438[] = {0xC00, 0};
-int     SECTION(".data") dword_8009F440 = 0;
-int     SECTION(".data") dword_8009F444 = 0;
-int     SECTION(".data") counter_8009F448 = 0;
-SVECTOR SECTION(".data") svec_8009F44C = {0xFD8F, 0xFF06, 0x2EE, 0};
-SVECTOR SECTION(".data") svec_8009F454 = {0xFE0C, 0xFF06, 0x2EE, 0};
-SVECTOR SECTION(".data") svec_8009F45C = {0x1F4, 0xC8, 0x1F4, 0};
-SVECTOR SECTION(".data") svec_8009F464 = {0x12C, 0xC8, 0x12C, 0};
-int     SECTION(".data") dword_8009F46C = 0;
-int     SECTION(".data") dword_8009F470 = 0;
-int     SECTION(".data") dword_8009F474 = 0;
-SVECTOR SECTION(".data") svector_8009F478 = {0, 0, 0, 0};
-int     SECTION(".data") dword_8009F480 = 0;
-short   SECTION(".data") Nik_Blast_8009F484 = 0;
-SVECTOR SECTION(".data") svector_8009F488 = {100, 100, 100, 0};
-int     SECTION(".data") dword_8009F490 = 0;
-SVECTOR SECTION(".data") svector_8009F494 = {0, 0, 0, 0};
-int     SECTION(".data") dword_8009F49C = 0;
-int     SECTION(".data") dword_8009F4A0 = 0xFCE00000;
-short   SECTION(".data") word_8009F4A4 = 0;
-int     SECTION(".data") dword_8009F4A8[] = {0xFEA20000, 0};
-int     SECTION(".data") dword_8009F4B0[] = {0xFF9C0000, 0xFFBA};
-int     SECTION(".data") dword_8009F4B8[] = {0x100, 5, 0x3E8, 0x7D0, 2};
-int     SECTION(".data") dword_8009F4CC[] = {0x100, 5, 0x3E8, 0x7D0, 6, 0x100, 5, 0x3E8, 0x7D0, 5};
-int     SECTION(".data") dword_8009F4F4[] = {0x100, 5, 0x3E8, 0x7D0, 4};
-int     SECTION(".data") dword_8009F508[] = {0x100, 5, 0x3E8, 0x7D0, 3, 0x100, 5, 0x3E8, 0x7D0, 0xFFFFFFFF};
-int     SECTION(".data") dword_8009F530[] = {0x400, 5, 0x3E8, 0x7D0, 0xA};
-int     SECTION(".data") dword_8009F544[] = {0, 0, 1, 1, 0xFFFFFFFF};
+int        SECTION(".data") dword_8009F3E4[] = {0x7A643B88, 0xF83D7A64};
+int        SECTION(".data") dword_8009F3EC[] = {0x800000, 0x96};
+int        SECTION(".data") dword_8009F3F4[] = {0x320000, 0xC8};
+int        SECTION(".data") dword_8009F3FC[] = {0x200000, 0x20, 0x1180000, 0x50};
+int        SECTION(".data") dword_8009F40C[] = {0x47F0200, 0};
+int        SECTION(".data") dword_8009F414[] = {0xA4B0491, 0};
+SVECTOR    SECTION(".data") dword_8009F41C = {0, 0, 0, 0};
+int        SECTION(".data") dword_8009F424[] = {0, 0xBB8};
+int        SECTION(".data") used_counter_8009F42C = 0;
+int        SECTION(".data") dword_8009F430 = 0;
+int        SECTION(".data") dword_8009F434 = 0;
+int        SECTION(".data") dword_8009F438[] = {0xC00, 0};
+int        SECTION(".data") dword_8009F440 = 0;
+int        SECTION(".data") dword_8009F444 = 0;
+int        SECTION(".data") counter_8009F448 = 0;
+SVECTOR    SECTION(".data") svec_8009F44C = {0xFD8F, 0xFF06, 0x2EE, 0};
+SVECTOR    SECTION(".data") svec_8009F454 = {0xFE0C, 0xFF06, 0x2EE, 0};
+SVECTOR    SECTION(".data") svec_8009F45C = {0x1F4, 0xC8, 0x1F4, 0};
+SVECTOR    SECTION(".data") svec_8009F464 = {0x12C, 0xC8, 0x12C, 0};
+int        SECTION(".data") dword_8009F46C = 0;
+int        SECTION(".data") dword_8009F470 = 0;
+int        SECTION(".data") dword_8009F474 = 0;
+SVECTOR    SECTION(".data") svector_8009F478 = {0, 0, 0, 0};
+int        SECTION(".data") dword_8009F480 = 0;
+short      SECTION(".data") Nik_Blast_8009F484 = 0;
+SVECTOR    SECTION(".data") svector_8009F488 = {100, 100, 100, 0};
+int        SECTION(".data") dword_8009F490 = 0;
+SVECTOR    SECTION(".data") svector_8009F494 = {0, 0, 0, 0};
+int        SECTION(".data") dword_8009F49C = 0;
+int        SECTION(".data") dword_8009F4A0 = 0xFCE00000;
+short      SECTION(".data") word_8009F4A4 = 0;
+int        SECTION(".data") dword_8009F4A8[] = {0xFEA20000, 0};
+int        SECTION(".data") dword_8009F4B0[] = {0xFF9C0000, 0xFFBA};
+int        SECTION(".data") dword_8009F4B8[] = {0x100, 5, 0x3E8, 0x7D0, 2};
+int        SECTION(".data") dword_8009F4CC[] = {0x100, 5, 0x3E8, 0x7D0, 6, 0x100, 5, 0x3E8, 0x7D0, 5};
+int        SECTION(".data") dword_8009F4F4[] = {0x100, 5, 0x3E8, 0x7D0, 4};
+Blast_Data SECTION(".data") blast_data_8009F508 = {0x100, 5, 0x3E8, 0x7D0, 3};
+int        SECTION(".data") dword_8009F51C[] = {0x100, 5, 0x3E8, 0x7D0, 0xFFFFFFFF};
+int        SECTION(".data") dword_8009F530[] = {0x400, 5, 0x3E8, 0x7D0, 0xA};
+Blast_Data SECTION(".data") blast_data_8009F544 = {0, 0, 1, 1, 0xFFFFFFFF};
 
 SVECTOR SECTION(".data") stru_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
 
