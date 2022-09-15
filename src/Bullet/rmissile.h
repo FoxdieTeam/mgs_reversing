@@ -66,6 +66,7 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor);
 int  rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide);
 void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *pPoly, DG_TEX *pTex, int primCount);
 void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor);
+void rmissile_act_helper_8006C37C(Actor_rmissile *pActor);
 
 Actor_rmissile *NewRMissile_8006D124(MATRIX *pMtx, int whichSide);
 

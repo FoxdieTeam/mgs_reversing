@@ -366,9 +366,181 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C37C.s")           // 584 bytes
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_8006C5C4.s")                  // 1404 bytes
 
-extern int   dword_8009F46C;
+extern GV_PAD    GV_PadData_800B05C0[4];
+extern GameState gGameState_800B4D98;
+extern int       dword_8009F46C;
+extern SVECTOR   GM_NoisePosition_800AB9F8;
+extern int       GM_NoiseLength_800ABA30;
+extern int       GM_NoisePower_800ABA24;
+extern SVECTOR   svector_8009F478;
+extern OBJECT    *dword_800ABA20;
+extern int       GM_GameOverTimer_800AB3D4;
+extern SVECTOR   svector_800ABA10;
+
+void rmissile_act_8006C5C4(Actor_rmissile *pActor)
+{
+    GV_PAD *pPad;
+    Blast_Data *pBlastData;
+    SVECTOR vector;
+    SVECTOR vector2;
+    int power;
+    int length;
+    MATRIX rotation;
+
+    pPad = &GV_PadData_800B05C0[0];
+
+    if ((GM_PlayerStatus_800ABA50 & 0x8000000) != 0)
+    {
+        pPad = &GV_PadData_800B05C0[1];
+    }
+
+    if ((pActor->field_324-- > 0) || (pActor->field_11C < 0 && pActor->field_11C > -3))
+    {
+        pActor->field_2D8_prim->type |= 0x100;
+    }
+    else
+    {
+        pActor->field_2D8_prim->type &= ~0x100;
+        rmissile_act_helper_8006C37C(pActor);
+    }
+
+    if (pActor->field_110 && !pActor->field_112)
+    {
+        if (--pActor->field_110 != 0)
+        {
+            if (pActor->field_118 != 0)
+            {
+                vector2 = pActor->field_20_ctrl.field_0_position;
+                GV_NearExp2V_8002667C(&vector2, &pActor->field_100_svector, 3);
+                GV_SubVec3_80016D40(&vector2, &pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_44_movementVector);
+            }
+        }
+        else
+        {
+            pActor->field_9C_kmd.objs->flag &= ~0x80;
+            pActor->field_120_target.field_2_side = 0;
+            GV_SubVec3_80016D40(&pActor->field_100_svector, &pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_44_movementVector);
+        }
+    }
+
+    if (gGameState_800B4D98.field_1C_equipped_weapon != 3)
+    {
+        if (!pActor->field_112)
+        {
+            GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
+            DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+            ReadRotMatrix_80092DD8(&rotation);
+
+            if (GM_GameStatus_800AB3CC & 0xd0000000 || !gGameState_800B4D98.field_16_snake_current_health || GM_GameOverTimer_800AB3D4)
+            {
+                pBlastData = &blast_data_8009F544;
+            }
+            else
+            {
+                pBlastData = &blast_data_8009F508;
+            }
+
+            NewBlast_8006DFDC(&rotation, pBlastData);
+        }
+
+        dword_8009F480 = 0;
+
+        if (GM_Camera_800B77E8.field_22 && dword_800ABA20)
+        {
+            dword_800ABA20->objs->flag |= 0x80;
+        }
+
+        pActor->field_11C = -1;
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+    else
+    {
+        rmissile_act_helper_8006BEEC(pActor);
+        rmissile_act_helper_8006C114(pActor);
+
+        if (!pActor->field_117)
+        {
+            gUnkCameraStruct_800B77B8.field_0 = pActor->field_20_ctrl.field_0_position;
+        }
+        else
+        {
+            vector = pActor->field_16C_svector;
+            sub_800268AC(&pActor->field_16C_svector, &svector_800ABA10, pActor->field_16A, 3);
+            gUnkCameraStruct_800B77B8.field_0 = pActor->field_16C_svector;
+
+            if (pActor->field_16A > 0)
+            {
+                pActor->field_16A--;
+            }
+        }
+
+        dword_8009F46C = !pActor->field_117;
+
+        if (pActor->field_112)
+        {
+            if (++pActor->field_118 == 30)
+            {
+                GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            }
+        }
+        else
+        {
+            power = 5;
+            length = 2;
+
+            if (power >= GM_NoisePower_800ABA24 && (GM_NoisePower_800ABA24 != power || GM_NoiseLength_800ABA30 <= length))
+            {
+                GM_NoiseLength_800ABA30 = length;
+                GM_NoisePower_800ABA24 = power;
+                GM_NoisePosition_800AB9F8 = pActor->field_20_ctrl.field_0_position;
+            }
+
+            pActor->field_108_svector = pActor->field_20_ctrl.field_0_position;
+            GM_ActControl_80025A7C(&pActor->field_20_ctrl);
+
+            svector_8009F478 = vector2 = pActor->field_20_ctrl.field_0_position;
+
+            GM_ActObject2_80034B88(&pActor->field_9C_kmd);
+            DG_GetLightMatrix2_8001A5D8(&vector2, &pActor->field_C0_matrix);
+
+            if (!pActor->field_117 && !pActor->field_110)
+            {
+                if (dword_800ABA20)
+                {
+                    dword_800ABA20->objs->flag &= ~0x80;
+                }
+
+                if (!pActor->field_113)
+                {
+                    rmissile_act_helper_8006BE50(pActor, pPad->dir);
+                }
+                else
+                {
+                    rmissile_act_helper_8006BE90(pActor, pPad->status);
+                }
+            }
+
+            rmissile_act_helper_8006BFD4(pActor);
+
+            if (1000 - pActor->field_118 < 100)
+            {
+                pActor->field_20_ctrl.field_8_rotator.vy += GV_RandS_800170BC(32) * (pActor->field_118 - 900) / 32;
+                pActor->field_11C = GV_RandU_80017090(2);
+            }
+
+            if (pActor->field_117 == 1)
+            {
+                pActor->field_20_ctrl.field_8_rotator.vy += GV_RandS_800170BC(128);
+            }
+
+            GV_DirVec2_80016F24(pActor->field_20_ctrl.field_8_rotator.vy, pActor->field_11A, &pActor->field_20_ctrl.field_44_movementVector);
+            rmissile_act_helper_8006BD24(pActor, pPad->status);
+            GM_Target_SetVector_8002D500(&pActor->field_120_target, &vector2);
+        }
+    }
+}
+
 extern int   dword_8009F470;
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
@@ -540,9 +712,6 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
         (vec++)->pad = 0;
     }
 }
-
-extern SVECTOR svector_8009F478;
-extern SVECTOR svector_800ABA10;
 
 static inline int rmissile_loader_8006CF44_get_field_59(void)
 {

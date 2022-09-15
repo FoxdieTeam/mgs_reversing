@@ -225,6 +225,7 @@ void GM_Act_helper3_helper_8002AB40();
 void GM_Act_helper_8002AA10(void); // noise/alert thing
 void GM_Act_helper3_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
+void GM_ActControl_80025A7C(GM_Control *pControl);
 
 void GM_CameraEventReset_800309A8(void);
 
