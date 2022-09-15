@@ -407,7 +407,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             if (pActor->field_118 != 0)
             {
                 vector2 = pActor->field_20_ctrl.field_0_position;
-                GV_NearExp2V_8002667C(&vector2, &pActor->field_100_svector, 3);
+                GV_NearExp2V_8002667C(&vector2.vx, &pActor->field_100_svector.vx, 3);
                 GV_SubVec3_80016D40(&vector2, &pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_44_movementVector);
             }
         }
