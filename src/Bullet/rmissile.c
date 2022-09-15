@@ -4,6 +4,7 @@
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
 #include "map/hzd.h"
+#include "blast.h"
 #include "psyq.h"
 #include "rmissile.h"
 
@@ -299,7 +300,71 @@ int rmissile_act_helper_helper_8006C0A4(void)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C114.s")           // 616 bytes
+extern int        dword_8009F480;
+extern Blast_Data blast_data_8009F508;
+extern Blast_Data blast_data_8009F544;
+extern SVECTOR    DG_ZeroVector_800AB39C;
+extern int        GM_CurrentMap_800AB9B0;
+
+void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
+{
+    SVECTOR *pPosition;
+    int found;
+    MATRIX rotation;
+    Blast_Data *pBlastData;
+
+    if (pActor->field_112)
+    {
+        return;
+    }
+
+    pPosition = &pActor->field_20_ctrl.field_0_position;
+    found = rmissile_act_helper_helper_8006C0A4();
+
+    if (pActor->field_20_ctrl.field_58 <= 0 && !(pActor->field_20_ctrl.field_57 & 2))
+    {
+        if (pPosition->vy - pActor->field_108_svector.vy < 200)
+        {
+            if (++pActor->field_118 != 1000 && !sub_8002D7DC(&pActor->field_120_target) && !dword_8009F480 && !found)
+            {
+                if (!sub_80029098(pActor->field_20_ctrl.field_2C_map->field_8_hzd, pPosition, 250, 15, 8))
+                {
+                    if (abs(pPosition->vx) <= 30000 && abs(pPosition->vy) <= 30000 && abs(pPosition->vz) <= 30000)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    if (GM_Camera_800B77E8.field_22 && !pActor->field_117)
+    {
+        GM_Camera_800B77E8.field_22 = 0;
+        Nik_Blast_8009F484 = 0;
+    }
+
+    pActor->field_113 = 0;
+    dword_8009F480 = 0;
+    pActor->field_112 = 1U;
+    pActor->field_118 = found ? 28 : 0;
+    pActor->field_20_ctrl.field_44_movementVector = DG_ZeroVector_800AB39C;
+    pActor->field_9C_kmd.objs->flag |= 0x80;
+    pActor->field_9C_kmd.objs->group_id = 0;
+    pActor->field_11C = -2;
+
+    if (!found)
+    {
+        DG_SetPos2_8001BC8C(pPosition, &pActor->field_20_ctrl.field_8_rotator);
+        ReadRotMatrix_80092DD8(&rotation);
+
+        GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
+
+        pBlastData = (GM_GameStatus_800AB3CC & 0xd0000000) ? &blast_data_8009F544 : &blast_data_8009F508;
+        NewBlast_8006DFDC(&rotation, pBlastData);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C37C.s")           // 584 bytes
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_8006C5C4.s")                  // 1404 bytes
 
@@ -341,7 +406,6 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 }
 
 extern SVECTOR svector_8009F488;
-extern SVECTOR DG_ZeroVector_800AB39C;
 
 int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
 {
@@ -544,8 +608,6 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
     rmissile_loader_helper_8006CE54(pActor);
     return 0;
 }
-
-extern int dword_8009F480;
 
 extern const char rRmissileC[]; // = "rmissile.c"
 

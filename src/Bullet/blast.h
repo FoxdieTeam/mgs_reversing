@@ -14,7 +14,6 @@ typedef struct	Blast_Data
 	int			field_8_z;
 	int			field_C;
 	int			field_10;
-	int			field_14;
 } Blast_Data;
 
 typedef struct	Actor_Blast
