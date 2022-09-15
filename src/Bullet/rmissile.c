@@ -370,9 +370,6 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 extern GV_PAD    GV_PadData_800B05C0[4];
 extern GameState gGameState_800B4D98;
 extern int       dword_8009F46C;
-extern SVECTOR   GM_NoisePosition_800AB9F8;
-extern int       GM_NoiseLength_800ABA30;
-extern int       GM_NoisePower_800ABA24;
 extern SVECTOR   svector_8009F478;
 extern OBJECT    *dword_800ABA20;
 extern int       GM_GameOverTimer_800AB3D4;
@@ -384,8 +381,6 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
     Blast_Data *pBlastData;
     SVECTOR vector;
     SVECTOR vector2;
-    int power;
-    int length;
     MATRIX rotation;
 
     pPad = &GV_PadData_800B05C0[0];
@@ -486,19 +481,10 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         }
         else
         {
-            power = 5;
-            length = 2;
-
-            if (power >= GM_NoisePower_800ABA24 && (GM_NoisePower_800ABA24 != power || GM_NoiseLength_800ABA30 <= length))
-            {
-                GM_NoiseLength_800ABA30 = length;
-                GM_NoisePower_800ABA24 = power;
-                GM_NoisePosition_800AB9F8 = pActor->field_20_ctrl.field_0_position;
-            }
-
+            GM_SetNoise(5, 2, &pActor->field_20_ctrl.field_0_position);
             pActor->field_108_svector = pActor->field_20_ctrl.field_0_position;
-            GM_ActControl_80025A7C(&pActor->field_20_ctrl);
 
+            GM_ActControl_80025A7C(&pActor->field_20_ctrl);
             svector_8009F478 = vector2 = pActor->field_20_ctrl.field_0_position;
 
             GM_ActObject2_80034B88(&pActor->field_9C_kmd);
