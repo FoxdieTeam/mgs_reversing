@@ -30,7 +30,7 @@ typedef struct Actor_amissile
 STATIC_ASSERT_SIZE(Actor_amissile, 0x160);
 
 void amissile_act_8006D608(Actor_amissile *pActor);
-void amissile_act_helper_8006D2A0(Actor_amissile *pActor, int a, int b);
+void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input);
 void amissile_act_helper_8006D37C(Actor_amissile *pActor);
 int  amissile_act_helper_8006D600(void);
 
