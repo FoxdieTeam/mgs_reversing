@@ -34,7 +34,7 @@ int  amissile_act_helper_8006D600(void);
 void amissile_kill_8006D99C(Actor_amissile *pActor);
 
 int  amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int);
-void amissile_loader_helper_8006D1F4(void *pPrim, DG_TEX *pTex);
+void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex);
 
 Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int);
 
