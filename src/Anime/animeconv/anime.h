@@ -86,5 +86,6 @@ void   anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f
 int    anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
 void   anime_act_8005F4AC(Actor_anime *param_1);
 void   anime_create_8005E6A4(SVECTOR *pVec);
+void   anime_create_8005DE70(MATRIX *pMtx);
 
 #endif // _ANIME_H_

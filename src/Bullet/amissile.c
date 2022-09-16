@@ -1,6 +1,9 @@
+#include "Anime/animeconv/anime.h"
+#include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "amissile.h"
+#include "blast.h"
 
 // stinger missile?
 
@@ -41,9 +44,129 @@ int amissile_act_helper_8006D600(void)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/amissile_act_8006D608.s")    // 916 bytes
+extern int              dword_8009F490;
+extern SVECTOR          svector_8009F494;
+extern int              dword_8009F49C;
 
-extern int        dword_8009F490;
+extern Blast_Data       blast_data_8009F4F4;
+extern Blast_Data       blast_data_8009F544;
+
+extern int              GM_GameStatus_800AB3CC;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+
+void amissile_act_8006D608(Actor_amissile *pActor)
+{
+    MATRIX rotation;
+    SVECTOR position;
+    SVECTOR addition;
+
+    GM_Control *pCtrl;
+    int a, b;
+    int result;
+    Blast_Data *pBlastData;
+
+    pCtrl = &pActor->field_20_ctrl;
+    position = pCtrl->field_0_position;
+
+    GM_ActControl_80025A7C(pCtrl);
+    amissile_act_helper_8006D37C(pActor);
+    GM_ActObject2_80034B88(&pActor->field_9C_kmd);
+
+    pActor->field_134_prim->world.t[0] = pActor->field_20_ctrl.field_0_position.vx;
+    pActor->field_134_prim->world.t[1] = pActor->field_20_ctrl.field_0_position.vy;
+    pActor->field_134_prim->world.t[2] = pActor->field_20_ctrl.field_0_position.vz;
+
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, &pActor->field_C0_matrix);
+
+    if (pActor->field_120 >= 15)
+    {
+        // ?????
+        a = (unsigned short)position.vx | (unsigned short)position.vy << 16;
+        b = (unsigned short)position.vz | (unsigned short)position.pad << 16;
+
+        amissile_act_helper_8006D2A0(pActor, a, b);
+    }
+
+    dword_8009F490 = 1;
+    svector_8009F494 = pCtrl->field_0_position;
+
+    if (pActor->field_120 == 0)
+    {
+        pActor->field_134_prim->type &= ~0x100;
+        ReadRotMatrix_80092DD8(&pActor->field_100_matrix);
+        anime_create_8005DE70(&pActor->field_100_matrix);
+        pActor->field_128 = 4;
+    }
+
+    if (pActor->field_120 == 14)
+    {
+        ReadRotMatrix_80092DD8(&pActor->field_100_matrix);
+        anime_create_8005DE70(&pActor->field_100_matrix);
+        GM_Sound_80032968(0, 63, 77);
+        pActor->field_138_rect.x = pActor->field_138_rect.y = 1030;
+        pActor->field_138_rect.w = pActor->field_138_rect.h = 2060;
+        pActor->field_128 = 12;
+        GM_ConfigControlHazard_8002622C(pCtrl, 100, 100, 100);
+    }
+
+    if (--pActor->field_128 > 0)
+    {
+        gUnkCameraStruct_800B77B8.field_0.vy += GV_RandS_800170BC(512) * pActor->field_128 / 8;
+
+        if (pActor->field_120 >= 14)
+        {
+            pActor->field_138_rect.x = pActor->field_138_rect.y = pActor->field_138_rect.y - 65;
+            pActor->field_138_rect.w = pActor->field_138_rect.h = pActor->field_138_rect.h - 130;
+        }
+    }
+
+    // probably an inline
+    pCtrl = &pActor->field_20_ctrl;
+    GV_AddVec3_80016D00(&pCtrl->field_0_position, &pCtrl->field_44_movementVector, &addition);
+
+    result = amissile_act_helper_8006D600();
+
+    // this is probably also an inline
+    if (pActor->field_20_ctrl.field_58 <= 0 && !pActor->field_20_ctrl.field_57)
+    {
+        if (++pActor->field_120 != 90 &&
+            !GM_Target_8002E1B8(&pCtrl->field_0_position, &addition,
+                                pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit, &addition, 1) &&
+                                !dword_8009F49C)
+        {
+            if (!result)
+            {
+                if (abs(pActor->field_20_ctrl.field_0_position.vx) <= 30000 &&
+                    abs(pActor->field_20_ctrl.field_0_position.vy) <= 30000 &&
+                    abs(pActor->field_20_ctrl.field_0_position.vz) <= 30000)
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    if (!result)
+    {
+        ReadRotMatrix_80092DD8(&rotation);
+
+        if (GM_GameStatus_800AB3CC & 0xd0000000 || GM_PlayerStatus_800ABA50 & 0x20000000)
+        {
+            pBlastData = &blast_data_8009F544;
+        }
+        else
+        {
+            pBlastData = &blast_data_8009F4F4;
+        }
+
+        NewBlast_8006DFDC(&rotation, pBlastData);
+    }
+
+    dword_8009F490 = 0;
+    GV_DestroyActor_800151C8(&pActor->field_0_actor);
+}
+
 extern GM_Target *target_800BDF00;
 
 void amissile_kill_8006D99C(Actor_amissile *pActor)
