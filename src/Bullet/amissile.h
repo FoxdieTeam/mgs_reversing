@@ -16,7 +16,8 @@ typedef struct Actor_amissile
     GM_Control field_20_ctrl;
     OBJECT     field_9C_kmd;
     MATRIX     field_C0_matrix;
-    char       field_E0[64];
+    char       field_E0[32];
+    MATRIX     field_100_matrix;
     int        field_120;
     int        field_124;
     int        field_128;
@@ -29,6 +30,8 @@ typedef struct Actor_amissile
 STATIC_ASSERT_SIZE(Actor_amissile, 0x160);
 
 void amissile_act_8006D608(Actor_amissile *pActor);
+void amissile_act_helper_8006D2A0(Actor_amissile *pActor, int a, int b);
+void amissile_act_helper_8006D37C(Actor_amissile *pActor);
 int  amissile_act_helper_8006D600(void);
 
 void amissile_kill_8006D99C(Actor_amissile *pActor);
