@@ -80,7 +80,7 @@ typedef struct GM_Control
     char          field_54;
     unsigned char field_55_flags; // CONTROL_FLAG_...
     char          field_56;
-    char          field_57;
+    signed char   field_57;
 
     // Appears to indicate proximity to a wall, where 1 is close and 0 is far.
     // Going up against a wall requires a 0->1 write by 80025A7C() @ 0x80025d1c and a read by 800596FC() @ 0x80059858.
