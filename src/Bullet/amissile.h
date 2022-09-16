@@ -4,20 +4,27 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 
+#include "Game/GM_Control.h"
+#include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
 // stinger missile?
 
 typedef struct Actor_amissile
 {
-    Actor   field_0_actor;
-    char    field_20[256];
-    int     field_120;
-    int     field_124;
-    int     field_128;
-    SVECTOR field_12C_svector;
-    char    field_134[44];
+    Actor      field_0_actor;
+    GM_Control field_20_ctrl;
+    OBJECT     field_9C_kmd;
+    char       field_C0[96];
+    int        field_120;
+    int        field_124;
+    int        field_128;
+    SVECTOR    field_12C_svector;
+    DG_PRIM   *field_134_prim;
+    char       field_138[40];
 } Actor_amissile;
+
+STATIC_ASSERT_SIZE(Actor_amissile, 0x160);
 
 void amissile_act_8006D608(Actor_amissile *pActor);
 int  amissile_act_helper_8006D600(void);
