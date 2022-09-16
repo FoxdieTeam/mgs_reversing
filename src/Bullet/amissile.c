@@ -1,3 +1,5 @@
+#include "Game/object.h"
+#include "Game/target.h"
 #include "amissile.h"
 
 // stinger missile?
@@ -12,7 +14,34 @@ int amissile_act_helper_8006D600(void)
 }
 
 #pragma INCLUDE_ASM("asm/Bullet/amissile_act_8006D608.s")    // 916 bytes
-#pragma INCLUDE_ASM("asm/Bullet/amissile_kill_8006D99C.s")   // 112 bytes
+
+extern int        dword_8009F490;
+extern GM_Target *target_800BDF00;
+
+void amissile_kill_8006D99C(Actor_amissile *pActor)
+{
+    DG_OBJS *pPrim;
+
+    GM_FreeControl_800260CC(&pActor->field_20_ctrl);
+    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+
+    pPrim = (DG_OBJS *)pActor->field_134_prim;
+
+    if (pPrim)
+    {
+        DG_DequeuePrim_800182E0(pPrim);
+        DG_FreePrim_8001BC04(pPrim);
+    }
+
+    if (target_800BDF00)
+    {
+        target_800BDF00 = 0;
+    }
+
+    dword_8009F490 = 0;
+}
+
+
 #pragma INCLUDE_ASM("asm/Bullet/amissile_loader_8006DA0C.s") // 580 bytes
 
 extern SVECTOR DG_ZeroVector_800AB39C;
