@@ -36,7 +36,31 @@ void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/amissile_act_helper_8006D2A0.s")    // 220 bytes
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
+{
+    SVECTOR position = pActor->field_20_ctrl.field_0_position;
+    SVECTOR result;
+    SVECTOR rotation;
+
+    SVECTOR *out = &pActor->field_140_svector_4Array[3];
+    int i;
+
+    GV_SubVec3_80016D40(&input, &position, &result);
+
+    for (i = 0; i < 4; i++)
+    {
+        GV_AddVec3_80016D00(&result, out - 1, out);
+        out--;
+    }
+
+    rotation = DG_ZeroVector_800AB39C;
+    rotation.vy = 500;
+
+    DG_RotVector_8001BE98(&rotation, &pActor->field_140_svector_4Array[0], 1);
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/amissile_act_helper_8006D37C.s")    // 644 bytes
 
 int amissile_act_helper_8006D600(void)
@@ -62,7 +86,6 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     SVECTOR addition;
 
     GM_Control *pCtrl;
-    int a, b;
     int result;
     Blast_Data *pBlastData;
 
@@ -81,11 +104,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     if (pActor->field_120 >= 15)
     {
-        // ?????
-        a = (unsigned short)position.vx | (unsigned short)position.vy << 16;
-        b = (unsigned short)position.vz | (unsigned short)position.pad << 16;
-
-        amissile_act_helper_8006D2A0(pActor, a, b);
+        amissile_act_helper_8006D2A0(pActor, position);
     }
 
     dword_8009F490 = 1;
@@ -269,8 +288,6 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     pNewPrim->type |= 0x100;
     return 0;
 }
-
-extern SVECTOR DG_ZeroVector_800AB39C;
 
 extern const char aRmissileC[]; // = "amissile.c"
 
