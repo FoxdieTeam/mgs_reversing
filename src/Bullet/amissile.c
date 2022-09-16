@@ -4,7 +4,35 @@
 
 // stinger missile?
 
-#pragma INCLUDE_ASM("asm/Bullet/amissile_loader_helper_8006D1F4.s") // 172 bytes
+void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex)
+{
+    int i;
+    char rgb;
+    int x, y, w, h;
+
+    for (i = 0; i < 4; pPoly++, i++)
+    {
+        rgb = 128 - 32 * i;
+
+        setPolyFT4(pPoly);
+        setSemiTrans(pPoly, 1);
+        setRGB0(pPoly, rgb, rgb, rgb);
+
+        x = pTex->field_8_offx;
+        w = pTex->field_A_width + 1;
+        pPoly->u0 = pPoly->u2 = x + w / 2;
+        pPoly->u1 = pPoly->u3 = x + w - 1;
+
+        y = pTex->field_9_offy;
+        h = pTex->field_B_height + 1;
+        pPoly->v0 = pPoly->v1 = y + h / 2;
+        pPoly->v2 = pPoly->v3 = y + h - 1;
+
+        pPoly->tpage = pTex->field_4_tPage;
+        pPoly->clut = pTex->field_6_clut;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/amissile_act_helper_8006D2A0.s")    // 220 bytes
 #pragma INCLUDE_ASM("asm/Bullet/amissile_act_helper_8006D37C.s")    // 644 bytes
 
@@ -111,8 +139,8 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
         return -1;
     }
 
-    amissile_loader_helper_8006D1F4(pNewPrim->field_40_pBuffers[0], pTex);
-    amissile_loader_helper_8006D1F4(pNewPrim->field_40_pBuffers[1], pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTex);
+    amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTex);
 
     pNewPrim->world = DG_ZeroMatrix_8009D430;
     pNewPrim->type |= 0x100;
