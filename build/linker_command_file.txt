@@ -47,8 +47,9 @@
     ;libdg\trans.c
     include "..\obj\libdg\trans.obj"    ;trans.c
 
-    include "..\obj\libdg\DG_Trans_Chanl_helper_helper_helper_8001DC90.obj" ; DG_SortTmpPacketSystem ???
-    include "..\obj\libdg\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
+    ;include "..\obj\libdg\DG_Trans_Chanl_helper_helper_helper_8001DC90.obj" ; DG_SortTmpPacketSystem ???
+    ;include "..\obj\libdg\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
+
     include "..\obj\libdg\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
     include "..\obj\libdg\DG_Trans_Chanl_8001E3C0.obj"
     include "..\obj\nullsub\DG_TransEnd_8001E580.obj"
@@ -61,10 +62,10 @@
     include "..\obj\libdg\sub_8001EB38.obj"
     include "..\obj\libdg\DG_ReflectVector_8001ECB4.obj"
     include "..\obj\libdg\DG_ReflectMatrix_8001EDCC.obj"
-    include "..\obj\Equip\DG_Update1_8001F1BC.obj"
-    include "..\obj\libdg\DG_TextureCacheInit_8001F25C.obj"
 
     ;libdg\dgd.c
+    include "..\obj\Equip\DG_Update1_8001F1BC.obj"
+    include "..\obj\libdg\DG_TextureCacheInit_8001F25C.obj"    
     include "..\obj\libdg\dgd.obj"
 
     ;libdg\loader.c
