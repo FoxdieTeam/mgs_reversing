@@ -793,8 +793,10 @@ int        SECTION(".data") dword_8009F3E4[] = {0x7A643B88, 0xF83D7A64};
 int        SECTION(".data") dword_8009F3EC[] = {0x800000, 0x96};
 int        SECTION(".data") dword_8009F3F4[] = {0x320000, 0xC8};
 int        SECTION(".data") dword_8009F3FC[] = {0x200000, 0x20, 0x1180000, 0x50};
-int        SECTION(".data") dword_8009F40C[] = {0x47F0200, 0};
-int        SECTION(".data") dword_8009F414[] = {0xA4B0491, 0};
+
+char       SECTION(".data") byte_8009F40C[] = {0, 2, 127, 4, 0};
+char       SECTION(".data") byte_8009F414[] = {145, 4, 75, 10, 0};
+
 SVECTOR    SECTION(".data") dword_8009F41C = {0, 0, 0, 0};
 int        SECTION(".data") dword_8009F424[] = {0, 0xBB8};
 int        SECTION(".data") used_counter_8009F42C = 0;
