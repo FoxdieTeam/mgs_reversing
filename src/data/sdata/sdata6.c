@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "chara/snake/sna_init.h"
+#include "Game/target.h"
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
@@ -58,9 +59,9 @@ char SECTION(".sdata") aNikita[] = "nikita";
 char SECTION(".sdata") aRcmL_0[] = "rcm_l";
 char SECTION(".sdata") aRcmC[] = "rcm.c";
 
-int SECTION(".sdata") StnTarget_800AB8A0 = 0;
-int SECTION(".sdata") dword_800AB8A4 = 0xC8FED4;
-int SECTION(".sdata") dword_800AB8A8 = 0;
+GM_Target *SECTION(".sdata") StnTarget_800AB8A0 = NULL;
+
+SVECTOR SECTION(".sdata") svector_800AB8A4 = {-300, 200, 0, 0};
 
 char SECTION(".sdata") aStinger_0[] = "stinger";
 char SECTION(".sdata") aAamC[] = "aam.c";

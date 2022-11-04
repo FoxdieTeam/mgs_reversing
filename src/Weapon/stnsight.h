@@ -11,7 +11,12 @@
 
 // this structure is passed down from the parent of the parent of this actor, not sure what it is yet
 typedef struct Actor_stnsight_unk {
-    char pad[76];
+    SVECTOR field_0;
+    short field_8_x;
+    short field_A_y;
+    char pad2[32];
+    int *field_2C;
+    char pad3[28];
     short field_4C;
 } Actor_stnsight_unk;
 
