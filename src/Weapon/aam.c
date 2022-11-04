@@ -1,5 +1,10 @@
 #include "aam.h"
+#include "Bullet/amissile.h"
+#include "Game/camera.h"
+#include "Game/gamestate.h"
 #include "Game/object.h"
+#include "Game/target.h"
+#include "Game/vibrate.h"
 
 // stinger
 
@@ -8,23 +13,139 @@ extern char  aAamC[];      // = "aam.c"
 extern short d_800AB9EC_mag_size;
 extern short d_800ABA2C_ammo;
 
-#pragma INCLUDE_ASM("asm/Weapon/aam_act_800670CC.s") // 740 bytes
+extern int dword_8009F490;
+
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+
+extern int DG_CurrentGroupID_800AB968;
+extern int GM_CurrentMap_800AB9B0;
+
+extern GM_Target *target_800BDF00;
+
+extern GM_Target *StnTarget_800AB8A0;
+GM_Target *StnTarget_800AB8A0;
+
+extern int dword_800AB8A4;
+
+SVECTOR svector_800AB8A4;
+
+extern GameState gGameState_800B4D98;
+
+extern char byte_8009F40C[];
+extern char byte_8009F414[];
+
+static inline int GetWeaponState(int weapon_id)
+{
+    return gGameState_800B4D98.field_22_weapon_states[ weapon_id ];
+}
+
+static inline void SetWeaponState(int weapon_id, int value)
+{
+    gGameState_800B4D98.field_22_weapon_states[ weapon_id ] = value;
+}
+
+void aam_act_800670CC(Actor_Aam *actor)
+{
+    int sVar3;
+    int iVar6;
+    unsigned int uVar7;
+    MATRIX MStack88;
+    MATRIX MStack56;
+    SVECTOR local_18;
+
+    if (!actor->field_5C_stnsight)
+    {
+        actor->field_5C_stnsight = NewStnSight_800693E0(actor->field_44_unk);
+    }
+
+    GM_CurrentMap_800AB9B0 = *actor->field_44_unk->field_2C;
+    DG_GroupObjs(actor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+
+    if (actor->field_48_parent_obj->objs->flag & 0x80)
+    {
+        actor->field_20_obj.objs->flag |= 0x80;
+    }
+    else
+    {
+        actor->field_20_obj.objs->flag &= ~0x80;
+    }
+
+    iVar6 = actor->field_58;
+    uVar7 = *actor->field_50;
+
+    if (iVar6 > 0)
+    {
+        if (iVar6 >= 27)
+        {
+            gUnkCameraStruct_800B77B8.field_28.vx += (30 - iVar6) * -36;
+        }
+        else if (iVar6 > 14)
+        {
+            gUnkCameraStruct_800B77B8.field_28.vx += (iVar6 - 12) * -12;
+        }
+
+        actor->field_58--;
+    }
+
+    if (!actor->field_58 && (uVar7 & 2) && !dword_8009F490)
+    {
+        actor->field_58 = 30;
+
+        sVar3 = GetWeaponState(4);
+
+        if (sVar3 > 0)
+        {
+            if (target_800BDF00 != 0)
+            {
+                StnTarget_800AB8A0 = target_800BDF00;
+            }
+            else
+            {
+                StnTarget_800AB8A0 = 0;
+            }
+
+            local_18.vx = actor->field_44_unk->field_8_x - 1024;
+            local_18.vy = actor->field_44_unk->field_A_y;
+            local_18.vz = 0;
+
+            RotMatrixYXZ_80093798(&local_18, &MStack88);
+            local_18.vx = 0;
+            DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.field_0, &local_18);
+            DG_MovePos_8001BD20(&svector_800AB8A4);
+            ReadRotMatrix_80092DD8(&MStack56);
+
+            MStack88.t[0] = MStack56.t[0];
+            MStack88.t[1] = MStack56.t[1];
+            MStack88.t[2] = MStack56.t[2];
+
+            if (NewAMissile_8006DC50(&MStack88, actor->field_54))
+            {
+                SetWeaponState(4, --sVar3);
+                GM_SeSet_80032858(&actor->field_44_unk->field_0, 0x4c);
+                GM_SetNoise(200, 2, &actor->field_44_unk->field_0);
+
+                vibrate_init2_8005D58C(byte_8009F40C, 1);
+                vibrate_init2_8005D58C(byte_8009F414, 2);
+            }
+        }
+    }
+}
 
 void aam_kill_800673B0(Actor_Aam *actor)
 {
-    GM_FreeObject_80034BF8(&actor->f20_obj);
-    if (actor->f5c)
+    GM_FreeObject_80034BF8(&actor->field_20_obj);
+    if (actor->field_5C_stnsight)
     {
-        GV_DestroyOtherActor_800151D8(actor->f5c);
+        GV_DestroyOtherActor_800151D8(&actor->field_5C_stnsight->field_0_actor);
     }
 }
 
 int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent)
 {
-    OBJECT *obj = &actor_aam->f20_obj;
+    OBJECT *obj = &actor_aam->field_20_obj;
 
     int id;
-    actor_aam->f5c = 0;
+    actor_aam->field_5C_stnsight = 0;
 
     id = GV_StrCode_80016CCC(aStinger_0);
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, WEAPON_FLAG, 0);
@@ -36,7 +157,7 @@ int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent
     return 0;
 }
 
-Actor_Aam *NewAAM_80067480(int a1, OBJECT *parent_object, int num_parent, int a4, int a5)
+Actor_Aam *NewAAM_80067480(void *a1, OBJECT *parent_object, int num_parent, void *a4, int a5)
 {
     Actor_Aam *actor_aam = (Actor_Aam *)GV_NewActor_800150E4(6, sizeof(Actor_Aam));
     if (actor_aam)
@@ -49,12 +170,12 @@ Actor_Aam *NewAAM_80067480(int a1, OBJECT *parent_object, int num_parent, int a4
             return 0;
         }
 
-        actor_aam->f44 = a1;
-        actor_aam->parent_object = parent_object;
-        actor_aam->num_parent = num_parent;
-        actor_aam->f50 = a4;
-        actor_aam->f54 = a5;
-        actor_aam->f58 = 0;
+        actor_aam->field_44_unk = a1;
+        actor_aam->field_48_parent_obj = parent_object;
+        actor_aam->field_4C_num_parent = num_parent;
+        actor_aam->field_50 = a4;
+        actor_aam->field_54 = a5;
+        actor_aam->field_58 = 0;
     }
 
     d_800ABA2C_ammo = 0;
