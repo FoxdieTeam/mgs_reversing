@@ -24,7 +24,7 @@ extern GM_Target *target_800BDF00;
 
 extern const char aLockOn[]; // = "LOCK_ON\n"
 
-void stnsight_act_helper_8006837C(Actor_stnsight *actor)
+void stnsight_act_helper_8006837C(Actor_Stnsight *actor)
 {
     int iVar1;
 
@@ -61,7 +61,7 @@ extern const char a0D[];   // = "-0%d"
 extern const char a0D_0[]; // = "0%d"
 extern const char aD_2[];  // = "%d"
 
-void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
 {
     ushort   pad_status;
     LINE_F4 *lines;
@@ -83,7 +83,7 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
         pad_status = 0;
     }
 
-    v3 = -actor->field_20->field_4C;
+    v3 = -actor->field_20_ctrl->field_4C_turn_vec.vx;
     v4 = 5 * (v3 / 32 / 5);
     v5 = 16 * (v3 / 32 % 5) / 5 + 112;
 
@@ -185,7 +185,7 @@ void stnsight_act_helper_80068420(Actor_stnsight *actor, unsigned int *ot)
     }
 }
 
-void stnsight_act_helper_80068798(Actor_stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
 {
     LINE_F4 *p = actor->field_40_lines_2Array[GV_Clock_800AB920];
     DVECTOR *coords = actor->field_60_coords_9Array;
@@ -270,7 +270,7 @@ extern DG_CHNL DG_Chanls_800B1800[];
 
 extern const char aDD[]; // = "%d %d\n"
 
-void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
 {
     LINE_F4        *lines;
     struct DG_CHNL *channel;
@@ -345,7 +345,7 @@ void stnsight_act_helper_80068A24(Actor_stnsight *actor, unsigned int *ot)
 extern short          N_ChanlPerfMax_800AB980;
 extern unsigned short gOldRootCnt_800B1DC8[];
 
-void stnsight_act_helper_80068BF4(Actor_stnsight *actor, unsigned int *ot)
+void stnsight_act_helper_80068BF4(Actor_Stnsight *actor, unsigned int *ot)
 {
     int             x;
     int             s0;
@@ -389,7 +389,7 @@ short        SECTION(".word_800AB8EC") word_800AB8EC;
 
 extern const char aStinger[]; // = "stinger"
 
-void stnsight_act_80068D0C(Actor_stnsight *actor)
+void stnsight_act_80068D0C(Actor_Stnsight *actor)
 {
     unsigned int *uVar1;
     int           iVar3;
@@ -470,7 +470,7 @@ void stnsight_act_80068D0C(Actor_stnsight *actor)
     }
 }
 
-void stnsight_kill_80068ED8(Actor_stnsight *actor)
+void stnsight_kill_80068ED8(Actor_Stnsight *actor)
 {
     if (actor->field_28_lines_2Array[0])
     {
@@ -500,7 +500,7 @@ void stnsight_kill_80068ED8(Actor_stnsight *actor)
     word_800AB8EC = 0;
 }
 
-int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
+int stnsight_init_helper_helper_80068F74(Actor_Stnsight *actor)
 {
     LINE_F4 *lines;
     TILE_1  *tiles;
@@ -567,7 +567,7 @@ int stnsight_init_helper_helper_80068F74(Actor_stnsight *actor)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
+int stnsight_init_helper_helper_80069100(Actor_Stnsight *actor)
 {
     LINE_F4 *lines;
     int      count;
@@ -591,7 +591,7 @@ int stnsight_init_helper_helper_80069100(Actor_stnsight *actor)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
+int stnsight_init_helper_helper_80069184(Actor_Stnsight *actor)
 {
     LINE_F4 *lines;
     int      count;
@@ -623,7 +623,7 @@ int stnsight_init_helper_helper_80069184(Actor_stnsight *actor)
     return 0;
 }
 
-int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
+int stnsight_init_helper_helper_80069234(Actor_Stnsight *actor)
 {
     POLY_G4 *polys;
     int      count;
@@ -657,7 +657,7 @@ int stnsight_init_helper_helper_80069234(Actor_stnsight *actor)
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-int stnsight_init_helper_800692D0(Actor_stnsight *actor, void *unknown)
+int stnsight_init_helper_800692D0(Actor_Stnsight *actor, GM_Control *ctrl)
 {
     if (stnsight_init_helper_helper_80068F74(actor) < 0)
     {
@@ -700,7 +700,7 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, void *unknown)
     actor->field_24_pad_data = GV_PadData_800B05C0;
     actor->field_5C_xbase = 0;
     actor->field_58_ybase = 0;
-    actor->field_20 = unknown;
+    actor->field_20_ctrl = ctrl;
     actor->field_84_4Array[0] = 0;
     actor->field_84_4Array[1] = 0;
     actor->field_84_4Array[2] = 0;
@@ -712,23 +712,23 @@ int stnsight_init_helper_800692D0(Actor_stnsight *actor, void *unknown)
 
 extern const char aStnsightC[]; // = "stnsight.c"
 
-Actor_stnsight *NewStnSight_800693E0(void *unknown)
+Actor_Stnsight *NewStnSight_800693E0(GM_Control *ctrl)
 {
-    Actor_stnsight *actor;
+    Actor_Stnsight *actor;
 
     if (word_800AB8EC != 0)
     {
         return 0;
     }
 
-    actor = (Actor_stnsight *)GV_NewActor_800150E4(7, sizeof(Actor_stnsight));
+    actor = (Actor_Stnsight *)GV_NewActor_800150E4(7, sizeof(Actor_Stnsight));
 
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
                                   (TActorFunction)stnsight_kill_80068ED8, aStnsightC);
 
-        if (stnsight_init_helper_800692D0(actor, unknown) < 0)
+        if (stnsight_init_helper_800692D0(actor, ctrl) < 0)
         {
             GV_DestroyActor_800151C8(&actor->field_0_actor);
             return 0;

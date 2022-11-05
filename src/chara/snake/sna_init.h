@@ -561,7 +561,6 @@ Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, in
 Actor *famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *NewAAM_80067480(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
