@@ -55,10 +55,10 @@ void aam_act_800670CC(Actor_Aam *actor)
 
     if (!actor->field_5C_stnsight)
     {
-        actor->field_5C_stnsight = NewStnSight_800693E0(actor->field_44_unk);
+        actor->field_5C_stnsight = NewStnSight_800693E0(actor->field_44_ctrl);
     }
 
-    GM_CurrentMap_800AB9B0 = *actor->field_44_unk->field_2C;
+    GM_CurrentMap_800AB9B0 = actor->field_44_ctrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(actor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
 
     if (actor->field_48_parent_obj->objs->flag & 0x80)
@@ -104,8 +104,8 @@ void aam_act_800670CC(Actor_Aam *actor)
                 StnTarget_800AB8A0 = 0;
             }
 
-            local_18.vx = actor->field_44_unk->field_8_x - 1024;
-            local_18.vy = actor->field_44_unk->field_A_y;
+            local_18.vx = actor->field_44_ctrl->field_8_rotator.vx - 1024;
+            local_18.vy = actor->field_44_ctrl->field_8_rotator.vy;
             local_18.vz = 0;
 
             RotMatrixYXZ_80093798(&local_18, &MStack88);
@@ -121,8 +121,8 @@ void aam_act_800670CC(Actor_Aam *actor)
             if (NewAMissile_8006DC50(&MStack88, actor->field_54))
             {
                 SetWeaponState(4, --sVar3);
-                GM_SeSet_80032858(&actor->field_44_unk->field_0, 0x4c);
-                GM_SetNoise(200, 2, &actor->field_44_unk->field_0);
+                GM_SeSet_80032858(&actor->field_44_ctrl->field_0_position, 0x4c);
+                GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_position);
 
                 vibrate_init2_8005D58C(byte_8009F40C, 1);
                 vibrate_init2_8005D58C(byte_8009F414, 2);
@@ -157,7 +157,7 @@ int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent
     return 0;
 }
 
-Actor_Aam *NewAAM_80067480(void *a1, OBJECT *parent_object, int num_parent, void *a4, int a5)
+Actor_Aam * NewAAM_80067480(GM_Control *ctrl, OBJECT *parent_object, int num_parent, void *a4, int a5)
 {
     Actor_Aam *actor_aam = (Actor_Aam *)GV_NewActor_800150E4(6, sizeof(Actor_Aam));
     if (actor_aam)
@@ -170,7 +170,7 @@ Actor_Aam *NewAAM_80067480(void *a1, OBJECT *parent_object, int num_parent, void
             return 0;
         }
 
-        actor_aam->field_44_unk = a1;
+        actor_aam->field_44_ctrl = ctrl;
         actor_aam->field_48_parent_obj = parent_object;
         actor_aam->field_4C_num_parent = num_parent;
         actor_aam->field_50 = a4;
