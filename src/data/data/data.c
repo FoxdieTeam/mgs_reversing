@@ -22,6 +22,7 @@
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
 #include "Bullet/blast.h"
+#include "Weapon/aam.h"
 
 // sdata
 extern const char *aCigs[];
