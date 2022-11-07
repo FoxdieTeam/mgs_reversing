@@ -731,7 +731,7 @@ Actor_Stnsight *NewStnSight_800693E0(GM_Control *ctrl)
         if (stnsight_init_helper_800692D0(actor, ctrl) < 0)
         {
             GV_DestroyActor_800151C8(&actor->field_0_actor);
-            return 0;
+            return NULL;
         }
 
         word_800AB8EC = 1;
