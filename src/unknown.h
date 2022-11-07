@@ -29,6 +29,9 @@ int   sub_80029514(int);
 void  sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
 int   sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
 
+// TODO: bullet.h?
+Actor* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+
 // TODO: camera.h?
 Actor *camera_init_800306A0(void);
 
