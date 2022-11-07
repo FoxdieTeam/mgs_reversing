@@ -21,7 +21,7 @@ extern const char aAnimeC[];
 
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
-Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1, int not_used2)
+Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
 {
     signed int      rnd; // $v1
     anime_data_0x14 data;
