@@ -6,6 +6,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
+#include "Game/GM_Control.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "data/data/data.h"
@@ -87,5 +88,7 @@ int    anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data 
 void   anime_act_8005F4AC(Actor_anime *param_1);
 void   anime_create_8005E6A4(SVECTOR *pVec);
 void   anime_create_8005DE70(MATRIX *pMtx);
+Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1);
+void   anime_create_8005D6BC(MATRIX *pMtx, int a2);
 
 #endif // _ANIME_H_
