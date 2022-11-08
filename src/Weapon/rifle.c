@@ -6,7 +6,6 @@
 // PSG1
 
 extern char      aRifle_0[]; // = "rifle"
-extern GameState gGameState_800B4D98;
 extern GM_Camera GM_Camera_800B77E8;
 
 #pragma INCLUDE_ASM("asm/Weapon/rifle_act_helper_80067BFC.s") // 356 bytes
@@ -16,7 +15,7 @@ void rifle_kill_80068118(Actor_Rifle *rifle)
 {
     GM_FreeObject_80034BF8(&rifle->field_20_obj);
 
-    if (gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_PSG1)
+    if (gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_PSG1)
     {
         GM_Camera_800B77E8.field_20 = 0x140;
     }
@@ -74,7 +73,7 @@ Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numPa
     }
 
     ammo = d_800AB9EC_mag_size ? 6 : 5;
-    magSize = gGameState_800B4D98.field_22_weapon_states[9];
+    magSize = gGameState_800B4D98[GM_WeaponRifle];
 
     if (ammo > 0 && ammo < magSize)
     {

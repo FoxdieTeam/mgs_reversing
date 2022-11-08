@@ -8,7 +8,6 @@
 
 extern const char         aGglmngC[];
 extern GM_Camera GM_Camera_800B77E8;
-extern GameState gGameState_800B4D98;
 extern int                GM_PlayerStatus_800ABA50;
 extern int                dword_8009F46C;
 
@@ -16,8 +15,8 @@ void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
     if (GM_Camera_800B77E8.field_22 != 0)
     {
-        if (gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_STINGER ||
-            gGameState_800B4D98.field_1C_equipped_weapon == WEAPON_PSG1 || dword_8009F46C == 1 ||
+        if (gGameState_800B4D98[GM_CurrentWeapon] == WEAPON_STINGER ||
+            gGameState_800B4D98[GM_CurrentWeapon] == WEAPON_PSG1 || dword_8009F46C == 1 ||
             (GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
         {
             pActor->field_24 = 0;

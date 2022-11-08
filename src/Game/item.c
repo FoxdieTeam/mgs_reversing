@@ -4,7 +4,6 @@
 
 extern const char aItemC[];
 extern const char aItemMapD[];
-extern GameState gGameState_800B4D98;
 
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")              // 120 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes
@@ -15,13 +14,13 @@ void item_all_items_and_weapons_unknown2_80033500()
     int    i;
     short *ptr;
 
-    ptr = gGameState_800B4D98.field_4A_item_states;
+    ptr = &gGameState_800B4D98[GM_ItemBase];
     for (i = 0; i < GAMESTATE_ITEM_STATES; i++)
     {
         ptr[i] |= 0x8000;
     }
 
-    ptr = gGameState_800B4D98.field_22_weapon_states;
+    ptr = &gGameState_800B4D98[GM_WeaponBase];
     for (i = 0; i < GAMESTATE_WEAPON_STATES; i++)
     {
         ptr[i] |= 0x8000;
@@ -33,7 +32,7 @@ void item_all_items_and_weapons_unknown_80033560()
     int    i;
     short *ptr;
 
-    ptr = gGameState_800B4D98.field_4A_item_states;
+    ptr = &gGameState_800B4D98[GM_ItemBase];
     for (i = 0; i < GAMESTATE_ITEM_STATES; i++)
     {
         if (ptr[i] != -1)
@@ -42,7 +41,7 @@ void item_all_items_and_weapons_unknown_80033560()
         }
     }
 
-    ptr = gGameState_800B4D98.field_22_weapon_states;
+    ptr = &gGameState_800B4D98[GM_WeaponBase];
     for (i = 0; i < GAMESTATE_WEAPON_STATES; i++)
     {
         if (ptr[i] != -1)

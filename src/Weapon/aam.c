@@ -29,19 +29,17 @@ extern int dword_800AB8A4;
 
 SVECTOR svector_800AB8A4;
 
-extern GameState gGameState_800B4D98;
-
 extern char byte_8009F40C[];
 extern char byte_8009F414[];
 
 static inline int GetWeaponState(int weapon_id)
 {
-    return gGameState_800B4D98.field_22_weapon_states[ weapon_id ];
+    return gGameState_800B4D98[ GM_WeaponBase + weapon_id ];
 }
 
 static inline void SetWeaponState(int weapon_id, int value)
 {
-    gGameState_800B4D98.field_22_weapon_states[ weapon_id ] = value;
+    gGameState_800B4D98[ GM_WeaponBase + weapon_id ] = value;
 }
 
 void aam_act_800670CC(Actor_Aam *actor)

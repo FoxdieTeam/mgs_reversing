@@ -15,6 +15,53 @@ typedef struct AreaHistory
 #define GAMESTATE_ITEM_STATES 24
 #define GAMESTATE_WEAPON_STATES 10
 
+// TODO: define as accessors to GameState
+#define GM_Difficulty      1
+#define GM_Flags           2
+
+#define GM_CurrentDisc     4
+#define GM_LastResult      5
+#define GM_CurrentStage    6
+#define GM_CurrentMap      7
+#define GM_CurrentPosX     8
+#define GM_CurrentPosY     9
+#define GM_CurrentPosZ     10
+#define GM_CurrentHealth   11
+#define GM_MaxHealth       12
+
+#define GM_CurrentWeapon   14
+#define GM_CurrentItem     15
+#define GM_Stance          16
+
+#define GM_WeaponBase      17
+#define GM_WeaponSocom     17
+#define GM_WeaponFamas     18
+
+#define GM_WeaponNikita    20
+
+#define GM_WeaponRifle     26
+
+#define GM_ItemBase        37
+
+#define GM_ItemTimerB      55
+
+#define GM_ItemSilencer    60
+
+#define GM_PreviousStage   74
+
+#define GM_ContinueCount   87
+#define GM_SaveCount       88
+
+#define GM_PlaytimeHours   91
+#define GM_PlaytimeSeconds 92
+#define GM_LastSaveHours   93
+#define GM_LastSaveSeconds 94
+
+// This is going to be accessor macros anyway so keep it in the header for now
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
+/*
 typedef struct GameState
 {
     short  field_00;
@@ -69,18 +116,19 @@ typedef struct GameState
     short  field_BC_last_save_seconds;
     short  field_BE;
 } GameState;
+*/
 
 
-static inline short      *GM_GetCurrentWeapon( void )
+static inline short *GM_GetCurrentWeapon( void )
 {
-    extern GameState gGameState_800B4D98;
-	return &gGameState_800B4D98.field_22_weapon_states[ gGameState_800B4D98.field_1C_equipped_weapon ];
+    extern short gGameState_800B4D98[ 0x60 ];
+	return &gGameState_800B4D98[ GM_WeaponBase + gGameState_800B4D98[GM_CurrentWeapon] ];
 }
 
-static inline short      *GM_GetWeapon( int weapon_id )
+static inline short *GM_GetWeapon( int weapon_id )
 {
-    extern GameState gGameState_800B4D98;
-	return &gGameState_800B4D98.field_22_weapon_states[ weapon_id ];
+    extern short gGameState_800B4D98[ 0x60 ];
+	return &gGameState_800B4D98[ GM_WeaponBase + weapon_id ];
 }
 
 #endif // _GAMESTATE_H_

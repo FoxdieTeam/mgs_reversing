@@ -18,13 +18,12 @@ extern const char aTabakoC[]; // = "tabako.c"
 extern const char aCigar[];   // = "cigar";
 extern const char aRcmL[];    // = "rcm_l";
 
-extern int                GM_GameStatus_800AB3CC;
-extern GameState gGameState_800B4D98;
-extern int                GV_Time_800AB330;
-extern int                dword_8009F2C0;
-extern int                GM_CurrentMap_800AB9B0;
+extern int GM_GameStatus_800AB3CC;
+extern int GV_Time_800AB330;
+extern int dword_8009F2C0;
+extern int GM_CurrentMap_800AB9B0;
 
-int                     SECTION(".sbss") GM_CurrentMap_800AB9B0;
+int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 static inline void GM_SetCurrentMap(map) int map;
@@ -70,9 +69,9 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
     }
 
     // Snake, smoking is bad for your health!
-    if ((GV_Time_800AB330 & 63) == 0 && gGameState_800B4D98.field_16_snake_current_health >= 2)
+    if ((GV_Time_800AB330 & 63) == 0 && gGameState_800B4D98[GM_CurrentHealth] >= 2)
     {
-        gGameState_800B4D98.field_16_snake_current_health--;
+        gGameState_800B4D98[GM_CurrentHealth]--;
         GM_GameStatus_800AB3CC |= 0x2000000u;
     }
 }

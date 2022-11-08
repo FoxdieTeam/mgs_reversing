@@ -7,8 +7,6 @@
 extern int  GM_LoadRequest_800AB3D0;
 extern char dword_800ABA58[8];
 
-extern GameState gGameState_800B4D98;
-
 int GCL_Command_load_8002C308(int argc, char **argv)
 {
     char *scriptStageName;
@@ -36,29 +34,29 @@ int GCL_Command_load_8002C308(int argc, char **argv)
         {
             // Soft restart?
             scriptStageName = dword_800ABA58;
-            GM_SetArea_8002A7D8(gGameState_800B4D98.field_0C_current_stage, scriptStageName);
+            GM_SetArea_8002A7D8(gGameState_800B4D98[GM_CurrentStage], scriptStageName);
         }
 
         GM_LoadRequest_800AB3D0 = 1;
         return 0;
     }
 
-    gGameState_800B4D98.field_94_previous_stage = gGameState_800B4D98.field_0C_current_stage;
-    gGameState_800B4D98.field_0C_current_stage = GV_StrCode_80016CCC(scriptStageName);
+    gGameState_800B4D98[GM_PreviousStage] = gGameState_800B4D98[GM_CurrentStage];
+    gGameState_800B4D98[GM_CurrentStage]  = GV_StrCode_80016CCC(scriptStageName);
 
-    GM_SetArea_8002A7D8(gGameState_800B4D98.field_0C_current_stage, scriptStageName);
+    GM_SetArea_8002A7D8(gGameState_800B4D98[GM_CurrentStage], scriptStageName);
 
     if (GCL_GetParam_80020968('m')) // map
     {
-        gGameState_800B4D98.field_0E_current_map = GCL_GetNextParamValue_80020AD4();
+        gGameState_800B4D98[GM_CurrentMap] = GCL_GetNextParamValue_80020AD4();
     }
 
     if (GCL_GetParam_80020968('p')) // pos
     {
         GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
-        gGameState_800B4D98.field_10_snake_position.x = vec.vx;
-        gGameState_800B4D98.field_10_snake_position.y = vec.vy;
-        gGameState_800B4D98.field_10_snake_position.z = vec.vz;
+        gGameState_800B4D98[GM_CurrentPosX] = vec.vx;
+        gGameState_800B4D98[GM_CurrentPosY] = vec.vy;
+        gGameState_800B4D98[GM_CurrentPosZ] = vec.vz;
     }
 
     if (GCL_GetParam_80020968('s'))

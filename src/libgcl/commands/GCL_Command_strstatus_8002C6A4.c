@@ -4,8 +4,6 @@
 
 extern int GM_LoadRequest_800AB3D0;
 
-extern GameState gGameState_800B4D98;
-
 int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
 {
     int val;
@@ -25,7 +23,7 @@ int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
     }
     if (GCL_GetParam_80020968('a')) // area
     {
-        GM_SetArea_8002A7D8(gGameState_800B4D98.field_0C_current_stage, GM_GetArea_8002A880(0));
+        GM_SetArea_8002A7D8(gGameState_800B4D98[GM_CurrentStage], GM_GetArea_8002A880(0));
     }
     return 0;
 }

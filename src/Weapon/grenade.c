@@ -1,6 +1,5 @@
 #include "Bullet/blast.h"
 #include "Bullet/tenage.h"
-#include "Game/gamestate.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "grenade.h"
@@ -9,24 +8,23 @@
 
 // grenade/stun/chaff (in hands)
 
-extern const char         aGrenadeC[]; // = "grenade.c"
-extern short              d_800AB9EC_mag_size;
-extern short              d_800ABA2C_ammo;
+extern const char aGrenadeC[]; // = "grenade.c"
+extern short      d_800AB9EC_mag_size;
+extern short      d_800ABA2C_ammo;
 
-extern SVECTOR            DG_ZeroVector_800AB39C;
-extern SVECTOR            svector_800ABA10;
+extern SVECTOR    DG_ZeroVector_800AB39C;
+extern SVECTOR    svector_800ABA10;
 
-extern int                DG_CurrentGroupID_800AB968;
-extern GameState gGameState_800B4D98;
+extern int        DG_CurrentGroupID_800AB968;
 
-extern Blast_Data         dword_8009F4B8;
-extern ushort             dword_8009F3E4[];
-extern SVECTOR            dword_8009F3EC[];
-extern SVECTOR            dword_8009F3F4[];
-extern int                GM_lpfnBombHoming_800AB3E8;
-extern int                GM_PlayerStatus_800ABA50;
+extern Blast_Data dword_8009F4B8;
+extern ushort     dword_8009F3E4[];
+extern SVECTOR    dword_8009F3EC[];
+extern SVECTOR    dword_8009F3F4[];
+extern int        GM_lpfnBombHoming_800AB3E8;
+extern int        GM_PlayerStatus_800ABA50;
 
-void                      NewChaffGrd_80077264( MATRIX *pMtx );
+void              NewChaffGrd_80077264( MATRIX *pMtx );
 
 //------------------------------------------------------------------------------
 

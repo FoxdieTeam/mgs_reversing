@@ -3,13 +3,11 @@
 #include "unknown.h"
 #include "Game/game.h"
 
-extern int                gTotalFrameTime_800AB9E8;
-extern GameState gGameState_800B4D98;
-extern GameState gGcl_gameStateVars_800B44C8;
-extern GCL_Vars           gGcl_memVars_800b4588;
-extern RadioMemory        gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
-extern char               gStageName_800B4D88[16];
-extern GCL_Vars           gGcl_vars_800B3CC8;
+extern int         gTotalFrameTime_800AB9E8;
+extern GCL_Vars    gGcl_memVars_800b4588;
+extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
+extern char        gStageName_800B4D88[16];
+extern GCL_Vars    gGcl_vars_800B3CC8;
 
 int GCL_SetLoadFile_80020EAC(char *saveBuf)
 {
@@ -37,9 +35,9 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
     strcpy_8008E768(gStageName_800B4D88, save->f020_stageName);
     GM_SetAreaHistory_8002A784(&save->f030_areaHistory);
 
-    gGcl_gameStateVars_800B44C8 = save->f040_gameState;
+    memcpy(gGcl_gameStateVars_800B44C8, save->f040_gameState, 0xC0);
     gGcl_memVars_800b4588 = save->f100_gcl_vars;
-    gGameState_800B4D98 = save->f040_gameState;
+    memcpy(gGameState_800B4D98, save->f040_gameState, 0xC0);
     gGcl_vars_800B3CC8 = save->f100_gcl_vars;
     *(RdMem *)&gRadioMemory_800BDB38 = *(RdMem *)&save->f900_radio_memory;
 

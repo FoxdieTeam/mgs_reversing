@@ -59,8 +59,6 @@ extern int        gSaveCache_800B5294;
 extern const char aLoadS_0[];
 extern int        GV_PauseLevel_800AB928;
 
-extern GameState gGameState_800B4D98;
-
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 {
     int load_request;
@@ -70,14 +68,14 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 
     if (mts_get_pad_vibration_type_8008C4BC(1) == 1)
     {
-        gGameState_800B4D98.field_04_flags &= ~0x400;
+        gGameState_800B4D98[GM_Flags] &= ~0x400;
     }
     else
     {
-        gGameState_800B4D98.field_04_flags |= 0x400;
+        gGameState_800B4D98[GM_Flags] |= 0x400;
     }
 
-    if ((gGameState_800B4D98.field_04_flags & (0x2000 | 0x400)) == 0)
+    if ((gGameState_800B4D98[GM_Flags] & (0x2000 | 0x400)) == 0)
     {
         int vibration2;
         if (GM_PadVibration_800ABA3C != 0)
@@ -121,8 +119,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         int minutes;
         gTotalFrameTime_800AB9E8 += GV_PassageTime_800AB924;
         minutes = gTotalFrameTime_800AB9E8 / 60;
-        gGameState_800B4D98.field_B6_total_hours_elapsed = minutes / 3600;
-        gGameState_800B4D98.field_B8_total_seconds_elapsed = minutes % 3600;
+        gGameState_800B4D98[GM_PlaytimeHours] = minutes / 3600;
+        gGameState_800B4D98[GM_PlaytimeSeconds] = minutes % 3600;
     }
 
     unk_f20 = pActor->field_20;

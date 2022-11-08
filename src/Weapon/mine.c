@@ -6,8 +6,6 @@
 
 // claymore (in hands)
 
-extern GameState gGameState_800B4D98;
-
 extern const char aClaymore_0[]; // = "claymore";
 extern char       aMineC[];      // = "mine.c"
 extern short      d_800AB9EC_mag_size;
