@@ -6,6 +6,11 @@
 #include <LIBGPU.H>
 #include "map/hzd.h"
 
+struct LitHeader
+{
+    int field_0_num_lights;
+};
+
 typedef struct map_record
 {
     int               field_0_map_index_bit;
@@ -15,11 +20,6 @@ typedef struct map_record
     struct LitHeader *field_C_lit_file;
     int               field_10_zone_id;
 } map_record;
-
-struct LitHeader
-{
-    int field_0_num_lights;
-};
 
 map_record *Map_FindByNum_80031504(int mapNameHash);
 int         Map_MarkUsed_80031324(int mapName);
