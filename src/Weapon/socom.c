@@ -12,15 +12,14 @@ extern const char      aSocom2[];
 extern const char      aLsight[];
 extern char            aSocomC[]; // = "socom.c"
 
-extern int       dword_800AB824;
-int              SECTION( ".sdata" ) dword_800AB824;
+extern int     dword_800AB824;
+int            SECTION( ".sdata" ) dword_800AB824;
 
-extern RECT      stru_800AB828;
-extern SVECTOR   stru_8009F3C4[ 2 ];
-extern SVECTOR   stru_8009F3D4[ 2 ];
-extern short     d_800AB9EC_mag_size;
-extern short     d_800ABA2C_ammo;
-extern GameState gGameState_800B4D98;
+extern RECT    stru_800AB828;
+extern SVECTOR stru_8009F3C4[ 2 ];
+extern SVECTOR stru_8009F3D4[ 2 ];
+extern short   d_800AB9EC_mag_size;
+extern short   d_800ABA2C_ammo;
 
 //------------------------------------------------------------------------------
 
@@ -179,7 +178,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
 	OBJECT  *obj;
 
 	obj = &actor->field_20;
-	if ( gGameState_800B4D98.field_4A_item_states[ eSUPPR ] < 0 )
+	if ( gGameState_800B4D98[GM_ItemSilencer] < 0 )
 	{
 		GM_InitObjectNoRots_800349B0( (OBJECT_NO_ROTS *)obj,
 									GV_StrCode_80016CCC( aSocom_0 ),
@@ -194,10 +193,10 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
 									WEAPON_FLAG,
 									0 );
 		actor->field_56 = 1;
-		gGameState_800B4D98.field_4A_item_states[ eSUPPR ] = 0;
-		if ( gGameState_800B4D98.field_1E_equipped_item == eSUPPR )
+		gGameState_800B4D98[GM_ItemSilencer] = 0;
+		if ( gGameState_800B4D98[GM_CurrentItem] == eSUPPR )
 		{
-			gGameState_800B4D98.field_1E_equipped_item = -1;
+			gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
 		}
 	}
 	if ( obj->objs )
@@ -265,7 +264,7 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int a4, i
 	{
 		mag++;
 	}
-	ammo = gGameState_800B4D98.field_22_weapon_states[ eSOCOM ];
+	ammo = gGameState_800B4D98[ GM_WeaponSocom ];
 	if ( mag > 0 && mag < ammo )
 	{
 		ammo = mag;

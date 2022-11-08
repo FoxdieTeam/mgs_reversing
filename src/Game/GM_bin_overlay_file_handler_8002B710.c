@@ -7,8 +7,6 @@
 #include "unknown.h"
 #include "psyq.h"
 
-extern GameState gGameState_800B4D98;
-
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
 extern unsigned char *gOverlayBase_800AB9C8;
@@ -72,7 +70,7 @@ void GM_StartDaemon_8002B77C()
     GM_Reset_8002ABF4(&GM_Daemon_800B5880);
     GM_ResetMemory_8002AA80();
     GM_CurrentPadData_800AB91C = &GV_PadData_800B05C0[0];
-    gGameState_800B4D98.field_08_cd_number = gDiskNum_800ACBF0 + 1;
+    gGameState_800B4D98[GM_CurrentDisc] = gDiskNum_800ACBF0 + 1;
     GV_SaveResidentTop_800163C4();
     GM_Daemon_800B5880.field_20 = 0;
     GM_Daemon_800B5880.field_24 = 0;

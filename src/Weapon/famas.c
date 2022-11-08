@@ -10,7 +10,6 @@ extern char aFamasC[]; // = "famas.c"
 
 extern short     d_800AB9EC_mag_size;
 extern short     d_800ABA2C_ammo;
-extern GameState gGameState_800B4D98;
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GV_Clock_800AB920;
 extern SVECTOR   stru_800AB850;
@@ -31,8 +30,6 @@ void famas_act_80065E90(Actor_Famas *pActor)
     int f54;
     MATRIX mtx;
     MATRIX *pMtx;
-
-    short *ptr;
 
     GM_CurrentMap_800AB9B0 = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(pActor->f20_obj.objs, DG_CurrentGroupID_800AB968);
@@ -94,12 +91,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     }
 
                     bullet_init_80076584(pMtx, f54, v9, v10);
-
-                    // This is the best I could come up with
-                    // This could also be a weird offsetof macro?
-                    ptr = (short *)0x800b0000;
-                    ptr[0x26de] -= 1;
-
+                    gGameState_800B4D98[GM_WeaponFamas]--;
 
                     GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 48);
                     field_44_pCtrl = pActor->field_44_pCtrl;
@@ -194,7 +186,8 @@ Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_paren
 
     if (flag == 0)
     {
-        int temp = gGameState_800B4D98.field_22_weapon_states[1];
+        int temp = gGameState_800B4D98[GM_WeaponFamas];
+
         if ((v11 > 0) && (v11 < temp))
         {
             temp = (short)v11;
@@ -215,5 +208,5 @@ Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_paren
 
 Actor_Famas *famas_create_80066374(GM_Control* a1, OBJECT *a2, int num_parent, int* a4)
 {
-    return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)gGameState_800B4D98.field_02_diffcultyLevel >> 31);
+    return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)gGameState_800B4D98[GM_Difficulty] >> 31);
 }

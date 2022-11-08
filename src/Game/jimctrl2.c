@@ -8,9 +8,8 @@
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 extern int dword_8009E28C;
 
-extern u_long                 gotohell_800B9358;
-extern GameState    gGameState_800B4D98;
-extern const char            aJimctrlC[];
+extern u_long     gotohell_800B9358;
+extern const char aJimctrlC[];
 
 extern Actor_JimCtrl jimCtrlActor_800B82F0;
 
@@ -60,7 +59,7 @@ Actor *jimctrl_init_80038568(u_long flags)
     }
     seekResult = FS_StreamGetData_800240E0(toSeek);
 
-    if (gGameState_800B4D98.field_04_flags & 0x100)
+    if (gGameState_800B4D98[GM_Flags] & 0x100)
     {
         jimCtrlActor_800B82F0.field_27 = 3;
         jimCtrlActor_800B82F0.field_26 = 6;

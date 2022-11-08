@@ -1,8 +1,6 @@
 #include "bandana.h"
 #include "unknown.h"
 
-extern GameState gGameState_800B4D98;
-
 extern short d_800AB9EC_mag_size;
 
 extern const char aBandanaC[];
@@ -39,10 +37,9 @@ void bandana_act_80061DA0(Actor_bandana *pActor)
 {
     if ( snake_weapon_idx_800BDCBA >= 0 )
     {
-        if ( gGameState_800B4D98.field_22_weapon_states[gGameState_800B4D98.field_1C_equipped_weapon] <
-snake_weapon_max_ammo_800BDCBC )
+        if ( gGameState_800B4D98[GM_WeaponBase + gGameState_800B4D98[GM_CurrentWeapon]] < snake_weapon_max_ammo_800BDCBC )
         {
-            gGameState_800B4D98.field_22_weapon_states[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
+            gGameState_800B4D98[GM_WeaponBase + snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
         }
         if ( d_800AB9EC_mag_size < snake_mag_size_800BDCB8 )
         {

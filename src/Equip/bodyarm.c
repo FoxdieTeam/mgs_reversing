@@ -2,7 +2,6 @@
 #include "libdg/libdg.h"
 #include "unknown.h"
 
-extern GameState gGameState_800B4D98;
 const char               *off_8009F264[4];
 const char               *off_8009F274[4];
 extern const char         aBodyarmC[];
@@ -24,7 +23,7 @@ void bodyarm_free_80060874(OBJECT *a1)
 
 void bodyarm_kill_8006090C(Actor_bodyarm *pActor)
 {
-    if ((gGameState_800B4D98.field_04_flags & 0x20) == 0)
+    if ((gGameState_800B4D98[GM_Flags] & 0x20) == 0)
     {
         bodyarm_free_80060874(pActor->field_20);
     }
@@ -37,7 +36,7 @@ Actor *bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, aBodyarmC);
         pActor->field_20 = pObj;
-        if ((gGameState_800B4D98.field_04_flags & 0x20) != 0)
+        if ((gGameState_800B4D98[GM_Flags] & 0x20) != 0)
         {
             return &pActor->field_0;
         }
