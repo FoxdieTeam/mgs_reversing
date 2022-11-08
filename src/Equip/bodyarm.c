@@ -6,6 +6,9 @@ const char               *off_8009F264[4];
 const char               *off_8009F274[4];
 extern const char         aBodyarmC[];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void bodyarm_free_80060874(OBJECT *a1)
 {
     int i;

@@ -14,6 +14,9 @@ extern int       DG_CurrentGroupID_800AB968;
 extern int       GV_Clock_800AB920;
 extern SVECTOR   stru_800AB850;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void famas_act_80065E90(Actor_Famas *pActor)
 {
     int field_5C_mp5;
@@ -91,7 +94,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     }
 
                     bullet_init_80076584(pMtx, f54, v9, v10);
-                    gGameState_800B4D98[GM_WeaponFamas]--;
+                    *GM_GetWeapon(1) -= 1;
 
                     GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 48);
                     field_44_pCtrl = pActor->field_44_pCtrl;

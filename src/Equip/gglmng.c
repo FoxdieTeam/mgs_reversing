@@ -11,6 +11,9 @@ extern GM_Camera GM_Camera_800B77E8;
 extern int                GM_PlayerStatus_800ABA50;
 extern int                dword_8009F46C;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
     if (GM_Camera_800B77E8.field_22 != 0)

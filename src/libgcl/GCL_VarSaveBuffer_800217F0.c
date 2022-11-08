@@ -3,6 +3,9 @@
 
 extern GCL_Vars gGcl_memVars_800b4588;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
 {
     int   gcl_var, gcl_code, value;

@@ -4,6 +4,9 @@
 
 extern char aInit[]; // = "init";
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void GM_CreateLoader_8002AAB0()
 {
     char *stageName = aInit;

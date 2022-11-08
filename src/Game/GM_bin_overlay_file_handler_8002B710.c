@@ -52,6 +52,9 @@ int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameH
     return 1;
 }
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void GM_StartDaemon_8002B77C()
 {
     gTotalFrameTime_800AB9E8 = 0;

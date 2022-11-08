@@ -59,6 +59,9 @@ extern int        gSaveCache_800B5294;
 extern const char aLoadS_0[];
 extern int        GV_PauseLevel_800AB928;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 {
     int load_request;

@@ -48,6 +48,9 @@ void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
     FS_StreamClose_80024098();
 }
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 Actor *jimctrl_init_80038568(u_long flags)
 {
     int            seekResult;

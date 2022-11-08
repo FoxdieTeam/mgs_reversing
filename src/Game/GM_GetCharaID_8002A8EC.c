@@ -6,6 +6,9 @@ extern GCL_Vars           gGcl_vars_800B3CC8;
 
 extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
 
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript)

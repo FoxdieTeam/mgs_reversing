@@ -149,6 +149,9 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
 
 #pragma INCLUDE_ASM( "asm/Weapon/socom_act_80065518.s" ) // 1404 bytes
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void socom_kill_80065A94( Actor_Socom *a1 )
 {
 	DG_PRIM *field_58_prim;

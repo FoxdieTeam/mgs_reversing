@@ -8,6 +8,9 @@ extern const char aBandanaC[];
 extern const char *off_8009F2A8[3];
 extern const char *off_8009F2B4[3];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void bandana_80061D14(OBJECT *pObj)
 {
     int i;

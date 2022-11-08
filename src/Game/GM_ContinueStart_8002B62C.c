@@ -14,6 +14,9 @@ int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
 extern int GM_GameStatus_800AB3CC;
 int        SECTION(".sbss") GM_GameStatus_800AB3CC;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void GM_ContinueStart_8002B62C()
 {
     int total_continues; // $s2

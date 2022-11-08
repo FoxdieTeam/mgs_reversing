@@ -4,6 +4,9 @@
 
 extern int GM_LoadRequest_800AB3D0;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
 {
     int val;
