@@ -18,6 +18,9 @@ int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 extern int gTakeDamageCounter_800AB5FC;
 int        SECTION(".sbss") gTakeDamageCounter_800AB5FC;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void sub_8003ECC0(void)
 {
     dword_800ABAE8 = 0;

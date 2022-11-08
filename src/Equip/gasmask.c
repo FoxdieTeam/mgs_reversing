@@ -11,6 +11,9 @@ extern int           DG_CurrentGroupID_800AB968;
 extern int           dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {
     int map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;

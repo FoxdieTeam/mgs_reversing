@@ -8,6 +8,9 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 extern char gStageName_800B4D88[16];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 int GCL_MakeSaveFile_80020C0C(char *saveBuf)
 {
     typedef struct

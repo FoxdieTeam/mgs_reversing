@@ -17,6 +17,9 @@ extern GM_Camera       GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern CAMERA          GM_CameraList_800B7718[8];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
 {
     GV_CopyMemory_800160D8(&GM_Camera_800B77E8,           &pActor->field_17C_camera,  sizeof(pActor->field_17C_camera));

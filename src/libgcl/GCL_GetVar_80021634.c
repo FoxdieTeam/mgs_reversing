@@ -11,6 +11,9 @@ extern GCL_Vars gGcl_vars_800B3CC8;
 //    80 = gameState struct
 //  0002 = offset in gameState struct
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue)
 {
     int   gcl_var;

@@ -57,10 +57,6 @@ typedef struct AreaHistory
 #define GM_LastSaveHours   93
 #define GM_LastSaveSeconds 94
 
-// This is going to be accessor macros anyway so keep it in the header for now
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 /*
 typedef struct GameState
 {
@@ -118,17 +114,12 @@ typedef struct GameState
 } GameState;
 */
 
+#define GM_GetWeapon(x) (&gGameState_800B4D98[0x11 + (x)])
 
 static inline short *GM_GetCurrentWeapon( void )
 {
     extern short gGameState_800B4D98[ 0x60 ];
 	return &gGameState_800B4D98[ GM_WeaponBase + gGameState_800B4D98[GM_CurrentWeapon] ];
-}
-
-static inline short *GM_GetWeapon( int weapon_id )
-{
-    extern short gGameState_800B4D98[ 0x60 ];
-	return &gGameState_800B4D98[ GM_WeaponBase + weapon_id ];
 }
 
 #endif // _GAMESTATE_H_

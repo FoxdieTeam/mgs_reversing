@@ -8,6 +8,9 @@ extern GCL_Vars gGcl_memVars_800b4588;
 
 extern char gStageName_800B4D88[16];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void GCL_RestoreVar_80021488(void)
 {
     memcpy(gGameState_800B4D98, gGcl_gameStateVars_800B44C8, 0x9C);

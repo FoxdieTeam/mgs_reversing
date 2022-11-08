@@ -15,6 +15,9 @@ extern SVECTOR svector_8009F478;
 extern SVECTOR GM_PhotoViewPos_800ABA48;
 // extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
     SVECTOR     vec;

@@ -62,6 +62,9 @@ int        SECTION(".sbss") dword_800ABBB0;
 extern GM_Target *GM_BombSeg_800ABBD8; // probably wrong type?
 GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
 extern int                GM_GameOverTimer_800AB3D4;

@@ -23,6 +23,9 @@ extern int GV_Time_800AB330;
 extern int dword_8009F2C0;
 extern int GM_CurrentMap_800AB9B0;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 

@@ -79,6 +79,9 @@ void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
     pPrim->line_g2.b0 = curRgb;
 }
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void rcm_act_80066BC0(Actor_Rcm *pActor)
 {
     int    mapBit;         // $a1

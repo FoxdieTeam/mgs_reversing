@@ -32,6 +32,9 @@ SVECTOR svector_800AB8A4;
 extern char byte_8009F40C[];
 extern char byte_8009F414[];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 static inline int GetWeaponState(int weapon_id)
 {
     return gGameState_800B4D98[ GM_WeaponBase + weapon_id ];
