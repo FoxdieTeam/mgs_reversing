@@ -22,8 +22,6 @@ extern SVECTOR   svector_800AB8D4;
 extern short gGameState_800B4D98[0x60];
 extern short gGcl_gameStateVars_800B44C8[0x60];
 
-#define GM_GetWeapon(x) (&gGameState_800B4D98[0x11 + (x)])
-
 void rifle_act_80067D60(Actor_Rifle *pActor)
 {
     MATRIX mtx, mtx2;

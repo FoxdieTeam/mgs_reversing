@@ -94,7 +94,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     }
 
                     bullet_init_80076584(pMtx, f54, v9, v10);
-                    *GM_GetWeapon(1) -= 1;
+                    *GM_GetWeapon(eFAMAS) -= 1;
 
                     GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 48);
                     field_44_pCtrl = pActor->field_44_pCtrl;
