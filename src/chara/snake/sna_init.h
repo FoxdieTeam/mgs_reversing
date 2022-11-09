@@ -557,7 +557,7 @@ void sna_init_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int anim_fram
 int  sub_8005C6C4(HZD_MAP *hzd, SVECTOR *vec, int param_3);
 
 // TODO: move these to indivudual weapon headers
-Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
 Actor *famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 Actor *NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);

@@ -783,11 +783,8 @@ int     SECTION(".data") dword_8009F36C[] = {0x2D2D2D2D, 0x2D2D2D2D, 0xC23353F, 
                                              0xDDC1F435, 0xCB0C3F23, 0x2DD3D32D, 0x2DD3D32D, 0x350CC123, 0xDD3FF4CB,
                                              0xE83BC518, 0x18C53BE8, 0xC135DD0C, 0xF423CB3F};
 SVECTOR SECTION(".data") dword_8009F3AC = {0, 0, 0, 0};
-int     SECTION(".data") dword_8009F3B4[] = {0, 0xC80};
-int     SECTION(".data") dword_8009F3BC[] = {0xFE8E0014, 0x3C};
-
+SVECTOR SECTION(".data") stru_8009F3B4[2] = {{0, 0, 3200, 0}, {20, -370, 60, 0}};
 SVECTOR SECTION(".data") stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
-
 SVECTOR SECTION(".data") stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 int        SECTION(".data") dword_8009F3E4[] = {0x7A643B88, 0xF83D7A64};
