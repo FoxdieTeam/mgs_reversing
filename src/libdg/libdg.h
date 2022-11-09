@@ -114,7 +114,7 @@ union Prim_Union
 	LINE_G2  line_g2;
 	LINE_F4  line_f4;
 	POLY_FT4 poly_ft4;
-	TILE    *tiles;
+	TILE     tiles;
 };
 
 struct DG_Rec_Unknown

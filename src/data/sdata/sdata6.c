@@ -33,7 +33,7 @@ int SECTION(".sdata") dword_800AB810 = 0xA20;
 char SECTION(".sdata") aKage[] = "kage";
 char SECTION(".sdata") aShadow_0[] = "shadow";
 
-int SECTION(".sdata") dword_800AB824 = 0xFF29;
+short SECTION(".sdata") word_800AB824 = -215;
 
 RECT SECTION(".sdata") stru_800AB828 = {0, 0, 2, 2};
 
