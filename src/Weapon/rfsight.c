@@ -30,3 +30,25 @@ Actor_Rfsight * NewRifleSight_8006989C(void)
 
     return pActor;
 }
+
+Actor_Rfsight * NewRifleSightFast_80069920(void)
+{
+    Actor_Rfsight *pActor = (Actor_Rfsight *)GV_NewActor_800150E4(6, sizeof(Actor_Rfsight));
+
+    if (pActor)
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&rfsight_act_800696CC,
+                                  (TActorFunction)&rfsight_kill_80069850, aRfsightC);
+
+        if (rfsight_init_helper_8006985C(pActor) < 0)
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return 0;
+        }
+
+        word_800ABBE0[0] = 1;
+        pActor->field_2c_pfn = &sight_init_80071EA8;
+    }
+
+    return pActor;
+}
