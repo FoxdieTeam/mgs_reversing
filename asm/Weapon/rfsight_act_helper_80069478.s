@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef rfsight_init_helper_helper_80069478
-rfsight_init_helper_helper_80069478:
+	xdef rfsight_act_helper_80069478
+rfsight_act_helper_80069478:
 	dw 0x27BDFFD0 ; 0x80069478
 	dw 0xAFB1001C ; 0x8006947C
 	dw 0x97B10040 ; 0x80069480
