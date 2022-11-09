@@ -2,8 +2,6 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
 
-extern GameState gGameState_800B4D98;
-
 extern int   GM_GameStatus_800AB3CC;
 extern short GM_O2_800ABA34;
 
@@ -20,6 +18,9 @@ int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 extern int gTakeDamageCounter_800AB5FC;
 int        SECTION(".sbss") gTakeDamageCounter_800AB5FC;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void sub_8003ECC0(void)
 {
     dword_800ABAE8 = 0;
@@ -28,14 +29,14 @@ void sub_8003ECC0(void)
 int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 {
     short snakeHp = pBars->field_6_snake_hp;
-    if (snakeHp == gGameState_800B4D98.field_16_snake_current_health)
+    if (snakeHp == gGameState_800B4D98[GM_CurrentHealth])
     {
         pBars->field_A_k10_decrement = 10;
         return 0;
     }
     else
     {
-        if (gGameState_800B4D98.field_16_snake_current_health < snakeHp)
+        if (gGameState_800B4D98[GM_CurrentHealth] < snakeHp)
         {
             if (pBars->field_A_k10_decrement == 0)
             {
@@ -47,9 +48,9 @@ int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
             }
         }
 
-        if (pBars->field_6_snake_hp < gGameState_800B4D98.field_16_snake_current_health)
+        if (pBars->field_6_snake_hp < gGameState_800B4D98[GM_CurrentHealth])
         {
-            pBars->field_6_snake_hp = gGameState_800B4D98.field_16_snake_current_health;
+            pBars->field_6_snake_hp = gGameState_800B4D98[GM_CurrentHealth];
         }
         return 1;
     }
@@ -75,8 +76,8 @@ void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
     }
 
     menu_bar_draw_8003ED4C(ot, pBars->field_2_bar_x, pBars->field_4_bar_y, pBars->field_6_snake_hp,
-                           gGameState_800B4D98.field_16_snake_current_health,
-                           gGameState_800B4D98.field_18_snake_max_health, pBar);
+                           gGameState_800B4D98[GM_CurrentHealth],
+                           gGameState_800B4D98[GM_MaxHealth], pBar);
 
     if (pBars->field_1_O2_hp)
     {
@@ -100,9 +101,9 @@ unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int
 unsigned int Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
-    return menu_bar_draw_8003ED4C(ot, xpos, ypos, gGameState_800B4D98.field_16_snake_current_health,
-                                  gGameState_800B4D98.field_16_snake_current_health,
-                                  gGameState_800B4D98.field_18_snake_max_health, &gSnakeLifeBarConfig_8009E5F4);
+    return menu_bar_draw_8003ED4C(ot, xpos, ypos, gGameState_800B4D98[GM_CurrentHealth],
+                                  gGameState_800B4D98[GM_CurrentHealth],
+                                  gGameState_800B4D98[GM_MaxHealth], &gSnakeLifeBarConfig_8009E5F4);
 }
 
 void menu_font_kill_helper_8003F50C(void)
@@ -120,7 +121,7 @@ void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
     pActor->field_28_flags |= 1;
 
     pBar = &pActor->field_204_bars;
-    pBar->field_6_snake_hp = gGameState_800B4D98.field_16_snake_current_health;
+    pBar->field_6_snake_hp = gGameState_800B4D98[GM_CurrentHealth];
     pBar->field_A_k10_decrement = 10;
     pBar->field_2_bar_x = 16;
     pBar->field_0_state = 0;

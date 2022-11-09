@@ -11,7 +11,8 @@ extern int           DG_CurrentGroupID_800AB968;
 extern int           dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
 
-extern GameState gGameState_800B4D98;
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
 
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {
@@ -28,8 +29,8 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
     }
 
     if (GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & 0x80) != 0 &&
-        gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_STINGER &&
-        gGameState_800B4D98.field_1C_equipped_weapon != WEAPON_PSG1 && dword_8009F46C != 1)
+        gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_STINGER &&
+        gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_PSG1 && dword_8009F46C != 1)
     {
         pActor->field_50_count++;
         if (pActor->field_50_count >= 9 && !pActor->field_54_gmsight)

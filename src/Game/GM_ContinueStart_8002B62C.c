@@ -6,8 +6,6 @@
 extern int GM_LoadRequest_800AB3D0;
 int        SECTION(".sdata") GM_LoadRequest_800AB3D0;
 
-extern GameState gGameState_800B4D98;
-
 // forcec gp
 extern int GM_GameOverTimer_800AB3D4;
 int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
@@ -16,16 +14,19 @@ int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
 extern int GM_GameStatus_800AB3CC;
 int        SECTION(".sbss") GM_GameStatus_800AB3CC;
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void GM_ContinueStart_8002B62C()
 {
     int total_continues; // $s2
     int current_stage;   // $s1
 
     GM_CallSystemCallbackProc_8002B570(1, 0);
-    total_continues = gGameState_800B4D98.field_AE_total_continues;
-    current_stage = gGameState_800B4D98.field_0C_current_stage;
+    total_continues = gGameState_800B4D98[GM_ContinueCount];
+    current_stage = gGameState_800B4D98[GM_CurrentStage];
     GCL_RestoreVar_80021488();
-    if (gGameState_800B4D98.field_0C_current_stage != current_stage)
+    if (gGameState_800B4D98[GM_CurrentStage] != current_stage)
     {
         GM_LoadRequest_800AB3D0 = 1;
     }
@@ -34,13 +35,13 @@ void GM_ContinueStart_8002B62C()
         sub_8002B600(-1);
     }
 
-    gGameState_800B4D98.field_AE_total_continues = total_continues + 1;
+    gGameState_800B4D98[GM_ContinueCount] = total_continues + 1;
 
     // Set the bomb to no less than 10 seconds to prevent instant death
     // note: casting needed to produce sltiu and lhu vs lh
-    if ((unsigned int)(unsigned short)gGameState_800B4D98.field_4A_item_states[eTIMER_B] - 1 < 9)
+    if ((unsigned int)(unsigned short)gGameState_800B4D98[GM_ItemTimerB] - 1 < 9)
     {
-        gGameState_800B4D98.field_4A_item_states[eTIMER_B] = 10;
+        gGameState_800B4D98[GM_ItemTimerB] = 10;
     }
 }
 

@@ -29,20 +29,11 @@ extern int dword_800AB8A4;
 
 SVECTOR svector_800AB8A4;
 
-extern GameState gGameState_800B4D98;
-
 extern char byte_8009F40C[];
 extern char byte_8009F414[];
 
-static inline int GetWeaponState(int weapon_id)
-{
-    return gGameState_800B4D98.field_22_weapon_states[ weapon_id ];
-}
-
-static inline void SetWeaponState(int weapon_id, int value)
-{
-    gGameState_800B4D98.field_22_weapon_states[ weapon_id ] = value;
-}
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
 
 void aam_act_800670CC(Actor_Aam *actor)
 {
@@ -91,7 +82,7 @@ void aam_act_800670CC(Actor_Aam *actor)
     {
         actor->field_58 = 30;
 
-        sVar3 = GetWeaponState(4);
+        sVar3 = *GM_WeaponStinger;
 
         if (sVar3 > 0)
         {
@@ -120,7 +111,7 @@ void aam_act_800670CC(Actor_Aam *actor)
 
             if (NewAMissile_8006DC50(&MStack88, actor->field_54))
             {
-                SetWeaponState(4, --sVar3);
+                *GM_WeaponStinger = --sVar3;
                 GM_SeSet_80032858(&actor->field_44_ctrl->field_0_position, 0x4c);
                 GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_position);
 

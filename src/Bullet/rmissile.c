@@ -17,6 +17,9 @@ extern GM_Camera       GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern CAMERA          GM_CameraList_800B7718[8];
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
 {
     GV_CopyMemory_800160D8(&GM_Camera_800B77E8,           &pActor->field_17C_camera,  sizeof(pActor->field_17C_camera));
@@ -367,13 +370,12 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 
 #pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C37C.s")           // 584 bytes
 
-extern GV_PAD    GV_PadData_800B05C0[4];
-extern GameState gGameState_800B4D98;
-extern int       dword_8009F46C;
-extern SVECTOR   svector_8009F478;
-extern OBJECT    *dword_800ABA20;
-extern int       GM_GameOverTimer_800AB3D4;
-extern SVECTOR   svector_800ABA10;
+extern GV_PAD  GV_PadData_800B05C0[4];
+extern int     dword_8009F46C;
+extern SVECTOR svector_8009F478;
+extern OBJECT *dword_800ABA20;
+extern int     GM_GameOverTimer_800AB3D4;
+extern SVECTOR svector_800ABA10;
 
 void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 {
@@ -419,7 +421,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         }
     }
 
-    if (gGameState_800B4D98.field_1C_equipped_weapon != 3)
+    if (gGameState_800B4D98[GM_CurrentWeapon] != 3)
     {
         if (!pActor->field_112)
         {
@@ -427,7 +429,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
             ReadRotMatrix_80092DD8(&rotation);
 
-            if (GM_GameStatus_800AB3CC & 0xd0000000 || !gGameState_800B4D98.field_16_snake_current_health || GM_GameOverTimer_800AB3D4)
+            if (GM_GameStatus_800AB3CC & 0xd0000000 || !gGameState_800B4D98[GM_CurrentHealth] || GM_GameOverTimer_800AB3D4)
             {
                 pBlastData = &blast_data_8009F544;
             }

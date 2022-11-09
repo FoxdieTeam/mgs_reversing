@@ -6,18 +6,72 @@
 
 // claymore (in hands)
 
-extern GameState gGameState_800B4D98;
-
 extern const char aClaymore_0[]; // = "claymore";
 extern char       aMineC[];      // = "mine.c"
 extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
 
+extern int        GM_CurrentMap_800AB9B0;
 extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
 extern GM_Target *GM_BombSeg_800ABBD8;
 
-#pragma INCLUDE_ASM("asm/Weapon/mine_act_80067558.s") // 440 bytes
+extern short      gGameState_800B4D98[0x60];
+
+void mine_act_80067558(Actor_Mine *pActor)
+{
+    int map; // $v1
+    int weapon_state; // $s1
+    int weap_flags; // $a0
+    int local_54; // $v0
+    DG_OBJ *obj;
+
+    map = pActor->field_20_pCtrl->field_2C_map->field_0_map_index_bit;
+    DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+
+    GM_CurrentMap_800AB9B0 = map;
+    if ( ( pActor->field_24_pObj->objs->flag & 0x80) != 0 )
+    {
+        pActor->field_28_obj.objs->flag |= 0x80u;
+    }
+    else if ( !pActor->field_54_counter )
+    {
+        pActor->field_28_obj.objs->flag &= ~0x80u;
+    }
+    obj = &pActor->field_24_pObj->objs->objs[pActor->field_4C_unit];
+
+    weapon_state = *GM_WeaponClaymore;
+    weap_flags = *pActor->field_50_pFlags;
+
+    if ((weap_flags & 1) != 0
+      && weapon_state > 0
+      && (weap_flags & 2) != 0
+      && counter_8009F448 < 8
+      && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
+    {
+        GM_SeSet_80032858(&pActor->field_20_pCtrl->field_0_position, 49);
+        *GM_WeaponClaymore = --weapon_state;
+
+        pActor->field_54_counter = 21;
+        pActor->field_28_obj.objs->flag |= 0x80u;
+    }
+
+    local_54 = pActor->field_54_counter;
+
+    //new_54 = local_54 - 1;
+    if ( local_54 > 0 )
+    {
+        pActor->field_54_counter = local_54 - 1;
+        if ( !pActor->field_54_counter )
+        {
+            pActor->field_28_obj.objs->flag &= ~0x80u;
+        }
+    }
+    if ( !weapon_state )
+    {
+        pActor->field_28_obj.objs->flag |= 0x80u;
+    }
+}
 
 void mine_kill_80067710(Actor_Mine *mine)
 {

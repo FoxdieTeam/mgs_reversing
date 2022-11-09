@@ -32,7 +32,8 @@ extern int   DG_UnDrawFrameCount_800AB380;
 extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 
-extern GameState gGameState_800B4D98;
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
 
 int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1, int a2)
 {
@@ -63,7 +64,7 @@ int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1, int a2)
 
 int GV_UpdatePadSystem_helper_800166F0(int a0)
 {
-    switch (gGameState_800B4D98.field_04_flags & 7)
+    switch (gGameState_800B4D98[GM_Flags] & 0x7)
     {
     case GV_PAD_ANAJOY:
         return GV_UpdatePadSystem_helper_helper_800166AC(a0, 0x20, 0x40);

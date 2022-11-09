@@ -123,6 +123,11 @@ enum
     WEAPON_PSG1 = 9,
 };
 
+enum
+{
+    ITEM_NONE = -1,
+};
+
 static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
 {
     int old = GM_NoisePower_800ABA24;
