@@ -65,7 +65,7 @@
 
     ;libdg\dgd.c
     include "..\obj\Equip\DG_Update1_8001F1BC.obj"
-    include "..\obj\libdg\DG_TextureCacheInit_8001F25C.obj"    
+    include "..\obj\libdg\DG_TextureCacheInit_8001F25C.obj"
     include "..\obj\libdg\dgd.obj"
 
     ;libdg\loader.c
@@ -697,11 +697,13 @@
     ; 800692D0 800693E0
     include "..\obj\Weapon\stnsight.obj"
 
+    ; rfsight.c
+    ; 80069478 800696CC 80069850 8006985C 8006989C 80069920
     include "..\obj\Weapon\rfsight_init_helper_helper_80069478.obj"
-    include "..\obj\Weapon\rfsight_init_helper_800696CC.obj"
+    include "..\obj\Weapon\rfsight_act_800696CC.obj"
     include "..\obj\Weapon\rfsight_kill_80069850.obj"
     include "..\obj\Weapon\rfsight_init_helper_8006985C.obj"
-    include "..\obj\Weapon\NewRifleSight_8006989C.obj"
+    include "..\obj\Weapon\rfsight.obj"
     include "..\obj\Weapon\NewRifleSightFast_80069920.obj"
 
     ; 800699A4 80069DBC 80069E28 80069E64 8006A010 8006A100 8006A128
