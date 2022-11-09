@@ -704,7 +704,6 @@
     include "..\obj\Weapon\rfsight_kill_80069850.obj"
     include "..\obj\Weapon\rfsight_init_helper_8006985C.obj"
     include "..\obj\Weapon\rfsight.obj"
-    include "..\obj\Weapon\NewRifleSightFast_80069920.obj"
 
     ; 800699A4 80069DBC 80069E28 80069E64 8006A010 8006A100 8006A128
     include "..\obj\Bullet\tenage.obj"
