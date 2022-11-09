@@ -1503,7 +1503,7 @@
 800692D0 272 stnsight_init_helper_800692D0
 800693E0 152 NewStnSight_800693E0
 80069478 596 rfsight_init_helper_helper_80069478
-800696CC 388 rfsight_init_helper_800696CC
+800696CC 388 rfsight_act_800696CC
 80069850 12 rfsight_kill_80069850
 8006985C 64 rfsight_init_helper_8006985C
 8006989C 132 NewRifleSight_8006989C
