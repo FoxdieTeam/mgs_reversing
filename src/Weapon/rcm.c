@@ -113,7 +113,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
     p_flags = *pActor->field_50_pUnknown;
     rcm_act_helper_80066B58(pActor, p_flags);
 
-    weapon_state_3 = gGameState_800B4D98[GM_WeaponNikita];
+    weapon_state_3 = *GM_WeaponNikita;
     if (!weapon_state_3 && (p_flags & 2))
     {
         GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
@@ -151,8 +151,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
             if (NewRMissile_8006D124(&mt1, pActor->field_54_whichSide))
             {
-                weapon_state_3--;
-                gGameState_800B4D98[GM_WeaponNikita] = weapon_state_3;
+                *GM_WeaponNikita = --weapon_state_3;
                 GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 76);
                 GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
             }

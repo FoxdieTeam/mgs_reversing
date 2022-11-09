@@ -40,7 +40,7 @@ void mine_act_80067558(Actor_Mine *pActor)
     }
     obj = &pActor->field_24_pObj->objs->objs[pActor->field_4C_unit];
 
-    weapon_state = *GM_GetWeapon(eCLAYMORE);
+    weapon_state = *GM_WeaponClaymore;
     weap_flags = *pActor->field_50_pFlags;
 
     if ((weap_flags & 1) != 0
@@ -50,7 +50,7 @@ void mine_act_80067558(Actor_Mine *pActor)
       && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
     {
         GM_SeSet_80032858(&pActor->field_20_pCtrl->field_0_position, 49);
-        *GM_GetWeapon(eCLAYMORE) = --weapon_state;
+        *GM_WeaponClaymore = --weapon_state;
 
         pActor->field_54_counter = 21;
         pActor->field_28_obj.objs->flag |= 0x80u;

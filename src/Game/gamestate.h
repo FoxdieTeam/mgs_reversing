@@ -15,7 +15,6 @@ typedef struct AreaHistory
 #define GAMESTATE_ITEM_STATES 24
 #define GAMESTATE_WEAPON_STATES 10
 
-// TODO: define as accessors to GameState
 #define GM_Difficulty      1
 #define GM_Flags           2
 
@@ -34,12 +33,6 @@ typedef struct AreaHistory
 #define GM_Stance          16
 
 #define GM_WeaponBase      17
-#define GM_WeaponSocom     17
-#define GM_WeaponFamas     18
-
-#define GM_WeaponNikita    20
-
-#define GM_WeaponRifle     26
 
 #define GM_ItemBase        37
 
@@ -114,12 +107,23 @@ typedef struct GameState
 } GameState;
 */
 
-#define GM_GetWeapon(x) (&gGameState_800B4D98[0x11 + (x)])
+#define GM_GetWeapon(x) (&gGameState_800B4D98[GM_WeaponBase + (x)])
+
+#define GM_WeaponSocom    GM_GetWeapon(eSOCOM)
+#define GM_WeaponFamas    GM_GetWeapon(eFAMAS)
+#define GM_WeaponGrenade  GM_GetWeapon(eGRENADE)
+#define GM_WeaponNikita   GM_GetWeapon(eNIKITA)
+#define GM_WeaponStinger  GM_GetWeapon(eSTINGER)
+#define GM_WeaponClaymore GM_GetWeapon(eCLAYMORE)
+#define GM_WeaponC4       GM_GetWeapon(eC4)
+#define GM_WeaponStunG    GM_GetWeapon(eSTUN_G)
+#define GM_WeaponChaffG   GM_GetWeapon(eCHAFF_G)
+#define GM_WeaponPSG1     GM_GetWeapon(ePSG1)
 
 static inline short *GM_GetCurrentWeapon( void )
 {
     extern short gGameState_800B4D98[ 0x60 ];
-	return &gGameState_800B4D98[ GM_WeaponBase + gGameState_800B4D98[GM_CurrentWeapon] ];
+    return GM_GetWeapon(gGameState_800B4D98[GM_CurrentWeapon]);
 }
 
 #endif // _GAMESTATE_H_
