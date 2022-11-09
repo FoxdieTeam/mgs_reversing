@@ -74,7 +74,48 @@ void socom_init_vectors_80065254( Actor_Socom *pActor )
     }
 }
 
-#pragma INCLUDE_ASM( "asm/Weapon/socom_act_helper_8006528C.s" ) // 172 bytes
+extern GM_Camera GM_Camera_800B77E8;
+extern short     gGameState_800B4D98[0x60];
+
+void socom_act_helper_8006528C(Actor_Socom *pActor)
+{
+    int primsOrig =  pActor->field_100;
+    int prims;
+    SVECTOR *pVec;
+    int iVar3;
+
+    if (!primsOrig)
+    {
+        primsOrig = 10240;
+    }
+
+    if (gGameState_800B4D98[0x5f] && GM_Camera_800B77E8.field_22)
+    {
+        primsOrig += 515;
+    }
+
+    prims = (primsOrig + 1023) / 1024;
+
+    if (prims > 10)
+    {
+        prims = 10;
+    }
+
+    pActor->field_58_prim->n_prims = prims;
+
+    pVec = pActor->field_60_array;
+    iVar3 = word_800AB824;
+
+    for(--prims; prims >= 0; --prims)
+    {
+        pVec[0].vy = iVar3;
+        iVar3 -= 1024;
+        pVec[1].vy = iVar3;
+        pVec += 2;
+    }
+
+    pVec[-1].vy = word_800AB824 - primsOrig;
+}
 
 void socom_InitLight_80065338( TILE *packs )
 {
@@ -150,14 +191,10 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
 }
 
 
-extern SVECTOR   stru_8009F3B4[];
-extern int       GV_Time_800AB330;
-extern int       DG_CurrentGroupID_800AB968;
-extern short     GM_WeaponChanged_800AB9D8;
-extern GM_Camera GM_Camera_800B77E8;
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
+extern SVECTOR stru_8009F3B4[];
+extern int     GV_Time_800AB330;
+extern int     DG_CurrentGroupID_800AB968;
+extern short   GM_WeaponChanged_800AB9D8;
 
 void socom_act_80065518( Actor_Socom *a1 )
 {
