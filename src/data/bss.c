@@ -218,7 +218,11 @@ gap gap_800BDCB8[0x8]; // 8 bytes
 
 short BSS word_800BDCC0; // 0x4 (4) bytes - padded
 
-gap gap_800BDCC4[0x6C]; // 108 bytes
+gap gap_800BDCC4[0x54]; // 84 bytes
+
+short BSS word_800BDD18[6]; // 0xC (12) bytes
+
+gap gap_800BDD24[0xC]; // 12 bytes
 
 GM_Control *BSS tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
 int BSS tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
