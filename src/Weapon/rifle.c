@@ -109,7 +109,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
 
         d_800AB9EC_mag_size = --temp_s1;
-        *GM_GetWeapon(ePSG1) -= 1;
+        *GM_WeaponPSG1 -= 1;
     }
 }
 
@@ -174,7 +174,7 @@ Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numPa
     }
 
     ammo = d_800AB9EC_mag_size ? 6 : 5;
-    magSize = gGameState_800B4D98[GM_WeaponRifle];
+    magSize = *GM_WeaponPSG1;
 
     if (ammo > 0 && ammo < magSize)
     {
