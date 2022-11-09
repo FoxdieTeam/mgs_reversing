@@ -33,7 +33,7 @@ int SECTION(".sdata") dword_800AB810 = 0xA20;
 char SECTION(".sdata") aKage[] = "kage";
 char SECTION(".sdata") aShadow_0[] = "shadow";
 
-int SECTION(".sdata") dword_800AB824 = 0xFF29;
+short SECTION(".sdata") word_800AB824 = -215;
 
 RECT SECTION(".sdata") stru_800AB828 = {0, 0, 2, 2};
 
@@ -69,8 +69,7 @@ char SECTION(".sdata") aMineC[] = "mine.c";
 char SECTION(".sdata") aC4Bomb[] = "c4_bomb";
 char SECTION(".sdata") aBombC[] = "bomb.c";
 
-int SECTION(".sdata") dword_800AB8D4 = 0x12C0005;
-int SECTION(".sdata") dword_800AB8D8 = 0x50;
+SVECTOR SECTION(".sdata") svector_800AB8D4 = { 5, 300, 80, 0 };
 
 char SECTION(".sdata") aRifle_0[] = "rifle";
 char SECTION(".sdata") aRifleC[] = "rifle.c";

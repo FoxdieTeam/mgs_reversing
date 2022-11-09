@@ -3,8 +3,6 @@
 
 extern GCL_Vars gGcl_vars_800B3CC8;
 
-extern GameState gGameState_800B4D98;
-
 // This function takes a gcl variable and return the C variable associated
 //
 // gcl_variable example: 0x11800002 (difficulty_level)
@@ -12,6 +10,9 @@ extern GameState gGameState_800B4D98;
 //     1 = type short
 //    80 = gameState struct
 //  0002 = offset in gameState struct
+
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
 
 unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *retValue)
 {
@@ -24,7 +25,7 @@ unsigned char *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int *re
     *retCode = gcl_code;
     if (GCL_IsGameStateVar(gcl_var))
     {
-        ptr = (char *)&gGameState_800B4D98;
+        ptr = (char *)gGameState_800B4D98;
     }
     else
     {

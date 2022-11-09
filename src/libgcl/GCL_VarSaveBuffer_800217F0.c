@@ -1,9 +1,10 @@
 #include "linker.h"
 #include "gcl.h"
 
-extern GameState gGcl_gameStateVars_800B44C8;
-
 extern GCL_Vars gGcl_memVars_800b4588;
+
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
 
 unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
 {
@@ -16,7 +17,7 @@ unsigned char *GCL_VarSaveBuffer_800217F0(unsigned char *pScript)
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
-        ptr = (char *)&gGcl_gameStateVars_800B44C8;
+        ptr = (char *)gGcl_gameStateVars_800B44C8;
     }
     else
     {

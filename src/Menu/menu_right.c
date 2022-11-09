@@ -24,7 +24,6 @@ Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
 extern struct menu_8009E544 *dword_800AB584;
 extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
-extern GameState    gGameState_800B4D98;
 extern int                   dword_8009E544[];
 extern int                   GM_GameStatus_800AB3CC;
 
@@ -61,7 +60,7 @@ void sub_8003CE40(MenuMan_Inventory_14h_Unk *items, int count)
         *(unsigned int *)&items->field_C_u = 0;
         items++;
     }
-  
+
     dword_800ABAD8 = 0;
     dword_800ABADC = 0;
 }
@@ -325,10 +324,13 @@ void menu_right_unknown_8003DEB0(void)
     sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
 }
 
+extern short gGameState_800B4D98[0x60];
+extern short gGcl_gameStateVars_800B44C8[0x60];
+
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if ((weaponIdx == eSOCOM) && (gGameState_800B4D98.field_4A_item_states[eSUPPR] == 0))
+    if ((weaponIdx == eSOCOM) && !gGameState_800B4D98[GM_ItemSilencer])
     {
         rpkIdx = 2;
     }

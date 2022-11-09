@@ -15,6 +15,42 @@ typedef struct AreaHistory
 #define GAMESTATE_ITEM_STATES 24
 #define GAMESTATE_WEAPON_STATES 10
 
+#define GM_Difficulty      1
+#define GM_Flags           2
+
+#define GM_CurrentDisc     4
+#define GM_LastResult      5
+#define GM_CurrentStage    6
+#define GM_CurrentMap      7
+#define GM_CurrentPosX     8
+#define GM_CurrentPosY     9
+#define GM_CurrentPosZ     10
+#define GM_CurrentHealth   11
+#define GM_MaxHealth       12
+
+#define GM_CurrentWeapon   14
+#define GM_CurrentItem     15
+#define GM_Stance          16
+
+#define GM_WeaponBase      17
+
+#define GM_ItemBase        37
+
+#define GM_ItemTimerB      55
+
+#define GM_ItemSilencer    60
+
+#define GM_PreviousStage   74
+
+#define GM_ContinueCount   87
+#define GM_SaveCount       88
+
+#define GM_PlaytimeHours   91
+#define GM_PlaytimeSeconds 92
+#define GM_LastSaveHours   93
+#define GM_LastSaveSeconds 94
+
+/*
 typedef struct GameState
 {
     short  field_00;
@@ -69,18 +105,25 @@ typedef struct GameState
     short  field_BC_last_save_seconds;
     short  field_BE;
 } GameState;
+*/
 
+#define GM_GetWeapon(x) (&gGameState_800B4D98[GM_WeaponBase + (x)])
 
-static inline short      *GM_GetCurrentWeapon( void )
+#define GM_WeaponSocom    GM_GetWeapon(eSOCOM)
+#define GM_WeaponFamas    GM_GetWeapon(eFAMAS)
+#define GM_WeaponGrenade  GM_GetWeapon(eGRENADE)
+#define GM_WeaponNikita   GM_GetWeapon(eNIKITA)
+#define GM_WeaponStinger  GM_GetWeapon(eSTINGER)
+#define GM_WeaponClaymore GM_GetWeapon(eCLAYMORE)
+#define GM_WeaponC4       GM_GetWeapon(eC4)
+#define GM_WeaponStunG    GM_GetWeapon(eSTUN_G)
+#define GM_WeaponChaffG   GM_GetWeapon(eCHAFF_G)
+#define GM_WeaponPSG1     GM_GetWeapon(ePSG1)
+
+static inline short *GM_GetCurrentWeapon( void )
 {
-    extern GameState gGameState_800B4D98;
-	return &gGameState_800B4D98.field_22_weapon_states[ gGameState_800B4D98.field_1C_equipped_weapon ];
-}
-
-static inline short      *GM_GetWeapon( int weapon_id )
-{
-    extern GameState gGameState_800B4D98;
-	return &gGameState_800B4D98.field_22_weapon_states[ weapon_id ];
+    extern short gGameState_800B4D98[ 0x60 ];
+    return GM_GetWeapon(gGameState_800B4D98[GM_CurrentWeapon]);
 }
 
 #endif // _GAMESTATE_H_
