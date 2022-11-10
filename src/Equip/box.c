@@ -1,7 +1,9 @@
 #include "box.h"
+#include "unknown.h"
 #include "map/map.h"
 #include "Thing/sight.h"
 #include "Game/camera.h"
+#include "Game/object.h"
 
 extern const char aBoxC[];
 extern int DG_CurrentGroupID_800AB968;
@@ -9,7 +11,34 @@ extern int dword_8009F604;
 extern int dword_8009F284;
 extern GM_Camera GM_Camera_800B77E8;
 
-#pragma INCLUDE_ASM("asm/Equip/BoxCheckMessage_8006195C.s") // 184 bytes
+extern const char aCardboardEUC[]; // This is cardboard in EUC-JP encoding
+
+int BoxCheckMessage_8006195C(Actor_Box *pActor)
+{
+    GM_Control *pCtrl = pActor->field_44_pCtrl;
+    GV_MSG *pMsg;
+    int count;
+    unsigned short message;
+
+    pCtrl->field_56 = GV_ReceiveMessage_80016620(pCtrl->field_30_scriptData, &pCtrl->field_5C_mesg);
+    pMsg = &pCtrl->field_5C_mesg[0];
+
+    for (count = pCtrl->field_56; count > 0; pMsg++, count--)
+    {
+        if (GV_StrCode_80016CCC(aCardboardEUC) == pMsg->message[0])
+        {
+            message = pMsg->message[1];
+
+            if (message == 1)
+            {
+                pActor->field_4C_bFound = message;
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
 
 void BoxAct_80061A14(Actor_Box *pActor)
 {
@@ -38,23 +67,70 @@ void BoxAct_80061A14(Actor_Box *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/BoxDie_80061B30.s")          // 112 bytes
-#pragma INCLUDE_ASM("asm/Equip/BoxGetResources_80061BA0.s") // 220 bytes
+extern const char *off_8009F288[8];
 
-Actor *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pObj)
+void BoxDie_80061B30(Actor_Box *pActor)
+{
+    const char **ppName;
+    int i;
+
+    GM_FreeObject_80034BF8(&pActor->field_20);
+
+    ppName = pActor->field_50_ppName;
+    for (i = 0; i < 2; i++)
+    {
+        EQ_ChangeTexture_80060CE4(ppName[i], off_8009F288[i]);
+    }
+
+    dword_8009F284 = 0;
+}
+
+extern short      gGameState_800B4D98[0x60];
+extern const char aCbBox[]; // = "cb_box"
+
+int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
+{
+    OBJECT *pObject = &pActor->field_20;
+    short currentItem;
+    const char **ppName;
+    int i;
+
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObject, GV_StrCode_80016CCC(aCbBox), 109, 0);
+
+    if (!pActor->field_20.objs)
+    {
+        return -1;
+    }
+
+    pActor->field_20.objs->objs[0].raise = 250;
+    GM_ConfigObjectRoot_80034C5C(pObject, pParent, 0);
+
+    currentItem = gGameState_800B4D98[GM_CurrentItem];
+    ppName = &off_8009F288[(currentItem - 2) * 2];
+    pActor->field_50_ppName = ppName;
+
+    for (i = 0; i < 2; i++)
+    {
+        EQ_ChangeTexture_80060CE4(off_8009F288[i], ppName[i]);
+    }
+
+    return 0;
+}
+
+Actor *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent)
 {
     Actor_Box *pActor = (Actor_Box *)GV_NewActor_800150E4(6, sizeof(Actor_Box));
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)BoxAct_80061A14,
                                   (TActorFunction)BoxDie_80061B30, aBoxC);
-        if (BoxGetResources_80061BA0(pActor, pObj) < 0)
+        if (BoxGetResources_80061BA0(pActor, pParent) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;
         }
         pActor->field_44_pCtrl = pCtrl;
-        pActor->field_48_pParent = pObj;
+        pActor->field_48_pParent = pParent;
     }
     return &pActor->field_0_actor;
 }

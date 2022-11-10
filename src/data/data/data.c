@@ -87,14 +87,14 @@ extern const char  aSnaArmer1[];
 extern const char  aSnaArmer2[];
 extern const char  aSnaArmer3[];
 extern const char  aSnaArmer4[];
-extern const char *aCbBox11[];
-extern const char *aCbBox12[];
-extern const char *aCbBox41[];
-extern const char *aCbBox42[];
-extern const char *aCbBox21[];
-extern const char *aCbBox22[];
-extern const char *aCbBox41[];
-extern const char *aCbBox42[];
+extern const char  aCbBox11[];
+extern const char  aCbBox12[];
+extern const char  aCbBox41[];
+extern const char  aCbBox42[];
+extern const char  aCbBox21[];
+extern const char  aCbBox22[];
+extern const char  aCbBox41[];
+extern const char  aCbBox42[];
 extern const char  aSnaFace[];
 extern const char  aSnaFace2[];
 extern const char  aSnaFace3[];
@@ -759,8 +759,8 @@ const char *SECTION(".data") off_8009F264[4] = {aSnaChest1, aSnaChest2, aSnaChes
 const char *SECTION(".data") off_8009F274[4] = {aSnaArmer1, aSnaArmer2, aSnaArmer3, aSnaArmer4};
 
 int SECTION(".data") dword_8009F284 = 0;
-int SECTION(".data") off_8009F288[] = {(int)aCbBox11, (int)aCbBox12, (int)aCbBox41, (int)aCbBox42,
-                                       (int)aCbBox21, (int)aCbBox22, (int)aCbBox41, (int)aCbBox42};
+
+const char *SECTION(".data") off_8009F288[8] = {aCbBox11, aCbBox12, aCbBox41, aCbBox42, aCbBox21, aCbBox22, aCbBox41, aCbBox42};
 
 // TODO: Ditto const stuff
 const char *SECTION(".data") off_8009F2A8[3] = {aSnaFace, aSnaFace2, aSnaFace3};

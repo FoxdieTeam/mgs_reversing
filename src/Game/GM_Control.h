@@ -5,6 +5,8 @@
 #include <LIBGTE.H>
 //#include "map/map.h"
 
+#include "libgv/libgv.h"
+
 typedef struct Res_Control_unknown
 {
     short   field_0_scriptData_orHashedName;
@@ -79,7 +81,7 @@ typedef struct GM_Control
     SVECTOR       field_4C_turn_vec;
     char          field_54;
     unsigned char field_55_flags; // CONTROL_FLAG_...
-    char          field_56;
+    signed char   field_56;
     signed char   field_57;
 
     // Appears to indicate proximity to a wall, where 1 is close and 0 is far.
@@ -87,7 +89,7 @@ typedef struct GM_Control
     signed char    field_58;
     char           field_59;
     char           field_5A[2];
-    struct GV_MSG *field_5C_mesg;
+    GV_MSG        *field_5C_mesg;
 
     // The first of these two vectors is heavily used in collision detection.
     SVECTOR  field_60_vecs_ary[2];
