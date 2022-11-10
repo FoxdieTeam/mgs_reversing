@@ -1,4 +1,5 @@
 #include "rifle.h"
+#include "unknown.h"
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -8,11 +9,65 @@
 extern char      aRifle_0[]; // = "rifle"
 extern GM_Camera GM_Camera_800B77E8;
 
-#pragma INCLUDE_ASM("asm/Weapon/rifle_act_helper_80067BFC.s") // 356 bytes
+extern int              GM_GameStatus_800AB3CC;
+extern GM_Control      *gSnaControl_800AB9F4;
+extern DG_CHNL          DG_Chanls_800B1800[3];
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern OBJECT          *dword_800ABA20;
+SVECTOR                 dword_8009F41C[2];
+
+int rifle_act_helper_80067BFC(void)
+{
+    DG_CHNL *pChnl;
+    MATRIX *pMtx;
+    MATRIX mtx;
+    SVECTOR vec[2];
+    int var_s2;
+    int length;
+
+    if ((GM_GameStatus_800AB3CC < 0) || !gSnaControl_800AB9F4)
+    {
+        pChnl = &DG_Chanls_800B1800[1];
+        pMtx = &pChnl->field_30_matrix;
+    }
+    else
+    {
+        pMtx = &mtx;
+        mtx = dword_800ABA20->objs->world;
+        mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
+        mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
+        mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
+    }
+
+    DG_SetPos_8001BC44(pMtx);
+    DG_PutVector_8001BE48(dword_8009F41C, vec, 2);
+
+    var_s2 = 0;
+
+    if (sub_80028454(gSnaControl_800AB9F4->field_2C_map->field_8_hzd, &vec[0], &vec[1], 15, 4))
+    {
+        sub_80028890(&vec[1]);
+        var_s2 = 1;
+    }
+
+    length = 3000;
+
+    if (var_s2)
+    {
+        GV_SubVec3_80016D40(&vec[1], &vec[0], &vec[0]);
+        length = GV_VecLen3_80016D80(&vec[0]);
+    }
+
+    if (length < 1000)
+    {
+        length = 320;
+    }
+
+    return length;
+}
 
 Actor * bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
 void *  NewRifleSight_8006989C(short);
-int     rifle_act_helper_80067BFC();
 
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GM_CurrentMap_800AB9B0;
