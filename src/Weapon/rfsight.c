@@ -1,7 +1,109 @@
 #include "linker.h"
 #include "rfsight.h"
+#include "chara/snake/sna_init.h"
 
 // PSG1 first person HUD
+
+extern int GM_PlayerStatus_800ABA50;
+extern int GV_PauseLevel_800AB928;
+
+void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, short sens, short max)
+{
+    unsigned short status;
+
+    if (a1 < 10)
+    {
+        return;
+    }
+
+    status = pPad->status;
+    GM_CheckShukanReverse_8004FBF8(&status);
+
+    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    {
+        status = 0;
+    }
+
+    if (dir & 1)
+    {
+        if (status & (PAD_LEFT | PAD_RIGHT))
+        {
+            if (status & PAD_RIGHT)
+            {
+                if (!(dir & 4))
+                {
+                    if (pAxis->vx < max)
+                    {
+                        pAxis->vx += sens;
+                    }
+                }
+                else if (pAxis->vx > -max)
+                {
+                    pAxis->vx -= sens;
+                }
+            }
+            else if (!(dir & 4))
+            {
+                if (pAxis->vx > -max)
+                {
+                    pAxis->vx -= sens;
+                }
+            }
+            else if (pAxis->vx < max)
+            {
+                pAxis->vx += sens;
+            }
+        }
+        else if (pAxis->vx > 0)
+        {
+            pAxis->vx -= sens;
+        }
+        else if (pAxis->vx < 0)
+        {
+            pAxis->vx += sens;
+        }
+    }
+
+    if (dir & 2)
+    {
+        if (status & (PAD_DOWN | PAD_UP))
+        {
+            if (status & PAD_DOWN)
+            {
+                if (!(dir & 4))
+                {
+                    if (pAxis->vy < max)
+                    {
+                        pAxis->vy += sens;
+                    }
+                }
+                else if (pAxis->vy > -max)
+                {
+                    pAxis->vy -= sens;
+                }
+            }
+            else if (!(dir & 4))
+            {
+                if (pAxis->vy > -max)
+                {
+                    pAxis->vy -= sens;
+                }
+            }
+            else if (pAxis->vy < max)
+            {
+                pAxis->vy += sens;
+            }
+        }
+        else if (pAxis->vy > 0)
+        {
+            pAxis->vy -= sens;
+        }
+        else if (pAxis->vy < 0)
+        {
+            pAxis->vy += sens;
+        }
+    }
+}
 
 extern int dword_8009F604;
 
@@ -30,14 +132,14 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
     {
         for (i = 0; i < 3; i++)
         {
-            pActor->field_20[i * 2] = pActor->field_20[i * 2 + 1] = 0;
+            pActor->field_20[i].vx = pActor->field_20[i].vy = 0;
         }
 
         pActor->field_28 = 0;
 
         pfn = pActor->field_2c_pfn;
-        pfn(42902, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, &pActor->field_20[0]);
-        pfn(42904, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, &pActor->field_20[2]);
+        pfn(42902, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, (short *)&pActor->field_20[0]);
+        pfn(42904, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, (short *)&pActor->field_20[1]);
         pfn(42903, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, 0);
     }
     else
@@ -46,7 +148,7 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
         pActor->field_28 = f28 + 1;
 
         rfsight_act_helper_80069478(f28, pPad, &pActor->field_20[0], 3, 1, 8);
-        rfsight_act_helper_80069478(f28, pPad, &pActor->field_20[2], 3, 1, 8);
+        rfsight_act_helper_80069478(f28, pPad, &pActor->field_20[1], 3, 1, 8);
     }
 }
 
@@ -56,17 +158,17 @@ void rfsight_kill_80069850(Actor_Rfsight *pActor)
     pActor->field_24 = 0;
 }
 
-extern short word_800BDD18[6];
+extern DVECTOR dvector_800BDD18[3];
 
 int rfsight_init_helper_8006985C(Actor_Rfsight *pActor)
 {
     int i;
 
-    pActor->field_20 = word_800BDD18;
+    pActor->field_20 = dvector_800BDD18;
 
     for (i = 0; i < 3; i++)
     {
-        pActor->field_20[i * 2] = pActor->field_20[i * 2 + 1] = 0;
+        pActor->field_20[i].vx = pActor->field_20[i].vy = 0;
     }
 
     pActor->field_28 = 0;
