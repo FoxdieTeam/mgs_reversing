@@ -220,7 +220,7 @@ short BSS word_800BDCC0; // 0x4 (4) bytes - padded
 
 gap gap_800BDCC4[0x54]; // 84 bytes
 
-short BSS word_800BDD18[6]; // 0xC (12) bytes
+DVECTOR BSS dvector_800BDD18[3]; // 0xC (12) bytes
 
 gap gap_800BDD24[0xC]; // 12 bytes
 
