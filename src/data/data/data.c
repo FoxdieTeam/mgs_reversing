@@ -795,8 +795,7 @@ int        SECTION(".data") dword_8009F3FC[] = {0x200000, 0x20, 0x1180000, 0x50}
 char       SECTION(".data") byte_8009F40C[] = {0, 2, 127, 4, 0};
 char       SECTION(".data") byte_8009F414[] = {145, 4, 75, 10, 0};
 
-SVECTOR    SECTION(".data") dword_8009F41C = {0, 0, 0, 0};
-int        SECTION(".data") dword_8009F424[] = {0, 0xBB8};
+SVECTOR    SECTION(".data") dword_8009F41C[2] = {{0, 0, 0, 0}, {0, 0, 3000, 0}};
 int        SECTION(".data") used_counter_8009F42C = 0;
 int        SECTION(".data") dword_8009F430 = 0;
 int        SECTION(".data") dword_8009F434 = 0;

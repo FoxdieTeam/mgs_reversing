@@ -21,6 +21,8 @@ typedef struct _Actor_Rifle
 
 STATIC_ASSERT_SIZE(Actor_Rifle, 0x60);
 
+int rifle_act_helper_80067BFC(void);
+
 void rifle_act_80067D60(Actor_Rifle *pActor);
 void rifle_kill_80068118(Actor_Rifle *pActor);
 
