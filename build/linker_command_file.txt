@@ -697,9 +697,7 @@
     ; 800692D0 800693E0
     include "..\obj\Weapon\stnsight.obj"
 
-    ; rfsight.c
     ; 80069478 800696CC 80069850 8006985C 8006989C 80069920
-    include "..\obj\Weapon\rfsight_act_helper_80069478.obj"
     include "..\obj\Weapon\rfsight.obj"
 
     ; 800699A4 80069DBC 80069E28 80069E64 8006A010 8006A100 8006A128
