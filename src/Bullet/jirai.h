@@ -49,10 +49,10 @@ typedef struct Actor_Jirai
 
 typedef struct Jirai_unknown
 {
-    int          field_0_ypos; // might be a short
-    Actor_Jirai *field_4_pActor;
-    GM_Control  *field_8_pCtrl;
-    GM_Target   *field_C_pTarget;
+    int         field_0_ypos; // might be a short
+    Actor      *field_4_pActor;
+    GM_Control *field_8_pCtrl;
+    GM_Target  *field_C_pTarget;
 } Jirai_unknown;
 
 int          jirai_act_8006AB5C(Actor_Jirai *pActor);

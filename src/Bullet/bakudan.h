@@ -13,18 +13,10 @@
 
 typedef struct Actor_bakudan
 {
-    Actor           field_0;
+    Actor           field_0_actor;
     GM_Control      field_20_ctrl;
     OBJECT          field_9C_kmd;
-    MATRIX          field_C0_light_mtx;
-    int             field_E0;
-    int             field_E4;
-    int             field_E8;
-    int             field_EC;
-    int             field_F0;
-    int             field_F4;
-    int             field_F8;
-    int             field_FC;
+    MATRIX          field_C0_light_mtx[2];
     MATRIX         *field_100_pMtx;
     SVECTOR        *field_104;
     int             field_108;
@@ -37,6 +29,7 @@ typedef struct Actor_bakudan
 Actor *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, GM_Target *pTarget);
 void   bakudan_act_8006A218(Actor_bakudan *pActor);
 void   bakudan_kill_8006A4A4(Actor_bakudan *pActor);
-int    bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMatrix, SVECTOR *pVec, int a4, GM_Target *pTarget);
+int    bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4, GM_Target *pTarget);
+int    bakudan_next_free_item_8006A510(void);
 
 #endif // _BAKUDAN_H_
