@@ -72,7 +72,7 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
     if (pActor->field_13C_idx >= 0)
     {
         GM_ClearBulName_8004FBE4(pActor->field_20_ctrl.field_30_scriptData);
-        stru_800BDE78[pActor->field_13C_idx].field_4_pActor = 0;
+        stru_800BDE78[pActor->field_13C_idx].field_4_pActor = NULL;
         counter_8009F448 = counter_8009F448 - 1;
     }
 
@@ -204,7 +204,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     }
 
     pUnknown = &stru_800BDE78[pActor->field_13C_idx];
-    pUnknown->field_4_pActor = pActor;
+    pUnknown->field_4_pActor = &pActor->field_0_actor;
     pUnknown->field_8_pCtrl = pCtrl;
     pUnknown->field_C_pTarget = pTarget;
 
