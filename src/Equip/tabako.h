@@ -8,21 +8,20 @@
 
 // cigarettes
 
-typedef struct Actor_tabako
+typedef struct _Actor_tabako
 {
-    Actor          field_0;
-    OBJECT_NO_ROTS field_20_pObj;
-    GM_Control    *field_44_pCtrl;
-    OBJECT        *field_48_pObj;
-    int            field_4C_unknown;
-    DG_PRIM       *field_50_prims;
-    SVECTOR        field_54_vec;
-    RECT           field_5C_unknown;
-    // short field_5E;
-    // short field_60_unknown;
-    // short field_62;
+    Actor       field_0_actor;
+    OBJECT      field_20_obj;
+    GM_Control *field_44_pCtrl;
+    OBJECT     *field_48_pParent;
+    int         field_4C_numParent;
+    DG_PRIM    *field_50_pPrims;
+    SVECTOR     field_54_vec;
+    RECT        field_5C_rect;
 } Actor_tabako;
 
-int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3);
+void tabako_act_80061EAC(Actor_tabako *pActor);
+void tabako_kill_8006206C(Actor_tabako *pActor);
+int  tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent);
 
 #endif // _TABAKO_H_
