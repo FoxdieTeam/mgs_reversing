@@ -654,11 +654,8 @@
     ; 80062E8C 8006317C 80063238 80063274 800632D4 80063368 800633D4 80063508
     include "..\obj\Equip\scope.obj"
 
-
-    include "..\obj\Equip\gmsight_act_800635BC.obj"
-    include "..\obj\Equip\gmsight_kill_80063644.obj"
-    include "..\obj\Equip\gmsight_loader_80063650.obj"
-    include "..\obj\Equip\NewGasmaskSight_80063668.obj"
+    ; 800635BC 80063644 80063650 80063668
+    include "..\obj\Equip\gmsight.obj"
 
     ; 80063704 80063888 800638B4 8006392C 80063988 800639E8 80063B94 80063C10 80063CD0 80063DDC
     ; 80063EB0 80064054 800641C0 80064378 80064454 80064588 800649F4 80064A94 80064C50 80065008

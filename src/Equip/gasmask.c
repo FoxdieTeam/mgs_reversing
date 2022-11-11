@@ -7,12 +7,10 @@
 extern const char aGasmaskC[];
 extern const char aGasMask_DUP[];
 
-extern int           DG_CurrentGroupID_800AB968;
-extern int           dword_8009F46C;
+extern int       DG_CurrentGroupID_800AB968;
+extern int       dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
+extern short     gGameState_800B4D98[0x60];
 
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {
@@ -43,7 +41,7 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
         pActor->field_50_count = 0;
         if (pActor->field_54_gmsight)
         {
-            GV_DestroyOtherActor_800151D8(pActor->field_54_gmsight);
+            GV_DestroyOtherActor_800151D8(&pActor->field_54_gmsight->field_0_actor);
             pActor->field_54_gmsight = 0;
         }
     }
@@ -51,16 +49,14 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
 
 void gasmask_kill_80060B0C(Actor_gasmask *pActor)
 {
-    Actor *field_54_gmsight; // $a0
-
     GM_FreeObject_80034BF8(&pActor->field_20_obj);
     EQ_VisibleHead_80060DF0(pActor->field_48_pParent, &pActor->field_5A_head_saved_packs,
                             &pActor->field_5C_head_saved_raise);
 
-    field_54_gmsight = pActor->field_54_gmsight;
-    if (field_54_gmsight)
+
+    if (pActor->field_54_gmsight)
     {
-        GV_DestroyOtherActor_800151D8(field_54_gmsight);
+        GV_DestroyOtherActor_800151D8(&pActor->field_54_gmsight->field_0_actor);
     }
 }
 
