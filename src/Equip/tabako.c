@@ -12,19 +12,15 @@
 
 // cigarettes
 
-/* struct Actor        *GV_NewActor_800150E4(int level, int memSize); */
-
-extern const char aTabakoC[]; // = "tabako.c"
-extern const char aCigar[];   // = "cigar";
+extern const char aCigar[];   // = "cigar"
 extern const char aRcmL[];    // = "rcm_l";
+extern const char aTabakoC[]; // = "tabako.c"
 
-extern int GM_GameStatus_800AB3CC;
-extern int GV_Time_800AB330;
-extern int dword_8009F2C0;
-extern int GM_CurrentMap_800AB9B0;
-
+extern int   GM_GameStatus_800AB3CC;
+extern int   GV_Time_800AB330;
+extern int   dword_8009F2C0;
+extern int   GM_CurrentMap_800AB9B0;
 extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -36,27 +32,25 @@ static inline void GM_SetCurrentMap(map) int map;
 
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
+    OBJECT *pObject = &pActor->field_20_obj;
     SVECTOR vec;
     MATRIX  rotMtx;
-    OBJECT *obj;
-
-    obj = (OBJECT *)&pActor->field_20_pObj;
 
     GM_SetCurrentMap(pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
 
-    GM_ActObject2_80034B88(obj);
+    GM_ActObject2_80034B88(pObject);
 
-    if ((pActor->field_48_pObj->objs->flag & 0x80) != 0)
+    if ((pActor->field_48_pParent->objs->flag & 0x80) != 0)
     {
-        obj->objs->flag |= 0x80u;
-        pActor->field_50_prims->type |= 0x100u;
+        pObject->objs->flag |= 0x80u;
+        pActor->field_50_pPrims->type |= 0x100u;
     }
     else
     {
-        obj->objs->flag &= ~0x80u;
-        pActor->field_50_prims->type &= ~0x100u;
+        pObject->objs->flag &= ~0x80u;
+        pActor->field_50_pPrims->type &= ~0x100u;
 
-        DG_SetPos_8001BC44(&pActor->field_50_prims->world);
+        DG_SetPos_8001BC44(&pActor->field_50_pPrims->world);
         DG_MovePos_8001BD20(&pActor->field_54_vec);
 
         ReadRotMatrix_80092DD8(&rotMtx);
@@ -72,7 +66,7 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
     }
 
     // Snake, smoking is bad for your health!
-    if ((GV_Time_800AB330 & 63) == 0 && gGameState_800B4D98[GM_CurrentHealth] >= 2)
+    if (!(GV_Time_800AB330 & 63) && gGameState_800B4D98[GM_CurrentHealth] >= 2)
     {
         gGameState_800B4D98[GM_CurrentHealth]--;
         GM_GameStatus_800AB3CC |= 0x2000000u;
@@ -81,142 +75,110 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
 
 void tabako_kill_8006206C(Actor_tabako *pActor)
 {
-    void *prims;
+    DG_PRIM *pPrims;
 
-    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_pObj);
-    prims = pActor->field_50_prims;
-    if (prims)
+    GM_FreeObject_80034BF8(&pActor->field_20_obj);
+
+    pPrims = pActor->field_50_pPrims;
+
+    if (pPrims)
     {
-        DG_DequeuePrim_800182E0(prims);
-        DG_FreePrim_8001BC04(prims);
+        DG_DequeuePrim_800182E0((DG_OBJS *)pPrims);
+        DG_FreePrim_8001BC04((DG_OBJS *)pPrims);
     }
 }
 
-/*
-static inline void DG_SetPacketTexture4(POLY_FT4 *prims, DG_TEX *tex)
+int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
 {
-    char t_u0; // $a1
-    char t_v0; // $v1
-    char t_u1; // $a0
-    char t_v2; // $v1
+    OBJECT *pObject = &pActor->field_20_obj;
+    RECT *pRect;
+    DG_PRIM *pPrim;
+    DG_TEX *pTex;
+    int i;
+    POLY_FT4 *pPoly;
+    int u0, v0, u1, v1;
 
-    t_u0 = tex->field_8_offx;
-    t_u1 = t_u0 + tex->field_A_width;
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObject, GV_StrCode_80016CCC(aCigar), 109, 0);
 
-    t_v0 = tex->field_9_offy;
-    t_v2 = t_v0 + tex->field_B_height;
-
-    prims->u0 = t_u0;
-    prims->v0 = t_v0;
-
-    prims->u1 = t_u1;
-    prims->v1 = t_v0;
-
-    prims->u2 = t_u0;
-    prims->v2 = t_v2;
-
-    prims->u3 = t_u1;
-    prims->v3 = t_v2;
-
-    prims->tpage = tex->field_4_tPage;
-    prims->clut = tex->field_6_clut;
-}
-
-static inline DG_PRIM *test(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect)
-{
-    DG_PRIM *pPrims = DG_MakePrim_8001BABC(type, prim_count, chanl, pVec, pRect);
-    if (pPrims) // beqz		$s0, 0xc0
-    {
-        DG_QueuePrim_80018274((DG_OBJS *)pPrims);
-        // sh		$v0, 0x28($s0)
-        DG_GroupPrim(pPrims, GM_CurrentMap_800AB9B0);
-        // missing: move    $v0, $s0
-    }
-    return pPrims;
-}
-
-int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pObj, int a3)
-{
-    DG_PRIM *pPrims;  // $v0
-    DG_PRIM *_pPrims; // $v0
-
-    DG_TEX *Texture_8001D830; // $a3
-    int pack_idx;             // $t1
-    DG_PRIM *pPrimIter;       // $t0
-    int ret;
-
-    GM_InitObjectNoRots_800349B0(&pActor->field_20_pObj, GV_StrCode_80016CCC(aCigar), WEAPON_FLAG, 0);
-    if (!pActor->field_20_pObj.objs)
+    if (!pObject->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C(&pActor->field_20_pObj, pObj, a3);
+    GM_ConfigObjectRoot_80034C5C(pObject, pParent, numParent);
 
+    pRect = &pActor->field_5C_rect;
+    pRect->x = pRect->y = 6;
+    pRect->w = pRect->h = 12;
+
+    pActor->field_50_pPrims = pPrim = DG_GetPrim(1042, 1, 0, &pActor->field_54_vec, pRect);
+
+    if (!pPrim)
     {
-        RECT *pRect;
-        pRect = &pActor->field_5C_unknown;
-        pRect->y = 6;
-        pRect->x = 6;
-        pRect->h = 12;
-        pRect->w = 12;
+        return -1;
     }
-
-    ret = 0;
-
-    pActor->field_50_prims = test(1042, 1, 0, &pActor->field_54_vec, &pActor->field_5C_unknown);
-    _pPrims = pActor->field_50_prims;
-    if (!pActor->field_50_prims) // bnez		$v0, 0xd0
-    {
-        ret = -1;
-        return ret;
-    }
-    pPrims = pActor->field_50_prims;
 
     pActor->field_54_vec.vx = 37;
     pActor->field_54_vec.vy = -55;
     pActor->field_54_vec.vz = 140;
 
-    pPrims->field_2E_k500 = 250;
+    pPrim->field_2E_k500 = 250;
+    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRcmL));
 
-    Texture_8001D830 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRcmL));
-    pack_idx = 0;
-    pPrimIter = _pPrims;
-    do
+    for (i = 0; i < 2; i++)
     {
-        union Prim_Union *prims = pPrimIter->field_40_pBuffers[0];
-        *(int *)&prims->poly_ft4.r0 = 0x808080; // 	sw		$t2, 4($v0)
-        setPolyFT4(&prims->poly_ft4);           // 7
-        setSemiTrans(&prims->poly_ft4, 1);      // 3 ?
-        DG_SetPacketTexture4(&prims->poly_ft4, Texture_8001D830);
-        pPrimIter = (DG_PRIM *)((char *)pPrimIter + 4);
-        pack_idx++;
-    } while (pack_idx < 2);
+        pPoly = &pPrim->field_40_pBuffers[i]->poly_ft4;
 
-    pActor->field_50_prims->root = pActor->field_20_pObj.objs->root;
-    return ret;
+        LSTORE(0x808080, &pPoly->r0);
+
+        setPolyFT4(pPoly);
+        setSemiTrans(pPoly, 1);
+
+        u0 = pTex->field_8_offx;
+        u1 = u0 + pTex->field_A_width;
+
+        v0 = pTex->field_9_offy;
+        v1 = v0 + pTex->field_B_height;
+
+        pPoly->u0 = u0;
+        pPoly->v0 = v0;
+
+        pPoly->u1 = u1;
+        pPoly->v1 = v0;
+
+        pPoly->u2 = u0;
+        pPoly->v2 = v1;
+
+        pPoly->u3 = u1;
+        pPoly->v3 = v1;
+
+        pPoly->tpage = pTex->field_4_tPage;
+        pPoly->clut = pTex->field_6_clut;
+    }
+
+    pActor->field_50_pPrims->root = pActor->field_20_obj.objs->root;
+    return 0;
 }
-*/
 
-#pragma INCLUDE_ASM("asm/Equip/tabako_loader_800620B4.s") // 448 bytes
-
-Actor_tabako *NewTabako_80062274(GM_Control *pCtrl, OBJECT *pObj, int a3)
+Actor_tabako * NewTabako_80062274(GM_Control *pCtrl, OBJECT *pParent, int numParent)
 {
-    Actor_tabako *pActor;
+    Actor_tabako *pActor = (Actor_tabako *)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
 
-    pActor = (Actor_tabako *)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
     if (pActor)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)tabako_act_80061EAC,
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)tabako_act_80061EAC,
                                   (TActorFunction)tabako_kill_8006206C, aTabakoC);
-        if (tabako_loader_800620B4(pActor, pObj, a3) < 0)
+
+        if (tabako_loader_800620B4(pActor, pParent, numParent) < 0)
         {
-            GV_DestroyActor_800151C8(&pActor->field_0);
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;
         }
+
         pActor->field_44_pCtrl = pCtrl;
-        pActor->field_48_pObj = pObj;
-        pActor->field_4C_unknown = a3;
+        pActor->field_48_pParent = pParent;
+        pActor->field_4C_numParent = numParent;
     }
+
     return pActor;
 }
