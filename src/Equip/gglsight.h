@@ -28,7 +28,12 @@ typedef struct Actor_gglsight
 } Actor_gglsight;
 
 Actor_gglsight *gglsight_init_80078520(int type);
-void            gglsight_act_80078228(Actor *);
+void            gglsight_act_80078228(Actor_gglsight *pActor);
 void            gglsight_loader2_80078444(Actor_gglsight *pActor);
+void            gglsight_act_helper_80078054(int, unsigned short, short *, int, int, int);
+void            gglsight_act_helper_80077A24(Actor_gglsight *pActor);
+void            gglsight_act_helper_80077F70(Actor_gglsight *pActor);
+void            gglsight_act_helper_80077C6C(Actor_gglsight *pActor);
+void            gglsight_act_helper_80077D24(Actor_gglsight *pActor);
 
 #endif // _GGLSIGHT_H
