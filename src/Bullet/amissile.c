@@ -61,7 +61,95 @@ void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
     DG_RotVector_8001BE98(&rotation, &pActor->field_140_svector_4Array[0], 1);
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/amissile_act_helper_8006D37C.s")    // 644 bytes
+extern SVECTOR    svector_8009F4A0;
+extern SVECTOR    svector_8009F4A8;
+extern SVECTOR    svector_8009F4B0;
+extern GM_Target *target_800BDF00;
+
+void amissile_act_helper_8006D37C(Actor_amissile *pActor)
+{
+    SVECTOR diff;
+    SVECTOR result;
+    SVECTOR *pTargetPos;
+    int dir;
+    int temp_v0;
+    int temp_s1;
+
+    if (pActor->field_120 < 5)
+    {
+        DG_RotVector_8001BE98(&svector_8009F4A8, &pActor->field_20_ctrl.field_44_movementVector, 1);
+        return;
+    }
+
+    if (pActor->field_120 < 14)
+    {
+        DG_RotVector_8001BE98(&svector_8009F4B0, &pActor->field_20_ctrl.field_44_movementVector, 1);
+        return;
+    }
+
+    if (--pActor->field_124 >= 0)
+    {
+        svector_8009F4A0.vz = 11;
+    }
+    else
+    {
+        svector_8009F4A0.vz = 0;
+    }
+
+    DG_RotVector_8001BE98(&svector_8009F4A0, &pActor->field_20_ctrl.field_44_movementVector, 1);
+
+    if (!target_800BDF00)
+    {
+        return;
+    }
+
+    pTargetPos = &target_800BDF00->field_8_vec;
+    diff.vx = pTargetPos->vx / 8 - pActor->field_20_ctrl.field_0_position.vx / 8;
+    diff.vy = pTargetPos->vy / 8 - pActor->field_20_ctrl.field_0_position.vy / 8;
+    diff.vz = pTargetPos->vz / 8 - pActor->field_20_ctrl.field_0_position.vz / 8;
+
+    dir = GV_VecDir2_80016EF8(&diff);
+    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn_vec.vy, dir);
+
+    if (abs(temp_v0) > 1024)
+    {
+        return;
+    }
+
+    temp_s1 = 30 - pActor->field_120 / 3;
+
+    if (abs(temp_v0) < temp_s1)
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vy += temp_v0;
+    }
+    else if (temp_v0 > 0)
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vy += temp_s1;
+    }
+    else
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vy -= temp_s1;
+    }
+
+    result.vx = diff.vy;
+    result.vz = SquareRoot0_80092708(diff.vx * diff.vx + diff.vz * diff.vz);
+
+    dir = -GV_VecDir2_80016EF8(&result);
+    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn_vec.vx, (dir - 1024) & 4095);
+
+    if (abs(temp_v0) < temp_s1)
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vx += temp_v0;
+    }
+    else if (temp_v0 > 0)
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vx += temp_s1;
+    }
+    else
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vx -= temp_s1;
+    }
+}
 
 int amissile_act_helper_8006D600(void)
 {
@@ -100,7 +188,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     pActor->field_134_prim->world.t[1] = pActor->field_20_ctrl.field_0_position.vy;
     pActor->field_134_prim->world.t[2] = pActor->field_20_ctrl.field_0_position.vz;
 
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, &pActor->field_C0_matrix);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, pActor->field_C0_light_matrix);
 
     if (pActor->field_120 >= 15)
     {
@@ -113,15 +201,15 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     if (pActor->field_120 == 0)
     {
         pActor->field_134_prim->type &= ~0x100;
-        ReadRotMatrix_80092DD8(&pActor->field_100_matrix);
-        anime_create_8005DE70(&pActor->field_100_matrix);
+        ReadRotMatrix_80092DD8(&pActor->field_100_rotation_matrix);
+        anime_create_8005DE70(&pActor->field_100_rotation_matrix);
         pActor->field_128 = 4;
     }
 
     if (pActor->field_120 == 14)
     {
-        ReadRotMatrix_80092DD8(&pActor->field_100_matrix);
-        anime_create_8005DE70(&pActor->field_100_matrix);
+        ReadRotMatrix_80092DD8(&pActor->field_100_rotation_matrix);
+        anime_create_8005DE70(&pActor->field_100_rotation_matrix);
         GM_Sound_80032968(0, 63, 77);
         pActor->field_138_rect.x = pActor->field_138_rect.y = 1030;
         pActor->field_138_rect.w = pActor->field_138_rect.h = 2060;
@@ -186,8 +274,6 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     GV_DestroyActor_800151C8(&pActor->field_0_actor);
 }
 
-extern GM_Target *target_800BDF00;
-
 void amissile_kill_8006D99C(Actor_amissile *pActor)
 {
     DG_OBJS *pPrim;
@@ -247,7 +333,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     }
 
     pObjs->world = *pMtx;
-    GM_ConfigObjectLight_80034C44(pKmd, &pActor->field_C0_matrix);
+    GM_ConfigObjectLight_80034C44(pKmd, pActor->field_C0_light_matrix);
 
     pKmd->objs->objs[0].raise = -500;
 
