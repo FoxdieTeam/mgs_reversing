@@ -1,6 +1,9 @@
 #include "gglsight.h"
 #include "Game/GM_Control.h"
+#include "Game/game.h"
 #include "Menu/menuman.h"
+#include "Thing/sight.h"
+#include "chara/snake/sna_init.h"
 #include "psyq.h"
 
 // night vision goggles / thermal goggles first person
@@ -101,7 +104,60 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80078054.s") // 468 bytes
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_80078228.s")        // 464 bytes
+
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern GV_PAD           GV_PadData_800B05C0[4];
+extern int              dword_8009F604;
+
+void gglsight_act_80078228(Actor_gglsight *pActor)
+{
+    short *ptr = word_8009F714;
+    int type = pActor->field_20_type;
+    int f24 = pActor->field_24;
+    unsigned short status;
+    int f3c;
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2)
+    {
+        status = GV_PadData_800B05C0[1].status;
+    }
+    else
+    {
+        status = GV_PadData_800B05C0[0].status;
+    }
+
+    GM_CheckShukanReverse_8004FBF8(&status);
+
+    ptr[0] = 1;
+
+    if (type == 5 && dword_8009F604 != f24)
+    {
+        NewSight_80071CDC(0x8504, f24, ptr, 1, 0);
+        NewSight_80071CDC(0x8505, f24, ptr, 1, &pActor->field_2C_8Array[2]);
+        NewSight_80071CDC(0x8506, f24, ptr, 1, &pActor->field_2C_8Array[4]);
+    }
+    else if (dword_8009F604 != f24)
+    {
+        NewSight_80071CDC(0x84db, f24, ptr, 1, 0);
+        NewSight_80071CDC(0x84dc, f24, ptr, 1, &pActor->field_2C_8Array[2]);
+        NewSight_80071CDC(0x84dd, f24, ptr, 1, &pActor->field_2C_8Array[4]);
+    }
+
+    f3c = pActor->field_3C++;
+
+    if (!(GM_PlayerStatus_800ABA50 & 8))
+    {
+        status &= 0xafff;
+    }
+
+    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_8Array[2], 3, 2, 20);
+    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_8Array[4], 5, 1, 12);
+    gglsight_act_helper_80077A24(pActor);
+    gglsight_act_helper_80077F70(pActor);
+    gglsight_act_helper_80077C6C(pActor);
+    gglsight_act_helper_80077D24(pActor);
+}
+
 
 void gglsight_kill_800783F8(Actor *pActor)
 {
@@ -124,7 +180,7 @@ void gglsight_loader1_80078404(Actor_gglsight *pActor)
 void gglsight_loader2_80078444(Actor_gglsight *actor)
 {
     int pos, count;
-    
+
     DR_TPAGE *tpage;
     LINE_F2  *line;
     POLY_F4  *poly;
@@ -133,7 +189,7 @@ void gglsight_loader2_80078444(Actor_gglsight *actor)
     line = &actor->field_280_lineF2[0];
     poly = &actor->field_2E0_polyF4[0];
     pos = 40;
-    
+
     for (count = 0; count < 6; count++) {
         if (count == 3) pos = 40;
 
@@ -143,7 +199,7 @@ void gglsight_loader2_80078444(Actor_gglsight *actor)
         setSemiTrans(line, 1);
         line->x0 = pos + 3;
         line->x1 = pos + 6;
-        
+
         *(int *)&poly->r0 = actor->field_28_rgb;
 
         setPolyF4(poly);
@@ -176,7 +232,8 @@ Actor_gglsight *gglsight_init_80078520(int type)
 
     if (actor)
     {
-        GV_SetNamedActor_8001514C(&actor->field_0_actor, gglsight_act_80078228, gglsight_kill_800783F8, aGglsightC);
+        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)gglsight_act_80078228,
+                                  (TActorFunction)gglsight_kill_800783F8, aGglsightC);
 
         actor->field_20_type = type;
 
