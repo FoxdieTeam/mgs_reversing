@@ -5,15 +5,16 @@ int SECTION(".sbss") gTargets_down_count_800ABA68;
 
 int SECTION(".sbss") gTargets_up_count_800ABA6C;
 
-int SECTION(".sbss") dword_800ABA70;
-int SECTION(".sbss") dword_800ABA74;
-int SECTION(".sbss") dword_800ABA78;
-int SECTION(".sbss") dword_800ABA7C;
-int SECTION(".sbss") dword_800ABA80;
-int SECTION(".sbss") dword_800ABA84;
+int     SECTION(".sbss") dword_800ABA70;
+int     SECTION(".sbss") dword_800ABA74;
+int     SECTION(".sbss") dword_800ABA78;
+int     SECTION(".sbss") dword_800ABA7C;
+short   SECTION(".sbss") word_800ABA80;
+short   SECTION(".sbss") word_800ABA82;
+int     SECTION(".sbss") dword_800ABA84;
 SVECTOR SECTION(".sbss") svec_800ABA88;
-int SECTION(".sbss") dword_800ABA90;
-int SECTION(".sbss") dword_800ABA94;
+int     SECTION(".sbss") dword_800ABA90;
+int     SECTION(".sbss") dword_800ABA94;
 
 int SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
 int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
