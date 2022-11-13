@@ -253,12 +253,105 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80078054.s") // 468 bytes
-
+extern int              GV_PauseLevel_800AB928;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern GV_PAD           GV_PadData_800B05C0[4];
-extern int              dword_8009F604;
-extern short            word_8009F714[];
+
+void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis, int dir, short sens, short max)
+{
+    if (a1 < 10)
+    {
+        return;
+    }
+
+    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    {
+        status = 0;
+    }
+
+    if (dir & 1)
+    {
+        if (status & (PAD_LEFT | PAD_RIGHT))
+        {
+            if (status & PAD_RIGHT)
+            {
+                if (!(dir & 4))
+                {
+                    if (pAxis->vx < max)
+                    {
+                        pAxis->vx += sens;
+                    }
+                }
+                else if (pAxis->vx > -max)
+                {
+                    pAxis->vx -= sens;
+                }
+            }
+            else if (!(dir & 4))
+            {
+                if (pAxis->vx > -max)
+                {
+                    pAxis->vx -= sens;
+                }
+            }
+            else if (pAxis->vx < max)
+            {
+                pAxis->vx += sens;
+            }
+        }
+        else if (pAxis->vx > 0)
+        {
+            pAxis->vx -= sens;
+        }
+        else if (pAxis->vx < 0)
+        {
+            pAxis->vx += sens;
+        }
+    }
+
+    if (dir & 2)
+    {
+        if (status & (PAD_DOWN | PAD_UP))
+        {
+            if (status & PAD_DOWN)
+            {
+                if (!(dir & 4))
+                {
+                    if (pAxis->vy < max)
+                    {
+                        pAxis->vy += sens;
+                    }
+                }
+                else if (pAxis->vy > -max)
+                {
+                    pAxis->vy -= sens;
+                }
+            }
+            else if (dir & 4)
+            {
+                if (pAxis->vy < max)
+                {
+                    pAxis->vy += sens;
+                }
+            }
+            else if (pAxis->vy > -max)
+            {
+                pAxis->vy -= sens;
+            }
+        }
+        else if (pAxis->vy > 0)
+        {
+            pAxis->vy -= sens;
+        }
+        else if (pAxis->vy < 0)
+        {
+            pAxis->vy += sens;
+        }
+    }
+}
+
+extern GV_PAD GV_PadData_800B05C0[4];
+extern int    dword_8009F604;
+extern short  word_8009F714[];
 
 void gglsight_act_80078228(Actor_gglsight *pActor)
 {
@@ -284,14 +377,14 @@ void gglsight_act_80078228(Actor_gglsight *pActor)
     if (type == 5 && dword_8009F604 != f24)
     {
         NewSight_80071CDC(0x8504, f24, ptr, 1, 0);
-        NewSight_80071CDC(0x8505, f24, ptr, 1, &pActor->field_2C_8Array[2]);
-        NewSight_80071CDC(0x8506, f24, ptr, 1, &pActor->field_2C_8Array[4]);
+        NewSight_80071CDC(0x8505, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
+        NewSight_80071CDC(0x8506, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
     }
     else if (dword_8009F604 != f24)
     {
         NewSight_80071CDC(0x84db, f24, ptr, 1, 0);
-        NewSight_80071CDC(0x84dc, f24, ptr, 1, &pActor->field_2C_8Array[2]);
-        NewSight_80071CDC(0x84dd, f24, ptr, 1, &pActor->field_2C_8Array[4]);
+        NewSight_80071CDC(0x84dc, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
+        NewSight_80071CDC(0x84dd, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
     }
 
     f3c = pActor->field_3C++;
@@ -301,8 +394,8 @@ void gglsight_act_80078228(Actor_gglsight *pActor)
         status &= 0xafff;
     }
 
-    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_8Array[2], 3, 2, 20);
-    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_8Array[4], 5, 1, 12);
+    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_4Array[1], 3, 2, 20);
+    gglsight_act_helper_80078054(f3c, status, &pActor->field_2C_4Array[2], 5, 1, 12);
     gglsight_act_helper_80077A24(pActor);
     gglsight_act_helper_80077F70(pActor);
     gglsight_act_helper_80077C6C(pActor);
