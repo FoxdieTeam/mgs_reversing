@@ -134,7 +134,71 @@ void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077D24.s") // 588 bytes
+void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
+{
+    LINE_F2 *pLine;
+    POLY_F4 *pPoly;
+    DR_TPAGE *pTpage;
+    DG_CHNL *pChnl;
+    unsigned char *pOt;
+    int y, y2;
+
+    if (pActor->field_3C < 6)
+    {
+        return;
+    }
+
+    pLine = pActor->field_280_lineF2[GV_Clock_800AB920];
+    pPoly = pActor->field_2E0_polyF4[GV_Clock_800AB920];
+    pTpage = &pActor->field_370_dr_tpage[GV_Clock_800AB920];
+
+    pChnl = &DG_Chanls_800B1800[1];
+    pOt = pChnl[1].mOrderingTables[GV_Clock_800AB920];
+
+    y = gSnaControl_800AB9F4->field_8_rotator.vy & 4095;
+    y2 = ((y + 1024) & 2047) >> 5;
+
+    if (y2 < 32)
+    {
+        y2 = 64 - y2;
+    }
+
+    pPoly->y0 = pPoly->y1 = pLine->y0 = pLine->y1 = 140 - y2;
+
+    addPrim(pOt, pLine);
+    addPrim(pOt, pPoly);
+
+    pLine++;
+    pPoly++;
+
+    y2 = (unsigned int)y >> 6;
+
+    if (y2 < 32)
+    {
+        y2 = 64 - y2;
+    }
+
+    pPoly->y0 = pPoly->y1 = pLine->y0 = pLine->y1 = 140 - y2;
+
+    addPrim(pOt, pLine);
+    addPrim(pOt, pPoly);
+
+    pLine++;
+    pPoly++;
+
+    y2 = ((y - 1024) & 1023) >> 4;
+
+    if (y2 < 32)
+    {
+        y2 = 64 - y2;
+    }
+
+    pPoly->y0 = pPoly->y1 = pLine->y0 = pLine->y1 = 140 - y2;
+
+    addPrim(pOt, pLine);
+    addPrim(pOt, pPoly);
+    addPrim(pOt, pTpage);
+}
 
 extern const char aScan[];
 extern const char aModeB[];
@@ -273,8 +337,8 @@ void gglsight_loader2_80078444(Actor_gglsight *actor)
     POLY_F4  *poly;
 
     tpage = actor->field_370_dr_tpage;
-    line = &actor->field_280_lineF2[0];
-    poly = &actor->field_2E0_polyF4[0];
+    line = actor->field_280_lineF2[0];
+    poly = actor->field_2E0_polyF4[0];
     pos = 40;
 
     for (count = 0; count < 6; count++) {
