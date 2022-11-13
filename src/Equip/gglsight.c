@@ -8,14 +8,100 @@
 
 // night vision goggles / thermal goggles first person
 
-extern short word_8009F714[];
+extern int         GV_Clock_800AB920;
+extern DG_CHNL     DG_Chanls_800B1800[3];
+extern GM_Control *gSnaControl_800AB9F4;
 
-#pragma INCLUDE_ASM("asm/Equip/gglsight_act_helper_80077A24.s") // 584 bytes
+extern const char a02d[]; // = "%02d"
+
+void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
+{
+    int r, g, b;
+    TILE_1 *pTile;
+    DG_CHNL *pChnl;
+    unsigned char *pOt;
+
+    short a1;
+    short a2;
+    short a3;
+    short a4;
+
+    short var_s0;
+    short var_s1;
+    short x;
+
+    if (pActor->field_3C < 6)
+    {
+        return;
+    }
+
+    pTile = pActor->field_40_tile1[GV_Clock_800AB920];
+
+    pChnl = &DG_Chanls_800B1800[1];
+    pOt = pChnl[1].mOrderingTables[GV_Clock_800AB920];
+
+    menu_Text_XY_Flags_80038B34(0, 0, 0x122);
+
+    if (pActor->field_20_type == 5)
+    {
+        r = 255;
+        g = 0;
+        b = 0;
+    }
+    else
+    {
+        r = 65;
+        g = 160;
+        b = 74;
+    }
+
+    menu_Color_80038B4C(r, g, b);
+
+    a1 = gSnaControl_800AB9F4->field_8_rotator.vy & 0xfff;
+    a2 = a1 / 64;
+    a3 = a1 % 64;
+    a4 = ((a3 * 24) / 64) + 160;
+    x = a4 - ((a4 / 24) * 24);
+    var_s1 = a2 + (a4 / 24);
+
+    while (x < 300)
+    {
+        if (x >= 20)
+        {
+            var_s0 = var_s1 - 64;
+
+            if (var_s1 < 65)
+            {
+                if (var_s1 < 0)
+                {
+                    var_s0 = -var_s1;
+                }
+                else
+                {
+                    var_s0 = var_s1;
+
+                    if (var_s1 > 32)
+                    {
+                        var_s0 = 64 - var_s1;
+                    }
+                }
+            }
+
+            menu_Text_XY_Flags_80038B34(x, 148, 0x122);
+            menu_Text_80038C38(a02d, var_s0);
+
+            pTile->x0 = x;
+            addPrim(pOt, pTile);
+            pTile++;
+        }
+
+        x += 24;
+        var_s1--;
+    }
+}
 
 extern const char aLd[];        // = "%ld\n"
 extern const char aGglsightC[]; // = "gglsight.c"
-
-extern GM_Control *gSnaControl_800AB9F4;
 
 void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
 {
@@ -108,6 +194,7 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern int              dword_8009F604;
+extern short            word_8009F714[];
 
 void gglsight_act_80078228(Actor_gglsight *pActor)
 {
