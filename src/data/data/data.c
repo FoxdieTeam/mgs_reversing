@@ -225,8 +225,10 @@ int SECTION(".data") dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x200
 int SECTION(".data") dword_8009D570[] = {0x20, 0x80, 0x40, 0x10};
 
 int SECTION(".data") GM_WeaponTypes_8009D580[] = {0x90420110, 0x414C9043, 0x222020C0, 0x41104110, 0x414C414C, 0x9220};
-int SECTION(".data") GM_ItemTypes_8009D598[] = {
-    0x80000000, 0x80018003, 0x80018001, 0x80008000, 0x80008000, 0x80008000, 0x80038000, 0x20002000, 0x2000, 0, 0, 0, 0};
+unsigned short SECTION(".data") GM_ItemTypes_8009D598[] = {
+    0x0000, 0x8000, 0x8003, 0x8001, 0x8001, 0x8001, 0x8000, 0x8000,
+    0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8003, 0x2000, 0x2000,
+    0x2000, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int GCL_Command_mesg_8002C138(int argc, char **argv);
 int GCL_Command_trap_8002BD34(int argc, char **argv);
@@ -799,7 +801,7 @@ SVECTOR    SECTION(".data") dword_8009F41C[2] = {{0, 0, 0, 0}, {0, 0, 3000, 0}};
 int        SECTION(".data") used_counter_8009F42C = 0;
 int        SECTION(".data") dword_8009F430 = 0;
 int        SECTION(".data") dword_8009F434 = 0;
-int        SECTION(".data") dword_8009F438[] = {0xC00, 0};
+SVECTOR    SECTION(".data") svector_8009F438 = {3072, 0, 0, 0};
 int        SECTION(".data") dword_8009F440 = 0;
 int        SECTION(".data") dword_8009F444 = 0;
 int        SECTION(".data") counter_8009F448 = 0;
@@ -821,7 +823,9 @@ SVECTOR    SECTION(".data") svector_8009F4A0 = {0, -800, 0, 0};
 SVECTOR    SECTION(".data") svector_8009F4A8 = {0, -350, 0, 0};
 SVECTOR    SECTION(".data") svector_8009F4B0 = {0, -100, -70, 0};
 int        SECTION(".data") dword_8009F4B8[] = {0x100, 5, 0x3E8, 0x7D0, 2};
-int        SECTION(".data") dword_8009F4CC[] = {0x100, 5, 0x3E8, 0x7D0, 6, 0x100, 5, 0x3E8, 0x7D0, 5};
+
+Blast_Data SECTION(".data") blast_data_8009F4CC = {0x100, 5, 0x3E8, 0x7D0, 6};
+Blast_Data SECTION(".data") blast_data_8009F4E0 = {0x100, 5, 0x3E8, 0x7D0, 5};
 Blast_Data SECTION(".data") blast_data_8009F4F4 = {0x100, 5, 0x3E8, 0x7D0, 4};
 Blast_Data SECTION(".data") blast_data_8009F508 = {0x100, 5, 0x3E8, 0x7D0, 3};
 int        SECTION(".data") dword_8009F51C[] = {0x100, 5, 0x3E8, 0x7D0, 0xFFFFFFFF};

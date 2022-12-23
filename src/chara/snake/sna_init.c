@@ -78,7 +78,7 @@ extern SVECTOR            dword_800AB7D4;
 extern SVECTOR            dword_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern Sna_ActionTable    actions_no_weapon_8009ED70;
-extern int                GM_ItemTypes_8009D598[];
+extern unsigned short     GM_ItemTypes_8009D598[];
 extern int                dword_8009EEA4[];
 extern int                GV_Time_800AB330;
 extern int                used_counter_8009F42C;
@@ -734,7 +734,7 @@ void sub_8004F204(Actor_SnaInit *param_1)
     param_1->field_9A4_item_actor = 0;
     param_1->field_9A8 = -1;
     gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
-    param_1->field_9AC = (unsigned short)GM_ItemTypes_8009D598[0];
+    param_1->field_9AC = GM_ItemTypes_8009D598[0];
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
     {
@@ -2299,7 +2299,7 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int time)
         if ((pActor->field_A54.prone_bool_thing == 1 && time == 12) ||
             (pActor->field_A54.prone_bool_thing == 2 && time == 0x14))
         {
-            sub_800329C4(&pActor->field_20_ctrl, 51, 1);
+            sub_800329C4(&pActor->field_20_ctrl.field_0_position, 51, 1);
         }
 
         pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C.vx;
