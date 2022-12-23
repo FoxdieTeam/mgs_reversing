@@ -832,7 +832,7 @@ int        SECTION(".data") dword_8009F51C[] = {0x100, 5, 0x3E8, 0x7D0, 0xFFFFFF
 int        SECTION(".data") dword_8009F530[] = {0x400, 5, 0x3E8, 0x7D0, 0xA};
 Blast_Data SECTION(".data") blast_data_8009F544 = {0, 0, 1, 1, 0xFFFFFFFF};
 
-SVECTOR SECTION(".data") stru_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
+SVECTOR SECTION(".data") svector_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
 
 Anim_Data SECTION(".data") stru_8009F568 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BAC};
 Anim_Data SECTION(".data") stru_8009F584 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BEC};
