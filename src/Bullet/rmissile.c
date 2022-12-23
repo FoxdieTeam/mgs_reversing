@@ -137,10 +137,8 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     int var_a1;
     unsigned int *pOt;
     POLY_F4 *pPoly;
-    short buffer[0x40];
+    GM_Control ctrl;
     DG_CHNL *pChannel;
-
-    int *src, *dst, *end;
 
     var_a1 = ((1000 - pActor->field_118) * 60) / 1000;
 
@@ -175,28 +173,16 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     }
 
     addPrim(pOt, pPoly);
-
-    dst = (int *)buffer;
-    src = (int *)&pActor->field_20_ctrl;
-    end = (int *)&pActor->field_20_ctrl.field_70;
-
-    do
-    {
-        memcpy(dst, src, 16);
-        src += 4;
-        dst += 4;
-    } while (src != end);
-
-    memcpy(dst, src, 12);
+    ctrl = pActor->field_20_ctrl;
 
     menu_Text_XY_Flags_80038B34(8, 136, 0);
-    menu_Text_80038C38(aD_4, buffer[0]);
+    menu_Text_80038C38(aD_4, ctrl.field_0_position.vx);
 
     menu_Text_XY_Flags_80038B34(8, 144, 0);
-    menu_Text_80038C38(aD_4, buffer[1]);
+    menu_Text_80038C38(aD_4, ctrl.field_0_position.vy);
 
     menu_Text_XY_Flags_80038B34(8, 152, 0);
-    menu_Text_80038C38(aD_4, buffer[2]);
+    menu_Text_80038C38(aD_4, ctrl.field_0_position.vz);
 
     menu_Text_Init_80038B98();
 }
