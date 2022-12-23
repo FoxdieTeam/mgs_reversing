@@ -127,7 +127,79 @@ void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_helper_8006BB10.s")    // 532 bytes
+extern int     GV_Clock_800AB920;
+extern DG_CHNL DG_Chanls_800B1800[3];
+
+extern const char aD_4[]; // = "%d"
+
+void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
+{
+    int var_a1;
+    unsigned int *pOt;
+    POLY_F4 *pPoly;
+    short buffer[0x40];
+    DG_CHNL *pChannel;
+
+    int *src, *dst, *end;
+
+    var_a1 = ((1000 - pActor->field_118) * 60) / 1000;
+
+    pChannel = DG_Chanls_800B1800 + 1;
+    pOt = (unsigned int *)pChannel[1].mOrderingTables[GV_Clock_800AB920];
+
+    pPoly = pActor->field_174_polys_2Array[GV_Clock_800AB920];
+
+    if (var_a1 > 60)
+    {
+        var_a1 = 60;
+    }
+
+    pPoly->x3 = var_a1 + 31;
+    pPoly->x1 = var_a1 + 31;
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000)
+    {
+        return;
+    }
+
+    if (var_a1 < 15)
+    {
+        pPoly->r0 = 212;
+        pPoly->g0 = 78;
+        pPoly->b0 = 78;
+
+        if (!(pActor->field_118 % 15))
+        {
+            GM_Sound_80032968(0, 63, 116);
+        }
+    }
+
+    addPrim(pOt, pPoly);
+
+    dst = (int *)buffer;
+    src = (int *)&pActor->field_20_ctrl;
+    end = (int *)&pActor->field_20_ctrl.field_70;
+
+    do
+    {
+        memcpy(dst, src, 16);
+        src += 4;
+        dst += 4;
+    } while (src != end);
+
+    memcpy(dst, src, 12);
+
+    menu_Text_XY_Flags_80038B34(8, 136, 0);
+    menu_Text_80038C38(aD_4, buffer[0]);
+
+    menu_Text_XY_Flags_80038B34(8, 144, 0);
+    menu_Text_80038C38(aD_4, buffer[1]);
+
+    menu_Text_XY_Flags_80038B34(8, 152, 0);
+    menu_Text_80038C38(aD_4, buffer[2]);
+
+    menu_Text_Init_80038B98();
+}
 
 void rmissile_act_helper_8006BD24(Actor_rmissile *pActor, int arg1)
 {
