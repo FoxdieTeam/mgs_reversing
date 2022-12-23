@@ -13,7 +13,7 @@
 int   sub_800296C4(HZD_MAP *param_1, SVECTOR *param_2, unsigned int param_3);
 void  sub_800298DC(int *param_1);
 void  sub_80026734(short *, SVECTOR *, int);
-void  sub_800329C4(GM_Control *, int, int);
+void  sub_800329C4(SVECTOR *, int, int);
 short sub_8002646C(int, int, char); // dummy signature
 int   sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void  sub_80028890(SVECTOR *pVec);
