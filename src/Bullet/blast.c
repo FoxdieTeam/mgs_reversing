@@ -12,7 +12,7 @@ extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target *, int);
 extern short GM_uBombHoming_800AB3E4;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern SVECTOR stru_8009F558[2];
+extern SVECTOR svector_8009F558[2];
 
 extern Anim_Data stru_8009F568;
 extern Anim_Data stru_8009F5A0;
@@ -60,78 +60,57 @@ void blast_kill_8006DD90(Actor_Blast *blast)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/blast_8006DDEC.s") // 416 bytes
-// void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker);
-/*
 void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker)
 {
-    GM_Target *pTarget; // $s1
-    short whichSide; // $a2
-    short v8; // $v1
-    int v10; // $v0
-    SVECTOR *pVec; // $a0
-    SVECTOR vec; // [sp+18h] [-8h] BYREF
+    GM_Target *pTarget = &pBlast->field_3C_target;
+    SVECTOR vec;
 
-    pTarget = &pBlast->field_3C_target;
-    vec.vz = pBlastData->field_8_z;
-    vec.vy = vec.vz;
-    vec.vx = vec.vz;
+    vec.vx = vec.vy = vec.vz = pBlastData->field_8_z;
 
     if ( targetSidePicker )
     {
-        whichSide = 0;
+        GM_SetTarget_8002DC74(pTarget, 4, 0, &vec);
     }
     else
     {
-        whichSide = 2;
+        GM_SetTarget_8002DC74(pTarget, 4, 2, &vec);
     }
 
-    GM_SetTarget_8002DC74(&pBlast->field_3C_target, 4, whichSide, &vec);
-    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, pBlastData->field_4, stru_8009F558);
+    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, pBlastData->field_4, svector_8009F558);
+
     pTarget->field_44 = pBlastData->field_10;
+
     GM_Target_SetVector_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
     sub_8002D7DC(pTarget);
 
-
-    v8 = pBlastData->field_C;
-    stru_8009F558[0].vx = 50;
-    vec.vz = v8;
-    vec.vy = v8;
-    vec.vx = v8;
+    vec.vx = vec.vy = vec.vz = pBlastData->field_C;
+    svector_8009F558[0].vx = 50;
 
     if ( targetSidePicker )
     {
-        whichSide = 0;
+        GM_SetTarget_8002DC74(pTarget, 4, 0, &vec);
     }
     else
     {
-        whichSide = 2;
+        GM_SetTarget_8002DC74(pTarget, 4, 2, &vec);
     }
 
-    GM_SetTarget_8002DC74(pTarget, 4, whichSide, &vec);
-    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, 3, stru_8009F558);
+    GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, 3, svector_8009F558);
+
     pTarget->field_44 = pBlastData->field_10;
+
     GM_Target_SetVector_8002D500(&pBlast->field_3C_target, &pBlast->field_24_vec);
     sub_8002D7DC(pTarget);
 
-    if ( GM_lpfnBombExplosion_800AB3F0 )
+    if ( GM_lpfnBombExplosion_800AB3F0 && GM_lpfnBombExplosion_800AB3F0(&pBlast->field_3C_target, GM_uBombHoming_800AB3E4) )
     {
-        v10 = GM_lpfnBombExplosion_800AB3F0(&pBlast->field_3C_target, GM_uBombHoming_800AB3E4);
-        pVec = &pBlast->field_24_vec;
-        if ( v10 )
-        {
-            ++pBlast->field_38;
-            return;
-        }
+        ++pBlast->field_38;
     }
     else
     {
-        pVec = &pBlast->field_24_vec;
+        GM_SeSet_80032858(&pBlast->field_24_vec, 41);
     }
-
-    GM_SeSet_80032858(pVec, 41);
 }
-*/
 
 int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMtx, int targetSidePicker)
 {
