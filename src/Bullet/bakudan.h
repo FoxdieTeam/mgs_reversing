@@ -21,7 +21,7 @@ typedef struct Actor_bakudan
     SVECTOR        *field_104;
     int             field_108;
     int             field_10C;
-    unsigned short *field_110_padObj;
+    GV_PAD         *field_110_pPad;
     int             field_114;
     int             field_118;
 } Actor_bakudan;
