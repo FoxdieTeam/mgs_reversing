@@ -1,10 +1,45 @@
-#include "gamestate.h"
-#include "libdg/libdg.h"
-#include "libgv/libgv.h"
-#include "linker.h"
-#include "strctrl.h"
+#include "over.h"
 
-#pragma INCLUDE_ASM( "asm/Game/over_act_helper_80036A10.s" ) // 304 bytes
+extern const char aInit_0[];
+extern const char aTitle[];
+extern short      gGameState_800B4D98[ 0x60 ];
+
+extern int        GM_GameOverTimer_800AB3D4;
+extern int        GM_LoadRequest_800AB3D0;
+extern int        GV_PauseLevel_800AB928;
+
+//------------------------------------------------------------------------------
+
+int *over_act_helper_80036A10( int *param_1, short param_2, short param_3, int texture_id, int param_5, int *param_6 )
+{
+	DG_TEX *texture;
+	int    *tmp;
+	int     new_var;
+
+	texture = DG_GetTexture_8001D830( texture_id );
+	*(short *)( param_1 + 2 ) = param_2;
+	*(short *)( (int)param_1 + 10 ) = param_3;
+	*(char *)( param_1 + 3 ) = texture->field_8_offx;
+	*(char *)( (int)param_1 + 0xd ) = texture->field_9_offy;
+	*(ushort *)( param_1 + 4 ) = texture->field_A_width + 1;
+	*(ushort *)( (int)param_1 + 0x12 ) = texture->field_B_height + 1;
+	param_2 = *(short *)( (int)param_1 + 0xe ) = texture->field_6_clut;
+	*(char *)( ( (int)param_1 ) + 3 ) = 4;
+	param_1[ 1 ] = param_5;
+	*(char *)( ( (int)param_1 ) + 7 ) = 100;
+	*param_1 = ( *param_1 & 0xff000000 ) | ( *param_6 & 0xffffff );
+	*param_6 = ( *param_6 & 0xff000000 ) | ( (int)param_1 & 0xffffff );
+	tmp = param_1 + 0x5;
+	*(char *)( (int)tmp + 3 ) = 1;
+	*(int *)( (int)tmp + 4 ) = ( (short)texture->field_4_tPage & 0x9ff ) | 0xe1000400;
+	do
+	{
+	} while ( 0 );
+	new_var = (int)( param_1 + 5 ) & 0xffffff;
+	param_1[ 5 ] = ( param_1[ 5 ] & 0xff000000 ) | ( *param_6 & 0xffffff );
+	*param_6 = ( *param_6 & 0xff000000 ) | new_var;
+	return param_1 + 7;
+}
 
 unsigned int over_act_helper_80036B40( int param_1, int param_2 )
 {
@@ -40,29 +75,6 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
 #pragma INCLUDE_ASM( "asm/Game/over_act_helper_80037128.s" ) // 244 bytes
 #pragma INCLUDE_ASM( "asm/Game/over_act_8003721C.s" )        // 760 bytes
 
-extern const char aInit_0[];
-extern const char aTitle[];
-extern short      gGameState_800B4D98[ 0x60 ];
-
-extern int        GM_GameOverTimer_800AB3D4;
-extern int        GM_LoadRequest_800AB3D0;
-extern int        GV_PauseLevel_800AB928;
-
-extern void       DG_8001844C( void );
-extern void       GM_ContinueStart_8002B62C( void );
-
-int               GM_SetArea_8002A7D8( char *, int );
-
-typedef struct   Over
-{
-	struct Actor f00_base;
-	short        f20;
-	short        f22;
-	short        f24;
-	short        f26;
-	short        f28;
-} Over;
-
 void over_kill_80037514( Over *actor )
 {
 	char *stage_name;
@@ -88,9 +100,9 @@ void over_kill_80037514( Over *actor )
 	{
 		stage_name = (char *)aTitle;
 	}
-	GM_SetArea_8002A7D8( (char*)GV_StrCode_80016CCC( stage_name ), (int)stage_name );
+	GM_SetArea_8002A7D8( GV_StrCode_80016CCC( stage_name ), stage_name );
 	GM_LoadRequest_800AB3D0 = 0x81;
 }
 
 #pragma INCLUDE_ASM( "asm/Game/over_loader_80037600.s" ) // 248 bytes
-#pragma INCLUDE_ASM( "asm/Game/over_init_800376F8.s" ) // 244 bytes
+#pragma INCLUDE_ASM( "asm/Game/over_init_800376F8.s" )   // 244 bytes
