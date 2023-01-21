@@ -66,21 +66,22 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
 }
 
 #pragma INCLUDE_ASM( "asm/Game/over_act_helper_80036BA4.s" ) // 1412 bytes
+void over_act_helper_80036BA4(Actor_Over *pActor, unsigned int *pOt);
 
 extern int GV_Clock_800AB920;
 
-void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int color)
+void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
 {
     TILE *pTile;
     DR_TPAGE *pTpage;
 
-    if (color > 0xff)
+    if (shade > 0xff)
     {
-        color = 0xff;
+        shade = 0xff;
     }
 
     pTile = &pActor->field_165c_tiles[GV_Clock_800AB920];
-    LSTORE(color << 16 | color << 8 | color, &pTile->r0);
+    LSTORE(shade << 16 | shade << 8 | shade, &pTile->r0);
     setTile(pTile);
     setSemiTrans(pTile, 1);
     pTile->y0 = pTile->x0 = 0;
@@ -93,8 +94,135 @@ void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int color)
     addPrim(pOt, pTpage);
 }
 
-#pragma INCLUDE_ASM( "asm/Game/over_act_8003721C.s" )        // 760 bytes
-void over_act_8003721C( Actor_Over *pActor );
+extern DG_CHNL           DG_Chanls_800B1800[3];
+extern int               DG_FrameRate_8009D45C;
+extern int               GM_GameStatus_800AB3CC;
+
+extern int               GM_GameOverVox_800AB45C;
+int SECTION(".sbss")     GM_GameOverVox_800AB45C;
+
+extern GV_PAD           *GM_CurrentPadData_800AB91C;
+GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
+
+static inline void * DG_GetOrderingTable(int index)
+{
+    DG_CHNL *pChnl = DG_Chanls_800B1800 + 1;
+    return pChnl[index].mOrderingTables[GV_Clock_800AB920];
+}
+
+void over_act_8003721C(Actor_Over *pActor)
+{
+    unsigned int *pOt = DG_GetOrderingTable(1);
+    GV_PAD *pPad;
+    unsigned short press;
+    int shade;
+
+    if (GV_PauseLevel_800AB928 & 8)
+    {
+        return;
+    }
+
+    if (pActor->field_22_step < 0x100)
+    {
+        over_act_helper_80036BA4(pActor, pOt);
+        over_act_helper_80037128(pActor, pOt, pActor->field_22_step * 2);
+            
+        if (pActor->field_22_step == 120)
+        {
+            if (GM_GameOverVox_800AB45C >= 0)
+            {
+                GM_StreamPlayStart_80037D1C();
+            }
+            
+            DG_ReloadPalette_8001FC58();
+        }
+    
+        pActor->field_22_step += 3;
+        
+        if (pActor->field_22_step >= 0x100)
+        {
+            if (pActor->field_20 > 0)
+            {
+                pActor->field_22_step = 0xff;
+                return;
+            }
+
+            GV_PauseLevel_800AB928 |= 0x1;
+            DG_FreeObjectQueue_800183D4();
+            DG_ReloadPalette_8001FC58();
+            DG_Set_RGB_800184F4(0, 0, 0);
+            DG_FrameRate_8009D45C = 2;
+            pActor->field_22_step = 0x100;
+            GM_GameStatus_800AB3CC |= 0x4a6000;
+        }
+    }
+    else if (pActor->field_22_step == 0x100)
+    {
+        pPad = &GM_CurrentPadData_800AB91C[2];
+        over_act_helper_80036BA4(pActor, pOt);
+        GM_GameStatus_800AB3CC &= 0xa7ffffff;
+        press = pPad->press;
+
+        if (press & (PAD_START | PAD_CIRCLE))
+        {
+            pActor->field_22_step = 0x101;
+            pActor->field_26 = 0x20;
+                    
+            if (pActor->field_24_option == OVER_CONTINUE)
+            {
+                sub_80032AEC(0, 0x3f, 0x66);
+            }
+            else
+            {
+                sub_80032AEC(0, 0x3f, 0x21);
+            }
+
+            return;
+        }
+
+        if (pActor->field_28_can_continue)
+        {
+            if ((pActor->field_24_option == OVER_CONTINUE) && (press & PAD_RIGHT))
+            {
+                sub_80032AEC(0, 0x3f, 0x1f);
+                pActor->field_24_option = OVER_EXIT;
+                pActor->field_26 = 0;
+            }
+            else if ((pActor->field_24_option == OVER_EXIT) && (press & PAD_LEFT))
+            {
+                sub_80032AEC(0, 0x3f, 0x1f);
+                pActor->field_24_option = OVER_CONTINUE;
+                pActor->field_26 = 0;
+            }
+        }
+
+        pActor->field_26 = (pActor->field_26 + 1) % 64;
+    }
+    else
+    {
+        shade = pActor->field_22_step - 0x100;
+
+        if (shade > 0xff)
+        {
+            shade = 0xff;
+        }
+            
+        over_act_helper_80037128(pActor, pOt, shade);
+        over_act_helper_80036BA4(pActor, pOt);
+
+        pActor->field_22_step += 4;
+
+        if (pActor->field_22_step >= 0x21f)
+        {
+            pActor->field_22_step = 0x21e;
+
+            if (GM_StreamStatus_80037CD8() == -1)
+            {
+                GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            }
+        }
+    }
+}
 
 void over_kill_80037514( Actor_Over *pActor )
 {
@@ -104,7 +232,7 @@ void over_kill_80037514( Actor_Over *pActor )
     DG_8001844C();
     GM_StreamPlayStop_80037D64();
     GM_GameOverTimer_800AB3D4 = 0;
-    if ( pActor->field_24 == 0 )
+    if ( pActor->field_24_option == OVER_CONTINUE )
     {
         GM_ContinueStart_8002B62C();
         return;
@@ -153,15 +281,9 @@ void over_loader_80037600(Actor_Over *pActor)
     }
 }
 
-extern int           DG_FrameRate_8009D45C;
-extern int           GM_GameStatus_800AB3CC;
-
-extern int           GM_GameOverVox_800AB45C;
-int SECTION(".sbss") GM_GameOverVox_800AB45C;
-
 extern const char    aOverC[]; // = "over.c"
 
-Actor_Over * over_init_800376F8(int field_28)
+Actor_Over * over_init_800376F8(int can_continue)
 {
     Actor_Over *pActor = (Actor_Over *)GV_NewActor_800150E4(0, sizeof(Actor_Over));
 
@@ -171,8 +293,8 @@ Actor_Over * over_init_800376F8(int field_28)
                                   (TActorFunction)&over_kill_80037514, aOverC);
 
         pActor->field_20 = 1;
-        pActor->field_22 = 0;
-        pActor->field_28 = field_28;
+        pActor->field_22_step = 0;
+        pActor->field_28_can_continue = can_continue;
 
         over_loader_80037600(pActor);
 
