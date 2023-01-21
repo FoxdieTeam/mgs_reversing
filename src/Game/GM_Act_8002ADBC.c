@@ -8,6 +8,7 @@
 #include "libgv/libgv.h"
 #include "unknown.h"
 #include "libfs/libfs.h"
+#include "over.h"
 
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;

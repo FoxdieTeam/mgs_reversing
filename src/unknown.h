@@ -28,15 +28,13 @@ void  sub_800241B4(int);
 int   sub_80029514(int);
 void  sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
 int   sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
+void  sub_80032AEC(int byte_2, int byte_1, int byte_0);
 
 // TODO: bullet.h?
 Actor* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 // TODO: camera.h?
 Actor *camera_init_800306A0(void);
-
-// TODO: over.h?
-Actor *over_init_800376F8(int); // dummy, returns actor
 
 void DrawReadError_8002AC9C(void);
 
