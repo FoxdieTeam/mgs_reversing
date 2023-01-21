@@ -66,7 +66,33 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
 }
 
 #pragma INCLUDE_ASM( "asm/Game/over_act_helper_80036BA4.s" ) // 1412 bytes
-#pragma INCLUDE_ASM( "asm/Game/over_act_helper_80037128.s" ) // 244 bytes
+
+extern int GV_Clock_800AB920;
+
+void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int color)
+{
+    TILE *pTile;
+    DR_TPAGE *pTpage;
+
+    if (color > 0xff)
+    {
+        color = 0xff;
+    }
+
+    pTile = &pActor->field_165c_tiles[GV_Clock_800AB920];
+    LSTORE(color << 16 | color << 8 | color, &pTile->r0);
+    setTile(pTile);
+    setSemiTrans(pTile, 1);
+    pTile->y0 = pTile->x0 = 0;
+    pTile->w = 320;
+    pTile->h = 240;
+    addPrim(pOt, pTile);
+    
+    pTpage = &pActor->field_167c_tpages[GV_Clock_800AB920];
+    setDrawTPage(pTpage, 1, 1, getTPage(0, 2, 0, 0));
+    addPrim(pOt, pTpage);
+}
+
 #pragma INCLUDE_ASM( "asm/Game/over_act_8003721C.s" )        // 760 bytes
 void over_act_8003721C( Actor_Over *pActor );
 
