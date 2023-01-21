@@ -71,6 +71,7 @@ void               StopCARD_80099130(void);
 void               SwEnterCriticalSection_8009954C(void);
 void               SwExitCriticalSection_8009956C(void);
 void               VectorNormal_80092838(VECTOR *v0, VECTOR *v1);
+long               VectorNormalSS_80092868(SVECTOR *v0, SVECTOR *v1);
 //void              *memset_8008E688(void *pSrc, int value, int len);
 void               SetDispMask_8008F7CC(int);
 void               InitGeom_80092680(void);
