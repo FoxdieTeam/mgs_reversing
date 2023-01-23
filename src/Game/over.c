@@ -122,12 +122,12 @@ void over_act_8003721C(Actor_Over *pActor)
         return;
     }
 
-    if (pActor->field_22_step < 0x100)
+    if (pActor->field_22_seq < 0x100)
     {
         over_act_helper_80036BA4(pActor, pOt);
-        over_act_helper_80037128(pActor, pOt, pActor->field_22_step * 2);
+        over_act_helper_80037128(pActor, pOt, pActor->field_22_seq * 2);
             
-        if (pActor->field_22_step == 120)
+        if (pActor->field_22_seq == 120)
         {
             if (GM_GameOverVox_800AB45C >= 0)
             {
@@ -137,13 +137,13 @@ void over_act_8003721C(Actor_Over *pActor)
             DG_ReloadPalette_8001FC58();
         }
     
-        pActor->field_22_step += 3;
+        pActor->field_22_seq += 3;
         
-        if (pActor->field_22_step >= 0x100)
+        if (pActor->field_22_seq >= 0x100)
         {
-            if (pActor->field_20 > 0)
+            if (pActor->field_20_seq_anim > 0)
             {
-                pActor->field_22_step = 0xff;
+                pActor->field_22_seq = 0xff;
                 return;
             }
 
@@ -152,11 +152,11 @@ void over_act_8003721C(Actor_Over *pActor)
             DG_ReloadPalette_8001FC58();
             DG_Set_RGB_800184F4(0, 0, 0);
             DG_FrameRate_8009D45C = 2;
-            pActor->field_22_step = 0x100;
+            pActor->field_22_seq = 0x100;
             GM_GameStatus_800AB3CC |= 0x4a6000;
         }
     }
-    else if (pActor->field_22_step == 0x100)
+    else if (pActor->field_22_seq == 0x100)
     {
         pPad = &GM_CurrentPadData_800AB91C[2];
         over_act_helper_80036BA4(pActor, pOt);
@@ -165,8 +165,8 @@ void over_act_8003721C(Actor_Over *pActor)
 
         if (press & (PAD_START | PAD_CIRCLE))
         {
-            pActor->field_22_step = 0x101;
-            pActor->field_26 = 0x20;
+            pActor->field_22_seq = 0x101;
+            pActor->field_26_gradient = 0x20;
                     
             if (pActor->field_24_option == OVER_CONTINUE)
             {
@@ -186,21 +186,21 @@ void over_act_8003721C(Actor_Over *pActor)
             {
                 sub_80032AEC(0, 0x3f, 0x1f);
                 pActor->field_24_option = OVER_EXIT;
-                pActor->field_26 = 0;
+                pActor->field_26_gradient = 0;
             }
             else if ((pActor->field_24_option == OVER_EXIT) && (press & PAD_LEFT))
             {
                 sub_80032AEC(0, 0x3f, 0x1f);
                 pActor->field_24_option = OVER_CONTINUE;
-                pActor->field_26 = 0;
+                pActor->field_26_gradient = 0;
             }
         }
 
-        pActor->field_26 = (pActor->field_26 + 1) % 64;
+        pActor->field_26_gradient = (pActor->field_26_gradient + 1) % 64;
     }
     else
     {
-        shade = pActor->field_22_step - 0x100;
+        shade = pActor->field_22_seq - 0x100;
 
         if (shade > 0xff)
         {
@@ -210,11 +210,11 @@ void over_act_8003721C(Actor_Over *pActor)
         over_act_helper_80037128(pActor, pOt, shade);
         over_act_helper_80036BA4(pActor, pOt);
 
-        pActor->field_22_step += 4;
+        pActor->field_22_seq += 4;
 
-        if (pActor->field_22_step >= 0x21f)
+        if (pActor->field_22_seq > 0x21e)
         {
-            pActor->field_22_step = 0x21e;
+            pActor->field_22_seq = 0x21e;
 
             if (GM_StreamStatus_80037CD8() == -1)
             {
@@ -292,8 +292,8 @@ Actor_Over * over_init_800376F8(int can_continue)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&over_act_8003721C,
                                   (TActorFunction)&over_kill_80037514, aOverC);
 
-        pActor->field_20 = 1;
-        pActor->field_22_step = 0;
+        pActor->field_20_seq_anim = 1;
+        pActor->field_22_seq = 0;
         pActor->field_28_can_continue = can_continue;
 
         over_loader_80037600(pActor);
