@@ -349,8 +349,33 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     return 2;
 }
 
-// https://decomp.me/scratch/OFGNo
-#pragma INCLUDE_ASM("asm/sub_8004E71C.s") // 236 bytes
+int sna_init_8004E71C(short a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
+{
+    int point[2];
+    SVECTOR vec, vec_saved;
+    MATRIX mtx;
+
+    pVec->vz = a1;
+    pVec->vy = 0;
+    pVec->vx = 0;
+
+    DG_PutVector_8001BE48(pVec, pVec, 1);
+    ReadRotMatrix_80092DD8(&mtx);
+
+    vec.vx = mtx.t[0];
+    vec.vy = mtx.t[1];
+    vec.vz = mtx.t[2];
+
+    vec_saved = *pVec;
+
+    if ( sub_8004E51C(&vec, pHzd, 12, 1) >= 0 )
+    {
+        *pVec = vec_saved;
+    }
+
+    sub_8004E588(pHzd, pVec, point);
+    return (point[1] - pVec->vy) < a4;
+}
 
 // https://decomp.me/scratch/P8McA
 #pragma INCLUDE_ASM("asm/sub_8004E808.s") // 296 bytes
