@@ -11,24 +11,27 @@
 typedef struct _Actor_Over
 {
     Actor    field_0_actor;
-    short    field_20;
-    short    field_22_step;         // This seems to be a timer step
+    short    field_20_seq_anim;     // Sequence value controlling GAME OVER animation
+    short    field_22_seq;          // Sequence value controlling when animations/inputs are enabled
     short    field_24_option;       // 0 = CONTINUE, 1 = EXIT
-    short    field_26;
+    short    field_26_gradient;     // 64-step sweep controlling color of CONTINUE and EXIT buttons
     short    field_28_can_continue; // Disables continue if Snake dies during the Ocelot torture sequence
-    char     field_2a_pad[0x1632];
+    short    field_2a_unused;
+    POLY_G4  field_2c_polys[2][12];
+    LINE_G2  field_38c_lines[2][120];
+    DR_TPAGE field_164c_tpages[2];
     TILE     field_165c_tiles[2];
     DR_TPAGE field_167c_tpages[2];
     DVECTOR  field_168c_directions[120];
 } Actor_Over;
+
+STATIC_ASSERT_SIZE(Actor_Over, 0x186c);
 
 enum 
 {
     OVER_CONTINUE,
     OVER_EXIT,
 };
-
-STATIC_ASSERT_SIZE(Actor_Over, 0x186c);
 
 Actor_Over * over_init_800376F8(int can_continue);
 
