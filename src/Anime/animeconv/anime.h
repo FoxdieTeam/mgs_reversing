@@ -91,5 +91,6 @@ void   anime_create_8005DE70(MATRIX *pMtx);
 Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1);
 void   anime_create_8005D6BC(MATRIX *pMtx, int a2);
 void   anime_create_8005D988(MATRIX *a1, MATRIX *a2, int a3);
+void   anime_create_8005DDE0(MATRIX *pMtx);
 
 #endif // _ANIME_H_
