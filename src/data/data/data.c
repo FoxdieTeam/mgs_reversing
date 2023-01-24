@@ -707,11 +707,16 @@ WeaponCreateEntry kSnakeNoWeapon = {0, sna_init_anim_chokethrow_begin1_80054210}
 int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
 
 WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] = {
-    {NewSOCOM_80065D74, sna_init_gun_800540D0},        {famas_create_80066374, sna_init_gun_800540D0},
-    {grenade_create_80066A4C, sub_80058470},           {NewRCM_80066FF0, sna_init_gun_800540D0},
-    {NewAAM_80067480, sna_init_anim_stinger_800570C0}, {mine_init_800677BC, sna_init_anim_claymore_80057474},
-    {NewBomb_80067B20, sna_init_bomb_800541A8},        {NewStanGrenade_80066A74, sub_80058470},
-    {NewChaffGrenade_80066AA0, sub_80058470},          {NewRifle_80068214, sna_init_anim_psg1_80056DDC}};
+    {NewSOCOM_80065D74, sna_init_gun_800540D0},
+    {famas_create_80066374, sna_init_gun_800540D0},
+    {grenade_create_80066A4C, sna_init_anim_grenade_80058470},
+    {NewRCM_80066FF0, sna_init_gun_800540D0},
+    {NewAAM_80067480, sna_init_anim_stinger_800570C0},
+    {mine_init_800677BC, sna_init_anim_claymore_80057474},
+    {NewBomb_80067B20, sna_init_bomb_800541A8},
+    {NewStanGrenade_80066A74, sna_init_anim_grenade_80058470},
+    {NewChaffGrenade_80066AA0, sna_init_anim_grenade_80058470},
+    {NewRifle_80068214, sna_init_anim_psg1_80056DDC}};
 
 void *SECTION(".data") gSnakeEquips_8009EF8C[] = {(void *)0x80062274, // tabako
                                                   (void *)0x80063508, // scope

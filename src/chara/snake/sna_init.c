@@ -3377,8 +3377,80 @@ void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
     }
 }
 
-// https://decomp.me/scratch/1kti5
-#pragma INCLUDE_ASM("asm/sub_80058470.s") // 468 bytes
+void sna_init_anim_grenade_80058470(Actor_SnaInit *pActor, int time)
+{
+    int bits;
+    int uVar2;
+    int res;
+    
+    if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING) )
+    {
+        bits = 0x3fe;
+    }
+    else
+    {
+        bits = 0xffff;
+    }
+    
+    if (time == 0)
+    {
+        sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_10->field_0, 4, bits);
+        pActor->field_924 = 0;
+        GM_SeSet_80032858(&(pActor->field_20_ctrl).field_0_position, 44);
+    }
+
+    sna_init_8004F034(pActor, bits);
+    res = 1;
+
+    uVar2 = pActor->field_180.field_1C.field_2_footstepsFrame;
+    
+    switch (pActor->field_924)
+    {
+    case 0:
+        if (pActor->field_9C_obj.field_1C != 0)
+        {
+            sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_0->field_0, 1, bits);
+            pActor->field_924 = 1;
+        }
+
+        break;
+    case 1:        
+        if (!(pActor->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount_800AB380 == 0))
+        {
+            sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_10->field_4, 1, bits);
+            pActor->field_924 = 2;
+        }
+
+        break;
+    case 2:
+        if (uVar2 == 7)
+        {
+            res = 3;
+            pActor->field_924 = 3;
+        }
+
+        break;
+    case 3:
+        res = 0;
+        
+        if ((uVar2 > 11) && (pActor->field_9B0_pad_ptr->status & PAD_SQUARE))
+        {
+            pActor->field_910 = 0;
+            return;
+        }
+        
+
+        if (pActor->field_9C_obj.field_1C != 0)
+        {
+            sna_init_8004E260(pActor, 0, 4, 0);
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_FIRST_PERSON | PLAYER_STATUS_PREVENT_ITEM_SWITCH | PLAYER_STATUS_PREVENT_WEAPON_SWITCH);
+        }
+
+        break;
+    }
+
+    pActor->field_914 = res;
+}
 
 void sub_80058644(Actor_SnaInit *pActor, int time)
 {
