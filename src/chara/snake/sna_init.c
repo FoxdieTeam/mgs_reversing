@@ -13,6 +13,7 @@
 #include "psyq.h"
 #include "Game/camera.h"
 #include "Weapon/grenade.h"
+#include "Anime/animeconv/anime.h"
 
 extern short word_8009EFC0[];
 
@@ -3332,8 +3333,67 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
     }
 }
 
-// https://decomp.me/scratch/bbu8N
-#pragma INCLUDE_ASM("asm/sub_80057A90.s") // 352 bytes
+extern short d_800AB9EC_mag_size;
+extern short d_800ABA2C_ammo;
+
+void sna_init_80057A90(Actor_SnaInit *pActor, int time)
+{
+    int bits;
+    int ammo, magSize;
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING))
+    {
+        bits = 0x3fe;
+    }
+    else
+    {
+        bits = 0xffff;
+    }
+    
+    if (time == 0)
+    {
+        GM_ConfigMotionAdjust_80035008(&pActor->field_9C_obj, NULL);
+        anime_create_8005DDE0(&pActor->field_9C_obj.objs->objs[4].world);
+        sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_10->field_1, 4, bits);
+
+        ammo = d_800ABA2C_ammo;
+        magSize = *GM_GetWeapon(pActor->field_91C_weapon_idx);
+        
+        if (ammo > 0 && ammo < magSize)
+        {
+            magSize = ammo;
+        }
+
+        d_800ABA2C_ammo = ammo;
+        d_800AB9EC_mag_size = magSize;
+    }
+
+    sna_init_8004F034(pActor, bits);
+
+    if (time == 16)
+    {
+        GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_position, 47);
+    }
+
+    if (pActor->field_9C_obj.field_1C != 0)
+    {
+        if (!(pActor->field_9B0_pad_ptr->status & PAD_SQUARE))
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_FIRST_PERSON);
+            sna_init_8004E260(pActor, 0, 4, 0);
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_idle_8005275C);
+            pActor->field_90C_pWeaponFn = sna_init_gun_800540D0;
+        }
+        else
+        {
+            pActor->field_90C_pWeaponFn = sub_80057BF0;
+        }
+
+        pActor->field_910 = 0;
+        pActor->field_926 = 0;
+        pActor->field_924 = 0;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/sub_80057BF0.s")                                   // 996 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_helper_80057FD4.s") // 932 bytes

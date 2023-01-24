@@ -1249,7 +1249,7 @@
 800577B4 144 sna_init_anim_rungun_begin_helper_800577B4
 80057844 348 sna_init_anim_rungun_helper_80057844
 800579A0 240 sna_init_auto_aim_800579A0
-80057A90 352 sub_80057A90
+80057A90 352 sna_init_80057A90
 80057BF0 996 sub_80057BF0
 80057FD4 932 sna_init_anim_psg1_helper_80057FD4
 80058378 248 sna_init_anim_stinger_helper_80058378
