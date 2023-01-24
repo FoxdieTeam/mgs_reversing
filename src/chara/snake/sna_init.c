@@ -14,9 +14,7 @@
 #include "Game/camera.h"
 #include "Weapon/grenade.h"
 
-extern SVECTOR stru_8009EFC0;
-extern SVECTOR stru_8009EFC8;
-extern int     dword_8009EFD0;
+extern short word_8009EFC0[];
 
 extern Target_Data stru_8009EFE4;
 
@@ -500,7 +498,10 @@ int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004EB14.s") // 96 bytes
+void sna_init_8004EB14(Actor_SnaInit *pActor)
+{
+    memcpy(&pActor->field_9D0, &word_8009EFC0, sizeof(pActor->field_9D0));
+}
 
 void sub_8004EB74(Actor_SnaInit *pActor)
 {
@@ -559,9 +560,9 @@ void sna_init_8004EC8C(Actor_SnaInit *pActor)
     GM_Camera_800B77E8.field_22 = 1;
     v2 = *(ushort *)&e1_800AB7C4.field_4;
     pActor->field_A20 = -6;
-    pActor->field_9D0[0].vz = 320;
-    pActor->field_9D0[1].vx = v2;
-    pActor->field_9D0[1].vz = v2;
+    pActor->field_9D0[2] = 320;
+    pActor->field_9D0[4] = v2;
+    pActor->field_9D0[6] = v2;
     sd_set_cli_800887EC(0x1FFFF20, 0);
     sna_init_set_flags2_8004E330(pActor, SNA_FLAG2_UNK5);
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_FIRST_PERSON);
@@ -573,7 +574,7 @@ void sub_8004ED08(Actor_SnaInit *pActor)
     pActor->field_A28 = 0x1c2;
     GM_Camera_800B77E8.field_22 = 0; // weapon related?
     pActor->field_A20 = 6;
-    sub_8004EB14(pActor);
+    sna_init_8004EB14(pActor);
     sd_set_cli_800887EC(0x1ffff21, 0);
     sna_init_clear_flags2_8004E344(pActor, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
 }
@@ -1163,9 +1164,9 @@ void sna_init_80051FD0(Actor_SnaInit *pActor)
     short        sVar4;
     short        sVar5;
     int          iVar6;
-    SVECTOR     *vec_arr;
+    short     *short_arr;
 
-    vec_arr = pActor->field_9D0;
+    short_arr = pActor->field_9D0;
     uVar2 = pActor->field_9B0_pad_ptr->status;
     if ((uVar2 & (PAD_LEFT | PAD_RIGHT)) != 0)
     {
@@ -1180,7 +1181,7 @@ void sna_init_80051FD0(Actor_SnaInit *pActor)
                 sVar4 = 0x40;
                 sVar5 = 0x40 - (*((unsigned char *)((short *)pActor->field_9B0_pad_ptr + 7)));
             }
-            iVar6 = ((int)vec_arr[2].vx) * (sVar5 & 0xff);
+            iVar6 = ((int)short_arr[8]) * (sVar5 & 0xff);
             iVar1 += iVar6 / sVar4;
         }
         else
@@ -1190,7 +1191,7 @@ void sna_init_80051FD0(Actor_SnaInit *pActor)
                 sVar4 = 0x3f;
                 sVar5 = (*((unsigned char *)((short *)pActor->field_9B0_pad_ptr + 7))) + 0x40;
             }
-            iVar6 = ((int)vec_arr[1].pad) * (sVar5 & 0xff);
+            iVar6 = ((int)short_arr[7]) * (sVar5 & 0xff);
             iVar1 -= iVar6 / sVar4;
         }
         pActor->field_20_ctrl.field_4C_turn_vec.vy = iVar1;
@@ -3339,8 +3340,8 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 
 void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
 {
-    int      iVar2;
-    SVECTOR *vec;
+    int    iVar2;
+    short *vec;
 
     iVar2 = 1;
     if (((pActor->field_9B0_pad_ptr->release & PAD_SQUARE) != 0 && (GM_GameStatus_800AB3CC & 0x10000000) == 0) &&
@@ -3362,17 +3363,17 @@ void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
     if ((pActor->field_9B0_pad_ptr->status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP)) != 0)
     {
         vec = pActor->field_9D0;
-        vec[0].vx = 1;
-        vec[0].pad = 0x200;
-        vec[1].vx = 0x200;
-        vec[1].vy = 0x20;
-        vec[1].vz = 0x20;
-        vec[1].pad = 0x20;
-        vec[2].vx = 0x20;
+        vec[0] = 1;
+        vec[3] = 0x200;
+        vec[4] = 0x200;
+        vec[5] = 0x20;
+        vec[6] = 0x20;
+        vec[7] = 0x20;
+        vec[8] = 0x20;
 
         sna_init_80051DA0(pActor);
         sna_init_80051FD0(pActor);
-        sub_8004EB14(pActor);
+        sna_init_8004EB14(pActor);
     }
 }
 
