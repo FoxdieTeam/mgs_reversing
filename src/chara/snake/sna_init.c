@@ -35,8 +35,8 @@ int        SECTION(".sbss") dword_800ABBB4;
 extern GM_Control *gSnaControl_800AB9F4;
 extern OBJECT     *dword_800ABA20;
 
-extern int dword_800ABBB8;
-int        SECTION(".sbss") dword_800ABBB8;
+extern SVECTOR *svector_800ABBB8;
+SVECTOR *SECTION(".sbss") svector_800ABBB8;
 
 extern int dword_800ABB9C[2];
 int        SECTION(".sbss") dword_800ABB9C[2];
@@ -349,7 +349,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     return 2;
 }
 
-int sna_init_8004E71C(short a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
+int sna_init_8004E71C(int a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
 {
     int point[2];
     SVECTOR vec, vec_saved;
@@ -377,8 +377,45 @@ int sna_init_8004E71C(short a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
     return (point[1] - pVec->vy) < a4;
 }
 
-// https://decomp.me/scratch/P8McA
-#pragma INCLUDE_ASM("asm/sub_8004E808.s") // 296 bytes
+int sna_init_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)
+{
+    GM_Control *pCtrl = &pActor->field_20_ctrl;
+    int bVar1 = 0;
+    SVECTOR SStack48;
+    SVECTOR auStack40;
+    
+    if (sna_init_8004E71C(a3, pCtrl->field_2C_map->field_8_hzd, &SStack48, a5))
+    {
+        return 1;
+    }
+    
+    if (a2 == 0)
+    {
+        return 0;
+    }
+
+    if (sna_init_8004E71C(a4, pCtrl->field_2C_map->field_8_hzd, &auStack40, a5))
+    {
+        if (!svector_800ABBB8 || (svector_800ABBB8->pad == 2))
+        {
+            return 1;
+        }
+
+        if (sub_8004E51C(&SStack48, pActor->field_20_ctrl.field_2C_map->field_8_hzd, 3, 1) < 0)
+        {
+            return 1;
+        }
+
+        bVar1 = 1;
+    }
+
+    if ((!bVar1) && sna_init_8004E71C((a3 + a4) / 2, pCtrl->field_2C_map->field_8_hzd, &SStack48, a5))
+    {
+        return 1;
+    }
+
+    return 0;
+}
 
 int sub_8004E930(Actor_SnaInit *snake, int arg1)
 {
@@ -392,7 +429,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     vec0.vz = (short)arg1;
     DG_PutVector_8001BE48(&vec0, &vec0, 1);
 
-    int1 = HZD_SlopeFloorLevel_800298F8(&vec0, dword_800ABBB8);
+    int1 = HZD_SlopeFloorLevel_800298F8(&vec0, svector_800ABBB8);
     int1 -= snake->field_20_ctrl.field_78;
 
     vec1.vx = int1;
@@ -411,7 +448,7 @@ void sub_8004E9D0(Actor_SnaInit *pActor)
 {
     int iVar1;
 
-    if (dword_800ABBB8 != 0)
+    if (svector_800ABBB8)
     {
         iVar1 = sub_8004E930(pActor, 500);
         iVar1 = iVar1 / 2;
@@ -907,9 +944,9 @@ int sub_8004FB38(void)
 
 #pragma INCLUDE_ASM("asm/sub_8004FB4C.s") // 68 bytes
 
-int *sub_8004FB90(void)
+SVECTOR ** sub_8004FB90(void)
 {
-    return &dword_800ABBB8;
+    return &svector_800ABBB8;
 }
 
 extern unsigned char gBulNames_800BDC78[64];
@@ -1020,7 +1057,7 @@ void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int time)
 
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
-    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sub_8004E808(pActor, 1, 0, 0xfffffd92, 1500) == 0)
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sna_init_8004E808(pActor, 1, 0, 0xfffffd92, 1500) == 0)
     {
 
         pActor->field_A28 = 450;
@@ -1216,12 +1253,12 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int time)
                     sna_init_start_anim_8004E1F4(pActor, sna_init_anim_crouch_800527DC);
                     break;
                 case 2:
-                    if (sub_8004E808(pActor, 1, 0, -0x26e, 0x5dc) != 0)
+                    if (sna_init_8004E808(pActor, 1, 0, -0x26e, 0x5dc) != 0)
                     {
                         return;
                     }
                 default:
-                    if (sub_8004E808(pActor, 0, 0, 0, 0x5dc) != 0)
+                    if (sna_init_8004E808(pActor, 0, 0, 0, 0x5dc) != 0)
                     {
                         return;
                     }
@@ -1716,7 +1753,7 @@ void sna_init_anim_crouch_helper_80053014(Actor_SnaInit *pActor)
 
     if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0)
     {
-        if (sub_8004E808(pActor, 0, 0, 0, 1100) == 0)
+        if (sna_init_8004E808(pActor, 0, 0, 0, 1100) == 0)
         {
             pActor->field_20_ctrl.field_4C_turn_vec.vy = pActor->field_20_ctrl.field_8_rotator.vy;
 
@@ -1789,7 +1826,7 @@ void sna_init_fn_800531F4(Actor_SnaInit *pActor)
     {
         if (dword_800ABBC4 == 1 || (dword_800ABBC4 != 0 && pActor->field_79C == 2))
         {
-            if (sub_8004E808(pActor, 0, 0, 0, 1500) == 0)
+            if (sna_init_8004E808(pActor, 0, 0, 0, 1500) == 0)
             {
                 pActor->field_20_ctrl.field_4C_turn_vec.vy = pActor->field_20_ctrl.field_8_rotator.vy;
                 GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PRONE);
@@ -3339,7 +3376,7 @@ void sna_init_anim_stinger_helper_80058378(Actor_SnaInit *pActor)
     }
 }
 
-// https://decomp.me/scratch/b53h8
+// https://decomp.me/scratch/1kti5
 #pragma INCLUDE_ASM("asm/sub_80058470.s") // 468 bytes
 
 void sub_80058644(Actor_SnaInit *pActor, int time)
