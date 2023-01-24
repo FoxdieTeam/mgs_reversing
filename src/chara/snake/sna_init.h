@@ -357,9 +357,7 @@ typedef struct Actor_SnaInit
     int                 field_9C4;
     void               *field_9C8_anim_update_fn_3p; // called for every anim/state while in third person
     void               *field_9CC_anim_update_fn_1p; // same except first person. caller: 8005a7e0
-    SVECTOR             field_9D0[2];
-    short               field_9E0;
-    short               field_9E2;
+    short               field_9D0[10];
     UnkSnakeStruct2     field_9E4;
     SVECTOR             field_9F4;
     int                 field_9FC;
