@@ -723,9 +723,7 @@ void *SECTION(".data") gSnakeEquips_8009EF8C[] = {(void *)0x80062274, // tabako
                                                   (void *)0x800615FC,                         // kogaku2 - camera ??
                                                   NewBandana_80061E40,   (void *)0x80065118}; // jpegcam
 
-SVECTOR SECTION(".data") stru_8009EFC0[2] = {{0, 500, 0, 320}, {400, 320, 400, 32}};
-
-int SECTION(".data") dword_8009EFD0 = 32;
+short SECTION(".data") word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
 
 SVECTOR SECTION(".data") stru_8009EFD4 = {-100, 200, 200, 0};
 SVECTOR SECTION(".data") stru_8009EFDC = {-150, 18, 200, 0};
