@@ -129,7 +129,7 @@ void     HZD_Process_TableFlagIfTriggers_80021928(HZD_TRG *triggers, int n_trigg
 void     HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1); // navmeshes
 void     HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
 void     HZD_ReExecEvent_8002A1F4(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags);
-int      HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, int arg1);
+int      HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, SVECTOR *arg1);
 
 void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 

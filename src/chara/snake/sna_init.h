@@ -437,7 +437,7 @@ int          sna_act_unk_helper4_8004FA3C(void);
 void         sna_init_8004FA74(Actor_SnaInit *param_1);
 void         sub_8004FA9C(Actor_SnaInit *snake);
 int          sub_8004FB38(void);
-int         *sub_8004FB90(void);
+SVECTOR    **sub_8004FB90(void);
 
 // TODO: move these to game.h even though theyre defined in sna_init.c?
 // .. or move the implementation to a static inline in game.h which the definition in sna_init calls?

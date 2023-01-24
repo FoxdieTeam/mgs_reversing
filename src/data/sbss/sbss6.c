@@ -2,7 +2,9 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 
-int SECTION(".sbss") dword_800ABBB8;
+// Not too sure, seems to only be used as a vector
+SVECTOR *SECTION(".sbss") svector_800ABBB8;
+
 int SECTION(".sbss") dword_800ABBBC;
 int SECTION(".sbss") dword_800ABBC0;
 int SECTION(".sbss") dword_800ABBC4;
