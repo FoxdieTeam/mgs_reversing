@@ -866,7 +866,7 @@ SVECTOR SECTION(".data") stru_8009F650[2] = {{0, 0, 200, 0}, {0, 0, 10000, 0}};
 
 SVECTOR SECTION(".data") stru_8009F660 = {100, 100, 100, 0};
 
-int SECTION(".data") dword_8009F668 = 0xFFFFFFFF;
+int SECTION(".data") gSparkRandomTableIndex_8009F668 = 0xFFFFFFFF;
 int SECTION(".data") dword_8009F66C = 0;
 
 struct Anim_Data SECTION(".data") stru_8009F670 = {

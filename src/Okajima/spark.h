@@ -1,10 +1,10 @@
 #ifndef _SPARK_H_
 #define _SPARK_H_
 
-struct Actor_Spark
+typedef struct Actor_Spark
 {
     Actor    f000_actor;
-    int      f020;
+    int      f020_map;
     DG_PRIM *f024_pPrim;
     int      f028;
     int      f02C;
@@ -85,16 +85,13 @@ struct Actor_Spark
     int      f15C;
     int      f160;
     int      f164;
-    short    f168;
-    short    f16A;
-    short    f16C;
-    short    f16E;
+    SVECTOR  f168;
     int      f170_counter;
-};
+} Actor_Spark;
 
 void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
-void spark_800742F0(POLY_FT4 *pPoly, int count, int a3);
-void InitRandamTable_80073DB0();
+void spark_800742F0(POLY_FT4 *pPoly, int count, int color);
+void spark_init_random_table_80073DB0();
 void spark_loader3_80073E48(int *a1, SVECTOR *a2, int a3, int a4);
 
 #endif // _SPARK_H_

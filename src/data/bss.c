@@ -234,7 +234,11 @@ Jirai_unknown BSS stru_800BDE78[8]; // 0x80 (128) bytes
 int BSS dword_800BDEF8[2]; // 0x8 (8) bytes
 GM_Target *BSS target_800BDF00; // 0x4 (4) bytes
 
-gap gap_800BDF04[0xA4]; // 164 bytes
+gap gap_800BDF04[0xC]; // 12 bytes
+
+short BSS gSparkRandomTable_800BDF10[0x40]; // 0x80 (128) bytes
+
+gap gap_800BDF90[0x18]; // 24 bytes
 
 int BSS dword_800BDFA8; // 0x4 (4) bytes
 
