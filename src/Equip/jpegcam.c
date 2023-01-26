@@ -1,8 +1,10 @@
+#include "jpegcam.h"
 #include "psyq.h"
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
 
-extern char aPHOTO[]; // "PHOTO %02d\n"
+extern char aPHOTO[];    // "PHOTO %02d\n"
+extern char aJpegcamC[]; // "jpegcam.c";
 
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
@@ -28,4 +30,22 @@ void jpegcam_unk2_80063888(char *param_1, int param_2)
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_80064C50.s")                                       // 952 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_kill_80065008.s")                                      // 144 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_loader_80065098.s")                                    // 128 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_init_80065118.s")                                      // 152 bytes
+
+Actor_jpegcam *NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent)
+{
+    Actor_jpegcam *pActor;
+
+    pActor = (Actor_jpegcam *)GV_NewActor_800150E4(1, sizeof(Actor_jpegcam));
+    if (pActor != NULL)
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jpegcam_act_80064C50,
+                                  (TActorFunction)jpegcam_kill_80065008, aJpegcamC);
+        if (jpegcam_loader_80065098(pActor, pCtrl, pParent) < 0)
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return NULL;
+        }
+        pActor->field_20_pCtrl = pCtrl;
+    }
+    return pActor;
+}
