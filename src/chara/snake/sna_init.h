@@ -411,12 +411,12 @@ unsigned int sna_init_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2);
 void         sna_init_check_dead_8004E384(Actor_SnaInit *snake);
 void         sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags);
 int          sub_8004E458(short param_1, int param_2);
-int          sub_8004E4C0(int unused, int param_2);
+int          sub_8004E4C0(Actor_SnaInit *pActor, int param_2);
 int          sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4);
 void         sub_8004E588(HZD_MAP *param_1, SVECTOR *param_2, int *param_3);
 int          sub_8004E930(Actor_SnaInit *snake, int arg1);
 void         sub_8004E9D0(Actor_SnaInit *pActor);
-void         sub_8004EA50(int param_1, int param_2);
+void         sub_8004EA50(Actor_SnaInit *pActor, int param_2);
 int          sna_init_8004EAA8(Actor_SnaInit *pActor, int a2);
 void         sub_8004EB74(Actor_SnaInit *pActor);
 void         sna_init_8004EC00(Actor_SnaInit *pActor);
@@ -544,7 +544,7 @@ void sna_init_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int anim_f
 void sub_8004FAE8(Actor_SnaInit *pActor);
 void sna_init_anim_wall_move_helper_800538CC(Actor_SnaInit *pActor, int anim_frame);
 void sna_init_knock_80054D68(void);              // dummy signature
-void sna_init_anim_rungun_helper_80057844(void); // dummy signature
+void sna_init_anim_rungun_helper_80057844(Actor_SnaInit *pActor);
 int  sub_8005009C(void);
 int  sub_80051BA4(Actor_SnaInit *pActor);
 int  sub_8004EFE4(Actor_SnaInit *pActor, int param_2);
