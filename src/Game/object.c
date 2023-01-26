@@ -4,6 +4,7 @@
 #include "psyq.h"
 #include "libdg/libdg.h"
 #include "motion.h"
+#include "common.h"
 
 /*-----sdata-----------------------------------------*/
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -19,26 +20,6 @@ int        SECTION(".sbss") mt_rt2_800ABAB8;
 extern int mt_count_800ABAC0;
 int        SECTION(".sbss") mt_count_800ABAC0;
 /*------------------------------------------------*/
-
-#define DCache 0x1F8003FC
-
-// below macros are used in 2 other functions, should maybe go in common.h
-
-// Put stack on scratchpad
-#define SetSpadStack(addr)                                                                                             \
-    {                                                                                                                  \
-        __asm__ volatile("move $8,%0" ::"r"(addr) : "$8", "memory");                                                   \
-        __asm__ volatile("sw $29,0($8)" ::: "$8", "memory");                                                           \
-        __asm__ volatile("addiu $8,$8,-4" ::: "$8", "memory");                                                         \
-        __asm__ volatile("move $29,$8" ::: "$8", "memory");                                                            \
-    }
-
-// reset scratchpad stack
-#define ResetSpadStack()                                                                                               \
-    {                                                                                                                  \
-        __asm__ volatile("addiu $29,$29,4" ::: "$29", "memory");                                                       \
-        __asm__ volatile("lw $29,0($29)" ::: "$29", "memory");                                                         \
-    }
 
 void sub_800348F4(OBJECT *obj)
 {
