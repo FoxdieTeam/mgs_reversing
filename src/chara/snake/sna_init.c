@@ -250,7 +250,7 @@ int sub_8004E458(short param_1, int param_2)
     }
 }
 
-int sub_8004E4C0(int unused, int param_2)
+int sub_8004E4C0(Actor_SnaInit *pActor, int param_2)
 {
     int iVar1;
 
@@ -462,21 +462,20 @@ void sub_8004E9D0(Actor_SnaInit *pActor)
     pActor->field_718[9].vx = GV_NearExp2_80026384(pActor->field_718[9].vx, -iVar1);
 }
 
-void sub_8004EA50(int param_1, int param_2)
+void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
 {
-    unsigned int uVar1;
+    int iVar1 = GV_DiffDirS_8001704C(param_2, pActor->field_20_ctrl.field_8_rotator.vy);
 
-    uVar1 = GV_DiffDirS_8001704C(param_2, (int)*(short *)(param_1 + 0x2a));
-    if ((int)uVar1 >= 0x81)
+    if (iVar1 > 128)
     {
-        uVar1 = 0x80;
+        iVar1 = 128;
     }
-    else if ((int)uVar1 < -0x80)
+    else if (iVar1 < -128)
     {
-        uVar1 = 0xffffff80;
+        iVar1 = -128;
     }
-    *(short *)(param_1 + 0x70) = (short)uVar1;
-    return;
+
+    pActor->field_20_ctrl.field_4C_turn_vec.vz = iVar1;
 }
 
 int sna_init_8004EAA8(Actor_SnaInit *pActor, int a2)
@@ -3283,8 +3282,55 @@ void sna_init_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int time)
     }
 }
 
-// https://decomp.me/scratch/rNvHM
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_rungun_helper_80057844.s") // 348 bytes
+void sna_init_anim_rungun_helper_80057844(Actor_SnaInit *pActor)
+{
+    int angle;
+
+    if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_PREVENT_FIRST_PERSON))
+    {
+        sna_init_8004E260(pActor, 0, 4, 0);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_run_8005292C);
+        return;
+    }
+    
+    if (gSnaMoveDir_800ABBA4 < 0 || (!(pActor->field_920_tbl_8009D580 & 8U) && !(pActor->field_9B0_pad_ptr->status & 0x40)))
+    {
+        if (++pActor->field_A3A >= 5)
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_shoot_weapon_80056B88);
+            return;
+        }
+    }
+    else
+    {
+        pActor->field_A3A = 0;
+    }
+    
+    if (!sna_init_sub_8004E358(pActor, SNA_FLAG2_UNK5))
+    {
+        if (gSnaMoveDir_800ABBA4 < 0)
+        {
+            angle = pActor->field_20_ctrl.field_4C_turn_vec.vy;
+        }
+        else
+        {
+            angle = sub_8004E4C0(pActor, gSnaMoveDir_800ABBA4);
+        }
+
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = angle;
+        sub_8004EA50(pActor, angle);
+    }
+    else if (!(pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP)))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_shoot_weapon_80056B88);
+    }
+    else
+    {
+        sub_8004FA9C(pActor);
+    }
+}
 
 void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 {
