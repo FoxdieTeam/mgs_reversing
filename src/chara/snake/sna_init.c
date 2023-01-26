@@ -899,7 +899,45 @@ void sub_8004F454(Actor_SnaInit *pActor)
     sna_init_clear_flags2_8004E344(pActor, SNA_FLAG2_UNK9);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004F544.s")      // 228 bytes
+int sna_init_8004F544(Actor_SnaInit *pActor, SVECTOR param_2, int a3, int a4, int a5)
+{
+    MATRIX mtx;
+    SVECTOR vec1;
+    SVECTOR vec2;
+    SVECTOR vec3;
+
+    int bVar1;
+    int iVar2;
+    
+    vec1 = param_2;
+    
+    vec3.vy = 0;
+    vec3.vx = 0;
+    vec3.vz = a3;
+    
+    ReadRotMatrix_80092DD8(&mtx);
+    DG_SetPos2_8001BC8C(&param_2, &pActor->field_20_ctrl.field_4C_turn_vec);
+    DG_PutVector_8001BE48(&vec3, &vec2, 1);
+    DG_SetPos_8001BC44(&mtx);
+
+    iVar2 = sub_8004E51C(&vec1, pActor->field_20_ctrl.field_2C_map->field_8_hzd, a4, a5);
+
+    bVar1 = a3 < iVar2;
+
+    if (a3 < 0)
+    {
+        a3 = -a3;
+        bVar1 = a3 < iVar2;
+    }
+
+    if (bVar1)
+    {
+        iVar2 = -1;
+    }
+
+    return iVar2;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8004F628.s")      // 192 bytes
 #pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s") // 508 bytes
 #pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s") // 344 bytes
