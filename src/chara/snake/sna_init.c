@@ -89,6 +89,7 @@ extern int                dword_8009EF24[];
 extern int                dword_8009EF2C[];
 extern SVECTOR            dword_800AB7CC;
 extern int                counter_8009F448;
+extern const char         aSnakeEUC[];
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -938,9 +939,58 @@ int sna_init_8004F544(Actor_SnaInit *pActor, SVECTOR param_2, int a3, int a4, in
     return iVar2;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004F628.s")      // 192 bytes
+unsigned int sna_init_8004F628(Actor_SnaInit *pActor, SVECTOR *param_2, int param_3, int param_4, int param_5, int param_6)
+{
+    SVECTOR vec;
+  
+    DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+    DG_PutVector_8001BE48(param_2, &vec, 1);
+
+    if (param_6 >= 1)
+    {
+        vec.vy = pActor->field_20_ctrl.field_78 + param_6;
+    }
+
+    return sna_init_8004F544(pActor, vec, param_3, param_4, param_5) >= 0;
+}
+
 #pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s") // 508 bytes
-#pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s") // 344 bytes
+    
+void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2)
+{
+    Sna_7A4 str;
+    
+    if ((GM_GameOverTimer_800AB3D4 + 1) < 2u)
+    {
+        str.field_0 = GV_StrCode_80016CCC(aSnakeEUC);
+        str.field_12 = 6;
+        str.field_4 = 48650;
+        str.field_6 = a2;
+        str.field_8 = -1;
+        str.field_A = -1;
+        str.field_C = 2;
+        str.field_E = 2042;
+    
+        pActor->field_7A4[pActor->field_7A0] = str;
+        pActor->field_7A0++;
+
+        GM_GameOverTimer_800AB3D4 = 0;
+        GM_GameOver_8002B6C8();
+
+        GM_GameStatus_800AB3CC |= 0x10000000;
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK20);
+    
+        if (pActor->field_A70 >= 0)
+        {
+            GCL_ForceExecProc_8001FEFC(pActor->field_A70, NULL);
+        }
+
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000))
+        {
+            sub_8004F204(pActor);
+        }
+    }
+}
 
 int sna_act_unk_helper4_8004FA3C(void)
 {

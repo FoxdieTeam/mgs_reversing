@@ -63,7 +63,7 @@ const int  SECTION(".rdata") dword_800122F4[] = {0x66826C82, 0xE7817282, 0};
 const char SECTION(".rdata") aSaveData[] = "SAVE DATA";
 const int  SECTION(".rdata") jpt_8001230C[] = {0x8004C4E8, 0x8004C580, 0x8004CAF8, 0x8004CB7C,
                                                0x8004CCD4, 0x8004CC34, 0x8004CDB4};
-const int  SECTION(".rdata") aEEBEp_80012328[] = {0xCDA5B9A5, 0xAFA5BCA1, 0};
+const char SECTION(".rdata") aSnakeEUC[] = {0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00}; // This is snake in EUC-JP encoding
 const char SECTION(".rdata") aForceActCancel[] = "force act cancel\n";
 const char SECTION(".rdata") aRunMoveCancel[] = "run move cancel\n";
 const char SECTION(".rdata") aForceStanceCan[] = "force stance cancel\n";
