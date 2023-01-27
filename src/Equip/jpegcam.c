@@ -30,7 +30,18 @@ void jpegcam_act_helper2_helper_8006392C()
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper3_80063988.s")         // 96 bytes
+void jpegcam_act_helper3_helper_helper_helper3_80063988(unsigned short *param_1, char *param_2)
+{
+    int i;
+
+    for (i = 0; i < 0x100; i++, param_2 += 4, param_1++)
+    {
+        param_2[2] = (*param_1 << 3) & 0xF8;
+        param_2[1] = (*param_1 >> 2) & 0xF8;
+        param_2[0] = (*param_1 >> 7) & 0xF8;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper_800639E8.s")  // 428 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94.s") // 124 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10.s") // 192 bytes
