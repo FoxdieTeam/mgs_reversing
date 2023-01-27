@@ -1,5 +1,7 @@
 #include "jpegcam.h"
 #include "psyq.h"
+#include "Game/camera.h"
+#include "Game/object.h"
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
 
@@ -77,7 +79,26 @@ void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSou
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper2_800649F4.s")                       // 160 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_80064A94.s")                               // 444 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_80064C50.s")                                       // 952 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_kill_80065008.s")                                      // 144 bytes
+
+extern GM_Camera       GM_Camera_800B77E8;
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+
+void jpegcam_kill_80065008(Actor_jpegcam *pActor)
+{
+    GM_Camera_800B77E8.field_20 = 320;
+    gUnkCameraStruct_800B77B8.field_28 = pActor->field_54;
+
+    GM_GameStatus_800AB3CC &= ~0x800;
+    GM_GameStatus_800AB3CC &= ~0x400;
+
+    if (pActor->field_94 != 0)
+    {
+        EQ_VisibleHead_80060DF0(pActor->field_24_pObj, &pActor->field_4c_head_saved_packs,
+                                &pActor->field_4e_head_saved_raise);
+        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_obj);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_loader_80065098.s")                                    // 128 bytes
 
 Actor_jpegcam *NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent)
