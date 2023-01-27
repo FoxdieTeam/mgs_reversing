@@ -5,6 +5,7 @@ import re
 import os
 import subprocess
 import sys
+import platform
 from glob import glob
 from iterfzf import iterfzf
 from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS32
@@ -180,8 +181,14 @@ def main(path):
             name = os.path.basename(path).replace('.s', '')
             code = dw_to_code(path)
             lines = disasm(code, addr, name)
-            clipboard('\n'.join(lines) + '\n')
-            print('asm is now on your clipboard to paste into decomp.me')
+            text = '\n'.join(lines) + '\n'
+
+            # xclip causes crashes under WSL
+            if "microsoft-standard" in platform.uname().release:
+                print(text)
+            else:
+                clipboard(text)
+                print('asm is now on your clipboard to paste into decomp.me')
 
 if __name__ == '__main__':
     main(sys.argv[1] if len(sys.argv) > 1 else None)
