@@ -938,7 +938,21 @@ int sna_init_8004F544(Actor_SnaInit *pActor, SVECTOR param_2, int a3, int a4, in
     return iVar2;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004F628.s")      // 192 bytes
+unsigned int sna_init_8004F628(Actor_SnaInit *pActor, SVECTOR *param_2, int param_3, int param_4, int param_5, int param_6)
+{
+    SVECTOR vec;
+  
+    DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+    DG_PutVector_8001BE48(param_2, &vec, 1);
+
+    if (param_6 >= 1)
+    {
+        vec.vy = pActor->field_20_ctrl.field_78 + param_6;
+    }
+
+    return sna_init_8004F544(pActor, vec, param_3, param_4, param_5) >= 0;
+}
+
 #pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s") // 508 bytes
 #pragma INCLUDE_ASM("asm/sna_init_8004F8E4.s") // 344 bytes
 
