@@ -7,6 +7,7 @@ import time
 import subprocess
 import re
 import tempfile
+import platform
 from shutil import which
 from ninja import BIN_DIR
 # local copy as the pip version doesn't have dyndeps in build() func
@@ -18,6 +19,10 @@ os.environ['TMPDIR'] = tempfile.gettempdir()
 has_wine = bool(which('wine'))
 has_wibo = bool(which('wibo'))
 has_cpp = bool(which('cpp'))
+
+# Native preprocesor doesn't work under WSL
+if "microsoft-standard" in platform.uname().release:
+    has_cpp = False
 
 # TODO: make r3000.h and asm.h case sensitive symlinks on linux
 
