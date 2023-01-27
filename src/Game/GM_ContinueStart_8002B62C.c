@@ -17,7 +17,7 @@ int        SECTION(".sbss") GM_GameStatus_800AB3CC;
 extern short gGameState_800B4D98[0x60];
 extern short gGcl_gameStateVars_800B44C8[0x60];
 
-void GM_ContinueStart_8002B62C()
+void GM_ContinueStart_8002B62C(void)
 {
     int total_continues; // $s2
     int current_stage;   // $s1
@@ -45,7 +45,7 @@ void GM_ContinueStart_8002B62C()
     }
 }
 
-void GM_GameOver_8002B6C8()
+void GM_GameOver_8002B6C8(void)
 {
     if (!GM_GameOverTimer_800AB3D4)
     {

@@ -97,6 +97,20 @@ typedef struct Sna_1F4
     char  field_23;
 } Sna_1F4;
 
+typedef struct Sna_7A4
+{
+    short field_0;
+    short field_2;
+    unsigned short field_4;
+    short field_6;
+    unsigned short field_8;
+    unsigned short field_A;
+    short field_C;
+    short field_E;
+    short field_10;
+    short field_12;
+} Sna_7A4;
+
 typedef struct Sna_Joint_Rotations
 {
     SVECTOR field_0_lower_body;
@@ -252,46 +266,7 @@ typedef struct Actor_SnaInit
     int                 field_798;
     int                 field_79C;
     int                 field_7A0;
-    int                 field_7A4;
-    int                 field_7A8;
-    int                 field_7AC;
-    int                 field_7B0;
-    int                 field_7B4;
-    int                 field_7B8;
-    int                 field_7BC;
-    int                 field_7C0;
-    int                 field_7C4;
-    int                 field_7C8;
-    int                 field_7CC;
-    int                 field_7D0;
-    int                 field_7D4;
-    int                 field_7D8;
-    int                 field_7DC;
-    int                 field_7E0;
-    int                 field_7E4;
-    int                 field_7E8;
-    int                 field_7EC;
-    int                 field_7F0;
-    int                 field_7F4;
-    int                 field_7F8;
-    int                 field_7FC;
-    int                 field_800;
-    int                 field_804;
-    int                 field_808;
-    int                 field_80C;
-    int                 field_810;
-    int                 field_814;
-    int                 field_818;
-    int                 field_81C;
-    int                 field_820;
-    int                 field_824;
-    int                 field_828;
-    int                 field_82C;
-    int                 field_830;
-    int                 field_834;
-    int                 field_838;
-    int                 field_83C;
-    int                 field_840;
+    Sna_7A4             field_7A4[8]; // 8 entries is just a guess
     int                 field_844;
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
