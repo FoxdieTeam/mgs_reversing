@@ -13,8 +13,8 @@ void jpegcam_unk2_80063888(char *param_1, int param_2)
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk3_800638B4.s")                                      // 120 bytes
 
-extern char gJpegcamMatrix1_8009F36C[8][8];
-extern char gJpegcamMatrix2_800BDCD8[8][8];
+extern TMat8x8B gJpegcamMatrix1_8009F36C;
+extern TMat8x8B gJpegcamMatrix2_800BDCD8;
 
 void jpegcam_act_helper2_helper_8006392C()
 {
@@ -43,7 +43,28 @@ void jpegcam_act_helper3_helper_helper_helper3_80063988(unsigned short *param_1,
 }
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper_800639E8.s")  // 428 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94.s") // 124 bytes
+
+void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSourceMat, TMat8x8B *pDestMat1,
+                                                                TMat8x8B *pDestMat2, TMat8x8B *pDestMat3,
+                                                                TMat8x8B *pDestMat4)
+{
+    // Given a "16 by 16B" matrix, copy its four quadrants
+    // into four "4 by 4B" matricies
+
+    int i, j;
+
+    for (i = 0; i < 8; i++)
+    {
+        for (j = 0; j < 8; j++)
+        {
+            (*pDestMat1)[i][j] = (*pSourceMat)[i][j];
+            (*pDestMat2)[i][j] = (*pSourceMat)[i][j + 8];
+            (*pDestMat3)[i][j] = (*pSourceMat)[i + 8][j];
+            (*pDestMat4)[i][j] = (*pSourceMat)[i + 8][j + 8];
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10.s") // 192 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0.s") // 268 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper5_80063DDC.s") // 212 bytes

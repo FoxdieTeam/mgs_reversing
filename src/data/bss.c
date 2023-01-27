@@ -16,6 +16,7 @@
 #include "Kojo/demothrd.h"
 #include "SD/sd.h"
 #include "Game/camera.h"
+#include "Equip/jpegcam.h"
 
 #define BSS SECTION(".bss")
 #define gap char BSS
@@ -220,7 +221,7 @@ short BSS word_800BDCC0; // 0x4 (4) bytes - padded
 
 gap gap_800BDCC4[0x14]; // 20 bytes
 
-char BSS gJpegcamMatrix2_800BDCD8[8][8]; // 0x40 (64) bytes
+TMat8x8B BSS gJpegcamMatrix2_800BDCD8; // 0x40 (64) bytes
 DVECTOR BSS dvector_800BDD18[3]; // 0xC (12) bytes
 
 gap gap_800BDD24[0xC]; // 12 bytes
