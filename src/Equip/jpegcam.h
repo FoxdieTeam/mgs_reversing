@@ -5,6 +5,9 @@
 #include "Game/Game.h"
 #include "Game/GM_Control.h"
 
+typedef char TMat8x8B[8][8];     // Matrix with 8 rows by 8 bytes
+typedef char TMat16x16B[16][16]; // Matrix with 16 rows by 16 bytes
+
 typedef struct Actor_jpegcam
 {
     Actor       field_0_actor;
