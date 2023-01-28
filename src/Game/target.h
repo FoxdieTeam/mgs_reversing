@@ -13,8 +13,8 @@ typedef struct GM_Target
     unsigned short field_6_flags;
     SVECTOR        field_8_vec;
     SVECTOR        field_10_size;
-    int            field_18;
-    int            field_1C;
+    int           *field_18;
+    int           *field_1C;
     MATRIX        *field_20;
     short          field_24;
     short          field_26_hp;
@@ -72,5 +72,9 @@ int        sub_8002D7DC(GM_Target *pTarget);
 int        sub_8002D208(GM_Target *pTarget, GM_Target *a2);
 void       sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, GM_Target *a3);
 int        sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, GM_Target *a3, SVECTOR *a4);
+void       GM_Target_8002DCB4(GM_Target *pTarget, int a2, int a3, int *a4, int *a5);
+GM_Target *GM_C4Target_8002D620(GM_Target *pTarget);
+GM_Target *GM_CaptureTarget_8002D530(GM_Target *pTarget);
+
 
 #endif // _TARGET_H_
