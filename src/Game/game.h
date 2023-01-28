@@ -118,15 +118,40 @@ enum
     WEAPON_STINGER = 4,
     WEAPON_CLAYMORE = 5,
     WEAPON_C4 = 6,
-    WEAPON_STUNGRENADE = 7,
-    WEAPON_CHAFF = 8,
+    WEAPON_STUN_G = 7,
+    WEAPON_CHAFF_G = 8,
     WEAPON_PSG1 = 9,
 };
 
 enum
 {
     ITEM_NONE = -1,
+    ITEM_CIGS = 0,
+    ITEM_SCOPE = 1,
+    ITEM_C_BOX_A = 2,
+    ITEM_C_BOX_B = 3,
+    ITEM_C_BOX_C = 4,
+    ITEM_N_V_G = 5,
+    ITEM_THERM_G = 6,
+    ITEM_GASMASK = 7,
+    ITEM_B_ARMOR = 8,
+    ITEM_KETCHUP = 9,
+    ITEM_STEALTH = 10,
+    ITEM_BANDANA = 11,
+    ITEM_CAMERA = 12,
+    ITEM_RATION = 13,
+    ITEM_MEDICINE = 14,
+    ITEM_DIAZEPAM = 15,
+    ITEM_PAL_KEY = 16,
+    ITEM_CARD = 17,
+    ITEM_TIMER_B = 18,
+    ITEM_MINE_D = 19,
+    ITEM_DISC = 20,
+    ITEM_ROPE = 21,
+    ITEM_SCARF = 22,
+    ITEM_SUPPR = 23
 };
+
 
 static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
 {
