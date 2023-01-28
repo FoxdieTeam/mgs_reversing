@@ -36,12 +36,17 @@ typedef struct AreaHistory
 
 #define GM_ItemBase        37
 
+#define GM_ItemRation      50
+
 #define GM_ItemTimerB      55
 
 #define GM_ItemSilencer    60
 
+#define GM_FrozenItems     69
+
 #define GM_PreviousStage   74
 
+#define GM_RationCount     86
 #define GM_ContinueCount   87
 #define GM_SaveCount       88
 

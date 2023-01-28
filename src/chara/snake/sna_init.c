@@ -954,7 +954,93 @@ unsigned int sna_init_8004F628(Actor_SnaInit *pActor, SVECTOR *param_2, int para
     return sna_init_8004F544(pActor, vec, param_3, param_4, param_5) >= 0;
 }
 
-#pragma INCLUDE_ASM("asm/OPERATOR_8004F6E8.s") // 508 bytes
+static inline int sna_init_helper_8004F6E8(int health, int f9A8)
+{
+    int temp;
+
+    if ((health == 0) &&
+        (GM_GameOverTimer_800AB3D4 == 0) &&
+        (f9A8 == 13) &&
+        (gGameState_800B4D98[GM_ItemRation] > 0) &&
+        !gGameState_800B4D98[GM_FrozenItems])
+    {
+        temp = (gGameState_800B4D98[GM_Difficulty] > 0) ? 256 : 384;
+
+        if (gGameState_800B4D98[GM_Difficulty] < 0)
+        {
+            temp = gGameState_800B4D98[GM_MaxHealth];
+        }
+
+        health = temp;
+
+        if (health > gGameState_800B4D98[GM_MaxHealth])
+        {
+            health = gGameState_800B4D98[GM_MaxHealth];
+        }
+
+        gGameState_800B4D98[GM_ItemRation] -= 1;
+            
+        if (gGameState_800B4D98[GM_ItemRation] == 0)
+        {
+            gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
+        }
+
+        gGameState_800B4D98[GM_RationCount] += 1;
+        GM_Sound_80032968(0, 63, 12);
+    }
+
+    return health;
+}
+
+void sna_init_8004F6E8(Actor_SnaInit *pActor)
+{
+    int health;
+    
+    if (sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK23))
+    {
+        return;
+    }
+
+    if (sna_init_check_flags1_8004E31C(pActor,SNA_FLAG1_UNK25) &&
+        (gGameState_800B4D98[GM_CurrentHealth] == pActor->field_89C_pTarget->field_26_hp))
+    {
+        return;
+    }
+    
+    if ((pActor->field_9A8 == 8) && (pActor->field_89C_pTarget->field_3E == 1))
+    {
+        pActor->field_89C_pTarget->field_28 /= 2;
+        pActor->field_89C_pTarget->field_26_hp += pActor->field_89C_pTarget->field_28;
+        pActor->field_89C_pTarget->field_28 = 0;
+    }
+    
+    health = pActor->field_89C_pTarget->field_26_hp + gGameState_800B4D98[GM_CurrentHealth] - pActor->field_A22_snake_current_health;
+    
+    if (health > gGameState_800B4D98[GM_MaxHealth])
+    {
+        health = gGameState_800B4D98[GM_MaxHealth];
+    }
+
+    if (health < 0)
+    {
+        health = 0;
+    }
+
+    if (pActor->field_89C_pTarget->field_44 != 10)
+    {
+        health = sna_init_helper_8004F6E8(health, pActor->field_9A8);
+    }
+    else
+    {
+        health = 0;
+    }
+    
+    pActor->field_89C_pTarget->field_26_hp = health;
+    pActor->field_A22_snake_current_health = health;
+    gGameState_800B4D98[GM_CurrentHealth] = health;
+    
+    sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK25);
+}
     
 void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2)
 {
