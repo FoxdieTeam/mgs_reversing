@@ -23,6 +23,7 @@
 #include "Menu/radio.h"
 #include "Bullet/blast.h"
 #include "Weapon/aam.h"
+#include "Equip/jpegcam.h"
 
 // sdata
 extern const char *aCigs[];
@@ -789,7 +790,7 @@ int     SECTION(".data") dword_8009F2F0[] = {0xA030209,  0x19201811, 0x5040B12, 
 int     SECTION(".data") dword_8009F32C[] = {0x16131002, 0x221D1B1A, 0x18161010, 0x25221D1B, 0x1B1A1613, 0x2622221D,
                                              0x1B1A1616, 0x2825221D, 0x1D1B1A16, 0x30282320, 0x201D1B1A, 0x3A302823,
                                              0x221D1B1A, 0x45382E26, 0x26231D1B, 0x5345382E};
-char    SECTION(".data") gJpegcamMatrix1_8009F36C[8][8] = {
+TMat8x8B SECTION(".data") gJpegcamMatrix1_8009F36C = {
     {0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D},
     {0x3F, 0x35, 0x23, 0x0C, 0xF4, 0xDD, 0xCB, 0xC1},
     {0x3B, 0x18, 0xE8, 0xC5, 0xC5, 0xE8, 0x18, 0x3B},
