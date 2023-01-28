@@ -53,7 +53,7 @@ typedef struct Actor_Claymore
     SVECTOR   field_110;
     SVECTOR   field_118;
     int       field_120;
-    int       field_124;
+    int       field_124; // Counter increasing from 0 to 3?
     int       field_128;
 } Actor_Claymore;
 
