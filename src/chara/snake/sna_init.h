@@ -322,7 +322,7 @@ typedef struct Actor_SnaInit
     int                 field_99C;
     int                 field_9A0;
     Actor              *field_9A4_item_actor;
-    int                 field_9A8;
+    int                 field_9A8_current_item;
     int                 field_9AC;
     GV_PAD             *field_9B0_pad_ptr;
     Sna_ActionTable    *field_9B4_action_table;
@@ -409,7 +409,7 @@ void         sub_8004F338(Actor_SnaInit *param_1);
 int          sna_act_unk_helper4_8004FA3C(void);
 void         sna_init_8004FA74(Actor_SnaInit *param_1);
 void         sub_8004FA9C(Actor_SnaInit *snake);
-int          sub_8004FB38(void);
+int          sna_init_current_item_8004FB38(void);
 SVECTOR    **sub_8004FB90(void);
 
 // TODO: move these to game.h even though theyre defined in sna_init.c?

@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "chara/snake/sna_init.h"
 
 int SECTION(".sbss") dword_800ABB3C;
 
@@ -23,9 +24,12 @@ int SECTION(".sbss") dword_800ABB80;
 int SECTION(".sbss") dword_800ABB84;
 int SECTION(".sbss") dword_800ABB88;
 int SECTION(".sbss") dword_800ABB8C;
-int SECTION(".sbss") dword_800ABB90[2];
+int SECTION(".sbss") dword_800ABB90;
+int SECTION(".sbss") dword_800ABB94;
 int SECTION(".sbss") dword_800ABB98;
-int SECTION(".sbss") dword_800ABB9C[2];
+int SECTION(".sbss") dword_800ABB9C;
+
+Actor_SnaInit *SECTION(".sbss") sna_init_800ABBA0;
 
 int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 

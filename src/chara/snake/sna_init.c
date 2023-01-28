@@ -37,8 +37,8 @@ extern OBJECT     *dword_800ABA20;
 extern SVECTOR *svector_800ABBB8;
 SVECTOR *SECTION(".sbss") svector_800ABBB8;
 
-extern int dword_800ABB9C[2];
-int        SECTION(".sbss") dword_800ABB9C[2];
+extern Actor_SnaInit *sna_init_800ABBA0;
+Actor_SnaInit *SECTION(".sbss") sna_init_800ABBA0;
 
 extern int dword_800ABBC4;
 int        SECTION(".sbss") dword_800ABBC4;
@@ -796,7 +796,7 @@ void sub_8004F204(Actor_SnaInit *param_1)
     }
 
     param_1->field_9A4_item_actor = 0;
-    param_1->field_9A8 = -1;
+    param_1->field_9A8_current_item = ITEM_NONE;
     gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
     param_1->field_9AC = GM_ItemTypes_8009D598[0];
 
@@ -954,13 +954,13 @@ unsigned int sna_init_8004F628(Actor_SnaInit *pActor, SVECTOR *param_2, int para
     return sna_init_8004F544(pActor, vec, param_3, param_4, param_5) >= 0;
 }
 
-static inline int sna_init_helper_8004F6E8(int health, int f9A8)
+static inline int sna_init_helper_8004F6E8(int health, int item)
 {
     int temp;
 
     if ((health == 0) &&
         (GM_GameOverTimer_800AB3D4 == 0) &&
-        (f9A8 == 13) &&
+        (item == ITEM_RATION) &&
         (gGameState_800B4D98[GM_ItemRation] > 0) &&
         !gGameState_800B4D98[GM_FrozenItems])
     {
@@ -1007,7 +1007,7 @@ void sna_init_8004F6E8(Actor_SnaInit *pActor)
         return;
     }
     
-    if ((pActor->field_9A8 == 8) && (pActor->field_89C_pTarget->field_3E == 1))
+    if ((pActor->field_9A8_current_item == ITEM_B_ARMOR) && (pActor->field_89C_pTarget->field_3E == 1))
     {
         pActor->field_89C_pTarget->field_28 /= 2;
         pActor->field_89C_pTarget->field_26_hp += pActor->field_89C_pTarget->field_28;
@@ -1028,7 +1028,7 @@ void sna_init_8004F6E8(Actor_SnaInit *pActor)
 
     if (pActor->field_89C_pTarget->field_44 != 10)
     {
-        health = sna_init_helper_8004F6E8(health, pActor->field_9A8);
+        health = sna_init_helper_8004F6E8(health, pActor->field_9A8_current_item);
     }
     else
     {
@@ -1112,12 +1112,22 @@ void sub_8004FAE8(Actor_SnaInit *snake)
     gUnkCameraStruct_800B77B8.field_28 = vec;
 }
 
-int sub_8004FB38(void)
+int sna_init_current_item_8004FB38(void)
 {
-    return *(int *)(dword_800ABB9C[1] + 0x9a8);
+    return sna_init_800ABBA0->field_9A8_current_item;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8004FB4C.s") // 68 bytes
+int sna_init_ration_available_8004FB4C(void)
+{
+    if ((sna_init_800ABBA0->field_9A8_current_item == ITEM_RATION) &&
+        (*GM_GetItemRation > 0) &&
+        (*GM_GetFrozenItems == 0))
+    {
+        return 1;
+    }
+
+    return 0;
+}
 
 SVECTOR ** sub_8004FB90(void)
 {
@@ -2837,7 +2847,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
                     if ((GM_GameOverTimer_800AB3D4 == 0 && unk2->field_9F2 == 0) ||
                         sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK29) != 0)
                     {
-                        pActor->field_A38 = pActor->field_9A8;
+                        pActor->field_A38 = pActor->field_9A8_current_item;
                         sub_8004F204(pActor);
                     }
                     else
@@ -2848,7 +2858,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
             }
             else
             {
-                pActor->field_A38 = pActor->field_9A8;
+                pActor->field_A38 = pActor->field_9A8_current_item;
                 sub_8004F204(pActor);
             }
 
