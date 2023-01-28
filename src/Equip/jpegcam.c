@@ -74,7 +74,51 @@ void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSou
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_80064054.s")         // 364 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_80064378.s")                        // 220 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper2_helper2_80064454.s")                       // 308 bytes
+
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern OBJECT         *dword_800ABA20;
+extern SVECTOR         dword_8009F3AC;
+
+int jpegcam_act_helper2_helper2_80064454(void *param_1)
+{
+
+    MATRIX  mtx;
+    SVECTOR vector1;
+    SVECTOR vector2;
+    int     retval;
+    int     cond;
+
+    if (GM_GameStatus_800AB3CC < 0)
+    {
+        retval = 3200;
+    }
+    else
+    {
+        mtx = dword_800ABA20->objs->world;
+        mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
+        mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
+        mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
+        DG_SetPos_8001BC44(&mtx);
+
+        DG_PutVector_8001BE48(&dword_8009F3AC, &vector1, 2);
+
+        cond = 0;
+        if (sub_80028454(*(void **)(*(int *)(param_1 + 0x6c) + 8), &vector1, &vector2, 0xf, 0x81) != 0)
+        {
+            sub_80028890(&vector2);
+            cond = 1;
+        }
+
+        retval = 3200;
+        if (cond != 0)
+        {
+            GV_SubVec3_80016D40(&vector2, &vector1, &vector1);
+            retval = GV_VecLen3_80016D80(&vector1);
+        }
+    }
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper2_80064588.s")                               // 1132 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper2_800649F4.s")                       // 160 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_80064A94.s")                               // 444 bytes
