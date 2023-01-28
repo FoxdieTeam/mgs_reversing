@@ -1215,7 +1215,59 @@ int sub_8004FCB8(Actor_SnaInit *snake, UnkSnakeStruct *unkSnakeStruct, int param
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_8004FDE8.s")                                 // 416 bytes
+int sna_init_8004FDE8(Actor_SnaInit *pActor, Target_Data *pTargetData)
+{
+    int flags = 0x2;
+    GM_Target *pTarget;
+    SVECTOR vec;
+    SVECTOR vecs[2];
+
+    if (pTargetData->field_18 == 0x40)
+    {
+        flags = 0x40;
+    }
+
+    GM_SetTarget_8002DC74(&pActor->field_8A0_target, flags, 1, &pTargetData->field_8_size);
+    GM_Target_8002DCB4(&pActor->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &pActor->field_8F4, &pActor->field_8FC);
+    DG_PutVector_8001BE48(&pTargetData->field_0, &vec, 1);
+    GM_Target_SetVector_8002D500(&pActor->field_8A0_target, &vec);
+
+    pActor->field_8E8_pTarget = NULL;
+
+    if (flags == 2)
+    {
+        pTarget = GM_CaptureTarget_8002D530(&pActor->field_8A0_target);
+    }
+    else
+    {
+        pTarget = GM_C4Target_8002D620(&pActor->field_8A0_target);
+    }
+
+    if (pTarget)
+    {
+        if (pTarget->field_0_flags & 0x20)
+        {
+            pTarget->field_6_flags &= ~flags;
+            pTarget->field_2A += pTargetData->field_1C;
+            return 0;
+        }
+
+        vecs[0] = pActor->field_20_ctrl.field_0_position;
+        vecs[1] = pTarget->field_8_vec;
+
+        if (sub_8004E51C(vecs, pActor->field_20_ctrl.field_2C_map->field_8_hzd, 15, 1) < 0)
+        {
+            pActor->field_8E8_pTarget = pTarget;
+            return 1;
+        }
+
+        pTarget->field_6_flags &= ~flags;
+        pTarget->field_2A += pTargetData->field_1C;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s") // 276 bytes
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")                                      // 348 bytes
 
