@@ -9,7 +9,7 @@ int     SECTION(".sbss") dword_800ABA70;
 int     SECTION(".sbss") dword_800ABA74;
 int     SECTION(".sbss") dword_800ABA78;
 int     SECTION(".sbss") dword_800ABA7C;
-short   SECTION(".sbss") word_800ABA80;
+short   SECTION(".sbss") GM_RadarMode_800ABA80;
 short   SECTION(".sbss") word_800ABA82;
 int     SECTION(".sbss") dword_800ABA84;
 SVECTOR SECTION(".sbss") svec_800ABA88;
