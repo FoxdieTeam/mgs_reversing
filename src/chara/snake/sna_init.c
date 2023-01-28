@@ -1268,7 +1268,36 @@ int sna_init_8004FDE8(Actor_SnaInit *pActor, Target_Data *pTargetData)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper5_8004FF88.s") // 276 bytes
+int sna_init_act_helper2_helper5_8004FF88(Actor_SnaInit *pActor)
+{
+    void *pAnim;
+
+    if (!(GM_GameStatus_800AB3CC & 0xd0000000) && (GM_AlertMode_800ABA00 != 3))
+    {
+        if (!GM_CheckPlayerStatusFlag_8004E29C(0x20001304) &&
+            !sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK9) &&
+            (*GM_GetCurrentHealth != 0) &&
+            (GM_GameOverTimer_800AB3D4 == 0) &&
+            (GM_StreamStatus_80037CD8() == -1) &&
+            (pActor->field_9C_obj.field_10 == 0))
+        {
+            pAnim = pActor->field_9B8_fn_anim;
+            
+            if ((pAnim == sna_init_anim_idle_8005275C) ||
+                (pAnim == sna_init_anim_crouch_800527DC) ||
+                (pAnim == sna_init_anim_prone_idle_800528BC) ||
+                (pAnim == sna_init_anim_wall_idle_and_c4_80052A5C) ||
+                (pAnim == sna_init_anim_wall_crouch_80052CCC) ||
+                (pAnim == sna_init_anim_duct_move_80054424))
+            {
+                return 1;   
+            }
+        }
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8005009C.s")                                      // 348 bytes
 
 void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int time)
