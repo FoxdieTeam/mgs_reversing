@@ -1,4 +1,7 @@
 #include "claymore.h"
+#include "spark.h"
+#include "psyq.h"
+#include "Game/game.h"
 
 extern SVECTOR stru_8009F630[4];
 
@@ -12,7 +15,91 @@ void claymore_800731CC(SVECTOR *param_1)
 #pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_80073364.s")     // 300 bytes
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s")  // 272 bytes
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s")  // 272 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_act_800736B0.s")            // 580 bytes
+
+extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_GameOverTimer_800AB3D4;
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+void        claymore_act_helper_800732B0(Actor_Claymore *claymore);
+void        claymore_act_helper_80073364(Actor_Claymore *claymore);
+extern void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut);
+
+void claymore_act_800736B0(Actor_Claymore *claymore)
+{
+    SVECTOR vec;
+    MATRIX  matrix;
+
+    if (claymore->field_120 == 0)
+    {
+        int field_10C = claymore->field_10C;
+
+        GM_CurrentMap_800AB9B0 = claymore->field_20_map;
+        claymore->field_10C += 1500;
+        if (claymore->field_10C < claymore->field_108)
+        {
+            GV_AddVec3_80016D00(&claymore->field_24, &claymore->field_34, &vec);
+        }
+        else
+        {
+            vec = claymore->field_110;
+        }
+
+        GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
+        GM_Target_SetVector_8002D500(&claymore->field_3C_target, &vec);
+
+        if (GM_GameOverTimer_800AB3D4 == 0)
+        {
+            if (sub_8002D7DC(&claymore->field_3C_target) != 0)
+            {
+                claymore->field_108 = 0;
+                claymore->field_128 = 2;
+            }
+        }
+        else
+        {
+            claymore->field_108 = 0;
+        }
+
+        claymore->field_24 = vec;
+        DG_SetPos2_8001BC8C(&claymore->field_24, &claymore->field_2C);
+
+        claymore_act_helper_800732B0(claymore);
+        claymore_act_helper_80073364(claymore);
+        if (claymore->field_108 <= claymore->field_10C)
+        {
+            if (claymore->field_128 == 1 && (field_10C = GV_RandU_80017090(0x20), 0x14 < field_10C))
+            {
+                ReadRotMatrix_80092DD8(&matrix);
+                matrix.t[0] = claymore->field_110.vx;
+                matrix.t[1] = claymore->field_110.vy;
+                matrix.t[2] = claymore->field_110.vz;
+                DG_ReflectMatrix_8001EDCC(&claymore->field_118, &matrix, &matrix);
+                NewSpark_80074564(&matrix, 0);
+                GM_SeSet_80032858(&claymore->field_24, 0x28);
+            }
+
+            claymore->field_120 = 1;
+            claymore->field_124 = 0;
+            claymore->field_34 = DG_ZeroVector_800AB39C;
+        }
+    }
+    else
+    {
+        int field_124 = claymore->field_124;
+        if (field_124 == 0)
+        {
+            claymore->field_84_pPrim->type |= 0x100;
+        }
+        if (field_124 >= 3)
+        {
+            GV_DestroyActor_800151C8(&claymore->field_0);
+        }
+        else
+        {
+            claymore->field_124 = field_124 + 1;
+        }
+    }
+}
 
 void claymore_kill_800738F4(Actor_Claymore *claymore)
 {
