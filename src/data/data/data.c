@@ -731,8 +731,7 @@ void *SECTION(".data") gSnakeEquips_8009EF8C[] = {(void *)0x80062274, // tabako
 
 short SECTION(".data") word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
 
-SVECTOR SECTION(".data") stru_8009EFD4 = {-100, 200, 200, 0};
-SVECTOR SECTION(".data") stru_8009EFDC = {-150, 18, 200, 0};
+SVECTOR SECTION(".data") stru_8009EFD4[2] = {{-100, 200, 200, 0}, {-150, 18, 200, 0}};
 
 Target_Data SECTION(".data") stru_8009EFE4 = {{0, 0, 300, 0}, {400, 600, 400, 0}, 0, 0, 64, 0};
 Target_Data SECTION(".data") stru_8009F004 = {{-400, 0, 600, 0}, {400, 600, 400, 0}, 0, 0, 36, 5};
