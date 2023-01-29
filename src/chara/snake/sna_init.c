@@ -1484,7 +1484,67 @@ void sna_init_80050568(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knockdown_getup_80050668.s") // 368 bytes
+void sna_init_knockdown_getup_80050668(Actor_SnaInit *pActor)
+{
+    SVECTOR vec;
+    int var_a2;
+    int var_a3;
+    int dir;
+    DG_OBJS *pObjs;
+
+    var_a2 = 500;
+
+    if (pActor->field_A54.knockdown_thing == 1)
+    {
+        var_a2 = 2;
+        var_a3 = -630;
+    }
+    else
+    {
+        var_a3 = -18;
+    }
+
+    if (!sna_init_8004E808(pActor, 1, var_a2, var_a3, 1500))
+    {
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_knockdown_getup_80054A10);
+    }
+    else
+    {
+        pActor->field_A54.knockdown_thing = 0;
+
+        sna_init_set_invuln_8004F2A0(pActor, 24);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK1);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_UNK200 | PLAYER_STATUS_UNK100);
+        sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK5 | SNA_FLAG1_UNK3 | SNA_FLAG1_UNK2);
+
+        DG_VisibleObjs(pActor->field_9C_obj.objs);
+
+        if (pActor->field_9C_obj.action_flag == 0x45)
+        {
+            sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
+
+            // TODO: Duplication is probably from an inline
+            pObjs = pActor->field_9C_obj.objs;
+            vec.vx = pObjs->objs[6].world.t[0] - pObjs->objs[0].world.t[0];
+            pObjs = pActor->field_9C_obj.objs;
+            vec.vz = pObjs->objs[6].world.t[2] - pObjs->objs[0].world.t[2];
+
+            dir = GV_VecDir2_80016EF8(&vec);
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = dir;
+            pActor->field_20_ctrl.field_8_rotator.vy = dir;
+
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_prone_idle_800528BC);
+        }
+        else
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_UNK200);
+            sna_init_set_invuln_8004F2A0(pActor, 0);
+            sna_init_set_flags1_8004E2F4(pActor, 4);
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_8005425C);
+        }
+    }
+}
 
 int sub_800507D8(Actor_SnaInit *param_1)
 {
