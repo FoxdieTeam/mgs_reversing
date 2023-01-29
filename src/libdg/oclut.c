@@ -88,7 +88,7 @@ void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
         {
             objs = *objs_list;
             objs_list++;
-            if (objs->flag & 0x200 && objs->bound_mode)
+            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode)
             {
                 obj = objs->objs;
                 for (i2 = objs->n_models; i2 > 0; --i2)
@@ -108,7 +108,7 @@ void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
         {
             objs = *objs_list;
             objs_list++;
-            if (objs->flag & 0x200 && objs->bound_mode)
+            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode)
             {
                 obj = objs->objs;
                 for (i2 = objs->n_models; i2 > 0; --i2)

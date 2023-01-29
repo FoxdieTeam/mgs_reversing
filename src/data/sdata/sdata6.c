@@ -50,10 +50,9 @@ char SECTION(".sdata") aFamasC[] = "famas.c";
 
 SVECTOR SECTION(".sdata") stru_800AB870 = {-100, -800, 80, 0};
 
-int SECTION(".sdata") aDd_800AB878 = 0x640064;
-int SECTION(".sdata") dword_800AB87C = 0xC800C8;
-int SECTION(".sdata") dword_800AB880 = 0xFED4FFCE;
-int SECTION(".sdata") dword_800AB884 = 0x64;
+RECT SECTION(".sdata") rect_800AB878 = {100, 100, 200, 200};
+
+SVECTOR SECTION(".sdata") svector_800AB880 = {-50, -300, 100, 0};
 
 char SECTION(".sdata") aNikita[] = "nikita";
 char SECTION(".sdata") aRcmL_0[] = "rcm_l";

@@ -404,7 +404,8 @@ void anime_act_8005F4AC(Actor_anime *pActor)
     int          opCodeRet;         // $v0
 
     pItemsIter = pActor->field_4C_items;
-    pActor->field_24_pPrim->type &= ~0x100u;
+    DG_VisiblePrim(pActor->field_24_pPrim);
+
     field_48_pPrimVec = pActor->field_48_pPrimVec;
     for (i = 0; i < pActor->field_42_count; ++i)
     {

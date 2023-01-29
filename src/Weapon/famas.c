@@ -39,13 +39,13 @@ void famas_act_80065E90(Actor_Famas *pActor)
 
     field_5C_mp5 = pActor->field_5C_mp5;
 
-    if (pActor->parent_object->objs->flag & 0x80)
+    if (pActor->parent_object->objs->flag & DG_FLAG_INVISIBLE)
     {
-        pActor->f20_obj.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->f20_obj.objs);
     }
     else
     {
-        pActor->f20_obj.objs->flag &= ~0x80u;
+        DG_VisibleObjs(pActor->f20_obj.objs);
     }
 
     flags = *pActor->field_50_pFlags;

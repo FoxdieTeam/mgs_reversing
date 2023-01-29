@@ -486,6 +486,8 @@ void    DG_MatrixRotZYX_8001E92C( MATRIX *mat, SVECTOR *vec );
 void    DG_MatrixRotYXZ_8001E734( MATRIX *pMatrix, SVECTOR *pVector );
 void    DG_TransposeMatrix_8001EAD8( MATRIX *in, MATRIX *out );
 
+ void   DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut);
+
 int     DG_LoadInitPcx_8001F920( unsigned char *pFileData, int fileNameHashed );
 int     DG_LoadInitKmd_8001F4EC( unsigned char *pFileData, int fileNameHashed );
 int     DG_LoadInitLit_8001F6B4( unsigned char *pFileData, int fileNameHashed );

@@ -29,7 +29,7 @@ void DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx)
         }
 
         pObj = pObjs->objs;
-        uVar5 = !(pObjs->flag & 0x20);
+        uVar5 = !(pObjs->flag & DG_FLAG_GBOUND);
 
         for (models = pObjs->n_models; models > 0; pObj++, models--)
         {
@@ -56,7 +56,7 @@ void DG_Trans_Chanl_8001E3C0(DG_CHNL *pChannel, int idx)
 
             pScratchpad[0xff] = uVar1;
 
-            if (pObjs->flag & 8)
+            if (pObjs->flag & DG_FLAG_SHADE)
             {
                 pScratchpad[0xff] |= 4;
             }

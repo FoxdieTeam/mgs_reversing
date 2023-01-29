@@ -125,14 +125,10 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     pActor->f020_map = GM_CurrentMap_800AB9B0;
     spark_init_random_table_80073DB0();
     spark_loader3_80073E48(&pActor->f028, &pActor->f068, 8, a3);
-    pNewPrim = DG_MakePrim_8001BABC(18, 8, 0, &pActor->f068, 0);
-    if (pNewPrim)
-    {
-        DG_QueuePrim_80018274((DG_OBJS *)pNewPrim);
-        DG_GroupPrim(pNewPrim, GM_CurrentMap_800AB9B0);
-    }
 
+    pNewPrim = DG_GetPrim(18, 8, 0, &pActor->f068, NULL);
     pActor->f024_pPrim = pNewPrim;
+
     if (!pNewPrim)
     {
         return -1;
