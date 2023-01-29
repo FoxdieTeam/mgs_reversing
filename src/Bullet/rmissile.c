@@ -202,7 +202,7 @@ void rmissile_act_helper_8006BD24(Actor_rmissile *pActor, int arg1)
         gUnkCameraStruct_800B77B8.field_28.vy = pActor->field_20_ctrl.field_8_rotator.vy;
         gUnkCameraStruct_800B77B8.field_28.vz = 0;
 
-        pActor->field_9C_kmd.objs->flag |= 0x80;
+        DG_InvisibleObjs(pActor->field_9C_kmd.objs);
 
         pActor->field_11C = -2;
 
@@ -234,7 +234,7 @@ void rmissile_act_helper_8006BD24(Actor_rmissile *pActor, int arg1)
 
         if (!pActor->field_115)
         {
-            pActor->field_9C_kmd.objs->flag &= ~0x80;
+            DG_VisibleObjs(pActor->field_9C_kmd.objs);
         }
     }
 }
@@ -296,7 +296,7 @@ void rmissile_act_helper_8006BEEC(Actor_rmissile *pActor)
 
         if (!pActor->field_112)
         {
-            pActor->field_9C_kmd.objs->flag &= ~0x80;
+            DG_VisibleObjs(pActor->field_9C_kmd.objs);
         }
 
         dword_8009F474 = 0;
@@ -410,7 +410,7 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
     pActor->field_112 = 1U;
     pActor->field_118 = found ? 28 : 0;
     pActor->field_20_ctrl.field_44_movementVector = DG_ZeroVector_800AB39C;
-    pActor->field_9C_kmd.objs->flag |= 0x80;
+    DG_InvisibleObjs(pActor->field_9C_kmd.objs);
     pActor->field_9C_kmd.objs->group_id = 0;
     pActor->field_11C = -2;
 
@@ -452,11 +452,11 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 
     if ((pActor->field_324-- > 0) || (pActor->field_11C < 0 && pActor->field_11C > -3))
     {
-        pActor->field_2D8_prim->type |= 0x100;
+        DG_InvisiblePrim(pActor->field_2D8_prim);
     }
     else
     {
-        pActor->field_2D8_prim->type &= ~0x100;
+        DG_VisiblePrim(pActor->field_2D8_prim);
         rmissile_act_helper_8006C37C(pActor);
     }
 
@@ -473,7 +473,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         }
         else
         {
-            pActor->field_9C_kmd.objs->flag &= ~0x80;
+            DG_VisibleObjs(pActor->field_9C_kmd.objs);
             pActor->field_120_target.field_2_side = 0;
             GV_SubVec3_80016D40(&pActor->field_100_svector, &pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_44_movementVector);
         }
@@ -503,7 +503,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 
         if (GM_Camera_800B77E8.field_22 && dword_800ABA20)
         {
-            dword_800ABA20->objs->flag |= 0x80;
+            DG_InvisibleObjs(dword_800ABA20->objs);
         }
 
         pActor->field_11C = -1;
@@ -554,7 +554,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             {
                 if (dword_800ABA20)
                 {
-                    dword_800ABA20->objs->flag &= ~0x80;
+                    DG_VisibleObjs(dword_800ABA20->objs);
                 }
 
                 if (!pActor->field_113)
@@ -817,7 +817,7 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
         return -1;
     }
 
-    pActor->field_9C_kmd.objs->flag |= 0x80;
+    DG_InvisibleObjs(pActor->field_9C_kmd.objs);
     pActor->field_11C = -1;
     pActor->field_324 = 10;
     rmissile_loader_helper_8006CE54(pActor);

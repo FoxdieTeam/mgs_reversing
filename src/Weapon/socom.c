@@ -260,7 +260,7 @@ void socom_act_80065518( Actor_Socom *a1 )
             DG_InvisiblePrim( a1->field_10C_pPrim );
         }
 
-        if ( a1->field_48_parent_object->objs->flag & 0x80 )
+        if ( a1->field_48_parent_object->objs->flag & DG_FLAG_INVISIBLE )
         {
             DG_InvisibleObjs( a1->field_20.objs );
         }

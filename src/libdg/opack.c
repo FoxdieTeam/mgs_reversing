@@ -148,12 +148,12 @@ int DG_MakeObjPacket_8001AA50(DG_OBJ *pPrim, int idx, int flags)
 
     DG_InitPolyGT4Pack_8001A6E4(pPrim, idx);
 
-    if ((flags & 1) != 0)
+    if ((flags & DG_FLAG_TEXT) != 0)
     {
         DG_WriteObjPacketUV_8001A774(pPrim, idx);
     }
 
-    if ((flags & 2) != 0)
+    if ((flags & DG_FLAG_PAINT) != 0)
     {
         DG_WriteObjPacketRGB_8001A9B8(pPrim, idx);
     }

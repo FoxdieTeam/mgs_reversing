@@ -580,25 +580,26 @@ void sub_8004ED08(Actor_SnaInit *pActor)
     sna_init_clear_flags2_8004E344(pActor, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
 }
 
-void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *snake)
+void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *pActor)
 {
-    if (snake->field_A20 != 0)
+    if (pActor->field_A20 != 0)
     {
-        if (snake->field_A20 >= 1)
+        if (pActor->field_A20 >= 1)
         {
 
-            if ((GM_Camera_800B77E8.field_22 == 0) && (--snake->field_A20 == 0))
+            if ((GM_Camera_800B77E8.field_22 == 0) && (--pActor->field_A20 == 0))
             {
-                (snake->field_9C_obj).objs->flag &= -0x81;
+                DG_VisibleObjs(pActor->field_9C_obj.objs);
+
                 if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4))
                 {
                     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
                 }
             }
         }
-        else if ((GM_Camera_800B77E8.field_22 != 0) && (++snake->field_A20 == 0))
+        else if ((GM_Camera_800B77E8.field_22 != 0) && (++pActor->field_A20 == 0))
         {
-            (snake->field_9C_obj).objs->flag |= 0x80;
+            DG_InvisibleObjs(pActor->field_9C_obj.objs);
         }
     }
 }
@@ -1419,7 +1420,9 @@ void sna_init_80050568(Actor_SnaInit *pActor)
         pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
         pActor->field_20_ctrl.field_44_movementVector.vz = 0;
         pActor->field_20_ctrl.field_44_movementVector.vx = 0;
-        pDVar3->flag |= 0x80;
+    
+        DG_InvisibleObjs(pDVar3);
+
         sna_init_start_anim_8004E1F4(pActor, sna_init_anim_duct_move_80054424);
         pActor->field_A54.prone_bool_thing = 0;
         sna_init_set_invuln_8004F2A0(pActor, 24);

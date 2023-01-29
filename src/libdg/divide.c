@@ -583,7 +583,7 @@ void DG_DivideChanl_80019D44( DG_CHNL* chnl, int idx )
         if ( !objs->bound_mode ) continue;
 
         obj = objs->objs;
-        if ( !( objs->flag & 0x20 ) )
+        if ( !( objs->flag & DG_FLAG_GBOUND ) )
         {
             for ( j = objs->n_models ; j > 0 ; --j )
             {

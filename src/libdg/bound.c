@@ -55,7 +55,7 @@ void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
         if (in_bound_mode)
         {
             bound_mode = 2;
-            if (flag & 0x10)
+            if (flag & DG_FLAG_BOUND)
             {
                 gte_SetRotMatrix(&obj->screen);
                 gte_SetTransMatrix(&obj->screen);
@@ -161,7 +161,7 @@ void DG_BoundObjs_800185BC(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 if (res < 0)
                 {
                     obj->bound_mode = 0;
-                    if (flag & 0x20)
+                    if (flag & DG_FLAG_GBOUND)
                     {
                         objs->bound_mode = 0;
                         return;
@@ -213,12 +213,12 @@ void DG_BoundChanl_800189A4(DG_CHNL *chnl, int idx)
         flag = current_objs->flag;
 
         bound_mode = 0;
-        if (!(flag & 0x80))
+        if (!(flag & DG_FLAG_INVISIBLE))
         {
             if (!current_objs->group_id || (current_objs->group_id & local_group_id))
             {
                 bound_mode = 2;
-                if (flag & 0x20)
+                if (flag & DG_FLAG_GBOUND)
                 {
                     gte_SetRotMatrix(&current_objs->objs->screen);
                     gte_SetTransMatrix(&current_objs->objs->screen);

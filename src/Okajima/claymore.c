@@ -53,15 +53,17 @@ void claymore_act_helper_800732B0(Actor_Claymore *claymore)
 }
 
 #pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_80073364.s")     // 300 bytes
+void claymore_act_helper_80073364(Actor_Claymore *claymore);
+
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s")  // 272 bytes
+void claymore_loader_helper_80073490(union Prim_Union *prim, DG_TEX *tex);
+
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s")  // 272 bytes
+int  claymore_loader_helper_800735A0(Actor_Claymore *claymore, SVECTOR *v1, SVECTOR *v2);
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_GameOverTimer_800AB3D4;
 extern SVECTOR DG_ZeroVector_800AB39C;
-
-void        claymore_act_helper_80073364(Actor_Claymore *claymore);
-extern void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut);
 
 void claymore_act_800736B0(Actor_Claymore *claymore)
 {
@@ -127,7 +129,7 @@ void claymore_act_800736B0(Actor_Claymore *claymore)
         int field_124 = claymore->field_124;
         if (field_124 == 0)
         {
-            claymore->field_84_pPrim->type |= 0x100;
+            DG_InvisiblePrim(claymore->field_84_pPrim);
         }
         if (field_124 >= 3)
         {
@@ -170,15 +172,11 @@ void claymore_loader_80073930(Actor_Claymore *pActor)
 extern SVECTOR    svector_80012EDC;
 extern const char aBullet_0[]; // "bullet"
 
-void claymore_loader_helper_80073490(union Prim_Union *prim, DG_TEX *tex);
-int  claymore_loader_helper_800735A0(Actor_Claymore *claymore, SVECTOR *v1, SVECTOR *v2);
-
 int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
     SVECTOR  new_field_34 = svector_80012EDC;
-    int      group_id;
     int      retval;
 
     claymore->field_10C = 0;
@@ -192,14 +190,7 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
     DG_SetPos2_8001BC8C(&claymore->field_24, &claymore->field_2C);
     DG_RotVector_8001BE98(&new_field_34, &claymore->field_34, 1);
 
-    prim = DG_MakePrim_8001BABC(0x12, 2, 0, &claymore->field_88, NULL);
-    if (prim)
-    {
-        DG_QueuePrim_80018274((DG_OBJS *)prim);
-        group_id = GM_CurrentMap_800AB9B0;
-        prim->group_id = group_id;
-    }
-
+    prim = DG_GetPrim(18, 2, 0, &claymore->field_88, NULL);
     claymore->field_84_pPrim = prim;
 
     retval = -1;

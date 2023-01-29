@@ -49,11 +49,12 @@ void BoxAct_80061A14(Actor_Box *pActor)
     BoxCheckMessage_8006195C(pActor);
     if ( pActor->field_4C_bFound )
     {
-        pActor->field_20.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_20.objs);
     }
-    else if ( GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & 0x80) != 0 )
+    else if ( GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
-        pActor->field_20.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_20.objs);
+
         if ( dword_8009F604 != 58025 )
         {
             dword_8009F284 = 1;
@@ -63,7 +64,7 @@ void BoxAct_80061A14(Actor_Box *pActor)
     else
     {
         dword_8009F284 = 0;
-        pActor->field_20.objs->flag &= ~0x80u;
+        DG_VisibleObjs(pActor->field_20.objs);
     }
 }
 

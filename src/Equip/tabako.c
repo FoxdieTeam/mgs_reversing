@@ -40,15 +40,15 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
 
     GM_ActObject2_80034B88(pObject);
 
-    if ((pActor->field_48_pParent->objs->flag & 0x80) != 0)
+    if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0)
     {
-        pObject->objs->flag |= 0x80u;
-        pActor->field_50_pPrims->type |= 0x100u;
+        DG_InvisibleObjs(pObject->objs);
+        DG_InvisiblePrim(pActor->field_50_pPrims);
     }
     else
     {
-        pObject->objs->flag &= ~0x80u;
-        pActor->field_50_pPrims->type &= ~0x100u;
+        DG_VisibleObjs(pObject->objs);
+        DG_VisiblePrim(pActor->field_50_pPrims);
 
         DG_SetPos_8001BC44(&pActor->field_50_pPrims->world);
         DG_MovePos_8001BD20(&pActor->field_54_vec);

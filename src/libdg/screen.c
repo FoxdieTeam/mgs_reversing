@@ -436,7 +436,7 @@ void DG_8001CDB8(DG_OBJS *pObjs)
 
     *((MATRIX *)0x1F800020) = pObjs->world;
 
-    if ((pObjs->flag & 0x40) != 0)
+    if ((pObjs->flag & DG_FLAG_ONEPIECE) != 0)
     {
         sub_8001C248(pObjs, n_models);
     }

@@ -65,7 +65,7 @@ void kogaku2_kill_helper_80061384(Actor_kogaku2 *pActor)
     objs = pActor->field_20_pObj->objs;
     pIter = objs->objs;
     n_models = objs->n_models;
-    objs->flag = (objs->flag & 0x80) | (pActor->field_28_obj_old_flag & ~0x80u);
+    objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (pActor->field_28_obj_old_flag & ~DG_FLAG_INVISIBLE);
     while (n_models > 0)
     {
         DG_WriteObjPacketUV_8001A774(pIter, 0);
@@ -113,9 +113,9 @@ void kogaku2_act_helper_80061528(Actor_kogaku2 *pActor)
 {
     if (!(GM_GameStatus_800AB3CC & 8))
     {
-        pActor->field_20_pObj->objs->flag &= ~8u;
-        pActor->field_20_pObj->objs->flag &= ~0x10u;
-        pActor->field_20_pObj->objs->flag |= 0x20u;
+        pActor->field_20_pObj->objs->flag &= ~DG_FLAG_SHADE;
+        pActor->field_20_pObj->objs->flag &= ~DG_FLAG_BOUND;
+        pActor->field_20_pObj->objs->flag |= DG_FLAG_GBOUND;
         EQ_InvisibleUnit_80060E68(pActor->field_20_pObj->objs, pActor->field_40_rgb, 0);
         pActor->field_0_actor.mFnUpdate = (TActorFunction)kogaku2_act_800613FC;
         pActor->field_0_actor.mFnShutdown = (TActorFunction)kogaku2_kill_80061508;

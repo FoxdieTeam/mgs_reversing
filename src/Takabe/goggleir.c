@@ -110,13 +110,13 @@ void goggleir_act_80078BE0(Actor_GoggleIr *pActor)
         new_map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
         DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
         GM_CurrentMap_800AB9B0 = new_map;
-        if (pActor->field_48_pParent->objs->flag & 0x80)
+        if (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
-            pActor->field_20_obj.objs->flag |= 0x80u;
+            DG_InvisibleObjs(pActor->field_20_obj.objs);
         }
         else
         {
-            pActor->field_20_obj.objs->flag &= ~0x80u;
+            DG_VisibleObjs(pActor->field_20_obj.objs);
         }
     }
 
