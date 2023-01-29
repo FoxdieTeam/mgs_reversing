@@ -11,8 +11,8 @@
 
 extern char       aNikita[];    // "nikita"
 extern char       aRcmL_0[];    // "rcl_l"
-extern int        aDd_800AB878; // TODO: convert to RECT
-extern SVECTOR    dword_800AB880;
+extern RECT       rect_800AB878;
+extern SVECTOR    svector_800AB880;
 extern const char aRcmC[];
 extern int        GM_CurrentMap_800AB9B0;
 extern short      d_800AB9EC_mag_size;
@@ -177,7 +177,6 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     DG_PRIM *pNewPrim;
     DG_TEX  *pTexture;
     OBJECT  *obj;
-    int      new_var2;
 
     obj = &actor->f20_obj;
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aNikita), 109, 0);
@@ -188,15 +187,9 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
 
     GM_ConfigObjectRoot_80034C5C(obj, a2, unit);
 
-    pNewPrim = DG_MakePrim_8001BABC(1042, 1, 0, &dword_800AB880, (RECT *)&aDd_800AB878);
-    if (pNewPrim)
-    {
-        DG_QueuePrim_80018274((DG_OBJS *)pNewPrim);
-        new_var2 = GM_CurrentMap_800AB9B0;
-        pNewPrim->group_id = new_var2;
-    }
-
+    pNewPrim = DG_GetPrim(1042, 1, 0, &svector_800AB880, &rect_800AB878);
     actor->field_5C_pPrim = pNewPrim;
+
     if (pNewPrim)
     {
         pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRcmL_0));
