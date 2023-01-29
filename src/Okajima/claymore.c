@@ -11,7 +11,25 @@ void claymore_800731CC(SVECTOR *param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper2_800731F8.s") // 184 bytes
-#pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_800732B0.s")     // 180 bytes
+
+void claymore_act_helper_800732B0(Actor_Claymore *claymore)
+{
+    // Perform copies:
+    //   claymore->field_E8  = claymore->field_C8;
+    //   claymore->field_F0  = claymore->field_D0;
+    //   claymore->field_F8  = claymore->field_D8;
+    //   claymore->field_100 = claymore->field_E0;
+
+    int      i;
+    SVECTOR *vec = &claymore->field_E8;
+
+    for (i = 1; i > 0; i--, vec -= 4)
+    {
+        memcpy(&vec[0], &vec[-4], 4 * sizeof(SVECTOR));
+    }
+    claymore_800731CC(vec);
+}
+
 #pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_80073364.s")     // 300 bytes
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s")  // 272 bytes
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s")  // 272 bytes
@@ -20,7 +38,6 @@ extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_GameOverTimer_800AB3D4;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-void        claymore_act_helper_800732B0(Actor_Claymore *claymore);
 void        claymore_act_helper_80073364(Actor_Claymore *claymore);
 extern void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMatrixOut);
 
