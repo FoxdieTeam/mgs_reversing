@@ -90,6 +90,7 @@ extern int                dword_8009EF2C[];
 extern SVECTOR            dword_800AB7CC;
 extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
+extern SVECTOR            stru_8009EFD4[];
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -940,7 +941,7 @@ int sna_init_8004F544(Actor_SnaInit *pActor, SVECTOR param_2, int a3, int a4, in
     return iVar2;
 }
 
-unsigned int sna_init_8004F628(Actor_SnaInit *pActor, SVECTOR *param_2, int param_3, int param_4, int param_5, int param_6)
+int sna_init_8004F628(Actor_SnaInit *pActor, SVECTOR *param_2, int param_3, int param_4, int param_5, int param_6)
 {
     SVECTOR vec;
   
@@ -1385,7 +1386,45 @@ void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8005027C.s") // 284 bytes
+void sna_init_8005027C(Actor_SnaInit *pActor, int arg1)
+{
+    SVECTOR *pVec;
+
+    if (pActor->field_91C_weapon_idx != WEAPON_C4)
+    {
+        return;
+    }
+
+    if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING))
+    {
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0;
+    }
+
+    if ((arg1 < 8) || !(pActor->field_9B0_pad_ptr->press & PAD_SQUARE) || (pActor->field_9C0 == sna_init_80057378))
+    {
+        return;
+    }
+
+    if ((*pActor->field_918_pWeaponState != 0) && (used_counter_8009F42C < 16))
+    {
+        pVec = &stru_8009EFD4[0];
+
+        if (pActor->field_A26_fn_stance_idx != SNA_STANCE_STANDING)
+        {
+            pVec = &stru_8009EFD4[1];
+        }
+
+        if (sna_init_8004F628(pActor, pVec, 300, 12, 81, -1) > 0)
+        {
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK9);
+            pActor->field_9C0 = sna_init_80057378;
+            pActor->field_9C4 = 0;
+            return;
+        }
+    }
+
+    GM_Sound_80032968(0, 63, 35);
+}
 
 int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
