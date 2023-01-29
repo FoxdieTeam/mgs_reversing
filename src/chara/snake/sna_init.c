@@ -1298,7 +1298,72 @@ int sna_init_act_helper2_helper5_8004FF88(Actor_SnaInit *pActor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8005009C.s")                                      // 348 bytes
+int sna_init_8005009C(Actor_SnaInit *pActor)
+{
+    GV_PAD *pPad = pActor->field_9B0_pad_ptr;
+    int tbl = pActor->field_920_tbl_8009D580;
+    unsigned short press = pPad->press;
+    unsigned short input = press;
+    void *pAnimFn;
+
+    if (!(tbl & 0x100))
+    {
+        input = pPad->status;
+    }
+
+    if (input & PAD_SQUARE)
+    {
+        pActor->field_910 = 0;
+
+        if (tbl & 0x10)
+        {
+            sna_init_start_anim_8004E1F4(pActor, pActor->field_90C_pWeaponFn);
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK3);
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+            return 1;
+        }
+
+        if (tbl & 8)
+        {
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING))
+            {
+                pAnimFn = sna_init_anim_rungun_80056C3C;
+            }
+            else
+            {
+                pAnimFn = sna_init_anim_shoot_weapon_80056B88;
+            }
+
+            sna_init_start_anim_8004E1F4(pActor, pAnimFn);
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_PREVENT_ITEM_SWITCH);
+        }
+        else
+        {
+            if ((input & PAD_CROSS) && (pActor->field_9B0_pad_ptr->dir >= 0))
+            {
+                pAnimFn = sna_init_anim_rungun_80056C3C;
+            }
+            else
+            {
+                pAnimFn = sna_init_anim_shoot_weapon_80056B88;
+            }
+
+            sna_init_start_anim_8004E1F4(pActor, pAnimFn);
+        }
+
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_FIRST_PERSON);
+        return 1;
+    }
+
+    if ((press & PAD_CIRCLE) && ((pActor->field_9B4_action_table->field_10->field_2 ^ 0x88) != 0))
+    {
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_punch_80058C10);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK3);
+        return 1;
+    }
+
+    return 0;
+}
 
 void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int time)
 {
@@ -1951,7 +2016,7 @@ void sna_init_fn_80052E58(Actor_SnaInit *pActor)
     int action;
     int diff;
 
-    if (sub_8005009C() != 0)
+    if (sna_init_8005009C(pActor))
     {
         return;
     }
