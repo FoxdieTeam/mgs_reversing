@@ -361,6 +361,7 @@ typedef struct Actor_SnaInit
         short choke_count;
         short prone_bool_thing;
         short wall_thing;
+        short knockdown_thing;
     } field_A54;
     short   field_A56;
     short   field_A58;
