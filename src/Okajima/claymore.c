@@ -167,5 +167,61 @@ void claymore_loader_80073930(Actor_Claymore *pActor)
     pTarget->field_44 = 5;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_800739EC.s") // 416 bytes
+extern SVECTOR    svector_80012EDC;
+extern const char aBullet_0[]; // "bullet"
+
+void claymore_loader_helper_80073490(union Prim_Union *prim, DG_TEX *tex);
+int  claymore_loader_helper_800735A0(Actor_Claymore *claymore, SVECTOR *v1, SVECTOR *v2);
+
+int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
+{
+    DG_PRIM *prim;
+    DG_TEX  *tex;
+    SVECTOR  new_field_34 = svector_80012EDC;
+    int      group_id;
+    int      retval;
+
+    claymore->field_10C = 0;
+    claymore->field_20_map = GM_CurrentMap_800AB9B0;
+    claymore->field_24 = *new_field_24;
+    claymore->field_2C = *new_field_2C;
+    claymore->field_2C.vy += GV_RandS_800170BC(0x200);
+    claymore->field_2C.vx += GV_RandS_800170BC(0x200);
+    claymore->field_108 = claymore_loader_helper_800735A0(claymore, &claymore->field_24, &claymore->field_2C);
+
+    DG_SetPos2_8001BC8C(&claymore->field_24, &claymore->field_2C);
+    DG_RotVector_8001BE98(&new_field_34, &claymore->field_34, 1);
+
+    prim = DG_MakePrim_8001BABC(0x12, 2, 0, &claymore->field_88, NULL);
+    if (prim)
+    {
+        DG_QueuePrim_80018274((DG_OBJS *)prim);
+        group_id = GM_CurrentMap_800AB9B0;
+        prim->group_id = group_id;
+    }
+
+    claymore->field_84_pPrim = prim;
+
+    retval = -1;
+
+    if (prim)
+    {
+        prim->field_2E_k500 = 1000;
+
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBullet_0));
+        if (tex)
+        {
+            claymore_loader_helper_80073490(prim->field_40_pBuffers[0], tex);
+            claymore_loader_helper_80073490(prim->field_40_pBuffers[1], tex);
+            claymore_loader_helper2_800731F8(claymore);
+            retval = 0;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/Okajima/NewClaymore_80073B8C.s")     // 548 bytes
