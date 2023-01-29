@@ -10,7 +10,26 @@ void claymore_800731CC(SVECTOR *param_1)
     DG_PutVector_8001BE48(stru_8009F630, param_1, 4); // 4 = sizeof?
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper2_800731F8.s") // 184 bytes
+void claymore_loader_helper2_800731F8(Actor_Claymore *claymore)
+{
+    // Perform copies:
+    //   claymore->field_E8  = claymore->field_C8;
+    //   claymore->field_F0  = claymore->field_D0;
+    //   claymore->field_F8  = claymore->field_D8;
+    //   claymore->field_100 = claymore->field_E0;
+    //
+    // This function is the same as claymore_act_helper_800732B0,
+    // but this one calls claymore_800731CC earlier.
+
+    int      i;
+    SVECTOR *vec = &claymore->field_C8;
+
+    claymore_800731CC(vec);
+    for (i = 1; i > 0; i--, vec += 4)
+    {
+        memcpy(&vec[4], &vec[0], 4 * sizeof(SVECTOR));
+    }
+}
 
 void claymore_act_helper_800732B0(Actor_Claymore *claymore)
 {
@@ -19,6 +38,9 @@ void claymore_act_helper_800732B0(Actor_Claymore *claymore)
     //   claymore->field_F0  = claymore->field_D0;
     //   claymore->field_F8  = claymore->field_D8;
     //   claymore->field_100 = claymore->field_E0;
+    //
+    // This function is the same as claymore_loader_helper2_800731F8,
+    // but this one calls claymore_800731CC later.
 
     int      i;
     SVECTOR *vec = &claymore->field_E8;
