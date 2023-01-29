@@ -102,13 +102,13 @@ void goggle_act_800775B4(Actor_goggle *pActor)
         DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
 
         GM_CurrentMap_800AB9B0 = new_map;
-        if (pActor->field_48_pObj->objs->flag & 0x80)
+        if (pActor->field_48_pObj->objs->flag & DG_FLAG_INVISIBLE)
         {
-            pActor->field_20_obj.objs->flag |= 0x80u;
+            DG_InvisibleObjs(pActor->field_20_obj.objs);
         }
         else
         {
-            pActor->field_20_obj.objs->flag &= ~0x80u;
+            DG_VisibleObjs(pActor->field_20_obj.objs);
         }
     }
 

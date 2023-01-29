@@ -282,7 +282,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int where)
     }
 
     ctrl->field_0_position.vy -= 500;
-    obj->objs->flag |= 0x80;
+    DG_InvisibleObjs(obj->objs);
     pActor->field_130 = 64;
 
     if (GCL_GetParam_80020968('e'))

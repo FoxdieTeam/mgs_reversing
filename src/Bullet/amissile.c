@@ -200,7 +200,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     if (pActor->field_120 == 0)
     {
-        pActor->field_134_prim->type &= ~0x100;
+        DG_VisiblePrim(pActor->field_134_prim);
         ReadRotMatrix_80092DD8(&pActor->field_100_rotation_matrix);
         anime_create_8005DE70(&pActor->field_100_rotation_matrix);
         pActor->field_128 = 4;
@@ -371,7 +371,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     amissile_loader_helper_8006D1F4(&pNewPrim->field_40_pBuffers[1]->poly_ft4, pTex);
 
     pNewPrim->world = DG_ZeroMatrix_8009D430;
-    pNewPrim->type |= 0x100;
+    DG_InvisiblePrim(pNewPrim);
     return 0;
 }
 

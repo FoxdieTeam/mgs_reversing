@@ -30,13 +30,13 @@ void mine_act_80067558(Actor_Mine *pActor)
     DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
     GM_CurrentMap_800AB9B0 = map;
-    if ( ( pActor->field_24_pObj->objs->flag & 0x80) != 0 )
+    if ( (pActor->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
-        pActor->field_28_obj.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_28_obj.objs);
     }
     else if ( !pActor->field_54_counter )
     {
-        pActor->field_28_obj.objs->flag &= ~0x80u;
+        DG_VisibleObjs(pActor->field_28_obj.objs);
     }
     obj = &pActor->field_24_pObj->objs->objs[pActor->field_4C_unit];
 
@@ -53,7 +53,7 @@ void mine_act_80067558(Actor_Mine *pActor)
         *GM_WeaponClaymore = --weapon_state;
 
         pActor->field_54_counter = 21;
-        pActor->field_28_obj.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_28_obj.objs);
     }
 
     local_54 = pActor->field_54_counter;
@@ -64,12 +64,12 @@ void mine_act_80067558(Actor_Mine *pActor)
         pActor->field_54_counter = local_54 - 1;
         if ( !pActor->field_54_counter )
         {
-            pActor->field_28_obj.objs->flag &= ~0x80u;
+            DG_VisibleObjs(pActor->field_28_obj.objs);
         }
     }
     if ( !weapon_state )
     {
-        pActor->field_28_obj.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_28_obj.objs);
     }
 }
 

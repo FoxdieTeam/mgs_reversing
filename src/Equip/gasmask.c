@@ -17,16 +17,16 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
     int map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
     GM_CurrentMap_800AB9B0 = map;
-    if (pActor->field_48_pParent->objs->flag & 0x80)
+    if (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
     {
-        pActor->field_20_obj.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_20_obj.objs);
     }
     else
     {
-        pActor->field_20_obj.objs->flag &= ~0x80u;
+        DG_VisibleObjs(pActor->field_20_obj.objs);
     }
 
-    if (GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & 0x80) != 0 &&
+    if (GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 &&
         gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_STINGER &&
         gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_PSG1 && dword_8009F46C != 1)
     {

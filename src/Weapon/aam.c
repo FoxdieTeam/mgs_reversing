@@ -52,13 +52,13 @@ void aam_act_800670CC(Actor_Aam *actor)
     GM_CurrentMap_800AB9B0 = actor->field_44_ctrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(actor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
 
-    if (actor->field_48_parent_obj->objs->flag & 0x80)
+    if (actor->field_48_parent_obj->objs->flag & DG_FLAG_INVISIBLE)
     {
-        actor->field_20_obj.objs->flag |= 0x80;
+        DG_InvisibleObjs(actor->field_20_obj.objs);
     }
     else
     {
-        actor->field_20_obj.objs->flag &= ~0x80;
+        DG_VisibleObjs(actor->field_20_obj.objs);
     }
 
     iVar6 = actor->field_58;

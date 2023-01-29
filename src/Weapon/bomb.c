@@ -26,13 +26,13 @@ void bomb_act_8006788C( Actor_Bomb *actor )
 
     GM_CurrentMap_800AB9B0 = actor->field_20_pCtrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs( actor->f28_obj.objs, DG_CurrentGroupID_800AB968 );
-    if ( actor->parent_obj->objs->flag & 0x80 )
+    if ( actor->parent_obj->objs->flag & DG_FLAG_INVISIBLE )
     {
-        DG_InvisibleObjs(  actor->f28_obj.objs );
+        DG_InvisibleObjs( actor->f28_obj.objs );
     }
     else if ( actor->f54 == 0 )
     {
-        DG_VisibleObjs(  actor->f28_obj.objs );
+        DG_VisibleObjs( actor->f28_obj.objs );
     }
 
     ammo = *GM_WeaponC4;

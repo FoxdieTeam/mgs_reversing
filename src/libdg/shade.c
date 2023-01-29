@@ -260,7 +260,7 @@ void DG_Shade_Chanl_8001D324( DG_CHNL *chnl, int idx )
             obj++;
         }
         
-        if ( objs->flag & 0x100 )
+        if ( objs->flag & DG_FLAG_AMBIENT )
         {
             gte_SetBackColor( DG_Ambient_800AB38C.vx, DG_Ambient_800AB38C.vy, DG_Ambient_800AB38C.vz );
         }
