@@ -250,10 +250,7 @@ const char SECTION(".rdata") aDBloodC[] = "d_blood.c";
 const char SECTION(".rdata") aKetchapGrey[] = "ketchap_grey";
 const char SECTION(".rdata") aDBloodrC[] = "d_bloodr.c";
 
-char SECTION(".rdata") byte_80012EDC[] = {0, 0, 0};
-char SECTION(".rdata") byte_80012EDF = 0;
-
-const char SECTION(".rdata") byte_80012EE0[4] = {0xDC, 0x5, 0, 0};
+const SVECTOR SECTION(".rdata") svector_80012EDC = {0, 0, 1500, 0};
 const char SECTION(".rdata") aBullet_0[] = "bullet";
 
 const SVECTOR SECTION(".rdata") stru_80012EEC = {200, 200, 200, 0};
