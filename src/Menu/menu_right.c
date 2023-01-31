@@ -120,7 +120,24 @@ void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Un
 
 #pragma INCLUDE_ASM("asm/sub_8003D34C.s") // 88 bytes
 #pragma INCLUDE_ASM("asm/sub_8003D3A4.s") // 88 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D3FC.s") // 80 bytes
+
+void sub_8003D3FC(Menu_Item_Unknown *pMenu, int a2)
+{
+    int v3;
+    int count;
+    
+    count = pMenu->field_0_main.field_0_array_count;
+    if (a2 > 0) 
+    {
+        v3 = count - 1; 
+    }
+    else 
+    {
+        v3 =  count + 1;
+    }
+    pMenu->field_0_main.field_4_selected_idx = (pMenu->field_0_main.field_4_selected_idx + v3) % pMenu->field_0_main.field_0_array_count;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8003D44C.s") // 128 bytes
 #pragma INCLUDE_ASM("asm/sub_8003D4CC.s") // 84 bytes
 
