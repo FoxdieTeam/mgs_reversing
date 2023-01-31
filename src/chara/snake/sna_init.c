@@ -91,6 +91,7 @@ extern SVECTOR            dword_800AB7CC;
 extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
 extern SVECTOR            stru_8009EFD4[];
+extern int                dword_800ABA1C;
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -1442,7 +1443,67 @@ int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_80050440.s") // 296 bytes
+void sna_init_80050440(Actor_SnaInit *pActor)
+{
+    GM_Control *pCtrl;
+    unsigned short *pArr;
+    int inDuct;
+    int i;
+
+    // TODO: There is probably a better way to match this...
+    Actor_SnaInit *pActor2;
+    int a;
+    
+    if ((GM_GameOverTimer_800AB3D4 == 0) && (*GM_GetCurrentHealth != 0))
+    {
+        pCtrl = &pActor->field_20_ctrl;
+        pArr = pCtrl->field_10_pStruct_hzd_unknown.field_8_array;
+
+        inDuct = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_FIRST_PERSON_DUCT);
+        
+        for (i = pCtrl->field_10_pStruct_hzd_unknown.field_6_count; i > 0; pArr++, i--)
+        {
+            if (*pArr == 0x73D2)
+            {
+                GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON_DUCT);
+                break;
+            }
+        }
+
+        if (!inDuct)
+        {
+            if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT))
+            {
+                return;
+            }
+                
+            sna_init_8004EC8C(pActor);
+            // TODO: There is probably a better way to match this...
+            pActor2 = pActor;
+            a = 4;
+            dword_800ABA1C = 0x100;
+        }
+        else
+        {
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT))
+            {
+                return;
+            }
+                
+            sub_8004ED08(pActor);
+            // TODO: There is probably a better way to match this...
+            pActor2 = pActor;
+            a = 4;
+            dword_800ABA1C = 0;
+        }
+
+        sna_init_set_flags1_8004E2F4(pActor2, a);
+        sna_init_set_flags2_8004E330(pActor, 0x100);
+
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = pActor->field_20_ctrl.field_8_rotator.vy;
+    }
+}
 
 void sna_init_80050568(Actor_SnaInit *pActor)
 {
