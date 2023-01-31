@@ -822,7 +822,7 @@ void sna_init_set_invuln_8004F2A0(Actor_SnaInit *pActor, char invuln_frames)
 {
     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_INVULNERABLE);
     pActor->field_A24_invuln_frames = invuln_frames;
-    pActor->field_89C_pTarget->field_0_flags &= ~0x96u;
+    pActor->field_89C_pTarget->field_0_flags &= ~0x96;
 }
 
 void sna_init_clear_invuln_8004F2EC(Actor_SnaInit *snake)
@@ -864,7 +864,7 @@ void sub_8004F338(Actor_SnaInit *param_1)
                                 PLAYER_STATUS_GAMEOVER | PLAYER_STATUS_UNK1000 | PLAYER_STATUS_FIRST_PERSON_DUCT |
                                 PLAYER_STATUS_UNK4 | PLAYER_STATUS_CROUCHING | PLAYER_STATUS_PRONE;
 
-    if ((param_1->field_920_tbl_8009D580 & 0x200U) != 0)
+    if ((param_1->field_920_tbl_8009D580 & 0x200) != 0)
     {
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON);
     }
@@ -1047,21 +1047,21 @@ void sna_init_8004F6E8(Actor_SnaInit *pActor)
     
 void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2)
 {
-    Sna_7A4 str;
-    
-    if ((GM_GameOverTimer_800AB3D4 + 1) < 2u)
+    GV_MSG msg;
+
+    if ((GM_GameOverTimer_800AB3D4 == -1) || (GM_GameOverTimer_800AB3D4 == 0))
     {
-        str.field_0 = GV_StrCode_80016CCC(aSnakeEUC);
-        str.field_12 = 6;
-        str.field_4 = 48650;
-        str.field_6 = a2;
-        str.field_8 = -1;
-        str.field_A = -1;
-        str.field_C = 2;
-        str.field_E = 2042;
+        msg.address = GV_StrCode_80016CCC(aSnakeEUC);
+        msg.message_len = 6;
+        msg.message[0] = 48650;
+        msg.message[1] = a2;
+        msg.message[2] = -1;
+        msg.message[3] = -1;
+        msg.message[4] = 2;
+        msg.message[5] = 2042;
     
-        pActor->field_7A4[pActor->field_7A0] = str;
-        pActor->field_7A0++;
+        pActor->field_7A4_msgs[pActor->field_7A0_msg_count] = msg;
+        pActor->field_7A0_msg_count++;
 
         GM_GameOverTimer_800AB3D4 = 0;
         GM_GameOver_8002B6C8();
@@ -1180,7 +1180,7 @@ void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
 
         if (v2 & 0x4000)
         {
-            *pInput |= 0x1000u;
+            *pInput |= 0x1000;
         }
     }
 }
@@ -1630,7 +1630,65 @@ int sub_800507D8(Actor_SnaInit *param_1)
     return ret;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper3_80050878.s") // 492 bytes
+void sna_init_act_helper3_80050878(Actor_SnaInit *pActor)
+{
+    int ret;
+    int length;
+    GV_MSG *pEntry;
+    GV_MSG *pMsg;
+    unsigned short id;
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK80000) &&
+        (*GM_GetCurrentHealth != 0) &&
+        (GM_GameOverTimer_800AB3D4 == 0) &&
+        !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4))
+    {
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_act_helper3_helper_80056650);
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+        sna_act_unk2_80051170(pActor->field_89C_pTarget);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK80000);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK4);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
+    }
+    
+    if (sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK20))
+    {
+        return;
+    }
+
+    ret = GV_ReceiveMessage_80016620(pActor->field_20_ctrl.field_30_scriptData, &pMsg);
+        
+    if (ret == 0)
+    {
+        return;
+    }
+
+    length = ret;
+        
+    pEntry = &pActor->field_7A4_msgs[pActor->field_7A0_msg_count];
+    pMsg = (pMsg + length) - 1;
+
+    for (; length > 0; pActor->field_7A0_msg_count++, pMsg--, pEntry++, length--)
+    {
+        if (pActor->field_7A0_msg_count == 8)
+        {
+            break;
+        }
+
+        id = pMsg->message[0];
+
+        if ((id == 0x937A) || (id == 0x70FB) || (id == 0x3238) || (id == 0xBE0A))
+        {
+            if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4))
+            {
+                GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK4);
+            }
+        }
+
+        *pEntry = *pMsg;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s")          // 1804 bytes
 
 void sna_act_unk2_80051170(GM_Target *param_1)
@@ -3786,7 +3844,7 @@ void sna_init_anim_rungun_helper_80057844(Actor_SnaInit *pActor)
         return;
     }
     
-    if (gSnaMoveDir_800ABBA4 < 0 || (!(pActor->field_920_tbl_8009D580 & 8U) && !(pActor->field_9B0_pad_ptr->status & 0x40)))
+    if (gSnaMoveDir_800ABBA4 < 0 || (!(pActor->field_920_tbl_8009D580 & 8) && !(pActor->field_9B0_pad_ptr->status & 0x40)))
     {
         if (++pActor->field_A3A >= 5)
         {

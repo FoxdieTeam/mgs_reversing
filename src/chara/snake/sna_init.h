@@ -97,20 +97,6 @@ typedef struct Sna_1F4
     char  field_23;
 } Sna_1F4;
 
-typedef struct Sna_7A4
-{
-    short field_0;
-    short field_2;
-    unsigned short field_4;
-    short field_6;
-    unsigned short field_8;
-    unsigned short field_A;
-    short field_C;
-    short field_E;
-    short field_10;
-    short field_12;
-} Sna_7A4;
-
 typedef struct Sna_Joint_Rotations
 {
     SVECTOR field_0_lower_body;
@@ -265,8 +251,8 @@ typedef struct Actor_SnaInit
     SVECTOR             field_718[16]; // same size as above, related / same struct?
     int                 field_798;
     int                 field_79C;
-    int                 field_7A0;
-    Sna_7A4             field_7A4[8]; // 8 entries is just a guess
+    int                 field_7A0_msg_count;
+    GV_MSG              field_7A4_msgs[8];
     int                 field_844;
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
@@ -529,6 +515,8 @@ int  sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 int  sna_act_unk_helper2_helper3_80060684(void);
 void sna_init_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int anim_frame);
 int  sub_8005C6C4(HZD_MAP *hzd, SVECTOR *vec, int param_3);
+void sna_act_unk2_80051170(GM_Target *pTarget);
+void sna_init_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time);
 
 // TODO: move these to indivudual weapon headers
 Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
