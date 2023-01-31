@@ -8,6 +8,13 @@
 #include "Game/game.h"
 #include "Game/GM_Control.h"
 
+typedef struct Shadow_94
+{
+    // In shadow_act_helper_8005FD28 those values
+    // are used as an index in pShadow->field_24_pObj->objs[0].objs[objs_offsets[i]]
+    short objs_offsets[4];
+} Shadow_94;
+
 typedef struct Actor_Shadow
 {
     Actor       field_0_actor;
@@ -28,8 +35,7 @@ typedef struct Actor_Shadow
     int         field_88;
     int         field_8C;
     int         field_90_bEnable;
-    int         field_94_a4;
-    int         field_98_a5;
+    Shadow_94   field_94;
 } Actor_Shadow;
 
 void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature
