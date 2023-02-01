@@ -46,7 +46,35 @@ void jpegcam_act_helper3_helper_helper_helper3_80063988(unsigned short *param_1,
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper_800639E8.s")  // 428 bytes
+void jpegcam_act_helper3_helper_helper_helper2_helper_800639E8(char *param_1, char *param_2, char *param_3,
+                                                               char *param_4)
+{
+    int   val1;
+    int   val2;
+    int   val3;
+    char *param_1_copy;
+    int   iters;
+
+    iters = 0;
+    param_1_copy = param_1;
+    do
+    {
+        val1 = (int)param_1_copy[1];
+        val3 = (int)param_1_copy[2];
+        val2 = (int)*param_1;
+        *param_2 = (char)((val2 * 299 + val1 * 0x24b + val3 * 0x72) / 1000 + 0x80);
+
+        *param_3 = (char)((val2 * -0x697 + val1 * -0xcf1 + val3 * 5000) / 10000);
+
+        *param_4 = (char)((val2 * 5000 - val1 * 0x105b - val3 * 0x32d) / 10000);
+        iters = iters + 1;
+        param_1_copy = param_1_copy + 4;
+        param_1 = param_1 + 4;
+        param_2 = param_2 + 1;
+        param_3 = param_3 + 1;
+        param_4 = param_4 + 1;
+    } while (iters < 0x100);
+}
 
 void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSourceMat, TMat8x8B *pDestMat1,
                                                                 TMat8x8B *pDestMat2, TMat8x8B *pDestMat3,
