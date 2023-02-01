@@ -28,6 +28,7 @@
 #include "Bullet/rmissile.h"
 #include "Bullet/tenage.h"
 #include "Equip/bandana.h"
+#include "Equip/jpegcam.h"
 #include "Equip/bodyarm.h"
 #include "Equip/box.h"
 #include "Equip/gasmask.h"

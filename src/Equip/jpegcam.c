@@ -81,7 +81,7 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern OBJECT         *dword_800ABA20;
 extern SVECTOR         dword_8009F3AC;
 
-int jpegcam_act_helper2_helper2_80064454(void *param_1)
+int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
 {
 
     MATRIX  mtx;
@@ -105,7 +105,7 @@ int jpegcam_act_helper2_helper2_80064454(void *param_1)
         DG_PutVector_8001BE48(&dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (sub_80028454(*(void **)(*(int *)(param_1 + 0x6c) + 8), &vector1, &vector2, 0xf, 0x81) != 0)
+        if (sub_80028454(pActor->field_6C_pMap->field_8_hzd, &vector1, &vector2, 0xf, 0x81) != 0)
         {
             sub_80028890(&vector2);
             cond = 1;
