@@ -2913,7 +2913,7 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int time)
         if ((pActor->field_A54.prone_bool_thing == 1 && time == 12) ||
             (pActor->field_A54.prone_bool_thing == 2 && time == 0x14))
         {
-            sub_800329C4(&pActor->field_20_ctrl.field_0_position, 51, 1);
+            GM_Sound_800329C4(&pActor->field_20_ctrl.field_0_position, 51, 1);
         }
 
         pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C.vx;

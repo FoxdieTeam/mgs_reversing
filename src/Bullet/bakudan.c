@@ -91,7 +91,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
 
         if (pActor->field_110_pPad->press & PAD_CIRCLE)
         {
-            sub_800329C4(&svector_800ABA10, 0x32, 1);
+            GM_Sound_800329C4(&svector_800ABA10, 0x32, 1);
         }
 
         dword_8009F430 = GV_Time_800AB330;

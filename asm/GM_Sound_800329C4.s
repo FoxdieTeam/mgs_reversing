@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800329C4
-sub_800329C4:
+	xdef GM_Sound_800329C4
+GM_Sound_800329C4:
 	dw 0x27BDFFE0 ; 0x800329C4
 	dw 0x00801821 ; 0x800329C8
 	dw 0xAFB00018 ; 0x800329CC
