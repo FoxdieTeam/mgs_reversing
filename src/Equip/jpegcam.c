@@ -8,6 +8,8 @@
 extern char aPHOTO[];    // "PHOTO %02d\n"
 extern char aJpegcamC[]; // "jpegcam.c";
 
+extern GV_PAD GV_PadData_800B05C0[4];
+
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
     sprintf_8008E878(param_1, aPHOTO, *(char *)(param_2 + 6) - 0x40);
@@ -130,12 +132,12 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 void jpegcam_kill_80065008(Actor_jpegcam *pActor)
 {
     GM_Camera_800B77E8.field_20 = 320;
-    gUnkCameraStruct_800B77B8.field_28 = pActor->field_54;
+    gUnkCameraStruct_800B77B8.field_28 = pActor->field_54_vec;
 
     GM_GameStatus_800AB3CC &= ~0x800;
     GM_GameStatus_800AB3CC &= ~0x400;
 
-    if (pActor->field_94 != 0)
+    if (pActor->field_94_bMakeVisible != 0)
     {
         EQ_VisibleHead_80060DF0(pActor->field_24_pObj, &pActor->field_4c_head_saved_packs,
                                 &pActor->field_4e_head_saved_raise);
@@ -143,7 +145,20 @@ void jpegcam_kill_80065008(Actor_jpegcam *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_loader_80065098.s")                                    // 128 bytes
+int jpegcam_loader_80065098(Actor_jpegcam *pActor, GM_Control *pCtrl, OBJECT *pParent)
+{
+  pActor->field_24_pObj = pParent;
+  pActor->field_50_pInput = &GV_PadData_800B05C0[2];
+  pActor->field_54_vec = pCtrl->field_8_rotator;
+  pActor->field_5C_ang = pActor->field_54_vec;
+  pActor->field_64_state = 0;
+  pActor->field_68 = 0;
+  pActor->field_6C_pMap = pCtrl->field_2C_map;
+  pActor->field_70 = 0;
+  pActor->field_98 = 0;
+  GM_GameStatus_800AB3CC |= 0x800;
+  return 0;
+}
 
 Actor_jpegcam *NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent)
 {
