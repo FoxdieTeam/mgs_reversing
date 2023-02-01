@@ -24,6 +24,8 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
 void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+void sub_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen);
+void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4);
 
 void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {
@@ -138,9 +140,22 @@ void camera_act_helper_helper2_8002F094(int param_1)
 #pragma INCLUDE_ASM("asm/sub_8002F274.s") // 272 bytes
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper2_helper_8002F384.s") // 576 bytes
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper2_8002F5C4.s") // 136 bytes
+
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper3_8002F64C.s") // 320 bytes
+
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper4_8002F78C.s") // 800 bytes
-#pragma INCLUDE_ASM("asm/sub_8002FAAC.s") // 168 bytes
+
+
+void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4)
+{
+    if ( !gUnkCameraStruct2_800B7868.field_20 )
+    {
+        *a1 = gUnkCameraStruct2_800B7868.field_0;
+        *a2 = gUnkCameraStruct2_800B7868.field_8;
+        sub_8002FBC0(a1, a2, a3, a4);
+        gUnkCameraStruct2_800B7868.field_10 = *a3;
+    }
+}
 
 void camera_act_helper7_8002FB54()
 {
@@ -160,7 +175,15 @@ void camera_act_helper7_8002FB54()
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002FBC0.s") // 152 bytes
+void sub_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen)
+{
+    SVECTOR vec;
+    GV_SubVec3_80016D40(pVec2, pVec1, &vec);
+    *pLen = GV_VecLen3_80016D80(&vec);
+    pVec3->vz = 0;
+    pVec3->vy = GV_VecDir2_80016EF8(&vec);
+    pVec3->vx = ratan2_80094308(-vec.vy, SquareRoot0_80092708(vec.vx * vec.vx + vec.vz * vec.vz));
+}
 
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
 {
