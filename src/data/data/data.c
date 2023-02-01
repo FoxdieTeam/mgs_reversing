@@ -882,10 +882,9 @@ struct Anim_Data SECTION(".data") stru_8009F68C = {
     21926, 1, 65537, 1, 500, 3, 600, 600, 180, 0, (void *)dword_80012F50};
 
 int     SECTION(".data") dword_8009F6A8 = 0;
-SVECTOR SECTION(".data") svec_8009F6AC = {0, 0, 0, 0};
-short   SECTION(".data") word_8009F6B4[] = {0, 0, 0, 0, 0, 0};
-short   SECTION(".data") word_8009F6C0[] = {0, 0, 0, 0};
-short   SECTION(".data") word_8009F6C8[] = {0, 0};
+
+SVECTOR SECTION(".data") svec_8009F6AC[4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+
 SVECTOR SECTION(".data") svec_8009F6CC = {0, 400, 0, 0};
 int     SECTION(".data") dword_8009F6D4 = 0;
 int     SECTION(".data") dword_8009F6D8[] = {0, 0, 0};

@@ -2,7 +2,17 @@
 #include "libdg/libdg.h"
 #include "Game/target.h"
 
-#pragma INCLUDE_ASM("asm/Okajima/bullet_80075314.s")                // 68 bytes
+extern SVECTOR svec_8009F6AC[4];
+
+void bullet_80075314(SVECTOR *pVec, short amount)
+{
+    svec_8009F6AC[0].vx = amount;
+    svec_8009F6AC[1].vx = -amount;
+    svec_8009F6AC[2].vz = amount;
+    svec_8009F6AC[3].vz = -amount;
+    DG_PutVector_8001BE48(svec_8009F6AC, pVec, 4);
+}
+
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_helper_80075358.s") // 188 bytes
 #pragma INCLUDE_ASM("asm/Okajima/bullet_act_helper_80075414.s")     // 208 bytes
 #pragma INCLUDE_ASM("asm/Okajima/bullet_act_helper_800754E4.s")     // 300 bytes
