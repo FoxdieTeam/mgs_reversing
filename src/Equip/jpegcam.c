@@ -46,7 +46,35 @@ void jpegcam_act_helper3_helper_helper_helper3_80063988(unsigned short *param_1,
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper_800639E8.s")  // 428 bytes
+void jpegcam_act_helper3_helper_helper_helper2_helper_800639E8(char *param_1, char *param_2, char *param_3,
+                                                               char *param_4)
+{
+    int   val1;
+    int   val2;
+    int   val3;
+    char *param_1_copy;
+    int   iters;
+
+    iters = 0;
+    param_1_copy = param_1;
+    do
+    {
+        val1 = (int)param_1_copy[1];
+        val3 = (int)param_1_copy[2];
+        val2 = (int)*param_1;
+        *param_2 = (char)((val2 * 299 + val1 * 0x24b + val3 * 0x72) / 1000 + 0x80);
+
+        *param_3 = (char)((val2 * -0x697 + val1 * -0xcf1 + val3 * 5000) / 10000);
+
+        *param_4 = (char)((val2 * 5000 - val1 * 0x105b - val3 * 0x32d) / 10000);
+        iters = iters + 1;
+        param_1_copy = param_1_copy + 4;
+        param_1 = param_1 + 4;
+        param_2 = param_2 + 1;
+        param_3 = param_3 + 1;
+        param_4 = param_4 + 1;
+    } while (iters < 0x100);
+}
 
 void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSourceMat, TMat8x8B *pDestMat1,
                                                                 TMat8x8B *pDestMat2, TMat8x8B *pDestMat3,
@@ -81,7 +109,7 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern OBJECT         *dword_800ABA20;
 extern SVECTOR         dword_8009F3AC;
 
-int jpegcam_act_helper2_helper2_80064454(void *param_1)
+int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
 {
 
     MATRIX  mtx;
@@ -105,7 +133,7 @@ int jpegcam_act_helper2_helper2_80064454(void *param_1)
         DG_PutVector_8001BE48(&dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (sub_80028454(*(void **)(*(int *)(param_1 + 0x6c) + 8), &vector1, &vector2, 0xf, 0x81) != 0)
+        if (sub_80028454(pActor->field_6C_pMap->field_8_hzd, &vector1, &vector2, 0xf, 0x81) != 0)
         {
             sub_80028890(&vector2);
             cond = 1;
@@ -122,7 +150,42 @@ int jpegcam_act_helper2_helper2_80064454(void *param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper2_80064588.s")                               // 1132 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper2_800649F4.s")                       // 160 bytes
+
+extern int     GM_Photocode_800ABA04;
+extern SVECTOR GM_PhotoViewPos_800ABA48;
+
+extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
+extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
+extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
+extern const char aPointCheck[];     // = "Point Check\n"
+extern const char aResultD[];        // = "Result = %d\n"
+extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
+
+// or: jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
+// with pActor unused
+int jpegcam_act_helper3_helper2_800649F4()
+{
+    int retval;
+
+    mts_printf_8008BBA0(aSinreiSyasinCh);
+    if (GM_Photocode_800ABA04 != 0)
+    {
+        mts_printf_8008BBA0(aHereIsSinreiSp);
+        mts_printf_8008BBA0(aGmPhotocodeD, GM_Photocode_800ABA04);
+
+        retval = DG_PointCheckOne_8001C18C((DVECTOR *)&GM_PhotoViewPos_800ABA48);
+        mts_printf_8008BBA0(aPointCheck);
+
+        mts_printf_8008BBA0(aResultD, retval);
+    }
+    else
+    {
+        mts_printf_8008BBA0(aNotSinreiSpot);
+        retval = 0;
+    }
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_80064A94.s")                               // 444 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_80064C50.s")                                       // 952 bytes
 
