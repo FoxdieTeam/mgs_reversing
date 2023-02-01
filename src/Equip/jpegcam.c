@@ -122,7 +122,42 @@ int jpegcam_act_helper2_helper2_80064454(void *param_1)
 }
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper2_80064588.s")                               // 1132 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper2_800649F4.s")                       // 160 bytes
+
+extern int     GM_Photocode_800ABA04;
+extern SVECTOR GM_PhotoViewPos_800ABA48;
+
+extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
+extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
+extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
+extern const char aPointCheck[];     // = "Point Check\n"
+extern const char aResultD[];        // = "Result = %d\n"
+extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
+
+// or: jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
+// with pActor unused
+int jpegcam_act_helper3_helper2_800649F4()
+{
+    int retval;
+
+    mts_printf_8008BBA0(aSinreiSyasinCh);
+    if (GM_Photocode_800ABA04 != 0)
+    {
+        mts_printf_8008BBA0(aHereIsSinreiSp);
+        mts_printf_8008BBA0(aGmPhotocodeD, GM_Photocode_800ABA04);
+
+        retval = DG_PointCheckOne_8001C18C((DVECTOR *)&GM_PhotoViewPos_800ABA48);
+        mts_printf_8008BBA0(aPointCheck);
+
+        mts_printf_8008BBA0(aResultD, retval);
+    }
+    else
+    {
+        mts_printf_8008BBA0(aNotSinreiSpot);
+        retval = 0;
+    }
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_80064A94.s")                               // 444 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_80064C50.s")                                       // 952 bytes
 
