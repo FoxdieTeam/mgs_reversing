@@ -84,6 +84,7 @@ typedef struct Anim_Data
 
 Actor_anime *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData);
 Actor_anime *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1);
+Actor_anime *anime_create_8005DF50(SVECTOR *v1, SVECTOR *v2);
 
 void   anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
 int    anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
