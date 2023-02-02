@@ -604,8 +604,8 @@ int  SECTION(".data") off_8009EC08[] = {(int)dword_800AB754, (int)aNo};
 int  SECTION(".data") dword_8009EC10[] = {0x8F826382, 0x8B828382, 0};
 int  SECTION(".data") off_8009EC1C[] = {(int)dword_800122D8, (int)dword_800122CC, (int)dword_800122C0,
                                         (int)dword_800122B4, (int)dword_800122A8};
-char SECTION(".data") byte_8009EC30[] = {0x47, 0, 0, 1};
-int  SECTION(".data") dword_8009EC34[] = {(int)aSaveData, 0x8004D008, 0x8004D14C, 0x8004D1D0};
+
+menu_save_mode_data SECTION(".data") stru_8009EC30 = {{0x47, 0}, 0, 1, (void *)aSaveData, (void *)0x8004D008, (void *)0x8004D14C, (void *)0x8004D1D0};
 
 Menu_Triangle SECTION(".data") stru_8009EC44 = {155, 125, 160, 120, 165, 125, 0x80808080};
 Menu_Triangle SECTION(".data") stru_8009EC54 = {156, 212, 160, 216, 164, 212, 0x80808080};
@@ -780,8 +780,9 @@ int     SECTION(".data") dword_8009F2C0 = 0;
 short   SECTION(".data") scope_created_8009F2C4 = 0;
 SVECTOR SECTION(".data") svec_8009F2C8 = {0, 0, 0, 0};
 int     SECTION(".data") dword_8009F2D0[] = {0, 0xC80};
-char    SECTION(".data") byte_8009F2D8[] = {0x43, 4, 0, 2};
-int     SECTION(".data") dword_8009F2DC[] = {0x800129D4, 0x80063704, 0x80063888, 0x800638B4};
+
+menu_save_mode_data SECTION(".data") stru_8009F2D8 = {{0x43, 4}, 0, 2, (void *)0x800129D4, (void *)0x80063704, (void *)0x80063888, (void *)0x800638B4};
+
 char    SECTION(".data") byte_8009F2EC[] = {0, 1, 8, 0x10};
 int     SECTION(".data") dword_8009F2F0[] = {0xA030209,  0x19201811, 0x5040B12,  0x211A130C, 0x22293028,
                                              0x60D141B,  0x1C150E07, 0x38312A23, 0x242B3239, 0x170F161D,

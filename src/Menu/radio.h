@@ -19,7 +19,7 @@ unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *
 void           menu_radio_codec_task_proc_80047AA0(void);
 void           menu_radio_compact_free_vars_8004D3D8(void);
 void           init_radio_message_board_80040F74(int param_1);
-void           init_file_mode_8004D24C(int param_1, int param_2);
+void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2);
 void           sub_800434F4(unsigned int **param_1, int param_2, int param_3, MenuMan_Inventory_14h_Unk *param_4);
 void           menu_RadioCall_helper_800403E4();
 int           *sub_8004969C(int param_1, int param_2);
