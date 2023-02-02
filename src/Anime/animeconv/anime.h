@@ -82,13 +82,14 @@ typedef struct Anim_Data
     void            *field_18_ptr;
 } Anim_Data;
 
-Actor *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData);
+Actor_anime *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData);
+Actor_anime *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1);
+
 void   anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
 int    anime_loader_8005F994(Actor_anime *pActor, int param_2, struct Anim_Data *param_3);
 void   anime_act_8005F4AC(Actor_anime *param_1);
 void   anime_create_8005E6A4(SVECTOR *pVec);
 void   anime_create_8005DE70(MATRIX *pMtx);
-Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1);
 void   anime_create_8005D6BC(MATRIX *pMtx, int a2);
 void   anime_create_8005D988(MATRIX *a1, MATRIX *a2, int a3);
 void   anime_create_8005DDE0(MATRIX *pMtx);

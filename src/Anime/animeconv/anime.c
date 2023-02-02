@@ -21,7 +21,7 @@ extern const char aAnimeC[];
 
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
-Actor *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
+Actor_anime *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
 {
     signed int      rnd; // $v1
     anime_data_0x14 data;
@@ -456,7 +456,7 @@ void anime_kill_8005F608(Actor_anime *anime)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")        // 564 bytes
 
-Actor *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
+Actor_anime *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
 {
     int          count;  // $s1
     Actor_anime *pActor; // $v0
@@ -472,14 +472,24 @@ Actor *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
         if (anime_loader_8005F994(pActor, map, pAnimData) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
-            return 0;
+            return NULL;
         }
         else
         {
             pActor->field_30_mtx = pMtx;
         }
     }
-    return &pActor->field_0_actor;
+    return pActor;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005FCA4.s") // 132 bytes
+Actor_anime *sub_8005FCA4(DG_PRIM *pPrim, int map, Anim_Data *pAnimData)
+{
+    Actor_anime *pActor = anime_init_8005FBC8(NULL, map, pAnimData);
+
+    if (pActor && pPrim)
+    {
+        pActor->field_24_pPrim->world = pPrim->world;
+    }
+
+    return pActor;
+}
