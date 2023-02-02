@@ -98,6 +98,17 @@ typedef struct menu_8009E544
     menu_8009E544_update field_18_pFnUpdate;
 } menu_8009E544;
 
+typedef struct menu_save_mode_data
+{
+  char field_0[2];
+  char field_2;
+  char field_3;
+  void *field_4;
+  void* field_8;
+  void* field_C;
+  void* field_10;
+} menu_save_mode_data;
+
 typedef struct Menu_Item_Unknown_Main
 {
     int   field_0_array_count;
@@ -264,7 +275,7 @@ Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 void                       menu_restore_nouse_80043470();
 MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx);
 int                        sub_8003CB98(struct Actor_MenuMan *a1);
-int          menu_radio_do_file_mode_8004C418(int param_1, unsigned short *param_2, int param_3, void *param_4);
+int          menu_radio_do_file_mode_8004C418(int param_1, GV_PAD *pPad);
 int          sub_8003CFE0(MenuMan_Inventory_14h_Unk *images, int index);
 unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
@@ -332,6 +343,9 @@ int            menu_inventory_Is_Item_Disabled_8003B6D0(int item_idx);
 void           menu_ResetTexture_80038A00(void);
 void           menu_jimaku_init_helper_800493F8(KCB *kcb);
 void           menu_font_kill_helper_8003F50C(void);
+void           menu_radio_8004D2FC(menu_save_mode_data *pSaveMode);
+int            menu_radio_8004D334(GV_PAD *pPad);
+void           menu_radio_8004D35C(void);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 

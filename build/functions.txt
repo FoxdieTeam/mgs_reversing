@@ -1082,9 +1082,9 @@
 8004D24C 52 init_file_mode_8004D24C
 8004D280 80 menu_radio_init_save_mode_8004D280
 8004D2D0 44 menu_radio_update_helper4_8004D2D0
-8004D2FC 56 sub_8004D2FC
-8004D334 40 sub_8004D334
-8004D35C 36 sub_8004D35C
+8004D2FC 56 menu_radio_8004D2FC
+8004D334 40 menu_radio_8004D334
+8004D35C 36 menu_radio_8004D35C
 8004D380 56 menu_radio_table_find_8004D380
 8004D3B8 32 menu_radio_table_next_free_8004D3B8
 8004D3D8 200 menu_radio_compact_free_vars_8004D3D8

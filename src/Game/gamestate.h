@@ -127,6 +127,7 @@ typedef struct GameState
 
 // TODO: Use this pattern for all game state variables
 #define GM_GetCurrentHealth (&gGameState_800B4D98[GM_CurrentHealth])
+#define GM_GetCurrentItem   (&gGameState_800B4D98[GM_CurrentItem])
 #define GM_GetItemRation    (&gGameState_800B4D98[GM_ItemRation])
 #define GM_GetFrozenItems   (&gGameState_800B4D98[GM_FrozenItems])
 
