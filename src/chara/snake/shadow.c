@@ -2,8 +2,133 @@
 #include "Game/object.h"
 #include "psyq.h"
 
-// https://decomp.me/scratch/rSxGN
-#pragma INCLUDE_ASM("asm/shadow_act_helper_8005FD28.s") // 768 bytes
+typedef struct _Shadow_Scratch
+{
+    SVECTOR iter[4];
+    SVECTOR rot_in;
+    VECTOR  rot_out;
+    MATRIX  mtx;
+} Shadow_Scratch;
+
+extern MATRIX DG_ZeroMatrix_8009D430;
+
+void shadow_act_helper_8005FD28(Actor_Shadow *pActor)
+{
+    MATRIX *pWorld;
+    MATRIX *pMatrix;
+    
+    int lVar9;
+    int lVar5;
+    int lVar4;
+    
+    int sVar6;
+    int sVar7;
+  
+    int iVar12;
+  
+    SVECTOR *psVar14;
+  
+    int iVar15;
+    int iVar16;
+    int iVar17;
+
+    Shadow_Scratch *pScratch = (Shadow_Scratch *)getScratchAddr(0);
+    
+    SVECTOR *iter1 = pScratch->iter;
+    short *iter2 = pActor->field_94.objs_offsets;
+    
+    int iters = 4;
+    
+    do
+    {
+        pMatrix = &pActor->field_24_pObj->objs->objs[*iter2].world;
+        iter1->vx = pMatrix->t[0];
+
+        pMatrix = &pActor->field_24_pObj->objs->objs[*iter2].world;
+        iter1->vy = pMatrix->t[1];
+
+        pMatrix = &pActor->field_24_pObj->objs->objs[*iter2].world;
+        iter1->vz = pMatrix->t[2];
+        
+        iters--;
+        iter1++;
+        iter2++;
+    } while (0 < iters);
+    
+    pScratch->mtx = pActor->field_24_pObj->objs->world;
+    
+    pScratch->mtx.t[0] = pActor->field_24_pObj->objs[0].objs[0].world.t[0];
+    lVar9 = pScratch->mtx.t[0];
+    
+    pScratch->mtx.t[1] = pActor->field_24_pObj->objs[0].objs[0].world.t[1];
+    lVar5 = pScratch->mtx.t[1];
+    
+    pScratch->mtx.t[2] = pActor->field_24_pObj->objs[0].objs[0].world.t[2];
+    lVar4 = pScratch->mtx.t[2];
+    
+    DG_TransposeMatrix_8001EAD8(&pScratch->mtx, &pScratch->mtx);
+    SetRotMatrix_80093218(&pScratch->mtx);
+
+    psVar14 = pScratch->iter;
+
+    iVar17 = -32000;
+    iVar15 = -32000;
+    iVar16 = 32000;
+    iVar12 = 32000;
+
+    iters = 4;
+    
+    do
+    {
+        pScratch->rot_in.vx = psVar14->vx - lVar9;
+        pScratch->rot_in.vy = psVar14->vy - lVar5;
+        pScratch->rot_in.vz = psVar14->vz - lVar4;
+
+        ApplyRotMatrix_80092DA8(&pScratch->rot_in, &pScratch->rot_out);
+    
+        if (iVar15 < pScratch->rot_out.vx)
+        {
+            iVar15 = pScratch->rot_out.vx;
+        }
+
+        if (iVar12 > pScratch->rot_out.vx)
+        {
+            iVar12 = pScratch->rot_out.vx;
+        }
+
+        if (iVar17 < pScratch->rot_out.vz)
+        {
+            iVar17 = pScratch->rot_out.vz;
+        }
+
+        if (iVar16 > pScratch->rot_out.vz)
+        {
+            iVar16 = pScratch->rot_out.vz;
+        }
+
+        psVar14++;
+        iters--;
+    } while (iters > 0);
+
+    sVar6 = (iVar15 - iVar12) / 2;
+    sVar7 = (iVar17 - iVar16) / 2;
+    
+    pWorld = &pActor->field_28_obj.objs[0].world;
+    *pWorld = DG_ZeroMatrix_8009D430;
+
+    if (sVar7 >= 0x1f5)
+    {
+        sVar6 += 100;
+    }
+    else
+    {
+        sVar6 += 200;
+        sVar7 += 200;
+    }
+
+    pWorld->m[0][0] = sVar6;
+    pWorld->m[2][2] = sVar7;
+}
 
 void shadow_act_helper_80060028(Actor_Shadow *pActor)
 {
@@ -13,7 +138,7 @@ void shadow_act_helper_80060028(Actor_Shadow *pActor)
     objs->world.t[2] = pActor->field_24_pObj->objs->world.t[2];
     objs->world.t[1] = pActor->field_20_ctrl->field_78;
 
-    if (pActor->field_20_ctrl->field_0_position.vy - pActor->field_20_ctrl->field_78 < 450)
+    if ((pActor->field_20_ctrl->field_0_position.vy - pActor->field_20_ctrl->field_78) < 450)
     {
         objs->objs[0].raise = -500;
     }
@@ -25,7 +150,7 @@ void shadow_act_helper_80060028(Actor_Shadow *pActor)
 
 void shadow_act_800600E4(Actor_Shadow *pActor)
 {
-    if ((pActor->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) != 0 || !pActor->field_90_bEnable)
+    if ((pActor->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) || !pActor->field_90_bEnable)
     {
         DG_InvisibleObjs(pActor->field_28_obj.objs);
     }
