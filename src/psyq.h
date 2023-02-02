@@ -24,6 +24,7 @@ MATRIX            *RotMatrixZYX_gte_80093F08(SVECTOR *r, MATRIX *m);
 MATRIX            *RotMatrixX_80093A28(long r, MATRIX *m);
 MATRIX            *RotMatrixY_80093BC8(long r, MATRIX *m);
 MATRIX            *RotMatrixZ_80093D68(long r, MATRIX *m);
+VECTOR            *ApplyRotMatrix_80092DA8(SVECTOR *v0, VECTOR *v1);
 VECTOR            *ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
 void               SetTransMatrix_80093248(MATRIX *);
 char              *strcpy_8008E768(char *dest, const char *src);
