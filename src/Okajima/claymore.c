@@ -2,6 +2,8 @@
 #include "spark.h"
 #include "psyq.h"
 #include "Game/game.h"
+#include "map/map.h"
+#include "Anime/animeconv/anime.h"
 
 extern SVECTOR stru_8009F630[4];
 
@@ -215,4 +217,76 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
     return retval;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/NewClaymore_80073B8C.s")     // 548 bytes
+extern const char    aClaymoreC[]; // = "claymore.c";
+extern int           claymore_map_800AB9DC;
+extern map_record   *claymore_map_record_800bdf08;
+extern const SVECTOR stru_80012EEC;
+
+Actor_Claymore *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+{
+    int             i;
+    Actor_Claymore *claymore;
+    Actor_Claymore *null_claymore;
+    SVECTOR         new_field_24;
+    SVECTOR         vec2;
+    int             constant_ff, constant_20;
+    int             current_map;
+
+    claymore = NULL;
+    null_claymore = NULL;
+
+    new_field_24 = stru_80012EEC;
+
+    vec2 = *noise_position;
+    vec2.vx += GV_RandS_800170BC(0x100);
+    vec2.vy += GV_RandS_800170BC(0x80);
+
+    DG_SetPos2_8001BC8C(&vec2, new_field_2C);
+    DG_PutVector_8001BE48(&new_field_24, &new_field_24, 1);
+
+    if (param_4 == 8)
+    {
+        GM_SeSet_80032858(noise_position, 0x29);
+
+        constant_ff = 0xff;
+        constant_20 = 0x20;
+        if (GM_NoisePower_800ABA24 <= constant_ff &&
+            (GM_NoisePower_800ABA24 != 0xff || GM_NoiseLength_800ABA30 <= constant_20))
+        {
+            GM_NoiseLength_800ABA30 = 0x20;
+            GM_NoisePower_800ABA24 = 0xff;
+            GM_NoisePosition_800AB9F8 = *noise_position;
+        }
+
+        anime_create_8005DF50(&new_field_24, new_field_2C);
+    }
+
+    // from map_record* to int, back to map_record*: (to get a match)
+    current_map = (int)Map_FromId_800314C0(GM_CurrentMap_800AB9B0);
+    claymore_map_record_800bdf08 = (map_record *)current_map;
+
+    for (i = 0; i < pCnt; i++)
+    {
+        claymore = (Actor_Claymore *)GV_NewActor_800150E4(6, sizeof(Actor_Claymore));
+        if (claymore != NULL)
+        {
+            GV_SetNamedActor_8001514C(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
+                                      (TActorFunction)claymore_kill_800738F4, aClaymoreC);
+            current_map = GM_CurrentMap_800AB9B0;
+            claymore_map_800AB9DC = current_map;
+            if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)
+            {
+                GV_DestroyActor_800151C8(&claymore->field_0);
+                return NULL;
+            }
+            claymore_loader_80073930(claymore);
+            claymore->field_120 = 0;
+        }
+        else
+        {
+            return null_claymore;
+        }
+    }
+
+    return claymore;
+}
