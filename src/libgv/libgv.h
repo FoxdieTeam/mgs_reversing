@@ -237,6 +237,8 @@ int          sub_800268AC(SVECTOR *param_1, SVECTOR *param_2, int param_3, int p
 int          sub_80026BC4(short *param_1, short *param_2, int param_3, int param_4);
 int          sub_800264B0(int param_1,int param_2,int param_3);
 void         GV_NearExp2V_8002667C(short *a, short *b, int count);
+void         GV_SetPacketTempMemory_80014C28(void);
+void         GV_ResetPacketMemory_80014BD8(void);
 
 typedef struct GV_Vec
 {

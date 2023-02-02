@@ -104,6 +104,8 @@ void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSou
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_80064054.s")         // 364 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_80064378.s")                        // 220 bytes
+int jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor);
+
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern OBJECT         *dword_800ABA20;
@@ -186,7 +188,79 @@ int jpegcam_act_helper3_helper2_800649F4()
     return retval;
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_80064A94.s")                               // 444 bytes
+extern int   GV_PauseLevel_800AB928;
+extern int   dword_800BDCC8;
+extern int   dword_800BDCCC;
+extern int   dword_800BDCD0;
+extern int   DG_UnDrawFrameCount_800AB380;
+extern short gGameState_800B4D98[];
+
+extern menu_save_mode_data stru_8009F2D8;
+
+void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
+{
+    int state = pActor->field_64_state;    
+
+    if (state < 3)
+    {
+        return;
+    }
+
+    if (state == 3)
+    {
+        GM_Sound_80032968(0, 63, 17);   
+    }
+    else if (state == 4)
+    {
+        GV_PauseLevel_800AB928 &= ~0x4;
+        GV_PauseLevel_800AB928 |= 0x1;
+        DG_FreeObjectQueue_800183D4();
+        GV_SetPacketTempMemory_80014C28();
+        DG_UnDrawFrameCount_800AB380 = 1;
+    }
+    else if (state < 9)
+    {
+        DG_ClipDispEnv_800177EC(256, (state - 4) * 56);
+        DG_UnDrawFrameCount_800AB380 = 1;
+    }
+    else if (state == 9)
+    {
+        jpegcam_act_helper3_helper_80064378(pActor);
+      
+        if (jpegcam_act_helper3_helper2_800649F4(pActor) == 1)
+        {
+            dword_800BDCD0 = GM_Photocode_800ABA04;
+        }
+        else
+        {
+            dword_800BDCD0 = 0;
+        }
+
+        menu_radio_8004D2FC(&stru_8009F2D8);
+        DG_UnDrawFrameCount_800AB380 = 1;
+        dword_800BDCC8 = pActor->field_88;
+        dword_800BDCCC = pActor->field_8C;
+    }
+    else if (state == 10)
+    {
+        if (!menu_radio_8004D334(pActor->field_50_pInput))
+        {
+            --pActor->field_64_state;
+        }
+    }
+    else if (state == 11)
+    {
+        pActor->field_70 = 0;
+        menu_radio_8004D35C();
+        GM_GameStatus_800AB3CC &= ~0x400;
+        GV_ResetPacketMemory_80014BD8();
+        GV_PauseLevel_800AB928 &= ~0x1;
+        DG_8001844C();
+        pActor->field_64_state = 0;
+        pActor->field_90_pSight = NewSight_80071CDC(0xb3cd, 0xeee9, GM_GetCurrentItem, 12, 0);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_80064C50.s")                                       // 952 bytes
 
 extern GM_Camera       GM_Camera_800B77E8;

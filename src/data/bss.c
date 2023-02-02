@@ -219,7 +219,13 @@ gap gap_800BDCB8[0x8]; // 8 bytes
 
 short BSS word_800BDCC0; // 0x4 (4) bytes - padded
 
-gap gap_800BDCC4[0x14]; // 20 bytes
+gap gap_800BDCC4[0x4]; // 4 bytes
+
+int BSS dword_800BDCC8; // 0x4 (4) bytes
+int BSS dword_800BDCCC; // 0x4 (4) bytes
+int BSS dword_800BDCD0; // 0x4 (4) bytes
+
+gap gap_800BDCD4[0x4]; // 4 bytes
 
 TMat8x8B BSS gJpegcamMatrix2_800BDCD8; // 0x40 (64) bytes
 DVECTOR BSS dvector_800BDD18[3]; // 0xC (12) bytes
