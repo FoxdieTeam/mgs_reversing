@@ -11,13 +11,18 @@
 typedef struct _Actor_Chafgrnd
 {
     Actor    field_0_actor;
-    char     field_20_pad[0xc];
+    int      field_20_map;
+    int      field_24;
+    int      field_28;
     SVECTOR  field_2c;
-    char     pad[0xa00];
-    DG_OBJS *field_a34;
-    char     pad2[0x4];
+    SVECTOR  field_34[2][64];
+    SVECTOR  field_434[2][64];
+    SVECTOR  field_834[64];
+    DG_PRIM *field_a34;
+    int      field_a38;
     int      field_a3c;
-    char     pad3[0x60];
+    char     field_a40[64];
+    MATRIX   field_a80;
 } Actor_Chafgrnd;
 
 STATIC_ASSERT_SIZE(Actor_Chafgrnd, 0xaa0);
@@ -27,6 +32,6 @@ void chafgrnd_kill_8007721C(Actor_Chafgrnd *pActor);
 
 int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld);
 
-Actor_Chafgrnd * NewChaffGrd_80077264(MATRIX *pWorld);
+Actor_Chafgrnd * NewChafgrnd_80077264(MATRIX *pWorld);
 
 #endif // _CHAFGRND_H_
