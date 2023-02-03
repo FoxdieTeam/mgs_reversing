@@ -183,6 +183,11 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
     }
 }
 
+static inline void GM_SetCurrentMap(map) int map;
+{
+    GM_CurrentMap_800AB9B0 = map;
+}
+
 void               GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
