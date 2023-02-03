@@ -36,21 +36,21 @@ extern MenuMan_Inventory_14h_Unk dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
 #pragma INCLUDE_ASM("asm/sub_8003FFB0.s") // 132 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 3028 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 3028 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 376 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_helper_800403E4.s") // 180 bytes
 #pragma INCLUDE_ASM("asm/menu_radio_update_helper3_80040498.s") // 248 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 188 bytes
 #pragma INCLUDE_ASM(                                                                                                   \
-    "asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_helper_8004064C.s")
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_800407A4.s") // 3028 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 3028 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 3028 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 3028 bytes
+    "asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_helper_8004064C.s") // 344 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_800407A4.s") // 280 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 568 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
 #pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s") // 368 bytes
 
 void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
@@ -82,7 +82,7 @@ void sub_8004124C(int param_1)
     dword_800ABB04 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s") // 444 bytes
 
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
@@ -108,7 +108,7 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s") // 3028 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s") // 128 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s") // 3028 bytes
 
 void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
