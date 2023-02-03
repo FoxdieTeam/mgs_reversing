@@ -25,11 +25,6 @@ extern short gGameState_800B4D98[0x60];
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
-static inline void GM_SetCurrentMap(map) int map;
-{
-    GM_CurrentMap_800AB9B0 = map;
-}
-
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
     OBJECT *pObject = &pActor->field_20_obj;
