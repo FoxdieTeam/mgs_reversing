@@ -26,7 +26,19 @@ void chafgrnd_init_tiles_800769EC(TILE *a1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_helper_80076A6C.s") // 44 bytes
+void chafgrnd_act_helper_80076A6C(TILE * a0)
+{
+    int i;
+    
+    for (i = 0x40; i > 0; i--)
+    {
+        a0->r0 = -1;
+        a0->g0 = -1;
+        a0->b0 = 0;
+        a0++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_helper_80076A98.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_80076B28.s")        // 1260 bytes
 
