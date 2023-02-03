@@ -24,7 +24,7 @@ extern SVECTOR    dword_8009F3F4[];
 extern int        GM_lpfnBombHoming_800AB3E8;
 extern int        GM_PlayerStatus_800ABA50;
 
-void              NewChaffGrd_80077264( MATRIX *pMtx );
+void              NewChafgrnd_80077264( MATRIX *pMtx );
 
 //------------------------------------------------------------------------------
 
@@ -84,7 +84,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 				grenade_800663A0();
 				break;
 			case GRD_CHAFF:
-				NewChaffGrd_80077264( world );
+				NewChafgrnd_80077264( world );
 				grenade_800663A0();
 				break;
 			default:
