@@ -220,8 +220,8 @@ int SECTION(".data") fs_stream_end_flag_8009D51C = 1;
 int SECTION(".data") fs_dword_8009D520 = 0;
 int SECTION(".data") gmem_card_system_inited_8009D524 = 0;
 
-int SECTION(".data") dword_8009D528[] = {0x8000000, 0x4000555, 0x2AA0333, 0x2000249,
-                                         0x19901C7, 0x1550174, 0x124013B, 0x1000111};
+short SECTION(".data") word_8009D528[] = {0x0, 0x800, 0x555, 0x400, 0x333, 0x2AA, 0x249, 0x200,
+                                          0x1C7, 0x199, 0x174, 0x155, 0x13B, 0x124, 0x111, 0x100};
 int SECTION(".data") dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};
 int SECTION(".data") dword_8009D570[] = {0x20, 0x80, 0x40, 0x10};
 
