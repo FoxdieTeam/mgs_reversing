@@ -154,7 +154,37 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper11_8004150C.s") // 128 bytes
+extern short word_800ABB0C;
+short        SECTION(".sbss") word_800ABB0C;
+
+extern short word_800ABB0E;
+short        SECTION(".sbss") word_800ABB0E;
+
+extern int dword_800AB638;
+int        SECTION(".sbss") dword_800AB638;
+
+void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
+{
+    int   pRadioCode;
+    short dword_800AB638_copy;
+
+    init_radio_message_board_80040F74(pActor);
+    pActor->field_212 = 0x1e;
+    GM_Sound_80032968(0, 0x3f, 0x56);
+    pRadioCode = menu_GetRadioCode_800497C4(dword_800AB638);
+    if (pRadioCode >= 0)
+    {
+        sub_80047D70(pActor, dword_800AB638, pRadioCode);
+        dword_800AB638_copy = dword_800AB638;
+        pActor->field_210 = 2;
+        word_800ABB0C = 0;
+        word_800ABB0E = dword_800AB638_copy;
+        return;
+    }
+
+    pActor->field_210 = 9;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s") // 3028 bytes
 
 void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
