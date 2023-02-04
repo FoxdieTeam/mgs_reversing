@@ -29,9 +29,9 @@ extern SVECTOR          DG_ZeroVector_800AB39C;
 extern const char       aChafgrndC[]; // = "chafgrnd.c";
 extern const char       aEffect[];    // = "effect"
 
-void chafgrnd_init_tiles_800769EC(TILE *a1)
+void chafgrnd_init_particle_size_800769EC(TILE *a0)
 {
-    TILE        *pIter = a1;
+    TILE        *pIter = a0;
     int          i;
     unsigned int rand_width, rand_height;
 
@@ -45,7 +45,7 @@ void chafgrnd_init_tiles_800769EC(TILE *a1)
     }
 }
 
-void chafgrnd_act_helper_80076A6C(TILE * a0)
+void chafgrnd_init_particle_color_80076A6C(TILE * a0)
 {
     int i;
     
@@ -58,7 +58,7 @@ void chafgrnd_act_helper_80076A6C(TILE * a0)
     }
 }
 
-void chafgrnd_act_helper_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
+void chafgrnd_update_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
 {
     SVECTOR vec;
     int temp_s0;
@@ -163,7 +163,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     {
         pActor->field_24 = 1;
     
-        chafgrnd_act_helper_80076A98(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &sp18);
+        chafgrnd_update_particle_position_80076A98(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &sp18);
 
         pVec = (SVECTOR *)getScratchAddr(0);
         pVec->vx = 0;
@@ -230,7 +230,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
         *var_s7 = *var_s4;
     }
 
-    chafgrnd_act_helper_80076A6C(&pActor->field_a34->field_40_pBuffers[GV_Clock_800AB920]->tiles);
+    chafgrnd_init_particle_color_80076A6C(&pActor->field_a34->field_40_pBuffers[GV_Clock_800AB920]->tiles);
 }
 
 int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
@@ -268,8 +268,8 @@ int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
         return -1;
     }
 
-    chafgrnd_init_tiles_800769EC(&pPrim->field_40_pBuffers[0]->tiles);
-    chafgrnd_init_tiles_800769EC(&pPrim->field_40_pBuffers[1]->tiles);
+    chafgrnd_init_particle_size_800769EC(&pPrim->field_40_pBuffers[0]->tiles);
+    chafgrnd_init_particle_size_800769EC(&pPrim->field_40_pBuffers[1]->tiles);
 
     pActor->field_a80 = DG_ZeroMatrix_8009D430;
 
