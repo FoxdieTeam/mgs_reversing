@@ -23,5 +23,7 @@ void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param
 void           sub_800434F4(unsigned int **param_1, int param_2, int param_3, MenuMan_Inventory_14h_Unk *param_4);
 void           menu_RadioCall_helper_800403E4();
 int           *sub_8004969C(int param_1, int param_2);
+void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour,
+                                                                        int param_5);
 
 #endif // _RADIO_H
