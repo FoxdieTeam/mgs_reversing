@@ -47,7 +47,53 @@ extern int GV_PadMask_800AB374;
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 188 bytes
 #pragma INCLUDE_ASM(                                                                                                   \
     "asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_helper_8004064C.s") // 344 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_800407A4.s") // 280 bytes
+
+extern char aP3t3t[];  // = "P#3T#3T";
+extern char aMemory[]; // = "MEMORY";
+
+void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos, int ypos, int flags)
+{
+    unsigned colour;
+
+    if (flags < 0)
+    {
+        flags = 0xf; // Go into all branches below
+        colour = 0x3d472e;
+    }
+    else
+    {
+        colour = 0x3d472e;
+    }
+
+    if (flags & 1)
+    {
+        TextConfig conf;
+        conf.xpos = xpos + 0x90;
+        conf.ypos = ypos + 0x28;
+        conf.colour = 0x64000000 | colour;
+        conf.flags = 0;
+        menu_number_draw_string2_80043220(pGlue, &conf, aP3t3t);
+    }
+    if (flags & 2)
+    {
+        TextConfig conf;
+        conf.xpos = xpos + 0x86;
+        conf.ypos = ypos + 0x77;
+        conf.colour = 0x64000000 | colour;
+        conf.flags = 0;
+        menu_number_draw_string2_80043220(pGlue, &conf, aMemory);
+    }
+    if (flags & 4)
+    {
+        menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, colour, 0);
+    }
+    if (flags & 8)
+    {
+        menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, colour, 1);
+    }
+    return;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 568 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
