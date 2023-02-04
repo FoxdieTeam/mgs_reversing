@@ -1690,9 +1690,9 @@
 80076584 388 bullet_init_80076584
 80076708 548 NewBulletEx_80076708
 8007692C 192 sub_8007692C
-800769EC 128 chafgrnd_init_tiles_800769EC
-80076A6C 44 chafgrnd_act_helper_80076A6C
-80076A98 144 chafgrnd_act_helper_80076A98
+800769EC 128 chafgrnd_init_particle_size_800769EC
+80076A6C 44 chafgrnd_init_particle_color_80076A6C
+80076A98 144 chafgrnd_calc_particle_position_80076A98
 80076B28 1260 chafgrnd_act_80076B28
 80077014 520 chafgrnd_loader_80077014
 8007721C 72 chafgrnd_kill_8007721C
