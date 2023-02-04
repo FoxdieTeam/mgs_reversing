@@ -2,23 +2,32 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "Bullet/blast.h"
+#include "Game/camera.h"
 #include "Game/game.h"
 #include "chafgrnd.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "unknown.h"
 
-extern int     dword_800BDF98;
-extern int     dword_800BDF9C;
-extern int     dword_800BDFA0;
+extern int              dword_800ABA0C;
 
-extern int     GM_GameStatus_800AB3CC;
-extern int     GM_CurrentMap_800AB9B0;
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-extern MATRIX  DG_ZeroMatrix_8009D430;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int              dword_800BDF98;
+extern int              dword_800BDF9C;
+extern int              dword_800BDFA0;
 
-extern const char aChafgrndC[]; // = "chafgrnd.c";
+extern int              GM_GameStatus_800AB3CC;
+extern int              GM_CurrentMap_800AB9B0;
+
+extern int              GV_Clock_800AB920;
+extern int              GV_Time_800AB330;
+
+extern MATRIX           DG_ZeroMatrix_8009D430;
+extern SVECTOR          DG_ZeroVector_800AB39C;
+
+extern const char       aChafgrndC[]; // = "chafgrnd.c";
+extern const char       aEffect[];    // = "effect"
 
 void chafgrnd_init_tiles_800769EC(TILE *a1)
 {
@@ -75,7 +84,154 @@ void chafgrnd_act_helper_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
     vout->vz = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/chafgrnd_act_80076B28.s")        // 1260 bytes
+void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
+{
+    SVECTOR unused;
+    SVECTOR sp18;
+    
+    int sp20;
+    int i;
+    int ang;
+    int temp_v0_2;
+    
+    SVECTOR *var_s4;
+    SVECTOR *var_s5;
+    SVECTOR *var_s7;
+
+    SVECTOR *pVec;
+    SVECTOR *pVec2;
+    
+    if (GM_CheckMessage_8002631C(&pActor->field_0_actor, GV_StrCode_80016CCC(aEffect), 0x3223))
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return;
+    }
+
+    if (GM_GameStatus_800AB3CC < 0)
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+    
+    GM_GameStatus_800AB3CC |= 1;
+    GM_SetCurrentMap(dword_800ABA0C);
+
+    pActor->field_a34->group_id = dword_800ABA0C;
+
+    if (dword_800BDF98 == 1)
+    {        
+        dword_800BDF98 = 0;
+        
+        pActor->field_a38 = 64;
+
+        for (i = 0; i < 64; i++)
+        {
+            pActor->field_a40[i] = 0;
+        }
+    }
+    
+    if (--dword_800BDFA0 < 0)
+    {
+        GM_GameStatus_800AB3CC &= ~0x1;
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return;
+    }
+
+    if ((mts_get_tick_count_8008BBB0() - dword_800BDF9C) > 48)
+    {
+        dword_800BDF9C = mts_get_tick_count_8008BBB0();
+        GM_Sound_80032968(0, 63, 58);
+    }
+
+    var_s7 = pActor->field_834;
+
+    if (pActor->field_a3c == 1)
+    {
+        return;
+    }
+
+    unused.vz = 0;
+    
+    temp_v0_2 = dword_800BDFA0 % 2;
+    var_s5 = pActor->field_34[temp_v0_2];
+    var_s4 = pActor->field_434[temp_v0_2];
+    
+    DG_PointCheck_8001BF34(var_s4, 64);
+    
+    sp20 = 0;
+        
+    if ((dword_800BDFA0 < pActor->field_28) || (pActor->field_24 == 1))
+    {
+        pActor->field_24 = 1;
+    
+        chafgrnd_act_helper_80076A98(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &sp18);
+
+        pVec = (SVECTOR *)getScratchAddr(0);
+        pVec->vx = 0;
+        pVec->vy = 0;
+        pVec->vz = 2000;
+            
+        DG_SetPos2_8001BC8C(&gUnkCameraStruct2_800B7868.field_0, &sp18);
+        DG_PutVector_8001BE48(pVec, pVec, 1);
+            
+        sp20 = 1;
+        pActor->field_a34->root = &pActor->field_a80;
+    }
+
+    if (dword_800BDFA0 == pActor->field_a38)
+    {
+        pActor->field_a38 = dword_800BDFA0 - 1;
+        pActor->field_a40[dword_800BDFA0 - 1] = 1;
+    }
+    
+    for (i = 0; i < 64; i++, var_s5++, var_s4++, var_s7++)
+    {
+        if (pActor->field_a40[i])
+        {
+            *var_s7 = gUnkCameraStruct2_800B7868.field_0;
+            continue;
+        }
+                
+        if (sp20)
+        {
+            if ((var_s4->pad != 1) || (GV_RandU_80017090(64) == 0))
+            {
+                pVec2 = (SVECTOR *)getScratchAddr(0);
+                var_s4->vx = pVec2->vx + GV_RandS_800170BC(4096);
+                var_s4->vy = pVec2->vy + GV_RandS_800170BC(4096);
+                var_s4->vz = pVec2->vz + GV_RandS_800170BC(4096);
+            }
+
+            ang = GV_Time_800AB330 + (i * 16);
+                    
+            if (i > 32)
+            {
+                var_s4->vx -= rsin_80092508(ang * 64) / 128;
+                var_s4->vy -= 15;      
+                var_s4->vz -= rcos_800925D8(ang * 64) / 128;
+            }
+            else
+            {
+                var_s4->vx += rsin_80092508(ang * 64) / 128;
+                var_s4->vy -= 15;         
+                var_s4->vz -= rcos_800925D8(ang * 64) / 128;
+            }
+        }
+        else 
+        {
+            var_s5->vx = (var_s5->vx * 7) >> 3;
+            var_s5->vy -= 5;
+            var_s5->vz = (var_s5->vz * 7) >> 3;
+
+            var_s4->vx += var_s5->vx;
+            var_s4->vy += var_s5->vy;
+            var_s4->vz += var_s5->vz;
+        }
+
+        *var_s7 = *var_s4;
+    }
+
+    chafgrnd_act_helper_80076A6C(&pActor->field_a34->field_40_pBuffers[GV_Clock_800AB920]->tiles);
+}
 
 int chafgrnd_loader_80077014(Actor_Chafgrnd *pActor, MATRIX *pWorld)
 {

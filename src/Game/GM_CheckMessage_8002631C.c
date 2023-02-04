@@ -1,6 +1,6 @@
 #include "libgv/libgv.h"
 
-GV_MSG *GM_CheckMessage_8002631C(int pActor, int msgType, int toFind)
+GV_MSG *GM_CheckMessage_8002631C(Actor *pActor, int msgType, int toFind)
 {
     GV_MSG *pMsg;
     int     foundCount;
