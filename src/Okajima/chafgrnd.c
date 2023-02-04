@@ -58,7 +58,7 @@ void chafgrnd_init_particle_color_80076A6C(TILE * a0)
     }
 }
 
-void chafgrnd_update_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
+void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
 {
     SVECTOR vec;
     int temp_s0;
@@ -163,7 +163,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     {
         pActor->field_24 = 1;
     
-        chafgrnd_update_particle_position_80076A98(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &sp18);
+        chafgrnd_calc_particle_position_80076A98(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &sp18);
 
         pVec = (SVECTOR *)getScratchAddr(0);
         pVec->vx = 0;
