@@ -18,10 +18,14 @@ void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4
 unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
 void           menu_radio_codec_task_proc_80047AA0(void);
 void           menu_radio_compact_free_vars_8004D3D8(void);
-void           init_radio_message_board_80040F74(int param_1);
+void           init_radio_message_board_80040F74(Actor_MenuMan *pActor);
 void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2);
 void           sub_800434F4(unsigned int **param_1, int param_2, int param_3, MenuMan_Inventory_14h_Unk *param_4);
 void           menu_RadioCall_helper_800403E4();
 int           *sub_8004969C(int param_1, int param_2);
+void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour,
+                                                                        int param_5);
+int            menu_GetRadioCode_800497C4(int param_1);
+void           sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode);
 
 #endif // _RADIO_H
