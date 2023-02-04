@@ -559,6 +559,7 @@ void     DG_SaveTexureCacheToResidentMem_8001DB20();
 void     DG_FreeObjectQueue_800183D4();
 void     DG_800172D0( DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_property );
 void     DG_ClipDispEnv_800177EC(int x, int y);
+void     DG_PointCheck_8001BF34(SVECTOR *svector, int n_points);
 
 void     Prim_lighting_80031954(
 		SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen );

@@ -239,6 +239,7 @@ void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
+GV_MSG            *GM_CheckMessage_8002631C(Actor *pActor, int msgType, int toFind);
 
 // SeSet helpers
 int sub_80032748(DVECTOR *out, SVECTOR *pos);
