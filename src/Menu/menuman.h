@@ -296,7 +296,7 @@ void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
 void menu_JimakuWrite_800494E8(const char *str, int frames);
 void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
-void menu_number_draw_string2_80043220(MenuGlue *param_1, int *param_2, char *param_3);
+void menu_number_draw_string2_80043220(MenuGlue *pGlue, TextConfig *pTextConfig, char *str);
 void menu_number_draw_string_80042BF4(MenuGlue *param_1, int *param_2, char *param_3);
 void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
                                      short *param_5);
