@@ -240,6 +240,7 @@ void               GM_AlertModeReset_8002EAB8(void);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(Actor *pActor, int msgType, int toFind);
+int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, GM_Control *pCtrl, SVECTOR *rots);
 
 // SeSet helpers
 int sub_80032748(DVECTOR *out, SVECTOR *pos);
