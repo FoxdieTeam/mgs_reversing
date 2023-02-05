@@ -43,6 +43,9 @@ Actor_SnaInit *SECTION(".sbss") sna_init_800ABBA0;
 extern int dword_800ABBC4;
 int        SECTION(".sbss") dword_800ABBC4;
 
+extern SVECTOR *pVec_800ABBC8;
+SVECTOR        *SECTION(".sbss") pVec_800ABBC8;
+
 extern SVECTOR *pVec_800ABBCC;
 SVECTOR        *SECTION(".sbss") pVec_800ABBCC;
 
@@ -3174,7 +3177,58 @@ void sna_init_anim_wall_idle_and_c4_helper_800537D4(Actor_SnaInit *pActor, int t
     sna_init_8005027C(pActor, time);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_helper_800538CC.s")        // 392 bytes
+void sna_init_anim_wall_move_helper_800538CC(Actor_SnaInit *pActor, int time)
+{
+    int var_s1;
+
+    if (pActor->field_A38 != 0)
+    {
+        pActor->field_A38--;
+    }
+
+    if (sub_800507D8(pActor))
+    {
+        return;
+    }
+
+    GM_CheckBehindCamera_80030B3C(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl);
+
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) && !sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK9))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_wall_crouch_80052CCC);
+        return;
+    }
+
+    if (dword_800ABBC4 == 1)
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_wall_idle_and_c4_80052A5C);
+        return;
+    }
+
+    if (((dword_800ABBD0 - 0x800) != pActor->field_20_ctrl.field_8_rotator.vy) || (pVec_800ABBC8 != pVec_800ABBCC))
+    {
+        pActor->field_A3A = 0;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 0x800;
+    }
+
+    sna_init_check_knock_800501F8(pActor, time);
+    sna_init_8005027C(pActor, time);
+
+    if (dword_800ABBC4 == 2)
+    {
+        var_s1 = pActor->field_9B4_action_table->field_4->field_5;
+    }
+    else
+    {
+        var_s1 = pActor->field_9B4_action_table->field_4->field_6;
+    }
+
+    GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+    sna_init_8004E22C(pActor, var_s1, 4);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_helper_80053A54.s")      // 300 bytes
 
 void sna_init_fn_nothing_80053B80(void)
