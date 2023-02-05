@@ -320,7 +320,9 @@ void menu_init_nouse_800434A8()
     menu_restore_nouse_80043470();
 }
 
-void sub_800434F4(MenuGlue *pGlue, int param_2, int param_3, MenuMan_Inventory_14h_Unk *param_4)
+void sub_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y);
+
+void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, MenuMan_Inventory_14h_Unk *pUnk)
 {
     SPRT *pPrim;
 
@@ -328,20 +330,20 @@ void sub_800434F4(MenuGlue *pGlue, int param_2, int param_3, MenuMan_Inventory_1
     pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
 
     *(int *)&pPrim->r0 = 0x80808080;
-    sub_8003D0D0(pPrim, param_4, param_2 - 2, param_3 + 6);
+    sub_8003D0D0(pPrim, pUnk, offset_x - 2, offset_y + 6);
 
     setSprt(pPrim);
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-void menu_draw_nouse_800435A4(MenuGlue *pGlue, int param_2, int param_3)
+void menu_draw_nouse_800435A4(MenuGlue *pGlue, int offset_x, int offset_y)
 {
-    sub_800434F4(pGlue, param_2, param_3, &dword_800BDA10);
+    sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA10);
 }
 
-void menu_draw_frozen_800435C8(MenuGlue *pGlue, int param_2, int param_3)
+void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y)
 {
-    sub_800434F4(pGlue, param_2, param_3, &dword_800BDA30);
+    sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA30);
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s") // 140 bytes
