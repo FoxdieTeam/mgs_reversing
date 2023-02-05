@@ -11,7 +11,7 @@ typedef struct RadioIncomingCall // @ 8009E708
     int field_8;
 } RadioIncomingCall;
 
-void           sub_8004124C(int param_1);
+void           sub_8004124C(Actor_MenuMan *pActor);
 void           menu_radio_codec_create_state_80047CE4(Actor_MenuMan *menuMan);
 void           menu_radio_update_80042198(void);
 void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);

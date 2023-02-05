@@ -99,32 +99,28 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
 #pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s") // 368 bytes
 
-void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
+void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, int param_2)
 {
-    KCB *iVar1;
-
-    iVar1 = *(KCB **)(param_1 + 0x214);
+    KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = param_2;
-    sub_800469A4(iVar1, (char *)param_2);
-    font_update_8004695C(iVar1);
+    sub_800469A4(kcb, (char *)param_2);
+    font_update_8004695C(kcb);
 }
 
-void sub_80041118(int param_1)
+void sub_80041118(Actor_MenuMan *pActor)
 {
-    int iVar1;
-
-    iVar1 = *(int *)(param_1 + 0x214);
+    KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = 0;
-    font_clear_800468FC((KCB *)iVar1); // TODO: iVar1 is KCB*
-    font_update_8004695C((KCB *)iVar1);
+    font_clear_800468FC(kcb);
+    font_update_8004695C(kcb);
 }
 
 #pragma INCLUDE_ASM("asm/draw_radio_message_8004114C.s") // 256 bytes
 
-void sub_8004124C(int param_1)
+void sub_8004124C(Actor_MenuMan *pActor)
 {
-    GV_FreeMemory_80015FD0(0, *(void **)(param_1 + 0x214));
-    *(int *)(param_1 + 0x214) = 0;
+    GV_FreeMemory_80015FD0(0, pActor->field_214_font);
+    pActor->field_214_font = NULL;
     dword_800ABB04 = 0;
 }
 
