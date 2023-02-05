@@ -2,13 +2,53 @@
 #include "psyq.h"
 #include "Game/camera.h"
 #include "Game/object.h"
+#include "Menu/menuman.h"
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
 
 extern char aPHOTO[];    // "PHOTO %02d\n"
 extern char aJpegcamC[]; // "jpegcam.c";
+extern const char aGoggles[];
+
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int DG_CurrentGroupID_800AB968;
+extern GM_Camera GM_Camera_800B77E8;
+extern GM_Control *gSnaControl_800AB9F4;
+extern int   dword_8009F604;
+extern int GM_LoadRequest_800AB3D0;
+extern int     GM_GameOverTimer_800AB3D4;
 
 extern GV_PAD GV_PadData_800B05C0[4];
+extern TMat8x8B gJpegcamMatrix1_8009F36C;
+extern TMat8x8B gJpegcamMatrix2_800BDCD8;
+
+
+
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern OBJECT         *dword_800ABA20;
+extern SVECTOR         dword_8009F3AC;
+extern int     GM_Photocode_800ABA04;
+extern SVECTOR GM_PhotoViewPos_800ABA48;
+
+extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
+extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
+extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
+extern const char aPointCheck[];     // = "Point Check\n"
+extern const char aResultD[];        // = "Result = %d\n"
+extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
+
+extern int   GV_PauseLevel_800AB928;
+extern int   dword_800BDCC8;
+extern int   dword_800BDCCC;
+extern int   dword_800BDCD0;
+extern int   DG_UnDrawFrameCount_800AB380;
+extern short gGameState_800B4D98[];
+
+extern menu_save_mode_data stru_8009F2D8;
+extern const char aZoom4d[];
+extern const char aAngle4d4d[];
+
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
@@ -16,9 +56,6 @@ void jpegcam_unk2_80063888(char *param_1, int param_2)
 }
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk3_800638B4.s")                                      // 120 bytes
-
-extern TMat8x8B gJpegcamMatrix1_8009F36C;
-extern TMat8x8B gJpegcamMatrix2_800BDCD8;
 
 void jpegcam_act_helper2_helper_8006392C()
 {
@@ -106,11 +143,6 @@ void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSou
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_80064378.s")                        // 220 bytes
 int jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor);
 
-
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern OBJECT         *dword_800ABA20;
-extern SVECTOR         dword_8009F3AC;
-
 int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
 {
 
@@ -151,17 +183,8 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
     return retval;
 }
 
+void jpegcam_act_helper2_80064588(Actor_jpegcam *pActor);
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper2_80064588.s")                               // 1132 bytes
-
-extern int     GM_Photocode_800ABA04;
-extern SVECTOR GM_PhotoViewPos_800ABA48;
-
-extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
-extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
-extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
-extern const char aPointCheck[];     // = "Point Check\n"
-extern const char aResultD[];        // = "Result = %d\n"
-extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
 
 // or: jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
 // with pActor unused
@@ -187,15 +210,6 @@ int jpegcam_act_helper3_helper2_800649F4()
     }
     return retval;
 }
-
-extern int   GV_PauseLevel_800AB928;
-extern int   dword_800BDCC8;
-extern int   dword_800BDCCC;
-extern int   dword_800BDCD0;
-extern int   DG_UnDrawFrameCount_800AB380;
-extern short gGameState_800B4D98[];
-
-extern menu_save_mode_data stru_8009F2D8;
 
 void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 {
@@ -261,10 +275,113 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_80064C50.s")                                       // 952 bytes
+void jpegcam_act_80064C50(Actor_jpegcam* pActor)
+{
+    OBJECT* pParent;
+    OBJECT* new_var;
+    if ((GM_PlayerStatus_800ABA50 & 0x8000000) != 0)
+    {
+        pActor->field_50_pInput = &GV_PadData_800B05C0[3];
+    }
+    else
+    {
+        pActor->field_50_pInput = &GV_PadData_800B05C0[2];
+    }
 
-extern GM_Camera       GM_Camera_800B77E8;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+    if (pActor->field_98 < 16)
+    {
+        pActor->field_98++;
+    }
+
+    if (!pActor->field_94_bMakeVisible)
+    {
+        pParent = pActor->field_24_pObj;
+        if ((pParent->objs->flag & 0x80) != 0)
+        {
+            new_var = (OBJECT*) (&pActor->field_28_obj);
+            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*) new_var, GV_StrCode_80016CCC(aGoggles), 109, 0);
+            if (pActor->field_28_obj.objs)
+            {
+                GM_ConfigObjectRoot_80034C5C(new_var, pParent, 6);
+                GM_ConfigObjectLight_80034C44(new_var, pParent->light);
+                EQ_InvisibleHead_80060D5C(pParent, &pActor->field_4c_head_saved_packs, &pActor->field_4e_head_saved_raise);
+                pActor->field_94_bMakeVisible = 1;
+            }
+        }
+    }
+
+    if (pActor->field_94_bMakeVisible)
+    {
+        GM_SetCurrentMap(pActor->field_20_pCtrl->field_2C_map->field_0_map_index_bit);
+
+        DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+
+        if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
+        {
+            if ((pActor->field_24_pObj->objs->flag & 0x80) == 0)
+            {
+                pActor->field_28_obj.objs->flag &= ~0x80u;
+            }
+            GM_Camera_800B77E8.field_20 = 320;
+            return;
+        }
+
+        pActor->field_28_obj.objs->flag |= 0x80u;
+    }
+
+    if (GM_LoadRequest_800AB3D0)
+    {
+        if ((pActor->field_70 == 1) && (pActor->field_64_state < 4))
+        {
+            GV_PauseLevel_800AB928 &= ~4u;
+        }
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+    else
+    {
+        if (GM_GameOverTimer_800AB3D4)
+        {
+            return;
+        }
+
+        switch (pActor->field_70)
+        {
+            case 0:
+                if (GV_PauseLevel_800AB928)
+                {
+                    return;
+                }
+                jpegcam_act_helper2_80064588(pActor);
+                if (dword_8009F604 != 61161)
+                {
+                    NewSight_80071CDC(61161, 61161, &gGameState_800B4D98[15], 12, 0);
+                    pActor->field_90_pSight = NewSight_80071CDC(46029, 61161, &gGameState_800B4D98[15], 12, 0);
+                    GM_Sound_80032968(0, 63, 0x15u);
+                }
+                if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+                {
+                    menu_Text_XY_Flags_80038B34(200, 25, 0);
+                    menu_Color_80038B4C(192, 144, 128);
+                    menu_Text_80038C38(aZoom4d, GM_Camera_800B77E8.field_20);
+                    menu_Text_80038C38(aAngle4d4d, -pActor->field_5C_ang.vx, pActor->field_5C_ang.vy);
+                }
+                break;
+
+            case 1:
+                if ((pActor->field_64_state < 5) && ((GV_PauseLevel_800AB928 & 1) != 0))
+                {
+                    pActor->field_64_state = 0;
+                    return;
+                }
+                jpegcam_act_helper3_80064A94(pActor);
+                break;
+        }
+
+        pActor->field_64_state++;
+        gSnaControl_800AB9F4->field_8_rotator = pActor->field_5C_ang;
+        gSnaControl_800AB9F4->field_4C_turn_vec = pActor->field_5C_ang;
+    }
+}
 
 void jpegcam_kill_80065008(Actor_jpegcam *pActor)
 {
