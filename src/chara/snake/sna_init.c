@@ -92,6 +92,11 @@ extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
 extern SVECTOR            stru_8009EFD4[];
 extern int                dword_800ABA1C;
+extern int                dword_8009F2C0;
+
+extern const char aRunMoveCancel[]; // = "run move cancel\n"
+extern const char aForceStanceCan[]; // = "force stance cancel\n"
+extern const char aForceActCancel[]; // = "force act cancel\n"
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -1689,7 +1694,326 @@ void sna_init_act_helper3_80050878(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_80050A64.s")          // 1804 bytes
+static inline void sna_act_unk_helper_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg)
+{
+    UnkSnakeStruct2 *pStr;
+    
+    if (sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
+    {
+        return;
+    }
+                        
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK4);
+        pMsg->message_len = 0;
+    }
+    else
+    {
+        pStr = &pActor->field_9E4;
+
+        pActor->field_9FC = pActor->field_9B8_fn_anim;
+        pStr->field_9EE = 0;
+        pStr->field_9E8 = -1;
+        pStr->field_9EA = pMsg->message[1];
+        pStr->field_9EC_flags3 = 0;
+        
+        if (pMsg->message_len > 2)
+        {
+            pStr->field_9E8 = pMsg->message[2];
+        }
+                            
+        if (pMsg->message_len > 3)
+        {
+            pStr->field_9EC_flags3 = pMsg->message[3];
+        }
+                                
+        if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK4);
+            pMsg->message_len = 0;
+            mts_printf_8008BBA0(aForceStanceCan);    
+        }
+        else
+        {
+            if (pStr->field_9EC_flags3 & 4)
+            {
+                pActor->field_20_ctrl.field_55_flags |= CONTROL_FLAG_UNK2;
+            }
+                                    
+            sna_init_start_anim_8004E1F4(pActor, &sna_act_unk_helper3_80055DD8);
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
+            pMsg->message_len = 0;    
+            pStr->field_9F0 = 0;
+        }
+    }
+}
+
+static inline void sna_act_unk_helper2_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg)
+{
+    UnkSnakeStruct2 *pStr;
+    
+    if (sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
+    {
+        return;
+    }
+
+    pStr = &pActor->field_9E4;
+
+    pStr->field_9E8 = -1;
+    pStr->field_9F4.vx = pMsg->message[1];
+    pStr->field_9F4.vy = pMsg->message[2];
+    pStr->field_9F4.vz = pMsg->message[3];
+    pStr->field_9F4.pad = pMsg->message[4];
+    pStr->field_9EC_flags3 = 0;
+    
+    if (pMsg->message_len > 5)
+    {
+        pStr->field_9EC_flags3 = pMsg->message[5];
+    }
+
+    if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK4);
+        pMsg->message_len = 0;
+        mts_printf_8008BBA0(aRunMoveCancel);
+    }
+    else
+    {
+        if (pMsg->message_len > 6)
+        {
+            pStr->field_9E8 = pMsg->message[6];
+        }
+                        
+        if (pStr->field_9EC_flags3 & 4)
+        {
+            pActor->field_20_ctrl.field_55_flags |= CONTROL_FLAG_UNK2;
+        }
+                            
+        pStr->field_9F0 = 0;
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_mini_cutscene_800559D8);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
+        pMsg->message_len = 0;
+    }
+}
+
+static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg, int var_s4)
+{
+    int flags;
+    int len;
+    UnkSnakeStruct2 *pStr;
+    
+    if (sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
+    {
+        return;
+    }
+
+    flags = 0;
+    len = pMsg->message_len;
+    pStr = &pActor->field_9E4;
+
+    pMsg->message_len = 0;
+    pStr->field_9E4 = pMsg->message[1];
+    pStr->field_9E6 = -1;
+    pStr->field_9E8 = -1;
+    pStr->field_9EA = -1;
+    pStr->field_9EC_flags3 = 0;
+
+    if (len > 2)
+    {
+        pStr->field_9E6 = pMsg->message[2];
+    }
+
+    if (len > 3)
+    {
+        pStr->field_9E8 = pMsg->message[3];
+    }
+
+    if (len > 4)
+    {
+        pStr->field_9EA = pMsg->message[4];
+    }
+
+    if (len > 5)
+    {
+        flags = pStr->field_9EC_flags3 = pMsg->message[5];
+    }
+                      
+    if (sna_act_unk_helper4_8004FA3C() && (var_s4 == 0))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK4);
+        pMsg->message_len = 0;
+        mts_printf_8008BBA0(aForceActCancel);
+    }
+    else
+    {
+        pStr->field_9F2 = 0;
+
+        if (var_s4 != 0)
+        {
+            pStr->field_9F2 = 1;
+        }
+
+        if (!(flags & 0x80))
+        {
+            if (!pActor->field_A5A)
+            {
+                return;
+            }
+
+            GM_ConfigMotionControl_80034F08(&pActor->field_9C_obj, &pActor->field_180, pActor->field_A5A,
+                                            &pActor->field_1D0, &pActor->field_1F4[16], &pActor->field_20_ctrl,
+                                            (SVECTOR *)&pActor->field_698_joint_rotations);
+        }
+
+        if (flags & 4)
+        {
+            if (len <= 6)
+            {
+                return;
+            }
+
+            pStr->field_9EE = pActor->field_20_ctrl.field_0_position.vy - pMsg->message[6];
+        }
+        else
+        {
+            pStr->field_9EE = pActor->field_20_ctrl.field_78;
+        }
+                     
+        if (flags & 1)
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(2);
+            sub_8004ED08(pActor);
+        }
+                                            
+        if (flags & 0x10)
+        {
+            pActor->field_20_ctrl.field_55_flags |= CONTROL_FLAG_UNK2;
+        }
+                                                
+        pStr->field_9F0 = 1;
+
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_dying_80055524);
+        GM_SetPlayerStatusFlag_8004E2B4(4);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
+    }
+}
+
+void sna_act_unk_80050A64(Actor_SnaInit *pActor)
+{
+    int unk[2];
+    GV_MSG *pMsg;
+    GV_MSG *pMsgIter;
+    int msgCount;
+    int count;
+    int state;
+    
+    if ((pActor->field_7A0_msg_count == 0) || sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK18))
+    {
+        return;
+    }
+
+    msgCount = 0;
+    pMsgIter = pActor->field_7A4_msgs;
+    pMsg = pActor->field_7A4_msgs;
+    
+    for (count = pActor->field_7A0_msg_count; count > 0; count--, pMsg++)
+    {        
+        switch (pMsg->message[0])
+        {
+        case 0xc000:
+            pMsg->message_len = 0;
+            break;
+            
+        case 0x937a:
+            state = 0;
+            goto helper3;
+
+        case 0xbe0a:
+            state = 1;
+helper3:
+            sna_act_unk_helper3_80050A64(pActor, pMsg, state);
+            break;
+
+        case 0x70fb:
+            sna_act_unk_helper2_80050A64(pActor, pMsg);
+            break;
+
+        case 0x3238:
+            sna_act_unk_helper_80050A64(pActor, pMsg);
+            break;
+
+        case 0x5e8b:
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK19);
+            pMsg->message_len = 0;
+            break;
+
+        case 0x9a1f:
+            sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK19);
+            pMsg->message_len = 0;
+            break;
+            
+        case 0x3223:
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            pMsg->message_len = 0;
+            break;
+
+        case 0x2580:
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK20000000);
+            pMsg->message_len = 0;
+            break;
+            
+        case 0xaf6a:
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK20000000);
+            pMsg->message_len = 0;
+            break;
+
+        case 0x8012:
+            dword_8009F2C0 = pMsg->message[1];
+            pMsg->message_len = 0;
+            break;
+
+        case 0x62b6:
+            pActor->field_20_ctrl.field_0_position.vx = pMsg->message[1];
+            pActor->field_20_ctrl.field_0_position.vy = pMsg->message[2];
+            pActor->field_20_ctrl.field_0_position.vz = pMsg->message[3];
+            pActor->field_20_ctrl.field_44_movementVector = DG_ZeroVector_800AB39C;
+            sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_0_position, unk);
+            pActor->field_20_ctrl.field_78 = unk[0];
+            pActor->field_20_ctrl.field_7A = unk[1];
+            pMsg->message_len = 0;
+            break;
+
+        case 0x3e92:
+            if (pMsg->message[1] == 0xe4e)
+            {
+                sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG2_UNK27);
+                pMsg->message_len = 0;
+            }
+            else
+            {
+                sna_init_clear_flags1_8004E308(pActor, SNA_FLAG2_UNK27);
+                pMsg->message_len = 0;
+            }
+
+            break;
+
+        default:
+            pMsg->message_len = 0;
+            break;
+        } 
+
+    
+        if (pMsg->message_len != 0)
+        {
+            *pMsgIter = *pMsg;
+            pMsgIter++;
+            msgCount++;
+        }
+    }
+
+    pActor->field_7A0_msg_count = msgCount;
+}
 
 void sna_act_unk2_80051170(GM_Target *param_1)
 {

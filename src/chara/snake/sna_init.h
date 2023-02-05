@@ -228,6 +228,7 @@ typedef struct UnkSnakeStruct2
     short          field_9EE;
     short          field_9F0;
     short          field_9F2;
+    SVECTOR        field_9F4;
 } UnkSnakeStruct2;
 
 typedef struct SnaAutoMove // @ field_A00 in Actor_SnaInit
@@ -320,8 +321,7 @@ typedef struct Actor_SnaInit
     void               *field_9CC_anim_update_fn_1p; // same except first person. caller: 8005a7e0
     short               field_9D0[10];
     UnkSnakeStruct2     field_9E4;
-    SVECTOR             field_9F4;
-    int                 field_9FC;
+    void               *field_9FC;
     SnaAutoMove         field_A00; // auto movement of snake during mini cutscenes. some above fields may also be this
     short               field_A20;
     short               field_A22_snake_current_health;
@@ -349,13 +349,13 @@ typedef struct Actor_SnaInit
         short wall_thing;
         short knockdown_thing;
     } field_A54;
-    short   field_A56;
-    short   field_A58;
-    short   field_A5A;
-    int     field_A5C;
-    SVECTOR field_A60;
-    SVECTOR field_A68;
-    int     field_A70;
+    short          field_A56;
+    short          field_A58;
+    unsigned short field_A5A;
+    int            field_A5C;
+    SVECTOR        field_A60;
+    SVECTOR        field_A68;
+    int            field_A70;
 } Actor_SnaInit;
 
 void         sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn);
@@ -517,6 +517,9 @@ void sna_init_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int anim_fram
 int  sub_8005C6C4(HZD_MAP *hzd, SVECTOR *vec, int param_3);
 void sna_act_unk2_80051170(GM_Target *pTarget);
 void sna_init_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time);
+void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time);
+void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time);
+void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time);
 
 // TODO: move these to indivudual weapon headers
 Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
