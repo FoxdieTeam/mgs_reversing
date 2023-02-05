@@ -2027,9 +2027,218 @@ void sna_act_unk2_80051170(GM_Target *param_1)
 
 #pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s")        // 1024 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
-#pragma INCLUDE_ASM("asm/sub_80051A10.s")                              // 404 bytes
-#pragma INCLUDE_ASM("asm/sub_80051BA4.s")                              // 508 bytes
-#pragma INCLUDE_ASM("asm/sna_init_80051DA0.s")                         // 560 bytes
+
+void sna_init_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec)
+{
+    MATRIX rot;
+    SVECTOR vec;
+    SVECTOR vec2;
+    SVECTOR vec3;
+    SVECTOR vec4;
+
+    int len;
+
+    ReadRotMatrix_80092DD8(&rot);
+    DG_SetPos2_8001BC8C(pPos, &pActor->field_20_ctrl.field_8_rotator);
+    DG_PutVector_8001BE48(pVec, pVec, 1);
+    SetRotMatrix_80093218(&rot);
+
+    vec = *pPos;
+    vec2 = *pVec;
+
+    if (sub_8004E51C(&vec, pActor->field_20_ctrl.field_2C_map->field_8_hzd, 15, 1) < 0)
+    {
+        vec2 = *pVec;
+    }
+
+    GV_SubVec3_80016D40(&vec2, pPos, &vec3);
+    len = GV_VecLen3_80016D80(&vec3);
+
+    if ((len - pActor->field_A28) <= 0)
+    {
+        vec3 = *pPos;
+    }
+    else
+    {
+        GV_LenVec3_80016DDC(&vec3, &vec4, len, len - pActor->field_A28);
+        GV_AddVec3_80016D00(pPos, &vec4, &vec3);
+    }
+
+    *pOut = vec3;
+}
+
+int sna_init_80051BA4(Actor_SnaInit *pActor)
+{
+    SVECTOR vec;
+    SVECTOR vec2;
+    SVECTOR vec3;
+    
+    GV_PAD *pPad = pActor->field_9B0_pad_ptr;
+    unsigned short press = pPad->press;
+    unsigned short release = pPad->release;
+
+    if (pPad->status & (PAD_R1 | PAD_L1))
+    {
+        if (press & PAD_R1)
+        {
+            pActor->field_A56 = 8;
+        }
+
+        if (press & PAD_L1)
+        {
+            pActor->field_A56 = 4;
+        }
+
+        if (release & PAD_R1)
+        {
+            pActor->field_A56 = 4;
+        }
+
+        if (release & PAD_L1)
+        {
+            pActor->field_A56 = 8;
+        }
+
+        vec2 = vec = DG_ZeroVector_800AB39C;
+        vec2.vx = 1280;
+        vec.vx = -1280;
+        vec3 = pActor->field_A60;
+
+        sna_init_80051A10(pActor, &vec3, &pActor->field_A3C, &vec2);
+        sna_init_80051A10(pActor, &vec3, &pActor->field_A44, &vec);
+
+        if (!sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK16))
+        {
+            pActor->field_A58 = 8;
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK16);
+        }
+        else if (pActor->field_A56 & 4)
+        {
+            pActor->field_A60 = pActor->field_A3C;
+
+        }
+        else if (pActor->field_A56 & 8)
+        {
+            pActor->field_A60 = pActor->field_A44;
+        }
+
+        return 1;
+    }
+
+    if (pActor->field_A58 > 0)
+    {
+        if (--pActor->field_A58 == 0)
+        {
+            sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK16);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+void sna_init_80051DA0(Actor_SnaInit *pActor)
+{
+    unsigned int status = pActor->field_9B0_pad_ptr->status;
+    unsigned char ldy = pActor->field_9B0_pad_ptr->left_dy;
+    short *temp_s4;
+    int var_s1;
+    int var_s2;
+    int var_s0;
+    int temp_v0;
+    int temp_a1;
+    short var_a0;
+    short var_a2;
+
+    // status is passed using the wrong type here
+    GM_CheckShukanReverse_8004FBF8((unsigned short *)&status);
+    GM_CheckShukanReverseAnalog_8004FC70(&ldy);
+
+    temp_s4 = pActor->field_9D0;
+    var_s2 = temp_s4[4];
+    var_s1 = -temp_s4[3];
+
+    if (pActor->field_9D0[0] == 0)
+    {
+        if (pActor->field_A26_fn_stance_idx == SNA_STANCE_GROUND)
+        {
+            var_s0 = pActor->field_A2A;
+        }
+        else
+        {
+            var_s0 = 0;
+        }
+    }
+    else
+    {
+        var_s0 = pActor->field_20_ctrl.field_4C_turn_vec.vx;
+    }
+
+    if (pActor->field_A26_fn_stance_idx == SNA_STANCE_GROUND)
+    {
+        if (pActor->field_91C_weapon_idx == WEAPON_PSG1)
+        {
+            temp_v0 = pActor->field_A2A;
+            var_s1 += temp_v0;
+            var_s2 += temp_v0;
+        }
+        else
+        {
+            var_s1 += var_s0;
+            var_s2 += var_s0;
+        }
+    }
+
+    if (var_s1 < dword_800ABBDC)
+    {
+        var_s1 = dword_800ABBDC;
+    }
+
+    if (var_s2 > dword_800ABBD4)
+    {
+        var_s2 = dword_800ABBD4;
+    }
+
+    temp_a1 = sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK15);
+    var_a2 = 1;
+    var_a0 = 1;
+
+    if (status & PAD_UP)
+    {
+        if (temp_a1 & 0xff)
+        {
+            var_a0 = 64 - ldy;
+            var_a2 = 64;
+        }
+
+        var_s0 -= (temp_s4[5] * (var_a0 & 0xff)) / var_a2;
+    }
+    else if (status & PAD_DOWN)
+    {
+        if (temp_a1 & 0xff)
+        {
+            var_a0 = ldy + 64;
+            var_a2 = 63;
+        }
+
+        var_s0 += (temp_s4[6] * (var_a0 & 0xff)) / var_a2;
+    }
+
+
+    if (var_s0 < var_s1)
+    {
+        var_s0 = var_s1;
+    }
+
+    if (var_s2 < var_s0)
+    {
+        var_s0 = var_s2;
+    }
+
+    pActor->field_20_ctrl.field_4C_turn_vec.vx = var_s0;
+}
 
 void sna_init_80051FD0(Actor_SnaInit *pActor)
 {
@@ -2113,7 +2322,7 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int time)
         }
         else
         {
-            if (sub_80051BA4(pActor) != 0)
+            if (sna_init_80051BA4(pActor))
             {
                 return;
             }
@@ -2198,7 +2407,7 @@ void sub_8005230C(Actor_SnaInit *pActor)
             GM_ExitBehindCamera_80030AEC();
         }
 
-        if (sub_80051BA4(pActor) == 0 && (press & PAD_CROSS) != 0)
+        if (!sna_init_80051BA4(pActor) && (press & PAD_CROSS) != 0)
         {
             if (pActor->field_A26_fn_stance_idx == SNA_STANCE_STANDING)
             {
