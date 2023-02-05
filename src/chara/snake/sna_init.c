@@ -3207,10 +3207,10 @@ void sna_init_anim_wall_move_helper_800538CC(Actor_SnaInit *pActor, int time)
         return;
     }
 
-    if (((dword_800ABBD0 - 0x800) != pActor->field_20_ctrl.field_8_rotator.vy) || (pVec_800ABBC8 != pVec_800ABBCC))
+    if (((dword_800ABBD0 - 2048) != pActor->field_20_ctrl.field_8_rotator.vy) || (pVec_800ABBC8 != pVec_800ABBCC))
     {
         pActor->field_A3A = 0;
-        pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 0x800;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 2048;
     }
 
     sna_init_check_knock_800501F8(pActor, time);
@@ -3229,7 +3229,48 @@ void sna_init_anim_wall_move_helper_800538CC(Actor_SnaInit *pActor, int time)
     sna_init_8004E22C(pActor, var_s1, 4);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_helper_80053A54.s")      // 300 bytes
+void sna_init_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int time)
+{
+    int var_s0;
+
+    if (pActor->field_A38 != 0)
+    {
+        pActor->field_A38--;
+    }
+
+    if (sub_800507D8(pActor))
+    {
+        return;
+    }
+
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) && !sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK9))
+    {
+        if (!sna_init_8004E808(pActor, 0, 0, 0, 1100))
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_CROUCHING);
+            var_s0 = 8;
+            
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000))
+            {
+                var_s0 = 183;
+            }
+
+            GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_position, var_s0);
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_wall_idle_and_c4_80052A5C);
+        }
+    }
+    else
+    {
+        if (!(GM_GameStatus_800AB3CC & 0x10) && ((dword_800ABBD0 - 2048) != pActor->field_20_ctrl.field_8_rotator.vy))
+        {
+            pActor->field_A3A = 0;
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 2048;
+        }
+
+        sna_init_check_knock_800501F8(pActor, time);
+        sna_init_8005027C(pActor, time);
+    }
+}
 
 void sna_init_fn_nothing_80053B80(void)
 {
