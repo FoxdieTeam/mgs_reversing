@@ -1392,7 +1392,7 @@ void sna_init_check_knock_800501F8(Actor_SnaInit *pActor, int time)
     }
 }
 
-void sna_init_8005027C(Actor_SnaInit *pActor, int arg1)
+void sna_init_8005027C(Actor_SnaInit *pActor, int time)
 {
     SVECTOR *pVec;
 
@@ -1406,7 +1406,7 @@ void sna_init_8005027C(Actor_SnaInit *pActor, int arg1)
         pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0;
     }
 
-    if ((arg1 < 8) || !(pActor->field_9B0_pad_ptr->press & PAD_SQUARE) || (pActor->field_9C0 == sna_init_80057378))
+    if ((time < 8) || !(pActor->field_9B0_pad_ptr->press & PAD_SQUARE) || (pActor->field_9C0 == sna_init_80057378))
     {
         return;
     }
@@ -3049,7 +3049,41 @@ void sna_init_80053360(Actor_SnaInit *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/sna_init_fn_800535B8.s")                                       // 540 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_idle_and_c4_helper_800537D4.s") // 248 bytes
+
+void sna_init_anim_wall_idle_and_c4_helper_800537D4(Actor_SnaInit *pActor, int time)
+{
+    if (pActor->field_A38 != 0)
+    {
+        pActor->field_A38--;
+    }
+
+    if (sub_800507D8(pActor))
+    {
+        return;
+    }
+
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) && !sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK9))
+    {
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_wall_crouch_80052CCC);
+        return;
+    }
+
+    if ((dword_800ABBC4 == 2) || (dword_800ABBC4 == 4))
+    {
+        pActor->field_A54.wall_thing = dword_800ABBC4;
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_wall_move_80052BA8);
+    }
+
+    if ((dword_800ABBD0 - 2048) != pActor->field_20_ctrl.field_8_rotator.vy)
+    {
+        pActor->field_A3A = 0;
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 2048;
+    }
+
+    sna_init_check_knock_800501F8(pActor, time);
+    sna_init_8005027C(pActor, time);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_move_helper_800538CC.s")        // 392 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_wall_crouch_helper_80053A54.s")      // 300 bytes
 
