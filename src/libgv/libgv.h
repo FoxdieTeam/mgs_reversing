@@ -217,6 +217,7 @@ void         GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 int          GV_VecLen3_80016D80(SVECTOR *vec);
 int          GV_VecDir2_80016EF8(SVECTOR *vec);
 void         GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
+void         GV_LenVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int param_4);
 int          GV_NearExp2_80026384(int param_1, int param_2);
 int          GV_NearExp4_800263B0(int arg0, int arg1);
 void         GV_NearExp4V_800266D4(short *param_1,short *param_2,int param_3);
