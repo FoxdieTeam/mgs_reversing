@@ -289,12 +289,24 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_80042988((MenuGlue *)pActor->field_20_otBuf, &textConfig, number); // TODO: fix cast
+    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, number);
     return textConfig.xpos;
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s") // 304 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s") // 72 bytes
+
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, char *str, int flags)
+{
+    TextConfig textConfig;
+
+    textConfig.xpos = xpos;
+    textConfig.ypos = ypos;
+    textConfig.colour = 0x64808080;
+    textConfig.flags = flags;
+    menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, str);
+    return textConfig.xpos;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s") // 232 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s") // 592 bytes
 
