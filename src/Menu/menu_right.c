@@ -78,7 +78,15 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003CEF8.s") // 232 bytes
 #pragma INCLUDE_ASM("asm/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/sub_8003D070.s") // 96 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D0D0.s") // 84 bytes
+
+void sub_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y)
+{
+    pPrim->x0 = (signed char)pUnk->field_9_x + offset_x; // Casting to signed char to get a match
+    pPrim->y0 = (signed char)pUnk->field_A_y + offset_y;
+    LCOPY(&pUnk->field_C_u, &pPrim->u0); // Copy field_C_u, field_D_v, field_E_clut
+    pPrim->w = pUnk->field_10_w;
+    pPrim->h = pUnk->field_12_h;
+}
 
 Menu_Item_Unknown *menu_alloc_panel_8003D124(int count)
 {
