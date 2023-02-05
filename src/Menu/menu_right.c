@@ -199,9 +199,82 @@ int sub_8003D568()
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D594.s") // 92 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D5F0.s") // 92 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D64C.s") // 92 bytes
+void sub_8003D594(short *arg0, int arg1, int *arg2, int *arg3)
+{
+    int temp_a0;
+    int temp_v0;
+    int temp_lo;
+    int temp_v1;
+    int var_v0;
+
+    temp_v0 = arg0[0];
+    temp_a0 = arg0[1];
+    if (arg1 == 0)
+    {
+        *arg2 = temp_v0;
+        *arg3 = temp_a0;
+        return;
+    }
+
+    *arg2 = temp_v0;
+    temp_v1 = dword_800ABAE0 * 0x28;
+    temp_lo = arg1 * temp_v1;
+    var_v0 = temp_lo / 65536;
+
+    *arg3 = temp_a0 - var_v0;
+}
+
+void sub_8003D5F0(short *arg0, int arg1, int *arg2, int *arg3)
+{
+    // Similar to sub_8003D594
+    int temp_a0;
+    int temp_t0;
+    int temp_lo;
+    int temp_v1;
+    int var_v0;
+
+    temp_t0 = arg0[0];
+    temp_a0 = arg0[1];
+    if (arg1 == 0)
+    {
+        *arg2 = temp_t0;
+        *arg3 = temp_a0;
+        return;
+    }
+
+    temp_v1 = dword_800ABAE0 * 0x38;
+    temp_lo = arg1 * temp_v1;
+    var_v0 = temp_lo / 65536;
+
+    *arg2 = temp_t0 - var_v0;
+    *arg3 = temp_a0;
+}
+
+void sub_8003D64C(short *arg0, int arg1, int *arg2, int *arg3)
+{
+    // Similar to sub_8003D594
+    int temp_a0;
+    int temp_t0;
+    int temp_lo;
+    int temp_v1;
+    int var_v0;
+
+    temp_t0 = arg0[0];
+    temp_a0 = arg0[1];
+    if (arg1 == 0)
+    {
+        *arg2 = temp_t0;
+        *arg3 = temp_a0;
+        return;
+    }
+
+    temp_v1 = dword_800ABAE0 * 0x38;
+    temp_lo = arg1 * temp_v1;
+    var_v0 = temp_lo / 65536;
+
+    *arg2 = temp_t0 + var_v0;
+    *arg3 = temp_a0;
+}
 
 extern struct menu_8009E544 stru_8009E544[];
 
