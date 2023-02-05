@@ -199,7 +199,7 @@ int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_
             }
             else
             {
-                menu_number_draw_string_80042BF4(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4.xpos,
+                menu_number_draw_string_80042BF4(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
                                                  string_buffer);
             }
             menu_Text_PrimUnknown_80038BB4();
