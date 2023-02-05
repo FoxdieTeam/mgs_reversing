@@ -8,8 +8,8 @@ SVECTOR *SECTION(".sbss") svector_800ABBB8;
 int SECTION(".sbss") dword_800ABBBC;
 int SECTION(".sbss") dword_800ABBC0;
 int SECTION(".sbss") dword_800ABBC4;
-int SECTION(".sbss") dword_800ABBC8;
 
+SVECTOR *SECTION(".sbss") pVec_800ABBC8;
 SVECTOR *SECTION(".sbss") pVec_800ABBCC;
 
 int SECTION(".sbss") dword_800ABBD0;
