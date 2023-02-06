@@ -1,4 +1,5 @@
 #include "sna_init.h"
+#include "afterse.h"
 #include "libdg/libdg.h"
 #include "linker.h"
 #include "map/map.h"
@@ -3930,7 +3931,74 @@ void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *pActor, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_knock_80054D68.s")              // 404 bytes
+void sna_init_knock_80054D68(Actor_SnaInit *pActor, int time)
+{
+    SVECTOR vec;
+
+    int var_a1;
+    int var_t0;
+    int temp_v0;
+    int noise;
+    
+    if (time == 0)
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_KNOCKING);
+
+        if (dword_800ABBC4 == 4)
+        {
+            var_a1 = pActor->field_9B4_action_table->field_0->field_7;
+        }
+        else
+        {
+            var_a1 = pActor->field_9B4_action_table->field_0->field_6;
+        }
+
+        GM_ConfigObjectOverride_80034D30(&pActor->field_9C_obj, var_a1, 0, 4, 1022);
+
+        if (((pActor->field_91C_weapon_idx >= 0) && (pActor->field_91C_weapon_idx < 2)) || (pActor->field_91C_weapon_idx == 3))
+        {
+            var_t0 = 0x578;
+
+            if (pActor->field_A26_fn_stance_idx != 0)
+            {
+                var_t0 = 0x302;
+            }
+        }
+        else
+        {
+            var_t0 = 0x325;
+
+            if (pActor->field_A26_fn_stance_idx != 0)
+            {
+                var_t0 = 0x15E;
+            }
+        }
+
+        vec.vz = -150;
+        vec.vy = 0;
+        vec.vx = (dword_800ABBC4 == 4) ? 300 : -300;
+
+        if (sna_init_8004F628(pActor, &vec, -250, 12, 1, var_t0))
+        {
+            temp_v0 = sub_80028830();
+
+            if (((temp_v0 >> 8) & 7) < 4)
+            {
+                noise = GM_GetNoiseSound_8002E614(temp_v0, 0);
+                afterse_init_800604C0(noise, 6);
+            }
+        }
+    }
+
+    if ((pActor->field_9C_obj.field_1C != 0) || (pActor->field_9C_obj.field_10 == 0))
+    {
+        sna_init_8004E260(pActor, 0, 4, 0);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_KNOCKING);
+        sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK9);
+        pActor->field_9C0 = NULL;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper2_helper_80054EFC.s") // 1080 bytes
 
 void sna_init_anim_scope_80055334(Actor_SnaInit *param_1, int time)

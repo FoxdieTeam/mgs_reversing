@@ -502,7 +502,7 @@ void sna_init_anim_wall_idle_and_c4_helper_800537D4(Actor_SnaInit *pActor, int a
 void sna_init_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int anim_frame);
 void sub_8004FAE8(Actor_SnaInit *pActor);
 void sna_init_anim_wall_move_helper_800538CC(Actor_SnaInit *pActor, int anim_frame);
-void sna_init_knock_80054D68(void);              // dummy signature
+void sna_init_knock_80054D68(Actor_SnaInit *pActor, int time);
 void sna_init_anim_rungun_helper_80057844(Actor_SnaInit *pActor);
 int  sna_init_8005009C(Actor_SnaInit *pActor);
 int  sub_80051BA4(Actor_SnaInit *pActor);
