@@ -1,27 +1,27 @@
-void sub_80026794(short *param_1, short *param_2, int param_3)
+void sub_80026794(short *pOutput, short *pInput, int total)
 {
-    int            var_a0;
-    int            iVar1;
-    unsigned short uVar1;
-    short          iVar2;
+    int            input_output_diff;
+    int            output;
+    unsigned short clamped_diff;
+    short          clamped_diff_2;
 
-    for (param_3--; param_3 >= 0; param_3--)
+    for (total--; total >= 0; total--)
     {
 
-        var_a0 = *param_1 - *param_2;
-        uVar1 = var_a0 & 0xfff;
+        input_output_diff = *pOutput - *pInput;
+        clamped_diff = input_output_diff & 0xfff;
 
-        if (((short)uVar1) > 0x800)
+        if ((short)clamped_diff > 0x800)
         {
-            uVar1 |= 0xf000;
+            clamped_diff |= 0xf000;
         }
 
-        iVar2 = uVar1;
-        iVar1 = *param_2 + iVar2;
-        *param_1 = iVar1;
+        clamped_diff_2 = clamped_diff;
+        output = *pInput + clamped_diff_2;
+        *pOutput = output;
 
-        param_1++;
-        param_2++;
+        pOutput++;
+        pInput++;
     }
 
     return;
