@@ -374,7 +374,25 @@ TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int r
     return pTile;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003DBAC.s") // 368 bytes
+void sub_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4)
+{
+    TILE     *tile;
+    DR_TPAGE *tpage;
+
+    menu_render_rect_8003DB2C(pGlue, x, y, 47, 1, 0);
+    menu_render_rect_8003DB2C(pGlue, x - 4, y, 14, 20, 0);
+    menu_render_rect_8003DB2C(pGlue, x + 45, y + 1, 2, 19, 0);
+    menu_render_rect_8003DB2C(pGlue, x - 4, y + 20, 51, 9, 0);
+
+    tile = menu_render_rect_8003DB2C(pGlue, x + 10, y + 1, 35, 19, (param_4 != 0 ?: 0) << 23);
+    setSemiTrans(tile, 1);
+
+    tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    setDrawTPage(tpage, 1, 0, 0x1f);
+    addPrim(pGlue->mPrimBuf.mOt, tpage);
+}
 
 Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
 {
