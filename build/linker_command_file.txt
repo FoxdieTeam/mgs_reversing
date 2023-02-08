@@ -185,7 +185,7 @@
     include "..\obj\libgv\GV_NearExp2PV_80026924.obj"
     include "..\obj\libgv\GV_NearExp4PV_800269A0.obj"
     include "..\obj\libgv\GV_NearExp8PV_80026A24.obj"
-    include "..\obj\sub_80026AA8.obj"
+    include "..\obj\libgv\GV_NearExp2SV_80026AA8.obj"
     include "..\obj\sub_80026B04.obj"
     include "..\obj\sub_80026B64.obj"
     include "..\obj\sub_80026BC4.obj"
