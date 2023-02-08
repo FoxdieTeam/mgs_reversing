@@ -241,6 +241,17 @@ void         GV_NearExp2V_8002667C(short *a, short *b, int count);
 void         GV_SetPacketTempMemory_80014C28(void);
 void         GV_ResetPacketMemory_80014BD8(void);
 
+static inline int FP_Subtract(int fp, int toSub)
+{
+    short var_a0 = fp - toSub;
+    var_a0 &= 0xfff;
+    if (var_a0 > 2048)
+    {
+        var_a0 |= 0xf000;
+    }   
+    return var_a0;
+}
+
 typedef struct GV_Vec
 {
     short x;
