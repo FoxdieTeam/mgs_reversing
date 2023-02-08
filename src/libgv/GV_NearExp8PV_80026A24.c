@@ -1,6 +1,6 @@
 #include "libgv.h"
 
-void GV_NearExp8PV_80026A24(short *a,short *b, int count)
+void GV_NearExp8PV_80026A24(short *a, short *b, int count)
 {
     int diff;
     int diff2;
