@@ -99,32 +99,28 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
 #pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s") // 368 bytes
 
-void menu_radio_codec_helper__helper13_800410E4(int param_1, int param_2)
+void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, int param_2)
 {
-    KCB *iVar1;
-
-    iVar1 = *(KCB **)(param_1 + 0x214);
+    KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = param_2;
-    sub_800469A4(iVar1, (char *)param_2);
-    font_update_8004695C(iVar1);
+    sub_800469A4(kcb, (char *)param_2);
+    font_update_8004695C(kcb);
 }
 
-void sub_80041118(int param_1)
+void sub_80041118(Actor_MenuMan *pActor)
 {
-    int iVar1;
-
-    iVar1 = *(int *)(param_1 + 0x214);
+    KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = 0;
-    font_clear_800468FC((KCB *)iVar1); // TODO: iVar1 is KCB*
-    font_update_8004695C((KCB *)iVar1);
+    font_clear_800468FC(kcb);
+    font_update_8004695C(kcb);
 }
 
 #pragma INCLUDE_ASM("asm/draw_radio_message_8004114C.s") // 256 bytes
 
-void sub_8004124C(int param_1)
+void sub_8004124C(Actor_MenuMan *pActor)
 {
-    GV_FreeMemory_80015FD0(0, *(void **)(param_1 + 0x214));
-    *(int *)(param_1 + 0x214) = 0;
+    GV_FreeMemory_80015FD0(0, pActor->field_214_font);
+    pActor->field_214_font = NULL;
     dword_800ABB04 = 0;
 }
 
@@ -289,12 +285,24 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    menu_number_draw_80042988((MenuGlue *)pActor->field_20_otBuf, &textConfig, number); // TODO: fix cast
+    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, number);
     return textConfig.xpos;
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s") // 304 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_800430F0.s") // 72 bytes
+
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, char *str, int flags)
+{
+    TextConfig textConfig;
+
+    textConfig.xpos = xpos;
+    textConfig.ypos = ypos;
+    textConfig.colour = 0x64808080;
+    textConfig.flags = flags;
+    menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, str);
+    return textConfig.xpos;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s") // 232 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s") // 592 bytes
 
@@ -312,16 +320,30 @@ void menu_init_nouse_800434A8()
     menu_restore_nouse_80043470();
 }
 
-#pragma INCLUDE_ASM("asm/sub_800434F4.s") // 176 bytes
+void sub_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y);
 
-void menu_draw_nouse_800435A4(unsigned int **param_1, int param_2, int param_3)
+void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, MenuMan_Inventory_14h_Unk *pUnk)
 {
-    sub_800434F4(param_1, param_2, param_3, &dword_800BDA10);
+    SPRT *pPrim;
+
+    pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    *(int *)&pPrim->r0 = 0x80808080;
+    sub_8003D0D0(pPrim, pUnk, offset_x - 2, offset_y + 6);
+
+    setSprt(pPrim);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-void menu_draw_frozen_800435C8(unsigned int **param_1, int param_2, int param_3)
+void menu_draw_nouse_800435A4(MenuGlue *pGlue, int offset_x, int offset_y)
 {
-    sub_800434F4(param_1, param_2, param_3, &dword_800BDA30);
+    sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA10);
+}
+
+void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y)
+{
+    sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA30);
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s") // 140 bytes

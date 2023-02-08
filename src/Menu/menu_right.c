@@ -78,7 +78,15 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003CEF8.s") // 232 bytes
 #pragma INCLUDE_ASM("asm/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/sub_8003D070.s") // 96 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D0D0.s") // 84 bytes
+
+void sub_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y)
+{
+    pPrim->x0 = (signed char)pUnk->field_9_x + offset_x; // Casting to signed char to get a match
+    pPrim->y0 = (signed char)pUnk->field_A_y + offset_y;
+    LCOPY(&pUnk->field_C_u, &pPrim->u0); // Copy field_C_u, field_D_v, field_E_clut
+    pPrim->w = pUnk->field_10_w;
+    pPrim->h = pUnk->field_12_h;
+}
 
 Menu_Item_Unknown *menu_alloc_panel_8003D124(int count)
 {
@@ -199,9 +207,82 @@ int sub_8003D568()
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D594.s") // 92 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D5F0.s") // 92 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D64C.s") // 92 bytes
+void sub_8003D594(short *arg0, int arg1, int *arg2, int *arg3)
+{
+    int temp_a0;
+    int temp_v0;
+    int temp_lo;
+    int temp_v1;
+    int var_v0;
+
+    temp_v0 = arg0[0];
+    temp_a0 = arg0[1];
+    if (arg1 == 0)
+    {
+        *arg2 = temp_v0;
+        *arg3 = temp_a0;
+        return;
+    }
+
+    *arg2 = temp_v0;
+    temp_v1 = dword_800ABAE0 * 0x28;
+    temp_lo = arg1 * temp_v1;
+    var_v0 = temp_lo / 65536;
+
+    *arg3 = temp_a0 - var_v0;
+}
+
+void sub_8003D5F0(short *arg0, int arg1, int *arg2, int *arg3)
+{
+    // Similar to sub_8003D594
+    int temp_a0;
+    int temp_t0;
+    int temp_lo;
+    int temp_v1;
+    int var_v0;
+
+    temp_t0 = arg0[0];
+    temp_a0 = arg0[1];
+    if (arg1 == 0)
+    {
+        *arg2 = temp_t0;
+        *arg3 = temp_a0;
+        return;
+    }
+
+    temp_v1 = dword_800ABAE0 * 0x38;
+    temp_lo = arg1 * temp_v1;
+    var_v0 = temp_lo / 65536;
+
+    *arg2 = temp_t0 - var_v0;
+    *arg3 = temp_a0;
+}
+
+void sub_8003D64C(short *arg0, int arg1, int *arg2, int *arg3)
+{
+    // Similar to sub_8003D594
+    int temp_a0;
+    int temp_t0;
+    int temp_lo;
+    int temp_v1;
+    int var_v0;
+
+    temp_t0 = arg0[0];
+    temp_a0 = arg0[1];
+    if (arg1 == 0)
+    {
+        *arg2 = temp_t0;
+        *arg3 = temp_a0;
+        return;
+    }
+
+    temp_v1 = dword_800ABAE0 * 0x38;
+    temp_lo = arg1 * temp_v1;
+    var_v0 = temp_lo / 65536;
+
+    *arg2 = temp_t0 + var_v0;
+    *arg3 = temp_a0;
+}
 
 extern struct menu_8009E544 stru_8009E544[];
 
@@ -293,7 +374,25 @@ TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int r
     return pTile;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003DBAC.s") // 368 bytes
+void sub_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4)
+{
+    TILE     *tile;
+    DR_TPAGE *tpage;
+
+    menu_render_rect_8003DB2C(pGlue, x, y, 47, 1, 0);
+    menu_render_rect_8003DB2C(pGlue, x - 4, y, 14, 20, 0);
+    menu_render_rect_8003DB2C(pGlue, x + 45, y + 1, 2, 19, 0);
+    menu_render_rect_8003DB2C(pGlue, x - 4, y + 20, 51, 9, 0);
+
+    tile = menu_render_rect_8003DB2C(pGlue, x + 10, y + 1, 35, 19, (param_4 != 0 ?: 0) << 23);
+    setSemiTrans(tile, 1);
+
+    tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    setDrawTPage(tpage, 1, 0, 0x1f);
+    addPrim(pGlue->mPrimBuf.mOt, tpage);
+}
 
 Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
 {
