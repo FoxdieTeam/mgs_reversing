@@ -170,7 +170,7 @@
     include "..\obj\libgv\sub_80026418.obj"
     include "..\obj\libgv\sub_80026440.obj"
     include "..\obj\sub_8002646C.obj"
-    include "..\obj\sub_800264B0.obj"
+    include "..\obj\libgv\sub_800264B0.obj"
     include "..\obj\libgv\sub_80026504.obj"
     include "..\obj\libgv\sub_80026554.obj"
     include "..\obj\libgv\sub_800265AC.obj"
