@@ -82,7 +82,7 @@ extern SVECTOR            dword_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern Sna_ActionTable    actions_no_weapon_8009ED70;
 extern unsigned short     GM_ItemTypes_8009D598[];
-extern int                dword_8009EEA4[];
+extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
 extern int                used_counter_8009F42C;
 extern SVECTOR            dword_800AB7EC;
@@ -97,6 +97,7 @@ extern const char         aSnakeEUC[];
 extern SVECTOR            stru_8009EFD4[];
 extern int                dword_800ABA1C;
 extern int                dword_8009F2C0;
+extern int                dword_800AB9F0;
 
 extern const char aRunMoveCancel[]; // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
@@ -1624,7 +1625,7 @@ int sub_800507D8(Actor_SnaInit *param_1)
     {
         param_1->field_A28 = 0x1c2;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_KNOCKING | PLAYER_STATUS_ON_WALL | PLAYER_STATUS_MOVING);
-        sna_init_start_anim_8004E1F4(param_1, (void *)dword_8009EEA4[param_1->field_A26_fn_stance_idx]);
+        sna_init_start_anim_8004E1F4(param_1, dword_8009EEA4[param_1->field_A26_fn_stance_idx]);
         sna_init_clear_flags1_8004E308(param_1, SNA_FLAG1_UNK9);
         param_1->field_9C0 = NULL;
         sna_init_8004E260(param_1, 0, 4, 0);
@@ -2322,7 +2323,7 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int time)
                 sna_init_8004FA74(pActor);
             }
 
-            sna_init_start_anim_8004E1F4(pActor, (void *)dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+            sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
         }
         else
         {
@@ -2407,7 +2408,7 @@ void sub_8005230C(Actor_SnaInit *pActor)
 
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_ON_WALL);
             pActor->field_A28 = 0x1c2;
-            sna_init_start_anim_8004E1F4(pActor, (void *)dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+            sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
             GM_ExitBehindCamera_80030AEC();
         }
 
@@ -3666,7 +3667,7 @@ void sna_init_anim_shot_flinch_800544E0(Actor_SnaInit *pActor, int time)
     {
         sna_init_set_invuln_8004F2A0(pActor, 32);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK100 | PLAYER_STATUS_PREVENT_WEAPON_SWITCH);
-        sna_init_start_anim_8004E1F4(pActor, (void *)dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+        sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
     }
 
     if (pActor->field_A26_fn_stance_idx == SNA_STANCE_GROUND)
@@ -4272,7 +4273,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
                     }
 
                     pActor->field_A26_fn_stance_idx = stance;
-                    sna_init_start_anim_8004E1F4(pActor, (void *)dword_8009EEA4[stance]);
+                    sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[stance]);
                 }
                 else
                 {
@@ -4313,8 +4314,175 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
     }
 }
 
-// things like "a surveillance camera??" where player control is halted
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_mini_cutscene_800559D8.s") // 1024 bytes
+// things like "a surveillance camera??" where player control is halted    
+void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
+{
+    SVECTOR vec;
+
+    UnkSnakeStruct2 *pStr = &pActor->field_9E4;
+    int weapon;
+    int item;
+    int stance;
+    unsigned char action;
+    
+    short temp_v0;
+    short temp_v1_2;
+    short temp_v0_2;
+
+    if (time == 0)
+    {
+        pActor->field_9C8_anim_update_fn_3p = &sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = &sna_init_fn_nothing_80053B80;
+
+        sub_8004F338(pActor);
+
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PRONE | PLAYER_STATUS_CROUCHING);
+
+        pActor->field_A00.field_0_ivec.vz = -1;
+        pActor->field_A00.field_0_ivec.vx = dword_800AB9F0;
+        pActor->field_A00.field_0_ivec.pad = dword_800AB9F0;
+
+        sna_act_unk_helper2_helper2_800605DC(&pActor->field_A00, pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4);
+        temp_v0 = sub_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4,  pActor->field_A00.field_0_ivec.vy);
+
+        temp_v1_2 = (temp_v0 >> 8) & 0xff;
+        temp_v0_2 = temp_v0 & 0xff;
+
+        if ((temp_v1_2 == 0xff) || (temp_v0_2 == 0xff) || (temp_v1_2 != temp_v0_2))
+        {
+            pStr->field_9EC_flags3 |= 0x200;
+        }
+
+        if (pStr->field_9EC_flags3 & 0x200)
+        {
+            GV_SubVec3_80016D40(&pStr->field_9F4, &pActor->field_20_ctrl.field_0_position, &vec);
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = GV_VecDir2_80016EF8(&vec);
+            pActor->field_20_ctrl.field_38 = -1;
+            pActor->field_20_ctrl.field_36 = -1;
+            pActor->field_A28 = -1;
+        }
+
+        pActor->field_A38 = -1;
+
+        if (!(pStr->field_9EC_flags3 & 0x100) && ((GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000)) || (pActor->field_9AC & 2)))
+        {
+            pActor->field_A38 = pActor->field_9A8_current_item;
+            sub_8004F204(pActor);
+        }
+
+        pActor->field_A3A = -1;
+
+        if (pActor->field_920_tbl_8009D580 & 0x200)
+        {
+            pActor->field_A3A = pActor->field_91C_weapon_idx;
+            sub_8004F14C(pActor);
+        }
+        
+        if (pStr->field_9EC_flags3 & 0x100)
+        {
+            stance = SNA_STANCE_STANDING;
+            action = pActor->field_9B4_action_table->field_18->field_3;
+        }
+        else if (pStr->field_9EC_flags3 & 1)
+        {
+            stance = SNA_STANCE_GROUND;
+            action = pActor->field_9B4_action_table->field_4->field_3;
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PRONE);
+        }
+        else
+        {
+            stance = SNA_STANCE_STANDING;
+            action = pActor->field_9B4_action_table->field_4->field_0;
+        }
+        
+        pActor->field_A26_fn_stance_idx = stance;
+        
+        sna_init_8004E22C(pActor, action, 4);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+    }
+
+    if (!(pStr->field_9EC_flags3 & 0x200))
+    {
+        pActor->field_A00.field_0_ivec.vx = dword_800AB9F0;
+        sna_unk_helper2_helper_8006070C(&pActor->field_A00.field_0_ivec, &pActor->field_20_ctrl.field_0_position);
+    }
+
+    GV_NearExp4PV_800269A0(&pActor->field_20_ctrl.field_8_rotator.vx, &pActor->field_20_ctrl.field_4C_turn_vec.vx, 3);
+    GV_NearExp4PV_800269A0(&pActor->field_20_ctrl.field_8_rotator.vx, &pActor->field_20_ctrl.field_4C_turn_vec.vx, 3);
+
+    if (sna_act_unk_helper2_helper3_80060684(&pActor->field_A00.field_0_ivec, &pActor->field_20_ctrl.field_0_position) < pStr->field_9F4.pad)
+    {
+        sna_init_clear_invuln_8004F2EC(pActor);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK22);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
+
+        if (pStr->field_9EC_flags3 & 0x200)
+        {
+            pActor->field_20_ctrl.field_38 = 450;
+            pActor->field_20_ctrl.field_36 = 450;
+            pActor->field_A28 = 450;
+        }
+
+        if (!(pStr->field_9EC_flags3 & 2))
+        {
+            item = pActor->field_A38;
+            weapon = pActor->field_A3A;
+
+            if (item >= 0)
+            {
+                *GM_GetCurrentItem = item;
+
+                if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
+                {
+                    pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
+                }
+            }
+
+            if (weapon >= 0)
+            {
+                *GM_GetCurrentWeapon2 = weapon;
+                GM_WeaponChanged_800AB9D8 = 1;
+    
+                if (weapon == WEAPON_PSG1)
+                {
+                    pActor->field_A26_fn_stance_idx = SNA_STANCE_GROUND;
+                }
+                else if (weapon == WEAPON_STINGER)
+                {
+                    pActor->field_A26_fn_stance_idx = SNA_STANCE_STANDING;
+                }
+            }
+        }
+
+        if (!(pStr->field_9EC_flags3 & 8))
+        {
+            pActor->field_20_ctrl.field_55_flags &= ~CONTROL_FLAG_UNK2;
+        }
+
+        if (pStr->field_9EC_flags3 & 1)
+        {
+            sna_init_80050440(pActor);
+            sna_init_clear_flags1_8004E308(pActor, 4);
+        }
+
+        if (pStr->field_9EC_flags3 & 0x100)
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_box_stop_800554B4);
+        }
+        else
+        {
+            sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+        }
+
+        if (pStr->field_9E8 >= 0)
+        {
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = pStr->field_9E8;
+        }
+    }
+}
 
 // similar to above, seems freeze snake and make him look at a certain direction or track something
 // triggers on first elevator ride at dock and right before mantis fight to look at meryl
