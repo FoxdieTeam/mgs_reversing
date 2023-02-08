@@ -126,10 +126,11 @@ typedef struct GameState
 #define GM_WeaponPSG1     GM_GetWeapon(ePSG1)
 
 // TODO: Use this pattern for all game state variables
-#define GM_GetCurrentHealth (&gGameState_800B4D98[GM_CurrentHealth])
-#define GM_GetCurrentItem   (&gGameState_800B4D98[GM_CurrentItem])
-#define GM_GetItemRation    (&gGameState_800B4D98[GM_ItemRation])
-#define GM_GetFrozenItems   (&gGameState_800B4D98[GM_FrozenItems])
+#define GM_GetCurrentHealth  (&gGameState_800B4D98[GM_CurrentHealth])
+#define GM_GetCurrentWeapon2 (&gGameState_800B4D98[GM_CurrentWeapon])
+#define GM_GetCurrentItem    (&gGameState_800B4D98[GM_CurrentItem])
+#define GM_GetItemRation     (&gGameState_800B4D98[GM_ItemRation])
+#define GM_GetFrozenItems    (&gGameState_800B4D98[GM_FrozenItems])
 
 static inline short *GM_GetCurrentWeapon( void )
 {
