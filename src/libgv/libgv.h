@@ -247,7 +247,7 @@ static inline int FP_Subtract(int fp, int toSub)
     var_a0 &= 0xfff;
     if (var_a0 > 2048)
     {
-        var_a0 |= 0xf000;
+        var_a0 |= 0xf000u;
     }   
     return var_a0;
 }
