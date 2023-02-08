@@ -1,8 +1,11 @@
-int GV_NearExp2_80026384(int param_1, int param_2)
+int GV_NearExp2_80026384(int a, int b)
 {
-    if (((param_2 - param_1) + 1U) >= 3)
+    int diff = b - a;
+    
+    if ((diff <= -2) || (diff >= 2))
     {
-        return param_1 + (param_2 - param_1) / 2;
+        return a + diff / 2;
     }
-    return param_2;
+  
+    return b;
 }
