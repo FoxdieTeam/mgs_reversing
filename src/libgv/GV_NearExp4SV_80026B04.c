@@ -1,4 +1,4 @@
-void sub_80026B04(short *arg0, short *arg1, int range, int count)
+void GV_NearExp4SV_80026B04(short *arg0, short *arg1, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
