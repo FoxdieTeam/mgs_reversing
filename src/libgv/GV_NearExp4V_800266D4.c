@@ -1,4 +1,4 @@
-void GV_NearExp2V_8002667C(short *a, short *b, int count)
+void GV_NearExp4V_800266D4(short *a, short *b, int count)
 {
     int ca, cb;
     int diff;
@@ -11,16 +11,17 @@ void GV_NearExp2V_8002667C(short *a, short *b, int count)
         
         diff = cb - ca;
         
-        if ((diff > -2) && (diff < 2))
+        if ((diff > -4) && (diff < 4))
         {
             mid = cb;
         }
         else
         {
-            mid = ca + diff / 2;
+            mid = ca + diff / 4;
         }
 
         *a++ = mid;
         b++;
     } 
 }
+

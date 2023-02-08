@@ -3760,7 +3760,7 @@ void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int time)
 
         if (time > 16)
         {
-            sub_80026734(&pActor->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V_80026734(&pActor->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
         }
 
         if ((pActor->field_A54.prone_bool_thing == 1 && time == 12) ||
@@ -3922,7 +3922,7 @@ void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *pActor, int time)
 
         if (time > 16)
         {
-            sub_80026734(&pActor->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
+            GV_NearExp8V_80026734(&pActor->field_A2C.vx, &DG_ZeroVector_800AB39C.vx, 3);
         }
 
         pActor->field_20_ctrl.field_44_movementVector.vx = pActor->field_A2C.vx;
