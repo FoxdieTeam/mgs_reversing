@@ -666,10 +666,10 @@ Sna_ActionTable SECTION(".data") weapon_actions_8009ED8C[10] = {
     {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED64, &e7_8009ED68},
     {&e1_800AB78C, NULL, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED3C, &e6_8009ED54, &e7_8009ED68}};
 
-int SECTION(".data") dword_8009EEA4[] = {
-    0x8005275C, // sna_init_anim_idle_8005275C
-    0x800527DC, // sna_init_anim_crouch_800527DC
-    0x800528BC  // sna_init_anim_prone_idle_800528BC
+void *SECTION(".data") dword_8009EEA4[] = {
+    (void *)0x8005275C, // sna_init_anim_idle_8005275C
+    (void *)0x800527DC, // sna_init_anim_crouch_800527DC
+    (void *)0x800528BC  // sna_init_anim_prone_idle_800528BC
 };
 
 int SECTION(".data") dword_8009EEB0[] = {
