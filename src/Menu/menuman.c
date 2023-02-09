@@ -26,9 +26,39 @@ extern int GM_LoadComplete_800ABA38;
 extern int GM_GameStatus_800AB3CC;
 extern int GM_LoadRequest_800AB3D0;
 
-extern short *GM_CurrentPadData_800AB91C; // sbss
+// force GP
+extern GV_PAD *GM_CurrentPadData_800AB91C; // sbss
+GV_PAD*        SECTION(".sdata") GM_CurrentPadData_800AB91C;
 
-#pragma INCLUDE_ASM("asm/Menu/menuman_act_800386A4.s") // 324 bytes
+void menuman_act_800386A4(Actor_MenuMan *pActor)
+{
+  unsigned char *pOtStart;
+  int idx_as_flag;
+  int field_28_flags;
+  int i;
+  pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
+  pActor->field_24_pInput = &GM_CurrentPadData_800AB91C[2];
+  menu_jimaku_act_80048FD4(pActor, (unsigned int *)pOtStart);
+  if ((((GV_PauseLevel_800AB928 & 2) == 0) && (GM_LoadComplete_800ABA38 > 0)) && (!GM_LoadRequest_800AB3D0))
+  {
+    idx_as_flag = 1;
+    if (GM_GameStatus_800AB3CC >= 0)
+    {
+      field_28_flags = pActor->field_28_flags;
+      for (i = 0; i < 8; i++)
+      {
+        if ((field_28_flags & idx_as_flag) != 0)
+        {
+          pActor->m7FnPtrs_field_2C[i](pActor, pOtStart);
+        }
+        idx_as_flag *= 2;
+      }
+
+    }
+  }
+
+  addPrim(pOtStart, &pActor->field_4C_drawEnv[GV_Clock_800AB920]);
+}
 
 void menuman_kill_800387E8(Actor_MenuMan *pActor)
 {
