@@ -217,7 +217,7 @@ typedef struct Actor_MenuMan
 {
     Actor           field_0_actor;
     MenuGlue       *field_20_otBuf;
-    void           *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
+    GV_PAD           *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
     MenuFlags       field_28_flags;
     char            field_29;
     // Bit 0: browsing right menu.
