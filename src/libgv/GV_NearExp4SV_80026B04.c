@@ -1,4 +1,4 @@
-void sub_80026B64(short *arg0, short *arg1, int range, int count)
+void GV_NearExp4SV_80026B04(short *arg0, short *arg1, int range, int count)
 {
     int    temp_t1;
     short *var_a0;
@@ -16,7 +16,7 @@ void sub_80026B64(short *arg0, short *arg1, int range, int count)
         do {} while (0);
 
         ret = *var_a1;
-        var_v1 = (*var_a1 - *var_a0) / 8; // Nearly exactly the same as sub_80026B04
+        var_v1 = (*var_a1 - *var_a0) / 4;
 
         if ((-range >= var_v1) || (var_v1 >= range))
         {
