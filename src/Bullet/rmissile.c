@@ -521,7 +521,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         else
         {
             vector = pActor->field_16C_svector;
-            sub_800268AC(&pActor->field_16C_svector, &svector_800ABA10, pActor->field_16A, 3);
+            sub_800268AC(&pActor->field_16C_svector.vx, &svector_800ABA10.vx, pActor->field_16A, 3);
             gUnkCameraStruct_800B77B8.field_0 = pActor->field_16C_svector;
 
             if (pActor->field_16A > 0)
