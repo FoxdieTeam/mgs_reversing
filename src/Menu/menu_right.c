@@ -127,7 +127,43 @@ void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Un
     pArray->field_4 = 0;
     pArray->field_2_current_amount = amount;
 }
-#pragma INCLUDE_ASM("asm/sub_8003D1DC.s") // 224 bytes
+
+void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
+{
+    int array_count, array_half_count;
+    int i;
+
+    array_count = pMenuItem->field_0_main.field_0_array_count;
+    array_half_count = array_count / 2;
+
+    pMenuItem->field_20_array[pMenuItem->field_0_main.field_4_selected_idx].field_4 = 0;
+    pMenuItem->field_0_main.field_8 = array_half_count * 256 + 128;
+    for (i = 1; i <= array_half_count; i++)
+    {
+        int idx = pMenuItem->field_0_main.field_4_selected_idx + i;
+        if (idx >= pMenuItem->field_0_main.field_0_array_count)
+        {
+            idx -= pMenuItem->field_0_main.field_0_array_count;
+        }
+
+        // pMenuItem->field_20_array[idx] did not match
+        (idx + pMenuItem->field_20_array)->field_4 = i * 256;
+    }
+
+    array_half_count = array_count - (array_half_count + 1);
+    pMenuItem->field_0_main.field_C = -(array_half_count * 256 + 128);
+    for (i = -1; i >= -array_half_count; i--)
+    {
+        int idx = pMenuItem->field_0_main.field_4_selected_idx + i;
+        if (idx < 0)
+        {
+            idx += pMenuItem->field_0_main.field_0_array_count;
+        }
+
+        // pMenuItem->field_20_array[idx] did not match
+        (idx + pMenuItem->field_20_array)->field_4 = i * 256;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/sub_8003D2BC.s") // 144 bytes
 
