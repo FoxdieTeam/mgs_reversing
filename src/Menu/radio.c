@@ -346,7 +346,22 @@ void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y)
     sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA30);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s") // 140 bytes
+void menu_draw_triangle_800435EC(MenuGlue *pGlue, Menu_Triangle *pTriangle)
+{
+    POLY_F3 *pPrim;
+
+    pPrim = (POLY_F3 *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(POLY_F3);
+
+    LCOPY(&pTriangle->field_0_x0, &pPrim->x0);
+    LCOPY(&pTriangle->field_4_x1, &pPrim->x1);
+    LCOPY(&pTriangle->field_8_x2, &pPrim->x2);
+    LCOPY(&pTriangle->field_C_rgb, &pPrim->r0);
+
+    setPolyF3(pPrim);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+}
+
 #pragma INCLUDE_ASM("asm/sub_80043678.s") // 940 bytes
 #pragma INCLUDE_ASM("asm/sub_80043A24.s") // 1452 bytes
 #pragma INCLUDE_ASM("asm/sub_80043FD0.s") // 788 bytes
