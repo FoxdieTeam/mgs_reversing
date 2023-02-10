@@ -7,8 +7,9 @@
 #include "Game/camera.h"
 
 // TODO: Move to correct header
-void sub_8003D3A4(Menu_Item_Unknown *a1, short a2);
-void sub_8003D34C(Menu_Item_Unknown *a1, short a2);
+// Functions of signature TMenuItemUnknownFn:
+void sub_8003D3A4(Menu_Item_Unknown *a1, int a2);
+void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 
 u_long SECTION(".sbss") dword_800ABAD8;
 u_long SECTION(".sbss") dword_800ABADC;
@@ -126,7 +127,43 @@ void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Un
     pArray->field_4 = 0;
     pArray->field_2_current_amount = amount;
 }
-#pragma INCLUDE_ASM("asm/sub_8003D1DC.s") // 224 bytes
+
+void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
+{
+    int array_count, array_half_count;
+    int i;
+
+    array_count = pMenuItem->field_0_main.field_0_array_count;
+    array_half_count = array_count / 2;
+
+    pMenuItem->field_20_array[pMenuItem->field_0_main.field_4_selected_idx].field_4 = 0;
+    pMenuItem->field_0_main.field_8 = array_half_count * 256 + 128;
+    for (i = 1; i <= array_half_count; i++)
+    {
+        int idx = pMenuItem->field_0_main.field_4_selected_idx + i;
+        if (idx >= pMenuItem->field_0_main.field_0_array_count)
+        {
+            idx -= pMenuItem->field_0_main.field_0_array_count;
+        }
+
+        // pMenuItem->field_20_array[idx] did not match
+        (idx + pMenuItem->field_20_array)->field_4 = i * 256;
+    }
+
+    array_half_count = array_count - (array_half_count + 1);
+    pMenuItem->field_0_main.field_C = -(array_half_count * 256 + 128);
+    for (i = -1; i >= -array_half_count; i--)
+    {
+        int idx = pMenuItem->field_0_main.field_4_selected_idx + i;
+        if (idx < 0)
+        {
+            idx += pMenuItem->field_0_main.field_0_array_count;
+        }
+
+        // pMenuItem->field_20_array[idx] did not match
+        (idx + pMenuItem->field_20_array)->field_4 = i * 256;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/sub_8003D2BC.s") // 144 bytes
 
@@ -152,7 +189,7 @@ void sub_8003D3FC(Menu_Item_Unknown *pMenu, int a2)
 
 void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
 {
-    void (*pFn)(Menu_Item_Unknown *, short); // TODO: 2nd arg might be int
+    TMenuItemUnknownFn pFn;
 
     pMenu->field_0_main.field_10 = a3;
     pMenu->field_0_main.field_14_fn_ctx = (a2 << 8) / a3;
@@ -169,7 +206,20 @@ void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
     GM_Sound_80032968(0, 63, 23u);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D4CC.s") // 84 bytes
+int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
+{
+    if (pMenuItem->field_0_main.field_10 > 0)
+    {
+        pMenuItem->field_0_main.field_10--;
+        if (pMenuItem->field_0_main.field_10 != 0)
+        {
+            pMenuItem->field_0_main.field_1C_fn(pMenuItem, pMenuItem->field_0_main.field_14_fn_ctx);
+            return 1;
+        }
+        sub_8003D1DC(pMenuItem);
+    }
+    return 0;
+}
 
 void sub_8003D520(void)
 {
@@ -295,7 +345,60 @@ void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdate
     pStru->field_18_pFnUpdate = pUpdateFn;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D6CC.s") // 272 bytes
+void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
+{
+    int                bVar1;
+    int                arg2_1;
+    int                arg2_2;
+    Menu_Item_Unknown *pMenuItem;
+    menu_8009E544     *pStru;
+
+    pMenuItem = pLeftRight->field_C_alloc;
+    pStru = pLeftRight->field_8_pStru;
+    bVar1 = sub_8003D4CC(pMenuItem);
+    if (pPad->press & (pStru->field_8 | pStru->field_C))
+    {
+        arg2_1 = -1;
+        if (pPad->press & pStru->field_8)
+        {
+            arg2_1 = 1;
+        }
+        if (!bVar1)
+        {
+            sub_8003D44C(pMenuItem, arg2_1, 6);
+            pMenuItem->field_0_main.field_18 = 10;
+        }
+        else if (pMenuItem->field_0_main.field_18 > 0)
+        {
+            pMenuItem->field_0_main.field_18 = 0;
+        }
+    }
+    if (pMenuItem->field_0_main.field_18 >= 0)
+    {
+        if (pPad->status & (pStru->field_8 | pStru->field_C))
+        {
+            arg2_2 = -1;
+            if (pPad->status & pStru->field_8)
+            {
+                arg2_2 = 1;
+            }
+            if (!bVar1)
+            {
+                pMenuItem->field_0_main.field_18--;
+                if (pMenuItem->field_0_main.field_18 < 0)
+                {
+                    sub_8003D44C(pMenuItem, arg2_2, 4);
+                    pMenuItem->field_0_main.field_18 = 0;
+                }
+            }
+        }
+        else
+        {
+            pMenuItem->field_0_main.field_18 = 10;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/menu_8003D7DC.s") // 560 bytes
 
 void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pSubMenu)
