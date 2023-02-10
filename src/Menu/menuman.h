@@ -109,16 +109,19 @@ typedef struct menu_save_mode_data
   void* field_10;
 } menu_save_mode_data;
 
+struct Menu_Item_Unknown;
+typedef void (*TMenuItemUnknownFn)(struct Menu_Item_Unknown *, int);
+
 typedef struct Menu_Item_Unknown_Main
 {
-    int   field_0_array_count;
-    int   field_4_selected_idx;
-    int   field_8;
-    int   field_C;
-    int   field_10;
-    int   field_14_fn_ctx;
-    int   field_18;
-    void *field_1C_fn;
+    int                field_0_array_count;
+    int                field_4_selected_idx;
+    int                field_8;
+    int                field_C;
+    int                field_10;
+    int                field_14_fn_ctx;
+    int                field_18;
+    TMenuItemUnknownFn field_1C_fn;
 } Menu_Item_Unknown_Main;
 
 typedef struct Menu_Item_Unknown_Array_Item

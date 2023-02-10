@@ -38,7 +38,24 @@ extern int GV_PadMask_800AB374;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
-#pragma INCLUDE_ASM("asm/sub_8003FFB0.s") // 132 bytes
+
+void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
+{
+    TILE *pPrim;
+
+    pPrim = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    pPrim->w = 2;
+    pPrim->h = 2;
+    *(int *)&pPrim->r0 = rgb;
+    pPrim->x0 = x0 + 11;
+    pPrim->y0 = y0 + 15;
+
+    setTile(pPrim);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 376 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
@@ -97,7 +114,38 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 568 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
-#pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s") // 368 bytes
+
+extern RECT rect_800AB630;
+
+void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
+{
+    KCB  local_kcb;
+    KCB *allocated_kcb;
+
+    if (pActor->field_214_font == NULL)
+    {
+        KCB *ptr_local_kcb = &local_kcb;
+
+        GV_ZeroMemory_8001619C(ptr_local_kcb, sizeof(KCB));
+        ClearImage(&rect_800AB630, 0, 0, 0);
+
+        font_init_kcb_80044BE0(ptr_local_kcb, &rect_800AB630, 960, 510);
+        font_set_kcb_80044C90(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
+
+        allocated_kcb = (KCB *)GV_AllocMemory_80015EB8(0, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
+        font_set_buffer_80044FD8(ptr_local_kcb, allocated_kcb + 1);
+        font_set_color_80044DC4(ptr_local_kcb, 0, 0x6739, 0);
+        font_set_color_80044DC4(ptr_local_kcb, 1, 0x3bef, 0);
+        font_set_color_80044DC4(ptr_local_kcb, 2, 0x3a4b, 0);
+        font_set_color_80044DC4(ptr_local_kcb, 3, 0x1094, 0);
+        font_clut_update_80046980(ptr_local_kcb);
+
+        pActor->field_214_font = allocated_kcb;
+        memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
+
+        dword_800ABB04 = 0;
+    }
+}
 
 void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, int param_2)
 {
@@ -346,7 +394,22 @@ void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y)
     sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA30);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_triangle_800435EC.s") // 140 bytes
+void menu_draw_triangle_800435EC(MenuGlue *pGlue, Menu_Triangle *pTriangle)
+{
+    POLY_F3 *pPrim;
+
+    pPrim = (POLY_F3 *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(POLY_F3);
+
+    LCOPY(&pTriangle->field_0_x0, &pPrim->x0);
+    LCOPY(&pTriangle->field_4_x1, &pPrim->x1);
+    LCOPY(&pTriangle->field_8_x2, &pPrim->x2);
+    LCOPY(&pTriangle->field_C_rgb, &pPrim->r0);
+
+    setPolyF3(pPrim);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+}
+
 #pragma INCLUDE_ASM("asm/sub_80043678.s") // 940 bytes
 #pragma INCLUDE_ASM("asm/sub_80043A24.s") // 1452 bytes
 #pragma INCLUDE_ASM("asm/sub_80043FD0.s") // 788 bytes
