@@ -125,7 +125,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     else
     {
         iVar1 = 12 - param_1;
-        sub_800268AC(&GM_Camera_800B77E8.field_0, &gUnkCameraStruct_800B77B8.field_0, iVar1, 3);
+        sub_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
         sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, iVar1, 3);
         GM_Camera_800B77E8.field_1C = sub_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
