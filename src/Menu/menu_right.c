@@ -7,8 +7,9 @@
 #include "Game/camera.h"
 
 // TODO: Move to correct header
-void sub_8003D3A4(Menu_Item_Unknown *a1, short a2);
-void sub_8003D34C(Menu_Item_Unknown *a1, short a2);
+// Functions of signature TMenuItemUnknownFn:
+void sub_8003D3A4(Menu_Item_Unknown *a1, int a2);
+void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 
 u_long SECTION(".sbss") dword_800ABAD8;
 u_long SECTION(".sbss") dword_800ABADC;
@@ -152,7 +153,7 @@ void sub_8003D3FC(Menu_Item_Unknown *pMenu, int a2)
 
 void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
 {
-    void (*pFn)(Menu_Item_Unknown *, short); // TODO: 2nd arg might be int
+    TMenuItemUnknownFn pFn;
 
     pMenu->field_0_main.field_10 = a3;
     pMenu->field_0_main.field_14_fn_ctx = (a2 << 8) / a3;
@@ -169,7 +170,20 @@ void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
     GM_Sound_80032968(0, 63, 23u);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D4CC.s") // 84 bytes
+int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
+{
+    if (pMenuItem->field_0_main.field_10 > 0)
+    {
+        pMenuItem->field_0_main.field_10--;
+        if (pMenuItem->field_0_main.field_10 != 0)
+        {
+            pMenuItem->field_0_main.field_1C_fn(pMenuItem, pMenuItem->field_0_main.field_14_fn_ctx);
+            return 1;
+        }
+        sub_8003D1DC(pMenuItem);
+    }
+    return 0;
+}
 
 void sub_8003D520(void)
 {
