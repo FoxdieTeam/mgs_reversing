@@ -137,8 +137,6 @@ const char SECTION(".sdata") aCall[] = "call";
 const char SECTION(".sdata") aP3t3t[] = "P#3T#3T";
 const char SECTION(".sdata") aMemory[] = "MEMORY";
 
-int SECTION(".sdata") dword_800AB630 = 0x10403C0;
-
-int SECTION(".sdata") dword_800AB634 = 0x4C003F;
+RECT SECTION(".sdata") rect_800AB630 = {960, 260, 63, 76};
 
 int SECTION(".sdata") dword_800AB638 = 0x36B0;
