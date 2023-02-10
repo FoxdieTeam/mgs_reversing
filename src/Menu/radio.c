@@ -114,7 +114,38 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 568 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
-#pragma INCLUDE_ASM("asm/init_radio_message_board_80040F74.s") // 368 bytes
+
+extern RECT rect_800AB630;
+
+void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
+{
+    KCB  local_kcb;
+    KCB *allocated_kcb;
+
+    if (pActor->field_214_font == NULL)
+    {
+        KCB *ptr_local_kcb = &local_kcb;
+
+        GV_ZeroMemory_8001619C(ptr_local_kcb, sizeof(KCB));
+        ClearImage(&rect_800AB630, 0, 0, 0);
+
+        font_init_kcb_80044BE0(ptr_local_kcb, &rect_800AB630, 960, 510);
+        font_set_kcb_80044C90(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
+
+        allocated_kcb = (KCB *)GV_AllocMemory_80015EB8(0, font_get_buffer_size_80044F38(ptr_local_kcb) + sizeof(KCB));
+        font_set_buffer_80044FD8(ptr_local_kcb, allocated_kcb + 1);
+        font_set_color_80044DC4(ptr_local_kcb, 0, 0x6739, 0);
+        font_set_color_80044DC4(ptr_local_kcb, 1, 0x3bef, 0);
+        font_set_color_80044DC4(ptr_local_kcb, 2, 0x3a4b, 0);
+        font_set_color_80044DC4(ptr_local_kcb, 3, 0x1094, 0);
+        font_clut_update_80046980(ptr_local_kcb);
+
+        pActor->field_214_font = allocated_kcb;
+        memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
+
+        dword_800ABB04 = 0;
+    }
+}
 
 void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, int param_2)
 {
