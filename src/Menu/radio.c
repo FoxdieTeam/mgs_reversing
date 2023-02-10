@@ -38,7 +38,24 @@ extern int GV_PadMask_800AB374;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
-#pragma INCLUDE_ASM("asm/sub_8003FFB0.s") // 132 bytes
+
+void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
+{
+    TILE *pPrim;
+
+    pPrim = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    pPrim->w = 2;
+    pPrim->h = 2;
+    *(int *)&pPrim->r0 = rgb;
+    pPrim->x0 = x0 + 11;
+    pPrim->y0 = y0 + 15;
+
+    setTile(pPrim);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 376 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
