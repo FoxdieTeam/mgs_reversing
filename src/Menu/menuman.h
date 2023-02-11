@@ -56,7 +56,7 @@ typedef struct menu_chara_struct
     void*           field_20_pFaceMemory;
     void          *field_24_pImgData256;
     int           *field_28_pStack;
-    void          *field_2C;
+    short          *field_2C_pSaveText;
     int            field_30_face_data_num;
     void         **field_34;
     int            field_38;
