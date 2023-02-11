@@ -207,10 +207,10 @@ enum
 #define GM_LinkVar(buf, var)      (buf[((char*)&var - (char*)&linkvarbuf) / 2])
 
 #define GM_GetWeapon(wpn_id)      (*(&GM_FirstWeapon + wpn_id))
-#define GM_GetCurrentWeapon()     (GM_GetWeapon( GM_CurrentWeaponId ))
+#define GM_CurrentWeapon          (GM_GetWeapon( GM_CurrentWeaponId ))
 
 #define GM_GetItem(item_id)       (*(&GM_FirstItem + item_id))
-#define GM_GetCurrentItem()       (GM_GetItem( GM_CurrentItemId ))
+#define GM_CurrentItem            (GM_GetItem( GM_CurrentItemId ))
 
 
 #endif
