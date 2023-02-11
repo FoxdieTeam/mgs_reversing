@@ -42,7 +42,19 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
 
 #pragma INCLUDE_ASM("asm/Equip/scope_act_80062E8C.s")               // 752 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_kill_8006317C.s")              // 188 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063238.s")     // 60 bytes
+
+void scope_loader_helper_80063238(LINE_F2 *lines)
+{
+	int i;
+
+	for (i = 0; i < 16; i++)
+	{
+		*(int *)&lines->r0 = 0x41412e;
+		setLineF2(lines);
+		setSemiTrans(lines, 1);
+		lines++;
+	}
+}
 
 void scope_loader_helper_80063274(LINE_F4 *lines)
 {
