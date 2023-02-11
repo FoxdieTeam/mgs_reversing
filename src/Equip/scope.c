@@ -43,7 +43,23 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
 #pragma INCLUDE_ASM("asm/Equip/scope_act_80062E8C.s")               // 752 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_kill_8006317C.s")              // 188 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063238.s")     // 60 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063274.s")     // 96 bytes
+
+void scope_loader_helper_80063274(LINE_F4 *lines)
+{
+	int i;
+
+	for (i = 0; i < 2; i++)
+	{
+		*(int *)&lines->r0 = 0x68b187;
+		setLineF4(lines);
+		lines++;
+
+		*(int *)&lines->r0 = 0x68b187;
+		setLineF2(lines);
+		lines++;
+	}
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_800632D4.s")     // 148 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063368.s")     // 108 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_800633D4.s")            // 308 bytes
