@@ -79,7 +79,7 @@ void aam_act_800670CC(Actor_Aam *actor)
     {
         actor->field_58 = 30;
 
-        sVar3 = GM_GetWeapon(WEAPON_STINGER);
+        sVar3 = GM_Weapons[WEAPON_STINGER];
 
         if (sVar3 > 0)
         {
@@ -108,7 +108,7 @@ void aam_act_800670CC(Actor_Aam *actor)
 
             if (NewAMissile_8006DC50(&MStack88, actor->field_54))
             {
-                GM_GetWeapon(WEAPON_STINGER) = --sVar3;
+                GM_Weapons[WEAPON_STINGER] = --sVar3;
                 GM_SeSet_80032858(&actor->field_44_ctrl->field_0_position, 0x4c);
                 GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_position);
 

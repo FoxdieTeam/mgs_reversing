@@ -15,13 +15,13 @@ void item_all_items_and_weapons_unknown2_80033500()
     int    i;
     short *ptr;
 
-    ptr = &GM_FirstItem;
+    ptr = GM_Items;
     for (i = 0; i < GM_TotalItems; i++)
     {
         ptr[i] |= 0x8000;
     }
 
-    ptr = &GM_FirstWeapon;
+    ptr = GM_Weapons;
     for (i = 0; i < GM_TotalWeapons; i++)
     {
         ptr[i] |= 0x8000;
@@ -33,7 +33,7 @@ void item_all_items_and_weapons_unknown_80033560()
     int    i;
     short *ptr;
 
-    ptr = &GM_FirstItem;
+    ptr = GM_Items;
     for (i = 0; i < GM_TotalItems; i++)
     {
         if (ptr[i] != -1)
@@ -42,7 +42,7 @@ void item_all_items_and_weapons_unknown_80033560()
         }
     }
 
-    ptr = &GM_FirstWeapon;
+    ptr = GM_Weapons;
     for (i = 0; i < GM_TotalWeapons; i++)
     {
         if (ptr[i] != -1)
