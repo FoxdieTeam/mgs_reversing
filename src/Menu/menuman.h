@@ -51,8 +51,8 @@ typedef struct menu_chara_struct
     unsigned short field_18;
     unsigned short field_1A;
     void          *field_1C;
-    int            field_20_pFaceMemory;
-    void          *field_24;
+    void*           field_20_pFaceMemory;
+    void          *field_24_pImgData256;
     int           *field_28_pStack;
     void          *field_2C;
     int            field_30_face_data_num;
