@@ -470,7 +470,7 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper9_80047FF4.obj"
     include "..\obj\Menu\menu_radio_codec_state_2_helper_80048024.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper8_80048044.obj"
-    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper7_80048080.obj"
+    include "..\obj\Menu\menu_radio_codec_helper_helper7_80048080.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper6_80048100.obj"
     include "..\obj\Menu\sub_80048124.obj"
     include "..\obj\Menu\radio_draw_face_frame_800481CC.obj"
