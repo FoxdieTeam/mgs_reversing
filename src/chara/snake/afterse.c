@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "unknown.h"
+#include "Map/map.h"
 
 extern char aAfterseC[]; // = "afterse.c"
 

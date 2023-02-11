@@ -1,6 +1,7 @@
 #include "psyq.h"
 #include "unknown.h"
-#include "Game/game.h"
+#include "Game/linkvarbuf.h"
+
 
 extern int         gTotalFrameTime_800AB9E8;
 extern GCL_Vars    gGcl_memVars_800b4588;
@@ -8,7 +9,6 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 extern char gStageName_800B4D88[16];
 
-extern short gGameState_800B4D98[0x60];
 extern short gGcl_gameStateVars_800B44C8[0x60];
 
 int GCL_MakeSaveFile_80020C0C(char *saveBuf)
@@ -27,12 +27,11 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
     save->f00C_version2 = 0x800;
     save->f010_totalFrameTime = gTotalFrameTime_800AB9E8;
 
-    // Save time of last save (probably used for shadow mantis demo)
-    gGameState_800B4D98[GM_LastSaveHours]           = gGameState_800B4D98[GM_PlaytimeHours];
-    gGameState_800B4D98[GM_LastSaveSeconds]         = gGameState_800B4D98[GM_PlaytimeSeconds];
-    gGcl_gameStateVars_800B44C8[GM_LastSaveHours]   = gGameState_800B4D98[GM_PlaytimeHours];
-    gGcl_gameStateVars_800B44C8[GM_LastSaveSeconds] = gGameState_800B4D98[GM_PlaytimeSeconds];
-    gGcl_gameStateVars_800B44C8[GM_SaveCount]       = gGameState_800B4D98[GM_SaveCount];
+    GM_LastSaveHours = GM_TotalHours;
+    GM_LastSaveSeconds = GM_TotalSeconds;
+    GM_LinkVar(gGcl_gameStateVars_800B44C8, GM_LastSaveHours) = GM_TotalHours;
+    GM_LinkVar(gGcl_gameStateVars_800B44C8, GM_LastSaveSeconds) = GM_TotalSeconds;
+    GM_LinkVar(gGcl_gameStateVars_800B44C8, GM_TotalSaves) = GM_TotalSaves;
 
     save->f014_padding[0] = 0;
     save->f014_padding[1] = 0;

@@ -4,6 +4,7 @@
 #include "Thing/sight.h"
 #include "Game/camera.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
 
 extern const char aBoxC[];
 extern int DG_CurrentGroupID_800AB968;
@@ -86,7 +87,6 @@ void BoxDie_80061B30(Actor_Box *pActor)
     dword_8009F284 = 0;
 }
 
-extern short      gGameState_800B4D98[0x60];
 extern const char aCbBox[]; // = "cb_box"
 
 int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
@@ -106,7 +106,7 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
     pActor->field_20.objs->objs[0].raise = 250;
     GM_ConfigObjectRoot_80034C5C(pObject, pParent, 0);
 
-    currentItem = gGameState_800B4D98[GM_CurrentItem];
+    currentItem = GM_CurrentItemId;
     ppName = &off_8009F288[(currentItem - 2) * 2];
     pActor->field_50_ppName = ppName;
 

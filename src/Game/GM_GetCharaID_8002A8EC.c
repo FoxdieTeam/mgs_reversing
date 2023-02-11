@@ -1,13 +1,11 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
 #include "game.h"
+#include "Game/linkvarbuf.h"
 
 extern GCL_Vars           gGcl_vars_800B3CC8;
 
 extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
 
@@ -49,6 +47,6 @@ TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id)
 
 void GM_ClearWeaponAndItem_8002A960()
 {
-    gGameState_800B4D98[GM_CurrentWeapon] = WEAPON_NONE;
-    gGameState_800B4D98[GM_CurrentItem] = WEAPON_NONE;
+    GM_CurrentWeaponId = WEAPON_NONE;
+    GM_CurrentItemId = WEAPON_NONE;
 }
