@@ -3,6 +3,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/target.h"
+#include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "map/map.h"
@@ -75,7 +76,6 @@ void socom_init_vectors_80065254( Actor_Socom *pActor )
 }
 
 extern GM_Camera GM_Camera_800B77E8;
-extern short     gGameState_800B4D98[0x60];
 
 void socom_act_helper_8006528C(Actor_Socom *pActor)
 {
@@ -89,7 +89,7 @@ void socom_act_helper_8006528C(Actor_Socom *pActor)
         primsOrig = 10240;
     }
 
-    if (gGameState_800B4D98[0x5f] && GM_Camera_800B77E8.field_22)
+    if (GM_UnkFlagBE && GM_Camera_800B77E8.field_22)
     {
         primsOrig += 515;
     }
@@ -205,7 +205,7 @@ void socom_act_80065518( Actor_Socom *a1 )
     int magSize;
     int f108;
 
-    if ( gGameState_800B4D98[0x3c] > 0 )
+    if ( GM_SilencerFlag > 0 )
     {
         GM_WeaponChanged_800AB9D8 = 1;
         return;
@@ -218,7 +218,7 @@ void socom_act_80065518( Actor_Socom *a1 )
 
     flags = *a1->field_50_ptr;
 
-    if ( !gGameState_800B4D98[0x5f] )
+    if ( !GM_UnkFlagBE )
     {
         word_800AB824 = -215;
 
@@ -333,7 +333,7 @@ void socom_act_80065518( Actor_Socom *a1 )
 
         d_800AB9EC_mag_size = --magSize;
         d_800ABA2C_ammo = 12;
-        *GM_WeaponSocom -= 1;
+        --GM_GetWeapon(WEAPON_SOCOM);
     }
 }
 
@@ -366,7 +366,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
     OBJECT  *obj;
 
     obj = &actor->field_20;
-    if ( gGameState_800B4D98[GM_ItemSilencer] < 0 )
+    if ( GM_SilencerFlag < 0 )
     {
         GM_InitObjectNoRots_800349B0( (OBJECT_NO_ROTS *)obj,
                                     GV_StrCode_80016CCC( aSocom_0 ),
@@ -381,10 +381,10 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
                                     WEAPON_FLAG,
                                     0 );
         actor->field_56 = 1;
-        gGameState_800B4D98[GM_ItemSilencer] = 0;
-        if ( gGameState_800B4D98[GM_CurrentItem] == eSUPPR )
+        GM_SilencerFlag = 0;
+        if ( GM_CurrentItemId == eSUPPR )
         {
-            gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
+            GM_CurrentItemId = ITEM_NONE;
         }
     }
     if ( obj->objs )
@@ -452,7 +452,7 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, 
     {
         mag++;
     }
-    ammo = *GM_WeaponSocom;
+    ammo = GM_GetWeapon(WEAPON_SOCOM);
     if ( mag > 0 && mag < ammo )
     {
         ammo = mag;

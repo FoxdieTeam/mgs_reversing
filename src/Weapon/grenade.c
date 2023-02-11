@@ -2,6 +2,7 @@
 #include "Bullet/tenage.h"
 #include "Game/object.h"
 #include "Game/target.h"
+#include "Game/linkvarbuf.h"
 #include "grenade.h"
 #include "libdg/libdg.h"
 #include "map/map.h"
@@ -92,7 +93,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			actor->f5c_timer = 168;
 			if ( grenade_type != GRD_TBOMB )
 			{
-				--*GM_GetCurrentWeapon();
+				--GM_GetCurrentWeapon();
 			}
 			actor->f64_has_exploded = TRUE;
 			flags &= ~( 2 | 4 | 8 );
@@ -103,7 +104,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 		}
 		else
 		{
-			ammo = *GM_GetCurrentWeapon();
+			ammo = GM_GetCurrentWeapon();
 		}
 		if ( ( ammo > 0 ) && ( flags & ( 2 | 4 | 8 ) ) )
 		{
@@ -148,12 +149,12 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 				actor->f5c_timer = 168;
 				if ( grenade_type != GRD_TBOMB )
 				{
-					*GM_GetCurrentWeapon() = --ammo;
+					GM_GetCurrentWeapon() = --ammo;
 				}
 			}
 		}
 	}
-	else if ( ( grenade_type == GRD_TBOMB ) || ( *GM_GetCurrentWeapon() > 0 ) )
+	else if ( ( grenade_type == GRD_TBOMB ) || ( GM_GetCurrentWeapon() > 0 ) )
 	{
 		if ( actor->f5c_timer > 120 )
 		{

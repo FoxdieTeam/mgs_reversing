@@ -2,6 +2,7 @@
 #include "gglsight.h"
 #include "Game/game.h"
 #include "Game/camera.h"
+#include "Game/linkvarbuf.h"
 
 // Goggle Manager?
 // used by all items and weapons that can go first person in order to transition into their first person modes?
@@ -11,15 +12,12 @@ extern GM_Camera GM_Camera_800B77E8;
 extern int                GM_PlayerStatus_800ABA50;
 extern int                dword_8009F46C;
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
     if (GM_Camera_800B77E8.field_22 != 0)
     {
-        if (gGameState_800B4D98[GM_CurrentWeapon] == WEAPON_STINGER ||
-            gGameState_800B4D98[GM_CurrentWeapon] == WEAPON_PSG1 || dword_8009F46C == 1 ||
+        if (GM_CurrentWeaponId == WEAPON_STINGER ||
+            GM_CurrentWeaponId == WEAPON_PSG1 || dword_8009F46C == 1 ||
             (GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
         {
             pActor->field_24 = 0;

@@ -6,6 +6,7 @@
 #include "Menu/menuman.h"
 #include "unknown.h"
 #include "psyq.h"
+#include "Game/linkvarbuf.h"
 
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
@@ -52,9 +53,6 @@ int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameH
     return 1;
 }
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void GM_StartDaemon_8002B77C()
 {
     gTotalFrameTime_800AB9E8 = 0;
@@ -73,7 +71,7 @@ void GM_StartDaemon_8002B77C()
     GM_Reset_8002ABF4(&GM_Daemon_800B5880);
     GM_ResetMemory_8002AA80();
     GM_CurrentPadData_800AB91C = &GV_PadData_800B05C0[0];
-    gGameState_800B4D98[GM_CurrentDisc] = gDiskNum_800ACBF0 + 1;
+    GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
     GV_SaveResidentTop_800163C4();
     GM_Daemon_800B5880.field_20 = 0;
     GM_Daemon_800B5880.field_24 = 0;

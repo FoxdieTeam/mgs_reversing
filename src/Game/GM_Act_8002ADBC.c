@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "Game/game.h"
+#include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "map/map.h"
 #include "psyq.h"
@@ -60,9 +60,6 @@ extern int        gSaveCache_800B5294;
 extern const char aLoadS_0[];
 extern int        GV_PauseLevel_800AB928;
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 {
     int load_request;
@@ -72,14 +69,14 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 
     if (mts_get_pad_vibration_type_8008C4BC(1) == 1)
     {
-        gGameState_800B4D98[GM_Flags] &= ~0x400;
+        GM_GameStatusFlag &= ~0x400;
     }
     else
     {
-        gGameState_800B4D98[GM_Flags] |= 0x400;
+        GM_GameStatusFlag |= 0x400;
     }
 
-    if ((gGameState_800B4D98[GM_Flags] & (0x2000 | 0x400)) == 0)
+    if ((GM_GameStatusFlag & (0x2000 | 0x400)) == 0)
     {
         int vibration2;
         if (GM_PadVibration_800ABA3C != 0)
@@ -123,8 +120,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         int minutes;
         gTotalFrameTime_800AB9E8 += GV_PassageTime_800AB924;
         minutes = gTotalFrameTime_800AB9E8 / 60;
-        gGameState_800B4D98[GM_PlaytimeHours] = minutes / 3600;
-        gGameState_800B4D98[GM_PlaytimeSeconds] = minutes % 3600;
+        GM_TotalHours = minutes / 3600;
+        GM_TotalSeconds = minutes % 3600;
     }
 
     unk_f20 = pActor->field_20;

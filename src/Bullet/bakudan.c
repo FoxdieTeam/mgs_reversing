@@ -6,6 +6,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "chara/snake/sna_init.h"
+#include "game/linkvarbuf.h"
 
 // c4 (armed)
 
@@ -28,7 +29,6 @@ extern int GV_Time_800AB330;
 extern int GM_CurrentMap_800AB9B0;
 extern int dword_800ABA0C;
 
-extern short          gGameState_800B4D98[0x60];
 extern unsigned short GM_ItemTypes_8009D598[];
 
 extern SVECTOR svector_800ABA10;
@@ -84,7 +84,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
         (GM_CurrentMap_800AB9B0 & dword_800ABA0C) &&
         !(GM_GameStatus_800AB3CC & 0x10000000) &&
         !(GM_PlayerStatus_800ABA50 & 0x20000000) &&
-        !(GM_ItemTypes_8009D598[gGameState_800B4D98[GM_CurrentItem] + 1] & 2)) ||
+        !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
     {
         pActor->field_108 = 1;

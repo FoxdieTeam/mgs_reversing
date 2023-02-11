@@ -3,6 +3,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "linker.h"
 #include "map/map.h"
@@ -20,7 +21,6 @@ extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 extern int   dword_8009F2C0;
 extern int   GM_CurrentMap_800AB9B0;
-extern short gGameState_800B4D98[0x60];
 
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -61,9 +61,9 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
     }
 
     // Snake, smoking is bad for your health!
-    if (!(GV_Time_800AB330 & 63) && gGameState_800B4D98[GM_CurrentHealth] >= 2)
+    if (!(GV_Time_800AB330 & 63) && GM_SnakeCurrentHealth >= 2)
     {
-        gGameState_800B4D98[GM_CurrentHealth]--;
+        GM_SnakeCurrentHealth--;
         GM_GameStatus_800AB3CC |= 0x2000000u;
     }
 }

@@ -1,12 +1,7 @@
 #include "gcl.h"
+#include "Game/linkvarbuf.h"
 
 extern GCL_Vars gGcl_vars_800B3CC8;
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
 {
@@ -18,7 +13,7 @@ unsigned char *GCL_SetVar_8002171C(unsigned char *pScript, unsigned int value)
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
-        ptr = (char *)gGameState_800B4D98;
+        ptr = (char *)linkvarbuf;
     }
     else
     {

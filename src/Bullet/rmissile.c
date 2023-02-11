@@ -1,5 +1,6 @@
 #include "Equip/Takabe.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
@@ -7,6 +8,7 @@
 #include "blast.h"
 #include "psyq.h"
 #include "rmissile.h"
+#include "Map/map.h"
 
 // nikita missile
 
@@ -16,9 +18,6 @@ extern int             GM_event_camera_flag_800ABA9C;
 extern GM_Camera       GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern CAMERA          GM_CameraList_800B7718[8];
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
 {
@@ -479,7 +478,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         }
     }
 
-    if (gGameState_800B4D98[GM_CurrentWeapon] != 3)
+    if (GM_CurrentWeaponId != 3)
     {
         if (!pActor->field_112)
         {
@@ -487,7 +486,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
             ReadRotMatrix_80092DD8(&rotation);
 
-            if (GM_GameStatus_800AB3CC & 0xd0000000 || !gGameState_800B4D98[GM_CurrentHealth] || GM_GameOverTimer_800AB3D4)
+            if (GM_GameStatus_800AB3CC & 0xd0000000 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
                 pBlastData = &blast_data_8009F544;
             }
