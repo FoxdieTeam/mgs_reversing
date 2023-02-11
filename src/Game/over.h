@@ -1,7 +1,6 @@
 #ifndef _OVER_H_
 #define _OVER_H_
 
-#include "gamestate.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "linker.h"

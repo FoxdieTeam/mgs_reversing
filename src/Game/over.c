@@ -1,9 +1,9 @@
 #include "over.h"
 #include "unknown.h"
+#include "Game/linkvarbuf.h"
 
 extern const char aInit_0[];
 extern const char aTitle[];
-extern short      gGameState_800B4D98[ 0x60 ];
 
 extern int        GM_GameOverTimer_800AB3D4;
 extern int        GM_LoadRequest_800AB3D0;
@@ -237,13 +237,13 @@ void over_kill_80037514( Actor_Over *pActor )
         GM_ContinueStart_8002B62C();
         return;
     }
-    if ( ( gGameState_800B4D98[ GM_Flags ] & 0x20 ) || ( gGameState_800B4D98[ GM_Difficulty ] == -1 ) )
+    if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == -1 ) )
     {
         GV_ResidentHeapReset_800163B0();
         GV_InitCacheSystem_80015458();
         DG_ClearResidentTexture_8001DB10();
         stage_name = (char *)aInit_0;
-        gGameState_800B4D98[ GM_Flags ] &= 0xFFDF;
+        GM_GameStatusFlag &= 0xFFDF;
     }
     else
     {

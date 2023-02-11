@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "game.h"
 #include "libgcl/gcl.h"
+#include "Game/linkvarbuf.h"
 
 // force GP
 extern int GM_LoadRequest_800AB3D0;
@@ -14,19 +15,16 @@ int        SECTION(".sdata") GM_GameOverTimer_800AB3D4;
 extern int GM_GameStatus_800AB3CC;
 int        SECTION(".sbss") GM_GameStatus_800AB3CC;
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void GM_ContinueStart_8002B62C(void)
 {
     int total_continues; // $s2
     int current_stage;   // $s1
 
     GM_CallSystemCallbackProc_8002B570(1, 0);
-    total_continues = gGameState_800B4D98[GM_ContinueCount];
-    current_stage = gGameState_800B4D98[GM_CurrentStage];
+    total_continues = GM_TotalContinues;
+    current_stage = GM_CurrentStageFlag;
     GCL_RestoreVar_80021488();
-    if (gGameState_800B4D98[GM_CurrentStage] != current_stage)
+    if (GM_CurrentStageFlag != current_stage)
     {
         GM_LoadRequest_800AB3D0 = 1;
     }
@@ -35,13 +33,13 @@ void GM_ContinueStart_8002B62C(void)
         sub_8002B600(-1);
     }
 
-    gGameState_800B4D98[GM_ContinueCount] = total_continues + 1;
+    GM_TotalContinues = total_continues + 1;
 
     // Set the bomb to no less than 10 seconds to prevent instant death
     // note: casting needed to produce sltiu and lhu vs lh
-    if ((unsigned int)(unsigned short)gGameState_800B4D98[GM_ItemTimerB] - 1 < 9)
+    if ((unsigned int)(unsigned short)GM_TimerBombFlag - 1 < 9)
     {
-        gGameState_800B4D98[GM_ItemTimerB] = 10;
+        GM_TimerBombFlag = 10;
     }
 }
 

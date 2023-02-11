@@ -3,6 +3,7 @@
 #include "Game/target.h"
 #include "Game/object.h"
 #include "Bullet/jirai.h"
+#include "Game/linkvarbuf.h"
 
 // claymore (in hands)
 
@@ -15,8 +16,6 @@ extern int        GM_CurrentMap_800AB9B0;
 extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
 extern GM_Target *GM_BombSeg_800ABBD8;
-
-extern short      gGameState_800B4D98[0x60];
 
 void mine_act_80067558(Actor_Mine *pActor)
 {
@@ -40,7 +39,7 @@ void mine_act_80067558(Actor_Mine *pActor)
     }
     obj = &pActor->field_24_pObj->objs->objs[pActor->field_4C_unit];
 
-    weapon_state = *GM_WeaponClaymore;
+    weapon_state = GM_GetWeapon(WEAPON_CLAYMORE);
     weap_flags = *pActor->field_50_pFlags;
 
     if ((weap_flags & 1) != 0
@@ -50,7 +49,7 @@ void mine_act_80067558(Actor_Mine *pActor)
       && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
     {
         GM_SeSet_80032858(&pActor->field_20_pCtrl->field_0_position, 49);
-        *GM_WeaponClaymore = --weapon_state;
+        GM_GetWeapon(WEAPON_CLAYMORE) = --weapon_state;
 
         pActor->field_54_counter = 21;
         DG_InvisibleObjs(pActor->field_28_obj.objs);

@@ -6,6 +6,7 @@
 #include "Game/object.h"
 #include "Kojo/demothrd.h"
 #include "Game/game.h"
+#include "Game/linkvarbuf.h"
 #include "unknown.h"
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
@@ -64,9 +65,6 @@ int        SECTION(".sbss") dword_800ABBB0;
 
 extern GM_Target *GM_BombSeg_800ABBD8; // probably wrong type?
 GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
@@ -184,7 +182,7 @@ unsigned int sna_init_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
 {
     unsigned int result = 0;
 
-    if (gGameState_800B4D98[95] != 0)
+    if (GM_UnkFlagBE != 0)
     {
         result = (((unsigned int)snake->field_898_flags2 & param_2) != result);
     }
@@ -194,7 +192,7 @@ unsigned int sna_init_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
 
 void sna_init_check_dead_8004E384(Actor_SnaInit *snake)
 {
-    if ((gGameState_800B4D98[GM_CurrentHealth] == 0) || (GM_GameOverTimer_800AB3D4 != 0))
+    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0))
     {
         snake->field_20_ctrl.field_55_flags |= CONTROL_FLAG_UNK2;
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
@@ -534,7 +532,7 @@ void sub_8004EB74(Actor_SnaInit *pActor)
     pActor->field_A56 = 0;
     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON);
 
-    if (gGameState_800B4D98[95] == 0)
+    if (GM_UnkFlagBE == 0)
     {
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
     }
@@ -772,7 +770,7 @@ void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
 void sub_8004F14C(Actor_SnaInit *param_1)
 {
     param_1->field_91C_weapon_idx = WEAPON_NONE;
-    gGameState_800B4D98[GM_CurrentWeapon] = WEAPON_NONE;
+    GM_CurrentWeaponId = WEAPON_NONE;
 
     if (param_1->field_908_weapon_actor != 0)
     {
@@ -810,7 +808,7 @@ void sub_8004F204(Actor_SnaInit *param_1)
 
     param_1->field_9A4_item_actor = 0;
     param_1->field_9A8_current_item = ITEM_NONE;
-    gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
+    GM_CurrentItemId= ITEM_NONE;
     param_1->field_9AC = GM_ItemTypes_8009D598[0];
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
@@ -974,31 +972,31 @@ static inline int sna_init_helper_8004F6E8(int health, int item)
     if ((health == 0) &&
         (GM_GameOverTimer_800AB3D4 == 0) &&
         (item == ITEM_RATION) &&
-        (gGameState_800B4D98[GM_ItemRation] > 0) &&
-        !gGameState_800B4D98[GM_FrozenItems])
+        (GM_GetItem(ITEM_RATION) > 0) &&
+        !GM_FrozenItemsState)
     {
-        temp = (gGameState_800B4D98[GM_Difficulty] > 0) ? 256 : 384;
+        temp = (GM_DifficultyFlag > 0) ? 256 : 384;
 
-        if (gGameState_800B4D98[GM_Difficulty] < 0)
+        if (GM_DifficultyFlag < 0)
         {
-            temp = gGameState_800B4D98[GM_MaxHealth];
+            temp = GM_SnakeMaxHealth;
         }
 
         health = temp;
 
-        if (health > gGameState_800B4D98[GM_MaxHealth])
+        if (health > GM_SnakeMaxHealth)
         {
-            health = gGameState_800B4D98[GM_MaxHealth];
+            health = GM_SnakeMaxHealth;
         }
 
-        gGameState_800B4D98[GM_ItemRation] -= 1;
+        GM_GetItem(ITEM_RATION) -= 1;
             
-        if (gGameState_800B4D98[GM_ItemRation] == 0)
+        if (GM_GetItem(ITEM_RATION) == 0)
         {
-            gGameState_800B4D98[GM_CurrentItem] = ITEM_NONE;
+            GM_CurrentItemId = ITEM_NONE;
         }
 
-        gGameState_800B4D98[GM_RationCount] += 1;
+        GM_TotalRationsUsed += 1;
         GM_Sound_80032968(0, 63, 12);
     }
 
@@ -1015,7 +1013,7 @@ void sna_init_8004F6E8(Actor_SnaInit *pActor)
     }
 
     if (sna_init_check_flags1_8004E31C(pActor,SNA_FLAG1_UNK25) &&
-        (gGameState_800B4D98[GM_CurrentHealth] == pActor->field_89C_pTarget->field_26_hp))
+        (GM_SnakeCurrentHealth == pActor->field_89C_pTarget->field_26_hp))
     {
         return;
     }
@@ -1027,11 +1025,11 @@ void sna_init_8004F6E8(Actor_SnaInit *pActor)
         pActor->field_89C_pTarget->field_28 = 0;
     }
     
-    health = pActor->field_89C_pTarget->field_26_hp + gGameState_800B4D98[GM_CurrentHealth] - pActor->field_A22_snake_current_health;
+    health = pActor->field_89C_pTarget->field_26_hp + GM_SnakeCurrentHealth - pActor->field_A22_snake_current_health;
     
-    if (health > gGameState_800B4D98[GM_MaxHealth])
+    if (health > GM_SnakeMaxHealth)
     {
-        health = gGameState_800B4D98[GM_MaxHealth];
+        health = GM_SnakeMaxHealth;
     }
 
     if (health < 0)
@@ -1050,7 +1048,7 @@ void sna_init_8004F6E8(Actor_SnaInit *pActor)
     
     pActor->field_89C_pTarget->field_26_hp = health;
     pActor->field_A22_snake_current_health = health;
-    gGameState_800B4D98[GM_CurrentHealth] = health;
+    GM_SnakeCurrentHealth = health;
     
     sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK25);
 }
@@ -1093,7 +1091,7 @@ void sna_init_8004F8E4(Actor_SnaInit *pActor, int a2)
 
 int sna_act_unk_helper4_8004FA3C(void)
 {
-    if (gGameState_800B4D98[GM_CurrentHealth] == 0 || GM_GameOverTimer_800AB3D4 != 0)
+    if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer_800AB3D4 != 0)
     {
         return 1;
     }
@@ -1133,8 +1131,8 @@ int sna_init_current_item_8004FB38(void)
 int sna_init_ration_available_8004FB4C(void)
 {
     if ((sna_init_800ABBA0->field_9A8_current_item == ITEM_RATION) &&
-        (*GM_GetItemRation > 0) &&
-        (*GM_GetFrozenItems == 0))
+        (GM_GetItem(ITEM_RATION) > 0) &&
+        (GM_FrozenItemsState == 0))
     {
         return 1;
     }
@@ -1174,7 +1172,7 @@ void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
     unsigned int   v2; // $v1
     unsigned int   v3; // $v0
 
-    if ((gGameState_800B4D98[GM_Flags] & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0)
+    if ((GM_GameStatusFlag & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0)
     {
         old = *pInput;
 
@@ -1197,7 +1195,7 @@ void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
 
 void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 {
-    if ((gGameState_800B4D98[GM_Flags] & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0)
+    if ((GM_GameStatusFlag & 0x1000) != 0 && (GM_GameStatus_800AB3CC & 0x40000000) == 0)
     {
         *pInput = ~*pInput;
     }
@@ -1289,7 +1287,7 @@ int sna_init_act_helper2_helper5_8004FF88(Actor_SnaInit *pActor)
     {
         if (!GM_CheckPlayerStatusFlag_8004E29C(0x20001304) &&
             !sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK9) &&
-            (*GM_GetCurrentHealth != 0) &&
+            (GM_SnakeCurrentHealth != 0) &&
             (GM_GameOverTimer_800AB3D4 == 0) &&
             (GM_StreamStatus_80037CD8() == -1) &&
             (pActor->field_9C_obj.field_10 == 0))
@@ -1464,7 +1462,7 @@ void sna_init_80050440(Actor_SnaInit *pActor)
     Actor_SnaInit *pActor2;
     int a;
     
-    if ((GM_GameOverTimer_800AB3D4 == 0) && (*GM_GetCurrentHealth != 0))
+    if ((GM_GameOverTimer_800AB3D4 == 0) && (GM_SnakeCurrentHealth != 0))
     {
         pCtrl = &pActor->field_20_ctrl;
         pArr = pCtrl->field_10_pStruct_hzd_unknown.field_8_array;
@@ -1649,7 +1647,7 @@ void sna_init_act_helper3_80050878(Actor_SnaInit *pActor)
     unsigned short id;
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK80000) &&
-        (*GM_GetCurrentHealth != 0) &&
+        (GM_SnakeCurrentHealth != 0) &&
         (GM_GameOverTimer_800AB3D4 == 0) &&
         !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4))
     {
@@ -2294,7 +2292,7 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int time)
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
     {
-        if (gGameState_800B4D98[95] == 0)
+        if (GM_UnkFlagBE == 0)
         {
             sna_init_8004EC00(pActor);
         }
@@ -2314,7 +2312,7 @@ void sna_init_fn_80052120(Actor_SnaInit *pActor, int time)
 
         if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
         {
-            if (gGameState_800B4D98[95] == 0)
+            if (GM_UnkFlagBE == 0)
             {
                 sna_init_8004EC00(pActor);
             }
@@ -2461,7 +2459,7 @@ void sna_init_fn_80052540(Actor_SnaInit *pActor)
 {
     if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
     {
-        if (gGameState_800B4D98[95] == 0)
+        if (GM_UnkFlagBE == 0)
         {
             sna_init_8004EC00(pActor);
         }
@@ -2494,7 +2492,7 @@ void sna_init_fn_800525F8(Actor_SnaInit *pActor)
 
     if (!(pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE))
     {
-        if (!gGameState_800B4D98[95])
+        if (!GM_UnkFlagBE)
         {
             sna_init_8004EC00(pActor);
         }
@@ -2521,7 +2519,7 @@ void sna_init_act_helper2_helper_helper_800526BC(Actor_SnaInit *pActor)
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH |
                                               PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK | PLAYER_STATUS_FIRST_PERSON);
         }
-        else if (!gGameState_800B4D98[95])
+        else if (!GM_UnkFlagBE)
         {
             sna_init_8004EC00(pActor);
         }
@@ -4162,7 +4160,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
                     sub_8004F14C(pActor);
                 }
             }
-            else if (pActor->field_91C_weapon_idx != -1 && gGameState_800B4D98[GM_CurrentWeapon] == WEAPON_NONE)
+            else if (pActor->field_91C_weapon_idx != -1 && GM_CurrentWeaponId == WEAPON_NONE)
             {
                 sub_8004F14C(pActor);
             }
@@ -4291,7 +4289,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
                 {
                     if (fa38 >= 0)
                     {
-                        gGameState_800B4D98[GM_CurrentItem] = fa38;
+                        GM_CurrentItemId = fa38;
 
                         if ((unsigned int)(fa38 - 2) < 3)
                         {
@@ -4300,7 +4298,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
                     }
                     if (fa3a >= 0)
                     {
-                        gGameState_800B4D98[GM_CurrentWeapon] = fa3a;
+                        GM_CurrentWeaponId = fa3a;
                         GM_WeaponChanged_800AB9D8 = 1;
 
                         if (fa3a == WEAPON_PSG1)
@@ -4433,7 +4431,7 @@ void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 
             if (item >= 0)
             {
-                *GM_GetCurrentItem = item;
+                GM_CurrentItemId = item;
 
                 if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
                 {
@@ -4443,7 +4441,7 @@ void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 
             if (weapon >= 0)
             {
-                *GM_GetCurrentWeapon2 = weapon;
+                GM_CurrentWeaponId = weapon;
                 GM_WeaponChanged_800AB9D8 = 1;
     
                 if (weapon == WEAPON_PSG1)
@@ -5020,7 +5018,7 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
 
 extern short d_800AB9EC_mag_size;
 extern short d_800ABA2C_ammo;
-
+#include "Game/linkvarbuf.h"
 void sna_init_80057A90(Actor_SnaInit *pActor, int time)
 {
     int bits;
@@ -5042,7 +5040,7 @@ void sna_init_80057A90(Actor_SnaInit *pActor, int time)
         sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_10->field_1, 4, bits);
 
         ammo = d_800ABA2C_ammo;
-        magSize = *GM_GetWeapon(pActor->field_91C_weapon_idx);
+        magSize = GM_GetWeapon(pActor->field_91C_weapon_idx);
         
         if (ammo > 0 && ammo < magSize)
         {
@@ -5554,7 +5552,7 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 
     if ((pActor->field_898_flags2 & 0x1000) != 0)
     {
-        gGameState_800B4D98[95] = 1;
+        GM_UnkFlagBE = 1;
     }
 
     pCtrl = &pActor->field_20_ctrl;
@@ -5569,7 +5567,7 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
         DG_FreePrim_8001BC04(pObjs);
     }
 
-    gGameState_800B4D98[GM_Stance] = pActor->field_A26_fn_stance_idx;
+    GM_SnakeStance = pActor->field_A26_fn_stance_idx;
 
     pShadow = pActor->field_888_pShadow;
     if (pShadow)

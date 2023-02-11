@@ -2,6 +2,7 @@
 #include "psyq.h"
 #include "Game/camera.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
@@ -42,7 +43,6 @@ extern int   dword_800BDCC8;
 extern int   dword_800BDCCC;
 extern int   dword_800BDCD0;
 extern int   DG_UnDrawFrameCount_800AB380;
-extern short gGameState_800B4D98[];
 
 extern menu_save_mode_data stru_8009F2D8;
 extern const char aZoom4d[];
@@ -271,7 +271,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
         GV_PauseLevel_800AB928 &= ~0x1;
         DG_8001844C();
         pActor->field_64_state = 0;
-        pActor->field_90_pSight = NewSight_80071CDC(0xb3cd, 0xeee9, GM_GetCurrentItem, 12, 0);
+        pActor->field_90_pSight = NewSight_80071CDC(0xb3cd, 0xeee9, &GM_CurrentItemId, 12, 0);
     }
 }
 
@@ -354,8 +354,8 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
                 jpegcam_act_helper2_80064588(pActor);
                 if (dword_8009F604 != 61161)
                 {
-                    NewSight_80071CDC(61161, 61161, &gGameState_800B4D98[15], 12, 0);
-                    pActor->field_90_pSight = NewSight_80071CDC(46029, 61161, &gGameState_800B4D98[15], 12, 0);
+                    NewSight_80071CDC(61161, 61161, &GM_CurrentItemId, 12, 0);
+                    pActor->field_90_pSight = NewSight_80071CDC(46029, 61161, &GM_CurrentItemId, 12, 0);
                     GM_Sound_80032968(0, 63, 0x15u);
                 }
                 if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)

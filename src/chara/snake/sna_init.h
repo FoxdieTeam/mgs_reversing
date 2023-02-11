@@ -200,16 +200,6 @@ typedef enum
     SNA_FLAG2_UNK32 = 0x80000000,
 } SnaFlag2;
 
-enum
-{
-    // ... negative ones too?
-    SNA_STANCE_STANDING = 0,
-    SNA_STANCE_CROUCH = 1,
-    SNA_STANCE_GROUND = 2, // prone + knocked down
-    SNA_STANCE_UNK = 3, // first person prone?
-    // ... more?
-};
-
 // Consumed by sub_8004FCB8().
 typedef struct UnkSnakeStruct
 {

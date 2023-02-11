@@ -1,6 +1,7 @@
 #include "item.h"
 #include "object.h"
 #include "game.h"
+#include "Game/linkvarbuf.h"
 
 extern const char aItemC[];
 extern const char aItemMapD[];
@@ -9,22 +10,19 @@ extern const char aItemMapD[];
 #pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s")                     // 264 bytes
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void item_all_items_and_weapons_unknown2_80033500()
 {
     int    i;
     short *ptr;
 
-    ptr = &gGameState_800B4D98[GM_ItemBase];
-    for (i = 0; i < GAMESTATE_ITEM_STATES; i++)
+    ptr = &GM_FirstItem;
+    for (i = 0; i < GM_TotalItems; i++)
     {
         ptr[i] |= 0x8000;
     }
 
-    ptr = &gGameState_800B4D98[GM_WeaponBase];
-    for (i = 0; i < GAMESTATE_WEAPON_STATES; i++)
+    ptr = &GM_FirstWeapon;
+    for (i = 0; i < GM_TotalWeapons; i++)
     {
         ptr[i] |= 0x8000;
     }
@@ -35,8 +33,8 @@ void item_all_items_and_weapons_unknown_80033560()
     int    i;
     short *ptr;
 
-    ptr = &gGameState_800B4D98[GM_ItemBase];
-    for (i = 0; i < GAMESTATE_ITEM_STATES; i++)
+    ptr = &GM_FirstItem;
+    for (i = 0; i < GM_TotalItems; i++)
     {
         if (ptr[i] != -1)
         {
@@ -44,8 +42,8 @@ void item_all_items_and_weapons_unknown_80033560()
         }
     }
 
-    ptr = &gGameState_800B4D98[GM_WeaponBase];
-    for (i = 0; i < GAMESTATE_WEAPON_STATES; i++)
+    ptr = &GM_FirstWeapon;
+    for (i = 0; i < GM_TotalWeapons; i++)
     {
         if (ptr[i] != -1)
         {

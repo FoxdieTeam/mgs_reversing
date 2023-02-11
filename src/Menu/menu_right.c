@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "menuman.h"
 #include "Game/game.h"
+#include "Game/linkvarbuf.h"
 #include "libgcl/gcl.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
@@ -565,13 +566,10 @@ void menu_right_unknown_8003DEB0(void)
     sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
 }
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if ((weaponIdx == eSOCOM) && !gGameState_800B4D98[GM_ItemSilencer])
+    if ((weaponIdx == eSOCOM) && !GM_SilencerFlag)
     {
         rpkIdx = 2;
     }

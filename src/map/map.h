@@ -21,6 +21,13 @@ typedef struct map_record
     int               field_10_zone_id;
 } map_record;
 
+#define MAX_HISTORY 8
+
+typedef struct AreaHistory
+{
+    short history[MAX_HISTORY];
+} AreaHistory;
+
 map_record *Map_FindByNum_80031504(int mapNameHash);
 int         Map_MarkUsed_80031324(int mapName);
 void        Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap);

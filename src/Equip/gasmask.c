@@ -3,6 +3,7 @@
 #include "map/map.h"
 #include "unknown.h"
 #include "Game/camera.h"
+#include "Game/linkvarbuf.h"
 
 extern const char aGasmaskC[];
 extern const char aGasMask_DUP[];
@@ -10,11 +11,12 @@ extern const char aGasMask_DUP[];
 extern int       DG_CurrentGroupID_800AB968;
 extern int       dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
-extern short     gGameState_800B4D98[0x60];
 
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {
-    int map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
+    int map;
+    
+    map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
     GM_CurrentMap_800AB9B0 = map;
     if (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
@@ -27,8 +29,8 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
     }
 
     if (GM_Camera_800B77E8.field_22 && (pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0 &&
-        gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_STINGER &&
-        gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_PSG1 && dword_8009F46C != 1)
+        GM_CurrentWeaponId != WEAPON_STINGER &&
+        GM_CurrentWeaponId != WEAPON_PSG1 && dword_8009F46C != 1)
     {
         pActor->field_50_count++;
         if (pActor->field_50_count >= 9 && !pActor->field_54_gmsight)

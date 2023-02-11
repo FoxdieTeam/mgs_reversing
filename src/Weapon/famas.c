@@ -3,6 +3,7 @@
 #include "Game/object.h"
 #include "map/map.h"
 #include "unknown.h"
+#include "Game/linkvarbuf.h"
 
 extern char aFamas[];  // = "famas"
 extern char aMpfive[]; // = "mpfive"
@@ -13,9 +14,6 @@ extern short     d_800ABA2C_ammo;
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GV_Clock_800AB920;
 extern SVECTOR   stru_800AB850;
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 void famas_act_80065E90(Actor_Famas *pActor)
 {
@@ -94,7 +92,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     }
 
                     bullet_init_80076584(pMtx, f54, v9, v10);
-                    *GM_WeaponFamas -= 1;
+                    --GM_GetWeapon(WEAPON_FAMAS);
 
                     GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 48);
                     field_44_pCtrl = pActor->field_44_pCtrl;
@@ -189,7 +187,7 @@ Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_paren
 
     if (flag == 0)
     {
-        int temp = *GM_WeaponFamas;
+        int temp = GM_GetWeapon(WEAPON_FAMAS);
 
         if ((v11 > 0) && (v11 < temp))
         {
@@ -211,5 +209,5 @@ Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_paren
 
 Actor_Famas *famas_create_80066374(GM_Control* a1, OBJECT *a2, int num_parent, int* a4)
 {
-    return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)gGameState_800B4D98[GM_Difficulty] >> 31);
+    return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)GM_DifficultyFlag >> 31);
 }

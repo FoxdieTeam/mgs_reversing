@@ -42,7 +42,7 @@
 #include "Game/camera.h"
 #include "Game/delay.h"
 #include "Game/game.h"
-#include "Game/gamestate.h"
+#include "Game/linkvarbuf.h"
 #include "Game/homing_target.h"
 #include "Game/item.h"
 #include "Game/jimctrl.h"

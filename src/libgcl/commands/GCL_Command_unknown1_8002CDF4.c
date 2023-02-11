@@ -2,6 +2,7 @@
 #include "linker.h"
 #include "map/map.h"
 #include "Game/GM_Control.h"
+#include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
@@ -15,9 +16,6 @@ extern SVECTOR svector_8009F478;
 extern SVECTOR GM_PhotoViewPos_800ABA48;
 // extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
     SVECTOR     vec;
@@ -28,21 +26,21 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('v')) // vector
     {
         GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
-        gGameState_800B4D98[GM_LastResult] = DG_PointCheckOne_8001C18C((DVECTOR *)&vec);
+        GM_LastResultFlag = DG_PointCheckOne_8001C18C((DVECTOR *)&vec);
     }
-    if (GCL_GetParam_80020968('s')) // struct
+    if (GCL_GetParam_80020968('s'))
     {
         unkStruct = gSnaControl_800AB9F4;
-        gGameState_800B4D98[GM_CurrentPosX] = unkStruct->field_0_position.vx;
-        gGameState_800B4D98[GM_CurrentPosY] = unkStruct->field_0_position.vy;
-        gGameState_800B4D98[GM_CurrentPosZ] = unkStruct->field_0_position.vz;
-        gGameState_800B4D98[GM_LastResult] = unkStruct->field_8_rotator.vy;
+        GM_SnakePosX = unkStruct->field_0_position.vx;
+        GM_SnakePosY = unkStruct->field_0_position.vy;
+        GM_SnakePosZ = unkStruct->field_0_position.vz;
+        GM_LastResultFlag = unkStruct->field_8_rotator.vy;
     }
-    if (GCL_GetParam_80020968('a')) // area?
+    if (GCL_GetParam_80020968('a')) // area
     {
-        gGameState_800B4D98[GM_LastResult] = GM_AreaHistory_8002A848(GCL_GetNextParamValue_80020AD4());
+        GM_LastResultFlag = GM_AreaHistory_8002A848(GCL_GetNextParamValue_80020AD4());
     }
-    if (GCL_GetParam_80020968('p')) // photo (used for ghosts)
+    if (GCL_GetParam_80020968('p')) // photo (used for ghosts easter egg)
     {
         param = GCL_GetNextParamValue_80020AD4();
         GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &GM_PhotoViewPos_800ABA48);
@@ -57,23 +55,23 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
         map = Map_FindByNum_80031504(GCL_GetNextParamValue_80020AD4());
         if (map && map->field_6_bUsed)
         {
-            gGameState_800B4D98[GM_LastResult] = 1;
+            GM_LastResultFlag = 1;
         }
         else
         {
-            gGameState_800B4D98[GM_LastResult] = 0;
+            GM_LastResultFlag = 0;
         }
     }
     if (GCL_GetParam_80020968('c'))
     {
-        gGameState_800B4D98[GM_LastResult] = GM_StreamStatus_80037CD8();
+        GM_LastResultFlag = GM_StreamStatus_80037CD8();
     }
     if (GCL_GetParam_80020968('n'))
     {
-        gGameState_800B4D98[GM_LastResult] = dword_8009F46C;
-        gGameState_800B4D98[GM_CurrentPosX] = svector_8009F478.vx;
-        gGameState_800B4D98[GM_CurrentPosY] = svector_8009F478.vy;
-        gGameState_800B4D98[GM_CurrentPosZ] = svector_8009F478.vz;
+        GM_LastResultFlag = dword_8009F46C;
+        GM_SnakePosX = svector_8009F478.vx;
+        GM_SnakePosY = svector_8009F478.vy;
+        GM_SnakePosZ = svector_8009F478.vz;
     }
     return 0;
 }

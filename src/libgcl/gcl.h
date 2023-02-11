@@ -1,8 +1,8 @@
 #ifndef GCL_H
 #define GCL_H
 
-#include "Game/gamestate.h"
 #include "Menu/menuman.h"
+#include "Map/map.h"
 
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct Actor;

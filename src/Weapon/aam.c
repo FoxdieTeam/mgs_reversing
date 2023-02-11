@@ -1,10 +1,10 @@
 #include "aam.h"
 #include "Bullet/amissile.h"
 #include "Game/camera.h"
-#include "Game/gamestate.h"
 #include "Game/object.h"
 #include "Game/target.h"
 #include "Game/vibrate.h"
+#include "Game/linkvarbuf.h"
 
 // stinger
 
@@ -31,9 +31,6 @@ SVECTOR svector_800AB8A4;
 
 extern char byte_8009F40C[];
 extern char byte_8009F414[];
-
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 void aam_act_800670CC(Actor_Aam *actor)
 {
@@ -82,7 +79,7 @@ void aam_act_800670CC(Actor_Aam *actor)
     {
         actor->field_58 = 30;
 
-        sVar3 = *GM_WeaponStinger;
+        sVar3 = GM_GetWeapon(WEAPON_STINGER);
 
         if (sVar3 > 0)
         {
@@ -111,7 +108,7 @@ void aam_act_800670CC(Actor_Aam *actor)
 
             if (NewAMissile_8006DC50(&MStack88, actor->field_54))
             {
-                *GM_WeaponStinger = --sVar3;
+                GM_GetWeapon(WEAPON_STINGER) = --sVar3;
                 GM_SeSet_80032858(&actor->field_44_ctrl->field_0_position, 0x4c);
                 GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_position);
 

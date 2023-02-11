@@ -3,6 +3,7 @@
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"
+#include "Game/linkvarbuf.h"
 
 // PSG1
 
@@ -74,9 +75,6 @@ extern int       GM_CurrentMap_800AB9B0;
 extern short     d_800AB9EC_mag_size;
 extern SVECTOR   svector_800AB8D4;
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void rifle_act_80067D60(Actor_Rifle *pActor)
 {
     MATRIX mtx, mtx2;
@@ -102,7 +100,10 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
 
     temp_s2 = *pActor->field_50;
 
-    if ((GM_Camera_800B77E8.field_22 == 1) && !pActor->field_5c && (temp_s2 & 1) && (pActor->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
+    if ((GM_Camera_800B77E8.field_22 == 1) &&
+        !pActor->field_5c &&
+        (temp_s2 & 1) &&
+        (pActor->field_48_pParentObj->objs->flag & DG_FLAG_INVISIBLE))
     {
         pActor->field_5c = NewRifleSight_8006989C(1);
         sd_set_cli_800887EC(0x1FFFF20, 0);
@@ -164,7 +165,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
 
         d_800AB9EC_mag_size = --temp_s1;
-        *GM_WeaponPSG1 -= 1;
+        GM_GetWeapon(WEAPON_PSG1)--;
     }
 }
 
@@ -172,7 +173,7 @@ void rifle_kill_80068118(Actor_Rifle *rifle)
 {
     GM_FreeObject_80034BF8(&rifle->field_20_obj);
 
-    if (gGameState_800B4D98[GM_CurrentWeapon] != WEAPON_PSG1)
+    if (GM_CurrentWeaponId != WEAPON_PSG1)
     {
         GM_Camera_800B77E8.field_20 = 0x140;
     }
@@ -206,9 +207,10 @@ extern short d_800ABA2C_ammo;
 
 Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
 {
-    Actor_Rifle *pActor = (Actor_Rifle *)GV_NewActor_800150E4(6, sizeof(Actor_Rifle));
-    int ammo, magSize;
+    Actor_Rifle *pActor;
+    int         mag_size, ammo;
 
+    pActor = (Actor_Rifle *)GV_NewActor_800150E4(6, sizeof(Actor_Rifle));
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&rifle_act_80067D60,
@@ -228,16 +230,16 @@ Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numPa
         pActor->field_58 = 0;
     }
 
-    ammo = d_800AB9EC_mag_size ? 6 : 5;
-    magSize = *GM_WeaponPSG1;
+    mag_size = d_800AB9EC_mag_size ? 6 : 5;
+    ammo = GM_GetWeapon(WEAPON_PSG1);
 
-    if (ammo > 0 && ammo < magSize)
+    if (mag_size > 0 && mag_size < ammo)
     {
-        magSize = ammo;
+        ammo = mag_size;
     }
 
-    d_800ABA2C_ammo = ammo;
-    d_800AB9EC_mag_size = magSize;
+    d_800ABA2C_ammo = mag_size;
+    d_800AB9EC_mag_size = ammo;
 
     return pActor;
 }

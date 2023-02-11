@@ -1,6 +1,7 @@
 #include "bomb.h"
 #include "Bullet/bakudan.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
 #include "map/map.h"
 
 // c4 (in hands)
@@ -14,8 +15,6 @@ extern int        DG_CurrentGroupID_800AB968;
 extern GM_Target *GM_BombSeg_800ABBD8;
 extern int        GM_CurrentMap_800AB9B0;
 extern int        used_counter_8009F42C;
-
-extern short      gGameState_800B4D98[0x60];
 
 void bomb_act_8006788C( Actor_Bomb *actor )
 {
@@ -35,7 +34,7 @@ void bomb_act_8006788C( Actor_Bomb *actor )
         DG_VisibleObjs( actor->f28_obj.objs );
     }
 
-    ammo = *GM_WeaponC4;
+    ammo = GM_GetWeapon(WEAPON_C4);
     parent = actor->parent_obj->objs;
     world = &parent->objs[ actor->num_parent ].world;
 
@@ -52,7 +51,7 @@ void bomb_act_8006788C( Actor_Bomb *actor )
                 actor->f58,
                 GM_BombSeg_800ABBD8))
             {
-                *GM_WeaponC4 = --ammo;
+                GM_GetWeapon(WEAPON_C4) = --ammo;
                 GM_SeSet_80032858( &actor->field_20_pCtrl->field_0_position, 0x31 );
                 actor->f54 = 0x18;
                 DG_InvisibleObjs(  actor->f28_obj.objs );
@@ -61,7 +60,7 @@ void bomb_act_8006788C( Actor_Bomb *actor )
         }
         else if ( f50 & 4 )
         {
-            *GM_WeaponC4 = --ammo;
+            GM_GetWeapon(WEAPON_C4) = --ammo;
             actor->f54 = 0x18;
             DG_InvisibleObjs(  actor->f28_obj.objs );
         }

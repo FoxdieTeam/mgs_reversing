@@ -6,6 +6,7 @@
 #include "psyq.h"
 #include "Game/object.h"
 #include "Bullet/rmissile.h"
+#include "Game/linkvarbuf.h"
 
 // nikita
 
@@ -79,9 +80,6 @@ void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
     pPrim->line_g2.b0 = curRgb;
 }
 
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
-
 void rcm_act_80066BC0(Actor_Rcm *pActor)
 {
     int    mapBit;         // $a1
@@ -113,7 +111,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
     p_flags = *pActor->field_50_pUnknown;
     rcm_act_helper_80066B58(pActor, p_flags);
 
-    weapon_state_3 = *GM_WeaponNikita;
+    weapon_state_3 = GM_GetWeapon(WEAPON_NIKITA);
     if (!weapon_state_3 && (p_flags & 2))
     {
         GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
@@ -151,7 +149,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
             if (NewRMissile_8006D124(&mt1, pActor->field_54_whichSide))
             {
-                *GM_WeaponNikita = --weapon_state_3;
+                GM_GetWeapon(WEAPON_NIKITA) = --weapon_state_3;
                 GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 76);
                 GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
             }

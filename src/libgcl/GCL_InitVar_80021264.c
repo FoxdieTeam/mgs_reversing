@@ -1,20 +1,18 @@
 #include "gcl.h"
-#include "Game/gamestate.h"
 #include "psyq.h"
+#include "Game/linkvarbuf.h"
 
 extern GCL_Vars gGcl_vars_800B3CC8;
-extern short gGameState_800B4D98[0x60];
-extern short gGcl_gameStateVars_800B44C8[0x60];
 
 void GCL_InitVar_80021264()
 {
     int flags;
     int difficulty;
 
-    flags = gGameState_800B4D98[GM_Flags];
-    difficulty = gGameState_800B4D98[GM_Difficulty];
+    flags = GM_GameStatusFlag;
+    difficulty = GM_DifficultyFlag;
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
-    memset(gGameState_800B4D98, 0, 0xC0);
-    gGameState_800B4D98[GM_Difficulty] = difficulty;
-    gGameState_800B4D98[GM_Flags] = flags;
+    memset(linkvarbuf, 0, 0xC0);
+    GM_DifficultyFlag = difficulty;
+    GM_GameStatusFlag = flags;
 }
