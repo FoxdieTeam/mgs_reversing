@@ -22,7 +22,9 @@ typedef struct RadioMemory
     char  name[18];
 } RadioMemory;
 
-#define RADIO_MEMORY_COUNT 16
+#define RADIO_MEMORY_COUNT     16
+
+#define MENU_ITEMS_LEFT_COUNT  21
 #define MENU_ITEMS_RIGHT_COUNT 11
 
 typedef struct menu_chara_struct_sub

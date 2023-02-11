@@ -1,12 +1,11 @@
 #include "menuman.h"
 #include "linker.h"
 
-extern MenuMan_Inventory_14h_Unk dword_800BD5A0;
-// extern MenuMan_Inventory_14h_Unk stru_800BD4B0[6]; // TODO: Based on gItemInfos_8009E484 field_4 this could be up to 30?
-extern menu_weapon_rpk_info gMenuItemRpkInfo_8009E484[];
+extern MenuMan_Inventory_14h_Unk gMenuLeftItems_800BD5A0[];
+extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
 
-extern int dword_800ABAD0;
-int        SECTION(".sbss") dword_800ABAD0;
+extern int                       dword_800ABAD0;
+int SECTION(".sbss")             dword_800ABAD0;
 
 void menu_sub_8003B568(void)
 {
@@ -14,7 +13,7 @@ void menu_sub_8003B568(void)
     u_long palIdx;
     int   i;
 
-    for (i = 0; i < 0x15; i++)
+    for (i = 0; i < MENU_ITEMS_LEFT_COUNT; i++)
     {
         imgIdx = 0xc + i;
         palIdx = 0x2e;
@@ -26,15 +25,14 @@ void menu_sub_8003B568(void)
                 palIdx = 0x2f;
             }
         }
-        menu_init_rpk_item_8003DDCC(&dword_800BD5A0 + i, imgIdx, palIdx);
+        menu_init_rpk_item_8003DDCC(&gMenuLeftItems_800BD5A0[i], imgIdx, palIdx);
     }
 }
 
-#pragma INCLUDE_ASM("asm/menu_rpk_8003B5E0.s") // 52 bytes
-// MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx)
-// {
-//     return &stru_800BD4B0[gMenuItemRpkInfo_8009E484[idx].field_4_rpk_idx];
-// }
+MenuMan_Inventory_14h_Unk * menu_rpk_8003B5E0(int index)
+{
+    return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
+}
 
 #pragma INCLUDE_ASM("asm/menu_8003B614.s") // 188 bytes
 #pragma INCLUDE_ASM("asm/menu_inventory_Is_Item_Disabled_8003B6D0.s") // 196 bytes
