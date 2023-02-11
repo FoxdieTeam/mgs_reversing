@@ -70,7 +70,6 @@ void menu_init_radar_helper_8003ADAC(void)
 void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pOt)
 {
   int clipY;
-  unsigned int new_flags;
 
   if (pActor->field_1D8_healthBarDisplayCountdown)
   {
@@ -89,13 +88,12 @@ void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pO
       else
         if ((GM_GameStatus_800AB3CC & 0x100000) != 0)
       {
-        new_flags = GM_GameStatus_800AB3CC & (~0x400000u);
         GM_GameStatus_800AB3CC &= ~0x400000u;
         clipY = pActor->field_1D6_radarYOffsetFromDefault + 16;
         if (clipY >= 0)
         {
           clipY = 0;
-          GM_GameStatus_800AB3CC = new_flags & (~0x100000u);
+          GM_GameStatus_800AB3CC &= (~0x100000u);
         }
       }
       else
