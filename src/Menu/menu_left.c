@@ -1,8 +1,16 @@
+#include "Game/linkvarbuf.h"
 #include "menuman.h"
 #include "linker.h"
 
 extern MenuMan_Inventory_14h_Unk gMenuLeftItems_800BD5A0[];
 extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
+
+extern short                     GM_WeaponTypes_8009D580[];
+extern short                     GM_ItemTypes_8009D598[];
+extern int                       GM_PlayerStatus_800ABA50;
+extern int                       GM_DisableItem_800ABA28;
+
+extern int                       dword_8009F46C;
 
 extern int                       dword_800ABAD0;
 int SECTION(".sbss")             dword_800ABAD0;
@@ -34,8 +42,46 @@ MenuMan_Inventory_14h_Unk * menu_rpk_8003B5E0(int index)
     return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
 
+// https://decomp.me/scratch/txHAy
+// G0 function in a G8 file
 #pragma INCLUDE_ASM("asm/menu_8003B614.s") // 188 bytes
-#pragma INCLUDE_ASM("asm/menu_inventory_Is_Item_Disabled_8003B6D0.s") // 196 bytes
+
+int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
+{
+    int bit;
+    
+    if ((GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200) &&
+        (GM_ItemTypes_8009D598[item + 1] & 1))
+    {
+        return 1;
+    }
+
+    if (GM_PlayerStatus_800ABA50 & 0x42)
+    {
+        if ((item == ITEM_C_BOX_A) ||
+            (item == ITEM_C_BOX_B) ||
+            (item == ITEM_C_BOX_C))
+        {     
+            return 1;   
+        }
+    }
+
+    if (dword_8009F46C != 0)
+    {
+        if ((item == ITEM_SCOPE)   ||
+            (item == ITEM_C_BOX_A) ||
+            (item == ITEM_C_BOX_B) ||
+            (item == ITEM_C_BOX_C) ||
+            (item == ITEM_CAMERA))
+        {
+            return 1;
+        }
+    }
+
+    bit = 1 << item;
+    return (GM_DisableItem_800ABA28 & bit) != 0;
+}
+
 #pragma INCLUDE_ASM("asm/menu_8003B794.s") // 348 bytes
 #pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s") // 764 bytes
 
