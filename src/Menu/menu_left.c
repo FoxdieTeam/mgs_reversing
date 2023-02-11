@@ -1,6 +1,8 @@
 #include "Game/linkvarbuf.h"
+#include "libdg/libdg.h"
 #include "menuman.h"
 #include "linker.h"
+#include "psyq.h"
 
 extern MenuMan_Inventory_14h_Unk gMenuLeftItems_800BD5A0[];
 extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
@@ -82,7 +84,44 @@ int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
     return (GM_DisableItem_800ABA28 & bit) != 0;
 }
 
-#pragma INCLUDE_ASM("asm/menu_8003B794.s") // 348 bytes
+void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
+{
+    RECT pal_rect;
+    RECT img_rect;
+    Menu_rpk_item *pPalItem;
+    Menu_rpk_item *pImgItem;
+    SPRT *pSprt;
+    
+    pPalItem = menu_rpk_get_pal_8003DD9C(id * 2 + 33);
+    pImgItem = menu_rpk_get_img_8003DDB4(id * 2 + 34);
+
+    pal_rect.x = 960;
+    pal_rect.y = 336;
+    pal_rect.w = 16;
+    pal_rect.h = 1;
+    LoadImage_8008FB10(&pal_rect, pPalItem->field_4_pixel_ptr);
+
+    img_rect.x = 960;
+    img_rect.y = 337;
+    img_rect.w = pImgItem->field_2_w;
+    img_rect.h = pImgItem->field_3_h;
+    LoadImage_8008FB10(&img_rect, pImgItem->field_4_pixel_ptr);
+    
+    pSprt = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)(pSprt + 1);
+
+    pSprt->v0 = 81;
+    pSprt->x0 = 230;
+    pSprt->u0 = 0;
+    pSprt->y0 = 116;
+    pSprt->w = pImgItem->field_2_w * 4;
+    pSprt->h = pImgItem->field_3_h;
+    LSTORE(0x80808080, &pSprt->r0);
+    pSprt->clut = getClut(pal_rect.x, pal_rect.y);
+    setSprt(pSprt);
+    addPrim(pOt, pSprt);
+}
+
 #pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s") // 764 bytes
 
 #pragma INCLUDE_ASM("asm/menu_8003BBEC.s") // 232 bytes
