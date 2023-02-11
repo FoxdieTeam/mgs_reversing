@@ -25,6 +25,21 @@ typedef struct RadioMemory
 #define RADIO_MEMORY_COUNT 16
 #define MENU_ITEMS_RIGHT_COUNT 11
 
+typedef struct menu_chara_struct_sub
+{
+  short field_0_state;
+  unsigned short field_2_chara;
+  short field_4;
+  short field_6;
+  short field_8;
+  short field_A;
+  short field_C;
+  short field_E;
+  short field_4C_leftCodecPortraitFrame; // Animation frame of left/right Codec portrait, valid values 0-3.
+  short field_12;
+  void *field_14;
+} menu_chara_struct_sub;
+
 typedef struct menu_chara_struct
 {
     int            field_0_state;
@@ -43,20 +58,7 @@ typedef struct menu_chara_struct
     int            field_30_face_data_num;
     void         **field_34;
     int            field_38;
-    short          field_3C; // Begin Codec left portrait data?
-    short          field_3E;
-    int            field_40;
-    int            field_44;
-    int            field_48;
-    int            field_4C_leftCodecPortraitFrame; // Animation frame of left Codec portrait, valid values 0-3.
-    void          *field_50;
-    short          field_54; // Begin Codec right portrait data?
-    short          field_56;
-    int            field_58;
-    int            field_5C;
-    int            field_60;
-    int            field_64_rightCodecPortraitFrame; // Animation frame of right Codec portrait, valid values 0-3.
-    void          *field_68;
+    menu_chara_struct_sub field_3C[2];
 } menu_chara_struct;
 
 typedef struct MenuMan_Inventory_14h_Unk
