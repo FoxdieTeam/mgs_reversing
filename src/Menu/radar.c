@@ -10,6 +10,9 @@ int        SECTION(".sdata") gFn_radar_800AB48C;
 extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
 
+extern int GM_GameStatus_800AB3CC;
+extern int GV_Clock_800AB920;
+
 #pragma INCLUDE_ASM("asm/menu_SetRadarScale_80038E28.s") // 264 bytes
 
 void menu_SetRadarFunc_80038F30(int param_1)
@@ -61,7 +64,58 @@ void menu_init_radar_helper_8003ADAC(void)
 
 #pragma INCLUDE_ASM("asm/menu_radar_helper_8003ADD8.s") // 232 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_8003AEC0.s") // 1168 bytes
-#pragma INCLUDE_ASM("asm/menu_radar_update_8003B350.s") // 292 bytes
+
+
+
+void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pOt)
+{
+  int clipY;
+  unsigned int new_flags;
+
+  if (pActor->field_1D8_healthBarDisplayCountdown)
+  {
+    if (pActor->field_2A_state == 0)
+    {
+      if ((GM_GameStatus_800AB3CC & 0x200000) != 0)
+      {
+        clipY = pActor->field_1D6_radarYOffsetFromDefault - 16;
+        if (clipY < (-63))
+        {
+          GM_GameStatus_800AB3CC |= 0x400000;
+          GM_GameStatus_800AB3CC &= ~0x200000;
+          clipY = -64;
+        }
+      }
+      else
+        if ((GM_GameStatus_800AB3CC & 0x100000) != 0)
+      {
+        new_flags = GM_GameStatus_800AB3CC & (~0x400000u);
+        GM_GameStatus_800AB3CC &= ~0x400000u;
+        clipY = pActor->field_1D6_radarYOffsetFromDefault + 16;
+        if (clipY >= 0)
+        {
+          clipY = 0;
+          GM_GameStatus_800AB3CC = new_flags & (~0x100000u);
+        }
+      }
+      else
+      {
+        clipY = 0;
+      }
+      if ((GM_GameStatus_800AB3CC & 0x400800) != 0)
+      {
+        pActor->field_1D6_radarYOffsetFromDefault = -64;
+      }
+      else
+      {
+        pActor->field_1D6_radarYOffsetFromDefault = clipY;
+        menu_radar_helper_8003ADD8(pActor, GV_Clock_800AB920);
+        draw_radar_8003AEC0(pActor, pOt);
+      }
+    }
+  }
+}
+
 
 void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
 {
