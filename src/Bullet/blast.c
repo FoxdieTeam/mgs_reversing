@@ -4,7 +4,7 @@
 #include "Game/target.h"
 #include "Anime/animeconv/anime.h"
 #include "unknown.h"
-#include "Map/map.h"
+#include "map/map.h"
 
 extern const char aBlastC[];
 extern int        claymore_map_800AB9DC;

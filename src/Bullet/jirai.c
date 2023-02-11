@@ -5,7 +5,7 @@
 #include "chara/snake/sna_init.h"
 #include "unknown.h"
 #include "psyq.h"
-#include "Map/map.h"
+#include "map/map.h"
 
 // claymore (on ground)
 

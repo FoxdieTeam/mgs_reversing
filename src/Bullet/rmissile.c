@@ -8,7 +8,7 @@
 #include "blast.h"
 #include "psyq.h"
 #include "rmissile.h"
-#include "Map/map.h"
+#include "map/map.h"
 
 // nikita missile
 
