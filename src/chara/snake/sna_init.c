@@ -3700,7 +3700,8 @@ void sna_init_act_helper2_helper7_80054648(Actor_SnaInit *pActor, int time)
     }
 }
 
-void sna_init_act_helper2_helper8_80054710(Actor_SnaInit *pActor, int time)
+// knocked down by grenade etc
+void sna_init_anim_knockdown_80054710(Actor_SnaInit *pActor, int time)
 {
     int bVar1;
 
@@ -3878,7 +3879,8 @@ void sna_init_anim_knockdown_shot_80054B50(Actor_SnaInit *pActor)
     sna_init_start_anim_8004E1F4(pActor, sna_init_anim_knockdown_idle_80054930);
 }
 
-void sna_init_act_helper2_helper10_80054C08(Actor_SnaInit *pActor, int time)
+// shot by tank while proned
+void sna_init_anim_knockdown_shot_tank_80054C08(Actor_SnaInit *pActor, int time)
 {
     char bVar1;
 

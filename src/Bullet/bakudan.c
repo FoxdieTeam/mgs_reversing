@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "chara/snake/sna_init.h"
-#include "game/linkvarbuf.h"
+#include "Game/linkvarbuf.h"
 
 // c4 (armed)
 
