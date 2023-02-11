@@ -4,6 +4,7 @@
 #include "radio.h"
 #include "linker.h"
 #include "psyq.h"
+#include "Game/game.h"
 
 extern MenuMan_Inventory_14h_Unk gMenuLeftItems_800BD5A0[];
 extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
@@ -69,7 +70,7 @@ int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
         return 1;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x42)
+    if (GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_PRONE | PLAYER_STATUS_FIRST_PERSON_DUCT))
     {
         if ((item == ITEM_C_BOX_A) ||
             (item == ITEM_C_BOX_B) ||
@@ -137,20 +138,16 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
 
 void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, menu_left_right *pMenuSub)
 {
-    int field_0_item_id_idx; // $a0
     MenuMan_Inventory_14h_Unk *pMenuSprt; // $s6
-    int item_idx; // $v1
-    int v12; // $a3
     MenuGlue *field_20_otBuf; // $v0
     SPRT *pIconSprt; // $s0
     int rgb; // $s1
     int bBlueBackground; // $a3
     TextConfig textConfig; // [sp+18h] [-10h] BYREF
 
-    field_0_item_id_idx = pMenuSub->field_0.field_0_item_id_idx;
-    if ( field_0_item_id_idx >= 0 )
+    if ( pMenuSub->field_0.field_0_item_id_idx >= 0 )
     {
-        pMenuSprt = menu_rpk_8003B5E0(field_0_item_id_idx);
+        pMenuSprt = menu_rpk_8003B5E0(pMenuSub->field_0.field_0_item_id_idx);
         sub_8003CEF8(pMenuSprt);
         if ( menu_inventory_Is_Item_Disabled_8003B6D0(pMenuSub->field_0.field_0_item_id_idx) )
         {
@@ -158,23 +155,22 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
         }
         if ( gGameState_800B4D98[69] == 1 )
         {
-            item_idx = pMenuSub->field_0.field_0_item_id_idx;
-            if ( item_idx == 13 || item_idx == 9 )
+            if ( pMenuSub->field_0.field_0_item_id_idx == 13 || pMenuSub->field_0.field_0_item_id_idx == 9 )
             {
                 menu_draw_frozen_800435C8(pActor->field_20_otBuf, xpos, ypos);
             }
         }
-        v12 = pMenuSub->field_0.field_0_item_id_idx;
-        if ( (GM_ItemTypes_8009D598[v12 + 1] & 0x2000) != 0 )
+
+        if ( (GM_ItemTypes_8009D598[pMenuSub->field_0.field_0_item_id_idx + 1] & 0x2000) != 0 )
         {
             menu_number_draw_number2_80042FC0(
                 pActor,
                 xpos,
                 ypos + 11,
                 pMenuSub->field_0.field_2_current_amount,
-                GM_Items[v12  + 11]);
+                GM_Items[pMenuSub->field_0.field_0_item_id_idx  + 11]);
         }
-        else if ( v12 == 17 )                   // id card
+        else if ( pMenuSub->field_0.field_0_item_id_idx == 17 )                   // id card
         {
             textConfig.xpos = xpos;
             textConfig.ypos = ypos + 14;
@@ -184,7 +180,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
             textConfig.ypos -= 2;
             menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, gGameState_800B4D98[54]);
         }
-        else if ( v12 == 18 )                   // bomb
+        else if ( pMenuSub->field_0.field_0_item_id_idx == 18 )                   // bomb
         {
             menu_number_draw_80042F78(
                 pActor,
@@ -194,18 +190,23 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
                 gGameState_800B4D98[55],
                 0);
         }
+
         if ( *(int *)&pMenuSprt->field_C_u ) // uv or clut
         {
             field_20_otBuf = pActor->field_20_otBuf;
             pIconSprt = (SPRT *)field_20_otBuf->mPrimBuf.mFreeLocation;
-            field_20_otBuf->mPrimBuf.mFreeLocation += 20;
-            rgb = 0x404040;
+            field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+            
             if ( !pMenuSub->field_0.field_4 )
             {
                 rgb = 0x808080;
             }
+            else
+            {
+                rgb = 0x404040;
+            }
             menu_init_sprt_8003D0D0(pIconSprt, pMenuSprt, xpos, ypos);
-            *(int *)&pIconSprt->r0 = rgb;
+            LSTORE(rgb, &pIconSprt->r0);
             setSprt(pIconSprt);
             addPrim(pOt, pIconSprt);
         }
@@ -222,11 +223,15 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
         menu_number_draw_string_800430F0(pActor, (int)pOt, xpos + 46, ypos + 22, aNoItem, 1);
     }
     
-    bBlueBackground = 0;
     if ( !pMenuSub->field_0.field_4 )
     {
         bBlueBackground = pMenuSub->field_0.field_6 == 0;
     }
+    else
+    {
+        bBlueBackground = 0;
+    }
+
     Menu_item_render_frame_rects_8003DBAC(pActor->field_20_otBuf, xpos, ypos, bBlueBackground);
 }
 
