@@ -333,7 +333,7 @@ void socom_act_80065518( Actor_Socom *a1 )
 
         d_800AB9EC_mag_size = --magSize;
         d_800ABA2C_ammo = 12;
-        --GM_GetWeapon(WEAPON_SOCOM);
+        --GM_Weapons[ WEAPON_SOCOM ];
     }
 }
 
@@ -452,7 +452,7 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, 
     {
         mag++;
     }
-    ammo = GM_GetWeapon(WEAPON_SOCOM);
+    ammo = GM_Weapons[ WEAPON_SOCOM ];
     if ( mag > 0 && mag < ammo )
     {
         ammo = mag;

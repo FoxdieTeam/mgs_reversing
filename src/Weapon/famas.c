@@ -92,7 +92,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     }
 
                     bullet_init_80076584(pMtx, f54, v9, v10);
-                    --GM_GetWeapon(WEAPON_FAMAS);
+                    --GM_Weapons[WEAPON_FAMAS];
 
                     GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 48);
                     field_44_pCtrl = pActor->field_44_pCtrl;
@@ -187,7 +187,7 @@ Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_paren
 
     if (flag == 0)
     {
-        int temp = GM_GetWeapon(WEAPON_FAMAS);
+        int temp = GM_Weapons[WEAPON_FAMAS];
 
         if ((v11 > 0) && (v11 < temp))
         {

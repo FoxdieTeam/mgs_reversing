@@ -972,7 +972,7 @@ static inline int sna_init_helper_8004F6E8(int health, int item)
     if ((health == 0) &&
         (GM_GameOverTimer_800AB3D4 == 0) &&
         (item == ITEM_RATION) &&
-        (GM_GetItem(ITEM_RATION) > 0) &&
+        (GM_Items[ITEM_RATION] > 0) &&
         !GM_FrozenItemsState)
     {
         temp = (GM_DifficultyFlag > 0) ? 256 : 384;
@@ -989,9 +989,9 @@ static inline int sna_init_helper_8004F6E8(int health, int item)
             health = GM_SnakeMaxHealth;
         }
 
-        GM_GetItem(ITEM_RATION) -= 1;
+        GM_Items[ITEM_RATION] -= 1;
             
-        if (GM_GetItem(ITEM_RATION) == 0)
+        if (GM_Items[ITEM_RATION] == 0)
         {
             GM_CurrentItemId = ITEM_NONE;
         }
@@ -1131,7 +1131,7 @@ int sna_init_current_item_8004FB38(void)
 int sna_init_ration_available_8004FB4C(void)
 {
     if ((sna_init_800ABBA0->field_9A8_current_item == ITEM_RATION) &&
-        (GM_GetItem(ITEM_RATION) > 0) &&
+        (GM_Items[ITEM_RATION] > 0) &&
         (GM_FrozenItemsState == 0))
     {
         return 1;
@@ -5040,7 +5040,7 @@ void sna_init_80057A90(Actor_SnaInit *pActor, int time)
         sna_init_8004E260(pActor, pActor->field_9B4_action_table->field_10->field_1, 4, bits);
 
         ammo = d_800ABA2C_ammo;
-        magSize = GM_GetWeapon(pActor->field_91C_weapon_idx);
+        magSize = GM_Weapons[pActor->field_91C_weapon_idx];
         
         if (ammo > 0 && ammo < magSize)
         {
