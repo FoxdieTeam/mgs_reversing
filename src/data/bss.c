@@ -188,9 +188,9 @@ Actor_MenuMan BSS gMenuMan_800BD360; // 0x224 (548) bytes
 
 gap gap_800BD584[0x1C]; // 28 bytes
 
-MenuMan_Inventory_14h_Unk BSS dword_800BD5A0; // 0x14 (20) bytes
+MenuMan_Inventory_14h_Unk BSS gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
 
-gap gap_800BD5B4[0x2D4]; // 724 bytes
+gap gap_800BD744[0x144]; // 324 bytes
 
 MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
