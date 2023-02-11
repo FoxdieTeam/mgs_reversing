@@ -39,6 +39,8 @@ extern int GV_PadMask_800AB374;
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
 
+void menu_init_sprt_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y);
+
 void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
 {
     TILE *pPrim;
@@ -339,7 +341,7 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
 
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s") // 304 bytes
 
-int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, char *str, int flags)
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, const char *str, int flags)
 {
     TextConfig textConfig;
 
@@ -368,8 +370,6 @@ void menu_init_nouse_800434A8()
     menu_restore_nouse_80043470();
 }
 
-void sub_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y);
-
 void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, MenuMan_Inventory_14h_Unk *pUnk)
 {
     SPRT *pPrim;
@@ -378,7 +378,7 @@ void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, MenuMan_Inventory
     pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
 
     *(int *)&pPrim->r0 = 0x80808080;
-    sub_8003D0D0(pPrim, pUnk, offset_x - 2, offset_y + 6);
+    menu_init_sprt_8003D0D0(pPrim, pUnk, offset_x - 2, offset_y + 6);
 
     setSprt(pPrim);
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
