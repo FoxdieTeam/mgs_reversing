@@ -29,7 +29,7 @@ extern short       gGameState_800B4D98[0x60];
 
 //------------------------------------------------------------------------------
 // 0x22 Weapons ammo (-1 = not in inventory)
-#define GM_FirstWeapon        linkvarbuf[ 17 ]
+#define GM_Weapons            (&linkvarbuf[ 17 ])
 
 // Use GM_GetWeapon() instead
 #define GM_SocomFlag          linkvarbuf[ 17 ]
@@ -57,7 +57,7 @@ extern short       gGameState_800B4D98[0x60];
 
 //------------------------------------------------------------------------------
 // 0x4a Items (-1 = not in inventory)
-#define GM_FirstItem          linkvarbuf[ 37 ]
+#define GM_Items              (&linkvarbuf[ 37 ])
 
 #define GM_TabakoFlag         linkvarbuf[ 37 ]
 #define GM_ScopeFlag          linkvarbuf[ 38 ]
@@ -156,7 +156,7 @@ enum // GM_SnakeStance
     // ... more?
 };
 
-enum
+enum // GM_Weapons[]
 {
     WEAPON_NONE = -1,
     WEAPON_SOCOM = 0,
@@ -172,7 +172,7 @@ enum
 };
 #define GM_TotalWeapons 10
 
-enum
+enum // GM_Items[]
 {
     ITEM_NONE = -1,
     ITEM_CIGS = 0,
@@ -206,11 +206,8 @@ enum
 
 #define GM_LinkVar(buf, var)      (buf[((char*)&var - (char*)&linkvarbuf) / 2])
 
-#define GM_GetWeapon(wpn_id)      (*(&GM_FirstWeapon + wpn_id))
-#define GM_CurrentWeapon          (GM_GetWeapon( GM_CurrentWeaponId ))
-
-#define GM_GetItem(item_id)       (*(&GM_FirstItem + item_id))
-#define GM_CurrentItem            (GM_GetItem( GM_CurrentItemId ))
+#define GM_CurrentWeapon          (GM_Weapons[ GM_CurrentWeaponId ])
+#define GM_CurrentItem            (GM_Items[ GM_CurrentWeaponId ])
 
 
 #endif
