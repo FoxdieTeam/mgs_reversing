@@ -22,6 +22,17 @@ typedef struct RadioMemory
     char  name[18];
 } RadioMemory;
 
+typedef struct radio_table_entry
+{
+  int field_0_contactFrequency;
+  int field_4_radioTableCode;
+} radio_table_entry;
+
+typedef struct radio_table
+{
+  radio_table_entry field_0_entries[8];
+} radio_table;
+
 #define RADIO_MEMORY_COUNT     16
 
 #define MENU_ITEMS_LEFT_COUNT  21
@@ -342,8 +353,8 @@ void menu_ClearRadioTable_8004967C(void);
 void menu_RadioCall_80042730(int param_1, int param_2, int param_3);
 void menu_ResetCall_80042814(void);
 void menu_SetRadioCallbackProc_8004283C(int param_1);
-void menu_SetRadioBaseCall_80049764(int param_1, int param_2);
-void menu_SetRadioOverCall_80049794(int param_1, int param_2);
+void menu_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode);
+void menu_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode);
 void menu_InitRadioMemory_8004E0EC(void);
 TILE          *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb);
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
