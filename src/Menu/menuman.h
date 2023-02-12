@@ -22,6 +22,17 @@ typedef struct RadioMemory
     char  name[18];
 } RadioMemory;
 
+typedef struct radio_table_entry
+{
+  int field_0_contactFrequency;
+  int field_4_radioTableCode;
+} radio_table_entry;
+
+typedef struct radio_table
+{
+  radio_table_entry field_0_entries[8];
+} radio_table;
+
 #define RADIO_MEMORY_COUNT     16
 
 #define MENU_ITEMS_LEFT_COUNT  21
