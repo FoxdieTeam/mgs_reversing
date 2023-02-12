@@ -465,6 +465,27 @@ static inline void DG_InvisiblePrim( prim ) DG_PRIM *prim;
 	prim->type |= DG_PRIM_INVISIBLE;
 }
 
+
+static inline void DG_UnShadeObjs( objs ) DG_OBJS *objs;
+{
+	objs->flag &= ~DG_FLAG_SHADE;
+}
+
+static inline void DG_UnBoundObjs( objs ) DG_OBJS *objs;
+{
+	objs->flag &= ~DG_FLAG_BOUND;
+}
+
+static inline void DG_UnGBoundObjs( objs ) DG_OBJS *objs;
+{
+	objs->flag &= ~DG_FLAG_GBOUND;
+}
+
+static inline void DG_GBoundObjs( objs ) DG_OBJS *objs;
+{
+	objs->flag |= DG_FLAG_GBOUND;
+}
+
 DG_PRIM *DG_MakePrim_8001BABC( int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect );
 int      DG_QueuePrim_80018274( DG_OBJS *pPrim );
 void     DG_DequeuePrim_800182E0( DG_OBJS *pObjs );
