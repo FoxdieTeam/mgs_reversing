@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_8008576C
-SD_8008576C:
+	xdef se_adrs_set_8008576C
+se_adrs_set_8008576C:
 	dw 0x27BDFFE0 ; 0x8008576C
 	dw 0xAFB10014 ; 0x80085770
 	dw 0x00808821 ; 0x80085774
