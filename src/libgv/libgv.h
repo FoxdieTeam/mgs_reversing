@@ -235,6 +235,7 @@ void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
 int          sub_80026418(int arg0, int arg1); // probably a NearExp
 int          sub_80026440(int param_1, int param_2, int param_3);
 void         GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec);
+unsigned int GV_DiffDirU_80017040(int param_1, int param_2);
 void         sub_8002ECE4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3);
 void         CopyVectorFromScratchpad_80029360(SVECTOR *vec_1, SVECTOR *vec_2);
 // these 3 are definitely a NearExps
