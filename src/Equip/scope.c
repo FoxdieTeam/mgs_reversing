@@ -4,6 +4,7 @@
 #include "Game/object.h"
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
+#include "Game/object.h"
 
 extern const char aZoomLevelD[];
 extern const char aD_44[];  // = "%d"
@@ -217,7 +218,44 @@ void scope_act_80062E8C(Actor_scope *pActor)
     scope_draw_text_80062DA8(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_kill_8006317C.s")              // 188 bytes
+
+extern short scope_created_8009F2C4;
+
+void scope_kill_8006317C(Actor_scope *pActor)
+{
+    void* field_74_alloc_0x100; // $a0
+    void* v3; // $a0
+    void* field_88_alloc; // $a0
+    void* field_90_pPrims; // $a0
+
+    field_74_alloc_0x100 = pActor->field_74_alloc_0x100;
+    if ( field_74_alloc_0x100 )
+    {
+        GV_DelayedFree_80016254(field_74_alloc_0x100);
+    }
+    v3 = pActor->field_7C_pPrims[0];
+    if ( v3 )
+    {
+        GV_DelayedFree_80016254(v3);
+    }
+    field_88_alloc = pActor->field_88_alloc;
+    if ( field_88_alloc )
+    {
+        GV_DelayedFree_80016254(field_88_alloc);
+    }
+    field_90_pPrims = pActor->field_90_pPrims;
+    if ( field_90_pPrims )
+    {
+        GV_DelayedFree_80016254(field_90_pPrims);
+    }
+    GM_Camera_800B77E8.field_20 = 320;
+    if ( (pActor->field_9C_flags & 0x8000) != 0 )
+    {
+        EQ_VisibleHead_80060DF0(pActor->field_24_pParent, &pActor->field_4C_saved_packs, &pActor->field_4E_saved_raise);
+        GM_FreeObject_80034BF8(&pActor->field_28_obj);
+    }
+    scope_created_8009F2C4 = 0;
+}
 
 void scope_loader_helper_80063238(LINE_F2 *lines)
 {
@@ -254,7 +292,6 @@ void scope_loader_helper_80063274(LINE_F4 *lines)
 
 extern const char aScopeC[];
 
-extern short scope_created_8009F2C4;
 
 void scope_act_80062E8C(Actor_scope *pActor);
 void scope_kill_8006317C(Actor_scope *pActor);
