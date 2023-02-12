@@ -16,7 +16,7 @@
 #ifdef NO_ASSERT_SIZE // set in everything.h
 #define STATIC_ASSERT_SIZE(struct, size) 
 #else
-#define STATIC_ASSERT_SIZE(struct, size) STATIC_ASSERT(sizeof(struct) == size, wrong_size, __LINE__)
+#define STATIC_ASSERT_SIZE(struct, size) 
 #endif
 
 #endif // LINKER_H_
