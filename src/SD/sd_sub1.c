@@ -1,17 +1,38 @@
 #include "SD/sd.h"
 
 void vol_set_80088320(unsigned int a1);
+void note_compute_80085DE0(void);
 
 unsigned char rdm_tbl_8009F9BC[129];
 extern SOUND_W* sptr_800C057C;
 extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
 extern unsigned int mtrack_800BF1EC;
+extern int mdata2_800BF0D4;
+extern int mdata3_800BF0D8;
+extern int mdata4_800BF0DC;
 
 unsigned int random_80086B84();
 
 #pragma INCLUDE_ASM("asm/SD/SD_80085A50.s") // 308 bytes
 #pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s") // 340 bytes
-#pragma INCLUDE_ASM("asm/SD/note_set_80085CD8.s") // 192 bytes
+
+void note_set_80085CD8(void) 
+{
+	unsigned int temp;
+
+	sptr_800C057C->field_6_ngs = mdata2_800BF0D4;
+	sptr_800C057C->field_7_ngg = mdata3_800BF0D8;
+	sptr_800C057C->field_44_vol = (mdata4_800BF0DC & 0x7F);
+	note_compute_80085DE0();
+	sptr_800C057C->field_4_ngc = sptr_800C057C->field_6_ngs;
+	temp = (sptr_800C057C->field_7_ngg * sptr_800C057C->field_4_ngc)/100;
+
+	if( !temp ){
+		temp = 1;
+	}
+	sptr_800C057C->field_5_ngo = temp;
+}
+
 
 void adsr_reset_80085D98()
 {
