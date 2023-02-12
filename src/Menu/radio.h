@@ -14,7 +14,7 @@ typedef struct RadioIncomingCall // @ 8009E708
 void           sub_8004124C(Actor_MenuMan *pActor);
 void           menu_radio_codec_create_state_80047CE4(Actor_MenuMan *menuMan);
 void           menu_radio_update_80042198(void);
-void           sub_800470B4(int param_1, void *param_2, int param_3, int param_4, int param_5, int param_6);
+void menu_800470B4(int idx, menu_chara_struct *pStru, int chara, int code, int faceUnk, int taskWup);
 unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
 void           menu_radio_codec_task_proc_80047AA0(void);
 void           menu_radio_compact_free_vars_8004D3D8(void);

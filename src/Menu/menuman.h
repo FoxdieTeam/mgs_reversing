@@ -78,6 +78,16 @@ typedef struct MenuMan_Inventory_14h_Unk
     short           field_12_h;
 } MenuMan_Inventory_14h_Unk;
 
+typedef struct menu_0x14
+{
+  short field_0_bUnknown;
+  short field_2_bTaskWup;
+  int field_4_chara;
+  int field_8_code;
+  int field_C;
+  menu_chara_struct *field_10_pCharaStru;
+} menu_0x14;
+
 void menuman_init_80038954(void);
 
 struct Actor_MenuMan;

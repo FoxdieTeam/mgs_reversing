@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800470B4
-sub_800470B4:
+	xdef menu_800470B4
+menu_800470B4:
 	dw 0x3C03800C ; 0x800470B4
 	dw 0x2463DA48 ; 0x800470B8
 	dw 0x00041080 ; 0x800470BC

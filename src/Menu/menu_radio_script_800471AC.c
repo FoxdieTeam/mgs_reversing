@@ -34,12 +34,12 @@ void radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *p
     mts_printf_8008BBA0(aSetCharaCodeD, faceCharaCode);
     if (faceUnk >= 1)
     {
-        sub_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 1);
+        menu_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 1);
         mts_slp_tsk_8008A400();
     }
     else
     {
-        sub_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 0);
+        menu_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 0);
     }
     unk->field_0_state = 1;
     mts_slp_tsk_8008A400();
@@ -64,7 +64,7 @@ void radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
         faceUnk_cond = 0;
         faceUnk -= 0x100;
     }
-    sub_800470B4(faceCharaCode == CHARA_SNAKE, unk, faceCharaCode, faceImageName, faceUnk, faceUnk_cond);
+    menu_800470B4(faceCharaCode == CHARA_SNAKE, unk, faceCharaCode, faceImageName, faceUnk, faceUnk_cond);
     if (faceUnk_cond)
     {
         mts_slp_tsk_8008A400();
