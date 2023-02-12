@@ -156,7 +156,50 @@ void keych_80086280()
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/por_compute_80086504.s") // 200 bytes
+
+void por_compute_80086504()
+{
+    int temp; // $a1
+    unsigned int temp2;
+    unsigned int temp3;
+    
+    temp = sptr_800C057C->field_64_swpm - sptr_800C057C->field_5C_swpd;
+    if ( temp < 0 )
+    {
+        temp = -temp;
+		temp3 = temp & 0xFF;
+		temp2 = temp >> 8;
+		temp3 = (temp3 * sptr_800C057C->field_68_swsc ) >> 8;
+		temp2 *= sptr_800C057C->field_68_swsc;
+		temp = temp2 + temp3;
+        
+        if ( temp == 0)
+        {
+            temp = 1;
+        }
+        temp = -temp;  
+    }
+    else if ( temp == 0 )
+    {
+        sptr_800C057C->field_57_swpc = 0;
+    }
+    else
+    {
+        temp3 = temp & 0xFF;
+		temp2 = temp >> 8;
+		temp3 = (temp3 * sptr_800C057C->field_68_swsc) >> 8;
+		temp2 *= sptr_800C057C->field_68_swsc;
+		temp = temp2 + temp3;
+        
+        if ( temp == 0 )
+        {
+            temp = 1;
+        }
+    }
+
+    sptr_800C057C->field_5C_swpd += temp;
+}
+
 #pragma INCLUDE_ASM("asm/SD/vib_compute_800865CC.s") // 200 bytes
 #pragma INCLUDE_ASM("asm/sub_80086694.s") // 160 bytes
 #pragma INCLUDE_ASM("asm/SD/SD_80086734.s") // 312 bytes
