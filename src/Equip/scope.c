@@ -16,7 +16,53 @@ void scope_act_helper_helper_80062320(int *a1, int *a2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_helper_8006237C.s") // 320 bytes
+extern OBJECT *dword_800ABA20;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern DG_CHNL DG_Chanls_800B1800[3];
+extern SVECTOR svec_8009F2C8;
+
+int scope_act_helper_helper_8006237C(Actor_scope *pActor)
+{
+    MATRIX *pMtx; // $a2
+    DG_OBJS *objs; // $v0
+    int bCalcLen; // $s2
+    int vecLen; // $v0
+    MATRIX mtx; // [sp+18h] [-30h] BYREF
+    SVECTOR vecs[2]; // [sp+38h] [-10h] BYREF
+
+    if ( GM_GameStatus_800AB3CC < 0 )
+    {
+        DG_CHNL* t = &DG_Chanls_800B1800[1]; 
+        pMtx = &(t)->field_30_matrix;
+    }
+    else
+    {
+        objs = dword_800ABA20->objs;
+        pMtx = &mtx;
+        mtx = dword_800ABA20->objs->world;
+        mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
+        mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
+        mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
+    }
+    DG_SetPos_8001BC44(pMtx);
+    DG_PutVector_8001BE48(&svec_8009F2C8, vecs, 2);
+    bCalcLen = 0;
+    if ( sub_80028454(pActor->field_50_pMap->field_8_hzd, vecs, &vecs[1], 15, 129) )
+    {
+        sub_80028890(&vecs[1]);
+        bCalcLen = 1;
+    }
+    
+    vecLen = 3200;
+    if ( bCalcLen != 0 )
+    {
+        GV_SubVec3_80016D40(&vecs[1], vecs, vecs);
+        vecLen = GV_VecLen3_80016D80(vecs);
+    }
+ 
+    return vecLen;
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800624BC.s")        // 56 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_helper_800624F4.s") // 152 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_8006258C.s")        // 324 bytes
