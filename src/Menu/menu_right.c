@@ -111,7 +111,7 @@ void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
     }
 }
 
-void AssignXY_8003D1A8(Menu_Item_Unknown_Array_Item *pArray, short idx, short amount)
+void AssignXY_8003D1A8(Menu_Item_Unknown_Array_Item *pArray, int idx, short amount)
 {
     pArray->field_0_item_id_idx = idx;
     pArray->field_2_current_amount = amount;
@@ -609,7 +609,7 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
     short val = -1;
     menuMan->m7FnPtrs_field_2C[1] = menu_right_update_8003E990;
     menuMan->field_1F0_menu_right.field_0.field_0_item_id_idx = val;
-    menuMan->field_1F0_menu_right.field_10 = 0;
+    menuMan->field_1F0_menu_right.field_10_state = 0;
     menuMan->field_1F0_menu_right.field_12_flashingAnimationFrame = 0;
     menuMan->field_1F0_menu_right.field_0.field_4 = 0;
     menuMan->field_1F0_menu_right.field_0.field_6 = 1;
