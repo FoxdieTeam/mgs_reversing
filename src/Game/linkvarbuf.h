@@ -31,14 +31,14 @@ extern short       gGameState_800B4D98[0x60];
 // 0x22 Weapons ammo (-1 = not in inventory)
 #define GM_Weapons            (&linkvarbuf[ 17 ])
 
-// Use GM_GetWeapon() instead
+// Use GM_Weapons[] instead
 #define GM_SocomFlag          linkvarbuf[ 17 ]
 #define GM_FamasFlag          linkvarbuf[ 18 ]
 #define GM_GrenadeFlag        linkvarbuf[ 19 ]
 #define GM_RemoteMissileFlag  linkvarbuf[ 20 ]
 #define GM_StingerFlag        linkvarbuf[ 21 ]
 #define GM_LandMineFlag       linkvarbuf[ 22 ]
-#define GM_C4Flag             linkvarbuf[ 23 ]
+#define GM_BombFlag           linkvarbuf[ 23 ]
 #define GM_StunGrenadeFlag    linkvarbuf[ 24 ]
 #define GM_ChaffGrenadeFlag   linkvarbuf[ 25 ]
 #define GM_RifleFlag          linkvarbuf[ 26 ]
@@ -50,7 +50,7 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_RemoteMissileMax   linkvarbuf[ 30 ]
 #define GM_StingerMax         linkvarbuf[ 31 ]
 #define GM_LandMineMax        linkvarbuf[ 32 ]
-#define GM_C4Max              linkvarbuf[ 33 ]
+#define GM_BombMax            linkvarbuf[ 33 ]
 #define GM_StunGrenadeMax     linkvarbuf[ 34 ]
 #define GM_ChaffGrenadeMax    linkvarbuf[ 35 ]
 #define GM_RifleMax           linkvarbuf[ 36 ]
@@ -59,6 +59,7 @@ extern short       gGameState_800B4D98[0x60];
 // 0x4a Items (-1 = not in inventory)
 #define GM_Items              (&linkvarbuf[ 37 ])
 
+// Use GM_Items[] instead
 #define GM_TabakoFlag         linkvarbuf[ 37 ]
 #define GM_ScopeFlag          linkvarbuf[ 38 ]
 #define GM_CardboardBoxAFlag  linkvarbuf[ 39 ]

@@ -206,12 +206,15 @@ gap gap_800BDA24[0xC]; // 12 bytes
 
 MenuMan_Inventory_14h_Unk BSS dword_800BDA30; // 0x14 (20) bytes
 
-gap gap_800BDA44[0x2C]; // 44 bytes
+gap gap_800BDA44[0x4]; // 4 bytes
 
+menu_0x14 BSS stru_800BDA48[2]; // 0x28 (40) bytes
 UnkJimakuStruct BSS gUnkJimakuStruct_800BDA70; // 0x44 (68) bytes
 
-gap gap_800BDAB4[0x84]; // 132 bytes
+gap gap_800BDAB4[0x4]; // 4 bytes
 
+radio_table BSS gRadioBaseTable_800BDAB8; // 0x40 (64) bytes
+radio_table BSS gRadioOverTable_800BDAF8; // 0x40 (64) bytes
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
 
