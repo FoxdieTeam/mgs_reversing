@@ -24,7 +24,37 @@ void sng_track_init_800859B8(SOUND_W *pSoundW);
 int SD_8008395C(int a1, int a2);
 
 #pragma INCLUDE_ASM("asm/SD/IntSdMain_80084494.s") // 2104 bytes
-#pragma INCLUDE_ASM("asm/SD/SD_SongFadeIn_80084CCC.s") // 148 bytes
+
+void SD_SongFadeIn_80084CCC(unsigned int mode)
+{
+    int i;
+
+    switch (mode)
+    {
+    case 0x1FFFF03:
+        sd_KaihiMode_800BF05C = 655;
+        break;
+        
+    case 0x1FFFF04:
+        sd_KaihiMode_800BF05C = 218;
+        break;
+    case 0x1FFFF05:
+        sd_KaihiMode_800BF05C = 131;
+        break;
+    }
+
+    if (sd_KaihiMode_800BF05C == 0)
+    {
+        sd_KaihiMode_800BF05C = 1;
+    }
+
+    for (i = 0; i < 13; i++)
+    {
+        sng_fade_time_800C0430[i] = 0;
+    }
+
+    sng_fout_term_800C0518 = 0;
+}
 
 int SngFadeOutP_80084D60(unsigned int a1)
 {
