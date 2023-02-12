@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_80085020
-SD_80085020:
+	xdef SngFadeWkSet_80085020
+SngFadeWkSet_80085020:
 	dw 0x3C03800C ; 0x80085020
 	dw 0x8C63041C ; 0x80085024
 	dw 0x00000000 ; 0x80085028
