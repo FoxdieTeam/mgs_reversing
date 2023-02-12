@@ -21,7 +21,46 @@ void menu_SetRadarFunc_80038F30(int param_1)
     gFn_radar_800AB48C = param_1;
 }
 
-#pragma INCLUDE_ASM("asm/draw_radar_helper2_helper_80038F3C.s") // 448 bytes
+void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *param_3, short x, short y,
+                                        int rgb1, int rgb2, int param_8)
+{
+    // TODO: Isn't param_3 just a SVECTOR*?
+    POLY_G4 *pPrim;
+    int      a2;
+    int      diffdir;
+    SVECTOR  vec1, vec2, vec3;
+
+    a2 = ((param_3[1] * param_8 / 4096) * 3) / 2;
+    GV_DirVec2_80016F24(param_3[0], a2, &vec3);
+
+    diffdir = GV_DiffDirU_80017040(param_3[0], param_3[2] / 2);
+    GV_DirVec2_80016F24(diffdir, a2, &vec1);
+
+    diffdir = GV_DiffDirU_80017040(param_3[0], -param_3[2] / 2);
+    GV_DirVec2_80016F24(diffdir, a2, &vec2);
+
+    pPrim = (POLY_G4 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(POLY_G4);
+
+    pPrim->x0 = x - vec2.vx;
+    pPrim->y0 = vec2.vz + y;
+    pPrim->x1 = x;
+    pPrim->y1 = y;
+    pPrim->x2 = vec3.vx + x;
+    pPrim->y2 = vec3.vz + y;
+    pPrim->x3 = x - vec1.vx;
+    pPrim->y3 = vec1.vz + y;
+
+    LSTORE(rgb1, &pPrim->r1);
+    LSTORE(rgb2, &pPrim->r0);
+    LSTORE(rgb2, &pPrim->r2);
+    LSTORE(rgb2, &pPrim->r3);
+
+    setPolyG4(pPrim);
+    setSemiTrans(pPrim, 1);
+
+    addPrim(pOt, pPrim);
+}
 
 void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
 {
