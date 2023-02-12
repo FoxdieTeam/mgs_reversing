@@ -63,7 +63,7 @@ int SECTION(".sdata") gFn_radar_800AB48C = 0;
 
 int SECTION(".sdata") dword_800AB490 = 0x17E03E0;
 int SECTION(".sdata") dword_800AB494 = 0x20020;
-int SECTION(".sdata") dword_800AB498 = 0x5FBF5FBE;
+int SECTION(".sdata") gRadarClut_800AB498 = 0x5FBF5FBE;
 int SECTION(".sdata") dword_800AB49C = 0x5FFF5FFE;
 int SECTION(".sdata") dword_800AB4A0 = 0x8D118C91;
 int SECTION(".sdata") dword_800AB4A4 = 0x9A238C91;
