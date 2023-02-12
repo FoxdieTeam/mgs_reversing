@@ -1,22 +1,24 @@
 #include "radio.h"
 
-void sub_80049710(int param_1, int param_2, int param_3)
+radio_table_entry* sub_80049710(radio_table *pData, int contactFrequency, int radioTableCode)
 {
-    int *data;
+    radio_table_entry *pFound; // $v0
 
-    data = sub_8004969C(param_1, param_2);
-    if (data)
+    pFound = sub_8004969C(pData, contactFrequency);
+    if ( pFound )
     {
-        if (param_3 >= 0)
+        if ( radioTableCode >= 0 )
         {
-            data[0] = param_2;
-            data[1] = param_3;
-        }
+            pFound->field_0_contactFrequency = contactFrequency;
+            pFound->field_4_radioTableCode = radioTableCode;
 
+        }
         else
         {
-            data[0] = 0;
-            data[1] = 0;
+            pFound->field_0_contactFrequency = 0;
+            pFound->field_4_radioTableCode = 0;
+
         }
     }
+    return pFound;
 }
