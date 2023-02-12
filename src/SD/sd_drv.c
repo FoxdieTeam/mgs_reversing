@@ -468,36 +468,36 @@ int SngFadeOutP_80084D60(unsigned int a1)
 int SD_SongFadeoutAndStop_80084E48(unsigned int code)
 {
     int i;
-    int fade;
+    int temp;
 
     if ((sng_status_800BF158 != 0) && ((sng_fout_term_800C0518 != 0x1FFF) || (sd_KaihiMode_800BF05C != 0)))
     {
         switch (code)
         {
         case 0x1FFFF0A:
-            fade = 0x51E;
+            temp = 1310;
             break;
         case 0x1FFFF0B:
-            fade = 0x28F;
+            temp = 655;
             break;
         case 0x1FFFF0C:
-            fade = 0xDA;
+            temp = 218;
             break;
         case 0x1FFFF0D:
-            fade = 0x83;
+            temp = 131;
             break;
         }
 
-        if (fade == 0)
+        if (temp == 0)
         {
-            fade = 1;
+            temp = 1;
         }
 
         for (i = 0; i < 13; i++)
         {
             if (!((sng_fout_term_800C0518 >> i) & 1))
             {
-                sng_fade_time_800C0430[i] = fade;
+                sng_fade_time_800C0430[i] = temp;
             }
         }
 
