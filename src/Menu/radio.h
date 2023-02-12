@@ -22,7 +22,7 @@ void           init_radio_message_board_80040F74(Actor_MenuMan *pActor);
 void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2);
 void           sub_800434F4(MenuGlue *pGlue, int param_2, int param_3, MenuMan_Inventory_14h_Unk *param_4);
 void           menu_RadioCall_helper_800403E4();
-int           *sub_8004969C(int param_1, int param_2);
+radio_table_entry           *sub_8004969C(radio_table *pRadioTable, int contactFrequency);
 void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour,
                                                                         int param_5);
 int            menu_GetRadioCode_800497C4(int param_1);
