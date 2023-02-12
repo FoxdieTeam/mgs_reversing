@@ -147,7 +147,7 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
     Menu_Item_Unknown_Array_Item field_0;
     struct menu_8009E544        *field_8_pStru;
     struct Menu_Item_Unknown    *field_C_alloc;
-    char                         field_10; // state ?
+    char                         field_10_state;
     signed char                  field_11; // item_idx ?
     // Current frame of the "flashing" animation played when the menu is closed, counts down from 0xa to 0x0.
     short field_12_flashingAnimationFrame;
@@ -357,6 +357,12 @@ void           menu_radio_8004D35C(void);
 void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
 void           menu_font_kill_8003FC0C(void);
 int            sub_8003CFE0(MenuMan_Inventory_14h_Unk *images, int index);
+void           AssignXY_8003D1A8(Menu_Item_Unknown_Array_Item *pArray, int idx, short amount);
+void           sub_8003D2BC(Menu_Item_Unknown *, short);
+void           sub_8003D520(void);
+int            sub_8003F84C(int);
+
+Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 
