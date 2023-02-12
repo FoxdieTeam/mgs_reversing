@@ -154,9 +154,10 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
         {
             menu_draw_nouse_800435A4(pActor->field_20_otBuf, xpos, ypos);
         }
-        if ( gGameState_800B4D98[69] == 1 )
+        if ( GM_FrozenItemsState == 1 )
         {
-            if ( pMenuSub->field_0.field_0_item_id_idx == 13 || pMenuSub->field_0.field_0_item_id_idx == 9 )
+            if ( pMenuSub->field_0.field_0_item_id_idx == ITEM_RATION ||
+                 pMenuSub->field_0.field_0_item_id_idx == ITEM_KETCHUP )
             {
                 menu_draw_frozen_800435C8(pActor->field_20_otBuf, xpos, ypos);
             }
@@ -171,7 +172,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
                 pMenuSub->field_0.field_2_current_amount,
                 GM_Items[pMenuSub->field_0.field_0_item_id_idx  + 11]);
         }
-        else if ( pMenuSub->field_0.field_0_item_id_idx == 17 )                   // id card
+        else if ( pMenuSub->field_0.field_0_item_id_idx == ITEM_CARD )
         {
             textConfig.xpos = xpos;
             textConfig.ypos = ypos + 14;
@@ -179,16 +180,16 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
             textConfig.colour = 0x64808080;
             menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, aLv);
             textConfig.ypos -= 2;
-            menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, gGameState_800B4D98[54]);
+            menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
         }
-        else if ( pMenuSub->field_0.field_0_item_id_idx == 18 )                   // bomb
+        else if ( pMenuSub->field_0.field_0_item_id_idx == ITEM_TIMER_B )
         {
             menu_number_draw_80042F78(
                 pActor,
                 (int)pOt,
                 xpos + 10,
                 ypos + 10,
-                gGameState_800B4D98[55],
+                GM_Items[ITEM_TIMER_B],
                 0);
         }
 

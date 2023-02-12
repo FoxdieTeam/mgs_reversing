@@ -382,7 +382,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
                                     0 );
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
-        if ( GM_CurrentItemId == eSUPPR )
+        if ( GM_CurrentItemId == ITEM_SUPPR )
         {
             GM_CurrentItemId = ITEM_NONE;
         }
