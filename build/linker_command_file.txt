@@ -448,7 +448,7 @@
     include "..\obj\Menu\menu_radio_draw_face_helper_helper_80046DF4.obj"
     include "..\obj\menu_radio_codec_task_proc_helper_80046F3C.obj"
     include "..\obj\Menu\menu_gcl_read_word_80047098.obj"
-    include "..\obj\sub_800470B4.obj"
+    include "..\obj\Menu\menu_800470B4.obj"
 
     ;800474EC = radiomes.c
 
