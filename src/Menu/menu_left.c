@@ -2,8 +2,10 @@
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "menuman.h"
+#include "radio.h"
 #include "linker.h"
 #include "psyq.h"
+#include "Game/game.h"
 
 extern MenuMan_Inventory_14h_Unk gMenuLeftItems_800BD5A0[];
 extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
@@ -25,6 +27,16 @@ int SECTION(".sbss")             dword_800AB574;
 
 extern int                       dword_800AB578;
 int SECTION(".sbss")             dword_800AB578;
+
+extern const char aNoItem[];
+extern const char aLv[];
+
+void sub_8003CEF8(MenuMan_Inventory_14h_Unk *a1);
+void menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
+void menu_init_sprt_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y);
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, const char *str, int flags);
+
+void Menu_item_render_frame_rects_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4);
 
 void menu_sub_8003B568(void)
 {
@@ -67,7 +79,7 @@ int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
         return 1;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x42)
+    if (GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_PRONE | PLAYER_STATUS_FIRST_PERSON_DUCT))
     {
         if ((item == ITEM_C_BOX_A) ||
             (item == ITEM_C_BOX_B) ||
@@ -131,7 +143,107 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
     addPrim(pOt, pSprt);
 }
 
-#pragma INCLUDE_ASM("asm/menu_inventory_left_helper_8003B8F0.s") // 764 bytes
+
+
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, menu_left_right *pMenuSub)
+{
+    MenuMan_Inventory_14h_Unk *pMenuSprt; // $s6
+    MenuGlue *field_20_otBuf; // $v0
+    SPRT *pIconSprt; // $s0
+    int rgb; // $s1
+    int bBlueBackground; // $a3
+    TextConfig textConfig; // [sp+18h] [-10h] BYREF
+
+    if ( pMenuSub->field_0.field_0_item_id_idx >= 0 )
+    {
+        pMenuSprt = menu_rpk_8003B5E0(pMenuSub->field_0.field_0_item_id_idx);
+        sub_8003CEF8(pMenuSprt);
+        if ( menu_inventory_Is_Item_Disabled_8003B6D0(pMenuSub->field_0.field_0_item_id_idx) )
+        {
+            menu_draw_nouse_800435A4(pActor->field_20_otBuf, xpos, ypos);
+        }
+        if ( GM_FrozenItemsState == 1 )
+        {
+            if ( pMenuSub->field_0.field_0_item_id_idx == ITEM_RATION ||
+                 pMenuSub->field_0.field_0_item_id_idx == ITEM_KETCHUP )
+            {
+                menu_draw_frozen_800435C8(pActor->field_20_otBuf, xpos, ypos);
+            }
+        }
+
+        if ( (GM_ItemTypes_8009D598[pMenuSub->field_0.field_0_item_id_idx + 1] & 0x2000) != 0 )
+        {
+            menu_number_draw_number2_80042FC0(
+                pActor,
+                xpos,
+                ypos + 11,
+                pMenuSub->field_0.field_2_current_amount,
+                GM_Items[pMenuSub->field_0.field_0_item_id_idx  + 11]);
+        }
+        else if ( pMenuSub->field_0.field_0_item_id_idx == ITEM_CARD )
+        {
+            textConfig.xpos = xpos;
+            textConfig.ypos = ypos + 14;
+            textConfig.flags = 0;
+            textConfig.colour = 0x64808080;
+            menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, aLv);
+            textConfig.ypos -= 2;
+            menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
+        }
+        else if ( pMenuSub->field_0.field_0_item_id_idx == ITEM_TIMER_B )
+        {
+            menu_number_draw_80042F78(
+                pActor,
+                (int)pOt,
+                xpos + 10,
+                ypos + 10,
+                GM_Items[ITEM_TIMER_B],
+                0);
+        }
+
+        if ( *(int *)&pMenuSprt->field_C_u ) // uv or clut
+        {
+            field_20_otBuf = pActor->field_20_otBuf;
+            pIconSprt = (SPRT *)field_20_otBuf->mPrimBuf.mFreeLocation;
+            field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+            
+            if ( !pMenuSub->field_0.field_4 )
+            {
+                rgb = 0x808080;
+            }
+            else
+            {
+                rgb = 0x404040;
+            }
+            menu_init_sprt_8003D0D0(pIconSprt, pMenuSprt, xpos, ypos);
+            LSTORE(rgb, &pIconSprt->r0);
+            setSprt(pIconSprt);
+            addPrim(pOt, pIconSprt);
+        }
+        menu_number_draw_string_800430F0(
+            pActor,
+            (int)pOt,
+            xpos + 46,
+            ypos + 22,
+            gMenuItemRpkInfo_8009E484[pMenuSub->field_0.field_0_item_id_idx].field_0_weapon_name,
+            1);
+    }
+    else
+    {
+        menu_number_draw_string_800430F0(pActor, (int)pOt, xpos + 46, ypos + 22, aNoItem, 1);
+    }
+    
+    if ( !pMenuSub->field_0.field_4 )
+    {
+        bBlueBackground = pMenuSub->field_0.field_6 == 0;
+    }
+    else
+    {
+        bBlueBackground = 0;
+    }
+
+    Menu_item_render_frame_rects_8003DBAC(pActor->field_20_otBuf, xpos, ypos, bBlueBackground);
+}
 
 void menu_8003BBEC(Actor_MenuMan *pActor)
 {

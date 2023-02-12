@@ -207,7 +207,16 @@ void menu_Text_Init_80038B98(void)
     pTextConfig->flags = 0;
 }
 
-#pragma INCLUDE_ASM("asm/menu_Text_PrimUnknown_80038BB4.s") // 132 bytes
+void menu_Text_PrimUnknown_80038BB4()
+{
+    DR_TPAGE *pPrim; // $a0
+
+    pPrim = (DR_TPAGE*)gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
+    gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    setDrawTPage(pPrim, 1, 1, getTPage(0, gMenuTextConfig_8009E2E4.flags >> 8, 960, 256));
+
+    addPrim(gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt, pPrim);
+}
 
 int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5)
 {
