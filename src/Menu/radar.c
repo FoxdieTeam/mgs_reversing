@@ -2,6 +2,7 @@
 #include "linker.h"
 #include "psyq.h"
 #include "radar.h"
+#include "libdg/libdg.h"
 
 // force gp
 extern int gFn_radar_800AB48C;
@@ -37,13 +38,53 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
 }
 
 #pragma INCLUDE_ASM("asm/draw_radar_helper2_800391D0.s") // 2956 bytes
-#pragma INCLUDE_ASM("asm/sub_80039D5C.s") // 88 bytes
+
+extern int gRadarClut_800AB498;
+int        SECTION(".sdata") gRadarClut_800AB498;
+
+void sub_80039D5C(SPRT *pPrim, int x, int y, radar_sprt_params_8009E30C *pSprtParams, int rgb)
+{
+    short clut;
+
+    pPrim->x0 = x;
+    pPrim->y0 = y;
+    pPrim->u0 = pSprtParams->u0;
+    pPrim->v0 = pSprtParams->v0;
+    pPrim->w  = pSprtParams->w;
+    pPrim->h  = pSprtParams->h;
+
+    do {} while (0); // Force a match
+
+    clut = gRadarClut_800AB498;
+    LSTORE(rgb, &pPrim->r0);
+
+    setSprt(pPrim);
+    setSemiTrans(pPrim, 1);
+
+    pPrim->clut = clut;
+}
+
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper_helper_80039DB4.s") // 272 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper_80039EC4.s") // 504 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_helper4_8003A978.s") // 180 bytes
+
+extern radar_sprt_params_8009E30C gRadarSprtParams_8009E30C[];
+extern int                        gRadarRGBTable_8009E3B8[];
+
+void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
+{
+    SPRT *pPrim;
+
+    pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    // index seems to be between 0 and 3 (inclusive)
+    sub_80039D5C(pPrim, x - 34, -12, &gRadarSprtParams_8009E30C[index], gRadarRGBTable_8009E3B8[index]);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+}
+
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_8003AA2C.s") // 824 bytes
 
 void menu_radar_load_rpk_8003AD64()

@@ -24,6 +24,7 @@
 #include "Bullet/blast.h"
 #include "Weapon/aam.h"
 #include "Equip/jpegcam.h"
+#include "Menu/radar.h"
 
 // sdata
 extern const char *aCigs[];
@@ -486,16 +487,20 @@ TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
 int SECTION(".data") dword_8009E2F4[] = {0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808};
 
-int   SECTION(".data") dword_8009E30C = 0xC1C5080;
-int   SECTION(".data") dword_8009E310[] = {0x72C5C80, 0xC1C509C, 0x73A6380, 0xC1C50B8,
-                                           0x72C5CB4, 0xC3A6A8A, 0x73A768A}; //, 0xCB632403 };
+radar_sprt_params_8009E30C SECTION(".data") gRadarSprtParams_8009E30C[] = {
+    {128,  80, 28, 12, 0x072C5C80},
+    {156,  80, 28, 12, 0x073A6380},
+    {184,  80, 28, 12, 0x072C5CB4},
+    {138, 106, 58, 12, 0x073A768A},
+};
+
 char  SECTION(".data") byte_8009E32C[] = {0xBC, 0x63, 0x24, 3};
 int   SECTION(".data") dword_8009E330 = 0x100A6A80;
 char  SECTION(".data") byte_8009E334[] = {0xC4, 0x66, 0x1C, 0x16};
 short SECTION(".data") word_8009E338[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210};
-int SECTION(".data") dword_8009E3B8[] = {0x182589, 0x184789, 0x182589, 0x338918};
+int SECTION(".data") gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 0x338918};
 
 int SECTION(".data") dword_8009E3C8[] = {0x1371D07, 0x1373207, 0x2032E21};
 int SECTION(".data") dword_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
