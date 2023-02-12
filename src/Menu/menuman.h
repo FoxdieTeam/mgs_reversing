@@ -354,6 +354,9 @@ void           menu_font_kill_helper_8003F50C(void);
 void           menu_radio_8004D2FC(menu_save_mode_data *pSaveMode);
 int            menu_radio_8004D334(GV_PAD *pPad);
 void           menu_radio_8004D35C(void);
+void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
+void           menu_font_kill_8003FC0C(void);
+int            sub_8003CFE0(MenuMan_Inventory_14h_Unk *images, int index);
 
 void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
 
