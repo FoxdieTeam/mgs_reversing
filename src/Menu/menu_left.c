@@ -1,3 +1,4 @@
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "menuman.h"
@@ -235,7 +236,48 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
     Menu_item_render_frame_rects_8003DBAC(pActor->field_20_otBuf, xpos, ypos, bBlueBackground);
 }
 
-#pragma INCLUDE_ASM("asm/menu_8003BBEC.s") // 232 bytes
+void menu_8003BBEC(Actor_MenuMan *pActor)
+{
+    Menu_Item_Unknown *temp_v0 = pActor->field_1DC_menu_left.field_C_alloc;
+    int index;
+    short *pLinkVar;
+
+    pActor->field_1DC_menu_left.field_10 = NULL;
+
+    AssignXYFromVec_8003D1B8(&pActor->field_1DC_menu_left.field_0, &temp_v0->field_20_array[temp_v0->field_0_main.field_4_selected_idx]);
+
+    if (pActor->field_1DC_menu_left.field_0.field_2_current_amount <= 0)
+    {
+        pActor->field_1DC_menu_left.field_0.field_0_item_id_idx = ITEM_NONE;
+    }
+
+    index = pActor->field_1DC_menu_left.field_0.field_0_item_id_idx;
+    pLinkVar = linkvarbuf;
+    
+    if ((index >= 0) && !menu_inventory_Is_Item_Disabled_8003B6D0(index))
+    {
+        pLinkVar[15] = index;
+        sub_8003CFE0(menu_rpk_8003B5E0(index), 0);
+        pActor->field_1DC_menu_left.field_11 = pLinkVar[15];
+    }
+    else
+    {
+        if (index != ITEM_NONE)
+        {
+            dword_800ABAD0 = index;
+        }
+
+        GM_CurrentItemId = ITEM_NONE;
+        pActor->field_1DC_menu_left.field_0.field_0_item_id_idx = ITEM_NONE;
+    }
+
+    pActor->field_1DC_menu_left.field_12_flashingAnimationFrame = 10;
+
+    menu_panel_free_8003D184(pActor->field_1DC_menu_left.field_C_alloc);
+    menu_font_kill_8003FC0C();
+
+    GM_Sound_80032968(0, 63, 20);
+}
 
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper_8003BCD4.s") // 584 bytes
 #pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper2_8003BF1C.s") // 816 bytes
@@ -252,8 +294,8 @@ int sub_8003CB98(struct Actor_MenuMan *pActor)
     menu_restore_nouse_80043470();
     field_0_item_id_idx = pActor->field_1DC_menu_left.field_0.field_0_item_id_idx;
     result = -1;
-    if ( field_0_item_id_idx != -1
-      || (field_0_item_id_idx = pActor->field_1DC_menu_left.field_11, field_0_item_id_idx != -1) )
+    if ( field_0_item_id_idx != ITEM_NONE
+      || (field_0_item_id_idx = pActor->field_1DC_menu_left.field_11, field_0_item_id_idx != ITEM_NONE) )
     {
         pItem = menu_rpk_8003B5E0(field_0_item_id_idx);
         result = sub_8003CFE0(pItem, 0);
