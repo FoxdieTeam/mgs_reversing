@@ -113,55 +113,6 @@ typedef struct CAMERA
     char  field_13_param_p;
 } CAMERA;
 
-enum ItemsId
-{
-    eCIGS = 0,
-    eSCOPE = 1,
-    eC_BOX_A = 2,
-    eC_BOX_B = 3,
-    eC_BOX_C = 4,
-    eN_V_G = 5,
-    eTHERM_G = 6,
-    eGASMASK = 7,
-    eB_ARMOR = 8,
-    eKETCHUP = 9,
-    eSTEALTH = 10,
-    eBANDANA = 11,
-    eCAMERA = 12,
-    eRATION = 13,
-    eMEDICINE = 14,
-    eDIAZEPAM = 15,
-    ePAL_KEY = 16,
-    eCARD = 17,
-    eTIMER_B = 18,
-    eMINE_D = 19,
-    eDISC = 20,
-    eROPE = 21,
-    eHANDKER = 22,
-    eSUPPR = 23
-};
-
-enum ConsummableItemsId
-{
-    eRATION_capacity = 0,
-    eMEDICINE_capacity = 1,
-    eDIAZEPAM_capacity = 2
-};
-
-enum WeaponsId
-{
-    eSOCOM = 0,
-    eFAMAS = 1,
-    eGRENADE = 2,
-    eNIKITA = 3,
-    eSTINGER = 4,
-    eCLAYMORE = 5,
-    eC4 = 6,
-    eSTUN_G = 7,
-    eCHAFF_G = 8,
-    ePSG1 = 9
-};
-
 enum GCLOperators
 {
     eNegate = 1,
@@ -197,7 +148,7 @@ enum GCLOperators
 #define GAME_FLAG_BIT_09 0x100
 #define GAME_FLAG_BIT_10 0x200
 #define GAME_FLAG_BIT_11 0x400
-#define GAME_FLAG_BIT_12 0x800
+#define GAME_RADAR_ENABLED 0x800
 #define GAME_FLAG_BIT_13 0x1000
 #define GAME_FLAG_BIT_14 0x2000
 #define GAME_FLAG_BIT_15 0x4000

@@ -569,7 +569,7 @@ void menu_right_unknown_8003DEB0(void)
 MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if ((weaponIdx == eSOCOM) && !GM_SilencerFlag)
+    if ((weaponIdx == WEAPON_SOCOM) && !GM_SilencerFlag)
     {
         rpkIdx = 2;
     }
