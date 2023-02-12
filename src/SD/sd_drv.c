@@ -34,6 +34,8 @@ extern const char aSongsyukanmode[];
 extern const char aSongEndXX[];
 extern const char aSngcodeX[];
 extern const char aErrorSngPlayCo[];
+extern const char aSngFadeoutStar[]; // = "SNG FADEOUT START(status=%x)\n"
+extern const char aSngFadeoutCanc[]; // = "SNG FADEOUT CANCELED(status=%x)\n"
 
 extern int sd_sng_code_buf_800BF018[16];
 extern int sng_syukan_fg_800C0510;
@@ -54,8 +56,8 @@ extern int stop_jouchuu_se_800BF1A0;
 extern int sng_fout_term_800C0518;
 extern int dword_800BEFF8;
 
-extern unsigned int mtrack_800BF1EC;
-extern unsigned char * mptr_800C0570;
+extern unsigned int   mtrack_800BF1EC;
+extern unsigned char *mptr_800C0570;
 
 extern int spu_ch_tbl_800A2AC8[];
 extern int fade_unk_1_800C0BC8[13];
@@ -63,23 +65,23 @@ extern int sng_fade_time_800C0430[14];
 extern int sng_fade_value_800C0538[13];
 
 extern SOUND_W * sptr_800C057C;
-extern SOUND_W sound_w_800BF2A8[21];
+extern SOUND_W   sound_w_800BF2A8[21];
 extern SEPLAYTBL se_request_800BF0E0[8]; // 0x60 (96) bytes
 
 void sng_track_init_800859B8(SOUND_W *pSoundW);
-int SD_8008395C(int a1, int a2);
+int  SD_8008395C(int a1, int a2);
 void SD_80085480();
 void sng_pause_80087EF4();
 void sng_pause_off_80087F24();
 void SD_SongFadeIn_80084CCC();
-int SngFadeOutP_80084D60(unsigned int a1);
-void SD_SongFadeoutAndStop_80084E48();
+int  SngFadeOutP_80084D60(unsigned int a1);
+int  SD_SongFadeoutAndStop_80084E48(unsigned int code);
 void SD_SongKaihiMode_80084F88();
 void sng_off_80087E2C();
 void sng_adrs_set_80085658();
 void SngFadeWkSet_80085020();
 void SD_80085164();
-int SD_80085A50();
+int  SD_80085A50();
 void se_off_80087E94(int a1);
 void se_adrs_set_8008576C();
 void SD_spuwr_80087A88();
@@ -463,7 +465,53 @@ int SngFadeOutP_80084D60(unsigned int a1)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_SongFadeoutAndStop_80084E48.s") // 320 bytes
+int SD_SongFadeoutAndStop_80084E48(unsigned int code)
+{
+    int i;
+    int fade;
+
+    if ((sng_status_800BF158 != 0) && ((sng_fout_term_800C0518 != 0x1FFF) || (sd_KaihiMode_800BF05C != 0)))
+    {
+        switch (code)
+        {
+        case 0x1FFFF0A:
+            fade = 0x51E;
+            break;
+        case 0x1FFFF0B:
+            fade = 0x28F;
+            break;
+        case 0x1FFFF0C:
+            fade = 0xDA;
+            break;
+        case 0x1FFFF0D:
+            fade = 0x83;
+            break;
+        }
+
+        if (fade == 0)
+        {
+            fade = 1;
+        }
+
+        for (i = 0; i < 13; i++)
+        {
+            if (!((sng_fout_term_800C0518 >> i) & 1))
+            {
+                sng_fade_time_800C0430[i] = fade;
+            }
+        }
+
+        sd_KaihiMode_800BF05C = 0;
+        sng_status_800C04F8 = -1;
+    
+        mts_printf_8008BBA0(aSngFadeoutStar, sng_status_800BF158);
+        return 0;
+    }
+
+    mts_printf_8008BBA0(aSngFadeoutCanc, sng_status_800BF158);
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_SongKaihiMode_80084F88.s") // 152 bytes
 #pragma INCLUDE_ASM("asm/SD/SngFadeWkSet_80085020.s") // 324 bytes
 #pragma INCLUDE_ASM("asm/SD/SD_80085164.s") // 796 bytes
