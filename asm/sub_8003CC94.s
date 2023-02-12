@@ -1,11 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_8003CC88
-sub_8003CC88:
-	dw 0xAF8007EC ; 0x8003CC88
-	dw 0x03E00008 ; 0x8003CC8C
-	dw 0x00000000 ; 0x8003CC90
+	xdef sub_8003CC94
+sub_8003CC94:
 	dw 0x3C02800C ; 0x8003CC94
 	dw 0x244AD748 ; 0x8003CC98
 	dw 0x00003821 ; 0x8003CC9C
