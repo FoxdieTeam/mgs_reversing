@@ -1,6 +1,7 @@
 #include "libgv/libgv.h"
 #include "kogaku2.h"
 #include "unknown.h"
+#include "libgcl/hash.h"
 
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;
@@ -130,5 +131,43 @@ void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor)
 {
 }
 
-#pragma INCLUDE_ASM("asm/Equip/NewKogaku2_800615FC.s") // 268 bytes
+
+extern const char aKogaku2C[];
+
+Actor_kogaku2 *NewKogaku2_800615FC(GM_Control *pCtrl, OBJECT *pObj, int unit)
+{
+  Actor_kogaku2 *pActor;
+  DG_OBJS *objs;
+  pActor = (Actor_kogaku2 *) GV_NewActor_800150E4(1, sizeof(Actor_kogaku2));
+  if (pActor)
+  {
+    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, aKogaku2C);
+
+    pActor->field_20_pObj = pObj;
+    pActor->field_24_unit = unit;
+    pActor->field_2C_ypos2 = 0;
+    pActor->field_30_ypos1 = 1;
+    objs = pActor->field_20_pObj->objs;
+      
+    pActor->field_28_obj_old_flag = objs->flag;
+    DG_UnShadeObjs(objs);
+    DG_UnBoundObjs(objs);
+    DG_GBoundObjs(objs);
+      
+    if (pCtrl->field_30_scriptData == CHARA_SNAKE)
+    {
+      pActor->field_3C_msg_is_8650 = 1;
+      pActor->field_40_rgb = 0x3C60A080;
+      EQ_InvisibleUnit_80060E68(objs, pActor->field_40_rgb , 0);
+    }
+    else
+    {
+      pActor->field_40_rgb = 0x3C808080;
+      EQ_InvisibleUnit_80060E68(objs, pActor->field_40_rgb , 0);
+    }
+  }
+  return pActor;
+}
+
+
 #pragma INCLUDE_ASM("asm/Equip/NewKogaku3_80061708.s") // 596 bytes
