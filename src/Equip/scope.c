@@ -1,6 +1,9 @@
 #include "scope.h"
 #include "Menu/menuman.h"
 #include "Game/camera.h"
+#include "Game/object.h"
+#include "Thing/sight.h"
+#include "chara/snake/sna_init.h"
 
 extern const char aZoomLevelD[];
 extern const char aD_44[];  // = "%d"
@@ -40,7 +43,134 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_80062E8C.s")               // 752 bytes
+extern int              DG_CurrentGroupID_800AB968;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern short gGameState_800B4D98[0x60];
+extern int              dword_8009F604;
+extern int              GV_PauseLevel_800AB928;
+extern int              GV_Clock_800AB920;
+extern GV_PAD           GV_PadData_800B05C0[4];
+extern GM_Camera        GM_Camera_800B77E8;
+extern DG_CHNL          DG_Chanls_800B1800[3];
+extern const char       aGoggles_2[];
+
+void scope_act_helper_8006258C(Actor_scope *pActor);
+void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
+void scope_act_helper_80062998(Actor_scope *pActor, unsigned char *pOt, unsigned short pad_status);
+void scope_act_helper_80062BDC(Actor_scope *pActor, unsigned char *pOt);
+void scope_act_helper_80062C7C(Actor_scope *pActor, unsigned char *pOt);
+
+static inline DG_CHNL *DG_CHANL(int idx)
+{
+    return &DG_Chanls_800B1800[idx];
+}
+
+// https://github.com/FoxdieTeam/mgs_reversing
+
+
+
+void scope_act_80062E8C(Actor_scope *pActor)
+{
+    int            model;
+    OBJECT        *parent_obj;
+    OBJECT        *obj;
+    unsigned char *pOt;
+    unsigned short pad_status;
+    DG_CHNL       *chnl;
+
+    if ((pActor->field_9C_flags & 0x8000) == 0)
+    {
+        parent_obj = pActor->field_24_pParent;
+
+        if (pActor->field_24_pParent->objs->n_models >= 7 && ((pActor->field_24_pParent->objs->flag & 0x80) != 0))
+        {
+            obj = &pActor->field_28_obj;
+            model = GV_StrCode_80016CCC(aGoggles_2);
+
+            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, model, 0x6d, 0);
+
+            if ((pActor->field_28_obj).objs != (DG_OBJS *)0x0)
+            {
+                GM_ConfigObjectRoot_80034C5C(obj, parent_obj, 6);
+                GM_ConfigObjectLight_80034C44(obj, parent_obj->light);
+                EQ_InvisibleHead_80060D5C(parent_obj, &pActor->field_4C_saved_packs, &pActor->field_4E_saved_raise);
+                pActor->field_9C_flags |= 0x8000;
+            }
+        }
+    }
+
+
+    if ((pActor->field_9C_flags & 0x8000) != 0)
+    {
+        GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl->field_2C_map->field_0_map_index_bit;
+        DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+
+        if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) != 0)
+        {
+            if ((pActor->field_24_pParent->objs->flag & 0x80) == 0)
+            {
+                DG_VisibleObjs(pActor->field_28_obj.objs);
+            }
+			
+            GM_Camera_800B77E8.field_20 = 320;
+            return;
+        }
+
+        DG_InvisibleObjs(pActor->field_28_obj.objs);
+    }
+
+
+    if (pActor->field_5C > 0)
+    {
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            pActor->field_5C--;
+        }
+        return;
+    }
+
+
+    if (dword_8009F604 != 0x51c8)
+    {
+        NewSight_80071CDC(0x51c8, 0x51c8, &gGameState_800B4D98[15], 1, 0);
+        GM_Sound_80032968(0, 0x3f, 0x15);
+    }
+
+
+    if ((pActor->field_9C_flags & 3) != 3)
+    {
+        scope_act_helper_8006258C(pActor);
+        return;
+    }
+
+
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2) != 0)
+    {
+        pActor->field_54_pOldPad = &GV_PadData_800B05C0[3];
+    }
+    else
+    {
+        pActor->field_54_pOldPad = &GV_PadData_800B05C0[2];
+    }
+
+    pad_status = pActor->field_54_pOldPad->status;
+    GM_CheckShukanReverse_8004FBF8(&pad_status);
+
+    if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000) ||
+        (GM_GameStatus_800AB3CC < 0))
+    {
+        pad_status = 0;
+    }
+
+    chnl = &DG_Chanls_800B1800[1];
+    pOt = chnl[1].mOrderingTables[GV_Clock_800AB920]; // todo: fix when static inline DG_Chanl getter works.
+    scope_act_helper_800626D0(pActor, pad_status);
+    scope_act_helper_80062998(pActor, pOt, pad_status);
+    scope_act_helper_80062BDC(pActor, pOt);
+    scope_act_helper_80062C7C(pActor, pOt);
+    scope_draw_text_80062DA8(pActor);
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_kill_8006317C.s")              // 188 bytes
 
 void scope_loader_helper_80063238(LINE_F2 *lines)

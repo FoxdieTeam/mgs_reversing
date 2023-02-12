@@ -18,7 +18,7 @@ typedef struct Actor_scope
   short field_4C_saved_packs;
   short field_4E_saved_raise;
   map_record *field_50_pMap;
-  int field_54_pOldPad;
+  GV_PAD *field_54_pOldPad;
   int field_58;
   short field_5C;
   short field_5E;
