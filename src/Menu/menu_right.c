@@ -49,7 +49,15 @@ extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
-#pragma INCLUDE_ASM("asm/sub_8003CC88.s") // 440 bytes
+extern int           dword_800ABAD0;
+int SECTION(".sbss") dword_800ABAD0;
+
+void sub_8003CC88()
+{
+    dword_800ABAD0 = 0;
+}
+
+#pragma INCLUDE_ASM("asm/sub_8003CC94.s") // 428 bytes
 
 static inline int sub_8003CE40_index()
 {

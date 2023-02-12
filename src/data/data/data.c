@@ -462,7 +462,7 @@ typedef struct {
 }; // TODO Missing data
 */
 
-TInitKillFn SECTION(".data") gMenuInitFns_8009E290[] = {(TInitKillFn)0x8003CC94, // ??
+TInitKillFn SECTION(".data") gMenuInitFns_8009E290[] = {(TInitKillFn)0x8003CC94, // sub_8003CC94 in menu_right
                                                         (TInitKillFn)0x8003B474, // radar
                                                         (TInitKillFn)0x80042700, // menu_radio_init_80042700
                                                         (TInitKillFn)0x8003CBF0, // invent left
