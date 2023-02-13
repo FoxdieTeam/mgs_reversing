@@ -14,7 +14,7 @@ extern const char aStartTaskSdint[];
 extern const char aSdSngdataloadi[];
 
 extern unsigned int sng_status_800C04F8;
-extern int sd_sng_data_800C0420;
+extern unsigned char *sd_sng_data_800C0420;
 extern const char aLoadsefileFile[];
 extern const char aErrorSeFileAlr[];
 
@@ -69,7 +69,7 @@ extern const char aLoadinitD[];
 extern int gStream_800C04F0;
 extern int dword_800BF258;
 extern int dword_800C0580;
-extern int se_exp_table_800C0520;
+extern unsigned char *se_exp_table_800C0520;
 
 void sub_80081910(int argc, const char **argv)
 {
@@ -518,7 +518,7 @@ int SD_SongLoadData_8008394C(int a1, int a2)
     return -1;
 }
 
-int SD_80083954(int a1, int a2, int a3)
+int SD_80083954(int a1, unsigned char *a2, int a3)
 {
     return -1;
 }
@@ -566,7 +566,7 @@ int num2char_80083E68(unsigned int num)
     return num & 0xff;
 }
 
-int SD_SngDataLoadInit_80083E8C()
+unsigned char * SD_SngDataLoadInit_80083E8C(void)
 {
     sng_status_800C04F8 = 0;
     sng_status_800BF158 = 0;
@@ -580,7 +580,7 @@ void SD_80083ED4(void)
     sng_status_800BF158 = 2;
 }
 
-int SD_80083EE8()
+unsigned char * SD_80083EE8(void)
 {
     return se_exp_table_800C0520;
 }
