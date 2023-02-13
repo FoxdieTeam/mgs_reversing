@@ -375,7 +375,7 @@ END:
     chnl->mFreePrimCount = n_free_prims;
 }
 
-void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2)
+void DG_Init_DrawEnv_80018384(DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2)
 {
     setRECT(&pDrawEnv->clip, clipX1, clipY1, clipX2, clipY2);
     pDrawEnv->ofs[0] = clipX1;
