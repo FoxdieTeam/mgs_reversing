@@ -11,10 +11,37 @@ int        SECTION(".sdata") gFn_radar_800AB48C;
 extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
 
+extern int MENU_RadarScale_800AB480;
+int        SECTION(".sdata") MENU_RadarScale_800AB480;
+extern int MENU_RadarRangeH_800AB484;
+int        SECTION(".sdata") MENU_RadarRangeH_800AB484;
+extern int MENU_RadarRangeV_800AB488;
+int        SECTION(".sdata") MENU_RadarRangeV_800AB488;
+
+extern MATRIX gRadarScaleMatrix_800BD580;
+extern MATRIX DG_ZeroMatrix_8009D430;
+
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
 
-#pragma INCLUDE_ASM("asm/menu_SetRadarScale_80038E28.s") // 264 bytes
+void menu_SetRadarScale_80038E28(int scale)
+{
+    int    scale2;
+    VECTOR scale_vec;
+
+    MENU_RadarScale_800AB480 = scale * 13 / 4096;
+
+    scale2 = 65536 * 13 / MENU_RadarScale_800AB480;
+
+    MENU_RadarRangeH_800AB484 = scale2 / 3;
+    MENU_RadarRangeV_800AB488 = scale2 / 4;
+
+    gRadarScaleMatrix_800BD580 = DG_ZeroMatrix_8009D430;
+    scale_vec.vz = MENU_RadarScale_800AB480;
+    scale_vec.vy = MENU_RadarScale_800AB480;
+    scale_vec.vx = MENU_RadarScale_800AB480;
+    ScaleMatrix_800930D8(&gRadarScaleMatrix_800BD580, &scale_vec);
+}
 
 void menu_SetRadarFunc_80038F30(int param_1)
 {
