@@ -97,10 +97,10 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
     y1 = menuMan->field_CC_radar_data.field_10A_radarYOffsetFromDefault;
     x2 = x1 + 0xea;
     y2 = y1 + 0xf;
-    menu_render_rect_8003DB2C((MenuGlue *)menuMan->field_20_otBuf, x2, y2, 1, 53, 0); // TODO: fix cast
-    menu_render_rect_8003DB2C((MenuGlue *)menuMan->field_20_otBuf, x2, y2, 70, 1, 0);
-    menu_render_rect_8003DB2C((MenuGlue *)menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0);
-    menu_render_rect_8003DB2C((MenuGlue *)menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0);
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0);
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 70, 1, 0);
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0);
+    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0);
 }
 
 #pragma INCLUDE_ASM("asm/draw_radar_helper2_800391D0.s") // 2956 bytes
@@ -130,7 +130,37 @@ void sub_80039D5C(SPRT *pPrim, int x, int y, radar_sprt_params_8009E30C *pSprtPa
     pPrim->clut = clut;
 }
 
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_helper_helper_80039DB4.s") // 272 bytes
+void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, radar_sprt_params_8009E30C *pSprtParams)
+{
+    int   x0;
+    TILE *tile1;
+    TILE *tile2;
+
+    x0 = pSprt->x0;
+
+    tile1 = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    tile1->x0 = -34;
+    tile1->y0 = pSprt->y0;
+    tile1->w = x0 - tile1->x0;
+    tile1->h = pSprtParams->h;
+    LCOPY(&pSprt->r0, &tile1->r0);
+
+    setTile(tile1);
+    setSemiTrans(tile1, 1);
+    addPrim(pGlue->mPrimBuf.mOt, tile1);
+
+    tile2 = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    *tile2 = *tile1;
+    tile2->x0 = pSprtParams->w + x0;
+    tile2->w = 69 - tile2->x0;
+
+    addPrim(pGlue->mPrimBuf.mOt, tile2);
+}
+
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper_80039EC4.s") // 504 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
