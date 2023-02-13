@@ -681,8 +681,41 @@ void sng_adrs_set_80085658(int arg0)
     keyons_800BF260 &= ~0x1fff;
 }
 
-// https://decomp.me/scratch/sro0f
-#pragma INCLUDE_ASM("asm/SD/se_adrs_set_8008576C.s") // 588 bytes
+void se_adrs_set_8008576C(int index)
+{
+    se_playing_800BF068[index].field_8_code = se_request_800BF0E0[index].field_8_code;
+    se_playing_800BF068[index].field_0_pri = se_request_800BF0E0[index].field_0_pri;
+    se_playing_800BF068[index].field_1_kind = se_request_800BF0E0[index].field_1_kind;
+    se_playing_800BF068[index].field_2_character = se_request_800BF0E0[index].field_2_character;
+    se_playing_800BF068[index].field_4_addr = se_request_800BF0E0[index].field_4_addr;
+
+    se_request_800BF0E0[index].field_8_code = 0;
+    se_request_800BF0E0[index].field_0_pri = 0;
+    se_request_800BF0E0[index].field_2_character = 0;
+
+    sng_track_init_800859B8(&sound_w_800BF2A8[index + 13]);
+
+    se_vol_800BF1F0[index] = 2 * (se_playing_800BF068[index].field_8_code & 0x3f00);
+
+    song_end_800C04E8 &= ~(1 << (index + 13));
+    keyons_800BF260 &= ~(1 << (index + 13));
+    se_pan_800BF1B8[index] = ((se_playing_800BF068[index].field_8_code >> 16) + 32) & 0x3f;
+    keyoffs_800BF29C = keyoffs_800BF29C & ~(1 << (index + 13));
+
+    sound_w_800BF2A8[index + 13].field_0_mpointer = se_playing_800BF068[index].field_4_addr;
+    
+    if (se_playing_800BF068[index].field_1_kind)
+    {
+        if (se_rev_on_800C0574)
+        {
+            dword_800BF064 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+        }
+        else
+        {
+            dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+        }
+    }
+}
 
 void sng_track_init_800859B8(SOUND_W *pSoundW)
 {
