@@ -76,7 +76,7 @@ void sng_pause_off_80087F24();
 void SD_SongFadeIn_80084CCC();
 int  SngFadeOutP_80084D60(unsigned int a1);
 int  SD_SongFadeoutAndStop_80084E48(unsigned int code);
-void SD_SongKaihiMode_80084F88();
+int  SD_SongKaihiMode_80084F88(void);
 void sng_off_80087E2C();
 void sng_adrs_set_80085658();
 void SngFadeWkSet_80085020();
@@ -384,9 +384,7 @@ void IntSdMain_80084494()
     SD_spuwr_80087A88();
 }
 
-
-
-void SD_SongFadeIn_80084CCC(unsigned int mode)
+inline void SD_SongFadeIn_80084CCC(unsigned int mode)
 {
     int i;
 
@@ -419,12 +417,8 @@ void SD_SongFadeIn_80084CCC(unsigned int mode)
 
 int SngFadeOutP_80084D60(unsigned int a1)
 {
-    int temp; // $a1
+    int temp;
     int i;    // $v1
-
-#ifndef NO_WARNING_WORKAROUNDS
-    temp = temp; // doesn't work?
-#endif
 
     if (sng_status_800BF158 && sng_fout_term_800C0518 != 0x1FFF)
     {
@@ -452,7 +446,7 @@ int SngFadeOutP_80084D60(unsigned int a1)
 
         for (i = 0; i < 13; i++)
         {
-            if (((sng_fout_term_800C0518 >> i) & 1) == 0)
+            if ( !(sng_fout_term_800C0518 & (1 << i)) )
             {
                 sng_fade_time_800C0430[i] = temp;
             }
@@ -467,8 +461,8 @@ int SngFadeOutP_80084D60(unsigned int a1)
 
 int SD_SongFadeoutAndStop_80084E48(unsigned int code)
 {
-    int i;
     int temp;
+    int i;
 
     if ((sng_status_800BF158 != 0) && ((sng_fout_term_800C0518 != 0x1FFF) || (sd_KaihiMode_800BF05C != 0)))
     {
@@ -495,7 +489,7 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
 
         for (i = 0; i < 13; i++)
         {
-            if (!((sng_fout_term_800C0518 >> i) & 1))
+            if ( !(sng_fout_term_800C0518 & (1 << i)) )
             {
                 sng_fade_time_800C0430[i] = temp;
             }
@@ -512,8 +506,79 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_SongKaihiMode_80084F88.s") // 152 bytes
-#pragma INCLUDE_ASM("asm/SD/SngFadeWkSet_80085020.s") // 324 bytes
+int SD_SongKaihiMode_80084F88(void)
+{
+    int i;
+
+    if (sng_status_800BF158 == 0)
+    {    
+        return -1;
+    }
+        
+    if (sng_fout_term_800C0518 != 0x1FFF)
+    {
+        sng_fade_time_800C0430[2] = 43;
+        sng_fade_time_800C0430[3] = 43;
+    
+        for (i = 4; i < 13; i++)
+        {
+            if ( !(sng_fout_term_800C0518 & (1 << i)) )
+            {
+                sng_fade_time_800C0430[i] = 81;
+            }
+        }
+
+        sd_KaihiMode_800BF05C = 0;
+        sng_fade_in_2_800BF290 = 1;
+        return 0;
+    }
+
+    return -1;
+}
+
+void SngFadeWkSet_80085020(void)
+{
+    int i;
+
+    if (sng_fadein_fg_800C041C == 0)
+    {
+         sd_KaihiMode_800BF05C = 0;
+
+        for (i = 0; i < 13; i++)
+        {
+            sng_fade_time_800C0430[i] = 0;
+        }
+
+        for (i = 0; i < 13; i++)
+        {
+            sng_fade_value_800C0538[i] = 0;
+        }
+
+        sng_fout_term_800C0518 = 0;
+        sng_fout_fg_800BF25C = 0;
+        return;
+    }
+
+    switch (sng_fadein_fg_800C041C)
+    {
+    case 0x1FFFF03:
+    case 0x1FFFF04:
+    case 0x1FFFF05:
+        SD_SongFadeIn_80084CCC(sng_fadein_fg_800C041C);
+
+        for (i = 0; i < 13; i++)
+        {
+            sng_fade_value_800C0538[i] = 65536;
+        }
+    
+        sng_fadein_fg_800C041C = 0;
+        break;
+    }
+    
+    sng_fout_term_800C0518 = 0;
+    sng_fout_fg_800BF25C = 0;
+}
+
 #pragma INCLUDE_ASM("asm/SD/SD_80085164.s") // 796 bytes
 
 void SD_80085480()
