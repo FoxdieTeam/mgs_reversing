@@ -109,6 +109,7 @@ typedef struct _DG_OBJS
 	DG_OBJ   objs[ 0 ];  // 0x48
 } DG_OBJS;
 
+// It might be better to use a void * for this
 union Prim_Union
 {
 	LINE_G2  line_g2;
