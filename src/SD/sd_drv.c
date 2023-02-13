@@ -384,7 +384,7 @@ void IntSdMain_80084494()
     SD_spuwr_80087A88();
 }
 
-inline void SD_SongFadeIn_80084CCC(unsigned int mode)
+static inline void SD_SongFadeIn_helper_80084CCC(unsigned int mode)
 {
     int i;
 
@@ -412,7 +412,12 @@ inline void SD_SongFadeIn_80084CCC(unsigned int mode)
         sng_fade_time_800C0430[i] = 0;
     }
 
-    sng_fout_term_800C0518 = 0;
+    sng_fout_term_800C0518 = 0; 
+}
+
+void SD_SongFadeIn_80084CCC(unsigned int mode)
+{
+    SD_SongFadeIn_helper_80084CCC(mode);
 }
 
 int SngFadeOutP_80084D60(unsigned int a1)
@@ -564,7 +569,7 @@ void SngFadeWkSet_80085020(void)
     case 0x1FFFF03:
     case 0x1FFFF04:
     case 0x1FFFF05:
-        SD_SongFadeIn_80084CCC(sng_fadein_fg_800C041C);
+        SD_SongFadeIn_helper_80084CCC(sng_fadein_fg_800C041C);
 
         for (i = 0; i < 13; i++)
         {
