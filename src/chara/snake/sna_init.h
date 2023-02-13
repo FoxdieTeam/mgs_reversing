@@ -5,6 +5,7 @@
 #include "Game/GM_Control.h"
 #include "Game/game.h"
 #include "Game/target.h"
+#include "shadow.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
@@ -247,8 +248,8 @@ typedef struct Actor_SnaInit
     int                 field_844;
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
-    Actor              *field_888_pShadow;
-    unsigned int       *field_88C; // shadow enabled?
+    Actor_Shadow       *field_888_pShadow;
+    int                *field_88C; // shadow enabled?
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
