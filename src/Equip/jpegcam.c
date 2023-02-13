@@ -4,6 +4,7 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
+#include "libgcl/hash.h"
 
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
 
@@ -271,7 +272,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
         GV_PauseLevel_800AB928 &= ~0x1;
         DG_8001844C();
         pActor->field_64_state = 0;
-        pActor->field_90_pSight = NewSight_80071CDC(0xb3cd, 0xeee9, &GM_CurrentItemId, 12, 0);
+        pActor->field_90_pSight = NewSight_80071CDC(SIGHT_CAMERA_2, SIGHT_CAMERA, &GM_CurrentItemId, 12, 0);
     }
 }
 
@@ -296,7 +297,7 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
     if (!pActor->field_94_bMakeVisible)
     {
         pParent = pActor->field_24_pObj;
-        if ((pParent->objs->flag & 0x80) != 0)
+        if (pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
             new_var = (OBJECT*) (&pActor->field_28_obj);
             GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*) new_var, GV_StrCode_80016CCC(aGoggles), 109, 0);
@@ -316,17 +317,17 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
 
         DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
+        if (GM_PlayerStatus_800ABA50 & 0x4000000)
         {
-            if ((pActor->field_24_pObj->objs->flag & 0x80) == 0)
+            if ( !(pActor->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) )
             {
-                pActor->field_28_obj.objs->flag &= ~0x80u;
+                DG_VisibleObjs(pActor->field_28_obj.objs);
             }
             GM_Camera_800B77E8.field_20 = 320;
             return;
         }
 
-        pActor->field_28_obj.objs->flag |= 0x80u;
+        DG_InvisibleObjs(pActor->field_28_obj.objs);
     }
 
     if (GM_LoadRequest_800AB3D0)
@@ -352,13 +353,13 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
                     return;
                 }
                 jpegcam_act_helper2_80064588(pActor);
-                if (dword_8009F604 != 61161)
+                if (dword_8009F604 != SIGHT_CAMERA)
                 {
-                    NewSight_80071CDC(61161, 61161, &GM_CurrentItemId, 12, 0);
-                    pActor->field_90_pSight = NewSight_80071CDC(46029, 61161, &GM_CurrentItemId, 12, 0);
+                    NewSight_80071CDC(SIGHT_CAMERA, SIGHT_CAMERA, &GM_CurrentItemId, 12, 0);
+                    pActor->field_90_pSight = NewSight_80071CDC(SIGHT_CAMERA_2, SIGHT_CAMERA, &GM_CurrentItemId, 12, 0);
                     GM_Sound_80032968(0, 63, 0x15u);
                 }
-                if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+                if ( !(GM_PlayerStatus_800ABA50 & 0x4000000) )
                 {
                     menu_Text_XY_Flags_80038B34(200, 25, 0);
                     menu_Color_80038B4C(192, 144, 128);
@@ -368,7 +369,7 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
                 break;
 
             case 1:
-                if ((pActor->field_64_state < 5) && ((GV_PauseLevel_800AB928 & 1) != 0))
+                if ((pActor->field_64_state < 5) && (GV_PauseLevel_800AB928 & 1))
                 {
                     pActor->field_64_state = 0;
                     return;
