@@ -142,7 +142,31 @@ void menu_init_radar_helper_8003ADAC(void)
     menu_radar_load_rpk_8003AD64();
 }
 
-#pragma INCLUDE_ASM("asm/menu_radar_helper_8003ADD8.s") // 232 bytes
+void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
+{
+    DRAWENV drawEnv;
+    menu_radar_data *radar_data = &pActor->field_CC_radar_data;
+
+    if (index == 0)
+    {
+        DG_Init_DrawEnv_80018384(&drawEnv, radar_data->field_108_radarXOffsetFromDefault + 235,
+                                 radar_data->field_10A_radarYOffsetFromDefault + 16, 69, 52);
+        drawEnv.ofs[0] = radar_data->field_108_radarXOffsetFromDefault + 269;
+        drawEnv.ofs[1] = radar_data->field_10A_radarYOffsetFromDefault + 42;
+    }
+    else
+    {
+        DG_Init_DrawEnv_80018384(&drawEnv, radar_data->field_108_radarXOffsetFromDefault + 555,
+                                 radar_data->field_10A_radarYOffsetFromDefault + 16, 69, 52);
+        drawEnv.ofs[0] = radar_data->field_108_radarXOffsetFromDefault + 589;
+        drawEnv.ofs[1] = radar_data->field_10A_radarYOffsetFromDefault + 42;
+    }
+
+    pActor->field_CC_radar_data.field_80_clip = drawEnv.clip;
+    drawEnv.isbg = 0;
+    SetDrawEnv_800906B0(&pActor->field_CC_radar_data.field_0[index], &drawEnv);
+}
+
 #pragma INCLUDE_ASM("asm/draw_radar_8003AEC0.s") // 1168 bytes
 
 

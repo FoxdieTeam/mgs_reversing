@@ -175,10 +175,10 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
 } menu_left_right;
 
 typedef struct menu_radar_data {
-    DR_ENV        field_0[2]; // offset CC in Actor_MenuMan
-    RECT          field_80;   // offset 14C in Actor_MenuMan
-    DR_ENV        field_88;   // offset 154 in Actor_MenuMan
-    DR_ENV        field_C8;   // offset 194 in Actor_MenuMan
+    DR_ENV        field_0[2];    // offset CC in Actor_MenuMan
+    RECT          field_80_clip; // offset 14C in Actor_MenuMan
+    DR_ENV        field_88;      // offset 154 in Actor_MenuMan
+    DR_ENV        field_C8;      // offset 194 in Actor_MenuMan
 
     // Radar X offset from default X position (not from top of screen).
     short field_108_radarXOffsetFromDefault; // offset 1D4 in Actor_MenuMan
