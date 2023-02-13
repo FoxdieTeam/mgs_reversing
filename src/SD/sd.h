@@ -154,7 +154,7 @@ void pan_set2_800882E4(unsigned char a1);
 void keyoff_80087F80(void);
 void StrSpuTransClose_80083394();
 int  SD_8008395C(int a1, int a2);
-int  SD_80083954(int a1, int a2, int a3);
+int  SD_80083954(int a1, unsigned char *a2, int a3);
 void init_sng_work_8008559C();
 int  SD_SongLoadData_8008394C(int a1, int a2);
 void por_compute_80086504(void);
