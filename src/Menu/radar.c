@@ -66,8 +66,8 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
 {
     int x1, y1, x2, y2;
 
-    x1 = menuMan->field_1D4_radarXOffsetFromDefault;
-    y1 = menuMan->field_1D6_radarYOffsetFromDefault;
+    x1 = menuMan->field_CC_radar_data.field_108_radarXOffsetFromDefault;
+    y1 = menuMan->field_CC_radar_data.field_10A_radarYOffsetFromDefault;
     x2 = x1 + 0xea;
     y2 = y1 + 0xf;
     menu_render_rect_8003DB2C((MenuGlue *)menuMan->field_20_otBuf, x2, y2, 1, 53, 0); // TODO: fix cast
@@ -142,7 +142,31 @@ void menu_init_radar_helper_8003ADAC(void)
     menu_radar_load_rpk_8003AD64();
 }
 
-#pragma INCLUDE_ASM("asm/menu_radar_helper_8003ADD8.s") // 232 bytes
+void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
+{
+    DRAWENV drawEnv;
+    menu_radar_data *radar_data = &pActor->field_CC_radar_data;
+
+    if (index == 0)
+    {
+        DG_Init_DrawEnv_80018384(&drawEnv, radar_data->field_108_radarXOffsetFromDefault + 235,
+                                 radar_data->field_10A_radarYOffsetFromDefault + 16, 69, 52);
+        drawEnv.ofs[0] = radar_data->field_108_radarXOffsetFromDefault + 269;
+        drawEnv.ofs[1] = radar_data->field_10A_radarYOffsetFromDefault + 42;
+    }
+    else
+    {
+        DG_Init_DrawEnv_80018384(&drawEnv, radar_data->field_108_radarXOffsetFromDefault + 555,
+                                 radar_data->field_10A_radarYOffsetFromDefault + 16, 69, 52);
+        drawEnv.ofs[0] = radar_data->field_108_radarXOffsetFromDefault + 589;
+        drawEnv.ofs[1] = radar_data->field_10A_radarYOffsetFromDefault + 42;
+    }
+
+    pActor->field_CC_radar_data.field_80_clip = drawEnv.clip;
+    drawEnv.isbg = 0;
+    SetDrawEnv_800906B0(&pActor->field_CC_radar_data.field_0[index], &drawEnv);
+}
+
 #pragma INCLUDE_ASM("asm/draw_radar_8003AEC0.s") // 1168 bytes
 
 
@@ -157,7 +181,7 @@ void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pO
     {
       if ((GM_GameStatus_800AB3CC & 0x200000) != 0)
       {
-        clipY = pActor->field_1D6_radarYOffsetFromDefault - 16;
+        clipY = pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault - 16;
         if (clipY < (-63))
         {
           GM_GameStatus_800AB3CC |= 0x400000;
@@ -169,7 +193,7 @@ void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pO
         if ((GM_GameStatus_800AB3CC & 0x100000) != 0)
       {
         GM_GameStatus_800AB3CC &= ~0x400000u;
-        clipY = pActor->field_1D6_radarYOffsetFromDefault + 16;
+        clipY = pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault + 16;
         if (clipY >= 0)
         {
           clipY = 0;
@@ -182,11 +206,11 @@ void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pO
       }
       if ((GM_GameStatus_800AB3CC & 0x400800) != 0)
       {
-        pActor->field_1D6_radarYOffsetFromDefault = -64;
+        pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault = -64;
       }
       else
       {
-        pActor->field_1D6_radarYOffsetFromDefault = clipY;
+        pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault = clipY;
         menu_radar_helper_8003ADD8(pActor, GV_Clock_800AB920);
         draw_radar_8003AEC0(pActor, pOt);
       }
@@ -202,14 +226,14 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
     field_28_flags = pActor->field_28_flags;
     pActor->m7FnPtrs_field_2C[3] = menu_radar_update_8003B350;
     pActor->field_1D8_healthBarDisplayCountdown = 1;
-    pActor->field_1D4_radarXOffsetFromDefault = 0;
-    pActor->field_1D6_radarYOffsetFromDefault = 0;
+    pActor->field_CC_radar_data.field_108_radarXOffsetFromDefault = 0;
+    pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault = 0;
     pActor->field_28_flags = field_28_flags | 8;
     menu_radar_helper_8003ADD8(pActor, 0);
     menu_radar_helper_8003ADD8(pActor, 1);
 
-    pActor->field_154 = pActor->field_4C_drawEnv[0];
-    pActor->field_194 = pActor->field_4C_drawEnv[1];
+    pActor->field_CC_radar_data.field_88 = pActor->field_4C_drawEnv[0];
+    pActor->field_CC_radar_data.field_C8 = pActor->field_4C_drawEnv[1];
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
