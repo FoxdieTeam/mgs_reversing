@@ -5,6 +5,7 @@
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 #include "psyq.h"
+#include "libgcl/hash.h"
 
 // night vision goggles / thermal goggles first person
 
@@ -376,15 +377,15 @@ void gglsight_act_80078228(Actor_gglsight *pActor)
 
     if (type == 5 && dword_8009F604 != f24)
     {
-        NewSight_80071CDC(0x8504, f24, ptr, 1, 0);
-        NewSight_80071CDC(0x8505, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
-        NewSight_80071CDC(0x8506, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
+        NewSight_80071CDC(SIGHT_NV_GGLE1, f24, ptr, 1, 0);
+        NewSight_80071CDC(SIGHT_NV_GGLE2, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
+        NewSight_80071CDC(SIGHT_NV_GGLE3, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
     }
     else if (dword_8009F604 != f24)
     {
-        NewSight_80071CDC(0x84db, f24, ptr, 1, 0);
-        NewSight_80071CDC(0x84dc, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
-        NewSight_80071CDC(0x84dd, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
+        NewSight_80071CDC(SIGHT_IR_GGLE1, f24, ptr, 1, 0);
+        NewSight_80071CDC(SIGHT_IR_GGLE2, f24, ptr, 1, (short *)&pActor->field_2C_4Array[1]);
+        NewSight_80071CDC(SIGHT_IR_GGLE3, f24, ptr, 1, (short *)&pActor->field_2C_4Array[2]);
     }
 
     f3c = pActor->field_3C++;

@@ -9,6 +9,7 @@
 #include "psyq.h"
 #include "rmissile.h"
 #include "map/map.h"
+#include "libgcl/hash.h"
 
 // nikita missile
 
@@ -74,9 +75,9 @@ void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
 {
     Nik_Blast_8009F484 = 1;
 
-    if (dword_8009F604 != 0x15A9)
+    if (dword_8009F604 != SIGHT_NIKITA)
     {
-        NewSight_80071CDC(0x15A9, 0x15A9, &Nik_Blast_8009F484, 1, 0);
+        NewSight_80071CDC(SIGHT_NIKITA, SIGHT_NIKITA, &Nik_Blast_8009F484, 1, 0);
     }
 
     GM_Camera_800B77E8.field_22 = 1;
