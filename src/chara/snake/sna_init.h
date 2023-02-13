@@ -5,6 +5,7 @@
 #include "Game/GM_Control.h"
 #include "Game/game.h"
 #include "Game/target.h"
+#include "shadow.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
@@ -247,8 +248,8 @@ typedef struct Actor_SnaInit
     int                 field_844;
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
-    Actor              *field_888_pShadow;
-    unsigned int       *field_88C; // shadow enabled?
+    Actor_Shadow       *field_888_pShadow;
+    int                *field_88C; // shadow enabled?
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
@@ -277,26 +278,7 @@ typedef struct Actor_SnaInit
     SVECTOR             field_938;
     SVECTOR             field_940;
     SVECTOR             field_948;
-    int                 field_950;
-    int                 field_954;
-    int                 field_958;
-    int                 field_95C;
-    int                 field_960;
-    int                 field_964;
-    int                 field_968;
-    int                 field_96C;
-    int                 field_970;
-    int                 field_974;
-    int                 field_978;
-    int                 field_97C;
-    int                 field_980;
-    int                 field_984;
-    int                 field_988;
-    int                 field_98C;
-    int                 field_990;
-    int                 field_994;
-    int                 field_998;
-    int                 field_99C;
+    POLY_FT4            field_950[2];
     int                 field_9A0;
     Actor              *field_9A4_item_actor;
     int                 field_9A8_current_item;

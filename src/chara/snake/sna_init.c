@@ -10,6 +10,7 @@
 #include "unknown.h"
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
+#include "Bullet/jirai.h"
 #include "Game/homing_target.h"
 #include "Game/vibrate.h"
 #include "psyq.h"
@@ -66,6 +67,9 @@ int        SECTION(".sbss") dword_800ABBB0;
 extern GM_Target *GM_BombSeg_800ABBD8; // probably wrong type?
 GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
+extern void *dword_800ABB9C[2];
+void        *SECTION(".sbss") dword_800ABB9C[2];
+
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
 extern int                GM_GameOverTimer_800AB3D4;
@@ -96,10 +100,30 @@ extern SVECTOR            stru_8009EFD4[];
 extern int                dword_800ABA1C;
 extern int                dword_8009F2C0;
 extern int                dword_800AB9F0;
+extern SVECTOR            svector_800ABA10;
+extern Sna_ActionTable    weapon_actions_8009ED8C[];
+extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
+extern GV_PAD             GV_PadData_800B05C0[4];
+extern GM_Control        *tenage_ctrls_800BDD30[16];
+extern Jirai_unknown      stru_800BDD78[16];
+extern Jirai_unknown      stru_800BDE78[8];
+extern unsigned char      gBulNames_800BDC78[64];
+extern int                dword_8009F440;
+extern int                dword_8009F444;
+extern int                dword_8009F46C[];
+extern int                dword_8009F470;
+extern int                dword_8009F474;
+extern GM_Target         *target_800BDF00;
+extern int                dword_800BDD28;
+extern int                tenage_ctrls_count_800BDD70;
+extern int                dword_8009F434;
+extern short              d_800AB9EC_mag_size;
+extern short              d_800ABA2C_ammo;
 
-extern const char aRunMoveCancel[]; // = "run move cancel\n"
+extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
 extern const char aForceActCancel[]; // = "force act cancel\n"
+extern const char aSnaInitC[];       // = "sna_init.c"
 
 void sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
@@ -614,8 +638,7 @@ void sna_init_act_helper2_helper3_8004ED6C(Actor_SnaInit *pActor)
     }
 }
 
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-void                 sna_init_8004EE28(Actor_SnaInit *snake)
+void sna_init_8004EE28(Actor_SnaInit *snake)
 {
     MATRIX  mat1;
     MATRIX  mat2;
@@ -1144,8 +1167,6 @@ SVECTOR ** sub_8004FB90(void)
 {
     return &svector_800ABBB8;
 }
-
-extern unsigned char gBulNames_800BDC78[64];
 
 int GM_Next_BulName_8004FBA0()
 {
@@ -2029,7 +2050,10 @@ void sna_act_unk2_80051170(GM_Target *param_1)
 }
 
 #pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s")        // 1024 bytes
+void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int a2);
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
+void sna_init_800515BC(Actor_SnaInit *pActor, int a2);
 
 void sna_init_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec)
 {
@@ -5018,9 +5042,6 @@ void sna_init_auto_aim_800579A0(Actor_SnaInit *pActor)
     }
 }
 
-extern short d_800AB9EC_mag_size;
-extern short d_800ABA2C_ammo;
-#include "Game/linkvarbuf.h"
 void sna_init_80057A90(Actor_SnaInit *pActor, int time)
 {
     int bits;
@@ -5543,14 +5564,15 @@ void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_main_logic_800596FC.s") // 5652 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")        // 2076 bytes
+void sna_init_act_8005AD10(Actor_SnaInit *pActor);
 
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 {
-    GM_Control *pCtrl;   // $s2
-    DG_OBJS    *pObjs;   // $s0
-    Actor      *pShadow; // $a0
-    Actor      *pWeapon; // $a0
-    Actor      *pItem;   // $a0
+    GM_Control   *pCtrl;   // $s2
+    DG_OBJS      *pObjs;   // $s0
+    Actor_Shadow *pShadow; // $a0
+    Actor        *pWeapon; // $a0
+    Actor        *pItem;   // $a0
 
     if ((pActor->field_898_flags2 & 0x1000) != 0)
     {
@@ -5574,7 +5596,7 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
     pShadow = pActor->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor_800151D8(pShadow);
+        GV_DestroyOtherActor_800151D8(&pShadow->field_0_actor);
     }
 
     pWeapon = pActor->field_908_weapon_actor;
@@ -5600,4 +5622,361 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_init_8005B650.s") // 2356 bytes
+static inline int sna_init_init_loader2(Actor_SnaInit *pActor)
+{
+    SVECTOR *temp_s1 = &pActor->field_930;
+    SVECTOR *temp_s2;
+    DG_PRIM *pPrim = DG_GetPrim(22, 2, 0, temp_s1, 0);
+    DG_TEX *pTex;
+    int i, j;
+    POLY_GT4 *pPoly;
+    
+    if (!pPrim)
+    {
+        return -1;
+    }
+                
+    pTex = DG_GetTexture_8001D830(0x8DB);
+    pActor->field_928 = pTex;
+
+    if (!pTex)
+    {
+        return -1;
+    }
+                
+    pPrim->field_2E_k500 = 500;
+
+    for (i = 0; i < 2; i++)
+    {
+        pPoly = &pPrim->field_40_pBuffers[i]->poly_gt4;
+
+        for (j = 0; j < 2; j++)
+        {
+            LSTORE(0, &pPoly->r0);
+            LSTORE(0x808080, &pPoly->r1);
+            LSTORE(0, &pPoly->r2);
+            LSTORE(0x808080, &pPoly->r3);
+            setPolyGT4(pPoly);
+            setSemiTrans(pPoly, 1);
+            pPoly->tpage = pTex->field_4_tPage;
+            pPoly->clut = pTex->field_6_clut;
+            pPoly++;
+        }
+    }
+
+    // ???
+    temp_s2 = temp_s1 + 2;
+    
+    temp_s1[2].vx = -100;
+    temp_s1[0].vx = -100;
+    temp_s1[3].vy = -300;
+    temp_s2[0].vy = -300;
+    temp_s1[1].vy = -300;
+    temp_s1[0].vy = -300;
+    temp_s2[0].vz = 300;
+    temp_s1[0].vz = 300;
+    temp_s1[1].vx = -800;
+    temp_s1[1].vz = 2000;
+    temp_s1[3].vx = 800;
+    temp_s1[3].vz = 2000;
+
+    DG_InvisiblePrim(pPrim);
+    pActor->field_92C = (DG_OBJS *)pPrim;
+    return 0;
+}
+
+static inline void sna_init_init_loader3(Actor_SnaInit *pActor)
+{
+    short stance = pActor->field_A26_fn_stance_idx = GM_SnakeStance;
+    short temp_a1;
+    int temp_v1_3;
+    int var_s0_2;
+    int var_v_2;
+
+    unsigned short t1, t2;
+    
+    if (stance == 3)
+    {
+        t1 = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
+        t2 = GM_CurrentItemId;
+        
+        if ((t1 & 2) || ((t2 - 2) < 3u))
+        {
+            GM_CurrentItemId = ITEM_NONE;
+        }
+
+        if (GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200)
+        {
+            GM_CurrentWeaponId = WEAPON_NONE;
+        }
+    }
+
+    pActor->field_844 = -1;
+    pActor->field_91C_weapon_idx = -2;
+
+    sna_init_weapon_switching_800511BC(pActor, 0);
+
+    pActor->field_9A8_current_item = ITEM_NONE;
+
+    sna_init_800515BC(pActor, 0);
+
+    pActor->field_9B4_action_table = &weapon_actions_8009ED8C[GM_CurrentWeaponId];
+    pActor->field_A28 = 450;
+    pActor->field_A44 = pActor->field_20_ctrl.field_0_position;
+    pActor->field_A60 = pActor->field_20_ctrl.field_0_position;
+
+    gUnkCameraStruct_800B77B8.field_0 = pActor->field_A60;
+
+    if (GCL_GetParam_80020968('o'))
+    {
+        pActor->field_A5A = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    pActor->field_890_autoaim_max_dist = 6000;
+
+    if (GCL_GetParam_80020968('l'))
+    {
+        pActor->field_890_autoaim_max_dist = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    pActor->field_892_autoaim_min_angle = 512;
+
+    if (GCL_GetParam_80020968('r'))
+    {
+        pActor->field_892_autoaim_min_angle = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+                
+    dword_800ABBDC = -1023;
+    dword_800ABBD4 = 1023;
+
+    if (GCL_GetParam_80020968('t'))
+    {
+        dword_800ABBDC = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        dword_800ABBD4 = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    pActor->field_A70 = -1;
+
+    if (GCL_GetParam_80020968('e'))
+    {
+        pActor->field_A70 = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    temp_a1 = pActor->field_A26_fn_stance_idx;
+
+    if (temp_a1 == 3)
+    {
+        pActor->field_A26_fn_stance_idx = 2;
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PRONE | PLAYER_STATUS_FIRST_PERSON_DUCT);
+        DG_InvisibleObjs(pActor->field_9C_obj.objs);
+        sna_init_8004EC8C(pActor);
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_duct_move_80054424);
+        GM_Camera_800B77E8.field_22 = 2;
+        var_v_2 = sna_init_8004EAA8(pActor, 2);
+    }
+    else
+    {
+        var_s0_2 = sna_init_8004EAA8(pActor, temp_a1);
+
+        if ((pActor->field_9AC & 1) || (pActor->field_920_tbl_8009D580 & 0x20))
+        {
+            if ((unsigned int)(pActor->field_9A8_current_item - 2) < 3)
+            {
+                var_s0_2 = 4;
+            }
+        }
+        else
+        {
+            sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+        }
+                    
+        var_v_2 = var_s0_2;
+    }
+
+    GM_ConfigObjectAction_80034CD4(&pActor->field_9C_obj, var_v_2, 0, 0);
+    GM_ActMotion_80034A7C(&pActor->field_9C_obj);
+
+    temp_v1_3 = (short)pActor->field_9C_obj.field_18;
+    
+    pActor->field_798 = temp_v1_3;
+    pActor->field_20_ctrl.field_32_height = temp_v1_3;
+                
+    pActor->field_9B0_pad_ptr = GV_PadData_800B05C0;
+}
+
+static inline void sna_init_init_loader4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
+{
+    char u = tex->field_8_offx;
+    char v = tex->field_9_offy;
+    int i;
+    
+    for ( i = 0; i < n_packs; i ++ )
+    {
+        setPolyFT4( packs );
+        setSemiTrans( packs, 1 );
+        setRGB0( packs, 128, 128, 128 );
+        setXY4( packs, 255, 164, 303, 164, 255, 176, 303, 176 );
+        setUV4( packs, u, v, u + 48, v, u, v + 12, u + 48, v + 12 );
+        packs->tpage = tex->field_4_tPage;
+        packs->clut = tex->field_6_clut;
+        packs ++ ;
+    }
+}
+
+static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, int scriptBinds)
+{
+    GM_Control *pCtrl = &pActor->field_20_ctrl;
+    OBJECT *pObject;
+    GM_Target *pTarget;
+    Jirai_unknown *pJiraiUnk;
+    Shadow_94 shadow94;
+    SVECTOR vec;
+    SVECTOR *pVec;
+    int tmp;
+    int model;
+    int i;
+    
+    if (Res_Control_init_loader_8002599C(pCtrl, scriptData, scriptBinds) < 0)
+    {
+        return -1;
+    }
+            
+    GM_ConfigControlString_800261C0(pCtrl, (char *)GCL_GetParam_80020968('p'), (char *)GCL_GetParam_80020968('d'));
+    GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
+
+    tmp = 1;
+    pCtrl->field_59 = tmp;
+
+    GM_ConfigControlAttribute_8002623C(pCtrl, tmp);
+    GM_ConfigControlTrapCheck_80026308(pCtrl);
+
+    model = 0x992D;
+
+    pObject = &pActor->field_9C_obj;
+
+    if (GCL_GetParam_80020968('m'))
+    {
+        model = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    GM_InitObject_80034A18(pObject, model, 0x32d, 0x992d);
+
+    GM_ConfigObjectJoint_80034CB4(pObject);
+    GM_ConfigMotionControl_80034F08(pObject, &pActor->field_180, 0x992D, &pActor->field_1D0, &pActor->field_1F4[16], pCtrl, (SVECTOR *)&pActor->field_698_joint_rotations);
+    GM_ConfigObjectLight_80034C44(pObject, &pActor->field_848_lighting_mtx);
+
+    gSnaControl_800AB9F4 = pCtrl;
+    svector_800ABA10 = pActor->field_20_ctrl.field_0_position;
+    dword_800ABA20 = pObject;
+    
+    sna_init_8004EB14(pActor);
+            
+    if (sna_init_init_loader2(pActor) < 0)
+    {
+        return -1;
+    }
+
+    sna_init_init_loader3(pActor);
+
+    pVec = &vec;
+    setVector(pVec, 300, 650, 300);
+    
+    pTarget = pActor->field_89C_pTarget = GM_AllocTarget_8002D400();
+                
+    GM_SetTarget_8002DC74(pTarget, 159, 1, pVec);
+    GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector_800AB39C);
+    GM_Target_8002DCB4(pTarget, 0, 0, &pActor->field_8F4, &pActor->field_8FC);
+    GM_Target_SetVector_8002D500(pTarget, &pActor->field_20_ctrl.field_0_position);
+
+    pActor->field_A22_snake_current_health = GM_SnakeCurrentHealth;
+    
+    sna_init_init_loader4(pActor->field_950, 2, DG_GetTexture_8001D830(0xB05C));
+
+    shadow94.objs_offsets[0] = 0;
+    shadow94.objs_offsets[1] = 6;
+    shadow94.objs_offsets[2] = 12;
+    shadow94.objs_offsets[3] = 15;
+                
+    pActor->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, shadow94, &pActor->field_88C);
+                
+    dword_800ABA1C = 0;
+    GM_BombSeg_800ABBD8 = 0;
+
+    for (i = 0; i < 16; i++)
+    {
+        tenage_ctrls_800BDD30[i] = NULL;
+    }
+                
+    dword_800BDD28 = 0;
+    tenage_ctrls_count_800BDD70 = 0;
+
+    pJiraiUnk = stru_800BDD78;
+    i = 0;
+    
+    while (i < 16)
+    {
+        i++;
+        pJiraiUnk->field_0_ypos = 6;
+        pJiraiUnk->field_4_pActor = NULL;
+        pJiraiUnk++;
+    }
+                
+    dword_8009F434 = 0;
+    used_counter_8009F42C = 0;
+
+    pJiraiUnk = stru_800BDE78;
+    i = 0;
+                
+    while (i < 8)
+    {
+        i++;
+        pJiraiUnk->field_0_ypos = 5;
+        pJiraiUnk->field_4_pActor = NULL;
+        pJiraiUnk++;
+    }
+
+    dword_8009F440 = 0;
+    dword_8009F444 = 0;
+    counter_8009F448 = 0;
+    dword_8009F46C[0] = 0;
+    dword_8009F470 = 0;
+    dword_8009F474 = 0;
+    target_800BDF00 = 0;
+    
+   for (i = 0; i < 64; i++)
+   {
+        gBulNames_800BDC78[i] = 0;
+   }
+
+    dword_8009F2C0 = 0;
+    pVec_800ABBCC = NULL;
+
+    if (model == 30355)
+    {
+        sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK29);
+    }
+
+    return 0;
+}
+
+Actor_SnaInit * sna_init_init_8005B650(int scriptData, int scriptBinds)
+{
+    Actor_SnaInit *pActor = (Actor_SnaInit *)GV_NewActor_800150E4(5, sizeof(Actor_SnaInit));
+
+    if (!pActor)
+    {
+        return NULL;
+    }
+        
+    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&sna_init_act_8005AD10,
+                              (TActorFunction)&sna_init_kill_8005B52C, aSnaInitC);
+
+    if (sna_init_init_loader(pActor, scriptData, scriptBinds) < 0)
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return NULL;
+    }
+
+    dword_800ABB9C[1] = pActor;
+    return pActor;
+}

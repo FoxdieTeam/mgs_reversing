@@ -219,7 +219,7 @@ Actor_Shadow *shadow_init_800602CC(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 fi
     return NULL;
 }
 
-Actor_Shadow *shadow_init2_80060384(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable)
+Actor_Shadow * shadow_init2_80060384(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable)
 {
     Actor_Shadow *pActor;
 
