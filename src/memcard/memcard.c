@@ -3,6 +3,7 @@
 #include "psyq.h"
 #include "mts/mts_new.h"
 #include <KERNEL.H>
+#include <SYS/FILE.H>
 #include "psyq.h"
 
 extern const char aHwCardError[];
@@ -21,11 +22,16 @@ extern const char aAccessWait[];
 extern const char aCardNormal[];
 extern const char aCardUnformat[];
 extern const char aCardError[];
-extern const char aBu02xS[];
 extern const char aDeletedFileS[];
 extern const char aErrorCanTDelet[];
 extern const char aMemcardReadWri[];
 extern const char aErrorMemcardRe[];
+
+extern const char aBu02xS[];         // = "bu%02X:%s"
+extern const char aWarningMemcard[]; // = "Warning : MEMCARD create error ... overwrite\n"
+extern const char aMemcardWriteEr[]; // = "MEMCARD WRITE ERROR FD %d\n"
+extern const char aMemcardWriteSF[]; // = "MEMCARD WRITE %s FD %d SIZE %d\n"
+extern const char aWritingFileS[];   // = "WRITING FILE %s...\n"
 
 // ?? something strange going on with these types
 //extern volatile TMemCardSetFunc gSwCardLastOp_800B52F0;
@@ -421,7 +427,50 @@ void memcard_set_read_write_8002551C(int fileSize)
     gMemCard_io_size_800B5648 = fileSize;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_write_8002554C.s") // 336 bytes
+#define ROUND_UP(val,rounding) (((val) + (rounding) - 1) / (rounding) * (rounding))
+
+void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *pBuffer, int bufferSize)
+{
+    int blocks = ROUND_UP(bufferSize, 8192) / 8192;
+    int hFile;
+    char name[32];
+    
+    sprintf_8008E878(name, aBu02xS, idx * 16, pFileName);
+
+    hFile = open_8009958C(name, (blocks << 16) | O_CREAT);
+
+    if (hFile < 0)
+    {
+        mts_printf_8008BBA0(aWarningMemcard);
+    }
+    
+    close_800995CC(hFile);
+    
+    hFile = open_8009958C(name, O_NOWAIT | O_WRONLY);
+  
+    if (hFile < 0)
+    {
+        mts_printf_8008BBA0(aMemcardWriteEr, hFile);
+        gMemCard_io_size_800B5648 = -1;
+        return;
+    }
+    
+    mts_printf_8008BBA0(aMemcardWriteSF, pFileName, hFile, bufferSize);
+
+    bufferSize = ROUND_UP(bufferSize, 128);
+
+    if (seekPos > 0)
+    {
+        lseek_8009959C(hFile, seekPos, SEEK_SET);
+    }
+
+    memcard_set_read_write_8002551C(bufferSize);
+    write_800995BC(hFile, pBuffer, bufferSize);
+    close_800995CC(hFile);
+
+    mts_printf_8008BBA0(aWritingFileS, pFileName);
+}
+
 #pragma INCLUDE_ASM("asm/memcard/memcard_read_8002569C.s") // 276 bytes
 
 int memcard_get_status_800257B0()
