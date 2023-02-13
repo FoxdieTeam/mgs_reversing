@@ -472,7 +472,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
 void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pBuffer, int bufferSize)
 {
     char name[32];
-    int hFile, size;
+    int hFile;
     
     sprintf_8008E878(name, aBu02xS_0, idx * 16, pFilename);
     hFile = open_8009958C(name, FREAD | FASYNC);
