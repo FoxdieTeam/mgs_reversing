@@ -391,7 +391,7 @@ int BSS dword_800C0410; // 0x4 (4) bytes
 gap gap_800C0414[0x8]; // 8 bytes
 
 int BSS sng_fadein_fg_800C041C; // 0x4 (4) bytes
-int BSS sd_sng_data_800C0420; // 0x4 (4) bytes
+unsigned char *BSS sd_sng_data_800C0420; // 0x4 (4) bytes
 
 gap gap_800C0424[0x4]; // 4 bytes
 
@@ -422,7 +422,7 @@ int BSS sng_fout_term_800C0518; // 0x4 (4) bytes
 
 gap gap_800C051C[0x4]; // 4 bytes
 
-int BSS se_exp_table_800C0520; // 0x4 (4) bytes
+unsigned char *BSS se_exp_table_800C0520; // 0x4 (4) bytes
 int BSS keyd_800C0524; // 0x4 (4) bytes
 int BSS wave_load_code_800C0528; // 0x4 (4) bytes
 int BSS spu_wave_start_ptr_800C052C; // 0x4 (4) bytes
