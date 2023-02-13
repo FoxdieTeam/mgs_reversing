@@ -125,6 +125,12 @@ int                strncmp_8008E7F8(const char *s1, const char *s2, int size);
 void               SetSemiTrans_80092458(void *p, int abe);
 void               SetPolyF4_80092488(void *p);
 
+int                open_8009958C(char *devname, int flag);
+int                close_800995CC(int fd);
+unsigned long      lseek_8009959C(int fd, unsigned int offset, int flag);
+int                write_800995BC(int fd, char* buf, int n);
+
+
 struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
 
