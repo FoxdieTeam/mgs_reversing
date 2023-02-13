@@ -2050,7 +2050,10 @@ void sna_act_unk2_80051170(GM_Target *param_1)
 }
 
 #pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s")        // 1024 bytes
+void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int a2);
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
+void sna_init_800515BC(Actor_SnaInit *pActor, int a2);
 
 void sna_init_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec)
 {
@@ -5561,14 +5564,15 @@ void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_main_logic_800596FC.s") // 5652 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_8005AD10.s")        // 2076 bytes
+void sna_init_act_8005AD10(Actor_SnaInit *pActor);
 
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 {
-    GM_Control *pCtrl;   // $s2
-    DG_OBJS    *pObjs;   // $s0
-    Actor      *pShadow; // $a0
-    Actor      *pWeapon; // $a0
-    Actor      *pItem;   // $a0
+    GM_Control   *pCtrl;   // $s2
+    DG_OBJS      *pObjs;   // $s0
+    Actor_Shadow *pShadow; // $a0
+    Actor        *pWeapon; // $a0
+    Actor        *pItem;   // $a0
 
     if ((pActor->field_898_flags2 & 0x1000) != 0)
     {
@@ -5592,7 +5596,7 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
     pShadow = pActor->field_888_pShadow;
     if (pShadow)
     {
-        GV_DestroyOtherActor_800151D8(pShadow);
+        GV_DestroyOtherActor_800151D8(&pShadow->field_0_actor);
     }
 
     pWeapon = pActor->field_908_weapon_actor;
@@ -5617,19 +5621,6 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
         dword_800ABA20 = 0;
     }
 }
-
-void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion);
-int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, GM_Control *pCtrl, SVECTOR *rots);
-void GM_ActMotion_80034A7C(OBJECT *obj);
-
-void sna_init_act_8005AD10(Actor_SnaInit *pActor);
-void sna_init_kill_8005B52C(Actor_SnaInit *pActor);
-void sna_init_8004EB14(Actor_SnaInit *pActor);
-
-void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int a2);
-void sna_init_800515BC(Actor_SnaInit *pActor, int a2);
-
-void * shadow_init2_80060384(GM_Control *pCtrl, OBJECT *pObject, SVECTOR a3, unsigned int **a4);
 
 static inline int sna_init_init_loader2(Actor_SnaInit *pActor)
 {
@@ -5838,7 +5829,7 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
     OBJECT *pObject;
     GM_Target *pTarget;
     Jirai_unknown *pJiraiUnk;
-    SVECTOR vec2;
+    Shadow_94 shadow94;
     SVECTOR vec;
     SVECTOR *pVec;
     int tmp;
@@ -5901,12 +5892,12 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
     
     sna_init_init_loader4(pActor->field_950, 2, DG_GetTexture_8001D830(0xB05C));
 
-    vec2.vx = 0;
-    vec2.vy = 6;
-    vec2.vz = 12;
-    vec2.pad = 15;
+    shadow94.objs_offsets[0] = 0;
+    shadow94.objs_offsets[1] = 6;
+    shadow94.objs_offsets[2] = 12;
+    shadow94.objs_offsets[3] = 15;
                 
-    pActor->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, vec2, &pActor->field_88C);
+    pActor->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, shadow94, &pActor->field_88C);
                 
     dword_800ABA1C = 0;
     GM_BombSeg_800ABBD8 = 0;
