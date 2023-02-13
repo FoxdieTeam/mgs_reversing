@@ -5,6 +5,8 @@
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
+#include "libgcl/hash.h"
 
 extern const char aZoomLevelD[];
 extern const char aD_44[];  // = "%d"
@@ -92,7 +94,6 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
 
 extern int              DG_CurrentGroupID_800AB968;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern short gGameState_800B4D98[0x60];
 extern int              dword_8009F604;
 extern int              GV_PauseLevel_800AB928;
 extern int              GV_Clock_800AB920;
@@ -177,9 +178,9 @@ void scope_act_80062E8C(Actor_scope *pActor)
     }
 
 
-    if (dword_8009F604 != 0x51c8)
+    if (dword_8009F604 != SIGHT_SCOPE)
     {
-        NewSight_80071CDC(0x51c8, 0x51c8, &gGameState_800B4D98[15], 1, 0);
+        NewSight_80071CDC(SIGHT_SCOPE, SIGHT_SCOPE, &GM_CurrentItemId, 1, 0);
         GM_Sound_80032968(0, 0x3f, 0x15);
     }
 

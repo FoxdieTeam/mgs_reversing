@@ -808,7 +808,7 @@ void sub_8004F204(Actor_SnaInit *param_1)
 
     param_1->field_9A4_item_actor = 0;
     param_1->field_9A8_current_item = ITEM_NONE;
-    GM_CurrentItemId= ITEM_NONE;
+    GM_CurrentItemId = ITEM_NONE;
     param_1->field_9AC = GM_ItemTypes_8009D598[0];
 
     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) != 0)
@@ -975,9 +975,9 @@ static inline int sna_init_helper_8004F6E8(int health, int item)
         (GM_Items[ITEM_RATION] > 0) &&
         !GM_FrozenItemsState)
     {
-        temp = (GM_DifficultyFlag > 0) ? 256 : 384;
+        temp = (GM_DifficultyFlag > DIFFICULTY_EASY) ? 256 : 384;
 
-        if (GM_DifficultyFlag < 0)
+        if (GM_DifficultyFlag < DIFFICULTY_EASY)
         {
             temp = GM_SnakeMaxHealth;
         }
