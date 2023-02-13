@@ -284,8 +284,6 @@ typedef struct Actor_MenuMan
     KCB                   *field_214_font;
     menu_chara_struct     *field_218;
     int                    field_21C;
-    // Some kind of radar horizontal stretch value.
-    int field_220;
 } Actor_MenuMan;
 
 // here or jimctl.h?
