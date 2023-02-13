@@ -233,7 +233,11 @@ gap gap_800BDCD4[0x4]; // 4 bytes
 TMat8x8B BSS gJpegcamMatrix2_800BDCD8; // 0x40 (64) bytes
 DVECTOR BSS dvector_800BDD18[3]; // 0xC (12) bytes
 
-gap gap_800BDD24[0xC]; // 12 bytes
+gap gap_800BDD24[0x4]; // 4 bytes
+
+int BSS dword_800BDD28; // 0x4 (4) bytes
+
+gap gap_800BDD2C[0x4]; // 4 bytes
 
 GM_Control *BSS tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
 int BSS tenage_ctrls_count_800BDD70; // 0x4 (4) bytes

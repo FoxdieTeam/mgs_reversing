@@ -160,8 +160,10 @@ void anime_change_polygon_8005E9E0(Actor_anime *pActor, int idx)
     anime_0x34 *pItem = &pActor->field_4C_items[0];
     if ((pActor->field_38_active_buff & (GV_Clock_800AB920 + 1)) != 0)
     {
-        anime_change_prim_8005E7EC(&pActor->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920][idx].poly_ft4,
-                                   pActor->field_20_pTexture, pItem->field_4, pActor);
+        anime_change_prim_8005E7EC(
+            &((POLY_FT4 *)pActor->field_24_pPrim->field_40_pBuffers[GV_Clock_800AB920])[idx],
+            pActor->field_20_pTexture, pItem->field_4, pActor
+        );
         pActor->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
     }
 }
