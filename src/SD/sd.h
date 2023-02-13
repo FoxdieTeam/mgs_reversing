@@ -141,12 +141,12 @@ typedef struct SPU_TRACK_REG
 
 typedef struct SEPLAYTBL
 {
-    unsigned char field_0_pri;
-    char          field_1_kind;
-    char          field_2_character;
-    char          field_3_pad;
-    int           field_4_addr;
-    int           field_8_code;
+    unsigned char  field_0_pri;
+    char           field_1_kind;
+    char           field_2_character;
+    char           field_3_pad;
+    unsigned char *field_4_addr;
+    unsigned int   field_8_code;
 } SEPLAYTBL;
 
 void sd_sng_alloc_80082194(void);
