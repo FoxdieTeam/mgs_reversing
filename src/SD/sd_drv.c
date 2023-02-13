@@ -12,7 +12,7 @@ extern int keyoffs_800BF29C;
 extern SOUND_W sound_w_800BF2A8[21];
 extern unsigned int sng_status_800C04F8;
 extern int dword_800C0428;
-extern int sd_sng_data_800C0420;
+extern unsigned char *sd_sng_data_800C0420;
 extern int dword_800BF1D8;
 extern int sng_fade_in_2_800C0BC0;
 extern int sng_fade_in_2_800BF290;
@@ -42,19 +42,15 @@ extern int sng_syukan_fg_800C0510;
 extern int sng_pause_fg_800BF298;
 extern int sng_fout_fg_800BF25C;
 extern int sng_fadein_fg_800C041C;
-extern int sng_status_800BF158;
-extern int sng_fadein_fg_800C041C;
-extern int sng_fade_in_2_800BF290;
 extern int song_end_800C04E8;
 extern int se_tracks_800BF004;
 extern int keyd_800C0524;
-extern int sng_fade_in_2_800C0BC0;
-extern int dword_800C0428;
-extern int sd_sng_data_800C0420;
 extern int sd_code_read_800BF288;
 extern int stop_jouchuu_se_800BF1A0;
-extern int sng_fout_term_800C0518;
 extern int dword_800BEFF8;
+extern int se_rev_on_800C0574;
+extern int dword_800BF064;
+extern int dword_800BF210;
 
 extern unsigned int   mtrack_800BF1EC;
 extern unsigned char *mptr_800C0570;
@@ -64,9 +60,13 @@ extern int fade_unk_1_800C0BC8[13];
 extern int sng_fade_time_800C0430[14];
 extern int sng_fade_value_800C0538[13];
 
+extern int se_vol_800BF1F0[8];
+extern int se_pan_800BF1B8[8];
+
 extern SOUND_W * sptr_800C057C;
 extern SOUND_W   sound_w_800BF2A8[21];
-extern SEPLAYTBL se_request_800BF0E0[8]; // 0x60 (96) bytes
+extern SEPLAYTBL se_request_800BF0E0[8];
+extern SEPLAYTBL se_playing_800BF068[8];
 
 void sng_track_init_800859B8(SOUND_W *pSoundW);
 int  SD_8008395C(int a1, int a2);
@@ -202,7 +202,7 @@ void IntSdMain_80084494()
             {
                 if ( sng_status_800BF158 >= 2 )
                 {
-                    pSngData = *(unsigned char *)sd_sng_data_800C0420;
+                    pSngData = sd_sng_data_800C0420[0];
                     if ( pSngData < (temp & 0xF) )
                     {
                         mts_printf_8008BBA0(aErrorSngPlayCo, temp, pSngData);
@@ -649,22 +649,40 @@ void init_sng_work_8008559C()
     sng_status_800C04F8 = 0;
     dword_800C0428 = 0; // TODO: sng_play_code?
 }
-#pragma INCLUDE_ASM("asm/SD/sng_adrs_set_80085658.s") // 276 bytes
 
-extern SEPLAYTBL se_request_800BF0E0[8];
-extern SEPLAYTBL se_playing_800BF068[8];
-extern int se_vol_800BF1F0[8];
-extern int se_pan_800BF1B8[8];
-extern int song_end_800C04E8;
-extern int se_rev_on_800C0574;
-extern int dword_800BF064;
-extern int dword_800BF210;
+void sng_adrs_set_80085658(int arg0)
+{
+    int i;
+    int addr;
+    int addr2;
 
-extern int spu_ch_tbl_800A2AC8[];
+    addr = sd_sng_data_800C0420[(arg0 & 0xF) * 4 + 1] << 8;
+    addr += sd_sng_data_800C0420[(arg0 & 0xF) * 4];
+
+    song_end_800C04E8 &= ~0x1fff;
+    
+    for (i = 0; i < 13; i++)
+    {
+        addr2 =  sd_sng_data_800C0420[addr + i * 4 + 2] << 16;
+        addr2 += sd_sng_data_800C0420[addr + i * 4 + 1] << 8;
+        addr2 += sd_sng_data_800C0420[addr + i * 4];
+        
+        if (addr2 != 0)
+        {
+            sound_w_800BF2A8[i].field_0_mpointer = &sd_sng_data_800C0420[addr2];
+            sng_track_init_800859B8(&sound_w_800BF2A8[i]);
+        }
+        else
+        {
+            song_end_800C04E8 |= 1 << i;
+        }
+    }
+
+    keyons_800BF260 &= ~0x1fff;
+}
 
 // https://decomp.me/scratch/sro0f
 #pragma INCLUDE_ASM("asm/SD/se_adrs_set_8008576C.s") // 588 bytes
-
 
 void sng_track_init_800859B8(SOUND_W *pSoundW)
 {
