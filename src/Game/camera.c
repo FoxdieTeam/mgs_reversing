@@ -231,7 +231,7 @@ void sub_8002FD84(int index, int value)
 #pragma INCLUDE_ASM("asm/sub_800303E0.s") // 188 bytes
 #pragma INCLUDE_ASM("asm/sub_8003049C.s") // 256 bytes
 
-void camera_act_8003059C(Actor *pActor)
+void camera_act_8003059C(GV_ACT *pActor)
 {
     int iVar1;
     int iVar2;
@@ -275,9 +275,9 @@ void camera_act_8003059C(Actor *pActor)
     }
 }
 
-Actor *camera_init_800306A0()
+GV_ACT *camera_init_800306A0()
 {
-    Actor *pActor;
+    GV_ACT *pActor;
 
     pActor = GV_NewActor_800150E4(2, 0x20);
     if (pActor)

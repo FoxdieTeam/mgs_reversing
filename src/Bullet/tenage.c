@@ -105,12 +105,12 @@ Actor_tenage *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int p
 
     if (pActor)
     {
-        GV_SetNamedActor_8001514C((Actor *)pActor, (TActorFunction)tenage_act_800699A4,
+        GV_SetNamedActor_8001514C((GV_ACT *)pActor, (TActorFunction)tenage_act_800699A4,
                                   (TActorFunction)tenage_kill_80069DBC, aTenageC);
 
         if (tenage_loader_80069E64(pActor, vec, vec2, param_4, param_5, 1, 1) < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)pActor);
+            GV_DestroyActor_800151C8((GV_ACT *)pActor);
             return NULL;
         }
 
@@ -138,12 +138,12 @@ Actor_tenage *NewTenage3_8006A128(SVECTOR *vec, SVECTOR *vec2, int param_3, int 
     pActor = (Actor_tenage *)GV_NewActor_800150E4(6, sizeof(Actor_tenage));
     if (pActor)
     {
-        GV_SetNamedActor_8001514C((Actor *)pActor, (TActorFunction)tenage_act_800699A4,
+        GV_SetNamedActor_8001514C((GV_ACT *)pActor, (TActorFunction)tenage_act_800699A4,
                                   (TActorFunction)tenage_kill_80069DBC, aTenageC);
 
         if (tenage_loader_80069E64(pActor, vec, vec2, param_4, param_5, 0, 2) < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)pActor);
+            GV_DestroyActor_800151C8((GV_ACT *)pActor);
             return NULL;
         }
 

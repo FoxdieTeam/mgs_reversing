@@ -303,7 +303,7 @@ void sight_act_800714EC(Actor_Sight *sight)
 
     if (sight->field_20_itemId != *sight->field_24_itemEquippedIndicator)
     {
-        GV_DestroyActor_800151C8((Actor *)sight);
+        GV_DestroyActor_800151C8((GV_ACT *)sight);
         return;
     }
 
@@ -633,13 +633,13 @@ Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *
     sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
     if (sight)
     {
-        GV_SetNamedActor_8001514C((Actor *)sight, (TActorFunction)sight_act_800714EC,
+        GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
                                   (TActorFunction)sight_kill_800719C8, aSightC);
         sight->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(sight, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)sight);
+            GV_DestroyActor_800151C8((GV_ACT *)sight);
             return 0;
         }
 
@@ -664,13 +664,13 @@ Actor_Sight *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
     sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
     if (sight)
     {
-        GV_SetNamedActor_8001514C((Actor *)sight, (TActorFunction)sight_act_800714EC,
+        GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
                                   (TActorFunction)sight_kill_800719C8, aSightC);
         sight->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(sight, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)sight);
+            GV_DestroyActor_800151C8((GV_ACT *)sight);
             return 0;
         }
 
@@ -695,13 +695,13 @@ Actor_Sight *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short
     sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
     if (sight)
     {
-        GV_SetNamedActor_8001514C((Actor *)sight, (TActorFunction)sight_act_800714EC,
+        GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
                                   (TActorFunction)sight_kill_800719C8, aSightC);
         sight->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(sight, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)sight);
+            GV_DestroyActor_800151C8((GV_ACT *)sight);
             return 0;
         }
 
@@ -727,13 +727,13 @@ Actor_Sight *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
     sight = (Actor_Sight *)GV_NewActor_800150E4(7, 0x5c);
     if (sight)
     {
-        GV_SetNamedActor_8001514C((Actor *)sight, (TActorFunction)sight_act_800714EC,
+        GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
                                   (TActorFunction)sight_kill_800719C8, aSightC);
         sight->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(sight, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)sight);
+            GV_DestroyActor_800151C8((GV_ACT *)sight);
             return 0;
         }
 

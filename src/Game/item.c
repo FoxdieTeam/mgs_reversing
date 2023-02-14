@@ -124,7 +124,7 @@ void item_kill_80033F88(Actor_Item *pActor)
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s") // 176 bytes
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")        // 1064 bytes
 
-Actor *item_init_800344F8(int name, int where, int argc, char **argv)
+GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
 {
     Actor_Item *pActor; // $s0
     int         inited; // $s1
@@ -148,15 +148,15 @@ Actor *item_init_800344F8(int name, int where, int argc, char **argv)
             GV_DestroyActor_800151C8(&pActor->field_0);
             if (inited == 0)
             {
-                return (Actor *)pActor;
+                return (GV_ACT *)pActor;
             }
             else
             {
-                return (Actor *)0;
+                return (GV_ACT *)0;
             }
         }
     }
-    return (Actor *)pActor;
+    return (GV_ACT *)pActor;
 }
 
 int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
@@ -209,7 +209,7 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     return 0;
 }
 
-Actor *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
+GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 {
     Actor_Item *pActor = (Actor_Item *)GV_NewActor_800150E4(5, sizeof(Actor_Item));
     int         map;

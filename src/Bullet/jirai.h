@@ -13,7 +13,7 @@
 
 typedef struct Actor_Jirai
 {
-    Actor      field_0_actor;
+    GV_ACT      field_0_actor;
     GM_Control field_20_ctrl;
     OBJECT     field_9C_obj;
     MATRIX     field_C0_mtx;
@@ -50,7 +50,7 @@ typedef struct Actor_Jirai
 typedef struct Jirai_unknown
 {
     int         field_0_ypos; // might be a short
-    Actor      *field_4_pActor;
+    GV_ACT      *field_4_pActor;
     GM_Control *field_8_pCtrl;
     GM_Target  *field_C_pTarget;
 } Jirai_unknown;

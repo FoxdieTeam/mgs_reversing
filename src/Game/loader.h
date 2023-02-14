@@ -29,7 +29,7 @@ struct Loader_Record
 
 struct Loader
 {
-    struct Actor          base;
+    GV_ACT          base;
     struct Loader_Record *field_20_pFileName;
     int                   field_24_proc_cancel_flags;
     int                   field_28_bRunning;

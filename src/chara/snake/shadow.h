@@ -17,7 +17,7 @@ typedef struct Shadow_94
 
 typedef struct Actor_Shadow
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     GM_Control *field_20_ctrl;
     OBJECT     *field_24_pObj;
     OBJECT      field_28_obj;

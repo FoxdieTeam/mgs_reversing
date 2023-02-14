@@ -3,7 +3,7 @@
 
 typedef struct Actor_Spark
 {
-    Actor    f000_actor;
+    GV_ACT    f000_actor;
     int      f020_map;
     DG_PRIM *f024_pPrim;
     int      f028;

@@ -7,7 +7,7 @@
 
 typedef struct _Actor_Blood
 {
-    Actor    field_0_actor;
+    GV_ACT    field_0_actor;
     int      f20;
     DG_OBJS *f24_prim;
     char     f28_placeholder[16];

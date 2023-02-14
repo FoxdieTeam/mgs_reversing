@@ -461,7 +461,7 @@ void sgtrect3_act_80070E14(Actor_sgtrect3 *sgtrect3)
 
     if (sgtrect3->field_24 != *sgtrect3->field_20)
     {
-        GV_DestroyActor_800151C8((Actor *)sgtrect3);
+        GV_DestroyActor_800151C8((GV_ACT *)sgtrect3);
         return;
     }
 
@@ -544,12 +544,12 @@ Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned i
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C((Actor *)sgtrect3, (TActorFunction)sgtrect3_act_80070E14,
+    GV_SetNamedActor_8001514C((GV_ACT *)sgtrect3, (TActorFunction)sgtrect3_act_80070E14,
                               (TActorFunction)sgtrect3_kill_80070EC0, aSgtrect3C);
 
     if (sgtrect3_loader_80070F4C(sgtrect3, rgb2) < 0)
     {
-        GV_DestroyActor_800151C8((Actor *)sgtrect3);
+        GV_DestroyActor_800151C8((GV_ACT *)sgtrect3);
         return NULL;
     }
 

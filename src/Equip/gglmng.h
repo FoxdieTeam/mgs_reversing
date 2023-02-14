@@ -8,10 +8,10 @@
 
 typedef struct Actor_gglmng
 {
-    Actor  field_0_actor;
+    GV_ACT  field_0_actor;
     int    field_20_type;
     int    field_24;
-    Actor *field_28_pGglsight;
+    GV_ACT *field_28_pGglsight;
 } Actor_gglmng;
 
 Actor_gglmng *gglmng_init_800779B8(int type);

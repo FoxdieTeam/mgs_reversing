@@ -119,7 +119,7 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
     return 0;
 }
 
-Actor *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent)
 {
     Actor_Box *pActor = (Actor_Box *)GV_NewActor_800150E4(6, sizeof(Actor_Box));
     if (pActor)

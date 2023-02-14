@@ -127,7 +127,7 @@ int stgfd_io_loader_80075194(Actor_stgfd_io *pActor)
 
 const char SECTION(".rdata") aStgfdIoC[] = "stgfd_io.c"; // 80012F90
 
-struct Actor *NewStnFade_800752A0(void)
+GV_ACT *NewStnFade_800752A0(void)
 {
     Actor_stgfd_io *actor = (Actor_stgfd_io *)GV_NewActor_800150E4(3, sizeof(Actor_stgfd_io));
     if (actor)

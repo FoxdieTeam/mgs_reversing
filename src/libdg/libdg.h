@@ -178,14 +178,14 @@ typedef struct DG_TmpLightList
 	DG_Light lights[ 8 ];
 } DG_TmpLightList;
 
-typedef struct ImgFile
+typedef struct DG_IMG
 {
 	unsigned int   unknown0;
 	unsigned int   unknown1;
 	unsigned char *unknown2;
 	unsigned char *unknown3;
 	unsigned char *unknown4;
-} ImgFile;
+} DG_IMG;
 
 typedef struct DG_KmdFile
 {
@@ -224,20 +224,20 @@ typedef struct DG_ZmdFile
 	DG_ZmdEntry  zmdEntries[ 0 ];
 } DG_ZmdFile;
 
-typedef struct NFile
+typedef struct DG_NARS
 {
 	unsigned int   unknown0;
 	unsigned char *unknown1;
-} NFile;
+} DG_NARS;
 
-typedef struct OarFile
+typedef struct DG_OAR
 {
 	unsigned char *deep;
 	unsigned int   recordSize;
 	unsigned int   count;
 	unsigned char *start;
 	char           oarData[ 0 ];
-} OarFile;
+} DG_OAR;
 
 typedef struct DG_PcxFile
 {
@@ -568,7 +568,7 @@ void  DG_Set_RGB_800184F4( int r, int b, int g );
 void  DG_StorePaletteEffect_80078F30( void );
 void  DG_StorePalette_8001FC28( void );
 void  DG_Update1_8001F1BC( void );
-void  DG_Update2_8001F078( Actor *pActor );
+void  DG_Update2_8001F078( GV_ACT *pActor );
 void  DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *pDGObj, int idx );
 void  DG_WriteObjPacketUV_8001A774( DG_OBJ *pObj, int idx );
 int   DG_PointCheckOne_8001C18C( DVECTOR *line );

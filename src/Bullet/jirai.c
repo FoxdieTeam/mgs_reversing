@@ -307,7 +307,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int where)
     return 0;
 }
 
-Actor *NewScenarioJirai_8006B76C(int a1, int where)
+GV_ACT *NewScenarioJirai_8006B76C(int a1, int where)
 {
     Actor_Jirai *pActor = (Actor_Jirai *)GV_NewActor_800150E4(6, sizeof(Actor_Jirai));
     if (pActor)

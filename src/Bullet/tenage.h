@@ -12,7 +12,7 @@
 
 typedef struct Actor_tenage
 {
-    Actor      field_0_actor;
+    GV_ACT      field_0_actor;
     GM_Control field_20_ctrl;
     OBJECT     field_9C_obj;
     MATRIX     field_C0_mtx;

@@ -5845,8 +5845,8 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
     GM_Control   *pCtrl;   // $s2
     DG_OBJS      *pObjs;   // $s0
     Actor_Shadow *pShadow; // $a0
-    Actor        *pWeapon; // $a0
-    Actor        *pItem;   // $a0
+    GV_ACT        *pWeapon; // $a0
+    GV_ACT        *pItem;   // $a0
 
     if ((pActor->field_898_flags2 & 0x1000) != 0)
     {

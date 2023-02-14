@@ -7,10 +7,10 @@
 
 typedef struct Actor_bodyarm
 {
-    Actor   field_0;
+    GV_ACT   field_0;
     OBJECT *field_20;
 } Actor_bodyarm;
 
-Actor *bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj);
+GV_ACT *bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj);
 
 #endif // _BODY_ARM_H_
