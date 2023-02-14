@@ -1,5 +1,6 @@
 #include "tenage.h"
 #include "chara/snake/sna_init.h"
+#include "game/gm_control.h"
 
 extern char aTenageC[]; // = "tenage.c"
 
@@ -7,8 +8,14 @@ extern char aTenageC[]; // = "tenage.c"
 
 #pragma INCLUDE_ASM("asm/tenage_act_800699A4.s") // 1048 bytes
 
-extern GM_Control *tenage_ctrls_800BDD30[16];
+extern GM_Control  *tenage_ctrls_800BDD30[16];
 extern int         tenage_ctrls_count_800BDD70;
+extern SVECTOR     svector_800ABA10;
+extern SVECTOR     DG_ZeroVector_800AB39C;
+extern GM_Control  *tenage_ctrls_800BDD30[16];
+extern int         tenage_ctrls_count_800BDD70;
+
+//------------------------------------------------------------------------------
 
 void tenage_kill_80069DBC(Actor_tenage *pActor)
 {
@@ -38,7 +45,52 @@ int tenage_get_free_ctrl_80069E28(void)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/tenage_loader_80069E64.s")      // 428 bytes
+int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
+                           int int_3,int int_4,int int_5, int int_6)
+{
+    GM_Control *pControl;
+    int        tmp;
+    
+    pControl = &pActor->field_20_ctrl;
+    tmp = Res_Control_init_loader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0);
+    if (tmp >= 0)
+    {
+        if (int_5 != 0)
+        {
+            GM_ConfigControlHazard_8002622C(pControl, 100, 50, 50);
+        }
+        else
+        {
+            GM_ConfigControlHazard_8002622C(pControl, 100, -1, -1);
+        }
+        pControl->field_59 = '\x04';
+        if (int_6 == 1)
+        {
+            pControl->field_0_position = svector_800ABA10;
+            GM_ConfigControlTrapCheck_80026308(pControl);
+            GM_ActControl_80025A7C(pControl);
+        }
+        GM_ConfigControlVector_800260FC(pControl, vec, (SVECTOR *)&DG_ZeroVector_800AB39C);
+        pActor->field_108 = *vec2;
+        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_9C_obj, int_4, WEAPON_FLAG, 0);
+        if ((pActor->field_9C_obj).objs != NULL)
+        {
+            DG_SetPos2_8001BC8C(&pControl->field_0_position, &pControl->field_8_rotator);
+            DG_PutObjs_8001BDB8((pActor->field_9C_obj).objs);
+            GM_ConfigObjectLight_80034C44(&pActor->field_9C_obj, &pActor->field_C0_mtx);
+            tmp = tenage_get_free_ctrl_80069E28();
+            pActor->field_120_ctrl_idx = tmp;
+            if (tmp >= 0)
+            {
+                tenage_ctrls_800BDD30[tmp] = pControl;
+                pControl->field_0_position.pad = 0;
+                tenage_ctrls_count_800BDD70 = tenage_ctrls_count_800BDD70 + 1;
+                return 0;
+            }
+        }
+    }
+    return -1;
+}
 
 Actor_tenage *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5)
 {

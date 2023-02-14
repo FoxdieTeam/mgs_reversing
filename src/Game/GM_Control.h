@@ -99,5 +99,6 @@ typedef struct GM_Control
 #define MAX_CONTROLS 96
 
 void GM_FreeControl_800260CC(GM_Control *pControl);
+void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECTOR *pVec2);
 
 #endif // GM_CONTROL_H
