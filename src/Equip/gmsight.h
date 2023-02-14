@@ -7,7 +7,7 @@
 
 typedef struct _Actor_gmsight
 {
-    Actor field_0_actor;
+    GV_ACT field_0_actor;
     int   field_20;
 } Actor_gmsight;
 

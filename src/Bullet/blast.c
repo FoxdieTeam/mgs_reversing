@@ -124,7 +124,7 @@ int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMt
     return 0;
 }
 
-Actor *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
+GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
 {
     Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
     if (pActor)

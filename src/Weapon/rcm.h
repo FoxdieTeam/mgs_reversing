@@ -10,7 +10,7 @@
 
 typedef struct Actor_Rcm
 {
-    Actor         field_0_actor;
+    GV_ACT         field_0_actor;
     OBJECT        f20_obj;
     GM_Control   *field_44_pCtrl;
     OBJECT       *field_48_pParent;

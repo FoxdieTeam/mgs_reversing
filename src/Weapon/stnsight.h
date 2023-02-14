@@ -12,7 +12,7 @@
 
 typedef struct _Actor_Stnsight
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     GM_Control *field_20_ctrl;
     GV_PAD     *field_24_pad_data;
     LINE_F4    *field_28_lines_2Array[2];

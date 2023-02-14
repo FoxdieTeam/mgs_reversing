@@ -32,7 +32,7 @@ typedef struct Actor_demothrd_sub
     struct Actor_demothrd_sub *field_0_pPrev;
     struct Actor_demothrd_sub *field_4_pNext;
     int                        field_8_flag;
-    Actor                      field_C_actor;
+    GV_ACT                      field_C_actor;
     int                        field_2C;
     int                        field_30;
     int                        field_34;
@@ -68,7 +68,7 @@ typedef struct Actor_demothrd_sub
 
 typedef struct Actor_demothrd
 {
-    Actor              field_0_actor;
+    GV_ACT              field_0_actor;
     int                field_20_flag;
     int                field_24_ticks;
     int                field_28_map;

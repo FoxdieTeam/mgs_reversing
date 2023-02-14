@@ -5,7 +5,7 @@
 
 typedef struct Actor_afterse
 {
-  Actor field_0;
+  GV_ACT field_0;
   short field_20_noise;
   short field_22_count_down;
 } Actor_afterse;

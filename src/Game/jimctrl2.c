@@ -49,7 +49,7 @@ void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
     FS_StreamClose_80024098();
 }
 
-Actor *jimctrl_init_80038568(u_long flags)
+GV_ACT *jimctrl_init_80038568(u_long flags)
 {
     int            seekResult;
     u_long          toSeek = 4;

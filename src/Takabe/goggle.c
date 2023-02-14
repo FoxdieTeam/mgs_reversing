@@ -116,7 +116,7 @@ void goggle_act_800775B4(Actor_goggle *pActor)
     {
         GM_GameStatus_800AB3CC |= 4u;
         set_pal_effect_fns_80079194(goggle_pal_cb_800774C0, goggle_pal_convert_8007743C);
-        pActor->field_54_pScn_mask = (Actor *)new_scn_mask_8007895C(0);
+        pActor->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(0);
     }
 
     if (pActor->field_50 < 11)
@@ -167,7 +167,7 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
         pActor->field_4C_head_hidden = 1;
     }
 
-    pActor->field_58_actor_unknown = (Actor *)gglmng_init_800779B8(5);
+    pActor->field_58_actor_unknown = (GV_ACT *)gglmng_init_800779B8(5);
     if (!pActor->field_58_actor_unknown)
     {
         return -1;

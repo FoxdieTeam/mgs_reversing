@@ -22,7 +22,7 @@ extern SVECTOR GM_NoisePosition_800AB9F8;
 
 typedef struct Actor_GM_Daemon
 {
-    Actor field_0;
+    GV_ACT field_0;
     int   field_20;
     int   field_24;
 } Actor_GM_Daemon;
@@ -194,7 +194,7 @@ void               GM_StreamPlayStop_80037D64(void);
 void               GM_AlertModeReset_8002EAB8(void);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
-GV_MSG            *GM_CheckMessage_8002631C(Actor *pActor, int msgType, int toFind);
+GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
 int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, GM_Control *pCtrl, SVECTOR *rots);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 

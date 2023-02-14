@@ -38,7 +38,7 @@ typedef union rgbUnion {
 
 typedef struct Actor_sgtrect3
 {
-    Actor          field_0_actor;
+    GV_ACT          field_0_actor;
     short         *field_20;
     short          field_24;
     short          field_26;

@@ -31,7 +31,7 @@ typedef struct anime_0x34
 
 typedef struct Actor_anime
 {
-    Actor         field_0_actor;
+    GV_ACT         field_0_actor;
     DG_TEX       *field_20_pTexture;
     DG_PRIM      *field_24_pPrim;
     RECT          field_28_prim_rect;

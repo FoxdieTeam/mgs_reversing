@@ -34,8 +34,8 @@ void GV_InitActorSystem_80014D98(void)
 
     for (i = 0; i < ACTOR_LIST_COUNT; i++)
     {
-        struct Actor *pFirst = &pActorList->first;
-        struct Actor *pLast = &pActorList->last;
+        GV_ACT *pFirst = &pActorList->first;
+        GV_ACT *pLast = &pActorList->last;
 
         pFirst->pPrevious = 0;
         pFirst->pNext = pLast;
@@ -78,7 +78,7 @@ void GV_DumpActorSystem_80014E2C(void)
 
     for (i = 0; i < ACTOR_LIST_COUNT; i++)
     {
-        struct Actor *pActor;
+        GV_ACT *pActor;
 
         // "Lv %d Pause %d Kill %d\n"
         mts_null_printf_8008BBA8(aLvDPauseDKillD, i, pActorList->mPause, pActorList->mKill);
@@ -87,7 +87,7 @@ void GV_DumpActorSystem_80014E2C(void)
 
         for (;;)
         {
-            struct Actor *pNext = pActor->pNext;
+            GV_ACT *pNext = pActor->pNext;
 
             if (pActor->mFnUpdate)
             {
@@ -131,12 +131,12 @@ void GV_ExecActorSystem_80014F88(void)
         const int local_GV_PauseLevel_800AB928 = GV_PauseLevel_800AB928;
         if ((pActorList->mPause & local_GV_PauseLevel_800AB928) == 0)
         {
-            struct Actor *pActor = &pActorList->first;
+            GV_ACT *pActor = &pActorList->first;
             for (;;)
             {
 
-                struct Actor *pCur = pActor;
-                struct Actor *pNext = pCur->pNext;
+                GV_ACT *pCur = pActor;
+                GV_ACT *pNext = pCur->pNext;
                 if (pCur->mFnUpdate)
                 {
                     pCur->mFnUpdate(pCur);
@@ -164,12 +164,12 @@ void GV_DestroyActorSystem_80015010(int level)
     {
         if (pActorList->mKill <= level)
         {
-            struct Actor *pActor = &pActorList->first;
+            GV_ACT *pActor = &pActorList->first;
             for (;;)
             {
 
-                struct Actor *pCur = pActor;
-                struct Actor *pNext = pCur->pNext;
+                GV_ACT *pCur = pActor;
+                GV_ACT *pNext = pCur->pNext;
                 if (pCur->mFnUpdate || pCur->mFnShutdown)
                 {
                     GV_DestroyActor_800151C8(pCur);
@@ -186,10 +186,10 @@ void GV_DestroyActorSystem_80015010(int level)
     }
 }
 
-void GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction fnFree)
+void GV_InitActor_800150A8(int level, GV_ACT *pActor, TActorFreeFunction fnFree)
 {
-    struct Actor *pLast = &gActorsList_800ACC18[level].last;
-    struct Actor *pLastPrevious = pLast->pPrevious;
+    GV_ACT *pLast = &gActorsList_800ACC18[level].last;
+    GV_ACT *pLastPrevious = pLast->pPrevious;
 
     pLast->pPrevious = pActor;
     pLastPrevious->pNext = pActor;
@@ -202,9 +202,9 @@ void GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction f
     pActor->mFreeFunc = fnFree;
 }
 
-struct Actor *GV_NewActor_800150E4(int level, int memSize)
+GV_ACT *GV_NewActor_800150E4(int level, int memSize)
 {
-    struct Actor *pActor = GV_Malloc_8001620C(memSize);
+    GV_ACT *pActor = GV_Malloc_8001620C(memSize);
     if (pActor)
     {
         GV_ZeroMemory_8001619C(pActor, memSize);
@@ -213,7 +213,7 @@ struct Actor *GV_NewActor_800150E4(int level, int memSize)
     return pActor;
 }
 
-void GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
+void GV_SetNamedActor_8001514C(GV_ACT *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
                                const char *pActorName)
 {
     pActor->mFnUpdate = pFnUpdate;
@@ -224,11 +224,11 @@ void GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, T
 }
 
 // Removes from linked list and calls shutdown/free funcs
-void GV_DestroyActorQuick_80015164(struct Actor *pActor)
+void GV_DestroyActorQuick_80015164(GV_ACT *pActor)
 {
-    struct Actor *pActorBeingRemoved = pActor;
-    struct Actor *pPreviousActor;
-    struct Actor *pNextActor;
+    GV_ACT *pActorBeingRemoved = pActor;
+    GV_ACT *pPreviousActor;
+    GV_ACT *pNextActor;
 
     // Get points to current next/prev
     pNextActor = pActorBeingRemoved->pNext;
@@ -257,21 +257,21 @@ void GV_DestroyActorQuick_80015164(struct Actor *pActor)
     }
 }
 
-void GV_DestroyActor_800151C8(struct Actor *pActor)
+void GV_DestroyActor_800151C8(GV_ACT *pActor)
 {
     pActor->mFnUpdate = GV_DestroyActorQuick_80015164;
 }
 
-void GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill)
+void GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill)
 {
-    struct Actor     *pNext;
+    GV_ACT     *pNext;
     struct ActorList *pActorList;
     int               i;
 
     pActorList = gActorsList_800ACC18;
     for (i = ACTOR_LIST_COUNT; i > 0; i--)
     {
-        struct Actor *pCurActor = &pActorList->first;
+        GV_ACT *pCurActor = &pActorList->first;
         do
         {
             pNext = pCurActor->pNext;

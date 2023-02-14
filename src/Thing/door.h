@@ -5,7 +5,7 @@
 #include "Game/game.h"
 #include "libgv/libgv.h"
 
-Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv);
+GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv);
 
 typedef struct Actor_Door_TParam_sub
 {
@@ -30,7 +30,7 @@ typedef struct Actor_Door_TParam
 
 typedef struct Actor_Door
 {
-    Actor                    field_0_actor;
+    GV_ACT                    field_0_actor;
     GM_Control               field_20_ctrl;
     OBJECT_NO_ROTS           field_9C;
     short                    field_C0;

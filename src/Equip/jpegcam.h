@@ -11,7 +11,7 @@ typedef char TMat16x16B[16][16]; // Matrix with 16 rows by 16 bytes
 
 typedef struct Actor_jpegcam
 {
-    Actor              field_0_actor;
+    GV_ACT              field_0_actor;
     GM_Control        *field_20_pCtrl;
     OBJECT            *field_24_pObj;
     OBJECT_NO_ROTS     field_28_obj;
