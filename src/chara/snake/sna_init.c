@@ -5847,8 +5847,8 @@ static inline int sna_init_LoadSnake(Actor_SnaInit *pActor, int scriptData, int 
         return -1;
     }
 
-    param_pos = GCL_GetParam_80020968('p'); // pos
-    param_dir = GCL_GetParam_80020968('d'); // dir
+    param_pos = (char*)GCL_GetParam_80020968('p'); // pos
+    param_dir = (char*)GCL_GetParam_80020968('d'); // dir
     GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
 
