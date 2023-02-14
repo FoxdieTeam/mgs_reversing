@@ -43,6 +43,8 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_ChaffGrenadeFlag   linkvarbuf[ 25 ]
 #define GM_RifleFlag          linkvarbuf[ 26 ]
 
+#define GM_WeaponsMax         (&linkvarbuf[ 27 ])
+
 // 0x36 Weapons max ammo
 #define GM_SocomMax           linkvarbuf[ 27 ]
 #define GM_FamasMax           linkvarbuf[ 28 ]

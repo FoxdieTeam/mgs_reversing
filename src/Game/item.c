@@ -6,8 +6,66 @@
 extern const char aItemC[];
 extern const char aItemMapD[];
 
-#pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo2_8003330C.s")              // 120 bytes
-#pragma INCLUDE_ASM("asm/Game/item_act_try_add_ammo_80033384.s")               // 116 bytes
+int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
+{
+    short *pWeapons;
+    short *pAmmo, *pMaxAmmo;
+    short  oldAmmo;
+    
+    pWeapons = GM_Weapons;
+    pAmmo = &pWeapons[weapon_id];
+    if (*pAmmo < 0)
+    {
+        *pAmmo = 0;
+    }
+    
+    pMaxAmmo = &GM_WeaponsMax[weapon_id];
+    if (*pAmmo >= *pMaxAmmo)
+    {
+        return 0;
+    }
+    
+    oldAmmo = *pAmmo ;
+    *pAmmo += amount;
+
+    if (*pMaxAmmo < (short)(oldAmmo + amount))
+    {
+        *pAmmo = *pMaxAmmo;
+    }
+
+    return 1;
+}
+
+int item_act_try_add_ammo_80033384(int weapon, short amount)
+{
+    short *pWeapons;
+    short *pAmmo, *pMaxAmmo;
+    short  oldAmmo;
+
+    pWeapons = GM_Weapons;
+    pAmmo = &pWeapons[weapon];
+    if (*pAmmo < 0)
+    {
+        return 2;
+    }
+
+    pMaxAmmo = &GM_WeaponsMax[weapon];
+    if (*pAmmo >= *pMaxAmmo)
+    {
+        return 0;
+    }
+    
+    oldAmmo = *pAmmo;
+    *pAmmo += amount;
+
+    if (*pMaxAmmo < (short)(oldAmmo + amount))
+    {
+        *pAmmo = *pMaxAmmo;
+    }
+
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s")                     // 264 bytes
 
 void item_all_items_and_weapons_unknown2_80033500()
