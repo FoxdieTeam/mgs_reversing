@@ -216,7 +216,10 @@ radio_table BSS gRadioOverTable_800BDAF8; // 0x40 (64) bytes
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
 
-gap gap_800BDCB8[0x8]; // 8 bytes
+short BSS snake_mag_size_800BDCB8;
+short BSS snake_weapon_idx_800BDCBA;
+short BSS snake_weapon_max_ammo_800BDCBC;
+short BSS unk_800BDCBE;
 
 short BSS word_800BDCC0; // 0x4 (4) bytes - padded
 
