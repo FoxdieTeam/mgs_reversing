@@ -1,8 +1,8 @@
 #include "stngrnd.h"
 #include "Anime/animeconv/anime.h"
 
-extern Anim_Data stru_8009F670;
-extern Anim_Data stru_8009F68C;
+extern ANIMATION stru_8009F670;
+extern ANIMATION stru_8009F68C;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
@@ -34,26 +34,34 @@ void stngrnd_kill_800748B8(int param_1)
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader_800748D8.s") // 644 bytes
 #pragma INCLUDE_ASM("asm/Okajima/NewStanBlast_80074B5C.s")   // 328 bytes
 
-void AN_Stn_G_Sonic_80074CA4(SVECTOR *pVec)
+void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT pre;
 
-    data.field_0_vec = *pVec;
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_12 = 0;
-    data.field_10_anim_idx = 0;
-    stru_8009F670.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F670);
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.s_anim = 0;
+    pre.scr_num = 0;
+
+    anm = &stru_8009F670;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Stn_G_Center_80074D28(SVECTOR *pVec)
+void AN_Stn_G_Center_80074D28(SVECTOR *pos)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT pre;
 
-    data.field_0_vec = *pVec;
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_12 = 0;
-    data.field_10_anim_idx = 0;
-    stru_8009F68C.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F68C);
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.s_anim = 0;
+    pre.scr_num = 0;
+
+    anm = &stru_8009F68C;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }

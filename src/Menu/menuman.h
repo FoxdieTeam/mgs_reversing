@@ -74,20 +74,18 @@ typedef struct menu_chara_struct
     menu_chara_struct_sub field_3C[2];
 } menu_chara_struct;
 
-typedef struct MenuMan_Inventory_14h_Unk
+typedef struct PANEL_TEXTURE
 {
     unsigned char  *field_0_pixels;
     unsigned short *field_4_word_ptr_pixels;
     char            field_8_index;
-    char            field_9_x;
-    char            field_A_y;
-    unsigned char   field_B; // Padding?
-    unsigned char   field_C_u;
-    unsigned char   field_D_v;
-    short           field_E_clut;
+    signed char     field_9_xofs;
+    signed char     field_A_yofs;
+    char            field_B_pad;
+	unsigned long   field_C_uvclut;
     short           field_10_w;
     short           field_12_h;
-} MenuMan_Inventory_14h_Unk;
+} PANEL_TEXTURE;
 
 typedef struct menu_0x14
 {
@@ -104,9 +102,9 @@ void menuman_init_80038954(void);
 struct Actor_MenuMan;
 struct menu_left_right;
 
-typedef void (*menu_8009E544_update)(struct Actor_MenuMan *, int, int, int, struct menu_left_right *);
+typedef void (*PANEL_CONF_update)(struct Actor_MenuMan *, int, int, int, struct menu_left_right *);
 
-typedef struct menu_8009E544
+typedef struct PANEL_CONF
 {
     // X offset from left of screen.
     short field_0_xOffset;
@@ -120,8 +118,8 @@ typedef struct menu_8009E544
     int                  field_C;
     void                *field_10;
     void                *field_14;
-    menu_8009E544_update field_18_pFnUpdate;
-} menu_8009E544;
+    PANEL_CONF_update field_18_pFnUpdate;
+} PANEL_CONF;
 
 typedef struct menu_save_mode_data
 {
@@ -149,29 +147,29 @@ typedef struct Menu_Item_Unknown_Main
     TMenuItemUnknownFn field_1C_fn;
 } Menu_Item_Unknown_Main;
 
-typedef struct Menu_Item_Unknown_Array_Item
+typedef struct PANEL
 {
-    short field_0_item_id_idx;
-    short field_2_current_amount;
-    short field_4; // max amount ?
-    short field_6;
-} Menu_Item_Unknown_Array_Item;
+    short field_0_id;
+    short field_2_num;
+    short field_4_pos;
+    short field_6_current;
+} PANEL;
 
 typedef struct Menu_Item_Unknown
 {
     Menu_Item_Unknown_Main       field_0_main;
-    Menu_Item_Unknown_Array_Item field_20_array[0];
+    PANEL field_20_array[0];
 } Menu_Item_Unknown;
 
 typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
 {
-    Menu_Item_Unknown_Array_Item field_0;
-    struct menu_8009E544        *field_8_pStru;
-    struct Menu_Item_Unknown    *field_C_alloc;
-    char                         field_10_state;
-    signed char                  field_11; // item_idx ?
+    PANEL              field_0_current;
+    PANEL_CONF        *field_8_panel_conf;
+    Menu_Item_Unknown *field_C_alloc;
+    char               field_10_state;
+    signed char        field_11; // item_idx ?
     // Current frame of the "flashing" animation played when the menu is closed, counts down from 0xa to 0x0.
-    short field_12_flashingAnimationFrame;
+    short              field_12_flashingAnimationFrame;
 } menu_left_right;
 
 struct Actor_MenuMan;
@@ -298,13 +296,13 @@ typedef struct UnkJimakuStruct // @ 800BDA70
     // int field_44 // padding?
 } UnkJimakuStruct;
 
-MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
+PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 void                       menu_restore_nouse_80043470();
-MenuMan_Inventory_14h_Unk *menu_rpk_8003B5E0(int idx);
+PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 int                        sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, GV_PAD *pPad);
-int          sub_8003CFE0(MenuMan_Inventory_14h_Unk *images, int index);
+int          sub_8003CFE0(PANEL_TEXTURE *images, int index);
 unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
 unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp,
@@ -316,7 +314,7 @@ void         menu_StartDeamon_80038A20(void);
 void         menu_Text_Init_80038B98(void);
 void         menu_Text_PrimUnknown_80038BB4(void);
 void         menu_init_nouse_800434A8(void);
-void         menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx);
+void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
 
 
 void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, menu_left_right *pMenuSub);
@@ -337,7 +335,7 @@ void menu_viewer_init_80044A70(Actor_MenuMan *);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
 void menuman_act_800386A4(Actor_MenuMan *);
 void menuman_kill_800387E8(Actor_MenuMan *);
-void sub_8003CE40(MenuMan_Inventory_14h_Unk *, int);
+void sub_8003CE40(PANEL_TEXTURE *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
@@ -379,15 +377,15 @@ int            menu_radio_8004D334(GV_PAD *pPad);
 void           menu_radio_8004D35C(void);
 void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
 void           menu_font_kill_8003FC0C(void);
-int            sub_8003CFE0(MenuMan_Inventory_14h_Unk *images, int index);
-void           AssignXY_8003D1A8(Menu_Item_Unknown_Array_Item *pArray, int idx, short amount);
+int            sub_8003CFE0(PANEL_TEXTURE *images, int index);
+void           AssignXY_8003D1A8(PANEL *pArray, int idx, short amount);
 void           sub_8003D2BC(Menu_Item_Unknown *, short);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 
-void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther);
+void AssignXYFromVec_8003D1B8(PANEL *pArray, PANEL *pOther);
 
 #ifdef _BUILDING_MENUMAN_
 int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
