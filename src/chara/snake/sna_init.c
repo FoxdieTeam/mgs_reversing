@@ -5100,16 +5100,15 @@ void sna_init_anim_shoot_weapon_helper_80057590(Actor_SnaInit *pActor)
                 }
 
                 pActor->field_20_ctrl.field_4C_turn_vec.vy = gSnaMoveDir_800ABBA4;
-                return;
             }
-
-            if (pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP))
+            else if (pActor->field_9B0_pad_ptr->status & (PAD_DOWN | PAD_UP))
             {
                 sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_rungun_begin_80056BDC);
-                return;
             }
-
-            sna_init_80051FD0(pActor);
+            else
+            {
+                sna_init_80051FD0(pActor);
+            }
         }
     }
     else if (!sna_init_sub_8004E358(pActor, SNA_FLAG2_UNK5))
