@@ -260,8 +260,7 @@ typedef struct Actor_SnaInit
     SVECTOR             field_8EC_vec;
     int                 field_8F4;
     int                 field_8F8;
-    int                 field_8FC;
-    int                 field_900;
+    SVECTOR              field_8FC;
     int                 field_904_frames_last_choke;
     Actor              *field_908_weapon_actor;
     void               *field_90C_pWeaponFn;
