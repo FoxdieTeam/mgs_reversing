@@ -17,13 +17,13 @@ Sna_E1 SECTION(".sdata") e1_800AB7B4 = {76u, 76u, 78u, 85u, 25u, 87u, 40u, 41u};
 Sna_E1 SECTION(".sdata") e1_800AB7BC = {95u, 95u, 99u, 100u, 26u, 102u, 88u, 89u};
 Sna_E1 SECTION(".sdata") e1_800AB7C4 = {20u, 21u, 84u, 0u, 212u, 3u, 0u, 0u};
 
-SVECTOR SECTION(".sdata") dword_800AB7CC = {0x96, 0x0, 0x32, 0x0};
-SVECTOR SECTION(".sdata") dword_800AB7D4 = {0x0, 0x0, 0x64, 0x0};
-SVECTOR SECTION(".sdata") dword_800AB7DC = {0xfc00, 0x0, 0x0, 0x0};
-SVECTOR SECTION(".sdata") dword_800AB7E4 = {0x5, 0x1f4, 0x50, 0x0};
-SVECTOR SECTION(".sdata") dword_800AB7EC = {0x0, 0x0, 0x320, 0x0};
-SVECTOR SECTION(".sdata") dword_800AB7F4 = {0x0, 0x64, 0xfed4, 0x0};
-SVECTOR SECTION(".sdata") stru_800AB7FC = {0, 0, -300, 0};
+SVECTOR SECTION(".sdata") svector_800AB7CC = {150, 0, 50, 0};
+SVECTOR SECTION(".sdata") svector_800AB7D4 = {0, 0, 100, 0};
+SVECTOR SECTION(".sdata") svector_800AB7DC = {-1024, 0, 0, 0};
+SVECTOR SECTION(".sdata") svector_800AB7E4 = {5, 500, 80, 0};
+SVECTOR SECTION(".sdata") svector_800AB7EC = {0, 0, 800, 0};
+SVECTOR SECTION(".sdata") svector_800AB7F4 = {0, 100, -300, 0};
+SVECTOR SECTION(".sdata") svector_800AB7FC = {0, 0, -300, 0};
 
 int SECTION(".sdata") dword_800AB804 = 0x20646170;
 int SECTION(".sdata") dword_800AB808 = 0xA7825;

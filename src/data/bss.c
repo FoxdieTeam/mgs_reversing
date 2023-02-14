@@ -300,9 +300,7 @@ gap gap_800BEFFC[0x4]; // 4 bytes
 
 int BSS dword_800BF000; // 0x4 (4) bytes
 int BSS se_tracks_800BF004; // 0x4 (4) bytes
-
-gap gap_800BF008[0x4]; // 4 bytes
-
+int BSS dword_800BF008; // 0x4 (4) bytes
 int BSS blank_data_addr_800BF00C; // 0x4 (4) bytes
 int BSS dword_800BF010; // 0x4 (4) bytes
 int BSS se_fp_800BF014; // 0x4 (4) bytes
@@ -328,8 +326,9 @@ gap gap_800BF140[0x4]; // 4 bytes
 
 int BSS dword_800BF144; // 0x4 (4) bytes
 
-gap gap_800BF148[0x10]; // 16 bytes
+gap gap_800BF148[0xC]; // 12 bytes
 
+int BSS dword_800BF154; // 0x4 (4) bytes
 int BSS sng_status_800BF158; // 0x4 (4) bytes
 int BSS gStreamVol_800BF15C; // 0x4 (4) bytes
 int BSS dword_800BF160; // 0x4 (4) bytes

@@ -78,23 +78,23 @@ extern int                GM_GameStatus_800AB3CC;
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern Target_Data        stru_8009F044;
-extern SVECTOR            stru_800AB7FC;
+extern SVECTOR            svector_800AB7FC;
 extern GM_Camera GM_Camera_800B77E8;
-extern SVECTOR            dword_800AB7D4;
-extern SVECTOR            dword_800AB7DC;
+extern SVECTOR            svector_800AB7D4;
+extern SVECTOR            svector_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern Sna_ActionTable    actions_no_weapon_8009ED70;
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
 extern int                used_counter_8009F42C;
-extern SVECTOR            dword_800AB7EC;
-extern SVECTOR            dword_800AB7F4;
+extern SVECTOR            svector_800AB7EC;
+extern SVECTOR            svector_800AB7F4;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
 extern int                dword_8009EF24[];
 extern int                dword_8009EF2C[];
-extern SVECTOR            dword_800AB7CC;
+extern SVECTOR            svector_800AB7CC;
 extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
 extern SVECTOR            stru_8009EFD4[];
@@ -120,6 +120,7 @@ extern int                tenage_ctrls_count_800BDD70;
 extern int                dword_8009F434;
 extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
+extern SVECTOR            svector_800AB7E4;
 
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
@@ -348,7 +349,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     vec.vz = pActor->field_9C_obj.objs->objs[4].world.t[2];
 
     DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_rotator);
-    DG_PutVector_8001BE48(&dword_800AB7CC, &vec, 1);
+    DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
     sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, unk1);
 
     i = -1;
@@ -766,8 +767,8 @@ void sna_init_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
     MATRIX mtx;
 
     DG_SetPos_8001BC44(&pActor->field_9C_obj.objs->objs[6].world);
-    DG_MovePos_8001BD20(&dword_800AB7D4);
-    DG_RotatePos_8001BD64(&dword_800AB7DC);
+    DG_MovePos_8001BD20(&svector_800AB7D4);
+    DG_RotatePos_8001BD64(&svector_800AB7DC);
     ReadRotMatrix_80092DD8(&mtx);
 
     iVar1 = -1;
@@ -4763,7 +4764,124 @@ void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int time)
 
 // https://decomp.me/scratch/XqwyZ
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s") // 320 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_psg1_80056DDC.s")   // 740 bytes
+
+static inline int sna_init_anim_psg1_helper_80056DDC(void)
+{
+    return 1;
+}
+
+void sna_init_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time)
+{
+    MATRIX rotation;
+
+    if (time == 0)
+    {
+        pActor->field_A44.pad = 0;
+        pActor->field_A52 = 0;
+
+        pActor->field_9C8_anim_update_fn_3p = &sna_init_anim_psg1_helper_80057FD4;
+        pActor->field_9CC_anim_update_fn_1p = &sna_init_anim_psg1_helper_80057FD4;
+
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+        sna_init_set_invuln_8004F2A0(pActor, 0);
+
+        GM_Camera_800B77E8.field_22 = 0;
+        pActor->field_A20 = sna_init_anim_psg1_helper_80056DDC();
+        
+        switch (pActor->field_A26_fn_stance_idx)
+        {
+        case 0:
+            sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_2, 4);
+            pActor->field_A2C.vy = -128;
+            pActor->field_A3A = 0;
+            break;
+
+        case 1:
+            pActor->field_A3A = 1;
+            break;
+
+        case 2:
+            pActor->field_A3A = 3;
+            break;
+        }
+    }
+
+    if (pActor->field_A3A < 3)
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH);
+    }
+    
+    switch (pActor->field_A3A)
+    {
+    case 0:
+        if (time == 4)
+        {
+            pActor->field_A3A = 1;
+        }
+
+        break;
+
+    case 1:
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_CROUCHING);
+        pActor->field_A26_fn_stance_idx = 1;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_0, 4);
+        pActor->field_A3A = 2;
+        pActor->field_20_ctrl.field_55_flags |= (CONTROL_FLAG_UNK8 | CONTROL_FLAG_UNK2);
+        break;
+
+    case 2:
+        if (pActor->field_798 < 0xfa)
+        {
+            pActor->field_20_ctrl.field_55_flags &= ~CONTROL_FLAG_UNK8;
+        }
+
+        if (pActor->field_180.field_04.field_2_footstepsFrame == 7)
+        {
+            pActor->field_20_ctrl.field_55_flags &= ~CONTROL_FLAG_UNK2;
+        }
+
+        if (pActor->field_9C_obj.field_1A != 0)
+        {
+            pActor->field_A3A = 3;
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PRONE);
+            pActor->field_A26_fn_stance_idx = 2;
+        }
+
+        break;
+
+    case 3:
+        sub_8004EB74(pActor);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK);
+
+        if (GM_UnkFlagBE != 0)
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK400);
+        }
+
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_STATUS_CROUCHING);
+        sna_init_clear_invuln_8004F2EC(pActor);
+        pActor->field_20_ctrl.field_4C_turn_vec.vx = pActor->field_A2A;
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_0, 4);
+        pActor->field_A3A = 4;
+        break;
+
+    default:
+        DG_SetPos_8001BC44(&pActor->field_9C_obj.objs->objs[4].world);
+        DG_MovePos_8001BD20(&svector_800AB7E4);
+        ReadRotMatrix_80092DD8(&rotation);
+
+        pActor->field_A60.vx = rotation.t[0];
+        pActor->field_A60.vy = rotation.t[1];
+        pActor->field_A60.vz = rotation.t[2];
+
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_INVULNERABLE) && (GM_Camera_800B77E8.field_22 != 0))
+        {
+            gUnkCameraStruct_800B77B8.field_0.vy += GV_RandU_80017090(16) * pActor->field_A24_invuln_frames;
+        }
+
+        break;
+    }
+}
 
 void sna_init_anim_stinger_800570C0(Actor_SnaInit *pActor, int time)
 {
@@ -4821,7 +4939,7 @@ void sna_init_800571B8(Actor_SnaInit *pActor, int time)
         pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
         sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_6, 4);
         pGVar3 = pActor->field_8E8_pTarget;
-        DG_PutVector_8001BE48(&dword_800AB7EC, vec2, 1);
+        DG_PutVector_8001BE48(&svector_800AB7EC, vec2, 1);
         GV_SubVec3_80016D40(&pGVar3->field_8_vec, vec2, vec2);
 
         vec2->vx /= 4;
@@ -4839,7 +4957,7 @@ void sna_init_800571B8(Actor_SnaInit *pActor, int time)
     if (time == 6)
     {
         GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_position, 49);
-        NewBakudan_8006A6CC(pActor->field_8E8_pTarget->field_20, &dword_800AB7F4, 1, 1, pActor->field_8E8_pTarget);
+        NewBakudan_8006A6CC(pActor->field_8E8_pTarget->field_20, &svector_800AB7F4, 1, 1, pActor->field_8E8_pTarget);
         pActor->field_914 = 5;
         pActor->field_8E8_pTarget->field_6_flags &= ~(0x40);
         pActor->field_8E8_pTarget = 0;
@@ -5306,7 +5424,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int time)
 
             DG_SetPos2_8001BC8C(&field_8E8_pTarget->field_8_vec, &pActor->field_20_ctrl.field_8_rotator);
 
-            DG_PutVector_8001BE48(&stru_800AB7FC, p, 1);
+            DG_PutVector_8001BE48(&svector_800AB7FC, p, 1);
             DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
             GV_SubVec3_80016D40(p, &pActor->field_20_ctrl.field_0_position, p);
             p->vx /= 4;
