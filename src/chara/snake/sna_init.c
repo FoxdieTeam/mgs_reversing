@@ -21,7 +21,7 @@
 
 extern short word_8009EFC0[];
 
-extern Target_Data stru_8009EFE4;
+extern Target_Data stru_8009EFE4[];
 
 extern Sna_E1 e1_800AB7C4;
 Sna_E1        SECTION(".sdata") e1_800AB7C4;
@@ -77,7 +77,6 @@ extern int                GM_GameOverTimer_800AB3D4;
 extern int                GM_GameStatus_800AB3CC;
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
-extern Target_Data        stru_8009F044;
 extern SVECTOR            svector_800AB7FC;
 extern GM_Camera GM_Camera_800B77E8;
 extern SVECTOR            svector_800AB7D4;
@@ -3541,7 +3540,7 @@ void sna_init_bomb_800541A8(Actor_SnaInit *pActor)
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
     pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
     pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
-    if (sna_init_8004FDE8(pActor, &stru_8009EFE4))
+    if (sna_init_8004FDE8(pActor, &stru_8009EFE4[0]))
     {
         pFn = sna_init_800571B8;
     }
@@ -5456,7 +5455,83 @@ void sub_80058644(Actor_SnaInit *pActor, int time)
 }
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_helper_80058780.s") // 584 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_throw_800589C8.s")           // 584 bytes
+
+void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int time)
+{
+    Target_Data *pVec; // $s3
+    int bClear; // $s4
+    Sna_ActionTable *field_9B4_action_table; // $v1
+    int action_flag; // $s0
+    GM_Target *field_8E8_pTarget; // $s0
+    SVECTOR* pTmp;
+    
+    if ( time == 0)
+    {
+        pVec = &stru_8009EFE4[1];
+        bClear = 0;
+        field_9B4_action_table = pActor->field_9B4_action_table;
+        pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+        action_flag = field_9B4_action_table->field_10->field_4;
+        if ( !sna_init_8004FDE8(pActor, pVec) )
+        {
+            action_flag = pActor->field_9B4_action_table->field_10->field_5;
+            pVec = &stru_8009EFE4[2];
+
+            if ( !sna_init_8004FDE8(pActor, pVec) )
+            {
+                bClear = 1;
+                pActor->field_A38 = 1;
+                action_flag = pActor->field_9B4_action_table->field_0->field_1;
+            }
+        }
+        GM_ClearPlayerStatusFlag_8004E2D4(16);
+        sna_init_8004E22C(pActor, action_flag, 4);
+
+        pActor->field_8FC = pActor->field_20_ctrl.field_8_rotator;
+        pActor->field_8FC.vy += 2048;
+
+         pTmp = &pActor->field_8EC_vec;
+        if ( !bClear )
+        {
+            field_8E8_pTarget = pActor->field_8E8_pTarget;
+            DG_PutVector_8001BE48(&pVec->field_0, pTmp, 1);
+            GV_SubVec3_80016D40(&field_8E8_pTarget->field_8_vec, pTmp, pTmp);
+            pTmp->vx /= 4;
+            pTmp->vy /= 4;
+            pTmp->vz /= 4;
+        }
+        else
+        {
+           
+            *pTmp = DG_ZeroVector_800AB39C; 
+        }
+    }
+    
+    if ( time < 4 )
+    {
+        GV_AddVec3_80016D00(
+            &pActor->field_20_ctrl.field_44_movementVector,
+            &pActor->field_8EC_vec,
+            &pActor->field_20_ctrl.field_44_movementVector);
+    }
+    
+    if ( !pActor->field_A38 )
+    {
+        if ( sna_init_sub_8004E358(pActor, 16) )
+        {
+            sub_8004FAE8(pActor);
+        }
+    }
+    
+    if ( pActor->field_9C_obj.field_1A || (pActor->field_A38 == 1 && time == 4) )
+    {
+        sna_init_sub_8004E41C(pActor, 2);
+        sna_init_clear_flags1_8004E308(pActor, 4);
+        sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+    }
+    
+}
 
 void sna_init_anim_punch_80058C10(Actor_SnaInit *pActor, int time)
 {
@@ -5487,7 +5562,7 @@ void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int time)
         bClear = 0;
         pActor->field_A54.choke_count = 0;
 
-        if (!sna_init_8004FDE8(pActor, &stru_8009F044))
+        if (!sna_init_8004FDE8(pActor, &stru_8009EFE4[3]))
         {
             bClear = 1;
             pActor->field_A38 = 1;
