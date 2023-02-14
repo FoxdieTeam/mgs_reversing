@@ -57,10 +57,10 @@ void BoxAct_80061A14(Actor_Box *pActor)
     {
         DG_InvisibleObjs(pActor->field_20.objs);
 
-        if ( dword_8009F604 != SIGHT_CB_BOX )
+        if ( dword_8009F604 != SGT_CB_BOX )
         {
             dword_8009F284 = 1;
-            NewSight_80071CDC(SIGHT_CB_BOX, SIGHT_CB_BOX, (short*)&dword_8009F284, 1, 0);
+            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&dword_8009F284, 1, 0);
         }
     }
     else

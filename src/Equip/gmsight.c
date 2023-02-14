@@ -11,9 +11,9 @@ extern short            word_800BDCC0;
 
 void gmsight_act_800635BC(Actor_gmsight *pActor)
 {
-    if (dword_8009F604 != SIGHT_MASK)
+    if (dword_8009F604 != SGT_MASK)
     {
-        NewSight_80071CDC(SIGHT_MASK, SIGHT_MASK, &word_800BDCC0, 1, NULL);
+        NewSight_80071CDC(SGT_MASK, SGT_MASK, &word_800BDCC0, 1, NULL);
     }
 
     if ((++pActor->field_20 == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))

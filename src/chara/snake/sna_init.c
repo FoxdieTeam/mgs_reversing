@@ -17,6 +17,7 @@
 #include "Game/camera.h"
 #include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"
+#include "libgcl/hash.h"
 
 extern short word_8009EFC0[];
 
@@ -5622,21 +5623,24 @@ void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
     }
 }
 
-static inline int sna_init_init_loader2(Actor_SnaInit *pActor)
+static inline int sna_init_LoadSnake2(Actor_SnaInit *pActor)
 {
-    SVECTOR *temp_s1 = &pActor->field_930;
-    SVECTOR *temp_s2;
-    DG_PRIM *pPrim = DG_GetPrim(22, 2, 0, temp_s1, 0);
-    DG_TEX *pTex;
-    int i, j;
+    SVECTOR  *temp_s1;
+    SVECTOR  *temp_s2;
+    DG_PRIM  *pPrim;
+    DG_TEX   *pTex;
     POLY_GT4 *pPoly;
+    int      i, j;
     
+    temp_s1 = &pActor->field_930;
+    pPrim = DG_GetPrim(22, 2, 0, temp_s1, 0);
+
     if (!pPrim)
     {
         return -1;
     }
                 
-    pTex = DG_GetTexture_8001D830(0x8DB);
+    pTex = DG_GetTexture_8001D830(PCX_LSIGHT);
     pActor->field_928 = pTex;
 
     if (!pTex)
@@ -5685,16 +5689,16 @@ static inline int sna_init_init_loader2(Actor_SnaInit *pActor)
     return 0;
 }
 
-static inline void sna_init_init_loader3(Actor_SnaInit *pActor)
+static inline void sna_init_LoadSnake3(Actor_SnaInit *pActor)
 {
-    short stance = pActor->field_A26_fn_stance_idx = GM_SnakeStance;
-    short temp_a1;
-    int temp_v1_3;
-    int var_s0_2;
-    int var_v_2;
-
-    unsigned short t1, t2;
+    u_short t1, t2;
+    short   stance;
+    short   temp_a1;
+    int     temp_v1_3;
+    int     var_s0_2;
+    int     var_v_2;
     
+    stance = pActor->field_A26_fn_stance_idx = GM_SnakeStance;
     if (stance == 3)
     {
         t1 = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
@@ -5727,21 +5731,21 @@ static inline void sna_init_init_loader3(Actor_SnaInit *pActor)
 
     gUnkCameraStruct_800B77B8.field_0 = pActor->field_A60;
 
-    if (GCL_GetParam_80020968('o'))
+    if (GCL_GetParam_80020968('o')) // oar
     {
         pActor->field_A5A = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     pActor->field_890_autoaim_max_dist = 6000;
 
-    if (GCL_GetParam_80020968('l'))
+    if (GCL_GetParam_80020968('l')) // len
     {
         pActor->field_890_autoaim_max_dist = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     pActor->field_892_autoaim_min_angle = 512;
 
-    if (GCL_GetParam_80020968('r'))
+    if (GCL_GetParam_80020968('r')) // rot
     {
         pActor->field_892_autoaim_min_angle = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
@@ -5749,7 +5753,7 @@ static inline void sna_init_init_loader3(Actor_SnaInit *pActor)
     dword_800ABBDC = -1023;
     dword_800ABBD4 = 1023;
 
-    if (GCL_GetParam_80020968('t'))
+    if (GCL_GetParam_80020968('t')) // turn
     {
         dword_800ABBDC = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
         dword_800ABBD4 = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
@@ -5757,7 +5761,7 @@ static inline void sna_init_init_loader3(Actor_SnaInit *pActor)
 
     pActor->field_A70 = -1;
 
-    if (GCL_GetParam_80020968('e'))
+    if (GCL_GetParam_80020968('e')) // exec
     {
         pActor->field_A70 = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
@@ -5804,12 +5808,14 @@ static inline void sna_init_init_loader3(Actor_SnaInit *pActor)
     pActor->field_9B0_pad_ptr = GV_PadData_800B05C0;
 }
 
-static inline void sna_init_init_loader4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
+static inline void sna_init_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
 {
-    char u = tex->field_8_offx;
-    char v = tex->field_9_offy;
-    int i;
+    char u, v;
+    int  i;
     
+    u = tex->field_8_offx;
+    v = tex->field_9_offy;
+
     for ( i = 0; i < n_packs; i ++ )
     {
         setPolyFT4( packs );
@@ -5823,25 +5829,27 @@ static inline void sna_init_init_loader4( POLY_FT4 *packs, int n_packs, DG_TEX *
     }
 }
 
-static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, int scriptBinds)
+static inline int sna_init_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scriptBinds)
 {
-    GM_Control *pCtrl = &pActor->field_20_ctrl;
-    OBJECT *pObject;
-    GM_Target *pTarget;
+    GM_Control    *pCtrl;
+    OBJECT        *pObject;
+    GM_Target     *pTarget;
     Jirai_unknown *pJiraiUnk;
-    Shadow_94 shadow94;
-    SVECTOR vec;
-    SVECTOR *pVec;
-    int tmp;
-    int model;
-    int i;
+    Shadow_94     shadow94;
+    SVECTOR       vec;
+    SVECTOR       *pVec;
+    int           tmp, model, i;
+    char          *param_pos, *param_dir;
     
+    pCtrl = &pActor->field_20_ctrl;
     if (Res_Control_init_loader_8002599C(pCtrl, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
-            
-    GM_ConfigControlString_800261C0(pCtrl, (char *)GCL_GetParam_80020968('p'), (char *)GCL_GetParam_80020968('d'));
+
+    param_pos = (char*)GCL_GetParam_80020968('p'); // pos
+    param_dir = (char*)GCL_GetParam_80020968('d'); // dir
+    GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
 
     tmp = 1;
@@ -5850,19 +5858,25 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
     GM_ConfigControlAttribute_8002623C(pCtrl, tmp);
     GM_ConfigControlTrapCheck_80026308(pCtrl);
 
-    model = 0x992D;
 
     pObject = &pActor->field_9C_obj;
 
-    if (GCL_GetParam_80020968('m'))
+    model = KMD_SNAKE;
+    if (GCL_GetParam_80020968('m')) // model
     {
         model = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    GM_InitObject_80034A18(pObject, model, 0x32d, 0x992d);
+    GM_InitObject_80034A18(pObject, model, BODY_FLAG, OAR_SNAKE);
 
     GM_ConfigObjectJoint_80034CB4(pObject);
-    GM_ConfigMotionControl_80034F08(pObject, &pActor->field_180, 0x992D, &pActor->field_1D0, &pActor->field_1F4[16], pCtrl, (SVECTOR *)&pActor->field_698_joint_rotations);
+    GM_ConfigMotionControl_80034F08(pObject,
+                                    &pActor->field_180,
+                                    OAR_SNAKE,
+                                    &pActor->field_1D0,
+                                    &pActor->field_1F4[16],
+                                    pCtrl,
+                                    (SVECTOR *)&pActor->field_698_joint_rotations);
     GM_ConfigObjectLight_80034C44(pObject, &pActor->field_848_lighting_mtx);
 
     gSnaControl_800AB9F4 = pCtrl;
@@ -5871,12 +5885,12 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
     
     sna_init_8004EB14(pActor);
             
-    if (sna_init_init_loader2(pActor) < 0)
+    if (sna_init_LoadSnake2(pActor) < 0)
     {
         return -1;
     }
 
-    sna_init_init_loader3(pActor);
+    sna_init_LoadSnake3(pActor);
 
     pVec = &vec;
     setVector(pVec, 300, 650, 300);
@@ -5890,7 +5904,7 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
 
     pActor->field_A22_snake_current_health = GM_SnakeCurrentHealth;
     
-    sna_init_init_loader4(pActor->field_950, 2, DG_GetTexture_8001D830(0xB05C));
+    sna_init_LoadSnake4(pActor->field_950, 2, DG_GetTexture_8001D830(PCX_EMPTY2));
 
     shadow94.objs_offsets[0] = 0;
     shadow94.objs_offsets[1] = 6;
@@ -5951,7 +5965,7 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
     dword_8009F2C0 = 0;
     pVec_800ABBCC = NULL;
 
-    if (model == 30355)
+    if (model == KMD_SNE_WET2) // wet suit in the docks
     {
         sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK29);
     }
@@ -5959,19 +5973,22 @@ static inline int sna_init_init_loader(Actor_SnaInit *pActor, int scriptData, in
     return 0;
 }
 
-Actor_SnaInit * sna_init_init_8005B650(int scriptData, int scriptBinds)
+Actor_SnaInit *sna_init_NewSnake_8005B650(int scriptData, int scriptBinds)
 {
-    Actor_SnaInit *pActor = (Actor_SnaInit *)GV_NewActor_800150E4(5, sizeof(Actor_SnaInit));
+    Actor_SnaInit *pActor;
 
+    pActor = (Actor_SnaInit *)GV_NewActor_800150E4(5, sizeof(Actor_SnaInit));
     if (!pActor)
     {
         return NULL;
     }
         
-    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&sna_init_act_8005AD10,
-                              (TActorFunction)&sna_init_kill_8005B52C, aSnaInitC);
+    GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+                              (TActorFunction)&sna_init_act_8005AD10,
+                              (TActorFunction)&sna_init_kill_8005B52C,
+                              aSnaInitC);
 
-    if (sna_init_init_loader(pActor, scriptData, scriptBinds) < 0)
+    if (sna_init_LoadSnake(pActor, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return NULL;
