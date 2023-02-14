@@ -75,9 +75,9 @@ void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
 {
     Nik_Blast_8009F484 = 1;
 
-    if (dword_8009F604 != SIGHT_NIKITA)
+    if (dword_8009F604 != SGT_NIKITA)
     {
-        NewSight_80071CDC(SIGHT_NIKITA, SIGHT_NIKITA, &Nik_Blast_8009F484, 1, 0);
+        NewSight_80071CDC(SGT_NIKITA, SGT_NIKITA, &Nik_Blast_8009F484, 1, 0);
     }
 
     GM_Camera_800B77E8.field_22 = 1;

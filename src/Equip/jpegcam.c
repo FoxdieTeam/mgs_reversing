@@ -272,7 +272,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
         GV_PauseLevel_800AB928 &= ~0x1;
         DG_8001844C();
         pActor->field_64_state = 0;
-        pActor->field_90_pSight = NewSight_80071CDC(SIGHT_CAMERA_2, SIGHT_CAMERA, &GM_CurrentItemId, 12, 0);
+        pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }
 }
 
@@ -353,10 +353,10 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
                     return;
                 }
                 jpegcam_act_helper2_80064588(pActor);
-                if (dword_8009F604 != SIGHT_CAMERA)
+                if (dword_8009F604 != SGT_CAMERA)
                 {
-                    NewSight_80071CDC(SIGHT_CAMERA, SIGHT_CAMERA, &GM_CurrentItemId, 12, 0);
-                    pActor->field_90_pSight = NewSight_80071CDC(SIGHT_CAMERA_2, SIGHT_CAMERA, &GM_CurrentItemId, 12, 0);
+                    NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+                    pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
                     GM_Sound_80032968(0, 63, 0x15u);
                 }
                 if ( !(GM_PlayerStatus_800ABA50 & 0x4000000) )
