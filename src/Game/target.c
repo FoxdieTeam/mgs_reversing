@@ -109,7 +109,7 @@ void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, S
     pTarget->field_3C = 0;
 }
 
-void GM_Target_8002DCB4(GM_Target *pTarget, int a2, int a3, int *a4, int *a5)
+void GM_Target_8002DCB4(GM_Target *pTarget, int a2, int a3, int *a4, SVECTOR *a5)
 {
     pTarget->field_18 = a4;
     pTarget->field_3E = a2;
