@@ -237,7 +237,7 @@ void over_kill_80037514( Actor_Over *pActor )
         GM_ContinueStart_8002B62C();
         return;
     }
-    if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == -1 ) )
+    if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )
     {
         GV_ResidentHeapReset_800163B0();
         GV_InitCacheSystem_80015458();

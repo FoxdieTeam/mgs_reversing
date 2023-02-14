@@ -494,7 +494,7 @@ void     DG_DequeuePrim_800182E0( DG_OBJS *pObjs );
 void     DG_FreePrim_8001BC04( DG_OBJS *pPrim );
 void     DG_PutPrim_8001BE00( MATRIX *matrix );
 void     DG_Init_DrawEnv_80018384(
-		DRAWENV *pDrawEnv, short clipX1, short clipY1, short clipX2, short clipY2 );
+		DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 );
 
 void    DG_SetPos_8001BC44( MATRIX *matrix );
 void    DG_SetPos2_8001BC8C( SVECTOR *svector, SVECTOR *svector2 );

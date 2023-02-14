@@ -184,10 +184,8 @@ array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x20 (32) bytes
 gap gap_800B935C[0x4]; // 4 bytes
 
 unsigned char BSS gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
-Actor_MenuMan BSS gMenuMan_800BD360; // 0x224 (548) bytes
-
-gap gap_800BD584[0x1C]; // 28 bytes
-
+Actor_MenuMan BSS gMenuMan_800BD360; // 0x220 (544) bytes
+MATRIX BSS gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
 PANEL_TEXTURE BSS gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
 
 gap gap_800BD744[0x144]; // 324 bytes

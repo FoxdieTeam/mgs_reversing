@@ -44,4 +44,6 @@ void memcard_swcard_end_write_800245F4();
 void memcard_swcard_timeout_8002462C();
 void memcard_swcard_new_80024664();
 
+void read_800995AC(int fd, char *buf, int size);
+
 #endif // _MEMCARD_H_

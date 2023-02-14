@@ -32,6 +32,11 @@ extern const char aWarningMemcard[]; // = "Warning : MEMCARD create error ... ov
 extern const char aMemcardWriteEr[]; // = "MEMCARD WRITE ERROR FD %d\n"
 extern const char aMemcardWriteSF[]; // = "MEMCARD WRITE %s FD %d SIZE %d\n"
 extern const char aWritingFileS[];   // = "WRITING FILE %s...\n"
+extern const char aBu02xS_0[];
+extern const char aMemcardReadErr[];
+extern const char aMemcardReadSFd[];
+extern const char aReadingFileS[];
+extern const char aWarningMemcard[];
 
 // ?? something strange going on with these types
 //extern volatile TMemCardSetFunc gSwCardLastOp_800B52F0;
@@ -438,16 +443,13 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     sprintf_8008E878(name, aBu02xS, idx * 16, pFileName);
 
     hFile = open_8009958C(name, (blocks << 16) | O_CREAT);
-
     if (hFile < 0)
     {
         mts_printf_8008BBA0(aWarningMemcard);
     }
-    
     close_800995CC(hFile);
-    
+
     hFile = open_8009958C(name, O_NOWAIT | O_WRONLY);
-  
     if (hFile < 0)
     {
         mts_printf_8008BBA0(aMemcardWriteEr, hFile);
@@ -456,22 +458,41 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     }
     
     mts_printf_8008BBA0(aMemcardWriteSF, pFileName, hFile, bufferSize);
-
     bufferSize = ROUND_UP(bufferSize, 128);
-
     if (seekPos > 0)
     {
         lseek_8009959C(hFile, seekPos, SEEK_SET);
     }
-
     memcard_set_read_write_8002551C(bufferSize);
     write_800995BC(hFile, pBuffer, bufferSize);
     close_800995CC(hFile);
-
     mts_printf_8008BBA0(aWritingFileS, pFileName);
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_read_8002569C.s") // 276 bytes
+void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pBuffer, int bufferSize)
+{
+    char name[32];
+    int hFile;
+    
+    sprintf_8008E878(name, aBu02xS_0, idx * 16, pFilename);
+    hFile = open_8009958C(name, FREAD | FASYNC);
+    if (hFile < 0) 
+    { 
+        mts_printf_8008BBA0(aMemcardReadErr, hFile);
+        gMemCard_io_size_800B5648 = -1; 
+        return; 
+    } 
+    bufferSize = ROUND_UP(bufferSize, 128);
+    mts_printf_8008BBA0(aMemcardReadSFd, pFilename, hFile, bufferSize);
+    if (seekPos > 0)
+    {
+        lseek_8009959C(hFile, seekPos, SEEK_SET);
+    }
+    memcard_set_read_write_8002551C(bufferSize);
+    read_800995AC(hFile, pBuffer, bufferSize);
+    close_800995CC(hFile);
+    mts_printf_8008BBA0(aReadingFileS, pFilename);
+}
 
 int memcard_get_status_800257B0()
 {
