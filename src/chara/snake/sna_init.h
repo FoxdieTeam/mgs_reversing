@@ -492,6 +492,8 @@ void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time);
 void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time);
 void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_MAP *pHzd, SVECTOR *pVec);
 void sna_unk_helper2_helper_8006070C(VECTOR *, SVECTOR *);
+void sna_init_80057A90(Actor_SnaInit *pActor, int time);
+void sna_init_8004EF14(Actor_SnaInit *pActor);
 
 // TODO: move these to indivudual weapon headers
 Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
