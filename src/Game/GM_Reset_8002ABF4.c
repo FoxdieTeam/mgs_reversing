@@ -1,6 +1,7 @@
 #include "target.h"
 #include "game.h"
 #include "libgcl/gcl.h"
+#include "libgcl/hash.h"
 #include "homing_target.h"
 
 extern DG_TEX gMenuTextureRec_800B58B0;
@@ -18,7 +19,9 @@ void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
 
 void GM_InitReadError_8002AC44()
 {
-    DG_TEX *pTexture = DG_GetTexture_8001D830(0xA0BE);
+    DG_TEX *pTexture;
+    
+    pTexture = DG_GetTexture_8001D830(PCC_READ);
     gMenuTextureRec_800B58B0 = *pTexture;
     gMenuTextureRec_800B58B0.field_0_hash = 0;
 }

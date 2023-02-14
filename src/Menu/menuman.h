@@ -172,6 +172,19 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
     short              field_12_flashingAnimationFrame;
 } menu_left_right;
 
+typedef struct menu_radar_data {
+    DR_ENV        field_0[2];    // offset CC in Actor_MenuMan
+    RECT          field_80_clip; // offset 14C in Actor_MenuMan
+    DR_ENV        field_88;      // offset 154 in Actor_MenuMan
+    DR_ENV        field_C8;      // offset 194 in Actor_MenuMan
+
+    // Radar X offset from default X position (not from top of screen).
+    short field_108_radarXOffsetFromDefault; // offset 1D4 in Actor_MenuMan
+
+    // Radar Y offset from default Y position (not from left of screen).
+    short field_10A_radarYOffsetFromDefault; // offset 1D6 in Actor_MenuMan
+} menu_radar_data;
+
 struct Actor_MenuMan;
 
 typedef void (*TMenuUpdateFn)(struct Actor_MenuMan *, unsigned char *); // todo
@@ -254,15 +267,7 @@ typedef struct Actor_MenuMan
     TMenuUpdateFn m7FnPtrs_field_2C[7];
     int           field_48;
     DR_ENV        field_4C_drawEnv[2];
-    DR_ENV        field_CC[2];
-    int           field_14C; // RECT ?
-    int           field_150;
-    DR_ENV        field_154;
-    DR_ENV        field_194;
-    // Radar X offset from default X position (not from top of screen).
-    short field_1D4_radarXOffsetFromDefault;
-    // Radar Y offset from default Y position (not from left of screen).
-    short field_1D6_radarYOffsetFromDefault;
+    menu_radar_data        field_CC_radar_data;
     // Health bar display countdown from 0x96 to 0x0, handled by 8003F530():
     // - 0x8003f784: resets the countdown to 0x96;
     // - 0x8003f7a0: decrements the value.
@@ -277,8 +282,6 @@ typedef struct Actor_MenuMan
     KCB                   *field_214_font;
     menu_chara_struct     *field_218;
     int                    field_21C;
-    // Some kind of radar horizontal stretch value.
-    int field_220;
 } Actor_MenuMan;
 
 // here or jimctl.h?

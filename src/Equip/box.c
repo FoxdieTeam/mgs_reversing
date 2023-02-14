@@ -5,6 +5,7 @@
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
+#include "libgcl/hash.h"
 
 extern const char aBoxC[];
 extern int DG_CurrentGroupID_800AB968;
@@ -56,10 +57,10 @@ void BoxAct_80061A14(Actor_Box *pActor)
     {
         DG_InvisibleObjs(pActor->field_20.objs);
 
-        if ( dword_8009F604 != 58025 )
+        if ( dword_8009F604 != SGT_CB_BOX )
         {
             dword_8009F284 = 1;
-            NewSight_80071CDC(58025, 58025, (short*)&dword_8009F284, 1, 0);
+            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&dword_8009F284, 1, 0);
         }
     }
     else

@@ -6,67 +6,132 @@
 //------------------------------------------------------------------------------
 
 // Key words
-#define HASH_CMD_if 0x0d86
-#define HASH_CMD_eval 0x64c0
-#define HASH_CMD_return 0xcd3a
-#define HASH_CMD_foreach 0x7636
+#define HASH_CMD_if             0x0d86 // GV_StrCode( "if" )
+#define HASH_CMD_eval           0x64c0 // GV_StrCode( "eval" )
+#define HASH_CMD_return         0xcd3a // GV_StrCode( "return" )
+#define HASH_CMD_foreach        0x7636 // GV_StrCode( "foreach" )
 
 // Commands
-#define HASH_CMD_mesg 0x22ff
-#define HASH_CMD_trap 0xd4cb
-#define HASH_CMD_chara 0x9906
-#define HASH_CMD_map 0xc091
-#define HASH_CMD_hzd 0x7d50 // wrong
-#define HASH_CMD_camera 0xeee9
-#define HASH_CMD_light 0x306a
-#define HASH_CMD_start 0x9a1f
-#define HASH_CMD_load 0xc8bb
-#define HASH_CMD_radio 0x24e1
-#define HASH_CMD_str_status 0xe43c
-#define HASH_CMD_demo 0xa242
-#define HASH_CMD_ntrap 0xdbab
-#define HASH_CMD_delay 0x430d
-#define HASH_CMD_pad 0xcc85
-#define HASH_CMD_varsave 0x5c9e
-#define HASH_CMD_system 0x4ad9
-#define HASH_CMD_sound 0x698d
-#define HASH_CMD_menu 0x226d
-#define HASH_CMD_rand 0x925e
-#define HASH_CMD_unk1 0xe257 // used by traps
-#define HASH_CMD_unk2 0xa2bf // ?? not in pc ver, demo thread related ??
-#define HASH_CMD_print 0xb96e
-#define HASH_CMD_jimaku 0xec9d // subtitle
+#define HASH_CMD_mesg           0x22ff // GV_StrCode( "mesg" )
+#define HASH_CMD_trap           0xd4cb // GV_StrCode( "trap" )
+#define HASH_CMD_chara          0x9906 // GV_StrCode( "chara" )
+#define HASH_CMD_map            0xc091 // GV_StrCode( "map" )
+#define HASH_CMD_hzd            0x7d50 // ??
+#define HASH_CMD_camera         0xeee9 // GV_StrCode( "camera" )
+#define HASH_CMD_light          0x306a // GV_StrCode( "light" )
+#define HASH_CMD_start          0x9a1f // GV_StrCode( "start" )
+#define HASH_CMD_load           0xc8bb // GV_StrCode( "load" )
+#define HASH_CMD_radio          0x24e1 // GV_StrCode( "radio" )
+#define HASH_CMD_str_status     0xe43c // GV_StrCode( "str_status" )
+#define HASH_CMD_demo           0xa242 // GV_StrCode( "demo" )
+#define HASH_CMD_ntrap          0xdbab // GV_StrCode( "ntrap" )
+#define HASH_CMD_delay          0x430d // GV_StrCode( "delay" )
+#define HASH_CMD_pad            0xcc85 // GV_StrCode( "pad" )
+#define HASH_CMD_varsave        0x5c9e // GV_StrCode( "varsave" )
+#define HASH_CMD_system         0x4ad9 // GV_StrCode( "system" )
+#define HASH_CMD_sound          0x698d // GV_StrCode( "sound" )
+#define HASH_CMD_menu           0x226d // GV_StrCode( "menu" )
+#define HASH_CMD_rand           0x925e // GV_StrCode( "rand" )
+#define HASH_CMD_unk1           0xe257 // used by traps
+#define HASH_CMD_unk2           0xa2bf // ?? not in pc ver, demo thread related ??
+#define HASH_CMD_print          0xb96e // GV_StrCode( "print" )
+#define HASH_CMD_jimaku         0xec9d // GV_StrCode( "jimaku" ) // subtitle
 
 //------------------------------------------------------------------------------
 
-#define HASH_PAN2 0x922b // GV_StrCode( "pan2" )
+#define HASH_PAN2               0x922b // GV_StrCode( "pan2" )
 
-//#define HASH_DEMO 0xA242 // GV_StrCode( "demo" )
-//#define HASH_SCENERIO 0xEA54 // GV_StrCode( "scenerio" )
+#define HASH_DEMO               0xA242 // GV_StrCode( "demo" )
+#define HASH_SCENERIO           0xEA54 // GV_StrCode( "scenerio" )
 
 //------------------------------------------------------------------------------
 // Traps
 //------------------------------------------------------------------------------
 
-#define HASH_TRAP_ALL 0x14c9
+#define HASH_TRAP_ALL           0x14c9
 
 //  Events
-#define HASH_ENTER 0x0dd2 // GV_StrCode( "入る" )
-#define HASH_LEAVE 0xd5cc // GV_StrCode( "出る" )
+#define HASH_ENTER              0x0dd2 // GV_StrCode( "入る" )
+#define HASH_LEAVE              0xd5cc // GV_StrCode( "出る" )
 
 //------------------------------------------------------------------------------
 // HZD
 //------------------------------------------------------------------------------
 
-#define HASH_MAIN 0x7df9 // GV_StrCode( "メイン" ) - Refers to the main area of the map to load
+#define HASH_MAIN               0x7df9 // GV_StrCode( "メイン" ) - Refers to the main area of the map to load
 
 //------------------------------------------------------------------------------
-// Charas
+// Textures files (.pcx)
+//------------------------------------------------------------------------------
+#define PCX_GO_EXIT             0x4d9a // GV_StrCode( "GO_EXIT" )
+#define PCX_GO_CONTINUE         0x669d // GV_StrCode( "GO_CONTINUE" )
+#define PCX_EMPTY2              0xb05c // GV_StrCode( "empty2" )
+#define PCX_LSIGHT              0x08db // GV_StrCode( "lsight" )
+#define PCX_SOCOM_F             0xe4cc // GV_StrCode( "socom_f" )
+
+//------------------------------------------------------------------------------
+// Sight files (.sgt)
+//------------------------------------------------------------------------------
+#define SGT_SCOPE               0x51c8 // GV_StrCode( "scope" )
+#define SGT_NIKITA              0x15a9 // GV_StrCode( "nikita" )
+#define SGT_CB_BOX              0xe2a9 // GV_StrCode( "cb_box" )
+#define SGT_IR_GGLE1            0x84db // GV_StrCode( "ir_ggle1" )
+#define SGT_IR_GGLE2            0x84dc // GV_StrCode( "ir_ggle2" )
+#define SGT_IR_GGLE3            0x84dd // GV_StrCode( "ir_ggle3" )
+#define SGT_NV_GGLE1            0x8504 // GV_StrCode( "nv_ggle1" )
+#define SGT_NV_GGLE2            0x8505 // GV_StrCode( "nv_ggle2" )
+#define SGT_NV_GGLE3            0x8506 // GV_StrCode( "nv_ggle3" )
+#define SGT_MASK                0x1303 // GV_StrCode( "mask" )
+#define SGT_CAMERA              0xeee9 // GV_StrCode( "camera" )
+#define SGT_CAMERA_2            0xb3cd // GV_StrCode( "camera_2" )
+
+//------------------------------------------------------------------------------
+// Model files (.kmd)
 //------------------------------------------------------------------------------
 
-#define CHARA_SNAKE 0x21ca // GV_StrCode( "スネーク" )
-#define CHARA_DOOR 0xb997
-#define CHARA_ITEM 0x8767
+// Init "stage" (always loaded before each stage)
+#define KMD_NULL                0xe224 // GV_StrCode( "null" )
+#define KMD_SNAKE               0x992d // GV_StrCode( "snake" )
+#define KMD_GOGGLES             0xe1d2 // GV_StrCode( "goggles" )
+#define KMD_GAS_MASK            0x4244 // GV_StrCode( "gas_mask" )
+#define KMD_RIFLE               0x2d3b // GV_StrCode( "rifle" )
+#define KMD_STINGER             0x57f8 // GV_StrCode( "stinger" )
+#define KMD_NIKITA              0x15a9 // GV_StrCode( "nikita" )
+#define KMD_STN_FR              0x76ab // GV_StrCode( "stn_fr" )
+#define KMD_NIK_MIS             0x9a90 // GV_StrCode( "nik_mis" )
+#define KMD_FAMAS               0x4725 // GV_StrCode( "famas" )
+#define KMD_SOCOM2              0x36f6 // GV_StrCode( "socom2" )
+#define KMD_STN_BA              0x761a // GV_StrCode( "stn_ba" )
+#define KMD_CAN_GREN            0x7a64 // GV_StrCode( "can_gren" )
+#define KMD_GRENADE             0x3b88 // GV_StrCode( "grenade" )
+#define KMD_SOCOM               0x21b6 // GV_StrCode( "socom" )
+#define KMD_CLAYMORE            0x17a1 // GV_StrCode( "claymore" )
+#define KMD_C4_BOMB             0xf83d // GV_StrCode( "c4_bomb" )
+#define KMD_CB_BOX              0xe2a9 // GV_StrCode( "cb_box" )
+#define KMD_CIGAR               0x2ef8 // GV_StrCode( "cigar" )
+#define KMD_BANDANA             0xdb4d // GV_StrCode( "bandana" )
+#define KMD_KAGE                0x117c // GV_StrCode( "kage" )
+
+// Stage s00a/d00a (docks)
+#define KMD_SNE_WET2            0x7693 // GV_StrCode( "sne_wet2" )
+
+//------------------------------------------------------------------------------
+// Animation files (.oar)
+//------------------------------------------------------------------------------
+#define OAR_SNAKE               0x992d // GV_StrCode( "snake" )
+
+//------------------------------------------------------------------------------
+// Sprites files (.pcc)
+//------------------------------------------------------------------------------
+#define PCC_READ                0xa0be // GV_StrCode( "read" ) // for loading ?
+
+//------------------------------------------------------------------------------
+// Charas (in .bin overlays files)
+//------------------------------------------------------------------------------
+
+#define CHARA_SNAKE             0x21ca // GV_StrCode( "スネーク" )
+#define CHARA_DOOR              0xb997 // GV_StrCode( "ドア" )
+#define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
 
 // Other charas shouldn't be needed for the main exe
 /*
