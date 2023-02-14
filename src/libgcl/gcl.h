@@ -5,8 +5,8 @@
 #include "map/map.h"
 
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
-struct Actor;
-typedef struct Actor *(*TGCL_ActorCreateFn)(int name, int where, int argc, char **argv);
+struct GV_ACT;
+typedef GV_ACT *(*TGCL_ActorCreateFn)(int name, int where, int argc, char **argv);
 
 typedef struct GCL_ActorTableEntry
 {

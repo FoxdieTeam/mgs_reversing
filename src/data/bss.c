@@ -35,7 +35,7 @@ unsigned char BSS main_task_stack_800ABBF0[2048]; // 0x800 (2048) bytes
 unsigned int BSS sdStack_800AC3F0[512]; // 0x800 (2048) bytes
 int BSS gDiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS pad_800ACBF4; // 0x4 (4) bytes
-struct Actor BSS gGVActor_800acbf8; // 0x20 (32) bytes
+GV_ACT BSS gGVActor_800acbf8; // 0x20 (32) bytes
 struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
 
 gap gap_800ACE7C[0x4]; // 4 bytes
@@ -69,8 +69,8 @@ unsigned short BSS gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
 DG_FixedLight BSS gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
 DG_TEX BSS gTextureRecs_800B1F50[512]; // 0x1800 (6144) bytes
-Actor BSS gDgdActor2_800B3750; // 0x20 (32) bytes
-Actor BSS gDgdActor1_800B3770; // 0x20 (32) bytes
+GV_ACT BSS gDgdActor2_800B3750; // 0x20 (32) bytes
+GV_ACT BSS gDgdActor1_800B3770; // 0x20 (32) bytes
 int BSS dword_800B3790; // 0x4 (4) bytes
 
 gap gap_800B3794[0x4]; // 4 bytes
@@ -186,11 +186,11 @@ gap gap_800B935C[0x4]; // 4 bytes
 unsigned char BSS gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
 Actor_MenuMan BSS gMenuMan_800BD360; // 0x220 (544) bytes
 MATRIX BSS gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
-MenuMan_Inventory_14h_Unk BSS gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
+PANEL_TEXTURE BSS gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
 
 gap gap_800BD744[0x144]; // 324 bytes
 
-MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
+PANEL_TEXTURE BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
 gap gap_800BD964[0x4]; // 4 bytes
 
@@ -198,11 +198,11 @@ KCB BSS font_800BD968; // 0x2C (44) bytes
 
 gap gap_800BD994[0x7C]; // 124 bytes
 
-MenuMan_Inventory_14h_Unk BSS dword_800BDA10; // 0x14 (20) bytes
+PANEL_TEXTURE BSS dword_800BDA10; // 0x14 (20) bytes
 
 gap gap_800BDA24[0xC]; // 12 bytes
 
-MenuMan_Inventory_14h_Unk BSS dword_800BDA30; // 0x14 (20) bytes
+PANEL_TEXTURE BSS dword_800BDA30; // 0x14 (20) bytes
 
 gap gap_800BDA44[0x4]; // 4 bytes
 

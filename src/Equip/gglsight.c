@@ -404,7 +404,7 @@ void gglsight_act_80078228(Actor_gglsight *pActor)
 }
 
 
-void gglsight_kill_800783F8(Actor *pActor)
+void gglsight_kill_800783F8(GV_ACT *pActor)
 {
     word_8009F714[0] = 0;
 }

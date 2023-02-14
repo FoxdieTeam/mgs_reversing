@@ -258,7 +258,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     return 0;
 }
 
-Actor *NewDoor_8006FD00(int name, int where, int argc, char **argv)
+GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
 {
     int         t_param_v;
     Actor_Door *pDoor;

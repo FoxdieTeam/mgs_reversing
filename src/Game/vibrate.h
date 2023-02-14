@@ -5,7 +5,7 @@
 
 typedef struct      Actor_Vibrate
 {
-    Actor           field_0_actor;
+    GV_ACT           field_0_actor;
     char            field_20_flags;
     char            field_21_increment;
     short           field_22_timer;

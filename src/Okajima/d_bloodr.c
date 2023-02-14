@@ -21,9 +21,9 @@ void d_bloodr_kill_80072BD4(int param_1)
 #pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_80072EFC.s")        // 496 bytes
 #pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_800730EC.s")               // 92 bytes
 
-struct Actor *NewKetchap_r_80073148(int arg0)
+GV_ACT *NewKetchap_r_80073148(int arg0)
 {
-    struct Actor *actor;
+    GV_ACT *actor;
 
     actor = GV_NewActor_800150E4(7, 0xDC);
     if (actor)

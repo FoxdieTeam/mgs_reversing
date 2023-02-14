@@ -31,10 +31,10 @@ void  sub_80032AEC(int byte_2, int byte_1, int byte_0);
 int   sub_80028830(void);
 
 // TODO: bullet.h?
-Actor* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+GV_ACT* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 // TODO: camera.h?
-Actor *camera_init_800306A0(void);
+GV_ACT *camera_init_800306A0(void);
 
 void DrawReadError_8002AC9C(void);
 

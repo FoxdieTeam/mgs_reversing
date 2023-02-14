@@ -31,15 +31,15 @@ extern void *dword_8009E75C[];
 
 extern DG_TEX gTextureRecs_800B1F50[512];
 
-extern MenuMan_Inventory_14h_Unk dword_800BDA10;
-extern MenuMan_Inventory_14h_Unk dword_800BDA30;
+extern PANEL_TEXTURE dword_800BDA10;
+extern PANEL_TEXTURE dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
 
-void menu_init_sprt_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y);
+void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 
 void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
 {
@@ -370,7 +370,7 @@ void menu_init_nouse_800434A8()
     menu_restore_nouse_80043470();
 }
 
-void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, MenuMan_Inventory_14h_Unk *pUnk)
+void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, PANEL_TEXTURE *pUnk)
 {
     SPRT *pPrim;
 

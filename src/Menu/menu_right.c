@@ -19,16 +19,16 @@ u_long SECTION(".sbss") dword_800ABADC;
 
 int SECTION(".sbss") dword_800ABAE0;
 
-extern struct menu_8009E544 *dword_800AB584;
-struct menu_8009E544        *SECTION(".sdata") dword_800AB584;
+extern struct PANEL_CONF *dword_800AB584;
+struct PANEL_CONF        *SECTION(".sdata") dword_800AB584;
 
 extern GM_Camera GM_Camera_800B77E8;
 
-struct menu_8009E544 *SECTION(".sdata") dword_800AB584;
+struct PANEL_CONF *SECTION(".sdata") dword_800AB584;
 
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
-extern struct menu_8009E544 *dword_800AB584;
+extern struct PANEL_CONF *dword_800AB584;
 extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
 extern int                   dword_8009E544[];
 extern int                   GM_GameStatus_800AB3CC;
@@ -45,7 +45,7 @@ int SECTION(".sbss") dword_800ABB08;
 short SECTION(".sbss") word_800ABB0C;
 short SECTION(".sbss") word_800ABB0E;
 
-extern MenuMan_Inventory_14h_Unk gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
+extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
@@ -64,14 +64,14 @@ static inline int sub_8003CE40_index()
     return -1;
 }
 
-void sub_8003CE40(MenuMan_Inventory_14h_Unk *items, int count)
+void sub_8003CE40(PANEL_TEXTURE *items, int count)
 {
     int i;
 
     for (i = 0; i < count; i++)
     {
         items->field_8_index = sub_8003CE40_index();
-        *(unsigned int *)&items->field_C_u = 0;
+        items->field_C_uvclut = 0;
         items++;
     }
 
@@ -89,18 +89,18 @@ void sub_8003CE78(void)
 #pragma INCLUDE_ASM("asm/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/sub_8003D070.s") // 96 bytes
 
-void menu_init_sprt_8003D0D0(SPRT *pPrim, MenuMan_Inventory_14h_Unk *pUnk, int offset_x, int offset_y)
+void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x, int offset_y)
 {
-    pPrim->x0 = (signed char)pUnk->field_9_x + offset_x; // Casting to signed char to get a match
-    pPrim->y0 = (signed char)pUnk->field_A_y + offset_y;
-    LCOPY(&pUnk->field_C_u, &pPrim->u0); // Copy field_C_u, field_D_v, field_E_clut
-    pPrim->w = pUnk->field_10_w;
-    pPrim->h = pUnk->field_12_h;
+    pPrim->x0 = pPanelTex->field_9_xofs + offset_x;
+    pPrim->y0 = pPanelTex->field_A_yofs + offset_y;
+    LSTORE(pPanelTex->field_C_uvclut, &pPrim->u0);
+    pPrim->w = pPanelTex->field_10_w;
+    pPrim->h = pPanelTex->field_12_h;
 }
 
 Menu_Item_Unknown *menu_alloc_panel_8003D124(int count)
 {
-    const int          totalLen = (sizeof(Menu_Item_Unknown_Array_Item) * count) + sizeof(Menu_Item_Unknown_Main);
+    const int          totalLen = (sizeof(PANEL) * count) + sizeof(Menu_Item_Unknown_Main);
     Menu_Item_Unknown *pUnknown = (Menu_Item_Unknown *)GV_Malloc_8001620C(totalLen);
     if (pUnknown)
     {
@@ -119,22 +119,19 @@ void menu_panel_free_8003D184(Menu_Item_Unknown *pPanel)
     }
 }
 
-void AssignXY_8003D1A8(Menu_Item_Unknown_Array_Item *pArray, int idx, short amount)
+void AssignXY_8003D1A8(PANEL *pPanel, int idx, short amount)
 {
-    pArray->field_0_item_id_idx = idx;
-    pArray->field_2_current_amount = amount;
-    pArray->field_6 = 0;
+    pPanel->field_0_id = idx;
+    pPanel->field_2_num = amount;
+    pPanel->field_6_current = 0;
 }
 
-void AssignXYFromVec_8003D1B8(Menu_Item_Unknown_Array_Item *pArray, Menu_Item_Unknown_Array_Item *pOther)
+void AssignXYFromVec_8003D1B8(PANEL *pPanel, PANEL *pPanel2)
 {
-    short amount; // $v1
-
-    pArray->field_0_item_id_idx = pOther->field_0_item_id_idx;
-    amount = pOther->field_2_current_amount;
-    pArray->field_6 = 1;
-    pArray->field_4 = 0;
-    pArray->field_2_current_amount = amount;
+    pPanel->field_0_id = pPanel2->field_0_id;
+    pPanel->field_2_num = pPanel2->field_2_num;
+    pPanel->field_6_current = 1;
+    pPanel->field_4_pos = 0;
 }
 
 void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
@@ -145,7 +142,7 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
     array_count = pMenuItem->field_0_main.field_0_array_count;
     array_half_count = array_count / 2;
 
-    pMenuItem->field_20_array[pMenuItem->field_0_main.field_4_selected_idx].field_4 = 0;
+    pMenuItem->field_20_array[pMenuItem->field_0_main.field_4_selected_idx].field_4_pos = 0;
     pMenuItem->field_0_main.field_8 = array_half_count * 256 + 128;
     for (i = 1; i <= array_half_count; i++)
     {
@@ -155,8 +152,8 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
             idx -= pMenuItem->field_0_main.field_0_array_count;
         }
 
-        // pMenuItem->field_20_array[idx] did not match
-        (idx + pMenuItem->field_20_array)->field_4 = i * 256;
+        // TODO: pMenuItem->field_20_array[idx] did not match
+        (idx + pMenuItem->field_20_array)->field_4_pos = i * 256;
     }
 
     array_half_count = array_count - (array_half_count + 1);
@@ -169,8 +166,8 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
             idx += pMenuItem->field_0_main.field_0_array_count;
         }
 
-        // pMenuItem->field_20_array[idx] did not match
-        (idx + pMenuItem->field_20_array)->field_4 = i * 256;
+        // TODO: pMenuItem->field_20_array[idx] did not match
+        (idx + pMenuItem->field_20_array)->field_4_pos = i * 256;
     }
 }
 
@@ -343,15 +340,15 @@ void sub_8003D64C(short *arg0, int arg1, int *arg2, int *arg3)
     *arg3 = temp_a0;
 }
 
-extern struct menu_8009E544 stru_8009E544[];
+extern struct PANEL_CONF stru_8009E544[];
 
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn)
 {
-    struct menu_8009E544 *pStru; // $v1
+    struct PANEL_CONF *pPanelConf;
 
-    pStru = &stru_8009E544[bIsRight];
-    pMenuLeft->field_8_pStru = pStru;
-    pStru->field_18_pFnUpdate = pUpdateFn;
+    pPanelConf = &stru_8009E544[bIsRight];
+    pMenuLeft->field_8_panel_conf = pPanelConf;
+    pPanelConf->field_18_pFnUpdate = pUpdateFn;
 }
 
 void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
@@ -360,15 +357,15 @@ void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
     int                arg2_1;
     int                arg2_2;
     Menu_Item_Unknown *pMenuItem;
-    menu_8009E544     *pStru;
+    PANEL_CONF     *pPanelConf;
 
     pMenuItem = pLeftRight->field_C_alloc;
-    pStru = pLeftRight->field_8_pStru;
+    pPanelConf = pLeftRight->field_8_panel_conf;
     bVar1 = sub_8003D4CC(pMenuItem);
-    if (pPad->press & (pStru->field_8 | pStru->field_C))
+    if (pPad->press & (pPanelConf->field_8 | pPanelConf->field_C))
     {
         arg2_1 = -1;
-        if (pPad->press & pStru->field_8)
+        if (pPad->press & pPanelConf->field_8)
         {
             arg2_1 = 1;
         }
@@ -384,10 +381,10 @@ void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
     }
     if (pMenuItem->field_0_main.field_18 >= 0)
     {
-        if (pPad->status & (pStru->field_8 | pStru->field_C))
+        if (pPad->status & (pPanelConf->field_8 | pPanelConf->field_C))
         {
             arg2_2 = -1;
-            if (pPad->status & pStru->field_8)
+            if (pPad->status & pPanelConf->field_8)
             {
                 arg2_2 = 1;
             }
@@ -414,20 +411,20 @@ void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct 
 {
     if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
-        pSubMenu->field_8_pStru->field_18_pFnUpdate(pActor, a2, pSubMenu->field_8_pStru->field_0_xOffset,
-                                                    pSubMenu->field_8_pStru->field_2_yOffset, pSubMenu);
+        pSubMenu->field_8_panel_conf->field_18_pFnUpdate(pActor, a2, pSubMenu->field_8_panel_conf->field_0_xOffset,
+                                                    pSubMenu->field_8_panel_conf->field_2_yOffset, pSubMenu);
     }
 }
 
 void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2)
 {
-    pLeftRight->field_8_pStru->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_pStru->field_0_xOffset + off1,
-                                                  pLeftRight->field_8_pStru->field_2_yOffset + off2, pLeftRight);
+    pLeftRight->field_8_panel_conf->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_panel_conf->field_0_xOffset + off1,
+                                                  pLeftRight->field_8_panel_conf->field_2_yOffset + off2, pLeftRight);
 }
 
 int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
 {
-    struct menu_8009E544 *field_8_pStru; // $a0
+    struct PANEL_CONF *pPanelConf; // $a0
 
     if ((GM_Camera_800B77E8.field_18_flags & 0x101) != 0)
     {
@@ -443,13 +440,13 @@ int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
         goto ret_zero;
     }
 
-    field_8_pStru = pMenu->field_8_pStru;
+    pPanelConf = pMenu->field_8_panel_conf;
 
-    if ((*input & field_8_pStru->field_4_input) == 0)
+    if ((*input & pPanelConf->field_4_input) == 0)
     {
         goto ret_zero;
     }
-    dword_800AB584 = field_8_pStru;
+    dword_800AB584 = pPanelConf;
 
     return 1;
 }
@@ -543,19 +540,19 @@ Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id)
     return gItemFile_table_800ABAE4[id];
 }
 
-void menu_init_rpk_item_8003DDCC(MenuMan_Inventory_14h_Unk *pUnk, int imgIdx, int palIdx)
+void menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pPanelTex, int imgIdx, int palIdx)
 {
     Menu_rpk_item *pPal;
     Menu_rpk_item *pImg;
 
     pPal = menu_rpk_get_pal_8003DD9C(palIdx);
     pImg = menu_rpk_get_img_8003DDB4(imgIdx);
-    pUnk->field_9_x = pImg->field_0_x - 2;
-    pUnk->field_A_y = pImg->field_1_y - 2;
-    pUnk->field_10_w = pImg->field_2_w * 4;
-    pUnk->field_12_h = pImg->field_3_h;
-    pUnk->field_0_pixels = &pImg->field_4_pixel_ptr[0];
-    pUnk->field_4_word_ptr_pixels = (short *)&pPal->field_4_pixel_ptr[0];
+    pPanelTex->field_9_xofs = pImg->field_0_x - 2;
+    pPanelTex->field_A_yofs = pImg->field_1_y - 2;
+    pPanelTex->field_10_w = pImg->field_2_w * 4;
+    pPanelTex->field_12_h = pImg->field_3_h;
+    pPanelTex->field_0_pixels = &pImg->field_4_pixel_ptr[0];
+    pPanelTex->field_4_word_ptr_pixels = (short *)&pPal->field_4_pixel_ptr[0];
 }
 
 void menu_inventory_right_init_items_8003DE50(void)
@@ -574,7 +571,7 @@ void menu_right_unknown_8003DEB0(void)
     sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
 }
 
-MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
+PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
     if ((weaponIdx == WEAPON_SOCOM) && !GM_SilencerFlag)
@@ -599,15 +596,15 @@ MenuMan_Inventory_14h_Unk *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx
 
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
 {
-    MenuMan_Inventory_14h_Unk *inventory_unk;
-    int                        weapon_index;
+    PANEL_TEXTURE *pPanelTex;
+    int            weapon_index;
 
-    weapon_index = (int)(menuMan->field_1F0_menu_right.field_0).field_0_item_id_idx;
+    weapon_index = menuMan->field_1F0_menu_right.field_0_current.field_0_id;
     if ((weapon_index != -1) ||
         (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_right).field_11), weapon_index != -1))
     {
-        inventory_unk = menu_right_get_weapon_rpk_info_8003DED8(weapon_index);
-        sub_8003CFE0(inventory_unk, 1);
+        pPanelTex = menu_right_get_weapon_rpk_info_8003DED8(weapon_index);
+        sub_8003CFE0(pPanelTex, 1);
     }
 }
 
@@ -616,11 +613,11 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
     menuMan->m7FnPtrs_field_2C[1] = menu_right_update_8003E990;
-    menuMan->field_1F0_menu_right.field_0.field_0_item_id_idx = val;
+    menuMan->field_1F0_menu_right.field_0_current.field_0_id = val;
     menuMan->field_1F0_menu_right.field_10_state = 0;
     menuMan->field_1F0_menu_right.field_12_flashingAnimationFrame = 0;
-    menuMan->field_1F0_menu_right.field_0.field_4 = 0;
-    menuMan->field_1F0_menu_right.field_0.field_6 = 1;
+    menuMan->field_1F0_menu_right.field_0_current.field_4_pos = 0;
+    menuMan->field_1F0_menu_right.field_0_current.field_6_current = 1;
     menuMan->field_1F0_menu_right.field_11 = val;
     menuMan->field_28_flags |= 2;
     dword_800ABAE8 = 0;

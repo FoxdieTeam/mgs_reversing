@@ -8,7 +8,7 @@
 
 typedef struct Actor_gasmask
 {
-    Actor          field_0_actor;
+    GV_ACT          field_0_actor;
     OBJECT         field_20_obj;
     GM_Control    *field_44_pCtrl;
     OBJECT        *field_48_pParent;
@@ -21,7 +21,7 @@ typedef struct Actor_gasmask
     short          field_5E_maybe_pad; // padding
 } Actor_gasmask;
 
-Actor *gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit);
+GV_ACT *gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit);
 
 // This has an issue with unused params
 Actor_gmsight * NewGasmaskSight_80063668(void);

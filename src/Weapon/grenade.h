@@ -12,7 +12,7 @@
 
 typedef struct _Actor_Grenade
 {
-	Actor       field_0_actor;
+	GV_ACT       field_0_actor;
 	GM_Control *f20_ctrl;
 	OBJECT     *f24_parent_obj;
 	OBJECT      f28_obj;

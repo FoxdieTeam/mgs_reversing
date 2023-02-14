@@ -7,7 +7,7 @@
 
 typedef struct _Actor_Socom
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     OBJECT      field_20;
     GM_Control *field_44_pCtrl;
     OBJECT     *field_48_parent_object;

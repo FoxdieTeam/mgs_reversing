@@ -19,7 +19,7 @@ typedef struct scn_mask_prims
 
 typedef struct Actor_scn_mask
 {
-    Actor                  field_0_actor;
+    GV_ACT                  field_0_actor;
     struct scn_mask_prims *field_20_pPrims;
     int                    field_24;
     int                    field_28;

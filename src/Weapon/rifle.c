@@ -67,7 +67,7 @@ int rifle_act_helper_80067BFC(void)
     return length;
 }
 
-Actor * bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+GV_ACT * bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
 void *  NewRifleSight_8006989C(short);
 
 extern int       DG_CurrentGroupID_800AB968;
@@ -180,9 +180,9 @@ void rifle_kill_80068118(Actor_Rifle *rifle)
 
     sd_set_cli_800887EC(0x1ffff21, 0);
 
-    if ((Actor *)rifle->field_5c)
+    if ((GV_ACT *)rifle->field_5c)
     {
-        GV_DestroyOtherActor_800151D8((Actor *)rifle->field_5c);
+        GV_DestroyOtherActor_800151D8((GV_ACT *)rifle->field_5c);
     }
 }
 

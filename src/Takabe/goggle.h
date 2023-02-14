@@ -9,14 +9,14 @@
 
 typedef struct Actor_goggle
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     OBJECT      field_20_obj;
     GM_Control *field_44_pCtrl;
     OBJECT     *field_48_pObj;
     int         field_4C_head_hidden;
     int         field_50;
-    Actor      *field_54_pScn_mask;
-    Actor      *field_58_actor_unknown;
+    GV_ACT      *field_54_pScn_mask;
+    GV_ACT      *field_58_actor_unknown;
     short       field_5C_saved_n_packs;
     short       field_5E_saved_rise;
 } Actor_goggle;

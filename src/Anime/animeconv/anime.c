@@ -9,12 +9,12 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 
 extern int GV_Time_800AB330;
 
-extern Anim_Data stru_8009F10C;
-extern Anim_Data stru_8009F144;
-extern Anim_Data stru_8009F160;
-extern Anim_Data stru_8009F17C;
-extern Anim_Data stru_8009F1EC;
-extern Anim_Data stru_8009F208;
+extern ANIMATION stru_8009F10C;
+extern ANIMATION stru_8009F144;
+extern ANIMATION stru_8009F160;
+extern ANIMATION stru_8009F17C;
+extern ANIMATION stru_8009F1EC;
+extern ANIMATION stru_8009F208;
 
 extern int        GV_Clock_800AB920;
 extern const char aScriptActErr[];
@@ -22,34 +22,36 @@ extern const char aAnimeC[];
 
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
-Actor_anime *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
+Actor_anime * anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
 {
-    signed int      rnd; // $v1
-    anime_data_0x14 data;
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+    int rnd;
 
-    data.field_0_vec.vx = pMtx->t[0];
-    data.field_0_vec.vy = pMtx->t[1];
-    data.field_0_vec.vz = pMtx->t[2];
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_10_anim_idx = 0;
-    data.field_12 = 0;
+    pre.pos.vx = pMtx->t[0]; pre.pos.vy = pMtx->t[1]; pre.pos.vz = pMtx->t[2];
+    pre.speed = DG_ZeroVector_800AB39C;
+
+    pre.scr_num = 0;
+    pre.s_anim = 0;
 
     rnd = GV_RandU_80017090(16);
     if (rnd >= 5)
     {
-        data.field_12 = 2;
+        pre.s_anim = 2;
     }
     else if (rnd > 0)
     {
-        data.field_12 = 1;
+        pre.s_anim = 1;
     }
     else
     {
-        data.field_12 = 0;
+        pre.s_anim = 0;
     }
 
-    stru_8009F160.field_14 = &data;
-    return anime_init_8005FBC8(0, 0, &stru_8009F160);
+    anm = &stru_8009F160;
+    anm->field_14_pre_script = &pre;
+
+    return NewAnime_8005FBC8( NULL, 0, anm );
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s") // 716 bytes
@@ -57,16 +59,21 @@ Actor_anime *anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
 
 void anime_create_8005DDE0(MATRIX *pMtx)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT  pre;
 
-    data.field_0_vec.vx = pMtx->t[0];
-    data.field_0_vec.vy = pMtx->t[1];
-    data.field_0_vec.vz = pMtx->t[2];
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_10_anim_idx = GV_RandU_80017090(2);
-    data.field_12 = 0;
-    stru_8009F17C.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F17C);
+    pre.pos.vx = pMtx->t[0];
+    pre.pos.vy = pMtx->t[1];
+    pre.pos.vz = pMtx->t[2];
+    pre.speed = DG_ZeroVector_800AB39C;
+
+    pre.scr_num = GV_RandU_80017090(2);
+    pre.s_anim = 0;
+
+    anm = &stru_8009F17C;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s") // 224 bytes
@@ -76,81 +83,95 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 #pragma INCLUDE_ASM("asm/sub_8005E258.s")                          // 220 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s") // 468 bytes
 
-void anime_create_8005E508(SVECTOR *pVec)
+void anime_create_8005E508(SVECTOR *pos)
 {
-    anime_data_0x14 data = {{ 0 }}; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT  pre = {{ 0 }};
 
-    data.field_0_vec = *pVec;
-    stru_8009F1EC.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F1EC);
+    pre.pos = *pos;
+
+    anm = &stru_8009F1EC;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
 void sub_8005E574(MATRIX *pMtx)
 {
-    SVECTOR         vec;  // [sp+10h] [-20h] BYREF
-    anime_data_0x14 data; // [sp+18h] [-18h] BYREF
+    ANIMATION *anm;
+    SVECTOR    vec;
+    PRESCRIPT  pre;
 
-    stru_8009F10C.field_14 = &data;
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_12 = GV_RandU_80017090(4);
-    vec.vx = 0;
-    vec.vy = -270;
-    vec.vz = 0;
+    anm = &stru_8009F10C;
+    anm->field_14_pre_script = &pre;
+
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.s_anim = GV_RandU_80017090(4);
+
+    vec.vx = 0; vec.vy = -270; vec.vz = 0;
     DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&vec, &data.field_0_vec, 1);
-    data.field_10_anim_idx = 0;
-    anime_init_8005FBC8(0, 0, &stru_8009F10C);
-    vec.vx = 0;
-    vec.vy = -370;
-    vec.vz = 0;
+    DG_PutVector_8001BE48(&vec, &pre.pos, 1);
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    vec.vx = 0; vec.vy = -370; vec.vz = 0;
     DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&vec, &data.field_0_vec, 1);
-    data.field_10_anim_idx = 1;
-    anime_init_8005FBC8(0, 0, &stru_8009F10C);
-    vec.vx = 0;
-    vec.vy = -420;
-    vec.vz = 0;
+    DG_PutVector_8001BE48(&vec, &pre.pos, 1);
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    vec.vx = 0; vec.vy = -420; vec.vz = 0;
     DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&vec, &data.field_0_vec, 1);
-    data.field_10_anim_idx = 2;
-    anime_init_8005FBC8(0, 0, &stru_8009F10C);
+    DG_PutVector_8001BE48(&vec, &pre.pos, 1);
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void anime_create_8005E6A4(SVECTOR *pVec)
+void anime_create_8005E6A4(SVECTOR *pos)
 {
-    SVECTOR         vec1; // [sp+10h] [-28h] BYREF
-    SVECTOR         vec2; // [sp+18h] [-20h] BYREF
-    anime_data_0x14 data; // [sp+20h] [-18h] BYREF
+    ANIMATION *anm;
+    SVECTOR    rotation;
+    SVECTOR    speed;
+    PRESCRIPT  pre;
 
-    vec1 = DG_ZeroVector_800AB39C;
-    vec1.vy = GV_Time_800AB330 * 128;
-    data.field_0_vec = *pVec;
+    rotation = DG_ZeroVector_800AB39C;
+    rotation.vy = GV_Time_800AB330 * 128;
 
-    vec2.vx = 0;
-    vec2.vy = GV_RandU_80017090(2) + 10;
-    vec2.vz = 2;
+    pre.pos = *pos;
+    
+    speed.vx = 0;
+    speed.vy = GV_RandU_80017090(2) + 10;
+    speed.vz = 2;
 
-    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec1);
-    DG_PutVector_8001BE48(&vec2, &data.field_8_vec, 1);
-    data.field_10_anim_idx = 0;
-    stru_8009F208.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F208);
+    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
+    DG_PutVector_8001BE48(&speed, &pre.speed, 1);
+
+    pre.scr_num = 0;
+    
+    anm = &stru_8009F208;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( 0, 0, anm );
 }
 
-void sub_8005E774(SVECTOR *pVec)
+void sub_8005E774(SVECTOR *pos)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
-    Anim_Data      *p = &stru_8009F144;
+    ANIMATION *anm;
+    PRESCRIPT  pre;
 
-    data.field_0_vec = *pVec;
-    data.field_8_vec.vx = 0;
-    data.field_8_vec.vy = 0;
-    data.field_8_vec.vz = 0;
-    data.field_10_anim_idx = 0;
-    data.field_12 = GV_RandU_80017090(4);
+    anm = &stru_8009F144;
+    
+    pre.pos = *pos;
+    pre.speed.vx = 0;
+    pre.speed.vy = 0;
+    pre.speed.vz = 0;
 
-    p->field_14 = &data;
-    anime_init_8005FBC8(0, 0, p);
+    pre.scr_num = 0;
+    pre.s_anim = GV_RandU_80017090(4);
+    
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( 0, 0, anm );
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s") // 500 bytes
@@ -459,7 +480,7 @@ void anime_kill_8005F608(Actor_anime *anime)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")        // 564 bytes
 
-Actor_anime *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
+Actor_anime *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimData)
 {
     int          count;  // $s1
     Actor_anime *pActor; // $v0
@@ -485,9 +506,9 @@ Actor_anime *anime_init_8005FBC8(MATRIX *pMtx, int map, Anim_Data *pAnimData)
     return pActor;
 }
 
-Actor_anime *sub_8005FCA4(DG_PRIM *pPrim, int map, Anim_Data *pAnimData)
+Actor_anime *sub_8005FCA4(DG_PRIM *pPrim, int map, ANIMATION *pAnimData)
 {
-    Actor_anime *pActor = anime_init_8005FBC8(NULL, map, pAnimData);
+    Actor_anime *pActor = NewAnime_8005FBC8(NULL, map, pAnimData);
 
     if (pActor && pPrim)
     {

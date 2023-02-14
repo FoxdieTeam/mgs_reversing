@@ -9,7 +9,7 @@
 
 typedef struct Actor_Mine
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     GM_Control *field_20_pCtrl;
     OBJECT     *field_24_pObj;
     OBJECT      field_28_obj;

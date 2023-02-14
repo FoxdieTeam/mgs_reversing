@@ -522,7 +522,7 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     {(char *)aPalKey, 0x17}, {(char *)aCard, 0x1B},    {(char *)aTimerB, 0x1A},   {(char *)aMineD, 0x14},
     {(char *)aDisc, 0x1C},   {(char *)aRope, 0x18},    {(char *)aScarf, 0x1D},    {(char *)aSuppr, 0xD}};
 
-struct menu_8009E544 SECTION(".data") stru_8009E544[2] = {
+struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {
     {16, 184, 1, 24576, 36864, (void *)0x8003D64C, (void *)0x8003D594, 0},
     {256, 184, 2, 12288, 49152, (void *)0x8003D594, (void *)0x8003D5F0, 0}};
 
@@ -752,18 +752,18 @@ MATRIX SECTION(".data") stru_8009F0A4 = {{{0, 200, 600}, {0, 500, 250}, {500, 0,
 
 short SECTION(".data") word_8009F0C4[8] = {0, 0, 0, 0, -1, 0, 0, 0}; // TODO: some padding likely
 
-struct Anim_Data SECTION(".data") stru_8009F0D4 = {-8302, 2, 262146, 1, 0, 5, 50, 50, 250, 0, (void *)0x800124A8};
-struct Anim_Data SECTION(".data") stru_8009F0F0 = {20781, 8, 1966084, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C};
-struct Anim_Data SECTION(".data") stru_8009F10C = {-6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x800125CC};
-struct Anim_Data SECTION(".data") stru_8009F128 = {-6964, 2, 262146, 1, 300, 1, 1400, 1400, 128, 0, (void *)0x800125F4};
-struct Anim_Data SECTION(".data") stru_8009F144 = {-6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x8001261C};
-struct Anim_Data SECTION(".data") stru_8009F160 = {-370, 2, 196610, 1, 300, 1, 600, 600, 100, 0, (void *)0x80012628};
-struct Anim_Data SECTION(".data") stru_8009F17C = {32332, 2, 262146, 1, 200, 5, 100, 100, 128, 0, (void *)0x80012634};
-struct Anim_Data SECTION(".data") stru_8009F198 = {20781, 8, 1966084, 8, 0, 3, 2200, 2200, 77, 0, (void *)0x80012708};
-struct Anim_Data SECTION(".data") stru_8009F1B4 = {20781, 8, 1966084, 1, 0, 1, 1000, 1000, 77, 0, (void *)0x80012728};
-struct Anim_Data SECTION(".data") stru_8009F1D0 = {20781, 8, 1966084, 4, 0, 1, 2200, 2200, 128, 0, (void *)0x80012750};
-struct Anim_Data SECTION(".data") stru_8009F1EC = {20781, 8, 1966084, 1, 1000, 3, 400, 400, 128, 0, (void *)0x800127A4};
-struct Anim_Data SECTION(".data") stru_8009F208 = {20781, 8, 1966084, 1, 1000, 3, 30, 30, 10, 0, (void *)0x800127D0};
+struct ANIMATION SECTION(".data") stru_8009F0D4 = {-8302, 2, 262146, 1, 0, 5, 50, 50, 250, 0, (void *)0x800124A8};
+struct ANIMATION SECTION(".data") stru_8009F0F0 = {20781, 8, 1966084, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C};
+struct ANIMATION SECTION(".data") stru_8009F10C = {-6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x800125CC};
+struct ANIMATION SECTION(".data") stru_8009F128 = {-6964, 2, 262146, 1, 300, 1, 1400, 1400, 128, 0, (void *)0x800125F4};
+struct ANIMATION SECTION(".data") stru_8009F144 = {-6964, 2, 262146, 1, 300, 1, 400, 400, 128, 0, (void *)0x8001261C};
+struct ANIMATION SECTION(".data") stru_8009F160 = {-370, 2, 196610, 1, 300, 1, 600, 600, 100, 0, (void *)0x80012628};
+struct ANIMATION SECTION(".data") stru_8009F17C = {32332, 2, 262146, 1, 200, 5, 100, 100, 128, 0, (void *)0x80012634};
+struct ANIMATION SECTION(".data") stru_8009F198 = {20781, 8, 1966084, 8, 0, 3, 2200, 2200, 77, 0, (void *)0x80012708};
+struct ANIMATION SECTION(".data") stru_8009F1B4 = {20781, 8, 1966084, 1, 0, 1, 1000, 1000, 77, 0, (void *)0x80012728};
+struct ANIMATION SECTION(".data") stru_8009F1D0 = {20781, 8, 1966084, 4, 0, 1, 2200, 2200, 128, 0, (void *)0x80012750};
+struct ANIMATION SECTION(".data") stru_8009F1EC = {20781, 8, 1966084, 1, 1000, 3, 400, 400, 128, 0, (void *)0x800127A4};
+struct ANIMATION SECTION(".data") stru_8009F208 = {20781, 8, 1966084, 1, 1000, 3, 30, 30, 10, 0, (void *)0x800127D0};
 
 int SECTION(".data") dword_8009F224 = 0;
 
@@ -858,11 +858,11 @@ Blast_Data SECTION(".data") blast_data_8009F544 = {0, 0, 1, 1, 0xFFFFFFFF};
 
 SVECTOR SECTION(".data") svector_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
 
-Anim_Data SECTION(".data") stru_8009F568 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BAC};
-Anim_Data SECTION(".data") stru_8009F584 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BEC};
-Anim_Data SECTION(".data") stru_8009F5A0 = {-21358, 4, 1048580, 1, 2000, 1, 500, 500, 128, NULL, (void *)0x80012C2C};
-Anim_Data SECTION(".data") stru_8009F5BC = {-21358, 4, 1048580, 1, 2000, 1, 200, 200, 128, NULL, (void *)0x80012C6C};
-Anim_Data SECTION(".data") stru_8009F5D8 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012CAC};
+ANIMATION SECTION(".data") stru_8009F568 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BAC};
+ANIMATION SECTION(".data") stru_8009F584 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BEC};
+ANIMATION SECTION(".data") stru_8009F5A0 = {-21358, 4, 1048580, 1, 2000, 1, 500, 500, 128, NULL, (void *)0x80012C2C};
+ANIMATION SECTION(".data") stru_8009F5BC = {-21358, 4, 1048580, 1, 2000, 1, 200, 200, 128, NULL, (void *)0x80012C6C};
+ANIMATION SECTION(".data") stru_8009F5D8 = {-21358, 4, 1048580, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012CAC};
 
 int SECTION(".data") door_where_8009F5F4 = 0;
 
@@ -874,7 +874,7 @@ int   SECTION(".data") dword_8009F608 = 0;
 
 RECT SECTION(".data") a22dd_8009F60C = {50, 50, 100, 100};
 
-Anim_Data SECTION(".data") stru_8009F614 = {31572, 1, 65537, 1, 500, 3, 300, 300, 200, NULL, (void *)0x80012E84};
+ANIMATION SECTION(".data") stru_8009F614 = {31572, 1, 65537, 1, 500, 3, 300, 300, 200, NULL, (void *)0x80012E84};
 
 SVECTOR SECTION(".data") stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
 
@@ -885,9 +885,9 @@ SVECTOR SECTION(".data") stru_8009F660 = {100, 100, 100, 0};
 int SECTION(".data") gSparkRandomTableIndex_8009F668 = 0xFFFFFFFF;
 int SECTION(".data") dword_8009F66C = 0;
 
-struct Anim_Data SECTION(".data") stru_8009F670 = {
+struct ANIMATION SECTION(".data") stru_8009F670 = {
     19692, 1, 65537, 1, 500, 3, 800, 800, 128, 0, (void *)dword_80012F2C};
-struct Anim_Data SECTION(".data") stru_8009F68C = {
+struct ANIMATION SECTION(".data") stru_8009F68C = {
     21926, 1, 65537, 1, 500, 3, 600, 600, 180, 0, (void *)dword_80012F50};
 
 int     SECTION(".data") dword_8009F6A8 = 0;
@@ -910,10 +910,10 @@ int     SECTION(".data") dword_8009F728 = 0;
 RECT    SECTION(".data") rect_8009F72C = {768, 226, 256, 2};
 RECT    SECTION(".data") rect_8009F734 = {768, 196, 256, 2};
 
-Anim_Data SECTION(".data") stru_8009F73C = {20781, 8, 1966084, 1, 1000, 3, 500, 500, 255, NULL, (void *)0x8001345C};
-Anim_Data SECTION(".data") stru_8009F758 = {20781, 8, 1966084, 3, 0, 1, 1000, 1000, 64, NULL, (void *)0x80013488};
-Anim_Data SECTION(".data") stru_8009F774 = {20781, 8, 1966084, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC};
-Anim_Data SECTION(".data") stru_8009F790 = {9287, 2, 262146, 1, 300, 1, 5000, 5000, 128, NULL, (void *)0x80013510};
+ANIMATION SECTION(".data") stru_8009F73C = {20781, 8, 1966084, 1, 1000, 3, 500, 500, 255, NULL, (void *)0x8001345C};
+ANIMATION SECTION(".data") stru_8009F758 = {20781, 8, 1966084, 3, 0, 1, 1000, 1000, 64, NULL, (void *)0x80013488};
+ANIMATION SECTION(".data") stru_8009F774 = {20781, 8, 1966084, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC};
+ANIMATION SECTION(".data") stru_8009F790 = {9287, 2, 262146, 1, 300, 1, 5000, 5000, 128, NULL, (void *)0x80013510};
 
 SVECTOR SECTION(".data") stru_8009F7AC = {0, 255, 0, 0};
 

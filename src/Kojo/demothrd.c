@@ -4,7 +4,7 @@
 
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern Anim_Data stru_8009F774;
+extern ANIMATION stru_8009F774;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int demodebug_finish_proc_800AB414;
 
@@ -93,93 +93,105 @@ void sub_80079A1C(void)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper_8007D404.s")  // 1476 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper2_8007D9C8.s") // 96 bytes
 
-extern Anim_Data stru_8009F73C;
+extern ANIMATION stru_8009F73C;
 
-void AN_CaterpillerSmoke_8007DA28(SVECTOR *pVec)
+void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 {
-    anime_data_0x14 data = {{ 0 }};
+    ANIMATION *anm;
+    PRESCRIPT  pre = {{ 0 }};
 
-    data.field_0_vec = *pVec;
-    stru_8009F73C.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F73C);
+    pre.pos = *pos;
+
+    anm = &stru_8009F73C;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
 #pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
 
-extern Anim_Data stru_8009F790;
+extern ANIMATION stru_8009F790;
 
-void sub_8007DF10(SVECTOR *pVec1, SVECTOR *pVec2)
+void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
 {
-    SVECTOR vecs1[3]; // [sp+10h] [-48h] BYREF
-    SVECTOR vecs2[3]; // [sp+28h] [-30h] BYREF
-    anime_data_0x14 data; // [sp+40h] [-18h] BYREF
+    ANIMATION *anm;
+    SVECTOR    vin[3];
+    SVECTOR    vout[3];
+    PRESCRIPT  pre;
     
-    data.field_8_vec = DG_ZeroVector_800AB39C;
+    pre.speed = DG_ZeroVector_800AB39C;
 
-    vecs1[0] = DG_ZeroVector_800AB39C;
-    vecs1[0].vz = 500;
+    vin[0] = DG_ZeroVector_800AB39C;
+    vin[0].vz = 500;
 
-    vecs1[1] = DG_ZeroVector_800AB39C;
-    vecs1[1].vz = 2000;
+    vin[1] = DG_ZeroVector_800AB39C;
+    vin[1].vz = 2000;
 
-    vecs1[2] = DG_ZeroVector_800AB39C;
-    vecs1[2].vz = 3000;
+    vin[2] = DG_ZeroVector_800AB39C;
+    vin[2].vz = 3000;
 
-    DG_SetPos2_8001BC8C(pVec2, pVec1);
-    DG_PutVector_8001BE48(vecs1, vecs2, 3);
+    DG_SetPos2_8001BC8C(pTranslation, pRotation);
+    DG_PutVector_8001BE48(vin, vout, 3);
 
-    stru_8009F790.field_14 = &data;
+    anm = &stru_8009F790;
+    anm->field_14_pre_script = &pre;
 
-    data.field_0_vec = vecs2[0];
-    data.field_10_anim_idx = 0;
-    anime_init_8005FBC8(0, 0, &stru_8009F790);
+    pre.pos = vout[0];
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
 
-    data.field_0_vec = vecs2[1];
-    data.field_10_anim_idx = 1;
-    anime_init_8005FBC8(0, 0, &stru_8009F790);
+    pre.pos = vout[1];
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
 
-    data.field_0_vec = vecs2[2];
-    data.field_10_anim_idx = 2;
-    anime_init_8005FBC8(0, 0, &stru_8009F790);
+    pre.pos = vout[2];
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern Anim_Data stru_8009F774;
+extern ANIMATION stru_8009F774;
 
-void sub_8007E0AC(int y, SVECTOR *pVec)
+void sub_8007E0AC(int y, SVECTOR *pPosition)
 {
-    int i; // $s2
-    SVECTOR vec[2]; // [sp+10h] [-B0h] BYREF
-    anime_data_0x14 data[8]; // [sp+20h] [-A0h] BYREF
+    ANIMATION *anm;
+    SVECTOR    rotation;
+    SVECTOR    vin;
+    PRESCRIPT  pre[8];
+    int        i;
 
-    vec[0].vx = 0;
-    vec[0].vy = y;
-    vec[0].vz = 0;
-    vec[1] = DG_ZeroVector_800AB39C;
+    rotation.vx = 0;
+    rotation.vy = y;
+    rotation.vz = 0;
+
+    vin = DG_ZeroVector_800AB39C;
     
-    for (i = 0; i < 8; i++)
+    for ( i = 0; i < 8; i++ )
     {
-        data[i].field_0_vec = *pVec;
+        pre[i].pos = *pPosition;
 
-        vec[1].vx = GV_RandU_80017090(64);
-        vec[1].vz = GV_RandU_80017090(64);
-        vec[0].vz += 512;
+        vin.vx = GV_RandU_80017090(64);
+        vin.vz = GV_RandU_80017090(64);
+        
+        rotation.vz += 512;
 
-        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec[0]);
-        DG_PutVector_8001BE48(&vec[1], &data[i].field_8_vec, 1);
-        data[i].field_10_anim_idx = 0;
+        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
+        DG_PutVector_8001BE48(&vin, &pre[i].speed, 1);
+        pre[i].scr_num = 0;
     }
     
-    stru_8009F774.field_14 = data;
-    anime_init_8005FBC8(0, 0, &stru_8009F774);
+    anm = &stru_8009F774;
+    anm->field_14_pre_script = pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern Anim_Data stru_8009F774;
+extern ANIMATION stru_8009F774;
 
 #pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
 #pragma INCLUDE_ASM("asm/sub_8007EF34.s")                                          // 312 bytes

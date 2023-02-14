@@ -15,9 +15,9 @@ extern short GM_uBombHoming_800AB3E4;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR svector_8009F558[2];
 
-extern Anim_Data stru_8009F568;
-extern Anim_Data stru_8009F5A0;
-extern Anim_Data stru_8009F5BC;
+extern ANIMATION stru_8009F568;
+extern ANIMATION stru_8009F5A0;
+extern ANIMATION stru_8009F5BC;
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {
@@ -124,7 +124,7 @@ int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMt
     return 0;
 }
 
-Actor *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
+GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
 {
     Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
     if (pActor)
@@ -172,38 +172,52 @@ Actor_Blast *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSoun
     return pActor;
 }
 
-void AN_Blast_Single_8006E224(SVECTOR *pVec)
+void AN_Blast_Single_8006E224(SVECTOR *pos)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT  pre;
 
-    data.field_0_vec = *pVec;
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_12 = 0;
-    data.field_10_anim_idx = 0;
-    stru_8009F568.field_14 = &data;
-    anime_init_8005FBC8(0, 0, &stru_8009F568);
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.s_anim = 0;
+    pre.scr_num = 0;
+
+    anm = &stru_8009F568;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void sub_8006E2A8(SVECTOR *pVec)
+void AN_Blast_8006E2A8(SVECTOR *pos)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT  pre;
 
-    data.field_0_vec = *pVec;
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_12 = 0;
-    stru_8009F5A0.field_14 = &data;
-    data.field_10_anim_idx = 0;
-    anime_init_8005FBC8(0, 0, &stru_8009F5A0);
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5A0;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void AN_Blast_Minimini_8006E32C(SVECTOR *pVec)
+void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
 {
-    anime_data_0x14 data; // [sp+10h] [-18h] BYREF
+    ANIMATION *anm;
+    PRESCRIPT  pre;
 
-    data.field_0_vec = *pVec;
-    data.field_8_vec = DG_ZeroVector_800AB39C;
-    data.field_12 = 0;
-    stru_8009F5BC.field_14 = &data;
-    data.field_10_anim_idx = 0;
-    anime_init_8005FBC8(0, 0, &stru_8009F5BC);
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5BC;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
 }

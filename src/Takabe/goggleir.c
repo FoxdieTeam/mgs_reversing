@@ -125,7 +125,7 @@ void goggleir_act_80078BE0(Actor_GoggleIr *pActor)
         set_pal_effect_fns_80079194(goggleir_pal_cb_80078AB8, goggleir_pal_convert_800789E0);
         GM_GameStatus_800AB3CC |= 8u;
         dword_800BDFA8 = 1;
-        pActor->field_54_pScn_mask = (Actor *)new_scn_mask_8007895C(1);
+        pActor->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(1);
     }
 
     if (pActor->field_50 < 11)

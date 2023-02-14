@@ -7,29 +7,29 @@
 #include <LIBGTE.H>
 #include <LIBETC.H>
 
-struct Actor;
+struct GV_ACT;
 
-typedef void (*TActorFunction)(struct Actor *);
+typedef void (*TActorFunction)(struct GV_ACT *);
 typedef void (*TActorFreeFunction)(void *);
 
-typedef struct Actor
+typedef struct GV_ACT
 {
-    struct Actor      *pPrevious;
-    struct Actor      *pNext;
+    struct GV_ACT     *pPrevious;
+    struct GV_ACT     *pNext;
     TActorFunction     mFnUpdate;
     TActorFunction     mFnShutdown;
     TActorFreeFunction mFreeFunc;
     const char        *mName;
     int                field_18;
     int                field_1C;
-} Actor;
+} GV_ACT;
 
 struct ActorList
 {
-    struct Actor first;
-    struct Actor last;
-    short        mPause;
-    short        mKill;
+    GV_ACT first;
+    GV_ACT last;
+    short  mPause;
+    short  mKill;
 };
 
 #define ACTOR_LIST_COUNT 9
@@ -148,16 +148,16 @@ void GV_StartDaemon_80014D18(void);
 void GV_ResetSystem_80014CC8(void);
 
 // actor
-void          GV_ExecActorSystem_80014F88(void);
-struct Actor *GV_NewActor_800150E4(int level, int memSize);
-void          GV_InitActorSystem_80014D98(void);
-void          GV_DestroyActorSystem_80015010(int level);
-void          GV_InitActor_800150A8(int level, struct Actor *pActor, TActorFreeFunction fnFree);
-void          GV_SetNamedActor_8001514C(struct Actor *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
-                                        const char *pActorName);
-void          GV_DestroyActor_800151C8(struct Actor *pActor);
-void          GV_DestroyOtherActor_800151D8(struct Actor *pActorToKill);
-void          GV_DestroyActorQuick_80015164(struct Actor *pActor);
+void    GV_ExecActorSystem_80014F88(void);
+GV_ACT *GV_NewActor_800150E4(int level, int memSize);
+void    GV_InitActorSystem_80014D98(void);
+void    GV_DestroyActorSystem_80015010(int level);
+void    GV_InitActor_800150A8(int level, GV_ACT *pActor, TActorFreeFunction fnFree);
+void    GV_SetNamedActor_8001514C(GV_ACT *pActor, TActorFunction pFnUpdate, TActorFunction pFnShutdown,
+                                  const char *pActorName);
+void    GV_DestroyActor_800151C8(GV_ACT *pActor);
+void    GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill);
+void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
 
 // cache
 void GV_InitCacheSystem_80015458(void);

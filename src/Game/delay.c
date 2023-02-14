@@ -13,7 +13,7 @@ typedef union ProcIdOrScript {
 
 typedef struct Delay
 {
-    Actor          mBase;
+    GV_ACT          mBase;
     ProcIdOrScript mProcIdOrScriptPtr;
     GCL_ARGS       mGclProcArgs;
     int            mDelayCounter;
@@ -47,7 +47,7 @@ void delay_act_800331A4(Delay *pDelay)
     GV_DestroyActor_800151C8(&pDelay->mBase);
 }
 
-Actor *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
+GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
 {
     unsigned short pSrcArgsCount;
     Delay         *pDelay;
