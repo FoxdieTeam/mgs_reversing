@@ -4,6 +4,7 @@
 #include "Game/target.h"
 #include "amissile.h"
 #include "blast.h"
+#include "libgcl/hash.h"
 
 // stinger missile?
 
@@ -360,8 +361,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
         vector.vy += 2000;
     }
 
-    pTex = DG_GetTexture_8001D830(0xE4CC);
-
+    pTex = DG_GetTexture_8001D830(PCX_SOCOM_F);
     if (!pTex)
     {
         return -1;

@@ -178,9 +178,9 @@ void scope_act_80062E8C(Actor_scope *pActor)
     }
 
 
-    if (dword_8009F604 != SIGHT_SCOPE)
+    if (dword_8009F604 != SGT_SCOPE)
     {
-        NewSight_80071CDC(SIGHT_SCOPE, SIGHT_SCOPE, &GM_CurrentItemId, 1, 0);
+        NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
         GM_Sound_80032968(0, 0x3f, 0x15);
     }
 

@@ -37,16 +37,16 @@ void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix)
     pControl->field_4C_turn_vec = pControl->field_8_rotator;
 }
 
-void GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2)
+void GM_ConfigControlString_800261C0(GM_Control *pControl, char *param_pos, char *param_dir)
 {
-    if (bReadVec1)
+    if (param_pos)
     {
-        GCL_GetSV_80020A14(bReadVec1, &pControl->field_0_position);
+        GCL_GetSV_80020A14(param_pos, &pControl->field_0_position);
     }
 
-    if (bReadVec2)
+    if (param_dir)
     {
-        GCL_GetSV_80020A14(bReadVec2, &pControl->field_8_rotator);
+        GCL_GetSV_80020A14(param_dir, &pControl->field_8_rotator);
     }
 
     pControl->field_4C_turn_vec = pControl->field_8_rotator;
@@ -96,6 +96,7 @@ void GM_ConfigControlRadarparam_800262EC(GM_Control *pControl, short param_2, sh
                                          short param_5)
 {
     SVECTOR *pVec;
+    
     pVec = &pControl->field_3C;
     pVec->vx = param_2;
     pVec->vy = param_3;
