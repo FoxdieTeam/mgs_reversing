@@ -746,6 +746,7 @@ int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
     return -1;
 }
 
+
 void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 {
     if ( bits != pActor->field_180.field_04.field_8 )
