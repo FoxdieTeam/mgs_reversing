@@ -14,7 +14,7 @@ typedef struct Actor_stgfd_io_0x30
 
 typedef struct Actor_stgfd_io
 {
-    Actor                field_0_actor;
+    GV_ACT                field_0_actor;
     Actor_stgfd_io_0x30 *field_20_pAlloc0x30;
     int                  field_24;
     int                  field_28;

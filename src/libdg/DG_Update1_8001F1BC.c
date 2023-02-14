@@ -38,7 +38,7 @@ int DG_DrawSyncResetGraph_8001F014()
     return 1;
 }
 
-void DG_Update2_8001F078(Actor *pActor)
+void DG_Update2_8001F078(GV_ACT *pActor)
 {
     int t;
 

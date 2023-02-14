@@ -57,7 +57,7 @@ void bandana_kill_80061E1C(Actor_bandana *pActor)
     bandana_80061D14(pActor->field_20_pParent);
 }
 
-Actor *NewBandana_80061E40(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT *NewBandana_80061E40(GM_Control *pCtrl, OBJECT *pParent)
 {
     Actor_bandana *pActor = (Actor_bandana *)GV_NewActor_800150E4(7, sizeof(Actor_bandana));
     if (pActor)

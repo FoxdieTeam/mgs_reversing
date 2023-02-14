@@ -164,8 +164,8 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
     }
     
     FS_StreamInit_80023FD4( ( void * )0x801E7800, 0x18000 );
-    GV_InitActor_800150A8( 1, ( Actor * )&strctrl_800B82B0, 0 );
-    GV_SetNamedActor_8001514C(  ( Actor * )&strctrl_800B82B0,
+    GV_InitActor_800150A8( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
+    GV_SetNamedActor_8001514C(  ( GV_ACT * )&strctrl_800B82B0,
                                 ( TActorFunction )&strctrl_act_80037820,
                                 ( TActorFunction )&strctrl_kill_80037AE4,
                                 "strctrl.c" );

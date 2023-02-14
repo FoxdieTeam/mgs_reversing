@@ -232,7 +232,7 @@ typedef struct SnaAutoMove // @ field_A00 in Actor_SnaInit
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct Actor_SnaInit
 {
-    Actor               field_0_actor;
+    GV_ACT               field_0_actor;
     GM_Control          field_20_ctrl;
     OBJECT              field_9C_obj;
     char                field_C0[0xC0]; // zeroed during normal gameplay
@@ -262,7 +262,7 @@ typedef struct Actor_SnaInit
     int                 field_8F8;
     SVECTOR              field_8FC;
     int                 field_904_frames_last_choke;
-    Actor              *field_908_weapon_actor;
+    GV_ACT              *field_908_weapon_actor;
     void               *field_90C_pWeaponFn;
     int                 field_910;
     int                 field_914;
@@ -279,7 +279,7 @@ typedef struct Actor_SnaInit
     SVECTOR             field_948;
     POLY_FT4            field_950[2];
     int                 field_9A0;
-    Actor              *field_9A4_item_actor;
+    GV_ACT              *field_9A4_item_actor;
     int                 field_9A8_current_item;
     int                 field_9AC;
     GV_PAD             *field_9B0_pad_ptr;
@@ -495,14 +495,14 @@ void sna_init_80057A90(Actor_SnaInit *pActor, int time);
 void sna_init_8004EF14(Actor_SnaInit *pActor);
 
 // TODO: move these to indivudual weapon headers
-Actor *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-Actor *famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-Actor *NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-Actor *NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
+GV_ACT *famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
+GV_ACT *NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 
 #endif // _SNA_INIT_H_

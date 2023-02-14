@@ -81,7 +81,7 @@ int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
     return 0;
 }
 
-Actor *gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit)
+GV_ACT *gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit)
 {
     Actor_gasmask *pActor = (Actor_gasmask *)GV_NewActor_800150E4(6, sizeof(Actor_gasmask));
     if (pActor)

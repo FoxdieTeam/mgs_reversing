@@ -11,7 +11,7 @@
 
 typedef struct Actor_Claymore
 {
-    Actor     field_0;
+    GV_ACT     field_0;
     int       field_20_map;
     SVECTOR   field_24;
     SVECTOR   field_2C;

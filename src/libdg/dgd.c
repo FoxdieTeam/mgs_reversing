@@ -6,8 +6,8 @@
 extern unsigned char kVertexIndexingOrder_8009D46C[];
 extern const char    aDgdC[];
 
-extern Actor gDgdActor2_800B3750;
-extern Actor gDgdActor1_800B3770; // same section as its directly after
+extern GV_ACT gDgdActor2_800B3750;
+extern GV_ACT gDgdActor1_800B3770; // same section as its directly after
 extern int   dword_800B3790;
 
 void DG_StartDaemon_8001F284(void)

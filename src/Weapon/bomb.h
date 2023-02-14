@@ -9,7 +9,7 @@
 
 typedef struct _Actor_Bomb
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     GM_Control *field_20_pCtrl;
     OBJECT     *parent_obj;
     OBJECT      f28_obj;

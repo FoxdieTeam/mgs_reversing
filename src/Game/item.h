@@ -20,7 +20,7 @@ typedef struct Item_Info
 
 typedef struct Actor_Item
 {
-    Actor          field_0;
+    GV_ACT          field_0;
     GM_Control     field_20_ctrl;
     OBJECT         field_9C_kmd;
     char           field_C0[8];

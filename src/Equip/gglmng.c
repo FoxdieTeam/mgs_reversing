@@ -32,7 +32,7 @@ void gglmng_act_800778B4(Actor_gglmng *pActor)
             pActor->field_24++;
             if (pActor->field_24 == 8)
             {
-                pActor->field_28_pGglsight = (Actor *)gglsight_init_80078520(pActor->field_20_type);
+                pActor->field_28_pGglsight = (GV_ACT *)gglsight_init_80078520(pActor->field_20_type);
             }
         }
     }

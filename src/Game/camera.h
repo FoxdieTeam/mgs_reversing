@@ -60,8 +60,8 @@ typedef struct UnkCameraStruct2 // @ 800B7868
     // int field_24; // padding?
 } UnkCameraStruct2;
 
-void camera_act_helper5_80030118(Actor *pActor);
-int  camera_act_helper6_80030250(Actor *pActor);
+void camera_act_helper5_80030118(GV_ACT *pActor);
+int  camera_act_helper6_80030250(GV_ACT *pActor);
 void camera_act_helper3_8002F64C();
 void camera_act_helper_8002F1C8();
 void camera_act_helper7_8002FB54();

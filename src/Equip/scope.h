@@ -11,7 +11,7 @@
 
 typedef struct Actor_scope
 {
-  Actor field_0_scope;
+  GV_ACT field_0_scope;
   GM_Control *field_20_ctrl;
   OBJECT *field_24_pParent;
   OBJECT field_28_obj;

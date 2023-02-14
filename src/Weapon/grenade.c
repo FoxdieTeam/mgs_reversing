@@ -209,13 +209,13 @@ Actor_Grenade *grenade_init_80066944(
 	actor_grenade = (Actor_Grenade *)GV_NewActor_800150E4( 6, sizeof( Actor_Grenade ) );
 	if ( actor_grenade )
 	{
-		GV_SetNamedActor_8001514C( (Actor *)actor_grenade,
+		GV_SetNamedActor_8001514C( (GV_ACT *)actor_grenade,
 								   (TActorFunction)&grenade_act_8006641C,
 								   (TActorFunction)&grenade_kill_80066894,
 								   aGrenadeC );
 		if ( grenade_loader_800668B4( actor_grenade, parent_obj, num_parent, grd_type ) < 0 )
 		{
-			GV_DestroyActor_800151C8( (Actor *)actor_grenade );
+			GV_DestroyActor_800151C8( (GV_ACT *)actor_grenade );
 			return 0;
 		}
 

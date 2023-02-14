@@ -10,7 +10,7 @@
 
 typedef struct Actor_gglsight
 {
-    Actor    field_0_actor;
+    GV_ACT    field_0_actor;
     int      field_20_type;
     int      field_24;
     int      field_28_rgb;

@@ -10,7 +10,7 @@
 
 typedef struct _Actor_Chafgrnd
 {
-    Actor    field_0_actor;
+    GV_ACT    field_0_actor;
     int      field_20_map;
     int      field_24;
     int      field_28;

@@ -10,7 +10,7 @@
 
 typedef struct _Actor_tabako
 {
-    Actor       field_0_actor;
+    GV_ACT       field_0_actor;
     OBJECT      field_20_obj;
     GM_Control *field_44_pCtrl;
     OBJECT     *field_48_pParent;

@@ -35,7 +35,7 @@ unsigned char BSS main_task_stack_800ABBF0[2048]; // 0x800 (2048) bytes
 unsigned int BSS sdStack_800AC3F0[512]; // 0x800 (2048) bytes
 int BSS gDiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS pad_800ACBF4; // 0x4 (4) bytes
-struct Actor BSS gGVActor_800acbf8; // 0x20 (32) bytes
+GV_ACT BSS gGVActor_800acbf8; // 0x20 (32) bytes
 struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
 
 gap gap_800ACE7C[0x4]; // 4 bytes
@@ -69,8 +69,8 @@ unsigned short BSS gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
 DG_FixedLight BSS gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
 DG_TEX BSS gTextureRecs_800B1F50[512]; // 0x1800 (6144) bytes
-Actor BSS gDgdActor2_800B3750; // 0x20 (32) bytes
-Actor BSS gDgdActor1_800B3770; // 0x20 (32) bytes
+GV_ACT BSS gDgdActor2_800B3750; // 0x20 (32) bytes
+GV_ACT BSS gDgdActor1_800B3770; // 0x20 (32) bytes
 int BSS dword_800B3790; // 0x4 (4) bytes
 
 gap gap_800B3794[0x4]; // 4 bytes

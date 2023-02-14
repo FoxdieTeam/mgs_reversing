@@ -18,7 +18,7 @@ typedef struct	Blast_Data
 
 typedef struct	Actor_Blast
 {
-	Actor		field_0_actor;
+	GV_ACT		field_0_actor;
 	int			field_20_map_bits;
 	SVECTOR		field_24_vec;
 	int			field_2C;
@@ -33,7 +33,7 @@ void			AN_Blast_Single_8006E224( SVECTOR *pVec );
 void			blast_8006DDEC( Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker );
 void			AN_Blast_Minimini_8006E32C(SVECTOR *pVec);
 
-Actor			*NewBlast_8006DFDC( MATRIX *pMtx, Blast_Data *pBlastData );
+GV_ACT			*NewBlast_8006DFDC( MATRIX *pMtx, Blast_Data *pBlastData );
 void			NewStanBlast_80074B5C( MATRIX *pMtx );
 
 #endif // _BLAST_H_

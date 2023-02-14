@@ -35,12 +35,12 @@ Actor_Blood      *NewKetchap_80072B60(void)
     actor_blood = (Actor_Blood *)GV_NewActor_800150E4(6, sizeof(Actor_Blood));
     if (actor_blood != (Actor_Blood *)0x0)
     {
-        GV_SetNamedActor_8001514C((Actor *)actor_blood, (TActorFunction)d_blood_act_80072A0C,
+        GV_SetNamedActor_8001514C((GV_ACT *)actor_blood, (TActorFunction)d_blood_act_80072A0C,
                                   (TActorFunction)d_blood_kill_null_800729AC, aDBloodC);
         iVar1 = d_blood_loader_80072B38(actor_blood);
         if (iVar1 < 0)
         {
-            GV_DestroyActor_800151C8((Actor *)actor_blood);
+            GV_DestroyActor_800151C8((GV_ACT *)actor_blood);
             return 0;
         }
     }

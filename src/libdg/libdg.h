@@ -568,7 +568,7 @@ void  DG_Set_RGB_800184F4( int r, int b, int g );
 void  DG_StorePaletteEffect_80078F30( void );
 void  DG_StorePalette_8001FC28( void );
 void  DG_Update1_8001F1BC( void );
-void  DG_Update2_8001F078( Actor *pActor );
+void  DG_Update2_8001F078( GV_ACT *pActor );
 void  DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *pDGObj, int idx );
 void  DG_WriteObjPacketUV_8001A774( DG_OBJ *pObj, int idx );
 int   DG_PointCheckOne_8001C18C( DVECTOR *line );
