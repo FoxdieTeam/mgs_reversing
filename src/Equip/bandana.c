@@ -1,5 +1,6 @@
 #include "bandana.h"
 #include "unknown.h"
+#include "Game/linkvarbuf.h"
 
 extern short d_800AB9EC_mag_size;
 
@@ -8,8 +9,14 @@ extern const char aBandanaC[];
 extern const char *off_8009F2A8[3];
 extern const char *off_8009F2B4[3];
 
-extern short gGameState_800B4D98[0x60];
 extern short gGcl_gameStateVars_800B44C8[0x60];
+
+extern short snake_weapon_idx_800BDCBA;
+extern short snake_weapon_max_ammo_800BDCBC;
+extern short d_800AB9EC_mag_size;
+extern short snake_mag_size_800BDCB8;
+
+//------------------------------------------------------------------------------
 
 void bandana_80061D14(OBJECT *pObj)
 {
@@ -26,31 +33,25 @@ void bandana_80061D14(OBJECT *pObj)
     }
 }
 
-/*
-short SECTION(".snake_mag_size_800BDCB8") snake_mag_size_800BDCB8;
-short SECTION(".snake_mag_size_800BDCB8") snake_weapon_idx_800BDCBA;
-short SECTION(".snake_mag_size_800BDCB8") snake_weapon_max_ammo_800BDCBC;
-*/
-
-// not matching yet
-#pragma INCLUDE_ASM("asm/Equip/bandana_act_80061DA0.s") // 124 bytes
-
-/*
 void bandana_act_80061DA0(Actor_bandana *pActor)
 {
-    if ( snake_weapon_idx_800BDCBA >= 0 )
+    int ammo;
+    
+    if (snake_weapon_idx_800BDCBA >= 0)
     {
-        if ( gGameState_800B4D98[GM_WeaponBase + gGameState_800B4D98[GM_CurrentWeapon]] < snake_weapon_max_ammo_800BDCBC )
+        ammo = GM_CurrentWeapon;
+        if (ammo < snake_weapon_max_ammo_800BDCBC)
         {
-            gGameState_800B4D98[GM_WeaponBase + snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
+            GM_Weapons[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
         }
-        if ( d_800AB9EC_mag_size < snake_mag_size_800BDCB8 )
+        
+        ammo = d_800AB9EC_mag_size;
+        if (ammo < snake_mag_size_800BDCB8)
         {
             d_800AB9EC_mag_size = snake_mag_size_800BDCB8;
         }
     }
 }
-*/
 
 void bandana_kill_80061E1C(Actor_bandana *pActor)
 {
