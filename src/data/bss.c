@@ -188,11 +188,11 @@ Actor_MenuMan BSS gMenuMan_800BD360; // 0x224 (548) bytes
 
 gap gap_800BD584[0x1C]; // 28 bytes
 
-MenuMan_Inventory_14h_Unk BSS gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
+PANEL_TEXTURE BSS gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
 
 gap gap_800BD744[0x144]; // 324 bytes
 
-MenuMan_Inventory_14h_Unk BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
+PANEL_TEXTURE BSS gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
 gap gap_800BD964[0x4]; // 4 bytes
 
@@ -200,11 +200,11 @@ KCB BSS font_800BD968; // 0x2C (44) bytes
 
 gap gap_800BD994[0x7C]; // 124 bytes
 
-MenuMan_Inventory_14h_Unk BSS dword_800BDA10; // 0x14 (20) bytes
+PANEL_TEXTURE BSS dword_800BDA10; // 0x14 (20) bytes
 
 gap gap_800BDA24[0xC]; // 12 bytes
 
-MenuMan_Inventory_14h_Unk BSS dword_800BDA30; // 0x14 (20) bytes
+PANEL_TEXTURE BSS dword_800BDA30; // 0x14 (20) bytes
 
 gap gap_800BDA44[0x4]; // 4 bytes
 

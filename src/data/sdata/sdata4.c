@@ -101,7 +101,7 @@ int SECTION(".sdata") dword_800AB574 = 0;
 int SECTION(".sdata") dword_800AB578 = 0;
 
 const char SECTION(".sdata") aEquip[] = "EQUIP";
-struct menu_8009E544 *SECTION(".sdata") dword_800AB584 = 0;
+struct PANEL_CONF *SECTION(".sdata") dword_800AB584 = 0;
 const char SECTION(".sdata") aPsg1[] = "PSG1";
 const char SECTION(".sdata") aChaffG[] = "CHAFF.G";
 const char SECTION(".sdata") aStunG[] = "STUN.G";
