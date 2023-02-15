@@ -487,11 +487,11 @@ TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
 int SECTION(".data") dword_8009E2F4[] = {0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808};
 
-radar_sprt_params_8009E30C SECTION(".data") gRadarSprtParams_8009E30C[] = {
-    {128,  80, 28, 12, 0x072C5C80},
-    {156,  80, 28, 12, 0x073A6380},
-    {184,  80, 28, 12, 0x072C5CB4},
-    {138, 106, 58, 12, 0x073A768A},
+radar_uv_pair SECTION(".data") gRadarUV_8009E30C[] = {
+    {{128,  80, 28, 12}, {128,  92, 44, 7}},
+    {{156,  80, 28, 12}, {128,  99, 58, 7}},
+    {{184,  80, 28, 12}, {180,  92, 44, 7}},
+    {{138, 106, 58, 12}, {138, 118, 58, 7}},
 };
 
 char  SECTION(".data") byte_8009E32C[] = {0xBC, 0x63, 0x24, 3};

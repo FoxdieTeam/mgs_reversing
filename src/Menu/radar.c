@@ -108,16 +108,16 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
 extern int gRadarClut_800AB498;
 int        SECTION(".sdata") gRadarClut_800AB498;
 
-void sub_80039D5C(SPRT *pPrim, int x, int y, radar_sprt_params_8009E30C *pSprtParams, int rgb)
+void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
 {
     short clut;
 
     pPrim->x0 = x;
     pPrim->y0 = y;
-    pPrim->u0 = pSprtParams->u0;
-    pPrim->v0 = pSprtParams->v0;
-    pPrim->w  = pSprtParams->w;
-    pPrim->h  = pSprtParams->h;
+    pPrim->u0 = pRadarUV->field_0_u0;
+    pPrim->v0 = pRadarUV->field_1_v0;
+    pPrim->w = pRadarUV->field_2_w;
+    pPrim->h = pRadarUV->field_3_h;
 
     do {} while (0); // Force a match
 
@@ -130,7 +130,7 @@ void sub_80039D5C(SPRT *pPrim, int x, int y, radar_sprt_params_8009E30C *pSprtPa
     pPrim->clut = clut;
 }
 
-void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, radar_sprt_params_8009E30C *pSprtParams)
+void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, radar_uv *pRadarUV)
 {
     int   x0;
     TILE *tile1;
@@ -144,7 +144,7 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, rad
     tile1->x0 = -34;
     tile1->y0 = pSprt->y0;
     tile1->w = x0 - tile1->x0;
-    tile1->h = pSprtParams->h;
+    tile1->h = pRadarUV->field_3_h;
     LCOPY(&pSprt->r0, &tile1->r0);
 
     setTile(tile1);
@@ -155,7 +155,7 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, rad
     pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
 
     *tile2 = *tile1;
-    tile2->x0 = pSprtParams->w + x0;
+    tile2->x0 = pRadarUV->field_2_w + x0;
     tile2->w = 69 - tile2->x0;
 
     addPrim(pGlue->mPrimBuf.mOt, tile2);
@@ -166,8 +166,8 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, rad
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
 
-extern radar_sprt_params_8009E30C gRadarSprtParams_8009E30C[];
-extern int                        gRadarRGBTable_8009E3B8[];
+extern radar_uv_pair gRadarUV_8009E30C[];
+extern int           gRadarRGBTable_8009E3B8[];
 
 void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
 {
@@ -177,7 +177,7 @@ void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
     pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
 
     // index seems to be between 0 and 3 (inclusive)
-    sub_80039D5C(pPrim, x - 34, -12, &gRadarSprtParams_8009E30C[index], gRadarRGBTable_8009E3B8[index]);
+    sub_80039D5C(pPrim, x - 34, -12, &gRadarUV_8009E30C[index].field_0, gRadarRGBTable_8009E3B8[index]);
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
