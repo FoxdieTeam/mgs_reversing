@@ -35,8 +35,29 @@ def disasm(code, addr):
     from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS32
     md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32)
     dis = []
-    for i in md.disasm(code, addr):
-        dis.append("0x%X: %s %s" %(i.address, i.mnemonic, i.op_str))
+
+    l = len(code)
+    processing_addr = addr
+    last_processed = addr
+
+    while processing_addr < (addr + l):
+        for inst in md.disasm(code, processing_addr):
+            dis.append("0x%X: %s %s" % (inst.address, inst.mnemonic, inst.op_str))
+            processing_addr += 4
+
+        if processing_addr >= (addr + l):
+            break
+
+        code = code[processing_addr - last_processed:]
+
+        # This instruction could not be disassembled by capstone,
+        # so print the hex bytes of the instruction:
+        dis.append('0x%X: %02X %02X %02X %02X' % (processing_addr, code[0], code[1], code[2], code[3]))
+
+        processing_addr += 4
+        last_processed = processing_addr
+        code = code[4:]
+
     return dis
 
 def chunk(xs, n):
