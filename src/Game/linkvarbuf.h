@@ -43,6 +43,7 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_ChaffGrenadeFlag   linkvarbuf[ 25 ]
 #define GM_RifleFlag          linkvarbuf[ 26 ]
 
+//-----------------------------------------------
 #define GM_WeaponsMax         (&linkvarbuf[ 27 ])
 
 // 0x36 Weapons max ammo
@@ -87,7 +88,10 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_HandkerchiefFlag   linkvarbuf[ 59 ]
 #define GM_SilencerFlag       linkvarbuf[ 60 ]
 
-// 0x7a Items max capacity
+//-----------------------------------------------
+#define GM_ItemsMax           (GM_Items + 11)
+
+// 0x7a Items max capacity (use GM_ItemsMax[] instead)
 #define GM_RationMax          linkvarbuf[ 61 ]
 #define GM_ColdMedicineMax    linkvarbuf[ 62 ]
 #define GM_TranquilizerMax    linkvarbuf[ 63 ]
@@ -205,12 +209,17 @@ enum // GM_Items[]
 };
 #define GM_TotalItems 24
 
+enum // GM_ItemTypes_8009D598[]
+{
+    // ...
+    ITEMTYPE_CONSUMABLE = 0x2000,
+    // ...
+};
 //------------------------------------------------------------------------------
 
 #define GM_LinkVar(buf, var)      (buf[((char*)&var - (char*)&linkvarbuf) / 2])
 
 #define GM_CurrentWeapon          (GM_Weapons[ GM_CurrentWeaponId ])
 #define GM_CurrentItem            (GM_Items[ GM_CurrentWeaponId ])
-
 
 #endif
