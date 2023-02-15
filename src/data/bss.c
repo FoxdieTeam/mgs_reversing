@@ -486,3 +486,13 @@ unsigned char BSS gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
 gap gap_800C14E0[0x10]; // 16 bytes
 
 int BSS gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
+
+gap gap_800C14F8[0x1D10]; // 7440 bytes
+
+char BSS gProgramBottom_800C3208[0x53DF8]; // 0x53DF8 (343544) bytes
+unsigned char BSS heap_80117000[0x6b000]; // 0x6B000 (438272) bytes
+unsigned char BSS heap_80182000[0x1F000]; // 0x1F000 (126976) bytes
+char BSS byte_801A1000[0x10000]; // 0x10000 (65536) bytes
+char BSS byte_801B1000[0x36800]; // 0x36800 (223232) bytes
+char BSS byte_801E7800[0x18700]; // 0x18700 (100096) bytes
+char BSS byte_801FFF00[240]; // 0xF0 (240) bytes

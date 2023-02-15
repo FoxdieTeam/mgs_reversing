@@ -26,7 +26,7 @@ extern mts_msg      *D_800C0C00;
 extern mts_msg      *D_800C0C04;
 extern int           gMts_active_task_idx_800C13C0;
 extern signed char   byte_800C0C10[32];
-char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
+extern char byte_801FFF00[240];
 extern unsigned char byte_800C0DB8[512];
 extern unsigned char dword_800C0FB8[1024];
 

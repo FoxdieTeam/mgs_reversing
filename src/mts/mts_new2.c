@@ -4,7 +4,8 @@
 #include "psyq.h"
 
 // Each overlay defines this symbol
-extern char OverlayCharas[];
+//extern char OverlayCharas[];
+extern char gProgramBottom_800C3208[];
 extern int dword_800A3DCC;
 
 void mts_reset_graph_8008C534(void)
@@ -30,7 +31,8 @@ void SetExMask_8008C58C()
 
 unsigned char *mts_get_bss_tail_8008C598()
 {
-    return &OverlayCharas[0];
+//    return &OverlayCharas[0];
+    return &gProgramBottom_800C3208[0];
 }
 
 void sio_output_start_8008C5A8(void)
