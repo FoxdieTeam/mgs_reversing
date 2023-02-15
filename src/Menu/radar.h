@@ -1,15 +1,19 @@
 #ifndef _RADAR_H_
 #define _RADAR_H_
 
-typedef struct radar_sprt_params_8009E30C
+typedef struct radar_uv
 {
-    char u0;
-    char v0;
-    char w;
-    char h;
+    char          field_0_u0;
+    char          field_1_v0;
+    unsigned char field_2_w;
+    unsigned char field_3_h;
+} radar_uv;
 
-    int  unknown;
-} radar_sprt_params_8009E30C;
+typedef struct radar_uv_pair
+{
+    radar_uv field_0;
+    radar_uv field_4;
+} radar_uv_pair;
 
 void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pOt);
 void menu_init_radar_helper_8003ADAC(void);
