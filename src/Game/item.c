@@ -6,6 +6,10 @@
 extern const char aItemC[];
 extern const char aItemMapD[];
 
+extern unsigned short GM_ItemTypes_8009D598[];
+
+//------------------------------------------------------------------------------
+
 int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
 {
     short *pWeapons;
@@ -36,20 +40,20 @@ int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
     return 1;
 }
 
-int item_act_try_add_ammo_80033384(int weapon, short amount)
+int item_act_try_add_ammo_80033384(int weapon_id, short amount)
 {
     short *pWeapons;
     short *pAmmo, *pMaxAmmo;
     short  oldAmmo;
 
     pWeapons = GM_Weapons;
-    pAmmo = &pWeapons[weapon];
+    pAmmo = &pWeapons[weapon_id];
     if (*pAmmo < 0)
     {
         return 2;
     }
 
-    pMaxAmmo = &GM_WeaponsMax[weapon];
+    pMaxAmmo = &GM_WeaponsMax[weapon_id];
     if (*pAmmo >= *pMaxAmmo)
     {
         return 0;
@@ -66,7 +70,48 @@ int item_act_try_add_ammo_80033384(int weapon, short amount)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_act_helper_800333F8.s")                     // 264 bytes
+int item_act_helper_800333F8(int item_id, int param_2)
+{
+    int item_type;
+    int max_capacity;
+    
+    if (item_id == (char)ITEM_NONE)
+    {
+        item_all_items_and_weapons_unknown_80033560();
+        return 1;
+    }
+
+    item_type = GM_ItemTypes_8009D598[item_id + 1];
+
+    if (item_type & 0x4000)
+    {
+        GM_Items[item_id] |= 1 << (param_2 - 1);
+        do {} while(0);
+        return 1;
+    }
+
+    if (item_type & ITEMTYPE_CONSUMABLE)
+    {
+        max_capacity = GM_ItemsMax[item_id];
+        if (max_capacity <= GM_Items[item_id])
+        {
+            return 0;
+        }
+        if (GM_Items[item_id] < 0)
+        {
+            GM_Items[item_id] = 0;
+        }
+        GM_Items[item_id] += param_2;
+        if (max_capacity < ((GM_Items[item_id] * 0x10000) >> 0x10))
+        {
+            GM_Items[item_id] = max_capacity;
+        }
+        return 1;
+    }
+
+    GM_Items[item_id] = param_2;
+    return 1;
+}
 
 void item_all_items_and_weapons_unknown2_80033500()
 {
