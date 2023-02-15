@@ -161,13 +161,52 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, rad
     addPrim(pGlue->mPrimBuf.mOt, tile2);
 }
 
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_helper_80039EC4.s") // 504 bytes
+extern radar_uv_pair gRadarUV_8009E30C[];
+extern int           gRadarRGBTable_8009E3B8[];
+extern int           GV_Time_800AB330;
+
+static inline void draw_radar_helper3_helper_helper2(MenuGlue *pGlue, int height, radar_uv *pRadarUV, int *rgbs)
+{
+    SPRT *pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    sub_80039D5C(pPrim, -pRadarUV->field_2_w / 2, height, pRadarUV, rgbs[0]);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+    draw_radar_helper3_helper_helper_80039DB4(pGlue, pPrim, pRadarUV);
+}
+
+void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
+{
+    int       time, time2;
+    int       rgbs[2];
+    radar_uv *pRadarUV;
+
+    rgbs[0] = gRadarRGBTable_8009E3B8[idx];
+
+    time = GV_Time_800AB330 % 16;
+
+    if (time < 8)
+    {
+        time2 = time * 512;
+        gte_ldfcdir(0, 0, 0);
+        gte_lddp(time2);
+        gte_ldrgb(rgbs);
+        gte_dpcs();
+        gte_strgb(&rgbs[1]);
+        LCOPY(&rgbs[1], rgbs);
+    }
+
+    pRadarUV = &gRadarUV_8009E30C[idx].field_4;
+    draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
+
+    height += pRadarUV->field_3_h;
+    pRadarUV = &gRadarUV_8009E30C[4].field_0;
+    draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
+}
+
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
-
-extern radar_uv_pair gRadarUV_8009E30C[];
-extern int           gRadarRGBTable_8009E3B8[];
 
 void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
 {
