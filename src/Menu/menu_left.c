@@ -178,7 +178,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
                 xpos,
                 ypos + 11,
                 pMenuSub->field_0_current.field_2_num,
-                GM_Items[pMenuSub->field_0_current.field_0_id  + 11]);
+                GM_ItemsMax[pMenuSub->field_0_current.field_0_id]);
         }
         else if ( pMenuSub->field_0_current.field_0_id == ITEM_CARD )
         {
