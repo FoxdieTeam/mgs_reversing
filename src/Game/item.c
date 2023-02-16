@@ -224,7 +224,57 @@ void item_kill_80033F88(Actor_Item *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_init_helper_helper_80034020.s") // 176 bytes
+int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
+{
+	int item_id;
+
+	item_id = pActor->field_114_item_id;
+	if ( item_id == (char)ITEM_NONE )
+	{
+		return 1;
+	}
+	pActor->field_113 = 0;
+	switch ( type )
+	{
+    case 2:
+	case 3:
+		if ( (GM_DifficultyFlag == -1) && (item_id == 1) )
+		{
+			return 0;
+        }
+        if (item_id > 9 )
+		{
+			return 0;
+		}
+		pActor->field_113 = 2;
+		break;
+
+    case 0:
+		if (item_id > 9 )
+		{
+			return 0;
+		}
+		pActor->field_113 = 1;
+		break;
+
+    case 4:
+		if ( item_id != ITEM_RATION )
+		{
+			return 0;
+		}
+		break;
+        
+	case 1:
+	case 5:
+		if ( item_id > (GM_TotalItems - 1) )
+		{
+			return 0;
+		}
+		break;
+	}
+	return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")        // 1064 bytes
 
 GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
