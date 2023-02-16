@@ -21,20 +21,24 @@ void d_bloodr_kill_80072BD4(int param_1)
 #pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_helper_80072EFC.s")        // 496 bytes
 #pragma INCLUDE_ASM("asm/Okajima/d_bloodr_loader_800730EC.s")               // 92 bytes
 
-GV_ACT *NewKetchap_r_80073148(int arg0)
+GV_ACT * NewKetchap_r_80073148(int map)
 {
-    GV_ACT *actor;
+    GV_ACT *pActor;
 
-    actor = GV_NewActor_800150E4(7, 0xDC);
-    if (actor)
+    pActor = GV_NewActor_800150E4(7, 0xDC);
+    if (pActor)
     {
-        GV_SetNamedActor_8001514C(actor, (TActorFunction)&d_bloodr_act_80072C10,
-                                  (TActorFunction)&d_bloodr_kill_80072BD4, aDBloodrC);
-        if (d_bloodr_loader_800730EC(actor, arg0) < 0)
+        GV_SetNamedActor_8001514C(pActor,
+                                  (TActorFunction)&d_bloodr_act_80072C10,
+                                  (TActorFunction)&d_bloodr_kill_80072BD4,
+                                  aDBloodrC);
+
+        if (d_bloodr_loader_800730EC(pActor, map) < 0)
         {
-            GV_DestroyActor_800151C8(actor);
+            GV_DestroyActor_800151C8(pActor);
             return 0;
         }
     }
-    return actor;
+
+    return pActor;
 }
