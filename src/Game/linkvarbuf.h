@@ -28,10 +28,10 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_SnakeStance        linkvarbuf[ 16 ] // 0 = standing, 1 = crouching, 2 = lying down
 
 //------------------------------------------------------------------------------
-// 0x22 Weapons ammo (-1 = not in inventory)
 #define GM_Weapons            (&linkvarbuf[ 17 ])
 
-// Use GM_Weapons[] instead
+// 0x22 Weapons ammo (Use GM_Weapons[] instead)
+//      value -1 = not in inventory
 #define GM_SocomFlag          linkvarbuf[ 17 ]
 #define GM_FamasFlag          linkvarbuf[ 18 ]
 #define GM_GrenadeFlag        linkvarbuf[ 19 ]
@@ -46,7 +46,7 @@ extern short       gGameState_800B4D98[0x60];
 //-----------------------------------------------
 #define GM_WeaponsMax         (&linkvarbuf[ 27 ])
 
-// 0x36 Weapons max ammo
+// 0x36 Weapons max ammo (Use GM_WeaponsMax[] instead)
 #define GM_SocomMax           linkvarbuf[ 27 ]
 #define GM_FamasMax           linkvarbuf[ 28 ]
 #define GM_GrenadeMax         linkvarbuf[ 29 ]
@@ -59,10 +59,10 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_RifleMax           linkvarbuf[ 36 ]
 
 //------------------------------------------------------------------------------
-// 0x4a Items (-1 = not in inventory)
 #define GM_Items              (&linkvarbuf[ 37 ])
 
-// Use GM_Items[] instead
+// 0x4a Items (Use GM_Items[] instead)
+//      value -1 = not in inventory
 #define GM_TabakoFlag         linkvarbuf[ 37 ]
 #define GM_ScopeFlag          linkvarbuf[ 38 ]
 #define GM_CardboardBoxAFlag  linkvarbuf[ 39 ]
@@ -147,65 +147,65 @@ extern short       gGameState_800B4D98[0x60];
 enum // GM_DifficultyFlag
 {
     DIFFICULTY_VERY_EASY = -1,
-    DIFFICULTY_EASY = 0,
-    DIFFICULTY_NORMAL = 1,
-    DIFFICULTY_HARD = 2,
-    DIFFICULTY_EXTREME = 3,
+    DIFFICULTY_EASY      = 0,
+    DIFFICULTY_NORMAL    = 1,
+    DIFFICULTY_HARD      = 2,
+    DIFFICULTY_EXTREME   = 3,
 };
 
 enum // GM_SnakeStance
 {
     // ... negative ones too?
-    SNA_STANCE_STANDING = 0,
-    SNA_STANCE_CROUCH = 1,
-    SNA_STANCE_GROUND = 2, // prone + knocked down
-    SNA_STANCE_UNK = 3, // first person prone?
+    SNA_STANCE_STANDING  = 0,
+    SNA_STANCE_CROUCH    = 1,
+    SNA_STANCE_GROUND    = 2, // prone + knocked down
+    SNA_STANCE_UNK       = 3, // first person prone?
     // ... more?
 };
 
 enum // GM_Weapons[]
 {
-    WEAPON_NONE = -1,
-    WEAPON_SOCOM = 0,
-    WEAPON_FAMAS = 1,
-    WEAPON_GRENADE = 2,
-    WEAPON_NIKITA = 3,
-    WEAPON_STINGER = 4,
-    WEAPON_CLAYMORE = 5,
-    WEAPON_C4 = 6,
-    WEAPON_STUN_G = 7,
-    WEAPON_CHAFF_G = 8,
-    WEAPON_PSG1 = 9,
+    WEAPON_NONE       = -1,
+    WEAPON_SOCOM      = 0,
+    WEAPON_FAMAS      = 1,
+    WEAPON_GRENADE    = 2,
+    WEAPON_NIKITA     = 3,
+    WEAPON_STINGER    = 4,
+    WEAPON_CLAYMORE   = 5,
+    WEAPON_C4         = 6,
+    WEAPON_STUN_G     = 7,
+    WEAPON_CHAFF_G    = 8,
+    WEAPON_PSG1       = 9,
 };
 #define GM_TotalWeapons 10
 
 enum // GM_Items[]
 {
-    ITEM_NONE = -1,
-    ITEM_CIGS = 0,
-    ITEM_SCOPE = 1,
-    ITEM_C_BOX_A = 2,
-    ITEM_C_BOX_B = 3,
-    ITEM_C_BOX_C = 4,
-    ITEM_N_V_G = 5,
-    ITEM_THERM_G = 6,
-    ITEM_GASMASK = 7,
-    ITEM_B_ARMOR = 8,
-    ITEM_KETCHUP = 9,
-    ITEM_STEALTH = 10,
-    ITEM_BANDANA = 11,
-    ITEM_CAMERA = 12,
-    ITEM_RATION = 13,
-    ITEM_MEDICINE = 14,
-    ITEM_DIAZEPAM = 15,
-    ITEM_PAL_KEY = 16,
-    ITEM_CARD = 17,
-    ITEM_TIMER_B = 18,
-    ITEM_MINE_D = 19,
-    ITEM_DISC = 20,
-    ITEM_ROPE = 21,
-    ITEM_SCARF = 22,
-    ITEM_SUPPR = 23
+    ITEM_NONE       = -1, // types:
+    ITEM_CIGS       = 0,  // 0x8000
+    ITEM_SCOPE      = 1,  // 0x8003
+    ITEM_C_BOX_A    = 2,  // 0x8001
+    ITEM_C_BOX_B    = 3,  // 0x8001
+    ITEM_C_BOX_C    = 4,  // 0x8001
+    ITEM_N_V_G      = 5,  // 0x8000
+    ITEM_THERM_G    = 6,  // 0x8000
+    ITEM_GASMASK    = 7,  // 0x8000
+    ITEM_B_ARMOR    = 8,  // 0x8000
+    ITEM_KETCHUP    = 9,  // 0x8000
+    ITEM_STEALTH    = 10, // 0x8000
+    ITEM_BANDANA    = 11, // 0x8000
+    ITEM_CAMERA     = 12, // 0x8003
+    ITEM_RATION     = 13, // 0x2000
+    ITEM_MEDICINE   = 14, // 0x2000
+    ITEM_DIAZEPAM   = 15, // 0x2000
+    ITEM_PAL_KEY    = 16, // 0
+    ITEM_CARD       = 17, // 0
+    ITEM_TIMER_B    = 18, // 0
+    ITEM_MINE_D     = 19, // 0
+    ITEM_DISC       = 20, // 0
+    ITEM_ROPE       = 21, // 0
+    ITEM_SCARF      = 22, // 0
+    ITEM_SUPPR      = 23  // 0
 };
 #define GM_TotalItems 24
 
@@ -217,9 +217,9 @@ enum // GM_ItemTypes_8009D598[]
 };
 //------------------------------------------------------------------------------
 
-#define GM_LinkVar(buf, var)      (buf[((char*)&var - (char*)&linkvarbuf) / 2])
+#define GM_LinkVar(buf, var)      (buf[((short*)&var - (short*)&linkvarbuf)])
 
 #define GM_CurrentWeapon          (GM_Weapons[ GM_CurrentWeaponId ])
-#define GM_CurrentItem            (GM_Items[ GM_CurrentWeaponId ])
+#define GM_CurrentItem            (GM_Items[ GM_CurrentItemId ])
 
 #endif

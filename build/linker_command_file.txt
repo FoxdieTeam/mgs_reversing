@@ -374,6 +374,8 @@
     ; 8003330C 80033384 800333F8 80033500 80033560 800335D0 800336A4 80033704 80033784 80033F88
     ; 80034020 800340D0 800344F8 800345C0 80034758
     include "..\obj\Game\item.obj"
+    include "..\obj\data\rdata\rdata_80010D6C.obj"
+    
 
     include "..\obj\Game\sub_80034834.obj"
 
