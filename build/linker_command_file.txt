@@ -1193,25 +1193,15 @@ group_rdata_code    group org($80010000)
     section .RDATA, group_rdata_code
     section .rdata, group_rdata_code
     section .text, group_rdata_code
-
-group_other    group org($8009D2DC)
-    section .data, group_other
-    section .sdata2, group_other
-    section .sdata, group_other
-    section .sbss, group_other
+    section .data, group_rdata_code
+    section .sdata2, group_rdata_code
+    section .sdata, group_rdata_code
 
 group_actual_bss    group bss,org($800ABBF0)
     section .bss, group_actual_bss
+    section .sbss, group_rdata_code
 
 ; ram
-group_heap_80117000    group bss,org($80117000)
-    section .heap_80117000, group_heap_80117000
-
-group_heap_80182000    group bss,org($80182000)
-    section .heap_80182000, group_heap_80182000
-
-group_byte_801FFF00    group bss,org($801FFF00)
-    section .byte_801FFF00, group_byte_801FFF00
 
 ; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
 group_gProgramBottom_800C3208    group org($800C3208), file("..\obj\sound.bin"), size(343544)
