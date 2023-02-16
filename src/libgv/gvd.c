@@ -19,8 +19,10 @@ extern const char     aHangupS[];
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 extern const char     aResidentTopX[];
 
-unsigned char SECTION(".heap_80182000") heap_80182000[0x5E000];
-unsigned char SECTION(".heap_80117000") heap_80117000[0x6b000];
+extern unsigned char heap_80117000[0x6b000];
+
+// TODO: FIX ME, actual size is 0x1F000 ??
+extern unsigned char heap_80182000[0x5E000];
 
 extern GV_ACT gGVActor_800acbf8;
 

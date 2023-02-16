@@ -20,13 +20,15 @@ extern const char aIsendDstD[];
 extern const char aIsendStateDead[];
 extern const char aGetNewVblContr[];
 extern const char aMtsExtTsk[];
+extern const char aSendDstD[];
+extern const char aSendStateDeadD[];
 
 extern mts_msg       gMtsMsgs_800C13D0[8];
 extern mts_msg      *D_800C0C00;
 extern mts_msg      *D_800C0C04;
 extern int           gMts_active_task_idx_800C13C0;
 extern signed char   byte_800C0C10[32];
-char SECTION(".byte_801FFF00") byte_801FFF00[240] = {};
+extern char byte_801FFF00[240];
 extern unsigned char byte_800C0DB8[512];
 extern unsigned char dword_800C0FB8[1024];
 
@@ -299,7 +301,106 @@ int mts_wait_vbl_800895F4(int wait_vblanks)
     return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_send_8008982C.s") // 728 bytes
+
+void mts_send_8008982C(int dst, int *message)
+{
+    mts_task *pDstTask; // $s0
+    int *field_8_fn; // $v1
+    int bitMask; // $a0
+    mts_task *pCurTask; // $a0
+    int field_2_rcv_task_idx; // $v0
+    int task_idx; // $v1
+    int bChangeThreadContext; // $v0
+
+    if ( dst < 0 || ((unsigned int)dst >= 12) )
+    {
+        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 776, gTaskIdx_800C0DB0);
+        mts_printf_8008BBA0(aSendDstD, dst);
+        mts_printf_8008BBA0(asc_80013E2C);
+        mts_print_process_status_8008B77C();
+    }
+
+    pDstTask = &gTasks_800C0C30[dst];
+
+    if ( !pDstTask->field_0_state )
+    {
+        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 779, gTaskIdx_800C0DB0);
+        mts_printf_8008BBA0(aSendStateDeadD, dst);
+        mts_printf_8008BBA0(asc_80013E2C);
+        mts_print_process_status_8008B77C();
+    }
+
+    SwEnterCriticalSection_8009954C();
+
+    if ( pDstTask->field_0_state == 2 && ((pDstTask->field_3_src_idx == -2) || (pDstTask->field_3_src_idx == gTaskIdx_800C0DB0)) )
+    {
+        field_8_fn = (int*)pDstTask->field_8_fn;
+        pDstTask->field_3_src_idx = gTaskIdx_800C0DB0;
+        *field_8_fn = *message;
+        field_8_fn[1] = message[1];
+        field_8_fn[2] = message[2];
+        field_8_fn[3] = message[3];
+        pDstTask->field_0_state = 3;
+        pDstTask->field_8_fn = 0;
+        gMts_bits_800C0DB4 = gMts_bits_800C0DB4 | (1 << dst);
+        bitMask = 1;
+    }
+    else
+    {
+        pCurTask = &gTasks_800C0C30[gTaskIdx_800C0DB0];
+        pCurTask->field_0_state = 1;
+        pCurTask->field_8_fn = (int (*)(void))message;
+        gMts_bits_800C0DB4 &= ~(1 << gTaskIdx_800C0DB0);
+        pCurTask->field_F_recv_idx = dst;
+        field_2_rcv_task_idx = pDstTask->field_2;
+
+        if ( field_2_rcv_task_idx < 0  )
+        {
+            pDstTask->field_2 = gTaskIdx_800C0DB0;
+        }
+        else
+        {
+            pDstTask = &gTasks_800C0C30[field_2_rcv_task_idx];
+            while (pDstTask->field_1 >= 0)
+            {
+                pDstTask = &gTasks_800C0C30[pDstTask->field_1];
+            }
+    
+            pDstTask->field_1 = gTaskIdx_800C0DB0  ;
+        }
+
+        pCurTask->field_1 = -1;   
+        bitMask = 1;
+    }
+  
+    gMts_active_task_idx_800C13C0 = -1;
+    
+    for (task_idx = 0; task_idx < 12; task_idx++)
+    {
+        if ( (gMts_bits_800C0DB4 & bitMask) != 0 )
+        {
+            break;
+        }
+        bitMask *= 2;
+    }
+    
+    gMts_active_task_idx_800C13C0 = task_idx;
+   
+    if ( task_idx == gTaskIdx_800C0DB0 )
+    {
+        bChangeThreadContext = 0;
+    }
+    else
+    {
+         bChangeThreadContext = 1;
+        gTaskIdx_800C0DB0 = task_idx;
+    }
+    if ( bChangeThreadContext )
+    {
+        ChangeTh_800994EC((int)gTasks_800C0C30[gTaskIdx_800C0DB0].field_18_tcb);
+    }
+    SwExitCriticalSection_8009956C();
+}
 
 int mts_isend_80089B04(int isend_dst)
 {
@@ -861,7 +962,7 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
     msg.field_8 = proc;
     msg.field_0 = 0;
     msg.field_C = stack_pointer;
-    mts_send_8008982C(0, (unsigned char *)&msg);
+    mts_send_8008982C(0, (int *)&msg);
     src_idx = mts_receive_80089D24(0, (unsigned char *)&msg);
     if (src_idx)
     {
@@ -878,7 +979,7 @@ void mts_8008B51C()
     int msg[4]; // is this mt_msg? but it's 4 bytes too big?
 
     msg[0] = 1;
-    mts_send_8008982C(0, (unsigned char *)msg);
+    mts_send_8008982C(0, msg);
 
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1359, gTaskIdx_800C0DB0);
     mts_printf_8008BBA0(aMtsExtTsk);
@@ -892,7 +993,7 @@ void mts_send_msg_8008B590(int param_1, int param_2, int param_3)
 
     msg[0] = param_2;
     msg[1] = param_3;
-    mts_send_8008982C(param_1, (unsigned char *)msg);
+    mts_send_8008982C(param_1, msg);
 }
 
 int mts_recv_msg_8008B5B8(int param_1, int *param_2, int *param_3)

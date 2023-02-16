@@ -254,7 +254,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
         menu_radio_8004D2FC(&stru_8009F2D8);
         DG_UnDrawFrameCount_800AB380 = 1;
         dword_800BDCC8 = pActor->field_88;
-        dword_800BDCCC = pActor->field_8C;
+        dword_800BDCCC = pActor->field_8C_size;
     }
     else if (state == 10)
     {
