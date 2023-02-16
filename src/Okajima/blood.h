@@ -7,12 +7,12 @@
 typedef struct _Actor_Blood
 {
     GV_ACT   field_0_actor;
-    char     field_20_pad[4];
+    char     field_20_pad[0x4];
     DG_OBJS *field_24_prim;
     char     field_28_pad[0x288];
 } Actor_Blood;
 
-STATIC_ASSERT_SIZE(Actor_Blood, 0x2b0);
+STATIC_ASSERT_SIZE(Actor_Blood, 0x2B0);
 
 void blood_act_80072538(Actor_Blood *pActor);
 void blood_kill_800725CC(Actor_Blood *pActor);
