@@ -52,6 +52,11 @@ extern int se_rev_on_800C0574;
 extern int dword_800BF064;
 extern int dword_800BF210;
 
+extern int dword_800C0580;
+extern int gStr_FadeOut1_800BF16C;
+extern int dword_800BF154;
+extern int dword_800BF008;
+
 extern unsigned int   mtrack_800BF1EC;
 extern unsigned char *mptr_800C0570;
 
@@ -111,7 +116,7 @@ void IntSdMain_80084494()
     if (temp)
     {
     switch(temp)
-    {  
+    {
         // Pause
         case 0x1FFFF01:
             sng_pause_fg_800BF298 = 1;
@@ -130,7 +135,7 @@ void IntSdMain_80084494()
         case 0x1FFFF03:
         case 0x1FFFF04:
         case 0x1FFFF05:
-            if ( sng_status_800C04F8 != 0xFFFFFFFF ) 
+            if ( sng_status_800C04F8 != 0xFFFFFFFF )
             {
                 sng_fout_fg_800BF25C = 0;
                 if ( sng_status_800BF158 < 3 )
@@ -146,12 +151,12 @@ void IntSdMain_80084494()
             }
             mts_printf_8008BBA0(aSongfadein);
             break;
-        
+
         // Fade out
         case 0x1FFFF06:
         case 0x1FFFF07:
         case 0x1FFFF08:
-        case 0x1FFFF09:            
+        case 0x1FFFF09:
             SngFadeOutP_80084D60(temp);
             mts_printf_8008BBA0(aSongfadeoutPau);
             break;
@@ -182,7 +187,7 @@ void IntSdMain_80084494()
             sng_syukan_fg_800C0510 = 0;
             mts_printf_8008BBA0(aSongsyukanmode_0);
             break;
-        
+
         case 0x1FFFFFF:
             sng_status_800C04F8 = 0;
             sng_off_80087E2C();
@@ -224,7 +229,7 @@ void IntSdMain_80084494()
                         sng_off_80087E2C();
                         sng_pause_fg_800BF298 = 0;
                         sng_fade_in_2_800BF290 = 0;
-                        sng_fade_in_2_800C0BC0 = 0;  
+                        sng_fade_in_2_800C0BC0 = 0;
                     }
                 }
                 else
@@ -235,9 +240,9 @@ void IntSdMain_80084494()
             else
             {
                 mts_printf_8008BBA0(aSamesonghasalr);
-            }    
+            }
         break;
-        
+
     default:
             if ( dword_800C0428 != temp )
             {
@@ -259,12 +264,12 @@ void IntSdMain_80084494()
             {
                 break;
             }
-            
+
             if ( sng_status_800C04F8 == -1 )
             {
                 break;
             }
-            
+
             sng_adrs_set_80085658(sng_status_800C04F8);
             SngFadeWkSet_80085020();
             sng_status_800BF158 = 3;
@@ -286,7 +291,7 @@ void IntSdMain_80084494()
                     mts_printf_8008BBA0(aSoundWorkIsBro);
                 }
             }
-        
+
             SD_80085164();
             SD_80085480();
 
@@ -326,17 +331,17 @@ void IntSdMain_80084494()
             {
                 new_sng_status = 4;
                 sng_status_800BF158 = new_sng_status;
-            }    
+            }
             break;
 
-                
+
         case 4:
             sng_off_80087E2C();
             new_sng_status = 2;
             sng_status_800C04F8 = 0;
             sng_status_800BF158 = new_sng_status;
             break;
-        
+
     }
 
     for (mtrack_800BF1EC=13; mtrack_800BF1EC < 21; mtrack_800BF1EC++)
@@ -370,7 +375,7 @@ void IntSdMain_80084494()
                     {
                         sptr_800C057C->field_0_mpointer = mptr_800C0570;
                     }
-             
+
                 }
             }
         }
@@ -380,7 +385,7 @@ void IntSdMain_80084494()
     {
         stop_jouchuu_se_800BF1A0 = 0;
     }
-    
+
     SD_spuwr_80087A88();
 }
 
@@ -393,7 +398,7 @@ static inline void SD_SongFadeIn_helper_80084CCC(unsigned int mode)
     case 0x1FFFF03:
         sd_KaihiMode_800BF05C = 655;
         break;
-        
+
     case 0x1FFFF04:
         sd_KaihiMode_800BF05C = 218;
         break;
@@ -412,7 +417,7 @@ static inline void SD_SongFadeIn_helper_80084CCC(unsigned int mode)
         sng_fade_time_800C0430[i] = 0;
     }
 
-    sng_fout_term_800C0518 = 0; 
+    sng_fout_term_800C0518 = 0;
 }
 
 void SD_SongFadeIn_80084CCC(unsigned int mode)
@@ -502,7 +507,7 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
 
         sd_KaihiMode_800BF05C = 0;
         sng_status_800C04F8 = -1;
-    
+
         mts_printf_8008BBA0(aSngFadeoutStar, sng_status_800BF158);
         return 0;
     }
@@ -516,15 +521,15 @@ int SD_SongKaihiMode_80084F88(void)
     int i;
 
     if (sng_status_800BF158 == 0)
-    {    
+    {
         return -1;
     }
-        
+
     if (sng_fout_term_800C0518 != 0x1FFF)
     {
         sng_fade_time_800C0430[2] = 43;
         sng_fade_time_800C0430[3] = 43;
-    
+
         for (i = 4; i < 13; i++)
         {
             if ( !(sng_fout_term_800C0518 & (1 << i)) )
@@ -575,16 +580,182 @@ void SngFadeWkSet_80085020(void)
         {
             sng_fade_value_800C0538[i] = 65536;
         }
-    
+
         sng_fadein_fg_800C041C = 0;
         break;
     }
-    
+
     sng_fout_term_800C0518 = 0;
     sng_fout_fg_800BF25C = 0;
 }
 
-#pragma INCLUDE_ASM("asm/SD/SD_80085164.s") // 796 bytes
+void SD_80085164(void)
+{
+    char temp[64]; // This function allocates 64 bytes of unused stack space
+    int fade_time_bitmap;
+    int fade_value_bitmap;
+    int i;
+    unsigned int var_t0;
+    unsigned int var_a0_3;
+    unsigned int var_v1_3;
+
+    fade_time_bitmap = 0;
+    fade_value_bitmap = 0;
+
+    if (sng_status_800BF158 < 3)
+    {
+        return;
+    }
+
+    for (i = 0; i < 13; i++)
+    {
+        fade_time_bitmap |= sng_fade_time_800C0430[i];
+    }
+
+    if (fade_time_bitmap != 0)
+    {
+        for (i = 0; i < 13; i++)
+        {
+            if (sng_fade_time_800C0430[i] == 0)
+            {
+                continue;
+            }
+
+            sng_fade_value_800C0538[i] += sng_fade_time_800C0430[i];
+
+            if (sng_fade_value_800C0538[i] >= 0x10000)
+            {
+                sng_fout_term_800C0518 |= (1 << i);
+                sng_fade_value_800C0538[i] = 0x10000;
+                sng_fade_time_800C0430[i] = 0;
+            }
+
+            if (sng_fout_term_800C0518 == 0x1fff)
+            {
+                if (sng_status_800C04F8 == -1)
+                {
+                    sng_status_800BF158 = 4;
+                }
+                else
+                {
+                    sng_fout_fg_800BF25C = 1;
+                }
+            }
+            else
+            {
+                sng_fout_fg_800BF25C = 0;
+            }
+        }
+    }
+    else
+    {
+        if ((dword_800C0580 != 0) && (gStr_FadeOut1_800BF16C != 0))
+        {
+            if (dword_800BF154 < 0x6000)
+            {
+                dword_800BF154 += 245;
+
+                if (dword_800BF154 > 0x6000)
+                {
+                    dword_800BF154 = 0x6000;
+                }
+            }
+        }
+        else
+        {
+            if (dword_800BF154 != 0)
+            {
+                dword_800BF154 -= 245;
+
+                if (dword_800BF154 < 0)
+                {
+                    dword_800BF154 = 0;
+                }
+            }
+        }
+
+        if (sd_KaihiMode_800BF05C != 0)
+        {
+            for (i = 0; i < 13; i++)
+            {
+                if (sd_KaihiMode_800BF05C >= sng_fade_value_800C0538[i])
+                {
+                    sng_fade_value_800C0538[i] = 0;
+                }
+                else
+                {
+                    sng_fade_value_800C0538[i] -= sd_KaihiMode_800BF05C;
+                }
+
+                fade_value_bitmap |= sng_fade_value_800C0538[i];
+            }
+
+            if (fade_value_bitmap == 0)
+            {
+                sd_KaihiMode_800BF05C = 0;
+            }
+        }
+    }
+
+    if (sng_syukan_fg_800C0510 != 0)
+    {
+        if (dword_800BF008 < 0x5000)
+        {
+            dword_800BF008 += 204;
+
+            if (dword_800BF008 > 0x5000)
+            {
+                dword_800BF008 = 0x5000;
+            }
+        }
+    }
+    else
+    {
+        if (dword_800BF008 != 0)
+        {
+            dword_800BF008 -= 204;
+
+            if (dword_800BF008 < 0)
+            {
+                dword_800BF008 = 0;
+            }
+        }
+    }
+
+    if (dword_800BF154 <= dword_800BF008)
+    {
+        var_t0 = dword_800BF008;
+    }
+    else
+    {
+        var_t0 = dword_800BF154;
+    }
+
+    for (i = 0; i < 13; i++)
+    {
+        var_a0_3 = 0x10000;
+
+        if (var_t0 < sng_fade_value_800C0538[i])
+        {
+            var_v1_3 = sng_fade_value_800C0538[i];
+        }
+        else
+        {
+            var_v1_3 = var_t0;
+        }
+
+        if (var_v1_3 > var_a0_3)
+        {
+            var_a0_3 = 0;
+        }
+        else
+        {
+            var_a0_3 -= var_v1_3;
+        }
+
+        fade_unk_1_800C0BC8[i] = var_a0_3;
+    }
+}
 
 void SD_80085480()
 {
@@ -660,13 +831,13 @@ void sng_adrs_set_80085658(int arg0)
     addr += sd_sng_data_800C0420[(arg0 & 0xF) * 4];
 
     song_end_800C04E8 &= ~0x1fff;
-    
+
     for (i = 0; i < 13; i++)
     {
         addr2 =  sd_sng_data_800C0420[addr + i * 4 + 2] << 16;
         addr2 += sd_sng_data_800C0420[addr + i * 4 + 1] << 8;
         addr2 += sd_sng_data_800C0420[addr + i * 4];
-        
+
         if (addr2 != 0)
         {
             sound_w_800BF2A8[i].field_0_mpointer = &sd_sng_data_800C0420[addr2];
@@ -703,7 +874,7 @@ void se_adrs_set_8008576C(int index)
     keyoffs_800BF29C = keyoffs_800BF29C & ~(1 << (index + 13));
 
     sound_w_800BF2A8[index + 13].field_0_mpointer = se_playing_800BF068[index].field_4_addr;
-    
+
     if (se_playing_800BF068[index].field_1_kind)
     {
         if (se_rev_on_800C0574)
