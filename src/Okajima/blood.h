@@ -7,14 +7,16 @@
 
 typedef struct _Actor_Blood
 {
-    GV_ACT    field_0_actor;
+    GV_ACT   field_0_actor;
     int      f20;
     DG_OBJS *f24_prim;
-    char     f28_placeholder[16];
+    int      f28_unk;
+    char     f2c_placeholder[12];
     int      current_map;
 } Actor_Blood;
 STATIC_ASSERT_SIZE(Actor_Blood, 0x3c);
 
-void NewBlood_80072728(MATRIX *, int); // dummy signature
+void             NewBlood_80072728(MATRIX *, int); // dummy signature
+Actor_Blood      *NewKetchap_80072B60(void);
 
 #endif // _BLOOD_H

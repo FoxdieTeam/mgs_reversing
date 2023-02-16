@@ -171,7 +171,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
             }
         }
 
-        if ( (GM_ItemTypes_8009D598[pMenuSub->field_0_current.field_0_id + 1] & 0x2000) != 0 )
+        if ( GM_ItemTypes_8009D598[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE )
         {
             menu_number_draw_number2_80042FC0(
                 pActor,
