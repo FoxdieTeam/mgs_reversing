@@ -16,13 +16,13 @@ extern const char aBloodC[]; // = "blood.c"
 
 void blood_kill_800725CC(Actor_Blood *pActor)
 {
-    DG_OBJS *prim;
+    DG_OBJS *pPrim;
 
-    prim = pActor->field_24_prim;
-    if (prim)
+    pPrim = pActor->field_24_prim;
+    if (pPrim)
     {
-        DG_DequeuePrim_800182E0(prim);
-        DG_FreePrim_8001BC04(prim);
+        DG_DequeuePrim_800182E0(pPrim);
+        DG_FreePrim_8001BC04(pPrim);
     }
 }
 
