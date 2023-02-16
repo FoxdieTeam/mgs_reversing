@@ -121,9 +121,3 @@ const char SECTION(".rdata") aHomingTargetOv[] = "Homing target over !!!\n";
 const char SECTION(".rdata") aFull[] = "FULL";
 const char SECTION(".rdata") aGetWeaponFirst[] = "GET WEAPON FIRST";
 int        SECTION(".rdata") dword_80010D68 = 0x7325;
-int SECTION(".rdata") dword_80010D6C[] = {0x80034090, 0x800340B8, 0x80034060, 0x80034060, 0x800340A4, 0x800340B8};
-const char SECTION(".rdata") aNoIdItem[] = "NO ID ITEM\n";
-const char SECTION(".rdata") aShadow[] = "shadow";
-const char SECTION(".rdata") aItemC[] = "item.c";
-const char SECTION(".rdata") aItemMapD[] = "Item map = %d\n";
-
