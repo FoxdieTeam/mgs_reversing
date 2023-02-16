@@ -138,7 +138,7 @@ void anime_create_8005E6A4(SVECTOR *pos)
     rotation.vy = GV_Time_800AB330 * 128;
 
     pre.pos = *pos;
-    
+
     speed.vx = 0;
     speed.vy = GV_RandU_80017090(2) + 10;
     speed.vz = 2;
@@ -147,7 +147,7 @@ void anime_create_8005E6A4(SVECTOR *pos)
     DG_PutVector_8001BE48(&speed, &pre.speed, 1);
 
     pre.scr_num = 0;
-    
+
     anm = &stru_8009F208;
     anm->field_14_pre_script = &pre;
 
@@ -160,7 +160,7 @@ void sub_8005E774(SVECTOR *pos)
     PRESCRIPT  pre;
 
     anm = &stru_8009F144;
-    
+
     pre.pos = *pos;
     pre.speed.vx = 0;
     pre.speed.vy = 0;
@@ -168,7 +168,7 @@ void sub_8005E774(SVECTOR *pos)
 
     pre.scr_num = 0;
     pre.s_anim = GV_RandU_80017090(4);
-    
+
     anm->field_14_pre_script = &pre;
 
     NewAnime_8005FBC8( 0, 0, anm );
