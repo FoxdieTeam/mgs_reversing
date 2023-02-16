@@ -591,7 +591,7 @@ void SngFadeWkSet_80085020(void)
 
 void SD_80085164(void)
 {
-    char why[64]; // This function allocates 64 bytes of unused stack space
+    char temp[64]; // This function allocates 64 bytes of unused stack space
     int fade_time_bitmap;
     int fade_value_bitmap;
     int i;
