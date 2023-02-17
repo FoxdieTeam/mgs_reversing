@@ -44,7 +44,7 @@ void            strctrl_act_80037820( Actor_strctrl *actor )
             return;
         }
         actor->field_20_state = 2;
-    
+
     case 2:
         if ( !actor->field_22_sub_state )
         {
@@ -56,7 +56,7 @@ void            strctrl_act_80037820( Actor_strctrl *actor )
             return;
         }
         break;
-        
+
     case 3:
 loop_case3:
         if ( actor->field_34_pStreamData ||
@@ -133,7 +133,7 @@ void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
     {
         pActor->field_38_proc = -1;
         GCL_ExecProc_8001FF2C( cb_proc, 0 );
-        
+
     }
     if ( str_sector_8009E280 )
     {
@@ -145,7 +145,7 @@ void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
 Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags )
 {
     mts_printf_8008BBA0( "NewStream %d\n", stream_code );
-    
+
     if ( strctrl_800B82B0.field_20_state )
     {
         mts_printf_8008BBA0( "pend!!\n" );
@@ -162,14 +162,14 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
         str_8009E288 = flags;
         return &strctrl_800B82B0;
     }
-    
+
     FS_StreamInit_80023FD4( ( void * )0x801E7800, 0x18000 );
     GV_InitActor_800150A8( 1, ( GV_ACT * )&strctrl_800B82B0, 0 );
     GV_SetNamedActor_8001514C(  ( GV_ACT * )&strctrl_800B82B0,
                                 ( TActorFunction )&strctrl_act_80037820,
                                 ( TActorFunction )&strctrl_kill_80037AE4,
                                 "strctrl.c" );
-    
+
     strctrl_800B82B0.field_20_state = 1;
     strctrl_800B82B0.field_38_proc = ( gcl_proc < 0 )
                                     ? ( gcl_proc & 0xFFFF )
@@ -178,14 +178,14 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
     {
         strctrl_800B82B0.field_22_sub_state = 1;
     }
-    else 
+    else
     {
         strctrl_800B82B0.field_22_sub_state = 0;
     }
     strctrl_800B82B0.field_26_flags = flags;
     strctrl_800B82B0.field_24 = 0;
     strctrl_800B82B0.field_2C_map = GM_CurrentMap_800AB9B0;
-    
+
     FS_StreamTaskStart_80023D94( stream_code );
     return &strctrl_800B82B0;
 }
@@ -193,7 +193,7 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
 int             GM_StreamStatus_80037CD8( void )
 {
     int state;
-    
+
     state = strctrl_800B82B0.field_20_state - 1;
     if ( !(strctrl_800B82B0.field_20_state || !FS_StreamTaskState_80023E0C()) )
     {
@@ -211,7 +211,7 @@ void            GM_StreamPlayStart_80037D1C()
     }
     else
     {
-        mts_printf_8008BBA0( "stream is not ready\n" ); 
+        mts_printf_8008BBA0( "stream is not ready\n" );
     }
 }
 
@@ -257,7 +257,7 @@ Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
     {
         return 0;
     }
-    
+
     mts_printf_8008BBA0( "VoxStream %d\n", vox_code );
     if ( !(proc & 0x40000000) )
     {

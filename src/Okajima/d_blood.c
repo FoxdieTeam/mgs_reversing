@@ -6,6 +6,7 @@
 extern int              GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
+extern GM_Control      *gSnaControl_800AB9F4;
 
 extern const char aDBloodC[]; // = "d_blood.c"
 
@@ -13,8 +14,30 @@ void d_blood_kill_null_800729AC(Actor_DBlood *pActor)
 {
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/d_blood_act_helper_800729B4.s") // 88 bytes
-int d_blood_act_helper_800729B4(void);
+int d_blood_act_helper_800729B4(void)
+{
+    GM_Control *pCtrl;
+    unsigned short *pArray;
+    int i;
+
+    pCtrl = gSnaControl_800AB9F4;
+    if (!pCtrl)
+    {
+        return 0;
+    }
+
+    pArray = pCtrl->field_10_pStruct_hzd_unknown.field_8_array;
+
+    for (i = pCtrl->field_10_pStruct_hzd_unknown.field_6_count; i > 0; i--, pArray++)
+    {
+        if (*pArray == 0xC09E)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 void d_blood_act_80072A0C(Actor_DBlood *pActor)
 {
