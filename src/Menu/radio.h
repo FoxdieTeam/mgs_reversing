@@ -11,6 +11,16 @@ typedef struct RadioIncomingCall // @ 8009E708
     int field_8;
 } RadioIncomingCall;
 
+typedef struct RadioCoordsStru_8009E6FC
+{
+    char field_0;
+    char field_1;
+    char field_2;
+    char field_3;
+    char field_4;
+    char field_5;
+} RadioCoordsStru_8009E6FC;
+
 void           sub_8004124C(Actor_MenuMan *pActor);
 void           menu_radio_codec_create_state_80047CE4(Actor_MenuMan *menuMan);
 void           menu_radio_update_80042198(void);
@@ -29,7 +39,7 @@ void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuGlue *pGlue
 void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuGlue *pGlue, int param_2, int param_3);
 void           menu_radio_codec_helper_helper14_helper3_80040590(MenuGlue *pGlue, int *param_2, int param_3, int param_4, int param_5);
 void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour,
-                                                                        int param_5);
+                                                                        int idx);
 int            menu_GetRadioCode_800497C4(int param_1);
 void           sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode);
 

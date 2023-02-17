@@ -96,8 +96,58 @@ void menu_radio_update_helper3_80040498(MenuGlue *pGlue)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 188 bytes
-#pragma INCLUDE_ASM(                                                                                                   \
-    "asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_helper_8004064C.s") // 344 bytes
+
+extern RadioCoordsStru_8009E6FC gRadioCoords_8009E6FC[];
+
+static inline RadioCoordsStru_8009E6FC *get_gRadioCoords(int idx)
+{
+    return &gRadioCoords_8009E6FC[idx];
+}
+
+void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour, int idx)
+{
+    short                     coord;
+    POLY_F3                  *pPoly;
+    LINE_F4                  *pLine;
+    RadioCoordsStru_8009E6FC *radioCoords;
+
+    pPoly = (POLY_F3 *)pGlue->mPrimBuf.mFreeLocation;
+    (pGlue->mPrimBuf).mFreeLocation += sizeof(POLY_F3);
+
+    pLine = (LINE_F4 *)pGlue->mPrimBuf.mFreeLocation;
+    (pGlue->mPrimBuf).mFreeLocation += sizeof(LINE_F4);
+
+    LSTORE(colour, &pPoly->r0);
+    LSTORE(colour, &pLine->r0);
+
+    setPolyF3(pPoly);
+    setLineF4(pLine);
+
+    radioCoords = get_gRadioCoords(idx);
+    coord = radioCoords->field_0 + xpos;
+    pLine->x0 = coord;
+    pPoly->x0 = coord;
+    pLine->x3 = coord;
+    coord = radioCoords->field_1 + ypos;
+    pLine->y0 = coord;
+    pPoly->y0 = coord;
+    pLine->y3 = coord;
+    coord = radioCoords->field_2 + xpos;
+    pLine->x1 = coord;
+    pPoly->x1 = coord;
+    coord = radioCoords->field_3 + ypos;
+    pLine->y1 = coord;
+    pPoly->y1 = coord;
+    coord = radioCoords->field_4 + xpos;
+    pLine->x2 = coord;
+    pPoly->x2 = coord;
+    coord = radioCoords->field_5 + ypos;
+    pLine->y2 = coord;
+    pPoly->y2 = coord;
+
+    addPrim(pGlue->mPrimBuf.mOt, pPoly);
+    addPrim(pGlue->mPrimBuf.mOt, pLine);
+}
 
 extern char aP3t3t[];  // = "P#3T#3T";
 extern char aMemory[]; // = "MEMORY";
