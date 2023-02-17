@@ -9,11 +9,11 @@ typedef struct _Actor_DBloodr
     GV_ACT   field_0_actor;
     DG_PRIM *field_20_prims;
     SVECTOR  field_24[16];
-    SVECTOR  field_A4[4];
-    SVECTOR  field_C4;
+    SVECTOR  field_A4_positions[4];
+    SVECTOR  field_C4_rotation;
     int      field_CC_map;
     char     field_D0_pad[0x4];
-    int      field_D4;
+    int      field_D4_sequence;
     int      field_D8;
 } Actor_DBloodr;
 
