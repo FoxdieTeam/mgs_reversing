@@ -487,7 +487,34 @@ int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos,
     return textConfig.xpos;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_number2_80042FC0.s") // 304 bytes
+extern SPRT gRadioNumberSprt_800bd9b0;
+
+int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total)
+{
+    SPRT      *pPrim;
+    TextConfig textConfig;
+
+    textConfig.xpos = xpos;
+    textConfig.ypos = ypos;
+    textConfig.flags = 0;
+    textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
+    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, current);
+
+    pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    *pPrim = gRadioNumberSprt_800bd9b0;
+    LSTORE(textConfig.colour, &pPrim->r0);
+    pPrim->x0 = textConfig.xpos;
+    pPrim->y0 = textConfig.ypos;
+    pPrim->u0 = 224;
+
+    addPrim(pActor->field_20_otBuf->mPrimBuf.mOt, pPrim);
+
+    textConfig.xpos = textConfig.xpos + 6;
+    menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, total);
+    return textConfig.xpos;
+}
 
 int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, const char *str, int flags)
 {
