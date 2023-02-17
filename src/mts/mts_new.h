@@ -64,6 +64,7 @@ int            mts_wait_vbl_800895F4(int wait_vblanks);
 long           mts_PadRead_8008C324(int a0);
 void           mts_8008B0A4();
 void           mts_8008BA88();
+void           mts_8008BB88(int arg0);
 void           mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, long stackSize);
 void           mts_event_cb_8008BBC0();
 void           mts_init_controller_8008C098(void);
@@ -81,6 +82,8 @@ void           mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pSta
 void           mts_task_start_8008BBC8(void);
 void           mts_unlock_sem_8008A85C(int taskNum);
 void           sio_output_stop_8008C5B0(void);
+int            sio_getchar2_8008C5D0(void);
+void           sio_output_start_8008C5A8(void);
 void           mts_set_callback_controller_800893D8(void *ptr);
 void           mts_callback_controller_8008BDEC(void);
 unsigned char *mts_get_bss_tail_8008C598();
