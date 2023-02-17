@@ -23,6 +23,11 @@ void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param
 void           sub_800434F4(MenuGlue *pGlue, int param_2, int param_3, PANEL_TEXTURE *param_4);
 void           menu_RadioCall_helper_800403E4();
 radio_table_entry           *sub_8004969C(radio_table *pRadioTable, int contactFrequency);
+void           menu_radio_codec_helper_helper14_helper4_800408BC(MenuGlue *pGlue, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7);
+void           menu_radio_codec_helper_helper14_helper_80040034(MenuGlue *pGlue, int param_2, int param_3, int param_4);
+void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuGlue *pGlue, int param_2, int param_3, int param_4);
+void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuGlue *pGlue, int param_2, int param_3);
+void           menu_radio_codec_helper_helper14_helper3_80040590(MenuGlue *pGlue, int *param_2, int param_3, int param_4, int param_5);
 void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour,
                                                                         int param_5);
 int            menu_GetRadioCode_800497C4(int param_1);
