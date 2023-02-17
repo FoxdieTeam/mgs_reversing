@@ -237,6 +237,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
 }
 
 extern RECT rect_800AB630;
+RECT        SECTION(".sdata") rect_800AB630;
 
 void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
 {
@@ -284,7 +285,35 @@ void sub_80041118(Actor_MenuMan *pActor)
     font_update_8004695C(kcb);
 }
 
-#pragma INCLUDE_ASM("asm/draw_radio_message_8004114C.s") // 256 bytes
+int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
+{
+    KCB  *kcb;
+    SPRT *pPrim;
+
+    if (dword_800ABB04 == 0)
+    {
+        return 0;
+    }
+
+    kcb = pActor->field_214_font;
+
+    pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    setRGB0(pPrim, 128, 128, 128);
+
+    pPrim->u0 = (rect_800AB630.x % 64) * 65536 >> 0xe; // FIXME
+    pPrim->v0 = rect_800AB630.y;
+    pPrim->w = 252;
+    pPrim->h = 76;
+    pPrim->clut = 32700;
+    pPrim->x0 = (320 - kcb->char_arr[7]) / 2;
+    pPrim->y0 = 132;
+
+    setSprt(pPrim);
+    addPrim(pOt, pPrim);
+    return 1;
+}
 
 void sub_8004124C(Actor_MenuMan *pActor)
 {
