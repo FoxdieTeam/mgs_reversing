@@ -1,5 +1,4 @@
 #include "linker.h"
-#define _BUILDING_MTS_
 #include "mts_new.h"
 #include <KERNEL.H>
 #include "psyq.h"
@@ -20,6 +19,19 @@ extern const char aIsendDstD[];
 extern const char aIsendStateDead[];
 extern const char aGetNewVblContr[];
 extern const char aMtsExtTsk[];
+extern const char asc_80013E2C[];    // = "\n"
+extern const char aProcessList[];    // = "\nProcess list\n"
+extern const char aTask02dSp04dUs[]; // = "Task %02d SP %04d USE %04d/%04d"
+extern const char aTask02dSpUse[];   // = " Task %02d SP ---- USE ----/----"
+extern const char aTaskState08x[];   // = "TASK STATE = %08X\n"
+extern const char aVblWaitCue[];     // = "VBL wait cue";
+extern const char a02dD[];           // = " : %02d (%d)";
+extern const char aTickCountD[];     // = "Tick count %d\n\n"
+extern const char aD_0[];            // = " %d\n";
+extern const char aC[];              // = "%c"
+extern const char dword_800140F0[];  // = "%s\n"
+extern const char aRunning[];        // = "Running"
+extern const char asc_80013E2C[];    // = "\n"
 
 extern mts_msg       gMtsMsgs_800C13D0[8];
 extern mts_msg      *D_800C0C00;
@@ -31,6 +43,8 @@ extern unsigned char byte_800C0DB8[512];
 extern unsigned char dword_800C0FB8[1024];
 
 extern int dword_800A3D68[2];
+
+extern const char *dword_800A3D98[];
 
 extern int      gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
@@ -934,8 +948,134 @@ void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSi
     }
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_use_stack_size_8008B68C.s")   // 240 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_print_process_status_8008B77C.s") // 744 bytes
+void mts_get_use_stack_size_8008B68C(int *pLocation, int *pStack, int *pStackSize)
+{
+    int sp;
+    mts_task *pTask;
+    int stack_size;
+    int idx;
+    int loc;
+    int *cur;
+    int i;
+
+    sp = GetSp_8009962C();
+    pTask = &gTasks_800C0C30[gTaskIdx_800C0DB0];
+    stack_size = gTasks_800C0C30[gTaskIdx_800C0DB0].field_14_stackSize;
+    idx = gTaskIdx_800C0DB0;
+
+    if (stack_size == 0)
+    {
+        loc = 0;
+    }
+    else
+    {
+        cur = (int *)((int)gTasks_800C0C30[idx].field_10_pStack - stack_size);
+
+        for (i = 0; i < stack_size; i += 4, cur++)
+        {
+            if (*cur != MTS_STACK_COOKIE)
+            {
+                loc = (int)gTasks_800C0C30[idx].field_10_pStack - (int)cur;
+                goto exit;
+            }
+        }
+
+        loc = stack_size;
+    }
+
+exit:
+    *pLocation = loc;
+    *pStack = (int)pTask->field_10_pStack - sp;
+    *pStackSize = pTask->field_14_stackSize;
+}
+
+void mts_print_process_status_8008B77C(void)
+{
+    int i;
+    int stack_size;
+    int used;
+    int j;
+    int *cur;
+    mts_msg *pMsg;
+
+    mts_null_printf_8008BBA8(aProcessList);
+
+    for (i = 0; i < 12; i++)
+    {
+        if (!gTasks_800C0C30[i].field_0_state)
+        {
+            continue;
+        }
+
+        if (gTasks_800C0C30[i].field_10_pStack)
+        {
+            mts_null_printf_8008BBA8(aC, gTasks_800C0C30[i].field_4_pMessage ? 'v' : ' ');
+
+            stack_size = gTasks_800C0C30[i].field_14_stackSize;
+
+            if (stack_size == 0)
+            {
+                used = 0;
+            }
+            else
+            {
+                cur = (int *)((int)gTasks_800C0C30[i].field_10_pStack - stack_size);
+
+                for (j = 0; j < stack_size; j += 4, cur++)
+                {
+                    if (*cur != 0x12435687)
+                    {
+                        used = (int)gTasks_800C0C30[i].field_10_pStack - (int)cur;
+                        goto exit;
+                    }
+                }
+
+                used = stack_size;
+            }
+
+exit:
+            mts_null_printf_8008BBA8(aTask02dSp04dUs, i, (int)gTasks_800C0C30[i].field_10_pStack - gTasks_800C0C30[i].field_1C->reg[29], used, gTasks_800C0C30[i].field_14_stackSize);
+        }
+        else
+        {
+            mts_null_printf_8008BBA8(aTask02dSpUse, i);
+        }
+
+        mts_null_printf_8008BBA8(dword_800140F0, (i != gTaskIdx_800C0DB0) ? dword_800A3D98[gTasks_800C0C30[i].field_0_state - 1] : aRunning);
+
+        if (gTasks_800C0C30[i].field_0_state == 5)
+        {
+            mts_null_printf_8008BBA8(aD_0, gTasks_800C0C30[i].field_4_pMessage->field_8_start_vblanks);
+        }
+        else if ((gTasks_800C0C30[i].field_0_state != 3) && ((gTasks_800C0C30[i].field_0_state == 1) || (gTasks_800C0C30[i].field_0_state == 2)))
+        {
+            mts_null_printf_8008BBA8(aD_0, gTasks_800C0C30[i].field_F_recv_idx);
+        }
+        else
+        {
+            mts_null_printf_8008BBA8(asc_80013E2C);
+        }
+    }
+
+    mts_null_printf_8008BBA8(aTaskState08x, gMts_bits_800C0DB4);
+
+    pMsg = stru_800A3D7C.field_0;
+
+    if (pMsg)
+    {
+        mts_null_printf_8008BBA8(aVblWaitCue);
+
+        do
+        {
+            mts_null_printf_8008BBA8(a02dD, pMsg->field_4_task_idx, pMsg->field_C_end_vblanks);
+            pMsg = pMsg->field_0;
+        } while (pMsg);
+
+        mts_null_printf_8008BBA8(asc_80013E2C);
+    }
+
+    mts_null_printf_8008BBA8(aTickCountD, gMtsVSyncCount_800A3D78);
+}
 
 void mts_lock_sio_8008BA64(void)
 {
@@ -948,7 +1088,49 @@ int mts_unlock_sio_8008BA74(void)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008BA88.s") // 196 bytes
+void mts_8008BA88(void)
+{
+    int ch;
+    int num;
+
+    while (1)
+    {
+        while (!dword_800A3DB0);
+
+        ch = sio_getchar2_8008C5D0();
+
+        if (ch < 0)
+        {
+            continue;
+        }
+
+        sio_output_start_8008C5A8();
+
+        switch (ch | 0x20)
+        {
+        case 'p':
+            mts_print_process_status_8008B77C();
+            break;
+
+        case 's':
+            sio_output_stop_8008C5B0();
+            break;
+
+        case '-':
+            mts_8008BB88(-1);
+            break;
+
+        default:
+            num = ch - 0x30;
+
+            if ((num >= 0) && (num < 10))
+            {
+                mts_8008BB88(num);
+            }
+            break;
+        }
+    }
+}
 
 int mts_8008BB60(int arg0)
 {
