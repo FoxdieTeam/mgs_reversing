@@ -147,7 +147,44 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 568 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_80040DC4.s") // 432 bytes
+
+extern int dword_800ABB00;
+int        SECTION(".sbss") dword_800ABB00;
+
+extern int dword_800ABAF8;
+int        SECTION(".sbss") dword_800ABAF8;
+
+extern int dword_8009E664;
+
+void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_2)
+{
+    DR_TPAGE *tpage;
+    DR_STP   *stp;
+    MenuGlue *pGlue;
+
+    if (pActor->field_210 != 11 && pActor->field_210 != 14)
+    {
+        pGlue = pActor->field_20_otBuf;
+        menu_radio_codec_helper_helper14_helper4_800408BC(pGlue, 0, 128, 140, 89, 90, 30);
+        menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, dword_800ABB00);
+        menu_radio_codec_helper_helper14_helper_80040034(pGlue, 51, 178, param_2);
+        menu_radio_codec_helper_helper14_helper5_800402A0(pGlue, 32, 149, dword_800ABAF8);
+        menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, 0, -8, -1);
+        menu_radio_codec_helper_helper14_helper2_800401AC(pGlue, 141, 80);
+        menu_radio_codec_helper_helper14_helper5_800402A0(pGlue, 122, 51, -1);
+        menu_radio_codec_helper_helper14_helper3_80040590(pGlue, &dword_8009E664, 19, 0, -8);
+
+        stp = (DR_STP *)pGlue->mPrimBuf.mFreeLocation;
+        pGlue->mPrimBuf.mFreeLocation += sizeof(DR_STP);
+        SetDrawStp_800924D8(stp, 1);
+        addPrim(pGlue->mPrimBuf.mOt, stp);
+
+        tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
+        pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+        setDrawTPage(tpage, 1, 0, getTPage(0, 0, 960, 256));
+        addPrim(pGlue->mPrimBuf.mOt, tpage);
+    }
+}
 
 extern RECT rect_800AB630;
 
