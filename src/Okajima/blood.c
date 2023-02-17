@@ -3,30 +3,217 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
+#include "Game/game.h"
 
 extern ANIMATION stru_8009F614;
+extern int       GM_CurrentMap_800AB9B0;
+extern RECT      a22dd_8009F60C;
 
 extern const char aBloodC[]; // = "blood.c"
+extern const char aBlood_1[]; // = "blood_1"
 
-#pragma INCLUDE_ASM("asm/Okajima/blood_loader2_helper2_80072080.s") // 788 bytes
-#pragma INCLUDE_ASM("asm/Okajima/blood_act_helper_80072394.s")      // 228 bytes
-#pragma INCLUDE_ASM("asm/Okajima/blood_loader2_helper_80072478.s")  // 148 bytes
-#pragma INCLUDE_ASM("asm/Okajima/blood_act_helper_8007250C.s")      // 44 bytes
-#pragma INCLUDE_ASM("asm/Okajima/blood_act_80072538.s")             // 148 bytes
-
-void blood_kill_800725CC(Actor_Blood *pActor)
+void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
 {
-    DG_OBJS *pPrim;
+    SVECTOR vecs[4];
+    int sp30;
+    int sp34;
+    int temp_s0;
+    int temp_s1;
+    int temp_v0;
+    int temp_v0_2;
+    int var_s2;
+    int var_s3;
+    int var_s4;
+    int var_s5;
 
-    pPrim = pActor->field_24_prim;
-    if (pPrim)
+    sp34 = count;
+
+    DG_SetPos_8001BC44(pMtx);
+
+    switch (arg4)
     {
-        DG_DequeuePrim_800182E0(pPrim);
-        DG_FreePrim_8001BC04(pPrim);
+    case 0:
+        sp30 = 4;
+        var_s5 = 4;
+        break;
+    case 1:
+        sp30 = 4;
+        var_s5 = 4;
+        break;
+
+    case 2:
+        sp30 = count >> 1;
+        var_s5 = 1;
+        break;
+
+    default:
+        sp30 = 0;
+        var_s5 = 1;
+        break;
+    }
+
+    while (--count >= 0)
+    {
+        temp_v0 = GV_RandU_80017090(4096);
+
+        var_s3 = rcos_800925D8(temp_v0) >> 2;
+        var_s4 = rsin_80092508(temp_v0) >> 2;
+
+        var_s2 = GV_RandU_80017090(128) + 32;
+
+        var_s3 /= var_s2;
+        var_s4 /= var_s2;
+
+        if (sp30 >= count)
+        {
+            var_s2 = -var_s2 / var_s5;
+            var_s3 = var_s3 / var_s5;
+            var_s4 = var_s4 / var_s5;
+        }
+
+        vecs[3].vx = var_s3 * 8;
+        vecs[3].vy = var_s2 * 8;
+
+        vecs[0].vx = var_s3;
+        vecs[0].vy = var_s2;
+        vecs[0].vz = var_s4;
+        vecs[3].vz = var_s4 * 8;
+
+        temp_s1 = GV_RandS_800170BC(64);
+        temp_s0 = GV_RandS_800170BC(64);
+        temp_v0_2 = GV_RandS_800170BC(64);
+
+        vecs[1].vx = var_s3 + temp_s1;
+        vecs[1].vy = var_s2 + temp_s0;
+        vecs[1].vz = var_s4 + temp_v0_2;
+
+        vecs[2].vx = var_s3 - temp_s1;
+        vecs[2].vy = var_s2 - temp_s0;
+        vecs[2].vz = var_s4 - temp_v0_2;
+
+        DG_RotVector_8001BE98(vecs, arg1, 1);
+        DG_PutVector_8001BE48(vecs, arg2, 4);
+
+        if (count >= (sp34 - 1))
+        {
+            arg1->vx /= 4;
+            arg1->vy /= 4;
+            arg1->vz /= 4;
+        }
+
+        arg1 += 1;
+        arg2 += 4;
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/blood_loader2_80072608.s") // 288 bytes
+void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
+{
+    int x, y, z;
+
+    while (--count >= 0)
+    {
+        x = pVecsA->vx;
+        y = pVecsA->vy;
+        z = pVecsA->vz;
+
+        applyVector(&pVecsB[0], x, y, z, +=);
+        applyVector(&pVecsB[3], x, y, z, +=);
+        applyVector(&pVecsB[1], x, y, z, +=);
+        applyVector(&pVecsB[2], x, y, z, +=);
+
+        pVecsB += 4;
+
+        pVecsA->vx = x;
+        pVecsA->vy = y - 11;
+        pVecsA->vz = z;
+        pVecsA++;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/Okajima/blood_loader2_helper_80072478.s")  // 148 bytes
+void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int count, DG_TEX *pTex, int unused);
+
+void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
+{
+    while (--count >= 0)
+    {
+        setRGB0(pPolys, shade, shade, shade);
+        pPolys++;
+    }
+}
+
+void blood_act_80072538(Actor_Blood *pActor)
+{
+    int temp_s0;
+    DG_PRIM *pPrims;
+
+    GM_SetCurrentMap(pActor->field_20_map);
+
+    temp_s0 = --pActor->field_2A8;
+    if (temp_s0 <= 0)
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return;
+    }
+
+    blood_act_helper_80072394(pActor->field_28, pActor->field_A8, pActor->field_2AC_prim_count);
+
+    pPrims = pActor->field_24_prims;
+    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[0]->poly_ft4, pActor->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(&pPrims->field_40_pBuffers[1]->poly_ft4, pActor->field_2AC_prim_count, temp_s0 * 8);
+}
+
+void blood_kill_800725CC(Actor_Blood *pActor)
+{
+    DG_PRIM *pPrims;
+
+    pPrims = pActor->field_24_prims;
+    if (pPrims)
+    {
+        DG_DequeuePrim_800182E0((DG_OBJS *)pPrims);
+        DG_FreePrim_8001BC04((DG_OBJS *)pPrims);
+    }
+}
+
+int blood_loader2_80072608(Actor_Blood *pActor, MATRIX *arg1, int count)
+{
+    DG_PRIM *pPrims;
+    DG_TEX  *pTex;
+
+    pActor->field_20_map = GM_CurrentMap_800AB9B0;
+
+    if (count < 11)
+    {
+        pActor->field_2AC_prim_count = 16;
+    }
+    else
+    {
+        pActor->field_2AC_prim_count = count - 10;
+    }
+
+    blood_loader2_helper2_80072080(arg1, pActor->field_28, pActor->field_A8, pActor->field_2AC_prim_count, count);
+
+    pPrims = DG_GetPrim(18, pActor->field_2AC_prim_count, 0, pActor->field_A8, &a22dd_8009F60C);
+    pActor->field_24_prims = pPrims;
+
+    if (!pPrims)
+    {
+        return -1;
+    }
+
+    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBlood_1));
+
+    if (!pTex)
+    {
+        return -1;
+    }
+
+    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[0]->poly_ft4, pActor->field_2AC_prim_count, pTex, count);
+    blood_loader2_helper_80072478(&pPrims->field_40_pBuffers[1]->poly_ft4, pActor->field_2AC_prim_count, pTex, count);
+
+    pActor->field_2A8 = 16;
+    return 0;
+}
 
 Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
 {
