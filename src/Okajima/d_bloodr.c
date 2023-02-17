@@ -1,10 +1,12 @@
 #include "d_bloodr.h"
 #include "Game/game.h"
 
-extern int         GM_CurrentMap_800AB9B0;
-extern GM_Control *gSnaControl_800AB9F4;
-extern SVECTOR     DG_ZeroVector_800AB39C;
-extern OBJECT     *dword_800ABA20;
+extern int              GM_CurrentMap_800AB9B0;
+extern GM_Control      *gSnaControl_800AB9F4;
+extern SVECTOR          DG_ZeroVector_800AB39C;
+extern OBJECT          *dword_800ABA20;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern SVECTOR          svector_800ABA10;
 
 extern const char aDBloodrC[];    // = "d_bloodr.c"
 extern const char aKetchapGrey[]; // = "ketchap_grey"
@@ -21,7 +23,72 @@ void d_bloodr_kill_80072BD4(Actor_DBloodr *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/d_bloodr_act_80072C10.s")                  // 472 bytes
+void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
+{
+    SVECTOR vecs[4];
+    SVECTOR rotation;
+    SVECTOR diff;
+    int temp_s0;
+    int i;
+
+    GM_SetCurrentMap(pActor->field_CC_map);
+
+    if ((pActor->field_D4_sequence > 10) && (pActor->field_D4_sequence < 200))
+    {
+        temp_s0 = ((pActor->field_D4_sequence - 10) * 3) / 2;
+
+        for (i = 0; i < 4; i++)
+        {
+            vecs[0].vx = -temp_s0;
+            vecs[0].vy = 0;
+            vecs[0].vz = temp_s0;
+
+            vecs[1].vx = temp_s0;
+            vecs[1].vy = 0;
+            vecs[1].vz = temp_s0;
+
+            vecs[2].vx = -temp_s0;
+            vecs[2].vy = 0;
+            vecs[2].vz = -temp_s0;
+
+            vecs[3].vx = temp_s0;
+            vecs[3].vy = 0;
+            vecs[3].vz = -temp_s0;
+
+            rotation = pActor->field_C4_rotation;
+            rotation.vy += i * 200;
+
+            DG_SetPos2_8001BC8C(&pActor->field_A4_positions[i], &pActor->field_C4_rotation);
+            DG_PutVector_8001BE48(vecs, &pActor->field_24[i * 4], 4);
+        }
+    }
+
+    if ((pActor->field_D4_sequence < 200) && (++pActor->field_D4_sequence == 100))
+    {
+        GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_UNK100000;
+    }
+
+    if (pActor->field_D4_sequence >= 100)
+    {
+        if (GM_PlayerStatus_800ABA50 & 0x40)
+        {
+            GV_SubVec3_80016D40(&svector_800ABA10, &pActor->field_A4_positions[0], &diff);
+
+            if (GV_VecLen3_80016D80(&diff) > 640)
+            {
+                GM_PlayerStatus_800ABA50 &= ~PLAYER_STATUS_UNK100000;
+            }
+            else
+            {
+                GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_UNK100000;
+            }
+        }
+        else
+        {
+            GM_PlayerStatus_800ABA50 &= ~PLAYER_STATUS_UNK100000;
+        }
+    }
+}
 
 void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB, int count, DG_TEX *pTex)
 {
@@ -81,13 +148,13 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
     indices[2] = 2;
     indices[3] = 7;
 
-    pActor->field_C4 = DG_ZeroVector_800AB39C;
+    pActor->field_C4_rotation = DG_ZeroVector_800AB39C;
 
     for (i = 0; i < 4; i++)
     {
-        pActor->field_A4[i].vx = dword_800ABA20->objs->objs[indices[i]].world.t[0];
-        pActor->field_A4[i].vy = dword_800ABA20->objs->objs[0].world.t[1] - pActor->field_D8;
-        pActor->field_A4[i].vz = dword_800ABA20->objs->objs[indices[i]].world.t[2];
+        pActor->field_A4_positions[i].vx = dword_800ABA20->objs->objs[indices[i]].world.t[0];
+        pActor->field_A4_positions[i].vy = dword_800ABA20->objs->objs[0].world.t[1] - pActor->field_D8;
+        pActor->field_A4_positions[i].vz = dword_800ABA20->objs->objs[indices[i]].world.t[2];
 
         vecs[0].vx = 0;
         vecs[0].vy = 0;
@@ -105,7 +172,7 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
         vecs[3].vy = 0;
         vecs[3].vz = 0;
 
-        DG_SetPos2_8001BC8C(&pActor->field_A4[i], &pActor->field_C4);
+        DG_SetPos2_8001BC8C(&pActor->field_A4_positions[i], &pActor->field_C4_rotation);
         DG_PutVector_8001BE48(vecs, &pActor->field_24[i * 4], 4);
     }
 
@@ -132,7 +199,7 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
 int d_bloodr_loader_800730EC(Actor_DBloodr *pActor, int map)
 {
     pActor->field_CC_map = map;
-    pActor->field_D4 = 0;
+    pActor->field_D4_sequence = 0;
     pActor->field_D8 = gSnaControl_800AB9F4->field_32_height;
 
     GM_SetCurrentMap(map);
