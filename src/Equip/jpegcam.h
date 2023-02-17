@@ -30,7 +30,7 @@ typedef struct Actor_jpegcam
     int                field_80;
     int                field_84;
     int                field_88;
-    int                field_8C;
+    int                field_8C_size;
     Actor_Sight       *field_90_pSight;
     int                field_94_bMakeVisible;
     int                field_98;

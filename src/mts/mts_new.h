@@ -72,7 +72,7 @@ void           mts_init_vsync_800895AC(void);
 void           mts_init_vsync_helper_800893E8(void);
 void           mts_lock_sem_8008A6CC(int taskNr);
 void           mts_print_process_status_8008B77C();
-void           mts_send_8008982C(int dst, unsigned char *message);
+void           mts_send_8008982C(int dst, int *message);
 void           mts_set_callback_800893B4(void *); // TODO: Func ptr type
 void           mts_set_exception_func_800892A8(int param_1);
 void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
