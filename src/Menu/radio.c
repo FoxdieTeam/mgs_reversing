@@ -62,7 +62,39 @@ void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_helper_800403E4.s") // 180 bytes
-#pragma INCLUDE_ASM("asm/menu_radio_update_helper3_80040498.s") // 248 bytes
+
+extern int gRadioClut_800ABAFC;
+int        SECTION(".sbss") gRadioClut_800ABAFC;
+
+void menu_radio_update_helper3_80040498(MenuGlue *pGlue)
+{
+    SPRT     *pPrim;
+    DR_TPAGE *tpage;
+
+    pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    LSTORE(0x80808080, &pPrim->r0);
+    pPrim->u0 = 0;
+    pPrim->v0 = 116;
+    pPrim->x0 = 130;
+    pPrim->y0 = 49;
+    pPrim->w = 60;
+    pPrim->h = 12;
+    pPrim->clut = gRadioClut_800ABAFC;
+
+    setSprt(pPrim);
+    setSemiTrans(pPrim, 1);
+    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+
+    tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
+
+    addPrim(pGlue->mPrimBuf.mOt, tpage);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 188 bytes
 #pragma INCLUDE_ASM(                                                                                                   \
     "asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper6_helper_8004064C.s") // 344 bytes
