@@ -141,8 +141,40 @@ void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSou
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper6_80063EB0.s") // 420 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_80064054.s")         // 364 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_80064378.s")                        // 220 bytes
-int jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor);
+int jpegcam_act_helper3_helper_helper_800641C0(Actor_jpegcam *pActor, RECT *pRect, int q_scale);
+
+
+extern const char aDTryQScaleDSiz[];
+
+void jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor)
+{
+  int q_scale;
+  int iteration;
+  RECT rect;
+  q_scale = 5;
+  iteration = 1;
+  rect.x = 16;
+  rect.y = 16;
+  rect.w = 288;
+  rect.h = 176;
+  pActor->field_8C_size = 20000;
+  do
+  {
+    pActor->field_7C = 0;
+    pActor->field_80 = 2;
+    pActor->field_84 = 0x801B1000;
+    pActor->field_88 = 0x801A1000;
+    pActor->field_8C_size = jpegcam_act_helper3_helper_helper_800641C0(pActor, &rect, q_scale);
+    mts_printf_8008BBA0(aDTryQScaleDSiz, iteration, q_scale, pActor->field_8C_size);
+    iteration++;
+    q_scale++;
+    if (pActor->field_8C_size >= 20001)
+    {
+      q_scale++;
+    }
+  }
+  while (pActor->field_8C_size >= 16125u);
+}
 
 int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
 {
