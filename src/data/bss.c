@@ -196,7 +196,11 @@ gap gap_800BD964[0x4]; // 4 bytes
 
 KCB BSS font_800BD968; // 0x2C (44) bytes
 
-gap gap_800BD994[0x7C]; // 124 bytes
+gap gap_800BD994[0x1C]; // 28 bytes
+
+SPRT BSS gRadioNumberSprt_800bd9b0; // 0x14 (20) bytes
+
+gap gap_800BD9C4[0x4C]; // 76 bytes
 
 PANEL_TEXTURE BSS dword_800BDA10; // 0x14 (20) bytes
 
