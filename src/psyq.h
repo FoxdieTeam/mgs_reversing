@@ -137,5 +137,6 @@ unsigned long      lseek_8009959C(int fd, unsigned int offset, int flag);
 int                write_800995BC(int fd, char* buf, int n);
 struct DIRENTRY   *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY   *nextfile_800995EC(struct DIRENTRY *);
+long               CloseTh_800994DC(unsigned long thread);
 
 #endif // _PSYQ_H_
