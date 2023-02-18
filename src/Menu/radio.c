@@ -36,7 +36,40 @@ extern PANEL_TEXTURE dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
+void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
+{
+    TILE     *tile;
+    DR_TPAGE *tpage;
+
+    tile = (TILE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    if (colour > 255)
+    {
+        colour = 255;
+    }
+    if (colour < 0)
+    {
+        colour = 0;
+    }
+    LSTORE(colour << 0x10 | colour << 8 | colour, &tile->r0);
+
+    setTile(tile);
+    setSemiTrans(tile, 1);
+
+    tile->x0 = 0;
+    tile->y0 = 0;
+    tile->w = 320;
+    tile->h = 224;
+    addPrim(pOt, tile);
+
+    tpage = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
+    addPrim(pOt, tpage);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
@@ -528,7 +561,38 @@ int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, in
     return textConfig.xpos;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s") // 232 bytes
+extern RECT gRadioStringRect_800AB658;
+RECT        SECTION(".sdata") gRadioStringRect_800AB658;
+
+extern SPRT gRadioStringSprt_800BD9F0;
+
+void menu_set_string2_80043138()
+{
+    PANEL_TEXTURE pPanelTex;
+    RECT          rect;
+
+    menu_init_rpk_item_8003DDCC(&pPanelTex, 45, 44);
+
+    gRadioStringRect_800AB658.w = pPanelTex.field_10_w / 4;
+    gRadioStringRect_800AB658.h = pPanelTex.field_12_h;
+    LoadImage_8008FB10(&gRadioStringRect_800AB658, pPanelTex.field_0_pixels);
+
+    rect.x = 976;
+    rect.y = 511;
+    rect.w = 16;
+    rect.h = 1;
+
+    LoadImage_8008FB10(&rect, pPanelTex.field_4_word_ptr_pixels);
+
+    gRadioStringSprt_800BD9F0.u0 = 0;
+    LSTORE(0x80808080, &gRadioStringSprt_800BD9F0.r0);
+    gRadioStringSprt_800BD9F0.v0 = 242;
+    gRadioStringSprt_800BD9F0.w = 8;
+    gRadioStringSprt_800BD9F0.h = 6;
+    setSprt(&gRadioStringSprt_800BD9F0);
+    setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s") // 592 bytes
 
 void menu_restore_nouse_80043470()
