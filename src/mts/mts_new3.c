@@ -41,6 +41,13 @@ extern const char aSendTD[];         // = "send t %d"
 extern const char aRcvSpDMessageX[]; // = "rcv sp %d message %x"
 extern const char aRecvSrcD[];       // = "RECV ?? SRC %d"
 extern const char aWupDeadD[];       // = "wup DEAD %d"
+extern const char aSystemClientD[];  // = "system client %d"
+extern const char aTaskDStart[];     // = "TASK %d START:"
+extern const char aTaskDAlreadyEx[]; // = "TASK %d already exist\n"
+extern const char aSystemExitDead[]; // = "system exit DEAD %d"
+extern const char aSystemExitCall[]; // = "system exit caller %d"
+extern const char aTaskExit[];       // = "TASK EXIT"
+extern const char aSystemWrongCod[]; // = "system wrong code %d"
 
 extern mts_msg       gMtsMsgs_800C13D0[8];
 extern mts_msg      *D_800C0C00;
@@ -1134,7 +1141,131 @@ void mts_shutdown_8008B044(void)
     ExitCriticalSection_8009953C();
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_8008B0A4.s") // 984 bytes
+void mts_8008B0A4(void)
+{
+    int sys_client;
+    int msg_field_0;
+    int bDoSend;
+    int sys_client_idx;
+    int field_4_task_idx;
+    int field_8_start_vblanks;
+    int field_C_end_vblanks;
+    mts_task *pTask;
+    int Gp_8009961C;
+    int thrd_offset;
+    struct TCB *pTcb;
+    mts_msg *field_4_pMessage;
+    int field_18_tcb;
+    int msg[4];
+
+    while (1)
+    {
+        sys_client = mts_receive_80089D24(-2, msg);
+
+        if (((((sys_client < 0) || (sys_client < 0)) || (sys_client > 11)) || (sys_client == 0)) || (sys_client == 11))
+        {
+            mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1278, gTaskIdx_800C0DB0);
+            mts_printf_8008BBA0(aSystemClientD, sys_client);
+            mts_printf_8008BBA0(asc_80013E2C);
+            mts_print_process_status_8008B77C();
+        }
+
+        msg_field_0 = msg[0];
+        bDoSend = 1;
+
+        switch (msg_field_0)
+        {
+        case 0:
+            field_4_task_idx = msg[1];
+            field_8_start_vblanks = msg[2];
+            field_C_end_vblanks = msg[3];
+            mts_printf_8008BBA0(aTaskDStart, msg[1]);
+
+            if (((((field_4_task_idx >= 0) && (((unsigned int) field_4_task_idx) < 0xC)) && (!gTasks_800C0C30[field_4_task_idx].field_0_state)) && field_8_start_vblanks) && field_C_end_vblanks)
+            {
+                SwEnterCriticalSection_8009954C();
+                pTask = &gTasks_800C0C30[field_4_task_idx];
+                pTask->field_2_rcv_task_idx = -1;
+                pTask->field_1 = -1;
+                pTask->field_8_fn_or_msg = (int (*)(void)) field_8_start_vblanks;
+                pTask->field_4_pMessage = 0;
+
+                Gp_8009961C = GetGp_8009961C();
+
+
+                thrd_offset = OpenTh_800994CC((MtsThreadFn)mts_task_start_8008BBC8, field_C_end_vblanks, Gp_8009961C);
+                pTask->field_18_tcb = thrd_offset;
+                pTcb = (*((struct TCB **) 0x110)) + ((char) thrd_offset);
+                pTask->field_1C = pTcb;
+                pTcb->reg[35] = 0x400;
+                pTask->field_0_state = 3;
+                gMts_bits_800C0DB4 |= 1 << field_4_task_idx;
+                pTask->field_E = 0;
+                SwExitCriticalSection_8009956C();
+                msg[0] = 0;
+            }
+            else
+            {
+                mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1293, gTaskIdx_800C0DB0);
+                mts_printf_8008BBA0(aTaskDAlreadyEx, field_4_task_idx);
+                mts_printf_8008BBA0(asc_80013E2C);
+                mts_print_process_status_8008B77C();
+                msg[0] = -1;
+            }
+            break;
+
+        do { } while (0);
+
+        case 1:
+            sys_client_idx = sys_client;
+
+            if (!gTasks_800C0C30[sys_client_idx].field_0_state)
+            {
+                mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1299, gTaskIdx_800C0DB0);
+                mts_printf_8008BBA0(aSystemExitDead, sys_client);
+                mts_printf_8008BBA0(asc_80013E2C);
+                mts_print_process_status_8008B77C();
+            }
+
+            if (gTasks_800C0C30[sys_client_idx].field_2_rcv_task_idx >= 0)
+            {
+                mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1300, gTaskIdx_800C0DB0);
+                mts_printf_8008BBA0(aSystemExitCall, gTasks_800C0C30[sys_client_idx].field_2_rcv_task_idx);
+                mts_printf_8008BBA0(asc_80013E2C);
+                mts_print_process_status_8008B77C();
+            }
+
+            mts_printf_8008BBA0(aTaskExit);
+            SwEnterCriticalSection_8009954C();
+            field_4_pMessage = gTasks_800C0C30[sys_client_idx].field_4_pMessage;
+            gTasks_800C0C30[sys_client_idx].field_0_state = 0;
+
+            if (field_4_pMessage)
+            {
+                field_4_pMessage->field_4_task_idx = 0;
+            }
+
+            field_18_tcb = gTasks_800C0C30[sys_client_idx].field_18_tcb;
+            gMts_bits_800C0DB4 &= ~(((unsigned int) msg_field_0) << sys_client);
+            CloseTh_800994DC(field_18_tcb);
+            SwExitCriticalSection_8009956C();
+            bDoSend = 0;
+            break;
+
+        default:
+            mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1320, gTaskIdx_800C0DB0);
+            mts_printf_8008BBA0(aSystemWrongCod, msg[0]);
+            mts_printf_8008BBA0(asc_80013E2C);
+            mts_print_process_status_8008B77C();
+            break;
+        }
+
+        if (bDoSend)
+        {
+            mts_send_8008982C(sys_client, msg);
+        }
+    }
+}
 
 int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
 {
