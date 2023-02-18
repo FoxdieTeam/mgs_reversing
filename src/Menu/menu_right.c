@@ -552,7 +552,7 @@ void menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pPanelTex, int imgIdx, int palId
     pPanelTex->field_10_w = pImg->field_2_w * 4;
     pPanelTex->field_12_h = pImg->field_3_h;
     pPanelTex->field_0_pixels = &pImg->field_4_pixel_ptr[0];
-    pPanelTex->field_4_word_ptr_pixels = (short *)&pPal->field_4_pixel_ptr[0];
+    pPanelTex->field_4_word_ptr_pixels = &pPal->field_4_pixel_ptr[0];
 }
 
 void menu_inventory_right_init_items_8003DE50(void)
