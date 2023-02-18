@@ -2,7 +2,6 @@
 #include "mts/mts_new.h"
 #include "game.h"
 #include "libgv/libgv.h"
-#include "libdg/dgd.h"
 #include "Menu/menuman.h"
 #include "unknown.h"
 #include "psyq.h"

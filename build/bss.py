@@ -98,6 +98,18 @@ def get_var_sizes():
 
     return ret
 
+def align_var(line):
+    words = line.split()
+    var_column = line.find(words[-1])
+    align = 20
+    if line.startswith('gap'):
+        align += 20
+    spaces_count = 0
+    if var_column < align:
+        spaces_count = align - var_column
+    spaces = ' ' * spaces_count
+    return line.replace(words[-1], spaces + words[-1])
+
 def main():
     sizes = get_var_sizes()
 
@@ -146,11 +158,12 @@ def main():
         name = stmt['name']
         addr = stmt['addr']
         line = stmt['statement']
+        line = align_var(line)
 
         assert name in sizes, name
         size = sizes[name]
 
-        if line.startswith('short'):
+        if size % 4 != 0:
             shift = 2
         else:
             shift = 4
@@ -161,14 +174,16 @@ def main():
         if last_addr is not None:
             gap = addr - last_addr - last_size
             if gap > 0:
-                off += gap
                 gap_start = last_addr + last_size
                 rest = gap_start % 4
                 if rest != 0:
                     gap_start += rest
                     gap -= rest
+                off += gap
                 output_lines.append('\n')
-                output_lines.append('gap gap_{:X}[0x{:X}]; // {} bytes\n'.format(gap_start, gap, gap))
+                gap_line = align_var('gap gap_{:X}[0x{:X}];'.format(gap_start, gap))
+                gap_line += ' // {} bytes\n'.format(gap)
+                output_lines.append(gap_line)
                 output_lines.append('\n')
             elif gap < 0:
                 print(file=sys.stderr)

@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "libdg/libdg.h"
-#include "libdg/dgd.h"
 #include "map/map.h"
 
 extern DG_OBJS *StageObjs_800B7890[32];

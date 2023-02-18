@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Not 100% accurate but it can be useful for decomp.me
+RESOLVE_VARIABLES = False
+
+#-------------------------------------------------------------------------------
 import struct
 import re
 import os
@@ -169,6 +173,88 @@ def disasm(code, addr, name):
 
     return ret
 
+def rreplace(s, old, new):
+    return (s[::-1].replace(old[::-1],new[::-1], 1))[::-1]
+
+def patchSymbolsVars(lines, commentsLen = 4):
+    loads = {}
+    lineNumber = -1
+    out = lines.copy()
+
+    for line in lines:
+        lineNumber += 1
+        words = line.replace(",", "").split()
+
+        if len(words) < commentsLen + 2 or line.find(".LAB") != -1:
+            continue
+
+        instr = words[commentsLen]
+        val = words[len(words) - 1]
+        reg = words[len(words) - 2]
+
+        if val.find("0x") == -1:
+            continue
+
+        pPos = val.find("(")
+        if pPos > 0:
+            reg = val[pPos + 1: len(val) - 1]
+            val = val[0: pPos]
+
+        # Store hi values per register
+        if (instr.startswith("l") and val.startswith("0x800")):
+            loads[reg] = lineNumber
+
+        # Process hi and lo values
+        elif reg in loads:
+
+            if (    instr.find("t") != -1 or instr.startswith("an") or
+                    ('l' in instr and instr.rindex('l') > 1) ):
+                continue
+
+            val = val.replace("({0})".format(reg), "")
+
+            l1 = lines[loads[reg]].split()
+            try:
+                addr = int(l1[len(l1) - 1] + "0000", base=16) + int(val, base=16)
+            except:
+                print("Error: Could not read address from line: ", lines[loads[reg]])
+                print("debug: ", l1[len(l1) - 1], val)
+                del loads[reg]
+                continue
+
+            offset = ""
+            currAddr = 0
+            if addr in sym_map:
+                # Address match
+                symbol = sym_map[addr]
+            else:
+                # Find closest adress
+                currAddr = 0
+                symbol = ""
+                for symAddr in sym_map:
+                    if symAddr < addr and symAddr > currAddr:
+                        currAddr = symAddr
+                        symbol = sym_map[symAddr]
+                diff = addr - currAddr
+                if symbol == "" or diff > 9000: # dunno what offset limit to set
+                    print("Error with symbol on line: ", line)
+                    del loads[reg]
+                    continue
+                offset = "+{0}".format(hex(diff))
+
+            if out[loads[reg]] == lines[loads[reg]]: # don't replace hi value more than once
+                out[loads[reg]] = rreplace(lines[loads[reg]], l1[len(l1) - 1], "%hi({0})".format(symbol))
+            out[lineNumber] = rreplace(lines[lineNumber], val, "%lo({0}{1})".format(symbol, offset))
+
+        else:
+            # If we're setting a saved reg, delete saved reg
+            #  (maybe add checks for specific instr like 'sw' ?)
+            firstReg = words[commentsLen + 1]
+            if firstReg in loads:
+                del loads[firstReg]
+            
+    return out
+
 def main(path):
     if not path or not os.path.exists(path):
         asms = glob('../asm/**/*.s', recursive=True)
@@ -181,6 +267,8 @@ def main(path):
             name = os.path.basename(path).replace('.s', '')
             code = dw_to_code(path)
             lines = disasm(code, addr, name)
+            if RESOLVE_VARIABLES:
+                lines = patchSymbolsVars(lines)
             text = '\n'.join(lines) + '\n'
 
             # xclip causes crashes under WSL

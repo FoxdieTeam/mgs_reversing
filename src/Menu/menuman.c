@@ -2,9 +2,7 @@
 #include "menuman.h"
 #include "radar.h"
 #include "linker.h"
-#include <LIBGTE.H>
-#include <LIBGPU.H>
-#include "libdg/dgd.h"
+#include "libdg/libdg.h"
 #include "psyq.h"
 
 extern Actor_MenuMan gMenuMan_800BD360;

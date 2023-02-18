@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "libdg.h"
-#include "dgd.h"
 #include "psyq.h"
 
 extern DG_CHNL DG_Chanls_800B1800[3];
