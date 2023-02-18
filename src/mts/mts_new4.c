@@ -47,8 +47,8 @@ void mts_event_cb_8008BBC0()
 void mts_task_start_8008BBC8(void)
 {
     ExitCriticalSection_8009953C();
-    mts_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn);
-    gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn();
+    mts_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg);
+    gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg();
     mts_8008B51C();
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 421, gTaskIdx_800C0DB0);
     mts_printf_8008BBA0(aTaskStartBody);

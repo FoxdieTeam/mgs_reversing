@@ -281,11 +281,9 @@ def gen_build_target(targetName):
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
 
-            if "SD" in cFile:
-                #print("-G 0: " + cFile)
-                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"})
-            else:
-                ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "8"})
+            #print("-G 0: " + cFile)
+            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"})
+
             ninja.build(cTempOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 
