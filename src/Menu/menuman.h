@@ -77,7 +77,7 @@ typedef struct menu_chara_struct
 typedef struct PANEL_TEXTURE
 {
     unsigned char  *field_0_pixels;
-    unsigned short *field_4_word_ptr_pixels;
+    unsigned char  *field_4_word_ptr_pixels;
     char            field_8_index;
     signed char     field_9_xofs;
     signed char     field_A_yofs;
@@ -342,6 +342,7 @@ void sub_8003CE40(PANEL_TEXTURE *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
+void sub_80046B74(void *a1, int a2);
 void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 void init_file_mode_helper_8004A424(int param_1);
