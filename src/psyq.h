@@ -128,14 +128,13 @@ void               SetSemiTrans_80092458(void *p, int abe);
 void               SetPolyF4_80092488(void *p);
 unsigned long      GetSp_8009962C(void);
 unsigned long      GetGp_8009961C(void);
-
+int                PadInfoAct_8009A47C(int port, int actno, int term);
+int                PadSetActAlign_8009A5F8(int port, char *data);
 int                open_8009958C(char *devname, int flag);
 int                close_800995CC(int fd);
 unsigned long      lseek_8009959C(int fd, unsigned int offset, int flag);
 int                write_800995BC(int fd, char* buf, int n);
-
-
-struct DIRENTRY *firstfile_80099AEC(char *, struct DIRENTRY *);
-struct DIRENTRY *nextfile_800995EC(struct DIRENTRY *);
+struct DIRENTRY   *firstfile_80099AEC(char *, struct DIRENTRY *);
+struct DIRENTRY   *nextfile_800995EC(struct DIRENTRY *);
 
 #endif // _PSYQ_H_
