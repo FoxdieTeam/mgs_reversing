@@ -38,7 +38,7 @@ int SECTION(".sbss") dword_800ABAEC;
 int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 int SECTION(".sbss") dword_800ABAF4;
 int SECTION(".sbss") dword_800ABAF8;
-int SECTION(".sbss") dword_800ABAFC;
+int SECTION(".sbss") gRadioClut_800ABAFC;
 int SECTION(".sbss") dword_800ABB00;
 int SECTION(".sbss") dword_800ABB04;
 int SECTION(".sbss") dword_800ABB08;

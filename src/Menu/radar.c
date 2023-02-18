@@ -204,6 +204,7 @@ void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
     draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
 }
 
+// https://decomp.me/scratch/Ca3O2 - 94%
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
 #pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
