@@ -1966,7 +1966,7 @@
 8008BBB0 16 mts_get_tick_count_8008BBB0
 8008BBC0 8 mts_event_cb_8008BBC0
 8008BBC8 196 mts_task_start_8008BBC8
-8008BC8C 352 mts_8008BC8C
+8008BC8C 352 mts_init_controller_actuators_8008BC8C
 8008BDEC 684 mts_callback_controller_8008BDEC
 8008C098 148 mts_init_controller_8008C098
 8008C12C 68 mts_stop_controller_8008C12C
