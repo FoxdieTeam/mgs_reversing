@@ -69,7 +69,7 @@ void           mts_set_pad_vibration2_8008C454(int, int);
 int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
 int            mts_printf_8008BBA0(const char *formatStr, ...);
-int            mts_receive_80089D24(int src, int *message);
+int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
 long           mts_PadRead_8008C324(int a0);

@@ -496,7 +496,7 @@ int mts_isend_80089B04(int isend_dst)
     return 1;
 }
 
-int mts_receive_80089D24(int src, int *message)
+int mts_receive_80089D24(int src, mts_msg2 *message)
 {
     mts_task *pTask; // $s2
     int bitMask; // $a0
@@ -583,10 +583,10 @@ int mts_receive_80089D24(int src, int *message)
             }
 
             field_8_fn_or_msg = (int *)v8->field_8_fn_or_msg;
-            *message = *field_8_fn_or_msg;
-            message[1] = field_8_fn_or_msg[1];
-            message[2] = field_8_fn_or_msg[2];
-            message[3] = field_8_fn_or_msg[3];
+            *(int*)message = *field_8_fn_or_msg; // TODO
+            ((int*)message)[1] = field_8_fn_or_msg[1];
+            ((int*)message)[2] = field_8_fn_or_msg[2];
+            ((int*)message)[3] = field_8_fn_or_msg[3];
             pTask->field_3_src_idx = pTask->field_2_rcv_task_idx;
             gMts_bits_800C0DB4 |= 1 << pTask->field_2_rcv_task_idx;
             pTask->field_2_rcv_task_idx = v8->field_1;
@@ -637,10 +637,10 @@ int mts_receive_80089D24(int src, int *message)
                 }
 
                 pRcvMsg = (int *)pRcvTask->field_8_fn_or_msg;
-                *message = *pRcvMsg;
-                message[1] = pRcvMsg[1];
-                message[2] = pRcvMsg[2];
-                message[3] = pRcvMsg[3];
+                *(int*)message = *pRcvMsg;
+                ((int*)message)[1] = pRcvMsg[1];
+                ((int*)message)[2] = pRcvMsg[2];
+                ((int*)message)[3] = pRcvMsg[3];
                 pTask->field_3_src_idx = field_2_rcv_task_idx;
                 pRcvTask->field_0_state = 3;
                 pRcvTask->field_8_fn_or_msg = 0;
@@ -1301,15 +1301,15 @@ void mts_send_msg_8008B590(int param_1, int param_2, int param_3)
     mts_send_8008982C(param_1, msg);
 }
 
-int mts_recv_msg_8008B5B8(int param_1, int *param_2, int *param_3)
+int mts_recv_msg_8008B5B8(int dst, int *param_2, int *param_3)
 {
-    int msg[4]; // is this mt_msg? but it's 4 bytes too big?
-    int res;
+    mts_msg2 message; // [sp+10h] [-10h] BYREF
+    int result; // $v0
 
-    res = mts_receive_80089D24(param_1, (int *)msg);
-    *param_2 = msg[0];
-    *param_3 = msg[1];
-    return res;
+    result = mts_receive_80089D24(dst, &message);
+    *param_2 = message.field_0;
+    *param_3 = message.field_4_task_idx;
+    return result;
 }
 
 int mts_8008B608(void)
