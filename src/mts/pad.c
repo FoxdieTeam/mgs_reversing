@@ -2,13 +2,15 @@
 #include "mts_new.h"
 #include "psyq.h"
 
+extern int gMtsPadInited_800A3DBC;
+extern int dword_800A3DC0[2];
+extern int dword_800A3DC8;
+
 extern char          gMtsPadActBuffers_800C1470[2][6];
 extern unsigned char gMtsPadRecvBuffers_800C1480[2][36];
-extern int           gMtsPadInitStates_800C14F0[2];
 extern unsigned char gMtsPadSendBuffers_800C14D0[2][8];
-
-extern int gMtsPadInited_800A3DBC;
-extern int dword_800A3DC8;
+extern short         gMtsPadUnknBuffers_800C14E0[2][4];
+extern int           gMtsPadInitStates_800C14F0[2];
 
 void mts_init_controller_actuators_8008BC8C(int pad)
 {
@@ -51,7 +53,95 @@ void mts_init_controller_actuators_8008BC8C(int pad)
     PadSetActAlign_8009A5F8(port, gMtsPadActBuffers_800C1470[pad]);
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_callback_controller_8008BDEC.s") // 684 bytes
+void mts_callback_controller_8008BDEC(void)
+{
+    int i;
+    int state;
+    int type;
+
+    for (i = 0; i < 2; i++)
+    {
+        state = PadGetState_8009A2B8(i * 16);
+        type = 0;
+
+        switch (state)
+        {
+        case 6:
+            if (gMtsPadInitStates_800C14F0[i] == 1)
+            {
+                gMtsPadSendBuffers_800C14D0[i][0] = 0;
+                gMtsPadSendBuffers_800C14D0[i][1] = 0;
+
+                mts_init_controller_actuators_8008BC8C(i);
+
+                gMtsPadInitStates_800C14F0[i] = 3;
+                gMtsPadUnknBuffers_800C14E0[i][0] = type;
+                continue;
+            }
+
+            break;
+
+        case 2:
+            gMtsPadInitStates_800C14F0[i] = 2;
+            break;
+
+        case 1:
+            gMtsPadInitStates_800C14F0[i] = 1;
+
+        default:
+            gMtsPadUnknBuffers_800C14E0[i][0] = type;
+            continue;
+        }
+
+
+        if (gMtsPadRecvBuffers_800C1480[i][0] == 0)
+        {
+            switch (gMtsPadRecvBuffers_800C1480[i][1] >> 4)
+            {
+            case 7:
+                type++;
+
+            case 5:
+                type++;
+                *(unsigned int *)&gMtsPadUnknBuffers_800C14E0[i][2] = *(unsigned int *)&gMtsPadRecvBuffers_800C1480[i][4];
+
+            case 4:
+                type++;
+                gMtsPadUnknBuffers_800C14E0[i][1] = gMtsPadRecvBuffers_800C1480[i][3] | (gMtsPadRecvBuffers_800C1480[i][2] << 8);
+                break;
+            }
+        }
+
+        gMtsPadUnknBuffers_800C14E0[i][0] = type;
+
+        if (dword_800A3DC0[i] != 0)
+        {
+            if (gMtsPadInitStates_800C14F0[i] == 2)
+            {
+                gMtsPadSendBuffers_800C14D0[i][0] = 64;
+                gMtsPadSendBuffers_800C14D0[i][1] = 1;
+            }
+            else
+            {
+                gMtsPadSendBuffers_800C14D0[i][0] = 1;
+            }
+
+            if (dword_800A3DC0[i] > 0)
+            {
+                dword_800A3DC0[i]--;
+            }
+        }
+        else if (gMtsPadInitStates_800C14F0[i] == 2)
+        {
+            gMtsPadSendBuffers_800C14D0[i][0] = 0;
+            gMtsPadSendBuffers_800C14D0[i][1] = 0;
+        }
+        else
+        {
+            gMtsPadSendBuffers_800C14D0[i][0] = 0;
+        }
+    }
+}
 
 void mts_init_controller_8008C098(void)
 {
@@ -79,9 +169,107 @@ void mts_stop_controller_8008C12C(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_get_pad_8008C170.s")             // 236 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_read_pad_8008C25C.s")            // 200 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_PadRead_8008C324.s")             // 92 bytes
+int mts_get_pad_8008C170(int pad, MTS_PAD_DATA *pData)
+{
+    unsigned short v1;
+    char  flag;
+
+    if (pad == 0)
+    {
+        pad = 1;
+
+        if (gMtsPadUnknBuffers_800C14E0[0][0] <= 0)
+        {
+            pad = 2;
+        }
+        else if (gMtsPadUnknBuffers_800C14E0[0][0] == 1)
+        {
+            v1 = gMtsPadUnknBuffers_800C14E0[0][1];
+
+            if ((v1 == 0xffff) &&
+                (gMtsPadUnknBuffers_800C14E0[1][0] != 0) &&
+                (v1 != (unsigned short)gMtsPadUnknBuffers_800C14E0[1][1]))
+            {
+                pad = 2;
+            }
+        }
+    }
+
+    if (gMtsPadUnknBuffers_800C14E0[pad - 1][0] > 0)
+    {
+        pData->channel = pad;
+        pData->button = ~gMtsPadUnknBuffers_800C14E0[pad - 1][1];
+        flag = gMtsPadUnknBuffers_800C14E0[pad - 1][0];
+        pData->flag = flag;
+
+        if (flag >= 2)
+        {
+            *(unsigned int *)&pData->rx = *(unsigned int *)&gMtsPadUnknBuffers_800C14E0[pad - 1][2];
+        }
+
+        return 1;
+    }
+
+    pData->channel = -1;
+    return 0;
+}
+
+unsigned short mts_read_pad_8008C25C(int pad)
+{
+    unsigned short temp;
+
+    if (pad == 0)
+    {
+        if (gMtsPadUnknBuffers_800C14E0[0][0] != 0)
+        {
+            temp = gMtsPadUnknBuffers_800C14E0[0][1];
+
+            if ((temp != 0xFFFF) ||
+                (gMtsPadUnknBuffers_800C14E0[1][0] == 0) ||
+                ((unsigned short)gMtsPadUnknBuffers_800C14E0[1][1] == temp))
+            {
+                return ~gMtsPadUnknBuffers_800C14E0[0][1];
+            }
+            else
+            {
+                return ~gMtsPadUnknBuffers_800C14E0[1][1];
+            }
+        }
+        else if (gMtsPadUnknBuffers_800C14E0[1][0] != 0)
+        {
+            return ~gMtsPadUnknBuffers_800C14E0[1][1];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (gMtsPadUnknBuffers_800C14E0[pad - 1][0] != 0)
+    {
+        return ~gMtsPadUnknBuffers_800C14E0[pad - 1][1];
+    }
+
+    return 0;
+}
+
+long mts_PadRead_8008C324(int unused)
+{
+    int ret;
+
+    ret = 0;
+
+    if (gMtsPadUnknBuffers_800C14E0[0][0] != 0)
+    {
+        ret = ~(unsigned short)gMtsPadUnknBuffers_800C14E0[0][1] & 0xFFFF;
+    }
+
+    if (gMtsPadUnknBuffers_800C14E0[1][0] != 0)
+    {
+        ret |= ~(unsigned short)gMtsPadUnknBuffers_800C14E0[1][1] << 16;
+    }
+
+    return ret;
+}
 
 unsigned char * mts_get_controller_data_8008C380(int pad)
 {
@@ -116,6 +304,55 @@ int mts_control_vibration_8008C3BC(int arg0)
     return ret;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_set_pad_vibration_8008C408.s")      // 76 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_set_pad_vibration2_8008C454.s")     // 104 bytes
-#pragma INCLUDE_ASM("asm/mts/mts_get_pad_vibration_type_8008C4BC.s") // 120 bytes
+void mts_set_pad_vibration_8008C408(int pad, int enable)
+{
+    if (dword_800A3DC8 == 0)
+    {
+        return;
+    }
+
+    if (pad == 0)
+    {
+        pad = (gMtsPadRecvBuffers_800C1480[0][0] == 0) ? 1 : 2;
+    }
+
+    dword_800A3DC0[pad - 1] = enable;
+}
+
+void mts_set_pad_vibration2_8008C454(int pad, int enable)
+{
+    if (dword_800A3DC8 == 0)
+    {
+        return;
+    }
+
+    if (pad == 0)
+    {
+        pad = (gMtsPadRecvBuffers_800C1480[0][0] == 0) ? 1 : 2;
+    }
+
+    if (gMtsPadInitStates_800C14F0[pad - 1] == 3)
+    {
+        gMtsPadSendBuffers_800C14D0[pad - 1][1] = enable;
+    }
+}
+
+int mts_get_pad_vibration_type_8008C4BC(int pad)
+{
+    if (pad == 0)
+    {
+        pad = (gMtsPadRecvBuffers_800C1480[0][0] == 0) ? 1 : 2;
+    }
+
+    if (gMtsPadInitStates_800C14F0[pad - 1] == 2)
+    {
+        return (gMtsPadUnknBuffers_800C14E0[pad - 1][0] == 3) ? 2 : 0;
+    }
+
+    if (gMtsPadInitStates_800C14F0[pad - 1] == 3)
+    {
+        return 1;
+    }
+
+    return -1;
+}
