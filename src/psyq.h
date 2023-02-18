@@ -130,6 +130,7 @@ unsigned long      GetSp_8009962C(void);
 unsigned long      GetGp_8009961C(void);
 int                PadInfoAct_8009A47C(int port, int actno, int term);
 int                PadSetActAlign_8009A5F8(int port, char *data);
+int                PadGetState_8009A2B8(int port);
 int                open_8009958C(char *devname, int flag);
 int                close_800995CC(int fd);
 unsigned long      lseek_8009959C(int fd, unsigned int offset, int flag);

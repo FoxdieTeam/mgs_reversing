@@ -491,11 +491,9 @@ unsigned char BSS   gMtsPadRecvBuffers_800C1480[2][36]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
-unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
-
-gap                                     gap_800C14E0[0x10]; // 16 bytes
-
-int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
+unsigned char BSS gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
+short BSS gMtsPadUnknBuffers_800C14E0[2][4]; // 0x10 (16) bytes
+int BSS gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
 
 gap                                     gap_800C14F8[0x1D10]; // 7440 bytes
 
