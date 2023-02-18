@@ -55,6 +55,7 @@ u_long            *ClearOTagR_8008FD50(u_long *ot, int n);
 unsigned int       GetRCnt_800996E8(unsigned int rcnt);
 unsigned short     GetTPage_80092418(int tp, int abr, int x, int y);
 void               SetDrawTPage_800924A8(DR_TPAGE *p, int dfe, int dtd, int tpage);
+void               SetDrawStp_800924D8(DR_STP *p, int pbw);
 void               CloseEvent_8009947C(int event);
 void               DrawOTag_8008FE58(unsigned int *pOt);
 void               DrawPrim_8008FDFC(void *p);

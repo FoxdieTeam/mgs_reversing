@@ -6,7 +6,6 @@
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
 #include "libgcl/gcl.h"
-#include "libdg/dgd.h"
 #include "psyq.h"
 #include "unknown.h"
 #include "libfs/libfs.h"

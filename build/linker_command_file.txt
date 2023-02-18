@@ -43,48 +43,13 @@
     include "..\obj\libdg\shade.obj"    ;shade.c
     include "..\obj\libdg\sort.obj"     ;sort.c
     include "..\obj\libdg\text.obj"     ;text.c
-
-    ;libdg\trans.c
     include "..\obj\libdg\trans.obj"    ;trans.c
-
-    ;include "..\obj\libdg\DG_Trans_Chanl_helper_helper_helper_8001DC90.obj" ; DG_SortTmpPacketSystem ???
-    ;include "..\obj\libdg\DG_Trans_Chanl_helper_helper_8001DD90.obj" ; DG_GetTmpPacket ???
-
-    include "..\obj\libdg\DG_Trans_Chanl_helper_8001DF48.obj" ; DG_TransChanl ???
-    include "..\obj\libdg\DG_Trans_Chanl_8001E3C0.obj"
-    include "..\obj\nullsub\DG_TransEnd_8001E580.obj"
-
-    ;libdg\matrix.c ?
-    include "..\obj\libdg\DG_MatrixRotXYZ_8001E588.obj"
-    include "..\obj\libdg\DG_MatrixRotYXZ_8001E734.obj"
-    include "..\obj\libdg\DG_MatrixRotZYX_8001E92C.obj"
-    include "..\obj\libdg\DG_TransposeMatrix_8001EAD8.obj"
-    include "..\obj\libdg\sub_8001EB38.obj"
-    include "..\obj\libdg\DG_ReflectVector_8001ECB4.obj"
-    include "..\obj\libdg\DG_ReflectMatrix_8001EDCC.obj"
-
-    ;libdg\dgd.c
-    include "..\obj\Equip\DG_Update1_8001F1BC.obj"
-    include "..\obj\libdg\DG_TextureCacheInit_8001F25C.obj"
-    include "..\obj\libdg\dgd.obj"
-
-    ;libdg\loader.c
-    include "..\obj\libdg\kmd_file_handler_link_vertices_to_parent_8001F3CC.obj"
-    include "..\obj\libdg\DG_LoadInitKmd_8001F4EC.obj"
-    include "..\obj\libdg\DG_LoadInitNar_8001F5F8.obj"
-    include "..\obj\libdg\DG_LoadInitOar_8001F610.obj"
-    include "..\obj\libdg\DG_LoadInitImg_8001F644.obj"
-    include "..\obj\libdg\sgt_file_handler_8001F670.obj"
-    include "..\obj\libdg\DG_LoadInitLit_8001F6B4.obj"
-    include "..\obj\libdg\DG_LoadInitPcx_8001F920.obj"
-    include "..\obj\libdg\DG_LoadInitKmdar_8001FAD0.obj"
-    include "..\obj\libdg\DG_StorePalette_8001FC28.obj"
-    include "..\obj\libdg\DG_ReloadPalette_8001FC58.obj"
-
-    ;libdg_end
+    include "..\obj\libdg\matrix.obj"   ;matrix.c  ?
+    include "..\obj\libdg\dgd.obj"      ;dgd.c
+    include "..\obj\libdg\loader.obj"   ;loader.c
+    include "..\obj\libdg\palette.obj"  ;palette.c  ?
 
     ;libgcl_start
-
     include "..\obj\libgcl\gcl.obj"
 
     ;libgcl\basic.c
