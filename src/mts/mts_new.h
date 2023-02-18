@@ -19,14 +19,24 @@ typedef struct mts_msg
     int (*field_10)(void);
 } mts_msg;
 
+// TODO: is mts_msg wrong ??
+typedef struct mts_msg2
+{
+    TMtsFn field_0; // fn ptr ?
+    int field_4_task_idx;
+    void (*field_8)(void);
+    void *field_C;
+    // void* field_10;
+} mts_msg2;
+
 typedef struct mts_task
 {
     signed char field_0_state;
     signed char field_1;
     signed char field_2_rcv_task_idx;
     signed char field_3_src_idx;
-    mts_msg    *field_4_pMessage;
-    TMtsFn      field_8_fn_or_msg;
+    mts_msg*    field_4_pMessage;
+    TMtsFn   field_8_fn_or_msg; // mts_msg2*?
     signed char field_C_ref_count;
     signed char field_D;
     char        field_E;

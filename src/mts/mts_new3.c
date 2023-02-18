@@ -81,15 +81,6 @@ extern int dword_800A3DB0;
 extern int dword_800A3DB4;
 extern int dword_800A3DB8;
 
-// TODO: is mts_msg wrong ??
-typedef struct mts_msg2
-{
-    int field_0;
-    int field_4_task_idx;
-    void (*field_8)(void);
-    void *field_C;
-    // void* field_10;
-} mts_msg2;
 
 #define mts_assert(functionName, lineNum)                                                                              \
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0);                                        \
@@ -1285,7 +1276,7 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
         mts_printf_8008BBA0(asc_80013E2C);
         mts_print_process_status_8008B77C();
     }
-    return msg.field_0;
+    return (int)msg.field_0;
 }
 
 void mts_8008B51C()
