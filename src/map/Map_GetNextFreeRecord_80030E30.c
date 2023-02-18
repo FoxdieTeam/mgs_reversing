@@ -1,7 +1,6 @@
 #include "linker.h"
 #include "map.h"
 #include "libdg/libdg.h"
-#include "libdg/dgd.h"
 #include "hzd.h"
 
 // re-declare to force GP usage

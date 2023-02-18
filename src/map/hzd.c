@@ -1,7 +1,6 @@
 
 #include "hzd.h"
 #include "mts/mts_new.h"
-#include "libdg/dgd.h"
 
 extern const char aWarningOldVers[];
 

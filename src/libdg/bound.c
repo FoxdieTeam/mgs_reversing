@@ -1,4 +1,3 @@
-#include "dgd.h"
 #include "libdg.h"
 
 /**sbss********************************/
