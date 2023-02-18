@@ -77,7 +77,7 @@ typedef struct menu_chara_struct
 typedef struct PANEL_TEXTURE
 {
     unsigned char  *field_0_pixels;
-    unsigned short *field_4_word_ptr_pixels;
+    unsigned char  *field_4_word_ptr_pixels;
     char            field_8_index;
     signed char     field_9_xofs;
     signed char     field_A_yofs;

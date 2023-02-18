@@ -561,7 +561,38 @@ int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, in
     return textConfig.xpos;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_set_string2_80043138.s") // 232 bytes
+extern RECT gRadioStringRect_800AB658;
+RECT        SECTION(".sdata") gRadioStringRect_800AB658;
+
+extern SPRT gRadioStringSprt_800BD9F0;
+
+void menu_set_string2_80043138()
+{
+    PANEL_TEXTURE pPanelTex;
+    RECT          rect;
+
+    menu_init_rpk_item_8003DDCC(&pPanelTex, 45, 44);
+
+    gRadioStringRect_800AB658.w = pPanelTex.field_10_w / 4;
+    gRadioStringRect_800AB658.h = pPanelTex.field_12_h;
+    LoadImage_8008FB10(&gRadioStringRect_800AB658, pPanelTex.field_0_pixels);
+
+    rect.x = 976;
+    rect.y = 511;
+    rect.w = 16;
+    rect.h = 1;
+
+    LoadImage_8008FB10(&rect, pPanelTex.field_4_word_ptr_pixels);
+
+    gRadioStringSprt_800BD9F0.u0 = 0;
+    LSTORE(0x80808080, &gRadioStringSprt_800BD9F0.r0);
+    gRadioStringSprt_800BD9F0.v0 = 242;
+    gRadioStringSprt_800BD9F0.w = 8;
+    gRadioStringSprt_800BD9F0.h = 6;
+    setSprt(&gRadioStringSprt_800BD9F0);
+    setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s") // 592 bytes
 
 void menu_restore_nouse_80043470()

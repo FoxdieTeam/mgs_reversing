@@ -10,9 +10,9 @@ int SECTION(".sdata") dword_800AB648 = 0;
 int SECTION(".sdata") dword_800AB64C = 0x01E803C0;
 int SECTION(".sdata") dword_800AB650 = 0x000A0040;
 int SECTION(".sdata") dword_800AB654 = 0x6D756E;
-int SECTION(".sdata") dword_800AB658 = 0x1F203C0;
 
-int SECTION(".sdata") dword_800AB65C = 0;
+RECT SECTION(".sdata") gRadioStringRect_800AB658 = {960, 498, 0, 0};
+
 int SECTION(".sdata") dword_800AB660 = 0;
 int SECTION(".sdata") dword_800AB664 = 0;
 int SECTION(".sdata") dword_800AB668 = 0;
