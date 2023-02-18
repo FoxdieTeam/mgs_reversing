@@ -7,7 +7,6 @@
 #include "libgcl/gcl.h"
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"
-#include "libdg/dgd.h"
 #include "Thing/door.h"
 #include "mts/mts_new.h"
 #include "Game/game.h"

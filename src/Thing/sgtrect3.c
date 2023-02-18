@@ -1,5 +1,4 @@
 #include "sgtrect3.h"
-#include "libdg/dgd.h"
 #include <LIBGTE.H>
 #include "psyq.h"
 #include "Game/target.h"
