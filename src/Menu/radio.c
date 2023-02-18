@@ -36,7 +36,40 @@ extern PANEL_TEXTURE dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper16_8003FC54.s") // 252 bytes
+void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
+{
+    TILE     *tile;
+    DR_TPAGE *tpage;
+
+    tile = (TILE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+    if (colour > 255)
+    {
+        colour = 255;
+    }
+    if (colour < 0)
+    {
+        colour = 0;
+    }
+    LSTORE(colour << 0x10 | colour << 8 | colour, &tile->r0);
+
+    setTile(tile);
+    setSemiTrans(tile, 1);
+
+    tile->x0 = 0;
+    tile->y0 = 0;
+    tile->w = 320;
+    tile->h = 224;
+    addPrim(pOt, tile);
+
+    tpage = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
+    addPrim(pOt, tpage);
+}
+
 #pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
