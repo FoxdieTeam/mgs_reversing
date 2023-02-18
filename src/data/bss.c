@@ -219,13 +219,11 @@ radio_table BSS gRadioBaseTable_800BDAB8; // 0x40 (64) bytes
 radio_table BSS gRadioOverTable_800BDAF8; // 0x40 (64) bytes
 RadioMemory BSS gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
 unsigned char BSS gBulNames_800BDC78[64]; // 0x40 (64) bytes
-
-short BSS snake_mag_size_800BDCB8;
-short BSS snake_weapon_idx_800BDCBA;
-short BSS snake_weapon_max_ammo_800BDCBC;
-short BSS unk_800BDCBE;
-
-short BSS word_800BDCC0; // 0x4 (4) bytes - padded
+short BSS snake_mag_size_800BDCB8; // 0x2 (2) bytes
+short BSS snake_weapon_idx_800BDCBA; // 0x2 (2) bytes
+short BSS snake_weapon_max_ammo_800BDCBC; // 0x2 (2) bytes
+short BSS unk_800BDCBE; // 0x2 (2) bytes
+short BSS word_800BDCC0; // 0x2 (2) bytes
 
 gap gap_800BDCC4[0x4]; // 4 bytes
 
@@ -476,14 +474,14 @@ gap gap_800C0DB8[0x8]; // 8 bytes
 
 unsigned int BSS dword_800C0DC0[128]; // 0x200 (512) bytes
 unsigned int BSS dword_800C0FC0[256]; // 0x400 (1024) bytes
-
 int BSS gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
 gap gap_800C13C4[0xC]; // 12 bytes
 
 mts_msg BSS gMtsMsgs_800C13D0[8]; // 0xA0 (160) bytes
+char BSS gMtsPadActBuffers_800C1470[2][6]; // 0xC (12) bytes
 
-gap gap_800C1470[0x10]; // 16 bytes
+gap gap_800C147C[0x4]; // 4 bytes
 
 unsigned char BSS gMtsPadRecvBuffers_800C1480[2][36]; // 0x48 (72) bytes
 

@@ -150,15 +150,23 @@ def main():
         assert name in sizes, name
         size = sizes[name]
 
-        padding = size % 4
+        if line.startswith('short'):
+            shift = 2
+        else:
+            shift = 4
+        padding = size % shift
         if padding:
-            size += 4 - padding
+            size += shift - padding
 
         if last_addr is not None:
             gap = addr - last_addr - last_size
             if gap > 0:
                 off += gap
                 gap_start = last_addr + last_size
+                rest = gap_start % 4
+                if rest != 0:
+                    gap_start += rest
+                    gap -= rest
                 output_lines.append('\n')
                 output_lines.append('gap gap_{:X}[0x{:X}]; // {} bytes\n'.format(gap_start, gap, gap))
                 output_lines.append('\n')
