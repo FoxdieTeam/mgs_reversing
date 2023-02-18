@@ -31,6 +31,12 @@ typedef struct DG_RVECTOR
 	unsigned long sz;
 } DG_RVECTOR; /* division vertex data with padding removed*/
 
+typedef struct DG_PVECTOR
+{
+    long vxy;
+    long vz;
+} DG_PVECTOR;
+
 typedef struct DG_TEX
 {
 	unsigned short field_0_hash;
@@ -488,6 +494,10 @@ static inline void DG_GBoundObjs( objs ) DG_OBJS *objs;
 	objs->flag |= DG_FLAG_GBOUND;
 }
 
+typedef void (*TChanl_Fn)(DG_CHNL *pOt, int idx);
+void DG_StartDaemon_8001F284(void);
+
+
 DG_PRIM *DG_MakePrim_8001BABC( int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect );
 int      DG_QueuePrim_80018274( DG_OBJS *pPrim );
 void     DG_DequeuePrim_800182E0( DG_OBJS *pObjs );
@@ -518,7 +528,7 @@ int     DG_LoadInitNar_8001F5F8( unsigned char *pFileData, int fileNameHashed );
 int     DG_LoadInitOar_8001F610( unsigned char *pFileData, int fileNameHashed );
 int     DG_LoadInitKmdar_8001FAD0( unsigned char *pFileData, int fileNameHashed );
 int     DG_LoadInitImg_8001F644( unsigned char *pFileData, int fileNameHashed );
-int     sgt_file_handler_8001F670( unsigned char *pFileData, int fileNameHashed );
+int     DG_LoadInitSgt_8001F670( unsigned char *pFileData, int fileNameHashed );
 
 void    DG_ClearTmpLight_8001A0E4();
 int     DG_SetTmpLight_8001A114( SVECTOR *a1, int a2, int a3 );

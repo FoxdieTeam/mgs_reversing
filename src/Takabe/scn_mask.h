@@ -4,10 +4,7 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "libdg/dgd.h"
 #include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
 
 typedef struct scn_mask_prims
 {
