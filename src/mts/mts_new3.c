@@ -6,7 +6,6 @@
 extern const char aMtsNewC[];
 extern const char asc_80013E2C[];    // = "\n";
 extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char aWupDeadD[];
 extern const char aMtsStaTskServe[];
 extern const char aMultiTaskSched[];
 extern const char aJul111998[];
@@ -31,18 +30,26 @@ extern const char aD_0[];            // = " %d\n";
 extern const char aC[];              // = "%c"
 extern const char dword_800140F0[];  // = "%s\n"
 extern const char aRunning[];        // = "Running"
-extern const char asc_80013E2C[];    // = "\n"
 extern const char aSendDstD[];
 extern const char aSendStateDeadD[];
+extern const char aRcvSrcD[];        // = "rcv src %d"
+extern const char aRcvStateDeadD[];  // = "rcv state DEAD %d"
+extern const char aRcvCallerD[];     // = "rcv caller %d"
+extern const char aRcvSpDStateD[];   // = "rcv sp %d state %d"
+extern const char aRcvSpMessageX[];  // = "rcv sp message %X"
+extern const char aSendTD[];         // = "send t %d"
+extern const char aRcvSpDMessageX[]; // = "rcv sp %d message %x"
+extern const char aRecvSrcD[];       // = "RECV ?? SRC %d"
+extern const char aWupDeadD[];       // = "wup DEAD %d"
 
 extern mts_msg       gMtsMsgs_800C13D0[8];
 extern mts_msg      *D_800C0C00;
 extern mts_msg      *D_800C0C04;
 extern int           gMts_active_task_idx_800C13C0;
 extern signed char   byte_800C0C10[32];
-extern char byte_801FFF00[240];
-extern unsigned char byte_800C0DB8[512];
-extern unsigned char dword_800C0FB8[1024];
+extern char          byte_801FFF00[240];
+extern unsigned int  dword_800C0DC0[128];
+extern unsigned int  dword_800C0FC0[256];
 
 extern int dword_800A3D68[2];
 
@@ -50,7 +57,6 @@ extern const char *dword_800A3D98[];
 
 extern int      gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[];
-extern int      gMts_active_task_idx_800C13C0;
 extern int      gMts_bits_800C0DB4;
 
 extern void (*gControllerCallBack_800A3D74)(void);
@@ -63,8 +69,6 @@ extern int gMts_Event1_800A3D70;
 extern int gMts_Event2_800A3D90;
 
 extern int gStackSize_800A3D94;
-
-extern mts_msg gMtsMsgs_800C13D0[8];
 
 extern int dword_800A3DB0;
 extern int dword_800A3DB4;
@@ -348,14 +352,14 @@ void mts_send_8008982C(int dst, int *message)
 
     if ( pDstTask->field_0_state == 2 && ((pDstTask->field_3_src_idx == -2) || (pDstTask->field_3_src_idx == gTaskIdx_800C0DB0)) )
     {
-        field_8_fn = (int*)pDstTask->field_8_fn;
+        field_8_fn = (int*)pDstTask->field_8_fn_or_msg;
         pDstTask->field_3_src_idx = gTaskIdx_800C0DB0;
         *field_8_fn = *message;
         field_8_fn[1] = message[1];
         field_8_fn[2] = message[2];
         field_8_fn[3] = message[3];
         pDstTask->field_0_state = 3;
-        pDstTask->field_8_fn = 0;
+        pDstTask->field_8_fn_or_msg = 0;
         gMts_bits_800C0DB4 = gMts_bits_800C0DB4 | (1 << dst);
         bitMask = 1;
     }
@@ -363,14 +367,14 @@ void mts_send_8008982C(int dst, int *message)
     {
         pCurTask = &gTasks_800C0C30[gTaskIdx_800C0DB0];
         pCurTask->field_0_state = 1;
-        pCurTask->field_8_fn = (int (*)(void))message;
+        pCurTask->field_8_fn_or_msg = (int (*)(void))message;
         gMts_bits_800C0DB4 &= ~(1 << gTaskIdx_800C0DB0);
         pCurTask->field_F_recv_idx = dst;
-        field_2_rcv_task_idx = pDstTask->field_2;
+        field_2_rcv_task_idx = pDstTask->field_2_rcv_task_idx;
 
         if ( field_2_rcv_task_idx < 0  )
         {
-            pDstTask->field_2 = gTaskIdx_800C0DB0;
+            pDstTask->field_2_rcv_task_idx = gTaskIdx_800C0DB0;
         }
         else
         {
@@ -379,16 +383,16 @@ void mts_send_8008982C(int dst, int *message)
             {
                 pDstTask = &gTasks_800C0C30[pDstTask->field_1];
             }
-    
+
             pDstTask->field_1 = gTaskIdx_800C0DB0  ;
         }
 
-        pCurTask->field_1 = -1;   
+        pCurTask->field_1 = -1;
         bitMask = 1;
     }
-  
+
     gMts_active_task_idx_800C13C0 = -1;
-    
+
     for (task_idx = 0; task_idx < 12; task_idx++)
     {
         if ( (gMts_bits_800C0DB4 & bitMask) != 0 )
@@ -397,9 +401,9 @@ void mts_send_8008982C(int dst, int *message)
         }
         bitMask *= 2;
     }
-    
+
     gMts_active_task_idx_800C13C0 = task_idx;
-   
+
     if ( task_idx == gTaskIdx_800C0DB0 )
     {
         bChangeThreadContext = 0;
@@ -442,13 +446,13 @@ int mts_isend_80089B04(int isend_dst)
 
     if ((pDstTask->field_0_state == 2 && (pDstTask->field_3_src_idx == -1 || pDstTask->field_3_src_idx == -4)))
     {
-        if (pDstTask->field_8_fn && pDstTask->field_8_fn() == 0)
+        if (pDstTask->field_8_fn_or_msg && pDstTask->field_8_fn_or_msg() == 0)
         {
             return 0;
         }
 
         pDstTask->field_0_state = 3;
-        pDstTask->field_8_fn = 0;
+        pDstTask->field_8_fn_or_msg = 0;
 
         gMts_bits_800C0DB4 |= (1 << isend_dst);
     }
@@ -494,7 +498,216 @@ int mts_isend_80089B04(int isend_dst)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/mts/mts_receive_80089D24.s") // 1756 bytes
+int mts_receive_80089D24(int src, int *message)
+{
+    mts_task *pTask; // $s2
+    int bitMask; // $a0
+    mts_task *v8; // $s0
+    int *field_8_fn_or_msg; // $v1
+    int field_2_rcv_task_idx; // $s0
+    int idx_copy; // $s3
+    int recv_idx; // $v0
+    mts_task *pRcvTask; // $s1
+    int *pRcvMsg; // $v1
+    int task_idx; // $v1
+    int bChangeThreadContext; // $v0
+
+    if ( src+2 > 1u && src != -4 && (src < 0 || (unsigned int)src >= 12) )
+    {
+        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 896, gTaskIdx_800C0DB0);
+        mts_printf_8008BBA0(aRcvSrcD, src);
+        mts_printf_8008BBA0(asc_80013E2C);
+        mts_print_process_status_8008B77C();
+    }
+
+    if ( src >= 0 && !gTasks_800C0C30[src].field_0_state )
+    {
+        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 897, gTaskIdx_800C0DB0);
+        mts_printf_8008BBA0(aRcvStateDeadD, src);
+        mts_printf_8008BBA0(asc_80013E2C);
+        mts_print_process_status_8008B77C();
+    }
+
+    pTask = &gTasks_800C0C30[gTaskIdx_800C0DB0];
+    SwEnterCriticalSection_8009954C();
+    pTask->field_F_recv_idx = src;
+
+    if ( src == -1 )
+    {
+        pTask->field_3_src_idx = -1;
+        pTask->field_0_state = 2;
+        pTask->field_8_fn_or_msg = (int (*)(void))message;
+        gMts_bits_800C0DB4 &= ~(1 << gTaskIdx_800C0DB0);
+        pTask->field_E = 0;
+    }
+    else if ( src == -4 )
+    {
+        if ( pTask->field_E )
+        {
+            pTask->field_3_src_idx = pTask->field_E;
+            pTask->field_E = 0;
+        }
+        else
+        {
+            pTask->field_3_src_idx = -4;
+            pTask->field_0_state = 2;
+            pTask->field_8_fn_or_msg = (int (*)(void))message;
+            gMts_bits_800C0DB4 &= ~(1 << gTaskIdx_800C0DB0);
+        }
+    }
+    else
+    {
+        if ( src == -2 && pTask->field_2_rcv_task_idx >= 0 )
+        {
+            if ( (unsigned int)pTask->field_2_rcv_task_idx >= 12 )
+            {
+                mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 937, gTaskIdx_800C0DB0);
+                mts_printf_8008BBA0(aRcvCallerD, pTask->field_2_rcv_task_idx);
+                mts_printf_8008BBA0(asc_80013E2C);
+                mts_print_process_status_8008B77C();
+            }
+
+            v8 = &gTasks_800C0C30[pTask->field_2_rcv_task_idx];
+            if ( v8->field_0_state != 1 )
+            {
+                mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 939, gTaskIdx_800C0DB0);
+                mts_printf_8008BBA0(aRcvSpDStateD, pTask->field_2_rcv_task_idx, v8->field_0_state);
+                mts_printf_8008BBA0(asc_80013E2C);
+                mts_print_process_status_8008B77C();
+            }
+
+            if ( !v8->field_8_fn_or_msg )
+            {
+                mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 940, gTaskIdx_800C0DB0);
+                mts_printf_8008BBA0(aRcvSpMessageX, v8->field_8_fn_or_msg);
+                mts_printf_8008BBA0(asc_80013E2C);
+                mts_print_process_status_8008B77C();
+            }
+
+            field_8_fn_or_msg = (int *)v8->field_8_fn_or_msg;
+            *message = *field_8_fn_or_msg;
+            message[1] = field_8_fn_or_msg[1];
+            message[2] = field_8_fn_or_msg[2];
+            message[3] = field_8_fn_or_msg[3];
+            pTask->field_3_src_idx = pTask->field_2_rcv_task_idx;
+            gMts_bits_800C0DB4 |= 1 << pTask->field_2_rcv_task_idx;
+            pTask->field_2_rcv_task_idx = v8->field_1;
+            v8->field_0_state = 3;
+            v8->field_8_fn_or_msg = 0;
+        }
+        else
+        {
+            field_2_rcv_task_idx = pTask->field_2_rcv_task_idx;
+            idx_copy = -1;
+
+            if ( src >= 0 )
+            {
+                while (field_2_rcv_task_idx >= 0 && field_2_rcv_task_idx != src)
+                {
+                    if ( (unsigned int)field_2_rcv_task_idx >= 12 )
+                    {
+                        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 960, gTaskIdx_800C0DB0);
+                        mts_printf_8008BBA0(aSendTD, field_2_rcv_task_idx);
+                        mts_printf_8008BBA0(asc_80013E2C);
+                        mts_print_process_status_8008B77C();
+                    }
+
+                    idx_copy = field_2_rcv_task_idx;
+                    field_2_rcv_task_idx = gTasks_800C0C30[idx_copy].field_1;
+                }
+            }
+
+            recv_idx = field_2_rcv_task_idx;
+
+            if ( field_2_rcv_task_idx >= 0 )
+            {
+                pRcvTask = &gTasks_800C0C30[recv_idx];
+                if ( pRcvTask->field_0_state != 1 )
+                {
+                    mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 970, gTaskIdx_800C0DB0);
+                    mts_printf_8008BBA0(aRcvSpDStateD, field_2_rcv_task_idx, pRcvTask->field_0_state);
+                    mts_printf_8008BBA0(asc_80013E2C);
+                    mts_print_process_status_8008B77C();
+                }
+
+                if ( !pRcvTask->field_8_fn_or_msg )
+                {
+                    mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 971, gTaskIdx_800C0DB0);
+                    mts_printf_8008BBA0(aRcvSpDMessageX, field_2_rcv_task_idx, pRcvTask->field_8_fn_or_msg);
+                    mts_printf_8008BBA0(asc_80013E2C);
+                    mts_print_process_status_8008B77C();
+                }
+
+                pRcvMsg = (int *)pRcvTask->field_8_fn_or_msg;
+                *message = *pRcvMsg;
+                message[1] = pRcvMsg[1];
+                message[2] = pRcvMsg[2];
+                message[3] = pRcvMsg[3];
+                pTask->field_3_src_idx = field_2_rcv_task_idx;
+                pRcvTask->field_0_state = 3;
+                pRcvTask->field_8_fn_or_msg = 0;
+                gMts_bits_800C0DB4 = gMts_bits_800C0DB4 | (1 << field_2_rcv_task_idx);
+
+                if ( idx_copy < 0 )
+                {
+                    pTask->field_2_rcv_task_idx = pRcvTask->field_1;
+                }
+                else
+                {
+                    gTasks_800C0C30[idx_copy].field_1 = pRcvTask->field_1;
+                }
+            }
+            else
+            {
+                pTask->field_0_state = 2;
+                pTask->field_8_fn_or_msg = (int (*)(void))message;
+                gMts_bits_800C0DB4 &= ~(1 << gTaskIdx_800C0DB0);
+                pTask->field_3_src_idx = src;
+            }
+        }
+    }
+
+    gMts_active_task_idx_800C13C0 = -1;
+    bitMask = 1;
+    for (task_idx = 0; task_idx < 12; task_idx++)
+    {
+        if ( (gMts_bits_800C0DB4 & bitMask) != 0 )
+        {
+            break;
+        }
+
+        bitMask *= 2;
+    }
+
+    gMts_active_task_idx_800C13C0 = task_idx;
+
+    if ( task_idx == gTaskIdx_800C0DB0 )
+    {
+        bChangeThreadContext = 0;
+    }
+    else
+    {
+        gTaskIdx_800C0DB0 = task_idx;
+        bChangeThreadContext = 1;
+    }
+
+    if ( bChangeThreadContext )
+    {
+        ChangeTh_800994EC((int)gTasks_800C0C30[gTaskIdx_800C0DB0].field_18_tcb);
+    }
+
+    SwExitCriticalSection_8009956C();
+
+    if ( pTask->field_3_src_idx == -2 )
+    {
+        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1004, gTaskIdx_800C0DB0);
+        mts_printf_8008BBA0(aRecvSrcD, pTask->field_3_src_idx);
+        mts_printf_8008BBA0(asc_80013E2C);
+        mts_print_process_status_8008B77C();
+    }
+
+    return gTasks_800C0C30[gTaskIdx_800C0DB0].field_3_src_idx;
+}
 
 void mts_slp_tsk_8008A400()
 {
@@ -608,18 +821,18 @@ void mts_wup_tsk_8008A540(int taskNr)
 
 void mts_lock_sem_8008A6CC(int taskNr)
 {
-    mts_task *pIter;                // $a0
-    int       task_idx;             // $a0
-    int       bitMask;              // $a1
-    int       bChangeThreadContext; // $v0
+    mts_task *pIter; // $a0
+    int task_idx; // $a0
+    int bitMask; // $a1
+    int bChangeThreadContext; // $v0
 
     SwEnterCriticalSection_8009954C();
     gTasks_800C0C30[gTaskIdx_800C0DB0].field_D = -1;
 
-    if (byte_800C0C10[taskNr] >= 0)
+    if ( byte_800C0C10[taskNr] >= 0 )
     {
         pIter = &gTasks_800C0C30[byte_800C0C10[taskNr]];
-        while (pIter->field_D >= 0)
+        while(pIter->field_D >= 0)
         {
             pIter = &gTasks_800C0C30[pIter->field_D];
         }
@@ -628,13 +841,13 @@ void mts_lock_sem_8008A6CC(int taskNr)
         gMts_bits_800C0DB4 &= ~(1 << gTaskIdx_800C0DB0);
         gMts_active_task_idx_800C13C0 = byte_800C0C10[taskNr];
 
-        if (gMts_active_task_idx_800C13C0 < 0)
+        if ( gMts_active_task_idx_800C13C0 < 0 )
         {
             bitMask = 1;
 
-            for (task_idx = 0; task_idx < 12; task_idx++)
+            for ( task_idx = 0; task_idx < 12; task_idx++ )
             {
-                if ((gMts_bits_800C0DB4 & bitMask) != 0)
+                if ( (gMts_bits_800C0DB4 & bitMask) != 0 )
                 {
                     break;
                 }
@@ -644,7 +857,7 @@ void mts_lock_sem_8008A6CC(int taskNr)
             gMts_active_task_idx_800C13C0 = task_idx;
         }
 
-        if (gMts_active_task_idx_800C13C0 == gTaskIdx_800C0DB0)
+        if ( gMts_active_task_idx_800C13C0 == gTaskIdx_800C0DB0 )
         {
             bChangeThreadContext = 0;
         }
@@ -654,7 +867,7 @@ void mts_lock_sem_8008A6CC(int taskNr)
             gTaskIdx_800C0DB0 = gMts_active_task_idx_800C13C0;
         }
 
-        if (bChangeThreadContext)
+        if ( bChangeThreadContext )
         {
             ChangeTh_800994EC(gTasks_800C0C30[gTaskIdx_800C0DB0].field_18_tcb);
         }
@@ -695,6 +908,7 @@ void mts_unlock_sem_8008A85C(int taskNum)
                 }
                 bitMask *= 2;
             }
+
             gMts_active_task_idx_800C13C0 = task_idx;
         }
 
@@ -739,7 +953,7 @@ void mts_reset_interrupt_wait_8008A990(int idx)
 
         pTask->field_0_state = 3;
         mtsBits = gMts_bits_800C0DB4;
-        pTask->field_8_fn = 0;
+        pTask->field_8_fn_or_msg = 0;
         gMts_bits_800C0DB4 = mtsBits | (1 << idx);
     }
     bitMask = 1;
@@ -783,28 +997,52 @@ void mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, lo
     mts_start_8008AAEC(taskNum, pTaskFn, pStack);
 }
 
-/*
+static inline void crap(int taskId, void *stackend, void *test)
+{
+    mts_task *pTask;
+    int mts_bits;
+    struct TCB *pTcbEntry;
+
+    SwEnterCriticalSection_8009954C();
+
+    pTask = &gTasks_800C0C30[taskId];
+
+    if (!test || !stackend)
+    {
+        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
+        mts_printf_8008BBA0(aTaskCreateXX, test, stackend);
+        mts_printf_8008BBA0(asc_80013E2C);
+        mts_print_process_status_8008B77C();
+    }
+
+
+    pTask->field_2_rcv_task_idx = -1;
+    pTask->field_1 = -1;
+    pTask->field_8_fn_or_msg = test;
+    pTask->field_4_pMessage = 0;
+    pTask->field_18_tcb = OpenTh_800994CC((MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp_8009961C());
+
+    pTcbEntry = (*(struct TCB **)0x110) + (char)pTask->field_18_tcb;
+    pTask->field_1C = pTcbEntry;
+    pTcbEntry->reg[35] = 0x400;
+
+    mts_bits = gMts_bits_800C0DB4;
+    pTask->field_0_state = 3;
+    gMts_bits_800C0DB4 = gMts_bits_800C0DB4 | (1 << taskId);
+    pTask->field_E = 0;
+    SwExitCriticalSection_8009956C();
+}
+
 void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack)
 {
-    char *program_bottom_8008C598; // $v0
-    int eventDesc;                 // $s0
-    unsigned int task_counter;     // $v1
-    int k31Counter;                // $v1
-    signed char *pIter;                   // $v0
-    int global_pointer_1;          // $v0
-    int global_pointer_2;          // $v0
-    mts_task *pTask;           // $s0
-    mts_task *pBootTask;           // $s0
-    int Gp_8009961C;               // $v0
-    int hThread;                   // $v0
-    int v16;                       // $v0
-    int msg_counter;               // $v0
-    int bChangeThreadContext;      // $v0
+    int eventDesc;
+    unsigned int task;
+    int i;
+    int bChangeThreadContext;
 
     SetConf_800997BC(16, 12, (unsigned long)0x801FFF00);
     ResetCallback_80098318();
     mts_printf_8008BBA0(aMultiTaskSched, aJul111998, a221633);
-//    program_bottom_8008C598 = mts_get_bss_tail_8008C598();
     mts_printf_8008BBA0(aProgramBottomX, mts_get_bss_tail_8008C598());
     EnterCriticalSection_8009952C();
     eventDesc = OpenEvent_8009946C(0xF0000010, 4096, 4096, mts_event_cb_8008BBC0);
@@ -813,129 +1051,62 @@ void mts_start_8008AAEC(int boot_tasknr, void (*pBootTaskFn)(void), void *pStack
     TestEvent_8009949C(eventDesc);
 
     ExitCriticalSection_8009953C();
-    for (task_counter = 0; task_counter < 12; ++task_counter)
+
+    for (task = 0; task < 12; task++)
     {
-        gTasks_800C0C30[task_counter].field_0_state = 0;
-        gTasks_800C0C30[task_counter].field_10_pStack = 0;
-        gTasks_800C0C30[task_counter].field_14_stackSize = 0;
+        gTasks_800C0C30[task].field_0_state = 0;
+        gTasks_800C0C30[task].field_10_pStack = 0;
+        gTasks_800C0C30[task].field_14_stackSize = 0;
     }
 
-    pIter = &byte_800C0C10[31];
-    for (k31Counter = 31; k31Counter >=0; k31Counter--)
+    for (i = 0; i < 32; i++)
     {
-        *pIter = -1;
-        --pIter;
+        byte_800C0C10[i] = -1;
     }
 
     gMts_bits_800C0DB4 = 0;
-    // 0x800C0FC0-0x200=0x800C0DC0
-    mts_set_stack_check_8008B648(0, mts_stack_end(byte_800C0DB8), sizeof(byte_800C0DB8));
 
-    SwEnterCriticalSection_8009954C();
-    if (!mts_8008B0A4 || !mts_stack_end(byte_800C0DB8))
-    {
-        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
-        mts_printf_8008BBA0(aTaskCreateXX, mts_8008B0A4, mts_stack_end(byte_800C0DB8));
-        mts_printf_8008BBA0(asc_80013E2C);
-        mts_print_process_status_8008B77C();
-    }
+    mts_set_stack_check_8008B648(0, mts_stack_end(dword_800C0DC0), sizeof(dword_800C0DC0));
+    crap(0, mts_stack_end(dword_800C0DC0), mts_8008B0A4);
 
+    mts_set_stack_check_8008B648(11, mts_stack_end(dword_800C0FC0), sizeof(dword_800C0FC0));
+    crap(11, mts_stack_end(dword_800C0FC0), mts_8008BA88);
 
-    pTask = &gTasks_800C0C30[0];
-    pTask->field_2 = -1;
-    pTask->field_1 = -1;
-    pTask->field_8_fn = mts_8008B0A4;
-    pTask->field_4_pMessage = 0;
-//    global_pointer_1 = GetGp_8009961C();
-    pTask->field_18_tcb = OpenTh_800994CC(mts_task_start_8008BBC8, dword_800C0FB8, GetGp_8009961C());
-    pTask->field_1C = ((struct TCB**)0x110)[pTask->field_18_tcb]; //  (TCB *)(MEMORY[0x110] + 0xC0 *
-LOBYTE(gTasks_800C0C30[0].field_18_tcb)); pTask->field_1C->reg[0x23] = 0x400;
-
-    pTask->field_0_state = 3; // v1, $zero, 3
-
-    gMts_bits_800C0DB4 |= 1u;
-    pTask->field_E = 0;
-    SwExitCriticalSection_8009956C();
-    // 0x800C13C0 - 0x400 =0x800C0FC0
-    mts_set_stack_check_8008B648(11, mts_stack_end(dword_800C0FB8), sizeof(dword_800C0FB8));
-    SwEnterCriticalSection_8009954C();
-    if (!mts_8008BA88 || !mts_stack_end(dword_800C0FB8))
-    {
-        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
-        mts_printf_8008BBA0(aTaskCreateXX, mts_8008BA88, mts_stack_end(dword_800C0FB8));
-        mts_printf_8008BBA0(asc_80013E2C);
-        mts_print_process_status_8008B77C();
-    }
-
-    pTask = &gTasks_800C0C30[11];
-    pTask->field_2 = -1;
-    pTask->field_1 = -1;
-    pTask->field_8_fn = mts_8008BA88;
-    pTask->field_4_pMessage = 0;
-    //global_pointer_2 = GetGp_8009961C();
-    pTask->field_18_tcb = OpenTh_800994CC(mts_task_start_8008BBC8, &gMts_active_task_idx_800C13C0, GetGp_8009961C());
-  //  gTasks_800C0C30[11].field_1C = (TCB *)(MEMORY[0x110] + 0xC0 * LOBYTE(gTasks_800C0C30[11].field_18_tcb));
-    pTask->field_1C = ((struct TCB**)0x110)[pTask->field_18_tcb];
-
-    pTask->field_1C->reg[35] = 1024;
-    pTask->field_0_state = 3;
-    gMts_bits_800C0DB4 |= 0x800u;
-    pTask->field_E = 0;
-    SwExitCriticalSection_8009956C();
-    if ((unsigned int)(boot_tasknr - 1) >= 10)
+    if ((boot_tasknr < 1) || (boot_tasknr > 10))
     {
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1199, gTaskIdx_800C0DB0);
         mts_printf_8008BBA0(aBootTasknrD, boot_tasknr);
         mts_printf_8008BBA0(asc_80013E2C);
         mts_print_process_status_8008B77C();
     }
+
     if (gStackSize_800A3D94 > 0)
     {
         mts_set_stack_check_8008B648(boot_tasknr, pStack, gStackSize_800A3D94);
     }
 
-    SwEnterCriticalSection_8009954C();
-    pBootTask = &gTasks_800C0C30[boot_tasknr];
-    if (!pBootTaskFn || !pStack)
+    crap(boot_tasknr, pStack, pBootTaskFn);
+
+    for (i = 0; i < 8; i++)
     {
-        mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0);
-        mts_printf_8008BBA0(aTaskCreateXX, pBootTaskFn, pStack);
-        mts_printf_8008BBA0(asc_80013E2C);
-        mts_print_process_status_8008B77C();
+        gMtsMsgs_800C13D0[i].field_4_task_idx = 0;
     }
 
-    pBootTask->field_2 = -1;
-    pBootTask->field_1 = -1;
-    pBootTask->field_8_fn = pBootTaskFn;
-    pBootTask->field_4_pMessage = 0;
-//    Gp_8009961C = GetGp_8009961C();
-    pBootTask->field_18_tcb = OpenTh_800994CC(mts_task_start_8008BBC8, pStack,  GetGp_8009961C());
-    pBootTask->field_1C = ((struct TCB**)0x110)[pBootTask->field_18_tcb];
-    pBootTask->field_1C->reg[0x23] = 0x400;
-    //*(_DWORD *)(v16 + 0x94) = 0x400;
-    pBootTask->field_0_state = 3;
-    gMts_bits_800C0DB4 |= 1 << boot_tasknr;
-    pBootTask->field_E = 0;
-    SwExitCriticalSection_8009956C();
-
-    for (msg_counter = 7; msg_counter >= 0; --msg_counter)
-    {
-        gMtsMsgs_800C13D0[msg_counter].field_4_task_idx = 0;
-    }
     gTaskIdx_800C0DB0 = -1;
 
     SwEnterCriticalSection_8009954C();
-    gMts_active_task_idx_800C13C0 = 0;
 
-    if (gTaskIdx_800C0DB0)
+    // Some kind of memory barrier
+    *((unsigned int *)&gMts_active_task_idx_800C13C0) = 0;
+
+    if (gMts_active_task_idx_800C13C0 == gTaskIdx_800C0DB0)
     {
-        gTaskIdx_800C0DB0 = 0;
-        bChangeThreadContext = 1;
+        bChangeThreadContext = 0;
     }
     else
     {
-        bChangeThreadContext = 0;
-
+        bChangeThreadContext = 1;
+        gTaskIdx_800C0DB0 = gMts_active_task_idx_800C13C0;
     }
 
     if (bChangeThreadContext)
@@ -945,8 +1116,6 @@ LOBYTE(gTasks_800C0C30[0].field_18_tcb)); pTask->field_1C->reg[0x23] = 0x400;
 
     SwExitCriticalSection_8009956C();
 }
-*/
-#pragma INCLUDE_ASM("asm/mts/mts_start_8008AAEC.s") // 1368 bytes
 
 void mts_shutdown_8008B044(void)
 {
@@ -977,7 +1146,7 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
     msg.field_0 = 0;
     msg.field_C = stack_pointer;
     mts_send_8008982C(0, (int *)&msg);
-    src_idx = mts_receive_80089D24(0, (unsigned char *)&msg);
+    src_idx = mts_receive_80089D24(0, (int *)&msg);
     if (src_idx)
     {
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1344, gTaskIdx_800C0DB0);
@@ -1015,7 +1184,7 @@ int mts_recv_msg_8008B5B8(int param_1, int *param_2, int *param_3)
     int msg[4]; // is this mt_msg? but it's 4 bytes too big?
     int res;
 
-    res = mts_receive_80089D24(param_1, (unsigned char *)msg);
+    res = mts_receive_80089D24(param_1, (int *)msg);
     *param_2 = msg[0];
     *param_3 = msg[1];
     return res;

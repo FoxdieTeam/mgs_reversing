@@ -467,10 +467,11 @@ signed char BSS byte_800C0C10[32]; // 0x20 (32) bytes
 mts_task BSS gTasks_800C0C30[12]; // 0x180 (384) bytes
 int BSS gTaskIdx_800C0DB0; // 0x4 (4) bytes
 int BSS gMts_bits_800C0DB4; // 0x4 (4) bytes
-unsigned char BSS byte_800C0DB8[512]; // 0x200 (512) bytes
-unsigned char BSS dword_800C0FB8[1024]; // 0x400 (1024) bytes
 
-gap gap_800C13B8[0x8]; // 8 bytes
+gap gap_800C0DB8[0x8]; // 8 bytes
+
+unsigned int BSS dword_800C0DC0[128]; // 0x200 (512) bytes
+unsigned int BSS dword_800C0FC0[256]; // 0x400 (1024) bytes
 
 int BSS gMts_active_task_idx_800C13C0; // 0x4 (4) bytes
 
