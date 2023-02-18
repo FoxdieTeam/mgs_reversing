@@ -126,6 +126,7 @@ int                strncmp_8008E7F8(const char *s1, const char *s2, int size);
 void               SetSemiTrans_80092458(void *p, int abe);
 void               SetPolyF4_80092488(void *p);
 unsigned long      GetSp_8009962C(void);
+unsigned long      GetGp_8009961C(void);
 
 int                open_8009958C(char *devname, int flag);
 int                close_800995CC(int fd);

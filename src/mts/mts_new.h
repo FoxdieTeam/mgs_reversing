@@ -8,6 +8,7 @@
 #define MAX_FILE_HANDLERS 26
 
 typedef int (*TMtsFn)(void);
+typedef long (*MtsThreadFn)(void);
 
 typedef struct mts_msg
 {
@@ -22,10 +23,10 @@ typedef struct mts_task
 {
     signed char field_0_state;
     signed char field_1;
-    signed char field_2;
+    signed char field_2_rcv_task_idx;
     signed char field_3_src_idx;
     mts_msg    *field_4_pMessage;
-    TMtsFn      field_8_fn; // field_8_fn_or_msg
+    TMtsFn      field_8_fn_or_msg;
     signed char field_C_ref_count;
     signed char field_D;
     char        field_E;
@@ -58,7 +59,7 @@ void           mts_set_pad_vibration2_8008C454(int, int);
 int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
 int            mts_printf_8008BBA0(const char *formatStr, ...);
-int            mts_receive_80089D24(int src, unsigned char *message);
+int            mts_receive_80089D24(int src, int *message);
 int            mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
 long           mts_PadRead_8008C324(int a0);
