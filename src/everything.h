@@ -14,7 +14,6 @@
 #include "data/bss.h"
 #include "data/data/data.h"
 #include "data/rdata/rdata.h"
-#include "libdg/dgd.h"
 #include "libdg/inline_n.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"

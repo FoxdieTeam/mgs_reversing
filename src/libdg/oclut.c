@@ -1,6 +1,5 @@
 #include "linker.h"
 #include "libdg.h"
-#include "dgd.h"
 
 //**data**********************************//
 extern DG_TEX DG_UnknownTexture_8009D378;
