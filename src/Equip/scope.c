@@ -103,9 +103,127 @@ void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
 
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_8006258C.s")        // 324 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062998.s")        // 580 bytes
 
-extern int GV_Clock_800AB920;
+extern int       GV_Clock_800AB920;
+extern int       GV_PauseLevel_800AB928;
+
+void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
+{
+    short    sVar2;
+    int      iVar3;
+    int      iVar5;
+    int      iVar6;
+    LINE_F2 *line_f2;
+    LINE_F3 *line_f3;
+    int      i;
+    int      temp;
+
+    iVar5 = GM_Camera_800B77E8.field_20;
+    line_f2 = pActor->field_74_lineF2s[GV_Clock_800AB920];
+    line_f3 = pActor->field_90_lineF3s[GV_Clock_800AB920];
+
+    iVar6 = 0xc80;
+
+    if (pad_status & 0xf060)
+    {
+        temp = scope_act_helper_helper_8006237C(pActor);
+
+        if (temp < 0xc80)
+        {
+            iVar6 = temp;
+        }
+
+        if (temp < 0x140)
+        {
+            iVar6 = 0x140;
+        }
+
+        if (iVar6 < iVar5)
+        {
+            iVar5 = iVar6;
+        }
+    }
+
+    iVar3 = pActor->field_62;
+
+    if ((((pad_status & 0x20) != 0) && (iVar5 != iVar6)) || (((pad_status & 0x40) != 0) && (iVar5 != 0x140)))
+    {
+        if (((pad_status & 0x20) != 0) && (iVar5 != iVar6))
+        {
+            iVar5 += iVar5 / 32;
+
+            if (iVar5 >= iVar6)
+            {
+                iVar5 = iVar6;
+            }
+            else
+            {
+                iVar3++;
+            }
+
+            if (iVar3 == 15)
+            {
+                iVar3 = 0;
+            }
+        }
+        else
+        {
+            iVar5 -= iVar5 / 32;
+
+            if (iVar5 <= 320)
+            {
+                iVar5 = 320;
+            }
+            else
+            {
+                iVar3--;
+            }
+
+            if (iVar3 == -1)
+            {
+                iVar3 = 14;
+            }
+        }
+
+        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        pActor->field_62 = iVar3;
+        pActor->field_60 = 1;
+
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            if ((pActor->field_98 & 3U) == 0)
+            {
+                GM_Sound_80032968(0, 0x3f, 0x24);
+            }
+
+            pActor->field_98++;
+        }
+    }
+    else
+    {
+        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        pActor->field_60 = 0;
+        pActor->field_98 = 0;
+    }
+
+    if (iVar5 < 320)
+    {
+        iVar5 = 320;
+    }
+
+    sVar2 = ((iVar5 - 320) / 16) + 48;
+
+    line_f3->x2 = sVar2;
+    line_f3->x1 = sVar2;
+    scope_act_helper_helper_80062320(pOt, line_f3);
+    for (i = 0; i < 8; i++)
+    {
+        scope_act_helper_helper_80062320(pOt, line_f2);
+        line_f2++;
+    }
+
+    GM_Camera_800B77E8.field_20 = iVar5;
+}
 
 void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
 {
@@ -171,7 +289,6 @@ extern const char       aGoggles_2[];
 
 void scope_act_helper_8006258C(Actor_scope *pActor);
 void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
-void scope_act_helper_80062998(Actor_scope *pActor, unsigned char *pOt, unsigned short pad_status);
 void scope_act_helper_80062BDC(Actor_scope *pActor, unsigned char *pOt);
 void scope_act_helper_80062C7C(Actor_scope *pActor, unsigned char *pOt);
 
@@ -287,37 +404,34 @@ extern short scope_created_8009F2C4;
 
 void scope_kill_8006317C(Actor_scope *pActor)
 {
-    void* field_74_alloc_0x100; // $a0
-    void* v3; // $a0
-    void* field_88_alloc; // $a0
-    void* field_90_pPrims; // $a0
-
-    field_74_alloc_0x100 = pActor->field_74_alloc_0x100;
-    if ( field_74_alloc_0x100 )
+    if ( pActor->field_74_lineF2s[0] )
     {
-        GV_DelayedFree_80016254(field_74_alloc_0x100);
+        GV_DelayedFree_80016254(pActor->field_74_lineF2s[0]);
     }
-    v3 = pActor->field_7C_pPrims[0];
-    if ( v3 )
+	
+    if ( pActor->field_7C_pPrims[0] )
     {
-        GV_DelayedFree_80016254(v3);
+        GV_DelayedFree_80016254(pActor->field_7C_pPrims[0]);
     }
-    field_88_alloc = pActor->field_88_alloc;
-    if ( field_88_alloc )
+	
+    if ( pActor->field_88_alloc )
     {
-        GV_DelayedFree_80016254(field_88_alloc);
+        GV_DelayedFree_80016254(pActor->field_88_alloc);
     }
-    field_90_pPrims = pActor->field_90_pPrims;
-    if ( field_90_pPrims )
+	
+    if ( pActor->field_90_lineF3s[0] )
     {
-        GV_DelayedFree_80016254(field_90_pPrims);
+        GV_DelayedFree_80016254(pActor->field_90_lineF3s[0]);
     }
+	
     GM_Camera_800B77E8.field_20 = 320;
+	
     if ( (pActor->field_9C_flags & 0x8000) != 0 )
     {
         EQ_VisibleHead_80060DF0(pActor->field_24_pParent, &pActor->field_4C_saved_packs, &pActor->field_4E_saved_raise);
         GM_FreeObject_80034BF8(&pActor->field_28_obj);
     }
+	
     scope_created_8009F2C4 = 0;
 }
 
