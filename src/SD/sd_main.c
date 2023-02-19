@@ -27,6 +27,13 @@ extern int dword_800BEFF0;
 extern int dword_8009F7B8;
 extern int dword_800C04EC;
 
+extern const char aUnloadD[];
+
+extern int wave_unload_size_800BF274;
+extern int spu_load_offset_800BF140;
+extern char* cdload_buf_800BF010;
+extern char* wave_load_ptr_800C0508;
+
 void sd_init_80081C7C();
 void IntSdMain_80084494();
 void WaveSpuTrans_80083944(void);
@@ -53,7 +60,7 @@ extern int dword_800BEFC8;
 extern int dword_800BEFCC;
 extern int dword_800BF1A4;
 extern int dword_800BF26C;
-extern int dword_800BF010;
+extern char* cdload_buf_800BF010;
 extern int gStr_FadeOut1_800BF16C;
 
 
@@ -590,19 +597,38 @@ void SD_80083EF8(void)
     se_load_code_800BF28C = 0;
 }
 
-int LoadInit_80083F08(void)
+char* LoadInit_80083F08(void)
 {
-    int ret;
+    char* ret;
     if (dword_800BF27C != 0)
     {
         mts_printf_8008BBA0(aLoadinitD, dword_800BF27C); // = "LoadInit %d\n";
         *(int*)1 = 0;
     }
-    ret = dword_800BF010;
+    ret = cdload_buf_800BF010;
     dword_800BF27C = 1;
     return ret;
 }
 
 #pragma INCLUDE_ASM("asm/SD/SD_80083F54.s") // 640 bytes
 #pragma INCLUDE_ASM("asm/SD/SD_WavLoadBuf_800841D4.s") // 488 bytes
-#pragma INCLUDE_ASM("asm/SD/SD_Unload_800843BC.s") // 216 bytes
+
+void SD_Unload_800843BC()
+{
+    if ( wave_unload_size_800BF274 )
+    {
+        if ( wave_load_ptr_800C0508 == cdload_buf_800BF010 + 0x18000 )
+        {
+            wave_load_ptr_800C0508 = cdload_buf_800BF010;
+        }
+        SpuSetTransferStartAddr_80096EC8(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
+        SpuWrite_80096E68(wave_load_ptr_800C0508, wave_unload_size_800BF274);
+        spu_load_offset_800BF140 += wave_unload_size_800BF274;
+        wave_load_ptr_800C0508 += wave_unload_size_800BF274;
+    }
+    dword_800BF27C = 0;
+    if ( wave_unload_size_800BF274 )
+    {
+        mts_printf_8008BBA0(aUnloadD, wave_unload_size_800BF274);
+    }
+}
