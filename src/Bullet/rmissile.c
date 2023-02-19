@@ -836,7 +836,6 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
     {
         (vec++)->pad = 0;
     }
-
 }
 
 static inline int rmissile_loader_8006CF44_get_field_59(void)
