@@ -589,6 +589,7 @@ int mts_receive_80089D24(int src, mts_msg2 *message)
             ((int*)message)[1] = field_8_fn_or_msg[1];
             ((int*)message)[2] = field_8_fn_or_msg[2];
             ((int*)message)[3] = field_8_fn_or_msg[3];
+
             pTask->field_3_src_idx = pTask->field_2_rcv_task_idx;
             gMts_bits_800C0DB4 |= 1 << pTask->field_2_rcv_task_idx;
             pTask->field_2_rcv_task_idx = v8->field_1;
@@ -1141,8 +1142,8 @@ void mts_8008B0A4(void)
     int bDoSend;
     int sys_client_idx;
     int field_4_task_idx;
-    int field_8_start_vblanks;
-    int field_C_end_vblanks;
+    void (*field_8_start_vblanks)(void);
+    void* stackPointerVal;
     mts_task *pTask;
     int Gp_8009961C;
     int thrd_offset;
@@ -1171,10 +1172,10 @@ void mts_8008B0A4(void)
         case 0:
             field_4_task_idx = msg.field_4_task_idx;
             field_8_start_vblanks = msg.field_8;
-            field_C_end_vblanks = msg.field_C;
+            stackPointerVal = msg.field_C;
             mts_printf_8008BBA0(aTaskDStart, msg.field_4_task_idx);
 
-            if (((((field_4_task_idx >= 0) && (((unsigned int) field_4_task_idx) < 0xC)) && (!gTasks_800C0C30[field_4_task_idx].field_0_state)) && field_8_start_vblanks) && field_C_end_vblanks)
+            if (((((field_4_task_idx >= 0) && (((unsigned int) field_4_task_idx) < 0xC)) && (!gTasks_800C0C30[field_4_task_idx].field_0_state)) && field_8_start_vblanks) && stackPointerVal)
             {
                 SwEnterCriticalSection_8009954C();
                 pTask = &gTasks_800C0C30[field_4_task_idx];
@@ -1186,7 +1187,7 @@ void mts_8008B0A4(void)
                 Gp_8009961C = GetGp_8009961C();
 
 
-                thrd_offset = OpenTh_800994CC((MtsThreadFn)mts_task_start_8008BBC8, field_C_end_vblanks, Gp_8009961C);
+                thrd_offset = OpenTh_800994CC((MtsThreadFn)mts_task_start_8008BBC8, (int)stackPointerVal, Gp_8009961C);
                 pTask->field_18_tcb = thrd_offset;
                 pTcb = (*((struct TCB **) 0x110)) + ((char) thrd_offset);
                 pTask->field_1C = pTcb;
@@ -1278,7 +1279,7 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
         mts_printf_8008BBA0(asc_80013E2C);
         mts_print_process_status_8008B77C();
     }
-    return (int)msg.field_0;
+    return msg.field_0;
 }
 
 void mts_8008B51C()
@@ -1297,7 +1298,7 @@ void mts_8008B51C()
 void mts_send_msg_8008B590(int dst, int param_2, int param_3)
 {
     mts_msg2 msg;
-    msg.field_0 = (void *)param_2;
+    msg.field_0 = param_2;
     msg.field_4_task_idx = param_3;
     mts_send_8008982C(dst, &msg);
 }
@@ -1326,7 +1327,7 @@ int mts_get_task_status_8008B618(int task_idx)
 // return could be wrong
 int mts_get_task_res1_8008B630(int param_1)
 {
-    return (int)gTasks_800C0C30[param_1].field_F_recv_idx;
+    return gTasks_800C0C30[param_1].field_F_recv_idx;
 }
 
 void mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize)
