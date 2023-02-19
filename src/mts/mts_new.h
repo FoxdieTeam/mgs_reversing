@@ -19,14 +19,30 @@ typedef struct mts_msg
     int (*field_10)(void);
 } mts_msg;
 
+// TODO: is mts_msg wrong ??
+typedef struct mts_msg2
+{
+    int field_0; // fn ptr ?
+    int field_4_task_idx;
+    void (*field_8)(void);
+    void *field_C;
+    // void* field_10;
+} mts_msg2;
+
+typedef union mts_tmp
+{
+     TMtsFn fn;
+     mts_msg2* pMsg;
+} mts_tmp;
+
 typedef struct mts_task
 {
     signed char field_0_state;
     signed char field_1;
     signed char field_2_rcv_task_idx;
     signed char field_3_src_idx;
-    mts_msg    *field_4_pMessage;
-    TMtsFn      field_8_fn_or_msg;
+    mts_msg*    field_4_pMessage;
+    mts_tmp   field_8_fn_or_msg; // mts_msg2*?
     signed char field_C_ref_count;
     signed char field_D;
     char        field_E;
@@ -59,7 +75,7 @@ void           mts_set_pad_vibration2_8008C454(int, int);
 int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
 int            mts_printf_8008BBA0(const char *formatStr, ...);
-int            mts_receive_80089D24(int src, int *message);
+int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
 long           mts_PadRead_8008C324(int a0);
@@ -73,7 +89,7 @@ void           mts_init_vsync_800895AC(void);
 void           mts_init_vsync_helper_800893E8(void);
 void           mts_lock_sem_8008A6CC(int taskNr);
 void           mts_print_process_status_8008B77C();
-void           mts_send_8008982C(int dst, int *message);
+void           mts_send_8008982C(int dst, mts_msg2 *message);
 void           mts_set_callback_800893B4(void *); // TODO: Func ptr type
 void           mts_set_exception_func_800892A8(int param_1);
 void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
