@@ -426,7 +426,96 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/rmissile_act_helper_8006C37C.s")           // 584 bytes
+void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
+{
+    SVECTOR   vecs[8];
+    POLY_FT4 *pPoly;
+    DG_TEX   *pTex;
+
+    int i;
+    int inc;
+
+    int offx;
+    int offy;
+    int width;
+    int height;
+
+    int var_s4;
+    int temp_s0;
+    int temp_v0;
+
+    if (pActor->field_11C > 0)
+    {
+        inc = 0x50;
+        var_s4 = 0x78;
+    }
+    else
+    {
+        inc = 0x40;
+        var_s4 = 0x78;
+    }
+
+    pPoly = &pActor->field_2D8_prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+
+    for (i = 0; i < 8; i++, pPoly++)
+    {
+        if (pActor->field_11C && (i == 0))
+        {
+            pPoly->tpage &= ~0x60;
+            pPoly->tpage |= 0x20;
+        }
+        else
+        {
+            pPoly->tpage |= 0x60;
+        }
+
+        vecs[i].vx = 0;
+
+        if (pActor->field_11C)
+        {
+            vecs[i].vy = 150 + i * inc;
+        }
+        else
+        {
+            vecs[i].vy = 250 + i * inc;
+        }
+
+        vecs[i].vz = 0;
+
+        pActor->field_2E4_svector_8Array[i].pad = var_s4;
+        var_s4 = (var_s4 * 15) / 16;
+
+        temp_s0 = GV_RandU_80017090(4) & 1;
+        temp_v0 = GV_RandU_80017090(4);
+
+        pTex = pActor->field_2DC_tex;
+
+        offx = pActor->field_2DC_tex->field_8_offx;
+        width = pActor->field_2DC_tex->field_A_width + 1;
+
+        pPoly->u3 = offx + (width << temp_s0) / 2 - 1;
+        pPoly->u1 = offx + (width << temp_s0) / 2 - 1;
+
+        pPoly->u2 = offx + ((width * temp_s0) >> 1);
+        pPoly->u0 = offx + ((width * temp_s0) >> 1);
+
+        offy = pActor->field_2DC_tex->field_9_offy;
+        height = pActor->field_2DC_tex->field_B_height + 1;
+
+        pPoly->v1 = offy + (height * (temp_v0 / 2)) / 2;
+        pPoly->v0 = offy + (height * (temp_v0 / 2)) / 2;
+
+        pPoly->v3 = offy + (height * (temp_v0 / 2 + 1)) / 2 - 1;
+        pPoly->v2 = offy + (height * (temp_v0 / 2 + 1)) / 2 - 1;
+
+        pPoly->r0 = 128u - i * 16;
+        pPoly->g0 = 128u - i * 16;
+        pPoly->b0 = 128u - i * 16;
+    }
+
+    DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+    DG_PutVector_8001BE48(vecs, pActor->field_2E4_svector_8Array, 8);
+}
 
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     dword_8009F46C;
@@ -743,7 +832,7 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
     tex = DG_GetTexture_8001D830(hash);
 
     pActor->field_2DC_tex = tex;
-    prim = pActor->field_2D8_prim  = Takabe_MakeIndividualRect3DPrim_800793E8(8, &pActor->field_2E4_svector);
+    prim = pActor->field_2D8_prim  = Takabe_MakeIndividualRect3DPrim_800793E8(8, &pActor->field_2E4_svector_8Array[0]);
 
     rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 8);
     rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 8);
@@ -751,7 +840,7 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
     prim->world = DG_ZeroMatrix_8009D430;
     prim->field_2E_k500 = 100;
 
-    vec = &pActor->field_2E4_svector;
+    vec = pActor->field_2E4_svector_8Array;
 
     for (count = 8; count > 0; count--)
     {
