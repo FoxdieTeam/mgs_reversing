@@ -1,5 +1,6 @@
 #include "jirai.h"
 #include "libgcl/gcl.h"
+#include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
@@ -16,14 +17,18 @@ extern GM_Control   *gSnaControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
 extern SVECTOR       svector_800ABA10;
 extern Jirai_unknown stru_800BDE78[8];
-extern SVECTOR        svec_8009F44C;
-extern SVECTOR        svec_8009F454;
-extern SVECTOR        svec_8009F45C;
-extern SVECTOR        svec_8009F464;
-extern int            dword_800ABA0C;
+extern SVECTOR       svec_8009F44C;
+extern SVECTOR       svec_8009F454;
+extern SVECTOR       svec_8009F45C;
+extern SVECTOR       svec_8009F464;
+extern int           dword_800ABA0C;
+extern DG_CHNL       DG_Chanls_800B1800[3];
+extern int           dword_800ABA0C;
 
-extern const char aJiraiC[];
-extern const char aClaymore_2[];
+extern const char aClaymore_1[]; // = "CLAYMORE"
+extern const char aFull_0[];     // = "FULL"
+extern const char aClaymore_2[]; // = "claymore"
+extern const char aJiraiC[];     // = "jirai.c"
 
 // GM_Target here seems to be wrong
 MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTarget)
@@ -95,7 +100,99 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
     return GV_VecLen3_80016D80(&v) < 800;
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/jirai_act_helper_8006A950.s") // 524 bytes
+void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
+{
+    SVECTOR vec;
+    DG_CHNL *pChnl;
+    MATRIX *pMatrix;
+    int temp_a2;
+    int var_a1;
+    int r, g, b;
+    const char *pText;
+
+    pChnl = &DG_Chanls_800B1800[1];
+    pMatrix = &pChnl->field_10_transformation_matrix;
+
+    gte_SetRotMatrix(pMatrix);
+    gte_SetTransMatrix(pMatrix);
+    gte_ldv0(&pActor->field_20_ctrl.field_0_position);
+    gte_rtps();
+    gte_stsxy(&vec);
+
+    if ((pActor->field_130 < 16) && (arg1 == 0))
+    {
+        vec.vy -= pActor->field_130;
+    }
+    else
+    {
+        vec.vy -= 16;
+    }
+
+    if (arg1 == 0)
+    {
+        temp_a2 = pActor->field_130;
+
+        if (temp_a2 == 1)
+        {
+            if (GM_Weapons[WEAPON_CLAYMORE] >= GM_WeaponsMax[WEAPON_CLAYMORE])
+            {
+                var_a1 = 11;
+                pActor->field_150 = temp_a2;
+            }
+            else
+            {
+                pActor->field_20_ctrl.field_3A = 0;
+                var_a1 = 22;
+
+                if (GM_Weapons[WEAPON_CLAYMORE] < 0)
+                {
+                    GM_Weapons[WEAPON_CLAYMORE] = 0;
+                }
+
+                GM_Weapons[WEAPON_CLAYMORE]++;
+
+                pActor->field_140 = temp_a2;
+                pActor->field_150 = 0;
+            }
+
+            GM_Sound_800329C4(&pActor->field_20_ctrl.field_0_position, var_a1, 1);
+        }
+
+        if (pActor->field_150 != 0)
+        {
+            r = 255;
+            g = 48;
+            b = 48;
+        }
+        else
+        {
+            r = 200;
+            g = 200;
+            b = 200;
+        }
+
+        menu_Color_80038B4C(r, g, b);
+        pText = aClaymore_1;
+    }
+    else
+    {
+        pText = aFull_0;
+        menu_Color_80038B4C(255, 48, 48);
+    }
+
+    if (pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit & dword_800ABA0C)
+    {
+        menu_Text_XY_Flags_80038B34(vec.vx + 160, vec.vy + 104, 0x12);
+        menu_Text_80038C38(pText);
+
+        menu_Color_80038B4C(1, 1, 1);
+        menu_Text_XY_Flags_80038B34(vec.vx + 161, vec.vy + 105, 0x12);
+        menu_Text_80038C38(pText);
+
+        menu_Text_Init_80038B98();
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Bullet/jirai_act_8006AB5C.s")        // 1280 bytes
 
 // A different version of ExecProc is used here, which checks for a proccess ID less than zero.
