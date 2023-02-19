@@ -22,7 +22,7 @@ typedef struct mts_msg
 // TODO: is mts_msg wrong ??
 typedef struct mts_msg2
 {
-    TMtsFn field_0; // fn ptr ?
+    int field_0; // fn ptr ?
     int field_4_task_idx;
     void (*field_8)(void);
     void *field_C;

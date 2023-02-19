@@ -1281,10 +1281,10 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
 
 void mts_8008B51C()
 {
-    int msg[4]; // is this mt_msg? but it's 4 bytes too big?
+    mts_msg2 msg;
 
-    msg[0] = 1;
-    mts_send_8008982C(0, msg);
+    msg.field_0 = 1;
+    mts_send_8008982C(0, &msg);
 
     mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1359, gTaskIdx_800C0DB0);
     mts_printf_8008BBA0(aMtsExtTsk);
