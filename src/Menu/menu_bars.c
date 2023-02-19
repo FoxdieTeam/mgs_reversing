@@ -54,7 +54,7 @@ int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
-#pragma INCLUDE_ASM("asm/menu_bar_draw_8003ED4C.s") // 1472 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_bar_draw_8003ED4C.s") // 1472 bytes
 
 void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
 {
@@ -133,7 +133,7 @@ void menu_font_kill_helper_8003F50C(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
-#pragma INCLUDE_ASM("asm/menu_bars_update_8003F530.s") // 688 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_bars_update_8003F530.s") // 688 bytes
 
 void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
 {

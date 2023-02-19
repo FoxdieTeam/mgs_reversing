@@ -57,7 +57,7 @@ void sub_8003CC88()
     dword_800ABAD0 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003CC94.s") // 428 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003CC94.s") // 428 bytes
 
 static inline int sub_8003CE40_index()
 {
@@ -84,10 +84,10 @@ void sub_8003CE78(void)
     dword_800ABADC = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003CE84.s") // 116 bytes
-#pragma INCLUDE_ASM("asm/sub_8003CEF8.s") // 232 bytes
-#pragma INCLUDE_ASM("asm/sub_8003CFE0.s") // 144 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D070.s") // 96 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003CE84.s") // 116 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003CEF8.s") // 232 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003CFE0.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x, int offset_y)
 {
@@ -171,10 +171,10 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003D2BC.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003D2BC.s") // 144 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8003D34C.s") // 88 bytes
-#pragma INCLUDE_ASM("asm/sub_8003D3A4.s") // 88 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003D34C.s") // 88 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003D3A4.s") // 88 bytes
 
 void sub_8003D3FC(Menu_Item_Unknown *pMenu, int a2)
 {
@@ -405,7 +405,7 @@ void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
     }
 }
 
-#pragma INCLUDE_ASM("asm/menu_8003D7DC.s") // 560 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_8003D7DC.s") // 560 bytes
 
 void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pSubMenu)
 {
@@ -586,13 +586,13 @@ PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
     return gMenuRightItems_800BD888 + rpkIdx;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003DF30.s") // 256 bytes
-#pragma INCLUDE_ASM("asm/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
-#pragma INCLUDE_ASM("asm/menu_right_init_helper_8003E0E8.s") // 712 bytes
-#pragma INCLUDE_ASM("asm/menu_right_update_helper2_helper2_8003E3B0.s") // 264 bytes
-#pragma INCLUDE_ASM("asm/menu_right_update_helper_8003E4B8.s") // 444 bytes
-#pragma INCLUDE_ASM("asm/menu_right_update_helper2_8003E674.s") // 796 bytes
-#pragma INCLUDE_ASM("asm/menu_right_update_8003E990.s") // 588 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003DF30.s") // 256 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_right_init_helper_8003E0E8.s") // 712 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper2_8003E3B0.s") // 264 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper_8003E4B8.s") // 444 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_8003E674.s") // 796 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_right_update_8003E990.s") // 588 bytes
 
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
 {
