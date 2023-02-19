@@ -222,7 +222,7 @@ extern int           claymore_map_800AB9DC;
 extern map_record   *claymore_map_record_800bdf08;
 extern const SVECTOR stru_80012EEC;
 
-Actor_Claymore *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
     Actor_Claymore *claymore;

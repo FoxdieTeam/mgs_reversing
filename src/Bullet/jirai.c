@@ -2,6 +2,7 @@
 #include "libgcl/gcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
+#include "Okajima/claymore.h"
 #include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
 #include "unknown.h"
@@ -10,11 +11,13 @@
 
 // claymore (on ground)
 
-extern int           counter_8009F448;
-extern int           dword_8009F444;
 extern int           dword_8009F440;
+extern int           dword_8009F444;
+extern int           counter_8009F448;
 extern GM_Control   *gSnaControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
+extern int           GM_GameStatus_800AB3CC;
+extern int           GM_CurrentMap_800AB9B0;
 extern SVECTOR       svector_800ABA10;
 extern Jirai_unknown stru_800BDE78[8];
 extern SVECTOR       svec_8009F44C;
@@ -24,6 +27,7 @@ extern SVECTOR       svec_8009F464;
 extern int           dword_800ABA0C;
 extern DG_CHNL       DG_Chanls_800B1800[3];
 extern int           dword_800ABA0C;
+extern SVECTOR       DG_ZeroVector_800AB39C;
 
 extern const char aClaymore_1[]; // = "CLAYMORE"
 extern const char aFull_0[];     // = "FULL"
@@ -193,7 +197,192 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/jirai_act_8006AB5C.s")        // 1280 bytes
+void jirai_act_8006AB5C(Actor_Jirai *pActor)
+{
+    GM_Target target;
+    GM_Control *pCtrl;
+    GM_Target *pTarget;
+    int f130;
+    Actor_Claymore *pClaymore;
+
+    if (GM_GameStatus_800AB3CC < 0)
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return;
+    }
+
+    pCtrl = &pActor->field_20_ctrl;
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, pActor->field_C0_light_matrices);
+
+    if (pActor->field_134_gcl_arg == 2)
+    {
+        if (++pActor->field_130 < 45)
+        {
+            jirai_act_helper_8006A950(pActor, 0);
+
+            if ((pActor->field_140 != 0) && (pActor->field_130 == 16))
+            {
+                DG_InvisibleObjs(pActor->field_9C_obj.objs);
+            }
+        }
+        else if (pActor->field_140 != 0)
+        {
+            sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        }
+        else
+        {
+            pActor->field_130 = 0;
+            pActor->field_134_gcl_arg = 3;
+        }
+    }
+    else if (pActor->field_134_gcl_arg == 3)
+    {
+        if ((++pActor->field_130 < 45) || jirai_act_helper_8006A8F4(pActor))
+        {
+            jirai_act_helper_8006A950(pActor, 1);
+        }
+        else
+        {
+            pActor->field_134_gcl_arg = 0;
+            pActor->field_130 = 0;
+        }
+    }
+
+    if (pActor->field_134_gcl_arg >= 2)
+    {
+        pActor->field_100_pTarget->field_6_flags &= ~TARGET_PUSH;
+        return;
+    }
+
+    pTarget = pActor->field_100_pTarget;
+
+    GM_ActControl_80025A7C(pCtrl);
+    GM_SetCurrentMap(pActor->field_14C_map);
+    GM_ActObject2_80034B88(&pActor->field_9C_obj);
+
+    f130 = pActor->field_130;
+
+    if (f130 < 16)
+    {
+        pActor->field_130++;
+    }
+
+    if ((f130 > 15) && (f130 < 64))
+    {
+        if (f130 & 1)
+        {
+            DG_InvisibleObjs(pActor->field_9C_obj.objs);
+        }
+        else
+        {
+            DG_VisibleObjs(pActor->field_9C_obj.objs);
+        }
+
+        if (++pActor->field_130 == 64)
+        {
+            DG_InvisibleObjs(pActor->field_9C_obj.objs);
+        }
+    }
+
+    if (GM_GameStatus_800AB3CC & 8)
+    {
+        DG_VisibleObjs(pActor->field_9C_obj.objs);
+    }
+    else if (pActor->field_130 == 64)
+    {
+        DG_InvisibleObjs(pActor->field_9C_obj.objs);
+    }
+
+    if (GM_CurrentItemId == ITEM_MINE_D)
+    {
+        GM_ConfigControlAttribute_8002623C(pCtrl, 0x202D);
+    }
+    else
+    {
+        GM_ConfigControlAttribute_8002623C(pCtrl, 0);
+    }
+
+    if ((GM_GameStatus_800AB3CC & 0xD0000000) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    {
+        pTarget->field_0_flags &= ~TARGET_PUSH;
+        pTarget->field_6_flags &= ~TARGET_PUSH;
+    }
+    else
+    {
+        pTarget->field_0_flags |= TARGET_PUSH;
+    }
+
+    if (((pTarget->field_6_flags & TARGET_PUSH) || (dword_8009F444 != 0)) && (pActor->field_10E == 0))
+    {
+        if (dword_8009F440 == 1)
+        {
+            pActor->field_134_gcl_arg = dword_8009F440;
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return;
+        }
+
+        if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_INVULNERABLE | PLAYER_STATUS_PRONE)))
+        {
+            pTarget->field_6_flags &= ~TARGET_PUSH;
+            dword_8009F444 = 0;
+            return;
+        }
+
+        if (dword_8009F444 != 0)
+        {
+            pActor->field_144_vec.vy += 2048;
+        }
+
+        dword_8009F440 = 1;
+        pActor->field_10E = 1;
+
+        DG_VisibleObjs(pActor->field_9C_obj.objs);
+
+        sub_800790E8();
+
+        GM_SetTarget_8002DC74(&target, 4, 0, &pTarget->field_10_size);
+        GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector_800AB39C);
+        GM_Target_SetVector_8002D500(&target, &pTarget->field_8_vec);
+
+        sub_8002D7DC(&target);
+        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
+    }
+
+    if (pActor->field_10E == 1)
+    {
+        if (pActor->field_10C == 7)
+        {
+            sub_8007913C();
+        }
+
+        pClaymore = NewClaymore_80073B8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_144_vec, 2, pActor->field_10C);
+
+        if (!pClaymore)
+        {
+            pActor->field_10C = 0;
+            pActor->field_10E = 0;
+        }
+        else
+        {
+            pActor->field_10C--;
+        }
+
+        if ((pActor->field_10C <= 0) || !pClaymore)
+        {
+            pActor->field_134_gcl_arg = 1;
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return;
+        }
+    }
+
+    if (jirai_act_helper_8006A8F4(pActor))
+    {
+        pActor->field_134_gcl_arg = 2;
+        DG_VisibleObjs(pActor->field_9C_obj.objs);
+        pActor->field_130 = 0;
+    }
+}
 
 // A different version of ExecProc is used here, which checks for a proccess ID less than zero.
 #define ExecProc(proc_id, mode)            \
@@ -303,7 +492,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     pActor->field_138_gcl = -1;
     pActor->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
-    pActor->field_14C = map;
+    pActor->field_14C_map = map;
     if (Res_Control_init_loader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
@@ -325,7 +514,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
 
     DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutObjs_8001BDB8(obj->objs);
-    GM_ConfigObjectLight_80034C44(obj, &pActor->field_C0_mtx);
+    GM_ConfigObjectLight_80034C44(obj, pActor->field_C0_light_matrices);
 
     pActor->field_130 = 0;
     pActor->field_138_gcl = -1;
@@ -382,17 +571,17 @@ Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
     return pActor;
 }
 
-int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int where)
+int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
 {
     MATRIX      matrix;
     GM_Control *ctrl;
     SVECTOR    *vec;
     OBJECT     *obj;
 
-    pActor->field_14C = where;
+    pActor->field_14C_map = map;
 
     ctrl =  &pActor->field_20_ctrl;
-    if (Res_Control_init_loader_8002599C(ctrl, GV_StrCode_80016CCC(aClaymore_2), where) < 0)
+    if (Res_Control_init_loader_8002599C(ctrl, GV_StrCode_80016CCC(aClaymore_2), map) < 0)
     {
         return -1;
     }
@@ -404,7 +593,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int where)
     pActor->field_144_vec = ctrl->field_8_rotator;
     obj = &pActor->field_9C_obj;
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aClaymore_2), 877, 0);
-    GM_ConfigObjectLight_80034C44(obj, &pActor->field_C0_mtx);
+    GM_ConfigObjectLight_80034C44(obj, pActor->field_C0_light_matrices);
 
     pActor->field_104_vec = ctrl->field_8_rotator;
 
@@ -446,14 +635,14 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int where)
     return 0;
 }
 
-Actor_Jirai * NewScenarioJirai_8006B76C(int a1, int where)
+Actor_Jirai * NewScenarioJirai_8006B76C(int a1, int map)
 {
     Actor_Jirai *pActor = (Actor_Jirai *)GV_NewActor_800150E4(6, sizeof(Actor_Jirai));
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C,
                                   (TActorFunction)jirai_kill_8006B05C, aJiraiC);
-        if (jirai_loader_8006B564(pActor, a1, where) < 0)
+        if (jirai_loader_8006B564(pActor, a1, map) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return NULL;
