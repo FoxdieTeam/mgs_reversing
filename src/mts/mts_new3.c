@@ -321,7 +321,7 @@ int mts_wait_vbl_800895F4(int wait_vblanks)
 void mts_send_8008982C(int dst, mts_msg2 *message)
 {
     mts_task *pDstTask; // $s0
-    int *field_8_fn; // $v1
+    mts_msg2 *field_8_fn_or_msg; // $v1
     int bitMask; // $a0
     mts_task *pCurTask; // $a0
     int field_2_rcv_task_idx; // $v0
@@ -350,12 +350,14 @@ void mts_send_8008982C(int dst, mts_msg2 *message)
 
     if ( pDstTask->field_0_state == 2 && ((pDstTask->field_3_src_idx == -2) || (pDstTask->field_3_src_idx == gTaskIdx_800C0DB0)) )
     {
-        field_8_fn = (int*)pDstTask->field_8_fn_or_msg.fn;
+        field_8_fn_or_msg = pDstTask->field_8_fn_or_msg.pMsg;
         pDstTask->field_3_src_idx = gTaskIdx_800C0DB0;
-        *field_8_fn = *(int*)message; // todo
-        field_8_fn[1] = ((int*)message)[1];
-        field_8_fn[2] = ((int*)message)[2];
-        field_8_fn[3] = ((int*)message)[3];
+        
+        field_8_fn_or_msg->field_0 = message->field_0; // todo
+        field_8_fn_or_msg->field_4_task_idx = message->field_4_task_idx;
+        field_8_fn_or_msg->field_8 = message->field_8;
+        field_8_fn_or_msg->field_C = message->field_C;
+
         pDstTask->field_0_state = 3;
         pDstTask->field_8_fn_or_msg.fn = 0;
         gMts_bits_800C0DB4 = gMts_bits_800C0DB4 | (1 << dst);
