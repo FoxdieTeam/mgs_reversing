@@ -311,7 +311,7 @@ int BSS             dword_800BF000; // 0x4 (4) bytes
 int BSS             se_tracks_800BF004; // 0x4 (4) bytes
 int BSS             dword_800BF008; // 0x4 (4) bytes
 int BSS             blank_data_addr_800BF00C; // 0x4 (4) bytes
-int BSS             dword_800BF010; // 0x4 (4) bytes
+char* BSS             cdload_buf_800BF010; // 0x4 (4) bytes
 int BSS             se_fp_800BF014; // 0x4 (4) bytes
 int BSS             sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
 
@@ -330,9 +330,7 @@ int BSS             mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS             mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS             mdata4_800BF0DC; // 0x4 (4) bytes
 SEPLAYTBL BSS       se_request_800BF0E0[8]; // 0x60 (96) bytes
-
-gap                                     gap_800BF140[0x4]; // 4 bytes
-
+int BSS             spu_load_offset_800BF140; // 0x4 (4) bytes
 int BSS             dword_800BF144; // 0x4 (4) bytes
 
 gap                                     gap_800BF148[0xC]; // 12 bytes
@@ -374,8 +372,9 @@ int BSS             dword_800BF264; // 0x4 (4) bytes
 int BSS             dword_800BF268; // 0x4 (4) bytes
 int BSS             dword_800BF26C; // 0x4 (4) bytes
 int BSS             dword_800BF270; // 0x4 (4) bytes
+int BSS             wave_unload_size_800BF274; // 0x4 (4) bytes
 
-gap                                     gap_800BF274[0x8]; // 8 bytes
+gap                                     gap_800BF278[0x4]; // 4 bytes
 
 int BSS             dword_800BF27C; // 0x4 (4) bytes
 
@@ -421,8 +420,9 @@ gap                                     gap_800C04FC[0x4]; // 4 bytes
 
 int BSS             dword_800C0500; // 0x4 (4) bytes
 
-gap                                     gap_800C0504[0x8]; // 8 bytes
+gap                                     gap_800C0504[0x4]; // 4 bytes
 
+char* BSS             wave_load_ptr_800C0508; // 0x4 (4) bytes
 int BSS             dword_800C050C; // 0x4 (4) bytes
 int BSS             sng_syukan_fg_800C0510; // 0x4 (4) bytes
 
@@ -491,9 +491,9 @@ unsigned char BSS   gMtsPadRecvBuffers_800C1480[2][36]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
-unsigned char BSS gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
-short BSS gMtsPadUnknBuffers_800C14E0[2][4]; // 0x10 (16) bytes
-int BSS gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
+unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
+short BSS           gMtsPadUnknBuffers_800C14E0[2][4]; // 0x10 (16) bytes
+int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
 
 gap                                     gap_800C14F8[0x1D10]; // 7440 bytes
 
