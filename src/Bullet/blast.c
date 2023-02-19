@@ -6,18 +6,16 @@
 #include "unknown.h"
 #include "map/map.h"
 
+extern int            claymore_map_800AB9DC;
+extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
+extern short          GM_uBombHoming_800AB3E4;
+extern SVECTOR        DG_ZeroVector_800AB39C;
+extern SVECTOR        svector_8009F558[2];
+extern ANIMATION      stru_8009F568;
+extern ANIMATION      stru_8009F5A0;
+extern ANIMATION      stru_8009F5BC;
+
 extern const char aBlastC[];
-extern int        claymore_map_800AB9DC;
-
-extern int (*GM_lpfnBombExplosion_800AB3F0)(GM_Target *, int);
-extern short GM_uBombHoming_800AB3E4;
-
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern SVECTOR svector_8009F558[2];
-
-extern ANIMATION stru_8009F568;
-extern ANIMATION stru_8009F5A0;
-extern ANIMATION stru_8009F5BC;
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {
@@ -124,7 +122,7 @@ int blast_init_8006DF8C(Blast_Data *pBlastData, Actor_Blast *pBlast, MATRIX *pMt
     return 0;
 }
 
-GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
+Actor_Blast * NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
 {
     Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
     if (pActor)
@@ -137,7 +135,7 @@ GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
         {
 
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
-            return 0;
+            return NULL;
         }
 
         GM_SetNoise(255, 32, &pActor->field_24_vec);
@@ -145,10 +143,10 @@ GV_ACT *NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
         sub_800790E8();
     }
 
-    return &pActor->field_0_actor;
+    return pActor;
 }
 
-Actor_Blast *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
+Actor_Blast * NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker)
 {
     Actor_Blast *pActor = (Actor_Blast *)GV_NewActor_800150E4(6, sizeof(Actor_Blast));
     if (pActor)
@@ -159,7 +157,7 @@ Actor_Blast *NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSoun
         if (blast_init_8006DF8C(pBlastData, pActor, pMtx, whichSidePicker) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
-            return 0;
+            return NULL;
         }
 
         if (doSound)
