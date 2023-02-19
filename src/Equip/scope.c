@@ -14,11 +14,11 @@ extern const char aD_44[];  // = "%d"
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GM_Camera GM_Camera_800B77E8;
 
-void scope_act_helper_helper_80062320(int *a1, int *a2)
+void scope_act_helper_helper_80062320(void *ot, void *prim)
 {
     if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) == 0)
     {
-        addPrim(a1, a2);
+        addPrim(ot, prim);
     }
 }
 
@@ -69,12 +69,80 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
     return vecLen;
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800624BC.s")        // 56 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_helper_800624F4.s") // 152 bytes
+void scope_act_helper_800624BC(LINE_F2 *lines, int param_2, int param_3)
+{
+    int offsetIndex;
+    lines->x1 = param_2;
+    lines->x0 = param_2;
+    offsetIndex = 4;
+    lines[offsetIndex].x1 = 320 - param_2;
+    lines[offsetIndex].x0 = 320 - param_2;
+    lines[offsetIndex].y0 = param_3;
+    lines->y0 = param_3;
+    lines[offsetIndex].y1 = 240 - param_3;
+    lines->y1 = 240 - param_3;
+}
+
+void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
+{
+    int i;
+    int var1;
+    int var2;
+    
+    var1 = param_2 + 258;
+    var2 = 66 - (param_2 * 9) / 15;
+
+    for (i = 0; i < 4; i++)
+    {
+        scope_act_helper_800624BC(lines, var1, var2);
+        lines++;
+        var1 += 15;
+        var2 -= 9;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_8006258C.s")        // 324 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062998.s")        // 580 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062BDC.s")        // 160 bytes
+
+extern int GV_Clock_800AB920;
+
+void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
+{
+    LINE_F4 *line_f4;
+    LINE_F2 *line_f2;
+    short    sVar1;
+    short    sVar2;
+    short    sVar3;
+
+    line_f4 = (LINE_F4 *)scope->field_7C_pPrims[GV_Clock_800AB920];
+    line_f2 = (LINE_F2 *)(line_f4 + 1);
+    
+    sVar1 = scope->field_84 + 130;
+    sVar2 = scope->field_84 + 189;
+    sVar3 = scope->field_86;
+    
+    line_f2->x1 = sVar1;
+    line_f2->x0 = sVar1;
+    line_f4->x3 = sVar1;
+    line_f4->x0 = sVar1;
+    
+    sVar1 = sVar3 + 102;
+    sVar3 = sVar3 + 137;
+    
+    line_f4->x2 = sVar2;
+    line_f4->x1 = sVar2;
+    line_f2->y0 = sVar1;
+    line_f4->y1 = sVar1;
+    line_f4->y0 = sVar1;
+    line_f2->y1 = sVar3;
+    line_f4->y3 = sVar3;
+    line_f4->y2 = sVar3;
+    
+    scope_act_helper_helper_80062320(ot, line_f4);
+    scope_act_helper_helper_80062320(ot, line_f2);
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062C7C.s")        // 300 bytes
 
 
@@ -96,7 +164,6 @@ extern int              DG_CurrentGroupID_800AB968;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              dword_8009F604;
 extern int              GV_PauseLevel_800AB928;
-extern int              GV_Clock_800AB920;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern DG_CHNL          DG_Chanls_800B1800[3];
@@ -112,10 +179,6 @@ static inline DG_CHNL *DG_CHANL(int idx)
 {
     return &DG_Chanls_800B1800[idx];
 }
-
-// https://github.com/FoxdieTeam/mgs_reversing
-
-
 
 void scope_act_80062E8C(Actor_scope *pActor)
 {
