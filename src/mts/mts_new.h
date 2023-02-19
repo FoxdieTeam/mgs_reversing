@@ -29,6 +29,11 @@ typedef struct mts_msg2
     // void* field_10;
 } mts_msg2;
 
+typedef struct mts_tmp
+{
+     TMtsFn fn;
+} mts_tmp;
+
 typedef struct mts_task
 {
     signed char field_0_state;
@@ -36,7 +41,7 @@ typedef struct mts_task
     signed char field_2_rcv_task_idx;
     signed char field_3_src_idx;
     mts_msg*    field_4_pMessage;
-    TMtsFn   field_8_fn_or_msg; // mts_msg2*?
+    mts_tmp   field_8_fn_or_msg; // mts_msg2*?
     signed char field_C_ref_count;
     signed char field_D;
     char        field_E;
