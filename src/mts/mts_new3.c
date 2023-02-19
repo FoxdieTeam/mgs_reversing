@@ -318,7 +318,7 @@ int mts_wait_vbl_800895F4(int wait_vblanks)
 }
 
 
-void mts_send_8008982C(int dst, int *message)
+void mts_send_8008982C(int dst, mts_msg2 *message)
 {
     mts_task *pDstTask; // $s0
     int *field_8_fn; // $v1
@@ -352,10 +352,10 @@ void mts_send_8008982C(int dst, int *message)
     {
         field_8_fn = (int*)pDstTask->field_8_fn_or_msg.fn;
         pDstTask->field_3_src_idx = gTaskIdx_800C0DB0;
-        *field_8_fn = *message;
-        field_8_fn[1] = message[1];
-        field_8_fn[2] = message[2];
-        field_8_fn[3] = message[3];
+        *field_8_fn = *(int*)message; // todo
+        field_8_fn[1] = ((int*)message)[1];
+        field_8_fn[2] = ((int*)message)[2];
+        field_8_fn[3] = ((int*)message)[3];
         pDstTask->field_0_state = 3;
         pDstTask->field_8_fn_or_msg.fn = 0;
         gMts_bits_800C0DB4 = gMts_bits_800C0DB4 | (1 << dst);
@@ -1267,8 +1267,8 @@ int mts_sta_tsk_8008B47C(int tasknr, void (*proc)(void), void *stack_pointer)
     msg.field_8 = proc;
     msg.field_0 = 0;
     msg.field_C = stack_pointer;
-    mts_send_8008982C(0, (int *)&msg);
-    src_idx = mts_receive_80089D24(0, (int *)&msg);
+    mts_send_8008982C(0, &msg);
+    src_idx = mts_receive_80089D24(0, &msg);
     if (src_idx)
     {
         mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1344, gTaskIdx_800C0DB0);
