@@ -3,29 +3,26 @@
 #include "Game/object.h"
 #include "Game/target.h"
 #include "Game/linkvarbuf.h"
+#include "Okajima/chafgrnd.h"
 #include "grenade.h"
 #include "libdg/libdg.h"
 #include "map/map.h"
 
 // grenade/stun/chaff (in hands)
 
+extern short         d_800AB9EC_mag_size;
+extern short         d_800ABA2C_ammo;
+extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       svector_800ABA10;
+extern int           DG_CurrentGroupID_800AB968;
+extern Blast_Data    blast_data_8009F4B8;
+extern ushort        dword_8009F3E4[];
+extern SVECTOR       dword_8009F3EC[];
+extern SVECTOR       dword_8009F3F4[];
+extern TBombFunction GM_lpfnBombHoming_800AB3E8;
+extern int           GM_PlayerStatus_800ABA50;
+
 extern const char aGrenadeC[]; // = "grenade.c"
-extern short      d_800AB9EC_mag_size;
-extern short      d_800ABA2C_ammo;
-
-extern SVECTOR    DG_ZeroVector_800AB39C;
-extern SVECTOR    svector_800ABA10;
-
-extern int        DG_CurrentGroupID_800AB968;
-
-extern Blast_Data dword_8009F4B8;
-extern ushort     dword_8009F3E4[];
-extern SVECTOR    dword_8009F3EC[];
-extern SVECTOR    dword_8009F3F4[];
-extern int        GM_lpfnBombHoming_800AB3E8;
-extern int        GM_PlayerStatus_800ABA50;
-
-void              NewChafgrnd_80077264( MATRIX *pMtx );
 
 //------------------------------------------------------------------------------
 
@@ -78,7 +75,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			{
 			case GRD_GRENADE:
 			case GRD_TBOMB:
-				NewBlast_8006DFDC( world, &dword_8009F4B8 );
+				NewBlast_8006DFDC( world, &blast_data_8009F4B8 );
 				break;
 			case GRD_STUN:
 				NewStanBlast_80074B5C( world );
