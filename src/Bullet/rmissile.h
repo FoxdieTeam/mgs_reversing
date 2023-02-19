@@ -48,8 +48,7 @@ typedef struct Actor_rmissile
     DG_PRIM        *field_2D8_prim;
     DG_TEX         *field_2DC_tex;
     char            field_2E0[4];
-    SVECTOR         field_2E4_svector;
-    char            field_2EC[54];
+    SVECTOR         field_2E4_svector_8Array[8];
     int             field_324;
 } Actor_rmissile;
 
