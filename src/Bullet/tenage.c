@@ -6,7 +6,7 @@ extern char aTenageC[]; // = "tenage.c"
 
 // the projectile for all types of grenades
 
-#pragma INCLUDE_ASM("asm/tenage_act_800699A4.s") // 1048 bytes
+#pragma INCLUDE_ASM("asm/Bullet/tenage_act_800699A4.s") // 1048 bytes
 
 extern GM_Control  *tenage_ctrls_800BDD30[16];
 extern int         tenage_ctrls_count_800BDD70;

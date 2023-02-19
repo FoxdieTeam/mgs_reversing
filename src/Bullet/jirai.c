@@ -16,7 +16,7 @@ extern int         dword_8009F444;
 extern int         dword_8009F440;
 extern GM_Control *gSnaControl_800AB9F4;
 
-#pragma INCLUDE_ASM("asm/jirai_loader_helper_8006A798.s") // 348 bytes
+#pragma INCLUDE_ASM("asm/Bullet/jirai_loader_helper_8006A798.s") // 348 bytes
 
 extern int     GM_PlayerStatus_800ABA50;
 extern SVECTOR svector_800ABA10;
@@ -42,8 +42,8 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
     return GV_VecLen3_80016D80(&v) < 800;
 }
 
-#pragma INCLUDE_ASM("asm/jirai_act_helper_8006A950.s") // 524 bytes
-#pragma INCLUDE_ASM("asm/jirai_act_8006AB5C.s")        // 1280 bytes
+#pragma INCLUDE_ASM("asm/Bullet/jirai_act_helper_8006A950.s") // 524 bytes
+#pragma INCLUDE_ASM("asm/Bullet/jirai_act_8006AB5C.s")        // 1280 bytes
 
 extern Jirai_unknown stru_800BDE78[8];
 
