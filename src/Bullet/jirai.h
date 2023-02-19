@@ -57,7 +57,7 @@ typedef struct Jirai_unknown
 
 int          jirai_act_8006AB5C(Actor_Jirai *pActor);
 int          jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
-void         jirai_loader_helper_8006A798(MATRIX *pMtx1, MATRIX *pMtx2, GM_Target *pTarget);
+MATRIX      *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTarget);
 int          jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
 void         jirai_kill_8006B05C(Actor_Jirai *pActor);
 Actor_Jirai *NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget);
