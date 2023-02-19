@@ -101,6 +101,7 @@
     include "..\obj\libfs\FS_LoadStageComplete_80023804.obj"
     include "..\obj\libfs\FS_MovieFileInit_80023860.obj"
     include "..\obj\sub_8002399C.obj"
+    include "..\obj\sub_800239E8.obj"
     include "..\obj\sub_80023C40.obj"
     include "..\obj\libfs\FS_StreamTaskStart_80023D94.obj"
     include "..\obj\libfs\FS_StreamTaskState_80023E0C.obj"
