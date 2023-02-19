@@ -10,15 +10,46 @@
 #include "rmissile.h"
 #include "map/map.h"
 #include "libgcl/hash.h"
+#include "libdg/libdg.h"
+#include "libgv/libgv.h"
 
 // nikita missile
 
-extern int             GM_CameraTrackSave_800AB42C;
-extern SVECTOR         GM_CameraRotateSave_800AB430;
-extern int             GM_event_camera_flag_800ABA9C;
-extern GM_Camera       GM_Camera_800B77E8;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern CAMERA          GM_CameraList_800B7718[8];
+extern MATRIX           DG_ZeroMatrix_8009D430;
+extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          svector_8009F488;
+extern int              dword_8009F470;
+extern GV_PAD           GV_PadData_800B05C0[4];
+extern int              dword_8009F46C;
+extern SVECTOR          svector_8009F478;
+extern OBJECT *         dword_800ABA20;
+extern int              GM_GameOverTimer_800AB3D4;
+extern SVECTOR          svector_800ABA10;
+extern int              GV_Clock_800AB920;
+extern int              dword_8009F480;
+extern Blast_Data       blast_data_8009F508;
+extern Blast_Data       blast_data_8009F544;
+extern int              GM_CurrentMap_800AB9B0;
+extern int              dword_8009F474;
+extern DG_CHNL          DG_Chanls_800B1800[3];
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern GM_Target        *target_800BDF00;
+extern short            Nik_Blast_8009F484;
+extern int              dword_8009F604;
+extern int              dword_800BDEF8[];
+extern int              GM_GameStatus_800AB3CC;
+extern GM_Control      *gSnaControl_800AB9F4;
+extern int              GM_CameraTrackSave_800AB42C;
+extern SVECTOR          GM_CameraRotateSave_800AB430;
+extern int              GM_event_camera_flag_800ABA9C;
+extern GM_Camera        GM_Camera_800B77E8;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern CAMERA           GM_CameraList_800B7718[8];
+
+extern const char aEnemy[];     // = "ENEMY\n"
+extern const char aD_4[];       // = "%d"
+extern const char aSocomF[];    // = "socom_f"
+extern const char rRmissileC[]; // = "rmissile.c"
 
 void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
 {
@@ -45,9 +76,6 @@ void rmissile_8006B888(Actor_rmissile *pActor)
     GM_CameraEventReset_800309A8();
 }
 
-extern int GM_GameStatus_800AB3CC;
-extern GM_Control *gSnaControl_800AB9F4;
-
 void rmissile_8006B924(Actor_rmissile *pActor)
 {
     GM_Control *ctrl;
@@ -66,10 +94,6 @@ void rmissile_8006B924(Actor_rmissile *pActor)
         HZD_ReExecEvent_8002A1F4(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown, 0x102);
     }
 }
-
-extern short Nik_Blast_8009F484;
-extern int   dword_8009F604;
-extern int   dword_800BDEF8[];
 
 void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
 {
@@ -91,11 +115,6 @@ void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
         GM_Sound_80032968(0, 0x3F, 0x15);
     }
 }
-
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern GM_Target        *target_800BDF00;
-
-extern const char aEnemy[]; // = "ENEMY\n"
 
 void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
 {
@@ -126,11 +145,6 @@ void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
         menu_Text_Init_80038B98();
     }
 }
-
-extern int     GV_Clock_800AB920;
-extern DG_CHNL DG_Chanls_800B1800[3];
-
-extern const char aD_4[]; // = "%d"
 
 void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
 {
@@ -275,8 +289,6 @@ void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
     }
 }
 
-extern int dword_8009F474;
-
 void rmissile_act_helper_8006BEEC(Actor_rmissile *pActor)
 {
     if (pActor->field_117)
@@ -361,12 +373,6 @@ int rmissile_act_helper_helper_8006C0A4(void)
     return 0;
 }
 
-extern int        dword_8009F480;
-extern Blast_Data blast_data_8009F508;
-extern Blast_Data blast_data_8009F544;
-extern SVECTOR    DG_ZeroVector_800AB39C;
-extern int        GM_CurrentMap_800AB9B0;
-
 void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 {
     SVECTOR *pPosition;
@@ -431,28 +437,25 @@ void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
     SVECTOR   vecs[8];
     POLY_FT4 *pPoly;
     DG_TEX   *pTex;
-
     int i;
     int inc;
-
     int offx;
     int offy;
     int width;
     int height;
-
-    int var_s4;
-    int temp_s0;
-    int temp_v0;
+    int y;
+    int rand1;
+    int rand2;
 
     if (pActor->field_11C > 0)
     {
-        inc = 0x50;
-        var_s4 = 0x78;
+        inc = 80;
+        y = 120;
     }
     else
     {
-        inc = 0x40;
-        var_s4 = 0x78;
+        inc = 64;
+        y = 120;
     }
 
     pPoly = &pActor->field_2D8_prim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
@@ -482,31 +485,33 @@ void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
 
         vecs[i].vz = 0;
 
-        pActor->field_2E4_svector_8Array[i].pad = var_s4;
-        var_s4 = (var_s4 * 15) / 16;
+        pActor->field_2E4_svector_8Array[i].pad = y;
+        y = 15 * y / 16;
 
-        temp_s0 = GV_RandU_80017090(4) & 1;
-        temp_v0 = GV_RandU_80017090(4);
+
+        rand1 = GV_RandU_80017090(4) & 1;
+        rand2 = GV_RandU_80017090(4);
 
         pTex = pActor->field_2DC_tex;
 
         offx = pActor->field_2DC_tex->field_8_offx;
         width = pActor->field_2DC_tex->field_A_width + 1;
 
-        pPoly->u3 = offx + (width << temp_s0) / 2 - 1;
-        pPoly->u1 = offx + (width << temp_s0) / 2 - 1;
+        pPoly->u3 = offx + (width << rand1) / 2 - 1;
+        pPoly->u1 = offx + (width << rand1) / 2 - 1;
 
-        pPoly->u2 = offx + ((width * temp_s0) >> 1);
-        pPoly->u0 = offx + ((width * temp_s0) >> 1);
+        pPoly->u2 = offx + ((width * rand1) >> 1);
+        pPoly->u0 = offx + ((width * rand1) >> 1);
+
 
         offy = pActor->field_2DC_tex->field_9_offy;
         height = pActor->field_2DC_tex->field_B_height + 1;
 
-        pPoly->v1 = offy + (height * (temp_v0 / 2)) / 2;
-        pPoly->v0 = offy + (height * (temp_v0 / 2)) / 2;
+        pPoly->v1 = offy + (height * (rand2 / 2)) / 2;
+        pPoly->v0 = offy + (height * (rand2 / 2)) / 2;
 
-        pPoly->v3 = offy + (height * (temp_v0 / 2 + 1)) / 2 - 1;
-        pPoly->v2 = offy + (height * (temp_v0 / 2 + 1)) / 2 - 1;
+        pPoly->v3 = offy + (height * (rand2 / 2 + 1)) / 2 - 1;
+        pPoly->v2 = offy + (height * (rand2 / 2 + 1)) / 2 - 1;
 
         pPoly->r0 = 128u - i * 16;
         pPoly->g0 = 128u - i * 16;
@@ -516,13 +521,6 @@ void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
     DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutVector_8001BE48(vecs, pActor->field_2E4_svector_8Array, 8);
 }
-
-extern GV_PAD  GV_PadData_800B05C0[4];
-extern int     dword_8009F46C;
-extern SVECTOR svector_8009F478;
-extern OBJECT *dword_800ABA20;
-extern int     GM_GameOverTimer_800AB3D4;
-extern SVECTOR svector_800ABA10;
 
 void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 {
@@ -637,7 +635,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             svector_8009F478 = vector2 = pActor->field_20_ctrl.field_0_position;
 
             GM_ActObject2_80034B88(&pActor->field_9C_kmd);
-            DG_GetLightMatrix2_8001A5D8(&vector2, &pActor->field_C0_matrix);
+            DG_GetLightMatrix2_8001A5D8(&vector2, pActor->field_C0_light_matrices);
 
             if (!pActor->field_117 && !pActor->field_110)
             {
@@ -676,8 +674,6 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
     }
 }
 
-extern int   dword_8009F470;
-
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 {
     DG_PRIM *prim;
@@ -711,8 +707,6 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
         rmissile_8006B924(pActor);
     }
 }
-
-extern SVECTOR svector_8009F488;
 
 int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
 {
@@ -816,10 +810,6 @@ void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *pPoly, DG_TEX *pTex, int p
     }
 }
 
-extern const char aSocomF[]; // = "socom_f"
-
-extern MATRIX DG_ZeroMatrix_8009D430;
-
 void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
 {
     int hash;
@@ -832,7 +822,7 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
     tex = DG_GetTexture_8001D830(hash);
 
     pActor->field_2DC_tex = tex;
-    prim = pActor->field_2D8_prim  = Takabe_MakeIndividualRect3DPrim_800793E8(8, &pActor->field_2E4_svector_8Array[0]);
+    prim = pActor->field_2D8_prim  = Takabe_MakeIndividualRect3DPrim_800793E8(8, pActor->field_2E4_svector_8Array);
 
     rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 8);
     rmissile_loader_helper_helper_8006CD1C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 8);
@@ -846,6 +836,7 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
     {
         (vec++)->pad = 0;
     }
+
 }
 
 static inline int rmissile_loader_8006CF44_get_field_59(void)
@@ -894,7 +885,7 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
         return -1;
     }
 
-    GM_ConfigObjectLight_80034C44(kmd, &pActor->field_C0_matrix);
+    GM_ConfigObjectLight_80034C44(kmd, pActor->field_C0_light_matrices);
 
     if (rmissile_loader_helper3_8006CBD8(pActor, whichSide) < 0)
     {
@@ -912,8 +903,6 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
     rmissile_loader_helper_8006CE54(pActor);
     return 0;
 }
-
-extern const char rRmissileC[]; // = "rmissile.c"
 
 Actor_rmissile * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
 {
