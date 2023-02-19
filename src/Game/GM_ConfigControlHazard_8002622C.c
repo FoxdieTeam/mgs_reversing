@@ -96,7 +96,7 @@ void GM_ConfigControlRadarparam_800262EC(GM_Control *pControl, short param_2, sh
                                          short param_5)
 {
     SVECTOR *pVec;
-    
+
     pVec = &pControl->field_3C;
     pVec->vx = param_2;
     pVec->vy = param_3;
