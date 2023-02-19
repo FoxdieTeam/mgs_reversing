@@ -17,6 +17,7 @@ extern void          SpuSetVoiceAttr_80097518(SpuVoiceAttr *arg);
 
 DISPENV           *PutDispEnv_80090094(DISPENV *env);
 MATRIX            *MulMatrix0_80092A48(MATRIX *m0, MATRIX *m1, MATRIX *m2);
+MATRIX            *MulMatrix2_80092F68(MATRIX *m0, MATRIX *m1);
 MATRIX            *MulRotMatrix_80092B58(MATRIX *m0);
 MATRIX            *ScaleMatrix_800930D8(MATRIX *m, VECTOR *v);
 MATRIX            *RotMatrixYXZ_80093798(SVECTOR *r, MATRIX *m);
