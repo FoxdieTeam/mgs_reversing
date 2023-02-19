@@ -263,9 +263,7 @@ map_record *BSS     claymore_map_record_800bdf08; // 0x4 (4) bytes
 gap                                     gap_800BDF0C[0x4]; // 4 bytes
 
 short BSS           gSparkRandomTable_800BDF10[0x40]; // 0x80 (128) bytes
-
-gap                                     gap_800BDF90[0x8]; // 8 bytes
-
+SVECTOR BSS         stru_800BDF90; // 0x8 (8) bytes
 int BSS             dword_800BDF98; // 0x4 (4) bytes
 int BSS             dword_800BDF9C; // 0x4 (4) bytes
 int BSS             dword_800BDFA0; // 0x4 (4) bytes

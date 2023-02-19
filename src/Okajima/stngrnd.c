@@ -1,14 +1,19 @@
 #include "stngrnd.h"
 #include "Anime/animeconv/anime.h"
+#include "Game/game.h"
 
 extern ANIMATION stru_8009F670;
 extern ANIMATION stru_8009F68C;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
+int stngrnd_loader_800748D8(Actor_StunGrenade *pActor, MATRIX *pMtx);
+
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader2_80074644.s") // 112 bytes
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_800746B4.s")         // 124 bytes
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_act_80074730.s")     // 276 bytes
+void stngrnd_act_80074730(Actor_StunGrenade* pActor);
+
 
 void stngrnd_free_80074844(int pActor, int num)
 {
@@ -26,13 +31,48 @@ void stngrnd_free_80074844(int pActor, int num)
     }
 }
 
-void stngrnd_kill_800748B8(int param_1)
+void stngrnd_kill_800748B8(Actor_StunGrenade* param_1)
 {
-    stngrnd_free_80074844(param_1, 8);
+    stngrnd_free_80074844((int)param_1, 8);
 }
 
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader_800748D8.s") // 644 bytes
-#pragma INCLUDE_ASM("asm/Okajima/NewStanBlast_80074B5C.s")   // 328 bytes
+
+extern SVECTOR stru_800BDF90;
+extern int GM_NoisePower_800ABA24;
+extern int        claymore_map_800AB9DC;
+
+extern const char aStngrndC[];
+
+Actor_StunGrenade* NewStanBlast_80074B5C(MATRIX *pMtx)
+{
+    Actor_StunGrenade *pActor; // $s0
+
+    if ( (GM_GameStatus_800AB3CC & 2) != 0 )
+    {
+        return 0;
+    }
+    
+    pActor = (Actor_StunGrenade *)GV_NewActor_800150E4(5, sizeof(Actor_StunGrenade));
+    if ( pActor )
+    {
+        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)stngrnd_act_80074730, (TActorFunction)stngrnd_kill_800748B8, aStngrndC);
+        
+        claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
+        
+        if ( stngrnd_loader_800748D8(pActor, pMtx) < 0 )
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0);
+            return 0;
+        }
+    
+        stru_800BDF90 = pActor->field_E0;
+        GM_SeSet_80032858(&pActor->field_E0, 41);
+    
+        GM_SetNoise(255, 32, &pActor->field_E0);
+    }
+    return pActor;
+}
 
 void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
 {
