@@ -29,9 +29,10 @@ typedef struct mts_msg2
     // void* field_10;
 } mts_msg2;
 
-typedef struct mts_tmp
+typedef union mts_tmp
 {
      TMtsFn fn;
+     mts_msg2* pMsg;
 } mts_tmp;
 
 typedef struct mts_task
