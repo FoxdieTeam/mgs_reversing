@@ -9,17 +9,70 @@
 
 // claymore (on ground)
 
+extern int           counter_8009F448;
+extern int           dword_8009F444;
+extern int           dword_8009F440;
+extern GM_Control   *gSnaControl_800AB9F4;
+extern int           GM_PlayerStatus_800ABA50;
+extern SVECTOR       svector_800ABA10;
+extern Jirai_unknown stru_800BDE78[8];
+extern SVECTOR        svec_8009F44C;
+extern SVECTOR        svec_8009F454;
+extern SVECTOR        svec_8009F45C;
+extern SVECTOR        svec_8009F464;
+extern int            dword_800ABA0C;
+
 extern const char aJiraiC[];
+extern const char aClaymore_2[];
 
-extern int         counter_8009F448;
-extern int         dword_8009F444;
-extern int         dword_8009F440;
-extern GM_Control *gSnaControl_800AB9F4;
+// GM_Target here seems to be wrong
+MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTarget)
+{
+    MATRIX mtx1;
+    MATRIX mtx2;
 
-#pragma INCLUDE_ASM("asm/Bullet/jirai_loader_helper_8006A798.s") // 348 bytes
+    GM_Target *temp_v0;
 
-extern int     GM_PlayerStatus_800ABA50;
-extern SVECTOR svector_800ABA10;
+    int var_a2;
+    int var_a0;
+    int var_v1;
+
+    if (!pTarget)
+    {
+        *arg0 = *arg1;
+    }
+    else
+    {
+        temp_v0 = (GM_Target *)((int)pTarget | 0x80000000);
+
+        var_a2 = temp_v0->field_10_size.pad << 4;
+        var_v1 = ((int)temp_v0->field_1C >> 16) << 4;
+        var_a0 = temp_v0->field_26_hp << 4;
+
+        if (var_a0 < 0)
+        {
+            var_a2 = -var_a2;
+            var_a0 = -var_a0;
+            var_v1 = -var_v1;
+        }
+
+        mtx1.m[2][0] = 0;
+        mtx1.m[0][1] = var_a2;
+        mtx1.m[1][0] = -var_a2;
+        mtx1.m[0][0] = var_a0;
+        mtx1.m[1][1] = var_a0;
+        mtx1.m[2][1] = var_v1;
+        mtx1.m[0][2] = 0;
+        mtx1.m[2][2] = var_a0;
+        mtx1.m[1][2] = -var_v1;
+
+        mtx2 = *arg1;
+        MulMatrix2_80092F68(&mtx1, &mtx2);
+        *arg0 = mtx2;
+    }
+
+    return arg0;
+}
 
 int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 {
@@ -44,8 +97,6 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 
 #pragma INCLUDE_ASM("asm/Bullet/jirai_act_helper_8006A950.s") // 524 bytes
 #pragma INCLUDE_ASM("asm/Bullet/jirai_act_8006AB5C.s")        // 1280 bytes
-
-extern Jirai_unknown stru_800BDE78[8];
 
 // A different version of ExecProc is used here, which checks for a proccess ID less than zero.
 #define ExecProc(proc_id, mode)            \
@@ -82,11 +133,6 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
     dword_8009F444 = 0;
     dword_8009F440 = 0;
 }
-
-extern SVECTOR svec_8009F44C;
-extern SVECTOR svec_8009F454;
-extern SVECTOR svec_8009F45C;
-extern SVECTOR svec_8009F464;
 
 int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3)
 {
@@ -145,10 +191,6 @@ int jirai_get_free_item_8006B268()
     }
     return -1;
 }
-
-extern const char aClaymore_2[];
-
-extern int dword_800ABA0C;
 
 int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
 {
@@ -217,7 +259,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     return 0;
 }
 
-Actor_Jirai *NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
+Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
 {
     Actor_Jirai *pActor; // $s0
 
@@ -307,7 +349,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int where)
     return 0;
 }
 
-GV_ACT *NewScenarioJirai_8006B76C(int a1, int where)
+Actor_Jirai * NewScenarioJirai_8006B76C(int a1, int where)
 {
     Actor_Jirai *pActor = (Actor_Jirai *)GV_NewActor_800150E4(6, sizeof(Actor_Jirai));
     if (pActor)
@@ -317,8 +359,8 @@ GV_ACT *NewScenarioJirai_8006B76C(int a1, int where)
         if (jirai_loader_8006B564(pActor, a1, where) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
-            return 0;
+            return NULL;
         }
     }
-    return &pActor->field_0_actor;
+    return pActor;
 }
