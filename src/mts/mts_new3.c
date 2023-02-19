@@ -1147,11 +1147,11 @@ void mts_8008B0A4(void)
     struct TCB *pTcb;
     mts_msg *field_4_pMessage;
     int field_18_tcb;
-    int msg[4];
+    mts_msg2 msg;
 
     while (1)
     {
-        sys_client = mts_receive_80089D24(-2, msg);
+        sys_client = mts_receive_80089D24(-2, &msg);
 
         if (((((sys_client < 0) || (sys_client < 0)) || (sys_client > 11)) || (sys_client == 0)) || (sys_client == 11))
         {
@@ -1161,16 +1161,16 @@ void mts_8008B0A4(void)
             mts_print_process_status_8008B77C();
         }
 
-        msg_field_0 = msg[0];
+        msg_field_0 = msg.field_0;
         bDoSend = 1;
 
         switch (msg_field_0)
         {
         case 0:
-            field_4_task_idx = msg[1];
-            field_8_start_vblanks = msg[2];
-            field_C_end_vblanks = msg[3];
-            mts_printf_8008BBA0(aTaskDStart, msg[1]);
+            field_4_task_idx = msg.field_4_task_idx;
+            field_8_start_vblanks = msg.field_8;
+            field_C_end_vblanks = msg.field_C;
+            mts_printf_8008BBA0(aTaskDStart, msg.field_4_task_idx);
 
             if (((((field_4_task_idx >= 0) && (((unsigned int) field_4_task_idx) < 0xC)) && (!gTasks_800C0C30[field_4_task_idx].field_0_state)) && field_8_start_vblanks) && field_C_end_vblanks)
             {
@@ -1193,7 +1193,7 @@ void mts_8008B0A4(void)
                 gMts_bits_800C0DB4 |= 1 << field_4_task_idx;
                 pTask->field_E = 0;
                 SwExitCriticalSection_8009956C();
-                msg[0] = 0;
+                msg.field_0 = 0;
             }
             else
             {
@@ -1201,7 +1201,7 @@ void mts_8008B0A4(void)
                 mts_printf_8008BBA0(aTaskDAlreadyEx, field_4_task_idx);
                 mts_printf_8008BBA0(asc_80013E2C);
                 mts_print_process_status_8008B77C();
-                msg[0] = -1;
+                msg.field_0 = -1;
             }
             break;
 
@@ -1245,7 +1245,7 @@ void mts_8008B0A4(void)
 
         default:
             mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 1320, gTaskIdx_800C0DB0);
-            mts_printf_8008BBA0(aSystemWrongCod, msg[0]);
+            mts_printf_8008BBA0(aSystemWrongCod, msg.field_0);
             mts_printf_8008BBA0(asc_80013E2C);
             mts_print_process_status_8008B77C();
             break;
@@ -1253,7 +1253,7 @@ void mts_8008B0A4(void)
 
         if (bDoSend)
         {
-            mts_send_8008982C(sys_client, msg);
+            mts_send_8008982C(sys_client, &msg);
         }
     }
 }
