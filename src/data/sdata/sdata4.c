@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "libgcl/gcl.h"
+#include "Game/game.h"
 #include "Menu/menuman.h"
 
 GCL_ARGS SECTION(".sdata") gcl_null_args_800AB3BC = {};
@@ -16,9 +17,11 @@ int SECTION(".sdata") GM_lpfnPlayerActControl_800AB3DC = 0;
 int SECTION(".sdata") GM_lpfnPlayerActObject2_800AB3E0 = 0;
 short SECTION(".sdata") GM_uBombHoming_800AB3E4 = 0;
 short SECTION(".sdata") GM_uTenageMotion_800AB3E6 = -1;
-int SECTION(".sdata") GM_lpfnBombHoming_800AB3E8 = 0;
-int SECTION(".sdata") GM_lpfnBombBound_800AB3EC = 0;
-int SECTION(".sdata") GM_lpfnBombExplosion_800AB3F0 = 0;
+
+TBombFunction  SECTION(".sdata") GM_lpfnBombHoming_800AB3E8 = NULL;
+TBombFunction2 SECTION(".sdata") GM_lpfnBombBound_800AB3EC = NULL;
+TBombFunction3 SECTION(".sdata") GM_lpfnBombExplosion_800AB3F0 = NULL;
+
 int SECTION(".sdata") GM_PadResetDisable_800AB3F4 = 0;
 
 char SECTION(".sdata") aInit[] = "init";
