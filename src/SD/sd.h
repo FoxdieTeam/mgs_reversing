@@ -149,7 +149,7 @@ typedef struct SEPLAYTBL
     unsigned int   field_8_code;
 } SEPLAYTBL;
 
-void sd_sng_alloc_80082194(void);
+int sd_sng_alloc_80082194(void);
 void pan_set2_800882E4(unsigned char a1);
 void keyoff_80087F80(void);
 void StrSpuTransClose_80083394();

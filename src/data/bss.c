@@ -311,12 +311,10 @@ int BSS             dword_800BF000; // 0x4 (4) bytes
 int BSS             se_tracks_800BF004; // 0x4 (4) bytes
 int BSS             dword_800BF008; // 0x4 (4) bytes
 int BSS             blank_data_addr_800BF00C; // 0x4 (4) bytes
-char* BSS             cdload_buf_800BF010; // 0x4 (4) bytes
+char* BSS           cdload_buf_800BF010; // 0x4 (4) bytes
 int BSS             se_fp_800BF014; // 0x4 (4) bytes
 int BSS             sd_sng_code_buf_800BF018[16]; // 0x40 (64) bytes
-
-gap                                     gap_800BF058[0x4]; // 4 bytes
-
+char* BSS           CDLOAD_BUF_800BF058; // 0x4 (4) bytes
 int BSS             sd_KaihiMode_800BF05C; // 0x4 (4) bytes
 int BSS             spu_bgm_start_ptr_l_800BF060; // 0x4 (4) bytes
 int BSS             dword_800BF064; // 0x4 (4) bytes
@@ -355,7 +353,11 @@ gap                                     gap_800BF1AC[0xC]; // 12 bytes
 int BSS             se_pan_800BF1B8[8]; // 0x20 (32) bytes
 int BSS             dword_800BF1D8; // 0x4 (4) bytes
 
-gap                                     gap_800BF1DC[0xC]; // 12 bytes
+gap                                     gap_800BF1DC[0x4]; // 4 bytes
+
+WAVE_W* BSS         voice_tbl_800BF1E0; // 0x4 (4) bytes
+
+gap                                     gap_800BF1E4[0x4]; // 4 bytes
 
 int BSS             bgm_idx_800BF1E8; // 0x4 (4) bytes
 unsigned int BSS    mtrack_800BF1EC; // 0x4 (4) bytes
@@ -378,8 +380,9 @@ gap                                     gap_800BF278[0x4]; // 4 bytes
 
 int BSS             dword_800BF27C; // 0x4 (4) bytes
 
-gap                                     gap_800BF280[0x8]; // 8 bytes
+gap                                     gap_800BF280[0x4]; // 4 bytes
 
+char* BSS           se_header_800BF284; // 0x4 (4) bytes
 int BSS             sd_code_read_800BF288; // 0x4 (4) bytes
 int BSS             se_load_code_800BF28C; // 0x4 (4) bytes
 int BSS             sng_fade_in_2_800BF290; // 0x4 (4) bytes
@@ -422,12 +425,10 @@ int BSS             dword_800C0500; // 0x4 (4) bytes
 
 gap                                     gap_800C0504[0x4]; // 4 bytes
 
-char* BSS             wave_load_ptr_800C0508; // 0x4 (4) bytes
+char* BSS           wave_load_ptr_800C0508; // 0x4 (4) bytes
 int BSS             dword_800C050C; // 0x4 (4) bytes
 int BSS             sng_syukan_fg_800C0510; // 0x4 (4) bytes
-
-gap                                     gap_800C0514[0x4]; // 4 bytes
-
+char* BSS           str_header_800C0514; // 0x4 (4) bytes
 int BSS             sng_fout_term_800C0518; // 0x4 (4) bytes
 
 gap                                     gap_800C051C[0x4]; // 4 bytes
