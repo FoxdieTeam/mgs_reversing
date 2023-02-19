@@ -70,7 +70,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     addPrim(pOt, tpage);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003FD50.s") // 608 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_8003FD50.s") // 608 bytes
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 
@@ -427,7 +427,7 @@ void menu_radio_init_nullsub_80042190(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/menu_radio_update_80042198.s") // 1384 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_radio_update_80042198.s") // 1384 bytes
 
 void menu_radio_init_80042700(Actor_MenuMan *pMenu)
 {
@@ -504,7 +504,7 @@ void menu_number_kill_80042980(void)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s") // 476 bytes
-#pragma INCLUDE_ASM("asm/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s") // 320 bytes
 
@@ -649,12 +649,12 @@ void menu_draw_triangle_800435EC(MenuGlue *pGlue, Menu_Triangle *pTriangle)
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-#pragma INCLUDE_ASM("asm/sub_80043678.s") // 940 bytes
-#pragma INCLUDE_ASM("asm/sub_80043A24.s") // 1452 bytes
-#pragma INCLUDE_ASM("asm/sub_80043FD0.s") // 788 bytes
-#pragma INCLUDE_ASM("asm/sub_800442E4.s") // 788 bytes
-#pragma INCLUDE_ASM("asm/sub_800445F8.s") // 712 bytes
-#pragma INCLUDE_ASM("asm/sub_800448C0.s") // 432 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_80043678.s") // 940 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_80043A24.s") // 1452 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_80043FD0.s") // 788 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_800442E4.s") // 788 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_800445F8.s") // 712 bytes
+#pragma INCLUDE_ASM("asm/Menu/sub_800448C0.s") // 432 bytes
 
 void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 {

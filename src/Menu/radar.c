@@ -103,7 +103,7 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan)
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0);
 }
 
-#pragma INCLUDE_ASM("asm/draw_radar_helper2_800391D0.s") // 2956 bytes
+#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper2_800391D0.s") // 2956 bytes
 
 extern int gRadarClut_800AB498;
 int        SECTION(".sdata") gRadarClut_800AB498;
@@ -205,9 +205,9 @@ void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
 }
 
 // https://decomp.me/scratch/Ca3O2 - 94%
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
+#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
+#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
+#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
 
 void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
 {
@@ -221,7 +221,7 @@ void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-#pragma INCLUDE_ASM("asm/draw_radar_helper3_8003AA2C.s") // 824 bytes
+#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_8003AA2C.s") // 824 bytes
 
 void menu_radar_load_rpk_8003AD64()
 {
@@ -264,7 +264,7 @@ void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
     SetDrawEnv_800906B0(&pActor->field_CC_radar_data.field_0[index], &drawEnv);
 }
 
-#pragma INCLUDE_ASM("asm/draw_radar_8003AEC0.s") // 1168 bytes
+#pragma INCLUDE_ASM("asm/Menu/draw_radar_8003AEC0.s") // 1168 bytes
 
 
 
