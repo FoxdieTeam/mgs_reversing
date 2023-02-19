@@ -353,7 +353,7 @@ void mts_send_8008982C(int dst, mts_msg2 *message)
         field_8_fn_or_msg = pDstTask->field_8_fn_or_msg.pMsg;
         pDstTask->field_3_src_idx = gTaskIdx_800C0DB0;
         
-        field_8_fn_or_msg->field_0 = message->field_0; // todo
+        field_8_fn_or_msg->field_0 = message->field_0;
         field_8_fn_or_msg->field_4_task_idx = message->field_4_task_idx;
         field_8_fn_or_msg->field_8 = message->field_8;
         field_8_fn_or_msg->field_C = message->field_C;
@@ -503,12 +503,12 @@ int mts_receive_80089D24(int src, mts_msg2 *message)
     mts_task *pTask; // $s2
     int bitMask; // $a0
     mts_task *v8; // $s0
-    int *field_8_fn_or_msg; // $v1
+    mts_msg2 *field_8_fn_or_msg; // $v1
     int field_2_rcv_task_idx; // $s0
     int idx_copy; // $s3
     int recv_idx; // $v0
     mts_task *pRcvTask; // $s1
-    int *pRcvMsg; // $v1
+    mts_msg2 *pRcvMsg; // $v1
     int task_idx; // $v1
     int bChangeThreadContext; // $v0
 
@@ -584,11 +584,11 @@ int mts_receive_80089D24(int src, mts_msg2 *message)
                 mts_print_process_status_8008B77C();
             }
 
-            field_8_fn_or_msg = (int *)v8->field_8_fn_or_msg.fn;
-            *(int*)message = *field_8_fn_or_msg; // TODO
-            ((int*)message)[1] = field_8_fn_or_msg[1];
-            ((int*)message)[2] = field_8_fn_or_msg[2];
-            ((int*)message)[3] = field_8_fn_or_msg[3];
+            field_8_fn_or_msg = v8->field_8_fn_or_msg.pMsg;
+            message->field_0 = field_8_fn_or_msg->field_0;
+            message->field_4_task_idx = field_8_fn_or_msg->field_4_task_idx;
+            message->field_8 = field_8_fn_or_msg->field_8;
+            message->field_C = field_8_fn_or_msg->field_C;
 
             pTask->field_3_src_idx = pTask->field_2_rcv_task_idx;
             gMts_bits_800C0DB4 |= 1 << pTask->field_2_rcv_task_idx;
@@ -639,11 +639,12 @@ int mts_receive_80089D24(int src, mts_msg2 *message)
                     mts_print_process_status_8008B77C();
                 }
 
-                pRcvMsg = (int *)pRcvTask->field_8_fn_or_msg.fn;
-                *(int*)message = *pRcvMsg;
-                ((int*)message)[1] = pRcvMsg[1];
-                ((int*)message)[2] = pRcvMsg[2];
-                ((int*)message)[3] = pRcvMsg[3];
+                pRcvMsg = pRcvTask->field_8_fn_or_msg.pMsg;
+                message->field_0 = pRcvMsg->field_0;
+                message->field_4_task_idx = pRcvMsg->field_4_task_idx;
+                message->field_8 = pRcvMsg->field_8;
+                message->field_C = pRcvMsg->field_C;
+
                 pTask->field_3_src_idx = field_2_rcv_task_idx;
                 pRcvTask->field_0_state = 3;
                 pRcvTask->field_8_fn_or_msg.fn = 0;
