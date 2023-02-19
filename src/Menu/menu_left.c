@@ -67,7 +67,7 @@ PANEL_TEXTURE * menu_rpk_8003B5E0(int index)
 
 // https://decomp.me/scratch/txHAy
 // G0 function in a G8 file
-#pragma INCLUDE_ASM("asm/menu_8003B614.s") // 188 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_8003B614.s") // 188 bytes
 
 int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
 {
@@ -400,10 +400,10 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper2_8003BF1C.s") // 816 bytes
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
-#pragma INCLUDE_ASM("asm/menu_inventory_left_update_8003C95C.s") // 572 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper2_8003BF1C.s") // 816 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_8003C95C.s") // 572 bytes
 
 int sub_8003CB98(struct Actor_MenuMan *pActor)
 {
