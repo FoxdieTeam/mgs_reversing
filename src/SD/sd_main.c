@@ -396,7 +396,44 @@ void SD_80082170(int param_1)
     SpuSetKey_80096C18(1, param_1);
 }
 
+const char aSngDataX[];
+const char aWaveHeaderX[];
+const char aVoiceTblX[];
+const char aSeHeaderX[];
+const char aSeDataX[];
+const char aCdloadBufXXX[];
+const char aStrHeaderX[];
+
+extern WAVE_W* voice_tbl_800BF1E0;
+extern char* se_header_800BF284;
+extern char* CDLOAD_BUF_800BF058;
+extern char* str_header_800C0514;
+extern WAVE_W* voice_tbl_800C0530;
+
 #pragma INCLUDE_ASM("asm/SD/sd_sng_alloc_80082194.s") // 308 bytes
+
+/*
+int sd_sng_alloc_80082194()
+{
+    sd_sng_data_800C0420 = (char*)0x801E0000;
+    mts_printf_8008BBA0(aSngDataX, 0x801E0000);
+    voice_tbl_800BF1E0 =  (WAVE_W *)sd_sng_data_800C0420 + 0x4000;
+    mts_printf_8008BBA0(aWaveHeaderX, sd_sng_data_800C0420 + 0x4000);
+    voice_tbl_800C0530 = (WAVE_W *)voice_tbl_800BF1E0;
+    mts_printf_8008BBA0(aVoiceTblX, voice_tbl_800BF1E0);
+    se_exp_table_800C0520 = (char*)voice_tbl_800BF1E0 + 4096;
+    mts_printf_8008BBA0(aSeHeaderX, voice_tbl_800BF1E0 + 4096);
+    se_header_800BF284 = se_exp_table_800C0520 + 2048;
+    mts_printf_8008BBA0(aSeDataX, se_exp_table_800C0520 + 2048);
+    cdload_buf_800BF010 = se_header_800BF284 + 0x2000;
+    mts_printf_8008BBA0(aCdloadBufXXX, se_header_800BF284 + 0x2000, 0x18000, se_header_800BF284 + 0x1A000);
+    CDLOAD_BUF_800BF058 = cdload_buf_800BF010 + 0x18000;
+    mts_printf_8008BBA0(aStrHeaderX, cdload_buf_800BF010 + 0x18000);
+
+    str_header_800C0514 = cdload_buf_800BF010;
+    return 0;
+}
+*/
 
 void StrFadeIn_800822C8(unsigned int a1)
 {
