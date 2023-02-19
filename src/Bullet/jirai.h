@@ -16,15 +16,7 @@ typedef struct Actor_Jirai
     GV_ACT      field_0_actor;
     GM_Control field_20_ctrl;
     OBJECT     field_9C_obj;
-    MATRIX     field_C0_mtx;
-    int        field_E0;
-    int        field_E4;
-    int        field_E8;
-    int        field_EC;
-    int        field_F0;
-    int        field_F4;
-    int        field_F8;
-    int        field_FC;
+    MATRIX     field_C0_light_matrices[2];
     GM_Target *field_100_pTarget;
     SVECTOR    field_104_vec;
     short      field_10C;
@@ -43,7 +35,7 @@ typedef struct Actor_Jirai
     int        field_13C_idx;
     int        field_140;
     SVECTOR    field_144_vec;
-    int        field_14C;
+    int        field_14C_map;
     int        field_150;
 } Actor_Jirai;
 
@@ -55,11 +47,12 @@ typedef struct Jirai_unknown
     GM_Target  *field_C_pTarget;
 } Jirai_unknown;
 
-int          jirai_act_8006AB5C(Actor_Jirai *pActor);
-int          jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int a3);
-MATRIX      *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTarget);
-int          jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
-void         jirai_kill_8006B05C(Actor_Jirai *pActor);
+void    jirai_act_8006AB5C(Actor_Jirai *pActor);
+int     jirai_loader_8006B564(Actor_Jirai *pActor, int a2, int map);
+MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTarget);
+int     jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3);
+void    jirai_kill_8006B05C(Actor_Jirai *pActor);
+
 Actor_Jirai *NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget);
 
 #endif // _JIRAI_H_
