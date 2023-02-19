@@ -1,14 +1,15 @@
 #include "linker.h"
+#include "Menu/radio.h"
 
-extern int dword_800ABB7C;
+extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 
-int SECTION(".sbss") dword_800ABB7C;
+RadioFileModeStru_800ABB7C *SECTION(".sbss") stru_800ABB7C;
 
-int *menu_radio_do_file_mode_helper5_8004ABDC(int a1)
+int *menu_radio_do_file_mode_helper5_8004ABDC(int idx)
 {
     int *result;
 
-    result = (int *)(dword_800ABB7C + (16 * a1));
+    result = &stru_800ABB7C->field_0_array[idx].field_0;
     *result = 0;
     return result;
 }
