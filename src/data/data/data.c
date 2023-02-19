@@ -739,7 +739,7 @@ short SECTION(".data") word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 3
 
 SVECTOR SECTION(".data") stru_8009EFD4[2] = {{-100, 200, 200, 0}, {-150, 18, 200, 0}};
 
-Target_Data SECTION(".data") stru_8009EFE4[4] = 
+Target_Data SECTION(".data") stru_8009EFE4[4] =
 {
     {{0, 0, 300, 0}, {400, 600, 400, 0}, 0, 0, 64, 0}, // TODO: Might not be part of this array, might be its own element
     {{-400, 0, 600, 0}, {400, 600, 400, 0}, 0, 0, 36, 5},
@@ -847,15 +847,15 @@ int        SECTION(".data") dword_8009F49C = 0;
 SVECTOR    SECTION(".data") svector_8009F4A0 = {0, -800, 0, 0};
 SVECTOR    SECTION(".data") svector_8009F4A8 = {0, -350, 0, 0};
 SVECTOR    SECTION(".data") svector_8009F4B0 = {0, -100, -70, 0};
-int        SECTION(".data") dword_8009F4B8[] = {0x100, 5, 0x3E8, 0x7D0, 2};
 
+Blast_Data SECTION(".data") blast_data_8009F4B8 = {0x100, 5, 0x3E8, 0x7D0, 2};
 Blast_Data SECTION(".data") blast_data_8009F4CC = {0x100, 5, 0x3E8, 0x7D0, 6};
 Blast_Data SECTION(".data") blast_data_8009F4E0 = {0x100, 5, 0x3E8, 0x7D0, 5};
 Blast_Data SECTION(".data") blast_data_8009F4F4 = {0x100, 5, 0x3E8, 0x7D0, 4};
 Blast_Data SECTION(".data") blast_data_8009F508 = {0x100, 5, 0x3E8, 0x7D0, 3};
-int        SECTION(".data") dword_8009F51C[] = {0x100, 5, 0x3E8, 0x7D0, 0xFFFFFFFF};
-int        SECTION(".data") dword_8009F530[] = {0x400, 5, 0x3E8, 0x7D0, 0xA};
-Blast_Data SECTION(".data") blast_data_8009F544 = {0, 0, 1, 1, 0xFFFFFFFF};
+Blast_Data SECTION(".data") blast_data_8009F51C = {0x100, 5, 0x3E8, 0x7D0, -1};
+Blast_Data SECTION(".data") blast_data_8009F530 = {0x400, 5, 0x3E8, 0x7D0, 10};
+Blast_Data SECTION(".data") blast_data_8009F544 = {0, 0, 1, 1, -1};
 
 SVECTOR SECTION(".data") svector_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
 

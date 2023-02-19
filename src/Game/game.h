@@ -6,6 +6,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "GM_Control.h"
+#include "target.h"
 #include "map/hzd.h"
 #include "Menu/menuman.h"
 #include "libgcl/gcl.h"
@@ -61,6 +62,10 @@ typedef struct _OBJECT_NO_ROTS
     unsigned short  field_1E;    // 0x1C
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;
+
+typedef int (*TBombFunction)(GM_Control *, int, int *);
+typedef int (*TBombFunction2)(int, GM_Control *, int *);
+typedef int (*TBombFunction3)(GM_Target *, int);
 
 typedef enum
 {
@@ -156,6 +161,7 @@ void               GM_Sound_80032C48(int code, int notUsed);
 void               GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
 void               GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
+int                GM_CheckControlTouches_8002624C(GM_Control *pControl, int param_2);
 void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
 void               GM_ExitBehindCamera_80030AEC(void);
 void               GM_CheckBehindCamera_80030B3C(HZD_MAP *map, GM_Control *control);

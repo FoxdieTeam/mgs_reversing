@@ -1,21 +1,139 @@
 #include "tenage.h"
+#include "Bullet/blast.h"
+#include "Game/GM_Control.h"
+#include "Okajima/chafgrnd.h"
 #include "chara/snake/sna_init.h"
-#include "game/gm_control.h"
-
-extern char aTenageC[]; // = "tenage.c"
+#include "unknown.h"
 
 // the projectile for all types of grenades
 
-#pragma INCLUDE_ASM("asm/Bullet/tenage_act_800699A4.s") // 1048 bytes
+extern short          GM_uBombHoming_800AB3E4;
+extern TBombFunction  GM_lpfnBombHoming_800AB3E8;
+extern TBombFunction2 GM_lpfnBombBound_800AB3EC;
+extern int            GM_GameStatus_800AB3CC;
+extern int            GM_PlayerStatus_800ABA50;
+extern int            dword_800BDD28;
+extern Blast_Data     blast_data_8009F4B8;
+extern Blast_Data     blast_data_8009F530;
+extern SVECTOR        svector_800ABA10;
+extern SVECTOR        DG_ZeroVector_800AB39C;
+extern GM_Control    *tenage_ctrls_800BDD30[16];
+extern int            tenage_ctrls_count_800BDD70;
 
-extern GM_Control  *tenage_ctrls_800BDD30[16];
-extern int         tenage_ctrls_count_800BDD70;
-extern SVECTOR     svector_800ABA10;
-extern SVECTOR     DG_ZeroVector_800AB39C;
-extern GM_Control  *tenage_ctrls_800BDD30[16];
-extern int         tenage_ctrls_count_800BDD70;
+extern char aTenageC[]; // = "tenage.c"
 
 //------------------------------------------------------------------------------
+
+void tenage_act_800699A4(Actor_tenage *pActor)
+{
+    MATRIX rotation;
+    SVECTOR vec;
+    GM_Control *pCtrl;
+
+    pActor->field_20_ctrl.field_44_movementVector = pActor->field_108;
+
+    pCtrl = &pActor->field_20_ctrl;
+
+    if (GM_lpfnBombHoming_800AB3E8)
+    {
+        GM_lpfnBombHoming_800AB3E8(pCtrl, pActor->field_100_homing_arg2, &pActor->field_114_homing_arg3);
+    }
+
+    if ((pActor->field_20_ctrl.field_0_position.pad != 0) || (GM_GameStatus_800AB3CC < 0))
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return;
+    }
+
+    pActor->field_108 = pActor->field_20_ctrl.field_44_movementVector;
+
+    GM_ActControl_80025A7C(pCtrl);
+    GM_ActObject2_80034B88(&pActor->field_9C_obj);
+    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_position, pActor->field_C0_light_matrices);
+
+    if (!(GM_GameStatus_800AB3CC & 0xD0000000) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    {
+        pActor->field_100_homing_arg2--;
+    }
+
+    if ((pActor->field_100_homing_arg2 <= 0) || (dword_800BDD28 == 1))
+    {
+        ReadRotMatrix_80092DD8(&rotation);
+
+        GM_uBombHoming_800AB3E4 = pActor->field_114_homing_arg3;
+
+        switch (pActor->field_110)
+        {
+        case 1:
+            NewStanBlast_80074B5C(&rotation);
+            break;
+
+        case 2:
+            NewChafgrnd_80077264(&rotation);
+            break;
+
+        case 3:
+            NewBlast2_8006E0F0(&rotation, &blast_data_8009F530, pActor->field_118_do_sound, pActor->field_11C);
+            break;
+
+        default:
+            NewBlast2_8006E0F0(&rotation, &blast_data_8009F4B8, pActor->field_118_do_sound, pActor->field_11C);
+            break;
+        }
+
+        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+
+        GM_uBombHoming_800AB3E4 = 0;
+        return;
+    }
+
+    if (((signed char)pCtrl->field_57 != 0) && (pActor->field_108.vy <= 0))
+    {
+        pActor->field_108.vy = -pActor->field_108.vy / 8;
+        pActor->field_108.vz /= 4;
+        pActor->field_108.vx /= 4;
+
+        if (pActor->field_108.vy < 5)
+        {
+            pActor->field_108 = DG_ZeroVector_800AB39C;
+        }
+
+        if (++pActor->field_104_count < 3)
+        {
+            if (!GM_lpfnBombBound_800AB3EC || !GM_lpfnBombBound_800AB3EC(0, pCtrl, &pActor->field_114_homing_arg3))
+            {
+                GM_SeSet_80032858(&pCtrl->field_0_position, 43);
+            }
+
+            if (pActor->field_118_do_sound != 0)
+            {
+                GM_SetNoise(128, 12, &pCtrl->field_0_position);
+            }
+        }
+    }
+    else
+    {
+        pActor->field_108.vy -= 16;
+    }
+
+    if ((pCtrl->field_58 > 0) && (GM_CheckControlTouches_8002624C(pCtrl, 300)))
+    {
+        sub_800272E0(pCtrl->field_70[0], &vec);
+        DG_ReflectVector_8001ECB4(&vec, &pActor->field_108, &pActor->field_108);
+
+        pActor->field_108.vx /= 4;
+        pActor->field_108.vz /= 4;
+
+        if (++pActor->field_104_count < 3)
+        {
+            if (!GM_lpfnBombBound_800AB3EC || !GM_lpfnBombBound_800AB3EC(1, pCtrl, &pActor->field_114_homing_arg3))
+            {
+                GM_SeSet_80032858(&pCtrl->field_0_position, 43);
+            }
+        }
+    }
+}
 
 void tenage_kill_80069DBC(Actor_tenage *pActor)
 {
@@ -50,7 +168,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
 {
     GM_Control *pControl;
     int        tmp;
-    
+
     pControl = &pActor->field_20_ctrl;
     tmp = Res_Control_init_loader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0);
     if (tmp >= 0)
@@ -77,7 +195,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         {
             DG_SetPos2_8001BC8C(&pControl->field_0_position, &pControl->field_8_rotator);
             DG_PutObjs_8001BDB8((pActor->field_9C_obj).objs);
-            GM_ConfigObjectLight_80034C44(&pActor->field_9C_obj, &pActor->field_C0_mtx);
+            GM_ConfigObjectLight_80034C44(&pActor->field_9C_obj, pActor->field_C0_light_matrices);
             tmp = tenage_get_free_ctrl_80069E28();
             pActor->field_120_ctrl_idx = tmp;
             if (tmp >= 0)
@@ -92,7 +210,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
     return -1;
 }
 
-Actor_tenage *NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5)
+Actor_tenage * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5)
 {
     Actor_tenage *pActor;
 

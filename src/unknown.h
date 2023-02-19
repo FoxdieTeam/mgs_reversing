@@ -29,6 +29,7 @@ void  sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
 int   sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
 void  sub_80032AEC(int byte_2, int byte_1, int byte_0);
 int   sub_80028830(void);
+void  sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
 
 // TODO: bullet.h?
 GV_ACT* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
