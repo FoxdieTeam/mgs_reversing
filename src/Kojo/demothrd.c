@@ -1,6 +1,9 @@
 #include "demothrd.h"
 #include "libfs/libfs.h"
 #include "Anime/animeconv/anime.h"
+#include "libdg/libdg.h"
+
+void DG_8001CDB8(DG_OBJS *pObjs);
 
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -18,26 +21,26 @@ int DM_ThreadStream_80079460(int flag, int unused)
 
     pDemoThrd->field_20_flag = flag;
     pDemoThrd->field_2C_timer_ticks = -1;
-    GV_SetNamedActor_8001514C(&pDemoThrd->field_0_actor, (TActorFunction)demothrd_1_80079664,
-                              (TActorFunction)demothrd_1_FrameRunDemo_helper_800797CC, aDemothrdC);
+    GV_SetNamedActor_8001514C(&pDemoThrd->field_0_actor, (TActorFunction)demothrd_cd_act_80079664,
+                              (TActorFunction)demothrd_cd_stream_die_800797CC, aDemothrdC);
     pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
     FS_StreamOpen_80024060();
     return 1;
 }
 
 #pragma INCLUDE_ASM("asm/Kojo/DM_ThreadFile_800794E4.s")                           // 384 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_80079664.s")                              // 360 bytes
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_cd_act_80079664.s")                              // 360 bytes
 
-void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor)
+void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor)
 {
     DestroyDemo_8007A66C(pActor);
     FS_StreamClose_80024098();
     DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_update_800797FC.s")                         // 356 bytes
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_file_stream_act_800797FC.s")                         // 356 bytes
 
-void demothrd_kill_80079960(Actor_demothrd *pActor)
+void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor)
 {
     DestroyDemo_8007A66C(pActor);
     FS_EnableMemfile_800799A8(1, 1);
@@ -82,16 +85,18 @@ void sub_80079A1C(void)
 
 #pragma INCLUDE_ASM("asm/sub_80079A2C.s")                                          // 184 bytes
 #pragma INCLUDE_ASM("asm/sub_80079AE4.s")                                          // 108 bytes
+
+int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
 #pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes
 #pragma INCLUDE_ASM("asm/Kojo/DestroyDemo_8007A66C.s")                             // 732 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s")                 // 1224 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper2_8007AE10.s")         // 8016 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper2_helper_8007CD60.s")  // 152 bytes
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_make_chara_8007AE10.s")         // 8016 bytes
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_remove_via_id_8007CD60.s")  // 152 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper3_8007CDF8.s")         // 284 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper_8007D404.s")  // 1476 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_helper2_8007D9C8.s") // 96 bytes
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_hind_8007D9C8.s") // 96 bytes
 
 extern ANIMATION stru_8009F73C;
 
@@ -209,7 +214,7 @@ void sub_8007F06C(int *param_1, int *param_2, int *param_3)
 #pragma INCLUDE_ASM("asm/sub_8007F0D0.s")                                          // 268 bytes
 #pragma INCLUDE_ASM("asm/sub_8007F1DC.s")                                          // 348 bytes
 
-void InitChain_8007F338(Actor_demothrd_sub *pSub)
+void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub)
 {
     if (pSub)
     {
@@ -218,9 +223,9 @@ void InitChain_8007F338(Actor_demothrd_sub *pSub)
     }
 }
 
-void Chain_Add_8007F350(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pAdd)
+void Chain_Add_8007F350(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pAdd)
 {
-    Actor_demothrd_sub *prev; // $v0
+    Actor_demothrd_0x78_Chain *prev; // $v0
 
     if (pRoot)
     {
@@ -242,7 +247,7 @@ void Chain_Add_8007F350(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pAdd)
     }
 }
 
-void Chain_Remove_8007F394(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pRemove)
+void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove)
 {
     int pPrev;
 
@@ -268,6 +273,31 @@ void Chain_Remove_8007F394(Actor_demothrd_sub *pRoot, Actor_demothrd_sub *pRemov
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper3_8007FF9C.s") // 316 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper4_800800D8.s") // 2888 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_80080C20.s")         // 296 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_80080D48.s")                // 204 bytes
+
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_Screen_Chanl_80080D48.s")                // 204 bytes
+/*
+void demothrd_Screen_Chanl_80080D48(DG_CHNL *pOt, int idx)
+{
+    DG_OBJS **mQueue;
+    int       i;
+
+    mQueue = pOt->mQueue;
+
+    *((MATRIX *)0x1F800000) = pOt->field_10_transformation_matrix;
+    DG_800174DC((MATRIX *)0x1F800000);
+
+    *((int *)0x1F80001C) = 0;
+    *((int *)0x1F800018) = 0;
+    *((int *)0x1F800014) = 0;
+
+    *((SVECTOR *)0x1F800380) = *(SVECTOR*)&pOt->field_30_matrix.t[0];
+
+    for (i = pOt->mTotalObjectCount; i > 0; --i)
+    {
+        demothrd_4_helper_80080C20(*mQueue++);
+    }
+}
+*/
+
 #pragma INCLUDE_ASM("asm/Kojo/sub_80080E14.s")                       // 2024 bytes
 #pragma INCLUDE_ASM("asm/M1E1GetCaterpillerVertex_800815FC.s")       // 788 bytes

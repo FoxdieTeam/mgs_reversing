@@ -12,59 +12,266 @@ typedef struct demothrd_2Vec
 {
     SVECTOR field_0;
     SVECTOR field_8;
-} demothrd_2Vec;
+} demothrd_2Vec; // TODO: Prob just the camera data so bin this later
+
+typedef struct dmo_model_0x14
+{
+  int field_0_type;
+  int field_4_flags;
+  int field_8;
+  int field_C_hashCode;
+  int field_10;
+} dmo_model_0x14;
 
 typedef struct demothrd_0x1C
 {
-    int field_0_magic;
-    int field_4_chunk_size;
-    int field_8_movie_frames;
-    int field_C_num_maps;
-    int field_10_num_models;
-    int field_14_pMaps;
-    int field_18_pModels;
+  int field_0_magic;
+  int field_4_chunk_size;
+  int field_8_movie_frames;
+  int field_C_num_maps;
+  int field_10_num_models;
+  int field_14_pMaps;
+  dmo_model_0x14 *field_18_pModels;
 } demothrd_0x1C;
 
-struct Actor_demothrd_sub;
 
-typedef struct Actor_demothrd_sub
+typedef struct dmo_data_0x34
 {
-    struct Actor_demothrd_sub *field_0_pPrev;
-    struct Actor_demothrd_sub *field_4_pNext;
-    int                        field_8_flag;
-    GV_ACT                      field_C_actor;
-    int                        field_2C;
-    int                        field_30;
-    int                        field_34;
-    int                        field_38;
-    int                        field_3C;
-    int                        field_40;
-    int                        field_44;
-    int                        field_48;
-    int                        field_4C;
-    int                        field_50;
-    int                        field_54;
-    int                        field_58;
-    int                        field_5C;
-    int                        field_60;
-    int                        field_64;
-    int                        field_68;
-    int                        field_6C;
-    int                        field_70;
-    int                        field_74;
-    int                        field_78;
-    int                        field_7C;
-    int                        field_80;
-    int                        field_84;
-    int                        field_88_pDemoData;
-    GM_Control                 field_8C_ctrl;
-    DG_OBJS                   *field_108_obj;
-    int                        field_10C;
-    int                        field_110;
-    int                        field_114;
-    int                        field_118;
-    int                        field_11C;
-} Actor_demothrd_sub;
+  int field_0;
+  int field_4_type;
+  short field_8_x;
+  short field_A_y;
+  short field_C_z;
+  short field_E_x;
+  short field_10_y;
+  short field_12_z;
+  short field_14;
+  short field_16;
+  int field_18;
+  short field_1C;
+  short field_1E;
+  int field_20;
+  char field_24;
+  char field_25;
+  char field_26;
+  char field_27;
+  short field_28;
+  short field_2A;
+  int field_2C;
+  short field_30;
+  short field_32;
+} dmo_data_0x34;
+
+typedef struct dmo_6
+{
+  short field_0;
+  short field_2;
+  short field_4;
+} dmo_6;
+
+typedef struct dmo_data_0x18
+{
+  int field_0_type;
+  short field_4;
+  short field_6_rot_x;
+  short field_8_rot_y;
+  short field_A_rot_z;
+  short field_C_pos_x;
+  short field_E_pos_y;
+  short field_10_pos_z;
+  short field_12_total;
+  dmo_6 *field_14_pEndData;
+} dmo_data_0x18;
+
+typedef struct dmo_data_0x28
+{
+  int field_0;
+  int field_4;
+  short field_8_xpos;
+  short field_A_ypos;
+  short field_C_zpos;
+  short field_E_x;
+  short field_10_y;
+  short field_12_z;
+  short field_14_z;
+  short field_16;
+  short field_18_count;
+  short field_1A;
+  dmo_data_0x34 *field_1C_dmo_data_offset;
+  short field_20_count;
+  short field_22;
+  dmo_data_0x18 *field_24_pDmoEnd;
+} dmo_data_0x28;
+
+
+typedef struct dmo_m1e1
+{
+  int field_0;
+  int field_4;
+  int field_8;
+  int field_C;
+  int field_10;
+  int field_14;
+  int field_18;
+  int field_1C;
+  int field_20;
+  int field_24;
+  int field_28;
+  int field_2C;
+  int field_30;
+  int field_34;
+  int field_38;
+  int field_3C;
+  int field_40;
+  int field_44;
+  int field_48;
+  int field_4C;
+  int field_50;
+  int field_54;
+  int field_58;
+  int field_5C;
+  int field_60;
+  int field_64;
+  int field_68;
+  int field_6C;
+  int field_70;
+  int field_74;
+  int field_78;
+  int field_7C;
+  int field_80;
+  int field_84;
+  int field_88;
+  int field_8C;
+  int field_90;
+  int field_94;
+  int field_98;
+  int field_9C;
+  int field_A0;
+  int field_A4;
+  int field_A8;
+  int field_AC;
+  int field_B0;
+  int field_B4;
+  int field_B8;
+  int field_BC;
+} dmo_m1e1;
+
+typedef struct dmo_m1e1_entry
+{
+  OBJECT field_0;
+  dmo_m1e1 field_24;
+} dmo_m1e1_entry;
+
+typedef struct dmo_m1e1_data
+{
+  dmo_m1e1_entry field_0[6];
+  int field_558_idx1;
+  int field_55C_idx2;
+  int field_560;
+  SVECTOR field_564;
+  SVECTOR field_56C;
+} dmo_m1e1_data;
+
+typedef struct dmo_hind
+{
+  int field_0;
+  int field_4;
+  int field_8;
+  int field_C;
+} dmo_hind;
+
+
+typedef struct dmo_model_0x1A4
+{
+  GM_Control field_0_ctrl;
+  OBJECT field_7C_obj;
+  SVECTOR field_A0;
+  short field_A8;
+  short field_AA;
+  int field_AC;
+  short field_B0;
+  short field_B2;
+  int field_B4;
+  int field_B8;
+  int field_BC;
+  int field_C0;
+  int field_C4;
+  int field_C8;
+  int field_CC;
+  int field_D0;
+  int field_D4;
+  int field_D8;
+  int field_DC;
+  int field_E0;
+  int field_E4;
+  int field_E8;
+  int field_EC;
+  int field_F0;
+  int field_F4;
+  int field_F8;
+  int field_FC;
+  int field_100;
+  int field_104;
+  int field_108;
+  int field_10C;
+  int field_110;
+  int field_114;
+  int field_118;
+  int field_11C;
+  int field_120;
+  int field_124;
+  int field_128;
+  int field_12C;
+  int field_130;
+  int field_134;
+  int field_138;
+  int field_13C;
+  int field_140;
+  int field_144;
+  int field_148;
+  int field_14C;
+  int field_150;
+  int field_154;
+  int field_158;
+  int field_15C;
+  MATRIX field_160_mtx;
+  int field_180;
+  int field_184;
+  int field_188;
+  int field_18C;
+  int field_190;
+  int field_194;
+  int field_198;
+  int field_19C;
+  dmo_m1e1_data *field_1A0_pM1OrHind; // union, can be dmo_hind also, depending on the current stage
+} dmo_model_0x1A4;
+
+typedef struct Actor_demothrd_0x78_Chain
+{
+  struct Actor_demothrd_0x78_Chain *field_0_pPrev;
+  struct Actor_demothrd_0x78_Chain *field_4_pNext;
+  char field_8_fileNameBuffer[4]; // union, also an int
+  GV_ACT field_C_actor;
+  int field_2C;
+  int field_30;
+  int field_34;
+  int field_38;
+  int field_3C;
+  int field_40;
+  int field_44;
+  int field_48;
+  int field_4C;
+  int field_50;
+  int field_54;
+  int field_58;
+  int field_5C;
+  int field_60;
+  int field_64;
+  int field_68;
+  int field_6C;
+  int field_70;
+  int field_74;
+} Actor_demothrd_0x78_Chain;
 
 typedef struct Actor_demothrd
 {
@@ -73,60 +280,64 @@ typedef struct Actor_demothrd
     int                field_24_ticks;
     int                field_28_map;
     int                field_2C_timer_ticks;
-    demothrd_0x1C     *field_30_dmo_header;
-    int                field_34_pModels;
-    Actor_demothrd_sub field_38;
-    int                field_158;
-    int                field_15C;
-    int                field_160;
-    int                field_164;
-    int                field_168;
-    int                field_16C;
-    int                field_170;
-    int                field_174;
-    int                field_178;
-    int                field_17C;
-    int                field_180;
-    int                field_184;
-    int                field_188;
-    int                field_18C;
-    int                field_190;
-    int                field_194;
-    int                field_198;
-    int                field_19C;
-    int                field_1A0;
-    int                field_1A4;
-    int                field_1A8;
-    int                field_1AC;
-    int                field_1B0;
-    int                field_1B4;
-    int                field_1B8;
-    int                field_1BC;
-    int                field_1C0;
-    int                field_1C4;
-    int                field_1C8;
-    int                field_1CC;
-    int                field_1D0;
-    int                field_1D4;
-    int                field_1D8;
-    int                field_1DC;
-    int                field_1E0;
-    int                field_1E4;
-    int                field_1E8;
-    int                field_1EC;
-    int                field_1F0;
-    int                field_1F4;
-    int                field_1F8;
-    int                field_1FC;
-    int                field_200;
-    int                field_204;
-    int                field_208;
-    int                field_20C;
-    int                field_210;
-    int                field_214;
-    int                field_218;
-    int                field_21C;
-    int                field_220;
+  demothrd_0x1C *field_30_dmo_header;
+  dmo_model_0x1A4 *field_34_pModels;
+  Actor_demothrd_0x78_Chain field_38;
+  int field_B0;
+  int field_B4;
+  int field_B8;
+  int field_BC;
+  demothrd_0x1C *field_C0_pHeader;
+  GM_Control field_C4_ctrl;
+  OBJECT field_140_obj;
+  int field_164;
+  int field_168;
+  int field_16C;
+  int field_170;
+  int field_174;
+  int field_178;
+  int field_17C;
+  int field_180;
+  int field_184;
+  int field_188;
+  int field_18C;
+  int field_190;
+  int field_194;
+  int field_198;
+  int field_19C;
+  int field_1A0;
+  int field_1A4;
+  int field_1A8;
+  int field_1AC;
+  int field_1B0;
+  int field_1B4;
+  int field_1B8;
+  int field_1BC;
+  int field_1C0;
+  int field_1C4;
+  int field_1C8;
+  int field_1CC;
+  int field_1D0;
+  int field_1D4;
+  int field_1D8;
+  int field_1DC;
+  int field_1E0;
+  int field_1E4;
+  int field_1E8;
+  int field_1EC;
+  int field_1F0;
+  int field_1F4;
+  int field_1F8;
+  int field_1FC;
+  int field_200;
+  int field_204;
+  int field_208;
+  int field_20C;
+  int field_210;
+  int field_214;
+  int field_218;
+  int field_21C;
+  int field_220;
     MATRIX             field_224_light_mtx;
     int                field_244;
     int                field_248;
@@ -151,8 +362,8 @@ typedef struct Actor_demothrd
 
 int  DM_ThreadStream_80079460(int flag, int unused);
 int  DM_ThreadFile_800794E4(int param_1, int param_2);
-void demothrd_1_80079664(Actor_demothrd *pActor);
-void demothrd_1_FrameRunDemo_helper_800797CC(Actor_demothrd *pActor);
+void demothrd_cd_act_80079664(Actor_demothrd *pActor);
+void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor);
 int  DestroyDemo_8007A66C(Actor_demothrd *pActor);
 void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer);
 
