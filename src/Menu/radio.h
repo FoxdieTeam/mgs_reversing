@@ -7,8 +7,8 @@ typedef struct RadioIncomingCall // @ 8009E708
 {
     short field_0;
     short field_2_timer; // counts down then call is missed
-    int field_4;
-    int field_8;
+    int   field_4;
+    int   field_8;
 } RadioIncomingCall;
 
 typedef struct RadioCoordsStru_8009E6FC
@@ -21,13 +21,27 @@ typedef struct RadioCoordsStru_8009E6FC
     char field_5;
 } RadioCoordsStru_8009E6FC;
 
+struct RadioFileModeUnk1;
+
+typedef void (*TRadioFileModeFn)(MenuGlue *, int *); // param types not final
+
 typedef struct RadioFileModeStruElem
+{
+    int                       field_0;
+    int                       field_4;
+    TRadioFileModeFn          field_8_pFn;
+    struct RadioFileModeUnk1 *field_C_unk1;
+} RadioFileModeStruElem;
+
+typedef struct RadioFileModeUnk1 // guessed size, could be larger
 {
     int field_0;
     int field_4;
     int field_8;
     int field_C;
-} RadioFileModeStruElem;
+    int field_10;
+    int field_14;
+} RadioFileModeUnk1;
 
 typedef struct RadioFileModeStru_800ABB7C
 {
@@ -120,12 +134,7 @@ typedef struct RadioFileModeStru_800ABB7C
     int                   field_214;
     int                   field_218;
     int                   field_21c;
-    int                   field_220;
-    int                   field_224;
-    int                   field_228;
-    int                   field_22c;
-    int                   field_230;
-    int                   field_234;
+    RadioFileModeUnk1     field_220_unk1; // guessed size, could be larger
     int                   field_238;
     int                   field_23c;
     int                   field_240;
