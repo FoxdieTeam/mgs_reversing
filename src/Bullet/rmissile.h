@@ -9,7 +9,7 @@
 #include "Game/game.h"
 #include "Game/target.h"
 #include "libdg/libdg.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
 // nikita missile

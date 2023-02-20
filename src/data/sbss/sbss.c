@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 int SECTION(".sbss") gLastBindNum_800AB9B8;
 

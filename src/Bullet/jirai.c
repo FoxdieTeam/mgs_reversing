@@ -1,5 +1,5 @@
 #include "jirai.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/claymore.h"
