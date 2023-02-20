@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "game.h"
 #include "map/map.h"
 

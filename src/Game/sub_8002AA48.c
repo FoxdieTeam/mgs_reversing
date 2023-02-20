@@ -1,5 +1,5 @@
 #include "libdg/libdg.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Menu/menuman.h"
 

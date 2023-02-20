@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "psyq.h"
 #include "Game/linkvarbuf.h"
 

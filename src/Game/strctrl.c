@@ -7,7 +7,7 @@
 #include "psyq.h"
 #include "mts/mts_new.h"
 #include "data/data/data.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libfs/libfs.h"
 
 //------------------------------------------------------------------------------

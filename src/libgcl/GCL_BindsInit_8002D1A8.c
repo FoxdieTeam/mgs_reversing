@@ -1,6 +1,6 @@
-#include "gcl.h"
+#include "libgcl.h"
 #include "linker.h"
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 
 extern int        gBinds_800ABA60;
 extern int        gBindsCount_800ABA64;
