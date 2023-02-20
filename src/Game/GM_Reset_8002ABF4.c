@@ -1,6 +1,6 @@
 #include "target.h"
 #include "game.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
 #include "homing_target.h"
 

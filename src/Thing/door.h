@@ -73,7 +73,7 @@ void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, s
 void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2,
                                       short param_v);
 
-// TODO: move to hzd.h? but this pTSub struct is weird
+// TODO: move to libhzd.h? but this pTSub struct is weird
 int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
 #endif // _THING_DOOR_H_

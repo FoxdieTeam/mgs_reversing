@@ -2,7 +2,7 @@
 #include "menuman.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include "Game/camera.h"
