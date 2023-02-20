@@ -5,12 +5,12 @@
 #include "linker.h"
 #include "libgv/libgv.h"
 #include "mts/mts_new.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "psyq.h"
 #include "unknown.h"
 #include "libfs/libfs.h"
 #include "memcard/memcard.h"
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 #include "Game/game.h"
 
 void __main_80098F14(void);

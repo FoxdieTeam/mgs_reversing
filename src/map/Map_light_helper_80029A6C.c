@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 extern int gLastBindNum_800AB9B8;
 int        SECTION(".sbss") gLastBindNum_800AB9B8;

@@ -38,6 +38,13 @@ typedef struct HZD_CAM // camera trigger
     HZD_VEC cam;
     HZD_VEC orient;
 } HZD_CAM; // 32
+
+typedef union       HZD_CAM_TRP // cam or trap
+{
+    HZD_CAM         cam;
+    HZD_TRP         trap;
+} HZD_CAM_TRP; // 32
+
 /*
 typedef struct      HZD_CAM // camera trigger
 {
@@ -125,7 +132,7 @@ HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48
 void     HZD_SetEvent_80029AB4(Res_Control_unknown *param_1, int param_2);
 void     HZD_FreeHandler_80021C40(void *param_1);
 int      HZD_LoadInitHzd_800219F4(void *hzmFile);
-void     HZD_Process_TableFlagIfTriggers_80021928(HZD_TRG *triggers, int n_triggers);
+void     HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras);
 void     HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1); // navmeshes
 void     HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
 void     HZD_ReExecEvent_8002A1F4(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags);

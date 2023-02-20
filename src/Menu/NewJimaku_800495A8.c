@@ -1,6 +1,6 @@
 #include "menuman.h"
 #include "libdg/libdg.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 extern int GV_PauseLevel_800AB928;

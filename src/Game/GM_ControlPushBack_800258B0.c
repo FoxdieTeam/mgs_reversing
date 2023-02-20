@@ -4,7 +4,7 @@
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "map/map.h"
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 
 int SECTION(".sbss") GM_CurrentMap_800AB9B0;
 int SECTION(".sbss") gControlCount_800AB9B4;

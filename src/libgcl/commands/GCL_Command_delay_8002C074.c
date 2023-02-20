@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "Game/delay.h"
 
 int GCL_Command_delay_8002C074(int argc, char **argv)

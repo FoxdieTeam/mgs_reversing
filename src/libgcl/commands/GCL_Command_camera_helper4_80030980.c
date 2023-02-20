@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 extern int GM_CameraTrackSave_800AB42C;
 int        SECTION(".sdata") GM_CameraTrackSave_800AB42C;

@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "sna_hzd.h"
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 
 int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
 {

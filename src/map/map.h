@@ -4,7 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 
 struct LitHeader
 {

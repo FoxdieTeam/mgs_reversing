@@ -1,11 +1,11 @@
 #include "door.h"
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "Game/object.h"
 #include "map/map.h"
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 
 extern int door_where_8009F5F4;
 
