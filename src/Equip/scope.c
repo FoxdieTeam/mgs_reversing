@@ -101,7 +101,12 @@ void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
     }
 }
 
+// Scratches:
+// - with DL_CHNL, suffering from two-part relocation problem (regswap locally): https://decomp.me/scratch/qKTnI
+// - without DL_CHNL: https://decomp.me/scratch/hvGST
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_8006258C.s")        // 324 bytes
+
+// Scratch: https://decomp.me/scratch/yJu6g
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
 
 extern int       GV_Clock_800AB920;
@@ -233,7 +238,7 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     short    sVar2;
     short    sVar3;
 
-    line_f4 = (LINE_F4 *)scope->field_7C_pPrims[GV_Clock_800AB920];
+    line_f4 = scope->field_7C_lineF4s[GV_Clock_800AB920];
     line_f2 = (LINE_F2 *)(line_f4 + 1);
     
     sVar1 = scope->field_84 + 130;
@@ -261,8 +266,50 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     scope_act_helper_helper_80062320(ot, line_f2);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062C7C.s")        // 300 bytes
+void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
+{
+    short    sVar1;
+    int      primCount;
+    int      i;
+    LINE_F3 *prim;
+    DG_CHNL *chnl;
+    u_char  *otMin;
+    u_char  *chnlOt;
+    u_char  *curPrim;
+    int      numOTEntries;
+    int      clock;
 
+    clock = GV_Clock_800AB920;
+    chnl = &DG_Chanls_800B1800[1];
+    prim = pActor->field_88_lineF3s[clock];
+    chnlOt = chnl->mOrderingTables[1 - clock];
+
+    numOTEntries = chnl->word_6BC374_8 - 4;
+    for (i = 0; i < 16; i++)
+    {
+        otMin = chnlOt + ((i << numOTEntries) * 4);
+        for (curPrim = chnlOt + (((i + 1) << numOTEntries) * 4), primCount = 0; (otMin < curPrim) || (curPrim < chnlOt);
+             curPrim = nextPrim(curPrim))
+        {
+            if (getlen(curPrim) != 0)
+            {
+                primCount++;
+            }
+
+            if (primCount == 0x128)
+            {
+                break;
+            }
+        }
+
+        primCount /= 2;
+        sVar1 = 178 - primCount;
+        prim->y1 = sVar1;
+        prim->y0 = sVar1;
+        scope_act_helper_helper_80062320(pOt, prim);
+        prim++;
+    }
+}
 
 void scope_draw_text_80062DA8(Actor_scope *pActor)
 {
@@ -284,7 +331,6 @@ extern int              dword_8009F604;
 extern int              GV_PauseLevel_800AB928;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
-extern DG_CHNL          DG_Chanls_800B1800[3];
 extern const char       aGoggles_2[];
 
 void scope_act_helper_8006258C(Actor_scope *pActor);
@@ -409,14 +455,14 @@ void scope_kill_8006317C(Actor_scope *pActor)
         GV_DelayedFree_80016254(pActor->field_74_lineF2s[0]);
     }
 	
-    if ( pActor->field_7C_pPrims[0] )
+    if ( pActor->field_7C_lineF4s[0] )
     {
-        GV_DelayedFree_80016254(pActor->field_7C_pPrims[0]);
+        GV_DelayedFree_80016254(pActor->field_7C_lineF4s[0]);
     }
 	
-    if ( pActor->field_88_alloc )
+    if ( pActor->field_88_lineF3s[0] )
     {
-        GV_DelayedFree_80016254(pActor->field_88_alloc);
+        GV_DelayedFree_80016254(pActor->field_88_lineF3s[0]);
     }
 	
     if ( pActor->field_90_lineF3s[0] )
