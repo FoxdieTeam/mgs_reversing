@@ -7,8 +7,7 @@ int SECTION(".sbss") gTargets_up_count_800ABA6C;
 
 int     SECTION(".sbss") dword_800ABA70;
 int     SECTION(".sbss") dword_800ABA74;
-int     SECTION(".sbss") dword_800ABA78;
-int     SECTION(".sbss") dword_800ABA7C;
+int     SECTION(".sbss") dword_800ABA78[2];
 short   SECTION(".sbss") GM_RadarMode_800ABA80;
 short   SECTION(".sbss") word_800ABA82;
 int     SECTION(".sbss") dword_800ABA84;
