@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_1_80079664
-demothrd_1_80079664:
+	xdef demothrd_cd_act_80079664
+demothrd_cd_act_80079664:
 	dw 0x27BDFFE0 ; 0x80079664
 	dw 0xAFB20018 ; 0x80079668
 	dw 0x00809021 ; 0x8007966C
