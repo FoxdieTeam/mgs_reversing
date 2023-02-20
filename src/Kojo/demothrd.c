@@ -300,4 +300,65 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pOt, int idx)
 */
 
 #pragma INCLUDE_ASM("asm/Kojo/sub_80080E14.s")                       // 2024 bytes
-#pragma INCLUDE_ASM("asm/M1E1GetCaterpillerVertex_800815FC.s")       // 788 bytes
+
+void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4)
+{
+    DG_MDL *model; // $v0
+    int field_0_x; // $v1
+    DG_MDL *v8; // $v0
+    int v9; // $v1
+
+    model = pE1->field_0.objs->objs[0].model;
+    field_0_x = model->max_8.field_0_x;
+    if ( a4 == 1 )
+    {
+        field_0_x += (model->min_14.field_0_x - field_0_x) >> 1;
+    }
+    
+    pSmokeVecs[0].vx = field_0_x;
+    pSmokeVecs[0].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[0].vz = 2 * pE1->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+
+    pSmokeVecs[1].vx = field_0_x;
+    pSmokeVecs[1].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[1].vz = pE1->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+    
+    pSmokeVecs[2].vx = field_0_x;
+    pSmokeVecs[2].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[2].vz = 0;
+
+    pSmokeVecs[3].vx = field_0_x;
+    pSmokeVecs[3].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[3].vz = pE1->field_0.objs->objs[0].model->max_8.field_8_z / 3;
+
+    pSmokeVecs[4].vx = field_0_x;
+    pSmokeVecs[4].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[4].vz = (2 * pE1->field_0.objs->objs[0].model->max_8.field_8_z) / 3;
+    
+    v8 = pE2->field_0.objs->objs[0].model;
+    v9 = v8->min_14.field_0_x;
+    if ( a4 == 1 )
+    {
+        v9 += (v8->max_8.field_0_x - v9) >> 1;
+    }
+
+    pSmokeVecs[5].vx = v9;
+    pSmokeVecs[5].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[5].vz = 2 * pE2->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+
+    pSmokeVecs[6].vx = v9;
+    pSmokeVecs[6].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[6].vz = pE2->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+
+    pSmokeVecs[7].vx = v9;
+    pSmokeVecs[7].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[7].vz = 0;
+
+    pSmokeVecs[8].vx = v9;
+    pSmokeVecs[8].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[8].vz = pE2->field_0.objs->objs[0].model->max_8.field_8_z / 3;
+
+    pSmokeVecs[9].vx = v9;
+    pSmokeVecs[9].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[9].vz = 2 * pE2->field_0.objs->objs[0].model->max_8.field_8_z / 3;
+}
