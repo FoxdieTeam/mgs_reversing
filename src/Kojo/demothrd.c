@@ -96,7 +96,26 @@ int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_hind_8007D9C8.s") // 96 bytes
+
+void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
+{
+    dmo_hind *pTmp = (dmo_hind *)p0x1A4->field_1A0_pM1OrHind; // TODO: Would be cleaner as a union
+
+    pTmp->field_8 = pTmp->field_8 - pTmp->field_0;
+    if ( pTmp->field_8 < 0 )
+    {
+        pTmp->field_8 = pTmp->field_8 + 4096;
+    }
+
+    pTmp->field_C = pTmp->field_C - pTmp->field_4;
+    if ( pTmp->field_C < 0 )
+    {
+        pTmp->field_C = pTmp->field_C + 4096;
+    }
+
+    p0x1A4->field_AA = pTmp->field_8;
+    p0x1A4->field_B0 = pTmp->field_C;
+}
 
 extern ANIMATION stru_8009F73C;
 
