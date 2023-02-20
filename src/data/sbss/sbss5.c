@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "chara/snake/sna_init.h"
+#include "Menu/radio.h"
 
 int SECTION(".sbss") dword_800ABB3C;
 
@@ -21,7 +22,9 @@ int SECTION(".sbss") dword_800ABB6C;
 int SECTION(".sbss") dword_800ABB70;
 int SECTION(".sbss") dword_800ABB74;
 int SECTION(".sbss") dword_800ABB78;
-int SECTION(".sbss") dword_800ABB7C;
+
+RadioFileModeStru_800ABB7C *SECTION(".sbss") stru_800ABB7C;
+
 int SECTION(".sbss") dword_800ABB80;
 int SECTION(".sbss") dword_800ABB84;
 int SECTION(".sbss") dword_800ABB88;
