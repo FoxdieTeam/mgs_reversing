@@ -41,7 +41,42 @@ void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8002EBE8.s") // 164 bytes
-#pragma INCLUDE_ASM("asm/sub_8002EC8C.s") // 88 bytes
+
+void sub_8002EC8C(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
+{
+    short *a;
+    short *b;
+    short *out;
+    int i;
+    int sum;
+    int clamped;
+
+    a = (short *)a1;
+    b = (short *)a2;
+    out = (short *)a3;
+
+    for (i = 0; i < 3; i++, a++, b++, out++)
+    {
+        sum = *a + *b;
+
+        if (sum != (short)sum)
+        {
+            if (sum < 0)
+            {
+                clamped = 0x8000;
+            }
+            else
+            {
+                clamped = 0x7FFF;
+            }
+
+            sum = clamped;
+        }
+
+        *out = sum;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/sub_8002ECE4.s") // 88 bytes
 
 extern GM_Camera GM_Camera_800B77E8;

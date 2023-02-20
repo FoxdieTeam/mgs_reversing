@@ -4,10 +4,8 @@ short        SECTION( ".sbss" ) GM_RadarMode_800ABA80; // GM_RadarMode_800ABA80
 extern short GM_RadarMode_800ABA80;                    // 79c
 int          SECTION( ".sbss" ) dword_800ABA70;
 extern int   dword_800ABA70; // 78c
-int          SECTION( ".sbss" ) dword_800ABA7C;
-extern int   dword_800ABA7C; // 798
-int          SECTION( ".sbss" ) dword_800ABA78;
-extern int   dword_800ABA78; // 794
+int          SECTION( ".sbss" ) dword_800ABA78[2];
+extern int   dword_800ABA78[2]; // 794
 
 extern int   GM_GameStatus_800AB3CC;
 extern int   GM_AlertMode_800ABA00;
@@ -49,7 +47,7 @@ void GM_AlertAct_8002E91C( void )
 						{
 							GM_Sound_80032968( 0, 0x3F, 0x2A );
 							GM_Sound_80032C48( 0x01FFFF0B, 0 );
-							sub_8002E508( dword_800ABA7C );
+							sub_8002E508( dword_800ABA78[1] );
 						}
 						else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
 						{
@@ -60,7 +58,7 @@ void GM_AlertAct_8002E91C( void )
 						GM_Sound_80032C48( 0x01FFFF10, 0 );
 						break;
 					case RADAR_VISIBLE:
-						sub_8002E508( dword_800ABA78 );
+						sub_8002E508( dword_800ABA78[0] );
 						break;
 					}
 				}
