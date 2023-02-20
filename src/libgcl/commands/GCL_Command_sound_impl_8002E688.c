@@ -5,12 +5,10 @@
 extern int GM_GameOverVox_800AB45C;
 extern int dword_800ABA58;
 
-extern int dword_800ABA78;
-extern int dword_800ABA7C;
+extern int dword_800ABA78[2];
 extern int dword_800ABA70;
 // Force last 3 variables to use $gp register
-int SECTION(".sbss") dword_800ABA78;
-int SECTION(".sbss") dword_800ABA7C;
+int SECTION(".sbss") dword_800ABA78[2];
 int SECTION(".sbss") dword_800ABA70;
 
 void GCL_Command_sound_impl_8002E688()
@@ -19,8 +17,8 @@ void GCL_Command_sound_impl_8002E688()
 
     if (GCL_GetParam_80020968('b'))
     {
-        dword_800ABA78 = GCL_GetNextParamValue_80020AD4();
-        dword_800ABA7C = GCL_GetNextParamValue_80020AD4();
+        dword_800ABA78[0] = GCL_GetNextParamValue_80020AD4();
+        dword_800ABA78[1] = GCL_GetNextParamValue_80020AD4();
         dword_800ABA70 &= ~1;
     }
     if (GCL_GetParam_80020968('s'))

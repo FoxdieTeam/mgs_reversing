@@ -187,7 +187,7 @@ int                GM_Reset_helper3_80030760();
 void               GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy);
 void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
 int                GM_AreaHistory_8002A848(int stage_id);
-int                GM_SoundStart_8002E640();
+void               GM_SoundStart_8002E640(void);
 int                GM_set_noise_sound_8002E588(int a1);
 Actor_strctrl      *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_InitReadError_8002AC44();
