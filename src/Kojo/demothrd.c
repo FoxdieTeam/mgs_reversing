@@ -203,7 +203,43 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s")                 // 1224 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_make_chara_8007AE10.s")         // 8016 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_remove_via_id_8007CD60.s")  // 152 bytes
+
+void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
+{
+    Actor_demothrd_0x78_Chain *pSubIter; // $s0
+    Actor_demothrd_0x78_Chain *pCur; // $a0
+    Actor_demothrd_0x78_Chain *pCur_; // $s1
+    GV_ACT *pPrevious; // $a0
+    GV_ACT *pNext; // $a0
+
+    pSubIter = pThis->field_38.field_4_pNext;
+    pCur = &pThis->field_38;
+    if ( pSubIter != pCur )
+    {
+        pCur_ = pCur;
+        do
+        {
+            if ( pSubIter->field_C_actor.mFnShutdown == (TActorFunction)id_to_remove )
+            {
+                pPrevious = pSubIter->field_C_actor.pPrevious;
+                if ( pPrevious )
+                {
+                    GV_DestroyOtherActor_800151D8(pPrevious);
+                    pNext = pSubIter->field_C_actor.pNext;
+                    if ( pNext )
+                    {
+                        GV_DestroyOtherActor_800151D8(pNext);
+                    }
+                    pSubIter->field_C_actor.pPrevious = 0;
+                    pSubIter->field_C_actor.pNext = 0;
+                }
+            }
+            pSubIter = pSubIter->field_4_pNext;
+        }
+        while ( pSubIter != pCur_ );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper3_8007CDF8.s")         // 284 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
