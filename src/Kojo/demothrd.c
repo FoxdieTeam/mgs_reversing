@@ -11,6 +11,9 @@ extern ANIMATION stru_8009F774;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int demodebug_finish_proc_800AB414;
 
+void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
+TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
+
 int DM_ThreadStream_80079460(int flag, int unused)
 {
     Actor_demothrd *pDemoThrd = (Actor_demothrd *)GV_NewActor_800150E4(1, sizeof(Actor_demothrd));
@@ -28,7 +31,10 @@ int DM_ThreadStream_80079460(int flag, int unused)
     return 1;
 }
 
+// https://decomp.me/scratch/TwT1k
 #pragma INCLUDE_ASM("asm/Kojo/DM_ThreadFile_800794E4.s")                           // 384 bytes
+
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_cd_act_80079664.s")                              // 360 bytes
 
 void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor)
@@ -88,7 +94,122 @@ void sub_80079A1C(void)
 
 int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
 #pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes
-#pragma INCLUDE_ASM("asm/Kojo/DestroyDemo_8007A66C.s")                             // 732 bytes
+
+extern const char aM1e1[];
+extern const char aM1e1demo[];
+
+void demothrd_file_stream_act_800797FC(Actor_demothrd* pActor);
+void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
+
+extern GM_Camera        GM_Camera_800B77E8;
+extern short           gGameState_800B4D98[0x60]; 
+
+int DestroyDemo_8007A66C(Actor_demothrd *pActor)
+{
+  Actor_demothrd_0x78_Chain *i;
+  GV_ACT *pPrevious;
+  GV_ACT *pNext;
+  int new_var;
+  dmo_model_0x1A4 *field_34_pModels;
+  dmo_model_0x1A4 *pModelIter;
+  demothrd_0x1C *field_30_dmo_header;
+  int model_count;
+  dmo_model_0x14 *pModelIter_1;
+  int mdlNum;
+  dmo_m1e1_entry **pM1OrHind;
+  int *pHash;
+  demothrd_0x1C *pHeader;
+  void *pMaps;
+  dmo_model_0x14 *pMods;
+  TChanl_Fn field_270_pOldRenderFn;
+
+  if ((pActor->field_20_flag & 2) != 0)
+  {
+    GM_GameStatus_800AB3CC |= 0x1000000u;
+  }
+  for (i = pActor->field_38.field_4_pNext; i != (&pActor->field_38); i = pActor->field_38.field_4_pNext)
+  {
+    pPrevious = i->field_C_actor.pPrevious;
+    if (pPrevious)
+    {
+      GV_DestroyOtherActor_800151D8(pPrevious);
+    }
+    pNext = i->field_C_actor.pNext;
+    if (pNext)
+    {
+      GV_DestroyOtherActor_800151D8(pNext);
+    }
+    Chain_Remove_8007F394(&pActor->field_38, i);
+    GV_Free_80016230(i);
+  }
+
+  field_34_pModels = pActor->field_34_pModels;
+  if (field_34_pModels)
+  {
+    pModelIter = pActor->field_34_pModels;
+    field_30_dmo_header = pActor->field_30_dmo_header;
+    model_count = field_30_dmo_header->field_10_num_models;
+    new_var = 0;
+    pModelIter_1 = field_30_dmo_header->field_18_pModels;
+    mdlNum = 0;
+    if (model_count > new_var)
+    {
+      pM1OrHind = (dmo_m1e1_entry **) (&field_34_pModels->field_1A0_pM1OrHind);
+      pHash = &pModelIter_1->field_C_hashCode;
+      do
+      {
+        GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
+        if (*pM1OrHind)
+        {
+          if (((*pHash) == GV_StrCode_80016CCC(aM1e1)) || ((*pHash) == GV_StrCode_80016CCC(aM1e1demo)))
+          {
+            GM_FreeObject_80034BF8(&(*pM1OrHind)->field_0);
+            GM_FreeObject_80034BF8(&(*pM1OrHind)[1].field_0);
+            GM_FreeObject_80034BF8(&(*pM1OrHind)[2].field_0);
+            GM_FreeObject_80034BF8(&(*pM1OrHind)[3].field_0);
+            GM_FreeObject_80034BF8(&(*pM1OrHind)[4].field_0);
+            GM_FreeObject_80034BF8(&(*pM1OrHind)[5].field_0);
+          }
+          GV_Free_80016230(*pM1OrHind);
+        }
+        ++mdlNum;
+        pHash += 5;
+        pM1OrHind = pM1OrHind + 0x69;
+        ++pModelIter;
+      }
+      while (mdlNum < pActor->field_30_dmo_header->field_10_num_models);
+    }
+    GM_FreeControl_800260CC(&pModelIter->field_0_ctrl);
+    GV_Free_80016230(pActor->field_34_pModels);
+  }
+  GM_FreeObject_80034BF8(&pActor->field_140_obj);
+  GM_FreeControl_800260CC(&pActor->field_C4_ctrl);
+  pHeader = pActor->field_30_dmo_header;
+  if (pHeader)
+  {
+    pMaps = (void *) pHeader->field_14_pMaps;
+    if (pMaps)
+    {
+      GV_Free_80016230(pMaps);
+    }
+    pMods = pActor->field_30_dmo_header->field_18_pModels;
+    if (pMods)
+    {
+      GV_Free_80016230(pMods);
+    }
+    GV_Free_80016230(pActor->field_30_dmo_header);
+  }
+  field_270_pOldRenderFn = pActor->field_270_pOldRenderFn;
+  GM_GameStatus_800AB3CC &= ~0x80000000;
+  DG_SetChanlSystemUnits_80018598(0, field_270_pOldRenderFn);
+  GM_GameStatus_800AB3CC = pActor->field_274_old_game_state_flags;
+  GM_Camera_800B77E8 = pActor->field_278;
+  gGameState_800B4D98[15] = pActor->field_2F4_old_equipped_item;
+  gGameState_800B4D98[14] = pActor->field_2F8_old_equipped_weapon;
+  return 1;
+}
+
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s")                 // 1224 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_make_chara_8007AE10.s")         // 8016 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_remove_via_id_8007CD60.s")  // 152 bytes
