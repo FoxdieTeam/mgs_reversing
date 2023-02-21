@@ -34,8 +34,7 @@ typedef struct Actor_scope
   short field_72;
   LINE_F2 *field_74_lineF2s[2];
   LINE_F4 *field_7C_lineF4s[2];
-  short field_84;
-  short field_86;
+  short field_84[2];
   LINE_F3 *field_88_lineF3s[2];
   LINE_F3 *field_90_lineF3s[2];
   int field_98;
