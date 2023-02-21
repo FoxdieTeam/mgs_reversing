@@ -7,12 +7,8 @@
 #include "libgv/libgv.h"
 #include "Game/GM_Control.h"
 #include "Game/game.h"
-
-typedef struct demothrd_2Vec
-{
-    SVECTOR field_0;
-    SVECTOR field_8;
-} demothrd_2Vec; // TODO: Prob just the camera data so bin this later
+#include "Game/object.h"
+#include "Game/camera.h"
 
 typedef struct dmo_model_0x14
 {
@@ -350,12 +346,9 @@ typedef struct Actor_demothrd
     int                field_264;
     int                field_268;
     int                field_26C;
-    int                field_270_pOldRenderFn;
+    TChanl_Fn                field_270_pOldRenderFn;
     int                field_274_old_game_state_flags;
-    demothrd_2Vec      field_278_stru[7]; // might actually be 8 ?
-    int                field_2E8_end_mark;
-    int                field_2EC;
-    int                field_2F0;
+    GM_Camera      field_278;
     int                field_2F4_old_equipped_item;
     int                field_2F8_old_equipped_weapon;
 } Actor_demothrd;
