@@ -160,7 +160,7 @@ typedef struct dmo_m1e1_entry
 
 typedef struct dmo_m1e1_data
 {
-  dmo_m1e1_entry field_0[6];
+  dmo_m1e1_entry field_0[2][3];
   int field_558_idx1;
   int field_55C_idx2;
   int field_560;
@@ -181,7 +181,7 @@ typedef struct dmo_model_0x1A4
 {
   GM_Control field_0_ctrl;
   OBJECT field_7C_obj;
-  SVECTOR field_A0;
+  SVECTOR field_A0[1]; // TODO: Seems to be an array, perhaps up to a fixed size
   short field_A8;
   short field_AA;
   int field_AC;
