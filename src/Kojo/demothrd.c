@@ -3,16 +3,47 @@
 #include "Anime/animeconv/anime.h"
 #include "libdg/libdg.h"
 
-void DG_8001CDB8(DG_OBJS *pObjs);
-
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F774;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int demodebug_finish_proc_800AB414;
+extern int dword_800BDFB8;
+extern int dword_800BDFBC;
+extern int dword_800BDFC0;
+extern int dword_800BDFC4;
+extern const char aM1e1[];
+extern const char aM1e1demo[];
+extern GM_Camera        GM_Camera_800B77E8;
+extern short           gGameState_800B4D98[0x60]; 
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern ANIMATION stru_8009F774;
+extern ANIMATION stru_8009F73C;
+extern ANIMATION stru_8009F790;
+extern const char aDemothrdC[];
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern ANIMATION stru_8009F774;
+
+extern const char aDemothrdC[];
+extern const char aCacheBufferCle[]; // = "Cache Buffer Cleared\n";
+extern const char aCacheReadEnabl[]; // = "Cache Read Enable\n";
+extern const char aDemothrdC[];
+extern const char aDemoFileS[];
+extern const char aSNotFound[];
+extern const char aM1e1[];
+extern const char aM1e1demo[];
+extern const char aHinddemo[];
+extern const char aHind[];
 
 void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
 TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
+void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
+void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
+void demothrd_file_stream_act_800797FC(Actor_demothrd* pActor);
+void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
+
+void GM_ActObject_80034AF4(OBJECT *obj);
+void DG_8001CDB8(DG_OBJS *pObjs);
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
@@ -57,14 +88,6 @@ void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor)
     }
 }
 
-extern int dword_800BDFB8;
-extern int dword_800BDFBC;
-extern int dword_800BDFC0;
-extern int dword_800BDFC4;
-
-extern const char aCacheBufferCle[]; // = "Cache Buffer Cleared\n";
-extern const char aCacheReadEnabl[]; // = "Cache Read Enable\n";
-
 void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
 {
     dword_800BDFB8 = cache_read_enable;
@@ -94,16 +117,6 @@ void sub_80079A1C(void)
 
 int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
 #pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes
-
-//#pragma INCLUDE_ASM("asm/Kojo/DestroyDemo_8007A66C.s")                             // 732 bytes
-extern const char aM1e1[];
-extern const char aM1e1demo[];
-
-void demothrd_file_stream_act_800797FC(Actor_demothrd* pActor);
-void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
-
-extern GM_Camera        GM_Camera_800B77E8;
-extern short           gGameState_800B4D98[0x60]; 
 
 int DestroyDemo_8007A66C(Actor_demothrd *pActor)
 {
@@ -288,8 +301,104 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
 
-// https://decomp.me/scratch/rqoIb
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
+int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
+{
+  dmo_model_0x1A4 *pModelIter_0x1A4;
+  dmo_model_0x14 *pModelIter_0x14;
+  int counter;
+  dmo_6 *pEndIter;
+
+  OFFSET_TO_PTR(pDmoData0x18, &pDmoData0x18->field_14_pEndData);
+    
+
+  pModelIter_0x1A4 = pActor->field_34_pModels;
+  pModelIter_0x14 = pActor->field_30_dmo_header->field_18_pModels;
+
+  for (counter = 0; counter < pActor->field_30_dmo_header->field_10_num_models;)
+  {
+    if (pModelIter_0x14->field_0_type == pDmoData0x18->field_0_type)
+    {
+      break;
+    }
+     counter++;
+    ++pModelIter_0x14;
+    ++pModelIter_0x1A4;
+
+  }
+    
+  if (counter >= pActor->field_30_dmo_header->field_10_num_models)
+  {
+    return 0;
+  }
+      
+  if (!pDmoData0x18->field_4)
+  {
+    DG_InvisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo))))
+    {
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][0].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][1].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][2].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][0].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][1].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][2].field_0.objs);
+    }     
+  }
+  else
+  {
+    DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
+    {
+      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx1].field_0.objs);
+      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_55C_idx2].field_0.objs);
+    }
+      
+    pModelIter_0x1A4->field_0_ctrl.field_0_position.vx = pDmoData0x18->field_C_pos_x;
+    pModelIter_0x1A4->field_0_ctrl.field_0_position.vy = pDmoData0x18->field_E_pos_y;
+    pModelIter_0x1A4->field_0_ctrl.field_0_position.vz = pDmoData0x18->field_10_pos_z;
+    pModelIter_0x1A4->field_0_ctrl.field_8_rotator.vx = pDmoData0x18->field_6_rot_x;
+    pModelIter_0x1A4->field_0_ctrl.field_8_rotator.vy = pDmoData0x18->field_8_rot_y;
+    pModelIter_0x1A4->field_0_ctrl.field_8_rotator.vz = pDmoData0x18->field_A_rot_z;
+    if ((pModelIter_0x14->field_4_flags & 1) != 0)
+    {
+      GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
+      GM_ActObject2_80034B88(&pModelIter_0x1A4->field_7C_obj);
+     // return 1;
+    }
+    else
+    {
+        pEndIter = pDmoData0x18->field_14_pEndData;
+        counter = 0;
+        if (pDmoData0x18->field_12_total > 0)
+        {
+          do
+          {
+            pModelIter_0x1A4->field_A0[counter].vx = pEndIter->field_0;
+            pModelIter_0x1A4->field_A0[counter].vy = pEndIter->field_2; // field_0
+            pModelIter_0x1A4->field_A0[counter].vz = pEndIter->field_4;
+            counter++;
+            pEndIter++; 
+          }
+          while (counter < pDmoData0x18->field_12_total);
+        }
+          
+        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
+        {
+          demothrd_m1e1_8007D404(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+        }
+        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aHind)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aHinddemo)))
+        {
+           demothrd_hind_8007D9C8(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+        }
+    
+        GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
+        GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
+        GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
+        DG_GetLightMatrix_8001A3C4(&pModelIter_0x1A4->field_0_ctrl.field_0_position, &pModelIter_0x1A4->field_160_mtx);
+    }
+  }
+  return 1;
+}
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
 
@@ -313,7 +422,6 @@ void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18,
     p0x1A4->field_B0 = pTmp->field_C;
 }
 
-extern ANIMATION stru_8009F73C;
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 {
@@ -331,8 +439,6 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
 #pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
-
-extern ANIMATION stru_8009F790;
 
 void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
 {
@@ -371,10 +477,6 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-extern const char aDemothrdC[];
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern ANIMATION stru_8009F774;
-
 void sub_8007E0AC(int y, SVECTOR *pPosition)
 {
     ANIMATION *anm;
@@ -408,10 +510,6 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
-
-extern const char aDemothrdC[];
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern ANIMATION stru_8009F774;
 
 #pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
 #pragma INCLUDE_ASM("asm/sub_8007EF34.s")                                          // 312 bytes
