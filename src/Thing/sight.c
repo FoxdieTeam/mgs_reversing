@@ -265,11 +265,10 @@ void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
     menu_Text_80038C38(aStringFormat, textPrim->field_C_text);
 }
 
-extern int     GV_Clock_800AB920;
-extern int     GM_CurrentMap_800AB9B0;
-extern DG_CHNL DG_Chanls_800B1800[3];
-extern int     GM_PlayerStatus_800ABA50;
-extern int     GV_PauseLevel_800AB928;
+extern int GV_Clock_800AB920;
+extern int GM_CurrentMap_800AB9B0;
+extern int GM_PlayerStatus_800ABA50;
+extern int GV_PauseLevel_800AB928;
 
 void sight_act_800714EC(Actor_Sight *sight)
 {
@@ -280,7 +279,6 @@ void sight_act_800714EC(Actor_Sight *sight)
     unsigned int              frameCount;
     int                       field30;
     int                       frameCountPositive;
-    DG_CHNL                  *chnl;
     unsigned char            *ot;
     int                       field54Flags;
     void                     *primBuf;
@@ -327,10 +325,7 @@ void sight_act_800714EC(Actor_Sight *sight)
 
     frameCount = sight->field_2C_frameCount;
     field30 = sight->field_30;
-
-    // todo: fix when static inline DG_Chanls-related getters work.
-    chnl = &DG_Chanls_800B1800[1];
-    ot = (chnl + 1)->mOrderingTables[GV_Clock_800AB920];
+    ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
     primOffsetIndicesArray = primBufInfo->field_C_primOffsetIndicesArray;
     primOffsetInfoArray = primBufInfo->field_10_primOffsetInfoArray;

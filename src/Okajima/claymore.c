@@ -146,13 +146,13 @@ void claymore_act_800736B0(Actor_Claymore *claymore)
 
 void claymore_kill_800738F4(Actor_Claymore *claymore)
 {
-    DG_OBJS *objs;
+    DG_PRIM *prim;
 
-    objs = (DG_OBJS *)claymore->field_84_pPrim;
-    if (objs)
+    prim = claymore->field_84_pPrim;
+    if (prim)
     {
-        DG_DequeuePrim_800182E0(objs);
-        DG_FreePrim_8001BC04(objs);
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
     }
 }
 

@@ -18,8 +18,8 @@ void d_bloodr_kill_80072BD4(Actor_DBloodr *pActor)
     pPrims = pActor->field_20_prims;
     if (pPrims)
     {
-        DG_DequeuePrim_800182E0((DG_OBJS *)pPrims);
-        DG_FreePrim_8001BC04((DG_OBJS *)pPrims);
+        DG_DequeuePrim_800182E0(pPrims);
+        DG_FreePrim_8001BC04(pPrims);
     }
 }
 

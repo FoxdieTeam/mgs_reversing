@@ -159,14 +159,14 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
 void rcm_kill_80066E68(Actor_Rcm *pActor)
 {
-    DG_PRIM *iVar1;
+    DG_PRIM *prim;
 
     GM_FreeObject_80034BF8(&pActor->f20_obj);
-    iVar1 = pActor->field_5C_pPrim;
-    if (iVar1 != 0)
+    prim = pActor->field_5C_pPrim;
+    if (prim)
     {
-        DG_DequeuePrim_800182E0((DG_OBJS *)iVar1);
-        DG_FreePrim_8001BC04((DG_OBJS *)iVar1);
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
     }
 }
 

@@ -15,7 +15,6 @@ extern const char aMenuPrimOver[];
 extern MenuGlue    gMenuPrimBuffer_8009E2D0;
 extern TInitKillFn gMenuInitFns_8009E290[];
 extern int         GV_Clock_800AB920;
-extern DG_CHNL     DG_Chanls_800B1800[3];
 extern int         MENU_PrimUse_800AB68C;
 extern TInitKillFn gMenuKillFns_8009E2B4[];
 
@@ -151,8 +150,8 @@ void menu_radio_update_helper2_80038A7C(void)
 
 void menu_ResetSystem_80038A88()
 {
-    DG_CHNL       *p;
     unsigned char *pFreeLoc = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
+
     if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd < pFreeLoc)
     {
         mts_nullsub_8_8008BB98(-1, aMenuPrimOver);
@@ -163,9 +162,7 @@ void menu_ResetSystem_80038A88()
 
     gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation = gMenuPrimBuffer_8009E2D0.mPrimPtrs[GV_Clock_800AB920];
     gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation + 0x2000;
-
-    p = &DG_Chanls_800B1800[1];
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt = (p + 1)->mOrderingTables[GV_Clock_800AB920];
+    gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
     menu_Text_Init_80038B98();
 }
 

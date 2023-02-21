@@ -277,12 +277,12 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
 void amissile_kill_8006D99C(Actor_amissile *pActor)
 {
-    DG_OBJS *pPrim;
+    DG_PRIM *pPrim;
 
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
 
-    pPrim = (DG_OBJS *)pActor->field_134_prim;
+    pPrim = pActor->field_134_prim;
 
     if (pPrim)
     {

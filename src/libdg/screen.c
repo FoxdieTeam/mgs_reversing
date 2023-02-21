@@ -146,7 +146,7 @@ void DG_PointCheck_8001BF34(SVECTOR *svector, int n_points)
 
     gte_ReadRotMatrix(matrix2);
 
-    matrix = &DG_Chanls_800B1800[1].field_10_transformation_matrix;
+    matrix = &DG_Chanls_800B1800[1].field_10_eye_inv;
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 
@@ -185,7 +185,7 @@ int DG_PointCheckOne_8001C18C(DVECTOR *line)
     DVECTOR first_points;
     DVECTOR second_points;
 
-    MATRIX *matrix = &DG_Chanls_800B1800[1].field_10_transformation_matrix;
+    MATRIX *matrix = &DG_Chanls_800B1800[1].field_10_eye_inv;
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 
@@ -339,7 +339,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     void* temp_matrix;
     DG_MDL* mdl;
     DG_MDL* temp_mdl;
-    
+
     matrix  = (MATRIX*)(SCRPAD_ADDR + 0x040);
     obj = objs->objs;
     matrix2 = (MATRIX*)(SCRPAD_ADDR + 0x360);
@@ -347,11 +347,11 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     rots       = objs->rots;
     adjust     = objs->adjust;
     waist_rot  = objs->waist_rot;
-    
+
     mdl = obj->model;
     matrix3 = (MATRIX*)(SCRPAD_ADDR + 0x340);
-   
-    waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) : 
+
+    waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) :
                 RotMatrixZYX_gte_80093F08( rots,      matrix3 ) ;
 
     matrix3->t[0] = mdl->pos_20.field_0_x;
@@ -374,7 +374,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         temp_mdl = obj->model;
         mdl = temp_mdl; //provides fake match
         temp_matrix = (void*)temp_mdl->parent_2C;
-        temp_matrix = (void*)((int)temp_matrix << 5) ; 
+        temp_matrix = (void*)((int)temp_matrix << 5) ;
         temp_matrix +=  SCRPAD_ADDR  + 0x40;
         //MATRIX* temp_matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
         //temp_matrix = &temp_matrix[mdl->parent_2C]; should be this but registers dont match
@@ -384,7 +384,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         matrix->t[1] = mdl->pos_20.field_4_y;
         matrix->t[2] = mdl->pos_20.field_8_z;
 
-        if ( i == ( n_obj - 1 ) ) 
+        if ( i == ( n_obj - 1 ) )
         {
             temp_matrix = matrix3;
         }
@@ -399,7 +399,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         {
             if  (adjust->vz ) RotMatrixZ_80093D68( adjust->vz, matrix );
             if  (adjust->vx ) RotMatrixX_80093A28( adjust->vx, matrix );
-            if  (adjust->vy ) RotMatrixY_80093BC8( adjust->vy, matrix ); 
+            if  (adjust->vy ) RotMatrixY_80093BC8( adjust->vy, matrix );
             adjust++;
         }
 
@@ -461,7 +461,7 @@ void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
 
     mQueue = pOt->mQueue;
 
-    *((MATRIX *)0x1F800000) = pOt->field_10_transformation_matrix;
+    *((MATRIX *)0x1F800000) = pOt->field_10_eye_inv;
     DG_800174DC((MATRIX *)0x1F800000);
 
     for (i = pOt->mTotalObjectCount; i > 0; --i)
