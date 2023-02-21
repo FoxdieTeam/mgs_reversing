@@ -106,10 +106,7 @@ void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
     }
 }
 
-void scope_act_helper_800624BC(LINE_F2 *lines, int param_2, int param_3);
-void scope_act_helper_helper_80062320(void *ot, void *prim);
-
-void scope_act_helper_8006258C(Actor_scope *scope)
+void scope_act_helper_8006258C(Actor_scope *pActor)
 {
     int      iVar1;
     int      iVar3;
@@ -118,24 +115,24 @@ void scope_act_helper_8006258C(Actor_scope *scope)
     LINE_F2 *lines;
     int      i;
 
-    temp = scope->field_58;
+    temp = pActor->field_58;
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        scope->field_58++;
+        pActor->field_58++;
     }
 
     if (temp >= 6)
     {
         temp = 6;
-        scope->field_9C_flags |= 1 << GV_Clock_800AB920;
+        pActor->field_9C_flags |= 1 << GV_Clock_800AB920;
     }
 
     iVar1 = 12 * temp;
     iVar3 = 320 - iVar1;
 
     ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
-    lines = scope->field_74_lineF2s[GV_Clock_800AB920];
+    lines = pActor->field_74_lineF2s[GV_Clock_800AB920];
 
     for (i = 0; i < 4; i++)
     {
@@ -150,6 +147,7 @@ void scope_act_helper_8006258C(Actor_scope *scope)
 
 // Scratch: https://decomp.me/scratch/yJu6g
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
+void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
 
 void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
 {
@@ -269,7 +267,7 @@ void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
     GM_Camera_800B77E8.field_20 = iVar5;
 }
 
-void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
+void scope_act_helper_80062BDC(Actor_scope *pActor, u_char *pOt)
 {
     LINE_F4 *line_f4;
     LINE_F2 *line_f2;
@@ -277,12 +275,12 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     short    sVar2;
     short    sVar3;
 
-    line_f4 = scope->field_7C_lineF4s[GV_Clock_800AB920];
+    line_f4 = pActor->field_7C_lineF4s[GV_Clock_800AB920];
     line_f2 = (LINE_F2 *)(line_f4 + 1);
 
-    sVar1 = scope->field_84 + 130;
-    sVar2 = scope->field_84 + 189;
-    sVar3 = scope->field_86;
+    sVar1 = pActor->field_84[0] + 130;
+    sVar2 = pActor->field_84[0] + 189;
+    sVar3 = pActor->field_84[1];
 
     line_f2->x1 = sVar1;
     line_f2->x0 = sVar1;
@@ -301,8 +299,8 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     line_f4->y3 = sVar3;
     line_f4->y2 = sVar3;
 
-    scope_act_helper_helper_80062320(ot, line_f4);
-    scope_act_helper_helper_80062320(ot, line_f2);
+    scope_act_helper_helper_80062320(pOt, line_f4);
+    scope_act_helper_helper_80062320(pOt, line_f2);
 }
 
 void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
@@ -360,11 +358,6 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
     }
 }
 
-void scope_act_helper_8006258C(Actor_scope *pActor);
-void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
-void scope_act_helper_80062BDC(Actor_scope *pActor, unsigned char *pOt);
-void scope_act_helper_80062C7C(Actor_scope *pActor, unsigned char *pOt);
-
 void scope_act_80062E8C(Actor_scope *pActor)
 {
     int            model;
@@ -373,18 +366,18 @@ void scope_act_80062E8C(Actor_scope *pActor)
     unsigned char *pOt;
     unsigned short pad_status;
 
-    if ((pActor->field_9C_flags & 0x8000) == 0)
+    if (!(pActor->field_9C_flags & 0x8000))
     {
         parent_obj = pActor->field_24_pParent;
 
-        if (pActor->field_24_pParent->objs->n_models >= 7 && ((pActor->field_24_pParent->objs->flag & 0x80) != 0))
+        if (pActor->field_24_pParent->objs->n_models >= 7 && (pActor->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
         {
             obj = &pActor->field_28_obj;
             model = GV_StrCode_80016CCC(aGoggles_2);
 
             GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, model, 0x6d, 0);
 
-            if ((pActor->field_28_obj).objs != (DG_OBJS *)0x0)
+            if (pActor->field_28_obj.objs)
             {
                 GM_ConfigObjectRoot_80034C5C(obj, parent_obj, 6);
                 GM_ConfigObjectLight_80034C44(obj, parent_obj->light);
@@ -395,14 +388,14 @@ void scope_act_80062E8C(Actor_scope *pActor)
     }
 
 
-    if ((pActor->field_9C_flags & 0x8000) != 0)
+    if (pActor->field_9C_flags & 0x8000)
     {
         GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl->field_2C_map->field_0_map_index_bit;
         DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
         if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) != 0)
         {
-            if ((pActor->field_24_pParent->objs->flag & 0x80) == 0)
+            if (!(pActor->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
             {
                 DG_VisibleObjs(pActor->field_28_obj.objs);
             }
@@ -421,6 +414,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
         {
             pActor->field_5C--;
         }
+
         return;
     }
 
@@ -428,7 +422,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
     if (dword_8009F604 != SGT_SCOPE)
     {
         NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
-        GM_Sound_80032968(0, 0x3f, 0x15);
+        GM_Sound_80032968(0, 63, 21);
     }
 
 
@@ -499,44 +493,142 @@ void scope_kill_8006317C(Actor_scope *pActor)
     scope_created_8009F2C4 = 0;
 }
 
-void scope_loader_helper_80063238(LINE_F2 *lines)
+void scope_loader_helper_80063238(LINE_F2 *pLines)
 {
 	int i;
 
 	for (i = 0; i < 16; i++)
 	{
-		*(int *)&lines->r0 = 0x41412e;
-		setLineF2(lines);
-		setSemiTrans(lines, 1);
-		lines++;
+        LSTORE(0x41412e, &pLines->r0);
+		setLineF2(pLines);
+		setSemiTrans(pLines, 1);
+		pLines++;
 	}
 }
 
-void scope_loader_helper_80063274(LINE_F4 *lines)
+void scope_loader_helper_80063274(LINE_F4 *pLines)
 {
 	int i;
 
 	for (i = 0; i < 2; i++)
 	{
-		*(int *)&lines->r0 = 0x68b187;
-		setLineF4(lines);
-		lines++;
+        LSTORE(0x68b187, &pLines->r0);
+		setLineF4(pLines);
+		pLines++;
 
-		*(int *)&lines->r0 = 0x68b187;
-		setLineF2(lines);
-		lines++;
+        LSTORE(0x68b187, &pLines->r0);
+		setLineF2(pLines);
+		pLines++;
 	}
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_800632D4.s")     // 148 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063368.s")     // 108 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_loader_800633D4.s")            // 308 bytes
+void scope_loader_helper_800632D4(Actor_scope *pActor)
+{
+    LINE_F3 *pLine;
+    int i, j;
 
-void scope_act_80062E8C(Actor_scope *pActor);
-void scope_kill_8006317C(Actor_scope *pActor);
-int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pObj);
+    pLine = pActor->field_88_lineF3s[0];
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 16; j++)
+        {
+            pLine->x0 = 68 + j * 12;
+            pLine->x2 = 76 + j * 12;
+            pLine->x1 = 76 + j * 12;
 
-Actor_scope* NewScope_80063508(GM_Control *a1, OBJECT *a2)
+            LSTORE(0x287147, &pLine->r0);
+
+            setLineF3(pLine);
+            setSemiTrans(pLine, 1);
+
+            pLine->y2 = 178;
+            pLine++;
+        }
+    }
+}
+
+void scope_loader_helper_80063368(LINE_F3 *pLines)
+{
+    int i;
+
+    for (i = 0; i < 2; i++)
+    {
+        LSTORE(0x287147, &pLines->r0);
+        setLineF3(pLines);
+        pLines->x0 = pLines->x1 = pLines->x2 = 48;
+        pLines->y0 = pLines->y1 = 46;
+        pLines->y2 = 52;
+        pLines++;
+    }
+}
+
+int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pParent)
+{
+    struct map_record *pMap;
+
+    pActor->field_74_lineF2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
+    if (!pActor->field_74_lineF2s[0])
+    {
+        return -1;
+    }
+
+    pActor->field_74_lineF2s[1] = pActor->field_74_lineF2s[0] + 8;
+    pActor->field_7C_lineF4s[0] = GV_Malloc_8001620C(sizeof(LINE_F4) * 4);
+
+    if (!pActor->field_7C_lineF4s[0])
+    {
+        return -1;
+    }
+
+    pActor->field_7C_lineF4s[1] = pActor->field_7C_lineF4s[0] + 2;
+    pActor->field_88_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 32);
+
+    if (!pActor->field_88_lineF3s[0])
+    {
+        return -1;
+    }
+
+    pActor->field_88_lineF3s[1] = pActor->field_88_lineF3s[0] + 16;
+    pActor->field_90_lineF3s[0] = GV_Malloc_8001620C(sizeof(LINE_F3) * 2);
+
+    if (!pActor->field_90_lineF3s[0])
+    {
+        return -1;
+    }
+
+    pActor->field_90_lineF3s[1] = pActor->field_90_lineF3s[0] + 1;
+
+    scope_loader_helper_80063238(pActor->field_74_lineF2s[0]);
+    scope_loader_helper_80063274(pActor->field_7C_lineF4s[0]);
+    scope_loader_helper_800632D4(pActor);
+    scope_loader_helper_80063368(pActor->field_90_lineF3s[0]);
+
+    pActor->field_54_pOldPad = &GV_PadData_800B05C0[2];
+    pActor->field_5C = 16;
+    pActor->field_58 = 0;
+    pActor->field_5E = 2;
+    pActor->field_60 = 0;
+    pActor->field_62 = 0;
+
+    pActor->field_6E = pActor->field_66 = pCtrl->field_4C_turn_vec.vy;
+    pActor->field_6C = pActor->field_64 = pCtrl->field_4C_turn_vec.vx;
+
+    pActor->field_68 = 0;
+    pActor->field_70 = 0;
+
+    pActor->field_84[1] = 0;
+    pActor->field_84[0] = 0;
+
+    pMap = pCtrl->field_2C_map;
+
+    pActor->field_9C_flags = 0;
+    pActor->field_20_ctrl = pCtrl;
+    pActor->field_24_pParent = pParent;
+    pActor->field_50_pMap = pMap;
+    return 0;
+}
+
+Actor_scope * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent)
 {
     Actor_scope *pActor; // $s0
 
@@ -549,7 +641,7 @@ Actor_scope* NewScope_80063508(GM_Control *a1, OBJECT *a2)
     if ( pActor )
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, aScopeC);
-        if ( scope_loader_800633D4(pActor, a1, a2) < 0 )
+        if ( scope_loader_800633D4(pActor, pCtrl, pParent) < 0 )
         {
             GV_DestroyActor_800151C8(&pActor->field_0_scope);
             return 0;
