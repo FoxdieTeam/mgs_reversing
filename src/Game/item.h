@@ -3,7 +3,7 @@
 
 #include "linker.h"
 #include "libgv/libgv.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include <KERNEL.H>
 #include "Game/game.h"
 #include "libdg/libdg.h"

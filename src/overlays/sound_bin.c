@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 // Overlay chara used only in sound.bin
 GCL_ActorTableEntry SECTION(".gProgramBottom_800C3208") OverlayCharas[] = {

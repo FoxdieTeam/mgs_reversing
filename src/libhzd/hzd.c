@@ -1,5 +1,5 @@
 
-#include "hzd.h"
+#include "libhzd.h"
 #include "mts/mts_new.h"
 
 extern const char aWarningOldVers[];
@@ -13,7 +13,33 @@ void HZD_StartDaemon_80021900(void)
     GV_SetLoader_80015418(0x68, (TFileExtHandler)&HZD_LoadInitHzd_800219F4);
 }
 
-#pragma INCLUDE_ASM("asm/HZD_Process_TableFlagIfTriggers_80021928.s") // 160 bytes
+void HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras)
+{
+  int i;
+  char *new_var;
+  int j;
+  char *s;
+  for (i = n_trapsAndCameras - 1; i > (-1); i--)
+  {
+    s = trig->trap.name;
+    j = (sizeof(trig->trap.name)) + 1;
+    if (s[0xd] == ((char) (-1)))
+    {
+      break;
+    }
+    for (; (j > 0) && ((*s) != ' '); j--)
+    {
+      s++;
+    }
+
+    *s = '\0';
+    trig->trap.name_id = GV_StrCode_80016CCC(trig->trap.name);
+    trig++;
+    new_var = trig->trap.name;
+    s = new_var;
+  }
+
+}
 
 void HZD_RoutesOffsetsToPtr_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 {
@@ -56,7 +82,7 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
         OFFSET_TO_PTR(hzm, &area->triggers);
         OFFSET_TO_PTR(hzm, &area->wallsFlags);
 
-        HZD_Process_TableFlagIfTriggers_80021928(area->triggers, area->n_triggers);
+        HZD_ProcessTraps_80021928((HZD_CAM_TRP*)area->triggers, area->n_triggers);
         area++;
     }
 
@@ -123,7 +149,69 @@ void HZD_FreeHandler_80021C40(void *param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/HZD_MakeRoute_helper_80021C64.s") // 264 bytes
+//not sure what this actually is
+typedef struct HZD_ZON_BUF {
+ int buffer[16];
+} HZD_ZON_BUF;
+
+
+void HZD_MakeRoute_helper_80021C64(HZD_ZON *zone, int n_zone, int cur_zone, char *buf)
+{
+    int i, j, k, t1, t4; //t0, t2, t3, t1
+    //int zone_buf[32];
+    HZD_ZON_BUF    zone_buf[2];
+    int           *p; //t6
+    int           *p2; // t5
+    char          *nears;
+    int            val;
+    int            near;
+    char          *temp_ptr;
+    unsigned char *idx;
+
+    for ( i = 0 ; i < n_zone ; i++ )
+    {
+        buf[ i ] = 0xFF;
+    }
+
+    //loc_80021C8C
+    p  = ( int* )zone_buf;       //t6
+    p2 = ( int* )&zone_buf[ 1 ]; //t5
+    
+    buf[ cur_zone ] = 0;
+    zone_buf[ 0 ].buffer[ 0 ] = 1;
+    *( ( char* )&zone_buf[ 0 ].buffer[ 1 ] ) = cur_zone;
+    
+    k = 1;
+    for ( t4 = 1 ; t4 > 0 ; k++ )
+    {
+        for ( i = t1 = 0 ; i < t4 ; i++ )
+        {
+            idx = ((char*)p + i);
+            nears = zone[ idx[ 4 ] ].nears; //a2
+
+            for ( j = 0 ; j < 6 ; j++ )
+            {
+                near = nears[ 0 ];
+                nears++;
+                if ( near == 0xFF ) break;
+                if ( k < buf[ near ] )
+                {
+                    //loc_80021D08
+                    temp_ptr = &(( char* )p2)[ t1 ];
+                    t1++;
+                    buf[ near ] = k;
+                    temp_ptr[ 4 ] = near;
+                }
+            }
+        }
+        
+        val = k & 1;
+        p  = ( int* )&zone_buf[ val ];
+        p2[ 0 ] = t1;
+        p2 = ( int* )&zone_buf[ ( 1 - val ) ];
+        t4 = p[ 0 ];
+    }
+}
 
 void HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1)
 {

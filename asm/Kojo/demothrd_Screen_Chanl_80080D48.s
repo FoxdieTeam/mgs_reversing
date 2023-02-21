@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_4_80080D48
-demothrd_4_80080D48:
+	xdef demothrd_Screen_Chanl_80080D48
+demothrd_Screen_Chanl_80080D48:
 	dw 0x27BDFFE0 ; 0x80080D48
 	dw 0xAFB00010 ; 0x80080D4C
 	dw 0x00808021 ; 0x80080D50

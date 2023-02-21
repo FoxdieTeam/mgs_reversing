@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "mts/mts_new.h"
 #include "menuman.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
 #include "psyq.h"
 #include "Game/game.h"

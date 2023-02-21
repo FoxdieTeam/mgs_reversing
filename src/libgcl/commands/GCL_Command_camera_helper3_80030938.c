@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 extern SVECTOR GM_CameraRotateSave_800AB430;
 

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef demothrd_update_800797FC
-demothrd_update_800797FC:
+	xdef demothrd_file_stream_act_800797FC
+demothrd_file_stream_act_800797FC:
 	dw 0x27BDFFE0 ; 0x800797FC
 	dw 0xAFB00010 ; 0x80079800
 	dw 0x00808021 ; 0x80079804

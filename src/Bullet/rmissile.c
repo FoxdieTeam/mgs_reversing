@@ -4,7 +4,7 @@
 #include "Menu/menuman.h"
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"
-#include "map/hzd.h"
+#include "libhzd/libhzd.h"
 #include "blast.h"
 #include "psyq.h"
 #include "rmissile.h"

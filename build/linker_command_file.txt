@@ -9,85 +9,62 @@
     include "..\obj\data\bss.obj"
 
     ;main
-    include "..\obj\main.obj"           ;main.c
+    include "..\obj\main.obj"               ;main.c
 
     ;libfs
-    include "..\obj\libfs\select.obj"   ;select.c
+    include "..\obj\libfs\select.obj"       ;select.c
 
     ;libgv
-    include "..\obj\libgv\gvd.obj"      ;gvd.c
-    include "..\obj\libgv\actor.obj"    ;actor.c
+    include "..\obj\libgv\gvd.obj"          ;gvd.c
+    include "..\obj\libgv\actor.obj"        ;actor.c
 
     include "..\obj\data\sdata\sdata2.obj"
 
-    include "..\obj\libgv\cache.obj"    ;cache.c
-    include "..\obj\libgv\debug.obj"    ;debug.c    ?
-    include "..\obj\libgv\memory.obj"   ;memory.c
-    include "..\obj\libgv\message.obj"  ;message.c
-    include "..\obj\libgv\pad.obj"      ;pad.c
-    include "..\obj\libgv\strcode.obj"  ;strcode.c
-    include "..\obj\libgv\math.obj"     ;math.c     ?
+    include "..\obj\libgv\cache.obj"        ;cache.c
+    include "..\obj\libgv\debug.obj"        ;debug.c    ?
+    include "..\obj\libgv\memory.obj"       ;memory.c
+    include "..\obj\libgv\message.obj"      ;message.c
+    include "..\obj\libgv\pad.obj"          ;pad.c
+    include "..\obj\libgv\strcode.obj"      ;strcode.c
+    include "..\obj\libgv\math.obj"         ;math.c     ?
 
     include "..\obj\data\sdata\sdata.obj"
 
     ;libdg
-    include "..\obj\libdg\display.obj"  ;display.c
-    include "..\obj\libdg\chanl.obj"    ;chanl.c
-    include "..\obj\libdg\bound.obj"    ;bound.c
-    include "..\obj\libdg\oclut.obj"    ;oclut.c    ?
-    include "..\obj\libdg\divide.obj"   ;divide.c
-    include "..\obj\libdg\light.obj"    ;light.c
-    include "..\obj\libdg\opack.obj"    ;opack.c
-    include "..\obj\libdg\prim.obj"     ;prim.c
-    include "..\obj\libdg\screen.obj"   ;screen.c
-    include "..\obj\libdg\shade.obj"    ;shade.c
-    include "..\obj\libdg\sort.obj"     ;sort.c
-    include "..\obj\libdg\text.obj"     ;text.c
-    include "..\obj\libdg\trans.obj"    ;trans.c
-    include "..\obj\libdg\matrix.obj"   ;matrix.c  ?
-    include "..\obj\libdg\dgd.obj"      ;dgd.c
-    include "..\obj\libdg\loader.obj"   ;loader.c
-    include "..\obj\libdg\palette.obj"  ;palette.c  ?
+    include "..\obj\libdg\display.obj"      ;display.c
+    include "..\obj\libdg\chanl.obj"        ;chanl.c
+    include "..\obj\libdg\bound.obj"        ;bound.c
+    include "..\obj\libdg\oclut.obj"        ;oclut.c    ?
+    include "..\obj\libdg\divide.obj"       ;divide.c
+    include "..\obj\libdg\light.obj"        ;light.c
+    include "..\obj\libdg\opack.obj"        ;opack.c
+    include "..\obj\libdg\prim.obj"         ;prim.c
+    include "..\obj\libdg\screen.obj"       ;screen.c
+    include "..\obj\libdg\shade.obj"        ;shade.c
+    include "..\obj\libdg\sort.obj"         ;sort.c
+    include "..\obj\libdg\text.obj"         ;text.c
+    include "..\obj\libdg\trans.obj"        ;trans.c
+    include "..\obj\libdg\matrix.obj"       ;matrix.c  ?
+    include "..\obj\libdg\dgd.obj"          ;dgd.c
+    include "..\obj\libdg\loader.obj"       ;loader.c
+    include "..\obj\libdg\palette.obj"      ;palette.c  ?
 
-    ;libgcl_start
-    include "..\obj\libgcl\gcl.obj"
+    ;libgcl
+    include "..\obj\libgcl\gcl_init.obj"    ;gcl_init.c
+    include "..\obj\libgcl\command.obj"     ;command.c
+    include "..\obj\libgcl\basic.obj"       ;basic.c
+    include "..\obj\libgcl\expr.obj"        ;expr.c
+    include "..\obj\libgcl\parse.obj"       ;parse.c
+    include "..\obj\libgcl\variable.obj"    ;variable.c
 
-    ;libgcl\basic.c
-    include "..\obj\libgcl\commands\GCL_Command_if_80020274.obj"
-    include "..\obj\libgcl\commands\GCL_Command_eval_80020318.obj"
-    include "..\obj\libgcl\commands\GCL_Command_foreach_8002033C.obj"
-    include "..\obj\libgcl\commands\GCL_Command_return_80020404.obj"
-    include "..\obj\libgcl\GCL_InitBasicCommands_8002040C.obj"
-
-    ;libgcl\expr.c
-    include "..\obj\libgcl\calc_80020430.obj"
-    include "..\obj\libgcl\GCL_Expr_8002058C.obj"
-
-    ;libgcl\parse.c
-    include "..\obj\libgcl\parse.obj"
-
-    ;libgcl\variable.c
-    include "..\obj\libgcl\GCL_SaveLinkVar_80020B90.obj"
-    include "..\obj\data\rdata\rdata_80020704.obj"
-    include "..\obj\libgcl\crc32_80020BB4.obj"
-    include "..\obj\libgcl\GCL_MakeSaveFile_80020C0C.obj"
-    include "..\obj\libgcl\GCL_SetLoadFile_80020EAC.obj"
-    include "..\obj\libgcl\GCL_InitVar_80021264.obj"
-    include "..\obj\libgcl\GCL_InitClearVar_800212CC.obj"
-    include "..\obj\libgcl\GCL_SaveVar_80021314.obj"
-    include "..\obj\libgcl\GCL_RestoreVar_80021488.obj"
-    include "..\obj\libgcl\GCL_GetVar_80021634.obj"
-    include "..\obj\libgcl\GCL_SetVar_8002171C.obj"
-    include "..\obj\libgcl\GCL_VarSaveBuffer_800217F0.obj"
     include "..\obj\data\rdata\rdata_80021634.obj"
 
     include "..\obj\data\sdata\sdata4.obj"
 
-    ;libgcl_end
+    ;libhzd
+    include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
 
-    ; 80021900 80021928 800219F4 80021AE0 80021C40 80021C64 80021D6C
-    include "..\obj\map\hzd.obj"
-
+    ;libfs
     ; 80021EC4 80021F48 80021F68 80021F70 80021FE0 80022024 80022088 80022090 80022264 800227A8 8002280C 80022854 80022864 80022888 800228D4 80022918 8002297C 80022B5C 80022CBC 80022D00 80022DCC
     include "..\obj\libfs\cdbios.obj"
 

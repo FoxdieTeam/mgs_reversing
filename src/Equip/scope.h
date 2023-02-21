@@ -32,13 +32,12 @@ typedef struct Actor_scope
   short field_6E;
   short field_70;
   short field_72;
-  LINE_F2 *field_74_alloc_0x100[2];
-  void *field_7C_pPrims[2];
+  LINE_F2 *field_74_lineF2s[2];
+  LINE_F4 *field_7C_lineF4s[2];
   short field_84;
   short field_86;
-  void *field_88_alloc;
-  int field_8C;
-  LINE_F3 *field_90_pPrims[2];
+  LINE_F3 *field_88_lineF3s[2];
+  LINE_F3 *field_90_lineF3s[2];
   int field_98;
   int field_9C_flags;
 } Actor_scope;

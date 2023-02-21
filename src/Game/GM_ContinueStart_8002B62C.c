@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "game.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
 // force GP

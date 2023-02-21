@@ -1,6 +1,6 @@
 #include "menuman.h"
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
 extern int   GM_GameStatus_800AB3CC;

@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 int GCL_Command_sound_8002CA28(int argc, char **argv)
 {

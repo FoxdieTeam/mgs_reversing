@@ -135,7 +135,7 @@ void scope_act_helper_8006258C(Actor_scope *scope)
     iVar3 = 320 - iVar1;
 
     ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
-    lines = scope->field_74_alloc_0x100[GV_Clock_800AB920];
+    lines = scope->field_74_lineF2s[GV_Clock_800AB920];
 
     for (i = 0; i < 4; i++)
     {
@@ -148,8 +148,126 @@ void scope_act_helper_8006258C(Actor_scope *scope)
     }
 }
 
+// Scratch: https://decomp.me/scratch/yJu6g
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062998.s")        // 580 bytes
+
+void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
+{
+    short    sVar2;
+    int      iVar3;
+    int      iVar5;
+    int      iVar6;
+    LINE_F2 *line_f2;
+    LINE_F3 *line_f3;
+    int      i;
+    int      temp;
+
+    iVar5 = GM_Camera_800B77E8.field_20;
+    line_f2 = pActor->field_74_lineF2s[GV_Clock_800AB920];
+    line_f3 = pActor->field_90_lineF3s[GV_Clock_800AB920];
+
+    iVar6 = 0xc80;
+
+    if (pad_status & 0xf060)
+    {
+        temp = scope_act_helper_helper_8006237C(pActor);
+
+        if (temp < 0xc80)
+        {
+            iVar6 = temp;
+        }
+
+        if (temp < 0x140)
+        {
+            iVar6 = 0x140;
+        }
+
+        if (iVar6 < iVar5)
+        {
+            iVar5 = iVar6;
+        }
+    }
+
+    iVar3 = pActor->field_62;
+
+    if ((((pad_status & 0x20) != 0) && (iVar5 != iVar6)) || (((pad_status & 0x40) != 0) && (iVar5 != 0x140)))
+    {
+        if (((pad_status & 0x20) != 0) && (iVar5 != iVar6))
+        {
+            iVar5 += iVar5 / 32;
+
+            if (iVar5 >= iVar6)
+            {
+                iVar5 = iVar6;
+            }
+            else
+            {
+                iVar3++;
+            }
+
+            if (iVar3 == 15)
+            {
+                iVar3 = 0;
+            }
+        }
+        else
+        {
+            iVar5 -= iVar5 / 32;
+
+            if (iVar5 <= 320)
+            {
+                iVar5 = 320;
+            }
+            else
+            {
+                iVar3--;
+            }
+
+            if (iVar3 == -1)
+            {
+                iVar3 = 14;
+            }
+        }
+
+        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        pActor->field_62 = iVar3;
+        pActor->field_60 = 1;
+
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            if ((pActor->field_98 & 3U) == 0)
+            {
+                GM_Sound_80032968(0, 0x3f, 0x24);
+            }
+
+            pActor->field_98++;
+        }
+    }
+    else
+    {
+        scope_act_helper_helper_800624F4(line_f2, iVar3);
+        pActor->field_60 = 0;
+        pActor->field_98 = 0;
+    }
+
+    if (iVar5 < 320)
+    {
+        iVar5 = 320;
+    }
+
+    sVar2 = ((iVar5 - 320) / 16) + 48;
+
+    line_f3->x2 = sVar2;
+    line_f3->x1 = sVar2;
+    scope_act_helper_helper_80062320(pOt, line_f3);
+    for (i = 0; i < 8; i++)
+    {
+        scope_act_helper_helper_80062320(pOt, line_f2);
+        line_f2++;
+    }
+
+    GM_Camera_800B77E8.field_20 = iVar5;
+}
 
 void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
 {
@@ -159,7 +277,7 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     short    sVar2;
     short    sVar3;
 
-    line_f4 = (LINE_F4 *)scope->field_7C_pPrims[GV_Clock_800AB920];
+    line_f4 = scope->field_7C_lineF4s[GV_Clock_800AB920];
     line_f2 = (LINE_F2 *)(line_f4 + 1);
 
     sVar1 = scope->field_84 + 130;
@@ -187,7 +305,46 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     scope_act_helper_helper_80062320(ot, line_f2);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062C7C.s")        // 300 bytes
+void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
+{
+    short    sVar1;
+    int      primCount;
+    int      i;
+    LINE_F3 *prim;
+    u_char  *otMin;
+    u_char  *chnlOt;
+    u_char  *curPrim;
+    int      numOTEntries;
+
+    prim = pActor->field_88_lineF3s[GV_Clock_800AB920];
+    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
+
+    numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
+    for (i = 0; i < 16; i++)
+    {
+        otMin = chnlOt + ((i << numOTEntries) * 4);
+        for (curPrim = chnlOt + (((i + 1) << numOTEntries) * 4), primCount = 0; (otMin < curPrim) || (curPrim < chnlOt);
+             curPrim = nextPrim(curPrim))
+        {
+            if (getlen(curPrim) != 0)
+            {
+                primCount++;
+            }
+
+            if (primCount == 0x128)
+            {
+                break;
+            }
+        }
+
+        primCount /= 2;
+        sVar1 = 178 - primCount;
+        prim->y1 = sVar1;
+        prim->y0 = sVar1;
+        scope_act_helper_helper_80062320(pOt, prim);
+        prim++;
+    }
+}
 
 void scope_draw_text_80062DA8(Actor_scope *pActor)
 {
@@ -205,7 +362,6 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
 
 void scope_act_helper_8006258C(Actor_scope *pActor);
 void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
-void scope_act_helper_80062998(Actor_scope *pActor, unsigned char *pOt, unsigned short pad_status);
 void scope_act_helper_80062BDC(Actor_scope *pActor, unsigned char *pOt);
 void scope_act_helper_80062C7C(Actor_scope *pActor, unsigned char *pOt);
 
@@ -312,37 +468,34 @@ void scope_act_80062E8C(Actor_scope *pActor)
 
 void scope_kill_8006317C(Actor_scope *pActor)
 {
-    void* field_74_alloc_0x100; // $a0
-    void* v3; // $a0
-    void* field_88_alloc; // $a0
-    void* field_90_pPrims; // $a0
+    if ( pActor->field_74_lineF2s[0] )
+    {
+        GV_DelayedFree_80016254(pActor->field_74_lineF2s[0]);
+    }
 
-    field_74_alloc_0x100 = pActor->field_74_alloc_0x100[0];
-    if ( field_74_alloc_0x100 )
+    if ( pActor->field_7C_lineF4s[0] )
     {
-        GV_DelayedFree_80016254(field_74_alloc_0x100);
+        GV_DelayedFree_80016254(pActor->field_7C_lineF4s[0]);
     }
-    v3 = pActor->field_7C_pPrims[0];
-    if ( v3 )
+
+    if ( pActor->field_88_lineF3s[0] )
     {
-        GV_DelayedFree_80016254(v3);
+        GV_DelayedFree_80016254(pActor->field_88_lineF3s[0]);
     }
-    field_88_alloc = pActor->field_88_alloc;
-    if ( field_88_alloc )
+
+    if ( pActor->field_90_lineF3s[0] )
     {
-        GV_DelayedFree_80016254(field_88_alloc);
+        GV_DelayedFree_80016254(pActor->field_90_lineF3s[0]);
     }
-    field_90_pPrims = pActor->field_90_pPrims[0];
-    if ( field_90_pPrims )
-    {
-        GV_DelayedFree_80016254(field_90_pPrims);
-    }
+
     GM_Camera_800B77E8.field_20 = 320;
+
     if ( (pActor->field_9C_flags & 0x8000) != 0 )
     {
         EQ_VisibleHead_80060DF0(pActor->field_24_pParent, &pActor->field_4C_saved_packs, &pActor->field_4E_saved_raise);
         GM_FreeObject_80034BF8(&pActor->field_28_obj);
     }
+
     scope_created_8009F2C4 = 0;
 }
 
