@@ -110,10 +110,8 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   Actor_demothrd_0x78_Chain *i;
   GV_ACT *pPrevious;
   GV_ACT *pNext;
-  int new_var;
   dmo_model_0x1A4 *field_34_pModels;
   dmo_model_0x1A4 *pModelIter;
-  demothrd_0x1C *field_30_dmo_header;
   dmo_model_0x14 *pModelIter_1;
   int mdlNum;
   demothrd_0x1C *pHeader;
@@ -145,12 +143,10 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   if (field_34_pModels)
   {
     pModelIter = pActor->field_34_pModels;
-    field_30_dmo_header = pActor->field_30_dmo_header;
 
-    new_var = 0;
-    pModelIter_1 = field_30_dmo_header->field_18_pModels;
+    pModelIter_1 = pActor->field_30_dmo_header->field_18_pModels;
     mdlNum = 0;
-    if (field_30_dmo_header->field_10_num_models > new_var)
+    if (pActor->field_30_dmo_header->field_10_num_models > mdlNum)
     {
       do
       {
