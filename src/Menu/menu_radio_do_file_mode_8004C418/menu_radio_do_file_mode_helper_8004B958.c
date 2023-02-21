@@ -1,10 +1,11 @@
 #include "linker.h"
 #include "libgv/libgv.h"
+#include "Menu/radio.h"
 
-extern int dword_800ABB7C;
-int        SECTION(".sbss") dword_800ABB7C;
+extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
+RadioFileModeStru_800ABB7C        *SECTION(".sbss") stru_800ABB7C;
 
-void menu_radio_do_file_mode_helper_8004A858(void)
+void menu_radio_do_file_mode_helper_8004A858()
 {
-    GV_FreeMemory_80015FD0(0, (void *)dword_800ABB7C);
+    GV_FreeMemory_80015FD0(0, stru_800ABB7C);
 }

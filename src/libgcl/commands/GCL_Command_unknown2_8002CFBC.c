@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "mts/mts_new.h"
 #include "linker.h"
 #include "Kojo/demothrd.h"

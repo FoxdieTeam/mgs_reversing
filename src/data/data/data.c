@@ -4,7 +4,7 @@
 #include "data/rdata/rdata.h"
 #include "libfs/libfs.h"
 #include "libgv/libgv.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "Menu/menuman.h"
 #include "libdg/libdg.h"
 #include "Thing/door.h"

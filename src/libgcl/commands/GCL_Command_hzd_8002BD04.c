@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 int GCL_Command_hzd_8002BD04(int argc, char **argv)
 {

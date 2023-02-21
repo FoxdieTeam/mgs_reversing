@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 char GM_NoiseSound_800B76E0[4][3];
 

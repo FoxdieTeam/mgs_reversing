@@ -8,7 +8,7 @@ extern int GM_CurrentMap_800AB9B0;
 int        SECTION(".sbss") GM_CurrentMap_800AB9B0;
 
 // TODO: move to header
-void Takabe_MakeIndividualRect3DPrim_helper_80079284(void);
+void Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *pPrim, void *pPrimBuffer, int numPrims);
 
 DG_PRIM *Takabe_MakeIndividualRect3DPrim_800793E8(int prim_count, SVECTOR *pVec)
 {

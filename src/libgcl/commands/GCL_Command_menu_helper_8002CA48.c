@@ -1,4 +1,4 @@
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 
 unsigned int GCL_Command_menu_helper_8002CA48(void)
 {

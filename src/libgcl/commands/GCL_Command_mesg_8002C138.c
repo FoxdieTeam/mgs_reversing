@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "libgcl/gcl.h"
+#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
 extern int gBinds_800ABA60;
