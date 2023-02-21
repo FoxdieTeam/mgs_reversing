@@ -181,7 +181,7 @@ typedef struct dmo_model_0x1A4
 {
   GM_Control field_0_ctrl;
   OBJECT field_7C_obj;
-  SVECTOR field_A0;
+  SVECTOR field_A0[1]; // TODO: Seems to be an array, perhaps up to a fixed size
   short field_A8;
   short field_AA;
   int field_AC;
