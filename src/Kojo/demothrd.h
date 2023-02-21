@@ -160,7 +160,7 @@ typedef struct dmo_m1e1_entry
 
 typedef struct dmo_m1e1_data
 {
-  dmo_m1e1_entry field_0[6];
+  dmo_m1e1_entry field_0[2][3];
   int field_558_idx1;
   int field_55C_idx2;
   int field_560;

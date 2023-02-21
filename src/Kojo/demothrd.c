@@ -155,12 +155,12 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
         {
           if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1demo)))
           {
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0].field_0);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1].field_0);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[2].field_0);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[3].field_0);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[4].field_0);
-            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[5].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][0].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][1].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][2].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][0].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][1].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][2].field_0);
           }
           GV_Free_80016230(pModelIter->field_1A0_pM1OrHind);
         }
@@ -287,7 +287,10 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
 }
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
+
+// https://decomp.me/scratch/rqoIb
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
 
 void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
