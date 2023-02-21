@@ -12,14 +12,12 @@ extern GM_Camera GM_Camera_800B77E8;
 
 extern int              GM_GameStatus_800AB3CC;
 extern GM_Control      *gSnaControl_800AB9F4;
-extern DG_CHNL          DG_Chanls_800B1800[3];
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *dword_800ABA20;
 SVECTOR                 dword_8009F41C[2];
 
 int rifle_act_helper_80067BFC(void)
 {
-    DG_CHNL *pChnl;
     MATRIX *pMtx;
     MATRIX mtx;
     SVECTOR vec[2];
@@ -28,8 +26,7 @@ int rifle_act_helper_80067BFC(void)
 
     if ((GM_GameStatus_800AB3CC < 0) || !gSnaControl_800AB9F4)
     {
-        pChnl = &DG_Chanls_800B1800[1];
-        pMtx = &pChnl->field_30_matrix;
+        pMtx = &DG_Chanl(0)->field_30_matrix;
     }
     else
     {

@@ -44,18 +44,18 @@ void blast_act_8006DD18(Actor_Blast *pActor)
 
 void blast_kill_8006DD90(Actor_Blast *blast)
 {
-    DG_OBJS *objs;
+    DG_PRIM *pPrim;
 
     if (blast->field_38 < 2)
     {
         sub_8007913C();
     }
 
-    objs = (DG_OBJS *)blast->field_2C;
-    if (objs)
+    pPrim = blast->field_2C_prim;
+    if (pPrim)
     {
-        DG_DequeuePrim_800182E0(objs);
-        DG_FreePrim_8001BC04(objs);
+        DG_DequeuePrim_800182E0(pPrim);
+        DG_FreePrim_8001BC04(pPrim);
     }
 }
 

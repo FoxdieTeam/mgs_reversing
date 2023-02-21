@@ -468,11 +468,11 @@ void anime_act_8005F4AC(Actor_anime *pActor)
 
 void anime_kill_8005F608(Actor_anime *anime)
 {
-    DG_OBJS *objs = (DG_OBJS *)anime->field_24_pPrim;
-    if (objs)
+    DG_PRIM *prim = anime->field_24_pPrim;
+    if (prim)
     {
-        DG_DequeuePrim_800182E0(objs);
-        DG_FreePrim_8001BC04(objs);
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
     }
 }
 

@@ -346,15 +346,15 @@ void socom_kill_80065A94( Actor_Socom *a1 )
     field_58_prim = a1->field_58_prim;
     if ( field_58_prim )
     {
-        DG_DequeuePrim_800182E0( (DG_OBJS *)field_58_prim );
-        DG_FreePrim_8001BC04( (DG_OBJS *)field_58_prim );
+        DG_DequeuePrim_800182E0( field_58_prim );
+        DG_FreePrim_8001BC04( field_58_prim );
     }
 
     field_10C_pPrim = a1->field_10C_pPrim;
     if ( field_10C_pPrim )
     {
-        DG_DequeuePrim_800182E0( (DG_OBJS *)field_10C_pPrim );
-        DG_FreePrim_8001BC04( (DG_OBJS *)field_10C_pPrim );
+        DG_DequeuePrim_800182E0( field_10C_pPrim );
+        DG_FreePrim_8001BC04( field_10C_pPrim );
     }
 }
 

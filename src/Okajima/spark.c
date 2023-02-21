@@ -107,9 +107,9 @@ void spark_act_80074334(Actor_Spark *pActor)
 
 void spark_kill_800743DC(Actor_Spark *pActor)
 {
-    DG_OBJS *prim;
+    DG_PRIM *prim;
 
-    prim = (DG_OBJS *) pActor->f024_pPrim;
+    prim = pActor->f024_pPrim;
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);

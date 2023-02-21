@@ -143,7 +143,7 @@ typedef struct _DG_PRIM
 	int               type;
 	u_short           group_id;
 	signed short      n_prims;
-	u_short           chanl;
+	short             chanl;
 	short             field_2E_k500;
 	short             field_30_prim_size;
 	short             field_32;
@@ -342,7 +342,7 @@ typedef struct DG_CHNL
 	short          word_6BC376_16;
 	short          word_6BC378_1;
 	short          word_6BC37A_0_1EC_size;
-	MATRIX         field_10_transformation_matrix;
+	MATRIX         field_10_eye_inv;
 	MATRIX         field_30_matrix;
 	short          field_50_clip_distance;
 	short          mTotalQueueSize;
@@ -499,9 +499,9 @@ void DG_StartDaemon_8001F284(void);
 
 
 DG_PRIM *DG_MakePrim_8001BABC( int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect );
-int      DG_QueuePrim_80018274( DG_OBJS *pPrim );
-void     DG_DequeuePrim_800182E0( DG_OBJS *pObjs );
-void     DG_FreePrim_8001BC04( DG_OBJS *pPrim );
+int      DG_QueuePrim_80018274( DG_PRIM *pPrim );
+void     DG_DequeuePrim_800182E0( DG_PRIM *pObjs );
+void     DG_FreePrim_8001BC04( DG_PRIM *pPrim );
 void     DG_PutPrim_8001BE00( MATRIX *matrix );
 void     DG_Init_DrawEnv_80018384(
 		DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 );
@@ -630,10 +630,16 @@ static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR 
 	prim = DG_MakePrim_8001BABC( type, prim_count, chanl, vec, pRect );
 	if ( prim )
 	{
-		DG_QueuePrim_80018274( (DG_OBJS *)prim );
+		DG_QueuePrim_80018274( prim );
 		DG_GroupPrim( prim, GM_CurrentMap_800AB9B0 );
 	}
 	return prim;
+}
+
+static inline DG_CHNL *DG_Chanl( int idx )
+{
+    extern DG_CHNL DG_Chanls_800B1800[ 3 ];
+    return &DG_Chanls_800B1800[ idx + 1 ];
 }
 
 #endif // LIBDG_H

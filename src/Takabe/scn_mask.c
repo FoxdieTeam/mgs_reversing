@@ -1,7 +1,6 @@
 #include "scn_mask.h"
 
 extern int     GV_Clock_800AB920;
-extern DG_CHNL DG_Chanls_800B1800[3];
 
 extern const char aScnMaskC[];
 
@@ -10,9 +9,8 @@ void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
     int            i;
     TILE          *pTiles;
     unsigned char *pOt;
-    DG_CHNL       *chanl = DG_Chanls_800B1800 + 1;
 
-    pOt = chanl->mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock_800AB920];
 
     pTiles = &pActor->field_20_pPrims->field_40_tile_lines[GV_Clock_800AB920][0];
     for (i = 112; i > 0; i--)

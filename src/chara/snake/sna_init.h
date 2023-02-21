@@ -272,7 +272,7 @@ typedef struct Actor_SnaInit
     short               field_924;
     short               field_926;
     DG_TEX             *field_928;
-    DG_OBJS            *field_92C;
+    DG_PRIM            *field_92C;
     SVECTOR             field_930;
     SVECTOR             field_938;
     SVECTOR             field_940;

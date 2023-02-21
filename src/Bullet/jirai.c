@@ -25,7 +25,6 @@ extern SVECTOR       svec_8009F454;
 extern SVECTOR       svec_8009F45C;
 extern SVECTOR       svec_8009F464;
 extern int           dword_800ABA0C;
-extern DG_CHNL       DG_Chanls_800B1800[3];
 extern int           dword_800ABA0C;
 extern SVECTOR       DG_ZeroVector_800AB39C;
 
@@ -107,15 +106,13 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
 {
     SVECTOR vec;
-    DG_CHNL *pChnl;
     MATRIX *pMatrix;
     int temp_a2;
     int var_a1;
     int r, g, b;
     const char *pText;
 
-    pChnl = &DG_Chanls_800B1800[1];
-    pMatrix = &pChnl->field_10_transformation_matrix;
+    pMatrix = &DG_Chanl(0)->field_10_eye_inv;
 
     gte_SetRotMatrix(pMatrix);
     gte_SetTransMatrix(pMatrix);
