@@ -32,8 +32,6 @@ extern int DG_HikituriFlagOld_8009D464;
 /**bss************************************************************************/
 extern DISPENV gDispEnv_800B0600;
 extern VECTOR  gUnknownVector_800B0620;
-
-extern DG_CHNL DG_Chanls_800B1800[3];
 /****************************************************************************/
 
 void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
@@ -159,13 +157,13 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_proper
     chnl_matrix->m[2][1] = empty_vec_2.vz;
     chnl_matrix->m[2][2] = vec.vz;
 
-    DG_TransposeMatrix_8001EAD8(chnl_matrix, &chnl->field_10_transformation_matrix);
+    DG_TransposeMatrix_8001EAD8(chnl_matrix, &chnl->field_10_eye_inv);
 
     vec.vx = -chnl_matrix->t[0];
     vec.vy = -chnl_matrix->t[1];
     vec.vz = -chnl_matrix->t[2];
 
-    ApplyMatrixLV_80092C48(&chnl->field_10_transformation_matrix, &vec, (VECTOR *)(&chnl->field_10_transformation_matrix.t[0]));
+    ApplyMatrixLV_80092C48(&chnl->field_10_eye_inv, &vec, (VECTOR *)(&chnl->field_10_eye_inv.t[0]));
 }
 
 void DG_800174DC(MATRIX *matrix)

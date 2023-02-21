@@ -22,11 +22,11 @@ void stngrnd_free_80074844(int pActor, int num)
     for (i = 0; i < num; i++)
     {
         int *a = (int *)pActor;
-        DG_OBJS *objs = (DG_OBJS *)a[0x18 + i];
-        if (objs)
+        DG_PRIM *prim = (DG_PRIM *)a[0x18 + i];
+        if (prim)
         {
-            DG_DequeuePrim_800182E0(objs);
-            DG_FreePrim_8001BC04(objs);
+            DG_DequeuePrim_800182E0(prim);
+            DG_FreePrim_8001BC04(prim);
         }
     }
 }
@@ -52,23 +52,23 @@ Actor_StunGrenade* NewStanBlast_80074B5C(MATRIX *pMtx)
     {
         return 0;
     }
-    
+
     pActor = (Actor_StunGrenade *)GV_NewActor_800150E4(5, sizeof(Actor_StunGrenade));
     if ( pActor )
     {
         GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)stngrnd_act_80074730, (TActorFunction)stngrnd_kill_800748B8, aStngrndC);
-        
+
         claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
-        
+
         if ( stngrnd_loader_800748D8(pActor, pMtx) < 0 )
         {
             GV_DestroyActor_800151C8(&pActor->field_0);
             return 0;
         }
-    
+
         stru_800BDF90 = pActor->field_E0;
         GM_SeSet_80032858(&pActor->field_E0, 41);
-    
+
         GM_SetNoise(255, 32, &pActor->field_E0);
     }
     return pActor;

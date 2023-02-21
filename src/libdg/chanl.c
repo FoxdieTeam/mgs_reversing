@@ -1,5 +1,5 @@
-#include "linker.h"
 #include "libdg.h"
+#include "linker.h"
 #include "psyq.h"
 
 /**data************************/
@@ -27,7 +27,7 @@ extern int       DG_UnDrawFrameCount_800AB380;
 /*************************************************/
 
 /**bss************************************************************************/
-extern DG_CHNL         DG_Chanls_800B1800[3];
+extern DG_CHNL        DG_Chanls_800B1800[3];
 extern int            dword_800B0630[68];
 extern int            dword_800B0740[516];
 extern int            dword_800B0F50[4];
@@ -111,6 +111,7 @@ void DG_InitChanlSystem_80017B98(int width)
 
     DrawSyncCallback_8008F76C(DG_DrawSyncCallback_80017984);
     dword_800AB978 = width;
+
     ptr = DG_Chanls_800B1800;
     DG_SetChanlOrderingTable_800179A8(ptr, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
     DG_Init_DrawEnv_80018384(&drawEnv, 0, 0, 320, 224);
@@ -267,23 +268,24 @@ void DG_80018128(int chanl, DRAWENV *pDrawEnv)
     pOt->word_6BC37A_0_1EC_size = 2;
 }
 
-static inline DG_CHNL *DG_GetChanl(int idx)
-{
-    return &DG_Chanls_800B1800[idx];
-}
-
 int DG_QueueObjs_80018178(DG_OBJS *pPrim)
 {
-    DG_CHNL *pOt = DG_GetChanl(pPrim->chanl + 1);
-    int      mTotalObjectCount = pOt->mTotalObjectCount;
-    if (mTotalObjectCount >= pOt->mFreePrimCount)
+    DG_CHNL *pChanl;
+    int      n_chanl, n_objs;
+
+    n_chanl = pPrim->chanl + 1;
+    pChanl = &DG_Chanls_800B1800[n_chanl];
+
+    n_objs = pChanl->mTotalObjectCount;
+
+    if (n_objs >= pChanl->mFreePrimCount)
     {
         return -1;
     }
     else
     {
-        pOt->mQueue[mTotalObjectCount++] = pPrim;
-        pOt->mTotalObjectCount = mTotalObjectCount;
+        pChanl->mQueue[n_objs++] = pPrim;
+        pChanl->mTotalObjectCount = n_objs;
         return 0;
     }
 }
@@ -320,9 +322,9 @@ END:
     chnl->mTotalObjectCount = n_objs;
 }
 
-int DG_QueuePrim_80018274(DG_OBJS *pPrim)
+int DG_QueuePrim_80018274(DG_PRIM *pPrim)
 {
-    int      t = (short)pPrim->group_id + 1;
+    int      t = pPrim->chanl + 1;
     DG_CHNL *pOt = &DG_Chanls_800B1800[t];
     int      idx = pOt->mFreePrimCount;
     if (idx <= pOt->mTotalObjectCount)
@@ -330,12 +332,12 @@ int DG_QueuePrim_80018274(DG_OBJS *pPrim)
         return -1;
     }
     idx = idx - 1;
-    pOt->mQueue[idx] = pPrim; // 58
+    pOt->mQueue[idx] = (DG_OBJS *)pPrim; // 58
     pOt->mFreePrimCount = idx;
     return 0;
 }
 
-void DG_DequeuePrim_800182E0(DG_OBJS *objs)
+void DG_DequeuePrim_800182E0(DG_PRIM *objs)
 {
     int i;
     int group;
@@ -345,7 +347,7 @@ void DG_DequeuePrim_800182E0(DG_OBJS *objs)
     DG_CHNL  *chnl;
     DG_OBJS **chnl_objs;
 
-    group = (short)objs->group_id + 1;
+    group = objs->chanl + 1;
     chnl = &DG_Chanls_800B1800[group];
 
     n_free_prims = chnl->mFreePrimCount;
@@ -357,7 +359,7 @@ void DG_DequeuePrim_800182E0(DG_OBJS *objs)
     for (; i > 0; --i)
     {
         --chnl_objs;
-        if (*chnl_objs == objs)
+        if (*chnl_objs == (DG_OBJS *)objs)
             goto END;
     }
     return;

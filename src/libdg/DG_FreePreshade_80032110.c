@@ -2,8 +2,6 @@
 #include "libdg.h"
 #include "psyq.h"
 
-extern DG_CHNL DG_Chanls_800B1800[3];
-
 void DG_FreePreshade_80032110(DG_OBJS *pPrim)
 {
     CVECTOR *pBuffer = pPrim->objs[0].rgbs;
@@ -16,8 +14,9 @@ void DG_FreePreshade_80032110(DG_OBJS *pPrim)
 
 void sub_8003214C(SVECTOR *pVec, int *pRet)
 {
-    DG_CHNL *pChanl = &DG_Chanls_800B1800[1];
-    MATRIX  *mtx = &pChanl->field_30_matrix;
+    MATRIX *mtx;
+
+    mtx = &DG_Chanl(0)->field_30_matrix;
     pVec->vx = mtx->t[0];
     pVec->vy = mtx->t[1];
     pVec->vz = mtx->t[2];

@@ -266,14 +266,11 @@ void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
 extern int     dword_8009F490;
 extern SVECTOR svector_8009F494;
 
-extern DG_CHNL DG_Chanls_800B1800[];
-
 extern const char aDD[]; // = "%d %d\n"
 
 void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
 {
     LINE_F4        *lines;
-    struct DG_CHNL *channel;
     short           sxy[2];
     long            p, flag;
     int             x, sx;
@@ -287,11 +284,10 @@ void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
         }
 
         lines = actor->field_38_lines_2Array[GV_Clock_800AB920];
-        channel = &DG_Chanls_800B1800[1];
 
-        DG_Clip_80017594(&channel->field_5C_clip_rect, channel->field_50_clip_distance);
-        SetRotMatrix_80093218(&channel->field_10_transformation_matrix);
-        SetTransMatrix_80093248(&channel->field_10_transformation_matrix);
+        DG_Clip_80017594(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
+        SetRotMatrix_80093218(&DG_Chanl(0)->field_10_eye_inv);
+        SetTransMatrix_80093248(&DG_Chanl(0)->field_10_eye_inv);
         RotTransPers_80093478(&svector_8009F494, (long *)&sxy, &p, &flag);
 
         sx = sxy[0];
@@ -396,7 +392,6 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
     int           iVar4;
     int           local_20[2];
     ushort        local_18;
-    DG_CHNL      *channel;
 
     if (actor->field_94 > 0)
     {
@@ -423,8 +418,7 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
         actor->field_84_4Array[3] = (int)sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
     }
 
-    channel = DG_Chanls_800B1800 + 1;
-    uVar1 = (unsigned int *)channel[1].mOrderingTables[GV_Clock_800AB920];
+    uVar1 = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
     stnsight_act_helper_80068420(actor, uVar1);
     stnsight_act_helper_80068798(actor, uVar1);

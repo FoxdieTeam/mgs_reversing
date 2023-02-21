@@ -2,6 +2,7 @@
 #define _BLAST_H_
 
 #include "Game/target.h"
+#include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include <LIBGPU.H>
 #include <LIBGTE.H>
@@ -18,14 +19,14 @@ typedef struct	Blast_Data
 
 typedef struct	Actor_Blast
 {
-	GV_ACT		field_0_actor;
-	int			field_20_map_bits;
-	SVECTOR		field_24_vec;
-	int			field_2C;
-	int			field_30;
-	int			field_34;
-	int			field_38;
-	GM_Target	field_3C_target;
+	GV_ACT    field_0_actor;
+	int       field_20_map_bits;
+	SVECTOR   field_24_vec;
+	DG_PRIM  *field_2C_prim;
+	int       field_30;
+	int       field_34;
+	int       field_38;
+	GM_Target field_3C_target;
 } Actor_Blast;
 
 void blast_act_8006DD18( Actor_Blast *pActor );

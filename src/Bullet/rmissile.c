@@ -31,7 +31,6 @@ extern Blast_Data       blast_data_8009F508;
 extern Blast_Data       blast_data_8009F544;
 extern int              GM_CurrentMap_800AB9B0;
 extern int              dword_8009F474;
-extern DG_CHNL          DG_Chanls_800B1800[3];
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GM_Target        *target_800BDF00;
 extern short            Nik_Blast_8009F484;
@@ -152,13 +151,10 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     unsigned int *pOt;
     POLY_F4 *pPoly;
     GM_Control ctrl;
-    DG_CHNL *pChannel;
 
     var_a1 = ((1000 - pActor->field_118) * 60) / 1000;
 
-    pChannel = DG_Chanls_800B1800 + 1;
-    pOt = (unsigned int *)pChannel[1].mOrderingTables[GV_Clock_800AB920];
-
+    pOt = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
     pPoly = pActor->field_174_polys_2Array[GV_Clock_800AB920];
 
     if (var_a1 > 60)
@@ -698,8 +694,8 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 
     if (prim)
     {
-        DG_DequeuePrim_800182E0((DG_OBJS *)prim);
-        DG_FreePrim_8001BC04((DG_OBJS *)prim);
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
     }
 
     if (!pActor->field_117)

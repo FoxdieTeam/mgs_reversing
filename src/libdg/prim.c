@@ -78,10 +78,10 @@ SVECTOR* sub_8001AD28( SVECTOR *svec, int n_svec )
 {
   int      i;
   SVECTOR *svec2;
-  
+
   svec2 = (SVECTOR*)0x1F800000;
 
-  for ( i = n_svec - 1 ; i >= 0 ; --i ) 
+  for ( i = n_svec - 1 ; i >= 0 ; --i )
   {
     gte_ldv3c( svec );
     gte_rtpt();
@@ -141,7 +141,7 @@ void DG_PrimChanl_helper_8001AE5C( DG_PRIM *prim )
     unsigned char *prims;
     int count, s4, n_svec, n_prims;
 
-    s4 = prim->field_32;    
+    s4 = prim->field_32;
 
     if ( s4 == 4 )
     {
@@ -186,13 +186,13 @@ char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM* prim, char* ptr, int count 
     a0 = prim->field_36;
 
     svec = (SVECTOR*)0x1F800000;
-    
+
     for ( ; count >= 0; --count )
     {
         t3 = (int*)0x1F8003F0;
         gte_NormalClip( *(int*)&svec[0].vx, *(int*)&svec[1].vx, *(int*)&svec[2].vx, 0x1F8003F0 );
         p = ptr + t2;
-        
+
         if (*t3 <= 0)
         {
             *(short*)ptr = 0;
@@ -219,7 +219,7 @@ char *DG_PrimChanl_helper2_helper_8001AF90( DG_PRIM* prim, char* ptr, int count 
                 LCOPY( svec, p );
                 svec++;
             }
-        }        
+        }
         ptr += prim_size;
     }
     return ptr;
@@ -231,7 +231,7 @@ void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
     unsigned char *prims;
     int count, s4, n_svec, n_prims;
 
-    s4 = prim->field_32;    
+    s4 = prim->field_32;
 
     if ( s4 == 4 )
     {
@@ -244,9 +244,9 @@ void DG_PrimChanl_helper2_8001B0B4( DG_PRIM *prim )
         count  = 126 / s4;
     }
 
-    svec = prim->field_38_pUnknown; //s2    
+    svec = prim->field_38_pUnknown; //s2
     n_prims = prim->n_prims; //s1
-    prims = (unsigned char*)prim->field_40_pBuffers[ GV_Clock_800AB920 ]; 
+    prims = (unsigned char*)prim->field_40_pBuffers[ GV_Clock_800AB920 ];
 
     if ( count < n_prims )
     {
@@ -281,7 +281,7 @@ char *sub_8001B1E8( DG_PRIM* prim, char* ptr, int count )
         *(short*)(ptr + 0x00) =  svec->vz;
         *(short*)(ptr + 0x08) = (svec->vx - rect_x);
         *(short*)(ptr + 0x0A) = (svec->vy - rect_y);
-        
+
         svec++;
         ptr += prim_size;
     }
@@ -364,7 +364,7 @@ char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM* prim, char* ptr, int count 
 
     svec++;
     gte_stsxy01( &svec_last->vx , &svec_last->vz );
-    
+
     for ( --i ; i >= 0; --i )
     {
         vec_inner = (VECTOR*)0x1F8003F0;
@@ -378,7 +378,7 @@ char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM* prim, char* ptr, int count 
         *(short*)ptr = svec[-1].vz;
         svec++;
 
-        *(long*)p = *(long*)&svec_last->vx; 
+        *(long*)p = *(long*)&svec_last->vx;
 
         p += t1;
         *(short*)(p + 0) = svec_last->vz;
@@ -401,7 +401,7 @@ char *DG_PrimChanl_helper3_helper_8001B31C( DG_PRIM* prim, char* ptr, int count 
 
 
 // how many SVECTORS we can fit in the scratch pad bar four
-#define MAX_SPAD_SVECTORS2 (int)(SPAD_SIZE / sizeof(SVECTOR))-4 
+#define MAX_SPAD_SVECTORS2 (int)(SPAD_SIZE / sizeof(SVECTOR))-4
 
 // how many SVECTORS to process each iteration
 #define BATCH_SIZE2 (MAX_SPAD_SVECTORS2-1)
@@ -411,7 +411,7 @@ void DG_PrimChanl_helper3_8001B534(DG_PRIM *pDGPrim)
     SVECTOR *pVec = pDGPrim->field_38_pUnknown;
     int n_prims = (signed short)pDGPrim->n_prims;
     unsigned char *pPrims = (unsigned char*)pDGPrim->field_40_pBuffers[GV_Clock_800AB920];
-    
+
     // Process in batches if too big to fit in the scratch pad in one go
     if (n_prims >= MAX_SPAD_SVECTORS2)
     {
@@ -465,7 +465,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
 
     DG_Clip_80017594( rect, chnl->field_50_clip_distance );
     group_id = DG_CurrentGroupID_800AB968;
-    eye = &chnl->field_10_transformation_matrix;
+    eye = &chnl->field_10_eye_inv;
     prim_queue = (DG_PRIM**)&chnl->mQueue[ chnl->mFreePrimCount ];
 
     for ( ; i > 0 ; i-- )
@@ -473,7 +473,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
         prim = *prim_queue;
         prim_queue++;
         type = prim->type;
-        
+
         if ( type & ( DG_PRIM_INVISIBLE | DG_PRIM_SORTONLY ) ) continue;
 
         if ( prim->group_id && !( prim->group_id & group_id ) ) continue;
@@ -526,7 +526,7 @@ void DG_PrimChanl_8001B66C( DG_CHNL* chnl, int idx )
         {
             DG_8001B5FC( prim );
         }
-        
+
         type &= 0x1F;
         if ( type - 0x15 < 2u )
         {
@@ -571,7 +571,8 @@ DG_PRIM *DG_MakePrim_8001BABC(int type, int prim_count, int chanl, SVECTOR *pVec
 
     return pAllocated;
 }
-void DG_FreePrim_8001BC04(DG_OBJS *pPrim)
+
+void DG_FreePrim_8001BC04(DG_PRIM *pPrim)
 {
     if (pPrim)
     {
