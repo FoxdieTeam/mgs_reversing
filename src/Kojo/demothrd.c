@@ -299,7 +299,58 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
   return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
+int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x28 *pDmo)
+{
+  dmo_data_0x34 *pIter;
+  int i;
+  Actor_demothrd_0x78_Chain *pNext;
+  Actor_demothrd_0x78_Chain *new_var;
+  Actor_demothrd_0x78_Chain *new_var2;
+  Actor_demothrd_0x78_Chain *pRoot;
+  pIter = pDmo->field_1C_dmo_data_offset;
+  for (i = 0; i < pDmo->field_18_count; ++pIter)
+  {
+    ++i;
+    if (pIter->field_4_type == 28)
+    {
+      return 1;
+    }
+  }
+
+  pNext = pActor->field_38.field_4_pNext;
+  new_var = &pActor->field_38;
+  if (pNext != new_var)
+  {
+    if (pNext->field_C_actor.mFnShutdown != ((TActorFunction) 28))
+    {
+      new_var2 = new_var;
+      pRoot = &pActor->field_38;
+      while (1)
+      {
+        pNext = pNext->field_4_pNext;
+        if (pNext == new_var2)
+        {
+          break;
+        }
+        if (pNext->field_C_actor.mFnShutdown == ((TActorFunction) 28))
+        {
+          pRoot = &pActor->field_38;
+          break;
+        }
+      }
+
+    }
+  }
+  if (pNext != (&pActor->field_38))
+  {
+    GV_DestroyOtherActor_800151D8(pNext->field_C_actor.pPrevious);
+    pRoot = &pActor->field_38;
+    pNext->field_C_actor.pPrevious = 0;
+    Chain_Remove_8007F394(pRoot, pNext);
+    GV_Free_80016230(pNext);
+  }
+  return 1;
+}
 
 int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
 {
