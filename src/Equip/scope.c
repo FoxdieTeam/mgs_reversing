@@ -8,11 +8,22 @@
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 
-extern const char aZoomLevelD[];
-extern const char aD_44[];  // = "%d"
-
+extern OBJECT          *dword_800ABA20;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern SVECTOR          svec_8009F2C8;
+extern int              GV_PauseLevel_800AB928;
+extern int              GV_Clock_800AB920;
+extern int              DG_CurrentGroupID_800AB968;
+extern int              dword_8009F604;
+extern GV_PAD           GV_PadData_800B05C0[4];
+extern GM_Camera        GM_Camera_800B77E8;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern GM_Camera GM_Camera_800B77E8;
+extern short            scope_created_8009F2C4;
+
+extern const char aScopeC[];
+extern const char aZoomLevelD[];
+extern const char aGoggles_2[];
+extern const char aD_44[];  // = "%d"
 
 void scope_act_helper_helper_80062320(void *ot, void *prim)
 {
@@ -21,11 +32,6 @@ void scope_act_helper_helper_80062320(void *ot, void *prim)
         addPrim(ot, prim);
     }
 }
-
-extern OBJECT *dword_800ABA20;
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern DG_CHNL DG_Chanls_800B1800[3];
-extern SVECTOR svec_8009F2C8;
 
 int scope_act_helper_helper_8006237C(Actor_scope *pActor)
 {
@@ -38,8 +44,7 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
 
     if ( GM_GameStatus_800AB3CC < 0 )
     {
-        DG_CHNL* t = &DG_Chanls_800B1800[1]; 
-        pMtx = &(t)->field_30_matrix;
+        pMtx = &DG_Chanl(0)->field_30_matrix;
     }
     else
     {
@@ -58,14 +63,14 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
         sub_80028890(&vecs[1]);
         bCalcLen = 1;
     }
-    
+
     vecLen = 3200;
     if ( bCalcLen != 0 )
     {
         GV_SubVec3_80016D40(&vecs[1], vecs, vecs);
         vecLen = GV_VecLen3_80016D80(vecs);
     }
- 
+
     return vecLen;
 }
 
@@ -88,7 +93,7 @@ void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
     int i;
     int var1;
     int var2;
-    
+
     var1 = param_2 + 258;
     var2 = 66 - (param_2 * 9) / 15;
 
@@ -101,11 +106,50 @@ void scope_act_helper_helper_800624F4(LINE_F2 *lines, int param_2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_8006258C.s")        // 324 bytes
+void scope_act_helper_800624BC(LINE_F2 *lines, int param_2, int param_3);
+void scope_act_helper_helper_80062320(void *ot, void *prim);
+
+void scope_act_helper_8006258C(Actor_scope *scope)
+{
+    int      iVar1;
+    int      iVar3;
+    int      temp;
+    u_char  *ot;
+    LINE_F2 *lines;
+    int      i;
+
+    temp = scope->field_58;
+
+    if (GV_PauseLevel_800AB928 == 0)
+    {
+        scope->field_58++;
+    }
+
+    if (temp >= 6)
+    {
+        temp = 6;
+        scope->field_9C_flags |= 1 << GV_Clock_800AB920;
+    }
+
+    iVar1 = 12 * temp;
+    iVar3 = 320 - iVar1;
+
+    ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    lines = scope->field_74_alloc_0x100[GV_Clock_800AB920];
+
+    for (i = 0; i < 4; i++)
+    {
+        scope_act_helper_800624BC(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
+        scope_act_helper_helper_80062320(ot, lines);
+        scope_act_helper_helper_80062320(ot, lines + 4);
+
+        iVar3 += iVar1 / 4;
+        lines++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062998.s")        // 580 bytes
-
-extern int GV_Clock_800AB920;
 
 void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
 {
@@ -117,19 +161,19 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
 
     line_f4 = (LINE_F4 *)scope->field_7C_pPrims[GV_Clock_800AB920];
     line_f2 = (LINE_F2 *)(line_f4 + 1);
-    
+
     sVar1 = scope->field_84 + 130;
     sVar2 = scope->field_84 + 189;
     sVar3 = scope->field_86;
-    
+
     line_f2->x1 = sVar1;
     line_f2->x0 = sVar1;
     line_f4->x3 = sVar1;
     line_f4->x0 = sVar1;
-    
+
     sVar1 = sVar3 + 102;
     sVar3 = sVar3 + 137;
-    
+
     line_f4->x2 = sVar2;
     line_f4->x1 = sVar2;
     line_f2->y0 = sVar1;
@@ -138,13 +182,12 @@ void scope_act_helper_80062BDC(Actor_scope *scope, u_char *ot)
     line_f2->y1 = sVar3;
     line_f4->y3 = sVar3;
     line_f4->y2 = sVar3;
-    
+
     scope_act_helper_helper_80062320(ot, line_f4);
     scope_act_helper_helper_80062320(ot, line_f2);
 }
 
 #pragma INCLUDE_ASM("asm/Equip/scope_act_helper_80062C7C.s")        // 300 bytes
-
 
 void scope_draw_text_80062DA8(Actor_scope *pActor)
 {
@@ -160,25 +203,11 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
     }
 }
 
-extern int              DG_CurrentGroupID_800AB968;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int              dword_8009F604;
-extern int              GV_PauseLevel_800AB928;
-extern GV_PAD           GV_PadData_800B05C0[4];
-extern GM_Camera        GM_Camera_800B77E8;
-extern DG_CHNL          DG_Chanls_800B1800[3];
-extern const char       aGoggles_2[];
-
 void scope_act_helper_8006258C(Actor_scope *pActor);
 void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
 void scope_act_helper_80062998(Actor_scope *pActor, unsigned char *pOt, unsigned short pad_status);
 void scope_act_helper_80062BDC(Actor_scope *pActor, unsigned char *pOt);
 void scope_act_helper_80062C7C(Actor_scope *pActor, unsigned char *pOt);
-
-static inline DG_CHNL *DG_CHANL(int idx)
-{
-    return &DG_Chanls_800B1800[idx];
-}
 
 void scope_act_80062E8C(Actor_scope *pActor)
 {
@@ -187,7 +216,6 @@ void scope_act_80062E8C(Actor_scope *pActor)
     OBJECT        *obj;
     unsigned char *pOt;
     unsigned short pad_status;
-    DG_CHNL       *chnl;
 
     if ((pActor->field_9C_flags & 0x8000) == 0)
     {
@@ -222,7 +250,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
             {
                 DG_VisibleObjs(pActor->field_28_obj.objs);
             }
-			
+
             GM_Camera_800B77E8.field_20 = 320;
             return;
         }
@@ -273,17 +301,14 @@ void scope_act_80062E8C(Actor_scope *pActor)
         pad_status = 0;
     }
 
-    chnl = &DG_Chanls_800B1800[1];
-    pOt = chnl[1].mOrderingTables[GV_Clock_800AB920]; // todo: fix when static inline DG_Chanl getter works.
+    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+
     scope_act_helper_800626D0(pActor, pad_status);
     scope_act_helper_80062998(pActor, pOt, pad_status);
     scope_act_helper_80062BDC(pActor, pOt);
     scope_act_helper_80062C7C(pActor, pOt);
     scope_draw_text_80062DA8(pActor);
 }
-
-
-extern short scope_created_8009F2C4;
 
 void scope_kill_8006317C(Actor_scope *pActor)
 {
@@ -292,7 +317,7 @@ void scope_kill_8006317C(Actor_scope *pActor)
     void* field_88_alloc; // $a0
     void* field_90_pPrims; // $a0
 
-    field_74_alloc_0x100 = pActor->field_74_alloc_0x100;
+    field_74_alloc_0x100 = pActor->field_74_alloc_0x100[0];
     if ( field_74_alloc_0x100 )
     {
         GV_DelayedFree_80016254(field_74_alloc_0x100);
@@ -307,7 +332,7 @@ void scope_kill_8006317C(Actor_scope *pActor)
     {
         GV_DelayedFree_80016254(field_88_alloc);
     }
-    field_90_pPrims = pActor->field_90_pPrims;
+    field_90_pPrims = pActor->field_90_pPrims[0];
     if ( field_90_pPrims )
     {
         GV_DelayedFree_80016254(field_90_pPrims);
@@ -353,9 +378,6 @@ void scope_loader_helper_80063274(LINE_F4 *lines)
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_800632D4.s")     // 148 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_helper_80063368.s")     // 108 bytes
 #pragma INCLUDE_ASM("asm/Equip/scope_loader_800633D4.s")            // 308 bytes
-
-extern const char aScopeC[];
-
 
 void scope_act_80062E8C(Actor_scope *pActor);
 void scope_kill_8006317C(Actor_scope *pActor);
