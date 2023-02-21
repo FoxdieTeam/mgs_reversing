@@ -240,7 +240,52 @@ void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper3_8007CDF8.s")         // 284 bytes
+int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_demothrd_0x78_Chain *pChain)
+{
+  dmo_data_0x18 *field_24_pDmoEnd;
+  int idx;
+  SVECTOR vec2;
+  SVECTOR vecPos;
+  if (pChain->field_C_actor.mFnShutdown == ((TActorFunction) 14))
+  {
+    field_24_pDmoEnd = pDmoData->field_24_pDmoEnd;
+    {
+      for (idx = 0; idx < pDmoData->field_20_count; idx++)
+      {
+        if (field_24_pDmoEnd->field_0_type == pChain->field_C_actor.field_1C)
+        {
+          break;
+        }
+        ++field_24_pDmoEnd;
+      }
+
+      if (idx < pDmoData->field_20_count)
+      {
+        vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
+        vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
+        vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
+        idx = sub_800296C4(pActor->field_C4_ctrl.field_2C_map->field_8_hzd, &vecPos, 1);
+        sub_800298DC((int *) (&vec2));
+        pChain->field_48 = field_24_pDmoEnd->field_8_rot_y;
+        if ((idx & 1) != 0)
+        {
+          pChain->field_4C = vec2.vx + 50;
+        }
+        else  if ((idx & 2) != 0)
+        {
+          pChain->field_4C = vec2.vz + 50;
+        }
+        else
+        {
+          pChain->field_4C = field_24_pDmoEnd->field_E_pos_y + 50;
+        }
+
+      }
+    }
+  }
+  return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
