@@ -95,6 +95,7 @@ void sub_80079A1C(void)
 int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
 #pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes
 
+//#pragma INCLUDE_ASM("asm/Kojo/DestroyDemo_8007A66C.s")                             // 732 bytes
 extern const char aM1e1[];
 extern const char aM1e1demo[];
 
@@ -113,11 +114,9 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   dmo_model_0x1A4 *field_34_pModels;
   dmo_model_0x1A4 *pModelIter;
   demothrd_0x1C *field_30_dmo_header;
-  int model_count;
   dmo_model_0x14 *pModelIter_1;
   int mdlNum;
   dmo_m1e1_entry **pM1OrHind;
-  int *pHash;
   demothrd_0x1C *pHeader;
   void *pMaps;
   dmo_model_0x14 *pMods;
@@ -148,22 +147,21 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   {
     pModelIter = pActor->field_34_pModels;
     field_30_dmo_header = pActor->field_30_dmo_header;
-    model_count = field_30_dmo_header->field_10_num_models;
+
     new_var = 0;
     pModelIter_1 = field_30_dmo_header->field_18_pModels;
     mdlNum = 0;
-    if (model_count > new_var)
+    if (field_30_dmo_header->field_10_num_models > new_var)
     {
-      pM1OrHind = (dmo_m1e1_entry **) (&field_34_pModels->field_1A0_pM1OrHind);
-      pHash = &pModelIter_1->field_C_hashCode;
+      pM1OrHind = (dmo_m1e1_entry **) (&pModelIter->field_1A0_pM1OrHind); // TODO: Fix iteration
       do
       {
         GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
         if (*pM1OrHind)
         {
-          if (((*pHash) == GV_StrCode_80016CCC(aM1e1)) || ((*pHash) == GV_StrCode_80016CCC(aM1e1demo)))
+          if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1demo)))
           {
-            GM_FreeObject_80034BF8(&(*pM1OrHind)->field_0);
+            GM_FreeObject_80034BF8(&(*pM1OrHind)[0].field_0);
             GM_FreeObject_80034BF8(&(*pM1OrHind)[1].field_0);
             GM_FreeObject_80034BF8(&(*pM1OrHind)[2].field_0);
             GM_FreeObject_80034BF8(&(*pM1OrHind)[3].field_0);
@@ -173,7 +171,7 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
           GV_Free_80016230(*pM1OrHind);
         }
         ++mdlNum;
-        pHash += 5;
+        pModelIter_1++;
         pM1OrHind = pM1OrHind + 0x69;
         ++pModelIter;
       }
