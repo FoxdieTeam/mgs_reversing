@@ -5,7 +5,6 @@
 
 // stinger missile first person HUD + stinger HUD?
 
-extern DG_CHNL          DG_Chanls_800B1800[3];
 extern char             byte_8009F5F8[];
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
@@ -19,10 +18,9 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 
 void sgtrect3_act_helper_8007009C()
 {
-    DG_CHNL *chnl = &DG_Chanls_800B1800[1];
-    DG_Clip_80017594(&chnl->field_5C_clip_rect, chnl->field_50_clip_distance);
-    SetRotMatrix_80093218(&chnl->field_10_transformation_matrix);
-    SetTransMatrix_80093248(&chnl->field_10_transformation_matrix);
+    DG_Clip_80017594(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
+    SetRotMatrix_80093218(&DG_Chanl(0)->field_10_eye_inv);
+    SetTransMatrix_80093248(&DG_Chanl(0)->field_10_eye_inv);
 }
 
 unsigned int sgtrect3_act_helper_helper_800700E0(GM_Target *target, DVECTOR *vector)
@@ -357,7 +355,6 @@ void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoord
     GM_Target     *currentTarget;
     unsigned short currentOffset;
 
-    DG_CHNL  *chnl;
     void     *ot;
     LINE_F3  *lineF3Arr;
     LINE_F2  *lineF2Arr;
@@ -369,8 +366,7 @@ void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoord
     lineF3Arr = sgtrect3->field_3C[GV_Clock_800AB920].field_0;
     lineF2Arr = sgtrect3->field_C3C[GV_Clock_800AB920].field_0;
     tPageArr = sgtrect3->field_21B8[GV_Clock_800AB920].field_0;
-    chnl = &DG_Chanls_800B1800[1];
-    ot = chnl[1].mOrderingTables[GV_Clock_800AB920]; // todo: fix when static inline DG_Chanl getter works.
+    ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
     field_30_target = sgtrect3->field_30_target;
 
     for (targetCount--; targetCount >= 0; screenCoordsArray++, inTargets++, offsets++, targetCount--)

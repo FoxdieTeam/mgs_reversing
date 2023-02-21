@@ -88,13 +88,12 @@ void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
     pTile->w = 320;
     pTile->h = 240;
     addPrim(pOt, pTile);
-    
+
     pTpage = &pActor->field_167c_tpages[GV_Clock_800AB920];
     setDrawTPage(pTpage, 1, 1, getTPage(0, 2, 0, 0));
     addPrim(pOt, pTpage);
 }
 
-extern DG_CHNL           DG_Chanls_800B1800[3];
 extern int               DG_FrameRate_8009D45C;
 extern int               GM_GameStatus_800AB3CC;
 
@@ -104,15 +103,14 @@ int SECTION(".sbss")     GM_GameOverVox_800AB45C;
 extern GV_PAD           *GM_CurrentPadData_800AB91C;
 GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
 
-static inline void * DG_GetOrderingTable(int index)
+static inline unsigned char * DG_ChanlOTag(int index)
 {
-    DG_CHNL *pChnl = DG_Chanls_800B1800 + 1;
-    return pChnl[index].mOrderingTables[GV_Clock_800AB920];
+    return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
 }
 
 void over_act_8003721C(Actor_Over *pActor)
 {
-    unsigned int *pOt = DG_GetOrderingTable(1);
+    unsigned int *pOt = (unsigned int *)DG_ChanlOTag(1);
     GV_PAD *pPad;
     unsigned short press;
     int shade;
@@ -126,19 +124,19 @@ void over_act_8003721C(Actor_Over *pActor)
     {
         over_act_helper_80036BA4(pActor, pOt);
         over_act_helper_80037128(pActor, pOt, pActor->field_22_seq * 2);
-            
+
         if (pActor->field_22_seq == 120)
         {
             if (GM_GameOverVox_800AB45C >= 0)
             {
                 GM_StreamPlayStart_80037D1C();
             }
-            
+
             DG_ReloadPalette_8001FC58();
         }
-    
+
         pActor->field_22_seq += 3;
-        
+
         if (pActor->field_22_seq >= 0x100)
         {
             if (pActor->field_20_seq_anim > 0)
@@ -167,7 +165,7 @@ void over_act_8003721C(Actor_Over *pActor)
         {
             pActor->field_22_seq = 0x101;
             pActor->field_26_gradient = 0x20;
-                    
+
             if (pActor->field_24_option == OVER_CONTINUE)
             {
                 sub_80032AEC(0, 0x3f, 0x66);
@@ -206,7 +204,7 @@ void over_act_8003721C(Actor_Over *pActor)
         {
             shade = 0xff;
         }
-            
+
         over_act_helper_80037128(pActor, pOt, shade);
         over_act_helper_80036BA4(pActor, pOt);
 

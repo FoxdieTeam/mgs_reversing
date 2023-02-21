@@ -15,20 +15,20 @@ int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
     short *pWeapons;
     short *pAmmo, *pMaxAmmo;
     short  oldAmmo;
-    
+
     pWeapons = GM_Weapons;
     pAmmo = &pWeapons[weapon_id];
     if (*pAmmo < 0)
     {
         *pAmmo = 0;
     }
-    
+
     pMaxAmmo = &GM_WeaponsMax[weapon_id];
     if (*pAmmo >= *pMaxAmmo)
     {
         return 0;
     }
-    
+
     oldAmmo = *pAmmo ;
     *pAmmo += amount;
 
@@ -58,7 +58,7 @@ int item_act_try_add_ammo_80033384(int weapon_id, short amount)
     {
         return 0;
     }
-    
+
     oldAmmo = *pAmmo;
     *pAmmo += amount;
 
@@ -74,7 +74,7 @@ int item_act_helper_800333F8(int item_id, int param_2)
 {
     int item_type;
     int max_capacity;
-    
+
     if (item_id == (char)ITEM_NONE)
     {
         item_all_items_and_weapons_unknown_80033560();
@@ -203,8 +203,8 @@ void item_kill_80033F88(Actor_Item *pActor)
     field_15C_pPrim = pActor->field_15C_pPrim;
     if (field_15C_pPrim)
     {
-        DG_DequeuePrim_800182E0((DG_OBJS *)pActor->field_15C_pPrim);
-        DG_FreePrim_8001BC04((DG_OBJS *)field_15C_pPrim);
+        DG_DequeuePrim_800182E0(pActor->field_15C_pPrim);
+        DG_FreePrim_8001BC04(field_15C_pPrim);
     }
 
     if (pActor->field_112_state == 2)
@@ -227,7 +227,7 @@ void item_kill_80033F88(Actor_Item *pActor)
 int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
 {
     int item_id;
-    
+
     item_id = pActor->field_114_item_id;
     if ( item_id == (char)ITEM_NONE )
     {
@@ -248,7 +248,7 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
             }
             pActor->field_113 = 2;
             break;
-        
+
         case 0:
             if (item_id > 9 )
             {
@@ -256,14 +256,14 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
             }
             pActor->field_113 = 1;
             break;
-        
+
         case 4:
             if ( item_id != ITEM_RATION )
             {
                 return 0;
             }
             break;
-        
+
         case 1:
         case 5:
             if ( item_id > (GM_TotalItems - 1) )

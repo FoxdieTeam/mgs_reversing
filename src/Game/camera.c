@@ -18,7 +18,6 @@ extern int GV_PauseLevel_800AB928;
 extern GM_Camera GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern DG_CHNL DG_Chanls_800B1800[3];
 
 #pragma INCLUDE_ASM("asm/sub_8002EADC.s") // 164 bytes
 
@@ -303,7 +302,7 @@ void camera_act_8003059C(GV_ACT *pActor)
             camera_act_helper4_8002F78C();
         }
 
-        DG_800172D0(&DG_Chanls_800B1800[1],
+        DG_800172D0(DG_Chanl(0),
             &gUnkCameraStruct2_800B7868.field_0,
             &gUnkCameraStruct2_800B7868.field_8,
             gUnkCameraStruct2_800B7868.field_1C);

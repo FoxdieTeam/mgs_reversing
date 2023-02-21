@@ -10,7 +10,6 @@
 // night vision goggles / thermal goggles first person
 
 extern int         GV_Clock_800AB920;
-extern DG_CHNL     DG_Chanls_800B1800[3];
 extern GM_Control *gSnaControl_800AB9F4;
 
 extern const char a02d[]; // = "%02d"
@@ -19,7 +18,6 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
 {
     int r, g, b;
     TILE_1 *pTile;
-    DG_CHNL *pChnl;
     unsigned char *pOt;
 
     short a1;
@@ -37,9 +35,7 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
     }
 
     pTile = pActor->field_40_tile1[GV_Clock_800AB920];
-
-    pChnl = &DG_Chanls_800B1800[1];
-    pOt = pChnl[1].mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
     menu_Text_XY_Flags_80038B34(0, 0, 0x122);
 
@@ -140,7 +136,6 @@ void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
     LINE_F2 *pLine;
     POLY_F4 *pPoly;
     DR_TPAGE *pTpage;
-    DG_CHNL *pChnl;
     unsigned char *pOt;
     int y, y2;
 
@@ -153,8 +148,7 @@ void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
     pPoly = pActor->field_2E0_polyF4[GV_Clock_800AB920];
     pTpage = &pActor->field_370_dr_tpage[GV_Clock_800AB920];
 
-    pChnl = &DG_Chanls_800B1800[1];
-    pOt = pChnl[1].mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
     y = gSnaControl_800AB9F4->field_8_rotator.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;

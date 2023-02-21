@@ -6,8 +6,6 @@
 #include "Game/game.h"
 #include "psyq.h"
 
-extern DG_CHNL DG_Chanls_800B1800[3];
-
 extern int              dword_800B3790;
 extern int              DG_HikituriFlag_8009D460;
 extern int              DG_HikituriFlagOld_8009D464;
@@ -102,18 +100,20 @@ extern int DG_CurrentGroupID_800AB968;
 
 void DG_8001F1DC()
 {
-    DG_CHNL *pChanl;
     DG_InitLightSystem_80019F40();
     DG_RenderPipeline_Init_8001715C();
+
     DG_CurrentGroupID_800AB968 = 0;
+
     DG_ReloadPalette_8001FC58();
     DG_ResetPaletteEffect_80078FF8();
     DG_Set_RGB_800184F4(0, 0, 0);
-    pChanl = &DG_Chanls_800B1800[1];
-    mts_printf_8008BBA0(aObjectQueueD, pChanl->mTotalObjectCount);
-    mts_printf_8008BBA0(aPrimitiveQueue, pChanl->mTotalQueueSize - pChanl->mFreePrimCount);
-    pChanl->mTotalObjectCount = 0;
-    pChanl->mFreePrimCount = pChanl->mTotalQueueSize;
+
+    mts_printf_8008BBA0(aObjectQueueD, DG_Chanl(0)->mTotalObjectCount);
+    mts_printf_8008BBA0(aPrimitiveQueue, DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
+
+    DG_Chanl(0)->mTotalObjectCount = 0;
+    DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;
 }
 
 void DG_TextureCacheInit_8001F25C(void)

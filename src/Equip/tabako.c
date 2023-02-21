@@ -78,8 +78,8 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
 
     if (pPrims)
     {
-        DG_DequeuePrim_800182E0((DG_OBJS *)pPrims);
-        DG_FreePrim_8001BC04((DG_OBJS *)pPrims);
+        DG_DequeuePrim_800182E0(pPrims);
+        DG_FreePrim_8001BC04(pPrims);
     }
 }
 

@@ -8,8 +8,6 @@ extern int     GV_PauseLevel_800AB928;
 extern int     GV_Clock_800AB920;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern DG_CHNL DG_Chanls_800B1800[3];
-
 // for switch in stgfd_io_act_80074F5C
 // const int SECTION(".rdata") dword_80012F74[] = {0x80075084, 0x80075098, 0x800750B0, 0x800750D4, 0x800750EC,
 // 0x80075104, 0x8007511C};
@@ -43,8 +41,7 @@ void stgfd_io_act_helper_80074F44(Actor_stgfd_io *pActor, int a2, int x, int y, 
 
 void stgfd_io_act_80074F5C(Actor_stgfd_io *pActor)
 {
-    DG_CHNL       *p = &DG_Chanls_800B1800[1];
-    unsigned char *pOt = p->mOrderingTables[GV_Clock_800AB920];
+    unsigned char *pOt = DG_Chanl(0)->mOrderingTables[GV_Clock_800AB920];
     addPrim(pOt, &pActor->field_20_pAlloc0x30->field_10_tile[GV_Clock_800AB920]);
 
     addPrim(pOt, &pActor->field_20_pAlloc0x30->field_0_dr_tpage[GV_Clock_800AB920]);
