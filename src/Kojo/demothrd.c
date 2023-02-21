@@ -116,7 +116,6 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   demothrd_0x1C *field_30_dmo_header;
   dmo_model_0x14 *pModelIter_1;
   int mdlNum;
-  dmo_m1e1_entry **pM1OrHind;
   demothrd_0x1C *pHeader;
   void *pMaps;
   dmo_model_0x14 *pMods;
@@ -153,27 +152,25 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
     mdlNum = 0;
     if (field_30_dmo_header->field_10_num_models > new_var)
     {
-      pM1OrHind = (dmo_m1e1_entry **) (&pModelIter->field_1A0_pM1OrHind); // TODO: Fix iteration
       do
       {
         GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
-        if (*pM1OrHind)
+        if (pModelIter->field_1A0_pM1OrHind)
         {
           if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1demo)))
           {
-            GM_FreeObject_80034BF8(&(*pM1OrHind)[0].field_0);
-            GM_FreeObject_80034BF8(&(*pM1OrHind)[1].field_0);
-            GM_FreeObject_80034BF8(&(*pM1OrHind)[2].field_0);
-            GM_FreeObject_80034BF8(&(*pM1OrHind)[3].field_0);
-            GM_FreeObject_80034BF8(&(*pM1OrHind)[4].field_0);
-            GM_FreeObject_80034BF8(&(*pM1OrHind)[5].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[2].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[3].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[4].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[5].field_0);
           }
-          GV_Free_80016230(*pM1OrHind);
+          GV_Free_80016230(pModelIter->field_1A0_pM1OrHind);
         }
-        ++mdlNum;
+        mdlNum++;
         pModelIter_1++;
-        pM1OrHind = pM1OrHind + 0x69;
-        ++pModelIter;
+        pModelIter++;
       }
       while (mdlNum < pActor->field_30_dmo_header->field_10_num_models);
     }
