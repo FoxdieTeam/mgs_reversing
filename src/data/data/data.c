@@ -600,7 +600,7 @@ int  SECTION(".data") dword_8009EB7C[] = {0x800AB6F8, 0x800120B4, 0x80012098, 0x
 int  SECTION(".data") dword_8009EBAC[] = {0x800120E4, 0x800120CC};
 int  SECTION(".data") dword_8009EBB4[] = {0x8001210C, 0x80012100};
 
-char *SECTION(".data") dword_8009EBBC[] = {NULL, NULL, aComplete, NULL, aError};
+char *SECTION(".data") dword_8009EBBC[] = {NULL, NULL, (char *)aComplete, NULL, (char *)aError};
 
 int  SECTION(".data") dword_8009EBD0[] = {0x4F009B, 0x4A00A0, 0x4F00A5, 0x80808080};
 int  SECTION(".data") dword_8009EBE0[] = {0xB8009C, 0xBC00A0, 0xB800A4, 0x80808080};
