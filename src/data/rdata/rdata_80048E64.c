@@ -63,7 +63,7 @@ const int  SECTION(".rdata") dword_800122F4[] = {0x66826C82, 0xE7817282, 0};
 const char SECTION(".rdata") aSaveData[] = "SAVE DATA";
 const int  SECTION(".rdata") jpt_8001230C[] = {0x8004C4E8, 0x8004C580, 0x8004CAF8, 0x8004CB7C,
                                                0x8004CCD4, 0x8004CC34, 0x8004CDB4};
-const char SECTION(".rdata") aSnakeEUC[] = {0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00}; // This is snake in EUC-JP encoding
+const char SECTION(".rdata") aSnakeEUC[] = {0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00}; // = "スネーク"
 const char SECTION(".rdata") aForceActCancel[] = "force act cancel\n";
 const char SECTION(".rdata") aRunMoveCancel[] = "run move cancel\n";
 const char SECTION(".rdata") aForceStanceCan[] = "force stance cancel\n";
@@ -134,7 +134,7 @@ const char SECTION(".rdata") aCbBox42[] = "cb_box42";
 const char SECTION(".rdata") aCbBox41[] = "cb_box41";
 const char SECTION(".rdata") aCbBox12[] = "cb_box12";
 const char SECTION(".rdata") aCbBox11[] = "cb_box11";
-const char SECTION(".rdata") aCardboardEUC[] = {0xC3, 0xCA, 0xA5, 0xDC, 0xA1, 0xBC, 0xA5, 0xEB, 0x00, 0x00, 0x00, 0x00}; // This is cardboard in EUC-JP encoding
+const char SECTION(".rdata") aCardboardEUC[] = {0xC3, 0xCA, 0xA5, 0xDC, 0xA1, 0xBC, 0xA5, 0xEB, 0x00, 0x00, 0x00, 0x00}; // = "段ボール"
 const char SECTION(".rdata") aCbBox[] = "cb_box";
 const char SECTION(".rdata") aBoxC[] = "box.c";
 const char SECTION(".rdata") aSnaFace3[] = "sna_face3";
@@ -154,8 +154,9 @@ const char SECTION(".rdata") aScopeC[] ="scope.c";
 const char SECTION(".rdata") aGmsightC[] = "gmsight.c";
 const char SECTION(".rdata") aSAVEPHOTO[] = "SAVE PHOTO";
 const char SECTION(".rdata") aSSSS[] = "%s%s%s%s";
-const int  SECTION(".rdata") aVlvfvrbc_800129EC[] = {0x66826C82, 0xE7817282, 0};
-const int  SECTION(".rdata") dword_800129F8[] = {0x4081, 0x67826F82, 0x73826E82, 0x6E82};
+const char SECTION(".rdata") aMGSIntegralEUC[] = {0x82, 0x6C, 0x82, 0x66, 0x82, 0x72, 0x81, 0xE7, 0x00, 0x00, 0x00, 0x00}; // = "ＭＧＳ∫"
+const char SECTION(".rdata") aSpaceEUC[] = {0x81, 0x40, 0x00, 0x00}; // = "　"
+const char SECTION(".rdata") aPhotoEUC[] = {0x82, 0x6F, 0x82, 0x67, 0x82, 0x6E, 0x82, 0x73, 0x82, 0x6E, 0x00, 0x00}; // = "ＰＨＯＴＯ"
 const char SECTION(".rdata") aPHOTO[] = "PHOTO %02d\n";
 const char SECTION(".rdata") aSaveHeaderX[] = "save header = %x\n";
 const char SECTION(".rdata") aDTryQScaleDSiz[] = "%d try q_scale = %d size = %d\n";
