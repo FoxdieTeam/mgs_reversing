@@ -311,6 +311,7 @@ unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int
 unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp,
                                     BarConfig *pConfig);
 void         menu_InitRadioTable_80049644();
+void         menu_init_sprt_8004AE14(SPRT *pSprt);
 void         menu_ResetSystem_80038A88();
 void         menu_SetRadarScale_80038E28(int);
 void         menu_StartDeamon_80038A20(void);
