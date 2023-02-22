@@ -22,8 +22,9 @@ typedef struct RadioCoordsStru_8009E6FC
 } RadioCoordsStru_8009E6FC;
 
 struct RadioFileModeUnk1;
+struct RadioFileModeStruElem;
 
-typedef void (*TRadioFileModeFn)(MenuGlue *, int *); // param types not final
+typedef void (*TRadioFileModeFn)(MenuGlue *, struct RadioFileModeStruElem *); // param types not final
 
 typedef struct RadioFileModeStruElem
 {

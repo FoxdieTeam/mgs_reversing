@@ -3,7 +3,7 @@
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *SECTION(".sbss") stru_800ABB7C;
 
-void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuGlue *, int *);
+void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuGlue *, RadioFileModeStruElem *);
 
 void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3, int param_4, int param_5, int divisor)
 {
