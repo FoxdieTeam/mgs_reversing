@@ -30,7 +30,7 @@ typedef struct RadioFileModeStruElem
     int                       field_0;
     int                       field_4;
     TRadioFileModeFn          field_8_pFn;
-    struct RadioFileModeUnk1 *field_C_unk1;
+    struct RadioFileModeUnk1 *field_C_unk1; // probably wrong type of pointer, it points to some smaller struct
 } RadioFileModeStruElem;
 
 typedef struct RadioFileModeUnk1 // guessed size, could be larger
