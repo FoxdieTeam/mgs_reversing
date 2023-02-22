@@ -312,6 +312,7 @@ unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int h
                                     BarConfig *pConfig);
 void         menu_InitRadioTable_80049644();
 void         menu_init_sprt_8004AE14(SPRT *pSprt);
+void         move_coord_8004A494(int *arr, int len);
 void         menu_ResetSystem_80038A88();
 void         menu_SetRadarScale_80038E28(int);
 void         menu_StartDeamon_80038A20(void);
