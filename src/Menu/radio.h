@@ -41,6 +41,10 @@ typedef struct RadioFileModeUnk1 // guessed size, could be larger
     int field_C;
     int field_10;
     int field_14;
+    int field_18;
+    int field_1C;
+    int field_20;
+    int field_24;
 } RadioFileModeUnk1;
 
 typedef struct RadioFileModeStru_800ABB7C
@@ -74,46 +78,7 @@ typedef struct RadioFileModeStru_800ABB7C
     int                   field_124;
     int                   field_128;
     int                   field_12c;
-    int                   field_130;
-    int                   field_134;
-    int                   field_138;
-    int                   field_13c;
-    int                   field_140;
-    int                   field_144;
-    int                   field_148;
-    int                   field_14c;
-    int                   field_150;
-    int                   field_154;
-    int                   field_158;
-    int                   field_15c;
-    int                   field_160;
-    int                   field_164;
-    int                   field_168;
-    int                   field_16c;
-    int                   field_170;
-    int                   field_174;
-    int                   field_178;
-    int                   field_17c;
-    int                   field_180;
-    int                   field_184;
-    int                   field_188;
-    int                   field_18c;
-    int                   field_190;
-    int                   field_194;
-    int                   field_198;
-    int                   field_19c;
-    int                   field_1a0;
-    int                   field_1a4;
-    int                   field_1a8;
-    int                   field_1ac;
-    int                   field_1b0;
-    int                   field_1b4;
-    int                   field_1b8;
-    int                   field_1bc;
-    int                   field_1c0;
-    int                   field_1c4;
-    int                   field_1c8;
-    int                   field_1cc;
+    RadioFileModeUnk1     field_130_array[4]; // could be larger? (but only 0..3 are explicitly indexed as far as I can tell)
     int                   field_1d0;
     int                   field_1d4;
     int                   field_1d8;
@@ -135,10 +100,6 @@ typedef struct RadioFileModeStru_800ABB7C
     int                   field_218;
     int                   field_21c;
     RadioFileModeUnk1     field_220_unk1; // guessed size, could be larger
-    int                   field_238;
-    int                   field_23c;
-    int                   field_240;
-    int                   field_244;
     int                   field_248;
     int                   field_24c;
     int                   field_250;
