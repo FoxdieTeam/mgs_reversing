@@ -133,8 +133,8 @@ struct DG_Rec_Unknown
 	unsigned char field_3;
 };
 
-struct DG_PRIM;
-typedef void ( *TPrim_Fn )( struct DG_PRIM *pVec, void *primBuffer, int numPrims );
+struct _DG_PRIM;
+typedef POLY_FT4 * ( *TPrim_Fn )( struct _DG_PRIM *pPrim, POLY_FT4 *pPolys, int numPrims );
 
 typedef struct _DG_PRIM
 {
