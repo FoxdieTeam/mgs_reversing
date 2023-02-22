@@ -19,6 +19,9 @@ extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern short            scope_created_8009F2C4;
+extern GM_Control      *gSnaControl_800AB9F4;
+extern short            dword_800ABBDC;
+extern short            dword_800ABBD4;
 
 extern const char aScopeC[];
 extern const char aZoomLevelD[];
@@ -145,9 +148,167 @@ void scope_act_helper_8006258C(Actor_scope *pActor)
     }
 }
 
-// Scratch: https://decomp.me/scratch/yJu6g
-#pragma INCLUDE_ASM("asm/Equip/scope_act_helper_800626D0.s")        // 712 bytes
-void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status);
+void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
+{
+    SVECTOR vec;
+    int sVar2;
+    int iVar5;
+    int iVar6;
+    int uVar8;
+    int iVar9;
+    int iVar10;
+    GM_Control *pCtrl;
+    short *shortArr;
+
+    sVar2 = GM_Camera_800B77E8.field_20;
+    shortArr = pActor->field_84;
+
+    if (gSnaControl_800AB9F4)
+    {
+        iVar6 = pActor->field_6C_turn_vec.vx;
+
+        if (iVar6 < dword_800ABBDC)
+        {
+            iVar6 = dword_800ABBDC;
+        }
+        else if (iVar6 > dword_800ABBD4)
+        {
+            iVar6 = dword_800ABBD4;
+        }
+
+        pActor->field_6C_turn_vec.vx = iVar6;
+    }
+
+    if ((pad_status & 0xf000) != 0)
+    {
+        iVar6 = pActor->field_6C_turn_vec.vx;
+        uVar8 = pActor->field_6C_turn_vec.vy;
+
+        vec = pActor->field_64_vec;
+
+        if (gSnaControl_800AB9F4)
+        {
+            vec.vx = gSnaControl_800AB9F4->field_4C_turn_vec.vx;
+        }
+
+        if (sVar2 <= 1023)
+        {
+            iVar5 = 16;
+        }
+        else
+        {
+            if (sVar2 < 2048)
+            {
+                iVar5 = 4;
+            }
+            else
+            {
+                iVar5 = 1;
+            }
+        }
+
+        iVar9 = vec.vx - 512;
+        iVar10 = vec.vx + 512;
+
+        if (gSnaControl_800AB9F4)
+        {
+            if (iVar9 < dword_800ABBDC)
+            {
+                iVar9 = dword_800ABBDC;
+            }
+
+            if (iVar10 > dword_800ABBD4)
+            {
+                iVar10 = dword_800ABBD4;
+            }
+        }
+
+        if ((pad_status & 0x5000) != 0)
+        {
+            if ((pad_status & 0x1000) != 0)
+            {
+                iVar6 -= iVar5;
+
+                if (--shortArr[1] < -8)
+                {
+                    shortArr[1] = -8;
+                }
+            }
+            else
+            {
+                iVar6 += iVar5;
+
+                if (++shortArr[1] > 8)
+                {
+                    shortArr[1] = 8;
+                }
+            }
+        }
+
+        if (iVar6 < iVar9)
+        {
+            iVar6 = iVar9;
+        }
+
+        if (iVar6 > iVar10)
+        {
+            iVar6 = iVar10;
+        }
+
+        if ((pad_status & 0xa000) != 0)
+        {
+            if ((pad_status & 0x2000) != 0)
+            {
+                shortArr[0]++;
+
+                uVar8 = uVar8 - iVar5;
+                uVar8 &= 0xfff;
+
+                if (shortArr[0] > 8)
+                {
+                    shortArr[0] = 8;
+                }
+            }
+            else
+            {
+                shortArr[0]--;
+
+                uVar8 = uVar8 + iVar5;
+                uVar8 &= 0xfff;
+
+                if (shortArr[0] < -8)
+                {
+                    shortArr[0] = -8;
+                }
+            }
+        }
+
+        pActor->field_6C_turn_vec.vx = iVar6;
+        pActor->field_6C_turn_vec.vy = uVar8;
+    }
+    else if (GV_PauseLevel_800AB928 == 0)
+    {
+        if (shortArr[0] != 0)
+        {
+            iVar5 = (shortArr[0] > 0) ? -1 : 1;
+            shortArr[0] += iVar5;
+        }
+
+        if (shortArr[1] != 0)
+        {
+            iVar5 = (shortArr[1] > 0) ? -1 : 1;
+            shortArr[1] += iVar5;
+        }
+    }
+
+    pCtrl = gSnaControl_800AB9F4;
+
+    if (pCtrl)
+    {
+        pCtrl->field_4C_turn_vec = pActor->field_6C_turn_vec;
+        pCtrl->field_8_rotator = pCtrl->field_4C_turn_vec;
+    }
+}
 
 void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
 {
@@ -353,7 +514,7 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
         menu_Text_80038C38(aZoomLevelD, 100 * (GM_Camera_800B77E8.field_20 / 320));
         menu_Color_80038B4C(101, 133, 77);
         menu_Text_XY_Flags_80038B34(32, 101, 1);
-        menu_Text_80038C38(aD_44, -pActor->field_6C);
+        menu_Text_80038C38(aD_44, -pActor->field_6C_turn_vec.vx);
         menu_Text_Init_80038B98();
     }
 }
@@ -610,11 +771,11 @@ int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pParen
     pActor->field_60 = 0;
     pActor->field_62 = 0;
 
-    pActor->field_6E = pActor->field_66 = pCtrl->field_4C_turn_vec.vy;
-    pActor->field_6C = pActor->field_64 = pCtrl->field_4C_turn_vec.vx;
+    pActor->field_6C_turn_vec.vy = pActor->field_64_vec.vy = pCtrl->field_4C_turn_vec.vy;
+    pActor->field_6C_turn_vec.vx = pActor->field_64_vec.vx = pCtrl->field_4C_turn_vec.vx;
 
-    pActor->field_68 = 0;
-    pActor->field_70 = 0;
+    pActor->field_64_vec.vz = 0;
+    pActor->field_6C_turn_vec.vz = 0;
 
     pActor->field_84[1] = 0;
     pActor->field_84[0] = 0;
