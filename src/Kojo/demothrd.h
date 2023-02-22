@@ -161,11 +161,9 @@ typedef struct dmo_m1e1_entry
 typedef struct dmo_m1e1_data
 {
   dmo_m1e1_entry field_0[2][3];
-  int field_558_idx1;
-  int field_55C_idx2;
+  int field_558_idx[2];
   int field_560;
-  SVECTOR field_564;
-  SVECTOR field_56C;
+  SVECTOR field_564[2];
 } dmo_m1e1_data;
 
 typedef struct dmo_hind
