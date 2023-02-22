@@ -11,8 +11,8 @@ void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3,
     RadioFileModeUnk1     *pUnk;
     RadioFileModeStruElem *pElem;
 
-    pElem = &stru_800ABB7C[0].field_0_array[idx];
-    pUnk = &stru_800ABB7C[0].field_220_unk1;
+    pElem = &stru_800ABB7C->field_0_array[idx];
+    pUnk = &stru_800ABB7C->field_220_unk1;
 
     pElem->field_8_pFn = menu_radio_do_file_mode_helper3_helper_8004A790;
     pElem->field_C_unk1 = pUnk;
