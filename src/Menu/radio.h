@@ -47,65 +47,51 @@ typedef struct RadioFileModeUnk1 // guessed size, could be larger
     int field_24;
 } RadioFileModeUnk1;
 
+typedef struct RadioFileModeUnk2
+{
+    int   field_0;
+    char *field_4;
+    int   field_8;
+    int   field_C;
+    int   field_10;
+    int   field_14;
+    int   field_18;
+} RadioFileModeUnk2;
+
 typedef struct RadioFileModeStru_800ABB7C
 {
     RadioFileModeStruElem field_0_array[12]; // guessed length
-    int                   field_c0;
-    int                   field_c4;
-    int                   field_c8;
-    int                   field_cc;
-    int                   field_d0;
-    int                   field_d4;
-    int                   field_d8;
-    int                   field_dc;
-    int                   field_e0;
-    int                   field_e4;
-    int                   field_e8;
-    int                   field_ec;
-    int                   field_f0;
-    int                   field_f4;
-    int                   field_f8;
-    int                   field_fc;
-    int                   field_100;
-    int                   field_104;
-    int                   field_108;
-    int                   field_10c;
-    int                   field_110;
-    int                   field_114;
-    int                   field_118;
-    int                   field_11c;
-    int                   field_120;
-    int                   field_124;
-    int                   field_128;
-    int                   field_12c;
-    RadioFileModeUnk1     field_130_array[4]; // could be larger? (but only 0..3 are explicitly indexed as far as I can tell)
-    int                   field_1d0;
-    int                   field_1d4;
-    int                   field_1d8;
-    int                   field_1dc;
-    int                   field_1e0;
-    int                   field_1e4;
-    int                   field_1e8;
-    int                   field_1ec;
-    int                   field_1f0;
-    int                   field_1f4;
-    int                   field_1f8;
-    int                   field_1fc;
-    int                   field_200;
-    int                   field_204;
-    int                   field_208;
-    int                   field_20c;
-    int                   field_210;
-    int                   field_214;
-    int                   field_218;
-    int                   field_21c;
-    RadioFileModeUnk1     field_220_unk1; // guessed size, could be larger
-    int                   field_248;
-    int                   field_24c;
-    int                   field_250;
-    int                   field_254;
-    int                   field_258;
-    int                   field_25c;
+    RadioFileModeUnk2     field_c0_array[4];
+
+    // could be larger? (but only 0..3 are explicitly indexed as far as I can tell)
+    RadioFileModeUnk1 field_130_array[4];
+    int               field_1d0;
+    int               field_1d4;
+    int               field_1d8;
+    int               field_1dc;
+    int               field_1e0;
+    int               field_1e4;
+    int               field_1e8;
+    int               field_1ec;
+    int               field_1f0;
+    int               field_1f4;
+    int               field_1f8;
+    int               field_1fc;
+    int               field_200;
+    int               field_204;
+    int               field_208;
+    int               field_20c;
+    int               field_210;
+    int               field_214;
+    int               field_218;
+    int               field_21c;
+    RadioFileModeUnk1 field_220_unk1; // guessed size, could be larger
+    int               field_248;
+    int               field_24c;
+    int               field_250;
+    int               field_254;
+    int               field_258;
+    int               field_25c;
 } RadioFileModeStru_800ABB7C;
 
 void           sub_8004124C(Actor_MenuMan *pActor);
