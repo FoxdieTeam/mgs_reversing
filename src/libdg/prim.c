@@ -430,10 +430,11 @@ void DG_PrimChanl_helper3_8001B534(DG_PRIM *pDGPrim)
 
 void DG_8001B5FC(DG_PRIM *pPrim)
 {
-    int               n_prims = pPrim->n_prims;
-    union Prim_Union *prim_buffer = pPrim->field_40_pBuffers[GV_Clock_800AB920];
+    int       n_prims = pPrim->n_prims;
+    POLY_FT4 *prims = &pPrim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4;
+
     sub_8001AD28(pPrim->field_38_pUnknown, pPrim->field_48_prim_count);
-    pPrim->field_50_pFn((struct DG_PRIM *)pPrim, prim_buffer, n_prims);
+    pPrim->field_50_pFn(pPrim, prims, n_prims);
 }
 
 //todo: this is dumb, must be something else

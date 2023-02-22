@@ -718,7 +718,6 @@
     include "..\obj\Takabe\set_pal_effect_fns_80079194.obj"
     include "..\obj\libdg\DG_ResetExtPaletteMakeFunc_800791E4.obj"
     include "..\obj\Takabe\sub_80079220.obj"
-    include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_helper_80079284.obj"
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
 
     ; 80079460 800794E4 80079664 800797CC 800797FC 80079960 800799A8 80079A1C 80079A2C 80079AE4
