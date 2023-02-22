@@ -42,6 +42,9 @@ void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_mo
 void demothrd_file_stream_act_800797FC(Actor_demothrd* pActor);
 void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
 
+void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
+void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
+
 void GM_ActObject_80034AF4(OBJECT *obj);
 void DG_8001CDB8(DG_OBJS *pObjs);
 
@@ -400,8 +403,8 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
     DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
     if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
     {
-      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx1].field_0.objs);
-      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_55C_idx2].field_0.objs);
+      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[0]].field_0.objs);
+      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].field_0.objs);
     }
       
     pModelIter_0x1A4->field_0_ctrl.field_0_position.vx = pDmoData0x18->field_C_pos_x;
@@ -451,7 +454,122 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
   return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
+
+static inline int magic_calc(SVECTOR* vecTmp, dmo_model_0x1A4 *p0x1A4)
+{
+    int distance1 = SquareRoot0_80092708(((vecTmp->vx * vecTmp->vx) + (vecTmp->vy * vecTmp->vy)) + (vecTmp->vz * vecTmp->vz));    
+
+    int rTan1 = ratan2_80094308(vecTmp->vx, vecTmp->vz);
+    int tmp4 = rTan1;
+    tmp4 -= p0x1A4->field_0_ctrl.field_8_rotator.vy + p0x1A4->field_A0[0].vy;
+    tmp4 = abs(tmp4);
+    return (distance1 * (1024 - tmp4)) / 1024;
+}
+
+void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
+{
+  dmo_m1e1_data *pData;
+  int tmp1;
+  int i;
+  SVECTOR vec;
+  SVECTOR vecTmp;
+  SVECTOR smokeVecs[10];
+
+  pData = p0x1A4->field_1A0_pM1OrHind;
+  for (i = 0; i < 3; i++)
+  {
+    GM_ActMotion_80034A7C(&pData->field_0[0][i].field_0);
+    GM_ActMotion_80034A7C(&pData->field_0[1][i].field_0);
+  }
+
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_position, &p0x1A4->field_0_ctrl.field_8_rotator);
+  DG_RotatePos_8001BD64(&p0x1A4->field_A0[0]);
+
+  M1E1GetCaterpillerVertex_800815FC(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
+  for (i = 0; i < 10; i++)
+  {
+    smokeVecs[i].vy = smokeVecs[i].vy + 300;
+  }
+
+  DG_PutVector_8001BE48(smokeVecs, smokeVecs, 10);
+
+  memset(&vec, 0, sizeof(SVECTOR));
+  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.field_0_x - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x) / 2);
+  DG_PutVector_8001BE48(&vec, &vec, 1);
+    
+  vecTmp.vx = vec.vx - pData->field_564[0].vx;
+  vecTmp.vy = vec.vy - pData->field_564[0].vy;
+  vecTmp.vz = vec.vz - pData->field_564[0].vz;
+
+  tmp1 = magic_calc(&vecTmp, p0x1A4);
+
+  if (abs(tmp1) >= pData->field_560)
+  {
+    AN_CaterpillerSmoke_8007DA28(&smokeVecs[rand_8008E6B8() % 5]);
+    DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].field_0.objs);
+    if (tmp1 > 0)
+    {
+      pData->field_558_idx[0]++;
+    }
+    else
+    {
+      pData->field_558_idx[0]--;
+    }
+    if (pData->field_558_idx[0] < 0)
+    {
+      pData->field_558_idx[0] = 2;
+    }
+    if (pData->field_558_idx[0] >= 3)
+    {
+      pData->field_558_idx[0] = 0;
+    }
+    DG_VisibleObjs(pData->field_0[0][pData->field_558_idx[0]].field_0.objs);
+    pData->field_564[0] = vec;
+  }
+
+    
+  memset(&vec, 0, sizeof(SVECTOR));
+  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.field_0_x - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x) / 2);
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_position, &p0x1A4->field_0_ctrl.field_8_rotator);
+
+  DG_PutVector_8001BE48(&vec, &vec, 1);
+  vecTmp.vx = vec.vx - pData->field_564[1].vx;
+  vecTmp.vy = vec.vy - pData->field_564[1].vy;
+  vecTmp.vz = vec.vz - pData->field_564[1].vz;
+
+  tmp1 = magic_calc(&vecTmp, p0x1A4);
+
+  if (abs(tmp1) >= pData->field_560)
+  {
+    AN_CaterpillerSmoke_8007DA28(&smokeVecs[(rand_8008E6B8() % 5) + 5]);
+    DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].field_0.objs);
+    if (tmp1 > 0)
+    {
+      pData->field_558_idx[1]++;
+    }
+    else
+    {
+      pData->field_558_idx[1]--;
+    }
+    if (pData->field_558_idx[1] < 0)
+    {
+      pData->field_558_idx[1] = 2;
+    }
+    if (pData->field_558_idx[1] >= 3)
+    {
+      pData->field_558_idx[1] = 0;
+    }
+    DG_VisibleObjs(pData->field_0[1][pData->field_558_idx[1]].field_0.objs);
+    pData->field_564[1] = vec;
+  }
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_position, &p0x1A4->field_0_ctrl.field_8_rotator);
+  DG_RotatePos_8001BD64(p0x1A4->field_A0);
+  for (i = 0; i < 3; i++)
+  {
+    GM_ActObject_80034AF4(&pData->field_0[0][i].field_0);
+    GM_ActObject_80034AF4(&pData->field_0[1][i].field_0);
+  }
+}
 
 void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
 {
