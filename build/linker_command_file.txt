@@ -557,8 +557,6 @@
 
     include "..\obj\Equip\face_item_helper_80060CB8.obj"
     include "..\obj\Equip\EQ_ChangeTexture_80060CE4.obj"
-    include "..\obj\Equip\EQ_InvisibleUnit_80060E68.obj"
-    include "..\obj\Equip\EQ_VisibleUnit_80060F20.obj"
 
     ; 80060F98 800610A4 80061204 800612BC 80061384 800613FC 80061508 80061528 800615F4
     ; 800615FC 80061708
