@@ -5,8 +5,52 @@
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
 #include "libgcl/hash.h"
+#include "memcard/memcard.h"
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_unk1_80063704.s") // 388 bytes
+extern menu_save_mode_data stru_8009F2D8;
+
+extern const char aSSSS[];           // = "%s%s%s%s"
+extern const char aMGSIntegralEUC[]; // = "ＭＧＳ∫"
+extern const char aSpaceEUC[];       // = "　"
+extern const char aPhotoEUC[];       // =  "ＰＨＯＴＯ"
+extern char       aBislpm99999[];    // = "BISLPM-99999        "
+
+void jpegcam_unk1_80063704(char *buf, struct mem_card *pMemcard)
+{
+    char photo_id[8];
+    unsigned int blocks_avail;
+    int index;
+
+    aBislpm99999[12] = 'C';
+
+    blocks_avail = 0;
+
+    for (index = 0; index < pMemcard->field_2_file_count; index++)
+    {
+        if (strncmp_8008E7F8(pMemcard->field_4_blocks[index].field_0_name, aBislpm99999, 13) == 0)
+        {
+            blocks_avail |= 1 << (pMemcard->field_4_blocks[index].field_0_name[18] - 64);
+        }
+    }
+
+    for (index = 1; index <= 16; index++)
+    {
+        if (!(blocks_avail & (1 << index)))
+        {
+            break;
+        }
+    }
+
+    photo_id[0] = '\x82';
+    photo_id[1] = (index / 10) + 0x4F;
+    photo_id[2] = '\x82';
+    photo_id[3] = (index % 10) + 0x4F;
+    photo_id[4] = '\x00';
+
+    stru_8009F2D8.field_2 = index;
+
+    sprintf_8008E878(buf, aSSSS, aMGSIntegralEUC, aSpaceEUC, aPhotoEUC, photo_id);
+}
 
 extern char aPHOTO[];    // "PHOTO %02d\n"
 extern char aJpegcamC[]; // "jpegcam.c";
@@ -40,14 +84,17 @@ extern const char aResultD[];        // = "Result = %d\n"
 extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
 
 extern int   GV_PauseLevel_800AB928;
-extern int   dword_800BDCC8;
+extern char *dword_800BDCC8;
 extern int   dword_800BDCCC;
 extern int   dword_800BDCD0;
 extern int   DG_UnDrawFrameCount_800AB380;
 
-extern menu_save_mode_data stru_8009F2D8;
+extern char  byte_801A1000[0x10000];
+extern char  byte_801B1000[0x36800];
+
 extern const char aZoom4d[];
 extern const char aAngle4d4d[];
+extern const char aSaveHeaderX[]; // = "save header = %x\n"
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
@@ -56,7 +103,14 @@ void jpegcam_unk2_80063888(char *param_1, int param_2)
     sprintf_8008E878(param_1, aPHOTO, *(char *)(param_2 + 6) - 0x40);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_unk3_800638B4.s")                                      // 120 bytes
+void jpegcam_unk3_800638B4(int *arg0)
+{
+    dword_800BDCD0 = (char)dword_800BDCD0 | 0x80808000;
+    mts_printf_8008BBA0(aSaveHeaderX, dword_800BDCD0);
+
+    GV_CopyMemory_800160D8(&dword_800BDCD0, &arg0[0], 4);
+    GV_CopyMemory_800160D8(dword_800BDCC8, &arg0[1], dword_800BDCCC);
+}
 
 void jpegcam_act_helper2_helper_8006392C()
 {
@@ -135,7 +189,43 @@ void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSou
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10.s") // 192 bytes
+void jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10(char *pInA, char *pInB, char *pOutA, char *pOutB)
+{
+    int i, j;
+    signed char *var_t0;
+    signed char *var_t1;
+    signed char *var_t2;
+    signed char *var_t3;
+    int resA;
+    int resB;
+
+    for (i = 0; i < 8; i++)
+    {
+        var_t1 = pInA + i * 16;
+        var_t3 = var_t1 + 16;
+
+        var_t0 = pInB + i * 16;
+        var_t2 = var_t0 + 16;
+
+        for (j = 0; j < 8; j++)
+        {
+            resA = var_t1[0] + var_t1[1] + var_t3[0] + var_t3[1];
+            resB = var_t0[0] + var_t0[1] + var_t2[0] + var_t2[1];
+
+            *pOutA = resA / 4;
+            *pOutB = resB / 4;
+
+            var_t1 += 2;
+            var_t3 += 2;
+            var_t0 += 2;
+            var_t2 += 2;
+
+            pOutA++;
+            pOutB++;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0.s") // 268 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper5_80063DDC.s") // 212 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper6_80063EB0.s") // 420 bytes
@@ -162,8 +252,11 @@ void jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor)
   {
     pActor->field_7C = 0;
     pActor->field_80 = 2;
-    pActor->field_84 = 0x801B1000;
-    pActor->field_88 = 0x801A1000;
+
+    // Not matching with a pointer to the global array
+    pActor->field_84 = (char *)0x801B1000;
+    pActor->field_88 = (char *)0x801A1000;
+
     pActor->field_8C_size = jpegcam_act_helper3_helper_helper_800641C0(pActor, &rect, q_scale);
     mts_printf_8008BBA0(aDTryQScaleDSiz, iteration, q_scale, pActor->field_8C_size);
     iteration++;
@@ -246,7 +339,7 @@ int jpegcam_act_helper3_helper2_800649F4()
 
 void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 {
-    int state = pActor->field_64_state;    
+    int state = pActor->field_64_state;
 
     if (state < 3)
     {
@@ -255,7 +348,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 
     if (state == 3)
     {
-        GM_Sound_80032968(0, 63, 17);   
+        GM_Sound_80032968(0, 63, 17);
     }
     else if (state == 4)
     {
@@ -273,7 +366,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
     else if (state == 9)
     {
         jpegcam_act_helper3_helper_80064378(pActor);
-      
+
         if (jpegcam_act_helper3_helper2_800649F4(pActor) == 1)
         {
             dword_800BDCD0 = GM_Photocode_800ABA04;
