@@ -48,8 +48,8 @@ int  StrSpuTransWithNoLoop_800827AC();
 // no idea where these go, Equip/util.h ?
 void EQ_InvisibleHead_80060D5C(OBJECT *pObj, short *pnPacks, short *pRaise);
 void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise);
-int  EQ_VisibleUnit_80060F20(short *, unsigned char *);
-void EQ_InvisibleUnit_80060E68(DG_OBJS *param_1, int param_2, int param_3);
+int  EQ_VisibleUnit_80060F20(short *, char *);
+void EQ_InvisibleUnit_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2);
 void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2);
 void face_item_helper_80060CB8(u_short *in, u_short *out);
 

@@ -41,3 +41,85 @@ void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise)
         DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[6], 1);
     }
 }
+
+void EQ_InvisibleUnit_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
+{
+    int       i;
+    int       n_models;
+    DG_OBJ   *pObj;
+    POLY_GT4 *pPoly;
+    DG_OBJ   *pIter;
+    int       n_packs;
+
+    for (i = 0; i < 2; i++)
+    {
+        pObj = pObjs->objs;
+
+        for (n_models = pObjs->n_models; n_models > 0; n_models--)
+        {
+            pPoly = pObj->packs[i];
+
+            if (!pPoly)
+            {
+                pObj++;
+                continue;
+            }
+
+            if ((arg2 != 0) && (LLOAD(&pPoly->r0) == color))
+            {
+                continue;
+            }
+
+            for (pIter = pObj; pIter; pIter = pIter->extend)
+            {
+                for (n_packs = pIter->n_packs; n_packs > 0; n_packs--)
+                {
+                    LSTORE(color, &pPoly->r0);
+                    LSTORE(color, &pPoly->r1);
+                    LSTORE(color, &pPoly->r2);
+                    LSTORE(color, &pPoly->r3);
+                    pPoly++;
+                }
+            }
+
+            pObj++;
+        }
+    }
+}
+
+int EQ_VisibleUnit_80060F20(short *arg0, char *arg1)
+{
+    int adjust;
+    int x, y;
+
+    adjust = ((arg0[0] / 4) - 160);
+    x = arg0[0] - adjust;
+
+    if (x < 0)
+    {
+        x = 0;
+    }
+
+    if (x > 319)
+    {
+        x = 319;
+    }
+
+    arg1[0] = x;
+
+    y = arg0[1] + 112;
+
+    if (y < 0)
+    {
+        y = 0;
+    }
+
+    if (y > 223)
+    {
+        y = 223;
+    }
+
+    arg1[1] = y;
+
+    return x > 255;
+}
