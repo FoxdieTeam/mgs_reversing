@@ -6,12 +6,13 @@
 #include "Game/GM_Control.h"
 #include "Thing/sight.h"
 
-typedef char TMat8x8B[8][8];     // Matrix with 8 rows by 8 bytes
-typedef char TMat16x16B[16][16]; // Matrix with 16 rows by 16 bytes
+typedef signed char TMat8x8B[8][8];     // Matrix with 8 rows by 8 bytes
+typedef signed char TMat16x16B[16][16]; // Matrix with 16 rows by 16 bytes
+typedef int         TMat8x8I[8][8];
 
 typedef struct Actor_jpegcam
 {
-    GV_ACT              field_0_actor;
+    GV_ACT             field_0_actor;
     GM_Control        *field_20_pCtrl;
     OBJECT            *field_24_pObj;
     OBJECT_NO_ROTS     field_28_obj;

@@ -226,7 +226,60 @@ void jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10(char *pInA, char
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0.s") // 268 bytes
+void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *pActor, char *arg1, int *arg2)
+{
+    int      *field_84;
+    int      *field_84_ptr;
+    TMat8x8I *field_84_ptr2;
+
+    int i;
+    int j;
+    int k;
+
+    signed char *arg1_ptr;
+    int          camIndex;
+    int          accumulator;
+
+    field_84 = (int *)pActor->field_84;
+    field_84 += 256;
+    field_84_ptr = field_84;
+    
+    i = 0;
+    for (; i < 8; i++)
+    {
+        j = 0;
+        for (; j < 8; j++)
+        {
+            arg1_ptr = arg1;
+            *field_84_ptr = 0;
+            k = 0;
+            camIndex = j;
+            for (; k < 8; k++)
+            {
+                *field_84_ptr += arg1_ptr[k] * gJpegcamMatrix2_800BDCD8[k][camIndex];
+            }
+            field_84_ptr++;
+        }
+        arg1 += 8;
+    }
+
+    i = 0;
+    for (; i < 8; i++)
+    {
+        j = 0;
+        for (; j < 8; j++)
+        {
+            k = accumulator = 0;
+            field_84_ptr2 = (TMat8x8I *)field_84;
+            for (; k < 8; k++)
+            {
+                accumulator += gJpegcamMatrix1_8009F36C[i][k] * (*field_84_ptr2)[k][j];
+            }
+            *(arg2++) = (accumulator >> 14);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper5_80063DDC.s") // 212 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper6_80063EB0.s") // 420 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_80064054.s")         // 364 bytes
