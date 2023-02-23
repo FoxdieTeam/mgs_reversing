@@ -1,18 +1,8 @@
-void move_coord_8004A494(int *param_1, int param_2)
+void move_coord_8004A494(int *arr, int len)
 {
-    int iVar1;
+    int i;
 
-    iVar1 = 0;
-    if (0 < param_2)
-    {
-        do
-        {
-            iVar1 = iVar1 + 1;
-            *param_1 = *param_1 + param_1[1];
-            param_1 = param_1 + 2;
-        } while (iVar1 < param_2);
-        while (iVar1 < param_2)
-            ;
+    for (i = 0; i < len; i++, arr += 2) {
+        arr[0] += arr[1];
     }
-    return;
 }
