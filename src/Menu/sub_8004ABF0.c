@@ -3,7 +3,7 @@
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *SECTION(".sbss") stru_800ABB7C;
 
-void sub_8004A648(MenuGlue *, RadioFileModeStruElem *);
+void sub_8004A648(MenuGlue *, RadioFileModeStruElem *); // https://decomp.me/scratch/Wvds5
 
 void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor)
 
@@ -14,7 +14,7 @@ void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int diviso
     // going past the memory of original RadioFileModeUnk1?
     RadioFileModeUnk1 *pUnk = (RadioFileModeUnk1 *)&(stru_800ABB7C->field_220_unk1).field_18;
 
-    pElem->field_8_pFn = sub_8004A648;
+    pElem->field_8_pFn = sub_8004A648; // https://decomp.me/scratch/Wvds5
     pElem->field_C_unk1 = pUnk;
 
     if (divisor <= 0)
