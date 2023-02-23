@@ -7,12 +7,8 @@
 #include "libgv/libgv.h"
 #include "Game/GM_Control.h"
 #include "Game/game.h"
-
-typedef struct demothrd_2Vec
-{
-    SVECTOR field_0;
-    SVECTOR field_8;
-} demothrd_2Vec; // TODO: Prob just the camera data so bin this later
+#include "Game/object.h"
+#include "Game/camera.h"
 
 typedef struct dmo_model_0x14
 {
@@ -164,12 +160,10 @@ typedef struct dmo_m1e1_entry
 
 typedef struct dmo_m1e1_data
 {
-  dmo_m1e1_entry field_0[6];
-  int field_558_idx1;
-  int field_55C_idx2;
+  dmo_m1e1_entry field_0[2][3];
+  int field_558_idx[2];
   int field_560;
-  SVECTOR field_564;
-  SVECTOR field_56C;
+  SVECTOR field_564[2];
 } dmo_m1e1_data;
 
 typedef struct dmo_hind
@@ -185,7 +179,7 @@ typedef struct dmo_model_0x1A4
 {
   GM_Control field_0_ctrl;
   OBJECT field_7C_obj;
-  SVECTOR field_A0;
+  SVECTOR field_A0[1]; // TODO: Seems to be an array, perhaps up to a fixed size
   short field_A8;
   short field_AA;
   int field_AC;
@@ -350,12 +344,9 @@ typedef struct Actor_demothrd
     int                field_264;
     int                field_268;
     int                field_26C;
-    int                field_270_pOldRenderFn;
+    TChanl_Fn                field_270_pOldRenderFn;
     int                field_274_old_game_state_flags;
-    demothrd_2Vec      field_278_stru[7]; // might actually be 8 ?
-    int                field_2E8_end_mark;
-    int                field_2EC;
-    int                field_2F0;
+    GM_Camera      field_278;
     int                field_2F4_old_equipped_item;
     int                field_2F8_old_equipped_weapon;
 } Actor_demothrd;

@@ -4,8 +4,6 @@
 
 extern const char aWarningOldVers[];
 
-#define OFFSET_TO_PTR(ptr, offset) (*(int *)offset = (int)ptr + *(int *)offset)
-
 //------------------------------------------------------------------------------
 
 void HZD_StartDaemon_80021900(void)

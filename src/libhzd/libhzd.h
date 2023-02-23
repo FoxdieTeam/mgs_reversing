@@ -6,6 +6,8 @@
 #include <LIBGPU.H>
 #include "Game/GM_Control.h"
 
+#define OFFSET_TO_PTR(ptr, offset) (*(int *)offset = (int)ptr + *(int *)offset)
+
 typedef struct HZD_VEC
 {
     long  long_access[0];
