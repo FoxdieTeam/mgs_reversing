@@ -1,5 +1,6 @@
 #include "jpegcam.h"
 #include "psyq.h"
+#include "chara/snake/sna_init.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
@@ -77,6 +78,12 @@ extern SVECTOR         dword_8009F3AC;
 extern int     GM_Photocode_800ABA04;
 extern SVECTOR GM_PhotoViewPos_800ABA48;
 
+extern short dword_800ABBD4;
+short        SECTION(".sbss") dword_800ABBD4;
+
+extern short dword_800ABBDC;
+short        SECTION(".sbss") dword_800ABBDC;
+
 extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
 extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
 extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
@@ -113,7 +120,7 @@ void jpegcam_unk3_800638B4(int *arg0)
     GV_CopyMemory_800160D8(dword_800BDCC8, &arg0[1], dword_800BDCCC);
 }
 
-void jpegcam_act_helper2_helper_8006392C()
+void jpegcam_act_helper2_helper_8006392C(Actor_jpegcam *pActor)
 {
     // Copy matrix gJpegcamMatrix1_8009F36C transposed to gJpegcamMatrix2_800BDCD8
 
@@ -244,7 +251,7 @@ void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *p
     field_84 = (int *)pActor->field_84;
     field_84 += 256;
     field_84_ptr = field_84;
-    
+
     i = 0;
     for (; i < 8; i++)
     {
@@ -376,8 +383,236 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
     return retval;
 }
 
-void jpegcam_act_helper2_80064588(Actor_jpegcam *pActor);
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper2_80064588.s")                               // 1132 bytes
+void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
+{
+    SVECTOR vec;
+    unsigned short status;
+    unsigned short press;
+    int zoom;
+    int vx, vy;
+    int zoom_adj;
+    int zoom_lim;
+    int xmin, xmax;
+    int speed;
+
+    status = pActor->field_50_pInput->status;
+    press = pActor->field_50_pInput->press;
+
+    GM_CheckShukanReverse_8004FBF8(&status);
+    GM_CheckShukanReverse_8004FBF8(&press);
+
+    if (GV_PauseLevel_800AB928 != 0)
+    {
+        status = 0;
+        press = 0;
+    }
+
+    if (!(dword_800ABA20->objs->flag & DG_FLAG_INVISIBLE))
+    {
+        status = 0;
+        press = 0;
+    }
+
+    if ((GM_Camera_800B77E8.field_22 != 1) || (GM_Camera_800B77E8.field_18_flags & 0x100))
+    {
+        status = 0;
+        press = 0;
+    }
+
+    if (dword_8009F604 != HASH_CMD_camera)
+    {
+        status = 0;
+        press = 0;
+    }
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    {
+        status = 0;
+        press = 0;
+    }
+
+    zoom = GM_Camera_800B77E8.field_20;
+
+    if (gSnaControl_800AB9F4)
+    {
+        vx = pActor->field_5C_ang.vx;
+
+        if (vx < dword_800ABBDC)
+        {
+            vx = dword_800ABBDC;
+        }
+        else if (vx > dword_800ABBD4)
+        {
+            vx = dword_800ABBD4;
+        }
+
+        pActor->field_5C_ang.vx = vx;
+    }
+
+    if (status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP))
+    {
+        vx = pActor->field_5C_ang.vx;
+        vy = pActor->field_5C_ang.vy;
+
+        vec = pActor->field_54_vec;
+
+        if (gSnaControl_800AB9F4)
+        {
+            vec.vx = gSnaControl_800AB9F4->field_4C_turn_vec.vx;
+        }
+
+        if (zoom >= 1024)
+        {
+            speed = 1;
+
+            if (zoom < 2048)
+            {
+                speed = 4;
+            }
+        }
+        else
+        {
+            speed = 16;
+        }
+
+        xmin = vec.vx - 512;
+        xmax = vec.vx + 512;
+
+        if (gSnaControl_800AB9F4)
+        {
+            if (xmin < dword_800ABBDC)
+            {
+                xmin = dword_800ABBDC;
+            }
+
+            if (xmax > dword_800ABBD4)
+            {
+                xmax = dword_800ABBD4;
+            }
+        }
+
+        if (status & (PAD_DOWN | PAD_UP))
+        {
+            if (status & PAD_UP)
+            {
+                vx -= speed;
+            }
+            else
+            {
+                vx += speed;
+            }
+        }
+
+        if (vx < xmin)
+        {
+            vx = xmin;
+        }
+
+        if (vx > xmax)
+        {
+            vx = xmax;
+        }
+
+        if (status & (PAD_LEFT | PAD_RIGHT))
+        {
+            if (status & PAD_RIGHT)
+            {
+                vy -= speed;
+            }
+            else
+            {
+                vy += speed;
+            }
+
+            vy &= 0xFFF;
+        }
+
+        pActor->field_5C_ang.vx = vx;
+        pActor->field_5C_ang.vy = vy;
+    }
+
+    zoom_adj = 3200;
+
+    if (status & 0xF060)
+    {
+        zoom_lim = jpegcam_act_helper2_helper2_80064454(pActor);
+
+        if (zoom_lim < 3200)
+        {
+            zoom_adj = zoom_lim;
+        }
+
+        if (zoom_lim < 320)
+        {
+            zoom_adj = 320;
+        }
+
+        if (zoom > zoom_adj)
+        {
+            zoom = zoom_adj;
+        }
+    }
+
+    if ((status & (PAD_CROSS | PAD_CIRCLE)) && (((status & PAD_CIRCLE) && (zoom != zoom_adj)) || ((status & PAD_CROSS) && (zoom != 320))))
+    {
+        if ((status & PAD_CIRCLE) && (zoom != zoom_adj))
+        {
+            zoom += zoom / 32;
+
+            if (zoom >= zoom_adj)
+            {
+                zoom = zoom_adj;
+            }
+        }
+        else if ((status & PAD_CROSS) && (zoom != 320))
+        {
+            zoom -= zoom / 32;
+
+            if (zoom <= 320)
+            {
+                zoom = 320;
+            }
+        }
+
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            if ((pActor->field_68 & 0x3) == 0)
+            {
+                GM_Sound_80032968(0, 63, 36);
+            }
+
+            pActor->field_68++;
+        }
+    }
+
+    if (press & PAD_SQUARE)
+    {
+        if (!(GM_GameStatus_800AB3CC & 0x20))
+        {
+            pActor->field_70 = 1;
+            jpegcam_act_helper2_helper_8006392C(pActor);
+            pActor->field_64_state = 0;
+            pActor->field_68 = 0;
+            GM_GameStatus_800AB3CC |= 0x400;
+
+            if (!(GV_PauseLevel_800AB928 & 0x1))
+            {
+                GV_PauseLevel_800AB928 |= 0x4;
+            }
+
+            if (pActor->field_90_pSight)
+            {
+                GV_DestroyActor_800151C8(&pActor->field_90_pSight->field_0_actor);
+            }
+        }
+        else
+        {
+            GM_Sound_80032968(0, 63, 35);
+        }
+    }
+
+    GM_Camera_800B77E8.field_20 = zoom;
+}
 
 // or: jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
 // with pActor unused
@@ -544,7 +779,7 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
                 {
                     return;
                 }
-                jpegcam_act_helper2_80064588(pActor);
+                jpegcam_act_process_input_80064588(pActor);
                 if (dword_8009F604 != SGT_CAMERA)
                 {
                     NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
