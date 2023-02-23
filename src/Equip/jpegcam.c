@@ -68,7 +68,8 @@ extern GV_PAD GV_PadData_800B05C0[4];
 extern TMat8x8B gJpegcamMatrix1_8009F36C;
 extern TMat8x8B gJpegcamMatrix2_800BDCD8;
 
-
+extern signed char gJpegcamZigZagTable_8009F2EC[64];
+extern signed char gJpegcamQuantTable_8009F32C[64];
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern OBJECT         *dword_800ABA20;
@@ -280,7 +281,20 @@ void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *p
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper5_80063DDC.s") // 212 bytes
+void jpegcam_act_quantize_matrix_80063DDC(int *pIn, int *pOut, int qfactor)
+{
+    signed char *pZigzag;
+    int i;
+
+    *pOut++ = pIn[0] / gJpegcamQuantTable_8009F32C[0];
+    pZigzag = &gJpegcamZigZagTable_8009F2EC[1];
+
+    for (i = 1; i < 64; i++, pZigzag++)
+    {
+        *pOut++ = (pIn[*pZigzag] * 16) / (gJpegcamQuantTable_8009F32C[*pZigzag] * qfactor);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper6_80063EB0.s") // 420 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_80064054.s")         // 364 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
