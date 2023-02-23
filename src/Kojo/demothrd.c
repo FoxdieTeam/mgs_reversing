@@ -3,13 +3,50 @@
 #include "Anime/animeconv/anime.h"
 #include "libdg/libdg.h"
 
-void DG_8001CDB8(DG_OBJS *pObjs);
-
 extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F774;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int demodebug_finish_proc_800AB414;
+extern int dword_800BDFB8;
+extern int dword_800BDFBC;
+extern int dword_800BDFC0;
+extern int dword_800BDFC4;
+extern const char aM1e1[];
+extern const char aM1e1demo[];
+extern GM_Camera        GM_Camera_800B77E8;
+extern short           gGameState_800B4D98[0x60]; 
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern ANIMATION stru_8009F774;
+extern ANIMATION stru_8009F73C;
+extern ANIMATION stru_8009F790;
+extern const char aDemothrdC[];
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern ANIMATION stru_8009F774;
+
+extern const char aDemothrdC[];
+extern const char aCacheBufferCle[]; // = "Cache Buffer Cleared\n";
+extern const char aCacheReadEnabl[]; // = "Cache Read Enable\n";
+extern const char aDemothrdC[];
+extern const char aDemoFileS[];
+extern const char aSNotFound[];
+extern const char aM1e1[];
+extern const char aM1e1demo[];
+extern const char aHinddemo[];
+extern const char aHind[];
+
+void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
+TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
+void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
+void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
+void demothrd_file_stream_act_800797FC(Actor_demothrd* pActor);
+void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
+
+void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
+void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
+
+void GM_ActObject_80034AF4(OBJECT *obj);
+void DG_8001CDB8(DG_OBJS *pObjs);
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
@@ -28,7 +65,10 @@ int DM_ThreadStream_80079460(int flag, int unused)
     return 1;
 }
 
+// https://decomp.me/scratch/TwT1k
 #pragma INCLUDE_ASM("asm/Kojo/DM_ThreadFile_800794E4.s")                           // 384 bytes
+
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_cd_act_80079664.s")                              // 360 bytes
 
 void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor)
@@ -50,14 +90,6 @@ void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor)
         GCL_ExecProc_8001FF2C(demodebug_finish_proc_800AB414, NULL);
     }
 }
-
-extern int dword_800BDFB8;
-extern int dword_800BDFBC;
-extern int dword_800BDFC0;
-extern int dword_800BDFC4;
-
-extern const char aCacheBufferCle[]; // = "Cache Buffer Cleared\n";
-extern const char aCacheReadEnabl[]; // = "Cache Read Enable\n";
 
 void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
 {
@@ -88,14 +120,456 @@ void sub_80079A1C(void)
 
 int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
 #pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes
-#pragma INCLUDE_ASM("asm/Kojo/DestroyDemo_8007A66C.s")                             // 732 bytes
+
+int DestroyDemo_8007A66C(Actor_demothrd *pActor)
+{
+  Actor_demothrd_0x78_Chain *i;
+  GV_ACT *pPrevious;
+  GV_ACT *pNext;
+  dmo_model_0x1A4 *field_34_pModels;
+  dmo_model_0x1A4 *pModelIter;
+  dmo_model_0x14 *pModelIter_1;
+  int mdlNum;
+  demothrd_0x1C *pHeader;
+  void *pMaps;
+  dmo_model_0x14 *pMods;
+  TChanl_Fn field_270_pOldRenderFn;
+
+  if ((pActor->field_20_flag & 2) != 0)
+  {
+    GM_GameStatus_800AB3CC |= 0x1000000u;
+  }
+  for (i = pActor->field_38.field_4_pNext; i != (&pActor->field_38); i = pActor->field_38.field_4_pNext)
+  {
+    pPrevious = i->field_C_actor.pPrevious;
+    if (pPrevious)
+    {
+      GV_DestroyOtherActor_800151D8(pPrevious);
+    }
+    pNext = i->field_C_actor.pNext;
+    if (pNext)
+    {
+      GV_DestroyOtherActor_800151D8(pNext);
+    }
+    Chain_Remove_8007F394(&pActor->field_38, i);
+    GV_Free_80016230(i);
+  }
+
+  field_34_pModels = pActor->field_34_pModels;
+  if (field_34_pModels)
+  {
+    pModelIter = pActor->field_34_pModels;
+
+    pModelIter_1 = pActor->field_30_dmo_header->field_18_pModels;
+    mdlNum = 0;
+    if (pActor->field_30_dmo_header->field_10_num_models > mdlNum)
+    {
+      do
+      {
+        GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
+        if (pModelIter->field_1A0_pM1OrHind)
+        {
+          if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1demo)))
+          {
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][0].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][1].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][2].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][0].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][1].field_0);
+            GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[1][2].field_0);
+          }
+          GV_Free_80016230(pModelIter->field_1A0_pM1OrHind);
+        }
+        mdlNum++;
+        pModelIter_1++;
+        pModelIter++;
+      }
+      while (mdlNum < pActor->field_30_dmo_header->field_10_num_models);
+    }
+    GM_FreeControl_800260CC(&pModelIter->field_0_ctrl);
+    GV_Free_80016230(pActor->field_34_pModels);
+  }
+  GM_FreeObject_80034BF8(&pActor->field_140_obj);
+  GM_FreeControl_800260CC(&pActor->field_C4_ctrl);
+  pHeader = pActor->field_30_dmo_header;
+  if (pHeader)
+  {
+    pMaps = (void *) pHeader->field_14_pMaps;
+    if (pMaps)
+    {
+      GV_Free_80016230(pMaps);
+    }
+    pMods = pActor->field_30_dmo_header->field_18_pModels;
+    if (pMods)
+    {
+      GV_Free_80016230(pMods);
+    }
+    GV_Free_80016230(pActor->field_30_dmo_header);
+  }
+  field_270_pOldRenderFn = pActor->field_270_pOldRenderFn;
+  GM_GameStatus_800AB3CC &= ~0x80000000;
+  DG_SetChanlSystemUnits_80018598(0, field_270_pOldRenderFn);
+  GM_GameStatus_800AB3CC = pActor->field_274_old_game_state_flags;
+  GM_Camera_800B77E8 = pActor->field_278;
+  gGameState_800B4D98[15] = pActor->field_2F4_old_equipped_item;
+  gGameState_800B4D98[14] = pActor->field_2F8_old_equipped_weapon;
+  return 1;
+}
+
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s")                 // 1224 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_make_chara_8007AE10.s")         // 8016 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_remove_via_id_8007CD60.s")  // 152 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper3_8007CDF8.s")         // 284 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper4_8007CF14.s")         // 212 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_helper5_8007CFE8.s")         // 1052 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_m1e1_8007D404.s")  // 1476 bytes
+
+void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
+{
+    Actor_demothrd_0x78_Chain *pSubIter; // $s0
+    Actor_demothrd_0x78_Chain *pCur; // $a0
+    Actor_demothrd_0x78_Chain *pCur_; // $s1
+    GV_ACT *pPrevious; // $a0
+    GV_ACT *pNext; // $a0
+
+    pSubIter = pThis->field_38.field_4_pNext;
+    pCur = &pThis->field_38;
+    if ( pSubIter != pCur )
+    {
+        pCur_ = pCur;
+        do
+        {
+            if ( pSubIter->field_C_actor.mFnShutdown == (TActorFunction)id_to_remove )
+            {
+                pPrevious = pSubIter->field_C_actor.pPrevious;
+                if ( pPrevious )
+                {
+                    GV_DestroyOtherActor_800151D8(pPrevious);
+                    pNext = pSubIter->field_C_actor.pNext;
+                    if ( pNext )
+                    {
+                        GV_DestroyOtherActor_800151D8(pNext);
+                    }
+                    pSubIter->field_C_actor.pPrevious = 0;
+                    pSubIter->field_C_actor.pNext = 0;
+                }
+            }
+            pSubIter = pSubIter->field_4_pNext;
+        }
+        while ( pSubIter != pCur_ );
+    }
+}
+
+int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_demothrd_0x78_Chain *pChain)
+{
+  dmo_data_0x18 *field_24_pDmoEnd;
+  int idx;
+  SVECTOR vec2;
+  SVECTOR vecPos;
+  if (pChain->field_C_actor.mFnShutdown == ((TActorFunction) 14))
+  {
+    field_24_pDmoEnd = pDmoData->field_24_pDmoEnd;
+    {
+      for (idx = 0; idx < pDmoData->field_20_count; idx++)
+      {
+        if (field_24_pDmoEnd->field_0_type == pChain->field_C_actor.field_1C)
+        {
+          break;
+        }
+        ++field_24_pDmoEnd;
+      }
+
+      if (idx < pDmoData->field_20_count)
+      {
+        vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
+        vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
+        vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
+        idx = sub_800296C4(pActor->field_C4_ctrl.field_2C_map->field_8_hzd, &vecPos, 1);
+        sub_800298DC((int *) (&vec2));
+        pChain->field_48 = field_24_pDmoEnd->field_8_rot_y;
+        if ((idx & 1) != 0)
+        {
+          pChain->field_4C = vec2.vx + 50;
+        }
+        else  if ((idx & 2) != 0)
+        {
+          pChain->field_4C = vec2.vz + 50;
+        }
+        else
+        {
+          pChain->field_4C = field_24_pDmoEnd->field_E_pos_y + 50;
+        }
+
+      }
+    }
+  }
+  return 1;
+}
+
+int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x28 *pDmo)
+{
+  dmo_data_0x34 *pIter;
+  int i;
+  Actor_demothrd_0x78_Chain *pNext;
+  Actor_demothrd_0x78_Chain *new_var;
+  Actor_demothrd_0x78_Chain *new_var2;
+  Actor_demothrd_0x78_Chain *pRoot;
+  pIter = pDmo->field_1C_dmo_data_offset;
+  for (i = 0; i < pDmo->field_18_count; ++pIter)
+  {
+    ++i;
+    if (pIter->field_4_type == 28)
+    {
+      return 1;
+    }
+  }
+
+  pNext = pActor->field_38.field_4_pNext;
+  new_var = &pActor->field_38;
+  if (pNext != new_var)
+  {
+    if (pNext->field_C_actor.mFnShutdown != ((TActorFunction) 28))
+    {
+      new_var2 = new_var;
+      pRoot = &pActor->field_38;
+      while (1)
+      {
+        pNext = pNext->field_4_pNext;
+        if (pNext == new_var2)
+        {
+          break;
+        }
+        if (pNext->field_C_actor.mFnShutdown == ((TActorFunction) 28))
+        {
+          pRoot = &pActor->field_38;
+          break;
+        }
+      }
+
+    }
+  }
+  if (pNext != (&pActor->field_38))
+  {
+    GV_DestroyOtherActor_800151D8(pNext->field_C_actor.pPrevious);
+    pRoot = &pActor->field_38;
+    pNext->field_C_actor.pPrevious = 0;
+    Chain_Remove_8007F394(pRoot, pNext);
+    GV_Free_80016230(pNext);
+  }
+  return 1;
+}
+
+int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
+{
+  dmo_model_0x1A4 *pModelIter_0x1A4;
+  dmo_model_0x14 *pModelIter_0x14;
+  int counter;
+  dmo_6 *pEndIter;
+
+  OFFSET_TO_PTR(pDmoData0x18, &pDmoData0x18->field_14_pEndData);
+    
+
+  pModelIter_0x1A4 = pActor->field_34_pModels;
+  pModelIter_0x14 = pActor->field_30_dmo_header->field_18_pModels;
+
+  for (counter = 0; counter < pActor->field_30_dmo_header->field_10_num_models;)
+  {
+    if (pModelIter_0x14->field_0_type == pDmoData0x18->field_0_type)
+    {
+      break;
+    }
+     counter++;
+    ++pModelIter_0x14;
+    ++pModelIter_0x1A4;
+
+  }
+    
+  if (counter >= pActor->field_30_dmo_header->field_10_num_models)
+  {
+    return 0;
+  }
+      
+  if (!pDmoData0x18->field_4)
+  {
+    DG_InvisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo))))
+    {
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][0].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][1].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][2].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][0].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][1].field_0.objs);
+      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][2].field_0.objs);
+    }     
+  }
+  else
+  {
+    DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
+    {
+      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[0]].field_0.objs);
+      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].field_0.objs);
+    }
+      
+    pModelIter_0x1A4->field_0_ctrl.field_0_position.vx = pDmoData0x18->field_C_pos_x;
+    pModelIter_0x1A4->field_0_ctrl.field_0_position.vy = pDmoData0x18->field_E_pos_y;
+    pModelIter_0x1A4->field_0_ctrl.field_0_position.vz = pDmoData0x18->field_10_pos_z;
+    pModelIter_0x1A4->field_0_ctrl.field_8_rotator.vx = pDmoData0x18->field_6_rot_x;
+    pModelIter_0x1A4->field_0_ctrl.field_8_rotator.vy = pDmoData0x18->field_8_rot_y;
+    pModelIter_0x1A4->field_0_ctrl.field_8_rotator.vz = pDmoData0x18->field_A_rot_z;
+    if ((pModelIter_0x14->field_4_flags & 1) != 0)
+    {
+      GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
+      GM_ActObject2_80034B88(&pModelIter_0x1A4->field_7C_obj);
+     // return 1;
+    }
+    else
+    {
+        pEndIter = pDmoData0x18->field_14_pEndData;
+        counter = 0;
+        if (pDmoData0x18->field_12_total > 0)
+        {
+          do
+          {
+            pModelIter_0x1A4->field_A0[counter].vx = pEndIter->field_0;
+            pModelIter_0x1A4->field_A0[counter].vy = pEndIter->field_2; // field_0
+            pModelIter_0x1A4->field_A0[counter].vz = pEndIter->field_4;
+            counter++;
+            pEndIter++; 
+          }
+          while (counter < pDmoData0x18->field_12_total);
+        }
+          
+        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
+        {
+          demothrd_m1e1_8007D404(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+        }
+        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aHind)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aHinddemo)))
+        {
+           demothrd_hind_8007D9C8(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+        }
+    
+        GM_ActMotion_80034A7C(&pModelIter_0x1A4->field_7C_obj);
+        GM_ActControl_80025A7C(&pModelIter_0x1A4->field_0_ctrl);
+        GM_ActObject_80034AF4(&pModelIter_0x1A4->field_7C_obj);
+        DG_GetLightMatrix_8001A3C4(&pModelIter_0x1A4->field_0_ctrl.field_0_position, &pModelIter_0x1A4->field_160_mtx);
+    }
+  }
+  return 1;
+}
+
+
+static inline int magic_calc(SVECTOR* vecTmp, dmo_model_0x1A4 *p0x1A4)
+{
+    int distance1 = SquareRoot0_80092708(((vecTmp->vx * vecTmp->vx) + (vecTmp->vy * vecTmp->vy)) + (vecTmp->vz * vecTmp->vz));    
+
+    int rTan1 = ratan2_80094308(vecTmp->vx, vecTmp->vz);
+    int tmp4 = rTan1;
+    tmp4 -= p0x1A4->field_0_ctrl.field_8_rotator.vy + p0x1A4->field_A0[0].vy;
+    tmp4 = abs(tmp4);
+    return (distance1 * (1024 - tmp4)) / 1024;
+}
+
+void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
+{
+  dmo_m1e1_data *pData;
+  int tmp1;
+  int i;
+  SVECTOR vec;
+  SVECTOR vecTmp;
+  SVECTOR smokeVecs[10];
+
+  pData = p0x1A4->field_1A0_pM1OrHind;
+  for (i = 0; i < 3; i++)
+  {
+    GM_ActMotion_80034A7C(&pData->field_0[0][i].field_0);
+    GM_ActMotion_80034A7C(&pData->field_0[1][i].field_0);
+  }
+
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_position, &p0x1A4->field_0_ctrl.field_8_rotator);
+  DG_RotatePos_8001BD64(&p0x1A4->field_A0[0]);
+
+  M1E1GetCaterpillerVertex_800815FC(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
+  for (i = 0; i < 10; i++)
+  {
+    smokeVecs[i].vy = smokeVecs[i].vy + 300;
+  }
+
+  DG_PutVector_8001BE48(smokeVecs, smokeVecs, 10);
+
+  memset(&vec, 0, sizeof(SVECTOR));
+  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.field_0_x - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x) / 2);
+  DG_PutVector_8001BE48(&vec, &vec, 1);
+    
+  vecTmp.vx = vec.vx - pData->field_564[0].vx;
+  vecTmp.vy = vec.vy - pData->field_564[0].vy;
+  vecTmp.vz = vec.vz - pData->field_564[0].vz;
+
+  tmp1 = magic_calc(&vecTmp, p0x1A4);
+
+  if (abs(tmp1) >= pData->field_560)
+  {
+    AN_CaterpillerSmoke_8007DA28(&smokeVecs[rand_8008E6B8() % 5]);
+    DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].field_0.objs);
+    if (tmp1 > 0)
+    {
+      pData->field_558_idx[0]++;
+    }
+    else
+    {
+      pData->field_558_idx[0]--;
+    }
+    if (pData->field_558_idx[0] < 0)
+    {
+      pData->field_558_idx[0] = 2;
+    }
+    if (pData->field_558_idx[0] >= 3)
+    {
+      pData->field_558_idx[0] = 0;
+    }
+    DG_VisibleObjs(pData->field_0[0][pData->field_558_idx[0]].field_0.objs);
+    pData->field_564[0] = vec;
+  }
+
+    
+  memset(&vec, 0, sizeof(SVECTOR));
+  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.field_0_x - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x) / 2);
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_position, &p0x1A4->field_0_ctrl.field_8_rotator);
+
+  DG_PutVector_8001BE48(&vec, &vec, 1);
+  vecTmp.vx = vec.vx - pData->field_564[1].vx;
+  vecTmp.vy = vec.vy - pData->field_564[1].vy;
+  vecTmp.vz = vec.vz - pData->field_564[1].vz;
+
+  tmp1 = magic_calc(&vecTmp, p0x1A4);
+
+  if (abs(tmp1) >= pData->field_560)
+  {
+    AN_CaterpillerSmoke_8007DA28(&smokeVecs[(rand_8008E6B8() % 5) + 5]);
+    DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].field_0.objs);
+    if (tmp1 > 0)
+    {
+      pData->field_558_idx[1]++;
+    }
+    else
+    {
+      pData->field_558_idx[1]--;
+    }
+    if (pData->field_558_idx[1] < 0)
+    {
+      pData->field_558_idx[1] = 2;
+    }
+    if (pData->field_558_idx[1] >= 3)
+    {
+      pData->field_558_idx[1] = 0;
+    }
+    DG_VisibleObjs(pData->field_0[1][pData->field_558_idx[1]].field_0.objs);
+    pData->field_564[1] = vec;
+  }
+  DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_position, &p0x1A4->field_0_ctrl.field_8_rotator);
+  DG_RotatePos_8001BD64(p0x1A4->field_A0);
+  for (i = 0; i < 3; i++)
+  {
+    GM_ActObject_80034AF4(&pData->field_0[0][i].field_0);
+    GM_ActObject_80034AF4(&pData->field_0[1][i].field_0);
+  }
+}
 
 void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
 {
@@ -117,7 +591,6 @@ void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18,
     p0x1A4->field_B0 = pTmp->field_C;
 }
 
-extern ANIMATION stru_8009F73C;
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 {
@@ -135,8 +608,6 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
 #pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
-
-extern ANIMATION stru_8009F790;
 
 void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
 {
@@ -175,10 +646,6 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-extern const char aDemothrdC[];
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern ANIMATION stru_8009F774;
-
 void sub_8007E0AC(int y, SVECTOR *pPosition)
 {
     ANIMATION *anm;
@@ -212,10 +679,6 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
-
-extern const char aDemothrdC[];
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern ANIMATION stru_8009F774;
 
 #pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
 #pragma INCLUDE_ASM("asm/sub_8007EF34.s")                                          // 312 bytes
