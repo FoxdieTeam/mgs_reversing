@@ -14,8 +14,8 @@ typedef struct Actor_jpegcam
 {
     GV_ACT             field_0_actor;
     GM_Control        *field_20_pCtrl;
-    OBJECT            *field_24_pObj;
-    OBJECT_NO_ROTS     field_28_obj;
+    OBJECT            *field_24_parent;
+    OBJECT_NO_ROTS     field_28_goggles;
     short              field_4c_head_saved_packs;
     short              field_4e_head_saved_raise;
     GV_PAD*            field_50_pInput;
