@@ -26,7 +26,36 @@ int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
     return *((unsigned char *)(((((a2 * ((iVar2 - a2) - 3)) / 2) + a3) + (int)a1) - 1));
 }
 
-#pragma INCLUDE_ASM("asm/sub_8005BFDC.s") // 128 bytes
+int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec)
+{
+    int a, b, c;
+
+    c = pVec->vy - pZon->y;
+    if ( (-2000 > c) || (c > 2000) )
+    {
+        return 0;
+    }
+
+    a = pZon->x;
+    b = pZon->w;
+    c = pVec->vx;
+
+    if ( (pVec->vx < (a - b)) || ((a + b) < c) )
+    {
+        return 0;
+    }
+
+    a = pZon->z;
+    b = pZon->h;
+    c = pVec->vz;
+
+    if ( (c < (a - b)) || ((a + b) < c) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
 
 #pragma INCLUDE_ASM("asm/sub_8005C05C.s") // 228 bytes
 
