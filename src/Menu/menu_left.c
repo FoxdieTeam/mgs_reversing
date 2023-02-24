@@ -395,7 +395,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
 
     sub_8003D520();
     sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEMS_LEFT_COUNT);
-    sub_8003D2BC(pActor->field_1DC_menu_left.field_C_alloc, pActor->field_1DC_menu_left.field_0_current.field_0_id);
+    menu_panel_8003D2BC(pActor->field_1DC_menu_left.field_C_alloc, pActor->field_1DC_menu_left.field_0_current.field_0_id);
     GM_Sound_80032968(0, 63, 21);
     return 1;
 }
