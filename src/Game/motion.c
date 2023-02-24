@@ -4,7 +4,12 @@
 #include "libgv/libgv.h"
 #include "unknown.h"
 
-#pragma INCLUDE_ASM("asm/sub_80034EAC.s") // 92 bytes
+void sub_80034EAC(SVECTOR *pVec)
+{
+    pVec->vx = FP_Extend(pVec->vx);
+    pVec->vy = FP_Extend(pVec->vy);
+    pVec->vz = FP_Extend(pVec->vz);
+}
 
 int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5,
                                     GM_Control *pCtrl, SVECTOR *rots)

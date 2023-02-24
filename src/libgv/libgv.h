@@ -245,6 +245,18 @@ int          sub_800264B0(int param_1,int param_2,int param_3);
 void         GV_SetPacketTempMemory_80014C28(void);
 void         GV_ResetPacketMemory_80014BD8(void);
 
+static inline short FP_Extend(short value)
+{
+    value &= 0xfff;
+
+    if (value > 2048)
+    {
+        value -= 4096;
+    }
+
+    return value;
+}
+
 static inline int FP_Subtract(int fp, int toSub)
 {
     short var_a0 = fp - toSub;
@@ -252,7 +264,7 @@ static inline int FP_Subtract(int fp, int toSub)
     if (var_a0 > 2048)
     {
         var_a0 -= 4096;
-    }   
+    }
     return var_a0;
 }
 
