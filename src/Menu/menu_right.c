@@ -171,7 +171,34 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003D2BC.s") // 144 bytes
+extern const char aPanelMakeError[];
+
+int menu_panel_8003D2BC(Menu_Item_Unknown *pMenu, int itemId)
+{
+    int i; // $v1
+
+    i = pMenu->field_0_main.field_0_array_count - 1;
+    pMenu->field_0_main.field_4_selected_idx = -1;
+  
+    while(i >= 0)
+    {
+        if ( pMenu->field_20_array[i].field_0_id == itemId )
+        {
+            pMenu->field_0_main.field_4_selected_idx = i;
+        }
+        i--;
+    }
+    
+    if ( pMenu->field_0_main.field_4_selected_idx < 0 )
+    {
+        mts_printf_8008BBA0(aPanelMakeError);
+        pMenu->field_0_main.field_4_selected_idx = 0;
+    }
+    
+    pMenu->field_0_main.field_18 = -1;
+    sub_8003D1DC(pMenu);
+    return 1;
+}
 
 void sub_8003D34C(Menu_Item_Unknown *pItem, int a2)
 {
