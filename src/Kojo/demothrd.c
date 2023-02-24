@@ -681,7 +681,37 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
-#pragma INCLUDE_ASM("asm/sub_8007EF34.s")                                          // 312 bytes
+
+void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
+{
+  int tmp;
+  int distance;
+  MATRIX rotMtx;
+  SVECTOR vec1;
+  SVECTOR vec2;
+  ReadRotMatrix_80092DD8(&rotMtx);
+  pOutVec1->vx = pInMtx->t[0];
+  pOutVec1->vy = pInMtx->t[1];
+  pOutVec1->vz = pInMtx->t[2];
+  DG_SetPos_8001BC44(pInMtx);
+  vec1.vx = 0;
+  vec1.vy = 0;
+  vec1.vz = 0;
+  vec2.vx = 0;
+  vec2.vy = 0;
+  vec2.vz = 100;
+  DG_PutVector_8001BE48(&vec1, &vec1, 1);
+  DG_PutVector_8001BE48(&vec2, &vec2, 1);
+  tmp = (short) (vec2.vx - vec1.vx) * (short) (vec2.vx - vec1.vx);
+  vec2.vx -= vec1.vx;
+  vec2.vy -= vec1.vy;
+  vec2.vz -= vec1.vz;
+  distance = SquareRoot0_80092708(tmp + (vec2.vz * vec2.vz));
+  pOutVec2->vx = -((short) ratan2_80094308(vec2.vy, distance));
+  pOutVec2->vy = ratan2_80094308(vec2.vx, vec2.vz);
+  pOutVec2->vz = 0;
+  DG_SetPos_8001BC44(&rotMtx);
+}
 
 void sub_8007F06C(int *param_1, int *param_2, int *param_3)
 {
