@@ -385,7 +385,7 @@ void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
 void           menu_font_kill_8003FC0C(void);
 int            sub_8003CFE0(PANEL_TEXTURE *images, int index);
 void           AssignXY_8003D1A8(PANEL *pArray, int idx, short amount);
-void           sub_8003D2BC(Menu_Item_Unknown *, short);
+int           menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 

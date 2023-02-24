@@ -217,5 +217,73 @@ int sub_8005D168(HZD_MAP *pHzd, int a2, int *a3)
     return sub_8005C498(pHzd, a2, a3);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8005D188.s") // 256 bytes
-#pragma INCLUDE_ASM("asm/sub_8005D288.s") // 208 bytes
+int sub_8005D188(HZD_MAP *pHzd, int mesh_idx, int a3, int *pBiggest)
+{
+    int biggest_match; // $s3
+    int ret_near; // $s4
+    int i; // $s2
+    int mesh_count; // $s7
+    unsigned char *pNears; // $s1
+    int cur_near; // $s0
+    int tmp; // $v1
+
+    if ( mesh_idx == a3 )
+    {
+        return a3;
+    }
+    biggest_match = 0;
+    ret_near = mesh_idx;
+    mesh_count = pHzd->f00_header->n_navmeshes;
+    pNears = pHzd->f00_header->navmeshes[mesh_idx].nears;
+    for (i =6; i > 0; i--)
+    {
+        cur_near = *pNears++;
+        if ( cur_near == 255 )
+        {
+            break;
+        }
+        tmp = (unsigned char)sub_8005BF84(pHzd->f14_navmeshes, cur_near, a3, mesh_count);
+        if ( biggest_match < tmp )
+        {
+            biggest_match = tmp;
+            ret_near = cur_near;
+        }
+    }
+    *pBiggest = biggest_match - 1;
+    return ret_near;
+}
+
+int sub_8005D288(HZD_MAP *pHzd, int mesh_idx, int a3)
+{
+    int smallest_val; // $s2
+    int i; // $s1
+    int n_navmeshes; // $s5
+    u_char *nears; // $s0
+    int cur_near; // $a1
+    char tmp; // $v1
+
+    if ( mesh_idx == a3 )
+    {
+        return a3;
+    }
+
+    smallest_val = 255;
+    n_navmeshes = pHzd->f00_header->n_navmeshes;
+    nears = pHzd->f00_header->navmeshes[mesh_idx].nears;
+    
+    for (i = 6; i > 0; i--)
+    {
+        cur_near = *nears++;
+        if ( cur_near == 255 )
+        {
+            break;
+        }
+        tmp = sub_8005BF84(pHzd->f14_navmeshes, cur_near, a3, n_navmeshes);
+        if ( tmp < smallest_val )
+        {
+            smallest_val = tmp;
+        }
+    }
+    
+    return smallest_val;
+}
