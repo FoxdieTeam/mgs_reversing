@@ -101,8 +101,11 @@ void menuman_init_80038954(void);
 
 struct Actor_MenuMan;
 struct menu_left_right;
+struct PANEL;
+struct PANEL_CONF;
 
-typedef void (*PANEL_CONF_update)(struct Actor_MenuMan *, int, int, int, struct menu_left_right *);
+typedef void (*PANEL_CONF_update)(struct Actor_MenuMan *, int, int, int, struct PANEL *);
+typedef void (*PANEL_CONF_fn2)(struct PANEL_CONF *, int, int*, int*);
 
 typedef struct PANEL_CONF
 {
@@ -116,8 +119,8 @@ typedef struct PANEL_CONF
     int                  field_4_input;
     int                  field_8;
     int                  field_C;
-    void                *field_10;
-    void                *field_14;
+    PANEL_CONF_fn2       field_10_pFn2;
+    PANEL_CONF_fn2       field_14_pFn2;
     PANEL_CONF_update field_18_pFnUpdate;
 } PANEL_CONF;
 
@@ -388,6 +391,10 @@ void           AssignXY_8003D1A8(PANEL *pArray, int idx, short amount);
 int           menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
+
+void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
+void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
+void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 
