@@ -705,9 +705,10 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 
 void jpegcam_act_80064C50(Actor_jpegcam* pActor)
 {
-    OBJECT* pParent;
-    OBJECT* new_var;
-    if ((GM_PlayerStatus_800ABA50 & 0x8000000) != 0)
+    OBJECT *pParent;
+    OBJECT *pGoggleObject;
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2)
     {
         pActor->field_50_pInput = &GV_PadData_800B05C0[3];
     }
@@ -723,15 +724,15 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
 
     if (!pActor->field_94_bMakeVisible)
     {
-        pParent = pActor->field_24_pObj;
+        pParent = pActor->field_24_parent;
         if (pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
-            new_var = (OBJECT*) (&pActor->field_28_obj);
-            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS*) new_var, GV_StrCode_80016CCC(aGoggles), 109, 0);
-            if (pActor->field_28_obj.objs)
+            pGoggleObject = (OBJECT *)(&pActor->field_28_goggles);
+            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *) pGoggleObject, GV_StrCode_80016CCC(aGoggles), 109, 0);
+            if (pActor->field_28_goggles.objs)
             {
-                GM_ConfigObjectRoot_80034C5C(new_var, pParent, 6);
-                GM_ConfigObjectLight_80034C44(new_var, pParent->light);
+                GM_ConfigObjectRoot_80034C5C(pGoggleObject, pParent, 6);
+                GM_ConfigObjectLight_80034C44(pGoggleObject, pParent->light);
                 EQ_InvisibleHead_80060D5C(pParent, &pActor->field_4c_head_saved_packs, &pActor->field_4e_head_saved_raise);
                 pActor->field_94_bMakeVisible = 1;
             }
@@ -742,19 +743,19 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
     {
         GM_SetCurrentMap(pActor->field_20_pCtrl->field_2C_map->field_0_map_index_bit);
 
-        DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(pActor->field_28_goggles.objs, DG_CurrentGroupID_800AB968);
 
-        if (GM_PlayerStatus_800ABA50 & 0x4000000)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000)
         {
-            if ( !(pActor->field_24_pObj->objs->flag & DG_FLAG_INVISIBLE) )
+            if ( !(pActor->field_24_parent->objs->flag & DG_FLAG_INVISIBLE) )
             {
-                DG_VisibleObjs(pActor->field_28_obj.objs);
+                DG_VisibleObjs(pActor->field_28_goggles.objs);
             }
             GM_Camera_800B77E8.field_20 = 320;
             return;
         }
 
-        DG_InvisibleObjs(pActor->field_28_obj.objs);
+        DG_InvisibleObjs(pActor->field_28_goggles.objs);
     }
 
     if (GM_LoadRequest_800AB3D0)
@@ -763,52 +764,57 @@ void jpegcam_act_80064C50(Actor_jpegcam* pActor)
         {
             GV_PauseLevel_800AB928 &= ~4u;
         }
+
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return;
     }
-    else
+
+    if (GM_GameOverTimer_800AB3D4)
     {
-        if (GM_GameOverTimer_800AB3D4)
+        return;
+    }
+
+    switch (pActor->field_70)
+    {
+    case 0:
+        if (GV_PauseLevel_800AB928)
         {
             return;
         }
 
-        switch (pActor->field_70)
-        {
-            case 0:
-                if (GV_PauseLevel_800AB928)
-                {
-                    return;
-                }
-                jpegcam_act_process_input_80064588(pActor);
-                if (dword_8009F604 != SGT_CAMERA)
-                {
-                    NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-                    pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-                    GM_Sound_80032968(0, 63, 0x15u);
-                }
-                if ( !(GM_PlayerStatus_800ABA50 & 0x4000000) )
-                {
-                    menu_Text_XY_Flags_80038B34(200, 25, 0);
-                    menu_Color_80038B4C(192, 144, 128);
-                    menu_Text_80038C38(aZoom4d, GM_Camera_800B77E8.field_20);
-                    menu_Text_80038C38(aAngle4d4d, -pActor->field_5C_ang.vx, pActor->field_5C_ang.vy);
-                }
-                break;
+        jpegcam_act_process_input_80064588(pActor);
 
-            case 1:
-                if ((pActor->field_64_state < 5) && (GV_PauseLevel_800AB928 & 1))
-                {
-                    pActor->field_64_state = 0;
-                    return;
-                }
-                jpegcam_act_helper3_80064A94(pActor);
-                break;
+        if (dword_8009F604 != SGT_CAMERA)
+        {
+            NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+            pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+            GM_Sound_80032968(0, 63, 0x15u);
         }
 
-        pActor->field_64_state++;
-        gSnaControl_800AB9F4->field_8_rotator = pActor->field_5C_ang;
-        gSnaControl_800AB9F4->field_4C_turn_vec = pActor->field_5C_ang;
+        if ( !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) )
+        {
+            menu_Text_XY_Flags_80038B34(200, 25, 0);
+            menu_Color_80038B4C(192, 144, 128);
+            menu_Text_80038C38(aZoom4d, GM_Camera_800B77E8.field_20);
+            menu_Text_80038C38(aAngle4d4d, -pActor->field_5C_ang.vx, pActor->field_5C_ang.vy);
+        }
+        break;
+
+    case 1:
+        if ((pActor->field_64_state < 5) && (GV_PauseLevel_800AB928 & 1))
+        {
+            pActor->field_64_state = 0;
+            return;
+        }
+
+        jpegcam_act_helper3_80064A94(pActor);
+        break;
     }
+
+    pActor->field_64_state++;
+
+    gSnaControl_800AB9F4->field_8_rotator = pActor->field_5C_ang;
+    gSnaControl_800AB9F4->field_4C_turn_vec = pActor->field_5C_ang;
 }
 
 void jpegcam_kill_80065008(Actor_jpegcam *pActor)
@@ -821,15 +827,15 @@ void jpegcam_kill_80065008(Actor_jpegcam *pActor)
 
     if (pActor->field_94_bMakeVisible != 0)
     {
-        EQ_VisibleHead_80060DF0(pActor->field_24_pObj, &pActor->field_4c_head_saved_packs,
+        EQ_VisibleHead_80060DF0(pActor->field_24_parent, &pActor->field_4c_head_saved_packs,
                                 &pActor->field_4e_head_saved_raise);
-        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_obj);
+        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_goggles);
     }
 }
 
 int jpegcam_loader_80065098(Actor_jpegcam *pActor, GM_Control *pCtrl, OBJECT *pParent)
 {
-  pActor->field_24_pObj = pParent;
+  pActor->field_24_parent = pParent;
   pActor->field_50_pInput = &GV_PadData_800B05C0[2];
   pActor->field_54_vec = pCtrl->field_8_rotator;
   pActor->field_5C_ang = pActor->field_54_vec;
