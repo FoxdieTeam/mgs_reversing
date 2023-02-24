@@ -146,73 +146,59 @@ void jpegcam_act_helper3_helper_helper_helper3_80063988(unsigned short *param_1,
     }
 }
 
-void jpegcam_act_helper3_helper_helper_helper2_helper_800639E8(char *param_1, char *param_2, char *param_3,
-                                                               char *param_4)
+void jpegcam_act_macroblock_rgb_to_yuv_800639E8(char *pStream, char *pY, char *pU, char *pV)
 {
-    int   val1;
-    int   val2;
-    int   val3;
-    char *param_1_copy;
-    int   iters;
+    int i;
+    int r, g, b;
 
-    iters = 0;
-    param_1_copy = param_1;
-    do
+    for (i = 0; i < 256; i++, pStream += 4)
     {
-        val1 = (int)param_1_copy[1];
-        val3 = (int)param_1_copy[2];
-        val2 = (int)*param_1;
-        *param_2 = (char)((val2 * 299 + val1 * 0x24b + val3 * 0x72) / 1000 + 0x80);
+        r = pStream[0];
+        g = pStream[1];
+        b = pStream[2];
 
-        *param_3 = (char)((val2 * -0x697 + val1 * -0xcf1 + val3 * 5000) / 10000);
-
-        *param_4 = (char)((val2 * 5000 - val1 * 0x105b - val3 * 0x32d) / 10000);
-        iters = iters + 1;
-        param_1_copy = param_1_copy + 4;
-        param_1 = param_1 + 4;
-        param_2 = param_2 + 1;
-        param_3 = param_3 + 1;
-        param_4 = param_4 + 1;
-    } while (iters < 0x100);
+        *pY++ = (r *   299 + g *   587 + b *  114) / 1000 + 128;
+        *pU++ = (r * -1687 + g * -3313 + b * 5000) / 10000;
+        *pV++ = (r *  5000 - g *  4187 - b *  813) / 10000;
+    }
 }
 
-void jpegcam_act_helper3_helper_helper_helper2_helper2_80063B94(TMat16x16B *pSourceMat, TMat8x8B *pDestMat1,
-                                                                TMat8x8B *pDestMat2, TMat8x8B *pDestMat3,
-                                                                TMat8x8B *pDestMat4)
-{
-    // Given a "16 by 16B" matrix, copy its four quadrants
-    // into four "4 by 4B" matricies
 
+void jpegcam_act_split_luma_blocks_80063B94(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2, TMat8x8B *pY3, TMat8x8B *pY4)
+{
+    // Given a "16 by 16B" luma matrix, copy its four quadrants into four "8 by 8B" matrices
     int i, j;
 
     for (i = 0; i < 8; i++)
     {
         for (j = 0; j < 8; j++)
         {
-            (*pDestMat1)[i][j] = (*pSourceMat)[i][j];
-            (*pDestMat2)[i][j] = (*pSourceMat)[i][j + 8];
-            (*pDestMat3)[i][j] = (*pSourceMat)[i + 8][j];
-            (*pDestMat4)[i][j] = (*pSourceMat)[i + 8][j + 8];
+            (*pY1)[i][j] = (*pSrcY)[i + 0][j + 0];
+            (*pY2)[i][j] = (*pSrcY)[i + 0][j + 8];
+            (*pY3)[i][j] = (*pSrcY)[i + 8][j + 0];
+            (*pY4)[i][j] = (*pSrcY)[i + 8][j + 8];
         }
     }
 }
 
-void jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10(char *pInA, char *pInB, char *pOutA, char *pOutB)
+void jpegcam_act_downsample_chroma420_80063C10(char *pInU, char *pInV, char *pOutU, char *pOutV)
 {
     int i, j;
+
     signed char *var_t0;
     signed char *var_t1;
     signed char *var_t2;
     signed char *var_t3;
+
     int resA;
     int resB;
 
     for (i = 0; i < 8; i++)
     {
-        var_t1 = pInA + i * 16;
+        var_t1 = pInU + i * 16;
         var_t3 = var_t1 + 16;
 
-        var_t0 = pInB + i * 16;
+        var_t0 = pInV + i * 16;
         var_t2 = var_t0 + 16;
 
         for (j = 0; j < 8; j++)
@@ -220,21 +206,21 @@ void jpegcam_act_helper3_helper_helper_helper2_helper3_80063C10(char *pInA, char
             resA = var_t1[0] + var_t1[1] + var_t3[0] + var_t3[1];
             resB = var_t0[0] + var_t0[1] + var_t2[0] + var_t2[1];
 
-            *pOutA = resA / 4;
-            *pOutB = resB / 4;
+            *pOutU = resA / 4;
+            *pOutV = resB / 4;
 
             var_t1 += 2;
             var_t3 += 2;
             var_t0 += 2;
             var_t2 += 2;
 
-            pOutA++;
-            pOutB++;
+            pOutU++;
+            pOutV++;
         }
     }
 }
 
-void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *pActor, char *arg1, int *arg2)
+void jpegcam_act_apply_dct_80063CD0(Actor_jpegcam *pActor, char *pIn, int *pOut)
 {
     int      *field_84;
     int      *field_84_ptr;
@@ -258,7 +244,7 @@ void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *p
         j = 0;
         for (; j < 8; j++)
         {
-            arg1_ptr = arg1;
+            arg1_ptr = pIn;
             *field_84_ptr = 0;
             k = 0;
             camIndex = j;
@@ -268,7 +254,7 @@ void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *p
             }
             field_84_ptr++;
         }
-        arg1 += 8;
+        pIn += 8;
     }
 
     i = 0;
@@ -283,12 +269,12 @@ void jpegcam_act_helper3_helper_helper_helper2_helper4_80063CD0(Actor_jpegcam *p
             {
                 accumulator += gJpegcamMatrix1_8009F36C[i][k] * (*field_84_ptr2)[k][j];
             }
-            *(arg2++) = (accumulator >> 14);
+            *(pOut++) = (accumulator >> 14);
         }
     }
 }
 
-void jpegcam_act_quantize_matrix_80063DDC(int *pIn, int *pOut, int qfactor)
+void jpegcam_act_quantize_zigzag_matrix_80063DDC(int *pIn, int *pOut, int q_scale)
 {
     signed char *pZigzag;
     int i;
@@ -298,12 +284,77 @@ void jpegcam_act_quantize_matrix_80063DDC(int *pIn, int *pOut, int qfactor)
 
     for (i = 1; i < 64; i++, pZigzag++)
     {
-        *pOut++ = (pIn[*pZigzag] * 16) / (gJpegcamQuantTable_8009F32C[*pZigzag] * qfactor);
+        *pOut++ = (pIn[*pZigzag] * 16) / (gJpegcamQuantTable_8009F32C[*pZigzag] * q_scale);
     }
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_helper6_80063EB0.s") // 420 bytes
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_helper2_80064054.s")         // 364 bytes
+int jpegcam_act_rle_stream_80063EB0(Actor_jpegcam *pActor, int *pData, int q_scale)
+{
+    int count;
+    int i;
+    int end;
+    int zeros;
+    unsigned short temp_a1;
+    short temp_v0;
+    unsigned char new_var2;
+
+    count = 62;
+
+    q_scale <<= 10;
+    temp_a1 = (*pData & 0x3FF) | q_scale;
+
+    pActor->field_88[pActor->field_80++] = temp_a1 >> 8;
+    pActor->field_88[pActor->field_80++] = temp_a1;
+    pActor->field_7C += 2;
+
+    for (i = 1, end = 1; i < count; i++, end++)
+    {
+        zeros = 0;
+
+        while ((pData[i] == 0) && (i < count))
+        {
+            zeros++;
+            i++;
+        }
+
+        q_scale = zeros;
+        if (i == count)
+        {
+            break;
+        }
+
+        temp_a1 = pData[i];
+
+        if ((q_scale < 7) && ((short)temp_a1 < 7) && ((short)temp_a1 >= -8))
+        {
+            new_var2 = (temp_a1 + (q_scale << 4)) + 8;
+            pActor->field_88[pActor->field_80++] = new_var2;
+            pActor->field_7C++;
+        }
+        else
+        {
+            temp_v0 = temp_a1 + 256;
+
+            if (temp_v0 < 0)
+            {
+                temp_v0 = 0;
+            }
+
+            temp_a1 = (q_scale << 9) | 0x8000 | (temp_v0 & 0x1FF);
+
+            pActor->field_88[pActor->field_80++] = temp_a1 >> 8;
+            pActor->field_88[pActor->field_80++] = temp_a1;
+            pActor->field_7C += 2;
+        }
+    }
+
+    pActor->field_88[pActor->field_80++] = 15;
+    pActor->field_7C++;
+
+    do { return end + 1; } while (0);
+}
+
+#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_compress_macroblock_80064054.s")                   // 364 bytes
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
 int jpegcam_act_helper3_helper_helper_800641C0(Actor_jpegcam *pActor, RECT *pRect, int q_scale);
 
