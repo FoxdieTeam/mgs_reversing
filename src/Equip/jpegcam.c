@@ -134,7 +134,7 @@ void jpegcam_act_helper2_helper_8006392C(Actor_jpegcam *pActor)
     }
 }
 
-void jpegcam_act_helper3_helper_helper_helper3_80063988(unsigned short *param_1, char *param_2)
+void jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(unsigned short *param_1, char *param_2)
 {
     int i;
 
