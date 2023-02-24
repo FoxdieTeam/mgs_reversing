@@ -85,6 +85,8 @@ void sub_8003CE78(void)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CE84.s") // 116 bytes
+void sub_8003CE84();
+
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CEF8.s") // 232 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
@@ -333,81 +335,79 @@ int sub_8003D568()
     return 0;
 }
 
-void sub_8003D594(short *arg0, int arg1, int *arg2, int *arg3)
+void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
 {
-    int temp_a0;
-    int temp_v0;
+    int y1;
+    int x1;
     int temp_lo;
     int temp_v1;
     int var_v0;
 
-    temp_v0 = arg0[0];
-    temp_a0 = arg0[1];
-    if (arg1 == 0)
+    x1 = pPanelConf->field_0_xOffset;
+    y1 = pPanelConf->field_2_yOffset;
+    if (pos == 0)
     {
-        *arg2 = temp_v0;
-        *arg3 = temp_a0;
+        *xoff = x1;
+        *yoff = y1;
         return;
     }
 
-    *arg2 = temp_v0;
+    *xoff = x1;
     temp_v1 = dword_800ABAE0 * 0x28;
-    temp_lo = arg1 * temp_v1;
+    temp_lo = pos * temp_v1;
     var_v0 = temp_lo / 65536;
 
-    *arg3 = temp_a0 - var_v0;
+    *yoff = y1 - var_v0;
 }
 
-void sub_8003D5F0(short *arg0, int arg1, int *arg2, int *arg3)
+void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
 {
-    // Similar to sub_8003D594
-    int temp_a0;
-    int temp_t0;
+    int y1;
+    int x1;
     int temp_lo;
     int temp_v1;
     int var_v0;
 
-    temp_t0 = arg0[0];
-    temp_a0 = arg0[1];
-    if (arg1 == 0)
+    x1 = pPanelConf->field_0_xOffset;
+    y1 = pPanelConf->field_2_yOffset;
+    if (pos == 0)
     {
-        *arg2 = temp_t0;
-        *arg3 = temp_a0;
+        *xoff = x1;
+        *yoff = y1;
         return;
     }
 
     temp_v1 = dword_800ABAE0 * 0x38;
-    temp_lo = arg1 * temp_v1;
+    temp_lo = pos * temp_v1;
     var_v0 = temp_lo / 65536;
 
-    *arg2 = temp_t0 - var_v0;
-    *arg3 = temp_a0;
+    *xoff = x1 - var_v0;
+    *yoff = y1;
 }
 
-void sub_8003D64C(short *arg0, int arg1, int *arg2, int *arg3)
+void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
 {
-    // Similar to sub_8003D594
-    int temp_a0;
-    int temp_t0;
+    int y1;
+    int x1;
     int temp_lo;
     int temp_v1;
     int var_v0;
 
-    temp_t0 = arg0[0];
-    temp_a0 = arg0[1];
-    if (arg1 == 0)
+    x1 = pPanelConf->field_0_xOffset;
+    y1 = pPanelConf->field_2_yOffset;
+    if (pos == 0)
     {
-        *arg2 = temp_t0;
-        *arg3 = temp_a0;
+        *xoff = x1;
+        *yoff = y1;
         return;
     }
 
     temp_v1 = dword_800ABAE0 * 0x38;
-    temp_lo = arg1 * temp_v1;
+    temp_lo = pos * temp_v1;
     var_v0 = temp_lo / 65536;
 
-    *arg2 = temp_t0 + var_v0;
-    *arg3 = temp_a0;
+    *xoff = x1 + var_v0;
+    *yoff = y1;
 }
 
 extern struct PANEL_CONF stru_8009E544[];
@@ -475,21 +475,102 @@ void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_8003D7DC.s") // 560 bytes
+void menu_8003D7DC(Actor_MenuMan *pActor, int param_2, menu_left_right *pSubMenu)
+{
+    int                field_8, pos, field_C;
+    PANEL_CONF        *pPanelConf;
+    Menu_Item_Unknown *pItem;
+    PANEL             *pPanel;
+    int                array_count;
+    int                i;
+    int                xoff, yoff;
+    int                xoff_2, yoff_2;
+    int                xoff_3, yoff_3;
+
+    sub_8003CE78();
+    pItem = pSubMenu->field_C_alloc;
+    pPanel = &pItem->field_20_array[pItem->field_0_main.field_4_selected_idx];
+    pPanelConf = pSubMenu->field_8_panel_conf;
+
+    pos = pPanel->field_4_pos;
+    array_count = pItem->field_0_main.field_0_array_count;
+    if (pos >= 0)
+    {
+        pPanelConf->field_10_pFn2(pPanelConf, pos, &xoff, &yoff);
+    }
+    else
+    {
+        pos = -pos;
+        pPanelConf->field_14_pFn2(pPanelConf, pos, &xoff, &yoff);
+    }
+    pPanelConf->field_18_pFnUpdate(pActor, param_2, xoff, yoff, pPanel);
+
+    array_count--;
+    field_8 = pItem->field_0_main.field_8;
+    if (1024 < field_8)
+    {
+        field_8 = 1152;
+    }
+    for (i = 1; 0 < array_count; i++, array_count--)
+    {
+        int    array_count_2, idx, pos_2;
+        PANEL *pPanel_2;
+        array_count_2 = pItem->field_0_main.field_0_array_count;
+        idx = pItem->field_0_main.field_4_selected_idx + i;
+        if (array_count_2 <= idx)
+        {
+            idx = idx - array_count_2;
+        }
+        pPanel_2 = &pItem->field_20_array[idx];
+        pos_2 = pPanel_2->field_4_pos;
+        if (pos_2 < 0 || pos_2 > field_8)
+        {
+            break;
+        }
+        pPanelConf->field_10_pFn2(pPanelConf, pos_2, &xoff_2, &yoff_2);
+        pPanelConf->field_18_pFnUpdate(pActor, param_2, xoff_2, yoff_2, pPanel_2);
+    }
+
+    field_C = pItem->field_0_main.field_C;
+    if (1024 < -field_C)
+    {
+        field_C = -1152;
+    }
+
+    for (i = -1; 0 < array_count; i--, array_count--)
+    {
+        int    idx, pos_2;
+        PANEL *pPanel_2;
+        idx = pItem->field_0_main.field_4_selected_idx + i;
+        if (idx < 0)
+        {
+            idx = idx + pItem->field_0_main.field_0_array_count;
+        }
+        pPanel_2 = &pItem->field_20_array[idx];
+        pos_2 = pPanel_2->field_4_pos;
+        if (0 < pos_2 || pos_2 < field_C)
+        {
+            break;
+        }
+        pPanelConf->field_14_pFn2(pPanelConf, -pos_2, &xoff_3, &yoff_3);
+        pPanelConf->field_18_pFnUpdate(pActor, param_2, xoff_3, yoff_3, pPanel_2);
+    }
+    sub_8003CE84();
+}
 
 void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pSubMenu)
 {
     if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
         pSubMenu->field_8_panel_conf->field_18_pFnUpdate(pActor, a2, pSubMenu->field_8_panel_conf->field_0_xOffset,
-                                                    pSubMenu->field_8_panel_conf->field_2_yOffset, pSubMenu);
+                                                    pSubMenu->field_8_panel_conf->field_2_yOffset, &pSubMenu->field_0_current);
     }
 }
 
 void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2)
 {
     pLeftRight->field_8_panel_conf->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_panel_conf->field_0_xOffset + off1,
-                                                  pLeftRight->field_8_panel_conf->field_2_yOffset + off2, pLeftRight);
+                                                  pLeftRight->field_8_panel_conf->field_2_yOffset + off2, &pLeftRight->field_0_current);
 }
 
 int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
