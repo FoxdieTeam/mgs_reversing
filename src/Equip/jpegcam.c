@@ -354,7 +354,59 @@ int jpegcam_act_rle_stream_80063EB0(Actor_jpegcam *pActor, int *pData, int q_sca
     do { return end + 1; } while (0);
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_compress_macroblock_80064054.s")                   // 364 bytes
+int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStream, int q_scale)
+{
+    char *pY1;
+    char *pY2;
+    char *pY3;
+    char *pY4;
+    char *pU;
+    char *pV;
+
+    char *pData;
+    int  *pDctResult;
+    int  *pQuantZagResult;
+    char *pBlocks[6];
+    int   bytes_processed;
+    int   i;
+
+    pData = pActor->field_84;
+
+    pY1 = pData + 0x300;
+    pY2 = pData + 0x340;
+    pY3 = pData + 0x380;
+    pY4 = pData + 0x3C0;
+    pU = pData + 0x400;
+    pV = pData + 0x440;
+
+    pActor->field_84 += 0x680;
+
+    pDctResult = (int *)(pData + 0x480);
+    pQuantZagResult = (int *)(pData + 0x580);
+
+    pBlocks[0] = pU;
+    pBlocks[1] = pV;
+    pBlocks[2] = pY1;
+    pBlocks[3] = pY2;
+    pBlocks[4] = pY3;
+    pBlocks[5] = pY4;
+
+    jpegcam_act_macroblock_rgb_to_yuv_800639E8(pStream, pData, pData + 0x100, pData + 0x200);
+    jpegcam_act_split_luma_blocks_80063B94((TMat16x16B *)pData, (TMat8x8B *)pY1, (TMat8x8B *)pY2, (TMat8x8B *)pY3, (TMat8x8B *)pY4);
+    jpegcam_act_downsample_chroma420_80063C10(pData + 0x100, pData + 0x200, pU, pV);
+
+    bytes_processed = 0;
+
+    for (i = 0; i < 6; i++)
+    {
+        jpegcam_act_apply_dct_80063CD0(pActor, pBlocks[i], pDctResult);
+        jpegcam_act_quantize_zigzag_matrix_80063DDC(pDctResult, pQuantZagResult, q_scale * 2);
+        bytes_processed += jpegcam_act_rle_stream_80063EB0(pActor, pQuantZagResult, q_scale);
+    }
+
+    return bytes_processed;
+}
+
 #pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
 int jpegcam_act_helper3_helper_helper_800641C0(Actor_jpegcam *pActor, RECT *pRect, int q_scale);
 
