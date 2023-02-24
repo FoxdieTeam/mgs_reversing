@@ -493,6 +493,7 @@ void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_MAP *pHzd, 
 void sna_unk_helper2_helper_8006070C(VECTOR *, SVECTOR *);
 void sna_init_80057A90(Actor_SnaInit *pActor, int time);
 void sna_init_8004EF14(Actor_SnaInit *pActor);
+GV_ACT *sna_init_NewSnake_8005B650(int name, int where, int argc, char **argv);
 
 // TODO: move these to indivudual weapon headers
 GV_ACT *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
