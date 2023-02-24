@@ -173,8 +173,51 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
 
 #pragma INCLUDE_ASM("asm/Menu/sub_8003D2BC.s") // 144 bytes
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003D34C.s") // 88 bytes
-#pragma INCLUDE_ASM("asm/Menu/sub_8003D3A4.s") // 88 bytes
+void sub_8003D34C(Menu_Item_Unknown *pItem, int a2)
+{
+  int count;
+  int l_8;
+  PANEL *pIter;
+  int tmp;
+
+  count = pItem->field_0_main.field_0_array_count;
+  l_8 = pItem->field_0_main.field_8;
+  pIter = &pItem->field_20_array[0];  
+  while(count > 0)
+  {
+    pIter->field_4_pos += a2;
+    if (pIter->field_4_pos >= l_8)
+    {
+        tmp = (pIter->field_4_pos - l_8);
+        pIter->field_4_pos =pItem->field_0_main.field_C + tmp;
+    }
+    --count;
+      pIter++;
+  }
+}
+
+void sub_8003D3A4(Menu_Item_Unknown *pItem, int a2)
+{
+  int count;
+  int l_8;
+  PANEL *pIter;
+  int tmp;
+
+  count = pItem->field_0_main.field_0_array_count;
+  l_8 = pItem->field_0_main.field_C;
+  pIter = &pItem->field_20_array[0];  
+  while(count > 0)
+  {
+    pIter->field_4_pos += a2;
+    if (l_8 >= pIter->field_4_pos)
+    {
+        tmp = (pIter->field_4_pos - l_8);
+        pIter->field_4_pos =pItem->field_0_main.field_8 + tmp;
+    }
+    --count;
+      pIter++;
+  }
+}
 
 void sub_8003D3FC(Menu_Item_Unknown *pMenu, int a2)
 {
