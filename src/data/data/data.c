@@ -104,9 +104,9 @@ extern const char  aSnaMf2[];
 extern const char  aSnaMf3[];
 
 GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] = {
-    {CHARA_SNAKE, (TGCL_ActorCreateFn)0x8005B650}, // sna_init.c
+    {CHARA_SNAKE, sna_init_NewSnake_8005B650},
     {CHARA_ITEM, (TGCL_ActorCreateFn)0x800344F8},
-    {CHARA_DOOR, (TGCL_ActorCreateFn)&NewDoor_8006FD00},
+    {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
 
 const char *SECTION(".data") MGS_DiskName_8009D2FC[] = {aSlpm86247, aSlpm86248, 0};
