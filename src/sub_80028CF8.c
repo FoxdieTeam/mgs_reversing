@@ -1,5 +1,5 @@
 #include "psyq.h"
-#include "libdg\inline_n.h"
+#include "libdg/inline_n.h"
 
 void sub_80028CF8(void)
 {
