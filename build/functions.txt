@@ -1422,7 +1422,7 @@
 80063888 44 jpegcam_unk2_80063888
 800638B4 120 jpegcam_unk3_800638B4
 8006392C 92 jpegcam_act_helper2_helper_8006392C
-80063988 96 jpegcam_act_helper3_helper_helper_helper3_80063988
+80063988 96 jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988
 800639E8 428 jpegcam_act_macroblock_rgb_to_yuv_800639E8
 80063B94 124 jpegcam_act_split_luma_blocks_80063B94
 80063C10 192 jpegcam_act_downsample_chroma420_80063C10
