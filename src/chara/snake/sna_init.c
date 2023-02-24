@@ -6247,7 +6247,7 @@ static inline int sna_init_LoadSnake(Actor_SnaInit *pActor, int scriptData, int 
     return 0;
 }
 
-Actor_SnaInit *sna_init_NewSnake_8005B650(int scriptData, int scriptBinds)
+GV_ACT *sna_init_NewSnake_8005B650(int name, int where, int argc, char **argv)
 {
     Actor_SnaInit *pActor;
 
@@ -6262,12 +6262,12 @@ Actor_SnaInit *sna_init_NewSnake_8005B650(int scriptData, int scriptBinds)
                               (TActorFunction)&sna_init_kill_8005B52C,
                               aSnaInitC);
 
-    if (sna_init_LoadSnake(pActor, scriptData, scriptBinds) < 0)
+    if (sna_init_LoadSnake(pActor, name, where) < 0)
     {
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return NULL;
     }
 
     dword_800ABB9C[1] = pActor;
-    return pActor;
+    return &pActor->field_0_actor;
 }
