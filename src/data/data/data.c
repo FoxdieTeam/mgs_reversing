@@ -521,8 +521,8 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     {(char *)aDisc, 0x1C},   {(char *)aRope, 0x18},    {(char *)aScarf, 0x1D},    {(char *)aSuppr, 0xD}};
 
 struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {
-    {16, 184, 1, 24576, 36864, (void *)0x8003D64C, (void *)0x8003D594, 0},
-    {256, 184, 2, 12288, 49152, (void *)0x8003D594, (void *)0x8003D5F0, 0}};
+    {16, 184, 1, 24576, 36864, sub_8003D64C, sub_8003D594, NULL},
+    {256, 184, 2, 12288, 49152, sub_8003D594, sub_8003D5F0, NULL}};
 
 menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {{(char *)aSocom, 1},
                                                                        {(char *)aFamas_800AB5BC, 3},
