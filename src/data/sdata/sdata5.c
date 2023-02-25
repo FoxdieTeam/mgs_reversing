@@ -79,7 +79,7 @@ int SECTION(".sdata") dword_800AB754 = 0x534559;
 
 char SECTION(".sdata") aResD[] = "Res %d\n";
 
-int SECTION(".sdata") dword_800AB760 = 0x4081;
+char SECTION(".sdata") aAtEUC[] = {0x81, 0x40, 0x00, 0x00}; // = "@";
 int SECTION(".sdata") dword_800AB764 = 0x2563250C;
 int SECTION(".sdata") dword_800AB768 = 0x73;
 int SECTION(".sdata") dword_800AB76C = 0x2A;
