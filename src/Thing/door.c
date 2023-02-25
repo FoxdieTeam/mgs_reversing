@@ -14,6 +14,7 @@ extern const char aOpen[];
 extern const char aClose[];
 
 extern int dword_800ABA0C;
+extern GM_Control      *gSnaControl_800AB9F4;
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {
@@ -89,7 +90,48 @@ void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
 
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s") // 268 bytes
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F290.s") // 136 bytes
+
+int door_act_helper_8006F290(GM_Control *pCtrl, int param_h)
+{
+    int param_h_50; // $a1
+    int diff; // $v1
+
+    if ( param_h < 250 )
+    {
+        param_h = 250;
+    }
+
+    param_h_50 = param_h + 50;
+
+    if ( !gSnaControl_800AB9F4 )
+    {
+        return 0;
+    }
+
+    diff = gSnaControl_800AB9F4->field_0_position.vx - pCtrl->field_0_position.vx;
+    
+    if ( (diff < -param_h_50) || (param_h_50 < diff) )
+    {
+        return 0;
+    }
+
+    diff = gSnaControl_800AB9F4->field_0_position.vz - pCtrl->field_0_position.vz;
+    
+    if ( (diff < -param_h_50) || (param_h_50 < diff) )
+    {
+        return 0;
+    }
+
+    diff = gSnaControl_800AB9F4->field_0_position.vy - pCtrl->field_0_position.vy;
+    
+    if ( (diff > 2500) || (diff < 0)  )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Thing/door_act_8006F318.s")        // 1024 bytes
 
 static inline void do_nothing_vec_func(SVECTOR *vec)
