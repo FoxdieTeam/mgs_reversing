@@ -25,27 +25,29 @@ typedef struct UnkCameraStruct // @ 800B77B8
 } UnkCameraStruct;
 STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
 
+typedef void (*TGMCameraFunc)(void);
+
 // see comment above
 // extern demothrd_2Vec stru_800B77E8[9];
 typedef struct GM_Camera // @ 800B77E8
 {
-    SVECTOR field_0;
-    SVECTOR field_8;
-    SVECTOR field_10;
-    int field_18_flags;
-    int field_1C;
-    short field_20; // zoom leve, up to 320 levels?
-    short field_22;
-    short field_24_gcl_param_a;
-    short field_26;
-    short field_28;
-    short field_2A;
-    short field_2C;
-    short field_2E;
-    short field_30;
-    short field_32;
-    SVECTOR field_34[4][2];
-    int field_74_2Array[2];
+    SVECTOR       field_0;
+    SVECTOR       field_8;
+    SVECTOR       field_10;
+    int           field_18_flags;
+    int           field_1C;
+    short         field_20; // zoom leve, up to 320 levels?
+    short         field_22;
+    short         field_24_gcl_param_a;
+    short         field_26;
+    short         field_28;
+    short         field_2A;
+    short         field_2C;
+    short         field_2E;
+    short         field_30;
+    short         field_32;
+    SVECTOR       field_34[4][2];
+    TGMCameraFunc field_74_funcs[2];
 } GM_Camera;
 STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
 

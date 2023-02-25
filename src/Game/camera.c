@@ -76,7 +76,41 @@ void sub_8002EC8C(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002ECE4.s") // 88 bytes
+void sub_8002ECE4(SVECTOR *a, SVECTOR *b, SVECTOR *c)
+{
+    short *av;
+    short *bv;
+    short *cv;
+
+    int i;
+    int diff;
+    int clamp;
+
+    av = (short *)a;
+    bv = (short *)b;
+    cv = (short *)c;
+
+    for (i = 0; i < 3; i++, av++, bv++, cv++)
+    {
+        diff = *av - *bv;
+
+        if (diff != (short)diff)
+        {
+            if (diff < 0)
+            {
+                clamp = 0x8000;
+            }
+            else
+            {
+                clamp = 0x7FFF;
+            }
+
+            diff = clamp;
+        }
+
+        *cv = diff;
+    }
+}
 
 extern GM_Camera GM_Camera_800B77E8;
 
@@ -170,7 +204,32 @@ void camera_act_helper_helper2_8002F094(int param_1)
     GV_OriginPadSystem_80016C78(0);
 }
 
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper_8002F1C8.s") // 172 bytes
+void camera_act_helper_8002F1C8(void)
+{
+    if (GM_Camera_800B77E8.field_18_flags & 0x100)
+    {
+        if (gUnkCameraStruct_800B77B8.field_24 >= 12)
+        {
+            GM_Camera_800B77E8.field_18_flags &= ~0x101;
+        }
+
+        camera_act_helper_helper2_8002F094(gUnkCameraStruct_800B77B8.field_24);
+    }
+    else if (GM_Camera_800B77E8.field_18_flags & 0x200)
+    {
+        if (GM_Camera_800B77E8.field_74_funcs[0])
+        {
+            GM_Camera_800B77E8.field_74_funcs[0]();
+        }
+    }
+    else
+    {
+        camera_act_helper_helper_8002F008();
+    }
+
+    gUnkCameraStruct_800B77B8.field_24++;
+}
+
 #pragma INCLUDE_ASM("asm/sub_8002F274.s") // 272 bytes
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper2_helper_8002F384.s") // 576 bytes
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper2_8002F5C4.s") // 136 bytes
@@ -254,9 +313,9 @@ void sub_8002FCF0(void)
     }
 }
 
-void sub_8002FD84(int index, int value)
+void sub_8002FD84(int index, TGMCameraFunc func)
 {
-    GM_Camera_800B77E8.field_74_2Array[index] = value;
+    GM_Camera_800B77E8.field_74_funcs[index] = func;
 }
 
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper6_helper_8002FD9C.s") // 892 bytes
