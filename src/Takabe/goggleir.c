@@ -144,9 +144,9 @@ void goggleir_kill_80078CE4(Actor_GoggleIr *pActor)
         GV_DestroyOtherActor_800151D8(pActor->field_54_pScn_mask);
     }
 
-    if (pActor->field_58_actor_unknown)
+    if (pActor->field_58_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(pActor->field_58_actor_unknown);
+        GV_DestroyOtherActor_800151D8(pActor->field_58_pGglmng);
     }
 
     if (pActor->field_64_pGglmng)

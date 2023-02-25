@@ -28,6 +28,6 @@ void rifle_kill_80068118(Actor_Rifle *pActor);
 
 int rifle_loader_80068184(Actor_Rifle *pActor, OBJECT *pParentObj, int numParent);
 
-Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
+GV_ACT *NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
 
 #endif // _RIFLE_H_
