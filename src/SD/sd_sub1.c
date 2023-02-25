@@ -1,4 +1,5 @@
 #include "SD/sd.h"
+#include "data/data/data.h"
 
 void vol_set_80088320(unsigned int a1);
 void note_compute_80085DE0(void);
@@ -7,14 +8,73 @@ unsigned char rdm_tbl_8009F9BC[129];
 extern SOUND_W* sptr_800C057C;
 extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
 extern unsigned int mtrack_800BF1EC;
+extern int mdata1_800BF0D0;
 extern int mdata2_800BF0D4;
 extern int mdata3_800BF0D8;
 extern int mdata4_800BF0DC;
 
+extern int key_fg_800BF1B0;
+extern unsigned char *mptr_800C0570;
+
+extern TMDXFunc gMdxTable_8009F7BC[];
+
 unsigned int random_80086B84();
+void note_set_80085CD8(void);
 
 #pragma INCLUDE_ASM("asm/SD/SD_80085A50.s") // 308 bytes
-#pragma INCLUDE_ASM("asm/SD/tx_read_80085B84.s") // 340 bytes
+
+int tx_read_80085B84()
+{
+    int bContinue; // $s0
+    int i; // $s1
+
+    i = 0;
+    bContinue = 1;
+    while ( bContinue )
+    {
+        i++;
+        if ( i == 256 )
+        {
+            return 1;
+        }
+
+        mdata1_800BF0D0 = mptr_800C0570[3];
+        if ( !mdata1_800BF0D0 )
+        {
+            return 1;
+        }
+        mdata2_800BF0D4 = mptr_800C0570[2];
+        mdata3_800BF0D8 = mptr_800C0570[1];
+        mdata4_800BF0DC = mptr_800C0570[0];
+        mptr_800C0570 += 4;
+
+        if ( (char)mdata1_800BF0D0 >= 128 )
+        {
+            gMdxTable_8009F7BC[mdata1_800BF0D0 - 128]();
+            if (  mdata1_800BF0D0 == 0xF2 ||  mdata1_800BF0D0 == 0xF3 || mdata1_800BF0D0 == 0xFF )
+            {
+                bContinue = 0;  
+            }
+            
+           if ( mdata1_800BF0D0 == 0xFF )
+           {
+                return 1;
+           }
+        }
+        else
+        {
+            if ( (unsigned char)sptr_800C057C->field_7_ngg < 0x64 && mdata4_800BF0DC )
+            {
+                key_fg_800BF1B0 = 1;
+            }
+            bContinue = 0;
+            sptr_800C057C->field_CC_rest_fg = 0;
+            note_set_80085CD8();  
+        }
+       
+    }
+    return 0;
+}
 
 void note_set_80085CD8(void) 
 {
