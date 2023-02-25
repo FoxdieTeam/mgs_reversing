@@ -15,11 +15,11 @@ typedef struct Actor_GoggleIr
     OBJECT     *field_48_pParent;
     int         field_4C_head_hidden;
     int         field_50;
-    GV_ACT      *field_54_pScn_mask;
-    GV_ACT      *field_58_actor_unknown;
+    GV_ACT     *field_54_pScn_mask;
+    GV_ACT     *field_58_pGglmng;
     int         field_5C;
     int         field_60;
-    GV_ACT      *field_64_pGglmng;
+    GV_ACT     *field_64_pGglmng;
     short       field_68_savedNPacks;
     short       field_6A_saved_raise;
 } Actor_GoggleIr;
