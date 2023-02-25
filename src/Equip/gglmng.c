@@ -55,7 +55,7 @@ void gglmng_kill_80077988(Actor_gglmng *pActor)
     }
 }
 
-Actor_gglmng *gglmng_init_800779B8(int type)
+GV_ACT *gglmng_init_800779B8(int type)
 {
     Actor_gglmng *pActor; // $s0
 
@@ -68,5 +68,5 @@ Actor_gglmng *gglmng_init_800779B8(int type)
         pActor->field_24 = 0;
         pActor->field_28_pGglsight = 0;
     }
-    return pActor;
+    return &pActor->field_0_actor;
 }

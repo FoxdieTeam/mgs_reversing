@@ -184,7 +184,7 @@
     include "..\obj\Game\GM_Act_helper3_helper_8002AB40.obj"
     include "..\obj\Game\GM_Act_helper3_8002ABA4.obj"
     include "..\obj\Game\GM_Reset_8002ABF4.obj"
-    include "..\obj\DrawReadError_8002AC9C.obj"
+    include "..\obj\Game\DrawReadError_8002AC9C.obj"
     include "..\obj\Game\GM_Act_8002ADBC.obj"
     include "..\obj\Game\GM_SetSystemCallbackProc_8002B558.obj"
     include "..\obj\Game\GM_CallSystemCallbackProc_8002B570.obj"

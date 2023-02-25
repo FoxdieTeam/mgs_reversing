@@ -15,8 +15,8 @@ typedef struct Actor_goggle
     OBJECT     *field_48_pObj;
     int         field_4C_head_hidden;
     int         field_50;
-    GV_ACT      *field_54_pScn_mask;
-    GV_ACT      *field_58_actor_unknown;
+    GV_ACT     *field_54_pScn_mask;
+    GV_ACT     *field_58_pGglmng;
     short       field_5C_saved_n_packs;
     short       field_5E_saved_rise;
 } Actor_goggle;

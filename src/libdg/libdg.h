@@ -585,6 +585,7 @@ void  DG_WriteObjPacketRGB_8001A9B8( DG_OBJ *pDGObj, int idx );
 void  DG_WriteObjPacketUV_8001A774( DG_OBJ *pObj, int idx );
 int   DG_PointCheckOne_8001C18C( DVECTOR *line );
 void  DG_OffsetDispEnv_80017784( int offset );
+void  DG_PutDrawEnv_From_DispEnv_80017890();
 void  DG_TextureCacheInit_8001F25C( void );
 DG_OBJS *DG_MakeObjs_80031760( DG_DEF *pFileData, int flag, int chanl );
 int      DG_QueueObjs_80018178( DG_OBJS *pPrim );

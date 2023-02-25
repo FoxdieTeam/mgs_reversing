@@ -202,7 +202,7 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
 extern char  aRifleC[]; // = "rifle.c";
 extern short d_800ABA2C_ammo;
 
-Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
+GV_ACT *NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
 {
     Actor_Rifle *pActor;
     int         mag_size, ammo;
@@ -238,5 +238,5 @@ Actor_Rifle * NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numPa
     d_800ABA2C_ammo = mag_size;
     d_800AB9EC_mag_size = ammo;
 
-    return pActor;
+    return &pActor->field_0_actor;
 }
