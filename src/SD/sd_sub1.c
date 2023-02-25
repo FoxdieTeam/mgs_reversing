@@ -17,6 +17,7 @@ extern int key_fg_800BF1B0;
 extern unsigned char *mptr_800C0570;
 
 extern TMDXFunc gMdxTable_8009F7BC[];
+extern unsigned char VIBX_TBL_8009FA40[32];
 
 unsigned int random_80086B84();
 void note_set_80085CD8(void);
@@ -281,7 +282,38 @@ void por_compute_80086504()
     sptr_800C057C->field_5C_swpd += temp;
 }
 
-#pragma INCLUDE_ASM("asm/SD/vib_compute_800865CC.s") // 200 bytes
+int vib_compute_800865CC()
+{
+    unsigned int vibd; // $a0
+    int temp2; // $a1
+    unsigned int temp; // $v1
+
+    sptr_800C057C->field_78_vib_tbl_cnt += sptr_800C057C->field_79_vib_tc_ofst;
+    sptr_800C057C->field_78_vib_tbl_cnt &= 0x3Fu;
+    temp2 = VIBX_TBL_8009FA40[sptr_800C057C->field_78_vib_tbl_cnt & 0x1F];
+    
+    vibd = sptr_800C057C->field_7C_vibd;
+    if ( 0x7FFF >= vibd)
+    {
+        temp = ((vibd >> 7) & 0xFE) ;
+        temp = (temp * temp2) >> 8;
+
+    }
+    else
+    {
+        temp = ((vibd >> 8) & 0x7F) + 2;
+        temp = (temp * temp2) >> 1;
+
+    }
+    
+    if ( (unsigned char)sptr_800C057C->field_78_vib_tbl_cnt >= 32u )
+    {
+        temp = -temp;
+    }
+    
+    return temp;
+}
+
 #pragma INCLUDE_ASM("asm/sub_80086694.s") // 160 bytes
 #pragma INCLUDE_ASM("asm/SD/SD_80086734.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/SD/note_cntl_8008686C.s") // 792 bytes
