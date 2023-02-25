@@ -1,6 +1,8 @@
 #ifndef DATA_H
 #define DATA_H
 
+typedef void (*TMDXFunc)(void);
+
 enum TextConfig_Flags
 {
     TextConfig_Flags_eRightAlign_01 = 0x01,
