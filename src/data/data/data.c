@@ -977,7 +977,7 @@ void SD_MDX_FF_block_end_80087A58(void);
 
 int SECTION(".data") dword_8009F7B8 = 0;
 
-void *SECTION(".data") gMdxTable_8009F7BC[] = {no_cmd_80087A80,
+TMDXFunc SECTION(".data") gMdxTable_8009F7BC[] = {no_cmd_80087A80,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
                                                no_cmd_80087A80,
