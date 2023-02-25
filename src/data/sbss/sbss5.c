@@ -31,8 +31,11 @@ int SECTION(".sbss") dword_800ABB88;
 int SECTION(".sbss") dword_800ABB8C;
 int SECTION(".sbss") dword_800ABB90;
 int SECTION(".sbss") dword_800ABB94;
-int SECTION(".sbss") dword_800ABB98;
-int SECTION(".sbss") dword_800ABB9C;
+
+RadioCodecStru_800ABB98 *SECTION(".sbss") stru_800ABB98;
+
+short SECTION(".sbss") word_800ABB9C;
+short SECTION(".sbss") word_800ABB9E;
 
 Actor_SnaInit *SECTION(".sbss") sna_init_800ABBA0;
 
