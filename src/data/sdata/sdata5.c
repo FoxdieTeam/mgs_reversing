@@ -81,4 +81,4 @@ char SECTION(".sdata") aResD[] = "Res %d\n";
 
 char SECTION(".sdata") aAtEUC[] = {0x81, 0x40, 0x00, 0x00}; // = "@";
 char SECTION(".sdata") aFfCS[] = "\f%c%s";
-int SECTION(".sdata") dword_800AB76C = 0x2A;
+char SECTION(".sdata") aStar[] = "*";
