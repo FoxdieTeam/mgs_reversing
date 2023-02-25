@@ -79,7 +79,6 @@ int SECTION(".sdata") dword_800AB754 = 0x534559;
 
 char SECTION(".sdata") aResD[] = "Res %d\n";
 
-int SECTION(".sdata") dword_800AB760 = 0x4081;
-int SECTION(".sdata") dword_800AB764 = 0x2563250C;
-int SECTION(".sdata") dword_800AB768 = 0x73;
-int SECTION(".sdata") dword_800AB76C = 0x2A;
+char SECTION(".sdata") aAtEUC[] = {0x81, 0x40, 0x00, 0x00}; // = "@";
+char SECTION(".sdata") aFfCS[] = "\f%c%s";
+char SECTION(".sdata") aStar[] = "*";
