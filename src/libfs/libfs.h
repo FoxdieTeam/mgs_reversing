@@ -80,7 +80,7 @@ int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
 void                  CDBIOS_TaskStart_helper_80022264(void);
 int                   FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task);
-int                   FS_CdMakePositionTable_helper_8002297C(void *pDirBlock, FS_FILE_INFO_8009D49C *pDirRecs);
+int                   FS_CdMakePositionTable_helper_8002297C(char *pDirBlock, FS_FILE_INFO_8009D49C *pDirRecs);
 int                   FS_StreamGetTop_80023F94(int is_movie);
 void                  FS_StreamTaskStart_80023D94(int param_1);
 int                   FS_StreamInit_80023FD4(void *pHeap, int heapSize);
