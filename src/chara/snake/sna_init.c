@@ -68,8 +68,8 @@ int        SECTION(".sbss") dword_800ABBB0;
 extern GM_Target *GM_BombSeg_800ABBD8; // probably wrong type?
 GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
-extern void *dword_800ABB9C[2];
-void        *SECTION(".sbss") dword_800ABB9C[2];
+extern Actor_SnaInit *sna_init_800ABBA0;
+Actor_SnaInit *SECTION(".sbss") sna_init_800ABBA0;
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
@@ -6268,6 +6268,6 @@ GV_ACT *sna_init_NewSnake_8005B650(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    dword_800ABB9C[1] = pActor;
+    sna_init_800ABBA0 = pActor;
     return &pActor->field_0_actor;
 }
