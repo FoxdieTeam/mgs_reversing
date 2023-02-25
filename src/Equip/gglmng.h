@@ -14,6 +14,6 @@ typedef struct Actor_gglmng
     GV_ACT *field_28_pGglsight;
 } Actor_gglmng;
 
-Actor_gglmng *gglmng_init_800779B8(int type);
+GV_ACT *gglmng_init_800779B8(int type);
 
 #endif // _GGMNG_H_

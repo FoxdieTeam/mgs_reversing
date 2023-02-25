@@ -135,9 +135,9 @@ void goggle_kill_800776AC(Actor_goggle *pActor)
         GV_DestroyOtherActor_800151D8(pActor->field_54_pScn_mask);
     }
 
-    if (pActor->field_58_actor_unknown)
+    if (pActor->field_58_pGglmng)
     {
-        GV_DestroyOtherActor_800151D8(pActor->field_58_actor_unknown);
+        GV_DestroyOtherActor_800151D8(pActor->field_58_pGglmng);
     }
 
     if (pActor->field_4C_head_hidden)
@@ -167,8 +167,8 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
         pActor->field_4C_head_hidden = 1;
     }
 
-    pActor->field_58_actor_unknown = (GV_ACT *)gglmng_init_800779B8(5);
-    if (!pActor->field_58_actor_unknown)
+    pActor->field_58_pGglmng = gglmng_init_800779B8(5);
+    if (!pActor->field_58_pGglmng)
     {
         return -1;
     }
