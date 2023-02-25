@@ -291,7 +291,7 @@ int FS_CdMakePositionTable_helper2_800228D4(void *pBuffer, int startSector, int 
     return 1;
 }
 
-FS_FILE_INFO_8009D49C * FS_CdMakePositionTable_helper_helper_80022918(char *pFileName, FS_FILE_INFO_8009D49C *pFile)
+FS_FILE_INFO_8009D49C *FS_FindDirEntry_80022918(char *pFileName, FS_FILE_INFO_8009D49C *pFile)
 {
     FS_FILE_INFO_8009D49C *file;
 
@@ -306,7 +306,112 @@ FS_FILE_INFO_8009D49C * FS_CdMakePositionTable_helper_helper_80022918(char *pFil
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/libfs/FS_CdMakePositionTable_helper_8002297C.s") // 480 bytes
+extern const char *MGS_DiskName_8009D2FC[3];
+extern const char aFileSTopDSizeD[];
+
+// See: https://psx-spx.consoledev.net/cdromdrive/#cdrom-iso-file-and-directory-descriptors
+static inline char getXAUserID(int directoryRecord, int fileIdentifierLength, int basicRecordLength)
+{
+    int xaRecord;
+    int padding;
+
+    xaRecord = fileIdentifierLength;
+    xaRecord += directoryRecord;
+    xaRecord = xaRecord + basicRecordLength;
+
+    padding = fileIdentifierLength & 1;
+    xaRecord = xaRecord - padding;
+    return *((char *)xaRecord + 3);
+}
+
+#define byteswap_ulong(p) p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24)
+
+int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO_8009D49C *inDirectoryRecords)
+{
+    FS_FILE_INFO_8009D49C *foundRecord;
+    const char           **diskNameIterator;
+    const char            *currentStringPtr;
+    int                    fileIdentifierLength;
+    char                   parsedFileName[32];
+    char                  *sectorBaseValues;
+    char                  *topValues;
+    char                  *sizeValues;
+    int                    sectorBase;
+    int                    top;
+    int                    size;
+    int                    returnValue;
+    int                    stringCount;
+    int                    basicRecordLength;
+    char                  *fileIdentifier;
+    char                  *directoryRecord;
+    FS_FILE_INFO_8009D49C *directoryRecords;
+
+    directoryRecords = inDirectoryRecords;
+    directoryRecord = inDirectoryRecord;
+    returnValue = -1;
+
+    while (*directoryRecord != 0)
+    {
+        fileIdentifierLength = directoryRecord[32];
+
+        if (fileIdentifierLength != 1)
+        {
+            fileIdentifier = directoryRecord + 33;
+            CDFS_ParseFileName_80022898(parsedFileName, fileIdentifier, fileIdentifierLength);
+
+            if ((directoryRecord[25] & 2) == 0)
+            {
+                foundRecord = FS_FindDirEntry_80022918(parsedFileName, directoryRecords);
+
+                if (foundRecord)
+                {
+                    basicRecordLength = 35;
+
+                    if (parsedFileName[0] == 'Z' && getXAUserID((int)directoryRecord, fileIdentifierLength, basicRecordLength) == 0xd)
+                    {
+                        foundRecord->field_4_sector = 0;
+                    }
+                    else
+                    {
+                        sectorBaseValues = (directoryRecord + 2);
+                        sectorBase = byteswap_ulong(sectorBaseValues);
+                        foundRecord->field_4_sector = sectorBase + 150;
+                    }
+                }
+                else
+                {
+                    diskNameIterator = MGS_DiskName_8009D2FC;
+                    currentStringPtr = *diskNameIterator;
+                    stringCount = 0;
+
+                    while (currentStringPtr)
+                    {
+                        if (strcmp_8008E6F8(parsedFileName, diskNameIterator[0]) == 0)
+                        {
+                            returnValue = stringCount;
+                        }
+
+                        diskNameIterator++;
+                        currentStringPtr = *diskNameIterator;
+                        stringCount++;
+                    }
+                }
+
+                topValues = (directoryRecord + 2);
+                top = byteswap_ulong(topValues);
+
+                sizeValues = (directoryRecord + 10);
+                size = byteswap_ulong(sizeValues);
+
+                mts_printf_8008BBA0(aFileSTopDSizeD, parsedFileName, top, size, foundRecord->field_4_sector);
+            }
+        }
+		
+        directoryRecord += *directoryRecord;
+    }
+
+    return returnValue;
+}
 
 extern const char aPlaystation[]; // = "PLAYSTATION"
 extern const char aMgs[]; // = "MGS"
