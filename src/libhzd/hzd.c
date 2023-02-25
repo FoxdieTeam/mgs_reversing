@@ -110,14 +110,14 @@ HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48
     if (hzdMap)
     {
         hzdMap->f1C_pEndOfHzdMap = (void *)&hzdMap[1];
-        hzdMap->f20_pAfterStructure_24 = &hzdMap->f1C_pEndOfHzdMap[default_24];
-        hzdMap->f20_pAfterStructure_48 = &hzdMap->f20_pAfterStructure_24[default_48];
+        hzdMap->f20_pAfterStructure_24 = (Actor_Door_TParam_sub**)&hzdMap->f1C_pEndOfHzdMap[default_24];
+        hzdMap->f20_pAfterStructure_48 = (char*)&hzdMap->f20_pAfterStructure_24[default_48];
 
-        hzdMap->f12_48size = default_48;
+        hzdMap->f12_queue_size = default_48;
         hzdMap->f10_24size = default_24;
         hzdMap->f00_header = hzd;
         hzdMap->f04_area = &hzd->areas[areaIndex];
-        hzdMap->f0A = 0;
+        hzdMap->f0A_idx = 0;
         hzdMap->f0C = 0;
         (int)hzdMap->f14_navmeshes = *(int *)hzd;
 

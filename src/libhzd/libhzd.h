@@ -111,21 +111,34 @@ typedef struct HZD_HEADER
     HZD_PAT  *routes;       // 18
 } HZD_HEADER;               // 28
 
+typedef struct Actor_Door_TParam_sub
+{
+    short field_0_x;
+    short field_2_z;
+    short field_4_y;
+    short field_6_param_v2;
+
+    short field_8_x;
+    short field_A_z;
+    short field_C_y;
+    short field_E_param_v1;
+} Actor_Door_TParam_sub;
+
 typedef struct HZD_MAP
 {
     HZD_HEADER *f00_header;
     HZD_AREA   *f04_area;
     short       f08_areaIndex;
-    short       f0A;
+    short       f0A_idx;
     short       f0C;
     short       f0E_n_cameras;
     short       f10_24size;
-    short       f12_48size;
+    short       f12_queue_size;
     HZD_ZON    *f14_navmeshes;
     HZD_TRP    *f18_traps;
     int        *f1C_pEndOfHzdMap;
-    int        *f20_pAfterStructure_24;
-    int        *f20_pAfterStructure_48;
+    Actor_Door_TParam_sub        **f20_pAfterStructure_24;
+    char        *f20_pAfterStructure_48;
 } HZD_MAP; // 28
 
 void     HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);

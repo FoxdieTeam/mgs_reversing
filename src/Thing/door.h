@@ -4,21 +4,9 @@
 #include "Game/GM_Control.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
+#include "libhzd/libhzd.h"
 
 GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv);
-
-typedef struct Actor_Door_TParam_sub
-{
-    short field_0_x;
-    short field_2_z;
-    short field_4_y;
-    short field_6_param_v2;
-
-    short field_8_x;
-    short field_A_z;
-    short field_C_y;
-    short field_E_param_v1;
-} Actor_Door_TParam_sub;
 
 typedef struct Actor_Door_TParam
 {
@@ -73,7 +61,7 @@ void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, s
 void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2,
                                       short param_v);
 
-// TODO: move to libhzd.h? but this pTSub struct is weird
+// TODO: move to libhzd.h?
 int HZD_QueueDynamicSegment2_8006FDDC(int pHzd_f0, Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
 
 #endif // _THING_DOOR_H_
