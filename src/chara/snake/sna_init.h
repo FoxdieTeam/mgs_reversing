@@ -504,6 +504,6 @@ GV_ACT *mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, 
 GV_ACT *NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
 GV_ACT *NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
 GV_ACT *NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
 
 #endif // _SNA_INIT_H_
