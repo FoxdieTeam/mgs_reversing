@@ -319,9 +319,7 @@ int BSS             dword_800BF064; // 0x4 (4) bytes
 SEPLAYTBL BSS       se_playing_800BF068[8]; // 0x60 (96) bytes
 int BSS             spu_bgm_start_ptr_r_800BF0C8; // 0x4 (4) bytes
 int BSS             bstr_fade_inProgress_800BF0CC; // 0x4 (4) bytes
-
-gap                                     gap_800BF0D0[0x4]; // 4 bytes
-
+int BSS             mdata1_800BF0D0; // 0x4 (4) bytes
 int BSS             mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS             mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS             mdata4_800BF0DC; // 0x4 (4) bytes
@@ -346,7 +344,11 @@ int BSS             stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 int BSS             dword_800BF1A4; // 0x4 (4) bytes
 int BSS             dword_800BF1A8; // 0x4 (4) bytes
 
-gap                                     gap_800BF1AC[0xC]; // 12 bytes
+gap                                     gap_800BF1AC[0x4]; // 4 bytes
+
+int BSS             key_fg_800BF1B0; // 0x4 (4) bytes
+
+gap                                     gap_800BF1B4[0x4]; // 4 bytes
 
 int BSS             se_pan_800BF1B8[8]; // 0x20 (32) bytes
 int BSS             dword_800BF1D8; // 0x4 (4) bytes
