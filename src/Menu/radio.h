@@ -97,10 +97,10 @@ typedef struct RadioFileModeStru_800ABB7C
 
 typedef struct RadioCodecStru_800ABB98
 {
-    short       field_0;
+    short       field_0_idx;
     short       field_2;
     short       field_4_count;
-    short       field_6;
+    short       field_6; // Last pressed button in menu_radio_codec_helper_helper2_8004DF68
     short       field_8;
     short       field_a;
     KCB        *field_c_kcb;
@@ -109,7 +109,7 @@ typedef struct RadioCodecStru_800ABB98
 } RadioCodecStru_800ABB98;
 
 
-void           sub_8004D580(int param_1);
+void           sub_8004D580(int pressed);
 void           sub_8004124C(Actor_MenuMan *pActor);
 void           menu_radio_codec_create_state_80047CE4(Actor_MenuMan *menuMan);
 void           menu_radio_update_80042198(void);
