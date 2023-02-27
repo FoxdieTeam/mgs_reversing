@@ -143,7 +143,7 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
     }
 }
 
-static inline void GM_SetCurrentMap(map) int map;
+static inline void GM_SetCurrentMap(int map)
 {
     GM_CurrentMap_800AB9B0 = map;
 }
