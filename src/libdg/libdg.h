@@ -441,55 +441,53 @@ static inline void SCOPYL2( void *s1, void *d1, void *s2, void *d2 )
 	*(u_short *)d2 = r2;
 }
 
-static inline void DG_VisibleObjs( objs ) DG_OBJS *objs;
+static inline void DG_VisibleObjs( DG_OBJS *objs )
 {
 	objs->flag &= ~DG_FLAG_INVISIBLE;
 }
 
-static inline void DG_InvisibleObjs( objs ) DG_OBJS *objs;
+static inline void DG_InvisibleObjs( DG_OBJS *objs )
 {
 	objs->flag |= DG_FLAG_INVISIBLE;
 }
 
-static inline void DG_GroupObjs( objs, group_id ) DG_OBJS *objs;
-int                group_id;
+static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
 {
 	objs->group_id = group_id;
 }
 
-static inline void DG_GroupPrim( prim, group_id ) DG_PRIM *prim;
-int                group_id;
+static inline void DG_GroupPrim( DG_PRIM *prim, int group_id )
 {
 	prim->group_id = group_id;
 }
 
-static inline void DG_VisiblePrim( prim ) DG_PRIM *prim;
+static inline void DG_VisiblePrim( DG_PRIM *prim )
 {
 	prim->type &= ~DG_PRIM_INVISIBLE;
 }
 
-static inline void DG_InvisiblePrim( prim ) DG_PRIM *prim;
+static inline void DG_InvisiblePrim( DG_PRIM *prim )
 {
 	prim->type |= DG_PRIM_INVISIBLE;
 }
 
 
-static inline void DG_UnShadeObjs( objs ) DG_OBJS *objs;
+static inline void DG_UnShadeObjs( DG_OBJS *objs )
 {
 	objs->flag &= ~DG_FLAG_SHADE;
 }
 
-static inline void DG_UnBoundObjs( objs ) DG_OBJS *objs;
+static inline void DG_UnBoundObjs( DG_OBJS *objs )
 {
 	objs->flag &= ~DG_FLAG_BOUND;
 }
 
-static inline void DG_UnGBoundObjs( objs ) DG_OBJS *objs;
+static inline void DG_UnGBoundObjs( DG_OBJS *objs )
 {
 	objs->flag &= ~DG_FLAG_GBOUND;
 }
 
-static inline void DG_GBoundObjs( objs ) DG_OBJS *objs;
+static inline void DG_GBoundObjs( DG_OBJS *objs )
 {
 	objs->flag |= DG_FLAG_GBOUND;
 }
