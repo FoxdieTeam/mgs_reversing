@@ -5,8 +5,8 @@ extern RadioMemory gRadioMemory_800BDB38[];
 extern RadioCodecStru_800ABB98 *stru_800ABB98;
 RadioCodecStru_800ABB98        *stru_800ABB98;
 
-extern int dword_800AB770;
-int        dword_800AB770;
+extern int gRadioCodecIdx_800AB770;
+int        gRadioCodecIdx_800AB770;
 
 extern short word_800ABB9C;
 short        word_800ABB9C;
@@ -35,7 +35,7 @@ void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *pActor)
     }
 
     stru_800ABB98_copy->field_4_count = count;
-    stru_800ABB98_copy->field_0 = dword_800AB770;
+    stru_800ABB98_copy->field_0_idx = gRadioCodecIdx_800AB770;
     stru_800ABB98->field_2 = 0;
     stru_800ABB98_copy->field_6 = 2;
     stru_800ABB98_copy->field_8 = 14;

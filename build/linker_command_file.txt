@@ -495,7 +495,7 @@
     include "..\obj\data\sbss\sbss5.obj"
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
-    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper2_8004DF68.obj"
+    include "..\obj\Menu\menu_radio_codec_helper_helper2_8004DF68.obj"
     include "..\obj\Menu\menu_InitRadioMemory_8004E0EC.obj" ; in radiomem.c
 
     include "..\obj\data\sdata\sdata6.obj"
