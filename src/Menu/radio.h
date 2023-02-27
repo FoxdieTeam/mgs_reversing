@@ -131,6 +131,7 @@ void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue
                                                                         int idx);
 int            menu_GetRadioCode_800497C4(int param_1);
 void           sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode);
+void           sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos, int number, int flags);
 void menu_draw_nouse_800435A4(MenuGlue *pGlue, int offset_x, int offset_y);
