@@ -160,7 +160,45 @@ void adsr_reset_80085D98()
 }
 
 #pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s") // 440 bytes
-#pragma INCLUDE_ASM("asm/SD/swpadset_80085F98.s") // 180 bytes
+
+
+void swpadset_80085F98(int a1)
+{
+     unsigned int temp; // $lo
+
+    if ( sptr_800C057C->field_57_swpc  )
+    {
+        temp = sptr_800C057C->field_57_swpc << 8;
+        temp = temp / sptr_800C057C->field_B8_tmp;
+        if ( a1 < 0 )
+        {
+            a1 = 0;
+           
+        }
+        else if ( a1 >= 0x6000 )
+        {
+            a1 = 0x5FFF;
+        }
+
+        
+        sptr_800C057C->field_64_swpm = a1;
+
+        a1 -= sptr_800C057C->field_5C_swpd;
+        
+        if ( a1 < 0 )
+        {
+            a1 = -a1 / temp;
+            sptr_800C057C->field_60_swpad = -a1;
+        }
+        else
+        {
+             sptr_800C057C->field_60_swpad = a1 / temp;
+           
+        }
+        
+    }
+}
+
 #pragma INCLUDE_ASM("asm/SD/vol_compute_8008604C.s") // 332 bytes
 
 void pan_generate_80086198()
