@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_80086734
-SD_80086734:
+	xdef bendch_80086734
+bendch_80086734:
 	dw 0x3C05800C ; 0x80086734
 	dw 0x8CA5057C ; 0x80086738
 	dw 0x00000000 ; 0x8008673C

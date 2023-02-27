@@ -12,7 +12,7 @@ extern int mdata1_800BF0D0;
 extern int mdata2_800BF0D4;
 extern int mdata3_800BF0D8;
 extern int mdata4_800BF0DC;
-
+extern int sng_fade_in_2_800C0BC0;
 extern int key_fg_800BF1B0;
 extern unsigned char *mptr_800C0570;
 
@@ -21,8 +21,66 @@ extern unsigned char VIBX_TBL_8009FA40[32];
 
 unsigned int random_80086B84();
 void note_set_80085CD8(void);
+void tempo_ch_80086C08();
+void keych_80086280();
+int tx_read_80085B84();
+void bendch_80086734();
+void vol_compute_8008604C();
+void note_cntl_8008686C();
+void keyon_80087F58();
 
-#pragma INCLUDE_ASM("asm/SD/SD_80085A50.s") // 308 bytes
+int SD_80085A50()
+{
+    int fade2_shifted; // $a0
+    unsigned int tmpd; // $a1
+
+    key_fg_800BF1B0 = 0;
+    sptr_800C057C->field_B4_tmpd += sptr_800C057C->field_B8_tmp;
+    if ( (unsigned int)mtrack_800BF1EC < 0xD )
+    {
+        if ( sng_fade_in_2_800C0BC0 )
+        {
+            fade2_shifted = sng_fade_in_2_800C0BC0 >> 5;
+            if ( fade2_shifted < (unsigned char)sptr_800C057C->field_B8_tmp )
+            {
+                sptr_800C057C->field_B4_tmpd -=  fade2_shifted;
+            }
+        }
+    }
+
+    tmpd = sptr_800C057C->field_B4_tmpd;
+    if ( tmpd >= 256 )
+    {
+
+        sptr_800C057C->field_B4_tmpd = tmpd & 0xff;
+         --sptr_800C057C->field_4_ngc;
+
+        if ( sptr_800C057C->field_4_ngc )
+        {
+            keych_80086280();
+        }
+        else if ( tx_read_80085B84() )
+        {
+            keyoff_80087F80();
+            return 1;
+        }
+        tempo_ch_80086C08();
+        bendch_80086734();
+        vol_compute_8008604C();
+        
+    }
+    else
+    {
+       note_cntl_8008686C();
+    }
+
+    if ( key_fg_800BF1B0 )
+    {
+        keyon_80087F58();
+        return 0;
+    }
+    return 0;
+}
 
 int tx_read_80085B84()
 {
@@ -103,7 +161,7 @@ void adsr_reset_80085D98()
 
 #pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s") // 440 bytes
 #pragma INCLUDE_ASM("asm/SD/swpadset_80085F98.s") // 180 bytes
-#pragma INCLUDE_ASM("asm/SD/SD_8008604C.s") // 332 bytes
+#pragma INCLUDE_ASM("asm/SD/vol_compute_8008604C.s") // 332 bytes
 
 void pan_generate_80086198()
 {
@@ -315,7 +373,7 @@ int vib_compute_800865CC()
 }
 
 #pragma INCLUDE_ASM("asm/sub_80086694.s") // 160 bytes
-#pragma INCLUDE_ASM("asm/SD/SD_80086734.s") // 312 bytes
+#pragma INCLUDE_ASM("asm/SD/bendch_80086734.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/SD/note_cntl_8008686C.s") // 792 bytes
 
 unsigned int random_80086B84()

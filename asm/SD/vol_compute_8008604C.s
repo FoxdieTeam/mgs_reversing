@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef SD_8008604C
-SD_8008604C:
+	xdef vol_compute_8008604C
+vol_compute_8008604C:
 	dw 0x3C03800C ; 0x8008604C
 	dw 0x8C63057C ; 0x80086050
 	dw 0x27BDFFE8 ; 0x80086054
