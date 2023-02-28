@@ -6,18 +6,26 @@ int SECTION(".sbss") dword_800ABA90;
 extern int GM_event_camera_flag_800ABA9C;
 int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
 
+extern int GM_CameraTrackSave_800AB42C;
+int SECTION(".sdata") GM_CameraTrackSave_800AB42C;
+
+extern SVECTOR GM_CameraRotateSave_800AB430;
+SVECTOR SECTION(".sdata") GM_CameraRotateSave_800AB430;
+
 extern int GM_CameraTrackOrg_800AB43C;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB43C;
 
 extern int GM_CameraTrackOrg_800AB440;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB440;
 
-extern const char aCameraC[];
-extern SVECTOR svec_800ABA88;
-extern int GV_PauseLevel_800AB928;
-extern GM_Camera GM_Camera_800B77E8;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern SVECTOR          svec_800ABA88;
+extern int              GV_PauseLevel_800AB928;
+extern GM_Camera        GM_Camera_800B77E8;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
+
+extern const char aCameraC[]; // = "camera.c"
 
 #pragma INCLUDE_ASM("asm/sub_8002EADC.s") // 164 bytes
 
@@ -112,14 +120,11 @@ void sub_8002ECE4(SVECTOR *a, SVECTOR *b, SVECTOR *c)
     }
 }
 
-extern GM_Camera GM_Camera_800B77E8;
-
 // move to camera.h when it exists?
 static inline int CheckFlag(int mask)
 {
     return GM_Camera_800B77E8.field_18_flags & mask;
 }
-
 
 int camera_act_helper3_helper_8002ED3C(void)
 {
@@ -135,9 +140,32 @@ int camera_act_helper3_helper_8002ED3C(void)
     }
     return uVar1;
 }
-#pragma INCLUDE_ASM("asm/sub_8002ED68.s") // 156 bytes
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
+void sub_8002ED68(int arg0)
+{
+    switch (gUnkCameraStruct2_800B76F0.field_0.pad & 3)
+    {
+    case 0:
+        GV_OriginPadSystem_80016C78(0);
+        return;
+
+    case 1:
+        if (arg0 != 0)
+        {
+            sub_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+        }
+
+        GV_OriginPadSystem_80016C78(gUnkCameraStruct2_800B76F0.field_10.vy + 2048);
+        break;
+
+    case 2:
+        GV_OriginPadSystem_80016C78(gUnkCameraStruct2_800B76F0.field_0.pad >> 2);
+        break;
+
+    default:
+        break;
+    }
+}
 
 void sub_8002EE04()
 {
@@ -349,12 +377,6 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
     GV_DirVec3_80016FA0(param_3, *param_4, &vec);
     sub_8002ECE4(param_2, &vec, param_1);
 }
-
-extern int     GM_CameraTrackSave_800AB42C;
-int            SECTION(".sdata") GM_CameraTrackSave_800AB42C;
-
-extern SVECTOR GM_CameraRotateSave_800AB430;
-SVECTOR        SECTION(".sdata") GM_CameraRotateSave_800AB430;
 
 void sub_8002FCF0(void)
 {
