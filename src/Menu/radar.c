@@ -207,7 +207,10 @@ void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
 // https://decomp.me/scratch/Ca3O2 - 94%
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
+void draw_radar_helper3_helper2_8003A2D0(MenuGlue *pGlue, int param_2);
+
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
+void draw_radar_helper3_helper3_8003A664(MenuGlue *pGlue, int param_2, int param_3);
 
 void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
 {
@@ -221,7 +224,80 @@ void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_8003AA2C.s") // 824 bytes
+extern RECT  rect_800AB490;
+extern short image_8009E338[];
+extern int   gRadarRGBTable2_8009E3D4[];
+
+void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4)
+{
+    unsigned int rand;
+    DR_TPAGE    *tpage1;
+    TILE        *tile;
+    DR_TPAGE    *tpage2;
+    LINE_F2     *line;
+    int          i;
+
+    switch (param_3)
+    {
+    case 1:
+        LoadImage_8008FB10(&rect_800AB490, (unsigned char *)image_8009E338);
+        draw_radar_helper3_helper4_8003A978(pActor->field_20_otBuf, 6, 3);
+        draw_radar_helper3_helper2_8003A2D0(pActor->field_20_otBuf, 3);
+        draw_radar_helper3_helper_80039EC4(pActor->field_20_otBuf, -25, 3);
+        break;
+
+    case 0:
+        param_3 = 4;
+        break;
+
+    default:
+        draw_radar_helper3_helper3_8003A664(pActor->field_20_otBuf, param_4, 3 - param_3);
+        draw_radar_helper3_helper4_8003A978(pActor->field_20_otBuf, 9, 3 - param_3);
+        draw_radar_helper3_helper_80039EC4(pActor->field_20_otBuf, -25, 3 - param_3);
+        break;
+    }
+
+    tpage1 = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
+    addPrim(pOt, tpage1);
+
+    rand = (rand_8008E6B8() << 16) | (rand_8008E6B8());
+    for (i = 0; i < 52;)
+    {
+        line = (LINE_F2 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+        pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(LINE_F2);
+        line->y0 = i - 26;
+        line->y1 = i - 26;
+        line->x0 = rand % 138 - 69;
+        line->x1 = line->x0 + (rand / 256) % 69 + 8;
+        LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &line->r0);
+
+        setLineF2(line);
+        setSemiTrans(line, 1);
+        addPrim(pOt, line);
+
+        i += 4 + (rand >> 24 & 7);
+        rand = rand << 25 | rand >> 7;
+    }
+
+    tile = (TILE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(TILE);
+    tile->x0 = -34;
+    tile->w = 69;
+    tile->y0 = -26;
+    tile->h = 52;
+    LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &tile->r0);
+    setTile(tile);
+    setSemiTrans(tile, 1);
+    addPrim(pOt, tile);
+
+    tpage2 = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    setDrawTPage(tpage2, 1, 0, getTPage(0, 0, 960, 256));
+    addPrim(pOt, tpage2);
+}
 
 void menu_radar_load_rpk_8003AD64()
 {

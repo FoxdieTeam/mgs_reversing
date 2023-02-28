@@ -64,8 +64,8 @@ int SECTION(".sdata") MENU_RadarRangeH_800AB484 = 0x5555;
 int SECTION(".sdata") MENU_RadarRangeV_800AB488 = 0x3FFF;
 int SECTION(".sdata") gFn_radar_800AB48C = 0;
 
-int SECTION(".sdata") dword_800AB490 = 0x17E03E0;
-int SECTION(".sdata") dword_800AB494 = 0x20020;
+RECT SECTION(".sdata") rect_800AB490 = {992, 382, 32, 2};
+
 int SECTION(".sdata") gRadarClut_800AB498 = 0x5FBF5FBE;
 int SECTION(".sdata") dword_800AB49C = 0x5FFF5FFE;
 int SECTION(".sdata") dword_800AB4A0 = 0x8D118C91;
