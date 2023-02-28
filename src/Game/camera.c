@@ -230,7 +230,64 @@ void camera_act_helper_8002F1C8(void)
     gUnkCameraStruct_800B77B8.field_24++;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002F274.s") // 272 bytes
+int sub_8002F274(void)
+{
+    if (GM_Camera_800B77E8.field_2C.pad == 1)
+    {
+        GV_AddVec3_80016D00(&gUnkCameraStruct_800B77B8.field_0, &GM_Camera_800B77E8.field_2C, &gUnkCameraStruct_800B77B8.field_0);
+        GM_Camera_800B77E8.field_2C.pad = 0;
+    }
+
+    sub_800303E0(&gUnkCameraStruct_800B77B8.field_8);
+
+    if (GM_Camera_800B77E8.field_18_flags & 0x20)
+    {
+        sub_8002EF88();
+        return 2;
+    }
+
+    else if (GM_Camera_800B77E8.field_18_flags & 0x10)
+    {
+        sub_8002EE04();
+    }
+    else if (GM_Camera_800B77E8.field_18_flags & 8)
+    {
+        sub_8002EE80();
+    }
+    else if (GM_Camera_800B77E8.field_18_flags & 4)
+    {
+        sub_8002EF08();
+    }
+    else if (GM_Camera_800B77E8.field_18_flags & 2)
+    {
+        if (GM_Camera_800B77E8.field_74_funcs[1])
+        {
+            GM_Camera_800B77E8.field_74_funcs[1]();
+        }
+
+        if ((GM_Camera_800B77E8.field_18_flags & 0x80))
+        {
+            return 1;
+        }
+        else if (GM_Camera_800B77E8.field_18_flags & 0x40)
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        sub_8002EF88();
+        return 1;
+    }
+
+    return 0;
+
+}
+
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper2_helper_8002F384.s") // 576 bytes
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper2_8002F5C4.s") // 136 bytes
 
@@ -322,6 +379,7 @@ void sub_8002FD84(int index, TGMCameraFunc func)
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper5_80030118.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper6_80030250.s") // 400 bytes
 #pragma INCLUDE_ASM("asm/sub_800303E0.s") // 188 bytes
+
 #pragma INCLUDE_ASM("asm/sub_8003049C.s") // 256 bytes
 
 void camera_act_8003059C(GV_ACT *pActor)
@@ -381,7 +439,7 @@ GV_ACT *camera_init_800306A0()
     GM_Camera_800B77E8.field_20 = 320;
     GM_Camera_800B77E8.field_22 = 0;
     GM_Camera_800B77E8.field_18_flags = 0;
-    GM_Camera_800B77E8.field_32 = 0;
+    GM_Camera_800B77E8.field_2C.pad = 0;
     gUnkCameraStruct2_800B7868.field_1C = 320;
     dword_800ABA90 = 0;
     GM_event_camera_flag_800ABA9C = 0;
