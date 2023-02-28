@@ -42,10 +42,7 @@ typedef struct GM_Camera // @ 800B77E8
     short         field_26;
     short         field_28;
     short         field_2A;
-    short         field_2C;
-    short         field_2E;
-    short         field_30;
-    short         field_32;
+    SVECTOR       field_2C;
     SVECTOR       field_34[4][2];
     TGMCameraFunc field_74_funcs[2];
 } GM_Camera;
@@ -70,5 +67,7 @@ void camera_act_helper7_8002FB54();
 int  camera_act_helper2_8002F5C4();
 void camera_act_helper4_8002F78C();
 void sub_8002ED68(int param_1);
+void sub_800303E0(SVECTOR *);
+void sub_8002EE80(void);
 
 #endif // _CAMERA_H_
