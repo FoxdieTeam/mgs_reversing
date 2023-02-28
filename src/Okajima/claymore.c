@@ -54,8 +54,27 @@ void claymore_act_helper_800732B0(Actor_Claymore *claymore)
     claymore_800731CC(vec);
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/claymore_act_helper_80073364.s")     // 300 bytes
-void claymore_act_helper_80073364(Actor_Claymore *claymore);
+void claymore_act_helper_80073364(Actor_Claymore *pActor)
+{
+    SVECTOR *pSrc;
+    SVECTOR *pDst;
+    int i;
+
+    pSrc = &pActor->field_C8;
+    pDst = &pActor->field_88;
+
+    for (i = 1; i > 0; pDst += 8, pSrc += 4, i--)
+    {
+        pDst[0] = pSrc[0];
+        pDst[1] = pSrc[1];
+        pDst[2] = pSrc[4];
+        pDst[3] = pSrc[5];
+        pDst[4] = pSrc[2];
+        pDst[5] = pSrc[3];
+        pDst[6] = pSrc[6];
+        pDst[7] = pSrc[7];
+    }
+}
 
 #pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s")  // 272 bytes
 void claymore_loader_helper_80073490(union Prim_Union *prim, DG_TEX *tex);
