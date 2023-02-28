@@ -18,12 +18,10 @@ typedef struct UnkCameraStruct // @ 800B77B8
     SVECTOR field_8;
     SVECTOR field_10;
     int     field_18;
-    int     field_1C;
-    int     field_20;
+    SVECTOR field_1C;
     int     field_24;
     SVECTOR field_28;
 } UnkCameraStruct;
-STATIC_ASSERT_SIZE(UnkCameraStruct, 0x30);
 
 typedef void (*TGMCameraFunc)(void);
 

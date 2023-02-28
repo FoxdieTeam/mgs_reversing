@@ -24,10 +24,42 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
+extern int              DG_UnDrawFrameCount_800AB380;
+extern int              GV_Time_800AB330;
 
-extern const char aCameraC[]; // = "camera.c"
+extern const char aDCamOutD[]; // = "[%d]cam out %d\n"
+extern const char aDCamInD[];  // = "[%d]cam in %d\n"
+extern const char aCameraC[];  // = "camera.c"
 
-#pragma INCLUDE_ASM("asm/sub_8002EADC.s") // 164 bytes
+extern GM_Camera GM_Camera_800B77E8;
+
+static inline int camera_clamp(int val, int min, int max)
+{
+    if (val < min)
+    {
+        val = min;
+    }
+
+    if (val > max)
+    {
+        val = max;
+    }
+
+    return val;
+}
+
+void sub_8002EADC(int index)
+{
+    SVECTOR *pBase;
+    SVECTOR *pVec;
+
+    pBase = (SVECTOR *)&GM_Camera_800B77E8;
+    pVec = pBase + index;
+
+    GM_Camera_800B77E8.field_0.vx = camera_clamp(GM_Camera_800B77E8.field_0.vx, pVec[8].vz,  pVec[6].vz);
+    GM_Camera_800B77E8.field_0.vy = camera_clamp(GM_Camera_800B77E8.field_0.vy, pVec[8].pad, pVec[6].pad);
+    GM_Camera_800B77E8.field_0.vz = camera_clamp(GM_Camera_800B77E8.field_0.vz, pVec[9].vx,  pVec[7].vx);
+}
 
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
 void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
@@ -47,7 +79,19 @@ void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
     vec_1->vy = (short)iVar1;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002EBE8.s") // 164 bytes
+void sub_8002EBE8(SVECTOR *arg0, int index)
+{
+    SVECTOR *pBase;
+    SVECTOR *pVec;
+
+    pBase = (SVECTOR *)&GM_Camera_800B77E8;
+    pVec = pBase + index;
+
+    arg0->vx = camera_clamp(arg0->vx, pVec[12].vz, pVec[10].vz);
+    arg0->vy = camera_clamp(arg0->vy, pVec[12].pad, pVec[10].pad);
+    arg0->vz = camera_clamp(arg0->vz, pVec[13].vx, pVec[11].vx);
+
+}
 
 void sub_8002EC8C(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
 {
@@ -175,7 +219,14 @@ void sub_8002EE04()
     sub_8002ED68(0);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002EE80.s") // 136 bytes
+void sub_8002EE80(void)
+{
+    gUnkCameraStruct2_800B76F0.field_8.vz = gUnkCameraStruct_800B77B8.field_8.vz;
+    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.field_0;
+    GM_Camera_800B77E8.field_8 = gUnkCameraStruct2_800B76F0.field_8;
+    GM_Camera_800B77E8.field_28 = 0;
+    GV_OriginPadSystem_80016C78(0);
+}
 
 void sub_8002EF08()
 {
@@ -398,11 +449,107 @@ void sub_8002FD84(int index, TGMCameraFunc func)
 }
 
 #pragma INCLUDE_ASM("asm/Game/camera_act_helper6_helper_8002FD9C.s") // 892 bytes
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper5_80030118.s") // 312 bytes
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_80030250.s") // 400 bytes
-#pragma INCLUDE_ASM("asm/sub_800303E0.s") // 188 bytes
 
-#pragma INCLUDE_ASM("asm/sub_8003049C.s") // 256 bytes
+void camera_act_helper5_80030118(GV_ACT *pActor)
+{
+    GV_MSG *pMsg;
+    int msgLen;
+    int bitmap;
+    GV_MSG *pMsgIter;
+    int i;
+    int index;
+    int type;
+
+    msgLen = GV_ReceiveMessage_80016620(0xC356, &pMsg);
+
+    if (!msgLen)
+    {
+        return;
+    }
+
+    bitmap = 0;
+
+    pMsgIter = pMsg;
+    for (i = msgLen; i > 0; i--)
+    {
+        index = pMsgIter->message[0];
+        type = pMsgIter->message[1];
+
+        if (type == 0xD5CC)
+        {
+            bitmap |= (1 << index);
+            GM_event_camera_flag_800ABA9C &= ~(1 << index);
+            mts_printf_8008BBA0(aDCamOutD, GV_Time_800AB330, index);
+        }
+
+        pMsgIter++;
+    }
+
+    pMsgIter = pMsg;
+    for (i = msgLen; i > 0; i--)
+    {
+        index = pMsgIter->message[0];
+        type = pMsgIter->message[1];
+
+        if (type == 0xDD2)
+        {
+            GM_event_camera_flag_800ABA9C |= (1 << index);
+
+            if (bitmap & (1 << index))
+            {
+                dword_800ABA90 &= ~(1 << index);
+            }
+
+            mts_printf_8008BBA0(aDCamInD, GV_Time_800AB330, index);
+        }
+
+        pMsgIter++;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_80030250.s") // 400 bytes
+
+void sub_800303E0(SVECTOR *arg0)
+{
+    SVECTOR vec;
+    UnkCameraStruct *pUnkCamera;
+
+    vec = *arg0;
+    pUnkCamera = &gUnkCameraStruct_800B77B8;
+
+    if (DG_UnDrawFrameCount_800AB380 > 0)
+    {
+        *arg0 = pUnkCamera->field_0;
+    }
+    else
+    {
+        sub_8002EB80(&vec, &pUnkCamera->field_0);
+        GV_NearExp4V_800266D4((short *)arg0, (short *)&vec, 3);
+    }
+
+    sub_8002EBE8(arg0, (GM_Camera_800B77E8.field_18_flags & 0x20) != 0);
+}
+
+void sub_8003049C(SVECTOR *a1)
+{
+    GM_Camera *pCamera;
+
+    pCamera = &GM_Camera_800B77E8;
+    pCamera->field_2C = *a1;
+    pCamera->field_2C.pad = 1;
+
+    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.field_0, a1, &gUnkCameraStruct2_800B7868.field_0);
+    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.field_8, a1, &gUnkCameraStruct2_800B7868.field_8);
+
+    GV_AddVec3_80016D00(&pCamera->field_0, a1, &pCamera->field_0);
+    GV_AddVec3_80016D00(&pCamera->field_8, a1, &pCamera->field_8);
+
+    GV_AddVec3_80016D00(&gUnkCameraStruct_800B77B8.field_1C, a1, &gUnkCameraStruct_800B77B8.field_1C);
+    GV_AddVec3_80016D00(&gUnkCameraStruct_800B77B8.field_0, a1, &gUnkCameraStruct_800B77B8.field_0);
+    GV_AddVec3_80016D00(&gUnkCameraStruct_800B77B8.field_8, a1, &gUnkCameraStruct_800B77B8.field_8);
+
+    GV_AddVec3_80016D00(&svec_800ABA88, a1, &svec_800ABA88);
+}
 
 void camera_act_8003059C(GV_ACT *pActor)
 {
