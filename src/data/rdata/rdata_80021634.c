@@ -106,9 +106,9 @@ const char SECTION(".rdata") aLoadend[] = "LoadEnd\n";
 const char SECTION(".rdata") aLoadreq[] = "LoadReq\n";
 const char SECTION(".rdata") aNotFoundStageS[] = "NOT FOUND STAGE %s\n";
 const char SECTION(".rdata") aLoaderC[] = "loader.c";
-int        SECTION(".rdata") dword_80010C60[] = {0,          0x1E0001,   0x1E0002,   0x1E0003,   0x140003,   0xA0003,
-                                                 0x50003,    0x30003,    0x5D64255B, 0x206D6163, 0x2074756F, 0xA6425,
-                                                 0x5D64255B, 0x206D6163, 0x25206E69, 0xA64};
+int        SECTION(".rdata") dword_80010C60[] = {0,  0x1E0001, 0x1E0002, 0x1E0003, 0x140003, 0xA0003, 0x50003, 0x30003};
+const char SECTION(".rdata") aDCamOutD[] = "[%d]cam out %d\n";
+const char SECTION(".rdata") aDCamInD[] = "[%d]cam in %d\n";
 const char SECTION(".rdata") aDChangeCameraD[] = "[%d]change camera %d\n";
 const char SECTION(".rdata") aCameraC[] = "camera.c";
 const char SECTION(".rdata") aSetMapD[] = "set map %d\n";
