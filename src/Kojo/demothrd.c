@@ -34,7 +34,69 @@ extern const char aM1e1[];
 extern const char aM1e1demo[];
 extern const char aHinddemo[];
 extern const char aHind[];
+extern const char aNoloadModelSce[];
+extern const char aErrorInitContr[];
+extern const char aDemothrdC[];
+extern const char aDemoFileS[];
+extern const char aSNotFound[];
+extern const char aM1e1[];
+extern const char aM1e1demo[];
+extern const char aHinddemo[];
+extern const char aHind[];
+extern const char a16dO4a[];
+extern const char a16dO5a[];
+extern const char a16dO6a[];
+extern const char a16dO7a[];
+extern const char a16dO8a[];
+extern const char a16dO9a[];
+extern const char a16dO10a[];
+extern const char a16dO4b[];
+extern const char a16dO5b[];
+extern const char a16dO6b[];
+extern const char a16dO7b[];
+extern const char a16dO8b[];
+extern const char a16dO9b[];
+extern const char a16dO10b[];
+extern const char a16dO4c[];
+extern const char a16dO5c[];
+extern const char a16dO6c[];
+extern const char a16dO7c[];
+extern const char a16dO8c[];
+extern const char a16dO9c[];
+extern const char a16dO10c[];
+extern const char a02aR8[];
+extern const char aMgrexw[];
+extern const char aMgrexll[];
+extern const char aMgrexrl[];
+extern const char aPitT[];
+extern const char aPitU[];
+extern const char aPitLiq[];
+extern const char aRadarF1[];
+extern const char aRadarF2[];
+extern const char aRadarF3[];
+extern const char aLHatch1[];
+extern const char aLHatch2[];
+extern const char aLHatch3[];
+extern const char aLHatch4[];
+extern const char aRHatch1[];
+extern const char aRHatch2[];
+extern const char aRHatch3[];
+extern const char aRHatch4[];
+extern const char aM1e1cl1[];
+extern const char aM1e1cl2[];
+extern const char aM1e1cl3[];
+extern const char aM1e1cr1[];
+extern const char aM1e1cr2[];
+extern const char aM1e1cr3[];
+extern const char aNoloadModelSta[];
+extern const char aNull_0[];
+extern const char aNoloadModelNul[];
+extern const char aErrorInitContr_0[];
+extern const char aNull[];
 
+void demothrd_Screen_Chanl_80080D48(DG_CHNL *pOt, int idx);
+
+void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub);
 void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
 TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
 void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
@@ -118,8 +180,260 @@ void sub_80079A1C(void)
 #pragma INCLUDE_ASM("asm/sub_80079A2C.s")                                          // 184 bytes
 #pragma INCLUDE_ASM("asm/sub_80079AE4.s")                                          // 108 bytes
 
-int CreateDemo_80079B50(Actor_demothrd *pActor, demothrd_0x1C *pDmoData);
-#pragma INCLUDE_ASM("asm/Kojo/CreateDemo_80079B50.s")                              // 2844 bytes
+
+int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
+{
+    void* pOldRendFunc; // $v0
+    demothrd_0x1C* pHdr; // $v0
+    Dmo_Map8* pMaps; // $v0
+    dmo_model_0x14* pNew_14; // $v0
+    Dmo_Map8* pMapsIter; // $s0
+    int scene_no; // $s4
+    dmo_model_0x14* pModel0x14Iter; // $s0
+    dmo_model_0x1A4* pModels0x1A4Iter; // $s3
+    dmo_m1e1_data* pM1Data; // $v0
+    dmo_hind* pHindData; // $v0
+    MATRIX* mtx;
+
+    pOldRendFunc = DG_SetChanlSystemUnits_80018598(0, demothrd_Screen_Chanl_80080D48);
+
+    pThis->field_270_pOldRenderFn = pOldRendFunc;
+    pThis->field_274_old_game_state_flags = GM_GameStatus_800AB3CC;
+    pThis->field_278 = GM_Camera_800B77E8;
+
+    pThis->field_2F4_old_equipped_item = gGameState_800B4D98[15];
+    pThis->field_2F8_old_equipped_weapon = gGameState_800B4D98[14];
+
+    pDmoData->field_14_pMaps = (Dmo_Map8*)(((char*)pDmoData) + (int)pDmoData->field_14_pMaps);
+    pDmoData->field_18_pModels = (dmo_model_0x14*)((int)pDmoData->field_18_pModels + (char*)pDmoData);
+    InitChain_8007F338(&pThis->field_38);
+    pHdr = (demothrd_0x1C*)GV_Malloc_8001620C(sizeof(demothrd_0x1C));
+    pThis->field_30_dmo_header = pHdr;
+    if (!pHdr) {
+        return 0;
+    }
+    *pHdr = *((demothrd_0x1C*)pDmoData);
+
+    pThis->field_30_dmo_header->field_14_pMaps = 0;
+    pThis->field_30_dmo_header->field_18_pModels = 0;
+    pMaps = GV_Malloc_8001620C((sizeof(Dmo_Map8) * pDmoData->field_C_num_maps) | 1);
+    pThis->field_30_dmo_header->field_14_pMaps = pMaps;
+    if (!pMaps) {
+        return 0;
+    }
+    pNew_14 = (dmo_model_0x14*)GV_Malloc_8001620C((sizeof(dmo_model_0x14) * pDmoData->field_10_num_models) | 1);
+    pThis->field_30_dmo_header->field_18_pModels = pNew_14;
+    if (!pNew_14) {
+        return 0;
+    }
+    memcpy_8008E648(
+        (char*)pThis->field_30_dmo_header->field_14_pMaps,
+        (char*)pDmoData->field_14_pMaps,
+        sizeof(Dmo_Map8) * pThis->field_30_dmo_header->field_C_num_maps);
+
+    memcpy_8008E648(
+        pThis->field_30_dmo_header->field_18_pModels,
+        (char*)pDmoData->field_18_pModels,
+        sizeof(dmo_model_0x14) * pThis->field_30_dmo_header->field_10_num_models);
+
+    pMapsIter = (Dmo_Map8*)pThis->field_30_dmo_header->field_14_pMaps;
+
+    scene_no = 0;
+    if (pThis->field_30_dmo_header->field_C_num_maps > 0) {
+        while (1) {
+
+            if (!GV_GetCache_8001538C(pMapsIter->field_0)) {
+                mts_printf_8008BBA0(aNoloadModelSta);
+                return 0;
+            }
+            ++scene_no;
+            pMapsIter++;
+
+            if (scene_no >= pThis->field_30_dmo_header->field_C_num_maps) {
+                break;
+            }
+        }
+    }
+
+    pThis->field_34_pModels = (dmo_model_0x1A4*)GV_Malloc_8001620C((sizeof(dmo_model_0x1A4) * pThis->field_30_dmo_header->field_10_num_models) | 1);
+    if (pThis->field_34_pModels) {
+
+      
+        memset(pThis->field_34_pModels, 0, sizeof(dmo_model_0x1A4) * pThis->field_30_dmo_header->field_10_num_models);
+
+        pModels0x1A4Iter = pThis->field_34_pModels;
+        pModel0x14Iter = pThis->field_30_dmo_header->field_18_pModels;
+        
+        scene_no = 0;
+        while (scene_no < pThis->field_30_dmo_header->field_10_num_models) {
+
+            if (!GV_GetCache_8001538C((pModel0x14Iter)->field_8)) {
+                mts_printf_8008BBA0(aNoloadModelSce, scene_no +1);
+                asm(""); // TODO hack!
+                return 0;
+            }
+            
+            if (Res_Control_init_loader_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
+                mts_printf_8008BBA0(aErrorInitContr, scene_no + 1);
+                return 0;
+            }
+
+            pModels0x1A4Iter->field_0_ctrl.field_36 = 0;
+            pModels0x1A4Iter->field_0_ctrl.field_54 = 0;
+
+            if (((pModel0x14Iter)->field_4_flags & 1) != 0) {
+
+                GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
+            }
+            else {
+                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO4a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO5a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO6a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO7a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO8a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO9a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO10a)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO4b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO5b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO6b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO7b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO8b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO9b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO10b)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO4c)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO5c)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO6c)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO7c)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO8c)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO9c)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO10c)) {
+                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
+                }
+                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a02aR8)) {
+
+                    pModels0x1A4Iter->field_160_mtx.t[0] = 100;
+                    pModels0x1A4Iter->field_160_mtx.t[1] = 110;
+                    pModels0x1A4Iter->field_160_mtx.t[2] = 110;
+
+                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
+                }
+                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aMgrexw)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aMgrexll)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aMgrexrl)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aPitT)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aPitU)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aPitLiq)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRadarF1)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRadarF2)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRadarF3)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch1)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch2)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch3)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch4)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch1)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch2)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch3)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch4)) {
+
+                    pModels0x1A4Iter->field_160_mtx.t[0] = 64;
+                    pModels0x1A4Iter->field_160_mtx.t[1] = 64;
+                    pModels0x1A4Iter->field_160_mtx.t[2] = 64;
+                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
+                }
+                else {
+                    GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 13, 0);
+                }
+                
+                mtx = &pModels0x1A4Iter->field_160_mtx;
+                GM_ConfigObjectJoint_80034CB4(&pModels0x1A4Iter->field_7C_obj);
+                GM_ConfigObjectLight_80034C44(&pModels0x1A4Iter->field_7C_obj, mtx);
+
+                DG_InvisibleObjs(pModels0x1A4Iter->field_7C_obj.objs);
+
+                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)) {
+                    pM1Data = (dmo_m1e1_data*)GV_Malloc_8001620C(sizeof(dmo_m1e1_data));
+                    pModels0x1A4Iter->field_1A0_pM1OrHind = pM1Data;
+                    if (!pM1Data) {
+                        return 0;
+                    }
+                    memset(pM1Data, 0, sizeof(dmo_m1e1_data));
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0].field_0, GV_StrCode_80016CCC(aM1e1cl1), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1].field_0, GV_StrCode_80016CCC(aM1e1cl2), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2].field_0, GV_StrCode_80016CCC(aM1e1cl3), 301, 0);
+
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0].field_0, GV_StrCode_80016CCC(aM1e1cr1), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1].field_0, GV_StrCode_80016CCC(aM1e1cr2), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2].field_0, GV_StrCode_80016CCC(aM1e1cr3), 301, 0);
+
+                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0].field_0);
+                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1].field_0);
+                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2].field_0);
+
+                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0].field_0);
+                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1].field_0);
+                    GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2].field_0);
+
+                    GM_ConfigObjectLight_80034C44(
+                        &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0].field_0,
+                        mtx);
+                    GM_ConfigObjectLight_80034C44(
+                        &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1].field_0,
+                        mtx);
+                    GM_ConfigObjectLight_80034C44(
+                        &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2].field_0,
+                        mtx);
+
+                    GM_ConfigObjectLight_80034C44(
+                        &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0].field_0,
+                        mtx);
+                    GM_ConfigObjectLight_80034C44(
+                        &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1].field_0,
+                        mtx);
+                    GM_ConfigObjectLight_80034C44(
+                        &(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2].field_0,
+                        mtx);
+
+                    (pModels0x1A4Iter->field_1A0_pM1OrHind)->field_560 = 83;
+                }
+                else {
+                    if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aHind)
+                        || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aHinddemo)) {
+                        pHindData = (dmo_hind*)GV_Malloc_8001620C(sizeof(dmo_hind));
+                        pModels0x1A4Iter->field_1A0_pM1OrHind = (dmo_m1e1_data*)pHindData;
+                        if (!pHindData) {
+                            return 0;
+                        }
+                        memset(pHindData, 0, sizeof(dmo_hind));
+                    }
+                }
+            }
+            ++scene_no;
+            pModel0x14Iter++;
+            ++pModels0x1A4Iter;
+        }
+  
+        if (!GV_GetCache_8001538C(GV_CacheID2_800152FC(aNull, 'k'))) {
+            mts_printf_8008BBA0(aNoloadModelNul);
+        }
+        else {
+            if (Res_Control_init_loader_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
+                pThis->field_C4_ctrl.field_36 = 0;
+                pThis->field_C4_ctrl.field_54 = 0;
+                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode_80016CCC(aNull), 13, 0);
+                GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
+                GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, &pThis->field_224_light_mtx);
+                GM_GameStatus_800AB3CC |= 0x80000000;
+                DG_InvisibleObjs(pThis->field_140_obj.objs);
+                return 1;
+            }
+            else {
+                mts_printf_8008BBA0(aErrorInitContr_0);
+            }
+        }
+    }
+    return 0;
+}
 
 int DestroyDemo_8007A66C(Actor_demothrd *pActor)
 {
