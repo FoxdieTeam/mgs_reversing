@@ -19,6 +19,12 @@ typedef struct dmo_model_0x14
   int field_10;
 } dmo_model_0x14;
 
+typedef struct Dmo_Map8
+{
+    int field_0;
+    int field_8;
+} Dmo_Map8;
+
 typedef struct demothrd_0x1C
 {
   int field_0_magic;
@@ -26,7 +32,7 @@ typedef struct demothrd_0x1C
   int field_8_movie_frames;
   int field_C_num_maps;
   int field_10_num_models;
-  int field_14_pMaps;
+  Dmo_Map8* field_14_pMaps;
   dmo_model_0x14 *field_18_pModels;
 } demothrd_0x1C;
 
