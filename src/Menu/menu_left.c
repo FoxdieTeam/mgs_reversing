@@ -194,7 +194,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
         {
             menu_number_draw_80042F78(
                 pActor,
-                (int)pOt,
+                pOt,
                 xpos + 10,
                 ypos + 10,
                 GM_Items[ITEM_TIMER_B],
