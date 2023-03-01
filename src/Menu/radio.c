@@ -2,6 +2,7 @@
 #include "menuman.h"
 #include "radio.h"
 #include "unknown.h"
+#include "libdg/libdg.h"
 
 int SECTION(".sdata") dword_800AB63C = 0; // declared
 
@@ -508,7 +509,7 @@ void menu_number_kill_80042980(void)
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s") // 320 bytes
 
-int menu_number_draw_80042F78(Actor_MenuMan *pActor, int a2, int xpos, int ypos, int number, int flags)
+int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags)
 {
     TextConfig textConfig; // [sp+10h] [-10h] BYREF
 
@@ -651,7 +652,111 @@ void menu_draw_triangle_800435EC(MenuGlue *pGlue, Menu_Triangle *pTriangle)
 
 #pragma INCLUDE_ASM("asm/Menu/sub_80043678.s") // 940 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_80043A24.s") // 1452 bytes
-#pragma INCLUDE_ASM("asm/Menu/sub_80043FD0.s") // 788 bytes
+
+extern int GV_Clock_800AB920;
+
+int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
+{
+    u_char       *chnlOt;
+    int           numOTEntries;
+    u_char       *otMin;
+    u_char       *curPrim;
+    int           primCount;
+    int           totalprimCount;
+    
+    LINE_F2      *lineF2;
+    LINE_G4      *lineG4;
+    int           ff00;
+    int           ff0000;
+    int           x_0_1;
+    int           y_0_1;
+    int           x_2_3;
+    int           y_2_3;
+    
+    int           i;
+    
+    unsigned char *nextFreeLocation;
+    unsigned char *nextFreeLocation2;
+
+    int           returnVal;
+
+    totalprimCount = 0;
+    returnVal = 0;
+    y_0_1 = 0xa8;
+    y_2_3 = 0xa8;
+
+    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
+    numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
+    
+    lineF2 = (LINE_F2 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(LINE_F2);
+    
+    setXY2(lineF2, 0x20, 0x76, 0x110, 0x76);
+    *(int *)&lineF2->r0 = 0x800000;
+    setLineF2(lineF2);
+    addPrim(pOt, lineF2);
+    
+    for (i = 0; i < 16; i++)
+    {
+        otMin = chnlOt + ((i << numOTEntries) * 4);
+        for (curPrim = chnlOt + (((i + 1) << numOTEntries) * 4), primCount = 0;
+             (otMin < curPrim) || (curPrim < chnlOt); curPrim = nextPrim(curPrim))
+        {
+            if (getlen(curPrim) != 0)
+            {
+                primCount++;
+            }
+        }
+        
+        totalprimCount += primCount;
+        x_0_1 = i * 15;
+        x_2_3 = x_0_1 + 13;
+        x_0_1 += 32;
+        x_2_3 += 32;
+
+        if (primCount > 0)
+        {
+            primCount = primCount / 2;
+
+            if (primCount > 176)
+            {
+                primCount = 176;
+            }
+
+            ff00 = 0xff00;
+            nextFreeLocation = pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation + (sizeof(LINE_G4));
+            lineG4 = (LINE_G4 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
+            pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation = nextFreeLocation;
+            setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1 - primCount, x_2_3, y_2_3 - primCount, x_2_3, y_2_3);
+            *(int *)&lineG4->r0 = 0;
+            *(int *)&lineG4->r1 = ff00;
+            returnVal++;
+            *(int *)&lineG4->r2 = ff00;
+            *(int *)&lineG4->r3 = 0;
+            setLineG4(lineG4);
+            addPrim(pOt, lineG4);
+        }
+        else
+        {
+            nextFreeLocation2 = pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation + (sizeof(LINE_G4));
+            ff0000 = 0xff0000;
+            lineG4 = (LINE_G4 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
+            pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation = nextFreeLocation2;
+            setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1, x_2_3, y_2_3, x_2_3, y_2_3);
+            *(int *)&lineG4->r0 = 0;
+            *(int *)&lineG4->r1 = ff0000;
+            *(int *)&lineG4->r2 = ff0000;
+            *(int *)&lineG4->r3 = 0;
+            setLineG4(lineG4);
+            addPrim(pOt, lineG4);
+        }
+    }
+    
+    menu_number_draw_80042F78(pMenuMan, pOt, 0x110, 0x9c, totalprimCount, 1);
+    
+    return returnVal;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/sub_800442E4.s") // 788 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_800445F8.s") // 712 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_800448C0.s") // 432 bytes
