@@ -104,13 +104,13 @@ typedef struct BindStruct
 
 typedef struct CAMERA
 {
-    SVECTOR field_00_pos;
-    short field_08_trg[3]; // SVECTOR w/ padding as alertMask?
-    short field_0e_alertMask;
-    char  field_10_param1; // example: d:CAM_FIX
-    char  field_11_param2; // example: d:CAM_INTERP_LINER
-    char  field_12_param3; // example: d:CAM_CAM_TO_TRG
-    char  field_13_param_p;
+    SVECTOR     field_00_pos;
+    short       field_08_trg[3]; // SVECTOR w/ padding as alertMask?
+    short       field_0e_alertMask;
+    signed char field_10_param1; // example: d:CAM_FIX
+    char        field_11_param2; // example: d:CAM_INTERP_LINER
+    char        field_12_param3; // example: d:CAM_CAM_TO_TRG
+    char        field_13_param_p;
 } CAMERA;
 
 enum GCLOperators
