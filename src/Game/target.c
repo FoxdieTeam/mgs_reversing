@@ -19,7 +19,40 @@ void GM_Targets_Reset_8002D3F0(void)
     gTargets_up_count_800ABA6C = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Game/GM_AllocTarget_8002D400.s") // 176 bytes
+GM_Target *GM_AllocTarget_8002D400()
+{
+    GM_Target *target;
+    int        i;
+
+    if (gTargets_up_count_800ABA6C == 0)
+    {
+        if (gTargets_down_count_800ABA68 > 63)
+        {
+            return NULL;
+        }
+
+        target = &gTargets_800B64E0[gTargets_down_count_800ABA68];
+        target->field_0_flags = 1;
+        gTargets_down_count_800ABA68++;
+        return target;
+    }
+
+    target = gTargets_800B64E0;
+    if (gTargets_down_count_800ABA68 > 0)
+    {
+        for (i = gTargets_down_count_800ABA68; i > 0; i--, target++)
+        {
+            if (target->field_0_flags == 0)
+            {
+                target->field_0_flags = 1;
+                gTargets_up_count_800ABA6C--;
+                return target;
+            }
+        }
+    }
+    gTargets_up_count_800ABA6C = 0;
+    return NULL;
+}
 
 void GM_FreeTarget_8002D4B0(GM_Target *pTarget)
 {
