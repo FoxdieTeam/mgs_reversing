@@ -68,5 +68,7 @@ void sub_8002ED68(int param_1);
 void sub_800303E0(SVECTOR *);
 void sub_8002EE80(void);
 void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4);
+void sub_8002FCF0(void);
+void camera_act_helper6_helper_8002FD9C(int, int);
 
 #endif // _CAMERA_H_
