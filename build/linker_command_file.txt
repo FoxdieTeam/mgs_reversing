@@ -751,6 +751,8 @@
     ; 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88
     ; 8008BB4C 8008BB60 8008BB78 8008BB88
     include "..\obj\mts\mts_new3.obj"
+    include "..\obj\data\rdata\rdata_800892A8.obj"
+    include "..\obj\data\data\data2.obj"
 
     ; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8
     include "..\obj\mts\mts_new4.obj"
