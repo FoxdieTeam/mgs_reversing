@@ -57,6 +57,7 @@ def ninja_run():
         r'FS_StreamIsEnd_800240D0\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
         r'sd_main\.c:\d+: warning: unused variable `buffer\'',
         r'sd_drv\.c:\d+: warning: unused variable `temp\'',
+        r'sub_80047D70\.c:\d+: warning: unused variable `pad\'',
     ]
 
     if os.environ.get('APPVEYOR'):

@@ -47,9 +47,9 @@ void CDFS_Init_80021EC4()
     mts_wait_vbl_800895F4(2);
 }
 
-void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int endSector, void *pBuffer)
+void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int sectorSize, void *pBuffer)
 {
-    CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, endSector, 0);
+    CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, sectorSize, 0);
 }
 
 int FS_LoadFileSync_80021F48(void)

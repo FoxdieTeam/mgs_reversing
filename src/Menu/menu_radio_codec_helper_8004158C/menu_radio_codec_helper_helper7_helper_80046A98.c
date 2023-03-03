@@ -9,14 +9,14 @@ extern RECT rect_800AB6D0;
 void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru)
 {
     char *pSaveText;
-    int   area;
+    int   imageSize;
 
-    area = rect_800AB6C8.w * rect_800AB6C8.h * 2;
+    imageSize = rect_800AB6C8.w * rect_800AB6C8.h * 2; // 16-bit per pixel
 
     LoadImage_8008FB10(&rect_800AB6C8, (char *)pStru->field_2C_pSaveText);
 
     pSaveText = (char *)pStru->field_2C_pSaveText;
-    LoadImage_8008FB10(&rect_800AB6D0, pSaveText + area);
+    LoadImage_8008FB10(&rect_800AB6D0, pSaveText + imageSize);
 
     DrawSync(0);
     GV_FreeMemory_80015FD0(0, pStru->field_2C_pSaveText);

@@ -392,6 +392,8 @@ int           menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 void           sub_8004CF20(int code, char **param_2, char **param_3);
+void           sub_80048124(void);
+void           sub_800469F0(menu_chara_struct *pStru);
 
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
