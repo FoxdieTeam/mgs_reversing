@@ -76,6 +76,7 @@ void                  FS_StreamClose_80024098(void);
 int                   CDBIOS_TaskState_80022888(void);
 int                   FS_StreamTaskState_80023E0C(void);
 void                  FS_StreamStop_80024028();
+void                  FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int sectorSize, void *pBuffer);
 int                   FS_LoadFileSync_80021F48(void);
 void                  CDBIOS_TaskStart_800227A8(void);
 void                  CDBIOS_TaskStart_helper_80022264(void);
