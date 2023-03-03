@@ -384,7 +384,7 @@
     ; 80045AE4 80045D0C 800468FC 8004695C 80046980 800469A4
     include "..\obj\Font\font.obj"
 
-    include "..\obj\sub_800469F0.obj"
+    include "..\obj\Menu\sub_800469F0.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
     include "..\obj\sub_80046B10.obj"
     include "..\obj\Menu\sub_80046B74.obj"
