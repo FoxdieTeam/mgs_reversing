@@ -2,7 +2,7 @@
 #include "bullet.h"
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
-#include "Anime\animeconv\anime.h"
+#include "Anime/animeconv/anime.h"
 
 extern const char   aBulletC[];
 
@@ -26,6 +26,7 @@ void bullet_80075314(SVECTOR *pVec, short amount)
 #pragma INCLUDE_ASM("asm/Okajima/bullet_act_helper_800754E4.s")     // 300 bytes
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_helper_80075610.s") // 332 bytes
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader3_8007575C.s")        // 1656 bytes
+
 #pragma INCLUDE_ASM("asm/Okajima/bullet_act_80075DD4.s")            // 912 bytes
 void bullet_act_80075DD4(Actor_Bullet *actor);
 
@@ -68,7 +69,6 @@ int bullet_SetTarget_800761A0( Actor_Bullet *actor, int target_flags )
 
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_80076274.s") // 428 bytes
 int                              bullet_loader2_80076274(Actor_Bullet *actor, MATRIX *param_2, int param_3, int param_4, int param_5);
-//#pragma INCLUDE_ASM("asm/Okajima/NewBulletEnemy_80076420.s") // 356 bytes
 
 Actor_Bullet *NewBulletEnemy_80076420(MATRIX *arg0, int arg1, int arg2, int arg3, int arg4)
 {
@@ -284,6 +284,16 @@ Actor_Bullet* NewBulletEx_80076708(
     return 0;
 }
 
+Actor_Bullet* sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+{
+    SVECTOR vec; // [sp+28h] [-28h] BYREF
+    MATRIX mtx; // [sp+30h] [-20h] BYREF
 
-
-#pragma INCLUDE_ASM("asm/Okajima/sub_8007692C.s")            // 192 bytes
+    DG_SetPos_8001BC44(pMtx);
+    vec.vx = 1024;
+    vec.vy = 0;
+    vec.vz = 0;
+    DG_RotatePos_8001BD64(&vec);
+    ReadRotMatrix_80092DD8(&mtx);
+    return NewBulletEx_80076708(256, &mtx, a2, a3, a4, a5, a6, a7, a8);
+}
