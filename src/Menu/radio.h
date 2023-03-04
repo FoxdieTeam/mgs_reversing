@@ -116,6 +116,7 @@ void           menu_radio_update_80042198(void);
 void menu_800470B4(int idx, menu_chara_struct *pStru, int chara, int code, int faceUnk, int taskWup);
 unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
 void           menu_radio_codec_task_proc_80047AA0(void);
+void           menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, void *pFaceMemory);
 void           menu_radio_compact_free_vars_8004D3D8(void);
 void           init_radio_message_board_80040F74(Actor_MenuMan *pActor);
 void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2);

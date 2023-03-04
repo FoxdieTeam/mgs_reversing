@@ -57,13 +57,13 @@ typedef struct menu_chara_struct
 {
     int            field_0_state;
     int            field_4;
-    void          *field_8;
+    char          *field_8_radioDatFragment;
     unsigned char *field_C_pScript;
     void          *field_10_subtitles;    // Points to subtitle data.
     int            field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
     unsigned short field_1A;
-    void          *field_1C;
+    char          *field_1C_radioDatFragment;
     void*           field_20_pFaceMemory;
     void          *field_24_pImgData256;
     int           *field_28_pStack;
