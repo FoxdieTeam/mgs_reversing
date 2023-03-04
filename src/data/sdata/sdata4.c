@@ -129,10 +129,11 @@ const char SECTION(".sdata") aO2[] = "O2";
 
 int SECTION(".sdata") gTakeDamageCounter_800AB5FC = 0;
 
-int SECTION(".sdata") dword_800AB600 = 0x10003C0;
-int SECTION(".sdata") dword_800AB604 = 0x500032;
-int SECTION(".sdata") aVhH_800AB608 = 0x480056;
-int SECTION(".sdata") dword_800AB60C = 0x48002C;
+RECT SECTION(".sdata") rect_800AB600 = {960, 256, 50, 80};
+short SECTION(".sdata") coords_800AB600[2][2] = {
+	{86, 72},
+	{44, 72}
+};
 int SECTION(".sdata") dword_800AB610 = 0x1030402;
 int SECTION(".sdata") dword_800AB614 = 0x10304;
 
