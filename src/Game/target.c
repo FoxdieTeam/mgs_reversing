@@ -10,7 +10,91 @@ int        SECTION(".sbss") gTargets_down_count_800ABA68;
 extern int gTargets_up_count_800ABA6C;
 int        SECTION(".sbss") gTargets_up_count_800ABA6C;
 
-#pragma INCLUDE_ASM("asm/sub_8002D208.s")                                    // 248 bytes
+extern int dword_800ABA0C;
+
+// TODO: This probably has an inline that will clean it up
+int sub_8002D208(GM_Target *arg0, GM_Target *arg1)
+{
+    int temp_a2;
+    int temp_a2_2;
+    int temp_a2_3;
+    int temp_a3;
+    int temp_a3_2;
+    int temp_a3_3;
+    int temp_v1;
+    int temp_v1_2;
+    int temp_v1_3;
+    int var_t0;
+    int var_t0_2;
+    int var_t0_3;
+    int var_t1;
+    int var_v1;
+
+    int map0;
+    int map1;
+
+    var_t1 = 0;
+
+    if (!(arg0->field_2_side & arg1->field_2_side))
+    {
+        temp_a3 = arg0->field_8_vec.vx;
+        temp_a2 = arg1->field_8_vec.vx;
+        temp_v1 = arg0->field_10_size.vx + arg1->field_10_size.vx;
+        var_t0 = 0;
+
+        if (temp_a2 >= (temp_a3 - temp_v1))
+        {
+            var_t0 = (temp_a3 < (temp_a2 - temp_v1)) ^ 1;
+        }
+
+        if (var_t0 != 0)
+        {
+            temp_a3_2 = arg0->field_8_vec.vz;
+            temp_a2_2 = arg1->field_8_vec.vz;
+            temp_v1_2 = arg0->field_10_size.vz + arg1->field_10_size.vz;
+            var_t0_2 = 0;
+
+            if (temp_a2_2 >= (temp_a3_2 - temp_v1_2))
+            {
+                var_t0_2 = (temp_a3_2 < (temp_a2_2 - temp_v1_2)) ^ 1;
+            }
+
+            if (var_t0_2 != 0)
+            {
+                temp_a3_3 = arg0->field_8_vec.vy;
+                temp_a2_3 = arg1->field_8_vec.vy;
+                temp_v1_3 = arg0->field_10_size.vy + arg1->field_10_size.vy;
+                var_t0_3 = 0;
+
+                if (temp_a2_3 >= (temp_a3_3 - temp_v1_3))
+                {
+                    var_t0_3 = (temp_a3_3 < (temp_a2_3 - temp_v1_3)) ^ 1;
+                }
+
+                if (var_t0_3 != 0)
+                {
+                    var_v1 = 0;
+
+                    map0 = arg0->field_4_map;
+                    map1 = arg1->field_4_map;
+
+                    if ((dword_800ABA0C & map0) && (dword_800ABA0C & map1))
+                    {
+                        var_v1 = 1;
+                    }
+
+                    if (var_v1 != 0)
+                    {
+                        var_t1 = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    return var_t1;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s") // 240 bytes
 
 void GM_Targets_Reset_8002D3F0(void)
