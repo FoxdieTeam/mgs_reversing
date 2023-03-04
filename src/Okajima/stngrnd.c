@@ -9,7 +9,25 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 
 int stngrnd_loader_800748D8(Actor_StunGrenade *pActor, MATRIX *pMtx);
 
-#pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader2_80074644.s") // 112 bytes
+void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
+{
+    int x, w, y, h;
+
+    setPolyFT4(pPoly);
+    setSemiTrans(pPoly, 1);
+    setRGB0(pPoly, r, g, b);
+
+    x = pTexture->field_8_offx;
+    w = pTexture->field_A_width;
+    y = pTexture->field_9_offy;
+    h = pTexture->field_B_height;
+
+    setUVWH(pPoly, x, y, w, h);
+
+    pPoly->tpage = pTexture->field_4_tPage;
+    pPoly->clut = pTexture->field_6_clut;
+}
+
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_800746B4.s")         // 124 bytes
 #pragma INCLUDE_ASM("asm/Okajima/stngrnd_act_80074730.s")     // 276 bytes
 void stngrnd_act_80074730(Actor_StunGrenade* pActor);
