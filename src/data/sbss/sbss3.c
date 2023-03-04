@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "Menu/menuman.h"
+#include "map/map.h"
 
 int SECTION(".sbss") gTargets_down_count_800ABA68;
 
@@ -18,7 +19,7 @@ int     SECTION(".sbss") dword_800ABA94;
 int SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
 int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
 
-int SECTION(".sbss") dword_800ABAA0;
+map_record* SECTION(".sbss") pHzdIter_800ABAA0;
 
 int SECTION(".sbss") N_StageObjs_800ABAA4;
 int SECTION(".sbss") gMapCount_800ABAA8;
