@@ -98,7 +98,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     field_44_pCtrl = pActor->field_44_pCtrl;
 
                     GM_SetNoise(200, 2, &field_44_pCtrl->field_0_position);
-                    anime_create_8005D604(&mtx, field_44_pCtrl);
+                    anime_create_8005D604(&mtx);
                 }
                 else
                 {
