@@ -10,7 +10,7 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
     menu_chara_struct     *pCharaStruct;
 
     int   startSector, size;
-    void *loadedFile;
+    void *radioDatFragment;
 
     int i, i2;
 
@@ -31,9 +31,11 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
         size = ((unsigned int)pRadioCode / 16777216) * 2048;
     }
 
-    // First radio call in the game: size = 0x3705
-    loadedFile = GV_AllocMemory_80015EB8(0, size);
-    if (loadedFile == NULL)
+    // At the start of the game if you manually call
+    // after the initial call, radioDatFragment is 0x800 bytes
+    // large and it is read from RADIO.DAT offset 0x1f1000.
+    radioDatFragment = GV_AllocMemory_80015EB8(0, size);
+    if (radioDatFragment == NULL)
     {
         mts_printf_8008BBA0(aNoMemory);
     }
@@ -42,8 +44,8 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
 
     sub_80048124();
     sub_800469F0(pCharaStruct);
-    pCharaStruct->field_1C = loadedFile;
-    pCharaStruct->field_8 = loadedFile;
+    pCharaStruct->field_1C_radioDatFragment = radioDatFragment;
+    pCharaStruct->field_8_radioDatFragment = radioDatFragment;
     pCharaStruct->field_C_pScript = NULL;
     pCharaStruct->field_4 = param_2;
     pCharaStruct->field_0_state = 0;
@@ -56,8 +58,8 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
         pCharaStructSub->field_4 = 0;
     }
 
-    // TODO: reverse engineer the structure of loadedFile
-    FS_LoadFileRequest_80021F0C(1, startSector, size, loadedFile);
+    // radioDatFragment is parsed in menu_radio_codec_task_proc_80047AA0()
+    FS_LoadFileRequest_80021F0C(1, startSector, size, radioDatFragment);
 
     pCharaStruct->field_24_pImgData256 = GV_AllocMemory_80015EB8(0, 0x200);
     if (pCharaStruct->field_24_pImgData256 == NULL)
