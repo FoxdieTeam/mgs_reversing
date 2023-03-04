@@ -403,7 +403,7 @@
 
     include "..\obj\data\rdata\rdata_80048E64.obj"
 
-    include "..\obj\menu_radio_codec_task_proc_80047AA0.obj"
+    include "..\obj\Menu\menu_radio_codec_task_proc_80047AA0.obj"
 
     include "..\obj\data\sbss\sbss4.obj"
 
