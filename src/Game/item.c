@@ -189,7 +189,21 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     prims->clut = tex->field_6_clut;
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_act_helper_80033704.s") // 128 bytes
+int item_act_helper_80033704(long *pOut, SVECTOR *pIn)
+{
+    long z;
+
+    gte_SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    gte_SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+
+    gte_ldv0(pIn);
+    gte_rtps();
+    gte_stsxy(pOut);
+    gte_stsz(&z);
+
+    return z > 0;
+}
+
 #pragma INCLUDE_ASM("asm/Game/item_act_80033784.s")        // 2052 bytes
 
 void item_kill_80033F88(Actor_Item *pActor)
