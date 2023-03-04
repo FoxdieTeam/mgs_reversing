@@ -2,7 +2,7 @@
 #include "bullet.h"
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
-#include "Anime\animeconv\anime.h"
+#include "Anime/animeconv/anime.h"
 
 extern const char   aBulletC[];
 
