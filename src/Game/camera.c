@@ -21,6 +21,9 @@ int SECTION(".sdata") GM_CameraTrackOrg_800AB43C;
 extern int GM_CameraTrackOrg_800AB440;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB440;
 
+extern int GM_CameraShakeOffset_800ABA98;
+int SECTION(".sdata") GM_CameraShakeOffset_800ABA98;
+
 extern SVECTOR          svec_800ABA88;
 extern int              GV_PauseLevel_800AB928;
 extern GM_Camera        GM_Camera_800B77E8;
@@ -32,6 +35,8 @@ extern int              GV_Time_800AB330;
 extern int              GM_AlertMode_800ABA00;
 extern int              GM_GameStatus_800AB3CC;
 extern CAMERA           GM_CameraList_800B7718[8];
+extern int              GM_NoisePower_800ABA24;
+extern int              GM_NoiseLength_800ABA30;
 
 extern const char aDCamOutD[];       // = "[%d]cam out %d\n"
 extern const char aDCamInD[];        // = "[%d]cam in %d\n"
@@ -511,8 +516,82 @@ void camera_act_helper3_8002F64C(void)
     GM_CameraTrackOrg_800AB440 = GM_Camera_800B77E8.field_18_flags;
 }
 
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper4_8002F78C.s") // 800 bytes
+void camera_act_helper4_8002F78C(void)
+{
+    SVECTOR vec;
 
+    gUnkCameraStruct2_800B7868.field_20 = 0;
+    gUnkCameraStruct2_800B7868.field_18 = GM_Camera_800B77E8.field_1C;
+    gUnkCameraStruct2_800B7868.field_1C = GM_Camera_800B77E8.field_20;
+
+    if (GM_Camera_800B77E8.field_2A == 0)
+    {
+        gUnkCameraStruct2_800B7868.field_0 = GM_Camera_800B77E8.field_0;
+        gUnkCameraStruct2_800B7868.field_10 = GM_Camera_800B77E8.field_10;
+        gUnkCameraStruct2_800B7868.field_8 = GM_Camera_800B77E8.field_8;
+    }
+    else
+    {
+        sub_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
+
+        GV_SubVec3_80016D40(&GM_Camera_800B77E8.field_0, &svec_800ABA88, &vec);
+        GV_AddVec3_80016D00(&vec, &gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_0);
+
+        svec_800ABA88 = GM_Camera_800B77E8.field_0;
+
+        if (GM_Camera_800B77E8.field_2A == 3)
+        {
+            sub_800268AC(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, GM_Camera_800B77E8.field_26, 3);
+            sub_80026BC4(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, GM_Camera_800B77E8.field_26, 3);
+        }
+        else if (GM_Camera_800B77E8.field_2A == 1)
+        {
+            GV_NearExp2V_8002667C(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, 3);
+            GV_NearExp2PV_80026924(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, 3);
+        }
+        else if (GM_Camera_800B77E8.field_2A == 2)
+        {
+            GV_NearExp4V_800266D4(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, 3);
+            GV_NearExp4PV_800269A0(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, 3);
+        }
+
+        if (gUnkCameraStruct2_800B7868.field_18 > 10000)
+        {
+            gUnkCameraStruct2_800B7868.field_18 = 10000;
+        }
+
+        sub_8002FC58(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &gUnkCameraStruct2_800B7868.field_10, &gUnkCameraStruct2_800B7868.field_18);
+
+        if (--GM_Camera_800B77E8.field_26 < 0)
+        {
+            GM_Camera_800B77E8.field_2A = 0;
+            GM_Camera_800B77E8.field_26 = -1;
+        }
+    }
+
+    if (GM_NoisePower_800ABA24 >= 255)
+    {
+        if (GM_Camera_800B77E8.field_22 == 0)
+        {
+            gUnkCameraStruct2_800B7868.field_0.vy += (GV_RandS_800170BC(512) * GM_NoiseLength_800ABA30) / 32;
+        }
+        else
+        {
+            gUnkCameraStruct2_800B7868.field_0.vy += (GV_RandS_800170BC(512) * GM_NoiseLength_800ABA30) / 128;
+        }
+    }
+
+    if (GM_Camera_800B77E8.field_22 == 0)
+    {
+        gUnkCameraStruct2_800B7868.field_0.vy += GM_CameraShakeOffset_800ABA98;
+        GM_CameraShakeOffset_800ABA98 = 0;
+    }
+    else
+    {
+        gUnkCameraStruct2_800B7868.field_0.vy += GM_CameraShakeOffset_800ABA98 / 4;
+        GM_CameraShakeOffset_800ABA98 = 0;
+    }
+}
 
 void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4)
 {
