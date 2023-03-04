@@ -37,13 +37,12 @@ extern int              GM_GameStatus_800AB3CC;
 extern CAMERA           GM_CameraList_800B7718[8];
 extern int              GM_NoisePower_800ABA24;
 extern int              GM_NoiseLength_800ABA30;
+extern unsigned int     dword_80010C60[];
 
 extern const char aDCamOutD[];       // = "[%d]cam out %d\n"
 extern const char aDCamInD[];        // = "[%d]cam in %d\n"
 extern const char aDChangeCameraD[]; // = "[%d]change camera %d\n"
 extern const char aCameraC[];        // = "camera.c"
-
-extern GM_Camera GM_Camera_800B77E8;
 
 static inline int camera_clamp(int val, int min, int max)
 {
@@ -72,11 +71,6 @@ void sub_8002EADC(int index)
     GM_Camera_800B77E8.field_0.vy = camera_clamp(GM_Camera_800B77E8.field_0.vy, pVec[8].pad, pVec[6].pad);
     GM_Camera_800B77E8.field_0.vz = camera_clamp(GM_Camera_800B77E8.field_0.vz, pVec[9].vx,  pVec[7].vx);
 }
-
-void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen);
-void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4);
 
 void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {
@@ -666,7 +660,107 @@ void sub_8002FD84(int index, TGMCameraFunc func)
     GM_Camera_800B77E8.field_74_funcs[index] = func;
 }
 
-#pragma INCLUDE_ASM("asm/Game/camera_act_helper6_helper_8002FD9C.s") // 892 bytes
+void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
+{
+    CAMERA *pCamera;
+    int cam_param1;
+
+    GM_Camera_800B77E8.field_18_flags &= ~0x3C;
+
+    if (cam1 == -1)
+    {
+        if (!(GM_Camera_800B77E8.field_18_flags & 2))
+        {
+            sub_8002FCF0();
+        }
+    }
+    else
+    {
+        pCamera = &GM_CameraList_800B7718[cam1];
+        cam_param1 = pCamera->field_10_param1;
+
+        if (pCamera->field_10_param1 == 0)
+        {
+            GM_Camera_800B77E8.field_18_flags |= 0x20;
+
+            gUnkCameraStruct_800B77B8.field_10.vx = pCamera->field_08_trg[0];
+            gUnkCameraStruct_800B77B8.field_10.vy = pCamera->field_08_trg[1];
+            gUnkCameraStruct_800B77B8.field_10.vz = 0;
+
+            gUnkCameraStruct2_800B76F0.field_8 = gUnkCameraStruct_800B77B8.field_8;
+            gUnkCameraStruct2_800B76F0.field_10 = gUnkCameraStruct_800B77B8.field_10;
+            gUnkCameraStruct2_800B76F0.field_18 = gUnkCameraStruct_800B77B8.field_18 = pCamera->field_08_trg[2];
+
+            sub_8002FCA4(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+        }
+        else
+        {
+            switch (pCamera->field_12_param3)
+            {
+            case 0:
+                gUnkCameraStruct2_800B76F0.field_0 = pCamera->field_00_pos;
+                gUnkCameraStruct2_800B76F0.field_8 = *(SVECTOR *)pCamera->field_08_trg;
+                sub_8002FBC0(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+                break;
+
+            case 1:
+                gUnkCameraStruct2_800B76F0.field_0 = pCamera->field_00_pos;
+
+                gUnkCameraStruct2_800B76F0.field_10.vx = pCamera->field_08_trg[0];
+                gUnkCameraStruct2_800B76F0.field_10.vy = pCamera->field_08_trg[1];
+                gUnkCameraStruct2_800B76F0.field_10.vz = 0;
+                gUnkCameraStruct2_800B76F0.field_18 = pCamera->field_08_trg[2];
+
+                sub_8002FC58(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+                break;
+
+            case 2:
+                gUnkCameraStruct2_800B76F0.field_8 = pCamera->field_00_pos;
+
+                gUnkCameraStruct2_800B76F0.field_10.vx = pCamera->field_08_trg[0];
+                gUnkCameraStruct2_800B76F0.field_10.vy = pCamera->field_08_trg[1];
+                gUnkCameraStruct2_800B76F0.field_10.vz = 0;
+                gUnkCameraStruct2_800B76F0.field_18 = pCamera->field_08_trg[2];
+
+                sub_8002FCA4(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+                break;
+            }
+
+            gUnkCameraStruct2_800B76F0.field_0.pad = pCamera->field_13_param_p | ((unsigned short)pCamera->field_00_pos.pad * 4);
+            gUnkCameraStruct2_800B76F0.field_20 = 0;
+
+            if (cam_param1 == 1)
+            {
+                GM_Camera_800B77E8.field_18_flags |= 0x10;
+            }
+            else if (cam_param1 == 2)
+            {
+                GM_Camera_800B77E8.field_18_flags |= 0x8;
+            }
+            else
+            {
+                GM_Camera_800B77E8.field_18_flags |= 0x4;
+            }
+        }
+    }
+
+    if ((GM_Camera_800B77E8.field_22 == 1) || (DG_UnDrawFrameCount_800AB380 > 0))
+    {
+        GM_Camera_800B77E8.field_2A = 0;
+        GM_Camera_800B77E8.field_26 = -1;
+    }
+    else if (cam2 < 0)
+    {
+        GM_Camera_800B77E8.field_2A = 2;
+        GM_Camera_800B77E8.field_26 = 30;
+    }
+    else
+    {
+        pCamera = &GM_CameraList_800B7718[cam2];
+        GM_Camera_800B77E8.field_2A = dword_80010C60[pCamera->field_11_param2];
+        GM_Camera_800B77E8.field_26 = dword_80010C60[pCamera->field_11_param2] >> 16;
+    }
+}
 
 void camera_act_helper5_80030118(GV_ACT *pActor)
 {
