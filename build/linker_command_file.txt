@@ -368,7 +368,7 @@
     ; 8003ECC0 8003ECCC 8003ED4C 8003F30C 8003F408 8003F464 8003F4B8 8003F50C 8003F530 8003F7E0 8003F838
     include "..\obj\Menu\menu_bars.obj"
 
-    include "..\obj\sub_8003F84C.obj"
+    include "..\obj\Menu\sub_8003F84C.obj"
     include "..\obj\Menu\sub_8003F97C.obj"
     include "..\obj\menu_8003F9B4.obj"
     include "..\obj\Menu\menu_font_kill_8003FC0C.obj"
