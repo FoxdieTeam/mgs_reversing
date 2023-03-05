@@ -370,7 +370,7 @@
 
     include "..\obj\Menu\sub_8003F84C.obj"
     include "..\obj\Menu\sub_8003F97C.obj"
-    include "..\obj\menu_8003F9B4.obj"
+    include "..\obj\Menu\menu_8003F9B4.obj"
     include "..\obj\Menu\menu_font_kill_8003FC0C.obj"
 
     ;radio.c
