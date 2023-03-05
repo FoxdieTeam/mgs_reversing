@@ -135,6 +135,7 @@ void           sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode);
 void           sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags);
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
 void menu_draw_nouse_800435A4(MenuGlue *pGlue, int offset_x, int offset_y);
 void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y);
 
