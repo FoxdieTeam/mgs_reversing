@@ -550,7 +550,7 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos,
     return textConfig.xpos;
 }
 
-int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, const char *str, int flags)
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
 {
     TextConfig textConfig;
 
