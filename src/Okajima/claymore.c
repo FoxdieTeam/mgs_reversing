@@ -1,11 +1,14 @@
 #include "claymore.h"
 #include "spark.h"
 #include "psyq.h"
+#include "unknown.h"
 #include "Game/game.h"
 #include "map/map.h"
 #include "Anime/animeconv/anime.h"
 
-extern SVECTOR stru_8009F630[4];
+extern SVECTOR     stru_8009F630[4];
+extern map_record *claymore_map_record_800bdf08;
+extern SVECTOR     stru_8009F650[2];
 
 void claymore_800731CC(SVECTOR *param_1)
 {
@@ -76,11 +79,80 @@ void claymore_act_helper_80073364(Actor_Claymore *pActor)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_80073490.s")  // 272 bytes
-void claymore_loader_helper_80073490(union Prim_Union *prim, DG_TEX *tex);
+void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
+{
+    int i, j;
+    int shade;
+    int x, y, w, h;
 
-#pragma INCLUDE_ASM("asm/Okajima/claymore_loader_helper_800735A0.s")  // 272 bytes
-int  claymore_loader_helper_800735A0(Actor_Claymore *claymore, SVECTOR *v1, SVECTOR *v2);
+    for (i = 0; i < 1; i++)
+    {
+        for (j = 2; j > 0; j--)
+        {
+            setPolyFT4(pPoly);
+            setSemiTrans(pPoly, 1);
+
+            shade = GV_RandS_800170BC(64) + 191;
+            setRGB0(pPoly, shade, shade, shade);
+
+            x = pTex->field_8_offx;
+            w = pTex->field_A_width;
+            pPoly->u0 = pPoly->u2 = x;
+            pPoly->u1 = pPoly->u3 = w + x;
+
+            y = pTex->field_9_offy;
+            h = pTex->field_B_height + 1;
+            pPoly->v0 = pPoly->v1 = y + (h * i);
+            pPoly->v2 = pPoly->v3 = y + (h * (i + 1)) - 1;
+
+            pPoly->tpage = pTex->field_4_tPage;
+            pPoly->clut =  pTex->field_6_clut;
+            pPoly->tpage |= 0x60;
+            pPoly++;
+        }
+    }
+}
+
+int claymore_loader_helper_800735A0(Actor_Claymore *pActor, SVECTOR *arg1, SVECTOR *arg2)
+{
+    SVECTOR vec;
+    SVECTOR vec2;
+    SVECTOR *temp_v0;
+    int var_s2;
+    int len;
+
+    DG_SetPos2_8001BC8C(arg1, arg2);
+    DG_PutVector_8001BE48(stru_8009F650, &vec, 2);
+
+    var_s2 = 0;
+
+    if (sub_80028454(claymore_map_record_800bdf08->field_8_hzd, &vec, &vec2, 15, 4))
+    {
+        sub_80028890(&vec2);
+        temp_v0 = sub_80028820();
+
+        if ((int)temp_v0 < 0)
+        {
+            sub_800272E0(temp_v0, &pActor->field_118);
+        }
+        else
+        {
+            pActor->field_118.vx = temp_v0[2].pad;
+            pActor->field_118.vz = temp_v0[3].pad;
+            pActor->field_118.vy = temp_v0[4].pad;
+        }
+
+        var_s2 = 1;
+    }
+
+    pActor->field_110 = vec2;
+
+    GV_SubVec3_80016D40(&vec2, &vec, &vec);
+    len = GV_VecLen3_80016D80(&vec);
+    pActor->field_128 = var_s2;
+
+    return len;
+}
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_GameOverTimer_800AB3D4;
@@ -223,8 +295,8 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
         tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBullet_0));
         if (tex)
         {
-            claymore_loader_helper_80073490(prim->field_40_pBuffers[0], tex);
-            claymore_loader_helper_80073490(prim->field_40_pBuffers[1], tex);
+            claymore_loader_helper_80073490(&prim->field_40_pBuffers[0]->poly_ft4, tex);
+            claymore_loader_helper_80073490(&prim->field_40_pBuffers[1]->poly_ft4, tex);
             claymore_loader_helper2_800731F8(claymore);
             retval = 0;
         }
