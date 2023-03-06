@@ -6,9 +6,19 @@
 #include "map/map.h"
 #include "Anime/animeconv/anime.h"
 
-extern SVECTOR     stru_8009F630[4];
-extern map_record *claymore_map_record_800bdf08;
-extern SVECTOR     stru_8009F650[2];
+extern SVECTOR       stru_8009F630[4];
+extern SVECTOR       stru_8009F650[2];
+extern map_record   *claymore_map_record_800bdf08;
+extern int           GM_CurrentMap_800AB9B0;
+extern int           GM_GameOverTimer_800AB3D4;
+extern SVECTOR       DG_ZeroVector_800AB39C;
+extern SVECTOR       stru_8009F660;
+extern SVECTOR       svector_80012EDC;
+extern int           claymore_map_800AB9DC;
+extern const SVECTOR stru_80012EEC;
+
+extern const char aBullet_0[];  // "bullet"
+extern const char aClaymoreC[]; // = "claymore.c"
 
 void claymore_800731CC(SVECTOR *param_1)
 {
@@ -154,10 +164,6 @@ int claymore_loader_helper_800735A0(Actor_Claymore *pActor, SVECTOR *arg1, SVECT
     return len;
 }
 
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_GameOverTimer_800AB3D4;
-extern SVECTOR DG_ZeroVector_800AB39C;
-
 void claymore_act_800736B0(Actor_Claymore *claymore)
 {
     SVECTOR vec;
@@ -247,8 +253,6 @@ void claymore_kill_800738F4(Actor_Claymore *claymore)
     }
 }
 
-extern SVECTOR stru_8009F660;
-
 void claymore_loader_80073930(Actor_Claymore *pActor)
 {
     SVECTOR vec;
@@ -261,9 +265,6 @@ void claymore_loader_80073930(Actor_Claymore *pActor)
     GM_Target_8002DCCC(pTarget, 0, 2, 256, 0, &vec);
     pTarget->field_44 = 5;
 }
-
-extern SVECTOR    svector_80012EDC;
-extern const char aBullet_0[]; // "bullet"
 
 int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
 {
@@ -307,11 +308,6 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
     }
     return retval;
 }
-
-extern const char    aClaymoreC[]; // = "claymore.c";
-extern int           claymore_map_800AB9DC;
-extern map_record   *claymore_map_record_800bdf08;
-extern const SVECTOR stru_80012EEC;
 
 Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
