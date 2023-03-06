@@ -22,7 +22,7 @@ extern const char aAnimeC[];
 
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
-Actor_anime * anime_create_8005D604(MATRIX *pMtx, GM_Control *not_used1)
+Actor_anime * anime_create_8005D604(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
