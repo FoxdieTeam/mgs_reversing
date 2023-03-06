@@ -17,7 +17,7 @@ extern const char aBulletC[]; // = "bullet.c"
 
 //------------------------------------------------------------------------------
 
-void bullet_80075314(SVECTOR *pVec, short amount)
+void bullet_80075314(SVECTOR *pVec, int amount)
 {
     svec_8009F6AC[0].vx = amount;
     svec_8009F6AC[1].vx = -amount;
@@ -26,14 +26,109 @@ void bullet_80075314(SVECTOR *pVec, short amount)
     DG_PutVector_8001BE48(svec_8009F6AC, pVec, 4);
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_helper_80075358.s") // 188 bytes
-#pragma INCLUDE_ASM("asm/Okajima/bullet_act_helper_80075414.s")     // 208 bytes
-void bullet_act_helper_80075414(Actor_Bullet *pActor);
+void bullet_loader2_helper_80075358(Actor_Bullet *pActor)
+{
+    Bullet_vecs *pVecs;
+    int i;
 
-#pragma INCLUDE_ASM("asm/Okajima/bullet_act_helper_800754E4.s")     // 300 bytes
-void bullet_act_helper_800754E4(Actor_Bullet *pActor);
+    bullet_80075314(pActor->field_D0[0].vecs, pActor->field_150);
 
-#pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_helper_80075610.s") // 332 bytes
+    pVecs = pActor->field_D0;
+    for (i = 1; i > 0; i--)
+    {
+        pVecs[1] = pVecs[0];
+        pVecs++;
+    }
+}
+
+void bullet_act_helper_80075414(Actor_Bullet *pActor)
+{
+    Bullet_vecs *pVecs;
+    int i;
+
+    pVecs = &pActor->field_D0[1];
+    for (i = 1; i > 0; i--)
+    {
+        if (pActor->field_134 != 2)
+        {
+            pVecs[0] = pVecs[-1];
+        }
+
+        pVecs--;
+    }
+
+    bullet_80075314(pVecs->vecs, pActor->field_150);
+}
+
+void bullet_act_helper_800754E4(Actor_Bullet *pActor)
+{
+    int i;
+    SVECTOR *pDst;
+    Bullet_vecs *pVecs;
+
+    pVecs = pActor->field_D0;
+    pDst = pActor->field_90;
+
+    for (i = 1; i > 0; i--)
+    {
+        pDst[0] = pVecs[0].vecs[0];
+        pDst[1] = pVecs[0].vecs[1];
+        pDst[2] = pVecs[1].vecs[0];
+        pDst[3] = pVecs[1].vecs[1];
+        pDst[4] = pVecs[0].vecs[2];
+        pDst[5] = pVecs[0].vecs[3];
+        pDst[6] = pVecs[1].vecs[2];
+        pDst[7] = pVecs[1].vecs[3];
+
+        pDst += 8;
+        pVecs++;
+    }
+}
+
+void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
+{
+    int i, j;
+    int r, gb;
+    int x, y, w, h;
+
+    for (i = 0; i < 1; i++)
+    {
+        for (j = 2; j > 0; j--)
+        {
+            setPolyFT4(pPoly);
+            setSemiTrans(pPoly, 1);
+
+            if (arg2 == 2)
+            {
+                r = 255;
+                gb = 85;
+            }
+            else
+            {
+                r = GV_RandU_80017090(128) - 32;
+                gb = (r / 3) * 2;
+            }
+
+            setRGB0(pPoly, r, gb, gb);
+
+            x = pTex->field_8_offx;
+            w = pTex->field_A_width;
+            pPoly->u0 = pPoly->u2 = x;
+            pPoly->u1 = pPoly->u3 = w + x;
+
+            y = pTex->field_9_offy;
+            h = pTex->field_B_height + 1;
+            pPoly->v0 = pPoly->v1 = y + h * i;
+            pPoly->v2 = pPoly->v3 = y + (h * (i + 1)) - 1;
+
+            pPoly->tpage = pTex->field_4_tPage;
+            pPoly->clut = pTex->field_6_clut;
+            pPoly->tpage |= 0x60;
+            pPoly++;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader3_8007575C.s")        // 1656 bytes
 
 void bullet_act_80075DD4(Actor_Bullet *pActor)
