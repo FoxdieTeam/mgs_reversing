@@ -10,6 +10,8 @@ extern int            GM_PlayerStatus_800ABA50;
 extern int            GM_GameStatus_800AB3CC;
 extern GM_Control    *gSnaControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
+extern int            dword_800ABA0C;
+extern                SVECTOR svector_800ABA10;
 
 extern short word_800AB8EC;
 short        SECTION(".word_800AB8EC") word_800AB8EC;
@@ -169,8 +171,50 @@ void item_all_items_and_weapons_unknown_80033560()
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_act_helper_800335D0.s")                     // 212 bytes
-int item_act_helper_800335D0(Actor_Item *pActor);
+int item_act_helper_800335D0(Actor_Item *pActor)
+{
+    SVECTOR vec;
+    int diff;
+    unsigned short vy;
+
+    if (!(pActor->field_108_where & dword_800ABA0C))
+    {
+        return 0;
+    }
+
+    vec = svector_800ABA10;
+
+    diff = pActor->field_20_ctrl.field_0_position.vy - vec.vy;
+
+    if (diff < 0)
+    {
+        diff = -diff;
+    }
+
+    vy = pActor->field_20_ctrl.field_0_position.vy;
+
+    if (diff > 1000)
+    {
+        return 0;
+    }
+
+    vec.vy = vy;
+    diff = pActor->field_20_ctrl.field_0_position.vx - vec.vx;
+
+    if (abs(diff) > 500)
+    {
+        return 0;
+    }
+
+    diff = pActor->field_20_ctrl.field_0_position.vz - vec.vz;
+
+    if (abs(diff) > 500)
+    {
+        return 0;
+    }
+
+    return 1;
+}
 
 void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 {
