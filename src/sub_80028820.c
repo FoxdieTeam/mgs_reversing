@@ -1,7 +1,11 @@
+#include <SYS/TYPES.H>
+#include <LIBGTE.H>
+#include <LIBGPU.H>
+
 #define SCRPAD_ADDR 0x1F800000
 
-int sub_80028820(void)
+SVECTOR * sub_80028820(void)
 {
     int *scratchpad = (int *)SCRPAD_ADDR;
-    return scratchpad[0x64 / sizeof(int)];
+    return (SVECTOR *)scratchpad[0x64 / sizeof(int)];
 }
