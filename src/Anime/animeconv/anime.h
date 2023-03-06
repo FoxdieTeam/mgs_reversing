@@ -80,13 +80,14 @@ Actor_anime *anime_create_8005D604(MATRIX *pMtx);
 Actor_anime *anime_create_8005DF50(SVECTOR *v1, SVECTOR *v2);
 Actor_anime *anime_create_8005E334(MATRIX *pMtx);
 
-void   anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
-int    anime_loader_8005F994(Actor_anime *pActor, int param_2, struct ANIMATION *param_3);
-void   anime_act_8005F4AC(Actor_anime *param_1);
-void   anime_create_8005E6A4(SVECTOR *pVec);
-void   anime_create_8005DE70(MATRIX *pMtx);
-void   anime_create_8005D6BC(MATRIX *pMtx, int a2);
-void   anime_create_8005D988(MATRIX *a1, MATRIX *a2, int a3);
-void   anime_create_8005DDE0(MATRIX *pMtx);
+void anime_change_prim_8005E7EC(POLY_FT4 *pPrims, DG_TEX *pTexture, int item_f4, Actor_anime *pActor);
+int  anime_loader_8005F994(Actor_anime *pActor, int param_2, struct ANIMATION *param_3);
+void anime_act_8005F4AC(Actor_anime *param_1);
+void anime_create_8005E6A4(SVECTOR *pVec);
+void anime_create_8005DE70(MATRIX *pMtx);
+void anime_create_8005D6BC(MATRIX *pMtx, int a2);
+void anime_create_8005D988(MATRIX *a1, MATRIX *a2, int a3);
+void anime_create_8005DDE0(MATRIX *pMtx);
+void anime_create_8005E508(SVECTOR *pos);
 
 #endif // _ANIME_H_
