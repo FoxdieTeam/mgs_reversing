@@ -3,6 +3,7 @@
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
+#include <LIBGPU.H>
 #include "Game/GM_Control.h"
 #include "map/map.h"
 #include "Game/game.h"
@@ -21,15 +22,16 @@ int   sub_80029A2C(void);
 void  sub_800298C0(int *int_arr);
 void  sub_8002A090(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags, unsigned int param_4);
 void  sub_8007913C();
-Actor_strctrl   *sub_80037EE0(int vox_stream, int gcl_proc);
-void  sub_800790E8(); // Takabe
-void  sub_800241B4(int);
-int   sub_80029514(SVECTOR *);
-void  sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
-int   sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
-void  sub_80032AEC(int byte_2, int byte_1, int byte_0);
-int   sub_80028830(void);
-void  sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
+Actor_strctrl *sub_80037EE0(int vox_stream, int gcl_proc);
+void   sub_800790E8(); // Takabe
+void   sub_800241B4(int);
+int    sub_80029514(SVECTOR *);
+void   sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
+int    sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
+void   sub_80032AEC(int byte_2, int byte_1, int byte_0);
+int    sub_80028830(void);
+void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
+SVECTOR *sub_80028820(void);
 
 // TODO: bullet.h?
 GV_ACT* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
