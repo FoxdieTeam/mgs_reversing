@@ -123,4 +123,4 @@ const char SECTION(".rdata") aReshadeNullMap[] = "Reshade NULL map\n";
 const char SECTION(".rdata") aHomingTargetOv[] = "Homing target over !!!\n";
 const char SECTION(".rdata") aFull[] = "FULL";
 const char SECTION(".rdata") aGetWeaponFirst[] = "GET WEAPON FIRST";
-int        SECTION(".rdata") dword_80010D68 = 0x7325;
+const char SECTION(".rdata") aS_3[] = "%s";
