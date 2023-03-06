@@ -34,7 +34,7 @@ extern const char aLv[];
 void sub_8003CEF8(PANEL_TEXTURE *a1);
 int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
-int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, int a2, int xpos, int ypos, const char *str, int flags);
+int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
 
 void Menu_item_render_frame_rects_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4);
 
@@ -222,7 +222,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
         }
         menu_number_draw_string_800430F0(
             pActor,
-            (int)pOt,
+            pOt,
             xpos + 46,
             ypos + 22,
             gMenuItemRpkInfo_8009E484[pMenuSub->field_0_current.field_0_id].field_0_weapon_name,
@@ -230,7 +230,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
     }
     else
     {
-        menu_number_draw_string_800430F0(pActor, (int)pOt, xpos + 46, ypos + 22, aNoItem, 1);
+        menu_number_draw_string_800430F0(pActor, pOt, xpos + 46, ypos + 22, aNoItem, 1);
     }
     
     if ( !pMenuSub->field_0_current.field_4_pos )

@@ -12,10 +12,14 @@ extern const char aHwCardNew[];
 extern const char aSwCardError[];
 extern const char aCSTO[];
 extern const char aSwCardNew[];
-extern const char aBu02x[];          // = "bu%02X:*";
-extern const char aLoadDirSStart[];  // = "load_dir %s start\n";
-extern const char aTotalDFilesUse[]; // = "TOTAL %d FILES used %d block\n";
-extern const char aNoFile[];         // = "NO FILE\n";
+extern const char aBu02x[];            // = "bu%02X:*";
+extern const char aBu02x_0[];          // = "bu%02x:";
+extern const char aFormatedD[];        // = "FORMATED %d\n";
+extern const char aErrorMemcardFo[];   // = "ERROR : MEMCARD FORMAT\n";
+extern const char aErrorMemcardFo_0[]; // = "ERROR : MEMCARD FORMATED CARD\n";
+extern const char aLoadDirSStart[];    // = "load_dir %s start\n";
+extern const char aTotalDFilesUse[];   // = "TOTAL %d FILES used %d block\n";
+extern const char aNoFile[];           // = "NO FILE\n";
 extern const char aEasyFormatTest[];
 extern const char aR[];
 extern const char aAccessWait[];
@@ -499,4 +503,32 @@ int memcard_get_status_800257B0()
     return gMemCard_io_size_800B5648;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_format_800257C0.s") // 240 bytes
+int memcard_format_800257C0(int idx)
+{
+    int  retries;
+    char cardPath[32];
+
+    retries = 4;
+    sprintf_8008E878(cardPath, aBu02x_0, idx * 16);
+
+    if (gMemCards_800B52F8[idx].field_1_last_op == 5)
+    {
+    retry:
+        if (format_800995DC(cardPath) != 0)
+        {
+            mts_printf_8008BBA0(aFormatedD, idx);
+            gMemCards_800B52F8[idx].field_1_last_op = 1;
+            return 1;
+        }
+        retries--;
+        if (retries <= 0)
+        {
+            mts_printf_8008BBA0(aErrorMemcardFo);
+            return 0;
+        }
+        goto retry; // TODO: find a match without goto
+    }
+
+    mts_printf_8008BBA0(aErrorMemcardFo_0);
+    return 0;
+}

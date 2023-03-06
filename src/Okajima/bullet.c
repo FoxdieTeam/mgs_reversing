@@ -5,6 +5,8 @@
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "psyq.h"
+#include "Anime/animeconv/anime.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_GameStatus_800AB3CC;
@@ -313,39 +315,35 @@ Actor_Bullet * bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noi
     return pActor;
 }
 
-Actor_Bullet * NewBulletEx_80076708(int arg0, MATRIX *pMtx, int whichSide, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8)
+Actor_Bullet * NewBulletEx_80076708(
+    int a1, MATRIX* pMtx, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
-    SVECTOR vec;
-    MATRIX mtx;
-    Actor_Bullet *pActor;
+    Actor_Bullet* pActor; // $s0
+    int flags; // $v1
+    SVECTOR vec; // [sp+18h] [-28h] BYREF
+    MATRIX mtx; // [sp+20h] [-20h] BYREF
 
-    pActor = (Actor_Bullet *)GV_NewActor_800150E4(5, sizeof(Actor_Bullet));
+    pActor = (Actor_Bullet*)GV_NewActor_800150E4(5, 0x170);
     if (!pActor)
     {
-        return NULL;
+        return 0;
     }
 
-    GV_SetNamedActor_8001514C(&pActor->field_0_actor,
-                              (TActorFunction)&bullet_act_80075DD4,
-                              (TActorFunction)&bullet_kill_80076164,
-                              aBulletC);
-
-    pActor->field_14C = arg0;
-    pActor->field_150 = arg5 / 2;
-    pActor->field_154_hp = arg6;
-    pActor->field_158 = arg7;
-    pActor->field_15C = arg8;
-
+    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bullet_act_80075DD4,
+        (TActorFunction)bullet_kill_80076164, aBulletC);
+    pActor->field_14C = a1;
+    pActor->field_150 = a6 / 2;
+    pActor->field_154_hp = a7;
+    pActor->field_158 = a8;
+    pActor->field_15C = a9;
     DG_SetPos_8001BC44(pMtx);
-
     vec.vx = -1024;
     vec.vy = 0;
     vec.vz = 0;
-
     DG_RotatePos_8001BD64(&vec);
     ReadRotMatrix_80092DD8(&mtx);
 
-    if (pActor->field_14C & 0x1000)
+    if ((pActor->field_14C & 0x1000) != 0)
     {
         pActor->field_168 = 0;
     }
@@ -354,63 +352,63 @@ Actor_Bullet * NewBulletEx_80076708(int arg0, MATRIX *pMtx, int whichSide, int a
         pActor->field_168 = 1;
     }
 
-    if (bullet_loader2_80076274(pActor, &mtx, arg3, arg4, whichSide) < 0)
+    if (bullet_loader2_80076274(pActor, &mtx, a4, a5, a3) < 0)
     {
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
-        return NULL;
+        return 0;
+    }
+    else
+    {
+        if (bullet_SetTarget_800761A0(pActor, a3) < 0)
+        {
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        }
+        flags = pActor->field_14C;
+        pActor->field_144_noise_len = a5;
+        pActor->field_134 = a4;
+        pActor->field_148 = a3;
+        if ((flags & 1) != 0)
+        {
+            anime_create_8005D604(pMtx); // ??
+        }
+        else if ((flags & 2) != 0)
+        {
+            anime_create_8005D6BC(pMtx, 0);
+        }
+        else if ((flags & 4) != 0)
+        {
+            anime_create_8005D6BC(pMtx, 1);
+        }
+        else if ((flags & 8) != 0)
+        {
+            anime_create_8005D988(pMtx, pMtx, 0);
+        }
+        else if ((flags & 0x10) != 0)
+        {
+            anime_create_8005D988(pMtx, pMtx, 1);
+        }
+        else if ((flags & 0x20) != 0)
+        {
+            anime_create_8005E334(pMtx);
+        }
+
+        ++dword_8009F6A8;
+        return pActor;
     }
 
-    if (bullet_SetTarget_800761A0(pActor, whichSide) < 0)
-    {
-        GV_DestroyActor_800151C8(&pActor->field_0_actor);
-    }
-
-    pActor->field_144_noise_len = arg4;
-    pActor->field_134 = arg3;
-    pActor->field_148_side = whichSide;
-
-    if (pActor->field_14C & 1)
-    {
-        anime_create_8005D604(pMtx);
-    }
-    else if (pActor->field_14C & 2)
-    {
-        anime_create_8005D6BC(pMtx, 0);
-    }
-    else if (pActor->field_14C & 4)
-    {
-        anime_create_8005D6BC(pMtx, 1);
-    }
-    else if (pActor->field_14C & 8)
-    {
-        anime_create_8005D988(pMtx, pMtx, 0);
-    }
-    else if (pActor->field_14C & 0x10)
-    {
-        anime_create_8005D988(pMtx, pMtx, 1);
-    }
-    else if (pActor->field_14C & 0x20)
-    {
-        anime_create_8005E334(pMtx);
-    }
-
-    dword_8009F6A8++;
-    return pActor;
+    return 0;
 }
 
-void sub_8007692C(MATRIX* arg0, int whichSide, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7)
+Actor_Bullet * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
-    SVECTOR vec;
-    MATRIX mtx;
+    SVECTOR vec; // [sp+28h] [-28h] BYREF
+    MATRIX mtx; // [sp+30h] [-20h] BYREF
 
-    DG_SetPos_8001BC44(arg0);
-
+    DG_SetPos_8001BC44(pMtx);
     vec.vx = 1024;
     vec.vy = 0;
     vec.vz = 0;
-
     DG_RotatePos_8001BD64(&vec);
     ReadRotMatrix_80092DD8(&mtx);
-
-    NewBulletEx_80076708(256, &mtx, whichSide, arg2, arg3, arg4, arg5, arg6, arg7);
+    return NewBulletEx_80076708(256, &mtx, a2, a3, a4, a5, a6, a7, a8);
 }

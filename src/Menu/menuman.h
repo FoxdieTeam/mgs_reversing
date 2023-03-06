@@ -57,13 +57,13 @@ typedef struct menu_chara_struct
 {
     int            field_0_state;
     int            field_4;
-    void          *field_8;
+    char          *field_8_radioDatFragment;
     unsigned char *field_C_pScript;
     void          *field_10_subtitles;    // Points to subtitle data.
     int            field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
     unsigned short field_1A;
-    void          *field_1C;
+    char          *field_1C_radioDatFragment;
     void*           field_20_pFaceMemory;
     void          *field_24_pImgData256;
     int           *field_28_pStack;
@@ -350,6 +350,7 @@ void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if
 void sub_80046B74(void *a1, int a2);
 void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
+unsigned int Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper_helper_80049EDC(void);
 void init_file_mode_helper2_8004A800(void);
