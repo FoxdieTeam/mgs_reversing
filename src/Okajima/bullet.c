@@ -12,7 +12,11 @@ extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_GameStatus_800AB3CC;
 extern int     dword_8009F6A8;
 extern SVECTOR svec_8009F6AC[4];
+extern SVECTOR svec_8009F6EC;
+extern SVECTOR svec_8009F6F4;
+extern SVECTOR svec_8009F6FC;
 
+extern const char aBullet[];  // = "bullet"
 extern const char aBulletC[]; // = "bullet.c"
 
 //------------------------------------------------------------------------------
@@ -130,6 +134,7 @@ void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
 }
 
 #pragma INCLUDE_ASM("asm/Okajima/bullet_loader3_8007575C.s")        // 1656 bytes
+int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int arg2);
 
 void bullet_act_80075DD4(Actor_Bullet *pActor)
 {
@@ -254,13 +259,11 @@ void bullet_kill_80076164(Actor_Bullet *pActor)
     }
 }
 
-extern int SECTION(".data") aDdd_8009F6EC[]; // TODO: define as SVECTOR*
-
 int bullet_SetTarget_800761A0( Actor_Bullet *actor, int target_flags )
 {
     SVECTOR pos;
 
-    GM_SetTarget_8002DC74( &actor->field_44_target, 4, target_flags, (SVECTOR *)aDdd_8009F6EC );
+    GM_SetTarget_8002DC74( &actor->field_44_target, 4, target_flags, &svec_8009F6EC );
 
     pos.vx = actor->field_120.vx >> 3; // divide 8 won't match
     pos.vy = actor->field_120.vy >> 3;
@@ -278,10 +281,62 @@ int bullet_SetTarget_800761A0( Actor_Bullet *actor, int target_flags )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/bullet_loader2_80076274.s") // 428 bytes
-int                              bullet_loader2_80076274(Actor_Bullet *actor, MATRIX *param_2, int param_3, int param_4, int param_5);
+int bullet_loader2_80076274(Actor_Bullet *pActor, MATRIX* pMtx, int arg2, int noiseLen, int whichSide)
+{
+    DG_PRIM *pPrim;
+    DG_TEX *pTex;
+    int test;
 
-Actor_Bullet *NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
+    pActor->field_164 = 0;
+    pActor->field_20 = GM_CurrentMap_800AB9B0;
+    pActor->field_24 = *pMtx;
+
+    DG_SetPos_8001BC44(pMtx);
+    DG_PutVector_8001BE48(&svec_8009F6FC, &pActor->field_110, 1);
+
+    svec_8009F6F4.vy = -pActor->field_15C;
+    DG_RotVector_8001BE98(&svec_8009F6F4, &pActor->field_120, 1);
+
+    pActor->field_138 = bullet_loader3_8007575C(pActor, pMtx, noiseLen);
+    pActor->field_13C = 0;
+
+    if (pActor->field_160 != 0)
+    {
+        pActor->field_138 = (pActor->field_138 * pActor->field_160) >> 12;
+    }
+
+    if (arg2 == 0)
+    {
+        return 0;
+    }
+
+    test = arg2 <= 2;
+    if ((arg2 >= 0) && test)
+    {
+        pPrim = DG_GetPrim(18, 2, 0, pActor->field_90, NULL);
+        pActor->field_8C_pPrim = pPrim;
+
+        if (!pPrim)
+        {
+            return -1;
+        }
+
+        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBullet));
+
+        if (!pTex)
+        {
+            return -1;
+        }
+
+        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075358(pActor);
+    }
+
+    return 0;
+}
+
+Actor_Bullet * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
 {
 	Actor_Bullet  *actor;
 	SVECTOR       vec;
