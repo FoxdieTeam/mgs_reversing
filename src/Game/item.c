@@ -11,11 +11,16 @@ extern int            GM_GameStatus_800AB3CC;
 extern GM_Control    *gSnaControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 
+extern short word_800AB8EC;
+short        SECTION(".word_800AB8EC") word_800AB8EC;
+
 extern const char aFull[];           // = "FULL"
 extern const char aGetWeaponFirst[]; // = "GET WEAPON FIRST"
 extern const char aS_3[];            // = "%s"
 extern const char aItemC[];          // = "item.c"
-extern const char aItemMapD[];       // = "Item map = %d\n";
+extern const char aItemMapD[];       // = "Item map = %d\n"
+extern const char aNoIdItem[];       // = "NO ID ITEM\n"
+extern const char aShadow[];         // = "shadow"
 
 //------------------------------------------------------------------------------
 
@@ -607,7 +612,197 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Game/item_init_helper_800340D0.s")        // 1064 bytes
+int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
+{
+    short sVar3;
+    int i;
+    char *pcVar5;
+    char *bReadVec2;
+    unsigned char *puVar6;
+    char *pbVar7;
+    char *m_return;
+    DG_PRIM *pPrim;
+    DG_TEX *pTex;
+    int type;
+    GM_Control *pControl;
+    OBJECT *pObject;
+    int iVar10;
+    int code;
+    int value;
+    int k500;
+    SVECTOR *pVec1;
+    SVECTOR *pVec2;
+    SVECTOR *pVec3;
+    SVECTOR *pVec4;
+
+    pControl = &pActor->field_20_ctrl;
+    GM_CurrentMap_800AB9B0 = where;
+    pActor->field_108_where = where;
+
+    if (Res_Control_init_loader_8002599C(pControl, name, where) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlHazard_8002622C(pControl, -1, -2, -1);
+    GM_ConfigControlInterp_80026244(pControl, '\0');
+
+    pcVar5 = (char *) GCL_GetParam_80020968('p');
+    bReadVec2 = (char *) GCL_GetParam_80020968('d');
+    GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
+
+    pControl->field_44_movementVector = DG_ZeroVector_800AB39C;
+    pControl->field_55_flags = '\x03';
+
+    puVar6 = (unsigned char *) GCL_GetParam_80020968('b');
+    type = 0;
+
+    if (puVar6)
+    {
+        type = GCL_GetNextInt_800209E8(puVar6);
+    }
+
+    puVar6 = (unsigned char *)GCL_GetParam_80020968('i');
+    if (!puVar6)
+    {
+        mts_printf_8008BBA0(aNoIdItem);
+        return -1;
+    }
+
+    pActor->field_114_item_id = GCL_GetNextInt_800209E8(puVar6);
+    puVar6 = (unsigned char *) GCL_GetParam_80020968('n');
+    if (puVar6)
+    {
+      pActor->field_116_ammo_amount = GCL_GetNextInt_800209E8(puVar6);
+    }
+    else
+    {
+        pActor->field_116_ammo_amount = 1;
+    }
+
+    m_return = (char *)GCL_GetParam_80020968('m');
+
+    if (m_return)
+    {
+      pcVar5 = GCL_Read_String_80020A70(m_return);
+      pActor->field_118_str = pcVar5;
+    }
+
+    pActor->field_11C_full_str = (char *) 0x0;
+
+    iVar10 = 0x1c2;
+    puVar6 = (unsigned char *) GCL_GetParam_80020968('h');
+    if (puVar6)
+    {
+      iVar10 = GCL_GetNextInt_800209E8(puVar6);
+    }
+
+    pActor->field_120_pScript = (unsigned char *) 0x0;
+
+    if (GCL_GetParam_80020968('e'))
+    {
+        pActor->field_120_pScript = (unsigned char *)GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+    else if (GCL_GetParam_80020968('x'))
+    {
+        pbVar7 = (char *) GCL_Get_Param_Result_80020AA4();
+        GCL_GetNextValue_8002069C(pbVar7, &code, &value);
+        pActor->field_120_pScript = (unsigned char *)value;
+    }
+
+    if (!item_init_helper_helper_80034020(pActor, type))
+    {
+        return 0;
+    }
+
+    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (pActor->field_114_item_id == ITEM_RATION))
+    {
+        return 0;
+    }
+
+    GV_ZeroMemory_8001619C(pActor->field_C0, 8);
+    pObject = &pActor->field_9C_kmd;
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *) pObject, type + 0x4d5f, 0x36d, 0);
+    GM_ConfigObjectJoint_80034CB4(pObject);
+    GM_ConfigObjectLight_80034C44(pObject, pActor->field_C8_mtx);
+    GM_ConfigObjectStep_80034C54(pObject, &pActor->field_20_ctrl.field_44_movementVector);
+
+    if (GCL_GetParam_80020968('v'))
+    {
+        pActor->field_9C_kmd.objs[2].world.m[1][1] = -10000;
+    }
+
+    for (i = 0; i < 2; i++)
+    {
+        setLineF4(&pActor->field_124_lineF4_array[i]);
+        setRGB0(&pActor->field_124_lineF4_array[i], 255, 255, 255);
+    }
+
+    if (iVar10 >= 0)
+    {
+        pVec1 = &pActor->field_160;
+        pVec2 = &pActor->field_168;
+        pVec3 = &pActor->field_170;
+        pVec4 = &pActor->field_178;
+
+        sVar3 = pControl->field_0_position.vy;
+
+        pVec4->vy = sVar3;
+        pActor->field_170.vy = sVar3;
+        pVec2->vy = sVar3;
+        pVec1->vy = sVar3;
+
+        sVar3 = pControl->field_0_position.vx + 0x100;
+        pActor->field_170.vx = sVar3;
+        pVec1->vx = sVar3;
+
+        sVar3 = pControl->field_0_position.vz + 0x100;
+        pVec2->vz = sVar3;
+        pVec1->vz = sVar3;
+
+        sVar3 = pControl->field_0_position.vx - 0x100;
+        pVec4->vx = sVar3;
+        pVec1[1].vx = sVar3;
+
+        sVar3 = pControl->field_0_position.vz - 0x100;
+        pVec4->vz = sVar3;
+        pVec1[2].vz = sVar3;
+
+        pControl->field_0_position.vy += iVar10;
+
+        pPrim = DG_GetPrim(0x1012, 1, 0, &pActor->field_160, NULL);
+        pActor->field_15C_pPrim = pPrim;
+
+        k500 = 500;
+
+        if (!pPrim)
+        {
+            return -1;
+        }
+
+        pPrim->field_2E_k500 = k500;
+
+        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aShadow));
+        if (!pTex)
+        {
+            return -1;
+        }
+
+        item_init_prim_buffer_800336A4(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex);
+        item_init_prim_buffer_800336A4(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex);
+
+        setRGB0(&pPrim->field_40_pBuffers[0]->poly_ft4, 80, 80, 80);
+        setRGB0(&pPrim->field_40_pBuffers[1]->poly_ft4, 80, 80, 80);
+    }
+    else
+    {
+        pActor->field_15C_pPrim = 0;
+    }
+
+    GM_ActControl_80025A7C(pControl);
+    GM_ActObject2_80034B88(pObject);
+    return 1;
+}
 
 Actor_Item * item_init_800344F8(int name, int where, int argc, char **argv)
 {

@@ -39,18 +39,9 @@ typedef struct Actor_Item
     LINE_F4        field_124_lineF4_array[2];
     DG_PRIM       *field_15C_pPrim;
     SVECTOR        field_160;
-    short          field_168;
-    short          field_16A;
-    short          field_16C;
-    short          field_16E;
-    short          field_170;
-    short          field_172;
-    short          field_174;
-    short          field_176;
-    short          field_178;
-    short          field_17A;
-    short          field_17C;
-    short          field_17E;
+    SVECTOR        field_168;
+    SVECTOR        field_170;
+    SVECTOR        field_178;
 } Actor_Item;
 
 int  item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
