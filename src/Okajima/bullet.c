@@ -366,7 +366,7 @@ Actor_Bullet * NewBulletEx_80076708(
         flags = pActor->field_14C;
         pActor->field_144_noise_len = a5;
         pActor->field_134 = a4;
-        pActor->field_148 = a3;
+        pActor->field_148_side = a3;
         if ((flags & 1) != 0)
         {
             anime_create_8005D604(pMtx); // ??
