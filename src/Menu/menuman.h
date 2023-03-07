@@ -7,6 +7,7 @@
 #include "libgv/libgv.h"
 #include "Font/font.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
+#include "face.h"
 
 #define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
 
@@ -64,12 +65,12 @@ typedef struct menu_chara_struct
     unsigned short field_18;
     unsigned short field_1A;
     char          *field_1C_radioDatFragment;
-    void*           field_20_pFaceMemory;
+    faces_group*   field_20_pFacesGroup;
     void          *field_24_pImgData256;
     int           *field_28_pStack;
     short          *field_2C_pSaveText;
-    int            field_30_face_data_num;
-    void         **field_34;
+    int            field_30_face_count;
+    face_header   *field_34_faces;
     int            field_38;
     menu_chara_struct_sub field_3C[2];
 } menu_chara_struct;
