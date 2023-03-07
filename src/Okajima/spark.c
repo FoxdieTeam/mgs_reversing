@@ -54,7 +54,37 @@ void spark_init_random_table_80073DB0()
 
 #pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s")    // 720 bytes
 #pragma INCLUDE_ASM("asm/Okajima/spark_act_helper_80074118.s") // 284 bytes
-#pragma INCLUDE_ASM("asm/Okajima/spark_loader4_80074234.s")    // 188 bytes
+
+void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex)
+{
+    POLY_FT4 *pScratch;
+    int x, y, w, h;
+
+    pScratch = (POLY_FT4 *)getScratchAddr(0);
+
+    setPolyFT4(pScratch);
+    setSemiTrans(pScratch, 1);
+
+    x = pTex->field_8_offx;
+    w = pTex->field_A_width;
+    y = pTex->field_9_offy;
+    h = pTex->field_B_height;
+
+    setUVWH(pScratch, x, y, w, h);
+
+    pScratch->tpage = pTex->field_4_tPage;
+    pScratch->clut = pTex->field_6_clut;
+
+    while (--count >= 0)
+    {
+        LCOPY2(&pScratch->tag, &pPoly->tag, &pScratch->r0, &pPoly->r0);
+        LCOPY(&pScratch->u0, &pPoly->u0);
+        LCOPY(&pScratch->u1, &pPoly->u1);
+        LCOPY(&pScratch->u2, &pPoly->u2);
+        LCOPY(&pScratch->u3, &pPoly->u3);
+        pPoly++;
+    }
+}
 
 // Set
 //     pPoly[i].r0 = color
