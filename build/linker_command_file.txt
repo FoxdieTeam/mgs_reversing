@@ -388,7 +388,7 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
     include "..\obj\sub_80046B10.obj"
     include "..\obj\Menu\sub_80046B74.obj"
-    include "..\obj\sub_80046BD8.obj"
+    include "..\obj\Menu\sub_80046BD8.obj"
     include "..\obj\sub_80046C90.obj"
     include "..\obj\Menu\menu_radio_draw_face_helper_helper_80046DF4.obj"
     include "..\obj\Menu\menu_radio_codec_task_proc_helper_80046F3C.obj"

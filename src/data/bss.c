@@ -204,7 +204,11 @@ gap                                     gap_800BD9AC[0x4]; // 4 bytes
 
 SPRT BSS            gRadioNumberSprt_800bd9b0; // 0x14 (20) bytes
 
-gap                                     gap_800BD9C4[0x2C]; // 44 bytes
+gap                                     gap_800BD9C4[0xC]; // 12 bytes
+
+SPRT BSS            gRadioNumberSprt2_800bd9d0; // 0x14 (20) bytes
+
+gap                                     gap_800BD9E4[0xC]; // 12 bytes
 
 SPRT BSS            gRadioStringSprt_800BD9F0; // 0x14 (20) bytes
 

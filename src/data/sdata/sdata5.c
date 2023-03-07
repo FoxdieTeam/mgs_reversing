@@ -7,9 +7,15 @@ int SECTION(".sdata") dword_800AB640 = 0;
 int SECTION(".sdata") dword_800AB644 = 0xFFFFFFFF;
 int SECTION(".sdata") dword_800AB648 = 0;
 
-int SECTION(".sdata") dword_800AB64C = 0x01E803C0;
-int SECTION(".sdata") dword_800AB650 = 0x000A0040;
-int SECTION(".sdata") dword_800AB654 = 0x6D756E;
+// rect_800AB64C is declared as a 1-element array
+// in order for menu_number_init_80042848
+// to declare extern to an array with unspecified size.
+// That way the "small data" optimization of -G8 doesn't kick
+// in (the compiler then doesn't know that rect_800AB64C is 8 bytes large,
+// under the "8 bytes" threshold in G8). Without it, it would force
+// us to compile this function (and the entire file) with -G0.
+RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
+char SECTION(".sdata") aNum[] = "num";
 
 RECT SECTION(".sdata") gRadioStringRect_800AB658 = {960, 498, 0, 0};
 
