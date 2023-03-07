@@ -124,7 +124,7 @@ void spark_act_80074334(Actor_Spark *pActor)
     }
     else
     {
-        spark_act_helper_80074118(&pActor->f028, &pActor->f068, 8);
+        spark_act_helper_80074118(&pActor->f028, pActor->f068, 8);
         spark_800742F0(&pActor->f024_pPrim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
 
         lightRadius = (updated_f170 - 8) * 0x200;
@@ -154,9 +154,9 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
 
     pActor->f020_map = GM_CurrentMap_800AB9B0;
     spark_init_random_table_80073DB0();
-    spark_loader3_80073E48(&pActor->f028, &pActor->f068, 8, a3);
+    spark_loader3_80073E48(&pActor->f028, pActor->f068, 8, a3);
 
-    pNewPrim = DG_GetPrim(18, 8, 0, &pActor->f068, NULL);
+    pNewPrim = DG_GetPrim(18, 8, 0, pActor->f068, NULL);
     pActor->f024_pPrim = pNewPrim;
 
     if (!pNewPrim)
