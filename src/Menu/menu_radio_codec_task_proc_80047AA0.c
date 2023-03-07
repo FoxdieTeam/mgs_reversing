@@ -19,8 +19,8 @@ void menu_radio_codec_task_proc_80047AA0()
     char    *radioDatIter;
     unsigned startSector;
 
-    void    *pFaceMemory;
-    unsigned pFaceMemorySize;
+    faces_group *pFacesGroup;
+    unsigned     pFacesGroupSize;
 
     unsigned fontAddrOffset;
 
@@ -39,26 +39,30 @@ void menu_radio_codec_task_proc_80047AA0()
         mts_wait_vbl_800895F4(2);
     }
 
-    pFaceMemorySize = (sectorAndSize / 16777216) * 2048;
+    pFacesGroupSize = (sectorAndSize / 16777216) * 2048;
     sectorAndSize &= 0xFFFFFF; // % 16777216
     startSector = sectorAndSize;
 
-    dword_800ABB38->field_20_pFaceMemory = GV_AllocMemory_80015EB8(0, pFaceMemorySize);
-    if (dword_800ABB38->field_20_pFaceMemory == 0)
+    dword_800ABB38->field_20_pFacesGroup = GV_AllocMemory_80015EB8(0, pFacesGroupSize);
+    if (dword_800ABB38->field_20_pFacesGroup == NULL)
     {
-        mts_printf_8008BBA0(aNoMemoryForFac, pFaceMemorySize);
+        mts_printf_8008BBA0(aNoMemoryForFac, pFacesGroupSize);
     }
 
-    // TODO: Reverse engineer pFaceMemory structure
-    pFaceMemory = dword_800ABB38->field_20_pFaceMemory;
-    FS_LoadFileRequest_80021F0C(2, startSector, pFaceMemorySize, pFaceMemory);
+    // pFacesGroup is parsed in menu_radio_codec_task_proc_helper_80046F3C
+    pFacesGroup = dword_800ABB38->field_20_pFacesGroup;
+
+    // At the start of the game if you manually call
+    // after the initial call, pFacesGroup is 0x25800 bytes
+    // large and it is read from FACE.DAT offset 0x13a800.
+    FS_LoadFileRequest_80021F0C(2, startSector, pFacesGroupSize, pFacesGroup);
     while (FS_LoadFileSync_80021F48() > 0)
     {
         mts_wait_vbl_800895F4(1);
     }
 
-    menu_radio_codec_task_proc_helper_80046F3C(dword_800ABB38, pFaceMemory);
-    mts_printf_8008BBA0(aFaceDataNumD, dword_800ABB38->field_30_face_data_num);
+    menu_radio_codec_task_proc_helper_80046F3C(dword_800ABB38, pFacesGroup);
+    mts_printf_8008BBA0(aFaceDataNumD, dword_800ABB38->field_30_face_count);
 
     dword_800ABB38->field_14_bInExecBlock = 0;
     field_18 &= ~0x1;
