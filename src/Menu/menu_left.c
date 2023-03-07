@@ -65,9 +65,44 @@ PANEL_TEXTURE * menu_rpk_8003B5E0(int index)
     return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
 
-// https://decomp.me/scratch/txHAy
-// G0 function in a G8 file
-#pragma INCLUDE_ASM("asm/Menu/menu_8003B614.s") // 188 bytes
+void sub_8003F97C(char *param_1);
+
+extern int   dword_8009E3E4[];
+extern void *dword_8009E444[];
+extern void *dword_8009E44C[];
+
+void menu_8003B614(int index)
+{
+    // TODO: It's probably a string, not some structure
+    char *ptr = (char *)dword_8009E3E4[index];
+
+    if (GM_FrozenItemsState == 1)
+    {
+        if (index != 9)
+        {
+            if (index == 13)
+            {
+                ptr = dword_8009E444[0];
+            }
+        }
+        else
+        {
+            ptr = dword_8009E444[1];
+        }
+    }
+
+    if (index == 17)
+    {
+        ptr[46] = GM_CardFlag + 48;
+    }
+
+    if (index == 19 && GM_DifficultyFlag >= 2)
+    {
+        ptr = (char *)dword_8009E44C;
+    }
+
+    sub_8003F97C(ptr);
+}
 
 int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
 {
