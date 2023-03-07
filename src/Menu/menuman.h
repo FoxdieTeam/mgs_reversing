@@ -216,6 +216,10 @@ typedef struct _Menu_rpk_item
     unsigned char field_4_pixel_ptr[0];
 } Menu_rpk_item;
 
+// This struct describes the structure of
+// ".rpk" files (".rpk", 'r', 0x72). Note
+// that 'r' (0x72) can be either a ".rar",
+// ".res" or ".rpk" file.
 typedef struct
 {
     unsigned char  field_0_count1;
