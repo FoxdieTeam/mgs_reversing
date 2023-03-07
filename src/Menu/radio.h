@@ -108,6 +108,21 @@ typedef struct RadioCodecStru_800ABB98
 
 } RadioCodecStru_800ABB98;
 
+// This struct describes the structure of
+// ".res" files (".res", 'r', 0x72). Note
+// that 'r' (0x72) can be either a ".rar",
+// ".res" or ".rpk" file.
+//
+// TODO: Is radio.h the right header file for this?
+typedef struct ResHeader
+{
+    int          field_0;
+    int          field_4;
+    unsigned int field_8;
+    int          field_C;
+    int          field_10;
+    char         field_14[0];
+} ResHeader;
 
 void           sub_8004D580(int pressed);
 void           sub_8004124C(Actor_MenuMan *pActor);

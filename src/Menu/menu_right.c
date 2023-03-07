@@ -660,6 +660,8 @@ Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
     Menu_rpk_item **pIter;
     int             i;
     int             count;
+
+    // At the start of the game, "item.rpk" file is loaded (5d43.r)
     RpkHeader      *pFileData = GV_GetCache_8001538C(GV_CacheID2_800152FC(pFileName, 'r'));
     if (!pFileData)
     {
