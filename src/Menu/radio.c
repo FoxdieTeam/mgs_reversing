@@ -498,7 +498,56 @@ void menu_SetRadioCallbackProc_8004283C(int param_1)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_init_80042848.s") // 312 bytes
+void menu_set_string2_80043138();
+
+extern RECT       rect_800AB64C[];
+extern const char aNum[]; // = "num";
+extern SPRT       gRadioNumberSprt_800bd9b0;
+extern SPRT       gRadioNumberSprt2_800bd9d0;
+
+void menu_number_init_80042848(Actor_MenuMan *pActor)
+{
+    ResHeader *num_res;
+    RECT       rect1, rect2;
+    SPRT      *sprt;
+
+    rect1 = rect_800AB64C[0];
+
+    // Loads "num.res" (c70e.r) file:
+    num_res = GV_GetCache_8001538C(GV_CacheID2_800152FC(aNum, 'r'));
+
+    SSTOREL(0, &num_res->field_14); // TODO: Why zero out the first pixel of image?
+
+    rect2.x = 960;
+    rect2.y = 511;
+    rect2.w = 16;
+    rect2.h = 1;
+    LoadImage_8008FB10(&rect2, num_res->field_14);
+    LoadImage_8008FB10(&rect1, num_res->field_14 + num_res->field_8 / 2 * 2);
+
+    sprt = &gRadioNumberSprt_800bd9b0;
+    setSprt(sprt);
+    sprt->r0 = 128;
+    sprt->g0 = 128;
+    sprt->b0 = 128;
+    sprt->u0 = 0x9c;
+    sprt->v0 = 0xe8;
+    sprt->w = 6;
+    sprt->h = 7;
+    sprt->clut = 0x7ffc;
+
+    sprt = &gRadioNumberSprt2_800bd9d0;
+    setSprt(sprt);
+    sprt->r0 = 128;
+    sprt->g0 = 128;
+    sprt->b0 = 128;
+    sprt->u0 = 0;
+    sprt->v0 = 0xed;
+    sprt->w = 6;
+    sprt->h = 5;
+    sprt->clut = 0x7ffc;
+    menu_set_string2_80043138();
+}
 
 void menu_number_kill_80042980(void)
 {
