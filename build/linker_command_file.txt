@@ -751,11 +751,10 @@
     ; 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88
     ; 8008BB4C 8008BB60 8008BB78 8008BB88
     include "..\obj\mts\mts_new3.obj"
-    include "..\obj\data\rdata\rdata_800892A8.obj"
-    include "..\obj\data\data\data2.obj"
 
     ; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8
     include "..\obj\mts\mts_new4.obj"
+    include "..\obj\data\rdata\rdata_800892A8.obj"
 
     ; 8008BC8C 8008BDEC 8008C098 8008C170 8008C25C 8008C324 8008C380 8008C3BC 8008C408 8008C454
     ; 8008C4BC
@@ -764,6 +763,7 @@
     ; 8008C534 8008C58C 8008C598 8008C5A8 8008C5B0 8008C5B8 8008C5C0 8008C5C8 8008C5D0 8008C5E0
     ; 8008C5E8 8008C5F0 8008C5F8 8008C600
     include "..\obj\mts\mts_new2.obj"
+    include "..\obj\data\data\data2.obj"
 
     ; libcd.lib start
 

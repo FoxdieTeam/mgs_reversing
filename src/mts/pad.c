@@ -2,15 +2,19 @@
 #include "mts_new.h"
 #include "psyq.h"
 
-extern int gMtsPadInited_800A3DBC;
-extern int dword_800A3DC0[2];
-extern int dword_800A3DC8;
-
+// BSS
 extern char          gMtsPadActBuffers_800C1470[2][6];
 extern unsigned char gMtsPadRecvBuffers_800C1480[2][36];
 extern unsigned char gMtsPadSendBuffers_800C14D0[2][8];
 extern short         gMtsPadUnknBuffers_800C14E0[2][4];
 extern int           gMtsPadInitStates_800C14F0[2];
+
+int dword_800A3DB0 = 1;
+int dword_800A3DB4 = 0;
+int dword_800A3DB8 = 0;
+int gMtsPadInited_800A3DBC = 0;
+int dword_800A3DC0[] = {0, 0};
+int dword_800A3DC8 = 1;
 
 void mts_init_controller_actuators_8008BC8C(int pad)
 {

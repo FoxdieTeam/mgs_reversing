@@ -1735,10 +1735,3 @@ unsigned char SECTION(".data") v800A3D28[64] = {
     152u, 61u, 1u, 128u, 128u, 61u, 1u, 128u, 112u, 61u, 1u, 128u, 92u,  61u, 1u, 128u,
     76u,  61u, 1u, 128u, 56u,  61u, 1u, 128u, 44u,  61u, 1u, 128u, 36u,  61u, 1u, 128u,
     20u,  61u, 1u, 128u, 16u,  61u, 1u, 128u, 16u,  61u, 1u, 128u, 16u,  61u, 1u, 128u};
-
-int         SECTION(".data") dword_800A3D68[] = {0, 0};
-int         SECTION(".data") gMts_Event1_800A3D70 = 0;
-void       *SECTION(".data") gControllerCallBack_800A3D74 = 0;
-int         SECTION(".data") gMtsVSyncCount_800A3D78 = -1;
-mts_msg     SECTION(".data") stru_800A3D7C = {NULL, 0, -1, 0, NULL};
-int         SECTION(".data") gMts_Event2_800A3D90 = 0;
