@@ -5,8 +5,12 @@
 
 // Each overlay defines this symbol
 //extern char OverlayCharas[];
+
+// BSS
 extern char gProgramBottom_800C3208[];
-extern int dword_800A3DCC;
+extern int  dword_800A3DCC;
+
+int dword_800A3DCC = 0;
 
 void mts_reset_graph_8008C534(void)
 {

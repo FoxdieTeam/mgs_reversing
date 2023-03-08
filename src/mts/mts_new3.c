@@ -3,52 +3,7 @@
 #include "psyq.h"
 #include <KERNEL.H>
 
-extern const char   aMtsNewC[];
-extern const char   asc_80013E2C[];    // = "\n";
-extern const char   aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char   aMtsStaTskServe[];
-extern const char   aMultiTaskSched[];
-extern const char   aJul111998[];
-extern const char   a221633[];
-extern const char   aTaskCreateXX[];
-extern const char   aBootTasknrD[];
-extern const char   aProgramBottomX[];
-extern const char   aWaitvblD[];
-extern const char   aIsendDstD[];
-extern const char   aIsendStateDead[];
-extern const char   aGetNewVblContr[];
-extern const char   aMtsExtTsk[];
-extern const char   asc_80013E2C[];    // = "\n"
-extern const char   aProcessList[];    // = "\nProcess list\n"
-extern const char   aTask02dSp04dUs[]; // = "Task %02d SP %04d USE %04d/%04d"
-extern const char   aTask02dSpUse[];   // = " Task %02d SP ---- USE ----/----"
-extern const char   aTaskState08x[];   // = "TASK STATE = %08X\n"
-extern const char   aVblWaitCue[];     // = "VBL wait cue";
-extern const char   a02dD[];           // = " : %02d (%d)";
-extern const char   aTickCountD[];     // = "Tick count %d\n\n"
-extern const char   aD_0[];            // = " %d\n";
-extern const char   aC[];              // = "%c"
-extern const char   dword_800140F0[];  // = "%s\n"
-extern const char   aRunning[];        // = "Running"
-extern const char   aSendDstD[];
-extern const char   aSendStateDeadD[];
-extern const char   aRcvSrcD[];        // = "rcv src %d"
-extern const char   aRcvStateDeadD[];  // = "rcv state DEAD %d"
-extern const char   aRcvCallerD[];     // = "rcv caller %d"
-extern const char   aRcvSpDStateD[];   // = "rcv sp %d state %d"
-extern const char   aRcvSpMessageX[];  // = "rcv sp message %X"
-extern const char   aSendTD[];         // = "send t %d"
-extern const char   aRcvSpDMessageX[]; // = "rcv sp %d message %x"
-extern const char   aRecvSrcD[];       // = "RECV ?? SRC %d"
-extern const char   aWupDeadD[];       // = "wup DEAD %d"
-extern const char   aSystemClientD[];  // = "system client %d"
-extern const char   aTaskDStart[];     // = "TASK %d START:"
-extern const char   aTaskDAlreadyEx[]; // = "TASK %d already exist\n"
-extern const char   aSystemExitDead[]; // = "system exit DEAD %d"
-extern const char   aSystemExitCall[]; // = "system exit caller %d"
-extern const char   aTaskExit[];       // = "TASK EXIT"
-extern const char   aSystemWrongCod[]; // = "system wrong code %d"
-
+// BSS
 extern mts_msg      gMtsMsgs_800C13D0[ 8 ];
 extern mts_msg     *D_800C0C00;
 extern mts_msg     *D_800C0C04;
@@ -57,35 +12,35 @@ extern signed char  byte_800C0C10[ 32 ];
 extern char         byte_801FFF00[ 240 ];
 extern unsigned int dword_800C0DC0[ 128 ];
 extern unsigned int dword_800C0FC0[ 256 ];
-
-extern int          dword_800A3D68[ 2 ];
-
 extern const char  *dword_800A3D98[];
-
 extern int          gTaskIdx_800C0DB0;
 extern mts_task     gTasks_800C0C30[];
 extern int          gMts_bits_800C0DB4;
+extern char         gProgramBottom_800C3208[];
 
-extern void ( *gControllerCallBack_800A3D74 )( void );
+// pad.c
+extern int  dword_800A3DB0;
+extern int  dword_800A3DB4;
+extern int  dword_800A3DB8;
 
-extern int     gMtsVSyncCount_800A3D78;
+int         dword_800A3D68[] = {0, 0};
+int         gMts_Event1_800A3D70 = 0;
+void        ( *gControllerCallBack_800A3D74 )( void ) = 0;
+int         gMtsVSyncCount_800A3D78 = -1;
+mts_msg     stru_800A3D7C = {NULL, 0, -1, 0, NULL};
+int         gMts_Event2_800A3D90 = 0;
+int         gStackSize_800A3D94 = 0;
 
-extern mts_msg stru_800A3D7C;
+extern const char   aTickCountD[];
 
-extern int     gMts_Event1_800A3D70;
-extern int     gMts_Event2_800A3D90;
+// I haven't been able to remove those yet
+const char aTaskStartDX[] = "TASK START: %d %X\n";
+const char aAssertionFaled[] = "assertion faled : %s line %d : Task %d\n";
+const char aMtsNewC[] = "mts_new.c";
+const char aTaskStartBody[] = "task_start_body";
+const char asc_80013E2C[] = "\n";
 
-extern int     gStackSize_800A3D94;
-
-extern int     dword_800A3DB0;
-extern int     dword_800A3DB4;
-extern int     dword_800A3DB8;
-
-#define mts_assert( functionName, lineNum )                                       \
-    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
-    mts_printf_8008BBA0( functionName );                                          \
-    mts_printf_8008BBA0( asc_80013E2C );                                          \
-    mts_print_process_status_8008B77C();
+//------------------------------------------------------------------------------
 
 void mts_set_exception_func_800892A8( int param_1 )
 {
@@ -119,7 +74,7 @@ void mts_set_vsync_task_800892B8( void )
             idx++;
         }
 
-        mts_assert( aGetNewVblContr, 494 );
+        mts_assert( 494, "get_new_vbl_control_table" );
         pMsg = 0;
 
     got_free_entry:
@@ -243,10 +198,7 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
     field_4_pMessage = gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_4_pMessage;
     if ( !field_4_pMessage )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 657, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( aWaitvblD, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 657, "waitvbl %d", gTaskIdx_800C0DB0 );
     }
     cur_vblanks = gMtsVSyncCount_800A3D78;
     end_vblanks = field_4_pMessage->field_8_start_vblanks + wait_vblanks;
@@ -316,6 +268,40 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
     return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
 }
 
+
+static inline void crap( int taskId, void *stackend, void *test )
+{
+    mts_task   *pTask;
+    int         mts_bits;
+    struct TCB *pTcbEntry;
+
+    SwEnterCriticalSection_8009954C();
+
+    pTask = &gTasks_800C0C30[ taskId ];
+
+    if ( !test || !stackend )
+    {
+        mts_assert( 717, "task_create %x %x", test, stackend );
+    }
+
+    pTask->field_2_rcv_task_idx = -1;
+    pTask->field_1 = -1;
+    pTask->field_8_fn_or_msg.fn = test;
+    pTask->field_4_pMessage = 0;
+    pTask->field_18_tcb =
+        OpenTh_800994CC( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp_8009961C() );
+
+    pTcbEntry = ( *(struct TCB **)0x110 ) + (char)pTask->field_18_tcb;
+    pTask->field_1C = pTcbEntry;
+    pTcbEntry->reg[ 35 ] = 0x400;
+
+    mts_bits = gMts_bits_800C0DB4;
+    pTask->field_0_state = 3;
+    gMts_bits_800C0DB4 |= ( 1 << taskId );
+    pTask->field_E = 0;
+    SwExitCriticalSection_8009956C();
+}
+
 void mts_send_8008982C( int dst, mts_msg2 *message )
 {
     mts_task *pDstTask;             // $s0
@@ -328,20 +314,14 @@ void mts_send_8008982C( int dst, mts_msg2 *message )
 
     if ( dst < 0 || ( (unsigned int)dst >= 12 ) )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 776, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "send dst %d", dst );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 776, "send dst %d", dst );
     }
 
     pDstTask = &gTasks_800C0C30[ dst ];
 
     if ( !pDstTask->field_0_state )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 779, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "send state DEAD %d", dst );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 779, "send state DEAD %d", dst );
     }
 
     SwEnterCriticalSection_8009954C();
@@ -428,19 +408,13 @@ int mts_isend_80089B04( int isend_dst )
 
     if ( (unsigned int)( isend_dst - 1 ) >= 10 )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 845, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "isend dst %d", isend_dst );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 845, "isend dst %d", isend_dst );
     }
 
     pDstTask = &gTasks_800C0C30[ isend_dst ];
     if ( !pDstTask->field_0_state )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 847, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "isend state DEAD %d", isend_dst );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 847, "isend state DEAD %d", isend_dst );
     }
 
     if ( ( pDstTask->field_0_state == 2 &&
@@ -514,18 +488,12 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
 
     if ( src + 2 > 1u && src != -4 && ( src < 0 || (unsigned int)src >= 12 ) )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 896, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "rcv src %d", src );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 896, "rcv src %d", src );
     }
 
     if ( src >= 0 && !gTasks_800C0C30[ src ].field_0_state )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 897, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "rcv state DEAD %d", src );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 897, "rcv state DEAD %d", src );
     }
 
     pTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
@@ -561,27 +529,18 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
         {
             if ( (unsigned int)pTask->field_2_rcv_task_idx >= 12 )
             {
-                mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 937, gTaskIdx_800C0DB0 );
-                mts_printf_8008BBA0( "rcv caller %d", pTask->field_2_rcv_task_idx );
-                mts_printf_8008BBA0( asc_80013E2C );
-                mts_print_process_status_8008B77C();
+                mts_assert( 937, "rcv caller %d", pTask->field_2_rcv_task_idx );
             }
 
             v8 = &gTasks_800C0C30[ pTask->field_2_rcv_task_idx ];
             if ( v8->field_0_state != 1 )
             {
-                mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 939, gTaskIdx_800C0DB0 );
-                mts_printf_8008BBA0( "rcv sp %d state %d", pTask->field_2_rcv_task_idx, v8->field_0_state );
-                mts_printf_8008BBA0( asc_80013E2C );
-                mts_print_process_status_8008B77C();
+                mts_assert( 939, "rcv sp %d state %d", pTask->field_2_rcv_task_idx, v8->field_0_state );
             }
 
             if ( !v8->field_8_fn_or_msg.fn )
             {
-                mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 940, gTaskIdx_800C0DB0 );
-                mts_printf_8008BBA0( "rcv sp message %X", v8->field_8_fn_or_msg );
-                mts_printf_8008BBA0( asc_80013E2C );
-                mts_print_process_status_8008B77C();
+                mts_assert( 940, "rcv sp message %X", v8->field_8_fn_or_msg );
             }
 
             field_8_fn_or_msg = v8->field_8_fn_or_msg.pMsg;
@@ -607,10 +566,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
                 {
                     if ( (unsigned int)field_2_rcv_task_idx >= 12 )
                     {
-                        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 960, gTaskIdx_800C0DB0 );
-                        mts_printf_8008BBA0( "send t %d", field_2_rcv_task_idx );
-                        mts_printf_8008BBA0( asc_80013E2C );
-                        mts_print_process_status_8008B77C();
+                        mts_assert( 960, "send t %d", field_2_rcv_task_idx );
                     }
 
                     idx_copy = field_2_rcv_task_idx;
@@ -625,20 +581,14 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
                 pRcvTask = &gTasks_800C0C30[ recv_idx ];
                 if ( pRcvTask->field_0_state != 1 )
                 {
-                    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 970, gTaskIdx_800C0DB0 );
-                    mts_printf_8008BBA0( "rcv sp %d state %d",
-                                         field_2_rcv_task_idx, pRcvTask->field_0_state );
-                    mts_printf_8008BBA0( asc_80013E2C );
-                    mts_print_process_status_8008B77C();
+                    mts_assert( 970, "rcv sp %d state %d",
+                                     field_2_rcv_task_idx, pRcvTask->field_0_state );
                 }
 
                 if ( !pRcvTask->field_8_fn_or_msg.fn )
                 {
-                    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 971, gTaskIdx_800C0DB0 );
-                    mts_printf_8008BBA0( "rcv sp %d message %x",
-                                         field_2_rcv_task_idx, pRcvTask->field_8_fn_or_msg );
-                    mts_printf_8008BBA0( asc_80013E2C );
-                    mts_print_process_status_8008B77C();
+                    mts_assert( 971, "rcv sp %d message %x",
+                                     field_2_rcv_task_idx, pRcvTask->field_8_fn_or_msg );
                 }
 
                 pRcvMsg = pRcvTask->field_8_fn_or_msg.pMsg;
@@ -704,10 +654,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
 
     if ( pTask->field_3_src_idx == -2 )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1004, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "RECV ?? SRC %d", pTask->field_3_src_idx );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 1004, "RECV ?? SRC %d", pTask->field_3_src_idx );
     }
 
     return gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_3_src_idx;
@@ -775,10 +722,7 @@ void mts_wup_tsk_8008A540( int taskNr )
     pTask = &gTasks_800C0C30[ taskNr ];
     if ( !pTask->field_0_state )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1039, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "wup DEAD %d", taskNr );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 1039, "wup DEAD %d", taskNr );
     }
 
     if ( pTask->field_0_state == 4 )
@@ -995,48 +939,10 @@ void mts_reset_interrupt_overrun_8008AAA0( void )
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_E = 0;
 }
 
-int gStackSize_800A3D94 = 0;
-
 void mts_boot_task_8008AAC4( int taskNum, void ( *pTaskFn )( void ), void *pStack, long stackSize )
 {
     gStackSize_800A3D94 = stackSize;
     mts_start_8008AAEC( taskNum, pTaskFn, pStack );
-}
-
-static inline void crap( int taskId, void *stackend, void *test )
-{
-    mts_task   *pTask;
-    int         mts_bits;
-    struct TCB *pTcbEntry;
-
-    SwEnterCriticalSection_8009954C();
-
-    pTask = &gTasks_800C0C30[ taskId ];
-
-    if ( !test || !stackend )
-    {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 717, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( aTaskCreateXX, test, stackend );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
-    }
-
-    pTask->field_2_rcv_task_idx = -1;
-    pTask->field_1 = -1;
-    pTask->field_8_fn_or_msg.fn = test;
-    pTask->field_4_pMessage = 0;
-    pTask->field_18_tcb =
-        OpenTh_800994CC( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp_8009961C() );
-
-    pTcbEntry = ( *(struct TCB **)0x110 ) + (char)pTask->field_18_tcb;
-    pTask->field_1C = pTcbEntry;
-    pTcbEntry->reg[ 35 ] = 0x400;
-
-    mts_bits = gMts_bits_800C0DB4;
-    pTask->field_0_state = 3;
-    gMts_bits_800C0DB4 |= ( 1 << taskId );
-    pTask->field_E = 0;
-    SwExitCriticalSection_8009956C();
 }
 
 void mts_start_8008AAEC( int boot_tasknr, void ( *pBootTaskFn )( void ), void *pStack )
@@ -1080,10 +986,7 @@ void mts_start_8008AAEC( int boot_tasknr, void ( *pBootTaskFn )( void ), void *p
 
     if ( ( boot_tasknr < 1 ) || ( boot_tasknr > 10 ) )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1199, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "boot tasknr %d", boot_tasknr );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 1199, "boot tasknr %d", boot_tasknr );
     }
 
     if ( gStackSize_800A3D94 > 0 )
@@ -1165,10 +1068,7 @@ void mts_8008B0A4( void )
                ( sys_client == 0 ) ) ||
              ( sys_client == 11 ) )
         {
-            mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1278, gTaskIdx_800C0DB0 );
-            mts_printf_8008BBA0( "system client %d", sys_client );
-            mts_printf_8008BBA0( asc_80013E2C );
-            mts_print_process_status_8008B77C();
+            mts_assert( 1278, "system client %d", sys_client );
         }
 
         msg_field_0 = msg.field_0;
@@ -1210,10 +1110,7 @@ void mts_8008B0A4( void )
             }
             else
             {
-                mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1293, gTaskIdx_800C0DB0 );
-                mts_printf_8008BBA0( "TASK %d already exist\n", field_4_task_idx );
-                mts_printf_8008BBA0( asc_80013E2C );
-                mts_print_process_status_8008B77C();
+                mts_assert( 1293, "TASK %d already exist\n", field_4_task_idx );
                 msg.field_0 = -1;
             }
             break;
@@ -1227,19 +1124,13 @@ void mts_8008B0A4( void )
 
             if ( !gTasks_800C0C30[ sys_client_idx ].field_0_state )
             {
-                mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1299, gTaskIdx_800C0DB0 );
-                mts_printf_8008BBA0( "system exit DEAD %d", sys_client );
-                mts_printf_8008BBA0( asc_80013E2C );
-                mts_print_process_status_8008B77C();
+                mts_assert( 1299, "system exit DEAD %d", sys_client );
             }
 
             if ( gTasks_800C0C30[ sys_client_idx ].field_2_rcv_task_idx >= 0 )
             {
-                mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1300, gTaskIdx_800C0DB0 );
-                mts_printf_8008BBA0( "system exit caller %d",
-                                     gTasks_800C0C30[ sys_client_idx ].field_2_rcv_task_idx );
-                mts_printf_8008BBA0( asc_80013E2C );
-                mts_print_process_status_8008B77C();
+                mts_assert( 1300, "system exit caller %d",
+                                  gTasks_800C0C30[ sys_client_idx ].field_2_rcv_task_idx );
             }
 
             mts_printf_8008BBA0( "TASK EXIT" );
@@ -1260,10 +1151,7 @@ void mts_8008B0A4( void )
             break;
 
         default:
-            mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1320, gTaskIdx_800C0DB0 );
-            mts_printf_8008BBA0( "system wrong code %d", msg.field_0 );
-            mts_printf_8008BBA0( asc_80013E2C );
-            mts_print_process_status_8008B77C();
+            mts_assert( 1320, "system wrong code %d", msg.field_0 );
             break;
         }
 
@@ -1287,10 +1175,7 @@ int mts_sta_tsk_8008B47C( int tasknr, void ( *proc )( void ), void *stack_pointe
     src_idx = mts_receive_80089D24( 0, &msg );
     if ( src_idx )
     {
-        mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1344, gTaskIdx_800C0DB0 );
-        mts_printf_8008BBA0( "mts_sta_tsk server %d", src_idx );
-        mts_printf_8008BBA0( asc_80013E2C );
-        mts_print_process_status_8008B77C();
+        mts_assert( 1344, "mts_sta_tsk server %d", src_idx );
     }
     return msg.field_0;
 }
@@ -1302,10 +1187,7 @@ void mts_8008B51C()
     msg.field_0 = 1;
     mts_send_8008982C( 0, &msg );
 
-    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, 1359, gTaskIdx_800C0DB0 );
-    mts_printf_8008BBA0( "mts_ext_tsk" );
-    mts_printf_8008BBA0( asc_80013E2C );
-    mts_print_process_status_8008B77C();
+    mts_assert( 1359, "mts_ext_tsk" );
 }
 
 void mts_send_msg_8008B590( int dst, int param_2, int param_3 )
@@ -1579,3 +1461,44 @@ void mts_8008BB88( int arg0 )
 {
     dword_800A3DB8 = arg0;
 }
+
+//------------------------------------------------------------------------------
+/*
+void mts_nullsub_8_8008BB98(void)
+{
+}
+
+// To disable this they probably linked with an obj that disables printf because having a stub function
+// that has varags will insert stack handling code.
+// Therefore we map mts_printf_8008BBA0 to null_mts_printf_8008BBA0 in the linker where the stub function
+// has on arguments to replicate this behaviour.
+void null_mts_printf_8008BBA0(void)
+{
+    // This has been compiled out to an empty function
+}
+
+void mts_null_printf_8008BBA8(void)
+{
+}
+
+int mts_get_tick_count_8008BBB0(void)
+{
+    return gMtsVSyncCount_800A3D78;
+}
+
+void mts_event_cb_8008BBC0()
+{
+    while (1)
+    {
+    }
+}
+
+void mts_task_start_8008BBC8(void)
+{
+    ExitCriticalSection_8009953C();
+    mts_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg);
+    gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg.fn();
+    mts_8008B51C();
+    mts_assert( 421, aTaskStartBody );
+}
+*/

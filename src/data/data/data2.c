@@ -25,13 +25,6 @@
 #include "Equip/jpegcam.h"
 #include "Menu/radar.h"
 
-int         SECTION(".data") dword_800A3DB0 = 1;
-int         SECTION(".data") dword_800A3DB4 = 0;
-int         SECTION(".data") dword_800A3DB8 = 0;
-int         SECTION(".data") gMtsPadInited_800A3DBC = 0;
-int         SECTION(".data") dword_800A3DC0[] = {0, 0};
-int         SECTION(".data") dword_800A3DC8 = 1;
-int         SECTION(".data") dword_800A3DCC = 0;
 int         SECTION(".data") CD_cbread_800A3DD0 = 0;
 int         SECTION(".data") CD_read_dma_mode_800A3DD4[] = {0, 0, 0};
 int         SECTION(".data") dword_800A3DE0[] = {0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,       0,

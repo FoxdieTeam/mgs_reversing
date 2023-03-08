@@ -3,17 +3,14 @@
 #include "mts_new.h"
 #include "psyq.h"
 
-extern const char aTaskStartDX[];    // = "TASK START: %d %X\n";
-extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char aMtsNewC[];        // = "mts_new.c";
-extern const char aTaskStartBody[];  // = "task_start_body";
-extern const char asc_80013E2C[];    // = "\n";
-
-extern int gMtsVSyncCount_800A3D78;
-
+// BSS
+extern int      gMtsVSyncCount_800A3D78;
 extern int      gTaskIdx_800C0DB0;
 extern mts_task gTasks_800C0C30[12];
-extern int      gMts_bits_800C0DB4;
+
+// new_mts3.c
+extern const char aTaskStartDX[];    // = "TASK START: %d %X\n";
+extern const char aTaskStartBody[];  // = "task_start_body";
 
 void mts_nullsub_8_8008BB98(void)
 {
@@ -50,8 +47,5 @@ void mts_task_start_8008BBC8(void)
     mts_printf_8008BBA0(aTaskStartDX, gTaskIdx_800C0DB0, gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg);
     gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg.fn();
     mts_8008B51C();
-    mts_printf_8008BBA0(aAssertionFaled, aMtsNewC, 421, gTaskIdx_800C0DB0);
-    mts_printf_8008BBA0(aTaskStartBody);
-    mts_printf_8008BBA0(asc_80013E2C);
-    mts_print_process_status_8008B77C();
+    mts_assert( 421, aTaskStartBody );
 }

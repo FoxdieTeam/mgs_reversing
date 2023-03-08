@@ -109,14 +109,35 @@ void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
 int            mts_get_pad_vibration_type_8008C4BC(int);
 int            mts_get_task_status_8008B618(int task_idx);
-
-void mts_8008B51C(void);
+void           mts_8008B51C(void);
 
 #ifdef _BUILDING_MTS_
 // we define it with no args in mts itself since its stubbed, using ... adds instructions
 #else
-int mts_null_printf_8008BBA8(const char *formatStr, ...);
-int mts_nullsub_8_8008BB98(int, const char *, ...);
+int            mts_null_printf_8008BBA8(const char *formatStr, ...);
+int            mts_nullsub_8_8008BB98(int, const char *, ...);
 #endif
+
+//------------------------------------------------------------------------------
+
+extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
+extern const char aMtsNewC[];        // = "mts_new.c";
+extern const char asc_80013E2C[];    // = "\n";
+
+#if __STDC_VERSION__ >= 199901L // c99
+#define mts_assert( lineNum, ... )                                                \
+    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
+    mts_printf_8008BBA0( __VA_ARGS__ );                                           \
+    mts_printf_8008BBA0( asc_80013E2C );                                          \
+    mts_print_process_status_8008B77C();
+#else
+#define mts_assert( lineNum, ARGS... )                                            \
+    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
+    mts_printf_8008BBA0( ##ARGS );                                                \
+    mts_printf_8008BBA0( asc_80013E2C );                                          \
+    mts_print_process_status_8008B77C();
+#endif
+
+//------------------------------------------------------------------------------
 
 #endif // _MTS_NEW_H
