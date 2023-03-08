@@ -137,6 +137,7 @@ extern const char asc_80013E2C[];    // = "\n";
     mts_printf_8008BBA0( asc_80013E2C );                                          \
     mts_print_process_status_8008B77C();
 #endif
+
 //------------------------------------------------------------------------------
 
 #endif // _MTS_NEW_H
