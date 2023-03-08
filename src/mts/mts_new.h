@@ -109,7 +109,6 @@ void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
 int            mts_get_pad_vibration_type_8008C4BC(int);
 int            mts_get_task_status_8008B618(int task_idx);
-
 void           mts_8008B51C(void);
 
 #ifdef _BUILDING_MTS_
@@ -125,12 +124,19 @@ extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %
 extern const char aMtsNewC[];        // = "mts_new.c";
 extern const char asc_80013E2C[];    // = "\n";
 
+#if __STDC_VERSION__ >= 199901L // c99
 #define mts_assert( lineNum, ... )                                                \
     mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
     mts_printf_8008BBA0( __VA_ARGS__ );                                           \
     mts_printf_8008BBA0( asc_80013E2C );                                          \
     mts_print_process_status_8008B77C();
-
+#else
+#define mts_assert( lineNum, ARGS... )                                            \
+    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
+    mts_printf_8008BBA0( ##ARGS );                                                \
+    mts_printf_8008BBA0( asc_80013E2C );                                          \
+    mts_print_process_status_8008B77C();
+#endif
 //------------------------------------------------------------------------------
 
 #endif // _MTS_NEW_H
