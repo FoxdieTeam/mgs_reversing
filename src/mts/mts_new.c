@@ -1301,10 +1301,6 @@ void mts_print_process_status_8008B77C( void )
     int     *cur;
     mts_msg *pMsg;
 
-//    typedef mts_null_printf_8008BBA8(const char *formatStr, ...) mts_null_printf_8008BBA8;
-//#define mts_null_printf_8008BBA8(f, ...) mts_null_printf_8008BBA8(__VA_ARGS__)
-    
-//    extern mts_null_printf_8008BBA8(const char *formatStr, ...);
     mts_null_printf_8008BBA8( "\nProcess list\n" );
     
     for ( i = 0; i < 12; i++ )
@@ -1509,9 +1505,3 @@ void mts_task_start_8008BBC8( void )
 {
     mts_task_start();
 }
-/*
-void empty_func( void )
-{
-
-}
-*/
