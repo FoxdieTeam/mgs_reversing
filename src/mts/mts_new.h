@@ -7,66 +7,69 @@
 #define mts_stack_end(x) x + (sizeof(x) / sizeof(x[0]))
 #define MAX_FILE_HANDLERS 26
 
-typedef int (*TMtsFn)(void);
-typedef long (*MtsThreadFn)(void);
+typedef int         (*TMtsFn)(void);
+typedef long        (*MtsThreadFn)(void);
 
-typedef struct mts_msg
+typedef struct      mts_msg
 {
     struct mts_msg *field_0;
     int             field_4_task_idx;
     int             field_8_start_vblanks;
     int             field_C_end_vblanks;
-    int (*field_10)(void);
+    int             (*field_10)(void);
 } mts_msg;
 
 // TODO: is mts_msg wrong ??
-typedef struct mts_msg2
+typedef struct      mts_msg2
 {
-    int field_0; // fn ptr ?
-    int field_4_task_idx;
-    void (*field_8)(void);
-    void *field_C;
+    int             field_0; // fn ptr ?
+    int             field_4_task_idx;
+    void            (*field_8)(void);
+    void           *field_C;
     // void* field_10;
 } mts_msg2;
 
-typedef union mts_tmp
+typedef union       mts_tmp
 {
-     TMtsFn fn;
-     mts_msg2* pMsg;
+     TMtsFn         fn;
+     mts_msg2*      pMsg;
 } mts_tmp;
 
-typedef struct mts_task
+typedef struct      mts_task
 {
-    signed char field_0_state;
-    signed char field_1;
-    signed char field_2_rcv_task_idx;
-    signed char field_3_src_idx;
-    mts_msg*    field_4_pMessage;
-    mts_tmp   field_8_fn_or_msg; // mts_msg2*?
-    signed char field_C_ref_count;
-    signed char field_D;
-    char        field_E;
-    signed char        field_F_recv_idx;
-    void       *field_10_pStack;
-    int         field_14_stackSize;
-    int         field_18_tcb;
-    struct TCB *field_1C;
+    signed char     field_0_state;
+    signed char     field_1;
+    signed char     field_2_rcv_task_idx;
+    signed char     field_3_src_idx;
+    mts_msg*        field_4_pMessage;
+    mts_tmp         field_8_fn_or_msg; // mts_msg2*?
+    signed char     field_C_ref_count;
+    signed char     field_D;
+    char            field_E;
+    signed char     field_F_recv_idx;
+    void           *field_10_pStack;
+    int             field_14_stackSize;
+    int             field_18_tcb;
+    struct TCB     *field_1C;
 } mts_task;
 
-typedef struct MTS_PAD_DATA
+typedef struct      MTS_PAD_DATA
 {
-    signed char    channel;
-    char           flag;
-    unsigned short button;
-    unsigned char  rx;
-    unsigned char  ry;
-    unsigned char  lx;
-    unsigned char  ly;
+    signed char     channel;
+    char            flag;
+    unsigned short  button;
+    unsigned char   rx;
+    unsigned char   ry;
+    unsigned char   lx;
+    unsigned char   ly;
 } MTS_PAD_DATA;
 
-#define MTS_PAD_DIGITAL 1
-#define MTS_PAD_ANAJOY 2
-#define MTS_PAD_ANALOG 3
+enum
+{
+    MTS_PAD_DIGITAL = 1,
+    MTS_PAD_ANAJOY = 2,
+    MTS_PAD_ANALOG = 3
+};
 
 #define MTS_STACK_COOKIE 0x12435687
 
@@ -120,24 +123,26 @@ int            mts_nullsub_8_8008BB98(int, const char *, ...);
 
 //------------------------------------------------------------------------------
 
-extern const char aAssertionFaled[]; // = "assertion faled : %s line %d : Task %d\n";
-extern const char aMtsNewC[];        // = "mts_new.c";
-extern const char asc_80013E2C[];    // = "\n";
-
+// They probably used __FILE__ instead of "mts_new.c" and compiled the mts lib
+//     from the same dir to not have the full path but just the name.
 #if __STDC_VERSION__ >= 199901L // c99
-#define mts_assert( lineNum, ... )                                                \
-    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
-    mts_printf_8008BBA0( __VA_ARGS__ );                                           \
-    mts_printf_8008BBA0( asc_80013E2C );                                          \
-    mts_print_process_status_8008B77C();
+#   define mts_assert( lineNum, ... )                                    \
+        mts_printf_8008BBA0( "assertion faled : %s line %d : Task %d\n", \
+                                                "mts_new.c",             \
+                                                lineNum,                 \
+                                                gTaskIdx_800C0DB0 );     \
+        mts_printf_8008BBA0( __VA_ARGS__ );                              \
+        mts_printf_8008BBA0( "\n" );                                     \
+        mts_print_process_status_8008B77C();
 #else
-#define mts_assert( lineNum, ARGS... )                                            \
-    mts_printf_8008BBA0( aAssertionFaled, aMtsNewC, lineNum, gTaskIdx_800C0DB0 ); \
-    mts_printf_8008BBA0( ##ARGS );                                                \
-    mts_printf_8008BBA0( asc_80013E2C );                                          \
-    mts_print_process_status_8008B77C();
+#   define mts_assert( lineNum, ARGS... )                                \
+        mts_printf_8008BBA0( "assertion faled : %s line %d : Task %d\n", \
+                                                "mts_new.c",             \
+                                                lineNum,                 \
+                                                gTaskIdx_800C0DB0 );     \
+        mts_printf_8008BBA0( ##ARGS );                                   \
+        mts_printf_8008BBA0( "\n" );                                     \
+        mts_print_process_status_8008B77C();
 #endif
-
-//------------------------------------------------------------------------------
 
 #endif // _MTS_NEW_H
