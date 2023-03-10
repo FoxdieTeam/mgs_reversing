@@ -230,7 +230,77 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper15_80040B8C.s") // 568 bytes
+
+extern int GV_Clock_800AB920;
+
+void menu_radio_codec_helper_helper15_80040B8C(MenuGlue *pGlue)
+{
+    DR_TPAGE *tpage1, *tpage1_copy;
+    DR_TPAGE *tpage2;
+    SPRT     *sprt1;
+    SPRT     *sprt2;
+    int       time;
+    short     w, w_2;
+    short     u0, u0_2;
+
+    time = (GV_Time_800AB330 / 2) % 128;
+
+    tpage1_copy = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    tpage1 = tpage1_copy;
+
+    tpage2 = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+
+    if (GV_Clock_800AB920 == 0)
+    {
+        setDrawTPage(tpage1, 0, 1, getTPage(2, 1, 0, 0));
+        setDrawTPage(tpage2, 0, 1, getTPage(2, 1, 256, 0));
+
+        u0 = 0;
+        w = 256;
+        u0_2 = 0;
+        w_2 = 64;
+    }
+    else
+    {
+        setDrawTPage(tpage1, 0, 1, getTPage(2, 1, 256, 0));
+        setDrawTPage(tpage2, 0, 1, getTPage(2, 1, 512, 0));
+
+        u0 = 64;
+        w = 192;
+        u0_2 = 0;
+        w_2 = 128;
+    }
+
+    sprt1 = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    LSTORE(0x181818, &sprt1->r0);
+    sprt1->y0 = time;
+    sprt1->x0 = 0;
+    sprt1->w = w;
+    sprt1->u0 = u0;
+    sprt1->h = 8;
+    sprt1->v0 = time;
+
+    setSprt(sprt1);
+    setSemiTrans(sprt1, 1);
+
+    addPrim(pGlue->mPrimBuf.mOt, sprt1);
+    addPrim(pGlue->mPrimBuf.mOt, tpage1);
+
+    sprt2 = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+    *sprt2 = *sprt1;
+    sprt2->x0 = w;
+    sprt2->w = w_2;
+    sprt2->u0 = u0_2;
+
+    addPrim(pGlue->mPrimBuf.mOt, sprt2);
+    addPrim(pGlue->mPrimBuf.mOt, tpage2);
+}
 
 extern int dword_800ABB00;
 int        SECTION(".sbss") dword_800ABB00;
@@ -507,9 +577,9 @@ extern SPRT       gRadioNumberSprt2_800bd9d0;
 
 void menu_number_init_80042848(Actor_MenuMan *pActor)
 {
-    ResHeader *num_res;
-    RECT       rect1, rect2;
-    SPRT      *sprt;
+    NumResHeader *num_res;
+    RECT          rect1, rect2;
+    SPRT         *sprt;
 
     rect1 = rect_800AB64C[0];
 
@@ -556,7 +626,47 @@ void menu_number_kill_80042980(void)
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s") // 476 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s") // 320 bytes
+
+void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pSubCnt1,
+                                        int pCnt, int pSubCnt2)
+{
+    SPRT *sprt;
+    SPRT *sprt_copy;
+    int   i;
+
+    for (i = 0; i < pCnt; i++)
+    {
+        sprt_copy = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+        pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+        sprt = sprt_copy;
+        xoff = xoff - 3;
+        *sprt = gRadioNumberSprt2_800bd9d0;
+        sprt->x0 = xoff;
+        sprt->y0 = yoff;
+
+        if (i < pSubCnt1)
+        {
+            if (i < pSubCnt2)
+            {
+                sprt->r0 = 128;
+                sprt->g0 = 32;
+                sprt->b0 = 32;
+            }
+            sprt->u0 = 0xD8;
+            sprt->v0 = 0xE8;
+        }
+        else
+        {
+            sprt->u0 = 0xDC;
+            sprt->v0 = 0xE8;
+        }
+
+        sprt->w = 4;
+        sprt->h = 9;
+        addPrim(pOt, sprt);
+    }
+}
 
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags)
 {
@@ -701,8 +811,6 @@ void menu_draw_triangle_800435EC(MenuGlue *pGlue, Menu_Triangle *pTriangle)
 
 #pragma INCLUDE_ASM("asm/Menu/sub_80043678.s") // 940 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_80043A24.s") // 1452 bytes
-
-extern int GV_Clock_800AB920;
 
 int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 {

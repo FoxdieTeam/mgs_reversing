@@ -505,12 +505,18 @@ int SECTION(".data") gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 
 
 int SECTION(".data") dword_8009E3C8[] = {0x1371D07, 0x1373207, 0x2032E21};
 int SECTION(".data") gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
+
+// TODO: The pointers in those two arrays are pointers to dword_crap4 and very likely
+// used as pointers to different (EUC-JP/SHIFT-JIS) strings.
+// dword_crap4 probably should be partitioned based on those pointers.
 int SECTION(".data") dword_8009E3E4[] = {0x800115CC, 0x8001158C, 0x80011558, 0x80011524, 0x800114F8, 0x80011494,
                                          0x80011434, 0x800113D0, 0x80011378, 0x80011330, 0x800112D4, 0x8001127C,
                                          0x80011224, 0x800111B0, 0x80011150, 0x800110E8, 0x800110AC, 0x80011060,
                                          0x8001101C, 0x80010FD0, 0x80010F84, 0x80010F50, 0x80010F08, 0x80010EAC};
-int SECTION(".data") dword_8009E444 = 0x80011644;
-int SECTION(".data") dword_8009E448 = 0x80011614;
+int SECTION(".data") dword_8009E444[] = {0x80011644, 0x80011614};
+
+// TODO: This (whole?) buffer is very likely a EUC-JP/SHIFT-JIS string.
+// It starts with SHIFT-JIS: "ｰ針震人仁刃ﾐ" and then EUC-JP: "|HARD, EXTREM B"
 int SECTION(".data") dword_8009E44C[] = {0x6A9014B0, 0x6C906B90, 0x6E906D90, 0x7C8015D0, 0x44524148,
                                          0x5845202C, 0x4D455254, 0xD0428220, 0x81298206, 0x902F8127,
                                          0x81499048, 0x810D8127, 0xD004812A, 3};
