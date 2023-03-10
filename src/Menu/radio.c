@@ -556,7 +556,47 @@ void menu_number_kill_80042980(void)
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s") // 476 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_magazine_80042E38.s") // 320 bytes
+
+void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pSubCnt1,
+                                        int pCnt, int pSubCnt2)
+{
+    SPRT *sprt;
+    SPRT *sprt_copy;
+    int   i;
+
+    for (i = 0; i < pCnt; i++)
+    {
+        sprt_copy = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+        pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+        sprt = sprt_copy;
+        xoff = xoff - 3;
+        *sprt = gRadioNumberSprt2_800bd9d0;
+        sprt->x0 = xoff;
+        sprt->y0 = yoff;
+
+        if (i < pSubCnt1)
+        {
+            if (i < pSubCnt2)
+            {
+                sprt->r0 = 128;
+                sprt->g0 = 32;
+                sprt->b0 = 32;
+            }
+            sprt->u0 = 0xD8;
+            sprt->v0 = 0xE8;
+        }
+        else
+        {
+            sprt->u0 = 0xDC;
+            sprt->v0 = 0xE8;
+        }
+
+        sprt->w = 4;
+        sprt->h = 9;
+        addPrim(pOt, sprt);
+    }
+}
 
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags)
 {
