@@ -1,4 +1,4 @@
-#include "game/game.h"
+#include "Game/game.h"
 
 extern int GM_GameStatus_800AB3CC;
 int        sub_80032748( DVECTOR *out, SVECTOR *pos );
