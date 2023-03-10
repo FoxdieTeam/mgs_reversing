@@ -507,9 +507,9 @@ extern SPRT       gRadioNumberSprt2_800bd9d0;
 
 void menu_number_init_80042848(Actor_MenuMan *pActor)
 {
-    ResHeader *num_res;
-    RECT       rect1, rect2;
-    SPRT      *sprt;
+    NumResHeader *num_res;
+    RECT          rect1, rect2;
+    SPRT         *sprt;
 
     rect1 = rect_800AB64C[0];
 
