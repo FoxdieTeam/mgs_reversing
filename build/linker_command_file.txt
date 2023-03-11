@@ -73,7 +73,7 @@
     include "..\obj\Loader_CD_Read_CallBack_80023274.obj"
     include "..\obj\Loader_helper_8002336C.obj"
     include "..\obj\Loader_helper2_80023460.obj"
-    include "..\obj\Loader_80023624.obj"
+    include "..\obj\libfs\Loader_80023624.obj"
 
     include "..\obj\libfs\FS_LoadStageComplete_80023804.obj"
     include "..\obj\libfs\FS_MovieFileInit_80023860.obj"
