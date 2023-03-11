@@ -41,17 +41,17 @@ typedef struct radio_table
 
 typedef struct menu_chara_struct_sub
 {
-  short field_0_state;
+  short          field_0_state;
   unsigned short field_2_chara;
-  short field_4;
-  short field_6;
-  short field_8;
-  short field_A;
-  short field_C;
-  short field_E;
-  short field_4C_leftCodecPortraitFrame; // Animation frame of left/right Codec portrait, valid values 0-3.
-  short field_12;
-  void *field_14;
+  short          field_4;
+  short          field_6;
+  short          field_8_animFrameNum;
+  short          field_A;
+  short          field_C;
+  short          field_E;
+  short          field_4C_leftCodecPortraitFrame; // Animation frame of left/right Codec portrait, valid values 0-3.
+  short          field_12;
+  face_anim      field_14_face_anim;
 } menu_chara_struct_sub;
 
 typedef struct menu_chara_struct
@@ -65,10 +65,10 @@ typedef struct menu_chara_struct
     unsigned short field_18;
     unsigned short field_1A;
     char          *field_1C_radioDatFragment;
-    faces_group*   field_20_pFacesGroup;
+    faces_group   *field_20_pFacesGroup;
     void          *field_24_pImgData256;
     int           *field_28_pStack;
-    short          *field_2C_pSaveText;
+    short         *field_2C_pSaveText;
     int            field_30_face_count;
     face_header   *field_34_faces;
     int            field_38;
@@ -360,7 +360,10 @@ void sub_8003CE40(PANEL_TEXTURE *, int);
 void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
-void sub_80046B74(void *a1, int a2);
+void menu_radio_load_palette_80046B74(unsigned char *image, int idx);
+void sub_80046B10(face_anim_frame *frame, int idx);
+void sub_80046BD8(int idx);
+int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
 void menuman_Reset_800389A8(void);
 void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
 unsigned int Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos);

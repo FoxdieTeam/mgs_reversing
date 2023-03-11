@@ -983,7 +983,7 @@
 800469F0 168 sub_800469F0
 80046A98 120 menu_radio_codec_helper_helper7_helper_80046A98
 80046B10 100 sub_80046B10
-80046B74 100 sub_80046B74
+80046B74 100 menu_radio_load_palette_80046B74
 80046BD8 184 sub_80046BD8
 80046C90 356 sub_80046C90
 80046DF4 328 menu_radio_draw_face_helper_helper_80046DF4
