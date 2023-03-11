@@ -65,7 +65,7 @@
     include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
 
     ;libfs
-    ; 80021EC4 80021F48 80021F68 80021F70 80021FE0 80022024 80022088 80022090 80022264 800227A8 8002280C 80022854 80022864 80022888 800228D4 80022918 8002297C 80022B5C 80022CBC 80022D00 80022DCC
+    ; 80021E2C 80021EC4 80021F48 80021F68 80021F70 80021FE0 80022024 80022088 80022090 80022264 800227A8 8002280C 80022854 80022864 80022888 800228D4 80022918 8002297C 80022B5C 80022CBC 80022D00 80022DCC
     include "..\obj\libfs\cdbios.obj"
 
     include "..\obj\sub_80022E50.obj"
@@ -91,7 +91,7 @@
     include "..\obj\libfs\sub_80024194.obj"
     include "..\obj\libfs\sub_800241B4.obj"
     include "..\obj\Game\strctrl_act_helper2_800241C8.obj"
-    include "..\obj\Game\sub_800242A4.obj"
+    include "..\obj\libfs\sub_800242A4.obj"
     include "..\obj\libfs\FS_StreamGetEndFlag_800243B8.obj"
     include "..\obj\libfs\FS_StreamIsForceStop_800243C8.obj"
     include "..\obj\libfs\FS_StreamGetTick_80024420.obj"
