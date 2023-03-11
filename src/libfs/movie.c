@@ -10,10 +10,10 @@ extern const char aTablenumDSizeD[]; // = "tablenum %d size %d\n";
 extern const char aIdDFrameDPosD[]; // = "id %d frame %d pos %d\n";
 
 void FS_MovieFileInit_80023860(void *pHeap, int startSector)
-{  
+{
     int tablenum;
     FS_MOVIE_FILE *file;
-    
+
     if (startSector < 150)
     {
         mts_printf_8008BBA0(aMovieFileIsWro);
@@ -46,4 +46,26 @@ void FS_MovieFileInit_80023860(void *pHeap, int startSector)
         mts_printf_8008BBA0(aIdDFrameDPosD, file->field_0_id, file->field_2_frame, file->field_4_pos);
         file++;
     }
+}
+
+FS_MOVIE_FILE * FS_GetMovieInfo_8002399C( unsigned int toFind )
+{
+	FS_MOVIE_FILE *pIter;
+	int             count;
+
+	if ( fs_movie_file_table_8009D50C != 0 )
+	{
+		count = fs_movie_file_table_8009D50C->field_0_tablenum;
+		pIter = fs_movie_file_table_8009D50C->field_4_files_8Array;
+		while ( count > 0 )
+		{
+			count--;
+			if ( pIter->field_0_id == toFind )
+			{
+				return pIter;
+			}
+			pIter++;
+		}
+	}
+	return 0;
 }
