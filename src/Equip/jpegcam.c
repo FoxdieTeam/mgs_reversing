@@ -8,13 +8,58 @@
 #include "libgcl/hash.h"
 #include "memcard/memcard.h"
 
+extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
+extern int                 DG_CurrentGroupID_800AB968;
+extern GM_Camera           GM_Camera_800B77E8;
+extern GM_Control         *gSnaControl_800AB9F4;
+extern int                 dword_8009F604;
+extern int                 GM_LoadRequest_800AB3D0;
+extern int                 GM_GameOverTimer_800AB3D4;
+extern GV_PAD              GV_PadData_800B05C0[4];
+extern TMat8x8B            gJpegcamMatrix1_8009F36C;
+extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
+extern signed char         gJpegcamZigZagTable_8009F2EC[64];
+extern signed char         gJpegcamQuantTable_8009F32C[64];
+extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
+extern OBJECT             *dword_800ABA20;
+extern SVECTOR             dword_8009F3AC;
+extern int                 GM_Photocode_800ABA04;
+extern SVECTOR             GM_PhotoViewPos_800ABA48;
+extern int                 GV_PauseLevel_800AB928;
+extern char               *dword_800BDCC8;
+extern int                 dword_800BDCCC;
+extern int                 dword_800BDCD0;
+extern int                 DG_UnDrawFrameCount_800AB380;
+extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 extern menu_save_mode_data stru_8009F2D8;
+extern char                byte_801A1000[0x10000];
+extern char                byte_801B1000[0x36800];
 
+extern short dword_800ABBD4;
+short        SECTION(".sbss") dword_800ABBD4;
+
+extern short dword_800ABBDC;
+short        SECTION(".sbss") dword_800ABBDC;
+
+extern char aBislpm99999[];          // = "BISLPM-99999        "
+
+extern const char aPHOTO[];          // = "PHOTO %02d\n"
+extern const char aJpegcamC[];       // = "jpegcam.c"
+extern const char aGoggles[];        // = "goggles"
 extern const char aSSSS[];           // = "%s%s%s%s"
 extern const char aMGSIntegralEUC[]; // = "ＭＧＳ∫"
 extern const char aSpaceEUC[];       // = "　"
-extern const char aPhotoEUC[];       // =  "ＰＨＯＴＯ"
-extern char       aBislpm99999[];    // = "BISLPM-99999        "
+extern const char aPhotoEUC[];       // = "ＰＨＯＴＯ"
+extern const char aZoom4d[];         // = "zoom  : %4d\n"
+extern const char aAngle4d4d[];      // = "angle : %4d, %4d\n"
+extern const char aDTryQScaleDSiz[]; // = "%d try q_scale = %d size = %d\n"
+extern const char aSaveHeaderX[];    // = "save header = %x\n"
+extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
+extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
+extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
+extern const char aPointCheck[];     // = "Point Check\n"
+extern const char aResultD[];        // = "Result = %d\n"
+extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
 
 void jpegcam_unk1_80063704(char *buf, struct mem_card *pMemcard)
 {
@@ -53,59 +98,6 @@ void jpegcam_unk1_80063704(char *buf, struct mem_card *pMemcard)
     sprintf_8008E878(buf, aSSSS, aMGSIntegralEUC, aSpaceEUC, aPhotoEUC, photo_id);
 }
 
-extern char aPHOTO[];    // "PHOTO %02d\n"
-extern char aJpegcamC[]; // "jpegcam.c";
-extern const char aGoggles[];
-
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int DG_CurrentGroupID_800AB968;
-extern GM_Camera GM_Camera_800B77E8;
-extern GM_Control *gSnaControl_800AB9F4;
-extern int   dword_8009F604;
-extern int GM_LoadRequest_800AB3D0;
-extern int     GM_GameOverTimer_800AB3D4;
-
-extern GV_PAD GV_PadData_800B05C0[4];
-extern TMat8x8B gJpegcamMatrix1_8009F36C;
-extern TMat8x8B gJpegcamMatrix2_800BDCD8;
-
-extern signed char gJpegcamZigZagTable_8009F2EC[64];
-extern signed char gJpegcamQuantTable_8009F32C[64];
-
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern OBJECT         *dword_800ABA20;
-extern SVECTOR         dword_8009F3AC;
-extern int     GM_Photocode_800ABA04;
-extern SVECTOR GM_PhotoViewPos_800ABA48;
-
-extern short dword_800ABBD4;
-short        SECTION(".sbss") dword_800ABBD4;
-
-extern short dword_800ABBDC;
-short        SECTION(".sbss") dword_800ABBDC;
-
-extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
-extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
-extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
-extern const char aPointCheck[];     // = "Point Check\n"
-extern const char aResultD[];        // = "Result = %d\n"
-extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
-
-extern int   GV_PauseLevel_800AB928;
-extern char *dword_800BDCC8;
-extern int   dword_800BDCCC;
-extern int   dword_800BDCD0;
-extern int   DG_UnDrawFrameCount_800AB380;
-
-extern char  byte_801A1000[0x10000];
-extern char  byte_801B1000[0x36800];
-
-extern const char aZoom4d[];
-extern const char aAngle4d4d[];
-extern const char aSaveHeaderX[]; // = "save header = %x\n"
-
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
     sprintf_8008E878(param_1, aPHOTO, *(char *)(param_2 + 6) - 0x40);
@@ -134,15 +126,15 @@ void jpegcam_act_helper2_helper_8006392C(Actor_jpegcam *pActor)
     }
 }
 
-void jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(unsigned short *param_1, char *param_2)
+void jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(unsigned short *pSrc, char *pDst)
 {
     int i;
 
-    for (i = 0; i < 0x100; i++, param_2 += 4, param_1++)
+    for (i = 0; i < 256; i++, pDst += 4, pSrc++)
     {
-        param_2[2] = (*param_1 << 3) & 0xF8;
-        param_2[1] = (*param_1 >> 2) & 0xF8;
-        param_2[0] = (*param_1 >> 7) & 0xF8;
+        pDst[2] = (*pSrc << 3) & 0xF8;
+        pDst[1] = (*pSrc >> 2) & 0xF8;
+        pDst[0] = (*pSrc >> 7) & 0xF8;
     }
 }
 
@@ -162,7 +154,6 @@ void jpegcam_act_macroblock_rgb_to_yuv_800639E8(char *pStream, char *pY, char *p
         *pV++ = (r *  5000 - g *  4187 - b *  813) / 10000;
     }
 }
-
 
 void jpegcam_act_split_luma_blocks_80063B94(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2, TMat8x8B *pY3, TMat8x8B *pY4)
 {
@@ -367,7 +358,7 @@ int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStrea
     int  *pDctResult;
     int  *pQuantZagResult;
     char *pBlocks[6];
-    int   bytes_processed;
+    int   processed;
     int   i;
 
     pData = pActor->field_84;
@@ -395,25 +386,72 @@ int jpegcam_act_compress_macroblock_80064054(Actor_jpegcam *pActor, char *pStrea
     jpegcam_act_split_luma_blocks_80063B94((TMat16x16B *)pData, (TMat8x8B *)pY1, (TMat8x8B *)pY2, (TMat8x8B *)pY3, (TMat8x8B *)pY4);
     jpegcam_act_downsample_chroma420_80063C10(pData + 0x100, pData + 0x200, pU, pV);
 
-    bytes_processed = 0;
+    processed = 0;
 
     for (i = 0; i < 6; i++)
     {
         jpegcam_act_apply_dct_80063CD0(pActor, pBlocks[i], pDctResult);
         jpegcam_act_quantize_zigzag_matrix_80063DDC(pDctResult, pQuantZagResult, q_scale * 2);
-        bytes_processed += jpegcam_act_rle_stream_80063EB0(pActor, pQuantZagResult, q_scale);
+        processed += jpegcam_act_rle_stream_80063EB0(pActor, pQuantZagResult, q_scale);
     }
 
-    return bytes_processed;
+    return processed;
 }
 
-#pragma INCLUDE_ASM("asm/Equip/jpegcam_act_helper3_helper_helper_800641C0.s")                 // 440 bytes
-int jpegcam_act_helper3_helper_helper_800641C0(Actor_jpegcam *pActor, RECT *pRect, int q_scale);
+#define ROUND(x, a) ((((x) / (a)) + 1) * (a)) /* Round up `x` to next multiple of `a` */
+
+int jpegcam_act_compress_frame_800641C0(Actor_jpegcam *pActor, RECT *pRect, int q_scale)
+{
+    RECT rect;
+    int processed;
+    unsigned short *pColorCvtSrc;
+    char *f84;
+    char *pColorCvtDst;
+    int x, y;
+    short w, h;
+    int words;
+
+    processed = 0;
+
+    pColorCvtDst = pActor->field_84;
+    pColorCvtSrc = (unsigned short *)(pActor->field_84 + 1024);
+    pActor->field_84 += 1536;
+    f84 = pActor->field_84;
 
 
-extern const char aDTryQScaleDSiz[];
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 16;
+    rect.h = 16;
 
-void jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor)
+    w = pRect->w / 16;
+    h = pRect->h / 16;
+
+    for (x = 0; x < w; x++)
+    {
+        rect.x = pRect->x + x * 16;
+
+        for (y = 0; y < h; y++)
+        {
+            pActor->field_84 = f84;
+            rect.y = pRect->y + y * 16;
+            StoreImage_8008FB70(&rect, (u_long *)pColorCvtSrc);
+            jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(pColorCvtSrc, pColorCvtDst);
+            processed += jpegcam_act_compress_macroblock_80064054(pActor, pColorCvtDst, q_scale);
+        }
+    }
+
+    processed = ROUND(processed, 64);
+    words = processed / 2;
+
+    pActor->field_88[0] = words >> 8;
+    pActor->field_88[1] = words;
+    pActor->field_88[pActor->field_80] = 15;
+
+    return processed * 2;
+}
+
+void jpegcam_act_try_compress_frame_80064378(Actor_jpegcam *pActor)
 {
   int q_scale;
   int iteration;
@@ -434,16 +472,16 @@ void jpegcam_act_helper3_helper_80064378(Actor_jpegcam *pActor)
     pActor->field_84 = (char *)0x801B1000;
     pActor->field_88 = (char *)0x801A1000;
 
-    pActor->field_8C_size = jpegcam_act_helper3_helper_helper_800641C0(pActor, &rect, q_scale);
+    pActor->field_8C_size = jpegcam_act_compress_frame_800641C0(pActor, &rect, q_scale);
     mts_printf_8008BBA0(aDTryQScaleDSiz, iteration, q_scale, pActor->field_8C_size);
     iteration++;
     q_scale++;
-    if (pActor->field_8C_size >= 20001)
+    if (pActor->field_8C_size > 20000)
     {
       q_scale++;
     }
   }
-  while (pActor->field_8C_size >= 16125u);
+  while (pActor->field_8C_size > 16124u);
 }
 
 int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
@@ -717,9 +755,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
     GM_Camera_800B77E8.field_20 = zoom;
 }
 
-// or: jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
-// with pActor unused
-int jpegcam_act_helper3_helper2_800649F4()
+int jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
 {
     int retval;
 
@@ -770,7 +806,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
     }
     else if (state == 9)
     {
-        jpegcam_act_helper3_helper_80064378(pActor);
+        jpegcam_act_try_compress_frame_80064378(pActor);
 
         if (jpegcam_act_helper3_helper2_800649F4(pActor) == 1)
         {
@@ -806,7 +842,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
     }
 }
 
-void jpegcam_act_80064C50(Actor_jpegcam* pActor)
+void jpegcam_act_80064C50(Actor_jpegcam *pActor)
 {
     OBJECT *pParent;
     OBJECT *pGoggleObject;
