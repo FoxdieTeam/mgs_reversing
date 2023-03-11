@@ -22,9 +22,9 @@ extern int se_fp_800BF014;
 extern int dword_800C0500;
 extern int gStr_fadeout_2_800C0584;
 extern const char aCanceledStrFad[];
-extern int stream_data_ptr_800BEFE4;
+extern int *stream_data_ptr_800BEFE4;
 extern int dword_800BEFF0;
-extern int dword_8009F7B8;
+extern int *dword_8009F7B8;
 extern int dword_800C04EC;
 
 extern const char aUnloadD[];
@@ -84,7 +84,7 @@ void sub_80081910(int argc, const char **argv)
 
     sd_debug_800BEFD4 = 0;
     mts_printf_8008BBA0(aSoundLaunchArg, argc);
-    
+
     for (i = 0 ; i < argc; ++i )
     {
         if ( argv[i][0] == '-' && argv[i][1] == 'd' )
@@ -100,7 +100,7 @@ void sub_80081910(int argc, const char **argv)
 
 void nullsub_7_80081A10(int* a1, int a2, int a3)
 {
-    
+
 }
 
 void SdMain_80081A18()
@@ -126,12 +126,12 @@ void SdMain_80081A18()
                 sng_status_800BF158 = 2;
             }
         }
-        
+
         if ( dword_800BF26C == 1 )
         {
             dword_800BF26C = 2;
         }
-        
+
         if ( dword_800BEFCC )
         {
             KeyOffStr_80081FE8();
@@ -139,7 +139,7 @@ void SdMain_80081A18()
         }
 
         switch ( (unsigned int)gStr_FadeOut1_800BF16C )
-        {     
+        {
             case 1:
                 if ( StartStream_80082448() )
                 {
@@ -151,12 +151,12 @@ void SdMain_80081A18()
                     dword_800BF1A4 = 0;
                 }
                 break;
-            
+
             case 2:
             case 3:
             case 4:
             case 5:
-                
+
                 SD_nullsub_20_800827A4();
                 break;
 
@@ -164,7 +164,7 @@ void SdMain_80081A18()
                 KeyOffStr_80081FE8();
                 mts_printf_8008BBA0(aBgmTerminate);
                 break;
-            
+
             case 6:
             default:
                 break;
@@ -228,13 +228,13 @@ void UserSpuIRQProc_80082640();
 
 void sd_init_80081C7C()
 {
-    int spuMem;  
-    int i;  
-    SpuCommonAttr attr;  
-    SpuReverbAttr reverbAttr;  
+    int spuMem;
+    int i;
+    SpuCommonAttr attr;
+    SpuReverbAttr reverbAttr;
 
     SpuInit_80094568();
-    SpuInitMalloc_800952D8(24, byte_800C0588);   
+    SpuInitMalloc_800952D8(24, byte_800C0588);
     attr.mask = 3;
     attr.mvol.left = 0;
     attr.mvol.right = 0;
@@ -331,14 +331,14 @@ void KeyOffStr_80081FE8()
 
     switch (SpuGetKeyStatus_80096DD8(0x600000))
     {
-        case SPU_OFF: 
+        case SPU_OFF:
             break;
-        
+
         case SPU_ON:
         case SPU_ON_ENV_OFF:
             SpuSetKey_80096C18(0, 0x600000);
             break;
-        
+
         case SPU_OFF_ENV_ON:
             attr.voice = 0x200000;
             SpuGetVoiceAttr_80097D18(&attr);
@@ -353,35 +353,35 @@ void KeyOffStr_80081FE8()
                 mts_printf_8008BBA0(aSoundErrorSpuO_0, attr.rr);
             }
     }
-    
+
     dword_800C0580 = 0;
     gStream_800C04F0 = 0;
-    
+
     if ( dword_800BF258 )
     {
         SD_8008395C(dword_800BF258, 1);
         dword_800BF258 = 0;
     }
     gStr_FadeOut1_800BF16C = 0;
-    StrSpuTransClose_80083394();  
+    StrSpuTransClose_80083394();
 }
 
 void sub_800820EC()
 {
     switch (SpuGetKeyStatus_80096DD8(0x600000))
     {
-        case SPU_OFF: 
+        case SPU_OFF:
             break;
-        
+
         case SPU_ON:
         case SPU_ON_ENV_OFF:
             SpuSetKey_80096C18(0, 0x600000);
             break;
-        
+
         case SPU_OFF_ENV_ON:
             break;
     }
-    
+
     dword_800C0580 = 0;
     if ( dword_800BF258 )
     {
@@ -497,7 +497,7 @@ void sub_8008279C(void)
 
 void SD_nullsub_20_800827A4()
 {
-    
+
 }
 
 #pragma INCLUDE_ASM("asm/SD/StrSpuTransWithNoLoop_800827AC.s") // 3048 bytes
@@ -507,13 +507,15 @@ void StrSpuTransClose_80083394()
     if ( stream_data_ptr_800BEFE4 )
     {
         sub_800241B4(stream_data_ptr_800BEFE4);
-        stream_data_ptr_800BEFE4 = 0;
+        stream_data_ptr_800BEFE4 = NULL;
     }
+
     if ( dword_8009F7B8 )
     {
         sub_800241B4(dword_8009F7B8);
-        dword_8009F7B8 = 0;
+        dword_8009F7B8 = NULL;
     }
+
     dword_800BEFF0 = 0;
     FS_StreamClose_80024098();
 }

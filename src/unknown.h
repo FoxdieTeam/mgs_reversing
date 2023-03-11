@@ -24,7 +24,7 @@ void  sub_8002A090(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int 
 void  sub_8007913C();
 Actor_strctrl *sub_80037EE0(int vox_stream, int gcl_proc);
 void   sub_800790E8(); // Takabe
-void   sub_800241B4(int);
+void   sub_800241B4(void *);
 int    sub_80029514(SVECTOR *);
 void   sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
 int    sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);

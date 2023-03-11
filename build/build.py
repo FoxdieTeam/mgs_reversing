@@ -54,7 +54,7 @@ def ninja_run():
     # TODO: hide these when building locally
     warning_whitelist = [
         r'sd_drv\.c:\d+: warning: `temp\' might be used uninitialized in this function',
-        r'FS_StreamIsEnd_800240D0\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
+        r'stream\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
         r'sd_main\.c:\d+: warning: unused variable `buffer\'',
         r'sd_drv\.c:\d+: warning: unused variable `temp\'',
         r'sub_80047D70\.c:\d+: warning: unused variable `pad\'',
