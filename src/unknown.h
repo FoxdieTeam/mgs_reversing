@@ -32,6 +32,7 @@ void   sub_80032AEC(int byte_2, int byte_1, int byte_0);
 int    sub_80028830(void);
 void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
 SVECTOR *sub_80028820(void);
+void   sub_800241C8(char *arg0, int arg1);
 
 // TODO: bullet.h?
 GV_ACT* bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
