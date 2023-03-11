@@ -90,7 +90,7 @@
     include "..\obj\libfs\FS_StreamGetSize_80024188.obj"
     include "..\obj\libfs\sub_80024194.obj"
     include "..\obj\libfs\sub_800241B4.obj"
-    include "..\obj\Game\strctrl_act_helper2_800241C8.obj"
+    include "..\obj\libfs\sub_800241C8.obj"
     include "..\obj\libfs\sub_800242A4.obj"
     include "..\obj\libfs\FS_StreamGetEndFlag_800243B8.obj"
     include "..\obj\libfs\FS_StreamIsForceStop_800243C8.obj"
