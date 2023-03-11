@@ -97,16 +97,12 @@ int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
 int BSS             gSaveCache_800B5294; // 0x4 (4) bytes
 int BSS             fs_stream_ref_count_800B5298; // 0x4 (4) bytes
-
-gap                                     gap_800B529C[0x4]; // 4 bytes
-
+int BSS             fs_dword_800B529C; // 0x4 (4) bytes
 int BSS             fs_dword_800B52A0; // 0x4 (4) bytes
 void *BSS           fs_stream_heap_800B52A4; // 0x4 (4) bytes
 void *BSS           fs_stream_heap_end_800B52A8; // 0x4 (4) bytes
 int BSS             fs_stream_heapSize_800B52AC; // 0x4 (4) bytes
-
-gap                                     gap_800B52B0[0x4]; // 4 bytes
-
+int BSS             fs_dword_800B52B0; // 0x4 (4) bytes
 void *BSS           fs_ptr_800B52B4; // 0x4 (4) bytes
 void *BSS           fs_ptr_800B52B8; // 0x4 (4) bytes
 void *BSS           fs_ptr_800B52BC; // 0x4 (4) bytes
