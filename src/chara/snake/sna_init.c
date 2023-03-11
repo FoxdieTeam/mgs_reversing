@@ -4439,7 +4439,7 @@ void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
     GV_NearExp4PV_800269A0(&pActor->field_20_ctrl.field_8_rotator.vx, &pActor->field_20_ctrl.field_4C_turn_vec.vx, 3);
     GV_NearExp4PV_800269A0(&pActor->field_20_ctrl.field_8_rotator.vx, &pActor->field_20_ctrl.field_4C_turn_vec.vx, 3);
 
-    if (sna_act_unk_helper2_helper3_80060684(&pActor->field_A00.field_0_ivec, &pActor->field_20_ctrl.field_0_position) < pStr->field_9F4.pad)
+    if (sna_act_unk_helper2_helper3_80060684(&pActor->field_A00, &pActor->field_20_ctrl.field_0_position) < pStr->field_9F4.pad)
     {
         sna_init_clear_invuln_8004F2EC(pActor);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
