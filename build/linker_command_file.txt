@@ -65,34 +65,10 @@
     include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
 
     ;libfs
-    ; 80021E2C 80021EC4 80021F48 80021F68 80021F70 80021FE0 80022024 80022088 80022090 80022264 800227A8 8002280C 80022854 80022864 80022888 800228D4 80022918 8002297C 80022B5C 80022CBC 80022D00 80022DCC
     include "..\obj\libfs\cdbios.obj"
-    include "..\obj\libfs\sub_80022E50.obj"
-    include "..\obj\libfs\Loader_CD_Read_CallBack_helper_800231A8.obj"
-    include "..\obj\libfs\Loader_CD_Read_CallBack_80023274.obj"
-    include "..\obj\libfs\Loader_helper_8002336C.obj"
-    include "..\obj\libfs\Loader_helper2_80023460.obj"
-    include "..\obj\libfs\Loader_80023624.obj"
-    include "..\obj\libfs\FS_LoadStageComplete_80023804.obj"
-    include "..\obj\libfs\FS_MovieFileInit_80023860.obj"
-    include "..\obj\libfs\FS_GetMovieInfo_8002399C.obj"
-    include "..\obj\libfs\sub_800239E8.obj"
-    include "..\obj\libfs\sub_80023C40.obj"
-    include "..\obj\libfs\FS_StreamTaskStart_80023D94.obj"
-    include "..\obj\libfs\FS_StreamTaskState_80023E0C.obj"
-    include "..\obj\libfs\FS_StreamTaskInit_80023E1C.obj"
-    include "..\obj\libfs\FS_StreamSync_80023E24.obj"
-    include "..\obj\libfs\FS_StreamCD_80023F8C.obj"
-    include "..\obj\libfs\FS_StreamIsEnd_800240D0.obj"
-    include "..\obj\libfs\FS_StreamGetData_800240E0.obj"
-    include "..\obj\libfs\FS_StreamGetSize_80024188.obj"
-    include "..\obj\libfs\sub_80024194.obj"
-    include "..\obj\libfs\sub_800241B4.obj"
-    include "..\obj\libfs\sub_800241C8.obj"
-    include "..\obj\libfs\sub_800242A4.obj"
-    include "..\obj\libfs\FS_StreamGetEndFlag_800243B8.obj"
-    include "..\obj\libfs\FS_StreamIsForceStop_800243C8.obj"
-    include "..\obj\libfs\FS_StreamGetTick_80024420.obj"
+    include "..\obj\libfs\loader.obj"
+    include "..\obj\libfs\movie.obj"
+    include "..\obj\libfs\stream.obj"
 
     ; 800244FC 800247E8 80024960 800249CC 80024A3C 80024A54 800250C4 80025178 80025350 8002554C 8002569C 800257B0 800257C0
     include "..\obj\memcard\memcard.obj"

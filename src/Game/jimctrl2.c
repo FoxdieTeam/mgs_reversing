@@ -51,8 +51,8 @@ void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 
 GV_ACT *jimctrl_init_80038568(u_long flags)
 {
-    int            seekResult;
-    u_long          toSeek = 4;
+    int           *seekResult;
+    u_long         toSeek = 4;
     Actor_JimCtrl *pJimActor = &jimCtrlActor_800B82F0;
     if (flags & 0x80)
     {
