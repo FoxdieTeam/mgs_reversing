@@ -16,13 +16,13 @@ struct Loader_Record
     struct Loader_Rec_2 *field_8_p2Alloc;
     int                  field_C; // str ptr?
     int                  field_10;
-    int                  field_14; // last size?
+    char                *field_14; // last size?
     int                  field_18; // state ?
     int                  field_1C; // cnf ptr?
     int                  field_20;
     int                  field_24;
     int                  field_28;
-    int                  field_2C;
+    char                *field_2C;
     int                  field_30;
     int                  field_34;
 };
