@@ -438,7 +438,94 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper2_8003BF1C.s") // 816 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_8003C95C.s") // 572 bytes
+
+void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *arg1)
+{
+    GV_PAD          *pPad = pActor->field_24_pInput;
+    menu_left_right *pLeftRight;
+
+    if (pActor->field_2A_state == 0)
+    {
+        if (!(GM_GameStatus_800AB3CC & 0x80400))
+        {
+            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_ITEM_SWITCH |
+                                              PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH)))
+            {
+                if (menu_8003DA9C(&pActor->field_1DC_menu_left, pPad))
+                {
+                    if (menu_inventory_left_update_helper_8003BCD4(pActor))
+                    {
+                        pActor->field_2A_state = 2;
+                        GV_PauseLevel_800AB928 |= 4;
+                    }
+                }
+                else if (!(GM_GameStatus_800AB3CC & 0x40000) && (pPad->press & PAD_L1))
+                {
+                    int itemid = GM_CurrentItemId;
+
+                    if (itemid >= 0)
+                    {
+                        GM_CurrentItemId = -1;
+                    }
+                    else if (!menu_inventory_Is_Item_Disabled_8003B6D0(pActor->field_1DC_menu_left.field_11))
+                    {
+                        if (GM_Items[pActor->field_1DC_menu_left.field_11] > 0)
+                        {
+                            GM_CurrentItemId = pActor->field_1DC_menu_left.field_11;
+                        }
+                    }
+
+                    if (itemid != GM_CurrentItemId)
+                    {
+                        GM_Sound_80032968(0, 63, 20);
+                    }
+                }
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (pActor->field_2A_state == 2)
+    {
+        pLeftRight = &pActor->field_1DC_menu_left;
+
+        if (sub_8003DAFC(pLeftRight, pPad))
+        {
+            pActor->field_1DC_menu_left.field_10_state = 3;
+        }
+        else if (sub_8003D52C() > 255)
+        {
+            sub_8003D6CC(pLeftRight, pPad);
+            menu_inventory_left_update_helper3_8003C24C(pActor->field_1DC_menu_left.field_C_alloc, pPad->press);
+        }
+    }
+    else if (pActor->field_2A_state != 4)
+    {
+        if (GM_CurrentItemId >= 0)
+        {
+            int ret = sub_8003D52C();
+            if (ret < 255)
+            {
+                sub_8003DA60(pActor, (int)arg1, &pActor->field_1DC_menu_left, -ret / 4, 0);
+                pActor->field_1DC_menu_left.field_12_flashingAnimationFrame = 0;
+            }
+        }
+        else
+        {
+            pActor->field_1DC_menu_left.field_12_flashingAnimationFrame = 0;
+        }
+        return;
+    }
+    else
+    {
+        return;
+    }
+
+    menu_inventory_left_update_helper2_8003BF1C(pActor, arg1);
+    menu_inventory_left_update_helper4_8003C4EC();
+}
 
 int sub_8003CB98(struct Actor_MenuMan *pActor)
 {

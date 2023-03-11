@@ -573,7 +573,7 @@ void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *
                                                   pLeftRight->field_8_panel_conf->field_2_yOffset + off2, &pLeftRight->field_0_current);
 }
 
-int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
+int menu_8003DA9C(struct menu_left_right *pMenu, GV_PAD *pPad)
 {
     struct PANEL_CONF *pPanelConf; // $a0
 
@@ -593,7 +593,7 @@ int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
 
     pPanelConf = pMenu->field_8_panel_conf;
 
-    if ((*input & pPanelConf->field_4_input) == 0)
+    if (!(pPad->status & pPanelConf->field_4_input))
     {
         goto ret_zero;
     }
@@ -602,10 +602,9 @@ int menu_8003DA9C(struct menu_left_right *pMenu, unsigned short *input)
     return 1;
 }
 
-int sub_8003DAFC(int param_1, unsigned short *param_2)
+int sub_8003DAFC(menu_left_right *pLeftRight, GV_PAD *pPad)
 {
-    // clean this up before push but it matches
-    if (((unsigned int)*param_2 & *(unsigned int *)(*(int *)(param_1 + 8) + 4)) == 0)
+    if (!(pPad->status & pLeftRight->field_8_panel_conf->field_4_input))
     {
         dword_800AB584 = 0;
         return 1;
