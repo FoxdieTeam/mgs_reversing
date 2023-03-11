@@ -71,7 +71,7 @@ loop_case3:
                 case 1:
                     if ( !sd_str_play_800886DC() )
                     {
-                        strctrl_act_helper2_800241C8( actor->field_34_pStreamData, 1 );
+                        sub_800241C8( (char *)actor->field_34_pStreamData, 1 );
                         FS_StreamSoundMode_80024404();
                         sd_code = 0xE0000000;
                         if ( !actor->field_26_flags )
