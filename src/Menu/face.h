@@ -21,7 +21,7 @@ typedef union face_anim {
 typedef struct face_header
 {
     unsigned short field_0_anim_type;
-    short          field_2;
+    unsigned short field_2_code;
     int            field_4;
     face_anim      field_8_anim_data;
 } face_header;
@@ -39,20 +39,31 @@ typedef struct faces_group
     char actual_data[0];
 } faces_group;
 
+typedef struct face_anim_frame
+{
+    char field_0_xpos;
+    char field_1_ypos;
+    char field_2_width;
+    char field_3_height;
+    char field_4_image[0];
+} face_anim_frame;
+
 // "Simple" animation, equivalent of:
 // https://github.com/Joy-Division/tools-mgs/blob/4e9394baa8ac6872e66202ff0ce26352cd45bef9/face-extract.c#L174-L189
 typedef struct face_simple_anim
 {
-    void *field_0_frames[8];
+    unsigned char   *field_0_palette;
+    face_anim_frame *field_4_frames[7];
 } face_simple_anim;
 
 // "Full" animation, equivalent of:
 // https://github.com/Joy-Division/tools-mgs/blob/4e9394baa8ac6872e66202ff0ce26352cd45bef9/face-extract.c#L191-L203
 typedef struct face_full_anim_frame
 {
-    void *field_0;
-    void *field_4;
-    int   field_8;
+    unsigned char   *field_0_palette;
+    face_anim_frame *field_4_frame;
+    short            field_8;
+    short            field_10;
 } face_full_anim_frame;
 
 typedef struct face_full_anim
