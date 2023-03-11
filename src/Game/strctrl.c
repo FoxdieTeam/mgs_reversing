@@ -98,7 +98,7 @@ loop_case3:
                     mts_printf_8008BBA0( "??? WRONG TYPE HEADER!!\n" );
                     break;
                 }
-                sub_800241B4( ( int )actor->field_34_pStreamData );
+                sub_800241B4( actor->field_34_pStreamData );
                 actor->field_34_pStreamData = NULL;
                 actor->field_22_sub_state = 2;
                 goto loop_case3;

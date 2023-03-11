@@ -5,20 +5,63 @@
 #include "libgv/libgv.h"
 #include "libfs.h"
 
-extern const char aLoadCompleteTi[]; // "load complete time %d\n";
-
-extern int DG_FrameRate_8009D45C;
-
+extern int                   DG_FrameRate_8009D45C;
 extern struct Loader_Record *gLoaderRec_800B5288;
 extern int                   gLoaderStartTime_800B528C;
 extern int                   gOverlayBinSize_800B5290;
 extern int                   gSaveCache_800B5294;
+extern short                 word_8009D504;
 
-extern const char aLoadS[];     // = "load %s\n";
-extern const char aNotFoundS[]; // = "NOT FOUND %s\n";
-extern const char aNo2[];       // = "no_mem\n";
+extern const char aLoadCompleteTi[]; // "load complete time %d\n";
+extern const char aLoadS[];          // = "load %s\n";
+extern const char aNotFoundS[];      // = "NOT FOUND %s\n";
+extern const char aNo2[];            // = "no_mem\n";
 
-extern short word_8009D504;
+#pragma INCLUDE_ASM("asm/libfs/sub_80022E50.s")
+#pragma INCLUDE_ASM("asm/libfs/Loader_CD_Read_CallBack_helper_800231A8.s")
+#pragma INCLUDE_ASM("asm/libfs/Loader_CD_Read_CallBack_80023274.s")
+#pragma INCLUDE_ASM("asm/libfs/Loader_helper_8002336C.s")
+#pragma INCLUDE_ASM("asm/libfs/Loader_helper2_80023460.s")
+
+int Loader_80023624(struct Loader_Record *pRec)
+{
+    int status;
+
+    if (pRec->field_2C == 0)
+    {
+        return 1;
+    }
+
+    status = -1;
+
+    while ((status < 0) && (pRec->field_2C <= (pRec->field_14 - 8)))
+    {
+        switch(pRec->field_2C[2])
+        {
+        case 'c':
+            if (Loader_helper_8002336C(pRec, status))
+            {
+                return 0;
+            }
+
+            goto exit;
+
+        case 's':
+            pRec->field_2C += 8;
+            break;
+
+        case '\0':
+            return 0;
+
+        default:
+            status = Loader_helper2_80023460(pRec, status);
+            break;
+        }
+    }
+
+exit:
+    return 1;
+}
 
 struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
 {
@@ -54,13 +97,6 @@ struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
     word_8009D504 = 0;
     CDBIOS_ReadRequest_8002280C(p2Alloc, sector, 2048, Loader_CD_Read_CallBack_80023274);
     return pLoaderRec;
-}
-
-static inline struct Loader_Rec_2 *DoIt(struct Loader_Record *pLoaderRec)
-{
-    struct Loader_Rec_2 *rec;
-    rec = pLoaderRec->field_8_p2Alloc;
-    return rec;
 }
 
 int FS_LoadStageSync_800237C0(struct Loader_Record *pRec)

@@ -9,9 +9,6 @@
 extern unsigned char         heap_80117000[];
 extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 extern int                   gDiskNum_800ACBF0;
-extern const char            aDiskD[];
-extern const char            aIllegalDisk[];
-extern const char            aPositionEnd[];
 extern int                   dword_8009D4DC;
 extern int                   dword_8009D4E0;
 extern int                   dword_cdbios_stop_8009D4E4;
@@ -20,6 +17,9 @@ extern struct Loader_Record *gLoaderRec_800B5288;
 extern FS_FILE_TABLE         fs_file_table_8009D4E8;
 extern const char           *MGS_DiskName_8009D2FC[3];
 
+extern const char aPositionEnd[];    // = "Position end\n"
+extern const char aDiskD[];          // = "DISK %d\n"
+extern const char aIllegalDisk[];    // = "illegal DISK\n"
 extern const char aCdfsSkipErrorD[]; // = "CDFS: skip error %d %d %d\n"
 extern const char asc_800105B4[];    // = "[T]"
 extern const char a__800105B8[];     // = "."

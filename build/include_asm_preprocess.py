@@ -252,7 +252,7 @@ FUNC_SIZES = { # should be updated if any .s outside psy/ changes
     0x80085F98: 180, 0x8008604C: 332, 0x80086198: 136, 0x80086220: 96, 0x80086280: 644,
     0x80086504: 200, 0x800865CC: 200, 0x80086694: 160, 0x80086734: 312, 0x8008686C: 792,
     0x80086B84: 132, 0x80086C08: 144, 0x80086C98: 128, 0x80086D18: 132, 0x80086D9C: 156,
-    0x80086E38: 64, 0x80086E78: 64, 0x80086EB8: 64, 0x80086F00: 80, 
+    0x80086E38: 64, 0x80086E78: 64, 0x80086EB8: 64, 0x80086F00: 80,
     0x80086F50: 200, 0x80087018: 264, 0x80087120: 76, 0x8008716C: 72, 0x800871B4: 44,
     0x800871E0: 224, 0x800872C0: 44, 0x800872EC: 128, 0x8008736C: 24, 0x80087384: 72,
     0x800873CC: 24, 0x800873E4: 296, 0x8008750C: 24, 0x80087524: 72, 0x8008756C: 32,
@@ -270,7 +270,7 @@ FUNC_SIZES = { # should be updated if any .s outside psy/ changes
     0x8008BDEC: 684, 0x8008C170: 236, 0x8008C25C: 200, 0x8008C324: 92, 0x8008C380: 60,
     0x8008C408: 76, 0x8008C454: 104, 0x8008C4BC: 120, 0x8008C534: 88, 0x8008C58C: 12,
     0x8008C5B8: 8, 0x8008C5C0: 8, 0x8008C5E0: 8, 0x8008C5E8: 8, 0x8008C5F0: 8, 0x8008C5F8: 8,
-    0x8002A848: 56, 0x80076584 : 388, 0x80057378: 252,
+    0x8002A848: 56, 0x80076584 : 388, 0x80057378: 252, 0x800239E8: 600,
 }
 
 import sys
@@ -368,14 +368,14 @@ def main(path, output):
     #for d in depends:
     #    print("Note: including file: " + os.path.abspath(d))
     #print("output = " + output)
-    
+
     dynDepName = output.replace(".c.asm.preproc", ".c.dyndep")
     #print("Dyndep file = " + dynDepName)
 
     targetAddTo = output.replace(".c.asm.preproc", ".obj")
     targetAddTo = targetAddTo.replace(":", "$:") # escape colon in drive path
     #print("targetAddTo = " + targetAddTo)
- 
+
     with open(dynDepName, 'w') as f:
         f.write("ninja_dyndep_version = 1\n")
         depsStr = ""
