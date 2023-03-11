@@ -66,7 +66,7 @@
 
     ;libfs
     include "..\obj\libfs\cdbios.obj"
-    include "..\obj\libfs\loader.obj"
+    include "..\obj\libfs\stage.obj"
     include "..\obj\libfs\movie.obj"
     include "..\obj\libfs\stream.obj"
 
@@ -82,7 +82,7 @@
     include "..\obj\data\sbss\sbss.obj"
 
     ; 80026384 800263B0 800263E4 80026418 80026440 8002646C 800264B0 80026504 80026554 800265AC 80026604 8002667C 800266D4 80026734 80026794 800267EC 80026840 800268AC 80026924 800269A0 80026A24 80026AA8 80026B04 80026B64 80026BC4
-    include "..\obj\libgv\near.obj"
+    include "..\obj\libgv\math_near.obj"
 
     include "..\obj\Game\GM_ActControl_helper_80026C68.obj"
     include "..\obj\sub_800272E0.obj"
