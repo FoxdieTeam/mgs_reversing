@@ -333,6 +333,9 @@ void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int pa
 void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, menu_left_right *pMenuSub);
 
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
+void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *arg1);
+void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *, unsigned short);
+void menu_inventory_left_update_helper4_8003C4EC();
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
 void menu_JimakuWrite_800494E8(const char *str, int frames);
@@ -343,7 +346,12 @@ void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int
                                      short *param_5);
 void menu_right_unknown_8003DEB0(void);
 void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
+int  menu_8003DA9C(struct menu_left_right *pMenu, GV_PAD *pPad);
 void menu_sub_8003B568(void);
+int  sub_8003DAFC(menu_left_right *pLeftRight, GV_PAD *pPad);
+int  sub_8003D52C(void);
+void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad);
+void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2);
 void menu_viewer_init_80044A70(Actor_MenuMan *);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
 void menuman_act_800386A4(Actor_MenuMan *);
