@@ -120,6 +120,9 @@ extern int                dword_8009F434;
 extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
 extern SVECTOR            svector_800AB7E4;
+extern WeaponCreateEntry  gSnakeWeapons_8009EF3C[];
+extern void              *dword_8009EEB0[];
+extern void              *dword_8009EEB8[];
 
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
@@ -2052,8 +2055,179 @@ void sna_act_unk2_80051170(GM_Target *param_1)
     param_1->field_3E = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sna_init_weapon_switching_800511BC.s")        // 1024 bytes
-void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int a2);
+static inline int sna_init_weapon_switching_helper_800511BC(Actor_SnaInit *pActor)
+{
+    int flag;
+
+    flag = (GM_UnkFlagBE != 0) ? 1024 : 1;
+
+    if (sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK5))
+    {
+        return 0;
+    }
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000 | PLAYER_STATUS_UNK200 | PLAYER_STATUS_UNK100 | PLAYER_STATUS_UNK4))
+    {
+        return 0;
+    }
+
+    if (!(pActor->field_920_tbl_8009D580 & 0x200) && GM_CheckPlayerStatusFlag_8004E29C(flag))
+    {
+        return 0;
+    }
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK20000000) || (GM_GameStatus_800AB3CC & 0x10000000))
+    {
+        if (GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200)
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+static inline int sna_init_weapon_switching_helper2_800511BC(Actor_SnaInit *pActor, int callback)
+{
+    WeaponCreateEntry *pWeaponEntry;
+    GV_ACT * (*pWeaponCreateFn)(void *, void *, int, void *, int);
+    GV_ACT *pWeaponActor;
+
+    pWeaponActor = pActor->field_908_weapon_actor;
+
+    if (pWeaponActor)
+    {
+        GV_DestroyActorQuick_80015164(pWeaponActor);
+    }
+
+    pWeaponEntry = &gSnakeWeapons_8009EF3C[GM_CurrentWeaponId];
+    pWeaponCreateFn = pWeaponEntry->mCreateActorFn;
+    pWeaponActor = NULL;
+
+    if (pWeaponCreateFn)
+    {
+        pWeaponActor = pWeaponCreateFn(&pActor->field_20_ctrl, &pActor->field_9C_obj, 4, &pActor->field_914, 1);
+
+        if (!pWeaponActor)
+        {
+            pActor->field_908_weapon_actor = 0;
+            return -1;
+        }
+    }
+
+    if (pActor->field_91C_weapon_idx == WEAPON_NIKITA)
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_ITEM_SWITCH);
+    }
+
+    if (pActor->field_90C_pWeaponFn == &sna_init_anim_grenade_80058470)
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH | PLAYER_STATUS_PREVENT_ITEM_SWITCH);
+    }
+
+    pActor->field_91C_weapon_idx = GM_CurrentWeaponId;
+
+    if (callback)
+    {
+        GM_CallSystemCallbackProc_8002B570(3, GM_CurrentWeaponId);
+    }
+
+    pActor->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1];
+
+    if (GM_CurrentWeaponId >= 0)
+    {
+        pActor->field_918_pWeaponState = &GM_Weapons[GM_CurrentWeaponId];
+    }
+
+    pActor->field_90C_pWeaponFn = pWeaponEntry->mStateFn;
+
+    pActor->field_910 = 0;
+    pActor->field_926 = 0;
+    pActor->field_924 = 0;
+    pActor->field_908_weapon_actor = pWeaponActor;
+    pActor->field_9B4_action_table = &weapon_actions_8009ED8C[GM_CurrentWeaponId];
+
+    return 0;
+}
+
+void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int callback)
+{
+    int temp_s1_2;
+
+    if (GM_CurrentWeaponId != pActor->field_91C_weapon_idx)
+    {
+        GM_WeaponChanged_800AB9D8 = 1;
+    }
+
+    if (!GM_WeaponChanged_800AB9D8)
+    {
+        return;
+    }
+
+    if (!sna_init_weapon_switching_helper_800511BC(pActor))
+    {
+        return;
+    }
+
+    if (!(pActor->field_920_tbl_8009D580 & 0x1000) && (GM_CurrentWeaponId == pActor->field_91C_weapon_idx))
+    {
+        return;
+    }
+
+    if (sna_init_weapon_switching_helper2_800511BC(pActor, callback) < 0)
+    {
+        return;
+    }
+
+    temp_s1_2 = pActor->field_920_tbl_8009D580;
+    GM_WeaponChanged_800AB9D8 = 0;
+
+    if (temp_s1_2 & 0x200)
+    {
+        sub_8004EB74(pActor);
+
+        if (gGameState_800B4D98[95] != 0)
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK400);
+            sna_init_clear_flags2_8004E344(pActor, SNA_FLAG2_UNK6 | SNA_FLAG2_UNK5);
+        }
+    }
+    else if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) && ((GM_UnkFlagBE == 0) || !(pActor->field_898_flags2 & 0x10)))
+    {
+        sna_init_8004EC00(pActor);
+    }
+
+    if (temp_s1_2 & 0x20)
+    {
+        sna_init_start_anim_8004E1F4(pActor, pActor->field_90C_pWeaponFn);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_ON_WALL);
+    }
+    else if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT))
+    {
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_duct_move_80054424);
+    }
+    else if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_ON_WALL))
+    {
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING))
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_wall_move_80052BA8);
+        }
+        else
+        {
+            sna_init_start_anim_8004E1F4(pActor, dword_8009EEB0[pActor->field_A26_fn_stance_idx]);
+        }
+    }
+    else if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING))
+    {
+        sna_init_start_anim_8004E1F4(pActor, dword_8009EEB8[pActor->field_A26_fn_stance_idx]);
+    }
+    else
+    {
+        sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_fn_stance_idx]);
+    }
+
+    sub_8004F454(pActor);
+}
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
 void sna_init_800515BC(Actor_SnaInit *pActor, int a2);
