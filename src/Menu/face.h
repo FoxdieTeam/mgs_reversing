@@ -39,21 +39,23 @@ typedef struct faces_group
     char actual_data[0];
 } faces_group;
 
-typedef struct face_anim_frame
+typedef struct face_anim_image
 {
     char field_0_xpos;
     char field_1_ypos;
     char field_2_width;
     char field_3_height;
     char field_4_image[0];
-} face_anim_frame;
+} face_anim_image;
 
 // "Simple" animation, equivalent of:
 // https://github.com/Joy-Division/tools-mgs/blob/4e9394baa8ac6872e66202ff0ce26352cd45bef9/face-extract.c#L174-L189
 typedef struct face_simple_anim
 {
     unsigned char   *field_0_palette;
-    face_anim_frame *field_4_frames[7];
+    face_anim_image *field_4_face;
+    face_anim_image *field_8_eyes[3];   // last element might not be an eye
+    face_anim_image *field_14_mouth[3]; // last element might not be a mouth
 } face_simple_anim;
 
 // "Full" animation, equivalent of:
@@ -61,7 +63,7 @@ typedef struct face_simple_anim
 typedef struct face_full_anim_frame
 {
     unsigned char   *field_0_palette;
-    face_anim_frame *field_4_frame;
+    face_anim_image *field_4_image;
     short            field_8;
     short            field_10;
 } face_full_anim_frame;
