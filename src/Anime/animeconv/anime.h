@@ -31,7 +31,7 @@ typedef struct anime_0x34
 
 typedef struct Actor_anime
 {
-    GV_ACT         field_0_actor;
+    GV_ACT        field_0_actor;
     DG_TEX       *field_20_pTexture;
     DG_PRIM      *field_24_pPrim;
     RECT          field_28_prim_rect;
@@ -62,17 +62,18 @@ typedef struct PRESCRIPT
 
 typedef struct ANIMATION
 {
-    short      field_0_texture_hash;
-    short      field_2;
-    int        field_4;
-    short      field_8_count;
-    short      field_A;
-    short      field_C;
-    short      field_E_xw;
-    short      field_10_yh;
-    short      field_12_rgb;
-    PRESCRIPT *field_14_pre_script;
-    void      *field_18_ptr;
+    unsigned short field_0_texture_hash;
+    short          field_2;
+    short          field_4;
+    short          field_6;
+    short          field_8_count;
+    short          field_A;
+    short          field_C;
+    short          field_E_xw;
+    short          field_10_yh;
+    short          field_12_rgb;
+    PRESCRIPT     *field_14_pre_script;
+    void          *field_18_ptr;
 } ANIMATION;
 
 Actor_anime *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimData);

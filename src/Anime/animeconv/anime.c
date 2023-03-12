@@ -289,7 +289,42 @@ int anime_fn_5_8005EEA4(Actor_anime *pActor, int idx)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_6_8005EF04.s") // 244 bytes
+int anime_fn_6_8005EF04(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem;
+    int i;
+    POLY_FT4 *pPoly;
+
+    pItem = &pActor->field_4C_items[idx];
+    pActor->field_40_data_C = pItem->field_18_op_code[1];
+
+    if ((pActor->field_40_data_C & ~0x3) == 0)
+    {
+        for (i = 0; i < 2; i++)
+        {
+            pPoly = &pActor->field_24_pPrim->field_40_pBuffers[i]->poly_ft4;
+            pPoly += idx;
+
+            setSemiTrans(pPoly, 1);
+
+            pPoly->tpage &= ~0x60;
+            pPoly->tpage |= pActor->field_40_data_C << 5;
+        }
+    }
+    else
+    {
+        for (i = 0; i < 2; i++)
+        {
+            pPoly = &pActor->field_24_pPrim->field_40_pBuffers[i]->poly_ft4;
+            pPoly += idx;
+
+            setSemiTrans(pPoly, 0);
+        }
+    }
+
+    pItem->field_18_op_code += 2;
+    return 0;
+}
 
 int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx)
 {
@@ -395,7 +430,35 @@ int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_fn_12_8005F37C.s") // 140 bytes
+int anime_fn_12_8005F37C(Actor_anime *pActor, int idx)
+{
+    anime_0x34 *pItem;
+    int temp_a1;
+    short *temp_v1;
+
+    pItem = &pActor->field_4C_items[idx];
+    temp_a1 = pItem->field_13;
+    temp_v1 = (short *)pItem + temp_a1; // TODO: figure out what's happening here
+
+    if (--temp_v1[14] <= 0)
+    {
+        if (temp_v1[14] == 0)
+        {
+            pItem->field_13--;
+            pItem->field_18_op_code++;
+        }
+        else
+        {
+            pItem->field_18_op_code = pItem->field_24_saved_op_code[temp_a1];
+        }
+    }
+    else
+    {
+        pItem->field_18_op_code = pItem->field_24_saved_op_code[temp_a1];
+    }
+
+    return 0;
+}
 
 int anime_fn_13_8005F408(Actor_anime *pActor, int idx)
 {
@@ -477,8 +540,77 @@ void anime_kill_8005F608(Actor_anime *anime)
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F644.s") // 168 bytes
+int anime_loader_helper_8005F644(Actor_anime *pActor, ANIMATION *pAnimation);
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_helper_8005F6EC.s") // 680 bytes
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_loader_8005F994.s")        // 564 bytes
+void anime_loader_helper_8005F6EC(Actor_anime *pActor, char rgb);
+
+int anime_loader_8005F994(Actor_anime *pActor, int map, ANIMATION *pAnimation)
+{
+    int count;
+    PRESCRIPT *pPrescript;
+    int i;
+    RECT *pRect;
+    anime_0x34 *pItem;
+
+    pActor->field_38_active_buff = 3;
+    pActor->field_34_map = map;
+    pActor->field_3A_data_2 = pAnimation->field_2;
+    pActor->field_3C_data_4 = pAnimation->field_4;
+    pActor->field_3E_maybe_data_count = pAnimation->field_6;
+    pActor->field_40_data_C = pAnimation->field_C;
+
+    count = pAnimation->field_8_count;
+    pActor->field_42_count = count;
+    pActor->field_44_data_A = pAnimation->field_A;
+
+    pPrescript = pAnimation->field_14_pre_script;
+
+    for (i = 0; i < count; i++)
+    {
+        pActor->field_48_pPrimVec[i] = pPrescript->pos;
+        pPrescript++;
+    }
+
+    pRect = &pActor->field_28_prim_rect;
+    pRect->x = pAnimation->field_E_xw / 2;
+    pRect->y = pAnimation->field_10_yh / 2;
+    pRect->w = pAnimation->field_E_xw;
+    pRect->h = pAnimation->field_10_yh;
+
+    pActor->field_24_pPrim = DG_GetPrim(0x412, count, 0, pActor->field_48_pPrimVec, pRect);
+    if (!pActor->field_24_pPrim)
+    {
+        return -1;
+    }
+
+    pActor->field_20_pTexture = DG_GetTexture_8001D830(pAnimation->field_0_texture_hash);
+
+    pItem = pActor->field_4C_items;
+    pPrescript = pAnimation->field_14_pre_script;
+
+    for (i = 0; i < count; i++)
+    {
+        pItem->field_0_counter = 0;
+        pItem->field_4 = pPrescript->s_anim;
+        pItem->field_8_vec = pPrescript->speed;
+        pItem->field_10_r = pItem->field_11_g = pItem->field_12_b = pAnimation->field_12_rgb;
+        pItem->field_13 = 0xFF;
+
+        pItem++;
+        pPrescript++;
+    }
+
+    anime_loader_helper_8005F6EC(pActor, pAnimation->field_12_rgb);
+    DG_InvisiblePrim(pActor->field_24_pPrim);
+
+    if (anime_loader_helper_8005F644(pActor, pAnimation) < 0)
+    {
+        return -1;
+    }
+
+    return 0;
+}
 
 Actor_anime *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimData)
 {
