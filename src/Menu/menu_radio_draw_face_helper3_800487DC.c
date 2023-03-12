@@ -7,7 +7,7 @@ void menu_radio_draw_face_helper3_800487DC(menu_chara_struct *pStru, int x)
 {
     RECT rect;
 
-    sub_80046B74(pStru->field_24_pImgData256, x);
+    menu_radio_load_palette_80046B74(pStru->field_24_pImgData256, x);
     rect.x = x * 32 + 960;
     rect.y = 336;
     rect.w = 26;
