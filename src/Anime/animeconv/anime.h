@@ -73,7 +73,7 @@ typedef struct ANIMATION
     short          field_10_yh;
     short          field_12_rgb;
     PRESCRIPT     *field_14_pre_script;
-    void          *field_18_ptr;
+    char          *field_18_ptr;
 } ANIMATION;
 
 Actor_anime *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimData);
