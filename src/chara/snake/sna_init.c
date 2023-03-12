@@ -672,7 +672,7 @@ void sub_8004EEB0(Actor_SnaInit *pActor)
         arg0 = pActor->field_20_ctrl.field_4C_turn_vec.vy;
         if (GV_DiffDirS_8001704C(arg0, gSnaMoveDir_800ABBA4))
         {
-            iVar2 = sub_80026418(arg0, gSnaMoveDir_800ABBA4);
+            iVar2 = GV_NearDiffP_80026418(arg0, gSnaMoveDir_800ABBA4);
             sVar1 = sub_8002646C(iVar2, gSnaMoveDir_800ABBA4, 0x40);
             pActor->field_20_ctrl.field_4C_turn_vec.vy = sVar1;
         }
@@ -709,7 +709,7 @@ void sna_init_8004EF14(Actor_SnaInit *pActor)
         }
 
         sna_init_8004E22C(pActor, actionFlag, 4);
-        iVar4 = sub_80026418(y, gSnaMoveDir_800ABBA4);
+        iVar4 = GV_NearDiffP_80026418(y, gSnaMoveDir_800ABBA4);
         sVar2 = sub_8002646C(iVar4, gSnaMoveDir_800ABBA4, 0x40);
         pActor->field_20_ctrl.field_4C_turn_vec.vy = sVar2;
     }

@@ -278,9 +278,9 @@ void camera_act_helper_helper2_8002F094(int param_1)
     else
     {
         iVar1 = 12 - param_1;
-        sub_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
-        sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, iVar1, 3);
-        GM_Camera_800B77E8.field_1C = sub_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
+        GV_NearTimeSV_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
+        GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, iVar1, 3);
+        GM_Camera_800B77E8.field_1C = GV_NearTime_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
         GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002EC8C(&GM_Camera_800B77E8.field_0, &vec, &GM_Camera_800B77E8.field_8);
         GM_Camera_800B77E8.field_28 = 0;
@@ -390,9 +390,9 @@ int camera_act_helper2_helper_8002F384(int arg0)
 
     if (arg0 < 2)
     {
-        sub_800268AC(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0.vx, 2 - arg0, 3);
-        sub_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, 2 - arg0, 3);
-        GM_Camera_800B77E8.field_1C = sub_800264B0(GM_Camera_800B77E8.field_1C, 1000, 2 - arg0);
+        GV_NearTimeSV_800268AC(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0.vx, 2 - arg0, 3);
+        GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, 2 - arg0, 3);
+        GM_Camera_800B77E8.field_1C = GV_NearTime_800264B0(GM_Camera_800B77E8.field_1C, 1000, 2 - arg0);
         GV_OriginPadSystem_80016C78(0);
     }
     else
@@ -535,8 +535,8 @@ void camera_act_helper4_8002F78C(void)
 
         if (GM_Camera_800B77E8.field_2A == 3)
         {
-            sub_800268AC(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, GM_Camera_800B77E8.field_26, 3);
-            sub_80026BC4(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, GM_Camera_800B77E8.field_26, 3);
+            GV_NearTimeSV_800268AC(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, GM_Camera_800B77E8.field_26, 3);
+            GV_NearTimePV_80026BC4(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, GM_Camera_800B77E8.field_26, 3);
         }
         else if (GM_Camera_800B77E8.field_2A == 1)
         {
