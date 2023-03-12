@@ -54,7 +54,7 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
     for (i = 0; i < 2; i++)
     {
         pCharaStructSub = &pCharaStruct->field_3C[i];
-        pCharaStructSub->field_0_state = 0;
+        pCharaStructSub->field_0_animState = 0;
         pCharaStructSub->field_4 = 0;
     }
 

@@ -13,7 +13,7 @@ int menu_radio_end_check_80048F98()
             return 0;
         }
 
-        dword_800ABB38->field_3C[idx].field_0_state = 0;
+        dword_800ABB38->field_3C[idx].field_0_animState = 0;
     }
     return 1;
 }

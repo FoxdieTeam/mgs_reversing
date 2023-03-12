@@ -14,7 +14,7 @@ void menu_radio_draw_face_helper_helper_80046DF4(int idx, menu_chara_struct *pCh
 
     if (code == 0)
     {
-        pSub->field_0_state = 3;
+        pSub->field_0_animState = 3;
         pSub->field_14_face_anim.raw_ptr = NULL;
         pSub->field_2_chara = chara;
     }
@@ -38,8 +38,8 @@ void menu_radio_draw_face_helper_helper_80046DF4(int idx, menu_chara_struct *pCh
                     }
 
                     menu_radio_load_palette_80046B74(simpleAnim->field_0_palette, idx);
-                    sub_80046B10(simpleAnim->field_4_frames[0], idx);
-                    pSub->field_0_state = 1;
+                    sub_80046B10(simpleAnim->field_4_face, idx);
+                    pSub->field_0_animState = 1;
                     pSub->field_A = a5;
                     pSub->field_C = a5;
                     pSub->field_14_face_anim.simple_anim = simpleAnim;
@@ -52,7 +52,7 @@ void menu_radio_draw_face_helper_helper_80046DF4(int idx, menu_chara_struct *pCh
                     pSub->field_8_animFrameNum = 0;
                     pSub->field_4C_leftCodecPortraitFrame = 0;
                     sub_80046C90(pSub, idx, fullAnim, pSub->field_8_animFrameNum);
-                    pSub->field_0_state = 2;
+                    pSub->field_0_animState = 2;
                     pSub->field_14_face_anim.full_anim = fullAnim;
                     return;
 

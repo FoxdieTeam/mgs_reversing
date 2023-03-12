@@ -2,7 +2,6 @@
 #include "libdg/libdg.h"
 
 void menu_radio_draw_face_helper4_80048868(MenuGlue *pGlue, short *param_2, int param_3)
-
 {
     LINE_F4 *pPrim;
     LINE_F4 *pPrimCopy;

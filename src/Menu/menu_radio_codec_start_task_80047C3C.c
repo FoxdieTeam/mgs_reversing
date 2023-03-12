@@ -30,8 +30,8 @@ void menu_radio_codec_start_task_80047C3C(void)
 void sub_80047CB4(menu_chara_struct *unknown)
 {
     GV_ZeroMemory_8001619C(unknown, sizeof(menu_chara_struct));
-    unknown->field_3C[0].field_0_state = 0;
-    unknown->field_3C[1].field_0_state = 0;
+    unknown->field_3C[0].field_0_animState = 0;
+    unknown->field_3C[1].field_0_animState = 0;
 }
 
 void menu_radio_codec_create_state_80047CE4(Actor_MenuMan *pMenuMan)

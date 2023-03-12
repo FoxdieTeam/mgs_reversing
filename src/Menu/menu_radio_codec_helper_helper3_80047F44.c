@@ -12,9 +12,9 @@ void menu_radio_codec_helper_helper3_80047F44(Actor_MenuMan *pActor, int param_2
     for (i = 0; i < 2; i++)
     {
         pSub = &pStru->field_3C[i];
-        if (pSub->field_0_state != 0)
+        if (pSub->field_0_animState != 0)
         {
-            pSub->field_0_state = 4;
+            pSub->field_0_animState = 4;
             if (param_2 != 0)
             {
                 pSub->field_6 = -1;
