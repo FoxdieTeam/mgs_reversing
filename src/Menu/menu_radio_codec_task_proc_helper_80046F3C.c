@@ -25,7 +25,10 @@ void menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_
         switch (facesIter->field_0_anim_type)
         {
         case FACE_ANIM_SIMPLE:
-            simpleAnimIter = anim.simple_anim->field_0_frames;
+            // This loops translates relative offsets to real pointers
+            // for all 8 pointers stored in simple_anim so that
+            // they can be used directly.
+            simpleAnimIter = (void *) anim.simple_anim;
             for (j = 8; j > 0; j--, simpleAnimIter++)
             {
                 if (*simpleAnimIter != NULL)
@@ -41,13 +44,13 @@ void menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_
             fullAnimIter = fullAnim->field_4_frames;
             for (j = 0; j < fullAnim->field_0_frame_count; fullAnimIter++, j++)
             {
-                if (fullAnimIter->field_0 != NULL)
+                if (fullAnimIter->field_0_palette != NULL)
                 {
-                    OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_0);
+                    OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_0_palette);
                 }
-                if (fullAnimIter->field_4 != NULL)
+                if (fullAnimIter->field_4_frame != NULL)
                 {
-                    OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_4);
+                    OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_4_frame);
                 }
             }
             break;

@@ -2,7 +2,7 @@
 
 extern RECT rect_800AB6C8;
 
-void sub_80046B74(void *a1, int a2)
+void menu_radio_load_palette_80046B74(void *a1, int a2)
 {
     RECT v3;
 

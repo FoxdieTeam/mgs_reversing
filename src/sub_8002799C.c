@@ -1,4 +1,3 @@
-
 #include "psyq.h"
 #include "libdg/inline_n.h"
 
@@ -16,7 +15,7 @@ void sub_8002799C(int a0)
     }
     else
     {
-        v0 = *(short *)0x1F80004E; // TODO: is this a part of (SVECTOR *)0x1f800040 ???, same case above/below
+        v0 = *(short *)0x1F80004E;
         v1 = *(short *)0x1F800036;
         v0 -= v1;
         v1 = *(short *)0x1F80004A;
@@ -30,5 +29,4 @@ void sub_8002799C(int a0)
     gte_ldopv2SV((SVECTOR *)0x1F800038);
     gte_intpl();
     gte_stsv((SVECTOR *)0x1F800038);
-    return;
 }
