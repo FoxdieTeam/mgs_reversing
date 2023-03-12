@@ -58,6 +58,7 @@ def ninja_run():
         r'sd_main\.c:\d+: warning: unused variable `buffer\'',
         r'sd_drv\.c:\d+: warning: unused variable `temp\'',
         r'sub_80047D70\.c:\d+: warning: unused variable `pad\'',
+        r'sub_8004D4A0\.c:\d+: warning: unused variable `pad\'',
         r'item\.c:\d+: warning: `state\' might be used uninitialized in this function',
     ]
 
