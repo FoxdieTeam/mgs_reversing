@@ -426,7 +426,6 @@ void FS_StreamSoundMode_80024404(void)
     fs_dword_8009D514 = 1;
 }
 
-
 int FS_StreamGetTick_80024420(void)
 {
     int current = mts_get_tick_count_8008BBB0();
