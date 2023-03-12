@@ -41,7 +41,10 @@ typedef struct radio_table
 
 typedef struct menu_chara_struct_sub
 {
-  short          field_0_state;
+  // 1 = field_14_face_anim is FACE_ANIM_SIMPLE
+  // 2 = field_14_face_anim is FACE_ANIM_FULL
+  short          field_0_animState;
+
   unsigned short field_2_chara;
   short          field_4;
   short          field_6;
@@ -361,7 +364,7 @@ void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdate
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
 void menu_radio_load_palette_80046B74(unsigned char *image, int idx);
-void sub_80046B10(face_anim_frame *frame, int idx);
+void sub_80046B10(face_anim_image *image, int idx);
 void sub_80046BD8(int idx);
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
 void menuman_Reset_800389A8(void);

@@ -48,9 +48,9 @@ void menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_
                 {
                     OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_0_palette);
                 }
-                if (fullAnimIter->field_4_frame != NULL)
+                if (fullAnimIter->field_4_image != NULL)
                 {
-                    OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_4_frame);
+                    OFFSET_TO_PTR(facesIter->field_8_anim_data.raw_ptr, fullAnimIter->field_4_image);
                 }
             }
             break;
