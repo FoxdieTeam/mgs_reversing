@@ -218,30 +218,32 @@ int          GV_VecLen3_80016D80(SVECTOR *vec);
 int          GV_VecDir2_80016EF8(SVECTOR *vec);
 void         GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 void         GV_LenVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int param_4);
-int          GV_NearExp2_80026384(int a, int b);
-int          GV_NearExp4_800263B0(int a, int b);
-int          GV_NearExp8_800263E4(int a, int b);
-void         GV_NearExp2V_8002667C(short *a, short *b, int count);
-void         GV_NearExp4V_800266D4(short *a, short *b, int count);
-void         GV_NearExp8V_80026734(short *a, short *b, int count);
-void         GV_NearExp2PV_80026924(short *a, short *b, int count);
-void         GV_NearExp4PV_800269A0(short *a, short *b, int count);
-void         GV_NearExp8PV_80026A24(short *a, short *b, int count);
+int          GV_NearExp2_80026384(int from, int to);
+int          GV_NearExp4_800263B0(int from, int to);
+int          GV_NearExp8_800263E4(int from, int to);
+void         GV_NearExp2V_8002667C(short *from, short *to, int count);
+void         GV_NearExp4V_800266D4(short *from, short *to, int count);
+void         GV_NearExp8V_80026734(short *from, short *to, int count);
+void         GV_NearExp2PV_80026924(short *from, short *to, int count);
+void         GV_NearExp4PV_800269A0(short *from, short *to, int count);
+void         GV_NearExp8PV_80026A24(short *from, short *to, int count);
 int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
 unsigned int GV_RandU_80017090(unsigned int input);
 int          GV_RandS_800170BC(int input);
 void         GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3);
-int          sub_80026418(int arg0, int arg1); // probably a NearExp
-int          sub_80026440(int param_1, int param_2, int param_3);
+int          GV_NearDiffP_80026418(int from, int to);
+int          sub_80026440(int from, int to, int range);
+int          sub_8002646C(int from, int to, int range);
 void         GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec);
 unsigned int GV_DiffDirU_80017040(int param_1, int param_2);
 void         sub_8002ECE4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3);
 void         CopyVectorFromScratchpad_80029360(SVECTOR *vec_1, SVECTOR *vec_2);
-// these 3 are definitely a NearExps
-void         sub_800268AC(short *param_1, short *param_2, int param_3, int param_4);
-void         sub_80026BC4(short *param_1, short *param_2, int param_3, int param_4);
-int          sub_800264B0(int param_1,int param_2,int param_3);
+
+void         GV_NearTimeSV_800268AC(short *from, short *to, int interp, int count);
+void         GV_NearTimePV_80026BC4(short *from, short *to, int interp, int count);
+
+int          GV_NearTime_800264B0(int from, int to, int interp);
 void         GV_SetPacketTempMemory_80014C28(void);
 void         GV_ResetPacketMemory_80014BD8(void);
 
