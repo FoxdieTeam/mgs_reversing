@@ -687,15 +687,15 @@ void *SECTION(".data") dword_8009EEA4[] = {
     (void *)0x800528BC  // sna_init_anim_prone_idle_800528BC
 };
 
-int SECTION(".data") dword_8009EEB0[] = {
-    0x80052A5C, // sna_init_anim_wall_idle_and_c4_80052A5C
-    0x80052CCC  // sna_init_anim_wall_crouch_80052CCC
+void *SECTION(".data") dword_8009EEB0[] = {
+    (void *)0x80052A5C, // sna_init_anim_wall_idle_and_c4_80052A5C
+    (void *)0x80052CCC  // sna_init_anim_wall_crouch_80052CCC
 };
 
-int SECTION(".data") dword_8009EEB8[] = {
-    0x8005292C, // sna_init_anim_run_8005292C
-    0x8005292C, // sna_init_anim_run_8005292C
-    0x800529C0  // sna_init_anim_prone_move_800529C0
+void *SECTION(".data") dword_8009EEB8[] = {
+    (void *)0x8005292C, // sna_init_anim_run_8005292C
+    (void *)0x8005292C, // sna_init_anim_run_8005292C
+    (void *)0x800529C0  // sna_init_anim_prone_move_800529C0
 };
 
 int SECTION(".data") dword_8009EEC4[] = {0xFA02EE, 0xFA};
