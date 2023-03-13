@@ -2,7 +2,7 @@
 #include "Menu/menuman.h"
 #include "Game/item.h"
 
-extern int GM_DisableWeapon_800AB9E4;
+extern unsigned int GM_DisableWeapon_800AB9E4;
 extern int GM_DisableItem_800ABA28;
 extern int GM_GameStatus_800AB3CC;
 

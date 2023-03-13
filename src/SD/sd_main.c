@@ -551,7 +551,7 @@ int SD_8008341C()
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_800834FC.s") // 776 bytes
+#pragma INCLUDE_ASM("asm/SD/sub_800834FC.s") // 776 bytes
 #pragma INCLUDE_ASM("asm/SD/sub_80083804.s") // 320 bytes
 
 void WaveSpuTrans_80083944(void)
