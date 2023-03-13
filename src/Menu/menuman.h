@@ -368,7 +368,7 @@ void sub_80046B10(face_anim_image *image, int idx);
 void sub_80046BD8(int idx);
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
 void menuman_Reset_800389A8(void);
-void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *ot);
+void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt);
 unsigned int Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper_helper_80049EDC(void);
