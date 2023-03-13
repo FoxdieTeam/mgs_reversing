@@ -112,7 +112,7 @@ typedef struct SOUND_W
     int            field_CC_rest_fg;
     char           field_D0_macro;
     char           field_D1_micro;
-    short          field_D2_rrd;
+    unsigned short field_D2_rrd;
 } SOUND_W;
 
 typedef struct SPU_TRACK_REG

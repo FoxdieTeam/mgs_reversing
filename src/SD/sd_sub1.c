@@ -217,7 +217,14 @@ void pan_generate_80086198()
     }
 }
 
-#pragma INCLUDE_ASM("asm/sub_80086220.s") // 96 bytes
+void sub_80086220()
+{
+    if (sptr_800C057C->field_D2_rrd > 7)
+    {
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = 7;
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+    }
+}
 
 void keych_80086280()
 {
@@ -410,7 +417,7 @@ int vib_compute_800865CC()
     return temp;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80086694.s") // 160 bytes
+#pragma INCLUDE_ASM("asm/SD/sub_80086694.s") // 160 bytes
 #pragma INCLUDE_ASM("asm/SD/bendch_80086734.s") // 312 bytes
 #pragma INCLUDE_ASM("asm/SD/note_cntl_8008686C.s") // 792 bytes
 
