@@ -738,7 +738,40 @@ PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
     return gMenuRightItems_800BD888 + rpkIdx;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003DF30.s") // 256 bytes
+extern unsigned short   GM_ItemTypes_8009D598[];
+extern unsigned short   GM_WeaponTypes_8009D580[];
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int              dword_8009F46C;
+extern unsigned int     GM_DisableWeapon_800AB9E4;
+
+int sub_8003DF30(int weaponId)
+{
+    if (((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 1) && (GM_WeaponTypes_8009D580[weaponId + 1] & 0x200)))
+    {
+        return 1;
+    }
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_ON_WALL) && weaponId == WEAPON_PSG1)
+    {
+        return 1;
+    }
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PRONE) && weaponId == WEAPON_STINGER)
+    {
+        return 1;
+    }
+
+    if ((GM_GameStatus_800AB3CC & 0x800001) && weaponId == WEAPON_NIKITA)
+    {
+        return 1;
+    }
+
+    if (dword_8009F46C && (weaponId == WEAPON_STINGER || weaponId == WEAPON_PSG1))
+    {
+        return 1;
+    }
+
+    return (GM_DisableWeapon_800AB9E4 & (1 << weaponId)) > 0;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_init_helper_8003E0E8.s") // 712 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper2_8003E3B0.s") // 264 bytes
