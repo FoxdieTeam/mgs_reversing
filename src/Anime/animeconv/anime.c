@@ -5,22 +5,22 @@
 #include "Game/game.h"
 #include "map/map.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-
-extern int GV_Time_800AB330;
-
-extern ANIMATION stru_8009F10C;
-extern ANIMATION stru_8009F144;
-extern ANIMATION stru_8009F160;
-extern ANIMATION stru_8009F17C;
-extern ANIMATION stru_8009F1EC;
-extern ANIMATION stru_8009F208;
-
+extern SVECTOR    DG_ZeroVector_800AB39C;
+extern int        GV_Time_800AB330;
 extern int        GV_Clock_800AB920;
-extern const char aScriptActErr[];
-extern const char aAnimeC[];
-
+extern ANIMATION  stru_8009F10C;
+extern ANIMATION  stru_8009F128;
+extern ANIMATION  stru_8009F144;
+extern ANIMATION  stru_8009F160;
+extern ANIMATION  stru_8009F17C;
+extern ANIMATION  stru_8009F198;
+extern ANIMATION  stru_8009F1B4;
+extern ANIMATION  stru_8009F1EC;
+extern ANIMATION  stru_8009F208;
 extern TAnimeVMFn anime_fn_table_8009F228[];
+
+extern const char aScriptActErr[]; // = " SCRIPT ACT ERR!! \n"
+extern const char aAnimeC[];       // = "anime.c"
 
 Actor_anime * anime_create_8005D604(MATRIX *pMtx)
 {
@@ -78,12 +78,80 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s") // 224 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s") // 320 bytes
-#pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E090.s")          // 272 bytes
-#pragma INCLUDE_ASM("asm/sub_8005E1A0.s")                          // 184 bytes
 
-extern ANIMATION stru_8009F1B4;
+void anime_create_8005E090(SVECTOR *pPos)
+{
+    SVECTOR axis;
+    SVECTOR speed_in;
+    SVECTOR speed_out;
+    MATRIX rotation;
+    PRESCRIPT pres[8];
+    int i;
+    ANIMATION *anm;
 
-void sub_8005E258(MATRIX *pMatrix)
+    axis.vx = 0;
+    axis.vz = 0;
+    speed_in.vx = 0;
+    speed_in.vy = 0;
+
+    for (i = 0; i < 8; i++)
+    {
+        axis.vy = i * 512;
+        speed_in.vz = GV_RandS_800170BC(16) + 40;
+
+        pres[i].s_anim = 0;
+        pres[i].pos = *pPos;
+        pres[i].scr_num = 0;
+
+        RotMatrixYXZ_80093798(&axis, &rotation);
+        ApplyMatrixSV_80093078(&rotation, &speed_in, &speed_out);
+
+        pres[i].speed.vx = speed_out.vx;
+        pres[i].speed.vy = speed_out.vy;
+        pres[i].speed.vz = speed_out.vz;
+    }
+
+    anm = &stru_8009F198;
+    anm->field_14_pre_script = pres;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+void anime_create_8005E1A0(MATRIX *arg0)
+{
+    PRESCRIPT  pre;
+    int        temp_v0;
+    ANIMATION *anm;
+
+    pre.pos.vx = arg0->t[0];
+    pre.pos.vy = arg0->t[1];
+    pre.pos.vz = arg0->t[2];
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
+
+    temp_v0 = GV_RandU_80017090(16);
+
+    if (temp_v0 >= 5)
+    {
+        pre.s_anim = 2;
+    }
+    else if (temp_v0 > 0)
+    {
+        pre.s_anim = 1;
+    }
+    else
+    {
+        pre.s_anim = 0;
+    }
+
+    anm = &stru_8009F10C;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+void anime_create_8005E258(MATRIX *pMatrix)
 {
     SVECTOR   vec1, vec2;
     MATRIX    m;
@@ -106,7 +174,85 @@ void sub_8005E258(MATRIX *pMatrix)
     NewAnime_8005FBC8(NULL, 0, &stru_8009F1B4);
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s") // 468 bytes
+void anime_create_8005E334(MATRIX *pRotation)
+{
+    PRESCRIPT  pre;
+    SVECTOR    translation;
+    MATRIX     rotation;
+    int        temp_v0;
+    PRESCRIPT *pPre;
+    ANIMATION *anm;
+
+    pPre = &pre;
+    pPre->speed = DG_ZeroVector_800AB39C;
+
+    temp_v0 = GV_RandU_80017090(16);
+
+    if (temp_v0 >= 7)
+    {
+        pre.s_anim = 3;
+    }
+    else if (temp_v0 >= 5)
+    {
+        pre.s_anim = 2;
+    }
+    else if (temp_v0 >= 3)
+    {
+        pre.s_anim = 1;
+    }
+    else
+    {
+        pre.s_anim = 0;
+    }
+
+    anm = &stru_8009F128;
+    anm->field_14_pre_script = &pre;
+
+    translation.vx = 0;
+    translation.vy = 0;
+    translation.vz = 300;
+
+    DG_SetPos_8001BC44(pRotation);
+    DG_MovePos_8001BD20(&translation);
+    ReadRotMatrix_80092DD8(&rotation);
+
+    pPre->pos.vx = rotation.t[0];
+    pPre->pos.vy = rotation.t[1];
+    pPre->pos.vz = rotation.t[2];
+
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    translation.vx = 0;
+    translation.vy = 0;
+    translation.vz = 750;
+
+    DG_SetPos_8001BC44(pRotation);
+    DG_MovePos_8001BD20(&translation);
+    ReadRotMatrix_80092DD8(&rotation);
+
+    pPre->pos.vx = rotation.t[0];
+    pPre->pos.vy = rotation.t[1];
+    pPre->pos.vz = rotation.t[2];
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    translation.vx = 0;
+    translation.vy = 0;
+    translation.vz = 990;
+
+    DG_SetPos_8001BC44(pRotation);
+    DG_MovePos_8001BD20(&translation);
+    ReadRotMatrix_80092DD8(&rotation);
+
+    pPre->pos.vx = rotation.t[0];
+    pPre->pos.vy = rotation.t[1];
+    pPre->pos.vz = rotation.t[2];
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
 
 void anime_create_8005E508(SVECTOR *pos)
 {
@@ -121,7 +267,7 @@ void anime_create_8005E508(SVECTOR *pos)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-void sub_8005E574(MATRIX *pMtx)
+void anime_create_8005E574(MATRIX *pMtx)
 {
     ANIMATION *anm;
     SVECTOR    vec;
@@ -179,7 +325,7 @@ void anime_create_8005E6A4(SVECTOR *pos)
     NewAnime_8005FBC8( 0, 0, anm );
 }
 
-void sub_8005E774(SVECTOR *pos)
+void anime_create_8005E774(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
