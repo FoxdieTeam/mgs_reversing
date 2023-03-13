@@ -80,7 +80,32 @@ void anime_create_8005DDE0(MATRIX *pMtx)
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s") // 320 bytes
 #pragma INCLUDE_ASM("asm/Anime/animeconv/sub_8005E090.s")          // 272 bytes
 #pragma INCLUDE_ASM("asm/sub_8005E1A0.s")                          // 184 bytes
-#pragma INCLUDE_ASM("asm/sub_8005E258.s")                          // 220 bytes
+
+extern ANIMATION stru_8009F1B4;
+
+void sub_8005E258(MATRIX *pMatrix)
+{
+    SVECTOR   vec1, vec2;
+    MATRIX    m;
+    PRESCRIPT prescript;
+
+    m = *pMatrix;
+    vec1.vx = 0;
+    vec1.vy = 0;
+    vec1.vz = 0;
+    ApplyMatrixSV_80093078(&m, &vec1, &vec2);
+    prescript.pos.vx = pMatrix->t[0] + vec2.vx;
+    prescript.pos.vy = pMatrix->t[1] + vec2.vy;
+    prescript.pos.vz = pMatrix->t[2] + vec2.vz;
+    prescript.speed.vx = 0;
+    prescript.speed.vy = 0;
+    prescript.speed.vz = 0;
+    prescript.scr_num = 0;
+    prescript.s_anim = 0;
+    stru_8009F1B4.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, 0, &stru_8009F1B4);
+}
+
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005E334.s") // 468 bytes
 
 void anime_create_8005E508(SVECTOR *pos)
