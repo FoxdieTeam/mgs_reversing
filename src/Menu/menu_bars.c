@@ -133,7 +133,108 @@ void menu_font_kill_helper_8003F50C(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_bars_update_8003F530.s") // 688 bytes
+void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
+{
+    int               updated;
+    MenuMan_MenuBars *pBars;
+    int               state;
+
+    updated = menu_bars_update_helper_8003ECCC(&pActor->field_204_bars);
+    pBars = &pActor->field_204_bars;
+    state = pActor->field_2A_state;
+
+    if (GM_O2_800ABA34 < 1024)
+    {
+        updated = 1;
+        pBars->field_1_O2_hp = -106;
+    }
+
+    if (state)
+    {
+        return;
+    }
+
+    if (GM_GameStatus_800AB3CC & 0x10000)
+    {
+        pBars->field_0_state = 3;
+    }
+
+    if ((pBars->field_0_state == 0 || pBars->field_0_state == 3) &&
+        (updated || GM_GameStatus_800AB3CC & 0x8000 || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
+    {
+        if (!pBars->field_0_state)
+        {
+            pBars->field_4_bar_y = -48;
+        }
+
+        pBars->field_0_state = 1;
+        gTakeDamageCounter_800AB5FC = 0;
+    }
+
+    if (pBars->field_0_state == 0)
+    {
+        return;
+    }
+
+    switch (pBars->field_0_state)
+    {
+    case 1:
+        pBars->field_4_bar_y += 8;
+
+        if (pBars->field_4_bar_y >= 16)
+        {
+            pBars->field_4_bar_y = 16;
+            pBars->field_0_state = 2;
+            pBars->field_8 = 150;
+        }
+        break;
+
+    case 3:
+        pBars->field_4_bar_y -= 8;
+
+        if (pBars->field_4_bar_y < -47)
+        {
+            pBars->field_0_state = 0;
+            pBars->field_4_bar_y = -48;
+
+            if (GM_GameStatus_800AB3CC & 0x10000)
+            {
+                GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~0x10000) | 0x20000;
+            }
+
+            if (GM_O2_800ABA34 == 1024)
+            {
+                pBars->field_1_O2_hp = 0;
+            }
+
+            return;
+        }
+        break;
+
+    case 2:
+        if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus_800AB3CC & 0x8000)
+        {
+            pBars->field_8 = 150;
+
+            if (pBars->field_1_O2_hp)
+            {
+                pBars->field_1_O2_hp--;
+            }
+        }
+        else if (--pBars->field_8 <= 0)
+        {
+            pBars->field_0_state = 3;
+        }
+        break;
+
+    case 4:
+        pBars->field_0_state = 0;
+        pBars->field_4_bar_y = -48;
+        break;
+    }
+
+    menu_bars_update_helper2_8003F30C(pActor->field_20_otBuf, pBars);
+}
 
 void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
 {
