@@ -29,7 +29,12 @@ void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, i
     pPoly->clut = pTexture->field_6_clut;
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/stngrnd_800746B4.s")         // 124 bytes
+void stngrnd_800746B4(Actor_StunGrenade *pActor, int idx, DVECTOR vec)
+{
+    pActor->field_A0_vecs[idx].vx = vec.vx - (vec.vx * pActor->field_80_array[idx]) / 16;
+    pActor->field_A0_vecs[idx].vy = vec.vy - (vec.vy * pActor->field_80_array[idx]) / 16;
+    pActor->field_A0_vecs[idx].vz = 320;
+}
 
 void sub_800790E8();
 void sub_8007913C();
