@@ -736,7 +736,7 @@
 
     ; 8008C534 8008C58C 8008C598 8008C5A8 8008C5B0 8008C5B8 8008C5C0 8008C5C8 8008C5D0 8008C5E0
     ; 8008C5E8 8008C5F0 8008C5F8 8008C600
-    include "..\obj\mts\mts_new2.obj"
+    include "..\obj\mts\mts_sub.obj"
     
     include "..\obj\data\data\data2.obj"
 
