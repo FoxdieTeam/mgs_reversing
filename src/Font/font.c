@@ -176,7 +176,66 @@ void font_draw_string_helper7_800457A8(int param_1)
     dword_800ABB34 = param_1;
 }
 
-#pragma INCLUDE_ASM("asm/Font/sub_800457B4.s")                              // 260 bytes
+int sub_800457B4(int param_1)
+{
+    // TODO: is this function processing a EUC-JP/SHIFT-JIS character?
+    if (param_1 < 0x8100)
+    {
+        if (param_1 >= 0x8030 && param_1 <= 0x8039)
+        {
+            return param_1 - 0x7fdf;
+        }
+        if (param_1 >= 0x8041 && param_1 <= 0x805A)
+        {
+            return param_1 - 0x7fe6;
+        }
+        if (param_1 >= 0x802D && param_1 <= 0x802E)
+        {
+            return param_1 - 0x7fb8;
+        }
+        if (param_1 == 0x807f)
+        {
+            return 0x76;
+        }
+        if (param_1 == 0x802d)
+        {
+            return 0x75;
+        }
+        if (param_1 == 0x8020)
+        {
+            return 0;
+        }
+    }
+    else
+    {
+        if (param_1 >= 0x8201 && param_1 <= 0x824D)
+        {
+            return param_1 - 0x8200;
+        }
+        if (param_1 == 0x824f)
+        {
+            return 0x4e;
+        }
+        if (param_1 == 0x8252)
+        {
+            return 0x4f;
+        }
+        if (param_1 == 0x8253)
+        {
+            return 0x50;
+        }
+        if (param_1 == 0x9006)
+        {
+            return 0x75;
+        }
+        if (param_1 == 0x9001)
+        {
+            return 0;
+        }
+    }
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper_800458B8.s")  // 248 bytes
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper2_800459B0.s") // 308 bytes
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_80045AE4.s")         // 552 bytes
