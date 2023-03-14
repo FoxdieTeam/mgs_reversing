@@ -15,6 +15,7 @@ extern ANIMATION  stru_8009F160;
 extern ANIMATION  stru_8009F17C;
 extern ANIMATION  stru_8009F198;
 extern ANIMATION  stru_8009F1B4;
+extern ANIMATION  stru_8009F1D0;
 extern ANIMATION  stru_8009F1EC;
 extern ANIMATION  stru_8009F208;
 extern TAnimeVMFn anime_fn_table_8009F228[];
@@ -76,8 +77,72 @@ void anime_create_8005DDE0(MATRIX *pMtx)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DE70.s") // 224 bytes
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005DF50.s") // 320 bytes
+void anime_create_8005DE70(MATRIX *pRotation)
+{
+    SVECTOR    sp10;
+    SVECTOR    sp18;
+    MATRIX     rotation;
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    rotation = *pRotation;
+
+    sp10.vx = 0;
+    sp10.vy = -1500;
+    sp10.vz = 0;
+
+    ApplyMatrixSV_80093078(&rotation, &sp10, &sp18);
+
+    pre.pos.vx = pRotation->t[0] + sp18.vx;
+    pre.pos.vy = pRotation->t[1] + sp18.vy;
+    pre.pos.vz = pRotation->t[2] + sp18.vz;
+    pre.speed.vx = 0;
+    pre.speed.vy = 0;
+    pre.speed.vz = 0;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F1B4;
+    anm->field_14_pre_script = &pre;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+void anime_create_8005DF50(SVECTOR *arg0, SVECTOR *arg1)
+{
+    SVECTOR   sp10;
+    SVECTOR   sp18;
+    PRESCRIPT pres[4];
+    int       i;
+
+    sp18.vx = arg1->vx;
+    sp18.vy = arg1->vy - 448;
+    sp18.vz = arg1->vz;
+
+    sp10.vx = 0;
+    sp10.vy = 30;
+
+    for (i = 0; i < 3; i++)
+    {
+        sp10.vz = GV_RandU_80017090(64) + 150;
+        pres[i].pos = *arg0;
+        sp18.vy += 128;
+
+        DG_SetPos2_8001BC8C(arg0, &sp18);
+        DG_RotVector_8001BE98(&sp10, &pres[i].speed, 1);
+
+        pres[i].scr_num = 0;
+        pres[i].s_anim = 0;
+    }
+
+    pres[3].pos = *arg0;
+    pres[3].speed = DG_ZeroVector_800AB39C;
+    pres[3].scr_num = 1;
+    pres[3].s_anim = 0;
+
+    stru_8009F1D0.field_14_pre_script = pres;
+    NewAnime_8005FBC8( NULL, 0, &stru_8009F1D0 );
+}
 
 void anime_create_8005E090(SVECTOR *pPos)
 {
@@ -345,7 +410,35 @@ void anime_create_8005E774(SVECTOR *pos)
     NewAnime_8005FBC8( 0, 0, anm );
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_change_prim_8005E7EC.s") // 500 bytes
+void anime_change_prim_8005E7EC(POLY_FT4 *pPrim, DG_TEX *pTexture, int item_f4, Actor_anime *pActor)
+{
+    int r, q;
+    int x, y, w, h;
+    int f40;
+
+    r = item_f4 % pActor->field_3A_data_2;
+    q = item_f4 / pActor->field_3A_data_2;
+
+    x = pTexture->field_8_offx;
+    w = pTexture->field_A_width + 1;
+    pPrim->u0 = pPrim->u2 = x + ((w * r) / pActor->field_3A_data_2);
+    pPrim->u1 = pPrim->u3 = x + ((w * (r + 1)) / pActor->field_3A_data_2) - 1;
+
+    y = pTexture->field_9_offy;
+    h = pTexture->field_B_height + 1;
+    pPrim->v0 = pPrim->v1 = y + ((h * q) / pActor->field_3C_data_4);
+    pPrim->v2 = pPrim->v3 = y + ((h * (q + 1)) / pActor->field_3C_data_4) - 1;
+
+    pPrim->tpage = pTexture->field_4_tPage;
+    pPrim->clut = pTexture->field_6_clut;
+
+    f40 = pActor->field_40_data_C;
+    if ((f40 & 0xfffc) == 0)
+    {
+        pPrim->tpage &= ~0x60;
+        pPrim->tpage |= pActor->field_40_data_C << 5;
+    }
+}
 
 void anime_change_polygon_8005E9E0(Actor_anime *pActor, int idx)
 {
