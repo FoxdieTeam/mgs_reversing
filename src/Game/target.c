@@ -191,7 +191,7 @@ int sub_8002D6D8(TARGET *pTarget)
     return (pTarget->field_6_flags & 0x80) >> 7;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002D7DC.s") // 568 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_8002D7DC.s") // 568 bytes
 // int GM_Target_8002D7DC(TARGET *pTarget);
 
 #pragma INCLUDE_ASM("asm/Game/sub_8002DA14.s") // 608 bytes
@@ -232,7 +232,7 @@ void sub_8002DD14(int param_1, int param_2)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002DD1C.s") // 196 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_8002DD1C.s") // 196 bytes
 
 #define sub_8002DDE0_helper(AXIS1, AXIS2, AXIS3)                                                                       \
     {                                                                                                                  \
