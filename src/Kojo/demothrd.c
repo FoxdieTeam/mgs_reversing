@@ -176,8 +176,8 @@ void sub_80079A1C(void)
     *(int *)0x80700000 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/sub_80079A2C.s")                                          // 184 bytes
-#pragma INCLUDE_ASM("asm/sub_80079AE4.s")                                          // 108 bytes
+#pragma INCLUDE_ASM("asm/Kojo/sub_80079A2C.s")                                          // 184 bytes
+#pragma INCLUDE_ASM("asm/Kojo/sub_80079AE4.s")                                          // 108 bytes
 
 
 int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
@@ -1022,7 +1022,7 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-#pragma INCLUDE_ASM("asm/sub_8007E1C0.s")                                          // 3444 bytes
+#pragma INCLUDE_ASM("asm/Kojo/sub_8007E1C0.s")                                          // 3444 bytes
 
 void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
 {
@@ -1065,8 +1065,8 @@ void sub_8007F06C(int *param_1, int *param_2, int *param_3)
     param_1[5] = param_3[2] - param_2[2];
 }
 
-#pragma INCLUDE_ASM("asm/sub_8007F0D0.s")                                          // 268 bytes
-#pragma INCLUDE_ASM("asm/sub_8007F1DC.s")                                          // 348 bytes
+#pragma INCLUDE_ASM("asm/Kojo/sub_8007F0D0.s")                                          // 268 bytes
+#pragma INCLUDE_ASM("asm/Kojo/sub_8007F1DC.s")                                          // 348 bytes
 
 void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub)
 {

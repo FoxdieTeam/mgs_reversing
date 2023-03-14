@@ -122,11 +122,11 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
     SetRotMatrix_80093218(&mtx);
 }
 
-#pragma INCLUDE_ASM("asm/Process_Oar_8003518C.s") // 600 bytes
-#pragma INCLUDE_ASM("asm/Kmd_Oar_Inflate_800353E4.s") // 392 bytes
-#pragma INCLUDE_ASM("asm/sub_8003556C.s") // 400 bytes
-#pragma INCLUDE_ASM("asm/oar_related_800356FC.s") // 2104 bytes
-#pragma INCLUDE_ASM("asm/sub_80035F34.s") // 200 bytes
+#pragma INCLUDE_ASM("asm/Game/Process_Oar_8003518C.s") // 600 bytes
+#pragma INCLUDE_ASM("asm/Game/Kmd_Oar_Inflate_800353E4.s") // 392 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_8003556C.s") // 400 bytes
+#pragma INCLUDE_ASM("asm/Game/oar_related_800356FC.s") // 2104 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_80035F34.s") // 200 bytes
 
 void sub_80035FFC(MOTION_CONTROL *pCtrl)
 {
@@ -138,7 +138,7 @@ void sub_8003601C(MOTION_CONTROL *pCtrl)
     sub_8003603C(pCtrl, &pCtrl->field_1C);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8003603C.s") // 176 bytes
-#pragma INCLUDE_ASM("asm/sub_800360EC.s") // 668 bytes
-#pragma INCLUDE_ASM("asm/sub_80036388.s") // 816 bytes
-#pragma INCLUDE_ASM("asm/negate_rots_800366B8.s") // 856 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_8003603C.s") // 176 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_800360EC.s") // 668 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_80036388.s") // 816 bytes
+#pragma INCLUDE_ASM("asm/Game/negate_rots_800366B8.s") // 856 bytes
