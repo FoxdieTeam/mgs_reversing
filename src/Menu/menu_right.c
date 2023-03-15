@@ -821,7 +821,95 @@ void menu_right_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
     GM_Sound_80032968(0, 0x3f, 0x14);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper_8003E4B8.s") // 444 bytes
+extern int dword_800AB5E4;
+int        SECTION(".sdata") dword_800AB5E4;
+
+extern int dword_800AB5E0;
+int        SECTION(".sdata") dword_800AB5E0;
+
+int menu_right_update_helper_8003E4B8(Actor_MenuMan *pActor)
+{
+    Menu_Item_Unknown *pPanel;
+    int                i;
+    int                panelCount, currentPanel;
+
+    if (!(GM_GameStatus_800AB3CC & 0x40000))
+    {
+        panelCount = 0;
+
+        for (i = 0; i < 10; i++)
+        {
+
+            if (GM_Weapons[i] >= 0)
+            {
+                panelCount++;
+            }
+        }
+
+        pPanel = menu_alloc_panel_8003D124(panelCount + 1);
+        pActor->field_1F0_menu_right.field_C_alloc = pPanel;
+
+        if (!pPanel)
+        {
+            return 0;
+        }
+
+        if (GM_CurrentWeaponId != -1)
+        {
+            dword_800ABAE8 = GM_CurrentWeaponId;
+        }
+        else if (dword_800ABAE8 < 0)
+        {
+            dword_800ABAE8 = 0;
+        }
+
+        currentPanel = 0;
+
+        for (i = 0; i < 10; i++)
+        {
+            if (i == dword_800ABAE8)
+            {
+                AssignXY_8003D1A8(&pPanel->field_20_array[currentPanel], -1, 1);
+                currentPanel++;
+            }
+
+            if (GM_Weapons[i] >= 0)
+            {
+                AssignXY_8003D1A8(&pPanel->field_20_array[currentPanel], i, GM_Weapons[i]);
+                currentPanel++;
+            }
+        }
+    }
+    else
+    {
+        pPanel = menu_alloc_panel_8003D124(1);
+        pActor->field_1F0_menu_right.field_C_alloc = pPanel;
+
+        if (!pPanel)
+        {
+            return 0;
+        }
+
+        AssignXY_8003D1A8(&pPanel->field_20_array[0], -1, 1);
+    }
+
+    if (!sub_8003F84C(1))
+    {
+        menu_panel_free_8003D184(pPanel);
+        return 0;
+    }
+
+    dword_800AB5E4 = 0;
+    dword_800AB5E0 = 0;
+    pActor->field_1F0_menu_right.field_10_state = 2;
+    sub_8003D520();
+    sub_8003CE40(gMenuRightItems_800BD888, 11);
+    menu_panel_8003D2BC(pActor->field_1F0_menu_right.field_C_alloc,
+                        pActor->field_1F0_menu_right.field_0_current.field_0_id);
+    GM_Sound_80032968(0, 0x3f, 0x15);
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_8003E674.s") // 796 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_8003E990.s") // 588 bytes
 
