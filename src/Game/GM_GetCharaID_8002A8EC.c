@@ -3,9 +3,9 @@
 #include "game.h"
 #include "Game/linkvarbuf.h"
 #include "chara/snake/sna_init.h"
-#include "thing/door.h"
+#include "Thing/door.h"
 #include "libgcl/hash.h"
-#include "game/item.h"
+#include "Game/item.h"
 
 extern GCL_Vars           gGcl_vars_800B3CC8;
 

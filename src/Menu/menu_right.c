@@ -6,6 +6,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include "Game/camera.h"
+#include "Menu/radio.h"
 
 // TODO: Move to correct header
 // Functions of signature TMenuItemUnknownFn:
@@ -88,6 +89,8 @@ void sub_8003CE78(void)
 void sub_8003CE84();
 
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CEF8.s") // 232 bytes
+void sub_8003CEF8(PANEL_TEXTURE *a1);
+
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
 
@@ -773,9 +776,229 @@ int sub_8003DF30(int weaponId)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_right_init_helper_8003E0E8.s") // 712 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper2_8003E3B0.s") // 264 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper_8003E4B8.s") // 444 bytes
+
+extern short d_800ABA2C_ammo;
+extern short d_800AB9EC_mag_size;
+
+extern char aMp5Sd[];    // = "MP 5 SD";
+extern char aNoItem_0[]; // = "NO ITEM";
+
+void menu_right_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
+{
+    PANEL_TEXTURE        *pTexture;
+    char                 *str;
+    int                   weaponIdx, weaponIdxCopy;
+    int                   pSubCnt2;
+    SPRT                 *pPrim;
+    int                   offset_x;
+    menu_weapon_rpk_info *weaponRpkInfo;
+
+    weaponIdx = pPanel->field_0_id;
+    offset_x = off_x;
+    offset_x += 4;
+
+    if (weaponIdx >= 0)
+    {
+        weaponIdxCopy = weaponIdx;
+        if (sub_8003DF30(weaponIdxCopy))
+        {
+            menu_draw_nouse_800435A4(pActor->field_20_otBuf, offset_x, off_y);
+        }
+
+        if (pPanel->field_2_num >= 0 && pPanel->field_2_num < 10000)
+        {
+            menu_number_draw_number2_80042FC0(pActor, offset_x, off_y + 11, pPanel->field_2_num,
+                                              GM_WeaponsMax[pPanel->field_0_id]);
+        }
+
+        weaponRpkInfo = &gMenuWeaponRpkInfo_8009E57C[weaponIdxCopy];
+        pTexture = menu_right_get_weapon_rpk_info_8003DED8(weaponIdxCopy);
+
+        if (pPanel->field_6_current == 0)
+        {
+            sub_8003CEF8(pTexture);
+        }
+
+        else if (pTexture->field_8_index < 16)
+        {
+            sub_8003CFE0(pTexture, 1);
+        }
+
+        if (pTexture->field_C_uvclut != 0)
+        {
+            pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+            pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+            LSTORE(pPanel->field_4_pos == 0 ? 0x808080 : 0x404040, &pPrim->r0);
+            menu_init_sprt_8003D0D0(pPrim, pTexture, offset_x, off_y);
+            setSprt(pPrim);
+            addPrim(pOt, pPrim);
+        }
+
+        if (pPanel->field_6_current && d_800ABA2C_ammo > 0)
+        {
+            pSubCnt2 = (GM_CurrentWeaponId == WEAPON_FAMAS ? 3 : 0);
+            menu_number_draw_magazine_80042E38(pActor, pOt, offset_x + 45, off_y + 20, d_800AB9EC_mag_size,
+                                               d_800ABA2C_ammo, pSubCnt2);
+        }
+        else
+        {
+            if (weaponIdxCopy == WEAPON_FAMAS && GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
+            {
+                str = aMp5Sd;
+            }
+
+            else
+            {
+                str = weaponRpkInfo->field_0_weapon_name;
+            }
+            menu_number_draw_string_800430F0(pActor, pOt, offset_x + 46, off_y + 22, str, 1);
+        }
+    }
+    else
+    {
+        menu_number_draw_string_800430F0(pActor, pOt, offset_x + 46, off_y + 22, aNoItem_0, 1);
+    }
+
+    Menu_item_render_frame_rects_8003DBAC(pActor->field_20_otBuf, offset_x, off_y,
+                                          (pPanel->field_4_pos == 0 && pPanel->field_6_current == 0));
+}
+
+extern short GM_WeaponChanged_800AB9D8;
+
+void menu_right_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
+{
+    Menu_Item_Unknown *pItemUnknown;
+    int                id;
+    short             *gameState;
+
+    pItemUnknown = pActor->field_1F0_menu_right.field_C_alloc;
+    pActor->field_1F0_menu_right.field_10_state = 0;
+
+    AssignXYFromVec_8003D1B8(&pActor->field_1F0_menu_right.field_0_current,
+                             &pItemUnknown->field_20_array[pItemUnknown->field_0_main.field_4_selected_idx]);
+
+    id = pActor->field_1F0_menu_right.field_0_current.field_0_id;
+    gameState = gGameState_800B4D98;
+
+    if (id >= 0 && !sub_8003DF30(id))
+    {
+        GM_CurrentWeaponId = pActor->field_1F0_menu_right.field_0_current.field_0_id;
+        GM_WeaponChanged_800AB9D8 = 1;
+        if (GM_CurrentWeaponId >= 0)
+        {
+            sub_8003CFE0(
+                menu_right_get_weapon_rpk_info_8003DED8(pActor->field_1F0_menu_right.field_0_current.field_0_id), 1);
+        }
+        pActor->field_1F0_menu_right.field_11 = gameState[14]; // GM_CurrentWeaponId would not match...
+    }
+    else
+    {
+        if (id != -1)
+        {
+            dword_800ABAE8 = id;
+            pActor->field_1F0_menu_right.field_11 = id;
+        }
+        GM_CurrentWeaponId = -1;
+        pActor->field_1F0_menu_right.field_0_current.field_0_id = -1;
+        GM_WeaponChanged_800AB9D8 = 1;
+    }
+
+    pActor->field_1F0_menu_right.field_12_flashingAnimationFrame = 10;
+    menu_panel_free_8003D184(pActor->field_1F0_menu_right.field_C_alloc);
+    menu_font_kill_8003FC0C();
+    GM_Sound_80032968(0, 0x3f, 0x14);
+}
+
+extern int dword_800AB5E4;
+int        SECTION(".sdata") dword_800AB5E4;
+
+extern int dword_800AB5E0;
+int        SECTION(".sdata") dword_800AB5E0;
+
+int menu_right_update_helper_8003E4B8(Actor_MenuMan *pActor)
+{
+    Menu_Item_Unknown *pPanel;
+    int                i;
+    int                panelCount, currentPanel;
+
+    if (!(GM_GameStatus_800AB3CC & 0x40000))
+    {
+        panelCount = 0;
+
+        for (i = 0; i < 10; i++)
+        {
+
+            if (GM_Weapons[i] >= 0)
+            {
+                panelCount++;
+            }
+        }
+
+        pPanel = menu_alloc_panel_8003D124(panelCount + 1);
+        pActor->field_1F0_menu_right.field_C_alloc = pPanel;
+
+        if (!pPanel)
+        {
+            return 0;
+        }
+
+        if (GM_CurrentWeaponId != -1)
+        {
+            dword_800ABAE8 = GM_CurrentWeaponId;
+        }
+        else if (dword_800ABAE8 < 0)
+        {
+            dword_800ABAE8 = 0;
+        }
+
+        currentPanel = 0;
+
+        for (i = 0; i < 10; i++)
+        {
+            if (i == dword_800ABAE8)
+            {
+                AssignXY_8003D1A8(&pPanel->field_20_array[currentPanel], -1, 1);
+                currentPanel++;
+            }
+
+            if (GM_Weapons[i] >= 0)
+            {
+                AssignXY_8003D1A8(&pPanel->field_20_array[currentPanel], i, GM_Weapons[i]);
+                currentPanel++;
+            }
+        }
+    }
+    else
+    {
+        pPanel = menu_alloc_panel_8003D124(1);
+        pActor->field_1F0_menu_right.field_C_alloc = pPanel;
+
+        if (!pPanel)
+        {
+            return 0;
+        }
+
+        AssignXY_8003D1A8(&pPanel->field_20_array[0], -1, 1);
+    }
+
+    if (!sub_8003F84C(1))
+    {
+        menu_panel_free_8003D184(pPanel);
+        return 0;
+    }
+
+    dword_800AB5E4 = 0;
+    dword_800AB5E0 = 0;
+    pActor->field_1F0_menu_right.field_10_state = 2;
+    sub_8003D520();
+    sub_8003CE40(gMenuRightItems_800BD888, 11);
+    menu_panel_8003D2BC(pActor->field_1F0_menu_right.field_C_alloc,
+                        pActor->field_1F0_menu_right.field_0_current.field_0_id);
+    GM_Sound_80032968(0, 0x3f, 0x15);
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_8003E674.s") // 796 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_8003E990.s") // 588 bytes
 

@@ -619,7 +619,7 @@ int item_init_helper_helper_80034020( Actor_Item *pActor, int type )
     {
         case 2:
         case 3:
-            if ( (GM_DifficultyFlag == -1) && (item_id == ITEM_SCOPE) )
+            if ( (GM_DifficultyFlag == DIFFICULTY_VERY_EASY) && (item_id == ITEM_SCOPE) )
             {
                 return 0;
             }
