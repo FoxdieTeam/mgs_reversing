@@ -568,6 +568,8 @@ void menu_SetRadioCallbackProc_8004283C(int param_1)
     return;
 }
 
+// TODO: Functions from this point forward don't belong to radio.c!
+
 void menu_set_string2_80043138();
 
 extern RECT       rect_800AB64C[];
@@ -627,14 +629,14 @@ void menu_number_kill_80042980(void)
 #pragma INCLUDE_ASM("asm/Menu/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
 
-void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pSubCnt1,
-                                        int pCnt, int pSubCnt2)
+void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize,
+                                        int pAmmo, int pSubCnt2)
 {
     SPRT *sprt;
     SPRT *sprt_copy;
     int   i;
 
-    for (i = 0; i < pCnt; i++)
+    for (i = 0; i < pAmmo; i++)
     {
         sprt_copy = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
         pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
@@ -645,7 +647,7 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt
         sprt->x0 = xoff;
         sprt->y0 = yoff;
 
-        if (i < pSubCnt1)
+        if (i < pMagSize)
         {
             if (i < pSubCnt2)
             {

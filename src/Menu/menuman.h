@@ -82,7 +82,7 @@ typedef struct PANEL_TEXTURE
 {
     unsigned char  *field_0_pixels;
     unsigned char  *field_4_word_ptr_pixels;
-    char            field_8_index;
+    signed char     field_8_index;
     signed char     field_9_xofs;
     signed char     field_A_yofs;
     char            field_B_pad;
@@ -345,8 +345,7 @@ void menu_JimakuWrite_800494E8(const char *str, int frames);
 void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
 void menu_number_draw_string2_80043220(MenuGlue *pGlue, TextConfig *pTextConfig, char *str);
 void menu_number_draw_string_80042BF4(MenuGlue *pGlue, TextConfig *pTextConfig, const char *str);
-void menu_right_init_helper_8003E0E8(struct Actor_MenuMan *menuMan, unsigned int *param_2, int param_3, int param_4,
-                                     short *param_5);
+void menu_right_init_helper_8003E0E8(Actor_MenuMan *param_1, unsigned int *param_2, int param_3, int param_4, PANEL *param_5);
 void menu_right_unknown_8003DEB0(void);
 void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
 int  menu_8003DA9C(struct menu_left_right *pMenu, GV_PAD *pPad);
