@@ -4607,7 +4607,7 @@ void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
     if (!(pStr->field_9EC_flags3 & 0x200))
     {
         pActor->field_A00.field_0_ivec.vx = dword_800AB9F0;
-        sna_unk_helper2_helper_8006070C(&pActor->field_A00.field_0_ivec, &pActor->field_20_ctrl.field_0_position);
+        sna_unk_helper2_helper_8006070C(&pActor->field_A00, &pActor->field_20_ctrl);
     }
 
     GV_NearExp4PV_800269A0(&pActor->field_20_ctrl.field_8_rotator.vx, &pActor->field_20_ctrl.field_4C_turn_vec.vx, 3);
