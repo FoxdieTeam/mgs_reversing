@@ -490,10 +490,12 @@ void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time);
 void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time);
 void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time);
 void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_MAP *pHzd, SVECTOR *pVec);
-void sna_unk_helper2_helper_8006070C(VECTOR *, SVECTOR *);
+int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, GM_Control *pControl);
 void sna_init_80057A90(Actor_SnaInit *pActor, int time);
 void sna_init_8004EF14(Actor_SnaInit *pActor);
 GV_ACT *sna_init_NewSnake_8005B650(int name, int where, int argc, char **argv);
+int HZD_ReachTo_8005C89C(HZD_MAP *pHzd, int, int);
+int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzd, int, int, GM_Control *pControl);
 
 // TODO: move these to indivudual weapon headers
 GV_ACT *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
