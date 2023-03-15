@@ -2,13 +2,17 @@
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
+#include "unknown.h"
+#include "stgfd_io.h"
 
 extern ANIMATION stru_8009F670;
 extern ANIMATION stru_8009F68C;
+extern SVECTOR   stru_800BDF90;
+extern int       claymore_map_800AB9DC;
+extern SVECTOR   DG_ZeroVector_800AB39C;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-
-int stngrnd_loader_800748D8(Actor_StunGrenade *pActor, MATRIX *pMtx);
+extern const char aRefrection6[]; // = "refrection6"
+extern const char aStngrndC[];    // = "stngrnd.c"
 
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {
@@ -36,10 +40,6 @@ void stngrnd_800746B4(Actor_StunGrenade *pActor, int idx, DVECTOR vec)
     pActor->field_A0_vecs[idx].vz = 320;
 }
 
-void sub_800790E8();
-void sub_8007913C();
-void stngrnd_800746B4(Actor_StunGrenade *a1, int a2, DVECTOR a3);
-
 void stngrnd_act_80074730(Actor_StunGrenade *pActor)
 {
     DVECTOR screenCoords;
@@ -49,13 +49,13 @@ void stngrnd_act_80074730(Actor_StunGrenade *pActor)
     MATRIX* mtx;
 
     GM_SetCurrentMap(pActor->field_F0_map);
-    
+
     if ( pActor->field_E8_alive_counter == 15 )
     {
         sub_800790E8();
         GM_GameStatus_800AB3CC |= 2u;
     }
-    
+
     if ( pActor->field_E8_alive_counter == 14 )
     {
         sub_8007913C();
@@ -78,39 +78,123 @@ void stngrnd_act_80074730(Actor_StunGrenade *pActor)
     if ( pActor->field_E8_alive_counter <= 0 )
     {
         GV_DestroyActor_800151C8(&pActor->field_0);
-    } 
+    }
 }
 
-void stngrnd_free_80074844(int pActor, int num)
+void stngrnd_free_80074844(Actor_StunGrenade *pActor, int count)
 {
     int i;
+    DG_PRIM *pPrim;
 
-    for (i = 0; i < num; i++)
+    for (i = 0; i < count; i++)
     {
-        int *a = (int *)pActor;
-        DG_PRIM *prim = (DG_PRIM *)a[0x18 + i];
-        if (prim)
+        pPrim = pActor->field_60_pPrims[i];
+        if (pPrim)
         {
-            DG_DequeuePrim_800182E0(prim);
-            DG_FreePrim_8001BC04(prim);
+            DG_DequeuePrim_800182E0(pPrim);
+            DG_FreePrim_8001BC04(pPrim);
         }
     }
 }
 
-void stngrnd_kill_800748B8(Actor_StunGrenade* param_1)
+void stngrnd_kill_800748B8(Actor_StunGrenade *pActor)
 {
-    stngrnd_free_80074844((int)param_1, 8);
+    stngrnd_free_80074844(pActor, 8);
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/stngrnd_loader_800748D8.s") // 644 bytes
+int stngrnd_loader_800748D8(Actor_StunGrenade *pActor, MATRIX *pMtx)
+{
+    DVECTOR xy;
+    int sp20[8][2];
+    long p;
+    long flag;
+    int i;
+    int val;
+    DG_PRIM* pPrim;
+    DG_TEX* pTex;
 
-extern SVECTOR stru_800BDF90;
-extern int GM_NoisePower_800ABA24;
-extern int        claymore_map_800AB9DC;
+    pActor->field_F4 = 0;
 
-extern const char aStngrndC[];
+    sp20[0][0] = 8;
+    sp20[0][1] = 8;
+    sp20[1][0] = 34;
+    sp20[1][1] = 11;
+    sp20[2][0] = 6;
+    sp20[2][1] = 20;
+    sp20[3][0] = 25;
+    sp20[3][1] = 33;
+    sp20[4][0] = 12;
+    sp20[4][1] = 37;
+    sp20[5][0] = 70;
+    sp20[5][1] = 50;
+    sp20[6][0] = 11;
+    sp20[6][1] = -7;
+    sp20[7][0] = 50;
+    sp20[7][1] = -9;
 
-Actor_StunGrenade* NewStanBlast_80074B5C(MATRIX *pMtx)
+    pActor->field_F0_map = GM_CurrentMap_800AB9B0;
+    GM_SetCurrentMap(pActor->field_F0_map);
+
+    pActor->field_E0.vx = pMtx->t[0];
+    pActor->field_E0.vy = pMtx->t[1];
+    pActor->field_E0.vz = pMtx->t[2];
+
+    AN_Stn_G_Sonic_80074CA4(&pActor->field_E0);
+    AN_Stn_G_Center_80074D28(&pActor->field_E0);
+
+    NewStnFade_800752A0();
+
+    SetRotMatrix_80093218(&DG_Chanl(0)->field_10_eye_inv);
+    SetTransMatrix_80093248(&DG_Chanl(0)->field_10_eye_inv);
+    RotTransPers_80093478(&pActor->field_E0, (long *)&xy, &p, &flag);
+
+    for (i = 0; i < 8; i++)
+    {
+        val = sp20[i][0];
+        pActor->field_20[i].y = pActor->field_20[i].x = val / 2;
+        pActor->field_20[i].h = pActor->field_20[i].w = val;
+        pActor->field_80_array[i] = sp20[i][1];
+
+        stngrnd_800746B4(pActor, i, xy);
+
+        pPrim = DG_GetPrim(0x612, 1, 0, &pActor->field_A0_vecs[i], &pActor->field_20[i]);
+        pActor->field_60_pPrims[i] = pPrim;
+
+        if (!pPrim)
+        {
+            if (i != 0)
+            {
+                stngrnd_free_80074844(pActor, i - 1);
+            }
+
+            return -1;
+        }
+
+        pPrim->root = NULL;
+        pPrim->field_2E_k500 = 320;
+
+        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRefrection6));
+
+        if (!pTex)
+        {
+            if (i != 0)
+            {
+                stngrnd_free_80074844(pActor, i - 1);
+            }
+
+            return -1;
+        }
+
+        stngrnd_loader2_80074644(&pPrim->field_40_pBuffers[0]->poly_ft4, pTex, 30, 30, 30);
+        stngrnd_loader2_80074644(&pPrim->field_40_pBuffers[1]->poly_ft4, pTex, 25, 25, 25);
+    }
+
+    pActor->field_E8_alive_counter = 15;
+    pActor->field_F4 = 1;
+    return 0;
+}
+
+Actor_StunGrenade * NewStanBlast_80074B5C(MATRIX *pMtx)
 {
     Actor_StunGrenade *pActor; // $s0
 
