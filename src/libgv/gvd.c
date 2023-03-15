@@ -15,9 +15,7 @@ int dword_800AB334 = 0;   // sdata
 extern int            DG_HikituriFlag_8009D460;
 extern int            GV_PauseLevel_800AB928;
 extern const char    *GV_DebugMes_800AB34C;
-extern const char     aHangupS[];
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
-extern const char     aResidentTopX[];
 
 extern unsigned char heap_80117000[0x6b000];
 
@@ -28,7 +26,7 @@ extern GV_ACT gGVActor_800acbf8;
 
 void Callback_Hangup_80014B34(void)
 {
-    mts_printf_8008BBA0(aHangupS, GV_DebugMes_800AB34C);
+    mts_printf_8008BBA0("HANGUP: %s\n", GV_DebugMes_800AB34C);
 }
 
 void GV_Act_80014B60(GV_ACT *pGv)
@@ -75,7 +73,7 @@ void GV_Memory_Init_80014C70(void)
     GV_ResetPacketMemory_80014BD8();
     GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000,
                                  sizeof(heap_80117000)); // passing heap_80117000 produces addiu instead of ori
-    mts_printf_8008BBA0(aResidentTopX, GV_ResidentMemoryBottom_800AB940);
+    mts_printf_8008BBA0("RESIDENT TOP %X\n", GV_ResidentMemoryBottom_800AB940);
 }
 
 void GV_ResetSystem_80014CC8(void)

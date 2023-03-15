@@ -109,7 +109,7 @@ GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] = {
     {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
 
-const char *SECTION(".data") MGS_DiskName_8009D2FC[] = {aSlpm86247, aSlpm86248, 0};
+const char *SECTION(".data") MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", 0};
 
 struct PauseKill SECTION(".data") gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {15, 4},
                                                              {15, 4}, {15, 4}, {9, 4}, {0, 7}};
@@ -516,7 +516,7 @@ int SECTION(".data") dword_8009E3E4[] = {0x800115CC, 0x8001158C, 0x80011558, 0x8
 int SECTION(".data") dword_8009E444[] = {0x80011644, 0x80011614};
 
 // TODO: This (whole?) buffer is very likely a EUC-JP/SHIFT-JIS string.
-// It starts with SHIFT-JIS: "ｰ針震人仁刃ﾐ" and then EUC-JP: "|HARD, EXTREM B"
+// It starts with SHIFT-JIS: "���˿̿Ϳοώ�" and then EUC-JP: "|HARD, EXTREM B"
 int SECTION(".data") dword_8009E44C[] = {0x6A9014B0, 0x6C906B90, 0x6E906D90, 0x7C8015D0, 0x44524148,
                                          0x5845202C, 0x4D455254, 0xD0428220, 0x81298206, 0x902F8127,
                                          0x81499048, 0x810D8127, 0xD004812A, 3};

@@ -27,10 +27,6 @@ extern int N_ResidentFileRecords_800AB938;
 int        SECTION(".sbss") N_ResidentFileRecords_800AB938;
 /********************************************************************/
 
-/***rdata*********************************/
-extern const char aIdConflict[];
-/****************************************/
-
 // searches for a cached file from the cache system with a given ID
 LibGV_FileRecord *GV_FileCacheFind_80015240(int id)
 {
@@ -313,7 +309,7 @@ int GV_LoadInit_800155BC(void *buf, int id, int region)
     {
         if (GV_FileCacheFind_80015240(id) || !GV_CurrentTag_800AB930)
         {
-            mts_printf_8008BBA0(aIdConflict);
+            mts_printf_8008BBA0("id conflict\n");
             return -1;
         }
 

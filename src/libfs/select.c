@@ -4,9 +4,6 @@
 #include "psyq.h"
 #include "libfs.h"
 
-extern const char aDsdatacallback[];
-extern const char aDsreadycallbac[];
-
 void FS_StartDaemon_80014A7C(void)
 {
     // CPU exception if >= 2MB ram range is used since retail consoles have 2 MB and dev have 8 MB.
@@ -30,12 +27,12 @@ void CdReadMode_80014ABC()
 
 void DsReadyCallback_80014AC4(int a1)
 {
-    mts_printf_8008BBA0(aDsreadycallbac, a1);
+    mts_printf_8008BBA0("DsReadyCallback %x\n", a1);
 }
 
 void DsDataCallback_80014AEC(int a1)
 {
-    mts_printf_8008BBA0(aDsdatacallback, a1);
+    mts_printf_8008BBA0("DsDataCallback %x\n", a1);
 }
 
 int PCinit_80014B14()
