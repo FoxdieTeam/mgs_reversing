@@ -8,20 +8,15 @@
 #include "common.h"
 #include "psyq.h"
 
-extern int GM_CurrentMap_800AB9B0;
-extern int GV_Clock_800AB920;
+extern int            GM_CurrentMap_800AB9B0;
+extern int            GV_Clock_800AB920;
+extern int            gSparkRandomTableIndex_8009F668;
+extern int            gSparkRandomTableIndex2_8009F66C;
+extern unsigned short gSparkRandomTable_800BDF10[];
+extern SVECTOR        DG_ZeroVector_800AB39C;
 
-static inline int GM_GetCurrentMap()
-{
-    return GM_CurrentMap_800AB9B0;
-};
-
-extern const char aSparkFl[];
-extern const char aSparkC[];
-
-extern int gSparkRandomTableIndex_8009F668;
-extern int dword_8009F66C;
-extern short gSparkRandomTable_800BDF10[];
+extern const char aSparkFl[]; // = "spark_fl"
+extern const char aSparkC[];  // = "spark.c"
 
 void spark_init_random_table_80073DB0()
 {
@@ -40,7 +35,7 @@ void spark_init_random_table_80073DB0()
         int remaining = 0x40;
 
         gSparkRandomTableIndex_8009F668 = 0;
-        dword_8009F66C = 0;
+        gSparkRandomTableIndex2_8009F66C = 0;
 
         do
         {
@@ -52,8 +47,117 @@ void spark_init_random_table_80073DB0()
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/spark_loader3_80073E48.s")    // 720 bytes
-#pragma INCLUDE_ASM("asm/Okajima/spark_act_helper_80074118.s") // 284 bytes
+static inline int spark_next_random(void)
+{
+    unsigned short *pTable = gSparkRandomTable_800BDF10;
+    gSparkRandomTableIndex2_8009F66C++;
+    gSparkRandomTableIndex2_8009F66C &= 0x3F;
+    return pTable[gSparkRandomTableIndex2_8009F66C];
+}
+
+void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
+{
+    MATRIX sp10;
+    MATRIX sp30;
+    SVECTOR sp50;
+    SVECTOR sp58;
+    SVECTOR sp60;
+    int var_s7;
+    int var_s2;
+    int x, y, z;
+    int rx, ry, rz;
+
+    gte_ReadRotMatrix(&sp30);
+
+    sp58 = DG_ZeroVector_800AB39C;
+    sp50.vz = 0;
+
+    var_s7 = (a4 == 0) ? -8192 : -16384;
+
+    while (--count >= 0)
+    {
+        sp50.vy = spark_next_random() & 0xFFF;
+        var_s2 = sp50.vx = spark_next_random() & 0x1FF;
+
+        RotMatrixYXZ_gte_80094108(&sp50, &sp10);
+        sp58.vy = var_s7 / (var_s2 + 64);
+        ApplyMatrixSV_80093078(&sp10, &sp58, &sp60);
+
+        *a1 = sp60;
+
+        x = sp60.vx;
+        y = sp60.vy;
+        z = sp60.vz;
+
+        a2[0].vx = x;
+        a2[0].vy = y;
+        a2[0].vz = z;
+
+
+        a2[3].vx = x * 4;
+        a2[3].vy = y * 4;
+        a2[3].vz = z * 4;
+
+        rx = (spark_next_random() & 0x7F) - 64;
+        ry = (spark_next_random() & 0x7F) - 64;
+        rz = (spark_next_random() & 0x7F) - 64;
+
+        x = x * 4 - x;
+        y = y * 4 - y;
+        z = z * 4 - z;
+
+        a2[1].vx = x + rx;
+        a2[1].vy = y + ry;
+        a2[1].vz = z + rz;
+
+        a2[2].vx = x - rx;
+        a2[2].vy = y - ry;
+        a2[2].vz = z - rz;
+
+        a1 += 1;
+        a2 += 4;
+    }
+
+    gte_SetRotMatrix(&sp30);
+    gte_SetTransMatrix(&sp30);
+}
+
+void spark_act_helper_80074118(SVECTOR *arg0, SVECTOR *arg1, int count)
+{
+    int x;
+    int y;
+    int z;
+
+    while (--count >= 0)
+    {
+        x = arg0->vx;
+        y = arg0->vy;
+        z = arg0->vz;
+
+        arg1[0].vx += x;
+        arg1[0].vy += y;
+        arg1[0].vz += z;
+
+        arg1[3].vx += x;
+        arg1[3].vy += y;
+        arg1[3].vz += z;
+
+        arg1[1].vx += x;
+        arg1[1].vy += y;
+        arg1[1].vz += z;
+
+        arg1[2].vx += x;
+        arg1[2].vy += y;
+        arg1[2].vz += z;
+
+        arg0->vx = x - (x / 8);
+        arg0->vy = y - (y / 8);
+        arg0->vz = z - (z / 8);
+
+        arg1 += 4;
+        arg0++;
+    }
+}
 
 void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex)
 {
@@ -106,8 +210,6 @@ void spark_800742F0(POLY_FT4 *pPoly, int count, int color)
     }
 }
 
-void spark_act_helper_80074118(void *param_1, void *param_2, int param_3);
-
 void spark_act_80074334(Actor_Spark *pActor)
 {
     int updated_f170;
@@ -124,7 +226,7 @@ void spark_act_80074334(Actor_Spark *pActor)
     }
     else
     {
-        spark_act_helper_80074118(&pActor->f028, pActor->f068, 8);
+        spark_act_helper_80074118(pActor->f028, pActor->f068, 8);
         spark_800742F0(&pActor->f024_pPrim->field_40_pBuffers[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
 
         lightRadius = (updated_f170 - 8) * 0x200;
@@ -154,7 +256,7 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
 
     pActor->f020_map = GM_CurrentMap_800AB9B0;
     spark_init_random_table_80073DB0();
-    spark_loader3_80073E48(&pActor->f028, pActor->f068, 8, a3);
+    spark_loader3_80073E48(pActor->f028, pActor->f068, 8, a3);
 
     pNewPrim = DG_GetPrim(18, 8, 0, pActor->f068, NULL);
     pActor->f024_pPrim = pNewPrim;
