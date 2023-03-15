@@ -19,7 +19,7 @@ int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
 int __stacksize_800AB2E8 = 0x8000; // stack size, sdata
 
 extern const char aBislpm86247[];
-const char       *MGS_MemoryCardName_800AB2EC = aBislpm86247; // sdata
+const char       *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
 
 extern unsigned int sdStack_800AC3F0[512];
 

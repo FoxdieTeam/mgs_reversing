@@ -65,23 +65,21 @@ void GV_ConfigActorSystem_80014E08(int index, short pause, short kill)
     pActorList->mKill = kill;
 }
 
-extern const char aDumpactorsyste[];
-extern const char aLvDPauseDKillD[];
-extern const char aLvD04d02d08xS[];
-
 void GV_DumpActorSystem_80014E2C(void)
 {
     int               i;
     struct ActorList *pActorList = gActorsList_800ACC18;
 
-    mts_null_printf_8008BBA8(aDumpactorsyste);
+    mts_null_printf_8008BBA8("--DumpActorSystem--\n");
 
     for (i = 0; i < ACTOR_LIST_COUNT; i++)
     {
         GV_ACT *pActor;
 
-        // "Lv %d Pause %d Kill %d\n"
-        mts_null_printf_8008BBA8(aLvDPauseDKillD, i, pActorList->mPause, pActorList->mKill);
+        mts_null_printf_8008BBA8("Lv %d Pause %d Kill %d\n",
+                                 i,
+                                 pActorList->mPause,
+                                 pActorList->mKill);
 
         pActor = &pActorList->first;
 
@@ -102,8 +100,10 @@ void GV_DumpActorSystem_80014E2C(void)
                     unknown = 0;
                 }
 
-                // "Lv%d %04d.%02d %08X %s\n"
-                mts_null_printf_8008BBA8(aLvD04d02d08xS, i, unknown / 100, unknown % 100, pActor->mFnUpdate,
+                mts_null_printf_8008BBA8("Lv%d %04d.%02d %08X %s\n",
+                                         i, unknown / 100,
+                                         unknown % 100,
+                                         pActor->mFnUpdate,
                                          pActor->mName);
 
                 pActor->field_1C = 0;

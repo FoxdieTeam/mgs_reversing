@@ -28,7 +28,7 @@ int DG_DrawSyncResetGraph_8001F014()
         {
             return 0;
         }
-        mts_printf_8008BBA0(asc_80010208);
+        mts_printf_8008BBA0("@");
         ResetGraph(1);
         dword_800B3790 = 0;
     }
@@ -93,9 +93,6 @@ void DG_Update1_8001F1BC(void)
     DG_RenderPipeline_800172A8();
 }
 
-extern const char aObjectQueueD[];
-extern const char aPrimitiveQueue[];
-
 extern int DG_CurrentGroupID_800AB968;
 
 void DG_8001F1DC()
@@ -109,8 +106,8 @@ void DG_8001F1DC()
     DG_ResetPaletteEffect_80078FF8();
     DG_Set_RGB_800184F4(0, 0, 0);
 
-    mts_printf_8008BBA0(aObjectQueueD, DG_Chanl(0)->mTotalObjectCount);
-    mts_printf_8008BBA0(aPrimitiveQueue, DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
+    mts_printf_8008BBA0("Object Queue %d\n", DG_Chanl(0)->mTotalObjectCount);
+    mts_printf_8008BBA0("Primitive Queue %d\n", DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
 
     DG_Chanl(0)->mTotalObjectCount = 0;
     DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;
@@ -148,9 +145,9 @@ void DG_StartDaemon_8001F284(void)
 
     // 2D handler?
     GV_InitActor_800150A8(0, &gDgdActor2_800B3750, 0);
-    GV_SetNamedActor_8001514C(&gDgdActor2_800B3750, (TActorFunction)DG_Update2_8001F078, 0, aDgdC);
+    GV_SetNamedActor_8001514C(&gDgdActor2_800B3750, (TActorFunction)DG_Update2_8001F078, 0, "dgd.c");
 
     // 3D handler?
     GV_InitActor_800150A8(8, &gDgdActor1_800B3770, 0);
-    GV_SetNamedActor_8001514C(&gDgdActor1_800B3770, (TActorFunction)DG_Update1_8001F1BC, 0, aDgdC);
+    GV_SetNamedActor_8001514C(&gDgdActor1_800B3770, (TActorFunction)DG_Update1_8001F1BC, 0, "dgd.c");
 }

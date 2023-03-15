@@ -2,11 +2,8 @@
     org    $80010000
 
 ; link objs
-    include "..\obj\data\rdata\rdata.obj"
-
+    
     include "..\obj\data\data\data.obj"
-
-    include "..\obj\data\bss.obj"
 
     ;main
     include "..\obj\main.obj"               ;main.c
@@ -18,6 +15,7 @@
     include "..\obj\libgv\gvd.obj"          ;gvd.c
     include "..\obj\libgv\actor.obj"        ;actor.c
 
+    include "..\obj\data\bss.obj"
     include "..\obj\data\sdata\sdata2.obj"
 
     include "..\obj\libgv\cache.obj"        ;cache.c
@@ -57,8 +55,8 @@
     include "..\obj\libgcl\parse.obj"       ;parse.c
     include "..\obj\libgcl\variable.obj"    ;variable.c
 
-    include "..\obj\data\rdata\rdata_80021634.obj"
 
+    include "..\obj\data\rdata\rdata_80021634.obj"
     include "..\obj\data\sdata\sdata4.obj"
 
     ;libhzd

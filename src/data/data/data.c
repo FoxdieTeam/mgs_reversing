@@ -109,7 +109,7 @@ GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] = {
     {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
 
-const char *SECTION(".data") MGS_DiskName_8009D2FC[] = {aSlpm86247, aSlpm86248, 0};
+const char *SECTION(".data") MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", 0};
 
 struct PauseKill SECTION(".data") gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {15, 4},
                                                              {15, 4}, {15, 4}, {9, 4}, {0, 7}};
