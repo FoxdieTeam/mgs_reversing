@@ -6,6 +6,22 @@
 #include <SYS/FILE.H>
 #include "psyq.h"
 
+extern int             gmem_card_system_inited_8009D524;
+extern struct mem_card gMemCards_800B52F8[2];
+extern long            gHardware_end_io_800B52C8;
+extern long            gHardware_end_write_800B52CC;
+extern long            gHardware_timeout_800B52D0;
+extern long            gHardware_new_device_800B52D4;
+extern long            gSoftware_end_io_800B52D8;
+extern long            gSoftware_end_write_800B52DC;
+extern long            gSoftware_timeout_800B52E0;
+extern long            gSoftware_new_device_800B52E4;
+extern TMemCardFunc    gHwCard_do_op_800B52E8;
+extern TMemCardFunc    gSwCard_do_op_800B52EC;
+extern volatile int    gSwCardLastOp_800B52F0;
+extern volatile int    gHwCardLastOp_800B52F4;
+extern volatile long   gMemCard_io_size_800B5648;
+
 extern const char aHwCardError[];
 extern const char aCHTO[];
 extern const char aHwCardNew[];
@@ -30,7 +46,6 @@ extern const char aDeletedFileS[];
 extern const char aErrorCanTDelet[];
 extern const char aMemcardReadWri[];
 extern const char aErrorMemcardRe[];
-
 extern const char aBu02xS[];         // = "bu%02X:%s"
 extern const char aWarningMemcard[]; // = "Warning : MEMCARD create error ... overwrite\n"
 extern const char aMemcardWriteEr[]; // = "MEMCARD WRITE ERROR FD %d\n"
@@ -40,38 +55,13 @@ extern const char aBu02xS_0[];
 extern const char aMemcardReadErr[];
 extern const char aMemcardReadSFd[];
 extern const char aReadingFileS[];
-extern const char aWarningMemcard[];
 
-// ?? something strange going on with these types
-//extern volatile TMemCardSetFunc gSwCardLastOp_800B52F0;
-//extern volatile TMemCardSetFunc gHwCardLastOp_800B52F4;
-
-extern int gmem_card_system_inited_8009D524;
-extern struct mem_card gMemCards_800B52F8[2];
-
-extern long gHardware_end_io_800B52C8;
-extern long gHardware_end_write_800B52CC;
-extern long gHardware_timeout_800B52D0;
-extern long gHardware_new_device_800B52D4;
-
-extern long gSoftware_end_io_800B52D8;
-extern long gSoftware_end_write_800B52DC;
-extern long gSoftware_timeout_800B52E0;
-extern long gSoftware_new_device_800B52E4;
-
-extern TMemCardFunc             gHwCard_do_op_800B52E8;
-extern TMemCardFunc             gSwCard_do_op_800B52EC;
-extern volatile TMemCardSetFunc gSwCardLastOp_800B52F0;
-extern volatile TMemCardSetFunc gHwCardLastOp_800B52F4;
-
-extern volatile long gMemCard_io_size_800B5648;
-
-void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op)
+void memcard_hwcard_do_op_800244DC(int op)
 {
     gHwCardLastOp_800B52F4 = op;
 }
 
-void memcard_swcard_do_op_800244EC(TMemCardSetFunc op)
+void memcard_swcard_do_op_800244EC(int op)
 {
     gSwCardLastOp_800B52F0 = op;
 }
@@ -124,8 +114,8 @@ void memcard_swcard_new_80024664()
 
 void memcard_set_sw_hw_card_fns_8002469C()
 {
-    gHwCard_do_op_800B52E8 = (TMemCardFunc)memcard_hwcard_do_op_800244DC;
-    gSwCard_do_op_800B52EC = (TMemCardFunc)memcard_swcard_do_op_800244EC;
+    gHwCard_do_op_800B52E8 = memcard_hwcard_do_op_800244DC;
+    gSwCard_do_op_800B52EC = memcard_swcard_do_op_800244EC;
 }
 
 int memcard_easy_format_test_800246C0(int hCard)
@@ -136,8 +126,8 @@ int memcard_easy_format_test_800246C0(int hCard)
     memset(pData, 0, sizeof(pData));
     mts_printf_8008BBA0(aR);
 
-    while ((char *)gHwCard_do_op_800B52E8 != (char *)memcard_hwcard_do_op_800244DC ||
-           (char *)gSwCard_do_op_800B52EC != (char *)memcard_swcard_do_op_800244EC)
+    while (gHwCard_do_op_800B52E8 != memcard_hwcard_do_op_800244DC ||
+           gSwCard_do_op_800B52EC != memcard_swcard_do_op_800244EC)
     {
         mts_printf_8008BBA0(aAccessWait);
         mts_wait_vbl_800895F4(2);
@@ -153,7 +143,7 @@ int memcard_easy_format_test_800246C0(int hCard)
         mts_wait_vbl_800895F4(1);
     } while (!gHwCardLastOp_800B52F4);
 
-    if (gHwCardLastOp_800B52F4 != (volatile TMemCardSetFunc)1) // ?
+    if (gHwCardLastOp_800B52F4 != 1)
     {
         mts_printf_8008BBA0(aCardError);
         return 2;
@@ -173,69 +163,41 @@ int memcard_easy_format_test_800246C0(int hCard)
     }
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_loaddir_800247E8.s") // 376 bytes
-
-// still has large diffs
-/*
-int memcard_loaddir_800247E8(int idx, int *pFreeBlockCount)
+int memcard_loaddir_800247E8(int port, int *pFreeBlockCount)
 {
-    int blockCount; // $s2
-    int fileCount;  // $s1
-    // int card_off;           // $s0
-    struct mem_card_block *pBlocks; // $v0
-    struct mem_card_block *pBlock;  // $v0
-                                    // struct mem_card *pCard;        // $v1
-    int v12;                        // $v0
-                                    // int more;              // dc
-    struct DIRENTRY dirEntry;       // [sp+10h] [-48h] BYREF
-    char dirName[34];               // [sp+38h] [-20h] BYREF
+    struct DIRENTRY dir;
+    char name[32];
+    int files;
+    int blocks;
 
-    blockCount = 0;
+    blocks = 0;
 
-    sprintf_8008E878(dirName, aBu02x, 0x10 * idx);
+    sprintf_8008E878(name, aBu02x, port * 16);
+    mts_printf_8008BBA0(aLoadDirSStart, name);
 
-    mts_printf_8008BBA0(aLoadDirSStart, dirName);
-    fileCount = 0;
-
-    if (firstfile_80099AEC(dirName, &dirEntry))
+    if (firstfile_80099AEC(name, &dir))
     {
-        //  pCard = &gMemCards_800B52F8[idx];
-        //card_off = 0x1A8 * idx;
-        pBlocks = &gMemCards_800B52F8[idx].field_4_blocks[0];
+        files = 0;
+
         do
         {
-            //pCard = (struct mem_card *)((char *)gMemCards_800B52F8 + card_off);
-            pBlock = &pBlocks[fileCount];
-            memcpy(&pBlock->field_0_name, &dirEntry.name, 20);
+            memcpy(gMemCards_800B52F8[port].field_4_blocks[files].field_0_name, dir.name, sizeof(dir.name));
+            gMemCards_800B52F8[port].field_4_blocks[files].field_14 = 0;
+            gMemCards_800B52F8[port].field_4_blocks[files].field_18_size = dir.size;
+            blocks += (dir.size + 8191) / 8192;
+            files++;
+        }
+        while (nextfile_800995EC(&dir));
 
-            pBlock->field_14 = 0;
-            pBlock->field_18_size = dirEntry.size;
-
-            v12 = (dirEntry.size + 0x1FFF) >> 13;
-            if (dirEntry.size + 0x1FFF < 0)
-            {
-                v12 = (dirEntry.size + 0x3FFE) >> 13;
-            }
-            blockCount += v12;
-
-            // card_off += 0x1C; //1c = mem_card_block size
-            ++fileCount;
-
-            // pBlock = (struct mem_card_block *)((char *)gMemCards_800B52F8[0].field_4_blocks + card_off);
-        } while (nextfile_800995EC(&dirEntry) != 0);
-
-        mts_printf_8008BBA0(aTotalDFilesUse, fileCount, blockCount);
-        *pFreeBlockCount = blockCount;
-        return fileCount;
+        mts_printf_8008BBA0(aTotalDFilesUse, files, blocks);
+        *pFreeBlockCount = blocks;
+        return files;
     }
-    else
-    {
-        mts_printf_8008BBA0(aNoFile);
-        *pFreeBlockCount = 0;
-        return 0;
-    }
+
+    mts_printf_8008BBA0(aNoFile);
+    *pFreeBlockCount = 0;
+    return 0;
 }
-*/
 
 void memcard_load_files_80024960(int idx)
 {
@@ -278,9 +240,9 @@ void memcard_init_80024E48()
     if (!gmem_card_system_inited_8009D524)
     {
         gmem_card_system_inited_8009D524 = !gmem_card_system_inited_8009D524;
-        gHwCardLastOp_800B52F4 = (TMemCardSetFunc)1;
+        gHwCardLastOp_800B52F4 = 1;
 
-        gSwCardLastOp_800B52F0 = (TMemCardSetFunc)1;
+        gSwCardLastOp_800B52F0 = 1;
         memcard_set_sw_hw_card_fns_8002469C();
 
         EnterCriticalSection_8009952C();
@@ -363,7 +325,62 @@ void memcard_exit_800250C4()
     gmem_card_system_inited_8009D524 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/memcard/memcard_retry_80025178.s") // 472 bytes
+void memcard_retry_80025178(int port)
+{
+    int op;
+    int count;
+    int i;
+
+    switch (gMemCards_800B52F8[port].field_1_last_op)
+    {
+    case 1:
+    case 4:
+        op = gMemCards_800B52F8[port].field_1_last_op;
+        memcard_retry_helper_800249CC(op);
+        return;
+
+    case 3:
+        count = 1;
+        break;
+
+    case 2:
+        count = 20;
+        break;
+    }
+
+    for (i = 0; i < count; i++)
+    {
+        mts_printf_8008BBA0(aR);
+
+        while ((gHwCard_do_op_800B52E8 != &memcard_hwcard_do_op_800244DC) ||
+               (gSwCard_do_op_800B52EC != &memcard_swcard_do_op_800244EC))
+        {
+            mts_printf_8008BBA0(aAccessWait);
+            mts_wait_vbl_800895F4(2);
+        }
+
+        gHwCardLastOp_800B52F4 = 0;
+        gSwCardLastOp_800B52F0 = 0;
+        card_info_80098FFC(port * 16);
+
+        do
+        {
+            mts_wait_vbl_800895F4(1);
+        }
+        while (!gSwCardLastOp_800B52F0);
+
+        op = gSwCardLastOp_800B52F0;
+
+        if (op == 1 || op == 4)
+        {
+            break;
+        }
+
+        mts_wait_vbl_800895F4(3);
+    }
+
+    memcard_retry_helper_800249CC(op);
+}
 
 struct mem_card *memcard_get_files_80025350(int idx)
 {
@@ -406,7 +423,7 @@ void memcard_hwcard_read_write_handler_8002546C(int op)
         gMemCard_io_size_800B5648 -= 128;
         if (!gMemCard_io_size_800B5648)
         {
-            gHwCard_do_op_800B52E8 = (TMemCardFunc)memcard_hwcard_do_op_800244DC;
+            gHwCard_do_op_800B52E8 = memcard_hwcard_do_op_800244DC;
         }
     }
     else
@@ -443,7 +460,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     int blocks = ROUND_UP(bufferSize, 8192) / 8192;
     int hFile;
     char name[32];
-    
+
     sprintf_8008E878(name, aBu02xS, idx * 16, pFileName);
 
     hFile = open_8009958C(name, (blocks << 16) | O_CREAT);
@@ -460,7 +477,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
         gMemCard_io_size_800B5648 = -1;
         return;
     }
-    
+
     mts_printf_8008BBA0(aMemcardWriteSF, pFileName, hFile, bufferSize);
     bufferSize = ROUND_UP(bufferSize, 128);
     if (seekPos > 0)
@@ -477,15 +494,15 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
 {
     char name[32];
     int hFile;
-    
+
     sprintf_8008E878(name, aBu02xS_0, idx * 16, pFilename);
     hFile = open_8009958C(name, FREAD | FASYNC);
-    if (hFile < 0) 
-    { 
+    if (hFile < 0)
+    {
         mts_printf_8008BBA0(aMemcardReadErr, hFile);
-        gMemCard_io_size_800B5648 = -1; 
-        return; 
-    } 
+        gMemCard_io_size_800B5648 = -1;
+        return;
+    }
     bufferSize = ROUND_UP(bufferSize, 128);
     mts_printf_8008BBA0(aMemcardReadSFd, pFilename, hFile, bufferSize);
     if (seekPos > 0)

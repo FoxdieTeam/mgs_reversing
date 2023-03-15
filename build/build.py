@@ -60,6 +60,8 @@ def ninja_run():
         r'sub_80047D70\.c:\d+: warning: unused variable `pad\'',
         r'sub_8004D4A0\.c:\d+: warning: unused variable `pad\'',
         r'item\.c:\d+: warning: `state\' might be used uninitialized in this function',
+        r'memcard\.c:\d+: warning: `op\' might be used uninitialized in this function',
+        r'memcard\.c:\d+: warning: `count\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):

@@ -20,7 +20,6 @@ struct mem_card
 };
 
 typedef void (*TMemCardFunc)(int);
-typedef void (*TMemCardSetFunc)(TMemCardFunc);
 
 void memcard_init_80024E48();
 void memcard_exit_800250C4();
@@ -31,14 +30,14 @@ void memcard_set_sw_hw_card_fns_8002469C();
 void memcard_load_files_80024960(int);
 int  memcard_loaddir_800247E8(int idx, int *pFreeBlockCount);
 
-void memcard_hwcard_do_op_800244DC(TMemCardSetFunc op);
+void memcard_hwcard_do_op_800244DC(int op);
 void memcard_hwcard_end_io_800244FC();
 void memcard_hwcard_end_write_80024524();
 void memcard_hwcard_timeout_8002455C();
 void memcard_hwcard_new_80024594();
 void memcard_hwcard_read_write_handler_8002546C(int op);
 
-void memcard_swcard_do_op_800244EC(TMemCardSetFunc op);
+void memcard_swcard_do_op_800244EC(int op);
 void memcard_swcard_end_io_800245CC();
 void memcard_swcard_end_write_800245F4();
 void memcard_swcard_timeout_8002462C();

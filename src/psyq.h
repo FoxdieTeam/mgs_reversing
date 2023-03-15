@@ -142,5 +142,6 @@ long               format_800995DC(char *fs);
 struct DIRENTRY   *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY   *nextfile_800995EC(struct DIRENTRY *);
 long               CloseTh_800994DC(unsigned long thread);
+long               card_info_80098FFC(long chan);
 
 #endif // _PSYQ_H_
