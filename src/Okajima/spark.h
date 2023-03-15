@@ -6,22 +6,7 @@ typedef struct Actor_Spark
     GV_ACT    f000_actor;
     int      f020_map;
     DG_PRIM *f024_pPrim;
-    int      f028;
-    int      f02C;
-    int      f030;
-    int      f034;
-    int      f038;
-    int      f03C;
-    int      f040;
-    int      f044;
-    int      f048;
-    int      f04C;
-    int      f050;
-    int      f054;
-    int      f058;
-    int      f05C;
-    int      f060;
-    int      f064;
+    SVECTOR  f028[8];
     SVECTOR  f068[8];
     int      f0A8;
     int      f0AC;
@@ -78,7 +63,7 @@ typedef struct Actor_Spark
 void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex);
 void spark_800742F0(POLY_FT4 *pPoly, int count, int color);
 void spark_init_random_table_80073DB0();
-void spark_loader3_80073E48(int *a1, SVECTOR *a2, int a3, int a4);
+void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int a3, int a4);
 Actor_Spark *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
 
 #endif // _SPARK_H_
