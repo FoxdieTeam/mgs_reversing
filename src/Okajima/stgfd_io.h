@@ -27,4 +27,6 @@ void stgfd_io_act_80074F5C(Actor_stgfd_io *pActor);
 void stgfd_io_kill_80075164(Actor_stgfd_io *pActor);
 int  stgfd_io_loader_80075194(Actor_stgfd_io *pActor);
 
+Actor_stgfd_io * NewStnFade_800752A0(void);
+
 #endif // _STGFD_IO_

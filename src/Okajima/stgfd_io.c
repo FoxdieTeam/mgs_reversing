@@ -125,18 +125,22 @@ int stgfd_io_loader_80075194(Actor_stgfd_io *pActor)
 
 const char SECTION(".rdata") aStgfdIoC[] = "stgfd_io.c"; // 80012F90
 
-GV_ACT *NewStnFade_800752A0(void)
+Actor_stgfd_io * NewStnFade_800752A0(void)
 {
-    Actor_stgfd_io *actor = (Actor_stgfd_io *)GV_NewActor_800150E4(3, sizeof(Actor_stgfd_io));
-    if (actor)
+    Actor_stgfd_io *pActor = (Actor_stgfd_io *)GV_NewActor_800150E4(3, sizeof(Actor_stgfd_io));
+    if (pActor)
     {
-        GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)stgfd_io_act_80074F5C,
-                                  (TActorFunction)stgfd_io_kill_80075164, aStgfdIoC);
-        if (stgfd_io_loader_80075194(actor) < 0)
+        GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+                                  (TActorFunction)&stgfd_io_act_80074F5C,
+                                  (TActorFunction)&stgfd_io_kill_80075164,
+                                  aStgfdIoC);
+
+        if (stgfd_io_loader_80075194(pActor) < 0)
         {
-            GV_DestroyActor_800151C8(&actor->field_0_actor);
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;
         }
     }
-    return &actor->field_0_actor;
+
+    return pActor;
 }
