@@ -774,7 +774,53 @@ int sub_8003DF30(int weaponId)
 
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_init_helper_8003E0E8.s") // 712 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper2_8003E3B0.s") // 264 bytes
+
+extern short GM_WeaponChanged_800AB9D8;
+
+void menu_right_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
+{
+    Menu_Item_Unknown *pItemUnknown;
+    int                id;
+    short             *gameState;
+
+    pItemUnknown = pActor->field_1F0_menu_right.field_C_alloc;
+    pActor->field_1F0_menu_right.field_10_state = 0;
+
+    AssignXYFromVec_8003D1B8(&pActor->field_1F0_menu_right.field_0_current,
+                             &pItemUnknown->field_20_array[pItemUnknown->field_0_main.field_4_selected_idx]);
+
+    id = pActor->field_1F0_menu_right.field_0_current.field_0_id;
+    gameState = gGameState_800B4D98;
+
+    if (id >= 0 && !sub_8003DF30(id))
+    {
+        GM_CurrentWeaponId = pActor->field_1F0_menu_right.field_0_current.field_0_id;
+        GM_WeaponChanged_800AB9D8 = 1;
+        if (GM_CurrentWeaponId >= 0)
+        {
+            sub_8003CFE0(
+                menu_right_get_weapon_rpk_info_8003DED8(pActor->field_1F0_menu_right.field_0_current.field_0_id), 1);
+        }
+        pActor->field_1F0_menu_right.field_11 = gameState[14]; // GM_CurrentWeaponId would not match...
+    }
+    else
+    {
+        if (id != -1)
+        {
+            dword_800ABAE8 = id;
+            pActor->field_1F0_menu_right.field_11 = id;
+        }
+        GM_CurrentWeaponId = -1;
+        pActor->field_1F0_menu_right.field_0_current.field_0_id = -1;
+        GM_WeaponChanged_800AB9D8 = 1;
+    }
+
+    pActor->field_1F0_menu_right.field_12_flashingAnimationFrame = 10;
+    menu_panel_free_8003D184(pActor->field_1F0_menu_right.field_C_alloc);
+    menu_font_kill_8003FC0C();
+    GM_Sound_80032968(0, 0x3f, 0x14);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper_8003E4B8.s") // 444 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_8003E674.s") // 796 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_right_update_8003E990.s") // 588 bytes
