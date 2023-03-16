@@ -54,9 +54,9 @@ void famas_act_80065E90(Actor_Famas *pActor)
     {
         if (GV_Clock_800AB920)
         {
-            GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
+            GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 4);
             pCtrl = pActor->field_44_pCtrl;
-            GM_SetNoise(5, 2, &pCtrl->field_0_position);
+            GM_SetNoise(5, 2, &pCtrl->field_0_mov);
         }
     }
     else
@@ -94,10 +94,10 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     bullet_init_80076584(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
-                    GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 48);
+                    GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 48);
                     field_44_pCtrl = pActor->field_44_pCtrl;
 
-                    GM_SetNoise(200, 2, &field_44_pCtrl->field_0_position);
+                    GM_SetNoise(200, 2, &field_44_pCtrl->field_0_mov);
                     anime_create_8005D604(&mtx);
                 }
                 else
@@ -118,7 +118,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
                     }
 
                     bullet_init_80076584(pMtx, f54, v13, v14);
-                    GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 101);
+                    GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 101);
                 }
 
                 anime_create_8005D6BC(&pActor->f20_obj.objs->world, pActor->field_58_counter == 0);

@@ -184,14 +184,14 @@ int item_act_helper_800335D0(Actor_Item *pActor)
 
     vec = svector_800ABA10;
 
-    diff = pActor->field_20_ctrl.field_0_position.vy - vec.vy;
+    diff = pActor->field_20_ctrl.field_0_mov.vy - vec.vy;
 
     if (diff < 0)
     {
         diff = -diff;
     }
 
-    vy = pActor->field_20_ctrl.field_0_position.vy;
+    vy = pActor->field_20_ctrl.field_0_mov.vy;
 
     if (diff > 1000)
     {
@@ -199,14 +199,14 @@ int item_act_helper_800335D0(Actor_Item *pActor)
     }
 
     vec.vy = vy;
-    diff = pActor->field_20_ctrl.field_0_position.vx - vec.vx;
+    diff = pActor->field_20_ctrl.field_0_mov.vx - vec.vx;
 
     if (abs(diff) > 500)
     {
         return 0;
     }
 
-    diff = pActor->field_20_ctrl.field_0_position.vz - vec.vz;
+    diff = pActor->field_20_ctrl.field_0_mov.vz - vec.vz;
 
     if (abs(diff) > 500)
     {
@@ -281,7 +281,7 @@ void item_act_80033784(Actor_Item *pActor)
 
     if (pActor->field_11C_full_str)
     {
-        if (item_act_helper_80033704(pos, &pActor->field_20_ctrl.field_0_position))
+        if (item_act_helper_80033704(pos, &pActor->field_20_ctrl.field_0_mov))
         {
             if (pActor->field_110_counter < 45)
             {
@@ -406,7 +406,7 @@ void item_act_80033784(Actor_Item *pActor)
 
         if (pActor->field_11C_full_str)
         {
-            position = pCtrl->field_0_position;
+            position = pCtrl->field_0_mov;
             vx = (90 - pActor->field_110_counter) * 8;
 
             if (vx > 80)
@@ -424,12 +424,12 @@ void item_act_80033784(Actor_Item *pActor)
         }
         else
         {
-            DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pCtrl->field_4C_turn_vec);
+            DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_4C_turn_vec);
         }
     }
 
     GM_ActObject2_80034B88(&pActor->field_9C_kmd);
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, pActor->field_C8_mtx);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, pActor->field_C8_mtx);
 
     if (item_act_helper_800335D0(pActor) && (pActor->field_112_state != 1))
     {
@@ -496,21 +496,21 @@ void item_act_80033784(Actor_Item *pActor)
         return;
     }
 
-    x = gSnaControl_800AB9F4->field_0_position.vx - pCtrl->field_0_position.vx;
+    x = gSnaControl_800AB9F4->field_0_mov.vx - pCtrl->field_0_mov.vx;
 
     if (x < 0)
     {
         x = -x;
     }
 
-    y = gSnaControl_800AB9F4->field_0_position.vy - pCtrl->field_0_position.vy;
+    y = gSnaControl_800AB9F4->field_0_mov.vy - pCtrl->field_0_mov.vy;
 
     if (y < 0)
     {
         y = -y;
     }
 
-    z = gSnaControl_800AB9F4->field_0_position.vz - pCtrl->field_0_position.vz;
+    z = gSnaControl_800AB9F4->field_0_mov.vz - pCtrl->field_0_mov.vz;
 
     if (z < 0)
     {
@@ -530,7 +530,7 @@ void item_act_80033784(Actor_Item *pActor)
     pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
     pLine = &pActor->field_124_lineF4_array[GV_Clock_800AB920];
 
-    if (!item_act_helper_80033704(&position.vx, &pCtrl->field_0_position))
+    if (!item_act_helper_80033704(&position.vx, &pCtrl->field_0_mov))
     {
         return;
     }
@@ -696,7 +696,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
 
     pControl->field_44_movementVector = DG_ZeroVector_800AB39C;
-    pControl->field_55_flags = '\x03';
+    pControl->field_55_skip_flag = CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2;
 
     puVar6 = (unsigned char *) GCL_GetParam_80020968('b');
     type = 0;
@@ -789,30 +789,30 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
         pVec3 = &pActor->field_170;
         pVec4 = &pActor->field_178;
 
-        sVar3 = pControl->field_0_position.vy;
+        sVar3 = pControl->field_0_mov.vy;
 
         pVec4->vy = sVar3;
         pActor->field_170.vy = sVar3;
         pVec2->vy = sVar3;
         pVec1->vy = sVar3;
 
-        sVar3 = pControl->field_0_position.vx + 0x100;
+        sVar3 = pControl->field_0_mov.vx + 0x100;
         pActor->field_170.vx = sVar3;
         pVec1->vx = sVar3;
 
-        sVar3 = pControl->field_0_position.vz + 0x100;
+        sVar3 = pControl->field_0_mov.vz + 0x100;
         pVec2->vz = sVar3;
         pVec1->vz = sVar3;
 
-        sVar3 = pControl->field_0_position.vx - 0x100;
+        sVar3 = pControl->field_0_mov.vx - 0x100;
         pVec4->vx = sVar3;
         pVec1[1].vx = sVar3;
 
-        sVar3 = pControl->field_0_position.vz - 0x100;
+        sVar3 = pControl->field_0_mov.vz - 0x100;
         pVec4->vz = sVar3;
         pVec1[2].vz = sVar3;
 
-        pControl->field_0_position.vy += iVar10;
+        pControl->field_0_mov.vy += iVar10;
 
         pPrim = DG_GetPrim(0x1012, 1, 0, &pActor->field_160, NULL);
         pActor->field_15C_pPrim = pPrim;
@@ -913,10 +913,10 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
     GM_ConfigControlInterp_80026244(pCtrl, 0);
 
-    pCtrl->field_55_flags = (CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2);
+    pCtrl->field_55_skip_flag = CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2;
     pCtrl->field_44_movementVector = *a3;
     pCtrl->field_44_movementVector.vy = 160;
-    pCtrl->field_0_position = *pPos;
+    pCtrl->field_0_mov = *pPos;
 
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
     GM_ConfigObjectJoint_80034CB4(&pActor->field_9C_kmd);

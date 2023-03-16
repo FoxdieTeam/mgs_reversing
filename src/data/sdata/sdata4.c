@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
@@ -13,8 +14,10 @@ int SECTION(".sdata") GM_GameStatus_800AB3CC = 0;
 int SECTION(".sdata") GM_LoadRequest_800AB3D0 = 0;
 int SECTION(".sdata") GM_GameOverTimer_800AB3D4 = 0;
 int SECTION(".sdata") GM_lpsvectWind_800AB3D8 = 0;
-int SECTION(".sdata") GM_lpfnPlayerActControl_800AB3DC = 0;
-int SECTION(".sdata") GM_lpfnPlayerActObject2_800AB3E0 = 0;
+
+TSnakeActFunction SECTION(".sdata") GM_lpfnPlayerActControl_800AB3DC = NULL;
+TSnakeActFunction SECTION(".sdata") GM_lpfnPlayerActObject2_800AB3E0 = NULL;
+
 short SECTION(".sdata") GM_uBombHoming_800AB3E4 = 0;
 short SECTION(".sdata") GM_uTenageMotion_800AB3E6 = -1;
 

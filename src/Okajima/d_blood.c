@@ -45,7 +45,7 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
     {
     case 0:
         if (((GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_FIRST_PERSON_DUCT | PLAYER_STATUS_MOVING |
-                                          PLAYER_STATUS_PRONE | PLAYER_STATUS_UNK20000000)) == PLAYER_STATUS_PRONE) &&
+                                          PLAYER_STATUS_PRONE | PLAYER_STATUS_PAD_OFF)) == PLAYER_STATUS_PRONE) &&
             (GV_PadData_800B05C0[0].press & PAD_CIRCLE))
         {
             if (d_blood_act_helper_800729B4())

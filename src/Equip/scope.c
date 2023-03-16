@@ -606,7 +606,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
     pad_status = pActor->field_54_pOldPad->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
-    if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000) ||
+    if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF) ||
         (GM_GameStatus_800AB3CC < 0))
     {
         pad_status = 0;

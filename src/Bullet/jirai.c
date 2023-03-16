@@ -99,7 +99,7 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
     {
         return 0;
     }
-    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_position, &svector_800ABA10, &v);
+    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_mov, &svector_800ABA10, &v);
     return GV_VecLen3_80016D80(&v) < 800;
 }
 
@@ -116,7 +116,7 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
 
     gte_SetRotMatrix(pMatrix);
     gte_SetTransMatrix(pMatrix);
-    gte_ldv0(&pActor->field_20_ctrl.field_0_position);
+    gte_ldv0(&pActor->field_20_ctrl.field_0_mov);
     gte_rtps();
     gte_stsxy(&vec);
 
@@ -156,7 +156,7 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
                 pActor->field_150 = 0;
             }
 
-            GM_Sound_800329C4(&pActor->field_20_ctrl.field_0_position, var_a1, 1);
+            GM_Sound_800329C4(&pActor->field_20_ctrl.field_0_mov, var_a1, 1);
         }
 
         if (pActor->field_150 != 0)
@@ -209,7 +209,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
     }
 
     pCtrl = &pActor->field_20_ctrl;
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, pActor->field_C0_light_matrices);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, pActor->field_C0_light_matrices);
 
     if (pActor->field_134_gcl_arg == 2)
     {
@@ -300,7 +300,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         GM_ConfigControlAttribute_8002623C(pCtrl, 0);
     }
 
-    if ((GM_GameStatus_800AB3CC & 0xD0000000) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    if ((GM_GameStatus_800AB3CC & 0xD0000000) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF))
     {
         pTarget->field_0_flags &= ~TARGET_PUSH;
         pTarget->field_6_flags &= ~TARGET_PUSH;
@@ -353,7 +353,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
             sub_8007913C();
         }
 
-        pClaymore = NewClaymore_80073B8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_144_vec, 2, pActor->field_10C);
+        pClaymore = NewClaymore_80073B8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_144_vec, 2, pActor->field_10C);
 
         if (!pClaymore)
         {
@@ -509,7 +509,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutObjs_8001BDB8(obj->objs);
     GM_ConfigObjectLight_80034C44(obj, pActor->field_C0_light_matrices);
 
@@ -596,9 +596,9 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
 
     ctrl->field_8_rotator.vx = ctrl->field_4C_turn_vec.vx = -1024;
     ctrl->field_8_rotator.vy = ctrl->field_4C_turn_vec.vy += 1024;
-    ctrl->field_0_position.vy += 500;
+    ctrl->field_0_mov.vy += 500;
 
-    DG_SetPos2_8001BC8C(&ctrl->field_0_position, &ctrl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&ctrl->field_0_mov, &ctrl->field_8_rotator);
 
     ReadRotMatrix_80092DD8(&matrix);
 
@@ -607,7 +607,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
         return -1;
     }
 
-    ctrl->field_0_position.vy -= 500;
+    ctrl->field_0_mov.vy -= 500;
     DG_InvisibleObjs(obj->objs);
     pActor->field_130 = 64;
 

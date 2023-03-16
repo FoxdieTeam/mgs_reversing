@@ -110,7 +110,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 				actor->f64_has_exploded = FALSE;
 				return;
 			}
-			ctrl_pos = &actor->f20_ctrl->field_0_position;
+			ctrl_pos = &actor->f20_ctrl->field_0_mov;
 			DG_SetPos2_8001BC8C( &ctrl_pos[ 0 ], &ctrl_pos[ 1 ] );
 			if ( !( flags & 4 ) )
 			{
@@ -173,7 +173,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 	{
 		DG_InvisibleObjs( actor->f28_obj.objs );
 	}
-	actor->f54_pos = actor->f20_ctrl->field_0_position;
+	actor->f54_pos = actor->f20_ctrl->field_0_mov;
 }
 
 void grenade_kill_80066894( Actor_Grenade *grenade )
@@ -223,7 +223,7 @@ Actor_Grenade *grenade_init_80066944(
 		actor_grenade->f5c_timer = 120;
 		actor_grenade->f60_grenade_type = grd_type;
 		actor_grenade->f64_has_exploded = FALSE;
-		actor_grenade->f54_pos = ctrl->field_0_position;
+		actor_grenade->f54_pos = ctrl->field_0_mov;
 	}
 
 	d_800ABA2C_ammo = 0;

@@ -566,7 +566,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         press = 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF)
     {
         status = 0;
         press = 0;

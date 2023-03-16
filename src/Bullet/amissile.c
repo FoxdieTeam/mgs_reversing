@@ -41,7 +41,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 
 void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
 {
-    SVECTOR position = pActor->field_20_ctrl.field_0_position;
+    SVECTOR position = pActor->field_20_ctrl.field_0_mov;
     SVECTOR result;
     SVECTOR rotation;
 
@@ -105,9 +105,9 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     }
 
     pTargetPos = &target_800BDF00->field_8_vec;
-    diff.vx = pTargetPos->vx / 8 - pActor->field_20_ctrl.field_0_position.vx / 8;
-    diff.vy = pTargetPos->vy / 8 - pActor->field_20_ctrl.field_0_position.vy / 8;
-    diff.vz = pTargetPos->vz / 8 - pActor->field_20_ctrl.field_0_position.vz / 8;
+    diff.vx = pTargetPos->vx / 8 - pActor->field_20_ctrl.field_0_mov.vx / 8;
+    diff.vy = pTargetPos->vy / 8 - pActor->field_20_ctrl.field_0_mov.vy / 8;
+    diff.vz = pTargetPos->vz / 8 - pActor->field_20_ctrl.field_0_mov.vz / 8;
 
     dir = GV_VecDir2_80016EF8(&diff);
     temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn_vec.vy, dir);
@@ -179,17 +179,17 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     Blast_Data *pBlastData;
 
     pCtrl = &pActor->field_20_ctrl;
-    position = pCtrl->field_0_position;
+    position = pCtrl->field_0_mov;
 
     GM_ActControl_80025A7C(pCtrl);
     amissile_act_helper_8006D37C(pActor);
     GM_ActObject2_80034B88(&pActor->field_9C_kmd);
 
-    pActor->field_134_prim->world.t[0] = pActor->field_20_ctrl.field_0_position.vx;
-    pActor->field_134_prim->world.t[1] = pActor->field_20_ctrl.field_0_position.vy;
-    pActor->field_134_prim->world.t[2] = pActor->field_20_ctrl.field_0_position.vz;
+    pActor->field_134_prim->world.t[0] = pActor->field_20_ctrl.field_0_mov.vx;
+    pActor->field_134_prim->world.t[1] = pActor->field_20_ctrl.field_0_mov.vy;
+    pActor->field_134_prim->world.t[2] = pActor->field_20_ctrl.field_0_mov.vz;
 
-    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_position, pActor->field_C0_light_matrix);
+    DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, pActor->field_C0_light_matrix);
 
     if (pActor->field_120 >= 15)
     {
@@ -197,7 +197,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     }
 
     dword_8009F490 = 1;
-    svector_8009F494 = pCtrl->field_0_position;
+    svector_8009F494 = pCtrl->field_0_mov;
 
     if (pActor->field_120 == 0)
     {
@@ -231,7 +231,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     // probably an inline
     pCtrl = &pActor->field_20_ctrl;
-    GV_AddVec3_80016D00(&pCtrl->field_0_position, &pCtrl->field_44_movementVector, &addition);
+    GV_AddVec3_80016D00(&pCtrl->field_0_mov, &pCtrl->field_44_movementVector, &addition);
 
     result = amissile_act_helper_8006D600();
 
@@ -239,15 +239,15 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     if (pActor->field_20_ctrl.field_58 <= 0 && !pActor->field_20_ctrl.field_57)
     {
         if (++pActor->field_120 != 90 &&
-            !GM_Target_8002E1B8(&pCtrl->field_0_position, &addition,
+            !GM_Target_8002E1B8(&pCtrl->field_0_mov, &addition,
                                 pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit, &addition, 1) &&
                                 !dword_8009F49C)
         {
             if (!result)
             {
-                if (abs(pActor->field_20_ctrl.field_0_position.vx) <= 30000 &&
-                    abs(pActor->field_20_ctrl.field_0_position.vy) <= 30000 &&
-                    abs(pActor->field_20_ctrl.field_0_position.vz) <= 30000)
+                if (abs(pActor->field_20_ctrl.field_0_mov.vx) <= 30000 &&
+                    abs(pActor->field_20_ctrl.field_0_mov.vy) <= 30000 &&
+                    abs(pActor->field_20_ctrl.field_0_mov.vz) <= 30000)
                 {
                     return;
                 }
@@ -321,7 +321,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
 
     pKmd = &pActor->field_9C_kmd;
 
-    pCtrl->field_55_flags |= 4;
+    pCtrl->field_55_skip_flag |= CONTROL_FLAG_UNK4;
     pCtrl->field_59 = 8;
 
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pKmd, 0x76AB, 0x36D, 0);
@@ -349,7 +349,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_position, &pCtrl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rotator);
 
     vector.vz = 0;
     vector.vx = 0;

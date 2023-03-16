@@ -39,7 +39,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
         GM_lpfnBombHoming_800AB3E8(pCtrl, pActor->field_100_homing_arg2, &pActor->field_114_homing_arg3);
     }
 
-    if ((pActor->field_20_ctrl.field_0_position.pad != 0) || (GM_GameStatus_800AB3CC < 0))
+    if ((pActor->field_20_ctrl.field_0_mov.pad != 0) || (GM_GameStatus_800AB3CC < 0))
     {
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return;
@@ -49,9 +49,9 @@ void tenage_act_800699A4(Actor_tenage *pActor)
 
     GM_ActControl_80025A7C(pCtrl);
     GM_ActObject2_80034B88(&pActor->field_9C_obj);
-    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_position, pActor->field_C0_light_matrices);
+    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_matrices);
 
-    if (!(GM_GameStatus_800AB3CC & 0xD0000000) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    if (!(GM_GameStatus_800AB3CC & 0xD0000000) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF))
     {
         pActor->field_100_homing_arg2--;
     }
@@ -103,12 +103,12 @@ void tenage_act_800699A4(Actor_tenage *pActor)
         {
             if (!GM_lpfnBombBound_800AB3EC || !GM_lpfnBombBound_800AB3EC(0, pCtrl, &pActor->field_114_homing_arg3))
             {
-                GM_SeSet_80032858(&pCtrl->field_0_position, 43);
+                GM_SeSet_80032858(&pCtrl->field_0_mov, 43);
             }
 
             if (pActor->field_118_do_sound != 0)
             {
-                GM_SetNoise(128, 12, &pCtrl->field_0_position);
+                GM_SetNoise(128, 12, &pCtrl->field_0_mov);
             }
         }
     }
@@ -129,7 +129,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
         {
             if (!GM_lpfnBombBound_800AB3EC || !GM_lpfnBombBound_800AB3EC(1, pCtrl, &pActor->field_114_homing_arg3))
             {
-                GM_SeSet_80032858(&pCtrl->field_0_position, 43);
+                GM_SeSet_80032858(&pCtrl->field_0_mov, 43);
             }
         }
     }
@@ -184,7 +184,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         pControl->field_59 = '\x04';
         if (int_6 == 1)
         {
-            pControl->field_0_position = svector_800ABA10;
+            pControl->field_0_mov = svector_800ABA10;
             GM_ConfigControlTrapCheck_80026308(pControl);
             GM_ActControl_80025A7C(pControl);
         }
@@ -193,7 +193,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_9C_obj, int_4, WEAPON_FLAG, 0);
         if ((pActor->field_9C_obj).objs != NULL)
         {
-            DG_SetPos2_8001BC8C(&pControl->field_0_position, &pControl->field_8_rotator);
+            DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
             DG_PutObjs_8001BDB8((pActor->field_9C_obj).objs);
             GM_ConfigObjectLight_80034C44(&pActor->field_9C_obj, pActor->field_C0_light_matrices);
             tmp = tenage_get_free_ctrl_80069E28();
@@ -201,7 +201,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
             if (tmp >= 0)
             {
                 tenage_ctrls_800BDD30[tmp] = pControl;
-                pControl->field_0_position.pad = 0;
+                pControl->field_0_mov.pad = 0;
                 tenage_ctrls_count_800BDD70 = tenage_ctrls_count_800BDD70 + 1;
                 return 0;
             }

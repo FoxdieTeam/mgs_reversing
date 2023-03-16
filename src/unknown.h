@@ -18,7 +18,7 @@ int   sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
 void  sub_80028890(SVECTOR *pVec);
 void  sub_80079004(unsigned short);
 int   sub_80029A2C(void);
-void  sub_800298C0(int *int_arr);
+void  sub_800298C0(void *ptr);
 void  sub_8002A090(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags, unsigned int param_4);
 void  sub_8007913C();
 Actor_strctrl *sub_80037EE0(int vox_stream, int gcl_proc);
