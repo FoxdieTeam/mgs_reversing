@@ -17,7 +17,7 @@ void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECT
 {
     if (pVec1)
     {
-        pControl->field_0_position = *pVec1;
+        pControl->field_0_mov = *pVec1;
     }
 
     if (pVec2)
@@ -28,9 +28,9 @@ void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECT
 
 void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix)
 {
-    pControl->field_0_position.vx = pMatrix->t[0];
-    pControl->field_0_position.vy = pMatrix->t[1];
-    pControl->field_0_position.vz = pMatrix->t[2];
+    pControl->field_0_mov.vx = pMatrix->t[0];
+    pControl->field_0_mov.vy = pMatrix->t[1];
+    pControl->field_0_mov.vz = pMatrix->t[2];
 
     DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_rotator);
 
@@ -41,7 +41,7 @@ void GM_ConfigControlString_800261C0(GM_Control *pControl, char *param_pos, char
 {
     if (param_pos)
     {
-        GCL_GetSV_80020A14(param_pos, &pControl->field_0_position);
+        GCL_GetSV_80020A14(param_pos, &pControl->field_0_mov);
     }
 
     if (param_dir)
@@ -106,5 +106,5 @@ void GM_ConfigControlRadarparam_800262EC(GM_Control *pControl, short param_2, sh
 
 void GM_ConfigControlTrapCheck_80026308(GM_Control *pControl)
 {
-    pControl->field_55_flags &= ~CONTROL_FLAG_UNK2;
+    pControl->field_55_skip_flag &= ~CONTROL_FLAG_UNK2;
 }

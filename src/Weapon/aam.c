@@ -109,8 +109,8 @@ void aam_act_800670CC(Actor_Aam *actor)
             if (NewAMissile_8006DC50(&MStack88, actor->field_54))
             {
                 GM_Weapons[WEAPON_STINGER] = --sVar3;
-                GM_SeSet_80032858(&actor->field_44_ctrl->field_0_position, 0x4c);
-                GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_position);
+                GM_SeSet_80032858(&actor->field_44_ctrl->field_0_mov, 0x4c);
+                GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_mov);
 
                 vibrate_init2_8005D58C(byte_8009F40C, 1);
                 vibrate_init2_8005D58C(byte_8009F414, 2);

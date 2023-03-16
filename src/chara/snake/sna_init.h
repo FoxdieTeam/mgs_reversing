@@ -241,7 +241,7 @@ typedef struct Actor_SnaInit
     Sna_1F4             field_1F4[33]; // bottom half of array is weapon related
     Sna_Joint_Rotations field_698_joint_rotations;
     SVECTOR             field_718[16]; // same size as above, related / same struct?
-    int                 field_798;
+    int                 field_798_p_height;
     int                 field_79C;
     int                 field_7A0_msg_count;
     GV_MSG              field_7A4_msgs[8];
@@ -265,8 +265,8 @@ typedef struct Actor_SnaInit
     GV_ACT              *field_908_weapon_actor;
     void               *field_90C_pWeaponFn;
     int                 field_910;
-    int                 field_914;
-    short              *field_918_pWeaponState;
+    int                 field_914_trigger;
+    short              *field_918_n_bullets;
     int                 field_91C_weapon_idx;
     int                 field_920_tbl_8009D580;
     short               field_924;
@@ -298,7 +298,7 @@ typedef struct Actor_SnaInit
     short               field_A22_snake_current_health;
     char                field_A24_invuln_frames;
     char                field_A25;
-    short               field_A26_fn_stance_idx; // SNA_STANCE_...
+    short               field_A26_stance; // SNA_STANCE_...
     short               field_A28;
     short               field_A2A;
     SVECTOR             field_A2C;
@@ -325,6 +325,8 @@ typedef struct Actor_SnaInit
     SVECTOR        field_A68;
     int            field_A70;
 } Actor_SnaInit;
+
+typedef int (*TSnakeActFunction)(Actor_SnaInit *);
 
 void         sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn);
 void         sna_init_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp);
@@ -454,6 +456,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time);
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor);
 void sna_init_anim_psg1_helper_80057FD4(Actor_SnaInit *pActor, int a2);
+void sna_init_act_helper_8002DA14(GM_Target *pTarget);
 
 void sna_init_80051DA0(Actor_SnaInit *pActor);
 void sna_init_80053360(Actor_SnaInit *pActor);

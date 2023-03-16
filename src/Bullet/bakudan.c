@@ -77,7 +77,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     GM_CurrentMap_800AB9B0 = pActor->field_118;
 
     GM_ActObject2_80034B88(&pActor->field_9C_kmd);
-    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_position, pActor->field_C0_light_mtx);
+    DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_mtx);
 
     if (((pActor->field_110_pPad->press & PAD_CIRCLE) &&
         (dword_8009F430 != GV_Time_800AB330) &&
@@ -112,7 +112,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     else if (pMtx)
     {
         DG_SetPos_8001BC44(pMtx);
-        DG_PutVector_8001BE48(pActor->field_104, &pCtrl->field_0_position, 1);
+        DG_PutVector_8001BE48(pActor->field_104, &pCtrl->field_0_mov, 1);
         DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->field_8_rotator);
     }
 }

@@ -57,7 +57,7 @@ void door_open_8006ECB8(Actor_Door *param_1, int param_2, int param_3)
     SVECTOR *pos;
 
     mts_nullsub_8_8008BB98(1, aOpen, param_3); // " open!! \n"
-    pos = &(param_1->field_20_ctrl).field_0_position;
+    pos = &(param_1->field_20_ctrl).field_0_mov;
 
     if (((dword_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
          param_1->field_FE_sound_effect != 0) &&
@@ -75,7 +75,7 @@ void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
 
     mts_nullsub_8_8008BB98(1, aClose, param_3); // " close!! \n"
     param_1->field_E2_maybe_state = 1;
-    pos = &param_1->field_20_ctrl.field_0_position;
+    pos = &param_1->field_20_ctrl.field_0_mov;
 
     if ((dword_800ABA0C & param_1->field_E0_where) != 0)
     {
@@ -108,22 +108,22 @@ int door_act_helper_8006F290(GM_Control *pCtrl, int param_h)
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_position.vx - pCtrl->field_0_position.vx;
-    
+    diff = gSnaControl_800AB9F4->field_0_mov.vx - pCtrl->field_0_mov.vx;
+
     if ( (diff < -param_h_50) || (param_h_50 < diff) )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_position.vz - pCtrl->field_0_position.vz;
-    
+    diff = gSnaControl_800AB9F4->field_0_mov.vz - pCtrl->field_0_mov.vz;
+
     if ( (diff < -param_h_50) || (param_h_50 < diff) )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_position.vy - pCtrl->field_0_position.vy;
-    
+    diff = gSnaControl_800AB9F4->field_0_mov.vy - pCtrl->field_0_mov.vy;
+
     if ( (diff > 2500) || (diff < 0)  )
     {
         return 0;
@@ -174,7 +174,7 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
     int                i;
     Actor_Door_TParam *pOffset;
 
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rotator);
 
     param_w_alternating = pDoor->field_E6_param_w_v;
     for (i = 0; i < pDoor->field_E4_t_param_v; i++)
@@ -199,7 +199,7 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
 
 static inline void SetFlag(GM_Control *pCtrl, int flag)
 {
-    pCtrl->field_55_flags |= flag;
+    pCtrl->field_55_skip_flag |= flag;
 }
 
 int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
@@ -233,7 +233,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_position, &pDoor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rotator);
     DG_PutObjs_8001BDB8(pDoor->field_9C.objs);
     GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
 
@@ -275,8 +275,8 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
         SVECTOR     vec;
         GM_Control *pCtrl = &pDoor->field_20_ctrl;
         GV_DirVec2_80016F24((pCtrl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
-        pCtrl->field_0_position.vx += vec.vx;
-        pCtrl->field_0_position.vz += vec.vz;
+        pCtrl->field_0_mov.vx += vec.vx;
+        pCtrl->field_0_mov.vz += vec.vz;
     }
 
     pDoor->field_F2_door_counter = 0;
