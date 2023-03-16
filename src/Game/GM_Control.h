@@ -24,7 +24,7 @@ enum
     CONTROL_FLAG_UNK1 = 0x1,
     CONTROL_FLAG_UNK2 = 0x2,
     CONTROL_FLAG_UNK4 = 0x4, // affects collision
-    CONTROL_FLAG_UNK8 = 0x8,
+    CONTROL_FLAG_BOTH_CHECK = 0x8,
     CONTROL_FLAG_UNK10 = 0x10,
     CONTROL_FLAG_UNK20 = 0x20,
     CONTROL_FLAG_UNK40 = 0x40,
@@ -59,7 +59,7 @@ typedef struct GM_Control
     short field_32_height;
 
     // If 80025A7C() @ 0x80025b8c is not allowed to read this field, Snake goes through walls.
-    short field_34;
+    short field_34_hzd_height;
     short field_36;
     short field_38;
     short field_3A;
@@ -76,7 +76,7 @@ typedef struct GM_Control
     SVECTOR       field_44_movementVector;
     SVECTOR       field_4C_turn_vec;
     char          field_54;
-    unsigned char field_55_flags; // CONTROL_FLAG_...
+    unsigned char field_55_skip_flag; // CONTROL_FLAG_...
     signed char   field_56;
     signed char   field_57;
 
@@ -92,8 +92,7 @@ typedef struct GM_Control
     SVECTOR *field_70[2];
 
     // Shadow offset.
-    short field_78;
-    short field_7A;
+    short field_78_levels[2];
 } GM_Control;
 
 #define MAX_CONTROLS 96

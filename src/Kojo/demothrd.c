@@ -107,7 +107,6 @@ void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
 
-void GM_ActObject_80034AF4(OBJECT *obj);
 void DG_8001CDB8(DG_OBJS *pObjs);
 
 int DM_ThreadStream_80079460(int flag, int unused)

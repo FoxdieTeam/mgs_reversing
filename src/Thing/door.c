@@ -199,7 +199,7 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
 
 static inline void SetFlag(GM_Control *pCtrl, int flag)
 {
-    pCtrl->field_55_flags |= flag;
+    pCtrl->field_55_skip_flag |= flag;
 }
 
 int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)

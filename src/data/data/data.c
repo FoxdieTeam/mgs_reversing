@@ -698,7 +698,8 @@ void *SECTION(".data") dword_8009EEB8[] = {
     (void *)0x800529C0  // sna_init_anim_prone_move_800529C0
 };
 
-int SECTION(".data") dword_8009EEC4[] = {0xFA02EE, 0xFA};
+short SECTION(".data") HzdHeights_8009EEC4[] = {750, 250, 250, 0};
+
 int SECTION(".data") dword_8009EECC[] = {0x1F0044C, 0x88};
 int SECTION(".data") dword_8009EED4 = 0x47F;
 int SECTION(".data") dword_8009EED8[] = {0x2FF01E1, 0};

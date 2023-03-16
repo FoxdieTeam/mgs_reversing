@@ -100,13 +100,13 @@ int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int s
     }
 
     pControl->field_32_height = 850;
-    pControl->field_34 = -32767;
+    pControl->field_34_hzd_height = -32767;
     pControl->field_38 = 450;
     pControl->field_36 = 450;
     pControl->field_59 = 2;
-    pControl->field_55_flags = CONTROL_FLAG_UNK2;
-    pControl->field_78 = -32000;
-    pControl->field_7A = 32000;
+    pControl->field_55_skip_flag = CONTROL_FLAG_UNK2;
+    pControl->field_78_levels[0] = -32000;
+    pControl->field_78_levels[1] = 32000;
 
     return 0;
 }

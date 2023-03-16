@@ -137,9 +137,9 @@ void shadow_act_helper_80060028(Actor_Shadow *pActor)
     RotMatrixY_80093BC8(pActor->field_20_ctrl->field_8_rotator.vy, &objs->world);
     objs->world.t[0] = pActor->field_24_pObj->objs->world.t[0];
     objs->world.t[2] = pActor->field_24_pObj->objs->world.t[2];
-    objs->world.t[1] = pActor->field_20_ctrl->field_78;
+    objs->world.t[1] = pActor->field_20_ctrl->field_78_levels[0];
 
-    if ((pActor->field_20_ctrl->field_0_mov.vy - pActor->field_20_ctrl->field_78) < 450)
+    if ((pActor->field_20_ctrl->field_0_mov.vy - pActor->field_20_ctrl->field_78_levels[0]) < 450)
     {
         objs->objs[0].raise = -500;
     }

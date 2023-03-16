@@ -696,7 +696,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
 
     pControl->field_44_movementVector = DG_ZeroVector_800AB39C;
-    pControl->field_55_flags = '\x03';
+    pControl->field_55_skip_flag = CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2;
 
     puVar6 = (unsigned char *) GCL_GetParam_80020968('b');
     type = 0;
@@ -913,7 +913,7 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     GM_ConfigControlHazard_8002622C(pCtrl, 100, 500, 500);
     GM_ConfigControlInterp_80026244(pCtrl, 0);
 
-    pCtrl->field_55_flags = (CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2);
+    pCtrl->field_55_skip_flag = CONTROL_FLAG_UNK1 | CONTROL_FLAG_UNK2;
     pCtrl->field_44_movementVector = *a3;
     pCtrl->field_44_movementVector.vy = 160;
     pCtrl->field_0_mov = *pPos;
