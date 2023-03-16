@@ -201,13 +201,6 @@ typedef enum
     SNA_FLAG2_UNK32 = 0x80000000,
 } SnaFlag2;
 
-// Consumed by sub_8004FCB8().
-typedef struct UnkSnakeStruct
-{
-    SVECTOR field_0_vectors[3];
-    int     field_18_ints[2];
-} UnkSnakeStruct;
-
 // sub struct of Actor_SnaInit
 typedef struct UnkSnakeStruct2
 {

@@ -131,6 +131,11 @@ extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
 extern int                dword_800AB9D4;
 extern short              HzdHeights_8009EEC4[];
+extern int                DG_CurrentGroupID_800AB968;
+extern int                GV_Clock_800AB920;
+extern MATRIX             stru_8009F064;
+extern MATRIX             stru_8009F084;
+extern MATRIX             stru_8009F0A4;
 
 extern TSnakeActFunction GM_lpfnPlayerActControl_800AB3DC;
 extern TSnakeActFunction GM_lpfnPlayerActObject2_800AB3E0;
@@ -1239,28 +1244,29 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
     }
 }
 
-int sub_8004FCB8(Actor_SnaInit *snake, UnkSnakeStruct *unkSnakeStruct, int param_3)
+int sub_8004FCB8(Actor_SnaInit *pActor, MATRIX *pMtx, int param_3)
 {
-    int        sub_8004E51C_result;
     GM_Target *pTarget;
     SVECTOR    vec;
     SVECTOR    vec_arr[2];
 
-    pTarget = &snake->field_8A0_target;
-    GM_SetTarget_8002DC74(pTarget, 4, 1, &unkSnakeStruct->field_0_vectors[1]);
-    DG_RotVector_8001BE98(&unkSnakeStruct->field_0_vectors[2], &vec, 1);
-    GM_Target_8002DCCC(pTarget, 3, param_3, unkSnakeStruct->field_18_ints[0], unkSnakeStruct->field_18_ints[1], &vec);
-    DG_PutVector_8001BE48(unkSnakeStruct->field_0_vectors, &vec, 1);
-    vec_arr[0].vx = snake->field_9C_obj.objs->objs[5].world.t[0];
-    vec_arr[0].vy = snake->field_9C_obj.objs->objs[5].world.t[1];
-    vec_arr[0].vz = snake->field_9C_obj.objs->objs[5].world.t[2];
+    pTarget = &pActor->field_8A0_target;
+    GM_SetTarget_8002DC74(pTarget, 4, 1, (SVECTOR *)&pMtx->m[1][1]);
+    DG_RotVector_8001BE98((SVECTOR *)&pMtx->m[2][2], &vec, 1);
+    GM_Target_8002DCCC(pTarget, 3, param_3, pMtx->t[1], pMtx->t[2], &vec);
+    DG_PutVector_8001BE48((SVECTOR *)&pMtx->m[0], &vec, 1);
+
+    vec_arr[0].vx = pActor->field_9C_obj.objs->objs[5].world.t[0];
+    vec_arr[0].vy = pActor->field_9C_obj.objs->objs[5].world.t[1];
+    vec_arr[0].vz = pActor->field_9C_obj.objs->objs[5].world.t[2];
     vec_arr[1] = vec;
-    sub_8004E51C_result = sub_8004E51C(vec_arr, ((snake->field_20_ctrl).field_2C_map)->field_8_hzd, 0xf, 1);
-    if (sub_8004E51C_result < 0)
+
+    if ( sub_8004E51C(vec_arr, pActor->field_20_ctrl.field_2C_map->field_8_hzd, 15, 1) < 0 )
     {
         GM_Target_SetVector_8002D500(pTarget, &vec);
         return sub_8002D7DC(pTarget);
     }
+
     return 0;
 }
 
@@ -4699,6 +4705,8 @@ void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 // similar to above, seems freeze snake and make him look at a certain direction or track something
 // triggers on first elevator ride at dock and right before mantis fight to look at meryl
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s") // 2168 bytes
+void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time);
+
 
 void sna_init_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time)
 {
@@ -5679,14 +5687,96 @@ void sub_80058644(Actor_SnaInit *pActor, int time)
         if ((iVar1 == 1 && pActor->field_9C_obj.field_1A != 0) || iVar1 == 2)
         {
             sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
-            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_idle_8005275C);
         }
 
         pActor->field_A2C.vy = -100;
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_claymore_helper_80058780.s") // 584 bytes
+void sna_init_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int time)
+{
+    int var_s1;
+    int x, y;
+    int w;
+    POLY_GT4 *pPoly;
+    int i, j;
+
+    pActor->field_914_trigger = 1; // 1 = WEAPON_TAKE
+
+    if ( time < 10 )
+    {
+        return;
+    }
+
+    var_s1 = pActor->field_A38;
+
+    if ( var_s1 == 0 )
+    {
+        sub_8004EEB0(pActor);
+
+        DG_GroupPrim(pActor->field_92C, DG_CurrentGroupID_800AB968);
+        DG_VisiblePrim(pActor->field_92C);
+        DG_PutPrim_8001BE00(&pActor->field_92C->world);
+
+        if ( !(pActor->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount_800AB380 == 0) )
+        {
+            var_s1 = sub_8004E5E8(pActor, 0x40);
+
+            if ( var_s1 == 1 )
+            {
+                sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_4, 1);
+                pActor->field_A38 = 1;
+                pActor->field_914_trigger |= 2; // 2 = WEAPON_TRIG
+            }
+            else if ( var_s1 == 2 )
+            {
+                GM_Sound_80032968(0, 63, 35);
+            }
+        }
+    }
+
+    y = GV_Time_800AB330 & 63;
+
+    if ( y > 32 )
+    {
+        y = 64 - y;
+    }
+
+    x = pActor->field_928->field_8_offx;
+    w = x + 63;
+    y += pActor->field_928->field_9_offy;
+
+    pPoly = &pActor->field_92C->field_40_pBuffers[GV_Clock_800AB920]->poly_gt4;
+
+    for ( i = 0; i < 2; i++ )
+    {
+        pPoly->u0 = x;
+        pPoly->v0 = y;
+        pPoly->u1 = w;
+        pPoly->v1 = y;
+        pPoly->u2 = x;
+        pPoly->v2 = y;
+        pPoly->u3 = w;
+        pPoly->v3 = y;
+        pPoly++;
+    }
+
+    if ( ((var_s1 == 1) && (pActor->field_9C_obj.field_1A != 0)) || (var_s1 == 2) )
+    {
+        sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK26 | SNA_FLAG1_UNK3);
+        DG_InvisiblePrim(pActor->field_92C);
+        sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_idle_8005275C);
+        GM_ConfigMotionAdjust_80035008(&pActor->field_9C_obj, NULL);
+
+        for ( j = 0; j < 16; j++ )
+        {
+            pActor->field_718[j] = DG_ZeroVector_800AB39C;
+        }
+    }
+
+    pActor->field_A2C.vy = -100;
+}
 
 void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int time)
 {
@@ -5997,7 +6087,101 @@ void sub_800591BC(Actor_SnaInit *pActor)
     sna_init_clear_flags1_8004E308(pActor, (SNA_FLAG1_UNK3 | SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_punch_helper_800591F4.s") // 808 bytes
+void sna_init_anim_punch_helper_800591F4(Actor_SnaInit *pActor, int time)
+{
+    int x, y;
+    int sound;
+
+    if ( time == 0 )
+    {
+        HomingTarget_2_80032EAC(&pActor->field_9C_obj.objs->objs[6].world,
+                                pActor->field_20_ctrl.field_8_rotator.vy,
+                                &x, &y, pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit,
+                                2000, 1024);
+
+        if ( x >= 0 )
+        {
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = x;
+        }
+    }
+
+    if ( time == 4 )
+    {
+        sub_8004FCB8(pActor, &stru_8009F064, 3);
+
+        sound = 56;
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000) )
+        {
+            sound = 182;
+        }
+
+        GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, sound);
+        GM_SetNoise(time, 2, &pActor->field_20_ctrl.field_0_mov);
+    }
+
+    if ( time == 6 )
+    {
+        if ( !(pActor->field_A38 & 0x20) )
+        {
+            sub_800591BC(pActor);
+            return;
+        }
+
+        pActor->field_A38 &= ~0x20;
+    }
+
+    if ( time == 11 )
+    {
+        sub_8004FCB8(pActor, &stru_8009F084, 3);
+
+        sound = 56;
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000) )
+        {
+            sound = 182;
+        }
+
+        GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, sound);
+        GM_SetNoise(4, 2, &pActor->field_20_ctrl.field_0_mov);
+    }
+
+    if ( time == 13 )
+    {
+        if ( !(pActor->field_A38 & 0x20) )
+        {
+            sub_800591BC(pActor);
+            return;
+        }
+
+        pActor->field_A38 = 0;
+    }
+
+    if ( time == 22 )
+    {
+        sub_8004FCB8(pActor, &stru_8009F0A4, 4);
+
+        sound = 57;
+        if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK1000000) )
+        {
+            sound = 182;
+        }
+
+        GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, sound);
+        GM_SetNoise(4, 2, &pActor->field_20_ctrl.field_0_mov);
+    }
+
+    if ( pActor->field_9C_obj.field_1A != 0 )
+    {
+        sub_800591BC(pActor);
+        return;
+    }
+
+    pActor->field_A38 |= pActor->field_9B0_pad_ptr->press;
+
+    if ( (pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 )
+    {
+        sub_800591BC(pActor);
+    }
+}
 
 void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor)
 {
