@@ -31,9 +31,9 @@ int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
     if (GCL_GetParam_80020968('s'))
     {
         unkStruct = gSnaControl_800AB9F4;
-        GM_SnakePosX = unkStruct->field_0_position.vx;
-        GM_SnakePosY = unkStruct->field_0_position.vy;
-        GM_SnakePosZ = unkStruct->field_0_position.vz;
+        GM_SnakePosX = unkStruct->field_0_mov.vx;
+        GM_SnakePosY = unkStruct->field_0_mov.vy;
+        GM_SnakePosZ = unkStruct->field_0_mov.vz;
         GM_LastResultFlag = unkStruct->field_8_rotator.vy;
     }
     if (GCL_GetParam_80020968('a')) // area

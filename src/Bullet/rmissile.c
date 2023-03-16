@@ -186,13 +186,13 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     ctrl = pActor->field_20_ctrl;
 
     menu_Text_XY_Flags_80038B34(8, 136, 0);
-    menu_Text_80038C38(aD_4, ctrl.field_0_position.vx);
+    menu_Text_80038C38(aD_4, ctrl.field_0_mov.vx);
 
     menu_Text_XY_Flags_80038B34(8, 144, 0);
-    menu_Text_80038C38(aD_4, ctrl.field_0_position.vy);
+    menu_Text_80038C38(aD_4, ctrl.field_0_mov.vy);
 
     menu_Text_XY_Flags_80038B34(8, 152, 0);
-    menu_Text_80038C38(aD_4, ctrl.field_0_position.vz);
+    menu_Text_80038C38(aD_4, ctrl.field_0_mov.vz);
 
     menu_Text_Init_80038B98();
 }
@@ -251,7 +251,7 @@ void rmissile_act_helper_8006BD24(Actor_rmissile *pActor, int arg1)
 
 void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
 {
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF)
     {
         return;
     }
@@ -265,7 +265,7 @@ void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
 
 void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
 {
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF)
     {
         return;
     }
@@ -296,7 +296,7 @@ void rmissile_act_helper_8006BEEC(Actor_rmissile *pActor)
     {
         pActor->field_117 = 1;
         pActor->field_16A = 15;
-        pActor->field_16C_svector = pActor->field_20_ctrl.field_0_position;
+        pActor->field_16C_svector = pActor->field_20_ctrl.field_0_mov;
         pActor->field_113 = 0;
 
         GM_Camera_800B77E8.field_22 = 0;
@@ -381,7 +381,7 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
         return;
     }
 
-    pPosition = &pActor->field_20_ctrl.field_0_position;
+    pPosition = &pActor->field_20_ctrl.field_0_mov;
     found = rmissile_act_helper_helper_8006C0A4();
 
     if (pActor->field_20_ctrl.field_58 <= 0 && !(pActor->field_20_ctrl.field_57 & 2))
@@ -514,7 +514,7 @@ void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
         pPoly->b0 = 128u - i * 16;
     }
 
-    DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutVector_8001BE48(vecs, pActor->field_2E4_svector_8Array, 8);
 }
 
@@ -549,16 +549,16 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         {
             if (pActor->field_118 != 0)
             {
-                vector2 = pActor->field_20_ctrl.field_0_position;
+                vector2 = pActor->field_20_ctrl.field_0_mov;
                 GV_NearExp2V_8002667C(&vector2.vx, &pActor->field_100_svector.vx, 3);
-                GV_SubVec3_80016D40(&vector2, &pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_44_movementVector);
+                GV_SubVec3_80016D40(&vector2, &pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_44_movementVector);
             }
         }
         else
         {
             DG_VisibleObjs(pActor->field_9C_kmd.objs);
             pActor->field_120_target.field_2_side = 0;
-            GV_SubVec3_80016D40(&pActor->field_100_svector, &pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_44_movementVector);
+            GV_SubVec3_80016D40(&pActor->field_100_svector, &pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_44_movementVector);
         }
     }
 
@@ -567,7 +567,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         if (!pActor->field_112)
         {
             GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
-            DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_position, &pActor->field_20_ctrl.field_8_rotator);
+            DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
             ReadRotMatrix_80092DD8(&rotation);
 
             if (GM_GameStatus_800AB3CC & 0xd0000000 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
@@ -599,7 +599,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 
         if (!pActor->field_117)
         {
-            gUnkCameraStruct_800B77B8.field_0 = pActor->field_20_ctrl.field_0_position;
+            gUnkCameraStruct_800B77B8.field_0 = pActor->field_20_ctrl.field_0_mov;
         }
         else
         {
@@ -624,11 +624,11 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         }
         else
         {
-            GM_SetNoise(5, 2, &pActor->field_20_ctrl.field_0_position);
-            pActor->field_108_svector = pActor->field_20_ctrl.field_0_position;
+            GM_SetNoise(5, 2, &pActor->field_20_ctrl.field_0_mov);
+            pActor->field_108_svector = pActor->field_20_ctrl.field_0_mov;
 
             GM_ActControl_80025A7C(&pActor->field_20_ctrl);
-            svector_8009F478 = vector2 = pActor->field_20_ctrl.field_0_position;
+            svector_8009F478 = vector2 = pActor->field_20_ctrl.field_0_mov;
 
             GM_ActObject2_80034B88(&pActor->field_9C_kmd);
             DG_GetLightMatrix2_8001A5D8(&vector2, pActor->field_C0_light_matrices);
@@ -710,7 +710,7 @@ int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
 
     GM_SetTarget_8002DC74(target, 0x4, whichSide, &svector_8009F488);
     GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
-    GM_Target_SetVector_8002D500(target, &pActor->field_20_ctrl.field_0_position);
+    GM_Target_SetVector_8002D500(target, &pActor->field_20_ctrl.field_0_mov);
     return 0;
 }
 
@@ -858,9 +858,9 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
 
     GM_ConfigControlMatrix_80026154(ctrl, pMtx);
 
-    pActor->field_100_svector = ctrl->field_0_position;
+    pActor->field_100_svector = ctrl->field_0_mov;
     pActor->field_110 = 8;
-    ctrl->field_0_position = svector_800ABA10;
+    ctrl->field_0_mov = svector_800ABA10;
     pActor->field_108_svector = svector_800ABA10;
     svector_8009F478 = svector_800ABA10;
 

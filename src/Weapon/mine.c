@@ -48,7 +48,7 @@ void mine_act_80067558(Actor_Mine *pActor)
       && counter_8009F448 < 8
       && NewJirai_8006B48C(obj, GM_BombSeg_800ABBD8))
     {
-        GM_SeSet_80032858(&pActor->field_20_pCtrl->field_0_position, 49);
+        GM_SeSet_80032858(&pActor->field_20_pCtrl->field_0_mov, 49);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;
 
         pActor->field_54_counter = 21;

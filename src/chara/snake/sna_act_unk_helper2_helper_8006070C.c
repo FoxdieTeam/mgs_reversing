@@ -10,7 +10,7 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, GM_Control *pControl
     int zon;
     HZD_ZON *pZon;
 
-    pPosition = &pControl->field_0_position;
+    pPosition = &pControl->field_0_mov;
     pHzd = pControl->field_2C_map->field_8_hzd;
 
     x = pAutoMove->field_0_ivec.vx;

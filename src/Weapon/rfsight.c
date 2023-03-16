@@ -19,7 +19,7 @@ void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, 
     status = pPad->status;
     GM_CheckShukanReverse_8004FBF8(&status);
 
-    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK20000000))
+    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF))
     {
         status = 0;
     }

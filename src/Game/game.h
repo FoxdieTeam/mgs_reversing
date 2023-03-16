@@ -107,7 +107,7 @@ typedef enum
     PLAYER_STATUS_USING_CONTROLLER_PORT_2 = 0x8000000,
     PLAYER_STATUS_CAN_USE_CONTROLLER_PORT_2 = 0x10000000,
     // stops movement, actions, and item/weap switching. - pause/radio still available
-    PLAYER_STATUS_UNK20000000 = 0x20000000,
+    PLAYER_STATUS_PAD_OFF = 0x20000000,
     // Set from sna_init_check_dead_8004E384() and sna_init_anim_dying_80055524().
     PLAYER_STATUS_DEADORDYING = 0x40000000,
     PLAYER_STATUS_UNK80000000 = 0x80000000,

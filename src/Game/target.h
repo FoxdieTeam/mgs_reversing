@@ -21,10 +21,7 @@ typedef struct GM_Target
     short          field_28;
     short          field_2A;
     SVECTOR        field_2C_vec;
-    short          field_34_vec;
-    short          field_36;
-    short          field_38;
-    short          field_3A;
+    SVECTOR        field_34_vec;
     short          field_3C;
     short          field_3E;
     short          field_40;
