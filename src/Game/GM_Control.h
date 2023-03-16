@@ -41,7 +41,7 @@ typedef struct GM_Control
     // - 0x80026040 (W): controls vy during gameplay when going down;
     // - 0x80025cec (W): controls vz during gameplay;
     // - 0x80025dcc (W): appears to control vz during or when exiting animations (eg against walls).
-    SVECTOR field_0_position;
+    SVECTOR field_0_mov;
 
     // Rotator, in which each field (other than padding) is a fixed-point number ranging from 0 to ONE (ie 4096,
     // unclamped and using modulo for values outside of this range) where ONE is a full rotation:

@@ -265,8 +265,8 @@ typedef struct Actor_SnaInit
     GV_ACT              *field_908_weapon_actor;
     void               *field_90C_pWeaponFn;
     int                 field_910;
-    int                 field_914;
-    short              *field_918_pWeaponState;
+    int                 field_914_trigger;
+    short              *field_918_n_bullets;
     int                 field_91C_weapon_idx;
     int                 field_920_tbl_8009D580;
     short               field_924;

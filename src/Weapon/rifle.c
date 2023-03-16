@@ -136,8 +136,8 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
 
     if (!temp_s1 && (temp_s2 & 2))
     {
-        GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_position, 4);
-        GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_position);
+        GM_SeSet_80032858(&pActor->field_44_pCtrl->field_0_mov, 4);
+        GM_SetNoise(5, 2, &pActor->field_44_pCtrl->field_0_mov);
     }
     else if ((temp_s1 > 0) && (temp_s2 & 2))
     {
@@ -159,7 +159,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         bullet_init_80076584(&mtx, pActor->field_54, 0, 2);
 
         GM_Sound_80032968(0, 63, 27);
-        GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_position);
+        GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_mov);
 
         d_800AB9EC_mag_size = --temp_s1;
         GM_Weapons[WEAPON_PSG1]--;

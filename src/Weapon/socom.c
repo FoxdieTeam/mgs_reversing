@@ -306,8 +306,8 @@ void socom_act_80065518( Actor_Socom *a1 )
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_position, 4 );
-        GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_position);
+        GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 4 );
+        GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_mov);
     }
     else if ( ( magSize > 0 ) && ( flags & 2 ) )
     {
@@ -320,14 +320,14 @@ void socom_act_80065518( Actor_Socom *a1 )
 
         if ( a1->field_56 == 0 )
         {
-            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_position, 1 );
-            GM_SetNoise(200, 2, &a1->field_44_pCtrl->field_0_position);
+            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 1 );
+            GM_SetNoise(200, 2, &a1->field_44_pCtrl->field_0_mov);
             anime_create_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_position, 0x52 );
-            GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_position);
+            GM_SeSet_80032858( &a1->field_44_pCtrl->field_0_mov, 0x52 );
+            GM_SetNoise(5, 2, &a1->field_44_pCtrl->field_0_mov);
             anime_create_8005D988( world, &MStack48, 1 );
         }
 

@@ -107,7 +107,7 @@ void menu_8003B614(int index)
 int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
 {
     int bit;
-    
+
     if ((GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200) &&
         (GM_ItemTypes_8009D598[item + 1] & 1))
     {
@@ -119,8 +119,8 @@ int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
         if ((item == ITEM_C_BOX_A) ||
             (item == ITEM_C_BOX_B) ||
             (item == ITEM_C_BOX_C))
-        {     
-            return 1;   
+        {
+            return 1;
         }
     }
 
@@ -147,7 +147,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
     Menu_rpk_item *pPalItem;
     Menu_rpk_item *pImgItem;
     SPRT *pSprt;
-    
+
     pPalItem = menu_rpk_get_pal_8003DD9C(id * 2 + 33);
     pImgItem = menu_rpk_get_img_8003DDB4(id * 2 + 34);
 
@@ -162,7 +162,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
     img_rect.w = pImgItem->field_2_w;
     img_rect.h = pImgItem->field_3_h;
     LoadImage_8008FB10(&img_rect, pImgItem->field_4_pixel_ptr);
-    
+
     pSprt = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
     pActor->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)(pSprt + 1);
 
@@ -241,7 +241,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
             field_20_otBuf = pActor->field_20_otBuf;
             pIconSprt = (SPRT *)field_20_otBuf->mPrimBuf.mFreeLocation;
             field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
-            
+
             if ( !pMenuSub->field_0_current.field_4_pos )
             {
                 rgb = 0x808080;
@@ -267,7 +267,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
     {
         menu_number_draw_string_800430F0(pActor, pOt, xpos + 46, ypos + 22, aNoItem, 1);
     }
-    
+
     if ( !pMenuSub->field_0_current.field_4_pos )
     {
         bBlueBackground = pMenuSub->field_0_current.field_6_current == 0;
@@ -297,7 +297,7 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
 
     index = pActor->field_1DC_menu_left.field_0_current.field_0_id;
     pLinkVar = linkvarbuf;
-    
+
     if ((index >= 0) && !menu_inventory_Is_Item_Disabled_8003B6D0(index))
     {
         pLinkVar[15] = index;
@@ -322,7 +322,7 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
 
     GM_Sound_80032968(0, 63, 20);
 }
-    
+
 int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
 {
     int activeItems;
@@ -366,7 +366,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
         {
             cardVal = 0;
         }
-    
+
         panelIndex = 0;
 
         for (i = 0; i < GM_TotalItems; i++)
@@ -374,7 +374,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
             if (i == dword_800ABAD0)
             {
                 AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], ITEM_NONE, 1);
-    
+
                 panelIndex++;
 
                 if (cardVal == 0)
@@ -396,7 +396,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
                 AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], i, GM_Items[i]);
                 panelIndex++;
             }
-    
+
             if (cardVal > 0)
             {
                 AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], ITEM_CARD, GM_Items[ITEM_CARD]);
@@ -423,7 +423,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
         menu_panel_free_8003D184(pPanels);
         return 0;
     }
-        
+
     dword_800AB578 = 0;
     dword_800AB574 = 0;
     pActor->field_1DC_menu_left.field_10_state = 2;
@@ -448,7 +448,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
     {
         if (!(GM_GameStatus_800AB3CC & 0x80400))
         {
-            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_UNK20000000 | PLAYER_STATUS_PREVENT_ITEM_SWITCH |
+            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_PAD_OFF | PLAYER_STATUS_PREVENT_ITEM_SWITCH |
                                               PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH)))
             {
                 if (menu_8003DA9C(&pActor->field_1DC_menu_left, pPad))
