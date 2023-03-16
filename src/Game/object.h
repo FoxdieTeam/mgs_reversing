@@ -12,6 +12,7 @@ void GM_ActObject2_80034B88(OBJECT *obj);
 int  GM_ConfigObjectModel_80034E10(OBJECT_NO_ROTS *obj, int model);
 void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion);
 void GM_ActMotion_80034A7C(OBJECT *obj);
+void GM_ActObject_80034AF4(OBJECT *pObject);
 
 
 #endif // _OBJECT_H_
