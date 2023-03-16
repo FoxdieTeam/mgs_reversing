@@ -4937,8 +4937,51 @@ void sna_init_anim_rungun_80056C3C(Actor_SnaInit *param_1, int time)
     }
 }
 
-// https://decomp.me/scratch/XqwyZ
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_anim_nikita_80056C9C.s") // 320 bytes
+void sna_init_anim_nikita_80056C9C(Actor_SnaInit *pActor, int time)
+{
+    if (time == 0)
+    {
+        pActor->field_9C8_anim_update_fn_3p = sna_init_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_init_fn_nothing_80053B80;
+
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_4, 4);
+        sna_init_8004E260(pActor, 0, 4, 0);
+
+        if (*pActor->field_918_pWeaponState == 0)
+        {
+            pActor->field_A38 = 1;
+        }
+        else
+        {
+            if (sna_init_sub_8004E358(pActor, SNA_FLAG2_UNK5))
+            {
+                sna_init_8004EC00(pActor);
+            }
+        }
+
+        sna_init_set_flags2_8004E330(pActor, SNA_FLAG2_UNK9);
+    }
+
+    if (pActor->field_9C_obj.field_1A != 0)
+    {
+        sna_init_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_0, 4);
+    }
+
+    if (pActor->field_A38 != 0 || time >= 24)
+    {
+        if (pActor->field_A38 != 0 || time == 24)
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_PREVENT_ITEM_SWITCH);
+        }
+    
+        if (dword_8009F46C[0] == 0)
+        {
+            sna_init_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
+            sna_init_clear_flags2_8004E344(pActor, SNA_FLAG2_UNK9);
+            sna_init_start_anim_8004E1F4(pActor, sna_init_anim_idle_8005275C);
+        }
+    }
+}
 
 static inline int sna_init_anim_psg1_helper_80056DDC(void)
 {
