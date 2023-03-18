@@ -619,7 +619,8 @@ POLY_GT4 *   DG_Trans_Chanl_helper_helper_8001DD90(unsigned int *pFaceIndices, P
 unsigned int DG_Trans_Chanl_helper_helper_helper_8001DC90(unsigned int index, POLY_GT4 *pPoly);
 
 void DG_8001844C();
-
+int sub_800321AC(int a1, int a2);
+void sub_8003214C(SVECTOR *pVec, int *pRet);
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
