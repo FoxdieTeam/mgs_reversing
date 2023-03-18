@@ -159,6 +159,7 @@ def compare_exes(a_path, b_path, have_capstone):
         a_len = len(a_dis)
         b_len = len(b_dis)
         print('-', name, '-')
+        print('Current', (SIDE_BY_SIDE_PADDING - len('Current')) * ' ', 'Target')
         for i in range(max(a_len, b_len)):
             a = '' if i >= a_len else a_dis[i]
             b = '' if i >= b_len else b_dis[i]
