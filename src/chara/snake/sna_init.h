@@ -295,7 +295,10 @@ typedef struct Actor_SnaInit
     short               field_A28;
     short               field_A2A;
     SVECTOR             field_A2C;
-    int                 field_A34;
+    char                field_A34;
+    char                field_A35;
+    char                field_A36;
+    char                field_A37;
     short               field_A38;
     short               field_A3A;
     SVECTOR             field_A3C;

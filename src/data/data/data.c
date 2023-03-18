@@ -700,20 +700,20 @@ void *SECTION(".data") dword_8009EEB8[] = {
 
 short SECTION(".data") HzdHeights_8009EEC4[] = {750, 250, 250, 0};
 
-int SECTION(".data") dword_8009EECC[] = {0x1F0044C, 0x88};
-int SECTION(".data") dword_8009EED4 = 0x47F;
-int SECTION(".data") dword_8009EED8[] = {0x2FF01E1, 0};
-int SECTION(".data") dword_8009EEE0 = 0x67F;
-int SECTION(".data") dword_8009EEE4[] = {0x4FF01E1, 0x84B02E1, 0};
-int SECTION(".data") dword_8009EEF0 = 0x17F;
-int SECTION(".data") dword_8009EEF4 = 0x39B;
-int SECTION(".data") dword_8009EEF8[] = {0x27F0200, 0};
-int SECTION(".data") dword_8009EF00[] = {0x650048C, 0};
-int SECTION(".data") dword_8009EF08[] = {0x27F0A00, 0};
-int SECTION(".data") dword_8009EF10[] = {0x8320250, 0x650048C, 0};
-int SECTION(".data") dword_8009EF1C = 0x4C4;
-int SECTION(".data") dword_8009EF20 = 0x494;
-int SECTION(".data") dword_8009EF24[] = {0x27F0200, 0};
+int SECTION(".data")  dword_8009EECC[] = {0x1F0044C, 0x88};
+int SECTION(".data")  dword_8009EED4 = 0x47F;
+int SECTION(".data")  dword_8009EED8[] = {0x2FF01E1, 0};
+int SECTION(".data")  dword_8009EEE0 = 0x67F;
+int SECTION(".data")  dword_8009EEE4[] = {0x4FF01E1, 0x84B02E1, 0};
+int SECTION(".data")  dword_8009EEF0 = 0x17F;
+int SECTION(".data")  dword_8009EEF4 = 0x39B;
+int SECTION(".data")  dword_8009EEF8[] = {0x27F0200, 0};
+int SECTION(".data")  dword_8009EF00[] = {0x650048C, 0};
+int SECTION(".data")  dword_8009EF08[] = {0x27F0A00, 0};
+int SECTION(".data")  dword_8009EF10[] = {0x8320250, 0x650048C, 0};
+char SECTION(".data") dword_8009EF1C[] = {196, 4, 0, 0};
+char SECTION(".data") dword_8009EF20[] = {148, 4, 0, 0};
+int SECTION(".data")  dword_8009EF24[] = {0x27F0200, 0};
 
 /*
 // TODO: Converting this entry de-syncs data
