@@ -8,7 +8,7 @@ extern SVECTOR        DG_ZeroVector_800AB39C;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            GM_GameStatus_800AB3CC;
-extern GM_Control    *gSnaControl_800AB9F4;
+extern CONTROL    *gSnaControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            dword_800ABA0C;
 extern                SVECTOR svector_800ABA10;
@@ -268,7 +268,7 @@ void item_act_80033784(Actor_Item *pActor)
     short pos[2];
     SVECTOR position;
     const char *pText;
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
     int vx;
     int state;
     int x, y ,z;
@@ -668,7 +668,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     DG_PRIM *pPrim;
     DG_TEX *pTex;
     int type;
-    GM_Control *pControl;
+    CONTROL *pControl;
     OBJECT *pObject;
     int iVar10;
     int code;
@@ -891,7 +891,7 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     int type; // $s3
     const char *str_name; // $v0
     int i; // $v1
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
 
     type = pItemInfo->field_4_type;
     pActor->field_114_item_id = pItemInfo->field_6_id;

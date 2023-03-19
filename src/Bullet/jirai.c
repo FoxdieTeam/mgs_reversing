@@ -14,7 +14,7 @@
 extern int           dword_8009F440;
 extern int           dword_8009F444;
 extern int           counter_8009F448;
-extern GM_Control   *gSnaControl_800AB9F4;
+extern CONTROL   *gSnaControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GM_GameStatus_800AB3CC;
 extern int           GM_CurrentMap_800AB9B0;
@@ -33,13 +33,13 @@ extern const char aFull_0[];     // = "FULL"
 extern const char aClaymore_2[]; // = "claymore"
 extern const char aJiraiC[];     // = "jirai.c"
 
-// GM_Target here seems to be wrong
-MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTarget)
+// TARGET here seems to be wrong
+MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget)
 {
     MATRIX mtx1;
     MATRIX mtx2;
 
-    GM_Target *temp_v0;
+    TARGET *temp_v0;
 
     int var_a2;
     int var_a0;
@@ -51,7 +51,7 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTa
     }
     else
     {
-        temp_v0 = (GM_Target *)((int)pTarget | 0x80000000);
+        temp_v0 = (TARGET *)((int)pTarget | 0x80000000);
 
         var_a2 = temp_v0->field_10_size.pad << 4;
         var_v1 = ((int)temp_v0->field_1C >> 16) << 4;
@@ -85,7 +85,7 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, GM_Target *pTa
 int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
 {
     int         local_10E;       // $v1
-    GM_Control *p_field_20_ctrl; // $a0
+    CONTROL *p_field_20_ctrl; // $a0
     SVECTOR     v;
 
     if ((GM_PlayerStatus_800ABA50 & 0x40) == 0)
@@ -196,9 +196,9 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
 
 void jirai_act_8006AB5C(Actor_Jirai *pActor)
 {
-    GM_Target target;
-    GM_Control *pCtrl;
-    GM_Target *pTarget;
+    TARGET target;
+    CONTROL *pCtrl;
+    TARGET *pTarget;
     int f130;
     Actor_Claymore *pClaymore;
 
@@ -419,7 +419,7 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
 
 int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3)
 {
-    GM_Target *pNewTarget;
+    TARGET *pNewTarget;
     SVECTOR    v12;
     SVECTOR   *v8;
 
@@ -475,10 +475,10 @@ int jirai_get_free_item_8006B268()
     return -1;
 }
 
-int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
+int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
 {
     int            map;      // $v1
-    GM_Control    *pCtrl;    // $s2
+    CONTROL       *pCtrl;    // $s2
     Jirai_unknown *pUnknown; // $a0
     MATRIX         matrix;   // [sp+10h] [-20h] BYREF
     SVECTOR       *vec;
@@ -542,7 +542,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, GM_Target *pTarget)
     return 0;
 }
 
-Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
+Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
 {
     Actor_Jirai *pActor; // $s0
 
@@ -571,7 +571,7 @@ Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, GM_Target *pTarget)
 int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
 {
     MATRIX      matrix;
-    GM_Control *ctrl;
+    CONTROL *ctrl;
     SVECTOR    *vec;
     OBJECT     *obj;
 

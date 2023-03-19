@@ -1,7 +1,7 @@
 #include "linker.h"
 #include "libgcl/libgcl.h"
 #include "mts/mts_new.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"
 

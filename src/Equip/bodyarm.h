@@ -3,7 +3,7 @@
 
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct Actor_bodyarm
 {
@@ -11,6 +11,6 @@ typedef struct Actor_bodyarm
     OBJECT *field_20;
 } Actor_bodyarm;
 
-GV_ACT *bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj);
+GV_ACT * NewBodyarm_80060940(CONTROL *pCtrl, OBJECT *pObj, int unused);
 
 #endif // _BODY_ARM_H_

@@ -1,4 +1,4 @@
-#include "GM_Control.h"
+#include "control.h"
 
 void HZD_SetEvent_80029AB4(Res_Control_unknown *param_1, short param_2)
 {

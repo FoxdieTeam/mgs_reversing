@@ -19,7 +19,7 @@ extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern short            scope_created_8009F2C4;
-extern GM_Control      *gSnaControl_800AB9F4;
+extern CONTROL      *gSnaControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
@@ -157,7 +157,7 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
     int uVar8;
     int iVar9;
     int iVar10;
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
     short *shortArr;
 
     sVar2 = GM_Camera_800B77E8.field_20;
@@ -723,7 +723,7 @@ void scope_loader_helper_80063368(LINE_F3 *pLines)
     }
 }
 
-int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pParent)
+int scope_loader_800633D4(Actor_scope *pActor, CONTROL *pCtrl, OBJECT *pParent)
 {
     struct map_record *pMap;
 
@@ -789,7 +789,7 @@ int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pParen
     return 0;
 }
 
-Actor_scope * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_scope *pActor; // $s0
 
@@ -809,5 +809,6 @@ Actor_scope * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent)
         }
         scope_created_8009F2C4 = 1;
     }
-    return pActor;
+
+    return &pActor->field_0_scope;
 }

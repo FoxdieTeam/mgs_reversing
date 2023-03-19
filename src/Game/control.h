@@ -1,5 +1,5 @@
-#ifndef GM_CONTROL_H
-#define GM_CONTROL_H
+#ifndef CONTROL_H
+#define CONTROL_H
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
@@ -31,7 +31,7 @@ enum
     CONTROL_FLAG_UNK80 = 0x80,
 }; // can't typedef char enums :(
 
-typedef struct GM_Control
+typedef struct CONTROL
 {
     // Position vector, mainly controlled by 80025A7C().
     // - 0x80025cd4 (W): controls vx during gameplay;
@@ -93,11 +93,11 @@ typedef struct GM_Control
 
     // Shadow offset.
     short field_78_levels[2];
-} GM_Control;
+} CONTROL;
 
 #define MAX_CONTROLS 96
 
-void GM_FreeControl_800260CC(GM_Control *pControl);
-void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECTOR *pVec2);
+void GM_FreeControl_800260CC(CONTROL *pControl);
+void GM_ConfigControlVector_800260FC(CONTROL *pControl, SVECTOR *pVec1, SVECTOR *pVec2);
 
-#endif // GM_CONTROL_H
+#endif // CONTROL_H

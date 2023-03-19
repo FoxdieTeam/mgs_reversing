@@ -257,7 +257,7 @@ void claymore_loader_80073930(Actor_Claymore *pActor)
 {
     SVECTOR vec;
 
-    GM_Target *pTarget = &pActor->field_3C_target;
+    TARGET *pTarget = &pActor->field_3C_target;
     GM_SetTarget_8002DC74(&pActor->field_3C_target, 4, 0, &stru_8009F660);
     vec.vx = pActor->field_34.vx / 32;
     vec.vy = pActor->field_34.vy / 32;

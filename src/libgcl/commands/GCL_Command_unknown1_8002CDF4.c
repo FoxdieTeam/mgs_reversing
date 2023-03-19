@@ -1,13 +1,13 @@
 #include "libgcl/libgcl.h"
 #include "linker.h"
 #include "map/map.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 #include "Game/game.h"
 #include "libdg/libdg.h"
 
-extern GM_Control *gSnaControl_800AB9F4; // todo: update external
+extern CONTROL *gSnaControl_800AB9F4; // todo: update external
 
 extern int     GM_Photocode_800ABA04;
 extern int     dword_8009F46C;
@@ -19,7 +19,7 @@ extern SVECTOR GM_PhotoViewPos_800ABA48;
 int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
 {
     SVECTOR     vec;
-    GM_Control *unkStruct;
+    CONTROL *unkStruct;
     int         param;
     map_record *map;
 

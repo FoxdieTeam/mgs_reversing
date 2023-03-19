@@ -2,8 +2,8 @@
 #include "game.h"
 #include "map/map.h"
 
-extern GM_Control* gSnaControl_800AB9F4;
-GM_Control* SECTION(".sbss") gSnaControl_800AB9F4;
+extern CONTROL *gSnaControl_800AB9F4;
+CONTROL *SECTION(".sbss") gSnaControl_800AB9F4;
 
 extern unsigned short gSystemCallbackProcs_800B58C0[5];
 
@@ -22,7 +22,7 @@ void GM_CallSystemCallbackProc_8002B570(int id, int arg)
     {
         GCL_ARGS args;
         long     local_18[2];
-        
+
         args.argc = 1;
         args.argv = local_18;
         local_18[0] = arg;

@@ -1,7 +1,7 @@
 #ifndef _GRENADE_H_
 #define _GRENADE_H_
 
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "libdg/libdg.h"
@@ -13,7 +13,7 @@
 typedef struct _Actor_Grenade
 {
 	GV_ACT       field_0_actor;
-	GM_Control *f20_ctrl;
+	CONTROL *f20_ctrl;
 	OBJECT     *f24_parent_obj;
 	OBJECT      f28_obj;
 	int         f4c_map_id;
@@ -34,6 +34,6 @@ enum GRENADE_TYPE
 
 STATIC_ASSERT_SIZE( Actor_Grenade, 0x68 );
 
-Actor_Grenade *NewTimerBomb_80066ACC( GM_Control *a1, OBJECT *a2, int num_parent, int *a4, int a5 );
+Actor_Grenade *NewTimerBomb_80066ACC( CONTROL *a1, OBJECT *a2, int num_parent, int *a4, int a5 );
 
 #endif // _GRENADE_H_

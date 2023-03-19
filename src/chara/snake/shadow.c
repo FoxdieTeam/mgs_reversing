@@ -172,7 +172,7 @@ void shadow_kill_80060190(Actor_Shadow *pActor)
 extern char aKage[];     // = "kage"
 extern char aShadow_0[]; // = "shadow"
 
-int shadow_loader_800601B0(Actor_Shadow *pActor, GM_Control *pCtrl, OBJECT *pObj, Shadow_94 field_94)
+int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94)
 {
     int map_name;
 
@@ -201,7 +201,7 @@ int shadow_loader_800601B0(Actor_Shadow *pActor, GM_Control *pCtrl, OBJECT *pObj
 
 extern const char aShadowC[]; // = "shadow.c"
 
-Actor_Shadow *shadow_init_800602CC(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 field_94)
+Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94)
 {
     Actor_Shadow *pActor;
 
@@ -219,7 +219,7 @@ Actor_Shadow *shadow_init_800602CC(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 fi
     return NULL;
 }
 
-Actor_Shadow * shadow_init2_80060384(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable)
+Actor_Shadow * shadow_init2_80060384(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable)
 {
     Actor_Shadow *pActor;
 

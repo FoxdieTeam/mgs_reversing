@@ -35,20 +35,20 @@ ushort goggleir_pal_convert_800789E0(ushort base)
 
     b = ((base & 0x7C00) >> 10) & 31;
     if (b > r2) r2 = b;
-    
+
     a = base & 0x8000;
-    
+
     r2 = 4 * r2 / 3;
-    
+
     r = r2 / 2 + 2;
     if (r > 31) r = 31;
-    
+
     g = r2 / 4;
     if ((r2 / 4) > 31) g = 31; // why
-    
+
     b = r2 / 4;
     if (b > 31) b = 31;
-    
+
     return r | g << 5 | b << 10 | a;
 }
 
@@ -189,7 +189,7 @@ int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
     return 0;
 }
 
-Actor_GoggleIr *NewGoggleIr_80078E6C(GM_Control *pCtrl, OBJECT *parent_obj)
+GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
     Actor_GoggleIr *goggleir_actor = (Actor_GoggleIr *)GV_NewActor_800150E4(6, sizeof(Actor_GoggleIr));
 
@@ -208,5 +208,5 @@ Actor_GoggleIr *NewGoggleIr_80078E6C(GM_Control *pCtrl, OBJECT *parent_obj)
     goggleir_actor->field_44_pCtrl = pCtrl;
     goggleir_actor->field_50 = 0;
 
-    return goggleir_actor;
+    return &goggleir_actor->field_0_actor;
 }

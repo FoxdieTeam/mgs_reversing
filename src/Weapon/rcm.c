@@ -203,7 +203,7 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     return -1;
 }
 
-Actor_Rcm *NewRCM_80066FF0(GM_Control *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
+Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
 {
     Actor_Rcm *rcm;
     int        iVar1;

@@ -4,7 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
@@ -13,7 +13,7 @@
 typedef struct Actor_amissile
 {
     GV_ACT      field_0_actor;
-    GM_Control field_20_ctrl;
+    CONTROL field_20_ctrl;
     OBJECT     field_9C_kmd;
     MATRIX     field_C0_light_matrix[2];
     MATRIX     field_100_rotation_matrix;

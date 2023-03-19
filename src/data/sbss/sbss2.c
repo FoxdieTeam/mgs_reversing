@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 int SECTION(".sbss") dword_800AB9CC;
 int SECTION(".sbss") dword_800AB9D0;
@@ -15,7 +15,7 @@ int SECTION(".sbss") d_800AB9EC_mag_size;
 
 int SECTION(".sbss") dword_800AB9F0;
 
-GM_Control *SECTION(".sbss") gSnaControl_800AB9F4;
+CONTROL *SECTION(".sbss") gSnaControl_800AB9F4;
 SVECTOR SECTION(".sbss") GM_NoisePosition_800AB9F8;
 
 int SECTION(".sbss") GM_AlertMode_800ABA00;
