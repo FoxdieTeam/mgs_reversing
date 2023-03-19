@@ -550,8 +550,9 @@ menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {{(char *)
                                                                        {(char *)aChaffG, 11},
                                                                        {(char *)aPsg1, 4}};
 
-int SECTION(".data") dword_8009E5CC[] = {0x80011A8C, 0x80011A30, 0x800119C0, 0x80011954, 0x800118DC,
-                                         0x8001187C, 0x80011838, 0x800117C4, 0x80011750, 0x800116E8};
+char *SECTION(".data") dword_8009E5CC[] = {(char *)0x80011A8C, (char *)0x80011A30, (char *)0x800119C0, (char *)0x80011954,
+                                           (char *)0x800118DC, (char *)0x8001187C, (char *)0x80011838, (char *)0x800117C4,
+                                           (char *)0x80011750, (char *)0x800116E8};
 
 BarConfig SECTION(".data") gSnakeLifeBarConfig_8009E5F4 = {aLife, {16u, 143u, 127u}, {31u, 223u, 63u}, 0};
 BarConfig SECTION(".data") gSnakeO2BarConfig_8009E600 = {aO2, {31u, 63u, 192u}, {31u, 127u, 255u}, 1};

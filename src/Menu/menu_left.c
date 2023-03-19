@@ -65,8 +65,6 @@ PANEL_TEXTURE * menu_rpk_8003B5E0(int index)
     return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
 
-void sub_8003F97C(char *param_1);
-
 extern int   dword_8009E3E4[];
 extern void *dword_8009E444[];
 extern void *dword_8009E44C[];

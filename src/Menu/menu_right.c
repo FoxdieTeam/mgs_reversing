@@ -831,7 +831,36 @@ int sub_8003DF30(int weaponId)
     return (GM_DisableWeapon_800AB9E4 & (1 << weaponId)) > 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
+extern char *dword_8009E5CC[];
+extern char *dword_800AB5CC;
+char        *SECTION(".sdata") dword_800AB5CC;
+
+void menu_right_update_helper2_helper_8003E030(int idx)
+{
+    char *param_1;
+
+    param_1 = dword_8009E5CC[idx];
+    if (idx == 0)
+    {
+        if (GM_SilencerFlag == 0)
+        {
+            dword_8009E5CC[0][0x70] = 0xd0;
+            dword_8009E5CC[0][0x71] = 3;
+            dword_8009E5CC[0][0x72] = 0;
+        }
+        else
+        {
+            dword_8009E5CC[0][0x70] = 0x90;
+            dword_8009E5CC[0][0x71] = 0xb6;
+            dword_8009E5CC[0][0x72] = 0x91;
+        }
+    }
+    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && idx == 1)
+    {
+        param_1 = dword_800AB5CC;
+    }
+    sub_8003F97C(param_1);
+}
 
 extern short d_800ABA2C_ammo;
 extern short d_800AB9EC_mag_size;
