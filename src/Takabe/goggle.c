@@ -22,7 +22,7 @@ ushort goggle_pal_convert_8007743C(ushort value)
     int g;
     int b;
     int a;
-    
+
     if ((value & 0x7fff) == 0)
     {
         return value;
@@ -30,7 +30,7 @@ ushort goggle_pal_convert_8007743C(ushort value)
 
     r = value & 0x1f;
     r2 = r;
-    
+
     g = (value & 0x3e0) >> 5;
     if (r2 < g)
     {
@@ -68,7 +68,7 @@ void goggle_pal_cb_800774C0(void)
     int iVar1;
     int iVar2;
     ushort *ptr;
-    
+
     rect_8009F704.y = 0xe2;
     rect_8009F70C.y = 0xc4;
 
@@ -78,7 +78,7 @@ void goggle_pal_cb_800774C0(void)
         DrawSync(0);
 
         ptr = (ushort *)image_data_800B3818;
-        
+
         for (iVar2 = 512; iVar2 > 0; iVar2--) {
             *ptr++ = goggle_pal_convert_8007743C(*ptr);
         }
@@ -176,7 +176,7 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
     return 0;
 }
 
-Actor_goggle *NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj)
+GV_ACT * NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj, int unused)
 {
     Actor_goggle *goggle_actor = (Actor_goggle *)GV_NewActor_800150E4(6, sizeof(Actor_goggle));
 
@@ -195,5 +195,5 @@ Actor_goggle *NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj)
     goggle_actor->field_44_pCtrl = a1;
     goggle_actor->field_50 = 0;
 
-    return goggle_actor;
+    return &goggle_actor->field_0_actor;
 }

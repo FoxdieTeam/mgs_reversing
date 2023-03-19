@@ -119,7 +119,7 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT * NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_Box *pActor = (Actor_Box *)GV_NewActor_800150E4(6, sizeof(Actor_Box));
     if (pActor)
@@ -134,5 +134,6 @@ GV_ACT *NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent)
         pActor->field_44_pCtrl = pCtrl;
         pActor->field_48_pParent = pParent;
     }
+
     return &pActor->field_0_actor;
 }

@@ -91,7 +91,7 @@ int d_blood_loader_80072B38(Actor_DBlood *pActor)
     return 0;
 }
 
-Actor_DBlood * NewKetchap_80072B60(void)
+GV_ACT * NewKetchap_80072B60(GM_Control *pControl, OBJECT *pParent, int numParent)
 {
     Actor_DBlood *pActor;
 
@@ -110,5 +110,5 @@ Actor_DBlood * NewKetchap_80072B60(void)
         }
     }
 
-    return pActor;
+    return &pActor->field_0_actor;
 }

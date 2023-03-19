@@ -35,4 +35,6 @@ typedef struct Actor_scope
   int         field_9C_flags;
 } Actor_scope;
 
+GV_ACT * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent, int unused);
+
 #endif // _SCOPE_H_

@@ -987,7 +987,7 @@ int jpegcam_loader_80065098(Actor_jpegcam *pActor, GM_Control *pCtrl, OBJECT *pP
   return 0;
 }
 
-Actor_jpegcam *NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT * NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_jpegcam *pActor;
 
@@ -1003,5 +1003,6 @@ Actor_jpegcam *NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent)
         }
         pActor->field_20_pCtrl = pCtrl;
     }
-    return pActor;
+
+    return &pActor->field_0_actor;
 }

@@ -26,4 +26,6 @@ ushort goggle_pal_convert_8007743C(ushort);
 void goggle_pal_cb_800774C0(void);
 int  goggle_loader_8007773C(Actor_goggle *a1, OBJECT *a2);
 
+GV_ACT * NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj, int unused);
+
 #endif // _GOGGLE_H

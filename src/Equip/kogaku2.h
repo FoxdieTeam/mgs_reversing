@@ -24,4 +24,6 @@ POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *pPack, int pack_count, 
 void      kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor);
 void      kogaku2_act_helper_80061528(Actor_kogaku2 *pActor);
 
+GV_ACT * NewKogaku2_800615FC(GM_Control *pCtrl, OBJECT *pObj, int unit);
+
 #endif // _KOGAKU2_H_
