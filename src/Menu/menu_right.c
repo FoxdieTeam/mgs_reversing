@@ -85,8 +85,26 @@ void sub_8003CE78(void)
     dword_800ABADC = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003CE84.s") // 116 bytes
-void sub_8003CE84();
+extern array_800BD748_child array_800BD748[];
+
+void sub_8003CE84()
+{
+    int i;
+    int bit;
+    int bitmask;
+
+    bitmask = dword_800ABAD8 & ~dword_800ABADC;
+    for (bit = 1, i = 0; i < 9; bit <<= 1, i++)
+    {
+        if (bitmask & bit)
+        {
+            array_800BD748[i].field_4_panelTexture->field_C_uvclut = 0;
+            array_800BD748[i].field_4_panelTexture->field_8_index = -1;
+            array_800BD748[i].field_4_panelTexture = NULL;
+            dword_800ABAD8 &= ~bit;
+        }
+    }
+}
 
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CEF8.s") // 232 bytes
 void sub_8003CEF8(PANEL_TEXTURE *a1);

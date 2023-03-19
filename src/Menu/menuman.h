@@ -101,6 +101,14 @@ typedef struct menu_0x14
   menu_chara_struct *field_10_pCharaStru;
 } menu_0x14;
 
+typedef struct array_800BD748_child
+{
+    int            field_0_uvclut;
+    PANEL_TEXTURE *field_4_panelTexture;
+    RECT           field_8_rect1;
+    RECT           field_10_rect2;
+} array_800BD748_child;
+
 void menuman_init_80038954(void);
 
 struct Actor_MenuMan;
