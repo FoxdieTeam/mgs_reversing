@@ -12,90 +12,33 @@ int        SECTION(".sbss") gTargets_up_count_800ABA6C;
 
 extern int dword_800ABA0C;
 
-// TODO: This probably has an inline that will clean it up
-int sub_8002D208(TARGET *arg0, TARGET *arg1)
+static inline int range_check(int a, int b, int c, int d)
 {
-    int temp_a2;
-    int temp_a2_2;
-    int temp_a2_3;
-    int temp_a3;
-    int temp_a3_2;
-    int temp_a3_3;
-    int temp_v1;
-    int temp_v1_2;
-    int temp_v1_3;
-    int var_t0;
-    int var_t0_2;
-    int var_t0_3;
-    int var_t1;
-    int var_v1;
-
-    int map0;
-    int map1;
-
-    var_t1 = 0;
-
-    if (!(arg0->field_2_side & arg1->field_2_side))
-    {
-        temp_a3 = arg0->field_8_vec.vx;
-        temp_a2 = arg1->field_8_vec.vx;
-        temp_v1 = arg0->field_10_size.vx + arg1->field_10_size.vx;
-        var_t0 = 0;
-
-        if (temp_a2 >= (temp_a3 - temp_v1))
-        {
-            var_t0 = (temp_a3 < (temp_a2 - temp_v1)) ^ 1;
-        }
-
-        if (var_t0 != 0)
-        {
-            temp_a3_2 = arg0->field_8_vec.vz;
-            temp_a2_2 = arg1->field_8_vec.vz;
-            temp_v1_2 = arg0->field_10_size.vz + arg1->field_10_size.vz;
-            var_t0_2 = 0;
-
-            if (temp_a2_2 >= (temp_a3_2 - temp_v1_2))
-            {
-                var_t0_2 = (temp_a3_2 < (temp_a2_2 - temp_v1_2)) ^ 1;
-            }
-
-            if (var_t0_2 != 0)
-            {
-                temp_a3_3 = arg0->field_8_vec.vy;
-                temp_a2_3 = arg1->field_8_vec.vy;
-                temp_v1_3 = arg0->field_10_size.vy + arg1->field_10_size.vy;
-                var_t0_3 = 0;
-
-                if (temp_a2_3 >= (temp_a3_3 - temp_v1_3))
-                {
-                    var_t0_3 = (temp_a3_3 < (temp_a2_3 - temp_v1_3)) ^ 1;
-                }
-
-                if (var_t0_3 != 0)
-                {
-                    var_v1 = 0;
-
-                    map0 = arg0->field_4_map;
-                    map1 = arg1->field_4_map;
-
-                    if ((dword_800ABA0C & map0) && (dword_800ABA0C & map1))
-                    {
-                        var_v1 = 1;
-                    }
-
-                    if (var_v1 != 0)
-                    {
-                        var_t1 = 1;
-                    }
-                }
-            }
-        }
-    }
-
-    return var_t1;
+    return (d >= (c - (a + b))) && (c >= (d - (a + b)));
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_helper_8002D300.s") // 240 bytes
+static inline int map_check(int a, int b)
+{
+    return (dword_800ABA0C & a) && (dword_800ABA0C & b);
+}
+
+int sub_8002D208(TARGET *a, TARGET *b)
+{
+    return (((a->field_2_side & b->field_2_side) == 0) &&
+            range_check(a->field_10_size.vx, b->field_10_size.vx, a->field_8_vec.vx, b->field_8_vec.vx) &&
+            range_check(a->field_10_size.vz, b->field_10_size.vz, a->field_8_vec.vz, b->field_8_vec.vz) &&
+            range_check(a->field_10_size.vy, b->field_10_size.vy, a->field_8_vec.vy, b->field_8_vec.vy) &&
+            map_check(a->field_4_map, b->field_4_map));
+}
+
+int sub_8002D300(TARGET *a, TARGET *b)
+{
+    return ((a->field_2_side == 0) &&
+            range_check(a->field_10_size.vx, b->field_10_size.vx, a->field_8_vec.vx, b->field_8_vec.vx) &&
+            range_check(a->field_10_size.vz, b->field_10_size.vz, a->field_8_vec.vz, b->field_8_vec.vz) &&
+            range_check(a->field_10_size.vy, b->field_10_size.vy, a->field_8_vec.vy, b->field_8_vec.vy) &&
+            map_check(a->field_4_map, b->field_4_map));
+}
 
 void GM_Targets_Reset_8002D3F0(void)
 {
@@ -213,7 +156,7 @@ TARGET *GM_C4Target_8002D620(TARGET *pTarget)
 #pragma INCLUDE_ASM("asm/sub_8002D7DC.s") // 568 bytes
 // int GM_Target_8002D7DC(TARGET *pTarget);
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_8002DA14.s") // 608 bytes
+#pragma INCLUDE_ASM("asm/Game/sub_8002DA14.s") // 608 bytes
 
 void GM_SetTarget_8002DC74(TARGET *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
 {

@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_act_helper_8002DA14
-sna_init_act_helper_8002DA14:
+	xdef sub_8002DA14
+sub_8002DA14:
 	dw 0x27BDFFD8 ; 0x8002DA14
 	dw 0xAFB10014 ; 0x8002DA18
 	dw 0x00808821 ; 0x8002DA1C
