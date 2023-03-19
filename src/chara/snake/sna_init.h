@@ -453,8 +453,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time);
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor);
 void sna_init_anim_psg1_helper_80057FD4(Actor_SnaInit *pActor, int a2);
-void sna_init_act_helper_8002DA14(TARGET *pTarget);
-
+void sub_8002DA14(TARGET *pTarget);
 void sna_init_80051DA0(Actor_SnaInit *pActor);
 void sna_init_80053360(Actor_SnaInit *pActor);
 void sub_80057BF0(Actor_SnaInit *pActor, int a2);

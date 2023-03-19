@@ -6975,7 +6975,7 @@ void sna_init_act_8005AD10(Actor_SnaInit *pActor)
 
     pTarget2 = pActor->field_89C_pTarget;
     pTarget2->field_2C_vec = pActor->field_20_ctrl.field_44_movementVector;
-    sna_init_act_helper_8002DA14(pTarget2);
+    sub_8002DA14(pTarget2);
 
     if ( ((GM_Camera_800B77E8.field_22 != 0) && GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK)) || GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) )
     {
