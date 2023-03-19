@@ -5,7 +5,7 @@
 extern CONTROL *gSnaControl_800AB9F4;
 CONTROL *SECTION(".sbss") gSnaControl_800AB9F4;
 
-extern unsigned short gSystemCallbackProcs_800B58C0[5];
+extern unsigned short gSystemCallbackProcs_800B58C0[];
 
 void GM_CallSystemCallbackProc_8002B570(int id, int arg)
 {
