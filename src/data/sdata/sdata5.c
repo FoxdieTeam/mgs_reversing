@@ -38,10 +38,10 @@ int SECTION(".sdata") dword_800AB69C = 0x776F70;
 int SECTION(".sdata") dword_800AB6A0 = 0x6D656D;
 
 int SECTION(".sdata") dword_800AB6A4 = 0;
-int SECTION(".sdata") dword_800AB6A8 = 0;
-int SECTION(".sdata") dword_800AB6AC = 0;
+char *SECTION(".sdata") gFontBegin = 0;
+char *SECTION(".sdata") gFontEnd = 0;
 int SECTION(".sdata") dword_800AB6B0 = 1;
-int SECTION(".sdata") dword_800AB6B4 = 0;
+char *SECTION(".sdata") dword_800AB6B4 = 0;
 int SECTION(".sdata") dword_800AB6B8 = 0;
 int SECTION(".sdata") dword_800AB6BC = 0;
 int SECTION(".sdata") dword_800AB6C0 = 0;

@@ -1,9 +1,11 @@
 #include "linker.h"
 #include "font.h"
 #include "psyq.h"
+#include "libdg/libdg.h"
+#include "libgv/libgv.h"
 
-extern int dword_800AB6A8;
-int        SECTION(".sdata") dword_800AB6A8;
+extern char *gFontBegin;
+char        *SECTION(".sdata") gFontBegin;
 
 extern int dword_800AB6B0;
 int        SECTION(".sdata") dword_800AB6B0;
@@ -18,6 +20,55 @@ int        SECTION(".sbss") dword_800ABB30;
 
 extern int dword_800ABB34;
 int        SECTION(".sbss") dword_800ABB34;
+
+extern char *dword_800ABB28;
+char        *SECTION(".sbss") dword_800ABB28;
+
+extern char *gFontEnd;
+char        *SECTION(".sbss") gFontEnd;
+
+extern char *dword_800AB6B4;
+char        *SECTION(".sbss") dword_800AB6B4;
+
+extern void *dword_8009E75C[];
+
+void font_load_80044A9C(void)
+{
+    char *temp_a1;
+    char *ptr;
+
+    dword_800ABB28 = GV_GetCache_8001538C(GV_CacheID_800152DC(0xCA68, 'r'));
+
+    if (dword_800ABB28)
+    {
+        dword_800AB6B4 = GV_GetCache_8001538C(GV_CacheID_800152DC(0xE0E3, 'r'));
+
+        temp_a1 = dword_800ABB28;
+        LSTORE((temp_a1[0] << 24) | (temp_a1[1] << 16) | (temp_a1[2] << 8) | temp_a1[3], temp_a1);
+
+        temp_a1 = dword_800ABB28;
+        LSTORE((temp_a1[4] << 24) | (temp_a1[5] << 16) | (temp_a1[6] << 8) | temp_a1[7], temp_a1 + 4);
+
+        gFontBegin = temp_a1 + 8;
+        gFontEnd = temp_a1 + LLOAD(temp_a1 + 0);
+        dword_8009E75C[0] = temp_a1 + LLOAD(temp_a1 + 4);
+
+        for (ptr = temp_a1 + 8; ptr < gFontEnd; ptr += 4)
+        {
+            LSTORE((ptr[0] << 24) | (ptr[1] << 16) | (ptr[2] << 8) | ptr[3], ptr);
+        }
+    }
+}
+
+void font_set_font_addr_80044BC0(int arg1, void *data)
+{
+    dword_8009E75C[arg1] = data;
+}
+
+void sub_80044BD8(void)
+{
+    return;
+}
 
 int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, short x, short y)
 {
@@ -126,15 +177,19 @@ void *font_get_buffer_ptr_80044FE8(KCB *kcb)
 
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper4_80044FF4.s") // 256 bytes
 
-int sub_800450F4(int a1)
+unsigned int sub_800450F4(int a1)
 {
     if (a1 > 0)
     {
-        if (a1 >= 129)
+        if (a1 > 128)
+        {
             a1 -= 34;
+        }
+
         a1 -= 32;
     }
-    return *(int *)(4 * a1 + dword_800AB6A8);
+
+    return LLOAD(&gFontBegin[4 * a1]);
 }
 
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper5_80045124.s") // 808 bytes
@@ -147,11 +202,11 @@ unsigned int font_draw_string_helper_80045718(int a1)
         return 0;
     }
 
-    if (a1 <= 33023)
+    if (a1 < 0x8100)
     {
-        if (a1 != 32803 && (unsigned int)(a1 - 32784) >= 16)
+        if ((a1 != 0x8023) && ((a1 < 0x8010) || (a1 >= 0x8020)))
         {
-            return ((unsigned int)sub_800450F4((char)a1) >> 24) & 0x0F;
+            return (sub_800450F4(a1 & 0xFF) >> 24) & 0xF;
         }
     }
 
