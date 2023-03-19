@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "game.h"
-#include "GM_Control.h"
+#include "control.h"
 #include "libgv/libgv.h"
 #include "unknown.h"
 
@@ -12,7 +12,7 @@ void sub_80034EAC(SVECTOR *pVec)
 }
 
 int GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5,
-                                    GM_Control *pCtrl, SVECTOR *rots)
+                                    CONTROL *pCtrl, SVECTOR *rots)
 {
     pMCtrl->field_00_oar_ptr = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'o'));
     pMCtrl->field_3C = &pObj->field_18;

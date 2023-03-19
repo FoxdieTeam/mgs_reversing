@@ -3,7 +3,7 @@
 
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/target.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
@@ -44,7 +44,7 @@ typedef struct Actor_sgtrect3
     short          field_26;
     rgbUnion       field_28_rgb;
     rgbUnion       field_2C_rgb;
-    GM_Target     *field_30_target;
+    TARGET *field_30_target;
     int            field_34_count;
     int            field_38;
     sgtrect3_0x600 field_3C[2];

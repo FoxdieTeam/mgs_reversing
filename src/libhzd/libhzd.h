@@ -4,7 +4,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 #define OFFSET_TO_PTR(ptr, offset) (*(int *)offset = (int)ptr + *(int *)offset)
 

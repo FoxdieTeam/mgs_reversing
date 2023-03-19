@@ -15,7 +15,7 @@ extern short      d_800ABA2C_ammo;
 extern int        GM_CurrentMap_800AB9B0;
 extern int        DG_CurrentGroupID_800AB968;
 extern int        counter_8009F448;
-extern GM_Target *GM_BombSeg_800ABBD8;
+extern TARGET *GM_BombSeg_800ABBD8;
 
 void mine_act_80067558(Actor_Mine *pActor)
 {
@@ -91,7 +91,7 @@ int mine_loader_80067730(Actor_Mine *actor_mine, OBJECT *parent_obj, int num_par
     return 0;
 }
 
-Actor_Mine *mine_init_800677BC(GM_Control *a1, OBJECT *parent_object, int num_parent, int *a4)
+Actor_Mine *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_parent, int *a4)
 {
     Actor_Mine *actor = (Actor_Mine *)GV_NewActor_800150E4(6, sizeof(Actor_Mine));
     if (actor)

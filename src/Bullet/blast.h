@@ -26,7 +26,7 @@ typedef struct	Actor_Blast
 	int       field_30;
 	int       field_34;
 	int       field_38;
-	GM_Target field_3C_target;
+	TARGET field_3C_target;
 } Actor_Blast;
 
 void blast_act_8006DD18( Actor_Blast *pActor );

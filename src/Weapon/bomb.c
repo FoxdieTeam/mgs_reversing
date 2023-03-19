@@ -12,7 +12,7 @@ extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
 
 extern int        DG_CurrentGroupID_800AB968;
-extern GM_Target *GM_BombSeg_800ABBD8;
+extern TARGET *GM_BombSeg_800ABBD8;
 extern int        GM_CurrentMap_800AB9B0;
 extern int        used_counter_8009F42C;
 
@@ -93,7 +93,7 @@ int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_par
     return 0;
 }
 
-Actor_Bomb *NewBomb_80067B20(GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
+Actor_Bomb *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *a4, int a5)
 {
     Actor_Bomb *actor = (Actor_Bomb *)GV_NewActor_800150E4(6, sizeof(Actor_Bomb));
     if (actor)

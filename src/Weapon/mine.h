@@ -3,14 +3,14 @@
 
 #include "Game/game.h"
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 // claymore (in hands)
 
 typedef struct Actor_Mine
 {
     GV_ACT       field_0_actor;
-    GM_Control *field_20_pCtrl;
+    CONTROL *field_20_pCtrl;
     OBJECT     *field_24_pObj;
     OBJECT      field_28_obj;
     int         field_4C_unit;

@@ -16,7 +16,7 @@ typedef struct Actor_Claymore
     SVECTOR   field_24;
     SVECTOR   field_2C;
     SVECTOR   field_34;
-    GM_Target field_3C_target;
+    TARGET field_3C_target;
     DG_PRIM  *field_84_pPrim;
     SVECTOR   field_88;
     int       field_90;

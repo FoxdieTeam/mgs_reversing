@@ -2,7 +2,7 @@
 #include "target.h"
 #include "Game/game.h"
 
-extern GM_Target gTargets_800B64E0[64];
+extern TARGET gTargets_800B64E0[64];
 
 extern int gTargets_down_count_800ABA68;
 int        SECTION(".sbss") gTargets_down_count_800ABA68;
@@ -13,7 +13,7 @@ int        SECTION(".sbss") gTargets_up_count_800ABA6C;
 extern int dword_800ABA0C;
 
 // TODO: This probably has an inline that will clean it up
-int sub_8002D208(GM_Target *arg0, GM_Target *arg1)
+int sub_8002D208(TARGET *arg0, TARGET *arg1)
 {
     int temp_a2;
     int temp_a2_2;
@@ -103,9 +103,9 @@ void GM_Targets_Reset_8002D3F0(void)
     gTargets_up_count_800ABA6C = 0;
 }
 
-GM_Target *GM_AllocTarget_8002D400()
+TARGET *GM_AllocTarget_8002D400()
 {
-    GM_Target *target;
+    TARGET *target;
     int        i;
 
     if (gTargets_up_count_800ABA6C == 0)
@@ -138,7 +138,7 @@ GM_Target *GM_AllocTarget_8002D400()
     return NULL;
 }
 
-void GM_FreeTarget_8002D4B0(GM_Target *pTarget)
+void GM_FreeTarget_8002D4B0(TARGET *pTarget)
 {
     if (pTarget)
     {
@@ -154,17 +154,17 @@ void GM_FreeTarget_8002D4B0(GM_Target *pTarget)
     }
 }
 
-void GM_Target_SetVector_8002D500(GM_Target *pTarget, SVECTOR *pVec)
+void GM_Target_SetVector_8002D500(TARGET *pTarget, SVECTOR *pVec)
 {
     short cur_map = GM_CurrentMap_800AB9B0;
     pTarget->field_8_vec = *pVec;
     pTarget->field_4_map = cur_map;
 }
 
-GM_Target *GM_CaptureTarget_8002D530(GM_Target *pTarget)
+TARGET *GM_CaptureTarget_8002D530(TARGET *pTarget)
 {
     int        i = gTargets_down_count_800ABA68;
-    GM_Target *pIter = gTargets_800B64E0;
+    TARGET *pIter = gTargets_800B64E0;
     for (i = gTargets_down_count_800ABA68; i > 0; --i)
     {
         if (pTarget != pIter && (pIter->field_0_flags & 2) != 0)
@@ -189,10 +189,10 @@ GM_Target *GM_CaptureTarget_8002D530(GM_Target *pTarget)
     return 0;
 }
 
-GM_Target *GM_C4Target_8002D620(GM_Target *pTarget)
+TARGET *GM_C4Target_8002D620(TARGET *pTarget)
 {
     int        i;
-    GM_Target *pIter = gTargets_800B64E0;
+    TARGET *pIter = gTargets_800B64E0;
     for (i = gTargets_down_count_800ABA68; i > 0; --i)
     {
         if (pTarget != pIter && (pIter->field_0_flags & TARGET_C4) && sub_8002D208(pIter, pTarget) &&
@@ -211,11 +211,11 @@ GM_Target *GM_C4Target_8002D620(GM_Target *pTarget)
 #pragma INCLUDE_ASM("asm/Game/sub_8002D6D8.s") // 260 bytes
 
 #pragma INCLUDE_ASM("asm/sub_8002D7DC.s") // 568 bytes
-// int GM_Target_8002D7DC(GM_Target *pTarget);
+// int GM_Target_8002D7DC(TARGET *pTarget);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sna_init_act_helper_8002DA14.s") // 608 bytes
 
-void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
+void GM_SetTarget_8002DC74(TARGET *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
 {
     short cur_map = GM_CurrentMap_800AB9B0;
     pTarget->field_0_flags = targetFlags;
@@ -226,7 +226,7 @@ void GM_SetTarget_8002DC74(GM_Target *pTarget, int targetFlags, int whichSide, S
     pTarget->field_3C = 0;
 }
 
-void GM_Target_8002DCB4(GM_Target *pTarget, int a2, int a3, int *a4, SVECTOR *a5)
+void GM_Target_8002DCB4(TARGET *pTarget, int a2, int a3, int *a4, SVECTOR *a5)
 {
     pTarget->field_18 = a4;
     pTarget->field_3E = a2;
@@ -234,7 +234,7 @@ void GM_Target_8002DCB4(GM_Target *pTarget, int a2, int a3, int *a4, SVECTOR *a5
     pTarget->field_1C = a5;
 }
 
-void GM_Target_8002DCCC(GM_Target *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6)
+void GM_Target_8002DCCC(TARGET *pTarget, int a2, int a3, int hp, int a5, SVECTOR *a6)
 {
     pTarget->field_24 = a2;
     pTarget->field_3E = a3;
@@ -256,10 +256,10 @@ void sub_8002DD14(int param_1, int param_2)
 
 int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side)
 {
-    GM_Target *pIter;
+    TARGET *pIter;
     int        i;
     int        bResult;
-    GM_Target  target;
+    TARGET  target;
 
     target.field_4_map = map_bit;
     target.field_2_side = 0;
@@ -287,7 +287,7 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
 
 #pragma INCLUDE_ASM("asm/sub_8002E2A8.s") // 204 bytes
 
-void GM_Target_8002E374(int *ppDownCount, GM_Target **ppTargets)
+void GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets)
 {
     *ppDownCount = gTargets_down_count_800ABA68;
     *ppTargets = gTargets_800B64E0;

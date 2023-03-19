@@ -2,7 +2,7 @@
 #define _SNA_INIT_H_
 
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "Game/target.h"
 #include "shadow.h"
@@ -226,7 +226,7 @@ typedef struct SnaAutoMove // @ field_A00 in Actor_SnaInit
 typedef struct Actor_SnaInit
 {
     GV_ACT               field_0_actor;
-    GM_Control          field_20_ctrl;
+    CONTROL field_20_ctrl;
     OBJECT              field_9C_obj;
     char                field_C0[0xC0]; // zeroed during normal gameplay
     MOTION_CONTROL      field_180;
@@ -247,9 +247,9 @@ typedef struct Actor_SnaInit
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
     SnaFlag2            field_898_flags2;
-    GM_Target          *field_89C_pTarget;
-    GM_Target           field_8A0_target;
-    GM_Target          *field_8E8_pTarget;
+    TARGET *field_89C_pTarget;
+    TARGET           field_8A0_target;
+    TARGET *field_8E8_pTarget;
     SVECTOR             field_8EC_vec;
     int                 field_8F4;
     int                 field_8F8;
@@ -323,7 +323,7 @@ typedef struct Actor_SnaInit
 } Actor_SnaInit;
 
 typedef int (*TSnakeActFunction)(Actor_SnaInit *);
-typedef GV_ACT * (*TSnakeEquipFuncion)(GM_Control *, OBJECT *, int);
+typedef GV_ACT * (*TSnakeEquipFuncion)(CONTROL *, OBJECT *, int);
 
 void         sna_init_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn);
 void         sna_init_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp);
@@ -453,7 +453,7 @@ void sna_init_anim_choke_helper_8005951C(Actor_SnaInit *pActor);
 void sna_init_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time);
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor);
 void sna_init_anim_psg1_helper_80057FD4(Actor_SnaInit *pActor, int a2);
-void sna_init_act_helper_8002DA14(GM_Target *pTarget);
+void sna_init_act_helper_8002DA14(TARGET *pTarget);
 
 void sna_init_80051DA0(Actor_SnaInit *pActor);
 void sna_init_80053360(Actor_SnaInit *pActor);
@@ -484,28 +484,28 @@ int  sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 int  sna_act_unk_helper2_helper3_80060684(SnaAutoMove *, SVECTOR *);
 void sna_init_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int time);
 int  sub_8005C6C4(HZD_MAP *hzd, SVECTOR *vec, int param_3);
-void sna_act_unk2_80051170(GM_Target *pTarget);
+void sna_act_unk2_80051170(TARGET *pTarget);
 void sna_init_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time);
 void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time);
 void sna_init_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time);
 void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time);
 void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_MAP *pHzd, SVECTOR *pVec);
-int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, GM_Control *pControl);
+int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl);
 void sna_init_80057A90(Actor_SnaInit *pActor, int time);
 void sna_init_8004EF14(Actor_SnaInit *pActor);
 GV_ACT *sna_init_NewSnake_8005B650(int name, int where, int argc, char **argv);
 int HZD_ReachTo_8005C89C(HZD_MAP *pHzd, int, int);
-int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzd, int, int, GM_Control *pControl);
+int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzd, int, int, CONTROL *pControl);
 
 // TODO: move these to indivudual weapon headers
-GV_ACT *NewSOCOM_80065D74(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-GV_ACT *famas_create_80066374(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *grenade_create_80066A4C(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewRCM_80066FF0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *mine_init_800677BC(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewBomb_80067B20(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
-GV_ACT *NewStanGrenade_80066A74(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewChaffGrenade_80066AA0(GM_Control *a1, OBJECT *parentObj, int unit, int a4, int a5);
-GV_ACT *NewRifle_80068214(GM_Control *a1, OBJECT *parentObj, int unit, int *a4, int a5);
+GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
+GV_ACT *famas_create_80066374(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *grenade_create_80066A4C(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewRCM_80066FF0(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *mine_init_800677BC(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewBomb_80067B20(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
+GV_ACT *NewStanGrenade_80066A74(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewChaffGrenade_80066AA0(CONTROL *a1, OBJECT *parentObj, int unit, int a4, int a5);
+GV_ACT *NewRifle_80068214(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
 
 #endif // _SNA_INIT_H_

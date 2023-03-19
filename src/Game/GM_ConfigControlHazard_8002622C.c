@@ -1,11 +1,11 @@
 #include "linker.h"
-#include "GM_Control.h"
+#include "control.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "game.h"
 
-void GM_FreeControl_800260CC(GM_Control *pControl)
+void GM_FreeControl_800260CC(CONTROL *pControl)
 {
     if (pControl->field_30_scriptData)
     {
@@ -13,7 +13,7 @@ void GM_FreeControl_800260CC(GM_Control *pControl)
     }
 }
 
-void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECTOR *pVec2)
+void GM_ConfigControlVector_800260FC(CONTROL *pControl, SVECTOR *pVec1, SVECTOR *pVec2)
 {
     if (pVec1)
     {
@@ -26,7 +26,7 @@ void GM_ConfigControlVector_800260FC(GM_Control *pControl, SVECTOR *pVec1, SVECT
     }
 }
 
-void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix)
+void GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix)
 {
     pControl->field_0_mov.vx = pMatrix->t[0];
     pControl->field_0_mov.vy = pMatrix->t[1];
@@ -37,7 +37,7 @@ void GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix)
     pControl->field_4C_turn_vec = pControl->field_8_rotator;
 }
 
-void GM_ConfigControlString_800261C0(GM_Control *pControl, char *param_pos, char *param_dir)
+void GM_ConfigControlString_800261C0(CONTROL *pControl, char *param_pos, char *param_dir)
 {
     if (param_pos)
     {
@@ -52,24 +52,24 @@ void GM_ConfigControlString_800261C0(GM_Control *pControl, char *param_pos, char
     pControl->field_4C_turn_vec = pControl->field_8_rotator;
 }
 
-void GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38)
+void GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38)
 {
     pControl->field_32_height = height;
     pControl->field_36 = f36;
     pControl->field_38 = f38;
 }
 
-void GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a)
+void GM_ConfigControlAttribute_8002623C(CONTROL *pControl, short f3a)
 {
     pControl->field_3A = f3a;
 }
 
-void GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a)
+void GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a)
 {
     pControl->field_54 = f5a;
 }
 
-int GM_CheckControlTouches_8002624C(GM_Control *pControl, int param_2)
+int GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2)
 {
     if (pControl->field_58 == 0)
     {
@@ -92,7 +92,7 @@ int GM_CheckControlTouches_8002624C(GM_Control *pControl, int param_2)
     return 0;
 }
 
-void GM_ConfigControlRadarparam_800262EC(GM_Control *pControl, short param_2, short param_3, short param_4,
+void GM_ConfigControlRadarparam_800262EC(CONTROL *pControl, short param_2, short param_3, short param_4,
                                          short param_5)
 {
     SVECTOR *pVec;
@@ -104,7 +104,7 @@ void GM_ConfigControlRadarparam_800262EC(GM_Control *pControl, short param_2, sh
     pVec->pad = param_5;
 }
 
-void GM_ConfigControlTrapCheck_80026308(GM_Control *pControl)
+void GM_ConfigControlTrapCheck_80026308(CONTROL *pControl)
 {
     pControl->field_55_skip_flag &= ~CONTROL_FLAG_UNK2;
 }

@@ -21,7 +21,7 @@ typedef struct Actor_Bullet
     GV_ACT        field_0_actor;
     int           field_20;
     MATRIX        field_24;
-    GM_Target     field_44_target;
+    TARGET     field_44_target;
     DG_PRIM      *field_8C_pPrim;
     SVECTOR       field_90[8];
     Bullet_vecs   field_D0[2];

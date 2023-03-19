@@ -3,13 +3,13 @@
 
 #include "Game/game.h"
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct _Actor_Socom
 {
     GV_ACT       field_0_actor;
     OBJECT      field_20;
-    GM_Control *field_44_pCtrl;
+    CONTROL *field_44_pCtrl;
     OBJECT     *field_48_parent_object;
     int         field_4C_obj_idx;
     int        *field_50_ptr;

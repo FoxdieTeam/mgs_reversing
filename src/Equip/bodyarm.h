@@ -3,7 +3,7 @@
 
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct Actor_bodyarm
 {

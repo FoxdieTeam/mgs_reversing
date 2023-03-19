@@ -4,12 +4,12 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct Homing_Target
 {
     MATRIX     *field_0;       // ptr
-    GM_Control *field_4;       // ptr
+    CONTROL *field_4;       // ptr
     int         field_8;       // alive
     int         field_C_bUsed; // auto_aimable
 } Homing_Target;

@@ -22,7 +22,7 @@ void HomingTarget_Clear_All_80032C68()
     }
 }
 
-Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, GM_Control *a2)
+Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
 {
     int            pos; // $v1
     Homing_Target *pIter = gHomingTargets_800B8230;

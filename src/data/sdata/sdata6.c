@@ -58,7 +58,7 @@ char SECTION(".sdata") aNikita[] = "nikita";
 char SECTION(".sdata") aRcmL_0[] = "rcm_l";
 char SECTION(".sdata") aRcmC[] = "rcm.c";
 
-GM_Target *SECTION(".sdata") StnTarget_800AB8A0 = NULL;
+TARGET *SECTION(".sdata") StnTarget_800AB8A0 = NULL;
 
 SVECTOR SECTION(".sdata") svector_800AB8A4 = {-300, 200, 0, 0};
 
