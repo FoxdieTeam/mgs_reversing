@@ -36,7 +36,7 @@ void bandana_80061D14(OBJECT *pObj)
 void bandana_act_80061DA0(Actor_bandana *pActor)
 {
     int ammo;
-    
+
     if (snake_weapon_idx_800BDCBA >= 0)
     {
         ammo = GM_CurrentWeapon;
@@ -44,7 +44,7 @@ void bandana_act_80061DA0(Actor_bandana *pActor)
         {
             GM_Weapons[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
         }
-        
+
         ammo = d_800AB9EC_mag_size;
         if (ammo < snake_mag_size_800BDCB8)
         {
@@ -58,7 +58,7 @@ void bandana_kill_80061E1C(Actor_bandana *pActor)
     bandana_80061D14(pActor->field_20_pParent);
 }
 
-GV_ACT *NewBandana_80061E40(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT * NewBandana_80061E40(GM_Control *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_bandana *pActor = (Actor_bandana *)GV_NewActor_800150E4(7, sizeof(Actor_bandana));
     if (pActor)

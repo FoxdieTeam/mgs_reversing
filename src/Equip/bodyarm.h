@@ -11,6 +11,6 @@ typedef struct Actor_bodyarm
     OBJECT *field_20;
 } Actor_bodyarm;
 
-GV_ACT *bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj);
+GV_ACT * bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj, int unused);
 
 #endif // _BODY_ARM_H_

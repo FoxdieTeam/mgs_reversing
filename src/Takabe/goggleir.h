@@ -29,4 +29,6 @@ STATIC_ASSERT_SIZE(Actor_GoggleIr, 0x6C);
 GV_ACT *gglmng_init_800779B8(int type);
 ushort goggleir_pal_convert_800789E0(ushort value);
 
+GV_ACT * NewGoggleIr_80078E6C(GM_Control *pCtrl, OBJECT *parent_obj, int unused);
+
 #endif // _GOGGLEIR_H

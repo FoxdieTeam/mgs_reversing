@@ -24,4 +24,6 @@ void tabako_act_80061EAC(Actor_tabako *pActor);
 void tabako_kill_8006206C(Actor_tabako *pActor);
 int  tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent);
 
+GV_ACT * NewTabako_80062274(GM_Control *pCtrl, OBJECT *pParent, int numParent);
+
 #endif // _TABAKO_H_

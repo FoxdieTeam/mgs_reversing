@@ -42,6 +42,6 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor);
 void jpegcam_kill_80065008(Actor_jpegcam *pActor);
 int  jpegcam_loader_80065098(Actor_jpegcam *pActor, GM_Control *pCtrl, OBJECT *pParent);
 
-Actor_jpegcam *NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent);
+GV_ACT * NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent, int unused);
 
 #endif // _JPEGCAM_H

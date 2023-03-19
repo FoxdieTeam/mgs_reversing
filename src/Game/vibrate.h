@@ -15,6 +15,7 @@ typedef struct      Actor_Vibrate
 int                 vibrate_act_helper_8005D358(Actor_Vibrate *);
 int                 vibrate_act_helper_8005D3A4(Actor_Vibrate *);
 void                vibrate_act_8005D424(Actor_Vibrate *);
+
 Actor_Vibrate       *vibrate_init_8005D508(int);
 Actor_Vibrate       *vibrate_init2_8005D58C(unsigned char *, int);
 

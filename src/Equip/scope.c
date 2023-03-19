@@ -789,7 +789,7 @@ int scope_loader_800633D4(Actor_scope *pActor, GM_Control *pCtrl, OBJECT *pParen
     return 0;
 }
 
-Actor_scope * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent)
+GV_ACT * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_scope *pActor; // $s0
 
@@ -809,5 +809,6 @@ Actor_scope * NewScope_80063508(GM_Control *pCtrl, OBJECT *pParent)
         }
         scope_created_8009F2C4 = 1;
     }
-    return pActor;
+
+    return &pActor->field_0_scope;
 }

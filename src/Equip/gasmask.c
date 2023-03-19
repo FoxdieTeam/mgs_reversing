@@ -15,7 +15,7 @@ extern GM_Camera GM_Camera_800B77E8;
 void gasmask_act_800609C0(Actor_gasmask *pActor)
 {
     int map;
-    
+
     map = pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit;
     DG_GroupObjs(pActor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
     GM_CurrentMap_800AB9B0 = map;
@@ -81,7 +81,7 @@ int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
     return 0;
 }
 
-GV_ACT *gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit)
+GV_ACT * gasmask_init_80060C14(GM_Control *pCtrl, OBJECT *pParent, int unit)
 {
     Actor_gasmask *pActor = (Actor_gasmask *)GV_NewActor_800150E4(6, sizeof(Actor_gasmask));
     if (pActor)

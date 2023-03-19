@@ -138,9 +138,9 @@ extern MATRIX             stru_8009F084;
 extern MATRIX             stru_8009F0A4;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
-
-extern TSnakeActFunction GM_lpfnPlayerActControl_800AB3DC;
-extern TSnakeActFunction GM_lpfnPlayerActObject2_800AB3E0;
+extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
+extern TSnakeActFunction  GM_lpfnPlayerActControl_800AB3DC;
+extern TSnakeActFunction  GM_lpfnPlayerActObject2_800AB3E0;
 
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
@@ -2248,8 +2248,193 @@ void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int callback)
     sub_8004F454(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
-void sna_init_800515BC(Actor_SnaInit *pActor, int a2);
+static inline int sna_init_helper_800515BC(Actor_SnaInit *pActor)
+{
+    if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4) )
+    {
+        return 0;
+    }
+
+    if ( sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK6) )
+    {
+        return 0;
+    }
+
+    if ( (GM_CurrentItemId == ITEM_BANDANA) && (pActor->field_90C_pWeaponFn == &sna_init_80057A90) )
+    {
+        return 0;
+    }
+
+    if ( (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_PAD_OFF) || ((GM_GameStatus_800AB3CC & 0x50000000) == 0x10000000)) && ((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2) != 0) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+void sna_init_800515BC(Actor_SnaInit *pActor, int a2)
+{
+    int itemType;
+    int temp_s4;
+    GV_ACT *pItemActor;
+    TSnakeEquipFuncion *ppfnEquip;
+    TSnakeEquipFuncion pfnEquip;
+    int temp_s0_2;
+    int var_s2;
+
+    if ( !sna_init_helper_800515BC(pActor) )
+    {
+        return;
+    }
+
+    if ( GM_CurrentItemId == pActor->field_9A8_current_item )
+    {
+        return;
+    }
+
+    itemType = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
+
+    if ( GM_CheckPlayerStatusFlag_8004E29C(0x300) && ((itemType & 0x8000) != 0) )
+    {
+        return;
+    }
+
+    temp_s4 = pActor->field_9AC;
+    pItemActor = pActor->field_9A4_item_actor;
+
+    if ( pItemActor )
+    {
+        GV_DestroyActorQuick_80015164(pItemActor);
+    }
+
+    ppfnEquip = &gSnakeEquips_8009EF8C[GM_CurrentItemId];
+    pItemActor = NULL;
+
+    if ( ((itemType & 0x8000) != 0) && (*ppfnEquip != 0) )
+    {
+        pfnEquip = *ppfnEquip;
+
+        if ( (GM_CurrentItemId == 2) || (GM_CurrentItemId == 3) || (GM_CurrentItemId == 4) )
+        {
+            pItemActor = pfnEquip(&pActor->field_20_ctrl, &pActor->field_9C_obj, 0);
+        }
+        else
+        {
+            pItemActor = pfnEquip(&pActor->field_20_ctrl, &pActor->field_9C_obj, 6);
+        }
+
+        if ( !pItemActor )
+        {
+            pActor->field_9A4_item_actor = NULL;
+            return;
+        }
+    }
+
+    GM_ClearPlayerStatusFlag_8004E2D4(0x401000);
+
+    pActor->field_9A8_current_item = GM_CurrentItemId;
+
+    if ( a2 != 0 )
+    {
+        GM_CallSystemCallbackProc_8002B570(4, GM_CurrentItemId);
+    }
+
+    pActor->field_9AC = itemType;
+    pActor->field_9A4_item_actor = pItemActor;
+
+    if ( (itemType & 1) != 0 )
+    {
+        if ( GM_CurrentItemId == ITEM_SCOPE )
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_scope_80055334);
+        }
+        else if ( GM_CurrentItemId == ITEM_CAMERA )
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_jpegcam_800553CC);
+        }
+        else
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_box_idle_800553EC);
+            GM_SetPlayerStatusFlag_8004E2B4(0x401000);
+        }
+
+        GM_ClearPlayerStatusFlag_8004E2D4(0x10010);
+    }
+    else
+    {
+        if ( ((pActor->field_920_tbl_8009D580 & 0x200) == 0) && ((temp_s4 & 1) != 0) )
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+
+            if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) )
+            {
+                sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_duct_move_80054424);
+            }
+            else if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_ON_WALL) )
+            {
+                sna_init_start_anim_8004E1F4(pActor, dword_8009EEB0[pActor->field_A26_stance]);
+            }
+            else
+            {
+                sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_stance]);
+            }
+        }
+
+        if ( pActor->field_8E8_pTarget && (pActor->field_9B8_fn_anim != &sna_init_anim_throw_800589C8) )
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_choke_hold_80059154);
+        }
+    }
+
+    if ((itemType & 2) != 0)
+    {
+        sub_8004EB74(pActor);
+
+        if ( GM_UnkFlagBE != 0 )
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK400);
+            sna_init_clear_flags2_8004E344(pActor, 0x30);
+        }
+
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH);
+    } else if ( !(pActor->field_920_tbl_8009D580 & 0x200) &&
+                !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) &&
+                ((GM_UnkFlagBE == 0) || ((pActor->field_898_flags2 & 0x10) == 0)) )
+    {
+        sna_init_8004EC00(pActor);
+    }
+
+    temp_s0_2 = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING);
+
+    var_s2 = 0;
+    if ( (pActor->field_20_ctrl.field_55_skip_flag & CONTROL_FLAG_BOTH_CHECK) && ((itemType & 1) == 0) )
+    {
+        var_s2 = 1;
+    }
+
+    sub_8004F454(pActor);
+
+    if ( temp_s0_2 != 0 )
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+    }
+
+    if ( var_s2 != 0 )
+    {
+        pActor->field_20_ctrl.field_55_skip_flag |= 8;
+    }
+
+    if ( GM_CheckPlayerStatusFlag_8004E29C(0x300) )
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH);
+
+        if  ( (pActor->field_9B8_fn_anim == &sna_init_anim_knockdown_80054710) || GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK200) )
+        {
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK3);
+        }
+    }
+}
 
 void sna_init_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec)
 {
