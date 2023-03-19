@@ -558,7 +558,7 @@ void menu_ResetCall_80042814()
     gRadioIncomingCall_8009E708.field_4 = 0;
     gRadioIncomingCall_8009E708.field_2_timer = 0;
     gRadioIncomingCall_8009E708.field_8 = 0;
-    
+
     dword_800ABB08 = -1;
 }
 
@@ -822,7 +822,7 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     u_char       *curPrim;
     int           primCount;
     int           totalprimCount;
-    
+
     LINE_F2      *lineF2;
     LINE_G4      *lineG4;
     int           ff00;
@@ -831,9 +831,9 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     int           y_0_1;
     int           x_2_3;
     int           y_2_3;
-    
+
     int           i;
-    
+
     unsigned char *nextFreeLocation;
     unsigned char *nextFreeLocation2;
 
@@ -846,15 +846,15 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 
     chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
-    
+
     lineF2 = (LINE_F2 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
     pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(LINE_F2);
-    
+
     setXY2(lineF2, 0x20, 0x76, 0x110, 0x76);
     *(int *)&lineF2->r0 = 0x800000;
     setLineF2(lineF2);
     addPrim(pOt, lineF2);
-    
+
     for (i = 0; i < 16; i++)
     {
         otMin = chnlOt + ((i << numOTEntries) * 4);
@@ -866,7 +866,7 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
                 primCount++;
             }
         }
-        
+
         totalprimCount += primCount;
         x_0_1 = i * 15;
         x_2_3 = x_0_1 + 13;
@@ -910,9 +910,9 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
             addPrim(pOt, lineG4);
         }
     }
-    
+
     menu_number_draw_80042F78(pMenuMan, pOt, 0x110, 0x9c, totalprimCount, 1);
-    
+
     return returnVal;
 }
 
@@ -930,17 +930,5 @@ void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
 {
     dword_800ABB20 = 0;
-    return;
-}
-
-#pragma INCLUDE_ASM("asm/Font/font_load_80044A9C.s") // 292 bytes
-
-void font_set_font_addr_80044BC0(int arg1, void *data)
-{
-    dword_8009E75C[arg1] = data;
-}
-
-void sub_80044BD8(void)
-{
     return;
 }
