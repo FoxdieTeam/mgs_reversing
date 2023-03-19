@@ -106,8 +106,46 @@ void sub_8003CE84()
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003CEF8.s") // 232 bytes
-void sub_8003CEF8(PANEL_TEXTURE *a1);
+void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
+{
+    int                   i;
+    int                   bit;
+    int                   bitmask;
+    array_800BD748_child *iter;
+
+    if (pPanelTex->field_C_uvclut == 0)
+    {
+        bit = 1;
+        bitmask = dword_800ABAD8;
+
+        for (i = 0; i < 9; bit <<= 1, i++)
+        {
+            if (!(bitmask & bit))
+            {
+                iter = &array_800BD748[i];
+
+                iter->field_4_panelTexture = pPanelTex;
+
+                pPanelTex->field_8_index = i;
+                pPanelTex->field_C_uvclut = iter->field_0_uvclut;
+
+                dword_800ABAD8 |= bit;
+
+                iter->field_8_rect1.w = pPanelTex->field_10_w / 4;
+                iter->field_8_rect1.h = pPanelTex->field_12_h;
+                LoadImage_8008FB10(&iter->field_8_rect1, pPanelTex->field_0_pixels);
+                LoadImage_8008FB10(&iter->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
+
+                break;
+            }
+        }
+    }
+
+    if (pPanelTex->field_8_index >= 0)
+    {
+        dword_800ABADC |= 1 << pPanelTex->field_8_index;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
