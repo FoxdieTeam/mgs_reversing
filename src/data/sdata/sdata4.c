@@ -118,7 +118,8 @@ const char SECTION(".sdata") aGrenade_800AB5B4[] = "GRENADE";
 const char SECTION(".sdata") aFamas_800AB5BC[] = "FA-MAS";
 const char SECTION(".sdata") aSocom[] = "SOCOM";
 
-int SECTION(".sdata") dword_800AB5CC = 0x80011B04;
+extern char stru_80011B04[];
+char *SECTION(".sdata") dword_800AB5CC = stru_80011B04;
 
 const char SECTION(".sdata") aMp5Sd[] = "MP 5 SD";
 const char SECTION(".sdata") aNoItem_0[] = "NO ITEM";

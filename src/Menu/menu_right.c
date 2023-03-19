@@ -85,11 +85,67 @@ void sub_8003CE78(void)
     dword_800ABADC = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003CE84.s") // 116 bytes
-void sub_8003CE84();
+extern array_800BD748_child array_800BD748[];
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003CEF8.s") // 232 bytes
-void sub_8003CEF8(PANEL_TEXTURE *a1);
+void sub_8003CE84()
+{
+    int i;
+    int bit;
+    int bitmask;
+
+    bitmask = dword_800ABAD8 & ~dword_800ABADC;
+    for (bit = 1, i = 0; i < 9; bit <<= 1, i++)
+    {
+        if (bitmask & bit)
+        {
+            array_800BD748[i].field_4_panelTexture->field_C_uvclut = 0;
+            array_800BD748[i].field_4_panelTexture->field_8_index = -1;
+            array_800BD748[i].field_4_panelTexture = NULL;
+            dword_800ABAD8 &= ~bit;
+        }
+    }
+}
+
+void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
+{
+    int                   i;
+    int                   bit;
+    int                   bitmask;
+    array_800BD748_child *iter;
+
+    if (pPanelTex->field_C_uvclut == 0)
+    {
+        bit = 1;
+        bitmask = dword_800ABAD8;
+
+        for (i = 0; i < 9; bit <<= 1, i++)
+        {
+            if (!(bitmask & bit))
+            {
+                iter = &array_800BD748[i];
+
+                iter->field_4_panelTexture = pPanelTex;
+
+                pPanelTex->field_8_index = i;
+                pPanelTex->field_C_uvclut = iter->field_0_uvclut;
+
+                dword_800ABAD8 |= bit;
+
+                iter->field_8_rect1.w = pPanelTex->field_10_w / 4;
+                iter->field_8_rect1.h = pPanelTex->field_12_h;
+                LoadImage_8008FB10(&iter->field_8_rect1, pPanelTex->field_0_pixels);
+                LoadImage_8008FB10(&iter->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
+
+                break;
+            }
+        }
+    }
+
+    if (pPanelTex->field_8_index >= 0)
+    {
+        dword_800ABADC |= 1 << pPanelTex->field_8_index;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/Menu/sub_8003CFE0.s") // 144 bytes
 #pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
@@ -775,7 +831,36 @@ int sub_8003DF30(int weaponId)
     return (GM_DisableWeapon_800AB9E4 & (1 << weaponId)) > 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_helper2_helper_8003E030.s") // 184 bytes
+extern char *dword_8009E5CC[];
+extern char *dword_800AB5CC;
+char        *SECTION(".sdata") dword_800AB5CC;
+
+void menu_right_update_helper2_helper_8003E030(int idx)
+{
+    char *param_1;
+
+    param_1 = dword_8009E5CC[idx];
+    if (idx == 0)
+    {
+        if (GM_SilencerFlag == 0)
+        {
+            dword_8009E5CC[0][0x70] = 0xd0;
+            dword_8009E5CC[0][0x71] = 3;
+            dword_8009E5CC[0][0x72] = 0;
+        }
+        else
+        {
+            dword_8009E5CC[0][0x70] = 0x90;
+            dword_8009E5CC[0][0x71] = 0xb6;
+            dword_8009E5CC[0][0x72] = 0x91;
+        }
+    }
+    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && idx == 1)
+    {
+        param_1 = dword_800AB5CC;
+    }
+    sub_8003F97C(param_1);
+}
 
 extern short d_800ABA2C_ammo;
 extern short d_800AB9EC_mag_size;

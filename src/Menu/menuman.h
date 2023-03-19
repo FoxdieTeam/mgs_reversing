@@ -101,6 +101,14 @@ typedef struct menu_0x14
   menu_chara_struct *field_10_pCharaStru;
 } menu_0x14;
 
+typedef struct array_800BD748_child
+{
+    int            field_0_uvclut;
+    PANEL_TEXTURE *field_4_panelTexture;
+    RECT           field_8_rect1;
+    RECT           field_10_rect2;
+} array_800BD748_child;
+
 void menuman_init_80038954(void);
 
 struct Actor_MenuMan;
@@ -410,6 +418,7 @@ void           AssignXY_8003D1A8(PANEL *pArray, int idx, short amount);
 int           menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
+void           sub_8003F97C(char *param_1);
 void           sub_8004CF20(int code, char **param_2, char **param_3);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
