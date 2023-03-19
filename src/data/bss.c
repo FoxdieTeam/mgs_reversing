@@ -184,7 +184,11 @@ Actor_MenuMan BSS   gMenuMan_800BD360; // 0x220 (544) bytes
 MATRIX BSS          gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
 PANEL_TEXTURE BSS   gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
 
-gap                                     gap_800BD744[0x144]; // 324 bytes
+gap                                     gap_800BD744[0x4]; // 4 bytes
+
+array_800BD748_child BSS array_800BD748[9]; // 0xD8 (216) bytes
+
+gap                                     gap_800BD820[0x68]; // 104 bytes
 
 PANEL_TEXTURE BSS   gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
 
