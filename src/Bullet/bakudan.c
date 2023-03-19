@@ -37,10 +37,10 @@ extern Blast_Data blast_data_8009F4CC;
 void bakudan_act_8006A218(Actor_bakudan *pActor)
 {
     MATRIX rotation;
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
     GV_PAD *pPad;
     MATRIX *pMtx;
-    GM_Target *pTarget;
+    TARGET *pTarget;
 
     if (GM_GameStatus_800AB3CC < 0)
     {
@@ -145,9 +145,9 @@ int bakudan_next_free_item_8006A510()
     return -1;
 }
 
-int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4, GM_Target *pTarget)
+int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4, TARGET *pTarget)
 {
-    GM_Control *pCtrl = &pActor->field_20_ctrl;
+    CONTROL *pCtrl = &pActor->field_20_ctrl;
     OBJECT *pKmd;
     int nextItem;
     Jirai_unknown *pItem;
@@ -200,7 +200,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     return 0;
 }
 
-GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, GM_Target *pTarget)
+GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, TARGET *pTarget)
 {
     Actor_bakudan *pActor; // $s0
 

@@ -19,12 +19,12 @@ void famas_act_80065E90(Actor_Famas *pActor)
 {
     int field_5C_mp5;
     int flags;
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
 
     int newSize;
     int v9;
     int v10;
-    GM_Control *field_44_pCtrl;
+    CONTROL *field_44_pCtrl;
 
     int v13;
     int v14;
@@ -157,7 +157,7 @@ int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_
     return 0;
 }
 
-Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
+Actor_Famas *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, int* a4, int flag)
 {
     int v11;
 
@@ -207,7 +207,7 @@ Actor_Famas *NewFAMAS_8006623C(GM_Control* a1, OBJECT *parent_obj, int num_paren
     return famas_actor;
 }
 
-Actor_Famas *famas_create_80066374(GM_Control* a1, OBJECT *a2, int num_parent, int* a4)
+Actor_Famas *famas_create_80066374(CONTROL *a1, OBJECT *a2, int num_parent, int* a4)
 {
     return NewFAMAS_8006623C(a1, a2, num_parent, a4, (unsigned int)GM_DifficultyFlag >> 31);
 }

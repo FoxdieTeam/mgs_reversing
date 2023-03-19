@@ -6,7 +6,7 @@
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct Shadow_94
 {
@@ -18,7 +18,7 @@ typedef struct Shadow_94
 typedef struct Actor_Shadow
 {
     GV_ACT       field_0_actor;
-    GM_Control *field_20_ctrl;
+    CONTROL *field_20_ctrl;
     OBJECT     *field_24_pObj;
     OBJECT      field_28_obj;
     MATRIX      field_4C_mtx;
@@ -39,6 +39,6 @@ typedef struct Actor_Shadow
 } Actor_Shadow;
 
 void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature
-Actor_Shadow * shadow_init2_80060384(GM_Control *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable);
+Actor_Shadow * shadow_init2_80060384(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable);
 
 #endif // _SHADOW_H_

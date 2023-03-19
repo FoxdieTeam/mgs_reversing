@@ -7,7 +7,7 @@
 #include <KERNEL.H>
 #include "Game/game.h"
 #include "libdg/libdg.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct Item_Info
 {
@@ -21,7 +21,7 @@ typedef struct Item_Info
 typedef struct Actor_Item
 {
     GV_ACT          field_0;
-    GM_Control     field_20_ctrl;
+    CONTROL field_20_ctrl;
     OBJECT         field_9C_kmd;
     char           field_C0[8];
     MATRIX         field_C8_mtx[2];

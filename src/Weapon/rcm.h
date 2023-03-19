@@ -3,7 +3,7 @@
 
 #include "Game/game.h"
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "libdg/libdg.h"
 
 // nikita
@@ -12,7 +12,7 @@ typedef struct Actor_Rcm
 {
     GV_ACT         field_0_actor;
     OBJECT        f20_obj;
-    GM_Control   *field_44_pCtrl;
+    CONTROL   *field_44_pCtrl;
     OBJECT       *field_48_pParent;
     int           field_4C_obj_idx;
     unsigned int *field_50_pUnknown;

@@ -65,7 +65,7 @@ void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
 extern SVECTOR    svector_8009F4A0;
 extern SVECTOR    svector_8009F4A8;
 extern SVECTOR    svector_8009F4B0;
-extern GM_Target *target_800BDF00;
+extern TARGET *target_800BDF00;
 
 void amissile_act_helper_8006D37C(Actor_amissile *pActor)
 {
@@ -174,7 +174,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     SVECTOR position;
     SVECTOR addition;
 
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
     int result;
     Blast_Data *pBlastData;
 
@@ -302,7 +302,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 
 int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
 {
-    GM_Control *pCtrl = &pActor->field_20_ctrl;
+    CONTROL *pCtrl = &pActor->field_20_ctrl;
     OBJECT *pKmd;
     DG_OBJS *pObjs;
     RECT *pRect;

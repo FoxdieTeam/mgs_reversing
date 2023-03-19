@@ -1,5 +1,5 @@
 #include "tabako.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -155,7 +155,7 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
     return 0;
 }
 
-GV_ACT * NewTabako_80062274(GM_Control *pCtrl, OBJECT *pParent, int numParent)
+GV_ACT * NewTabako_80062274(CONTROL *pCtrl, OBJECT *pParent, int numParent)
 {
     Actor_tabako *pActor = (Actor_tabako *)GV_NewActor_800150E4(6, sizeof(Actor_tabako));
 

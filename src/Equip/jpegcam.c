@@ -11,7 +11,7 @@
 extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
 extern int                 DG_CurrentGroupID_800AB968;
 extern GM_Camera           GM_Camera_800B77E8;
-extern GM_Control         *gSnaControl_800AB9F4;
+extern CONTROL         *gSnaControl_800AB9F4;
 extern int                 dword_8009F604;
 extern int                 GM_LoadRequest_800AB3D0;
 extern int                 GM_GameOverTimer_800AB3D4;
@@ -972,7 +972,7 @@ void jpegcam_kill_80065008(Actor_jpegcam *pActor)
     }
 }
 
-int jpegcam_loader_80065098(Actor_jpegcam *pActor, GM_Control *pCtrl, OBJECT *pParent)
+int jpegcam_loader_80065098(Actor_jpegcam *pActor, CONTROL *pCtrl, OBJECT *pParent)
 {
   pActor->field_24_parent = pParent;
   pActor->field_50_pInput = &GV_PadData_800B05C0[2];
@@ -987,7 +987,7 @@ int jpegcam_loader_80065098(Actor_jpegcam *pActor, GM_Control *pCtrl, OBJECT *pP
   return 0;
 }
 
-GV_ACT * NewJpegcam_80065118(GM_Control *pCtrl, OBJECT *pParent, int unused)
+GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_jpegcam *pActor;
 

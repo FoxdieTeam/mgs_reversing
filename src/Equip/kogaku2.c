@@ -227,7 +227,7 @@ void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor)
 {
 }
 
-GV_ACT * NewKogaku2_800615FC(GM_Control *pCtrl, OBJECT *pObj, int unit)
+GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
 {
   Actor_kogaku2 *pActor;
   DG_OBJS *objs;
@@ -263,7 +263,7 @@ GV_ACT * NewKogaku2_800615FC(GM_Control *pCtrl, OBJECT *pObj, int unit)
     return &pActor->field_0_actor;
 }
 
-GV_ACT * NewKogaku3_80061708(GM_Control *pCtrl, OBJECT *pObject, int unit)
+GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
 {
     SVECTOR vecs[9];
     long coords[9];

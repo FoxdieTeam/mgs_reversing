@@ -189,7 +189,7 @@ int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewGoggleIr_80078E6C(GM_Control *pCtrl, OBJECT *parent_obj, int unused)
+GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
 {
     Actor_GoggleIr *goggleir_actor = (Actor_GoggleIr *)GV_NewActor_800150E4(6, sizeof(Actor_GoggleIr));
 

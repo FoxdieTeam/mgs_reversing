@@ -17,7 +17,7 @@ extern const char aCardboardEUC[]; // This is cardboard in EUC-JP encoding
 
 int BoxCheckMessage_8006195C(Actor_Box *pActor)
 {
-    GM_Control *pCtrl = pActor->field_44_pCtrl;
+    CONTROL *pCtrl = pActor->field_44_pCtrl;
     GV_MSG *pMsg;
     int count;
     unsigned short message;
@@ -119,7 +119,7 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewBox_80061C7C(GM_Control *pCtrl, OBJECT *pParent, int unused)
+GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
 {
     Actor_Box *pActor = (Actor_Box *)GV_NewActor_800150E4(6, sizeof(Actor_Box));
     if (pActor)

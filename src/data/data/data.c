@@ -11,7 +11,7 @@
 #include "mts/mts_new.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "chara/snake/sna_init.h"
 #include "Equip/bodyarm.h"
 #include "Equip/box.h"

@@ -30,7 +30,7 @@ void bodyarm_kill_8006090C(Actor_bodyarm *pActor)
     }
 }
 
-GV_ACT * bodyarm_init_80060940(GM_Control *pCtrl, OBJECT *pObj, int unused)
+GV_ACT * NewBodyarm_80060940(CONTROL *pCtrl, OBJECT *pObj, int unused)
 {
     Actor_bodyarm *pActor = (Actor_bodyarm *)GV_NewActor_800150E4(6, sizeof(Actor_bodyarm));
     if (pActor)

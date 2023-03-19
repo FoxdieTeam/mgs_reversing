@@ -4,13 +4,13 @@
 #include "gmsight.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 typedef struct Actor_gasmask
 {
-    GV_ACT          field_0_actor;
+    GV_ACT         field_0_actor;
     OBJECT         field_20_obj;
-    GM_Control    *field_44_pCtrl;
+    CONTROL       *field_44_pCtrl;
     OBJECT        *field_48_pParent;
     int            field_4C_unit;
     int            field_50_count;

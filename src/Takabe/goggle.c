@@ -1,7 +1,7 @@
 #include "goggle.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/object.h"
 #include "map/map.h"
 #include "unknown.h"
@@ -176,7 +176,7 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
     return 0;
 }
 
-GV_ACT * NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj, int unused)
+GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
 {
     Actor_goggle *goggle_actor = (Actor_goggle *)GV_NewActor_800150E4(6, sizeof(Actor_goggle));
 

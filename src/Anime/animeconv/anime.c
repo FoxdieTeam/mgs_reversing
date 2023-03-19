@@ -1,5 +1,5 @@
 #include "anime.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "psyq.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"

@@ -5,7 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/object.h"
 
 // the projectile for all types of grenades
@@ -13,7 +13,7 @@
 typedef struct Actor_tenage
 {
     GV_ACT     field_0_actor;
-    GM_Control field_20_ctrl;
+    CONTROL field_20_ctrl;
     OBJECT     field_9C_obj;
     MATRIX     field_C0_light_matrices[2];
     int        field_100_homing_arg2;

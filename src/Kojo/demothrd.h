@@ -5,7 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/camera.h"
@@ -183,7 +183,7 @@ typedef struct dmo_hind
 
 typedef struct dmo_model_0x1A4
 {
-  GM_Control field_0_ctrl;
+  CONTROL field_0_ctrl;
   OBJECT field_7C_obj;
   SVECTOR field_A0[1]; // TODO: Seems to be an array, perhaps up to a fixed size
   short field_A8;
@@ -288,7 +288,7 @@ typedef struct Actor_demothrd
   int field_B8;
   int field_BC;
   demothrd_0x1C *field_C0_pHeader;
-  GM_Control field_C4_ctrl;
+  CONTROL field_C4_ctrl;
   OBJECT field_140_obj;
   int field_164;
   int field_168;

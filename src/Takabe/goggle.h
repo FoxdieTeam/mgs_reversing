@@ -3,7 +3,7 @@
 
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 
 // night vision goggles (screen effect)
 
@@ -11,7 +11,7 @@ typedef struct Actor_goggle
 {
     GV_ACT       field_0_actor;
     OBJECT      field_20_obj;
-    GM_Control *field_44_pCtrl;
+    CONTROL *field_44_pCtrl;
     OBJECT     *field_48_pObj;
     int         field_4C_head_hidden;
     int         field_50;
@@ -26,6 +26,6 @@ ushort goggle_pal_convert_8007743C(ushort);
 void goggle_pal_cb_800774C0(void);
 int  goggle_loader_8007773C(Actor_goggle *a1, OBJECT *a2);
 
-GV_ACT * NewGoggle_8007781C(GM_Control *a1, OBJECT *parent_obj, int unused);
+GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused);
 
 #endif // _GOGGLE_H

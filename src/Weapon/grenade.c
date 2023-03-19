@@ -28,7 +28,7 @@ extern const char aGrenadeC[]; // = "grenade.c"
 
 void grenade_800663A0( void )
 {
-	GM_Target target;
+	TARGET target;
 	SVECTOR   pos;
 
 	pos.vz = 250;
@@ -199,7 +199,7 @@ int grenade_loader_800668B4( Actor_Grenade *actor_grenade,
 }
 
 Actor_Grenade *grenade_init_80066944(
-	GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused, int grd_type )
+	CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused, int grd_type )
 {
 	Actor_Grenade *actor_grenade;
 
@@ -232,22 +232,22 @@ Actor_Grenade *grenade_init_80066944(
 	return actor_grenade;
 }
 
-Actor_Grenade *grenade_create_80066A4C( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+Actor_Grenade *grenade_create_80066A4C( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_GRENADE );
 }
 
-Actor_Grenade *NewStanGrenade_80066A74( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+Actor_Grenade *NewStanGrenade_80066A74( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_STUN );
 }
 
-Actor_Grenade *NewChaffGrenade_80066AA0( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+Actor_Grenade *NewChaffGrenade_80066AA0( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_CHAFF );
 }
 
-Actor_Grenade *NewTimerBomb_80066ACC( GM_Control *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
+Actor_Grenade *NewTimerBomb_80066ACC( CONTROL *ctrl, OBJECT *parent_obj, int num_parent, int *flags, int unused )
 {
 	return grenade_init_80066944( ctrl, parent_obj, num_parent, flags, unused, GRD_TBOMB );
 }

@@ -14,7 +14,7 @@ extern const char aOpen[];
 extern const char aClose[];
 
 extern int dword_800ABA0C;
-extern GM_Control      *gSnaControl_800AB9F4;
+extern CONTROL      *gSnaControl_800AB9F4;
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {
@@ -91,7 +91,7 @@ void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s") // 268 bytes
 
-int door_act_helper_8006F290(GM_Control *pCtrl, int param_h)
+int door_act_helper_8006F290(CONTROL *pCtrl, int param_h)
 {
     int param_h_50; // $a1
     int diff; // $v1
@@ -197,7 +197,7 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
     return defaul_val;
 }
 
-static inline void SetFlag(GM_Control *pCtrl, int flag)
+static inline void SetFlag(CONTROL *pCtrl, int flag)
 {
     pCtrl->field_55_skip_flag |= flag;
 }
@@ -273,7 +273,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         SVECTOR     vec;
-        GM_Control *pCtrl = &pDoor->field_20_ctrl;
+        CONTROL *pCtrl = &pDoor->field_20_ctrl;
         GV_DirVec2_80016F24((pCtrl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
         pCtrl->field_0_mov.vx += vec.vx;
         pCtrl->field_0_mov.vz += vec.vz;

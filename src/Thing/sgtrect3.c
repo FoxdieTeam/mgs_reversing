@@ -23,7 +23,7 @@ void sgtrect3_act_helper_8007009C()
     SetTransMatrix_80093248(&DG_Chanl(0)->field_10_eye_inv);
 }
 
-unsigned int sgtrect3_act_helper_helper_800700E0(GM_Target *target, DVECTOR *vector)
+unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector)
 {
     int     vyAddend;
     int     vyDiff;
@@ -54,7 +54,7 @@ unsigned int sgtrect3_act_helper_helper_800700E0(GM_Target *target, DVECTOR *vec
 
 extern int dword_800ABA0C;
 
-int sgtrect3_act_helper_800701A8(GM_Target *target)
+int sgtrect3_act_helper_800701A8(TARGET *target)
 {
     if (!((((target->field_0_flags & 0xfffe) != 0 && (target->field_4_map & dword_800ABA0C) != 0) &&
            target->field_2_side == 2) &&
@@ -71,11 +71,11 @@ extern int     dword_8009F490;
 extern SVECTOR svector_800ABA10;
 extern SVECTOR svector_8009F478;
 
-void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCoordsArray, GM_Target **outTargetsArray,
+void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
                                   ushort *outResultsArray)
 {
     int         downCount;
-    GM_Target  *targets, *currentTarget;
+    TARGET *targets, *currentTarget;
     SVECTOR     vector, vector2;
     int         targetCount;
     DVECTOR     screenCoordinates;
@@ -86,14 +86,14 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
     int         vecLen;
     int         vx, vy;
     DVECTOR    *outScreenCoordsIter;
-    GM_Target **outTargetsIter;
+    TARGET **outTargetsIter;
     ushort     *outResultsIter;
 
     targets = NULL;
     GM_Target_8002E374(&downCount, &targets);
     if (downCount != 1)
     {
-        GM_Target *lastTarget;
+        TARGET *lastTarget;
 
         vector = (dword_8009F46C != 0) ? svector_8009F478 : svector_800ABA10;
 
@@ -342,7 +342,7 @@ void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2A
     sgtrect3_act_helper_helper_80070040(ot, secondLineF2);
 }
 
-void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoordsArray, GM_Target **inTargets,
+void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoordsArray, TARGET **inTargets,
                                   unsigned short *offsets)
 {
     unsigned int  rgb;
@@ -351,8 +351,8 @@ void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoord
     int            field_21B4;
     DVECTOR        screenCoords;
     int            targetCount;
-    GM_Target     *field_30_target;
-    GM_Target     *currentTarget;
+    TARGET *field_30_target;
+    TARGET *currentTarget;
     unsigned short currentOffset;
 
     void     *ot;
@@ -446,12 +446,12 @@ void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
     GM_Sound_80032968(0, 0x3f, 0x4f);
 }
 
-extern GM_Target *target_800BDF00;
+extern TARGET *target_800BDF00;
 
 void sgtrect3_act_80070E14(Actor_sgtrect3 *sgtrect3)
 {
     DVECTOR    screenCoords[32];
-    GM_Target *targets[32];
+    TARGET *targets[32];
     ushort     offsets[32];
 
     if (sgtrect3->field_24 != *sgtrect3->field_20)

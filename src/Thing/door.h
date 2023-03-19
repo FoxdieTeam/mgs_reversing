@@ -1,7 +1,7 @@
 #ifndef _THING_DOOR_H_
 #define _THING_DOOR_H_
 
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
@@ -19,7 +19,7 @@ typedef struct Actor_Door_TParam
 typedef struct Actor_Door
 {
     GV_ACT                    field_0_actor;
-    GM_Control               field_20_ctrl;
+    CONTROL field_20_ctrl;
     OBJECT_NO_ROTS           field_9C;
     short                    field_C0;
     short                    field_C2;

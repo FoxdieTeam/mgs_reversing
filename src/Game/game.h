@@ -5,7 +5,7 @@
 #include "strctrl.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "GM_Control.h"
+#include "control.h"
 #include "target.h"
 #include "libhzd/libhzd.h"
 #include "Menu/menuman.h"
@@ -63,9 +63,9 @@ typedef struct _OBJECT_NO_ROTS
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;
 
-typedef int (*TBombFunction)(GM_Control *, int, int *);
-typedef int (*TBombFunction2)(int, GM_Control *, int *);
-typedef int (*TBombFunction3)(GM_Target *, int);
+typedef int (*TBombFunction)(CONTROL *, int, int *);
+typedef int (*TBombFunction2)(int, CONTROL *, int *);
+typedef int (*TBombFunction3)(TARGET *, int);
 
 typedef enum
 {
@@ -160,26 +160,26 @@ void               GM_CreateLoader_8002AAB0();
 void               GM_Sound_80032C48(int code, int notUsed);
 void               GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
-void               GM_ConfigControlInterp_80026244(GM_Control *pControl, char f5a);
-int                GM_CheckControlTouches_8002624C(GM_Control *pControl, int param_2);
+void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
+int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);
 void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
 void               GM_ExitBehindCamera_80030AEC(void);
-void               GM_CheckBehindCamera_80030B3C(HZD_MAP *map, GM_Control *control);
+void               GM_CheckBehindCamera_80030B3C(HZD_MAP *map, CONTROL *control);
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
 char              *GM_GetArea_8002A880(int unused);
 int                GM_SetArea_8002A7D8(int stage_id, char *pStageName);
-void               GM_ConfigControlHazard_8002622C(GM_Control *pControl, short height, short f36, short f38);
+void               GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38);
 int                GM_StreamStatus_80037CD8(void);
 void               GM_CallSystemCallbackProc_8002B570(int id, int arg);
-void               GM_ConfigControlString_800261C0(GM_Control *pControl, char *bReadVec1, char *bReadVec2);
+void               GM_ConfigControlString_800261C0(CONTROL *pControl, char *bReadVec1, char *bReadVec2);
 void               GM_ConfigObjectSlide_80034CC4(OBJECT *obj);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void               GM_StartDaemon_8002B77C();
-void               GM_ConfigControlAttribute_8002623C(GM_Control *pControl, short f3a);
-void               GM_ConfigControlMatrix_80026154(GM_Control *pControl, MATRIX *pMatrix);
+void               GM_ConfigControlAttribute_8002623C(CONTROL *pControl, short f3a);
+void               GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix);
 void               GM_ConfigObjectStep_80034C54(OBJECT *obj, SVECTOR *step);
 void               GM_ConfigObjectJoint_80034CB4(OBJECT *obj);
-void               GM_ConfigControlTrapCheck_80026308(GM_Control *pControl);
+void               GM_ConfigControlTrapCheck_80026308(CONTROL *pControl);
 void               GM_AlertModeInit_8002EAA8(void);
 void               GM_InitWhereSystem_8002597C(void);
 int                GM_Reset_helper_8002A978();
@@ -193,7 +193,7 @@ Actor_strctrl      *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
 void               GM_ResetChara_8002A8B0(void);
-void               GM_ControlRemove_80025904(GM_Control *pControl);
+void               GM_ControlRemove_80025904(CONTROL *pControl);
 TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id);
 void               GM_AlertAct_8002E91C(void);
 void               GM_StreamPlayStop_80037D64(void);
@@ -201,7 +201,7 @@ void               GM_AlertModeReset_8002EAB8(void);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
-int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, GM_Control *pCtrl, SVECTOR *rots);
+int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, CONTROL *pCtrl, SVECTOR *rots);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 
 // SeSet helpers
@@ -226,10 +226,10 @@ void GM_Act_helper3_helper_8002AB40();
 void GM_Act_helper_8002AA10(void); // noise/alert thing
 void GM_Act_helper3_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
-void GM_ActControl_80025A7C(GM_Control *pControl);
+void GM_ActControl_80025A7C(CONTROL *pControl);
 
 void GM_CameraEventReset_800309A8(void);
 
-int Res_Control_init_loader_8002599C(GM_Control *pControl, int scriptData, int scriptBinds);
+int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
 
 #endif // GAME_H

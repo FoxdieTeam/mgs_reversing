@@ -37,7 +37,7 @@
 #include "Equip/scope.h"
 #include "Equip/tabako.h"
 #include "Font/font.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/camera.h"
 #include "Game/delay.h"
 #include "Game/game.h"
