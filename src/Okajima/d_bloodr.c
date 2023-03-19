@@ -2,7 +2,7 @@
 #include "Game/game.h"
 
 extern int              GM_CurrentMap_800AB9B0;
-extern GM_Control      *gSnaControl_800AB9F4;
+extern CONTROL      *gSnaControl_800AB9F4;
 extern SVECTOR          DG_ZeroVector_800AB39C;
 extern OBJECT          *dword_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;

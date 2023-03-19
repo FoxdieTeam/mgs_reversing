@@ -6,13 +6,13 @@
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "map/map.h"
 
 typedef struct Actor_scope
 {
   GV_ACT      field_0_scope;
-  GM_Control *field_20_ctrl;
+  CONTROL *field_20_ctrl;
   OBJECT     *field_24_pParent;
   OBJECT      field_28_obj;
   short       field_4C_saved_packs;
@@ -34,5 +34,7 @@ typedef struct Actor_scope
   int         field_98;
   int         field_9C_flags;
 } Actor_scope;
+
+GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused);
 
 #endif // _SCOPE_H_

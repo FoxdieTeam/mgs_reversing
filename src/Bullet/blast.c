@@ -61,7 +61,7 @@ void blast_kill_8006DD90(Actor_Blast *blast)
 
 void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker)
 {
-    GM_Target *pTarget = &pBlast->field_3C_target;
+    TARGET *pTarget = &pBlast->field_3C_target;
     SVECTOR vec;
 
     vec.vx = vec.vy = vec.vz = pBlastData->field_8_z;

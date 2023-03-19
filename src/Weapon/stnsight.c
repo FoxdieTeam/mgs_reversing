@@ -20,7 +20,7 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
     }
 }
 
-extern GM_Target *target_800BDF00;
+extern TARGET *target_800BDF00;
 
 extern const char aLockOn[]; // = "LOCK_ON\n"
 
@@ -651,7 +651,7 @@ int stnsight_init_helper_helper_80069234(Actor_Stnsight *actor)
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-int stnsight_init_helper_800692D0(Actor_Stnsight *actor, GM_Control *ctrl)
+int stnsight_init_helper_800692D0(Actor_Stnsight *actor, CONTROL *ctrl)
 {
     if (stnsight_init_helper_helper_80068F74(actor) < 0)
     {
@@ -706,7 +706,7 @@ int stnsight_init_helper_800692D0(Actor_Stnsight *actor, GM_Control *ctrl)
 
 extern const char aStnsightC[]; // = "stnsight.c"
 
-Actor_Stnsight *NewStnSight_800693E0(GM_Control *ctrl)
+Actor_Stnsight *NewStnSight_800693E0(CONTROL *ctrl)
 {
     Actor_Stnsight *actor;
 

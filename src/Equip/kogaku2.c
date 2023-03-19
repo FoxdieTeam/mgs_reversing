@@ -227,7 +227,7 @@ void kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor)
 {
 }
 
-Actor_kogaku2 *NewKogaku2_800615FC(GM_Control *pCtrl, OBJECT *pObj, int unit)
+GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
 {
   Actor_kogaku2 *pActor;
   DG_OBJS *objs;
@@ -259,10 +259,11 @@ Actor_kogaku2 *NewKogaku2_800615FC(GM_Control *pCtrl, OBJECT *pObj, int unit)
       EQ_InvisibleUnit_80060E68(objs, pActor->field_40_rgb , 0);
     }
   }
-  return pActor;
+
+    return &pActor->field_0_actor;
 }
 
-Actor_kogaku2 * NewKogaku3_80061708(GM_Control *pCtrl, OBJECT *pObject, int unit)
+GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
 {
     SVECTOR vecs[9];
     long coords[9];
@@ -386,5 +387,5 @@ Actor_kogaku2 * NewKogaku3_80061708(GM_Control *pCtrl, OBJECT *pObject, int unit
         }
     }
 
-    return pActor;
+    return &pActor->field_0_actor;
 }

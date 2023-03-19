@@ -35,7 +35,7 @@ int        SECTION(".sbss") gSnaMoveDir_800ABBA4;
 extern int dword_800ABBB4;
 int        SECTION(".sbss") dword_800ABBB4;
 
-extern GM_Control *gSnaControl_800AB9F4;
+extern CONTROL *gSnaControl_800AB9F4;
 extern OBJECT     *dword_800ABA20;
 
 extern SVECTOR *svector_800ABBB8;
@@ -71,8 +71,8 @@ short        SECTION(".sbss") dword_800ABBD4;
 extern int dword_800ABBB0;
 int        SECTION(".sbss") dword_800ABBB0;
 
-extern GM_Target *GM_BombSeg_800ABBD8; // probably wrong type?
-GM_Target        *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern TARGET *GM_BombSeg_800ABBD8; // probably wrong type?
+TARGET *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern Actor_SnaInit *sna_init_800ABBA0;
 Actor_SnaInit *SECTION(".sbss") sna_init_800ABBA0;
@@ -110,7 +110,7 @@ extern SVECTOR            svector_800ABA10;
 extern Sna_ActionTable    weapon_actions_8009ED8C[];
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
-extern GM_Control        *tenage_ctrls_800BDD30[16];
+extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern Jirai_unknown      stru_800BDD78[16];
 extern Jirai_unknown      stru_800BDE78[8];
 extern unsigned char      gBulNames_800BDC78[64];
@@ -119,7 +119,7 @@ extern int                dword_8009F444;
 extern int                dword_8009F46C[];
 extern int                dword_8009F470;
 extern int                dword_8009F474;
-extern GM_Target         *target_800BDF00;
+extern TARGET *target_800BDF00;
 extern int                dword_800BDD28;
 extern int                tenage_ctrls_count_800BDD70;
 extern int                dword_8009F434;
@@ -138,9 +138,9 @@ extern MATRIX             stru_8009F084;
 extern MATRIX             stru_8009F0A4;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
-
-extern TSnakeActFunction GM_lpfnPlayerActControl_800AB3DC;
-extern TSnakeActFunction GM_lpfnPlayerActObject2_800AB3E0;
+extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
+extern TSnakeActFunction  GM_lpfnPlayerActControl_800AB3DC;
+extern TSnakeActFunction  GM_lpfnPlayerActObject2_800AB3E0;
 
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
@@ -254,7 +254,7 @@ void sna_init_check_dead_8004E384(Actor_SnaInit *snake)
 
 void sna_init_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 {
-    GM_Target *target = snake->field_8E8_pTarget;
+    TARGET *target = snake->field_8E8_pTarget;
 
     if (target != NULL)
     {
@@ -395,7 +395,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
             }
             else
             {
-                GM_BombSeg_800ABBD8 = (GM_Target *)(unk2[i] & ~0x80000000);
+                GM_BombSeg_800ABBD8 = (TARGET *)(unk2[i] & ~0x80000000);
             }
 
             return 1;
@@ -435,7 +435,7 @@ int sna_init_8004E71C(int a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
 
 int sna_init_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)
 {
-    GM_Control *pCtrl = &pActor->field_20_ctrl;
+    CONTROL *pCtrl = &pActor->field_20_ctrl;
     int bVar1 = 0;
     SVECTOR SStack48;
     SVECTOR auStack40;
@@ -1248,7 +1248,7 @@ void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput)
 
 int sub_8004FCB8(Actor_SnaInit *pActor, MATRIX *pMtx, int param_3)
 {
-    GM_Target *pTarget;
+    TARGET *pTarget;
     SVECTOR    vec;
     SVECTOR    vec_arr[2];
 
@@ -1275,7 +1275,7 @@ int sub_8004FCB8(Actor_SnaInit *pActor, MATRIX *pMtx, int param_3)
 int sna_init_8004FDE8(Actor_SnaInit *pActor, Target_Data *pTargetData)
 {
     int flags = 0x2;
-    GM_Target *pTarget;
+    TARGET *pTarget;
     SVECTOR vec;
     SVECTOR vecs[2];
 
@@ -1499,7 +1499,7 @@ int sna_init_prone_check_standup_80050398(Actor_SnaInit *pActor)
 
 void sna_init_80050440(Actor_SnaInit *pActor)
 {
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
     unsigned short *pArr;
     int inDuct;
     int i;
@@ -2064,7 +2064,7 @@ helper3:
     pActor->field_7A0_msg_count = msgCount;
 }
 
-void sna_act_unk2_80051170(GM_Target *param_1)
+void sna_act_unk2_80051170(TARGET *param_1)
 {
     param_1->field_28 = 0;
     param_1->field_2A = 0;
@@ -2248,8 +2248,193 @@ void sna_init_weapon_switching_800511BC(Actor_SnaInit *pActor, int callback)
     sub_8004F454(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s")             // 1108 bytes
-void sna_init_800515BC(Actor_SnaInit *pActor, int a2);
+static inline int sna_init_helper_800515BC(Actor_SnaInit *pActor)
+{
+    if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4) )
+    {
+        return 0;
+    }
+
+    if ( sna_init_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK6) )
+    {
+        return 0;
+    }
+
+    if ( (GM_CurrentItemId == ITEM_BANDANA) && (pActor->field_90C_pWeaponFn == &sna_init_80057A90) )
+    {
+        return 0;
+    }
+
+    if ( (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_PAD_OFF) || ((GM_GameStatus_800AB3CC & 0x50000000) == 0x10000000)) && ((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2) != 0) )
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+void sna_init_800515BC(Actor_SnaInit *pActor, int a2)
+{
+    int itemType;
+    int temp_s4;
+    GV_ACT *pItemActor;
+    TSnakeEquipFuncion *ppfnEquip;
+    TSnakeEquipFuncion pfnEquip;
+    int temp_s0_2;
+    int var_s2;
+
+    if ( !sna_init_helper_800515BC(pActor) )
+    {
+        return;
+    }
+
+    if ( GM_CurrentItemId == pActor->field_9A8_current_item )
+    {
+        return;
+    }
+
+    itemType = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
+
+    if ( GM_CheckPlayerStatusFlag_8004E29C(0x300) && ((itemType & 0x8000) != 0) )
+    {
+        return;
+    }
+
+    temp_s4 = pActor->field_9AC;
+    pItemActor = pActor->field_9A4_item_actor;
+
+    if ( pItemActor )
+    {
+        GV_DestroyActorQuick_80015164(pItemActor);
+    }
+
+    ppfnEquip = &gSnakeEquips_8009EF8C[GM_CurrentItemId];
+    pItemActor = NULL;
+
+    if ( ((itemType & 0x8000) != 0) && (*ppfnEquip != 0) )
+    {
+        pfnEquip = *ppfnEquip;
+
+        if ( (GM_CurrentItemId == 2) || (GM_CurrentItemId == 3) || (GM_CurrentItemId == 4) )
+        {
+            pItemActor = pfnEquip(&pActor->field_20_ctrl, &pActor->field_9C_obj, 0);
+        }
+        else
+        {
+            pItemActor = pfnEquip(&pActor->field_20_ctrl, &pActor->field_9C_obj, 6);
+        }
+
+        if ( !pItemActor )
+        {
+            pActor->field_9A4_item_actor = NULL;
+            return;
+        }
+    }
+
+    GM_ClearPlayerStatusFlag_8004E2D4(0x401000);
+
+    pActor->field_9A8_current_item = GM_CurrentItemId;
+
+    if ( a2 != 0 )
+    {
+        GM_CallSystemCallbackProc_8002B570(4, GM_CurrentItemId);
+    }
+
+    pActor->field_9AC = itemType;
+    pActor->field_9A4_item_actor = pItemActor;
+
+    if ( (itemType & 1) != 0 )
+    {
+        if ( GM_CurrentItemId == ITEM_SCOPE )
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_scope_80055334);
+        }
+        else if ( GM_CurrentItemId == ITEM_CAMERA )
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_jpegcam_800553CC);
+        }
+        else
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_box_idle_800553EC);
+            GM_SetPlayerStatusFlag_8004E2B4(0x401000);
+        }
+
+        GM_ClearPlayerStatusFlag_8004E2D4(0x10010);
+    }
+    else
+    {
+        if ( ((pActor->field_920_tbl_8009D580 & 0x200) == 0) && ((temp_s4 & 1) != 0) )
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_MOVING);
+
+            if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) )
+            {
+                sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_duct_move_80054424);
+            }
+            else if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_ON_WALL) )
+            {
+                sna_init_start_anim_8004E1F4(pActor, dword_8009EEB0[pActor->field_A26_stance]);
+            }
+            else
+            {
+                sna_init_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_stance]);
+            }
+        }
+
+        if ( pActor->field_8E8_pTarget && (pActor->field_9B8_fn_anim != &sna_init_anim_throw_800589C8) )
+        {
+            sna_init_start_anim_8004E1F4(pActor, &sna_init_anim_choke_hold_80059154);
+        }
+    }
+
+    if ((itemType & 2) != 0)
+    {
+        sub_8004EB74(pActor);
+
+        if ( GM_UnkFlagBE != 0 )
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK400);
+            sna_init_clear_flags2_8004E344(pActor, 0x30);
+        }
+
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH);
+    } else if ( !(pActor->field_920_tbl_8009D580 & 0x200) &&
+                !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_FIRST_PERSON_DUCT) &&
+                ((GM_UnkFlagBE == 0) || ((pActor->field_898_flags2 & 0x10) == 0)) )
+    {
+        sna_init_8004EC00(pActor);
+    }
+
+    temp_s0_2 = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_MOVING);
+
+    var_s2 = 0;
+    if ( (pActor->field_20_ctrl.field_55_skip_flag & CONTROL_FLAG_BOTH_CHECK) && ((itemType & 1) == 0) )
+    {
+        var_s2 = 1;
+    }
+
+    sub_8004F454(pActor);
+
+    if ( temp_s0_2 != 0 )
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_MOVING);
+    }
+
+    if ( var_s2 != 0 )
+    {
+        pActor->field_20_ctrl.field_55_skip_flag |= 8;
+    }
+
+    if ( GM_CheckPlayerStatusFlag_8004E29C(0x300) )
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_PREVENT_WEAPON_SWITCH);
+
+        if  ( (pActor->field_9B8_fn_anim == &sna_init_anim_knockdown_80054710) || GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK200) )
+        {
+            sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK3);
+        }
+    }
+}
 
 void sna_init_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec)
 {
@@ -5159,7 +5344,7 @@ void sna_init_80057118(Actor_SnaInit *pActor, int time)
 void sna_init_800571B8(Actor_SnaInit *pActor, int time)
 {
     SVECTOR   *vec1;
-    GM_Target *pGVar3;
+    TARGET *pGVar3;
     SVECTOR   *vec2;
 
     vec2 = &pActor->field_8EC_vec;
@@ -5235,7 +5420,7 @@ void sna_init_80057378(Actor_SnaInit *pActor, int time)
     if ((stance == SNA_STANCE_STANDING && time == 6) || (stance == SNA_STANCE_CROUCH && time == 14))
     {
         pActor->field_914_trigger = 3;
-        GM_BombSeg_800ABBD8 = (GM_Target *)dword_800ABBB0;
+        GM_BombSeg_800ABBD8 = (TARGET *)dword_800ABBB0;
     }
 
     if (pActor->field_9C_obj.field_1C != 0 || pActor->field_9C_obj.field_10 == 0)
@@ -5250,7 +5435,7 @@ void sna_init_anim_claymore_80057474(Actor_SnaInit *pActor, int time)
 {
     int              i;
     int              down_count;
-    GM_Target       *targets;
+    TARGET *targets;
 
     if (time == 0)
     {
@@ -6102,7 +6287,7 @@ void sna_init_anim_throw_800589C8(Actor_SnaInit *pActor, int time)
     int bClear; // $s4
     Sna_ActionTable *field_9B4_action_table; // $v1
     int action_flag; // $s0
-    GM_Target *field_8E8_pTarget; // $s0
+    TARGET *field_8E8_pTarget; // $s0
     SVECTOR* pTmp;
 
     if ( time == 0)
@@ -6189,7 +6374,7 @@ void sna_init_anim_punch_80058C10(Actor_SnaInit *pActor, int time)
 void sna_init_anim_chokethrow_begin2_80058C80(Actor_SnaInit *pActor, int time)
 {
     int        bClear;            // $s0
-    GM_Target *field_8E8_pTarget; // $v1
+    TARGET *field_8E8_pTarget; // $v1
     int        action_flag;       // $a1
     SVECTOR   *p;
 
@@ -6312,7 +6497,7 @@ void sna_init_anim_choke_rechoke_80058EF4(Actor_SnaInit *pActor, int time)
 
 void sna_init_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int time)
 {
-    GM_Target *field_8E8_pTarget; // $s0
+    TARGET *field_8E8_pTarget; // $s0
     int        action_flag;       // $s1
 
     if (time == 0)
@@ -6625,10 +6810,10 @@ void sna_init_act_8005AD10(Actor_SnaInit *pActor)
 {
     SVECTOR vec;
     SVECTOR vec2;
-    GM_Target *pTarget;
+    TARGET *pTarget;
     int height;
     int level;
-    GM_Target *pTarget2;
+    TARGET *pTarget2;
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK40000);
 
@@ -6839,7 +7024,7 @@ void sna_init_act_8005AD10(Actor_SnaInit *pActor)
 
 void sna_init_kill_8005B52C(Actor_SnaInit *pActor)
 {
-    GM_Control   *pCtrl;    // $s2
+    CONTROL   *pCtrl;    // $s2
     DG_PRIM      *pPrims;   // $s0
     Actor_Shadow *pShadow;  // $a0
     GV_ACT        *pWeapon; // $a0
@@ -7101,9 +7286,9 @@ static inline void sna_init_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *te
 
 static inline int sna_init_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scriptBinds)
 {
-    GM_Control    *pCtrl;
+    CONTROL    *pCtrl;
     OBJECT        *pObject;
-    GM_Target     *pTarget;
+    TARGET *pTarget;
     Jirai_unknown *pJiraiUnk;
     Shadow_94     shadow94;
     SVECTOR       vec;

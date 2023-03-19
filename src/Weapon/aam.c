@@ -20,10 +20,10 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern int DG_CurrentGroupID_800AB968;
 extern int GM_CurrentMap_800AB9B0;
 
-extern GM_Target *target_800BDF00;
+extern TARGET *target_800BDF00;
 
-extern GM_Target *StnTarget_800AB8A0;
-GM_Target *StnTarget_800AB8A0;
+extern TARGET *StnTarget_800AB8A0;
+TARGET *StnTarget_800AB8A0;
 
 extern int dword_800AB8A4;
 
@@ -145,7 +145,7 @@ int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent
     return 0;
 }
 
-Actor_Aam * NewAAM_80067480(GM_Control *ctrl, OBJECT *parent_object, int num_parent, void *a4, int a5)
+Actor_Aam * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent_object, int num_parent, void *a4, int a5)
 {
     Actor_Aam *actor_aam = (Actor_Aam *)GV_NewActor_800150E4(6, sizeof(Actor_Aam));
     if (actor_aam)

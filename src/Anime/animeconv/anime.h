@@ -6,7 +6,7 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "data/data/data.h"

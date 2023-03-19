@@ -9,20 +9,26 @@
 #include "libdg/libdg.h"
 #include "Thing/door.h"
 #include "mts/mts_new.h"
+#include "Anime/animeconv/anime.h"
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "chara/snake/sna_init.h"
 #include "Equip/bodyarm.h"
-#include "Equip/gasmask.h"
 #include "Equip/box.h"
 #include "Equip/bandana.h"
-#include "Anime/animeconv/anime.h"
+#include "Equip/gasmask.h"
+#include "Equip/jpegcam.h"
+#include "Equip/kogaku2.h"
+#include "Equip/scope.h"
+#include "Equip/tabako.h"
 #include "libgcl/hash.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
+#include "Okajima/d_blood.h"
+#include "Takabe/goggle.h"
+#include "Takabe/goggleir.h"
 #include "Bullet/blast.h"
 #include "Weapon/aam.h"
-#include "Equip/jpegcam.h"
 #include "Menu/radar.h"
 
 // sdata
@@ -735,15 +741,20 @@ WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] = {
     {NewChaffGrenade_80066AA0, sna_init_anim_grenade_80058470},
     {NewRifle_80068214, sna_init_anim_psg1_80056DDC}};
 
-void *SECTION(".data") gSnakeEquips_8009EF8C[] = {(void *)0x80062274, // tabako
-                                                  (void *)0x80063508, // scope
-                                                  NewBox_80061C7C,       NewBox_80061C7C,       NewBox_80061C7C,
-                                                  (void *)0x8007781C, // goggle
-                                                  (void *)0x80078E6C, // goggleir
-                                                  gasmask_init_80060C14, bodyarm_init_80060940,
-                                                  (void *)0x80072B60,                         // d_blood
-                                                  (void *)0x800615FC,                         // kogaku2 - camera ??
-                                                  NewBandana_80061E40,   (void *)0x80065118}; // jpegcam
+TSnakeEquipFuncion SECTION(".data") gSnakeEquips_8009EF8C[] = {
+    NewTabako_80062274,
+    NewScope_80063508,
+    NewBox_80061C7C,
+    NewBox_80061C7C,
+    NewBox_80061C7C,
+    NewGoggle_8007781C,
+    NewGoggleIr_80078E6C,
+    NewGasmask_80060C14,
+    NewBodyarm_80060940,
+    NewKetchap_80072B60,
+    NewKogaku2_800615FC,
+    NewBandana_80061E40,
+    NewJpegcam_80065118};
 
 short SECTION(".data") word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
 

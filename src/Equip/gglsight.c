@@ -1,5 +1,5 @@
 #include "gglsight.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
 #include "Thing/sight.h"
@@ -10,7 +10,7 @@
 // night vision goggles / thermal goggles first person
 
 extern int         GV_Clock_800AB920;
-extern GM_Control *gSnaControl_800AB9F4;
+extern CONTROL *gSnaControl_800AB9F4;
 
 extern const char a02d[]; // = "%02d"
 

@@ -5,15 +5,15 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "libgv/libgv.h"
 
 // stinger first person HUD
 
 typedef struct _Actor_Stnsight
 {
-    GV_ACT       field_0_actor;
-    GM_Control *field_20_ctrl;
+    GV_ACT      field_0_actor;
+    CONTROL    *field_20_ctrl;
     GV_PAD     *field_24_pad_data;
     LINE_F4    *field_28_lines_2Array[2];
     LINE_F4    *field_30_lines_2Array[2];
@@ -44,7 +44,7 @@ int stnsight_init_helper_helper_80068F74(Actor_Stnsight *actor);
 int stnsight_init_helper_helper_80069100(Actor_Stnsight *actor);
 int stnsight_init_helper_helper_80069184(Actor_Stnsight *actor);
 int stnsight_init_helper_helper_80069234(Actor_Stnsight *actor);
-int stnsight_init_helper_800692D0(Actor_Stnsight *actor, GM_Control *ctrl);
-Actor_Stnsight * NewStnSight_800693E0(GM_Control *ctrl);
+int stnsight_init_helper_800692D0(Actor_Stnsight *actor, CONTROL *ctrl);
+Actor_Stnsight * NewStnSight_800693E0(CONTROL *ctrl);
 
 #endif // _STNSIGHT_H_

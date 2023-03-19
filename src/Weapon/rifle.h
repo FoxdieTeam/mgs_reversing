@@ -10,7 +10,7 @@ typedef struct _Actor_Rifle
 {
     GV_ACT       field_0_actor;
     OBJECT      field_20_obj;
-    GM_Control *field_44_pCtrl;
+    CONTROL *field_44_pCtrl;
     OBJECT     *field_48_pParentObj;
     int         field_4c_numParent;
     int        *field_50;
@@ -28,6 +28,6 @@ void rifle_kill_80068118(Actor_Rifle *pActor);
 
 int rifle_loader_80068184(Actor_Rifle *pActor, OBJECT *pParentObj, int numParent);
 
-GV_ACT *NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
+GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5);
 
 #endif // _RIFLE_H_

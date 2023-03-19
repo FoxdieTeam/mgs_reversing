@@ -32,12 +32,12 @@ extern Blast_Data       blast_data_8009F544;
 extern int              GM_CurrentMap_800AB9B0;
 extern int              dword_8009F474;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern GM_Target        *target_800BDF00;
+extern TARGET *target_800BDF00;
 extern short            Nik_Blast_8009F484;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
 extern int              GM_GameStatus_800AB3CC;
-extern GM_Control      *gSnaControl_800AB9F4;
+extern CONTROL      *gSnaControl_800AB9F4;
 extern int              GM_CameraTrackSave_800AB42C;
 extern SVECTOR          GM_CameraRotateSave_800AB430;
 extern int              GM_event_camera_flag_800ABA9C;
@@ -77,7 +77,7 @@ void rmissile_8006B888(Actor_rmissile *pActor)
 
 void rmissile_8006B924(Actor_rmissile *pActor)
 {
-    GM_Control *ctrl;
+    CONTROL *ctrl;
 
     ctrl = &pActor->field_20_ctrl;
     ctrl->field_55_skip_flag |= CONTROL_FLAG_UNK2;
@@ -150,7 +150,7 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     int var_a1;
     unsigned int *pOt;
     POLY_F4 *pPoly;
-    GM_Control ctrl;
+    CONTROL ctrl;
 
     var_a1 = ((1000 - pActor->field_118) * 60) / 1000;
 
@@ -706,7 +706,7 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
 
 int rmissile_loader_helper3_8006CBD8(Actor_rmissile *pActor, int whichSide)
 {
-    GM_Target *target = &pActor->field_120_target;
+    TARGET *target = &pActor->field_120_target;
 
     GM_SetTarget_8002DC74(target, 0x4, whichSide, &svector_8009F488);
     GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector_800AB39C);
@@ -841,7 +841,7 @@ static inline int rmissile_loader_8006CF44_get_field_59(void)
 
 int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide)
 {
-    GM_Control *ctrl;
+    CONTROL *ctrl;
     OBJECT *kmd;
 
     dword_8009F46C = 1;

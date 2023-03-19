@@ -6,7 +6,7 @@
 extern int              GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern GM_Control      *gSnaControl_800AB9F4;
+extern CONTROL      *gSnaControl_800AB9F4;
 
 extern const char aDBloodC[]; // = "d_blood.c"
 
@@ -16,7 +16,7 @@ void d_blood_kill_null_800729AC(Actor_DBlood *pActor)
 
 int d_blood_act_helper_800729B4(void)
 {
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
     unsigned short *pArray;
     int i;
 
@@ -91,7 +91,7 @@ int d_blood_loader_80072B38(Actor_DBlood *pActor)
     return 0;
 }
 
-Actor_DBlood * NewKetchap_80072B60(void)
+GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
 {
     Actor_DBlood *pActor;
 
@@ -110,5 +110,5 @@ Actor_DBlood * NewKetchap_80072B60(void)
         }
     }
 
-    return pActor;
+    return &pActor->field_0_actor;
 }

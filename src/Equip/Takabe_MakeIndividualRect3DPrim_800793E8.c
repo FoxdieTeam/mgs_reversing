@@ -1,5 +1,5 @@
 #include "Game/game.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "map/map.h"
 #include "libdg/libdg.h"
 #include <LIBGPU.H>

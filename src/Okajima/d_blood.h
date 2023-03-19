@@ -2,6 +2,8 @@
 #define _D_BLOOD_H
 
 #include "libgv/libgv.h"
+#include "Game/game.h"
+#include "Game/control.h"
 
 typedef struct _Actor_DBlood
 {
@@ -21,6 +23,6 @@ void d_blood_kill_null_800729AC(Actor_DBlood *pActor);
 int d_blood_loader_helper_80072B24(Actor_DBlood *pActor);
 int d_blood_loader_80072B38(Actor_DBlood *pActor);
 
-Actor_DBlood * NewKetchap_80072B60(void);
+GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent);
 
 #endif // _D_BLOOD_H

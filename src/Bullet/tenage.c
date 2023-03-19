@@ -1,6 +1,6 @@
 #include "tenage.h"
 #include "Bullet/blast.h"
-#include "Game/GM_Control.h"
+#include "Game/control.h"
 #include "Okajima/chafgrnd.h"
 #include "chara/snake/sna_init.h"
 #include "unknown.h"
@@ -17,7 +17,7 @@ extern Blast_Data     blast_data_8009F4B8;
 extern Blast_Data     blast_data_8009F530;
 extern SVECTOR        svector_800ABA10;
 extern SVECTOR        DG_ZeroVector_800AB39C;
-extern GM_Control    *tenage_ctrls_800BDD30[16];
+extern CONTROL    *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
 
 extern char aTenageC[]; // = "tenage.c"
@@ -28,7 +28,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
 {
     MATRIX rotation;
     SVECTOR vec;
-    GM_Control *pCtrl;
+    CONTROL *pCtrl;
 
     pActor->field_20_ctrl.field_44_movementVector = pActor->field_108;
 
@@ -152,7 +152,7 @@ int tenage_get_free_ctrl_80069E28(void)
 {
     int i;
 
-    for (i = 0; i < (int)(sizeof(tenage_ctrls_800BDD30) / sizeof(GM_Control *)); i++)
+    for (i = 0; i < (int)(sizeof(tenage_ctrls_800BDD30) / sizeof(CONTROL *)); i++)
     {
         if (tenage_ctrls_800BDD30[i] == 0)
         {
@@ -166,7 +166,7 @@ int tenage_get_free_ctrl_80069E28(void)
 int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
                            int int_3,int int_4,int int_5, int int_6)
 {
-    GM_Control *pControl;
+    CONTROL *pControl;
     int        tmp;
 
     pControl = &pActor->field_20_ctrl;

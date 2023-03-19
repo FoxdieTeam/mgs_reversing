@@ -11,7 +11,7 @@ extern char      aRifle_0[]; // = "rifle"
 extern GM_Camera GM_Camera_800B77E8;
 
 extern int              GM_GameStatus_800AB3CC;
-extern GM_Control      *gSnaControl_800AB9F4;
+extern CONTROL      *gSnaControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *dword_800ABA20;
 SVECTOR                 dword_8009F41C[2];
@@ -202,7 +202,7 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
 extern char  aRifleC[]; // = "rifle.c";
 extern short d_800ABA2C_ammo;
 
-GV_ACT *NewRifle_80068214(GM_Control *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
+GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
 {
     Actor_Rifle *pActor;
     int         mag_size, ammo;

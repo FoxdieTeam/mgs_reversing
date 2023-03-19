@@ -1,6 +1,6 @@
 #include "sna_init.h"
 
-int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, GM_Control *pControl)
+int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
 {
     SVECTOR vec;
     SVECTOR *pPosition;
