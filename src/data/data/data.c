@@ -512,14 +512,39 @@ int SECTION(".data") gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 
 int SECTION(".data") dword_8009E3C8[] = {0x1371D07, 0x1373207, 0x2032E21};
 int SECTION(".data") gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
-// TODO: The pointers in those two arrays are pointers to dword_crap4 and very likely
-// used as pointers to different (EUC-JP/SHIFT-JIS) strings.
-// dword_crap4 probably should be partitioned based on those pointers.
-int SECTION(".data") dword_8009E3E4[] = {0x800115CC, 0x8001158C, 0x80011558, 0x80011524, 0x800114F8, 0x80011494,
-                                         0x80011434, 0x800113D0, 0x80011378, 0x80011330, 0x800112D4, 0x8001127C,
-                                         0x80011224, 0x800111B0, 0x80011150, 0x800110E8, 0x800110AC, 0x80011060,
-                                         0x8001101C, 0x80010FD0, 0x80010F84, 0x80010F50, 0x80010F08, 0x80010EAC};
-int SECTION(".data") dword_8009E444[] = {0x80011644, 0x80011614};
+// Also see dword_8009E5CC.
+// Those structs are passed to font_draw_string_80045D0C().
+extern char stru_800115CC[];
+extern char stru_8001158C[];
+extern char stru_80011558[];
+extern char stru_80011524[];
+extern char stru_800114F8[];
+extern char stru_80011494[];
+extern char stru_80011434[];
+extern char stru_800113D0[];
+extern char stru_80011378[];
+extern char stru_80011330[];
+extern char stru_800112D4[];
+extern char stru_8001127C[];
+extern char stru_80011224[];
+extern char stru_800111B0[];
+extern char stru_80011150[];
+extern char stru_800110E8[];
+extern char stru_800110AC[];
+extern char stru_80011060[];
+extern char stru_8001101C[];
+extern char stru_80010FD0[];
+extern char stru_80010F84[];
+extern char stru_80010F50[];
+extern char stru_80010F08[];
+extern char stru_80010EAC[];
+extern char stru_80011644[];
+extern char stru_80011614[];
+char *SECTION(".data") dword_8009E3E4[] = {stru_800115CC, stru_8001158C, stru_80011558, stru_80011524, stru_800114F8, stru_80011494,
+                                           stru_80011434, stru_800113D0, stru_80011378, stru_80011330, stru_800112D4, stru_8001127C,
+                                           stru_80011224, stru_800111B0, stru_80011150, stru_800110E8, stru_800110AC, stru_80011060,
+                                           stru_8001101C, stru_80010FD0, stru_80010F84, stru_80010F50, stru_80010F08, stru_80010EAC};
+char *SECTION(".data") dword_8009E444[] = {stru_80011644, stru_80011614};
 
 // TODO: This (whole?) buffer is very likely a EUC-JP/SHIFT-JIS string.
 // It starts with SHIFT-JIS: "ｰ針震人仁刃ﾐ" and then EUC-JP: "|HARD, EXTREM B"
@@ -550,9 +575,21 @@ menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {{(char *)
                                                                        {(char *)aChaffG, 11},
                                                                        {(char *)aPsg1, 4}};
 
-char *SECTION(".data") dword_8009E5CC[] = {(char *)0x80011A8C, (char *)0x80011A30, (char *)0x800119C0, (char *)0x80011954,
-                                           (char *)0x800118DC, (char *)0x8001187C, (char *)0x80011838, (char *)0x800117C4,
-                                           (char *)0x80011750, (char *)0x800116E8};
+// Also see dword_8009E3E4, dword_8009E444.
+// Those structs are passed to font_draw_string_80045D0C().
+extern char stru_80011A8C[];
+extern char stru_80011A30[];
+extern char stru_800119C0[];
+extern char stru_80011954[];
+extern char stru_800118DC[];
+extern char stru_8001187C[];
+extern char stru_80011838[];
+extern char stru_800117C4[];
+extern char stru_80011750[];
+extern char stru_800116E8[];
+char *SECTION(".data") dword_8009E5CC[] = {stru_80011A8C, stru_80011A30, stru_800119C0, stru_80011954,
+                                           stru_800118DC, stru_8001187C, stru_80011838, stru_800117C4,
+                                           stru_80011750, stru_800116E8};
 
 BarConfig SECTION(".data") gSnakeLifeBarConfig_8009E5F4 = {aLife, {16u, 143u, 127u}, {31u, 223u, 63u}, 0};
 BarConfig SECTION(".data") gSnakeO2BarConfig_8009E600 = {aO2, {31u, 63u, 192u}, {31u, 127u, 255u}, 1};
