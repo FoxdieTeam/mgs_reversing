@@ -29,7 +29,7 @@ void Loader_Act_8002E390(struct Loader *pLoader)
 
     if (pLoader->field_28_bRunning)
     {
-        if (!FS_LoadStageSync_800237C0(pLoader->field_20_pFileName))
+        if (!FS_LoadStageSync_800237C0(pLoader->field_20_pStageFile))
         {
             pLoader->field_28_bRunning = 0;
         }
@@ -43,21 +43,19 @@ void Loader_Act_8002E390(struct Loader *pLoader)
 void Loader_Kill_8002E41C(struct Loader *pLoader)
 {
     mts_printf_8008BBA0(aLoadend);
-    FS_LoadStageComplete_80023804(pLoader->field_20_pFileName);
+    FS_LoadStageComplete_80023804(pLoader->field_20_pStageFile);
     GM_LoadComplete_800ABA38 = -1;
 }
 
 struct Loader *Loader_Init_8002E460(const char *pStageName)
 {
-    struct Loader        *pLoader;
-    struct Loader_Record *pLoaderRec;
+    struct Loader *pLoader;
 
     pLoader = (struct Loader *)GV_NewActor_800150E4(2, sizeof(struct Loader));
     mts_printf_8008BBA0(aLoadreq);
-    pLoaderRec = FS_LoadStageRequest_800236E0(pStageName);
+    pLoader->field_20_pStageFile = FS_LoadStageRequest_800236E0(pStageName);
 
-    pLoader->field_20_pFileName = pLoaderRec;
-    if (pLoaderRec == 0)
+    if (!pLoader->field_20_pStageFile)
     {
         mts_printf_8008BBA0(aNotFoundStageS, pStageName);
     }
