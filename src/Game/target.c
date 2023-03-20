@@ -151,7 +151,45 @@ TARGET *GM_C4Target_8002D620(TARGET *pTarget)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Game/sub_8002D6D8.s") // 260 bytes
+int sub_8002D6D8(TARGET *pTarget)
+{
+    TARGET *pIter;
+    int count;
+    int hp, oldhp;
+
+    if (!(pTarget->field_0_flags & 0x80))
+    {
+        return 0;
+    }
+
+    if (pTarget->field_6_flags & 0x80)
+    {
+        return 1;
+    }
+
+    pIter = gTargets_800B64E0;
+    count = gTargets_down_count_800ABA68;
+
+    hp = pTarget->field_26_hp;
+
+    while (count > 0)
+    {
+        if ((pTarget != pIter) && (pIter->field_0_flags & 0x80) && sub_8002D208(pIter, pTarget))
+        {
+            oldhp = pIter->field_26_hp;
+            pIter->field_26_hp -= hp;
+            pIter->field_28 += oldhp - pIter->field_26_hp;
+
+            pIter->field_6_flags |= 0x80;
+            pTarget->field_6_flags |= 0x80;
+        }
+
+        pIter++;
+        count--;
+    }
+
+    return (pTarget->field_6_flags & 0x80) >> 7;
+}
 
 #pragma INCLUDE_ASM("asm/sub_8002D7DC.s") // 568 bytes
 // int GM_Target_8002D7DC(TARGET *pTarget);
@@ -228,7 +266,36 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
     return bResult;
 }
 
-#pragma INCLUDE_ASM("asm/sub_8002E2A8.s") // 204 bytes
+int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
+{
+    TARGET target;
+    TARGET *pTarget;
+    int count;
+
+    target.field_4_map = map;
+    target.field_2_side = 0;
+
+    sub_8002DD1C(arg0, arg1, &target);
+
+    pTarget = gTargets_800B64E0;
+    count = gTargets_down_count_800ABA68;
+
+    while (count > 0)
+    {
+        if (((pTarget->field_3C & 0x1) != 0) &&
+            ((pTarget->field_0_flags & 0x10) != 0) &&
+            sub_8002D208(pTarget, &target) &&
+            sub_8002DDE0(arg0, arg1, pTarget, arg3))
+        {
+            return 1;
+        }
+
+        pTarget++;
+        count--;
+    }
+
+    return 0;
+}
 
 void GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets)
 {
