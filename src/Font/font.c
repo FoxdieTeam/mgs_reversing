@@ -175,7 +175,41 @@ void *font_get_buffer_ptr_80044FE8(KCB *kcb)
     return kcb->font_clut_buffer;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper4_80044FF4.s") // 256 bytes
+int font_draw_string_helper4_80044FF4(int code)
+{
+    int new_var2;
+    int var_v0;
+    int temp_v0;
+    int temp_a0;
+
+    code &= ~0x6000;
+
+    if (code < 0x8200)
+    {
+        var_v0 = code - 0x8101;
+    }
+    else if (code < 0x8300)
+    {
+        var_v0 = code - 0x81ae;
+    }
+    else if (code < 0x9600)
+    {
+        var_v0 = (code - 0x8F71 - (code / 256)) + 0xA9;
+    }
+    else if (code < 0x9A00)
+    {
+        var_v0 = ((code - 0x956B) - (code / 256)) | 0x1000;
+    }
+    else
+    {
+        temp_v0 = (code - 0x9a00) / 512;
+        temp_a0 = code - 0x9A00 - (temp_v0 * 512);
+        new_var2 = temp_v0 + 2;
+        var_v0 = (temp_a0 - 1 - (temp_a0 / 256)) | (new_var2 * 4096);
+    }
+
+    return var_v0 + 1;
+}
 
 unsigned int sub_800450F4(int a1)
 {
