@@ -90,9 +90,10 @@ char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
 short BSS           gGameState_800B4D98[0x60]; // 0xC0 (192) bytes
 CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 
-gap                                     gap_800B4E7C[0x40C]; // 1036 bytes
+gap                                     gap_800B4E7C[0xC]; // 12 bytes
 
-struct Loader_Record *BSS gLoaderRec_800B5288; // 0x4 (4) bytes
+unsigned int BSS    cd_bios_stack_800B4E88[256]; // 0x400 (1024) bytes
+STAGE_FILE *BSS     gStageFile_800B5288; // 0x4 (4) bytes
 int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
 int BSS             gSaveCache_800B5294; // 0x4 (4) bytes
@@ -127,11 +128,11 @@ volatile long BSS   gMemCard_io_size_800B5648; // 0x4 (4) bytes
 
 gap                                     gap_800B564C[0x4]; // 4 bytes
 
-CONTROL BSS      gDefaultControl_800B5650; // 0x7C (124) bytes
+CONTROL BSS         gDefaultControl_800B5650; // 0x7C (124) bytes
 
 gap                                     gap_800B56CC[0x4]; // 4 bytes
 
-CONTROL *BSS     GM_WhereList_800B56D0[96]; // 0x180 (384) bytes
+CONTROL *BSS        GM_WhereList_800B56D0[96]; // 0x180 (384) bytes
 AreaHistory BSS     gAreaHistory_800B5850; // 0x10 (16) bytes
 char BSS            exe_name_800B5860[32]; // 0x20 (32) bytes
 Actor_GM_Daemon BSS GM_Daemon_800B5880; // 0x28 (40) bytes
@@ -147,7 +148,7 @@ unsigned short BSS  gSystemCallbackProcs_800B58C0[6]; // 0xC (12) bytes
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
 BindStruct BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
-TARGET BSS       gTargets_800B64E0[64]; // 0x1200 (4608) bytes
+TARGET BSS          gTargets_800B64E0[64]; // 0x1200 (4608) bytes
 char BSS            GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
 gap                                     gap_800B76EC[0x4]; // 4 bytes
@@ -254,7 +255,7 @@ int BSS             dword_800BDD28; // 0x4 (4) bytes
 
 gap                                     gap_800BDD2C[0x4]; // 4 bytes
 
-CONTROL *BSS     tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
+CONTROL *BSS        tenage_ctrls_800BDD30[16]; // 0x40 (64) bytes
 int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
 gap                                     gap_800BDD74[0x4]; // 4 bytes
@@ -262,7 +263,7 @@ gap                                     gap_800BDD74[0x4]; // 4 bytes
 Jirai_unknown BSS   stru_800BDD78[16]; // 0x100 (256) bytes
 Jirai_unknown BSS   stru_800BDE78[8]; // 0x80 (128) bytes
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes
-TARGET *BSS      target_800BDF00; // 0x4 (4) bytes
+TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 
 gap                                     gap_800BDF04[0x4]; // 4 bytes
 
