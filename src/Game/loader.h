@@ -1,39 +1,52 @@
 #ifndef _LOADER_H_
 #define _LOADER_H_
 
+#include "libfs/cdbios.h"
 #include "libgv/libgv.h"
 
-struct Loader_Rec_2
+typedef struct _STAGE_HEADER
 {
-    char field_0;
-    char field_1;
-};
+    char  field_0;
+    char  field_1;
+    short field_2_size;
+} STAGE_HEADER;
 
-struct Loader_Record
+typedef struct _STAGE_CONFIG
 {
-    int                  field_0;
-    int                  field_4; // cnf count?
-    struct Loader_Rec_2 *field_8_p2Alloc;
-    int                  field_C; // str ptr?
-    int                  field_10;
-    char                *field_14; // last size?
-    int                  field_18; // state ?
-    int                  field_1C; // cnf ptr?
-    int                  field_20;
-    int                  field_24;
-    int                  field_28;
-    char                *field_2C;
-    int                  field_30;
-    int                  field_34;
-};
+    unsigned short field_0_hash;
+    char           field_2_mode;
+    char           field_3;
+    int            field_4_size;
+} STAGE_CONFIG;
+
+// Circular dependency
+struct _CDBIOS_TASK;
+
+typedef struct _STAGE_FILE
+{
+    int           field_0;
+    CDBIOS_TASK  *field_4_pTask;
+    void         *field_8_pBuffer;
+    STAGE_HEADER *field_C_pHeader;
+    void         *field_10_pContents;
+    STAGE_CONFIG *field_14_pConfigStart1;
+    STAGE_CONFIG *field_18_pConfigEnd1;
+    int           field_1C;
+    STAGE_CONFIG *field_20_pConfigEnd2;
+    int           field_24;
+    int           field_28;
+    STAGE_CONFIG *field_2C_config;
+    int           field_30;
+    int           field_34;
+} STAGE_FILE;
 
 struct Loader
 {
-    GV_ACT          base;
-    struct Loader_Record *field_20_pFileName;
-    int                   field_24_proc_cancel_flags;
-    int                   field_28_bRunning;
-    int                   field_2C_counter;
+    GV_ACT      base;
+    STAGE_FILE *field_20_pStageFile;
+    int         field_24_proc_cancel_flags;
+    int         field_28_bRunning;
+    int         field_2C_counter;
 };
 
 struct Loader *Loader_Init_8002E460(const char *pStageName);

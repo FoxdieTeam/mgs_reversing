@@ -13,7 +13,7 @@ extern int                   dword_8009D4DC;
 extern int                   dword_8009D4E0;
 extern int                   dword_cdbios_stop_8009D4E4;
 extern CDBIOS_TASK           cd_bios_task_800B4E58;
-extern struct Loader_Record *gLoaderRec_800B5288;
+extern unsigned int          cd_bios_stack_800B4E88[256];
 extern FS_FILE_TABLE         fs_file_table_8009D4E8;
 extern const char           *MGS_DiskName_8009D2FC[3];
 
@@ -197,7 +197,7 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
             }
 
             task->field_4_sector++;
-            task->field_14++;
+            task->field_14_sectors_delivered++;
             task->field_10_ticks = 0;
 
             if (task->field_1C_remaining <= 0)
@@ -384,8 +384,8 @@ void CDBIOS_TaskStart_800227A8(void)
     dword_8009D4DC = -1;
     dword_cdbios_stop_8009D4E4 = 0;
 
-    mts_set_stack_check_8008B648(10, (unsigned int *)&gLoaderRec_800B5288, 1024);
-    mts_sta_tsk_8008B47C(10, &CDBIOS_Main_80022264, &gLoaderRec_800B5288);
+    mts_set_stack_check_8008B648(10, mts_stack_end(cd_bios_stack_800B4E88), sizeof(cd_bios_stack_800B4E88));
+    mts_sta_tsk_8008B47C(10, &CDBIOS_Main_80022264, mts_stack_end(cd_bios_stack_800B4E88));
 }
 
 void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
@@ -401,7 +401,7 @@ void CDBIOS_ReadRequest_8002280C(void *pHeap, unsigned int startSector, unsigned
     cd_bios_task_800B4E58.field_18_size = (sectorSize + 3) >> 2;
     cd_bios_task_800B4E58.field_4_sector = startSector;
     cd_bios_task_800B4E58.field_20_callback = fnCallBack;
-    cd_bios_task_800B4E58.field_14 = 0;
+    cd_bios_task_800B4E58.field_14_sectors_delivered = 0;
 
     dword_cdbios_stop_8009D4E4 = 0;
     dword_8009D4E0 = 1;
@@ -639,7 +639,7 @@ int FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task)
 {
     unsigned int size, rounded;
 
-    if (!task->field_14)
+    if (task->field_14_sectors_delivered == 0)
     {
         size = *(unsigned int *)task->field_8_buffer;
         rounded = (size + 3) / 4;

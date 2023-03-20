@@ -5,12 +5,12 @@
 #include "libgv/libgv.h"
 #include "libfs.h"
 
-extern int                   DG_FrameRate_8009D45C;
-extern struct Loader_Record *gLoaderRec_800B5288;
-extern int                   gLoaderStartTime_800B528C;
-extern int                   gOverlayBinSize_800B5290;
-extern int                   gSaveCache_800B5294;
-extern short                 word_8009D504;
+extern int         DG_FrameRate_8009D45C;
+extern STAGE_FILE *gStageFile_800B5288;
+extern int         gLoaderStartTime_800B528C;
+extern int         gOverlayBinSize_800B5290;
+extern int         gSaveCache_800B5294;
+extern short       word_8009D504;
 
 extern const char aLoadCompleteTi[]; // "load complete time %d\n";
 extern const char aLoadS[];          // = "load %s\n";
@@ -18,28 +18,74 @@ extern const char aNotFoundS[];      // = "NOT FOUND %s\n";
 extern const char aNo2[];            // = "no_mem\n";
 
 #pragma INCLUDE_ASM("asm/libfs/sub_80022E50.s")
+void sub_80022E50(STAGE_CONFIG *pConfig, CDBIOS_TASK *pTask);
+
 #pragma INCLUDE_ASM("asm/libfs/Loader_CD_Read_CallBack_helper_800231A8.s")
-#pragma INCLUDE_ASM("asm/libfs/Loader_CD_Read_CallBack_80023274.s")
+int Loader_CD_Read_CallBack_helper_800231A8(CDBIOS_TASK *pTask);
+
+int Loader_CD_Read_CallBack_80023274(CDBIOS_TASK *pTask)
+{
+    STAGE_FILE *pStageFile;
+    STAGE_HEADER *pHeader;
+    STAGE_CONFIG *pConfig;
+
+    pStageFile = gStageFile_800B5288;
+
+    if (pTask->field_14_sectors_delivered == 0)
+    {
+        pStageFile->field_4_pTask = pTask;
+
+        pHeader = (STAGE_HEADER *)pStageFile->field_8_pBuffer;
+        pStageFile->field_C_pHeader = pHeader;
+
+        pStageFile->field_10_pContents = pStageFile->field_8_pBuffer + 4;
+        pTask->field_18_size = pHeader->field_2_size * 512;
+        pTask->field_1C_remaining = pTask->field_18_size - 512;
+    }
+
+    if (--pStageFile->field_C_pHeader->field_0 != 0)
+    {
+        return 1;
+    }
+
+    pConfig = pStageFile->field_10_pContents;
+    while (pConfig->field_2_mode != 0)
+    {
+        pConfig++;
+    }
+
+    pConfig++;
+
+    pStageFile->field_20_pConfigEnd2 = pStageFile->field_18_pConfigEnd1 = pConfig;
+    pTask->field_20_callback = &Loader_CD_Read_CallBack_helper_800231A8;
+    pStageFile->field_2C_config = pStageFile->field_14_pConfigStart1 = pStageFile->field_10_pContents;
+
+    sub_80022E50(pStageFile->field_14_pConfigStart1, pTask);
+    pStageFile->field_14_pConfigStart1++;
+
+    return 2;
+}
+
 #pragma INCLUDE_ASM("asm/libfs/Loader_helper_8002336C.s")
 #pragma INCLUDE_ASM("asm/libfs/Loader_helper2_80023460.s")
 
-int Loader_80023624(struct Loader_Record *pRec)
+int Loader_80023624(STAGE_FILE *pStageFile)
 {
     int status;
 
-    if (pRec->field_2C == 0)
+    if (pStageFile->field_2C_config == 0)
     {
         return 1;
     }
 
     status = -1;
 
-    while ((status < 0) && (pRec->field_2C <= (pRec->field_14 - 8)))
+    while ((status < 0) && (pStageFile->field_2C_config <= (pStageFile->field_14_pConfigStart1 - 1)))
     {
-        switch(pRec->field_2C[2])
+        switch(pStageFile->field_2C_config->field_2_mode)
         {
         case 'c':
-            if (Loader_helper_8002336C(pRec, status))
+            if (Loader_helper_8002336C(pStageFile, status))
             {
                 return 0;
             }
@@ -47,14 +93,14 @@ int Loader_80023624(struct Loader_Record *pRec)
             goto exit;
 
         case 's':
-            pRec->field_2C += 8;
+            pStageFile->field_2C_config++;
             break;
 
         case '\0':
             return 0;
 
         default:
-            status = Loader_helper2_80023460(pRec, status);
+            status = Loader_helper2_80023460(pStageFile, status);
             break;
         }
     }
@@ -63,11 +109,11 @@ exit:
     return 1;
 }
 
-struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
+STAGE_FILE * FS_LoadStageRequest_800236E0(const char *pFileName)
 {
-    int                   sector;     // $s1
-    struct Loader_Record *pLoaderRec; // $s0
-    struct Loader_Rec_2  *p2Alloc;    // $v0
+    int         sector;     // $s1
+    STAGE_FILE *pStageFile; // $s0
+    void       *pBuffer;    // $v0
 
     DG_FrameRate_8009D45C = 1;
     mts_printf_8008BBA0(aLoadS, pFileName);
@@ -78,44 +124,47 @@ struct Loader_Record *FS_LoadStageRequest_800236E0(const char *pFileName)
     {
         mts_printf_8008BBA0(aNotFoundS, pFileName);
     }
-    pLoaderRec = (struct Loader_Record *)GV_Malloc_8001620C(sizeof(struct Loader_Record)); // 0x38
-    if (!pLoaderRec)
+
+    pStageFile = GV_Malloc_8001620C(sizeof(STAGE_FILE)); // 0x38
+    if (!pStageFile)
     {
         mts_printf_8008BBA0(aNo2);
     }
-    p2Alloc = (struct Loader_Rec_2 *)GV_GetMaxFreeMemory_8001627C(2);
+
+    pBuffer = GV_GetMaxFreeMemory_8001627C(2);
+
     do
     {
     } while (0); // TODO: Figure out what this was, a compiled out macro, checking mem alloc didn't fail ?
 
-    pLoaderRec->field_8_p2Alloc = p2Alloc;
+    pStageFile->field_8_pBuffer = pBuffer;
 
-    pLoaderRec->field_28 = 2;
-    gLoaderRec_800B5288 = pLoaderRec;
-    pLoaderRec->field_0 = 0;
-    pLoaderRec->field_2C = 0;
+    pStageFile->field_28 = 2;
+    gStageFile_800B5288 = pStageFile;
+    pStageFile->field_0 = 0;
+    pStageFile->field_2C_config = 0;
     word_8009D504 = 0;
-    CDBIOS_ReadRequest_8002280C(p2Alloc, sector, 2048, Loader_CD_Read_CallBack_80023274);
-    return pLoaderRec;
+    CDBIOS_ReadRequest_8002280C(pBuffer, sector, 2048, Loader_CD_Read_CallBack_80023274);
+    return pStageFile;
 }
 
-int FS_LoadStageSync_800237C0(struct Loader_Record *pRec)
+int FS_LoadStageSync_800237C0(STAGE_FILE *pStageFile)
 {
     int ret = 0;
-    if (Loader_80023624(pRec) != 0 || CDBIOS_ReadSync_80022854() > 0)
+    if (Loader_80023624(pStageFile) != 0 || CDBIOS_ReadSync_80022854() > 0)
     {
         ret = 1;
     }
     return ret;
 }
 
-void FS_LoadStageComplete_80023804(struct Loader_Record *pFileName)
+void FS_LoadStageComplete_80023804(STAGE_FILE *pStageFile)
 {
     int vBlanks; // $v0
 
     vBlanks = VSync_80098108(-1);
     mts_printf_8008BBA0(aLoadCompleteTi, vBlanks - gLoaderStartTime_800B528C);
-    GV_Free_80016230(pFileName);
+    GV_Free_80016230(pStageFile);
     FS_CdStageProgBinFix_80014AAC();
     DG_FrameRate_8009D45C = 2;
 }

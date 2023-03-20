@@ -395,8 +395,8 @@ void *GV_AllocMemory2_80015ED8(int which, int size, void **type)
 
     if (pHeap->mUnitsCount < 511)
     {
-
-        size = (size + 15) & -16; // todo: find out what this is doing
+        // Align size to 16-byte boundary
+        size = (size + 15) & ~15;
 
         pAlloc = sub_80015818(pHeap, size);
 
