@@ -395,9 +395,7 @@ char* BSS           se_header_800BF284; // 0x4 (4) bytes
 int BSS             sd_code_read_800BF288; // 0x4 (4) bytes
 int BSS             se_load_code_800BF28C; // 0x4 (4) bytes
 int BSS             sng_fade_in_2_800BF290; // 0x4 (4) bytes
-
-gap                                     gap_800BF294[0x4]; // 4 bytes
-
+int BSS             dword_800BF294; // 0x4 (4) bytes
 int BSS             sng_pause_fg_800BF298; // 0x4 (4) bytes
 int BSS             keyoffs_800BF29C; // 0x4 (4) bytes
 
@@ -461,9 +459,8 @@ SOUND_W *BSS        sptr_800C057C; // 0x4 (4) bytes
 int BSS             dword_800C0580; // 0x4 (4) bytes
 int BSS             gStr_fadeout_2_800C0584; // 0x4 (4) bytes
 unsigned char BSS   byte_800C0588[200]; // 0xC8 (200) bytes
-
-gap                                     gap_800C0650[0x8]; // 8 bytes
-
+int BSS             dword_800C0650; // 0x4 (4) bytes
+int BSS             dword_800C0654; // 0x4 (4) bytes
 SPU_TRACK_REG BSS   spu_tr_wk_800C0658[23]; // 0x564 (1380) bytes
 
 gap                                     gap_800C0BBC[0x4]; // 4 bytes

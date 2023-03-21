@@ -1,38 +1,38 @@
 #include "SD/sd.h"
 #include "data/data/data.h"
 
-void vol_set_80088320(unsigned int a1);
-void note_compute_80085DE0(void);
+void                  vol_set_80088320( unsigned int a1 );
+void                  note_compute_80085DE0( void );
 
-unsigned char rdm_tbl_8009F9BC[129];
-extern SOUND_W* sptr_800C057C;
-extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
-extern unsigned int mtrack_800BF1EC;
-extern int mdata1_800BF0D0;
-extern int mdata2_800BF0D4;
-extern int mdata3_800BF0D8;
-extern int mdata4_800BF0DC;
-extern int sng_fade_in_2_800C0BC0;
-extern int key_fg_800BF1B0;
+unsigned char         rdm_tbl_8009F9BC[ 129 ];
+extern SOUND_W       *sptr_800C057C;
+extern SPU_TRACK_REG  spu_tr_wk_800C0658[ 23 ];
+extern unsigned int   mtrack_800BF1EC;
+extern int            mdata1_800BF0D0;
+extern int            mdata2_800BF0D4;
+extern int            mdata3_800BF0D8;
+extern int            mdata4_800BF0DC;
+extern int            sng_fade_in_2_800C0BC0;
+extern int            key_fg_800BF1B0;
 extern unsigned char *mptr_800C0570;
 
-extern TMDXFunc gMdxTable_8009F7BC[];
-extern unsigned char VIBX_TBL_8009FA40[32];
+extern TMDXFunc       gMdxTable_8009F7BC[];
+extern unsigned char  VIBX_TBL_8009FA40[ 32 ];
 
-unsigned int random_80086B84();
-void note_set_80085CD8(void);
-void tempo_ch_80086C08();
-void keych_80086280();
-int tx_read_80085B84();
-void bendch_80086734();
-void vol_compute_8008604C();
-void note_cntl_8008686C();
-void keyon_80087F58();
+unsigned int          random_80086B84();
+void                  note_set_80085CD8( void );
+void                  tempo_ch_80086C08();
+void                  keych_80086280();
+int                   tx_read_80085B84();
+void                  bendch_80086734();
+void                  vol_compute_8008604C();
+void                  note_cntl_8008686C();
+void                  keyon_80087F58();
 
-int SD_80085A50()
+int                   SD_80085A50()
 {
-    int fade2_shifted; // $a0
-    unsigned int tmpd; // $a1
+    int          fade2_shifted; // $a0
+    unsigned int tmpd;          // $a1
 
     key_fg_800BF1B0 = 0;
     sptr_800C057C->field_B4_tmpd += sptr_800C057C->field_B8_tmp;
@@ -43,7 +43,7 @@ int SD_80085A50()
             fade2_shifted = sng_fade_in_2_800C0BC0 >> 5;
             if ( fade2_shifted < (unsigned char)sptr_800C057C->field_B8_tmp )
             {
-                sptr_800C057C->field_B4_tmpd -=  fade2_shifted;
+                sptr_800C057C->field_B4_tmpd -= fade2_shifted;
             }
         }
     }
@@ -51,9 +51,8 @@ int SD_80085A50()
     tmpd = sptr_800C057C->field_B4_tmpd;
     if ( tmpd >= 256 )
     {
-
         sptr_800C057C->field_B4_tmpd = tmpd & 0xff;
-         --sptr_800C057C->field_4_ngc;
+        --sptr_800C057C->field_4_ngc;
 
         if ( sptr_800C057C->field_4_ngc )
         {
@@ -67,11 +66,10 @@ int SD_80085A50()
         tempo_ch_80086C08();
         bendch_80086734();
         vol_compute_8008604C();
-        
     }
     else
     {
-       note_cntl_8008686C();
+        note_cntl_8008686C();
     }
 
     if ( key_fg_800BF1B0 )
@@ -85,7 +83,7 @@ int SD_80085A50()
 int tx_read_80085B84()
 {
     int bContinue; // $s0
-    int i; // $s1
+    int i;         // $s1
 
     i = 0;
     bContinue = 1;
@@ -97,28 +95,28 @@ int tx_read_80085B84()
             return 1;
         }
 
-        mdata1_800BF0D0 = mptr_800C0570[3];
+        mdata1_800BF0D0 = mptr_800C0570[ 3 ];
         if ( !mdata1_800BF0D0 )
         {
             return 1;
         }
-        mdata2_800BF0D4 = mptr_800C0570[2];
-        mdata3_800BF0D8 = mptr_800C0570[1];
-        mdata4_800BF0DC = mptr_800C0570[0];
+        mdata2_800BF0D4 = mptr_800C0570[ 2 ];
+        mdata3_800BF0D8 = mptr_800C0570[ 1 ];
+        mdata4_800BF0DC = mptr_800C0570[ 0 ];
         mptr_800C0570 += 4;
 
         if ( (char)mdata1_800BF0D0 >= 128 )
         {
-            gMdxTable_8009F7BC[mdata1_800BF0D0 - 128]();
-            if (  mdata1_800BF0D0 == 0xF2 ||  mdata1_800BF0D0 == 0xF3 || mdata1_800BF0D0 == 0xFF )
+            gMdxTable_8009F7BC[ mdata1_800BF0D0 - 128 ]();
+            if ( mdata1_800BF0D0 == 0xF2 || mdata1_800BF0D0 == 0xF3 || mdata1_800BF0D0 == 0xFF )
             {
-                bContinue = 0;  
+                bContinue = 0;
             }
-            
-           if ( mdata1_800BF0D0 == 0xFF )
-           {
+
+            if ( mdata1_800BF0D0 == 0xFF )
+            {
                 return 1;
-           }
+            }
         }
         else
         {
@@ -128,63 +126,59 @@ int tx_read_80085B84()
             }
             bContinue = 0;
             sptr_800C057C->field_CC_rest_fg = 0;
-            note_set_80085CD8();  
+            note_set_80085CD8();
         }
-       
     }
     return 0;
 }
 
-void note_set_80085CD8(void) 
+void note_set_80085CD8( void )
 {
-	unsigned int temp;
+    unsigned int temp;
 
-	sptr_800C057C->field_6_ngs = mdata2_800BF0D4;
-	sptr_800C057C->field_7_ngg = mdata3_800BF0D8;
-	sptr_800C057C->field_44_vol = (mdata4_800BF0DC & 0x7F);
-	note_compute_80085DE0();
-	sptr_800C057C->field_4_ngc = sptr_800C057C->field_6_ngs;
-	temp = (sptr_800C057C->field_7_ngg * sptr_800C057C->field_4_ngc)/100;
+    sptr_800C057C->field_6_ngs = mdata2_800BF0D4;
+    sptr_800C057C->field_7_ngg = mdata3_800BF0D8;
+    sptr_800C057C->field_44_vol = ( mdata4_800BF0DC & 0x7F );
+    note_compute_80085DE0();
+    sptr_800C057C->field_4_ngc = sptr_800C057C->field_6_ngs;
+    temp = ( sptr_800C057C->field_7_ngg * sptr_800C057C->field_4_ngc ) / 100;
 
-	if( !temp ){
-		temp = 1;
-	}
-	sptr_800C057C->field_5_ngo = temp;
+    if ( !temp )
+    {
+        temp = 1;
+    }
+    sptr_800C057C->field_5_ngo = temp;
 }
-
 
 void adsr_reset_80085D98()
 {
-    spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = sptr_800C057C->field_D2_rrd;
-    spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+    spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_34_rr = sptr_800C057C->field_D2_rrd;
+    spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_38_env3_fg = 1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/note_compute_80085DE0.s") // 440 bytes
+#pragma INCLUDE_ASM( "asm/SD/note_compute_80085DE0.s" ) // 440 bytes
 
-
-void swpadset_80085F98(int a1)
+void swpadset_80085F98( int a1 )
 {
-     unsigned int temp; // $lo
+    unsigned int temp; // $lo
 
-    if ( sptr_800C057C->field_57_swpc  )
+    if ( sptr_800C057C->field_57_swpc )
     {
         temp = sptr_800C057C->field_57_swpc << 8;
         temp = temp / sptr_800C057C->field_B8_tmp;
         if ( a1 < 0 )
         {
             a1 = 0;
-           
         }
         else if ( a1 >= 0x6000 )
         {
             a1 = 0x5FFF;
         }
 
-        
         sptr_800C057C->field_64_swpm = a1;
 
         a1 -= sptr_800C057C->field_5C_swpd;
-        
+
         if ( a1 < 0 )
         {
             a1 = -a1 / temp;
@@ -192,14 +186,12 @@ void swpadset_80085F98(int a1)
         }
         else
         {
-             sptr_800C057C->field_60_swpad = a1 / temp;
-           
+            sptr_800C057C->field_60_swpad = a1 / temp;
         }
-        
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/vol_compute_8008604C.s") // 332 bytes
+#pragma INCLUDE_ASM( "asm/SD/vol_compute_8008604C.s" ) // 332 bytes
 
 void pan_generate_80086198()
 {
@@ -219,29 +211,28 @@ void pan_generate_80086198()
 
 void sub_80086220()
 {
-    if (sptr_800C057C->field_D2_rrd > 7)
+    if ( sptr_800C057C->field_D2_rrd > 7 )
     {
-        spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = 7;
-        spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+        spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_34_rr = 7;
+        spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_38_env3_fg = 1;
     }
 }
 
 void keych_80086280()
 {
-    int field_57_swpc; // $a0
-    int bSetFreq; // $s1
+    int field_57_swpc;  // $a0
+    int bSetFreq;       // $s1
     int field_58_swphc; // $v0
     int field_80_vibdm; // $a1
-    int computed_vib; // $s0
+    int computed_vib;   // $s0
     int field_70_vibhc; // $v1
-    int rnd; // $v0
+    int rnd;            // $v0
 
-    if ( (unsigned char)sptr_800C057C->field_7_ngg < 0x64u
-      && sptr_800C057C->field_4_ngc == 1
-      && (unsigned short)sptr_800C057C->field_D2_rrd >= 8u )
+    if ( (unsigned char)sptr_800C057C->field_7_ngg < 0x64u && sptr_800C057C->field_4_ngc == 1 &&
+         (unsigned short)sptr_800C057C->field_D2_rrd >= 8u )
     {
-        spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = 7;
-        spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+        spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_34_rr = 7;
+        spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_38_env3_fg = 1;
     }
 
     if ( sptr_800C057C->field_5_ngo )
@@ -251,11 +242,10 @@ void keych_80086280()
         {
             keyoff_80087F80();
         }
-
     }
-    
+
     bSetFreq = 0;
-    
+
     field_57_swpc = sptr_800C057C->field_57_swpc;
     if ( field_57_swpc )
     {
@@ -263,14 +253,13 @@ void keych_80086280()
         if ( field_58_swphc )
         {
             sptr_800C057C->field_58_swphc--;
-           
         }
         else
         {
             if ( !sptr_800C057C->field_6A_swsk )
             {
                 sptr_800C057C->field_57_swpc = field_57_swpc - 1;
-                if ( !((field_57_swpc - 1) & 0xFF) )
+                if ( !( ( field_57_swpc - 1 ) & 0xFF ) )
                 {
                     sptr_800C057C->field_5C_swpd = sptr_800C057C->field_64_swpm;
                 }
@@ -278,16 +267,15 @@ void keych_80086280()
                 {
                     sptr_800C057C->field_5C_swpd += sptr_800C057C->field_60_swpad;
                 }
-               
             }
             else
             {
-               por_compute_80086504();
+                por_compute_80086504();
             }
-            bSetFreq = 1;        
+            bSetFreq = 1;
         }
     }
-    
+
     field_80_vibdm = sptr_800C057C->field_80_vibdm;
     computed_vib = 0;
 
@@ -297,11 +285,10 @@ void keych_80086280()
         if ( field_70_vibhc != (unsigned char)sptr_800C057C->field_84_vibhs )
         {
             sptr_800C057C->field_70_vibhc = field_70_vibhc + 1;
-            
         }
         else
         {
-           if ( sptr_800C057C->field_7A == sptr_800C057C->field_85_vibcs )
+            if ( sptr_800C057C->field_7A == sptr_800C057C->field_85_vibcs )
             {
                 sptr_800C057C->field_7C_vibd = field_80_vibdm;
             }
@@ -309,8 +296,8 @@ void keych_80086280()
             {
                 if ( sptr_800C057C->field_7A )
                 {
-                    
-                    sptr_800C057C->field_7C_vibd = sptr_800C057C->field_7C_vibd + sptr_800C057C->field_88_vibad;
+                    sptr_800C057C->field_7C_vibd =
+                        sptr_800C057C->field_7C_vibd + sptr_800C057C->field_88_vibad;
                 }
                 else
                 {
@@ -318,7 +305,8 @@ void keych_80086280()
                 }
                 ++sptr_800C057C->field_7A;
             }
-            sptr_800C057C->field_74_vib_tmp_cnt = sptr_800C057C->field_74_vib_tmp_cnt + sptr_800C057C->field_86_vibcad;
+            sptr_800C057C->field_74_vib_tmp_cnt =
+                sptr_800C057C->field_74_vib_tmp_cnt + sptr_800C057C->field_86_vibcad;
             if ( (unsigned)sptr_800C057C->field_74_vib_tmp_cnt >= 256 )
             {
                 sptr_800C057C->field_74_vib_tmp_cnt = sptr_800C057C->field_74_vib_tmp_cnt & 0xFF;
@@ -327,42 +315,41 @@ void keych_80086280()
             }
         }
     }
-    
+
     rnd = random_80086B84();
     if ( rnd )
     {
         computed_vib += rnd;
         bSetFreq = 1;
     }
-    
+
     if ( bSetFreq )
     {
         freq_set_800885D4( sptr_800C057C->field_5C_swpd + computed_vib );
     }
 }
 
-
 void por_compute_80086504()
 {
-    int temp; // $a1
+    int          temp; // $a1
     unsigned int temp2;
     unsigned int temp3;
-    
+
     temp = sptr_800C057C->field_64_swpm - sptr_800C057C->field_5C_swpd;
     if ( temp < 0 )
     {
         temp = -temp;
-		temp3 = temp & 0xFF;
-		temp2 = temp >> 8;
-		temp3 = (temp3 * sptr_800C057C->field_68_swsc ) >> 8;
-		temp2 *= sptr_800C057C->field_68_swsc;
-		temp = temp2 + temp3;
-        
-        if ( temp == 0)
+        temp3 = temp & 0xFF;
+        temp2 = temp >> 8;
+        temp3 = ( temp3 * sptr_800C057C->field_68_swsc ) >> 8;
+        temp2 *= sptr_800C057C->field_68_swsc;
+        temp = temp2 + temp3;
+
+        if ( temp == 0 )
         {
             temp = 1;
         }
-        temp = -temp;  
+        temp = -temp;
     }
     else if ( temp == 0 )
     {
@@ -371,11 +358,11 @@ void por_compute_80086504()
     else
     {
         temp3 = temp & 0xFF;
-		temp2 = temp >> 8;
-		temp3 = (temp3 * sptr_800C057C->field_68_swsc) >> 8;
-		temp2 *= sptr_800C057C->field_68_swsc;
-		temp = temp2 + temp3;
-        
+        temp2 = temp >> 8;
+        temp3 = ( temp3 * sptr_800C057C->field_68_swsc ) >> 8;
+        temp2 *= sptr_800C057C->field_68_swsc;
+        temp = temp2 + temp3;
+
         if ( temp == 0 )
         {
             temp = 1;
@@ -387,43 +374,71 @@ void por_compute_80086504()
 
 int vib_compute_800865CC()
 {
-    unsigned int vibd; // $a0
-    int temp2; // $a1
-    unsigned int temp; // $v1
+    unsigned int vibd;  // $a0
+    int          temp2; // $a1
+    unsigned int temp;  // $v1
 
     sptr_800C057C->field_78_vib_tbl_cnt += sptr_800C057C->field_79_vib_tc_ofst;
     sptr_800C057C->field_78_vib_tbl_cnt &= 0x3Fu;
-    temp2 = VIBX_TBL_8009FA40[sptr_800C057C->field_78_vib_tbl_cnt & 0x1F];
-    
-    vibd = sptr_800C057C->field_7C_vibd;
-    if ( 0x7FFF >= vibd)
-    {
-        temp = ((vibd >> 7) & 0xFE) ;
-        temp = (temp * temp2) >> 8;
+    temp2 = VIBX_TBL_8009FA40[ sptr_800C057C->field_78_vib_tbl_cnt & 0x1F ];
 
+    vibd = sptr_800C057C->field_7C_vibd;
+    if ( 0x7FFF >= vibd )
+    {
+        temp = ( ( vibd >> 7 ) & 0xFE );
+        temp = ( temp * temp2 ) >> 8;
     }
     else
     {
-        temp = ((vibd >> 8) & 0x7F) + 2;
-        temp = (temp * temp2) >> 1;
-
+        temp = ( ( vibd >> 8 ) & 0x7F ) + 2;
+        temp = ( temp * temp2 ) >> 1;
     }
-    
+
     if ( (unsigned char)sptr_800C057C->field_78_vib_tbl_cnt >= 32u )
     {
         temp = -temp;
     }
-    
+
     return temp;
 }
 
-#pragma INCLUDE_ASM("asm/SD/sub_80086694.s") // 160 bytes
-#pragma INCLUDE_ASM("asm/SD/bendch_80086734.s") // 312 bytes
-#pragma INCLUDE_ASM("asm/SD/note_cntl_8008686C.s") // 792 bytes
+int sub_80086694( int param_1 )
+{
+    unsigned char uVar1;
+    int           ret;
+
+    if ( param_1 << 0x18 < 0 )
+    {
+        uVar1 = -param_1 * 2;
+        if ( ( -param_1 << 0x19 ) < 0 )
+        {
+            uVar1 = -uVar1;
+        }
+        ret = ((char*)&sptr_800C057C->field_7C_vibd)[1] * ( uVar1 / 4 );
+        ret = -ret;
+    }
+    else
+    {
+        uVar1 = param_1 * 2;
+        if ( param_1 << 0x19 < 0 )
+        {
+            uVar1 = -uVar1;
+        }
+        ret = ((char*)&sptr_800C057C->field_7C_vibd)[1] * ( uVar1 / 4 );
+    }
+    if ( *(unsigned int *)&sptr_800C057C->field_80_vibdm < 0x8000 )
+    {
+        ret >>= 2;
+    }
+    return ret;
+}
+
+#pragma INCLUDE_ASM( "asm/SD/bendch_80086734.s" )    // 312 bytes
+#pragma INCLUDE_ASM( "asm/SD/note_cntl_8008686C.s" ) // 792 bytes
 
 unsigned int random_80086B84()
 {
-    unsigned int temp = 0; // $a1
+    unsigned int  temp = 0; // $a1
     unsigned char temp2;
 
     if ( sptr_800C057C->field_94_rdms )
@@ -434,8 +449,8 @@ unsigned int random_80086B84()
             sptr_800C057C->field_8C_rdmc &= 255;
             sptr_800C057C->field_90_rdmo++;
             sptr_800C057C->field_90_rdmo &= 0x7F;
-            temp2 = rdm_tbl_8009F9BC[sptr_800C057C->field_90_rdmo];
-            temp = rdm_tbl_8009F9BC[sptr_800C057C->field_90_rdmo+1] << 8;
+            temp2 = rdm_tbl_8009F9BC[ sptr_800C057C->field_90_rdmo ];
+            temp = rdm_tbl_8009F9BC[ sptr_800C057C->field_90_rdmo + 1 ] << 8;
             temp += temp2;
             temp &= sptr_800C057C->field_98_rdmd;
         }
@@ -445,7 +460,7 @@ unsigned int random_80086B84()
 
 void tempo_ch_80086C08()
 {
-    if (  sptr_800C057C->field_C0_tmpc )
+    if ( sptr_800C057C->field_C0_tmpc )
     {
         if ( !--sptr_800C057C->field_C0_tmpc )
         {
@@ -459,7 +474,7 @@ void tempo_ch_80086C08()
     }
 }
 
-void volxset_80086C98(unsigned char a1)
+void volxset_80086C98( unsigned char a1 )
 {
     int temp; // $a1
     int temp2;
@@ -471,12 +486,11 @@ void volxset_80086C98(unsigned char a1)
     if ( temp < 0 )
     {
         temp = 0;
-        
-    } 
+    }
     else if ( temp >= 128 )
     {
         temp = 127;
     }
-    temp2 = (sptr_800C057C->field_38_pvod >> 8) & 0xFF;
-    vol_set_80088320(((temp2 * temp) >> 8) & 0xFF);
+    temp2 = ( sptr_800C057C->field_38_pvod >> 8 ) & 0xFF;
+    vol_set_80088320( ( ( temp2 * temp ) >> 8 ) & 0xFF );
 }
