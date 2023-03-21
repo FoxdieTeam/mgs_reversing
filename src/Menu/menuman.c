@@ -118,7 +118,7 @@ void menuman_Reset_800389A8()
     menu_ResetCall_80042814();
     menu_ClearRadioTable_8004967C();
     menu_SetRadarScale_80038E28(4096);
-    menu_SetRadarFunc_80038F30(0);
+    menu_SetRadarFunc_80038F30(NULL);
     gMenuMan_800BD360.field_1D9 = 0;
     gMenuMan_800BD360.field_1DA = 0;
     gMenuMan_800BD360.field_2B = 0;

@@ -15,10 +15,12 @@ typedef struct radar_uv_pair
     radar_uv field_4;
 } radar_uv_pair;
 
+typedef void (*TRadarFn_800AB48C)(Actor_MenuMan *, unsigned char *);
+
 void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pOt);
 void menu_init_radar_helper_8003ADAC(void);
 void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
-void menu_SetRadarFunc_80038F30(int param_1);
+void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func);
 
 void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char * pOt);
 

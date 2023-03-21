@@ -59,6 +59,7 @@ unsigned int       GetRCnt_800996E8(unsigned int rcnt);
 unsigned short     GetTPage_80092418(int tp, int abr, int x, int y);
 void               SetDrawTPage_800924A8(DR_TPAGE *p, int dfe, int dtd, int tpage);
 void               SetDrawStp_800924D8(DR_STP *p, int pbw);
+void               SetTexWindow_800905F0(DR_TWIN *p, RECT *tw);
 void               CloseEvent_8009947C(int event);
 void               DrawOTag_8008FE58(unsigned int *pOt);
 void               DrawPrim_8008FDFC(void *p);

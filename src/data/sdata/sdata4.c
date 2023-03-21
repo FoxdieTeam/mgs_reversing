@@ -3,6 +3,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
+#include "Menu/radar.h"
 
 GCL_ARGS SECTION(".sdata") gcl_null_args_800AB3BC = {};
 
@@ -65,7 +66,7 @@ const char SECTION(".sdata") aItem[] = "item";
 int SECTION(".sdata") MENU_RadarScale_800AB480 = 0xD;
 int SECTION(".sdata") MENU_RadarRangeH_800AB484 = 0x5555;
 int SECTION(".sdata") MENU_RadarRangeV_800AB488 = 0x3FFF;
-int SECTION(".sdata") gFn_radar_800AB48C = 0;
+TRadarFn_800AB48C SECTION(".sdata") gFn_radar_800AB48C = NULL;
 
 RECT SECTION(".sdata") rect_800AB490 = {992, 382, 32, 2};
 
