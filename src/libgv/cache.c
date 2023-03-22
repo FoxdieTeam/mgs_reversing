@@ -4,13 +4,6 @@
 #define MAX_TAGS 128
 #define RESIDENT_REGION_FLAG 0x1000000
 
-enum CACHE_REGION
-{
-    GV_NO_CACHE,
-    GV_NORMAL_CACHE,
-    GV_RESIDENT_CACHE,
-};
-
 /**bss***********************************************************************************************/
 extern CacheSystems    GV_CacheSystem_800ACEF0;
 extern TFileExtHandler gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];

@@ -143,6 +143,15 @@ enum
     PAD_SELECT = PADselect, //  0x0100
 };
 
+enum CACHE_REGION
+{
+    GV_NO_CACHE,
+    GV_NORMAL_CACHE,
+    GV_RESIDENT_CACHE,
+};
+
+typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
+
 // gvd
 void GV_StartDaemon_80014D18(void);
 void GV_ResetSystem_80014CC8(void);
@@ -160,16 +169,16 @@ void    GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill);
 void    GV_DestroyActorQuick_80015164(GV_ACT *pActor);
 
 // cache
-void GV_InitCacheSystem_80015458(void);
-void GV_InitLoader_80015434(void);
-void GV_FreeCacheSystem_80015540(void);
-int  GV_CacheID_800152DC(int hashedFileName, int param_2);
-typedef int (*TFileExtHandler)(unsigned char *pFileData, int fileNameHashed);
+void  GV_InitCacheSystem_80015458(void);
+void  GV_InitLoader_80015434(void);
+void  GV_FreeCacheSystem_80015540(void);
+int   GV_CacheID_800152DC(int hashedFileName, int param_2);
 void  GV_SetLoader_80015418(int fileExtChar, TFileExtHandler pFn);
 int   GV_SetCache_800153C0(int id, void *buf);
 void *GV_GetCache_8001538C(int fileNameHashed);
 int   GV_CacheID2_800152FC(const char *fileName, int extID);
 void  GV_ResidentFileCache_80015484(void);
+int   GV_LoadInit_800155BC(void *pData, int id, int region);
 
 // memory
 void  GV_InitMemorySystemAll_80015AB0();
