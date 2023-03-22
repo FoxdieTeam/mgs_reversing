@@ -79,7 +79,7 @@ int         FS_StreamIsEnd_800240D0(void);
 int         FS_StreamSync_80023E24();
 void        sub_80023C40(void);
 void        sub_800239E8(void);
-int         Loader_helper2_80023460(STAGE_FILE *, int);
+int         Loader_helper2_80023460(STAGE_FILE *);
 int         Loader_helper_8002336C(STAGE_FILE *, int);
 
 #endif // _LIBFS_H_

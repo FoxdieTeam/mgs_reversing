@@ -14,8 +14,7 @@ typedef struct _STAGE_HEADER
 typedef struct _STAGE_CONFIG
 {
     unsigned short field_0_hash;
-    char           field_2_mode;
-    char           field_3;
+    short          field_2_type;
     int            field_4_size;
 } STAGE_CONFIG;
 
@@ -31,13 +30,13 @@ typedef struct _STAGE_FILE
     void         *field_10_pContents;
     STAGE_CONFIG *field_14_pConfigStart1;
     STAGE_CONFIG *field_18_pConfigEnd1;
-    int           field_1C;
+    STAGE_CONFIG *field_1C;
     STAGE_CONFIG *field_20_pConfigEnd2;
     int           field_24;
     int           field_28;
     STAGE_CONFIG *field_2C_config;
-    int           field_30;
-    int           field_34;
+    STAGE_CONFIG *field_30_current;
+    int           field_34_remaining;
 } STAGE_FILE;
 
 struct Loader
