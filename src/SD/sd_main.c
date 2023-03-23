@@ -640,7 +640,7 @@ int num2char_80083E68( unsigned int num )
     return num & 0xff;
 }
 
-unsigned char *SD_SngDataLoadInit_80083E8C( void )
+unsigned char *SD_SngDataLoadInit_80083E8C( unsigned short unused )
 {
     sng_status_800C04F8 = 0;
     sng_status_800BF158 = 0;
@@ -654,7 +654,7 @@ void SD_80083ED4( void )
     sng_status_800BF158 = 2;
 }
 
-unsigned char *SD_80083EE8( void )
+unsigned char *SD_80083EE8( unsigned short unused )
 {
     return se_exp_table_800C0520;
 }
@@ -664,7 +664,7 @@ void SD_80083EF8( void )
     se_load_code_800BF28C = 0;
 }
 
-char *LoadInit_80083F08( void )
+char *LoadInit_80083F08( unsigned short unused )
 {
     char *ret;
     if ( dword_800BF27C != 0 )

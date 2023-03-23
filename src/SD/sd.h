@@ -149,19 +149,25 @@ typedef struct SEPLAYTBL
     unsigned int   field_8_code;
 } SEPLAYTBL;
 
-int sd_sng_alloc_80082194(void);
-void pan_set2_800882E4(unsigned char a1);
-void keyoff_80087F80(void);
-void StrSpuTransClose_80083394();
-int  SD_8008395C(int a1, int a2);
-int  SD_80083954(int a1, unsigned char *a2, int a3);
-void init_sng_work_8008559C();
-int  SD_SongLoadData_8008394C(int a1, int a2);
-void por_compute_80086504(void);
-int  vib_compute_800865CC(void);
-void freq_set_800885D4(unsigned int a1);
-int  get_str_counter_80088CA0(void);
-int  sd_str_play_800886DC(void);
-int  sd_set_cli_800887EC(int sdCode, int unused);
+int            sd_sng_alloc_80082194(void);
+void           pan_set2_800882E4(unsigned char a1);
+void           keyoff_80087F80(void);
+void           StrSpuTransClose_80083394();
+int            SD_8008395C(int a1, int a2);
+int            SD_80083954(int a1, unsigned char *a2, int a3);
+void           init_sng_work_8008559C();
+int            SD_SongLoadData_8008394C(int a1, int a2);
+void           por_compute_80086504(void);
+int            vib_compute_800865CC(void);
+void           freq_set_800885D4(unsigned int a1);
+int            get_str_counter_80088CA0(void);
+int            sd_str_play_800886DC(void);
+int            sd_set_cli_800887EC(int sdCode, int unused);
+unsigned char *SD_SngDataLoadInit_80083E8C( unsigned short unused );
+char          *LoadInit_80083F08( unsigned short );
+void           SD_80083ED4(void);
+unsigned char *SD_80083EE8( unsigned short );
+void           SD_Unload_800843BC(void);
+void          *SD_WavLoadBuf_800841D4(void *);
 
 #endif // _SD_H_
