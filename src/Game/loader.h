@@ -37,7 +37,7 @@ typedef struct _STAGE_FILE
     int           field_24;
     int           field_28;
     STAGE_CONFIG *field_2C_config;
-    STAGE_CONFIG *field_30_current;
+    void         *field_30_current_ptr;
     int           field_34_remaining;
 } STAGE_FILE;
 
