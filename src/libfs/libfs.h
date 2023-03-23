@@ -37,6 +37,9 @@ typedef struct _FS_MOVIE_FILE_TABLE
     FS_MOVIE_FILE field_4_files_8Array[8];
 } FS_MOVIE_FILE_TABLE;
 
+typedef void * (*TFsCallback)(void *);
+typedef void (*TFsSoundCallback)(void);
+
 int         CDBIOS_ReadSync_80022854(void);
 int         FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs);
 int         FS_ResetCdFilePosition_80021E2C(void *pHeap);

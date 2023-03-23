@@ -210,8 +210,9 @@ int SECTION(".data") dword_cdbios_stop_8009D4E4 = 0;
 
 FS_FILE_TABLE SECTION(".data") fs_file_table_8009D4E8 = {0, 0, 0, 0};
 
-int   SECTION(".data") dword_8009D4F8 = 0;
-int   SECTION(".data") dword_8009D4FC = 0;
+TFsCallback      SECTION(".data") gFsCallback_8009D4F8 = NULL;
+TFsSoundCallback SECTION(".data") gFsSoundCallback_8009D4FC = NULL;
+
 int   SECTION(".data") dword_8009D500 = 0;
 short SECTION(".data") word_8009D504 = 0;
 short SECTION(".data") word_8009D506 = 0;
