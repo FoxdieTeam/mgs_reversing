@@ -15,7 +15,7 @@ extern SEPLAYTBL se_playing_800BF068[8];
 extern int dword_800BF064;
 extern int stop_jouchuu_se_800BF1A0;
 
-void tone_set_80087FA8(int a1); // TODO: char ?
+void tone_set_80087FA8(unsigned char a1);
 void SD_MDX_FF_block_end_80087A58();
 
 void SD_MDX_F2_rest_set_80086D18()
@@ -50,21 +50,21 @@ void SD_MDX_D2_sno_set_80086E38()
 {
     sptr_800C057C->field_A4_snos = mdata2_800BF0D4;
     keyoff_80087F80();
-    tone_set_80087FA8((char)mdata2_800BF0D4); // TODO: Arg type wrong?
+    tone_set_80087FA8(mdata2_800BF0D4);
 }
 
 void svl_set_80086E78()
 {
     sptr_800C057C->field_A4_snos = mdata2_800BF0D4;
     keyoff_80087F80();
-    tone_set_80087FA8((char)mdata2_800BF0D4);
+    tone_set_80087FA8(mdata2_800BF0D4);
 }
 
 void svp_set_80086EB8()
 {
     sptr_800C057C->field_A4_snos = mdata2_800BF0D4;
     keyoff_80087F80();
-    tone_set_80087FA8((char)mdata2_800BF0D4);
+    tone_set_80087FA8(mdata2_800BF0D4);
 }
 
 void use_set_80086EF8(void)
