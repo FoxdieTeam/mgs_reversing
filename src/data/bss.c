@@ -449,8 +449,9 @@ WAVE_W *BSS         voice_tbl_800C0530; // 0x4 (4) bytes
 gap                                     gap_800C0534[0x4]; // 4 bytes
 
 int BSS             sng_fade_value_800C0538[13]; // 0x34 (52) bytes
+unsigned char BSS   byte_800C056C; // 0x2 (2) bytes - padded
 
-gap                                     gap_800C056C[0x4]; // 4 bytes
+gap                                     gap_800C0570[0x0]; // 0 bytes
 
 unsigned char *BSS  mptr_800C0570; // 0x4 (4) bytes
 int BSS             se_rev_on_800C0574; // 0x4 (4) bytes
