@@ -233,7 +233,68 @@ void sub_8002DD14(int param_1, int param_2)
 }
 
 #pragma INCLUDE_ASM("asm/sub_8002DD1C.s") // 196 bytes
-#pragma INCLUDE_ASM("asm/sub_8002DDE0.s") // 984 bytes
+
+#define sub_8002DDE0_helper(AXIS1, AXIS2, AXIS3)                                                                       \
+    {                                                                                                                  \
+        int vec1_axis1, vec1_axis2, vec1_axis3;                                                                        \
+        int outvec_axis1, outvec_axis3;                                                                                \
+        int outvec_addend_axis2;                                                                                       \
+        int multiplier;                                                                                                \
+        int target_field_10_axis1;                                                                                     \
+        vec1_axis1 = vec1->AXIS1;                                                                                      \
+        divisor = vec2->AXIS1 - vec1_axis1;                                                                            \
+        if (divisor != 0)                                                                                              \
+        {                                                                                                              \
+            outvec_axis1 = target->field_8_vec.AXIS1;                                                                  \
+            target_field_10_axis1 = target->field_10_size.AXIS1;                                                       \
+            if (target->field_8_vec.AXIS1 < vec1_axis1)                                                                \
+            {                                                                                                          \
+                outvec_axis1 += target_field_10_axis1;                                                                 \
+                if (vec1_axis1 < outvec_axis1)                                                                         \
+                {                                                                                                      \
+                    outvec_axis1 = vec1_axis1;                                                                         \
+                }                                                                                                      \
+            }                                                                                                          \
+            else                                                                                                       \
+            {                                                                                                          \
+                outvec_axis1 -= target_field_10_axis1;                                                                 \
+                if (outvec_axis1 < vec1_axis1)                                                                         \
+                {                                                                                                      \
+                    outvec_axis1 = vec1_axis1;                                                                         \
+                }                                                                                                      \
+            }                                                                                                          \
+            multiplier = outvec_axis1 - vec1_axis1;                                                                    \
+            vec1_axis2 = vec1->AXIS2;                                                                                  \
+            outvec_addend_axis2 = (vec2->AXIS2 - vec1_axis2) * multiplier / divisor;                                   \
+            if (vec1_axis2 + outvec_addend_axis2 >= target->field_8_vec.AXIS2 - target->field_10_size.AXIS2 &&         \
+                target->field_8_vec.AXIS2 + target->field_10_size.AXIS2 >= vec1_axis2 + outvec_addend_axis2)           \
+            {                                                                                                          \
+                vec1_axis3 = vec1->AXIS3;                                                                              \
+                outvec_axis3 = vec1_axis3;                                                                             \
+                outvec_axis3 += (vec2->AXIS3 - outvec_axis3) * multiplier / divisor;                                   \
+                if (outvec_axis3 >= target->field_8_vec.AXIS3 - target->field_10_size.AXIS3 &&                         \
+                    target->field_8_vec.AXIS3 + target->field_10_size.AXIS3 >= outvec_axis3)                           \
+                {                                                                                                      \
+                    do                                                                                                 \
+                    {                                                                                                  \
+                        outvec->AXIS1 = outvec_axis1;                                                                  \
+                        outvec->AXIS2 = vec1_axis2 + outvec_addend_axis2;                                              \
+                        outvec->AXIS3 = outvec_axis3;                                                                  \
+                    } while (0);                                                                                       \
+                    return 1;                                                                                          \
+                }                                                                                                      \
+            }                                                                                                          \
+        }                                                                                                              \
+    }
+
+int sub_8002DDE0(SVECTOR *vec1, SVECTOR *vec2, TARGET *target, SVECTOR *outvec)
+{
+    int divisor;
+    sub_8002DDE0_helper(vx, vy, vz);
+    sub_8002DDE0_helper(vy, vz, vx);
+    sub_8002DDE0_helper(vz, vx, vy);
+    return 0;
+}
 
 int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side)
 {
