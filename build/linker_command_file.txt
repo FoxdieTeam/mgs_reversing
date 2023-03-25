@@ -92,7 +92,7 @@
     include "..\obj\sub_8002799C.obj"
     include "..\obj\sub_80027A94.obj"
     include "..\obj\libgv\sub_80027BF8.obj"
-    include "..\obj\sub_80027C64.obj"
+    include "..\obj\libgv\sub_80027C64.obj"
     include "..\obj\sub_80027D80.obj"
     include "..\obj\sub_80027F10.obj"
     include "..\obj\sub_80028454.obj"
