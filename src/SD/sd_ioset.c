@@ -19,6 +19,7 @@ extern WAVE_W       *voice_tbl_800C0530;
 extern int dword_800BF064;
 extern int dword_800BF210;
 extern int spu_wave_start_ptr_800C052C;
+extern unsigned char byte_800C056C;
 
 void SD_spuwr_80087A88()
 {
@@ -273,7 +274,12 @@ void freq_set_800885D4(unsigned int a1)
     spu_tr_wk_800C0658[mtrack_800BF1EC].field_C_pitch_fg = 1;
 }
 
-#pragma INCLUDE_ASM("asm/SD/drum_set_80088694.s") // 48 bytes
+void drum_set_80088694(unsigned char a1)
+{
+    unsigned char addend = byte_800C056C + 0xB8;
+    a1 += addend;
+    tone_set_80087FA8(a1);
+}
 
 // TODO: Might be part of sd_cli.c or another file
 // from here on
