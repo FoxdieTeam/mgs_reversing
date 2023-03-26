@@ -119,8 +119,8 @@ void menuman_Reset_800389A8()
     menu_ClearRadioTable_8004967C();
     menu_SetRadarScale_80038E28(4096);
     menu_SetRadarFunc_80038F30(NULL);
-    gMenuMan_800BD360.field_1D9 = 0;
-    gMenuMan_800BD360.field_1DA = 0;
+    gMenuMan_800BD360.field_CC_radar_data.prev_mode = 0;
+    gMenuMan_800BD360.field_CC_radar_data.counter = 0;
     gMenuMan_800BD360.field_2B = 0;
     gMenuMan_800BD360.field_1DC_menu_left.field_12_flashingAnimationFrame = 0;
     gMenuMan_800BD360.field_1F0_menu_right.field_12_flashingAnimationFrame = 0;
@@ -140,12 +140,12 @@ void menu_StartDeamon_80038A20(void)
 
 void menu_radio_update_helper_80038A6C(void)
 {
-    gMenuMan_800BD360.field_1D8_healthBarDisplayCountdown = 1;
+    gMenuMan_800BD360.field_CC_radar_data.display_flag = 1;
 }
 
 void menu_radio_update_helper2_80038A7C(void)
 {
-    gMenuMan_800BD360.field_1D8_healthBarDisplayCountdown = 0;
+    gMenuMan_800BD360.field_CC_radar_data.display_flag = 0;
 }
 
 void menu_ResetSystem_80038A88()
