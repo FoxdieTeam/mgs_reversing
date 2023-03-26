@@ -147,7 +147,21 @@ void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003CFE0.s") // 144 bytes
+extern array_800BD828_child array_800BD828[];
+
+void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
+{
+    array_800BD828_child *elem;
+    elem = &array_800BD828[index];
+
+    pPanelTex->field_8_index = 31 - index;
+    pPanelTex->field_C_uvclut = elem->field_0_uvclut;
+    elem->field_8_rect1.w = pPanelTex->field_10_w / 4;
+    elem->field_8_rect1.h = pPanelTex->field_12_h;
+    LoadImage_8008FB10(&elem->field_8_rect1, pPanelTex->field_0_pixels);
+    LoadImage_8008FB10(&elem->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
+}
+
 #pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x, int offset_y)
