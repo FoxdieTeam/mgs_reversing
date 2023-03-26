@@ -920,7 +920,36 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
-#pragma INCLUDE_ASM("asm/sub_8007DD80.s")                                          // 400 bytes
+
+void sub_8007DD80(short param_1, SVECTOR *pPos)
+{
+    int i;
+    SVECTOR vec1;
+    SVECTOR vec2;
+    SVECTOR speed_tmp;
+    SVECTOR speed;
+    PRESCRIPT prescript[8];
+
+    vec1 = DG_ZeroVector_800AB39C;
+    vec2 = DG_ZeroVector_800AB39C;
+    vec1.vy = param_1 - 512;
+    speed_tmp = DG_ZeroVector_800AB39C;
+    for (i = 0; i < 8; i++)
+    {
+        prescript[i].pos = *pPos;
+        prescript[i].pos.vy -= 1000;
+        speed_tmp.vz = GV_RandU_80017090(64) + 100;
+        vec1.vy += 0x80;
+        vec2.vy = vec1.vy + GV_RandS_800170BC(0x40);
+        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &vec2);
+        DG_PutVector_8001BE48(&speed_tmp, &speed, 1);
+        prescript[i].speed = speed;
+        prescript[i].scr_num = 0;
+    }
+
+    stru_8009F774.field_14_pre_script = prescript;
+    NewAnime_8005FBC8(0, 0, &stru_8009F774);
+}
 
 void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
 {
