@@ -525,22 +525,19 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
     menu_inventory_left_update_helper4_8003C4EC();
 }
 
-int sub_8003CB98(struct Actor_MenuMan *pActor)
+void sub_8003CB98(struct Actor_MenuMan *pActor)
 {
     int field_0_item_id_idx; // $a0
     PANEL_TEXTURE *pItem; // $v0
-    int result;
 
     menu_restore_nouse_80043470();
     field_0_item_id_idx = pActor->field_1DC_menu_left.field_0_current.field_0_id;
-    result = -1;
     if ( field_0_item_id_idx != ITEM_NONE
       || (field_0_item_id_idx = pActor->field_1DC_menu_left.field_11, field_0_item_id_idx != ITEM_NONE) )
     {
         pItem = menu_rpk_8003B5E0(field_0_item_id_idx);
-        result = sub_8003CFE0(pItem, 0);
+        sub_8003CFE0(pItem, 0);
     }
-    return result;
 }
 
 void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
