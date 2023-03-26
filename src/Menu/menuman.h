@@ -109,6 +109,17 @@ typedef struct array_800BD748_child
     RECT           field_10_rect2;
 } array_800BD748_child;
 
+// TODO: Is it the same type as array_800BD748_child?
+// Unable to determine it now since no functions seem to access field_4
+// (except one always writing 0/NULL to it).
+typedef struct array_800BD828_child
+{
+    int field_0_uvclut;
+    int field_4;
+    RECT field_8_rect1;
+    RECT field_10_rect2;
+} array_800BD828_child;
+
 void menuman_init_80038954(void);
 
 struct Actor_MenuMan;
@@ -321,9 +332,9 @@ PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 void                       menu_restore_nouse_80043470();
 PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
-int                        sub_8003CB98(struct Actor_MenuMan *a1);
+void         sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, GV_PAD *pPad);
-int          sub_8003CFE0(PANEL_TEXTURE *images, int index);
+void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
 unsigned int menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 unsigned int menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
 unsigned int menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp,
@@ -412,7 +423,6 @@ int            menu_radio_8004D334(GV_PAD *pPad);
 void           menu_radio_8004D35C(void);
 void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
 void           menu_font_kill_8003FC0C(void);
-int            sub_8003CFE0(PANEL_TEXTURE *images, int index);
 void           AssignXY_8003D1A8(PANEL *pArray, int idx, short amount);
 int           menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
