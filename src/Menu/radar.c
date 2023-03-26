@@ -95,8 +95,8 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan, unsigned char *pO
 {
     int x1, y1, x2, y2;
 
-    x1 = menuMan->field_CC_radar_data.field_108_radarXOffsetFromDefault;
-    y1 = menuMan->field_CC_radar_data.field_10A_radarYOffsetFromDefault;
+    x1 = menuMan->field_CC_radar_data.pos_x;
+    y1 = menuMan->field_CC_radar_data.pos_y;
     x2 = x1 + 0xea;
     y2 = y1 + 0xf;
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0);
@@ -320,27 +320,32 @@ void menu_init_radar_helper_8003ADAC(void)
 
 void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
 {
-    DRAWENV          drawEnv;
-    menu_radar_data *radar_data = &pActor->field_CC_radar_data;
+    DRAWENV drawEnv;
+    RADAR_T *radar;
 
+    radar = &pActor->field_CC_radar_data;
     if (index == 0)
     {
-        DG_Init_DrawEnv_80018384(&drawEnv, radar_data->field_108_radarXOffsetFromDefault + 235,
-                                 radar_data->field_10A_radarYOffsetFromDefault + 16, 69, 52);
-        drawEnv.ofs[0] = radar_data->field_108_radarXOffsetFromDefault + 269;
-        drawEnv.ofs[1] = radar_data->field_10A_radarYOffsetFromDefault + 42;
+        DG_Init_DrawEnv_80018384(&drawEnv,
+                                 radar->pos_x + 235,
+                                 radar->pos_y + 16,
+                                 69, 52);
+        drawEnv.ofs[0] = radar->pos_x + 269;
+        drawEnv.ofs[1] = radar->pos_y + 42;
     }
     else
     {
-        DG_Init_DrawEnv_80018384(&drawEnv, radar_data->field_108_radarXOffsetFromDefault + 555,
-                                 radar_data->field_10A_radarYOffsetFromDefault + 16, 69, 52);
-        drawEnv.ofs[0] = radar_data->field_108_radarXOffsetFromDefault + 589;
-        drawEnv.ofs[1] = radar_data->field_10A_radarYOffsetFromDefault + 42;
+        DG_Init_DrawEnv_80018384(&drawEnv,
+                                 radar->pos_x + 555,
+                                 radar->pos_y + 16,
+                                 69, 52);
+        drawEnv.ofs[0] = radar->pos_x + 589;
+        drawEnv.ofs[1] = radar->pos_y + 42;
     }
 
-    pActor->field_CC_radar_data.field_80_clip = drawEnv.clip;
+    pActor->field_CC_radar_data.clip_rect = drawEnv.clip;
     drawEnv.isbg = 0;
-    SetDrawEnv_800906B0(&pActor->field_CC_radar_data.field_0[index], &drawEnv);
+    SetDrawEnv_800906B0(&pActor->field_CC_radar_data.dr_env[index], &drawEnv);
 }
 
 extern int              GM_AlertMode_800ABA00;
@@ -384,7 +389,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
     }
 
     draw_radar_helper_800390FC(pActor, pOt);
-    addPrim(pOt, &pActor->field_CC_radar_data.field_88[GV_Clock_800AB920]);
+    addPrim(pOt, &pActor->field_CC_radar_data.org_env[GV_Clock_800AB920]);
 
     if (gFn_radar_800AB48C)
     {
@@ -403,7 +408,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
         switch (alertMode)
         {
         case 0:
-            alertLevel = pActor->field_1DA;
+            alertLevel = pActor->field_CC_radar_data.counter;
 
             if (alertLevel > 0)
             {
@@ -414,7 +419,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     GM_Sound_80032968(0, 0x3f, 0xe);
                 }
 
-                clip = pActor->field_CC_radar_data.field_80_clip;
+                clip = pActor->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
                 {
@@ -456,7 +461,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                 addPrim(pOt, tpage);
 
                 draw_radar_helper2_800391D0(pActor, pOt, 0);
-                clip = pActor->field_CC_radar_data.field_80_clip;
+                clip = pActor->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
                 {
@@ -468,7 +473,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                 twin = twin3;
                 SetTexWindow_800905F0(twin, &clip);
                 addPrim(pOt, twin);
-                pActor->field_1DA -= 2;
+                pActor->field_CC_radar_data.counter -= 2;
             }
             else
             {
@@ -481,9 +486,9 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
         case 1:
         case 2:
         case 3:
-            pActor->field_1DA = 93;
+            pActor->field_CC_radar_data.counter = 93;
 
-            if (alertMode == 1 && pActor->field_1D9 == 0)
+            if (alertMode == 1 && pActor->field_CC_radar_data.prev_mode == 0)
             {
                 GM_Sound_80032968(0, 0x3f, 0x78);
             }
@@ -491,23 +496,23 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
             break;
         }
 
-        pActor->field_1D9 = alertMode;
+        pActor->field_CC_radar_data.prev_mode = alertMode;
     }
 
-    addPrim(pOt, &pActor->field_CC_radar_data.field_0[GV_Clock_800AB920]);
+    addPrim(pOt, &pActor->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
 }
 
 void menu_radar_update_8003B350(struct Actor_MenuMan *pActor, unsigned char *pOt)
 {
   int clipY;
 
-  if (pActor->field_1D8_healthBarDisplayCountdown)
+  if (pActor->field_CC_radar_data.display_flag)
   {
     if (pActor->field_2A_state == 0)
     {
       if ((GM_GameStatus_800AB3CC & 0x200000) != 0)
       {
-        clipY = pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault - 16;
+        clipY = pActor->field_CC_radar_data.pos_y - 16;
         if (clipY < (-63))
         {
           GM_GameStatus_800AB3CC |= 0x400000;
@@ -519,7 +524,7 @@ void menu_radar_update_8003B350(struct Actor_MenuMan *pActor, unsigned char *pOt
         if ((GM_GameStatus_800AB3CC & 0x100000) != 0)
       {
         GM_GameStatus_800AB3CC &= ~0x400000u;
-        clipY = pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault + 16;
+        clipY = pActor->field_CC_radar_data.pos_y + 16;
         if (clipY >= 0)
         {
           clipY = 0;
@@ -532,11 +537,11 @@ void menu_radar_update_8003B350(struct Actor_MenuMan *pActor, unsigned char *pOt
       }
       if ((GM_GameStatus_800AB3CC & 0x400800) != 0)
       {
-        pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault = -64;
+        pActor->field_CC_radar_data.pos_y = -64;
       }
       else
       {
-        pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault = clipY;
+        pActor->field_CC_radar_data.pos_y = clipY;
         menu_radar_helper_8003ADD8(pActor, GV_Clock_800AB920);
         draw_radar_8003AEC0(pActor, pOt);
       }
@@ -551,15 +556,15 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
 
     field_28_flags = pActor->field_28_flags;
     pActor->m7FnPtrs_field_2C[3] = menu_radar_update_8003B350;
-    pActor->field_1D8_healthBarDisplayCountdown = 1;
-    pActor->field_CC_radar_data.field_108_radarXOffsetFromDefault = 0;
-    pActor->field_CC_radar_data.field_10A_radarYOffsetFromDefault = 0;
+    pActor->field_CC_radar_data.display_flag = 1;
+    pActor->field_CC_radar_data.pos_x = 0;
+    pActor->field_CC_radar_data.pos_y = 0;
     pActor->field_28_flags = field_28_flags | 8;
     menu_radar_helper_8003ADD8(pActor, 0);
     menu_radar_helper_8003ADD8(pActor, 1);
 
-    pActor->field_CC_radar_data.field_88[0] = pActor->field_4C_drawEnv[0];
-    pActor->field_CC_radar_data.field_88[1] = pActor->field_4C_drawEnv[1];
+    pActor->field_CC_radar_data.org_env[0] = pActor->field_4C_drawEnv[0];
+    pActor->field_CC_radar_data.org_env[1] = pActor->field_4C_drawEnv[1];
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
