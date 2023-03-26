@@ -198,17 +198,22 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
     short              field_12_flashingAnimationFrame;
 } menu_left_right;
 
-typedef struct menu_radar_data {
-    DR_ENV        field_0[2];    // offset CC in Actor_MenuMan
-    RECT          field_80_clip; // offset 14C in Actor_MenuMan
-    DR_ENV        field_88[2];   // offset 154 in Actor_MenuMan
-
+typedef struct
+{
+	DR_ENV  dr_env[ 2 ]; // 0x00
+	RECT    clip_rect; // 0x80
+	DR_ENV  org_env[ 2 ]; // 0x88
     // Radar X offset from default X position (not from top of screen).
-    short field_108_radarXOffsetFromDefault; // offset 1D4 in Actor_MenuMan
-
+	short   pos_x; // 0x108
     // Radar Y offset from default Y position (not from left of screen).
-    short field_10A_radarYOffsetFromDefault; // offset 1D6 in Actor_MenuMan
-} menu_radar_data;
+	short   pos_y; // 0x10A
+    // Health bar display countdown from 0x96 to 0x0, handled by 8003F530():
+    // - 0x8003f784: resets the countdown to 0x96;
+    // - 0x8003f7a0: decrements the value.
+	char    display_flag; // 0x10C
+	char    prev_mode; // 0x10D 1D9
+	short   counter; // 0x10E   1DA
+} RADAR_T;
 
 struct Actor_MenuMan;
 
@@ -281,28 +286,22 @@ enum
 
 typedef unsigned char MenuFlags;
 
-typedef struct Actor_MenuMan
+typedef struct             Actor_MenuMan
 {
-    GV_ACT           field_0_actor;
-    MenuGlue       *field_20_otBuf;
-    GV_PAD           *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
-    MenuFlags       field_28_flags;
-    char            field_29;
+    GV_ACT                 field_0_actor;
+    MenuGlue              *field_20_otBuf;
+    GV_PAD                *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
+    MenuFlags              field_28_flags;
+    char                   field_29;
     // Bit 0: browsing right menu.
     // Bit 1: browsing left menu.
     // Bit 2: using Codec.
-    unsigned char field_2A_state;
-    char          field_2B;
-    TMenuUpdateFn m7FnPtrs_field_2C[7];
-    int           field_48;
-    DR_ENV        field_4C_drawEnv[2];
-    menu_radar_data        field_CC_radar_data;
-    // Health bar display countdown from 0x96 to 0x0, handled by 8003F530():
-    // - 0x8003f784: resets the countdown to 0x96;
-    // - 0x8003f7a0: decrements the value.
-    char                   field_1D8_healthBarDisplayCountdown;
-    char                   field_1D9;
-    short                  field_1DA;
+    unsigned char          field_2A_state;
+    char                   field_2B;
+    TMenuUpdateFn          m7FnPtrs_field_2C[7];
+    int                    field_48;
+    DR_ENV                 field_4C_drawEnv[2];
+    RADAR_T                field_CC_radar_data;
     struct menu_left_right field_1DC_menu_left;
     struct menu_left_right field_1F0_menu_right;
     MenuMan_MenuBars       field_204_bars;
