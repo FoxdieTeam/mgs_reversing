@@ -250,7 +250,52 @@ int Loader_CD_Read_CallBack_80023274(CDBIOS_TASK *pTask)
     return 2;
 }
 
-#pragma INCLUDE_ASM( "asm/libfs/Loader_helper_8002336C.s" )
+static inline int get_cache_id( STAGE_CONFIG* pTag )
+{
+    return ( pTag->field_3_extension - 'a' ) << 16 | pTag->field_0_hash;
+}
+
+int Loader_helper_8002336C(STAGE_FILE *pRec, int unused)
+{
+    STAGE_CONFIG *pNext;
+    STAGE_CONFIG *pTag;
+    int size;
+
+    if ( pRec->field_28 != 1 )
+    {
+        pRec->field_28 = 1;
+        pRec->field_30_current_ptr = pRec->field_18_pConfigEnd1;
+    }
+
+    pTag = pRec->field_2C_config;
+
+    while(1)
+    {
+        pNext = pRec->field_30_current_ptr + pTag[1].field_4_size;
+
+        if ( pRec->field_14_pConfigStart1[-1].field_2_mode != 'c' || pRec->field_20_pConfigEnd2 >= pNext )
+        {
+            GV_LoadInit_800155BC(pRec->field_30_current_ptr + pTag->field_4_size, get_cache_id(pTag), GV_NORMAL_CACHE);
+        }
+        else
+        {
+            return 0;
+        }
+
+        pTag++;
+        pRec->field_2C_config = pTag;
+
+        if (pTag->field_3_extension == 0xFF)
+        {
+            size =  (int)(pRec->field_30_current_ptr + pTag->field_4_size) - (int)pRec->field_8_pBuffer;
+            GV_ResizeMemory_8001630C(2, pRec->field_8_pBuffer, size);
+            break;
+        }
+    }
+
+    pRec->field_2C_config++;
+    return 1;
+}
 
 int Loader_helper2_80023460( STAGE_FILE *pStageFile )
 {

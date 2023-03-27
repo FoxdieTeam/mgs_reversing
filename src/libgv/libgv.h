@@ -197,6 +197,7 @@ void *GV_Malloc_8001620C(int);
 void  GV_Free_80016230(void *);
 void  GV_DelayedFree_80016254(void *);
 void  GV_ResidentHeapReset_800163B0(void);
+void *GV_ResizeMemory_8001630C(int which, void *addr, int size);
 
 void *GV_GetMaxFreeMemory_8001627C(int which);
 void *GV_SplitMemory_80018FA4(int which, void *addr, int size);
