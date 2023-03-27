@@ -18,6 +18,8 @@ extern ANIMATION  stru_8009F1B4;
 extern ANIMATION  stru_8009F1D0;
 extern ANIMATION  stru_8009F1EC;
 extern ANIMATION  stru_8009F208;
+extern ANIMATION  stru_8009F0D4;
+extern ANIMATION  stru_8009F0F0;
 extern TAnimeVMFn anime_fn_table_8009F228[];
 
 extern const char aScriptActErr[]; // = " SCRIPT ACT ERR!! \n"
@@ -56,7 +58,189 @@ Actor_anime * anime_create_8005D604(MATRIX *pMtx)
 }
 
 #pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s") // 716 bytes
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D988.s") // 1112 bytes
+
+void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
+{
+    PRESCRIPT  prescript;
+    MATRIX     m;
+    SVECTOR    move;
+    int        randu;
+    ANIMATION *anm;
+    SVECTOR   *pos;
+    SVECTOR   *speed;
+
+    pos = &prescript.pos;
+
+    move.vx = 0;
+    move.vy = -130;
+    move.vz = 0;
+
+    DG_SetPos_8001BC44(pMatrix1);
+    DG_MovePos_8001BD20(&move);
+    ReadRotMatrix_80092DD8(&m);
+
+    pos->vx = m.t[0];
+    pos->vy = m.t[1];
+    pos->vz = m.t[2];
+
+    move.vx = GV_RandU_80017090(32) - 100;
+    move.vy = GV_RandU_80017090(32) + 15;
+    move.vz = GV_RandU_80017090(64) + 100;
+
+    DG_MovePos_8001BD20(&move);
+    ReadRotMatrix_80092DD8(&m);
+
+    speed = &prescript.speed;
+
+    speed->vx = m.t[0] - pos->vx;
+    speed->vy = m.t[1] - pos->vy;
+    speed->vz = m.t[2] - pos->vz;
+    prescript.scr_num = 1;
+    prescript.s_anim = 0;
+
+    anm = &stru_8009F0D4;
+    stru_8009F0D4.field_14_pre_script = &prescript;
+
+    NewAnime_8005FBC8(NULL, 0, anm);
+
+    if (mode != 1)
+    {
+        prescript.speed = DG_ZeroVector_800AB39C;
+
+        randu = GV_RandU_80017090(16);
+        if (randu >= 7)
+        {
+            prescript.s_anim = 3;
+        }
+        else if (randu >= 5)
+        {
+            prescript.s_anim = 2;
+        }
+        else if (randu >= 3)
+        {
+            prescript.s_anim = 1;
+        }
+        else
+        {
+            prescript.s_anim = 0;
+        }
+
+        anm = &stru_8009F10C;
+        anm->field_14_pre_script = &prescript;
+
+        move.vx = 0;
+        move.vy = -270;
+        move.vz = 0;
+
+        DG_SetPos_8001BC44(pMatrix1);
+        DG_MovePos_8001BD20(&move);
+        ReadRotMatrix_80092DD8(&m);
+
+        pos->vx = m.t[0];
+        pos->vy = m.t[1];
+        pos->vz = m.t[2];
+
+        prescript.scr_num = 0;
+        NewAnime_8005FBC8(NULL, 0, anm);
+
+        move.vx = 0;
+        move.vy = -370;
+        move.vz = 0;
+
+        DG_SetPos_8001BC44(pMatrix1);
+        DG_MovePos_8001BD20(&move);
+        ReadRotMatrix_80092DD8(&m);
+
+        pos->vx = m.t[0];
+        pos->vy = m.t[1];
+        pos->vz = m.t[2];
+
+        prescript.scr_num = 1;
+        NewAnime_8005FBC8(NULL, 0, anm);
+
+        move.vx = 0;
+        move.vy = -420;
+        move.vz = 0;
+
+        DG_SetPos_8001BC44(pMatrix1);
+        DG_MovePos_8001BD20(&move);
+        ReadRotMatrix_80092DD8(&m);
+
+        pos->vx = m.t[0];
+        pos->vy = m.t[1];
+        pos->vz = m.t[2];
+
+        prescript.scr_num = 2;
+        NewAnime_8005FBC8(NULL, 0, anm);
+    }
+    else
+    {
+        DG_SetPos_8001BC44(pMatrix2);
+
+        move.vx = 0;
+        move.vy = 0;
+        move.vz = 0;
+
+        DG_MovePos_8001BD20(&move);
+        ReadRotMatrix_80092DD8(&m);
+
+        pos->vx = m.t[0];
+        pos->vy = m.t[1];
+        pos->vz = m.t[2];
+
+        move.vx = 0;
+        move.vy = -10;
+        move.vz = GV_RandU_80017090(8);
+
+        DG_MovePos_8001BD20(&move);
+        ReadRotMatrix_80092DD8(&m);
+
+        speed->vx = m.t[0] - pos->vx;
+        speed->vy = m.t[1] - pos->vy;
+        speed->vz = m.t[2] - pos->vz;
+
+        prescript.scr_num = 2;
+
+        anm = &stru_8009F0F0;
+        anm->field_14_pre_script = &prescript;
+
+        NewAnime_8005FBC8(NULL, 0, anm);
+    }
+
+    DG_SetPos_8001BC44(pMatrix1);
+
+    pos = &prescript.pos;
+
+    move.vx = 0;
+    move.vy = 0;
+    move.vz = 0;
+
+    DG_MovePos_8001BD20(&move);
+    ReadRotMatrix_80092DD8(&m);
+
+    pos->vx = m.t[0];
+    pos->vy = m.t[1];
+    pos->vz = m.t[2];
+
+    move.vx = 0;
+    move.vy = 0;
+    move.vz = GV_RandU_80017090(8);
+
+    DG_MovePos_8001BD20(&move);
+    ReadRotMatrix_80092DD8(&m);
+
+    speed = &prescript.speed;
+
+    speed->vx = m.t[0] - pos->vx;
+    speed->vy = m.t[1] - pos->vy;
+    speed->vz = m.t[2] - pos->vz;
+    prescript.scr_num = 0;
+
+    anm = &stru_8009F0F0;
+    anm->field_14_pre_script = &prescript;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
 
 void anime_create_8005DDE0(MATRIX *pMtx)
 {
