@@ -30,27 +30,28 @@ GV_PAD*        SECTION(".sdata") GM_CurrentPadData_800AB91C;
 void menuman_act_800386A4(Actor_MenuMan *pActor)
 {
   unsigned char *pOtStart;
-  int idx_as_flag;
-  int field_28_flags;
-  int i;
+  int            idx_as_flag;
+  int            field_28_flags;
+  int            i;
+
   pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
   pActor->field_24_pInput = &GM_CurrentPadData_800AB91C[2];
   menu_jimaku_act_80048FD4(pActor, (unsigned int *)pOtStart);
-  if ((((GV_PauseLevel_800AB928 & 2) == 0) && (GM_LoadComplete_800ABA38 > 0)) && (!GM_LoadRequest_800AB3D0))
+  if ( ( !(GV_PauseLevel_800AB928 & 2) && (GM_LoadComplete_800ABA38 > 0) ) &&
+       ( !GM_LoadRequest_800AB3D0 ) )
   {
     idx_as_flag = 1;
     if (GM_GameStatus_800AB3CC >= 0)
     {
       field_28_flags = pActor->field_28_flags;
-      for (i = 0; i < 8; i++)
+      for (i = 0; i < MENU_MODULE_MAX; i++)
       {
         if ((field_28_flags & idx_as_flag) != 0)
         {
-          pActor->m7FnPtrs_field_2C[i](pActor, pOtStart);
+          pActor->field_2C_modules[i](pActor, pOtStart);
         }
         idx_as_flag *= 2;
       }
-
     }
   }
 
@@ -59,7 +60,9 @@ void menuman_act_800386A4(Actor_MenuMan *pActor)
 
 void menuman_kill_800387E8(Actor_MenuMan *pActor)
 {
-    TInitKillFn *pIter = gMenuKillFns_8009E2B4;
+    TInitKillFn *pIter;
+
+    pIter = gMenuKillFns_8009E2B4;
     while (*pIter)
     {
         (*pIter)(pActor);
@@ -122,8 +125,8 @@ void menuman_Reset_800389A8()
     gMenuMan_800BD360.field_CC_radar_data.prev_mode = 0;
     gMenuMan_800BD360.field_CC_radar_data.counter = 0;
     gMenuMan_800BD360.field_2B = 0;
-    gMenuMan_800BD360.field_1DC_menu_left.field_12_flashingAnimationFrame = 0;
-    gMenuMan_800BD360.field_1F0_menu_right.field_12_flashingAnimationFrame = 0;
+    gMenuMan_800BD360.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
+    gMenuMan_800BD360.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
     menu_bars_init_8003F7E0(&gMenuMan_800BD360);
 }
 
