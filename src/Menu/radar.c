@@ -555,7 +555,7 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
     unsigned char field_28_flags; // $v1
 
     field_28_flags = pActor->field_28_flags;
-    pActor->m7FnPtrs_field_2C[3] = menu_radar_update_8003B350;
+    pActor->field_2C_modules[MENU_RADAR] = menu_radar_update_8003B350;
     pActor->field_CC_radar_data.display_flag = 1;
     pActor->field_CC_radar_data.pos_x = 0;
     pActor->field_CC_radar_data.pos_y = 0;

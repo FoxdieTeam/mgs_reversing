@@ -502,7 +502,7 @@ void menu_radio_init_nullsub_80042190(void)
 
 void menu_radio_init_80042700(Actor_MenuMan *pMenu)
 {
-    pMenu->m7FnPtrs_field_2C[4] = (TMenuUpdateFn)menu_radio_update_80042198;
+    pMenu->field_2C_modules[MENU_RADIO] = (TMenuUpdateFn)menu_radio_update_80042198;
     pMenu->field_28_flags |= 0x10u;
 }
 
@@ -765,7 +765,7 @@ void menu_restore_nouse_80043470()
 
 void menu_init_nouse_800434A8()
 {
-    dword_800BDA10.field_8_index = 0;
+    dword_800BDA10.field_8_bufid = 0;
     menu_init_rpk_item_8003DDCC(&dword_800BDA10, 40, 39);
     menu_init_rpk_item_8003DDCC(&dword_800BDA30, 48, 39);
     menu_restore_nouse_80043470();
