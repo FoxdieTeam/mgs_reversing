@@ -71,7 +71,7 @@ void sub_8003CE40(PANEL_TEXTURE *items, int count)
 
     for (i = 0; i < count; i++)
     {
-        items->field_8_index = sub_8003CE40_index();
+        items->field_8_bufid = sub_8003CE40_index();
         items->field_C_uvclut = 0;
         items++;
     }
@@ -99,7 +99,7 @@ void sub_8003CE84()
         if (bitmask & bit)
         {
             array_800BD748[i].field_4_panelTexture->field_C_uvclut = 0;
-            array_800BD748[i].field_4_panelTexture->field_8_index = -1;
+            array_800BD748[i].field_4_panelTexture->field_8_bufid = -1;
             array_800BD748[i].field_4_panelTexture = NULL;
             dword_800ABAD8 &= ~bit;
         }
@@ -126,7 +126,7 @@ void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
 
                 iter->field_4_panelTexture = pPanelTex;
 
-                pPanelTex->field_8_index = i;
+                pPanelTex->field_8_bufid = i;
                 pPanelTex->field_C_uvclut = iter->field_0_uvclut;
 
                 dword_800ABAD8 |= bit;
@@ -141,9 +141,9 @@ void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
         }
     }
 
-    if (pPanelTex->field_8_index >= 0)
+    if (pPanelTex->field_8_bufid >= 0)
     {
-        dword_800ABADC |= 1 << pPanelTex->field_8_index;
+        dword_800ABADC |= 1 << pPanelTex->field_8_bufid;
     }
 }
 
@@ -154,7 +154,7 @@ void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
     array_800BD828_child *elem;
     elem = &array_800BD828[index];
 
-    pPanelTex->field_8_index = 31 - index;
+    pPanelTex->field_8_bufid = 31 - index;
     pPanelTex->field_C_uvclut = elem->field_0_uvclut;
     elem->field_8_rect1.w = pPanelTex->field_10_w / 4;
     elem->field_8_rect1.h = pPanelTex->field_12_h;
@@ -485,7 +485,7 @@ void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
 
 extern struct PANEL_CONF stru_8009E544[];
 
-void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn)
+void sub_8003D6A8(Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn)
 {
     struct PANEL_CONF *pPanelConf;
 
@@ -494,7 +494,7 @@ void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdate
     pPanelConf->field_18_pFnUpdate = pUpdateFn;
 }
 
-void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
+void sub_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
 {
     int                bVar1;
     int                arg2_1;
@@ -548,7 +548,7 @@ void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad)
     }
 }
 
-void menu_8003D7DC(Actor_MenuMan *pActor, int param_2, menu_left_right *pSubMenu)
+void menu_8003D7DC(Actor_MenuMan *pActor, int param_2, Menu_Inventory *pSubMenu)
 {
     int                field_8, pos, field_C;
     PANEL_CONF        *pPanelConf;
@@ -631,7 +631,7 @@ void menu_8003D7DC(Actor_MenuMan *pActor, int param_2, menu_left_right *pSubMenu
     sub_8003CE84();
 }
 
-void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pSubMenu)
+void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, Menu_Inventory *pSubMenu)
 {
     if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
@@ -640,13 +640,13 @@ void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, int a2, struct 
     }
 }
 
-void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2)
+void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, Menu_Inventory *pLeftRight, int off1, int off2)
 {
     pLeftRight->field_8_panel_conf->field_18_pFnUpdate(pActor, a2, pLeftRight->field_8_panel_conf->field_0_xOffset + off1,
                                                   pLeftRight->field_8_panel_conf->field_2_yOffset + off2, &pLeftRight->field_0_current);
 }
 
-int menu_8003DA9C(struct menu_left_right *pMenu, GV_PAD *pPad)
+int menu_8003DA9C(Menu_Inventory *pMenu, GV_PAD *pPad)
 {
     struct PANEL_CONF *pPanelConf; // $a0
 
@@ -675,7 +675,7 @@ int menu_8003DA9C(struct menu_left_right *pMenu, GV_PAD *pPad)
     return 1;
 }
 
-int sub_8003DAFC(menu_left_right *pLeftRight, GV_PAD *pPad)
+int sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
 {
     if (!(pPad->status & pLeftRight->field_8_panel_conf->field_4_input))
     {
@@ -918,7 +918,7 @@ void menu_right_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, i
             sub_8003CEF8(pTexture);
         }
 
-        else if (pTexture->field_8_index < 16)
+        else if (pTexture->field_8_bufid < 16)
         {
             sub_8003CFE0(pTexture, 1);
         }
@@ -971,40 +971,40 @@ void menu_right_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
     int                id;
     short             *gameState;
 
-    pItemUnknown = pActor->field_1F0_menu_right.field_C_alloc;
-    pActor->field_1F0_menu_right.field_10_state = 0;
+    pItemUnknown = pActor->field_1F0_menu_weapon.field_C_alloc;
+    pActor->field_1F0_menu_weapon.field_10_state = 0;
 
-    AssignXYFromVec_8003D1B8(&pActor->field_1F0_menu_right.field_0_current,
+    AssignXYFromVec_8003D1B8(&pActor->field_1F0_menu_weapon.field_0_current,
                              &pItemUnknown->field_20_array[pItemUnknown->field_0_main.field_4_selected_idx]);
 
-    id = pActor->field_1F0_menu_right.field_0_current.field_0_id;
+    id = pActor->field_1F0_menu_weapon.field_0_current.field_0_id;
     gameState = gGameState_800B4D98;
 
     if (id >= 0 && !sub_8003DF30(id))
     {
-        GM_CurrentWeaponId = pActor->field_1F0_menu_right.field_0_current.field_0_id;
+        GM_CurrentWeaponId = pActor->field_1F0_menu_weapon.field_0_current.field_0_id;
         GM_WeaponChanged_800AB9D8 = 1;
         if (GM_CurrentWeaponId >= 0)
         {
             sub_8003CFE0(
-                menu_right_get_weapon_rpk_info_8003DED8(pActor->field_1F0_menu_right.field_0_current.field_0_id), 1);
+                menu_right_get_weapon_rpk_info_8003DED8(pActor->field_1F0_menu_weapon.field_0_current.field_0_id), 1);
         }
-        pActor->field_1F0_menu_right.field_11 = gameState[14]; // GM_CurrentWeaponId would not match...
+        pActor->field_1F0_menu_weapon.field_11 = gameState[14]; // GM_CurrentWeaponId would not match...
     }
     else
     {
         if (id != -1)
         {
             dword_800ABAE8 = id;
-            pActor->field_1F0_menu_right.field_11 = id;
+            pActor->field_1F0_menu_weapon.field_11 = id;
         }
         GM_CurrentWeaponId = -1;
-        pActor->field_1F0_menu_right.field_0_current.field_0_id = -1;
+        pActor->field_1F0_menu_weapon.field_0_current.field_0_id = -1;
         GM_WeaponChanged_800AB9D8 = 1;
     }
 
-    pActor->field_1F0_menu_right.field_12_flashingAnimationFrame = 10;
-    menu_panel_free_8003D184(pActor->field_1F0_menu_right.field_C_alloc);
+    pActor->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 10;
+    menu_panel_free_8003D184(pActor->field_1F0_menu_weapon.field_C_alloc);
     menu_font_kill_8003FC0C();
     GM_Sound_80032968(0, 0x3f, 0x14);
 }
@@ -1035,7 +1035,7 @@ int menu_right_update_helper_8003E4B8(Actor_MenuMan *pActor)
         }
 
         pPanel = menu_alloc_panel_8003D124(panelCount + 1);
-        pActor->field_1F0_menu_right.field_C_alloc = pPanel;
+        pActor->field_1F0_menu_weapon.field_C_alloc = pPanel;
 
         if (!pPanel)
         {
@@ -1071,7 +1071,7 @@ int menu_right_update_helper_8003E4B8(Actor_MenuMan *pActor)
     else
     {
         pPanel = menu_alloc_panel_8003D124(1);
-        pActor->field_1F0_menu_right.field_C_alloc = pPanel;
+        pActor->field_1F0_menu_weapon.field_C_alloc = pPanel;
 
         if (!pPanel)
         {
@@ -1089,11 +1089,11 @@ int menu_right_update_helper_8003E4B8(Actor_MenuMan *pActor)
 
     dword_800AB5E4 = 0;
     dword_800AB5E0 = 0;
-    pActor->field_1F0_menu_right.field_10_state = 2;
+    pActor->field_1F0_menu_weapon.field_10_state = 2;
     sub_8003D520();
     sub_8003CE40(gMenuRightItems_800BD888, 11);
-    menu_panel_8003D2BC(pActor->field_1F0_menu_right.field_C_alloc,
-                        pActor->field_1F0_menu_right.field_0_current.field_0_id);
+    menu_panel_8003D2BC(pActor->field_1F0_menu_weapon.field_C_alloc,
+                        pActor->field_1F0_menu_weapon.field_0_current.field_0_id);
     GM_Sound_80032968(0, 0x3f, 0x15);
     return 1;
 }
@@ -1106,9 +1106,9 @@ void sub_8003EBDC(struct Actor_MenuMan *menuMan)
     PANEL_TEXTURE *pPanelTex;
     int            weapon_index;
 
-    weapon_index = menuMan->field_1F0_menu_right.field_0_current.field_0_id;
+    weapon_index = menuMan->field_1F0_menu_weapon.field_0_current.field_0_id;
     if ((weapon_index != -1) ||
-        (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_right).field_11), weapon_index != -1))
+        (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_weapon).field_11), weapon_index != -1))
     {
         pPanelTex = menu_right_get_weapon_rpk_info_8003DED8(weapon_index);
         sub_8003CFE0(pPanelTex, 1);
@@ -1119,16 +1119,16 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
 
 {
     short val = -1;
-    menuMan->m7FnPtrs_field_2C[1] = menu_right_update_8003E990;
-    menuMan->field_1F0_menu_right.field_0_current.field_0_id = val;
-    menuMan->field_1F0_menu_right.field_10_state = 0;
-    menuMan->field_1F0_menu_right.field_12_flashingAnimationFrame = 0;
-    menuMan->field_1F0_menu_right.field_0_current.field_4_pos = 0;
-    menuMan->field_1F0_menu_right.field_0_current.field_6_current = 1;
-    menuMan->field_1F0_menu_right.field_11 = val;
+    menuMan->field_2C_modules[MENU_WEAPON] = menu_right_update_8003E990;
+    menuMan->field_1F0_menu_weapon.field_0_current.field_0_id = val;
+    menuMan->field_1F0_menu_weapon.field_10_state = 0;
+    menuMan->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
+    menuMan->field_1F0_menu_weapon.field_0_current.field_4_pos = 0;
+    menuMan->field_1F0_menu_weapon.field_0_current.field_6_current = 1;
+    menuMan->field_1F0_menu_weapon.field_11 = val;
     menuMan->field_28_flags |= 2;
     dword_800ABAE8 = 0;
-    sub_8003D6A8(&menuMan->field_1F0_menu_right, 1, (int *)menu_right_init_helper_8003E0E8);
+    sub_8003D6A8(&menuMan->field_1F0_menu_weapon, 1, (int *)menu_right_init_helper_8003E0E8);
     menu_inventory_right_init_items_8003DE50();
     sub_8003EBDC(menuMan);
 }

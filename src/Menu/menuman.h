@@ -82,7 +82,7 @@ typedef struct PANEL_TEXTURE
 {
     unsigned char  *field_0_pixels;
     unsigned char  *field_4_word_ptr_pixels;
-    signed char     field_8_index;
+    signed char     field_8_bufid;
     signed char     field_9_xofs;
     signed char     field_A_yofs;
     char            field_B_pad;
@@ -123,7 +123,7 @@ typedef struct array_800BD828_child
 void menuman_init_80038954(void);
 
 struct Actor_MenuMan;
-struct menu_left_right;
+struct Menu_Inventory;
 struct PANEL;
 struct PANEL_CONF;
 
@@ -187,7 +187,7 @@ typedef struct Menu_Item_Unknown
     PANEL field_20_array[0];
 } Menu_Item_Unknown;
 
-typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
+typedef struct Menu_Inventory
 {
     PANEL              field_0_current;
     PANEL_CONF        *field_8_panel_conf;
@@ -196,7 +196,7 @@ typedef struct menu_left_right // aka MenuMan_Inventory_Menu_0x14
     signed char        field_11; // item_idx ?
     // Current frame of the "flashing" animation played when the menu is closed, counts down from 0xa to 0x0.
     short              field_12_flashingAnimationFrame;
-} menu_left_right;
+} Menu_Inventory;
 
 typedef struct
 {
@@ -211,8 +211,8 @@ typedef struct
     // - 0x8003f784: resets the countdown to 0x96;
     // - 0x8003f7a0: decrements the value.
 	char    display_flag; // 0x10C
-	char    prev_mode; // 0x10D 1D9
-	short   counter; // 0x10E   1DA
+	char    prev_mode; // 0x10D
+	short   counter; // 0x10E
 } RADAR_T;
 
 struct Actor_MenuMan;
@@ -284,6 +284,19 @@ enum
     MENUFLAGS_CAN_OPEN_CODEC = 0x10
 };
 
+enum // Actor_MenuMan->field_2C_modules
+{
+	MENU_LIFE = 0,       // Life bars
+	MENU_WEAPON = 1,     // Weapons inventory
+	MENU_ITEM = 2,       // Items inventory
+	MENU_RADAR = 3,      // Radar
+	MENU_RADIO = 4,      // Codec
+	MENU_CARD = 5,       // Memcard ?
+	MENU_JIMAKU = 6,     // Subtitle
+	MENU_VIEWER = 7,     // Photo viewer
+};
+#define MENU_MODULE_MAX 8
+
 typedef unsigned char MenuFlags;
 
 typedef struct             Actor_MenuMan
@@ -298,12 +311,12 @@ typedef struct             Actor_MenuMan
     // Bit 2: using Codec.
     unsigned char          field_2A_state;
     char                   field_2B;
-    TMenuUpdateFn          m7FnPtrs_field_2C[7];
-    int                    field_48;
-    DR_ENV                 field_4C_drawEnv[2];
+    TMenuUpdateFn          field_2C_modules[ MENU_MODULE_MAX ];
+//    int                    field_48;
+    DR_ENV                 field_4C_drawEnv[ 2 ];
     RADAR_T                field_CC_radar_data;
-    struct menu_left_right field_1DC_menu_left;
-    struct menu_left_right field_1F0_menu_right;
+    Menu_Inventory         field_1DC_menu_item;
+    Menu_Inventory         field_1F0_menu_weapon;
     MenuMan_MenuBars       field_204_bars;
     short                  field_210;
     short                  field_212;
@@ -350,7 +363,7 @@ void         menu_init_nouse_800434A8(void);
 void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
 
 
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, menu_left_right *pMenuSub);
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub);
 
 void menu_inventory_left_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
 void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *arg1);
@@ -365,18 +378,18 @@ void menu_number_draw_string_80042BF4(MenuGlue *pGlue, TextConfig *pTextConfig, 
 void menu_right_init_helper_8003E0E8(Actor_MenuMan *param_1, unsigned int *param_2, int param_3, int param_4, PANEL *param_5);
 void menu_right_unknown_8003DEB0(void);
 void menu_right_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
-int  menu_8003DA9C(struct menu_left_right *pMenu, GV_PAD *pPad);
+int  menu_8003DA9C(struct Menu_Inventory *pMenu, GV_PAD *pPad);
 void menu_sub_8003B568(void);
-int  sub_8003DAFC(menu_left_right *pLeftRight, GV_PAD *pPad);
+int  sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
 int  sub_8003D52C(void);
-void sub_8003D6CC(menu_left_right *pLeftRight, GV_PAD *pPad);
-void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct menu_left_right *pLeftRight, int off1, int off2);
+void sub_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
+void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct Menu_Inventory *pLeftRight, int off1, int off2);
 void menu_viewer_init_80044A70(Actor_MenuMan *);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
 void menuman_act_800386A4(Actor_MenuMan *);
 void menuman_kill_800387E8(Actor_MenuMan *);
 void sub_8003CE40(PANEL_TEXTURE *, int);
-void sub_8003D6A8(struct menu_left_right *pMenuLeft, int bIsRight, void *pUpdateFn);
+void sub_8003D6A8(struct Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
 void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
 void menu_radio_load_palette_80046B74(unsigned char *image, int idx);

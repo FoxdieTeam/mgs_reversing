@@ -178,7 +178,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
 
 
 
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, menu_left_right *pMenuSub)
+void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt; // $s6
     MenuGlue *field_20_otBuf; // $v0
@@ -280,27 +280,27 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
 
 void menu_8003BBEC(Actor_MenuMan *pActor)
 {
-    Menu_Item_Unknown *temp_v0 = pActor->field_1DC_menu_left.field_C_alloc;
+    Menu_Item_Unknown *temp_v0 = pActor->field_1DC_menu_item.field_C_alloc;
     int index;
     short *pLinkVar;
 
-    pActor->field_1DC_menu_left.field_10_state = 0;
+    pActor->field_1DC_menu_item.field_10_state = 0;
 
-    AssignXYFromVec_8003D1B8(&pActor->field_1DC_menu_left.field_0_current, &temp_v0->field_20_array[temp_v0->field_0_main.field_4_selected_idx]);
+    AssignXYFromVec_8003D1B8(&pActor->field_1DC_menu_item.field_0_current, &temp_v0->field_20_array[temp_v0->field_0_main.field_4_selected_idx]);
 
-    if (pActor->field_1DC_menu_left.field_0_current.field_2_num <= 0)
+    if (pActor->field_1DC_menu_item.field_0_current.field_2_num <= 0)
     {
-        pActor->field_1DC_menu_left.field_0_current.field_0_id = ITEM_NONE;
+        pActor->field_1DC_menu_item.field_0_current.field_0_id = ITEM_NONE;
     }
 
-    index = pActor->field_1DC_menu_left.field_0_current.field_0_id;
+    index = pActor->field_1DC_menu_item.field_0_current.field_0_id;
     pLinkVar = linkvarbuf;
 
     if ((index >= 0) && !menu_inventory_Is_Item_Disabled_8003B6D0(index))
     {
         pLinkVar[15] = index;
         sub_8003CFE0(menu_rpk_8003B5E0(index), 0);
-        pActor->field_1DC_menu_left.field_11 = pLinkVar[15];
+        pActor->field_1DC_menu_item.field_11 = pLinkVar[15];
     }
     else
     {
@@ -310,12 +310,12 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
         }
 
         GM_CurrentItemId = ITEM_NONE;
-        pActor->field_1DC_menu_left.field_0_current.field_0_id = ITEM_NONE;
+        pActor->field_1DC_menu_item.field_0_current.field_0_id = ITEM_NONE;
     }
 
-    pActor->field_1DC_menu_left.field_12_flashingAnimationFrame = 10;
+    pActor->field_1DC_menu_item.field_12_flashingAnimationFrame = 10;
 
-    menu_panel_free_8003D184(pActor->field_1DC_menu_left.field_C_alloc);
+    menu_panel_free_8003D184(pActor->field_1DC_menu_item.field_C_alloc);
     menu_font_kill_8003FC0C();
 
     GM_Sound_80032968(0, 63, 20);
@@ -342,7 +342,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
         }
 
         pPanels = menu_alloc_panel_8003D124(activeItems + 1);
-        pActor->field_1DC_menu_left.field_C_alloc = pPanels;
+        pActor->field_1DC_menu_item.field_C_alloc = pPanels;
 
         if (!pPanels)
         {
@@ -406,7 +406,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
     else
     {
         pPanels = menu_alloc_panel_8003D124(1);
-        pActor->field_1DC_menu_left.field_C_alloc = pPanels;
+        pActor->field_1DC_menu_item.field_C_alloc = pPanels;
 
         if (!pPanels)
         {
@@ -424,11 +424,11 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
 
     dword_800AB578 = 0;
     dword_800AB574 = 0;
-    pActor->field_1DC_menu_left.field_10_state = 2;
+    pActor->field_1DC_menu_item.field_10_state = 2;
 
     sub_8003D520();
     sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEMS_LEFT_COUNT);
-    menu_panel_8003D2BC(pActor->field_1DC_menu_left.field_C_alloc, pActor->field_1DC_menu_left.field_0_current.field_0_id);
+    menu_panel_8003D2BC(pActor->field_1DC_menu_item.field_C_alloc, pActor->field_1DC_menu_item.field_0_current.field_0_id);
     GM_Sound_80032968(0, 63, 21);
     return 1;
 }
@@ -440,7 +440,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
 void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *arg1)
 {
     GV_PAD          *pPad = pActor->field_24_pInput;
-    menu_left_right *pLeftRight;
+    Menu_Inventory  *pLeftRight;
 
     if (pActor->field_2A_state == 0)
     {
@@ -449,7 +449,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
             if (!(GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_PAD_OFF | PLAYER_STATUS_PREVENT_ITEM_SWITCH |
                                               PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH)))
             {
-                if (menu_8003DA9C(&pActor->field_1DC_menu_left, pPad))
+                if (menu_8003DA9C(&pActor->field_1DC_menu_item, pPad))
                 {
                     if (menu_inventory_left_update_helper_8003BCD4(pActor))
                     {
@@ -465,11 +465,11 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
                     {
                         GM_CurrentItemId = -1;
                     }
-                    else if (!menu_inventory_Is_Item_Disabled_8003B6D0(pActor->field_1DC_menu_left.field_11))
+                    else if (!menu_inventory_Is_Item_Disabled_8003B6D0(pActor->field_1DC_menu_item.field_11))
                     {
-                        if (GM_Items[pActor->field_1DC_menu_left.field_11] > 0)
+                        if (GM_Items[pActor->field_1DC_menu_item.field_11] > 0)
                         {
-                            GM_CurrentItemId = pActor->field_1DC_menu_left.field_11;
+                            GM_CurrentItemId = pActor->field_1DC_menu_item.field_11;
                         }
                     }
 
@@ -487,16 +487,16 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
     }
     else if (pActor->field_2A_state == 2)
     {
-        pLeftRight = &pActor->field_1DC_menu_left;
+        pLeftRight = &pActor->field_1DC_menu_item;
 
         if (sub_8003DAFC(pLeftRight, pPad))
         {
-            pActor->field_1DC_menu_left.field_10_state = 3;
+            pActor->field_1DC_menu_item.field_10_state = 3;
         }
         else if (sub_8003D52C() > 255)
         {
             sub_8003D6CC(pLeftRight, pPad);
-            menu_inventory_left_update_helper3_8003C24C(pActor->field_1DC_menu_left.field_C_alloc, pPad->press);
+            menu_inventory_left_update_helper3_8003C24C(pActor->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
     else if (pActor->field_2A_state != 4)
@@ -506,13 +506,13 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
             int ret = sub_8003D52C();
             if (ret < 255)
             {
-                sub_8003DA60(pActor, (int)arg1, &pActor->field_1DC_menu_left, -ret / 4, 0);
-                pActor->field_1DC_menu_left.field_12_flashingAnimationFrame = 0;
+                sub_8003DA60(pActor, (int)arg1, &pActor->field_1DC_menu_item, -ret / 4, 0);
+                pActor->field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
             }
         }
         else
         {
-            pActor->field_1DC_menu_left.field_12_flashingAnimationFrame = 0;
+            pActor->field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
         }
         return;
     }
@@ -531,9 +531,9 @@ void sub_8003CB98(struct Actor_MenuMan *pActor)
     PANEL_TEXTURE *pItem; // $v0
 
     menu_restore_nouse_80043470();
-    field_0_item_id_idx = pActor->field_1DC_menu_left.field_0_current.field_0_id;
+    field_0_item_id_idx = pActor->field_1DC_menu_item.field_0_current.field_0_id;
     if ( field_0_item_id_idx != ITEM_NONE
-      || (field_0_item_id_idx = pActor->field_1DC_menu_left.field_11, field_0_item_id_idx != ITEM_NONE) )
+      || (field_0_item_id_idx = pActor->field_1DC_menu_item.field_11, field_0_item_id_idx != ITEM_NONE) )
     {
         pItem = menu_rpk_8003B5E0(field_0_item_id_idx);
         sub_8003CFE0(pItem, 0);
@@ -543,15 +543,15 @@ void sub_8003CB98(struct Actor_MenuMan *pActor)
 void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
-    menuMan->m7FnPtrs_field_2C[2] = (TMenuUpdateFn)menu_inventory_left_update_8003C95C;
-    menuMan->field_1DC_menu_left.field_0_current.field_0_id = val;
-    menuMan->field_1DC_menu_left.field_10_state = 0;
-    menuMan->field_1DC_menu_left.field_0_current.field_4_pos = 0;
-    menuMan->field_1DC_menu_left.field_0_current.field_6_current = 1;
-    menuMan->field_1DC_menu_left.field_11 = val;
+    menuMan->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_inventory_left_update_8003C95C;
+    menuMan->field_1DC_menu_item.field_0_current.field_0_id = val;
+    menuMan->field_1DC_menu_item.field_10_state = 0;
+    menuMan->field_1DC_menu_item.field_0_current.field_4_pos = 0;
+    menuMan->field_1DC_menu_item.field_0_current.field_6_current = 1;
+    menuMan->field_1DC_menu_item.field_11 = val;
     menuMan->field_28_flags |= 4;
     dword_800ABAD0 = 0;
-    sub_8003D6A8(&menuMan->field_1DC_menu_left, 0, (int *)menu_inventory_left_helper_8003B8F0);
+    sub_8003D6A8(&menuMan->field_1DC_menu_item, 0, (int *)menu_inventory_left_helper_8003B8F0);
     menu_sub_8003B568();
     sub_8003CB98(menuMan);
     menu_init_nouse_800434A8();

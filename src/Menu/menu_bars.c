@@ -240,7 +240,7 @@ void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
 {
     MenuMan_MenuBars *pBar;
 
-    pActor->m7FnPtrs_field_2C[0] = menu_bars_update_8003F530;
+    pActor->field_2C_modules[MENU_LIFE] = menu_bars_update_8003F530;
     pActor->field_28_flags |= 1;
 
     pBar = &pActor->field_204_bars;
