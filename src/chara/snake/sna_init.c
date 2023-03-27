@@ -5772,15 +5772,6 @@ void sub_80057BF0(Actor_SnaInit *pActor, int time)
 
     trg = 1;
 
-    switch ( temp_s3 & 1 )
-    {
-    case 0:
-        break;
-
-    case 1:
-        break;
-    }
-
     if ( (temp_s3 & 1) ? (status & PAD_SQUARE) : (release & PAD_SQUARE) )
     {
         var_s2 = 1;
