@@ -36,6 +36,8 @@ extern const char     aLoadinitD[];
 extern const char     aCompleteLoadSe[];
 extern const char     aUnloadD[];
 extern const char     aCanceledStrFad[];
+extern const char     aStreamFilePosE[];
+extern const char     aStartstreamXVo[];
 
 extern int            sng_status_800BF158;
 extern int            se_load_code_800BF28C;
@@ -52,6 +54,7 @@ extern int            gStr_fadeout_2_800C0584;
 extern int           *stream_data_ptr_800BEFE4;
 extern int            dword_800BEFF0;
 extern int           *dword_8009F7B8;
+extern int            dword_8009F7B4;
 extern int            dword_800C04EC;
 
 extern int            wave_unload_size_800BF274;
@@ -76,8 +79,16 @@ extern int            dword_800C0580;
 extern unsigned char *se_exp_table_800C0520;
 
 extern int            dword_800C0650;
+extern int            dword_800BF268;
 extern int            dword_800BF294;
 extern int            wave_load_code_800C0528;
+
+extern int            dword_800BF168;
+extern int            dword_800BF1AC;
+extern int            dword_800C0504;
+extern int            dword_800C051C;
+extern int            dword_800C0418;
+extern int            dword_800BF1DC;
 
 void                  sub_80081910( int argc, const char **argv )
 {
@@ -488,7 +499,70 @@ int StrFadeOutStop_80082380( unsigned int fadeSpeed )
     }
 }
 
-#pragma INCLUDE_ASM( "asm/SD/StartStream_80082448.s" )    // 504 bytes
+int StartStream_80082448()
+{
+    if (!dword_800C04EC)
+    {
+        bstr_fade_inProgress_800BF0CC = 0;
+        gStr_fadeout_2_800C0584 = 0;
+        dword_800C04F4 = 0;
+    }
+    dword_800BF26C = 0;
+    dword_8009F7B4 = -1;
+    FS_StreamOpen_80024060();
+
+    CDLOAD_BUF_800BF058 = FS_StreamGetData_800240E0(2);
+
+    if (!CDLOAD_BUF_800BF058)
+    {
+        mts_printf_8008BBA0(aStreamFilePosE);
+        FS_StreamClose_80024098();
+        return -1;
+    }
+
+    // Consume big-endian int from CDLOAD_BUF_800BF058
+    dword_800C051C = CDLOAD_BUF_800BF058[0] << 24;
+    dword_800C051C |= CDLOAD_BUF_800BF058[1] << 16;
+    dword_800C051C |= CDLOAD_BUF_800BF058[2] << 8;
+    dword_800C051C |= CDLOAD_BUF_800BF058[3];
+
+    dword_800BF1AC = dword_800BF168 = dword_800C051C;
+
+    // Consume big-endian short from CDLOAD_BUF_800BF058
+    gStreamVol_800BF15C = CDLOAD_BUF_800BF058[4] << 8;
+    gStreamVol_800BF15C |= CDLOAD_BUF_800BF058[5];
+
+    // Consume big-endian short from CDLOAD_BUF_800BF058
+    dword_800C0504 = CDLOAD_BUF_800BF058[6] << 8;
+    dword_800C0504 |= CDLOAD_BUF_800BF058[7];
+
+    // Consume byte from CDLOAD_BUF_800BF058
+    if (CDLOAD_BUF_800BF058[8] == 1)
+    {
+        dword_800BF268 = CDLOAD_BUF_800BF058[8];
+    }
+    else
+    {
+        dword_800BF268 = 0;
+    }
+
+    // Consume byte from CDLOAD_BUF_800BF058
+    dword_800C0580 = CDLOAD_BUF_800BF058[9];
+
+    mts_printf_8008BBA0(aStartstreamXVo, gStream_800C04F0, gStreamVol_800BF15C);
+    if (dword_800C04EC)
+    {
+        StrFadeWkSet_80083964();
+    }
+
+    SD_80081FC4(0x600000);
+    dword_800BEFF0 = NULL;
+    sub_800241B4(CDLOAD_BUF_800BF058);
+    dword_800C0418 = NULL;
+    dword_800BF1DC = NULL;
+    return 0;
+}
+
 #pragma INCLUDE_ASM( "asm/SD/UserSpuIRQProc_80082640.s" ) // 348 bytes
 
 void sub_8008279C( void )
