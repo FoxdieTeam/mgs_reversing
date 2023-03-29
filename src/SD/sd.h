@@ -169,5 +169,6 @@ void           SD_80083ED4(void);
 unsigned char *SD_80083EE8( unsigned short );
 void           SD_Unload_800843BC(void);
 void          *SD_WavLoadBuf_800841D4(void *);
+void           StrFadeWkSet_80083964();
 
 #endif // _SD_H_
