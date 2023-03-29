@@ -14,6 +14,7 @@ extern SVECTOR        svector_8009F558[2];
 extern ANIMATION      stru_8009F568;
 extern ANIMATION      stru_8009F5A0;
 extern ANIMATION      stru_8009F5BC;
+extern ANIMATION      stru_8009F584;
 
 extern const char aBlastC[];
 
@@ -219,3 +220,54 @@ void AN_Blast_Minimini_8006E32C(SVECTOR *pos)
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 }
+
+void sub_8006E3B0(SVECTOR *pVec)
+{
+    PRESCRIPT  prescript;
+    PRESCRIPT *prescript_ptr;
+    MATRIX    *m;
+    int        map;
+    int        randu;
+    ANIMATION *anm;
+
+    prescript.pos = *pVec;
+    prescript.pos.vx += GV_RandS_800170BC(128);
+    prescript.pos.vy += GV_RandS_800170BC(128);
+    prescript.pos.vz += GV_RandS_800170BC(128);
+
+    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.speed.vy += GV_RandS_800170BC(64);
+
+    prescript.s_anim = 0;
+
+    randu = GV_RandU_80017090(4);
+    if (randu == 0)
+    {
+        anm = &stru_8009F568;
+    }
+    else
+    {
+        anm = &stru_8009F584;
+    }
+
+    prescript_ptr = &prescript;
+    map = 0;
+    m = NULL;
+    // Silly code just to get the compiler to emit
+    // an unnecessary move and get a match...
+    if (randu == 0)
+    {
+        m = NULL;
+        anm->field_14_pre_script = prescript_ptr;
+    }
+    else
+    {
+        anm->field_14_pre_script = prescript_ptr;
+    }
+
+    prescript.scr_num = 0;
+    NewAnime_8005FBC8(m, map, anm);
+}
+
+#pragma INCLUDE_ASM("asm/sub_8006E4A4.s") // 552 bytes
+#pragma INCLUDE_ASM("asm/sub_8006E6CC.s") // 1348 bytes
