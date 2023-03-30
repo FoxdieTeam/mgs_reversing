@@ -130,8 +130,39 @@ void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/blood_loader2_helper_80072478.s")  // 148 bytes
-void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int count, DG_TEX *pTex, int unused);
+void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex, int count)
+{
+    int x, y, w, h;
+
+    while (--primCount >= 0)
+    {
+        setPolyFT4(pPolys);
+        setSemiTrans(pPolys, 1);
+        x = pTex->field_8_offx;
+        w = pTex->field_A_width;
+        y = pTex->field_9_offy;
+        h = pTex->field_B_height;
+
+        setUVWH(pPolys, x, y, w, h);
+
+        pPolys->tpage = pTex->field_4_tPage;
+        pPolys->clut = pTex->field_6_clut;
+
+        // Some silly code to force the compiler
+        // to emit "li t2, 2" and not clobber
+        // a3 register (storing "count" variable).
+        if (count == 2)
+        {
+            pPolys->tpage |= 0x20;
+        }
+        else
+        {
+            pPolys->tpage |= 0x20;
+        }
+
+        pPolys++;
+    }
+}
 
 void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
 {

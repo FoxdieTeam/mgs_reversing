@@ -49,4 +49,6 @@ typedef struct Actor_Bullet
 
 STATIC_ASSERT_SIZE(Actor_Bullet, 0x170);
 
+GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
+
 #endif // _BULLET_H

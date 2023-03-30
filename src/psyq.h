@@ -27,6 +27,7 @@ MATRIX            *RotMatrixX_80093A28(long r, MATRIX *m);
 MATRIX            *RotMatrixY_80093BC8(long r, MATRIX *m);
 MATRIX            *RotMatrixZ_80093D68(long r, MATRIX *m);
 VECTOR            *ApplyRotMatrix_80092DA8(SVECTOR *v0, VECTOR *v1);
+VECTOR            *ApplyRotMatrixLV_80092E28(VECTOR *v0, VECTOR *v1);
 VECTOR            *ApplyMatrixLV_80092C48(MATRIX *m, VECTOR *v0, VECTOR *v1);
 SVECTOR           *ApplyMatrixSV_80093078(MATRIX *m, SVECTOR *v0, SVECTOR *v1);
 long               RotTransPers3_800934A8(SVECTOR *vecs, SVECTOR *v1, SVECTOR *v2, long *sxy0, long *sxy1, long *sxy2, long *p, long *flag);

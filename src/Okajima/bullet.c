@@ -7,6 +7,7 @@
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
 #include "Anime/animeconv/anime.h"
+#include "unknown.h"
 
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_GameStatus_800AB3CC;
@@ -15,6 +16,9 @@ extern SVECTOR svec_8009F6AC[4];
 extern SVECTOR svec_8009F6EC;
 extern SVECTOR svec_8009F6F4;
 extern SVECTOR svec_8009F6FC;
+extern SVECTOR svec_8009F6CC;
+extern SVECTOR svec_8009F6E4;
+extern VECTOR  vec_8009F6D4;
 
 extern const char aBullet[];  // = "bullet"
 extern const char aBulletC[]; // = "bullet.c"
@@ -133,8 +137,211 @@ void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Okajima/bullet_loader3_8007575C.s")        // 1656 bytes
-int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int arg2);
+int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int noiseLen)
+{
+    SVECTOR     svec1, svec2, svec3;
+    VECTOR      vec1, vec2;
+    SVECTOR     svec4;
+    map_record *map;
+    int         i;
+    int         x, y, z;
+    int         any_clamped, clamp_value;
+    int         shift, divisor;
+    int         f158_clamped, f158_iter;
+    int         f168;
+
+    DG_PutVector_8001BE48(&svec_8009F6CC, &svec3, 1);
+
+    svec1 = svec3;
+    vec_8009F6D4.vy = -pActor->field_158;
+
+    ApplyRotMatrixLV_80092E28(&vec_8009F6D4, &vec1);
+
+    vec1.vx += svec3.vx;
+    vec1.vy += svec3.vy;
+    vec1.vz += svec3.vz;
+
+    any_clamped = 0;
+
+    if (pActor->field_158 > 0x7fff)
+    {
+        for (shift = 3, f158_iter = pActor->field_158 >> 15; !(f158_iter & 4); f158_iter <<= 1)
+        {
+            shift -= 1;
+        }
+    }
+    else
+    {
+        shift = 0;
+    }
+    x = vec1.vx;
+
+    if (x < -0x8000)
+    {
+        clamp_value = -0x8000;
+        vec1.vx = clamp_value;
+    }
+
+    else if (x > 0x7fff)
+    {
+        clamp_value = 0x7fff;
+        vec1.vx = clamp_value;
+    }
+
+    else
+    {
+        goto skip_clamp_x;
+    }
+
+    clamp_value = (clamp_value - svec3.vx) >> shift;
+    divisor = (x - svec3.vx) >> shift;
+
+    vec1.vy = (((vec1.vy - svec3.vy) * clamp_value) / divisor) + svec3.vy;
+    vec1.vz = (((vec1.vz - svec3.vz) * clamp_value) / divisor) + svec3.vz;
+
+    any_clamped = 1;
+
+skip_clamp_x:
+    y = vec1.vy;
+
+    if (y < -0x8000)
+    {
+        clamp_value = -0x8000;
+        vec1.vy = clamp_value;
+    }
+    else if (y > 0x7fff)
+    {
+        clamp_value = 0x7fff;
+        vec1.vy = clamp_value;
+    }
+    else
+    {
+        goto skip_clamp_y;
+    }
+
+    clamp_value = (clamp_value - svec3.vy) >> shift;
+    divisor = (y - svec3.vy) >> shift;
+
+    vec1.vx = (((vec1.vx - svec3.vx) * clamp_value) / divisor) + svec3.vx;
+    vec1.vz = (((vec1.vz - svec3.vz) * clamp_value) / divisor) + svec3.vz;
+
+    any_clamped = 1;
+
+skip_clamp_y:
+    z = vec1.vz;
+
+    if (z < -0x8000)
+    {
+        clamp_value = -0x8000;
+        vec1.vz = clamp_value;
+    }
+    else if (z > 0x7fff)
+    {
+        clamp_value = 0x7fff;
+        vec1.vz = clamp_value;
+    }
+    else
+    {
+        goto skip_clamp_z;
+    }
+
+    clamp_value = (clamp_value - svec3.vz) >> shift;
+    divisor = (z - svec3.vz) >> shift;
+
+    vec1.vy = (((vec1.vy - svec3.vy) * clamp_value) / divisor) + svec3.vy;
+    vec1.vx = (((vec1.vx - svec3.vx) * clamp_value) / divisor) + svec3.vx;
+
+    any_clamped = 1;
+
+skip_clamp_z:
+    if (any_clamped)
+    {
+        vec2.vx = (vec1.vx - svec3.vx) >> shift;
+        vec2.vy = (vec1.vy - svec3.vy) >> shift;
+        vec2.vz = (vec1.vz - svec3.vz) >> shift;
+
+        Square0_80093340(&vec2, &vec2);
+        pActor->field_158 = SquareRoot0_80092708(vec2.vx + vec2.vy + vec2.vz) << shift;
+    }
+
+    if (pActor->field_158 > 10000)
+    {
+        ApplyRotMatrix_80092DA8(&svec_8009F6E4, &vec2);
+        svec4.vx = vec2.vx;
+        svec4.vy = vec2.vy;
+        svec4.vz = vec2.vz;
+        GV_AddVec3_80016D00(&svec3, &svec4, &svec2);
+        f158_clamped = 10000;
+    }
+    else
+    {
+        svec2.vx = vec1.vx;
+        svec2.vy = vec1.vy;
+        svec2.vz = vec1.vz;
+        f158_clamped = pActor->field_158;
+    }
+
+    pActor->field_118 = svec2;
+
+    i = 0;
+    map = Map_FromId_800314C0(pActor->field_20);
+
+    while (1)
+    {
+        f168 = pActor->field_168;
+
+        if (f168 == 1 && sub_80028454(map->field_8_hzd, &svec1, &svec2, 15, 4))
+        {
+            sub_80028890(&pActor->field_118);
+            pActor->field_130 = (Bullet_0x130 *)sub_80028820();
+            pActor->field_16C = sub_80028830();
+
+            if ((unsigned int)pActor->field_130 & 0x80000000) // pointer tagging
+            {
+                pActor->field_164 = f168;
+                sub_800272E0((SVECTOR *)pActor->field_130, &pActor->field_128);
+            }
+            else
+            {
+                pActor->field_164 = 2;
+                pActor->field_128.vx = pActor->field_130[2].field_6 * 16;
+                pActor->field_128.vz = pActor->field_130[3].field_6 * 16;
+                pActor->field_128.vy = pActor->field_130[4].field_6 * 16;
+            }
+
+            pActor->field_140 = 1;
+
+            vec2.vx = (pActor->field_118.vx - svec3.vx) >> 1;
+            vec2.vy = (pActor->field_118.vy - svec3.vy) >> 1;
+            vec2.vz = (pActor->field_118.vz - svec3.vz) >> 1;
+
+            Square0_80093340(&vec2, &vec2);
+            return SquareRoot0_80092708(vec2.vx + vec2.vy + vec2.vz) * 2;
+        }
+
+        i += f158_clamped;
+
+        if (i >= pActor->field_158)
+        {
+            return pActor->field_158;
+        }
+
+        svec1 = svec2;
+
+        if (i + f158_clamped >= pActor->field_158)
+        {
+            svec2.vx = vec1.vx;
+            svec2.vy = vec1.vy;
+            svec2.vz = vec1.vz;
+        }
+        else
+        {
+            svec2.vx += svec4.vx;
+            svec2.vy += svec4.vy;
+            svec2.vz += svec4.vz;
+        }
+    }
+}
 
 void bullet_act_80075DD4(Actor_Bullet *pActor)
 {
@@ -392,7 +599,7 @@ Actor_Bullet * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, in
 	return actor;
 }
 
-Actor_Bullet * bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
+GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 {
     SVECTOR vec;
     Actor_Bullet *pActor;
@@ -462,7 +669,7 @@ Actor_Bullet * bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noi
         pActor->field_148_side = whichSide;
     }
 
-    return pActor;
+    return &pActor->field_0_actor;
 }
 
 Actor_Bullet * NewBulletEx_80076708(
