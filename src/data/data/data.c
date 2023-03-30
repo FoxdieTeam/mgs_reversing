@@ -971,9 +971,8 @@ int     SECTION(".data") dword_8009F6A8 = 0;
 SVECTOR SECTION(".data") svec_8009F6AC[4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
 SVECTOR SECTION(".data") svec_8009F6CC = {0, 400, 0, 0};
-int     SECTION(".data") dword_8009F6D4 = 0;
-int     SECTION(".data") dword_8009F6D8[] = {0, 0, 0};
-int     SECTION(".data") dword_8009F6E4[] = {0xD8F00000, 0};
+VECTOR  SECTION(".data") vec_8009F6D4 = {0, 0, 0, 0};
+SVECTOR SECTION(".data") svec_8009F6E4 = {0, 55536, 0, 0};
 SVECTOR SECTION(".data") svec_8009F6EC = {100, 100, 100, 0};
 SVECTOR SECTION(".data") svec_8009F6F4 = {0, 0, 0, 0};
 SVECTOR SECTION(".data") svec_8009F6FC = {0, 400, 0, 0};

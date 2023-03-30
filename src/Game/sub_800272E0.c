@@ -4,6 +4,8 @@
 // One of a callers to this function passes CONTROL.field_70[0] to arg1
 // so I guess that could would be a good place to start
 // determining the correct type.
+// Another caller to this function is bullet, which passes Bullet_0x130* as arg1.
+// (but there are other non-bullet callers!)
 
 void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
 {

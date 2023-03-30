@@ -4,6 +4,7 @@
 #include "map/map.h"
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
+#include "Okajima/bullet.h"
 
 extern char aFamas[];  // = "famas"
 extern char aMpfive[]; // = "mpfive"
