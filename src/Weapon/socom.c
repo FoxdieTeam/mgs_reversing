@@ -9,6 +9,7 @@
 #include "map/map.h"
 #include "socom.h"
 #include "unknown.h"
+#include "Okajima/bullet.h"
 
 extern const char      aSocom_0[];
 extern const char      aSocom2[];

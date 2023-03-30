@@ -4,6 +4,9 @@
 
 #define SCRPAD_ADDR 0x1F800000
 
+// TODO: The return type of this function is
+// the same as the type of arg1 in sub_800272E0().
+// See a comment there about it.
 SVECTOR * sub_80028820(void)
 {
     int *scratchpad = (int *)SCRPAD_ADDR;
