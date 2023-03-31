@@ -269,5 +269,5 @@ void sub_8006E3B0(SVECTOR *pVec)
     NewAnime_8005FBC8(m, map, anm);
 }
 
-#pragma INCLUDE_ASM("asm/sub_8006E4A4.s") // 552 bytes
-#pragma INCLUDE_ASM("asm/sub_8006E6CC.s") // 1348 bytes
+#pragma INCLUDE_ASM("asm/Bullet/sub_8006E4A4.s") // 552 bytes
+#pragma INCLUDE_ASM("asm/Bullet/sub_8006E6CC.s") // 1348 bytes
