@@ -89,7 +89,46 @@ void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
 }
 
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s") // 268 bytes
+
+void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
+{
+    SVECTOR dir;
+    int i, j;
+    Actor_Door_TParam *pTparam;
+    Actor_Door_TParam_sub *pSub;
+    int x1, x2, z1, z2;
+
+    if (pActor->field_EA_param_h_v < 0)
+    {
+        return;
+    }
+
+    GV_DirVec2_80016F24((pActor->field_20_ctrl.field_8_rotator.vy + 1024) & 0xFFF, arg1, &dir);
+
+    for (i = 0; i < pActor->field_E4_t_param_v; i++)
+    {
+        pTparam = &pActor->field_104[i];
+        pSub = pActor->field_104[i].field_0;
+
+        x1 = pTparam->field_30.vx;
+        x2 = dir.vx;
+        z1 = pTparam->field_30.vz;
+        z2 = dir.vz;
+
+        pTparam->field_30 = dir;
+
+        for (j = 0; j < 3; j++, pSub++)
+        {
+            pSub->field_0_x += x2 - x1;
+            pSub->field_2_z += z2 - z1;
+            pSub->field_8_x += x2 - x1;
+            pSub->field_A_z += z2 - z1;
+        }
+
+        dir.vx = -dir.vx;
+        dir.vz = -dir.vz;
+    }
+}
 
 int door_act_helper_8006F290(CONTROL *pCtrl, int param_h)
 {
@@ -242,7 +281,7 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
     {
         pOffset = &pDoor->field_104[i];
 
-        GV_ZeroMemory_8001619C(pOffset->field_30, sizeof(pOffset->field_30));
+        GV_ZeroMemory_8001619C(&pOffset->field_30, sizeof(pOffset->field_30));
         door_init_t_value_8006F7AC(pDoor, pOffset, pDoor->field_EA_param_h_v, param_w_alternating, a_param_v);
 
         param_w_alternating = -param_w_alternating;

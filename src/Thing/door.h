@@ -11,7 +11,7 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv);
 typedef struct Actor_Door_TParam
 {
     Actor_Door_TParam_sub field_0[3];
-    int                   field_30[2];
+    SVECTOR               field_30;
 } Actor_Door_TParam;
 
 typedef struct Actor_Door
