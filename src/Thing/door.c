@@ -147,7 +147,7 @@ void door_kill_8006F718(Actor_Door *pDoor)
     GM_FreeObject_80034BF8((OBJECT *)&pDoor->field_9C);
 }
 
-void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2, short param_v)
+void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
 {
     short vec1_y;
 
@@ -166,7 +166,68 @@ void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVe
     HZD_SetDynamicSegment_8006FEE4(&pTSub->field_0_x, &pTSub->field_0_x);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_init_t_value_8006F7AC.s") // 460 bytes
+void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int arg2, int arg3, int flags)
+{
+    SVECTOR vecs[4];
+    HZD_MAP *pMaps[2];
+    int z;
+    int i;
+    int count;
+    int param_v;
+    HZD_MAP **ppMaps;
+    Actor_Door_TParam_sub *pSub;
+
+    flags |= 0x8000;
+    GV_ZeroMemory_8001619C(vecs, sizeof(vecs));
+
+    z = -arg2 / 2;
+
+    for (i = 0; i < 4; i += 2)
+    {
+        vecs[i].vz = z;
+        vecs[i + 1].vz = z;
+        vecs[i + 1].vx = arg3;
+        z += arg2;
+    }
+
+    DG_PutVector_8001BE48(vecs, vecs, 4);
+
+    if (pDoor->field_F4_param_g_v == 0)
+    {
+        count = 1;
+        pMaps[0] = pDoor->field_20_ctrl.field_2C_map->field_8_hzd;
+    }
+    else
+    {
+        count = 2;
+
+        for (i = 0; i < count; i++)
+        {
+            pMaps[i] = Map_FindByNum_80031504(pDoor->field_F8_maps[i])->field_8_hzd;
+        }
+    }
+
+    param_v = pDoor->field_EC_param_v_v;
+
+    for (i = 0, ppMaps = pMaps; i < count; i++, ppMaps++)
+    {
+        pSub = &pOffset->field_0[0];
+
+        door_loader_t_param_sub_8006F748(pSub, &vecs[0], &vecs[1], param_v);
+        HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+
+        if (arg2 > 0)
+        {
+            pSub = &pOffset->field_0[1];
+            door_loader_t_param_sub_8006F748(pSub, &vecs[2], &vecs[3], param_v);
+            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+
+            pSub = &pOffset->field_0[2];
+            door_loader_t_param_sub_8006F748(pSub, &vecs[0], &vecs[2], param_v);
+            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+        }
+    }
+}
 
 void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
 {
