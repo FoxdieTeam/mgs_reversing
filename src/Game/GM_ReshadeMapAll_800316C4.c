@@ -23,7 +23,7 @@ void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
     lit_file = map->field_C_lit_file;
     if (lit_file)
     {
-        DG_MakePreshade_80031F04(pObj, (short *)&lit_file[1], lit_file->field_0_num_lights);
+        DG_MakePreshade_80031F04(pObj, (DG_Light *)&lit_file[1], lit_file->field_0_num_lights);
     }
 }
 

@@ -56,7 +56,7 @@ void Map_light_80030C6C( int a1 )
 
                     if ( a1 )
                     {
-                        DG_MakePreshade_80031F04( pObjs[ 0 ], (short *)pLight, pLitHeader->field_0_num_lights );
+                        DG_MakePreshade_80031F04( pObjs[ 0 ], pLight, pLitHeader->field_0_num_lights );
                     }
                 }
                 else

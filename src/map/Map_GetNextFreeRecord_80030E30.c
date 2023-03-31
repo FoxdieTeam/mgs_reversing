@@ -38,12 +38,12 @@ extern MATRIX   DG_ZeroMatrix_8009D430;
 
 void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
 {
-    int               hashedName;         // $v0
-    DG_DEF           *pLitModel;          // $v0
-    DG_OBJS          *pPrim;              // $s0
-    struct LitHeader *lit_file;           // $a1
-    int               field_0_num_lights; // $a2
-    short            *pLitData;           // $a1
+    int               hashedName; // $v0
+    DG_DEF           *pLitModel;  // $v0
+    DG_OBJS          *pPrim;      // $s0
+    struct LitHeader *lit_file;   // $a1
+    int               numLights;  // $a2
+    DG_Light         *pLights;    // $a1
     int               temp;
 
     hashedName = GV_CacheID_800152DC(pLitName, 'k');
@@ -54,15 +54,15 @@ void Map_KmdLoad_80030E74(int pLitName, struct map_record *pMap)
     lit_file = pMap->field_C_lit_file;
     if (lit_file)
     {
-        field_0_num_lights = lit_file->field_0_num_lights;
-        pLitData = (short *)&lit_file[1];
-        DG_MakePreshade_80031F04(pPrim, pLitData, field_0_num_lights);
+        numLights = lit_file->field_0_num_lights;
+        pLights = (DG_Light *)&lit_file[1];
+        DG_MakePreshade_80031F04(pPrim, pLights, numLights);
     }
     else
     {
-        pLitData = 0;
-        field_0_num_lights = 0;
-        DG_MakePreshade_80031F04(pPrim, pLitData, field_0_num_lights);
+        numLights = 0;
+        pLights = NULL;
+        DG_MakePreshade_80031F04(pPrim, pLights, numLights);
     }
 
     DG_QueueObjs_80018178(pPrim);
