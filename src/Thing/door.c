@@ -89,7 +89,46 @@ void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
 }
 
 #pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006F184.s") // 268 bytes
+
+void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
+{
+    SVECTOR dir;
+    int i, j;
+    Actor_Door_TParam *pTparam;
+    Actor_Door_TParam_sub *pSub;
+    int x1, x2, z1, z2;
+
+    if (pActor->field_EA_param_h_v < 0)
+    {
+        return;
+    }
+
+    GV_DirVec2_80016F24((pActor->field_20_ctrl.field_8_rotator.vy + 1024) & 0xFFF, arg1, &dir);
+
+    for (i = 0; i < pActor->field_E4_t_param_v; i++)
+    {
+        pTparam = &pActor->field_104[i];
+        pSub = pActor->field_104[i].field_0;
+
+        x1 = pTparam->field_30.vx;
+        x2 = dir.vx;
+        z1 = pTparam->field_30.vz;
+        z2 = dir.vz;
+
+        pTparam->field_30 = dir;
+
+        for (j = 0; j < 3; j++, pSub++)
+        {
+            pSub->field_0_x += x2 - x1;
+            pSub->field_2_z += z2 - z1;
+            pSub->field_8_x += x2 - x1;
+            pSub->field_A_z += z2 - z1;
+        }
+
+        dir.vx = -dir.vx;
+        dir.vz = -dir.vz;
+    }
+}
 
 int door_act_helper_8006F290(CONTROL *pCtrl, int param_h)
 {
@@ -147,7 +186,7 @@ void door_kill_8006F718(Actor_Door *pDoor)
     GM_FreeObject_80034BF8((OBJECT *)&pDoor->field_9C);
 }
 
-void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2, short param_v)
+void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
 {
     short vec1_y;
 
@@ -166,7 +205,68 @@ void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVe
     HZD_SetDynamicSegment_8006FEE4(&pTSub->field_0_x, &pTSub->field_0_x);
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_init_t_value_8006F7AC.s") // 460 bytes
+void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int arg2, int arg3, int flags)
+{
+    SVECTOR vecs[4];
+    HZD_MAP *pMaps[2];
+    int z;
+    int i;
+    int count;
+    int param_v;
+    HZD_MAP **ppMaps;
+    Actor_Door_TParam_sub *pSub;
+
+    flags |= 0x8000;
+    GV_ZeroMemory_8001619C(vecs, sizeof(vecs));
+
+    z = -arg2 / 2;
+
+    for (i = 0; i < 4; i += 2)
+    {
+        vecs[i].vz = z;
+        vecs[i + 1].vz = z;
+        vecs[i + 1].vx = arg3;
+        z += arg2;
+    }
+
+    DG_PutVector_8001BE48(vecs, vecs, 4);
+
+    if (pDoor->field_F4_param_g_v == 0)
+    {
+        count = 1;
+        pMaps[0] = pDoor->field_20_ctrl.field_2C_map->field_8_hzd;
+    }
+    else
+    {
+        count = 2;
+
+        for (i = 0; i < count; i++)
+        {
+            pMaps[i] = Map_FindByNum_80031504(pDoor->field_F8_maps[i])->field_8_hzd;
+        }
+    }
+
+    param_v = pDoor->field_EC_param_v_v;
+
+    for (i = 0, ppMaps = pMaps; i < count; i++, ppMaps++)
+    {
+        pSub = &pOffset->field_0[0];
+
+        door_loader_t_param_sub_8006F748(pSub, &vecs[0], &vecs[1], param_v);
+        HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+
+        if (arg2 > 0)
+        {
+            pSub = &pOffset->field_0[1];
+            door_loader_t_param_sub_8006F748(pSub, &vecs[2], &vecs[3], param_v);
+            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+
+            pSub = &pOffset->field_0[2];
+            door_loader_t_param_sub_8006F748(pSub, &vecs[0], &vecs[2], param_v);
+            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+        }
+    }
+}
 
 void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
 {
@@ -181,7 +281,7 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
     {
         pOffset = &pDoor->field_104[i];
 
-        GV_ZeroMemory_8001619C(pOffset->field_30, sizeof(pOffset->field_30));
+        GV_ZeroMemory_8001619C(&pOffset->field_30, sizeof(pOffset->field_30));
         door_init_t_value_8006F7AC(pDoor, pOffset, pDoor->field_EA_param_h_v, param_w_alternating, a_param_v);
 
         param_w_alternating = -param_w_alternating;
