@@ -7,14 +7,19 @@
 #include "map/map.h"
 #include "libhzd/libhzd.h"
 
-extern int door_where_8009F5F4;
+extern int      door_where_8009F5F4;
+extern int      GM_GameOverTimer_800AB3D4;
+extern CONTROL *gSnaControl_800AB9F4;
+extern int      dword_800ABA0C;
 
-extern const char aDoorC[];
-extern const char aOpen[];
-extern const char aClose[];
-
-extern int dword_800ABA0C;
-extern CONTROL      *gSnaControl_800AB9F4;
+extern const char aOpen[];           // = " open!! \n"
+extern const char aClose[];          // = " close!! \n"
+extern const char aDoorCloseD[];     // = "door:close %d\n"
+extern const char aCancel[];         // = "cancel\n"
+extern const char aDoorOpenD[];      // = "door:open %d\n"
+extern const char aSnakeDoorX[];     // = "Snake Door %X\n"
+extern const char aDoorOpencancel[]; // = "door:opencancel %d\n"
+extern const char aDoorC[];          // = "door.c"
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {
@@ -52,11 +57,11 @@ void door_act_helper_8006EC48(Actor_Door *pDoor)
     }
 }
 
-void door_open_8006ECB8(Actor_Door *param_1, int param_2, int param_3)
+void door_open_8006ECB8(Actor_Door *param_1)
 {
     SVECTOR *pos;
 
-    mts_nullsub_8_8008BB98(1, aOpen, param_3); // " open!! \n"
+    mts_nullsub_8_8008BB98(1, aOpen);
     pos = &(param_1->field_20_ctrl).field_0_mov;
 
     if (((dword_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
@@ -88,7 +93,169 @@ void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
     param_1->field_E3 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_act_helper_8006EDB8.s") // 972 bytes
+int door_act_helper_8006EDB8(Actor_Door *pActor)
+{
+    int val = 0xdd2;
+    int val2 = 0xd5cc;
+    CONTROL *pControl;
+    int len;
+    GV_MSG *pMsg;
+    int temp_s1;
+    int var_v2;
+    int var_v0;
+    int var_v1;
+    int temp_s1_2;
+
+    pControl = &pActor->field_20_ctrl;
+    pControl->field_56 = GV_ReceiveMessage_80016620(pControl->field_30_scriptData, &pControl->field_5C_mesg);
+
+    for (len = pControl->field_56, pMsg = pControl->field_5C_mesg; len > 0; len--, pMsg++)
+    {
+        var_v1 = pMsg->message[0];
+
+        if (var_v1 != val2)
+        {
+            continue;
+        }
+
+        mts_nullsub_8_8008BB98(3, aDoorCloseD, pActor->field_F2_door_counter);
+
+        if (pMsg->message_len > 2)
+        {
+            if (pActor->field_F4_param_g_v > 0)
+            {
+                temp_s1 = pMsg->message[1];
+                var_v2 = (short)pMsg->message[2];
+
+                switch (pActor->field_F4_param_g_v)
+                {
+                case 1:
+                    var_v0 = var_v2 >= pActor->field_20_ctrl.field_0_mov.vz;
+                    break;
+
+                case 2:
+                    var_v0 = var_v2 >= pActor->field_20_ctrl.field_0_mov.vx;
+                    break;
+
+                default:
+                    var_v0 = 0;
+                    break;
+                }
+
+                pActor->field_F6_map_num = pActor->field_F8_maps[var_v0];
+                door_send_msg_8006EC10(temp_s1, pActor->field_F6_map_num);
+            }
+
+            if ((pMsg->message[1] > 0) && (pMsg->message[1] < 64))
+            {
+                continue;
+            }
+        }
+
+        if (--pActor->field_F2_door_counter <= 0)
+        {
+            if (((pActor->field_E2_maybe_state != 0) || (pActor->field_C0 != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
+            {
+                if (pMsg->message_len < 4)
+                {
+                    pActor->field_EE = 3;
+                }
+                else
+                {
+                    pActor->field_EE = pMsg->message[3];
+                }
+
+                pActor->field_E2_maybe_state = 4;
+            }
+        }
+        else
+        {
+            mts_nullsub_8_8008BB98(3, aCancel);
+        }
+    }
+
+    for (len = pControl->field_56, pMsg = pControl->field_5C_mesg; len > 0; len--, pMsg++)
+    {
+        var_v1 = pMsg->message[0];
+        temp_s1_2 = pMsg->message[1];
+
+        if ((pMsg->message[1] > 0) && (pMsg->message[1] < 64))
+        {
+            continue;
+        }
+
+        if (var_v1 == val)
+        {
+            if (temp_s1_2 == 0x50AE)
+            {
+                var_v1 = 0x1AAA;
+            }
+
+            if (var_v1 == val)
+            {
+                mts_nullsub_8_8008BB98(3, aDoorOpenD, pActor->field_F2_door_counter);
+
+                if (++pActor->field_F2_door_counter > 0)
+                {
+                    door_open_8006ECB8(pActor);
+
+                    pActor->field_F6_map_num = Map_FromId_800314C0(dword_800ABA0C)->field_4_mapNameHash;
+
+                    if ((pMsg->message_len > 1) && (pActor->field_F4_param_g_v > 0))
+                    {
+                        pActor->field_F0 = temp_s1_2;
+
+                        if ((pActor->field_F0 == 0x21CA) || (dword_800ABA0C & pActor->field_E0_where))
+                        {
+                            Map_MarkUsed_80031324(pActor->field_F8_maps[0]);
+                            Map_MarkUsed_80031324(pActor->field_F8_maps[1]);
+                        }
+
+                        if (pActor->field_F0 == 0x21CA)
+                        {
+                            mts_printf_8008BBA0(aSnakeDoorX, pActor->field_E0_where);
+                            door_where_8009F5F4 = pActor->field_E0_where;
+                            pActor->field_E5 = 1;
+                        }
+                    }
+
+                    door_act_helper_8006EC48(pActor);
+                }
+
+                continue;
+            }
+        }
+
+        if ((var_v1 == 0x1AAA) && (++pActor->field_F2_door_counter > 0))
+        {
+            mts_nullsub_8_8008BB98(3, aDoorOpencancel, pActor->field_F2_door_counter);
+
+            if (pActor->field_E2_maybe_state != 0)
+            {
+                door_open_8006ECB8(pActor);
+            }
+
+            if (pMsg->message[1] == 0x21CA)
+            {
+                mts_printf_8008BBA0(aSnakeDoorX, pActor->field_E0_where);
+                door_where_8009F5F4 = pActor->field_E0_where;
+                pActor->field_E5 = 1;
+            }
+
+            if (temp_s1_2 == 0x50AE)
+            {
+                pActor->field_E3 = 1;
+            }
+        }
+    }
+
+    if (pActor->field_F2_door_counter < 0)
+    {
+        pActor->field_F2_door_counter = 0;
+    }
+
+    return 0;
+}
 
 void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
 {
@@ -130,7 +297,7 @@ void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
     }
 }
 
-int door_act_helper_8006F290(CONTROL *pCtrl, int param_h)
+int door_act_helper_8006F290(CONTROL *pControl, int param_h)
 {
     int param_h_50; // $a1
     int diff; // $v1
@@ -147,21 +314,21 @@ int door_act_helper_8006F290(CONTROL *pCtrl, int param_h)
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_mov.vx - pCtrl->field_0_mov.vx;
+    diff = gSnaControl_800AB9F4->field_0_mov.vx - pControl->field_0_mov.vx;
 
     if ( (diff < -param_h_50) || (param_h_50 < diff) )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_mov.vz - pCtrl->field_0_mov.vz;
+    diff = gSnaControl_800AB9F4->field_0_mov.vz - pControl->field_0_mov.vz;
 
     if ( (diff < -param_h_50) || (param_h_50 < diff) )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_mov.vy - pCtrl->field_0_mov.vy;
+    diff = gSnaControl_800AB9F4->field_0_mov.vy - pControl->field_0_mov.vy;
 
     if ( (diff > 2500) || (diff < 0)  )
     {
@@ -297,9 +464,9 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
     return defaul_val;
 }
 
-static inline void SetFlag(CONTROL *pCtrl, int flag)
+static inline void SetFlag(CONTROL *pControl, int flag)
 {
-    pCtrl->field_55_skip_flag |= flag;
+    pControl->field_55_skip_flag |= flag;
 }
 
 int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
@@ -373,10 +540,10 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         SVECTOR     vec;
-        CONTROL *pCtrl = &pDoor->field_20_ctrl;
-        GV_DirVec2_80016F24((pCtrl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
-        pCtrl->field_0_mov.vx += vec.vx;
-        pCtrl->field_0_mov.vz += vec.vz;
+        CONTROL *pControl = &pDoor->field_20_ctrl;
+        GV_DirVec2_80016F24((pControl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
+        pControl->field_0_mov.vx += vec.vx;
+        pControl->field_0_mov.vz += vec.vz;
     }
 
     pDoor->field_F2_door_counter = 0;
