@@ -184,6 +184,12 @@ typedef struct DG_TmpLightList
 	DG_Light lights[ 8 ];
 } DG_TmpLightList;
 
+typedef struct DG_LitVertex
+{
+    SVECTOR intensity[2];
+    CVECTOR color[2];
+} DG_LitVertex;
+
 typedef struct DG_IMG
 {
 	unsigned int   unknown0;
@@ -566,7 +572,7 @@ void  DG_InitChanlSystem_80017B98( int width );
 void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
 void  DG_InitPolyGT4Pack_8001A6E4( DG_OBJ *pObj, int idx );
 void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6 );
-int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, short *pData, int dataCount );
+int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, DG_Light *pLights, int numLights );
 void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
 void  DG_ReloadPalette_8001FC58( void );
 void  DG_RenderPipeline_800172A8( void );
@@ -595,8 +601,9 @@ void     DG_800172D0( DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_p
 void     DG_ClipDispEnv_800177EC(int x, int y);
 void     DG_PointCheck_8001BF34(SVECTOR *svector, int n_points);
 
-void     Prim_lighting_80031954(
-		SVECTOR *pVerts, int numVerts, unsigned char *workBuf, short *pSrcData, int srcDataLen );
+void     DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec);
+void     Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_Light *pLights, int numLights);
+
 void     kmd_file_handler_link_vertices_to_parent_8001F3CC( DG_MDL *, DG_MDL     *);
 
 void     sub_8001C248( DG_OBJS *objs, int n_obj );
@@ -608,7 +615,7 @@ SVECTOR *sub_8001AD28( SVECTOR *a1, int count );
 // read vecs from spad
 char    *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count );
 
-void      Prim_80031B00(DG_MDL *pMdl, short *pData, int dataCount);
+void      Prim_80031B00(DG_MDL *pMdl, DG_Light *pLights, int numLights);
 CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs);
 CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS *pObjs);
 int       Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef);
