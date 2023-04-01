@@ -501,7 +501,7 @@ radar_uv_pair SECTION(".data") gRadarUV_8009E30C[] = {
     {{188,  99, 36,  3}, {128, 106, 10, 16}}
 };
 
-char  SECTION(".data") byte_8009E334[] = {0xC4, 0x66, 0x1C, 0x16};
+radar_uv SECTION(".data") gRadarUV_8009E334 = {196, 102, 28, 22};
 
 // 32x2 image:
 short SECTION(".data") image_8009E338[] = {
