@@ -207,8 +207,70 @@ void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
     draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
 }
 
-// https://decomp.me/scratch/Ca3O2 - 94%
-#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_helper_8003A0BC.s") // 532 bytes
+extern radar_uv gRadarUV_8009E334[];
+
+extern int dword_800AB4B0;
+int        dword_800AB4B0;
+extern int dword_800AB4B4;
+int        dword_800AB4B4;
+
+void draw_radar_helper3_helper3_helper_8003A0BC(MenuGlue *pGlue, int idx)
+{
+    SPRT     *sprt1, *sprt1_copy;
+    SPRT     *sprt2;
+    radar_uv *uv;
+    int       i;
+    int       count;
+    int       rgb, v0;
+    short     y0;
+
+    uv = gRadarUV_8009E334;
+    rgb = gRadarRGBTable_8009E3B8[idx];
+    count = dword_800AB4B0 > 5 ? 5 : dword_800AB4B0;
+
+    sprt1_copy = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    sprt1 = sprt1_copy;
+
+    sprt1->x0 = 4;
+    sprt1->y0 = count * 2 - 12;
+
+    sprt1->clut = gRadarClut_800AB498;
+    sprt1->u0 = uv->field_0_u0;
+    sprt1->v0 = dword_800AB4B0 % 16 + uv->field_1_v0;
+
+    sprt1->w = dword_800AB4B4;
+    sprt1->h = 1;
+
+    LSTORE(rgb, &sprt1->r0);
+
+    setSprt(sprt1);
+    setSemiTrans(sprt1, 1);
+    addPrim(pGlue->mPrimBuf.mOt, sprt1);
+
+    for (i = 1; i <= count; i++)
+    {
+        sprt2 = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+        pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+        *sprt2 = *sprt1;
+
+        v0 = dword_800AB4B0 - i + 16;
+        y0 = sprt1->y0;
+
+        sprt2->w = 24;
+        sprt2->y0 = y0 - i * 2;
+        sprt2->v0 = uv->field_1_v0 + v0 % 16;
+        addPrim(pGlue->mPrimBuf.mOt, sprt2);
+    }
+
+    if (++dword_800AB4B4 > 24)
+    {
+        dword_800AB4B4 = 0;
+        dword_800AB4B0++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
 void draw_radar_helper3_helper2_8003A2D0(MenuGlue *pGlue, int param_2);
 
@@ -354,9 +416,6 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 extern int dword_800AB4B0;
 int        dword_800AB4B0;
-
-extern int dword_800AB4B4;
-int        dword_800AB4B4;
 
 void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 {
