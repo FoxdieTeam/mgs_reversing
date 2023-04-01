@@ -16,12 +16,12 @@ extern int                   fs_stream_ref_count_800B5298;
 extern int                   fs_dword_800B529C;
 extern int                   fs_dword_800B52A0;
 extern void                 *fs_stream_heap_800B52A4;
-extern void                 *fs_stream_heap_end_800B52A8;
+extern char                 *fs_stream_heap_end_800B52A8;
 extern int                   fs_stream_heapSize_800B52AC;
 extern void                 *fs_dword_800B52B0;
-extern void                 *fs_ptr_800B52B4;
-extern void                 *fs_ptr_800B52B8;
-extern void                 *fs_ptr_800B52BC;
+extern char                 *fs_ptr_800B52B4;
+extern int                  *fs_ptr_800B52B8;
+extern char                 *fs_ptr_800B52BC;
 extern int                   fs_stream_task_state_800B52C0;
 
 extern const char aStreamInitXX[];   // = "stream init %X %X\n"
@@ -31,7 +31,117 @@ extern const char aTickD[];          // = "Tick %d\n"
 extern const char a08xTypeXSizeDT[]; // = "%08X TYPE %X size %d time %d\n"
 extern const char a08xTypeXSizeD[];  // = "%08X TYPE %X size %d\n"
 
-#pragma INCLUDE_ASM("asm/libfs/sub_800239E8.s") // 600 bytes
+int sub_800239E8(CDBIOS_TASK *pTask)
+{
+    char *charPtr1, *charPtr2;
+    char *streamHeap, *streamHeapEnd;
+    int  *memcpySrc, *memcpyDst;
+    int   ptrDiff1, ptrDiff2, ptrDiff3;
+    int   heapOffset;
+    int   retval;
+
+    retval = 1;
+    fs_ptr_800B52B8 = pTask->field_8_buffer + pTask->field_C * 4;
+
+    if (fs_stream_is_force_stop_8009D518 == 0 && fs_stream_end_flag_8009D51C == 0)
+    {
+        charPtr1 = fs_ptr_800B52BC;
+        for (;; fs_ptr_800B52BC = charPtr1)
+        {
+            heapOffset = *(int *)charPtr1 >> 8;
+            charPtr2 = charPtr1 + heapOffset;
+
+            if ((char *)&fs_ptr_800B52B8[-1] >= charPtr2)
+            {
+                charPtr1 = charPtr2;
+                if (*charPtr2 != 0xF0)
+                {
+                    continue;
+                }
+                fs_stream_end_flag_8009D51C = 1;
+                fs_ptr_800B52BC = charPtr2;
+                goto exit;
+            }
+
+            if (fs_stream_heap_end_800B52A8 >= charPtr2 &&
+                fs_stream_heap_end_800B52A8 >= (char *)(fs_ptr_800B52B8 + 2048 / sizeof(int)))
+            {
+                break;
+            }
+
+            ptrDiff1 = (char *)fs_stream_heap_800B52A4 + heapOffset - charPtr1;
+            if (ptrDiff1 < 0)
+            {
+                ptrDiff1 = ptrDiff1 + fs_stream_heapSize_800B52AC;
+            }
+
+            ptrDiff2 = (char *)fs_ptr_800B52B4 - charPtr1;
+            if (ptrDiff2 < 0)
+            {
+                ptrDiff2 += fs_stream_heapSize_800B52AC;
+            }
+
+            if (ptrDiff2 < ptrDiff1)
+            {
+                fs_dword_8009D520 = (int *)charPtr1;
+                goto exit;
+            }
+
+            memcpyDst = fs_stream_heap_800B52A4;
+            memcpySrc = (int *)charPtr1;
+            while (memcpySrc < fs_ptr_800B52B8)
+            {
+                *memcpyDst = *memcpySrc;
+                memcpySrc++;
+                memcpyDst++;
+            }
+
+            streamHeap = fs_stream_heap_800B52A4;
+            pTask->field_8_buffer = memcpyDst;
+
+            *(int *)charPtr1 = -1;
+            retval = 2;
+
+            fs_ptr_800B52B8 = memcpyDst;
+            fs_stream_heap_end_800B52A8 =
+                (char *)memcpyDst + ((fs_stream_heapSize_800B52AC - ((char *)memcpyDst - streamHeap)) & ~0x7FF);
+            fs_ptr_800B52BC = streamHeap;
+            goto skip_heap_end_adjustment;
+        }
+
+        if ((char *)fs_ptr_800B52B8 >= fs_stream_heap_end_800B52A8)
+        {
+            streamHeapEnd = (char *)fs_stream_heap_800B52A4 + fs_stream_heapSize_800B52AC;
+            if ((int)fs_ptr_800B52B8 < (unsigned)streamHeapEnd)
+            {
+                *fs_ptr_800B52B8 = -1;
+            }
+
+            retval = 2;
+            fs_stream_heap_end_800B52A8 = streamHeapEnd;
+
+            pTask->field_8_buffer = fs_stream_heap_800B52A4;
+            fs_ptr_800B52BC = fs_stream_heap_800B52A4;
+            fs_ptr_800B52B8 = fs_stream_heap_800B52A4;
+        }
+
+    skip_heap_end_adjustment:
+        ptrDiff3 = -(int)fs_ptr_800B52B8 + (int)fs_ptr_800B52B4;
+        if (ptrDiff3 < 0)
+        {
+            ptrDiff3 = ptrDiff3 + fs_stream_heapSize_800B52AC;
+        }
+        if (ptrDiff3 > 2048)
+        {
+            return retval;
+        }
+    }
+
+exit:
+    fs_dword_800B529C = 0;
+    fs_dword_800B52A0 = pTask->field_4_sector + 1;
+    return 0;
+}
 
 void sub_80023C40(void)
 {

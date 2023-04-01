@@ -125,7 +125,7 @@
     include "..\obj\sub_80029AEC.obj"
     include "..\obj\sub_80029B9C.obj"
     include "..\obj\sub_80029D50.obj"
-    include "..\obj\sub_8002A090.obj"
+    include "..\obj\map\sub_8002A090.obj"
     include "..\obj\map\HZD_ReExecEvent_8002A1F4.obj"
     include "..\obj\sub_8002A258.obj"
     include "..\obj\Game\GM_ActControl_helper6_helper_8002A27C.obj"
