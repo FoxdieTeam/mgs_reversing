@@ -4,7 +4,7 @@
 
 extern SPRT gMenuSprt_800bd998;
 
-void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, char *str)
+void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
 {
     POLY_F4 *polyF4;
     TILE    *tile;
