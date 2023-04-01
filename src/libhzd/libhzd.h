@@ -126,18 +126,18 @@ typedef struct Actor_Door_TParam_sub
 
 typedef struct HZD_MAP
 {
-    HZD_HEADER *f00_header;
-    HZD_AREA   *f04_area;
-    short       f08_areaIndex;
-    short       f0A_idx;
-    short       f0C;
-    short       f0E_n_cameras;
-    short       f10_24size;
-    short       f12_queue_size;
-    HZD_ZON    *f14_navmeshes;
-    HZD_TRP    *f18_traps;
-    int        *f1C_pEndOfHzdMap;
-    Actor_Door_TParam_sub        **f20_pAfterStructure_24;
+    HZD_HEADER             *f00_header;
+    HZD_AREA               *f04_area;
+    short                   f08_areaIndex;
+    short                   f0A_idx;
+    short                   f0C;
+    short                   f0E_n_cameras;
+    short                   f10_24size;
+    short                   f12_queue_size;
+    HZD_ZON                *f14_navmeshes;
+    HZD_TRP                *f18_traps;
+    Actor_Door_TParam_sub **f1C_pEndOfHzdMap;
+    Actor_Door_TParam_sub **f20_pAfterStructure_24;
     char        *f20_pAfterStructure_48;
 } HZD_MAP; // 28
 

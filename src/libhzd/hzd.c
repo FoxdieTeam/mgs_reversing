@@ -110,7 +110,7 @@ HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48
     if (hzdMap)
     {
         hzdMap->f1C_pEndOfHzdMap = (void *)&hzdMap[1];
-        hzdMap->f20_pAfterStructure_24 = (Actor_Door_TParam_sub**)&hzdMap->f1C_pEndOfHzdMap[default_24];
+        hzdMap->f20_pAfterStructure_24 = &hzdMap->f1C_pEndOfHzdMap[default_24];
         hzdMap->f20_pAfterStructure_48 = (char*)&hzdMap->f20_pAfterStructure_24[default_48];
 
         hzdMap->f12_queue_size = default_48;
@@ -174,11 +174,11 @@ void HZD_MakeRoute_helper_80021C64(HZD_ZON *zone, int n_zone, int cur_zone, char
     //loc_80021C8C
     p  = ( int* )zone_buf;       //t6
     p2 = ( int* )&zone_buf[ 1 ]; //t5
-    
+
     buf[ cur_zone ] = 0;
     zone_buf[ 0 ].buffer[ 0 ] = 1;
     *( ( char* )&zone_buf[ 0 ].buffer[ 1 ] ) = cur_zone;
-    
+
     k = 1;
     for ( t4 = 1 ; t4 > 0 ; k++ )
     {
@@ -202,7 +202,7 @@ void HZD_MakeRoute_helper_80021C64(HZD_ZON *zone, int n_zone, int cur_zone, char
                 }
             }
         }
-        
+
         val = k & 1;
         p  = ( int* )&zone_buf[ val ];
         p2[ 0 ] = t1;
