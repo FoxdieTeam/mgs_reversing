@@ -19,15 +19,7 @@ typedef struct Actor_Door
     GV_ACT            field_0_actor;
     CONTROL           field_20_ctrl;
     OBJECT_NO_ROTS    field_9C;
-    short             field_C0;
-    short             field_C2;
-    int               field_C4;
-    int               field_C8;
-    int               field_CC;
-    int               field_D0;
-    int               field_D4;
-    int               field_D8;
-    int               field_DC;
+    SVECTOR           field_C0[4]; // Might not be an SVECTOR, it's not used very often
     short             field_E0_where;
     char              field_E2_maybe_state;
     char              field_E3;

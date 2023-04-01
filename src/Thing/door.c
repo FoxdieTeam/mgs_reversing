@@ -11,6 +11,8 @@ extern int      door_where_8009F5F4;
 extern int      GM_GameOverTimer_800AB3D4;
 extern CONTROL *gSnaControl_800AB9F4;
 extern int      dword_800ABA0C;
+extern int      dword_8009F470;
+extern int      GM_CurrentMap_800AB9B0;
 
 extern const char aOpen[];           // = " open!! \n"
 extern const char aClose[];          // = " close!! \n"
@@ -19,6 +21,8 @@ extern const char aCancel[];         // = "cancel\n"
 extern const char aDoorOpenD[];      // = "door:open %d\n"
 extern const char aSnakeDoorX[];     // = "Snake Door %X\n"
 extern const char aDoorOpencancel[]; // = "door:opencancel %d\n"
+extern const char aCloseDoorX[];     // = "close door %X\n"
+extern const char aCloseDoorX_0[];   // = "CLOSE door %X\n"
 extern const char aDoorC[];          // = "door.c"
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
@@ -66,7 +70,7 @@ void door_open_8006ECB8(Actor_Door *param_1)
 
     if (((dword_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
          param_1->field_FE_sound_effect != 0) &&
-        param_1->field_C0 == 0)
+        param_1->field_C0[0].vx == 0)
     {
         GM_SeSet_80032858(pos, param_1->field_FE_sound_effect);
     }
@@ -74,11 +78,11 @@ void door_open_8006ECB8(Actor_Door *param_1)
     param_1->field_E2_maybe_state = 2;
 }
 
-void door_close_8006ED48(Actor_Door *param_1, int param_2, int param_3)
+void door_close_8006ED48(Actor_Door *param_1)
 {
     SVECTOR *pos;
 
-    mts_nullsub_8_8008BB98(1, aClose, param_3); // " close!! \n"
+    mts_nullsub_8_8008BB98(1, aClose);
     param_1->field_E2_maybe_state = 1;
     pos = &param_1->field_20_ctrl.field_0_mov;
 
@@ -154,7 +158,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
         if (--pActor->field_F2_door_counter <= 0)
         {
-            if (((pActor->field_E2_maybe_state != 0) || (pActor->field_C0 != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
+            if (((pActor->field_E2_maybe_state != 0) || (pActor->field_C0[0].vx != 0)) && (GM_GameOverTimer_800AB3D4 == 0))
             {
                 if (pMsg->message_len < 4)
                 {
@@ -338,7 +342,163 @@ int door_act_helper_8006F290(CONTROL *pControl, int param_h)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Thing/door_act_8006F318.s")        // 1024 bytes
+void door_act_8006F318(Actor_Door *pActor)
+{
+    SVECTOR *pVecs;
+    int temp_s5;
+    int var_s0;
+    int var_s3;
+    int mapIter;
+    map_record *pMap;
+    unsigned short hash;
+    int mapIter2;
+    unsigned short map;
+    int var_t1;
+    DG_OBJS *pObjs;
+    int i;
+    int temp_t2;
+
+    if (!door_act_helper_8006EDB8(pActor))
+    {
+        if ((pActor->field_E2_maybe_state == 4) && ((pActor->field_E3 == 0) || (dword_8009F470 == 0)))
+        {
+            if (--pActor->field_EE < 0)
+            {
+                if (door_act_helper_8006F290(&pActor->field_20_ctrl, pActor->field_EA_param_h_v))
+                {
+                    pActor->field_EE = 30;
+                }
+                else
+                {
+                    door_close_8006ED48(pActor);
+                }
+            }
+        }
+
+        if ((pActor->field_E2_maybe_state == 0) || (pActor->field_E2_maybe_state == 4))
+        {
+            return;
+        }
+    }
+
+    GM_ActControl_80025A7C(&pActor->field_20_ctrl);
+    GM_CurrentMap_800AB9B0 = pActor->field_E0_where;
+    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C);
+
+    pVecs = pActor->field_C0;
+    temp_s5 = pActor->field_E6_param_w_v;
+    var_s0 = 0;
+
+    if (pActor->field_E2_maybe_state == 2)
+    {
+        var_s0 = temp_s5;
+    }
+
+    if (pActor->field_E2_maybe_state == 5)
+    {
+        var_s0 = temp_s5;
+        pActor->field_E2_maybe_state = 3;
+    }
+
+    if ((pActor->field_E2_maybe_state == 1) && door_act_helper_8006F290(&pActor->field_20_ctrl, pActor->field_EA_param_h_v))
+    {
+        var_s0 = temp_s5 - 2;
+    }
+
+    var_s3 = sub_8002646C(pVecs->vx, var_s0, pActor->field_E8_param_s_v);
+
+    if ((var_s3 == pActor->field_E6_param_w_v) || (var_s3 == 0))
+    {
+        if (pActor->field_E2_maybe_state != 3)
+        {
+            if ((pVecs->vx != var_s3) && (dword_800ABA0C & pActor->field_E0_where) && pActor->field_FF_e_param_v2)
+            {
+                GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, pActor->field_FF_e_param_v2);
+            }
+
+            if (pActor->field_E2_maybe_state == 1)
+            {
+                if (pActor->field_F4_param_g_v > 0)
+                {
+                    if (door_where_8009F5F4 && ((pActor->field_E5 == 0) || (door_where_8009F5F4 != pActor->field_E0_where)))
+                    {
+                        mts_printf_8008BBA0(aCloseDoorX, door_where_8009F5F4);
+
+                        for (mapIter = 0; mapIter < 2; mapIter++)
+                        {
+                            pMap = Map_FindByNum_80031504(pActor->field_F8_maps[mapIter]);
+
+                            if ((pMap->field_0_map_index_bit & door_where_8009F5F4) == 0)
+                            {
+                                GM_DelMap_800313C0(pMap->field_4_mapNameHash);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mts_printf_8008BBA0(aCloseDoorX_0, door_where_8009F5F4);
+                        hash = gSnaControl_800AB9F4->field_2C_map->field_4_mapNameHash;
+
+                        for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
+                        {
+                            map = pActor->field_F8_maps[mapIter2];
+
+                            if (map != hash)
+                            {
+                                GM_DelMap_800313C0(map);
+                            }
+                        }
+                    }
+                }
+
+                if (pActor->field_E5 && (door_where_8009F5F4 == pActor->field_E0_where))
+                {
+                    door_where_8009F5F4 = 0;
+                }
+
+                pActor->field_E5 = 0;
+                door_act_helper_8006EC48(pActor);
+            }
+        }
+
+        pActor->field_E2_maybe_state = 0;
+    }
+
+    door_act_helper_8006F184(pActor, var_s3);
+
+    if (var_s3 < temp_s5 / 8)
+    {
+        var_t1 = -pActor->field_FC_param_u_v;
+    }
+    else
+    {
+        var_t1 = -1000 - pActor->field_FC_param_u_v;
+    }
+
+    pObjs = pActor->field_9C.objs;
+
+    if (pObjs->n_models < 2 * pActor->field_E4_t_param_v)
+    {
+        for (i = 0; i < pActor->field_E4_t_param_v; i++)
+        {
+            pVecs[i].vx = var_s3;
+            pObjs->objs[i].raise = var_t1;
+            var_s3 = -var_s3;
+        }
+    }
+    else
+    {
+        temp_t2 = temp_s5 - var_s3;
+
+        for (i = 0; i < 2 * pActor->field_E4_t_param_v; i += 2)
+        {
+            pVecs[i].vx = var_s3;
+            pObjs->objs[i].raise = var_t1;
+            pObjs->objs[i + 1].raise = -pActor->field_FC_param_u_v - temp_t2 * 2;
+            var_s3 = -var_s3;
+        }
+    }
+}
 
 static inline void do_nothing_vec_func(SVECTOR *vec)
 {
@@ -552,7 +712,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     {
         pDoor->field_E2_maybe_state = 5;
         pDoor->field_F2_door_counter = 1;
-        pDoor->field_C0 = pDoor->field_E6_param_w_v;
+        pDoor->field_C0[0].vx = pDoor->field_E6_param_w_v;
     }
     else
     {
