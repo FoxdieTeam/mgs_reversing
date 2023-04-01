@@ -81,7 +81,7 @@ void        FS_StreamSoundMode_80024404();
 int         FS_StreamIsEnd_800240D0(void);
 int         FS_StreamSync_80023E24();
 void        sub_80023C40(void);
-void        sub_800239E8(void);
+int         sub_800239E8(CDBIOS_TASK *pTask);
 int         Loader_helper2_80023460(STAGE_FILE *);
 int         Loader_helper_8002336C(STAGE_FILE *, int);
 
