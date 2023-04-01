@@ -15,6 +15,7 @@ extern ANIMATION      stru_8009F568;
 extern ANIMATION      stru_8009F5A0;
 extern ANIMATION      stru_8009F5BC;
 extern ANIMATION      stru_8009F584;
+extern ANIMATION      stru_8009F5D8;
 
 extern const char aBlastC[];
 
@@ -269,5 +270,122 @@ void sub_8006E3B0(SVECTOR *pVec)
     NewAnime_8005FBC8(m, map, anm);
 }
 
-#pragma INCLUDE_ASM("asm/Bullet/sub_8006E4A4.s") // 552 bytes
-#pragma INCLUDE_ASM("asm/Bullet/sub_8006E6CC.s") // 1348 bytes
+void sub_8006E4A4(SVECTOR *pPosition)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    pre.pos = *pPosition;
+    pre.pos.vy += 600;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vy += 200;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.pos = *pPosition;
+    pre.pos.vy += 400;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vy += 150;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.pos = *pPosition;
+    pre.pos.vy += 200;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vy += 100;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.pos = *pPosition;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vy += 50;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 3;
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+void sub_8006E6CC(SVECTOR *pPosition, SVECTOR *pOffset)
+{
+    PRESCRIPT  pre;
+    ANIMATION *anm;
+
+    pre.pos = *pPosition;
+    pre.pos.vx += pOffset->vx;
+    pre.pos.vy += pOffset->vy;
+    pre.pos.vz += pOffset->vz;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vx += pOffset->vx / 3;
+    pre.speed.vy += pOffset->vy / 3;
+    pre.speed.vz += pOffset->vz / 3;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.pos = *pPosition;
+    pre.pos.vx += (pOffset->vx * 3) >> 2;
+    pre.pos.vy += (pOffset->vy * 3) >> 2;
+    pre.pos.vz += (pOffset->vz * 3) >> 2;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vx += ((pOffset->vx / 3) * 3) >> 2;
+    pre.speed.vy += ((pOffset->vy / 3) * 3) >> 2;
+    pre.speed.vz += ((pOffset->vz / 3) * 3) >> 2;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.pos = *pPosition;
+    pre.pos.vx += pOffset->vx >> 1;
+    pre.pos.vy += pOffset->vy >> 1;
+    pre.pos.vz += pOffset->vz >> 1;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vx += (pOffset->vx / 3) >> 1;
+    pre.speed.vy += (pOffset->vy / 3) >> 1;
+    pre.speed.vz += (pOffset->vz / 3) >> 1;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.pos = *pPosition;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.speed.vx += (pOffset->vx / 3) >> 2;
+    pre.speed.vy += (pOffset->vy / 3) >> 2;
+    pre.speed.vz += (pOffset->vz / 3) >> 2;
+    pre.s_anim = 0;
+
+    anm = &stru_8009F5D8;
+    anm->field_14_pre_script = &pre;
+
+    pre.scr_num = 3;
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
