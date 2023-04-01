@@ -13,13 +13,13 @@ void sub_8006FFE8(HZD_MAP *pMap, Actor_Door_TParam_sub *pSub)
     {
         if (*ptr == pSub)
         {
-            goto exit;
+            goto found;
         }
     }
 
     return;
 
-exit:
+found:
     count--;
     *ptr = pMap->f1C_pEndOfHzdMap[count];
     pMap->f0C = count;

@@ -290,10 +290,10 @@ void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
 
         for (j = 0; j < 3; j++, pSub++)
         {
-            pSub->field_0_x += x2 - x1;
-            pSub->field_2_z += z2 - z1;
-            pSub->field_8_x += x2 - x1;
-            pSub->field_A_z += z2 - z1;
+            pSub->vec[0].x += x2 - x1;
+            pSub->vec[0].z += z2 - z1;
+            pSub->vec[1].x += x2 - x1;
+            pSub->vec[1].z += z2 - z1;
         }
 
         dir.vx = -dir.vx;
@@ -517,19 +517,19 @@ void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVe
 {
     short vec1_y;
 
-    pTSub->field_0_x = pVec1->vx;
-    pTSub->field_2_z = pVec1->vz;
+    pTSub->vec[0].x = pVec1->vx;
+    pTSub->vec[0].z = pVec1->vz;
 
-    pTSub->field_8_x = pVec2->vx;
-    pTSub->field_A_z = pVec2->vz;
+    pTSub->vec[1].x = pVec2->vx;
+    pTSub->vec[1].z = pVec2->vz;
 
     vec1_y = pVec1->vy;
-    pTSub->field_E_param_v1 = param_v;
-    pTSub->field_6_param_v2 = param_v;
+    pTSub->vec[1].h = param_v;
+    pTSub->vec[0].h = param_v;
 
-    pTSub->field_C_y = vec1_y;
-    pTSub->field_4_y = vec1_y;
-    HZD_SetDynamicSegment_8006FEE4(&pTSub->field_0_x, &pTSub->field_0_x);
+    pTSub->vec[1].y = vec1_y;
+    pTSub->vec[0].y = vec1_y;
+    HZD_SetDynamicSegment_8006FEE4(pTSub, pTSub);
 }
 
 void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int arg2, int arg3, int flags)
