@@ -127,7 +127,7 @@ struct Menu_Inventory;
 struct PANEL;
 struct PANEL_CONF;
 
-typedef void (*PANEL_CONF_update)(struct Actor_MenuMan *, int, int, int, struct PANEL *);
+typedef void (*PANEL_CONF_update)(struct Actor_MenuMan *, unsigned int *, int, int, struct PANEL *);
 typedef void (*PANEL_CONF_fn2)(struct PANEL_CONF *, int, int*, int*);
 
 typedef struct PANEL_CONF
@@ -195,7 +195,7 @@ typedef struct Menu_Inventory
     char               field_10_state;
     signed char        field_11; // item_idx ?
     // Current frame of the "flashing" animation played when the menu is closed, counts down from 0xa to 0x0.
-    short              field_12_flashingAnimationFrame;
+    unsigned short     field_12_flashingAnimationFrame;
 } Menu_Inventory;
 
 typedef struct
@@ -383,7 +383,7 @@ void menu_sub_8003B568(void);
 int  sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
 int  sub_8003D52C(void);
 void sub_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
-void sub_8003DA60(struct Actor_MenuMan *pActor, int a2, struct Menu_Inventory *pLeftRight, int off1, int off2);
+void sub_8003DA60(struct Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pLeftRight, int off1, int off2);
 void menu_viewer_init_80044A70(Actor_MenuMan *);
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor);
 void menuman_act_800386A4(Actor_MenuMan *);
@@ -436,13 +436,14 @@ void           menu_radio_8004D35C(void);
 void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
 void           menu_font_kill_8003FC0C(void);
 void           AssignXY_8003D1A8(PANEL *pArray, int idx, short amount);
-int           menu_panel_8003D2BC(Menu_Item_Unknown *, int);
+int            menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 void           sub_8003F97C(char *param_1);
 void           sub_8004CF20(int code, char **param_2, char **param_3);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
+void           menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str);
 
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);

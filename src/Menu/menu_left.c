@@ -437,7 +437,7 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
 
-void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *arg1)
+void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     GV_PAD          *pPad = pActor->field_24_pInput;
     Menu_Inventory  *pLeftRight;
@@ -506,7 +506,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
             int ret = sub_8003D52C();
             if (ret < 255)
             {
-                sub_8003DA60(pActor, (int)arg1, &pActor->field_1DC_menu_item, -ret / 4, 0);
+                sub_8003DA60(pActor, pOt, &pActor->field_1DC_menu_item, -ret / 4, 0);
                 pActor->field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
             }
         }
@@ -521,7 +521,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *ar
         return;
     }
 
-    menu_inventory_left_update_helper2_8003BF1C(pActor, arg1);
+    menu_inventory_left_update_helper2_8003BF1C(pActor, pOt);
     menu_inventory_left_update_helper4_8003C4EC();
 }
 
