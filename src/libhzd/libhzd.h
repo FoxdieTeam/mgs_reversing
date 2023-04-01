@@ -113,15 +113,7 @@ typedef struct HZD_HEADER
 
 typedef struct Actor_Door_TParam_sub
 {
-    short field_0_x;
-    short field_2_z;
-    short field_4_y;
-    short field_6_param_v2;
-
-    short field_8_x;
-    short field_A_z;
-    short field_C_y;
-    short field_E_param_v1;
+    HZD_VEC vec[2];
 } Actor_Door_TParam_sub;
 
 typedef struct HZD_MAP
@@ -141,7 +133,7 @@ typedef struct HZD_MAP
     char        *f20_pAfterStructure_48;
 } HZD_MAP; // 28
 
-void     HZD_SetDynamicSegment_8006FEE4(short *a1, short *a2);
+void     HZD_SetDynamicSegment_8006FEE4(Actor_Door_TParam_sub *a1, Actor_Door_TParam_sub *a2);
 void     HZD_StartDaemon_80021900(void);
 HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24);
 void     HZD_SetEvent_80029AB4(Res_Control_unknown *param_1, int param_2);
