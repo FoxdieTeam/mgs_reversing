@@ -1,6 +1,6 @@
 #include "libhzd/libhzd.h"
 
-int sub_8006FF9C(HZD_MAP *pMap, Actor_Door_TParam_sub *pSub)
+int sub_8006FF9C(HZD_MAP *pMap, HZD_SEG *pSeg)
 {
     int count;
 
@@ -10,9 +10,9 @@ int sub_8006FF9C(HZD_MAP *pMap, Actor_Door_TParam_sub *pSub)
     }
 
     count = pMap->f0C;
-    pMap->f1C_pEndOfHzdMap[count] = pSub;
+    pMap->f1C_pEndOfHzdMap[count] = pSeg;
     pMap->f0C = count + 1;
-    pSub[2].vec[1].h |= 0x1;
+    pSeg[2].p2.h |= 0x1;
 
     return 0;
 }
