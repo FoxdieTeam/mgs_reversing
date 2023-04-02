@@ -261,12 +261,12 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
     return 0;
 }
 
-void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
+void door_act_helper_8006F184(Actor_Door *pActor, int arg1)
 {
     SVECTOR dir;
     int i, j;
     Actor_Door_TParam *pTparam;
-    Actor_Door_TParam_sub *pSub;
+    HZD_SEG *pSeg;
     int x1, x2, z1, z2;
 
     if (pActor->field_EA_param_h_v < 0)
@@ -279,7 +279,7 @@ void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
     for (i = 0; i < pActor->field_E4_t_param_v; i++)
     {
         pTparam = &pActor->field_104[i];
-        pSub = pActor->field_104[i].field_0;
+        pSeg = pActor->field_104[i].field_0;
 
         x1 = pTparam->field_30.vx;
         x2 = dir.vx;
@@ -288,12 +288,12 @@ void door_act_helper_8006F184(Actor_Door* pActor, int arg1)
 
         pTparam->field_30 = dir;
 
-        for (j = 0; j < 3; j++, pSub++)
+        for (j = 0; j < 3; j++, pSeg++)
         {
-            pSub->vec[0].x += x2 - x1;
-            pSub->vec[0].z += z2 - z1;
-            pSub->vec[1].x += x2 - x1;
-            pSub->vec[1].z += z2 - z1;
+            pSeg->p1.x += x2 - x1;
+            pSeg->p1.z += z2 - z1;
+            pSeg->p2.x += x2 - x1;
+            pSeg->p2.z += z2 - z1;
         }
 
         dir.vx = -dir.vx;
@@ -513,23 +513,23 @@ void door_kill_8006F718(Actor_Door *pDoor)
     GM_FreeObject_80034BF8((OBJECT *)&pDoor->field_9C);
 }
 
-void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
+void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
 {
     short vec1_y;
 
-    pTSub->vec[0].x = pVec1->vx;
-    pTSub->vec[0].z = pVec1->vz;
+    pSeg->p1.x = pVec1->vx;
+    pSeg->p1.z = pVec1->vz;
 
-    pTSub->vec[1].x = pVec2->vx;
-    pTSub->vec[1].z = pVec2->vz;
+    pSeg->p2.x = pVec2->vx;
+    pSeg->p2.z = pVec2->vz;
 
     vec1_y = pVec1->vy;
-    pTSub->vec[1].h = param_v;
-    pTSub->vec[0].h = param_v;
+    pSeg->p2.h = param_v;
+    pSeg->p1.h = param_v;
 
-    pTSub->vec[1].y = vec1_y;
-    pTSub->vec[0].y = vec1_y;
-    HZD_SetDynamicSegment_8006FEE4(pTSub, pTSub);
+    pSeg->p2.y = vec1_y;
+    pSeg->p1.y = vec1_y;
+    HZD_SetDynamicSegment_8006FEE4(pSeg, pSeg);
 }
 
 void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int arg2, int arg3, int flags)
@@ -541,7 +541,7 @@ void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, i
     int count;
     int param_v;
     HZD_MAP **ppMaps;
-    Actor_Door_TParam_sub *pSub;
+    HZD_SEG *pSeg;
 
     flags |= 0x8000;
     GV_ZeroMemory_8001619C(vecs, sizeof(vecs));
@@ -577,20 +577,19 @@ void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, i
 
     for (i = 0, ppMaps = pMaps; i < count; i++, ppMaps++)
     {
-        pSub = &pOffset->field_0[0];
-
-        door_loader_t_param_sub_8006F748(pSub, &vecs[0], &vecs[1], param_v);
-        HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+        pSeg = &pOffset->field_0[0];
+        door_loader_t_param_sub_8006F748(pSeg, &vecs[0], &vecs[1], param_v);
+        HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
 
         if (arg2 > 0)
         {
-            pSub = &pOffset->field_0[1];
-            door_loader_t_param_sub_8006F748(pSub, &vecs[2], &vecs[3], param_v);
-            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+            pSeg = &pOffset->field_0[1];
+            door_loader_t_param_sub_8006F748(pSeg, &vecs[2], &vecs[3], param_v);
+            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
 
-            pSub = &pOffset->field_0[2];
-            door_loader_t_param_sub_8006F748(pSub, &vecs[0], &vecs[2], param_v);
-            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSub, flags);
+            pSeg = &pOffset->field_0[2];
+            door_loader_t_param_sub_8006F748(pSeg, &vecs[0], &vecs[2], param_v);
+            HZD_QueueDynamicSegment2_8006FDDC(*ppMaps, pSeg, flags);
         }
     }
 }

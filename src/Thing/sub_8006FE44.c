@@ -1,8 +1,8 @@
 #include "libhzd/libhzd.h"
 
-void sub_8006FE44(HZD_MAP *pHzdMap, Actor_Door_TParam_sub *arg1)
+void sub_8006FE44(HZD_MAP *pHzdMap, HZD_SEG *arg1)
 {
-    Actor_Door_TParam_sub **var_a2;
+    HZD_SEG **var_a2;
     char *var_t0;
     int temp_a3;
     char *var_t1;
