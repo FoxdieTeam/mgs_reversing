@@ -626,7 +626,43 @@ void menu_number_kill_80042980(void)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s") // 476 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_number_draw_helper_80042B64.s") // 144 bytes
+
+int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int arg2, int arg3, int arg4)
+{
+    int offset_x0;
+
+    if (pPrim != 0 && (char*)pPrim < pFreeLocation)
+    {
+        switch (arg4 & 0xF)
+        {
+        case 0:
+        default:
+            offset_x0 = arg2;
+            arg2 = arg3 + offset_x0;
+            break;
+
+        case 1:
+            arg2 -= arg3;
+            offset_x0 = arg2;
+            break;
+
+        case 2:
+            offset_x0 = arg2 - arg3 / 2;
+            arg2 = arg3;
+            break;
+
+        }
+
+        while ((char*)pPrim < pFreeLocation)
+        {
+            pPrim->x0 += offset_x0;
+            pPrim++;
+        }
+    }
+
+    return arg2;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
 
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize,
