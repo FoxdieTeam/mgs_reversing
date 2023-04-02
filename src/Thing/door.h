@@ -10,8 +10,8 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv);
 
 typedef struct Actor_Door_TParam
 {
-    Actor_Door_TParam_sub field_0[3];
-    SVECTOR               field_30;
+    HZD_SEG field_0[3];
+    SVECTOR field_30;
 } Actor_Door_TParam;
 
 typedef struct Actor_Door
@@ -48,9 +48,9 @@ void door_kill_8006F718(Actor_Door *pDoor);
 int  door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val);
 void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v);
 void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int, int, int);
-void door_loader_t_param_sub_8006F748(Actor_Door_TParam_sub *pTSub, SVECTOR *pVec1, SVECTOR *pVec2, int param_v);
+void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v);
 
 // TODO: move to libhzd.h?
-int HZD_QueueDynamicSegment2_8006FDDC(HZD_MAP *pHzdMap, Actor_Door_TParam_sub *pTSub, int a_param_with_flag);
+int HZD_QueueDynamicSegment2_8006FDDC(HZD_MAP *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag);
 
 #endif // _THING_DOOR_H_

@@ -111,29 +111,24 @@ typedef struct HZD_HEADER
     HZD_PAT  *routes;       // 18
 } HZD_HEADER;               // 28
 
-typedef struct Actor_Door_TParam_sub
-{
-    HZD_VEC vec[2];
-} Actor_Door_TParam_sub;
-
 typedef struct HZD_MAP
 {
-    HZD_HEADER             *f00_header;
-    HZD_AREA               *f04_area;
-    short                   f08_areaIndex;
-    short                   f0A_idx;
-    short                   f0C;
-    short                   f0E_n_cameras;
-    short                   f10_24size;
-    short                   f12_queue_size;
-    HZD_ZON                *f14_navmeshes;
-    HZD_TRP                *f18_traps;
-    Actor_Door_TParam_sub **f1C_pEndOfHzdMap;
-    Actor_Door_TParam_sub **f20_pAfterStructure_24;
-    char        *f20_pAfterStructure_48;
+    HZD_HEADER *f00_header;
+    HZD_AREA   *f04_area;
+    short       f08_areaIndex;
+    short       f0A_idx;
+    short       f0C;
+    short       f0E_n_cameras;
+    short       f10_24size;
+    short       f12_queue_size;
+    HZD_ZON    *f14_navmeshes;
+    HZD_TRP    *f18_traps;
+    HZD_SEG   **f1C_pEndOfHzdMap;
+    HZD_SEG   **f20_pAfterStructure_24;
+    char       *f20_pAfterStructure_48;
 } HZD_MAP; // 28
 
-void     HZD_SetDynamicSegment_8006FEE4(Actor_Door_TParam_sub *a1, Actor_Door_TParam_sub *a2);
+void     HZD_SetDynamicSegment_8006FEE4(HZD_SEG *a1, HZD_SEG *a2);
 void     HZD_StartDaemon_80021900(void);
 HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24);
 void     HZD_SetEvent_80029AB4(Res_Control_unknown *param_1, int param_2);

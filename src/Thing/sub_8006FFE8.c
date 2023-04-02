@@ -1,8 +1,8 @@
 #include "libhzd/libhzd.h"
 
-void sub_8006FFE8(HZD_MAP *pMap, Actor_Door_TParam_sub *pSub)
+void sub_8006FFE8(HZD_MAP *pMap, HZD_SEG *pSeg)
 {
-    Actor_Door_TParam_sub **ptr;
+    HZD_SEG **ptr;
     int count;
     int i;
 
@@ -11,7 +11,7 @@ void sub_8006FFE8(HZD_MAP *pMap, Actor_Door_TParam_sub *pSub)
 
     for (i = count; i > 0; i--, ptr++)
     {
-        if (*ptr == pSub)
+        if (*ptr == pSeg)
         {
             goto found;
         }
