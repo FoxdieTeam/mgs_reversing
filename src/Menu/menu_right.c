@@ -1229,7 +1229,102 @@ void menu_right_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_right_update_8003E990.s") // 588 bytes
+void menu_right_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
+{
+    GV_PAD         *pPad;
+    Menu_Inventory *pMenu;
+    int            selected_id, weapon_id, xoffset;
+
+    pPad = menuMan->field_24_pInput;
+  
+    if (menuMan->field_2A_state == 0)
+    {
+        if (GM_GameStatus_800AB3CC & 0x80400)
+        {
+            return;
+        }
+        
+        if (!(GM_PlayerStatus_800ABA50 & 0x20408000))
+        {        
+            if (menu_8003DA9C(&menuMan->field_1F0_menu_weapon, pPad))
+            {
+                if (menu_right_update_helper_8003E4B8(menuMan))
+                {
+                    menuMan->field_2A_state = 1;
+                    GV_PauseLevel_800AB928 |= 4;
+                    sub_8003D520();
+                }
+            }
+            else if ((!(GM_GameStatus_800AB3CC & 0x40000)) && (pPad->press & PAD_R1))
+            {
+                weapon_id = GM_CurrentWeaponId;
+          
+                if (GM_CurrentWeaponId > WEAPON_NONE)
+                {
+                    GM_CurrentWeaponId = WEAPON_NONE;
+                }
+                else if (!sub_8003DF30(menuMan->field_1F0_menu_weapon.field_11))
+                {
+                    selected_id = menuMan->field_1F0_menu_weapon.field_11;
+            
+                    if (GM_Weapons[selected_id] > WEAPON_NONE)
+                    {
+                        GM_CurrentWeaponId = selected_id;
+                    }
+                }
+          
+                if (weapon_id != GM_CurrentWeaponId)
+                {
+                    GM_WeaponChanged_800AB9D8 = 1;
+                    GM_Sound_80032968(0, 63, 20);
+                }
+            }
+        }
+    }
+    else if (menuMan->field_2A_state == 1)
+    {
+        pMenu = &menuMan->field_1F0_menu_weapon;
+      
+        if (sub_8003DAFC(pMenu, pPad))
+        {
+            menuMan->field_1F0_menu_weapon.field_10_state = 3;
+        }
+        else if (sub_8003D52C() > 255)
+        {
+            sub_8003D6CC(pMenu, pPad);
+      
+            if (menuMan->field_1F0_menu_weapon.field_10_state == 3)
+            {
+                menuMan->field_1F0_menu_weapon.field_10_state = 2;
+            }
+        }
+    }
+    else if (menuMan->field_2A_state == 4)
+    {
+        return;
+    }
+    else
+    {
+        if (GM_CurrentWeaponId > WEAPON_NONE)
+        {
+            xoffset = sub_8003D52C();
+            
+            if (xoffset < 255)
+            {
+                sub_8003DA60(menuMan, (unsigned int*)pOt, &menuMan->field_1F0_menu_weapon, xoffset / 4, 0);
+                menuMan->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
+            }
+        }
+        else
+        {
+            menuMan->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
+        }
+
+        return;
+    }
+    
+    menu_right_update_helper2_8003E674(menuMan, (unsigned int*)pOt);
+}
 
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
 {
