@@ -162,7 +162,21 @@ void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
     LoadImage_8008FB10(&elem->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003D070.s") // 96 bytes
+// No xrefs to determine Menu_Unknown
+void sub_8003D070(PANEL_TEXTURE *pPanelTex, Menu_Right_Unknown *pUnk)
+{
+    Menu_Right_Unknown2 *pUnk2;
+
+    pUnk->field_14_clut[0] = 0;
+
+    pUnk2 = &pUnk->field_34;
+    pPanelTex->field_9_xofs = pUnk2->field_4.x;
+    pPanelTex->field_A_yofs = pUnk2->field_4.y;
+    pPanelTex->field_10_w = pUnk2->field_4.w << 2;
+    pPanelTex->field_12_h = pUnk2->field_4.h;
+    pPanelTex->field_4_word_ptr_pixels = (char *)pUnk->field_14_clut;
+    pPanelTex->field_0_pixels = (char *)&pUnk->field_14_clut[pUnk->field_8 >> 1];
+}
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x, int offset_y)
 {

@@ -340,6 +340,21 @@ typedef struct UnkJimakuStruct // @ 800BDA70
     // int field_44 // padding?
 } UnkJimakuStruct;
 
+typedef struct Menu_Right_Unknown2
+{
+    int  field_0;
+    RECT field_4;
+} Menu_Right_Unknown2;
+
+typedef struct Menu_Right_Unknown
+{
+    char                field_0[0x8];
+    unsigned int        field_8;
+    char                field_C[0x8];
+    short               field_14_clut[0x10];
+    Menu_Right_Unknown2 field_34;
+} Menu_Right_Unknown;
+
 PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 void                       menu_restore_nouse_80043470();
