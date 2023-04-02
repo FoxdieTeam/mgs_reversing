@@ -183,7 +183,7 @@ void               GM_ConfigControlTrapCheck_80026308(CONTROL *pControl);
 void               GM_AlertModeInit_8002EAA8(void);
 void               GM_InitWhereSystem_8002597C(void);
 void               GM_Reset_helper_8002A978();
-int                GM_Reset_helper3_80030760();
+void               GM_Reset_helper3_80030760();
 void               GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy);
 void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
 int                GM_AreaHistory_8002A848(int stage_id);
