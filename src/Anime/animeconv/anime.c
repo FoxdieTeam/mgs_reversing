@@ -5,9 +5,11 @@
 #include "Game/game.h"
 #include "map/map.h"
 
+extern int        dword_8009F224;
 extern SVECTOR    DG_ZeroVector_800AB39C;
 extern int        GV_Time_800AB330;
 extern int        GV_Clock_800AB920;
+extern int        GM_PlayerStatus_800ABA50;
 extern ANIMATION  stru_8009F10C;
 extern ANIMATION  stru_8009F128;
 extern ANIMATION  stru_8009F144;
@@ -57,7 +59,96 @@ Actor_anime * anime_create_8005D604(MATRIX *pMtx)
     return NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-#pragma INCLUDE_ASM("asm/Anime/animeconv/anime_create_8005D6BC.s") // 716 bytes
+void anime_create_8005D6BC(MATRIX *arg0, int arg1)
+{
+    PRESCRIPT pre;
+    MATRIX sp28;
+    SVECTOR sp48;
+    int mod, mod2;
+    ANIMATION *anm;
+    PRESCRIPT *pPre;
+    SVECTOR *pSpeed;
+    int rand;
+
+    pPre = &pre;
+    pSpeed = &pre.speed;
+
+    pPre->pos.vx = arg0->t[0];
+    pPre->pos.vy = arg0->t[1];
+    pPre->pos.vz = arg0->t[2];
+
+    mod = 3;
+    mod2 = 5;
+
+    if (((dword_8009F224 % mod) == 0) || (arg1 != 0))
+    {
+        sp48.vx = GV_RandU_80017090(32) - 100;
+        sp48.vy = GV_RandU_80017090(16) - 10;
+        sp48.vz = GV_RandU_80017090(16) + 40;
+
+        DG_SetPos_8001BC44(arg0);
+        DG_MovePos_8001BD20(&sp48);
+        ReadRotMatrix_80092DD8(&sp28);
+
+        pSpeed->vx = sp28.t[0] - arg0->t[0];
+        pSpeed->vy = sp28.t[1] - arg0->t[1];
+        pSpeed->vz = sp28.t[2] - arg0->t[2];
+
+        pre.scr_num = 0;
+        pre.s_anim = 0;
+
+        anm = &stru_8009F0D4;
+        anm->field_14_pre_script = pPre;
+
+        NewAnime_8005FBC8( NULL, 0, anm );
+    }
+
+    rand = GV_RandU_80017090(8);
+
+    if (((rand > 3) && (GM_PlayerStatus_800ABA50 == 0x810)) ||
+        ((((dword_8009F224 % mod2) == 0) || (arg1 != 0)) && (GM_PlayerStatus_800ABA50 != 0x810)))
+    {
+        pPre = &pre;
+
+        sp48.vx = 0;
+        sp48.vy = 0;
+        sp48.vz = 0;
+
+        DG_SetPos_8001BC44(arg0);
+        DG_MovePos_8001BD20(&sp48);
+        ReadRotMatrix_80092DD8(&sp28);
+
+        pPre->pos.vx = sp28.t[0];
+        pPre->pos.vy = sp28.t[1];
+        pPre->pos.vz = sp28.t[2];
+
+        sp48.vx = 0;
+        sp48.vy = -10;
+        sp48.vz = GV_RandU_80017090(8);
+
+        pSpeed = &pre.speed;
+
+        DG_MovePos_8001BD20(&sp48);
+        ReadRotMatrix_80092DD8(&sp28);
+
+        pSpeed->vx = sp28.t[0] - pPre->pos.vx;
+        pSpeed->vy = sp28.t[1] - pPre->pos.vy;
+        pSpeed->vz = sp28.t[2] - pPre->pos.vz;
+
+        pre.scr_num = 0;
+        pre.s_anim = 0;
+
+        anm = &stru_8009F0F0;
+        anm->field_14_pre_script = &pre;
+
+        NewAnime_8005FBC8( NULL, 0, anm );
+    }
+
+    if (dword_8009F224++ >= ((mod2 * mod) - 1))
+    {
+        dword_8009F224 = 0;
+    }
+}
 
 void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 {
