@@ -158,7 +158,7 @@ void adsr_reset_80085D98()
 
 #pragma INCLUDE_ASM( "asm/SD/note_compute_80085DE0.s" ) // 440 bytes
 
-void swpadset_80085F98( int a1 )
+static inline void swpadset_80085F98_helper( int a1 )
 {
     unsigned int temp; // $lo
 
@@ -189,6 +189,11 @@ void swpadset_80085F98( int a1 )
             sptr_800C057C->field_60_swpad = a1 / temp;
         }
     }
+}
+
+void swpadset_80085F98( int a1 )
+{
+    swpadset_80085F98_helper(a1);
 }
 
 #pragma INCLUDE_ASM( "asm/SD/vol_compute_8008604C.s" ) // 332 bytes
@@ -433,7 +438,28 @@ int sub_80086694( int param_1 )
     return ret;
 }
 
-#pragma INCLUDE_ASM( "asm/SD/bendch_80086734.s" )    // 312 bytes
+void bendch_80086734()
+{
+    int arg1;
+
+    if (!sptr_800C057C->field_57_swpc)
+    {
+        mdata1_800BF0D0 = mptr_800C0570[3];
+        if (mdata1_800BF0D0 == 0xe4)
+        {
+            sptr_800C057C->field_58_swphc = mptr_800C0570[2];
+            sptr_800C057C->field_57_swpc = mptr_800C0570[1];
+            arg1 = mptr_800C0570[0];
+            mptr_800C0570 += 4;
+
+            arg1 = (arg1 + sptr_800C057C->field_A8_ptps) << 8;
+            arg1 += sptr_800C057C->field_B0_tund;
+
+            swpadset_80085F98_helper(arg1);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM( "asm/SD/note_cntl_8008686C.s" ) // 792 bytes
 
 unsigned int random_80086B84()
