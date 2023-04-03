@@ -27,6 +27,9 @@ short        SECTION(".sbss") word_800ABB22;
 extern int dword_800ABB24;
 int SECTION(".sbss") dword_800ABB24;
 
+extern int gRadioClut_800ABAFC;
+int        SECTION(".sbss") gRadioClut_800ABAFC;
+
 extern int GV_Time_800AB330;
 extern void *dword_8009E75C[];
 
@@ -36,6 +39,8 @@ extern PANEL_TEXTURE dword_800BDA10;
 extern PANEL_TEXTURE dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
+
+extern const char aCall[]; // = "call"
 
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
 {
@@ -95,10 +100,35 @@ void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 376 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
-#pragma INCLUDE_ASM("asm/Menu/menu_RadioCall_helper_800403E4.s") // 180 bytes
 
-extern int gRadioClut_800ABAFC;
-int        SECTION(".sbss") gRadioClut_800ABAFC;
+void menu_RadioCall_helper_800403E4(void)
+{
+    int        id;
+    ResHeader *pRes;
+    RECT       clut_rect;
+    char      *buf;
+    RECT      *pRect;
+
+    id = GV_CacheID2_800152FC(aCall, 'r');
+    pRes = GV_GetCache_8001538C(id);
+
+    clut_rect.x = 960;
+    clut_rect.y = 371;
+    clut_rect.w = 16;
+    clut_rect.h = 1;
+
+    LoadImage_8008FB10(&clut_rect, (char *)pRes->field_14);
+
+    buf = (char *)&pRes->field_14[pRes->field_8 >> 1];
+    pRect = (RECT *)(buf - 8);
+
+    gRadioClut_800ABAFC = getClut(clut_rect.x, clut_rect.y);
+
+    pRect->x = 960;
+    pRect->y = 372;
+
+    LoadImage_8008FB10(pRect, buf);
+}
 
 void menu_radio_update_helper3_80040498(MenuGlue *pGlue)
 {
@@ -579,45 +609,46 @@ extern SPRT       gRadioNumberSprt2_800bd9d0;
 
 void menu_number_init_80042848(Actor_MenuMan *pActor)
 {
-    NumResHeader *num_res;
-    RECT          rect1, rect2;
-    SPRT         *sprt;
+    RECT       rect1, rect2;
+    ResHeader *pRes;
+    SPRT      *pSprt;
 
     rect1 = rect_800AB64C[0];
 
     // Loads "num.res" (c70e.r) file:
-    num_res = GV_GetCache_8001538C(GV_CacheID2_800152FC(aNum, 'r'));
+    pRes = GV_GetCache_8001538C(GV_CacheID2_800152FC(aNum, 'r'));
 
-    SSTOREL(0, &num_res->field_14); // TODO: Why zero out the first pixel of image?
+    pRes->field_14[0] = 0; // TODO: Why zero out the first pixel of image?
 
     rect2.x = 960;
     rect2.y = 511;
     rect2.w = 16;
     rect2.h = 1;
-    LoadImage_8008FB10(&rect2, num_res->field_14);
-    LoadImage_8008FB10(&rect1, num_res->field_14 + num_res->field_8 / 2 * 2);
 
-    sprt = &gRadioNumberSprt_800bd9b0;
-    setSprt(sprt);
-    sprt->r0 = 128;
-    sprt->g0 = 128;
-    sprt->b0 = 128;
-    sprt->u0 = 0x9c;
-    sprt->v0 = 0xe8;
-    sprt->w = 6;
-    sprt->h = 7;
-    sprt->clut = 0x7ffc;
+    LoadImage_8008FB10(&rect2, (char *)pRes->field_14);
+    LoadImage_8008FB10(&rect1, (char *)&pRes->field_14[pRes->field_8 >> 1]);
 
-    sprt = &gRadioNumberSprt2_800bd9d0;
-    setSprt(sprt);
-    sprt->r0 = 128;
-    sprt->g0 = 128;
-    sprt->b0 = 128;
-    sprt->u0 = 0;
-    sprt->v0 = 0xed;
-    sprt->w = 6;
-    sprt->h = 5;
-    sprt->clut = 0x7ffc;
+    pSprt = &gRadioNumberSprt_800bd9b0;
+    setSprt(pSprt);
+    pSprt->r0 = 128;
+    pSprt->g0 = 128;
+    pSprt->b0 = 128;
+    pSprt->u0 = 0x9c;
+    pSprt->v0 = 0xe8;
+    pSprt->w = 6;
+    pSprt->h = 7;
+    pSprt->clut = 0x7ffc;
+
+    pSprt = &gRadioNumberSprt2_800bd9d0;
+    setSprt(pSprt);
+    pSprt->r0 = 128;
+    pSprt->g0 = 128;
+    pSprt->b0 = 128;
+    pSprt->u0 = 0;
+    pSprt->v0 = 0xed;
+    pSprt->w = 6;
+    pSprt->h = 5;
+    pSprt->clut = 0x7ffc;
     menu_set_string2_80043138();
 }
 

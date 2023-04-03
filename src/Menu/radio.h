@@ -117,15 +117,23 @@ typedef struct RadioCodecStru_800ABB98
 // therefore this struct describes only "num.res".
 //
 // TODO: Is radio.h the right header file for this?
-typedef struct NumResHeader
+
+typedef struct ResHeader_Sub
 {
-    int          field_0;
-    int          field_4;
-    unsigned int field_8;
-    int          field_C;
-    int          field_10;
-    char         field_14[0];
-} NumResHeader;
+    int  field_0;
+    RECT field_4;
+} ResHeader_Sub;
+
+typedef struct ResHeader
+{
+    int           field_0;
+    int           field_4;
+    unsigned int  field_8;
+    int           field_C;
+    int           field_10;
+    short         field_14[16];
+    ResHeader_Sub field_34;
+} ResHeader;
 
 void           sub_8004D580(int pressed);
 void           sub_8004124C(Actor_MenuMan *pActor);
