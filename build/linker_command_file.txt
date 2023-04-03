@@ -255,14 +255,11 @@
     include "..\obj\libdg\DG_MakeObjs_helper_80031710.obj"
     include "..\obj\libdg\DG_MakeObjs_80031760.obj"
     include "..\obj\libdg\DG_FreeObjs_800318D0.obj"
-    include "..\obj\libdg\Prim_lighting_80031954.obj"
-    include "..\obj\libdg\Prim_80031B00.obj"
-    include "..\obj\libdg\sub_80031B88.obj"
-    include "..\obj\libdg\DG_MakePreshade_helper_80031BD4.obj"
-    include "..\obj\libdg\Prim_Calc_CVECTOR_len_80031ED4.obj"
-    include "..\obj\libdg\DG_MakePreshade_80031F04.obj"
-    include "..\obj\libdg\DG_FreePreshade_80032110.obj"
 
+    include "..\obj\libdg\preshade.obj"
+
+    include "..\obj\Game\sub_8003214C.obj"
+    include "..\obj\Game\sub_800321AC.obj"
     include "..\obj\Game\sub_800321F8.obj"
     include "..\obj\Game\sub_80032308.obj"
     include "..\obj\Game\sub_80032420.obj"
