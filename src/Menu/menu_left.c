@@ -65,14 +65,13 @@ PANEL_TEXTURE * menu_rpk_8003B5E0(int index)
     return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
 
-extern int   dword_8009E3E4[];
+extern char *itm_descriptions_8009E3E4[];
 extern void *dword_8009E444[];
 extern void *dword_8009E44C[];
 
 void menu_8003B614(int index)
 {
-    // TODO: It's probably a string, not some structure
-    char *ptr = (char *)dword_8009E3E4[index];
+    char *ptr = itm_descriptions_8009E3E4[index];
 
     if (GM_FrozenItemsState == 1)
     {
