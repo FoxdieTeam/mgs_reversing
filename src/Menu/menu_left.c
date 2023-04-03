@@ -16,6 +16,7 @@ extern int                       GM_GameStatus_800AB3CC;
 extern int                       GM_PlayerStatus_800ABA50;
 extern int                       GV_PauseLevel_800AB928;
 extern int                       GM_DisableItem_800ABA28;
+extern int                       DG_UnDrawFrameCount_800AB380;
 
 extern int                       dword_8009F46C;
 
@@ -30,13 +31,17 @@ int SECTION(".sbss")             dword_800AB578;
 
 extern const char aNoItem[];
 extern const char aLv[];
+extern const char aEquip[];  // = "EQUIP"
 
 void sub_8003CEF8(PANEL_TEXTURE *a1);
-int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
+int  menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
-int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
-
+int  menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
+void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
 void Menu_item_render_frame_rects_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4);
+int  menu_8003D538(void);
+void menu_8003D7DC(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
+int  sub_8003D568(void);
 
 void menu_sub_8003B568(void)
 {
@@ -432,7 +437,141 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper2_8003BF1C.s") // 816 bytes
+void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
+{
+    unsigned short anim_frame;
+    int anim_frame2;
+    int switched_weapon;
+    int last_id;
+    Menu_Item_Unknown *pAlloc;
+    PANEL *pPanel;
+
+    switch (pActor->field_1DC_menu_item.field_10_state)
+    {
+    case 0:
+        anim_frame = pActor->field_1DC_menu_item.field_12_flashingAnimationFrame & 0xffff;
+        anim_frame2 = anim_frame & 0xffff;
+
+        if (anim_frame2 != 0)
+        {
+            pActor->field_1DC_menu_item.field_12_flashingAnimationFrame--;
+
+            if ((anim_frame2 & 3) > 1)
+            {
+                menu_sub_menu_update_8003DA0C(pActor, pOt, &pActor->field_1DC_menu_item);
+
+                if (((anim_frame2 & 3) == 3) &&
+                    (pActor->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId) &&
+                    menu_inventory_Is_Item_Disabled_8003B6D0(pActor->field_1DC_menu_item.field_0_current.field_0_id) &&
+                    (DG_UnDrawFrameCount_800AB380 == 0))
+                {
+                    GM_Sound_80032968(0, 63, 54);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            switched_weapon = 0;
+            if (menu_inventory_Is_Item_Disabled_8003B6D0(GM_CurrentItemId))
+            {
+                last_id = GM_CurrentItemId;
+                GM_CurrentItemId = ITEM_NONE;
+                pActor->field_1DC_menu_item.field_12_flashingAnimationFrame = 19;
+                dword_800ABAD0 = last_id;
+                break;
+            }
+
+            if (pActor->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId)
+            {
+                switched_weapon = 1;
+
+                if (pActor->field_1DC_menu_item.field_0_current.field_0_id != ITEM_NONE &&
+                    pActor->field_1DC_menu_item.field_0_current.field_0_id != ITEM_CARD)
+                {
+                    dword_800ABAD0 = pActor->field_1DC_menu_item.field_0_current.field_0_id;
+                }
+
+                pActor->field_1DC_menu_item.field_0_current.field_0_id = GM_CurrentItemId;
+            }
+
+            if (GM_CurrentItemId >= 0)
+            {
+                if (switched_weapon != 0)
+                {
+                    sub_8003CFE0(menu_rpk_8003B5E0(GM_CurrentItemId), 0);
+                    pActor->field_1DC_menu_item.field_11 = GM_CurrentItemId;
+                }
+
+                pActor->field_1DC_menu_item.field_0_current.field_2_num = GM_Items[GM_CurrentItemId];
+                menu_sub_menu_update_8003DA0C(pActor, pOt, &pActor->field_1DC_menu_item);
+            }
+        }
+        break;
+
+    case 2:
+        if (menu_8003D538())
+        {
+            pActor->field_1DC_menu_item.field_10_state = 1;
+        }
+
+        dword_800AB574 = 0;
+
+    case 1:
+        pAlloc = pActor->field_1DC_menu_item.field_C_alloc;
+        pPanel = &pAlloc->field_20_array[pAlloc->field_0_main.field_4_selected_idx];
+
+        if (GM_GameStatus_800AB3CC & 0x1000)
+        {
+            dword_800AB578 = 0;
+            dword_800AB574 = 0;
+        }
+
+        if ((pPanel->field_4_pos == 0) && (pPanel->field_0_id >= 0))
+        {
+            if (dword_800AB578 == 0)
+            {
+                if (++dword_800AB574 == 4)
+                {
+                    menu_8003B614(pPanel->field_0_id);
+                    dword_800AB578 = 1;
+                }
+            }
+        }
+        else
+        {
+            dword_800AB578 = 0;
+            dword_800AB574 = 0;
+        }
+
+        if (dword_800AB578 != 0)
+        {
+            if (pPanel->field_0_id == ITEM_PAL_KEY)
+            {
+                menu_8003B794(pActor, pOt, GM_ShapeKeyState);
+            }
+
+            menu_8003F9B4(pActor, pOt, aEquip);
+        }
+
+        menu_8003D7DC(pActor, pOt, &pActor->field_1DC_menu_item);
+        break;
+
+    case 3:
+        if (sub_8003D568() != 0)
+        {
+            pActor->field_2A_state = 0;
+            GV_PauseLevel_800AB928 &= ~0x4;
+            menu_8003BBEC(pActor);
+        }
+        else
+        {
+            menu_8003D7DC(pActor, pOt, &pActor->field_1DC_menu_item);
+        }
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
 
