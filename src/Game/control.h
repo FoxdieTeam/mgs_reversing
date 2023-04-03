@@ -21,14 +21,10 @@ struct map_record;
 
 enum
 {
-    CONTROL_FLAG_UNK1 = 0x1,
-    CONTROL_FLAG_UNK2 = 0x2,
-    CONTROL_FLAG_UNK4 = 0x4, // affects collision
-    CONTROL_FLAG_BOTH_CHECK = 0x8,
-    CONTROL_FLAG_UNK10 = 0x10,
-    CONTROL_FLAG_UNK20 = 0x20,
-    CONTROL_FLAG_UNK40 = 0x40,
-    CONTROL_FLAG_UNK80 = 0x80,
+	CTRL_SKIP_MESSAGE    = 0x01,
+	CTRL_SKIP_TRAP       = 0x02,
+	CTRL_SKIP_NEAR_CHECK = 0x04,
+	CTRL_BOTH_CHECK      = 0x08,
 }; // can't typedef char enums :(
 
 typedef struct CONTROL
@@ -76,7 +72,7 @@ typedef struct CONTROL
     SVECTOR       field_44_movementVector;
     SVECTOR       field_4C_turn_vec;
     char          field_54;
-    unsigned char field_55_skip_flag; // CONTROL_FLAG_...
+    unsigned char field_55_skip_flag; // CTRL_...
     signed char   field_56;
     signed char   field_57;
 

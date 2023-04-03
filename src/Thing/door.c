@@ -500,35 +500,27 @@ void door_act_8006F318(Actor_Door *pActor)
     }
 }
 
-static inline void do_nothing_vec_func(SVECTOR *vec)
-{
-    // Perhaps this had an SVECTOR on the stack with some compiled out code that used it?
-}
-
 void door_kill_8006F718(Actor_Door *pDoor)
 {
-    SVECTOR unused;
-    do_nothing_vec_func(&unused);
+    char pad[8]; // unused stack...
+
     GM_FreeControl_800260CC(&pDoor->field_20_ctrl);
     GM_FreeObject_80034BF8((OBJECT *)&pDoor->field_9C);
 }
 
 void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
 {
-    short vec1_y;
-
     pSeg->p1.x = pVec1->vx;
     pSeg->p1.z = pVec1->vz;
 
     pSeg->p2.x = pVec2->vx;
     pSeg->p2.z = pVec2->vz;
 
-    vec1_y = pVec1->vy;
+    pSeg->p1.y = pSeg->p2.y = pVec1->vy;
+
     pSeg->p2.h = param_v;
     pSeg->p1.h = param_v;
 
-    pSeg->p2.y = vec1_y;
-    pSeg->p1.y = vec1_y;
     HZD_SetDynamicSegment_8006FEE4(pSeg, pSeg);
 }
 
@@ -623,22 +615,22 @@ int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_v
     return defaul_val;
 }
 
-static inline void SetFlag(CONTROL *pControl, int flag)
-{
-    pControl->field_55_skip_flag |= flag;
-}
-
 int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 {
+    SVECTOR         vec;
+    CONTROL        *pControl;
+    char           *door_pos;
+    char           *door_dir;
+    char           *m_param;
+    OBJECT_NO_ROTS *obj;
     int             door_model_v;
     int             a_param_v;
     int             have_c_param;
-    char           *m_param;
-    OBJECT_NO_ROTS *obj;
-    char           *door_dir;
-    char           *door_pos;
+    CONTROL        *pControl2;
 
-    if (Res_Control_init_loader_8002599C(&pDoor->field_20_ctrl, name, where) < 0)
+    pControl = &pDoor->field_20_ctrl;
+
+    if (Res_Control_init_loader_8002599C(pControl, name, where) < 0)
     {
         return -1;
     }
@@ -648,10 +640,10 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     door_pos = (char *)GCL_GetParam_80020968('p');
     door_dir = (char *)GCL_GetParam_80020968('d');
 
-    GM_ConfigControlString_800261C0(&pDoor->field_20_ctrl, door_pos, door_dir);
-    GM_ConfigControlHazard_8002622C(&pDoor->field_20_ctrl, -1, -1, -1);
+    GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
+    GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
-    SetFlag(&pDoor->field_20_ctrl, 2);
+    pControl->field_55_skip_flag |= CTRL_SKIP_TRAP;
 
     m_param = (char *)GCL_GetParam_80020968('m');
     obj = &pDoor->field_9C;
@@ -659,7 +651,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
     DG_PutObjs_8001BDB8(pDoor->field_9C.objs);
     GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
 
@@ -698,11 +690,10 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
-        SVECTOR     vec;
-        CONTROL *pControl = &pDoor->field_20_ctrl;
-        GV_DirVec2_80016F24((pControl->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
-        pControl->field_0_mov.vx += vec.vx;
-        pControl->field_0_mov.vz += vec.vz;
+        pControl2 = &pDoor->field_20_ctrl;
+        GV_DirVec2_80016F24((pControl2->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
+        pControl2->field_0_mov.vx += vec.vx;
+        pControl2->field_0_mov.vz += vec.vz;
     }
 
     pDoor->field_F2_door_counter = 0;

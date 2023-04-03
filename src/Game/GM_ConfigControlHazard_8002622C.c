@@ -106,5 +106,5 @@ void GM_ConfigControlRadarparam_800262EC(CONTROL *pControl, short param_2, short
 
 void GM_ConfigControlTrapCheck_80026308(CONTROL *pControl)
 {
-    pControl->field_55_skip_flag &= ~CONTROL_FLAG_UNK2;
+    pControl->field_55_skip_flag &= ~CTRL_SKIP_TRAP;
 }
