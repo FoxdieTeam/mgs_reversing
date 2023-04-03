@@ -514,37 +514,59 @@ int SECTION(".data") dword_8009E3C8[] = {0x1371D07, 0x1373207, 0x2032E21};
 int SECTION(".data") gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
 // Also see dword_8009E5CC.
-// Those structs are passed to font_draw_string_80045D0C().
+// Those strings are passed to font_draw_string_80045D0C().
 extern char stru_800115CC[];
-extern char stru_8001158C[];
-extern char stru_80011558[];
-extern char stru_80011524[];
-extern char stru_800114F8[];
-extern char stru_80011494[];
-extern char stru_80011434[];
-extern char stru_800113D0[];
-extern char stru_80011378[];
-extern char stru_80011330[];
-extern char stru_800112D4[];
-extern char stru_8001127C[];
-extern char stru_80011224[];
-extern char stru_800111B0[];
-extern char stru_80011150[];
-extern char stru_800110E8[];
-extern char stru_800110AC[];
+extern char IT_Scope_8001158C[];
+extern char IT_Box1_80011558[];
+extern char IT_Box2_80011524[];
+extern char IT_Box3_800114F8[];
+extern char IT_InfraRedGoogles_80011494[];
+extern char IT_NightVisionGoggles_80011434[];
+extern char IT_GasMask_800113D0[];
+extern char IT_BodyArmor_80011378[];
+extern char IT_Ketchup_80011330[];
+extern char IT_Stealth_800112D4[];
+extern char IT_Bandana_8001127C[];
+extern char IT_Camera_80011224[];
+extern char IT_Ration_800111B0[];
+extern char IT_ColdMedicine_80011150[];
+extern char IT_Diazepam_800110E8[];
+extern char IT_PalKey_800110AC[];
 extern char stru_80011060[];
 extern char stru_8001101C[];
-extern char stru_80010FD0[];
-extern char stru_80010F84[];
-extern char stru_80010F50[];
-extern char stru_80010F08[];
-extern char stru_80010EAC[];
+extern char IT_MineDetector_80010FD0[];
+extern char IT_Disk_80010F84[];
+extern char IT_Rope_80010F50[];
+extern char IT_Handkerchief_80010F08[];
+extern char IT_Suppressor_80010EAC[];
+char *SECTION(".data") itm_descriptions_8009E3E4[] = {
+    stru_800115CC,
+    IT_Scope_8001158C,
+    IT_Box1_80011558,
+    IT_Box2_80011524,
+    IT_Box3_800114F8,
+    IT_InfraRedGoogles_80011494,
+    IT_NightVisionGoggles_80011434,
+    IT_GasMask_800113D0,
+    IT_BodyArmor_80011378,
+    IT_Ketchup_80011330,
+    IT_Stealth_800112D4,
+    IT_Bandana_8001127C,
+    IT_Camera_80011224,
+    IT_Ration_800111B0,
+    IT_ColdMedicine_80011150,
+    IT_Diazepam_800110E8,
+    IT_PalKey_800110AC,
+    stru_80011060,
+    stru_8001101C,
+    IT_MineDetector_80010FD0,
+    IT_Disk_80010F84,
+    IT_Rope_80010F50,
+    IT_Handkerchief_80010F08,
+    IT_Suppressor_80010EAC
+};
 extern char stru_80011644[];
 extern char stru_80011614[];
-char *SECTION(".data") dword_8009E3E4[] = {stru_800115CC, stru_8001158C, stru_80011558, stru_80011524, stru_800114F8, stru_80011494,
-                                           stru_80011434, stru_800113D0, stru_80011378, stru_80011330, stru_800112D4, stru_8001127C,
-                                           stru_80011224, stru_800111B0, stru_80011150, stru_800110E8, stru_800110AC, stru_80011060,
-                                           stru_8001101C, stru_80010FD0, stru_80010F84, stru_80010F50, stru_80010F08, stru_80010EAC};
 char *SECTION(".data") dword_8009E444[] = {stru_80011644, stru_80011614};
 
 // TODO: This (whole?) buffer is very likely a EUC-JP/SHIFT-JIS string.
@@ -565,32 +587,43 @@ struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {
     {16, 184, 1, 24576, 36864, sub_8003D64C, sub_8003D594, NULL},
     {256, 184, 2, 12288, 49152, sub_8003D594, sub_8003D5F0, NULL}};
 
-menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {{(char *)aSocom, 1},
-                                                                       {(char *)aFamas_800AB5BC, 3},
-                                                                       {(char *)aGrenade_800AB5B4, 5},
-                                                                       {(char *)aNikita_800AB5AC, 10},
-                                                                       {(char *)aStinger_800AB5A4, 9},
-                                                                       {(char *)aClaymore, 8},
-                                                                       {(char *)aC4_800AB5A0, 7},
-                                                                       {(char *)aStunG, 6},
-                                                                       {(char *)aChaffG, 11},
-                                                                       {(char *)aPsg1, 4}};
+menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {
+    {(char *)aSocom, 1},
+    {(char *)aFamas_800AB5BC, 3},
+    {(char *)aGrenade_800AB5B4, 5},
+    {(char *)aNikita_800AB5AC, 10},
+    {(char *)aStinger_800AB5A4, 9},
+    {(char *)aClaymore, 8},
+    {(char *)aC4_800AB5A0, 7},
+    {(char *)aStunG, 6},
+    {(char *)aChaffG, 11},
+    {(char *)aPsg1, 4}
+};
 
 // Also see dword_8009E3E4, dword_8009E444.
-// Those structs are passed to font_draw_string_80045D0C().
-extern char stru_80011A8C[];
-extern char stru_80011A30[];
-extern char stru_800119C0[];
-extern char stru_80011954[];
-extern char stru_800118DC[];
-extern char stru_8001187C[];
-extern char stru_80011838[];
-extern char stru_800117C4[];
-extern char stru_80011750[];
-extern char stru_800116E8[];
-char *SECTION(".data") dword_8009E5CC[] = {stru_80011A8C, stru_80011A30, stru_800119C0, stru_80011954,
-                                           stru_800118DC, stru_8001187C, stru_80011838, stru_800117C4,
-                                           stru_80011750, stru_800116E8};
+// Those strings are passed to font_draw_string_80045D0C().
+extern char WP_Socom_80011A8C[];
+extern char WP_Famas_80011A30[];
+extern char WP_Grenade_800119C0[];
+extern char WP_Nikita_80011954[];
+extern char WP_Stinger_800118DC[];
+extern char WP_LandMine_8001187C[];
+extern char WP_Bomb_80011838[];
+extern char WP_StunGrenade_800117C4[];
+extern char WP_ChaffGrenade_80011750[];
+extern char WP_Rifle_800116E8[];
+char *SECTION(".data") wpn_descriptions_8009E5CC[] = {
+    WP_Socom_80011A8C,
+    WP_Famas_80011A30,
+    WP_Grenade_800119C0,
+    WP_Nikita_80011954,
+    WP_Stinger_800118DC,
+    WP_LandMine_8001187C,
+    WP_Bomb_80011838,
+    WP_StunGrenade_800117C4,
+    WP_ChaffGrenade_80011750,
+    WP_Rifle_800116E8
+};
 
 BarConfig SECTION(".data") gSnakeLifeBarConfig_8009E5F4 = {aLife, {16u, 143u, 127u}, {31u, 223u, 63u}, 0};
 BarConfig SECTION(".data") gSnakeO2BarConfig_8009E600 = {aO2, {31u, 63u, 192u}, {31u, 127u, 255u}, 1};

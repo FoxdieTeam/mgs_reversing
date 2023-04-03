@@ -859,33 +859,33 @@ int sub_8003DF30(int weaponId)
     return (GM_DisableWeapon_800AB9E4 & (1 << weaponId)) > 0;
 }
 
-extern char *dword_8009E5CC[];
-extern char *dword_800AB5CC;
-char        *SECTION(".sdata") dword_800AB5CC;
+extern char *wpn_descriptions_8009E5CC[];
+extern char *wpn_mp5_description_800AB5CC;
+char        *SECTION(".sdata") wpn_mp5_description_800AB5CC;
 
-void menu_right_update_helper2_helper_8003E030(int idx)
+void menu_right_update_helper2_helper_8003E030(int wpn_id)
 {
     char *param_1;
 
-    param_1 = dword_8009E5CC[idx];
-    if (idx == 0)
+    param_1 = wpn_descriptions_8009E5CC[wpn_id];
+    if (wpn_id == 0)
     {
         if (GM_SilencerFlag == 0)
         {
-            dword_8009E5CC[0][0x70] = 0xd0;
-            dword_8009E5CC[0][0x71] = 3;
-            dword_8009E5CC[0][0x72] = 0;
+            wpn_descriptions_8009E5CC[0][0x70] = 0xd0;
+            wpn_descriptions_8009E5CC[0][0x71] = 3;
+            wpn_descriptions_8009E5CC[0][0x72] = 0;
         }
         else
         {
-            dword_8009E5CC[0][0x70] = 0x90;
-            dword_8009E5CC[0][0x71] = 0xb6;
-            dword_8009E5CC[0][0x72] = 0x91;
+            wpn_descriptions_8009E5CC[0][0x70] = 0x90;
+            wpn_descriptions_8009E5CC[0][0x71] = 0xb6;
+            wpn_descriptions_8009E5CC[0][0x72] = 0x91;
         }
     }
-    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && idx == 1)
+    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && wpn_id == WEAPON_FAMAS)
     {
-        param_1 = dword_800AB5CC;
+        param_1 = wpn_mp5_description_800AB5CC;
     }
     sub_8003F97C(param_1);
 }
