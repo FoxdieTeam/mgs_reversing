@@ -104,7 +104,7 @@ int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scri
     pControl->field_38 = 450;
     pControl->field_36 = 450;
     pControl->field_59 = 2;
-    pControl->field_55_skip_flag = CONTROL_FLAG_UNK2;
+    pControl->field_55_skip_flag = CTRL_SKIP_TRAP;
     pControl->field_78_levels[0] = -32000;
     pControl->field_78_levels[1] = 32000;
 
