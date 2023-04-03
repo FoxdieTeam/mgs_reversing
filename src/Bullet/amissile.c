@@ -321,7 +321,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
 
     pKmd = &pActor->field_9C_kmd;
 
-    pCtrl->field_55_skip_flag |= CONTROL_FLAG_UNK4;
+    pCtrl->field_55_skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
 
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pKmd, 0x76AB, 0x36D, 0);

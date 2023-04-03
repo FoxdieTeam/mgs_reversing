@@ -80,7 +80,7 @@ void rmissile_8006B924(Actor_rmissile *pActor)
     CONTROL *ctrl;
 
     ctrl = &pActor->field_20_ctrl;
-    ctrl->field_55_skip_flag |= CONTROL_FLAG_UNK2;
+    ctrl->field_55_skip_flag |= CTRL_SKIP_TRAP;
 
     rmissile_8006B888(pActor);
     GM_GameStatus_800AB3CC &= ~0x40;
@@ -871,7 +871,7 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
     kmd = &pActor->field_9C_kmd;
     ctrl->field_4C_turn_vec.vz = 0;
     ctrl->field_8_rotator.vz = 0;
-    ctrl->field_55_skip_flag |= CONTROL_FLAG_UNK4;
+    ctrl->field_55_skip_flag |= CTRL_SKIP_NEAR_CHECK;
 
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)kmd, 0x9A90, 0x36D, 0);
 
