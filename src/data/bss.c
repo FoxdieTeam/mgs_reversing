@@ -169,7 +169,7 @@ gap                                     gap_800B788C[0x4]; // 4 bytes
 
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
 map_record BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
-DG_LitVertex BSS    dg_lit_vertices_800B7A50[84]; // 0x7E0 (2016) bytes
+DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
 Homing_Target BSS   gHomingTargets_800B8230[8]; // 0x80 (128) bytes
 Actor_strctrl BSS   strctrl_800B82B0; // 0x40 (64) bytes
 Actor_JimCtrl BSS   jimCtrlActor_800B82F0; // 0x48 (72) bytes
