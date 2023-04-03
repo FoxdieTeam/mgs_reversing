@@ -1,3 +1,4 @@
+#include "psyq.h"
 #include "libdg/libdg.h"
 
 void sub_8003214C(SVECTOR *pVec, int *pRet)
