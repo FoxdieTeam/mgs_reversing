@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "Font/font.h"
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
@@ -41,7 +42,7 @@ int SECTION(".sdata") dword_800AB6A4 = 0;
 char *SECTION(".sdata") gFontBegin = 0;
 char *SECTION(".sdata") gFontEnd = 0;
 int SECTION(".sdata") dword_800AB6B0 = 1;
-char *SECTION(".sdata") dword_800AB6B4 = 0;
+RubiRes *SECTION(".sdata") dword_800AB6B4 = 0;
 int SECTION(".sdata") dword_800AB6B8 = 0;
 int SECTION(".sdata") dword_800AB6BC = 0;
 int SECTION(".sdata") dword_800AB6C0 = 0;
