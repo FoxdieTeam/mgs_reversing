@@ -19,6 +19,21 @@ typedef struct _KCB
     void *font_clut_buffer;
 } KCB;
 
+// This struct describes the structure of
+// "rubi.res" file.
+//
+// Note that 'r' (0x72) can be either a ".rar",
+// ".res" or ".rpk" file. It looks like different
+// ".res" files could have different data structure,
+// for example "rubi.res" file has a different structure
+// and it is not the same as ResHeader in Menu/.
+//
+typedef struct RubiRes
+{
+    char field_0;
+    char field_1[9];
+} RubiRes;
+
 void         font_set_font_addr_80044BC0(int arg1, void *data);
 void         font_update_8004695C(KCB *kcb);
 void         font_clear_800468FC(KCB *kcb);

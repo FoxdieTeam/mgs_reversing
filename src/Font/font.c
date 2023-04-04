@@ -27,8 +27,8 @@ char        *SECTION(".sbss") dword_800ABB28;
 extern char *gFontEnd;
 char        *SECTION(".sbss") gFontEnd;
 
-extern char *dword_800AB6B4;
-char        *SECTION(".sbss") dword_800AB6B4;
+extern RubiRes *dword_800AB6B4;
+RubiRes        *SECTION(".sbss") dword_800AB6B4;
 
 extern void *dword_8009E75C[];
 
@@ -37,11 +37,13 @@ void font_load_80044A9C(void)
     char *temp_a1;
     char *ptr;
 
+    // Load 'font.res' file:
     dword_800ABB28 = GV_GetCache_8001538C(GV_CacheID_800152DC(0xCA68, 'r'));
 
     if (dword_800ABB28)
     {
-        dword_800AB6B4 = GV_GetCache_8001538C(GV_CacheID_800152DC(0xE0E3, 'r'));
+        // Load 'rubi.res' file:
+        dword_800AB6B4 = (RubiRes *)GV_GetCache_8001538C(GV_CacheID_800152DC(0xE0E3, 'r'));
 
         temp_a1 = dword_800ABB28;
         LSTORE((temp_a1[0] << 24) | (temp_a1[1] << 16) | (temp_a1[2] << 8) | temp_a1[3], temp_a1);
@@ -325,7 +327,56 @@ int sub_800457B4(int param_1)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper_800458B8.s")  // 248 bytes
+extern char aWrongRubiCodeX[];
+
+int font_draw_string_helper3_helper_800458B8(int *outIterCount, unsigned char *str)
+{
+    RubiRes       *rubiRes;
+    int            rubiCode;
+    int            retval; // some sort of length corrected by rubi codes?
+    int            i, idx;
+    unsigned char *strIter;
+
+    rubiRes = dword_800AB6B4;
+    retval = 0;
+
+    for (i = 0, strIter = str;; i++)
+    {
+        if (strIter[0] < 128)
+        {
+            rubiCode = strIter[0] | 0x8000;
+            strIter += 1;
+        }
+        else
+        {
+            rubiCode = (strIter[0] << 8) | strIter[1];
+            strIter += 2;
+        }
+
+        rubiCode &= ~0x6000;
+        if (rubiCode == 0x807D)
+            break;
+
+        idx = sub_800457B4(rubiCode);
+        if (idx < 0)
+        {
+            mts_printf_8008BBA0(aWrongRubiCodeX, rubiCode);
+            idx = 0;
+        }
+
+        if (idx == 0)
+        {
+            retval += 4;
+        }
+        else
+        {
+            retval += rubiRes[idx - 1].field_0;
+        }
+    }
+    *outIterCount = i;
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_helper2_800459B0.s") // 308 bytes
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_80045AE4.s")         // 552 bytes
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_80045D0C.s")                 // 3056 bytes
