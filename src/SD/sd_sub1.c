@@ -196,7 +196,58 @@ void swpadset_80085F98( int a1 )
     swpadset_80085F98_helper(a1);
 }
 
-#pragma INCLUDE_ASM( "asm/SD/vol_compute_8008604C.s" ) // 332 bytes
+void vol_compute_8008604C()
+{
+    int          mult;
+    unsigned int vol;
+
+    if (sptr_800C057C->field_34_pvoc != 0)
+    {
+        if (--sptr_800C057C->field_34_pvoc == 0)
+        {
+            sptr_800C057C->field_38_pvod = sptr_800C057C->field_40_pvom << 8;
+        }
+        else
+        {
+            sptr_800C057C->field_38_pvod += sptr_800C057C->field_3C_pvoad;
+        }
+    }
+
+    if (sptr_800C057C->field_44_vol != 0)
+    {
+        if (sptr_800C057C->field_9E_tred == 0)
+        {
+            vol = 0;
+        }
+        else
+        {
+            if (sptr_800C057C->field_A0_trehs == sptr_800C057C->field_9D_trehc)
+            {
+                sptr_800C057C->field_9C_trec += sptr_800C057C->field_9F_trecad;
+                mult = sptr_800C057C->field_9C_trec;
+                if (mult < 0)
+                {
+                    vol = sptr_800C057C->field_9E_tred * -mult;
+                }
+                else if (mult == 0)
+                {
+                    vol = 1;
+                }
+                else
+                {
+                    vol = sptr_800C057C->field_9E_tred * mult;
+                }
+            }
+            else
+            {
+                sptr_800C057C->field_9D_trehc++;
+                vol = 0;
+            }
+        }
+        volxset_80086C98(vol >> 8);
+    }
+    pan_generate_80086198();
+}
 
 void pan_generate_80086198()
 {
