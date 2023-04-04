@@ -105,8 +105,8 @@ char *BSS           fs_stream_heap_end_800B52A8; // 0x4 (4) bytes
 int BSS             fs_stream_heapSize_800B52AC; // 0x4 (4) bytes
 int BSS             fs_dword_800B52B0; // 0x4 (4) bytes
 char *BSS           fs_ptr_800B52B4; // 0x4 (4) bytes
-int *BSS           fs_ptr_800B52B8; // 0x4 (4) bytes
-char *BSS           fs_ptr_800B52BC; // 0x4 (4) bytes
+int *BSS            fs_ptr_800B52B8; // 0x4 (4) bytes
+demothrd_80700000 *BSS fs_ptr_800B52BC; // 0x4 (4) bytes
 unsigned int BSS    fs_stream_task_state_800B52C0; // 0x4 (4) bytes
 
 gap                                     gap_800B52C4[0x4]; // 4 bytes
