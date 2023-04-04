@@ -94,7 +94,7 @@ extern int dword_800BF26C;
 extern int dword_800C050C;
 extern int dword_800C04F4;
 extern int dword_800C0410;
-extern int dword_800BF27C;
+extern unsigned int dword_800BF27C;
 extern int gStr_FadeOut1_800BF16C;
 extern int gStr_fadeout_2_800C0584;
 extern int gStream_800C04F0;

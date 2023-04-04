@@ -37,7 +37,7 @@ typedef struct _FS_MOVIE_FILE_TABLE
     FS_MOVIE_FILE field_4_files_8Array[8];
 } FS_MOVIE_FILE_TABLE;
 
-typedef void * (*TFsCallback)(void *);
+typedef char * (*TFsCallback)(char *);
 typedef void (*TFsSoundCallback)(void);
 
 int         CDBIOS_ReadSync_80022854(void);
