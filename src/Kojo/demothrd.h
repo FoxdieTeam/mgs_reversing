@@ -357,6 +357,14 @@ typedef struct Actor_demothrd
     int                field_2F8_old_equipped_weapon;
 } Actor_demothrd;
 
+#define stru_80700000 ((demothrd_80700000 *)0x80700000)
+
+typedef struct demothrd_80700000 {
+    int field_0;
+    int field_4;
+    int field_8;
+} demothrd_80700000;
+
 int  DM_ThreadStream_80079460(int flag, int unused);
 int  DM_ThreadFile_800794E4(int param_1, int param_2);
 void demothrd_cd_act_80079664(Actor_demothrd *pActor);

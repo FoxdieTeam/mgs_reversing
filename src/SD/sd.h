@@ -90,7 +90,7 @@ typedef struct SOUND_W
     char           field_94_rdms;
     char           field_95_pad[3];
     int            field_98_rdmd;
-    char           field_9C_trec;
+    signed char    field_9C_trec;
     char           field_9D_trehc;
     char           field_9E_tred;
     char           field_9F_trecad;
@@ -170,5 +170,7 @@ unsigned char *SD_80083EE8( unsigned short );
 void           SD_Unload_800843BC(void);
 void          *SD_WavLoadBuf_800841D4(void *);
 void           StrFadeWkSet_80083964();
+void           volxset_80086C98( unsigned char a1 );
+void           pan_generate_80086198();
 
 #endif // _SD_H_

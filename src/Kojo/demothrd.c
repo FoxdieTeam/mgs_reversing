@@ -10,7 +10,7 @@ extern int DG_UnDrawFrameCount_800AB380;
 extern int demodebug_finish_proc_800AB414;
 extern int dword_800BDFB8;
 extern int dword_800BDFBC;
-extern int dword_800BDFC0;
+extern demothrd_80700000 *dword_800BDFC0;
 extern int dword_800BDFC4;
 extern const char aM1e1[];
 extern const char aM1e1demo[];
@@ -161,8 +161,8 @@ void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
         mts_printf_8008BBA0(aCacheBufferCle);
         dword_800BDFC4 = 0x80700c00;
         // Debug build address
-        *(int *)0x80700000 = 0;
-        dword_800BDFC0 = 0x80700000;
+        stru_80700000->field_0 = 0;
+        dword_800BDFC0 = stru_80700000;
     }
 
     if (cache_read_enable) {
@@ -173,12 +173,34 @@ void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
 void sub_80079A1C(void)
 {
     // Debug build address
-    *(int *)0x80700000 = 0;
+    stru_80700000->field_0 = 0;
 }
 
 #pragma INCLUDE_ASM("asm/Kojo/sub_80079A2C.s")                                          // 184 bytes
-#pragma INCLUDE_ASM("asm/Kojo/sub_80079AE4.s")                                          // 108 bytes
 
+int sub_80079AE4(int arg0, int *arg1)
+{
+    demothrd_80700000 *stru;
+    int                field_0;
+    *arg1 = 0;
+    stru = stru_80700000;
+
+    if (dword_800BDFB8 && stru->field_0)
+    {
+        do
+        {
+            field_0 = stru->field_0;
+            if (field_0 == arg0)
+            {
+                *arg1 = stru->field_4;
+                return stru->field_8;
+            }
+            stru++;
+            field_0 = stru->field_0;
+        } while (field_0 != 0);
+    }
+    return 0;
+}
 
 int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
 {
