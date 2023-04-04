@@ -385,7 +385,7 @@ int BSS             wave_unload_size_800BF274; // 0x4 (4) bytes
 
 gap                                     gap_800BF278[0x4]; // 4 bytes
 
-int BSS             dword_800BF27C; // 0x4 (4) bytes
+unsigned int BSS    dword_800BF27C; // 0x4 (4) bytes
 
 gap                                     gap_800BF280[0x4]; // 4 bytes
 
