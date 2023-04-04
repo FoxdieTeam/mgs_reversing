@@ -168,7 +168,7 @@ char          *LoadInit_80083F08( unsigned short );
 void           SD_80083ED4(void);
 unsigned char *SD_80083EE8( unsigned short );
 void           SD_Unload_800843BC(void);
-void          *SD_WavLoadBuf_800841D4(void *);
+char          *SD_WavLoadBuf_800841D4(char *arg0);
 void           StrFadeWkSet_80083964();
 void           volxset_80086C98( unsigned char a1 );
 void           pan_generate_80086198();

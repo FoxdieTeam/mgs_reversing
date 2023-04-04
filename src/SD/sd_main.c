@@ -38,6 +38,7 @@ extern const char     aUnloadD[];
 extern const char     aCanceledStrFad[];
 extern const char     aStreamFilePosE[];
 extern const char     aStartstreamXVo[];
+extern const char     aSdWavLoadBufOv[];
 
 extern int            sng_status_800BF158;
 extern int            se_load_code_800BF28C;
@@ -227,7 +228,7 @@ extern int           dword_800BF210;
 extern int           dword_800BF064;
 extern int           dword_800BF1A8;
 unsigned char        blank_data_800A2B28[ 512 ];
-extern int           dword_800BF27C;
+extern unsigned int  dword_800BF27C;
 
 extern unsigned char byte_800C0588[ 200 ];
 extern int           blank_data_addr_800BF00C;
@@ -752,7 +753,60 @@ char *LoadInit_80083F08( unsigned short unused )
 }
 
 #pragma INCLUDE_ASM( "asm/SD/SD_80083F54.s" )            // 640 bytes
-#pragma INCLUDE_ASM( "asm/SD/SD_WavLoadBuf_800841D4.s" ) // 488 bytes
+int SD_80083F54(char *arg0);
+
+char *SD_WavLoadBuf_800841D4(char *arg0)
+{
+    char *buf;
+
+    if (dword_800BF27C != 1 && wave_unload_size_800BF274 == 0)
+    {
+        dword_800BF27C = 0;
+        return arg0;
+    }
+
+    switch (dword_800BF27C)
+    {
+    case 1:
+        if (SD_80083F54(arg0) != 0)
+        {
+            dword_800BF27C = 3;
+        }
+        break;
+    case 2:
+        break;
+    case 3:
+        buf = cdload_buf_800BF010 + 0x18000;
+        if (wave_load_ptr_800C0508 == buf)
+        {
+            wave_load_ptr_800C0508 = cdload_buf_800BF010;
+        }
+        else if (buf < wave_load_ptr_800C0508)
+        {
+            mts_printf_8008BBA0(aSdWavLoadBufOv);
+            *(int *)1 = 0;
+        }
+        if (arg0 < wave_load_ptr_800C0508)
+        {
+            dword_800C0650 = 0x18000 + cdload_buf_800BF010 - (wave_load_ptr_800C0508);
+        }
+        else
+        {
+            dword_800C0650 = arg0 - wave_load_ptr_800C0508;
+        }
+        wave_unload_size_800BF274 -= dword_800C0650;
+        SpuSetTransferStartAddr_80096EC8(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
+        SpuWrite_80096E68((unsigned char *) wave_load_ptr_800C0508, dword_800C0650);
+        spu_load_offset_800BF140 += dword_800C0650;
+        wave_load_ptr_800C0508 += dword_800C0650;
+        break;
+    }
+    if (arg0 >= cdload_buf_800BF010 + 0x18000)
+    {
+        arg0 = cdload_buf_800BF010;
+    }
+    return arg0;
+}
 
 void SD_Unload_800843BC()
 {
