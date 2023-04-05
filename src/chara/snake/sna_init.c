@@ -1692,7 +1692,7 @@ void sna_init_check_message_0_80050878(Actor_SnaInit *pActor)
     GV_MSG *pMsg;
     unsigned short id;
 
-    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK80000) &&
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_THROWING) &&
         (GM_SnakeCurrentHealth != 0) &&
         (GM_GameOverTimer_800AB3D4 == 0) &&
         !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_STATUS_UNK4))
@@ -1700,7 +1700,7 @@ void sna_init_check_message_0_80050878(Actor_SnaInit *pActor)
         sna_init_start_anim_8004E1F4(pActor, &sna_init_act_helper3_helper_80056650);
         sna_init_set_invuln_8004F2A0(pActor, 0);
         sna_act_unk2_80051170(pActor->field_89C_pTarget);
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_UNK80000);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_STATUS_THROWING);
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_STATUS_UNK4);
         sna_init_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
     }
