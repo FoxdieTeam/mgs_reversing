@@ -17,7 +17,6 @@ extern int                       GM_PlayerStatus_800ABA50;
 extern int                       GV_PauseLevel_800AB928;
 extern int                       GM_DisableItem_800ABA28;
 extern int                       DG_UnDrawFrameCount_800AB380;
-
 extern int                       dword_8009F46C;
 
 extern int                       dword_800ABAD0;
@@ -572,7 +571,123 @@ void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper3_8003C24C.s") // 672 bytes
+void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
+{
+    PANEL *pPanel;
+    short  heal_amount;
+    short  item_amount;
+
+    if (!(press & PAD_CIRCLE))
+    {
+        return;
+    }
+
+    pPanel = &pPanels->field_20_array[pPanels->field_0_main.field_4_selected_idx];
+
+    if (pPanel->field_2_num <= 0)
+    {
+        return;
+    }
+
+    switch(pPanel->field_0_id)
+    {
+    case ITEM_KETCHUP:
+    case ITEM_RATION:
+        if (GM_FrozenItemsState != 0)
+        {
+            GM_Sound_80032968(0, 63, 115); // Frozen item ding
+            return;
+        }
+
+        if (GM_SnakeCurrentHealth == GM_SnakeMaxHealth)
+        {
+            GM_Sound_80032968(0, 63, 35); // "BA BA" denied sound
+            return;
+        }
+
+        if (pPanel->field_0_id == ITEM_RATION)
+        {
+            if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
+            {
+                heal_amount = 1024;
+            }
+            else if (GM_DifficultyFlag == DIFFICULTY_EASY)
+            {
+                heal_amount = 384;
+            }
+            else
+            {
+                heal_amount = 256;
+            }
+        }
+        else
+        {
+            heal_amount = 64;
+            pPanel->field_0_id = ITEM_NONE;
+            GM_KetchupFlag = 0;
+        }
+
+        GM_SnakeCurrentHealth += heal_amount;
+        GM_TotalRationsUsed++;
+
+        if (GM_SnakeCurrentHealth > GM_SnakeMaxHealth)
+        {
+            GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
+        }
+
+        GM_Sound_80032968(0, 63, 12); // Ration used sound
+        break;
+
+    case ITEM_MEDICINE:
+        if (GM_SnakeState & 1) // Snake has a cold :(
+        {
+            GM_SnakeState &= ~0x1;
+            GM_SnakeColdTimer = 0;
+            GM_SnakeColdUnk9A = 0;
+        }
+
+        GM_Sound_80032968(0, 63, 34); // Medicine used sound
+        break;
+
+    case ITEM_DIAZEPAM:
+        GM_SnakeState |= 0x4;
+
+        if (GM_TranquilizerTimer < 0)
+        {
+            GM_TranquilizerTimer = 0;
+        }
+
+        GM_TranquilizerTimer += 1200;
+
+        GM_Sound_80032968(0, 63, 34); // Medicine used sound
+        break;
+
+    case ITEM_TIMER_B:
+        if (((GM_PlayerStatus_800ABA50 & 0x362) != 0) || (dword_8009F46C != 0) || menu_inventory_Is_Item_Disabled_8003B6D0(ITEM_TIMER_B))
+        {
+            GM_Sound_80032968(0, 63, 35); // "BA BA" denied sound
+        }
+        else
+        {
+            pPanel->field_0_id = ITEM_NONE;
+            GM_TimerBombFlag = -1;
+            GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_THROWING;
+            GM_Sound_80032968(0, 63, 33); // Title screen exit/bomb discard sound
+        }
+        return;
+
+    default:
+        return;
+    }
+
+    if (pPanel->field_0_id >= 0)
+    {
+        item_amount = GM_Items[pPanel->field_0_id];
+        pPanel->field_2_num = item_amount - 1;
+        GM_Items[pPanel->field_0_id] = item_amount - 1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
 
 void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
