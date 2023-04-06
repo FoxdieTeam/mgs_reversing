@@ -127,12 +127,12 @@ void menuman_Reset_800389A8()
     gMenuMan_800BD360.field_2B = 0;
     gMenuMan_800BD360.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
     gMenuMan_800BD360.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
-    menu_bars_init_8003F7E0(&gMenuMan_800BD360);
+    menu_life_init_8003F7E0(&gMenuMan_800BD360);
 }
 
 void menu_ResetTexture_80038A00(void)
 {
-    menu_right_unknown_8003DEB0();
+    menu_weapon_unknown_8003DEB0();
 }
 
 void menu_StartDeamon_80038A20(void)

@@ -46,7 +46,7 @@ int SECTION(".sbss") dword_800ABB08;
 short SECTION(".sbss") word_800ABB0C;
 short SECTION(".sbss") word_800ABB0E;
 
-extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT];
+extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
@@ -797,7 +797,7 @@ void menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pPanelTex, int imgIdx, int palId
 void menu_inventory_right_init_items_8003DE50(void)
 {
     int i = 0;
-    while (i < MENU_ITEMS_RIGHT_COUNT)
+    while (i < MENU_WEAPON_COUNT)
     {
         const int imgIdx = i + 1;
         menu_init_rpk_item_8003DDCC(&gMenuRightItems_800BD888[i], imgIdx, 0);
@@ -805,12 +805,12 @@ void menu_inventory_right_init_items_8003DE50(void)
     }
 }
 
-void menu_right_unknown_8003DEB0(void)
+void menu_weapon_unknown_8003DEB0(void)
 {
-    sub_8003CE40(gMenuRightItems_800BD888, MENU_ITEMS_RIGHT_COUNT);
+    sub_8003CE40(gMenuRightItems_800BD888, MENU_WEAPON_COUNT);
 }
 
-PANEL_TEXTURE *menu_right_get_weapon_rpk_info_8003DED8(int weaponIdx)
+PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
     if ((weaponIdx == WEAPON_SOCOM) && !GM_SilencerFlag)
@@ -863,7 +863,7 @@ extern char *wpn_descriptions_8009E5CC[];
 extern char *wpn_mp5_description_800AB5CC;
 char        *SECTION(".sdata") wpn_mp5_description_800AB5CC;
 
-void menu_right_update_helper2_helper_8003E030(int wpn_id)
+void menu_weapon_update_helper2_helper_8003E030(int wpn_id)
 {
     char *param_1;
 
@@ -896,7 +896,7 @@ extern short d_800AB9EC_mag_size;
 extern char aMp5Sd[];    // = "MP 5 SD";
 extern char aNoItem_0[]; // = "NO ITEM";
 
-void menu_right_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
+void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
 {
     PANEL_TEXTURE        *pTexture;
     char                 *str;
@@ -925,7 +925,7 @@ void menu_right_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, i
         }
 
         weaponRpkInfo = &gMenuWeaponRpkInfo_8009E57C[weaponIdxCopy];
-        pTexture = menu_right_get_weapon_rpk_info_8003DED8(weaponIdxCopy);
+        pTexture = menu_weapon_get_weapon_rpk_info_8003DED8(weaponIdxCopy);
 
         if (pPanel->field_6_current == 0)
         {
@@ -979,7 +979,7 @@ void menu_right_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, i
 
 extern short GM_WeaponChanged_800AB9D8;
 
-void menu_right_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
+void menu_weapon_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
 {
     Menu_Item_Unknown *pItemUnknown;
     int                id;
@@ -1001,7 +1001,7 @@ void menu_right_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
         if (GM_CurrentWeaponId >= 0)
         {
             sub_8003CFE0(
-                menu_right_get_weapon_rpk_info_8003DED8(pActor->field_1F0_menu_weapon.field_0_current.field_0_id), 1);
+                menu_weapon_get_weapon_rpk_info_8003DED8(pActor->field_1F0_menu_weapon.field_0_current.field_0_id), 1);
         }
         pActor->field_1F0_menu_weapon.field_11 = gameState[14]; // GM_CurrentWeaponId would not match...
     }
@@ -1029,7 +1029,7 @@ int        SECTION(".sdata") dword_800AB5E4;
 extern int dword_800AB5E0;
 int        SECTION(".sdata") dword_800AB5E0;
 
-int menu_right_update_helper_8003E4B8(Actor_MenuMan *pActor)
+int menu_weapon_update_helper_8003E4B8(Actor_MenuMan *pActor)
 {
     Menu_Item_Unknown *pPanel;
     int                i;
@@ -1118,7 +1118,7 @@ extern int GV_PauseLevel_800AB928;
 extern const char aWeapon[]; // = "WEAPON"
 extern const char aHereD[];  // = "HERE %d\n"
 
-void menu_right_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt)
+void menu_weapon_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     unsigned short anim_frame;
     int anim_frame2;
@@ -1183,7 +1183,7 @@ void menu_right_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt
             {
                 if (switched_weapon != 0)
                 {
-                    sub_8003CFE0(menu_right_get_weapon_rpk_info_8003DED8(GM_CurrentWeaponId), 1);
+                    sub_8003CFE0(menu_weapon_get_weapon_rpk_info_8003DED8(GM_CurrentWeaponId), 1);
                     pActor->field_1F0_menu_weapon.field_11 = GM_CurrentWeaponId;
                 }
 
@@ -1209,7 +1209,7 @@ void menu_right_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt
             {
                 if (++dword_800AB5E0 == 4)
                 {
-                    menu_right_update_helper2_helper_8003E030(pPanel->field_0_id);
+                    menu_weapon_update_helper2_helper_8003E030(pPanel->field_0_id);
                     dword_800AB5E4 = 1;
                 }
             }
@@ -1233,7 +1233,7 @@ void menu_right_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt
         {
             pActor->field_2A_state = 0;
             GV_PauseLevel_800AB928 &= ~0x4;
-            menu_right_update_helper2_helper2_8003E3B0(pActor);
+            menu_weapon_update_helper2_helper2_8003E3B0(pActor);
         }
         else
         {
@@ -1243,7 +1243,7 @@ void menu_right_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt
     }
 }
 
-void menu_right_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
+void menu_weapon_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
 {
     GV_PAD         *pPad;
     Menu_Inventory *pMenu;
@@ -1262,7 +1262,7 @@ void menu_right_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
         {
             if (menu_8003DA9C(&menuMan->field_1F0_menu_weapon, pPad))
             {
-                if (menu_right_update_helper_8003E4B8(menuMan))
+                if (menu_weapon_update_helper_8003E4B8(menuMan))
                 {
                     menuMan->field_2A_state = 1;
                     GV_PauseLevel_800AB928 |= 4;
@@ -1337,7 +1337,7 @@ void menu_right_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
         return;
     }
 
-    menu_right_update_helper2_8003E674(menuMan, (unsigned int*)pOt);
+    menu_weapon_update_helper2_8003E674(menuMan, (unsigned int*)pOt);
 }
 
 void sub_8003EBDC(struct Actor_MenuMan *menuMan)
@@ -1349,16 +1349,16 @@ void sub_8003EBDC(struct Actor_MenuMan *menuMan)
     if ((weapon_index != -1) ||
         (weapon_index = *(signed char *)&((menuMan->field_1F0_menu_weapon).field_11), weapon_index != -1))
     {
-        pPanelTex = menu_right_get_weapon_rpk_info_8003DED8(weapon_index);
+        pPanelTex = menu_weapon_get_weapon_rpk_info_8003DED8(weapon_index);
         sub_8003CFE0(pPanelTex, 1);
     }
 }
 
-void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
+void menu_weapon_init_8003EC2C(struct Actor_MenuMan *menuMan)
 
 {
     short val = -1;
-    menuMan->field_2C_modules[MENU_WEAPON] = menu_right_update_8003E990;
+    menuMan->field_2C_modules[MENU_WEAPON] = menu_weapon_update_8003E990;
     menuMan->field_1F0_menu_weapon.field_0_current.field_0_id = val;
     menuMan->field_1F0_menu_weapon.field_10_state = 0;
     menuMan->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
@@ -1367,7 +1367,7 @@ void menu_right_init_8003EC2C(struct Actor_MenuMan *menuMan)
     menuMan->field_1F0_menu_weapon.field_11 = val;
     menuMan->field_28_flags |= 2;
     dword_800ABAE8 = 0;
-    sub_8003D6A8(&menuMan->field_1F0_menu_weapon, 1, (int *)menu_right_init_helper_8003E0E8);
+    sub_8003D6A8(&menuMan->field_1F0_menu_weapon, 1, (int *)menu_weapon_init_helper_8003E0E8);
     menu_inventory_right_init_items_8003DE50();
     sub_8003EBDC(menuMan);
 }

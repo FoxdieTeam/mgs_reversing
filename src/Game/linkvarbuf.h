@@ -153,6 +153,12 @@ enum // GM_DifficultyFlag
     DIFFICULTY_EXTREME   = 3,
 };
 
+enum // GM_SnakeState
+{
+    SNAKE_STATE_COLD = 0x1,
+    SNAKE_STATE_DIAZEPAM = 0x4,
+};
+
 enum // GM_SnakeStance
 {
     // ... negative ones too?
