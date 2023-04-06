@@ -8,7 +8,7 @@ unsigned char         rdm_tbl_8009F9BC[ 129 ];
 extern SOUND_W       *sptr_800C057C;
 extern SPU_TRACK_REG  spu_tr_wk_800C0658[ 23 ];
 extern unsigned int   mtrack_800BF1EC;
-extern int            mdata1_800BF0D0;
+extern unsigned int   mdata1_800BF0D0;
 extern int            mdata2_800BF0D4;
 extern int            mdata3_800BF0D8;
 extern int            mdata4_800BF0DC;
@@ -156,7 +156,79 @@ void adsr_reset_80085D98()
     spu_tr_wk_800C0658[ mtrack_800BF1EC ].field_38_env3_fg = 1;
 }
 
-#pragma INCLUDE_ASM( "asm/SD/note_compute_80085DE0.s" ) // 440 bytes
+void note_compute_80085DE0(void)
+{
+    int      newswpd;
+    int      oldswpd;
+    SOUND_W *pSound;
+
+    if (mdata1_800BF0D0 >= 0x48)
+    {
+        drum_set_80088694(mdata1_800BF0D0);
+        newswpd = 0x24;
+    }
+    else
+    {
+        newswpd = mdata1_800BF0D0;
+    }
+
+    newswpd += sptr_800C057C->field_A8_ptps;
+    newswpd = (newswpd << 8) + sptr_800C057C->field_B0_tund;
+    newswpd = newswpd + sptr_800C057C->field_14_lp1_freq + sptr_800C057C->field_18_lp2_freq;
+
+    while (newswpd >= 0x6000)
+    {
+        newswpd -= 0x6000;
+    }
+
+    oldswpd = sptr_800C057C->field_5C_swpd;
+
+    pSound = sptr_800C057C;
+    pSound->field_7A = 0;
+    pSound->field_70_vibhc = 0;
+    pSound->field_5C_swpd = newswpd;
+
+    sptr_800C057C->field_74_vib_tmp_cnt = 0;
+    sptr_800C057C->field_78_vib_tbl_cnt = 0;
+
+    pSound = sptr_800C057C;
+    pSound->field_9D_trehc = 0;
+    pSound->field_9C_trec = 0;
+    pSound->field_7C_vibd = 0;
+
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_34_rr = sptr_800C057C->field_D2_rrd;
+    spu_tr_wk_800C0658[mtrack_800BF1EC].field_38_env3_fg = 1;
+
+    sptr_800C057C->field_57_swpc = sptr_800C057C->field_68_swsc;
+
+    if (sptr_800C057C->field_57_swpc != 0)
+    {
+        sptr_800C057C->field_58_swphc = sptr_800C057C->field_69_swshc;
+
+        if (sptr_800C057C->field_6A_swsk == 0)
+        {
+            newswpd = sptr_800C057C->field_5C_swpd;
+
+            if (sptr_800C057C->field_6C_swss >= 0x7F01)
+            {
+                sptr_800C057C->field_5C_swpd += 0x10000 - (sptr_800C057C->field_6C_swss & 0xFFFF);
+            }
+            else
+            {
+                sptr_800C057C->field_5C_swpd -= sptr_800C057C->field_6C_swss;
+            }
+
+            swpadset_80085F98(newswpd);
+        }
+        else
+        {
+            sptr_800C057C->field_64_swpm = sptr_800C057C->field_5C_swpd;
+            sptr_800C057C->field_5C_swpd = oldswpd;
+        }
+    }
+
+    freq_set_800885D4(sptr_800C057C->field_5C_swpd);
+}
 
 static inline void swpadset_80085F98_helper( int a1 )
 {

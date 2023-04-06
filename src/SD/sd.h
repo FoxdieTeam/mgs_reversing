@@ -172,5 +172,7 @@ char          *SD_WavLoadBuf_800841D4(char *arg0);
 void           StrFadeWkSet_80083964();
 void           volxset_80086C98( unsigned char a1 );
 void           pan_generate_80086198();
+void           drum_set_80088694(unsigned char a1);
+void           swpadset_80085F98( int a1 );
 
 #endif // _SD_H_
