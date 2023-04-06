@@ -183,7 +183,7 @@ gap                                     gap_800B935C[0x4]; // 4 bytes
 unsigned char BSS   gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
 Actor_MenuMan BSS   gMenuMan_800BD360; // 0x220 (544) bytes
 MATRIX BSS          gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
-PANEL_TEXTURE BSS   gMenuLeftItems_800BD5A0[MENU_ITEMS_LEFT_COUNT]; // 0x1A4 (420) bytes
+PANEL_TEXTURE BSS   gMenuLeftItems_800BD5A0[MENU_ITEM_COUNT]; // 0x1A4 (420) bytes
 
 gap                                     gap_800BD744[0x4]; // 4 bytes
 
@@ -192,7 +192,7 @@ array_800BD748_child BSS array_800BD748[9]; // 0xD8 (216) bytes
 gap                                     gap_800BD820[0x8]; // 8 bytes
 
 array_800BD828_child BSS array_800BD828[4]; // 0x60 (96) bytes
-PANEL_TEXTURE BSS   gMenuRightItems_800BD888[MENU_ITEMS_RIGHT_COUNT]; // 0xDC (220) bytes
+PANEL_TEXTURE BSS   gMenuRightItems_800BD888[MENU_WEAPON_COUNT]; // 0xDC (220) bytes
 
 gap                                     gap_800BD964[0x4]; // 4 bytes
 

@@ -48,7 +48,7 @@ void menu_sub_8003B568(void)
     u_long palIdx;
     int   i;
 
-    for (i = 0; i < MENU_ITEMS_LEFT_COUNT; i++)
+    for (i = 0; i < MENU_ITEM_COUNT; i++)
     {
         imgIdx = 0xc + i;
         palIdx = 0x2e;
@@ -79,9 +79,9 @@ void menu_8003B614(int index)
 
     if (GM_FrozenItemsState == 1)
     {
-        if (index != 9)
+        if (index != ITEM_KETCHUP)
         {
-            if (index == 13)
+            if (index == ITEM_RATION)
             {
                 ptr = dword_8009E444[0];
             }
@@ -92,12 +92,12 @@ void menu_8003B614(int index)
         }
     }
 
-    if (index == 17)
+    if (index == ITEM_CARD)
     {
         ptr[46] = GM_CardFlag + 48;
     }
 
-    if (index == 19 && GM_DifficultyFlag >= 2)
+    if (index == ITEM_MINE_D && GM_DifficultyFlag >= DIFFICULTY_HARD)
     {
         ptr = (char *)dword_8009E44C;
     }
@@ -105,7 +105,7 @@ void menu_8003B614(int index)
     sub_8003F97C(ptr);
 }
 
-int menu_inventory_Is_Item_Disabled_8003B6D0(int item)
+int menu_item_IsItemDisabled_8003B6D0(int item)
 {
     int bit;
 
@@ -181,7 +181,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
 
 
 
-void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
+void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt; // $s6
     MenuGlue *field_20_otBuf; // $v0
@@ -194,7 +194,7 @@ void menu_inventory_left_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned 
     {
         pMenuSprt = menu_rpk_8003B5E0(pMenuSub->field_0_current.field_0_id);
         sub_8003CEF8(pMenuSprt);
-        if ( menu_inventory_Is_Item_Disabled_8003B6D0(pMenuSub->field_0_current.field_0_id) )
+        if ( menu_item_IsItemDisabled_8003B6D0(pMenuSub->field_0_current.field_0_id) )
         {
             menu_draw_nouse_800435A4(pActor->field_20_otBuf, xpos, ypos);
         }
@@ -299,7 +299,7 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
     index = pActor->field_1DC_menu_item.field_0_current.field_0_id;
     pLinkVar = linkvarbuf;
 
-    if ((index >= 0) && !menu_inventory_Is_Item_Disabled_8003B6D0(index))
+    if ((index >= 0) && !menu_item_IsItemDisabled_8003B6D0(index))
     {
         pLinkVar[15] = index;
         sub_8003CFE0(menu_rpk_8003B5E0(index), 0);
@@ -324,7 +324,7 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
     GM_Sound_80032968(0, 63, 20);
 }
 
-int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
+int menu_item_update_helper_8003BCD4(Actor_MenuMan *pActor)
 {
     int activeItems;
     int i;
@@ -430,13 +430,13 @@ int menu_inventory_left_update_helper_8003BCD4(Actor_MenuMan *pActor)
     pActor->field_1DC_menu_item.field_10_state = 2;
 
     sub_8003D520();
-    sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEMS_LEFT_COUNT);
+    sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEM_COUNT);
     menu_panel_8003D2BC(pActor->field_1DC_menu_item.field_C_alloc, pActor->field_1DC_menu_item.field_0_current.field_0_id);
     GM_Sound_80032968(0, 63, 21);
     return 1;
 }
 
-void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
+void menu_item_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     unsigned short anim_frame;
     int anim_frame2;
@@ -461,7 +461,7 @@ void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned
 
                 if (((anim_frame2 & 3) == 3) &&
                     (pActor->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId) &&
-                    menu_inventory_Is_Item_Disabled_8003B6D0(pActor->field_1DC_menu_item.field_0_current.field_0_id) &&
+                    menu_item_IsItemDisabled_8003B6D0(pActor->field_1DC_menu_item.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount_800AB380 == 0))
                 {
                     GM_Sound_80032968(0, 63, 54);
@@ -472,7 +472,7 @@ void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned
         else
         {
             switched_weapon = 0;
-            if (menu_inventory_Is_Item_Disabled_8003B6D0(GM_CurrentItemId))
+            if (menu_item_IsItemDisabled_8003B6D0(GM_CurrentItemId))
             {
                 last_id = GM_CurrentItemId;
                 GM_CurrentItemId = ITEM_NONE;
@@ -571,7 +571,7 @@ void menu_inventory_left_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned
     }
 }
 
-void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
+void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
 {
     PANEL *pPanel;
     short  heal_amount;
@@ -639,9 +639,9 @@ void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, uns
         break;
 
     case ITEM_MEDICINE:
-        if (GM_SnakeState & 1) // Snake has a cold :(
+        if (GM_SnakeState & SNAKE_STATE_COLD) // Snake has a cold :(
         {
-            GM_SnakeState &= ~0x1;
+            GM_SnakeState &= ~SNAKE_STATE_COLD;
             GM_SnakeColdTimer = 0;
             GM_SnakeColdUnk9A = 0;
         }
@@ -650,7 +650,7 @@ void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, uns
         break;
 
     case ITEM_DIAZEPAM:
-        GM_SnakeState |= 0x4;
+        GM_SnakeState |= SNAKE_STATE_DIAZEPAM;
 
         if (GM_TranquilizerTimer < 0)
         {
@@ -663,14 +663,16 @@ void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, uns
         break;
 
     case ITEM_TIMER_B:
-        if (((GM_PlayerStatus_800ABA50 & 0x362) != 0) || (dword_8009F46C != 0) || menu_inventory_Is_Item_Disabled_8003B6D0(ITEM_TIMER_B))
+        if ( (GM_PlayerStatus_800ABA50 & 0x362) ||
+             dword_8009F46C ||
+             menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B) )
         {
             GM_Sound_80032968(0, 63, 35); // "BA BA" denied sound
         }
         else
         {
             pPanel->field_0_id = ITEM_NONE;
-            GM_TimerBombFlag = -1;
+            GM_TimerBombFlag = ITEM_NONE;
             GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_THROWING;
             GM_Sound_80032968(0, 63, 33); // Title screen exit/bomb discard sound
         }
@@ -688,9 +690,9 @@ void menu_inventory_left_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, uns
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_inventory_left_update_helper4_8003C4EC.s") // 1136 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_item_update_helper4_8003C4EC.s") // 1136 bytes
 
-void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
+void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     GV_PAD          *pPad = pActor->field_24_pInput;
     Menu_Inventory  *pLeftRight;
@@ -704,7 +706,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pO
             {
                 if (menu_8003DA9C(&pActor->field_1DC_menu_item, pPad))
                 {
-                    if (menu_inventory_left_update_helper_8003BCD4(pActor))
+                    if (menu_item_update_helper_8003BCD4(pActor))
                     {
                         pActor->field_2A_state = 2;
                         GV_PauseLevel_800AB928 |= 4;
@@ -718,7 +720,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pO
                     {
                         GM_CurrentItemId = -1;
                     }
-                    else if (!menu_inventory_Is_Item_Disabled_8003B6D0(pActor->field_1DC_menu_item.field_11))
+                    else if (!menu_item_IsItemDisabled_8003B6D0(pActor->field_1DC_menu_item.field_11))
                     {
                         if (GM_Items[pActor->field_1DC_menu_item.field_11] > 0)
                         {
@@ -749,7 +751,7 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pO
         else if (sub_8003D52C() > 255)
         {
             sub_8003D6CC(pLeftRight, pPad);
-            menu_inventory_left_update_helper3_8003C24C(pActor->field_1DC_menu_item.field_C_alloc, pPad->press);
+            menu_item_update_helper3_8003C24C(pActor->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
     else if (pActor->field_2A_state != 4)
@@ -774,13 +776,13 @@ void menu_inventory_left_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pO
         return;
     }
 
-    menu_inventory_left_update_helper2_8003BF1C(pActor, pOt);
-    menu_inventory_left_update_helper4_8003C4EC();
+    menu_item_update_helper2_8003BF1C(pActor, pOt);
+    menu_item_update_helper4_8003C4EC();
 }
 
 void sub_8003CB98(struct Actor_MenuMan *pActor)
 {
-    int field_0_item_id_idx; // $a0
+    int            field_0_item_id_idx; // $a0
     PANEL_TEXTURE *pItem; // $v0
 
     menu_restore_nouse_80043470();
@@ -793,10 +795,11 @@ void sub_8003CB98(struct Actor_MenuMan *pActor)
     }
 }
 
-void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
+void menu_item_8003CBF0(struct Actor_MenuMan *menuMan)
 {
     short val = -1;
-    menuMan->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_inventory_left_update_8003C95C;
+
+    menuMan->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_item_update_8003C95C;
     menuMan->field_1DC_menu_item.field_0_current.field_0_id = val;
     menuMan->field_1DC_menu_item.field_10_state = 0;
     menuMan->field_1DC_menu_item.field_0_current.field_4_pos = 0;
@@ -804,13 +807,13 @@ void menu_inventory_left_8003CBF0(struct Actor_MenuMan *menuMan)
     menuMan->field_1DC_menu_item.field_11 = val;
     menuMan->field_28_flags |= 4;
     dword_800ABAD0 = 0;
-    sub_8003D6A8(&menuMan->field_1DC_menu_item, 0, (int *)menu_inventory_left_helper_8003B8F0);
+    sub_8003D6A8(&menuMan->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
     menu_sub_8003B568();
     sub_8003CB98(menuMan);
     menu_init_nouse_800434A8();
 }
 
-void menu_left_kill_8003CC74(Actor_MenuMan *pMenu)
+void menu_item_kill_8003CC74(Actor_MenuMan *pMenu)
 {
     pMenu->field_28_flags &= ~4u;
 }
