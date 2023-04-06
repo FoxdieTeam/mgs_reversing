@@ -329,7 +329,7 @@ int BSS             dword_800BF064; // 0x4 (4) bytes
 SEPLAYTBL BSS       se_playing_800BF068[8]; // 0x60 (96) bytes
 int BSS             spu_bgm_start_ptr_r_800BF0C8; // 0x4 (4) bytes
 int BSS             bstr_fade_inProgress_800BF0CC; // 0x4 (4) bytes
-int BSS             mdata1_800BF0D0; // 0x4 (4) bytes
+unsigned int BSS    mdata1_800BF0D0; // 0x4 (4) bytes
 int BSS             mdata2_800BF0D4; // 0x4 (4) bytes
 int BSS             mdata3_800BF0D8; // 0x4 (4) bytes
 int BSS             mdata4_800BF0DC; // 0x4 (4) bytes
