@@ -24,7 +24,7 @@ void sub_8003ECC0(void)
     dword_800ABAE8 = 0;
 }
 
-int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
+int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 {
     short snakeHp = pBars->field_6_snake_hp;
     if (snakeHp == GM_SnakeCurrentHealth)
@@ -54,7 +54,7 @@ int menu_bars_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig)
+void menu_life_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig)
 {
     TextConfig text_config;
     int        sp28;
@@ -165,7 +165,7 @@ void menu_bar_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int 
     addPrim(pBuffer->mPrimBuf.mOt, pTpage);
 }
 
-void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
+void menu_life_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
 {
     BarConfig *pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
@@ -182,7 +182,7 @@ void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
         pBar = UNTAG_PTR(BarConfig, pBar); // pointer flag to make it render in red
     }
 
-    menu_bar_draw_8003ED4C(ot,
+    menu_life_draw_8003ED4C(ot,
                            pBars->field_2_bar_x,
                            pBars->field_4_bar_y,
                            pBars->field_6_snake_hp,
@@ -192,7 +192,7 @@ void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
 
     if (pBars->field_1_O2_hp)
     {
-        menu_bar_draw_8003ED4C(ot,
+        menu_life_draw_8003ED4C(ot,
                                pBars->field_2_bar_x,
                                pBars->field_4_bar_y + 12,
                                GM_O2_800ABA34,
@@ -205,7 +205,7 @@ void menu_bars_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
 void menu_8003F408(MenuGlue *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
-    menu_bar_draw_8003ED4C(ot,
+    menu_life_draw_8003ED4C(ot,
                                   16,
                                   ypos + gSnakeLifeYPos_800ABAF0 - 16,
                                   a3,
@@ -217,7 +217,7 @@ void menu_8003F408(MenuGlue *ot, int ypos, int a3, int a4, int a5, BarConfig *pC
 void menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
-    menu_bar_draw_8003ED4C(ot,
+    menu_life_draw_8003ED4C(ot,
                            xpos,
                            ypos + gSnakeLifeYPos_800ABAF0 - 16,
                            a4,
@@ -229,7 +229,7 @@ void menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, Bar
 void Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
-    menu_bar_draw_8003ED4C(ot,
+    menu_life_draw_8003ED4C(ot,
                            xpos,
                            ypos,
                            GM_SnakeCurrentHealth,
@@ -242,13 +242,13 @@ void menu_font_kill_helper_8003F50C(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_16;
 }
 
-void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
+void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
 {
     int               updated;
     MenuMan_MenuBars *pBars;
     int               state;
 
-    updated = menu_bars_update_helper_8003ECCC(&pActor->field_204_bars);
+    updated = menu_life_update_helper_8003ECCC(&pActor->field_204_bars);
     pBars = &pActor->field_204_bars;
     state = pActor->field_2A_state;
 
@@ -342,14 +342,14 @@ void menu_bars_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
         break;
     }
 
-    menu_bars_update_helper2_8003F30C(pActor->field_20_otBuf, pBars);
+    menu_life_update_helper2_8003F30C(pActor->field_20_otBuf, pBars);
 }
 
-void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
+void menu_life_init_8003F7E0(Actor_MenuMan *pActor)
 {
     MenuMan_MenuBars *pBar;
 
-    pActor->field_2C_modules[MENU_LIFE] = menu_bars_update_8003F530;
+    pActor->field_2C_modules[MENU_LIFE] = menu_life_update_8003F530;
     pActor->field_28_flags |= 1;
 
     pBar = &pActor->field_204_bars;
@@ -362,7 +362,7 @@ void menu_bars_init_8003F7E0(Actor_MenuMan *pActor)
     gSnakeLifeYPos_800ABAF0 = -48;
 }
 
-void menu_bars_kill_8003F838(Actor_MenuMan *pMenu)
+void menu_life_kill_8003F838(Actor_MenuMan *pMenu)
 {
     pMenu->field_28_flags &= ~1u;
 }

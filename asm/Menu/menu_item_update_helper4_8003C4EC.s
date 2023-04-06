@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef menu_inventory_left_update_helper4_8003C4EC
-menu_inventory_left_update_helper4_8003C4EC:
+	xdef menu_item_update_helper4_8003C4EC
+menu_item_update_helper4_8003C4EC:
 	dw 0x3C02800B ; 0x8003C4EC
 	dw 0x8C42B928 ; 0x8003C4F0
 	dw 0x27BDFFB0 ; 0x8003C4F4
