@@ -71,8 +71,6 @@ void GM_InitWhereSystem_8002597C(void)
     gControlCount_800AB9B4 = 1;
 }
 
-extern const char aInitcontrolNoM[];
-
 int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
 {
     struct map_record *pMapRec;
@@ -85,7 +83,7 @@ int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scri
     pControl->field_2C_map = pMapRec;
     if (!pMapRec)
     {
-        mts_printf_8008BBA0(aInitcontrolNoM, mapId);
+        mts_printf_8008BBA0("InitControl : no map %X\n", mapId);
         return -1;
     }
 

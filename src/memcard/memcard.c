@@ -22,39 +22,20 @@ extern volatile int    gSwCardLastOp_800B52F0;
 extern volatile int    gHwCardLastOp_800B52F4;
 extern volatile long   gMemCard_io_size_800B5648;
 
-extern const char aHwCardError[];
-extern const char aCHTO[];
-extern const char aHwCardNew[];
-extern const char aSwCardError[];
-extern const char aCSTO[];
-extern const char aSwCardNew[];
-extern const char aBu02x[];            // = "bu%02X:*";
-extern const char aBu02x_0[];          // = "bu%02x:";
-extern const char aFormatedD[];        // = "FORMATED %d\n";
-extern const char aErrorMemcardFo[];   // = "ERROR : MEMCARD FORMAT\n";
-extern const char aErrorMemcardFo_0[]; // = "ERROR : MEMCARD FORMATED CARD\n";
-extern const char aLoadDirSStart[];    // = "load_dir %s start\n";
-extern const char aTotalDFilesUse[];   // = "TOTAL %d FILES used %d block\n";
-extern const char aNoFile[];           // = "NO FILE\n";
-extern const char aEasyFormatTest[];
-extern const char aR[];
-extern const char aAccessWait[];
-extern const char aCardNormal[];
-extern const char aCardUnformat[];
-extern const char aCardError[];
-extern const char aDeletedFileS[];
-extern const char aErrorCanTDelet[];
-extern const char aMemcardReadWri[];
-extern const char aErrorMemcardRe[];
-extern const char aBu02xS[];         // = "bu%02X:%s"
-extern const char aWarningMemcard[]; // = "Warning : MEMCARD create error ... overwrite\n"
-extern const char aMemcardWriteEr[]; // = "MEMCARD WRITE ERROR FD %d\n"
-extern const char aMemcardWriteSF[]; // = "MEMCARD WRITE %s FD %d SIZE %d\n"
-extern const char aWritingFileS[];   // = "WRITING FILE %s...\n"
-extern const char aBu02xS_0[];
-extern const char aMemcardReadErr[];
-extern const char aMemcardReadSFd[];
-extern const char aReadingFileS[];
+static inline void memcard_access_wait(void)
+{
+    mts_printf_8008BBA0("[R]");
+
+    while ((gHwCard_do_op_800B52E8 != memcard_hwcard_do_op_800244DC) ||
+           (gSwCard_do_op_800B52EC != memcard_swcard_do_op_800244EC))
+    {
+        mts_printf_8008BBA0("ACCESS WAIT..\n");
+        mts_wait_vbl_800895F4(2);
+    }
+
+    gHwCardLastOp_800B52F4 = 0;
+    gSwCardLastOp_800B52F0 = 0;
+}
 
 void memcard_hwcard_do_op_800244DC(int op)
 {
@@ -73,19 +54,19 @@ void memcard_hwcard_end_io_800244FC()
 
 void memcard_hwcard_end_write_80024524()
 {
-    mts_printf_8008BBA0(aHwCardError);
+    mts_printf_8008BBA0("*** hw card error\n");
     gHwCard_do_op_800B52E8(2);
 }
 
 void memcard_hwcard_timeout_8002455C()
 {
-    mts_printf_8008BBA0(aCHTO);
+    mts_printf_8008BBA0("[C.H.T.O]");
     gHwCard_do_op_800B52E8(3);
 }
 
 void memcard_hwcard_new_80024594()
 {
-    mts_printf_8008BBA0(aHwCardNew);
+    mts_printf_8008BBA0("*** hw card new\n");
     gHwCard_do_op_800B52E8(4);
 }
 
@@ -96,19 +77,19 @@ void memcard_swcard_end_io_800245CC()
 
 void memcard_swcard_end_write_800245F4()
 {
-    mts_printf_8008BBA0(aSwCardError);
+    mts_printf_8008BBA0("*** sw card error\n");
     gSwCard_do_op_800B52EC(2);
 }
 
 void memcard_swcard_timeout_8002462C()
 {
-    mts_printf_8008BBA0(aCSTO);
+    mts_printf_8008BBA0("[C.S.T.O]");
     gSwCard_do_op_800B52EC(3);
 }
 
 void memcard_swcard_new_80024664()
 {
-    mts_printf_8008BBA0(aSwCardNew);
+    mts_printf_8008BBA0("*** sw card new\n");
     gSwCard_do_op_800B52EC(4);
 }
 
@@ -122,19 +103,10 @@ int memcard_easy_format_test_800246C0(int hCard)
 {
     char pData[128]; // [sp+10h] [-80h] BYREF
 
-    mts_printf_8008BBA0(aEasyFormatTest);
+    mts_printf_8008BBA0("easy_format_test\n");
     memset(pData, 0, sizeof(pData));
-    mts_printf_8008BBA0(aR);
 
-    while (gHwCard_do_op_800B52E8 != memcard_hwcard_do_op_800244DC ||
-           gSwCard_do_op_800B52EC != memcard_swcard_do_op_800244EC)
-    {
-        mts_printf_8008BBA0(aAccessWait);
-        mts_wait_vbl_800895F4(2);
-    }
-
-    gHwCardLastOp_800B52F4 = 0;
-    gSwCardLastOp_800B52F0 = 0;
+    memcard_access_wait();
 
     card_read_8009901C(hCard, 0, pData);
 
@@ -145,19 +117,19 @@ int memcard_easy_format_test_800246C0(int hCard)
 
     if (gHwCardLastOp_800B52F4 != 1)
     {
-        mts_printf_8008BBA0(aCardError);
+        mts_printf_8008BBA0("card_error\n");
         return 2;
     }
     else
     {
         if (pData[0] == 'M' && pData[1] == 'C')
         {
-            mts_printf_8008BBA0(aCardNormal);
+            mts_printf_8008BBA0("card_normal\n");
             return 1;
         }
         else
         {
-            mts_printf_8008BBA0(aCardUnformat);
+            mts_printf_8008BBA0("card_unformat\n");
             return 5;
         }
     }
@@ -172,8 +144,8 @@ int memcard_loaddir_800247E8(int port, int *pFreeBlockCount)
 
     blocks = 0;
 
-    sprintf_8008E878(name, aBu02x, port * 16);
-    mts_printf_8008BBA0(aLoadDirSStart, name);
+    sprintf_8008E878(name, "bu%02X:*", port * 16);
+    mts_printf_8008BBA0("load_dir %s start\n", name);
 
     if (firstfile_80099AEC(name, &dir))
     {
@@ -189,12 +161,12 @@ int memcard_loaddir_800247E8(int port, int *pFreeBlockCount)
         }
         while (nextfile_800995EC(&dir));
 
-        mts_printf_8008BBA0(aTotalDFilesUse, files, blocks);
+        mts_printf_8008BBA0("TOTAL %d FILES used %d block\n", files, blocks);
         *pFreeBlockCount = blocks;
         return files;
     }
 
-    mts_printf_8008BBA0(aNoFile);
+    mts_printf_8008BBA0("NO FILE\n");
     *pFreeBlockCount = 0;
     return 0;
 }
@@ -230,6 +202,11 @@ void memcard_reset_status_80024A3C(void)
     gMemCards_800B52F8[0].field_1_last_op = 2;
     gMemCards_800B52F8[1].field_1_last_op = 2;
 }
+
+// used by memcard_check_80024A54
+const char SECTION(".rdata") aMemcardRetryOv[] = "MEMCARD:RETRY OVER!!\n";
+const char SECTION(".rdata") aRetryNew[] = "RETRY(new)\n";
+const char SECTION(".rdata") aRetry[] = "RETRY\n";
 
 #pragma INCLUDE_ASM("asm/memcard/memcard_check_80024A54.s") // 1012 bytes
 
@@ -350,17 +327,7 @@ void memcard_retry_80025178(int port)
 
     for (i = 0; i < count; i++)
     {
-        mts_printf_8008BBA0(aR);
-
-        while ((gHwCard_do_op_800B52E8 != &memcard_hwcard_do_op_800244DC) ||
-               (gSwCard_do_op_800B52EC != &memcard_swcard_do_op_800244EC))
-        {
-            mts_printf_8008BBA0(aAccessWait);
-            mts_wait_vbl_800895F4(2);
-        }
-
-        gHwCardLastOp_800B52F4 = 0;
-        gSwCardLastOp_800B52F0 = 0;
+        memcard_access_wait();
         card_info_80098FFC(port * 16);
 
         do
@@ -405,13 +372,13 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 
     if (pCard->field_1_last_op == 1)
     {
-        sprintf_8008E878(tmp, aBu02xS, 0x10 * idx, pFileName);
+        sprintf_8008E878(tmp, "bu%02X:%s", 0x10 * idx, pFileName);
         if (erase_800995FC(tmp))
         {
-            mts_printf_8008BBA0(aDeletedFileS, pFileName);
+            mts_printf_8008BBA0("Deleted File %s", pFileName);
             return 1;
         }
-        mts_printf_8008BBA0(aErrorCanTDelet, pFileName);
+        mts_printf_8008BBA0("ERROR : can't delete %s\n", pFileName);
     }
     return 0;
 }
@@ -437,11 +404,11 @@ void memcard_swcard_read_write_handler_800254D4(int op)
 {
     if (op == 1)
     {
-        mts_printf_8008BBA0(aMemcardReadWri);
+        mts_printf_8008BBA0("MEMCARD READ/WRITE end\n");
     }
     else
     {
-        mts_printf_8008BBA0(aErrorMemcardRe);
+        mts_printf_8008BBA0("ERROR : MEMCARD READ/WRITE\n");
     }
     gSwCard_do_op_800B52EC = (TMemCardFunc)memcard_swcard_do_op_800244EC;
 }
@@ -461,24 +428,24 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     int hFile;
     char name[32];
 
-    sprintf_8008E878(name, aBu02xS, idx * 16, pFileName);
+    sprintf_8008E878(name, "bu%02X:%s", idx * 16, pFileName);
 
     hFile = open_8009958C(name, (blocks << 16) | O_CREAT);
     if (hFile < 0)
     {
-        mts_printf_8008BBA0(aWarningMemcard);
+        mts_printf_8008BBA0("Warning : MEMCARD create error ... overwrite\n");
     }
     close_800995CC(hFile);
 
     hFile = open_8009958C(name, O_NOWAIT | O_WRONLY);
     if (hFile < 0)
     {
-        mts_printf_8008BBA0(aMemcardWriteEr, hFile);
+        mts_printf_8008BBA0("MEMCARD WRITE ERROR FD %d\n", hFile);
         gMemCard_io_size_800B5648 = -1;
         return;
     }
 
-    mts_printf_8008BBA0(aMemcardWriteSF, pFileName, hFile, bufferSize);
+    mts_printf_8008BBA0("MEMCARD WRITE %s FD %d SIZE %d\n", pFileName, hFile, bufferSize);
     bufferSize = ROUND_UP(bufferSize, 128);
     if (seekPos > 0)
     {
@@ -487,7 +454,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     memcard_set_read_write_8002551C(bufferSize);
     write_800995BC(hFile, pBuffer, bufferSize);
     close_800995CC(hFile);
-    mts_printf_8008BBA0(aWritingFileS, pFileName);
+    mts_printf_8008BBA0("WRITING FILE %s...\n", pFileName);
 }
 
 void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pBuffer, int bufferSize)
@@ -495,16 +462,16 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     char name[32];
     int hFile;
 
-    sprintf_8008E878(name, aBu02xS_0, idx * 16, pFilename);
+    sprintf_8008E878(name, "bu%02x:%s", idx * 16, pFilename);
     hFile = open_8009958C(name, FREAD | FASYNC);
     if (hFile < 0)
     {
-        mts_printf_8008BBA0(aMemcardReadErr, hFile);
+        mts_printf_8008BBA0("MEMCARD READ ERROR FD %d\n", hFile);
         gMemCard_io_size_800B5648 = -1;
         return;
     }
     bufferSize = ROUND_UP(bufferSize, 128);
-    mts_printf_8008BBA0(aMemcardReadSFd, pFilename, hFile, bufferSize);
+    mts_printf_8008BBA0("MEMCARD READ %s FD %d SIZE %d\n", pFilename, hFile, bufferSize);
     if (seekPos > 0)
     {
         lseek_8009959C(hFile, seekPos, SEEK_SET);
@@ -512,7 +479,7 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     memcard_set_read_write_8002551C(bufferSize);
     read_800995AC(hFile, pBuffer, bufferSize);
     close_800995CC(hFile);
-    mts_printf_8008BBA0(aReadingFileS, pFilename);
+    mts_printf_8008BBA0("READING FILE %s...\n", pFilename);
 }
 
 int memcard_get_status_800257B0()
@@ -526,26 +493,26 @@ int memcard_format_800257C0(int idx)
     char cardPath[32];
 
     retries = 4;
-    sprintf_8008E878(cardPath, aBu02x_0, idx * 16);
+    sprintf_8008E878(cardPath, "bu%02x:", idx * 16);
 
     if (gMemCards_800B52F8[idx].field_1_last_op == 5)
     {
     retry:
         if (format_800995DC(cardPath) != 0)
         {
-            mts_printf_8008BBA0(aFormatedD, idx);
+            mts_printf_8008BBA0("FORMATED %d\n", idx);
             gMemCards_800B52F8[idx].field_1_last_op = 1;
             return 1;
         }
         retries--;
         if (retries <= 0)
         {
-            mts_printf_8008BBA0(aErrorMemcardFo);
+            mts_printf_8008BBA0("ERROR : MEMCARD FORMAT\n");
             return 0;
         }
         goto retry; // TODO: find a match without goto
     }
 
-    mts_printf_8008BBA0(aErrorMemcardFo_0);
+    mts_printf_8008BBA0("ERROR : MEMCARD FORMATED CARD\n");
     return 0;
 }

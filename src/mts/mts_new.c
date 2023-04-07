@@ -32,8 +32,6 @@ mts_msg     stru_800A3D7C = {NULL, 0, -1, 0, NULL};
 int         gMts_Event2_800A3D90 = 0;
 int         gStackSize_800A3D94 = 0;
 
-extern const char   aTickCountD[];
-
 static inline void mts_task_start(void)
 {
     ExitCriticalSection_8009953C();
@@ -1302,7 +1300,7 @@ void mts_print_process_status_8008B77C( void )
     mts_msg *pMsg;
 
     mts_null_printf_8008BBA8( "\nProcess list\n" );
-    
+
     for ( i = 0; i < 12; i++ )
     {
         if ( !gTasks_800C0C30[ i ].field_0_state )
@@ -1388,7 +1386,7 @@ void mts_print_process_status_8008B77C( void )
         mts_null_printf_8008BBA8( "\n" );
     }
 
-    mts_null_printf_8008BBA8( aTickCountD, gMtsVSyncCount_800A3D78 );
+    mts_null_printf_8008BBA8( "Tick count %d\n\n", gMtsVSyncCount_800A3D78 );
 }
 
 void mts_lock_sio_8008BA64( void )

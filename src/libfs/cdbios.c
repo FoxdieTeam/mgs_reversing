@@ -17,32 +17,19 @@ extern unsigned int          cd_bios_stack_800B4E88[256];
 extern FS_FILE_TABLE         fs_file_table_8009D4E8;
 extern const char           *MGS_DiskName_8009D2FC[3];
 
-extern const char aPositionEnd[];    // = "Position end\n"
-extern const char aDiskD[];          // = "DISK %d\n"
-extern const char aIllegalDisk[];    // = "illegal DISK\n"
-extern const char aCdfsSkipErrorD[]; // = "CDFS: skip error %d %d %d\n"
-extern const char asc_800105B4[];    // = "[T]"
-extern const char a__800105B8[];     // = "."
-extern const char aD[];              // = "[%d]"
-extern const char aFileSTopDSizeD[]; // = "FILE %s : top %d size %d set %d\n"
-extern const char aPlaystation[];    // = "PLAYSTATION"
-extern const char aMgs[];            // = "MGS"
-extern const char aMgsReadSectorD[]; // = "MGS read_sector %d\n"
-extern const char aXXD[];            // = "%X %X %d\n"
-
 int FS_ResetCdFilePosition_80021E2C(void *pHeap)
 {
     int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, gDirFiles_8009D49C);
-    mts_printf_8008BBA0(aPositionEnd);
+    mts_printf_8008BBA0("Position end\n");
     if (disk_num >= 0)
     {
-        mts_printf_8008BBA0(aDiskD, disk_num);
+        mts_printf_8008BBA0("DISK %d\n", disk_num);
         FS_CdStageFileInit_80022D00(pHeap, gDirFiles_8009D49C[0].field_4_sector);
         FS_MovieFileInit_80023860(pHeap, gDirFiles_8009D49C[3].field_4_sector);
     }
     else
     {
-        mts_printf_8008BBA0(aIllegalDisk);
+        mts_printf_8008BBA0("illegal DISK\n");
     }
     return disk_num;
 }
@@ -158,7 +145,7 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
 
         if (sector > task->field_4_sector)
         {
-            mts_printf_8008BBA0(aCdfsSkipErrorD, task->field_10_ticks, sector, task->field_4_sector);
+            mts_printf_8008BBA0("CDFS: skip error %d %d %d\n", task->field_10_ticks, sector, task->field_4_sector);
         }
         else
         {
@@ -302,12 +289,12 @@ void CDBIOS_Main_80022264(void)
             else if ((ticks - last_ticks) > 500)
             {
                 sub_80022024();
-                mts_printf_8008BBA0(asc_800105B4);
+                mts_printf_8008BBA0("[T]");
             }
             break;
 
         case 3:
-            mts_printf_8008BBA0(a__800105B8);
+            mts_printf_8008BBA0(".");
 
             CdFlush();
             CdReadyCallback(NULL);
@@ -369,7 +356,7 @@ void CDBIOS_Main_80022264(void)
             break;
 
         default:
-            mts_printf_8008BBA0(aD, pTask->field_0_state);
+            mts_printf_8008BBA0("[%d]", pTask->field_0_state);
             break;
         }
 
@@ -569,7 +556,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
                 sizeValues = (directoryRecord + 10);
                 size = byteswap_ulong(sizeValues);
 
-                mts_printf_8008BBA0(aFileSTopDSizeD, parsedFileName, top, size, foundRecord->field_4_sector);
+                mts_printf_8008BBA0("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->field_4_sector);
             }
         }
 
@@ -593,7 +580,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs
 
     FS_CdMakePositionTable_helper2_800228D4(pHeap, 16, 2048);
 
-    if (strncmp_8008E7F8(pHeap + 8, aPlaystation, 11))
+    if (strncmp_8008E7F8(pHeap + 8, "PLAYSTATION", 11))
     {
         return -1;
     }
@@ -616,9 +603,9 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs
         dir_block_ptr = buffer2 + 2;
         directory_block = *dir_block_ptr | (*(dir_block_ptr + 1) << 8) | (*(dir_block_ptr + 2) << 16) | (*(dir_block_ptr + 3) << 24);
 
-        if (!strcmp_8008E6F8(directory_name, aMgs))
+        if (!strcmp_8008E6F8(directory_name, "MGS"))
         {
-            mts_printf_8008BBA0(aMgsReadSectorD, directory_block);
+            mts_printf_8008BBA0("MGS read_sector %d\n", directory_block);
             FS_CdMakePositionTable_helper2_800228D4(directory_block_data, directory_block, 2048);
             ret = FS_CdMakePositionTable_helper_8002297C(directory_block_data, pDirRecs);
         }
@@ -672,7 +659,7 @@ void FS_CdStageFileInit_80022D00(void *pHeap, int startSector)
         fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory_800163D8(size);
     }
 
-    mts_printf_8008BBA0(aXXD, (char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
+    mts_printf_8008BBA0("%X %X %d\n", (char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
     GV_CopyMemory_800160D8((char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
 
     fs_file_table_8009D4E8.field_8_count = size / sizeof(FS_FILE);

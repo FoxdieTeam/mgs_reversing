@@ -2,8 +2,6 @@
 #include "libgcl/libgcl.h"
 #include "mts/mts_new.h"
 
-extern const char aVarsaveNotVar[];
-
 int GCL_Command_varsave_8002C72C(int argc, char **argv)
 {
     unsigned char *param;
@@ -18,7 +16,7 @@ int GCL_Command_varsave_8002C72C(int argc, char **argv)
     {
         if (!GCL_IsVariable(*param))
         {
-            mts_printf_8008BBA0(aVarsaveNotVar);
+            mts_printf_8008BBA0("VARSAVE: NOT VAR !!\n");
         }
         param = GCL_VarSaveBuffer_800217F0(param);
     }

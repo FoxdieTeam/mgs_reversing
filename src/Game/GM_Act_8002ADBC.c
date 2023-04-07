@@ -49,15 +49,9 @@ extern int          dword_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName_8009D2FC[3];
 extern int          gDiskNum_800ACBF0;
-extern char         aCdromMgsS1[];
-extern char         aExecScenario[];
-extern char         aEndScenario[];
-extern char         aStrStatusDIrqX[];
-extern char         aKey08x[];
 extern int          GV_PassageTime_800AB924;
 extern int          DG_UnDrawFrameCount_800AB380;
 extern int          gSaveCache_800B5294;
-extern const char   aLoadS_0[];
 extern int          GV_PauseLevel_800AB928;
 
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
@@ -162,7 +156,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             GCL_SaveVar_80021314();
         }
 
-        mts_printf_8008BBA0(aExecScenario); // "exec scenario\n"
+        mts_printf_8008BBA0("exec scenario\n");
         load_request = GM_LoadRequest_800AB3D0;
         GM_LoadRequest_800AB3D0 = 0;
 
@@ -175,7 +169,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             GCL_ExecScript_80020228();
         }
 
-        mts_printf_8008BBA0(aEndScenario); // "end scenario\n"
+        mts_printf_8008BBA0("end scenario\n");
         menu_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
@@ -257,8 +251,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         {
             if (--dword_800AB9D0 < 0)
             {
-                // "cdrom:\\MGS\\%s;1"
-                sprintf_8008E878(exe_name_800B5860, aCdromMgsS1, MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
+                sprintf_8008E878(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
                 EnterCriticalSection_8009952C();
                 SetDispMask_8008F7CC(0);
                 PadStopCom_8009A24C();
@@ -277,7 +270,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 
                 do
                 {
-                    mts_printf_8008BBA0(aLoadS_0, exe_name_800B5860); // "load %s\n"
+                    mts_printf_8008BBA0("load %s\n", exe_name_800B5860);
                     LoadExec_8009940C(exe_name_800B5860, 0x801FFF00, 0);
                 } while (1);
             }
@@ -309,9 +302,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             }
 
             // "str_status %d irq %x %X %X\n"
-            mts_printf_8008BBA0(aStrStatusDIrqX, gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270,
-                                dword_800BF264);
-            mts_printf_8008BBA0(aKey08x, unk); // "key %08X\n"
+            mts_printf_8008BBA0("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
+            mts_printf_8008BBA0("key %08X\n", unk);
         }
 
         if (GV_PauseLevel_800AB928 == 0)
