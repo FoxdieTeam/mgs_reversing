@@ -99,12 +99,3 @@ const int SECTION(".rdata") dword_8001345C[] = {
     0x8FF010F,  0xAF0F0F0,  0x5000500,  0xD010002,  0xF,        0x34900,   0x1E0009,  0xCFE0138, 0x20400,    0xC0D01,
     0xECEC0804, 0x10002EC,  0xFE010F0D, 0xFC18FC0A, 0x4000C18,  0xD010002, 0x804000C, 0x2ECECEC, 0xF0D0100,  0xFB0AFE01,
     0xC50FB50,  0x20400,    0xC0D01,    0xECEC0804, 0x10002EC,  0xF0D};
-const char SECTION(".rdata") aSoundLaunchArg[] = "SOUND_LAUNCH(argc:%d)\n";
-const char SECTION(".rdata") aArgDS[] = "ARG%d:[%s]\n";
-const char SECTION(".rdata") aStartTaskSdmai[] = "Start Task:SdMain\n";
-const char SECTION(".rdata") aBgmTerminate[] = "***BGM Terminate***\n";
-
-
-// For SdMain_80081A18
-//const int  SECTION(".rdata") jpt_800135B4[] = {0x80081B40, 0x80081B78, 0x80081B78, 0x80081B78,
-//                                               0x80081B78, 0x80081BA0, 0x80081B88};

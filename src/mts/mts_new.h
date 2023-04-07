@@ -113,6 +113,7 @@ void           mts_wup_tsk_8008A540(int taskNr);
 int            mts_get_pad_vibration_type_8008C4BC(int);
 int            mts_get_task_status_8008B618(int task_idx);
 void           mts_8008B51C(void);
+int            mts_isend_80089B04(int isend_dst);
 
 #ifdef _BUILDING_MTS_
 // we define it with no args in mts itself since its stubbed, using ... adds instructions
