@@ -862,7 +862,79 @@ int StrFadeInt_800839C8(void)
     return 0;
 }
 
-#pragma INCLUDE_ASM( "asm/SD/sub_80083BB4.s" )        // 692 bytes
+int num2char_80083E68(unsigned int num);
+
+void sub_80083BB4(unsigned int arg0, char *outStr)
+{
+    if ((arg0 + 0xFF000000) <= 0xFFFF)
+    {
+        outStr[0] = 'S';
+        outStr[1] = 'G';
+        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
+        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
+        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
+        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
+        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
+        outStr[7] = num2char_80083E68(arg0 & 0xF);
+        outStr[8] = '.';
+        outStr[9] = 'M';
+        outStr[10] = 'D';
+        outStr[11] = 'X';
+        outStr[12] = '\0';
+        return;
+    }
+    if ((arg0 + 0xFE000000) <= 0xFFFF)
+    {
+        outStr[0] = 'S';
+        outStr[1] = 'E';
+        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
+        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
+        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
+        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
+        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
+        outStr[7] = num2char_80083E68(arg0 & 0xF);
+        outStr[8] = '.';
+        outStr[9] = 'E';
+        outStr[10] = 'F';
+        outStr[11] = 'X';
+        outStr[12] = '\0';
+        return;
+    }
+    if ((arg0 + 0x20000000) <= 0xFFFF)
+    {
+        outStr[0] = 'S';
+        outStr[1] = 'D';
+        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
+        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
+        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
+        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
+        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
+        outStr[7] = num2char_80083E68(arg0 & 0xF);
+        outStr[8] = '.';
+        outStr[9] = 'P';
+        outStr[10] = 'C';
+        outStr[11] = 'M';
+        outStr[12] = '\0';
+        // return; // Why missing return here?
+    }
+    if ((arg0 + 0x02000000) <= 0xFFFF)
+    {
+        outStr[0] = 'W';
+        outStr[1] = 'V';
+        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
+        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
+        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
+        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
+        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
+        outStr[7] = num2char_80083E68(arg0 & 0xF);
+        outStr[8] = '.';
+        outStr[9] = 'W';
+        outStr[10] = 'V';
+        outStr[11] = 'X';
+        outStr[12] = '\0';
+        return;
+    }
+}
 
 int num2char_80083E68( unsigned int num )
 {
