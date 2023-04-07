@@ -1,46 +1,5 @@
 #include "linker.h"
 
-
-const char SECTION(".rdata") aStartTaskSdint[] = "Start Task:SdInt\n"; // 800135D0
-const char SECTION(".rdata") aBlankDataAddrX[] = "blank_data_addr=%x\n";
-const char SECTION(".rdata") aSpuWaveStartPt[] = "spu_wave_start_ptr=%x\n";
-const char SECTION(".rdata") aSpuBgmStartPtr[] = "spu_bgm_start_ptr_r=%x\n";
-const char SECTION(".rdata") aSpuBufferOver[] = "SPU Buffer Over!!\n";
-const char SECTION(".rdata") aSpuBgmStartPtr_0[] = "spu_bgm_start_ptr_l=%x\n";
-const char SECTION(".rdata") aSpuReverbBuffe[] = "SPU Reverb Buffer Over!!\n";
-const char SECTION(".rdata") aSoundErrorSpuO[] = "SOUND ERROR:SPU OFF ENV ON(STR_TRACK_R=%x)\n";
-const char SECTION(".rdata") aSoundErrorSpuO_0[] = "SOUND ERROR:SPU OFF ENV ON(STR_TRACK_L=%x)\n";
-const char SECTION(".rdata") aSngDataX[] = "sng_data %X\n";
-const char SECTION(".rdata") aWaveHeaderX[] = "wave_header %X\n";
-const char SECTION(".rdata") aVoiceTblX[] = "voice_tbl %X\n";
-const char SECTION(".rdata") aSeHeaderX[] = "se_header %X\n";
-const char SECTION(".rdata") aSeDataX[] = "se_data %X\n";
-const char SECTION(".rdata") aCdloadBufXXX[] = "CDLOAD_BUF %X %X %X\n";
-const char SECTION(".rdata") aStrHeaderX[] = "str_header %X\n";
-const char SECTION(".rdata") aCanceledStrFad[] = "Canceled STR FadeOut(%x:%x:%x)";
-const char SECTION(".rdata") aStreamFilePosE[] = "Stream:File Pos Error\n";
-const char SECTION(".rdata") aStartstreamXVo[] = "StartStream(%x:vol=%x)\n";
-const int  SECTION(".rdata") jpt_8001378C[] = {0x8008272C, 0x8008272C, 0x8008267C, 0x8008268C, 0x800826CC};
-const char SECTION(".rdata") aSoundStreaming[] = "\nSOUND STREAMING ERROR:NO LAST LEFT DATA\n";
-const char SECTION(".rdata") aStrUnplaySizeX[] = "str_unplay_size=%x\n";
-const char SECTION(".rdata") asc_800137E0[] = "*";
-const int  SECTION(".rdata") jpt_800137E4[] = {0x80082828, 0x80082A28, 0x80082BC8, 0x80082D20, 0x800832BC, 0x80083358};
-const char SECTION(".rdata") aErrorSeFileAlr[] = "ERROR:SE File Already Opened.\n";
-const char SECTION(".rdata") aLoadsefileFile[] = "LoadSeFile:File Open Error(%x)\n";
-const char SECTION(".rdata") aErrorWaveFileA[] = "ERROR:Wave File Already Opened.\n";
-const char SECTION(".rdata") aLoadwavefileFi[] = "LoadWaveFile:File Open Error(%x)\n";
-const char SECTION(".rdata") aSupOffsetXSize[] = "SUP OFFSET=%x:SIZE=%x\n";
-const char SECTION(".rdata") aSrcXDstX[] = "    SRC=%x:DST=%x\n";
-const char SECTION(".rdata") aBinOffsetX[] = "BIN OFFSET=%x\n";
-const char SECTION(".rdata") aSpuOffsetXSize[] = "SPU OFFSET=%x:SIZE=%x\n";
-const char SECTION(".rdata") aCompleteLoadSe[] = "Complete Load Se:%x\n";
-const char SECTION(".rdata") aSdSngdataloadi[] = "SD_SngDataLoadInit\n";
-const char SECTION(".rdata") aLoadinitD[] = "LoadInit %d\n";
-const char SECTION(".rdata") asc_80013914[] = "$";
-const char SECTION(".rdata") aSdWavLoadBufOv[] = "!!! SD WAV LOAD BUF OVER !!!\n";
-const char SECTION(".rdata") aUnloadD[] = "unload %d\n";
-
-
 const char SECTION(".rdata") aSngcodeX[] = "SngCode=%x\n";
 const char SECTION(".rdata") aSongpauseon[] = "SongPauseOn\n";
 const char SECTION(".rdata") aSongpauseoff[] = "SongPauseOff\n";
