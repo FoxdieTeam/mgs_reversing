@@ -5,8 +5,6 @@
 #include "libgv/libgv.h"
 #include "psyq.h"
 
-extern const char aHomingTargetOv[];
-
 extern Homing_Target gHomingTargets_800B8230[8];
 
 void HomingTarget_Clear_All_80032C68()
@@ -37,7 +35,7 @@ Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
 
     if (!pos)
     {
-        mts_printf_8008BBA0(aHomingTargetOv);
+        mts_printf_8008BBA0("Homing target over !!!\n");
         return 0;
     }
 

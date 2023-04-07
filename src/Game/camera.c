@@ -37,12 +37,18 @@ extern int              GM_GameStatus_800AB3CC;
 extern CAMERA           GM_CameraList_800B7718[8];
 extern int              GM_NoisePower_800ABA24;
 extern int              GM_NoiseLength_800ABA30;
-extern unsigned int     dword_80010C60[];
 
-extern const char aDCamOutD[];       // = "[%d]cam out %d\n"
-extern const char aDCamInD[];        // = "[%d]cam in %d\n"
-extern const char aDChangeCameraD[]; // = "[%d]change camera %d\n"
-extern const char aCameraC[];        // = "camera.c"
+static const unsigned int dword_80010C60[] =
+{
+    0,
+    0x1E0001,
+    0x1E0002,
+    0x1E0003,
+    0x140003,
+    0xA0003,
+    0x50003,
+    0x30003
+};
 
 static inline int camera_clamp(int val, int min, int max)
 {
@@ -791,7 +797,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
         {
             bitmap |= (1 << index);
             GM_event_camera_flag_800ABA9C &= ~(1 << index);
-            mts_printf_8008BBA0(aDCamOutD, GV_Time_800AB330, index);
+            mts_printf_8008BBA0("[%d]cam out %d\n", GV_Time_800AB330, index);
         }
 
         pMsgIter++;
@@ -812,7 +818,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
                 dword_800ABA90 &= ~(1 << index);
             }
 
-            mts_printf_8008BBA0(aDCamInD, GV_Time_800AB330, index);
+            mts_printf_8008BBA0("[%d]cam in %d\n", GV_Time_800AB330, index);
         }
 
         pMsgIter++;
@@ -878,7 +884,7 @@ int camera_act_helper6_80030250(GV_ACT *pActor)
 
     sub_8002FAAC(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
     camera_act_helper6_helper_8002FD9C(i, old_i);
-    mts_printf_8008BBA0(aDChangeCameraD, GV_Time_800AB330, i);
+    mts_printf_8008BBA0("[%d]change camera %d\n", GV_Time_800AB330, i);
 
     GM_GameStatus_800AB3CC &= ~0x40;
 
@@ -983,7 +989,7 @@ GV_ACT *camera_init_800306A0()
     pActor = GV_NewActor_800150E4(2, 0x20);
     if (pActor)
     {
-        GV_SetNamedActor_8001514C(pActor, camera_act_8003059C, NULL, aCameraC); // "camera.c"
+        GV_SetNamedActor_8001514C(pActor, camera_act_8003059C, NULL, "camera.c"); // "camera.c"
     }
 
     GM_Camera_800B77E8.field_20 = 320;

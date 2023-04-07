@@ -56,11 +56,12 @@
     include "..\obj\libgcl\variable.obj"    ;variable.c
 
 
-    include "..\obj\data\rdata\rdata_80021634.obj"
     include "..\obj\data\sdata\sdata4.obj"
 
     ;libhzd
     include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
+
+    include "..\obj\data\rdata\rdata_80021634.obj"
 
     ;libfs
     include "..\obj\libfs\cdbios.obj"
@@ -171,7 +172,6 @@
     include "..\obj\libgcl\commands\GCL_Command_map_8002BB44.obj"
     include "..\obj\libgcl\commands\GCL_Command_hzd_8002BD04.obj"
     include "..\obj\libgcl\commands\GCL_Command_trap_8002BD34.obj"
-    include "..\obj\libgcl\commands\GCL_Command_ntrap_8002BE20.obj"
     include "..\obj\libgcl\commands\GCL_Command_delay_8002C074.obj"
     include "..\obj\libgcl\commands\GCL_Command_mesg_8002C138.obj"
     include "..\obj\libgcl\commands\GCL_Command_chara_8002C1B0.obj"
@@ -286,8 +286,6 @@
     ; 8003330C 80033384 800333F8 80033500 80033560 800335D0 800336A4 80033704 80033784 80033F88
     ; 80034020 800340D0 800344F8 800345C0 80034758
     include "..\obj\Game\item.obj"
-    include "..\obj\data\rdata\rdata_80010D6C.obj"
-
 
     include "..\obj\Game\sub_80034834.obj"
 
