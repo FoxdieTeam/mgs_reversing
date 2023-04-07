@@ -717,8 +717,6 @@
     ; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8
     include "..\obj\mts\mts_new.obj"
 
-    include "..\obj\data\rdata\rdata_800892A8.obj"
-
     ; 8008BC8C 8008BDEC 8008C098 8008C170 8008C25C 8008C324 8008C380 8008C3BC 8008C408 8008C454
     ; 8008C4BC
     include "..\obj\mts\pad.obj"
@@ -727,7 +725,10 @@
     ; 8008C5E8 8008C5F0 8008C5F8 8008C600
     include "..\obj\mts\mts_sub.obj"
 
-    include "..\obj\data\data\data2.obj"
+    ; psyq start
+
+    include "..\obj\data\rdata\rdata_psyq.obj"
+    include "..\obj\data\data\data_psyq.obj"
 
     ; libcd.lib start
 
