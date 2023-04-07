@@ -1067,7 +1067,7 @@ void SD_MDX_F6_80087764(void);
 void SD_MDX_F7_800877CC(void);
 void SD_MDX_FF_block_end_80087A58(void);
 
-int SECTION(".data") dword_8009F7B8 = 0;
+char *SECTION(".data") dword_8009F7B8 = 0;
 
 TMDXFunc SECTION(".data") gMdxTable_8009F7BC[] = {no_cmd_80087A80,
                                                no_cmd_80087A80,
