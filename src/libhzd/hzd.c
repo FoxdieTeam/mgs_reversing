@@ -2,8 +2,6 @@
 #include "libhzd.h"
 #include "mts/mts_new.h"
 
-extern const char aWarningOldVers[];
-
 //------------------------------------------------------------------------------
 
 void HZD_StartDaemon_80021900(void)
@@ -61,7 +59,7 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
     hzm = (HZD_HEADER *)hzmFile;
     if (hzm->version < 2)
     {
-        mts_printf_8008BBA0(aWarningOldVers);
+        mts_printf_8008BBA0("Warning:old version hzm\n");
     }
 
     hzm->ptr_access[0] = 0;

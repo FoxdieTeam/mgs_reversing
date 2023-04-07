@@ -4,7 +4,6 @@
 #include "Game/game.h"
 
 extern char       aGcawi[5];
-extern const char aSystemCChangeP[];
 
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
@@ -20,7 +19,7 @@ int GCL_Command_system_8002C7C8(void)
             proc = GCL_GetNextParamValue_80020AD4();
             if (!proc)
             {
-                mts_printf_8008BBA0(aSystemCChangeP, aGcawi[i]);
+                mts_printf_8008BBA0("SYSTEM:%c:change proc name\n", aGcawi[i]);
             }
             GM_SetSystemCallbackProc_8002B558(i, proc);
         }

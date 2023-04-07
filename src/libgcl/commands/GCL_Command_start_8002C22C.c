@@ -7,8 +7,6 @@
 extern int gBinds_800ABA60;
 int        SECTION(".sbss") gBinds_800ABA60;
 
-extern const char aMenuInitEnd[];
-
 extern int gTotalFrameTime_800AB9E8;
 
 int GCL_Command_start_8002C22C(int argc, char **argv)
@@ -21,7 +19,7 @@ int GCL_Command_start_8002C22C(int argc, char **argv)
     if (GCL_GetParam_80020968('m')) // menu
     {
         menuman_init_80038954();
-        mts_printf_8008BBA0(aMenuInitEnd);
+        mts_printf_8008BBA0("MENU INIT END\n");
     }
 
     if (GCL_GetParam_80020968('f')) // font
