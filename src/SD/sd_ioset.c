@@ -4,7 +4,7 @@
 extern SOUND_W      *sptr_800C057C;
 extern int           freq_tbl_8009FC08[108];
 extern SPU_TRACK_REG spu_tr_wk_800C0658[23];
-extern int           mtrack_800BF1EC;
+extern unsigned int  mtrack_800BF1EC;
 extern int           keyons_800BF260;
 extern int           keyd_800C0524;
 extern int           keyoffs_800BF29C;
@@ -15,10 +15,15 @@ extern unsigned int  gStr_FadeOut1_800BF16C;
 extern int           sng_status_800BF158;
 extern SEPLAYTBL     se_playing_800BF068[8];
 extern WAVE_W       *voice_tbl_800C0530;
-
-extern int dword_800BF064;
-extern int dword_800BF210;
-extern int spu_wave_start_ptr_800C052C;
+extern int           pant_8009FA60[41];
+extern int           se_pant_8009FB04[65];
+extern int           se_pan_800BF180[8];
+extern int           se_pan_800BF1B8[8];
+extern int           dword_800C050C;
+extern int           fade_unk_1_800C0BC8[13];
+extern int           dword_800BF064;
+extern int           dword_800BF210;
+extern int           spu_wave_start_ptr_800C052C;
 extern unsigned char byte_800C056C;
 
 void SD_spuwr_80087A88()
@@ -245,7 +250,70 @@ void pan_set2_800882E4(unsigned char a1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/SD/vol_set_80088320.s") // 692 bytes
+void vol_set_80088320(unsigned int vol)
+{
+    unsigned int pan;
+
+    if ((mtrack_800BF1EC < 13) || (se_playing_800BF068[mtrack_800BF1EC - 13].field_1_kind == 0))
+    {
+        if (vol >= sptr_800C057C->field_AC_dec_vol)
+        {
+            vol -= sptr_800C057C->field_AC_dec_vol;
+        }
+        else
+        {
+            vol = 0;
+        }
+
+        pan = sptr_800C057C->field_48_pand >> 8;
+
+        if (pan > 40)
+        {
+            pan = 40;
+        }
+
+        if (dword_800C050C != 0)
+        {
+            pan = 20;
+        }
+
+        if (mtrack_800BF1EC < 13)
+        {
+            spu_tr_wk_800C0658[mtrack_800BF1EC].field_2_vol_r = (vol * pant_8009FA60[pan] * fade_unk_1_800C0BC8[mtrack_800BF1EC]) >> 16;
+            spu_tr_wk_800C0658[mtrack_800BF1EC].field_0_vol_l = (vol * pant_8009FA60[40 - pan] * fade_unk_1_800C0BC8[mtrack_800BF1EC]) >> 16;
+            spu_tr_wk_800C0658[mtrack_800BF1EC].field_4_vol_fg = 1;
+        }
+        else
+        {
+            spu_tr_wk_800C0658[mtrack_800BF1EC].field_2_vol_r = vol * pant_8009FA60[pan];
+            spu_tr_wk_800C0658[mtrack_800BF1EC].field_0_vol_l = vol * pant_8009FA60[40 - pan];
+            spu_tr_wk_800C0658[mtrack_800BF1EC].field_4_vol_fg = 1;
+        }
+    }
+    else
+    {
+        if (vol >= sptr_800C057C->field_AC_dec_vol)
+        {
+            vol -= sptr_800C057C->field_AC_dec_vol;
+        }
+        else
+        {
+            vol = 0;
+        }
+
+        pan = se_pan_800BF180[mtrack_800BF1EC + 1];
+        vol = (vol * se_pan_800BF1B8[mtrack_800BF1EC + 1]) >> 16;
+
+        if (dword_800C050C != 0)
+        {
+            pan = 32;
+        }
+
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_2_vol_r = vol * se_pant_8009FB04[pan];
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_0_vol_l = vol * se_pant_8009FB04[64 - pan];
+        spu_tr_wk_800C0658[mtrack_800BF1EC].field_4_vol_fg = 1;
+    }
+}
 
 void freq_set_800885D4(unsigned int a1)
 {

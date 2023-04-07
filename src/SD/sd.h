@@ -174,5 +174,6 @@ void           volxset_80086C98( unsigned char a1 );
 void           pan_generate_80086198();
 void           drum_set_80088694(unsigned char a1);
 void           swpadset_80085F98( int a1 );
+void           vol_set_80088320(unsigned int vol);
 
 #endif // _SD_H_
