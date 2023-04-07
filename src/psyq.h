@@ -145,5 +145,6 @@ struct DIRENTRY   *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY   *nextfile_800995EC(struct DIRENTRY *);
 long               CloseTh_800994DC(unsigned long thread);
 long               card_info_80098FFC(long chan);
+long               SpuIsTransferCompleted_80096F58(long flag);
 
 #endif // _PSYQ_H_

@@ -40,25 +40,25 @@ int        SECTION(".sdata") GM_PadResetDisable_800AB3F4;
 extern int dword_800AB9D0;
 int        SECTION(".sbss") dword_800AB9D0;
 
-extern int        dword_800BEFF0;
-extern int        gStr_FadeOut1_800BF16C;
-extern int        dword_800BF268;
-extern int        dword_800BF1A8;
-extern int        dword_800BF270;
-extern int        dword_800BF264;
-extern char       exe_name_800B5860[32];
-extern char      *MGS_DiskName_8009D2FC[3];
-extern int        gDiskNum_800ACBF0;
-extern char       aCdromMgsS1[];
-extern char       aExecScenario[];
-extern char       aEndScenario[];
-extern char       aStrStatusDIrqX[];
-extern char       aKey08x[];
-extern int        GV_PassageTime_800AB924;
-extern int        DG_UnDrawFrameCount_800AB380;
-extern int        gSaveCache_800B5294;
-extern const char aLoadS_0[];
-extern int        GV_PauseLevel_800AB928;
+extern int          dword_800BEFF0;
+extern unsigned int gStr_FadeOut1_800BF16C;
+extern int          dword_800BF268;
+extern int          dword_800BF1A8;
+extern int          dword_800BF270;
+extern int          dword_800BF264;
+extern char         exe_name_800B5860[32];
+extern char        *MGS_DiskName_8009D2FC[3];
+extern int          gDiskNum_800ACBF0;
+extern char         aCdromMgsS1[];
+extern char         aExecScenario[];
+extern char         aEndScenario[];
+extern char         aStrStatusDIrqX[];
+extern char         aKey08x[];
+extern int          GV_PassageTime_800AB924;
+extern int          DG_UnDrawFrameCount_800AB380;
+extern int          gSaveCache_800B5294;
+extern const char   aLoadS_0[];
+extern int          GV_PauseLevel_800AB928;
 
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 {
