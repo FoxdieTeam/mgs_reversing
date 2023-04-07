@@ -39,6 +39,12 @@ extern const char     aStreamFilePosE[];
 extern const char     aStartstreamXVo[];
 extern const char     aSdWavLoadBufOv[];
 extern const char     asc_80013914[];
+extern const char     aErrorWaveFileA[];
+extern const char     aLoadwavefileFi[];
+extern const char     aSupOffsetXSize[];
+extern const char     aSrcXDstX[];
+extern const char     aBinOffsetX[];
+extern const char     aSpuOffsetXSize[];
 
 extern int            sng_status_800BF158;
 extern int            se_load_code_800BF28C;
@@ -629,7 +635,81 @@ int SD_8008341C()
     }
 }
 
-#pragma INCLUDE_ASM( "asm/SD/sub_800834FC.s" ) // 776 bytes
+int SD_LoadWaveFile_800834FC(void)
+{
+    unsigned int offset;
+    unsigned int size;
+    char        *dst;
+
+    if (dword_800BF294 != 0)
+    {
+        mts_printf_8008BBA0(aErrorWaveFileA);
+        SD_8008395C(dword_800BF294, 2);
+        dword_800BF294 = 0;
+    }
+
+    dword_800BF294 = SD_SongLoadData_8008394C(wave_load_code_800C0528, 2);
+
+    if (dword_800BF294 < 0)
+    {
+        dword_800BF294 = 0;
+        mts_printf_8008BBA0(aLoadwavefileFi, wave_load_code_800C0528);
+        nullsub_7_80081A10(&dword_800C0500, -4, wave_load_code_800C0528);
+        wave_load_code_800C0528 = 0;
+        return -1;
+    }
+
+    SD_80083954(dword_800BF294, cdload_buf_800BF010, 0x18000);
+    byte_800C056C = 0x4F;
+
+    offset  = cdload_buf_800BF010[0] << 24;
+    offset |= cdload_buf_800BF010[1] << 16;
+    offset |= cdload_buf_800BF010[2] << 8;
+    offset |= cdload_buf_800BF010[3];
+
+    size  = cdload_buf_800BF010[4] << 24;
+    size |= cdload_buf_800BF010[5] << 16;
+    size |= cdload_buf_800BF010[6] << 8;
+    size |= cdload_buf_800BF010[7];
+
+    mts_printf_8008BBA0(aSupOffsetXSize, offset, size);
+
+    wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
+    dst = (char *)voice_tbl_800BF1E0 + offset;
+    memcpy_8008E648(dst, wave_load_ptr_800C0508, size);
+
+    mts_printf_8008BBA0(aSrcXDstX, wave_load_ptr_800C0508, dst);
+
+    wave_load_ptr_800C0508 += size;
+
+    spu_load_offset_800BF140  = wave_load_ptr_800C0508[0] << 24;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[1] << 16;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[2] << 8;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[3];
+
+    wave_unload_size_800BF274  = wave_load_ptr_800C0508[4] << 24;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[5] << 16;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[6] << 8;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[7];
+
+    mts_printf_8008BBA0(aBinOffsetX, wave_load_ptr_800C0508);
+    mts_printf_8008BBA0(aSpuOffsetXSize, spu_load_offset_800BF140, wave_unload_size_800BF274);
+
+    wave_load_ptr_800C0508 += 16;
+
+    if (wave_unload_size_800BF274 > (0x17FE0 - size))
+    {
+        dword_800C0650 = 0x17FE0 - size;
+    }
+    else
+    {
+        dword_800C0650 = wave_unload_size_800BF274;
+    }
+
+    wave_unload_size_800BF274 -= dword_800C0650;
+    wave_save_code_800C0578 = wave_load_code_800C0528;
+    return 0;
+}
 
 void sub_80083804( void )
 {
