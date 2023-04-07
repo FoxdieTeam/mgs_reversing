@@ -19,19 +19,6 @@ extern char            *gOverlayBase_800AB9C8;
 extern TFsCallback      gFsCallback_8009D4F8;
 extern TFsSoundCallback gFsSoundCallback_8009D4FC;
 
-extern const char aLoadCompleteTi[]; // "load complete time %d\n";
-extern const char aLoadS[];          // = "load %s\n";
-extern const char aNotFoundS[];      // = "NOT FOUND %s\n";
-extern const char aNo2[];            // = "no_mem\n";
-extern const char aNtagXSizeD[];     // = "ntag %X size %d\n"
-extern const char aLimitX[];         // = "limit = %X\n"
-extern const char aDataXCNowX[];     // = "data %X %c, now %X\n"
-extern const char aInitXCNowX[];     // = "init %X %c, now %X\n"
-extern const char aWrongD[];         // = "!!! WRONG %d !!!\n"
-extern const char aDCCD[];           // = "%d %c %c %d\n"
-extern const char aHere[];           // = "HERE !!\n"
-extern const char aWrongMode02xC;    // = "WRONG mode %02X (%c)\n"
-
 int sub_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
 {
     unsigned char   type;
@@ -138,14 +125,14 @@ int sub_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
                 loopConfig = (STAGE_CONFIG *)file->field_10_pContents;
                 while ( 1 )
                 {
-                    mts_printf_8008BBA0( aDCCD,
+                    mts_printf_8008BBA0( "%d %c %c %d\n",
                                          loopConfig->field_0_hash,
                                          loopConfig->field_2_mode,
                                          loopConfig->field_3_extension,
                                          loopConfig->field_4_size );
                     if ( loopConfig == (conf - 1) )
                     {
-                        mts_printf_8008BBA0( aHere );
+                        mts_printf_8008BBA0( "HERE !!\n" );
                     }
                    loopConfig++;
                 }
@@ -162,7 +149,7 @@ int sub_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
         return 0;
 
     default:
-        mts_printf_8008BBA0( &aWrongMode02xC, config->field_2_mode, config->field_2_mode);
+        mts_printf_8008BBA0( "WRONG mode %02X (%c)\n", config->field_2_mode, config->field_2_mode);
         break;
     }
 
@@ -183,7 +170,7 @@ int Loader_CD_Read_CallBack_helper_800231A8(CDBIOS_TASK *pTask)
         {
             if (pTask->field_1C_remaining > 0)
             {
-                mts_printf_8008BBA0(aWrongD, pTask->field_1C_remaining);
+                mts_printf_8008BBA0("!!! WRONG %d !!!\n", pTask->field_1C_remaining);
             }
 
             result = 0;
@@ -332,13 +319,13 @@ int Loader_helper2_80023460( STAGE_FILE *pStageFile )
 
         if ( pConfig->field_4_size <= 0 )
         {
-            mts_printf_8008BBA0( aNtagXSizeD, pConfig, pConfig->field_4_size );
-            mts_printf_8008BBA0( aLimitX, pLimit );
-            mts_printf_8008BBA0( aDataXCNowX,
+            mts_printf_8008BBA0( "ntag %X size %d\n", pConfig, pConfig->field_4_size );
+            mts_printf_8008BBA0( "limit = %X\n", pLimit );
+            mts_printf_8008BBA0( "data %X %c, now %X\n",
                                  pStageFile->field_14_pConfigStart1,
                                  pStageFile->field_14_pConfigStart1->field_2_mode,
                                  pStageFile->field_20_pConfigEnd2 );
-            mts_printf_8008BBA0( aInitXCNowX,
+            mts_printf_8008BBA0( "init %X %c, now %X\n",
                                  pStageFile->field_2C_config,
                                  pStageFile->field_2C_config->field_2_mode,
                                  pStageFile->field_30_current_ptr );
@@ -427,19 +414,19 @@ STAGE_FILE *FS_LoadStageRequest_800236E0( const char *pFileName )
     void       *pBuffer;    // $v0
 
     DG_FrameRate_8009D45C = 1;
-    mts_printf_8008BBA0( aLoadS, pFileName );
+    mts_printf_8008BBA0( "load %s\n", pFileName );
     gLoaderStartTime_800B528C = VSync_80098108( -1 );
     gSaveCache_800B5294 = 0;
     sector = FS_CdGetStageFileTop_80022DCC( (char *)pFileName );
     if ( sector < 0 )
     {
-        mts_printf_8008BBA0( aNotFoundS, pFileName );
+        mts_printf_8008BBA0( "NOT FOUND %s\n", pFileName );
     }
 
     pStageFile = GV_Malloc_8001620C( sizeof( STAGE_FILE ) ); // 0x38
     if ( !pStageFile )
     {
-        mts_printf_8008BBA0( aNo2 );
+        mts_printf_8008BBA0( "no_mem\n" );
     }
 
     pBuffer = GV_GetMaxFreeMemory_8001627C( 2 );
@@ -475,7 +462,7 @@ void FS_LoadStageComplete_80023804( STAGE_FILE *pStageFile )
     int vBlanks; // $v0
 
     vBlanks = VSync_80098108( -1 );
-    mts_printf_8008BBA0( aLoadCompleteTi, vBlanks - gLoaderStartTime_800B528C );
+    mts_printf_8008BBA0( "load complete time %d\n", vBlanks - gLoaderStartTime_800B528C );
     GV_Free_80016230( pStageFile );
     FS_CdStageProgBinFix_80014AAC();
     DG_FrameRate_8009D45C = 2;

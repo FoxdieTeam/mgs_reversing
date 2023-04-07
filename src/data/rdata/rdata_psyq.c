@@ -1,6 +1,5 @@
 #include "linker.h"
 
-const char SECTION(".rdata") aTickCountD[] = "Tick count %d\n\n";
 const char SECTION(".rdata") aCdinitInitFail[] = "CdInit: Init failed\n";
 const int  SECTION(".rdata") dword_crap9[] = {0, 0};
 const char SECTION(".rdata") aNone_0[] = "none";

@@ -11,9 +11,6 @@ int        SECTION(".sbss") gMapsChanged_800ABAAC;
 
 extern struct map_record gMapRecs_800B7910[16];
 
-extern const char aAddMapD[];
-extern const char aAddmapNotFound[];
-
 int Map_MarkUsed_80031324(int mapName)
 {
     int                counter;  // $v1
@@ -25,7 +22,7 @@ int Map_MarkUsed_80031324(int mapName)
     {
         if (pRecIter->field_4_mapNameHash == mapName)
         {
-            mts_printf_8008BBA0(aAddMapD, pRecIter->field_0_map_index_bit);
+            mts_printf_8008BBA0("add map %d\n", pRecIter->field_0_map_index_bit);
             pRecIter->field_6_bUsed = 1;
             gMapsChanged_800ABAAC = 1;
             return 1;
@@ -34,12 +31,9 @@ int Map_MarkUsed_80031324(int mapName)
         pRecIter++;
     }
 
-    mts_printf_8008BBA0(aAddmapNotFound, mapName);
+    mts_printf_8008BBA0("addmap : not found map %d\n", mapName);
     return 0;
 }
-
-extern const char aDelmapNotFound[];
-extern const char aDelMapD[];
 
 int GM_DelMap_800313C0(int mapName)
 {
@@ -52,7 +46,7 @@ int GM_DelMap_800313C0(int mapName)
     {
         if (pRecIter->field_4_mapNameHash == mapName)
         {
-            mts_printf_8008BBA0(aDelMapD, pRecIter->field_0_map_index_bit);
+            mts_printf_8008BBA0("del map %d\n", pRecIter->field_0_map_index_bit);
             pRecIter->field_6_bUsed = 0;
             gMapsChanged_800ABAAC = 1;
             return 1;
@@ -61,6 +55,6 @@ int GM_DelMap_800313C0(int mapName)
         pRecIter++;
     }
 
-    mts_printf_8008BBA0(aDelmapNotFound, mapName);
+    mts_printf_8008BBA0("delmap: not found map %d\n", mapName);
     return 0;
 }

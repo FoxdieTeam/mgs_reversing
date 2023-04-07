@@ -8,8 +8,6 @@ extern DG_OBJS *StageObjs_800B7890[32];
 extern int N_StageObjs_800ABAA4;
 int        SECTION(".sbss") N_StageObjs_800ABAA4;
 
-extern const char aReshadeNullMap[];
-
 void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
 {
     struct map_record *map;
@@ -18,7 +16,7 @@ void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
     map = Map_FromId_800314C0(pObj->group_id);
     if (!map)
     {
-        mts_printf_8008BBA0(aReshadeNullMap);
+        mts_printf_8008BBA0("Reshade NULL map\n");
     }
     lit_file = map->field_C_lit_file;
     if (lit_file)

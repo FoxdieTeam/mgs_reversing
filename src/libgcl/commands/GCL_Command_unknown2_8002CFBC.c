@@ -8,8 +8,6 @@ int        SECTION(".sdata") gBinds_800ABA60;
 extern int demodebug_finish_proc_800AB414;
 int        SECTION(".sdata") demodebug_finish_proc_800AB414;
 
-extern const char aErrorDemoThrea[];
-
 extern int GM_CurrentMap_800AB9B0;
 
 int GCL_Command_unknown2_8002CFBC(int argc, char **argv)
@@ -57,7 +55,7 @@ int GCL_Command_unknown2_8002CFBC(int argc, char **argv)
     GM_CurrentMap_800AB9B0 = tmp;
     if (!demo)
     {
-        mts_printf_8008BBA0(aErrorDemoThrea);
+        mts_printf_8008BBA0("Error demo thread\n");
     }
     return 0;
 }

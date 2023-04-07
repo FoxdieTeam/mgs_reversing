@@ -16,14 +16,6 @@ extern                SVECTOR svector_800ABA10;
 extern short word_800AB8EC;
 short        SECTION(".word_800AB8EC") word_800AB8EC;
 
-extern const char aFull[];           // = "FULL"
-extern const char aGetWeaponFirst[]; // = "GET WEAPON FIRST"
-extern const char aS_3[];            // = "%s"
-extern const char aItemC[];          // = "item.c"
-extern const char aItemMapD[];       // = "Item map = %d\n"
-extern const char aNoIdItem[];       // = "NO ID ITEM\n"
-extern const char aShadow[];         // = "shadow"
-
 //------------------------------------------------------------------------------
 
 int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
@@ -468,7 +460,7 @@ void item_act_80033784(Actor_Item *pActor)
         case 0:
             if (!pActor->field_11C_full_str)
             {
-                pActor->field_11C_full_str = aFull;
+                pActor->field_11C_full_str = "FULL";
                 pActor->field_110_counter = 0;
                 GM_Sound_80032968(0, 63, 11);
             }
@@ -477,7 +469,7 @@ void item_act_80033784(Actor_Item *pActor)
         case 2:
             if (!pActor->field_11C_full_str)
             {
-                pActor->field_11C_full_str = aGetWeaponFirst;
+                pActor->field_11C_full_str = "GET WEAPON FIRST";
                 pActor->field_110_counter = 0;
                 GM_Sound_80032968(0, 63, 11);
             }
@@ -566,11 +558,11 @@ void item_act_80033784(Actor_Item *pActor)
 
     menu_Color_80038B4C(200, 200, 200);
     menu_Text_XY_Flags_80038B34(pLine->x1 + 5, pLine->y1 - 8, 0x10);
-    menu_Text_80038C38(aS_3, pActor->field_118_str);
+    menu_Text_80038C38("%s", pActor->field_118_str);
 
     menu_Color_80038B4C(1, 1, 1);
     menu_Text_XY_Flags_80038B34(pLine->x1 + 6, pLine->y1 - 7, 0x10);
-    pLine->x2 = pLine->x3 = menu_Text_80038C38(aS_3, pActor->field_118_str) + 3;
+    pLine->x2 = pLine->x3 = menu_Text_80038C38("%s", pActor->field_118_str) + 3;
 }
 
 void item_kill_80033F88(Actor_Item *pActor)
@@ -709,7 +701,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     puVar6 = (unsigned char *)GCL_GetParam_80020968('i');
     if (!puVar6)
     {
-        mts_printf_8008BBA0(aNoIdItem);
+        mts_printf_8008BBA0("NO ID ITEM\n");
         return -1;
     }
 
@@ -826,7 +818,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
 
         pPrim->field_2E_k500 = k500;
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aShadow));
+        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("shadow"));
         if (!pTex)
         {
             return -1;
@@ -859,14 +851,14 @@ Actor_Item * item_init_800344F8(int name, int where, int argc, char **argv)
         GV_SetNamedActor_8001514C(&pActor->field_0,
                                   (TActorFunction)&item_act_80033784,
                                   (TActorFunction)&item_kill_80033F88,
-                                  aItemC);
+                                  "item.c");
         pActor->field_112_state = 0;
         inited = item_init_helper_800340D0(pActor, name, where);
         if (inited > 0)
         {
             pActor->field_10E = -1;
             pActor->field_108_where = where;
-            mts_nullsub_8_8008BB98(1, aItemMapD, where);
+            mts_nullsub_8_8008BB98(1, "Item map = %d\n", where);
             pActor->field_10C_64 = 64;
         }
         else
@@ -943,7 +935,7 @@ Actor_Item * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo
         GV_SetNamedActor_8001514C(&pActor->field_0,
                                   (TActorFunction)&item_act_80033784,
                                   (TActorFunction)&item_kill_80033F88,
-                                  aItemC);
+                                  "item.c");
 
         if (item_init_helper_800345C0(pActor, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
         {

@@ -4,9 +4,6 @@
 #include "Menu/menuman.h"
 #include "Game/strctrl.h"
 
-extern const char aDemoNoCode[];
-extern const char aDemoNoDataOnCd[];
-
 extern int GM_CurrentMap_800AB9B0;
 extern int gBinds_800ABA60;
 extern int GM_GameStatus_800AB3CC;
@@ -21,7 +18,7 @@ int GCL_Command_demo_8002C890( int argc, char **argv )
 
     if ( !GCL_GetParam_80020968( 's' ) ) // scene ?
     {
-        mts_printf_8008BBA0( aDemoNoCode );
+        mts_printf_8008BBA0( "DEMO:NO CODE\n" );
     }
     code = GCL_GetNextParamValue_80020AD4();
 
@@ -59,7 +56,7 @@ int GCL_Command_demo_8002C890( int argc, char **argv )
         }
         else
         {
-            msg = ( char* )aDemoNoDataOnCd;
+            msg = "DEMO ( no data on CD )";
         }
         NewJimakuStr_8004955C( msg, cb_proc );
     }

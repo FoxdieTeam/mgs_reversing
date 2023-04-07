@@ -11,7 +11,6 @@ extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
 extern unsigned char *gOverlayBase_800AB9C8;
 
-extern const char aTooLargeStageB[];
 extern const char aGamedC[];
 
 extern int gOverlayBinSize_800B5290;
@@ -44,7 +43,7 @@ int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameH
 {
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
-        mts_printf_8008BBA0(aTooLargeStageB);
+        mts_printf_8008BBA0("TOO LARGE STAGE BINARY!!\n");
     }
 
     memcpy_8008E648(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);

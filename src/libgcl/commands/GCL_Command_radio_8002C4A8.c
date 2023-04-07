@@ -3,8 +3,6 @@
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
 
-extern const char aWrongCodeForRa[];
-
 extern int GM_GameStatus_800AB3CC;
 
 int GCL_Command_radio_8002C4A8(int argc, char **argv)
@@ -34,7 +32,7 @@ int GCL_Command_radio_8002C4A8(int argc, char **argv)
         }
         else
         {
-            mts_printf_8008BBA0(aWrongCodeForRa);
+            mts_printf_8008BBA0("Wrong Code for radio over\n");
         }
         while (GCL_Get_Param_Result_80020AA4())
         {
