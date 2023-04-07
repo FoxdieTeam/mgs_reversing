@@ -349,8 +349,9 @@ gap                                     gap_800BF164[0x4]; // 4 bytes
 int BSS             dword_800BF168; // 0x4 (4) bytes
 unsigned int BSS    gStr_FadeOut1_800BF16C; // 0x4 (4) bytes
 
-gap                                     gap_800BF170[0x30]; // 48 bytes
+gap                                     gap_800BF170[0x10]; // 16 bytes
 
+int BSS             se_pan_800BF180[8]; // 0x20 (32) bytes
 int BSS             stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 int BSS             dword_800BF1A4; // 0x4 (4) bytes
 int BSS             dword_800BF1A8; // 0x4 (4) bytes
