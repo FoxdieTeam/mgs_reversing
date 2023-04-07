@@ -341,13 +341,13 @@ gap                                     gap_800BF148[0xC]; // 12 bytes
 
 int BSS             dword_800BF154; // 0x4 (4) bytes
 int BSS             sng_status_800BF158; // 0x4 (4) bytes
-int BSS             gStreamVol_800BF15C; // 0x4 (4) bytes
+unsigned int BSS    gStreamVol_800BF15C; // 0x4 (4) bytes
 int BSS             dword_800BF160; // 0x4 (4) bytes
 
 gap                                     gap_800BF164[0x4]; // 4 bytes
 
 int BSS             dword_800BF168; // 0x4 (4) bytes
-int BSS             gStr_FadeOut1_800BF16C; // 0x4 (4) bytes
+unsigned int BSS    gStr_FadeOut1_800BF16C; // 0x4 (4) bytes
 
 gap                                     gap_800BF170[0x30]; // 48 bytes
 
@@ -453,7 +453,7 @@ int BSS             se_rev_on_800C0574; // 0x4 (4) bytes
 int BSS             wave_save_code_800C0578; // 0x4 (4) bytes
 SOUND_W *BSS        sptr_800C057C; // 0x4 (4) bytes
 int BSS             dword_800C0580; // 0x4 (4) bytes
-int BSS             gStr_fadeout_2_800C0584; // 0x4 (4) bytes
+unsigned int BSS    gStr_fadeout_2_800C0584; // 0x4 (4) bytes
 unsigned char BSS   byte_800C0588[200]; // 0xC8 (200) bytes
 int BSS             dword_800C0650; // 0x4 (4) bytes
 int BSS             dword_800C0654; // 0x4 (4) bytes
