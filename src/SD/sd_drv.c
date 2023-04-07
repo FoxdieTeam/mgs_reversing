@@ -53,10 +53,10 @@ extern int dword_800BF064;
 extern int dword_800BF210;
 
 extern int dword_800C0580;
-extern int gStr_FadeOut1_800BF16C;
 extern int dword_800BF154;
 extern int dword_800BF008;
 
+extern unsigned int   gStr_FadeOut1_800BF16C;
 extern unsigned int   mtrack_800BF1EC;
 extern unsigned char *mptr_800C0570;
 
