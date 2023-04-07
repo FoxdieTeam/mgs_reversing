@@ -1,7 +1,6 @@
 #include "SD/sd.h"
 #include "data/data/data.h"
 
-void                  vol_set_80088320( unsigned int a1 );
 void                  note_compute_80085DE0( void );
 
 unsigned char         rdm_tbl_8009F9BC[ 129 ];
