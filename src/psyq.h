@@ -146,5 +146,10 @@ struct DIRENTRY   *nextfile_800995EC(struct DIRENTRY *);
 long               CloseTh_800994DC(unsigned long thread);
 long               card_info_80098FFC(long chan);
 long               SpuIsTransferCompleted_80096F58(long flag);
+int                PCinit_80014B14(void);
+int                PCopen_80014B1C(char *name, int flags, int perms);
+int                PClseek_80098E48(int fd, int offset, int mode);
+int                PCread_80014B24(int fd, char *buff, int len);
+int                PCclose_80014B2C(int fd);
 
 #endif // _PSYQ_H_

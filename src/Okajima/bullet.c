@@ -20,9 +20,6 @@ extern SVECTOR svec_8009F6CC;
 extern SVECTOR svec_8009F6E4;
 extern VECTOR  vec_8009F6D4;
 
-extern const char aBullet[];  // = "bullet"
-extern const char aBulletC[]; // = "bullet.c"
-
 //------------------------------------------------------------------------------
 
 void bullet_80075314(SVECTOR *pVec, int amount)
@@ -528,7 +525,7 @@ int bullet_loader2_80076274(Actor_Bullet *pActor, MATRIX* pMtx, int arg2, int no
             return -1;
         }
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBullet));
+        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
 
         if (!pTex)
         {
@@ -554,7 +551,7 @@ Actor_Bullet * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, in
 		GV_SetNamedActor_8001514C( (GV_ACT *)actor,
 								   (TActorFunction)&bullet_act_80075DD4,
 								   (TActorFunction)&bullet_kill_80076164,
-								   (char *)aBulletC );
+								   "bullet.c" );
 		vec.vx = arg0->m[0][0];
 		vec.vy = arg0->m[1][0];
 		vec.vz = arg0->m[2][0];
@@ -610,7 +607,7 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
 								  (TActorFunction)&bullet_act_80075DD4,
 								  (TActorFunction)&bullet_kill_80076164,
-								  aBulletC);
+								  "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
@@ -687,7 +684,7 @@ Actor_Bullet * NewBulletEx_80076708(
     }
 
     GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bullet_act_80075DD4,
-        (TActorFunction)bullet_kill_80076164, aBulletC);
+        (TActorFunction)bullet_kill_80076164, "bullet.c");
     pActor->field_14C = a1;
     pActor->field_150 = a6 / 2;
     pActor->field_154_hp = a7;

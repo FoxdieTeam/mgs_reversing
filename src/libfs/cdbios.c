@@ -54,7 +54,7 @@ int FS_LoadFileSync_80021F48(void)
     return CDBIOS_ReadSync_80022854();
 }
 
-void MakeFullPath_80021F68(void)
+void MakeFullPath_80021F68(int name, char *buffer)
 {
 
 }

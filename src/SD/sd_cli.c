@@ -5,8 +5,6 @@
 
 extern char byte_800C0468[];
 extern unsigned int sng_status_800C04F8;
-extern const char aXaSoundStart[];
-extern const char aXaSoundStop[];
 extern int dword_8009F7B4;
 
 int sd_set_cli_800887EC(int sdCode, int unused)
@@ -44,7 +42,7 @@ void XA_Start_80088868()
     attr.cd.volume.right = 0x7FFF;
     attr.cd.mix = 1;
     SpuSetCommonAttr_80097038(&attr);
-    mts_printf_8008BBA0(aXaSoundStart);
+    mts_printf_8008BBA0("***XA Sound Start***\n");
 }
 
 void XA_Stop_800888B4()
@@ -56,7 +54,7 @@ void XA_Stop_800888B4()
     attr.cd.volume.right = 0;
     attr.cd.mix = 0;
     SpuSetCommonAttr_80097038(&attr);
-    mts_printf_8008BBA0(aXaSoundStop);
+    mts_printf_8008BBA0("***XA Sound Stop***\n");
 }
 
 #pragma INCLUDE_ASM("asm/SD/SePlay_800888F8.s") // 936 bytes
@@ -65,25 +63,6 @@ int get_str_counter_80088CA0(void)
 {
     return dword_8009F7B4;
 }
-
-extern const char aSdcodeX[];
-extern const char aToomuchbgmsoun[];
-extern const char aSdsetSameStrea[];
-extern const char aSdsetLastStrea[];
-extern const char aStrFoS[];
-extern const char aStrFoLl[];
-extern const char aStrFiLAtNextSt[];
-extern const char aStrFiLStart[];
-extern const char aErrStrFiL[];
-extern const char aStrFoSStop[];
-extern const char aStrFoM[];
-extern const char aStrFoL[];
-extern const char aStrFiMAtNextSt[];
-extern const char aStrFoLlStop[];
-extern const char aStrFoMStop[];
-extern const char aStrFoLStop[];
-extern const char aErrStrFiM[];
-extern const char aStrFiMStart[];
 
 extern int stop_jouchuu_se_800BF1A0;
 
@@ -112,7 +91,7 @@ void sd_set_80088CB0(int sdCode)
 
     if (dword_800BF000 != 0)
     {
-        mts_printf_8008BBA0(aSdcodeX, sdCode);
+        mts_printf_8008BBA0("SdCode=%x\n", sdCode);
     }
 
     sdCodeTopByte = sdCode & 0xFF000000;
@@ -133,11 +112,11 @@ void sd_set_80088CB0(int sdCode)
             return;
         }
 
-        mts_printf_8008BBA0(aToomuchbgmsoun, sdCode);
+        mts_printf_8008BBA0("***TooMuchBGMSoundCode(%x)***\n", sdCode);
     }
     else if (sdCodeTopByte == 0x2000000)
     {
-        mts_printf_8008BBA0(aSdcodeX, sdCode);
+        mts_printf_8008BBA0("SdCode=%x\n", sdCode);
         se_load_code_800BF28C = sdCode;
     }
     else if (sdCodeTopByte == 0xFE000000)
@@ -169,10 +148,10 @@ void sd_set_80088CB0(int sdCode)
             }
             if (gStream_800C04F0 != sdCode)
             {
-                mts_printf_8008BBA0(aSdsetLastStrea, gStr_FadeOut1_800BF16C);
+                mts_printf_8008BBA0("SdSet:Last Stream Not Terminated.(status=%x)\n", gStr_FadeOut1_800BF16C);
                 return;
             }
-            mts_printf_8008BBA0(aSdsetSameStrea, sdCode);
+            mts_printf_8008BBA0("SdSet:Same Stream is Already Played.(code=%x)\n", sdCode);
             return;
         }
 
@@ -199,19 +178,19 @@ void sd_set_80088CB0(int sdCode)
 
         case 0xFF0000F4:
             StrFadeOut_80082310(0x64);
-            mts_printf_8008BBA0(aStrFoS);
+            mts_printf_8008BBA0("*** STR FO(S) ***\n");
             return;
         case 0xFF0000F5:
             StrFadeOut_80082310(0xC8);
-            mts_printf_8008BBA0(aStrFoM);
+            mts_printf_8008BBA0("*** STR FO(M) ***\n");
             return;
         case 0xFF0000F6:
             StrFadeOut_80082310(0x1F4);
-            mts_printf_8008BBA0(aStrFoL);
+            mts_printf_8008BBA0("*** STR FO(L) ***\n");
             return;
         case 0xFF0000F7:
             StrFadeOut_80082310(0x3E8);
-            mts_printf_8008BBA0(aStrFoLl);
+            mts_printf_8008BBA0("*** STR FO(LL) ***\n");
             return;
         case 0xFF0000F8:
             if (gStream_800C04F0 != -1)
@@ -220,14 +199,14 @@ void sd_set_80088CB0(int sdCode)
                 if (gStr_FadeOut1_800BF16C == 0)
                 {
                     dword_800C04EC = sdCode;
-                    mts_printf_8008BBA0(aStrFiMAtNextSt);
+                    mts_printf_8008BBA0("*** STR FI(M) at Next STR ***\n");
                     return;
                 }
                 StrFadeIn_800822C8(0xC8);
-                mts_printf_8008BBA0(aStrFiMStart);
+                mts_printf_8008BBA0("*** STR FI(M) Start ***\n");
                 return;
             }
-            mts_printf_8008BBA0(aErrStrFiM);
+            mts_printf_8008BBA0("*** ERR:STR FI(M) ***\n");
             return;
         case 0xFF0000F9:
             if (gStream_800C04F0 != -1)
@@ -236,30 +215,30 @@ void sd_set_80088CB0(int sdCode)
                 if (gStr_FadeOut1_800BF16C == 0)
                 {
                     dword_800C04EC = sdCode;
-                    mts_printf_8008BBA0(aStrFiLAtNextSt);
+                    mts_printf_8008BBA0("*** STR FI(L) at Next STR***\n");
                     return;
                 }
                 StrFadeIn_800822C8(0x1F4);
-                mts_printf_8008BBA0(aStrFiLStart);
+                mts_printf_8008BBA0("*** STR FI(L) Start ***\n");
                 return;
             }
-            mts_printf_8008BBA0(aErrStrFiL);
+            mts_printf_8008BBA0("*** ERR:STR FI(L) ***\n");
             return;
         case 0xFF0000FA:
             StrFadeOutStop_80082380(0x64);
-            mts_printf_8008BBA0(aStrFoSStop);
+            mts_printf_8008BBA0("*** STR FO(S)+STOP ***\n");
             return;
         case 0xFF0000FB:
             StrFadeOutStop_80082380(0xC8);
-            mts_printf_8008BBA0(aStrFoMStop);
+            mts_printf_8008BBA0("*** STR FO(M)+STOP ***\n");
             return;
         case 0xFF0000FC:
             StrFadeOutStop_80082380(0x1F4);
-            mts_printf_8008BBA0(aStrFoLStop);
+            mts_printf_8008BBA0("*** STR FO(L)+STOP ***\n");
             return;
         case 0xFF0000FD:
             StrFadeOutStop_80082380(0x3E8);
-            mts_printf_8008BBA0(aStrFoLlStop);
+            mts_printf_8008BBA0("*** STR FO(LL)+STOP ***\n");
             return;
         case 0xFF0000FE:
             stop_jouchuu_se_800BF1A0 = 1;
