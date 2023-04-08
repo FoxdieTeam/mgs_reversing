@@ -30,8 +30,6 @@ void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18,
 void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor);
 void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor);
-void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor);
-void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor);
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
@@ -123,14 +121,92 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     return 1;
 }
 
-const char SECTION(".rdata") aErrorInitializ[] = "Error:Initialize demo\n";
-const char SECTION(".rdata") aPlaydemosound[] = "PlayDemoSound\n";
-const char SECTION(".rdata") aCacheBufferCle[] = "Cache Buffer Cleared\n";
-const char SECTION(".rdata") aCacheReadEnabl[] = "Cache Read Enable\n";
-const char SECTION(".rdata") aNoloadModelSta[] = "Noload model ( Stage )\n";
-const char SECTION(".rdata") aNoloadModelSce[] = "Noload model ( Scene = No.%d )\n";
+int CreateDemo_80079B50(Actor_demothrd *, demothrd_0x1C *);
+int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *, demothrd_0x1C *);
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_cd_act_80079664.s")                              // 360 bytes
+void demothrd_cd_act_80079664(Actor_demothrd *pActor)
+{
+    int            ticks;
+    char          *pData;
+    int            status;
+    int            temp;
+    demothrd_0x1C *pDmoHeader;
+
+    ticks = FS_StreamGetTick_80024420();
+
+    if (pActor->field_2C_timer_ticks == -1)
+    {
+        pData = FS_StreamGetData_800240E0(5);
+
+        if (pData)
+        {
+            pDmoHeader = (demothrd_0x1C *)(pData - 4);
+            status = CreateDemo_80079B50(pActor, pDmoHeader);
+
+            sub_800241B4(pData);
+
+            if (status == 0)
+            {
+                GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            }
+
+            pActor->field_2C_timer_ticks = 0;
+        }
+
+        return;
+    }
+
+    if (pActor->field_24_ticks == 0)
+    {
+        pActor->field_24_ticks = ticks - 2;
+    }
+
+    pActor->field_2C_timer_ticks = (ticks - pActor->field_24_ticks) / 2;
+    status = 0;
+    temp = 0;
+
+    if (pActor->field_2C_timer_ticks <= pActor->field_30_dmo_header->field_8_movie_frames)
+    {
+        while (1)
+        {
+            pData = FS_StreamGetData_800240E0(5);
+
+            if (!pData)
+            {
+                if (FS_StreamGetEndFlag_800243B8() == 1)
+                {
+                    GV_DestroyActor_800151C8(&pActor->field_0_actor);
+                }
+
+                return;
+            }
+
+            pDmoHeader = (demothrd_0x1C *)(pData - 4);
+            if (pDmoHeader->field_4_chunk_size >= pActor->field_2C_timer_ticks)
+            {
+                break;
+            }
+
+            sub_800241B4(pData);
+        }
+
+        status = demothrd_1_FrameRunDemo_8007A948(pActor, pDmoHeader);
+
+        if (status == 0)
+        {
+            FS_StreamStop_80024028();
+        }
+        else
+        {
+            sub_800241B4(pData);
+        }
+    }
+
+    if (status == temp)
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+}
 
 void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor)
 {
@@ -139,7 +215,69 @@ void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor)
     DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_file_stream_act_800797FC.s")                         // 356 bytes
+extern GV_PAD GV_PadData_800B05C0[4];
+
+void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor)
+{
+    int time;
+    int new_time;
+    int success;
+
+    time = VSync_80098108(-1);
+
+    if (pActor->field_2C_timer_ticks == -1)
+    {
+        if (!CreateDemo_80079B50(pActor, pActor->field_C0_pHeader))
+        {
+            mts_printf_8008BBA0("Error:Initialize demo\n");
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        }
+
+        pActor->field_2C_timer_ticks = 0;
+        return;
+    }
+
+    if (pActor->field_24_ticks == 0)
+    {
+        pActor->field_24_ticks = time - 2;
+        mts_printf_8008BBA0("PlayDemoSound\n");
+    }
+
+    if (pActor->field_20_flag & 4)
+    {
+        new_time = pActor->field_2C_timer_ticks + 1;
+    }
+    else
+    {
+        new_time = (time - pActor->field_24_ticks) / 2;
+    }
+
+    pActor->field_2C_timer_ticks = new_time;
+
+    if (pActor->field_30_dmo_header->field_8_movie_frames < pActor->field_2C_timer_ticks)
+    {
+        success = 0;
+    }
+    else
+    {
+        while (pActor->field_2C_timer_ticks != pActor->field_C0_pHeader->field_4_chunk_size)
+        {
+            pActor->field_C0_pHeader = (void *)pActor->field_C0_pHeader + pActor->field_C0_pHeader->field_0_magic;
+        }
+
+        success = demothrd_1_FrameRunDemo_8007A948(pActor, pActor->field_C0_pHeader);
+    }
+
+    if (GV_PadData_800B05C0[1].status & PAD_CROSS)
+    {
+        success = 0;
+    }
+
+    if (success == 0)
+    {
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+    }
+}
 
 void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor)
 {
@@ -157,16 +295,18 @@ void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
     dword_800BDFB8 = cache_read_enable;
     dword_800BDFBC = clear_cache_buffer;
 
-    if (clear_cache_buffer != 0) {
-        mts_printf_8008BBA0(aCacheBufferCle);
+    if (clear_cache_buffer != 0)
+    {
+        mts_printf_8008BBA0("Cache Buffer Cleared\n");
         dword_800BDFC4 = 0x80700c00;
         // Debug build address
         stru_80700000->field_0 = 0;
         dword_800BDFC0 = stru_80700000;
     }
 
-    if (cache_read_enable) {
-        mts_printf_8008BBA0(aCacheReadEnabl);
+    if (cache_read_enable)
+    {
+        mts_printf_8008BBA0("Cache Read Enable\n");
     }
 }
 
@@ -264,7 +404,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
         while (1) {
 
             if (!GV_GetCache_8001538C(pMapsIter->field_0)) {
-                mts_printf_8008BBA0(aNoloadModelSta);
+                mts_printf_8008BBA0("Noload model ( Stage )\n");
                 return 0;
             }
             ++scene_no;
@@ -289,7 +429,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
         while (scene_no < pThis->field_30_dmo_header->field_10_num_models) {
 
             if (!GV_GetCache_8001538C((pModel0x14Iter)->field_8)) {
-                mts_printf_8008BBA0(aNoloadModelSce, scene_no +1);
+                mts_printf_8008BBA0("Noload model ( Scene = No.%d )\n", scene_no +1);
                 asm(""); // TODO hack!
                 return 0;
             }
