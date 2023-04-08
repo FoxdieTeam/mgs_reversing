@@ -1,8 +1,6 @@
 #include "scn_mask.h"
 
-extern int     GV_Clock_800AB920;
-
-extern const char aScnMaskC[];
+extern int GV_Clock_800AB920;
 
 void scn_mask_act_80078620(struct Actor_scn_mask *pActor)
 {
@@ -108,7 +106,7 @@ struct Actor_scn_mask *new_scn_mask_8007895C(int a1)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)scn_mask_act_80078620,
-                                  (TActorFunction)scn_mask_kill_80078774, aScnMaskC);
+                                  (TActorFunction)scn_mask_kill_80078774, "scn_mask.c");
 
         if (scn_mask_loader_800787A4(pActor, a1) < 0)
         {
