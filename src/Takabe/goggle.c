@@ -10,9 +10,6 @@
 
 // night vision goggles (screen effect)
 
-extern const char aGoggleC[]; // = "goggle.c"
-extern const char aGoggles_0[];
-
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
@@ -152,7 +149,7 @@ int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
     OBJECT *pObj = &pActor->field_20_obj;
     if (pParent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC(aGoggles_0), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC("goggles"), WEAPON_FLAG, 0);
         if (!pObj->objs)
         {
             return -1;
@@ -183,7 +180,7 @@ GV_ACT * NewGoggle_8007781C(CONTROL *a1, OBJECT *parent_obj, int unused)
     if (goggle_actor)
     {
         GV_SetNamedActor_8001514C(&goggle_actor->field_0_actor, (TActorFunction)&goggle_act_800775B4,
-                                  (TActorFunction)&goggle_kill_800776AC, aGoggleC);
+                                  (TActorFunction)&goggle_kill_800776AC, "goggle.c");
 
         if (goggle_loader_8007773C(goggle_actor, parent_obj) < 0)
         {

@@ -7,10 +7,9 @@
 // Goggle Manager?
 // used by all items and weapons that can go first person in order to transition into their first person modes?
 
-extern const char         aGglmngC[];
 extern GM_Camera GM_Camera_800B77E8;
-extern int                GM_PlayerStatus_800ABA50;
-extern int                dword_8009F46C;
+extern int       GM_PlayerStatus_800ABA50;
+extern int       dword_8009F46C;
 
 void gglmng_act_800778B4(Actor_gglmng *pActor)
 {
@@ -63,7 +62,7 @@ GV_ACT *gglmng_init_800779B8(int type)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)gglmng_act_800778B4,
-                                  (TActorFunction)gglmng_kill_80077988, aGglmngC);
+                                  (TActorFunction)gglmng_kill_80077988, "gglmng.c");
         pActor->field_20_type = type;
         pActor->field_24 = 0;
         pActor->field_28_pGglsight = 0;

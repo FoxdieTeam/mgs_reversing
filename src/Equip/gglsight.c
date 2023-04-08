@@ -12,8 +12,6 @@
 extern int         GV_Clock_800AB920;
 extern CONTROL *gSnaControl_800AB9F4;
 
-extern const char a02d[]; // = "%02d"
-
 void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
 {
     int r, g, b;
@@ -85,7 +83,7 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
             }
 
             menu_Text_XY_Flags_80038B34(x, 148, 0x122);
-            menu_Text_80038C38(a02d, var_s0);
+            menu_Text_80038C38("%02d", var_s0);
 
             pTile->x0 = x;
             addPrim(pOt, pTile);
@@ -96,9 +94,6 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
         var_s1--;
     }
 }
-
-extern const char aLd[];        // = "%ld\n"
-extern const char aGglsightC[]; // = "gglsight.c"
 
 void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
 {
@@ -125,9 +120,9 @@ void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
         }
         menu_Color_80038B4C(r, g, b);
         vy = gSnaControl_800AB9F4->field_8_rotator.vy;
-        menu_Text_80038C38(aLd, 8 * (vy & 2047));
-        menu_Text_80038C38(aLd, 4 * (vy & 4095));
-        menu_Text_80038C38(aLd, 16 * (vy & 1023));
+        menu_Text_80038C38("%ld\n", 8 * (vy & 2047));
+        menu_Text_80038C38("%ld\n", 4 * (vy & 4095));
+        menu_Text_80038C38("%ld\n", 16 * (vy & 1023));
     }
 }
 
@@ -195,10 +190,6 @@ void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
     addPrim(pOt, pTpage);
 }
 
-extern const char aScan[];
-extern const char aModeB[];
-extern const char aModeA[];
-
 void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
 {
     int old_380; // $s1
@@ -232,18 +223,18 @@ void gglsight_act_helper_80077F70(Actor_gglsight *pActor)
 
         if (old_380 > 0)
         {
-            menu_Text_80038C38(aScan); // scan
+            menu_Text_80038C38("SCAN"); // scan
         }
 
         menu_Text_XY_Flags_80038B34(137, 42, 304);
 
         if (pActor->field_20_type == 5)
         {
-            menu_Text_80038C38(aModeB); // MODE - B
+            menu_Text_80038C38("MODE - B"); // MODE - B
         }
         else
         {
-            menu_Text_80038C38(aModeA); // MODE - A
+            menu_Text_80038C38("MODE - A"); // MODE - A
         }
     }
 }
@@ -472,7 +463,7 @@ Actor_gglsight *gglsight_init_80078520(int type)
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)gglsight_act_80078228,
-                                  (TActorFunction)gglsight_kill_800783F8, aGglsightC);
+                                  (TActorFunction)gglsight_kill_800783F8, "gglsight.c");
 
         actor->field_20_type = type;
 

@@ -8,9 +8,6 @@
 
 // thermal goggles (screen effect)
 
-extern char       aGoggleirC[]; // = "goggleir.c"
-extern const char aGoggles_1[];
-
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
@@ -166,7 +163,7 @@ int goggleir_loader_80078D8C(Actor_GoggleIr *pActor, OBJECT *pParent)
     OBJECT *pObj = &pActor->field_20_obj;
     if (pParent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC(aGoggles_1), 877, 0);
+        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC("goggles"), 877, 0);
         if (!pObj->objs)
         {
             return -1;
@@ -196,7 +193,7 @@ GV_ACT * NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
     if (goggleir_actor)
     {
         GV_SetNamedActor_8001514C(&goggleir_actor->field_0_actor, (TActorFunction)&goggleir_act_80078BE0,
-                                  (TActorFunction)&goggleir_kill_80078CE4, aGoggleirC);
+                                  (TActorFunction)&goggleir_kill_80078CE4, "goggleir.c");
 
         if (goggleir_loader_80078D8C(goggleir_actor, parent_obj) < 0)
         {

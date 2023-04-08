@@ -26,9 +26,6 @@ extern int              GV_Time_800AB330;
 extern MATRIX           DG_ZeroMatrix_8009D430;
 extern SVECTOR          DG_ZeroVector_800AB39C;
 
-extern const char       aChafgrndC[]; // = "chafgrnd.c";
-extern const char       aEffect[];    // = "effect"
-
 void chafgrnd_init_particle_size_800769EC(TILE *a0)
 {
     TILE        *pIter = a0;
@@ -101,7 +98,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     SVECTOR *pVec;
     SVECTOR *pVec2;
 
-    if (GM_CheckMessage_8002631C(&pActor->field_0_actor, GV_StrCode_80016CCC(aEffect), 0x3223))
+    if (GM_CheckMessage_8002631C(&pActor->field_0_actor, GV_StrCode_80016CCC("effect"), 0x3223))
     {
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return;
@@ -333,7 +330,7 @@ Actor_Chafgrnd * NewChafgrnd_80077264(MATRIX *pWorld)
     {
         dword_800BDF98 = 0;
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&chafgrnd_act_80076B28,
-                                  (TActorFunction)&chafgrnd_kill_8007721C, aChafgrndC);
+                                  (TActorFunction)&chafgrnd_kill_8007721C, "chafgrnd.c");
 
         pActor->field_a3c = 0;
         if (chafgrnd_loader_80077014(pActor, pWorld) < 0)

@@ -3,7 +3,6 @@
 #include "Anime/animeconv/anime.h"
 #include "libdg/libdg.h"
 
-extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F774;
 extern int DG_UnDrawFrameCount_800AB380;
@@ -12,87 +11,15 @@ extern int dword_800BDFB8;
 extern int dword_800BDFBC;
 extern demothrd_80700000 *dword_800BDFC0;
 extern int dword_800BDFC4;
-extern const char aM1e1[];
-extern const char aM1e1demo[];
+
 extern GM_Camera        GM_Camera_800B77E8;
 extern short           gGameState_800B4D98[0x60];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F774;
 extern ANIMATION stru_8009F73C;
 extern ANIMATION stru_8009F790;
-extern const char aDemothrdC[];
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F774;
-
-extern const char aDemothrdC[];
-extern const char aCacheBufferCle[]; // = "Cache Buffer Cleared\n";
-extern const char aCacheReadEnabl[]; // = "Cache Read Enable\n";
-extern const char aDemothrdC[];
-extern const char aDemoFileS[];
-extern const char aSNotFound[];
-extern const char aM1e1[];
-extern const char aM1e1demo[];
-extern const char aHinddemo[];
-extern const char aHind[];
-extern const char aNoloadModelSce[];
-extern const char aErrorInitContr[];
-extern const char aDemothrdC[];
-extern const char aDemoFileS[];
-extern const char aSNotFound[];
-extern const char aM1e1[];
-extern const char aM1e1demo[];
-extern const char aHinddemo[];
-extern const char aHind[];
-extern const char a16dO4a[];
-extern const char a16dO5a[];
-extern const char a16dO6a[];
-extern const char a16dO7a[];
-extern const char a16dO8a[];
-extern const char a16dO9a[];
-extern const char a16dO10a[];
-extern const char a16dO4b[];
-extern const char a16dO5b[];
-extern const char a16dO6b[];
-extern const char a16dO7b[];
-extern const char a16dO8b[];
-extern const char a16dO9b[];
-extern const char a16dO10b[];
-extern const char a16dO4c[];
-extern const char a16dO5c[];
-extern const char a16dO6c[];
-extern const char a16dO7c[];
-extern const char a16dO8c[];
-extern const char a16dO9c[];
-extern const char a16dO10c[];
-extern const char a02aR8[];
-extern const char aMgrexw[];
-extern const char aMgrexll[];
-extern const char aMgrexrl[];
-extern const char aPitT[];
-extern const char aPitU[];
-extern const char aPitLiq[];
-extern const char aRadarF1[];
-extern const char aRadarF2[];
-extern const char aRadarF3[];
-extern const char aLHatch1[];
-extern const char aLHatch2[];
-extern const char aLHatch3[];
-extern const char aLHatch4[];
-extern const char aRHatch1[];
-extern const char aRHatch2[];
-extern const char aRHatch3[];
-extern const char aRHatch4[];
-extern const char aM1e1cl1[];
-extern const char aM1e1cl2[];
-extern const char aM1e1cl3[];
-extern const char aM1e1cr1[];
-extern const char aM1e1cr2[];
-extern const char aM1e1cr3[];
-extern const char aNoloadModelSta[];
-extern const char aNull_0[];
-extern const char aNoloadModelNul[];
-extern const char aErrorInitContr_0[];
-extern const char aNull[];
 
 void demothrd_Screen_Chanl_80080D48(DG_CHNL *pOt, int idx);
 
@@ -101,8 +28,10 @@ void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78
 TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
 void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
-void demothrd_file_stream_act_800797FC(Actor_demothrd* pActor);
-void demothrd_file_stream_kill_80079960(Actor_demothrd* pActor);
+void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor);
+void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor);
+void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor);
+void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor);
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
@@ -119,16 +48,87 @@ int DM_ThreadStream_80079460(int flag, int unused)
 
     pDemoThrd->field_20_flag = flag;
     pDemoThrd->field_2C_timer_ticks = -1;
-    GV_SetNamedActor_8001514C(&pDemoThrd->field_0_actor, (TActorFunction)demothrd_cd_act_80079664,
-                              (TActorFunction)demothrd_cd_stream_die_800797CC, aDemothrdC);
+
+    GV_SetNamedActor_8001514C(&pDemoThrd->field_0_actor,
+                              (TActorFunction)demothrd_cd_act_80079664,
+                              (TActorFunction)demothrd_cd_stream_die_800797CC,
+                              "demothrd.c");
+
     pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
     FS_StreamOpen_80024060();
     return 1;
 }
 
-// https://decomp.me/scratch/TwT1k
-#pragma INCLUDE_ASM("asm/Kojo/DM_ThreadFile_800794E4.s")                           // 384 bytes
+int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
+{
+    Actor_demothrd *pActor;
+    int             hFile;
+    int             seekRet;
+    char           *pHdr;
+    int             readRet;
 
+    pActor = (Actor_demothrd *)GV_NewActor_800150E4(1, sizeof(Actor_demothrd));
+
+    if ( !pActor )
+    {
+        return 0;
+    }
+
+    pActor->field_20_flag = flag;
+    pActor->field_2C_timer_ticks = -1;
+
+    GV_SetNamedActor_8001514C(&pActor->field_0_actor,
+                              (TActorFunction)&demothrd_file_stream_act_800797FC,
+                              (TActorFunction)&demothrd_file_stream_kill_80079960,
+                              "demothrd.c");
+
+    pActor->field_28_map = GM_CurrentMap_800AB9B0;
+    FS_EnableMemfile_800799A8(0, 0);
+    pActor->field_C0_pHeader = (demothrd_0x1C *)0x80200000;
+
+    MakeFullPath_80021F68(demoNameHashed, pActor->field_38.field_8_fileNameBuffer);
+    mts_printf_8008BBA0("Demo file = \"%s\"\n", pActor->field_38.field_8_fileNameBuffer);
+
+    hFile = PCopen_80014B1C(pActor->field_38.field_8_fileNameBuffer, 0, 0);
+    if ( hFile < 0 )
+    {
+        mts_printf_8008BBA0("\"%s\" not found\n", pActor->field_38.field_8_fileNameBuffer);
+        GV_DestroyActor_800151C8(&pActor->field_0_actor);
+        return 0;
+    }
+
+    seekRet = PClseek_80098E48(hFile, 0, 2);
+    PClseek_80098E48(hFile, 0, 0);
+
+    pHdr = (char *)pActor->field_C0_pHeader;
+
+    while ( seekRet > 0 )
+    {
+        readRet = (seekRet <= 0x8000) ? seekRet : 0x8000;
+        readRet = PCread_80014B24(hFile, pHdr, readRet);
+
+        seekRet -= readRet;
+
+        if ( readRet < 0 )
+        {
+            PCclose_80014B2C(hFile);
+            GV_DestroyActor_800151C8(&pActor->field_0_actor);
+            return 0;
+        }
+
+        pHdr += readRet;
+    }
+
+    PCclose_80014B2C(hFile);
+    return 1;
+}
+
+const char SECTION(".rdata") aErrorInitializ[] = "Error:Initialize demo\n";
+const char SECTION(".rdata") aPlaydemosound[] = "PlayDemoSound\n";
+const char SECTION(".rdata") aCacheBufferCle[] = "Cache Buffer Cleared\n";
+const char SECTION(".rdata") aCacheReadEnabl[] = "Cache Read Enable\n";
+const char SECTION(".rdata") aNoloadModelSta[] = "Noload model ( Stage )\n";
+const char SECTION(".rdata") aNoloadModelSce[] = "Noload model ( Scene = No.%d )\n";
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_cd_act_80079664.s")                              // 360 bytes
 
@@ -295,7 +295,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
             }
 
             if (Res_Control_init_loader_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
-                mts_printf_8008BBA0(aErrorInitContr, scene_no + 1);
+                mts_printf_8008BBA0("Error init control ( Scene = No.%d )\n", scene_no + 1);
                 return 0;
             }
 
@@ -307,30 +307,30 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
                 GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, pModel0x14Iter->field_C_hashCode, 79, 0);
             }
             else {
-                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO4a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO5a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO6a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO7a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO8a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO9a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO10a)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO4b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO5b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO6b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO7b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO8b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO9b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO10b)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO4c)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO5c)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO6c)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO7c)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO8c)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO9c)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a16dO10c)) {
+                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o4a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o5a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o6a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o7a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o8a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o9a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o10a")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o4b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o5b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o6b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o7b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o8b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o9b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o10b")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o4c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o5c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o6c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o7c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o8c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o9c")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("16d_o10c")) {
                     GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 5, 0);
                 }
-                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(a02aR8)) {
+                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("02a_r8")) {
 
                     pModels0x1A4Iter->field_160_mtx.t[0] = 100;
                     pModels0x1A4Iter->field_160_mtx.t[1] = 110;
@@ -338,23 +338,23 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
 
                     GM_InitObject_80034A18(&pModels0x1A4Iter->field_7C_obj, (pModel0x14Iter)->field_C_hashCode, 0x10D, 0);
                 }
-                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aMgrexw)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aMgrexll)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aMgrexrl)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aPitT)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aPitU)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aPitLiq)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRadarF1)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRadarF2)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRadarF3)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch1)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch2)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch3)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aLHatch4)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch1)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch2)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch3)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aRHatch4)) {
+                else if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("mgrexw")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("mgrexll")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("mgrexrl")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("pit_t")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("pit_u")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("pit_liq")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("radar_f1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("radar_f2")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("radar_f3")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch2")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch3")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("l_hatch4")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch2")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch3")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("r_hatch4")) {
 
                     pModels0x1A4Iter->field_160_mtx.t[0] = 64;
                     pModels0x1A4Iter->field_160_mtx.t[1] = 64;
@@ -371,21 +371,21 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
 
                 DG_InvisibleObjs(pModels0x1A4Iter->field_7C_obj.objs);
 
-                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)
-                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)) {
+                if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("m1e1")
+                    || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")) {
                     pM1Data = (dmo_m1e1_data*)GV_Malloc_8001620C(sizeof(dmo_m1e1_data));
                     pModels0x1A4Iter->field_1A0_pM1OrHind = pM1Data;
                     if (!pM1Data) {
                         return 0;
                     }
                     memset(pM1Data, 0, sizeof(dmo_m1e1_data));
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0].field_0, GV_StrCode_80016CCC(aM1e1cl1), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1].field_0, GV_StrCode_80016CCC(aM1e1cl2), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2].field_0, GV_StrCode_80016CCC(aM1e1cl3), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0].field_0, GV_StrCode_80016CCC("m1e1cl1"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1].field_0, GV_StrCode_80016CCC("m1e1cl2"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][2].field_0, GV_StrCode_80016CCC("m1e1cl3"), 301, 0);
 
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0].field_0, GV_StrCode_80016CCC(aM1e1cr1), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1].field_0, GV_StrCode_80016CCC(aM1e1cr2), 301, 0);
-                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2].field_0, GV_StrCode_80016CCC(aM1e1cr3), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][0].field_0, GV_StrCode_80016CCC("m1e1cr1"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][1].field_0, GV_StrCode_80016CCC("m1e1cr2"), 301, 0);
+                    GM_InitObject_80034A18(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[1][2].field_0, GV_StrCode_80016CCC("m1e1cr3"), 301, 0);
 
                     GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][0].field_0);
                     GM_ConfigObjectJoint_80034CB4(&(pModels0x1A4Iter->field_1A0_pM1OrHind)->field_0[0][1].field_0);
@@ -418,8 +418,8 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
                     (pModels0x1A4Iter->field_1A0_pM1OrHind)->field_560 = 83;
                 }
                 else {
-                    if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aHind)
-                        || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC(aHinddemo)) {
+                    if ((pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("hind")
+                        || (pModel0x14Iter)->field_C_hashCode == GV_StrCode_80016CCC("hinddemo")) {
                         pHindData = (dmo_hind*)GV_Malloc_8001620C(sizeof(dmo_hind));
                         pModels0x1A4Iter->field_1A0_pM1OrHind = (dmo_m1e1_data*)pHindData;
                         if (!pHindData) {
@@ -434,14 +434,14 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
             ++pModels0x1A4Iter;
         }
 
-        if (!GV_GetCache_8001538C(GV_CacheID2_800152FC(aNull, 'k'))) {
-            mts_printf_8008BBA0(aNoloadModelNul);
+        if (!GV_GetCache_8001538C(GV_CacheID2_800152FC("null", 'k'))) {
+            mts_printf_8008BBA0("Noload model ( null.kmd )\n");
         }
         else {
             if (Res_Control_init_loader_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
                 pThis->field_C4_ctrl.field_36 = 0;
                 pThis->field_C4_ctrl.field_54 = 0;
-                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode_80016CCC(aNull), 13, 0);
+                GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode_80016CCC("null"), 13, 0);
                 GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
                 GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, &pThis->field_224_light_mtx);
                 GM_GameStatus_800AB3CC |= 0x80000000;
@@ -449,7 +449,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
                 return 1;
             }
             else {
-                mts_printf_8008BBA0(aErrorInitContr_0);
+                mts_printf_8008BBA0("Error init control ( null.kmd )\n");
             }
         }
     }
@@ -504,7 +504,7 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
         GM_FreeObject_80034BF8(&pModelIter->field_7C_obj);
         if (pModelIter->field_1A0_pM1OrHind)
         {
-          if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC(aM1e1demo)))
+          if (((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode_80016CCC("m1e1demo")))
           {
             GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][0].field_0);
             GM_FreeObject_80034BF8(&pModelIter->field_1A0_pM1OrHind->field_0[0][1].field_0);
@@ -553,6 +553,21 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
 
 
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s")                 // 1224 bytes
+
+const int  SECTION(".rdata") jpt_demothrd_make_chara_80013334[] =
+{
+    0x8007AED4, 0x8007AEFC, 0x8007AF04, 0x8007AF04, 0x8007AFB8, 0x8007AFE0, 0x8007B014, 0x8007B048,
+    0x8007B050, 0x8007B0A4, 0x8007B10C, 0x8007B114, 0x8007B170, 0x8007B178, 0x8007B2B4, 0x8007B340,
+    0x8007B3C4, 0x8007B3CC, 0x8007B498, 0x8007B498, 0x8007B498, 0x8007B66C, 0x8007B674, 0x8007B7A8,
+    0x8007B89C, 0x8007B928, 0x8007B950, 0x8007B994, 0x8007BA64, 0x8007B498, 0x8007BAA4, 0x8007BB10,
+    0x8007BBDC, 0x8007BC24, 0x8007BC68, 0x8007BCF8, 0x8007BD1C, 0x8007BD40, 0x8007BDF0, 0x8007BDF8,
+    0x8007BE58, 0x8007BF3C, 0x8007C030, 0x8007C09C, 0x8007C0E8, 0x8007C134, 0x8007C1D8, 0x8007C200,
+    0x8007C224, 0x8007C22C, 0x8007C254, 0x8007C27C, 0x8007C348, 0x8007C8D8, 0x8007C3AC, 0x8007C430,
+    0x8007C438, 0x8007C4DC, 0x8007C520, 0x8007C58C, 0x8007C61C, 0x8007C6A8, 0x8007C7DC, 0x8007C8D8,
+    0x8007C90C, 0x8007C930, 0x8007C948, 0x8007CA4C, 0x8007CBB8, 0x8007CBEC, 0x8007CC18, 0x8007CC44,
+    0x8007CC6C, 0x8007CCF4
+};
+
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_make_chara_8007AE10.s")         // 8016 bytes
 
 void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
@@ -723,7 +738,7 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
   if (!pDmoData0x18->field_4)
   {
     DG_InvisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
-    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo))))
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo"))))
     {
       DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][0].field_0.objs);
       DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][1].field_0.objs);
@@ -736,7 +751,7 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
   else
   {
     DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
-    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
+    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")))
     {
       DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[0]].field_0.objs);
       DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].field_0.objs);
@@ -771,11 +786,11 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
           while (counter < pDmoData0x18->field_12_total);
         }
 
-        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aM1e1demo)))
+        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("m1e1demo")))
         {
           demothrd_m1e1_8007D404(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }
-        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aHind)) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC(aHinddemo)))
+        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("hind")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode_80016CCC("hinddemo")))
         {
            demothrd_hind_8007D9C8(pActor, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
         }

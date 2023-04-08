@@ -17,26 +17,6 @@ extern int dword_800BF1D8;
 extern int sng_fade_in_2_800C0BC0;
 extern int sng_fade_in_2_800BF290;
 
-extern const char aLoadsngdataFil[];
-extern const char aCompletedloads[];
-extern const char aSngStatusX[];
-extern const char aSongkaihimode[];
-extern const char aSongfadeoutSto[];
-extern const char aSongfadeoutPau[];
-extern const char aSongstop[];
-extern const char aSongpauseon[];
-extern const char aSongpauseoff[];
-extern const char aSongfadein[];
-extern const char aSamesonghasalr[];
-extern const char aSoundWorkIsBro[];
-extern const char aSongsyukanmode_0[];
-extern const char aSongsyukanmode[];
-extern const char aSongEndXX[];
-extern const char aSngcodeX[];
-extern const char aErrorSngPlayCo[];
-extern const char aSngFadeoutStar[]; // = "SNG FADEOUT START(status=%x)\n"
-extern const char aSngFadeoutCanc[]; // = "SNG FADEOUT CANCELED(status=%x)\n"
-
 extern int sd_sng_code_buf_800BF018[16];
 extern int sng_syukan_fg_800C0510;
 extern int sng_pause_fg_800BF298;
@@ -106,7 +86,7 @@ void IntSdMain_80084494()
         temp = sd_sng_code_buf_800BF018[sd_code_read_800BF288];
         sd_sng_code_buf_800BF018[sd_code_read_800BF288] = 0;
         sd_code_read_800BF288 = (sd_code_read_800BF288 + 1) & 0xF;
-        mts_printf_8008BBA0(aSngcodeX, temp);
+        mts_printf_8008BBA0("SngCode=%x\n", temp);
     }
     else
     {
@@ -121,14 +101,14 @@ void IntSdMain_80084494()
         case 0x1FFFF01:
             sng_pause_fg_800BF298 = 1;
             sng_pause_80087EF4();
-            mts_printf_8008BBA0(aSongpauseon);
+            mts_printf_8008BBA0("SongPauseOn\n");
             break;
 
         // Unpause
         case 0x1FFFF02:
             sng_pause_off_80087F24();
             sng_pause_fg_800BF298 = 0;
-            mts_printf_8008BBA0(aSongpauseoff);
+            mts_printf_8008BBA0("SongPauseOff\n");
             break;
 
         // Fade in
@@ -149,7 +129,7 @@ void IntSdMain_80084494()
                sng_fade_in_2_800BF290 = 0;
                 sng_fade_in_2_800C0BC0 = 0;
             }
-            mts_printf_8008BBA0(aSongfadein);
+            mts_printf_8008BBA0("SongFadein\n");
             break;
 
         // Fade out
@@ -158,7 +138,7 @@ void IntSdMain_80084494()
         case 0x1FFFF08:
         case 0x1FFFF09:
             SngFadeOutP_80084D60(temp);
-            mts_printf_8008BBA0(aSongfadeoutPau);
+            mts_printf_8008BBA0("SongFadeout&Pause\n");
             break;
 
         // Fade out and stop
@@ -167,31 +147,31 @@ void IntSdMain_80084494()
         case 0x1FFFF0C:
         case 0x1FFFF0D:
             SD_SongFadeoutAndStop_80084E48(temp);
-            mts_printf_8008BBA0(aSongfadeoutSto);
+            mts_printf_8008BBA0("SongFadeout&Stop\n");
             break;
 
         // Evasion Mode
         case 0x1FFFF10:
             SD_SongKaihiMode_80084F88();
-            mts_printf_8008BBA0(aSongkaihimode);
+            mts_printf_8008BBA0("SongKaihiMode\n");
             break;
 
         // First Person Mode
         case 0x1FFFF20:
             sng_syukan_fg_800C0510 = 1;
-            mts_printf_8008BBA0(aSongsyukanmode);
+            mts_printf_8008BBA0("SongSyukanMode On\n");
             break;
 
         // Exit first person
         case 0x1FFFF21:
             sng_syukan_fg_800C0510 = 0;
-            mts_printf_8008BBA0(aSongsyukanmode_0);
+            mts_printf_8008BBA0("SongSyukanMode Off\n");
             break;
 
         case 0x1FFFFFF:
             sng_status_800C04F8 = 0;
             sng_off_80087E2C();
-            mts_printf_8008BBA0(aSongstop);
+            mts_printf_8008BBA0("SongStop\n");
             break;
 
         case 0x1000001:
@@ -210,7 +190,7 @@ void IntSdMain_80084494()
                     pSngData = sd_sng_data_800C0420[0];
                     if ( pSngData < (temp & 0xF) )
                     {
-                        mts_printf_8008BBA0(aErrorSngPlayCo, temp, pSngData);
+                        mts_printf_8008BBA0("ERROR:SNG PLAY CODE(%x/%x)\n", temp, pSngData);
                     }
                     else
                     {
@@ -234,12 +214,12 @@ void IntSdMain_80084494()
                 }
                 else
                 {
-                  mts_printf_8008BBA0(aSngStatusX, sng_status_800BF158);
+                  mts_printf_8008BBA0("sng_status=%x\n", sng_status_800BF158);
                 }
             }
             else
             {
-                mts_printf_8008BBA0(aSamesonghasalr);
+                mts_printf_8008BBA0("SameSongHasAlreadyPlayed\n");
             }
         break;
 
@@ -281,14 +261,14 @@ void IntSdMain_80084494()
             {
                 if ( (dword_800BEFF8 & 0x1FFF) != (song_end_800C04E8 & 0x1FFF) )
                 {
-                    mts_printf_8008BBA0(aSoundWorkIsBro);
-                    mts_printf_8008BBA0(aSoundWorkIsBro);
+                    mts_printf_8008BBA0("*** SOUND WORK IS BROKEN !!! ***\n");
+                    mts_printf_8008BBA0("*** SOUND WORK IS BROKEN !!! ***\n");
                     mts_printf_8008BBA0(
-                        aSongEndXX,
+                        "*** song_end:%x -> %x        ***\n",
                         song_end_800C04E8 & 0x1FFF,
                         dword_800BEFF8 & 0x1FFF);
-                    mts_printf_8008BBA0(aSoundWorkIsBro);
-                    mts_printf_8008BBA0(aSoundWorkIsBro);
+                    mts_printf_8008BBA0("*** SOUND WORK IS BROKEN !!! ***\n");
+                    mts_printf_8008BBA0("*** SOUND WORK IS BROKEN !!! ***\n");
                 }
             }
 
@@ -508,11 +488,11 @@ int SD_SongFadeoutAndStop_80084E48(unsigned int code)
         sd_KaihiMode_800BF05C = 0;
         sng_status_800C04F8 = -1;
 
-        mts_printf_8008BBA0(aSngFadeoutStar, sng_status_800BF158);
+        mts_printf_8008BBA0("SNG FADEOUT START(status=%x)\n", sng_status_800BF158);
         return 0;
     }
 
-    mts_printf_8008BBA0(aSngFadeoutCanc, sng_status_800BF158);
+    mts_printf_8008BBA0("SNG FADEOUT CANCELED(status=%x)\n", sng_status_800BF158);
     return -1;
 }
 
@@ -786,7 +766,7 @@ int SD_800854F0()
     if ( dword_800BF1D8 < 0 )
     {
         dword_800BF1D8 = 0;
-        mts_printf_8008BBA0(aLoadsngdataFil, dword_800C0428);
+        mts_printf_8008BBA0("LoadSngData:File Open Error(%x)\n", dword_800C0428);
         dword_800C0428 = 0;
         return -1;
     }
@@ -795,7 +775,7 @@ int SD_800854F0()
         SD_80083954(dword_800BF1D8, sd_sng_data_800C0420, 0x4000);
         SD_8008395C(dword_800BF1D8, 3);
         dword_800BF1D8 = 0;
-        mts_printf_8008BBA0(aCompletedloads, dword_800C0428);
+        mts_printf_8008BBA0("CompletedLoadSong(%x)\n", dword_800C0428);
         return 0;
     }
 }
