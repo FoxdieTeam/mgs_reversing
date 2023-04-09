@@ -203,6 +203,8 @@ GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toF
 int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, CONTROL *pCtrl, SVECTOR *rots);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 
+HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_MAP *pHzdMap, CONTROL *pControl);
+
 // SeSet helpers
 int sub_80032748(DVECTOR *out, SVECTOR *pos);
 int sub_800327BC(DVECTOR *out, SVECTOR *pos);
