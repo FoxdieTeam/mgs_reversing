@@ -28,7 +28,11 @@ void                  vol_compute_8008604C();
 void                  note_cntl_8008686C();
 void                  keyon_80087F58();
 
-int                   SD_80085A50()
+inline int            vib_compute_800865CC();
+inline void           por_compute_80086504();
+inline void           swpadset_80085F98( int a1 );
+
+int SD_80085A50()
 {
     int          fade2_shifted; // $a0
     unsigned int tmpd;          // $a1
@@ -229,7 +233,7 @@ void note_compute_80085DE0(void)
     freq_set_800885D4(sptr_800C057C->field_5C_swpd);
 }
 
-static inline void swpadset_80085F98_helper( int a1 )
+inline void swpadset_80085F98( int a1 )
 {
     unsigned int temp; // $lo
 
@@ -260,11 +264,6 @@ static inline void swpadset_80085F98_helper( int a1 )
             sptr_800C057C->field_60_swpad = a1 / temp;
         }
     }
-}
-
-void swpadset_80085F98( int a1 )
-{
-    swpadset_80085F98_helper(a1);
 }
 
 void vol_compute_8008604C()
@@ -456,7 +455,7 @@ void keych_80086280()
     }
 }
 
-void por_compute_80086504()
+inline void por_compute_80086504()
 {
     int          temp; // $a1
     unsigned int temp2;
@@ -499,7 +498,7 @@ void por_compute_80086504()
     sptr_800C057C->field_5C_swpd += temp;
 }
 
-int vib_compute_800865CC()
+inline int vib_compute_800865CC()
 {
     unsigned int vibd;  // $a0
     int          temp2; // $a1
@@ -577,12 +576,83 @@ void bendch_80086734()
             arg1 = (arg1 + sptr_800C057C->field_A8_ptps) << 8;
             arg1 += sptr_800C057C->field_B0_tund;
 
-            swpadset_80085F98_helper(arg1);
+            swpadset_80085F98(arg1);
         }
     }
 }
 
-#pragma INCLUDE_ASM( "asm/SD/note_cntl_8008686C.s" ) // 792 bytes
+void note_cntl_8008686C()
+{
+    int            randomval;
+    int            set_freq;
+    unsigned int   vol;
+    int            swpd;
+
+    if (sptr_800C057C->field_44_vol != 0 && sptr_800C057C->field_9E_tred != 0 &&
+        sptr_800C057C->field_A0_trehs == sptr_800C057C->field_9D_trehc)
+    {
+        sptr_800C057C->field_9C_trec +=
+            (unsigned)(sptr_800C057C->field_9F_trecad * (char)sptr_800C057C->field_B4_tmpd) >> 8;
+
+        if (sptr_800C057C->field_9C_trec < 0)
+        {
+            vol = sptr_800C057C->field_9E_tred * -sptr_800C057C->field_9C_trec;
+        }
+        else if (sptr_800C057C->field_9C_trec == 0)
+        {
+            vol = 1;
+        }
+        else
+        {
+            vol = sptr_800C057C->field_9E_tred * sptr_800C057C->field_9C_trec;
+        }
+
+        volxset_80086C98(vol >> 8);
+    }
+
+    set_freq = 0;
+    swpd = sptr_800C057C->field_5C_swpd;
+
+    if (sptr_800C057C->field_57_swpc != 0 && sptr_800C057C->field_58_swphc == 0)
+    {
+        set_freq = 1;
+
+        if (sptr_800C057C->field_6A_swsk == 0)
+        {
+            sptr_800C057C->field_5C_swpd += sptr_800C057C->field_60_swpad;
+        }
+        else
+        {
+            por_compute_80086504();
+        }
+
+        swpd = sptr_800C057C->field_5C_swpd;
+    }
+
+    if (sptr_800C057C->field_7C_vibd != 0 && sptr_800C057C->field_84_vibhs == sptr_800C057C->field_70_vibhc)
+    {
+        sptr_800C057C->field_74_vib_tmp_cnt += sptr_800C057C->field_86_vibcad;
+        if ((unsigned)sptr_800C057C->field_74_vib_tmp_cnt >= 256)
+        {
+            sptr_800C057C->field_74_vib_tmp_cnt &= 0xFF;
+            swpd += vib_compute_800865CC();
+            set_freq = 1;
+        }
+    }
+
+    randomval = random_80086B84();
+
+    if (randomval != 0)
+    {
+        set_freq = 1;
+        swpd += randomval;
+    }
+
+    if (set_freq)
+    {
+        freq_set_800885D4(swpd);
+    }
+}
 
 unsigned int random_80086B84()
 {
