@@ -126,7 +126,32 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 #pragma INCLUDE_ASM("asm/Game/Kmd_Oar_Inflate_800353E4.s") // 392 bytes
 #pragma INCLUDE_ASM("asm/Game/sub_8003556C.s") // 400 bytes
 #pragma INCLUDE_ASM("asm/Game/oar_related_800356FC.s") // 2104 bytes
-#pragma INCLUDE_ASM("asm/Game/sub_80035F34.s") // 200 bytes
+
+extern MATRIX matrix_8009DE9C;
+extern short  word_8009D69C[15][64];
+
+void sub_80035F34(UnkMotionStru *pUnk, SVECTOR *outvec)
+{
+    int val;
+
+    val = pUnk->field_10 * (pUnk->field_1A - pUnk->field_18);
+    val >>= 10;
+    if (val != 64)
+    {
+        val = word_8009D69C[(int)pUnk->field_1C][val];
+    }
+    else
+    {
+        val = 0x1000;
+    }
+    matrix_8009DE9C.m[0][0] = val;
+    matrix_8009DE9C.m[1][1] = val;
+    matrix_8009DE9C.m[2][2] = val;
+    gte_SetRotMatrix(&matrix_8009DE9C);
+    gte_ldv0(&pUnk->field_8);
+    gte_rtv0();
+    gte_stsv(outvec);
+}
 
 void sub_80035FFC(MOTION_CONTROL *pCtrl)
 {

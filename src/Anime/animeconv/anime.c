@@ -972,28 +972,26 @@ int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx)
 int anime_fn_12_8005F37C(Actor_anime *pActor, int idx)
 {
     anime_0x34 *pItem;
-    int temp_a1;
-    short *temp_v1;
+    int         idx2;
 
     pItem = &pActor->field_4C_items[idx];
-    temp_a1 = pItem->field_13;
-    temp_v1 = (short *)pItem + temp_a1; // TODO: figure out what's happening here
+    idx2 = pItem->field_13;
 
-    if (--temp_v1[14] <= 0)
+    if (--pItem->field_1C[idx2] <= 0)
     {
-        if (temp_v1[14] == 0)
+        if (pItem->field_1C[idx2] == 0)
         {
             pItem->field_13--;
             pItem->field_18_op_code++;
         }
         else
         {
-            pItem->field_18_op_code = pItem->field_24_saved_op_code[temp_a1];
+            pItem->field_18_op_code = pItem->field_24_saved_op_code[idx2];
         }
     }
     else
     {
-        pItem->field_18_op_code = pItem->field_24_saved_op_code[temp_a1];
+        pItem->field_18_op_code = pItem->field_24_saved_op_code[idx2];
     }
 
     return 0;
@@ -1229,7 +1227,7 @@ int anime_loader_8005F994(Actor_anime *pActor, int map, ANIMATION *pAnimation)
         pItem->field_4 = pPrescript->s_anim;
         pItem->field_8_vec = pPrescript->speed;
         pItem->field_10_r = pItem->field_11_g = pItem->field_12_b = pAnimation->field_12_rgb;
-        pItem->field_13 = 0xFF;
+        pItem->field_13 = -1;
 
         pItem++;
         pPrescript++;
