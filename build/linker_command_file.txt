@@ -132,7 +132,7 @@
     include "..\obj\Game\GM_ActControl_helper6_helper_8002A27C.obj"
     include "..\obj\Game\GM_ActControl_helper6_helper2_8002A4B8.obj"
     include "..\obj\Game\GM_ActControl_helper6_8002A538.obj"
-    include "..\obj\HZD_CheckBehindTrap_8002A5E0.obj"
+    include "..\obj\Game\HZD_CheckBehindTrap_8002A5E0.obj"
 
     include "..\obj\Game\GM_InitArea_8002A704.obj"
 
