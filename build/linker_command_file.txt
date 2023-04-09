@@ -86,7 +86,7 @@
     include "..\obj\Game\GM_ActControl_helper_80026C68.obj"
     include "..\obj\Game\sub_800272E0.obj"
     include "..\obj\sub_80027384.obj"
-    include "..\obj\sub_8002751C.obj"
+    include "..\obj\libgv\sub_8002751C.obj"
     include "..\obj\sub_800275A8.obj"
     include "..\obj\sub_800276B4.obj"
     include "..\obj\sub_80027850.obj"
