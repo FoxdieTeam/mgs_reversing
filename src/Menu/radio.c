@@ -24,8 +24,8 @@ unsigned char        SECTION(".sbss") dword_800ABB20;
 extern short word_800ABB22;
 short        SECTION(".sbss") word_800ABB22;
 
-extern int dword_800ABB24;
-int SECTION(".sbss") dword_800ABB24;
+extern DG_TEX *dword_800ABB24;
+DG_TEX *SECTION(".sbss") dword_800ABB24;
 
 extern int gRadioClut_800ABAFC;
 int        SECTION(".sbss") gRadioClut_800ABAFC;
@@ -984,13 +984,130 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/sub_800442E4.s") // 788 bytes
-#pragma INCLUDE_ASM("asm/Menu/sub_800445F8.s") // 712 bytes
+
+extern GV_PAD GV_PadData_800B05C0[4];
+extern char   aNoD[];  // = "No %d\n";
+extern char   aIdD[];  // = "ID %d\n";
+extern char   aColD[]; // = "COL %d\n";
+extern char   aXDYD[]; // = "x %d y %d\n";
+extern char   aWDHD[]; // = "w %d h %d\n";
+
+int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
+{
+    const int textureRecsCount = sizeof(gTextureRecs_800B1F50) / sizeof(gTextureRecs_800B1F50[0]);
+    short     x0, y0;
+    int       i;
+    DG_TEX   *iterTex;
+    POLY_FT4 *pPoly;
+    int       width, height;
+    int       offx, offy;
+    int       direction;
+
+    iterTex = dword_800ABB24;
+    direction = 0;
+    if (GV_PadData_800B05C0[0].status & PAD_RIGHT)
+    {
+        direction = 1;
+    }
+    else if (GV_PadData_800B05C0[0].status & PAD_LEFT)
+    {
+        direction = -1;
+    }
+    else
+    {
+        word_800ABB22 = -1;
+    }
+    if (direction != 0)
+    {
+        if (word_800ABB22 <= 0)
+        {
+            for (i = textureRecsCount; i > 0; i--)
+            {
+                iterTex += direction;
+                if (iterTex == &gTextureRecs_800B1F50[textureRecsCount])
+                {
+                    iterTex -= textureRecsCount;
+                }
+                if (iterTex < &gTextureRecs_800B1F50[0])
+                {
+                    iterTex = &gTextureRecs_800B1F50[textureRecsCount - 1];
+                }
+                if (iterTex->field_0_hash != 0)
+                {
+                    break;
+                }
+            }
+            if (word_800ABB22 < 0)
+            {
+                word_800ABB22 = 10;
+            }
+            else if (word_800ABB22 == 0)
+            {
+                word_800ABB22 = 2;
+            }
+        }
+        word_800ABB22--;
+    }
+
+    if (iterTex->field_0_hash == 0)
+    {
+        return 0;
+    }
+
+    dword_800ABB24 = iterTex;
+
+    menu_Text_XY_Flags_80038B34(300, 128, 1);
+    menu_Text_80038C38(aNoD, iterTex - gTextureRecs_800B1F50);
+    menu_Text_80038C38(aIdD, iterTex->field_0_hash);
+    menu_Text_80038C38(aColD, iterTex->field_2_bUsed.c[1]);
+    menu_Text_80038C38(aXDYD, iterTex->field_8_offx, iterTex->field_9_offy);
+    menu_Text_80038C38(aWDHD, iterTex->field_A_width + 1, iterTex->field_B_height + 1);
+
+    pPoly = (POLY_FT4 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(POLY_FT4);
+
+    LSTORE(0x808080, &pPoly->r0);
+
+    setPolyFT4(pPoly);
+
+    pPoly->clut = iterTex->field_6_clut;
+    pPoly->tpage = iterTex->field_4_tPage;
+
+    width = iterTex->field_A_width;
+    height = iterTex->field_B_height;
+    offx = iterTex->field_8_offx;
+    offy = iterTex->field_9_offy;
+
+    x0 = (319 - width) / 2;
+    y0 = (239 - height) / 2;
+
+    pPoly->x0 = x0;
+    pPoly->y0 = y0;
+    pPoly->y1 = y0;
+    pPoly->x1 = x0 + width;
+    pPoly->x2 = x0;
+    pPoly->y2 = y0 + height;
+    pPoly->y3 = y0 + height;
+    pPoly->x3 = x0 + width;
+    pPoly->u0 = offx;
+    pPoly->v0 = offy;
+    pPoly->u1 = offx + width;
+    pPoly->v1 = offy;
+    pPoly->u2 = offx;
+    pPoly->v2 = offy + height;
+    pPoly->u3 = offx + width;
+    pPoly->v3 = offy + height;
+
+    addPrim(pOt, pPoly);
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/Menu/sub_800448C0.s") // 432 bytes
 
 void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 {
     dword_800ABB20 = 0;
-    dword_800ABB24 = (int)gTextureRecs_800B1F50;
+    dword_800ABB24 = gTextureRecs_800B1F50;
     word_800ABB22 = -1;
 }
 
