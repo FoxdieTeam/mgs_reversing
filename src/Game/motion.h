@@ -2,8 +2,9 @@
 #define _MOTION_H_
 
 #include "psyq.h"
+#include "libdg/libdg.h"
 
-typedef struct Motion_0x18
+typedef struct MOTION_INFO
 {
     short field_0;
     // Controls the sound of Snake's footsteps; values, ranging from 0x0-0x11 (with intermediary jumps to 0x80 and
@@ -14,18 +15,18 @@ typedef struct Motion_0x18
     short          field_4;
     short          field_6;
     unsigned int   field_8;
-    void          *field_C;
+    OAR_RECORD    *field_C_oar_records;
     short          field_10;
     short          field_12;
     short          field_14;
-    unsigned short field_16;
-} Motion_0x18;
+    unsigned short field_16_time;
+} MOTION_INFO;
 
 typedef struct _MOTION_CONTROL
 {
-    void       *field_00_oar_ptr; // 0x00
-    Motion_0x18 field_04;         // 0x04
-    Motion_0x18 field_1C;         // 0x1C
+    DG_OAR     *field_00_oar;   // 0x00
+    MOTION_INFO field_04_info1; // 0x04
+    MOTION_INFO field_1C_info2; // 0x1C
 
     // In Actor_SnaInit, this is a pointer to his CONTROL's rotator (0x20->0x8).
     SVECTOR *field_34; // 0x34
@@ -41,10 +42,10 @@ typedef struct _MOTION_CONTROL
 
 void sub_8003501C(MOTION_CONTROL *m_ctrl, int a1, int motion);
 void sub_800350D4(MOTION_CONTROL *m_ctrl, int a1, int motion);
-void sub_8003556C(MOTION_CONTROL *m_ctrl);
-
-int sub_8003603C(MOTION_CONTROL *pCtrl, Motion_0x18 *pSub);
-int Process_Oar_8003518C(MOTION_CONTROL *pCtrl, Motion_0x18 *a2, int a3);
-int sub_800360EC(MOTION_CONTROL *pCtrl, Motion_0x18 *a2, int a3, int a4);
+int  sub_8003556C(MOTION_CONTROL *m_ctrl);
+int  oar_related_800356FC(MOTION_CONTROL *, MOTION_INFO *);
+void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo);
+int  Process_Oar_8003518C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int a3);
+int  sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int a3, int a4);
 
 #endif // _MOTION_H_

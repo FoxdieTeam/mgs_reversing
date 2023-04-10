@@ -200,7 +200,7 @@ void               GM_AlertModeReset_8002EAB8(void);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
-int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, void *a4, void *a5, CONTROL *pCtrl, SVECTOR *rots);
+int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, OAR_RECORD *a4, OAR_RECORD *a5, CONTROL *pCtrl, SVECTOR *rots);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 
 // SeSet helpers
