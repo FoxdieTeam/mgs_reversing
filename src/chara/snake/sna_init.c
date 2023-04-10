@@ -743,11 +743,11 @@ int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
 
     if (param_2 == 1)
     {
-        vec = (SVECTOR *)&pActor->field_180.field_04;
+        vec = (SVECTOR *)&pActor->field_180.field_04_info1;
     }
     else
     {
-        vec = (SVECTOR *)&pActor->field_180.field_1C;
+        vec = (SVECTOR *)&pActor->field_180.field_1C_info2;
     }
 
     if (param_2 == 1)
@@ -770,14 +770,14 @@ int sub_8004EFE4(Actor_SnaInit *pActor, int param_2)
 
 void sna_init_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 {
-    if ( bits != pActor->field_180.field_04.field_8 )
+    if ( bits != pActor->field_180.field_04_info1.field_8 )
     {
-        pActor->field_180.field_1C.field_8 = ~bits;
-        pActor->field_180.field_04.field_8 = bits;
+        pActor->field_180.field_1C_info2.field_8 = ~bits;
+        pActor->field_180.field_04_info1.field_8 = bits;
         if ( bits == 0xFFFF && sub_8004EFE4(pActor, 2) >= 0 )
         {
             pActor->field_180.interp = 4;
-            pActor->field_180.field_1C.field_14 = 2;
+            pActor->field_180.field_1C_info2.field_14 = 2;
         }
     }
 }
@@ -1911,7 +1911,7 @@ static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *p
             }
 
             GM_ConfigMotionControl_80034F08(&pActor->field_9C_obj, &pActor->field_180, pActor->field_A5A,
-                                            &pActor->field_1D0, &pActor->field_1F4[16], &pActor->field_20_ctrl,
+                                            &pActor->field_1D0[0], &pActor->field_1D0[17], &pActor->field_20_ctrl,
                                             (SVECTOR *)&pActor->field_698_joint_rotations);
         }
 
@@ -4631,7 +4631,7 @@ void sna_init_anim_dying_80055524(Actor_SnaInit *pActor, int time)
         if ((unk2->field_9EC_flags3 & 0x100) != 0)
         {
             pActor->field_180.interp = 15;
-            pActor->field_180.field_04.field_14 = 0;
+            pActor->field_180.field_04_info1.field_14 = 0;
             pActor->field_9B8_fn_anim = sna_init_fn_nothing_80053B80;
             pActor->field_9BC_anim_frame = 0;
             pActor->field_A3A = 0;
@@ -4936,7 +4936,7 @@ void sna_init_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time)
     }
 
     result = 1;
-    footstepsFrame = pActor->field_180.field_04.field_2_footstepsFrame;
+    footstepsFrame = pActor->field_180.field_04_info1.field_2_footstepsFrame;
     switch (pActor->field_924)
     {
     case 0:
@@ -5260,7 +5260,7 @@ void sna_init_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time)
             pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_BOTH_CHECK;
         }
 
-        if (pActor->field_180.field_04.field_2_footstepsFrame == 7)
+        if (pActor->field_180.field_04_info1.field_2_footstepsFrame == 7)
         {
             pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_SKIP_TRAP;
         }
@@ -6099,7 +6099,7 @@ void sna_init_anim_grenade_80058470(Actor_SnaInit *pActor, int time)
     sna_init_8004F034(pActor, bits);
     res = 1;
 
-    uVar2 = pActor->field_180.field_1C.field_2_footstepsFrame;
+    uVar2 = pActor->field_180.field_1C_info2.field_2_footstepsFrame;
 
     switch (pActor->field_924)
     {
@@ -7319,8 +7319,8 @@ static inline int sna_init_LoadSnake(Actor_SnaInit *pActor, int scriptData, int 
     GM_ConfigMotionControl_80034F08(pObject,
                                     &pActor->field_180,
                                     OAR_SNAKE,
-                                    &pActor->field_1D0,
-                                    &pActor->field_1F4[16],
+                                    &pActor->field_1D0[0],
+                                    &pActor->field_1D0[17],
                                     pCtrl,
                                     (SVECTOR *)&pActor->field_698_joint_rotations);
     GM_ConfigObjectLight_80034C44(pObject, &pActor->field_848_lighting_mtx);
