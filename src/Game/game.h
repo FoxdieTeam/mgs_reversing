@@ -69,48 +69,55 @@ typedef int (*TBombFunction3)(TARGET *, int);
 
 typedef enum
 {
-    PLAYER_STATUS_FIRST_PERSON = 0x1,
-    PLAYER_STATUS_FIRST_PERSON_DUCT = 0x2,
-    PLAYER_STATUS_UNK4 = 0x4,
-    PLAYER_STATUS_FIRST_PERSON_CAN_LR_PEEK = 0x8,
-    PLAYER_STATUS_MOVING = 0x10,
-    PLAYER_STATUS_CROUCHING = 0x20,
-    PLAYER_STATUS_PRONE = 0x40,
+    PLAYER_FIRST_PERSON = 0x1,
+    PLAYER_FIRST_PERSON_DUCT = 0x2,
+    PLAYER_UNK4 = 0x4,
+    PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
+    PLAYER_MOVING = 0x10,
+    PLAYER_CROUCHING = 0x20,
+    PLAYER_PRONE = 0x40,
     // stops movement and actions. - item/weap switching + pause/radio still available
-    PLAYER_STATUS_UNK80 = 0x80,
+    PLAYER_UNK80 = 0x80,
     // hit flinch, step on claymore
-    PLAYER_STATUS_UNK100 = 0x100,
+    PLAYER_UNK100 = 0x100,
     // knocked down related
-    PLAYER_STATUS_UNK200 = 0x200,
+    PLAYER_UNK200 = 0x200,
     // cleared leaving first person
-    PLAYER_STATUS_UNK400 = 0x400,
-    PLAYER_STATUS_PREVENT_FIRST_PERSON = 0x800,
-    PLAYER_STATUS_UNK1000 = 0x1000,
+    PLAYER_UNK400 = 0x400,
+    PLAYER_PREVENT_FIRST_PERSON = 0x800,
+    PLAYER_UNK1000 = 0x1000,
     // triggers game over when set. could this be the 'dead' flag?
-    PLAYER_STATUS_GAMEOVER = 0x2000,
+    PLAYER_GAMEOVER = 0x2000,
     // anther first person flag
-    PLAYER_STATUS_UNK4000 = 0x4000,
-    PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH = 0x8000,
-    PLAYER_STATUS_ON_WALL = 0x10000,
-    PLAYER_STATUS_KNOCKING = 0x20000,
-    PLAYER_STATUS_UNK40000 = 0x40000,
-    PLAYER_STATUS_THROWING = 0x80000,
-    PLAYER_STATUS_UNK100000 = 0x100000,
-    PLAYER_STATUS_PREVENT_ITEM_SWITCH = 0x200000,
-    PLAYER_STATUS_PREVENT_WEAPON_SWITCH = 0x400000,
-    PLAYER_STATUS_INVULNERABLE = 0x800000,
-    PLAYER_STATUS_UNK1000000 = 0x1000000,
-    PLAYER_STATUS_UNK2000000 = 0x2000000,
+    PLAYER_UNK4000 = 0x4000,
+    PLAYER_PREVENT_WEAPON_ITEM_SWITCH = 0x8000,
+    PLAYER_ON_WALL = 0x10000,
+    PLAYER_KNOCKING = 0x20000,
+    PLAYER_UNK40000 = 0x40000,
+    PLAYER_THROWING = 0x80000,
+    PLAYER_UNK100000 = 0x100000,
+    PLAYER_PREVENT_ITEM_SWITCH = 0x200000,
+    PLAYER_PREVENT_WEAPON_SWITCH = 0x400000,
+    PLAYER_INVULNERABLE = 0x800000,
+    PLAYER_UNK1000000 = 0x1000000,
+    PLAYER_UNK2000000 = 0x2000000,
     // in level transition / mini cutscene, level transition duct
-    PLAYER_STATUS_UNK4000000 = 0x4000000,
-    PLAYER_STATUS_USING_CONTROLLER_PORT_2 = 0x8000000,
-    PLAYER_STATUS_CAN_USE_CONTROLLER_PORT_2 = 0x10000000,
+    PLAYER_UNK4000000 = 0x4000000,
+    PLAYER_USING_CONTROLLER_PORT_2 = 0x8000000,
+    PLAYER_CAN_USE_CONTROLLER_PORT_2 = 0x10000000,
     // stops movement, actions, and item/weap switching. - pause/radio still available
-    PLAYER_STATUS_PAD_OFF = 0x20000000,
+    PLAYER_PAD_OFF = 0x20000000,
     // Set from sna_init_check_dead_8004E384() and sna_init_anim_dying_80055524().
-    PLAYER_STATUS_DEADORDYING = 0x40000000,
-    PLAYER_STATUS_UNK80000000 = 0x80000000,
+    PLAYER_DEADORDYING = 0x40000000,
+    PLAYER_UNK80000000 = 0x80000000,
 } PlayerStatusFlag;
+
+enum // GM_GameStatus_800AB3CC
+{
+    STATE_RADAR_ON = 0x800,
+    // ...
+    STATE_PADRELEASE = 0x10000000,
+};
 
 static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
 {
@@ -157,7 +164,7 @@ void               GM_ClearWeaponAndItem_8002A960();
 void               GV_SaveResidentTop_800163C4(void);
 void               GM_CreateLoader_8002AAB0();
 void               GM_Sound_80032C48(int code, int notUsed);
-void               GM_Sound_80032968(int byte_2, int byte_1, int byte_0);
+void               GM_SeSet2_80032968(int byte_2, int byte_1, int byte_0);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
 void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
 int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);

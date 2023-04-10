@@ -158,7 +158,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
 
         bullet_init_80076584(&mtx, pActor->field_54, 0, 2);
 
-        GM_Sound_80032968(0, 63, 27);
+        GM_SeSet2_80032968(0, 63, 27);
         GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_mov);
 
         d_800AB9EC_mag_size = --temp_s1;

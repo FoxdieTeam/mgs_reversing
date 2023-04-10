@@ -403,14 +403,14 @@ void sight_act_800714EC(Actor_Sight *sight)
         tag = *(int *)offsetPrimBuf;
         if (tag == 0xff)
         {
-            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
             {
                 sight_act_helper_80071498(offsetPrimBuf);
             }
         }
         else
         {
-            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
             {
                 addPrim(ot, offsetPrimBuf);
             }
@@ -418,7 +418,7 @@ void sight_act_800714EC(Actor_Sight *sight)
             if ((code & 2) != 0) // Checking for semi-transparency.
             {
                 SetDrawTPage_800924A8(tPageBuf, 0, 1, ancField1Shifted << 5);
-                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
                 {
                     addPrim(ot, tPageBuf);
                 }

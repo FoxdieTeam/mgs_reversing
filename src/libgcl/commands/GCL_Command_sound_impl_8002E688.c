@@ -50,7 +50,7 @@ void GCL_Command_sound_impl_8002E688()
     }
     if (GCL_GetParam_80020968('e'))
     {
-        GM_Sound_80032968(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
+        GM_SeSet2_80032968(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
                           GCL_GetNextParamValue_80020AD4());
     }
     if (GCL_GetParam_80020968('v')) // vox

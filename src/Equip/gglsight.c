@@ -249,7 +249,7 @@ void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis,
         return;
     }
 
-    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF))
+    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         status = 0;
     }
@@ -347,7 +347,7 @@ void gglsight_act_80078228(Actor_gglsight *pActor)
     unsigned short status;
     int f3c;
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
     {
         status = GV_PadData_800B05C0[1].status;
     }

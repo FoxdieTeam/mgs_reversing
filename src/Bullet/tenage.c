@@ -51,7 +51,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
     GM_ActObject2_80034B88(&pActor->field_9C_obj);
     DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_matrices);
 
-    if (!(GM_GameStatus_800AB3CC & 0xD0000000) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF))
+    if (!(GM_GameStatus_800AB3CC & 0xD0000000) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         pActor->field_100_homing_arg2--;
     }
