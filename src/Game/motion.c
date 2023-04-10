@@ -4,8 +4,8 @@
 #include "libgv/libgv.h"
 #include "unknown.h"
 
-extern MATRIX dword_8009DE9C;
-extern short  dword_8009D69C[15][64]; // TODO: reformat this array in data.c
+extern MATRIX matrix_8009DE9C;
+extern short  word_8009D69C[15][64];
 
 void sub_80034EAC(SVECTOR *pVec)
 {
@@ -219,18 +219,18 @@ void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult)
 
     if (iVar1 != 64)
     {
-        iVar1 = dword_8009D69C[pRecord->field_1C][iVar1];
+        iVar1 = word_8009D69C[pRecord->field_1C][iVar1];
     }
     else
     {
         iVar1 = 4096;
     }
 
-    dword_8009DE9C.m[0][0] = iVar1;
-    dword_8009DE9C.m[1][1] = iVar1;
-    dword_8009DE9C.m[2][2] = iVar1;
+    matrix_8009DE9C.m[0][0] = iVar1;
+    matrix_8009DE9C.m[1][1] = iVar1;
+    matrix_8009DE9C.m[2][2] = iVar1;
 
-    gte_SetRotMatrix(&dword_8009DE9C);
+    gte_SetRotMatrix(&matrix_8009DE9C);
     gte_ldv0(&pRecord->field_8);
     gte_rtv0();
     gte_stsv(pResult);

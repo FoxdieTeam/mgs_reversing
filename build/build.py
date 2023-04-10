@@ -62,7 +62,8 @@ def ninja_run():
         r'item\.c:\d+: warning: `state\' might be used uninitialized in this function',
         r'memcard\.c:\d+: warning: `op\' might be used uninitialized in this function',
         r'memcard\.c:\d+: warning: `count\' might be used uninitialized in this function',
-        r'door\.c:\d+: warning: unused variable `pad\''
+        r'door\.c:\d+: warning: unused variable `pad\'',
+        r'motion\.c:\d+: warning: `time\' might be used uninitialized in this function'
     ]
 
     if os.environ.get('APPVEYOR'):
