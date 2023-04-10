@@ -50,7 +50,7 @@ SVECTOR SECTION(".sdata") GM_CameraRotateSave_800AB430 = { 0x0280, 0x0800, 0, 0 
 int SECTION(".sdata") GM_CameraTrackOrg_800AB438 = 0x2710;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB43C = 0;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB440 = 0;
-int SECTION(".sdata") GM_CameraTrackOrg_800AB444 = 0;
+HZD_TRP *SECTION(".sdata") GM_CameraTrackOrg_800AB444 = NULL;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB448 = 0;
 
 const char SECTION(".sdata") aNoHzd[] = "no hzd\n";

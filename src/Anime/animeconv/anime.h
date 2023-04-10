@@ -19,7 +19,7 @@ typedef struct anime_0x34
     char           field_10_r;
     char           field_11_g;
     char           field_12_b;
-    unsigned char  field_13; // some countr
+    char           field_13; // index into field_1C
     unsigned char *field_14; // loop/jump target?
     unsigned char *field_18_op_code;
     short          field_1C[2]; // todo: might be biggr

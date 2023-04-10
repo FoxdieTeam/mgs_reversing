@@ -203,6 +203,8 @@ GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toF
 int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, OAR_RECORD *a4, OAR_RECORD *a5, CONTROL *pCtrl, SVECTOR *rots);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 
+HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_MAP *pHzdMap, CONTROL *pControl);
+
 // SeSet helpers
 int sub_80032748(DVECTOR *out, SVECTOR *pos);
 int sub_800327BC(DVECTOR *out, SVECTOR *pos);
@@ -212,6 +214,7 @@ int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out);
 int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out);
 int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out);
 int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out);
+int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3);
 
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
