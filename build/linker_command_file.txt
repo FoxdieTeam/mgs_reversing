@@ -455,7 +455,6 @@
     include "..\obj\Menu\menu_radio_8004D334.obj"
     include "..\obj\Menu\menu_radio_8004D35C.obj"
     include "..\obj\Menu\menu_radio_table_find_8004D380.obj"
-    include "..\obj\Menu\menu_radio_compact_free_vars_8004D3D8.obj"
     include "..\obj\Menu\sub_8004D4A0.obj"
     include "..\obj\Menu\sub_8004D580.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
