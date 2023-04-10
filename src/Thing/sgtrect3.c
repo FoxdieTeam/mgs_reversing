@@ -10,7 +10,7 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
         addPrim(ot, prim);
     }
@@ -443,7 +443,7 @@ void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
     {
         return;
     }
-    GM_Sound_80032968(0, 0x3f, 0x4f);
+    GM_SeSet2_80032968(0, 0x3f, 0x4f);
 }
 
 extern TARGET *target_800BDF00;

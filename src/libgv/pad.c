@@ -1,6 +1,7 @@
 #include "libgv.h"
 #include "Game/linkvarbuf.h"
 #include "psyq.h"
+#include "Game/game.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
@@ -157,12 +158,12 @@ void GV_UpdatePadSystem_8001682C(void)
         // loc_80016870
         if (GM_GameStatus_800AB3CC >= 0)
         {
-            if (GM_GameStatus_800AB3CC & 0x40000000) // STATE_PADRELEASE ?
+            if (GM_GameStatus_800AB3CC & 0x40000000)
             {
                 ret = GV_DemoPadStatus_800AB958 & 0xF9FFF9FF;
                 button = ret;
             }
-            else if (GM_GameStatus_800AB3CC & 0x10000000)
+            else if (GM_GameStatus_800AB3CC & STATE_PADRELEASE)
             {
                 button = 0;
                 ret = 0;

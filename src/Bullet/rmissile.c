@@ -111,7 +111,7 @@ void rmissile_act_helper_helper_8006B9B0(Actor_rmissile *pActor)
         dword_800BDEF8[0] = 0x5A875D;
         dword_800BDEF8[1] = 0xC1A80;
         sgtrect3_init_80071010(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
-        GM_Sound_80032968(0, 0x3F, 0x15);
+        GM_SeSet2_80032968(0, 0x3F, 0x15);
     }
 }
 
@@ -136,7 +136,7 @@ void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
         pActor->field_168 = 0;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
         menu_Color_80038B4C(158, 184, 138);
         menu_Text_XY_Flags_80038B34(116, 98, 0);
@@ -165,7 +165,7 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     pPoly->x3 = var_a1 + 31;
     pPoly->x1 = var_a1 + 31;
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000)
     {
         return;
     }
@@ -178,7 +178,7 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
 
         if (!(pActor->field_118 % 15))
         {
-            GM_Sound_80032968(0, 63, 116);
+            GM_SeSet2_80032968(0, 63, 116);
         }
     }
 
@@ -251,7 +251,7 @@ void rmissile_act_helper_8006BD24(Actor_rmissile *pActor, int arg1)
 
 void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
 {
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
     {
         return;
     }
@@ -265,7 +265,7 @@ void rmissile_act_helper_8006BE50(Actor_rmissile *pActor, int arg1)
 
 void rmissile_act_helper_8006BE90(Actor_rmissile *pActor, int arg1)
 {
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
     {
         return;
     }
@@ -320,7 +320,7 @@ void rmissile_act_helper_8006BFD4(Actor_rmissile *pActor)
 
         if (!pActor->field_111)
         {
-            GM_Sound_80032968(0, 63, 77);
+            GM_SeSet2_80032968(0, 63, 77);
             pActor->field_116 = 12;
         }
 

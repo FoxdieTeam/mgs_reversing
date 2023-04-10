@@ -211,7 +211,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     {
         ReadRotMatrix_80092DD8(&pActor->field_100_rotation_matrix);
         anime_create_8005DE70(&pActor->field_100_rotation_matrix);
-        GM_Sound_80032968(0, 63, 77);
+        GM_SeSet2_80032968(0, 63, 77);
         pActor->field_138_rect.x = pActor->field_138_rect.y = 1030;
         pActor->field_138_rect.w = pActor->field_138_rect.h = 2060;
         pActor->field_128 = 12;

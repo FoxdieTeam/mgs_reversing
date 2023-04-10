@@ -18,7 +18,7 @@ void menu_radio_codec_helper_helper3_80047F44(Actor_MenuMan *pActor, int param_2
             if (param_2 != 0)
             {
                 pSub->field_6 = -1;
-                GM_Sound_80032968(0, 63, 87);
+                GM_SeSet2_80032968(0, 63, 87);
             }
             else
             {

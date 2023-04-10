@@ -436,12 +436,12 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
     if (alertMode == 0 && gFn_radar_800AB48C == NULL)
     {
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_FIRST_PERSON_DUCT)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
         {
             return;
         }
 
-        if (GM_GameStatusFlag & 0x800)
+        if (GM_GameStatusFlag & STATUS_RADAR_OFF)
         {
             return;
         }
@@ -475,7 +475,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 
                 if (alertLevel == 69)
                 {
-                    GM_Sound_80032968(0, 0x3f, 0xe);
+                    GM_SeSet2_80032968(0, 0x3f, 0xe);
                 }
 
                 clip = pActor->field_CC_radar_data.clip_rect;
@@ -549,7 +549,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 
             if (alertMode == 1 && pActor->field_CC_radar_data.prev_mode == 0)
             {
-                GM_Sound_80032968(0, 0x3f, 0x78);
+                GM_SeSet2_80032968(0, 0x3f, 0x78);
             }
             draw_radar_helper3_8003AA2C(pActor, pOt, alertMode, alertLevel);
             break;

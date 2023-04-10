@@ -300,7 +300,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         GM_ConfigControlAttribute_8002623C(pCtrl, 0);
     }
 
-    if ((GM_GameStatus_800AB3CC & 0xD0000000) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF))
+    if ((GM_GameStatus_800AB3CC & 0xD0000000) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         pTarget->field_0_flags &= ~TARGET_PUSH;
         pTarget->field_6_flags &= ~TARGET_PUSH;
@@ -319,7 +319,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
             return;
         }
 
-        if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_INVULNERABLE | PLAYER_STATUS_PRONE)))
+        if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_PRONE)))
         {
             pTarget->field_6_flags &= ~TARGET_PUSH;
             dword_8009F444 = 0;

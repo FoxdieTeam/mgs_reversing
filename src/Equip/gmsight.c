@@ -16,9 +16,9 @@ void gmsight_act_800635BC(Actor_gmsight *pActor)
         NewSight_80071CDC(SGT_MASK, SGT_MASK, &word_800BDCC0, 1, NULL);
     }
 
-    if ((++pActor->field_20 == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000))
+    if ((++pActor->field_20 == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
-        GM_Sound_80032968(0, 63, 114);
+        GM_SeSet2_80032968(0, 63, 114);
         pActor->field_20 = 0;
     }
 }

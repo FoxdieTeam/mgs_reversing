@@ -129,7 +129,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 				svector += 3;
 			}
 			DG_RotVector_8001BE98( svector, &tenage_vec2, 1 );
-			if ( GM_PlayerStatus_800ABA50 & PLAYER_STATUS_MOVING )
+			if ( GM_PlayerStatus_800ABA50 & PLAYER_MOVING )
 			{
 				tenage_vec2.vx += ctrl_pos->vx - actor->f54_pos.vx;
 				tenage_vec2.vz += ctrl_pos->vz - actor->f54_pos.vz;

@@ -54,7 +54,7 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
         vec.vz = rotMtx.t[2];
 
         if (GV_Time_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 &&
-            (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_MOVING) == 0)
+            (GM_PlayerStatus_800ABA50 & PLAYER_MOVING) == 0)
         {
             anime_create_8005E6A4(&vec);
         }

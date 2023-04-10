@@ -368,7 +368,7 @@ void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
     }
     pMenu->field_0_main.field_1C_fn = pFn;
     sub_8003D3FC(pMenu, a2);
-    GM_Sound_80032968(0, 63, 23u);
+    GM_SeSet2_80032968(0, 63, 23u);
 }
 
 int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
@@ -837,11 +837,11 @@ int sub_8003DF30(int weaponId)
     {
         return 1;
     }
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_ON_WALL) && weaponId == WEAPON_PSG1)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_ON_WALL) && weaponId == WEAPON_PSG1)
     {
         return 1;
     }
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PRONE) && weaponId == WEAPON_STINGER)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_PRONE) && weaponId == WEAPON_STINGER)
     {
         return 1;
     }
@@ -1020,7 +1020,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
     pActor->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 10;
     menu_panel_free_8003D184(pActor->field_1F0_menu_weapon.field_C_alloc);
     menu_font_kill_8003FC0C();
-    GM_Sound_80032968(0, 0x3f, 0x14);
+    GM_SeSet2_80032968(0, 0x3f, 0x14);
 }
 
 extern int dword_800AB5E4;
@@ -1108,7 +1108,7 @@ int menu_weapon_update_helper_8003E4B8(Actor_MenuMan *pActor)
     sub_8003CE40(gMenuRightItems_800BD888, 11);
     menu_panel_8003D2BC(pActor->field_1F0_menu_weapon.field_C_alloc,
                         pActor->field_1F0_menu_weapon.field_0_current.field_0_id);
-    GM_Sound_80032968(0, 0x3f, 0x15);
+    GM_SeSet2_80032968(0, 0x3f, 0x15);
     return 1;
 }
 
@@ -1146,7 +1146,7 @@ void menu_weapon_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pO
                     sub_8003DF30(pActor->field_1F0_menu_weapon.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount_800AB380 == 0))
                 {
-                    GM_Sound_80032968(0, 63, 54);
+                    GM_SeSet2_80032968(0, 63, 54);
                     break;
                 }
             }
@@ -1290,7 +1290,7 @@ void menu_weapon_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
                 if (weapon_id != GM_CurrentWeaponId)
                 {
                     GM_WeaponChanged_800AB9D8 = 1;
-                    GM_Sound_80032968(0, 63, 20);
+                    GM_SeSet2_80032968(0, 63, 20);
                 }
             }
         }

@@ -566,7 +566,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         press = 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
     {
         status = 0;
         press = 0;
@@ -719,7 +719,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         {
             if ((pActor->field_68 & 0x3) == 0)
             {
-                GM_Sound_80032968(0, 63, 36);
+                GM_SeSet2_80032968(0, 63, 36);
             }
 
             pActor->field_68++;
@@ -748,7 +748,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         }
         else
         {
-            GM_Sound_80032968(0, 63, 35);
+            GM_SeSet2_80032968(0, 63, 35);
         }
     }
 
@@ -789,7 +789,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 
     if (state == 3)
     {
-        GM_Sound_80032968(0, 63, 17);
+        GM_SeSet2_80032968(0, 63, 17);
     }
     else if (state == 4)
     {
@@ -847,7 +847,7 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
     OBJECT *pParent;
     OBJECT *pGoggleObject;
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
     {
         pActor->field_50_pInput = &GV_PadData_800B05C0[3];
     }
@@ -884,7 +884,7 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
 
         DG_GroupObjs(pActor->field_28_goggles.objs, DG_CurrentGroupID_800AB968);
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000)
         {
             if ( !(pActor->field_24_parent->objs->flag & DG_FLAG_INVISIBLE) )
             {
@@ -927,10 +927,10 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
         {
             NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
             pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-            GM_Sound_80032968(0, 63, 0x15u);
+            GM_SeSet2_80032968(0, 63, 0x15u);
         }
 
-        if ( !(GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) )
+        if ( !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) )
         {
             menu_Text_XY_Flags_80038B34(200, 25, 0);
             menu_Color_80038B4C(192, 144, 128);

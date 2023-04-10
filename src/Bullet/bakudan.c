@@ -51,7 +51,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     pCtrl = &pActor->field_20_ctrl;
     pPad = &GV_PadData_800B05C0[0];
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
     {
         pPad = &GV_PadData_800B05C0[1];
     }
@@ -82,7 +82,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     if (((pActor->field_110_pPad->press & PAD_CIRCLE) &&
         (dword_8009F430 != GV_Time_800AB330) &&
         (GM_CurrentMap_800AB9B0 & dword_800ABA0C) &&
-        !(GM_GameStatus_800AB3CC & 0x10000000) &&
+        !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
         !(GM_PlayerStatus_800ABA50 & 0x20000000) &&
         !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)

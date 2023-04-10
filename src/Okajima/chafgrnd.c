@@ -136,7 +136,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     if ((mts_get_tick_count_8008BBB0() - dword_800BDF9C) > 48)
     {
         dword_800BDF9C = mts_get_tick_count_8008BBB0();
-        GM_Sound_80032968(0, 63, 58);
+        GM_SeSet2_80032968(0, 63, 58);
     }
 
     var_s7 = pActor->field_834;

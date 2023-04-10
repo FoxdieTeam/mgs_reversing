@@ -498,7 +498,7 @@ void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
 
     init_radio_message_board_80040F74(pActor);
     pActor->field_212 = 0x1e;
-    GM_Sound_80032968(0, 0x3f, 0x56);
+    GM_SeSet2_80032968(0, 0x3f, 0x56);
     pRadioCode = menu_GetRadioCode_800497C4(dword_800AB638);
     if (pRadioCode >= 0)
     {

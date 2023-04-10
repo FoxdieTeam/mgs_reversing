@@ -11,7 +11,7 @@ void sub_8004D580(int pressed)
 
     if (pressed != 0)
     {
-        GM_Sound_80032968(0, 0x3f, 0x69);
+        GM_SeSet2_80032968(0, 0x3f, 0x69);
     }
 
     pStru = stru_800ABB98;

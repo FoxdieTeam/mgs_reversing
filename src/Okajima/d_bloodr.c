@@ -65,27 +65,27 @@ void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
 
     if ((pActor->field_D4_sequence < 200) && (++pActor->field_D4_sequence == 100))
     {
-        GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_UNK100000;
+        GM_PlayerStatus_800ABA50 |= PLAYER_UNK100000;
     }
 
     if (pActor->field_D4_sequence >= 100)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PRONE)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_PRONE)
         {
             GV_SubVec3_80016D40(&svector_800ABA10, &pActor->field_A4_positions[0], &diff);
 
             if (GV_VecLen3_80016D80(&diff) > 640)
             {
-                GM_PlayerStatus_800ABA50 &= ~PLAYER_STATUS_UNK100000;
+                GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK100000;
             }
             else
             {
-                GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_UNK100000;
+                GM_PlayerStatus_800ABA50 |= PLAYER_UNK100000;
             }
         }
         else
         {
-            GM_PlayerStatus_800ABA50 &= ~PLAYER_STATUS_UNK100000;
+            GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK100000;
         }
     }
 }
