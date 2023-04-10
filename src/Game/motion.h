@@ -22,6 +22,19 @@ typedef struct MOTION_INFO
     unsigned short field_16_time;
 } MOTION_INFO;
 
+typedef struct UnkMotionStru
+{
+    int     field_0;
+    int     field_4;
+    SVECTOR field_8;
+    int     field_10;
+    int     field_14;
+    short   field_18;
+    short   field_1A;
+    char    field_1C;
+    // Could be larger
+} UnkMotionStru;
+
 typedef struct _MOTION_CONTROL
 {
     DG_OAR     *field_00_oar;   // 0x00

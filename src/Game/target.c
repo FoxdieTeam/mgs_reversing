@@ -232,7 +232,29 @@ void sub_8002DD14(int param_1, int param_2)
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Game/sub_8002DD1C.s") // 196 bytes
+void sub_8002DD1C(SVECTOR *svec1, SVECTOR *svec2, TARGET *pTarget)
+{
+    int coord1, coord2;
+    int diff;
+
+    coord1 = svec1->vx;
+    coord2 = svec2->vx;
+    diff = (coord1 - coord2) / 2;
+    pTarget->field_8_vec.vx = (coord1 + coord2) / 2;
+    pTarget->field_10_size.vx = abs(diff);
+
+    coord1 = svec1->vy;
+    coord2 = svec2->vy;
+    diff = (coord1 - coord2) / 2;
+    pTarget->field_8_vec.vy = (coord1 + coord2) / 2;
+    pTarget->field_10_size.vy = abs(diff);
+
+    coord1 = svec1->vz;
+    coord2 = svec2->vz;
+    diff = (coord1 - coord2) / 2;
+    pTarget->field_8_vec.vz = (coord1 + coord2) / 2;
+    pTarget->field_10_size.vz = abs(diff);
+}
 
 #define sub_8002DDE0_helper(AXIS1, AXIS2, AXIS3)                                                                       \
     {                                                                                                                  \
