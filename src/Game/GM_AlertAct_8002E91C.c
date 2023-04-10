@@ -11,7 +11,7 @@ extern int   GM_GameStatus_800AB3CC;
 extern int   GM_AlertMode_800ABA00;
 extern int   GM_AlertLevel_800ABA18;
 
-void         GM_Sound_80032968( int byte_2, int byte_1, int byte_0 );
+void         GM_SeSet2_80032968( int byte_2, int byte_1, int byte_0 );
 void         GM_Sound_80032C48( int code, int notUsed );
 void         sub_8002E508( int a1 );
 
@@ -45,7 +45,7 @@ void GM_AlertAct_8002E91C( void )
 					case RADAR_ALERT:
 						if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
 						{
-							GM_Sound_80032968( 0, 0x3F, 0x2A );
+							GM_SeSet2_80032968( 0, 0x3F, 0x2A );
 							GM_Sound_80032C48( 0x01FFFF0B, 0 );
 							sub_8002E508( dword_800ABA78[1] );
 						}

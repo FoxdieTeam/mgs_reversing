@@ -71,13 +71,13 @@ int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *pActor, GV_PAD *pPad
         gRadioCodecIdx_800AB770 = pStru->field_0_idx;
         gRadioCodecFrequency_800ABB9E = pStru->field_10_array[gRadioCodecIdx_800AB770].frequency;
         word_800ABB9C = 1;
-        GM_Sound_80032968(0, 0x3f, 0x55);
+        GM_SeSet2_80032968(0, 0x3f, 0x55);
     }
     if (pPad->press & PAD_CROSS)
     {
         gRadioCodecFrequency_800ABB9E = -1;
         word_800ABB9C = 1;
-        GM_Sound_80032968(0, 0x3f, 0x68);
+        GM_SeSet2_80032968(0, 0x3f, 0x68);
     }
     if (word_800ABB9C == 0 && pActor->field_212 > 4)
     {

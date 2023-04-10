@@ -30,7 +30,7 @@ extern const char aD_44[];  // = "%d"
 
 void scope_act_helper_helper_80062320(void *ot, void *prim)
 {
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) == 0)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0)
     {
         addPrim(ot, prim);
     }
@@ -396,7 +396,7 @@ void scope_act_helper_80062998(Actor_scope *pActor, u_char *pOt, int pad_status)
         {
             if ((pActor->field_98 & 3U) == 0)
             {
-                GM_Sound_80032968(0, 0x3f, 0x24);
+                GM_SeSet2_80032968(0, 0x3f, 0x24);
             }
 
             pActor->field_98++;
@@ -507,7 +507,7 @@ void scope_act_helper_80062C7C(Actor_scope *pActor, u_char *pOt)
 
 void scope_draw_text_80062DA8(Actor_scope *pActor)
 {
-    if ( (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) == 0 )
+    if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
     {
         menu_Text_XY_Flags_80038B34(20, 34, 0);
         menu_Color_80038B4C(127, 166, 97);
@@ -554,7 +554,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
         GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl->field_2C_map->field_0_map_index_bit;
         DG_GroupObjs(pActor->field_28_obj.objs, DG_CurrentGroupID_800AB968);
 
-        if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_UNK4000000) != 0)
+        if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) != 0)
         {
             if (!(pActor->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
             {
@@ -583,7 +583,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
     if (dword_8009F604 != SGT_SCOPE)
     {
         NewSight_80071CDC(SGT_SCOPE, SGT_SCOPE, &GM_CurrentItemId, 1, 0);
-        GM_Sound_80032968(0, 63, 21);
+        GM_SeSet2_80032968(0, 63, 21);
     }
 
 
@@ -594,7 +594,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
     }
 
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_STATUS_USING_CONTROLLER_PORT_2) != 0)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2) != 0)
     {
         pActor->field_54_pOldPad = &GV_PadData_800B05C0[3];
     }
@@ -606,7 +606,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
     pad_status = pActor->field_54_pOldPad->status;
     GM_CheckShukanReverse_8004FBF8(&pad_status);
 
-    if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_PAD_OFF) ||
+    if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) ||
         (GM_GameStatus_800AB3CC < 0))
     {
         pad_status = 0;

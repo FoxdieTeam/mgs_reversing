@@ -98,7 +98,7 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
 {
-    if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & PLAYER_STATUS_GAMEOVER))
+    if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & PLAYER_GAMEOVER))
     {
         mts_printf_8008BBA0("proc %d cancel\n", procNameHashed);
         return 0;

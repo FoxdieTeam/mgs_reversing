@@ -115,7 +115,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
         return 1;
     }
 
-    if (GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_PRONE | PLAYER_STATUS_FIRST_PERSON_DUCT))
+    if (GM_PlayerStatus_800ABA50 & (PLAYER_PRONE | PLAYER_FIRST_PERSON_DUCT))
     {
         if ((item == ITEM_C_BOX_A) ||
             (item == ITEM_C_BOX_B) ||
@@ -321,7 +321,7 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
     menu_panel_free_8003D184(pActor->field_1DC_menu_item.field_C_alloc);
     menu_font_kill_8003FC0C();
 
-    GM_Sound_80032968(0, 63, 20);
+    GM_SeSet2_80032968(0, 63, 20);
 }
 
 int menu_item_update_helper_8003BCD4(Actor_MenuMan *pActor)
@@ -432,7 +432,7 @@ int menu_item_update_helper_8003BCD4(Actor_MenuMan *pActor)
     sub_8003D520();
     sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEM_COUNT);
     menu_panel_8003D2BC(pActor->field_1DC_menu_item.field_C_alloc, pActor->field_1DC_menu_item.field_0_current.field_0_id);
-    GM_Sound_80032968(0, 63, 21);
+    GM_SeSet2_80032968(0, 63, 21);
     return 1;
 }
 
@@ -464,7 +464,7 @@ void menu_item_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
                     menu_item_IsItemDisabled_8003B6D0(pActor->field_1DC_menu_item.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount_800AB380 == 0))
                 {
-                    GM_Sound_80032968(0, 63, 54);
+                    GM_SeSet2_80032968(0, 63, 54);
                     break;
                 }
             }
@@ -595,13 +595,13 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
     case ITEM_RATION:
         if (GM_FrozenItemsState != 0)
         {
-            GM_Sound_80032968(0, 63, 115); // Frozen item ding
+            GM_SeSet2_80032968(0, 63, 115); // Frozen item ding
             return;
         }
 
         if (GM_SnakeCurrentHealth == GM_SnakeMaxHealth)
         {
-            GM_Sound_80032968(0, 63, 35); // "BA BA" denied sound
+            GM_SeSet2_80032968(0, 63, 35); // "BA BA" denied sound
             return;
         }
 
@@ -635,22 +635,22 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
             GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
         }
 
-        GM_Sound_80032968(0, 63, 12); // Ration used sound
+        GM_SeSet2_80032968(0, 63, 12); // Ration used sound
         break;
 
     case ITEM_MEDICINE:
-        if (GM_SnakeState & SNAKE_STATE_COLD) // Snake has a cold :(
+        if (GM_StatusEvent & EV_CommonCold) // Snake has a cold :(
         {
-            GM_SnakeState &= ~SNAKE_STATE_COLD;
+            GM_StatusEvent &= ~EV_CommonCold;
             GM_SnakeColdTimer = 0;
             GM_SnakeColdUnk9A = 0;
         }
 
-        GM_Sound_80032968(0, 63, 34); // Medicine used sound
+        GM_SeSet2_80032968(0, 63, 34); // Medicine used sound
         break;
 
     case ITEM_DIAZEPAM:
-        GM_SnakeState |= SNAKE_STATE_DIAZEPAM;
+        GM_StatusEvent |= EV_Tranquilizer;
 
         if (GM_TranquilizerTimer < 0)
         {
@@ -659,7 +659,7 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
 
         GM_TranquilizerTimer += 1200;
 
-        GM_Sound_80032968(0, 63, 34); // Medicine used sound
+        GM_SeSet2_80032968(0, 63, 34); // Medicine used sound
         break;
 
     case ITEM_TIMER_B:
@@ -667,14 +667,14 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
              dword_8009F46C ||
              menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B) )
         {
-            GM_Sound_80032968(0, 63, 35); // "BA BA" denied sound
+            GM_SeSet2_80032968(0, 63, 35); // "BA BA" denied sound
         }
         else
         {
             pPanel->field_0_id = ITEM_NONE;
             GM_TimerBombFlag = ITEM_NONE;
-            GM_PlayerStatus_800ABA50 |= PLAYER_STATUS_THROWING;
-            GM_Sound_80032968(0, 63, 33); // Title screen exit/bomb discard sound
+            GM_PlayerStatus_800ABA50 |= PLAYER_THROWING;
+            GM_SeSet2_80032968(0, 63, 33); // Title screen exit/bomb discard sound
         }
         return;
 
@@ -701,8 +701,8 @@ void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
     {
         if (!(GM_GameStatus_800AB3CC & 0x80400))
         {
-            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_PAD_OFF | PLAYER_STATUS_PREVENT_ITEM_SWITCH |
-                                              PLAYER_STATUS_PREVENT_WEAPON_ITEM_SWITCH)))
+            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH |
+                                              PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
             {
                 if (menu_8003DA9C(&pActor->field_1DC_menu_item, pPad))
                 {
@@ -730,7 +730,7 @@ void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
 
                     if (itemid != GM_CurrentItemId)
                     {
-                        GM_Sound_80032968(0, 63, 20);
+                        GM_SeSet2_80032968(0, 63, 20);
                     }
                 }
             }

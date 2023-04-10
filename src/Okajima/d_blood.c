@@ -44,20 +44,20 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
     switch (pActor->f24_state)
     {
     case 0:
-        if (((GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_FIRST_PERSON_DUCT | PLAYER_STATUS_MOVING |
-                                          PLAYER_STATUS_PRONE | PLAYER_STATUS_PAD_OFF)) == PLAYER_STATUS_PRONE) &&
+        if (((GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_MOVING |
+                                          PLAYER_PRONE | PLAYER_PAD_OFF)) == PLAYER_PRONE) &&
             (GV_PadData_800B05C0[0].press & PAD_CIRCLE))
         {
             if (d_blood_act_helper_800729B4())
             {
-                GM_Sound_80032968(0, 63, 183);
+                GM_SeSet2_80032968(0, 63, 183);
                 pActor->f24_state = 1;
                 NewKetchap_r_80073148(pActor->f38_current_map);
-                GM_GameStatus_800AB3CC |= 0x10000000;
+                GM_GameStatus_800AB3CC |= STATE_PADRELEASE;
             }
             else
             {
-                GM_Sound_80032968(0, 63, 35);
+                GM_SeSet2_80032968(0, 63, 35);
             }
         }
         break;
@@ -66,7 +66,7 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
         if (++pActor->f28 > pActor->f20)
         {
             pActor->f24_state = 2;
-            GM_GameStatus_800AB3CC &= ~0x10000000;
+            GM_GameStatus_800AB3CC &= ~STATE_PADRELEASE;
             GM_CurrentItemId = ITEM_NONE;
             GM_Items[ITEM_KETCHUP] = ITEM_NONE;
         }

@@ -22,7 +22,7 @@ void GM_CheckBehindCamera_80030B3C(HZD_MAP *pHzdMap, CONTROL *pControl)
     CAMERA  *cam;
     short   *name;
 
-    if ((GM_SnakeState & 0x100 || GM_AlertMode_800ABA00 != 3) &&
+    if ((GM_StatusEvent & 0x100 || GM_AlertMode_800ABA00 != 3) &&
         (trp = HZD_CheckBehindTrap_8002A5E0(pHzdMap, pControl)) != NULL)
     {
         if (GM_CameraTrackOrg_800AB444 != trp)

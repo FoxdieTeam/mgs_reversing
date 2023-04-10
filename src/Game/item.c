@@ -454,7 +454,7 @@ void item_act_80033784(Actor_Item *pActor)
             pActor->field_110_counter = 0;
             pActor->field_11C_full_str = pActor->field_118_str;
 
-            GM_Sound_80032968(0, 63, 22);
+            GM_SeSet2_80032968(0, 63, 22);
             return;
 
         case 0:
@@ -462,7 +462,7 @@ void item_act_80033784(Actor_Item *pActor)
             {
                 pActor->field_11C_full_str = "FULL";
                 pActor->field_110_counter = 0;
-                GM_Sound_80032968(0, 63, 11);
+                GM_SeSet2_80032968(0, 63, 11);
             }
             break;
 
@@ -471,7 +471,7 @@ void item_act_80033784(Actor_Item *pActor)
             {
                 pActor->field_11C_full_str = "GET WEAPON FIRST";
                 pActor->field_110_counter = 0;
-                GM_Sound_80032968(0, 63, 11);
+                GM_SeSet2_80032968(0, 63, 11);
             }
             break;
         }
@@ -482,7 +482,7 @@ void item_act_80033784(Actor_Item *pActor)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_STATUS_FIRST_PERSON_DUCT | PLAYER_STATUS_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & 0x90000000))
+    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & 0x90000000))
     {
         pActor->field_110_counter = 0;
         return;
@@ -950,7 +950,7 @@ Actor_Item * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo
         pActor->field_112_state = 1;
         pActor->field_10C_64 = 512;
 
-        GM_Sound_80032968(0, 63, 13);
+        GM_SeSet2_80032968(0, 63, 13);
     }
 
     return pActor;
