@@ -12,7 +12,7 @@ extern const char aItem[]; // sdata
 extern const char aMenumanC[];
 extern const char aMenuPrimOver[];
 
-extern MenuGlue    gMenuPrimBuffer_8009E2D0;
+extern MenuPrim    gMenuPrimBuffer_8009E2D0;
 extern TInitKillFn gMenuInitFns_8009E290[];
 extern int         GV_Clock_800AB920;
 extern int         MENU_PrimUse_800AB68C;
@@ -257,7 +257,7 @@ int menu_draw_num_80038D10(int number)
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
-MenuGlue *menu_GetPrimInfo_80038D68(void)
+MenuPrim *menu_GetPrimInfo_80038D68(void)
 {
     return &gMenuPrimBuffer_8009E2D0;
 }
