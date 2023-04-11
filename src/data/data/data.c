@@ -657,9 +657,9 @@ int  SECTION(".data") dword_8009EBE0[] = {0xB8009C, 0xBC00A0, 0xB800A4, 0x808080
 int  SECTION(".data") off_8009EBF0[] = {(int)dword_800AB728, (int)dword_800AB724, (int)dword_800AB720, (int)aEx};
 int  SECTION(".data") off_8009EC00[] = {(int)aMemoryCard1, (int)aMemoryCard2};
 int  SECTION(".data") off_8009EC08[] = {(int)dword_800AB754, (int)aNo};
-int  SECTION(".data") dword_8009EC10[] = {0x8F826382, 0x8B828382, 0};
-int  SECTION(".data") off_8009EC1C[] = {(int)dword_800122D8, (int)dword_800122CC, (int)dword_800122C0,
-                                        (int)dword_800122B4, (int)dword_800122A8};
+char SECTION(".data") dword_8009EC10[] = {0x82, 0x63, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B, 0x00};
+char *SECTION(".data") off_8009EC1C[] = {(char *)dword_800122D8, (char *)dword_800122CC, (char *)dword_800122C0,
+                                        (char *)dword_800122B4, (char *)dword_800122A8};
 
 menu_save_mode_data SECTION(".data") stru_8009EC30 = {{0x47, 0}, 0, 1, (void *)aSaveData, (void *)0x8004D008, (void *)0x8004D14C, (void *)0x8004D1D0};
 
