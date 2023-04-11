@@ -1,5 +1,4 @@
 #include "linker.h"
-//#define _BUILDING_MTS_
 #include "mts_new.h"
 #include "psyq.h"
 #include <KERNEL.H>

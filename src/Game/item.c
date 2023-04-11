@@ -370,7 +370,7 @@ void item_act_80033784(Actor_Item *pActor)
     }
 
     pCtrl->field_4C_turn_vec.vy += pActor->field_10C_64;
-    pCtrl->field_4C_turn_vec.vy &= 4095;
+    RevisionDir( pCtrl->field_4C_turn_vec.vy );
 
     if (pActor->field_112_state == 1)
     {
