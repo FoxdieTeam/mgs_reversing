@@ -7,19 +7,19 @@
 extern char *gFontBegin;
 char        *SECTION(".sdata") gFontBegin;
 
-extern int dword_800AB6B0;
-int        SECTION(".sdata") dword_800AB6B0;
+extern int rubi_display_flag_800AB6B0;
+int        SECTION(".sdata") rubi_display_flag_800AB6B0;
 
 // Menu-related?
 
-extern int dword_800ABB2C;
-int        SECTION(".sbss") dword_800ABB2C;
+extern int rubi_left_pos_x_800ABB2C;
+int        SECTION(".sbss") rubi_left_pos_x_800ABB2C;
 
-extern int dword_800ABB30;
-int        SECTION(".sbss") dword_800ABB30;
+extern int rubi_left_pos_y_800ABB30;
+int        SECTION(".sbss") rubi_left_pos_y_800ABB30;
 
-extern int dword_800ABB34;
-int        SECTION(".sbss") dword_800ABB34;
+extern int rubi_left_pos_xmax_800ABB34;
+int        SECTION(".sbss") rubi_left_pos_xmax_800ABB34;
 
 extern char *dword_800ABB28;
 char        *SECTION(".sbss") dword_800ABB28;
@@ -249,77 +249,77 @@ unsigned int font_draw_string_helper_80045718(int a1)
     return 12;
 }
 
-void sub_80045788(int param_1)
+void set_rubi_display_flag_80045788(int display_flag)
 {
-    dword_800AB6B0 = param_1;
+    rubi_display_flag_800AB6B0 = display_flag;
 }
 
-void font_draw_string_helper2_80045794(int param_1, int param_2, int param_3)
+void set_rubi_left_pos_80045794(int xmax, int x, int y)
 {
-    dword_800ABB2C = param_2;
-    dword_800ABB30 = param_3;
-    dword_800ABB34 = param_1;
-    return;
+    rubi_left_pos_x_800ABB2C = x;
+    rubi_left_pos_y_800ABB30 = y;
+    rubi_left_pos_xmax_800ABB34 = xmax;
 }
 
-void font_draw_string_helper7_800457A8(int param_1)
+void set_rubi_left_xmax_800457A8(int xmax)
 {
-    dword_800ABB34 = param_1;
+    rubi_left_pos_xmax_800ABB34 = xmax;
 }
 
-int sub_800457B4(int param_1)
+#define ASCII_TO_RUBI(c) (c + 0x8000)
+
+int get_rubi_char_index_800457B4(int c)
 {
-    // TODO: is this function processing a EUC-JP/SHIFT-JIS character?
-    if (param_1 < 0x8100)
+    if (c < 0x8100)
     {
-        if (param_1 >= 0x8030 && param_1 <= 0x8039)
+        if (c >= ASCII_TO_RUBI('0') && c <= ASCII_TO_RUBI('9'))
         {
-            return param_1 - 0x7fdf;
+            return c - 0x7fdf;
         }
-        if (param_1 >= 0x8041 && param_1 <= 0x805A)
+        if (c >= ASCII_TO_RUBI('A') && c <= ASCII_TO_RUBI('Z'))
         {
-            return param_1 - 0x7fe6;
+            return c - 0x7fe6;
         }
-        if (param_1 >= 0x802D && param_1 <= 0x802E)
+        if (c >= ASCII_TO_RUBI('-') && c <= ASCII_TO_RUBI('.'))
         {
-            return param_1 - 0x7fb8;
+            return c - 0x7fb8;
         }
-        if (param_1 == 0x807f)
+        if (c == ASCII_TO_RUBI(127)) // del
         {
             return 0x76;
         }
-        if (param_1 == 0x802d)
+        if (c == ASCII_TO_RUBI('-'))
         {
             return 0x75;
         }
-        if (param_1 == 0x8020)
+        if (c == ASCII_TO_RUBI(' '))
         {
             return 0;
         }
     }
     else
     {
-        if (param_1 >= 0x8201 && param_1 <= 0x824D)
+        if (c >= 0x8201 && c <= 0x824D) // Katakana character ('ァ' ... 'ロ')
         {
-            return param_1 - 0x8200;
+            return c - 0x8200;
         }
-        if (param_1 == 0x824f)
+        if (c == 0x824f) // 'ヲ'
         {
             return 0x4e;
         }
-        if (param_1 == 0x8252)
+        if (c == 0x8252)
         {
             return 0x4f;
         }
-        if (param_1 == 0x8253)
+        if (c == 0x8253) // 'ン'
         {
             return 0x50;
         }
-        if (param_1 == 0x9006)
+        if (c == 0x9006)
         {
             return 0x75;
         }
-        if (param_1 == 0x9001)
+        if (c == 0x9001) // '　'
         {
             return 0;
         }
@@ -357,7 +357,7 @@ int font_draw_string_helper3_helper_800458B8(int *outIterCount, unsigned char *s
         if (rubiCode == 0x807D)
             break;
 
-        idx = sub_800457B4(rubiCode);
+        idx = get_rubi_char_index_800457B4(rubiCode);
         if (idx < 0)
         {
             mts_printf_8008BBA0(aWrongRubiCodeX, rubiCode);

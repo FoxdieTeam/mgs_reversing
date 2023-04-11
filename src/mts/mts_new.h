@@ -115,12 +115,8 @@ int            mts_get_task_status_8008B618(int task_idx);
 void           mts_8008B51C(void);
 int            mts_isend_80089B04(int isend_dst);
 
-#ifdef _BUILDING_MTS_
-// we define it with no args in mts itself since its stubbed, using ... adds instructions
-#else
 int            mts_null_printf_8008BBA8(const char *formatStr, ...);
 int            mts_nullsub_8_8008BB98(int, const char *, ...);
-#endif
 
 //------------------------------------------------------------------------------
 

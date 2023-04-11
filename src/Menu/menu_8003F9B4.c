@@ -29,7 +29,7 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
     x1 = x0;
 
     x4 = menu_number_draw_string_800430F0(pActor, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
-    Menu_render_snake_life_bar_8003F4B8(pActor->field_20_otBuf, x3, 24);
+    draw_player_life_8003F4B8(pActor->field_20_otBuf, x3, 24);
 
     i = 0;
     x0 = 12;

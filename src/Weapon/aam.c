@@ -112,8 +112,8 @@ void aam_act_800670CC(Actor_Aam *actor)
                 GM_SeSet_80032858(&actor->field_44_ctrl->field_0_mov, 0x4c);
                 GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_mov);
 
-                vibrate_init2_8005D58C(byte_8009F40C, 1);
-                vibrate_init2_8005D58C(byte_8009F414, 2);
+                NewPadVibration_8005D58C(byte_8009F40C, 1);
+                NewPadVibration_8005D58C(byte_8009F414, 2);
             }
         }
     }

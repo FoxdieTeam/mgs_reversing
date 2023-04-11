@@ -110,7 +110,7 @@ Actor_Vibrate *vibrate_init_8005D508(int pan)
     return pActor;
 }
 
-Actor_Vibrate *vibrate_init2_8005D58C(unsigned char *pData, int flags)
+Actor_Vibrate *NewPadVibration_8005D58C(unsigned char *pData, int flags)
 {
     Actor_Vibrate *pActor;
 

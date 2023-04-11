@@ -41,12 +41,12 @@ int SECTION(".sdata") dword_800AB6A0 = 0x6D656D;
 int SECTION(".sdata") dword_800AB6A4 = 0;
 char *SECTION(".sdata") gFontBegin = 0;
 char *SECTION(".sdata") gFontEnd = 0;
-int SECTION(".sdata") dword_800AB6B0 = 1;
+int SECTION(".sdata") rubi_display_flag_800AB6B0 = 1;
 RubiRes *SECTION(".sdata") gRubiRes_800AB6B4 = 0;
 int SECTION(".sdata") dword_800AB6B8 = 0;
 int SECTION(".sdata") dword_800AB6BC = 0;
-int SECTION(".sdata") dword_800AB6C0 = 0;
-int SECTION(".sdata") dword_800AB6C4 = 0;
+int SECTION(".sdata") r_flag_800AB6C0 = 0;
+int SECTION(".sdata") rubi_flag_800AB6C4 = 0;
 
 RECT SECTION(".sdata") rect_800AB6C8 = {768, 256, 256, 4};
 RECT SECTION(".sdata") rect_800AB6D0 = {896, 336, 64, 96};
