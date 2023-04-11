@@ -280,7 +280,7 @@
     ; 80032C68 80032C8C 80032CFC 80032D10 80032EAC
     include "..\obj\Game\homing_target.obj"
 
-    include "..\obj\chara\snake\sna_init_act_helper2_helper2_80033054.obj"
+    include "..\obj\chara\snake\sna_act_helper2_helper2_80033054.obj"
     include "..\obj\Game\delay.obj"
 
     ; 8003330C 80033384 800333F8 80033500 80033560 800335D0 800336A4 80033704 80033784 80033F88

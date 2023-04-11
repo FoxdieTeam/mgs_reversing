@@ -15,7 +15,7 @@ void         GM_SeSet2_80032968( int byte_2, int byte_1, int byte_0 );
 void         GM_Sound_80032C48( int code, int notUsed );
 void         sub_8002E508( int a1 );
 
-typedef enum
+typedef enum // GM_RadarMode_800ABA80
 {
 	RADAR_VISIBLE = 0,
 	RADAR_JAMMED = 1,
@@ -23,7 +23,7 @@ typedef enum
 	RADAR_ALERT = 3
 } RadarMode;
 
-typedef enum
+typedef enum // GM_AlertMode_800ABA00
 {
 	ALERT_DISABLED = 0,
 	ALERT_ENABLED = 1,

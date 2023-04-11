@@ -282,7 +282,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 RETURN_SIZE = 12 # just the return
 NOP_SIZE = 4
 
-# #pragma INCLUDE_ASM("asm/chara/snake/sna_init_800515BC.s");
+# #pragma INCLUDE_ASM("asm/chara/snake/sna_800515BC.s");
 PRAGMA_RE = r'^#pragma\s+INCLUDE_ASM\s*\(\s*"([^"]+)"\s*\).*$'
 
 # all on one line to keep error line numbers correct

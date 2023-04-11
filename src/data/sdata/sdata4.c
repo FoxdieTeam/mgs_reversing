@@ -76,8 +76,8 @@ int SECTION(".sdata") dword_800AB4A0 = 0x8D118C91;
 int SECTION(".sdata") dword_800AB4A4 = 0x9A238C91;
 int SECTION(".sdata") dword_800AB4A8 = 0x80238023;
 int SECTION(".sdata") dword_800AB4AC = 0x8023;
-int SECTION(".sdata") dword_800AB4B0 = 0;
-int SECTION(".sdata") dword_800AB4B4 = 0;
+int SECTION(".sdata") cons_current_y_800AB4B0 = 0;
+int SECTION(".sdata") cons_current_x_800AB4B4 = 0;
 
 const char SECTION(".sdata") aSuppr[] = "SUPPR.";
 const char SECTION(".sdata") aScarf[] = "SCARF";

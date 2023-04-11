@@ -1,8 +1,8 @@
 #include "Menu/radio.h"
 
-void menu_radio_do_file_mode_helper16_8004C164(MenuGlue *pGlue, int param_2);
+void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, int param_2);
 
-void menu_radio_do_file_mode_helper3_helper_8004A790(MenuGlue *pGlue, RadioFileModeStruElem *pElem)
+void menu_radio_do_file_mode_helper3_helper_8004A790(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 {
     RadioFileModeUnk1 *pUnk;
 

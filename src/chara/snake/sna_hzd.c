@@ -59,7 +59,7 @@ int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec)
 
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005C05C.s") // 228 bytes
 
-int sna_init_8005C140(HZD_MAP *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
+int sna_8005C140(HZD_MAP *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
 {
     unsigned char *nears;    // $s2
     int            i;        // $s1
@@ -107,7 +107,7 @@ int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3);
 
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005C298.s")                // 188 bytes
 
-int sna_init_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
+int sna_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
 {
     int smallest_idx; // $s3
     HZD_HEADER *pHeader; // $s4
@@ -168,7 +168,7 @@ int HZD_ReachTo_helper_8005C404(HZD_MAP *pHzd, int near_idx, int toFind)
     return 0;
 }
 
-char sna_init_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if return value correct
+char sna_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if return value correct
 {
     if (a2 != 255 && a3 != 255)
     {

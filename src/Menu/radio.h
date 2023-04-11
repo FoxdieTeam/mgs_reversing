@@ -24,7 +24,7 @@ typedef struct RadioCoordsStru_8009E6FC
 struct RadioFileModeUnk1;
 struct RadioFileModeStruElem;
 
-typedef void (*TRadioFileModeFn)(MenuGlue *, struct RadioFileModeStruElem *); // param types not final
+typedef void (*TRadioFileModeFn)(MenuPrim *, struct RadioFileModeStruElem *); // param types not final
 
 typedef struct RadioFileModeStruElem
 {
@@ -146,15 +146,15 @@ void           menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pSt
 void           menu_radio_compact_free_vars_8004D3D8(void);
 void           init_radio_message_board_80040F74(Actor_MenuMan *pActor);
 void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2);
-void           sub_800434F4(MenuGlue *pGlue, int param_2, int param_3, PANEL_TEXTURE *param_4);
+void           sub_800434F4(MenuPrim *pGlue, int param_2, int param_3, PANEL_TEXTURE *param_4);
 void           menu_RadioCall_helper_800403E4();
 radio_table_entry           *sub_8004969C(radio_table *pRadioTable, int contactFrequency);
-void           menu_radio_codec_helper_helper14_helper4_800408BC(MenuGlue *pGlue, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7);
-void           menu_radio_codec_helper_helper14_helper_80040034(MenuGlue *pGlue, int param_2, int param_3, int param_4);
-void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuGlue *pGlue, int param_2, int param_3, int param_4);
-void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuGlue *pGlue, int param_2, int param_3);
-void           menu_radio_codec_helper_helper14_helper3_80040590(MenuGlue *pGlue, int *param_2, int param_3, int param_4, int param_5);
-void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour,
+void           menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7);
+void           menu_radio_codec_helper_helper14_helper_80040034(MenuPrim *pGlue, int param_2, int param_3, int param_4);
+void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int param_2, int param_3, int param_4);
+void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuPrim *pGlue, int param_2, int param_3);
+void           menu_radio_codec_helper_helper14_helper3_80040590(MenuPrim *pGlue, int *param_2, int param_3, int param_4, int param_5);
+void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour,
                                                                         int idx);
 int            menu_GetRadioCode_800497C4(int param_1);
 void           sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode);
@@ -163,8 +163,8 @@ void           sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags);
 int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
 int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
-void menu_draw_nouse_800435A4(MenuGlue *pGlue, int offset_x, int offset_y);
-void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y);
+void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y);
+void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
 
 #endif // _RADIO_H

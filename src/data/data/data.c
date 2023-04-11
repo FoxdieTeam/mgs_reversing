@@ -110,7 +110,7 @@ extern const char  aSnaMf2[];
 extern const char  aSnaMf3[];
 
 GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] = {
-    {CHARA_SNAKE, sna_init_NewSnake_8005B650},
+    {CHARA_SNAKE, sna_NewSnake_8005B650},
     {CHARA_ITEM, (TGCL_ActorCreateFn)0x800344F8},
     {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
@@ -450,7 +450,7 @@ TInitKillFn SECTION(".data") gMenuKillFns_8009E2B4[] = {(TInitKillFn)0x8003B554,
                                                         (TInitKillFn)0x80042980, // menu_number_kill_80042980
                                                         0};
 
-MenuGlue SECTION(".data") gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
+MenuPrim SECTION(".data") gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
 
 TextConfig SECTION(".data") gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
@@ -723,20 +723,20 @@ Sna_ActionTable SECTION(".data") weapon_actions_8009ED8C[10] = {
     {&e1_800AB78C, NULL, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED3C, &e6_8009ED54, &e7_8009ED68}};
 
 void *SECTION(".data") dword_8009EEA4[] = {
-    (void *)0x8005275C, // sna_init_anim_idle_8005275C
-    (void *)0x800527DC, // sna_init_anim_crouch_800527DC
-    (void *)0x800528BC  // sna_init_anim_prone_idle_800528BC
+    (void *)0x8005275C, // sna_anim_idle_8005275C
+    (void *)0x800527DC, // sna_anim_crouch_800527DC
+    (void *)0x800528BC  // sna_anim_prone_idle_800528BC
 };
 
 void *SECTION(".data") dword_8009EEB0[] = {
-    (void *)0x80052A5C, // sna_init_anim_wall_idle_and_c4_80052A5C
-    (void *)0x80052CCC  // sna_init_anim_wall_crouch_80052CCC
+    (void *)0x80052A5C, // sna_anim_wall_idle_and_c4_80052A5C
+    (void *)0x80052CCC  // sna_anim_wall_crouch_80052CCC
 };
 
 void *SECTION(".data") dword_8009EEB8[] = {
-    (void *)0x8005292C, // sna_init_anim_run_8005292C
-    (void *)0x8005292C, // sna_init_anim_run_8005292C
-    (void *)0x800529C0  // sna_init_anim_prone_move_800529C0
+    (void *)0x8005292C, // sna_anim_run_8005292C
+    (void *)0x8005292C, // sna_anim_run_8005292C
+    (void *)0x800529C0  // sna_anim_prone_move_800529C0
 };
 
 short SECTION(".data") HzdHeights_8009EEC4[] = {750, 250, 250, 0};
@@ -759,22 +759,22 @@ int SECTION(".data")  dword_8009EF24[] = {0x27F0200, 0};
 /*
 // TODO: Converting this entry de-syncs data
 int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228};
-WeaponCreateEntry kSnakeNoWeapon = {0, sna_init_anim_chokethrow_begin1_80054210};
+WeaponCreateEntry kSnakeNoWeapon = {0, sna_anim_chokethrow_begin1_80054210};
 */
 
 int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
 
 WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] = {
-    {NewSOCOM_80065D74, sna_init_gun_800540D0},
-    {famas_create_80066374, sna_init_gun_800540D0},
-    {grenade_create_80066A4C, sna_init_anim_grenade_80058470},
-    {NewRCM_80066FF0, sna_init_gun_800540D0},
-    {NewAAM_80067480, sna_init_anim_stinger_800570C0},
-    {mine_init_800677BC, sna_init_anim_claymore_80057474},
-    {NewBomb_80067B20, sna_init_bomb_800541A8},
-    {NewStanGrenade_80066A74, sna_init_anim_grenade_80058470},
-    {NewChaffGrenade_80066AA0, sna_init_anim_grenade_80058470},
-    {NewRifle_80068214, sna_init_anim_psg1_80056DDC}};
+    {NewSOCOM_80065D74, sna_gun_800540D0},
+    {famas_create_80066374, sna_gun_800540D0},
+    {grenade_create_80066A4C, sna_anim_grenade_80058470},
+    {NewRCM_80066FF0, sna_gun_800540D0},
+    {NewAAM_80067480, sna_anim_stinger_800570C0},
+    {mine_init_800677BC, sna_anim_claymore_80057474},
+    {NewBomb_80067B20, sna_bomb_800541A8},
+    {NewStanGrenade_80066A74, sna_anim_grenade_80058470},
+    {NewChaffGrenade_80066AA0, sna_anim_grenade_80058470},
+    {NewRifle_80068214, sna_anim_psg1_80056DDC}};
 
 TSnakeEquipFuncion SECTION(".data") gSnakeEquips_8009EF8C[] = {
     NewTabako_80062274,

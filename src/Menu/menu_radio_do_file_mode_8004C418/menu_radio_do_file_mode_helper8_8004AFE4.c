@@ -1,4 +1,5 @@
 #include "Menu/menuman.h"
+#include "libdg/libdg.h"
 
 void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt)
 {
@@ -8,8 +9,7 @@ void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt)
 
     kcb = pActor->field_214_font;
 
-    pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
 
     menu_init_sprt_8004AE14(pPrim);
 

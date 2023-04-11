@@ -26,6 +26,22 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
 
+#define CONSOLE_WIDTH      24
+//#define CONSOLE_HEIGHT
+
+//#define CENTER_X           
+//#define CENTER_Y      
+
+#define CONSOLE_LONG_LINES 5 // 7 in the leaks
+
+//#define CONSOLE_LONG_X0    ( 6 - CENTER_X )
+//#define CONSOLE_LONG_Y0    ( 30 - CENTER_Y )
+#define CONSOLE_X0         4
+#define CONSOLE_Y0         -12
+
+//#define CONSOLE_LONG_WIDTH 56
+//#define CONSOLE_TEX_WIDTH  28
+
 void menu_SetRadarScale_80038E28(int scale)
 {
     int    scale2;
@@ -68,8 +84,7 @@ void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsign
     diffdir = GV_DiffDirU_80017040(param_3[0], -param_3[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
-    pPrim = (POLY_G4 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(POLY_G4);
+    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
 
     pPrim->x0 = x - vec2.vx;
     pPrim->y0 = vec2.vz + y;
@@ -117,8 +132,8 @@ void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
 
     pPrim->x0 = x;
     pPrim->y0 = y;
-    pPrim->u0 = pRadarUV->field_0_u0;
-    pPrim->v0 = pRadarUV->field_1_v0;
+    pPrim->u0 = pRadarUV->field_0_x;
+    pPrim->v0 = pRadarUV->field_1_y;
     pPrim->w = pRadarUV->field_2_w;
     pPrim->h = pRadarUV->field_3_h;
 
@@ -133,7 +148,7 @@ void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
     pPrim->clut = clut;
 }
 
-void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, radar_uv *pRadarUV)
+void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
 {
     int   x0;
     TILE *tile1;
@@ -141,8 +156,7 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, rad
 
     x0 = pSprt->x0;
 
-    tile1 = (TILE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+    _NEW_PRIM( tile1, prim );
 
     tile1->x0 = -34;
     tile1->y0 = pSprt->y0;
@@ -152,33 +166,33 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuGlue *pGlue, SPRT *pSprt, rad
 
     setTile(tile1);
     setSemiTrans(tile1, 1);
-    addPrim(pGlue->mPrimBuf.mOt, tile1);
+    addPrim(prim->mPrimBuf.mOt, tile1);
 
-    tile2 = (TILE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+    _NEW_PRIM( tile2, prim );
 
     *tile2 = *tile1;
     tile2->x0 = pRadarUV->field_2_w + x0;
     tile2->w = 69 - tile2->x0;
 
-    addPrim(pGlue->mPrimBuf.mOt, tile2);
+    addPrim(prim->mPrimBuf.mOt, tile2);
 }
 
 extern radar_uv_pair gRadarUV_8009E30C[];
 extern int           gRadarRGBTable_8009E3B8[];
 extern int           GV_Time_800AB330;
 
-static inline void draw_radar_helper3_helper_helper2(MenuGlue *pGlue, int height, radar_uv *pRadarUV, int *rgbs)
+static inline void draw_radar_helper3_helper_helper2(MenuPrim *prim, int height, radar_uv *pRadarUV, int *rgbs)
 {
-    SPRT *pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    SPRT *sprt;
 
-    sub_80039D5C(pPrim, -pRadarUV->field_2_w / 2, height, pRadarUV, rgbs[0]);
-    addPrim(pGlue->mPrimBuf.mOt, pPrim);
-    draw_radar_helper3_helper_helper_80039DB4(pGlue, pPrim, pRadarUV);
+    _NEW_PRIM( sprt, prim );
+
+    sub_80039D5C(sprt, -pRadarUV->field_2_w / 2, height, pRadarUV, rgbs[0]);
+    addPrim(prim->mPrimBuf.mOt, sprt);
+    draw_radar_helper3_helper_helper_80039DB4(prim, sprt, pRadarUV);
 }
 
-void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
+void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
 {
     int       time, time2;
     int       rgbs[2];
@@ -209,84 +223,74 @@ void draw_radar_helper3_helper_80039EC4(MenuGlue *pGlue, int height, int idx)
 
 extern radar_uv gRadarUV_8009E334[];
 
-extern int dword_800AB4B0;
-int        dword_800AB4B0;
-extern int dword_800AB4B4;
-int        dword_800AB4B4;
+extern int cons_current_y_800AB4B0;
+int        cons_current_y_800AB4B0;
+extern int cons_current_x_800AB4B4;
+int        cons_current_x_800AB4B4;
 
-void draw_radar_helper3_helper3_helper_8003A0BC(MenuGlue *pGlue, int idx)
+void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
 {
-    SPRT     *sprt1, *sprt1_copy;
-    SPRT     *sprt2;
-    radar_uv *uv;
+    SPRT     *spb;
+    radar_uv *uv; // CHARA_TABLE *tp;
     int       i;
-    int       count;
-    int       rgb, v0;
-    short     y0;
+    int       h;
+    int       color;
 
-    uv = gRadarUV_8009E334;
-    rgb = gRadarRGBTable_8009E3B8[idx];
-    count = dword_800AB4B0 > 5 ? 5 : dword_800AB4B0;
+    uv = gRadarUV_8009E334; // tp = &( radar_chara[ CHARA_RANDOM ] );
+    color = gRadarRGBTable_8009E3B8[code];
+    h = cons_current_y_800AB4B0 > CONSOLE_LONG_LINES ? CONSOLE_LONG_LINES : cons_current_y_800AB4B0;
 
-    sprt1_copy = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
-    sprt1 = sprt1_copy;
+    _NEW_PRIM( spb, prim );
 
-    sprt1->x0 = 4;
-    sprt1->y0 = count * 2 - 12;
+    spb->x0 = CONSOLE_X0;
+    spb->y0 = CONSOLE_Y0 + h * 2;
 
-    sprt1->clut = gRadarClut_800AB498;
-    sprt1->u0 = uv->field_0_u0;
-    sprt1->v0 = dword_800AB4B0 % 16 + uv->field_1_v0;
+    spb->clut = gRadarClut_800AB498;
+    spb->u0 = uv->field_0_x;
+    spb->v0 = cons_current_y_800AB4B0 % 16 + uv->field_1_y;
 
-    sprt1->w = dword_800AB4B4;
-    sprt1->h = 1;
+    spb->w = cons_current_x_800AB4B4;
+    spb->h = 1;
 
-    LSTORE(rgb, &sprt1->r0);
+    LSTORE(color, &spb->r0);
 
-    setSprt(sprt1);
-    setSemiTrans(sprt1, 1);
-    addPrim(pGlue->mPrimBuf.mOt, sprt1);
+    setSprt(spb);
+    setSemiTrans(spb, 1);
+    addPrim(prim->mPrimBuf.mOt, spb);
 
-    for (i = 1; i <= count; i++)
+    for( i = 1; i <= h; i++ )
     {
-        sprt2 = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-        pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+		SPRT *sprt;
+		_NEW_PRIM( sprt, prim );
+		*sprt = *spb;
+		sprt->y0 = spb->y0 - i * 2;
+		sprt->w = CONSOLE_WIDTH;
+		sprt->v0 = uv->field_1_y + ( cons_current_y_800AB4B0 - i + 16 ) % 16;
+		addPrim( prim->mPrimBuf.mOt, sprt );
+	}
 
-        *sprt2 = *sprt1;
-
-        v0 = dword_800AB4B0 - i + 16;
-        y0 = sprt1->y0;
-
-        sprt2->w = 24;
-        sprt2->y0 = y0 - i * 2;
-        sprt2->v0 = uv->field_1_v0 + v0 % 16;
-        addPrim(pGlue->mPrimBuf.mOt, sprt2);
-    }
-
-    if (++dword_800AB4B4 > 24)
+    if (++cons_current_x_800AB4B4 > CONSOLE_WIDTH)
     {
-        dword_800AB4B4 = 0;
-        dword_800AB4B0++;
+        cons_current_x_800AB4B4 = 0;
+        cons_current_y_800AB4B0++;
     }
 }
 
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
-void draw_radar_helper3_helper2_8003A2D0(MenuGlue *pGlue, int param_2);
+void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int param_2);
 
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
-void draw_radar_helper3_helper3_8003A664(MenuGlue *pGlue, int param_2, int param_3);
+void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int param_3);
 
-void draw_radar_helper3_helper4_8003A978(MenuGlue *pGlue, int x, int index)
+void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
 {
-    SPRT *pPrim;
+    SPRT *sprt;
 
-    pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(sprt, prim);
 
-    // index seems to be between 0 and 3 (inclusive)
-    sub_80039D5C(pPrim, x - 34, -12, &gRadarUV_8009E30C[index].field_0, gRadarRGBTable_8009E3B8[index]);
-    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+    // code seems to be between 0 and 3 (inclusive)
+    sub_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code].field_0, gRadarRGBTable_8009E3B8[code]);
+    addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
 extern RECT  rect_800AB490;
@@ -322,8 +326,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
         break;
     }
 
-    tpage1 = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(tpage1, pActor->field_20_otBuf);
 
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage1);
@@ -331,8 +334,8 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     rand = (rand_8008E6B8() << 16) | (rand_8008E6B8());
     for (i = 0; i < 52;)
     {
-        line = (LINE_F2 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-        pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(LINE_F2);
+        _NEW_PRIM(line, pActor->field_20_otBuf);
+
         line->y0 = i - 26;
         line->y1 = i - 26;
         line->x0 = rand % 138 - 69;
@@ -347,8 +350,8 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
         rand = rand << 25 | rand >> 7;
     }
 
-    tile = (TILE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(TILE);
+    _NEW_PRIM(tile, pActor->field_20_otBuf);
+
     tile->x0 = -34;
     tile->w = 69;
     tile->y0 = -26;
@@ -358,8 +361,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     setSemiTrans(tile, 1);
     addPrim(pOt, tile);
 
-    tpage2 = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(tpage2, pActor->field_20_otBuf);
     setDrawTPage(tpage2, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage2);
 }
@@ -367,6 +369,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
 void menu_radar_load_rpk_8003AD64()
 {
     RECT rect;
+
     rect.x = 992;
     rect.y = 336;
     rect.w = gRadar_rpk_800ABAC8->field_2_w;
@@ -414,8 +417,23 @@ extern int              GM_AlertMode_800ABA00;
 extern int              GM_AlertLevel_800ABA18;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
-extern int dword_800AB4B0;
-int        dword_800AB4B0;
+extern int cons_current_y_800AB4B0;
+int        cons_current_y_800AB4B0;
+
+typedef enum // GM_RadarMode_800ABA80
+{
+	RADAR_VISIBLE = 0,
+	RADAR_JAMMED = 1,
+	RADAR_EVASION = 2,
+	RADAR_ALERT = 3
+} RadarMode;
+
+typedef enum // GM_AlertMode_800ABA00
+{
+	ALERT_DISABLED = 0,
+	ALERT_ENABLED = 1,
+	ALERT_EVASION = 2 // > 2 = ALERT_EVASION
+} AlertMode;
 
 void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 {
@@ -430,10 +448,10 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 
     if (alertMode >= 4)
     {
-        alertMode = 0;
+        alertMode = ALERT_DISABLED;
     }
 
-    if (alertMode == 0 && gFn_radar_800AB48C == NULL)
+    if (alertMode == ALERT_DISABLED && gFn_radar_800AB48C == NULL)
     {
 
         if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
@@ -456,17 +474,17 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
     }
     else
     {
-        if (alertMode == 0)
+        if (alertMode == ALERT_DISABLED)
         {
             if (GM_GameStatus_800AB3CC & 0x800001)
             {
-                alertMode = 1;
+                alertMode = ALERT_ENABLED;
             }
         }
 
         switch (alertMode)
         {
-        case 0:
+        case ALERT_DISABLED:
             alertLevel = pActor->field_CC_radar_data.counter;
 
             if (alertLevel > 0)
@@ -486,15 +504,13 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
-                    twin2 = (DR_TWIN *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-                    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TWIN);
+                    _NEW_PRIM(twin2, pActor->field_20_otBuf);
                     twin = twin2;
                     SetTexWindow_800905F0(twin, &clip);
                     addPrim(pOt, twin);
                 }
 
-                polyG4 = (POLY_G4 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-                pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(POLY_G4);
+                _NEW_PRIM(polyG4, pActor->field_20_otBuf);
 
                 polyG4->x0 = 11 - alertLevel;
                 polyG4->y0 = -26;
@@ -513,8 +529,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                 setSemiTrans(polyG4, 1);
                 addPrim(pOt, polyG4);
 
-                tpage = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-                pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+                _NEW_PRIM(tpage, pActor->field_20_otBuf);
                 setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
                 addPrim(pOt, tpage);
@@ -527,8 +542,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     clip.w = (0x45 - alertLevel);
                 }
 
-                twin3 = (DR_TWIN *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-                pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TWIN);
+                _NEW_PRIM(twin3, pActor->field_20_otBuf);
                 twin = twin3;
                 SetTexWindow_800905F0(twin, &clip);
                 addPrim(pOt, twin);
@@ -537,13 +551,13 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
             else
             {
                 draw_radar_helper2_800391D0(pActor, pOt, 0);
-                dword_800AB4B0 = 0;
-                dword_800AB4B4 = 0;
+                cons_current_y_800AB4B0 = 0;
+                cons_current_x_800AB4B4 = 0;
             }
             break;
 
-        case 1:
-        case 2:
+        case ALERT_ENABLED:
+        case ALERT_EVASION:
         case 3:
             pActor->field_CC_radar_data.counter = 93;
 

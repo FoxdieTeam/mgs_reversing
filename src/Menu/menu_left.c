@@ -37,7 +37,7 @@ int  menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 int  menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
 void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
-void Menu_item_render_frame_rects_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4);
+void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
 int  menu_8003D538(void);
 void menu_8003D7DC(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
 int  sub_8003D568(void);
@@ -164,8 +164,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
     img_rect.h = pImgItem->field_3_h;
     LoadImage_8008FB10(&img_rect, pImgItem->field_4_pixel_ptr);
 
-    pSprt = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)(pSprt + 1);
+    _NEW_PRIM(pSprt, pActor->field_20_otBuf);
 
     pSprt->v0 = 81;
     pSprt->x0 = 230;
@@ -184,7 +183,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
 void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt; // $s6
-    MenuGlue *field_20_otBuf; // $v0
+    MenuPrim *field_20_otBuf; // $v0
     SPRT *pIconSprt; // $s0
     int rgb; // $s1
     int bBlueBackground; // $a3
@@ -240,8 +239,7 @@ void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, 
         if ( pMenuSprt->field_C_uvclut )
         {
             field_20_otBuf = pActor->field_20_otBuf;
-            pIconSprt = (SPRT *)field_20_otBuf->mPrimBuf.mFreeLocation;
-            field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+            _NEW_PRIM(pIconSprt, pActor->field_20_otBuf);
 
             if ( !pMenuSub->field_0_current.field_4_pos )
             {

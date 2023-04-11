@@ -3,7 +3,7 @@
 extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
 RadioFileModeStru_800ABB7C        *SECTION(".sbss") stru_800ABB7C;
 
-void menu_radio_do_file_mode_helper6_8004AD40(MenuGlue *pGlue)
+void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue)
 {
     int                    i;
     RadioFileModeStruElem *pElem;
