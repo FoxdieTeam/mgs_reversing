@@ -27,7 +27,9 @@ void sub_8003ECC0(void)
 
 int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 {
-    short snakeHp = pBars->field_6_snake_hp;
+    short snakeHp;
+    
+    snakeHp = pBars->field_6_snake_hp;
     if (snakeHp == GM_SnakeCurrentHealth)
     {
         pBars->field_A_k10_decrement = 10;
@@ -55,7 +57,7 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig)
+void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, BarConfig *pConfig)
 {
     TextConfig text_config;
     int        sp28;
@@ -79,14 +81,14 @@ void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int
     pOt = pBuffer->mPrimBuf.mOt;
 
     sp2C = 5 - pConfig->field_A_bar_height;
-    temp_fp = ypos + 1;
-    sp28 = maxHp / 8;
+    temp_fp = y + 1;
+    sp28 = max / 8;
 
-    text_config.xpos = xpos + 4;
+    text_config.xpos = x + 4;
     temp_v1 = text_config.xpos;
 
     text_config.flags = 0;
-    text_config.ypos = ypos + 4;
+    text_config.ypos = y + 4;
 
     if ( !((int)pConfig & 0x80000000) )
     {
@@ -103,20 +105,20 @@ void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int
     pTile = menu_render_rect_8003DB2C(pBuffer, temp_v1 - 1, text_config.ypos - 1, width, 7, 0);
     setSemiTrans(pTile, 1);
 
-    if (hp1 > maxHp)
+    if (rest > max)
     {
-        hp1 = maxHp;
+        rest = max;
     }
 
-    if (hp1 > hp2)
+    if (rest > now)
     {
         _NEW_PRIM(pTile_2, pBuffer);
 
         setTile(pTile_2);
 
-        diff = (hp1 - hp2) / 8;
+        diff = (rest - now) / 8;
 
-        pTile_2->x0 = xpos + hp2 / 8;
+        pTile_2->x0 = x + now / 8;
         pTile_2->y0 = temp_fp;
 
         pTile_2->w = diff;
@@ -131,7 +133,7 @@ void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int
 
     _NEW_PRIM(pPoly, pBuffer);
 
-    setXYWH(pPoly, xpos, temp_fp, (hp2 + 7) / 8, sp2C);
+    setXYWH(pPoly, x, temp_fp, (now + 7) / 8, sp2C);
 
     pPoly->r0 = pConfig->field_4_rgb_left[0];
     pPoly->g0 = pConfig->field_4_rgb_left[1];
@@ -149,13 +151,13 @@ void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int
     setPolyG4(pPoly);
     addPrim(pOt, pPoly);
 
-    pTile_3 = menu_render_rect_8003DB2C(pBuffer, xpos, temp_fp, sp28, sp2C, 0x181800);
+    pTile_3 = menu_render_rect_8003DB2C(pBuffer, x, temp_fp, sp28, sp2C, 0x181800);
     setSemiTrans(pTile_3, 1);
 
-    menu_render_rect_8003DB2C(pBuffer, xpos - 1, ypos, 1, sp2C + 2, 0);
-    menu_render_rect_8003DB2C(pBuffer, xpos, ypos, sp28, 1, 0);
-    menu_render_rect_8003DB2C(pBuffer, xpos, ypos + sp2C + 1, sp28, 1, 0);
-    menu_render_rect_8003DB2C(pBuffer, xpos + sp28, ypos, 1, sp2C + 2, 0);
+    menu_render_rect_8003DB2C(pBuffer, x - 1, y, 1, sp2C + 2, 0);
+    menu_render_rect_8003DB2C(pBuffer, x, y, sp28, 1, 0);
+    menu_render_rect_8003DB2C(pBuffer, x, y + sp2C + 1, sp28, 1, 0);
+    menu_render_rect_8003DB2C(pBuffer, x + sp28, y, 1, sp2C + 2, 0);
 
     _NEW_PRIM(pTpage, pBuffer);
 
@@ -165,7 +167,9 @@ void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int
 
 void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 {
-    BarConfig *pBar = &gSnakeLifeBarConfig_8009E5F4;
+    BarConfig *pBar;
+    
+    pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
 
     if ((GM_GameStatus_800AB3CC & 0x2000000) != 0)
@@ -180,7 +184,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
         pBar = UNTAG_PTR(BarConfig, pBar); // pointer flag to make it render in red
     }
 
-    menu_life_draw_8003ED4C(ot,
+    menu_draw_bar_8003ED4C(ot,
                            pBars->field_2_bar_x,
                            pBars->field_4_bar_y,
                            pBars->field_6_snake_hp,
@@ -190,7 +194,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 
     if (pBars->field_1_O2_hp)
     {
-        menu_life_draw_8003ED4C(ot,
+        menu_draw_bar_8003ED4C(ot,
                                pBars->field_2_bar_x,
                                pBars->field_4_bar_y + 12,
                                GM_O2_800ABA34,
@@ -200,39 +204,40 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
-    menu_life_draw_8003ED4C(ot,
-                                  16,
-                                  ypos + gSnakeLifeYPos_800ABAF0 - 16,
-                                  a3,
-                                  a4,
-                                  a5,
-                                  pConfig);
-}
-
-void menu_8003F464(MenuPrim *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
-{
-    GM_GameStatus_800AB3CC |= 0x8000u;
-    menu_life_draw_8003ED4C(ot,
-                           xpos,
+    menu_draw_bar_8003ED4C(ot,
+                           16,
                            ypos + gSnakeLifeYPos_800ABAF0 - 16,
+                           a3,
                            a4,
                            a5,
-                           a6,
+                           pConfig);
+}
+
+void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig)
+{
+    GM_GameStatus_800AB3CC |= 0x8000u;
+    menu_draw_bar_8003ED4C(prim,
+                           x,
+                           y + gSnakeLifeYPos_800ABAF0 - 16,
+                           rest,
+                           now,
+                           max,
                            pBarConfig);
 }
 
-void Menu_render_snake_life_bar_8003F4B8(MenuPrim *ot, int xpos, int ypos)
+void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
-    menu_life_draw_8003ED4C(ot,
-                           xpos,
-                           ypos,
+    menu_draw_bar_8003ED4C(prim,
+                           x,
+                           y,
                            GM_SnakeCurrentHealth,
                            GM_SnakeCurrentHealth,
-                           GM_SnakeMaxHealth, &gSnakeLifeBarConfig_8009E5F4);
+                           GM_SnakeMaxHealth,
+                           &gSnakeLifeBarConfig_8009E5F4);
 }
 
 void menu_font_kill_helper_8003F50C(void)

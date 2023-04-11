@@ -6009,7 +6009,7 @@ void sna_anim_psg1_helper_80057FD4(Actor_SnaInit* pActor, int time)
     {
         if ( (time % 48) == 0 )
         {
-            vibrate_init2_8005D58C(dword_8009EF20, 2);
+            NewPadVibration_8005D58C(dword_8009EF20, 2);
             pActor->field_A35_vibtime2 = 2;
         }
         else if ( (pActor->field_A35_vibtime2 != 0) &&
@@ -6020,7 +6020,7 @@ void sna_anim_psg1_helper_80057FD4(Actor_SnaInit* pActor, int time)
     }
     else if ( (time & 0x1F) == 0 )
     {
-        vibrate_init2_8005D58C(dword_8009EF1C, 2);
+        NewPadVibration_8005D58C(dword_8009EF1C, 2);
         pActor->field_A35_vibtime2 = 2;
     }
     else if ( (pActor->field_A35_vibtime2 > 0) &&
@@ -6746,8 +6746,8 @@ void sna_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time)
         if (++pActor->field_A54.choke_count >= 10) // feels good
         {
             // TODO: fix data when vibrate is figured out
-            vibrate_init2_8005D58C((unsigned char *)dword_8009EF24, 1);
-            vibrate_init2_8005D58C((unsigned char *)dword_8009EF2C, 2);
+            NewPadVibration_8005D58C((unsigned char *)dword_8009EF24, 1);
+            NewPadVibration_8005D58C((unsigned char *)dword_8009EF2C, 2);
             sna_start_anim_8004E1F4(pActor, sna_anim_choke_kill_80058F88);
             return;
         }
@@ -6895,6 +6895,7 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
         pActor->field_20_ctrl.field_34_hzd_height = pActor->field_20_ctrl.field_0_mov.vy;
     }
 
+    /* しゃがみ天井突き抜け防止 */
     if ( (pActor->field_A26_stance != SNA_STANCE_STANDING) && (height >= 500) )
     {
         pActor->field_20_ctrl.field_32_height = 496;
