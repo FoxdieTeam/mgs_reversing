@@ -227,11 +227,11 @@ typedef struct MenuPrimBuffer
     unsigned char *mOtEnd;
 } MenuPrimBuffer;
 
-typedef struct MenuGlue
+typedef struct MenuPrim
 {
     MenuPrimBuffer mPrimBuf;
     unsigned char *mPrimPtrs[2];
-} MenuGlue;
+} MenuPrim;
 
 typedef struct _Menu_rpk_item
 {
@@ -302,7 +302,7 @@ typedef unsigned char MenuFlags;
 typedef struct             Actor_MenuMan
 {
     GV_ACT                 field_0_actor;
-    MenuGlue              *field_20_otBuf;
+    MenuPrim              *field_20_otBuf;
     GV_PAD                *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
     MenuFlags              field_28_flags;
     char                   field_29;
@@ -347,9 +347,9 @@ PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 void         sub_8003CB98(struct Actor_MenuMan *a1);
 int          menu_radio_do_file_mode_8004C418(int param_1, GV_PAD *pPad);
 void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
-void         menu_8003F408(MenuGlue *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
-void         menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
-void         menu_life_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
+void         menu_8003F408(MenuPrim *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
+void         menu_8003F464(MenuPrim *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig);
+void         menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig);
 void         menu_InitRadioTable_80049644();
 void         menu_init_sprt_8004AE14(SPRT *pSprt);
 void         move_coord_8004A494(int *arr, int len);
@@ -371,9 +371,9 @@ void menu_item_update_helper4_8003C4EC();
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
 void menu_JimakuWrite_800494E8(const char *str, int frames);
-void menu_number_draw_80042988(MenuGlue *pOt, TextConfig *pSettings, int number);
-void menu_number_draw_string2_80043220(MenuGlue *pGlue, TextConfig *pTextConfig, char *str);
-void menu_number_draw_string_80042BF4(MenuGlue *pGlue, TextConfig *pTextConfig, const char *str);
+void menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number);
+void menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, char *str);
+void menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
 void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *param_1, unsigned int *param_2, int param_3, int param_4, PANEL *param_5);
 void menu_weapon_unknown_8003DEB0(void);
 void menu_weapon_update_8003E990(struct Actor_MenuMan *menuMan, unsigned char *param_2);
@@ -397,7 +397,7 @@ void sub_80046BD8(int idx);
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
 void menuman_Reset_800389A8(void);
 void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt);
-void Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos);
+void Menu_render_snake_life_bar_8003F4B8(MenuPrim *ot, int xpos, int ypos);
 void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper_helper_80049EDC(void);
 void init_file_mode_helper2_8004A800(void);
@@ -411,7 +411,7 @@ void menu_SetRadioCallbackProc_8004283C(int param_1);
 void menu_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode);
 void menu_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode);
 void menu_InitRadioMemory_8004E0EC(void);
-TILE          *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb);
+TILE          *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int rgb);
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
 Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id);
 void           menu_JimakuClear_80049518(void);

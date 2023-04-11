@@ -699,12 +699,11 @@ int sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
     return 0;
 }
 
-TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int rgb)
+TILE *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int rgb)
 {
     TILE *pTile; // $v0
 
-    pTile = (TILE *)pOt->mPrimBuf.mFreeLocation;
-    pOt->mPrimBuf.mFreeLocation += sizeof(TILE);
+    _NEW_PRIM(pTile, pOt);
 
     *(int *)&pTile->r0 = rgb;
 
@@ -720,7 +719,7 @@ TILE *menu_render_rect_8003DB2C(MenuGlue *pOt, int x, int y, int w, int h, int r
     return pTile;
 }
 
-void Menu_item_render_frame_rects_8003DBAC(MenuGlue *pGlue, int x, int y, int param_4)
+void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -733,8 +732,7 @@ void Menu_item_render_frame_rects_8003DBAC(MenuGlue *pGlue, int x, int y, int pa
     tile = menu_render_rect_8003DB2C(pGlue, x + 10, y + 1, 35, 19, (param_4 != 0 ?: 0) << 23);
     setSemiTrans(tile, 1);
 
-    tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(tpage, pGlue);
 
     setDrawTPage(tpage, 1, 0, 0x1f);
     addPrim(pGlue->mPrimBuf.mOt, tpage);
@@ -939,8 +937,7 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
 
         if (pTexture->field_C_uvclut != 0)
         {
-            pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-            pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+            _NEW_PRIM(pPrim, pActor->field_20_otBuf);
 
             LSTORE(pPanel->field_4_pos == 0 ? 0x808080 : 0x404040, &pPrim->r0);
             menu_init_sprt_8003D0D0(pPrim, pTexture, offset_x, off_y);

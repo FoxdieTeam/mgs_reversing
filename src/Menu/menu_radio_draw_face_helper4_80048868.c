@@ -1,7 +1,7 @@
 #include "menuman.h"
 #include "libdg/libdg.h"
 
-void menu_radio_draw_face_helper4_80048868(MenuGlue *pGlue, short *param_2, int param_3)
+void menu_radio_draw_face_helper4_80048868(MenuPrim *pGlue, short *param_2, int param_3)
 {
     LINE_F4 *pPrim;
     LINE_F4 *pPrimCopy;
@@ -16,8 +16,7 @@ void menu_radio_draw_face_helper4_80048868(MenuGlue *pGlue, short *param_2, int 
         coord = 54;
     }
 
-    pPrim = (LINE_F4 *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(LINE_F4);
+    _NEW_PRIM(pPrim, pGlue);
     pPrimCopy = pPrim; // To get a match
 
     LSTORE(0x1a1f13, &pPrimCopy->r0);

@@ -47,8 +47,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     TILE     *tile;
     DR_TPAGE *tpage;
 
-    tile = (TILE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(TILE);
+    _NEW_PRIM(tile, pActor->field_20_otBuf);
 
     if (colour > 255)
     {
@@ -69,8 +68,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     tile->h = 224;
     addPrim(pOt, tile);
 
-    tpage = (DR_TPAGE *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(tpage, pActor->field_20_otBuf);
 
     setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage);
@@ -80,12 +78,11 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 
-void sub_8003FFB0(MenuGlue *pGlue, short x0, short y0, int rgb)
+void sub_8003FFB0(MenuPrim *pGlue, short x0, short y0, int rgb)
 {
     TILE *pPrim;
 
-    pPrim = (TILE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+    _NEW_PRIM(pPrim, pGlue);
 
     pPrim->w = 2;
     pPrim->h = 2;
@@ -130,13 +127,12 @@ void menu_RadioCall_helper_800403E4(void)
     LoadImage_8008FB10(pRect, buf);
 }
 
-void menu_radio_update_helper3_80040498(MenuGlue *pGlue)
+void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
 {
     SPRT     *pPrim;
     DR_TPAGE *tpage;
 
-    pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(pPrim, pGlue);
 
     LSTORE(0x80808080, &pPrim->r0);
     pPrim->u0 = 0;
@@ -151,8 +147,7 @@ void menu_radio_update_helper3_80040498(MenuGlue *pGlue)
     setSemiTrans(pPrim, 1);
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 
-    tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(tpage, pGlue);
 
     setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
@@ -168,18 +163,15 @@ static inline RadioCoordsStru_8009E6FC *get_gRadioCoords(int idx)
     return &gRadioCoords_8009E6FC[idx];
 }
 
-void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, int xpos, int ypos, int colour, int idx)
+void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour, int idx)
 {
     short                     coord;
     POLY_F3                  *pPoly;
     LINE_F4                  *pLine;
     RadioCoordsStru_8009E6FC *radioCoords;
 
-    pPoly = (POLY_F3 *)pGlue->mPrimBuf.mFreeLocation;
-    (pGlue->mPrimBuf).mFreeLocation += sizeof(POLY_F3);
-
-    pLine = (LINE_F4 *)pGlue->mPrimBuf.mFreeLocation;
-    (pGlue->mPrimBuf).mFreeLocation += sizeof(LINE_F4);
+    _NEW_PRIM(pPoly, pGlue);
+    _NEW_PRIM(pLine, pGlue);
 
     LSTORE(colour, &pPoly->r0);
     LSTORE(colour, &pLine->r0);
@@ -216,7 +208,7 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuGlue *pGlue, i
 extern char aP3t3t[];  // = "P#3T#3T";
 extern char aMemory[]; // = "MEMORY";
 
-void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos, int ypos, int flags)
+void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos, int ypos, int flags)
 {
     unsigned colour;
 
@@ -263,24 +255,18 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuGlue *pGlue, int xpos
 
 extern int GV_Clock_800AB920;
 
-void menu_radio_codec_helper_helper15_80040B8C(MenuGlue *pGlue)
+void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
 {
-    DR_TPAGE *tpage1, *tpage1_copy;
-    DR_TPAGE *tpage2;
-    SPRT     *sprt1;
-    SPRT     *sprt2;
+    DR_TPAGE *tpage1, *tpage2;
+    SPRT     *sprt1, *sprt2;
     int       time;
     short     w, w_2;
     short     u0, u0_2;
 
     time = (GV_Time_800AB330 / 2) % 128;
 
-    tpage1_copy = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
-    tpage1 = tpage1_copy;
-
-    tpage2 = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(tpage1, pGlue);
+    _NEW_PRIM(tpage2, pGlue);
 
     if (GV_Clock_800AB920 == 0)
     {
@@ -303,8 +289,7 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuGlue *pGlue)
         w_2 = 128;
     }
 
-    sprt1 = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(sprt1, pGlue);
 
     LSTORE(0x181818, &sprt1->r0);
     sprt1->y0 = time;
@@ -320,8 +305,7 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuGlue *pGlue)
     addPrim(pGlue->mPrimBuf.mOt, sprt1);
     addPrim(pGlue->mPrimBuf.mOt, tpage1);
 
-    sprt2 = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(sprt2, pGlue);
 
     *sprt2 = *sprt1;
     sprt2->x0 = w;
@@ -344,7 +328,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
 {
     DR_TPAGE *tpage;
     DR_STP   *stp;
-    MenuGlue *pGlue;
+    MenuPrim *pGlue;
 
     if (pActor->field_210 != 11 && pActor->field_210 != 14)
     {
@@ -358,13 +342,11 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
         menu_radio_codec_helper_helper14_helper5_800402A0(pGlue, 122, 51, -1);
         menu_radio_codec_helper_helper14_helper3_80040590(pGlue, &dword_8009E664, 19, 0, -8);
 
-        stp = (DR_STP *)pGlue->mPrimBuf.mFreeLocation;
-        pGlue->mPrimBuf.mFreeLocation += sizeof(DR_STP);
+        _NEW_PRIM(stp, pGlue);
         SetDrawStp_800924D8(stp, 1);
         addPrim(pGlue->mPrimBuf.mOt, stp);
 
-        tpage = (DR_TPAGE *)pGlue->mPrimBuf.mFreeLocation;
-        pGlue->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+        _NEW_PRIM(tpage, pGlue);
         setDrawTPage(tpage, 1, 0, getTPage(0, 0, 960, 256));
         addPrim(pGlue->mPrimBuf.mOt, tpage);
     }
@@ -431,8 +413,7 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
 
     kcb = pActor->field_214_font;
 
-    pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
 
     setRGB0(pPrim, 128, 128, 128);
 
@@ -460,14 +441,13 @@ void sub_8004124C(Actor_MenuMan *pActor)
 
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
-    MenuGlue *pOtBuffer; // $v1
+    MenuPrim *pOtBuffer; // $v1
     POLY_F3 *pPrim; // $a0
 
     if ( GV_Time_800AB330 % 16 >= 4 )
     {
         pOtBuffer = pActor->field_20_otBuf;
-        pPrim = (POLY_F3 *)pOtBuffer->mPrimBuf.mFreeLocation;
-        pOtBuffer->mPrimBuf.mFreeLocation += sizeof(POLY_F3);
+        _NEW_PRIM(pPrim, pOtBuffer);
         pPrim->x1 = 288;
         pPrim->y1 = 210;
 
@@ -705,8 +685,7 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt
 
     for (i = 0; i < pAmmo; i++)
     {
-        sprt_copy = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-        pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+        _NEW_PRIM(sprt_copy, pActor->field_20_otBuf);
 
         sprt = sprt_copy;
         xoff = xoff - 3;
@@ -762,8 +741,7 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos,
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
     menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, current);
 
-    pPrim = (SPRT *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
 
     *pPrim = gRadioNumberSprt_800bd9b0;
     LSTORE(textConfig.colour, &pPrim->r0);
@@ -838,36 +816,34 @@ void menu_init_nouse_800434A8()
     menu_restore_nouse_80043470();
 }
 
-void sub_800434F4(MenuGlue *pGlue, int offset_x, int offset_y, PANEL_TEXTURE *pUnk)
+void sub_800434F4(MenuPrim *pGlue, int offset_x, int offset_y, PANEL_TEXTURE *pUnk)
 {
     SPRT *pPrim;
 
-    pPrim = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+    _NEW_PRIM(pPrim, pGlue);
 
-    *(int *)&pPrim->r0 = 0x80808080;
+    LSTORE(0x80808080, &pPrim->r0);
     menu_init_sprt_8003D0D0(pPrim, pUnk, offset_x - 2, offset_y + 6);
 
     setSprt(pPrim);
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-void menu_draw_nouse_800435A4(MenuGlue *pGlue, int offset_x, int offset_y)
+void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y)
 {
     sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA10);
 }
 
-void menu_draw_frozen_800435C8(MenuGlue *pGlue, int offset_x, int offset_y)
+void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y)
 {
     sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA30);
 }
 
-void menu_draw_triangle_800435EC(MenuGlue *pGlue, Menu_Triangle *pTriangle)
+void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle)
 {
     POLY_F3 *pPrim;
 
-    pPrim = (POLY_F3 *)pGlue->mPrimBuf.mFreeLocation;
-    pGlue->mPrimBuf.mFreeLocation += sizeof(POLY_F3);
+    _NEW_PRIM(pPrim, pGlue);
 
     LCOPY(&pTriangle->field_0_x0, &pPrim->x0);
     LCOPY(&pTriangle->field_4_x1, &pPrim->x1);
@@ -901,9 +877,6 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 
     int           i;
 
-    unsigned char *nextFreeLocation;
-    unsigned char *nextFreeLocation2;
-
     int           returnVal;
 
     totalprimCount = 0;
@@ -914,8 +887,7 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
 
-    lineF2 = (LINE_F2 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(LINE_F2);
+    _NEW_PRIM(lineF2, pMenuMan->field_20_otBuf);
 
     setXY2(lineF2, 0x20, 0x76, 0x110, 0x76);
     *(int *)&lineF2->r0 = 0x800000;
@@ -950,9 +922,7 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
             }
 
             ff00 = 0xff00;
-            nextFreeLocation = pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation + (sizeof(LINE_G4));
-            lineG4 = (LINE_G4 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
-            pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation = nextFreeLocation;
+            _NEW_PRIM(lineG4, pMenuMan->field_20_otBuf);
             setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1 - primCount, x_2_3, y_2_3 - primCount, x_2_3, y_2_3);
             *(int *)&lineG4->r0 = 0;
             *(int *)&lineG4->r1 = ff00;
@@ -964,10 +934,8 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
         }
         else
         {
-            nextFreeLocation2 = pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation + (sizeof(LINE_G4));
             ff0000 = 0xff0000;
-            lineG4 = (LINE_G4 *)pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation;
-            pMenuMan->field_20_otBuf->mPrimBuf.mFreeLocation = nextFreeLocation2;
+            _NEW_PRIM(lineG4, pMenuMan->field_20_otBuf);
             setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1, x_2_3, y_2_3, x_2_3, y_2_3);
             *(int *)&lineG4->r0 = 0;
             *(int *)&lineG4->r1 = ff0000;
@@ -1063,8 +1031,7 @@ int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
     menu_Text_80038C38(aXDYD, iterTex->field_8_offx, iterTex->field_9_offy);
     menu_Text_80038C38(aWDHD, iterTex->field_A_width + 1, iterTex->field_B_height + 1);
 
-    pPoly = (POLY_FT4 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pActor->field_20_otBuf->mPrimBuf.mFreeLocation += sizeof(POLY_FT4);
+    _NEW_PRIM(pPoly, pActor->field_20_otBuf);
 
     LSTORE(0x808080, &pPoly->r0);
 

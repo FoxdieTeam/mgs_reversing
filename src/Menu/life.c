@@ -1,6 +1,7 @@
 #include "menuman.h"
 #include "linker.h"
 #include "libgcl/libgcl.h"
+#include "libdg/libdg.h"
 #include "Game/linkvarbuf.h"
 
 extern int   GM_GameStatus_800AB3CC;
@@ -54,7 +55,7 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_life_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig)
+void menu_life_draw_8003ED4C(MenuPrim *pBuffer, int xpos, int ypos, int hp1, int hp2, int maxHp, BarConfig *pConfig)
 {
     TextConfig text_config;
     int        sp28;
@@ -109,8 +110,7 @@ void menu_life_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int
 
     if (hp1 > hp2)
     {
-        pTile_2 = (TILE *)pBuffer->mPrimBuf.mFreeLocation;
-        pBuffer->mPrimBuf.mFreeLocation += sizeof(TILE);
+        _NEW_PRIM(pTile_2, pBuffer);
 
         setTile(pTile_2);
 
@@ -129,8 +129,7 @@ void menu_life_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int
         addPrim(pOt, pTile_2);
     }
 
-    pBuffer->mPrimBuf.mFreeLocation += sizeof(POLY_G4);
-    pPoly = (POLY_G4 *)pBuffer->mPrimBuf.mFreeLocation - 1;
+    _NEW_PRIM(pPoly, pBuffer);
 
     setXYWH(pPoly, xpos, temp_fp, (hp2 + 7) / 8, sp2C);
 
@@ -158,14 +157,13 @@ void menu_life_draw_8003ED4C(MenuGlue *pBuffer, int xpos, int ypos, int hp1, int
     menu_render_rect_8003DB2C(pBuffer, xpos, ypos + sp2C + 1, sp28, 1, 0);
     menu_render_rect_8003DB2C(pBuffer, xpos + sp28, ypos, 1, sp2C + 2, 0);
 
-    pTpage = (DR_TPAGE *)pBuffer->mPrimBuf.mFreeLocation;
-    pBuffer->mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    _NEW_PRIM(pTpage, pBuffer);
 
     setDrawTPage(pTpage, 1, 1, getTPage(0, 0, 960, 256));
     addPrim(pBuffer->mPrimBuf.mOt, pTpage);
 }
 
-void menu_life_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
+void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 {
     BarConfig *pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
@@ -202,7 +200,7 @@ void menu_life_update_helper2_8003F30C(MenuGlue *ot, MenuMan_MenuBars *pBars)
     }
 }
 
-void menu_8003F408(MenuGlue *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
+void menu_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
     menu_life_draw_8003ED4C(ot,
@@ -214,7 +212,7 @@ void menu_8003F408(MenuGlue *ot, int ypos, int a3, int a4, int a5, BarConfig *pC
                                   pConfig);
 }
 
-void menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
+void menu_8003F464(MenuPrim *ot, int xpos, int ypos, int a4, int a5, int a6, BarConfig *pBarConfig)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
     menu_life_draw_8003ED4C(ot,
@@ -226,7 +224,7 @@ void menu_8003F464(MenuGlue *ot, int xpos, int ypos, int a4, int a5, int a6, Bar
                            pBarConfig);
 }
 
-void Menu_render_snake_life_bar_8003F4B8(MenuGlue *ot, int xpos, int ypos)
+void Menu_render_snake_life_bar_8003F4B8(MenuPrim *ot, int xpos, int ypos)
 {
     GM_GameStatus_800AB3CC |= 0x8000u;
     menu_life_draw_8003ED4C(ot,

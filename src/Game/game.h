@@ -35,11 +35,11 @@ typedef struct _OBJECT
     MATRIX         *light;       // 0x08
     unsigned short  map_name;    // 0x0C
     short           action_flag; // 0x0E
-    short           field_10;    // 0x10 no match with unsigned in sna_init_8004E260
+    short           field_10;    // 0x10 no match with unsigned in sna_8004E260
     unsigned short  field_12;    // 0x12
     MOTION_CONTROL *m_ctrl;      // 0x14
     unsigned short  field_18;    // 0x18
-    short           field_1A;    // 0x1A must be signed for sna_init_anim_box_stop_800554B4 to match
+    short           field_1A;    // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
     short           field_1C;    // 0x1C
     unsigned short  field_1E;    // 0x1C
     unsigned long   field_20;    // 0x20
@@ -107,7 +107,7 @@ typedef enum
     PLAYER_CAN_USE_CONTROLLER_PORT_2 = 0x10000000,
     // stops movement, actions, and item/weap switching. - pause/radio still available
     PLAYER_PAD_OFF = 0x20000000,
-    // Set from sna_init_check_dead_8004E384() and sna_init_anim_dying_80055524().
+    // Set from sna_check_dead_8004E384() and sna_anim_dying_80055524().
     PLAYER_DEADORDYING = 0x40000000,
     PLAYER_UNK80000000 = 0x80000000,
 } PlayerStatusFlag;

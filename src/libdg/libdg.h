@@ -661,4 +661,12 @@ static inline DG_CHNL *DG_Chanl( int idx )
     return &DG_Chanls_800B1800[ idx + 1 ];
 }
 
+#define _NEW_PRIM(prim, buf)                               \
+    {                                                      \
+        typeof(prim) p;                                    \
+        p = (typeof(prim))buf->mPrimBuf.mFreeLocation;     \
+        buf->mPrimBuf.mFreeLocation += sizeof(*prim);      \
+        prim = p;                                          \
+    }
+
 #endif // LIBDG_H

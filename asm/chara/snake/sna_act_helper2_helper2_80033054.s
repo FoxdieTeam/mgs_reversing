@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sna_init_act_helper2_helper2_80033054
-sna_init_act_helper2_helper2_80033054:
+	xdef sna_act_helper2_helper2_80033054
+sna_act_helper2_helper2_80033054:
 	dw 0x27BDFFE8 ; 0x80033054
 	dw 0xAFB00010 ; 0x80033058
 	dw 0xAFBF0014 ; 0x8003305C

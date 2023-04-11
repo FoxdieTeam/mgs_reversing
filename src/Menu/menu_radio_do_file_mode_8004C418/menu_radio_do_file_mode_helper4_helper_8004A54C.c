@@ -1,7 +1,7 @@
 #include "Menu/radio.h"
 #include "libdg/libdg.h"
 
-void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuGlue *pGlue, RadioFileModeStruElem *pElem)
+void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 {
     LINE_F2           *pPrim;
     RadioFileModeUnk1 *pUnk;
@@ -14,8 +14,7 @@ void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuGlue *pGlue, RadioFileM
 
     if (pUnk->field_4 != pUnk->field_14 || pUnk->field_C != pUnk->field_1C)
     {
-        pPrim = (LINE_F2 *)pGlue->mPrimBuf.mFreeLocation;
-        pGlue->mPrimBuf.mFreeLocation += sizeof(LINE_F2);
+        _NEW_PRIM(pPrim, pGlue);
 
         LSTORE(pUnk->field_24, &pPrim->r0);
         pPrim->x0 = pUnk->field_4 >> 16;

@@ -1,10 +1,10 @@
 #ifndef _RADAR_H_
 #define _RADAR_H_
 
-typedef struct radar_uv
+typedef struct radar_uv // CHARA_TABLE
 {
-    char          field_0_u0;
-    char          field_1_v0;
+    char          field_0_x;
+    char          field_1_y;
     unsigned char field_2_w;
     unsigned char field_3_h;
 } radar_uv;
