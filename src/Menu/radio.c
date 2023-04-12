@@ -47,7 +47,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     TILE     *tile;
     DR_TPAGE *tpage;
 
-    _NEW_PRIM(tile, pActor->field_20_otBuf);
+    NEW_PRIM(tile, pActor);
 
     if (colour > 255)
     {
@@ -68,7 +68,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     tile->h = 224;
     addPrim(pOt, tile);
 
-    _NEW_PRIM(tpage, pActor->field_20_otBuf);
+    NEW_PRIM(tpage, pActor);
 
     setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage);
@@ -413,7 +413,7 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
 
     kcb = pActor->field_214_font;
 
-    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
+    NEW_PRIM(pPrim, pActor);
 
     setRGB0(pPrim, 128, 128, 128);
 
@@ -680,14 +680,12 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt
                                         int pAmmo, int pSubCnt2)
 {
     SPRT *sprt;
-    SPRT *sprt_copy;
     int   i;
 
     for (i = 0; i < pAmmo; i++)
     {
-        _NEW_PRIM(sprt_copy, pActor->field_20_otBuf);
+        NEW_PRIM(sprt, pActor);
 
-        sprt = sprt_copy;
         xoff = xoff - 3;
         *sprt = gRadioNumberSprt2_800bd9d0;
         sprt->x0 = xoff;
@@ -741,7 +739,7 @@ int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos,
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
     menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, current);
 
-    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
+    NEW_PRIM(pPrim, pActor);
 
     *pPrim = gRadioNumberSprt_800bd9b0;
     LSTORE(textConfig.colour, &pPrim->r0);
@@ -868,8 +866,6 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 
     LINE_F2      *lineF2;
     LINE_G4      *lineG4;
-    int           ff00;
-    int           ff0000;
     int           x_0_1;
     int           y_0_1;
     int           x_2_3;
@@ -887,10 +883,10 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
 
-    _NEW_PRIM(lineF2, pMenuMan->field_20_otBuf);
+    NEW_PRIM(lineF2, pMenuMan);
 
     setXY2(lineF2, 0x20, 0x76, 0x110, 0x76);
-    *(int *)&lineF2->r0 = 0x800000;
+    LSTORE(0x800000, &lineF2->r0);
     setLineF2(lineF2);
     addPrim(pOt, lineF2);
 
@@ -921,26 +917,24 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
                 primCount = 176;
             }
 
-            ff00 = 0xff00;
-            _NEW_PRIM(lineG4, pMenuMan->field_20_otBuf);
+            NEW_PRIM(lineG4, pMenuMan);
             setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1 - primCount, x_2_3, y_2_3 - primCount, x_2_3, y_2_3);
-            *(int *)&lineG4->r0 = 0;
-            *(int *)&lineG4->r1 = ff00;
+            LSTORE(0, &lineG4->r0);
+            LSTORE(0xff00, &lineG4->r1);
             returnVal++;
-            *(int *)&lineG4->r2 = ff00;
-            *(int *)&lineG4->r3 = 0;
+            LSTORE(0xff00, &lineG4->r2);
+            LSTORE(0, &lineG4->r3);
             setLineG4(lineG4);
             addPrim(pOt, lineG4);
         }
         else
         {
-            ff0000 = 0xff0000;
-            _NEW_PRIM(lineG4, pMenuMan->field_20_otBuf);
+            NEW_PRIM(lineG4, pMenuMan);
             setXY4(lineG4, x_0_1, y_0_1, x_0_1, y_0_1, x_2_3, y_2_3, x_2_3, y_2_3);
-            *(int *)&lineG4->r0 = 0;
-            *(int *)&lineG4->r1 = ff0000;
-            *(int *)&lineG4->r2 = ff0000;
-            *(int *)&lineG4->r3 = 0;
+            LSTORE(0, &lineG4->r0);
+            LSTORE(0xff0000, &lineG4->r1);
+            LSTORE(0xff0000, &lineG4->r2);
+            LSTORE(0, &lineG4->r3);
             setLineG4(lineG4);
             addPrim(pOt, lineG4);
         }
@@ -1031,7 +1025,7 @@ int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
     menu_Text_80038C38(aXDYD, iterTex->field_8_offx, iterTex->field_9_offy);
     menu_Text_80038C38(aWDHD, iterTex->field_A_width + 1, iterTex->field_B_height + 1);
 
-    _NEW_PRIM(pPoly, pActor->field_20_otBuf);
+    NEW_PRIM(pPoly, pActor);
 
     LSTORE(0x808080, &pPoly->r0);
 

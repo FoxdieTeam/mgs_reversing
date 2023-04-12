@@ -164,7 +164,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
     img_rect.h = pImgItem->field_3_h;
     LoadImage_8008FB10(&img_rect, pImgItem->field_4_pixel_ptr);
 
-    _NEW_PRIM(pSprt, pActor->field_20_otBuf);
+    NEW_PRIM(pSprt, pActor);
 
     pSprt->v0 = 81;
     pSprt->x0 = 230;
@@ -183,11 +183,10 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
 void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt; // $s6
-    MenuPrim *field_20_otBuf; // $v0
-    SPRT *pIconSprt; // $s0
-    int rgb; // $s1
-    int bBlueBackground; // $a3
-    TextConfig textConfig; // [sp+18h] [-10h] BYREF
+    SPRT          *pIconSprt; // $s0
+    int           rgb; // $s1
+    int           bBlueBackground; // $a3
+    TextConfig    textConfig; // [sp+18h] [-10h] BYREF
 
     if ( pMenuSub->field_0_current.field_0_id >= 0 )
     {
@@ -238,8 +237,7 @@ void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, 
 
         if ( pMenuSprt->field_C_uvclut )
         {
-            field_20_otBuf = pActor->field_20_otBuf;
-            _NEW_PRIM(pIconSprt, pActor->field_20_otBuf);
+            NEW_PRIM(pIconSprt, pActor);
 
             if ( !pMenuSub->field_0_current.field_4_pos )
             {

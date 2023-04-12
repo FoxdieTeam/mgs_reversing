@@ -458,4 +458,16 @@ int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_
 int menu_Text_80038C38(const char *fmt, ...);
 #endif
 
+// For MenuPrim
+#define _NEW_PRIM(prim, buf)                               \
+    {                                                      \
+        typeof(prim) p;                                    \
+        p = (typeof(prim))buf->mPrimBuf.mFreeLocation;     \
+        buf->mPrimBuf.mFreeLocation += sizeof(*prim);      \
+        prim = p;                                          \
+    }
+
+// For MenuMan
+#define NEW_PRIM(prim, buf) _NEW_PRIM(prim, buf->field_20_otBuf)
+
 #endif // _MENUMAN_H
