@@ -84,7 +84,7 @@ void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsign
     diffdir = GV_DiffDirU_80017040(param_3[0], -param_3[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
-    _NEW_PRIM(pPrim, pActor->field_20_otBuf);
+    NEW_PRIM(pPrim, pActor);
 
     pPrim->x0 = x - vec2.vx;
     pPrim->y0 = vec2.vz + y;
@@ -326,7 +326,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
         break;
     }
 
-    _NEW_PRIM(tpage1, pActor->field_20_otBuf);
+    NEW_PRIM(tpage1, pActor);
 
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage1);
@@ -334,7 +334,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     rand = (rand_8008E6B8() << 16) | (rand_8008E6B8());
     for (i = 0; i < 52;)
     {
-        _NEW_PRIM(line, pActor->field_20_otBuf);
+        NEW_PRIM(line, pActor);
 
         line->y0 = i - 26;
         line->y1 = i - 26;
@@ -350,7 +350,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
         rand = rand << 25 | rand >> 7;
     }
 
-    _NEW_PRIM(tile, pActor->field_20_otBuf);
+    NEW_PRIM(tile, pActor);
 
     tile->x0 = -34;
     tile->w = 69;
@@ -361,7 +361,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     setSemiTrans(tile, 1);
     addPrim(pOt, tile);
 
-    _NEW_PRIM(tpage2, pActor->field_20_otBuf);
+    NEW_PRIM(tpage2, pActor);
     setDrawTPage(tpage2, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage2);
 }
@@ -504,13 +504,13 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
-                    _NEW_PRIM(twin2, pActor->field_20_otBuf);
+                    NEW_PRIM(twin2, pActor);
                     twin = twin2;
                     SetTexWindow_800905F0(twin, &clip);
                     addPrim(pOt, twin);
                 }
 
-                _NEW_PRIM(polyG4, pActor->field_20_otBuf);
+                NEW_PRIM(polyG4, pActor);
 
                 polyG4->x0 = 11 - alertLevel;
                 polyG4->y0 = -26;
@@ -529,7 +529,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                 setSemiTrans(polyG4, 1);
                 addPrim(pOt, polyG4);
 
-                _NEW_PRIM(tpage, pActor->field_20_otBuf);
+                NEW_PRIM(tpage, pActor);
                 setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
                 addPrim(pOt, tpage);
@@ -542,7 +542,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     clip.w = (0x45 - alertLevel);
                 }
 
-                _NEW_PRIM(twin3, pActor->field_20_otBuf);
+                NEW_PRIM(twin3, pActor);
                 twin = twin3;
                 SetTexWindow_800905F0(twin, &clip);
                 addPrim(pOt, twin);

@@ -401,7 +401,13 @@ enum DG_PRIM_FLAGS
 	DG_PRIM_FREEPACKS =   0x2000,
 	// ...
 };
-
+/*
+	DG_PRIM_TILE_1, DG_PRIM_TILE_8, DG_PRIM_TILE_16,
+	DG_PRIM_POLY_F3, DG_PRIM_POLY_F4, DG_PRIM_POLY_G3, DG_PRIM_POLY_G4,
+	DG_PRIM_POLY_FT3, DG_PRIM_POLY_FT4, DG_PRIM_POLY_GT3, DG_PRIM_POLY_GT4,
+	DG_PRIM_LINE_FT2, DG_PRIM_LINE_GT2,
+	DG_PRIM_FREE
+*/
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
                     DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE) // 0x32d
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
@@ -642,6 +648,12 @@ void DG_8001844C();
 int sub_800321AC(int a1, int a2);
 void sub_8003214C(SVECTOR *pVec, int *pRet);
 
+static inline DG_CHNL *DG_Chanl( int idx )
+{
+    extern DG_CHNL DG_Chanls_800B1800[ 3 ];
+    return &DG_Chanls_800B1800[ idx + 1 ];
+}
+
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
 	extern int	GM_CurrentMap_800AB9B0;
@@ -655,19 +667,5 @@ static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR 
 	}
 	return prim;
 }
-
-static inline DG_CHNL *DG_Chanl( int idx )
-{
-    extern DG_CHNL DG_Chanls_800B1800[ 3 ];
-    return &DG_Chanls_800B1800[ idx + 1 ];
-}
-
-#define _NEW_PRIM(prim, buf)                               \
-    {                                                      \
-        typeof(prim) p;                                    \
-        p = (typeof(prim))buf->mPrimBuf.mFreeLocation;     \
-        buf->mPrimBuf.mFreeLocation += sizeof(*prim);      \
-        prim = p;                                          \
-    }
 
 #endif // LIBDG_H
