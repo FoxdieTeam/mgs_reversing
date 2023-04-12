@@ -1,51 +1,49 @@
 #include "menuman.h"
 #include "libdg/libdg.h"
 
-void menu_radio_draw_face_helper4_80048868(MenuPrim *pGlue, short *param_2, int param_3)
+void menu_radio_draw_face_helper4_80048868(MenuPrim *prim, menu_chara_struct_sub *a2, int idx)
 {
-    LINE_F4 *pPrim;
-    LINE_F4 *pPrimCopy;
+    LINE_F4 *line_f4;
     short    coord;
 
-    if (param_2[2] < 5)
+    if (a2->field_4 < 5)
     {
-        coord = param_2[2] * 14;
+        coord = a2->field_4 * 14;
     }
     else
     {
         coord = 54;
     }
 
-    _NEW_PRIM(pPrim, pGlue);
-    pPrimCopy = pPrim; // To get a match
+    _NEW_PRIM(line_f4, prim);
 
-    LSTORE(0x1a1f13, &pPrimCopy->r0);
+    LSTORE(0x1a1f13, &line_f4->r0);
 
-    if (param_3 == 0)
+    if (idx == 0)
     {
-        pPrimCopy->x0 = 83 - coord;
-        pPrim->x3 = 83 - coord;
-        pPrim->y0 = 30;
-        pPrimCopy->y1 = 30;
+        line_f4->x0 = 83 - coord;
+        line_f4->x3 = 83 - coord;
+        line_f4->y0 = 30;
+        line_f4->y1 = 30;
         coord = 78 - coord;
-        pPrimCopy->x1 = coord;
-        pPrim->x2 = coord;
-        pPrim->y2 = 118;
-        pPrimCopy->y3 = 118;
+        line_f4->x1 = coord;
+        line_f4->x2 = coord;
+        line_f4->y2 = 118;
+        line_f4->y3 = 118;
     }
     else
     {
-        pPrimCopy->x0 = coord + 236;
-        pPrimCopy->x3 = coord + 236;
-        pPrimCopy->y0 = 30;
-        pPrimCopy->y1 = 30;
+        line_f4->x0 = coord + 236;
+        line_f4->x3 = coord + 236;
+        line_f4->y0 = 30;
+        line_f4->y1 = 30;
         coord = coord + 241;
-        pPrimCopy->x1 = coord;
-        pPrimCopy->x2 = coord;
-        pPrimCopy->y2 = 118;
-        pPrimCopy->y3 = 118;
+        line_f4->x1 = coord;
+        line_f4->x2 = coord;
+        line_f4->y2 = 118;
+        line_f4->y3 = 118;
     }
 
-    setLineF4(pPrimCopy);
-    addPrim(pGlue->mPrimBuf.mOt, pPrimCopy);
+    setLineF4(line_f4);
+    addPrim(prim->mPrimBuf.mOt, line_f4);
 }
