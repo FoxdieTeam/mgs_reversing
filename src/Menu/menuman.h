@@ -361,9 +361,14 @@ void         menu_Text_PrimUnknown_80038BB4(void);
 void         menu_init_nouse_800434A8(void);
 void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
 
+void menu_radio_draw_face_helper_800470F4(int idx);
+void menu_radio_draw_face_helper2_800486F4(menu_chara_struct_sub *pSub, int idx);
+void menu_radio_draw_face_helper3_800487DC(menu_chara_struct *pStru, int idx);
+void menu_radio_draw_face_helper4_80048868(MenuPrim *prim, menu_chara_struct_sub *a2, int idx);
+void menu_radio_draw_face_helper5_8004896C(MenuPrim *prim, menu_chara_struct_sub *a2, int idx);
+void menu_radio_draw_face_helper6_800486A0(menu_chara_struct_sub *a1, int idx);
 
 void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub);
-
 void menu_item_update_8003C95C(struct Actor_MenuMan *menuMan, unsigned int *param_2);
 void menu_item_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *arg1);
 void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *, unsigned short);

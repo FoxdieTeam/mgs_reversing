@@ -3,7 +3,6 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-const int  SECTION(".rdata") jpt_80011EB8[] = {0x80048F4C, 0x80048E6C, 0x80048EB8, 0x80048F30, 0x80048F3C};
 const char SECTION(".rdata") aJimakuFontBuff[] = "jimaku_font_buffer_size %d\n";
 const char SECTION(".rdata") aRadioCallOver[] = "RADIO CALL OVER!!\n";
 const char SECTION(".rdata") aNoMemoryForFil[] = "NO MEMORY FOR FILE BODY\n";
@@ -242,6 +241,7 @@ const char SECTION(".rdata") aSgtrect3C[] = "sgtrect3.c";
 // AN_Blood_Mist_80072934
 const char SECTION(".rdata") aStringFormat[] = "%s";
 const char SECTION(".rdata") aSightC[] = "sight.c";
+
 const char SECTION(".rdata") aBlood_1[] = "blood_1";
 const char SECTION(".rdata") aBloodC[] = "blood.c";
 const int  SECTION(".rdata") aS_2_80012E68[] = {0x12A00,   0x2FE0105, 0x80100,    0xCB0B0,    0xAFF0105, 0x64006400,

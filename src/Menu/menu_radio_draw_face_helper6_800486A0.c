@@ -1,19 +1,18 @@
 #include "Game/jimctrl.h"
+#include "menuman.h"
 
-int menu_radio_draw_face_helper6_800486A0(unsigned short *a1)
+void menu_radio_draw_face_helper6_800486A0( menu_chara_struct_sub *a1, int idx )
 {
-    int new_var;
-    int new_var2;
-    int result;
-    result = jimctrl_helper_80037F68(a1[1]);
+    int v1, v2, result;
 
-    new_var2 = result >> 8;
-    new_var = (short)a1[7] == 0;
-    if (new_var && new_var2)
+    result = jimctrl_helper_80037F68( a1->field_2_chara );
+
+    v2 = result >> 8;
+    v1 = a1->field_E == 0;
+    if ( v1 && v2 )
     {
-        a1[7] = 1;
+        a1->field_E = 1;
     }
-    new_var = (char)result;
-    a1[8] = new_var;
-    return new_var;
+    v1 = (char)result;
+    a1->field_4C_leftCodecPortraitFrame = v1;
 }
