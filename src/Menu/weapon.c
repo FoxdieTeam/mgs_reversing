@@ -918,7 +918,10 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
 
         if (pPanel->field_2_num >= 0 && pPanel->field_2_num < 10000)
         {
-            menu_number_draw_number2_80042FC0(pActor, offset_x, off_y + 11, pPanel->field_2_num,
+            menu_number_draw_number2_80042FC0(pActor,
+                                              offset_x,
+                                              off_y + 11,
+                                              pPanel->field_2_num,
                                               GM_WeaponsMax[pPanel->field_0_id]);
         }
 
@@ -937,7 +940,7 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
 
         if (pTexture->field_C_uvclut != 0)
         {
-            _NEW_PRIM(pPrim, pActor->field_20_otBuf);
+            NEW_PRIM(pPrim, pActor);
 
             LSTORE(pPanel->field_4_pos == 0 ? 0x808080 : 0x404040, &pPrim->r0);
             menu_init_sprt_8003D0D0(pPrim, pTexture, offset_x, off_y);
@@ -948,8 +951,13 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
         if (pPanel->field_6_current && d_800ABA2C_ammo > 0)
         {
             pSubCnt2 = (GM_CurrentWeaponId == WEAPON_FAMAS ? 3 : 0);
-            menu_number_draw_magazine_80042E38(pActor, pOt, offset_x + 45, off_y + 20, d_800AB9EC_mag_size,
-                                               d_800ABA2C_ammo, pSubCnt2);
+            menu_number_draw_magazine_80042E38(pActor,
+                                               pOt,
+                                               offset_x + 45,
+                                               off_y + 20,
+                                               d_800AB9EC_mag_size,
+                                               d_800ABA2C_ammo,
+                                               pSubCnt2);
         }
         else
         {

@@ -18,7 +18,7 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
 
     pActor->field_2B |= 2;
 
-    _NEW_PRIM(sprt, pActor->field_20_otBuf);
+    NEW_PRIM(sprt, pActor);
 
     *sprt = gMenuSprt_800bd998;
     addPrim(pOt, sprt);
@@ -38,7 +38,7 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
 
     for (; i < 2; i++)
     {
-        _NEW_PRIM(polyF4, pActor->field_20_otBuf);
+        NEW_PRIM(polyF4, pActor);
 
         LSTORE(0, &polyF4->r0);
         polyF4->x0 = x3;
@@ -55,7 +55,7 @@ void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
         setSemiTrans(polyF4, 1);
         addPrim(pOt, polyF4);
 
-        _NEW_PRIM(tile, pActor->field_20_otBuf);
+        NEW_PRIM(tile, pActor);
 
         LSTORE(0, &tile->r0);
         tile->x0 = x3;
