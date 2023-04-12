@@ -21,7 +21,7 @@ extern ANIMATION stru_8009F790;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F774;
 
-void demothrd_Screen_Chanl_80080D48(DG_CHNL *pOt, int idx);
+void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
 
 void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub);
 void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
@@ -1303,32 +1303,73 @@ void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper2_8007FDD8.s") // 452 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper3_8007FF9C.s") // 316 bytes
 #pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper4_800800D8.s") // 2888 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_80080C20.s")         // 296 bytes
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_Screen_Chanl_80080D48.s")                // 204 bytes
-/*
-void demothrd_Screen_Chanl_80080D48(DG_CHNL *pOt, int idx)
+void demothrd_4_helper_helper_8007FB90(DG_OBJS *pObjs, int n_models);
+void demothrd_4_helper_helper2_8007FDD8(DG_OBJS *pObjs, int n_models);
+void demothrd_4_helper_helper3_8007FF9C(DG_OBJS *pObjs, int n_models);
+void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models);
+
+void demothrd_4_helper_80080C20(DG_OBJS *pObjs)
 {
-    DG_OBJS **mQueue;
-    int       i;
+    int n_models;
 
-    mQueue = pOt->mQueue;
+    n_models = pObjs->n_models;
 
-    *((MATRIX *)0x1F800000) = pOt->field_10_transformation_matrix;
-    DG_800174DC((MATRIX *)0x1F800000);
-
-    *((int *)0x1F80001C) = 0;
-    *((int *)0x1F800018) = 0;
-    *((int *)0x1F800014) = 0;
-
-    *((SVECTOR *)0x1F800380) = *(SVECTOR*)&pOt->field_30_matrix.t[0];
-
-    for (i = pOt->mTotalObjectCount; i > 0; --i)
+    if (pObjs->root)
     {
-        demothrd_4_helper_80080C20(*mQueue++);
+        pObjs->world = *pObjs->root;
+    }
+
+    *(MATRIX *)getScratchAddr(8) = pObjs->world;
+
+    if (pObjs->flag & 0x40)
+    {
+        demothrd_4_helper_helper_8007FB90(pObjs, n_models);
+        return;
+    }
+
+    if (pObjs->rots)
+    {
+        demothrd_4_helper_helper4_800800D8(pObjs, n_models);
+    }
+    else if (pObjs->movs)
+    {
+        demothrd_4_helper_helper3_8007FF9C(pObjs, n_models);
+    }
+
+    demothrd_4_helper_helper2_8007FDD8(pObjs, n_models);
+}
+
+typedef struct
+{
+    MATRIX matrix;
+    char   pad[0x360];
+    int    translation[3];
+} SCRPAD_DATA;
+
+void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
+{
+    DG_OBJS    **ppObjs;
+    SCRPAD_DATA *scr;
+    int          count;
+
+    ppObjs = pChnl->mQueue;
+
+    scr = (SCRPAD_DATA *)getScratchAddr(0);
+    scr->matrix = pChnl->field_10_eye_inv;
+    scr->matrix.t[0] = scr->matrix.t[1] = scr->matrix.t[2] = 0;
+
+    scr->translation[0] = pChnl->field_30_matrix.t[0];
+    scr->translation[1] = pChnl->field_30_matrix.t[1];
+    scr->translation[2] = pChnl->field_30_matrix.t[2];
+
+    DG_800174DC(&scr->matrix);
+
+    for (count = pChnl->mTotalObjectCount; count > 0; count--)
+    {
+        demothrd_4_helper_80080C20(*ppObjs++);
     }
 }
-*/
 
 #pragma INCLUDE_ASM("asm/Kojo/sub_80080E14.s")                       // 2024 bytes
 
