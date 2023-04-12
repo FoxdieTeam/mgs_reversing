@@ -11,7 +11,7 @@
 
 // all funcs that don't have header to go in yet
 
-int   sub_800296C4(HZD_MAP *param_1, SVECTOR *param_2, unsigned int param_3);
+int   sub_800296C4(HZD_MAP *pHzdMap, SVECTOR *param_2, int flags);
 void  sub_800298DC(int *param_1);
 void  GM_Sound_800329C4(SVECTOR *, int, int);
 int   sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
@@ -55,5 +55,6 @@ void face_item_helper_80060CB8(u_short *in, u_short *out);
 void sub_80029D50(HZD_MAP *pMap, Res_Control_unknown *arg1, int);
 void GM_ActControl_helper6_helper_8002A27C(HZD_MAP*, Res_Control_unknown*);
 void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP*, Res_Control_unknown*);
+int  sub_80029604(HZD_FLR *);
 
 #endif // _UNKNOWN_H_
