@@ -258,6 +258,9 @@ int          GV_NearTime_800264B0(int from, int to, int interp);
 void         GV_SetPacketTempMemory_80014C28(void);
 void         GV_ResetPacketMemory_80014BD8(void);
 
+void sub_8002751C(SVECTOR *svec1, SVECTOR *svec2);
+int  sub_80027BF8(SVECTOR *param_1);
+
 static inline short FP_Extend(short value)
 {
     value &= 0xfff;
