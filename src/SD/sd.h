@@ -149,6 +149,15 @@ typedef struct SEPLAYTBL
     unsigned int   field_8_code;
 } SEPLAYTBL;
 
+typedef struct SE_TBL
+{
+    char field_0;
+    char field_1;
+    char field_2;
+    char field_3;
+    int  field_4[ 3 ];
+} SE_TBL;
+
 int            sd_sng_alloc_80082194(void);
 void           pan_set2_800882E4(unsigned char a1);
 void           keyoff_80087F80(void);

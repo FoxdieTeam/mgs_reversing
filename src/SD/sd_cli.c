@@ -57,7 +57,148 @@ void XA_Stop_800888B4()
     mts_printf_8008BBA0("***XA Sound Stop***\n");
 }
 
-#pragma INCLUDE_ASM("asm/SD/SePlay_800888F8.s") // 936 bytes
+extern SE_TBL    se_tbl_800A22C4[ 128 ];
+extern int          se_tracks_800BF004;
+extern SEPLAYTBL    se_playing_800BF068[ 8 ];
+extern unsigned int song_end_800C04E8;
+extern SE_TBL   *se_exp_table_800C0520;
+
+extern char     *se_header_800BF284;
+extern int       stop_jouchuu_se_800BF1A0;
+extern SEPLAYTBL se_request_800BF0E0[ 8 ];
+
+int SePlay_800888F8( int code )
+{
+    SEPLAYTBL     playtbl;
+    int           i;
+    unsigned int  track;
+    int           found_idx;
+    int           found_pri;
+    int           pri;
+
+    found_idx = song_end_800C04E8 >> 13;
+    for ( i = 0; i < 8; found_idx >>= 1, i++ )
+    {
+        if ( ( found_idx & 1 ) != 0 )
+        {
+            se_playing_800BF068[ i ].field_8_code = 0;
+            se_playing_800BF068[ i ].field_0_pri = 0;
+            se_playing_800BF068[ i ].field_2_character = 0;
+        }
+    }
+
+    playtbl.field_8_code = code;
+    code &= 0xFF;
+    if ( code < 128 )
+    {
+        se_tracks_800BF004 = se_tbl_800A22C4[ code ].field_1;
+        playtbl.field_2_character = se_tbl_800A22C4[ code ].field_3;
+    }
+    else
+    {
+        se_tracks_800BF004 = se_exp_table_800C0520[ code - 128 ].field_1;
+        playtbl.field_2_character = se_exp_table_800C0520[ code - 128 ].field_3;
+    }
+    for ( track = 0; track < se_tracks_800BF004; track++ )
+    {
+        if ( code < 128 )
+        {
+            playtbl.field_0_pri = se_tbl_800A22C4[ code ].field_0;
+            playtbl.field_1_kind = se_tbl_800A22C4[ code ].field_2;
+            playtbl.field_4_addr = (char *)se_tbl_800A22C4[ code ].field_4[ track ];
+        }
+        else
+        {
+            playtbl.field_0_pri = se_exp_table_800C0520[ code - 128 ].field_0;
+            playtbl.field_1_kind = se_exp_table_800C0520[ code - 128 ].field_2;
+            playtbl.field_4_addr = se_exp_table_800C0520[ code - 128 ].field_4[ track ] + se_header_800BF284;
+        }
+        found_pri = 256;
+        found_idx = 0;
+        for ( i = 0; i < 8; i++ )
+        {
+            if( ((se_playing_800BF068[ i ].field_8_code & 0xFF) == code) && !se_request_800BF0E0[ i ].field_8_code )
+            {
+                found_pri = 0;
+                found_idx = i;
+                break;
+            }
+            else if( se_tracks_800BF004 == 1 && ((se_request_800BF0E0[ i ].field_8_code & 0xFF) == code) )
+            {
+                found_pri = 0;
+                found_idx = i;
+                break;
+            }
+            if( playtbl.field_2_character )
+            {
+                if( se_playing_800BF068[ i ].field_2_character == playtbl.field_2_character )
+                {
+                    found_pri = 0;
+                    found_idx = i;
+                    break;
+                }
+                else if( se_request_800BF0E0[ i ].field_2_character == playtbl.field_2_character )
+                {
+                    found_pri = 0;
+                    found_idx = i;
+                    break;
+                }
+            }
+        }
+
+        if ( found_idx != i )
+        {
+            for ( i = 0; i < 8; i++ )
+            {
+                if ( ( se_playing_800BF068[ i ].field_8_code != 0 ) ||
+                     ( se_request_800BF0E0[ i ].field_8_code != 0 ) )
+                {
+                    continue;
+                }
+                found_pri = 0;
+                found_idx = i;
+                break;
+            }
+
+            if ( found_idx != i )
+            {
+                for ( i = 0; i < 8; i++ )
+                {
+                    if ( se_request_800BF0E0[ i ].field_8_code == 0 )
+                    {
+                        pri = se_playing_800BF068[ i ].field_0_pri;
+                    }
+                    else
+                    {
+                        pri = se_request_800BF0E0[ i ].field_0_pri;
+                    }
+                    if ( pri <= found_pri )
+                    {
+                        found_pri = pri;
+                        found_idx = i;
+                    }
+                }
+            }
+        }
+        if ( playtbl.field_0_pri < found_pri )
+        {
+            continue;
+        }
+        se_request_800BF0E0[ found_idx ].field_0_pri = playtbl.field_0_pri;
+        se_request_800BF0E0[ found_idx ].field_1_kind = playtbl.field_1_kind;
+        se_request_800BF0E0[ found_idx ].field_2_character = playtbl.field_2_character;
+        playtbl.field_2_character = 0;
+        se_request_800BF0E0[ found_idx ].field_4_addr = playtbl.field_4_addr;
+        se_request_800BF0E0[ found_idx ].field_8_code = playtbl.field_8_code;
+        if ( playtbl.field_0_pri == 0xFF )
+        {
+            stop_jouchuu_se_800BF1A0 = 0;
+        }
+    }
+
+    se_tracks_800BF004 = 0;
+    return 0;
+}
 
 int get_str_counter_80088CA0(void)
 {

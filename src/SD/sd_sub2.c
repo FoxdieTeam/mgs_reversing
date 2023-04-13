@@ -370,7 +370,7 @@ void SD_MDX_F6_80087764()
 {
     if ( (unsigned int)(mtrack_800BF1EC - 13) < 8 && !se_playing_800BF068[mtrack_800BF1EC - 13].field_1_kind )
     {
-        dword_800BF064 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+        dword_800BF064 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
     }
 }
 
@@ -378,7 +378,7 @@ void SD_MDX_F7_800877CC()
 {
     if ( (unsigned int)(mtrack_800BF1EC - 13) < 8 && !se_playing_800BF068[mtrack_800BF1EC - 13].field_1_kind )
     {
-        dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+        dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
     }
 }
 

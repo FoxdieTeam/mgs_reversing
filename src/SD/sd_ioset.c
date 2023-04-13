@@ -46,7 +46,7 @@ void SD_spuwr_80087A88()
     for (i = 0; i < 21; i++)
     {
         voiceAttr.mask = 0;
-        voiceAttr.voice = spu_ch_tbl_800A2AC8[i];
+        voiceAttr.voice = spu_ch_tbl_800A2AC8[i + 1];
         if (spu_tr_wk_800C0658[i].field_4_vol_fg)
         {
             voiceAttr.mask = 3;
@@ -123,7 +123,7 @@ void sound_off_80087DAC()
         spu_tr_wk_800C0658[i].field_34_rr = 7;
         spu_tr_wk_800C0658[i].field_38_env3_fg = 1;
 
-        t = spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+        t = spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
         song_end_800C04E8 |= t;
     }
     keyoffs_800BF29C = 0x7FFFFF;

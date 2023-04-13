@@ -279,7 +279,7 @@ void IntSdMain_80084494()
 
             do
             {
-                keyd_800C0524 = spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+                keyd_800C0524 = spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
                 if ( (song_end_800C04E8 & keyd_800C0524) == 0 )
                 {
                     sptr_800C057C = &sound_w_800BF2A8[mtrack_800BF1EC];
@@ -333,7 +333,7 @@ void IntSdMain_80084494()
         }
         else
         {
-            keyd_800C0524 = spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+            keyd_800C0524 = spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
             if ( (song_end_800C04E8 & keyd_800C0524) == 0 )
             {
                 wTmp = &sound_w_800BF2A8[mtrack_800BF1EC];
@@ -859,11 +859,11 @@ void se_adrs_set_8008576C(int index)
     {
         if (se_rev_on_800C0574)
         {
-            dword_800BF064 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+            dword_800BF064 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
         }
         else
         {
-            dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC];
+            dword_800BF210 |= spu_ch_tbl_800A2AC8[mtrack_800BF1EC + 1];
         }
     }
 }
