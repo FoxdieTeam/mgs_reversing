@@ -4,7 +4,6 @@
 #include "libdg/libdg.h"
 
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern ANIMATION stru_8009F774;
 extern int DG_UnDrawFrameCount_800AB380;
 extern int demodebug_finish_proc_800AB414;
 extern int dword_800BDFB8;
@@ -12,14 +11,13 @@ extern int dword_800BDFBC;
 extern demothrd_80700000 *dword_800BDFC0;
 extern int dword_800BDFC4;
 
-extern GM_Camera        GM_Camera_800B77E8;
-extern short           gGameState_800B4D98[0x60];
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern ANIMATION stru_8009F774;
+extern GM_Camera GM_Camera_800B77E8;
+extern short     gGameState_800B4D98[0x60];
+
 extern ANIMATION stru_8009F73C;
-extern ANIMATION stru_8009F790;
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern ANIMATION stru_8009F758;
 extern ANIMATION stru_8009F774;
+extern ANIMATION stru_8009F790;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
 
@@ -984,7 +982,7 @@ void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_mo
   DG_PutVector_8001BE48(smokeVecs, smokeVecs, 10);
 
   memset(&vec, 0, sizeof(SVECTOR));
-  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.field_0_x - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x) / 2);
+  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.vx + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.vx - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.vx) / 2);
   DG_PutVector_8001BE48(&vec, &vec, 1);
 
   vecTmp.vx = vec.vx - pData->field_564[0].vx;
@@ -1019,7 +1017,7 @@ void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_mo
 
 
   memset(&vec, 0, sizeof(SVECTOR));
-  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.field_0_x - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.field_0_x) / 2);
+  vec.vx = pData->field_0[1][0].field_0.objs->objs[0].model->max_8.vx + ((pData->field_0[1][0].field_0.objs->objs[0].model->min_14.vx - pData->field_0[1][0].field_0.objs->objs[0].model->max_8.vx) / 2);
   DG_SetPos2_8001BC8C(&p0x1A4->field_0_ctrl.field_0_mov, &p0x1A4->field_0_ctrl.field_8_rotator);
 
   DG_PutVector_8001BE48(&vec, &vec, 1);
@@ -1095,8 +1093,83 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_2_8007DA94.s")                              // 400 bytes
-#pragma INCLUDE_ASM("asm/Kojo/sub_8007DC24.s")                                     // 348 bytes
+void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
+{
+    SVECTOR    rotation;
+    SVECTOR    speed;
+    PRESCRIPT  pres[3];
+    int        i;
+    ANIMATION *anm;
+
+    rotation.vx = 0;
+    rotation.vy = pRotation->vy - 512;
+    rotation.vz = 0;
+
+    for (i = 0; i < 2; i++)
+    {
+        pres[i].pos = *pPosition;
+        pres[i].pos.vy += 400;
+
+        speed.vx = 0;
+        speed.vy = 30;
+        speed.vz = 200;
+
+        rotation.vy += 341;
+
+        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
+        DG_PutVector_8001BE48(&speed, &speed, 1);
+
+        pres[i].speed = speed;
+        pres[i].scr_num = 0;
+        pres[i].s_anim = 0;
+    }
+
+    anm = &stru_8009F758;
+    anm->field_14_pre_script = pres;
+
+    pres[2].pos = *pPosition;
+    pres[2].pos.vy += 400;
+    pres[2].speed = DG_ZeroVector_800AB39C;
+    pres[2].scr_num = 1;
+    pres[2].s_anim = 0;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+void sub_8007DC24(SVECTOR *pPosition)
+{
+    SVECTOR    rotation;
+    SVECTOR    speed_in;
+    SVECTOR    speed_out;
+    PRESCRIPT  pres[8];
+    int        i;
+    ANIMATION *anm;
+
+    rotation = DG_ZeroVector_800AB39C;
+    rotation.vy += GV_RandU_80017090(512);
+
+    speed_in = DG_ZeroVector_800AB39C;
+
+    for (i = 0; i < 8; i++)
+    {
+        pres[i].pos = *pPosition;
+        pres[i].pos.vy += 500;
+
+        speed_in.vz = 100;
+        rotation.vy += 512;
+
+        DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &rotation);
+        DG_PutVector_8001BE48(&speed_in, &speed_out, 1);
+
+        pres[i].speed = speed_out;
+        pres[i].scr_num = 0;
+    }
+
+    anm = &stru_8009F774;
+    anm->field_14_pre_script = pres;
+
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
 
 void sub_8007DD80(short param_1, SVECTOR *pPos)
 {
@@ -1242,8 +1315,38 @@ void sub_8007F06C(int *param_1, int *param_2, int *param_3)
     param_1[5] = param_3[2] - param_2[2];
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/sub_8007F0D0.s")                                          // 268 bytes
-#pragma INCLUDE_ASM("asm/Kojo/sub_8007F1DC.s")                                          // 348 bytes
+void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c)
+{
+    out->vx = (b->vy - a->vy) * (c->vz - b->vz) - (b->vz - a->vz) * (c->vy - b->vy);
+    out->vy = (b->vz - a->vz) * (c->vx - b->vx) - (b->vx - a->vx) * (c->vz - b->vz);
+    out->vz = (b->vx - a->vx) * (c->vy - b->vy) - (b->vy - a->vy) * (c->vx - b->vx);
+    out->pad = out->vx * -a->vx + out->vy * -a->vy + out->vz * -a->vz;
+}
+
+VECTOR * sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2)
+{
+    VECTOR vec;
+    int    area;
+    int    weight;
+
+    area = arg2->vx * arg1[1].vx + arg2->vy * arg1[1].vy + arg2->vz * arg1[1].vz;
+    if (area == 0)
+    {
+        vec.vx = 0x7FFFFFFF;
+        vec.vy = 0x7FFFFFFF;
+        vec.vz = 0x7FFFFFFF;
+    }
+    else
+    {
+        weight = ((-arg2->vx * arg1[0].vx - arg2->vy * arg1[0].vy - arg2->vz * arg1[0].vz - arg2->pad) << 12) / area;
+        vec.vx = arg1->vx + ((arg1[1].vx * weight) >> 12);
+        vec.vy = arg1->vy + ((arg1[1].vy * weight) >> 12);
+        vec.vz = arg1->vz + ((arg1[1].vz * weight) >> 12);
+    }
+
+    *out = vec;
+    return out;
+}
 
 void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub)
 {
@@ -1483,61 +1586,61 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4)
 {
     DG_MDL *model; // $v0
-    int field_0_x; // $v1
+    int vx; // $v1
     DG_MDL *v8; // $v0
     int v9; // $v1
 
     model = pE1->field_0.objs->objs[0].model;
-    field_0_x = model->max_8.field_0_x;
+    vx = model->max_8.vx;
     if ( a4 == 1 )
     {
-        field_0_x += (model->min_14.field_0_x - field_0_x) >> 1;
+        vx += (model->min_14.vx - vx) >> 1;
     }
 
-    pSmokeVecs[0].vx = field_0_x;
-    pSmokeVecs[0].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[0].vz = 2 * pE1->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+    pSmokeVecs[0].vx = vx;
+    pSmokeVecs[0].vy = pE1->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[0].vz = 2 * pE1->field_0.objs->objs[0].model->min_14.vz / 3;
 
-    pSmokeVecs[1].vx = field_0_x;
-    pSmokeVecs[1].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[1].vz = pE1->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+    pSmokeVecs[1].vx = vx;
+    pSmokeVecs[1].vy = pE1->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[1].vz = pE1->field_0.objs->objs[0].model->min_14.vz / 3;
 
-    pSmokeVecs[2].vx = field_0_x;
-    pSmokeVecs[2].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[2].vx = vx;
+    pSmokeVecs[2].vy = pE1->field_0.objs->objs[0].model->max_8.vy;
     pSmokeVecs[2].vz = 0;
 
-    pSmokeVecs[3].vx = field_0_x;
-    pSmokeVecs[3].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[3].vz = pE1->field_0.objs->objs[0].model->max_8.field_8_z / 3;
+    pSmokeVecs[3].vx = vx;
+    pSmokeVecs[3].vy = pE1->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[3].vz = pE1->field_0.objs->objs[0].model->max_8.vz / 3;
 
-    pSmokeVecs[4].vx = field_0_x;
-    pSmokeVecs[4].vy = pE1->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[4].vz = (2 * pE1->field_0.objs->objs[0].model->max_8.field_8_z) / 3;
+    pSmokeVecs[4].vx = vx;
+    pSmokeVecs[4].vy = pE1->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[4].vz = (2 * pE1->field_0.objs->objs[0].model->max_8.vz) / 3;
 
     v8 = pE2->field_0.objs->objs[0].model;
-    v9 = v8->min_14.field_0_x;
+    v9 = v8->min_14.vx;
     if ( a4 == 1 )
     {
-        v9 += (v8->max_8.field_0_x - v9) >> 1;
+        v9 += (v8->max_8.vx - v9) >> 1;
     }
 
     pSmokeVecs[5].vx = v9;
-    pSmokeVecs[5].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[5].vz = 2 * pE2->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+    pSmokeVecs[5].vy = pE2->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[5].vz = 2 * pE2->field_0.objs->objs[0].model->min_14.vz / 3;
 
     pSmokeVecs[6].vx = v9;
-    pSmokeVecs[6].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[6].vz = pE2->field_0.objs->objs[0].model->min_14.field_8_z / 3;
+    pSmokeVecs[6].vy = pE2->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[6].vz = pE2->field_0.objs->objs[0].model->min_14.vz / 3;
 
     pSmokeVecs[7].vx = v9;
-    pSmokeVecs[7].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
+    pSmokeVecs[7].vy = pE2->field_0.objs->objs[0].model->max_8.vy;
     pSmokeVecs[7].vz = 0;
 
     pSmokeVecs[8].vx = v9;
-    pSmokeVecs[8].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[8].vz = pE2->field_0.objs->objs[0].model->max_8.field_8_z / 3;
+    pSmokeVecs[8].vy = pE2->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[8].vz = pE2->field_0.objs->objs[0].model->max_8.vz / 3;
 
     pSmokeVecs[9].vx = v9;
-    pSmokeVecs[9].vy = pE2->field_0.objs->objs[0].model->max_8.field_4_y;
-    pSmokeVecs[9].vz = 2 * pE2->field_0.objs->objs[0].model->max_8.field_8_z / 3;
+    pSmokeVecs[9].vy = pE2->field_0.objs->objs[0].model->max_8.vy;
+    pSmokeVecs[9].vz = 2 * pE2->field_0.objs->objs[0].model->max_8.vz / 3;
 }

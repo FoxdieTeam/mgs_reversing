@@ -354,9 +354,9 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) :
                 RotMatrixZYX_gte_80093F08( rots,      matrix3 ) ;
 
-    matrix3->t[0] = mdl->pos_20.field_0_x;
-    matrix3->t[1] = mdl->pos_20.field_4_y;
-    matrix3->t[2] = mdl->pos_20.field_8_z;
+    matrix3->t[0] = mdl->pos_20.vx;
+    matrix3->t[1] = mdl->pos_20.vy;
+    matrix3->t[2] = mdl->pos_20.vz;
 
     if (!adjust)
     {
@@ -380,9 +380,9 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         //temp_matrix = &temp_matrix[mdl->parent_2C]; should be this but registers dont match
         RotMatrixZYX_gte_80093F08( rots, matrix );
 
-        matrix->t[0] = mdl->pos_20.field_0_x;
-        matrix->t[1] = mdl->pos_20.field_4_y;
-        matrix->t[2] = mdl->pos_20.field_8_z;
+        matrix->t[0] = mdl->pos_20.vx;
+        matrix->t[1] = mdl->pos_20.vy;
+        matrix->t[2] = mdl->pos_20.vz;
 
         if ( i == ( n_obj - 1 ) )
         {
