@@ -298,13 +298,13 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
         DG_UnShadeObjs(pObjs);
         DG_SetPos_8001BC44(&pObjs->objs[0].screen);
 
-        maxx = pDef->max.field_0_x;
-        maxy = pDef->max.field_4_y;
-        maxz = pDef->max.field_8_z;
+        maxx = pDef->max.vx;
+        maxy = pDef->max.vy;
+        maxz = pDef->max.vz;
 
-        minx = pDef->min.field_0_x;
-        miny = pDef->min.field_4_y;
-        minz = pDef->min.field_8_z;
+        minx = pDef->min.vx;
+        miny = pDef->min.vy;
+        minz = pDef->min.vz;
 
         vec_iter = vecs;
 
