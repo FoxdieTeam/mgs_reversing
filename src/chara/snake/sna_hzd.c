@@ -197,7 +197,47 @@ int sub_8005C498(HZD_MAP *pHzd, int idx, int *pOutNear)
     return i;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_helper_helper_helper_8005C4E4.s") // 240 bytes
+int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_MAP *pHzdMap, int arg1, int arg2)
+{
+    int   min;
+    int   minval;
+    int   n_navmeshes;
+    char *pNear;
+    int   count;
+    int   near;
+    int   next;
+
+    if (arg1 == arg2)
+    {
+        return arg2;
+    }
+
+    min = 0xFF;
+    minval = arg1;
+
+    n_navmeshes = pHzdMap->f00_header->n_navmeshes;
+    pNear = pHzdMap->f00_header->navmeshes[arg1].nears;
+
+    for (count = 6; count > 0; count--)
+    {
+        near = *pNear++;
+
+        if (near == 0xFF)
+        {
+            break;
+        }
+
+        next = sub_8005BF84(pHzdMap->f14_navmeshes, near, arg2, n_navmeshes) & 0xFF;
+        if (next < min)
+        {
+            min = next;
+            minval = near;
+        }
+    }
+
+    return minval;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005C5D4.s")                                      // 240 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005C6C4.s")                                      // 472 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/HZD_ReachTo_8005C89C.s")                              // 216 bytes
