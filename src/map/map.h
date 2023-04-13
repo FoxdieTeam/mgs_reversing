@@ -40,7 +40,7 @@ void               Map_LoadMapData_80031244(int mapNum, int resourceNameHashed);
 void               Map_light_80030C6C(int a1);
 void               Map_80030FA4();
 void               Map_ResetMapCountAndKmdsCount_800310A0();
-
+HZD_MAP           *Map_Enum_Get_Hzd_80031580(HZD_MAP *pPrevious);
 void GM_DieMap_80030FD0();
 int  GM_DelMap_800313C0(int mapName);
 void GM_FreeMapObjs_80031028();

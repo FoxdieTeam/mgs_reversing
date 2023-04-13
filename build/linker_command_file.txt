@@ -96,7 +96,7 @@
     include "..\obj\libgv\sub_80027C64.obj"
     include "..\obj\sub_80027D80.obj"
     include "..\obj\sub_80027F10.obj"
-    include "..\obj\sub_80028454.obj"
+    include "..\obj\libgv\sub_80028454.obj"
     include "..\obj\sub_80028820.obj"
     include "..\obj\sub_80028830.obj"
     include "..\obj\libgv\GetVecFromScratchpad_80028840.obj"
