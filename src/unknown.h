@@ -57,6 +57,6 @@ void face_item_helper_80060CB8(u_short *in, u_short *out);
 void sub_80029D50(HZD_MAP *pMap, Res_Control_unknown *arg1, int);
 void GM_ActControl_helper6_helper_8002A27C(HZD_MAP*, Res_Control_unknown*);
 void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP*, Res_Control_unknown*);
-int  sub_80029604(HZD_FLR *);
-
+void sub_80029604(HZD_FLR *);
+int sub_80029384(HZD_FLR *);
 #endif // _UNKNOWN_H_
