@@ -9,13 +9,13 @@ extern int DG_CurrentGroupID_800AB968;
 static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
 {
     DG_Bounds *bounding_box = (DG_Bounds *)SCRPAD_ADDR;
-    bounding_box->max.field_0_x = bounds->max.field_0_x;
-    bounding_box->max.field_4_y = bounds->max.field_4_y;
-    bounding_box->max.field_8_z = bounds->max.field_8_z;
+    bounding_box->max.vx = bounds->max.vx;
+    bounding_box->max.vy = bounds->max.vy;
+    bounding_box->max.vz = bounds->max.vz;
 
-    bounding_box->min.field_0_x = bounds->min.field_0_x;
-    bounding_box->min.field_4_y = bounds->min.field_4_y;
-    bounding_box->min.field_8_z = bounds->min.field_8_z;
+    bounding_box->min.vx = bounds->min.vx;
+    bounding_box->min.vy = bounds->min.vy;
+    bounding_box->min.vz = bounds->min.vz;
 }
 
 static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
