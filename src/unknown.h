@@ -14,7 +14,7 @@
 int   sub_800296C4(HZD_MAP *pHzdMap, SVECTOR *param_2, int flags);
 void  sub_800298DC(int *param_1);
 void  GM_Sound_800329C4(SVECTOR *, int, int);
-int   sub_80028454(void *pHzd, SVECTOR *a2, SVECTOR *a3, int a4, int a5);
+int   sub_80028454(HZD_MAP *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
 void  sub_80028890(SVECTOR *pVec);
 void  sub_80079004(unsigned short);
 int   sub_80029A2C(void);
@@ -33,7 +33,9 @@ int    sub_80028830(void);
 void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
 SVECTOR *sub_80028820(void);
 void   sub_800241C8(char *arg0, int arg1);
-
+int    sub_80027384();
+void   sub_80027A94(HZD_SEG *pHzdSeg, int a2, char a3);
+void   sub_80027F10(HZD_FLR *pHzdFlr);
 // TODO: camera.h?
 GV_ACT *camera_init_800306A0(void);
 
@@ -55,6 +57,6 @@ void face_item_helper_80060CB8(u_short *in, u_short *out);
 void sub_80029D50(HZD_MAP *pMap, Res_Control_unknown *arg1, int);
 void GM_ActControl_helper6_helper_8002A27C(HZD_MAP*, Res_Control_unknown*);
 void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP*, Res_Control_unknown*);
-int  sub_80029604(HZD_FLR *);
-
+void sub_80029604(HZD_FLR *);
+int sub_80029384(HZD_FLR *);
 #endif // _UNKNOWN_H_
