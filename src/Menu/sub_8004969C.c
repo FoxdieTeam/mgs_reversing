@@ -1,7 +1,5 @@
 #include "Menu/menuman.h"
 
-extern char aRadioCallOver[];
-
 radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
 {
     radio_table_entry *entriesIter;
@@ -30,7 +28,7 @@ radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
 
     if (found_idx < 0)
     {
-        mts_printf_8008BBA0(aRadioCallOver);
+        mts_printf_8008BBA0("RADIO CALL OVER!!\n");
         return NULL;
     }
     else
