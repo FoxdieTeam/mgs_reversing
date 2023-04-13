@@ -10,9 +10,9 @@
 
 typedef struct DG_VECTOR
 {
-	int field_0_x;
-	int field_4_y;
-	int field_8_z;
+	int vx;
+	int vy;
+	int vz;
 } DG_VECTOR; /* long word type 3D vector with padding removed*/
 
 typedef struct DG_SVECTOR
