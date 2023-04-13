@@ -3,8 +3,6 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-const char SECTION(".rdata") aJimakuFontBuff[] = "jimaku_font_buffer_size %d\n";
-const char SECTION(".rdata") aRadioCallOver[] = "RADIO CALL OVER!!\n";
 const char SECTION(".rdata") aNoMemoryForFil[] = "NO MEMORY FOR FILE BODY\n";
 const int  SECTION(".rdata") dword_crap7[] = {0x9C23582, 0x3E8206D0, 0x288223C2, 0x26811781, 0x3E810481, 0x3D01981,
                                               0,         0x42824182, 0x6D04A82,  0x6D00B82,  0x52812982, 0x7C22182,

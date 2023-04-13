@@ -1299,14 +1299,121 @@ void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78
 }
 
 #pragma INCLUDE_ASM("asm/Kojo/sub_8007F3F8.s")                       // 1944 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper_8007FB90.s")  // 584 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper2_8007FDD8.s") // 452 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper3_8007FF9C.s") // 316 bytes
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper4_800800D8.s") // 2888 bytes
 
-void demothrd_4_helper_helper_8007FB90(DG_OBJS *pObjs, int n_models);
-void demothrd_4_helper_helper2_8007FDD8(DG_OBJS *pObjs, int n_models);
-void demothrd_4_helper_helper3_8007FF9C(DG_OBJS *pObjs, int n_models);
+void demothrd_4_helper_helper_8007FB90(DG_OBJS* pObjs, int n_models)
+{
+    MATRIX *pMatrix;
+    VECTOR *pVector;
+    DG_OBJ *pObj;
+    int     count;
+
+    pMatrix = (MATRIX *)0x1F800020;
+    pVector = (VECTOR *)0x1F800000;
+
+    pMatrix->t[0] -= pVector[56].vx;
+    pMatrix->t[1] -= pVector[56].vy;
+    pMatrix->t[2] -= pVector[56].vz;
+
+    gte_SetRotMatrix((MATRIX *)0x1F800000);
+    gte_SetTransMatrix((MATRIX *)0x1F800000);
+
+    ApplyRotMatrixLV_80092E28((VECTOR *)0x1F800034, (VECTOR *)0x1F800054);
+
+    gte_ldclmv(0x1F800020);
+    gte_rtir();
+    gte_stclmv(0x1F800040);
+
+    gte_ldclmv(0x1F800022);
+    gte_rtir();
+    gte_stclmv(0x1F800042);
+
+    gte_ldclmv(0x1F800024);
+    gte_rtir();
+    gte_stclmv(0x1F800044);
+
+    pObj = pObjs->objs;
+    for (count = n_models; count > 0; count--)
+    {
+        pObj->world = *(MATRIX *)0x1F800020;
+        pObj->screen = *(MATRIX *)0x1F800040;
+        pObj++;
+    }
+}
+
+void demothrd_4_helper_helper2_8007FDD8(DG_OBJS* pObjs, int n_models)
+{
+    MATRIX *pMatrix;
+    VECTOR *pVector;
+    int     x, y, z;
+    DG_OBJ *pObj;
+    int     count;
+
+    gte_SetRotMatrix((MATRIX *)0x1F800000);
+    gte_SetTransMatrix((MATRIX *)0x1F800000);
+
+    pMatrix = (MATRIX *)0x1F800040;
+    pVector = (VECTOR *)0x1F800000;
+
+    x = pVector[56].vx;
+    y = pVector[56].vy;
+    z = pVector[56].vz;
+
+    pObj = pObjs->objs;
+    for (count = n_models; count > 0; count--)
+    {
+        pMatrix->t[0] -= x;
+        pMatrix->t[1] -= y;
+        pMatrix->t[2] -= z;
+
+        ApplyRotMatrixLV_80092E28((VECTOR *)pMatrix->t, (VECTOR *)pObj->screen.t);
+
+        gte_ldclmv(&pMatrix->m[0][0]);
+        gte_rtir();
+        gte_stclmv(&pObj->screen.m[0][0]);
+
+        gte_ldclmv(&pMatrix->m[0][1]);
+        gte_rtir();
+        gte_stclmv(&pObj->screen.m[0][1]);
+
+        gte_ldclmv(&pMatrix->m[0][2]);
+        gte_rtir();
+        gte_stclmv(&pObj->screen.m[0][2]);
+
+        pObj++;
+        pMatrix++;
+    }
+}
+
+void demothrd_4_helper_helper3_8007FF9C(DG_OBJS* pObjs, int n_models)
+{
+    SVECTOR *pMovs;
+    MATRIX  *pMatrix;
+    DG_OBJ  *pObj;
+    int      count;
+
+    pMovs = pObjs->movs;
+    gte_SetRotMatrix(0x1F800020);
+
+    pMatrix = (MATRIX *)0x1F800040;
+
+    pObj = pObjs->objs;
+    for (count = n_models; count > 0; count--)
+    {
+        gte_SetTransMatrix((MATRIX *)0x1F800040 + pObj->model->parent_2C);
+        gte_ldv0(pMovs);
+        gte_rt();
+        gte_ReadRotMatrix(pMatrix);
+        gte_stlvnl((VECTOR *)pMatrix->t);
+
+        pObj->world = *pMatrix;
+
+        pMovs++;
+        pObj++;
+        pMatrix++;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper4_800800D8.s") // 2888 bytes
 void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models);
 
 void demothrd_4_helper_80080C20(DG_OBJS *pObjs)

@@ -394,7 +394,6 @@
     include "..\obj\Menu\menu_radio_draw_face_80048DB0.obj"
     include "..\obj\Menu\menu_radio_end_check_80048F98.obj"
 
-    include "..\obj\data\rdata\rdata_80048E64.obj"
 
     include "..\obj\Menu\menu_jimaku_act_80048FD4.obj"
     include "..\obj\Menu\menu_jimaku_init_helper_800493F8.obj"
@@ -407,6 +406,9 @@
     include "..\obj\Menu\menu_InitRadioTable_80049644.obj"
     include "..\obj\Menu\menu_ClearRadioTable_8004967C.obj"
     include "..\obj\Menu\sub_8004969C.obj" ; MENU_SetRadioBaseCall / MENU_SetRadioOverCall
+
+    include "..\obj\data\rdata\rdata_80048E64.obj"
+
     include "..\obj\Menu\sub_80049710.obj"
     include "..\obj\Menu\menu_SetRadioBaseCall_80049764.obj"
     include "..\obj\Menu\menu_SetRadioOverCall_80049794.obj"
