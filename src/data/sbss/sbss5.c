@@ -20,14 +20,14 @@ int SECTION(".sbss") dword_800ABB64;
 int SECTION(".sbss") dword_800ABB68;
 int SECTION(".sbss") dword_800ABB6C;
 int SECTION(".sbss") dword_800ABB70;
-int SECTION(".sbss") dword_800ABB74;
+Stru_800ABB74 *SECTION(".sbss") dword_800ABB74;
 int SECTION(".sbss") dword_800ABB78;
 
 RadioFileModeStru_800ABB7C *SECTION(".sbss") stru_800ABB7C;
 
 int SECTION(".sbss") dword_800ABB80;
 int SECTION(".sbss") dword_800ABB84;
-int SECTION(".sbss") dword_800ABB88;
+Stru_800ABB74 *SECTION(".sbss") dword_800ABB88;
 int SECTION(".sbss") dword_800ABB8C;
 int SECTION(".sbss") dword_800ABB90;
 int SECTION(".sbss") dword_800ABB94;
