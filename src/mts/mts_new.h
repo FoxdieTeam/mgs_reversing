@@ -8,6 +8,7 @@
 #define MAX_FILE_HANDLERS 26
 
 typedef int         (*TMtsFn)(void);
+typedef void        (*MtsTaskFn)(void);
 typedef long        (*MtsThreadFn)(void);
 
 typedef struct      mts_msg
@@ -79,13 +80,13 @@ int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
 int            mts_printf_8008BBA0(const char *formatStr, ...);
 int            mts_receive_80089D24(int src, mts_msg2 *message);
-int            mts_sta_tsk_8008B47C(int taskNum, void (*pTaskFn)(void), void *pStack);
+int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
 long           mts_PadRead_8008C324(int a0);
 void           mts_8008B0A4();
 void           mts_8008BA88();
 void           mts_8008BB88(int arg0);
-void           mts_boot_task_8008AAC4(int taskNum, void (*pTaskFn)(void), void *pStack, long stackSize);
+void           mts_boot_task_8008AAC4(int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize);
 void           mts_event_cb_8008BBC0();
 void           mts_init_controller_8008C098(void);
 void           mts_init_vsync_800895AC(void);
@@ -98,7 +99,7 @@ void           mts_set_exception_func_800892A8(int param_1);
 void           mts_set_stack_check_8008B648(int taskIdx, unsigned int *pStack, int stackSize);
 void           mts_set_vsync_task_800892B8(void);
 void           mts_slp_tsk_8008A400(void);
-void           mts_start_8008AAEC(int taskNum, void (*pTaskFn)(void), void *pStack);
+void           mts_start_8008AAEC(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 void           mts_task_start_8008BBC8(void);
 void           mts_unlock_sem_8008A85C(int taskNum);
 void           sio_output_stop_8008C5B0(void);
