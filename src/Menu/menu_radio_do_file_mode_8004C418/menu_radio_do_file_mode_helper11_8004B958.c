@@ -1,14 +1,15 @@
 #include "libgv/libgv.h"
+#include "Menu/radio.h"
 
 extern const char aNoMemoryForInf[];
 extern const char aAllocInfoX[];
 
 // a1 is &dword_800ABB74
-void menu_radio_do_file_mode_helper11_8004B958(void **a1, int num)
+void menu_radio_do_file_mode_helper11_8004B958(Stru_800ABB74 **a1, int num)
 {
     if (!*a1)
     {
-        *a1 = GV_AllocMemory_80015EB8(0, (0x24 * num) + 0x24);
+        *a1 = GV_AllocMemory_80015EB8(0, (sizeof(Stru_800ABB74_child) * num) + sizeof(Stru_800ABB74));
 
         if (!*a1)
         {
