@@ -261,7 +261,7 @@ def main(path):
         path = iterfzf(asms)
 
     if path:
-        m = re.search(r'_([A-F0-9]{8}).s$', path)
+        m = re.search(r'_([a-fA-F0-9]{8}).s$', path)
         if m:
             addr = int(m.group(1), 16)
             name = os.path.basename(path).replace('.s', '')
@@ -277,6 +277,10 @@ def main(path):
             else:
                 clipboard(text)
                 print('asm is now on your clipboard to paste into decomp.me')
+        else:
+            print('Error: filename', path, 'should end with a 32-bit hex address suffix (for example sub_80027384.s)')
+    else:
+        print("Error: no path provided")
 
 if __name__ == '__main__':
     main(sys.argv[1] if len(sys.argv) > 1 else None)
