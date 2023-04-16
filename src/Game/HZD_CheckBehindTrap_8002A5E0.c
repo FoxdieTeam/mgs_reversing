@@ -2,34 +2,14 @@
 
 #define SCRPAD_ADDR 0x1F800000
 
-static inline short HZD_CheckBehindTrap_8002A5E0_helper()
+static inline int HZD_CheckBehindTrap_8002A5E0_helper()
 {
-    if (*(short *)(SCRPAD_ADDR + 0x0) < *(short *)(SCRPAD_ADDR + 0x8))
-    {
-        return 0;
-    }
-
-    if (*(short *)(SCRPAD_ADDR + 0x0) >= *(short *)(SCRPAD_ADDR + 0x10))
-    {
-        return 0;
-    }
-
-    if (*(short *)(SCRPAD_ADDR + 0x2) < *(short *)(SCRPAD_ADDR + 0xA))
-    {
-        return 0;
-    }
-
-    if (*(short *)(SCRPAD_ADDR + 0x2) >= *(short *)(SCRPAD_ADDR + 0x12))
-    {
-        return 0;
-    }
-
-    if (*(short *)(SCRPAD_ADDR + 0x4) < *(short *)(SCRPAD_ADDR + 0xC))
-    {
-        return 0;
-    }
-
-    if (*(short *)(SCRPAD_ADDR + 0x4) >= *(short *)(SCRPAD_ADDR + 0x14))
+    if (*(short *)(SCRPAD_ADDR + 0x0) < *(short *)(SCRPAD_ADDR + 0x8) ||
+        *(short *)(SCRPAD_ADDR + 0x0) >= *(short *)(SCRPAD_ADDR + 0x10) ||
+        *(short *)(SCRPAD_ADDR + 0x2) < *(short *)(SCRPAD_ADDR + 0xA) ||
+        *(short *)(SCRPAD_ADDR + 0x2) >= *(short *)(SCRPAD_ADDR + 0x12) ||
+        *(short *)(SCRPAD_ADDR + 0x4) < *(short *)(SCRPAD_ADDR + 0xC) ||
+        *(short *)(SCRPAD_ADDR + 0x4) >= *(short *)(SCRPAD_ADDR + 0x14))
     {
         return 0;
     }
