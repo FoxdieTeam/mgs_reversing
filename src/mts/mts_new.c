@@ -940,13 +940,13 @@ void mts_reset_interrupt_overrun_8008AAA0( void )
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_E = 0;
 }
 
-void mts_boot_task_8008AAC4( int taskNum, void ( *pTaskFn )( void ), void *pStack, long stackSize )
+void mts_boot_task_8008AAC4( int taskNum, MtsTaskFn pTaskFn, void *pStack, long stackSize )
 {
     gStackSize_800A3D94 = stackSize;
     mts_start_8008AAEC( taskNum, pTaskFn, pStack );
 }
 
-void mts_start_8008AAEC( int boot_tasknr, void ( *pBootTaskFn )( void ), void *pStack )
+void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
 {
     int          eventDesc;
     unsigned int task;
@@ -1163,7 +1163,7 @@ void mts_8008B0A4( void )
     }
 }
 
-int mts_sta_tsk_8008B47C( int tasknr, void ( *proc )( void ), void *stack_pointer )
+int mts_sta_tsk_8008B47C( int tasknr, MtsTaskFn proc, void *stack_pointer )
 {
     mts_msg2 msg;
     int      src_idx;
