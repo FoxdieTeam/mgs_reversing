@@ -58,7 +58,33 @@ int sub_80026440(int from, int to, int range)
     return from;
 }
 
-#pragma INCLUDE_ASM("asm/libgv/sub_8002646C.s") // 68 bytes
+static inline int sub_8002646C_helper(int a, int b, int range)
+{
+    int new_a;
+
+    if (a < b)
+    {
+        new_a = a + range;
+        if (new_a >= b)
+        {
+            return b;
+        }
+    }
+    else
+    {
+        new_a = a - range;
+        if (b >= new_a)
+        {
+            return b;
+        }
+    }
+    return new_a;
+}
+
+int sub_8002646C(int a, int b, int range)
+{
+    return sub_8002646C_helper(a, b, range);
+}
 
 int GV_NearTime_800264B0(int from, int to, int interp)
 {

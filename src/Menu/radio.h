@@ -21,6 +21,40 @@ typedef struct RadioCoordsStru_8009E6FC
     char field_5;
 } RadioCoordsStru_8009E6FC;
 
+typedef struct Stru_800ABB74_child
+{
+    char field_0_name[8];
+    int  field_8;
+    int  field_C;
+    int  field_10;
+    int  field_14;
+    int  field_18;
+    int  field_1C;
+    int  field_20;
+} Stru_800ABB74_child;
+
+typedef struct Stru_800ABB74
+{
+    short               field_0;
+    short               field_2;
+    short               field_4;
+    short               field_6;
+    char                field_8;
+    char                field_9;
+    short               field_A;
+    short               field_C;
+    short               field_E;
+    short               field_10;
+    short               field_12;
+    short               field_14;
+    short               field_16;
+    short               field_18;
+    short               field_1A;
+    KCB                *field_1C_kcb;
+    int                 field_20;
+    Stru_800ABB74_child field_24[0];
+} Stru_800ABB74;
+
 struct RadioFileModeUnk1;
 struct RadioFileModeStruElem;
 
