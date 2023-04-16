@@ -103,9 +103,53 @@ int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
     return -1;
 }
 
-int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3);
+int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
+{
+    int diff1, diff2, diff3, diff4, diff5;
+    int retval;
 
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005C298.s")                // 188 bytes
+    diff1 = a2->vx - a1->x;
+    retval = 0;
+    if (diff1 < 0)
+    {
+        diff1 = -diff1;
+    }
+    diff2 = diff1 - a1->w;
+    if (diff2 > 0)
+    {
+        retval = diff2;
+    }
+    if (a3 < retval)
+    {
+        return a3;
+    }
+
+    diff3 = a2->vz - a1->z;
+    if (diff3 < 0)
+    {
+        diff3 = -diff3;
+    }
+    diff4 = diff3 - a1->h;
+    if (diff4 > 0)
+    {
+        retval += diff4;
+    }
+    if (a3 < retval)
+    {
+        return a3;
+    }
+
+    diff5 = a1->y - a2->vy;
+    if (diff5 < 0)
+    {
+        diff5 = -diff5;
+    }
+    if (diff5 > 2000)
+    {
+        retval += diff5;
+    }
+    return retval;
+}
 
 int sna_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
 {
