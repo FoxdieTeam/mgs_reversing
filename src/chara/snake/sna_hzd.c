@@ -57,7 +57,55 @@ int sub_8005BFDC(HZD_ZON *pZon, SVECTOR *pVec)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005C05C.s") // 228 bytes
+int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3)
+{
+    int coord1, coord2, coord3, coord5, coord4;
+
+    coord1 = a3->vy;
+    coord4 = a2->y;
+    coord2 = a1->y;
+    if (coord1 < coord2 && coord1 < coord4)
+    {
+        return 0;
+    }
+    if (coord2 < (coord1 - 2000) && coord4 < (coord1 - 2000))
+    {
+        return 0;
+    }
+
+    coord1 = a3->vx;
+    coord2 = a1->x;
+    coord3 = a1->w;
+    coord4 = a2->x;
+    coord5 = a2->w;
+
+    // TODO: Same "if" logic below - was this an inline?
+    if (coord1 < (coord2 - coord3) && coord1 < (coord4 - coord5))
+    {
+        return 0;
+    }
+    if ((coord2 + coord3) < coord1 && (coord4 + coord5) < coord1)
+    {
+        return 0;
+    }
+
+    coord1 = a3->vz;
+    coord2 = a1->z;
+    coord3 = a1->h;
+    coord4 = a2->z;
+    coord5 = a2->h;
+
+    // TODO: Same "if" logic above - was this an inline?
+    if (coord1 < (coord2 - coord3) && coord1 < (coord4 - coord5))
+    {
+        return 0;
+    }
+    if ((coord2 + coord3) < coord1 && (coord4 + coord5) < coord1)
+    {
+        return 0;
+    }
+    return 1;
+}
 
 int sna_8005C140(HZD_MAP *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
 {
@@ -103,9 +151,53 @@ int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
     return -1;
 }
 
-int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3);
+int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
+{
+    int diff1, diff2, diff3, diff4, diff5;
+    int retval;
 
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005C298.s")                // 188 bytes
+    diff1 = a2->vx - a1->x;
+    retval = 0;
+    if (diff1 < 0)
+    {
+        diff1 = -diff1;
+    }
+    diff2 = diff1 - a1->w;
+    if (diff2 > 0)
+    {
+        retval = diff2;
+    }
+    if (a3 < retval)
+    {
+        return a3;
+    }
+
+    diff3 = a2->vz - a1->z;
+    if (diff3 < 0)
+    {
+        diff3 = -diff3;
+    }
+    diff4 = diff3 - a1->h;
+    if (diff4 > 0)
+    {
+        retval += diff4;
+    }
+    if (a3 < retval)
+    {
+        return a3;
+    }
+
+    diff5 = a1->y - a2->vy;
+    if (diff5 < 0)
+    {
+        diff5 = -diff5;
+    }
+    if (diff5 > 2000)
+    {
+        retval += diff5;
+    }
+    return retval;
+}
 
 int sna_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
 {
