@@ -330,12 +330,105 @@ int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_MAP *pHzdMap, int arg1
     return minval;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005C5D4.s")                                      // 240 bytes
+int sub_8005C5D4(HZD_MAP *pHzdMap, int param_2, int param_3)
+{
+    HZD_HEADER    *hzdHeader;
+    int            n_navmeshes;
+    unsigned char *nears;
+    int            cur_near;
+    int            i;
+    int            min, next;
+    int            retval;
+
+    if (param_2 == param_3)
+    {
+        return param_3;
+    }
+
+    min = 0xFF;
+    retval = param_2;
+    hzdHeader = pHzdMap->f00_header;
+    n_navmeshes = hzdHeader->n_navmeshes;
+    nears = hzdHeader->navmeshes[param_2].nears;
+    for (i = 6; i > 0; i--)
+    {
+        cur_near = *nears++;
+        if (cur_near == 0xFF)
+        {
+            break;
+        }
+
+        next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, param_3, n_navmeshes) & 0xFF;
+        if (next <= min)
+        {
+            min = next;
+            retval = cur_near;
+        }
+    }
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005C6C4.s")                                      // 472 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/HZD_ReachTo_8005C89C.s")                              // 216 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_helper_helper_8005C974.s")        // 468 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005CB48.s")                                      // 468 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005CD1C.s")                                      // 320 bytes
+
+extern char aNoReachZoneFro[];
+
+int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
+{
+    HZD_HEADER *hzdHeader;
+    HZD_ZON    *hzdZon;
+    int         next;
+    int         cur_near;
+    int         i;
+    int         min;
+    int         best_near, best_dist;
+    int         n_navmeshes;
+    int         retval;
+
+    hzdHeader = pHzdMap->f00_header;
+    n_navmeshes = hzdHeader->n_navmeshes;
+    retval = 0;
+
+    while (from != to)
+    {
+        hzdZon = &hzdHeader->navmeshes[from];
+        min = 0xFF;
+        best_near = from;
+        best_dist = 0;
+
+        for (i = 0; i < 6; i++)
+        {
+            cur_near = hzdZon->nears[i];
+            if (cur_near == 0xFF)
+            {
+                break;
+            }
+
+            next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, to, n_navmeshes) & 0xFF;
+            if (next < min)
+            {
+                min = next;
+                best_near = cur_near;
+                best_dist = hzdZon->dists[i];
+            }
+        }
+
+        retval += best_dist;
+
+        if (best_near == from)
+        {
+            mts_printf_8008BBA0(aNoReachZoneFro, from, to);
+            retval = 100000;
+            break;
+        }
+
+        from = best_near;
+    }
+    return retval;
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005CE5C.s")                                      // 336 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005CFAC.s")                                      // 392 bytes
 
