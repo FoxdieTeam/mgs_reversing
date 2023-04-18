@@ -119,7 +119,7 @@
     include "..\obj\sub_800298DC.obj"
     include "..\obj\map\HZD_SlopeFloorLevel_800298F8.obj"
     include "..\obj\sub_8002992C.obj"
-    include "..\obj\sub_80029A2C.obj"
+    include "..\obj\Game\sub_80029A2C.obj"
     include "..\obj\Game\HZD_SetBind_80029A5C.obj"
     include "..\obj\map\Map_light_helper_80029A6C.obj"
     include "..\obj\Game\HZD_SetEvent_80029AB4.obj"
