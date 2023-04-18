@@ -314,7 +314,37 @@ void sub_80079A1C(void)
     stru_80700000->field_0 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/sub_80079A2C.s")                                          // 184 bytes
+int sub_80079A2C(int field_0, int *field_4_ptr, int off)
+{
+    int                field_4;
+    int                field_4_off;
+    demothrd_80700000 *demothrd_ptr;
+
+    *field_4_ptr = 0;
+
+    if (dword_800BDFBC != 0)
+    {
+        demothrd_ptr = dword_800BDFC0;
+        field_4 = dword_800BDFC4;
+
+        off = (off + 16) / 16 * 16;
+        field_4_off = field_4 + off;
+        if (field_4_off <= 0x807FFFFF && demothrd_ptr - stru_80700000 < 256)
+        {
+            demothrd_ptr->field_0 = field_0;
+            demothrd_ptr->field_4 = field_4;
+            demothrd_ptr->field_8 = off;
+
+            *field_4_ptr = field_4;
+            dword_800BDFC0 = demothrd_ptr + 1;
+            dword_800BDFC0->field_0 = 0;
+            dword_800BDFC4 = field_4_off;
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 int sub_80079AE4(int arg0, int *arg1)
 {
