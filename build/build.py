@@ -268,7 +268,9 @@ def gen_build_target(targetName):
                  "strctrl.c",
                  "jimctrl2.c",
                  "memcard.c",
-                 "dgd.c"
+                 "dgd.c",
+                 "sub_80060644.c",
+                 "sub_80060548.c"
                  ]
             for item in buildWithG0:
                 if cFile.find(item) != -1:
