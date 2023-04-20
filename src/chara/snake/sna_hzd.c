@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "sna_hzd.h"
 #include "libhzd/libhzd.h"
+#include "libdg/libdg.h"
 
 int sub_8005BF84(HZD_ZON *a1, int a2, int a3, int a4)
 {
@@ -487,7 +488,71 @@ int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
     return from;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005CFAC.s")                                      // 392 bytes
+extern char aBoundNoReachZo[];
+
+int sub_8005CFAC(HZD_MAP *pHzdMap, int from, int to, int max_dist)
+{
+    HZD_HEADER *hzdHeader;
+    HZD_ZON    *hzdZon;
+    int         next;
+    int         cur_near;
+    int         i;
+    int         min;
+    int         best_near, best_dist;
+    int         n_navmeshes;
+    int         cum_dist;
+    SVECTOR     pos;
+
+    hzdHeader = pHzdMap->f00_header;
+    n_navmeshes = hzdHeader->n_navmeshes;
+    cum_dist = 0;
+
+    while (from != to)
+    {
+        hzdZon = &hzdHeader->navmeshes[from];
+        min = 0xFF;
+        best_near = from;
+        best_dist = 0;
+
+        for (i = 0; i < 6; i++)
+        {
+            cur_near = hzdZon->nears[i];
+            if (cur_near == 0xFF)
+            {
+                break;
+            }
+
+            next = sub_8005BF84(pHzdMap->f14_navmeshes, cur_near, to, n_navmeshes) & 0xFF;
+            if (next < min)
+            {
+                min = next;
+                best_near = cur_near;
+                best_dist = hzdZon->dists[i];
+            }
+        }
+
+        cum_dist += best_dist;
+        if (max_dist < cum_dist)
+        {
+            pos.vx = hzdZon->x;
+            pos.vy = hzdZon->y;
+            pos.vz = hzdZon->z;
+            DG_PointCheck_8001BF34(&pos, 1);
+            if (pos.pad == 0)
+            {
+                return from;
+            }
+        }
+        if (best_near == from)
+        {
+            mts_printf_8008BBA0(aBoundNoReachZo, from, to);
+            return best_near;
+        }
+
+        from = best_near;
+    }
+    return from;
+}
 
 int sub_8005D134(HZD_MAP *pHzd, SVECTOR *pVec, int idx)
 {
