@@ -331,12 +331,14 @@ typedef struct UnkJimakuStruct // @ 800BDA70
     char field_0_active; // if true, display on screen and count down timer
     char field_1_type; // 0, 1, 2? - 1: pause
     short field_2_timer; // how many frames to be active
-    int field_4_x; // location on screen
-    int field_8_y;
+    short field_4_x; // location on screen
+    short field_6_y;
+    short field_8_w;
+    short field_A_h;
     KCB field_C_font;
-    const char *field_38_str; // the string to display
+    char *field_38_str; // the string to display
     int field_3C; // hashed proc name used as first arg to GCL_ExecProc_8001FF2C
-    int field_40; // char * gcl string?
+    char *field_40; // char * gcl string?
     // int field_44 // padding?
 } UnkJimakuStruct;
 
@@ -375,9 +377,9 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *, unsigned short);
 void menu_item_update_helper4_8003C4EC();
 void menu_inventory_right_init_items_8003DE50(void);
 void menu_jimaku_act_80048FD4(Actor_MenuMan *pActor, unsigned int *pOt);
-void menu_JimakuWrite_800494E8(const char *str, int frames);
+void menu_JimakuWrite_800494E8(char *str, int frames);
 void menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number);
-void menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, char *str);
+void menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
 void menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
 void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *param_1, unsigned int *param_2, int param_3, int param_4, PANEL *param_5);
 void menu_weapon_unknown_8003DEB0(void);
@@ -407,7 +409,7 @@ void init_file_mode_helper_8004A424(int param_1);
 void init_file_mode_helper_helper_80049EDC(void);
 void init_file_mode_helper2_8004A800(void);
 void sub_80047CB4(menu_chara_struct *unknown);
-void NewJimakuStr_8004955C(const char *str, int int_1);
+void NewJimakuStr_8004955C(char *str, int int_1);
 void NewJimaku_800495A8(void);
 void menu_ClearRadioTable_8004967C(void);
 void menu_RadioCall_80042730(int param_1, int param_2, int param_3);
