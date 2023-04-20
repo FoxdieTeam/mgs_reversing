@@ -4,7 +4,7 @@
 extern int GV_PauseLevel_800AB928;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 
-void NewJimakuStr_8004955C(const char *str, int int_1)
+void NewJimakuStr_8004955C(char *str, int int_1)
 {
   menu_JimakuWrite_800494E8(str, -1);
   GV_PauseLevel_800AB928 |= 1;
