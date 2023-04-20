@@ -1,23 +1,25 @@
+#include "sd_data.c"
 #include "SD/sd.h"
 #include "libfs/libfs.h"
 #include "mts/mts_new.h"
 #include "psyq.h"
 #include "unknown.h"
 
-void sd_init_80081C7C();
-void IntSdMain_80084494();
-void WaveSpuTrans_80083944( void );
-void StrSpuTrans_800833FC( void );
-int  StrFadeInt_800839C8();
-void SdInt_Task_80081BDC();
-void SD_nullsub_20_800827A4();
-int  SD_LoadSeFile_8008341C();
-int  SD_800854F0();
-void KeyOffStr_80081FE8();
-int  StartStream_80082448();
-void SD_80082170( int param_1 );
-void sng_off_80087E2C();
-void UserSpuIRQProc_80082640();
+void                  sd_init_80081C7C();
+void                  IntSdMain_80084494();
+void                  WaveSpuTrans_80083944( void );
+void                  StrSpuTrans_800833FC( void );
+int                   StrFadeInt_800839C8();
+void                  SdInt_Task_80081BDC();
+void                  SD_nullsub_20_800827A4();
+int                   SD_LoadSeFile_8008341C();
+int                   SD_800854F0();
+void                  KeyOffStr_80081FE8();
+int                   StartStream_80082448();
+void                  SD_80082170( int param_1 );
+void                  sng_off_80087E2C();
+void                  UserSpuIRQProc_80082640();
+
 
 extern int            sng_status_800BF158;
 extern int            se_load_code_800BF28C;
@@ -53,10 +55,10 @@ extern int            dword_800C0580;
 extern unsigned char *se_exp_table_800C0520;
 extern int            dword_800C0650;
 extern int            dword_800BF268;
-extern int            dword_800BF294;
+extern int            wave_data_800BF294;
 extern int            wave_load_code_800C0528;
 extern int            dword_800BF168;
-extern int            dword_800BF1AC;
+extern int            str_unplay_size_800BF1AC;
 extern int            dword_800C0504;
 extern int            dword_800C051C;
 extern int            dword_800C0418;
@@ -77,12 +79,12 @@ extern int            dword_800C0414;
 extern int            dword_800BEFEC;
 extern int            dword_800BF264;
 extern int            dword_800BEFE8;
-extern unsigned char  byte_800A2D28[4096];
+//extern unsigned char  byte_800A2D28[ 4096 ];
 extern SEPLAYTBL      se_playing_800BF068[ 8 ];
 extern int            dword_800BF210;
 extern int            dword_800BF064;
 extern int            dword_800BF1A8;
-unsigned char         blank_data_800A2B28[ 512 ];
+//extern unsigned char         blank_data_800A2B28[ 512 ];
 extern unsigned int   dword_800BF27C;
 extern unsigned char  byte_800C0588[ 200 ];
 extern int            blank_data_addr_800BF00C;
@@ -94,9 +96,9 @@ extern char          *CDLOAD_BUF_800BF058;
 extern char          *str_header_800C0514;
 extern WAVE_W        *voice_tbl_800C0530;
 
-void sub_80081910( int argc, const char **argv )
+void                  sub_80081910( int argc, const char **argv )
 {
-    int i; // $s1
+    int i;
 
     sd_debug_800BEFD4 = 0;
     mts_printf_8008BBA0( "SOUND_LAUNCH(argc:%d)\n", argc );
@@ -171,7 +173,6 @@ void SdMain_80081A18()
         case 3:
         case 4:
         case 5:
-
             SD_nullsub_20_800827A4();
             break;
 
@@ -406,7 +407,8 @@ int sd_sng_alloc_80082194( void )
     mts_printf_8008BBA0( "se_data %X\n", se_header_800BF284 );
 
     cdload_buf_800BF010 = se_header_800BF284 + 0x2000;
-    mts_printf_8008BBA0( "CDLOAD_BUF %X %X %X\n", cdload_buf_800BF010, 0x18000, cdload_buf_800BF010 + 0x18000 );
+    mts_printf_8008BBA0( "CDLOAD_BUF %X %X %X\n",
+                         cdload_buf_800BF010, 0x18000, cdload_buf_800BF010 + 0x18000 );
 
     CDLOAD_BUF_800BF058 = cdload_buf_800BF010 + 0x18000;
     mts_printf_8008BBA0( "str_header %X\n", CDLOAD_BUF_800BF058 );
@@ -459,14 +461,17 @@ int StrFadeOutStop_80082380( unsigned int fadeSpeed )
     }
     else
     {
-        mts_printf_8008BBA0("Canceled STR FadeOut(%x:%x:%x)", gStr_FadeOut1_800BF16C, gStr_fadeout_2_800C0584, gStreamVol_800BF15C );
+        mts_printf_8008BBA0( "Canceled STR FadeOut(%x:%x:%x)",
+                             gStr_FadeOut1_800BF16C,
+                             gStr_fadeout_2_800C0584,
+                             gStreamVol_800BF15C );
         return -1;
     }
 }
 
 int StartStream_80082448()
 {
-    if (!dword_800C04EC)
+    if ( !dword_800C04EC )
     {
         bstr_fade_inProgress_800BF0CC = 0;
         gStr_fadeout_2_800C0584 = 0;
@@ -476,35 +481,35 @@ int StartStream_80082448()
     dword_8009F7B4 = -1;
     FS_StreamOpen_80024060();
 
-    CDLOAD_BUF_800BF058 = FS_StreamGetData_800240E0(2);
+    CDLOAD_BUF_800BF058 = FS_StreamGetData_800240E0( 2 );
 
-    if (!CDLOAD_BUF_800BF058)
+    if ( !CDLOAD_BUF_800BF058 )
     {
-        mts_printf_8008BBA0("Stream:File Pos Error\n");
+        mts_printf_8008BBA0( "Stream:File Pos Error\n" );
         FS_StreamClose_80024098();
         return -1;
     }
 
     // Consume big-endian int from CDLOAD_BUF_800BF058
-    dword_800C051C = CDLOAD_BUF_800BF058[0] << 24;
-    dword_800C051C |= CDLOAD_BUF_800BF058[1] << 16;
-    dword_800C051C |= CDLOAD_BUF_800BF058[2] << 8;
-    dword_800C051C |= CDLOAD_BUF_800BF058[3];
+    dword_800C051C = CDLOAD_BUF_800BF058[ 0 ] << 24;
+    dword_800C051C |= CDLOAD_BUF_800BF058[ 1 ] << 16;
+    dword_800C051C |= CDLOAD_BUF_800BF058[ 2 ] << 8;
+    dword_800C051C |= CDLOAD_BUF_800BF058[ 3 ];
 
-    dword_800BF1AC = dword_800BF168 = dword_800C051C;
-
-    // Consume big-endian short from CDLOAD_BUF_800BF058
-    gStreamVol_800BF15C = CDLOAD_BUF_800BF058[4] << 8;
-    gStreamVol_800BF15C |= CDLOAD_BUF_800BF058[5];
+    str_unplay_size_800BF1AC = dword_800BF168 = dword_800C051C;
 
     // Consume big-endian short from CDLOAD_BUF_800BF058
-    dword_800C0504 = CDLOAD_BUF_800BF058[6] << 8;
-    dword_800C0504 |= CDLOAD_BUF_800BF058[7];
+    gStreamVol_800BF15C = CDLOAD_BUF_800BF058[ 4 ] << 8;
+    gStreamVol_800BF15C |= CDLOAD_BUF_800BF058[ 5 ];
+
+    // Consume big-endian short from CDLOAD_BUF_800BF058
+    dword_800C0504 = CDLOAD_BUF_800BF058[ 6 ] << 8;
+    dword_800C0504 |= CDLOAD_BUF_800BF058[ 7 ];
 
     // Consume byte from CDLOAD_BUF_800BF058
-    if (CDLOAD_BUF_800BF058[8] == 1)
+    if ( CDLOAD_BUF_800BF058[ 8 ] == 1 )
     {
-        dword_800BF268 = CDLOAD_BUF_800BF058[8];
+        dword_800BF268 = CDLOAD_BUF_800BF058[ 8 ];
     }
     else
     {
@@ -512,25 +517,25 @@ int StartStream_80082448()
     }
 
     // Consume byte from CDLOAD_BUF_800BF058
-    dword_800C0580 = CDLOAD_BUF_800BF058[9];
+    dword_800C0580 = CDLOAD_BUF_800BF058[ 9 ];
 
-    mts_printf_8008BBA0("StartStream(%x:vol=%x)\n", gStream_800C04F0, gStreamVol_800BF15C);
-    if (dword_800C04EC)
+    mts_printf_8008BBA0( "StartStream(%x:vol=%x)\n", gStream_800C04F0, gStreamVol_800BF15C );
+    if ( dword_800C04EC )
     {
         StrFadeWkSet_80083964();
     }
 
-    SD_80081FC4(0x600000);
+    SD_80081FC4( 0x600000 );
     dword_800BEFF0 = NULL;
-    sub_800241B4(CDLOAD_BUF_800BF058);
+    sub_800241B4( CDLOAD_BUF_800BF058 );
     dword_800C0418 = NULL;
     dword_800BF1DC = NULL;
     return 0;
 }
 
-void UserSpuIRQProc_80082640(void)
+void UserSpuIRQProc_80082640( void )
 {
-    switch(gStr_FadeOut1_800BF16C & 0xf)
+    switch ( gStr_FadeOut1_800BF16C & 0xf )
     {
     case 2:
     case 3:
@@ -541,10 +546,10 @@ void UserSpuIRQProc_80082640(void)
         break;
 
     case 5:
-        switch (dword_800C0504)
+        switch ( dword_800C0504 )
         {
         case 0x800:
-            if ((dword_800BEFF4++ & 1) != 0)
+            if ( ( dword_800BEFF4++ & 1 ) != 0 )
             {
                 dword_800BF270 += 0x100;
                 dword_800BF270 &= 0x1fff;
@@ -552,7 +557,7 @@ void UserSpuIRQProc_80082640(void)
             break;
 
         case 0xc00:
-            if ((dword_800BEFF4++ & 3) != 0)
+            if ( ( dword_800BEFF4++ & 3 ) != 0 )
             {
                 dword_800BF270 += 0x100;
                 dword_800BF270 &= 0x1fff;
@@ -567,10 +572,10 @@ void UserSpuIRQProc_80082640(void)
         break;
 
     case 6:
-        switch (dword_800C0504)
+        switch ( dword_800C0504 )
         {
         case 0x800:
-            if ((dword_800BEFF4++ & 1) != 0)
+            if ( ( dword_800BEFF4++ & 1 ) != 0 )
             {
                 dword_800BF270 += 0x100;
                 dword_800BF270 &= 0x1fff;
@@ -578,7 +583,7 @@ void UserSpuIRQProc_80082640(void)
             break;
 
         case 0xc00:
-            if ((dword_800BEFF4++ & 3) != 0)
+            if ( ( dword_800BEFF4++ & 3 ) != 0 )
             {
                 dword_800BF270 += 0x100;
                 dword_800BF270 &= 0x1fff;
@@ -593,30 +598,30 @@ void UserSpuIRQProc_80082640(void)
         break;
     }
 
-    mts_isend_80089B04(1);
+    mts_isend_80089B04( 1 );
 
-    if ((dword_800BF1A8 & 1) == 0)
+    if ( ( dword_800BF1A8 & 1 ) == 0 )
     {
-        SpuSetIRQAddr_80096B68(blank_data_addr_800BF00C + 256);
+        SpuSetIRQAddr_80096B68( blank_data_addr_800BF00C + 256 );
     }
     else
     {
-        SpuSetIRQAddr_80096B68(blank_data_addr_800BF00C);
+        SpuSetIRQAddr_80096B68( blank_data_addr_800BF00C );
     }
 
     dword_800BF1A8++;
-    SpuSetIRQ_80096A28(SPU_RESET);
+    SpuSetIRQ_80096A28( SPU_RESET );
 }
 
 void sub_8008279C( void )
 {
 }
 
-void SD_nullsub_20_800827A4()
+void SD_nullsub_20_800827A4( void )
 {
 }
 
-int StrSpuTransWithNoLoop_800827AC(void)
+int StrSpuTransWithNoLoop_800827AC( void )
 {
     SpuVoiceAttr attr;
     int          result;
@@ -625,40 +630,40 @@ int StrSpuTransWithNoLoop_800827AC(void)
 
     result = 0;
 
-    if (dword_8009F7B8 != 0)
+    if ( dword_8009F7B8 != 0 )
     {
-        sub_800241B4(dword_8009F7B8);
+        sub_800241B4( dword_8009F7B8 );
         dword_8009F7B8 = 0;
     }
 
-    switch (gStr_FadeOut1_800BF16C & 0xf)
+    switch ( gStr_FadeOut1_800BF16C & 0xf )
     {
     case 2:
-        if (dword_800BF1A4 == 0)
+        if ( dword_800BF1A4 == 0 )
         {
-            if (((se_rev_on_800C0574 != 0) && (dword_800BF160 != 0)) && (dword_800BF144 != 0))
+            if ( ( se_rev_on_800C0574 != 0 ) && ( dword_800BF160 != 0 ) && ( dword_800BF144 != 0 ) )
             {
-                SpuSetReverbVoice_80096858(1, 0x600000);
+                SpuSetReverbVoice_80096858( 1, 0x600000 );
             }
             else
             {
-                SpuSetReverbVoice_80096858(0, 0x600000);
+                SpuSetReverbVoice_80096858( 0, 0x600000 );
             }
 
-            stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+            stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
 
-            if (stream_data_ptr_800BEFE4)
+            if ( stream_data_ptr_800BEFE4 )
             {
                 dword_800C040C = 0;
                 dword_800BF164 = 0;
-                stream_data_ptr_800BEFE4[1] |= 0x4;
-                SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_r_800BF0C8);
-                SpuWrite_80096E68(stream_data_ptr_800BEFE4, 4096);
+                stream_data_ptr_800BEFE4[ 1 ] |= 0x4;
+                SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 );
+                SpuWrite_80096E68( stream_data_ptr_800BEFE4, 4096 );
 
-                if (dword_800BF268 == 0)
+                if ( dword_800BF268 == 0 )
                 {
                     dword_800BF164 = 4096;
-                    dword_800BF1AC -= 4096;
+                    str_unplay_size_800BF1AC -= 4096;
                 }
 
                 dword_800BF1A4 = 1;
@@ -672,18 +677,18 @@ int StrSpuTransWithNoLoop_800827AC(void)
         }
         else
         {
-            stream_data_ptr_800BEFE4[dword_800BF164 + 1] |= 0x4;
-            SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_l_800BF060);
-            SpuWrite_80096E68(stream_data_ptr_800BEFE4 + dword_800BF164, 4096);
+            stream_data_ptr_800BEFE4[ dword_800BF164 + 1 ] |= 0x4;
+            SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 );
+            SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
             dword_800BF164 += 4096;
-            dword_800BF1AC -= 4096;
+            str_unplay_size_800BF1AC -= 4096;
 
-            if (dword_800BF268 == 0)
+            if ( dword_800BF268 == 0 )
             {
                 dword_8009F7B8 = stream_data_ptr_800BEFE4;
-                stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+                stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
 
-                if (!stream_data_ptr_800BEFE4)
+                if ( !stream_data_ptr_800BEFE4 )
                 {
                     gStr_FadeOut1_800BF16C = 7;
                     break;
@@ -700,21 +705,21 @@ int StrSpuTransWithNoLoop_800827AC(void)
         break;
 
     case 3:
-        if ((dword_800BF1AC == 0) || (dword_800BF1AC < 0))
+        if ( ( str_unplay_size_800BF1AC == 0 ) || ( str_unplay_size_800BF1AC < 0 ) )
         {
             gStr_FadeOut1_800BF16C++;
         }
 
-        if (dword_800BF1A4 == 0)
+        if ( dword_800BF1A4 == 0 )
         {
-            stream_data_ptr_800BEFE4[dword_800BF164 + 4081] |= 0x1;
-            SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_r_800BF0C8 + 4096);
-            SpuWrite_80096E68(stream_data_ptr_800BEFE4 + dword_800BF164, 4096);
+            stream_data_ptr_800BEFE4[ dword_800BF164 + 4081 ] |= 0x1;
+            SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 + 4096 );
+            SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
 
-            if (dword_800BF268 == 0)
+            if ( dword_800BF268 == 0 )
             {
                 dword_800BF164 += 4096;
-                dword_800BF1AC -= 4096;
+                str_unplay_size_800BF1AC -= 4096;
             }
 
             dword_800BF1A4 = 1;
@@ -722,12 +727,12 @@ int StrSpuTransWithNoLoop_800827AC(void)
         }
         else
         {
-            stream_data_ptr_800BEFE4[dword_800BF164 + 4081] |= 0x1;
-            SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_l_800BF060 + 4096);
-            SpuWrite_80096E68(stream_data_ptr_800BEFE4 + dword_800BF164, 4096);
-            dword_800BF1AC -= 4096;
+            stream_data_ptr_800BEFE4[ dword_800BF164 + 4081 ] |= 0x1;
+            SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 + 4096 );
+            SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
+            str_unplay_size_800BF1AC -= 4096;
             dword_8009F7B8 = stream_data_ptr_800BEFE4;
-            stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+            stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
             dword_800BF164 = 0;
             dword_800BF1A4 = 0;
             result = 1;
@@ -750,7 +755,7 @@ int StrSpuTransWithNoLoop_800827AC(void)
         attr.sl = 0xf;
         attr.pitch = dword_800C0504;
         attr.addr = spu_bgm_start_ptr_r_800BF0C8;
-        SpuSetVoiceAttr_80097518(&attr);
+        SpuSetVoiceAttr_80097518( &attr );
         attr.mask = 0xff93;
         attr.voice = 0x400000;
         attr.volume.left = 0;
@@ -763,21 +768,21 @@ int StrSpuTransWithNoLoop_800827AC(void)
         attr.sr = 0;
         attr.rr = 8;
         attr.sl = 0xf;
-        attr.pitch = (ushort) dword_800C0504;
+        attr.pitch = (ushort)dword_800C0504;
         attr.addr = spu_bgm_start_ptr_l_800BF060;
-        SpuSetVoiceAttr_80097518(&attr);
+        SpuSetVoiceAttr_80097518( &attr );
         dword_800BF270 = 0;
-        SD_80082170(0x600000);
+        SD_80082170( 0x600000 );
         dword_800C0414 = 4096;
         dword_800BEFEC = 0;
         dword_8009F7B4 = 0;
         gStr_FadeOut1_800BF16C++;
 
-        if ((dword_800BF1AC == 0) || (dword_800BF1AC < 0))
+        if ( ( str_unplay_size_800BF1AC == 0 ) || ( str_unplay_size_800BF1AC < 0 ) )
         {
-            if ((dword_800C051C < 0) || (dword_800C051C > 768))
+            if ( ( dword_800C051C < 0 ) || ( dword_800C051C > 768 ) )
             {
-                dword_800BF264 = (dword_800C051C - 768) & (~0xff);
+                dword_800BF264 = ( dword_800C051C - 768 ) & ~0xff;
             }
             else
             {
@@ -789,39 +794,40 @@ int StrSpuTransWithNoLoop_800827AC(void)
         break;
 
     case 5:
-        if (stream_data_ptr_800BEFE4 && (dword_800BEFEC == 0))
+        if ( stream_data_ptr_800BEFE4 && ( dword_800BEFEC == 0 ) )
         {
             dword_8009F7B4++;
         }
 
-        if (((dword_800C0414 == (dword_800BF270 & 4096)) || (dword_800BF1A4 != 0)) || (dword_800BEFEC != 0))
+        if ( ( ( dword_800C0414 == ( dword_800BF270 & 4096 ) ) || ( dword_800BF1A4 != 0 ) ) ||
+             ( dword_800BEFEC != 0 ) )
         {
             result = 1;
 
-            if ((stream_data_ptr_800BEFE4) && (dword_800BEFEC == 0))
+            if ( ( stream_data_ptr_800BEFE4 ) && ( dword_800BEFEC == 0 ) )
             {
                 dword_800BEFF0 = 0;
                 bVar1 = 0;
 
-                if (dword_800BF268 != 0)
+                if ( dword_800BF268 != 0 )
                 {
                     dword_800BEFE8 = 0;
                 }
 
-                if (dword_800BF270 >= 4096u)
+                if ( dword_800BF270 >= 4096u )
                 {
-                    if (dword_800BF1A4 == 0)
+                    if ( dword_800BF1A4 == 0 )
                     {
-                        SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_r_800BF0C8);
+                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 );
                         dword_800BF1A4 = 1;
                     }
                     else
                     {
-                        SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_l_800BF060);
+                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 );
                         dword_800BF1A4 = 0;
-                        dword_800C0414 = (dword_800C0414 + 4096) & 0x1fff;
+                        dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
 
-                        if (dword_800BF268 == 0)
+                        if ( dword_800BF268 == 0 )
                         {
                             bVar1 = 1;
                         }
@@ -831,134 +837,143 @@ int StrSpuTransWithNoLoop_800827AC(void)
                         }
                     }
 
-                    (stream_data_ptr_800BEFE4 + dword_800BF164)[1] |= 4; // (temporary?) hack, maybe this was an inline like STOREL?
+                    ( stream_data_ptr_800BEFE4 + dword_800BF164 )[ 1 ] |= 4; // (temporary?) hack, maybe this was an inline like STOREL?
                 }
                 else
                 {
-                    if (dword_800BF1A4 == 0)
+                    if ( dword_800BF1A4 == 0 )
                     {
                         dword_800BF1A4 = 1;
-                        SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_r_800BF0C8 + 4096);
+                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 + 4096 );
                     }
                     else
                     {
                         dword_800BF1A4 = 0;
-                        dword_800C0414 = (dword_800C0414 + 4096) & 0x1fff;
-                        SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_l_800BF060 + 4096);
+                        dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
+                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 + 4096 );
                         bVar1 = 1;
 
-                        if (dword_800BF268 != 0)
+                        if ( dword_800BF268 != 0 )
                         {
                             dword_800BEFE8 = 1;
                         }
                     }
 
-                    (stream_data_ptr_800BEFE4 + dword_800BF164)[4081] |= 1; // (temporary?) hack
+                    ( stream_data_ptr_800BEFE4 + dword_800BF164 )[ 4081 ] |= 1; // (temporary?) hack
                 }
 
-                SpuWrite_80096E68(stream_data_ptr_800BEFE4 + dword_800BF164, 4096);
+                SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
 
-                if (dword_800BF268 != 0)
+                if ( dword_800BF268 != 0 )
                 {
-                    if (dword_800BEFE8 != 0)
+                    if ( dword_800BEFE8 != 0 )
                     {
                         dword_800BF164 = dword_800BF164 + 4096;
 
-                        if (dword_800BF1AC > 4096u)
+                        if ( str_unplay_size_800BF1AC > 4096u )
                         {
-                            dword_800BF1AC -= 4096;
+                            str_unplay_size_800BF1AC -= 4096;
                         }
                         else
                         {
-
                             dword_800BF164 = 0;
-                            dword_800BF264 = ((((4096 + dword_800BF270) + dword_800BF1AC) & 0xffffff00) - 0x300) & 0x1fff;
+
+                            dword_800BF264 = 4096 + dword_800BF270 + str_unplay_size_800BF1AC;
+                            dword_800BF264 &= 0xffffff00;
+                            dword_800BF264 -= 0x300;
+                            dword_800BF264 &= 0x1fff;
+
                             gStr_FadeOut1_800BF16C++;
                         }
                     }
                 }
                 else
                 {
-                    dword_800BF164 = dword_800BF164 + 4096;
+                    dword_800BF164 += 4096;
 
-                    if (dword_800BF1AC > 4096u)
+                    if ( str_unplay_size_800BF1AC > 4096u )
                     {
-                        dword_800BF1AC -= 4096;
+                        str_unplay_size_800BF1AC -= 4096;
                     }
                     else
                     {
-                        if (dword_800BF1A4 != 0)
+                        if ( dword_800BF1A4 != 0 )
                         {
-                            mts_printf_8008BBA0("\nSOUND STREAMING ERROR:NO LAST LEFT DATA\n");
+                            mts_printf_8008BBA0( "\nSOUND STREAMING ERROR:NO LAST LEFT DATA\n" );
                         }
 
-                        mts_printf_8008BBA0("str_unplay_size=%x\n", dword_800BF1AC);
+                        mts_printf_8008BBA0( "str_unplay_size=%x\n", str_unplay_size_800BF1AC );
 
                         dword_800BF164 = 0;
-                        dword_800BF264 = ((((4096 + dword_800BF270) + dword_800BF1AC) & 0xffffff00) - 0x300) & 0x1fff;
+
+                        dword_800BF264 = 4096 + dword_800BF270 + str_unplay_size_800BF1AC;
+                        dword_800BF264 &= 0xffffff00;
+                        dword_800BF264 -= 0x300;
+                        dword_800BF264 &= 0x1fff;
+
                         gStr_FadeOut1_800BF16C++;
                     }
                 }
 
-                if (bVar1)
+                if ( bVar1 )
                 {
                     dword_8009F7B8 = stream_data_ptr_800BEFE4;
-                    stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+                    stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
                     dword_800BF164 = 0;
                 }
             }
             else
             {
                 dword_800BEFF0 = 1;
-                mts_printf_8008BBA0("*");
+                mts_printf_8008BBA0( "*" );
 
-                if (dword_800BF270 >= 4096u)
+                if ( dword_800BF270 >= 4096u )
                 {
-                    if (dword_800BEFEC == 0)
+                    if ( dword_800BEFEC == 0 )
                     {
-                        SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_r_800BF0C8);
+                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 );
                         start_addr = spu_bgm_start_ptr_r_800BF0C8;
                         dword_800BEFEC = 1;
                     }
                     else
                     {
-                        SpuSetTransferStartAddr_80096EC8(spu_bgm_start_ptr_l_800BF060);
+                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 );
                         start_addr = spu_bgm_start_ptr_l_800BF060;
-                        dword_800C0414 = (dword_800C0414 + 4096) & 0x1fff;
+                        dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
                         dword_800BEFEC = 0;
                     }
 
-                    byte_800A2D28[1] = 6;
-                    byte_800A2D28[4081] = 2;
-                    SpuWrite_80096E68(byte_800A2D28, 4096);
+                    byte_800A2D28[ 1 ] = 6;
+                    byte_800A2D28[ 4081 ] = 2;
+                    SpuWrite_80096E68( byte_800A2D28, 4096 );
                 }
                 else
                 {
-                    if (dword_800BEFEC == 0)
+                    if ( dword_800BEFEC == 0 )
                     {
                         start_addr = spu_bgm_start_ptr_r_800BF0C8 + 4096;
                         dword_800BEFEC = 1;
-                        SpuSetTransferStartAddr_80096EC8(start_addr);
+                        SpuSetTransferStartAddr_80096EC8( start_addr );
                     }
                     else
                     {
-                        dword_800C0414 = (dword_800C0414 + 4096) & 0x1fff;
+                        dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
                         start_addr = spu_bgm_start_ptr_l_800BF060 + 4096;
                         dword_800BEFEC = 0;
-                        SpuSetTransferStartAddr_80096EC8(start_addr);
+                        SpuSetTransferStartAddr_80096EC8( start_addr );
                     }
 
-                    byte_800A2D28[1] = 2;
-                    byte_800A2D28[4081] = 3;
-                    SpuWrite_80096E68(byte_800A2D28, 4096);
+                    byte_800A2D28[ 1 ] = 2;
+                    byte_800A2D28[ 4081 ] = 3;
+                    SpuWrite_80096E68( byte_800A2D28, 4096 );
                 }
 
-                if ((dword_800BEFEC == 0) && (dword_800C0414 != 0))
+                if ( ( dword_800BEFEC == 0 ) && ( dword_800C0414 != 0 ) )
                 {
                     dword_8009F7B8 = stream_data_ptr_800BEFE4;
-                    stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0(1);
+                    stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
 
-                    if ((stream_data_ptr_800BEFE4 == NULL) && FS_StreamGetEndFlag_800243B8())
+                    if ( ( stream_data_ptr_800BEFE4 == NULL ) && FS_StreamGetEndFlag_800243B8() )
                     {
                         dword_800BF264 = -1;
                         gStr_FadeOut1_800BF16C++;
@@ -968,7 +983,7 @@ int StrSpuTransWithNoLoop_800827AC(void)
             }
         }
 
-        if (FS_StreamIsForceStop_800243C8())
+        if ( FS_StreamIsForceStop_800243C8() )
         {
             dword_800BF264 = -1;
             gStr_FadeOut1_800BF16C++;
@@ -976,17 +991,17 @@ int StrSpuTransWithNoLoop_800827AC(void)
         break;
 
     case 6:
-        if ((dword_800BF270 == dword_800BF264) || (dword_800BF264 == -1))
+        if ( ( dword_800BF270 == dword_800BF264 ) || ( dword_800BF264 == -1 ) )
         {
             attr.mask = 0x4000;
             attr.voice = 0x200000;
             attr.rr = 8;
-            SpuSetVoiceAttr_80097518(&attr);
+            SpuSetVoiceAttr_80097518( &attr );
             attr.mask = 0x4000;
             attr.voice = 0x400000;
             attr.rr = 8;
-            SpuSetVoiceAttr_80097518(&attr);
-            SD_80081FC4(0x600000);
+            SpuSetVoiceAttr_80097518( &attr );
+            SD_80081FC4( 0x600000 );
             dword_8009F7B4 = -1;
             gStr_FadeOut1_800BF16C++;
         }
@@ -1001,7 +1016,7 @@ int StrSpuTransWithNoLoop_800827AC(void)
         break;
     }
 
-  return result;
+    return result;
 }
 
 void StrSpuTransClose_80083394()
@@ -1040,8 +1055,7 @@ int SD_LoadSeFile_8008341C()
     {
         se_fp_800BF014 = 0;
         mts_printf_8008BBA0( "LoadSeFile:File Open Error(%x)\n", se_load_code_800BF28C );
-        nullsub_7_80081A10(
-            &dword_800C0500, -4, se_load_code_800BF28C ); // TODO: Not sure if last arg exists
+        nullsub_7_80081A10( &dword_800C0500, -4, se_load_code_800BF28C ); // TODO: Not sure if last arg exists
         return -1;
     }
     else
@@ -1054,69 +1068,70 @@ int SD_LoadSeFile_8008341C()
     }
 }
 
-int SD_LoadWaveFile_800834FC(void)
+int SD_LoadWaveFile_800834FC( void )
 {
     unsigned int offset;
     unsigned int size;
     char        *dst;
 
-    if (dword_800BF294 != 0)
+    if ( wave_data_800BF294 != 0 )
     {
-        mts_printf_8008BBA0("ERROR:Wave File Already Opened.\n");
-        SD_8008395C(dword_800BF294, 2);
-        dword_800BF294 = 0;
+        mts_printf_8008BBA0( "ERROR:Wave File Already Opened.\n" );
+        SD_8008395C( wave_data_800BF294, 2 );
+        wave_data_800BF294 = 0;
     }
 
-    dword_800BF294 = SD_SongLoadData_8008394C(wave_load_code_800C0528, 2);
+    wave_data_800BF294 = SD_SongLoadData_8008394C( wave_load_code_800C0528, 2 );
 
-    if (dword_800BF294 < 0)
+    if ( wave_data_800BF294 < 0 )
     {
-        dword_800BF294 = 0;
-        mts_printf_8008BBA0("LoadWaveFile:File Open Error(%x)\n", wave_load_code_800C0528);
-        nullsub_7_80081A10(&dword_800C0500, -4, wave_load_code_800C0528);
+        wave_data_800BF294 = 0;
+        mts_printf_8008BBA0( "LoadWaveFile:File Open Error(%x)\n", wave_load_code_800C0528 );
+        nullsub_7_80081A10( &dword_800C0500, -4, wave_load_code_800C0528 );
         wave_load_code_800C0528 = 0;
         return -1;
     }
 
-    SD_80083954(dword_800BF294, cdload_buf_800BF010, 0x18000);
+    SD_80083954( wave_data_800BF294, cdload_buf_800BF010, 0x18000 );
     byte_800C056C = 0x4F;
 
-    offset  = cdload_buf_800BF010[0] << 24;
-    offset |= cdload_buf_800BF010[1] << 16;
-    offset |= cdload_buf_800BF010[2] << 8;
-    offset |= cdload_buf_800BF010[3];
+    offset = cdload_buf_800BF010[ 0 ] << 24;
+    offset |= cdload_buf_800BF010[ 1 ] << 16;
+    offset |= cdload_buf_800BF010[ 2 ] << 8;
+    offset |= cdload_buf_800BF010[ 3 ];
 
-    size  = cdload_buf_800BF010[4] << 24;
-    size |= cdload_buf_800BF010[5] << 16;
-    size |= cdload_buf_800BF010[6] << 8;
-    size |= cdload_buf_800BF010[7];
+    size = cdload_buf_800BF010[ 4 ] << 24;
+    size |= cdload_buf_800BF010[ 5 ] << 16;
+    size |= cdload_buf_800BF010[ 6 ] << 8;
+    size |= cdload_buf_800BF010[ 7 ];
 
-    mts_printf_8008BBA0("SUP OFFSET=%x:SIZE=%x\n", offset, size);
+    mts_printf_8008BBA0( "SUP OFFSET=%x:SIZE=%x\n", offset, size );
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
     dst = (char *)voice_tbl_800BF1E0 + offset;
-    memcpy_8008E648(dst, wave_load_ptr_800C0508, size);
+    memcpy_8008E648( dst, wave_load_ptr_800C0508, size );
 
-    mts_printf_8008BBA0("    SRC=%x:DST=%x\n", wave_load_ptr_800C0508, dst);
+    mts_printf_8008BBA0( "    SRC=%x:DST=%x\n", wave_load_ptr_800C0508, dst );
 
     wave_load_ptr_800C0508 += size;
 
-    spu_load_offset_800BF140  = wave_load_ptr_800C0508[0] << 24;
-    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[1] << 16;
-    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[2] << 8;
-    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[3];
+    spu_load_offset_800BF140 = wave_load_ptr_800C0508[ 0 ] << 24;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[ 1 ] << 16;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[ 2 ] << 8;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[ 3 ];
 
-    wave_unload_size_800BF274  = wave_load_ptr_800C0508[4] << 24;
-    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[5] << 16;
-    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[6] << 8;
-    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[7];
+    wave_unload_size_800BF274 = wave_load_ptr_800C0508[ 4 ] << 24;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 5 ] << 16;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 6 ] << 8;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 7 ];
 
-    mts_printf_8008BBA0("BIN OFFSET=%x\n", wave_load_ptr_800C0508);
-    mts_printf_8008BBA0("SPU OFFSET=%x:SIZE=%x\n", spu_load_offset_800BF140, wave_unload_size_800BF274);
+    mts_printf_8008BBA0( "BIN OFFSET=%x\n", wave_load_ptr_800C0508 );
+    mts_printf_8008BBA0( "SPU OFFSET=%x:SIZE=%x\n",
+                         spu_load_offset_800BF140, wave_unload_size_800BF274 );
 
     wave_load_ptr_800C0508 += 16;
 
-    if (wave_unload_size_800BF274 > (0x17FE0 - size))
+    if ( wave_unload_size_800BF274 > ( 0x17FE0 - size ) )
     {
         dword_800C0650 = 0x17FE0 - size;
     }
@@ -1132,11 +1147,11 @@ int SD_LoadWaveFile_800834FC(void)
 
 void sub_80083804( void )
 {
-    unsigned int temp_a0;
+    int temp;
 
-    if ( (unsigned int)wave_unload_size_800BF274 > 0x18000U )
+    if ( wave_unload_size_800BF274 > 0x18000U )
     {
-        SD_80083954( dword_800BF294, cdload_buf_800BF010, 0x18000 );
+        SD_80083954( wave_data_800BF294, cdload_buf_800BF010, 0x18000 );
         dword_800C0650 = 0x18000;
         dword_800BF27C = 2;
         wave_load_ptr_800C0508 = cdload_buf_800BF010;
@@ -1145,18 +1160,18 @@ void sub_80083804( void )
     }
     if ( wave_unload_size_800BF274 != 0 )
     {
-        SD_80083954( dword_800BF294, cdload_buf_800BF010, (int)wave_unload_size_800BF274 );
-        temp_a0 = wave_unload_size_800BF274;
+        SD_80083954( wave_data_800BF294, cdload_buf_800BF010, wave_unload_size_800BF274 );
+        temp = wave_unload_size_800BF274;
         wave_unload_size_800BF274 = 0;
         dword_800BF27C = 2;
         wave_load_ptr_800C0508 = cdload_buf_800BF010;
-        dword_800C0650 = temp_a0;
+        dword_800C0650 = temp;
         return;
     }
     dword_800BF27C = 0;
-    SD_8008395C( dword_800BF294, 2 );
+    SD_8008395C( wave_data_800BF294, 2 );
     mts_printf_8008BBA0( "Complete Load Se:%x\n", wave_load_code_800C0528 );
-    dword_800BF294 = 0;
+    wave_data_800BF294 = 0;
     nullsub_7_80081A10( &dword_800C0500, 0, wave_load_code_800C0528 );
 }
 
@@ -1200,25 +1215,25 @@ void StrFadeWkSet_80083964()
     gStr_fadeout_2_800C0584 = gStreamVol_800BF15C;
 }
 
-int StrFadeInt_800839C8(void)
+int StrFadeInt_800839C8( void )
 {
     SpuVoiceAttr attr;
     unsigned int diff;
 
-    if (gStr_FadeOut1_800BF16C < 5)
+    if ( gStr_FadeOut1_800BF16C < 5 )
     {
         return 0;
     }
 
-    if (dword_800C04F4 != 0)
+    if ( dword_800C04F4 != 0 )
     {
         gStr_fadeout_2_800C0584 += dword_800C04F4;
 
-        if (gStr_fadeout_2_800C0584 >= gStreamVol_800BF15C)
+        if ( gStr_fadeout_2_800C0584 >= gStreamVol_800BF15C )
         {
-            if (gStream_800C04F0 == -1)
+            if ( gStream_800C04F0 == -1 )
             {
-                SD_80081FC4(0x600000);
+                SD_80081FC4( 0x600000 );
                 gStr_FadeOut1_800BF16C = 7;
             }
             else
@@ -1240,15 +1255,15 @@ int StrFadeInt_800839C8(void)
 
     diff = gStreamVol_800BF15C - gStr_fadeout_2_800C0584;
 
-    if ((dword_800BF1DC != 0) && (dword_800C0418 < 2))
+    if ( ( dword_800BF1DC != 0 ) && ( dword_800C0418 < 2 ) )
     {
         attr.volume.left = 0;
         attr.volume.right = 0;
     }
-    else if (dword_800C050C != 0)
+    else if ( dword_800C050C != 0 )
     {
-        attr.volume.left = (diff * 0xA6) >> 8;
-        attr.volume.right = (diff * 0xA6) >> 8;
+        attr.volume.left = ( diff * 0xA6 ) >> 8;
+        attr.volume.right = ( diff * 0xA6 ) >> 8;
     }
     else
     {
@@ -1256,20 +1271,20 @@ int StrFadeInt_800839C8(void)
         attr.volume.right = diff;
     }
 
-    SpuSetVoiceAttr_80097518(&attr);
+    SpuSetVoiceAttr_80097518( &attr );
 
     attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
     attr.voice = SPU_22CH;
 
-    if ((dword_800BF1DC != 0) && (dword_800C0418 < 2))
+    if ( ( dword_800BF1DC != 0 ) && ( dword_800C0418 < 2 ) )
     {
         attr.volume.left = 0;
         attr.volume.right = 0;
     }
-    else if (dword_800C050C != 0)
+    else if ( dword_800C050C != 0 )
     {
-        attr.volume.left = (diff * 0xA6) >> 8;
-        attr.volume.right = (diff * 0xA6) >> 8;
+        attr.volume.left = ( diff * 0xA6 ) >> 8;
+        attr.volume.right = ( diff * 0xA6 ) >> 8;
     }
     else
     {
@@ -1277,80 +1292,80 @@ int StrFadeInt_800839C8(void)
         attr.volume.right = 0;
     }
 
-    SpuSetVoiceAttr_80097518(&attr);
+    SpuSetVoiceAttr_80097518( &attr );
     return 0;
 }
 
-int num2char_80083E68(unsigned int num);
+int  num2char_80083E68( unsigned int num );
 
-void sub_80083BB4(unsigned int arg0, char *outStr)
+void sub_80083BB4( unsigned int arg0, char *outStr )
 {
-    if ((arg0 + 0xFF000000) <= 0xFFFF)
+    if ( ( arg0 + 0xFF000000 ) <= 0xFFFF )
     {
-        outStr[0] = 'S';
-        outStr[1] = 'G';
-        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
-        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
-        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
-        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
-        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
-        outStr[7] = num2char_80083E68(arg0 & 0xF);
-        outStr[8] = '.';
-        outStr[9] = 'M';
-        outStr[10] = 'D';
-        outStr[11] = 'X';
-        outStr[12] = '\0';
+        outStr[ 0 ] = 'S';
+        outStr[ 1 ] = 'G';
+        outStr[ 2 ] = num2char_80083E68( ( arg0 >> 0x14 ) & 0xF );
+        outStr[ 3 ] = num2char_80083E68( ( arg0 >> 0x10 ) & 0xF );
+        outStr[ 4 ] = num2char_80083E68( ( arg0 >> 0xC ) & 0xF );
+        outStr[ 5 ] = num2char_80083E68( ( arg0 >> 8 ) & 0xF );
+        outStr[ 6 ] = num2char_80083E68( ( arg0 >> 4 ) & 0xF );
+        outStr[ 7 ] = num2char_80083E68( arg0 & 0xF );
+        outStr[ 8 ] = '.';
+        outStr[ 9 ] = 'M';
+        outStr[ 10 ] = 'D';
+        outStr[ 11 ] = 'X';
+        outStr[ 12 ] = '\0';
         return;
     }
-    if ((arg0 + 0xFE000000) <= 0xFFFF)
+    if ( ( arg0 + 0xFE000000 ) <= 0xFFFF )
     {
-        outStr[0] = 'S';
-        outStr[1] = 'E';
-        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
-        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
-        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
-        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
-        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
-        outStr[7] = num2char_80083E68(arg0 & 0xF);
-        outStr[8] = '.';
-        outStr[9] = 'E';
-        outStr[10] = 'F';
-        outStr[11] = 'X';
-        outStr[12] = '\0';
+        outStr[ 0 ] = 'S';
+        outStr[ 1 ] = 'E';
+        outStr[ 2 ] = num2char_80083E68( ( arg0 >> 0x14 ) & 0xF );
+        outStr[ 3 ] = num2char_80083E68( ( arg0 >> 0x10 ) & 0xF );
+        outStr[ 4 ] = num2char_80083E68( ( arg0 >> 0xC ) & 0xF );
+        outStr[ 5 ] = num2char_80083E68( ( arg0 >> 8 ) & 0xF );
+        outStr[ 6 ] = num2char_80083E68( ( arg0 >> 4 ) & 0xF );
+        outStr[ 7 ] = num2char_80083E68( arg0 & 0xF );
+        outStr[ 8 ] = '.';
+        outStr[ 9 ] = 'E';
+        outStr[ 10 ] = 'F';
+        outStr[ 11 ] = 'X';
+        outStr[ 12 ] = '\0';
         return;
     }
-    if ((arg0 + 0x20000000) <= 0xFFFF)
+    if ( ( arg0 + 0x20000000 ) <= 0xFFFF )
     {
-        outStr[0] = 'S';
-        outStr[1] = 'D';
-        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
-        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
-        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
-        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
-        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
-        outStr[7] = num2char_80083E68(arg0 & 0xF);
-        outStr[8] = '.';
-        outStr[9] = 'P';
-        outStr[10] = 'C';
-        outStr[11] = 'M';
-        outStr[12] = '\0';
+        outStr[ 0 ] = 'S';
+        outStr[ 1 ] = 'D';
+        outStr[ 2 ] = num2char_80083E68( ( arg0 >> 0x14 ) & 0xF );
+        outStr[ 3 ] = num2char_80083E68( ( arg0 >> 0x10 ) & 0xF );
+        outStr[ 4 ] = num2char_80083E68( ( arg0 >> 0xC ) & 0xF );
+        outStr[ 5 ] = num2char_80083E68( ( arg0 >> 8 ) & 0xF );
+        outStr[ 6 ] = num2char_80083E68( ( arg0 >> 4 ) & 0xF );
+        outStr[ 7 ] = num2char_80083E68( arg0 & 0xF );
+        outStr[ 8 ] = '.';
+        outStr[ 9 ] = 'P';
+        outStr[ 10 ] = 'C';
+        outStr[ 11 ] = 'M';
+        outStr[ 12 ] = '\0';
         // return; // Why missing return here?
     }
-    if ((arg0 + 0x02000000) <= 0xFFFF)
+    if ( ( arg0 + 0x02000000 ) <= 0xFFFF )
     {
-        outStr[0] = 'W';
-        outStr[1] = 'V';
-        outStr[2] = num2char_80083E68((arg0 >> 0x14) & 0xF);
-        outStr[3] = num2char_80083E68((arg0 >> 0x10) & 0xF);
-        outStr[4] = num2char_80083E68((arg0 >> 0xC) & 0xF);
-        outStr[5] = num2char_80083E68((arg0 >> 8) & 0xF);
-        outStr[6] = num2char_80083E68((arg0 >> 4) & 0xF);
-        outStr[7] = num2char_80083E68(arg0 & 0xF);
-        outStr[8] = '.';
-        outStr[9] = 'W';
-        outStr[10] = 'V';
-        outStr[11] = 'X';
-        outStr[12] = '\0';
+        outStr[ 0 ] = 'W';
+        outStr[ 1 ] = 'V';
+        outStr[ 2 ] = num2char_80083E68( ( arg0 >> 0x14 ) & 0xF );
+        outStr[ 3 ] = num2char_80083E68( ( arg0 >> 0x10 ) & 0xF );
+        outStr[ 4 ] = num2char_80083E68( ( arg0 >> 0xC ) & 0xF );
+        outStr[ 5 ] = num2char_80083E68( ( arg0 >> 8 ) & 0xF );
+        outStr[ 6 ] = num2char_80083E68( ( arg0 >> 4 ) & 0xF );
+        outStr[ 7 ] = num2char_80083E68( arg0 & 0xF );
+        outStr[ 8 ] = '.';
+        outStr[ 9 ] = 'W';
+        outStr[ 10 ] = 'V';
+        outStr[ 11 ] = 'X';
+        outStr[ 12 ] = '\0';
         return;
     }
 }
@@ -1396,6 +1411,7 @@ void SD_80083EF8( void )
 char *LoadInit_80083F08( unsigned short unused )
 {
     char *ret;
+
     if ( dword_800BF27C != 0 )
     {
         mts_printf_8008BBA0( "LoadInit %d\n", dword_800BF27C );
@@ -1406,7 +1422,7 @@ char *LoadInit_80083F08( unsigned short unused )
     return ret;
 }
 
-int SD_80083F54(char *end)
+int SD_80083F54( char *end )
 {
     char        *src;
     char        *dst;
@@ -1418,43 +1434,43 @@ int SD_80083F54(char *end)
 
     src = cdload_buf_800BF010 + 16;
 
-    offset  = cdload_buf_800BF010[0] << 24;
-    offset |= cdload_buf_800BF010[1] << 16;
-    offset |= cdload_buf_800BF010[2] << 8;
-    offset |= cdload_buf_800BF010[3];
+    offset = cdload_buf_800BF010[ 0 ] << 24;
+    offset |= cdload_buf_800BF010[ 1 ] << 16;
+    offset |= cdload_buf_800BF010[ 2 ] << 8;
+    offset |= cdload_buf_800BF010[ 3 ];
 
     dst = (char *)voice_tbl_800BF1E0 + offset;
 
-    size  = cdload_buf_800BF010[4] << 24;
-    size |= cdload_buf_800BF010[5] << 16;
-    size |= cdload_buf_800BF010[6] << 8;
-    size |= cdload_buf_800BF010[7];
+    size = cdload_buf_800BF010[ 4 ] << 24;
+    size |= cdload_buf_800BF010[ 5 ] << 16;
+    size |= cdload_buf_800BF010[ 6 ] << 8;
+    size |= cdload_buf_800BF010[ 7 ];
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
 
-    if ((src + size) >= end)
+    if ( ( src + size ) >= end )
     {
         return 0;
     }
 
-    memcpy_8008E648(dst, src, size);
+    memcpy_8008E648( dst, src, size );
 
     wave_load_ptr_800C0508 += size;
 
-    spu_load_offset_800BF140  = wave_load_ptr_800C0508[0] << 24;
-    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[1] << 16;
-    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[2] << 8;
-    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[3];
+    spu_load_offset_800BF140 = wave_load_ptr_800C0508[ 0 ] << 24;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[ 1 ] << 16;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[ 2 ] << 8;
+    spu_load_offset_800BF140 |= wave_load_ptr_800C0508[ 3 ];
 
-    wave_unload_size_800BF274  = wave_load_ptr_800C0508[4] << 24;
-    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[5] << 16;
-    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[6] << 8;
-    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[7];
+    wave_unload_size_800BF274 = wave_load_ptr_800C0508[ 4 ] << 24;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 5 ] << 16;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 6 ] << 8;
+    wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 7 ];
 
     wave_load_ptr_800C0508 += 16;
 
-    used = (end - cdload_buf_800BF010) - (size + 32);
-    if (used < wave_unload_size_800BF274)
+    used = ( end - cdload_buf_800BF010 ) - ( size + 32 );
+    if ( used < wave_unload_size_800BF274 )
     {
         dword_800C0650 = used;
     }
@@ -1466,13 +1482,13 @@ int SD_80083F54(char *end)
     wave_unload_size_800BF274 -= dword_800C0650;
     wave_save_code_800C0578 = wave_load_code_800C0528;
 
-    if (!SpuIsTransferCompleted_80096F58(SPU_TRANSFER_PEEK))
+    if ( !SpuIsTransferCompleted_80096F58( SPU_TRANSFER_PEEK ) )
     {
-        mts_printf_8008BBA0("$");
+        mts_printf_8008BBA0( "$" );
     }
 
-    SpuSetTransferStartAddr_80096EC8(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
-    SpuWrite_80096E68(wave_load_ptr_800C0508, dword_800C0650);
+    SpuSetTransferStartAddr_80096EC8( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
+    SpuWrite_80096E68( wave_load_ptr_800C0508, dword_800C0650 );
 
     spu_load_offset_800BF140 += dword_800C0650;
     wave_load_ptr_800C0508 += dword_800C0650;
@@ -1480,53 +1496,56 @@ int SD_80083F54(char *end)
     return 1;
 }
 
-char *SD_WavLoadBuf_800841D4(char *arg0)
+char *SD_WavLoadBuf_800841D4( char *arg0 )
 {
     char *buf;
 
-    if (dword_800BF27C != 1 && wave_unload_size_800BF274 == 0)
+    if ( dword_800BF27C != 1 && wave_unload_size_800BF274 == 0 )
     {
         dword_800BF27C = 0;
         return arg0;
     }
 
-    switch (dword_800BF27C)
+    switch ( dword_800BF27C )
     {
     case 1:
-        if (SD_80083F54(arg0) != 0)
+        if ( SD_80083F54( arg0 ) != 0 )
         {
             dword_800BF27C = 3;
         }
         break;
+
     case 2:
         break;
+
     case 3:
         buf = cdload_buf_800BF010 + 0x18000;
-        if (wave_load_ptr_800C0508 == buf)
+        if ( wave_load_ptr_800C0508 == buf )
         {
             wave_load_ptr_800C0508 = cdload_buf_800BF010;
         }
-        else if (buf < wave_load_ptr_800C0508)
+        else if ( buf < wave_load_ptr_800C0508 )
         {
-            mts_printf_8008BBA0("!!! SD WAV LOAD BUF OVER !!!\n");
+            mts_printf_8008BBA0( "!!! SD WAV LOAD BUF OVER !!!\n" );
             *(int *)1 = 0;
         }
-        if (arg0 < wave_load_ptr_800C0508)
+        if ( arg0 < wave_load_ptr_800C0508 )
         {
-            dword_800C0650 = 0x18000 + cdload_buf_800BF010 - (wave_load_ptr_800C0508);
+            dword_800C0650 = 0x18000 + cdload_buf_800BF010 - ( wave_load_ptr_800C0508 );
         }
         else
         {
             dword_800C0650 = arg0 - wave_load_ptr_800C0508;
         }
         wave_unload_size_800BF274 -= dword_800C0650;
-        SpuSetTransferStartAddr_80096EC8(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
-        SpuWrite_80096E68(wave_load_ptr_800C0508, dword_800C0650);
+        SpuSetTransferStartAddr_80096EC8( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
+        SpuWrite_80096E68( wave_load_ptr_800C0508, dword_800C0650 );
         spu_load_offset_800BF140 += dword_800C0650;
         wave_load_ptr_800C0508 += dword_800C0650;
         break;
     }
-    if (arg0 >= cdload_buf_800BF010 + 0x18000)
+
+    if ( arg0 >= cdload_buf_800BF010 + 0x18000 )
     {
         arg0 = cdload_buf_800BF010;
     }

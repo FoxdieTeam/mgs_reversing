@@ -350,7 +350,7 @@ int BSS             se_pan_800BF180[8]; // 0x20 (32) bytes
 int BSS             stop_jouchuu_se_800BF1A0; // 0x4 (4) bytes
 int BSS             dword_800BF1A4; // 0x4 (4) bytes
 int BSS             dword_800BF1A8; // 0x4 (4) bytes
-int BSS             dword_800BF1AC; // 0x4 (4) bytes
+int BSS             str_unplay_size_800BF1AC; // 0x4 (4) bytes
 int BSS             key_fg_800BF1B0; // 0x4 (4) bytes
 
 gap                                     gap_800BF1B4[0x4]; // 4 bytes
@@ -389,7 +389,7 @@ char* BSS           se_header_800BF284; // 0x4 (4) bytes
 int BSS             sd_code_read_800BF288; // 0x4 (4) bytes
 int BSS             se_load_code_800BF28C; // 0x4 (4) bytes
 int BSS             sng_fade_in_2_800BF290; // 0x4 (4) bytes
-int BSS             dword_800BF294; // 0x4 (4) bytes
+int BSS             wave_data_800BF294; // 0x4 (4) bytes
 int BSS             sng_pause_fg_800BF298; // 0x4 (4) bytes
 int BSS             keyoffs_800BF29C; // 0x4 (4) bytes
 
@@ -493,9 +493,11 @@ int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
 gap                                     gap_800C14F8[0x1D10]; // 7440 bytes
 
 char BSS            gProgramBottom_800C3208[0x53DF8]; // 0x53DF8 (343544) bytes
+/*
 unsigned char BSS   heap_80117000[0x6b000]; // 0x6B000 (438272) bytes
 unsigned char BSS   heap_80182000[0x1F000]; // 0x1F000 (126976) bytes
 char BSS            byte_801A1000[0x10000]; // 0x10000 (65536) bytes
 char BSS            byte_801B1000[0x36800]; // 0x36800 (223232) bytes
 char BSS            byte_801E7800[0x18700]; // 0x18700 (100096) bytes
 char BSS            byte_801FFF00[240]; // 0xF0 (240) bytes
+*/
