@@ -3,13 +3,13 @@
 #include "psyq.h"
 #include <KERNEL.H>
 
-// BSS
+// extern BSS
 extern mts_msg      gMtsMsgs_800C13D0[ 8 ];
 extern mts_msg     *D_800C0C00;
 extern mts_msg     *D_800C0C04;
 extern int          gMts_active_task_idx_800C13C0;
 extern signed char  byte_800C0C10[ 32 ];
-extern char         byte_801FFF00[ 240 ];
+//extern char         byte_801FFF00[ 240 ];
 extern unsigned int dword_800C0DC0[ 128 ];
 extern unsigned int dword_800C0FC0[ 256 ];
 extern const char  *dword_800A3D98[];
@@ -18,16 +18,25 @@ extern mts_task     gTasks_800C0C30[];
 extern int          gMts_bits_800C0DB4;
 extern char         gProgramBottom_800C3208[];
 
+// BSS
+//char               gProgramBottom_800C3208[0x53DF8];
+char       *heap_80117000[ 0x6b000 ];
+char        heap_80182000[ 0x1F000 ];
+char        byte_801A1000[ 0x10000 ];
+char        byte_801B1000[ 0x36800 ];
+char        byte_801E7800[ 0x18700 ];
+char        byte_801FFF00[ 240 ];
+
 // pad.c
 extern int  dword_800A3DB0;
 extern int  dword_800A3DB4;
 extern int  dword_800A3DB8;
 
-int         dword_800A3D68[] = {0, 0};
+int         dword_800A3D68[] = { 0, 0 };
 int         gMts_Event1_800A3D70 = 0;
 void        ( *gControllerCallBack_800A3D74 )( void ) = 0;
 int         gMtsVSyncCount_800A3D78 = -1;
-mts_msg     stru_800A3D7C = {NULL, 0, -1, 0, NULL};
+mts_msg     stru_800A3D7C = { NULL, 0, -1, 0, NULL };
 int         gMts_Event2_800A3D90 = 0;
 int         gStackSize_800A3D94 = 0;
 
@@ -36,7 +45,7 @@ static inline void mts_task_start(void)
     ExitCriticalSection_8009953C();
     mts_printf_8008BBA0( "TASK START: %d %X\n",
                          gTaskIdx_800C0DB0,
-                         gTasks_800C0C30[gTaskIdx_800C0DB0].field_8_fn_or_msg);
+                         gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg);
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg.fn();
     mts_8008B51C();
     mts_assert( 421, "task_start_body" );

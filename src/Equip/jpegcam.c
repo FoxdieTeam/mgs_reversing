@@ -32,8 +32,6 @@ extern int                 dword_800BDCD0;
 extern int                 DG_UnDrawFrameCount_800AB380;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 extern menu_save_mode_data stru_8009F2D8;
-extern char                byte_801A1000[0x10000];
-extern char                byte_801B1000[0x36800];
 
 extern short dword_800ABBD4;
 short        SECTION(".sbss") dword_800ABBD4;

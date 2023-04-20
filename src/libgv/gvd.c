@@ -54,16 +54,16 @@ void GV_Act_80014B60(GV_ACT *pGv)
 
 void GV_ResetPacketMemory_80014BD8(void)
 {
-    GV_InitMemorySystem_80015AF4(0, 1, (void *)0x80182000,
-                                 sizeof(heap_80182000) / 2); // passing heap_80182000 produces addiu instead of ori
+    // passing heap_80182000 produces addiu instead of ori
+    GV_InitMemorySystem_80015AF4(0, 1, (void *)0x80182000, sizeof(heap_80182000) / 2); 
     GV_InitMemorySystem_80015AF4(1, 1, (void *)0x80182000 + sizeof(heap_80182000) / 2,
                                  sizeof(heap_80182000) / 2); // ditto
 }
 
 void GV_SetPacketTempMemory_80014C28()
 {
-    GV_InitMemorySystem_80015AF4(0, 0, (void *)0x80182000,
-                                 sizeof(heap_80182000)); // passing heap_80182000 produces addiu instead of ori
+    // passing heap_80182000 produces addiu instead of ori
+    GV_InitMemorySystem_80015AF4(0, 0, (void *)0x80182000, sizeof(heap_80182000)); 
     GV_InitMemorySystem_80015AF4(1, 0, 0, 0);
 }
 
@@ -71,8 +71,8 @@ void GV_Memory_Init_80014C70(void)
 {
     GV_InitMemorySystemAll_80015AB0();
     GV_ResetPacketMemory_80014BD8();
-    GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000,
-                                 sizeof(heap_80117000)); // passing heap_80117000 produces addiu instead of ori
+    // passing heap_80117000 produces addiu instead of ori
+    GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000, sizeof(heap_80117000));
     mts_printf_8008BBA0("RESIDENT TOP %X\n", GV_ResidentMemoryBottom_800AB940);
 }
 

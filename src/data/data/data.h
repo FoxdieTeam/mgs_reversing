@@ -1,7 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 
-typedef void (*TMDXFunc)(void);
+//typedef void (*TMDXFunc)(void);
 
 enum TextConfig_Flags
 {
