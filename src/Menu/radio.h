@@ -142,6 +142,13 @@ typedef struct RadioCodecStru_800ABB98
 
 } RadioCodecStru_800ABB98;
 
+typedef struct _RadioUnknown
+{
+    char         coords[7][4];
+    unsigned int color1;
+    unsigned int color2;
+} RadioUnknown;
+
 // Those structs describe the structure of
 // ".res" files.
 //

@@ -139,8 +139,8 @@ short SECTION(".sdata") coords_800AB600[2][2] = {
 	{86, 72},
 	{44, 72}
 };
-int SECTION(".sdata") dword_800AB610 = 0x1030402;
-int SECTION(".sdata") dword_800AB614 = 0x10304;
+
+char SECTION(".sdata") dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
 const char SECTION(".sdata") aCall[] = "call";
 const char SECTION(".sdata") aP3t3t[] = "P#3T#3T";

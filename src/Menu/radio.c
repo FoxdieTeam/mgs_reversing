@@ -40,6 +40,9 @@ extern PANEL_TEXTURE dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int GV_PadMask_800AB374;
 
+extern char dword_8009E60C[];
+extern char dword_800AB610[8];
+
 extern const char aCall[]; // = "call"
 
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
@@ -74,7 +77,92 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     addPrim(pOt, tpage);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003FD50.s") // 608 bytes
+// What's the type of pRadioUnknown???
+// all callers pass "dword_8009E63C" to pRadioUnknown (or pointer to dword_8009E63C? - Ghidra is confused about it)
+void sub_8003FD50(MenuPrim *pMenuPrim, short xoff, short yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
+{
+    int          bit;
+    int          iVar1;
+    int          i;
+    unsigned int color;
+    LINE_F4     *pLine;
+    char        *pCoords;
+    int          iVar2;
+
+    bit = 1;
+    iVar1 = dword_8009E60C[param_4];
+
+    for (i = 0; i < 7; i++, bit <<= 1)
+    {
+        if (iVar1 & bit)
+        {
+            color = pRadioUnknown->color1;
+        }
+        else
+        {
+            color = pRadioUnknown->color2;
+
+            if (color == 0)
+            {
+                continue;
+            }
+        }
+
+        _NEW_PRIM(pLine, pMenuPrim);
+        LSTORE(color, &pLine->r0);
+
+        pCoords = pRadioUnknown->coords[i];
+        pLine->x0 = pCoords[0] + xoff;
+        pLine->y0 = pCoords[1] + yoff;
+
+        iVar2 = dword_800AB610[i];
+
+        if (iVar2 < 3)
+        {
+            pLine->x1 = pLine->x0 + pCoords[2] - 1;
+            pLine->y1 = pLine->y0;
+            pLine->x2 = pLine->x1;
+            pLine->y2 = pLine->y0 + pCoords[3] - 1;
+            pLine->x3 = pLine->x0;
+            pLine->y3 = pLine->y2;
+
+            if (iVar2 == 1)
+            {
+                pLine->x0++;
+                pLine->x1--;
+            }
+            else
+            {
+                pLine->x2--;
+                pLine->x3++;
+            }
+        }
+        else
+        {
+            pLine->x1 = pLine->x0;
+            pLine->y1 = pLine->y0 + pCoords[3] - 1;
+            pLine->x2 = pLine->x1 + pCoords[2] - 1;
+            pLine->y2 = pLine->y1;
+            pLine->x3 = pLine->x2;
+            pLine->y3 = pLine->y0;
+
+            if (iVar2 == 3)
+            {
+                pLine->y0++;
+                pLine->y1--;
+            }
+            else
+            {
+                pLine->y2--;
+                pLine->y3++;
+            }
+        }
+
+        setLineF4(pLine);
+        setSemiTrans(pLine, abe);
+        addPrim(pMenuPrim->mPrimBuf.mOt, pLine);
+    }
+}
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 
