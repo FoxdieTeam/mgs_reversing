@@ -30,6 +30,12 @@ char        *SECTION(".sbss") gFontEnd;
 extern RubiRes *gRubiRes_800AB6B4;
 RubiRes        *SECTION(".sbss") gRubiRes_800AB6B4;
 
+extern int                  dword_800AB6B8;
+int        SECTION(".sbss") dword_800AB6B8;
+
+extern int                  dword_800AB6BC;
+int        SECTION(".sbss") dword_800AB6BC;
+
 extern void *dword_8009E75C[];
 
 void font_load_80044A9C(void)
@@ -228,7 +234,148 @@ unsigned int sub_800450F4(int a1)
     return LLOAD(&gFontBegin[4 * a1]);
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper5_80045124.s") // 808 bytes
+void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3, char *arg4)
+{
+    unsigned int i;
+    int          j;
+    int          temp_a1;
+    char        *temp_v1;
+    int          var_a2;
+    int          var_t5;
+    int          var_v1;
+    unsigned int var_v0;
+    char        *temp_a0;
+    char        *temp_v1_2;
+    char        *var_a1;
+    char        *var_t1;
+    unsigned int temp_t3;
+    char         temp_v0;
+    char         var_t4;
+    int          new_var;
+    int          new_var2;
+
+    temp_v0 = dword_800AB6BC;
+    temp_t3 = (temp_v0 << 6) | (temp_v0 * 4);
+
+    if (dword_800AB6B8 != 0)
+    {
+        var_v1 = arg2 - 4;
+
+        if (rubi_display_flag_800AB6B0 == 0)
+        {
+            var_v1 = arg2 - 2;
+        }
+
+        temp_v1 = arg0 + ((arg1 + 5) / 2);
+        temp_a0 = temp_v1 + ((var_v1 - 1) * arg3);
+        temp_a1 = temp_t3 | 0x33;
+        *temp_a0 |= temp_a1;
+        temp_v1_2 = temp_v1 + (var_v1 * arg3);
+        *temp_v1_2 |= temp_a1;
+    }
+
+    var_a1 = arg4;
+    arg0 = arg0 + (arg1 / 2) + ((++arg2) * arg3);
+
+    if (!(arg1 & 1))
+    {
+        if (var_a1 == NULL)
+        {
+            for (i = 0; i < 12; i++)
+            {
+                *arg0++ = temp_t3;
+                *arg0++ = temp_t3;
+                *arg0++ = temp_t3;
+                *arg0++ = temp_t3;
+                *arg0++ = temp_t3;
+                *arg0++ = temp_t3;
+                arg0 += arg3 - 6;
+            }
+
+            return;
+        }
+
+        for (i = 0; i < 12; i++)
+        {
+            *arg0++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
+            *arg0++ = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 16));
+            var_a1++;
+
+            *arg0++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
+            *arg0++ = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 0x10));
+            var_a1++;
+
+            *arg0++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
+            *arg0 = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 0x10));
+            var_a1++;
+
+            arg0 = (arg0 + arg3) - 5;
+        }
+
+        return;
+    }
+
+    if (var_a1 == NULL)
+    {
+        for (i = 0; i < 12; i++)
+        {
+            *arg0++ = (*arg0 & 0xF) | (temp_t3 & 0xF0);
+            *arg0++ = temp_t3;
+            *arg0++ = temp_t3;
+            *arg0++ = temp_t3;
+            *arg0++ = temp_t3;
+            *arg0++ = temp_t3;
+            *arg0 = (*arg0 & 0xF0) | (temp_t3 & 0xF);
+            arg0 += arg3 - 6;
+        }
+
+        return;
+    }
+
+    var_t5 = 4;
+    new_var2 = (dword_800AB6BC & 0xff) << 2;
+    var_t4 = *var_a1;
+
+    for (i = 0; i < 12; i++)
+    {
+        var_a2 = (1 - (arg1 % 2)) * 4;
+        var_t1 = arg0;
+        temp_t3 = new_var2;
+
+        for (j = 0; j < 12; j++)
+        {
+            var_v0 = var_t4;
+            var_v0 >>= 6;
+            new_var = temp_t3 | var_v0;
+
+            if (--var_t5 == 0)
+            {
+                var_a1++;
+                var_t4 = *var_a1;
+                var_t5 = 4;
+            }
+            else
+            {
+                var_t4 <<= 2;
+            }
+
+            *var_t1 |= (new_var & 0xFF) << (4 - var_a2);
+
+            if (var_a2 == 0)
+            {
+                var_t1++;
+                var_a2 = 4;
+            }
+            else
+            {
+                var_a2 = 0;
+            }
+        }
+
+        arg0 += arg3;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper6_8004544C.s") // 716 bytes
 
 unsigned int font_draw_string_helper_80045718(int a1)
