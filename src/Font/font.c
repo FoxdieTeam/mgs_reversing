@@ -377,7 +377,7 @@ int font_draw_string_helper3_helper_800458B8(int *outIterCount, unsigned char *s
     return retval;
 }
 
-char font_draw_string_helper3_helper2_800459B0(char *arg0, int arg1, int arg2, int arg3, int arg4)
+int font_draw_string_helper3_helper2_800459B0(char *arg0, int arg1, int arg2, int arg3, int arg4)
 {
     int          oddIter, var_a1, j, var_t3, i, var_v0_2, rubiField0, var_t0;
     unsigned int var_v0;
@@ -457,7 +457,108 @@ char font_draw_string_helper3_helper2_800459B0(char *arg0, int arg1, int arg2, i
     return rubiField0;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper3_80045AE4.s")         // 552 bytes
+void font_draw_string_helper3_80045AE4(char *arg0, int x, int y, int arg3, unsigned char *arg4)
+{
+    int            iterCount;
+    int            len;
+    int            rubiCode, pos_y_2;
+    int            pos_x;
+    int            pos_x_2;
+    int            x_offset;
+    int            pos_y;
+    int            rubiIndex;
+    unsigned char *str;
+    str = arg4;
+    if (arg0 == 0)
+    {
+        return;
+    }
+    len = font_draw_string_helper3_helper_800458B8(&iterCount, str);
+    pos_y_2 = y;
+
+    if (rubi_left_pos_y_800ABB30 < pos_y_2)
+    {
+        pos_x = rubi_left_pos_xmax_800ABB34 - rubi_left_pos_x_800ABB2C;
+        pos_y = rubi_left_pos_y_800ABB30;
+        if (x / 2 >= pos_x)
+        {
+            do
+            {
+                pos_y = y;
+            } while (0);
+            pos_x = x;
+            rubi_left_pos_x_800ABB2C = 0;
+        }
+    }
+    else
+    {
+        pos_y = pos_y_2;
+        pos_x = x - rubi_left_pos_x_800ABB2C;
+    }
+
+    x_offset = 1;
+    iterCount--;
+    if (iterCount > 0 && (len - pos_x) < 0)
+    {
+        x_offset = (pos_x - len) / iterCount;
+        if (x_offset >= 5)
+        {
+            x_offset = 4;
+        }
+        if (x_offset <= 0)
+        {
+            x_offset = 1;
+        }
+    }
+    len += x_offset * iterCount;
+    pos_x = rubi_left_pos_x_800ABB2C + (pos_x - len) / 2;
+    if (rubi_left_pos_xmax_800ABB34 < pos_x + len)
+    {
+        pos_x = rubi_left_pos_xmax_800ABB34 - len;
+    }
+    if (pos_x < 0)
+    {
+        pos_x = 0;
+    }
+    pos_x_2 = pos_x;
+    while (1)
+    {
+        if (str[0] < 128)
+        {
+            do
+            {
+                rubiCode = str[0] | 0x8000;
+                str += 1;
+            } while (0);
+        }
+        else
+        {
+            rubiCode = (str[0] << 8) | str[1];
+            str += 2;
+        }
+        rubiCode &= ~0x6000;
+        if (rubiCode == 0x807D)
+        {
+            break;
+        }
+        rubiIndex = get_rubi_char_index_800457B4(rubiCode);
+        if (rubiIndex < 0)
+        {
+            mts_printf_8008BBA0(aWrongRubiCodeX, rubiCode);
+            rubiIndex = 0;
+        }
+        if (rubiIndex == 0)
+        {
+            pos_x_2 += 4 + x_offset;
+        }
+        else
+        {
+            pos_x_2 +=
+                font_draw_string_helper3_helper2_800459B0(arg0, pos_x_2, pos_y - 6, arg3, rubiIndex - 1) + x_offset;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_80045D0C.s")                 // 3056 bytes
 
 void font_clear_800468FC(KCB *kcb)
