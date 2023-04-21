@@ -79,7 +79,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
 
 // What's the type of pRadioUnknown???
 // all callers pass "dword_8009E63C" to pRadioUnknown (or pointer to dword_8009E63C? - Ghidra is confused about it)
-void sub_8003FD50(MenuPrim *pMenuPrim, short xoff, short yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
+void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
 {
     int          bit;
     int          iVar1;
@@ -166,7 +166,7 @@ void sub_8003FD50(MenuPrim *pMenuPrim, short xoff, short yoff, int param_4, Radi
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 
-void sub_8003FFB0(MenuPrim *pGlue, short x0, short y0, int rgb)
+void sub_8003FFB0(MenuPrim *pGlue, int x0, int y0, int rgb)
 {
     TILE *pPrim;
 
@@ -174,7 +174,7 @@ void sub_8003FFB0(MenuPrim *pGlue, short x0, short y0, int rgb)
 
     pPrim->w = 2;
     pPrim->h = 2;
-    *(int *)&pPrim->r0 = rgb;
+    LSTORE(rgb, &pPrim->r0);
     pPrim->x0 = x0 + 11;
     pPrim->y0 = y0 + 15;
 
@@ -182,7 +182,47 @@ void sub_8003FFB0(MenuPrim *pGlue, short x0, short y0, int rgb)
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper_80040034.s") // 376 bytes
+extern RadioUnknown dword_8009E618;
+extern RadioUnknown dword_8009E63C;
+extern char         dword_8009E660[]; // This should have 10000 entries, but there isn't enough room?
+
+void menu_radio_codec_helper_helper14_helper_80040034(MenuPrim *pGlue, int x, int y, int param_4)
+{
+    int           color;
+    int           idx;
+    int           count;
+    RadioUnknown *pRadioUnknown;
+
+    color = 0x3D472E;
+
+    pRadioUnknown = &dword_8009E63C;
+    pRadioUnknown->color1 = color;
+    pRadioUnknown->color2 = 0;
+
+    idx = 0;
+    count = 10000;
+
+    while (count > 0)
+    {
+        sub_8003FD50(pGlue, x, y, (param_4 / count) % 10, pRadioUnknown, 0);
+
+        if (count == 100)
+        {
+            sub_8003FFB0(pGlue, x, y, color);
+        }
+        else if (count == 1000)
+        {
+            pRadioUnknown = &dword_8009E618;
+            pRadioUnknown->color1 = color;
+            pRadioUnknown->color2 = 0;
+            y -= 2;
+        }
+
+        count /= 10;
+        x += dword_8009E660[idx++];
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
 

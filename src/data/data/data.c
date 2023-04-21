@@ -592,12 +592,21 @@ BarConfig SECTION(".data") gSnakeLifeBarConfig_8009E5F4 = {aLife, {16u, 143u, 12
 BarConfig SECTION(".data") gSnakeO2BarConfig_8009E600 = {aO2, {31u, 63u, 192u}, {31u, 127u, 255u}, 1};
 
 int SECTION(".data") dword_8009E60C[] = {0x6D5D2477, 0x257B6B2E, 0x6F7F};
-int SECTION(".data") dword_8009E618[] = {0x2070001, 0x7020100, 0x7020107, 0x2070701, 0x7020900, 0x7020907, 0x2070F01};
-int SECTION(".data") dword_8009E634 = 0x3D472E;
-int SECTION(".data") dword_8009E638 = 0x3D472E;
-int SECTION(".data") dword_8009E63C[] = {0x2050001, 0x6020100, 0x6020105, 0x2050601, 0x6020800, 0x6020805, 0x2050D01};
-int SECTION(".data") dword_8009E658 = 0x3D472E;
-int SECTION(".data") dword_8009E65C = 0x3D472E;
+
+RadioUnknown SECTION(".data") dword_8009E618 =
+{
+    {{1, 0, 7, 2}, {0, 1, 2, 7}, {7, 1, 2, 7}, {1, 7, 7, 2}, {0, 9, 2, 7}, {7, 9, 2, 7}, {1, 15, 7, 2}},
+    0x3D472E,
+    0x3D472E
+};
+
+RadioUnknown SECTION(".data") dword_8009E63C =
+{
+    {{1, 0, 5, 2}, {0, 1, 2, 6}, {5, 1, 2, 6}, {1, 6, 5, 2}, {0, 8, 2, 6}, {5, 8, 2, 6}, {1, 13, 5, 2}},
+    0x3D472E,
+    0x3D472E
+};
+
 int SECTION(".data") dword_8009E660 = 0xC0F0A0A;
 int SECTION(".data") dword_8009E664[] = {
     0x30503A78, 0x601A1F13, 0x2053774, 0x60293020, 0x20537C7, 0x60293020, 0x2056B74, 0x60293020, 0x2056BC7, 0x60293020,
