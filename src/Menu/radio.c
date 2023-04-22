@@ -282,7 +282,29 @@ void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
     addPrim(pGlue->mPrimBuf.mOt, tpage);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper3_80040590.s") // 188 bytes
+void menu_radio_codec_helper_helper14_helper3_80040590(MenuPrim *pGlue, Radio_8009E664 *param_2, int cnt, int xoff, int yoff)
+{
+    Radio_8009E664 *tileInfo;
+    TILE *tile;
+
+    tileInfo = param_2;
+    while (cnt > 0)
+    {
+        _NEW_PRIM(tile, pGlue);
+
+        setlen(tile, 3); // part of setTile()
+        LCOPY(&tileInfo->r0, &tile->r0);
+
+        tile->x0 = tileInfo->x0 + xoff;
+        tile->y0 = tileInfo->y0 + yoff;
+        tile->w = tileInfo->w;
+        tile->h = tileInfo->h;
+
+        addPrim(pGlue->mPrimBuf.mOt, tile);
+        cnt--;
+        tileInfo++;
+    }
+}
 
 extern RadioCoordsStru_8009E6FC gRadioCoords_8009E6FC[];
 
@@ -450,7 +472,7 @@ int        SECTION(".sbss") dword_800ABB00;
 extern int dword_800ABAF8;
 int        SECTION(".sbss") dword_800ABAF8;
 
-extern int dword_8009E664;
+extern Radio_8009E664 dword_8009E664[];
 
 void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_2)
 {
@@ -468,7 +490,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
         menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, 0, -8, -1);
         menu_radio_codec_helper_helper14_helper2_800401AC(pGlue, 141, 80);
         menu_radio_codec_helper_helper14_helper5_800402A0(pGlue, 122, 51, -1);
-        menu_radio_codec_helper_helper14_helper3_80040590(pGlue, &dword_8009E664, 19, 0, -8);
+        menu_radio_codec_helper_helper14_helper3_80040590(pGlue, dword_8009E664, 19, 0, -8);
 
         _NEW_PRIM(stp, pGlue);
         SetDrawStp_800924D8(stp, 1);
