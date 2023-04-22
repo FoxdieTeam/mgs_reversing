@@ -149,6 +149,12 @@ typedef struct _RadioUnknown
     unsigned int color2;
 } RadioUnknown;
 
+typedef struct Radio_8009E664
+{
+    unsigned char x0, y0, w, h;
+    unsigned char r0, g0, b0, code;
+} Radio_8009E664;
+
 // Those structs describe the structure of
 // ".res" files.
 //
@@ -194,7 +200,6 @@ void           menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue
 void           menu_radio_codec_helper_helper14_helper_80040034(MenuPrim *pGlue, int param_2, int param_3, int param_4);
 void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int param_2, int param_3, int param_4);
 void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuPrim *pGlue, int param_2, int param_3);
-void           menu_radio_codec_helper_helper14_helper3_80040590(MenuPrim *pGlue, int *param_2, int param_3, int param_4, int param_5);
 void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour,
                                                                         int idx);
 int            menu_GetRadioCode_800497C4(int param_1);
