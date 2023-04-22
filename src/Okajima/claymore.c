@@ -316,7 +316,6 @@ Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_fiel
     Actor_Claymore *null_claymore;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
-    int             constant_ff, constant_20;
     int             current_map;
 
     claymore = NULL;
@@ -334,16 +333,7 @@ Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_fiel
     if (param_4 == 8)
     {
         GM_SeSet_80032858(noise_position, 0x29);
-
-        constant_ff = 0xff;
-        constant_20 = 0x20;
-        if (GM_NoisePower_800ABA24 <= constant_ff &&
-            (GM_NoisePower_800ABA24 != 0xff || GM_NoiseLength_800ABA30 <= constant_20))
-        {
-            GM_NoiseLength_800ABA30 = 0x20;
-            GM_NoisePower_800ABA24 = 0xff;
-            GM_NoisePosition_800AB9F8 = *noise_position;
-        }
+        GM_SetNoise(0xff, 0x20, noise_position);
 
         anime_create_8005DF50(&new_field_24, new_field_2C);
     }
