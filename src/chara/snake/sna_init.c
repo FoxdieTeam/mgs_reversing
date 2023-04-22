@@ -141,6 +141,10 @@ extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
 extern TSnakeActFunction  GM_lpfnPlayerActControl_800AB3DC;
 extern TSnakeActFunction  GM_lpfnPlayerActObject2_800AB3E0;
+extern unsigned char      dword_8009EEF8[];
+extern unsigned char      dword_8009EF00[];
+extern unsigned char      dword_8009EF08[];
+extern unsigned char      dword_8009EF10[];
 
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
@@ -4416,8 +4420,118 @@ void sna_knock_80054D68(Actor_SnaInit *pActor, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_helper2_helper_80054EFC.s") // 1080 bytes
-void sna_act_helper2_helper_80054EFC(Actor_SnaInit *pActor, int time);
+void sna_act_helper2_helper_80054EFC(Actor_SnaInit *pActor, int pTime)
+{
+    int            time2;
+    int            status;
+    unsigned char  actionFlag;
+    Actor_SnaInit *actor;
+    int            time;
+
+    actor = pActor;
+    time = pTime;
+
+    if (time == 0)
+    {
+        actor->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
+        actor->field_9CC_anim_update_fn_1p = sna_act_helper2_helper_helper_800526BC;
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PRONE) != 0)
+        {
+            actionFlag = actor->field_9B4_action_table->field_14->field_1;
+        }
+        else
+        {
+            actionFlag = actor->field_9B4_action_table->field_14->field_0;
+        }
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CROUCHING) != 0)
+        {
+            sna_8004E260(actor, actionFlag, 4, 0x3FE);
+            actor->field_A38_local_data = 1;
+        }
+        else
+        {
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT) != 0)
+            {
+                actor->field_A38_local_data = 2;
+            }
+            SetAction_8004E22C(actor, actionFlag, 4);
+        }
+        sna_set_flags1_8004E2F4(actor, SNA_FLAG1_UNK26);
+    }
+    if (time == 12 && actor->field_A26_stance == 2)
+    {
+        NewPadVibration_8005D58C(dword_8009EF08, 1);
+        NewPadVibration_8005D58C(dword_8009EF10, 2);
+    }
+
+    if (time == 8 && actor->field_A26_stance != 2 && actor->field_91C_weapon_idx == -1)
+    {
+        NewPadVibration_8005D58C(dword_8009EEF8, 1);
+        NewPadVibration_8005D58C(dword_8009EF00, 2);
+    }
+    else if (time == 18 && actor->field_A26_stance != 2 && actor->field_91C_weapon_idx != -1)
+    {
+        NewPadVibration_8005D58C(dword_8009EEF8, 1);
+        NewPadVibration_8005D58C(dword_8009EF00, 2);
+    }
+
+    if ((time == 6 && actor->field_A26_stance == 2) ||
+        (time == 0 && actor->field_A26_stance != 2 && actor->field_91C_weapon_idx == -1) ||
+        (time == 13 && actor->field_A26_stance != 2 && actor->field_91C_weapon_idx != -1))
+    {
+        GM_Sound_800329C4(&actor->field_20_ctrl.field_0_mov, 0x13, 1);
+        GM_SetNoise(0x64, 0x10, &actor->field_20_ctrl.field_0_mov);
+    }
+    status = 0;
+    if (time >= 25)
+    {
+        status = actor->field_9B0_pad_ptr->status & 0xF000;
+    }
+    switch (actor->field_A38_local_data)
+    {
+    case 0:
+        if (actor->field_9C_obj.field_1A != 0 || status != 0)
+        {
+            sna_clear_flags1_8004E308(actor, SNA_FLAG1_UNK26);
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) != 0)
+            {
+                sna_start_anim_8004E1F4(actor, sna_anim_wall_idle_and_c4_80052A5C);
+                return;
+            }
+            sna_start_anim_8004E1F4(actor, dword_8009EEA4[actor->field_A26_stance]);
+            return;
+        }
+        return;
+    case 1:
+        if (actor->field_9C_obj.field_1C != 0 || status != 0)
+        {
+            sna_clear_flags1_8004E308(actor, SNA_FLAG1_UNK26);
+            sna_8004E260(actor, 0, 4, 0);
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) != 0)
+            {
+                sna_start_anim_8004E1F4(actor, sna_anim_wall_crouch_80052CCC);
+                return;
+            }
+            sna_start_anim_8004E1F4(actor, sna_anim_crouch_800527DC);
+            return;
+        }
+        break;
+    case 2:
+        actor->field_A60.vy = actor->field_20_ctrl.field_78_levels[0] + 150;
+        if (time >= 19)
+        {
+            time2 = 40 - time;
+            if (time2 == 0 || status != 0)
+            {
+                sna_clear_flags1_8004E308(actor, SNA_FLAG1_UNK26);
+                sna_start_anim_8004E1F4(actor, sna_anim_duct_move_80054424);
+                return;
+            }
+            actor->field_A60.vy += GV_RandS_800170BC(16) * time2;
+        }
+        break;
+    }
+}
 
 void sna_anim_scope_80055334(Actor_SnaInit *param_1, int time)
 {
