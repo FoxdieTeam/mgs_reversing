@@ -278,6 +278,8 @@ TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript);
 void               GCL_ExecScript_80020228();
 void               GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs);
 int                GCL_MakeSaveFile_80020C0C(char *saveBuf);
+int                GCL_SetLoadFile_80020EAC(char *saveBuf);
+void               GCL_SaveLinkVar_80020B90(short *gameVar);
 
 struct map_record *GCL_Command_hzd_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
