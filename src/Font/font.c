@@ -152,7 +152,54 @@ int font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3,
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_set_color_80044DC4.s") // 372 bytes
+void font_set_color_80044DC4(KCB *kcb, int code, int fore, int back)
+{
+    int             fr, fg, fb;
+    int             br, bg, bb;
+    int             ir, ig, ib;
+    unsigned short *pClut;
+    int             i;
+
+    if (code > 3)
+    {
+        return;
+    }
+
+    pClut = (unsigned short *)kcb->font_clut_buffer + code * 4;
+
+    fr = fore & 0x1f;
+    fg = (fore >> 5) & 0x1f;
+    fb = (fore >> 10) & 0x1f;
+
+    br = back & 0x1f;
+    bg = (back >> 5) & 0x1f;
+    bb = (back >> 10) & 0x1f;
+
+    ir = (fr + br * 2) / 3;
+    ig = (fg + bg * 2) / 3;
+    ib = (fb + bb * 2) / 3;
+    pClut[0] = back;
+    pClut[1] = ir | (ig << 5) | (ib << 10);
+
+    // Dead code that messes up the codegen :)
+    ir = (fr * 5 + br * 3) / 8;
+    ig = (fg * 5 + bg * 3) / 8;
+    ib = (fb * 5 + bb * 3) / 8;
+
+    ir = (fr * 2 + br) / 3;
+    ig = (fg * 2 + bg) / 3;
+    ib = (fb * 2 + bb) / 3;
+    pClut[2] = ir | (ig << 5) | (ib << 10);
+    pClut[3] = fore;
+
+    for (i = 0; i < 4; i++)
+    {
+        if (pClut[i] != 0)
+        {
+            pClut[i] |= 0x8000;
+        }
+    }
+}
 
 int font_get_buffer_size_80044F38(KCB *kcb)
 {
