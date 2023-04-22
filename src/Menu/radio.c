@@ -184,7 +184,7 @@ void sub_8003FFB0(MenuPrim *pGlue, int x0, int y0, int rgb)
 
 extern RadioUnknown dword_8009E618;
 extern RadioUnknown dword_8009E63C;
-extern char         dword_8009E660[]; // This should have 10000 entries, but there isn't enough room?
+extern char         dword_8009E660[]; // This should have at least 5 elements (loop in menu_radio_codec_helper_helper14_helper_80040034 has 5 iterations)
 
 void menu_radio_codec_helper_helper14_helper_80040034(MenuPrim *pGlue, int x, int y, int param_4)
 {
