@@ -77,8 +77,6 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     addPrim(pOt, tpage);
 }
 
-// What's the type of pRadioUnknown???
-// all callers pass "dword_8009E63C" to pRadioUnknown (or pointer to dword_8009E63C? - Ghidra is confused about it)
 void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
 {
     int          bit;
@@ -223,7 +221,34 @@ void menu_radio_codec_helper_helper14_helper_80040034(MenuPrim *pGlue, int x, in
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper2_800401AC.s") // 244 bytes
+void menu_radio_codec_helper_helper14_helper2_800401AC(MenuPrim *pGlue, int xoff, int yoff)
+{
+    RadioUnknown *pUnk;
+    int           i;
+    int           color;
+
+    color = 0x3D472E;
+
+    pUnk = &dword_8009E63C;
+    pUnk->color1 = color;
+
+    for (i = 0; i < 5; xoff += dword_8009E660[i], i++) // TODO: does this read one past the end of dword_8009E660?
+    {
+        sub_8003FD50(pGlue, xoff, yoff, 8, pUnk, 0);
+        if (i == 1)
+        {
+            pUnk = &dword_8009E618;
+            pUnk->color1 = color;
+
+            yoff -= 2;
+        }
+        else if (i == 2)
+        {
+            sub_8003FFB0(pGlue, xoff, yoff, color);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
 
 void menu_RadioCall_helper_800403E4(void)
