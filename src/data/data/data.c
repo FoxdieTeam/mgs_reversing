@@ -607,7 +607,7 @@ RadioUnknown SECTION(".data") dword_8009E63C =
     0x3D472E
 };
 
-int SECTION(".data") dword_8009E660 = 0xC0F0A0A;
+char SECTION(".data") dword_8009E660[] = {10, 10, 15, 12};
 
 Radio_8009E664 SECTION(".data") dword_8009E664[] = {
     // x0  y0   w   h    r0    g0    b0  code (code = TILE)
