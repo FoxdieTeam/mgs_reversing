@@ -273,6 +273,30 @@ static inline short FP_Extend(short value)
     return value;
 }
 
+static inline int FP_Extend2(int value)
+{
+    value &= 0xfff;
+
+    if (value >= 2048)
+    {
+        value -= 4096;
+    }
+
+    return value;
+}
+
+static inline int FP_ExtendN(int value)
+{
+    value |= 0xf000;
+
+    if (value < -2048)
+    {
+        value += 4096;
+    }
+
+    return value;
+}
+
 static inline int FP_Subtract(int fp, int toSub)
 {
     short var_a0 = fp - toSub;

@@ -272,4 +272,153 @@ void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo)
 
 #pragma INCLUDE_ASM("asm/Game/sub_800360EC.s") // 668 bytes
 #pragma INCLUDE_ASM("asm/Game/sub_80036388.s") // 816 bytes
-#pragma INCLUDE_ASM("asm/Game/negate_rots_800366B8.s") // 856 bytes
+
+int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1)
+{
+    SVECTOR  vec1;
+    SVECTOR  vec2;
+    SVECTOR *vec1Ptr;
+    int      var_a2; // side?
+    int      diff;
+
+    vec1 = *arg0;
+    vec2 = *arg1;
+
+    var_a2 = 0;
+
+    if (arg0->vy > 0)
+    {
+        vec1.vy = (2048 - arg0->vy) & 0xFFF;
+    }
+    else
+    {
+        vec1.vy = (-2048 - arg0->vy) & 0xFFF;
+    }
+
+    if (arg0->vx > 0)
+    {
+        vec1.vx = (arg0->vx - 2048) & 0xFFF;
+    }
+    else
+    {
+        vec1.vx = (arg0->vx + 2048) & 0xFFF;
+    }
+
+    if (arg0->vz > 0)
+    {
+        vec1.vz = (arg0->vz - 2048) & 0xFFF;
+    }
+    else
+    {
+        vec1.vz = (arg0->vz + 2048) & 0xFFF;
+    }
+
+    // TODO: for some reason using FP_Extend2, FP_ExtendN inlines doesn't work here?
+    diff = arg1->vx - arg0->vx;
+    if (diff >= 0)
+    {
+        diff &= 0xfff;
+        if (diff >= 2048)
+        {
+            diff -= 4096;
+        }
+        arg1->vx = diff;
+    }
+    else
+    {
+        diff |= 0xf000;
+        if (diff < -2048)
+        {
+            diff += 4096;
+        }
+        arg1->vx = diff;
+    }
+
+    diff = arg1->vy - arg0->vy;
+    if (diff >= 0)
+    {
+        arg1->vy = FP_Extend2(diff);
+    }
+    else
+    {
+        arg1->vy = FP_ExtendN(diff);
+    }
+
+    diff = arg1->vz - arg0->vz;
+    if (diff >= 0)
+    {
+        arg1->vz = FP_Extend2(diff);
+    }
+    else
+    {
+        arg1->vz = FP_ExtendN(diff);
+    }
+
+    vec1Ptr = &vec1;
+
+    diff = vec2.vx - vec1Ptr->vx;
+    if (diff >= 0)
+    {
+        vec2.vx = FP_Extend2(diff);
+    }
+    else
+    {
+        vec2.vx = FP_ExtendN(diff);
+    }
+
+    diff = vec2.vy - vec1Ptr->vy;
+    if (diff >= 0)
+    {
+        vec2.vy = FP_Extend2(diff);
+    }
+    else
+    {
+        vec2.vy = FP_ExtendN(diff);
+    }
+
+    diff = vec2.vz - vec1Ptr->vz;
+    if (diff >= 0)
+    {
+        vec2.vz = FP_Extend2(diff);
+    }
+    else
+    {
+        vec2.vz = FP_ExtendN(diff);
+    }
+
+    if (abs(arg1->vx) <= abs(vec2.vx))
+    {
+        var_a2++;
+    }
+    else
+    {
+        var_a2--;
+    }
+
+    if (abs(arg1->vy) <= abs(vec2.vy))
+    {
+        var_a2++;
+    }
+    else
+    {
+        var_a2--;
+    }
+
+    if (abs(arg1->vz) <= abs(vec2.vz))
+    {
+        var_a2++;
+    }
+    else
+    {
+        var_a2--;
+    }
+
+    if (var_a2 < 0)
+    {
+        *arg0 = vec1;
+        *arg1 = vec2;
+        return -1;
+    }
+
+    return 0;
+}
