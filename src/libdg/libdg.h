@@ -253,14 +253,14 @@ typedef struct DG_OAR
 
 typedef struct OAR_RECORD
 {
-    SVECTOR       field_0;
-    SVECTOR       field_8;
-    int           field_10;
-    int           field_14;
-    short         field_18;
-    short         field_1A;
-    unsigned char field_1C;
-    char          field_1D[7];
+    SVECTOR         field_0;
+    SVECTOR         field_8;
+    int             field_10;
+    unsigned short *field_14;
+    short           field_18;
+    short           field_1A;
+    unsigned char   field_1C;
+    char            field_1D[7];
 } OAR_RECORD;
 
 typedef struct DG_PcxFile
