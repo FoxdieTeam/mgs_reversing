@@ -126,7 +126,82 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 }
 
 #pragma INCLUDE_ASM("asm/Game/Process_Oar_8003518C.s") // 600 bytes
-#pragma INCLUDE_ASM("asm/Game/Kmd_Oar_Inflate_800353E4.s") // 392 bytes
+
+extern int dword_8009DE1C[];
+
+void Kmd_Oar_Inflate_800353E4(OAR_RECORD *pRecord)
+{
+    unsigned int    val, val2;
+    unsigned int    shiftLeft, field_1C;
+    char            shiftRight, nextShiftRight;
+    unsigned short *field_14;
+
+    shiftRight = pRecord->field_1D[0];
+    field_14 = pRecord->field_14;
+
+    nextShiftRight = shiftRight + 8;
+    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight;
+    field_1C = val & 0xFF;
+    shiftRight = nextShiftRight;
+    if (nextShiftRight & 0x10)
+    {
+        field_14++;
+        shiftRight = nextShiftRight & 0xF;
+    }
+    val2 = val & 0xF;
+    field_1C >>= 4;
+    pRecord->field_1A = val2;
+    pRecord->field_1C = field_1C & 0xF;
+    pRecord->field_18 = val2 - 1;
+
+    shiftLeft = pRecord->field_1D[1];
+    pRecord->field_10 = dword_8009DE1C[pRecord->field_1A];
+    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
+    if (val & 1 << (shiftLeft - 1))
+    {
+        val |= ~((1 << shiftLeft) - 1);
+    }
+    pRecord->field_8.vx = val;
+    nextShiftRight = shiftRight + shiftLeft;
+    shiftRight = nextShiftRight;
+    if (nextShiftRight & 0x10)
+    {
+        field_14++;
+        shiftRight = nextShiftRight & 0xF;
+    }
+
+    shiftLeft = pRecord->field_1D[2];
+    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
+    if (val & 1 << (shiftLeft - 1))
+    {
+        val |= ~((1 << shiftLeft) - 1);
+    }
+    pRecord->field_8.vy = val;
+    nextShiftRight = shiftRight + shiftLeft;
+    shiftRight = nextShiftRight;
+    if (nextShiftRight & 0x10)
+    {
+        field_14++;
+        shiftRight = nextShiftRight & 0xF;
+    }
+
+    shiftLeft = pRecord->field_1D[3];
+    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
+    if (val & 1 << (shiftLeft - 1))
+    {
+        val |= ~((1 << shiftLeft) - 1);
+    }
+    pRecord->field_8.vz = val;
+    nextShiftRight = shiftRight + shiftLeft;
+    shiftRight = nextShiftRight;
+    if (nextShiftRight & 0x10)
+    {
+        field_14++;
+        shiftRight = nextShiftRight & 0xF;
+    }
+    pRecord->field_1D[0] = shiftRight;
+    pRecord->field_14 = field_14;
+}
 
 int sub_8003556C(MOTION_CONTROL *m_ctrl)
 {
