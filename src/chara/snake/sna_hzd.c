@@ -261,14 +261,16 @@ int HZD_ReachTo_helper_8005C404(HZD_MAP *pHzd, int near_idx, int toFind)
     return 0;
 }
 
-char sna_8005C458(HZD_MAP *pHzd, int a2, int a3) // TODO: Not sure if return value correct
+int sna_8005C458(HZD_MAP *pHzd, int a2, int a3)
 {
-    if (a2 != 255 && a3 != 255)
+    if ( a2 != 255 && a3 != 255 )
     {
-        return sub_8005BF84(pHzd->f14_navmeshes, a2, a3, pHzd->f00_header->n_navmeshes);
+        return sub_8005BF84(pHzd->f14_navmeshes, a2, a3, pHzd->f00_header->n_navmeshes) & 0xff;
     }
+
     return 255;
 }
+
 
 int sub_8005C498(HZD_MAP *pHzd, int idx, int *pOutNear)
 {
@@ -371,8 +373,134 @@ int sub_8005C5D4(HZD_MAP *pHzdMap, int param_2, int param_3)
 
 #pragma INCLUDE_ASM("asm/chara/snake/sub_8005C6C4.s")                                      // 472 bytes
 #pragma INCLUDE_ASM("asm/chara/snake/HZD_ReachTo_8005C89C.s")                              // 216 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper2_helper_helper_8005C974.s")        // 468 bytes
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005CB48.s")                                      // 468 bytes
+
+int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzdMap, int x, int y, void *pControl)
+{
+    int xl, xh;
+    int yl, yh;
+    int yl2, yh2;
+    int v1, v2, v3, v4;
+
+    xl = x & 0xff;
+    yl = y & 0xff;
+    yl2 = yl;
+
+    xh = (x >> 8) & 0xff;
+    yh = (y >> 8) & 0xff;
+    yh2 = yh;
+
+    if ( xh == 255 )
+        return xl;
+
+    if ( xl == xh )
+    {
+        if ( xl != yl2 && xl != yh )
+        {
+            if ( yh != yl2 && yl2 != 255 )
+            {
+                v1 = sna_8005C458(pHzdMap, xl, yl2);
+                v2 = sna_8005C458(pHzdMap, xl, yh);
+
+                if ( v1 > v2 )
+                    yl2 = yh;
+            }
+
+            return sna_act_unk_helper2_helper_helper_helper_8005C4E4(pHzdMap, xl, yl2);
+        }
+    }
+    else
+    {
+        v3 = sna_8005C458(pHzdMap, xl, yl2);
+        v4 = sna_8005C458(pHzdMap, xh, yl2);
+
+        if ( yl2 != yh2 && yh2 != 255 )
+        {
+            v1 = sna_8005C458(pHzdMap, xl, yh2);
+            v2 = sna_8005C458(pHzdMap, xh, yh2);
+
+            if ( v1 < v3 )
+                v3 = v1;
+
+            if ( v2 < v4 )
+                v4 = v2;
+        }
+
+        if ( v3 == v4 )
+        {
+            v3 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xl], pControl, 0x7F000000);
+            v4 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xh], pControl, 0x7F000000);
+        }
+
+        if ( v4 < v3 )
+            xl = xh;
+    }
+
+    return xl;
+}
+
+int sub_8005CB48(HZD_MAP *pHzdMap, int x, int y, void *pControl)
+{
+    int xl, xh;
+    int yl, yh;
+    int yl2, yh2;
+    int v1, v2, v3, v4;
+
+    xl = x & 0xff;
+    yl = y & 0xff;
+    yl2 = yl;
+
+    xh = (x >> 8) & 0xff;
+    yh = (y >> 8) & 0xff;
+    yh2 = yh;
+
+    if ( xh == 255 )
+        return xl;
+
+    if ( xl == xh )
+    {
+        if ( xl != yl2 && xl != yh )
+        {
+            if ( yh != yl2 && yl2 != 255 )
+            {
+                v1 = sna_8005C458(pHzdMap, xl, yl2);
+                v2 = sna_8005C458(pHzdMap, xl, yh);
+
+                if ( v1 > v2 )
+                    yl2 = yh;
+            }
+
+            return sub_8005C5D4(pHzdMap, xl, yl2);
+        }
+    }
+    else
+    {
+        v3 = sna_8005C458(pHzdMap, xl, yl2);
+        v4 = sna_8005C458(pHzdMap, xh, yl2);
+
+        if ( yl2 != yh2 && yh2 != 255 )
+        {
+            v1 = sna_8005C458(pHzdMap, xl, yh2);
+            v2 = sna_8005C458(pHzdMap, xh, yh2);
+
+            if ( v1 < v3 )
+                v3 = v1;
+
+            if ( v2 < v4 )
+                v4 = v2;
+        }
+
+        if ( v3 == v4 )
+        {
+            v3 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xl], pControl, 0x7F000000);
+            v4 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xh], pControl, 0x7F000000);
+        }
+
+        if ( v4 < v3 )
+            xl = xh;
+    }
+
+    return xl;
+}
 
 extern char aNoReachZoneFro[];
 
