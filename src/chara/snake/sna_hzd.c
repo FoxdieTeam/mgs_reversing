@@ -371,7 +371,127 @@ int sub_8005C5D4(HZD_MAP *pHzdMap, int param_2, int param_3)
     return retval;
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/sub_8005C6C4.s")                                      // 472 bytes
+int sub_8005C6C4(HZD_MAP *pHzdMap, SVECTOR *pVec, int a2)
+{
+    int      lo, lo2;
+    int      hi, hi2;
+    HZD_ZON *pNavLo;
+    HZD_ZON *pNavHi;
+    int      temp;
+
+    lo = a2 & 255;
+    hi = (a2 >> 8) & 255;
+
+    if (hi == 255)
+    {
+        hi = lo;
+    }
+
+    if (lo == hi)
+    {
+        if (lo != 255)
+        {
+            pNavLo = &pHzdMap->f00_header->navmeshes[lo];
+
+            if (!sub_8005BFDC(pNavLo, pVec))
+            {
+                temp = sub_8005C1E4(pHzdMap, pNavLo, pVec);
+
+                if (temp >= 0)
+                {
+                    hi = temp;
+                }
+                else
+                {
+                    goto exit;
+                }
+            }
+        }
+        else
+        {
+            goto exit;
+        }
+    }
+    else
+    {
+        pNavLo = &pHzdMap->f00_header->navmeshes[lo];
+
+        if (sub_8005BFDC(pNavLo, pVec))
+        {
+            hi = lo;
+        }
+        else
+        {
+            pNavHi = &pHzdMap->f00_header->navmeshes[hi];
+
+            if (sub_8005BFDC(pNavHi, pVec))
+            {
+                lo = hi;
+            }
+            else
+            {
+                temp = sna_8005C140(pHzdMap, pNavLo, pVec);
+
+                if (temp >= 0)
+                {
+                    lo = temp;
+                    hi = temp;
+                }
+                else
+                {
+                    temp = sna_8005C140(pHzdMap, pNavHi, pVec);
+
+                    if (temp >= 0)
+                    {
+                        lo = temp;
+                        hi = temp;
+                    }
+                    else
+                    {
+                        if (sub_8005C05C(pNavLo, pNavHi, pVec))
+                        {
+                            return a2;
+                        }
+
+                        temp = sub_8005C1E4(pHzdMap, pNavLo, pVec);
+
+                        if (temp >= 0)
+                        {
+                            hi = temp;
+                        }
+                        else
+                        {
+                            temp = sub_8005C1E4(pHzdMap, pNavHi, pVec);
+
+                            if (temp >= 0)
+                            {
+                                lo = temp;
+                            }
+                            else
+                            {
+exit:
+                                lo = sna_8005C354(pHzdMap, pVec);
+                                hi = 255;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    lo2 = lo;
+    hi2 = hi;
+
+    if (hi < lo)
+    {
+        lo2 = hi;
+        hi2 = lo;
+    }
+
+    return (lo2 & 0xFF) | ((hi2 & 0xFF) << 8);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake/HZD_ReachTo_8005C89C.s")                              // 216 bytes
 
 int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzdMap, int x, int y, void *pControl)
