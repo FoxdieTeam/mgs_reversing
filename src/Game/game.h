@@ -38,7 +38,7 @@ typedef struct _OBJECT
     short           field_10;    // 0x10 no match with unsigned in sna_8004E260
     unsigned short  field_12;    // 0x12
     MOTION_CONTROL *m_ctrl;      // 0x14
-    unsigned short  field_18;    // 0x18
+    short           field_18;    // 0x18
     short           field_1A;    // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
     short           field_1C;    // 0x1C
     unsigned short  field_1E;    // 0x1C
@@ -207,7 +207,6 @@ void               GM_AlertModeReset_8002EAB8(void);
 void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
-int                GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, OAR_RECORD *a4, OAR_RECORD *a5, CONTROL *pCtrl, SVECTOR *rots);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 
 HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_MAP *pHzdMap, CONTROL *pControl);
@@ -236,8 +235,8 @@ void GM_Act_helper_8002AA10(void); // noise/alert thing
 void GM_Act_helper3_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
 void GM_ActControl_80025A7C(CONTROL *pControl);
-
 void GM_CameraEventReset_800309A8(void);
+int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, OAR_RECORD *a4, OAR_RECORD *a5, CONTROL *pCtrl, SVECTOR *rots);
 
 int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds);
 

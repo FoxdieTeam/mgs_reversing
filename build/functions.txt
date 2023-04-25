@@ -1270,7 +1270,7 @@
 800591F4 808 sna_anim_punch_helper_800591F4
 8005951C 256 sna_anim_choke_helper_8005951C
 8005961C 224 sna_anim_choke_rechoke_helper_8005961C
-800596FC 5652 sna_main_logic_800596FC
+800596FC 5652 sna_init_main_logic_800596FC
 8005AD10 2076 sna_act_8005AD10
 8005B52C 292 sna_kill_8005B52C
 8005B650 2356 sna_NewSnake_8005B650
