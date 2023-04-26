@@ -492,7 +492,70 @@ exit:
     return (lo2 & 0xFF) | ((hi2 & 0xFF) << 8);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake/HZD_ReachTo_8005C89C.s")                              // 216 bytes
+int HZD_ReachTo_8005C89C(HZD_MAP *pHzdMap, int x, int y)
+{
+    int xl, xh;
+    int yl, yh;
+
+    xl = x & 0xFF;
+    yl = y & 0xFF;
+    xh = (x >> 8) & 0xFF;
+    yh = (y >> 8) & 0xFF;
+
+    if (xh == 255)
+    {
+        xh = xl;
+    }
+
+    if (yh == 255)
+    {
+        yh = yl;
+    }
+
+    if (xl == xh)
+    {
+        if (yl == yh)
+        {
+            if (xh != yh)
+            {
+                if (HZD_ReachTo_helper_8005C404(pHzdMap, xh, yh))
+                {
+ret2:
+                    return 2;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else if ((xh == yl) || (xh == yh))
+        {
+            return 1;
+        }
+    }
+    else if (yl == yh)
+    {
+        if ((xl == yh) || (xh == yh))
+        {
+            return 1;
+        }
+    }
+    else if (xl == yl)
+    {
+        if (xh == yh)
+        {
+            return 0;
+        }
+        goto ret2;
+    }
+    else if (xl == yh || xh == yl || xh == yh)
+    {
+        goto ret2;
+    }
+
+    return 3;
+}
 
 int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzdMap, int x, int y, void *pControl)
 {
