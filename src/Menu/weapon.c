@@ -58,7 +58,76 @@ void sub_8003CC88()
     dword_800ABAD0 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_8003CC94.s") // 428 bytes
+extern array_800BD748_child array_800BD828[];
+extern array_800BD748_child array_800BD748[];
+
+void sub_8003CC94()
+{
+    int                   i, uloop, vloop;
+    int                   cy, cy2;
+    int                   t1, t2;
+    int                   u, v;
+    array_800BD748_child *pArr;
+
+    pArr = array_800BD748;
+    i = 0;
+    v = 384;
+    for (vloop = 0; vloop < 3; vloop++)
+    {
+        u = 64;
+        for (uloop = 0; uloop < 3; uloop++)
+        {
+            pArr->field_0_u = u;
+            pArr->field_1_v = v;
+
+            cy = (i + 4) % 8 + 480;
+
+            pArr->field_2_clut = getClut(((i + 4) / 8 * 16 + 960), cy);
+
+            t2 = i / 3 * 3;
+            t1 = i % 3;
+            pArr->field_8_rect1.x = t1 * 16 + 976;
+            pArr->field_8_rect1.y = t2 * 8 + 384;
+
+            pArr->field_8_rect1.w = 16;
+            pArr->field_8_rect1.h = 24;
+
+            pArr->field_10_rect2.x = (i + 4) / 8 * 16 + 960;
+            i++;
+            pArr->field_10_rect2.y = cy;
+            pArr->field_10_rect2.w = 16;
+            pArr->field_10_rect2.h = 1;
+            pArr->field_4_panelTexture = 0;
+            pArr++;
+            u += 64;
+        }
+        v += 24;
+    }
+    dword_800ABAD8 = 0;
+    dword_800ABADC = 0;
+
+    pArr = array_800BD828;
+    v = 384;
+    for (i = 0; i < 4; i++)
+    {
+        pArr->field_0_u = 0;
+        pArr->field_1_v = v;
+        cy = i % 8 + 480;
+        cy2 = cy;
+        pArr->field_2_clut = getClut((i / 8) * 16 + 960, cy);
+        pArr->field_8_rect1.x = 960;
+        pArr->field_8_rect1.y = 384 + i * 24;
+        pArr->field_8_rect1.w = 16;
+        pArr->field_8_rect1.h = 24;
+        pArr->field_10_rect2.x = (i / 8) * 16 + 960;
+        pArr->field_10_rect2.y = cy2;
+        pArr->field_10_rect2.w = 16;
+        pArr->field_10_rect2.h = 1;
+        pArr->field_4_panelTexture = 0;
+        pArr++;
+        v += 24;
+    }
+}
 
 static inline int sub_8003CE40_index()
 {
@@ -84,8 +153,6 @@ void sub_8003CE78(void)
 {
     dword_800ABADC = 0;
 }
-
-extern array_800BD748_child array_800BD748[];
 
 void sub_8003CE84()
 {
@@ -127,7 +194,7 @@ void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
                 iter->field_4_panelTexture = pPanelTex;
 
                 pPanelTex->field_8_bufid = i;
-                pPanelTex->field_C_uvclut = iter->field_0_uvclut;
+                pPanelTex->field_C_uvclut = LLOAD(&iter->field_0_u);
 
                 dword_800ABAD8 |= bit;
 
@@ -147,15 +214,13 @@ void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
     }
 }
 
-extern array_800BD828_child array_800BD828[];
-
 void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
 {
-    array_800BD828_child *elem;
+    array_800BD748_child *elem;
     elem = &array_800BD828[index];
 
     pPanelTex->field_8_bufid = 31 - index;
-    pPanelTex->field_C_uvclut = elem->field_0_uvclut;
+    pPanelTex->field_C_uvclut = LLOAD(&elem->field_0_u);
     elem->field_8_rect1.w = pPanelTex->field_10_w / 4;
     elem->field_8_rect1.h = pPanelTex->field_12_h;
     LoadImage_8008FB10(&elem->field_8_rect1, pPanelTex->field_0_pixels);

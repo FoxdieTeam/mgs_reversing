@@ -103,22 +103,13 @@ typedef struct menu_0x14
 
 typedef struct array_800BD748_child
 {
-    int            field_0_uvclut;
+    char           field_0_u;
+    char           field_1_v;
+    short          field_2_clut;
     PANEL_TEXTURE *field_4_panelTexture;
     RECT           field_8_rect1;
     RECT           field_10_rect2;
 } array_800BD748_child;
-
-// TODO: Is it the same type as array_800BD748_child?
-// Unable to determine it now since no functions seem to access field_4
-// (except one always writing 0/NULL to it).
-typedef struct array_800BD828_child
-{
-    int field_0_uvclut;
-    int field_4;
-    RECT field_8_rect1;
-    RECT field_10_rect2;
-} array_800BD828_child;
 
 void menuman_init_80038954(void);
 
