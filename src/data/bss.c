@@ -191,7 +191,7 @@ array_800BD748_child BSS array_800BD748[9]; // 0xD8 (216) bytes
 
 gap                                     gap_800BD820[0x8]; // 8 bytes
 
-array_800BD828_child BSS array_800BD828[4]; // 0x60 (96) bytes
+array_800BD748_child BSS array_800BD828[4]; // 0x60 (96) bytes
 PANEL_TEXTURE BSS   gMenuRightItems_800BD888[MENU_WEAPON_COUNT]; // 0xDC (220) bytes
 
 gap                                     gap_800BD964[0x4]; // 4 bytes
