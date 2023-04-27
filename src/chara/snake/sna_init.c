@@ -2233,7 +2233,7 @@ void sna_weapon_switching_800511BC(Actor_SnaInit *pActor, int callback)
     {
         sub_8004EB74(pActor);
 
-        if (gGameState_800B4D98[95] != 0)
+        if (GM_UnkFlagBE != 0)
         {
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_UNK400);
             sna_clear_flags2_8004E344(pActor, SNA_FLAG2_UNK6 | SNA_FLAG2_UNK5);
@@ -5032,9 +5032,350 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 
 // similar to above, seems freeze snake and make him look at a certain direction or track something
 // triggers on first elevator ride at dock and right before mantis fight to look at meryl
-#pragma INCLUDE_ASM("asm/chara/snake/sna_act_unk_helper3_80055DD8.s") // 2168 bytes
-void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time);
+// PERMUTER
+static inline void sna_act_unk_helper3_helper_80055DD8(Actor_SnaInit *pActor, UnkSnakeStruct2 *pStr)
+{
+  Actor_SnaInit *pActor2;
+  char new_var;
+  int action;
+  int field_9E4;
+  pActor2 = pActor;
+  action = pActor->field_9C_obj.action_flag;
+  if (!(((action != pActor->field_9B4_action_table->field_8->field_0) || pActor->field_9C_obj.field_1A) && ((action != pActor->field_9B4_action_table->field_8->field_2) || pActor2->field_9C_obj.field_1A)))
+  {
+      pStr->field_9E4 = 1;
+  } else {
+    pActor2 = pActor;
+    if (((((action == pActor->field_9B4_action_table->field_C->field_6) && (pActor->field_9C_obj.field_1A == 0)) || ((action == pActor->field_9B4_action_table->field_C->field_7) && (pActor2->field_9C_obj.field_1A == 0))) || ((action == pActor->field_9B4_action_table->field_C->field_2) && pActor->field_9C_obj.field_1A)) || ((action == pActor->field_9B4_action_table->field_C->field_3) && pActor2->field_9C_obj.field_1A))
+    {
+      if ((action == pActor->field_9B4_action_table->field_C->field_2) && pActor->field_9C_obj.field_1A)
+      {
+        SetAction_8004E22C(pActor, 71, 4);
+      }
+      if ((action == pActor->field_9B4_action_table->field_C->field_3) && pActor->field_9C_obj.field_1A)
+      {
+        SetAction_8004E22C(pActor, 72, 4);
+      }
+          field_9E4 = 2;
 
+    }
+    else
+      if ((((action == pActor->field_9B4_action_table->field_C->field_4) || (action == pActor->field_9B4_action_table->field_C->field_5)) || (action == pActor->field_9B4_action_table->field_C->field_A)) || (action == pActor->field_9B4_action_table->field_C->field_B))
+    {
+      field_9E4 = 3;
+    }
+    else
+      if (((action == pActor->field_9B4_action_table->field_C->field_2) && (pActor->field_9C_obj.field_1A == 0)) || ((action == (new_var = pActor->field_9B4_action_table->field_C->field_3)) && (pActor->field_9C_obj.field_1A == 0)))
+    {
+      field_9E4 = 4;
+    }
+    else
+    {
+      field_9E4 = 0;
+    }
+    pStr->field_9E4 = field_9E4;
+  }
+}
+
+static inline void sna_act_unk_helper3_helper2_80055DD8(Actor_SnaInit *pActor)
+{
+    switch (pActor->field_9E4.field_9EA)
+    {
+    case 0:
+        switch (pActor->field_A26_stance)
+        {
+        case SNA_STANCE_STANDING:
+            if (++pActor->field_9E4.field_9EE >= 4)
+            {
+                pActor->field_9E4.field_9EE = 0;
+                pActor->field_9E4.field_9E4 = 6;
+            }
+            break;
+
+        case SNA_STANCE_CROUCH:
+            SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_0, 4);
+
+            if (++pActor->field_9E4.field_9EE == 4)
+            {
+                pActor->field_9E4.field_9EE = 0;
+                pActor->field_9E4.field_9E4 = 6;
+            }
+
+            break;
+
+        case SNA_STANCE_GROUND:
+            SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_2, 4);
+
+            if (pActor->field_9C_obj.field_1A != 0)
+            {
+                SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_0, 4);
+                pActor->field_9E4.field_9E4 = 6;
+            }
+            break;
+        }
+        break;
+
+    case 1:
+        switch (pActor->field_A26_stance)
+        {
+        case SNA_STANCE_STANDING:
+            SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_2, 4);
+
+            if (++pActor->field_9E4.field_9EE == 4)
+            {
+                pActor->field_9E4.field_9EE = 0;
+                pActor->field_9E4.field_9E4 = 6;
+            }
+            break;
+
+        case SNA_STANCE_CROUCH:
+            if (++pActor->field_9E4.field_9EE == 4)
+            {
+                pActor->field_9E4.field_9EE = 0;
+                pActor->field_9E4.field_9E4 = 6;
+            }
+            break;
+
+        case SNA_STANCE_GROUND:
+            SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_2, 4);
+
+            if (pActor->field_9C_obj.field_1A != 0)
+            {
+                SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_2, 4);
+                pActor->field_A26_stance = SNA_STANCE_STANDING;
+            }
+            break;
+        }
+        break;
+
+    case 2:
+        switch (pActor->field_A26_stance)
+        {
+        case SNA_STANCE_STANDING:
+            SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_2, 4);
+
+            if (++pActor->field_9E4.field_9EE == 4)
+            {
+                pActor->field_9E4.field_9EE = 0;
+                pActor->field_A26_stance = SNA_STANCE_CROUCH;
+            }
+            break;
+
+        case SNA_STANCE_CROUCH:
+            SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_0, 4);
+
+            if (pActor->field_9C_obj.field_1A != 0)
+            {
+                SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
+                pActor->field_9E4.field_9E4 = 6;
+            }
+            break;
+
+        case SNA_STANCE_GROUND:
+            if (++pActor->field_9E4.field_9EE == 4)
+            {
+                pActor->field_9E4.field_9EE = 0;
+                pActor->field_9E4.field_9E4 = 6;
+            }
+        }
+        break;
+    }
+}
+
+void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time)
+{
+    UnkSnakeStruct2 *pStr;
+    int              height;
+    int              stance;
+    int              action_flag;
+    int              item;
+    int              weapon;
+
+    pStr = &pActor->field_9E4;
+
+    if (time == 0)
+    {
+        pActor->field_9C8_anim_update_fn_3p = &sna_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = &sna_fn_nothing_80053B80;
+
+        sub_8004F338(pActor);
+
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_PAD_OFF);
+        sna_set_invuln_8004F2A0(pActor, 0);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING | PLAYER_PRONE);
+
+        pActor->field_A38_local_data = ITEM_NONE;
+
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000) || (pActor->field_9AC & 2))
+        {
+            pActor->field_A38_local_data = pActor->field_9A8_current_item;
+            sub_8004F204(pActor);
+        }
+
+        pActor->field_A3A = WEAPON_NONE;
+
+        if (pActor->field_920_tbl_8009D580 & 0x200)
+        {
+            pActor->field_A3A = pActor->field_91C_weapon_idx;
+            sub_8004F14C(pActor);
+        }
+
+        if (pStr->field_9EA != 2)
+        {
+            pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
+        }
+
+        sna_act_unk_helper3_helper_80055DD8(pActor, pStr);
+    }
+
+    height = pActor->field_20_ctrl.field_32_height;
+    stance = pStr->field_9EA;
+
+    switch (stance)
+    {
+    case 0:
+        if (height > 500)
+        {
+            pActor->field_A26_stance = SNA_STANCE_STANDING;
+        }
+        break;
+
+    case 1:
+        if (height < 500)
+        {
+            pActor->field_A26_stance = stance;
+        }
+        break;
+
+    case 2:
+        if (height < 500)
+        {
+            pActor->field_A26_stance = stance;
+        }
+        break;
+    }
+
+    switch(pStr->field_9E4)
+    {
+    case 0:
+        SetAction_8004E22C(pActor, sna_8004EAA8(pActor, pActor->field_A26_stance), 4);
+        pStr->field_9E4 = 5;
+        break;
+
+    case 1:
+        if (pActor->field_9C_obj.field_1A != 0)
+        {
+            SetAction_8004E22C(pActor, sna_8004EAA8(pActor, pActor->field_A26_stance), 4);
+            pStr->field_9E4 = 5;
+        }
+        break;
+
+    case 2:
+        if (pActor->field_9C_obj.field_1A != 0)
+        {
+            SetAction_8004E22C(pActor, sna_8004EAA8(pActor, 0), 4);
+            pActor->field_A26_stance = 0;
+            pStr->field_9E4 = 5;
+        }
+        break;
+
+    case 3:
+        if (pActor->field_A54.prone_bool_thing == 1)
+        {
+            action_flag = pActor->field_9B4_action_table->field_C->field_6;
+        }
+        else
+        {
+            action_flag = pActor->field_9B4_action_table->field_C->field_7;
+        }
+
+        pActor->field_A54.prone_bool_thing = 0;
+        SetAction_8004E22C(pActor, action_flag, 4);
+        pStr->field_9E4 = 2;
+        break;
+
+    case 4:
+        if (pActor->field_9C_obj.field_1A != 0)
+        {
+            if (pActor->field_A54.prone_bool_thing == 1)
+            {
+                SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_C->field_6, 4);
+            }
+            else
+            {
+                SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_C->field_7, 4);
+            }
+
+            pStr->field_9E4 = 2;
+        }
+        break;
+
+    case 5:
+        sna_act_unk_helper3_helper2_80055DD8(pActor);
+        break;
+
+    case 6:
+        pActor->field_A26_stance = pStr->field_9EA;
+
+        if (pActor->field_A26_stance == SNA_STANCE_CROUCH)
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_CROUCHING);
+        }
+        else if (pActor->field_A26_stance == SNA_STANCE_GROUND)
+        {
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+        }
+
+        sna_clear_invuln_8004F2EC(pActor);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
+        sna_set_flags1_8004E2F4(pActor, 0x200000);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_PAD_OFF);
+
+        if (!(pStr->field_9EC_flags3 & 0x2))
+        {
+            item = pActor->field_A38_local_data;
+            weapon = pActor->field_A3A;
+
+            if (item >= 0)
+            {
+                GM_CurrentItemId = item;
+
+                if (item == ITEM_C_BOX_A || item == ITEM_C_BOX_B || item == ITEM_C_BOX_C)
+                {
+                    pActor->field_A26_stance = SNA_STANCE_STANDING;
+                }
+            }
+
+            if (weapon >= 0)
+            {
+                GM_CurrentWeaponId = weapon;
+                GM_WeaponChanged_800AB9D8 = 1;
+
+                if (weapon == WEAPON_PSG1)
+                {
+                    pActor->field_A26_stance = SNA_STANCE_GROUND;
+                }
+                else if (weapon == WEAPON_STINGER)
+                {
+                    pActor->field_A26_stance = SNA_STANCE_STANDING;
+                }
+            }
+        }
+
+        if (!(pStr->field_9EC_flags3 & 0x8))
+        {
+            pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_SKIP_TRAP;
+        }
+
+        sna_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_stance]);
+
+        if (pStr->field_9E8 >= 0)
+        {
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = pStr->field_9E8;
+        }
+        break;
+    }
+}
 
 void sna_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time)
 {

@@ -407,8 +407,6 @@
     include "..\obj\Menu\menu_ClearRadioTable_8004967C.obj"
     include "..\obj\Menu\sub_8004969C.obj" ; MENU_SetRadioBaseCall / MENU_SetRadioOverCall
 
-    include "..\obj\data\rdata\rdata_80048E64.obj"
-
     include "..\obj\Menu\sub_80049710.obj"
     include "..\obj\Menu\menu_SetRadioBaseCall_80049764.obj"
     include "..\obj\Menu\menu_SetRadioOverCall_80049794.obj"
@@ -463,6 +461,8 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
+    include "..\obj\data\rdata\rdata_80048E64.obj"
+
     include "..\obj\data\sbss\sbss5.obj"
 
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
@@ -491,7 +491,10 @@
     ; 80057A90 80057BF0 80057FD4 80058378 80058470 80058644 80058780 800589C8 80058C10 80058C80
     ; 80058E88 80058EF4 80058F88 80059054 80059154 800591BC 800591F4 8005951C 8005961C 800596FC
     ; 8005AD10 8005B52C 8005B650
+
     include "..\obj\chara\snake\sna_init.obj"
+    include "..\obj\data\rdata\rdata_80055DD8.obj"
+
     ;80050A64 is in event.c
     ;also mentions of weapon.c and unique.c
 
