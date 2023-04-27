@@ -1,7 +1,4 @@
 #include "linker.h"
-#include <SYS/TYPES.H>
-#include <LIBGTE.H>
-#include <LIBGPU.H>
 
 const int SECTION(".rdata") dword_8001345C[] = {
     0x12700,    0xCFE0105,  0xFF010500, 0x64000A,   0xF1F10864, 0x10002F1, 0x5000C0D, 0x10AFF01, 0x82C012C,  0x2E2E2E2,
