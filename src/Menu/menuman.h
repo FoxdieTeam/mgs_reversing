@@ -138,15 +138,16 @@ typedef struct PANEL_CONF
     PANEL_CONF_update field_18_pFnUpdate;
 } PANEL_CONF;
 
+typedef void (*TMenuSaveModeDataUnknownFn)(char *, char *);
 typedef struct menu_save_mode_data
 {
-  char field_0[2];
-  char field_2;
-  char field_3;
-  void *field_4;
-  void* field_8;
-  void* field_C;
-  void* field_10;
+  char                       field_0[2];
+  char                       field_2;
+  char                       field_3;
+  void                      *field_4;
+  void                      *field_8;
+  TMenuSaveModeDataUnknownFn field_C;
+  void                      *field_10;
 } menu_save_mode_data;
 
 struct Menu_Item_Unknown;
