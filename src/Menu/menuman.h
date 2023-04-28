@@ -66,7 +66,7 @@ typedef struct menu_chara_struct
     void          *field_10_subtitles;    // Points to subtitle data.
     int            field_14_bInExecBlock; // to prevent re-entering?
     unsigned short field_18;
-    unsigned short field_1A;
+    short          field_1A_index;
     char          *field_1C_radioDatFragment;
     faces_group   *field_20_pFacesGroup;
     void          *field_24_pImgData256;
