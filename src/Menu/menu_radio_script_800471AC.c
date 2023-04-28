@@ -272,7 +272,7 @@ void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
 
     unk->field_0_state = 3;
     unk->field_C_pScript = GCL_Get_Param_Result_80020AA4();
-    unk->field_1A = stageIndex;
+    unk->field_1A_index = stageIndex;
     mts_slp_tsk_8008A400();
     unk->field_18 &= ~0x100;
 }
@@ -281,7 +281,7 @@ void radio_prompt_8004780C(menu_chara_struct *unk, unsigned char *pScript)
 {
     unk->field_0_state = 4;
     unk->field_C_pScript = pScript;
-    unk->field_1A = 0;
+    unk->field_1A_index = 0;
     mts_slp_tsk_8008A400();
 }
 
