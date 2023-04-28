@@ -443,7 +443,7 @@
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper14_8004BE98.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper15_8004C04C.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper16_8004C164.obj"
-    include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper17_8004C2E4.obj"
+    include "..\obj\Menu\menu_radio_do_file_mode_helper17_8004C2E4.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_8004C418.obj"
     include "..\obj\Menu\sub_8004CF20.obj"
     include "..\obj\Menu\sub_8004D008.obj"

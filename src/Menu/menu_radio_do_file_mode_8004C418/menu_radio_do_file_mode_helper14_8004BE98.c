@@ -10,7 +10,7 @@ int        dword_800AB700;
 extern int   aNoCard[]; // CAUTION: does not match with "extern char aNoCard[]"
 extern char *gMemoryCardNames_8009EC00[];
 
-void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, int param_2, Stru_800ABB74 *pStru)
+void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, Stru_800ABB74 *pStru)
 {
     Stru_800ABB74_child *pStruChild;
     int                  idx, idx_copy;
@@ -56,8 +56,8 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, int param_
     minusOne = -1;
     do {} while (0);
 
-    pStru->field_0 = 160;
-    pStru->field_2 = 100;
+    pStru->field_0_xpos = 160;
+    pStru->field_2_ypos = 100;
     pStru->field_4 = idx_copy;
     pStru->field_6 = 0;
     pStru->field_20 = param_2;
