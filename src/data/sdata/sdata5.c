@@ -32,13 +32,13 @@ char SECTION(".sdata") aColD[] = "COL %d\n";
 
 int SECTION(".sdata") MENU_PrimUse_800AB68C = 0;
 
-int SECTION(".sdata") dword_800AB690 = 0x786574;
-int SECTION(".sdata") dword_800AB694 = 0x6A626F;
-int SECTION(".sdata") dword_800AB698 = 0x796C70;
-int SECTION(".sdata") dword_800AB69C = 0x776F70;
-int SECTION(".sdata") dword_800AB6A0 = 0x6D656D;
+char SECTION(".sdata") aTex[] = "tex";
+char SECTION(".sdata") aObj[] = "obj";
+char SECTION(".sdata") aPly[] = "ply";
+char SECTION(".sdata") aPow[] = "pow";
+char SECTION(".sdata") aMem[] = "mem";
+char SECTION(".sdata") aEmpty[] = "";
 
-int SECTION(".sdata") dword_800AB6A4 = 0;
 char *SECTION(".sdata") gFontBegin = 0;
 char *SECTION(".sdata") gFontEnd = 0;
 int SECTION(".sdata") rubi_display_flag_800AB6B0 = 1;
