@@ -353,6 +353,7 @@ void         menu_Text_Init_80038B98(void);
 void         menu_Text_PrimUnknown_80038BB4(void);
 void         menu_init_nouse_800434A8(void);
 void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
+int          menu_draw_num_80038D10(int number);
 
 void menu_radio_draw_face_helper_800470F4(int idx);
 void menu_radio_draw_face_helper2_800486F4(menu_chara_struct_sub *pSub, int idx);

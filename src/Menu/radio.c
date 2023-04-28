@@ -1238,7 +1238,48 @@ int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_800448C0.s") // 432 bytes
+extern int GM_PlayerStatus_800ABA50;
+extern int GV_PauseLevel_800AB928;
+extern int MENU_PrimUse_800AB68C;
+int        MENU_PrimUse_800AB68C;
+
+extern TUnkRadioFn dword_8009E730[];
+extern char       *dword_8009E744[];
+
+void sub_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
+{
+    mts_read_pad_8008C25C(2);
+    if (GM_GameStatus_800AB3CC & 0x1000000)
+    {
+        sub_80043A24(pActor, pOt);
+        return;
+    }
+    if (!(GM_PlayerStatus_800ABA50 & PLAYER_PREVENT_WEAPON_ITEM_SWITCH) && GV_PauseLevel_800AB928 != 0 &&
+        (GV_PadData_800B05C0[0].press & PAD_L1))
+    {
+        if (dword_800ABB20 == 5)
+        {
+            GV_PauseLevel_800AB928 &= ~4;
+        }
+        dword_800ABB20++;
+        if (dword_800ABB20 == 6)
+        {
+            dword_800ABB20 = 0;
+        }
+        if (dword_800ABB20 == 5)
+        {
+            GV_PauseLevel_800AB928 |= 4;
+        }
+    }
+    else if (dword_800ABB20 != 0)
+    {
+        menu_Text_XY_Flags_80038B34(300, 8, 1);
+        menu_draw_num_80038D10(MENU_PrimUse_800AB68C * 100 / 8192);
+        menu_Text_XY_Flags_80038B34(300, 112, 1);
+        menu_Text_80038C38(dword_8009E744[dword_800ABB20]);
+        dword_8009E730[dword_800ABB20 - 1](pActor, pOt);
+    }
+}
 
 void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 {
