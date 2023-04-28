@@ -34,15 +34,15 @@ extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
 extern int                   dword_8009E544[];
 extern int                   GM_GameStatus_800AB3CC;
 
-int SECTION(".sbss") dword_800ABAE8;
-int SECTION(".sbss") dword_800ABAEC;
-int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
-int SECTION(".sbss") dword_800ABAF4;
-int SECTION(".sbss") dword_800ABAF8;
-int SECTION(".sbss") gRadioClut_800ABAFC;
-int SECTION(".sbss") dword_800ABB00;
-int SECTION(".sbss") dword_800ABB04;
-int SECTION(".sbss") dword_800ABB08;
+int   SECTION(".sbss") dword_800ABAE8;
+int   SECTION(".sbss") dword_800ABAEC;
+int   SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
+int   SECTION(".sbss") dword_800ABAF4;
+int   SECTION(".sbss") dword_800ABAF8;
+int   SECTION(".sbss") gRadioClut_800ABAFC;
+int   SECTION(".sbss") dword_800ABB00;
+char *SECTION(".sbss") dword_800ABB04;
+int   SECTION(".sbss") dword_800ABB08;
 short SECTION(".sbss") word_800ABB0C;
 short SECTION(".sbss") word_800ABB0E;
 
