@@ -34,10 +34,15 @@ void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
 SVECTOR *sub_80028820(void);
 void   sub_800241C8(char *arg0, int arg1);
 int    sub_80027384();
-void   sub_80027A94(HZD_SEG *pHzdSeg, int a2, char a3);
+void   sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3);
 void   sub_80027F10(HZD_FLR *pHzdFlr);
 // TODO: camera.h?
 GV_ACT *camera_init_800306A0(void);
+int sub_800275A8();
+int sub_800276B4();
+int sub_80027850(int mult);
+int sub_8002799C(int a0);
+
 
 void DrawReadError_8002AC9C(void);
 
