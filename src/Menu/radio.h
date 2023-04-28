@@ -35,8 +35,8 @@ typedef struct Stru_800ABB74_child
 
 typedef struct Stru_800ABB74
 {
-    short               field_0;
-    short               field_2;
+    short               field_0_xpos;
+    short               field_2_ypos;
     short               field_4;
     short               field_6;
     char                field_8;
@@ -51,7 +51,7 @@ typedef struct Stru_800ABB74
     short               field_18;
     short               field_1A;
     KCB                *field_1C_kcb;
-    int                 field_20;
+    char               *field_20;
     Stru_800ABB74_child field_24[0];
 } Stru_800ABB74;
 
@@ -212,5 +212,6 @@ int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, i
 void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
+void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor);
 
 #endif // _RADIO_H
