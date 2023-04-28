@@ -2,7 +2,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/delay.h"
 
-int GCL_Command_delay_8002C074(int argc, char **argv)
+int GCL_Command_delay_8002C074(unsigned char *pScript)
 {
     int time = 0;
     int proc = 0;

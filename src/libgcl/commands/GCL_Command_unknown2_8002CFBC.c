@@ -10,7 +10,7 @@ int        SECTION(".sdata") demodebug_finish_proc_800AB414;
 
 extern int GM_CurrentMap_800AB9B0;
 
-int GCL_Command_unknown2_8002CFBC(int argc, char **argv)
+int GCL_Command_unknown2_8002CFBC(unsigned char *pScript)
 {
     int   tmp, demo, flags, ivar;
     char *str;

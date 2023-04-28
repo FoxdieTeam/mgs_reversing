@@ -4,7 +4,7 @@
 extern int GV_PadMask_800AB374;
 extern int GM_GameStatus_800AB3CC;
 
-int GCL_Command_pad_8002C988(int argc, char **argv)
+int GCL_Command_pad_8002C988(unsigned char *pScript)
 {
     if (GCL_GetParam_80020968('m'))
     {

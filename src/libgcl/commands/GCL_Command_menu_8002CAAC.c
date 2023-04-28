@@ -6,7 +6,7 @@ extern unsigned int GM_DisableWeapon_800AB9E4;
 extern int GM_DisableItem_800ABA28;
 extern int GM_GameStatus_800AB3CC;
 
-int GCL_Command_menu_8002CAAC(void)
+int GCL_Command_menu_8002CAAC(unsigned char *pScript)
 {
     if (GCL_GetParam_80020968('j'))
     {

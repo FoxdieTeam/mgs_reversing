@@ -8,6 +8,7 @@
 #include "Font/font.h"
 #include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 #include "face.h"
+#include "memcard/memcard.h"
 
 #define UNTAG_PTR(Type, Ptr) (Type *)((unsigned int)Ptr & 0x7FFFFFFF)
 
@@ -144,7 +145,7 @@ typedef struct menu_save_mode_data
   char                       field_0[2];
   char                       field_2;
   char                       field_3;
-  void                      *field_4;
+  char                      *field_4_name; // "SAVE DATA", "SAVE PHOTO"
   void                      *field_8;
   TMenuSaveModeDataUnknownFn field_C;
   void                      *field_10;
@@ -447,6 +448,10 @@ void           menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const cha
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
+
+void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3);
+void sub_8004D14C(char *outstr, char *param_2);
+void sub_8004D1D0(char *saveBuf);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 

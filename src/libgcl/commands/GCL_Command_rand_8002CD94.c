@@ -3,7 +3,7 @@
 #include "psyq.h"
 #include "Game/linkvarbuf.h"
 
-int GCL_Command_rand_8002CD94(int argc, char **argv)
+int GCL_Command_rand_8002CD94(unsigned char *pScript)
 {
     int param;
     int rand;
