@@ -11,7 +11,7 @@ extern int DG_UnDrawFrameCount_800AB380;
 
 int SECTION(".sbss") gBinds_800ABA60;
 
-int GCL_Command_demo_8002C890( int argc, char **argv )
+int GCL_Command_demo_8002C890(unsigned char *pScript)
 {
     int   code, cb_proc;
     char  *msg;

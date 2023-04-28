@@ -5,7 +5,7 @@
 
 extern int GM_GameStatus_800AB3CC;
 
-int GCL_Command_radio_8002C4A8(int argc, char **argv)
+int GCL_Command_radio_8002C4A8(unsigned char *pScript)
 {
     int contactFrequency;
     int radioTableCode;

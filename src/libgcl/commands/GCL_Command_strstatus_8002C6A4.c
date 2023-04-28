@@ -5,7 +5,7 @@
 
 extern int GM_LoadRequest_800AB3D0;
 
-int GCL_Command_strstatus_8002C6A4(int argc, char **argv)
+int GCL_Command_strstatus_8002C6A4(unsigned char *pScript)
 {
     int val;
 

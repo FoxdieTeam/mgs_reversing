@@ -7,7 +7,7 @@
 #include "psyq.h"
 
 extern int             gmem_card_system_inited_8009D524;
-extern struct mem_card gMemCards_800B52F8[2];
+extern mem_card gMemCards_800B52F8[2];
 extern long            gHardware_end_io_800B52C8;
 extern long            gHardware_end_write_800B52CC;
 extern long            gHardware_timeout_800B52D0;
@@ -349,10 +349,10 @@ void memcard_retry_80025178(int port)
     memcard_retry_helper_800249CC(op);
 }
 
-struct mem_card *memcard_get_files_80025350(int idx)
+mem_card *memcard_get_files_80025350(int idx)
 {
-    struct mem_card *pCardBase = gMemCards_800B52F8;
-    struct mem_card *pCard = &pCardBase[idx];
+    mem_card *pCardBase = gMemCards_800B52F8;
+    mem_card *pCard = &pCardBase[idx];
 
     if (pCard->field_1_last_op == 1 || pCard->field_1_last_op == 4)
     {
@@ -367,8 +367,8 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 {
     char tmp[32];
 
-    struct mem_card *pCardBase = gMemCards_800B52F8;
-    struct mem_card *pCard = &pCardBase[idx];
+    mem_card *pCardBase = gMemCards_800B52F8;
+    mem_card *pCard = &pCardBase[idx];
 
     if (pCard->field_1_last_op == 1)
     {

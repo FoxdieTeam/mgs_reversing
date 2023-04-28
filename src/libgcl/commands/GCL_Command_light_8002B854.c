@@ -1,7 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 
-int GCL_Command_light_8002B854(int argc, char **argv)
+int GCL_Command_light_8002B854(unsigned char *pScript)
 {
     int   light_dir;
     int   light_col;

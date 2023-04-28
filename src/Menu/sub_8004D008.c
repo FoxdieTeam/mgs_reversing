@@ -11,7 +11,7 @@ extern char  dword_800122F4[];
 extern char  dword_8009EC10[];
 extern char *off_8009EC1C[];
 
-void sub_8004D008(char *outStr, int arg1, int arg2, int arg3)
+void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3)
 {
     char  str1[11];
     char *str2;

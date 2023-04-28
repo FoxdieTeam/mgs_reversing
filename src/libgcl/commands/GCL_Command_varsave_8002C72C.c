@@ -2,7 +2,7 @@
 #include "libgcl/libgcl.h"
 #include "mts/mts_new.h"
 
-int GCL_Command_varsave_8002C72C(int argc, char **argv)
+int GCL_Command_varsave_8002C72C(unsigned char *pScript)
 {
     unsigned char *param;
 

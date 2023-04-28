@@ -16,7 +16,7 @@ extern SVECTOR svector_8009F478;
 extern SVECTOR GM_PhotoViewPos_800ABA48;
 // extern int          GM_PhotoViewPos_800ABA48; // todo: update external
 
-int GCL_Command_unknown1_8002CDF4(int argc, char **argv)
+int GCL_Command_unknown1_8002CDF4(unsigned char *pScript)
 {
     SVECTOR     vec;
     CONTROL *unkStruct;
