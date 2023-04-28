@@ -2,12 +2,13 @@
 #include "menuman.h"
 #include "radio.h"
 #include "unknown.h"
+#include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 
 int SECTION(".sdata") dword_800AB63C = 0; // declared
 
-extern int dword_800ABB04;
-int        SECTION(".sbss") dword_800ABB04;
+extern char *dword_800ABB04;
+char        *SECTION(".sbss") dword_800ABB04;
 
 extern int dword_800ABB08;
 int        SECTION(".sbss") dword_800ABB08;
@@ -556,22 +557,22 @@ void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
         pActor->field_214_font = allocated_kcb;
         memcpy(allocated_kcb, ptr_local_kcb, sizeof(KCB));
 
-        dword_800ABB04 = 0;
+        dword_800ABB04 = NULL;
     }
 }
 
-void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, int param_2)
+void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *param_2)
 {
     KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = param_2;
-    sub_800469A4(kcb, (char *)param_2);
+    sub_800469A4(kcb, param_2);
     font_update_8004695C(kcb);
 }
 
 void sub_80041118(Actor_MenuMan *pActor)
 {
     KCB *kcb = pActor->field_214_font;
-    dword_800ABB04 = 0;
+    dword_800ABB04 = NULL;
     font_clear_800468FC(kcb);
     font_update_8004695C(kcb);
 }
@@ -581,7 +582,7 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
     KCB  *kcb;
     SPRT *pPrim;
 
-    if (dword_800ABB04 == 0)
+    if (!dword_800ABB04)
     {
         return 0;
     }
@@ -609,10 +610,97 @@ void sub_8004124C(Actor_MenuMan *pActor)
 {
     GV_FreeMemory_80015FD0(0, pActor->field_214_font);
     pActor->field_214_font = NULL;
-    dword_800ABB04 = 0;
+    dword_800ABB04 = NULL;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper12_80041280.s") // 444 bytes
+int menu_radio_codec_helper_helper12_80041280(Actor_MenuMan *pActor, int unused, GV_PAD *pPad)
+{
+    menu_chara_struct *pMenuChara;
+    KCB               *kcb;
+    int                last_index;
+    int                var_s7;
+    int                var_s2;
+    int                index;
+    int                ypos;
+    int                color;
+    char              *string;
+
+    pMenuChara = pActor->field_218;
+    kcb = pActor->field_214_font;
+
+    dword_800ABB04 = pMenuChara->field_C_pScript;
+    last_index = pMenuChara->field_1A_index;
+
+    if ((pPad->press & PAD_UP) && (pMenuChara->field_1A_index > 0))
+    {
+        pMenuChara->field_1A_index--;
+    }
+
+    if (pPad->press & PAD_DOWN)
+    {
+        pMenuChara->field_1A_index++;
+    }
+
+    var_s7 = 0;
+    var_s2 = 0;
+    index = 0;
+    ypos = kcb->char_arr[3];
+
+    font_clear_800468FC(kcb);
+
+    GCL_SetArgTop_80020690(pMenuChara->field_C_pScript);
+
+    while (var_s2 >= 0)
+    {
+        color = 0;
+        string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+
+        if (index == pMenuChara->field_1A_index)
+        {
+            color = 1;
+            var_s2 = 1;
+        }
+
+        if (!GCL_Get_Param_Result_80020AA4())
+        {
+            if (var_s2 == 0)
+            {
+                pMenuChara->field_1A_index = index;
+                color = 1;
+            }
+
+            var_s2 = -1;
+        }
+
+        font_draw_string_80045D0C(kcb, 0, ypos, string, color);
+
+        if (var_s7 < kcb->char_arr[7])
+        {
+            var_s7 = kcb->char_arr[7];
+        }
+
+        ypos += 18;
+        index++;
+    }
+
+    if (last_index != pMenuChara->field_1A_index)
+    {
+        GM_SeSet2_80032968(0, 63, 31); // Menu beep sound
+    }
+
+    font_update_8004695C(kcb);
+
+    kcb->char_arr[7] = var_s7;
+
+    if (pPad->press & PAD_CIRCLE)
+    {
+        GM_LastResultFlag = pMenuChara->field_1A_index;
+        sub_80041118(pActor);
+        return 1;
+    }
+
+    return 0;
+}
 
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
