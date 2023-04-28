@@ -44,6 +44,7 @@ typedef struct Actor_Item
     SVECTOR        field_178;
 } Actor_Item;
 
+GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv);
 int  item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
 void item_act_80033784(Actor_Item *pActor);
 int  item_init_helper_800340D0(Actor_Item *pActor, int name, int where);

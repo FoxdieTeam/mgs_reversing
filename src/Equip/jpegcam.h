@@ -5,6 +5,7 @@
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Thing/sight.h"
+#include "memcard/memcard.h"
 
 typedef signed char TMat8x8B[8][8];     // Matrix with 8 rows by 8 bytes
 typedef signed char TMat16x16B[16][16]; // Matrix with 16 rows by 16 bytes
@@ -43,5 +44,9 @@ void jpegcam_kill_80065008(Actor_jpegcam *pActor);
 int  jpegcam_loader_80065098(Actor_jpegcam *pActor, CONTROL *pCtrl, OBJECT *pParent);
 
 GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused);
+
+void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3);
+void jpegcam_unk2_80063888(char *param_1, int param_2);
+void jpegcam_unk3_800638B4(int *arg0);
 
 #endif // _JPEGCAM_H

@@ -91,4 +91,20 @@ void anime_create_8005D988(MATRIX *a1, MATRIX *a2, int a3);
 void anime_create_8005DDE0(MATRIX *pMtx);
 void anime_create_8005E508(SVECTOR *pos);
 
+int anime_fn_0_8005EC1C(Actor_anime *pActor, int idx);
+int anime_fn_1_8005ED0C(Actor_anime *pActor, int idx);
+int anime_fn_2_8005ED74(Actor_anime *pActor, int idx);
+int anime_fn_3_8005EDDC(Actor_anime *pActor, int idx);
+int anime_fn_4_8005EE44(Actor_anime *pActor, int idx);
+int anime_fn_5_8005EEA4(Actor_anime *pActor, int idx);
+int anime_fn_6_8005EF04(Actor_anime *pActor, int idx);
+int anime_fn_7_8005EFF8(Actor_anime *pActor, int idx);
+int anime_fn_8_8005F0F0(Actor_anime *pActor, int idx);
+int anime_fn_9_8005F180(Actor_anime *pActor, int idx);
+int anime_fn_10_8005F288(Actor_anime *pActor, int idx);
+int anime_fn_11_8005F2F4(Actor_anime *pActor, int idx);
+int anime_fn_12_8005F37C(Actor_anime *pActor, int idx);
+int anime_fn_13_8005F408(Actor_anime *pActor, int idx);
+int anime_fn_14_8005F438(Actor_anime *pActor, int idx);
+
 #endif // _ANIME_H_

@@ -14,9 +14,41 @@ typedef struct GCL_ActorTableEntry
     TGCL_ActorCreateFn function;
 } GCL_ActorTableEntry;
 
-// A hashed name of a GCL command and pointer to function that implements the command
 typedef int (*TGCL_CommandFn)(unsigned char *pScript);
+int GCL_Command_if_80020274(unsigned char *pScript);
+int GCL_Command_eval_80020318(unsigned char *pScript);
+int GCL_Cmd_Return_80020404(unsigned char *pScript);
+int GCL_Command_foreach_8002033C(unsigned char *pScript);
+int GCL_Command_mesg_8002C138(unsigned char *pScript);
+int GCL_Command_trap_8002BD34(unsigned char *pScript);
+int GCL_Command_map_8002BB44(unsigned char *pScript);
+int GCL_Command_hzd_8002BD04(unsigned char *pScript);
+int GCL_Command_camera_8002B8F0(unsigned char *pScript);
+int GCL_Command_light_8002B854(unsigned char *pScript);
+int GCL_Command_start_8002C22C(unsigned char *pScript);
+int GCL_Command_load_8002C308(unsigned char *pScript);
+int GCL_Command_radio_8002C4A8(unsigned char *pScript);
+int GCL_Command_strstatus_8002C6A4(unsigned char *pScript);
+int GCL_Command_demo_8002C890(unsigned char *pScript);
+int GCL_Command_ntrap_8002BE20(unsigned char *pScript);
+int GCL_Command_delay_8002C074(unsigned char *pScript);
+int GCL_Command_pad_8002C988(unsigned char *pScript);
+int GCL_Command_varsave_8002C72C(unsigned char *pScript);
+int GCL_Command_system_8002C7C8(unsigned char *pScript);
+int GCL_Command_sound_8002CA28(unsigned char *pScript);
+int GCL_Command_menu_8002CAAC(unsigned char *pScript);
+int GCL_Command_rand_8002CD94(unsigned char *pScript);
+int GCL_Command_unknown1_8002CDF4(unsigned char *pScript);
+int GCL_Command_unknown2_8002CFBC(unsigned char *pScript);
+int GCL_Command_print_8002D0E4(unsigned char *pScript);
+int GCL_Command_jimaku_8002D188(unsigned char *pScript);
 
+// TODO: Why is this one different? Putting a breakpoint
+// at GCL_Command_chara_8002C1B0 shows it receives trash
+// argc and argv.
+int GCL_Command_chara_8002C1B0(int argc, char **argv);
+
+// A hashed name of a GCL command and pointer to function that implements the command
 typedef struct GCL_COMMANDLIST
 {
     unsigned short hashCode;

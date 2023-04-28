@@ -5,7 +5,7 @@
 extern int gBinds_800ABA60;
 int        SECTION(".sbss") gBinds_800ABA60;
 
-int GCL_Command_mesg_8002C138(int argc, char **argv)
+int GCL_Command_mesg_8002C138(unsigned char *pScript)
 {
     unsigned char *uParm1;
     int            iVar1;

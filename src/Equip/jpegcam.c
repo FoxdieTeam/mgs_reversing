@@ -59,7 +59,7 @@ extern const char aPointCheck[];     // = "Point Check\n"
 extern const char aResultD[];        // = "Result = %d\n"
 extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
 
-void jpegcam_unk1_80063704(char *buf, struct mem_card *pMemcard)
+void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 {
     char photo_id[8];
     unsigned int blocks_avail;

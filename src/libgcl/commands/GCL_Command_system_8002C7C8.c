@@ -8,7 +8,7 @@ extern char       aGcawi[5];
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
 
-int GCL_Command_system_8002C7C8(void)
+int GCL_Command_system_8002C7C8(unsigned char *pScript)
 {
     int i, proc;
 
