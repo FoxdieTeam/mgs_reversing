@@ -638,8 +638,16 @@ RadioCoordsStru_8009E6FC SECTION(".data") gRadioCoords_8009E6FC[] = {
 };
 RadioIncomingCall SECTION(".data") gRadioIncomingCall_8009E708 = {0, 0, -1, 0};
 int   SECTION(".data") dword_8009E714[] = {0x240022E, 0x45F023A, 0x63F0221, 0x62D062B, 0x62A062F, 0x37D037B, 0};
-int   SECTION(".data") dword_8009E730[] = {0x80043678, 0x80043A24, 0x80043FD0, 0x800442E4, 0x800445F8};
-int   SECTION(".data") dword_8009E744[] = {0x800AB6A4, 0x800AB6A0, 0x800AB69C, 0x800AB698, 0x800AB694, 0x800AB690};
+TUnkRadioFn SECTION(".data") dword_8009E730[] = {sub_80043678, sub_80043A24, sub_80043FD0, sub_800442E4, sub_800445F8};
+
+extern char aEmpty[];
+extern char aMem[];
+extern char aPow[];
+extern char aPly[];
+extern char aObj[];
+extern char aTex[];
+
+char *SECTION(".data") dword_8009E744[] = {aEmpty, aMem, aPow, aPly, aObj, aTex};
 void *SECTION(".data") dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 
 signed char SECTION(".data") dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};

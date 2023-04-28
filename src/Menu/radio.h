@@ -3,6 +3,13 @@
 
 #include "menuman.h"
 
+typedef int (*TUnkRadioFn)(Actor_MenuMan *, unsigned int *); // (pActor, pOt)
+int sub_80043678(Actor_MenuMan *pActor, unsigned int *pOt);
+int sub_80043A24(Actor_MenuMan *pActor, unsigned int *pOt);
+int sub_80043FD0(Actor_MenuMan *pActor, unsigned int *pOt);
+int sub_800442E4(Actor_MenuMan *pActor, unsigned int *pOt);
+int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt);
+
 typedef struct RadioIncomingCall // @ 8009E708
 {
     short field_0;
