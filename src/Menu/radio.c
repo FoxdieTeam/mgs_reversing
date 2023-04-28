@@ -250,7 +250,59 @@ void menu_radio_codec_helper_helper14_helper2_800401AC(MenuPrim *pGlue, int xoff
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper5_800402A0.s") // 324 bytes
+void menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int xoff, int yoff, int param_4)
+{
+    int   color, color2;
+    int   i;
+    TILE *pTile;
+    int   width;
+
+    color2 = (param_4 < 0) ? 0x3D472E : 0;
+    param_4 *= 5;
+
+    for (i = 1; i < 44; i++)
+    {
+        if ((i % 5) == 0)
+        {
+            continue;
+        }
+
+        if (param_4 > (44 - i))
+        {
+            color = 0x3D472E;
+        }
+        else
+        {
+            color = color2;
+
+            if (color == 0)
+            {
+                continue;
+            }
+        }
+
+        _NEW_PRIM(pTile, pGlue);
+
+        pTile->x0 = xoff;
+        pTile->y0 = yoff + i;
+
+        width = 300;
+        width /= i;
+        width += 3;
+
+        if (width > 76)
+        {
+            width = 76;
+        }
+
+        pTile->w = width;
+        pTile->h = 1;
+        LSTORE(color, &pTile->r0);
+
+        setTile(pTile);
+        addPrim(pGlue->mPrimBuf.mOt, pTile);
+    }
+}
 
 void menu_RadioCall_helper_800403E4(void)
 {
