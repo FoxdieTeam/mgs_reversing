@@ -1,10 +1,10 @@
 #include "libgcl.h"
 
-int GCL_Command_if_80020274(char *top)
+int GCL_Command_if_80020274(unsigned char *pScript)
 {
     int   type, res;
     int   block;
-    char *p = top;
+    char *p = pScript;
 EXEC_ELSE:
     p = GCL_GetNextValue_8002069C(p, &type, &res);
 EXEC_IF:
@@ -78,7 +78,7 @@ int GCL_Command_foreach_8002033C(unsigned char *pScript)
     return 0;
 }
 
-int GCL_Cmd_Return_80020404(void)
+int GCL_Cmd_Return_80020404(unsigned char *pScript)
 {
     return 1;
 }

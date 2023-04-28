@@ -123,7 +123,7 @@ TMemCardFunc BSS    gHwCard_do_op_800B52E8; // 0x4 (4) bytes
 TMemCardFunc BSS    gSwCard_do_op_800B52EC; // 0x4 (4) bytes
 volatile int BSS    gSwCardLastOp_800B52F0; // 0x4 (4) bytes
 volatile int BSS    gHwCardLastOp_800B52F4; // 0x4 (4) bytes
-struct mem_card BSS gMemCards_800B52F8[2]; // 0x350 (848) bytes
+mem_card BSS gMemCards_800B52F8[2]; // 0x350 (848) bytes
 volatile long BSS   gMemCard_io_size_800B5648; // 0x4 (4) bytes
 
 gap                                     gap_800B564C[0x4]; // 4 bytes

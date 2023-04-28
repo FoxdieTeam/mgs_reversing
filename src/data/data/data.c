@@ -30,62 +30,64 @@
 #include "Bullet/blast.h"
 #include "Weapon/aam.h"
 #include "Menu/radar.h"
+#include "Game/item.h"
 
 // sdata
-extern const char *aCigs[];
-extern const char *aSocom[];
-extern const char *aFamas_800AB5BC[];
-extern const char *aGrenade_800AB5B4[];
-extern const char *aNikita_800AB5AC[];
-extern const char *aStinger_800AB5A4[];
-extern const char *aClaymore[];
-extern const char *aC4_800AB5A0[];
-extern const char *aStunG[];
-extern const char *aChaffG[];
-extern const char *aPsg1[];
+extern const char  aCigs[];
+extern const char  aSocom[];
+extern const char  aFamas_800AB5BC[];
+extern const char  aGrenade_800AB5B4[];
+extern const char  aNikita_800AB5AC[];
+extern const char  aStinger_800AB5A4[];
+extern const char  aClaymore[];
+extern const char  aC4_800AB5A0[];
+extern const char  aStunG[];
+extern const char  aChaffG[];
+extern const char  aPsg1[];
 
-extern const char *aScope[];
-extern const char *aCBoxA[];
-extern const char *aCBoxB[];
-extern const char *aCBoxC[];
-extern const char *aNVG[];
-extern const char *aThermG[];
-extern const char *aGasmask[];
-extern const char *aBArmor[];
-extern const char *aKetchup[];
-extern const char *aStealth[];
-extern const char *aBandana[];
-extern const char *aCamera[];
-extern const char *aRation[];
-extern const char *aMedicine[];
-extern const char *aDiazepam[];
-extern const char *aPalKey[];
-extern const char *aCard[];
-extern const char *aTimerB[];
-extern const char *aMineD[];
-extern const char *aDisc[];
-extern const char *aRope[];
-extern const char *aScarf[];
-extern const char *aSuppr[];
+extern const char  aScope[];
+extern const char  aCBoxA[];
+extern const char  aCBoxB[];
+extern const char  aCBoxC[];
+extern const char  aNVG[];
+extern const char  aThermG[];
+extern const char  aGasmask[];
+extern const char  aBArmor[];
+extern const char  aKetchup[];
+extern const char  aStealth[];
+extern const char  aBandana[];
+extern const char  aCamera[];
+extern const char  aRation[];
+extern const char  aMedicine[];
+extern const char  aDiazepam[];
+extern const char  aPalKey[];
+extern const char  aCard[];
+extern const char  aTimerB[];
+extern const char  aMineD[];
+extern const char  aDisc[];
+extern const char  aRope[];
+extern const char  aScarf[];
+extern const char  aSuppr[];
 
 extern const char  aLife[];
 extern const char  aO2[];
-extern const char *aError[];
-extern const char *aComplete[];
+extern const char  aError[];
+extern const char  aComplete[];
 extern const char *dword_800AB728[];
 extern const char *dword_800AB724[];
 extern const char *dword_800AB720[];
-extern const char *aEx[];
-extern const char *aMemoryCard1[];
-extern const char *aMemoryCard2[];
+extern const char  aEx[];
+extern const char  aMemoryCard1[];
+extern const char  aMemoryCard2[];
 extern const char *dword_800AB754[];
-extern const char *aNo[];
+extern const char  aNo[];
 extern const char *dword_800122D8[];
 extern const char *dword_800122CC[];
 extern const char *dword_800122C0[];
 extern const char *dword_800122B4[];
 extern const char *dword_800122A8[];
-extern const char *aSaveData[];
+extern const char  aSaveData[];
+extern const char  aSAVEPHOTO[];
 extern const char  aSnaChest1[];
 extern const char  aSnaChest2[];
 extern const char  aSnaChest3[];
@@ -111,7 +113,7 @@ extern const char  aSnaMf3[];
 
 GCL_ActorTableEntry SECTION(".data") MainCharacterEntries_8009D2DC[] = {
     {CHARA_SNAKE, sna_NewSnake_8005B650},
-    {CHARA_ITEM, (TGCL_ActorCreateFn)0x800344F8},
+    {CHARA_ITEM, item_init_800344F8},
     {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
 
@@ -186,18 +188,13 @@ int    SECTION(".data") DG_HikituriFlag_8009D460 = 0;
 int    SECTION(".data") DG_HikituriFlagOld_8009D464 = 0;
 int    SECTION(".data") dword_8009D468 = -1;
 
-int GCL_Command_if_80020274(char *top);
-int GCL_Command_eval_80020318(unsigned char *pScript);
-int GCL_Cmd_Return_80020404(void);
-int GCL_Command_foreach_8002033C(unsigned char *pScript);
-
 // kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
 unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
 
-GCL_COMMANDLIST SECTION(".data") commlist_8009D470[] = {{HASH_CMD_if, (TGCL_CommandFn)&GCL_Command_if_80020274},
-                                                        {HASH_CMD_eval, &GCL_Command_eval_80020318},
-                                                        {HASH_CMD_return, (TGCL_CommandFn)&GCL_Cmd_Return_80020404},
-                                                        {HASH_CMD_foreach, &GCL_Command_foreach_8002033C}};
+GCL_COMMANDLIST SECTION(".data") commlist_8009D470[] = {{HASH_CMD_if, GCL_Command_if_80020274},
+                                                        {HASH_CMD_eval, GCL_Command_eval_80020318},
+                                                        {HASH_CMD_return, GCL_Cmd_Return_80020404},
+                                                        {HASH_CMD_foreach, GCL_Command_foreach_8002033C}};
 
 GCL_COMMANDDEF SECTION(".data") builtin_commands_8009D490 = {0, COUNTOF(commlist_8009D470), commlist_8009D470};
 
@@ -238,56 +235,31 @@ unsigned short SECTION(".data") GM_ItemTypes_8009D598[] = {
     0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8003, 0x2000, 0x2000,
     0x2000, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-int GCL_Command_mesg_8002C138(int argc, char **argv);
-int GCL_Command_trap_8002BD34(int argc, char **argv);
-int GCL_Command_chara_8002C1B0(int argc, char **argv);
-int GCL_Command_map_8002BB44(int argc, char **argv);
-int GCL_Command_hzd_8002BD04(int argc, char **argv);
-int GCL_Command_camera_8002B8F0(int argc, char **argv);
-int GCL_Command_light_8002B854(int argc, char **argv);
-int GCL_Command_start_8002C22C(int argc, char **argv);
-int GCL_Command_load_8002C308(int argc, char **argv);
-int GCL_Command_radio_8002C4A8(int argc, char **argv);
-int GCL_Command_strstatus_8002C6A4(int argc, char **argv);
-int GCL_Command_demo_8002C890(int argc, char **argv);
-int GCL_Command_ntrap_8002BE20(int argc, char **argv);
-int GCL_Command_delay_8002C074(int argc, char **argv);
-int GCL_Command_pad_8002C988(int argc, char **argv);
-int GCL_Command_varsave_8002C72C(int argc, char **argv);
-int GCL_Command_system_8002C7C8(void);
-int GCL_Command_sound_8002CA28(int argc, char **argv);
-int GCL_Command_menu_8002CAAC(void);
-int GCL_Command_rand_8002CD94(int argc, char **argv);
-int GCL_Command_unknown1_8002CDF4(int argc, char **argv);
-int GCL_Command_unknown2_8002CFBC(int argc, char **argv);
-int GCL_Command_print_8002D0E4(int argc, char **argv);
-int GCL_Command_jimaku_8002D188(int argc, char **argv);
-
 GCL_COMMANDLIST SECTION(".data") Commands_8009D5CC[] = {
-    {HASH_CMD_mesg, (TGCL_CommandFn)&GCL_Command_mesg_8002C138},
-    {HASH_CMD_trap, (TGCL_CommandFn)&GCL_Command_trap_8002BD34},
-    {HASH_CMD_chara, (TGCL_CommandFn)&GCL_Command_chara_8002C1B0},
-    {HASH_CMD_map, (TGCL_CommandFn)&GCL_Command_map_8002BB44},
-    {HASH_CMD_hzd, (TGCL_CommandFn)&GCL_Command_hzd_8002BD04},
-    {HASH_CMD_camera, (TGCL_CommandFn)&GCL_Command_camera_8002B8F0},
-    {HASH_CMD_light, (TGCL_CommandFn)&GCL_Command_light_8002B854},
-    {HASH_CMD_start, (TGCL_CommandFn)&GCL_Command_start_8002C22C},
-    {HASH_CMD_load, (TGCL_CommandFn)&GCL_Command_load_8002C308},
-    {HASH_CMD_radio, (TGCL_CommandFn)&GCL_Command_radio_8002C4A8},
-    {HASH_CMD_str_status, (TGCL_CommandFn)&GCL_Command_strstatus_8002C6A4},
-    {HASH_CMD_demo, (TGCL_CommandFn)&GCL_Command_demo_8002C890},
-    {HASH_CMD_ntrap, (TGCL_CommandFn)&GCL_Command_ntrap_8002BE20},
-    {HASH_CMD_delay, (TGCL_CommandFn)&GCL_Command_delay_8002C074},
-    {HASH_CMD_pad, (TGCL_CommandFn)&GCL_Command_pad_8002C988},
-    {HASH_CMD_varsave, (TGCL_CommandFn)&GCL_Command_varsave_8002C72C},
-    {HASH_CMD_system, (TGCL_CommandFn)&GCL_Command_system_8002C7C8},
-    {HASH_CMD_sound, (TGCL_CommandFn)&GCL_Command_sound_8002CA28},
-    {HASH_CMD_menu, (TGCL_CommandFn)&GCL_Command_menu_8002CAAC},
-    {HASH_CMD_rand, (TGCL_CommandFn)&GCL_Command_rand_8002CD94},
-    {HASH_CMD_unk1, (TGCL_CommandFn)&GCL_Command_unknown1_8002CDF4}, // ??
-    {HASH_CMD_unk2, (TGCL_CommandFn)&GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
-    {HASH_CMD_print, (TGCL_CommandFn)&GCL_Command_print_8002D0E4},
-    {HASH_CMD_jimaku, (TGCL_CommandFn)&GCL_Command_jimaku_8002D188}};
+    {HASH_CMD_mesg, GCL_Command_mesg_8002C138},
+    {HASH_CMD_trap, GCL_Command_trap_8002BD34},
+    {HASH_CMD_chara, (TGCL_CommandFn)GCL_Command_chara_8002C1B0}, // TODO: Why does this one have a different signature?
+    {HASH_CMD_map, GCL_Command_map_8002BB44},
+    {HASH_CMD_hzd, GCL_Command_hzd_8002BD04},
+    {HASH_CMD_camera, GCL_Command_camera_8002B8F0},
+    {HASH_CMD_light, GCL_Command_light_8002B854},
+    {HASH_CMD_start, GCL_Command_start_8002C22C},
+    {HASH_CMD_load, GCL_Command_load_8002C308},
+    {HASH_CMD_radio, GCL_Command_radio_8002C4A8},
+    {HASH_CMD_str_status, GCL_Command_strstatus_8002C6A4},
+    {HASH_CMD_demo, GCL_Command_demo_8002C890},
+    {HASH_CMD_ntrap, GCL_Command_ntrap_8002BE20},
+    {HASH_CMD_delay, GCL_Command_delay_8002C074},
+    {HASH_CMD_pad, GCL_Command_pad_8002C988},
+    {HASH_CMD_varsave, GCL_Command_varsave_8002C72C},
+    {HASH_CMD_system, GCL_Command_system_8002C7C8},
+    {HASH_CMD_sound, GCL_Command_sound_8002CA28},
+    {HASH_CMD_menu, GCL_Command_menu_8002CAAC},
+    {HASH_CMD_rand, GCL_Command_rand_8002CD94},
+    {HASH_CMD_unk1, GCL_Command_unknown1_8002CDF4}, // ??
+    {HASH_CMD_unk2, GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
+    {HASH_CMD_print, GCL_Command_print_8002D0E4},
+    {HASH_CMD_jimaku, GCL_Command_jimaku_8002D188}};
 
 GCL_COMMANDDEF SECTION(".data") script_commands_8009D68C = {0, COUNTOF(Commands_8009D5CC), Commands_8009D5CC};
 
@@ -699,7 +671,7 @@ char SECTION(".data") dword_8009EC10[] = {0x82, 0x63, 0x82, 0x8F, 0x82, 0x83, 0x
 char *SECTION(".data") off_8009EC1C[] = {(char *)dword_800122D8, (char *)dword_800122CC, (char *)dword_800122C0,
                                         (char *)dword_800122B4, (char *)dword_800122A8};
 
-menu_save_mode_data SECTION(".data") stru_8009EC30 = {{0x47, 0}, 0, 1, (void *)aSaveData, (void *)0x8004D008, (void *)0x8004D14C, (void *)0x8004D1D0};
+menu_save_mode_data SECTION(".data") stru_8009EC30 = {{0x47, 0}, 0, 1, (char *)aSaveData, (void *)sub_8004D008, (void *)sub_8004D14C, (void *)sub_8004D1D0};
 
 Menu_Triangle SECTION(".data") stru_8009EC44 = {155, 125, 160, 120, 165, 125, 0x80808080};
 Menu_Triangle SECTION(".data") stru_8009EC54 = {156, 212, 160, 216, 164, 212, 0x80808080};
@@ -761,20 +733,20 @@ Sna_ActionTable SECTION(".data") weapon_actions_8009ED8C[10] = {
     {&e1_800AB78C, NULL, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED3C, &e6_8009ED54, &e7_8009ED68}};
 
 void *SECTION(".data") dword_8009EEA4[] = {
-    (void *)0x8005275C, // sna_anim_idle_8005275C
-    (void *)0x800527DC, // sna_anim_crouch_800527DC
-    (void *)0x800528BC  // sna_anim_prone_idle_800528BC
+    sna_anim_idle_8005275C,
+    sna_anim_crouch_800527DC,
+    sna_anim_prone_idle_800528BC
 };
 
 void *SECTION(".data") dword_8009EEB0[] = {
-    (void *)0x80052A5C, // sna_anim_wall_idle_and_c4_80052A5C
-    (void *)0x80052CCC  // sna_anim_wall_crouch_80052CCC
+    sna_anim_wall_idle_and_c4_80052A5C,
+    sna_anim_wall_crouch_80052CCC
 };
 
 void *SECTION(".data") dword_8009EEB8[] = {
-    (void *)0x8005292C, // sna_anim_run_8005292C
-    (void *)0x8005292C, // sna_anim_run_8005292C
-    (void *)0x800529C0  // sna_anim_prone_move_800529C0
+    sna_anim_run_8005292C,
+    sna_anim_run_8005292C,
+    sna_anim_prone_move_800529C0
 };
 
 short SECTION(".data") HzdHeights_8009EEC4[] = {750, 250, 250, 0};
@@ -793,16 +765,10 @@ int SECTION(".data")  dword_8009EF10[] = {0x8320250, 0x650048C, 0};
 char SECTION(".data") dword_8009EF1C[] = {196, 4, 0, 0};
 char SECTION(".data") dword_8009EF20[] = {148, 4, 0, 0};
 int SECTION(".data")  dword_8009EF24[] = {0x27F0200, 0};
-
-/*
-// TODO: Converting this entry de-syncs data
-int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228};
-WeaponCreateEntry kSnakeNoWeapon = {0, sna_anim_chokethrow_begin1_80054210};
-*/
-
-int SECTION(".data") dword_8009EF2C[] = {0x4C8023C, 0x228, 0, 0x80054210};
+int SECTION(".data")  dword_8009EF2C[] = {0x4C8023C, 0x228};
 
 WeaponCreateEntry SECTION(".data") gSnakeWeapons_8009EF3C[] = {
+    {NULL, sna_anim_chokethrow_begin1_80054210},
     {NewSOCOM_80065D74, sna_gun_800540D0},
     {famas_create_80066374, sna_gun_800540D0},
     {grenade_create_80066A4C, sna_anim_grenade_80058470},
@@ -863,9 +829,9 @@ struct ANIMATION SECTION(".data") stru_8009F208 = {20781, 8, 4, 30, 1, 1000, 3, 
 int SECTION(".data") dword_8009F224 = 0;
 
 TAnimeVMFn SECTION(".data") anime_fn_table_8009F228[] = {
-    (void *)0x8005EC1C, (void *)0x8005ED0C, (void *)0x8005ED74, (void *)0x8005EDDC, (void *)0x8005EE44,
-    (void *)0x8005EEA4, (void *)0x8005EF04, (void *)0x8005EFF8, (void *)0x8005F0F0, (void *)0x8005F180,
-    (void *)0x8005F288, (void *)0x8005F2F4, (void *)0x8005F37C, (void *)0x8005F408, (void *)0x8005F438};
+    anime_fn_0_8005EC1C, anime_fn_1_8005ED0C, anime_fn_2_8005ED74, anime_fn_3_8005EDDC, anime_fn_4_8005EE44,
+    anime_fn_5_8005EEA4, anime_fn_6_8005EF04, anime_fn_7_8005EFF8, anime_fn_8_8005F0F0, anime_fn_9_8005F180,
+    anime_fn_10_8005F288, anime_fn_11_8005F2F4, anime_fn_12_8005F37C, anime_fn_13_8005F408, anime_fn_14_8005F438};
 
 // TODO: Warning without const, but can't be const else would end up in rdata section?
 const char *SECTION(".data") off_8009F264[4] = {aSnaChest1, aSnaChest2, aSnaChest3, aSnaHip1};
@@ -884,7 +850,7 @@ short   SECTION(".data") scope_created_8009F2C4 = 0;
 SVECTOR SECTION(".data") svec_8009F2C8 = {0, 0, 0, 0};
 int     SECTION(".data") dword_8009F2D0[] = {0, 0xC80};
 
-menu_save_mode_data SECTION(".data") stru_8009F2D8 = {{0x43, 4}, 0, 2, (void *)0x800129D4, (void *)0x80063704, (void *)0x80063888, (void *)0x800638B4};
+menu_save_mode_data SECTION(".data") stru_8009F2D8 = {{0x43, 4}, 0, 2, (char *)aSAVEPHOTO, (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
 
 char SECTION(".data") gJpegcamZigZagTable_8009F2EC[64] = {
     0x00, 0x01, 0x08, 0x10, 0x09, 0x02, 0x03, 0x0A,

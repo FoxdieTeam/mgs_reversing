@@ -13,7 +13,7 @@ STATIC_ASSERT_SIZE(BindStruct, 0x18);
 
 extern BindStruct gBindsArray_800b58e0[128];
 
-int GCL_Command_trap_8002BD34(int argc, char **argv)
+int GCL_Command_trap_8002BD34(unsigned char *pScript)
 {
     BindStruct *pBind;
     int         i, arg, code, value;
@@ -65,7 +65,7 @@ int GCL_Command_trap_8002BD34(int argc, char **argv)
     return 0;
 }
 
-int GCL_Command_ntrap_8002BE20(int argc, char **argv)
+int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
 {
     // int bindIdx;
     BindStruct *pBind;

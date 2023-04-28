@@ -9,7 +9,7 @@ int        SECTION(".sbss") gBinds_800ABA60;
 
 extern int gTotalFrameTime_800AB9E8;
 
-int GCL_Command_start_8002C22C(int argc, char **argv)
+int GCL_Command_start_8002C22C(unsigned char *pScript)
 {
     if (GCL_GetParam_80020968('s'))
     {

@@ -2147,7 +2147,7 @@ static inline int sna_weapon_switching_helper2_800511BC(Actor_SnaInit *pActor, i
         GV_DestroyActorQuick_80015164(pWeaponActor);
     }
 
-    pWeaponEntry = &gSnakeWeapons_8009EF3C[GM_CurrentWeaponId];
+    pWeaponEntry = &gSnakeWeapons_8009EF3C[GM_CurrentWeaponId + 1];
     pWeaponCreateFn = pWeaponEntry->mCreateActorFn;
     pWeaponActor = NULL;
 

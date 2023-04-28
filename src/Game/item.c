@@ -840,7 +840,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     return 1;
 }
 
-Actor_Item * item_init_800344F8(int name, int where, int argc, char **argv)
+GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
 {
     Actor_Item *pActor;
     int         inited;
@@ -866,7 +866,7 @@ Actor_Item * item_init_800344F8(int name, int where, int argc, char **argv)
             GV_DestroyActor_800151C8(&pActor->field_0);
             if (inited == 0)
             {
-                return pActor;
+                return &pActor->field_0;
             }
             else
             {
@@ -875,7 +875,7 @@ Actor_Item * item_init_800344F8(int name, int where, int argc, char **argv)
         }
     }
 
-    return pActor;
+    return &pActor->field_0;
 }
 
 int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)

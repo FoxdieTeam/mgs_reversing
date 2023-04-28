@@ -19,7 +19,7 @@ proc AGL_FIRST_VF {
             -3362,1759,4936 -2475,770,6672 1
 */
 
-int GCL_Command_camera_8002B8F0(int argc, char **argv)
+int GCL_Command_camera_8002B8F0(unsigned char *pScript)
 {
     int     isEnabled, param_p, camera_id;
     SVECTOR   vec1, vec2;
