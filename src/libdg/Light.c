@@ -2,6 +2,14 @@
 #include "libdg.h"
 #include "psyq.h"
 
+/**data*********************************************************/
+MATRIX DG_LightMatrix_8009D384 = {
+    {{0x0000, 0x0000, 0x1000}, {0x0000, 0x0000, 0x0000}, {0x0000, 0x0000, 0x0000}}, {0, 0, 0}};
+
+MATRIX DG_ColorMatrix_8009D3A4 = {
+    {{0x1000, 0x1000, 0x1000}, {0x1000, 0x1000, 0x1000}, {0x1000, 0x1000, 0x1000}}, {0, 0, 0}};
+/***************************************************************/
+
 /**gp***********************************************************/
 extern          SVECTOR           DG_Ambient_800AB38C;
 SVECTOR         SECTION(".sdata") DG_Ambient_800AB38C;
@@ -18,8 +26,6 @@ extern DG_TmpLightList LightSystems_800B1E48[2];
 /**sbss**********************************/
 extern int    GV_Time_800AB330;
 extern int    GM_GameStatus_800AB3CC;
-extern MATRIX DG_LightMatrix_8009D384;
-extern MATRIX DG_ColorMatrix_8009D3A4;
 /****************************************/
 
 static inline DG_TmpLightList *getTempLight( int idx )

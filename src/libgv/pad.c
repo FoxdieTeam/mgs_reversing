@@ -28,7 +28,9 @@ extern int GV_DemoPadStatus_800AB958;
 int        SECTION(".sbss") GV_DemoPadStatus_800AB958;
 /*********************************************************************/
 
-extern short key_table_8009D32C[16];
+short key_table_8009D32C[] = {0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
+                              0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000};
+
 extern int   DG_UnDrawFrameCount_800AB380;
 extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;

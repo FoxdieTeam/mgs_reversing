@@ -1,4 +1,5 @@
 #include "libgcl.h"
+#include "hash.h"
 
 int GCL_Command_if_80020274(unsigned char *pScript)
 {
@@ -83,10 +84,12 @@ int GCL_Cmd_Return_80020404(unsigned char *pScript)
     return 1;
 }
 
-/********* sdata ******************/
-extern GCL_COMMANDLIST commlist_8009D470[];
-extern GCL_COMMANDDEF  builtin_commands_8009D490;
-/*********************************/
+GCL_COMMANDLIST commlist_8009D470[] = {{HASH_CMD_if, GCL_Command_if_80020274},
+                                       {HASH_CMD_eval, GCL_Command_eval_80020318},
+                                       {HASH_CMD_return, GCL_Cmd_Return_80020404},
+                                       {HASH_CMD_foreach, GCL_Command_foreach_8002033C}};
+
+GCL_COMMANDDEF builtin_commands_8009D490 = {0, COUNTOF(commlist_8009D470), commlist_8009D470};
 
 void GCL_InitBasicCommands_8002040C()
 {

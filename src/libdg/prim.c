@@ -7,7 +7,43 @@ extern MATRIX   DG_ZeroMatrix_8009D430;
 /****************************************/
 
 /**data*****************************************/
-extern struct DG_Rec_Unknown stru_8009D3D0[23];
+
+//  DG_PRIM_LINE_FT2, DG_PRIM_LINE_GT2,
+//  DG_PRIM_FREE
+//  DG_PRIM_TILE_1  DG_PRIM_TILE_8, DG_PRIM_TILE_16
+
+//  int psize, int verts, int voffset, int vstep ??
+struct DG_Rec_Unknown stru_8009D3D0[24] = {{16, 2, 8, 4},  // LINE_F2 DG_PRIM_LINE_FT2
+                                           {24, 3, 8, 4},  // LINE_F3
+                                           {28, 4, 8, 4},  // LINE_F4
+                                           {20, 2, 8, 8},  // LINE_G2
+                                           {32, 3, 8, 8},  // LINE_G3
+                                           {40, 4, 8, 8},  // LINE_G4
+                                           {20, 1, 8, 0},  // SPRT
+                                           {16, 1, 8, 0},  // SPRT_16  ?
+                                           {16, 1, 8, 0},  // SPRT_8  ?
+                                           {16, 1, 8, 0},  // TILE ?
+                                           {12, 1, 8, 0},  // TILE_16  ?
+                                           {12, 1, 8, 0},  // TILE_8 ?
+                                           {12, 1, 8, 0},  // TILE_1 ?
+                                           {20, 3, 8, 4},  // POLY_F3 DG_PRIM_POLY_F3
+                                           {24, 4, 8, 4},  // POLY_F4 DG_PRIM_POLY_F4
+                                           {28, 3, 8, 8},  // POLY_G3 DG_PRIM_POLY_G3
+                                           {36, 4, 8, 8},  // POLY_G4 DG_PRIM_POLY_G4
+                                           {32, 3, 8, 8},  // POLY_FT3 DG_PRIM_POLY_FT3
+                                           {40, 4, 8, 8},  // POLY_FT4 DG_PRIM_POLY_FT4
+                                           {40, 3, 8, 12}, // POLY_GT3 DG_PRIM_POLY_GT3
+                                           {52, 4, 8, 12}, // POLY_GT4 DG_PRIM_POLY_GT4
+                                           {40, 2, 8, 8},
+                                           {52, 2, 8, 12},
+                                           {12, 1, 8, 0}};
+
+MATRIX DG_ZeroMatrix_8009D430 = {
+    {{0x1000, 0x0000, 0x0000},
+     {0x0000, 0x1000, 0x0000},
+     {0x0000, 0x0000, 0x1000}},
+    {0, 0, 0}};
+
 /***********************************************/
 
 void DG_PrimStart_8001AC00()
