@@ -6,15 +6,27 @@
 #include "psyq.h"
 #include <LIBCD.H>
 
+FS_FILE_INFO_8009D49C gDirFiles_8009D49C[] = {
+    {"STAGE.DIR", 0},
+    {"RADIO.DAT", 0},
+    {"FACE.DAT", 0},
+    {"ZMOVIE.STR", 0},
+    {"VOX.DAT", 0},
+    {"DEMO.DAT", 0},
+    {"BRF.DAT", 0},
+    {NULL, 0}
+};
+
+int dword_8009D4DC = -1;
+int dword_8009D4E0 = 0;
+int dword_cdbios_stop_8009D4E4 = 0;
+
+FS_FILE_TABLE fs_file_table_8009D4E8 = {};
+
 extern unsigned char         heap_80117000[];
-extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
 extern int                   gDiskNum_800ACBF0;
-extern int                   dword_8009D4DC;
-extern int                   dword_8009D4E0;
-extern int                   dword_cdbios_stop_8009D4E4;
 extern CDBIOS_TASK           cd_bios_task_800B4E58;
 extern unsigned int          cd_bios_stack_800B4E88[256];
-extern FS_FILE_TABLE         fs_file_table_8009D4E8;
 extern const char           *MGS_DiskName_8009D2FC[3];
 
 int FS_ResetCdFilePosition_80021E2C(void *pHeap)

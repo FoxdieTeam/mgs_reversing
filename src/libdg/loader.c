@@ -2,8 +2,8 @@
 #include "libdg.h"
 #include "libgv/libgv.h"
 
-
-extern unsigned char kVertexIndexingOrder_8009D46C[];
+// kVertexIndexingOrder_8009D46C provides the indexing order for referencing the transformed vertex sections
+unsigned char kVertexIndexingOrder_8009D46C[] = {0, 1, 3, 2};
 
 void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *pParentObj)
 {

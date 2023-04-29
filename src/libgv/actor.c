@@ -23,7 +23,8 @@ int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
 extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
-extern struct PauseKill gPauseKills_8009D308[9];
+struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {15, 4},
+                                            {15, 4}, {15, 4}, {9, 4}, {0, 7}};
 
 extern int GM_CurrentMap_800AB9B0;
 
@@ -287,3 +288,5 @@ void GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill)
 
     mts_printf_8008BBA0("#");
 }
+
+const char *GV_DebugMes_800AB34C = "none";

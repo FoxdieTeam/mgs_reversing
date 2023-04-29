@@ -5,12 +5,13 @@
 #include "mts/mts_new.h"
 #include "SD/sd.h"
 
+int  fs_stream_tick_start_8009D510 = -1;
+int  fs_dword_8009D514 = 0;
+int  fs_stream_is_force_stop_8009D518 = 0;
+int  fs_stream_end_flag_8009D51C = 1;
+int *fs_dword_8009D520 = NULL;
+
 extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
-extern int                   fs_stream_tick_start_8009D510;
-extern int                   fs_dword_8009D514;
-extern int                   fs_stream_is_force_stop_8009D518;
-extern int                   fs_stream_end_flag_8009D51C;
-extern int                  *fs_dword_8009D520;
 extern int                   fs_stream_ref_count_800B5298;
 extern int                   fs_dword_800B529C;
 extern int                   fs_dword_800B52A0;
