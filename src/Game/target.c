@@ -10,7 +10,8 @@ int        SECTION(".sbss") gTargets_down_count_800ABA68;
 extern int gTargets_up_count_800ABA6C;
 int        SECTION(".sbss") gTargets_up_count_800ABA6C;
 
-extern int dword_800ABA0C;
+extern int     dword_800ABA0C;
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 static inline int range_check(int a, int b, int c, int d)
 {
@@ -194,7 +195,136 @@ int sub_8002D6D8(TARGET *pTarget)
 #pragma INCLUDE_ASM("asm/Game/sub_8002D7DC.s") // 568 bytes
 // int GM_Target_8002D7DC(TARGET *pTarget);
 
-#pragma INCLUDE_ASM("asm/Game/sub_8002DA14.s") // 608 bytes
+static inline int sub_helper2_8002DA14( TARGET *pTarget, TARGET *pTarget2, int use_z )
+{
+    int a, b;
+    int v0, v1;
+
+    b = use_z ? pTarget2->field_10_size.vz : pTarget2->field_10_size.vx;
+    a = use_z ? pTarget->field_10_size.vz : pTarget->field_10_size.vx;
+
+    v1 = use_z ? pTarget2->field_8_vec.vz : pTarget2->field_8_vec.vx;
+    v0 = use_z ? pTarget->field_8_vec.vz : pTarget->field_8_vec.vx;
+
+    b = b + a;
+    a = v0 - v1;
+
+
+    if (a >= 0)
+    {
+        b -= a;
+        if (b < 0)
+        {
+            b = 0;
+        }
+        return b;
+    }
+    else
+    {
+        a += b;
+        if (a < 0)
+        {
+            a = 0;
+        }
+        return -a;
+    }
+}
+
+static inline int sub_helper_8002DA14(TARGET *pTarget, TARGET *pIter)
+{
+    int val, val2;
+    int which;
+
+    val = sub_helper2_8002DA14(pTarget, pIter, 0);
+    if (val == 0)
+    {
+        return 0;
+    }
+
+    val2 = sub_helper2_8002DA14(pTarget, pIter, 1);
+    if (val2 == 0)
+    {
+        return 0;
+    }
+
+    if (!(pIter->field_3C & 2))
+    {
+        // this is NOT an inline, /= 2 does not work otherwise
+        if (abs(val) <= abs(val2))
+        {
+            val /= 2;
+            pTarget->field_34_vec.vx += val;
+            pIter->field_34_vec.vx -= val;
+
+            if (val > 0)
+            {
+                which = 2;
+            }
+            else
+            {
+                which = 4;
+            }
+        }
+        else
+        {
+            val2 /= 2;
+            pTarget->field_34_vec.vz += val2;
+            pIter->field_34_vec.vz -= val2;
+
+            if (val2 > 0)
+            {
+                which = 1;
+            }
+            else
+            {
+                which = 3;
+            }
+        }
+
+        if (pIter->field_3C & 1)
+        {
+            pTarget->field_34_vec.pad = which;
+        }
+    }
+
+    return 1;
+}
+
+int sub_8002DA14(TARGET *pTarget)
+{
+    TARGET *pIter;
+    int        count;
+
+    if (!(pTarget->field_0_flags & 0x8))
+    {
+        return 0;
+    }
+
+    pTarget->field_34_vec = DG_ZeroVector_800AB39C;
+    pTarget->field_34_vec.pad = 0;
+
+    pIter = gTargets_800B64E0;
+
+    for (count = gTargets_down_count_800ABA68; count > 0; pIter++, count--)
+    {
+        pIter->field_40 = 0;
+
+        if ((pTarget == pIter) || !(pIter->field_0_flags & 0x8) || !sub_8002D300(pIter, pTarget))
+        {
+            continue;
+        }
+
+        if (sub_helper_8002DA14(pTarget, pIter))
+        {
+            pIter->field_6_flags |= 0x8;
+            pTarget->field_6_flags |= 0x8;
+            pIter->field_40 = pTarget->field_2_side;
+        }
+    }
+
+
+    return (short)(pTarget->field_6_flags & 0x8) > 0;
+}
 
 void GM_SetTarget_8002DC74(TARGET *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
 {
@@ -226,10 +356,9 @@ void GM_Target_8002DCCC(TARGET *pTarget, int a2, int a3, int hp, int a5, SVECTOR
     pTarget->field_44 = -1;
 }
 
-void sub_8002DD14(int param_1, int param_2)
+void sub_8002DD14(TARGET *pTarget, MATRIX *pMatrix)
 {
-    *(int *)(param_1 + 0x20) = param_2;
-    return;
+    pTarget->field_20 = pMatrix;
 }
 
 void sub_8002DD1C(SVECTOR *svec1, SVECTOR *svec2, TARGET *pTarget)
