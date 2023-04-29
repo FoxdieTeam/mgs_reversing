@@ -2,7 +2,7 @@
 #include "libdg.h"
 
 //**data**********************************//
-extern DG_TEX DG_UnknownTexture_8009D378;
+DG_TEX DG_UnknownTexture_8009D378 = {0};
 //****************************************//
 
 //**sbss****************************//

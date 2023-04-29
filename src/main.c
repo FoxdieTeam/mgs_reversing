@@ -12,14 +12,24 @@
 #include "memcard/memcard.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
+#include "chara/snake/sna_init.h"
+#include "libgcl/hash.h"
+#include "Game/item.h"
+#include "Thing/door.h"
 
 void __main_80098F14(void);
 
 int __ramsize_800AB2E4 = 0x200000; // ram size, sdata
 int __stacksize_800AB2E8 = 0x8000; // stack size, sdata
 
-extern const char aBislpm86247[];
-const char       *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
+GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
+    {CHARA_SNAKE, sna_NewSnake_8005B650},
+    {CHARA_ITEM, item_init_800344F8},
+    {CHARA_DOOR, NewDoor_8006FD00},
+    {0, 0}};
+
+const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
+const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
 
 extern unsigned int sdStack_800AC3F0[512];
 

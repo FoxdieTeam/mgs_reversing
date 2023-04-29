@@ -3,6 +3,12 @@
 #include "psyq.h"
 
 /**data************************/
+
+// rendering stack ? gLibDg_FuncPtrs_off_6500E0
+TChanl_Fn off_8009D35C[] = {DG_Screen_Chanl_8001CEE0, DG_BoundChanl_800189A4, DG_Trans_Chanl_8001E3C0,
+                            DG_Shade_Chanl_8001D324,  DG_PrimChanl_8001B66C,  DG_DivideChanl_80019D44,
+                            DG_Sort_Chanl_8001D5C8};
+
 /******************************/
 
 /**gp***********************************************************************************************/
@@ -21,7 +27,6 @@ unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 /***************************************************************************************************/
 
 /**sbss*******************************************/
-extern TChanl_Fn off_8009D35C[];
 extern int       DG_HikituriFlag_8009D460;
 extern int       DG_UnDrawFrameCount_800AB380;
 /*************************************************/

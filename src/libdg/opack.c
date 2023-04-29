@@ -1,6 +1,6 @@
 #include "libdg.h"
 
-extern DG_TEX dword_8009D3C4;
+DG_TEX dword_8009D3C4 = {0};
 
 int DG_AllocPacks_8001A670(DG_OBJ *pObj, int idx)
 {
