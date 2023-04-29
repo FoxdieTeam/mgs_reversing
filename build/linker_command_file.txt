@@ -489,7 +489,6 @@
     ; 8005AD10 8005B52C 8005B650
 
     include "..\obj\chara\snake\sna_init.obj"
-    include "..\obj\data\rdata\rdata_80055DD8.obj"
 
     ;80050A64 is in event.c
     ;also mentions of weapon.c and unique.c
@@ -501,6 +500,8 @@
 
     ; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
     include "..\obj\Game\vibrate.obj"
+
+    include "..\obj\data\rdata\rdata_80055DD8.obj"
 
     ; 8005D604 8005D6BC 8005D988 8005DDE0 8005DE70 8005DF50 8005E090 8005E1A0 8005E258 8005E334
     ; 8005E508 8005E574 8005E6A4 8005E774 8005E7EC 8005E9E0 8005EA6C 8005EB30 8005EB98 8005EC1C

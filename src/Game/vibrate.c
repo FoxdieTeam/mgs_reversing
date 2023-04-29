@@ -11,8 +11,6 @@ extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_PadVibration_800ABA3C;
 extern int            GM_PadVibration2_800ABA54;
 
-extern const char     aVibrateC[];
-
 int vibrate_act_helper_8005D358(Actor_Vibrate *pActor)
 {
     unsigned char *pData;
@@ -95,7 +93,7 @@ Actor_Vibrate *vibrate_init_8005D508(int pan)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
-            (TActorFunction)vibrate_act_8005D424, 0, aVibrateC);
+            (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
 
         flags = 2;
         if (pan == HASH_PAN2)
@@ -118,7 +116,7 @@ Actor_Vibrate *NewPadVibration_8005D58C(unsigned char *pData, int flags)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
-            (TActorFunction)vibrate_act_8005D424, 0, aVibrateC);
+            (TActorFunction)vibrate_act_8005D424, 0, "vibrate.c");
 
         pActor->field_24_pData = pData;
         pActor->field_20_flags = flags | 0x20;
