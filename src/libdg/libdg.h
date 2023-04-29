@@ -654,6 +654,14 @@ static inline DG_CHNL *DG_Chanl( int idx )
     return &DG_Chanls_800B1800[ idx + 1 ];
 }
 
+void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx);
+void DG_BoundChanl_800189A4(DG_CHNL *pOt, int idx);
+void DG_Trans_Chanl_8001E3C0(DG_CHNL *pOt, int idx);
+void DG_Shade_Chanl_8001D324(DG_CHNL *pOt, int idx);
+void DG_PrimChanl_8001B66C(DG_CHNL *pOt, int idx);
+void DG_DivideChanl_80019D44(DG_CHNL *pOt, int idx);
+void DG_Sort_Chanl_8001D5C8(DG_CHNL *pOt, int idx);
+
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
 	extern int	GM_CurrentMap_800AB9B0;

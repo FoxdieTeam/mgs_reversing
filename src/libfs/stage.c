@@ -11,13 +11,16 @@ extern STAGE_FILE      *gStageFile_800B5288;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;
 extern int              gSaveCache_800B5294;
-extern unsigned short   word_8009D504;
-extern unsigned short   dword_8009D500[];
-extern unsigned short   word_8009D506;
-extern unsigned short   word_8009D508;
 extern char            *gOverlayBase_800AB9C8;
-extern TFsCallback      gFsCallback_8009D4F8;
-extern TFsSoundCallback gFsSoundCallback_8009D4FC;
+
+TFsCallback      gFsCallback_8009D4F8 = NULL;
+TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
+unsigned short   dword_8009D500[] = {0, 0};
+unsigned short   word_8009D504 = 0;
+unsigned short   word_8009D506 = 0;
+unsigned short   word_8009D508 = 0;
+
+FS_MOVIE_FILE_TABLE *fs_movie_file_table_8009D50C = NULL;
 
 int sub_80022E50( STAGE_CONFIG *config, CDBIOS_TASK *task )
 {

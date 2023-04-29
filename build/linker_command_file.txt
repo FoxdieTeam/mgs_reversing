@@ -2,9 +2,6 @@
     org    $80010000
 
 ; link objs
-
-    include "..\obj\data\data\data.obj"
-
     ;main
     include "..\obj\main.obj"               ;main.c
 
@@ -16,7 +13,6 @@
     include "..\obj\libgv\actor.obj"        ;actor.c
 
     include "..\obj\data\bss.obj"
-    include "..\obj\data\sdata\sdata2.obj"
 
     include "..\obj\libgv\cache.obj"        ;cache.c
     include "..\obj\libgv\debug.obj"        ;debug.c    ?
@@ -61,13 +57,13 @@
     ;libhzd
     include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
 
-    include "..\obj\data\rdata\rdata_80021634.obj"
-
     ;libfs
     include "..\obj\libfs\cdbios.obj"
     include "..\obj\libfs\stage.obj"
     include "..\obj\libfs\movie.obj"
     include "..\obj\libfs\stream.obj"
+
+    include "..\obj\data\data\data.obj"
 
     ; 800244FC 800247E8 80024960 800249CC 80024A3C 80024A54 800250C4 80025178 80025350 8002554C 8002569C 800257B0 800257C0
     include "..\obj\memcard\memcard.obj"

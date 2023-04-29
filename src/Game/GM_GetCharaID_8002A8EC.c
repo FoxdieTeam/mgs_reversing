@@ -10,15 +10,6 @@
 extern GCL_Vars           gGcl_vars_800B3CC8;
 
 extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
-/*
-Actor_Item *item_init_800344F8(int name, int where, int argc, char **argv);
-GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] =
-{
-    {CHARA_SNAKE, sna_NewSnake_8005B650},
-    {CHARA_ITEM, item_init_800344F8},
-    {CHARA_DOOR, NewDoor_8006FD00},
-    {0, 0}
-};*/
 
 unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
 

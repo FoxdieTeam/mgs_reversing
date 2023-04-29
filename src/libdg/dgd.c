@@ -6,11 +6,17 @@
 #include "Game/game.h"
 #include "psyq.h"
 
+/**data*********************************************************/
+
+int DG_FrameRate_8009D45C = 2;
+int DG_HikituriFlag_8009D460 = 0;
+int DG_HikituriFlagOld_8009D464 = 0;
+int dword_8009D468 = -1;
+
+/***************************************************************/
+
 extern int              dword_800B3790;
-extern int              DG_HikituriFlag_8009D460;
-extern int              DG_HikituriFlagOld_8009D464;
 extern int              GM_GameStatus_800AB3CC;
-extern int              dword_8009D468;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              DG_FrameRate_8009D45C;
 extern GV_PAD          *GM_CurrentPadData_800AB91C;
@@ -119,7 +125,6 @@ void DG_TextureCacheInit_8001F25C(void)
     DG_ResetResidentTexture_8001DBEC();
 }
 
-extern unsigned char kVertexIndexingOrder_8009D46C[];
 extern const char    aDgdC[];
 
 extern GV_ACT gDgdActor2_800B3750;
