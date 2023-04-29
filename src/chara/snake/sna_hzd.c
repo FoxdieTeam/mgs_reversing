@@ -685,8 +685,6 @@ int sub_8005CB48(HZD_MAP *pHzdMap, int x, int y, void *pControl)
     return xl;
 }
 
-extern char aNoReachZoneFro[];
-
 int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
 {
     HZD_HEADER *hzdHeader;
@@ -731,7 +729,7 @@ int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
 
         if (best_near == from)
         {
-            mts_printf_8008BBA0(aNoReachZoneFro, from, to);
+            mts_printf_8008BBA0(" no reach zone from %d to %d \n", from, to);
             retval = 100000;
             break;
         }
@@ -740,8 +738,6 @@ int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
     }
     return retval;
 }
-
-extern char aOverNoReachZon[];
 
 int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
 {
@@ -790,7 +786,7 @@ int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
         }
         if (best_near == from)
         {
-            mts_printf_8008BBA0(aOverNoReachZon, from, to);
+            mts_printf_8008BBA0("over no reach zone from %d to %d \n", from, to);
             return best_near;
         }
 
@@ -798,8 +794,6 @@ int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
     }
     return from;
 }
-
-extern char aBoundNoReachZo[];
 
 int sub_8005CFAC(HZD_MAP *pHzdMap, int from, int to, int max_dist)
 {
@@ -856,7 +850,7 @@ int sub_8005CFAC(HZD_MAP *pHzdMap, int from, int to, int max_dist)
         }
         if (best_near == from)
         {
-            mts_printf_8008BBA0(aBoundNoReachZo, from, to);
+            mts_printf_8008BBA0("bound no reach zone from %d to %d \n", from, to);
             return best_near;
         }
 

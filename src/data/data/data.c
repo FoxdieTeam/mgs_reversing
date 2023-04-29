@@ -851,9 +851,9 @@ int SECTION(".data") gSparkRandomTableIndex_8009F668 = 0xFFFFFFFF;
 int SECTION(".data") gSparkRandomTableIndex2_8009F66C = 0;
 
 struct ANIMATION SECTION(".data") stru_8009F670 = {
-    19692, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)dword_80012F2C};
+    19692, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)animation_data_80012F2C};
 struct ANIMATION SECTION(".data") stru_8009F68C = {
-    21926, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)dword_80012F50};
+    21926, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)animation_data_80012F50};
 
 int     SECTION(".data") dword_8009F6A8 = 0;
 
