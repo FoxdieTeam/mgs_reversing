@@ -192,8 +192,92 @@ int sub_8002D6D8(TARGET *pTarget)
     return (pTarget->field_6_flags & 0x80) >> 7;
 }
 
-#pragma INCLUDE_ASM("asm/Game/sub_8002D7DC.s") // 568 bytes
-// int GM_Target_8002D7DC(TARGET *pTarget);
+static inline int sub_helper_8002D7DC(int which, int a, int b)
+{
+    switch (which & 0x3)
+    {
+    case 0:
+        return 0;
+
+    case 1:
+        return a - b;
+
+    case 2:
+        return (a > b) ? a : 0;
+
+    default:
+        return a;
+    }
+}
+
+#define SCALE_VXZ(in, scale, out)           \
+do                                          \
+{                                           \
+    int angle;                              \
+    angle = GV_VecDir2_80016EF8(in);        \
+    GV_DirVec2_80016F24(angle, scale, out); \
+} while (0)
+
+int sub_8002D7DC(TARGET *pTarget)
+{
+    SVECTOR dist;
+    SVECTOR scaled;
+    int     hp, hp2;
+    int     f24;
+    TARGET *pIter;
+    int     count;
+    int     hp_diff;
+
+    hp = pTarget->field_26_hp;
+    f24 = pTarget->field_24;
+
+    pIter = gTargets_800B64E0;
+    for (count = gTargets_down_count_800ABA68; count > 0; pIter++, count--)
+    {
+        if ((pTarget == pIter) || !(pIter->field_0_flags & 0x4) || !sub_8002D208(pIter, pTarget))
+        {
+            continue;
+        }
+
+        pIter->field_6_flags |= 0x4;
+
+        hp2 = pIter->field_26_hp;
+        pIter->field_26_hp = sub_helper_8002D7DC(pIter->field_24, hp2, hp);
+        hp = sub_helper_8002D7DC(f24, hp, hp2);
+
+
+        pIter->field_28 += hp2 - pIter->field_26_hp;
+        pIter->field_2A -= pTarget->field_2A;
+        pIter->field_3E = pTarget->field_3E;
+        pIter->field_44 = pTarget->field_44;
+
+        if (f24 & 0x4)
+        {
+            GV_SubVec3_80016D40(&pIter->field_8_vec, &pTarget->field_8_vec, &dist);
+            SCALE_VXZ(&dist, pTarget->field_2C_vec.vx, &scaled);
+            GV_AddVec3_80016D00(&pIter->field_2C_vec, &scaled, &pIter->field_2C_vec);
+        }
+        else
+        {
+            GV_AddVec3_80016D00(&pIter->field_2C_vec, &pTarget->field_2C_vec, &pIter->field_2C_vec);
+        }
+
+        if (hp < 0)
+        {
+            break;
+        }
+    }
+
+    hp_diff = pTarget->field_26_hp - hp;
+    pTarget->field_26_hp = hp;
+
+    if (hp_diff > 0)
+    {
+        pTarget->field_6_flags |= 0x4;
+    }
+
+    return hp_diff;
+}
 
 static inline int sub_helper2_8002DA14( TARGET *pTarget, TARGET *pTarget2, int use_z )
 {
