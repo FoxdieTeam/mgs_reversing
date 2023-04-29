@@ -36,10 +36,11 @@ extern void *dword_8009E75C[];
 
 extern DG_TEX gTextureRecs_800B1F50[512];
 
-extern PANEL_TEXTURE dword_800BDA10;
-extern PANEL_TEXTURE dword_800BDA30;
+extern PANEL_TEXTURE     dword_800BDA10;
+extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
-extern int GV_PadMask_800AB374;
+extern int               GV_PadMask_800AB374;
+extern int               GV_Clock_800AB920;
 
 extern char dword_8009E60C[];
 extern char dword_800AB610[8];
@@ -479,9 +480,85 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
     return;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_helper14_helper4_800408BC.s") // 720 bytes
+void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, int y, int w, int h, int x2, int y2)
+{
+    TILE     *pTile;
+    DR_TPAGE *pTpage;
+    SPRT     *pSprt;
+    SPRT     *pSprt2;
+    int       i, j;
+    int       ia, ja;
+    int       color;
+    int       color2;
 
-extern int GV_Clock_800AB920;
+    _NEW_PRIM(pTile, pGlue);
+
+    LSTORE(0, &pTile->r0);
+    pTile->x0 = x;
+    pTile->y0 = y;
+    pTile->w = w;
+    pTile->h = h;
+    setTile(pTile);
+    addPrim(pGlue->mPrimBuf.mOt, pTile);
+
+    _NEW_PRIM(pTpage, pGlue);
+    _NEW_PRIM(pSprt, pGlue);
+
+    color2 = 0x808080;
+    if (GV_Clock_800AB920 == 0)
+    {
+        setDrawTPage(pTpage, 0, 1, 0x120);
+        pSprt->u0 = x;
+    }
+    else
+    {
+        setDrawTPage(pTpage, 0, 1, 0x124);
+        pSprt->u0 = x + 64;
+    }
+
+    pSprt->v0 = y;
+    pSprt->w = w;
+    pSprt->h = h;
+    pSprt->x0 = x2;
+    pSprt->y0 = y2;
+
+    setSprt(pSprt);
+    LSTORE(0x66000000 | color2, &pSprt->r0);
+
+    addPrim(pGlue->mPrimBuf.mOt, pSprt);
+    color2 >>= 1;
+
+    for (i = -1; i <= 1; i++)
+    {
+        for (j = -1; j <= 1; j++)
+        {
+            ia = abs(i);
+            ja = abs(j);
+
+            color = color2;
+
+            if ((ja + ia) == 2)
+            {
+                color >>= 1;
+            }
+
+            if ((j != 0) || (i != 0))
+            {
+                _NEW_PRIM(pSprt2, pGlue);
+
+                *pSprt2 = *pSprt;
+                LSTORE(0x66000000 | color, &pSprt2->r0);
+
+                pSprt2->x0 += j;
+                pSprt2->y0 += i;
+
+                addPrim(pGlue->mPrimBuf.mOt, pSprt2);
+            }
+        }
+    }
+
+    addPrim(pGlue->mPrimBuf.mOt, pTpage);
+}
 
 void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
 {
