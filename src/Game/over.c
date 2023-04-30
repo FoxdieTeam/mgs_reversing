@@ -65,10 +65,206 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
     return uVar2 | iVar1 << 8 | iVar1 << 0x10;
 }
 
-#pragma INCLUDE_ASM( "asm/Game/over_act_helper_80036BA4.s" ) // 1412 bytes
-void over_act_helper_80036BA4(Actor_Over *pActor, unsigned int *pOt);
+extern short game_over_lines_8009DEBC[];
+extern int   GV_Clock_800AB920;
 
-extern int GV_Clock_800AB920;
+void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
+{
+    int       x0, y0;
+    int       x1, y1;
+    int       width, height;
+    int       seq_anim;
+    int       count;
+    int       color1, color2, color3, color4, color5;
+    DR_TPAGE *pTpage;
+    short    *game_over_lines_iter;
+    int       flag;
+    void     *field_2c_polys;
+    DVECTOR  *directions;
+    POLY_G4  *pPoly;
+    LINE_G2  *pLine;
+
+    seq_anim = pActor->field_20_seq_anim;
+
+    game_over_lines_iter = game_over_lines_8009DEBC;
+    count = game_over_lines_iter[0];
+
+    directions = pActor->field_168c_directions;
+    pLine = pActor->field_38c_lines[GV_Clock_800AB920];
+    pPoly = pActor->field_2c_polys[GV_Clock_800AB920];
+
+    game_over_lines_iter++;
+
+    if (seq_anim > 0)
+    {
+        if (seq_anim < count + 16)
+        {
+            pActor->field_20_seq_anim = seq_anim + 2;
+        }
+        else
+        {
+            pActor->field_20_seq_anim = 0;
+        }
+    }
+
+    flag = 1;
+    if (seq_anim == 0)
+    {
+        flag = 0;
+        seq_anim = 16;
+    }
+
+    for (; count > 0; game_over_lines_iter += 4, directions++, count--)
+    {
+        height = 0;
+        width = 0;
+        if (flag)
+        {
+            if (seq_anim < 8)
+            {
+                width = directions->vx >> seq_anim;
+                height = directions->vy >> seq_anim;
+                if (count % 4 == 2)
+                {
+                    width = -width;
+                    height = -height;
+                }
+            }
+            seq_anim = seq_anim - 1;
+            if (seq_anim < 0)
+            {
+                break;
+            }
+        }
+
+        x0 = game_over_lines_iter[0];
+        x1 = game_over_lines_iter[2];
+        x0 += width;
+        color1 = x0 - 160;
+        x1 += width * 2;
+        color2 = x1 - 160;
+        y0 = game_over_lines_iter[1] + height;
+        y1 = game_over_lines_iter[3] + height * 2;
+
+        pLine->x0 = x0;
+        pLine->y0 = y0;
+        pLine->x1 = x1;
+        pLine->y1 = y1;
+
+        if (color1 < 0)
+        {
+            color1 = -color1;
+        }
+        if (color2 < 0)
+        {
+            color2 = -color2;
+        }
+
+        color1 = 255 - color1;
+        color2 = 255 - color2;
+
+        if (color1 > 255)
+        {
+            color1 = 255;
+        }
+        if (color2 > 255)
+        {
+            color2 = 255;
+        }
+
+        LSTORE(over_act_helper_80036B40(color1, seq_anim), &pLine->r0);
+        LSTORE(over_act_helper_80036B40(color2, seq_anim), &pLine->r1);
+
+        setLineG2(pLine);
+        addPrim(pOt, pLine);
+        pLine++;
+
+        if (seq_anim >= 8 && seq_anim <= 13)
+        {
+            width = -(directions->vy >> (seq_anim - 6));
+            height = directions->vx >> (seq_anim - 6);
+
+            pPoly->x0 = x1 - width;
+            pPoly->y0 = y1 - height;
+            pPoly->x1 = x0 - width;
+            pPoly->y1 = y0 - height;
+            pPoly->x2 = (x0 + x1) / 2;
+            pPoly->y2 = (y0 + y1) / 2;
+            pPoly->x3 = x0 + width;
+            pPoly->y3 = y0 + height;
+
+            LSTORE(0, &pPoly->r0);
+            LSTORE(0, &pPoly->r1);
+            LSTORE(0x804000, &pPoly->r2);
+            LSTORE(0, &pPoly->r3);
+
+            setPolyG4(pPoly);
+            setSemiTrans(pPoly, 1);
+            addPrim(pOt, pPoly);
+            pPoly++;
+
+            pPoly->x0 = x1 - width;
+            pPoly->y0 = y1 - height;
+            pPoly->x1 = x1 + width;
+            pPoly->y1 = y1 + height;
+            pPoly->x2 = (x0 + x1) / 2;
+            pPoly->y2 = (y0 + y1) / 2;
+            pPoly->x3 = x0 + width;
+            pPoly->y3 = y0 + height;
+
+            LSTORE(0, &pPoly->r0);
+            LSTORE(0, &pPoly->r1);
+            LSTORE(0x804000, &pPoly->r2);
+            LSTORE(0, &pPoly->r3);
+
+            setPolyG4(pPoly);
+            setSemiTrans(pPoly, 1);
+            addPrim(pOt, pPoly);
+            pPoly++;
+        }
+    }
+
+    pTpage = &pActor->field_164c_tpages[GV_Clock_800AB920];
+    setDrawTPage(pTpage, 1, 1, getTPage(0, 1, 0, 0));
+    addPrim(pOt, pTpage);
+
+    if (pActor->field_20_seq_anim == 0)
+    {
+        if (pActor->field_26_gradient > 32)
+        {
+            color3 = 48 + (64 - pActor->field_26_gradient) * 4;
+        }
+        else
+        {
+            color3 = 48 + pActor->field_26_gradient * 4;
+        }
+
+        field_2c_polys = pActor->field_2c_polys[GV_Clock_800AB920];
+
+        if (pActor->field_28_can_continue)
+        {
+            if (pActor->field_24_option == 0)
+            {
+                color4 = color3 << 8 | color3 << 16;
+                color5 = 0x303000;
+            }
+            else
+            {
+                color4 = 0x303000;
+                color5 = color3 << 8 | color3 << 16;
+            }
+
+            field_2c_polys = over_act_helper_80036A10(field_2c_polys, 70, 126, 0x669D, color4, pOt);
+            over_act_helper_80036A10(field_2c_polys, 199, 126, 0x4D9A, color5, pOt);
+        }
+        else
+        {
+            pActor->field_24_option = 1;
+            color5 = color3 << 8 | color3 << 16;
+            over_act_helper_80036A10(field_2c_polys, 128, 126, 0x4D9A, color5, pOt);
+        }
+    }
+}
 
 void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
 {
@@ -250,8 +446,6 @@ void over_kill_80037514( Actor_Over *pActor )
     GM_SetArea_8002A7D8( GV_StrCode_80016CCC( stage_name ), stage_name );
     GM_LoadRequest_800AB3D0 = 0x81;
 }
-
-extern short game_over_lines_8009DEBC[];
 
 void over_loader_80037600(Actor_Over *pActor)
 {
