@@ -334,7 +334,11 @@ short SECTION(".data") image_8009E338[] = {
 
 int SECTION(".data") gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 0x338918};
 
-int SECTION(".data") dword_8009E3C8[] = {0x1371D07, 0x1373207, 0x2032E21};
+radar_uv SECTION(".data") gRadarUVs_8009E3C8[] = {
+    { 7, 29, 55, 1},
+    { 7, 50, 55, 1},
+    {33, 46,  3, 2}
+};
 int SECTION(".data") gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
 // Also see dword_8009E5CC.
@@ -452,7 +456,7 @@ char *SECTION(".data") wpn_descriptions_8009E5CC[] = {
 BarConfig SECTION(".data") gSnakeLifeBarConfig_8009E5F4 = {aLife, {16u, 143u, 127u}, {31u, 223u, 63u}, 0};
 BarConfig SECTION(".data") gSnakeO2BarConfig_8009E600 = {aO2, {31u, 63u, 192u}, {31u, 127u, 255u}, 1};
 
-int SECTION(".data") dword_8009E60C[] = {0x6D5D2477, 0x257B6B2E, 0x6F7F};
+char SECTION(".data") dword_8009E60C[] = {0x77, 0x24, 0x5D, 0x6D, 0x2E, 0x6B, 0x7B, 0x25, 0x7F, 0x6F, 0x00, 0x00};
 
 RadioUnknown SECTION(".data") dword_8009E618 =
 {
