@@ -20,6 +20,13 @@ int        SECTION(".sdata") MENU_RadarRangeH_800AB484;
 extern int MENU_RadarRangeV_800AB488;
 int        SECTION(".sdata") MENU_RadarRangeV_800AB488;
 
+extern radar_uv gRadarUVs_8009E3C8[];
+extern RECT     rect_800AB490;
+extern short    image_8009E338[];
+extern char     dword_8009E60C[];
+extern short    dword_800AB4A0[4];
+extern short    dword_800AB4A8[4];
+
 extern MATRIX gRadarScaleMatrix_800BD580;
 extern MATRIX DG_ZeroMatrix_8009D430;
 
@@ -29,8 +36,8 @@ extern int GV_Clock_800AB920;
 #define CONSOLE_WIDTH      24
 //#define CONSOLE_HEIGHT
 
-//#define CENTER_X           
-//#define CENTER_Y      
+//#define CENTER_X
+//#define CENTER_Y
 
 #define CONSOLE_LONG_LINES 5 // 7 in the leaks
 
@@ -123,8 +130,8 @@ void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan, unsigned char *pO
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper2_800391D0.s") // 2956 bytes
 void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int param_3);
 
-extern int gRadarClut_800AB498;
-int        SECTION(".sdata") gRadarClut_800AB498;
+extern short gRadarClut_800AB498[4];
+short        SECTION(".sdata") gRadarClut_800AB498[4];
 
 void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
 {
@@ -139,7 +146,7 @@ void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
 
     do {} while (0); // Force a match
 
-    clut = gRadarClut_800AB498;
+    clut = gRadarClut_800AB498[0];
     LSTORE(rgb, &pPrim->r0);
 
     setSprt(pPrim);
@@ -242,10 +249,11 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
 
     _NEW_PRIM( spb, prim );
 
+    spb->clut = gRadarClut_800AB498[0];
+
     spb->x0 = CONSOLE_X0;
     spb->y0 = CONSOLE_Y0 + h * 2;
 
-    spb->clut = gRadarClut_800AB498;
     spb->u0 = uv->field_0_x;
     spb->v0 = cons_current_y_800AB4B0 % 16 + uv->field_1_y;
 
@@ -279,8 +287,93 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
 #pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
 void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int param_2);
 
-#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper3_8003A664.s") // 788 bytes
-void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int param_3);
+void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
+{
+    int       temp_v0_3;
+    int       i, j;
+    int       var_s2;
+    short    *var_a0;
+    int       var_v1;
+    TILE     *pTile;
+    SPRT     *pSprt;
+    radar_uv *pUV;
+    radar_uv *pUV2;
+    int       six;
+
+    if (param_2 == 255)
+    {
+        param_2 = 256;
+    }
+
+    param_2 = (param_2 * 9999) / 256;
+
+    for (i = 0; i < 4; i++, var_a0++)
+    {
+        temp_v0_3 = param_2 % 10;
+        param_2 /= 10;
+
+        var_a0 = &image_8009E338[i * 16 + 1];
+        var_v1 = dword_8009E60C[temp_v0_3];
+
+        for (j = 0; j < 7; j++, var_a0++, var_v1 >>= 1)
+        {
+            if (var_v1 & 1)
+            {
+                *var_a0 = dword_800AB4A0[code];
+            }
+            else
+            {
+                *var_a0 = dword_800AB4A8[code];
+            }
+        }
+    }
+
+    LoadImage_8008FB10(&rect_800AB490, (unsigned char *)image_8009E338);
+
+    pUV = gRadarUVs_8009E3C8;
+
+    for (i = 3; i > 0; i--)
+    {
+        pTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
+        pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+
+        pTile->x0 = pUV->field_0_x - 34;
+        pTile->y0 = pUV->field_1_y - 26;
+        LSTORE(gRadarRGBTable_8009E3B8[code], &pTile->r0);
+        pTile->w = pUV->field_2_w;
+        pTile->h = pUV->field_3_h;
+
+        setTile(pTile);
+        setSemiTrans(pTile, 1);
+
+        addPrim(pGlue->mPrimBuf.mOt, pTile);
+
+        pUV++;
+    }
+
+    pUV2 = &gRadarUV_8009E30C[4].field_4;
+    var_s2 = -25;
+    six = 6;
+
+    for (i = 0; i < 4; i++)
+    {
+        pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+        pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+
+        sub_80039D5C(pSprt, var_s2, six, pUV2, 0x80808080);
+        pSprt->clut = gRadarClut_800AB498[3 - i];
+
+        addPrim(pGlue->mPrimBuf.mOt, pSprt);
+
+        var_s2 += 12;
+        if (i == 1)
+        {
+            var_s2 += 5;
+        }
+    }
+
+    draw_radar_helper3_helper3_helper_8003A0BC(pGlue, code);
+}
 
 void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
 {
@@ -293,8 +386,6 @@ void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-extern RECT  rect_800AB490;
-extern short image_8009E338[];
 extern int   gRadarRGBTable2_8009E3D4[];
 
 void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4)
