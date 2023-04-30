@@ -3,21 +3,21 @@
 #include "Anime/animeconv/anime.h"
 #include "libdg/libdg.h"
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int DG_UnDrawFrameCount_800AB380;
-extern int demodebug_finish_proc_800AB414;
-extern int dword_800BDFB8;
-extern int dword_800BDFBC;
+extern SVECTOR            DG_ZeroVector_800AB39C;
+extern MATRIX             DG_ZeroMatrix_8009D430;
+extern int                DG_UnDrawFrameCount_800AB380;
+extern int                demodebug_finish_proc_800AB414;
+extern int                dword_800BDFB8;
+extern int                dword_800BDFBC;
 extern demothrd_80700000 *dword_800BDFC0;
-extern int dword_800BDFC4;
+extern int                dword_800BDFC4;
+extern ANIMATION          stru_8009F73C;
+extern ANIMATION          stru_8009F758;
+extern ANIMATION          stru_8009F774;
+extern ANIMATION          stru_8009F790;
 
 extern GM_Camera GM_Camera_800B77E8;
 extern short     gGameState_800B4D98[0x60];
-
-extern ANIMATION stru_8009F73C;
-extern ANIMATION stru_8009F758;
-extern ANIMATION stru_8009F774;
-extern ANIMATION stru_8009F790;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
 
@@ -1546,8 +1546,130 @@ void demothrd_4_helper_helper3_8007FF9C(DG_OBJS* pObjs, int n_models)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_4_helper_helper4_800800D8.s") // 2888 bytes
-void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models);
+void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
+{
+    MATRIX  *pWorld;
+    DG_OBJ  *pObj;
+    MATRIX  *pSavedTransform;
+    SVECTOR *pRots;
+    SVECTOR *pWaistRot;
+    SVECTOR *pAdjust;
+    DG_MDL  *pMdl;
+    MATRIX  *pWorkMatrix;
+    int      count;
+    MATRIX  *pParent;
+
+    pWorld = (MATRIX *)0x1F800040;
+    pObj = pObjs->objs;
+    pSavedTransform = (MATRIX *)0x1F800360;
+    pRots = pObjs->rots;
+    pWaistRot = pObjs->waist_rot;
+    pAdjust = pObjs->adjust;
+    pMdl = pObj->model;
+    pWorkMatrix = (MATRIX *)0x1F800340;
+
+    if (pWaistRot)
+    {
+        RotMatrixZYX_gte_80093F08(pWaistRot, pWorkMatrix);
+    }
+    else
+    {
+        RotMatrixZYX_gte_80093F08(pObjs->rots, pWorkMatrix);
+    }
+
+    pWorkMatrix->t[0] = pMdl->pos_20.vx;
+    pWorkMatrix->t[1] = pMdl->pos_20.vy;
+    pWorkMatrix->t[2] = pMdl->pos_20.vz;
+
+    if (pAdjust == NULL)
+    {
+        gte_CompMatrix(0x1F800020, pWorkMatrix, pWorkMatrix);
+
+        for (count = n_models; count > 0; count--)
+        {
+            pMdl = pObj->model;
+            pParent = (MATRIX *)0x1F800040 + pMdl->parent_2C;
+
+            RotMatrixZYX_gte_80093F08(pRots, pWorld);
+
+            pWorld->t[0] = pMdl->pos_20.vx;
+            pWorld->t[1] = pMdl->pos_20.vy;
+            pWorld->t[2] = pMdl->pos_20.vz;
+
+            if (count == (n_models - 1))
+            {
+                gte_CompMatrix(pWorkMatrix, pWorld, pWorld);
+            }
+            else
+            {
+                gte_CompMatrix(pParent, pWorld, pWorld);
+            }
+
+            pObj->world = *pWorld;
+            pObj++;
+            pWorld++;
+            pRots++;
+        }
+    }
+    else
+    {
+        *pSavedTransform = *(MATRIX *)0x1F800020;
+        *(MATRIX *)0x1F800020 = DG_ZeroMatrix_8009D430;
+
+        for (count = n_models; count > 0; count--)
+        {
+            pMdl = pObj->model;
+            pParent = (MATRIX *)0x1F800040 + pMdl->parent_2C;
+
+            RotMatrixZYX_gte_80093F08(pRots, pWorld);
+
+            pWorld->t[0] = pMdl->pos_20.vx;
+            pWorld->t[1] = pMdl->pos_20.vy;
+            pWorld->t[2] = pMdl->pos_20.vz;
+
+            if (count == (n_models - 1))
+            {
+                gte_CompMatrix(pWorkMatrix, pWorld, pWorld);
+            }
+            else
+            {
+                gte_CompMatrix(pParent, pWorld, pWorld);
+            }
+
+            if (pAdjust->vz != 0)
+            {
+                RotMatrixZ_80093D68(pAdjust->vz, pWorld);
+            }
+
+            if (pAdjust->vx != 0)
+            {
+                RotMatrixX_80093A28(pAdjust->vx, pWorld);
+            }
+
+            if (pAdjust->vy != 0)
+            {
+                RotMatrixY_80093BC8(pAdjust->vy, pWorld);
+            }
+
+            pObj++;
+            pWorld++;
+            pRots++;
+            pAdjust++;
+        }
+
+        *(MATRIX *)0x1F800020 = *pSavedTransform;
+        pWorld = (MATRIX *)0x1F800040;
+
+        pObj = pObjs->objs;
+        for (count = n_models; count > 0; count--)
+        {
+            gte_CompMatrix(0x1F800020, pWorld, pWorld);
+            pObj->world = *pWorld;
+            pObj++;
+            pWorld++;
+        }
+    }
+}
 
 void demothrd_4_helper_80080C20(DG_OBJS *pObjs)
 {
