@@ -70,12 +70,10 @@ TRadarFn_800AB48C SECTION(".sdata") gFn_radar_800AB48C = NULL;
 
 RECT SECTION(".sdata") rect_800AB490 = {992, 382, 32, 2};
 
-int SECTION(".sdata") gRadarClut_800AB498 = 0x5FBF5FBE;
-int SECTION(".sdata") dword_800AB49C = 0x5FFF5FFE;
-int SECTION(".sdata") dword_800AB4A0 = 0x8D118C91;
-int SECTION(".sdata") dword_800AB4A4 = 0x9A238C91;
-int SECTION(".sdata") dword_800AB4A8 = 0x80238023;
-int SECTION(".sdata") dword_800AB4AC = 0x8023;
+short SECTION(".sdata") gRadarClut_800AB498[] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
+
+short SECTION(".sdata") dword_800AB4A0[] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
+short SECTION(".sdata") dword_800AB4A8[] = {0x8023, 0x8023, 0x8023, 0x0000};
 int SECTION(".sdata") cons_current_y_800AB4B0 = 0;
 int SECTION(".sdata") cons_current_x_800AB4B4 = 0;
 
