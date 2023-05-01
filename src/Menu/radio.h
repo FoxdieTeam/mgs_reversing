@@ -221,5 +221,6 @@ void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
 void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor);
+void sub_8004B9C4(Stru_800ABB74 *pStru, int param_2);
 
 #endif // _RADIO_H

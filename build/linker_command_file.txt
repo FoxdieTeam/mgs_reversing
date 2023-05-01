@@ -435,7 +435,7 @@
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper11_8004B958.obj"
     include "..\obj\Menu\sub_8004B9C4.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper12_8004BA80.obj"
-    include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper13_8004BCF8.obj"
+    include "..\obj\Menu\menu_radio_do_file_mode_helper13_8004BCF8.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper14_8004BE98.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper15_8004C04C.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper16_8004C164.obj"
