@@ -136,6 +136,20 @@ typedef struct RadioFileModeStru_800ABB7C
     int               field_25c;
 } RadioFileModeStru_800ABB7C;
 
+typedef struct RadioFileModeUnkStruChild
+{
+    char field_0[28];
+} RadioFileModeUnkStruChild;
+
+typedef struct RadioFileModeUnkStru
+{
+    char field_0;
+    char field_1;
+    char field_2;
+    char field_3;
+    RadioFileModeUnkStruChild field_4[0];
+} RadioFileModeUnkStru;
+
 typedef struct RadioCodecStru_800ABB98
 {
     short       field_0_idx;
@@ -222,5 +236,6 @@ void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
 void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor);
 void sub_8004B9C4(Stru_800ABB74 *pStru, int param_2);
+void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2);
 
 #endif // _RADIO_H
