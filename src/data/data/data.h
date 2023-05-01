@@ -9,6 +9,7 @@ enum TextConfig_Flags
     TextConfig_Flags_eCentreAlign_02 = 0x02,
     TextConfig_Flags_eLargeFont_10 = 0x10,
     TextConfig_Flags_eSemiTransparent_20 = 0x20,
+    TextConfig_Flags_ePadding_40 = 0x40,
 };
 
 typedef struct TextConfig

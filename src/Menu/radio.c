@@ -1028,7 +1028,76 @@ void menu_number_kill_80042980(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_80042988.s") // 476 bytes
+void menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number)
+{
+    int            digit;
+    SPRT          *sprtIter;
+    int            x0;
+    int            minimumDigits; // Pad the displayed number with leading 0s
+    SPRT          *firstSprt;
+    int            xpos;
+    SPRT          *sprt;
+    unsigned char *mOt;
+    int            colour;
+
+    x0 = 0;
+    firstSprt = 0;
+    mOt = pOt->mPrimBuf.mOt;
+    colour = pSettings->colour;
+    minimumDigits = 0;
+
+    if (pSettings->flags & TextConfig_Flags_ePadding_40)
+    {
+        minimumDigits = pSettings->flags >> 8;
+    }
+
+    do
+    {
+        _NEW_PRIM(sprt, pOt);
+
+        x0 -= 6;
+
+        digit = number % 10;
+        number /= 10;
+
+        if (!firstSprt)
+        {
+            firstSprt = sprt;
+        }
+
+        *sprt = gRadioNumberSprt_800bd9b0;
+        LSTORE(colour, &sprt->r0);
+        sprt->x0 = x0;
+        sprt->y0 = pSettings->ypos;
+        sprt->u0 = digit * 6 - 100;
+        addPrim(mOt, sprt);
+
+        minimumDigits--;
+    } while (number > 0 || minimumDigits > 0);
+
+    if (firstSprt)
+    {
+        switch (pSettings->flags & 0xF)
+        {
+        case 0:
+        default:
+            xpos = pSettings->xpos - x0;
+            pSettings->xpos = xpos;
+            break;
+        case 1:
+            xpos = pSettings->xpos;
+            pSettings->xpos = xpos + x0;
+            break;
+        case 2:
+            xpos = pSettings->xpos - x0 / 2;
+            break;
+        }
+        for (sprtIter = firstSprt; sprtIter < (SPRT *)pOt->mPrimBuf.mFreeLocation; sprtIter++)
+        {
+            sprtIter->x0 += xpos;
+        }
+    }
+}
 
 int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int arg2, int arg3, int arg4)
 {
