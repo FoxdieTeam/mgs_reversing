@@ -335,6 +335,13 @@ typedef struct UnkJimakuStruct // @ 800BDA70
     // int field_44 // padding?
 } UnkJimakuStruct;
 
+typedef struct MenuCallbackProc_800ABB08
+{
+    int procNameHashed;
+    short type;
+    short param2;
+} MenuCallbackProc_800ABB08;
+
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 void                       menu_restore_nouse_80043470();
@@ -412,6 +419,7 @@ void menu_SetRadioCallbackProc_8004283C(int param_1);
 void menu_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode);
 void menu_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode);
 void menu_InitRadioMemory_8004E0EC(void);
+void menu_radio_update_helper_80038A6C(void);
 TILE          *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int rgb);
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
 Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id);
