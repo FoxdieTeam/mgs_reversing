@@ -4,17 +4,15 @@
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
+#include "radar.h"
 
 int SECTION(".sdata") dword_800AB63C = 0; // declared
 
 extern char *dword_800ABB04;
 char        *SECTION(".sbss") dword_800ABB04;
 
-extern int dword_800ABB08;
-int        SECTION(".sbss") dword_800ABB08;
-
-extern short word_800ABB0C;
-short SECTION(".sbss") word_800ABB0C;
+extern MenuCallbackProc_800ABB08 SECTION(".sbss") gMenuCallbackProc_800ABB08;
+MenuCallbackProc_800ABB08        SECTION(".sbss") gMenuCallbackProc_800ABB08;
 
 extern int dword_800ABB10;
 int        SECTION(".sbss") dword_800ABB10; // declared
@@ -26,12 +24,27 @@ extern short word_800ABB22;
 short        SECTION(".sbss") word_800ABB22;
 
 extern DG_TEX *dword_800ABB24;
-DG_TEX *SECTION(".sbss") dword_800ABB24;
+DG_TEX        *SECTION(".sbss") dword_800ABB24;
 
 extern int gRadioClut_800ABAFC;
 int        SECTION(".sbss") gRadioClut_800ABAFC;
 
-extern int GV_Time_800AB330;
+extern int dword_800ABB1C;
+int        dword_800ABB1C;
+
+extern short word_800AB640;
+short        word_800AB640;
+
+extern short word_800ABB18;
+short        word_800ABB18;
+
+extern int dword_800ABB14;
+int        dword_800ABB14;
+
+extern int dword_800AB648;
+int        dword_800AB648;
+
+extern int   GV_Time_800AB330;
 extern void *dword_8009E75C[];
 
 extern DG_TEX gTextureRecs_800B1F50[512];
@@ -46,6 +59,16 @@ extern char dword_8009E60C[];
 extern char dword_800AB610[8];
 
 extern const char aCall[]; // = "call"
+extern char       aCallbackTypeDP[];
+extern char       aExecproc[];
+extern char       aExitMusenki[];
+extern char       aGetpotionD[];
+extern char       aPushSelect[];
+
+extern int GM_PlayerStatus_800ABA50;
+extern int GV_PauseLevel_800AB928;
+extern int DG_FrameRate_8009D45C;
+extern int DG_UnDrawFrameCount_800AB380;
 
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
 {
@@ -854,12 +877,6 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned int *pOt)
     }
 }
 
-extern short word_800ABB0C;
-short        SECTION(".sbss") word_800ABB0C;
-
-extern short word_800ABB0E;
-short        SECTION(".sbss") word_800ABB0E;
-
 extern int dword_800AB638;
 int        SECTION(".sbss") dword_800AB638;
 
@@ -877,8 +894,8 @@ void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
         sub_80047D70(pActor, dword_800AB638, pRadioCode);
         dword_800AB638_copy = dword_800AB638;
         pActor->field_210 = 2;
-        word_800ABB0C = 0;
-        word_800ABB0E = dword_800AB638_copy;
+        gMenuCallbackProc_800ABB08.type = 0;
+        gMenuCallbackProc_800ABB08.param2 = dword_800AB638_copy;
         return;
     }
 
@@ -886,6 +903,7 @@ void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
 }
 
 #pragma INCLUDE_ASM("asm/Menu/menu_radio_codec_helper_8004158C/menu_radio_codec_helper_8004158C.s") // 3028 bytes
+void menu_radio_codec_helper_8004158C(Actor_MenuMan *pActor, unsigned char *pOt, GV_PAD *pPad);
 
 void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
 {
@@ -896,15 +914,173 @@ void menu_radio_update_helper5_80042160(Actor_MenuMan *menuMan)
     menu_radio_codec_create_state_80047CE4(menuMan);
 }
 
-void menu_radio_init_nullsub_80042190(void)
+void menu_radio_init_nullsub_80042190(Actor_MenuMan *pActor)
 {
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_radio_update_80042198.s") // 1384 bytes
+void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
+{
+    GCL_ARGS args;
+    long     argv[2];
+
+    GV_PAD      *pPad;
+    int          timer;
+    int          streamStatus;
+    int          lastCode;
+    unsigned int state;
+
+    state = pActor->field_2A_state;
+    pPad = pActor->field_24_pInput;
+    if (GM_PlayerStatus_800ABA50 & 0x8000)
+    {
+        return;
+    }
+
+    if (state == 0)
+    {
+        if (!(GM_GameStatus_800AB3CC & 0x2420) && GV_PauseLevel_800AB928 == 0)
+        {
+            if ((gRadioIncomingCall_8009E708.field_0 > 0 && gRadioIncomingCall_8009E708.field_2_timer < 0) ||
+                pPad->press & PAD_SELECT)
+            {
+                dword_800ABB1C = DG_FrameRate_8009D45C;
+                DG_FrameRate_8009D45C = 2;
+                gMenuCallbackProc_800ABB08.type = 0xF;
+                GM_GameStatus_800AB3CC &= ~0x18000000;
+                pActor->field_2A_state = 4;
+                menu_radio_update_helper2_80038A7C();
+                menu_JimakuClear_80049518();
+                GV_PauseLevel_800AB928 |= 1;
+                DG_FreeObjectQueue_800183D4();
+                DG_BackGroundBlack_80018520();
+                GV_SetPacketTempMemory_80014C28();
+                menu_radio_update_helper5_80042160(pActor);
+                word_800AB640 = -32;
+                word_800ABB18 = 0xFF;
+                if (gRadioIncomingCall_8009E708.field_0 > 0)
+                {
+                    dword_800AB638 = gRadioIncomingCall_8009E708.field_0;
+                    if (gRadioIncomingCall_8009E708.field_2_timer == -2 ||
+                        gRadioIncomingCall_8009E708.field_2_timer == -4)
+                    {
+                        word_800AB640 = 0;
+                        pActor->field_210 = 1;
+                    }
+                }
+                if (gRadioIncomingCall_8009E708.field_8 != 0)
+                {
+                    gRadioIncomingCall_8009E708.field_2_timer = -1;
+                }
+                pActor->field_214_font = NULL;
+                streamStatus = GM_StreamStatus_80037CD8();
+                if (streamStatus != -1)
+                {
+                    lastCode = GM_StreamGetLastCode_80037DC8();
+                    dword_800ABB14 = lastCode;
+                    mts_printf_8008BBA0(aGetpotionD, lastCode);
+                }
+                else
+                {
+                    dword_800ABB14 = streamStatus;
+                }
+                GM_StreamPlayStop_80037D64();
+                DG_UnDrawFrameCount_800AB380 = 2;
+                dword_800AB648 = 3;
+                GM_Sound_80032C48(0x1ffff20, 0);
+                if (gRadioIncomingCall_8009E708.field_0 >= 1 && gRadioIncomingCall_8009E708.field_0 <= 2)
+                {
+                    init_radio_message_board_80040F74(pActor);
+                    if (gRadioIncomingCall_8009E708.field_0 == 1)
+                    {
+                        menu_radio_update_helper4_8004D2D0(gRadioIncomingCall_8009E708.field_4);
+                    }
+                    else
+                    {
+                        menu_radio_init_save_mode_8004D280(gRadioIncomingCall_8009E708.field_4, 0);
+                    }
+                    pActor->field_210 = 14;
+                    gMenuCallbackProc_800ABB08.type = 1;
+                }
+            }
+            if (gRadioIncomingCall_8009E708.field_0 > 0 && gRadioIncomingCall_8009E708.field_2_timer > 0)
+            {
+                if (--gRadioIncomingCall_8009E708.field_2_timer == 0)
+                {
+                    if (gRadioIncomingCall_8009E708.field_8 != 0)
+                    {
+                        gRadioIncomingCall_8009E708.field_2_timer = -1;
+                        return;
+                    }
+                    gRadioIncomingCall_8009E708.field_0 = 0;
+                    return;
+                }
+                if (gRadioIncomingCall_8009E708.field_8 != 0 || gRadioIncomingCall_8009E708.field_2_timer > 80)
+                {
+                    timer = (399 - gRadioIncomingCall_8009E708.field_2_timer) % 40;
+                    if (timer < 26 && timer % 13 < 8)
+                    {
+                        menu_radio_update_helper3_80040498(pActor->field_20_otBuf);
+                        menu_Color_80038B4C(0xFF, 0xFF, 0xFF);
+                        menu_Text_XY_Flags_80038B34(0xA0, 0x3F, 2);
+                        menu_Text_80038C38(aPushSelect);
+                        menu_Text_Init_80038B98();
+                    }
+                    if (timer == 0 &&
+                        (gRadioIncomingCall_8009E708.field_2_timer > 240 || gRadioIncomingCall_8009E708.field_8 != 0))
+                    {
+                        GM_SeSet2_80032968(0, 0x3F, 0x10);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    else if (state == 4)
+    {
+        if (pActor->field_210 == 20 && GM_StreamStatus_80037CD8() != 0)
+        {
+            pActor->field_2A_state = 0;
+            menu_radio_update_helper_80038A6C();
+            menu_radio_update_helper6_80047D40(pActor);
+            GV_ResetPacketMemory_80014BD8();
+            GV_PauseLevel_800AB928 &= ~1;
+            DG_8001844C();
+            menu_radio_init_nullsub_80042190(pActor);
+            DrawSync(0);
+            sub_8003CB98(pActor);
+            sub_8003EBDC(pActor);
+            menu_radar_load_rpk_8003AD64();
+            gRadioIncomingCall_8009E708.field_0 = 0;
+            GM_GameStatus_800AB3CC &= ~0x80000;
+            mts_printf_8008BBA0(aCallbackTypeDP, gMenuCallbackProc_800ABB08.type,
+                                gMenuCallbackProc_800ABB08.procNameHashed);
+            if (gMenuCallbackProc_800ABB08.type != 0xF && gMenuCallbackProc_800ABB08.procNameHashed > 0)
+            {
+                args.argc = 2;
+                args.argv = argv;
+                argv[0] = gMenuCallbackProc_800ABB08.type & 0xF;
+                argv[1] = gMenuCallbackProc_800ABB08.param2;
+                mts_printf_8008BBA0(aExecproc);
+                GCL_ExecProc_8001FF2C(gMenuCallbackProc_800ABB08.procNameHashed, &args);
+            }
+            DG_ChangeReso_80017154(0);
+            DG_UnDrawFrameCount_800AB380 = 3;
+            DG_BackGroundNormal_80018548();
+            DG_FrameRate_8009D45C = dword_800ABB1C;
+            mts_printf_8008BBA0(aExitMusenki);
+            return;
+        }
+        if (--dword_800AB648 == -1)
+        {
+            DG_ChangeReso_80017154(1);
+        }
+        menu_radio_codec_helper_8004158C(pActor, pOt, pPad);
+    }
+}
 
 void menu_radio_init_80042700(Actor_MenuMan *pMenu)
 {
-    pMenu->field_2C_modules[MENU_RADIO] = (TMenuUpdateFn)menu_radio_update_80042198;
+    pMenu->field_2C_modules[MENU_RADIO] = menu_radio_update_80042198;
     pMenu->field_28_flags |= 0x10u;
 }
 
@@ -945,13 +1121,13 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
     }
 }
 
-void menu_SetLoad_800427E8(int param_1, int param_2, short param_3)
+void menu_SetLoad_800427E8(int procNameHashed, int param_2, short param_3)
 {
     gRadioIncomingCall_8009E708.field_0 = param_3;
     gRadioIncomingCall_8009E708.field_2_timer = -1;
     gRadioIncomingCall_8009E708.field_4 = param_2;
-    dword_800ABB08 = param_1;
-    word_800ABB0C = 1;
+    gMenuCallbackProc_800ABB08.procNameHashed = procNameHashed;
+    gMenuCallbackProc_800ABB08.type = 1;
 }
 
 void menu_ResetCall_80042814()
@@ -961,13 +1137,12 @@ void menu_ResetCall_80042814()
     gRadioIncomingCall_8009E708.field_2_timer = 0;
     gRadioIncomingCall_8009E708.field_8 = 0;
 
-    dword_800ABB08 = -1;
+    gMenuCallbackProc_800ABB08.procNameHashed = -1;
 }
 
-void menu_SetRadioCallbackProc_8004283C(int param_1)
+void menu_SetRadioCallbackProc_8004283C(int procNameHashed)
 {
-    dword_800ABB08 = param_1;
-    return;
+    gMenuCallbackProc_800ABB08.procNameHashed = procNameHashed;
 }
 
 // TODO: Functions from this point forward don't belong to radio.c!

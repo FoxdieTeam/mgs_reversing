@@ -205,8 +205,9 @@ typedef struct ResHeader
 
 void           sub_8004D580(int pressed);
 void           sub_8004124C(Actor_MenuMan *pActor);
+void           menu_radio_update_helper2_80038A7C();
 void           menu_radio_codec_create_state_80047CE4(Actor_MenuMan *menuMan);
-void           menu_radio_update_80042198(void);
+void           menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt);
 void menu_800470B4(int idx, menu_chara_struct *pStru, int chara, int code, int faceUnk, int taskWup);
 unsigned char *radio_moveToNext_80047880(menu_chara_struct *unk, unsigned char *pScript);
 void           menu_radio_codec_task_proc_80047AA0(void);
@@ -226,6 +227,7 @@ void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim
 int            menu_GetRadioCode_800497C4(int param_1);
 void           sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode);
 void           sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
+void           menu_radio_update_helper4_8004D2D0(int param_1);
 
 int menu_number_draw_80042F78(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, int number, int flags);
 int menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
@@ -237,5 +239,7 @@ void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt
 void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor);
 void sub_8004B9C4(Stru_800ABB74 *pStru, int param_2);
 void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2);
+void menu_radio_init_save_mode_8004D280(int param_1, int param_2);
+void menu_radio_update_helper6_80047D40(Actor_MenuMan *pActor);
 
 #endif // _RADIO_H

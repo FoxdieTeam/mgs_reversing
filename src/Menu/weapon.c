@@ -42,9 +42,7 @@ int   SECTION(".sbss") dword_800ABAF8;
 int   SECTION(".sbss") gRadioClut_800ABAFC;
 int   SECTION(".sbss") dword_800ABB00;
 char *SECTION(".sbss") dword_800ABB04;
-int   SECTION(".sbss") dword_800ABB08;
-short SECTION(".sbss") word_800ABB0C;
-short SECTION(".sbss") word_800ABB0E;
+MenuCallbackProc_800ABB08 SECTION(".sbss") gMenuCallbackProc_800ABB08;
 
 extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
 

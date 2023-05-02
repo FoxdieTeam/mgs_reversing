@@ -4,7 +4,8 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 
-int SECTION(".sdata") dword_800AB640 = 0;
+short SECTION(".sdata") word_800AB640 = 0;
+short SECTION(".sdata") word_800AB642 = 0;
 int SECTION(".sdata") dword_800AB644 = 0xFFFFFFFF;
 int SECTION(".sdata") dword_800AB648 = 0;
 
