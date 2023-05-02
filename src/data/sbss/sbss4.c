@@ -2,7 +2,8 @@
 #include "libdg/libdg.h"
 
 int SECTION(".sbss") dword_800ABB14;
-int SECTION(".sbss") dword_800ABB18;
+short SECTION(".sbss") word_800ABB18;
+short SECTION(".sbss") word_800ABB1A;
 int SECTION(".sbss") dword_800ABB1C;
 unsigned char SECTION(".sbss") dword_800ABB20;
 unsigned char SECTION(".sbss") dword_800ABB21;
