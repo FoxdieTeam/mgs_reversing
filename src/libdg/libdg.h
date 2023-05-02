@@ -555,6 +555,9 @@ int     DG_LoadInitKmdar_8001FAD0( unsigned char *pFileData, int fileNameHashed 
 int     DG_LoadInitImg_8001F644( unsigned char *pFileData, int fileNameHashed );
 int     DG_LoadInitSgt_8001F670( unsigned char *pFileData, int fileNameHashed );
 
+void    DG_BackGroundBlack_80018520();
+void    DG_BackGroundNormal_80018548();
+
 void    DG_ClearTmpLight_8001A0E4();
 int     DG_SetTmpLight_8001A114( SVECTOR *a1, int a2, int a3 );
 void    DG_InitLightSystem_80019F40( void );
@@ -574,6 +577,7 @@ void    DG_SetMainLightDir_80019FF8( int x, int y, int z );
 void *DG_AllocDividePackMem_800190A0( GV_Heap *heap, GV_MemoryAllocation **alloc_list, int *size );
 
 // unsorted
+void  DG_ChangeReso_80017154();
 int   DG_AllocPacks_8001A670( DG_OBJ *pObj, int idx );
 int   DG_DrawSyncResetGraph_8001F014( void );
 int   DG_MakeObjPacket_8001AA50( DG_OBJ *pPrim, int idx, int flags );

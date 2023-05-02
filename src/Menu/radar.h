@@ -23,5 +23,6 @@ void menu_radar_helper_8003ADD8(struct Actor_MenuMan *a1, int a2);
 void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func);
 
 void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char * pOt);
+void menu_radar_load_rpk_8003AD64();
 
 #endif // _RADAR_H_
