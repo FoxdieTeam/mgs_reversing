@@ -242,4 +242,20 @@ void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2);
 void menu_radio_update_helper6_80047D40(Actor_MenuMan *pActor);
 
+void menu_radio_codec_helper_helper4_8004DE20(Actor_MenuMan *pActor);
+void menu_radio_codec_helper_helper5_8004D628(Actor_MenuMan *pActor, unsigned char *pOt);
+int menu_radio_codec_helper_helper2_8004DF68(Actor_MenuMan *pActor, GV_PAD *pPad);
+void menu_radio_codec_helper__helper3_sub_8004DF44();
+void menu_radio_codec_helper_helper_8004E198(int toFind);
+int menu_radio_codec_helper_helper9_80047FF4();
+void menu_radio_codec_state_2_helper_80048024();
+void menu_radio_codec_helper_helper10_80047EFC(Actor_MenuMan *pActor, int param_2);
+void menu_radio_codec_helper_helper8_80048044();
+void menu_radio_codec_helper_helper3_80047F44(Actor_MenuMan *pActor, int param_2);
+void menu_radio_codec_helper_helper7_80048080();
+void menu_radio_codec_helper__helper6_80048100();
+void *menu_radio_codec_helper_helper17_80038678();
+int menu_radio_end_check_80048F98();
+void menu_radio_draw_face_80048DB0(Actor_MenuMan *pActor, menu_chara_struct *chara_struct);
+
 #endif // _RADIO_H
