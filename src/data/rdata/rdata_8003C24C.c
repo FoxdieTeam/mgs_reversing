@@ -125,36 +125,3 @@ char SECTION(".rdata") WP_MP5_80011B04[] = {
     0x06, 0x90, 0x93, 0x90, 0x94, 0xD0, 0x03, 0x00
 };
 const char SECTION(".rdata") aHereD[] = "HERE %d\n";
-const char SECTION(".rdata") aPressSelectToE[] = "PRESS SELECT TO EXIT";
-const char SECTION(".rdata") aSetCallFreqD[] = "set call freq %d\n";
-const char SECTION(".rdata") aNoResponse[] = "NO RESPONSE";
-int        SECTION(".rdata") dword_80011BB0[] = {0xAE90AD90, 0x4A810281, 0x1B813E81, 0x3D05381, 0};
-const char SECTION(".rdata") aGetpotionD[] = "GetPotion %d\n";
-const char SECTION(".rdata") aPushSelect[] = "PUSH SELECT";
-const char SECTION(".rdata") aCallbackTypeDP[] = "callback type %d proc %X\n";
-const char SECTION(".rdata") aExecproc[] = "ExecProc\n";
-const char SECTION(".rdata") aExitMusenki[] = "EXIT MUSENKI\n";
-int        SECTION(".rdata") jpt_80011C18[] = {0x80041658, 0x80041670, 0x80041948, 0x800419C4, 0x80041B28,
-                                               0x80041B98, 0x80041DE0, 0x80041E08, 0x80042064, 0x80041D5C,
-                                               0x800418C4, 0x80041F4C, 0x80041F70, 0x80041FA0, 0x80041FC8,
-                                               0x80042038, 0x80042044, 0x80042064, 0x80041E94, 0x80041EE4};
-int        SECTION(".rdata") jpt_80011C68[] = {0x80042064, 0x80041A8C, 0x80041ACC, 0x80041AF4, 0x80041B1C};
-const char SECTION(".rdata") aTotalD[] = "TOTAL %d\n";
-const char SECTION(".rdata") aClipD[] = "CLIP %d\n";
-const char SECTION(".rdata") aXDYD[] = "x %d y %d\n";
-const char SECTION(".rdata") aWDHD[] = "w %d h %d\n";
-const char SECTION(".rdata") aWrongRubiCodeX[] = "Wrong rubi code %x\n";
-const char SECTION(".rdata") aNoMemoryForSav[] = "NO MEMORY FOR SAVE TEX\n";
-const char SECTION(".rdata") aNoFaceData[] = "NO_FACE_DATA\n";
-const char SECTION(".rdata") aFrameNumD[] = "frame num %d\n";
-const char SECTION(".rdata") aSetCharaCodeD[] = "set chara code %d\n";
-const char SECTION(".rdata") aAnimeCharaDCod[] = "ANIME CHARA %d CODE %d\n";
-const char SECTION(".rdata") aVoxcodeX[] = "voxcode %X\n";
-const char SECTION(".rdata") aIllegalCodeX[] = "illegal code %x\n";
-const char SECTION(".rdata") aSetDS[] = "set %d %s\n";
-const char SECTION(".rdata") aBlockExecError[] = "block exec error\n";
-const char SECTION(".rdata") aNoMemoryForFac[] = "NO MEMORY FOR FACE %d\n";
-const char SECTION(".rdata") aFaceDataNumD[] = "face data num %d\n";
-const char SECTION(".rdata") aNoMemoryForSta[] = "NO MEMORY FOR STACK\n";
-const char SECTION(".rdata") aNoMemory[] = "no memory\n";
-int        SECTION(".rdata") dword_crap6 = 0;

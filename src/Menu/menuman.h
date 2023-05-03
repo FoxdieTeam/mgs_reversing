@@ -347,7 +347,7 @@ Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
 void                       menu_restore_nouse_80043470();
 PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 void         sub_8003CB98(struct Actor_MenuMan *a1);
-int          menu_radio_do_file_mode_8004C418(int param_1, GV_PAD *pPad);
+int          menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad);
 void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
 void         draw_life_defaultX_8003F408(MenuPrim *ot, int xpos, int ypos, int a4, int a5, BarConfig *pConfig);
 void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig);
