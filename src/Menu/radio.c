@@ -6,16 +6,6 @@
 #include "libdg/libdg.h"
 #include "radar.h"
 
-const char SECTION(".rdata") aPressSelectToE[] = "PRESS SELECT TO EXIT";
-const char SECTION(".rdata") aSetCallFreqD[] = "set call freq %d\n";
-char SECTION(".rdata") aNoResponse[] = "NO RESPONSE";
-char SECTION(".rdata") dword_80011BB0[] = {0x90, 0xAD, 0x90, 0xAE, 0x81, 0x02, 0x81, 0x4A, 0x81, 0x3E, 0x81, 0x1B, 0x81, 0x53, 0xD0, 0x03, 0x00};
-const char SECTION(".rdata") aGetpotionD[] = "GetPotion %d\n";
-const char SECTION(".rdata") aPushSelect[] = "PUSH SELECT";
-const char SECTION(".rdata") aCallbackTypeDP[] = "callback type %d proc %X\n";
-const char SECTION(".rdata") aExecproc[] = "ExecProc\n";
-const char SECTION(".rdata") aExitMusenki[] = "EXIT MUSENKI\n";
-
 int SECTION(".sdata") dword_800AB63C = 0; // declared
 
 extern char *dword_800ABB04;
@@ -1015,16 +1005,16 @@ skip_helper16:
                     }
                     else if (direction != 0)
                     {
-                        dword_800AB638 = (int)(dword_800AB638 + direction);
+                        dword_800AB638 += direction;
                         GM_SeSet2_80032968(0, 0x3F, 0x67);
-                        dword_800AB63C = (int)(dword_800AB63C + 1);
+                        dword_800AB63C++;
                     }
                 }
                 else
                 {
                     dword_800AB63C = 0;
                     dword_800ABB10 = direction;
-                    dword_800AB638 = (int)(dword_800AB638 + direction);
+                    dword_800AB638 += direction;
                     GM_SeSet2_80032968(0, 0x3F, 0x67);
                 }
                 if (dword_800AB638 >= 14200)
@@ -1046,7 +1036,7 @@ skip_helper16:
             {
                 menu_Text_XY_Flags_80038B34(0xA0, 0x82, 2);
                 menu_Color_80038B4C(0x2E, 0x47, 0x3D);
-                menu_Text_80038C38(aPressSelectToE);
+                menu_Text_80038C38("PRESS SELECT TO EXIT");
                 menu_Text_Init_80038B98();
             }
         }
@@ -1136,7 +1126,7 @@ skip_helper16:
                     }
                     break;
                 case 2:
-                    mts_printf_8008BBA0(aSetCallFreqD, dword_800AB638);
+                    mts_printf_8008BBA0("set call freq %d\n", dword_800AB638);
                     menu_radio_codec_helper_helper_8004E198(dword_800AB638);
                     pActor->field_210 = 6;
                     break;
@@ -1155,7 +1145,9 @@ skip_helper16:
         break;
     case 4:
         draw_radio_wait_mark_8004143C(pActor, pOt);
-        if ((pPad->release & 0xF0F0) && (pActor->field_212 == 0))
+        if ((pPad->release &
+             (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE)) &&
+            pActor->field_212 == 0)
         {
             menu_radio_codec_helper_helper8_80048044();
             sub_80041118(pActor);
@@ -1208,7 +1200,7 @@ skip_helper16:
         }
         else
         {
-            if (!(pCharaStruct2->field_18 & 1) && (pPad->release & 0x40))
+            if (!(pCharaStruct2->field_18 & 1) && (pPad->release & PAD_CROSS))
             {
                 menu_radio_codec_helper__helper13_800410E4(pActor, pCharaStruct2->field_C_pScript);
                 dword_800ABAF8 = 8;
@@ -1229,25 +1221,25 @@ skip_helper16:
                 if (pCharaStruct2->field_0_state == 2)
                 {
                     pActor->field_210 = 6;
-                    goto block_97; // TODO: get rid of this goto
                 }
-                if (pCharaStruct2->field_0_state == 1)
+                else if (pCharaStruct2->field_0_state != 1)
                 {
-                block_97:
-                    subtitles = menu_radio_codec_helper_helper17_80038678();
-                    if (pCharaStruct2->field_10_subtitles != subtitles)
+                    break;
+                }
+
+                subtitles = menu_radio_codec_helper_helper17_80038678();
+                if (pCharaStruct2->field_10_subtitles != subtitles)
+                {
+                    if (subtitles == NULL)
                     {
-                        if (subtitles == NULL)
-                        {
-                            sub_80041118(pActor);
-                            menu_radio_codec_helper_helper8_80048044(pActor);
-                        }
-                        else
-                        {
-                            menu_radio_codec_helper__helper13_800410E4(pActor, pCharaStruct2->field_C_pScript);
-                        }
-                        pCharaStruct2->field_10_subtitles = subtitles;
+                        sub_80041118(pActor);
+                        menu_radio_codec_helper_helper8_80048044(pActor);
                     }
+                    else
+                    {
+                        menu_radio_codec_helper__helper13_800410E4(pActor, pCharaStruct2->field_C_pScript);
+                    }
+                    pCharaStruct2->field_10_subtitles = subtitles;
                 }
             }
         }
@@ -1260,11 +1252,14 @@ skip_helper16:
             {
                 if (GM_GameStatusFlag & 0x100)
                 {
-                    menu_radio_codec_helper__helper13_800410E4(pActor, aNoResponse);
+                    menu_radio_codec_helper__helper13_800410E4(pActor, "NO RESPONSE");
                 }
                 else
                 {
-                    menu_radio_codec_helper__helper13_800410E4(pActor, dword_80011BB0);
+                    // 応 ありません。
+                    // (Translation: Answer No.)
+                    menu_radio_codec_helper__helper13_800410E4(
+                        pActor, "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
                 }
             }
         }
@@ -1482,7 +1477,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 {
                     lastCode = GM_StreamGetLastCode_80037DC8();
                     dword_800ABB14 = lastCode;
-                    mts_printf_8008BBA0(aGetpotionD, lastCode);
+                    mts_printf_8008BBA0("GetPotion %d\n", lastCode);
                 }
                 else
                 {
@@ -1527,7 +1522,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                         menu_radio_update_helper3_80040498(pActor->field_20_otBuf);
                         menu_Color_80038B4C(0xFF, 0xFF, 0xFF);
                         menu_Text_XY_Flags_80038B34(0xA0, 0x3F, 2);
-                        menu_Text_80038C38(aPushSelect);
+                        menu_Text_80038C38("PUSH SELECT");
                         menu_Text_Init_80038B98();
                     }
                     if (timer == 0 &&
@@ -1557,7 +1552,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
             menu_radar_load_rpk_8003AD64();
             gRadioIncomingCall_8009E708.field_0 = 0;
             GM_GameStatus_800AB3CC &= ~0x80000;
-            mts_printf_8008BBA0(aCallbackTypeDP, gMenuCallbackProc_800ABB08.type,
+            mts_printf_8008BBA0("callback type %d proc %X\n", gMenuCallbackProc_800ABB08.type,
                                 gMenuCallbackProc_800ABB08.procNameHashed);
             if (gMenuCallbackProc_800ABB08.type != 0xF && gMenuCallbackProc_800ABB08.procNameHashed > 0)
             {
@@ -1565,14 +1560,14 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 args.argv = argv;
                 argv[0] = gMenuCallbackProc_800ABB08.type & 0xF;
                 argv[1] = gMenuCallbackProc_800ABB08.param2;
-                mts_printf_8008BBA0(aExecproc);
+                mts_printf_8008BBA0("ExecProc\n");
                 GCL_ExecProc_8001FF2C(gMenuCallbackProc_800ABB08.procNameHashed, &args);
             }
             DG_ChangeReso_80017154(0);
             DG_UnDrawFrameCount_800AB380 = 3;
             DG_BackGroundNormal_80018548();
             DG_FrameRate_8009D45C = dword_800ABB1C;
-            mts_printf_8008BBA0(aExitMusenki);
+            mts_printf_8008BBA0("EXIT MUSENKI\n");
             return;
         }
         if (--dword_800AB648 == -1)
