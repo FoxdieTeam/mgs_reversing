@@ -442,7 +442,13 @@
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper15_8004C04C.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper16_8004C164.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_helper17_8004C2E4.obj"
-    include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_8004C418.obj"
+
+    include "..\obj\data\rdata\rdata_80048E64.obj"
+
+    include "..\obj\Menu\menu_radio_do_file_mode_8004C418.obj"
+
+    include "..\obj\data\rdata\rdata_80012328.obj"
+
     include "..\obj\Menu\sub_8004CF20.obj"
     include "..\obj\Menu\sub_8004D008.obj"
     include "..\obj\Menu\sub_8004D14C.obj"
@@ -459,7 +465,6 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
-    include "..\obj\data\rdata\rdata_80048E64.obj"
 
     include "..\obj\data\sbss\sbss5.obj"
 

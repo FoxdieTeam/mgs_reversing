@@ -58,24 +58,3 @@ const int  SECTION(".rdata") dword_800122D8[] = {0x75826D81, 0x6E816482, 0}; // 
 const char SECTION(".rdata") aSSSSSS[] = "%s%s%s%s%s%s";
 const int  SECTION(".rdata") dword_800122F4[] = {0x66826C82, 0xE7817282, 0}; // shift_jis: "ＭＧＳ∫"
 const char SECTION(".rdata") aSaveData[] = "SAVE DATA";
-const int  SECTION(".rdata") jpt_8001230C[] = {0x8004C4E8, 0x8004C580, 0x8004CAF8, 0x8004CB7C,
-                                               0x8004CCD4, 0x8004CC34, 0x8004CDB4};
-
-const char SECTION(".rdata") aSnakeEUC[] = {0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00}; // = "スネーク"
-
-const char SECTION(".rdata") aForceActCancel[] = "force act cancel\n";
-const char SECTION(".rdata") aRunMoveCancel[] = "run move cancel\n";
-const char SECTION(".rdata") aForceStanceCan[] = "force stance cancel\n";
-
-const char SECTION(".rdata") aPosDDD[] = "pos %d %d %d\n";
-const char SECTION(".rdata") aTurnDDD[] = "turn %d %d %d\n";
-const char SECTION(".rdata") aCeilFloorDD[] = "ceil floor %d %d\n";
-const char SECTION(".rdata") aStatus4x[] = "status %4x\n";
-const char SECTION(".rdata") aWeaponD[] = "weapon %d\n";
-const char SECTION(".rdata") aItemD[] = "item %d\n";
-const char SECTION(".rdata") aFlag4x[] = "flag %4x\n";
-const char SECTION(".rdata") aFlag24x[] = "flag2 %4x\n";
-const char SECTION(".rdata") aStanceD[] = "stance %d\n";
-const char SECTION(".rdata") aPadtoD[] = "padto %d\n";
-const char SECTION(".rdata") aTrapCheckD[] = "trap check %d\n";
-const char SECTION(".rdata") aSnaInitC[] = "sna_init.c";

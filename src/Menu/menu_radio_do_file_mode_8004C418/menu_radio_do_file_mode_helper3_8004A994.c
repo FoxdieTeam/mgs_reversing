@@ -6,7 +6,7 @@ RadioFileModeStru_800ABB7C        *SECTION(".sbss") stru_800ABB7C;
 
 void menu_radio_do_file_mode_helper3_helper_8004A790(MenuPrim *, RadioFileModeStruElem *);
 
-void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, int field_14)
+void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, Stru_800ABB74 *field_14)
 {
     RadioFileModeUnk1     *pUnk;
     RadioFileModeStruElem *pElem;
@@ -30,6 +30,6 @@ void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3,
         pElem->field_0 = 1;
     }
 
-    pUnk->field_14 = field_14;
+    pUnk->field_14 = (int)field_14;
     pElem->field_4 = divisor;
 }

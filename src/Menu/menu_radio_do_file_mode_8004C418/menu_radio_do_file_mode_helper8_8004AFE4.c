@@ -1,7 +1,7 @@
-#include "Menu/menuman.h"
+#include "Menu/radio.h"
 #include "libdg/libdg.h"
 
-void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt)
+void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru)
 {
     unsigned int xoff;
     SPRT        *pPrim;
