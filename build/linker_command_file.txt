@@ -302,7 +302,7 @@
     ; 80037F2C 80037F68 80037FB8
     include "..\obj\Game\jimctrl1.obj"
 
-    include "..\obj\data\rdata\rdata_80037FE0.obj"
+    include "..\obj\data\rdata\rdata_80010E4C.obj"
 
     ; TODO: merge these into jimctrl.c but the data is broken and causes the file to no longer match
     include "..\obj\Game\jimctrl_act_helper_clear_first_80037FE0.obj"
@@ -325,7 +325,7 @@
     ; 8003B568 8003B5E0 8003B614 8003B6D0 8003B794 8003B8F0 8003BBEC 8003BCD4 8003BF1C 8003C24C 8003C4EC 8003C95C 8003CB98 8003CBF0 8003CC74
     include "..\obj\Menu\menu_left.obj"
 
-    include "..\obj\data\rdata\rdata_8003C24C.obj"
+    include "..\obj\data\rdata\rdata_800116B4.obj"
 
     ; 8003CC88 8003CC94 8003CE40 8003CE78 8003CE84 8003CEF8 8003CFE0 8003D070 8003D0D0 8003D124 8003D184 8003D1A8 8003D1B8 8003D1DC 8003D2BC 8003D34C 8003D3A4 8003D3FC 8003D44C 8003D4CC 8003D520 8003D52C 8003D538 8003D568 8003D594 8003D5F0 8003D64C 8003D6A8 8003D6CC 8003D7DC 8003DA0C 8003DAFC 8003DB2C 8003DBAC 8003DD1C 8003DF30 8003E030 8003E0E8 8003E3B0 8003E4B8 8003E674 8003E990 8003EBDC 8003EC2C 8003ECAC
     include "..\obj\Menu\weapon.obj"
@@ -442,7 +442,13 @@
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper15_8004C04C.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_helper16_8004C164.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_helper17_8004C2E4.obj"
-    include "..\obj\Menu\menu_radio_do_file_mode_8004C418\menu_radio_do_file_mode_8004C418.obj"
+
+    include "..\obj\data\rdata\rdata_80011F18.obj"
+
+    include "..\obj\Menu\menu_radio_do_file_mode_8004C418.obj"
+
+    include "..\obj\data\rdata\rdata_80012328.obj"
+
     include "..\obj\Menu\sub_8004CF20.obj"
     include "..\obj\Menu\sub_8004D008.obj"
     include "..\obj\Menu\sub_8004D14C.obj"
@@ -459,7 +465,6 @@
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
-    include "..\obj\data\rdata\rdata_80048E64.obj"
 
     include "..\obj\data\sbss\sbss5.obj"
 
@@ -503,7 +508,7 @@
     ; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
     include "..\obj\Game\vibrate.obj"
 
-    include "..\obj\data\rdata\rdata_80055DD8.obj"
+    include "..\obj\data\rdata\rdata_800124A8.obj"
 
     ; 8005D604 8005D6BC 8005D988 8005DDE0 8005DE70 8005DF50 8005E090 8005E1A0 8005E258 8005E334
     ; 8005E508 8005E574 8005E6A4 8005E774 8005E7EC 8005E9E0 8005EA6C 8005EB30 8005EB98 8005EC1C
@@ -693,7 +698,7 @@
     ; 80080D48 80080E14 800815FC
     include "..\obj\Kojo\demothrd.obj"
 
-    include "..\obj\data\rdata\rdata_80012F90.obj"
+    include "..\obj\data\rdata\rdata_8001345C.obj"
 
     ; 80081C7C 80081F8C 80081FC4 80081FE8 800820EC 80082170 80082194 800822C8 80082310 80082380 80082448 80082640 8008279C 800827A4 800827AC 80083394 800833FC 8008341C 800834FC 80083804 80083944 8008394C 80083954 8008395C 80083964 800839C8 80083BB4 80083E68 80083E8C 80083ED4 80083EE8 80083EF8 80083F08 80083F54 800841D4 800843BC
     include "..\obj\SD\sd_main.obj"
@@ -713,7 +718,7 @@
     ; 800887EC 8008880C 80088838 80088860 80088868 800888B4 800888F8 80088CA0 80088CB0
     include "..\obj\SD\sd_cli.obj"
 
-    include "..\obj\data\rdata\rdata_800135D0.obj"
+    include "..\obj\data\rdata\rdata_80013D10.obj"
 
     ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
     ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
