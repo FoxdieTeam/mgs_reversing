@@ -1,8 +1,6 @@
 #include "radio.h"
 #include "Game/game.h"
 
-int sub_8004AEA8(Stru_800ABB74 *);
-
 void sub_8004B9C4(Stru_800ABB74 *pStru, int param_2)
 {
     short field_6;
