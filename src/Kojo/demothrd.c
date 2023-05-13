@@ -2,6 +2,7 @@
 #include "libfs/libfs.h"
 #include "Anime/animeconv/anime.h"
 #include "libdg/libdg.h"
+#include "Bullet/blast.h"
 
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern MATRIX             DG_ZeroMatrix_8009D430;
@@ -34,6 +35,8 @@ void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2,
 
 void DG_8001CDB8(DG_OBJS *pObjs);
 
+extern const char aDemothrdC[]; // = "demothrd.c";
+
 int DM_ThreadStream_80079460(int flag, int unused)
 {
     Actor_demothrd *pDemoThrd = (Actor_demothrd *)GV_NewActor_800150E4(1, sizeof(Actor_demothrd));
@@ -48,7 +51,7 @@ int DM_ThreadStream_80079460(int flag, int unused)
     GV_SetNamedActor_8001514C(&pDemoThrd->field_0_actor,
                               (TActorFunction)demothrd_cd_act_80079664,
                               (TActorFunction)demothrd_cd_stream_die_800797CC,
-                              "demothrd.c");
+                              aDemothrdC);
 
     pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
     FS_StreamOpen_80024060();
@@ -76,7 +79,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                               (TActorFunction)&demothrd_file_stream_act_800797FC,
                               (TActorFunction)&demothrd_file_stream_kill_80079960,
-                              "demothrd.c");
+                              aDemothrdC);
 
     pActor->field_28_map = GM_CurrentMap_800AB9B0;
     FS_EnableMemfile_800799A8(0, 0);
@@ -644,12 +647,12 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   }
   for (i = pActor->field_38.field_4_pNext; i != (&pActor->field_38); i = pActor->field_38.field_4_pNext)
   {
-    pPrevious = i->field_C_actor.pPrevious;
+    pPrevious = i->field_C_actor1;
     if (pPrevious)
     {
       GV_DestroyOtherActor_800151D8(pPrevious);
     }
-    pNext = i->field_C_actor.pNext;
+    pNext = i->field_10_actor2;
     if (pNext)
     {
       GV_DestroyOtherActor_800151D8(pNext);
@@ -719,24 +722,1426 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   return 1;
 }
 
+#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s") // 1224 bytes
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s")                 // 1224 bytes
+extern int        GM_PadVibration2_800ABA54;
+extern int        GM_PadVibration_800ABA3C;
+extern Blast_Data blast_data_8009F4F4;
 
-const int  SECTION(".rdata") jpt_demothrd_make_chara_80013334[] =
+int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, Actor_demothrd_0x78_Chain *pChain)
 {
-    0x8007AED4, 0x8007AEFC, 0x8007AF04, 0x8007AF04, 0x8007AFB8, 0x8007AFE0, 0x8007B014, 0x8007B048,
-    0x8007B050, 0x8007B0A4, 0x8007B10C, 0x8007B114, 0x8007B170, 0x8007B178, 0x8007B2B4, 0x8007B340,
-    0x8007B3C4, 0x8007B3CC, 0x8007B498, 0x8007B498, 0x8007B498, 0x8007B66C, 0x8007B674, 0x8007B7A8,
-    0x8007B89C, 0x8007B928, 0x8007B950, 0x8007B994, 0x8007BA64, 0x8007B498, 0x8007BAA4, 0x8007BB10,
-    0x8007BBDC, 0x8007BC24, 0x8007BC68, 0x8007BCF8, 0x8007BD1C, 0x8007BD40, 0x8007BDF0, 0x8007BDF8,
-    0x8007BE58, 0x8007BF3C, 0x8007C030, 0x8007C09C, 0x8007C0E8, 0x8007C134, 0x8007C1D8, 0x8007C200,
-    0x8007C224, 0x8007C22C, 0x8007C254, 0x8007C27C, 0x8007C348, 0x8007C8D8, 0x8007C3AC, 0x8007C430,
-    0x8007C438, 0x8007C4DC, 0x8007C520, 0x8007C58C, 0x8007C61C, 0x8007C6A8, 0x8007C7DC, 0x8007C8D8,
-    0x8007C90C, 0x8007C930, 0x8007C948, 0x8007CA4C, 0x8007CBB8, 0x8007CBEC, 0x8007CC18, 0x8007CC44,
-    0x8007CC6C, 0x8007CCF4
-};
+    // TODO: Some funcptr calls are first cast to VoidMakeChara. This is a hack
+    // to prevent those cases from being merged (GCC "cross jump" optimization).
+    typedef void (*VoidMakeChara)();
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_make_chara_8007AE10.s")         // 8016 bytes
+    int                        hzdout[2];
+    GV_MSG                     msg;
+    SVECTOR                    svec1, svec2, svec3, svec4;
+    MATRIX                     mat1, mat2;
+    Actor_demothrd_0x78_Chain *pIter;
+
+    GV_ACT *(*funcptr)();
+
+    dmo_model_0x14  *pDmoModel;
+    dmo_model_0x1A4 *pModel;
+    int              hzdret;
+    int              i;
+
+    svec1.vx = pData->field_E_vec2.vx;
+    svec1.vy = pData->field_E_vec2.vy;
+    svec1.vz = pData->field_E_vec2.vz;
+    svec2.vx = pData->field_8_vec1.vx;
+    svec2.vy = pData->field_8_vec1.vy;
+    svec2.vz = pData->field_8_vec1.vz;
+
+    DG_SetPos2_8001BC8C(&svec1, &DG_ZeroVector_800AB39C);
+    ReadRotMatrix_80092DD8(&mat1);
+    DG_SetPos2_8001BC8C(&svec1, &svec2);
+    ReadRotMatrix_80092DD8(&mat2);
+
+    switch (pData->field_4_type)
+    {
+    case 0x1:
+        funcptr = GM_GetCharaID_8002A8EC(0x1);
+        if (funcptr != NULL)
+        {
+            funcptr(&mat1, &blast_data_8009F4F4);
+        }
+        break;
+
+    case 0x2:
+        funcptr = GM_GetCharaID_8002A8EC(0x2);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1);
+        }
+        break;
+
+    case 0x3:
+    case 0x4:
+        demothrd_remove_via_id_8007CD60(pActor, 4);
+
+        switch (pData->field_4_type)
+        {
+        case 0x3:
+            funcptr = GM_GetCharaID_8002A8EC(3);
+            if (funcptr != NULL)
+            {
+                if (pData->data.variant_0x3.field_18 == 0)
+                {
+                    funcptr(1, pData->data.variant_0x3.field_14);
+                }
+                else
+                {
+                    funcptr(3, pData->data.variant_0x3.field_14);
+                }
+            }
+            break;
+
+        case 0x4:
+            funcptr = GM_GetCharaID_8002A8EC(4);
+            if (funcptr != NULL)
+            {
+                if (pData->data.variant_0x4.field_18 == 0)
+                {
+                    pChain->field_C_actor1 = funcptr(0, pData->data.variant_0x4.field_14);
+                }
+                else
+                {
+                    pChain->field_C_actor1 = funcptr(2, pData->data.variant_0x4.field_14);
+                }
+            }
+            break;
+        }
+        break;
+
+    case 0x5:
+        funcptr = GM_GetCharaID_8002A8EC(5);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x5.field_18, pData->data.variant_0x5.field_1A, 0, pData->data.variant_0x5.field_14,
+                    pData->data.variant_0x5.field_1C);
+        }
+        break;
+
+    case 0x6:
+        funcptr = GM_GetCharaID_8002A8EC(6);
+        if (funcptr != NULL)
+        {
+            if (pData->data.variant_0x6.field_14 == 0)
+            {
+                funcptr(&mat1, 2);
+            }
+            else
+            {
+                funcptr(&mat1, 0);
+            }
+        }
+        break;
+
+    case 0x7:
+        funcptr = GM_GetCharaID_8002A8EC(7);
+        if (funcptr != NULL)
+        {
+            if (pData->data.variant_0x7.field_14 == 0)
+            {
+                funcptr(&mat1, 3);
+            }
+            else
+            {
+                funcptr(&mat1, 1);
+            }
+        }
+        break;
+
+    case 0x8:
+        funcptr = GM_GetCharaID_8002A8EC(0x8);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1);
+        }
+        break;
+
+    case 0x9:
+        if (pData->data.variant_0x9.field_14 != 4)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(9);
+            if (funcptr != NULL)
+            {
+                funcptr(&mat2, pData->data.variant_0x9.field_14);
+            }
+        }
+        else
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0xA);
+            if (funcptr != NULL)
+            {
+                funcptr(&mat2, 0xFF);
+            }
+        }
+        break;
+    case 0xA:
+        funcptr = GM_GetCharaID_8002A8EC(0xB);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0xA.field_14, &mat2, pData->data.variant_0xA.field_18,
+                    pData->data.variant_0xA.field_1A, pData->data.variant_0xA.field_1C, pData->data.variant_0xA.field_1E,
+                    pData->data.variant_0xA.field_20, pData->data.variant_0xA.field_22, pData->data.variant_0xA.field_24);
+        }
+        break;
+    case 0xB:
+        funcptr = GM_GetCharaID_8002A8EC(0xC);
+        if (funcptr != NULL)
+        {
+            funcptr(&mat2);
+        }
+        break;
+
+    case 0xC:
+        funcptr = GM_GetCharaID_8002A8EC(0xD);
+        if (funcptr != NULL)
+        {
+            if (pData->data.variant_0xC.field_14 >= 4 && pData->data.variant_0xC.field_14 <= 7)
+            {
+                funcptr(&svec1, pData->data.variant_0xC.field_14, pData->data.variant_0xC.field_18,
+                        pData->data.variant_0xC.field_1C);
+            }
+            else
+            {
+                pChain->field_C_actor1 = funcptr(&svec1, pData->data.variant_0xC.field_14, pData->data.variant_0xC.field_18,
+                                                 pData->data.variant_0xC.field_1C);
+            }
+        }
+        break;
+
+    case 0xD:
+        funcptr = GM_GetCharaID_8002A8EC(0xe);
+        if (funcptr != NULL)
+        {
+            funcptr(&mat2);
+        }
+        break;
+
+    case 0xE:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0xE.field_14)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        for (pIter = pActor->field_38.field_4_pNext; pIter != &pActor->field_38; pIter = pIter->field_4_pNext)
+        {
+            if (pIter->field_18 == 0xE && pIter->field_28 == pData->data.variant_0xE.field_14)
+            {
+                if (pIter->field_C_actor1)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+        }
+
+        if (pData->data.variant_0xE.field_20 != 1)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0xF);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 =
+                    funcptr(&pModel->field_7C_obj, pData->data.variant_0xE.field_18, &pChain->field_48, &pChain->field_4C,
+                            pData->data.variant_0xE.field_22 & 0xFF, pData->data.variant_0xE.field_24 & 0xFF,
+                            pData->data.variant_0xE.field_26 & 0xFF);
+            }
+        }
+        break;
+
+    case 0xF:
+        svec1.vy += 0x64;
+        hzdret = sub_800296C4(pActor->field_C4_ctrl.field_2C_map->field_8_hzd, &svec1, 1);
+
+        do
+        {
+        } while (0);
+        sub_800298DC(hzdout);
+
+        if (hzdret & 1)
+        {
+            svec1.vy = hzdout[0];
+        }
+
+        else if (hzdret & 2)
+        {
+            svec1.vy = hzdout[1];
+        }
+        else
+        {
+            svec1.vy = pData->field_E_vec2.vy;
+        }
+
+        funcptr = GM_GetCharaID_8002A8EC(0x10);
+        if (funcptr != NULL)
+        {
+            pChain->field_C_actor1 = funcptr(&mat2, pData->data.variant_0xF.field_14, svec1.vy);
+        }
+        break;
+
+    case 0x10:
+        memset(&msg, 0, sizeof(msg));
+        msg.address = pData->data.variant_0x10.field_14;
+        msg.message[0] = pData->data.variant_0x10.field_18;
+        msg.message[1] = pData->data.variant_0x10.field_1C;
+        msg.message[2] = pData->data.variant_0x10.field_20;
+        msg.message[3] = pData->data.variant_0x10.field_24;
+        msg.message[4] = pData->data.variant_0x10.field_28;
+        msg.message[5] = pData->data.variant_0x10.field_2C;
+        msg.message[6] = pData->data.variant_0x10.field_30;
+        msg.message_len = 7;
+        GV_SendMessage_80016504(&msg);
+        break;
+
+    case 0x11:
+        funcptr = GM_GetCharaID_8002A8EC(0x11);
+        if (funcptr != NULL)
+        {
+            ((VoidMakeChara)funcptr)(&mat2);
+        }
+        break;
+
+    case 0x12:
+        if (pData->data.variant_0x12.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x12);
+            if (funcptr != NULL)
+            {
+                funcptr(&svec1, pData->data.variant_0x12.field_20, pData->data.variant_0x12.field_24, &pActor->field_26C,
+                        pData->data.variant_0x12.field_26, pData->data.variant_0x12.field_28,
+                        pData->data.variant_0x12.field_2A);
+            }
+        }
+        else if (pData->data.variant_0x12.field_14 == 1)
+        {
+            svec3.vx = pData->data.variant_0x12.field_16;
+            svec3.vy = pData->data.variant_0x12.field_18;
+            svec3.vz = pData->data.variant_0x12.field_1A;
+
+            funcptr = GM_GetCharaID_8002A8EC(0x13);
+            if (funcptr != NULL)
+            {
+                funcptr(&svec1, &svec3, pData->data.variant_0x12.field_1C, &pActor->field_26C,
+                        pData->data.variant_0x12.field_26, pData->data.variant_0x12.field_28,
+                        pData->data.variant_0x12.field_2A);
+            }
+        }
+        else
+        {
+            pActor->field_26C = 1;
+        }
+        break;
+
+    case 0x13:
+    case 0x14:
+    case 0x15:
+    case 0x1E:
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38)
+        {
+            if (pIter->field_18 == 0x13 || pIter->field_18 == 0x14 || pIter->field_18 == 0x15 ||
+                (pIter->field_18 == 0x1E))
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    if (pIter->field_10_actor2 != NULL)
+                    {
+                        GV_DestroyOtherActor_800151D8(pIter->field_10_actor2);
+                    }
+                    pIter->field_C_actor1 = NULL;
+                    pIter->field_10_actor2 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+
+        switch (pData->field_4_type)
+        {
+        case 0x13:
+            if (pData->data.variant_0x13.field_14 != 1)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x14);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pActor->field_140_obj, 0);
+                }
+            }
+            break;
+
+        case 0x14:
+            if (pData->data.variant_0x14.field_14 != 1)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x15);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pActor->field_140_obj, 0);
+                    if (pData->data.variant_0x14.field_16 != 0)
+                    {
+                        funcptr = GM_GetCharaID_8002A8EC(0x16);
+                        if (funcptr != NULL)
+                        {
+                            pChain->field_10_actor2 = funcptr(5);
+                        }
+                    }
+                }
+            }
+            break;
+
+        case 0x15:
+            if (pData->data.variant_0x15.field_14 != 1)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x17);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pActor->field_140_obj, 0);
+                    if (pData->data.variant_0x15.field_16 != 0)
+                    {
+                        funcptr = GM_GetCharaID_8002A8EC(0x18);
+                        if (funcptr != NULL)
+                        {
+                            pChain->field_10_actor2 = funcptr(6);
+                        }
+                    }
+                }
+            }
+            break;
+
+        case 0x1E:
+            if (pData->data.variant_0x1E.field_14 != 1)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x22);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr();
+                }
+            }
+            break;
+        }
+        break;
+
+    case 0x16:
+        funcptr = GM_GetCharaID_8002A8EC(0x19);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1);
+        }
+        break;
+
+    case 0x17:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x17.field_18)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38)
+        {
+            if ((pIter->field_18 == 0x17) && (pIter->field_2C == pData->data.variant_0x17.field_18))
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+
+        if (pData->data.variant_0x17.field_14 != 1 && pData->field_4_type == 0x17)
+        {
+            if (pData->data.variant_0x17.field_1C == 0)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x1A);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pModel->field_7C_obj, 0);
+                }
+            }
+            else
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x1B);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(&pActor->field_C4_ctrl, &pModel->field_7C_obj, 0);
+                }
+            }
+        }
+        break;
+    case 0x18:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x18.field_18)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38)
+        {
+            if ((pIter->field_18 == 0x18) && (pIter->field_2C == pData->data.variant_0x18.field_18))
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+        if (pData->data.variant_0x18.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x1C);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj, pData->data.variant_0x18.field_1C);
+            }
+        }
+        break;
+    case 0x19:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x19.field_14)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        funcptr = GM_GetCharaID_8002A8EC(0x1D);
+        if (funcptr != NULL)
+        {
+            funcptr(&pModel->field_7C_obj, pData->data.variant_0x19.field_18, pData->data.variant_0x19.field_1A,
+                    pData->data.variant_0x19.field_1C, pData->data.variant_0x19.field_20);
+        }
+        break;
+    case 0x1A:
+        funcptr = GM_GetCharaID_8002A8EC(0x1E);
+        if (funcptr != NULL)
+        {
+            funcptr(&mat2, pData->data.variant_0x1A.field_14);
+        }
+        break;
+    case 0x1B:
+        demothrd_remove_via_id_8007CD60(pActor, 0x1B);
+        if (pData->data.variant_0x1B.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x1F);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(pData->data.variant_0x1B.field_16, pData->data.variant_0x1B.field_18,
+                                                 pData->data.variant_0x1B.field_1A);
+            }
+        }
+        break;
+    case 0x1C:
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38 && (pIter->field_18 != 0x1C || pIter->field_C_actor1 == NULL))
+        {
+            pIter = pIter->field_4_pNext;
+        }
+        svec1.vx = pData->data.variant_0x1C.field_14;
+        svec1.vy = pData->data.variant_0x1C.field_16;
+        svec1.vz = pData->data.variant_0x1C.field_18;
+        svec2.vx = pData->data.variant_0x1C.field_1A;
+        svec2.vy = pData->data.variant_0x1C.field_1C;
+        svec2.vz = pData->data.variant_0x1C.field_1E;
+        if (pIter == &pActor->field_38)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x20);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(&pChain->field_58);
+                pIter = pChain;
+            }
+            else
+            {
+                break;
+            }
+        }
+        DG_SetPos2_8001BC8C(&svec1, &svec2);
+        ReadRotMatrix_80092DD8(&pIter->field_58);
+
+        break;
+    case 0x1D:
+        demothrd_remove_via_id_8007CD60(pActor, 0x1D);
+        if (pData->data.variant_0x1D.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x21);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(pData->data.variant_0x1D.field_18, pData->data.variant_0x1D.field_1C);
+            }
+        }
+        break;
+    case 0x1F:
+        pIter = pActor->field_38.field_4_pNext;
+        pActor->field_268 = 1;
+        pActor->field_26C = 1;
+        while (pIter != &pActor->field_38)
+        {
+            if (pIter->field_C_actor1 != NULL)
+            {
+                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                if (pIter->field_10_actor2 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_10_actor2);
+                }
+                pIter->field_C_actor1 = NULL;
+                pIter->field_10_actor2 = NULL;
+            }
+            pIter = pIter->field_4_pNext;
+        }
+        break;
+    case 0x20:
+        if (pData->data.variant_0x20.field_20 == 1)
+        {
+            pIter = pActor->field_38.field_4_pNext;
+            while (pIter != &pActor->field_38)
+            {
+                if (pIter->field_18 == 0x20)
+                {
+                    if (pIter->field_C_actor1 != NULL)
+                    {
+                        GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                        pIter->field_C_actor1 = NULL;
+                    }
+                }
+                pIter = pIter->field_4_pNext;
+            }
+        }
+        else
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x23);
+            if (funcptr != NULL)
+            {
+                if (pData->data.variant_0x20.field_14 >= 2 && pData->data.variant_0x20.field_14 <= 5)
+                {
+                    funcptr(&svec1, pData->data.variant_0x20.field_14 + 2, pData->data.variant_0x20.field_18,
+                            pData->data.variant_0x20.field_1C);
+                }
+                else
+                {
+                    pChain->field_C_actor1 = funcptr(&svec1, pData->data.variant_0x20.field_14 + 2,
+                                                     pData->data.variant_0x20.field_18, pData->data.variant_0x20.field_1C);
+                }
+            }
+        }
+        break;
+    case 0x21:
+        svec3.vx = pData->data.variant_0x21.field_14;
+        svec3.vy = pData->data.variant_0x21.field_16;
+        svec3.vz = pData->data.variant_0x21.field_18;
+        funcptr = GM_GetCharaID_8002A8EC(0x24);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1, &svec3, pData->data.variant_0x21.field_1C);
+        }
+        break;
+    case 0x22:
+        demothrd_remove_via_id_8007CD60(pActor, 0x22);
+        if (pData->data.variant_0x22.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x25);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(pData->data.variant_0x22.field_16, pData->data.variant_0x22.field_18,
+                                                 pData->data.variant_0x22.field_1A);
+            }
+        }
+        break;
+    case 0x23:
+        svec3.vx = pData->data.variant_0x23.field_14;
+        svec3.vy = pData->data.variant_0x23.field_16;
+        svec3.vz = pData->data.variant_0x23.field_18;
+        if (pData->data.variant_0x23.field_1A != 4)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x26);
+            if (funcptr != NULL)
+            {
+                ((VoidMakeChara)funcptr)(&svec1, &svec3, pData->data.variant_0x23.field_1A);
+            }
+        }
+        else
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x27);
+            if (funcptr != NULL)
+            {
+                ((VoidMakeChara)funcptr)(&svec1, &svec3, pData->data.variant_0x23.field_1C & 0xFF,
+                                         pData->data.variant_0x23.field_1E & 0xFF,
+                                         pData->data.variant_0x23.field_20 & 0xFF);
+            }
+        }
+        break;
+    case 0x24:
+        demothrd_remove_via_id_8007CD60(pActor, 0x24);
+
+        if (pData->data.variant_0x24.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x28);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr();
+            }
+        }
+        break;
+
+    case 0x25:
+        demothrd_remove_via_id_8007CD60(pActor, 0x25);
+
+        if (pData->data.variant_0x25.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x29);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr();
+            }
+        }
+        break;
+
+    case 0x26:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_C_hashCode == GV_StrCode_80016CCC("hind"))
+            {
+                break;
+            }
+            if (pDmoModel->field_C_hashCode == GV_StrCode_80016CCC("hinddemo"))
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pModel->field_1A0_pM1OrHind->field_0[0][0].field_0.objs = pData->data.variant_0x26.field_14;
+        pModel->field_1A0_pM1OrHind->field_0[0][0].field_0.flag = pData->data.variant_0x26.field_18;
+
+        break;
+    case 0x27:
+        funcptr = GM_GetCharaID_8002A8EC(0x2a);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1);
+        }
+        break;
+
+    case 0x28:
+        funcptr = GM_GetCharaID_8002A8EC(0x2B);
+        if (funcptr != NULL)
+        {
+            if (pData->data.variant_0x28.field_14 >= 0 && pData->data.variant_0x28.field_14 <= 3)
+            {
+                funcptr(&svec1, pData->data.variant_0x28.field_14 + 4, pData->data.variant_0x28.field_18,
+                        pData->data.variant_0x28.field_1C);
+            }
+            else
+            {
+                pChain->field_C_actor1 = funcptr(&svec1, pData->data.variant_0x28.field_14 + 4,
+                                                 pData->data.variant_0x28.field_18, pData->data.variant_0x28.field_1C);
+            }
+        }
+        break;
+
+    case 0x29:
+        pIter = pActor->field_38.field_4_pNext;
+
+        if (pIter != &pActor->field_38)
+        {
+            while ((pIter->field_18 != 0x29) || !pIter->field_C_actor1)
+            {
+                pIter = pIter->field_4_pNext;
+
+                if (pIter == &pActor->field_38)
+                {
+                    break;
+                }
+            }
+        }
+
+        if (pIter == &pActor->field_38)
+        {
+            if (pData->data.variant_0x29.field_14 != 1)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x2C);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(pData->data.variant_0x29.field_1C, &pData->data.variant_0x29.field_16);
+                }
+            }
+        }
+        else if (pData->data.variant_0x29.field_14 != 0)
+        {
+            if (pIter->field_30 != pData->data.variant_0x29.field_1C)
+            {
+                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                pIter->field_C_actor1 = NULL;
+                funcptr = GM_GetCharaID_8002A8EC(0x2C);
+                if (funcptr != NULL)
+                {
+                    pChain->field_C_actor1 = funcptr(pData->data.variant_0x29.field_1C, &pData->data.variant_0x29.field_16);
+                }
+            }
+            else
+            {
+                // TODO: I can't make sense of it (field_28 is used as an int in other places...)
+                struct copier
+                {
+                    short a, b;
+                };
+                *(struct copier *)((char *)&pIter->field_28 + 2) = *(struct copier *)&pData->data.variant_0x29.field_16;
+            }
+        }
+        else
+        {
+            GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+            pIter->field_C_actor1 = NULL;
+        }
+        break;
+
+    case 0x2A:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x2A.field_14)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38)
+        {
+            if ((pIter->field_18 == 0x2A) && (pIter->field_28 == pData->data.variant_0x2A.field_14))
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+        if (pData->data.variant_0x2A.field_18 != 1)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x2D);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj.objs->objs[4]);
+            }
+        }
+        break;
+
+    case 0x2B:
+        pIter = pActor->field_38.field_4_pNext;
+
+        while (pIter != &pActor->field_38)
+        {
+            if (pIter->field_18 == 0x2B)
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+
+        if (pData->data.variant_0x2B.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x2E);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr();
+            }
+        }
+        break;
+
+    case 0x2C:
+        svec3.vx = pData->data.variant_0x2C.field_14;
+        svec3.vy = pData->data.variant_0x2C.field_16;
+        svec3.vz = pData->data.variant_0x2C.field_18;
+        funcptr = GM_GetCharaID_8002A8EC(0x2F);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1, &svec3, pData->data.variant_0x2C.field_1A, pData->data.variant_0x2C.field_1C);
+        }
+        break;
+    case 0x2D:
+        svec3.vx = pData->data.variant_0x2D.field_14;
+        svec3.vy = pData->data.variant_0x2D.field_16;
+        svec3.vz = pData->data.variant_0x2D.field_18;
+        funcptr = GM_GetCharaID_8002A8EC(0x30);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x2D.field_22, pData->data.variant_0x2D.field_1C, pData->data.variant_0x2D.field_20,
+                    &svec1, &svec3);
+        }
+        break;
+
+    case 0x2E:
+        svec3.vx = pData->data.variant_0x2E.field_14;
+        svec3.vy = pData->data.variant_0x2E.field_16;
+        svec3.vz = pData->data.variant_0x2E.field_18;
+        svec4.vx = pData->data.variant_0x2E.field_1A;
+        svec4.vy = pData->data.variant_0x2E.field_1C;
+        svec4.vz = pData->data.variant_0x2E.field_1E;
+        funcptr = GM_GetCharaID_8002A8EC(0x31);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x2E.field_26, pData->data.variant_0x2E.field_20, pData->data.variant_0x2E.field_24,
+                    &svec1, &svec3, &svec4, pData->data.variant_0x2E.field_28 & 0xFF,
+                    pData->data.variant_0x2E.field_2A & 0xFF, pData->data.variant_0x2E.field_2C & 0xFF);
+        }
+        break;
+
+    case 0x2F:
+        funcptr = GM_GetCharaID_8002A8EC(0x32);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x2F.field_14, &svec1, &svec2);
+        }
+        break;
+
+    case 0x30:
+        funcptr = GM_GetCharaID_8002A8EC(0x33);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec2, &svec1);
+        }
+        break;
+
+    case 0x31:
+        funcptr = GM_GetCharaID_8002A8EC(0x34);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1);
+        }
+        break;
+
+    case 0x32:
+        funcptr = GM_GetCharaID_8002A8EC(0x35);
+        if (funcptr != NULL)
+        {
+            funcptr(&mat2);
+        }
+        break;
+
+    case 0x33:
+        funcptr = GM_GetCharaID_8002A8EC(0x36);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1);
+        }
+        break;
+
+    case 0x34:
+        svec3.vx = pData->data.variant_0x34.field_24;
+        svec3.vy = pData->data.variant_0x34.field_26;
+        svec3.vz = pData->data.variant_0x34.field_28;
+        svec4.vx = pData->data.variant_0x34.field_2A;
+        svec4.vy = pData->data.variant_0x34.field_2C;
+        svec4.vz = pData->data.variant_0x34.field_2E;
+        if (pData->data.variant_0x34.field_30 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x37);
+            if (funcptr != NULL)
+            {
+                funcptr(pData->data.variant_0x34.field_14, pData->data.variant_0x34.field_18, &svec3, &svec4,
+                        pData->data.variant_0x34.field_1C, pData->data.variant_0x34.field_20);
+            }
+        }
+        else
+        {
+            memset(&msg, 0, sizeof(msg));
+            msg.address = pData->data.variant_0x34.field_14;
+            msg.message[0] = 0x3223;
+            msg.message_len = 1;
+
+            GV_SendMessage_80016504(&msg);
+        }
+        break;
+
+    case 0x35:
+        funcptr = GM_GetCharaID_8002A8EC(0x39);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1, &svec2, pData->data.variant_0x35.field_18, pData->data.variant_0x35.field_1C,
+                    pData->data.variant_0x35.field_1E, pData->data.variant_0x35.field_20,
+                    pData->data.variant_0x35.field_22 & 0xFF, pData->data.variant_0x35.field_24 & 0xFF,
+                    pData->data.variant_0x35.field_26 & 0xFF);
+        }
+        break;
+
+    case 0x37:
+        funcptr = GM_GetCharaID_8002A8EC(0x3A);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x37.field_14, pData->data.variant_0x37.field_18, pData->data.variant_0x37.field_1C,
+                    pData->data.variant_0x37.field_1E, pData->data.variant_0x37.field_20, pData->data.variant_0x37.field_22,
+                    &pData->data.variant_0x37.field_24, &pData->data.variant_0x37.field_28, pData->data.variant_0x37.field_2C,
+                    pData->data.variant_0x37.field_2E, pData->data.variant_0x37.field_30, pData->data.variant_0x37.field_32);
+        }
+        break;
+
+    case 0x38:
+        funcptr = GM_GetCharaID_8002A8EC(0x3B);
+        if (funcptr != NULL)
+        {
+            ((VoidMakeChara)funcptr)(&svec1);
+        }
+        break;
+    case 0x39:
+        switch (pData->data.variant_0x39.field_14)
+        {
+        case 0:
+            funcptr = GM_GetCharaID_8002A8EC(0x3C);
+            if (funcptr != NULL)
+            {
+                ((VoidMakeChara)funcptr)(&mat2);
+            }
+            break;
+
+        case 1:
+            funcptr = GM_GetCharaID_8002A8EC(0x3D);
+            if (funcptr != 0)
+            {
+                funcptr(&mat2, 0);
+            }
+            break;
+
+        case 2:
+            funcptr = GM_GetCharaID_8002A8EC(0x3D);
+            if (funcptr != 0)
+            {
+                funcptr(&mat2, 1);
+            }
+            break;
+        }
+        break;
+    case 0x3A:
+        svec3.vx = pData->data.variant_0x3A.field_14;
+        svec3.vy = pData->data.variant_0x3A.field_16;
+        svec3.vz = pData->data.variant_0x3A.field_18;
+        funcptr = GM_GetCharaID_8002A8EC(0x3E);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1, &svec3);
+        }
+        break;
+    case 0x3B:
+        funcptr = GM_GetCharaID_8002A8EC(0x3F);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1, pData->data.variant_0x3B.field_14, pData->data.variant_0x3B.field_18,
+                    pData->data.variant_0x3B.field_1C, pData->data.variant_0x3B.field_20, pData->data.variant_0x3B.field_22,
+                    pData->data.variant_0x3B.field_24, pData->data.variant_0x3B.field_26, pData->data.variant_0x3B.field_28);
+        }
+        break;
+    case 0x3C:
+        funcptr = GM_GetCharaID_8002A8EC(0x40);
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x3C.field_14, pData->data.variant_0x3C.field_18, pData->data.variant_0x3C.field_1C,
+                    pData->data.variant_0x3C.field_1E, pData->data.variant_0x3C.field_20, pData->data.variant_0x3C.field_22,
+                    pData->data.variant_0x3C.field_24, &pData->data.variant_0x3C.field_26, &pData->data.variant_0x3C.field_2A,
+                    pData->data.variant_0x3C.field_2E, pData->data.variant_0x3C.field_30, pData->data.variant_0x3C.field_32,
+                    pData->data.variant_0x3C.field_34);
+        }
+        break;
+    case 0x3D:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x3D.field_18)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        funcptr = GM_GetCharaID_8002A8EC(0x41);
+        if (funcptr != NULL)
+        {
+            funcptr(&pModel->field_7C_obj.objs[6].world.m[1][1], pData->data.variant_0x3D.field_14,
+                    pData->data.variant_0x3D.field_16);
+        }
+        break;
+    case 0x3E:
+        pIter = pActor->field_38.field_4_pNext;
+
+        if (pIter != &pActor->field_38)
+        {
+            while ((pIter->field_18 != 0x3e) || !pIter->field_C_actor1)
+            {
+                pIter = pIter->field_4_pNext;
+
+                if (pIter == &pActor->field_38)
+                {
+                    break;
+                }
+            }
+        }
+
+        if (pData->data.variant_0x3E.field_14 == 0)
+        {
+            if (pIter != &pActor->field_38)
+            {
+                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                pIter->field_C_actor1 = NULL;
+            }
+
+            funcptr = GM_GetCharaID_8002A8EC(0x42);
+            if (funcptr != NULL)
+            {
+                svec3.vx = pData->data.variant_0x3E.field_16;
+                svec3.vy = pData->data.variant_0x3E.field_18;
+                svec3.vz = pData->data.variant_0x3E.field_1A;
+                pChain->field_C_actor1 =
+                    funcptr(&svec3, pData->data.variant_0x3E.field_1E, pData->data.variant_0x3E.field_1C + 1);
+            }
+        }
+        else if (pData->data.variant_0x3E.field_14 == 1)
+        {
+            if (pIter != &pActor->field_38)
+            {
+                GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                pIter->field_C_actor1 = NULL;
+            }
+        }
+        else if (pData->data.variant_0x3E.field_14 == 2)
+        {
+            if (pIter != &pActor->field_38)
+            {
+                memset(&msg, 0, sizeof(msg));
+                msg.address = 0x3B8E;
+                if (pData->data.variant_0x3E.field_20 == 0)
+                {
+                    msg.message[0] = 0xD182;
+                }
+                else
+                {
+                    msg.message[0] = 0x6B;
+                }
+                msg.message[1] = pData->data.variant_0x3E.field_22;
+                msg.message_len = 2;
+
+                GV_SendMessage_80016504(&msg);
+            }
+        }
+        break;
+
+    case 0x3F:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x3F.field_18)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38)
+        {
+            if ((pIter->field_18 == 0x3F) && (pIter->field_2C == pData->data.variant_0x3F.field_18))
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+
+        if (pData->data.variant_0x3F.field_14 != 1)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x43);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(&pModel->field_7C_obj, &pModel->field_0_ctrl.field_8_rotator);
+            }
+        }
+
+        break;
+    case 0x36:
+    case 0x40:
+        if (pData->data.variant_0x36.field_14 != 0)
+        {
+            GM_PadVibration_800ABA3C = 1;
+        }
+        if (pData->data.variant_0x36.field_16 != 0)
+        {
+            GM_PadVibration2_800ABA54 = pData->data.variant_0x36.field_18;
+        }
+        break;
+    case 0x41:
+        demothrd_remove_via_id_8007CD60(pActor, 0x41);
+        if (pData->data.variant_0x41.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x44);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr();
+            }
+        }
+        break;
+
+    case 0x42:
+        DG_SetTmpLight_8001A114(&svec1, pData->data.variant_0x42.field_14, pData->data.variant_0x42.field_16);
+        break;
+
+    case 0x43:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x43.field_14)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pIter = pActor->field_38.field_4_pNext;
+
+        while (pIter != &pActor->field_38)
+        {
+            if ((pIter->field_18 == 0x43) && (pIter->field_28 == pData->data.variant_0x43.field_14))
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+
+        if (pData->data.variant_0x43.field_18 != 1)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x45);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr(pModel->field_7C_obj.objs + 1);
+            }
+        }
+        break;
+    case 0x44:
+        pModel = pActor->field_34_pModels;
+        pDmoModel = pActor->field_30_dmo_header->field_18_pModels;
+
+        for (i = 0; i < pActor->field_30_dmo_header->field_10_num_models; i++, pDmoModel++, pModel++)
+        {
+            if (pDmoModel->field_0_type == pData->data.variant_0x44.field_18)
+            {
+                break;
+            }
+        }
+
+        if (i >= pActor->field_30_dmo_header->field_10_num_models)
+        {
+            break;
+        }
+
+        pIter = pActor->field_38.field_4_pNext;
+
+        if (pIter != &pActor->field_38)
+        {
+            while ((pIter->field_18 != 0x44) || !pIter->field_C_actor1)
+            {
+                pIter = pIter->field_4_pNext;
+
+                if (pIter == &pActor->field_38)
+                {
+                    break;
+                }
+            }
+        }
+
+        if (pIter == &pActor->field_38)
+        {
+            if (pData->data.variant_0x44.field_14 != 1)
+            {
+                funcptr = GM_GetCharaID_8002A8EC(0x46);
+
+                if (funcptr != NULL)
+                {
+                    pChain->field_50 = pData->data.variant_0x44.field_1E;
+                    pChain->field_52 = pData->data.variant_0x44.field_20;
+                    pChain->field_54 = pData->data.variant_0x44.field_22;
+
+                    if (pData->data.variant_0x44.field_1C == 0)
+                    {
+                        pChain->field_56 = 0;
+                    }
+                    else
+                    {
+                        pChain->field_56 = -1;
+                    }
+
+                    pChain->field_C_actor1 =
+                        funcptr(pModel, &pModel->field_7C_obj, &pChain->field_50, pDmoModel->field_8);
+                }
+            }
+        }
+        else if (pData->data.variant_0x44.field_14 == 1)
+        {
+            GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+            pIter->field_C_actor1 = NULL;
+        }
+        else
+        {
+            pIter->field_50 = pData->data.variant_0x44.field_1E;
+            pIter->field_52 = pData->data.variant_0x44.field_20;
+            pIter->field_54 = pData->data.variant_0x44.field_22;
+        }
+        break;
+
+    case 0x45:
+        funcptr = GM_GetCharaID_8002A8EC(0x47);
+        if (funcptr != NULL)
+        {
+            pChain->field_C_actor1 = funcptr(&mat2, pData->data.variant_0x45.field_14, pData->data.variant_0x45.field_16,
+                                             pData->data.variant_0x45.field_18, pData->data.variant_0x45.field_1A);
+        }
+        break;
+    case 0x46:
+        funcptr = GM_GetCharaID_8002A8EC(0x48);
+        if (funcptr != NULL)
+        {
+            funcptr(&svec1, pData->data.variant_0x46.field_14, pData->data.variant_0x46.field_16);
+        }
+        break;
+    case 0x47:
+        funcptr = GM_GetCharaID_8002A8EC(0x49);
+        if (funcptr != NULL)
+        {
+            funcptr(&mat2, 400, 400, 400, 10);
+        }
+        break;
+
+    case 0x48:
+        funcptr = GM_GetCharaID_8002A8EC(0x4A);
+        if (funcptr != NULL)
+        {
+            ((VoidMakeChara)funcptr)(&svec1);
+        }
+        break;
+
+    case 0x49:
+        pIter = pActor->field_38.field_4_pNext;
+        while (pIter != &pActor->field_38)
+        {
+            if (pIter->field_18 == 0x49)
+            {
+                if (pIter->field_C_actor1 != NULL)
+                {
+                    GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
+                    pIter->field_C_actor1 = NULL;
+                }
+            }
+            pIter = pIter->field_4_pNext;
+        }
+
+        if (pData->data.variant_0x49.field_14 == 0)
+        {
+            funcptr = GM_GetCharaID_8002A8EC(0x4B);
+            if (funcptr != NULL)
+            {
+                pChain->field_C_actor1 = funcptr();
+            }
+        }
+        break;
+
+    case 0x4A:
+        funcptr = GM_GetCharaID_8002A8EC(0x4C);
+
+        if (funcptr != NULL)
+        {
+            funcptr(pData->data.variant_0x4A.field_18, pData->data.variant_0x4A.field_1A, 0,
+                    pData->data.variant_0x4A.field_14, pData->data.variant_0x4A.field_1C, pData->data.variant_0x4A.field_20);
+        }
+        break;
+    }
+
+    return 1;
+}
 
 void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
 {
@@ -753,19 +2158,19 @@ void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
         pCur_ = pCur;
         do
         {
-            if ( pSubIter->field_C_actor.mFnShutdown == (TActorFunction)id_to_remove )
+            if ( pSubIter->field_18 == id_to_remove )
             {
-                pPrevious = pSubIter->field_C_actor.pPrevious;
+                pPrevious = pSubIter->field_C_actor1;
                 if ( pPrevious )
                 {
                     GV_DestroyOtherActor_800151D8(pPrevious);
-                    pNext = pSubIter->field_C_actor.pNext;
+                    pNext = pSubIter->field_10_actor2;
                     if ( pNext )
                     {
                         GV_DestroyOtherActor_800151D8(pNext);
                     }
-                    pSubIter->field_C_actor.pPrevious = 0;
-                    pSubIter->field_C_actor.pNext = 0;
+                    pSubIter->field_C_actor1 = 0;
+                    pSubIter->field_10_actor2 = 0;
                 }
             }
             pSubIter = pSubIter->field_4_pNext;
@@ -780,13 +2185,13 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
   int idx;
   SVECTOR vec2;
   SVECTOR vecPos;
-  if (pChain->field_C_actor.mFnShutdown == ((TActorFunction) 14))
+  if (pChain->field_18 == 14)
   {
     field_24_pDmoEnd = pDmoData->field_24_pDmoEnd;
     {
       for (idx = 0; idx < pDmoData->field_20_count; idx++)
       {
-        if (field_24_pDmoEnd->field_0_type == pChain->field_C_actor.field_1C)
+        if (field_24_pDmoEnd->field_0_type == pChain->field_28)
         {
           break;
         }
@@ -842,7 +2247,7 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
   new_var = &pActor->field_38;
   if (pNext != new_var)
   {
-    if (pNext->field_C_actor.mFnShutdown != ((TActorFunction) 28))
+    if (pNext->field_18 != 28)
     {
       new_var2 = new_var;
       pRoot = &pActor->field_38;
@@ -853,7 +2258,7 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
         {
           break;
         }
-        if (pNext->field_C_actor.mFnShutdown == ((TActorFunction) 28))
+        if (pNext->field_18 == 28)
         {
           pRoot = &pActor->field_38;
           break;
@@ -864,9 +2269,9 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
   }
   if (pNext != (&pActor->field_38))
   {
-    GV_DestroyOtherActor_800151D8(pNext->field_C_actor.pPrevious);
+    GV_DestroyOtherActor_800151D8(pNext->field_C_actor1);
     pRoot = &pActor->field_38;
-    pNext->field_C_actor.pPrevious = 0;
+    pNext->field_C_actor1 = 0;
     Chain_Remove_8007F394(pRoot, pNext);
     GV_Free_80016230(pNext);
   }
