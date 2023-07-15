@@ -58,8 +58,10 @@
     include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
 
     ;libfs
+    include "..\obj\libfs\fscd.obj"
     include "..\obj\libfs\cdbios.obj"
-    include "..\obj\libfs\stage.obj"
+    include "..\obj\libfs\cdstage.obj"
+    include "..\obj\libfs\hdstage.obj"
     include "..\obj\libfs\movie.obj"
     include "..\obj\libfs\stream.obj"
 
@@ -67,6 +69,8 @@
 
     ; 800244FC 800247E8 80024960 800249CC 80024A3C 80024A54 800250C4 80025178 80025350 8002554C 8002569C 800257B0 800257C0
     include "..\obj\memcard\memcard.obj"
+
+    ;everything from here on is probably in Game\
 
     ;game\control.c
     include "..\obj\Game\GM_ControlPushBack_800258B0.obj"
@@ -107,7 +111,7 @@
     include "..\obj\Game\GM_ActControl_helper4_80029304.obj"
     include "..\obj\Game\GM_ActControl_helper5_80029324.obj"
     include "..\obj\libgv\CopyVectorFromScratchpad_80029360.obj"
-    include "..\obj\sub_80029384.obj"
+    include "..\obj\Game\HZD_sub_80029384.obj"
     include "..\obj\sub_80029514.obj"
     include "..\obj\Game\sub_80029604.obj"
     include "..\obj\sub_800296C4.obj"
