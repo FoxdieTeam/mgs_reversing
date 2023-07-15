@@ -19,7 +19,7 @@ int HZD_sub_80029384( VECTOR *a0 )
         
         gte_ldsxy3( v1, a3, a2 );
         gte_nclip();
-        a0 = a0[ 2 ].vz;
+        a0 = ( VECTOR* )a0[ 2 ].vz; //shouldn't really be a vector ptr, probably inline
         gte_stopz( 0x1F800008 );
         
         if ( *( int * )0x1F800008 < 0 ) return 0;
@@ -40,7 +40,7 @@ int HZD_sub_80029384( VECTOR *a0 )
     {
         gte_ldsxy3( v1, a3, a2 );
         gte_nclip();
-        a0 = a0[ 2 ].vz;
+        a0 = ( VECTOR* )a0[ 2 ].vz; //shouldn't really be a vector ptr, probably inline
         gte_stopz( 0x1F800008 );
 
         if (*( int * )0x1F800008 > 0 ) return 0;
