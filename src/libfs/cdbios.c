@@ -6,65 +6,13 @@
 #include "psyq.h"
 #include <LIBCD.H>
 
-FS_FILE_INFO_8009D49C gDirFiles_8009D49C[] = {
-    {"STAGE.DIR", 0},
-    {"RADIO.DAT", 0},
-    {"FACE.DAT", 0},
-    {"ZMOVIE.STR", 0},
-    {"VOX.DAT", 0},
-    {"DEMO.DAT", 0},
-    {"BRF.DAT", 0},
-    {NULL, 0}
-};
-
 int dword_8009D4DC = -1;
 int dword_8009D4E0 = 0;
 int dword_cdbios_stop_8009D4E4 = 0;
 
-FS_FILE_TABLE fs_file_table_8009D4E8 = {};
-
-extern unsigned char         heap_80117000[];
-extern int                   gDiskNum_800ACBF0;
 extern CDBIOS_TASK           cd_bios_task_800B4E58;
 extern unsigned int          cd_bios_stack_800B4E88[256];
 extern const char           *MGS_DiskName_8009D2FC[3];
-
-int FS_ResetCdFilePosition_80021E2C(void *pHeap)
-{
-    int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, gDirFiles_8009D49C);
-    mts_printf_8008BBA0("Position end\n");
-    if (disk_num >= 0)
-    {
-        mts_printf_8008BBA0("DISK %d\n", disk_num);
-        FS_CdStageFileInit_80022D00(pHeap, gDirFiles_8009D49C[0].field_4_sector);
-        FS_MovieFileInit_80023860(pHeap, gDirFiles_8009D49C[3].field_4_sector);
-    }
-    else
-    {
-        mts_printf_8008BBA0("illegal DISK\n");
-    }
-    return disk_num;
-}
-
-void CDFS_Init_80021EC4()
-{
-    CDBIOS_Reset_80021F70();
-    // TODO: hardcoded pointer
-    gDiskNum_800ACBF0 = FS_ResetCdFilePosition_80021E2C((void *)0x80117000 /*heap_80117000*/); // addi vs ori
-    FS_StreamCD_80023F8C();
-    FS_StreamTaskInit_80023E1C();
-    mts_wait_vbl_800895F4(2);
-}
-
-void FS_LoadFileRequest_80021F0C(int dirFile, int startSector, int sectorSize, void *pBuffer)
-{
-    CDBIOS_ReadRequest_8002280C(pBuffer, gDirFiles_8009D49C[dirFile].field_4_sector + startSector, sectorSize, 0);
-}
-
-int FS_LoadFileSync_80021F48(void)
-{
-    return CDBIOS_ReadSync_80022854();
-}
 
 void MakeFullPath_80021F68(int name, char *buffer)
 {
@@ -632,67 +580,4 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs
     }
 
     return ret;
-}
-
-int FS_CdStageFileInit_helper_80022CBC(CDBIOS_TASK *task)
-{
-    unsigned int size, rounded;
-
-    if (task->field_14_sectors_delivered == 0)
-    {
-        size = *(unsigned int *)task->field_8_buffer;
-        rounded = (size + 3) / 4;
-
-        task->field_18_size = rounded;
-        task->field_1C_remaining = rounded - 512;
-
-        fs_file_table_8009D4E8.field_4_size = size;
-    }
-
-    return 1;
-}
-
-void FS_CdStageFileInit_80022D00(void *pHeap, int startSector)
-{
-    int size;
-
-    fs_file_table_8009D4E8.field_0_start = startSector;
-    CDBIOS_ReadRequest_8002280C(pHeap, startSector, 2048, &FS_CdStageFileInit_helper_80022CBC);
-
-    while (CDBIOS_ReadSync_80022854() > 0)
-    {
-        mts_wait_vbl_800895F4(1);
-    }
-
-    size = fs_file_table_8009D4E8.field_4_size;
-
-    if (!fs_file_table_8009D4E8.field_C_files)
-    {
-        fs_file_table_8009D4E8.field_C_files = GV_AllocResidentMemory_800163D8(size);
-    }
-
-    mts_printf_8008BBA0("%X %X %d\n", (char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
-    GV_CopyMemory_800160D8((char *)pHeap + 4, fs_file_table_8009D4E8.field_C_files, size);
-
-    fs_file_table_8009D4E8.field_8_count = size / sizeof(FS_FILE);
-}
-
-int FS_CdGetStageFileTop_80022DCC(char *pFileName)
-{
-    FS_FILE *file;
-    int count;
-
-    file = fs_file_table_8009D4E8.field_C_files;
-
-    for (count = fs_file_table_8009D4E8.field_8_count; count > 0; count--)
-    {
-        if (!strncmp_8008E7F8(file->field_0_name, pFileName, 8))
-        {
-            return file->field_4_offset + fs_file_table_8009D4E8.field_0_start;
-        }
-
-        file++;
-    }
-
-    return -1;
 }
