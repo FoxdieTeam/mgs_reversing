@@ -1,3 +1,4 @@
+#include "psyq.h"
 #include "libfs.h"
 
 FS_FILE_TABLE fs_file_table_8009D4E8 = {};
