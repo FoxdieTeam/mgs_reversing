@@ -1,12 +1,14 @@
 #include "unknown.h"
 
+extern int HZD_sub_80029384( VECTOR* );
+
 void sub_80029604(HZD_FLR *pHzdFlr)
 {
     int  y, h;
     int *scratch;
 
     h = pHzdFlr->b1.h; // TODO: What's "h"?
-    if ((h & 1) || sub_80029384(pHzdFlr))
+    if ((h & 1) || HZD_sub_80029384((VECTOR *)pHzdFlr))
     {
         if (h & 2)
         {
