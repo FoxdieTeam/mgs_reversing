@@ -1,6 +1,6 @@
 #include "unknown.h"
 
-extern int HZD_sub_80029384( VECTOR* );
+extern int HZD_sub_80029384( HZD_FLR* );
 
 void sub_80029604(HZD_FLR *pHzdFlr)
 {
