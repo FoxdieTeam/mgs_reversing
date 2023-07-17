@@ -6,5 +6,5 @@
 int HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, SVECTOR *arg1)
 {
     CopyVectorFromScratchpad_80029360(param_1, (SVECTOR *)(SCRPAD_ADDR + 0xC));
-    return sub_80029514(arg1);
+    return HZD_sub_80029514((HZD_FLR *)arg1);
 }

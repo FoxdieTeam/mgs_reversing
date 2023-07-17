@@ -112,7 +112,7 @@
     include "..\obj\Game\GM_ActControl_helper5_80029324.obj"
     include "..\obj\libgv\CopyVectorFromScratchpad_80029360.obj"
     include "..\obj\Game\HZD_sub_80029384.obj"
-    include "..\obj\sub_80029514.obj"
+    include "..\obj\Game\HZD_sub_80029514.obj"
     include "..\obj\Game\sub_80029604.obj"
     include "..\obj\sub_800296C4.obj"
     include "..\obj\sub_800298C0.obj"
