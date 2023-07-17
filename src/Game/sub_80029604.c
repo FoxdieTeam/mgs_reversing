@@ -8,7 +8,7 @@ void sub_80029604(HZD_FLR *pHzdFlr)
     int *scratch;
 
     h = pHzdFlr->b1.h; // TODO: What's "h"?
-    if ((h & 1) || HZD_sub_80029384((VECTOR *)pHzdFlr))
+    if ((h & 1) || HZD_sub_80029384(pHzdFlr))
     {
         if (h & 2)
         {
@@ -16,7 +16,7 @@ void sub_80029604(HZD_FLR *pHzdFlr)
         }
         else
         {
-            y = sub_80029514((SVECTOR *)pHzdFlr); // TODO: What's the argument type of sub_80029514?
+            y = HZD_sub_80029514(pHzdFlr);
         }
         scratch = (int *)0x1F800000;
         if (*(short *)0x1F800010 >= y)
