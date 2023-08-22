@@ -246,6 +246,14 @@ typedef struct dmo_model_0x1A4
   dmo_m1e1_data *field_1A0_pM1OrHind; // union, can be dmo_hind also, depending on the current stage
 } dmo_model_0x1A4;
 
+typedef struct dmo_chain_0x10
+{
+  int field_0_type;
+  int field_4_type;
+  int field_8_xy;
+  int field_C_zpad;
+} dmo_chain_0x10;
+
 typedef struct Actor_demothrd_0x78_Chain
 {
   struct Actor_demothrd_0x78_Chain *field_0_pPrev;
@@ -253,18 +261,7 @@ typedef struct Actor_demothrd_0x78_Chain
   char field_8_fileNameBuffer[4]; // union, also an int
   GV_ACT *field_C_actor1;
   GV_ACT *field_10_actor2;
-  int field_14;
-  int field_18;
-  int field_1C;
-  int field_20;
-  int field_24;
-  int field_28;
-  int field_2C;
-  int field_30;
-  int field_34;
-  int field_38;
-  int field_3C;
-  int field_40;
+  dmo_chain_0x10 field_14[3];
   int field_44;
   int field_48;
   int field_4C;
