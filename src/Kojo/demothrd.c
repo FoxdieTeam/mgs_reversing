@@ -123,7 +123,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
 }
 
 int CreateDemo_80079B50(Actor_demothrd *, demothrd_0x1C *);
-int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *, demothrd_0x1C *);
+int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoData);
 
 void demothrd_cd_act_80079664(Actor_demothrd *pActor)
 {
@@ -191,7 +191,7 @@ void demothrd_cd_act_80079664(Actor_demothrd *pActor)
             sub_800241B4(pData);
         }
 
-        status = demothrd_1_FrameRunDemo_8007A948(pActor, pDmoHeader);
+        status = demothrd_1_FrameRunDemo_8007A948(pActor, (dmo_data_0x28 *)pDmoHeader);
 
         if (status == 0)
         {
@@ -266,7 +266,7 @@ void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor)
             pActor->field_C0_pHeader = (void *)pActor->field_C0_pHeader + pActor->field_C0_pHeader->field_0_magic;
         }
 
-        success = demothrd_1_FrameRunDemo_8007A948(pActor, pActor->field_C0_pHeader);
+        success = demothrd_1_FrameRunDemo_8007A948(pActor, (dmo_data_0x28 *)pActor->field_C0_pHeader);
     }
 
     if (GV_PadData_800B05C0[1].status & PAD_CROSS)
@@ -722,7 +722,172 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   return 1;
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/demothrd_1_FrameRunDemo_8007A948.s") // 1224 bytes
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+
+void Chain_Add_8007F350(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pAdd);
+int  demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, Actor_demothrd_0x78_Chain *pChain);
+int  demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_demothrd_0x78_Chain *pChain);
+int  demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x28 *pDmo);
+int  demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18);
+
+int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoData)
+{
+    SVECTOR                    tmpVec1;
+    SVECTOR                    tmpVec2;
+    VECTOR                     tmpVec3;
+    int                        root;
+    int                        i;
+    dmo_data_0x34             *pDmoData_0x34;
+    Actor_demothrd_0x78_Chain *pChain;
+    Actor_demothrd_0x78_Chain *pNext;
+    dmo_data_0x18             *field_24_pDmoEnd;
+
+    pDmoData->field_1C_dmo_data_offset = (dmo_data_0x34 *)((unsigned int)pDmoData + (unsigned int)pDmoData->field_1C_dmo_data_offset);
+    pDmoData->field_24_pDmoEnd = (dmo_data_0x18 *)((unsigned int)pDmoData + (unsigned int)pDmoData->field_24_pDmoEnd);
+
+    pThis->field_C4_ctrl.field_0_mov.vx = pDmoData->field_8_xpos;
+    pThis->field_C4_ctrl.field_0_mov.vy = pDmoData->field_A_ypos;
+    pThis->field_C4_ctrl.field_0_mov.vz = pDmoData->field_C_zpos;
+
+    tmpVec1.vx = (pDmoData->field_E_x - pDmoData->field_8_xpos) >> 2;
+    tmpVec1.vx = (pDmoData->field_10_y - pDmoData->field_A_ypos) >> 2;
+    tmpVec1.vx = (pDmoData->field_12_z - pDmoData->field_C_zpos) >> 2;
+
+    root = SquareRoot0_80092708(tmpVec1.vx  * tmpVec1.vx  + tmpVec1.vz * tmpVec1.vz);
+
+    pThis->field_C4_ctrl.field_8_rotator.vx = ratan2_80094308(tmpVec1.vy, root);
+    pThis->field_C4_ctrl.field_8_rotator.vy = ratan2_80094308(tmpVec1.vx, tmpVec1.vz);
+    pThis->field_C4_ctrl.field_8_rotator.vz = pDmoData->field_14_z;
+
+    GM_ActControl_80025A7C(&pThis->field_C4_ctrl);
+    GM_ActObject2_80034B88(&pThis->field_140_obj);
+    DG_GetLightMatrix_8001A3C4(&pThis->field_C4_ctrl.field_0_mov, &pThis->field_224_light_mtx);
+
+    pThis->field_268 = 0;
+    pThis->field_26C = 0;
+
+    for ( pChain = pThis->field_38.field_4_pNext; pChain != &pThis->field_38; pChain = pChain->field_4_pNext )
+    {
+        *(int *)pChain->field_8_fileNameBuffer = 0;
+    }
+
+    pDmoData_0x34 = pDmoData->field_1C_dmo_data_offset;
+
+    for ( i = 0; i < pDmoData->field_18_count; i++, pDmoData_0x34++ )
+    {
+        pChain = pThis->field_38.field_4_pNext;
+
+        if ( pChain != &pThis->field_38 )
+        {
+            do
+            {
+                if ( pChain->field_14[0].field_0_type == pDmoData_0x34->field_0)
+                {
+                    *(int *)pChain->field_8_fileNameBuffer = 1;
+                    break;
+                }
+
+                pChain = pChain->field_4_pNext;
+            }
+            while ( pChain != &pThis->field_38 );
+
+            if ( pChain->field_14[0].field_0_type == pDmoData_0x34->field_0 )
+            {
+                continue;
+            }
+        }
+
+        pChain = GV_Malloc_8001620C(sizeof(Actor_demothrd_0x78_Chain));
+
+        if ( !pChain )
+        {
+            return 1;
+        }
+
+        memset(pChain, 0, 0x78);
+        Chain_Add_8007F350(&pThis->field_38, pChain);
+
+        *(int *)pChain->field_8_fileNameBuffer = 1;
+
+        memcpy(pChain->field_14, pDmoData_0x34, sizeof(dmo_data_0x34));
+
+        // This function uses offset 0x34 of pDmoData_0x34 despite it seemingly only being 0x34 bytes in size
+        if ( !demothrd_make_chara_8007AE10(pThis, (dmo_data_0x36 *)pDmoData_0x34, pChain) )
+        {
+            return 0;
+        }
+    }
+
+    for ( pNext = pThis->field_38.field_4_pNext; pNext != &pThis->field_38; )
+    {
+        pChain = pNext;
+        pNext = pChain->field_4_pNext;
+
+        if ( *(int *)pChain->field_8_fileNameBuffer != 1 && !pChain->field_C_actor1 )
+        {
+            Chain_Remove_8007F394(&pThis->field_38, pChain);
+            GV_Free_80016230(pChain);
+        }
+    }
+
+    for ( pChain = pThis->field_38.field_4_pNext; pChain != &pThis->field_38; pChain = pChain->field_4_pNext )
+    {
+        if ( !demothrd_8007CDF8(pThis, pDmoData, pChain) )
+        {
+            return 0;
+        }
+    }
+
+    demothrd_1_FrameRunDemo_helper4_8007CF14(pThis, pDmoData);
+
+    for ( i = 0, field_24_pDmoEnd = pDmoData->field_24_pDmoEnd; i < pDmoData->field_20_count; i++, field_24_pDmoEnd++ )
+    {
+        if ( !demothrd_8007CFE8(pThis, field_24_pDmoEnd) )
+        {
+            return 0;
+        }
+    }
+
+    gUnkCameraStruct2_800B7868.field_0.vx = pDmoData->field_8_xpos;
+    gUnkCameraStruct2_800B7868.field_0.vy = pDmoData->field_A_ypos;
+    gUnkCameraStruct2_800B7868.field_0.vz = pDmoData->field_C_zpos;
+    gUnkCameraStruct2_800B7868.field_8.vx = pDmoData->field_E_x;
+    gUnkCameraStruct2_800B7868.field_8.vy = pDmoData->field_10_y;
+    gUnkCameraStruct2_800B7868.field_8.vz = pDmoData->field_12_z;
+
+    DG_Chanl(0)->field_50_clip_distance = pDmoData->field_16;
+
+    tmpVec1.vx = pDmoData->field_E_x - pDmoData->field_8_xpos;
+    tmpVec1.vy = pDmoData->field_10_y - pDmoData->field_A_ypos;
+    tmpVec1.vz = pDmoData->field_12_z - pDmoData->field_C_zpos;
+    root = SquareRoot0_80092708(tmpVec1.vx * tmpVec1.vx + tmpVec1.vz * tmpVec1.vz);
+
+    tmpVec2.vx = -ratan2_80094308(tmpVec1.vy, root);
+    tmpVec2.vy = ratan2_80094308(tmpVec1.vx, tmpVec1.vz);
+    tmpVec2.vz = 2048;
+
+    tmpVec1.vx = pDmoData->field_8_xpos;
+    tmpVec1.vy = pDmoData->field_A_ypos;
+    tmpVec1.vz = pDmoData->field_C_zpos;
+
+    DG_SetPos2_8001BC8C(&tmpVec1, &tmpVec2);
+    memset(&tmpVec2, 0, 8);
+
+    tmpVec2.vz = pDmoData->field_14_z;
+
+    DG_RotatePos_8001BD64(&tmpVec2);
+    ReadRotMatrix_80092DD8(&DG_Chanl(0)->field_30_matrix);
+
+    DG_TransposeMatrix_8001EAD8(&DG_Chanl(0)->field_30_matrix, &DG_Chanl(0)->field_10_eye_inv);
+
+    tmpVec3.vx = -DG_Chanl(0)->field_30_matrix.t[0];
+    tmpVec3.vy = -DG_Chanl(0)->field_30_matrix.t[1];
+    tmpVec3.vz = -DG_Chanl(0)->field_30_matrix.t[2];
+
+    ApplyMatrixLV_80092C48(&DG_Chanl(0)->field_10_eye_inv, &tmpVec3, (VECTOR *)DG_Chanl(0)->field_10_eye_inv.t);
+
+    return 1;
+}
 
 extern int        GM_PadVibration2_800ABA54;
 extern int        GM_PadVibration_800ABA3C;
@@ -941,7 +1106,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         for (pIter = pActor->field_38.field_4_pNext; pIter != &pActor->field_38; pIter = pIter->field_4_pNext)
         {
-            if (pIter->field_18 == 0xE && pIter->field_28 == pData->data.variant_0xE.field_14)
+            if (pIter->field_14[0].field_4_type == 0xE && pIter->field_14[1].field_4_type == pData->data.variant_0xE.field_14)
             {
                 if (pIter->field_C_actor1)
                 {
@@ -1054,8 +1219,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         pIter = pActor->field_38.field_4_pNext;
         while (pIter != &pActor->field_38)
         {
-            if (pIter->field_18 == 0x13 || pIter->field_18 == 0x14 || pIter->field_18 == 0x15 ||
-                (pIter->field_18 == 0x1E))
+            if (pIter->field_14[0].field_4_type == 0x13 || pIter->field_14[0].field_4_type == 0x14 || pIter->field_14[0].field_4_type == 0x15 || pIter->field_14[0].field_4_type == 0x1E)
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -1163,7 +1327,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         pIter = pActor->field_38.field_4_pNext;
         while (pIter != &pActor->field_38)
         {
-            if ((pIter->field_18 == 0x17) && (pIter->field_2C == pData->data.variant_0x17.field_18))
+            if ((pIter->field_14[0].field_4_type == 0x17) && (pIter->field_14[1].field_8_xy == pData->data.variant_0x17.field_18))
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -1214,7 +1378,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         pIter = pActor->field_38.field_4_pNext;
         while (pIter != &pActor->field_38)
         {
-            if ((pIter->field_18 == 0x18) && (pIter->field_2C == pData->data.variant_0x18.field_18))
+            if ((pIter->field_14[0].field_4_type == 0x18) && (pIter->field_14[1].field_8_xy == pData->data.variant_0x18.field_18))
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -1278,7 +1442,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         break;
     case 0x1C:
         pIter = pActor->field_38.field_4_pNext;
-        while (pIter != &pActor->field_38 && (pIter->field_18 != 0x1C || pIter->field_C_actor1 == NULL))
+        while (pIter != &pActor->field_38 && (pIter->field_14[0].field_4_type != 0x1C || pIter->field_C_actor1 == NULL))
         {
             pIter = pIter->field_4_pNext;
         }
@@ -1341,7 +1505,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             pIter = pActor->field_38.field_4_pNext;
             while (pIter != &pActor->field_38)
             {
-                if (pIter->field_18 == 0x20)
+                if (pIter->field_14[0].field_4_type == 0x20)
                 {
                     if (pIter->field_C_actor1 != NULL)
                     {
@@ -1496,7 +1660,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         if (pIter != &pActor->field_38)
         {
-            while ((pIter->field_18 != 0x29) || !pIter->field_C_actor1)
+            while ((pIter->field_14[0].field_4_type != 0x29) || !pIter->field_C_actor1)
             {
                 pIter = pIter->field_4_pNext;
 
@@ -1520,7 +1684,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         }
         else if (pData->data.variant_0x29.field_14 != 0)
         {
-            if (pIter->field_30 != pData->data.variant_0x29.field_1C)
+            if (pIter->field_14[1].field_C_zpad != pData->data.variant_0x29.field_1C)
             {
                 GV_DestroyOtherActor_800151D8(pIter->field_C_actor1);
                 pIter->field_C_actor1 = NULL;
@@ -1537,7 +1701,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
                 {
                     short a, b;
                 };
-                *(struct copier *)((char *)&pIter->field_28 + 2) = *(struct copier *)&pData->data.variant_0x29.field_16;
+                *(struct copier *)((char *)&pIter->field_14[1].field_4_type + 2) = *(struct copier *)&pData->data.variant_0x29.field_16;
             }
         }
         else
@@ -1567,7 +1731,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         pIter = pActor->field_38.field_4_pNext;
         while (pIter != &pActor->field_38)
         {
-            if ((pIter->field_18 == 0x2A) && (pIter->field_28 == pData->data.variant_0x2A.field_14))
+            if ((pIter->field_14[0].field_4_type == 0x2A) && (pIter->field_14[1].field_4_type == pData->data.variant_0x2A.field_14))
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -1592,7 +1756,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         while (pIter != &pActor->field_38)
         {
-            if (pIter->field_18 == 0x2B)
+            if (pIter->field_14[0].field_4_type == 0x2B)
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -1834,7 +1998,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         if (pIter != &pActor->field_38)
         {
-            while ((pIter->field_18 != 0x3e) || !pIter->field_C_actor1)
+            while ((pIter->field_14[0].field_4_type != 0x3e) || !pIter->field_C_actor1)
             {
                 pIter = pIter->field_4_pNext;
 
@@ -1913,7 +2077,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         pIter = pActor->field_38.field_4_pNext;
         while (pIter != &pActor->field_38)
         {
-            if ((pIter->field_18 == 0x3F) && (pIter->field_2C == pData->data.variant_0x3F.field_18))
+            if ((pIter->field_14[0].field_4_type == 0x3F) && (pIter->field_14[1].field_8_xy == pData->data.variant_0x3F.field_18))
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -1982,7 +2146,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         while (pIter != &pActor->field_38)
         {
-            if ((pIter->field_18 == 0x43) && (pIter->field_28 == pData->data.variant_0x43.field_14))
+            if ((pIter->field_14[0].field_4_type == 0x43) && (pIter->field_14[1].field_4_type == pData->data.variant_0x43.field_14))
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -2023,7 +2187,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
 
         if (pIter != &pActor->field_38)
         {
-            while ((pIter->field_18 != 0x44) || !pIter->field_C_actor1)
+            while ((pIter->field_14[0].field_4_type != 0x44) || !pIter->field_C_actor1)
             {
                 pIter = pIter->field_4_pNext;
 
@@ -2108,7 +2272,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         pIter = pActor->field_38.field_4_pNext;
         while (pIter != &pActor->field_38)
         {
-            if (pIter->field_18 == 0x49)
+            if (pIter->field_14[0].field_4_type == 0x49)
             {
                 if (pIter->field_C_actor1 != NULL)
                 {
@@ -2158,7 +2322,7 @@ void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove)
         pCur_ = pCur;
         do
         {
-            if ( pSubIter->field_18 == id_to_remove )
+            if ( pSubIter->field_14[0].field_4_type == id_to_remove )
             {
                 pPrevious = pSubIter->field_C_actor1;
                 if ( pPrevious )
@@ -2185,13 +2349,13 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
   int idx;
   SVECTOR vec2;
   SVECTOR vecPos;
-  if (pChain->field_18 == 14)
+  if (pChain->field_14[0].field_4_type == 14)
   {
     field_24_pDmoEnd = pDmoData->field_24_pDmoEnd;
     {
       for (idx = 0; idx < pDmoData->field_20_count; idx++)
       {
-        if (field_24_pDmoEnd->field_0_type == pChain->field_28)
+        if (field_24_pDmoEnd->field_0_type == pChain->field_14[1].field_4_type)
         {
           break;
         }
@@ -2247,7 +2411,7 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
   new_var = &pActor->field_38;
   if (pNext != new_var)
   {
-    if (pNext->field_18 != 28)
+    if (pNext->field_14[0].field_4_type != 28)
     {
       new_var2 = new_var;
       pRoot = &pActor->field_38;
@@ -2258,7 +2422,7 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(Actor_demothrd *pActor, dmo_data_0x
         {
           break;
         }
-        if (pNext->field_18 == 28)
+        if (pNext->field_14[0].field_4_type == 28)
         {
           pRoot = &pActor->field_38;
           break;
