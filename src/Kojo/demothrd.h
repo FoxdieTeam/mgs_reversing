@@ -850,6 +850,46 @@ typedef struct dmo_data_0x36
     } data;
 } dmo_data_0x36;
 
+typedef struct Actor_m1e1
+{
+    GV_ACT  field_0_actor;
+    CONTROL field_20_ctrl;
+    MATRIX  field_9C_light_matrices[2];
+    dmo_m1e1_entry field_DC;
+    dmo_m1e1_entry field_1C0[3];
+    dmo_m1e1_entry field_46C[3];
+    TARGET *field_718_targets[10];
+    int     field_740;
+    char    field_744[0x61C];
+    int     field_D60;
+    int     field_D64;
+    int     field_D68;
+    int     field_D6C;
+    char    field_D70[0x1C];
+    int     field_D8C;
+    char    field_D90[0xD0];
+    int     field_E60;
+    int     field_E64;
+    int     field_E68;
+    int     field_E6C;
+    int     field_E70;
+    int     field_E74;
+    int     field_E78;
+    int     field_E7C;
+    int     field_E80;
+    int     field_E84;
+    int     field_E88;
+    SVECTOR field_E8C;
+    SVECTOR field_E94;
+    char    field_E9C[0xC4];
+    int     field_F60;
+    int     field_F64;
+    int     field_F68;
+    int     field_F6C;
+    int     field_F70;
+    int     field_F74;
+} Actor_m1e1;
+
 #define stru_80700000 ((demothrd_80700000 *)0x80700000)
 
 typedef struct demothrd_80700000 {
