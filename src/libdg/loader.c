@@ -22,7 +22,7 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
     vio = pKmdObj->vertexIndexOffset_38;
     uVar7 = 0;
     fio = pKmdObj->faceIndexOffset_3C;
-    
+
     for (iter = pKmdObj->numFaces_4 * 4; iter > 0; iter--)
     {
         index = *fio;
@@ -43,17 +43,17 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
     }
 
     vio2 = pKmdObj->vertexIndexOffset_38;
-    
+
     for (iter = pKmdObj->numVertex_34; iter > 0; iter--)
     {
         pad = vio2->pad;
-        
+
         if (pad != 0xffff)
         {
             fio2 = pParentObj->faceIndexOffset_3C;
 
             for (faces = pParentObj->numFaces_4 * 4; faces > 0; faces--)
-            {                
+            {
                 if ((*fio2 & 0x7f) == pad)
                 {
                     break;
@@ -64,7 +64,7 @@ void kmd_file_handler_link_vertices_to_parent_8001F3CC(DG_MDL *pKmdObj, DG_MDL *
 
             offset = fio2 - pParentObj->faceIndexOffset_3C;
             uVar2 = (offset / 4) * 52;
-            
+
             vio2->pad = kVertexIndexingOrder_8009D46C[offset & 3] * 12 + uVar2 + 8;
         }
 
@@ -398,7 +398,7 @@ int DG_LoadInitKmdar_8001FAD0(unsigned char *pFileData, int fileNameHashed)
             }
             ++kmdObject;
         }
-        nameHashed = GV_CacheID_800152DC(zmdEntry->fileNameHashed, 107);
+        nameHashed = GV_CacheID_800152DC(zmdEntry->fileNameHashed, 'k');
         zmdEntry = (DG_ZmdEntry *)kmdObject;
         GV_SetCache_800153C0(nameHashed, zmdObject);
     }

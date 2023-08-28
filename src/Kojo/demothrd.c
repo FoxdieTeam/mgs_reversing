@@ -3,6 +3,7 @@
 #include "Anime/animeconv/anime.h"
 #include "libdg/libdg.h"
 #include "Bullet/blast.h"
+#include "Game/linkvarbuf.h"
 
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern MATRIX             DG_ZeroMatrix_8009D430;
@@ -16,12 +17,18 @@ extern ANIMATION          stru_8009F73C;
 extern ANIMATION          stru_8009F758;
 extern ANIMATION          stru_8009F774;
 extern ANIMATION          stru_8009F790;
+extern int                GV_Time_800AB330;
+extern GV_PAD             GV_PadData_800B05C0[4];
+extern UnkCameraStruct2   gUnkCameraStruct2_800B7868;
+extern int                GM_PadVibration2_800ABA54;
+extern int                GM_PadVibration_800ABA3C;
+extern Blast_Data         blast_data_8009F4F4;
+extern SVECTOR            svector_8009F7AC;
+extern GM_Camera          GM_Camera_800B77E8;
 
-extern GM_Camera GM_Camera_800B77E8;
-extern short     gGameState_800B4D98[0x60];
+extern const char aDemothrdC[]; // = "demothrd.c"
 
 void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx);
-
 void InitChain_8007F338(Actor_demothrd_0x78_Chain *pSub);
 void Chain_Remove_8007F394(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pRemove);
 TChanl_Fn DG_SetChanlSystemUnits_80018598(int idx, TChanl_Fn newFunc);
@@ -29,13 +36,10 @@ void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18,
 void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor);
 void demothrd_file_stream_kill_80079960(Actor_demothrd *pActor);
-
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
-
 void DG_8001CDB8(DG_OBJS *pObjs);
-
-extern const char aDemothrdC[]; // = "demothrd.c";
+void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3);
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
@@ -216,8 +220,6 @@ void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor)
     DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
 }
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor)
 {
     int time;
@@ -393,8 +395,8 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
     pThis->field_274_old_game_state_flags = GM_GameStatus_800AB3CC;
     pThis->field_278 = GM_Camera_800B77E8;
 
-    pThis->field_2F4_old_equipped_item = gGameState_800B4D98[15];
-    pThis->field_2F8_old_equipped_weapon = gGameState_800B4D98[14];
+    pThis->field_2F4_old_equipped_item = GM_CurrentItemId;
+    pThis->field_2F8_old_equipped_weapon = GM_CurrentWeaponId;
 
     pDmoData->field_14_pMaps = (Dmo_Map8*)(((char*)pDmoData) + (int)pDmoData->field_14_pMaps);
     pDmoData->field_18_pModels = (dmo_model_0x14*)((int)pDmoData->field_18_pModels + (char*)pDmoData);
@@ -717,12 +719,10 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
   DG_SetChanlSystemUnits_80018598(0, field_270_pOldRenderFn);
   GM_GameStatus_800AB3CC = pActor->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = pActor->field_278;
-  gGameState_800B4D98[15] = pActor->field_2F4_old_equipped_item;
-  gGameState_800B4D98[14] = pActor->field_2F8_old_equipped_weapon;
+  GM_CurrentItemId = pActor->field_2F4_old_equipped_item;
+  GM_CurrentWeaponId = pActor->field_2F8_old_equipped_weapon;
   return 1;
 }
-
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void Chain_Add_8007F350(Actor_demothrd_0x78_Chain *pRoot, Actor_demothrd_0x78_Chain *pAdd);
 int  demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, Actor_demothrd_0x78_Chain *pChain);
@@ -888,10 +888,6 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
 
     return 1;
 }
-
-extern int        GM_PadVibration2_800ABA54;
-extern int        GM_PadVibration_800ABA3C;
-extern Blast_Data blast_data_8009F4F4;
 
 int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, Actor_demothrd_0x78_Chain *pChain)
 {
@@ -3261,8 +3257,6 @@ typedef struct
     SVECTOR unknown;
 } SCRPAD_DATA_8007F3F8;
 
-extern SVECTOR svector_8009F7AC;
-
 void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
 {
     SCRPAD_DATA_8007F3F8 *scrpad;
@@ -3918,7 +3912,208 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Kojo/sub_80080E14.s")                       // 2024 bytes
+void sub_80080E14(Actor_m1e1 *pActor)
+{
+    SVECTOR sp10;
+    SVECTOR sp18;
+    SVECTOR rotation;
+    int     diff;
+    int     f70;
+    int     length;
+    DG_MDL *pMdl;
+    DG_MDL *pMdl2;
+
+    diff = pActor->field_D60 - pActor->field_D8C;
+    f70 = 2;
+
+    if (diff > 0)
+    {
+        f70 += ((diff - (pActor->field_D68 - pActor->field_D8C)) * 5) / diff;
+    }
+
+    if ((GV_Time_800AB330 & 1) == 0)
+    {
+        DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_4C_turn_vec);
+        rotation = pActor->field_20_ctrl.field_4C_turn_vec;
+
+        while (rotation.vy < -2048)
+        {
+            rotation.vy += 4096;
+        }
+
+        while (rotation.vy > 2048)
+        {
+            rotation.vy -= 4096;
+        }
+
+        memset(&sp10, 0, 8);
+
+        pMdl = pActor->field_1C0[0].field_0.objs->objs[0].model;
+        sp10.vx = pMdl->max_8.vx + (pMdl->min_14.vx - pMdl->max_8.vx) / 2;
+
+        DG_PutVector_8001BE48(&sp10, &sp10, 1);
+
+        if (pActor->field_740 == 1)
+        {
+            pActor->field_E8C = sp10;
+        }
+
+        sp18.vx = sp10.vx - pActor->field_E8C.vx;
+        sp18.vy = sp10.vy - pActor->field_E8C.vy;
+        sp18.vz = sp10.vz - pActor->field_E8C.vz;
+
+        length = SquareRoot0_80092708(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
+        length = (length * (1024 - abs(ratan2_80094308(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
+
+        if (abs(length) < pActor->field_E84)
+        {
+            return;
+        }
+
+        rotation = pActor->field_20_ctrl.field_8_rotator;
+        rotation.vy += 2048;
+
+        if (length > 0)
+        {
+            if (pActor->field_E7C != 1 && pActor->field_F60 == 0)
+            {
+                pActor->field_F60 = 6;
+                demothrd_2_8007DA94(&pActor->field_718_targets[4]->field_8_vec, &rotation);
+            }
+
+            pActor->field_E7C = 1;
+        }
+        else
+        {
+            if (pActor->field_E7C != -1 && pActor->field_F60 == 0)
+            {
+                pActor->field_F60 = 6;
+                demothrd_2_8007DA94(&pActor->field_718_targets[0]->field_8_vec, &pActor->field_20_ctrl.field_8_rotator);
+            }
+
+            pActor->field_E7C = -1;
+        }
+
+        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[rand_8008E6B8() % 5]->field_8_vec);
+        DG_InvisibleObjs(pActor->field_1C0[pActor->field_E74].field_0.objs);
+
+        pActor->field_E74 += pActor->field_E7C;
+
+        if (pActor->field_E74 < 0)
+        {
+            pActor->field_E74 = 2;
+        }
+
+        if (pActor->field_E74 > 2)
+        {
+            pActor->field_E74 = 0;
+        }
+
+        DG_VisibleObjs(pActor->field_1C0[pActor->field_E74].field_0.objs);
+
+        pActor->field_E8C = sp10;
+
+        if ((f70 >= 3) && (pActor->field_F70 <= 0))
+        {
+            if (pActor->field_F74 == 0)
+            {
+                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 182, pActor->field_E60);
+            }
+            else
+            {
+                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 190, pActor->field_E60);
+            }
+
+            pActor->field_F70 = f70;
+            pActor->field_F74 = 30;
+        }
+    }
+    else
+    {
+        memset(&sp10, 0, 8);
+
+        pMdl2 = pActor->field_46C[0].field_0.objs->objs[0].model;
+        sp10.vx = pMdl2->max_8.vx + (pMdl2->min_14.vx - pMdl2->max_8.vx) / 2;
+
+        DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_4C_turn_vec);
+        DG_PutVector_8001BE48(&sp10, &sp10, 1);
+
+        if (pActor->field_740 == 1)
+        {
+            pActor->field_E94 = sp10;
+        }
+
+        sp18.vx = sp10.vx - pActor->field_E94.vx;
+        sp18.vy = sp10.vy - pActor->field_E94.vy;
+        sp18.vz = sp10.vz - pActor->field_E94.vz;
+
+        length = SquareRoot0_80092708(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
+        length = (length * (1024 - abs(ratan2_80094308(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
+
+        if (abs(length) < pActor->field_E84)
+        {
+            return;
+        }
+
+        rotation = pActor->field_20_ctrl.field_8_rotator;
+        rotation.vy += 2048;
+
+        if (length > 0)
+        {
+            if (pActor->field_E80 != 1 && pActor->field_F64 == 0)
+            {
+                pActor->field_F64 = 6;
+                demothrd_2_8007DA94(&pActor->field_718_targets[9]->field_8_vec, &rotation);
+            }
+
+            pActor->field_E80 = 1;
+        }
+        else
+        {
+            if (pActor->field_E80 != -1 && pActor->field_F64 == 0)
+            {
+                pActor->field_F64 = 6;
+                demothrd_2_8007DA94(&pActor->field_718_targets[5]->field_8_vec, &pActor->field_20_ctrl.field_8_rotator);
+            }
+
+            pActor->field_E80 = -1;
+        }
+
+        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[(rand_8008E6B8() % 5) + 5]->field_8_vec);
+        DG_InvisibleObjs(pActor->field_46C[pActor->field_E78].field_0.objs);
+
+        pActor->field_E78 += pActor->field_E7C;
+
+        if (pActor->field_E78 < 0)
+        {
+            pActor->field_E78 = 2;
+        }
+
+        if (pActor->field_E78 > 2)
+        {
+            pActor->field_E78 = 0;
+        }
+
+        DG_VisibleObjs(pActor->field_46C[pActor->field_E78].field_0.objs);
+
+        pActor->field_E94 = sp10;
+
+        if ((f70 >= 3) && (pActor->field_F70 <= 0))
+        {
+            if (pActor->field_F74 == 0)
+            {
+                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 182, pActor->field_E60);
+            }
+            else
+            {
+                sub_80032B40(&pActor->field_20_ctrl.field_0_mov, 190, pActor->field_E60);
+            }
+
+            pActor->field_F70 = f70;
+            pActor->field_F74 = 30;
+        }
+    }
+}
 
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4)
 {
