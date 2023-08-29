@@ -94,7 +94,7 @@ typedef struct HZD_AREA
     HZD_SEG *walls;
     HZD_FLR *altimetry;
     HZD_TRG *triggers;
-    int     *wallsFlags;
+    char    *wallsFlags;
 } HZD_AREA; // 24
 
 typedef struct HZD_HEADER

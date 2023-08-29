@@ -72,10 +72,8 @@ int sub_80028454(HZD_MAP *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
                 do
                 {
                     pWall = pArea->walls;
-                    pFlags = (char *)pArea->wallsFlags;
-                    do
-                    {
-                    } while (0);
+                    pFlags = pArea->wallsFlags;
+                    do {} while (0);
                     n_unknown = pArea->n_unknown;
                     pFlagsEnd = pFlags + 2 * pArea->n_walls;
                     scratchpad = (char *)0x1F800000;
