@@ -11,7 +11,7 @@ typedef struct Res_Control_unknown
 {
     unsigned short  field_0_scriptData_orHashedName;
     unsigned short  field_2_name_hash;
-    short           field_4_trigger_Hash_Name_or_camera_w;
+    unsigned short  field_4_trigger_Hash_Name_or_camera_w;
     short           field_6_count;
     unsigned short  field_8_array[6];
     SVECTOR         field_14_vec;
