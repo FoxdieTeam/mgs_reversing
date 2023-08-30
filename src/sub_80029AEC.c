@@ -12,8 +12,8 @@ void sub_80029AEC(BindStruct *pBind, Res_Control_unknown *pSubCtrl, int a3, int 
     GCL_ARGS gclArgs; // [sp+10h] [-28h] BYREF
     long args[8]; // [sp+18h] [-20h] BYREF
 
-    f_4 = (unsigned short)pSubCtrl->field_4_trigger_Hash_Name_or_camera_w;
-    msg_type = (unsigned short)pSubCtrl->field_0_scriptData_orHashedName;
+    f_4 = pSubCtrl->field_4_trigger_Hash_Name_or_camera_w;
+    msg_type = pSubCtrl->field_0_scriptData_orHashedName;
     x = pSubCtrl->field_14_vec.vx;
     y = pSubCtrl->field_14_vec.vy;
     z= pSubCtrl->field_14_vec.vz;
