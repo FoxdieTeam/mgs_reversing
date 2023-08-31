@@ -1,6 +1,5 @@
 #include "linker.h"
 
-int        SECTION(".rdata") jpt_800116B4[] = {0x8003C564, 0x8003C660, 0x8003C760, 0x8003C8D8, 0x8003C934};
 const char SECTION(".rdata") aPanelMakeError[] = "PANEL MAKE Error\n";
 const char SECTION(".rdata") aClaymore[] = "CLAYMORE";
 // \xb0\x14ＰＳＧ１\xd0\x15

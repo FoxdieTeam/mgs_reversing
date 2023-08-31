@@ -1,3 +1,4 @@
+#include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
@@ -5,11 +6,9 @@
 #include "radio.h"
 #include "linker.h"
 #include "psyq.h"
-#include "Game/game.h"
 
-extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
+extern PANEL_TEXTURE             gMenuLeftItems_800BD5A0[];
 extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
-
 extern short                     GM_WeaponTypes_8009D580[];
 extern short                     GM_ItemTypes_8009D598[];
 extern int                       GM_GameStatus_800AB3CC;
@@ -18,6 +17,14 @@ extern int                       GV_PauseLevel_800AB928;
 extern int                       GM_DisableItem_800ABA28;
 extern int                       DG_UnDrawFrameCount_800AB380;
 extern int                       dword_8009F46C;
+extern int                       GV_Time_800AB330;
+extern int                       GM_GameOverTimer_800AB3D4;
+extern int                       dword_800ABA0C;
+extern MATRIX                    DG_ZeroMatrix_8009D430;
+extern SVECTOR                   svector_800ABA10;
+extern char                     *itm_descriptions_8009E3E4[];
+extern void                     *dword_8009E444[];
+extern void                     *dword_8009E44C[];
 
 extern int                       dword_800ABAD0;
 int SECTION(".sbss")             dword_800ABAD0;
@@ -68,10 +75,6 @@ PANEL_TEXTURE * menu_rpk_8003B5E0(int index)
 {
     return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
-
-extern char *itm_descriptions_8009E3E4[];
-extern void *dword_8009E444[];
-extern void *dword_8009E44C[];
 
 void menu_8003B614(int index)
 {
@@ -686,7 +689,207 @@ void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *pPanels, unsigned shor
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_item_update_helper4_8003C4EC.s") // 1136 bytes
+void menu_item_update_helper4_8003C4EC(void)
+{
+    Blast_Data blastData;
+    MATRIX     mtx;
+    int        temp_change_speed;
+    int        temp_change_speed2;
+    int timeMod;
+
+    if ( GV_PauseLevel_800AB928 )
+    {
+        return;
+    }
+
+    timeMod = GV_Time_800AB330 % 30;
+    switch ( timeMod )
+    {
+    case 0:
+        if ( GM_RationFlag <= 0 )
+        {
+            break;
+        }
+
+        temp_change_speed = GM_TempChangeSpeed;
+        if ( temp_change_speed == 0 )
+        {
+            temp_change_speed = 10;
+        }
+
+        if ( GM_CurrentItemId == ITEM_RATION )
+        {
+            if ( temp_change_speed > 0 )
+            {
+                temp_change_speed += GM_FrozenItemsTemp;
+            }
+            else
+            {
+                temp_change_speed = GM_FrozenItemsTemp;
+            }
+        }
+
+        GM_FrozenItemsTempMax += temp_change_speed;
+
+        if ( GM_FrozenItemsTempMax < GM_FrozenItemsTempMin )
+        {
+            if ( GM_FrozenItemsState == 0 )
+            {
+                GM_FrozenItemsState = 1;
+            }
+
+            GM_FrozenItemsTempMax = GM_FrozenItemsTempMin;
+        }
+
+        if ( GM_FrozenItemsTempMax < 0 )
+        {
+            break;
+        }
+
+        if ( GM_FrozenItemsState == 1 )
+        {
+            GM_FrozenItemsState = 0;
+
+            if ( GM_CurrentItemId == ITEM_RATION || GM_CurrentItemId == ITEM_KETCHUP )
+            {
+                GM_SeSet2_80032968(0, 63, 119); // Unfreeze sound (also used by Nikita)
+            }
+        }
+
+        GM_FrozenItemsTempMax = 0;
+        break;
+
+    case 1:
+        if ( GM_ShapeKeyFlag <= 0 )
+        {
+            break;
+        }
+
+
+        if ( GM_TempChangeSpeed == 0 )
+        {
+            if ( GM_ShapeKeyState == 0 )
+            {
+                GM_ShapeKeyTemp = 0;
+                break;
+            }
+
+            if (GM_ShapeKeyTemp < 0)
+            {
+                temp_change_speed2 = 10;
+            }
+            else
+            {
+                temp_change_speed2 = -10;
+            }
+        }
+        else
+        {
+            temp_change_speed2 = GM_TempChangeSpeed;
+        }
+
+        GM_ShapeKeyTemp += temp_change_speed2;
+
+        if ( GM_ShapeKeyTemp > GM_ShapeKeyTempMax )
+        {
+            GM_ShapeKeyState = 1;
+            GM_ShapeKeyTemp = GM_ShapeKeyTempMax;
+            break;
+        }
+
+        if ( GM_ShapeKeyTemp < GM_ShapeKeyTempMin )
+        {
+            GM_ShapeKeyState = 2;
+            GM_ShapeKeyTemp = GM_ShapeKeyTempMin;
+            break;
+        }
+
+        if ( GM_ShapeKeyTemp >= 0 && GM_ShapeKeyState == 2 )
+        {
+            GM_ShapeKeyState = 0;
+            break;
+        }
+
+        if ( GM_ShapeKeyTemp <= 0 && GM_ShapeKeyState == 1 )
+        {
+            GM_ShapeKeyState = 0;
+        }
+        break;
+
+    case 2:
+        if ( GM_TimerBombFlag <= 0 )
+        {
+            break;
+        }
+
+        if ( GM_GameStatus_800AB3CC & 0xDC000000 )
+        {
+            break;
+        }
+
+        if ( GM_GameOverTimer_800AB3D4 != 0 )
+        {
+            break;
+        }
+
+        if ( menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B) )
+        {
+            break;
+        }
+
+        if ( --GM_TimerBombFlag <= 0 )
+        {
+            if ( GM_PlayerStatus_800ABA50 & PLAYER_INVULNERABLE )
+            {
+                GM_TimerBombFlag = 1;
+            }
+            else
+            {
+                blastData.field_0 = 1024;
+                blastData.field_4 = 5;
+                blastData.field_8_z = 1024;
+                blastData.field_C = 2000;
+                blastData.field_10 = 10;
+
+                GM_CurrentMap_800AB9B0 = dword_800ABA0C;
+
+                mtx = DG_ZeroMatrix_8009D430;
+                mtx.t[0] = svector_800ABA10.vx;
+                mtx.t[1] = svector_800ABA10.vy;
+                mtx.t[2] = svector_800ABA10.vz;
+                NewBlast_8006DFDC(&mtx, &blastData);
+
+                GM_CurrentItemId = ITEM_NONE;
+                GM_StatusEvent |= EV_BlownUp;
+            }
+        }
+        else if ( GM_CurrentItemId == ITEM_TIMER_B )
+        {
+            GM_SeSet2_80032968(0, 63, 117); // Bomb tick sound
+        }
+        break;
+
+    case 3:
+        if ( GM_SnakeColdUnk9A < 0 )
+        {
+            if ( --GM_SnakeColdTimer < GM_SnakeColdUnk98 )
+            {
+                GM_SnakeColdTimer = GM_SnakeColdUnk98;
+                GM_StatusEvent |= EV_CommonCold;
+            }
+        }
+        else
+        {
+            GM_SnakeColdTimer = 0;
+        }
+
+        break;
+
+    case 4:
+        GM_GameTimeSeconds++;
+        break;
+    }
+}
 
 void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
 {
