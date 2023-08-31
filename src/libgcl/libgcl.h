@@ -123,12 +123,12 @@ typedef struct BindStruct
     unsigned short field_6;
 
     unsigned char field_8_param_i_c_flags;
-    char          field_9_param_s;
-    char          field_A_param_b;
+    unsigned char field_9_param_s;
+    unsigned char field_A_param_b;
     unsigned char field_B_param_e;
 
-    short field_C_param_d;
-    short field_E_param_d_or_512;
+    unsigned short field_C_param_d;
+    unsigned short field_E_param_d_or_512;
 
     int field_10_every;
     int field_14_proc_and_block;
