@@ -43,7 +43,8 @@ int sub_800275A8();
 int sub_800276B4();
 int sub_80027850(int mult);
 int sub_8002799C(int a0);
-
+int sub_80027C64(void);
+int sub_80027D80(HZD_FLR *pHzdFlr);
 
 void DrawReadError_8002AC9C(void);
 
