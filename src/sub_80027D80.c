@@ -1,6 +1,7 @@
 #include "libdg/libdg.h"
+#include "libhzd/libhzd.h"
 
-int sub_80027D80(char *ptr)
+int sub_80027D80(HZD_FLR *pHzdFlr)
 {
     long  sxy_0;
     long  sxy_1;
@@ -10,12 +11,12 @@ int sub_80027D80(char *ptr)
     long *pZ;
 
     sxy_1 = *(long *)getScratchAddr(19);
-    sxy_3 = *(long *)(ptr + 0x10);
-    sxy_0 = *(long *)(ptr + 0x18);
+    sxy_3 = pHzdFlr->p1.long_access[0];
+    sxy_0 = pHzdFlr->p2.long_access[0];
 
     gte_ldsxy3(sxy_3, sxy_0, sxy_1);
     gte_nclip();
-    sxy_2 = *(long *)(ptr + 0x20);
+    sxy_2 = pHzdFlr->p3.long_access[0];
     gte_stopz(getScratchAddr(2));
 
     pZ = (long *)getScratchAddr(2);
@@ -24,7 +25,7 @@ int sub_80027D80(char *ptr)
     {
         gte_ldsxy3(sxy_0, sxy_2, sxy_1);
         gte_nclip();
-        sxy_4 = *(long *)(ptr + 0x28);
+        sxy_4 = pHzdFlr->p4.long_access[0];
         gte_stopz(getScratchAddr(2));
 
         if (*pZ < 0)
@@ -45,7 +46,7 @@ int sub_80027D80(char *ptr)
     {
         gte_ldsxy3(sxy_0, sxy_2, sxy_1);
         gte_nclip();
-        sxy_4 = *(long *)(ptr + 0x28);
+        sxy_4 = pHzdFlr->p4.long_access[0];
         gte_stopz(getScratchAddr(2));
 
         if (*pZ > 0)
