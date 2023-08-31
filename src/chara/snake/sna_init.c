@@ -8088,7 +8088,7 @@ void sna_init_main_logic_800596FC(Actor_SnaInit *pActor)
     sna_init_main_logic_helper3_800596FC(pActor);
     sna_init_main_logic_helper4_800596FC(pActor);
 
-    if ( GM_StatusEvent & 1 )
+    if ( GM_StatusEvent & EV_CommonCold )
     {
         if ( !(GM_GameStatus_800AB3CC & 0xD0000000) &&
              !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PAD_OFF) &&
