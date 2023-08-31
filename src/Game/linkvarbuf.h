@@ -22,7 +22,7 @@ extern short       gGameState_800B4D98[0x60];
 #define GM_SnakePosZ          linkvarbuf[ 10 ]
 #define GM_SnakeCurrentHealth linkvarbuf[ 11 ]
 #define GM_SnakeMaxHealth     linkvarbuf[ 12 ] // from 256 to around 1400 near end game
-#define GM_StatusEvent        linkvarbuf[ 13 ] // bit 1 (0x1) = common cold, bit 3 (0x4) = diazepam active
+#define GM_StatusEvent        linkvarbuf[ 13 ] // bit 1 (0x1) = common cold, bit 3 (0x4) = diazepam active, bit 4 (0x8) = blown up
 #define GM_CurrentWeaponId    linkvarbuf[ 14 ] // -1 = no equipped weapon
 #define GM_CurrentItemId      linkvarbuf[ 15 ] // -1 = no equipped item
 #define GM_SnakeStance        linkvarbuf[ 16 ] // 0 = standing, 1 = crouching, 2 = lying down
@@ -160,8 +160,9 @@ enum // GM_GameStatusFlag
 
 enum // GM_StatusEvent
 {
-    EV_CommonCold = 0x1,
+    EV_CommonCold   = 0x1,
     EV_Tranquilizer = 0x4,
+    EV_BlownUp      = 0x8,
 };
 
 enum // GM_SnakeStance
