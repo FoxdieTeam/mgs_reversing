@@ -784,21 +784,21 @@
 
     ; libc start
 
-    include "..\obj\psyq\memcpy_8008E648.obj"
-    include "..\obj\psyq\memset.obj"
-    include "..\obj\psyq\rand_8008E6B8.obj"
-    include "..\obj\psyq\srand_8008E6E8.obj"
-    include "..\obj\psyq\strcmp_8008E6F8.obj"
-    include "..\obj\psyq\strcpy_8008E768.obj"
-    include "..\obj\psyq\strlen_8008E7B8.obj"
-    include "..\obj\psyq\strncmp_8008E7F8.obj"
-    include "..\obj\psyq\sprintf_8008E878.obj"
-    include "..\obj\psyq\memchr_8008F0F8.obj"
-    include "..\obj\psyq\memmove_8008F148.obj"
-    include "..\obj\psyq\puts_8008F1B8.obj"
-    include "..\obj\psyq\_putchar_8008F218.obj"
-    include "..\obj\psyq\_putchar_flash_8008F314.obj"
-    include "..\obj\psyq\putchar_8008F350.obj"
+    include "..\obj\psyq\memcpy_8008E648.obj" ; C42
+    include "..\obj\psyq\memset.obj" ; C43
+    include "..\obj\psyq\rand_8008E6B8.obj" ; C47
+    include "..\obj\psyq\srand_8008E6E8.obj" ; C48
+    include "..\obj\psyq\strcmp_8008E6F8.obj" ; C23
+    include "..\obj\psyq\strcpy_8008E768.obj" ; C25
+    include "..\obj\psyq\strlen_8008E7B8.obj" ; C27
+    include "..\obj\psyq\strncmp_8008E7F8.obj" ; C24 
+    include "..\obj\psyq\sprintf_8008E878.obj" ; SPRINTF
+    include "..\obj\psyq\memchr_8008F0F8.obj" ; C46
+    include "..\obj\psyq\memmove_8008F148.obj" ; MEMMOVE
+    include "..\obj\psyq\puts_8008F1B8.obj" ; A63
+    include "..\obj\psyq\_putchar_8008F218.obj" ; called by Puts and PutChar
+    include "..\obj\psyq\_putchar_flash_8008F314.obj" ; called by Puts
+    include "..\obj\psyq\putchar_8008F350.obj" ; A61
 
     ; libc end
 
