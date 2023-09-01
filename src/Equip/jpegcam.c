@@ -71,7 +71,7 @@ void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 
     for (index = 0; index < pMemcard->field_2_file_count; index++)
     {
-        if (strncmp_8008E7F8(pMemcard->field_4_blocks[index].field_0_name, aBislpm99999, 13) == 0)
+        if (strncmp(pMemcard->field_4_blocks[index].field_0_name, aBislpm99999, 13) == 0)
         {
             blocks_avail |= 1 << (pMemcard->field_4_blocks[index].field_0_name[18] - 64);
         }

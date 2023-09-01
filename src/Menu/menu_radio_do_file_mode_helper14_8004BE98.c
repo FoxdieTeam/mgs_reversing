@@ -27,7 +27,7 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *para
 
         if (dword_800AB700 & bit)
         {
-            strcpy_8008E768(pStruChild->field_0_name, gMemoryCardNames_8009EC00[memoryCardNo]);
+            strcpy(pStruChild->field_0_name, gMemoryCardNames_8009EC00[memoryCardNo]);
             pStruChild->field_20 = memoryCardNo;
             if (memoryCardNo == dword_800AB6F0)
             {
