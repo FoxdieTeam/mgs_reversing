@@ -224,7 +224,7 @@ int menu_Text_80038C38(const char *fmt, const char *str, int param_3, int param_
 
     if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation)
     {
-        sprintf_8008E878(string_buffer, fmt, str, param_3, param_4, param_5);
+        sprintf(string_buffer, fmt, str, param_3, param_4, param_5);
         free_space = gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd - gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
         string_length = strlen(string_buffer);
         if (string_length * 0x14 + 0x28U <= free_space)

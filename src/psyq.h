@@ -47,7 +47,7 @@ void               srand(int s);
 int                ratan2_80094308(int, int);
 int                rcos_800925D8(int a1);
 int                rsin_80092508(int a1);
-int                sprintf_8008E878(char *buffer, const char *format, ...);
+int                sprintf(char *buffer, const char *format, ...);
 int                strcmp(const char *str1, const char *str2);
 long               EnableEvent_800994AC(long);
 long               OpenEvent_8009946C(unsigned long desc, long spec, long mode, void (*func)());
