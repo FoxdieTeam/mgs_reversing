@@ -745,7 +745,10 @@
     ; psyq start
 
     include "..\obj\data\rdata\rdata_psyq.obj"
+    include "..\obj\data\rdata\rdata_psyq2.obj"
+
     include "..\obj\data\data\data_psyq.obj"
+    include "..\obj\data\data\data_psyq2.obj"
 
     ; libcd.lib start
 
