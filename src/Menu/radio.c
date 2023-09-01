@@ -1166,7 +1166,7 @@ skip_helper16:
         pCharaStruct2 = pActor->field_218;
         if (!(GV_Time_800AB330 & 3))
         {
-            if (rand_8008E6B8() % 4 <= 0)
+            if (rand() % 4 <= 0)
             {
                 if (dword_800ABAF8 < 7)
                 {
@@ -1180,7 +1180,7 @@ skip_helper16:
                     dword_800AB644 = -1;
                 }
             }
-            if (!(rand_8008E6B8() & 7))
+            if (!(rand() & 7))
             {
                 dword_800AB644 = -dword_800AB644;
             }

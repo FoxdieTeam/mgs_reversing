@@ -46,7 +46,7 @@ int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameH
         mts_printf_8008BBA0("TOO LARGE STAGE BINARY!!\n");
     }
 
-    memcpy_8008E648(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);
+    memcpy(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);
 
     return 1;
 }

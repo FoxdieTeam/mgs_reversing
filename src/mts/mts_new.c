@@ -20,12 +20,14 @@ extern char         gProgramBottom_800C3208[];
 
 // BSS
 //char               gProgramBottom_800C3208[0x53DF8];
-char       *heap_80117000[ 0x6b000 ];
-char        heap_80182000[ 0x1F000 ];
-char        byte_801A1000[ 0x10000 ];
-char        byte_801B1000[ 0x36800 ];
-char        byte_801E7800[ 0x18700 ];
-char        byte_801FFF00[ 240 ];
+
+
+extern char       *heap_80117000[ 0x6b000 ];
+extern char        heap_80182000[ 0x1F000 ];
+extern char        byte_801A1000[ 0x10000 ];
+extern char        byte_801B1000[ 0x36800 ];
+extern char        byte_801E7800[ 0x18700 ];
+extern char        byte_801FFF00[ 240 ];
 
 // pad.c
 extern int  dword_800A3DB0;

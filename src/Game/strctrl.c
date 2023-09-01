@@ -245,7 +245,7 @@ Actor_strctrl   *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc
     GM_GameStatus_800AB3CC |= 0x20u;
     total_sector = base_sector + FS_StreamGetTop_80023F94( 1 );
     do {} while (0);
-    srand_8008E6E8( 1 );
+    srand( 1 );
     return strctrl_init_80037B64( total_sector, gcl_proc, 2 );
 }
 
