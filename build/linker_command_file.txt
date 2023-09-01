@@ -785,17 +785,17 @@
 
     ; libc2 start
 
-    ;include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
-    ;include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
-    ;include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
  
     include "..\obj\data\bss_psyq.obj"
     include "..\obj\data\bss2.obj"
 
-    include "..\obj\psyq\memcpy.obj"
-    include "..\obj\psyq\memset.obj"
-    include "..\obj\psyq\rand.obj"
-    include "..\obj\psyq\srand.obj"
+    ;include "..\obj\psyq\memcpy.obj"
+    ;include "..\obj\psyq\memset.obj"
+    ;include "..\obj\psyq\rand.obj"
+    ;include "..\obj\psyq\srand.obj"
 
     include "..\obj\psyq\strcmp_8008E6F8.obj" ; C23
     include "..\obj\psyq\strcpy_8008E768.obj" ; C25
