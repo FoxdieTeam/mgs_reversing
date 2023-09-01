@@ -735,11 +735,11 @@ short anime_read_maybe_randomised_short_8005EA6C(unsigned char *pData, int opCod
     {
         if (temp < 0)
         {
-            return -(rand_8008E6B8() % -temp);
+            return -(rand() % -temp);
         }
         else
         {
-            return (rand_8008E6B8() % temp);
+            return (rand() % temp);
         }
     }
     return temp;
@@ -778,7 +778,7 @@ int anime_fn_0_8005EC1C(Actor_anime *pActor, int idx)
     {
         if (next_op == 254)
         {
-            next_op = rand_8008E6B8() % pActor->field_3E_maybe_data_count;
+            next_op = rand() % pActor->field_3E_maybe_data_count;
         }
         pItem->field_4 = next_op;
     }

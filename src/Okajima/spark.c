@@ -22,7 +22,7 @@ void spark_init_random_table_80073DB0()
 {
     if (gSparkRandomTableIndex_8009F668 != -1)
     {
-        short value = rand_8008E6B8();
+        short value = rand();
 
         gSparkRandomTableIndex_8009F668++;
         gSparkRandomTableIndex_8009F668 &= 0x3F;
@@ -39,7 +39,7 @@ void spark_init_random_table_80073DB0()
 
         do
         {
-            *current = rand_8008E6B8();
+            *current = rand();
 
             remaining--;
             current++;

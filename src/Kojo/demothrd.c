@@ -420,12 +420,12 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
     if (!pNew_14) {
         return 0;
     }
-    memcpy_8008E648(
+    memcpy(
         (char*)pThis->field_30_dmo_header->field_14_pMaps,
         (char*)pDmoData->field_14_pMaps,
         sizeof(Dmo_Map8) * pThis->field_30_dmo_header->field_C_num_maps);
 
-    memcpy_8008E648(
+    memcpy(
         pThis->field_30_dmo_header->field_18_pModels,
         (char*)pDmoData->field_18_pModels,
         sizeof(dmo_model_0x14) * pThis->field_30_dmo_header->field_10_num_models);
@@ -2588,7 +2588,7 @@ void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_mo
 
   if (abs(tmp1) >= pData->field_560)
   {
-    AN_CaterpillerSmoke_8007DA28(&smokeVecs[rand_8008E6B8() % 5]);
+    AN_CaterpillerSmoke_8007DA28(&smokeVecs[rand() % 5]);
     DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].field_0.objs);
     if (tmp1 > 0)
     {
@@ -2624,7 +2624,7 @@ void demothrd_m1e1_8007D404(Actor_demothrd *pActor, dmo_data_0x18 *p0x18, dmo_mo
 
   if (abs(tmp1) >= pData->field_560)
   {
-    AN_CaterpillerSmoke_8007DA28(&smokeVecs[(rand_8008E6B8() % 5) + 5]);
+    AN_CaterpillerSmoke_8007DA28(&smokeVecs[(rand() % 5) + 5]);
     DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].field_0.objs);
     if (tmp1 > 0)
     {
@@ -3994,7 +3994,7 @@ void sub_80080E14(Actor_m1e1 *pActor)
             pActor->field_E7C = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[rand_8008E6B8() % 5]->field_8_vec);
+        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[rand() % 5]->field_8_vec);
         DG_InvisibleObjs(pActor->field_1C0[pActor->field_E74].field_0.objs);
 
         pActor->field_E74 += pActor->field_E7C;
@@ -4079,7 +4079,7 @@ void sub_80080E14(Actor_m1e1 *pActor)
             pActor->field_E80 = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[(rand_8008E6B8() % 5) + 5]->field_8_vec);
+        AN_CaterpillerSmoke_8007DA28(&pActor->field_718_targets[(rand() % 5) + 5]->field_8_vec);
         DG_InvisibleObjs(pActor->field_46C[pActor->field_E78].field_0.objs);
 
         pActor->field_E78 += pActor->field_E7C;
