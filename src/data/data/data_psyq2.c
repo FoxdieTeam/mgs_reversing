@@ -2,12 +2,7 @@
 #include "data.h"
 #include "data/rdata/rdata.h"
 
-// sprintf
-int SECTION(".data") dword_800A4180 = 0;
-int SECTION(".data") dword_800A4184 = 0;
-int SECTION(".data") dword_800A4188 = 0;
-
-int SECTION(".data") dword_800A418C[] = {0, 0x27350, 0x440000, 0, 0};
+int SECTION(".data") dword_800A418C[] = { 0x27350, 0x440000, 0, 0};
 
 int SECTION(".data") dword_800A41A0 = 0;
 int SECTION(".data") dword_800A41A4[] = {

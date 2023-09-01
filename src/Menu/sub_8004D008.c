@@ -37,5 +37,5 @@ void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3)
     {
         sub_8004CF20(dword_800ABB90, &str2, &str3);
     }
-    sprintf_8008E878(outStr, aSSSSSS, dword_800122F4, off_8009EC1C[GM_DifficultyFlag + 1], aAtEUC, str1, aAtEUC, str3);
+    sprintf(outStr, aSSSSSS, dword_800122F4, off_8009EC1C[GM_DifficultyFlag + 1], aAtEUC, str1, aAtEUC, str3);
 }

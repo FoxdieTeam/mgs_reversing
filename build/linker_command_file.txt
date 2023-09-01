@@ -745,10 +745,8 @@
     ; psyq start
 
     include "..\obj\data\rdata\rdata_psyq.obj"
-    include "..\obj\data\rdata\rdata_psyq2.obj"
 
     include "..\obj\data\data\data_psyq.obj"
-    include "..\obj\data\data\data_psyq2.obj"
 
     ; libcd.lib start
 
@@ -786,6 +784,7 @@
 
     ; libcd end
 
+
     ; libc2 start
 
     include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
@@ -799,15 +798,23 @@
     include "..\obj\data\bss_psyq.obj"
     include "..\obj\data\bss2.obj"
 
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\SPRINTF.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCHR.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMMOVE.OBJ"
+
+    include "..\obj\data\rdata\rdata_psyq2.obj"
+    include "..\obj\data\data\data_psyq2.obj"
 
  
-    include "..\obj\psyq\sprintf_8008E878.obj" ; SPRINTF
-    include "..\obj\psyq\memchr_8008F0F8.obj" ; C46
-    include "..\obj\psyq\memmove_8008F148.obj" ; MEMMOVE
+;    include "..\obj\psyq\sprintf_8008E878.obj" ; SPRINTF
+ ;   include "..\obj\psyq\memchr_8008F0F8.obj" ; C46
+  ;  include "..\obj\psyq\memmove_8008F148.obj" ; MEMMOVE
+
     include "..\obj\psyq\puts_8008F1B8.obj" ; A63
     include "..\obj\psyq\_putchar_8008F218.obj" ; called by Puts and PutChar
     include "..\obj\psyq\_putchar_flash_8008F314.obj" ; called by Puts
     include "..\obj\psyq\putchar_8008F350.obj" ; A61
+
 
     ; libc2 end
 
