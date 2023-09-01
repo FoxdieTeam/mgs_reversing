@@ -788,19 +788,16 @@
     include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
     include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
     include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
- 
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRCMP.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRCPY.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRLEN.OBJ"
+    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRNCMP.OBJ"
+
     include "..\obj\data\bss_psyq.obj"
     include "..\obj\data\bss2.obj"
 
-    ;include "..\obj\psyq\memcpy.obj"
-    ;include "..\obj\psyq\memset.obj"
-    ;include "..\obj\psyq\rand.obj"
-    ;include "..\obj\psyq\srand.obj"
 
-    include "..\obj\psyq\strcmp_8008E6F8.obj" ; C23
-    include "..\obj\psyq\strcpy_8008E768.obj" ; C25
-    include "..\obj\psyq\strlen_8008E7B8.obj" ; C27
-    include "..\obj\psyq\strncmp_8008E7F8.obj" ; C24 
+ 
     include "..\obj\psyq\sprintf_8008E878.obj" ; SPRINTF
     include "..\obj\psyq\memchr_8008F0F8.obj" ; C46
     include "..\obj\psyq\memmove_8008F148.obj" ; MEMMOVE

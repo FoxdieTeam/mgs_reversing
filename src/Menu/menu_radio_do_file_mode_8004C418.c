@@ -126,7 +126,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         {
             if (dword_800ABB48 == 0)
             {
-                strcpy_8008E768(dword_800ABB70->field_24[dword_800ABB70->field_4].field_0_name, aBislpm99999 + 0xc);
+                strcpy(dword_800ABB70->field_24[dword_800ABB70->field_4].field_0_name, aBislpm99999 + 0xc);
                 dword_800ABB70->field_24[dword_800ABB70->field_4].field_20 = 0;
                 sub_8004AEA8(dword_800ABB70);
             }

@@ -30,7 +30,7 @@ void menu_SetRadioMemory_8004E110(int frequency, const char *name)
         contact = menu_radio_table_next_free_8004D3B8();
     }
 
-    if (!strcmp_8008E6F8(name, aClear))
+    if (!strcmp(name, aClear))
     {
         gRadioCodecIdx_800AB770 = 0;
         contact->frequency = 0;
@@ -38,7 +38,7 @@ void menu_SetRadioMemory_8004E110(int frequency, const char *name)
     else
     {
         contact->frequency = frequency;
-        strcpy_8008E768(contact->name, name);
+        strcpy(contact->name, name);
     }
 
     menu_radio_compact_free_vars_8004D3D8();

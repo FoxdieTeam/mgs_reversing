@@ -84,7 +84,7 @@ int GCL_MakeSaveFile_80020C0C(char *saveBuf)
     save->f014_padding[1] = 0;
     save->f014_padding[2] = 0;
 
-    strcpy_8008E768(save->f020_stageName, gStageName_800B4D88);
+    strcpy(save->f020_stageName, gStageName_800B4D88);
     GM_GetAreaHistory_8002A730(&save->f030_areaHistory);
 
     memcpy(save->f040_gameState, gGcl_gameStateVars_800B44C8, 0xC0);
@@ -123,7 +123,7 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
     }
 
     gTotalFrameTime_800AB9E8 = save->f010_totalFrameTime;
-    strcpy_8008E768(gStageName_800B4D88, save->f020_stageName);
+    strcpy(gStageName_800B4D88, save->f020_stageName);
     GM_SetAreaHistory_8002A784(&save->f030_areaHistory);
 
     memcpy(gGcl_gameStateVars_800B44C8, save->f040_gameState, 0xC0);
@@ -159,7 +159,7 @@ void GCL_SaveVar_80021314(void)
 {
     memcpy(gGcl_gameStateVars_800B44C8, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
-    strcpy_8008E768(gStageName_800B4D88, GM_GetArea_8002A880(0));
+    strcpy(gStageName_800B4D88, GM_GetArea_8002A880(0));
 }
 
 void GCL_RestoreVar_80021488(void)
