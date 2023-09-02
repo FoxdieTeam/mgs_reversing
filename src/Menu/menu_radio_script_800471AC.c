@@ -223,7 +223,7 @@ void radio_randSwitch_80047660(menu_chara_struct *unk, unsigned char *pScript)
     int code;
 
     pScript = menu_gcl_read_word_80047098(&randValue, pScript);
-    randValue = rand_8008E6B8() % randValue;
+    randValue = rand() % randValue;
     for (;;)
     {
         code = *pScript;

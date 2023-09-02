@@ -1109,7 +1109,7 @@ int SD_LoadWaveFile_800834FC( void )
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
     dst = (char *)voice_tbl_800BF1E0 + offset;
-    memcpy_8008E648( dst, wave_load_ptr_800C0508, size );
+    memcpy( dst, wave_load_ptr_800C0508, size );
 
     mts_printf_8008BBA0( "    SRC=%x:DST=%x\n", wave_load_ptr_800C0508, dst );
 
@@ -1453,7 +1453,7 @@ int SD_80083F54( char *end )
         return 0;
     }
 
-    memcpy_8008E648( dst, src, size );
+    memcpy( dst, src, size );
 
     wave_load_ptr_800C0508 += size;
 

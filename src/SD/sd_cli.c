@@ -15,7 +15,7 @@ int sd_set_cli_800887EC(int sdCode, int unused)
 
 void sd_set_path_8008880C(const char *pName)
 {
-    strcpy_8008E768(byte_800C0468, pName);
+    strcpy(byte_800C0468, pName);
 }
 
 unsigned int sub_80088838()

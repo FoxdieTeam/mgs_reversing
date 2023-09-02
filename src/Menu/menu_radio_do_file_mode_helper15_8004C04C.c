@@ -14,7 +14,7 @@ void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, char **src
     for (i = 0; i < cnt; i++, dest++)
     {
         src = srcs[i];
-        strcpy_8008E768(dest->field_0_name, src);
+        strcpy(dest->field_0_name, src);
         dest->field_20 = i;
     }
 

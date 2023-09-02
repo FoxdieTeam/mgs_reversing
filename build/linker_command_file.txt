@@ -726,6 +726,7 @@
 
     include "..\obj\data\rdata\rdata_80013D10.obj"
 
+
     ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
     ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
     ; 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88
@@ -782,25 +783,30 @@
 
     ; libcd end
 
-    ; libc start
+    ; libc2 start
 
-    include "..\obj\psyq\memcpy_8008E648.obj"
-    include "..\obj\psyq\memset.obj"
-    include "..\obj\psyq\rand_8008E6B8.obj"
-    include "..\obj\psyq\srand_8008E6E8.obj"
-    include "..\obj\psyq\strcmp_8008E6F8.obj"
-    include "..\obj\psyq\strcpy_8008E768.obj"
-    include "..\obj\psyq\strlen_8008E7B8.obj"
-    include "..\obj\psyq\strncmp_8008E7F8.obj"
-    include "..\obj\psyq\sprintf_8008E878.obj"
-    include "..\obj\psyq\memchr_8008F0F8.obj"
-    include "..\obj\psyq\memmove_8008F148.obj"
-    include "..\obj\psyq\puts_8008F1B8.obj"
-    include "..\obj\psyq\_putchar_8008F218.obj"
-    include "..\obj\psyq\_putchar_flash_8008F314.obj"
-    include "..\obj\psyq\putchar_8008F350.obj"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRCMP.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRCPY.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRLEN.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRNCMP.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\SPRINTF.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMCHR.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMMOVE.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\PUTS.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\PUTCHAR.OBJ" ; _putchar _putchar_flash putchar
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\CTYPE.OBJ"
 
-    ; libc end
+    include "..\obj\data\bss_psyq.obj"
+    include "..\obj\data\bss2.obj"
+
+    include "..\obj\data\rdata\rdata_psyq2.obj"
+    include "..\obj\data\data\data_psyq2.obj"
+
+
+    ; libc2 end
 
     include "..\obj\psyq\ResetGraph.obj"
     include "..\obj\psyq\SetGraphDebug.obj"
@@ -1010,7 +1016,7 @@
     include "..\obj\psyq\open_8009958C.obj"
     include "..\obj\psyq\lseek_8009959C.obj"
     include "..\obj\psyq\read_800995AC.obj"
-    include "..\obj\psyq\write_800995BC.obj"
+    include "..\obj\psyq\write.obj"
     include "..\obj\psyq\close_800995CC.obj"
     include "..\obj\psyq\format_800995DC.obj"
     include "..\obj\psyq\nextfile_800995EC.obj"

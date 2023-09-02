@@ -413,7 +413,7 @@ FS_FILE_INFO_8009D49C *FS_FindDirEntry_80022918(char *pFileName, FS_FILE_INFO_80
 
     for (file = pFile; file->pDatName; file++)
     {
-        if (!strcmp_8008E6F8(pFileName, file->pDatName))
+        if (!strcmp(pFileName, file->pDatName))
         {
             return file;
         }
@@ -499,7 +499,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
 
                     while (currentStringPtr)
                     {
-                        if (strcmp_8008E6F8(parsedFileName, diskNameIterator[0]) == 0)
+                        if (strcmp(parsedFileName, diskNameIterator[0]) == 0)
                         {
                             returnValue = stringCount;
                         }
@@ -540,7 +540,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs
 
     FS_CdMakePositionTable_helper2_800228D4(pHeap, 16, 2048);
 
-    if (strncmp_8008E7F8(pHeap + 8, "PLAYSTATION", 11))
+    if (strncmp(pHeap + 8, "PLAYSTATION", 11))
     {
         return -1;
     }
@@ -563,7 +563,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs
         dir_block_ptr = buffer2 + 2;
         directory_block = *dir_block_ptr | (*(dir_block_ptr + 1) << 8) | (*(dir_block_ptr + 2) << 16) | (*(dir_block_ptr + 3) << 24);
 
-        if (!strcmp_8008E6F8(directory_name, "MGS"))
+        if (!strcmp(directory_name, "MGS"))
         {
             mts_printf_8008BBA0("MGS read_sector %d\n", directory_block);
             FS_CdMakePositionTable_helper2_800228D4(directory_block_data, directory_block, 2048);

@@ -390,7 +390,7 @@ extern int   gRadarRGBTable2_8009E3D4[];
 
 void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4)
 {
-    unsigned int rand;
+    unsigned int randValue;
     DR_TPAGE    *tpage1;
     TILE        *tile;
     DR_TPAGE    *tpage2;
@@ -422,23 +422,23 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     setDrawTPage(tpage1, 1, 0, getTPage(0, 2, 960, 256));
     addPrim(pOt, tpage1);
 
-    rand = (rand_8008E6B8() << 16) | (rand_8008E6B8());
+    randValue = (rand() << 16) | (rand());
     for (i = 0; i < 52;)
     {
         NEW_PRIM(line, pActor);
 
         line->y0 = i - 26;
         line->y1 = i - 26;
-        line->x0 = rand % 138 - 69;
-        line->x1 = line->x0 + (rand / 256) % 69 + 8;
+        line->x0 = randValue % 138 - 69;
+        line->x1 = line->x0 + (randValue / 256) % 69 + 8;
         LSTORE(gRadarRGBTable2_8009E3D4[param_3 - 1], &line->r0);
 
         setLineF2(line);
         setSemiTrans(line, 1);
         addPrim(pOt, line);
 
-        i += 4 + (rand >> 24 & 7);
-        rand = rand << 25 | rand >> 7;
+        i += 4 + (randValue >> 24 & 7);
+        randValue = randValue << 25 | randValue >> 7;
     }
 
     NEW_PRIM(tile, pActor);

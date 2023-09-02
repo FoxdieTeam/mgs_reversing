@@ -71,7 +71,7 @@ void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 
     for (index = 0; index < pMemcard->field_2_file_count; index++)
     {
-        if (strncmp_8008E7F8(pMemcard->field_4_blocks[index].field_0_name, aBislpm99999, 13) == 0)
+        if (strncmp(pMemcard->field_4_blocks[index].field_0_name, aBislpm99999, 13) == 0)
         {
             blocks_avail |= 1 << (pMemcard->field_4_blocks[index].field_0_name[18] - 64);
         }
@@ -93,12 +93,12 @@ void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 
     stru_8009F2D8.field_2 = index;
 
-    sprintf_8008E878(buf, aSSSS, aMGSIntegralEUC, aSpaceEUC, aPhotoEUC, photo_id);
+    sprintf(buf, aSSSS, aMGSIntegralEUC, aSpaceEUC, aPhotoEUC, photo_id);
 }
 
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
-    sprintf_8008E878(param_1, aPHOTO, *(char *)(param_2 + 6) - 0x40);
+    sprintf(param_1, aPHOTO, *(char *)(param_2 + 6) - 0x40);
 }
 
 void jpegcam_unk3_800638B4(int *arg0)

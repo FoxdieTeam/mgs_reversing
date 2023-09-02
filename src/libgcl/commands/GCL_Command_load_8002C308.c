@@ -25,7 +25,7 @@ int GCL_Command_load_8002C308(unsigned char *pScript)
         if (!GCL_GetNextParamValue_80020AD4())
         {
             // Hard restart?
-            strcpy_8008E768(dword_800ABA58, GM_GetArea_8002A880((int)scriptStageName));
+            strcpy(dword_800ABA58, GM_GetArea_8002A880((int)scriptStageName));
             GV_ResidentHeapReset_800163B0();
             GV_InitCacheSystem_80015458();
             DG_ClearResidentTexture_8001DB10();
