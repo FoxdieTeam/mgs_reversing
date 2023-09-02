@@ -785,19 +785,19 @@
 
     ; libc2 start
 
-    include "libc2\MEMCPY.OBJ"
-    include "libc2\MEMSET.OBJ"
-    include "libc2\RAND.OBJ"
-    include "libc2\STRCMP.OBJ"
-    include "libc2\STRCPY.OBJ"
-    include "libc2\STRLEN.OBJ"
-    include "libc2\STRNCMP.OBJ"
-    include "libc2\SPRINTF.OBJ"
-    include "libc2\MEMCHR.OBJ"
-    include "libc2\MEMMOVE.OBJ"
-    include "libc2\PUTS.OBJ"
-    include "libc2\PUTCHAR.OBJ" ; _putchar _putchar_flash putchar
-    include "libc2\CTYPE.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRCMP.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRCPY.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRLEN.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRNCMP.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\SPRINTF.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMCHR.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMMOVE.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\PUTS.OBJ"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\PUTCHAR.OBJ" ; _putchar _putchar_flash putchar
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\CTYPE.OBJ"
 
     include "..\obj\data\bss_psyq.obj"
     include "..\obj\data\bss2.obj"
