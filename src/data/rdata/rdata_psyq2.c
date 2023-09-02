@@ -1,8 +1,14 @@
 #include "linker.h"
 
-
+/*
+// puts()
 const char SECTION(".rdata") aNull_0[] = "<NULL>";
-const int  SECTION(".rdata") dword_crap13[] = {0, 0};
+
+// puts() alignment ?
+*/
+//const int  SECTION(".rdata") dword_crap13[] = {0, 0};
+
+
 const char SECTION(".rdata") aIdSysCV1140199[] = "$Id: sys.c,v 1.140 1998/01/12 07:52:27 noda Exp yos $";
 const char SECTION(".rdata") aResetgraphJtb0[] = "ResetGraph:jtb=%08x,env=%08x\n";
 const char SECTION(".rdata") aResetgraphD[] = "ResetGraph(%d)...\n";

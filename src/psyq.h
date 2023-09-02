@@ -137,7 +137,7 @@ int                PadGetState_8009A2B8(int port);
 int                open_8009958C(char *devname, int flag);
 int                close_800995CC(int fd);
 unsigned long      lseek_8009959C(int fd, unsigned int offset, int flag);
-int                write_800995BC(int fd, char* buf, int n);
+int                write(int fd, char* buf, int n);
 long               format_800995DC(char *fs);
 struct DIRENTRY   *firstfile_80099AEC(char *, struct DIRENTRY *);
 struct DIRENTRY   *nextfile_800995EC(struct DIRENTRY *);

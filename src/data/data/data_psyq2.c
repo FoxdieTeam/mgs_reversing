@@ -2,20 +2,34 @@
 #include "data.h"
 #include "data/rdata/rdata.h"
 
+/*
+// puts()
 int SECTION(".data") dword_800A418C[] = { 0x27350, 0x440000, 0, 0};
 
-int SECTION(".data") dword_800A41A0 = 0;
-int SECTION(".data") dword_800A41A4[] = {
-    0,          0,          0,          0x20202000, 0x20202020, 0x8082020,  0x20080808, 0x20202020, 0x20202020,
+// pad ?
+int SECTION(".data") dword_800A41A0[] = {0, 0};
+*/
+
+// ctype_ 
+/*
+int SECTION(".data") _ctype_[] = {
+              0,          0,          0x20202000, 0x20202020, 0x8082020,  0x20080808, 0x20202020, 0x20202020,
     0x20202020, 0x20202020, 0x10101820, 0x10101010, 0x10101010, 0x10101010, 0x4040410,  0x4040404,  0x10040404,
     0x10101010, 0x41411010, 0x41414141, 0x1010101,  0x1010101,  0x1010101,  0x1010101,  0x1010101,  0x10101010,
     0x42421010, 0x42424242, 0x2020202,  0x2020202,  0x2020202,  0x2020202,  0x2020202,  0x10101010, 0x20,
     0,          0,          0,          0x77350,    0x440000};
+*/
+
+ int SECTION(".data") u_wot[2] = {0x77350,    0x440000};
+
 int SECTION(".data") off_800A4248[] = {(int)aIdSysCV1140199, 0x800915D8, 0x800915FC, 0x80090DFC, 0x800914E8, 0x80091520,
                                        0x80091560,           0x80091268, 0x8009102C, 0x800918AC, 0x8009150C, 0x80090D1C,
                                        0x800915A8,           0x80091B0C, 0x80090D04, 0x80091C5C};
+
 int SECTION(".data") off_800A4288 = (int)off_800A4248;
+
 int SECTION(".data") GPU_printf_800A428C = 0x8008BBA0;
+
 char  SECTION(".data") GEnv_800A4290 = 0;
 char  SECTION(".data") byte_800A4291 = 0;
 char  SECTION(".data") byte_800A4292 = 0;

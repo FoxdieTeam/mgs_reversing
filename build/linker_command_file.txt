@@ -745,7 +745,6 @@
     ; psyq start
 
     include "..\obj\data\rdata\rdata_psyq.obj"
-
     include "..\obj\data\data\data_psyq.obj"
 
     ; libcd.lib start
@@ -784,36 +783,27 @@
 
     ; libcd end
 
-
     ; libc2 start
 
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRCMP.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRCPY.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRLEN.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\STRNCMP.OBJ"
+    include "libc2\MEMCPY.OBJ"
+    include "libc2\MEMSET.OBJ"
+    include "libc2\RAND.OBJ"
+    include "libc2\STRCMP.OBJ"
+    include "libc2\STRCPY.OBJ"
+    include "libc2\STRLEN.OBJ"
+    include "libc2\STRNCMP.OBJ"
+    include "libc2\SPRINTF.OBJ"
+    include "libc2\MEMCHR.OBJ"
+    include "libc2\MEMMOVE.OBJ"
+    include "libc2\PUTS.OBJ"
+    include "libc2\PUTCHAR.OBJ" ; _putchar _putchar_flash putchar
+    include "libc2\CTYPE.OBJ"
 
     include "..\obj\data\bss_psyq.obj"
     include "..\obj\data\bss2.obj"
 
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\SPRINTF.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMCHR.OBJ"
-    include "C:\Data\psyq_sdk\psyq_4.4\LIB\libc2\MEMMOVE.OBJ"
-
     include "..\obj\data\rdata\rdata_psyq2.obj"
     include "..\obj\data\data\data_psyq2.obj"
-
- 
-;    include "..\obj\psyq\sprintf_8008E878.obj" ; SPRINTF
- ;   include "..\obj\psyq\memchr_8008F0F8.obj" ; C46
-  ;  include "..\obj\psyq\memmove_8008F148.obj" ; MEMMOVE
-
-    include "..\obj\psyq\puts_8008F1B8.obj" ; A63
-    include "..\obj\psyq\_putchar_8008F218.obj" ; called by Puts and PutChar
-    include "..\obj\psyq\_putchar_flash_8008F314.obj" ; called by Puts
-    include "..\obj\psyq\putchar_8008F350.obj" ; A61
 
 
     ; libc2 end
@@ -1026,7 +1016,7 @@
     include "..\obj\psyq\open_8009958C.obj"
     include "..\obj\psyq\lseek_8009959C.obj"
     include "..\obj\psyq\read_800995AC.obj"
-    include "..\obj\psyq\write_800995BC.obj"
+    include "..\obj\psyq\write.obj"
     include "..\obj\psyq\close_800995CC.obj"
     include "..\obj\psyq\format_800995DC.obj"
     include "..\obj\psyq\nextfile_800995EC.obj"
