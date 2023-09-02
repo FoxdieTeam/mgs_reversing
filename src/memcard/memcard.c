@@ -144,7 +144,7 @@ int memcard_loaddir_800247E8(int port, int *pFreeBlockCount)
 
     blocks = 0;
 
-    sprintf_8008E878(name, "bu%02X:*", port * 16);
+    sprintf(name, "bu%02X:*", port * 16);
     mts_printf_8008BBA0("load_dir %s start\n", name);
 
     if (firstfile_80099AEC(name, &dir))
@@ -372,7 +372,7 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
 
     if (pCard->field_1_last_op == 1)
     {
-        sprintf_8008E878(tmp, "bu%02X:%s", 0x10 * idx, pFileName);
+        sprintf(tmp, "bu%02X:%s", 0x10 * idx, pFileName);
         if (erase_800995FC(tmp))
         {
             mts_printf_8008BBA0("Deleted File %s", pFileName);
@@ -428,7 +428,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     int hFile;
     char name[32];
 
-    sprintf_8008E878(name, "bu%02X:%s", idx * 16, pFileName);
+    sprintf(name, "bu%02X:%s", idx * 16, pFileName);
 
     hFile = open_8009958C(name, (blocks << 16) | O_CREAT);
     if (hFile < 0)
@@ -452,7 +452,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
         lseek_8009959C(hFile, seekPos, SEEK_SET);
     }
     memcard_set_read_write_8002551C(bufferSize);
-    write_800995BC(hFile, pBuffer, bufferSize);
+    write(hFile, pBuffer, bufferSize);
     close_800995CC(hFile);
     mts_printf_8008BBA0("WRITING FILE %s...\n", pFileName);
 }
@@ -462,7 +462,7 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     char name[32];
     int hFile;
 
-    sprintf_8008E878(name, "bu%02x:%s", idx * 16, pFilename);
+    sprintf(name, "bu%02x:%s", idx * 16, pFilename);
     hFile = open_8009958C(name, FREAD | FASYNC);
     if (hFile < 0)
     {
@@ -493,7 +493,7 @@ int memcard_format_800257C0(int idx)
     char cardPath[32];
 
     retries = 4;
-    sprintf_8008E878(cardPath, "bu%02x:", idx * 16);
+    sprintf(cardPath, "bu%02x:", idx * 16);
 
     if (gMemCards_800B52F8[idx].field_1_last_op == 5)
     {

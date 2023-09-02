@@ -24,7 +24,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileMo
 
     pIter = pStru2->field_24;
 
-    strcpy_8008E768(aBislpm99999, MGS_MemoryCardName_800AB2EC);
+    strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
     aBislpm99999[12] = dword_800ABB4C->field_0[0];
 
     for (i = 0; i < pStru1->field_2; i++)
@@ -32,7 +32,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileMo
         pChild = &pStru1->field_4[i];
         mts_printf_8008BBA0(aFileS, pChild->field_0);
 
-        if (strncmp_8008E7F8(pChild->field_0, aBislpm99999, 13) == 0)
+        if (strncmp(pChild->field_0, aBislpm99999, 13) == 0)
         {
             menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->field_0_name, pChild->field_0);
             pIter->field_20 = i;

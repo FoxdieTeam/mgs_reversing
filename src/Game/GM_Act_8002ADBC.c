@@ -251,7 +251,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
         {
             if (--dword_800AB9D0 < 0)
             {
-                sprintf_8008E878(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
+                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
                 EnterCriticalSection_8009952C();
                 SetDispMask_8008F7CC(0);
                 PadStopCom_8009A24C();

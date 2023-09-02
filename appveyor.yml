@@ -9,11 +9,11 @@ clone_folder: c:\mgs
 build_script:
  - cd build
  - pip install -r requirements.txt
- - python build.py --psyq_path c:\psyq
+ - python build.py --psyq_path c:\psyq_sdk
  - powershell.exe -File progress.ps1
 
 install:
- - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq --depth 1
+ - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq_sdk --depth 1
  - git submodule update --init --recursive
  - set PATH=C:\Python310-x64;C:\Python310-x64\Scripts;%PATH%
  - python --version

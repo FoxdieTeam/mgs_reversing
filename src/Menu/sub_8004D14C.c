@@ -24,5 +24,5 @@ void sub_8004D14C(char *outstr, char *param_2)
     {
         val = 3;
     }
-    sprintf_8008E878(outstr, aFfCS, val | 0x30, str1);
+    sprintf(outstr, aFfCS, val | 0x30, str1);
 }
