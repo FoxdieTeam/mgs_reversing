@@ -452,7 +452,7 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
         lseek_8009959C(hFile, seekPos, SEEK_SET);
     }
     memcard_set_read_write_8002551C(bufferSize);
-    write_800995BC(hFile, pBuffer, bufferSize);
+    write(hFile, pBuffer, bufferSize);
     close_800995CC(hFile);
     mts_printf_8008BBA0("WRITING FILE %s...\n", pFileName);
 }
