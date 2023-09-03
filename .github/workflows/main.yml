@@ -32,6 +32,7 @@ jobs:
     - name: Download PsyQ
       if: steps.cache-psyq.outputs.cache-hit != 'true'
       run: |
+        mkdir -p mips
         cd mips
         wget http://psx.arthus.net/sdk/Psy-Q/psyq-4_7-converted-light.zip
         unzip psyq-4_7-converted-light.zip
