@@ -124,8 +124,104 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 
     SetRotMatrix_80093218(&mtx);
 }
+//#pragma INCLUDE_ASM("asm/Game/Process_Oar_8003518C.s") // 600 bytes
+int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
+{
+    char            unused[16];
+    OAR_RECORD     *record;
+    int             n_joint;
+    int             i;
+    MOTION_TABLE   *table;
+    int             n_frame;
+    int             size;
+    MOTION_ARCHIVE *archive;
+    unsigned int    temp1, temp2;
+    unsigned short  temp3;
+    char            temp4;
+    SVECTOR*        svec;
+    
+    n_joint = ctrl->field_00_oar->n_joint;
+    size = n_joint + 2;
+    record = info->field_C_oar_records;
+    
+    table = &ctrl->field_00_oar->table[ size * index ];
 
-#pragma INCLUDE_ASM("asm/Game/Process_Oar_8003518C.s") // 600 bytes
+    n_frame = table[ 0 ];
+    table++; //progresses it to the start of the archive offsets
+    
+    info->field_2_footstepsFrame = 0;
+    info->field_4 = 0;
+    info->field_0 = n_frame;
+
+    archive = &ctrl->field_00_oar->archive[ table[ 0 ] ]; //start of bitstream vectors
+    table++; //progresses to the next offset
+
+    record->field_0.vy = archive[ 0 ];
+    archive++; //progress to next vector
+
+    temp1 = archive[ 0 ] + ( archive [ 1 ] << 16 );
+
+    archive++; //progress to next vector
+
+    record->field_1D[ 0 ] = 0;
+    record->field_14 = archive;
+
+    temp2 = temp1 & 0xF;
+    temp1 &= 0xFFFF;
+    temp1 >>= 4;
+
+    record->field_8.vx = temp2;
+
+    temp2 = temp1 & 0xF;
+    temp1 >>= 4;
+    temp1 &= 0xF;
+
+    record->field_8.vy = temp2;
+    record->field_8.vz = temp1;
+
+    record++;
+
+    for ( i = 0; i < n_joint; i++, record++, table++ )
+    {   
+        archive = &ctrl->field_00_oar->archive[ table[ 0 ] ];
+        
+        temp3 = archive [ 0 ];
+
+        record->field_14 = archive;
+
+        temp3 &= 0xFFF;
+
+        record->field_1D[0] = 12;
+
+        temp4 = temp3 & 0xF;
+        temp3 >>= 4;
+        record->field_1D[1] = temp4;
+
+        temp4 = temp3 & 0xF;
+        temp3 >>= 4;
+        record->field_1D[2] = temp4;
+
+        temp4 = temp3 & 0xF;
+        temp3 >>= 4;
+        record->field_1D[3] = temp4;
+    
+        Kmd_Oar_Inflate_800353E4( record );
+
+        if ( i == 0 )
+        {
+            negate_rots_800366B8( &record->field_0, &record->field_8 );
+        }
+        else
+        {
+            svec = &record->field_8;
+            svec->vx = FP_Subtract_2( svec->vx, record->field_0.vx );
+            svec->vy = FP_Subtract_2( svec->vy, record->field_0.vy );
+            svec->vz = FP_Subtract_2( svec->vz, record->field_0.vz );
+        }
+    }
+
+    return 0;
+}
 
 extern int dword_8009DE1C[];
 
@@ -331,7 +427,7 @@ void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo)
     pRecord = pInfo->field_C_oar_records;
     pRecord++;
 
-    numRecords = pCtrl->field_00_oar->recordSize;
+    numRecords = pCtrl->field_00_oar->n_joint;
 
     pInfo->field_0 = 0;
     pInfo->field_4 = 1;
