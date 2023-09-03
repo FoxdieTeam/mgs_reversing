@@ -242,12 +242,15 @@ typedef struct DG_NARS
 	unsigned char *unknown1;
 } DG_NARS;
 
+typedef unsigned short MOTION_ARCHIVE;
+typedef unsigned short MOTION_TABLE;
+
 typedef struct DG_OAR
 {
-	unsigned char *deep;
-	unsigned int   recordSize;
-	unsigned int   count;
-	unsigned char *start;
+	MOTION_ARCHIVE *archive;
+	unsigned int   n_joint;
+	unsigned int   n_motion;
+	MOTION_TABLE   *table;
 	char           oarData[ 0 ];
 } DG_OAR;
 

@@ -123,8 +123,8 @@ int DG_LoadInitNar_8001F5F8(unsigned char *pFileData, int fileNameHashed)
 int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed)
 {
     DG_OAR *oar = (DG_OAR *)pFileData;
-    oar->deep = oar->oarData + 2 * ((oar->recordSize + 2) * oar->count);
-    oar->start = oar->oarData;
+    oar->archive = (MOTION_ARCHIVE*)&oar->oarData[ ( ( (oar->n_joint + 2) ) * oar->n_motion) * 2 ];
+    oar->table   = (MOTION_TABLE*)oar->oarData;
     return 1;
 }
 
