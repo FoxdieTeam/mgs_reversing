@@ -19,10 +19,14 @@ jobs:
         repository: 'FoxdieTeam/psyq_sdk'
         path: 'psyq_sdk'
               
-    - name: Build
+    - name: Install Dependencies
       run: |
         cd mgs_reversing/build
         python -m pip install -r requirements.txt
+
+    - name: Build
+      run: |
+        cd mgs_reversing/build
         python build.py --psyq_path=../../psyq_sdk/
       
     - name: Upload Artifact
