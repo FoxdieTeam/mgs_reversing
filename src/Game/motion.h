@@ -58,7 +58,9 @@ void sub_800350D4(MOTION_CONTROL *m_ctrl, int a1, int motion);
 int  sub_8003556C(MOTION_CONTROL *m_ctrl);
 int  oar_related_800356FC(MOTION_CONTROL *, MOTION_INFO *);
 void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo);
-int  Process_Oar_8003518C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int a3);
+int  Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index );
 int  sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int a3, int a4);
+void Kmd_Oar_Inflate_800353E4(OAR_RECORD *pRecord);
+int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1);
 
 #endif // _MOTION_H_

@@ -308,6 +308,32 @@ static inline int FP_Subtract(int fp, int toSub)
     return var_a0;
 }
 
+static inline int FP_Subtract_2(int a, int b)
+{
+    int value = a - b;
+    
+    if (value >= 0)
+    {
+        value &= 0xFFF;
+                        
+        if (value >= 2048)
+        {
+            value -= 4096;
+        }
+    }
+    else
+    {
+        value |= 0xF000;
+                        
+        if (value < -2048)
+        {
+            value += 4096;
+        }
+    }
+
+    return value;
+}
+
 typedef struct GV_Vec
 {
     short x;
