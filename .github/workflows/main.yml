@@ -10,16 +10,18 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        path: 'mgs_reversing'
 
     - name: Install PsyQ
       uses: actions/checkout@v3
       with:
         repository: 'FoxdieTeam/psyq_sdk'
-        path: '../psyq_sdk'
+        path: 'psyq_sdk'
               
     - name: Build
       run: |
-        cd build
+        cd mgs_reversing/build
         python -m pip install -r requirements.txt
         python build.py --psyq_path=../../psyq_sdk/
       
@@ -28,4 +30,4 @@ jobs:
       with:
         name: MGS-PsyQ
         path: |
-          build/eboot.bin
+          mgs_reversing/build/eboot.bin
