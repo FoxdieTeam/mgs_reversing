@@ -45,16 +45,12 @@ jobs:
       with:
         path: mips/psyq
         key: psyq
-        
-    - name: Compile tools
-      run: |
-        make -f Makefile.tools
-        mv ./mips/psyq/LICENSEA.DAT licensea.dat
               
-    - name: Compile
+    - name: Build
       run: |
-        make -f Makefile.tim
-        make -f Makefile.assets all
+        cd build
+        pip install -r requirements.txt
+        python build.py --psyq_path=../mips/psyq/
       
     - name: Upload Artifact
       uses: actions/upload-artifact@master
