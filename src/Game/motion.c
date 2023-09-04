@@ -124,7 +124,7 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
 
     SetRotMatrix_80093218(&mtx);
 }
-//#pragma INCLUDE_ASM("asm/Game/Process_Oar_8003518C.s") // 600 bytes
+
 int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
 {
     char            unused[16];
