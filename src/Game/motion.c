@@ -139,16 +139,16 @@ int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
     unsigned short  temp3;
     char            temp4;
     SVECTOR*        svec;
-    
+
     n_joint = ctrl->field_00_oar->n_joint;
     size = n_joint + 2;
     record = info->field_C_oar_records;
-    
+
     table = &ctrl->field_00_oar->table[ size * index ];
 
     n_frame = table[ 0 ];
     table++; //progresses it to the start of the archive offsets
-    
+
     info->field_2_footstepsFrame = 0;
     info->field_4 = 0;
     info->field_0 = n_frame;
@@ -182,9 +182,9 @@ int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
     record++;
 
     for ( i = 0; i < n_joint; i++, record++, table++ )
-    {   
+    {
         archive = &ctrl->field_00_oar->archive[ table[ 0 ] ];
-        
+
         temp3 = archive [ 0 ];
 
         record->field_14 = archive;
@@ -204,7 +204,7 @@ int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
         temp4 = temp3 & 0xF;
         temp3 >>= 4;
         record->field_1D[3] = temp4;
-    
+
         Kmd_Oar_Inflate_800353E4( record );
 
         if ( i == 0 )
@@ -441,7 +441,138 @@ void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Game/sub_800360EC.s") // 668 bytes
+// TODO: better name needed
+#define FP_Subtract2(v, a, b) \
+{                            \
+    (v) = (a) - (b);         \
+                             \
+    if ((v) >= 0)            \
+    {                        \
+        (v) &= 0xFFF;        \
+                             \
+        if ((v) >= 2048)     \
+        {                    \
+            (v) -= 4096;     \
+        }                    \
+    }                        \
+    else                     \
+    {                        \
+        (v) |= 0xF000;       \
+                             \
+        if ((v) < -2048)     \
+        {                    \
+            (v) += 4096;     \
+        }                    \
+    }                        \
+                             \
+    (a) = (v);               \
+}
+
+static inline void FP_Subtract3( SVECTOR *svec, SVECTOR *svec2 )
+{
+    int value;
+    FP_Subtract2(value, svec2->vx, svec->vx);
+    FP_Subtract2(value, svec2->vy, svec->vy);
+    FP_Subtract2(value, svec2->vz, svec->vz);
+}
+
+int sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int index, int frame)
+{
+    char            unused[8];
+    int             i;
+    OAR_RECORD     *pRecord;      //s1
+    int             numRecords;
+    unsigned int    v0, v1;
+    MOTION_TABLE   *pTable;       //s2
+    MOTION_ARCHIVE *pArchive;
+    unsigned int temp3, temp6;
+    unsigned int temp4;
+    int temp5;
+    unsigned short test;
+
+    unsigned int a0, a1;
+
+    numRecords = pCtrl->field_00_oar->n_joint;
+    pRecord = pInfo->field_C_oar_records;
+
+    pTable = &pCtrl->field_00_oar->table[(numRecords + 2) * index];
+
+    pInfo->field_0 = pTable[0]; //number of frames
+    pInfo->field_2_footstepsFrame = 0;
+
+    temp5 = pInfo->field_0;
+    test = pInfo->field_0;
+
+    pTable++;
+
+    if (frame >= temp5)
+    {
+        frame = temp5 - 1;
+    }
+
+    pInfo->field_0 = test - frame;
+    pInfo->field_4 = 0;
+
+    pArchive = &pCtrl->field_00_oar->archive[pTable[0]];
+    pRecord->field_0.vy = pArchive[0];
+    pArchive++;
+
+    //80036194
+    v1 = pArchive[0] + (pArchive[1] << 16);
+    a1 = v1 & 0xF;
+
+    v1 &= 0xFFFF;
+    v1 >>= 4;
+    v0 = v1 & 0xF;
+
+    a0 = a1 + v0;
+    v1 >>= 4;
+    v1 &= 0xF;
+
+    a0 = a0 + v1;
+    a0 = a0 & 0xFFFF;
+    a0 = a0 * frame;
+
+    pTable++;
+    pArchive++;
+
+    //800361D8
+    pRecord->field_8.vx = a1;
+    pRecord->field_8.vy = v0;
+    pRecord->field_8.vz = v1;
+
+    pArchive = &pArchive[(a0 / 16) & 0xF ];
+    pRecord->field_1D[0] = a0 & 0xF;
+    pRecord->field_14 = pArchive;
+    pRecord++;
+
+    for (i = 0; i < numRecords; i++, pRecord++, pTable++)
+    {
+        pArchive = &pCtrl->field_00_oar->archive[pTable[0]];
+
+        temp4 = (pArchive[0] + (pArchive[1] << 16)) & 0xFFF;
+        temp6 = temp4;
+
+        temp3 = temp4;
+        temp4 = temp4 >> 4;
+        temp6 = temp6 >> 8;
+
+        pRecord->field_14 = pArchive;
+
+        pRecord->field_1D[0] = 12;
+        pRecord->field_1D[1] = temp3 & 0xF;
+        pRecord->field_1D[2] = temp4 & 0xF;
+        pRecord->field_1D[3] = temp6 & 0xF;
+
+        pRecord->field_18 = -1;
+
+        sub_80036388(pRecord, frame);
+        FP_Subtract3(&pRecord->field_0, &pRecord->field_8);
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/Game/sub_80036388.s") // 816 bytes
 
 int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1)
