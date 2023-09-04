@@ -45,6 +45,7 @@ int sub_80027850(int mult);
 int sub_8002799C(int a0);
 int sub_80027C64(void);
 int sub_80027D80(HZD_FLR *pHzdFlr);
+void sub_80036388(OAR_RECORD *record, int frame);
 
 void DrawReadError_8002AC9C(void);
 
