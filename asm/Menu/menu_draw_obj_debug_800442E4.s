@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_800442E4
-sub_800442E4:
+	xdef menu_draw_obj_debug_800442E4
+menu_draw_obj_debug_800442E4:
 	dw 0x27BDFFC8 ; 0x800442E4
 	dw 0xAFB60028 ; 0x800442E8
 	dw 0x0080B021 ; 0x800442EC
