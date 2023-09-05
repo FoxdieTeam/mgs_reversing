@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef sub_80043A24
-sub_80043A24:
+	xdef menu_draw_pow_debug_80043A24
+menu_draw_pow_debug_80043A24:
 	dw 0x27BDFFC8 ; 0x80043A24
 	dw 0xAFB40028 ; 0x80043A28
 	dw 0x0080A021 ; 0x80043A2C

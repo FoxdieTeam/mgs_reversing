@@ -4,11 +4,11 @@
 #include "menuman.h"
 
 typedef int (*TUnkRadioFn)(Actor_MenuMan *, unsigned int *); // (pActor, pOt)
-int sub_80043678(Actor_MenuMan *pActor, unsigned int *pOt);
-int sub_80043A24(Actor_MenuMan *pActor, unsigned int *pOt);
-int sub_80043FD0(Actor_MenuMan *pActor, unsigned int *pOt);
-int sub_800442E4(Actor_MenuMan *pActor, unsigned int *pOt);
-int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt);
+int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt);
+int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt);
+int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pActor, unsigned int *pOt);
+int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt);
+int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt);
 
 typedef struct RadioIncomingCall // @ 8009E708
 {
