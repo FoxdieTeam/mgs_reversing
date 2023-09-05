@@ -11,6 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
+        path: '${{ github.workspace }}\mgs_reversing'
         submodules: true
 
     - name: Install PsyQ
@@ -21,19 +22,11 @@ jobs:
         submodules: true
               
     - name: Install Dependencies
-      run: |
-        cd build
-        python -m pip install -r requirements.txt
+      working-directory: ${{ github.workspace }}\mgs_reversing\build
+      run: python -m pip install -r requirements.txt
 
     - name: Build
+      working-directory: ${{ github.workspace }}\mgs_reversing\build
       env:
         PSYQ_SDK: ${{ github.workspace }}\psyq_sdk
-      run: |
-        cd build
-        python build.py --psyq_path="${{ github.workspace }}\psyq_sdk\"
-      
-    - name: Upload Artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: MGS-PsyQ
-        path: build/eboot.bin
+      run: python build.py
