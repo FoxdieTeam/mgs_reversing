@@ -26,6 +26,8 @@ jobs:
         python -m pip install -r requirements.txt
 
     - name: Build
+      env:
+        PSYQ_SDK: ${{ github.workspace }}\psyq_sdk
       run: |
         cd build
         python build.py --psyq_path="${{ github.workspace }}\psyq_sdk\"
