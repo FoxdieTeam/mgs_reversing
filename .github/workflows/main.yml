@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: 'FoxdieTeam/psyq_sdk'
-        path: 'psyq_sdk'
+        path: '$GITHUB_WORKSPACE/psyq_sdk'
         submodules: true
               
     - name: Install Dependencies
@@ -29,7 +29,7 @@ jobs:
     - name: Build
       run: |
         cd mgs_reversing/build
-        python build.py --psyq_path=../../psyq_sdk/
+        python build.py --psyq_path=$GITHUB_WORKSPACE/psyq_sdk
       
     - name: Upload Artifact
       uses: actions/upload-artifact@master
