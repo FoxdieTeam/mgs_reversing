@@ -11,29 +11,27 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        path: 'mgs_reversing'
         submodules: true
 
     - name: Install PsyQ
       uses: actions/checkout@v3
       with:
         repository: 'FoxdieTeam/psyq_sdk'
-        path: '$GITHUB_WORKSPACE/psyq_sdk'
+        path: '${{ github.workspace }}/psyq_sdk'
         submodules: true
               
     - name: Install Dependencies
       run: |
-        cd mgs_reversing/build
+        cd build
         python -m pip install -r requirements.txt
 
     - name: Build
       run: |
-        cd mgs_reversing/build
-        python build.py --psyq_path=$GITHUB_WORKSPACE/psyq_sdk
+        cd build
+        python build.py --psyq_path='${{ github.workspace }}/psyq_sdk'
       
     - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
         name: MGS-PsyQ
-        path: |
-          mgs_reversing/build/eboot.bin
+        path: build/eboot.bin
