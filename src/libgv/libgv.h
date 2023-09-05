@@ -82,8 +82,8 @@ typedef union AllocType {
 
 typedef struct GV_MemoryAllocation
 {
-    void *mPDataStart;
-    int   mAllocType; // might be union if its > 2 its void** ?
+    void        *mPDataStart;
+    unsigned int mAllocType; // might be union if its > 2 its void** ?
 } GV_MemoryAllocation;
 
 enum GV_Heap_Flags
@@ -311,11 +311,11 @@ static inline int FP_Subtract(int fp, int toSub)
 static inline int FP_Subtract_2(int a, int b)
 {
     int value = a - b;
-    
+
     if (value >= 0)
     {
         value &= 0xFFF;
-                        
+
         if (value >= 2048)
         {
             value -= 4096;
@@ -324,7 +324,7 @@ static inline int FP_Subtract_2(int a, int b)
     else
     {
         value |= 0xF000;
-                        
+
         if (value < -2048)
         {
             value += 4096;
