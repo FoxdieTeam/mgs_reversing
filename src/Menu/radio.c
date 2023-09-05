@@ -17,8 +17,8 @@ MenuCallbackProc_800ABB08        SECTION(".sbss") gMenuCallbackProc_800ABB08;
 extern int dword_800ABB10;
 int        SECTION(".sbss") dword_800ABB10; // declared
 
-extern unsigned char dword_800ABB20;
-unsigned char        SECTION(".sbss") dword_800ABB20;
+extern unsigned char menu_current_debug_screen_800ABB20;
+unsigned char        SECTION(".sbss") menu_current_debug_screen_800ABB20;
 
 extern short word_800ABB22;
 short        SECTION(".sbss") word_800ABB22;
@@ -69,6 +69,8 @@ extern int DG_FrameRate_8009D45C;
 extern int DG_UnDrawFrameCount_800AB380;
 
 extern int gDiskNum_800ACBF0;
+
+extern GV_Heap MemorySystems_800AD2F0[ 3 ];
 
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
 {
@@ -1988,10 +1990,114 @@ void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle)
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_80043678.s") // 940 bytes
-#pragma INCLUDE_ASM("asm/Menu/sub_80043A24.s") // 1452 bytes
+int menu_draw_mem_debug_80043678(Actor_MenuMan* pActor, unsigned int* pOt)
+{
+    GV_Heap             *pHeap;
+    LINE_F2             *pLine;
+    int                  i;
+    GV_MemoryAllocation *pAlloc;
+    int                  heap_size;
+    char                *alloc_start;
+    LINE_G4             *pLine2;
+    int                  alloc_len;
+    int                  alloc_len2;
+    int                  used;
+    int                  units;
+    int                  color;
+    int                  allocated;
+    int                  size;
+    int                  x1;
 
-int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
+    pHeap = MemorySystems_800AD2F0;
+
+    NEW_PRIM(pLine, pActor);
+    setXY2(pLine, 272, 120, 272, 168);
+
+    LSTORE(0xFF0000, &pLine->r0);
+
+    setLineF2(pLine);
+    addPrim(pOt, pLine);
+
+    used = 1;
+    for (i = 0; i < 3; i++, pHeap++)
+    {
+        size = pHeap->mEndAddr - pHeap->mStartAddr;
+        pAlloc = pHeap->mAllocs;
+        heap_size = size;
+
+        if (heap_size == 0)
+        {
+            continue;
+        }
+
+        allocated = 0;
+
+        for (units = pHeap->mUnitsCount; units > 0; units--, pAlloc++)
+        {
+            alloc_start = pAlloc->mPDataStart;
+
+            if (pAlloc->mAllocType == 0)
+            {
+                continue;
+            }
+
+            if (pAlloc->mAllocType == 1)
+            {
+                color = 0xFFFFFF;
+
+                while (pAlloc[1].mAllocType == 1 && units > 2)
+                {
+                    pAlloc++;
+                    units--;
+                }
+            }
+            else
+            {
+                color = 0xFF00;
+
+                while (pAlloc[1].mAllocType >= 2 && units > 2)
+                {
+                    pAlloc++;
+                    units--;
+                }
+            }
+
+            alloc_len = (alloc_start - (char *)pHeap->mStartAddr) * 240;
+            alloc_len = (alloc_len / heap_size) + 32;
+
+            x1 = 120 + i * 16;
+
+            size = (char *)pAlloc[1].mPDataStart - alloc_start;
+
+            alloc_len2 = ((char *)pAlloc[1].mPDataStart - (char *)pHeap->mStartAddr) * 240;
+            alloc_len2 = (alloc_len2 / heap_size) + 32;
+
+            if (used < 256)
+            {
+                NEW_PRIM(pLine2, pActor);
+                setXY4(pLine2, alloc_len, x1, alloc_len2, x1, alloc_len2, 134 + i * 16, alloc_len, 134 + i * 16);
+                LSTORE(0, &pLine2->r0);
+                LSTORE(color, &pLine2->r1);
+                LSTORE(color, &pLine2->r2);
+                LSTORE(0, &pLine2->r3);
+
+                setLineG4(pLine2);
+                addPrim(pOt, pLine2);
+            }
+
+            allocated += size;
+            used++;
+        }
+
+        menu_number_draw_80042F78(pActor, pOt, 300, 168 - ((3 - i) * 12), (allocated * 100) / heap_size, 1);
+    }
+
+    return used;
+}
+
+#pragma INCLUDE_ASM("asm/Menu/menu_draw_pow_debug_80043A24.s") // 1452 bytes
+
+int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 {
     u_char       *chnlOt;
     int           numOTEntries;
@@ -2081,7 +2187,7 @@ int sub_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     return returnVal;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/sub_800442E4.s") // 788 bytes
+#pragma INCLUDE_ASM("asm/Menu/menu_draw_obj_debug_800442E4.s") // 788 bytes
 
 extern GV_PAD GV_PadData_800B05C0[4];
 extern char   aNoD[];  // = "No %d\n";
@@ -2090,7 +2196,7 @@ extern char   aColD[]; // = "COL %d\n";
 extern char   aXDYD[]; // = "x %d y %d\n";
 extern char   aWDHD[]; // = "w %d h %d\n";
 
-int sub_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
+int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     const int textureRecsCount = sizeof(gTextureRecs_800B1F50) / sizeof(gTextureRecs_800B1F50[0]);
     short     x0, y0;
@@ -2204,53 +2310,53 @@ extern int GV_PauseLevel_800AB928;
 extern int MENU_PrimUse_800AB68C;
 int        MENU_PrimUse_800AB68C;
 
-extern TUnkRadioFn dword_8009E730[];
-extern char       *dword_8009E744[];
+extern TUnkRadioFn menu_debug_screens_8009E730[];
+extern char       *menu_debug_screen_labels_8009E744[];
 
-void sub_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
+void menu_draw_debug_screen_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     mts_read_pad_8008C25C(2);
     if (GM_GameStatus_800AB3CC & 0x1000000)
     {
-        sub_80043A24(pActor, pOt);
+        menu_draw_pow_debug_80043A24(pActor, pOt);
         return;
     }
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_PREVENT_WEAPON_ITEM_SWITCH) && GV_PauseLevel_800AB928 != 0 &&
         (GV_PadData_800B05C0[0].press & PAD_L1))
     {
-        if (dword_800ABB20 == 5)
+        if (menu_current_debug_screen_800ABB20 == 5)
         {
             GV_PauseLevel_800AB928 &= ~4;
         }
-        dword_800ABB20++;
-        if (dword_800ABB20 == 6)
+        menu_current_debug_screen_800ABB20++;
+        if (menu_current_debug_screen_800ABB20 == 6)
         {
-            dword_800ABB20 = 0;
+            menu_current_debug_screen_800ABB20 = 0;
         }
-        if (dword_800ABB20 == 5)
+        if (menu_current_debug_screen_800ABB20 == 5)
         {
             GV_PauseLevel_800AB928 |= 4;
         }
     }
-    else if (dword_800ABB20 != 0)
+    else if (menu_current_debug_screen_800ABB20 != 0)
     {
         menu_Text_XY_Flags_80038B34(300, 8, 1);
         menu_draw_num_80038D10(MENU_PrimUse_800AB68C * 100 / 8192);
         menu_Text_XY_Flags_80038B34(300, 112, 1);
-        menu_Text_80038C38(dword_8009E744[dword_800ABB20]);
-        dword_8009E730[dword_800ABB20 - 1](pActor, pOt);
+        menu_Text_80038C38(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
+        menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](pActor, pOt);
     }
 }
 
 void menu_viewer_init_80044A70(Actor_MenuMan *param_1)
 {
-    dword_800ABB20 = 0;
+    menu_current_debug_screen_800ABB20 = 0;
     dword_800ABB24 = gTextureRecs_800B1F50;
     word_800ABB22 = -1;
 }
 
 void menu_viewer_kill_80044A90(Actor_MenuMan *pActor)
 {
-    dword_800ABB20 = 0;
+    menu_current_debug_screen_800ABB20 = 0;
     return;
 }
