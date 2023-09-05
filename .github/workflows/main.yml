@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: 'FoxdieTeam/psyq_sdk'
-        path: '${{ github.workspace }}/psyq_sdk'
+        path: '${{ github.workspace }}\psyq_sdk'
         submodules: true
               
     - name: Install Dependencies
@@ -28,7 +28,7 @@ jobs:
     - name: Build
       run: |
         cd build
-        python build.py --psyq_path='${{ github.workspace }}/psyq_sdk'
+        python build.py --psyq_path="${{ github.workspace }}\psyq_sdk\"
       
     - name: Upload Artifact
       uses: actions/upload-artifact@master
