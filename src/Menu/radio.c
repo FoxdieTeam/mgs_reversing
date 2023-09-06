@@ -72,6 +72,8 @@ extern int gDiskNum_800ACBF0;
 
 extern GV_Heap MemorySystems_800AD2F0[ 3 ];
 
+extern char menu_string_format_8009E714[];
+
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
 {
     TILE     *tile;
@@ -1776,28 +1778,28 @@ void menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number)
     }
 }
 
-int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int arg2, int arg3, int arg4)
+int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int x, int align, int flags)
 {
     int offset_x0;
 
     if (pPrim != 0 && (char*)pPrim < pFreeLocation)
     {
-        switch (arg4 & 0xF)
+        switch (flags & 0xF)
         {
         case 0:
         default:
-            offset_x0 = arg2;
-            arg2 = arg3 + offset_x0;
+            offset_x0 = x;
+            x = align + offset_x0;
             break;
 
         case 1:
-            arg2 -= arg3;
-            offset_x0 = arg2;
+            x -= align;
+            offset_x0 = x;
             break;
 
         case 2:
-            offset_x0 = arg2 - arg3 / 2;
-            arg2 = arg3;
+            offset_x0 = x - align / 2;
+            x = align;
             break;
 
         }
@@ -1809,10 +1811,136 @@ int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int 
         }
     }
 
-    return arg2;
+    return x;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string_80042BF4.s") // 580 bytes
+void menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
+{
+    SPRT        *pSprt;
+    int          width;
+    char        *pOt;
+    int          colour;
+    const char  *str2;
+    unsigned int c;
+    unsigned int lc;
+    int          tpx, tpy;
+    int          skip;
+    int          xoffset;
+    char        *pFormat;
+    SPRT        *pSprt2;
+
+    pSprt = NULL;
+    width = 0;
+
+    pOt = pGlue->mPrimBuf.mOt;
+    colour = pTextConfig->colour;
+
+    str2 = str;
+
+    for (c = *str2; c != 0; c = *++str2)
+    {
+        if (c == '\n')
+        {
+            menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            pTextConfig->ypos += 8;
+            pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+            width = 0;
+            continue;
+        }
+
+        lc = c | 0x20;
+
+        if ((lc - '0') < 10)
+        {
+            tpx = (lc - '0') * 6;
+            tpy = 488;
+            skip = 6;
+        }
+        else if ((lc - 'a') < 26)
+        {
+            tpx = (lc - 'a') * 6;
+            tpy = 493;
+
+            if (lc == 'i')
+            {
+                skip = 3;
+                width += 1;
+            }
+            else
+            {
+                skip = 6;
+            }
+        }
+        else if (lc == ' ')
+        {
+            width += 4;
+            continue;
+        }
+        else if (lc == '#')
+        {
+            width += 6;
+            continue;
+        }
+        else
+        {
+            xoffset = 0;
+            pFormat = menu_string_format_8009E714;
+
+            while (1)
+            {
+                if (pFormat[0] == '\0')
+                {
+                    break;
+                }
+
+                tpx = 60 + xoffset;
+
+                if (pFormat[0] == lc)
+                {
+                    break;
+                }
+
+                pFormat += 2;
+                xoffset += 6;
+            }
+
+            if (pFormat[0] == '\0')
+            {
+                continue;
+            }
+
+            skip = pFormat[1];
+            tpy = 488;
+
+            if (skip < 3)
+            {
+                width += 1;
+                skip += 1;
+            }
+        }
+
+        _NEW_PRIM(pSprt2, pGlue);
+
+        if (!pSprt)
+        {
+            pSprt = pSprt2;
+        }
+
+        *pSprt2 = gRadioNumberSprt2_800bd9d0;
+
+        LSTORE(colour, &pSprt2->r0);
+
+        pSprt2->x0 = width;
+        pSprt2->y0 = pTextConfig->ypos;
+        pSprt2->u0 = tpx;
+        pSprt2->v0 = tpy;
+
+        addPrim(pOt, pSprt2);
+        width += skip;
+    }
+
+    pTextConfig->xpos = menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+}
 
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize,
                                         int pAmmo, int pSubCnt2)
