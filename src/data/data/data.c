@@ -502,7 +502,7 @@ RadioCoordsStru_8009E6FC SECTION(".data") gRadioCoords_8009E6FC[] = {
     {98,  81, 106, 77, 106, 85}
 };
 RadioIncomingCall SECTION(".data") gRadioIncomingCall_8009E708 = {0, 0, -1, 0};
-int   SECTION(".data") dword_8009E714[] = {0x240022E, 0x45F023A, 0x63F0221, 0x62D062B, 0x62A062F, 0x37D037B, 0};
+char SECTION(".data") menu_string_format_8009E714[] = {'.', 2, '@', 2, ':', 2, '_', 4, '!', 2, '?', 6, '+', 6, '-', 6, '/', 6, '*', 6, '{', 3, '}', 3, '\0'};
 
 TUnkRadioFn SECTION(".data") menu_debug_screens_8009E730[] = {menu_draw_mem_debug_80043678, menu_draw_pow_debug_80043A24, menu_draw_ply_debug_80043FD0, menu_draw_obj_debug_800442E4, menu_draw_tex_debug_800445F8};
 
