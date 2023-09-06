@@ -2064,7 +2064,135 @@ void menu_set_string2_80043138()
     setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_number_draw_string2_80043220.s") // 592 bytes
+void menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
+{
+    SPRT        *pSprt;
+    int          width;
+    char        *pOt;
+    int          colour;
+    const char  *str2;
+    unsigned int c;
+    unsigned int lc;
+    int          tpx, tpy;
+    int          skip;
+    int          xoffset;
+    char        *pFormat;
+    SPRT        *pSprt2;
+    short        test;
+
+    pSprt = NULL;
+    width = 0;
+
+    pOt = pGlue->mPrimBuf.mOt;
+    colour = pTextConfig->colour;
+
+    str2 = str;
+
+    for (c = *str2; c != 0; c = *++str2)
+    {
+        lc = c | 0x20;
+
+        if (c == '\n')
+        {
+            menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            pTextConfig->ypos += 8;
+            pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+            width = 0;
+            continue;
+        }
+
+        if ((lc - '0') < 10)
+        {
+            tpx = (lc - '0') * 8;
+            tpy = 248;
+            skip = 9;
+        }
+        else if ((lc - 'a') < 26)
+        {
+            tpx = (lc - 'a') * 8;
+            tpy = 242;
+
+            if (lc == 'i')
+            {
+                skip = 4;
+                width += 1;
+            }
+            else
+            {
+                skip = 9;
+            }
+        }
+        else if (lc == ' ')
+        {
+            width += 4;
+            continue;
+        }
+        else if (lc == '#')
+        {
+            width += (str2[1] - '0');
+            str2++;
+            continue;
+        }
+        else
+        {
+            xoffset = 0;
+            pFormat = menu_string_format_8009E714;
+
+            while (1)
+            {
+                if (pFormat[0] == '\0')
+                {
+                    goto loop;
+                }
+
+                tpx = xoffset + 80;
+
+                if (pFormat[0] == lc)
+                {
+                    skip = pFormat[1];
+                    tpy = 248;
+
+                    if (skip < 3)
+                    {
+                        width += 1;
+                        skip += 1;
+                    }
+                    else if (skip == 6)
+                    {
+                        skip = 9;
+                    }
+                    break;
+                }
+
+                pFormat += 2;
+                xoffset += 8;
+            }
+        }
+
+        _NEW_PRIM(pSprt2, pGlue);
+
+        test = !pSprt;
+        if (test)
+        {
+            pSprt = pSprt2;
+        }
+
+        *pSprt2 = gRadioStringSprt_800BD9F0;
+
+        LSTORE(colour, &pSprt2->r0);
+
+        pSprt2->x0 = width;
+        pSprt2->y0 = pTextConfig->ypos;
+        pSprt2->u0 = tpx;
+        pSprt2->v0 = tpy;
+
+        addPrim(pOt, pSprt2);
+        width += skip;
+loop:
+    }
+
+    pTextConfig->xpos = menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+}
 
 void menu_restore_nouse_80043470()
 {
