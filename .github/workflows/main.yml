@@ -11,7 +11,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        path: '${{ github.workspace }}\mgs_reversing'
         submodules: true
 
     - name: Install PsyQ
@@ -20,14 +19,13 @@ jobs:
         owner: FoxdieTeam
         repository: psyq_sdk
         path-to-clone: 'C:\psyq_sdk'
-        depth: 2
               
     - name: Install Dependencies
-      working-directory: ${{ github.workspace }}\mgs_reversing\build
+      working-directory: build
       run: python -m pip install -r requirements.txt
 
     - name: Build
-      working-directory: ${{ github.workspace }}\mgs_reversing\build
+      working-directory: build
       env:
         PSYQ_SDK: C:\psyq_sdk
       run: python build.py
