@@ -18,7 +18,7 @@ jobs:
       with:
         owner: FoxdieTeam
         repository: psyq_sdk
-        path-to-clone: 'C:\psyq_sdk'
+        path-to-clone: 'D:\psyq_sdk'
               
     - name: Install Dependencies
       working-directory: build
@@ -27,5 +27,5 @@ jobs:
     - name: Build
       working-directory: build
       env:
-        PSYQ_SDK: C:\psyq_sdk
+        PSYQ_SDK: D:\psyq_sdk
       run: python build.py
