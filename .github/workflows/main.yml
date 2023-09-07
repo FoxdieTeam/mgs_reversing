@@ -15,11 +15,12 @@ jobs:
         submodules: true
 
     - name: Install PsyQ
-      uses: actions/checkout@v3
+      uses: GuillaumeFalourd/clone-github-repo-action@v3
       with:
-        repository: 'FoxdieTeam/psyq_sdk'
-        path: 'C:\psyq_sdk'
-        submodules: true
+        owner: FoxdieTeam
+        repository: psyq_sdk
+        path-to-clone: 'C:\psyq_sdk'
+        depth: 2
               
     - name: Install Dependencies
       working-directory: ${{ github.workspace }}\mgs_reversing\build
