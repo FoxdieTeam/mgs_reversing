@@ -1,4 +1,4 @@
-name: ISO
+name: eboot
 
 on: [push, pull_request, workflow_dispatch]
 
