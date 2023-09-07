@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: 'FoxdieTeam/psyq_sdk'
-        path: '${{ github.workspace }}\psyq_sdk'
+        path: 'C:\psyq_sdk'
         submodules: true
               
     - name: Install Dependencies
@@ -28,5 +28,5 @@ jobs:
     - name: Build
       working-directory: ${{ github.workspace }}\mgs_reversing\build
       env:
-        PSYQ_SDK: ${{ github.workspace }}\psyq_sdk
+        PSYQ_SDK: C:\psyq_sdk
       run: python build.py
