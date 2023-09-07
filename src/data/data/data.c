@@ -502,8 +502,9 @@ RadioCoordsStru_8009E6FC SECTION(".data") gRadioCoords_8009E6FC[] = {
     {98,  81, 106, 77, 106, 85}
 };
 RadioIncomingCall SECTION(".data") gRadioIncomingCall_8009E708 = {0, 0, -1, 0};
-int   SECTION(".data") dword_8009E714[] = {0x240022E, 0x45F023A, 0x63F0221, 0x62D062B, 0x62A062F, 0x37D037B, 0};
-TUnkRadioFn SECTION(".data") dword_8009E730[] = {sub_80043678, sub_80043A24, sub_80043FD0, sub_800442E4, sub_800445F8};
+char SECTION(".data") menu_string_format_8009E714[] = {'.', 2, '@', 2, ':', 2, '_', 4, '!', 2, '?', 6, '+', 6, '-', 6, '/', 6, '*', 6, '{', 3, '}', 3, '\0'};
+
+TUnkRadioFn SECTION(".data") menu_debug_screens_8009E730[] = {menu_draw_mem_debug_80043678, menu_draw_pow_debug_80043A24, menu_draw_ply_debug_80043FD0, menu_draw_obj_debug_800442E4, menu_draw_tex_debug_800445F8};
 
 extern char aEmpty[];
 extern char aMem[];
@@ -512,7 +513,7 @@ extern char aPly[];
 extern char aObj[];
 extern char aTex[];
 
-char *SECTION(".data") dword_8009E744[] = {aEmpty, aMem, aPow, aPly, aObj, aTex};
+char *SECTION(".data") menu_debug_screen_labels_8009E744[] = {aEmpty, aMem, aPow, aPly, aObj, aTex};
 void *SECTION(".data") dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 
 signed char SECTION(".data") dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
