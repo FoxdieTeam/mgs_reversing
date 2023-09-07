@@ -27,15 +27,11 @@ jobs:
               
     - name: Install Dependencies
       working-directory: P:\mgs_reversing\build
-      run: |
-        cd build
-        python -m pip install -r requirements.txt
+      run: python -m pip install -r requirements.txt
 
     - name: Build
       working-directory: P:\mgs_reversing\build
       env:
         PSYQ_SDK: P:\psyq_sdk\
-      run: |
-        cd build
-        python build.py --psyq_path="P:\psyq_sdk\"
+      run: python build.py --psyq_path="P:\psyq_sdk\"
     
