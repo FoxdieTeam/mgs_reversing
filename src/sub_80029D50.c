@@ -4,8 +4,10 @@
 #include "Game/linkvarbuf.h"
 #include "unknown.h"
 
-extern int    dword_8009D548[];
-extern int    dword_8009D570[];
+int dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};
+int dword_8009D570[] = {0x20, 0x80, 0x40, 0x10};
+
+
 extern int    GM_PlayerStatus_800ABA50;
 extern GV_PAD GV_PadData_800B05C0[4];
 

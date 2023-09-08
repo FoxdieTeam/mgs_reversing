@@ -14,8 +14,8 @@
 
 typedef struct
 {
-    char *field_0_weapon_name;
-    int   field_4_rpk_idx;
+    const char *field_0_weapon_name;
+    int         field_4_rpk_idx;
 } menu_weapon_rpk_info;
 
 typedef struct RadioMemory
@@ -145,7 +145,7 @@ typedef struct menu_save_mode_data
   char                       field_0[2];
   char                       field_2;
   char                       field_3;
-  char                      *field_4_name; // "SAVE DATA", "SAVE PHOTO"
+  const char                *field_4_name; // "SAVE DATA", "SAVE PHOTO"
   void                      *field_8;
   TMenuSaveModeDataUnknownFn field_C;
   void                      *field_10;

@@ -8,10 +8,6 @@ extern int     GV_PauseLevel_800AB928;
 extern int     GV_Clock_800AB920;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-// for switch in stgfd_io_act_80074F5C
-// const int SECTION(".rdata") dword_80012F74[] = {0x80075084, 0x80075098, 0x800750B0, 0x800750D4, 0x800750EC,
-// 0x80075104, 0x8007511C};
-
 void stgfd_io_act_helper_80074DAC(Actor_stgfd_io *pActor)
 {
     short rgb[3]; // or RGB struct?

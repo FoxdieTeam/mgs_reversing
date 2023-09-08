@@ -7,12 +7,13 @@
 #include "Game/linkvarbuf.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
-extern int dword_8009E28C;
 
 extern u_long     gotohell_800B9358;
 extern const char aJimctrlC[];
 
 extern Actor_JimCtrl jimCtrlActor_800B82F0;
+
+int dword_8009E28C = 0;
 
 void jimctrl_helper_null_80037FFC(void)
 {

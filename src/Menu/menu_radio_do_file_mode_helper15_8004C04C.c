@@ -2,7 +2,7 @@
 #include "Menu/radio.h"
 #include "psyq.h"
 
-void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, char **srcs, int cnt, int field_4, char *field_20,
+void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, char **srcs, int cnt, int field_4, const char *field_20,
                                                Stru_800ABB74 *pStru)
 {
     KCB                 *kcb;

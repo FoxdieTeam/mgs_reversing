@@ -18,6 +18,18 @@
 #include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"
 #include "libgcl/hash.h"
+#include "Equip/bodyarm.h"
+#include "Equip/box.h"
+#include "Equip/bandana.h"
+#include "Equip/gasmask.h"
+#include "Equip/jpegcam.h"
+#include "Equip/kogaku2.h"
+#include "Equip/scope.h"
+#include "Equip/tabako.h"
+#include "Okajima/d_blood.h"
+#include "Takabe/goggle.h"
+#include "Takabe/goggleir.h"
+#include "Weapon/aam.h"
 
 extern short word_8009EFC0[];
 
@@ -91,7 +103,6 @@ extern GM_Camera          GM_Camera_800B77E8;
 extern SVECTOR            svector_800AB7D4;
 extern SVECTOR            svector_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
-extern Sna_ActionTable    actions_no_weapon_8009ED70;
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
@@ -100,8 +111,6 @@ extern SVECTOR            svector_800AB7EC;
 extern SVECTOR            svector_800AB7F4;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
-extern int                dword_8009EF24[];
-extern int                dword_8009EF2C[];
 extern SVECTOR            svector_800AB7CC;
 extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
@@ -110,7 +119,6 @@ extern int                dword_800ABA1C;
 extern int                dword_8009F2C0;
 extern int                dword_800AB9F0;
 extern SVECTOR            svector_800ABA10;
-extern Sna_ActionTable    weapon_actions_8009ED8C[];
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
@@ -144,11 +152,6 @@ extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
 extern TSnakeActFunction  GM_lpfnPlayerActControl_800AB3DC;
 extern TSnakeActFunction  GM_lpfnPlayerActObject2_800AB3E0;
-extern unsigned char      dword_8009EEF8[];
-extern unsigned char      dword_8009EF00[];
-extern unsigned char      dword_8009EF08[];
-extern unsigned char      dword_8009EF10[];
-extern short              dword_8009EECC[];
 extern char               dword_8009EEE0[];
 extern char               dword_8009EEE4[];
 extern char               dword_8009EEF0[];
@@ -165,6 +168,132 @@ extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
 extern const char aForceActCancel[]; // = "force act cancel\n"
 extern const char aSnaInitC[];       // = "sna_init.c"
+
+Sna_E2 e2_8009EC64 = {12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009EC70 = {10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u, 0u, 0u};
+Sna_E2 e2_8009EC7C = {11u, 9u, 18u, 23u, 24u, 27u, 28u, 73u, 110u, 111u, 0u, 0u};
+Sna_E2 e2_8009EC88 = {75u, 77u, 79u, 23u, 24u, 27u, 28u, 75u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009EC94 = {92u, 91u, 93u, 23u, 24u, 29u, 30u, 92u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECA0 = {97u, 96u, 98u, 101u, 24u, 29u, 30u, 97u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECAC = {104u, 103u, 19u, 23u, 24u, 29u, 30u, 104u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECB8 = {63u, 65u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u};
+Sna_E2 e2_8009ECC4 = {61u, 64u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u};
+Sna_E2 e2_8009ECD0 = {62u, 83u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u};
+Sna_E2 e2_8009ECDC = {136u, 136u, 35u, 136u, 36u, 37u, 38u, 39u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECE8 = {42u, 51u, 35u, 45u, 47u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECF4 = {5u, 52u, 34u, 46u, 48u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED00 = {74u, 136u, 136u, 136u, 105u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+
+Sna_E2 e2_8009ED0C = {74u, 136u, 34u, 46u, 81u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED18 = {43u, 136u, 35u, 136u, 53u, 55u, 49u, 54u, 56u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED24 = {57u, 136u, 35u, 136u, 58u, 59u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED30 = {60u, 136u, 35u, 136u, 50u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED3C = {44u, 136u, 136u, 136u, 136u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+
+Sna_E6 e6_8009ED48[] = {
+    {115u, 133u, 0u, 0u},
+    {112u, 133u, 0u, 0u},
+    {113u, 133u, 0u, 0u},
+    {136u, 136u, 0u, 0u},
+    {114u, 132u, 0u, 0u},
+    {116u, 133u, 0u, 0u},
+    {117u, 133u, 0u, 0u},
+    {118u, 133u, 0u, 0u}
+};
+
+// TODO: Why is this in .data despite fitting into .sdata?
+Sna_E1 SECTION(".data") e7_8009ED68 = {7u, 13u, 4u, 14u, 32u, 119u, 124u, 0u};
+
+extern Sna_E1 e1_800AB78C;
+extern Sna_E1 e1_800AB7C4;
+extern Sna_E1 e1_800AB794;
+extern Sna_E1 e1_800AB79C;
+extern Sna_E1 e1_800AB7BC;
+extern Sna_E1 e1_800AB7AC;
+extern Sna_E1 e1_800AB7A4;
+extern Sna_E1 e1_800AB7B4;
+
+Sna_ActionTable actions_no_weapon_8009ED70 = {
+    &e1_800AB78C, &e2_8009EC64, &e1_800AB7C4, &e2_8009ECB8,
+    &e2_8009ECDC, &e6_8009ED48[0], &e7_8009ED68
+};
+
+Sna_ActionTable weapon_actions_8009ED8C[10] = {
+    {&e1_800AB794, &e2_8009EC70, &e1_800AB7C4, &e2_8009ECC4, &e2_8009ECE8, &e6_8009ED48[1], &e7_8009ED68},
+    {&e1_800AB79C, &e2_8009EC7C, &e1_800AB7C4, &e2_8009ECD0, &e2_8009ECF4, &e6_8009ED48[2], &e7_8009ED68},
+    {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED48[7], &e7_8009ED68},
+    {&e1_800AB7B4, &e2_8009EC88, &e1_800AB7C4, &e2_8009ECD0, &e2_8009ED0C, &e6_8009ED48[4], &e7_8009ED68},
+    {&e1_800AB79C, &e2_8009EC7C, &e1_800AB7C4, &e2_8009ECD0, &e2_8009ED00, &e6_8009ED48[3], &e7_8009ED68},
+    {&e1_800AB7BC, &e2_8009ECA0, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED24, &e6_8009ED48[6], &e7_8009ED68},
+    {&e1_800AB7AC, &e2_8009EC94, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED18, &e6_8009ED48[5], &e7_8009ED68},
+    {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED48[7], &e7_8009ED68},
+    {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED48[7], &e7_8009ED68},
+    {&e1_800AB78C, NULL, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED3C, &e6_8009ED48[3], &e7_8009ED68}};
+
+void *dword_8009EEA4[] = {
+    sna_anim_idle_8005275C,
+    sna_anim_crouch_800527DC,
+    sna_anim_prone_idle_800528BC
+};
+
+void *SECTION(".data") dword_8009EEB0[] = {
+    sna_anim_wall_idle_and_c4_80052A5C,
+    sna_anim_wall_crouch_80052CCC
+};
+
+void *dword_8009EEB8[] = {
+    sna_anim_run_8005292C,
+    sna_anim_run_8005292C,
+    sna_anim_prone_move_800529C0
+};
+
+short SECTION(".data") HzdHeights_8009EEC4[] = {750, 250, 250, 0};
+
+short SECTION(".data") dword_8009EECC[] = {1100, 496, 136, 0};
+
+char SECTION(".data") dword_8009EED4[] = {127, 4, 0, 0};
+char SECTION(".data") dword_8009EED8[] = {225, 1, 255, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EEE0[] = {127, 6, 0, 0};
+char SECTION(".data") dword_8009EEE4[] = {225, 1, 255, 4, 225, 2, 75, 8, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EEF0[] = {127, 1, 0, 0};
+char SECTION(".data") dword_8009EEF4[] = {155, 3, 0, 0};
+char SECTION(".data") dword_8009EEF8[] = {0, 2, 127, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF00[] = {140, 4, 80, 6, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF08[] = {0, 10, 127, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF10[] = {80, 2, 50, 8, 140, 4, 80, 6, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF1C[] = {196, 4, 0, 0};
+char SECTION(".data") dword_8009EF20[] = {148, 4, 0, 0};
+char SECTION(".data") dword_8009EF24[] = {0, 2, 127, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF2C[] = {60, 2, 200, 4, 40, 2, 0, 0};
+
+WeaponCreateEntry gSnakeWeapons_8009EF3C[] = {
+    {NULL, sna_anim_chokethrow_begin1_80054210},
+    {NewSOCOM_80065D74, sna_gun_800540D0},
+    {famas_create_80066374, sna_gun_800540D0},
+    {grenade_create_80066A4C, sna_anim_grenade_80058470},
+    {NewRCM_80066FF0, sna_gun_800540D0},
+    {NewAAM_80067480, sna_anim_stinger_800570C0},
+    {mine_init_800677BC, sna_anim_claymore_80057474},
+    {NewBomb_80067B20, sna_bomb_800541A8},
+    {NewStanGrenade_80066A74, sna_anim_grenade_80058470},
+    {NewChaffGrenade_80066AA0, sna_anim_grenade_80058470},
+    {NewRifle_80068214, sna_anim_psg1_80056DDC}};
+
+TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
+    NewTabako_80062274,
+    NewScope_80063508,
+    NewBox_80061C7C,
+    NewBox_80061C7C,
+    NewBox_80061C7C,
+    NewGoggle_8007781C,
+    NewGoggleIr_80078E6C,
+    NewGasmask_80060C14,
+    NewBodyarm_80060940,
+    NewKetchap_80072B60,
+    NewKogaku2_800615FC,
+    NewBandana_80061E40,
+    NewJpegcam_80065118
+};
 
 #define RIFLE_TEBURE_TIME   90 // delay before camera shake
 #define TEBURE              122
@@ -7216,8 +7345,8 @@ void sna_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time)
         if (++pActor->field_A54.choke_count >= 10) // feels good
         {
             // TODO: fix data when vibrate is figured out
-            NewPadVibration_8005D58C((unsigned char *)dword_8009EF24, 1);
-            NewPadVibration_8005D58C((unsigned char *)dword_8009EF2C, 2);
+            NewPadVibration_8005D58C(dword_8009EF24, 1);
+            NewPadVibration_8005D58C(dword_8009EF2C, 2);
             sna_start_anim_8004E1F4(pActor, sna_anim_choke_kill_80058F88);
             return;
         }

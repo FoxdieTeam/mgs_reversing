@@ -12,12 +12,8 @@ extern const char aItem[]; // sdata
 extern const char aMenumanC[];
 extern const char aMenuPrimOver[];
 
-extern MenuPrim    gMenuPrimBuffer_8009E2D0;
-extern TInitKillFn gMenuInitFns_8009E290[];
 extern int         GV_Clock_800AB920;
 extern int         MENU_PrimUse_800AB68C;
-extern TInitKillFn gMenuKillFns_8009E2B4[];
-
 extern int GV_PauseLevel_800AB928;
 extern int GM_LoadComplete_800ABA38;
 extern int GM_GameStatus_800AB3CC;
@@ -26,6 +22,45 @@ extern int GM_LoadRequest_800AB3D0;
 // force GP
 extern GV_PAD *GM_CurrentPadData_800AB91C; // sbss
 GV_PAD*        SECTION(".sdata") GM_CurrentPadData_800AB91C;
+
+void menu_texture_init_8003CC94(Actor_MenuMan *pActor);
+void menu_radar_init_8003B474(Actor_MenuMan *pActor);
+void menu_radio_init_80042700(Actor_MenuMan *pActor);
+void menu_item_init_8003CBF0(Actor_MenuMan *pActor);
+void menu_weapon_init_8003EC2C(Actor_MenuMan *pActor);
+void menu_life_init_8003F7E0(Actor_MenuMan *pActor);
+void menu_number_init_80042848(Actor_MenuMan *pActor);
+void menu_jimaku_init_800494C4(Actor_MenuMan *pActor);
+
+TInitKillFn gMenuInitFns_8009E290[] = {
+    menu_texture_init_8003CC94,
+    menu_radar_init_8003B474,
+    menu_radio_init_80042700,
+    menu_item_init_8003CBF0,
+    menu_weapon_init_8003EC2C,
+    menu_life_init_8003F7E0,
+    menu_number_init_80042848,
+    menu_jimaku_init_800494C4,
+    NULL};
+
+void menu_radar_kill_8003B554(Actor_MenuMan *pActor);
+void menu_radio_kill_8004271C(Actor_MenuMan *pActor);
+void menu_item_kill_8003CC74(Actor_MenuMan *pActor);
+void menu_weapon_kill_8003ECAC(Actor_MenuMan *pActor);
+void menu_life_kill_8003F838(Actor_MenuMan *pActor);
+void menu_number_kill_80042980(Actor_MenuMan *pActor);
+
+TInitKillFn gMenuKillFns_8009E2B4[] = {
+    menu_radar_kill_8003B554,
+    menu_radio_kill_8004271C,
+    menu_item_kill_8003CC74,
+    menu_weapon_kill_8003ECAC,
+    menu_life_kill_8003F838,
+    menu_number_kill_80042980,
+    NULL};
+
+MenuPrim gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
+TextConfig gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
 void menuman_act_800386A4(Actor_MenuMan *pActor)
 {
