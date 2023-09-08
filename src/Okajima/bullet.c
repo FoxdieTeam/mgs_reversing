@@ -9,16 +9,20 @@
 #include "Anime/animeconv/anime.h"
 #include "unknown.h"
 
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_GameStatus_800AB3CC;
-extern int     dword_8009F6A8;
-extern SVECTOR svec_8009F6AC[4];
-extern SVECTOR svec_8009F6EC;
-extern SVECTOR svec_8009F6F4;
-extern SVECTOR svec_8009F6FC;
-extern SVECTOR svec_8009F6CC;
-extern SVECTOR svec_8009F6E4;
-extern VECTOR  vec_8009F6D4;
+extern int GM_CurrentMap_800AB9B0;
+extern int GM_GameStatus_800AB3CC;
+
+//------------------------------------------------------------------------------
+
+int dword_8009F6A8 = 0;
+
+SVECTOR svec_8009F6AC[4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+SVECTOR svec_8009F6CC = {0, 400, 0, 0};
+VECTOR vec_8009F6D4 = {0, 0, 0, 0};
+SVECTOR svec_8009F6E4 = {0, 55536, 0, 0};
+SVECTOR svec_8009F6EC = {100, 100, 100, 0};
+SVECTOR svec_8009F6F4 = {0, 0, 0, 0};
+SVECTOR svec_8009F6FC = {0, 400, 0, 0};
 
 //------------------------------------------------------------------------------
 

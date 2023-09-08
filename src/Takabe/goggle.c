@@ -13,6 +13,9 @@
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 
+RECT rect_8009F704 = {768, 226, 256, 2};
+RECT rect_8009F70C = {768, 196, 256, 2};
+
 ushort goggle_pal_convert_8007743C(ushort value)
 {
     int r, r2;
@@ -54,9 +57,6 @@ ushort goggle_pal_convert_8007743C(ushort value)
 
     return r | g << 5 | b << 10 | a;
 }
-
-extern RECT rect_8009F704;
-extern RECT rect_8009F70C;
 
 extern u_long image_data_800B3818[256];
 

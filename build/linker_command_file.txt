@@ -509,9 +509,10 @@
     ; 80058E88 80058EF4 80058F88 80059054 80059154 800591BC 800591F4 8005951C 8005961C 800596FC
     ; 8005AD10 8005B52C 8005B650
 
+    ; just a guess
+    include "..\obj\chara\snake\snake.obj"
 
     include "..\obj\chara\snake\sna_init.obj"
-    include "..\obj\data\data\data.obj"
 
     ;80050A64 is in event.c
     ;also mentions of weapon.c and unique.c
@@ -622,6 +623,7 @@
     ; 8006B76C
     include "..\obj\Bullet\jirai.obj"
 
+
     ; 8006B800 8006B888 8006B924 8006B9B0 8006BA70 8006BB10 8006BD24 8006BE50 8006BE90 8006BEEC
     ; 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54
     ; 8006CF44 8006D124
@@ -681,7 +683,6 @@
     ; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
     include "..\obj\Okajima\chafgrnd.obj"
 
-
     ; 8007743C 800774C0 800775B4 800776AC 8007773C 8007781C
     include "..\obj\Takabe\goggle.obj"
 
@@ -696,15 +697,9 @@
     ; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
     include "..\obj\Takabe\goggleir.obj"
 
-    include "..\obj\Takabe\sub_80078F04.obj"
-    include "..\obj\libdg\DG_StorePaletteEffect_80078F30.obj"
-    include "..\obj\libdg\DG_ResetPaletteEffect_80078FF8.obj"
-    include "..\obj\Takabe\sub_80079004.obj"
-    include "..\obj\Takabe\sub_800790E8.obj"
-    include "..\obj\Takabe\sub_8007913C.obj"
-    include "..\obj\Takabe\set_pal_effect_fns_80079194.obj"
-    include "..\obj\libdg\DG_ResetExtPaletteMakeFunc_800791E4.obj"
-    include "..\obj\Takabe\sub_80079220.obj"
+    include "..\obj\Takabe\palette.obj"
+
+    ; Doesn't look like a palette function
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
 
     include "..\obj\data\rdata\rdata_80013040.obj"

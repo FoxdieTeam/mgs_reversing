@@ -3,9 +3,18 @@
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
 
-const char               *off_8009F264[4];
-const char               *off_8009F274[4];
-extern const char         aBodyarmC[];
+extern const char aBodyarmC[];
+extern const char aSnaChest1[];
+extern const char aSnaChest2[];
+extern const char aSnaChest3[];
+extern const char aSnaHip1[];
+extern const char aSnaArmer1[];
+extern const char aSnaArmer2[];
+extern const char aSnaArmer3[];
+extern const char aSnaArmer4[];
+
+const char *SECTION(".data") off_8009F264[4] = {aSnaChest1, aSnaChest2, aSnaChest3, aSnaHip1};
+const char *SECTION(".data") off_8009F274[4] = {aSnaArmer1, aSnaArmer2, aSnaArmer3, aSnaArmer4};
 
 void bodyarm_free_80060874(OBJECT *a1)
 {

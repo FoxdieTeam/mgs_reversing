@@ -12,6 +12,8 @@
 extern int         GV_Clock_800AB920;
 extern CONTROL *gSnaControl_800AB9F4;
 
+short word_8009F714[] = {0, 0};
+
 void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
 {
     int r, g, b;
@@ -337,7 +339,6 @@ void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *pAxis,
 
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
-extern short  word_8009F714[];
 
 void gglsight_act_80078228(Actor_gglsight *pActor)
 {

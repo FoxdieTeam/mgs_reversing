@@ -14,7 +14,7 @@ extern short      d_800ABA2C_ammo;
 extern int        DG_CurrentGroupID_800AB968;
 extern TARGET *GM_BombSeg_800ABBD8;
 extern int        GM_CurrentMap_800AB9B0;
-extern int        used_counter_8009F42C;
+extern int        bakudan_count_8009F42C;
 
 void bomb_act_8006788C( Actor_Bomb *actor )
 {
@@ -40,7 +40,7 @@ void bomb_act_8006788C( Actor_Bomb *actor )
 
     f50 = *actor->f50;
 
-    if ( ( f50 & 1 ) && ( ammo > 0 ) && ( used_counter_8009F42C < 16 ) )
+    if ( ( f50 & 1 ) && ( ammo > 0 ) && ( bakudan_count_8009F42C < 16 ) )
     {
         if ( f50 & 2 )
         {

@@ -29,8 +29,8 @@ extern int dword_800AB8A4;
 
 SVECTOR svector_800AB8A4;
 
-extern char byte_8009F40C[];
-extern char byte_8009F414[];
+char byte_8009F40C[] = {0, 2, 127, 4, 0};
+char byte_8009F414[] = {145, 4, 75, 10, 0};
 
 void aam_act_800670CC(Actor_Aam *actor)
 {
