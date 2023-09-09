@@ -278,5 +278,6 @@ void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, 
 void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue);
 void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper_8004A858();
+void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle);
 
 #endif // _RADIO_H
