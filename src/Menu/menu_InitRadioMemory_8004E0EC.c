@@ -3,8 +3,8 @@
 #include "radio.h"
 #include "psyq.h"
 
-extern const char aClear[];
-int               gRadioCodecIdx_800AB770 = 0; // sdata
+extern int gRadioCodecIdx_800AB770;
+int        gRadioCodecIdx_800AB770;
 
 extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
@@ -30,7 +30,7 @@ void menu_SetRadioMemory_8004E110(int frequency, const char *name)
         contact = menu_radio_table_next_free_8004D3B8();
     }
 
-    if (!strcmp(name, aClear))
+    if (!strcmp(name, "clear"))
     {
         gRadioCodecIdx_800AB770 = 0;
         contact->frequency = 0;
