@@ -317,7 +317,7 @@
     ; 80037FFC 80038004 80038070 8003853C 80038568
     include "..\obj\Game\jimctrl2.obj"
 
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper17_80038678.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper17_80038678.obj"
     include "..\obj\Menu\sub_80038688.obj"
     include "..\obj\Menu\sub_80038698.obj"
 
@@ -360,7 +360,7 @@
 
 
     include "..\obj\Menu\sub_800469F0.obj"
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
     include "..\obj\Menu\sub_80046B10.obj"
     include "..\obj\Menu\menu_radio_load_palette_80046B74.obj"
     include "..\obj\Menu\sub_80046BD8.obj"
@@ -383,13 +383,13 @@
     include "..\obj\Menu\menu_radio_codec_start_task_80047C3C.obj"
     include "..\obj\Menu\menu_radio_update_helper6_80047D40.obj"
     include "..\obj\Menu\sub_80047D70.obj"
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper10_80047EFC.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper10_80047EFC.obj"
     include "..\obj\Menu\menu_radio_codec_helper_helper3_80047F44.obj"
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper9_80047FF4.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper9_80047FF4.obj"
     include "..\obj\Menu\menu_radio_codec_state_2_helper_80048024.obj"
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper8_80048044.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper8_80048044.obj"
     include "..\obj\Menu\menu_radio_codec_helper_helper7_80048080.obj"
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper6_80048100.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper6_80048100.obj"
     include "..\obj\Menu\sub_80048124.obj"
     include "..\obj\Menu\radio_draw_face_frame_800481CC.obj"
     include "..\obj\Menu\menu_radio_draw_face_helper6_800486A0.obj"
@@ -477,19 +477,17 @@
 
     ; psyq doesn't like the original name and segfaults
     ; should be fine once these helpers are all merged
-    include "..\obj\Menu\mrch_fixme_8004158C\fixme_8004D628.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\mrch_helper5_8004D628.obj"
 
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
     include "..\obj\data\sbss\sbss5.obj"
 
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper3_8004DF44.obj"
     include "..\obj\Menu\menu_radio_codec_helper_helper2_8004DF68.obj"
     include "..\obj\Menu\menu_InitRadioMemory_8004E0EC.obj" ; in radiomem.c
 
-    include "..\obj\data\sdata\sdata6.obj"
-
-    include "..\obj\Menu\mrch_fixme_8004158C\menu_radio_codec_helper_helper_8004E198.obj"
+    include "..\obj\Menu\mrch_plsmerge_8004158C\menu_radio_codec_helper_helper_8004E198.obj"
 
     ; 8004E1F4 8004E22C 8004E260 8004E29C 8004E2B4 8004E2D4 8004E2F4 8004E308 8004E31C 8004E330
     ; 8004E358 8004E384 8004E41C 8004E458 8004E4C0 8004E51C 8004E588 8004E5E8 8004E71C 8004E808
@@ -514,6 +512,8 @@
     include "..\obj\chara\snake\snake.obj"
 
     include "..\obj\chara\snake\sna_init.obj"
+
+    include "..\obj\data\sdata\sdata6.obj"
 
     ;80050A64 is in event.c
     ;also mentions of weapon.c and unique.c
