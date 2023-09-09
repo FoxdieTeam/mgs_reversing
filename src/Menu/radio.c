@@ -2693,7 +2693,125 @@ int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
     return returnVal;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_obj_debug_800442E4.s") // 788 bytes
+extern char aTotalD[]; //  = "TOTAL %d\n";
+extern char aClipD[];  // = "CLIP %d\n";
+
+int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
+{
+    DG_OBJS **ppQueue;
+    DG_OBJS  *pObjs;
+    DG_OBJ   *pObj;
+    LINE_G2  *pLine;
+    LINE_G4  *pLine2;
+    int       object_count;
+    int       num_models;
+    int       total;
+    int       clip;
+
+    unsigned int color;
+    int          lhs;
+    int          rhs;
+    int          returnVal;
+    int          last_color;
+
+    int bottom, top;
+
+    rhs = 0;
+    lhs = 0;
+
+    top = 152;
+    last_color = 0;
+    returnVal = 0;
+
+    clip = 0;
+    total = 0;
+
+    object_count = DG_Chanl(0)->mTotalObjectCount;
+    ppQueue = DG_Chanl(0)->mQueue;
+
+    for (; object_count > 0; object_count--)
+    {
+        pObjs = *ppQueue++;
+
+        NEW_PRIM(pLine, pActor);
+        setXY2(pLine, rhs + 32, top - 6, rhs + 32, top + 19);
+
+        LSTORE(0xFF0000, &pLine->r0);
+        LSTORE(0, &pLine->r1);
+
+        setLineG2(pLine);
+        addPrim(pOt, pLine);
+
+        pObj = pObjs->objs;
+        for (num_models = pObjs->n_models; num_models > 0; num_models--)
+        {
+            rhs++;
+
+            color = 0xFF00;
+
+            if (pObj->bound_mode == 0)
+            {
+                color = 0xFF;
+                clip++;
+            }
+
+            if (last_color == 0)
+            {
+                last_color = color;
+            }
+
+            bottom = 152;
+
+            if (color != last_color)
+            {
+                NEW_PRIM(pLine2, pActor);
+
+                setXY4(pLine2, lhs + 32, top, rhs + 32, bottom, rhs + 32, 165, lhs + 32, top + 13);
+                top = bottom;
+
+                LSTORE(0, &pLine2->r0);
+                LSTORE(last_color, &pLine2->r1);
+                LSTORE(last_color, &pLine2->r2);
+                LSTORE(0, &pLine2->r3);
+
+                setLineG4(pLine2);
+                addPrim(pOt, pLine2);
+
+                returnVal++;
+                lhs = rhs;
+                last_color = color;
+            }
+
+            pObj++;
+            total++;
+        }
+    }
+
+    bottom = 152;
+
+    if (lhs != rhs)
+    {
+        NEW_PRIM(pLine2, pActor);
+        returnVal++;
+
+        setXY4(pLine2, lhs + 32, top, rhs + 32, bottom, rhs + 32, 165, (bottom = lhs + 32) /* to get a match */,
+               top + 13);
+
+        LSTORE(0, &pLine2->r0);
+        LSTORE(last_color, &pLine2->r1);
+        LSTORE(last_color, &pLine2->r2);
+        LSTORE(0, &pLine2->r3);
+
+        setLineG4(pLine2);
+        addPrim(pOt, pLine2);
+    }
+
+    menu_Text_XY_Flags_80038B34(300, 128, 0x1);
+    menu_Text_80038C38(aTotalD, total);
+    menu_Text_80038C38(aClipD, clip);
+
+    return returnVal;
+}
 
 extern GV_PAD GV_PadData_800B05C0[4];
 extern char   aNoD[];  // = "No %d\n";
