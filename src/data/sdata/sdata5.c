@@ -21,10 +21,12 @@ char SECTION(".sdata") aNum[] = "num";
 
 RECT SECTION(".sdata") gRadioStringRect_800AB658 = {960, 498, 0, 0};
 
-int SECTION(".sdata") dword_800AB660 = 0;
+short SECTION(".sdata") word_800AB660 = 0;
+short SECTION(".sdata") word_800AB662 = 0;
 int SECTION(".sdata") dword_800AB664 = 0;
 int SECTION(".sdata") dword_800AB668 = 0;
-int SECTION(".sdata") dword_800AB66C = 0;
+short SECTION(".sdata") word_800AB66C = 0;
+short SECTION(".sdata") word_800AB66E = 0;
 int SECTION(".sdata") dword_800AB670 = 0;
 
 char SECTION(".sdata") aNoD[] = "No %d\n";

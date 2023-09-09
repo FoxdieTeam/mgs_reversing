@@ -2332,7 +2332,7 @@ void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle)
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-int menu_draw_mem_debug_80043678(Actor_MenuMan* pActor, unsigned int* pOt)
+int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     GV_Heap             *pHeap;
     LINE_F2             *pLine;
@@ -2437,7 +2437,171 @@ int menu_draw_mem_debug_80043678(Actor_MenuMan* pActor, unsigned int* pOt)
     return used;
 }
 
-#pragma INCLUDE_ASM("asm/Menu/menu_draw_pow_debug_80043A24.s") // 1452 bytes
+extern short word_800AB660;
+short        word_800AB660;
+
+extern short word_800AB662;
+short        word_800AB662;
+
+extern int dword_800AB664;
+int        dword_800AB664;
+
+extern int dword_800AB668;
+int        dword_800AB668;
+
+extern short word_800AB66C;
+short        word_800AB66C;
+
+extern short word_800AB66E;
+short        word_800AB66E;
+
+extern int dword_800AB670;
+int        dword_800AB670;
+
+extern short          N_ChanlPerfMax_800AB980;
+extern unsigned short word_800AB982;
+
+extern GV_PAD GV_PadData_800B05C0[4];
+
+extern unsigned short gOldRootCnt_800B1DC8[32];
+
+int menu_draw_pow_debug_80043A24(Actor_MenuMan *pActor, unsigned int *pOt)
+{
+    int             prims_used, left, right, bottom, idx, i;
+    unsigned short *pCount;
+    unsigned        first_count;
+    LINE_G4        *pLine;
+    unsigned short  delta;
+    LINE_G2        *pLine2;
+
+    prims_used = 0;
+
+    pCount = gOldRootCnt_800B1DC8;
+    first_count = *pCount++;
+
+    left = 0;
+    bottom = 136;
+
+    for (idx = N_ChanlPerfMax_800AB980 - 1; idx > 0; idx--)
+    {
+        right = (*pCount++ - first_count) & 0xFFFF;
+
+        if (right > 511)
+        {
+            right = 511;
+        }
+        right = right * 240 / 512;
+
+        // Draw top blue bar
+        NEW_PRIM(pLine, pActor);
+
+        setXY4(pLine, left + 32, bottom, right + 32, 136, right + 32, 150, left + 32, bottom + 14);
+
+        LSTORE(0, &pLine->r0);
+        LSTORE(0xFF0000, &pLine->r1);
+        LSTORE(0xFF0000, &pLine->r2);
+        LSTORE(0, &pLine->r3);
+
+        setLineG4(pLine);
+        addPrim(pOt, pLine);
+        prims_used++;
+
+        bottom = 136; // to get a match
+        left = right;
+    }
+
+    if (GV_PadData_800B05C0[1].press & PAD_L1)
+    {
+        dword_800AB668 = (dword_800AB668 + 1) % N_ChanlPerfMax_800AB980;
+        dword_800AB664 = 0;
+        word_800AB660 = 0;
+    }
+
+    if (dword_800AB668 == 0)
+    {
+        delta = gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - gOldRootCnt_800B1DC8[1];
+    }
+    else
+    {
+        delta = gOldRootCnt_800B1DC8[dword_800AB668] - gOldRootCnt_800B1DC8[dword_800AB668 - 1];
+        menu_number_draw_80042F78(pActor, pOt, 270, 168, dword_800AB668, 1);
+    }
+
+    dword_800AB664 += delta;
+    if (++word_800AB660 >= 128)
+    {
+        word_800AB662 = dword_800AB664 / word_800AB660;
+        word_800AB660 = 0;
+        dword_800AB664 = 0;
+    }
+
+    menu_number_draw_80042F78(pActor, pOt, 300, 168, word_800AB662, 1);
+    dword_800AB670 += (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - first_count);
+
+    if (++word_800AB66C >= 128)
+    {
+        word_800AB66E = dword_800AB670 / word_800AB66C;
+        word_800AB66C = 0;
+        dword_800AB670 = 0;
+    }
+
+    menu_number_draw_80042F78(pActor, pOt, 240, 168, word_800AB66E, 1);
+    menu_number_draw_80042F78(pActor, pOt, 300, 144,
+                              (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - first_count), 1);
+
+    right = (unsigned short)(word_800AB982 - first_count);
+    if (right > 511)
+    {
+        right = 511;
+    }
+    right = right * 240 / 512;
+
+    bottom = 152; // to get a match
+    i = 32;       // to get a match
+    right += 32;
+
+    // Draw bottom red bar
+    NEW_PRIM(pLine, pActor);
+
+    setXY4(pLine, 32, 152, right, 152, right, 166, 32, 166);
+
+    LSTORE(0, &pLine->r0);
+    LSTORE(0xFF, &pLine->r1);
+    LSTORE(0xFF, &pLine->r2);
+    LSTORE(0, &pLine->r3);
+
+    setLineG4(pLine);
+    addPrim(pOt, pLine);
+    prims_used++;
+
+    menu_number_draw_80042F78(pActor, pOt, 300, 156, (unsigned short)(word_800AB982 - first_count), 1);
+
+    // Draw vertical bars
+    for (i = 0; i <= 240; i += 24)
+    {
+        NEW_PRIM(pLine2, pActor);
+        bottom = 132; // to get a match
+
+        setXY2(pLine2, i + 32, 132, i + 32, 164);
+
+        // Red for centre bar otherwise green
+        if (i == 120)
+        {
+            LSTORE(0xFF, &pLine2->r0);
+        }
+        else
+        {
+            LSTORE(0xFF00, &pLine2->r0);
+        }
+        LSTORE(0, &pLine2->r1);
+
+        setLineG2(pLine2);
+        addPrim(pOt, pLine2);
+        prims_used++;
+    }
+
+    return prims_used;
+}
 
 int menu_draw_ply_debug_80043FD0(Actor_MenuMan *pMenuMan, unsigned int *pOt)
 {
