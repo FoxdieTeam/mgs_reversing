@@ -1,6 +1,5 @@
 #include "linker.h"
 
-const char SECTION(".rdata") aPanelMakeError[] = "PANEL MAKE Error\n";
 const char SECTION(".rdata") aClaymore[] = "CLAYMORE";
 // \xb0\x14ＰＳＧ１\xd0\x15
 // 狙撃用ライフル。\x90\x93備すると照\x90\x96モードに入る。方向キーで照\x90\x96移動、＃\x90\x1dボタンを押すと発\x90\x7f。

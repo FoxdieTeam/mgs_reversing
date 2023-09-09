@@ -7,7 +7,8 @@ int        SECTION(".sbss") dword_800ABB8C;
 extern int dword_800ABB90;
 int        SECTION(".sbss") dword_800ABB90;
 
-extern menu_save_mode_data stru_8009EC30;
+extern const char aSaveData[];
+menu_save_mode_data stru_8009EC30 = {{0x47, 0}, 0, 1, aSaveData, (void *)sub_8004D008, (void *)sub_8004D14C, (void *)sub_8004D1D0};
 
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2)
 

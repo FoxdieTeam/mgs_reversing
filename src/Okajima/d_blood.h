@@ -5,6 +5,7 @@
 #include "Game/game.h"
 #include "Game/control.h"
 
+
 typedef struct _Actor_DBlood
 {
     GV_ACT field_0_actor;

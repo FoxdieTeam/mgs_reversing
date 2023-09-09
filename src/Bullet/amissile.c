@@ -8,6 +8,13 @@
 
 // stinger missile?
 
+int dword_8009F490 = 0;
+SVECTOR svector_8009F494 = {0, 0, 0, 0};
+int dword_8009F49C = 0;
+SVECTOR svector_8009F4A0 = {0, -800, 0, 0};
+SVECTOR svector_8009F4A8 = {0, -350, 0, 0};
+SVECTOR svector_8009F4B0 = {0, -100, -70, 0};
+
 void amissile_loader_helper_8006D1F4(POLY_FT4 *pPoly, DG_TEX *pTex)
 {
     int i;
@@ -62,9 +69,6 @@ void amissile_act_helper_8006D2A0(Actor_amissile *pActor, SVECTOR input)
     DG_RotVector_8001BE98(&rotation, &pActor->field_140_svector_4Array[0], 1);
 }
 
-extern SVECTOR    svector_8009F4A0;
-extern SVECTOR    svector_8009F4A8;
-extern SVECTOR    svector_8009F4B0;
 extern TARGET *target_800BDF00;
 
 void amissile_act_helper_8006D37C(Actor_amissile *pActor)
@@ -156,10 +160,6 @@ int amissile_act_helper_8006D600(void)
 {
     return 0;
 }
-
-extern int              dword_8009F490;
-extern SVECTOR          svector_8009F494;
-extern int              dword_8009F49C;
 
 extern Blast_Data       blast_data_8009F4F4;
 extern Blast_Data       blast_data_8009F544;

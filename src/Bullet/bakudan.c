@@ -12,18 +12,12 @@
 
 extern const char aBakudanC[];
 
-extern int used_counter_8009F42C;
-
 extern int     GM_GameStatus_800AB3CC;
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     GM_PlayerStatus_800ABA50;
 
 extern Jirai_unknown stru_800BDD78[16];
 extern int GM_CurrentMap_800AB9B0;
-
-extern int     dword_8009F430;
-extern int     dword_8009F434;
-extern SVECTOR svector_8009F438;
 
 extern int GV_Time_800AB330;
 extern int GM_CurrentMap_800AB9B0;
@@ -33,6 +27,11 @@ extern unsigned short GM_ItemTypes_8009D598[];
 
 extern SVECTOR svector_800ABA10;
 extern Blast_Data blast_data_8009F4CC;
+
+int bakudan_count_8009F42C = 0;
+int dword_8009F430 = 0;
+int dword_8009F434 = 0;
+SVECTOR svector_8009F438 = {3072, 0, 0, 0};
 
 void bakudan_act_8006A218(Actor_bakudan *pActor)
 {
@@ -128,7 +127,7 @@ void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
     if (pActor->field_114 >= 0)
     {
         stru_800BDD78[pActor->field_114].field_4_pActor = NULL;
-        used_counter_8009F42C--;
+        bakudan_count_8009F42C--;
     }
 }
 
@@ -196,7 +195,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     pItem->field_8_pCtrl = pCtrl;
     pItem->field_C_pTarget = pTarget;
 
-    used_counter_8009F42C++;
+    bakudan_count_8009F42C++;
     return 0;
 }
 
@@ -204,7 +203,7 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, T
 {
     Actor_bakudan *pActor; // $s0
 
-    if (used_counter_8009F42C == 16)
+    if (bakudan_count_8009F42C == 16)
     {
         return 0;
     }

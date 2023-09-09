@@ -19,11 +19,12 @@ extern const char aTabakoC[]; // = "tabako.c"
 
 extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
-extern int   dword_8009F2C0;
 extern int   GM_CurrentMap_800AB9B0;
 
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+
+int tabako_dword_8009F2C0 = 0;
 
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
@@ -53,7 +54,7 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];
 
-        if (GV_Time_800AB330 % 150 >= 121 && dword_8009F2C0 == 1 &&
+        if (GV_Time_800AB330 % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
             (GM_PlayerStatus_800ABA50 & PLAYER_MOVING) == 0)
         {
             anime_create_8005E6A4(&vec);

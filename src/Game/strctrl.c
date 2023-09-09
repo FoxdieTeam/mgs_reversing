@@ -6,7 +6,6 @@
 #include "jimctrl.h"
 #include "psyq.h"
 #include "mts/mts_new.h"
-#include "data/data/data.h"
 #include "libgcl/libgcl.h"
 #include "libfs/libfs.h"
 
@@ -14,12 +13,13 @@
 
 extern int              GM_GameStatus_800AB3CC;
 extern Actor_strctrl    strctrl_800B82B0;
-extern int              str_sector_8009E280;
-extern int              str_gcl_proc_8009E284;
-extern int              str_8009E288;
 extern int              DG_UnDrawFrameCount_800AB380;
 
 //------------------------------------------------------------------------------
+
+int str_sector_8009E280 = 0;
+int str_gcl_proc_8009E284 = 0;
+int str_8009E288 = 0;
 
 void            strctrl_act_helper_800377EC( Actor_strctrl *pActor )
 {

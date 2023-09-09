@@ -10,7 +10,6 @@
 
 extern OBJECT          *dword_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern SVECTOR          svec_8009F2C8;
 extern int              GV_PauseLevel_800AB928;
 extern int              GV_Clock_800AB920;
 extern int              DG_CurrentGroupID_800AB968;
@@ -18,7 +17,6 @@ extern int              dword_8009F604;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern short            scope_created_8009F2C4;
 extern CONTROL      *gSnaControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
@@ -27,6 +25,10 @@ extern const char aScopeC[];
 extern const char aZoomLevelD[];
 extern const char aGoggles_2[];
 extern const char aD_44[];  // = "%d"
+
+short scope_created_8009F2C4 = 0;
+
+SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 
 void scope_act_helper_helper_80062320(void *ot, void *prim)
 {
@@ -59,7 +61,7 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
     }
     DG_SetPos_8001BC44(pMtx);
-    DG_PutVector_8001BE48(&svec_8009F2C8, vecs, 2);
+    DG_PutVector_8001BE48(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
     if ( sub_80028454(pActor->field_50_pMap->field_8_hzd, vecs, &vecs[1], 15, 129) )
     {

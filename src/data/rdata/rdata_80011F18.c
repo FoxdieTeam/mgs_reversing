@@ -20,9 +20,18 @@ const int SECTION(".rdata") dword_8001203C[] = {0x6D01B82,  0xC813682,  0x891079
                                                 0xC814B82,  0x4A810281, 0x1B813E81, 0x3D05381,  0,          0x6D04D82,
                                                 0x27812982, 0x3E810D81, 0x53811B81, 0x17812781, 0x3D01F81,  0};
 const int SECTION(".rdata") dword_800120B4[] = {
-    0x6D04D82,  0xC812982,  0x8910791,  0x3E811781, 0x1F811781, 0x3D0,      0x9C23582,  0x3E8206D0,
-    0x288223C2, 0x3E811781, 0xB811981,  0x3FC0,     0x27900B91, 0x17810D81, 0x48812681, 0x17814D81,
-    0x27810481, 0xB811981,  0x3FC0};
+    0x6D04D82,  0xC812982,  0x8910791,  0x3E811781, 0x1F811781, 0x3D0
+};
+
+const int SECTION(".rdata") dword_800120CC[] = {
+    0x9C23582,  0x3E8206D0, 0x288223C2, 0x3E811781, 0xB811981,  0x3FC0,
+};
+
+const int SECTION(".rdata") dword_800120E4[] = {
+    0x27900B91, 0x17810D81, 0x48812681, 0x17814D81,
+    0x27810481, 0xB811981,  0x3FC0
+};
+
 const char SECTION(".rdata") aFormatOk[] = "FORMAT OK?";
 const char SECTION(".rdata") aOverwriteOk[] = "OVERWRITE OK?";
 const char SECTION(".rdata") aRequestX[] = "REQUEST %X\n";
@@ -49,11 +58,11 @@ const char SECTION(".rdata") aEndSaveMode[] = "END SAVE MODE\n";
 const char SECTION(".rdata") aEndStateD[] = "END STATE %d\n";
 const char SECTION(".rdata") aNoPlace[] = "NO PLACE";
 const char SECTION(".rdata") aCodeD[] = "code %d\n";
-const int  SECTION(".rdata") dword_800122A8[] = {0x64826D81, 0x6E817782, 0}; // shift_jis: "［ＥＸ］"
-const int  SECTION(".rdata") dword_800122B4[] = {0x67826D81, 0x6E816382, 0}; // shift_jis: "［ＨＤ］"
-const int  SECTION(".rdata") dword_800122C0[] = {0x6D826D81, 0x6E816C82, 0}; // shift_jis: "［ＮＭ］"
-const int  SECTION(".rdata") dword_800122CC[] = {0x64826D81, 0x6E817982, 0}; // shift_jis: "［ＥＺ］"
-const int  SECTION(".rdata") dword_800122D8[] = {0x75826D81, 0x6E816482, 0}; // shift_jis: "［ＶＥ］"
+const int  SECTION(".rdata") aExSJIS[] = {0x64826D81, 0x6E817782, 0}; // shift_jis: "［ＥＸ］"
+const int  SECTION(".rdata") aHdSJIS[] = {0x67826D81, 0x6E816382, 0}; // shift_jis: "［ＨＤ］"
+const int  SECTION(".rdata") aNmSJIS[] = {0x6D826D81, 0x6E816C82, 0}; // shift_jis: "［ＮＭ］"
+const int  SECTION(".rdata") aEzSJIS[] = {0x64826D81, 0x6E817982, 0}; // shift_jis: "［ＥＺ］"
+const int  SECTION(".rdata") aVeSJIS[] = {0x75826D81, 0x6E816482, 0}; // shift_jis: "［ＶＥ］"
 const char SECTION(".rdata") aSSSSSS[] = "%s%s%s%s%s%s";
 const int  SECTION(".rdata") dword_800122F4[] = {0x66826C82, 0xE7817282, 0}; // shift_jis: "ＭＧＳ∫"
 const char SECTION(".rdata") aSaveData[] = "SAVE DATA";

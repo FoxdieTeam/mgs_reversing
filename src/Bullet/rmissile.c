@@ -17,23 +17,16 @@
 
 extern MATRIX           DG_ZeroMatrix_8009D430;
 extern SVECTOR          DG_ZeroVector_800AB39C;
-extern SVECTOR          svector_8009F488;
-extern int              dword_8009F470;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern int              dword_8009F46C;
-extern SVECTOR          svector_8009F478;
 extern OBJECT *         dword_800ABA20;
 extern int              GM_GameOverTimer_800AB3D4;
 extern SVECTOR          svector_800ABA10;
 extern int              GV_Clock_800AB920;
-extern int              dword_8009F480;
 extern Blast_Data       blast_data_8009F508;
 extern Blast_Data       blast_data_8009F544;
 extern int              GM_CurrentMap_800AB9B0;
-extern int              dword_8009F474;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern TARGET *target_800BDF00;
-extern short            Nik_Blast_8009F484;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
 extern int              GM_GameStatus_800AB3CC;
@@ -49,6 +42,14 @@ extern const char aEnemy[];     // = "ENEMY\n"
 extern const char aD_4[];       // = "%d"
 extern const char aSocomF[];    // = "socom_f"
 extern const char rRmissileC[]; // = "rmissile.c"
+
+int dword_8009F46C = 0;
+int dword_8009F470 = 0;
+int dword_8009F474 = 0;
+SVECTOR svector_8009F478 = {0, 0, 0, 0};
+int dword_8009F480 = 0;
+short Nik_Blast_8009F484 = 0;
+SVECTOR svector_8009F488 = {100, 100, 100, 0};
 
 void rmissile_loader_helper4_8006B800(Actor_rmissile *pActor)
 {

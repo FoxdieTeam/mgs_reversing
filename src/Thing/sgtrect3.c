@@ -5,8 +5,9 @@
 
 // stinger missile first person HUD + stinger HUD?
 
-extern char             byte_8009F5F8[];
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+
+char byte_8009F5F8[] = {0, 0, 0, 0};
 
 void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {

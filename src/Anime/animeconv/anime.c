@@ -5,24 +5,43 @@
 #include "Game/game.h"
 #include "map/map.h"
 
-extern int        dword_8009F224;
-extern SVECTOR    DG_ZeroVector_800AB39C;
-extern int        GV_Time_800AB330;
-extern int        GV_Clock_800AB920;
-extern int        GM_PlayerStatus_800ABA50;
-extern ANIMATION  stru_8009F10C;
-extern ANIMATION  stru_8009F128;
-extern ANIMATION  stru_8009F144;
-extern ANIMATION  stru_8009F160;
-extern ANIMATION  stru_8009F17C;
-extern ANIMATION  stru_8009F198;
-extern ANIMATION  stru_8009F1B4;
-extern ANIMATION  stru_8009F1D0;
-extern ANIMATION  stru_8009F1EC;
-extern ANIMATION  stru_8009F208;
-extern ANIMATION  stru_8009F0D4;
-extern ANIMATION  stru_8009F0F0;
-extern TAnimeVMFn anime_fn_table_8009F228[];
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GV_Time_800AB330;
+extern int     GV_Clock_800AB920;
+extern int     GM_PlayerStatus_800ABA50;
+
+ANIMATION stru_8009F0D4 = {-8302, 2, 2, 4, 1, 0, 5, 50, 50, 250, 0, (void *)0x800124A8};
+ANIMATION stru_8009F0F0 = {20781, 8, 4, 30, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C};
+ANIMATION stru_8009F10C = {-6964, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, (void *)0x800125CC};
+ANIMATION stru_8009F128 = {-6964, 2, 2, 4, 1, 300, 1, 1400, 1400, 128, 0, (void *)0x800125F4};
+ANIMATION stru_8009F144 = {-6964, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, (void *)0x8001261C};
+ANIMATION stru_8009F160 = {-370, 2, 2, 3, 1, 300, 1, 600, 600, 100, 0, (void *)0x80012628};
+ANIMATION stru_8009F17C = {32332, 2, 2, 4, 1, 200, 5, 100, 100, 128, 0, (void *)0x80012634};
+ANIMATION stru_8009F198 = {20781, 8, 4, 30, 8, 0, 3, 2200, 2200, 77, 0, (void *)0x80012708};
+ANIMATION stru_8009F1B4 = {20781, 8, 4, 30, 1, 0, 1, 1000, 1000, 77, 0, (void *)0x80012728};
+ANIMATION stru_8009F1D0 = {20781, 8, 4, 30, 4, 0, 1, 2200, 2200, 128, 0, (void *)0x80012750};
+ANIMATION stru_8009F1EC = {20781, 8, 4, 30, 1, 1000, 3, 400, 400, 128, 0, (void *)0x800127A4};
+ANIMATION stru_8009F208 = {20781, 8, 4, 30, 1, 1000, 3, 30, 30, 10, 0, (void *)0x800127D0};
+
+int dword_8009F224 = 0;
+
+TAnimeVMFn anime_fn_table_8009F228[] = {
+    anime_fn_0_8005EC1C,
+    anime_fn_1_8005ED0C,
+    anime_fn_2_8005ED74,
+    anime_fn_3_8005EDDC,
+    anime_fn_4_8005EE44,
+    anime_fn_5_8005EEA4,
+    anime_fn_6_8005EF04,
+    anime_fn_7_8005EFF8,
+    anime_fn_8_8005F0F0,
+    anime_fn_9_8005F180,
+    anime_fn_10_8005F288,
+    anime_fn_11_8005F2F4,
+    anime_fn_12_8005F37C,
+    anime_fn_13_8005F408,
+    anime_fn_14_8005F438
+};
 
 extern const char aScriptActErr[]; // = " SCRIPT ACT ERR!! \n"
 extern const char aAnimeC[];       // = "anime.c"

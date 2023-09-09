@@ -58,7 +58,7 @@ typedef struct Stru_800ABB74
     short               field_18;
     short               field_1A;
     KCB                *field_1C_kcb;
-    char               *field_20;
+    const char         *field_20;
     Stru_800ABB74_child field_24[0];
 } Stru_800ABB74;
 
@@ -271,7 +271,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileMo
 void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper10_8004B91C(Stru_800ABB74 *pStru);
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned char *pOt);
-void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, char **srcs, int cnt, int field_4, char *field_20, Stru_800ABB74 *pStru);
+void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, Stru_800ABB74 *pStru);
 int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru);
