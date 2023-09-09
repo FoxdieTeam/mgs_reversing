@@ -9,12 +9,6 @@ typedef struct radar_uv // CHARA_TABLE
     unsigned char field_3_h;
 } radar_uv;
 
-typedef struct radar_uv_pair
-{
-    radar_uv field_0;
-    radar_uv field_4;
-} radar_uv_pair;
-
 typedef void (*TRadarFn_800AB48C)(Actor_MenuMan *, unsigned char *);
 
 void menu_radar_update_8003B350(struct Actor_MenuMan* pActor, unsigned char * pOt);

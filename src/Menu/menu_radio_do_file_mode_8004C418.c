@@ -47,7 +47,7 @@ menu_save_mode_data        *dword_800ABB4C;
 extern int dword_800ABB48;
 int        dword_800ABB48;
 
-extern char                  aBislpm99999[];
+
 extern char                  aEndSaveMode[];
 extern char                  aEndStateD[];
 extern char                  aLoadData[];
@@ -59,14 +59,60 @@ extern char                  aPressToSelectM[];
 extern char                  aResD[];
 extern char                  aSaving[];
 extern char                  aSelectMemoryCa[];
-extern char                 *dword_8009EB4C[];
-extern char                 *dword_8009EB7C[];
-extern char                 *dword_8009EBAC[];
-extern char                 *dword_8009EBB4[];
-extern char                 *dword_8009EBBC[];
 extern char                  dword_800AB73C[];
 extern RadioFileModeUnkStru *dword_800ABB68[];
-extern char                 *off_8009EC08[];
+extern const int             dword_800120B4[];
+extern const int             dword_800120CC[];
+extern const int             dword_800120E4[];
+
+char aBislpm99999[] = "BISLPM-99999        ";
+
+int dword_8009EB4C[] = {
+    0x800AB6F8, 0x8001203C, 0x80012020, 0x80012008, 0x80011FEC, 0x80011FC4,
+    0x80011FB0, 0x80011F90, 0x80011F6C, 0x80011F5C, 0x80011F34, 0x80011F18
+};
+
+char *dword_8009EB7C[] = {
+    (char *)0x800AB6F8, (char *)dword_800120B4, (char *)0x80012098, (char *)0x80012008, (char *)0x80012078, (char *)0x80011FC4,
+    (char *)0x80012064, (char *)0x80011F90,     (char *)0x80011F6C, (char *)0x80012054, (char *)0x80011F34, (char *)0x80011F18
+};
+
+extern const char aOverwriteOk[];
+extern const char aFormatOk[];
+
+char *dword_8009EBAC[] = {(char *)dword_800120E4, (char *)dword_800120CC};
+const char *dword_8009EBB4[] = {aOverwriteOk, aFormatOk};
+
+extern const char aError[];
+extern const char aComplete[];
+
+const char *dword_8009EBBC[] = {
+    NULL,
+    NULL,
+    aComplete,
+    NULL,
+    aError
+};
+
+extern const char aEz[];
+extern const char aNm[];
+extern const char aHd[];
+extern const char aEx[];
+
+int dword_8009EBD0[] = {0x4F009B, 0x4A00A0, 0x4F00A5, 0x80808080};
+int dword_8009EBE0[] = {0xB8009C, 0xBC00A0, 0xB800A4, 0x80808080};
+
+const char *off_8009EBF0[] = {aEz, aNm, aHd, aEx};
+
+extern const char aMemoryCard1[];
+extern const char aMemoryCard2[];
+
+const char *gMemoryCardNames_8009EC00[] = {aMemoryCard1, aMemoryCard2};
+
+extern const char aYes[];
+extern const char aNo[];
+
+const char *off_8009EC08[] = {aYes, aNo};
 
 int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
 {
@@ -85,14 +131,14 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     mOt = pActor->field_20_otBuf->mPrimBuf.mOt;
     if (dword_800ABB48 == 0)
     {
-        strArr = dword_8009EB4C;
+        strArr = (char **)dword_8009EB4C;
         dword_8009EBBC[0] = dword_800ABB4C->field_4_name;
         dword_8009EBBC[1] = aSaving;
         dword_8009EBBC[3] = aNoSpace;
     }
     else
     {
-        strArr = dword_8009EB7C;
+        strArr = (char **)dword_8009EB7C;
         dword_8009EBBC[0] = aLoadData;
         dword_8009EBBC[1] = aLoading;
         dword_8009EBBC[3] = aNoFile_0;

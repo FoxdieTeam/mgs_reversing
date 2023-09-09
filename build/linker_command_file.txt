@@ -65,10 +65,10 @@
     include "..\obj\libfs\movie.obj"
     include "..\obj\libfs\stream.obj"
 
-    include "..\obj\data\data\data.obj"
 
     ; 800244FC 800247E8 80024960 800249CC 80024A3C 80024A54 800250C4 80025178 80025350 8002554C 8002569C 800257B0 800257C0
     include "..\obj\memcard\memcard.obj"
+
 
     ;everything from here on is probably in Game\
 
@@ -126,6 +126,9 @@
     include "..\obj\sub_80029AEC.obj"
     include "..\obj\sub_80029B9C.obj"
     include "..\obj\sub_80029D50.obj"
+
+    include "..\obj\Game\GM_Data.obj"
+
     include "..\obj\map\sub_8002A090.obj"
     include "..\obj\map\HZD_ReExecEvent_8002A1F4.obj"
     include "..\obj\sub_8002A258.obj"
@@ -329,10 +332,10 @@
     ; 8003B568 8003B5E0 8003B614 8003B6D0 8003B794 8003B8F0 8003BBEC 8003BCD4 8003BF1C 8003C24C 8003C4EC 8003C95C 8003CB98 8003CBF0 8003CC74
     include "..\obj\Menu\menu_left.obj"
 
-    include "..\obj\data\rdata\rdata_800116B4.obj"
-
     ; 8003CC88 8003CC94 8003CE40 8003CE78 8003CE84 8003CEF8 8003CFE0 8003D070 8003D0D0 8003D124 8003D184 8003D1A8 8003D1B8 8003D1DC 8003D2BC 8003D34C 8003D3A4 8003D3FC 8003D44C 8003D4CC 8003D520 8003D52C 8003D538 8003D568 8003D594 8003D5F0 8003D64C 8003D6A8 8003D6CC 8003D7DC 8003DA0C 8003DAFC 8003DB2C 8003DBAC 8003DD1C 8003DF30 8003E030 8003E0E8 8003E3B0 8003E4B8 8003E674 8003E990 8003EBDC 8003EC2C 8003ECAC
     include "..\obj\Menu\weapon.obj"
+
+    include "..\obj\data\rdata\rdata_800116B4.obj"
 
     ; 8003ECC0 8003ECCC 8003ED4C 8003F30C 8003F408 8003F464 8003F4B8 8003F50C 8003F530 8003F7E0 8003F838
     include "..\obj\Menu\life.obj"
@@ -354,6 +357,7 @@
     ; 80044FD8 80044FE8 80044FF4 800450F4 80045124 8004544C 80045718 80045788 80045794 800457A8
     ; 800457B4 800458B8 800459B0 80045AE4 80045D0C 800468FC 8004695C 80046980 800469A4
     include "..\obj\Font\font.obj"
+
 
     include "..\obj\Menu\sub_800469F0.obj"
     include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper7_helper_80046A98.obj"
@@ -413,7 +417,10 @@
     include "..\obj\Menu\menu_SetRadioBaseCall_80049764.obj"
     include "..\obj\Menu\menu_SetRadioOverCall_80049794.obj"
     include "..\obj\Menu\menu_GetRadioCode_800497C4.obj"
+
+    include "..\obj\data\data\data_8004983C.obj"
     include "..\obj\Menu\init_file_mode_helper_helper_helper_8004983C.obj"
+
     include "..\obj\Menu\init_file_mode_helper_helper_helper2_80049CE8.obj"
     include "..\obj\Menu\init_file_mode_helper_helper_helper3_80049E94.obj"
     include "..\obj\Menu\init_file_mode_helper_helper_80049EDC.obj"
@@ -459,6 +466,7 @@
     include "..\obj\Menu\sub_8004D1D0.obj"
     include "..\obj\Menu\init_file_mode_8004D24C.obj"
     include "..\obj\Menu\menu_radio_init_save_mode_8004D280.obj"
+
     include "..\obj\Menu\menu_radio_update_helper4_8004D2D0.obj"
     include "..\obj\Menu\menu_radio_8004D2FC.obj"
     include "..\obj\Menu\menu_radio_8004D334.obj"
@@ -466,9 +474,11 @@
     include "..\obj\Menu\menu_radio_table_find_8004D380.obj"
     include "..\obj\Menu\sub_8004D4A0.obj"
     include "..\obj\Menu\sub_8004D580.obj"
-    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
-    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
+    include "..\obj\data\data\data_8004D628.obj"
+    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper5_8004D628.obj"
+
+    include "..\obj\Menu\menu_radio_codec_helper_8004158C\menu_radio_codec_helper_helper4_8004DE20.obj" ;in radiomem.c
 
     include "..\obj\data\sbss\sbss5.obj"
 
@@ -498,6 +508,9 @@
     ; 80057A90 80057BF0 80057FD4 80058378 80058470 80058644 80058780 800589C8 80058C10 80058C80
     ; 80058E88 80058EF4 80058F88 80059054 80059154 800591BC 800591F4 8005951C 8005961C 800596FC
     ; 8005AD10 8005B52C 8005B650
+
+    ; just a guess
+    include "..\obj\chara\snake\snake.obj"
 
     include "..\obj\chara\snake\sna_init.obj"
 
@@ -610,6 +623,7 @@
     ; 8006B76C
     include "..\obj\Bullet\jirai.obj"
 
+
     ; 8006B800 8006B888 8006B924 8006B9B0 8006BA70 8006BB10 8006BD24 8006BE50 8006BE90 8006BEEC
     ; 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54
     ; 8006CF44 8006D124
@@ -669,7 +683,6 @@
     ; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
     include "..\obj\Okajima\chafgrnd.obj"
 
-
     ; 8007743C 800774C0 800775B4 800776AC 8007773C 8007781C
     include "..\obj\Takabe\goggle.obj"
 
@@ -684,15 +697,9 @@
     ; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
     include "..\obj\Takabe\goggleir.obj"
 
-    include "..\obj\Takabe\sub_80078F04.obj"
-    include "..\obj\libdg\DG_StorePaletteEffect_80078F30.obj"
-    include "..\obj\libdg\DG_ResetPaletteEffect_80078FF8.obj"
-    include "..\obj\Takabe\sub_80079004.obj"
-    include "..\obj\Takabe\sub_800790E8.obj"
-    include "..\obj\Takabe\sub_8007913C.obj"
-    include "..\obj\Takabe\set_pal_effect_fns_80079194.obj"
-    include "..\obj\libdg\DG_ResetExtPaletteMakeFunc_800791E4.obj"
-    include "..\obj\Takabe\sub_80079220.obj"
+    include "..\obj\Takabe\palette.obj"
+
+    ; Doesn't look like a palette function
     include "..\obj\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
 
     include "..\obj\data\rdata\rdata_80013040.obj"

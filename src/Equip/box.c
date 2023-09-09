@@ -10,10 +10,20 @@
 extern const char aBoxC[];
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_8009F604;
-extern int dword_8009F284;
 extern GM_Camera GM_Camera_800B77E8;
 
 extern const char aCardboardEUC[]; // This is cardboard in EUC-JP encoding
+extern const char aCbBox11[];
+extern const char aCbBox12[];
+extern const char aCbBox41[];
+extern const char aCbBox42[];
+extern const char aCbBox21[];
+extern const char aCbBox22[];
+extern const char aCbBox41[];
+extern const char aCbBox42[];
+
+int dword_8009F284 = 0;
+const char *off_8009F288[8] = {aCbBox11, aCbBox12, aCbBox41, aCbBox42, aCbBox21, aCbBox22, aCbBox41, aCbBox42};
 
 int BoxCheckMessage_8006195C(Actor_Box *pActor)
 {
@@ -69,8 +79,6 @@ void BoxAct_80061A14(Actor_Box *pActor)
         DG_VisibleObjs(pActor->field_20.objs);
     }
 }
-
-extern const char *off_8009F288[8];
 
 void BoxDie_80061B30(Actor_Box *pActor)
 {

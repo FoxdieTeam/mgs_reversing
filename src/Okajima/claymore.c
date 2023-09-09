@@ -6,19 +6,20 @@
 #include "map/map.h"
 #include "Anime/animeconv/anime.h"
 
-extern SVECTOR       stru_8009F630[4];
-extern SVECTOR       stru_8009F650[2];
 extern map_record   *claymore_map_record_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           GM_GameOverTimer_800AB3D4;
 extern SVECTOR       DG_ZeroVector_800AB39C;
-extern SVECTOR       stru_8009F660;
 extern SVECTOR       svector_80012EDC;
 extern int           claymore_map_800AB9DC;
 extern const SVECTOR stru_80012EEC;
 
 extern const char aBullet_0[];  // "bullet"
 extern const char aClaymoreC[]; // = "claymore.c"
+
+SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
+SVECTOR stru_8009F650[2] = {{0, 0, 200, 0}, {0, 0, 10000, 0}};
+SVECTOR stru_8009F660 = {100, 100, 100, 0};
 
 void claymore_800731CC(SVECTOR *param_1)
 {

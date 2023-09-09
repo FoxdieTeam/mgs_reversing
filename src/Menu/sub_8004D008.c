@@ -8,8 +8,15 @@ int        dword_800ABB90;
 extern char  aAtEUC[];
 extern char  aSSSSSS[];
 extern char  dword_800122F4[];
-extern char  dword_8009EC10[];
-extern char *off_8009EC1C[];
+
+extern const char aExSJIS[];
+extern const char aHdSJIS[];
+extern const char aNmSJIS[];
+extern const char aEzSJIS[];
+extern const char aVeSJIS[];
+
+char dword_8009EC10[] = {0x82, 0x63, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B, 0x00}; // Ｄｏｃｋ
+const char *off_8009EC1C[] = {aVeSJIS, aEzSJIS, aNmSJIS, aHdSJIS, aExSJIS};
 
 void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3)
 {

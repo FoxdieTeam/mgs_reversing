@@ -9,7 +9,6 @@
 #include "Game/control.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "data/data/data.h"
 
 typedef struct anime_0x34
 {

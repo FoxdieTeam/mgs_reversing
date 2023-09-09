@@ -7,6 +7,7 @@
 #include "grenade.h"
 #include "libdg/libdg.h"
 #include "map/map.h"
+#include "libgcl/hash.h"
 
 // grenade/stun/chaff (in hands)
 
@@ -16,15 +17,24 @@ extern SVECTOR       DG_ZeroVector_800AB39C;
 extern SVECTOR       svector_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
 extern Blast_Data    blast_data_8009F4B8;
-extern ushort        dword_8009F3E4[];
-extern SVECTOR       dword_8009F3EC[];
-extern SVECTOR       dword_8009F3F4[];
 extern TBombFunction GM_lpfnBombHoming_800AB3E8;
 extern int           GM_PlayerStatus_800ABA50;
 
 extern const char aGrenadeC[]; // = "grenade.c"
 
 //------------------------------------------------------------------------------
+
+unsigned short grenade_model_8009F3E4[] = {KMD_GRENADE, KMD_CAN_GREN, KMD_CAN_GREN, KMD_C4_BOMB};
+
+SVECTOR dword_8009F3EC[] = {
+	{0, 128, 150, 0},
+	{0, 50, 200, 0},
+	{0, 32, 32, 0},
+	{0, 280, 80, 0}
+};
+
+//------------------------------------------------------------------------------
+
 
 void grenade_800663A0( void )
 {
@@ -122,7 +132,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			}
 			else
 			{
-				svector = dword_8009F3F4;
+				svector = dword_8009F3EC + 1;
 			}
 			if ( ( svector == dword_8009F3EC ) && GM_lpfnBombHoming_800AB3E8 )
 			{
@@ -139,7 +149,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 										 &tenage_vec2,
 										 actor->f5c_timer,
 										 actor->f60_grenade_type,
-										 (int)dword_8009F3E4[ actor->f60_grenade_type ] );
+										 (int)grenade_model_8009F3E4[ actor->f60_grenade_type ] );
 			if ( tenage )
 			{
 				DG_InvisibleObjs( actor->f28_obj.objs );
@@ -189,7 +199,7 @@ int grenade_loader_800668B4( Actor_Grenade *actor_grenade,
 	OBJECT *obj;
 
 	obj = &actor_grenade->f28_obj;
-	GM_InitObjectNoRots_800349B0( (OBJECT_NO_ROTS *)obj, dword_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
+	GM_InitObjectNoRots_800349B0( (OBJECT_NO_ROTS *)obj, grenade_model_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
 
 	if ( !obj->objs )
 		return -1;

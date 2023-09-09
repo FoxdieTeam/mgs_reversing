@@ -33,6 +33,14 @@ extern const char aFull_0[];     // = "FULL"
 extern const char aClaymore_2[]; // = "claymore"
 extern const char aJiraiC[];     // = "jirai.c"
 
+int dword_8009F440 = 0;
+int dword_8009F444 = 0;
+int counter_8009F448 = 0;
+SVECTOR svec_8009F44C = {-625, -250, 750, 0};
+SVECTOR svec_8009F454 = {-500, -250, 750, 0};
+SVECTOR svec_8009F45C = {500, 200, 500, 0};
+SVECTOR svec_8009F464 = {300, 200, 300, 0};
+
 // TARGET here seems to be wrong
 MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget)
 {

@@ -6,7 +6,6 @@
 #include <LIBGPU.H>
 #include "libgv/libgv.h"
 #include "Font/font.h"
-#include "data/data/data.h" // needed for TextConfig struct. move those structs to an actual header
 #include "face.h"
 #include "memcard/memcard.h"
 
@@ -14,8 +13,8 @@
 
 typedef struct
 {
-    char *field_0_weapon_name;
-    int   field_4_rpk_idx;
+    const char *field_0_weapon_name;
+    int         field_4_rpk_idx;
 } menu_weapon_rpk_info;
 
 typedef struct RadioMemory
@@ -145,7 +144,7 @@ typedef struct menu_save_mode_data
   char                       field_0[2];
   char                       field_2;
   char                       field_3;
-  char                      *field_4_name; // "SAVE DATA", "SAVE PHOTO"
+  const char                *field_4_name; // "SAVE DATA", "SAVE PHOTO"
   void                      *field_8;
   TMenuSaveModeDataUnknownFn field_C;
   void                      *field_10;
@@ -341,6 +340,34 @@ typedef struct MenuCallbackProc_800ABB08
     short type;
     short param2;
 } MenuCallbackProc_800ABB08;
+
+enum TextConfig_Flags
+{
+    TextConfig_Flags_eRightAlign_01 = 0x01,
+    TextConfig_Flags_eCentreAlign_02 = 0x02,
+    TextConfig_Flags_eLargeFont_10 = 0x10,
+    TextConfig_Flags_eSemiTransparent_20 = 0x20,
+    TextConfig_Flags_ePadding_40 = 0x40,
+};
+
+typedef struct TextConfig
+{
+    int xpos;
+    int ypos;
+    int flags;
+    int colour;
+} TextConfig;
+
+typedef struct Menu_Triangle
+{
+    short        field_0_x0;
+    short        field_2_y0;
+    short        field_4_x1;
+    short        field_6_y1;
+    short        field_8_x2;
+    short        field_A_y2;
+    unsigned int field_C_rgb;
+} Menu_Triangle;
 
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);

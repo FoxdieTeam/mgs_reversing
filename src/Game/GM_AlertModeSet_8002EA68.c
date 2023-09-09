@@ -1,7 +1,7 @@
 #include "game.h"
 #include "linker.h"
 
-extern char byte_8009D698[];
+char byte_8009D698[] = {0, 0, 1, 2};
 
 extern short GM_RadarMode_800ABA80;
 short SECTION(".sbss") GM_RadarMode_800ABA80;

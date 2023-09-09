@@ -68,11 +68,10 @@ char SECTION(".sdata") aError[] = "ERROR";
 char SECTION(".sdata") aDiscD[] = "DISC %d";
 char SECTION(".sdata") aTime[] = "TIME";
 char SECTION(".sdata") aEx[] = "EX";
-
-int SECTION(".sdata") dword_800AB720 = 0x4448;
-int SECTION(".sdata") dword_800AB724 = 0x4D4E;
-int SECTION(".sdata") dword_800AB728 = 0x5A45;
-int SECTION(".sdata") dword_800AB72C = 0x4556;
+char SECTION(".sdata") aHd[] = "HD";
+char SECTION(".sdata") aNm[] = "NM";
+char SECTION(".sdata") aEz[] = "EZ";
+char SECTION(".sdata") aVe[] = "VE";
 
 char SECTION(".sdata") aClear_0[] = "CLEAR";
 char SECTION(".sdata") aS_1[] = "S";
@@ -82,8 +81,7 @@ int SECTION(".sdata") dword_800AB73C = 0;
 char SECTION(".sdata") aNoCard[] = "NO CARD";
 char SECTION(".sdata") aNoFile_0[] = "NO FILE";
 char SECTION(".sdata") aNo[] = "NO";
-
-int SECTION(".sdata") dword_800AB754 = 0x534559;
+char SECTION(".sdata") aYes[] = "YES";
 
 char SECTION(".sdata") aResD[] = "Res %d\n";
 

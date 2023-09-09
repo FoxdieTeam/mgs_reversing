@@ -30,7 +30,6 @@ struct PANEL_CONF *SECTION(".sdata") dword_800AB584;
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
 extern struct PANEL_CONF *dword_800AB584;
-extern menu_weapon_rpk_info  gMenuWeaponRpkInfo_8009E57C[];
 extern int                   dword_8009E544[];
 extern int                   GM_GameStatus_800AB3CC;
 
@@ -46,6 +45,62 @@ MenuCallbackProc_800ABB08 SECTION(".sbss") gMenuCallbackProc_800ABB08;
 
 extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
 
+struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {
+    {16, 184, 1, 24576, 36864, sub_8003D64C, sub_8003D594, NULL},
+    {256, 184, 2, 12288, 49152, sub_8003D594, sub_8003D5F0, NULL}
+};
+
+extern const char aSocom[];
+extern const char aFamas_800AB5BC[];
+extern const char aGrenade_800AB5B4[];
+extern const char aNikita_800AB5AC[];
+extern const char aStinger_800AB5A4[];
+extern const char aClaymore[];
+extern const char aC4_800AB5A0[];
+extern const char aStunG[];
+extern const char aChaffG[];
+extern const char aPsg1[];
+
+menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {
+    {aSocom,            1},
+    {aFamas_800AB5BC,   3},
+    {aGrenade_800AB5B4, 5},
+    {aNikita_800AB5AC,  10},
+    {aStinger_800AB5A4, 9},
+    {aClaymore,         8},
+    {aC4_800AB5A0,      7},
+    {aStunG,            6},
+    {aChaffG,           11},
+    {aPsg1,             4}
+};
+
+// Also see dword_8009E3E4, dword_8009E444.
+// Those strings are passed to font_draw_string_80045D0C().
+
+extern char WP_Socom_80011A8C[];
+extern char WP_Famas_80011A30[];
+extern char WP_Grenade_800119C0[];
+extern char WP_Nikita_80011954[];
+extern char WP_Stinger_800118DC[];
+extern char WP_LandMine_8001187C[];
+extern char WP_Bomb_80011838[];
+extern char WP_StunGrenade_800117C4[];
+extern char WP_ChaffGrenade_80011750[];
+extern char WP_Rifle_800116E8[];
+
+char *wpn_descriptions_8009E5CC[] = {
+    WP_Socom_80011A8C,
+    WP_Famas_80011A30,
+    WP_Grenade_800119C0,
+    WP_Nikita_80011954,
+    WP_Stinger_800118DC,
+    WP_LandMine_8001187C,
+    WP_Bomb_80011838,
+    WP_StunGrenade_800117C4,
+    WP_ChaffGrenade_80011750,
+    WP_Rifle_800116E8
+};
+
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
 extern int           dword_800ABAD0;
@@ -59,7 +114,7 @@ void sub_8003CC88()
 extern array_800BD748_child array_800BD828[];
 extern array_800BD748_child array_800BD748[];
 
-void sub_8003CC94()
+void menu_texture_init_8003CC94(Actor_MenuMan *pActor)
 {
     int                   i, uloop, vloop;
     int                   cy, cy2;
@@ -323,8 +378,6 @@ void sub_8003D1DC(Menu_Item_Unknown *pMenuItem)
     }
 }
 
-extern const char aPanelMakeError[];
-
 int menu_panel_8003D2BC(Menu_Item_Unknown *pMenu, int itemId)
 {
     int i; // $v1
@@ -343,7 +396,7 @@ int menu_panel_8003D2BC(Menu_Item_Unknown *pMenu, int itemId)
 
     if ( pMenu->field_0_main.field_4_selected_idx < 0 )
     {
-        mts_printf_8008BBA0(aPanelMakeError);
+        mts_printf_8008BBA0("PANEL MAKE Error\n");
         pMenu->field_0_main.field_4_selected_idx = 0;
     }
 
@@ -560,8 +613,6 @@ void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
     *yoff = y1;
 }
 
-extern struct PANEL_CONF stru_8009E544[];
-
 void sub_8003D6A8(Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn)
 {
     struct PANEL_CONF *pPanelConf;
@@ -708,7 +759,7 @@ void menu_8003D7DC(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSu
     sub_8003CE84();
 }
 
-void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu)
+void menu_sub_menu_update_8003DA0C(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu)
 {
     if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
     {
@@ -717,7 +768,7 @@ void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, unsigned int *p
     }
 }
 
-void sub_8003DA60(struct Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pLeftRight, int off1, int off2)
+void sub_8003DA60(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pLeftRight, int off1, int off2)
 {
     pLeftRight->field_8_panel_conf->field_18_pFnUpdate(pActor, pOt, pLeftRight->field_8_panel_conf->field_0_xOffset + off1,
                                                   pLeftRight->field_8_panel_conf->field_2_yOffset + off2, &pLeftRight->field_0_current);
@@ -888,6 +939,7 @@ PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
 
 extern unsigned short   GM_ItemTypes_8009D598[];
 extern unsigned short   GM_WeaponTypes_8009D580[];
+
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              dword_8009F46C;
 extern unsigned int     GM_DisableWeapon_800AB9E4;
@@ -920,7 +972,6 @@ int sub_8003DF30(int weaponId)
     return (GM_DisableWeapon_800AB9E4 & (1 << weaponId)) > 0;
 }
 
-extern char *wpn_descriptions_8009E5CC[];
 extern char *wpn_mp5_description_800AB5CC;
 char        *SECTION(".sdata") wpn_mp5_description_800AB5CC;
 
@@ -960,7 +1011,7 @@ extern char aNoItem_0[]; // = "NO ITEM";
 void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
 {
     PANEL_TEXTURE        *pTexture;
-    char                 *str;
+    const char           *str;
     int                   weaponIdx, weaponIdxCopy;
     int                   pSubCnt2;
     SPRT                 *pPrim;
@@ -1408,7 +1459,7 @@ void menu_weapon_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
     menu_weapon_update_helper2_8003E674(menuMan, (unsigned int*)pOt);
 }
 
-void sub_8003EBDC(struct Actor_MenuMan *menuMan)
+void sub_8003EBDC(Actor_MenuMan *menuMan)
 {
     PANEL_TEXTURE *pPanelTex;
     int            weapon_index;
@@ -1422,7 +1473,7 @@ void sub_8003EBDC(struct Actor_MenuMan *menuMan)
     }
 }
 
-void menu_weapon_init_8003EC2C(struct Actor_MenuMan *menuMan)
+void menu_weapon_init_8003EC2C(Actor_MenuMan *menuMan)
 
 {
     short val = -1;
@@ -1440,8 +1491,8 @@ void menu_weapon_init_8003EC2C(struct Actor_MenuMan *menuMan)
     sub_8003EBDC(menuMan);
 }
 
-void sub_8003ECAC(int param_1)
+void menu_weapon_kill_8003ECAC(Actor_MenuMan *pActor)
 {
-    *(char *)(param_1 + 0x28) &= 0xfd;
+    pActor->field_28_flags &= ~0x2;
     return;
 }

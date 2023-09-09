@@ -10,14 +10,25 @@ extern int            claymore_map_800AB9DC;
 extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
 extern short          GM_uBombHoming_800AB3E4;
 extern SVECTOR        DG_ZeroVector_800AB39C;
-extern SVECTOR        svector_8009F558[2];
-extern ANIMATION      stru_8009F568;
-extern ANIMATION      stru_8009F5A0;
-extern ANIMATION      stru_8009F5BC;
-extern ANIMATION      stru_8009F584;
-extern ANIMATION      stru_8009F5D8;
 
 extern const char aBlastC[];
+
+Blast_Data blast_data_8009F4B8 = {0x100, 5, 0x3E8, 0x7D0, 2};
+Blast_Data blast_data_8009F4CC = {0x100, 5, 0x3E8, 0x7D0, 6};
+Blast_Data blast_data_8009F4E0 = {0x100, 5, 0x3E8, 0x7D0, 5};
+Blast_Data blast_data_8009F4F4 = {0x100, 5, 0x3E8, 0x7D0, 4};
+Blast_Data blast_data_8009F508 = {0x100, 5, 0x3E8, 0x7D0, 3};
+Blast_Data blast_data_8009F51C = {0x100, 5, 0x3E8, 0x7D0, -1};
+Blast_Data blast_data_8009F530 = {0x400, 5, 0x3E8, 0x7D0, 10};
+Blast_Data blast_data_8009F544 = {0, 0, 1, 1, -1};
+
+SVECTOR svector_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
+
+ANIMATION stru_8009F568 = {-21358, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BAC};
+ANIMATION stru_8009F584 = {-21358, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012BEC};
+ANIMATION stru_8009F5A0 = {-21358, 4, 4, 16, 1, 2000, 1, 500, 500, 128, NULL, (void *)0x80012C2C};
+ANIMATION stru_8009F5BC = {-21358, 4, 4, 16, 1, 2000, 1, 200, 200, 128, NULL, (void *)0x80012C6C};
+ANIMATION stru_8009F5D8 = {-21358, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)0x80012CAC};
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {

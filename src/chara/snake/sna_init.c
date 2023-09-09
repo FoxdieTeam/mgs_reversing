@@ -18,10 +18,18 @@
 #include "Weapon/grenade.h"
 #include "Anime/animeconv/anime.h"
 #include "libgcl/hash.h"
-
-extern short word_8009EFC0[];
-
-extern Target_Data stru_8009EFE4[];
+#include "Equip/bodyarm.h"
+#include "Equip/box.h"
+#include "Equip/bandana.h"
+#include "Equip/gasmask.h"
+#include "Equip/jpegcam.h"
+#include "Equip/kogaku2.h"
+#include "Equip/scope.h"
+#include "Equip/tabako.h"
+#include "Okajima/d_blood.h"
+#include "Takabe/goggle.h"
+#include "Takabe/goggleir.h"
+#include "Weapon/aam.h"
 
 extern Sna_E1 e1_800AB7C4;
 Sna_E1        SECTION(".sdata") e1_800AB7C4;
@@ -91,26 +99,21 @@ extern GM_Camera          GM_Camera_800B77E8;
 extern SVECTOR            svector_800AB7D4;
 extern SVECTOR            svector_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
-extern Sna_ActionTable    actions_no_weapon_8009ED70;
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
-extern int                used_counter_8009F42C;
+extern int                bakudan_count_8009F42C;
 extern SVECTOR            svector_800AB7EC;
 extern SVECTOR            svector_800AB7F4;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
-extern int                dword_8009EF24[];
-extern int                dword_8009EF2C[];
 extern SVECTOR            svector_800AB7CC;
 extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
-extern SVECTOR            stru_8009EFD4[];
 extern int                dword_800ABA1C;
-extern int                dword_8009F2C0;
+extern int                tabako_dword_8009F2C0;
 extern int                dword_800AB9F0;
 extern SVECTOR            svector_800ABA10;
-extern Sna_ActionTable    weapon_actions_8009ED8C[];
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
@@ -129,26 +132,17 @@ extern int                dword_8009F434;
 extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
 extern SVECTOR            svector_800AB7E4;
-extern WeaponCreateEntry  gSnakeWeapons_8009EF3C[];
 extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
 extern int                dword_800AB9D4;
 extern short              HzdHeights_8009EEC4[];
 extern int                DG_CurrentGroupID_800AB968;
 extern int                GV_Clock_800AB920;
-extern MATRIX             stru_8009F064;
-extern MATRIX             stru_8009F084;
-extern MATRIX             stru_8009F0A4;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
 extern TSnakeActFunction  GM_lpfnPlayerActControl_800AB3DC;
 extern TSnakeActFunction  GM_lpfnPlayerActObject2_800AB3E0;
-extern unsigned char      dword_8009EEF8[];
-extern unsigned char      dword_8009EF00[];
-extern unsigned char      dword_8009EF08[];
-extern unsigned char      dword_8009EF10[];
-extern short              dword_8009EECC[];
 extern char               dword_8009EEE0[];
 extern char               dword_8009EEE4[];
 extern char               dword_8009EEF0[];
@@ -159,12 +153,161 @@ extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
 extern int                GM_PlayerAction_800ABA40;
-extern GV_PAD             GV_PadData_8009F0C4;
 
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
 extern const char aForceActCancel[]; // = "force act cancel\n"
 extern const char aSnaInitC[];       // = "sna_init.c"
+
+Sna_E2 e2_8009EC64 = {12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009EC70 = {10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u, 0u, 0u};
+Sna_E2 e2_8009EC7C = {11u, 9u, 18u, 23u, 24u, 27u, 28u, 73u, 110u, 111u, 0u, 0u};
+Sna_E2 e2_8009EC88 = {75u, 77u, 79u, 23u, 24u, 27u, 28u, 75u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009EC94 = {92u, 91u, 93u, 23u, 24u, 29u, 30u, 92u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECA0 = {97u, 96u, 98u, 101u, 24u, 29u, 30u, 97u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECAC = {104u, 103u, 19u, 23u, 24u, 29u, 30u, 104u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECB8 = {63u, 65u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u};
+Sna_E2 e2_8009ECC4 = {61u, 64u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u};
+Sna_E2 e2_8009ECD0 = {62u, 83u, 67u, 68u, 69u, 70u, 71u, 72u, 66u, 123u, 130u, 131u};
+Sna_E2 e2_8009ECDC = {136u, 136u, 35u, 136u, 36u, 37u, 38u, 39u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECE8 = {42u, 51u, 35u, 45u, 47u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ECF4 = {5u, 52u, 34u, 46u, 48u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED00 = {74u, 136u, 136u, 136u, 105u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+
+Sna_E2 e2_8009ED0C = {74u, 136u, 34u, 46u, 81u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED18 = {43u, 136u, 35u, 136u, 53u, 55u, 49u, 54u, 56u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED24 = {57u, 136u, 35u, 136u, 58u, 59u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED30 = {60u, 136u, 35u, 136u, 50u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+Sna_E2 e2_8009ED3C = {44u, 136u, 136u, 136u, 136u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
+
+Sna_E6 e6_8009ED48[] = {
+    {115u, 133u, 0u, 0u},
+    {112u, 133u, 0u, 0u},
+    {113u, 133u, 0u, 0u},
+    {136u, 136u, 0u, 0u},
+    {114u, 132u, 0u, 0u},
+    {116u, 133u, 0u, 0u},
+    {117u, 133u, 0u, 0u},
+    {118u, 133u, 0u, 0u}
+};
+
+// TODO: Why is this in .data despite fitting into .sdata?
+Sna_E1 SECTION(".data") e7_8009ED68 = {7u, 13u, 4u, 14u, 32u, 119u, 124u, 0u};
+
+extern Sna_E1 e1_800AB78C;
+extern Sna_E1 e1_800AB7C4;
+extern Sna_E1 e1_800AB794;
+extern Sna_E1 e1_800AB79C;
+extern Sna_E1 e1_800AB7BC;
+extern Sna_E1 e1_800AB7AC;
+extern Sna_E1 e1_800AB7A4;
+extern Sna_E1 e1_800AB7B4;
+
+Sna_ActionTable actions_no_weapon_8009ED70 = {
+    &e1_800AB78C, &e2_8009EC64, &e1_800AB7C4, &e2_8009ECB8,
+    &e2_8009ECDC, &e6_8009ED48[0], &e7_8009ED68
+};
+
+Sna_ActionTable weapon_actions_8009ED8C[10] = {
+    {&e1_800AB794, &e2_8009EC70, &e1_800AB7C4, &e2_8009ECC4, &e2_8009ECE8, &e6_8009ED48[1], &e7_8009ED68},
+    {&e1_800AB79C, &e2_8009EC7C, &e1_800AB7C4, &e2_8009ECD0, &e2_8009ECF4, &e6_8009ED48[2], &e7_8009ED68},
+    {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED48[7], &e7_8009ED68},
+    {&e1_800AB7B4, &e2_8009EC88, &e1_800AB7C4, &e2_8009ECD0, &e2_8009ED0C, &e6_8009ED48[4], &e7_8009ED68},
+    {&e1_800AB79C, &e2_8009EC7C, &e1_800AB7C4, &e2_8009ECD0, &e2_8009ED00, &e6_8009ED48[3], &e7_8009ED68},
+    {&e1_800AB7BC, &e2_8009ECA0, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED24, &e6_8009ED48[6], &e7_8009ED68},
+    {&e1_800AB7AC, &e2_8009EC94, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED18, &e6_8009ED48[5], &e7_8009ED68},
+    {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED48[7], &e7_8009ED68},
+    {&e1_800AB7A4, &e2_8009ECAC, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED30, &e6_8009ED48[7], &e7_8009ED68},
+    {&e1_800AB78C, NULL, &e1_800AB7C4, &e2_8009ECB8, &e2_8009ED3C, &e6_8009ED48[3], &e7_8009ED68}};
+
+void *dword_8009EEA4[] = {
+    sna_anim_idle_8005275C,
+    sna_anim_crouch_800527DC,
+    sna_anim_prone_idle_800528BC
+};
+
+void *SECTION(".data") dword_8009EEB0[] = {
+    sna_anim_wall_idle_and_c4_80052A5C,
+    sna_anim_wall_crouch_80052CCC
+};
+
+void *dword_8009EEB8[] = {
+    sna_anim_run_8005292C,
+    sna_anim_run_8005292C,
+    sna_anim_prone_move_800529C0
+};
+
+short SECTION(".data") HzdHeights_8009EEC4[] = {750, 250, 250, 0};
+
+short SECTION(".data") dword_8009EECC[] = {1100, 496, 136, 0};
+
+char SECTION(".data") dword_8009EED4[] = {127, 4, 0, 0};
+char SECTION(".data") dword_8009EED8[] = {225, 1, 255, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EEE0[] = {127, 6, 0, 0};
+char SECTION(".data") dword_8009EEE4[] = {225, 1, 255, 4, 225, 2, 75, 8, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EEF0[] = {127, 1, 0, 0};
+char SECTION(".data") dword_8009EEF4[] = {155, 3, 0, 0};
+char SECTION(".data") dword_8009EEF8[] = {0, 2, 127, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF00[] = {140, 4, 80, 6, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF08[] = {0, 10, 127, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF10[] = {80, 2, 50, 8, 140, 4, 80, 6, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF1C[] = {196, 4, 0, 0};
+char SECTION(".data") dword_8009EF20[] = {148, 4, 0, 0};
+char SECTION(".data") dword_8009EF24[] = {0, 2, 127, 2, 0, 0, 0, 0};
+char SECTION(".data") dword_8009EF2C[] = {60, 2, 200, 4, 40, 2, 0, 0};
+
+typedef struct WeaponCreateEntry
+{
+    void *mCreateActorFn;
+    void *mStateFn;
+} WeaponCreateEntry;
+
+WeaponCreateEntry gSnakeWeapons_8009EF3C[] = {
+    {NULL, sna_anim_chokethrow_begin1_80054210},
+    {NewSOCOM_80065D74, sna_gun_800540D0},
+    {famas_create_80066374, sna_gun_800540D0},
+    {grenade_create_80066A4C, sna_anim_grenade_80058470},
+    {NewRCM_80066FF0, sna_gun_800540D0},
+    {NewAAM_80067480, sna_anim_stinger_800570C0},
+    {mine_init_800677BC, sna_anim_claymore_80057474},
+    {NewBomb_80067B20, sna_bomb_800541A8},
+    {NewStanGrenade_80066A74, sna_anim_grenade_80058470},
+    {NewChaffGrenade_80066AA0, sna_anim_grenade_80058470},
+    {NewRifle_80068214, sna_anim_psg1_80056DDC}};
+
+TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
+    NewTabako_80062274,
+    NewScope_80063508,
+    NewBox_80061C7C,
+    NewBox_80061C7C,
+    NewBox_80061C7C,
+    NewGoggle_8007781C,
+    NewGoggleIr_80078E6C,
+    NewGasmask_80060C14,
+    NewBodyarm_80060940,
+    NewKetchap_80072B60,
+    NewKogaku2_800615FC,
+    NewBandana_80061E40,
+    NewJpegcam_80065118
+};
+
+short word_8009EFC0[] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
+
+SVECTOR stru_8009EFD4[2] = {{-100, 200, 200, 0}, {-150, 18, 200, 0}};
+
+Target_Data stru_8009EFE4[4] =
+{
+    {{0, 0, 300, 0}, {400, 600, 400, 0}, 0, 0, 64, 0}, // TODO: Might not be part of this array, might be its own element
+    {{-400, 0, 600, 0}, {400, 600, 400, 0}, 0, 0, 36, 5},
+    {{400, 0, 600, 0}, {400, 600, 400, 0}, 0, 0, 36, 5},
+    {{0, 0, 0, 0}, {501, 600, 501, 0}, 0, 0, 7, 0}
+};
+
+MATRIX stru_8009F064 = {{{-200, 200, 600}, {0, 400, 200}, {400, 0, 5}}, {50, 0, 1}};
+MATRIX stru_8009F084 = {{{200, 200, 600}, {0, 400, 200}, {400, 0, -5}}, {50, 0, 1}};
+MATRIX stru_8009F0A4 = {{{0, 200, 600}, {0, 500, 250}, {500, 0, 0}}, {100, 0, 3}};
+
+GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 
 #define RIFLE_TEBURE_TIME   90 // delay before camera shake
 #define TEBURE              122
@@ -173,419 +316,6 @@ extern const char aSnaInitC[];       // = "sna_init.c"
 #define SET                 pActor->field_9B4_action_table->field_10->field_0
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
-
-void sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
-{
-    short vec_x = 0;
-    pActor->field_9B8_fn_anim = pFn;
-    pActor->field_9BC_anim_frame = 0;
-    pActor->field_A3A = 0;
-    pActor->field_A38_local_data = 0;
-
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_PRONE) != 0)
-    {
-        vec_x = pActor->field_A2A;
-    }
-
-    pActor->field_20_ctrl.field_4C_turn_vec.vx = vec_x;
-    pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
-}
-
-void SetAction_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
-{
-    if (GetAction(pActor) != action_flag)
-    {
-        GM_ConfigObjectAction_80034CD4(&pActor->field_9C_obj, action_flag, 0, interp);
-    }
-}
-
-void sna_8004E260(Actor_SnaInit *pActor, int a2, int interp, int a4)
-{
-    if (pActor->field_9C_obj.field_10 != a2)
-    {
-        GM_ConfigObjectOverride_80034D30(&pActor->field_9C_obj, a2, 0, interp, a4);
-    }
-}
-
-int GM_CheckPlayerStatusFlag_8004E29C(PlayerStatusFlag arg0)
-{
-    return (GM_PlayerStatus_800ABA50 & arg0) != 0;
-}
-
-int GM_SetPlayerStatusFlag_8004E2B4(PlayerStatusFlag arg0)
-{
-    int temp_v0;
-
-    temp_v0 = GM_PlayerStatus_800ABA50 | arg0;
-    GM_PlayerStatus_800ABA50 = temp_v0;
-    return temp_v0;
-}
-
-void GM_ClearPlayerStatusFlag_8004E2D4(PlayerStatusFlag flag)
-{
-    GM_PlayerStatus_800ABA50 &= ~flag;
-}
-
-void sna_set_flags1_8004E2F4(Actor_SnaInit *snake, SnaFlag1 flags)
-{
-    snake->field_894_flags1 |= flags;
-}
-
-void sna_clear_flags1_8004E308(Actor_SnaInit *snake, SnaFlag1 flags)
-{
-    snake->field_894_flags1 &= ~flags;
-}
-
-int sna_check_flags1_8004E31C(Actor_SnaInit *snake, SnaFlag1 flags)
-{
-    return (snake->field_894_flags1 & flags) != 0;
-}
-
-void sna_set_flags2_8004E330(Actor_SnaInit *snake, SnaFlag2 flag)
-{
-    snake->field_898_flags2 |= flag;
-}
-
-void sna_clear_flags2_8004E344(Actor_SnaInit *snake, SnaFlag2 flags)
-{
-    snake->field_898_flags2 &= ~flags;
-}
-
-unsigned int sna_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
-{
-    unsigned int result = 0;
-
-    if (GM_UnkFlagBE != 0)
-    {
-        result = (((unsigned int)snake->field_898_flags2 & param_2) != result);
-    }
-
-    return result;
-}
-
-void CheckSnakeDead_8004E384(Actor_SnaInit *snake)
-{
-    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0))
-    {
-        snake->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PAD_OFF | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
-        sna_set_flags1_8004E2F4(snake, SNA_FLAG1_UNK23);
-        GM_GameStatus_800AB3CC |= 0x10080000;
-
-        if (GM_GameOverTimer_800AB3D4 != -2)
-        {
-            sna_set_flags1_8004E2F4(snake, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
-        }
-    }
-}
-
-void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
-{
-    TARGET *target = snake->field_8E8_pTarget;
-
-    if (target != NULL)
-    {
-        target->field_6_flags &= ~flags;
-        snake->field_8E8_pTarget = 0;
-        snake->field_A54.choke_count = 0;
-        snake->field_89C_pTarget->field_10_size.vx = 300;
-    }
-}
-
-// ... categorize move/turn direction by angle?
-// param_1: snake->field_20_ctrl.field_4C_turn_vec.vy
-// param_2: gSnaMoveDir_800ABBA4
-int sub_8004E458(short param_1, int param_2)
-{
-    short uVar2;
-
-    if (param_2 < 0)
-    {
-        return 0;
-    }
-
-    uVar2 = (param_2 - param_1) & 0xFFF;
-
-    if (uVar2 < 0x800)
-    {
-        if (uVar2 < 0x100)
-        {
-            return 1;
-        }
-        else if (uVar2 > 0x500)
-        {
-            return 3;
-        }
-
-        return 4;
-    }
-    else
-    {
-        if (uVar2 > 0xF00)
-        {
-            return 1;
-        }
-        else if (uVar2 < 0xB00)
-        {
-            return 3;
-        }
-
-        return 2;
-    }
-}
-
-int sub_8004E4C0(Actor_SnaInit *pActor, int param_2)
-{
-    int iVar1;
-
-    if (-1 < dword_800ABBA8)
-    {
-        if ((*dword_800ABBB4 & 0x40) != 0)
-        {
-            return param_2;
-        }
-        iVar1 = (param_2 - dword_800ABBA8) & 0xfff;
-        if (iVar1 < 0x400)
-        {
-            param_2 = dword_800ABBA8 + 0x400;
-        }
-        if (iVar1 > 0xc00)
-        {
-            param_2 = dword_800ABBA8 - 0x400;
-        }
-    }
-    return param_2;
-}
-
-int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
-{
-    if (sub_80028454(param_2, param_1, &param_1[1], param_3, param_4) == 0)
-    {
-        return -1;
-    }
-    sub_80028890(&param_1[1]);
-    GV_SubVec3_80016D40(&param_1[1], param_1, param_1);
-    return GV_VecLen3_80016D80(param_1);
-}
-
-void sub_8004E588(HZD_MAP *param_1, SVECTOR *param_2, int *param_3)
-{
-    unsigned int uVar1;
-
-    uVar1 = sub_800296C4(param_1, param_2, 3);
-    sub_800298DC(param_3);
-    if ((uVar1 & 1) == 0)
-    {
-        *param_3 = 0xffff8001;
-    }
-    if ((uVar1 & 2) == 0)
-    {
-        param_3[1] = 0x7fff;
-    }
-}
-
-int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
-{
-    int     i;
-    SVECTOR vec;
-    int     unk1[2];
-    int     unk2[2];
-
-    vec.vx = pActor->field_9C_obj.objs->objs[4].world.t[0];
-    vec.vy = pActor->field_9C_obj.objs->objs[4].world.t[1];
-    vec.vz = pActor->field_9C_obj.objs->objs[4].world.t[2];
-
-    DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_rotator);
-    DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
-    sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, unk1);
-
-    i = -1;
-
-    if ((sub_80029A2C() & flag) == 0)
-    {
-        sub_800298C0(unk2);
-
-        if (vec.vy - unk1[0] < 350)
-        {
-            i = 0;
-        }
-        else if (unk1[1] - vec.vy < 125)
-        {
-            i = 1;
-        }
-
-        if (i >= 0)
-        {
-            if (!unk2[i])
-            {
-                GM_BombSeg_800ABBD8 = 0;
-            }
-            else
-            {
-                GM_BombSeg_800ABBD8 = (TARGET *)(unk2[i] & ~0x80000000);
-            }
-
-            return 1;
-        }
-    }
-
-    return 2;
-}
-
-int sna_8004E71C(int a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
-{
-    int point[2];
-    SVECTOR vec, vec_saved;
-    MATRIX mtx;
-
-    pVec->vz = a1;
-    pVec->vy = 0;
-    pVec->vx = 0;
-
-    DG_PutVector_8001BE48(pVec, pVec, 1);
-    ReadRotMatrix_80092DD8(&mtx);
-
-    vec.vx = mtx.t[0];
-    vec.vy = mtx.t[1];
-    vec.vz = mtx.t[2];
-
-    vec_saved = *pVec;
-
-    if ( sub_8004E51C(&vec, pHzd, 12, 1) >= 0 )
-    {
-        *pVec = vec_saved;
-    }
-
-    sub_8004E588(pHzd, pVec, point);
-    return (point[1] - pVec->vy) < a4;
-}
-
-int sna_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)
-{
-    CONTROL *pCtrl = &pActor->field_20_ctrl;
-    int bVar1 = 0;
-    SVECTOR SStack48;
-    SVECTOR auStack40;
-
-    if (sna_8004E71C(a3, pCtrl->field_2C_map->field_8_hzd, &SStack48, a5))
-    {
-        return 1;
-    }
-
-    if (a2 == 0)
-    {
-        return 0;
-    }
-
-    if (sna_8004E71C(a4, pCtrl->field_2C_map->field_8_hzd, &auStack40, a5))
-    {
-        if (!svector_800ABBB8 || (svector_800ABBB8->pad == 2))
-        {
-            return 1;
-        }
-
-        if (sub_8004E51C(&SStack48, pActor->field_20_ctrl.field_2C_map->field_8_hzd, 3, 1) < 0)
-        {
-            return 1;
-        }
-
-        bVar1 = 1;
-    }
-
-    if ((!bVar1) && sna_8004E71C((a3 + a4) / 2, pCtrl->field_2C_map->field_8_hzd, &SStack48, a5))
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
-int sub_8004E930(Actor_SnaInit *snake, int arg1)
-{
-    int     int0;
-    int     int1;
-    SVECTOR vec0;
-    SVECTOR vec1;
-
-    vec0.vy = 0;
-    vec0.vx = 0;
-    vec0.vz = (short)arg1;
-    DG_PutVector_8001BE48(&vec0, &vec0, 1);
-
-    int1 = HZD_SlopeFloorLevel_800298F8(&vec0, svector_800ABBB8);
-    int1 -= snake->field_20_ctrl.field_78_levels[0];
-
-    vec1.vx = int1;
-    vec1.vz = SquareRoot0_80092708(arg1 * arg1 - int1 * int1);
-    int0 = -GV_VecDir2_80016EF8(&vec1);
-
-    if (int0 < -0x800)
-    {
-        int0 += 0x1000;
-    }
-
-    return int0;
-}
-
-void sub_8004E9D0(Actor_SnaInit *pActor)
-{
-    int iVar1;
-
-    if (svector_800ABBB8)
-    {
-        iVar1 = sub_8004E930(pActor, 500);
-        iVar1 = iVar1 / 2;
-    }
-    else
-    {
-        iVar1 = 0;
-    }
-
-    pActor->field_718[1].vx = GV_NearExp2_80026384(pActor->field_718[1].vx, iVar1);
-    pActor->field_718[4].vx = GV_NearExp2_80026384(pActor->field_718[4].vx, -iVar1);
-    pActor->field_718[9].vx = GV_NearExp2_80026384(pActor->field_718[9].vx, -iVar1);
-}
-
-void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
-{
-    int iVar1 = GV_DiffDirS_8001704C(param_2, pActor->field_20_ctrl.field_8_rotator.vy);
-
-    if (iVar1 > 128)
-    {
-        iVar1 = 128;
-    }
-    else if (iVar1 < -128)
-    {
-        iVar1 = -128;
-    }
-
-    pActor->field_20_ctrl.field_4C_turn_vec.vz = iVar1;
-}
-
-int sna_8004EAA8(Actor_SnaInit *pActor, int a2)
-{
-    if (a2 == 0)
-    {
-        return pActor->field_9B4_action_table->field_0->field_0;
-    }
-
-    if (a2 == 1)
-    {
-        return pActor->field_9B4_action_table->field_0->field_2;
-    }
-
-    if (a2 == 2)
-    {
-        return pActor->field_9B4_action_table->field_0->field_3;
-    }
-
-    return -1;
-}
-
-void sna_8004EB14(Actor_SnaInit *pActor)
-{
-    memcpy(&pActor->field_9D0, &word_8009EFC0, sizeof(pActor->field_9D0));
-}
 
 void sub_8004EB74(Actor_SnaInit *pActor)
 {
@@ -1487,7 +1217,7 @@ void sna_8005027C(Actor_SnaInit *pActor, int time)
         return;
     }
 
-    if ((*pActor->field_918_n_bullets != 0) && (used_counter_8009F42C < 16))
+    if ((*pActor->field_918_n_bullets != 0) && (bakudan_count_8009F42C < 16))
     {
         pVec = &stru_8009EFD4[0];
 
@@ -2045,7 +1775,7 @@ helper3:
             break;
 
         case 0x8012:
-            dword_8009F2C0 = pMsg->message[1];
+            tabako_dword_8009F2C0 = pMsg->message[1];
             pMsg->message_len = 0;
             break;
 
@@ -5806,7 +5536,7 @@ void sna_80057118(Actor_SnaInit *pActor, int time)
 {
     if (time == 0)
     {
-        if (used_counter_8009F42C >= 16)
+        if (bakudan_count_8009F42C >= 16)
         {
             sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
             sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
@@ -5832,7 +5562,7 @@ void sna_800571B8(Actor_SnaInit *pActor, int time)
 
     if (time == 0)
     {
-        if (used_counter_8009F42C >= 16)
+        if (bakudan_count_8009F42C >= 16)
         {
             sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
             sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
@@ -7216,8 +6946,8 @@ void sna_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time)
         if (++pActor->field_A54.choke_count >= 10) // feels good
         {
             // TODO: fix data when vibrate is figured out
-            NewPadVibration_8005D58C((unsigned char *)dword_8009EF24, 1);
-            NewPadVibration_8005D58C((unsigned char *)dword_8009EF2C, 2);
+            NewPadVibration_8005D58C(dword_8009EF24, 1);
+            NewPadVibration_8005D58C(dword_8009EF2C, 2);
             sna_start_anim_8004E1F4(pActor, sna_anim_choke_kill_80058F88);
             return;
         }
@@ -8859,7 +8589,7 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
     }
 
     dword_8009F434 = 0;
-    used_counter_8009F42C = 0;
+    bakudan_count_8009F42C = 0;
 
     pJiraiUnk = stru_800BDE78;
     i = 0;
@@ -8885,7 +8615,7 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
         gBulNames_800BDC78[i] = 0;
    }
 
-    dword_8009F2C0 = 0;
+    tabako_dword_8009F2C0 = 0;
     pVec_800ABBCC = NULL;
 
     if (model == KMD_SNE_WET2) // wet suit in the docks

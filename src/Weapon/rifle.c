@@ -14,7 +14,8 @@ extern int              GM_GameStatus_800AB3CC;
 extern CONTROL      *gSnaControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *dword_800ABA20;
-SVECTOR                 dword_8009F41C[2];
+
+SVECTOR dword_8009F41C[2] = {{0, 0, 0, 0}, {0, 0, 3000, 0}};
 
 int rifle_act_helper_80067BFC(void)
 {

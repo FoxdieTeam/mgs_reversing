@@ -36,7 +36,7 @@ int        SECTION(".sbss") dword_800AB6B8;
 extern int                  dword_800AB6BC;
 int        SECTION(".sbss") dword_800AB6BC;
 
-extern void *dword_8009E75C[];
+void *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 
 void font_load_80044A9C(void)
 {

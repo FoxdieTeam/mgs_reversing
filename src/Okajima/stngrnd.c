@@ -5,14 +5,18 @@
 #include "unknown.h"
 #include "stgfd_io.h"
 
-extern ANIMATION stru_8009F670;
-extern ANIMATION stru_8009F68C;
-extern SVECTOR   stru_800BDF90;
-extern int       claymore_map_800AB9DC;
-extern SVECTOR   DG_ZeroVector_800AB39C;
+extern SVECTOR stru_800BDF90;
+extern int claymore_map_800AB9DC;
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+extern const char animation_data_80012F2C[];
+extern const char animation_data_80012F50[];
 
 extern const char aRefrection6[]; // = "refrection6"
 extern const char aStngrndC[];    // = "stngrnd.c"
+
+ANIMATION stru_8009F670 = {19692, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)animation_data_80012F2C};
+ANIMATION stru_8009F68C = {21926, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)animation_data_80012F50};
 
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {

@@ -3,7 +3,6 @@
 
 #include "cdbios.h"
 #include "Game/loader.h"
-#include "data/data/data.h"
 
 typedef struct _FS_FILE_INFO_8009D49C
 {

@@ -4,7 +4,10 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 
-extern int dword_8009F608;
+short word_8009F5FC = 1;
+int  dword_8009F600 = 0;
+int  dword_8009F604 = -1;
+int  dword_8009F608 = 0;
 
 void sight_act_helper_8007111C(Actor_Sight *sight)
 {
@@ -435,9 +438,6 @@ void sight_act_800714EC(Actor_Sight *sight)
     menu_Text_Init_80038B98();
 }
 
-extern int dword_8009F600;
-extern int dword_8009F604;
-
 void sight_kill_800719C8(Actor_Sight *sight)
 {
     if (*sight->field_38_primitiveDoubleBuffer)
@@ -645,8 +645,6 @@ Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *
     return sight;
 }
 
-extern short word_8009F5FC;
-
 Actor_Sight *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
 {
     Actor_Sight *sight = (Actor_Sight *)0x0;
@@ -737,8 +735,6 @@ Actor_Sight *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
 
     return sight;
 }
-
-extern short word_8009F5FC;
 
 void sub_80072074()
 {

@@ -8,7 +8,6 @@
 #include "psyq.h"
 
 extern PANEL_TEXTURE             gMenuLeftItems_800BD5A0[];
-extern menu_weapon_rpk_info      gMenuItemRpkInfo_8009E484[];
 extern short                     GM_WeaponTypes_8009D580[];
 extern short                     GM_ItemTypes_8009D598[];
 extern int                       GM_GameStatus_800AB3CC;
@@ -23,8 +22,6 @@ extern int                       dword_800ABA0C;
 extern MATRIX                    DG_ZeroMatrix_8009D430;
 extern SVECTOR                   svector_800ABA10;
 extern char                     *itm_descriptions_8009E3E4[];
-extern void                     *dword_8009E444[];
-extern void                     *dword_8009E44C[];
 
 extern int                       dword_800ABAD0;
 int SECTION(".sbss")             dword_800ABAD0;
@@ -39,11 +36,114 @@ extern const char aNoItem[];
 extern const char aLv[];
 extern const char aEquip[];  // = "EQUIP"
 
+// Also see dword_8009E5CC.
+// Those strings are passed to font_draw_string_80045D0C().
+extern char stru_800115CC[];
+extern char IT_Scope_8001158C[];
+extern char IT_Box1_80011558[];
+extern char IT_Box2_80011524[];
+extern char IT_Box3_800114F8[];
+extern char IT_InfraRedGoogles_80011494[];
+extern char IT_NightVisionGoggles_80011434[];
+extern char IT_GasMask_800113D0[];
+extern char IT_BodyArmor_80011378[];
+extern char IT_Ketchup_80011330[];
+extern char IT_Stealth_800112D4[];
+extern char IT_Bandana_8001127C[];
+extern char IT_Camera_80011224[];
+extern char IT_Ration_800111B0[];
+extern char IT_ColdMedicine_80011150[];
+extern char IT_Diazepam_800110E8[];
+extern char IT_PalKey_800110AC[];
+extern char stru_80011060[];
+extern char stru_8001101C[];
+extern char IT_MineDetector_80010FD0[];
+extern char IT_Disk_80010F84[];
+extern char IT_Rope_80010F50[];
+extern char IT_Handkerchief_80010F08[];
+extern char IT_Suppressor_80010EAC[];
+
+char *SECTION(".data") itm_descriptions_8009E3E4[] = {
+    stru_800115CC,
+    IT_Scope_8001158C,
+    IT_Box1_80011558,
+    IT_Box2_80011524,
+    IT_Box3_800114F8,
+    IT_InfraRedGoogles_80011494,
+    IT_NightVisionGoggles_80011434,
+    IT_GasMask_800113D0,
+    IT_BodyArmor_80011378,
+    IT_Ketchup_80011330,
+    IT_Stealth_800112D4,
+    IT_Bandana_8001127C,
+    IT_Camera_80011224,
+    IT_Ration_800111B0,
+    IT_ColdMedicine_80011150,
+    IT_Diazepam_800110E8,
+    IT_PalKey_800110AC,
+    stru_80011060,
+    stru_8001101C,
+    IT_MineDetector_80010FD0,
+    IT_Disk_80010F84,
+    IT_Rope_80010F50,
+    IT_Handkerchief_80010F08,
+    IT_Suppressor_80010EAC
+};
+
+extern char stru_80011644[];
+extern char stru_80011614[];
+
+char *SECTION(".data") dword_8009E444[] = {
+    stru_80011644,
+    stru_80011614
+};
+
+// TODO: This (whole?) buffer is very likely a EUC-JP/SHIFT-JIS string.
+// It starts with SHIFT-JIS: "ｰ針震人仁刃ﾐ" and then EUC-JP: "|HARD, EXTREM B"
+int SECTION(".data") dword_8009E44C[] = {
+    0x6A9014B0, 0x6C906B90, 0x6E906D90, 0x7C8015D0, 0x44524148,
+    0x5845202C, 0x4D455254, 0xD0428220, 0x81298206, 0x902F8127,
+    0x81499048, 0x810D8127, 0xD004812A, 3
+};
+
+extern const char aCigs[];
+extern const char aScope[];
+extern const char aCBoxA[];
+extern const char aCBoxB[];
+extern const char aCBoxC[];
+extern const char aNVG[];
+extern const char aThermG[];
+extern const char aGasmask[];
+extern const char aBArmor[];
+extern const char aKetchup[];
+extern const char aStealth[];
+extern const char aBandana[];
+extern const char aCamera[];
+extern const char aRation[];
+extern const char aMedicine[];
+extern const char aDiazepam[];
+extern const char aPalKey[];
+extern const char aCard[];
+extern const char aTimerB[];
+extern const char aMineD[];
+extern const char aDisc[];
+extern const char aRope[];
+extern const char aScarf[];
+extern const char aSuppr[];
+
+menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
+    {aCigs,   14}, {aScope,   30}, {aCBoxA,    17}, {aCBoxB,    17},
+    {aCBoxC,  17}, {aNVG,     15}, {aThermG,   16}, {aGasmask,  19},
+    {aBArmor, 18}, {aKetchup, 25}, {aStealth,  32}, {aBandana,  31},
+    {aCamera, 12}, {aRation,  22}, {aMedicine, 21}, {aDiazepam, 21},
+    {aPalKey, 23}, {aCard,    27}, {aTimerB,   26}, {aMineD,    20},
+    {aDisc,   28}, {aRope,    24}, {aScarf,    29}, {aSuppr,    13}};
+
 void sub_8003CEF8(PANEL_TEXTURE *a1);
 int  menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
 int  menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
-void menu_sub_menu_update_8003DA0C(struct Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
+void menu_sub_menu_update_8003DA0C(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
 void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
 int  menu_8003D538(void);
 void menu_8003D7DC(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu);
@@ -183,7 +283,7 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
 
 
 
-void menu_item_helper_8003B8F0(struct Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
+void menu_item_helper_8003B8F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt; // $s6
     SPRT          *pIconSprt; // $s0
@@ -979,7 +1079,7 @@ void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
     menu_item_update_helper4_8003C4EC();
 }
 
-void sub_8003CB98(struct Actor_MenuMan *pActor)
+void sub_8003CB98(Actor_MenuMan *pActor)
 {
     int            field_0_item_id_idx; // $a0
     PANEL_TEXTURE *pItem; // $v0
@@ -994,7 +1094,7 @@ void sub_8003CB98(struct Actor_MenuMan *pActor)
     }
 }
 
-void menu_item_8003CBF0(struct Actor_MenuMan *menuMan)
+void menu_item_init_8003CBF0(Actor_MenuMan *menuMan)
 {
     short val = -1;
 

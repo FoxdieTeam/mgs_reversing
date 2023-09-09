@@ -1,5 +1,4 @@
 #include "linker.h"
-#include "data.h"
 #include "data/rdata/rdata.h"
 
 /*
@@ -10,7 +9,7 @@ int SECTION(".data") dword_800A418C[] = { 0x27350, 0x440000, 0, 0};
 int SECTION(".data") dword_800A41A0[] = {0, 0};
 */
 
-// ctype_ 
+// ctype_
 /*
 int SECTION(".data") _ctype_[] = {
               0,          0,          0x20202000, 0x20202020, 0x8082020,  0x20080808, 0x20202020, 0x20202020,

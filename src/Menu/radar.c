@@ -20,7 +20,6 @@ int        SECTION(".sdata") MENU_RadarRangeH_800AB484;
 extern int MENU_RadarRangeV_800AB488;
 int        SECTION(".sdata") MENU_RadarRangeV_800AB488;
 
-extern radar_uv gRadarUVs_8009E3C8[];
 extern RECT     rect_800AB490;
 extern short    image_8009E338[];
 extern char     dword_8009E60C[];
@@ -32,6 +31,38 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
+
+// Used in unmatched draw_radar_helper2_800391D0
+int dword_8009E2F4[] = {0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808};
+
+radar_uv gRadarUV_8009E30C[] = {
+    {128,  80, 28, 12},
+    {128,  92, 44,  7},
+    {156,  80, 28, 12},
+    {128,  99, 58,  7},
+    {184,  80, 28, 12},
+    {180,  92, 44,  7},
+    {138, 106, 58, 12},
+    {138, 118, 58,  7},
+    {188,  99, 36,  3},
+    {128, 106, 10, 16},
+    {196, 102, 28, 22}
+};
+
+
+// 32x2 image:
+short image_8009E338[] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210};
+
+int gRadarRGBTable_8009E3B8[] = {0x182589, 0x184789, 0x182589, 0x338918};
+
+radar_uv gRadarUVs_8009E3C8[] = {
+    { 7, 29, 55, 1},
+    { 7, 50, 55, 1},
+    {33, 46,  3, 2}
+};
+int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 
 #define CONSOLE_WIDTH      24
 //#define CONSOLE_HEIGHT
@@ -113,7 +144,7 @@ void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsign
     addPrim(pOt, pPrim);
 }
 
-void draw_radar_helper_800390FC(struct Actor_MenuMan *menuMan, unsigned char *pOt)
+void draw_radar_helper_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
 {
     int x1, y1, x2, y2;
 
@@ -184,8 +215,6 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, rada
     addPrim(prim->mPrimBuf.mOt, tile2);
 }
 
-extern radar_uv_pair gRadarUV_8009E30C[];
-extern int           gRadarRGBTable_8009E3B8[];
 extern int           GV_Time_800AB330;
 
 static inline void draw_radar_helper3_helper_helper2(MenuPrim *prim, int height, radar_uv *pRadarUV, int *rgbs)
@@ -220,15 +249,13 @@ void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
         LCOPY(&rgbs[1], rgbs);
     }
 
-    pRadarUV = &gRadarUV_8009E30C[idx].field_4;
+    pRadarUV = &gRadarUV_8009E30C[idx * 2 + 1];
     draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
 
     height += pRadarUV->field_3_h;
-    pRadarUV = &gRadarUV_8009E30C[4].field_0;
+    pRadarUV = &gRadarUV_8009E30C[8];
     draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
 }
-
-extern radar_uv gRadarUV_8009E334[];
 
 extern int cons_current_y_800AB4B0;
 int        cons_current_y_800AB4B0;
@@ -243,7 +270,7 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
     int       h;
     int       color;
 
-    uv = gRadarUV_8009E334; // tp = &( radar_chara[ CHARA_RANDOM ] );
+    uv = &gRadarUV_8009E30C[10]; // tp = &( radar_chara[ CHARA_RANDOM ] );
     color = gRadarRGBTable_8009E3B8[code];
     h = cons_current_y_800AB4B0 > CONSOLE_LONG_LINES ? CONSOLE_LONG_LINES : cons_current_y_800AB4B0;
 
@@ -351,7 +378,7 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
         pUV++;
     }
 
-    pUV2 = &gRadarUV_8009E30C[4].field_4;
+    pUV2 = &gRadarUV_8009E30C[9];
     var_s2 = -25;
     six = 6;
 
@@ -382,11 +409,9 @@ void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
     _NEW_PRIM(sprt, prim);
 
     // code seems to be between 0 and 3 (inclusive)
-    sub_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code].field_0, gRadarRGBTable_8009E3B8[code]);
+    sub_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
-
-extern int   gRadarRGBTable2_8009E3D4[];
 
 void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4)
 {
@@ -666,7 +691,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
     addPrim(pOt, &pActor->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
 }
 
-void menu_radar_update_8003B350(struct Actor_MenuMan *pActor, unsigned char *pOt)
+void menu_radar_update_8003B350(Actor_MenuMan *pActor, unsigned char *pOt)
 {
   int clipY;
 
@@ -714,7 +739,7 @@ void menu_radar_update_8003B350(struct Actor_MenuMan *pActor, unsigned char *pOt
 }
 
 
-void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
+void menu_radar_init_8003B474(Actor_MenuMan *pActor)
 {
     unsigned char field_28_flags; // $v1
 
@@ -735,7 +760,7 @@ void menu_radar_init_8003B474(struct Actor_MenuMan *pActor)
     menu_SetRadarScale_80038E28(4096);
 }
 
-void menu_radar_kill_8003B554(struct Actor_MenuMan *pActor)
+void menu_radar_kill_8003B554(Actor_MenuMan *pActor)
 {
     pActor->field_28_flags &= ~8u;
 }

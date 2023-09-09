@@ -5,12 +5,14 @@
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 
-extern ANIMATION stru_8009F614;
 extern int       GM_CurrentMap_800AB9B0;
-extern RECT      a22dd_8009F60C;
 
 extern const char aBloodC[]; // = "blood.c"
 extern const char aBlood_1[]; // = "blood_1"
+
+RECT rect_8009F60C = {50, 50, 100, 100};
+
+ANIMATION stru_8009F614 = {31572, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)0x80012E84};
 
 void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
 {
@@ -224,7 +226,7 @@ int blood_loader2_80072608(Actor_Blood *pActor, MATRIX *arg1, int count)
 
     blood_loader2_helper2_80072080(arg1, pActor->field_28, pActor->field_A8, pActor->field_2AC_prim_count, count);
 
-    pPrims = DG_GetPrim(18, pActor->field_2AC_prim_count, 0, pActor->field_A8, &a22dd_8009F60C);
+    pPrims = DG_GetPrim(18, pActor->field_2AC_prim_count, 0, pActor->field_A8, &rect_8009F60C);
     pActor->field_24_prims = pPrims;
 
     if (!pPrims)

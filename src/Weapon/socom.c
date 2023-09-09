@@ -20,10 +20,14 @@ extern short word_800AB824;
 short SECTION( ".sdata" ) word_800AB824;
 
 extern RECT    stru_800AB828;
-extern SVECTOR stru_8009F3C4[ 2 ];
-extern SVECTOR stru_8009F3D4[ 2 ];
 extern short   d_800AB9EC_mag_size;
 extern short   d_800ABA2C_ammo;
+
+//------------------------------------------------------------------------------
+
+SVECTOR stru_8009F3B4[2] = {{0, 0, 3200, 0}, {20, -370, 60, 0}};
+SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
+SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 //------------------------------------------------------------------------------
 
@@ -191,8 +195,6 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
     return vecLen;
 }
 
-
-extern SVECTOR stru_8009F3B4[];
 extern int     GV_Time_800AB330;
 extern int     DG_CurrentGroupID_800AB968;
 extern short   GM_WeaponChanged_800AB9D8;

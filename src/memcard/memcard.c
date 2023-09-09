@@ -6,7 +6,8 @@
 #include <SYS/FILE.H>
 #include "psyq.h"
 
-extern int             gmem_card_system_inited_8009D524;
+int gmem_card_system_inited_8009D524 = 0;
+
 extern mem_card gMemCards_800B52F8[2];
 extern long            gHardware_end_io_800B52C8;
 extern long            gHardware_end_write_800B52CC;

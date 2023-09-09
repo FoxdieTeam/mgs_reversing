@@ -48,7 +48,6 @@ extern int dword_800AB644;
 int        dword_800AB644;
 
 extern int   GV_Time_800AB330;
-extern void *dword_8009E75C[];
 
 extern DG_TEX gTextureRecs_800B1F50[512];
 
@@ -58,7 +57,6 @@ extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int               GV_PadMask_800AB374;
 extern int               GV_Clock_800AB920;
 
-extern char dword_8009E60C[];
 extern char dword_800AB610[8];
 
 extern const char aCall[]; // = "call"
@@ -73,6 +71,94 @@ extern int gDiskNum_800ACBF0;
 extern GV_Heap MemorySystems_800AD2F0[ 3 ];
 
 extern char menu_string_format_8009E714[];
+
+char dword_8009E60C[] = {0x77, 0x24, 0x5D, 0x6D, 0x2E, 0x6B, 0x7B, 0x25, 0x7F, 0x6F, 0x00, 0x00};
+
+RadioUnknown dword_8009E618 =
+{
+    {{1, 0, 7, 2}, {0, 1, 2, 7}, {7, 1, 2, 7}, {1, 7, 7, 2}, {0, 9, 2, 7}, {7, 9, 2, 7}, {1, 15, 7, 2}},
+    0x3D472E,
+    0x3D472E
+};
+
+RadioUnknown dword_8009E63C =
+{
+    {{1, 0, 5, 2}, {0, 1, 2, 6}, {5, 1, 2, 6}, {1, 6, 5, 2}, {0, 8, 2, 6}, {5, 8, 2, 6}, {1, 13, 5, 2}},
+    0x3D472E,
+    0x3D472E
+};
+
+char dword_8009E660[] = {10, 10, 15, 12};
+
+Radio_8009E664 dword_8009E664[] = {
+//    x0   y0   w   h    r0    g0    b0  code (code = TILE)
+    {120,  58, 80, 48, 0x13, 0x1F, 0x1A, 0x60},
+    {116,  55,  5,  2, 0x20, 0x30, 0x29, 0x60},
+    {199,  55,  5,  2, 0x20, 0x30, 0x29, 0x60},
+    {116, 107,  5,  2, 0x20, 0x30, 0x29, 0x60},
+    {199, 107,  5,  2, 0x20, 0x30, 0x29, 0x60},
+    {121,  55, 78,  1, 0x20, 0x30, 0x29, 0x60},
+    {121, 108, 78,  1, 0x20, 0x30, 0x29, 0x60},
+    {129,  38, 62, 10, 0x13, 0x1F, 0x1A, 0x60},
+    {129, 117, 62, 10, 0x13, 0x1F, 0x1A, 0x60},
+    {90,   76, 25, 11, 0x13, 0x1F, 0x1A, 0x60},
+    {205,  76, 25, 11, 0x13, 0x1F, 0x1A, 0x60},
+    {84,   38, 43,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {193,  38, 43,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {84,  126, 43,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {193, 126, 43,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {91,   46, 36,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {193,  46, 36,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {91,  118, 36,  1, 0x13, 0x1F, 0x1A, 0x60},
+    {193, 118, 36,  1, 0x13, 0x1F, 0x1A, 0x60}
+};
+
+RadioCoordsStru_8009E6FC gRadioCoords_8009E6FC[] = {
+    {222, 81, 214, 77, 214, 85},
+    {98,  81, 106, 77, 106, 85}
+};
+
+RadioIncomingCall gRadioIncomingCall_8009E708 = {0, 0, -1, 0};
+
+char menu_string_format_8009E714[] = {
+    '.', 2,
+    '@', 2,
+    ':', 2,
+    '_', 4,
+    '!', 2,
+    '?', 6,
+    '+', 6,
+    '-', 6,
+    '/', 6,
+    '*', 6,
+    '{', 3,
+    '}', 3,
+    '\0'
+};
+
+TUnkRadioFn menu_debug_screens_8009E730[] = {
+    menu_draw_mem_debug_80043678,
+    menu_draw_pow_debug_80043A24,
+    menu_draw_ply_debug_80043FD0,
+    menu_draw_obj_debug_800442E4,
+    menu_draw_tex_debug_800445F8
+};
+
+extern char aEmpty[];
+extern char aMem[];
+extern char aPow[];
+extern char aPly[];
+extern char aObj[];
+extern char aTex[];
+
+char *menu_debug_screen_labels_8009E744[] = {
+    aEmpty,
+    aMem,
+    aPow,
+    aPly,
+    aObj,
+    aTex
+};
 
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
 {
@@ -1703,7 +1789,7 @@ void menu_number_init_80042848(Actor_MenuMan *pActor)
     menu_set_string2_80043138();
 }
 
-void menu_number_kill_80042980(void)
+void menu_number_kill_80042980(Actor_MenuMan *pMenu)
 {
 }
 

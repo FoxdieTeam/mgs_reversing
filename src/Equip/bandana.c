@@ -6,15 +6,24 @@ extern short d_800AB9EC_mag_size;
 
 extern const char aBandanaC[];
 
-extern const char *off_8009F2A8[3];
-extern const char *off_8009F2B4[3];
-
 extern short gGcl_gameStateVars_800B44C8[0x60];
 
 extern short snake_weapon_idx_800BDCBA;
 extern short snake_weapon_max_ammo_800BDCBC;
 extern short d_800AB9EC_mag_size;
 extern short snake_mag_size_800BDCB8;
+
+//------------------------------------------------------------------------------
+
+extern const char aSnaFace[];
+extern const char aSnaFace2[];
+extern const char aSnaFace3[];
+extern const char aSnaMf1[];
+extern const char aSnaMf2[];
+extern const char aSnaMf3[];
+
+const char *off_8009F2A8[3] = {aSnaFace, aSnaFace2, aSnaFace3};
+const char *off_8009F2B4[3] = {aSnaMf1, aSnaMf2, aSnaMf3};
 
 //------------------------------------------------------------------------------
 

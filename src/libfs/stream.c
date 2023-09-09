@@ -1,7 +1,6 @@
 #include "libfs.h"
 #include "linker.h"
 #include "psyq.h"
-#include "data/data/data.h"
 #include "mts/mts_new.h"
 #include "SD/sd.h"
 

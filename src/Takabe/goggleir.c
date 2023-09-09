@@ -11,6 +11,10 @@
 extern int GM_GameStatus_800AB3CC;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
+extern u_long image_data_800B3818[256];
+
+RECT rect_8009F718 = {768, 226, 256, 2};
+RECT rect_8009F720 = {768, 196, 256, 2};
 
 ushort goggleir_pal_convert_800789E0(ushort base)
 {
@@ -48,11 +52,6 @@ ushort goggleir_pal_convert_800789E0(ushort base)
 
     return r | g << 5 | b << 10 | a;
 }
-
-extern RECT rect_8009F718;
-extern RECT rect_8009F720;
-
-extern u_long image_data_800B3818[256];
 
 void goggleir_pal_cb_80078AB8(void)
 {

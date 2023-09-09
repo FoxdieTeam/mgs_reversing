@@ -13,17 +13,12 @@ extern int                dword_800BDFB8;
 extern int                dword_800BDFBC;
 extern demothrd_80700000 *dword_800BDFC0;
 extern int                dword_800BDFC4;
-extern ANIMATION          stru_8009F73C;
-extern ANIMATION          stru_8009F758;
-extern ANIMATION          stru_8009F774;
-extern ANIMATION          stru_8009F790;
 extern int                GV_Time_800AB330;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern UnkCameraStruct2   gUnkCameraStruct2_800B7868;
 extern int                GM_PadVibration2_800ABA54;
 extern int                GM_PadVibration_800ABA3C;
 extern Blast_Data         blast_data_8009F4F4;
-extern SVECTOR            svector_8009F7AC;
 extern GM_Camera          GM_Camera_800B77E8;
 
 extern const char aDemothrdC[]; // = "demothrd.c"
@@ -40,6 +35,13 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
 void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2, SVECTOR *pSmokeVecs, int a4);
 void DG_8001CDB8(DG_OBJS *pObjs);
 void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3);
+
+ANIMATION stru_8009F73C = {20781, 8, 4, 30, 1, 1000, 3, 500, 500, 255, NULL, (void *)0x8001345C};
+ANIMATION stru_8009F758 = {20781, 8, 4, 30, 3, 0, 1, 1000, 1000, 64, NULL, (void *)0x80013488};
+ANIMATION stru_8009F774 = {20781, 8, 4, 30, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC};
+ANIMATION stru_8009F790 = {9287, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, (void *)0x80013510};
+
+SVECTOR svector_8009F7AC = {0, 255, 0, 0};
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {

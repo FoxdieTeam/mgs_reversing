@@ -7,7 +7,6 @@
 #include "map/map.h"
 #include "libhzd/libhzd.h"
 
-extern int      door_where_8009F5F4;
 extern int      GM_GameOverTimer_800AB3D4;
 extern CONTROL *gSnaControl_800AB9F4;
 extern int      dword_800ABA0C;
@@ -24,6 +23,8 @@ extern const char aDoorOpencancel[]; // = "door:opencancel %d\n"
 extern const char aCloseDoorX[];     // = "close door %X\n"
 extern const char aCloseDoorX_0[];   // = "CLOSE door %X\n"
 extern const char aDoorC[];          // = "door.c"
+
+int door_where_8009F5F4 = 0;
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
 {

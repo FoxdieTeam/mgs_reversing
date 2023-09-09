@@ -10,13 +10,14 @@
 
 extern int            GM_CurrentMap_800AB9B0;
 extern int            GV_Clock_800AB920;
-extern int            gSparkRandomTableIndex_8009F668;
-extern int            gSparkRandomTableIndex2_8009F66C;
 extern unsigned short gSparkRandomTable_800BDF10[];
 extern SVECTOR        DG_ZeroVector_800AB39C;
 
 extern const char aSparkFl[]; // = "spark_fl"
 extern const char aSparkC[];  // = "spark.c"
+
+int gSparkRandomTableIndex_8009F668 = -1;
+int gSparkRandomTableIndex2_8009F66C = 0;
 
 void spark_init_random_table_80073DB0()
 {

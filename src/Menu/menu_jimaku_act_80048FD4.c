@@ -3,12 +3,13 @@
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
-extern signed char     dword_8009E76C[];
 extern int             GV_PauseLevel_800AB928;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 extern GV_PAD          GV_PadData_800B05C0[4];
 
 extern const char aPause[]; // = "PAUSE"
+
+signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
 void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
 {

@@ -7,8 +7,11 @@
 extern int   GM_GameStatus_800AB3CC;
 extern short GM_O2_800ABA34;
 
-extern BarConfig gSnakeLifeBarConfig_8009E5F4;
-extern BarConfig gSnakeO2BarConfig_8009E600;
+extern const char aLife[];
+BarConfig gSnakeLifeBarConfig_8009E5F4 = {aLife, {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
+
+extern const char aO2[];
+BarConfig gSnakeO2BarConfig_8009E600 = {aO2, {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
 
 // force gp
 extern int dword_800ABAE8;
@@ -28,7 +31,7 @@ void sub_8003ECC0(void)
 int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 {
     short snakeHp;
-    
+
     snakeHp = pBars->field_6_snake_hp;
     if (snakeHp == GM_SnakeCurrentHealth)
     {
@@ -168,7 +171,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
 void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 {
     BarConfig *pBar;
-    
+
     pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
 
