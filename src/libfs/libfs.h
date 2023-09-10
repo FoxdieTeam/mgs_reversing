@@ -85,5 +85,6 @@ int         Loader_helper2_80023460(STAGE_FILE *);
 int         Loader_helper_8002336C(STAGE_FILE *, int);
 int         FS_StreamGetEndFlag_800243B8(void);
 void        MakeFullPath_80021F68(int, char *);
+int         FS_StreamGetSize_80024188(int *ptr);
 
 #endif // _LIBFS_H_
