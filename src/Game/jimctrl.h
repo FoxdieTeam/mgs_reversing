@@ -1,7 +1,7 @@
 #ifndef JIMCTRL_H
 #define JIMCTRL_H
 
-#define array_800B933C_SIZE 8
+#define array_800B933C_SIZE 7
 
 #include "libgv/libgv.h"
 
@@ -21,7 +21,7 @@ typedef struct
 // GV_ACT used for subtitles.
 typedef struct
 {
-    GV_ACT field_0_base;
+    GV_ACT field_0_actor;
     int   field_20;
     short field_24;
     char  field_26;
@@ -29,22 +29,35 @@ typedef struct
     int   field_28;
     int   field_2C;
     int   field_30;
-    void *field_34;
-    void *field_38; // Pointer to data used to update Codec portraits, mainly by 80038070().
+    int  *field_34;
+    char *field_38; // Pointer to data used to update Codec portraits, mainly by 80038070().
     int   field_3C;
     int   field_40;
     // Pointer to subtitles, mainly used by 80038070():
     // - @ 0x80038240 (R): reads the current subtitle; if disabled, the subtitles no longer update.
     // - @ 0x80038340 (W): updates the pointer; if disabled, all the subtitles play in one go.
-    void *field_44_subtitles;
+    int  *field_44_subtitles;
+    int   field_48;
+    int   field_4C;
+    char  field_50_buffer[4090];
 } Actor_JimCtrl;
+
+typedef struct
+{
+    char *field_0;
+    int  *field_4;
+    short data_offset;
+    short subtitle_offset;
+    int   font_offset;
+} SubtitleHeader;
 
 void         jimctrl_init_helper_clear_80037FB8(void);
 void         jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl);
 void         jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl);
-void         sub_80037FE0(int index, u_short value);
-void         jimctrl_act_80038070(void);
+void         jimctrl_act_helper_clear_first_80037FE0(int index, int value);
+void         jimctrl_act_80038070(Actor_JimCtrl *pJimCtrl);
 unsigned int jimctrl_helper_80037F68(unsigned int);
-GV_ACT        *jimctrl_init_80038568(u_long flags);
+void         jimctrl_act_helper_set_first_80037F2C(int index, int value);
+GV_ACT      *jimctrl_init_80038568(u_long flags);
 
 #endif // JIMCTRL_H
