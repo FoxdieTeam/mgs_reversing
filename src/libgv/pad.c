@@ -277,12 +277,7 @@ void GV_UpdatePadSystem_8001682C(void)
                 }
                 else
                 {
-                    // val =  ( table [ check >> 12 ] + GV_PadOrigin_800AB378 ) & 0x0FFF; // this is what I originally
-                    // had and the logic is fine but doesn't match as it merges sra 12 and sll 1 into srl 11
-                    __asm__("sra  $2, %0, 12"
-                            : "=r"(check)
-                            : "r"(check)); // force division of 4096 to use sra 12 rather than merging sra 12 and sll 1
-                                           // into srl 11
+                    check >>= 12;
                     val = (table[check] + GV_PadOrigin_800AB378) & 0x0FFF;
                 }
                 pad->dir = val;
