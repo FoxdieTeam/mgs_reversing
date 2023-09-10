@@ -311,8 +311,88 @@ void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
     }
 }
 
-#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper3_helper2_8003A2D0.s") // 916 bytes
-void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int param_2);
+void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
+{
+    int       i;
+    int       count;
+    SPRT     *sprt1, *sprt2, *sprt3, *sprt4;
+    radar_uv *uv;
+    int       rgb;
+    short     clut;
+    short     y0;
+
+    uv = &gRadarUV_8009E30C[10];
+    rgb = gRadarRGBTable_8009E3B8[idx];
+
+    count = 7;
+    if (cons_current_y_800AB4B0 < 8)
+    {
+        count = cons_current_y_800AB4B0;
+    }
+
+    _NEW_PRIM(sprt1, pGlue);
+    clut = gRadarClut_800AB498[0];
+
+    sprt1->x0 = -28;
+    sprt1->y0 = count * 2 + 4;
+    sprt1->clut = clut;
+    sprt1->u0 = uv->field_0_x;
+    sprt1->v0 = uv->field_1_y + cons_current_y_800AB4B0 % 16;
+    sprt1->h = 1;
+    LSTORE(rgb, &sprt1->r0);
+
+    setSprt(sprt1);
+    setSemiTrans(sprt1, 1);
+    addPrim(pGlue->mPrimBuf.mOt, sprt1);
+
+    if (cons_current_x_800AB4B4 > 28)
+    {
+        sprt1->w = 28;
+
+        _NEW_PRIM(sprt2, pGlue);
+        *sprt2 = *sprt1;
+
+        sprt2->v0 = uv->field_1_y + (cons_current_y_800AB4B0 + 3) % 16;
+        sprt2->x0 += 28;
+        sprt2->w = cons_current_x_800AB4B4 - 28;
+
+        addPrim(pGlue->mPrimBuf.mOt, sprt2);
+    }
+    else
+    {
+        sprt1->w = cons_current_x_800AB4B4;
+    }
+
+    for (i = 1; i <= count; i++)
+    {
+        _NEW_PRIM(sprt3, pGlue);
+        *sprt3 = *sprt1;
+
+        y0 = sprt1->y0;
+
+        sprt3->w = 28;
+        sprt3->y0 = y0 - i * 2;
+        sprt3->v0 = uv->field_1_y + (cons_current_y_800AB4B0 - i + 16) % 16;
+
+        addPrim(pGlue->mPrimBuf.mOt, sprt3);
+
+        _NEW_PRIM(sprt4, pGlue);
+        *sprt4 = *sprt3;
+
+        sprt4->w = 28;
+        sprt4->v0 = uv->field_1_y + (cons_current_y_800AB4B0 - i + 19) % 16;
+        sprt4->x0 += 28;
+
+        addPrim(pGlue->mPrimBuf.mOt, sprt4);
+    }
+
+    cons_current_x_800AB4B4++;
+    if (cons_current_x_800AB4B4 >= 57)
+    {
+        cons_current_x_800AB4B4 = 0;
+        cons_current_y_800AB4B0++;
+    }
+}
 
 void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
 {
