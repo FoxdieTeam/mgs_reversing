@@ -46,7 +46,7 @@ typedef struct _MOTION_CONTROL
 
     // In Actor_SnaInit, this is a pointer to his CONTROL's movement vector (0x20->0x44).
     SVECTOR        *step;     // 0x38
-    unsigned short *field_3C; // 0x3C
+    short *field_3C; // 0x3C
     unsigned long   interp;   // 0x40
     SVECTOR         field_44;
     SVECTOR        *field_4C;
