@@ -172,11 +172,9 @@ map_record BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
 Homing_Target BSS   gHomingTargets_800B8230[8]; // 0x80 (128) bytes
 Actor_strctrl BSS   strctrl_800B82B0; // 0x40 (64) bytes
-Actor_JimCtrl BSS   jimCtrlActor_800B82F0; // 0x48 (72) bytes
-
-gap                                     gap_800B8338[0x1004]; // 4100 bytes
-
-array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x20 (32) bytes
+Actor_JimCtrl BSS   jimCtrlActor_800B82F0; // 0x104C (4172) bytes
+array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes
+int BSS             dword_800B9358; // 0x4 (4) bytes
 
 gap                                     gap_800B935C[0x4]; // 4 bytes
 

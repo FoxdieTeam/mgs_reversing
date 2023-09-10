@@ -9,8 +9,6 @@ extern Actor_MenuMan gMenuMan_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 
 extern const char aItem[]; // sdata
-extern const char aMenumanC[];
-extern const char aMenuPrimOver[];
 
 extern int         GV_Clock_800AB920;
 extern int         MENU_PrimUse_800AB68C;
@@ -146,7 +144,7 @@ void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
 void menuman_init_80038954(void)
 {
     GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, (TActorFunction)menuman_act_800386A4,
-                              (TActorFunction)menuman_kill_800387E8, aMenumanC);
+                              (TActorFunction)menuman_kill_800387E8, "menuman.c");
     menu_init_subsystems_8003884C(&gMenuMan_800BD360);
     menu_InitRadioTable_80049644();
 }
@@ -173,7 +171,7 @@ void menu_ResetTexture_80038A00(void)
 void menu_StartDeamon_80038A20(void)
 {
     GV_InitActor_800150A8(1, &gMenuMan_800BD360.field_0_actor, 0);
-    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, 0, 0, aMenumanC);
+    GV_SetNamedActor_8001514C(&gMenuMan_800BD360.field_0_actor, 0, 0, "menuman.c");
 }
 
 void menu_radio_update_helper_80038A6C(void)
@@ -192,7 +190,7 @@ void menu_ResetSystem_80038A88()
 
     if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd < pFreeLoc)
     {
-        mts_nullsub_8_8008BB98(-1, aMenuPrimOver);
+        mts_nullsub_8_8008BB98(-1, "!!!! MENU PRIM OVER !!!!\n");
     }
 
     MENU_PrimUse_800AB68C =

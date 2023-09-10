@@ -309,8 +309,6 @@
     ; 80037F2C 80037F68 80037FB8
     include "..\obj\Game\jimctrl1.obj"
 
-    include "..\obj\data\rdata\rdata_80010E4C.obj"
-
     ; TODO: merge these into jimctrl.c but the data is broken and causes the file to no longer match
     include "..\obj\Game\jimctrl_act_helper_clear_first_80037FE0.obj"
 
@@ -324,6 +322,8 @@
     ; 800386A4 800387E8 80038954 800389A8 80038A00 80038A20 80038A6C 80038A7C 80038A88 80038B4C
     ; 80038BB4 80038C38 80038D10 80038D68 80038D74 80038DE0
     include "..\obj\Menu\menuman.obj"
+
+    include "..\obj\data\rdata\rdata_80010E4C.obj"
 
     ;radar.c
     ; 80038E28 80038F30 80038F3C 800390FC 800391D0 80039D5C 80039DB4 80039EC4 8003A0BC 8003A2D0 8003A664 8003A978 8003AA2C 8003ADAC 8003ADD8 8003AEC0 8003B350 8003B554
