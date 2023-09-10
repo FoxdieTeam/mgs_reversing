@@ -6,6 +6,8 @@
 
 extern int  GM_PadResetDisable_800AB3F4;
 
+extern char aNoMemoryForFil[];
+
 int init_file_mode_helper_helper_helper2_80049CE8(unsigned char *arg0, int idx)
 {
     int   retval;
@@ -20,7 +22,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(unsigned char *arg0, int idx)
     buf = GV_AllocMemory_80015EB8(0, 0x2000);
     if (buf == NULL)
     {
-        mts_printf_8008BBA0("NO MEMORY FOR FILE BODY\n");
+        mts_printf_8008BBA0(aNoMemoryForFil);
     }
 
     retval = 0;
