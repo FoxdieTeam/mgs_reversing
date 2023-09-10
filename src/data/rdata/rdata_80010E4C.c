@@ -1,11 +1,5 @@
 #include "linker.h"
 
-const char SECTION(".rdata") aKutipakuEnd[] = "KUTIPAKU END\n";
-int        SECTION(".rdata") jpt_80010E5C[] = {0x800383E0, 0x80038400, 0x80038428, 0x800384D8,
-                                               0x80038458, 0x80038464, 0x8003849C};
-const char SECTION(".rdata") aJimctrlC[] = "jimctrl.c";
-const char SECTION(".rdata") aMenumanC[] = "menuman.c";
-const char SECTION(".rdata") aMenuPrimOver[] = "!!!! MENU PRIM OVER !!!!\n";
 // \xb0\x14サプレ\xc2#サー\xd0\x15
 // ソーコムピストル\x90\xf2用のサプレ\xc2#サー。ソーコムピストルの発\x90\x8c\x90\xf3を\x90\xf4える。
 char SECTION(".rdata") IT_Suppressor_80010EAC[] = {

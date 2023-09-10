@@ -766,7 +766,7 @@
 80037F2C 60 jimctrl_act_helper_set_first_80037F2C
 80037F68 80 jimctrl_helper_80037F68
 80037FB8 40 jimctrl_init_helper_clear_80037FB8
-80037FE0 28 sub_80037FE0
+80037FE0 28 jimctrl_act_helper_clear_first_80037FE0
 80037FFC 8 jimctrl_helper_null_80037FFC
 80038004 108 jimctrl_kill_helper_clear_80038004
 80038070 1228 jimctrl_act_80038070
