@@ -1,0 +1,37 @@
+name: eboot
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    name: Psy-Q build
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: '${{ github.workspace }}\mgs_reversing'
+        submodules: true
+
+    - name: Install PsyQ
+      uses: actions/checkout@v3
+      with:
+        repository: 'FoxdieTeam/psyq_sdk'
+        path: '${{ github.workspace }}\psyq_sdk'
+        submodules: true
+
+    - name: Substitute Folder
+      run: |
+        subst P: ${{ github.workspace }}
+              
+    - name: Install Dependencies
+      working-directory: P:\mgs_reversing\build
+      run: python -m pip install -r requirements.txt
+
+    - name: Build
+      working-directory: P:\mgs_reversing\build
+      env:
+        PSYQ_SDK: P:\psyq_sdk\
+      run: python build.py --psyq_path="P:\psyq_sdk\"
+    
