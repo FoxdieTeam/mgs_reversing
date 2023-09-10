@@ -24,8 +24,8 @@ short word_8009D69C[15][64] = {
 int dword_8009DE1C[] = {0x10000, 0x10000, 0x8000, 0x5555, 0x4000, 0x3333, 0x2AAA, 0x2492,
                         0x2000,  0x1C71,  0x1999, 0x1745, 0x1555, 0x13B1, 0x1249, 0x1111};
 
-int dword_8009DE5C[] = {0x8001000, 0x4000555, 0x2AA0333, 0x2000249,
-                        0x19901C7, 0x1550174, 0x124013B, 0x1000111};
+short dword_8009DE5C[] = { 0x1000, 0x0800, 0x0555, 0x0400, 0x0333, 0x02AA, 0x0249, 0x0200,
+                          0x01C7, 0x0199, 0x0174, 0x0155, 0x013B, 0x0124, 0x0111, 0x0100 };
 
 MATRIX matrix_8009DE7C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 MATRIX matrix_8009DE9C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
@@ -400,7 +400,258 @@ int sub_8003556C(MOTION_CONTROL *m_ctrl)
     return time;
 }
 
-#pragma INCLUDE_ASM("asm/Game/oar_related_800356FC.s") // 2104 bytes
+//TODO: move below elsewhere
+#define Shift_Op(v, a, b) \
+{                         \
+    v = a;                \
+    if ( a & 0x10 )       \
+    {                     \
+        b++;              \
+        v = a & 0xF;      \
+    }                     \
+}
+
+#define Mask_Op(sv, v, y, s)    \
+{                               \
+    v >>= s;                    \
+                                \
+                                \
+    v &= ((1 << y) - 1);        \
+                                \
+    if (v & (1 << (y - 1)))     \
+    {                           \
+        v |= ~((1 << y) - 1);   \
+    }                           \
+                                \
+    sv = v;                     \
+}
+// TODO: better name needed
+#define FP_Subtract2(v, a, b) \
+{                            \
+    (v) = (a) - (b);         \
+                             \
+    if ((v) >= 0)            \
+    {                        \
+        (v) &= 0xFFF;        \
+                             \
+        if ((v) >= 2048)     \
+        {                    \
+            (v) -= 4096;     \
+        }                    \
+    }                        \
+    else                     \
+    {                        \
+        (v) |= 0xF000;       \
+                             \
+        if ((v) < -2048)     \
+        {                    \
+            (v) += 4096;     \
+        }                    \
+    }                        \
+                             \
+    (a) = (v);               \
+}
+
+static inline void FP_Subtract3( SVECTOR *svec, SVECTOR *svec2 )
+{
+    int value;
+    FP_Subtract2(value, svec2->vx, svec->vx);
+    FP_Subtract2(value, svec2->vy, svec->vy);
+    FP_Subtract2(value, svec2->vz, svec->vz);
+}
+
+static inline unsigned int extract_archive( MOTION_ARCHIVE *archive )
+{
+    return archive[0] + (archive[1] << 16);
+}
+
+extern MATRIX *RotMatrix_80093508(SVECTOR *r, MATRIX *m);
+extern void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult);
+
+int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
+{
+    MATRIX  rotation;
+    SVECTOR vec;
+
+    OAR_RECORD *pOarRecord;
+    int         record_size;
+    int         ret;
+    int         delta;
+    
+    SVECTOR *pVecs;
+
+    unsigned int vx, vy, vz;
+    
+    MOTION_ARCHIVE *pArchive;
+    
+    int i;
+    
+    int interp;
+
+    int flags;
+    unsigned char shift;
+
+    SVECTOR *b;
+
+    int res;
+    int t0;
+    char shift_temp;
+    
+    pOarRecord  = arg1->field_C_oar_records;
+    record_size = arg0->field_00_oar->n_joint;
+
+    ret = 0;
+
+    if (arg1->field_0 == 0)
+    {
+        return -1;
+    }
+
+    arg1->field_2_footstepsFrame++;
+
+    delta = dword_8009DE5C[arg0->interp];
+    matrix_8009DE7C.m[0][0] = delta;
+    matrix_8009DE7C.m[1][1] = delta;
+    matrix_8009DE7C.m[2][2] = delta;
+
+    gte_SetLightMatrix(&matrix_8009DE7C);
+    
+    if (!(arg1->field_8 & 0x1))
+    {        
+        if (arg1->field_4 == 0)
+        {
+            shift = pOarRecord->field_1D[0];
+            pArchive = pOarRecord->field_14;
+
+            RotMatrix_80093508(arg0->field_34, &rotation);
+            gte_SetRotMatrix(&rotation);
+
+            // vx            
+            vx = extract_archive(pArchive);
+            Mask_Op(res, vx, pOarRecord->field_8.vx, shift);
+            
+            shift_temp = shift + pOarRecord->field_8.vx;
+            Shift_Op(shift, shift_temp, pArchive);
+            
+            vec.vx = res;
+
+            // vy            
+            vy = extract_archive(pArchive);
+            Mask_Op(res, vy, pOarRecord->field_8.vy, shift);
+            
+            shift_temp = shift + pOarRecord->field_8.vy;
+            Shift_Op(shift, shift_temp, pArchive);
+         
+            t0 = res + pOarRecord->field_0.vy;
+            vec.vy = 0;
+
+            // vz
+            vz = extract_archive(pArchive);
+            Mask_Op(res, vz, pOarRecord->field_8.vz, shift);
+            
+            shift_temp = shift + pOarRecord->field_8.vz;
+            Shift_Op(shift, shift_temp, pArchive);
+
+            vec.vz = res;
+            
+            gte_ldv0(&vec);
+            gte_rtv0();
+            res = arg0->step->vy;
+            gte_stsv(arg0->step);
+            arg0->step->vy = res;
+
+            pOarRecord->field_1D[0] = shift;
+            pOarRecord->field_14 = pArchive;
+
+            interp = (t0 - *arg0->field_3C) * delta;
+            *arg0->field_3C += interp / 4096;
+        }
+        else if (arg1->field_4 == 1)
+        {
+            arg0->step->vx = 0;
+            arg0->step->vz = 0;
+        }
+    }
+
+    if (arg1->field_0 == 1)
+    {
+        ret = -1;
+    }
+
+    flags = arg1->field_8;
+    pVecs = arg0->field_4C;
+
+    pOarRecord++;
+
+    if (!(flags & 0x2))
+    {
+
+        b = &arg0->field_44;
+        
+        sub_80035F34(pOarRecord, (SVECTOR *)&rotation.m[0][0]);
+
+        rotation.m[0][0] = (rotation.m[0][0] + pOarRecord->field_0.vx) & 0xFFF;
+        rotation.m[0][1] = (rotation.m[0][1] + pOarRecord->field_0.vy) & 0xFFF;
+        rotation.m[0][2] = (rotation.m[0][2] + pOarRecord->field_0.vz) & 0xFFF;
+
+        FP_Subtract3(b, (SVECTOR*)&rotation.m[0][0]);
+
+        gte_ldv0(&rotation);
+        gte_llv0();
+        gte_stsv(&rotation);
+        
+        b->vx = (b->vx + rotation.m[0][0]) & 0xFFF;
+        b->vy = (b->vy + rotation.m[0][1]) & 0xFFF;
+        b->vz = (b->vz + rotation.m[0][2]) & 0xFFF;
+    }
+    
+    for (i = 0; i < record_size; i++, pOarRecord++, pVecs++, flags >>= 1)
+    {
+        sub_80035F34(pOarRecord, (SVECTOR *)&rotation.m[1][1]);
+            
+        rotation.m[1][1] = (rotation.m[1][1] + pOarRecord->field_0.vx) & 0xFFF;
+        rotation.m[1][2] = (rotation.m[1][2] + pOarRecord->field_0.vy) & 0xFFF;
+        rotation.m[2][0] = (rotation.m[2][0] + pOarRecord->field_0.vz) & 0xFFF;
+
+        if (--pOarRecord->field_18 < 0)
+        {
+            pOarRecord->field_0 = *(SVECTOR *)&rotation.m[1][1];
+                
+            if (ret == 0)
+            {
+                Kmd_Oar_Inflate_800353E4(pOarRecord);
+                FP_Subtract3(&pOarRecord->field_0, (SVECTOR*)&pOarRecord->field_8);
+            }
+        }
+            
+        if (!(flags & 0x1))
+        {
+            if (i == 0)
+            {
+                negate_rots_800366B8(pVecs, (SVECTOR *)&rotation.m[1][1]);
+            }
+            else
+            {
+                FP_Subtract3(pVecs, (SVECTOR*)&rotation.m[1][1]);
+            }
+
+            gte_ldv0(&rotation.m[1][1]);
+            gte_llv0();
+            gte_stsv(&rotation.m[1][1]);
+            
+            pVecs->vx = (pVecs->vx + rotation.m[1][1]) & 0xFFF;
+            pVecs->vy = (pVecs->vy + rotation.m[1][2]) & 0xFFF;
+            pVecs->vz = (pVecs->vz + rotation.m[2][0]) & 0xFFF;
+        }
+    }
+
+    if (--arg1->field_0 == 1)
+    {
+        ret = 1;
+    }
+
+    return ret;
+}
 
 void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult)
 {
@@ -460,41 +711,6 @@ void sub_8003603C(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo)
         pRecord->field_0.vy += vec.vy;
         pRecord->field_0.vz += vec.vz;
     }
-}
-
-// TODO: better name needed
-#define FP_Subtract2(v, a, b) \
-{                            \
-    (v) = (a) - (b);         \
-                             \
-    if ((v) >= 0)            \
-    {                        \
-        (v) &= 0xFFF;        \
-                             \
-        if ((v) >= 2048)     \
-        {                    \
-            (v) -= 4096;     \
-        }                    \
-    }                        \
-    else                     \
-    {                        \
-        (v) |= 0xF000;       \
-                             \
-        if ((v) < -2048)     \
-        {                    \
-            (v) += 4096;     \
-        }                    \
-    }                        \
-                             \
-    (a) = (v);               \
-}
-
-static inline void FP_Subtract3( SVECTOR *svec, SVECTOR *svec2 )
-{
-    int value;
-    FP_Subtract2(value, svec2->vx, svec->vx);
-    FP_Subtract2(value, svec2->vy, svec->vy);
-    FP_Subtract2(value, svec2->vz, svec->vz);
 }
 
 int sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int index, int frame)
@@ -594,7 +810,124 @@ int sub_800360EC(MOTION_CONTROL *pCtrl, MOTION_INFO *pInfo, int index, int frame
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/Game/sub_80036388.s") // 816 bytes
+void sub_80036388( OAR_RECORD *pRecord, int frame )
+{
+    MOTION_ARCHIVE *pArchive;
+    MOTION_ARCHIVE *pArchive2;
+    char shift;
+    char shift2;
+    char shift_temp;
+    int t5;
+    char x, y, z;
+    int t1;
+    unsigned int a2;
+    unsigned int vx, vy, vz;
+    unsigned int vx2, vy2, vz2;
+    unsigned int b;
+    int temp2;
+    int temp;    
+        
+    shift = pRecord->field_1D[0];
+    pArchive = pRecord->field_14;
+    t5 = 0;
+        
+    if (frame < (pRecord->field_18 + 1))
+    {
+        pRecord->field_18 = pRecord->field_18 - frame;
+        return;
+    }
+        
+    frame = frame - (pRecord->field_18 + 1);
+    x = pRecord->field_1D[1];
+    y = pRecord->field_1D[2];
+    z = pRecord->field_1D[3];
+    t1 = x + y + z;
+        
+    for (;;)
+    {
+        temp = (extract_archive(pArchive) >> shift);
+        a2    = temp & 0xFF;
+        temp2 = temp & 0xF;
+        
+        if (frame < temp2)
+        {
+        z = shift + 8;
+        goto exit;
+        }
+        
+        frame = frame - temp2;
+        shift2 = shift;
+        pArchive2 = pArchive;
+        t5 = 1;
+        
+        shift_temp = (shift2 + 8) + t1;
+        pArchive = &pArchive2[shift_temp / 16];
+        shift = shift_temp & 0xF;
+    }
+
+    exit:
+    Shift_Op(shift, z, pArchive);
+    b = (a2 >> 4); 
+    b = b & 0xF;
+    pRecord->field_1A = temp2;
+    do {} while(0);
+        
+    pRecord->field_1C = b;
+
+    a2 = frame;
+
+    pRecord->field_18 = (pRecord->field_1A - a2) - 1;
+    pRecord->field_10 = dword_8009DE1C[pRecord->field_1A];
+        
+    t1 = pRecord->field_1D[1];
+    vx = extract_archive(pArchive);
+    Mask_Op(pRecord->field_8.vx, vx, t1, shift);
+        
+    z = shift + t1;    
+    Shift_Op(shift, z, pArchive);
+        
+    t1 = pRecord->field_1D[2];
+    vy = extract_archive(pArchive);
+    Mask_Op(pRecord->field_8.vy, vy, t1, shift); 
+        
+    z = shift + t1;
+    Shift_Op(shift, z, pArchive);
+        
+    t1 = pRecord->field_1D[3];
+    vz = extract_archive(pArchive);
+    Mask_Op(pRecord->field_8.vz, vz, t1, shift);  
+        
+    z = shift + t1;
+    Shift_Op(shift, z, pArchive);
+        
+    pRecord->field_1D[0] = shift;
+    pRecord->field_14 = pArchive;
+    if (t5)
+    {
+        pArchive2 = &pArchive2[shift2 / 16];
+        
+        z = (shift2 & 0xF) + 8;  
+        Shift_Op(shift2, z, pArchive2);
+        
+        t1 = pRecord->field_1D[1];
+        vx2 = extract_archive(pArchive2);
+        Mask_Op(pRecord->field_8.vx, vx2, t1, shift2); 
+        
+        z = shift2 + t1;
+        Shift_Op(shift2, z, pArchive2);
+        
+        t1 = pRecord->field_1D[2];
+        vy2 = extract_archive(pArchive2);
+        Mask_Op(pRecord->field_8.vy, vy2, t1, shift2);
+        
+        z = shift2 + t1;
+        Shift_Op(shift2, z, pArchive2);
+        
+        t1 = pRecord->field_1D[3];
+        vz2 = extract_archive(pArchive2);
+        Mask_Op(pRecord->field_8.vz, vz2, t1, shift2); 
+    }
+}
 
 int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1)
 {
