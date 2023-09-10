@@ -175,7 +175,9 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /l C:\Data\psyq_sdk\psyq_4.4\LIB /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
+libs = "/l " + args.psyq_path + "/psyq_4.4/LIB"
+
+ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 " + libs + " /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally

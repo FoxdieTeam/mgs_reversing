@@ -6,6 +6,7 @@ This project aims to completely reverse engineer *Metal Gear Solid* for PlayStat
 
 1.  Install Python 3 if you haven't and make sure it's in your PATH.
 2.  Clone down the PsyQ SDK repo from: https://github.com/FoxdieTeam/psyq_sdk.git
+    ⚠️ Make sure your path isn't too long, PsyQ can't deal with paths longer than 255 characters.
 3.  Clone down this repo.
 4.  Open a terminal and `cd` into the build directory.
 5.  Issue the command `pip install -r requirements.txt`.
