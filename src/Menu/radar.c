@@ -104,22 +104,21 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
     gFn_radar_800AB48C = func;
 }
 
-void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *param_3, short x, short y,
-                                        int rgb1, int rgb2, int param_8)
+// TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
+void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *vec, short x, short y, int rgb1, int rgb2, int scale)
 {
-    // TODO: Isn't param_3 just a SVECTOR*?
     POLY_G4 *pPrim;
     int      a2;
     int      diffdir;
     SVECTOR  vec1, vec2, vec3;
 
-    a2 = ((param_3[1] * param_8 / 4096) * 3) / 2;
-    GV_DirVec2_80016F24(param_3[0], a2, &vec3);
+    a2 = ((vec[1] * scale / 4096) * 3) / 2;
+    GV_DirVec2_80016F24(vec[0], a2, &vec3);
 
-    diffdir = GV_DiffDirU_80017040(param_3[0], param_3[2] / 2);
+    diffdir = GV_DiffDirU_80017040(vec[0], vec[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec1);
 
-    diffdir = GV_DiffDirU_80017040(param_3[0], -param_3[2] / 2);
+    diffdir = GV_DiffDirU_80017040(vec[0], -vec[2] / 2);
     GV_DirVec2_80016F24(diffdir, a2, &vec2);
 
     NEW_PRIM(pPrim, pActor);
