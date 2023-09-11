@@ -483,7 +483,7 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     mts_printf_8008BBA0("READING FILE %s...\n", pFilename);
 }
 
-int memcard_get_status_800257B0()
+int memcard_get_status_800257B0(void)
 {
     return gMemCard_io_size_800B5648;
 }
