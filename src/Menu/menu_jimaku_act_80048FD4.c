@@ -104,7 +104,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
         y = (gUnkJimakuStruct_800BDA70.field_1_type == 1 ) ? 112 : 204;
         pFont = &gUnkJimakuStruct_800BDA70.field_C_font;
 
-        sub_800469A4( pFont, gUnkJimakuStruct_800BDA70.field_38_str );
+        font_print_string_800469A4( pFont, gUnkJimakuStruct_800BDA70.field_38_str );
         font_update_8004695C( pFont );
         font_clut_update_80046980( pFont );
 
