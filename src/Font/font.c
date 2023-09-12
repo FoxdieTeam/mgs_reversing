@@ -36,7 +36,7 @@ int        SECTION(".sbss") dword_800AB6B8;
 extern int                  dword_800AB6BC;
 int        SECTION(".sbss") dword_800AB6BC;
 
-void *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
+char *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 
 void font_load_80044A9C(void)
 {
@@ -230,13 +230,14 @@ void *font_get_buffer_ptr_80044FE8(KCB *kcb)
     return kcb->font_clut_buffer;
 }
 
-int font_draw_string_helper4_80044FF4(int code)
+int font_get_glyph_index_80044FF4(int code)
 {
     int new_var2;
     int var_v0;
     int temp_v0;
     int temp_a0;
 
+    // Clear flags from code
     code &= ~0x6000;
 
     if (code < 0x8200)
@@ -281,7 +282,7 @@ unsigned int sub_800450F4(int a1)
     return LLOAD(&gFontBegin[4 * a1]);
 }
 
-void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3, char *arg4)
+void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph)
 {
     unsigned int i;
     int          j;
@@ -306,37 +307,37 @@ void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3,
 
     if (dword_800AB6B8 != 0)
     {
-        var_v1 = arg2 - 4;
+        var_v1 = y - 4;
 
         if (rubi_display_flag_800AB6B0 == 0)
         {
-            var_v1 = arg2 - 2;
+            var_v1 = y - 2;
         }
 
-        temp_v1 = arg0 + ((arg1 + 5) / 2);
-        temp_a0 = temp_v1 + ((var_v1 - 1) * arg3);
+        temp_v1 = buffer + ((x + 5) / 2);
+        temp_a0 = temp_v1 + ((var_v1 - 1) * width);
         temp_a1 = temp_t3 | 0x33;
         *temp_a0 |= temp_a1;
-        temp_v1_2 = temp_v1 + (var_v1 * arg3);
+        temp_v1_2 = temp_v1 + (var_v1 * width);
         *temp_v1_2 |= temp_a1;
     }
 
-    var_a1 = arg4;
-    arg0 = arg0 + (arg1 / 2) + ((++arg2) * arg3);
+    var_a1 = glyph;
+    buffer = buffer + (x / 2) + ((++y) * width);
 
-    if (!(arg1 & 1))
+    if (!(x & 1))
     {
         if (var_a1 == NULL)
         {
             for (i = 0; i < 12; i++)
             {
-                *arg0++ = temp_t3;
-                *arg0++ = temp_t3;
-                *arg0++ = temp_t3;
-                *arg0++ = temp_t3;
-                *arg0++ = temp_t3;
-                *arg0++ = temp_t3;
-                arg0 += arg3 - 6;
+                *buffer++ = temp_t3;
+                *buffer++ = temp_t3;
+                *buffer++ = temp_t3;
+                *buffer++ = temp_t3;
+                *buffer++ = temp_t3;
+                *buffer++ = temp_t3;
+                buffer += width - 6;
             }
 
             return;
@@ -344,19 +345,19 @@ void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3,
 
         for (i = 0; i < 12; i++)
         {
-            *arg0++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
-            *arg0++ = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 16));
+            *buffer++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
+            *buffer++ = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 16));
             var_a1++;
 
-            *arg0++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
-            *arg0++ = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 0x10));
+            *buffer++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
+            *buffer++ = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 0x10));
             var_a1++;
 
-            *arg0++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
-            *arg0 = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 0x10));
+            *buffer++ = temp_t3 | ((*var_a1 >> 6) | (*var_a1 & 0x30));
+            *buffer = temp_t3 | (((*var_a1 & 0xC) >> 2) | ((*var_a1 & 3) * 0x10));
             var_a1++;
 
-            arg0 = (arg0 + arg3) - 5;
+            buffer = (buffer + width) - 5;
         }
 
         return;
@@ -366,14 +367,14 @@ void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3,
     {
         for (i = 0; i < 12; i++)
         {
-            *arg0++ = (*arg0 & 0xF) | (temp_t3 & 0xF0);
-            *arg0++ = temp_t3;
-            *arg0++ = temp_t3;
-            *arg0++ = temp_t3;
-            *arg0++ = temp_t3;
-            *arg0++ = temp_t3;
-            *arg0 = (*arg0 & 0xF0) | (temp_t3 & 0xF);
-            arg0 += arg3 - 6;
+            *buffer++ = (*buffer & 0xF) | (temp_t3 & 0xF0);
+            *buffer++ = temp_t3;
+            *buffer++ = temp_t3;
+            *buffer++ = temp_t3;
+            *buffer++ = temp_t3;
+            *buffer++ = temp_t3;
+            *buffer = (*buffer & 0xF0) | (temp_t3 & 0xF);
+            buffer += width - 6;
         }
 
         return;
@@ -385,8 +386,8 @@ void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3,
 
     for (i = 0; i < 12; i++)
     {
-        var_a2 = (1 - (arg1 % 2)) * 4;
-        var_t1 = arg0;
+        var_a2 = (1 - (x % 2)) * 4;
+        var_t1 = buffer;
         temp_t3 = new_var2;
 
         for (j = 0; j < 12; j++)
@@ -419,11 +420,12 @@ void font_draw_string_helper5_80045124(char *arg0, int arg1, int arg2, int arg3,
             }
         }
 
-        arg0 += arg3;
+        buffer += width;
     }
 }
 
 #pragma INCLUDE_ASM("asm/Font/font_draw_string_helper6_8004544C.s") // 716 bytes
+int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, unsigned int code);
 
 unsigned int font_draw_string_helper_80045718(int a1)
 {
@@ -523,13 +525,13 @@ int get_rubi_char_index_800457B4(int c)
 
 extern char aWrongRubiCodeX[];
 
-int font_draw_string_helper3_helper_800458B8(int *outIterCount, unsigned char *str)
+int font_draw_rubi_string_helper_800458B8(int *outIterCount, const char *str)
 {
-    RubiRes       *rubiRes;
-    int            rubiCode;
-    int            retval; // some sort of length corrected by rubi codes?
-    int            i, idx;
-    unsigned char *strIter;
+    RubiRes    *rubiRes;
+    int         rubiCode;
+    int         retval; // some sort of length corrected by rubi codes?
+    int         i, idx;
+    const char *strIter;
 
     rubiRes = gRubiRes_800AB6B4;
     retval = 0;
@@ -571,28 +573,28 @@ int font_draw_string_helper3_helper_800458B8(int *outIterCount, unsigned char *s
     return retval;
 }
 
-int font_draw_string_helper3_helper2_800459B0(char *arg0, int arg1, int arg2, int arg3, int arg4)
+int font_draw_rubi_string_helper2_800459B0(char *buffer, int x, int y, int width, int arg4)
 {
     int          oddIter, var_a1, j, var_t3, i, var_v0_2, rubiField0, var_t0;
     unsigned int var_v0;
     RubiRes     *rubiRes;
-    char        *arg0_iter1, *rubiRes_iter, *rubiResPtr, *arg0_iter2;
+    char        *buffer_iter1, *rubiRes_iter, *rubiResPtr, *buffer_iter2;
 
     i = 0;
     rubiRes = &gRubiRes_800AB6B4[arg4];
     rubiResPtr = &rubiRes->field_0;
     rubiField0 = *rubiResPtr;
 
-    arg2++;
-    arg0_iter1 = arg0 + arg1 / 2 + arg2 * arg3;
-    arg0_iter2 = arg0_iter1;
+    y++;
+    buffer_iter1 = buffer + x / 2 + y * width;
+    buffer_iter2 = buffer_iter1;
     rubiResPtr = rubiRes->field_1;
 
-    for (; i < 6; arg0_iter1 += arg3, arg0_iter2 = arg0_iter1, i++)
+    for (; i < 6; buffer_iter1 += width, buffer_iter2 = buffer_iter1, i++)
     {
         rubiRes_iter = &rubiResPtr[i / 2 * 3];
         oddIter = i & 1;
-        var_t3 = (1 - arg1 % 2) * 4;
+        var_t3 = (1 - x % 2) * 4;
 
         if (oddIter)
         {
@@ -636,10 +638,10 @@ int font_draw_string_helper3_helper2_800459B0(char *arg0, int arg1, int arg2, in
                 var_t0 *= 4;
             }
 
-            *arg0_iter2 |= var_v0_2 << (4 - var_t3);
+            *buffer_iter2 |= var_v0_2 << (4 - var_t3);
             if (var_t3 == 0)
             {
-                arg0_iter2++;
+                buffer_iter2++;
                 var_t3 = 4;
             }
             else
@@ -651,23 +653,23 @@ int font_draw_string_helper3_helper2_800459B0(char *arg0, int arg1, int arg2, in
     return rubiField0;
 }
 
-void font_draw_string_helper3_80045AE4(char *arg0, int x, int y, int arg3, unsigned char *arg4)
+void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const char *arg4)
 {
-    int            iterCount;
-    int            len;
-    int            rubiCode, pos_y_2;
-    int            pos_x;
-    int            pos_x_2;
-    int            x_offset;
-    int            pos_y;
-    int            rubiIndex;
-    unsigned char *str;
+    int         iterCount;
+    int         len;
+    int         rubiCode, pos_y_2;
+    int         pos_x;
+    int         pos_x_2;
+    int         x_offset;
+    int         pos_y;
+    int         rubiIndex;
+    const char *str;
     str = arg4;
-    if (arg0 == 0)
+    if (buffer == 0)
     {
         return;
     }
-    len = font_draw_string_helper3_helper_800458B8(&iterCount, str);
+    len = font_draw_rubi_string_helper_800458B8(&iterCount, str);
     pos_y_2 = y;
 
     if (rubi_left_pos_y_800ABB30 < pos_y_2)
@@ -748,7 +750,7 @@ void font_draw_string_helper3_80045AE4(char *arg0, int x, int y, int arg3, unsig
         else
         {
             pos_x_2 +=
-                font_draw_string_helper3_helper2_800459B0(arg0, pos_x_2, pos_y - 6, arg3, rubiIndex - 1) + x_offset;
+                font_draw_rubi_string_helper2_800459B0(buffer, pos_x_2, pos_y - 6, width, rubiIndex - 1) + x_offset;
         }
     }
 }
@@ -782,9 +784,8 @@ void font_clut_update_80046980(KCB *kcb)
     LoadImage_8008FB10(&kcb->font_clut_rect, kcb->font_clut_buffer);
 }
 
-void sub_800469A4(KCB *param_1, char *param_2)
+void font_print_string_800469A4(KCB *kcb, const char *string)
 {
-    font_clear_800468FC(param_1);
-    font_draw_string_80045D0C(param_1, 0, (unsigned int)param_1->char_arr[3], param_2,
-                              (unsigned int)param_1->char_arr[5]);
+    font_clear_800468FC(kcb);
+    font_draw_string_80045D0C(kcb, 0, kcb->char_arr[3], string, kcb->char_arr[5]);
 }

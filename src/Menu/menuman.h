@@ -428,7 +428,6 @@ void menuman_kill_800387E8(Actor_MenuMan *);
 void sub_8003CE40(PANEL_TEXTURE *, int);
 void sub_8003D6A8(struct Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn);
 void sub_8003EBDC(struct Actor_MenuMan *a1);
-void sub_800469A4(KCB *param_1, char *param_2); // probably a font func, move if so
 void menu_radio_load_palette_80046B74(unsigned char *image, int idx);
 void sub_80046B10(face_anim_image *image, int idx);
 void sub_80046BD8(int idx);
