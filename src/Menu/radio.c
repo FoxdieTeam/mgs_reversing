@@ -803,11 +803,11 @@ void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
     }
 }
 
-void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *param_2)
+void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *string)
 {
     KCB *kcb = pActor->field_214_font;
-    dword_800ABB04 = param_2;
-    sub_800469A4(kcb, param_2);
+    dword_800ABB04 = string;
+    font_print_string_800469A4(kcb, string);
     font_update_8004695C(kcb);
 }
 
