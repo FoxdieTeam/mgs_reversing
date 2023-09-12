@@ -80,9 +80,9 @@ void radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
     mts_printf_8008BBA0(aVoxcodeX, voxCode);
     if ((unk->field_18 & 0x100) == 0)
     {
-        SwEnterCriticalSection_8009954C();
+        SwEnterCriticalSection();
         sub_80037EE0(voxCode, 0);
-        SwExitCriticalSection_8009956C();
+        SwExitCriticalSection();
         unk->field_14_bInExecBlock = 1;
         menu_gcl_exec_block_800478B4(unk, pScript);
         unk->field_14_bInExecBlock = 0;
