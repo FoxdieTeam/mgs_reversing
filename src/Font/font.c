@@ -424,8 +424,135 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
     }
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_helper6_8004544C.s") // 716 bytes
-int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, unsigned int code);
+int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, unsigned char code)
+{
+    char *location, *location2, *location3, *location4, *locationIter;
+    char *font_location;
+
+    unsigned int   glyph, glyph3;
+    char           glyph2;
+    int            glyph4, glyph5, glyph6;
+    unsigned short glyph7, glyph8;
+
+    int shift, shift2;
+    int i, j, y2, counter, retval, loops;
+
+    location = buffer + x / 2 + y * width;
+
+    if (code > 0 && code < 0xFF)
+    {
+        glyph = sub_800450F4(code);
+        font_location = gFontEnd + (glyph & 0xFFFFFF);
+        retval = (glyph >> 24) & 0xF;
+        loops = 12;
+
+        if (dword_800AB6B8)
+        {
+            shift = (retval + 1) / 2 - 1;
+
+            if (rubi_display_flag_800AB6B0)
+            {
+                y2 = y - 4;
+            }
+            else
+            {
+                y2 = y - 2;
+            }
+
+            glyph2 = dword_800AB6BC;
+
+            location3 = buffer + (x + shift) / 2;
+            location2 = location3 + (y2 - 1) * width;
+
+            glyph3 = (glyph2 << 2) | (glyph2 << 6);
+            glyph3 |= 0x33;
+
+            *location2 |= glyph3;
+
+            location4 = location3 + y2 * width;
+
+            *location4 |= glyph3;
+        }
+
+        counter = 4;
+
+        glyph5 = *font_location++;
+
+        location = location + width * (glyph >> 28);
+        locationIter = location;
+
+        glyph8 = (dword_800AB6BC & 0xFF) << 2;
+
+        for (i = 0; i < loops; location += width, locationIter = location, i++)
+        {
+            shift2 = (1 - x % 2) * 4;
+
+            for (j = 0; j < retval; j++)
+            {
+                glyph7 = (glyph5 & 0xFF) >> 6;
+
+                if (--counter == 0)
+                {
+                    glyph5 = *font_location++;
+                    counter = 4;
+                }
+                else
+                {
+                    glyph5 *= 4;
+                }
+
+                *locationIter |= ((glyph8 | glyph7) & 0xFF) << (4 - shift2);
+
+                if (shift2 == 0)
+                {
+                    locationIter++;
+                    shift2 = 4;
+                }
+                else
+                {
+                    shift2 = 0;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (code)
+        {
+            return 0;
+        }
+
+        y2 = 18;
+        shift = x % 2;
+
+        glyph6 = dword_800AB6BC & 0xFF;
+
+        location = location + width * 5;
+
+        glyph4 = glyph6 << 6 | (0x33 | glyph6 << 2);
+
+        if (shift > 0)
+        {
+            y2 = shift + 16;
+            *location++ |= (glyph4 & 0xFF) >> (shift * 4);
+        }
+
+        while (y2 >= 2)
+        {
+            y2 -= 2;
+            *location++ |= glyph4;
+        }
+
+        if (y2 > 0)
+        {
+            shift = (2 - y2) * 4;
+            *location |= (glyph4 & 0xFF) << (4 - shift);
+        }
+
+        retval = 18;
+    }
+    return retval;
+}
 
 unsigned int font_draw_string_helper_80045718(int a1)
 {
