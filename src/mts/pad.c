@@ -167,7 +167,7 @@ void mts_stop_controller_8008C12C(void)
     if (gMtsPadInited_800A3DBC != 0)
     {
         StopPAD_80099F08();
-        ChangeClearPAD_8009960C(0);
+        ChangeClearPAD(0);
         mts_set_callback_controller_800893D8(0);
         gMtsPadInited_800A3DBC = 0;
     }
