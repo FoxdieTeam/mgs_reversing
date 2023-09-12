@@ -994,41 +994,41 @@
     include "..\obj\psyq\patch_card2_800992B8.obj"
     include "..\obj\psyq\copy_memcard_patch_80099328.obj"
     include "..\obj\psyq\_ExitCard_8009935C.obj"
-    include "..\obj\psyq\InitHeap_800993DC.obj"
-    include "..\obj\psyq\FlushCache_800993EC.obj"
-    include "..\obj\psyq\GPU_cw_800993FC.obj"
-    include "..\obj\psyq\LoadExec_8009940C.obj"
-    include "..\obj\psyq\_96_init_8009941C.obj"
-    include "..\obj\psyq\_96_remove_80099434.obj"
-    include "..\obj\psyq\SetMem_8009944C.obj"
-    include "..\obj\psyq\DeliverEvent_8009945C.obj"
-    include "..\obj\psyq\OpenEvent_8009946C.obj"
-    include "..\obj\psyq\CloseEvent_8009947C.obj"
-    include "..\obj\psyq\WaitEvent_8009948C.obj"
-    include "..\obj\psyq\TestEvent_8009949C.obj"
-    include "..\obj\psyq\EnableEvent_800994AC.obj"
-    include "..\obj\psyq\DisableEvent_800994BC.obj"
-    include "..\obj\psyq\OpenTh_800994CC.obj"
-    include "..\obj\psyq\CloseTh_800994DC.obj"
-    include "..\obj\psyq\ChangeTh_800994EC.obj"
-    include "..\obj\psyq\ReturnFromException_800994FC.obj"
-    include "..\obj\psyq\ResetEntryInt_8009950C.obj"
-    include "..\obj\psyq\HookEntryInt_8009951C.obj"
-    include "..\obj\psyq\EnterCriticalSection_8009952C.obj"
-    include "..\obj\psyq\ExitCriticalSection_8009953C.obj"
-    include "..\obj\psyq\SwEnterCriticalSection_8009954C.obj"
-    include "..\obj\psyq\SwExitCriticalSection_8009956C.obj"
-    include "..\obj\psyq\open_8009958C.obj"
-    include "..\obj\psyq\lseek_8009959C.obj"
-    include "..\obj\psyq\read_800995AC.obj"
-    include "..\obj\psyq\write.obj"
-    include "..\obj\psyq\close_800995CC.obj"
-    include "..\obj\psyq\format_800995DC.obj"
-    include "..\obj\psyq\nextfile_800995EC.obj"
-    include "..\obj\psyq\erase_800995FC.obj"
-    include "..\obj\psyq\ChangeClearPAD_8009960C.obj"
-    include "..\obj\psyq\GetGp_8009961C.obj"
-    include "..\obj\psyq\GetSp_8009962C.obj"
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C57.OBJ" ; InitHeap_800993DC
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C68.OBJ" ; FlushCache_800993EC
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C73.OBJ" ; GPU_cw
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C81.OBJ" ; LoadExec
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C113.OBJ" ; _96_init
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C114.OBJ" ; _96_remove
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C159.OBJ" ; SetMem
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A07.OBJ" ; DeliverEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A08.OBJ" ; OpenEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A09.OBJ" ; CloseEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A10.OBJ" ; WaitEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A11.OBJ" ; TestEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A12.OBJ" ; EnableEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A13.OBJ" ; DisableEvent
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A14.OBJ" ; OpenTh
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A15.OBJ" ; CloseTh
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A16.OBJ" ; ChangeTh
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A23.OBJ" ; ReturnFromException
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A24.OBJ" ; ResetEntryInt
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A25.OBJ" ; HookEntryInt
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A36.OBJ" ; EnterCriticalSection
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A37.OBJ" ; ExitCriticalSection
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A40.OBJ" ; SwEnterCriticalSection
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A41.OBJ" ; SwExitCriticalSection
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A50.OBJ" ; open
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A51.OBJ" ; lseek
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A52.OBJ" ; read
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A53.OBJ" ; write
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A54.OBJ" ; close
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A65.OBJ" ; format
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A67.OBJ" ; nextfile
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A69.OBJ" ; erase
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A91.OBJ" ; ChangeClearPAD
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A94.OBJ" ; GetGp
+    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A95.OBJ" ; GetSp
     include "..\obj\psyq\ChangeClearRCnt_8009963C.obj"
     include "..\obj\psyq\GetRCnt_800996E8.obj"
     include "..\obj\psyq\SetConf_800997BC.obj"
