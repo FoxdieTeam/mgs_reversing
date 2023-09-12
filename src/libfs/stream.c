@@ -167,7 +167,7 @@ void sub_80023C40(void)
             return;
         }
 
-        SwEnterCriticalSection_8009954C();
+        SwEnterCriticalSection();
 
         var_a1 = fs_stream_heap_800B52A4;
         var_v1_2 = temp_v0;
@@ -184,7 +184,7 @@ void sub_80023C40(void)
         fs_stream_heap_end_800B52A8 = (char *)var_a1 + new_var;
         fs_ptr_800B52BC = fs_stream_heap_800B52A4;
 
-        SwExitCriticalSection_8009956C();
+        SwExitCriticalSection();
     }
 
     fs_dword_800B529C = 1;

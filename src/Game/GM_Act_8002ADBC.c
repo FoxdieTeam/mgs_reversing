@@ -252,7 +252,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             if (--dword_800AB9D0 < 0)
             {
                 sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
-                EnterCriticalSection_8009952C();
+                EnterCriticalSection();
                 SetDispMask_8008F7CC(0);
                 PadStopCom_8009A24C();
                 SpuInit_80094568();
@@ -265,13 +265,13 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 SetConf_800997BC(0x10, 4, 0x801FFFF0); // note: hardcoded addresses
                 ResetCallback_80098318();
                 StopCallback_8009840C();
-                _96_remove_80099434();
-                _96_init_8009941C();
+                _96_remove();
+                _96_init();
 
                 do
                 {
                     mts_printf_8008BBA0("load %s\n", exe_name_800B5860);
-                    LoadExec_8009940C(exe_name_800B5860, 0x801FFF00, 0);
+                    LoadExec(exe_name_800B5860, 0x801FFF00, 0);
                 } while (1);
             }
         }

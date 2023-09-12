@@ -44,7 +44,7 @@ int         gStackSize_800A3D94 = 0;
 
 static inline void mts_task_start(void)
 {
-    ExitCriticalSection_8009953C();
+    ExitCriticalSection();
     mts_printf_8008BBA0( "TASK START: %d %X\n",
                          gTaskIdx_800C0DB0,
                          gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg);
@@ -219,7 +219,7 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
     {
         field_4_pMessage->field_C_end_vblanks = cur_vblanks + 1;
     }
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     D_800C0C00 = &stru_800A3D7C;
 
@@ -274,9 +274,9 @@ int mts_wait_vbl_800895F4( int wait_vblanks )
     }
     if ( bChangeThreadContext )
     {
-        ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+        ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
     }
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
     return field_4_pMessage->field_C_end_vblanks >= (unsigned int)gMtsVSyncCount_800A3D78;
 }
 
@@ -287,7 +287,7 @@ static inline void crap( int taskId, void *stackend, void *test )
     int         mts_bits;
     struct TCB *pTcbEntry;
 
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     pTask = &gTasks_800C0C30[ taskId ];
 
@@ -301,7 +301,7 @@ static inline void crap( int taskId, void *stackend, void *test )
     pTask->field_8_fn_or_msg.fn = test;
     pTask->field_4_pMessage = 0;
     pTask->field_18_tcb =
-        OpenTh_800994CC( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp_8009961C() );
+        OpenTh( (MtsThreadFn)&mts_task_start_8008BBC8, (int)stackend, GetGp() );
 
     pTcbEntry = ( *(struct TCB **)0x110 ) + (char)pTask->field_18_tcb;
     pTask->field_1C = pTcbEntry;
@@ -311,7 +311,7 @@ static inline void crap( int taskId, void *stackend, void *test )
     pTask->field_0_state = 3;
     gMts_bits_800C0DB4 |= ( 1 << taskId );
     pTask->field_E = 0;
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 void mts_send_8008982C( int dst, mts_msg2 *message )
@@ -336,7 +336,7 @@ void mts_send_8008982C( int dst, mts_msg2 *message )
         mts_assert( 779, "send state DEAD %d", dst );
     }
 
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     if ( pDstTask->field_0_state == 2 &&
          ( ( pDstTask->field_3_src_idx == -2 ) || ( pDstTask->field_3_src_idx == gTaskIdx_800C0DB0 ) ) )
@@ -406,9 +406,9 @@ void mts_send_8008982C( int dst, mts_msg2 *message )
     }
     if ( bChangeThreadContext )
     {
-        ChangeTh_800994EC( (int)gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+        ChangeTh( (int)gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
     }
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 int mts_isend_80089B04( int isend_dst )
@@ -509,7 +509,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
     }
 
     pTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
     pTask->field_F_recv_idx = src;
 
     if ( src == -1 )
@@ -659,10 +659,10 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
 
     if ( bChangeThreadContext )
     {
-        ChangeTh_800994EC( (int)gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+        ChangeTh( (int)gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
     }
 
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 
     if ( pTask->field_3_src_idx == -2 )
     {
@@ -679,7 +679,7 @@ void mts_slp_tsk_8008A400()
     int       task_idx;             // $v1
     int       bChangeThreadContext; // $v0
     int       rCount;
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     pTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
     rCount = pTask->field_C_ref_count;
@@ -719,9 +719,9 @@ void mts_slp_tsk_8008A400()
 
     if ( bChangeThreadContext )
     {
-        ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+        ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
     }
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 void mts_wup_tsk_8008A540( int taskNr )
@@ -739,7 +739,7 @@ void mts_wup_tsk_8008A540( int taskNr )
 
     if ( pTask->field_0_state == 4 )
     {
-        SwEnterCriticalSection_8009954C();
+        SwEnterCriticalSection();
         pTask->field_0_state = 3;
         gMts_bits_800C0DB4 |= ( 1 << taskNr );
         if ( taskNr < gTaskIdx_800C0DB0 )
@@ -768,10 +768,10 @@ void mts_wup_tsk_8008A540( int taskNr )
 
             if ( bChangeThreadContext )
             {
-                ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+                ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
             }
         }
-        SwExitCriticalSection_8009956C();
+        SwExitCriticalSection();
     }
     else if ( pTask->field_0_state == 3 )
     {
@@ -786,7 +786,7 @@ void mts_lock_sem_8008A6CC( int taskNr )
     int       bitMask;              // $a1
     int       bChangeThreadContext; // $v0
 
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_D = -1;
 
     if ( byte_800C0C10[ taskNr ] >= 0 )
@@ -829,12 +829,12 @@ void mts_lock_sem_8008A6CC( int taskNr )
 
         if ( bChangeThreadContext )
         {
-            ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+            ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
         }
     }
 
     byte_800C0C10[ taskNr ] = gTaskIdx_800C0DB0;
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 void mts_unlock_sem_8008A85C( int taskNum )
@@ -845,7 +845,7 @@ void mts_unlock_sem_8008A85C( int taskNum )
     int       bitMask;              // $a1
     int       bChangeThreadContext; // $v0
 
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     pTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
 
@@ -884,14 +884,14 @@ void mts_unlock_sem_8008A85C( int taskNum )
 
         if ( bChangeThreadContext )
         {
-            ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+            ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
         }
     }
     else
     {
         byte_800C0C10[ taskNum ] = -1; // 32 byte array
     }
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 void mts_reset_interrupt_wait_8008A990( int idx )
@@ -904,7 +904,7 @@ void mts_reset_interrupt_wait_8008A990( int idx )
 
     pTask = &gTasks_800C0C30[ idx ];
 
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     if ( pTask->field_0_state == 2 )
     {
@@ -941,9 +941,9 @@ void mts_reset_interrupt_wait_8008A990( int idx )
 
     if ( bChangeThreadContext )
     {
-        ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+        ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
     }
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 void mts_reset_interrupt_overrun_8008AAA0( void )
@@ -968,13 +968,13 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
     ResetCallback_80098318();
     mts_printf_8008BBA0( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
     mts_printf_8008BBA0( "PROGRAM BOTTOM %X\n", mts_get_bss_tail_8008C598() );
-    EnterCriticalSection_8009952C();
-    eventDesc = OpenEvent_8009946C( 0xF0000010, 4096, 4096, mts_event_cb_8008BBC0 );
+    EnterCriticalSection();
+    eventDesc = OpenEvent( 0xF0000010, 4096, 4096, mts_event_cb_8008BBC0 );
     gMts_Event1_800A3D70 = eventDesc;
-    EnableEvent_800994AC( eventDesc );
-    TestEvent_8009949C( eventDesc );
+    EnableEvent( eventDesc );
+    TestEvent( eventDesc );
 
-    ExitCriticalSection_8009953C();
+    ExitCriticalSection();
 
     for ( task = 0; task < 12; task++ )
     {
@@ -1015,7 +1015,7 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
 
     gTaskIdx_800C0DB0 = -1;
 
-    SwEnterCriticalSection_8009954C();
+    SwEnterCriticalSection();
 
     // Some kind of memory barrier
     *( (unsigned int *)&gMts_active_task_idx_800C13C0 ) = 0;
@@ -1032,27 +1032,27 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
 
     if ( bChangeThreadContext )
     {
-        ChangeTh_800994EC( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
+        ChangeTh( gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_18_tcb );
     }
 
-    SwExitCriticalSection_8009956C();
+    SwExitCriticalSection();
 }
 
 void mts_shutdown_8008B044( void )
 {
-    EnterCriticalSection_8009952C();
+    EnterCriticalSection();
 
     if ( gMts_Event1_800A3D70 )
     {
-        CloseEvent_8009947C( gMts_Event1_800A3D70 );
+        CloseEvent( gMts_Event1_800A3D70 );
     }
 
     if ( gMts_Event2_800A3D90 )
     {
-        CloseEvent_8009947C( gMts_Event2_800A3D90 );
+        CloseEvent( gMts_Event2_800A3D90 );
     }
 
-    ExitCriticalSection_8009953C();
+    ExitCriticalSection();
 }
 
 void mts_8008B0A4( void )
@@ -1099,16 +1099,16 @@ void mts_8008B0A4( void )
                    field_8_start_vblanks ) &&
                  stackPointerVal )
             {
-                SwEnterCriticalSection_8009954C();
+                SwEnterCriticalSection();
                 pTask = &gTasks_800C0C30[ field_4_task_idx ];
                 pTask->field_2_rcv_task_idx = -1;
                 pTask->field_1 = -1;
                 pTask->field_8_fn_or_msg.fn = (int ( * )( void ))field_8_start_vblanks;
                 pTask->field_4_pMessage = 0;
 
-                Gp_8009961C = GetGp_8009961C();
+                Gp_8009961C = GetGp();
 
-                thrd_offset = OpenTh_800994CC(
+                thrd_offset = OpenTh(
                     (MtsThreadFn)mts_task_start_8008BBC8, (int)stackPointerVal, Gp_8009961C );
                 pTask->field_18_tcb = thrd_offset;
                 pTcb = ( *( (struct TCB **)0x110 ) ) + ( (char)thrd_offset );
@@ -1117,7 +1117,7 @@ void mts_8008B0A4( void )
                 pTask->field_0_state = 3;
                 gMts_bits_800C0DB4 |= 1 << field_4_task_idx;
                 pTask->field_E = 0;
-                SwExitCriticalSection_8009956C();
+                SwExitCriticalSection();
                 msg.field_0 = 0;
             }
             else
@@ -1146,7 +1146,7 @@ void mts_8008B0A4( void )
             }
 
             mts_printf_8008BBA0( "TASK EXIT" );
-            SwEnterCriticalSection_8009954C();
+            SwEnterCriticalSection();
             field_4_pMessage = gTasks_800C0C30[ sys_client_idx ].field_4_pMessage;
             gTasks_800C0C30[ sys_client_idx ].field_0_state = 0;
 
@@ -1157,8 +1157,8 @@ void mts_8008B0A4( void )
 
             field_18_tcb = gTasks_800C0C30[ sys_client_idx ].field_18_tcb;
             gMts_bits_800C0DB4 &= ~( ( (unsigned int)msg_field_0 ) << sys_client );
-            CloseTh_800994DC( field_18_tcb );
-            SwExitCriticalSection_8009956C();
+            CloseTh( field_18_tcb );
+            SwExitCriticalSection();
             bDoSend = 0;
             break;
 
@@ -1259,7 +1259,7 @@ void mts_get_use_stack_size_8008B68C( int *pLocation, int *pStack, int *pStackSi
     int      *cur;
     int       i;
 
-    sp = GetSp_8009962C();
+    sp = GetSp();
     pTask = &gTasks_800C0C30[ gTaskIdx_800C0DB0 ];
     stack_size = gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_14_stackSize;
     idx = gTaskIdx_800C0DB0;

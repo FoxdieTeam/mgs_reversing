@@ -160,7 +160,7 @@ int memcard_loaddir_800247E8(int port, int *pFreeBlockCount)
             blocks += (dir.size + 8191) / 8192;
             files++;
         }
-        while (nextfile_800995EC(&dir));
+        while (nextfile(&dir));
 
         mts_printf_8008BBA0("TOTAL %d FILES used %d block\n", files, blocks);
         *pFreeBlockCount = blocks;
@@ -223,35 +223,35 @@ void memcard_init_80024E48()
         gSwCardLastOp_800B52F0 = 1;
         memcard_set_sw_hw_card_fns_8002469C();
 
-        EnterCriticalSection_8009952C();
+        EnterCriticalSection();
 
-        gHardware_end_io_800B52C8 = OpenEvent_8009946C(
+        gHardware_end_io_800B52C8 = OpenEvent(
             0xF0000011, 4, 0x1000, memcard_hwcard_end_io_800244FC); // f = hardware, 11 = HwCARD, 4 = EvSpIOE = end io
         gHardware_end_write_800B52CC =
-            OpenEvent_8009946C(0xF0000011, 0x8000, 0x1000, memcard_hwcard_end_write_80024524); // EvSpIOEW = end write
+            OpenEvent(0xF0000011, 0x8000, 0x1000, memcard_hwcard_end_write_80024524); // EvSpIOEW = end write
         gHardware_timeout_800B52D0 =
-            OpenEvent_8009946C(0xF0000011, 0x100, 0x1000, memcard_hwcard_timeout_8002455C); // EvSpTIMOUT
+            OpenEvent(0xF0000011, 0x100, 0x1000, memcard_hwcard_timeout_8002455C); // EvSpTIMOUT
         gHardware_new_device_800B52D4 =
-            OpenEvent_8009946C(0xF0000011, 0x2000, 0x1000, memcard_hwcard_new_80024594); // EvSpNEW new device
+            OpenEvent(0xF0000011, 0x2000, 0x1000, memcard_hwcard_new_80024594); // EvSpNEW new device
 
-        gSoftware_end_io_800B52D8 = OpenEvent_8009946C(
+        gSoftware_end_io_800B52D8 = OpenEvent(
             0xF4000001, 4, 0x1000, memcard_swcard_end_io_800245CC); // f4 = bios/software, 1 = SwCARD, EvSpIOE
         gSoftware_end_write_800B52DC =
-            OpenEvent_8009946C(0xF4000001, 0x8000, 0x1000, memcard_swcard_end_write_800245F4);
-        gSoftware_timeout_800B52E0 = OpenEvent_8009946C(0xF4000001, 0x100, 0x1000, memcard_swcard_timeout_8002462C);
-        gSoftware_new_device_800B52E4 = OpenEvent_8009946C(0xF4000001, 0x2000, 0x1000, memcard_swcard_new_80024664);
+            OpenEvent(0xF4000001, 0x8000, 0x1000, memcard_swcard_end_write_800245F4);
+        gSoftware_timeout_800B52E0 = OpenEvent(0xF4000001, 0x100, 0x1000, memcard_swcard_timeout_8002462C);
+        gSoftware_new_device_800B52E4 = OpenEvent(0xF4000001, 0x2000, 0x1000, memcard_swcard_new_80024664);
 
-        EnableEvent_800994AC(gHardware_end_io_800B52C8);
-        EnableEvent_800994AC(gHardware_end_write_800B52CC);
-        EnableEvent_800994AC(gHardware_timeout_800B52D0);
-        EnableEvent_800994AC(gHardware_new_device_800B52D4);
+        EnableEvent(gHardware_end_io_800B52C8);
+        EnableEvent(gHardware_end_write_800B52CC);
+        EnableEvent(gHardware_timeout_800B52D0);
+        EnableEvent(gHardware_new_device_800B52D4);
 
-        EnableEvent_800994AC(gSoftware_end_io_800B52D8);
-        EnableEvent_800994AC(gSoftware_end_write_800B52DC);
-        EnableEvent_800994AC(gSoftware_timeout_800B52E0);
-        EnableEvent_800994AC(gSoftware_new_device_800B52E4);
+        EnableEvent(gSoftware_end_io_800B52D8);
+        EnableEvent(gSoftware_end_write_800B52DC);
+        EnableEvent(gSoftware_timeout_800B52E0);
+        EnableEvent(gSoftware_new_device_800B52E4);
 
-        ExitCriticalSection_8009953C();
+        ExitCriticalSection();
 
         idx = 0;
 
@@ -290,16 +290,16 @@ void memcard_init_80024E48()
 void memcard_exit_800250C4()
 {
     StopCARD_80099130();
-    EnterCriticalSection_8009952C();
-    CloseEvent_8009947C(gHardware_end_io_800B52C8);
-    CloseEvent_8009947C(gHardware_end_write_800B52CC);
-    CloseEvent_8009947C(gHardware_timeout_800B52D0);
-    CloseEvent_8009947C(gHardware_new_device_800B52D4);
-    CloseEvent_8009947C(gSoftware_end_io_800B52D8);
-    CloseEvent_8009947C(gSoftware_end_write_800B52DC);
-    CloseEvent_8009947C(gSoftware_timeout_800B52E0);
-    CloseEvent_8009947C(gSoftware_new_device_800B52E4);
-    ExitCriticalSection_8009953C();
+    EnterCriticalSection();
+    CloseEvent(gHardware_end_io_800B52C8);
+    CloseEvent(gHardware_end_write_800B52CC);
+    CloseEvent(gHardware_timeout_800B52D0);
+    CloseEvent(gHardware_new_device_800B52D4);
+    CloseEvent(gSoftware_end_io_800B52D8);
+    CloseEvent(gSoftware_end_write_800B52DC);
+    CloseEvent(gSoftware_timeout_800B52E0);
+    CloseEvent(gSoftware_new_device_800B52E4);
+    ExitCriticalSection();
     gmem_card_system_inited_8009D524 = 0;
 }
 
@@ -374,7 +374,7 @@ int memcard_delete_800253C4(int idx, const char *pFileName)
     if (pCard->field_1_last_op == 1)
     {
         sprintf(tmp, "bu%02X:%s", 0x10 * idx, pFileName);
-        if (erase_800995FC(tmp))
+        if (erase(tmp))
         {
             mts_printf_8008BBA0("Deleted File %s", pFileName);
             return 1;
@@ -431,14 +431,14 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
 
     sprintf(name, "bu%02X:%s", idx * 16, pFileName);
 
-    hFile = open_8009958C(name, (blocks << 16) | O_CREAT);
+    hFile = open(name, (blocks << 16) | O_CREAT);
     if (hFile < 0)
     {
         mts_printf_8008BBA0("Warning : MEMCARD create error ... overwrite\n");
     }
-    close_800995CC(hFile);
+    close(hFile);
 
-    hFile = open_8009958C(name, O_NOWAIT | O_WRONLY);
+    hFile = open(name, O_NOWAIT | O_WRONLY);
     if (hFile < 0)
     {
         mts_printf_8008BBA0("MEMCARD WRITE ERROR FD %d\n", hFile);
@@ -450,11 +450,11 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
     bufferSize = ROUND_UP(bufferSize, 128);
     if (seekPos > 0)
     {
-        lseek_8009959C(hFile, seekPos, SEEK_SET);
+        lseek(hFile, seekPos, SEEK_SET);
     }
     memcard_set_read_write_8002551C(bufferSize);
     write(hFile, pBuffer, bufferSize);
-    close_800995CC(hFile);
+    close(hFile);
     mts_printf_8008BBA0("WRITING FILE %s...\n", pFileName);
 }
 
@@ -464,7 +464,7 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     int hFile;
 
     sprintf(name, "bu%02x:%s", idx * 16, pFilename);
-    hFile = open_8009958C(name, FREAD | FASYNC);
+    hFile = open(name, FREAD | FASYNC);
     if (hFile < 0)
     {
         mts_printf_8008BBA0("MEMCARD READ ERROR FD %d\n", hFile);
@@ -475,11 +475,11 @@ void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pB
     mts_printf_8008BBA0("MEMCARD READ %s FD %d SIZE %d\n", pFilename, hFile, bufferSize);
     if (seekPos > 0)
     {
-        lseek_8009959C(hFile, seekPos, SEEK_SET);
+        lseek(hFile, seekPos, SEEK_SET);
     }
     memcard_set_read_write_8002551C(bufferSize);
-    read_800995AC(hFile, pBuffer, bufferSize);
-    close_800995CC(hFile);
+    read(hFile, pBuffer, bufferSize);
+    close(hFile);
     mts_printf_8008BBA0("READING FILE %s...\n", pFilename);
 }
 
@@ -499,7 +499,7 @@ int memcard_format_800257C0(int idx)
     if (gMemCards_800B52F8[idx].field_1_last_op == 5)
     {
     retry:
-        if (format_800995DC(cardPath) != 0)
+        if (format(cardPath) != 0)
         {
             mts_printf_8008BBA0("FORMATED %d\n", idx);
             gMemCards_800B52F8[idx].field_1_last_op = 1;
