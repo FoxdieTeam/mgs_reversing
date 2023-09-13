@@ -32,11 +32,12 @@ void SetExMask_8008C58C()
     __asm__("break 1030");
 }
 
-extern char gProgramBottom_800C3208[];
+// Defined in the linker script
+extern char __program_bottom[];
 
-unsigned char *mts_get_bss_tail_8008C598()
+char *mts_get_bss_tail_8008C598()
 {
-    return gProgramBottom_800C3208;
+    return __program_bottom;
 }
 
 void sio_output_start_8008C5A8(void)

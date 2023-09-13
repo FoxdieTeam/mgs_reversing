@@ -18,6 +18,3 @@ short SECTION(".sbss") dword_800ABBD4;
 int SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 short SECTION(".sbss") dword_800ABBDC;
-short SECTION(".sbss") word_800ABBE0[2];
-int SECTION(".sbss") dword_800ABBE4;
-int SECTION(".sbss") dword_800ABBE8;
