@@ -206,12 +206,14 @@ void memcard_reset_status_80024A3C(void)
 
 void memcard_retry_80025178(int port);
 
-static inline void memcard_wait() {
-    printf("[R]");
+static inline void memcard_wait()
+{
+    mts_printf_8008BBA0("[R]");
 
-    while ((gHwCard_do_op_800B52E8 != &memcard_hwcard_do_op_800244DC) ||
-           (gSwCard_do_op_800B52EC != &memcard_swcard_do_op_800244EC)) {
-        printf("ACCESS WAIT..\n");
+    while ((gHwCard_do_op_800B52E8 != memcard_hwcard_do_op_800244DC) ||
+           (gSwCard_do_op_800B52EC != memcard_swcard_do_op_800244EC))
+    {
+        mts_printf_8008BBA0("ACCESS WAIT..\n");
         mts_wait_vbl_800895F4(2);
     }
 
@@ -219,7 +221,8 @@ static inline void memcard_wait() {
     gSwCardLastOp_800B52F0 = 0;
 }
 
-long memcard_check_80024A54(long port) {
+int memcard_check_80024A54(int port)
+{
     int chan;
     int retries;
     int sw_card_op;
@@ -228,33 +231,43 @@ long memcard_check_80024A54(long port) {
     chan = port * 16;
     retries = 0;
 
-    if ((gMemCards_800B52F8[port].field_1_last_op == 5) || (gMemCards_800B52F8[port].field_1_last_op == 2)) {
+    if ((gMemCards_800B52F8[port].field_1_last_op == 5) || (gMemCards_800B52F8[port].field_1_last_op == 2))
+    {
         goto loop_24;
     }
-    while (1) {
+
+    while (1)
+    {
         memcard_wait();
-        _card_info(chan);
-        if ((retries++) > 10) {
-            printf("MEMCARD:RETRY OVER!!\n");
+        card_info_80098FFC(chan);
+
+        if ((retries++) > 10)
+        {
+            mts_printf_8008BBA0("MEMCARD:RETRY OVER!!\n");
             return 0x80000002;
         }
 
         // FIXME: why does THIS need a goto while the others need a do while?
     retry1:
         mts_wait_vbl_800895F4(1);
+
         if ((sw_card_op = !gSwCardLastOp_800B52F0))
             goto retry1;
 
         sw_card_op = gSwCardLastOp_800B52F0;
-        switch (sw_card_op) {
+        switch (sw_card_op)
+        {
             case 1:
-
-                if (gMemCards_800B52F8[port].field_1_last_op == 5) {
+                if (gMemCards_800B52F8[port].field_1_last_op == 5)
+                {
                     return 0x80000001;
                 }
-                if (gMemCards_800B52F8[port].field_1_last_op == 4) {
+
+                if (gMemCards_800B52F8[port].field_1_last_op == 4)
+                {
                     goto exit;
                 }
+
                 sw_card_op = 1;
                 gMemCards_800B52F8[port].field_1_last_op = sw_card_op;
                 return 0;
@@ -275,20 +288,30 @@ long memcard_check_80024A54(long port) {
 
     loop_24:
         memcard_wait();
-        _card_clear(chan);
-        do {
+        card_clear_8009902C(chan);
+
+        do
+        {
             mts_wait_vbl_800895F4(1);
         } while ((hw_card_op = !gHwCardLastOp_800B52F4));
         hw_card_op = gHwCardLastOp_800B52F4;
-        if (hw_card_op == 1) {
+
+        if (hw_card_op == 1)
+        {
             gMemCards_800B52F8[port].field_1_last_op = 4;
+
             memcard_wait();
-            _card_load(chan);
-            do {
+            card_load_8009900C(chan);
+
+            do
+            {
                 mts_wait_vbl_800895F4(1);
             } while ((sw_card_op = !gSwCardLastOp_800B52F0));
+
             sw_card_op = gSwCardLastOp_800B52F0;
-            if (sw_card_op == 4) {
+
+            if (sw_card_op == 4)
+            {
                 gMemCards_800B52F8[port].field_1_last_op = 5;
 
                 {
@@ -299,15 +322,21 @@ long memcard_check_80024A54(long port) {
 
                 return 0x80000001; // or "return ret | 1;" (with ret variable outside block)
             }
-            if (sw_card_op == 1) {
+
+            if (sw_card_op == 1)
+            {
                 gMemCards_800B52F8[port].field_1_last_op = 4;
                 break;
             }
-            printf("RETRY(new)\n");
-        } else {
-            printf("RETRY\n");
+
+            mts_printf_8008BBA0("RETRY(new)\n");
+        }
+        else
+        {
+            mts_printf_8008BBA0("RETRY\n");
         }
     }
+
 exit:
     return 0x1000000;
 }
