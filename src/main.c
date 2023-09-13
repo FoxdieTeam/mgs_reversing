@@ -17,7 +17,7 @@
 #include "Game/item.h"
 #include "Thing/door.h"
 
-unsigned int _ramsize = 0x200000;
+unsigned int _ramsize = 0x200000; // ram size, sdata
 unsigned int _stacksize = 0x8000; // stack size, sdata
 
 GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
