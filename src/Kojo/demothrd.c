@@ -4,6 +4,7 @@
 #include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Game/linkvarbuf.h"
+#include "psyq.h"
 
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern MATRIX             DG_ZeroMatrix_8009D430;

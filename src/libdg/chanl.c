@@ -152,7 +152,7 @@ void DG_DrawOTag_80017E4C(int activeBuffer)
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
     gCurrentRootCnt_800AB984 = GetRCnt(0xF2000001);
-    DrawOTag((unsigned int *)&DG_Chanls_800B1800[0].field_6C_dr_env[activeBuffer]);
+    DrawOTag((u_long *)&DG_Chanls_800B1800[0].field_6C_dr_env[activeBuffer]);
 }
 
 // not correct, revisit;

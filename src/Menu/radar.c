@@ -434,7 +434,7 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
         }
     }
 
-    LoadImage(&rect_800AB490, (unsigned char *)image_8009E338);
+    LoadImage(&rect_800AB490, (u_long *)image_8009E338);
 
     pUV = gRadarUVs_8009E3C8;
 
@@ -504,7 +504,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     switch (param_3)
     {
     case 1:
-        LoadImage(&rect_800AB490, (unsigned char *)image_8009E338);
+        LoadImage(&rect_800AB490, (u_long *)image_8009E338);
         draw_radar_helper3_helper4_8003A978(pActor->field_20_otBuf, 6, 3);
         draw_radar_helper3_helper2_8003A2D0(pActor->field_20_otBuf, 3);
         draw_radar_helper3_helper_80039EC4(pActor->field_20_otBuf, -25, 3);
@@ -569,7 +569,7 @@ void menu_radar_load_rpk_8003AD64()
     rect.y = 336;
     rect.w = gRadar_rpk_800ABAC8->field_2_w;
     rect.h = gRadar_rpk_800ABAC8->field_3_h;
-    LoadImage(&rect, (unsigned char *)&gRadar_rpk_800ABAC8[1]);
+    LoadImage(&rect, (u_long *)&gRadar_rpk_800ABAC8[1]);
 }
 
 void menu_init_radar_helper_8003ADAC(void)
@@ -633,7 +633,7 @@ typedef enum // GM_AlertMode_800ABA00
 void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 {
     int       alertLevel, alertMode;
-    DR_TWIN  *twin, *twin2, *twin3;
+    DR_AREA  *twin, *twin2, *twin3;
     POLY_G4  *polyG4;
     DR_TPAGE *tpage;
     RECT      clip;

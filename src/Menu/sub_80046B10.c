@@ -10,5 +10,5 @@ void sub_80046B10(face_anim_image *image, int idx)
     rect.w = image->field_2_width / 2;
     rect.h = image->field_3_height;
 
-    LoadImage(&rect, image->field_4_image);
+    LoadImage(&rect, (u_long *)image->field_4_image);
 }

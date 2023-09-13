@@ -34,7 +34,7 @@ static inline void mts_task_start(void)
     ExitCriticalSection();
     printf( "TASK START: %d %X\n",
                          gTaskIdx_800C0DB0,
-                         gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg);
+                         (unsigned int)gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg.pMsg );
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg.fn();
     mts_8008B51C();
     mts_assert( 421, "task_start_body" );
@@ -280,7 +280,7 @@ static inline void crap( int taskId, void *stackend, void *test )
 
     if ( !test || !stackend )
     {
-        mts_assert( 717, "task_create %x %x", test, stackend );
+        mts_assert( 717, "task_create %x %x", (unsigned int)test, (unsigned int)stackend );
     }
 
     pTask->field_2_rcv_task_idx = -1;
@@ -539,7 +539,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
 
             if ( !v8->field_8_fn_or_msg.fn )
             {
-                mts_assert( 940, "rcv sp message %X", v8->field_8_fn_or_msg );
+                mts_assert( 940, "rcv sp message %X", (unsigned int)v8->field_8_fn_or_msg.pMsg );
             }
 
             field_8_fn_or_msg = v8->field_8_fn_or_msg.pMsg;
@@ -587,7 +587,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
                 if ( !pRcvTask->field_8_fn_or_msg.fn )
                 {
                     mts_assert( 971, "rcv sp %d message %x",
-                                     field_2_rcv_task_idx, pRcvTask->field_8_fn_or_msg );
+                                field_2_rcv_task_idx, (unsigned int)pRcvTask->field_8_fn_or_msg.pMsg );
                 }
 
                 pRcvMsg = pRcvTask->field_8_fn_or_msg.pMsg;
@@ -954,7 +954,7 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
     SetConf( 16, 12, (unsigned long)0x801FFF00 );
     ResetCallback();
     printf( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
-    printf( "PROGRAM BOTTOM %X\n", mts_get_bss_tail_8008C598() );
+    printf( "PROGRAM BOTTOM %X\n", (unsigned int)mts_get_bss_tail_8008C598() );
     EnterCriticalSection();
     eventDesc = OpenEvent( 0xF0000010, 4096, 4096, mts_event_cb_8008BBC0 );
     gMts_Event1_800A3D70 = eventDesc;

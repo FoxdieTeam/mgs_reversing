@@ -292,8 +292,8 @@ void sub_8003D070(PANEL_TEXTURE *pPanelTex, ResHeader *pRes)
     pPanelTex->field_A_yofs = pSub->field_4.y;
     pPanelTex->field_10_w = pSub->field_4.w << 2;
     pPanelTex->field_12_h = pSub->field_4.h;
-    pPanelTex->field_4_word_ptr_pixels = (char *)pRes->field_14;
-    pPanelTex->field_0_pixels = (char *)&pRes->field_14[pRes->field_8 >> 1];
+    pPanelTex->field_4_word_ptr_pixels = (u_long *)pRes->field_14;
+    pPanelTex->field_0_pixels = (u_long *)&pRes->field_14[pRes->field_8 >> 1];
 }
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x, int offset_y)

@@ -3,7 +3,7 @@
 #include <LIBGTE.H>
 
 // TODO: Use sizeof(resident)+1 when the start is known
-void *SECTION(".sdata") GV_ResidentAreaBottom_800AB370 = 0x80117000; // This goes backwards not "into" this heap buffer
+void *SECTION(".sdata") GV_ResidentAreaBottom_800AB370 = (void *)0x80117000; // This goes backwards not "into" this heap buffer
 
 int SECTION(".sdata") GV_PadMask_800AB374 = 0;
 

@@ -392,26 +392,25 @@ void SD_80082170( int param_1 )
 int sd_sng_alloc_80082194( void )
 {
     sd_sng_data_800C0420 = (unsigned char *)0x801E0000;
-    printf( "sng_data %X\n", sd_sng_data_800C0420 );
+    printf( "sng_data %X\n", (unsigned int)sd_sng_data_800C0420 );
 
     voice_tbl_800BF1E0 = (WAVE_W *)( sd_sng_data_800C0420 + 0x4000 );
-    printf( "wave_header %X\n", sd_sng_data_800C0420 + 0x4000 );
+    printf( "wave_header %X\n", (unsigned int)sd_sng_data_800C0420 + 0x4000 );
 
     voice_tbl_800C0530 = voice_tbl_800BF1E0;
-    printf( "voice_tbl %X\n", voice_tbl_800BF1E0 );
+    printf( "voice_tbl %X\n", (unsigned int)voice_tbl_800BF1E0 );
 
     se_exp_table_800C0520 = (unsigned char *)&voice_tbl_800BF1E0[ 256 ];
-    printf( "se_header %X\n", se_exp_table_800C0520 );
+    printf( "se_header %X\n", (unsigned int)se_exp_table_800C0520 );
 
     se_header_800BF284 = se_exp_table_800C0520 + 0x800;
-    printf( "se_data %X\n", se_header_800BF284 );
+    printf( "se_data %X\n", (unsigned int)se_header_800BF284 );
 
     cdload_buf_800BF010 = se_header_800BF284 + 0x2000;
-    printf( "CDLOAD_BUF %X %X %X\n",
-                         cdload_buf_800BF010, 0x18000, cdload_buf_800BF010 + 0x18000 );
+    printf( "CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf_800BF010, 0x18000, (unsigned int)cdload_buf_800BF010 + 0x18000 );
 
     CDLOAD_BUF_800BF058 = cdload_buf_800BF010 + 0x18000;
-    printf( "str_header %X\n", CDLOAD_BUF_800BF058 );
+    printf( "str_header %X\n", (unsigned int)CDLOAD_BUF_800BF058 );
 
     str_header_800C0514 = cdload_buf_800BF010;
     return 0;
@@ -1111,7 +1110,7 @@ int SD_LoadWaveFile_800834FC( void )
     dst = (char *)voice_tbl_800BF1E0 + offset;
     memcpy( dst, wave_load_ptr_800C0508, size );
 
-    printf( "    SRC=%x:DST=%x\n", wave_load_ptr_800C0508, dst );
+    printf( "    SRC=%x:DST=%x\n", (unsigned int)wave_load_ptr_800C0508, (unsigned int)dst );
 
     wave_load_ptr_800C0508 += size;
 
@@ -1125,7 +1124,7 @@ int SD_LoadWaveFile_800834FC( void )
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 6 ] << 8;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 7 ];
 
-    printf( "BIN OFFSET=%x\n", wave_load_ptr_800C0508 );
+    printf( "BIN OFFSET=%x\n", (unsigned int)wave_load_ptr_800C0508 );
     printf( "SPU OFFSET=%x:SIZE=%x\n",
                          spu_load_offset_800BF140, wave_unload_size_800BF274 );
 

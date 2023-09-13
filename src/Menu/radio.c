@@ -434,7 +434,7 @@ void menu_RadioCall_helper_800403E4(void)
     clut_rect.w = 16;
     clut_rect.h = 1;
 
-    LoadImage(&clut_rect, (char *)pRes->field_14);
+    LoadImage(&clut_rect, (u_long *)pRes->field_14);
 
     buf = (char *)&pRes->field_14[pRes->field_8 >> 1];
     pRect = (RECT *)(buf - 8);
@@ -444,7 +444,7 @@ void menu_RadioCall_helper_800403E4(void)
     pRect->x = 960;
     pRect->y = 372;
 
-    LoadImage(pRect, buf);
+    LoadImage(pRect, (u_long *)buf);
 }
 
 void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
@@ -1762,8 +1762,8 @@ void menu_number_init_80042848(Actor_MenuMan *pActor)
     rect2.w = 16;
     rect2.h = 1;
 
-    LoadImage(&rect2, (char *)pRes->field_14);
-    LoadImage(&rect1, (char *)&pRes->field_14[pRes->field_8 >> 1]);
+    LoadImage(&rect2, (u_long *)pRes->field_14);
+    LoadImage(&rect1, (u_long *)&pRes->field_14[pRes->field_8 >> 1]);
 
     pSprt = &gRadioNumberSprt_800bd9b0;
     setSprt(pSprt);

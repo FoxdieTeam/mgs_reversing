@@ -242,7 +242,7 @@ long memcard_check_80024A54(long port) {
         // FIXME: why does THIS need a goto while the others need a do while?
     retry1:
         mts_wait_vbl_800895F4(1);
-        if (sw_card_op = !gSwCardLastOp_800B52F0)
+        if ((sw_card_op = !gSwCardLastOp_800B52F0))
             goto retry1;
 
         sw_card_op = gSwCardLastOp_800B52F0;
@@ -278,7 +278,7 @@ long memcard_check_80024A54(long port) {
         _card_clear(chan);
         do {
             mts_wait_vbl_800895F4(1);
-        } while (hw_card_op = !gHwCardLastOp_800B52F4);
+        } while ((hw_card_op = !gHwCardLastOp_800B52F4));
         hw_card_op = gHwCardLastOp_800B52F4;
         if (hw_card_op == 1) {
             gMemCards_800B52F8[port].field_1_last_op = 4;
@@ -286,7 +286,7 @@ long memcard_check_80024A54(long port) {
             _card_load(chan);
             do {
                 mts_wait_vbl_800895F4(1);
-            } while (sw_card_op = !gSwCardLastOp_800B52F0);
+            } while ((sw_card_op = !gSwCardLastOp_800B52F0));
             sw_card_op = gSwCardLastOp_800B52F0;
             if (sw_card_op == 4) {
                 gMemCards_800B52F8[port].field_1_last_op = 5;

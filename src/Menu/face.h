@@ -41,11 +41,11 @@ typedef struct faces_group
 
 typedef struct face_anim_image
 {
-    char field_0_xpos;
-    char field_1_ypos;
-    char field_2_width;
-    char field_3_height;
-    char field_4_image[0];
+    char         field_0_xpos;
+    char         field_1_ypos;
+    char         field_2_width;
+    char         field_3_height;
+    unsigned int field_4_image[0];
 } face_anim_image;
 
 // "Simple" animation, equivalent of:

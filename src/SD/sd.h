@@ -186,5 +186,8 @@ void               pan_generate_80086198();
 void               drum_set_80088694( unsigned char a1 );
 void               swpadset_80085F98( int a1 );
 void               vol_set_80088320( unsigned int vol );
+void               StrFadeIn_800822C8( unsigned int a1 );
+int                StrFadeOut_80082310( unsigned int a1 );
+int                StrFadeOutStop_80082380( unsigned int fadeSpeed );
 
 #endif // _SD_H_
