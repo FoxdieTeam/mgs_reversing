@@ -14,6 +14,10 @@
 #include <STRINGS.H>
 #include <RAND.H>
 
+// Due to none of the OpenEvent callbacks using the correct prototype,
+// we now have to cast them to avoid warnings.
+typedef long (*openevent_cb_t)();
+
 // Can't include STDIO.H here as printf has been redefined to null
 int sprintf(char *buffer, const char *fmt, ...);
 

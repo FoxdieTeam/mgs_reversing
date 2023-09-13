@@ -356,20 +356,20 @@ void memcard_init_80024E48()
         EnterCriticalSection();
 
         gHardware_end_io_800B52C8 = OpenEvent(
-            0xF0000011, 4, 0x1000, memcard_hwcard_end_io_800244FC); // f = hardware, 11 = HwCARD, 4 = EvSpIOE = end io
+            0xF0000011, 4, 0x1000, (openevent_cb_t)memcard_hwcard_end_io_800244FC); // f = hardware, 11 = HwCARD, 4 = EvSpIOE = end io
         gHardware_end_write_800B52CC =
-            OpenEvent(0xF0000011, 0x8000, 0x1000, memcard_hwcard_end_write_80024524); // EvSpIOEW = end write
+            OpenEvent(0xF0000011, 0x8000, 0x1000, (openevent_cb_t)memcard_hwcard_end_write_80024524); // EvSpIOEW = end write
         gHardware_timeout_800B52D0 =
-            OpenEvent(0xF0000011, 0x100, 0x1000, memcard_hwcard_timeout_8002455C); // EvSpTIMOUT
+            OpenEvent(0xF0000011, 0x100, 0x1000, (openevent_cb_t)memcard_hwcard_timeout_8002455C); // EvSpTIMOUT
         gHardware_new_device_800B52D4 =
-            OpenEvent(0xF0000011, 0x2000, 0x1000, memcard_hwcard_new_80024594); // EvSpNEW new device
+            OpenEvent(0xF0000011, 0x2000, 0x1000, (openevent_cb_t)memcard_hwcard_new_80024594); // EvSpNEW new device
 
         gSoftware_end_io_800B52D8 = OpenEvent(
-            0xF4000001, 4, 0x1000, memcard_swcard_end_io_800245CC); // f4 = bios/software, 1 = SwCARD, EvSpIOE
+            0xF4000001, 4, 0x1000, (openevent_cb_t)memcard_swcard_end_io_800245CC); // f4 = bios/software, 1 = SwCARD, EvSpIOE
         gSoftware_end_write_800B52DC =
-            OpenEvent(0xF4000001, 0x8000, 0x1000, memcard_swcard_end_write_800245F4);
-        gSoftware_timeout_800B52E0 = OpenEvent(0xF4000001, 0x100, 0x1000, memcard_swcard_timeout_8002462C);
-        gSoftware_new_device_800B52E4 = OpenEvent(0xF4000001, 0x2000, 0x1000, memcard_swcard_new_80024664);
+            OpenEvent(0xF4000001, 0x8000, 0x1000, (openevent_cb_t)memcard_swcard_end_write_800245F4);
+        gSoftware_timeout_800B52E0 = OpenEvent(0xF4000001, 0x100, 0x1000, (openevent_cb_t)memcard_swcard_timeout_8002462C);
+        gSoftware_new_device_800B52E4 = OpenEvent(0xF4000001, 0x2000, 0x1000, (openevent_cb_t)memcard_swcard_new_80024664);
 
         EnableEvent(gHardware_end_io_800B52C8);
         EnableEvent(gHardware_end_write_800B52CC);

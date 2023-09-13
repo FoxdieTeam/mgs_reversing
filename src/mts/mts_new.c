@@ -956,7 +956,7 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
     printf( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
     printf( "PROGRAM BOTTOM %X\n", (unsigned int)mts_get_bss_tail_8008C598() );
     EnterCriticalSection();
-    eventDesc = OpenEvent( 0xF0000010, 4096, 4096, mts_event_cb_8008BBC0 );
+    eventDesc = OpenEvent( 0xF0000010, 4096, 4096, (openevent_cb_t)mts_event_cb_8008BBC0 );
     gMts_Event1_800A3D70 = eventDesc;
     EnableEvent( eventDesc );
     TestEvent( eventDesc );
