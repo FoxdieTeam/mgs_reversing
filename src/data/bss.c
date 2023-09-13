@@ -486,5 +486,3 @@ gap                                     gap_800C14C8[0x8]; // 8 bytes
 unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
 short BSS           gMtsPadUnknBuffers_800C14E0[2][4]; // 0x10 (16) bytes
 int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
-
-char BSS            gProgramBottom_800C3208[0]; // This needs to be defined to come after psyq's bss

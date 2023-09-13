@@ -608,6 +608,8 @@
     ; 800692D0 800693E0
     include "..\obj\Weapon\stnsight.obj"
 
+    include "..\obj\data\sbss\sbss6.obj"
+
     ; 80069478 800696CC 80069850 8006985C 8006989C 80069920
     include "..\obj\Weapon\rfsight.obj"
 
@@ -731,7 +733,6 @@
 
     include "..\obj\data\rdata\rdata_80013D10.obj"
 
-
     ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
     ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
     ; 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88
@@ -747,8 +748,6 @@
     ; 8008C5E8 8008C5F0 8008C5F8 8008C600
     include "..\obj\mts\mts_sub.obj"
 
-    include "..\obj\data\sbss\sbss6.obj"
-
     ; psyq start
 
     inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBCD.LIB"
@@ -762,17 +761,19 @@
     inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBAPI.LIB"
     inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBPAD.LIB"
 
-group_rdata_code    group org($80010000)
-    section .RDATA, group_rdata_code
-    section .rdata, group_rdata_code
-    section .text, group_rdata_code
-    section .data, group_rdata_code
-    section .sdata2, group_rdata_code
-    section .sdata, group_rdata_code
+text    group
+    section .rdata, text
+    section .text,  text
+    section .ctors, text
+    section .dtors, text
+    section .data,  text
+    section .sdata, text
 
-group_actual_bss    group bss,org($800ABBF0)
-    section .bss, group_actual_bss
-    section .sbss, group_rdata_code
+bss     group bss
+    section .sbss,  bss
+    section .bss,   bss
+
+__program_bottom EQU $800C3208
 
 ; ram
 

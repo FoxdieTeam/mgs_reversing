@@ -107,7 +107,7 @@ int            sio_getchar2_8008C5D0(void);
 void           sio_output_start_8008C5A8(void);
 void           mts_set_callback_controller_800893D8(void *ptr);
 void           mts_callback_controller_8008BDEC(void);
-unsigned char *mts_get_bss_tail_8008C598();
+ char         *mts_get_bss_tail_8008C598();
 unsigned short mts_read_pad_8008C25C(int);
 void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
