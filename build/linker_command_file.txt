@@ -748,8 +748,6 @@
     ; 8008C5E8 8008C5F0 8008C5F8 8008C600
     include "..\obj\mts\mts_sub.obj"
 
-    include "..\obj\data\sbss\sbss6.obj"
-
     ; psyq start
 
     inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBCD.LIB"
