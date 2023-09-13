@@ -92,18 +92,18 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     pActor->field_C0_pHeader = (demothrd_0x1C *)0x80200000;
 
     MakeFullPath_80021F68(demoNameHashed, pActor->field_38.field_8_fileNameBuffer);
-    mts_printf_8008BBA0("Demo file = \"%s\"\n", pActor->field_38.field_8_fileNameBuffer);
+    printf("Demo file = \"%s\"\n", pActor->field_38.field_8_fileNameBuffer);
 
     hFile = PCopen_80014B1C(pActor->field_38.field_8_fileNameBuffer, 0, 0);
     if ( hFile < 0 )
     {
-        mts_printf_8008BBA0("\"%s\" not found\n", pActor->field_38.field_8_fileNameBuffer);
+        printf("\"%s\" not found\n", pActor->field_38.field_8_fileNameBuffer);
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return 0;
     }
 
-    seekRet = PClseek_80098E48(hFile, 0, 2);
-    PClseek_80098E48(hFile, 0, 0);
+    seekRet = PClseek(hFile, 0, 2);
+    PClseek(hFile, 0, 0);
 
     pHdr = (char *)pActor->field_C0_pHeader;
 
@@ -228,13 +228,13 @@ void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor)
     int new_time;
     int success;
 
-    time = VSync_80098108(-1);
+    time = VSync(-1);
 
     if (pActor->field_2C_timer_ticks == -1)
     {
         if (!CreateDemo_80079B50(pActor, pActor->field_C0_pHeader))
         {
-            mts_printf_8008BBA0("Error:Initialize demo\n");
+            printf("Error:Initialize demo\n");
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
         }
 
@@ -245,7 +245,7 @@ void demothrd_file_stream_act_800797FC(Actor_demothrd *pActor)
     if (pActor->field_24_ticks == 0)
     {
         pActor->field_24_ticks = time - 2;
-        mts_printf_8008BBA0("PlayDemoSound\n");
+        printf("PlayDemoSound\n");
     }
 
     if (pActor->field_20_flag & 4)
@@ -302,7 +302,7 @@ void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
 
     if (clear_cache_buffer != 0)
     {
-        mts_printf_8008BBA0("Cache Buffer Cleared\n");
+        printf("Cache Buffer Cleared\n");
         dword_800BDFC4 = 0x80700c00;
         // Debug build address
         stru_80700000->field_0 = 0;
@@ -311,7 +311,7 @@ void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer)
 
     if (cache_read_enable)
     {
-        mts_printf_8008BBA0("Cache Read Enable\n");
+        printf("Cache Read Enable\n");
     }
 }
 
@@ -439,7 +439,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
         while (1) {
 
             if (!GV_GetCache_8001538C(pMapsIter->field_0)) {
-                mts_printf_8008BBA0("Noload model ( Stage )\n");
+                printf("Noload model ( Stage )\n");
                 return 0;
             }
             ++scene_no;
@@ -464,13 +464,13 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
         while (scene_no < pThis->field_30_dmo_header->field_10_num_models) {
 
             if (!GV_GetCache_8001538C((pModel0x14Iter)->field_8)) {
-                mts_printf_8008BBA0("Noload model ( Scene = No.%d )\n", scene_no +1);
+                printf("Noload model ( Scene = No.%d )\n", scene_no +1);
                 asm(""); // TODO hack!
                 return 0;
             }
 
             if (Res_Control_init_loader_8002599C(&pModels0x1A4Iter->field_0_ctrl, pModel0x14Iter->field_10, pThis->field_28_map) < 0) {
-                mts_printf_8008BBA0("Error init control ( Scene = No.%d )\n", scene_no + 1);
+                printf("Error init control ( Scene = No.%d )\n", scene_no + 1);
                 return 0;
             }
 
@@ -610,7 +610,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
         }
 
         if (!GV_GetCache_8001538C(GV_CacheID2_800152FC("null", 'k'))) {
-            mts_printf_8008BBA0("Noload model ( null.kmd )\n");
+            printf("Noload model ( null.kmd )\n");
         }
         else {
             if (Res_Control_init_loader_8002599C(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
@@ -624,7 +624,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
                 return 1;
             }
             else {
-                mts_printf_8008BBA0("Error init control ( null.kmd )\n");
+                printf("Error init control ( null.kmd )\n");
             }
         }
     }
@@ -755,10 +755,10 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     tmpVec1.vx = (pDmoData->field_10_y - pDmoData->field_A_ypos) >> 2;
     tmpVec1.vx = (pDmoData->field_12_z - pDmoData->field_C_zpos) >> 2;
 
-    root = SquareRoot0_80092708(tmpVec1.vx  * tmpVec1.vx  + tmpVec1.vz * tmpVec1.vz);
+    root = SquareRoot0(tmpVec1.vx  * tmpVec1.vx  + tmpVec1.vz * tmpVec1.vz);
 
-    pThis->field_C4_ctrl.field_8_rotator.vx = ratan2_80094308(tmpVec1.vy, root);
-    pThis->field_C4_ctrl.field_8_rotator.vy = ratan2_80094308(tmpVec1.vx, tmpVec1.vz);
+    pThis->field_C4_ctrl.field_8_rotator.vx = ratan2(tmpVec1.vy, root);
+    pThis->field_C4_ctrl.field_8_rotator.vy = ratan2(tmpVec1.vx, tmpVec1.vz);
     pThis->field_C4_ctrl.field_8_rotator.vz = pDmoData->field_14_z;
 
     GM_ActControl_80025A7C(&pThis->field_C4_ctrl);
@@ -862,10 +862,10 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     tmpVec1.vx = pDmoData->field_E_x - pDmoData->field_8_xpos;
     tmpVec1.vy = pDmoData->field_10_y - pDmoData->field_A_ypos;
     tmpVec1.vz = pDmoData->field_12_z - pDmoData->field_C_zpos;
-    root = SquareRoot0_80092708(tmpVec1.vx * tmpVec1.vx + tmpVec1.vz * tmpVec1.vz);
+    root = SquareRoot0(tmpVec1.vx * tmpVec1.vx + tmpVec1.vz * tmpVec1.vz);
 
-    tmpVec2.vx = -ratan2_80094308(tmpVec1.vy, root);
-    tmpVec2.vy = ratan2_80094308(tmpVec1.vx, tmpVec1.vz);
+    tmpVec2.vx = -ratan2(tmpVec1.vy, root);
+    tmpVec2.vy = ratan2(tmpVec1.vx, tmpVec1.vz);
     tmpVec2.vz = 2048;
 
     tmpVec1.vx = pDmoData->field_8_xpos;
@@ -878,7 +878,7 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     tmpVec2.vz = pDmoData->field_14_z;
 
     DG_RotatePos_8001BD64(&tmpVec2);
-    ReadRotMatrix_80092DD8(&DG_Chanl(0)->field_30_matrix);
+    ReadRotMatrix(&DG_Chanl(0)->field_30_matrix);
 
     DG_TransposeMatrix_8001EAD8(&DG_Chanl(0)->field_30_matrix, &DG_Chanl(0)->field_10_eye_inv);
 
@@ -886,7 +886,7 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     tmpVec3.vy = -DG_Chanl(0)->field_30_matrix.t[1];
     tmpVec3.vz = -DG_Chanl(0)->field_30_matrix.t[2];
 
-    ApplyMatrixLV_80092C48(&DG_Chanl(0)->field_10_eye_inv, &tmpVec3, (VECTOR *)DG_Chanl(0)->field_10_eye_inv.t);
+    ApplyMatrixLV(&DG_Chanl(0)->field_10_eye_inv, &tmpVec3, (VECTOR *)DG_Chanl(0)->field_10_eye_inv.t);
 
     return 1;
 }
@@ -918,9 +918,9 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
     svec2.vz = pData->field_8_vec1.vz;
 
     DG_SetPos2_8001BC8C(&svec1, &DG_ZeroVector_800AB39C);
-    ReadRotMatrix_80092DD8(&mat1);
+    ReadRotMatrix(&mat1);
     DG_SetPos2_8001BC8C(&svec1, &svec2);
-    ReadRotMatrix_80092DD8(&mat2);
+    ReadRotMatrix(&mat2);
 
     switch (pData->field_4_type)
     {
@@ -1464,7 +1464,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
             }
         }
         DG_SetPos2_8001BC8C(&svec1, &svec2);
-        ReadRotMatrix_80092DD8(&pIter->field_58);
+        ReadRotMatrix(&pIter->field_58);
 
         break;
     case 0x1D:
@@ -2542,9 +2542,9 @@ int demothrd_8007CFE8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18)
 
 static inline int magic_calc(SVECTOR* vecTmp, dmo_model_0x1A4 *p0x1A4)
 {
-    int distance1 = SquareRoot0_80092708(((vecTmp->vx * vecTmp->vx) + (vecTmp->vy * vecTmp->vy)) + (vecTmp->vz * vecTmp->vz));
+    int distance1 = SquareRoot0(((vecTmp->vx * vecTmp->vx) + (vecTmp->vy * vecTmp->vy)) + (vecTmp->vz * vecTmp->vz));
 
-    int rTan1 = ratan2_80094308(vecTmp->vx, vecTmp->vz);
+    int rTan1 = ratan2(vecTmp->vx, vecTmp->vz);
     int tmp4 = rTan1;
     tmp4 -= p0x1A4->field_0_ctrl.field_8_rotator.vy + p0x1A4->field_A0[0].vy;
     tmp4 = abs(tmp4);
@@ -3069,7 +3069,7 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
     cross.vz = __detz(pOut2[2], pOut2[3], pOut2[4]) >> 16;
 
     len = cross.vx * cross.vx + cross.vy * cross.vy + cross.vz * cross.vz;
-    len = SquareRoot0_80092708(len);
+    len = SquareRoot0(len);
     if (len == 0)
     {
         len = 1;
@@ -3130,7 +3130,7 @@ void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
   MATRIX rotMtx;
   SVECTOR vec1;
   SVECTOR vec2;
-  ReadRotMatrix_80092DD8(&rotMtx);
+  ReadRotMatrix(&rotMtx);
   pOutVec1->vx = pInMtx->t[0];
   pOutVec1->vy = pInMtx->t[1];
   pOutVec1->vz = pInMtx->t[2];
@@ -3147,9 +3147,9 @@ void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
   vec2.vx -= vec1.vx;
   vec2.vy -= vec1.vy;
   vec2.vz -= vec1.vz;
-  distance = SquareRoot0_80092708(tmp + (vec2.vz * vec2.vz));
-  pOutVec2->vx = -((short) ratan2_80094308(vec2.vy, distance));
-  pOutVec2->vy = ratan2_80094308(vec2.vx, vec2.vz);
+  distance = SquareRoot0(tmp + (vec2.vz * vec2.vz));
+  pOutVec2->vx = -((short) ratan2(vec2.vy, distance));
+  pOutVec2->vy = ratan2(vec2.vx, vec2.vz);
   pOutVec2->vz = 0;
   DG_SetPos_8001BC44(&rotMtx);
 }
@@ -3631,7 +3631,7 @@ void demothrd_4_helper_helper_8007FB90(DG_OBJS* pObjs, int n_models)
     gte_SetRotMatrix((MATRIX *)0x1F800000);
     gte_SetTransMatrix((MATRIX *)0x1F800000);
 
-    ApplyRotMatrixLV_80092E28((VECTOR *)0x1F800034, (VECTOR *)0x1F800054);
+    ApplyRotMatrixLV((VECTOR *)0x1F800034, (VECTOR *)0x1F800054);
 
     gte_ldclmv(0x1F800020);
     gte_rtir();
@@ -3679,7 +3679,7 @@ void demothrd_4_helper_helper2_8007FDD8(DG_OBJS* pObjs, int n_models)
         pMatrix->t[1] -= y;
         pMatrix->t[2] -= z;
 
-        ApplyRotMatrixLV_80092E28((VECTOR *)pMatrix->t, (VECTOR *)pObj->screen.t);
+        ApplyRotMatrixLV((VECTOR *)pMatrix->t, (VECTOR *)pObj->screen.t);
 
         gte_ldclmv(&pMatrix->m[0][0]);
         gte_rtir();
@@ -3751,11 +3751,11 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
 
     if (pWaistRot)
     {
-        RotMatrixZYX_gte_80093F08(pWaistRot, pWorkMatrix);
+        RotMatrixZYX_gte(pWaistRot, pWorkMatrix);
     }
     else
     {
-        RotMatrixZYX_gte_80093F08(pObjs->rots, pWorkMatrix);
+        RotMatrixZYX_gte(pObjs->rots, pWorkMatrix);
     }
 
     pWorkMatrix->t[0] = pMdl->pos_20.vx;
@@ -3771,7 +3771,7 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
             pMdl = pObj->model;
             pParent = (MATRIX *)0x1F800040 + pMdl->parent_2C;
 
-            RotMatrixZYX_gte_80093F08(pRots, pWorld);
+            RotMatrixZYX_gte(pRots, pWorld);
 
             pWorld->t[0] = pMdl->pos_20.vx;
             pWorld->t[1] = pMdl->pos_20.vy;
@@ -3802,7 +3802,7 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
             pMdl = pObj->model;
             pParent = (MATRIX *)0x1F800040 + pMdl->parent_2C;
 
-            RotMatrixZYX_gte_80093F08(pRots, pWorld);
+            RotMatrixZYX_gte(pRots, pWorld);
 
             pWorld->t[0] = pMdl->pos_20.vx;
             pWorld->t[1] = pMdl->pos_20.vy;
@@ -3819,17 +3819,17 @@ void demothrd_4_helper_helper4_800800D8(DG_OBJS *pObjs, int n_models)
 
             if (pAdjust->vz != 0)
             {
-                RotMatrixZ_80093D68(pAdjust->vz, pWorld);
+                RotMatrixZ(pAdjust->vz, pWorld);
             }
 
             if (pAdjust->vx != 0)
             {
-                RotMatrixX_80093A28(pAdjust->vx, pWorld);
+                RotMatrixX(pAdjust->vx, pWorld);
             }
 
             if (pAdjust->vy != 0)
             {
-                RotMatrixY_80093BC8(pAdjust->vy, pWorld);
+                RotMatrixY(pAdjust->vy, pWorld);
             }
 
             pObj++;
@@ -3964,8 +3964,8 @@ void sub_80080E14(Actor_m1e1 *pActor)
         sp18.vy = sp10.vy - pActor->field_E8C.vy;
         sp18.vz = sp10.vz - pActor->field_E8C.vz;
 
-        length = SquareRoot0_80092708(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
-        length = (length * (1024 - abs(ratan2_80094308(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
+        length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
+        length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
 
         if (abs(length) < pActor->field_E84)
         {
@@ -4049,8 +4049,8 @@ void sub_80080E14(Actor_m1e1 *pActor)
         sp18.vy = sp10.vy - pActor->field_E94.vy;
         sp18.vz = sp10.vz - pActor->field_E94.vz;
 
-        length = SquareRoot0_80092708(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
-        length = (length * (1024 - abs(ratan2_80094308(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
+        length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
+        length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
 
         if (abs(length) < pActor->field_E84)
         {

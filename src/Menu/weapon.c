@@ -253,8 +253,8 @@ void sub_8003CEF8(PANEL_TEXTURE *pPanelTex)
 
                 iter->field_8_rect1.w = pPanelTex->field_10_w / 4;
                 iter->field_8_rect1.h = pPanelTex->field_12_h;
-                LoadImage_8008FB10(&iter->field_8_rect1, pPanelTex->field_0_pixels);
-                LoadImage_8008FB10(&iter->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
+                LoadImage(&iter->field_8_rect1, pPanelTex->field_0_pixels);
+                LoadImage(&iter->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
 
                 break;
             }
@@ -276,8 +276,8 @@ void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
     pPanelTex->field_C_uvclut = LLOAD(&elem->field_0_u);
     elem->field_8_rect1.w = pPanelTex->field_10_w / 4;
     elem->field_8_rect1.h = pPanelTex->field_12_h;
-    LoadImage_8008FB10(&elem->field_8_rect1, pPanelTex->field_0_pixels);
-    LoadImage_8008FB10(&elem->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
+    LoadImage(&elem->field_8_rect1, pPanelTex->field_0_pixels);
+    LoadImage(&elem->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
 }
 
 void sub_8003D070(PANEL_TEXTURE *pPanelTex, ResHeader *pRes)
@@ -396,7 +396,7 @@ int menu_panel_8003D2BC(Menu_Item_Unknown *pMenu, int itemId)
 
     if ( pMenu->field_0_main.field_4_selected_idx < 0 )
     {
-        mts_printf_8008BBA0("PANEL MAKE Error\n");
+        printf("PANEL MAKE Error\n");
         pMenu->field_0_main.field_4_selected_idx = 0;
     }
 
@@ -1288,7 +1288,7 @@ void menu_weapon_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pO
             {
                 switched_weapon = 1;
                 GM_WeaponChanged_800AB9D8 = 1;
-                mts_printf_8008BBA0(aHereD, pActor->field_1F0_menu_weapon.field_0_current.field_0_id);
+                printf(aHereD, pActor->field_1F0_menu_weapon.field_0_current.field_0_id);
 
                 if (pActor->field_1F0_menu_weapon.field_0_current.field_0_id != -1)
                 {

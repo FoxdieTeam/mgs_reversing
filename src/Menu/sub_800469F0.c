@@ -23,10 +23,10 @@ void sub_800469F0(menu_chara_struct *pStru)
     pStru->field_2C_pSaveText = pSaveText;
     if (pSaveText == NULL)
     {
-        mts_printf_8008BBA0(aNoMemoryForSav);
+        printf(aNoMemoryForSav);
     }
 
     pSaveTextCopy = (char *)pStru->field_2C_pSaveText;
-    StoreImage_8008FB70(&rect_800AB6C8, (u_long *)pSaveTextCopy);
-    StoreImage_8008FB70(&rect_800AB6D0, (u_long *)(pSaveTextCopy + offsetImage2));
+    StoreImage(&rect_800AB6C8, (u_long *)pSaveTextCopy);
+    StoreImage(&rect_800AB6D0, (u_long *)(pSaveTextCopy + offsetImage2));
 }

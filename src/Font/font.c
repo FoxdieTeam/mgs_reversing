@@ -556,7 +556,7 @@ int font_draw_rubi_string_helper_800458B8(int *outIterCount, const char *str)
         idx = get_rubi_char_index_800457B4(rubiCode);
         if (idx < 0)
         {
-            mts_printf_8008BBA0(aWrongRubiCodeX, rubiCode);
+            printf(aWrongRubiCodeX, rubiCode);
             idx = 0;
         }
 
@@ -740,7 +740,7 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
         rubiIndex = get_rubi_char_index_800457B4(rubiCode);
         if (rubiIndex < 0)
         {
-            mts_printf_8008BBA0(aWrongRubiCodeX, rubiCode);
+            printf(aWrongRubiCodeX, rubiCode);
             rubiIndex = 0;
         }
         if (rubiIndex == 0)
@@ -776,12 +776,12 @@ void font_clear_800468FC(KCB *kcb)
 
 void font_update_8004695C(KCB *kcb)
 {
-    LoadImage_8008FB10(&kcb->font_rect, kcb->font_buffer);
+    LoadImage(&kcb->font_rect, kcb->font_buffer);
 }
 
 void font_clut_update_80046980(KCB *kcb)
 {
-    LoadImage_8008FB10(&kcb->font_clut_rect, kcb->font_clut_buffer);
+    LoadImage(&kcb->font_clut_rect, kcb->font_clut_buffer);
 }
 
 void font_print_string_800469A4(KCB *kcb, const char *string)

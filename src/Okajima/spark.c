@@ -80,9 +80,9 @@ void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
         sp50.vy = spark_next_random() & 0xFFF;
         var_s2 = sp50.vx = spark_next_random() & 0x1FF;
 
-        RotMatrixYXZ_gte_80094108(&sp50, &sp10);
+        RotMatrixYXZ_gte(&sp50, &sp10);
         sp58.vy = var_s7 / (var_s2 + 64);
-        ApplyMatrixSV_80093078(&sp10, &sp58, &sp60);
+        ApplyMatrixSV(&sp10, &sp58, &sp60);
 
         *a1 = sp60;
 

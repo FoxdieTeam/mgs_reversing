@@ -63,12 +63,12 @@ void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR 
     int temp_v1;
 
     GV_SubVec3_80016D40(vb, va, &vec);
-    vout->vy = ratan2_80094308(vec.vx, vec.vz) & 0xfff;
+    vout->vy = ratan2(vec.vx, vec.vz) & 0xfff;
 
     temp_s0 = vec.vy;
     vec.vy = 0;
 
-    temp_v1 = ratan2_80094308(GV_VecLen3_80016D80(&vec), temp_s0) & 0xfff;
+    temp_v1 = ratan2(GV_VecLen3_80016D80(&vec), temp_s0) & 0xfff;
 
     temp_v0 = temp_v1 - 0x400;
     vout->vx = temp_v0;
@@ -202,15 +202,15 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
 
             if (i > 32)
             {
-                var_s4->vx -= rsin_80092508(ang * 64) / 128;
+                var_s4->vx -= rsin(ang * 64) / 128;
                 var_s4->vy -= 15;
-                var_s4->vz -= rcos_800925D8(ang * 64) / 128;
+                var_s4->vz -= rcos(ang * 64) / 128;
             }
             else
             {
-                var_s4->vx += rsin_80092508(ang * 64) / 128;
+                var_s4->vx += rsin(ang * 64) / 128;
                 var_s4->vy -= 15;
-                var_s4->vz -= rcos_800925D8(ang * 64) / 128;
+                var_s4->vz -= rcos(ang * 64) / 128;
             }
         }
         else

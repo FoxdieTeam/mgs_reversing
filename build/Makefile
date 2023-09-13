@@ -14,7 +14,7 @@ NAME := _mgsi
 CFLAGS                 := -O2 -G 8 -g -Wall
 CFLAGS_STATICLIBS      := -O2 -G 0 -g -Wall
 AFLAGS                 := /l /q
-LFLAGS                 := /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m
+LFLAGS                 := /e printf=0x8008BBA0 /c /n 4000 /q /gp .sdata /m
 
 SRCS_PATH              := ../src
 ASM_PATH               := ../asm

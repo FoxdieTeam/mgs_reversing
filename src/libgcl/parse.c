@@ -98,7 +98,7 @@ unsigned char *GCL_GetNextValue_8002069C(unsigned char *pScript, int *retCode, i
         break;
 
     default:
-        mts_printf_8008BBA0("GCL:WRONG CODE %x\n", gcl_code);
+        printf("GCL:WRONG CODE %x\n", gcl_code);
         break;
     }
     GCL_NextStrPtr_800AB9A0 = ptr;

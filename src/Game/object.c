@@ -24,7 +24,7 @@ int        SECTION(".sbss") mt_count_800ABAC0;
 void sub_800348F4(OBJECT *obj)
 {
     long intime, outtime;
-    intime = GetRCnt_800996E8(RCntCNT1);
+    intime = GetRCnt(RCntCNT1);
 
     SetSpadStack(DCache);
     sub_8003556C(obj->m_ctrl); // motion streaming related
@@ -33,7 +33,7 @@ void sub_800348F4(OBJECT *obj)
     obj->field_1A = obj->m_ctrl->field_04_info1.field_16_time;
     obj->field_1C = obj->m_ctrl->field_1C_info2.field_16_time;
 
-    outtime = GetRCnt_800996E8(RCntCNT1);
+    outtime = GetRCnt(RCntCNT1);
     mt_rt2_800ABAB8 += (outtime - intime) & 0xffff;
     mt_count_800ABAC0++;
 

@@ -89,7 +89,7 @@ void DG_80017194()
         DISPENV *p = &gDispEnv_800B0600;
         p->disp.x = gClipHeights_800AB960[activeBuffer];
 
-        PutDispEnv_80090094(&gDispEnv_800B0600);
+        PutDispEnv(&gDispEnv_800B0600);
         if (!DG_HikituriFlagOld_8009D464)
         {
             DG_DrawOTag_80017E4C(1 - activeBuffer);
@@ -129,7 +129,7 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_proper
     vec.vy = (signed short)(((unsigned short)svec2->vy - (unsigned short)svec->vy));
     vec.vz = (signed short)(((unsigned short)svec2->vz - (unsigned short)svec->vz));
 
-    OuterProduct12_800933AC(&vector_8009D34C, &vec, &empty_vec);
+    OuterProduct12(&vector_8009D34C, &vec, &empty_vec);
 
     if (!empty_vec.vx && !empty_vec.vy && !empty_vec.vz)
     {
@@ -140,10 +140,10 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_proper
         gUnknownVector_800B0620 = empty_vec;
     }
 
-    VectorNormal_80092838(&empty_vec, &empty_vec);
-    VectorNormal_80092838(&vec, &vec);
+    VectorNormal(&empty_vec, &empty_vec);
+    VectorNormal(&vec, &vec);
 
-    OuterProduct12_800933AC(&vec, &empty_vec, &empty_vec_2);
+    OuterProduct12(&vec, &empty_vec, &empty_vec_2);
 
     chnl_matrix->m[0][0] = empty_vec.vx;
     chnl_matrix->m[0][1] = empty_vec_2.vx;
@@ -163,7 +163,7 @@ void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_proper
     vec.vy = -chnl_matrix->t[1];
     vec.vz = -chnl_matrix->t[2];
 
-    ApplyMatrixLV_80092C48(&chnl->field_10_eye_inv, &vec, (VECTOR *)(&chnl->field_10_eye_inv.t[0]));
+    ApplyMatrixLV(&chnl->field_10_eye_inv, &vec, (VECTOR *)(&chnl->field_10_eye_inv.t[0]));
 }
 
 void DG_800174DC(MATRIX *matrix)
@@ -219,7 +219,7 @@ void DG_OffsetDispEnv_80017784(int offset)
 {
     gDispEnv_800B0600.screen.y += offset;
     gDispEnv_800B0600.screen.h -= offset;
-    PutDispEnv_80090094(&gDispEnv_800B0600);
+    PutDispEnv(&gDispEnv_800B0600);
     gDispEnv_800B0600.screen.y -= offset;
     gDispEnv_800B0600.screen.h += offset;
 }
@@ -233,7 +233,7 @@ void DG_ClipDispEnv_800177EC(int x, int y)
     gDispEnv_800B0600.screen.w = x;
     gDispEnv_800B0600.screen.y = 120 - y / 2;
     gDispEnv_800B0600.screen.h = y;
-    PutDispEnv_80090094(&gDispEnv_800B0600);
+    PutDispEnv(&gDispEnv_800B0600);
     gDispEnv_800B0600.screen = screen;
 }
 
@@ -242,7 +242,7 @@ void DG_PutDrawEnv_From_DispEnv_80017890(void)
     DRAWENV drawEnv;
     DG_Init_DrawEnv_80018384(&drawEnv, gDispEnv_800B0600.disp.x, gDispEnv_800B0600.disp.y, gDispEnv_800B0600.disp.w,
                              gDispEnv_800B0600.disp.h);
-    PutDrawEnv_8008FEC8(&drawEnv);
+    PutDrawEnv(&drawEnv);
 }
 
 void DG_800178D8(int a0)
@@ -252,9 +252,9 @@ void DG_800178D8(int a0)
 
     DG_PutDrawEnv_From_DispEnv_80017890();
 
-    setDrawTPage(&tpage, 1, 1, GetTPage_80092418(0, 2, 0, 0));
+    setDrawTPage(&tpage, 1, 1, GetTPage(0, 2, 0, 0));
 
-    DrawPrim_8008FDFC(&tpage);
+    DrawPrim(&tpage);
 
     tile.w = 0x140;
     tile.h = 0xE0;
@@ -266,7 +266,7 @@ void DG_800178D8(int a0)
 
     setTile(&tile);
     setSemiTrans(&tile, 1);
-    DrawPrim_8008FDFC(&tile);
+    DrawPrim(&tile);
 }
 
 // guessed function name

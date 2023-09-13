@@ -59,7 +59,7 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
         camera_id = GCL_GetNextParamValue_80020AD4();
         if (camera_id < 8)
         {
-            mts_printf_8008BBA0("set camera %d\n", camera_id); // "set camera %d\n"
+            printf("set camera %d\n", camera_id); // "set camera %d\n"
             cam = &GM_CameraList_800B7718[camera_id];
             cam->field_10_param1 = GCL_GetNextParamValue_80020AD4();
             cam->field_11_param2 = GCL_GetNextParamValue_80020AD4();

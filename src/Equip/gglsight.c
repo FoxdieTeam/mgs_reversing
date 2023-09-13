@@ -448,8 +448,8 @@ void gglsight_loader2_80078444(Actor_gglsight *actor)
         pos += 12;
     }
 
-    SetDrawTPage_800924A8(&tpage[0], 0, 1, 32);
-    SetDrawTPage_800924A8(&tpage[1], 0, 1, 32);
+    SetDrawTPage(&tpage[0], 0, 1, 32);
+    SetDrawTPage(&tpage[1], 0, 1, 32);
 }
 
 Actor_gglsight *gglsight_init_80078520(int type)

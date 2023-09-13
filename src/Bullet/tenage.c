@@ -58,7 +58,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
 
     if ((pActor->field_100_homing_arg2 <= 0) || (dword_800BDD28 == 1))
     {
-        ReadRotMatrix_80092DD8(&rotation);
+        ReadRotMatrix(&rotation);
 
         GM_uBombHoming_800AB3E4 = pActor->field_114_homing_arg3;
 

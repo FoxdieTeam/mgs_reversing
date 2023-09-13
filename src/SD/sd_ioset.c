@@ -33,13 +33,13 @@ void                 SD_spuwr_80087A88()
 
     if ( keyoffs_800BF29C )
     {
-        SpuSetKey_80096C18( 0, keyoffs_800BF29C );
+        SpuSetKey( 0, keyoffs_800BF29C );
         keyoffs_800BF29C = 0;
     }
 
     if ( dword_800BF210 )
     {
-        SpuSetReverbVoice_80096858( 0, dword_800BF210 );
+        SpuSetReverbVoice( 0, dword_800BF210 );
         dword_800BF210 = 0;
     }
 
@@ -97,19 +97,19 @@ void                 SD_spuwr_80087A88()
 
         if ( voiceAttr.mask )
         {
-            SpuSetVoiceAttr_80097518( &voiceAttr );
+            SpuSetVoiceAttr( &voiceAttr );
         }
     }
 
     if ( dword_800BF064 )
     {
-        SpuSetReverbVoice_80096858( 1, dword_800BF064 );
+        SpuSetReverbVoice( 1, dword_800BF064 );
         dword_800BF064 = 0;
     }
 
     if ( keyons_800BF260 )
     {
-        SpuSetKey_80096C18( 1, keyons_800BF260 );
+        SpuSetKey( 1, keyons_800BF260 );
         keyons_800BF260 = 0;
     }
 }
@@ -156,7 +156,7 @@ void sng_pause_80087EF4()
     attr.mask = 3; // TODO constants
     attr.mvol.left = 0;
     attr.mvol.right = 0;
-    SpuSetCommonAttr_80097038( &attr );
+    SpuSetCommonAttr( &attr );
 }
 
 void sng_pause_off_80087F24()
@@ -166,7 +166,7 @@ void sng_pause_off_80087F24()
     attr.mask = 3;
     attr.mvol.left = 0x3FFF;
     attr.mvol.right = 0x3FFF;
-    SpuSetCommonAttr_80097038( &attr );
+    SpuSetCommonAttr( &attr );
 }
 
 void keyon_80087F58()

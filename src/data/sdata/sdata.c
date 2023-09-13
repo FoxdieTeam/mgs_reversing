@@ -2,11 +2,9 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 
-extern unsigned char heap_80117000[];
 // TODO: Use sizeof(resident)+1 when the start is known
-void *SECTION(".sdata")
-    GV_ResidentAreaBottom_800AB370 = &heap_80117000[0]; // This goes backwards not "into" this heap buffer
-    
+void *SECTION(".sdata") GV_ResidentAreaBottom_800AB370 = 0x80117000; // This goes backwards not "into" this heap buffer
+
 int SECTION(".sdata") GV_PadMask_800AB374 = 0;
 
 int SECTION(".sdata") GV_PadOrigin_800AB378 = 0;

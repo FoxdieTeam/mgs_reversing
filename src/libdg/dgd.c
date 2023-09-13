@@ -34,7 +34,7 @@ int DG_DrawSyncResetGraph_8001F014()
         {
             return 0;
         }
-        mts_printf_8008BBA0("@");
+        printf("@");
         ResetGraph(1);
         dword_800B3790 = 0;
     }
@@ -112,8 +112,8 @@ void DG_8001F1DC()
     DG_ResetPaletteEffect_80078FF8();
     DG_Set_RGB_800184F4(0, 0, 0);
 
-    mts_printf_8008BBA0("Object Queue %d\n", DG_Chanl(0)->mTotalObjectCount);
-    mts_printf_8008BBA0("Primitive Queue %d\n", DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
+    printf("Object Queue %d\n", DG_Chanl(0)->mTotalObjectCount);
+    printf("Primitive Queue %d\n", DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
 
     DG_Chanl(0)->mTotalObjectCount = 0;
     DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;

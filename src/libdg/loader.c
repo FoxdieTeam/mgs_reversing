@@ -341,8 +341,8 @@ int DG_LoadInitPcx_8001F920(unsigned char *pFileData, int fileNameHashed)
         }
 
         pcx_file_read_palette_8001F89C(palette, imageB->data, imageB->dim.w);
-        LoadImage_8008FB10(&imageB->dim, imageB->data);
-        LoadImage_8008FB10(&imageA->dim, imageA->data);
+        LoadImage(&imageB->dim, imageB->data);
+        LoadImage(&imageA->dim, imageA->data);
         GV_FreeMemory2_80016078(GV_Clock_800AB920, (void **)&images);
 
         if (fileNameHashed)

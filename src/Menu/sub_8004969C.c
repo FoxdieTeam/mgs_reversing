@@ -28,7 +28,7 @@ radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
 
     if (found_idx < 0)
     {
-        mts_printf_8008BBA0("RADIO CALL OVER!!\n");
+        printf("RADIO CALL OVER!!\n");
         return NULL;
     }
     else

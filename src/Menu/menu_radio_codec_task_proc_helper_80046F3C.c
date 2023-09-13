@@ -40,7 +40,7 @@ void menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_
 
         case FACE_ANIM_FULL:
             fullAnim = anim.full_anim;
-            mts_printf_8008BBA0(aFrameNumD, fullAnim->field_0_frame_count);
+            printf(aFrameNumD, fullAnim->field_0_frame_count);
             fullAnimIter = fullAnim->field_4_frames;
             for (j = 0; j < fullAnim->field_0_frame_count; fullAnimIter++, j++)
             {

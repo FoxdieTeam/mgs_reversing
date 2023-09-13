@@ -59,7 +59,7 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
     hzm = (HZD_HEADER *)hzmFile;
     if (hzm->version < 2)
     {
-        mts_printf_8008BBA0("Warning:old version hzm\n");
+        printf("Warning:old version hzm\n");
     }
 
     hzm->ptr_access[0] = 0;

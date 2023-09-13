@@ -24,7 +24,7 @@ void mts_init_controller_actuators_8008BC8C(int pad)
     int func, subfunc, size;
 
     port = pad * 16;
-    act = PadInfoAct_8009A47C(port, -1, 0);
+    act = PadInfoAct(port, -1, 0);
 
     for (i = 0; i < 6; i++)
     {
@@ -33,9 +33,9 @@ void mts_init_controller_actuators_8008BC8C(int pad)
 
     for (i = act - 1; i >= 0; i--)
     {
-        func = PadInfoAct_8009A47C(port, i, InfoActFunc);
-        subfunc = PadInfoAct_8009A47C(port, i, InfoActSub);
-        size = PadInfoAct_8009A47C(port, i, InfoActSize);
+        func = PadInfoAct(port, i, InfoActFunc);
+        subfunc = PadInfoAct(port, i, InfoActSub);
+        size = PadInfoAct(port, i, InfoActSize);
 
         if (func != 1)
         {
@@ -54,7 +54,7 @@ void mts_init_controller_actuators_8008BC8C(int pad)
         }
     }
 
-    PadSetActAlign_8009A5F8(port, gMtsPadActBuffers_800C1470[pad]);
+    PadSetActAlign(port, gMtsPadActBuffers_800C1470[pad]);
 }
 
 void mts_callback_controller_8008BDEC(void)
@@ -65,7 +65,7 @@ void mts_callback_controller_8008BDEC(void)
 
     for (i = 0; i < 2; i++)
     {
-        state = PadGetState_8009A2B8(i * 16);
+        state = PadGetState(i * 16);
         type = 0;
 
         switch (state)
@@ -151,10 +151,10 @@ void mts_init_controller_8008C098(void)
 {
     if (gMtsPadInited_800A3DBC == 0)
     {
-        PadInitDirect_8009C6CC(gMtsPadRecvBuffers_800C1480[0], gMtsPadRecvBuffers_800C1480[1]);
-        PadSetAct_8009A678(0, gMtsPadSendBuffers_800C14D0[0], 8);
-        PadSetAct_8009A678(0x10, gMtsPadSendBuffers_800C14D0[1], 8);
-        PadStartCom_8009A22C();
+        PadInitDirect(gMtsPadRecvBuffers_800C1480[0], gMtsPadRecvBuffers_800C1480[1]);
+        PadSetAct(0, gMtsPadSendBuffers_800C14D0[0], 8);
+        PadSetAct(0x10, gMtsPadSendBuffers_800C14D0[1], 8);
+        PadStartCom();
         gMtsPadInitStates_800C14F0[1] = 1;
         gMtsPadInitStates_800C14F0[0] = 1;
         mts_set_callback_controller_800893D8(mts_callback_controller_8008BDEC);
@@ -166,7 +166,7 @@ void mts_stop_controller_8008C12C(void)
 {
     if (gMtsPadInited_800A3DBC != 0)
     {
-        StopPAD_80099F08();
+        StopPAD();
         ChangeClearPAD(0);
         mts_set_callback_controller_800893D8(0);
         gMtsPadInited_800A3DBC = 0;

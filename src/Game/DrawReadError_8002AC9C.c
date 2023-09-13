@@ -16,7 +16,7 @@ void DrawReadError_8002AC9C()
     DG_PutDrawEnv_From_DispEnv_80017890();
 
     setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.field_4_tPage);
-    DrawPrim_8008FDFC(&tpage);
+    DrawPrim(&tpage);
 
     LSTORE(0, &tile.r0);
     setTile(&tile);
@@ -24,7 +24,7 @@ void DrawReadError_8002AC9C()
     tile.y0 = 15;
     tile.h = 18;
     tile.w = 18;
-    DrawPrim_8008FDFC(&tile);
+    DrawPrim(&tile);
 
     LSTORE(0x80808080, &sprt.r0);
     setSprt(&sprt);
@@ -35,5 +35,5 @@ void DrawReadError_8002AC9C()
     sprt.u0 = gMenuTextureRec_800B58B0.field_8_offx + u_off;
     sprt.v0 = gMenuTextureRec_800B58B0.field_9_offy;
     sprt.clut = gMenuTextureRec_800B58B0.field_6_clut;
-    DrawPrim_8008FDFC(&sprt);
+    DrawPrim(&sprt);
 }

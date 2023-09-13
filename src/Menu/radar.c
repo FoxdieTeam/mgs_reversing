@@ -96,7 +96,7 @@ void menu_SetRadarScale_80038E28(int scale)
     scale_vec.vz = MENU_RadarScale_800AB480;
     scale_vec.vy = MENU_RadarScale_800AB480;
     scale_vec.vx = MENU_RadarScale_800AB480;
-    ScaleMatrix_800930D8(&gRadarScaleMatrix_800BD580, &scale_vec);
+    ScaleMatrix(&gRadarScaleMatrix_800BD580, &scale_vec);
 }
 
 void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
@@ -434,7 +434,7 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
         }
     }
 
-    LoadImage_8008FB10(&rect_800AB490, (unsigned char *)image_8009E338);
+    LoadImage(&rect_800AB490, (unsigned char *)image_8009E338);
 
     pUV = gRadarUVs_8009E3C8;
 
@@ -504,7 +504,7 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     switch (param_3)
     {
     case 1:
-        LoadImage_8008FB10(&rect_800AB490, (unsigned char *)image_8009E338);
+        LoadImage(&rect_800AB490, (unsigned char *)image_8009E338);
         draw_radar_helper3_helper4_8003A978(pActor->field_20_otBuf, 6, 3);
         draw_radar_helper3_helper2_8003A2D0(pActor->field_20_otBuf, 3);
         draw_radar_helper3_helper_80039EC4(pActor->field_20_otBuf, -25, 3);
@@ -569,7 +569,7 @@ void menu_radar_load_rpk_8003AD64()
     rect.y = 336;
     rect.w = gRadar_rpk_800ABAC8->field_2_w;
     rect.h = gRadar_rpk_800ABAC8->field_3_h;
-    LoadImage_8008FB10(&rect, (unsigned char *)&gRadar_rpk_800ABAC8[1]);
+    LoadImage(&rect, (unsigned char *)&gRadar_rpk_800ABAC8[1]);
 }
 
 void menu_init_radar_helper_8003ADAC(void)
@@ -605,7 +605,7 @@ void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
 
     pActor->field_CC_radar_data.clip_rect = drawEnv.clip;
     drawEnv.isbg = 0;
-    SetDrawEnv_800906B0(&pActor->field_CC_radar_data.dr_env[index], &drawEnv);
+    SetDrawEnv(&pActor->field_CC_radar_data.dr_env[index], &drawEnv);
 }
 
 extern int              GM_AlertMode_800ABA00;
@@ -701,7 +701,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
                     clip.x -= alertLevel;
                     NEW_PRIM(twin2, pActor);
                     twin = twin2;
-                    SetTexWindow_800905F0(twin, &clip);
+                    SetDrawArea(twin, &clip);
                     addPrim(pOt, twin);
                 }
 
@@ -739,7 +739,7 @@ void draw_radar_8003AEC0(Actor_MenuMan *pActor, unsigned char *pOt)
 
                 NEW_PRIM(twin3, pActor);
                 twin = twin3;
-                SetTexWindow_800905F0(twin, &clip);
+                SetDrawArea(twin, &clip);
                 addPrim(pOt, twin);
                 pActor->field_CC_radar_data.counter -= 2;
             }

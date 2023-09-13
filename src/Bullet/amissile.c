@@ -137,7 +137,7 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     }
 
     result.vx = diff.vy;
-    result.vz = SquareRoot0_80092708(diff.vx * diff.vx + diff.vz * diff.vz);
+    result.vz = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
 
     dir = -GV_VecDir2_80016EF8(&result);
     temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn_vec.vx, (dir - 1024) & 4095);
@@ -202,14 +202,14 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     if (pActor->field_120 == 0)
     {
         DG_VisiblePrim(pActor->field_134_prim);
-        ReadRotMatrix_80092DD8(&pActor->field_100_rotation_matrix);
+        ReadRotMatrix(&pActor->field_100_rotation_matrix);
         anime_create_8005DE70(&pActor->field_100_rotation_matrix);
         pActor->field_128 = 4;
     }
 
     if (pActor->field_120 == 14)
     {
-        ReadRotMatrix_80092DD8(&pActor->field_100_rotation_matrix);
+        ReadRotMatrix(&pActor->field_100_rotation_matrix);
         anime_create_8005DE70(&pActor->field_100_rotation_matrix);
         GM_SeSet2_80032968(0, 63, 77);
         pActor->field_138_rect.x = pActor->field_138_rect.y = 1030;
@@ -257,7 +257,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     if (!result)
     {
-        ReadRotMatrix_80092DD8(&rotation);
+        ReadRotMatrix(&rotation);
 
         if (GM_GameStatus_800AB3CC & 0xd0000000 || GM_PlayerStatus_800ABA50 & 0x20000000)
         {

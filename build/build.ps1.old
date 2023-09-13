@@ -4,7 +4,7 @@ $ErrorActionPreference = "Stop"
 
 Push-Location $PSScriptRoot
 
-$oldPathEnv = $Env:path 
+$oldPathEnv = $Env:path
 
 Function psyq_setup($psyq_path)
 {
@@ -26,8 +26,8 @@ Function psyq_setup($psyq_path)
     $Env:c_include_path = "$psyq_path_without_bin\include"
     $env:PSX_PATH = $psyq_path
 
-    (Get-Content $psyq_path\psyq.ini.template) | 
-    Foreach-Object {$_ -replace '\$PSYQ_PATH',$psyq_path_without_bin}  | 
+    (Get-Content $psyq_path\psyq.ini.template) |
+    Foreach-Object {$_ -replace '\$PSYQ_PATH',$psyq_path_without_bin}  |
     Out-File $psyq_path\psyq.ini
 }
 
@@ -37,9 +37,9 @@ $createdDirs = @{}
 function compile_c($fileName)
 {
     $objName = $objName.replace(".C", ".obj").replace(".c", ".obj").replace("src\", "obj\")
-  
+
     $upToDate = $false
-  	
+
     if (-Not $forceRebuild -And [System.IO.File]::Exists("$objName"))
 	{
 		$asmWriteTime = (get-item "$fileName").LastWriteTime
@@ -64,8 +64,8 @@ function compile_c($fileName)
         if($LASTEXITCODE -eq 0)
         {
             Write-Host "Compiled $fileName" -ForegroundColor "green"
-        } 
-        else 
+        }
+        else
         {
             Write-Error "Compilation failed for: ccpsx.exe -O2 -g -c -Wall $fileName -o$objName"
         }
@@ -114,7 +114,7 @@ foreach ($file in $sFiles)
 {
 	$fullObjName =  $file.replace(".S", ".obj").replace(".s", ".obj").replace("asm\", "obj\")
 	$fullSName = $file
-	
+
 	$upToDate = $false
 
 	if (-Not $forceRebuild -And [System.IO.File]::Exists("$fullObjName"))
@@ -124,7 +124,7 @@ foreach ($file in $sFiles)
 		$upToDate = $asmWriteTime -le $objWriteTime
 		#Write-Host "$asmWriteTime $objWriteTime = $upToDate"
 	}
-	
+
 	if ($upToDate -eq $false)
 	{
         $parentFolder = Split-Path -Path $fullObjName -Parent
@@ -139,8 +139,8 @@ foreach ($file in $sFiles)
 		if($LASTEXITCODE -eq 0)
 		{
 			Write-Host "Assembled $fullSName"  -ForegroundColor "green"
-		} 
-		else 
+		}
+		else
 		{
 			Write-Error "Assembling failed for asmpsx.exe /l /q $fullSName,$fullObjName"
 		}
@@ -149,12 +149,12 @@ foreach ($file in $sFiles)
 
 # Run the linker
 Write-Host "link" -ForegroundColor "DarkMagenta" -BackgroundColor "Black"
-psylink.exe /e mts_printf_8008BBA0=0x8008BBA0 /c /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
+psylink.exe /e printf=0x8008BBA0 /c /n 4000 /q /gp .sdata /m "@$PSScriptRoot\linker_command_file.txt",$PSScriptRoot\..\obj\test2.cpe,$PSScriptRoot\..\obj\asm.sym,$PSScriptRoot\..\obj\asm.map
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "Linked test2.cpe" -ForegroundColor "yellow"
-} 
-else 
+}
+else
 {
     Write-Error "Linking failed $LASTEXITCODE"
 }
@@ -167,8 +167,8 @@ cpe2exe.exe /CJ ..\obj\test2.cpe | out-null
 if($LASTEXITCODE -eq 0)
 {
     Write-Host "..\obj\test2.cpe -> ..\obj\test2.exe" -ForegroundColor "yellow"
-} 
-else 
+}
+else
 {
     Write-Error "Converting CPE to EXE failed"
 }

@@ -434,7 +434,7 @@ void menu_RadioCall_helper_800403E4(void)
     clut_rect.w = 16;
     clut_rect.h = 1;
 
-    LoadImage_8008FB10(&clut_rect, (char *)pRes->field_14);
+    LoadImage(&clut_rect, (char *)pRes->field_14);
 
     buf = (char *)&pRes->field_14[pRes->field_8 >> 1];
     pRect = (RECT *)(buf - 8);
@@ -444,7 +444,7 @@ void menu_RadioCall_helper_800403E4(void)
     pRect->x = 960;
     pRect->y = 372;
 
-    LoadImage_8008FB10(pRect, buf);
+    LoadImage(pRect, buf);
 }
 
 void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
@@ -761,7 +761,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
         menu_radio_codec_helper_helper14_helper3_80040590(pGlue, dword_8009E664, 19, 0, -8);
 
         _NEW_PRIM(stp, pGlue);
-        SetDrawStp_800924D8(stp, 1);
+        SetDrawStp(stp, 1);
         addPrim(pGlue->mPrimBuf.mOt, stp);
 
         _NEW_PRIM(tpage, pGlue);
@@ -1216,7 +1216,7 @@ skip_helper16:
                     }
                     break;
                 case 2:
-                    mts_printf_8008BBA0("set call freq %d\n", dword_800AB638);
+                    printf("set call freq %d\n", dword_800AB638);
                     menu_radio_codec_helper_helper_8004E198(dword_800AB638);
                     pActor->field_210 = 6;
                     break;
@@ -1567,7 +1567,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 {
                     lastCode = GM_StreamGetLastCode_80037DC8();
                     dword_800ABB14 = lastCode;
-                    mts_printf_8008BBA0("GetPotion %d\n", lastCode);
+                    printf("GetPotion %d\n", lastCode);
                 }
                 else
                 {
@@ -1642,7 +1642,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
             menu_radar_load_rpk_8003AD64();
             gRadioIncomingCall_8009E708.field_0 = 0;
             GM_GameStatus_800AB3CC &= ~0x80000;
-            mts_printf_8008BBA0("callback type %d proc %X\n", gMenuCallbackProc_800ABB08.type,
+            printf("callback type %d proc %X\n", gMenuCallbackProc_800ABB08.type,
                                 gMenuCallbackProc_800ABB08.procNameHashed);
             if (gMenuCallbackProc_800ABB08.type != 0xF && gMenuCallbackProc_800ABB08.procNameHashed > 0)
             {
@@ -1650,14 +1650,14 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 args.argv = argv;
                 argv[0] = gMenuCallbackProc_800ABB08.type & 0xF;
                 argv[1] = gMenuCallbackProc_800ABB08.param2;
-                mts_printf_8008BBA0("ExecProc\n");
+                printf("ExecProc\n");
                 GCL_ExecProc_8001FF2C(gMenuCallbackProc_800ABB08.procNameHashed, &args);
             }
             DG_ChangeReso_80017154(0);
             DG_UnDrawFrameCount_800AB380 = 3;
             DG_BackGroundNormal_80018548();
             DG_FrameRate_8009D45C = dword_800ABB1C;
-            mts_printf_8008BBA0("EXIT MUSENKI\n");
+            printf("EXIT MUSENKI\n");
             return;
         }
         if (--dword_800AB648 == -1)
@@ -1762,8 +1762,8 @@ void menu_number_init_80042848(Actor_MenuMan *pActor)
     rect2.w = 16;
     rect2.h = 1;
 
-    LoadImage_8008FB10(&rect2, (char *)pRes->field_14);
-    LoadImage_8008FB10(&rect1, (char *)&pRes->field_14[pRes->field_8 >> 1]);
+    LoadImage(&rect2, (char *)pRes->field_14);
+    LoadImage(&rect1, (char *)&pRes->field_14[pRes->field_8 >> 1]);
 
     pSprt = &gRadioNumberSprt_800bd9b0;
     setSprt(pSprt);
@@ -2132,14 +2132,14 @@ void menu_set_string2_80043138()
 
     gRadioStringRect_800AB658.w = pPanelTex.field_10_w / 4;
     gRadioStringRect_800AB658.h = pPanelTex.field_12_h;
-    LoadImage_8008FB10(&gRadioStringRect_800AB658, pPanelTex.field_0_pixels);
+    LoadImage(&gRadioStringRect_800AB658, pPanelTex.field_0_pixels);
 
     rect.x = 976;
     rect.y = 511;
     rect.w = 16;
     rect.h = 1;
 
-    LoadImage_8008FB10(&rect, pPanelTex.field_4_word_ptr_pixels);
+    LoadImage(&rect, pPanelTex.field_4_word_ptr_pixels);
 
     gRadioStringSprt_800BD9F0.u0 = 0;
     LSTORE(0x80808080, &gRadioStringSprt_800BD9F0.r0);

@@ -49,7 +49,7 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
         DG_SetPos_8001BC44(&pActor->field_50_pPrims->world);
         DG_MovePos_8001BD20(&pActor->field_54_vec);
 
-        ReadRotMatrix_80092DD8(&rotMtx);
+        ReadRotMatrix(&rotMtx);
         vec.vx = rotMtx.t[0];
         vec.vy = rotMtx.t[1];
         vec.vz = rotMtx.t[2];

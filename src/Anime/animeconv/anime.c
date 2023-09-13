@@ -107,7 +107,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
 
         DG_SetPos_8001BC44(arg0);
         DG_MovePos_8001BD20(&sp48);
-        ReadRotMatrix_80092DD8(&sp28);
+        ReadRotMatrix(&sp28);
 
         pSpeed->vx = sp28.t[0] - arg0->t[0];
         pSpeed->vy = sp28.t[1] - arg0->t[1];
@@ -135,7 +135,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
 
         DG_SetPos_8001BC44(arg0);
         DG_MovePos_8001BD20(&sp48);
-        ReadRotMatrix_80092DD8(&sp28);
+        ReadRotMatrix(&sp28);
 
         pPre->pos.vx = sp28.t[0];
         pPre->pos.vy = sp28.t[1];
@@ -148,7 +148,7 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
         pSpeed = &pre.speed;
 
         DG_MovePos_8001BD20(&sp48);
-        ReadRotMatrix_80092DD8(&sp28);
+        ReadRotMatrix(&sp28);
 
         pSpeed->vx = sp28.t[0] - pPre->pos.vx;
         pSpeed->vy = sp28.t[1] - pPre->pos.vy;
@@ -187,7 +187,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
     DG_SetPos_8001BC44(pMatrix1);
     DG_MovePos_8001BD20(&move);
-    ReadRotMatrix_80092DD8(&m);
+    ReadRotMatrix(&m);
 
     pos->vx = m.t[0];
     pos->vy = m.t[1];
@@ -198,7 +198,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vz = GV_RandU_80017090(64) + 100;
 
     DG_MovePos_8001BD20(&move);
-    ReadRotMatrix_80092DD8(&m);
+    ReadRotMatrix(&m);
 
     speed = &prescript.speed;
 
@@ -244,7 +244,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
         DG_SetPos_8001BC44(pMatrix1);
         DG_MovePos_8001BD20(&move);
-        ReadRotMatrix_80092DD8(&m);
+        ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
         pos->vy = m.t[1];
@@ -259,7 +259,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
         DG_SetPos_8001BC44(pMatrix1);
         DG_MovePos_8001BD20(&move);
-        ReadRotMatrix_80092DD8(&m);
+        ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
         pos->vy = m.t[1];
@@ -274,7 +274,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
 
         DG_SetPos_8001BC44(pMatrix1);
         DG_MovePos_8001BD20(&move);
-        ReadRotMatrix_80092DD8(&m);
+        ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
         pos->vy = m.t[1];
@@ -292,7 +292,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         move.vz = 0;
 
         DG_MovePos_8001BD20(&move);
-        ReadRotMatrix_80092DD8(&m);
+        ReadRotMatrix(&m);
 
         pos->vx = m.t[0];
         pos->vy = m.t[1];
@@ -303,7 +303,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
         move.vz = GV_RandU_80017090(8);
 
         DG_MovePos_8001BD20(&move);
-        ReadRotMatrix_80092DD8(&m);
+        ReadRotMatrix(&m);
 
         speed->vx = m.t[0] - pos->vx;
         speed->vy = m.t[1] - pos->vy;
@@ -326,7 +326,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vz = 0;
 
     DG_MovePos_8001BD20(&move);
-    ReadRotMatrix_80092DD8(&m);
+    ReadRotMatrix(&m);
 
     pos->vx = m.t[0];
     pos->vy = m.t[1];
@@ -337,7 +337,7 @@ void anime_create_8005D988(MATRIX *pMatrix1, MATRIX *pMatrix2, int mode)
     move.vz = GV_RandU_80017090(8);
 
     DG_MovePos_8001BD20(&move);
-    ReadRotMatrix_80092DD8(&m);
+    ReadRotMatrix(&m);
 
     speed = &prescript.speed;
 
@@ -385,7 +385,7 @@ void anime_create_8005DE70(MATRIX *pRotation)
     sp10.vy = -1500;
     sp10.vz = 0;
 
-    ApplyMatrixSV_80093078(&rotation, &sp10, &sp18);
+    ApplyMatrixSV(&rotation, &sp10, &sp18);
 
     pre.pos.vx = pRotation->t[0] + sp18.vx;
     pre.pos.vy = pRotation->t[1] + sp18.vy;
@@ -462,8 +462,8 @@ void anime_create_8005E090(SVECTOR *pPos)
         pres[i].pos = *pPos;
         pres[i].scr_num = 0;
 
-        RotMatrixYXZ_80093798(&axis, &rotation);
-        ApplyMatrixSV_80093078(&rotation, &speed_in, &speed_out);
+        RotMatrixYXZ(&axis, &rotation);
+        ApplyMatrixSV(&rotation, &speed_in, &speed_out);
 
         pres[i].speed.vx = speed_out.vx;
         pres[i].speed.vy = speed_out.vy;
@@ -520,7 +520,7 @@ void anime_create_8005E258(MATRIX *pMatrix)
     vec1.vx = 0;
     vec1.vy = 0;
     vec1.vz = 0;
-    ApplyMatrixSV_80093078(&m, &vec1, &vec2);
+    ApplyMatrixSV(&m, &vec1, &vec2);
     prescript.pos.vx = pMatrix->t[0] + vec2.vx;
     prescript.pos.vy = pMatrix->t[1] + vec2.vy;
     prescript.pos.vz = pMatrix->t[2] + vec2.vz;
@@ -573,7 +573,7 @@ void anime_create_8005E334(MATRIX *pRotation)
 
     DG_SetPos_8001BC44(pRotation);
     DG_MovePos_8001BD20(&translation);
-    ReadRotMatrix_80092DD8(&rotation);
+    ReadRotMatrix(&rotation);
 
     pPre->pos.vx = rotation.t[0];
     pPre->pos.vy = rotation.t[1];
@@ -588,7 +588,7 @@ void anime_create_8005E334(MATRIX *pRotation)
 
     DG_SetPos_8001BC44(pRotation);
     DG_MovePos_8001BD20(&translation);
-    ReadRotMatrix_80092DD8(&rotation);
+    ReadRotMatrix(&rotation);
 
     pPre->pos.vx = rotation.t[0];
     pPre->pos.vy = rotation.t[1];
@@ -603,7 +603,7 @@ void anime_create_8005E334(MATRIX *pRotation)
 
     DG_SetPos_8001BC44(pRotation);
     DG_MovePos_8001BD20(&translation);
-    ReadRotMatrix_80092DD8(&rotation);
+    ReadRotMatrix(&rotation);
 
     pPre->pos.vx = rotation.t[0];
     pPre->pos.vy = rotation.t[1];

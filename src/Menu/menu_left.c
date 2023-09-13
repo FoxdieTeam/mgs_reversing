@@ -259,13 +259,13 @@ void menu_8003B794(Actor_MenuMan *pActor, unsigned int *pOt, int id)
     pal_rect.y = 336;
     pal_rect.w = 16;
     pal_rect.h = 1;
-    LoadImage_8008FB10(&pal_rect, pPalItem->field_4_pixel_ptr);
+    LoadImage(&pal_rect, pPalItem->field_4_pixel_ptr);
 
     img_rect.x = 960;
     img_rect.y = 337;
     img_rect.w = pImgItem->field_2_w;
     img_rect.h = pImgItem->field_3_h;
-    LoadImage_8008FB10(&img_rect, pImgItem->field_4_pixel_ptr);
+    LoadImage(&img_rect, pImgItem->field_4_pixel_ptr);
 
     NEW_PRIM(pSprt, pActor);
 
