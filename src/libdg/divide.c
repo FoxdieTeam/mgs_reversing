@@ -369,6 +369,7 @@ static inline void divide_setup()
 //DG_SubDivideRVectors_800196B4
 void DG_SubDivideRVectors_800196B4( void )
 {
+    int bullshit = 1;
     DG_DivideMem*  divide_mem;
 
     divide_setup();
@@ -380,14 +381,10 @@ void DG_SubDivideRVectors_800196B4( void )
 
     if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-9] ) ) DG_SubDivideRVectors_800196B4();
     if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-8] ) ) DG_SubDivideRVectors_800196B4();
-    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-6] ) ) DG_SubDivideRVectors_800196B4();
+    if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-6] ) && bullshit ) DG_SubDivideRVectors_800196B4();
     if ( DG_CopyPackToRVector_80019448( &divide_mem->rvec[-5] ) ) DG_SubDivideRVectors_800196B4();
 
-    //divide_mem->divide_file -= 9
-    //todo: above line didnt provide working match so used asm
-    __asm__  ("lw    $2,  0x34(%0)": : "r"(divide_mem));
-    __asm__  ("addiu $2, -0xB4");
-    __asm__  ("sw    $2,  0x34(%0)": : "r"(divide_mem));
+    divide_mem->rvec -= 9;
 }
 
 typedef struct cpystrct {
