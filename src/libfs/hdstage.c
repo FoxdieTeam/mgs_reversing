@@ -322,16 +322,16 @@ int Loader_helper2_80023460( STAGE_FILE *pStageFile )
 
         if ( pConfig->field_4_size <= 0 )
         {
-            printf( "ntag %X size %d\n", pConfig, pConfig->field_4_size );
-            printf( "limit = %X\n", pLimit );
+            printf( "ntag %X size %d\n", (unsigned int)pConfig, pConfig->field_4_size );
+            printf( "limit = %X\n", (unsigned int)pLimit );
             printf( "data %X %c, now %X\n",
-                                 pStageFile->field_14_pConfigStart1,
+                                 (unsigned int)pStageFile->field_14_pConfigStart1,
                                  pStageFile->field_14_pConfigStart1->field_2_mode,
-                                 pStageFile->field_20_pConfigEnd2 );
+                                 (unsigned int)pStageFile->field_20_pConfigEnd2 );
             printf( "init %X %c, now %X\n",
-                                 pStageFile->field_2C_config,
+                                 (unsigned int)pStageFile->field_2C_config,
                                  pStageFile->field_2C_config->field_2_mode,
-                                 pStageFile->field_30_current_ptr );
+                                 (unsigned int)pStageFile->field_30_current_ptr );
         }
 
         size = pConfig->field_4_size + 8;

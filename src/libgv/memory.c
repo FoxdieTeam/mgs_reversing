@@ -274,7 +274,7 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
 
     printf(")\n");
     printf("  addr = %08x - %08x, units = %d\n",
-                        pHeap->mStartAddr, pHeap->mEndAddr, pHeap->mUnitsCount);
+           (unsigned int)pHeap->mStartAddr, (unsigned int)pHeap->mEndAddr, pHeap->mUnitsCount);
     size = pHeap->mEndAddr - pHeap->mStartAddr;
 
     freeCount = 0;
@@ -354,22 +354,22 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
         if (allocType == GV_MemoryAllocation_States_Free_0)
         {
             printf("---- %8d bytes ( from %08x free )\n",
-                                allocSize, pAllocIter->mPDataStart);
+                   allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
         else if (allocType == GV_MemoryAllocation_States_Void_1)
         {
             printf("==== %8d bytes ( from %08x void )\n",
-                                allocSize, pAllocIter->mPDataStart);
+                   allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
         else if (allocType == GV_MemoryAllocation_States_Used_2)
         {
             printf("++++ %8d bytes ( from %08x used )\n",
-                                allocSize, pAllocIter->mPDataStart);
+                   allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
         else
         {
             printf("**** %8d bytes ( from %08x user %08x )\n",
-                                allocSize, pAllocIter->mPDataStart, allocType);
+                   allocSize, (unsigned int)pAllocIter->mPDataStart, allocType);
         }
 
         pAllocIter++;

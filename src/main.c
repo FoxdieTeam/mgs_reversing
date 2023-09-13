@@ -93,8 +93,8 @@ static void task_main_800148B8(void)
 }
 
 extern unsigned char main_task_stack_800ABBF0[2048];
-void                 main()
+
+void main(void)
 {
-    mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0),
-                           sizeof(main_task_stack_800ABBF0));
+    mts_boot_task_8008AAC4(3, task_main_800148B8, mts_stack_end(main_task_stack_800ABBF0), sizeof(main_task_stack_800ABBF0));
 }

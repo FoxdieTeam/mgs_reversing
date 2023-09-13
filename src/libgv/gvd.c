@@ -67,7 +67,7 @@ void GV_Memory_Init_80014C70(void)
     GV_ResetPacketMemory_80014BD8();
     // passing heap_80117000 produces addiu instead of ori
     GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000, 0x6b000);
-    printf("RESIDENT TOP %X\n", GV_ResidentMemoryBottom_800AB940);
+    printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom_800AB940);
 }
 
 void GV_ResetSystem_80014CC8(void)

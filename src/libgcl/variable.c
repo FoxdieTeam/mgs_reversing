@@ -118,7 +118,7 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
     }
     if (saveFile->f004_checksum != crc32_80020BB4(sizeof(SaveGame), (char *)save))
     {
-        printf("CRC ERROR !!\n\x0\x0\x0");
+        printf("CRC ERROR !!\n");
         return 0;
     }
 
