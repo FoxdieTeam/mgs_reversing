@@ -65,7 +65,7 @@ void DG_SetMainLightDir_80019FF8(int x, int y, int z)
     in.vy = y;
     in.vz = z;
 
-    VectorNormal_80092838(&in, &out);
+    VectorNormal(&in, &out);
     DG_LightMatrix_8009D384.m[0][0] = out.vx;
     DG_LightMatrix_8009D384.m[0][1] = out.vy;
     DG_LightMatrix_8009D384.m[0][2] = out.vz;
@@ -151,8 +151,8 @@ void DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec)
     int    multiplier;
     VECTOR vec_squared;
 
-    Square0_80093340(in_vec, &vec_squared);
-    vec_length = SquareRoot0_80092708(vec_squared.vx + vec_squared.vy + vec_squared.vz);
+    Square0(in_vec, &vec_squared);
+    vec_length = SquareRoot0(vec_squared.vx + vec_squared.vy + vec_squared.vz);
     if (vec_length == 0)
     {
         vec_length = 1;

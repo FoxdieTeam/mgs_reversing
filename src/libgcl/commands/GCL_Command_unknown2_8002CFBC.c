@@ -55,7 +55,7 @@ int GCL_Command_unknown2_8002CFBC(unsigned char *pScript)
     GM_CurrentMap_800AB9B0 = tmp;
     if (!demo)
     {
-        mts_printf_8008BBA0("Error demo thread\n");
+        printf("Error demo thread\n");
     }
     return 0;
 }

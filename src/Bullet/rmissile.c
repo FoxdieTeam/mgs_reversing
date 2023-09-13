@@ -420,7 +420,7 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
     if (!found)
     {
         DG_SetPos2_8001BC8C(pPosition, &pActor->field_20_ctrl.field_8_rotator);
-        ReadRotMatrix_80092DD8(&rotation);
+        ReadRotMatrix(&rotation);
 
         GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
 
@@ -569,7 +569,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         {
             GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
             DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
-            ReadRotMatrix_80092DD8(&rotation);
+            ReadRotMatrix(&rotation);
 
             if (GM_GameStatus_800AB3CC & 0xd0000000 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
@@ -734,10 +734,10 @@ int rmissile_loader_helper2_8006CC50(Actor_rmissile *pActor)
 
     poly2 = poly + 1;
 
-    SetPolyF4_80092488(poly);
-    SetPolyF4_80092488(poly2);
-    SetSemiTrans_80092458(poly, 1);
-    SetSemiTrans_80092458(poly2, 1);
+    SetPolyF4(poly);
+    SetPolyF4(poly2);
+    SetSemiTrans(poly, 1);
+    SetSemiTrans(poly2, 1);
 
     poly2->x2 = 31;
     poly2->x0 = 31;

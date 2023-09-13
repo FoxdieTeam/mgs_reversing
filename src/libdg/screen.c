@@ -32,7 +32,7 @@ void DG_SetPos_8001BC44(MATRIX *matrix)
 void DG_SetPos2_8001BC8C(SVECTOR *svector, SVECTOR *svector2)
 {
     MATRIX m;
-    RotMatrixYXZ_gte_80094108(svector2, &m);
+    RotMatrixYXZ_gte(svector2, &m);
 
     m.t[0] = svector->vx;
     m.t[1] = svector->vy;
@@ -56,8 +56,8 @@ void DG_RotatePos_8001BD64(SVECTOR *svector)
 {
     MATRIX matrix;
 
-    RotMatrixYXZ_gte_80094108(svector, &matrix);
-    MulRotMatrix_80092B58(&matrix);
+    RotMatrixYXZ_gte(svector, &matrix);
+    MulRotMatrix(&matrix);
     gte_SetRotMatrix(&matrix);
 }
 
@@ -351,8 +351,8 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     mdl = obj->model;
     matrix3 = (MATRIX*)(SCRPAD_ADDR + 0x340);
 
-    waist_rot ? RotMatrixZYX_gte_80093F08( waist_rot, matrix3 ) :
-                RotMatrixZYX_gte_80093F08( rots,      matrix3 ) ;
+    waist_rot ? RotMatrixZYX_gte( waist_rot, matrix3 ) :
+                RotMatrixZYX_gte( rots,      matrix3 ) ;
 
     matrix3->t[0] = mdl->pos_20.vx;
     matrix3->t[1] = mdl->pos_20.vy;
@@ -378,7 +378,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         temp_matrix +=  SCRPAD_ADDR  + 0x40;
         //MATRIX* temp_matrix = (MATRIX* )(SCRPAD_ADDR  + 0x40);
         //temp_matrix = &temp_matrix[mdl->parent_2C]; should be this but registers dont match
-        RotMatrixZYX_gte_80093F08( rots, matrix );
+        RotMatrixZYX_gte( rots, matrix );
 
         matrix->t[0] = mdl->pos_20.vx;
         matrix->t[1] = mdl->pos_20.vy;
@@ -397,9 +397,9 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
         }
         else
         {
-            if  (adjust->vz ) RotMatrixZ_80093D68( adjust->vz, matrix );
-            if  (adjust->vx ) RotMatrixX_80093A28( adjust->vx, matrix );
-            if  (adjust->vy ) RotMatrixY_80093BC8( adjust->vy, matrix );
+            if  (adjust->vz ) RotMatrixZ( adjust->vz, matrix );
+            if  (adjust->vx ) RotMatrixX( adjust->vx, matrix );
+            if  (adjust->vy ) RotMatrixY( adjust->vy, matrix );
             adjust++;
         }
 

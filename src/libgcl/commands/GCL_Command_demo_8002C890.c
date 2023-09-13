@@ -18,7 +18,7 @@ int GCL_Command_demo_8002C890(unsigned char *pScript)
 
     if ( !GCL_GetParam_80020968( 's' ) ) // scene ?
     {
-        mts_printf_8008BBA0( "DEMO:NO CODE\n" );
+        printf( "DEMO:NO CODE\n" );
     }
     code = GCL_GetNextParamValue_80020AD4();
 

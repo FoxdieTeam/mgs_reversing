@@ -34,7 +34,7 @@ GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
             pTableIter++;
         }
     }
-    mts_printf_8008BBA0("command not found\n");
+    printf("command not found\n");
     return 0;
 }
 
@@ -82,7 +82,7 @@ unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
             return gGCL_fileData_800B3C18.field_4_pByteCode + pProcIter->offset;
         }
     }
-    mts_printf_8008BBA0("PROC %X NOT FOUND\n", procNameHashed);
+    printf("PROC %X NOT FOUND\n", procNameHashed);
     return 0;
 }
 
@@ -100,7 +100,7 @@ int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
 {
     if (GM_LoadRequest_800AB3D0 || (GM_PlayerStatus_800ABA50 & PLAYER_GAMEOVER))
     {
-        mts_printf_8008BBA0("proc %d cancel\n", procNameHashed);
+        printf("proc %d cancel\n", procNameHashed);
         return 0;
     }
     return GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
@@ -131,7 +131,7 @@ int GCL_Proc_8001FFA0(unsigned char *pScript)
     {
         if (arg_idx >= 8)
         {
-            mts_printf_8008BBA0("TOO MANY ARGS PROC\n");
+            printf("TOO MANY ARGS PROC\n");
         }
         args[arg_idx++] = value;
     }
@@ -201,10 +201,10 @@ int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
             return 0;
 
         default:
-            mts_printf_8008BBA0("SCRIPT COMMAND ERROR %x\n", (unsigned int)*pScript);
+            printf("SCRIPT COMMAND ERROR %x\n", (unsigned int)*pScript);
         }
     }
-    mts_printf_8008BBA0("ERROR in script\n");
+    printf("ERROR in script\n");
     return 1;
 }
 
@@ -216,7 +216,7 @@ void GCL_ExecScript_80020228()
     unsigned char *pMainProc = gGCL_fileData_800B3C18.field_8_pMainProc;
     if (*pMainProc != 0x40)
     {
-        mts_printf_8008BBA0("NOT SCRIPT DATA !!\n");
+        printf("NOT SCRIPT DATA !!\n");
     }
     GCL_ExecBlock_80020118(pMainProc + 3, &gcl_null_args_800AB3BC);
 }

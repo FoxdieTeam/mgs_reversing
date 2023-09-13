@@ -101,7 +101,7 @@ void                  sub_80081910( int argc, const char **argv )
     int i;
 
     sd_debug_800BEFD4 = 0;
-    mts_printf_8008BBA0( "SOUND_LAUNCH(argc:%d)\n", argc );
+    printf( "SOUND_LAUNCH(argc:%d)\n", argc );
 
     for ( i = 0; i < argc; ++i )
     {
@@ -109,7 +109,7 @@ void                  sub_80081910( int argc, const char **argv )
         {
             sd_debug_800BEFD4 = 1;
         }
-        mts_printf_8008BBA0( "ARG%d:[%s]\n", i, argv[ i ] );
+        printf( "ARG%d:[%s]\n", i, argv[ i ] );
     }
 
     mts_set_stack_check_8008B648( 5, byte_800BE7C8, 0x800 );
@@ -123,7 +123,7 @@ void nullsub_7_80081A10( int *a1, int a2, int a3 )
 void SdMain_80081A18()
 {
     sd_flags_800C0BFC = 0;
-    mts_printf_8008BBA0( "Start Task:SdMain\n" );
+    printf( "Start Task:SdMain\n" );
     sd_sng_alloc_80082194();
     mts_set_stack_check_8008B648( 1, &dword_800BEFC8, 2048 );
     mts_sta_tsk_8008B47C( 1, SdInt_Task_80081BDC, &dword_800BEFC8 ); // TODO: Alloc BSS stack buffer
@@ -178,7 +178,7 @@ void SdMain_80081A18()
 
         case 7:
             KeyOffStr_80081FE8();
-            mts_printf_8008BBA0( "***BGM Terminate***\n" );
+            printf( "***BGM Terminate***\n" );
             break;
 
         case 6:
@@ -198,20 +198,20 @@ void SdInt_Task_80081BDC()
     char buf[ 98 ];
     (void)buf; // not enough stack used without this
 
-    mts_printf_8008BBA0( "Start Task:SdInt\n" );
+    printf( "Start Task:SdInt\n" );
     sd_init_80081C7C();
     mts_wup_tsk_8008A540( 5 );
     while ( 1 )
     {
         mts_receive_80089D24( -1, 0 );
         IntSdMain_80084494();
-        if ( SpuIsTransferCompleted_80096F58( 0 ) == 1 )
+        if ( SpuIsTransferCompleted( 0 ) == 1 )
         {
             WaveSpuTrans_80083944();
             mts_wup_tsk_8008A540( 5 );
         }
         StrFadeInt_800839C8();
-        if ( SpuIsTransferCompleted_80096F58( 0 ) == 1 )
+        if ( SpuIsTransferCompleted( 0 ) == 1 )
         {
             StrSpuTrans_800833FC();
             mts_wup_tsk_8008A540( 5 );
@@ -226,49 +226,49 @@ void sd_init_80081C7C()
     SpuCommonAttr attr;
     SpuReverbAttr reverbAttr;
 
-    SpuInit_80094568();
-    SpuInitMalloc_800952D8( 24, byte_800C0588 );
+    SpuInit();
+    SpuInitMalloc( 24, byte_800C0588 );
     attr.mask = 3;
     attr.mvol.left = 0;
     attr.mvol.right = 0;
-    SpuSetCommonAttr_80097038( &attr );
-    SpuSetPitchLFOVoice_80097008( 0, 0xFFFFFF );
-    SpuSetNoiseVoice_80095908( 0, 0xFFFFFF );
-    SpuSetReverb_80095BF8( 0 );
-    SpuSetTransferMode_80096F28( 0 );
-    blank_data_addr_800BF00C = SpuMalloc_80095338( 512 );
-    mts_printf_8008BBA0( "blank_data_addr=%x\n", blank_data_addr_800BF00C );
-    spu_wave_start_ptr_800C052C = SpuMalloc_80095338( 0x73E00 );
-    mts_printf_8008BBA0( "spu_wave_start_ptr=%x\n", spu_wave_start_ptr_800C052C );
-    spu_bgm_start_ptr_r_800BF0C8 = SpuMalloc_80095338( 0x2000 );
-    mts_printf_8008BBA0( "spu_bgm_start_ptr_r=%x\n", spu_bgm_start_ptr_r_800BF0C8 );
-    spuMem = SpuMalloc_80095338( 0x2000 );
+    SpuSetCommonAttr( &attr );
+    SpuSetPitchLFOVoice( 0, 0xFFFFFF );
+    SpuSetNoiseVoice( 0, 0xFFFFFF );
+    SpuSetReverb( 0 );
+    SpuSetTransferMode( 0 );
+    blank_data_addr_800BF00C = SpuMalloc( 512 );
+    printf( "blank_data_addr=%x\n", blank_data_addr_800BF00C );
+    spu_wave_start_ptr_800C052C = SpuMalloc( 0x73E00 );
+    printf( "spu_wave_start_ptr=%x\n", spu_wave_start_ptr_800C052C );
+    spu_bgm_start_ptr_r_800BF0C8 = SpuMalloc( 0x2000 );
+    printf( "spu_bgm_start_ptr_r=%x\n", spu_bgm_start_ptr_r_800BF0C8 );
+    spuMem = SpuMalloc( 0x2000 );
     spu_bgm_start_ptr_l_800BF060 = spuMem;
     if ( spuMem == -1 )
     {
-        mts_printf_8008BBA0( "SPU Buffer Over!!\n" );
+        printf( "SPU Buffer Over!!\n" );
     }
     else
     {
-        mts_printf_8008BBA0( "spu_bgm_start_ptr_l=%x\n", spuMem );
+        printf( "spu_bgm_start_ptr_l=%x\n", spuMem );
     }
-    SpuSetReverb_80095BF8( 0 );
-    SpuReserveReverbWorkArea_80096788( 1 );
-    SpuClearReverbWorkArea_80096888( 4 );
+    SpuSetReverb( 0 );
+    SpuReserveReverbWorkArea( 1 );
+    SpuClearReverbWorkArea( 4 );
     reverbAttr.mask = 1;
     reverbAttr.mode = 4;
-    if ( SpuSetReverbModeParam_80095DD8( &reverbAttr ) )
+    if ( SpuSetReverbModeParam( &reverbAttr ) )
     {
-        mts_printf_8008BBA0( "SPU Reverb Buffer Over!!\n" );
+        printf( "SPU Reverb Buffer Over!!\n" );
     }
     reverbAttr.mask = 6;
     reverbAttr.depth.left = 0x4000;
     reverbAttr.depth.right = 0x4000;
-    SpuSetReverbDepth_800967D8( &reverbAttr );
-    SpuSetReverb_80095BF8( 1 );
+    SpuSetReverbDepth( &reverbAttr );
+    SpuSetReverb( 1 );
     dword_800BF210 = 0;
     dword_800BF064 = 0x1FFF;
-    SpuSetReverbVoice_80096858( 1, 0x1FFF );
+    SpuSetReverbVoice( 1, 0x1FFF );
     init_sng_work_8008559C();
     dword_800BF27C = 0;
     gStr_FadeOut1_800BF16C = 0;
@@ -276,14 +276,14 @@ void sd_init_80081C7C()
     {
         se_playing_800BF068[ i ].field_8_code = 0;
     }
-    SpuSetTransferStartAddr_80096EC8( blank_data_addr_800BF00C );
-    SpuWrite_80096E68( blank_data_800A2B28, 512 );
-    SpuIsTransferCompleted_80096F58( 1 );
-    SpuSetIRQ_80096A28( 0 );
-    SpuSetIRQAddr_80096B68( blank_data_addr_800BF00C );
+    SpuSetTransferStartAddr( blank_data_addr_800BF00C );
+    SpuWrite( blank_data_800A2B28, 512 );
+    SpuIsTransferCompleted( 1 );
+    SpuSetIRQ( 0 );
+    SpuSetIRQAddr( blank_data_addr_800BF00C );
     dword_800BF1A8 = 0;
-    SpuSetIRQCallback_80096BA8( UserSpuIRQProc_80082640 );
-    SpuSetIRQ_80096A28( 1 );
+    SpuSetIRQCallback( UserSpuIRQProc_80082640 );
+    SpuSetIRQ( 1 );
     voiceAttr_800BF218.mask = 0xFF93;
     voiceAttr_800BF218.voice = 0x800000;
     voiceAttr_800BF218.pitch = 4096;
@@ -298,52 +298,52 @@ void sd_init_80081C7C()
     voiceAttr_800BF218.rr = 0;
     voiceAttr_800BF218.sl = 15;
     voiceAttr_800BF218.addr = blank_data_addr_800BF00C;
-    SpuSetVoiceAttr_80097518( &voiceAttr_800BF218 );
+    SpuSetVoiceAttr( &voiceAttr_800BF218 );
     SD_80082170( 0x800000 );
     attr.mask = 3;
     attr.mvol.left = 0x3FFF;
     attr.mvol.right = 0x3FFF;
-    SpuSetCommonAttr_80097038( &attr );
+    SpuSetCommonAttr( &attr );
 }
 
 void sub_80081F8C( void )
 {
-    SpuSetIRQCallback_80096BA8( NULL );
-    SpuSetKey_80096C18( 0, 0xffffff );
-    SpuQuit_80095258();
+    SpuSetIRQCallback( NULL );
+    SpuSetKey( 0, 0xffffff );
+    SpuQuit();
 }
 
 void SD_80081FC4( int param_1 )
 {
-    SpuSetKey_80096C18( 0, param_1 );
+    SpuSetKey( 0, param_1 );
 }
 
 void KeyOffStr_80081FE8()
 {
     SpuVoiceAttr attr; // [sp+10h] [-40h] BYREF
 
-    switch ( SpuGetKeyStatus_80096DD8( 0x600000 ) )
+    switch ( SpuGetKeyStatus( 0x600000 ) )
     {
     case SPU_OFF:
         break;
 
     case SPU_ON:
     case SPU_ON_ENV_OFF:
-        SpuSetKey_80096C18( 0, 0x600000 );
+        SpuSetKey( 0, 0x600000 );
         break;
 
     case SPU_OFF_ENV_ON:
         attr.voice = 0x200000;
-        SpuGetVoiceAttr_80097D18( &attr );
+        SpuGetVoiceAttr( &attr );
         if ( attr.rr != 8 )
         {
-            mts_printf_8008BBA0( "SOUND ERROR:SPU OFF ENV ON(STR_TRACK_R=%x)\n", attr.rr );
+            printf( "SOUND ERROR:SPU OFF ENV ON(STR_TRACK_R=%x)\n", attr.rr );
         }
         attr.voice = 0x400000;
-        SpuGetVoiceAttr_80097D18( &attr );
+        SpuGetVoiceAttr( &attr );
         if ( attr.rr != 8 )
         {
-            mts_printf_8008BBA0( "SOUND ERROR:SPU OFF ENV ON(STR_TRACK_L=%x)\n", attr.rr );
+            printf( "SOUND ERROR:SPU OFF ENV ON(STR_TRACK_L=%x)\n", attr.rr );
         }
     }
 
@@ -361,14 +361,14 @@ void KeyOffStr_80081FE8()
 
 void sub_800820EC()
 {
-    switch ( SpuGetKeyStatus_80096DD8( 0x600000 ) )
+    switch ( SpuGetKeyStatus( 0x600000 ) )
     {
     case SPU_OFF:
         break;
 
     case SPU_ON:
     case SPU_ON_ENV_OFF:
-        SpuSetKey_80096C18( 0, 0x600000 );
+        SpuSetKey( 0, 0x600000 );
         break;
 
     case SPU_OFF_ENV_ON:
@@ -386,32 +386,32 @@ void sub_800820EC()
 
 void SD_80082170( int param_1 )
 {
-    SpuSetKey_80096C18( 1, param_1 );
+    SpuSetKey( 1, param_1 );
 }
 
 int sd_sng_alloc_80082194( void )
 {
     sd_sng_data_800C0420 = (unsigned char *)0x801E0000;
-    mts_printf_8008BBA0( "sng_data %X\n", sd_sng_data_800C0420 );
+    printf( "sng_data %X\n", sd_sng_data_800C0420 );
 
     voice_tbl_800BF1E0 = (WAVE_W *)( sd_sng_data_800C0420 + 0x4000 );
-    mts_printf_8008BBA0( "wave_header %X\n", sd_sng_data_800C0420 + 0x4000 );
+    printf( "wave_header %X\n", sd_sng_data_800C0420 + 0x4000 );
 
     voice_tbl_800C0530 = voice_tbl_800BF1E0;
-    mts_printf_8008BBA0( "voice_tbl %X\n", voice_tbl_800BF1E0 );
+    printf( "voice_tbl %X\n", voice_tbl_800BF1E0 );
 
     se_exp_table_800C0520 = (unsigned char *)&voice_tbl_800BF1E0[ 256 ];
-    mts_printf_8008BBA0( "se_header %X\n", se_exp_table_800C0520 );
+    printf( "se_header %X\n", se_exp_table_800C0520 );
 
     se_header_800BF284 = se_exp_table_800C0520 + 0x800;
-    mts_printf_8008BBA0( "se_data %X\n", se_header_800BF284 );
+    printf( "se_data %X\n", se_header_800BF284 );
 
     cdload_buf_800BF010 = se_header_800BF284 + 0x2000;
-    mts_printf_8008BBA0( "CDLOAD_BUF %X %X %X\n",
+    printf( "CDLOAD_BUF %X %X %X\n",
                          cdload_buf_800BF010, 0x18000, cdload_buf_800BF010 + 0x18000 );
 
     CDLOAD_BUF_800BF058 = cdload_buf_800BF010 + 0x18000;
-    mts_printf_8008BBA0( "str_header %X\n", CDLOAD_BUF_800BF058 );
+    printf( "str_header %X\n", CDLOAD_BUF_800BF058 );
 
     str_header_800C0514 = cdload_buf_800BF010;
     return 0;
@@ -461,7 +461,7 @@ int StrFadeOutStop_80082380( unsigned int fadeSpeed )
     }
     else
     {
-        mts_printf_8008BBA0( "Canceled STR FadeOut(%x:%x:%x)",
+        printf( "Canceled STR FadeOut(%x:%x:%x)",
                              gStr_FadeOut1_800BF16C,
                              gStr_fadeout_2_800C0584,
                              gStreamVol_800BF15C );
@@ -485,7 +485,7 @@ int StartStream_80082448()
 
     if ( !CDLOAD_BUF_800BF058 )
     {
-        mts_printf_8008BBA0( "Stream:File Pos Error\n" );
+        printf( "Stream:File Pos Error\n" );
         FS_StreamClose_80024098();
         return -1;
     }
@@ -519,7 +519,7 @@ int StartStream_80082448()
     // Consume byte from CDLOAD_BUF_800BF058
     dword_800C0580 = CDLOAD_BUF_800BF058[ 9 ];
 
-    mts_printf_8008BBA0( "StartStream(%x:vol=%x)\n", gStream_800C04F0, gStreamVol_800BF15C );
+    printf( "StartStream(%x:vol=%x)\n", gStream_800C04F0, gStreamVol_800BF15C );
     if ( dword_800C04EC )
     {
         StrFadeWkSet_80083964();
@@ -602,15 +602,15 @@ void UserSpuIRQProc_80082640( void )
 
     if ( ( dword_800BF1A8 & 1 ) == 0 )
     {
-        SpuSetIRQAddr_80096B68( blank_data_addr_800BF00C + 256 );
+        SpuSetIRQAddr( blank_data_addr_800BF00C + 256 );
     }
     else
     {
-        SpuSetIRQAddr_80096B68( blank_data_addr_800BF00C );
+        SpuSetIRQAddr( blank_data_addr_800BF00C );
     }
 
     dword_800BF1A8++;
-    SpuSetIRQ_80096A28( SPU_RESET );
+    SpuSetIRQ( SPU_RESET );
 }
 
 void sub_8008279C( void )
@@ -643,11 +643,11 @@ int StrSpuTransWithNoLoop_800827AC( void )
         {
             if ( ( se_rev_on_800C0574 != 0 ) && ( dword_800BF160 != 0 ) && ( dword_800BF144 != 0 ) )
             {
-                SpuSetReverbVoice_80096858( 1, 0x600000 );
+                SpuSetReverbVoice( 1, 0x600000 );
             }
             else
             {
-                SpuSetReverbVoice_80096858( 0, 0x600000 );
+                SpuSetReverbVoice( 0, 0x600000 );
             }
 
             stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
@@ -657,8 +657,8 @@ int StrSpuTransWithNoLoop_800827AC( void )
                 dword_800C040C = 0;
                 dword_800BF164 = 0;
                 stream_data_ptr_800BEFE4[ 1 ] |= 0x4;
-                SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 );
-                SpuWrite_80096E68( stream_data_ptr_800BEFE4, 4096 );
+                SpuSetTransferStartAddr( spu_bgm_start_ptr_r_800BF0C8 );
+                SpuWrite( stream_data_ptr_800BEFE4, 4096 );
 
                 if ( dword_800BF268 == 0 )
                 {
@@ -678,8 +678,8 @@ int StrSpuTransWithNoLoop_800827AC( void )
         else
         {
             stream_data_ptr_800BEFE4[ dword_800BF164 + 1 ] |= 0x4;
-            SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 );
-            SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
+            SpuSetTransferStartAddr( spu_bgm_start_ptr_l_800BF060 );
+            SpuWrite( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
             dword_800BF164 += 4096;
             str_unplay_size_800BF1AC -= 4096;
 
@@ -713,8 +713,8 @@ int StrSpuTransWithNoLoop_800827AC( void )
         if ( dword_800BF1A4 == 0 )
         {
             stream_data_ptr_800BEFE4[ dword_800BF164 + 4081 ] |= 0x1;
-            SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 + 4096 );
-            SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
+            SpuSetTransferStartAddr( spu_bgm_start_ptr_r_800BF0C8 + 4096 );
+            SpuWrite( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
 
             if ( dword_800BF268 == 0 )
             {
@@ -728,8 +728,8 @@ int StrSpuTransWithNoLoop_800827AC( void )
         else
         {
             stream_data_ptr_800BEFE4[ dword_800BF164 + 4081 ] |= 0x1;
-            SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 + 4096 );
-            SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
+            SpuSetTransferStartAddr( spu_bgm_start_ptr_l_800BF060 + 4096 );
+            SpuWrite( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
             str_unplay_size_800BF1AC -= 4096;
             dword_8009F7B8 = stream_data_ptr_800BEFE4;
             stream_data_ptr_800BEFE4 = FS_StreamGetData_800240E0( 1 );
@@ -755,7 +755,7 @@ int StrSpuTransWithNoLoop_800827AC( void )
         attr.sl = 0xf;
         attr.pitch = dword_800C0504;
         attr.addr = spu_bgm_start_ptr_r_800BF0C8;
-        SpuSetVoiceAttr_80097518( &attr );
+        SpuSetVoiceAttr( &attr );
         attr.mask = 0xff93;
         attr.voice = 0x400000;
         attr.volume.left = 0;
@@ -770,7 +770,7 @@ int StrSpuTransWithNoLoop_800827AC( void )
         attr.sl = 0xf;
         attr.pitch = (ushort)dword_800C0504;
         attr.addr = spu_bgm_start_ptr_l_800BF060;
-        SpuSetVoiceAttr_80097518( &attr );
+        SpuSetVoiceAttr( &attr );
         dword_800BF270 = 0;
         SD_80082170( 0x600000 );
         dword_800C0414 = 4096;
@@ -818,12 +818,12 @@ int StrSpuTransWithNoLoop_800827AC( void )
                 {
                     if ( dword_800BF1A4 == 0 )
                     {
-                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 );
+                        SpuSetTransferStartAddr( spu_bgm_start_ptr_r_800BF0C8 );
                         dword_800BF1A4 = 1;
                     }
                     else
                     {
-                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 );
+                        SpuSetTransferStartAddr( spu_bgm_start_ptr_l_800BF060 );
                         dword_800BF1A4 = 0;
                         dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
 
@@ -844,13 +844,13 @@ int StrSpuTransWithNoLoop_800827AC( void )
                     if ( dword_800BF1A4 == 0 )
                     {
                         dword_800BF1A4 = 1;
-                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 + 4096 );
+                        SpuSetTransferStartAddr( spu_bgm_start_ptr_r_800BF0C8 + 4096 );
                     }
                     else
                     {
                         dword_800BF1A4 = 0;
                         dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
-                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 + 4096 );
+                        SpuSetTransferStartAddr( spu_bgm_start_ptr_l_800BF060 + 4096 );
                         bVar1 = 1;
 
                         if ( dword_800BF268 != 0 )
@@ -862,7 +862,7 @@ int StrSpuTransWithNoLoop_800827AC( void )
                     ( stream_data_ptr_800BEFE4 + dword_800BF164 )[ 4081 ] |= 1; // (temporary?) hack
                 }
 
-                SpuWrite_80096E68( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
+                SpuWrite( stream_data_ptr_800BEFE4 + dword_800BF164, 4096 );
 
                 if ( dword_800BF268 != 0 )
                 {
@@ -899,10 +899,10 @@ int StrSpuTransWithNoLoop_800827AC( void )
                     {
                         if ( dword_800BF1A4 != 0 )
                         {
-                            mts_printf_8008BBA0( "\nSOUND STREAMING ERROR:NO LAST LEFT DATA\n" );
+                            printf( "\nSOUND STREAMING ERROR:NO LAST LEFT DATA\n" );
                         }
 
-                        mts_printf_8008BBA0( "str_unplay_size=%x\n", str_unplay_size_800BF1AC );
+                        printf( "str_unplay_size=%x\n", str_unplay_size_800BF1AC );
 
                         dword_800BF164 = 0;
 
@@ -925,19 +925,19 @@ int StrSpuTransWithNoLoop_800827AC( void )
             else
             {
                 dword_800BEFF0 = 1;
-                mts_printf_8008BBA0( "*" );
+                printf( "*" );
 
                 if ( dword_800BF270 >= 4096u )
                 {
                     if ( dword_800BEFEC == 0 )
                     {
-                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_r_800BF0C8 );
+                        SpuSetTransferStartAddr( spu_bgm_start_ptr_r_800BF0C8 );
                         start_addr = spu_bgm_start_ptr_r_800BF0C8;
                         dword_800BEFEC = 1;
                     }
                     else
                     {
-                        SpuSetTransferStartAddr_80096EC8( spu_bgm_start_ptr_l_800BF060 );
+                        SpuSetTransferStartAddr( spu_bgm_start_ptr_l_800BF060 );
                         start_addr = spu_bgm_start_ptr_l_800BF060;
                         dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
                         dword_800BEFEC = 0;
@@ -945,7 +945,7 @@ int StrSpuTransWithNoLoop_800827AC( void )
 
                     byte_800A2D28[ 1 ] = 6;
                     byte_800A2D28[ 4081 ] = 2;
-                    SpuWrite_80096E68( byte_800A2D28, 4096 );
+                    SpuWrite( byte_800A2D28, 4096 );
                 }
                 else
                 {
@@ -953,19 +953,19 @@ int StrSpuTransWithNoLoop_800827AC( void )
                     {
                         start_addr = spu_bgm_start_ptr_r_800BF0C8 + 4096;
                         dword_800BEFEC = 1;
-                        SpuSetTransferStartAddr_80096EC8( start_addr );
+                        SpuSetTransferStartAddr( start_addr );
                     }
                     else
                     {
                         dword_800C0414 = ( dword_800C0414 + 4096 ) & 0x1fff;
                         start_addr = spu_bgm_start_ptr_l_800BF060 + 4096;
                         dword_800BEFEC = 0;
-                        SpuSetTransferStartAddr_80096EC8( start_addr );
+                        SpuSetTransferStartAddr( start_addr );
                     }
 
                     byte_800A2D28[ 1 ] = 2;
                     byte_800A2D28[ 4081 ] = 3;
-                    SpuWrite_80096E68( byte_800A2D28, 4096 );
+                    SpuWrite( byte_800A2D28, 4096 );
                 }
 
                 if ( ( dword_800BEFEC == 0 ) && ( dword_800C0414 != 0 ) )
@@ -996,11 +996,11 @@ int StrSpuTransWithNoLoop_800827AC( void )
             attr.mask = 0x4000;
             attr.voice = 0x200000;
             attr.rr = 8;
-            SpuSetVoiceAttr_80097518( &attr );
+            SpuSetVoiceAttr( &attr );
             attr.mask = 0x4000;
             attr.voice = 0x400000;
             attr.rr = 8;
-            SpuSetVoiceAttr_80097518( &attr );
+            SpuSetVoiceAttr( &attr );
             SD_80081FC4( 0x600000 );
             dword_8009F7B4 = -1;
             gStr_FadeOut1_800BF16C++;
@@ -1046,7 +1046,7 @@ int SD_LoadSeFile_8008341C()
 {
     if ( se_fp_800BF014 )
     {
-        mts_printf_8008BBA0( "ERROR:SE File Already Opened.\n" );
+        printf( "ERROR:SE File Already Opened.\n" );
         SD_8008395C( se_fp_800BF014, 4 );
         se_fp_800BF014 = 0;
     }
@@ -1054,7 +1054,7 @@ int SD_LoadSeFile_8008341C()
     if ( se_fp_800BF014 < 0 )
     {
         se_fp_800BF014 = 0;
-        mts_printf_8008BBA0( "LoadSeFile:File Open Error(%x)\n", se_load_code_800BF28C );
+        printf( "LoadSeFile:File Open Error(%x)\n", se_load_code_800BF28C );
         nullsub_7_80081A10( &dword_800C0500, -4, se_load_code_800BF28C ); // TODO: Not sure if last arg exists
         return -1;
     }
@@ -1076,7 +1076,7 @@ int SD_LoadWaveFile_800834FC( void )
 
     if ( wave_data_800BF294 != 0 )
     {
-        mts_printf_8008BBA0( "ERROR:Wave File Already Opened.\n" );
+        printf( "ERROR:Wave File Already Opened.\n" );
         SD_8008395C( wave_data_800BF294, 2 );
         wave_data_800BF294 = 0;
     }
@@ -1086,7 +1086,7 @@ int SD_LoadWaveFile_800834FC( void )
     if ( wave_data_800BF294 < 0 )
     {
         wave_data_800BF294 = 0;
-        mts_printf_8008BBA0( "LoadWaveFile:File Open Error(%x)\n", wave_load_code_800C0528 );
+        printf( "LoadWaveFile:File Open Error(%x)\n", wave_load_code_800C0528 );
         nullsub_7_80081A10( &dword_800C0500, -4, wave_load_code_800C0528 );
         wave_load_code_800C0528 = 0;
         return -1;
@@ -1105,13 +1105,13 @@ int SD_LoadWaveFile_800834FC( void )
     size |= cdload_buf_800BF010[ 6 ] << 8;
     size |= cdload_buf_800BF010[ 7 ];
 
-    mts_printf_8008BBA0( "SUP OFFSET=%x:SIZE=%x\n", offset, size );
+    printf( "SUP OFFSET=%x:SIZE=%x\n", offset, size );
 
     wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
     dst = (char *)voice_tbl_800BF1E0 + offset;
     memcpy( dst, wave_load_ptr_800C0508, size );
 
-    mts_printf_8008BBA0( "    SRC=%x:DST=%x\n", wave_load_ptr_800C0508, dst );
+    printf( "    SRC=%x:DST=%x\n", wave_load_ptr_800C0508, dst );
 
     wave_load_ptr_800C0508 += size;
 
@@ -1125,8 +1125,8 @@ int SD_LoadWaveFile_800834FC( void )
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 6 ] << 8;
     wave_unload_size_800BF274 |= wave_load_ptr_800C0508[ 7 ];
 
-    mts_printf_8008BBA0( "BIN OFFSET=%x\n", wave_load_ptr_800C0508 );
-    mts_printf_8008BBA0( "SPU OFFSET=%x:SIZE=%x\n",
+    printf( "BIN OFFSET=%x\n", wave_load_ptr_800C0508 );
+    printf( "SPU OFFSET=%x:SIZE=%x\n",
                          spu_load_offset_800BF140, wave_unload_size_800BF274 );
 
     wave_load_ptr_800C0508 += 16;
@@ -1170,7 +1170,7 @@ void sub_80083804( void )
     }
     dword_800BF27C = 0;
     SD_8008395C( wave_data_800BF294, 2 );
-    mts_printf_8008BBA0( "Complete Load Se:%x\n", wave_load_code_800C0528 );
+    printf( "Complete Load Se:%x\n", wave_load_code_800C0528 );
     wave_data_800BF294 = 0;
     nullsub_7_80081A10( &dword_800C0500, 0, wave_load_code_800C0528 );
 }
@@ -1271,7 +1271,7 @@ int StrFadeInt_800839C8( void )
         attr.volume.right = diff;
     }
 
-    SpuSetVoiceAttr_80097518( &attr );
+    SpuSetVoiceAttr( &attr );
 
     attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
     attr.voice = SPU_22CH;
@@ -1292,7 +1292,7 @@ int StrFadeInt_800839C8( void )
         attr.volume.right = 0;
     }
 
-    SpuSetVoiceAttr_80097518( &attr );
+    SpuSetVoiceAttr( &attr );
     return 0;
 }
 
@@ -1389,7 +1389,7 @@ unsigned char *SD_SngDataLoadInit_80083E8C( unsigned short unused )
     sng_status_800C04F8 = 0;
     sng_status_800BF158 = 0;
     sng_off_80087E2C();
-    mts_printf_8008BBA0( "SD_SngDataLoadInit\n" );
+    printf( "SD_SngDataLoadInit\n" );
     return sd_sng_data_800C0420;
 }
 
@@ -1414,7 +1414,7 @@ char *LoadInit_80083F08( unsigned short unused )
 
     if ( dword_800BF27C != 0 )
     {
-        mts_printf_8008BBA0( "LoadInit %d\n", dword_800BF27C );
+        printf( "LoadInit %d\n", dword_800BF27C );
         *(int *)1 = 0;
     }
     ret = cdload_buf_800BF010;
@@ -1482,13 +1482,13 @@ int SD_80083F54( char *end )
     wave_unload_size_800BF274 -= dword_800C0650;
     wave_save_code_800C0578 = wave_load_code_800C0528;
 
-    if ( !SpuIsTransferCompleted_80096F58( SPU_TRANSFER_PEEK ) )
+    if ( !SpuIsTransferCompleted( SPU_TRANSFER_PEEK ) )
     {
-        mts_printf_8008BBA0( "$" );
+        printf( "$" );
     }
 
-    SpuSetTransferStartAddr_80096EC8( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
-    SpuWrite_80096E68( wave_load_ptr_800C0508, dword_800C0650 );
+    SpuSetTransferStartAddr( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
+    SpuWrite( wave_load_ptr_800C0508, dword_800C0650 );
 
     spu_load_offset_800BF140 += dword_800C0650;
     wave_load_ptr_800C0508 += dword_800C0650;
@@ -1526,7 +1526,7 @@ char *SD_WavLoadBuf_800841D4( char *arg0 )
         }
         else if ( buf < wave_load_ptr_800C0508 )
         {
-            mts_printf_8008BBA0( "!!! SD WAV LOAD BUF OVER !!!\n" );
+            printf( "!!! SD WAV LOAD BUF OVER !!!\n" );
             *(int *)1 = 0;
         }
         if ( arg0 < wave_load_ptr_800C0508 )
@@ -1538,8 +1538,8 @@ char *SD_WavLoadBuf_800841D4( char *arg0 )
             dword_800C0650 = arg0 - wave_load_ptr_800C0508;
         }
         wave_unload_size_800BF274 -= dword_800C0650;
-        SpuSetTransferStartAddr_80096EC8( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
-        SpuWrite_80096E68( wave_load_ptr_800C0508, dword_800C0650 );
+        SpuSetTransferStartAddr( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
+        SpuWrite( wave_load_ptr_800C0508, dword_800C0650 );
         spu_load_offset_800BF140 += dword_800C0650;
         wave_load_ptr_800C0508 += dword_800C0650;
         break;
@@ -1560,14 +1560,14 @@ void SD_Unload_800843BC()
         {
             wave_load_ptr_800C0508 = cdload_buf_800BF010;
         }
-        SpuSetTransferStartAddr_80096EC8( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
-        SpuWrite_80096E68( wave_load_ptr_800C0508, wave_unload_size_800BF274 );
+        SpuSetTransferStartAddr( spu_wave_start_ptr_800C052C + spu_load_offset_800BF140 );
+        SpuWrite( wave_load_ptr_800C0508, wave_unload_size_800BF274 );
         spu_load_offset_800BF140 += wave_unload_size_800BF274;
         wave_load_ptr_800C0508 += wave_unload_size_800BF274;
     }
     dword_800BF27C = 0;
     if ( wave_unload_size_800BF274 )
     {
-        mts_printf_8008BBA0( "unload %d\n", wave_unload_size_800BF274 );
+        printf( "unload %d\n", wave_unload_size_800BF274 );
     }
 }

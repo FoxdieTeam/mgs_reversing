@@ -46,7 +46,7 @@ void menu_radio_codec_task_proc_80047AA0()
     dword_800ABB38->field_20_pFacesGroup = GV_AllocMemory_80015EB8(0, pFacesGroupSize);
     if (dword_800ABB38->field_20_pFacesGroup == NULL)
     {
-        mts_printf_8008BBA0(aNoMemoryForFac, pFacesGroupSize);
+        printf(aNoMemoryForFac, pFacesGroupSize);
     }
 
     // pFacesGroup is parsed in menu_radio_codec_task_proc_helper_80046F3C
@@ -62,7 +62,7 @@ void menu_radio_codec_task_proc_80047AA0()
     }
 
     menu_radio_codec_task_proc_helper_80046F3C(dword_800ABB38, pFacesGroup);
-    mts_printf_8008BBA0(aFaceDataNumD, dword_800ABB38->field_30_face_count);
+    printf(aFaceDataNumD, dword_800ABB38->field_30_face_count);
 
     dword_800ABB38->field_14_bInExecBlock = 0;
     field_18 &= ~0x1;

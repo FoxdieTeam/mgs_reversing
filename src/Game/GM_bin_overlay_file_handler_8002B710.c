@@ -43,7 +43,7 @@ int GM_bin_overlay_file_handler_8002B710(unsigned char *pFileData, int fileNameH
 {
     if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
-        mts_printf_8008BBA0("TOO LARGE STAGE BINARY!!\n");
+        printf("TOO LARGE STAGE BINARY!!\n");
     }
 
     memcpy(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);

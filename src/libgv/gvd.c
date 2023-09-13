@@ -17,16 +17,11 @@ extern int            GV_PauseLevel_800AB928;
 extern const char    *GV_DebugMes_800AB34C;
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
-extern unsigned char heap_80117000[0x6b000];
-
-// TODO: FIX ME, actual size is 0x1F000 ??
-extern unsigned char heap_80182000[0x5E000];
-
 extern GV_ACT gGVActor_800acbf8;
 
 void Callback_Hangup_80014B34(void)
 {
-    mts_printf_8008BBA0("HANGUP: %s\n", GV_DebugMes_800AB34C);
+    printf("HANGUP: %s\n", GV_DebugMes_800AB34C);
 }
 
 void GV_Act_80014B60(GV_ACT *pGv)
@@ -55,15 +50,14 @@ void GV_Act_80014B60(GV_ACT *pGv)
 void GV_ResetPacketMemory_80014BD8(void)
 {
     // passing heap_80182000 produces addiu instead of ori
-    GV_InitMemorySystem_80015AF4(0, 1, (void *)0x80182000, sizeof(heap_80182000) / 2); 
-    GV_InitMemorySystem_80015AF4(1, 1, (void *)0x80182000 + sizeof(heap_80182000) / 2,
-                                 sizeof(heap_80182000) / 2); // ditto
+    GV_InitMemorySystem_80015AF4(0, 1, (void *)0x80182000, 0x2f000);
+    GV_InitMemorySystem_80015AF4(1, 1, (void *)0x801b1000, 0x2f000); // ditto
 }
 
 void GV_SetPacketTempMemory_80014C28()
 {
     // passing heap_80182000 produces addiu instead of ori
-    GV_InitMemorySystem_80015AF4(0, 0, (void *)0x80182000, sizeof(heap_80182000)); 
+    GV_InitMemorySystem_80015AF4(0, 0, (void *)0x80182000, 0x5e000);
     GV_InitMemorySystem_80015AF4(1, 0, 0, 0);
 }
 
@@ -72,8 +66,8 @@ void GV_Memory_Init_80014C70(void)
     GV_InitMemorySystemAll_80015AB0();
     GV_ResetPacketMemory_80014BD8();
     // passing heap_80117000 produces addiu instead of ori
-    GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000, sizeof(heap_80117000));
-    mts_printf_8008BBA0("RESIDENT TOP %X\n", GV_ResidentMemoryBottom_800AB940);
+    GV_InitMemorySystem_80015AF4(2, 0, (void *)0x80117000, 0x6b000);
+    printf("RESIDENT TOP %X\n", GV_ResidentMemoryBottom_800AB940);
 }
 
 void GV_ResetSystem_80014CC8(void)

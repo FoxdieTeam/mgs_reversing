@@ -3,12 +3,12 @@
 
 void GV_Assert_800156E8(char *filename, int line)
 {
-    mts_printf_8008BBA0("Assertion failed: %s, line %d\n", filename, line);
+    printf("Assertion failed: %s, line %d\n", filename, line);
 }
 
 void GV_Warning_80015718(char *format, int id)
 {
-    mts_printf_8008BBA0(format, id);
+    printf(format, id);
 }
 
 void GV_Error_80015738(char *format, int id)

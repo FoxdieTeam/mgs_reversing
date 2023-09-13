@@ -68,7 +68,7 @@ void shadow_act_helper_8005FD28(Actor_Shadow *pActor)
     lVar4 = pScratch->mtx.t[2];
 
     DG_TransposeMatrix_8001EAD8(&pScratch->mtx, &pScratch->mtx);
-    SetRotMatrix_80093218(&pScratch->mtx);
+    SetRotMatrix(&pScratch->mtx);
 
     psVar14 = pScratch->iter;
 
@@ -85,7 +85,7 @@ void shadow_act_helper_8005FD28(Actor_Shadow *pActor)
         pScratch->rot_in.vy = psVar14->vy - lVar5;
         pScratch->rot_in.vz = psVar14->vz - lVar4;
 
-        ApplyRotMatrix_80092DA8(&pScratch->rot_in, &pScratch->rot_out);
+        ApplyRotMatrix(&pScratch->rot_in, &pScratch->rot_out);
 
         if (iVar15 < pScratch->rot_out.vx)
         {
@@ -134,7 +134,7 @@ void shadow_act_helper_8005FD28(Actor_Shadow *pActor)
 void shadow_act_helper_80060028(Actor_Shadow *pActor)
 {
     DG_OBJS *objs = pActor->field_28_obj.objs;
-    RotMatrixY_80093BC8(pActor->field_20_ctrl->field_8_rotator.vy, &objs->world);
+    RotMatrixY(pActor->field_20_ctrl->field_8_rotator.vy, &objs->world);
     objs->world.t[0] = pActor->field_24_pObj->objs->world.t[0];
     objs->world.t[2] = pActor->field_24_pObj->objs->world.t[2];
     objs->world.t[1] = pActor->field_20_ctrl->field_78_levels[0];

@@ -7,7 +7,6 @@
 //extern char OverlayCharas[];
 
 // BSS
-extern char gProgramBottom_800C3208[];
 extern int  dword_800A3DCC;
 
 int dword_800A3DCC = 0;
@@ -18,7 +17,7 @@ void mts_reset_graph_8008C534(void)
     {
         ResetGraph(0);
         SetGraphDebug(0);
-        InitGeom_80092680();
+        InitGeom();
         dword_800A3DCC = 1;
     }
     else
@@ -33,10 +32,11 @@ void SetExMask_8008C58C()
     __asm__("break 1030");
 }
 
+extern char gProgramBottom_800C3208[];
+
 unsigned char *mts_get_bss_tail_8008C598()
 {
-//    return &OverlayCharas[0];
-    return &gProgramBottom_800C3208[0];
+    return gProgramBottom_800C3208;
 }
 
 void sio_output_start_8008C5A8(void)

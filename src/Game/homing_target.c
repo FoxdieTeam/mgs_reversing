@@ -35,7 +35,7 @@ Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
 
     if (!pos)
     {
-        mts_printf_8008BBA0("Homing target over !!!\n");
+        printf("Homing target over !!!\n");
         return 0;
     }
 
@@ -91,7 +91,7 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
                     {
                         smallest_len = len;
                         *pRetY = retY;
-                        *pRetX = (ratan2_80094308(len, vec2.vy - vec1.vy) & 4095) - 1024;
+                        *pRetX = (ratan2(len, vec2.vy - vec1.vy) & 4095) - 1024;
                     }
                 }
             }
@@ -138,7 +138,7 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
                     {
                         smallest_len = len;
                         *pRetY = retY;
-                        *pRetX = (ratan2_80094308(len, vec2.vy - vec1.vy) & 4095) - 1024;
+                        *pRetX = (ratan2(len, vec2.vy - vec1.vy) & 4095) - 1024;
                     }
                 }
             }

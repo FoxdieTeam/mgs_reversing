@@ -24,7 +24,7 @@ void sub_8004CF20(int code, char **param_2, char **param_3)
         *param_3 = aAtEUC;
     }
     GCL_SetArgTop_80020690((char *)dword_800ABB8C);
-    mts_printf_8008BBA0(aCodeD, code);
+    printf(aCodeD, code);
     for (i = 0; i < code; i++) {
         if (GCL_Get_Param_Result_80020AA4() == 0)
         {

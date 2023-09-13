@@ -68,7 +68,7 @@ void goggleir_pal_cb_80078AB8(void)
     for (; iVar1 > 0; iVar1--)
     {
         DrawSync(0);
-        StoreImage2_8009209C(&rect_8009F720, image_data_800B3818);
+        StoreImage2(&rect_8009F720, image_data_800B3818);
         DrawSync(0);
 
         puVar2 = (ushort *)image_data_800B3818;
@@ -91,7 +91,7 @@ void goggleir_pal_cb_80078AB8(void)
             }
         }
 
-        LoadImage2_80091FB0(&rect_8009F718, image_data_800B3818);
+        LoadImage2(&rect_8009F718, image_data_800B3818);
 
         rect_8009F720.y += 2;
         rect_8009F718.y += 2;

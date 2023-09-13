@@ -156,7 +156,7 @@ int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int noiseLen)
     svec1 = svec3;
     vec_8009F6D4.vy = -pActor->field_158;
 
-    ApplyRotMatrixLV_80092E28(&vec_8009F6D4, &vec1);
+    ApplyRotMatrixLV(&vec_8009F6D4, &vec1);
 
     vec1.vx += svec3.vx;
     vec1.vy += svec3.vy;
@@ -261,13 +261,13 @@ skip_clamp_z:
         vec2.vy = (vec1.vy - svec3.vy) >> shift;
         vec2.vz = (vec1.vz - svec3.vz) >> shift;
 
-        Square0_80093340(&vec2, &vec2);
-        pActor->field_158 = SquareRoot0_80092708(vec2.vx + vec2.vy + vec2.vz) << shift;
+        Square0(&vec2, &vec2);
+        pActor->field_158 = SquareRoot0(vec2.vx + vec2.vy + vec2.vz) << shift;
     }
 
     if (pActor->field_158 > 10000)
     {
-        ApplyRotMatrix_80092DA8(&svec_8009F6E4, &vec2);
+        ApplyRotMatrix(&svec_8009F6E4, &vec2);
         svec4.vx = vec2.vx;
         svec4.vy = vec2.vy;
         svec4.vz = vec2.vz;
@@ -316,8 +316,8 @@ skip_clamp_z:
             vec2.vy = (pActor->field_118.vy - svec3.vy) >> 1;
             vec2.vz = (pActor->field_118.vz - svec3.vz) >> 1;
 
-            Square0_80093340(&vec2, &vec2);
-            return SquareRoot0_80092708(vec2.vx + vec2.vy + vec2.vz) * 2;
+            Square0(&vec2, &vec2);
+            return SquareRoot0(vec2.vx + vec2.vy + vec2.vz) * 2;
         }
 
         i += f158_clamped;
@@ -699,7 +699,7 @@ Actor_Bullet * NewBulletEx_80076708(
     vec.vy = 0;
     vec.vz = 0;
     DG_RotatePos_8001BD64(&vec);
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
 
     if ((pActor->field_14C & 0x1000) != 0)
     {
@@ -767,6 +767,6 @@ Actor_Bullet * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6
     vec.vy = 0;
     vec.vz = 0;
     DG_RotatePos_8001BD64(&vec);
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
     return NewBulletEx_80076708(256, &mtx, a2, a3, a4, a5, a6, a7, a8);
 }

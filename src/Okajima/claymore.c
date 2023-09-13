@@ -210,7 +210,7 @@ void claymore_act_800736B0(Actor_Claymore *claymore)
         {
             if (claymore->field_128 == 1 && (field_10C = GV_RandU_80017090(0x20), 0x14 < field_10C))
             {
-                ReadRotMatrix_80092DD8(&matrix);
+                ReadRotMatrix(&matrix);
                 matrix.t[0] = claymore->field_110.vx;
                 matrix.t[1] = claymore->field_110.vy;
                 matrix.t[2] = claymore->field_110.vz;

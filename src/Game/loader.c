@@ -37,7 +37,7 @@ void Loader_Act_8002E390(struct Loader *pLoader)
 
 void Loader_Kill_8002E41C(struct Loader *pLoader)
 {
-    mts_printf_8008BBA0("LoadEnd\n");
+    printf("LoadEnd\n");
     FS_LoadStageComplete_80023804(pLoader->field_20_pStageFile);
     GM_LoadComplete_800ABA38 = -1;
 }
@@ -47,12 +47,12 @@ struct Loader *Loader_Init_8002E460(const char *pStageName)
     struct Loader *pLoader;
 
     pLoader = (struct Loader *)GV_NewActor_800150E4(2, sizeof(struct Loader));
-    mts_printf_8008BBA0("LoadReq\n");
+    printf("LoadReq\n");
     pLoader->field_20_pStageFile = FS_LoadStageRequest_800236E0(pStageName);
 
     if (!pLoader->field_20_pStageFile)
     {
-        mts_printf_8008BBA0("NOT FOUND STAGE %s\n", pStageName);
+        printf("NOT FOUND STAGE %s\n", pStageName);
     }
 
     GV_SetNamedActor_8001514C(&pLoader->base, (TActorFunction)Loader_Act_8002E390, (TActorFunction)Loader_Kill_8002E41C, "loader.c");

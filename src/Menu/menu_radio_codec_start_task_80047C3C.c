@@ -19,7 +19,7 @@ void menu_radio_codec_start_task_80047C3C(void)
     dword_800ABB38->field_28_pStack = pTaskStack;
     if (pTaskStack == 0)
     {
-        mts_printf_8008BBA0(aNoMemoryForSta);
+        printf(aNoMemoryForSta);
     }
     dword_800ABB38->field_0_state = 5;
     pStackEnd = dword_800ABB38->field_28_pStack + (CODEC_TASK_STACK_SIZE / sizeof(int));
@@ -39,7 +39,7 @@ void menu_radio_codec_create_state_80047CE4(Actor_MenuMan *pMenuMan)
     menu_chara_struct *pAllocated = GV_AllocMemory_80015EB8(0, sizeof(menu_chara_struct));
     if (!pAllocated)
     {
-        mts_printf_8008BBA0(aNoMemory);
+        printf(aNoMemory);
     }
     pMenuMan->field_218 = pAllocated;
     dword_800ABB38 = pAllocated;

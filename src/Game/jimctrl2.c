@@ -134,7 +134,7 @@ static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *pActor, int str_c
                 switch (value >> 4)
                 {
                 case 0:
-                    mts_printf_8008BBA0("KUTIPAKU END\n");
+                    printf("KUTIPAKU END\n");
                     jimctrl_act_helper_set_first_80037F2C(pActor->field_3C, 0);
                     pActor->field_38 = NULL;
                     return;

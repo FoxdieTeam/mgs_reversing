@@ -96,11 +96,11 @@ void aam_act_800670CC(Actor_Aam *actor)
             local_18.vy = actor->field_44_ctrl->field_8_rotator.vy;
             local_18.vz = 0;
 
-            RotMatrixYXZ_80093798(&local_18, &MStack88);
+            RotMatrixYXZ(&local_18, &MStack88);
             local_18.vx = 0;
             DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.field_0, &local_18);
             DG_MovePos_8001BD20(&svector_800AB8A4);
-            ReadRotMatrix_80092DD8(&MStack56);
+            ReadRotMatrix(&MStack56);
 
             MStack88.t[0] = MStack56.t[0];
             MStack88.t[1] = MStack56.t[1];

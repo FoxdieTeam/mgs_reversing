@@ -729,7 +729,7 @@ int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
 
         if (best_near == from)
         {
-            mts_printf_8008BBA0(" no reach zone from %d to %d \n", from, to);
+            printf(" no reach zone from %d to %d \n", from, to);
             retval = 100000;
             break;
         }
@@ -786,7 +786,7 @@ int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
         }
         if (best_near == from)
         {
-            mts_printf_8008BBA0("over no reach zone from %d to %d \n", from, to);
+            printf("over no reach zone from %d to %d \n", from, to);
             return best_near;
         }
 
@@ -850,7 +850,7 @@ int sub_8005CFAC(HZD_MAP *pHzdMap, int from, int to, int max_dist)
         }
         if (best_near == from)
         {
-            mts_printf_8008BBA0("bound no reach zone from %d to %d \n", from, to);
+            printf("bound no reach zone from %d to %d \n", from, to);
             return best_near;
         }
 

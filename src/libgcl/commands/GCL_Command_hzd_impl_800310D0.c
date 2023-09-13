@@ -25,7 +25,7 @@ struct map_record *GCL_Command_hzd_impl_800310D0(void)
 
     if (!GCL_GetParam_80020968('h')) // hzm
     {
-        mts_printf_8008BBA0(aNoHzd);
+        printf(aNoHzd);
         return 0;
     }
 
