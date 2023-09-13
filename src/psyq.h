@@ -149,5 +149,7 @@ int                PCopen_80014B1C(char *name, int flags, int perms);
 int                PClseek_80098E48(int fd, int offset, int mode);
 int                PCread_80014B24(int fd, char *buff, int len);
 int                PCclose_80014B2C(int fd);
+long               card_clear_8009902C(long chan);
+long               card_load_8009900C(long chan);
 
 #endif // _PSYQ_H_
