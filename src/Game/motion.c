@@ -851,8 +851,8 @@ void sub_80036388( OAR_RECORD *pRecord, int frame )
 
         if (frame < temp2)
         {
-        z = shift + 8;
-        goto exit;
+            z = shift + 8;
+            break;
         }
 
         frame = frame - temp2;
@@ -865,7 +865,6 @@ void sub_80036388( OAR_RECORD *pRecord, int frame )
         shift = shift_temp & 0xF;
     }
 
-    exit:
     Shift_Op(shift, z, pArchive);
     b = (a2 >> 4);
     b = b & 0xF;
