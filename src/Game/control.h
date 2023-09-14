@@ -71,7 +71,7 @@ typedef struct CONTROL
     // movement vector, since it is the only writing function which if disabled prevents Snake from moving entirely.
     SVECTOR       field_44_movementVector;
     SVECTOR       field_4C_turn_vec;
-    char          field_54;
+    signed char   field_54;
     unsigned char field_55_skip_flag; // CTRL_...
     signed char   field_56;
     signed char   field_57;

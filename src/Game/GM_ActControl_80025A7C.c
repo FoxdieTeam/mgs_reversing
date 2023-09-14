@@ -1,0 +1,299 @@
+#include "control.h"
+#include "unknown.h"
+#include "map/map.h"
+
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+extern int GM_CurrentMap_800AB9B0;
+int        GM_CurrentMap_800AB9B0;
+
+static inline void GM_ActControl_helper_80025A7C(CONTROL *pControl)
+{
+    int         scriptData;
+    int         count;
+    GV_MSG     *pMsg;
+    int         hash1, hash2;
+    map_record *pMap;
+
+    scriptData = pControl->field_30_scriptData;
+
+    if ((scriptData != 0) && !(pControl->field_55_skip_flag & CTRL_SKIP_MESSAGE))
+    {
+        count = GV_ReceiveMessage_80016620(scriptData, &pControl->field_5C_mesg);
+        pControl->field_56 = count;
+
+        pMsg = pControl->field_5C_mesg;
+
+        hash1 = 0xF9AD;
+        hash2 = 0x89CB;
+
+        for (count--; count >= 0; count--, pMsg++)
+        {
+            if (pMsg->message[0] == hash1)
+            {
+                pMap = Map_FindByNum_80031504(pMsg->message[1]);
+
+                if (pMap)
+                {
+                    pControl->field_2C_map = pMap;
+                }
+            }
+            else if (pMsg->message[0] == hash2)
+            {
+                pControl->field_0_mov.vx = pMsg->message[1];
+                pControl->field_0_mov.vy = pMsg->message[2];
+                pControl->field_0_mov.vz = pMsg->message[3];
+                pControl->field_78_levels[0] = -32000;
+                pControl->field_78_levels[1] = 32000;
+            }
+        }
+    }
+}
+
+static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_MAP *pHzd)
+{
+    SVECTOR vec;
+    int     vx;
+    int     new_var;
+    int     len;
+    int     diff;
+
+    vx = pControl->field_44_movementVector.vx;
+    new_var = pControl->field_36 / 2;
+
+    if (vx < 0)
+    {
+        vx = -vx;
+    }
+
+    if (pControl->field_44_movementVector.vz > 0)
+    {
+        vx += pControl->field_44_movementVector.vz;
+    }
+    else
+    {
+        vx -= pControl->field_44_movementVector.vz;
+    }
+
+    if ((vx > new_var) || (pControl->field_55_skip_flag & (CTRL_BOTH_CHECK | CTRL_SKIP_NEAR_CHECK)))
+    {
+        GV_AddVec3_80016D00(&pControl->field_0_mov, &pControl->field_44_movementVector, &vec);
+
+        if (sub_80028454(pHzd, &pControl->field_0_mov, &vec, 15, pControl->field_59))
+        {
+            pControl->field_58 = 0x1;
+            pControl->field_70[0] = sub_80028820();
+            pControl->field_5A[0] = sub_80028830();
+
+            GetVecFromScratchpad_80028840(pControl->field_60_vecs_ary);
+
+            len = GV_VecLen3_80016D80(pControl->field_60_vecs_ary);
+            diff = len - new_var;
+
+            if (diff < 0)
+            {
+                diff = -diff;
+                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_SubVec3_80016D40(&DG_ZeroVector_800AB39C, &vec, &vec);
+            }
+            else
+            {
+                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+            }
+
+            pControl->field_44_movementVector = vec;
+        }
+    }
+}
+
+static inline void GM_ActControl_helper3_80025A7C(CONTROL *pControl, HZD_MAP *pHzd)
+{
+    SVECTOR vec;
+    SVECTOR vec2;
+    int     bVar7;
+    int     i;
+
+    bVar7 = 0;
+
+    if (pControl->field_55_skip_flag & CTRL_SKIP_NEAR_CHECK)
+    {
+        return;
+    }
+
+retry:
+    i = sub_80029098(pHzd,&pControl->field_0_mov, 500, 12, pControl->field_59);
+
+    if (i <= 0)
+    {
+        return;
+    }
+
+    pControl->field_58 = i;
+
+    GM_ActControl_helper3_800292E4(pControl->field_70);
+    GM_ActControl_helper4_80029304(pControl->field_5A);
+    GM_ActControl_helper5_80029324(pControl->field_60_vecs_ary);
+
+    if (!GM_ActControl_helper_80026C68(pControl->field_60_vecs_ary, i, pControl->field_36, &vec) && !bVar7)
+    {
+        GV_LenVec3_80016DDC(&pControl->field_44_movementVector, &vec2, GV_VecLen3_80016D80(&pControl->field_44_movementVector), pControl->field_36 / 2);
+        bVar7 = 1;
+        vec2.vy = 0;
+        GV_SubVec3_80016D40(&pControl->field_0_mov,&vec2,&pControl->field_0_mov);
+        goto retry;
+    }
+    else
+    {
+        pControl->field_0_mov.vx += vec.vx;
+        pControl->field_0_mov.vz += vec.vz;
+    }
+}
+
+static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_MAP *pHzd)
+{
+    int xz[2];
+    int vy, vz;
+    int iVar11;
+    int uVar14;
+    int uVar15;
+    int uVar16;
+
+    vy = pControl->field_0_mov.vy + pControl->field_44_movementVector.vy;
+    vz = pControl->field_32_height;
+
+    pControl->field_57 = 0;
+    uVar14 = sub_800296C4(pHzd, &pControl->field_0_mov, 3);
+    sub_800298DC(xz);
+    pControl->field_60_vecs_ary[0].pad = sub_80029A2C();
+    uVar15 = uVar14 & 1;
+
+    if (((uVar14 & 2) != 0) && ((xz[1] - pControl->field_78_levels[0]) + 199U < 399))
+    {
+        xz[0] = xz[1];
+        uVar14 &= ~2;
+        uVar14 |= 1;
+        uVar15 = uVar14 & 1;
+    }
+
+    uVar16 = uVar14 & 2;
+
+    if (uVar15 == 0)
+    {
+        xz[0] = 0;
+    }
+
+    if (uVar16 == 0)
+    {
+        xz[1] = 32000;
+    }
+
+    iVar11 = vz;
+
+    if (uVar15 != 0)
+    {
+        iVar11 = vz + xz[0];
+    }
+
+    if (iVar11 > vy)
+    {
+        vy = iVar11;
+        pControl->field_57 = 1;
+    }
+    else if (uVar16 != 0)
+    {
+        iVar11 = xz[1] - vz;
+
+        if (iVar11 < vy)
+        {
+            vy = iVar11;
+            pControl->field_57 = 2;
+        }
+    }
+
+    pControl->field_78_levels[0] = xz[0];
+    pControl->field_78_levels[1] = xz[1];
+    pControl->field_0_mov.vy = vy;
+}
+
+void GM_ActControl_80025A7C(CONTROL *pControl)
+{
+    HZD_MAP *pHzd;
+    int      vy;
+    int      time;
+
+    pHzd = pControl->field_2C_map->field_8_hzd;
+
+    GM_ActControl_helper_80025A7C(pControl);
+
+    GM_CurrentMap_800AB9B0 = pControl->field_2C_map->field_0_map_index_bit;
+
+    if (pControl->field_36 > 0)
+    {
+        pControl->field_58 = 0;
+
+        if (pControl->field_34_hzd_height != -0x7fff)
+        {
+            vy = pControl->field_0_mov.vy;
+            pControl->field_0_mov.vy = pControl->field_34_hzd_height;
+        }
+
+        GM_ActControl_helper2_80025A7C(pControl, pHzd);
+
+        pControl->field_0_mov.vx += pControl->field_44_movementVector.vx;
+        pControl->field_0_mov.vz += pControl->field_44_movementVector.vz;
+
+        GM_ActControl_helper3_80025A7C(pControl, pHzd);
+
+        if (pControl->field_34_hzd_height != -0x7fff)
+        {
+            pControl->field_0_mov.vy = vy;
+        }
+
+        time = pControl->field_54;
+
+        if (pControl->field_54 == 0)
+        {
+            GV_NearExp4PV_800269A0(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, 3);
+        }
+        else
+        {
+            GV_NearTimePV_80026BC4(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, pControl->field_54, 3);
+            pControl->field_54 = time - 1;
+        }
+
+        GM_ActControl_helper4_80025A7C(pControl, pHzd);
+    }
+    else if (pControl->field_36 < 0)
+    {
+        pControl->field_58 = 0;
+
+        time = pControl->field_54;
+
+        pControl->field_0_mov.vx += pControl->field_44_movementVector.vx;
+        pControl->field_0_mov.vz += pControl->field_44_movementVector.vz;
+
+        if (time == 0)
+        {
+            GV_NearExp4PV_800269A0(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, 3);
+        }
+        else
+        {
+            GV_NearTimePV_80026BC4(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, time, 3);
+            pControl->field_54 = time - 1;
+        }
+
+        if (pControl->field_36 >= -1)
+        {
+            GM_ActControl_helper4_80025A7C(pControl, pHzd);
+        }
+    }
+
+    if (!(pControl->field_55_skip_flag & CTRL_SKIP_TRAP))
+    {
+        pControl->field_10_pStruct_hzd_unknown.field_14_vec = pControl->field_0_mov;
+        pControl->field_10_pStruct_hzd_unknown.field_14_vec.pad = pControl->field_8_rotator.vy;
+        GM_ActControl_helper6_8002A538(pHzd, &pControl->field_10_pStruct_hzd_unknown);
+    }
+
+    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
+}
