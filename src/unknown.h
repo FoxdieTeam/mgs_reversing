@@ -67,4 +67,14 @@ void GM_ActControl_helper6_helper_8002A27C(HZD_MAP*, Res_Control_unknown*);
 void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP*, Res_Control_unknown*);
 void sub_80029604(HZD_FLR *);
 int sub_80029384(HZD_FLR *);
+
+// TODO: Game/(act)control.c?
+void GetVecFromScratchpad_80028840(SVECTOR *vec);
+
+int  GM_ActControl_helper_80026C68(SVECTOR *, int, int, SVECTOR *);
+void GM_ActControl_helper3_800292E4(SVECTOR **vectors_ptr);
+void GM_ActControl_helper4_80029304(char *char_arr);
+void GM_ActControl_helper5_80029324(SVECTOR *vectors);
+void GM_ActControl_helper6_8002A538(HZD_MAP *pMap, Res_Control_unknown *arg1);
+
 #endif // _UNKNOWN_H_
