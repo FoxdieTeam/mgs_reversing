@@ -3,6 +3,7 @@
 #include "psyq.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/linkvarbuf.h"
 
 extern char *gFontBegin;
 char        *SECTION(".sdata") gFontBegin;
@@ -20,6 +21,12 @@ int        SECTION(".sbss") rubi_left_pos_y_800ABB30;
 
 extern int rubi_left_pos_xmax_800ABB34;
 int        SECTION(".sbss") rubi_left_pos_xmax_800ABB34;
+
+extern int r_flag_800AB6C0;
+int        r_flag_800AB6C0;
+
+extern int rubi_flag_800AB6C4;
+int        rubi_flag_800AB6C4;
 
 extern char *dword_800ABB28;
 char        *SECTION(".sbss") dword_800ABB28;
@@ -882,7 +889,501 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
     }
 }
 
-#pragma INCLUDE_ASM("asm/Font/font_draw_string_80045D0C.s")                 // 3056 bytes
+#define MAP_ASCII(c) (0x8000 | (unsigned char)(c))
+
+#define MSB_NOT_SET(c) (((signed char)(c)) >= 0)
+#define TWO_BYTE_CHAR(p) ((((unsigned char *)(p))[0] << 8) | ((unsigned char *)(p))[1])
+
+// Returns to the 1-or-2-byte character at `p`.
+#define PEEK_CHAR(p) (MSB_NOT_SET(*(p)) ? MAP_ASCII(*(p)) : TWO_BYTE_CHAR(p))
+
+// Reads the next character at p, assigns it into `dest`, and advances p to the next char.
+// NOTE: This macro is not properly guarded, so it can't be used anywhere a normal statement
+//       could. However, guarding it with `do {...} while(0)` makes the optimizer produce
+//       different code.
+#define READ_CHAR(dest, p)                                                                                             \
+    if (MSB_NOT_SET(*(p)))                                                                                             \
+    {                                                                                                                  \
+        dest = MAP_ASCII(*(p));                                                                                        \
+        ++(p);                                                                                                         \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
+        (dest) = TWO_BYTE_CHAR((p));                                                                                   \
+        (p) += 2;                                                                                                      \
+    }
+
+// Advances p to the next char, skipping the current one.
+// NOTE: This macro is not properly guarded, so it can't be used anywhere a normal statement
+//       could. However, guarding it with `do {...} while(0)` makes the optimizer produce
+//       different code.
+#define SKIP_CHAR(p)                                                                                                   \
+    if (MSB_NOT_SET(*(p)))                                                                                             \
+    {                                                                                                                  \
+        ++(p);                                                                                                         \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
+        (p) += 2;                                                                                                      \
+    }
+
+long font_draw_string_80045D0C(KCB *kcb, long xtop, long ytop, const char *string, long color)
+{
+    void *font_buffer;
+    int   x, y;
+
+    const char *m2;
+
+    int flag1, counter1;
+    int xmax;
+    int height_info, width_info;
+    int retval;
+
+    const char *m;
+
+    int flag2;
+
+    int var_a0;
+    int current_code;
+
+    int   counter2;
+    int   current_char;
+    int   coord;
+    short character_mask = 0x9FFF;
+    int   d;
+
+    int idx1;
+    int current_code2;
+    int ascii_closing_bracket = MAP_ASCII('}');
+
+    char *ptr;
+
+    // Return if font.res hasn't been loaded
+    if (!dword_800ABB28)
+    {
+        return 0;
+    }
+
+    counter1 = 0;
+    dword_800AB6B8 = 0;
+    xmax = kcb->short1;
+    font_buffer = kcb->font_buffer;
+    height_info = kcb->height_info;
+
+    if (!(kcb->char_arr[6] & 2))
+    {
+        xmax -= 12;
+    }
+
+    x = xtop;
+    m = string;
+
+    retval = 0;
+    flag1 = 0;
+    dword_800AB6BC = color;
+    kcb->short3 = kcb->char_arr[3] + 0xe;
+    kcb->char_arr[6] = kcb->char_arr[6] & 0xEF;
+    kcb->char_arr[7] = 0;
+    flag2 = 0;
+    width_info = kcb->width_info;
+    y = ytop;
+
+    while (*m)
+    {
+        // Fetch byte code and convert ASCII to an unused part of the SJIS map
+        // 0x80xx is unused by SJIS
+        current_char = PEEK_CHAR(m);
+
+        // 0x8000 - 0x807F represents the standard ASCII range now
+        // Character codes are either 8xxx or 9xxx from this point on.
+        // This leaves two unused bits (0x2000 and 0x4000) that are used
+        // as flags below. The logic below uses character_mask (0x9FFF)
+        // in order to get the character code without flags.
+        current_code = current_char & character_mask;
+
+        // If character is an ASCII control code with no flags set,
+        // consume it and move on to the next step.
+        if (current_char < MAP_ASCII(' '))
+        {
+            READ_CHAR(current_char, m);
+        }
+        else if (current_code == MAP_ASCII('#'))
+        {
+            SKIP_CHAR(m); // skip '#'
+
+            READ_CHAR(d, m); // consume "command" char
+            d &= character_mask;
+
+            switch (d)
+            {
+            case MAP_ASCII('1'):
+                current_code = MAP_ASCII('@');
+                goto block_136;
+
+            case MAP_ASCII('N'):
+                current_char = MAP_ASCII('\n');
+                break;
+
+            case MAP_ASCII('R'):
+                m += 2;
+                // fallthrough
+            case MAP_ASCII('{'):
+                r_flag_800AB6C0 = 1;
+
+                if (rubi_display_flag_800AB6B0)
+                {
+                    rubi_flag_800AB6C4 = 1;
+                    set_rubi_left_pos_80045794(xmax, x, y);
+
+                    d = PEEK_CHAR(m);
+                    d &= character_mask;
+
+                    if (d == MAP_ASCII('!'))
+                    {
+                        m += 2;
+                    }
+                }
+                else
+                {
+                    d = PEEK_CHAR(m);
+                    d &= character_mask;
+
+                    if (d == MAP_ASCII('!'))
+                    {
+                        while (1)
+                        {
+                            if (d == 0x9002)
+                            {
+                                break;
+                            }
+
+                            READ_CHAR(d, m);
+                            d &= character_mask;
+
+                            if (d == MAP_ASCII(','))
+                            {
+                                goto block_110;
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case MAP_ASCII('-'):
+            case 0x9006:
+                counter2 = font_draw_string_helper6_8004544C(font_buffer, x, y, width_info, 0);
+                goto block_155;
+
+            case MAP_ASCII('S'):
+                current_char = 0x8009;
+                break;
+
+            case MAP_ASCII('W'):
+                if (kcb->char_arr[7] < x)
+                {
+                    kcb->char_arr[7] = x;
+                }
+                counter2 = 0;
+                if (flag1)
+                {
+                    goto error;
+                }
+                goto block_155;
+
+            case MAP_ASCII('T'):
+                m += 2;
+                if (kcb->char_arr[3] >= 3)
+                {
+                    dword_800AB6B8 = 1;
+                }
+
+                r_flag_800AB6C0 = 1;
+                break;
+
+            case MAP_ASCII('2'):
+                current_code = MAP_ASCII('~'); // This represents the overline character in SJIS
+                goto block_136;
+
+            case 0x901D:
+                current_code = (GM_GameStatusFlag & 7) == 2 ? 0x9024 : 0x901D;
+                goto block_136;
+
+            case 0x901E:
+            case 0x9024:
+                switch (GM_GameStatusFlag & 7)
+                {
+                case 0:
+                    current_code = d;
+                    break;
+                case 1:
+                    current_code = 0x9018;
+                    break;
+                case 2:
+                    current_code = 0x901D;
+                    break;
+                }
+                goto block_136;
+            default:
+                // go back 4 bytes, but if '#' was one byte then '#X' is at most
+                // 3 bytes (if 'X' is 2-byte). Bug?
+                m -= 4;
+                break;
+            }
+        }
+        else if (r_flag_800AB6C0 &&
+                 (current_code == 0x9002 || current_code == 0x9004 || current_code == ascii_closing_bracket))
+        {
+            if (rubi_flag_800AB6C4 == 1 && (current_code == 0x9002 || current_code == 0x9004))
+            {
+                font_draw_rubi_string_80045AE4(font_buffer, x, y, width_info, m + 2);
+            }
+
+            rubi_flag_800AB6C4 = 0;
+
+            do
+            {
+                READ_CHAR(current_code, m);
+                current_code &= character_mask;
+            } while (current_code != ascii_closing_bracket);
+
+            current_code = PEEK_CHAR(m);
+            if (current_code == MAP_ASCII('#'))
+            {
+                SKIP_CHAR(m);
+            }
+
+            dword_800AB6B8 = 0;
+            r_flag_800AB6C0 = 0;
+            counter2 = 0;
+            goto block_155;
+        }
+        else if (current_code == MAP_ASCII('|'))
+        {
+            SKIP_CHAR(m);
+            current_char = MAP_ASCII('\n');
+        }
+
+    block_110:
+        // is it an ASCII control character?
+        if (current_char < MAP_ASCII(' '))
+        {
+            switch (current_char)
+            {
+            case MAP_ASCII('\n'):
+                if (!flag2)
+                {
+                    if (kcb->char_arr[7] < x)
+                    {
+                        kcb->char_arr[7] = x;
+                    }
+                    x = xtop;
+                    coord = kcb->char_arr[3] + 12;
+                    y += coord;
+                    coord = y + 14;
+                    counter1 += 1;
+                    kcb->short3 = y + 14;
+                    if (height_info <= y + 11)
+                    {
+                        goto error;
+                    }
+
+                    if (kcb->char_arr[6] & 1)
+                    {
+                        goto error;
+                    }
+                    if (counter1 >= kcb->char_arr[1])
+                    {
+                        goto error;
+                    }
+                    break;
+                }
+                flag2 = 0;
+                break;
+
+            case MAP_ASCII('\t'):
+                coord = kcb->char_arr[2] + 12;
+                var_a0 = coord * kcb->char_arr[4];
+                if (var_a0 > 0)
+                {
+                    x = (x / var_a0 + 1) * var_a0;
+                }
+                break;
+
+            case MAP_ASCII('\f'):
+                READ_CHAR(current_char, m);
+                dword_800AB6BC = current_char - MAP_ASCII('0');
+                break;
+            }
+            continue;
+        }
+
+        m2 = m;
+        READ_CHAR(current_char, m);
+        current_code = current_char & character_mask;
+
+    block_136:
+        // is it an ASCII character?
+        if (current_code <= MAP_ASCII(0xFF))
+        {
+            counter2 = font_draw_string_helper6_8004544C(font_buffer, x, y, width_info, current_code & 0xFF);
+            counter2 += kcb->char_arr[2];
+            if (current_code == MAP_ASCII('!') || current_code == MAP_ASCII('?'))
+            {
+                current_code = PEEK_CHAR(m);
+                current_code = current_code & character_mask;
+                if (current_code != MAP_ASCII('!') && current_code != MAP_ASCII('?'))
+                {
+                    if (current_code != MAP_ASCII('(') && current_code != MAP_ASCII(')') &&
+                        (current_code < 0x9009 || current_code > 0x900E) && current_code != 0x9015)
+                    {
+                        counter2 += 8;
+                    }
+                    else
+                    {
+                        counter2 += 2;
+                    }
+                }
+            }
+        }
+        else
+        {
+            idx1 = font_get_glyph_index_80044FF4(current_code);
+            if (idx1 > 0)
+            {
+                ptr = dword_8009E75C[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
+            }
+            else
+            {
+                ptr = 0;
+            }
+            font_draw_glyph_80045124(font_buffer, x, y, width_info, ptr);
+            coord = kcb->char_arr[2];
+            counter2 = coord + 0xC;
+        }
+
+        flag1 = 1;
+
+    block_155:
+        current_code = PEEK_CHAR(m);
+        current_code2 = current_code & character_mask;
+
+        var_a0 = font_draw_string_helper_80045718(current_code2);
+        coord = x + counter2;
+        if (var_a0 > 0)
+        {
+            coord += var_a0;
+            d = kcb->char_arr[2];
+            coord += d;
+            coord -= 1;
+            if (coord >= xmax)
+            {
+                if (!(kcb->char_arr[6] & 2))
+                {
+                    if (current_char & 0x2000)
+                    {
+                        font_draw_glyph_80045124(font_buffer, x, y, width_info, 0);
+                        m = m2;
+                        counter2 = 0;
+                    }
+                    else if (current_code & 0x4000)
+                    {
+                        current_char = current_code2;
+                        if (!r_flag_800AB6C0 ||
+                            (current_char != 0x9002 && current_char != 0x9004 && current_char != ascii_closing_bracket))
+                        {
+                            d = PEEK_CHAR(m + 2);
+                            if (current_char == 0x9003 || !(d & 0x4000) || (d & character_mask) == 0x8123)
+                            {
+                                READ_CHAR(current_char, m);
+                                current_code = current_char & character_mask;
+
+                                if (current_code <= 0x80FF)
+                                {
+                                    counter2 += font_draw_string_helper6_8004544C(font_buffer, x + counter2, y,
+                                                                                  width_info, current_code & 0xFF);
+                                }
+                                else
+                                {
+                                    idx1 = font_get_glyph_index_80044FF4(current_code);
+                                    if (idx1 > 0)
+                                    {
+                                        ptr = dword_8009E75C[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
+                                    }
+                                    else
+                                    {
+                                        ptr = 0;
+                                    }
+                                    font_draw_glyph_80045124(font_buffer, x + counter2, y, width_info, ptr);
+                                    counter2 += 12;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            goto block_194;
+                        }
+                    }
+                }
+                if (rubi_flag_800AB6C4)
+                {
+                    set_rubi_left_xmax_800457A8(x + counter2);
+                }
+                retval = 1;
+                flag2 = 1;
+
+                if (x + counter2 > kcb->char_arr[7])
+                {
+                    kcb->char_arr[7] = x + counter2;
+                }
+
+                x = xtop;
+
+                coord = kcb->char_arr[3] + 12;
+                y += coord;
+
+                counter1 += 1;
+                kcb->short3 = y + 14;
+
+                if (kcb->char_arr[6] & 1 || y + 11 >= height_info || counter1 >= kcb->char_arr[1])
+                {
+                    if (rubi_flag_800AB6C4)
+                    {
+                        rubi_flag_800AB6C4 = 2;
+                    }
+
+                    if (*m)
+                    {
+                        goto error;
+                    }
+
+                    return 0;
+                }
+
+                goto block_195;
+            }
+        }
+
+    block_194:
+        x += counter2;
+        flag2 = 0;
+
+    block_195:
+        if (x > kcb->char_arr[7])
+        {
+            kcb->char_arr[7] = x;
+        }
+    }
+    return retval;
+
+error:
+    if (kcb->char_arr[7] < x)
+    {
+        kcb->char_arr[7] = x;
+    }
+
+    // return the position where the error happened, with MSB set to signal error.
+    return 0x80000000 | (m - string);
+}
 
 void font_clear_800468FC(KCB *kcb)
 {
