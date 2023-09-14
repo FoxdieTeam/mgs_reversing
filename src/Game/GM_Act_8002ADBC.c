@@ -156,7 +156,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             GCL_SaveVar_80021314();
         }
 
-        mts_printf_8008BBA0("exec scenario\n");
+        printf("exec scenario\n");
         load_request = GM_LoadRequest_800AB3D0;
         GM_LoadRequest_800AB3D0 = 0;
 
@@ -169,7 +169,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             GCL_ExecScript_80020228();
         }
 
-        mts_printf_8008BBA0("end scenario\n");
+        printf("end scenario\n");
         menu_ResetTexture_80038A00();
         GM_AlertModeReset_8002EAB8();
         GM_SoundStart_8002E640();
@@ -253,24 +253,24 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             {
                 sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
                 EnterCriticalSection();
-                SetDispMask_8008F7CC(0);
-                PadStopCom_8009A24C();
-                SpuInit_80094568();
+                SetDispMask(0);
+                PadStopCom();
+                SpuInit();
                 CdInit();
-                SpuSetIRQ_80096A28(0);
+                SpuSetIRQ(0);
                 mts_shutdown_8008B044();
                 memcard_exit_800250C4();
                 ResetGraph(3);
-                StopCallback_8009840C();
-                SetConf_800997BC(0x10, 4, 0x801FFFF0); // note: hardcoded addresses
-                ResetCallback_80098318();
-                StopCallback_8009840C();
+                StopCallback();
+                SetConf(0x10, 4, 0x801FFFF0); // note: hardcoded addresses
+                ResetCallback();
+                StopCallback();
                 _96_remove();
                 _96_init();
 
                 do
                 {
-                    mts_printf_8008BBA0("load %s\n", exe_name_800B5860);
+                    printf("load %s\n", exe_name_800B5860);
                     LoadExec(exe_name_800B5860, 0x801FFF00, 0);
                 } while (1);
             }
@@ -292,7 +292,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             int          i;
             unsigned int unk;
 
-            SpuGetAllKeysStatus_8009748C(spu_status);
+            SpuGetAllKeysStatus(spu_status);
             unk = 0;
             for (i = 0; i < 24; ++i)
             {
@@ -302,8 +302,8 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             }
 
             // "str_status %d irq %x %X %X\n"
-            mts_printf_8008BBA0("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
-            mts_printf_8008BBA0("key %08X\n", unk);
+            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
+            printf("key %08X\n", unk);
         }
 
         if (GV_PauseLevel_800AB928 == 0)

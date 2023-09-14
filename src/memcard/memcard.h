@@ -48,6 +48,4 @@ void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *p
 
 int  memcard_get_status_800257B0(void);
 
-void read(int fd, char *buf, int size);
-
 #endif // _MEMCARD_H_

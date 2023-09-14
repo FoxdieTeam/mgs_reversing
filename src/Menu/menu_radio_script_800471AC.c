@@ -31,7 +31,7 @@ void radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *p
     ptr = menu_gcl_read_word_80047098(&faceUnk, ptr);
     isSnake = faceCharaCode == CHARA_SNAKE;
     unk->field_C_pScript = ptr;
-    mts_printf_8008BBA0(aSetCharaCodeD, faceCharaCode);
+    printf(aSetCharaCodeD, faceCharaCode);
     if (faceUnk >= 1)
     {
         menu_800470B4(isSnake, unk, faceCharaCode, faceImageName, faceUnk, 1);
@@ -69,7 +69,7 @@ void radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
     {
         mts_slp_tsk_8008A400();
     }
-    mts_printf_8008BBA0(aAnimeCharaDCod, faceCharaCode, faceImageName);
+    printf(aAnimeCharaDCod, faceCharaCode, faceImageName);
 }
 
 void radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
@@ -77,7 +77,7 @@ void radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
     unsigned int voxCode = MakeVoxCode(pScript);
 
     pScript += sizeof(unsigned int);
-    mts_printf_8008BBA0(aVoxcodeX, voxCode);
+    printf(aVoxcodeX, voxCode);
     if ((unk->field_18 & 0x100) == 0)
     {
         SwEnterCriticalSection();
@@ -168,7 +168,7 @@ void radio_if_80047514(menu_chara_struct *unk, unsigned char *pScript)
             {
                 if (*pScript)
                 {
-                    mts_printf_8008BBA0(aIllegalCodeX, *pScript);
+                    printf(aIllegalCodeX, *pScript);
                 }
                 return;
             }
@@ -211,7 +211,7 @@ void radio_switch_800475B8(menu_chara_struct *unk, unsigned char *pScript)
         }
         else
         {
-            mts_printf_8008BBA0(aIllegalCodeX, code);
+            printf(aIllegalCodeX, code);
         }
     }
 }
@@ -245,7 +245,7 @@ void radio_randSwitch_80047660(menu_chara_struct *unk, unsigned char *pScript)
             {
                 return;
             }
-            mts_printf_8008BBA0(aIllegalCodeX, code);
+            printf(aIllegalCodeX, code);
         }
     }
 }
@@ -262,7 +262,7 @@ void radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
     int contact_freq;
 
     pScript = menu_gcl_read_word_80047098(&contact_freq, pScript);
-    mts_printf_8008BBA0(aSetDS, contact_freq, pScript);
+    printf(aSetDS, contact_freq, pScript);
     menu_SetRadioMemory_8004E110(contact_freq, pScript);
 }
 
@@ -366,14 +366,14 @@ unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unk, unsigned cha
                 break;
 
             default:
-                mts_printf_8008BBA0(aBlockExecError);
+                printf(aBlockExecError);
                 break;
             }
             ptr += size - sizeof(short);
         }
         else
         {
-            mts_printf_8008BBA0(aIllegalCodeX, *ptr);
+            printf(aIllegalCodeX, *ptr);
         }
     }
     return totalSize + 1 + pScript;

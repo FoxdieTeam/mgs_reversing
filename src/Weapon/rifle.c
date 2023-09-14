@@ -146,12 +146,12 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         vec.vy = pActor->field_44_pCtrl->field_8_rotator.vy;
         vec.vz = 0;
 
-        RotMatrixYXZ_80093798(&vec, &mtx);
+        RotMatrixYXZ(&vec, &mtx);
 
         DG_SetPos_8001BC44(&pActor->field_48_pParentObj->objs->objs[pActor->field_4c_numParent].world);
         DG_MovePos_8001BD20(&svector_800AB8D4);
 
-        ReadRotMatrix_80092DD8(&mtx2);
+        ReadRotMatrix(&mtx2);
 
         mtx.t[0] = mtx2.t[0];
         mtx.t[1] = mtx2.t[1];

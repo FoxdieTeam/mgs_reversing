@@ -13,7 +13,7 @@ void init_file_mode_helper2_8004A800()
     stru_800ABB7C = (RadioFileModeStru_800ABB7C *)GV_AllocMemory_80015EB8(0, sizeof(RadioFileModeStru_800ABB7C));
     if (stru_800ABB7C == NULL)
     {
-        mts_printf_8008BBA0(aNoMemoryForObj);
+        printf(aNoMemoryForObj);
     }
 
     for (i = 0; i < 12; i++)

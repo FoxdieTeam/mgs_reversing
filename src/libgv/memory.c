@@ -255,26 +255,26 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
 
     GV_Heap *pHeap = &MemorySystems_800AD2F0[heapIdx];
 
-    mts_printf_8008BBA0("system %d ( ", heapIdx);
+    printf("system %d ( ", heapIdx);
 
     if (pHeap->mFlags & GV_Heap_Flags_Dynamic_1)
     {
-        mts_printf_8008BBA0("dynamic ");
+        printf("dynamic ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
-        mts_printf_8008BBA0("voided ");
+        printf("voided ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
-        mts_printf_8008BBA0("failed ");
+        printf("failed ");
     }
 
-    mts_printf_8008BBA0(")\n");
-    mts_printf_8008BBA0("  addr = %08x - %08x, units = %d\n",
-                        pHeap->mStartAddr, pHeap->mEndAddr, pHeap->mUnitsCount);
+    printf(")\n");
+    printf("  addr = %08x - %08x, units = %d\n",
+           (unsigned int)pHeap->mStartAddr, (unsigned int)pHeap->mEndAddr, pHeap->mUnitsCount);
     size = pHeap->mEndAddr - pHeap->mStartAddr;
 
     freeCount = 0;
@@ -308,7 +308,7 @@ void GV_CheckMemorySystem_80015BF8(int heapIdx)
         pAllocIter++;
     }
 
-    mts_printf_8008BBA0("  free = %d / %d, voided = %d, max_free = %d\n",
+    printf("  free = %d / %d, voided = %d, max_free = %d\n",
                         freeCount, size, voidedCount, maxFree);
 }
 
@@ -318,28 +318,28 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
     GV_MemoryAllocation *pAllocIter;
 
     GV_Heap *pHeap = &MemorySystems_800AD2F0[heapIdx];
-    mts_printf_8008BBA0("system %d ( ", heapIdx);
+    printf("system %d ( ", heapIdx);
 
     if (!(pHeap->mFlags & GV_Heap_Flags_Dynamic_1))
     {
-        mts_printf_8008BBA0("static ");
+        printf("static ");
     }
     else
     {
-        mts_printf_8008BBA0("dynamic ");
+        printf("dynamic ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Voided_2)
     {
-        mts_printf_8008BBA0("voided ");
+        printf("voided ");
     }
 
     if (pHeap->mFlags & GV_Heap_Flags_Failed_4)
     {
-        mts_printf_8008BBA0("failed ");
+        printf("failed ");
     }
 
-    mts_printf_8008BBA0(")\n");
+    printf(")\n");
 
     pAllocIter = &pHeap->mAllocs[0];
 
@@ -353,29 +353,29 @@ void GV_DumpMemorySystem_80015D48(int heapIdx)
 
         if (allocType == GV_MemoryAllocation_States_Free_0)
         {
-            mts_printf_8008BBA0("---- %8d bytes ( from %08x free )\n",
-                                allocSize, pAllocIter->mPDataStart);
+            printf("---- %8d bytes ( from %08x free )\n",
+                   allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
         else if (allocType == GV_MemoryAllocation_States_Void_1)
         {
-            mts_printf_8008BBA0("==== %8d bytes ( from %08x void )\n",
-                                allocSize, pAllocIter->mPDataStart);
+            printf("==== %8d bytes ( from %08x void )\n",
+                   allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
         else if (allocType == GV_MemoryAllocation_States_Used_2)
         {
-            mts_printf_8008BBA0("++++ %8d bytes ( from %08x used )\n",
-                                allocSize, pAllocIter->mPDataStart);
+            printf("++++ %8d bytes ( from %08x used )\n",
+                   allocSize, (unsigned int)pAllocIter->mPDataStart);
         }
         else
         {
-            mts_printf_8008BBA0("**** %8d bytes ( from %08x user %08x )\n",
-                                allocSize, pAllocIter->mPDataStart, allocType);
+            printf("**** %8d bytes ( from %08x user %08x )\n",
+                   allocSize, (unsigned int)pAllocIter->mPDataStart, allocType);
         }
 
         pAllocIter++;
     }
 
-    mts_printf_8008BBA0("\n");
+    printf("\n");
 }
 
 void *GV_AllocMemory_80015EB8(int which, int size)
@@ -654,7 +654,7 @@ void *GV_AllocResidentMemory_800163D8(long size)
     GV_ResidentMemoryBottom_800AB940 -= size;
     if (GV_ResidentMemoryBottom_800AB940 < gOverlayBase_800AB9C8)
     {
-        mts_printf_8008BBA0("Resident Memory Over !!\n");
+        printf("Resident Memory Over !!\n");
     }
 
     return GV_ResidentMemoryBottom_800AB940;

@@ -70,7 +70,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
 
                 DG_SetPos_8001BC44(&pActor->f20_obj.objs->world);
                 DG_MovePos_8001BD20(&stru_800AB850);
-                ReadRotMatrix_80092DD8(&mtx);
+                ReadRotMatrix(&mtx);
 
                 d_800AB9EC_mag_size = newSize;
                 d_800ABA2C_ammo = 25;

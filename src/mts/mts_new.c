@@ -9,25 +9,12 @@ extern mts_msg     *D_800C0C00;
 extern mts_msg     *D_800C0C04;
 extern int          gMts_active_task_idx_800C13C0;
 extern signed char  byte_800C0C10[ 32 ];
-//extern char         byte_801FFF00[ 240 ];
 extern unsigned int dword_800C0DC0[ 128 ];
 extern unsigned int dword_800C0FC0[ 256 ];
 extern const char  *dword_800A3D98[];
 extern int          gTaskIdx_800C0DB0;
 extern mts_task     gTasks_800C0C30[];
 extern int          gMts_bits_800C0DB4;
-extern char         gProgramBottom_800C3208[];
-
-// BSS
-//char               gProgramBottom_800C3208[0x53DF8];
-
-
-extern char       *heap_80117000[ 0x6b000 ];
-extern char        heap_80182000[ 0x1F000 ];
-extern char        byte_801A1000[ 0x10000 ];
-extern char        byte_801B1000[ 0x36800 ];
-extern char        byte_801E7800[ 0x18700 ];
-extern char        byte_801FFF00[ 240 ];
 
 // pad.c
 extern int  dword_800A3DB0;
@@ -45,9 +32,9 @@ int         gStackSize_800A3D94 = 0;
 static inline void mts_task_start(void)
 {
     ExitCriticalSection();
-    mts_printf_8008BBA0( "TASK START: %d %X\n",
+    printf( "TASK START: %d %X\n",
                          gTaskIdx_800C0DB0,
-                         gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg);
+                         (unsigned int)gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg.pMsg );
     gTasks_800C0C30[ gTaskIdx_800C0DB0 ].field_8_fn_or_msg.fn();
     mts_8008B51C();
     mts_assert( 421, "task_start_body" );
@@ -118,7 +105,7 @@ void mts_init_vsync_helper_800893E8( void )
     int      task_idx;
     int      bChangeThreadContext;
 
-    gMtsVSyncCount_800A3D78 = VSync_80098108( -1 );
+    gMtsVSyncCount_800A3D78 = VSync( -1 );
 
     if ( gControllerCallBack_800A3D74 )
     {
@@ -191,8 +178,8 @@ void mts_init_vsync_800895AC( void )
 {
     if ( gMtsVSyncCount_800A3D78 == -1 )
     {
-        gMtsVSyncCount_800A3D78 = VSync_80098108( -1 );
-        VSyncCallback_800983A8( mts_init_vsync_helper_800893E8 );
+        gMtsVSyncCount_800A3D78 = VSync( -1 );
+        VSyncCallback( mts_init_vsync_helper_800893E8 );
     }
 }
 
@@ -293,7 +280,7 @@ static inline void crap( int taskId, void *stackend, void *test )
 
     if ( !test || !stackend )
     {
-        mts_assert( 717, "task_create %x %x", test, stackend );
+        mts_assert( 717, "task_create %x %x", (unsigned int)test, (unsigned int)stackend );
     }
 
     pTask->field_2_rcv_task_idx = -1;
@@ -552,7 +539,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
 
             if ( !v8->field_8_fn_or_msg.fn )
             {
-                mts_assert( 940, "rcv sp message %X", v8->field_8_fn_or_msg );
+                mts_assert( 940, "rcv sp message %X", (unsigned int)v8->field_8_fn_or_msg.pMsg );
             }
 
             field_8_fn_or_msg = v8->field_8_fn_or_msg.pMsg;
@@ -600,7 +587,7 @@ int mts_receive_80089D24( int src, mts_msg2 *message )
                 if ( !pRcvTask->field_8_fn_or_msg.fn )
                 {
                     mts_assert( 971, "rcv sp %d message %x",
-                                     field_2_rcv_task_idx, pRcvTask->field_8_fn_or_msg );
+                                field_2_rcv_task_idx, (unsigned int)pRcvTask->field_8_fn_or_msg.pMsg );
                 }
 
                 pRcvMsg = pRcvTask->field_8_fn_or_msg.pMsg;
@@ -964,12 +951,12 @@ void mts_start_8008AAEC( int boot_tasknr, MtsTaskFn pBootTaskFn, void *pStack )
     int          i;
     int          bChangeThreadContext;
 
-    SetConf_800997BC( 16, 12, (unsigned long)0x801FFF00 );
-    ResetCallback_80098318();
-    mts_printf_8008BBA0( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
-    mts_printf_8008BBA0( "PROGRAM BOTTOM %X\n", mts_get_bss_tail_8008C598() );
+    SetConf( 16, 12, (unsigned long)0x801FFF00 );
+    ResetCallback();
+    printf( "Multi Task Scheduler for PSX ver2.02 %s %s\n", "Jul 11 1998", "22:16:33" );
+    printf( "PROGRAM BOTTOM %X\n", (unsigned int)mts_get_bss_tail_8008C598() );
     EnterCriticalSection();
-    eventDesc = OpenEvent( 0xF0000010, 4096, 4096, mts_event_cb_8008BBC0 );
+    eventDesc = OpenEvent( 0xF0000010, 4096, 4096, (openevent_cb_t)mts_event_cb_8008BBC0 );
     gMts_Event1_800A3D70 = eventDesc;
     EnableEvent( eventDesc );
     TestEvent( eventDesc );
@@ -1092,7 +1079,7 @@ void mts_8008B0A4( void )
             field_4_task_idx = msg.field_4_task_idx;
             field_8_start_vblanks = msg.field_8;
             stackPointerVal = msg.field_C;
-            mts_printf_8008BBA0( "TASK %d START:", msg.field_4_task_idx );
+            printf( "TASK %d START:", msg.field_4_task_idx );
 
             if ( ( ( ( ( field_4_task_idx >= 0 ) && ( ( (unsigned int)field_4_task_idx ) < 0xC ) ) &&
                      ( !gTasks_800C0C30[ field_4_task_idx ].field_0_state ) ) &&
@@ -1145,7 +1132,7 @@ void mts_8008B0A4( void )
                                   gTasks_800C0C30[ sys_client_idx ].field_2_rcv_task_idx );
             }
 
-            mts_printf_8008BBA0( "TASK EXIT" );
+            printf( "TASK EXIT" );
             SwEnterCriticalSection();
             field_4_pMessage = gTasks_800C0C30[ sys_client_idx ].field_4_pMessage;
             gTasks_800C0C30[ sys_client_idx ].field_0_state = 0;
@@ -1485,8 +1472,8 @@ void null_mts_nullsub_8_8008BB98( void )
 {
 }
 
-// int mts_printf_8008BBA0(const char *format, ...);
-void null_mts_printf_8008BBA0( void )
+// int printf(const char *format, ...);
+void null_printf( void )
 {
 }
 

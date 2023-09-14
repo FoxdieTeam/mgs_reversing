@@ -114,11 +114,11 @@ int GCL_SetLoadFile_80020EAC(char *saveBuf)
 
     if ((save->f008_version != 0x60) || (save->f00C_version2 != 0x800))
     {
-        mts_printf_8008BBA0("SAVE DATA VERSION ERROR!!\n");
+        printf("SAVE DATA VERSION ERROR!!\n");
     }
     if (saveFile->f004_checksum != crc32_80020BB4(sizeof(SaveGame), (char *)save))
     {
-        mts_printf_8008BBA0("CRC ERROR !!\n\x0\x0\x0");
+        printf("CRC ERROR !!\n");
         return 0;
     }
 

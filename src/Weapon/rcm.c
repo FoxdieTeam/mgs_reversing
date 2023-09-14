@@ -136,10 +136,10 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             vec1.vz = 0;
             vec1.vy = pActor->field_44_pCtrl->field_8_rotator.vy;
 
-            RotMatrixYXZ_80093798(&vec1, &mt1);
+            RotMatrixYXZ(&vec1, &mt1);
             DG_SetPos_8001BC44(&pActor->field_48_pParent->objs->objs[pActor->field_4C_obj_idx].world);
             DG_MovePos_8001BD20(&stru_800AB870);
-            ReadRotMatrix_80092DD8(&mt2);
+            ReadRotMatrix(&mt2);
 
             mt2.t[1] = svector_800ABA10.vy + 320;
 

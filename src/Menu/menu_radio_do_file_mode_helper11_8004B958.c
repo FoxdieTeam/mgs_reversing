@@ -13,9 +13,9 @@ void menu_radio_do_file_mode_helper11_8004B958(Stru_800ABB74 **a1, int num)
 
         if (!*a1)
         {
-            mts_printf_8008BBA0(aNoMemoryForInf); // "NO MEMORY FOR INFO\n"
+            printf(aNoMemoryForInf); // "NO MEMORY FOR INFO\n"
         }
 
-        mts_printf_8008BBA0(aAllocInfoX, *a1); // "alloc info %X\n"
+        printf(aAllocInfoX, *a1); // "alloc info %X\n"
     }
 }

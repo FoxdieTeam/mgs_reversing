@@ -9,7 +9,7 @@ void DG_MatrixRotXYZ_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
     int iVar3;
 
     iVar1 = pMatrix->m[0][2];
-    iVar2 = SquareRoot0_80092708(0x1000000 - iVar1 * iVar1);
+    iVar2 = SquareRoot0(0x1000000 - iVar1 * iVar1);
 
     if (iVar2 < 0x80)
     {
@@ -19,16 +19,16 @@ void DG_MatrixRotXYZ_8001E588(MATRIX *pMatrix, SVECTOR *pVector)
         {
             iVar3 = 0xc00;
         }
-    
+
         pVector->vy = iVar3;
-        pVector->vx = ratan2_80094308(pMatrix->m[1][2], pMatrix->m[1][1]);
+        pVector->vx = ratan2(pMatrix->m[1][2], pMatrix->m[1][1]);
         pVector->vz = 0;
     }
     else
     {
-        pVector->vy = ratan2_80094308(iVar1, iVar2) & 0xfff;
-        pVector->vx = ratan2_80094308((-pMatrix->m[1][2] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
-        pVector->vz = ratan2_80094308((-pMatrix->m[0][1] << 12) / iVar2, (pMatrix->m[0][0] << 12) / iVar2) & 0xfff;   
+        pVector->vy = ratan2(iVar1, iVar2) & 0xfff;
+        pVector->vx = ratan2((-pMatrix->m[1][2] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
+        pVector->vz = ratan2((-pMatrix->m[0][1] << 12) / iVar2, (pMatrix->m[0][0] << 12) / iVar2) & 0xfff;
     }
 }
 
@@ -39,28 +39,28 @@ void DG_MatrixRotYXZ_8001E734(MATRIX *pMatrix, SVECTOR *pVector)
     int iVar3;
 
     iVar1 = -pMatrix->m[1][2];
-    iVar2 = SquareRoot0_80092708(0x1000000 - iVar1 * iVar1);
+    iVar2 = SquareRoot0(0x1000000 - iVar1 * iVar1);
 
     if (iVar2 < 0x80)
     {
         iVar3 = 0x400;
-    
+
         if (iVar1 <= 0)
         {
             iVar3 = 0xc00;
         }
-    
+
         pVector->vx = iVar3;
-        pVector->vy = ratan2_80094308(-pMatrix->m[2][0], pMatrix->m[0][0]);
+        pVector->vy = ratan2(-pMatrix->m[2][0], pMatrix->m[0][0]);
         pVector->vz = 0;
     }
     else
     {
-        pVector->vx = ratan2_80094308(iVar1, iVar2) & 0xfff;
-        pVector->vy = ratan2_80094308((pMatrix->m[0][2] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
-        pVector->vz = ratan2_80094308((pMatrix->m[1][0] << 12) / iVar2, (pMatrix->m[1][1] << 12) / iVar2) & 0xfff;
+        pVector->vx = ratan2(iVar1, iVar2) & 0xfff;
+        pVector->vy = ratan2((pMatrix->m[0][2] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
+        pVector->vz = ratan2((pMatrix->m[1][0] << 12) / iVar2, (pMatrix->m[1][1] << 12) / iVar2) & 0xfff;
     }
-    
+
     if (abs(pVector->vz) > 0x400)
     {
         pVector->vz = (pVector->vz + 0x800) & 0xfff;
@@ -76,26 +76,26 @@ void DG_MatrixRotZYX_8001E92C(MATRIX *pMatrix, SVECTOR *pVector)
     int iVar3;
 
     iVar1 = -pMatrix->m[2][0];
-    iVar2 = SquareRoot0_80092708(0x1000000 - iVar1 * iVar1);
+    iVar2 = SquareRoot0(0x1000000 - iVar1 * iVar1);
 
     if (iVar2 < 0x80)
     {
         iVar3 = 0x400;
-    
+
         if (iVar1 <= 0)
         {
             iVar3 = 0xc00;
         }
 
         pVector->vy = iVar3;
-        pVector->vx = ratan2_80094308(-pMatrix->m[1][2], pMatrix->m[1][1]);
+        pVector->vx = ratan2(-pMatrix->m[1][2], pMatrix->m[1][1]);
         pVector->vz = 0;
     }
     else
     {
-        pVector->vy = ratan2_80094308(iVar1, iVar2) & 0xfff;
-        pVector->vx = ratan2_80094308((pMatrix->m[2][1] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
-        pVector->vz = ratan2_80094308((pMatrix->m[1][0] << 12) / iVar2, (pMatrix->m[0][0] << 12) / iVar2) & 0xfff;
+        pVector->vy = ratan2(iVar1, iVar2) & 0xfff;
+        pVector->vx = ratan2((pMatrix->m[2][1] << 12) / iVar2, (pMatrix->m[2][2] << 12) / iVar2) & 0xfff;
+        pVector->vz = ratan2((pMatrix->m[1][0] << 12) / iVar2, (pMatrix->m[0][0] << 12) / iVar2) & 0xfff;
     }
 }
 
@@ -131,11 +131,11 @@ void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
     int iVar1;
     int iVar2;
     int iVar3;
-    
+
     x = pMatrixIn->m[0][0] + pMatrixIn->m[1][0] + pMatrixIn->m[2][0];
     y = pMatrixIn->m[0][1] + pMatrixIn->m[1][1] + pMatrixIn->m[2][1];
     z = pMatrixIn->m[0][2] + pMatrixIn->m[1][2] + pMatrixIn->m[2][2];
-    
+
     if (y < 0)
     {
         pElement = &pMatrixOut->m[0][0];
@@ -164,20 +164,20 @@ void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
 
         iVar1 = (param_3 << 12) / y;
         iVar2 = x * iVar1;
-    
+
         if (iVar2 < 0)
         {
             iVar2 += 0xfff;
         }
-    
+
         iVar3 = z * iVar1;
         pMatrixOut->t[0] -= iVar2 >> 12;
-    
+
         if (iVar3 < 0)
         {
             iVar3 += 0xfff;
         }
-    
+
         pMatrixOut->t[2] -= iVar3 >> 12;
     }
 
@@ -191,11 +191,11 @@ void sub_8001EB38(MATRIX *pMatrixOut, MATRIX *pMatrixIn, int param_3)
 void DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTOR *pVecOut)
 {
     MATRIX matrix;
-    
+
     matrix.m[0][0] = pVecIn->vx;
     matrix.m[0][1] = matrix.m[1][0] = pVecIn->vy;
     matrix.m[0][2] = matrix.m[2][0] = pVecIn->vz;
-    
+
     matrix.t[0] = pVecTranslation->vx;
     matrix.t[1] = pVecTranslation->vy;
     matrix.t[2] = pVecTranslation->vz;
@@ -205,7 +205,7 @@ void DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTO
     gte_ldsv(pVecTranslation);
     gte_rtir();
     gte_stsv(pVecOut);
-  
+
     pVecOut->vz = 0;
     pVecOut->vy = 0;
     pVecOut->vx *= -2;
@@ -216,12 +216,12 @@ void DG_ReflectVector_8001ECB4(SVECTOR *pVecIn, SVECTOR *pVecTranslation, SVECTO
 }
 
 static inline void DG_ReflectMatrix_8001EDCC_helper(MATRIX *pMatrixIn, MATRIX *pMatrixOut, int m, int n, int v)
-{   
+{
 	if (v < 0)
 	{
         v += 0x7ff;
-	}    
-    
+	}
+
 	pMatrixOut->m[m][n] = pMatrixIn->m[m][n] - (v >> 11);
 }
 
@@ -230,7 +230,7 @@ void DG_ReflectMatrix_8001EDCC(SVECTOR *pVector, MATRIX *pMatrixIn, MATRIX *pMat
     MATRIX transpose;
     SVECTOR reflected;
     int element;
-    
+
     DG_TransposeMatrix_8001EAD8(pMatrixIn, &transpose);
     gte_SetRotMatrix(&transpose);
     gte_ldsv(pVector);

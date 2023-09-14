@@ -701,7 +701,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     puVar6 = (unsigned char *)GCL_GetParam_80020968('i');
     if (!puVar6)
     {
-        mts_printf_8008BBA0("NO ID ITEM\n");
+        printf("NO ID ITEM\n");
         return -1;
     }
 

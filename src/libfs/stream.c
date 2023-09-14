@@ -330,7 +330,7 @@ int FS_StreamInit_80023FD4(void *pHeap, int heapSize)
     fs_stream_heap_800B52A4 = pHeap;
     fs_stream_heapSize_800B52AC = heapSize;
     fs_stream_heap_end_800B52A8 = pHeap + heapSize;
-    mts_printf_8008BBA0("stream init %X %X\n", pHeap, heapSize);
+    printf("stream init %X %X\n", (unsigned int)pHeap, heapSize);
     fs_stream_ref_count_800B5298 = 0;
     return 1;
 }
@@ -446,7 +446,7 @@ void sub_800241C8(char *arg0, int arg1)
         if (type == arg1)
         {
             ptr[0] = 0;
-            mts_printf_8008BBA0("clear %X\n", size);
+            printf("clear %X\n", size);
         }
 
         ptr += size;
@@ -466,8 +466,8 @@ void sub_800242A4(void)
 
     ptr = fs_ptr_800B52B4;
 
-    mts_printf_8008BBA0("now_data_top %X loaded_header %X\n", ptr, fs_ptr_800B52BC);
-    mts_printf_8008BBA0("Tick %d\n", FS_StreamGetTick_80024420());
+    printf("now_data_top %X loaded_header %X\n", (unsigned int)ptr, (unsigned int)fs_ptr_800B52BC);
+    printf("Tick %d\n", FS_StreamGetTick_80024420());
 
     while (ptr != fs_ptr_800B52BC)
     {
@@ -482,11 +482,11 @@ void sub_800242A4(void)
         {
             if (type == 5)
             {
-                mts_printf_8008BBA0("%08X TYPE %X size %d time %d\n", ptr, 5, size, *(int *)(ptr + 4));
+                printf("%08X TYPE %X size %d time %d\n", (unsigned int)ptr, 5, size, *(int *)(ptr + 4));
             }
             else
             {
-                mts_printf_8008BBA0("%08X TYPE %X size %d\n", ptr, type, size);
+                printf("%08X TYPE %X size %d\n", (unsigned int)ptr, type, size);
             }
 
             ptr += size;
@@ -518,7 +518,7 @@ static inline int *GetTicksPtr(void)
 
 void FS_StreamTickStart_800243D8(void)
 {
-    *GetTicksPtr() = VSync_80098108(-1);
+    *GetTicksPtr() = VSync(-1);
 }
 
 // for some reason no ptr access here

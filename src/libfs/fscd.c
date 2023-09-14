@@ -11,22 +11,21 @@ FS_FILE_INFO_8009D49C gDirFiles_8009D49C[] = {
     {NULL, 0}
 };
 
-extern unsigned char         heap_80117000[];
 extern int                   gDiskNum_800ACBF0;
 
 int FS_ResetCdFilePosition_80021E2C(void *pHeap)
 {
     int disk_num = FS_CdMakePositionTable_80022B5C(pHeap, gDirFiles_8009D49C);
-    mts_printf_8008BBA0("Position end\n");
+    printf("Position end\n");
     if (disk_num >= 0)
     {
-        mts_printf_8008BBA0("DISK %d\n", disk_num);
+        printf("DISK %d\n", disk_num);
         FS_CdStageFileInit_80022D00(pHeap, gDirFiles_8009D49C[0].field_4_sector);
         FS_MovieFileInit_80023860(pHeap, gDirFiles_8009D49C[3].field_4_sector);
     }
     else
     {
-        mts_printf_8008BBA0("illegal DISK\n");
+        printf("illegal DISK\n");
     }
     return disk_num;
 }

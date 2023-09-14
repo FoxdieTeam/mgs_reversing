@@ -20,8 +20,8 @@ void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 void sgtrect3_act_helper_8007009C()
 {
     DG_Clip_80017594(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
-    SetRotMatrix_80093218(&DG_Chanl(0)->field_10_eye_inv);
-    SetTransMatrix_80093248(&DG_Chanl(0)->field_10_eye_inv);
+    SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
 }
 
 unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector)
@@ -40,7 +40,7 @@ unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector
     }
     vertexCoordinateVector = target->field_8_vec;
     vertexCoordinateVector.vy += vyAddend;
-    RotTransPers_80093478(&vertexCoordinateVector, (long *)&screenCoordinates, &interpolatedValue, &flag);
+    RotTransPers(&vertexCoordinateVector, (long *)&screenCoordinates, &interpolatedValue, &flag);
     vyDiff = vector->vy - screenCoordinates.vy;
     if (vyDiff < 0)
     {
@@ -111,7 +111,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
             targets++;
             if (sgtrect3_act_helper_800701A8(currentTarget))
             {
-                if (RotTransPers_80093478(&currentTarget->field_8_vec, (long *)&screenCoordinates, &interpolatedValue,
+                if (RotTransPers(&currentTarget->field_8_vec, (long *)&screenCoordinates, &interpolatedValue,
                                           &flag) > 0)
                 {
                     vx = screenCoordinates.vx;
@@ -512,10 +512,10 @@ int sgtrect3_loader_80070F4C(Actor_sgtrect3 *sgtrect3, unsigned int *rgb2)
 
         for (innerIndex = 0; innerIndex < 32; innerIndex++, tPageIter_21B8++)
         {
-            SetDrawTPage_800924A8(tPageIter_21B8, 0, 1, 0);
+            SetDrawTPage(tPageIter_21B8, 0, 1, 0);
         }
 
-        SetDrawTPage_800924A8(tPageIter_23B8, 0, 1, 32);
+        SetDrawTPage(tPageIter_23B8, 0, 1, 32);
     }
 
     sgtrect3_loader_helper_80070ECC(sgtrect3, rgb2[1]);

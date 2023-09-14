@@ -425,11 +425,11 @@ void sna_8004EE28(Actor_SnaInit *snake)
     int     vx;
     MATRIX *world = &snake->field_9C_obj.objs->objs[6].world;
 
-    ReadRotMatrix_80092DD8(&mat1);
+    ReadRotMatrix(&mat1);
     DG_TransposeMatrix_8001EAD8(&mat1, &mat2);
-    MulMatrix0_80092A48(&mat2, world, &mat2);
+    MulMatrix0(&mat2, world, &mat2);
     DG_MatrixRotZYX_8001E92C(&mat2, &vec);
-    SetRotMatrix_80093218(&mat1);
+    SetRotMatrix(&mat1);
     vx = vec.vx;
     if (vx < 0)
     {
@@ -547,7 +547,7 @@ void sna_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
     DG_SetPos_8001BC44(&pActor->field_9C_obj.objs->objs[6].world);
     DG_MovePos_8001BD20(&svector_800AB7D4);
     DG_RotatePos_8001BD64(&svector_800AB7DC);
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
 
     iVar1 = -1;
     switch (param_2)
@@ -731,7 +731,7 @@ int sna_8004F544(Actor_SnaInit *pActor, SVECTOR param_2, int a3, int a4, int a5)
     vec3.vx = 0;
     vec3.vz = a3;
 
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
     DG_SetPos2_8001BC8C(&param_2, &pActor->field_20_ctrl.field_4C_turn_vec);
     DG_PutVector_8001BE48(&vec3, &vec2, 1);
     DG_SetPos_8001BC44(&mtx);
@@ -1538,7 +1538,7 @@ static inline void sna_act_unk_helper_80050A64(Actor_SnaInit *pActor, GV_MSG *pM
         {
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
             pMsg->message_len = 0;
-            mts_printf_8008BBA0(aForceStanceCan);
+            printf(aForceStanceCan);
         }
         else
         {
@@ -1582,7 +1582,7 @@ static inline void sna_act_unk_helper2_80050A64(Actor_SnaInit *pActor, GV_MSG *p
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
         pMsg->message_len = 0;
-        mts_printf_8008BBA0(aRunMoveCancel);
+        printf(aRunMoveCancel);
     }
     else
     {
@@ -1649,7 +1649,7 @@ static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *p
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
         pMsg->message_len = 0;
-        mts_printf_8008BBA0(aForceActCancel);
+        printf(aForceActCancel);
     }
     else
     {
@@ -2206,10 +2206,10 @@ void sna_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *
 
     int len;
 
-    ReadRotMatrix_80092DD8(&rot);
+    ReadRotMatrix(&rot);
     DG_SetPos2_8001BC8C(pPos, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutVector_8001BE48(pVec, pVec, 1);
-    SetRotMatrix_80093218(&rot);
+    SetRotMatrix(&rot);
 
     vec = *pPos;
     vec2 = *pVec;
@@ -5504,7 +5504,7 @@ void sna_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time)
     default:
         DG_SetPos_8001BC44(&pActor->field_9C_obj.objs->objs[4].world);
         DG_MovePos_8001BD20(&svector_800AB7E4);
-        ReadRotMatrix_80092DD8(&rotation);
+        ReadRotMatrix(&rotation);
 
         pActor->field_A60.vx = rotation.t[0];
         pActor->field_A60.vy = rotation.t[1];

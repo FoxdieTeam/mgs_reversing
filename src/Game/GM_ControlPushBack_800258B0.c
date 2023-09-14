@@ -83,7 +83,7 @@ int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scri
     pControl->field_2C_map = pMapRec;
     if (!pMapRec)
     {
-        mts_printf_8008BBA0("InitControl : no map %X\n", mapId);
+        printf("InitControl : no map %X\n", mapId);
         return -1;
     }
 

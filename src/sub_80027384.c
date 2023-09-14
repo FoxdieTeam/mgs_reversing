@@ -31,7 +31,7 @@ int sub_80027384(void)
 
     gte_NormalClip(0, S->vec[3].long_access[0], S->vec[0].long_access[0], &S->vec[0].long_access[1]);
 
-    area = SquareRoot0_80092708(*(long *)getScratchAddr(2));
+    area = SquareRoot0(*(long *)getScratchAddr(2));
     if (area == 0)
     {
         return 0;

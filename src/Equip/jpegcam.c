@@ -137,7 +137,7 @@ void jpegcam_unk2_80063888(char *param_1, int param_2)
 void jpegcam_unk3_800638B4(int *arg0)
 {
     dword_800BDCD0 = (char)dword_800BDCD0 | 0x80808000;
-    mts_printf_8008BBA0(aSaveHeaderX, dword_800BDCD0);
+    printf(aSaveHeaderX, dword_800BDCD0);
 
     GV_CopyMemory_800160D8(&dword_800BDCD0, &arg0[0], 4);
     GV_CopyMemory_800160D8(dword_800BDCC8, &arg0[1], dword_800BDCCC);
@@ -466,7 +466,7 @@ int jpegcam_act_compress_frame_800641C0(Actor_jpegcam *pActor, RECT *pRect, int 
         {
             pActor->field_84 = f84;
             rect.y = pRect->y + y * 16;
-            StoreImage_8008FB70(&rect, (u_long *)pColorCvtSrc);
+            StoreImage(&rect, (u_long *)pColorCvtSrc);
             jpegcam_act_colorcvt_xbgr1555_to_bgrx8888_80063988(pColorCvtSrc, pColorCvtDst);
             processed += jpegcam_act_compress_macroblock_80064054(pActor, pColorCvtDst, q_scale);
         }
@@ -504,7 +504,7 @@ void jpegcam_act_try_compress_frame_80064378(Actor_jpegcam *pActor)
     pActor->field_88 = (char *)0x801A1000;
 
     pActor->field_8C_size = jpegcam_act_compress_frame_800641C0(pActor, &rect, q_scale);
-    mts_printf_8008BBA0(aDTryQScaleDSiz, iteration, q_scale, pActor->field_8C_size);
+    printf(aDTryQScaleDSiz, iteration, q_scale, pActor->field_8C_size);
     iteration++;
     q_scale++;
     if (pActor->field_8C_size > 20000)
@@ -790,20 +790,20 @@ int jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
 {
     int retval;
 
-    mts_printf_8008BBA0(aSinreiSyasinCh);
+    printf(aSinreiSyasinCh);
     if (GM_Photocode_800ABA04 != 0)
     {
-        mts_printf_8008BBA0(aHereIsSinreiSp);
-        mts_printf_8008BBA0(aGmPhotocodeD, GM_Photocode_800ABA04);
+        printf(aHereIsSinreiSp);
+        printf(aGmPhotocodeD, GM_Photocode_800ABA04);
 
         retval = DG_PointCheckOne_8001C18C((DVECTOR *)&GM_PhotoViewPos_800ABA48);
-        mts_printf_8008BBA0(aPointCheck);
+        printf(aPointCheck);
 
-        mts_printf_8008BBA0(aResultD, retval);
+        printf(aResultD, retval);
     }
     else
     {
-        mts_printf_8008BBA0(aNotSinreiSpot);
+        printf(aNotSinreiSpot);
         retval = 0;
     }
     return retval;

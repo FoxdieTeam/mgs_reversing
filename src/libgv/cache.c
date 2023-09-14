@@ -304,7 +304,7 @@ int GV_LoadInit_800155BC(void *buf, int id, int region)
     {
         if (GV_FileCacheFind_80015240(id) || !GV_CurrentTag_800AB930)
         {
-            mts_printf_8008BBA0("id conflict\n");
+            printf("id conflict\n");
             return -1;
         }
 

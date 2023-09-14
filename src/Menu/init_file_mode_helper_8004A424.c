@@ -19,7 +19,7 @@ void init_file_mode_helper_8004A424(int param_1)
 
     if (!dword_800ABB50)
     {
-        mts_printf_8008BBA0(aNoMemoryForSta_0); // "NO MEMORY FOR STACK\n"
+        printf(aNoMemoryForSta_0); // "NO MEMORY FOR STACK\n"
     }
 
     dword_800ABB48 = param_1;

@@ -80,15 +80,15 @@ typedef struct menu_chara_struct
 
 typedef struct PANEL_TEXTURE
 {
-    unsigned char  *field_0_pixels;
-    unsigned char  *field_4_word_ptr_pixels;
-    signed char     field_8_bufid;
-    signed char     field_9_xofs;
-    signed char     field_A_yofs;
-    char            field_B_pad;
-	unsigned long   field_C_uvclut;
-    short           field_10_w;
-    short           field_12_h;
+    u_long       *field_0_pixels;
+    u_long       *field_4_word_ptr_pixels;
+    signed char   field_8_bufid;
+    signed char   field_9_xofs;
+    signed char   field_A_yofs;
+    char          field_B_pad;
+	unsigned long field_C_uvclut;
+    short         field_10_w;
+    short         field_12_h;
 } PANEL_TEXTURE;
 
 typedef struct menu_0x14
@@ -230,11 +230,11 @@ typedef struct MenuPrim
 
 typedef struct _Menu_rpk_item
 {
-    char          field_0_x;
-    char          field_1_y;
-    char          field_2_w;
-    char          field_3_h;
-    unsigned char field_4_pixel_ptr[0];
+    char   field_0_x;
+    char   field_1_y;
+    char   field_2_w;
+    char   field_3_h;
+    u_long field_4_pixel_ptr[0];
 } Menu_rpk_item;
 
 // This struct describes the structure of

@@ -1,4 +1,3 @@
-#include "bss.h"
 #include "linker.h"
 #include "libfs/libfs.h"
 #include "libgv/libgv.h"
@@ -487,4 +486,3 @@ gap                                     gap_800C14C8[0x8]; // 8 bytes
 unsigned char BSS   gMtsPadSendBuffers_800C14D0[2][8]; // 0x10 (16) bytes
 short BSS           gMtsPadUnknBuffers_800C14E0[2][4]; // 0x10 (16) bytes
 int BSS             gMtsPadInitStates_800C14F0[2]; // 0x8 (8) bytes
-unsigned char BSS   force_gap_800C14F8[0x38]; // 0x38 (56) bytes

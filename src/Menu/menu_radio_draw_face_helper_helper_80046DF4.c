@@ -62,6 +62,6 @@ void menu_radio_draw_face_helper_helper_80046DF4(int idx, menu_chara_struct *pCh
             }
         }
 
-        mts_printf_8008BBA0(aNoFaceData);
+        printf(aNoFaceData);
     }
 }

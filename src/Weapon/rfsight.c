@@ -107,8 +107,7 @@ void rfsight_act_helper_80069478(int a1, GV_PAD *pPad, DVECTOR *pAxis, int dir, 
 
 extern int dword_8009F604;
 
-extern short word_800ABBE0[2];
-short SECTION(".sbss") word_800ABBE0[2];
+static short rfsight_flag_800ABBE0[4];
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -138,9 +137,9 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
         pActor->field_28 = 0;
 
         pfn = pActor->field_2c_pfn;
-        pfn(42902, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, (short *)&pActor->field_20[0]);
-        pfn(42904, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, (short *)&pActor->field_20[1]);
-        pfn(42903, GV_StrCode_80016CCC(aRifle), word_800ABBE0, 1, 0);
+        pfn(42902, GV_StrCode_80016CCC(aRifle), rfsight_flag_800ABBE0, 1, (short *)&pActor->field_20[0]);
+        pfn(42904, GV_StrCode_80016CCC(aRifle), rfsight_flag_800ABBE0, 1, (short *)&pActor->field_20[1]);
+        pfn(42903, GV_StrCode_80016CCC(aRifle), rfsight_flag_800ABBE0, 1, 0);
     }
     else
     {
@@ -154,7 +153,7 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
 
 void rfsight_kill_80069850(Actor_Rfsight *pActor)
 {
-    word_800ABBE0[0] = 0;
+    rfsight_flag_800ABBE0[0] = 0;
     pActor->field_24 = 0;
 }
 
@@ -192,7 +191,7 @@ Actor_Rfsight * NewRifleSight_8006989C(void)
             return 0;
         }
 
-        word_800ABBE0[0] = 1;
+        rfsight_flag_800ABBE0[0] = 1;
         pActor->field_2c_pfn = &NewSight_80071CDC;
     }
 
@@ -214,7 +213,7 @@ Actor_Rfsight * NewRifleSightFast_80069920(void)
             return 0;
         }
 
-        word_800ABBE0[0] = 1;
+        rfsight_flag_800ABBE0[0] = 1;
         pActor->field_2c_pfn = &sight_init_80071EA8;
     }
 

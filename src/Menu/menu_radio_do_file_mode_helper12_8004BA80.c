@@ -30,7 +30,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileMo
     for (i = 0; i < pStru1->field_2; i++)
     {
         pChild = &pStru1->field_4[i];
-        mts_printf_8008BBA0(aFileS, pChild->field_0);
+        printf(aFileS, pChild->field_0);
 
         if (strncmp(pChild->field_0, aBislpm99999, 13) == 0)
         {

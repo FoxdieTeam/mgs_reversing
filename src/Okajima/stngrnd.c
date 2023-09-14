@@ -69,9 +69,9 @@ void stngrnd_act_80074730(Actor_StunGrenade *pActor)
     --pActor->field_E8_alive_counter;
 
     mtx = &DG_Chanl(0)->field_10_eye_inv;
-    SetRotMatrix_80093218(mtx);
-    SetTransMatrix_80093248(mtx);
-    RotTransPers_80093478(&pActor->field_E0, (u_long *)&screenCoords, &interp, &flag);
+    SetRotMatrix(mtx);
+    SetTransMatrix(mtx);
+    RotTransPers(&pActor->field_E0, (u_long *)&screenCoords, &interp, &flag);
 
 
     for (i = 0; i < 8; i++)
@@ -148,9 +148,9 @@ int stngrnd_loader_800748D8(Actor_StunGrenade *pActor, MATRIX *pMtx)
 
     NewStnFade_800752A0();
 
-    SetRotMatrix_80093218(&DG_Chanl(0)->field_10_eye_inv);
-    SetTransMatrix_80093248(&DG_Chanl(0)->field_10_eye_inv);
-    RotTransPers_80093478(&pActor->field_E0, (long *)&xy, &p, &flag);
+    SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    RotTransPers(&pActor->field_E0, (long *)&xy, &p, &flag);
 
     for (i = 0; i < 8; i++)
     {
