@@ -750,16 +750,16 @@
 
     ; psyq start
 
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBCD.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBC2.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBGPU.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBGTE.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBSPU.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBETC.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBSN.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBCARD.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBAPI.LIB"
-    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBPAD.LIB"
+    inclib "LIBCD.LIB"
+    inclib "LIBC2.LIB"
+    inclib "LIBGPU.LIB"
+    inclib "LIBGTE.LIB"
+    inclib "LIBSPU.LIB"
+    inclib "LIBETC.LIB"
+    inclib "LIBSN.LIB"
+    inclib "LIBCARD.LIB"
+    inclib "LIBAPI.LIB"
+    inclib "LIBPAD.LIB"
 
 text    group
     section .rdata, text
