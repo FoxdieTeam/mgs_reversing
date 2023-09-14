@@ -68,7 +68,8 @@ def ninja_run():
         r'motion\.c:\d+: warning: `pArchive2\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `shift2\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `archive\' might be used uninitialized in this function',
-        r'memcard\.c:\d+: warning: `return\' with no value, in function returning non-void'
+        r'memcard\.c:\d+: warning: `return\' with no value, in function returning non-void',
+        r'main\.c:\d+: warning: control reaches end of non-void function'
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -176,7 +177,7 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", "$psyq_psylink_exe /e mts_printf_8008BBA0=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
+ninja.rule("psylink", "$psyq_psylink_exe /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally

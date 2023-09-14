@@ -629,7 +629,7 @@ void sub_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen)
     *pLen = GV_VecLen3_80016D80(&vec);
     pVec3->vz = 0;
     pVec3->vy = GV_VecDir2_80016EF8(&vec);
-    pVec3->vx = ratan2_80094308(-vec.vy, SquareRoot0_80092708(vec.vx * vec.vx + vec.vz * vec.vz));
+    pVec3->vx = ratan2(-vec.vy, SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz));
 }
 
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
@@ -797,7 +797,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
         {
             bitmap |= (1 << index);
             GM_event_camera_flag_800ABA9C &= ~(1 << index);
-            mts_printf_8008BBA0("[%d]cam out %d\n", GV_Time_800AB330, index);
+            printf("[%d]cam out %d\n", GV_Time_800AB330, index);
         }
 
         pMsgIter++;
@@ -818,7 +818,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
                 dword_800ABA90 &= ~(1 << index);
             }
 
-            mts_printf_8008BBA0("[%d]cam in %d\n", GV_Time_800AB330, index);
+            printf("[%d]cam in %d\n", GV_Time_800AB330, index);
         }
 
         pMsgIter++;
@@ -884,7 +884,7 @@ int camera_act_helper6_80030250(GV_ACT *pActor)
 
     sub_8002FAAC(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
     camera_act_helper6_helper_8002FD9C(i, old_i);
-    mts_printf_8008BBA0("[%d]change camera %d\n", GV_Time_800AB330, i);
+    printf("[%d]change camera %d\n", GV_Time_800AB330, i);
 
     GM_GameStatus_800AB3CC &= ~0x40;
 

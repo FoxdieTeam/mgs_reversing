@@ -19,7 +19,7 @@ int GCL_Command_system_8002C7C8(unsigned char *pScript)
             proc = GCL_GetNextParamValue_80020AD4();
             if (!proc)
             {
-                mts_printf_8008BBA0("SYSTEM:%c:change proc name\n", aGcawi[i]);
+                printf("SYSTEM:%c:change proc name\n", aGcawi[i]);
             }
             GM_SetSystemCallbackProc_8002B558(i, proc);
         }

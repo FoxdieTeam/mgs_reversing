@@ -58,8 +58,8 @@ void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, 
     {
         temp_v0 = GV_RandU_80017090(4096);
 
-        var_s3 = rcos_800925D8(temp_v0) >> 2;
-        var_s4 = rsin_80092508(temp_v0) >> 2;
+        var_s3 = rcos(temp_v0) >> 2;
+        var_s4 = rsin(temp_v0) >> 2;
 
         var_s2 = GV_RandU_80017090(128) + 32;
 
@@ -265,8 +265,8 @@ Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
         DG_SetPos_8001BC44(arg0);
 
         angle = GV_RandU_80017090(4096);
-        input.vx = rcos_800925D8(angle) / 4;
-        input.vz = rsin_80092508(angle) / 4;
+        input.vx = rcos(angle) / 4;
+        input.vz = rsin(angle) / 4;
 
         divisor = GV_RandU_80017090(128) + 32;
         input.vx /= divisor;

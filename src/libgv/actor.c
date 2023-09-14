@@ -286,7 +286,7 @@ void GV_DestroyOtherActor_800151D8(GV_ACT *pActorToKill)
         pActorList++;
     }
 
-    mts_printf_8008BBA0("#");
+    printf("#");
 }
 
 const char *GV_DebugMes_800AB34C = "none";

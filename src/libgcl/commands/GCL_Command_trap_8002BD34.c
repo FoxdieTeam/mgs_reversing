@@ -21,7 +21,7 @@ int GCL_Command_trap_8002BD34(unsigned char *pScript)
 
     if (0x7f < gBindsCount_800ABA64)
     {
-        mts_printf_8008BBA0("binds over\n");
+        printf("binds over\n");
     }
 
     i = gBindsCount_800ABA64;
@@ -75,7 +75,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
 
     if (gBindsCount_800ABA64 > 127) // 780 gp
     {
-        mts_printf_8008BBA0("binds over\n");
+        printf("binds over\n");
     }
     // bindIdx = gBindsCount_800ABA64; // 780 gp
     pBind = gBindsArray_800b58e0 + gBindsCount_800ABA64;
@@ -146,7 +146,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
     {
         if ((flags & 0x40) != 0)
         {
-            mts_printf_8008BBA0("ntrap:can't set every\n");
+            printf("ntrap:can't set every\n");
         }
         pBind->field_10_every = GCL_GetNextParamValue_80020AD4();
     }
@@ -161,7 +161,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
         int value;
         if ((flags & 0x80) != 0)
         {
-            mts_printf_8008BBA0("ntrap:can't set proc and block\n");
+            printf("ntrap:can't set proc and block\n");
         }
         GCL_GetNextValue_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
         pBind->field_14_proc_and_block = value;
@@ -170,7 +170,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
     gBindsCount_800ABA64++;
     tmp = gBinds_800ABA60;
     pBind->field_6 = (short)tmp;
-    mts_printf_8008BBA0("BIND %08X\n", tmp);
+    printf("BIND %08X\n", tmp);
     HZD_SetBind_80029A5C(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
 }

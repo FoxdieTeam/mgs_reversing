@@ -9,5 +9,5 @@ void sub_8003214C(SVECTOR *pVec, int *pRet)
     pVec->vx = mtx->t[0];
     pVec->vy = mtx->t[1];
     pVec->vz = mtx->t[2];
-    *pRet = ratan2_80094308(mtx->m[0][2], mtx->m[2][2]);
+    *pRet = ratan2(mtx->m[0][2], mtx->m[2][2]);
 }

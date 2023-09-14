@@ -318,7 +318,7 @@ void socom_act_80065518( Actor_Socom *a1 )
 
         DG_SetPos_8001BC44( world );
         DG_MovePos_8001BD20( &stru_8009F3B4[1] );
-        ReadRotMatrix_80092DD8( &MStack48 );
+        ReadRotMatrix( &MStack48 );
         bullet_init_80076584( &MStack48, a1->field_54_bullet_type, 0, 1 );
 
         if ( a1->field_56 == 0 )

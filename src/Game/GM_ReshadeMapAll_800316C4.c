@@ -16,7 +16,7 @@ void GM_ReshadeObjs_80031660(DG_OBJS *pObj)
     map = Map_FromId_800314C0(pObj->group_id);
     if (!map)
     {
-        mts_printf_8008BBA0("Reshade NULL map\n");
+        printf("Reshade NULL map\n");
     }
     lit_file = map->field_C_lit_file;
     if (lit_file)

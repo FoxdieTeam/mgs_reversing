@@ -608,6 +608,8 @@
     ; 800692D0 800693E0
     include "..\obj\Weapon\stnsight.obj"
 
+    include "..\obj\data\sbss\sbss6.obj"
+
     ; 80069478 800696CC 80069850 8006985C 8006989C 80069920
     include "..\obj\Weapon\rfsight.obj"
 
@@ -731,7 +733,6 @@
 
     include "..\obj\data\rdata\rdata_80013D10.obj"
 
-
     ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
     ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
     ; 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88
@@ -749,391 +750,30 @@
 
     ; psyq start
 
-    include "..\obj\data\rdata\rdata_psyq.obj"
-    include "..\obj\data\data\data_psyq.obj"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBCD.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBC2.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBGPU.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBGTE.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBSPU.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBETC.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBSN.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBCARD.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBAPI.LIB"
+    inclib "..\..\psyq_sdk\psyq_4.4\LIB\LIBPAD.LIB"
 
-    ; libcd.lib start
+text    group
+    section .rdata, text
+    section .text,  text
+    section .ctors, text
+    section .dtors, text
+    section .data,  text
+    section .sdata, text
 
-    include "..\obj\psyq\libcd_event.obj"
-    include "..\obj\psyq\cd_8008C698.obj"
-    include "..\obj\psyq\cd_8008C6D4.obj"
-    include "..\obj\psyq\cd_8008C6FC.obj"
-    include "..\obj\psyq\cd_8008C724.obj"
-    include "..\obj\psyq\libcd_S_007.obj"
-    include "..\obj\psyq\libcd_S_008.obj"
-    include "..\obj\psyq\libcd_S_012.obj"
-    include "..\obj\psyq\libcd_S_013.obj"
-    include "..\obj\psyq\libcd_S_014.obj"
-    include "..\obj\psyq\libcd_S_015.obj"
-    include "..\obj\psyq\libcd_S_016.obj"
-    include "..\obj\psyq\CdControlF.obj"
-    include "..\obj\psyq\CdControlB.obj"
-    include "..\obj\psyq\libcd_S_020.obj"
-    include "..\obj\psyq\libcd_S_021.obj"
-    include "..\obj\psyq\libcd_S_022.obj"
-    include "..\obj\psyq\libcd_S_023.obj"
-    include "..\obj\psyq\libcd_S_024.obj"
-    include "..\obj\psyq\sub_8008CEE8.obj"
-    include "..\obj\psyq\CD_sync_8008D444.obj"
-    include "..\obj\psyq\CD_ready_8008D6C4.obj"
-    include "..\obj\psyq\CD_cw_8008D98C.obj"
-    include "..\obj\psyq\CD_vol_8008DD98.obj"
-    include "..\obj\psyq\CD_flush_8008DE20.obj"
-    include "..\obj\psyq\CD_initvol_8008DEF4.obj"
-    include "..\obj\psyq\CD_initintr_8008DFE4.obj"
-    include "..\obj\psyq\CD_init_8008E030.obj"
-    include "..\obj\psyq\CD_datasync_8008E210.obj"
-    include "..\obj\psyq\CD_getsector_8008E378.obj"
-    include "..\obj\psyq\CD_getsector2_8008E478.obj"
+bss     group bss
+    section .sbss,  bss
+    section .bss,   bss
 
-    ; libcd end
-
-    ; libc2 start
-
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMCPY.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMSET.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\RAND.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRCMP.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRCPY.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRLEN.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\STRNCMP.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\SPRINTF.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMCHR.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\MEMMOVE.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\PUTS.OBJ"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\PUTCHAR.OBJ" ; _putchar _putchar_flash putchar
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libc2\CTYPE.OBJ"
-
-    include "..\obj\data\bss_psyq.obj"
-    include "..\obj\data\bss2.obj"
-
-    include "..\obj\data\rdata\rdata_psyq2.obj"
-    include "..\obj\data\data\data_psyq2.obj"
-
-
-    ; libc2 end
-
-    include "..\obj\psyq\ResetGraph.obj"
-    include "..\obj\psyq\SetGraphDebug.obj"
-    include "..\obj\psyq\SetGraphQueue_8008F6B8.obj"
-    include "..\obj\psyq\DrawSyncCallback_8008F76C.obj"
-    include "..\obj\psyq\SetDispMask_8008F7CC.obj"
-    include "..\obj\psyq\DrawSync.obj"
-    include "..\obj\psyq\sub_8008F8CC.obj"
-    include "..\obj\psyq\ClearImage.obj"
-    include "..\obj\psyq\ClearImage2_8008FA78.obj"
-    include "..\obj\psyq\LoadImage_8008FB10.obj"
-    include "..\obj\psyq\StoreImage_8008FB70.obj"
-    include "..\obj\psyq\MoveImage_8008FBD0.obj"
-    include "..\obj\psyq\ClearOTagR_8008FD50.obj"
-    include "..\obj\psyq\DrawPrim_8008FDFC.obj"
-    include "..\obj\psyq\DrawOTag_8008FE58.obj"
-    include "..\obj\psyq\PutDrawEnv_8008FEC8.obj"
-    include "..\obj\psyq\DrawOTagEnv_8008FF88.obj"
-    include "..\obj\psyq\GetDrawEnv_80090060.obj"
-    include "..\obj\psyq\PutDispEnv_80090094.obj"
-    include "..\obj\psyq\GetDispEnv_8009058C.obj"
-    include "..\obj\psyq\SetTexWindow_800905F0.obj"
-    include "..\obj\psyq\sub_80090670.obj"
-    include "..\obj\psyq\SetDrawEnv_800906B0.obj"
-    include "..\obj\psyq\sub_800908A8.obj"
-    include "..\obj\psyq\sub_80090B18.obj"
-    include "..\obj\psyq\sub_80090B38.obj"
-    include "..\obj\psyq\sub_80090BD0.obj"
-    include "..\obj\psyq\sub_80090C68.obj"
-    include "..\obj\psyq\sub_80090C84.obj"
-    include "..\obj\psyq\sub_80090D04.obj"
-    include "..\obj\psyq\sub_80090D1C.obj"
-    include "..\obj\psyq\sub_80090DFC.obj"
-    include "..\obj\psyq\sub_8009102C.obj"
-    include "..\obj\psyq\sub_80091268.obj"
-    include "..\obj\psyq\sub_800914E8.obj"
-    include "..\obj\psyq\sub_8009150C.obj"
-    include "..\obj\psyq\sub_80091520.obj"
-    include "..\obj\psyq\sub_80091560.obj"
-    include "..\obj\psyq\sub_800915A8.obj"
-    include "..\obj\psyq\sub_800915D8.obj"
-    include "..\obj\psyq\sub_800915FC.obj"
-    include "..\obj\psyq\sub_800918AC.obj"
-    include "..\obj\psyq\sub_80091B0C.obj"
-    include "..\obj\psyq\sub_80091C5C.obj"
-    include "..\obj\psyq\sub_80091D98.obj"
-    include "..\obj\psyq\sub_80091DCC.obj"
-    include "..\obj\psyq\sub_80091F10.obj"
-    include "..\obj\psyq\LoadImage2_80091FB0.obj"
-    include "..\obj\psyq\StoreImage2_8009209C.obj"
-    include "..\obj\psyq\sub_80092188.obj"
-    include "..\obj\psyq\_GPU_ResetCallback_800923C8.obj"
-    include "..\obj\psyq\sub_800923F0.obj"
-    include "..\obj\psyq\GetTPage_80092418.obj"
-    include "..\obj\psyq\SetSemiTrans_80092458.obj"
-    include "..\obj\psyq\SetPolyF4_80092488.obj"
-    include "..\obj\psyq\SetDrawTPage_800924A8.obj"
-    include "..\obj\psyq\SetDrawStp_800924D8.obj"
-    include "..\obj\psyq\rsin_80092508.obj"
-    include "..\obj\psyq\sin_1_80092544.obj"
-    include "..\obj\psyq\rcos_800925D8.obj"
-    include "..\obj\psyq\InitGeom_80092680.obj"
-    include "..\obj\psyq\SquareRoot0_80092708.obj"
-    include "..\obj\psyq\VectorNormal_80092838.obj"
-    include "..\obj\psyq\VectorNormalSS_80092868.obj"
-    include "..\obj\psyq\sub_80092898.obj"
-    include "..\obj\psyq\MulMatrix0_80092A48.obj"
-    include "..\obj\psyq\MulRotMatrix_80092B58.obj"
-    include "..\obj\psyq\ApplyMatrixLV_80092C48.obj"
-    include "..\obj\psyq\ApplyRotMatrix_80092DA8.obj"
-    include "..\obj\psyq\ReadRotMatrix_80092DD8.obj"
-    include "..\obj\psyq\ApplyRotMatrixLV_80092E28.obj"
-    include "..\obj\psyq\MulMatrix2_80092F68.obj"
-    include "..\obj\psyq\ApplyMatrixSV_80093078.obj"
-    include "..\obj\psyq\ScaleMatrix_800930D8.obj"
-    include "..\obj\psyq\SetRotMatrix_80093218.obj"
-    include "..\obj\psyq\SetTransMatrix_80093248.obj"
-    include "..\obj\psyq\Square0_80093340.obj"
-    include "..\obj\psyq\OuterProduct12_800933AC.obj"
-    include "..\obj\psyq\RotTransPers_80093478.obj"
-    include "..\obj\psyq\RotTransPers3_800934A8.obj"
-    include "..\obj\psyq\RotMatrix_80093508.obj"
-    include "..\obj\psyq\RotMatrixYXZ_80093798.obj"
-    include "..\obj\psyq\RotMatrixX_80093A28.obj"
-    include "..\obj\psyq\RotMatrixY_80093BC8.obj"
-    include "..\obj\psyq\RotMatrixZ_80093D68.obj"
-    include "..\obj\psyq\RotMatrixZYX_gte_80093F08.obj"
-    include "..\obj\psyq\RotMatrixYXZ_gte_80094108.obj"
-    include "..\obj\psyq\ratan2_80094308.obj"
-    include "..\obj\psyq\ExitCard_80094488.obj"
-    include "..\obj\psyq\sub_80094534.obj"
-    include "..\obj\psyq\SpuInit_80094568.obj"
-    include "..\obj\psyq\_SpuInit_80094588.obj"
-    include "..\obj\psyq\SpuStart_80094670.obj"
-    include "..\obj\psyq\spu_init_800946E8.obj"
-    include "..\obj\psyq\sub_80094968.obj"
-    include "..\obj\psyq\spu_FiDMA_80094B28.obj"
-    include "..\obj\psyq\spu_t_80094C8C.obj"
-    include "..\obj\psyq\spu_Fw_80094F0C.obj"
-    include "..\obj\psyq\spu_Fr_80094F90.obj"
-    include "..\obj\psyq\spu_FsetRXX_80094FF4.obj"
-    include "..\obj\psyq\spu_FsetRXXa_80095038.obj"
-    include "..\obj\psyq\spu_t_helper_80095170.obj"
-    include "..\obj\psyq\sub_80095198.obj"
-    include "..\obj\psyq\spu_Fw1ts_800951C0.obj"
-    include "..\obj\psyq\_SpuDataCallback_80095228.obj"
-    include "..\obj\psyq\SpuQuit_80095258.obj"
-    include "..\obj\psyq\SpuInitMalloc_800952D8.obj"
-    include "..\obj\psyq\SpuMalloc_80095338.obj"
-    include "..\obj\psyq\spu_gcSPU_80095608.obj"
-    include "..\obj\psyq\SpuSetNoiseVoice_80095908.obj"
-    include "..\obj\psyq\_SpuSetAnyVoice_80095938.obj"
-    include "..\obj\psyq\SpuSetReverb_80095BF8.obj"
-    include "..\obj\psyq\_SpuIsInAllocateArea__80095D48.obj"
-    include "..\obj\psyq\SpuSetReverbModeParam_80095DD8.obj"
-    include "..\obj\psyq\spu_setReverbAttr_800962B8.obj"
-    include "..\obj\psyq\SpuReserveReverbWorkArea_80096788.obj"
-    include "..\obj\psyq\SpuSetReverbDepth_800967D8.obj"
-    include "..\obj\psyq\SpuSetReverbVoice_80096858.obj"
-    include "..\obj\psyq\SpuClearReverbWorkArea_80096888.obj"
-    include "..\obj\psyq\SpuSetIRQ_80096A28.obj"
-    include "..\obj\psyq\SpuSetIRQAddr_80096B68.obj"
-    include "..\obj\psyq\SpuSetIRQCallback_80096BA8.obj"
-    include "..\obj\psyq\_SpuCallback_80096BE8.obj"
-    include "..\obj\psyq\SpuSetKey_80096C18.obj"
-    include "..\obj\psyq\SpuGetKeyStatus_80096DD8.obj"
-    include "..\obj\psyq\SpuWrite_80096E68.obj"
-    include "..\obj\psyq\SpuSetTransferStartAddr_80096EC8.obj"
-    include "..\obj\psyq\SpuSetTransferMode_80096F28.obj"
-    include "..\obj\psyq\SpuIsTransferCompleted_80096F58.obj"
-    include "..\obj\psyq\SpuSetPitchLFOVoice_80097008.obj"
-    include "..\obj\psyq\SpuSetCommonAttr_80097038.obj"
-    include "..\obj\psyq\SpuGetAllKeysStatus_8009748C.obj"
-    include "..\obj\psyq\SpuSetVoiceAttr_80097518.obj"
-    include "..\obj\psyq\spu_note2pitch_80097B18.obj"
-    include "..\obj\psyq\spu_pitch2note_80097BE8.obj"
-    include "..\obj\psyq\SpuGetVoiceAttr_80097D18.obj"
-    include "..\obj\psyq\VSync_80098108.obj"
-    include "..\obj\psyq\sub_80098280.obj"
-    include "..\obj\psyq\ResetCallback_80098318.obj"
-    include "..\obj\psyq\InterruptCallback_80098348.obj"
-    include "..\obj\psyq\DMACallback_80098378.obj"
-    include "..\obj\psyq\VSyncCallback_800983A8.obj"
-    include "..\obj\psyq\StopCallback_8009840C.obj"
-    include "..\obj\psyq\CheckCallback_8009846C.obj"
-    include "..\obj\psyq\SetIntrMask_80098494.obj"
-    include "..\obj\psyq\sub_800984AC.obj"
-    include "..\obj\psyq\sub_80098584.obj"
-    include "..\obj\psyq\sub_80098754.obj"
-    include "..\obj\psyq\sub_8009889C.obj"
-    include "..\obj\psyq\sub_8009893C.obj"
-    include "..\obj\psyq\sub_800989B4.obj"
-    include "..\obj\psyq\setjmp_800989D8.obj"
-    include "..\obj\psyq\startIntrVSync_80098A58.obj"
-    include "..\obj\psyq\startIntrVSync_helper_80098AB0.obj"
-    include "..\obj\psyq\startIntrVSync_helper2_80098B1C.obj"
-    include "..\obj\psyq\startIntrVSync_helper3_80098B48.obj"
-    include "..\obj\psyq\startIntrDMA_80098B78.obj"
-    include "..\obj\psyq\startIntrDMA_helper_80098BC4.obj"
-    include "..\obj\psyq\startIntrDMA_helper2_80098D44.obj"
-    include "..\obj\psyq\startIntrDMA_helper3_80098DF0.obj"
-    include "..\obj\psyq\GetVideoMode_80098E2C.obj"
-    include "..\obj\psyq\PClseek_80098E48.obj"
-    include "..\obj\psyq\__SN_ENTRY_POINT_80098E6C.obj"
-    include "..\obj\psyq\__main_80098F14.obj"
-    include "..\obj\psyq\bu_init_80098FEC.obj"
-    include "..\obj\psyq\card_info_80098FFC.obj"
-    include "..\obj\psyq\card_load_8009900C.obj"
-    include "..\obj\psyq\card_read_8009901C.obj"
-    include "..\obj\psyq\card_clear_8009902C.obj"
-    include "..\obj\psyq\card_write_8009906C.obj"
-    include "..\obj\psyq\new_card_8009907C.obj"
-    include "..\obj\psyq\InitCARD_8009908C.obj"
-    include "..\obj\psyq\StartCARD_800990F8.obj"
-    include "..\obj\psyq\StopCARD_80099130.obj"
-    include "..\obj\psyq\InitCARD2_8009915C.obj"
-    include "..\obj\psyq\StartCARD2_8009916C.obj"
-    include "..\obj\psyq\StopCARD2_8009917C.obj"
-    include "..\obj\psyq\patch_card_80099224.obj"
-    include "..\obj\psyq\patch_card2_800992B8.obj"
-    include "..\obj\psyq\copy_memcard_patch_80099328.obj"
-    include "..\obj\psyq\_ExitCard_8009935C.obj"
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C57.OBJ" ; InitHeap_800993DC
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C68.OBJ" ; FlushCache_800993EC
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C73.OBJ" ; GPU_cw
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C81.OBJ" ; LoadExec
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C113.OBJ" ; _96_init
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C114.OBJ" ; _96_remove
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\C159.OBJ" ; SetMem
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A07.OBJ" ; DeliverEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A08.OBJ" ; OpenEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A09.OBJ" ; CloseEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A10.OBJ" ; WaitEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A11.OBJ" ; TestEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A12.OBJ" ; EnableEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A13.OBJ" ; DisableEvent
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A14.OBJ" ; OpenTh
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A15.OBJ" ; CloseTh
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A16.OBJ" ; ChangeTh
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A23.OBJ" ; ReturnFromException
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A24.OBJ" ; ResetEntryInt
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A25.OBJ" ; HookEntryInt
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A36.OBJ" ; EnterCriticalSection
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A37.OBJ" ; ExitCriticalSection
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A40.OBJ" ; SwEnterCriticalSection
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A41.OBJ" ; SwExitCriticalSection
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A50.OBJ" ; open
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A51.OBJ" ; lseek
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A52.OBJ" ; read
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A53.OBJ" ; write
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A54.OBJ" ; close
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A65.OBJ" ; format
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A67.OBJ" ; nextfile
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A69.OBJ" ; erase
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A91.OBJ" ; ChangeClearPAD
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A94.OBJ" ; GetGp
-    include "..\..\psyq_sdk\psyq_4.4\LIB\libapi\A95.OBJ" ; GetSp
-    include "..\obj\psyq\ChangeClearRCnt_8009963C.obj"
-    include "..\obj\psyq\GetRCnt_800996E8.obj"
-    include "..\obj\psyq\SetConf_800997BC.obj"
-    include "..\obj\psyq\sub_800999DC.obj"
-    include "..\obj\psyq\sub_800999F8.obj"
-    include "..\obj\psyq\SetConf_helper_80099A14.obj"
-    include "..\obj\psyq\SetConf_helper2_80099A30.obj"
-    include "..\obj\psyq\SetConf_helper3_80099A4C.obj"
-    include "..\obj\psyq\sub_80099A68.obj"
-    include "..\obj\psyq\sub_80099A9C.obj"
-    include "..\obj\psyq\sub_80099AB8.obj"
-    include "..\obj\psyq\firstfile_80099AEC.obj"
-    include "..\obj\psyq\sub_80099C88.obj"
-    include "..\obj\psyq\firstfile2_80099D8C.obj"
-    include "..\obj\psyq\ReadInitPadFlag_80099DA8.obj"
-    include "..\obj\psyq\PAD_init_80099DB8.obj"
-    include "..\obj\psyq\InitPAD_80099E48.obj"
-    include "..\obj\psyq\StartPAD_80099ED8.obj"
-    include "..\obj\psyq\StopPAD_80099F08.obj"
-    include "..\obj\psyq\sub_80099F40.obj"
-    include "..\obj\psyq\StopPAD_helper_80099FB8.obj"
-    include "..\obj\psyq\sub_80099FF0.obj"
-    include "..\obj\psyq\sub_8009A058.obj"
-    include "..\obj\psyq\InitPAD2_8009A09C.obj"
-    include "..\obj\psyq\StartPAD2_8009A0AC.obj"
-    include "..\obj\psyq\StopPAD2_8009A0BC.obj"
-    include "..\obj\psyq\PAD_init2_8009A0CC.obj"
-    include "..\obj\psyq\SysEnqIntRP_8009A0DC.obj"
-    include "..\obj\psyq\SysDeqIntRP_8009A0EC.obj"
-    include "..\obj\psyq\EnablePAD_8009A0FC.obj"
-    include "..\obj\psyq\DisablePAD_8009A110.obj"
-    include "..\obj\psyq\patch_pad_8009A124.obj"
-    include "..\obj\psyq\remove_ChgclrPAD_8009A19C.obj"
-    include "..\obj\psyq\PadChkVsync_8009A20C.obj"
-    include "..\obj\psyq\PadStartCom_8009A22C.obj"
-    include "..\obj\psyq\PadStopCom_8009A24C.obj"
-    include "..\obj\psyq\PadGetState_8009A2B8.obj"
-    include "..\obj\psyq\PadInfoAct_8009A47C.obj"
-    include "..\obj\psyq\PadSetActAlign_8009A5F8.obj"
-    include "..\obj\psyq\PadSetAct_8009A678.obj"
-    include "..\obj\psyq\padSetVsyncParam_8009A7E4.obj"
-    include "..\obj\psyq\padSetVsyncParam_helper_8009A810.obj"
-    include "..\obj\psyq\padChkVsync_8009AA08.obj"
-    include "..\obj\psyq\padStartCom_8009AA1C.obj"
-    include "..\obj\psyq\padStopCom_8009AAE8.obj"
-    include "..\obj\psyq\padInitSioMode_8009AB2C.obj"
-    include "..\obj\psyq\sub_8009AE60.obj"
-    include "..\obj\psyq\padSioRW_8009AF50.obj"
-    include "..\obj\psyq\padSioRW2_8009B160.obj"
-    include "..\obj\psyq\padClrIntSio0_8009B3D8.obj"
-    include "..\obj\psyq\padWaitRXready_8009B468.obj"
-    include "..\obj\psyq\padSetAct_8009B49C.obj"
-    include "..\obj\psyq\padSendAtLoadInfo_8009B4B8.obj"
-    include "..\obj\psyq\padRecvAtLoadInfo_8009B53C.obj"
-    include "..\obj\psyq\padGetActSize_8009B7AC.obj"
-    include "..\obj\psyq\padLoadActInfo_8009B7E4.obj"
-    include "..\obj\psyq\padLoadActInfo_helper_8009B8B8.obj"
-    include "..\obj\psyq\padLoadActInfo_helper2_8009B960.obj"
-    include "..\obj\psyq\padSetActAlign_8009BD58.obj"
-    include "..\obj\psyq\padSetActAlign_helper_8009BDC0.obj"
-    include "..\obj\psyq\padSetActAlign_helper2_8009BDDC.obj"
-    include "..\obj\psyq\padSetMainMode_8009BEA4.obj"
-    include "..\obj\psyq\padSetMainMode_helper_8009BF3C.obj"
-    include "..\obj\psyq\padSetMainMode_helper2_8009BF90.obj"
-    include "..\obj\psyq\padSetParaMode_8009BFF0.obj"
-    include "..\obj\psyq\padSendAtLoadInfo_helper_8009C010.obj"
-    include "..\obj\psyq\sub_8009C024.obj"
-    include "..\obj\psyq\padLoadActInfo_helper_helper_8009C044.obj"
-    include "..\obj\psyq\sub_8009C064.obj"
-    include "..\obj\psyq\padLoadActInfo_helper_helper2_8009C084.obj"
-    include "..\obj\psyq\unknown_libname_1_8009C09C.obj"
-    include "..\obj\psyq\sub_8009C0E4.obj"
-    include "..\obj\psyq\sub_8009C1BC.obj"
-    include "..\obj\psyq\sub_8009C268.obj"
-    include "..\obj\psyq\sub_8009C32C.obj"
-    include "..\obj\psyq\PadInitDirect_8009C6CC.obj"
-    include "..\obj\psyq\PadInitDirect_helper_8009C82C.obj"
-    include "..\obj\psyq\PadInitDirect_helper2_8009C894.obj"
-    include "..\obj\psyq\sub_8009C988.obj"
-    include "..\obj\psyq\PadInitDirect_helper3_8009C998.obj"
-    include "..\obj\psyq\PadInitDirect_helper4_8009CA54.obj"
-    include "..\obj\psyq\PadInitDirect_helper5_8009CCD0.obj"
-    include "..\obj\psyq\PadInitDirect_helper6_8009CD08.obj"
-    include "..\obj\psyq\bzero_8009CD2C.obj"
-    include "..\obj\psyq\padInitDirSeq_8009CD5C.obj"
-    include "..\obj\psyq\padInitDirSeq_helper_8009CD90.obj"
-    include "..\obj\psyq\sub_8009CEA0.obj"
-    include "..\obj\psyq\dirFailAuto_8009D104.obj"
-    include "..\obj\psyq\padInitDirSeq_helper2_8009D1E4.obj"
-    include "..\obj\psyq\setRC2wait_8009D21C.obj"
-    include "..\obj\psyq\chkRC2wait_8009D23C.obj"
-
-    include "..\obj\data\sbss\sbss6.obj"
-
-group_rdata_code    group org($80010000)
-    section .RDATA, group_rdata_code
-    section .rdata, group_rdata_code
-    section .text, group_rdata_code
-    section .data, group_rdata_code
-    section .sdata2, group_rdata_code
-    section .sdata, group_rdata_code
-
-group_actual_bss    group bss,org($800ABBF0)
-    section .bss, group_actual_bss
-    section .sbss, group_rdata_code
+__program_bottom EQU $800C3208
 
 ; ram
 
@@ -1145,4 +785,4 @@ group_gProgramBottom_800C3208    group org($800C3208), file("..\obj\sound.bin"),
     include "..\obj\overlays\sound_bin.obj"
     include "..\obj\overlays\sndtst.obj"
 
-    regs    pc=__SN_ENTRY_POINT_80098E6C
+    regs    pc=__SN_ENTRY_POINT

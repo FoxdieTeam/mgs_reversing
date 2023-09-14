@@ -218,7 +218,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
                         if (pActor->field_F0 == 0x21CA)
                         {
-                            mts_printf_8008BBA0(aSnakeDoorX, pActor->field_E0_where);
+                            printf(aSnakeDoorX, pActor->field_E0_where);
                             door_where_8009F5F4 = pActor->field_E0_where;
                             pActor->field_E5 = 1;
                         }
@@ -242,7 +242,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
             if (pMsg->message[1] == 0x21CA)
             {
-                mts_printf_8008BBA0(aSnakeDoorX, pActor->field_E0_where);
+                printf(aSnakeDoorX, pActor->field_E0_where);
                 door_where_8009F5F4 = pActor->field_E0_where;
                 pActor->field_E5 = 1;
             }
@@ -423,7 +423,7 @@ void door_act_8006F318(Actor_Door *pActor)
                 {
                     if (door_where_8009F5F4 && ((pActor->field_E5 == 0) || (door_where_8009F5F4 != pActor->field_E0_where)))
                     {
-                        mts_printf_8008BBA0(aCloseDoorX, door_where_8009F5F4);
+                        printf(aCloseDoorX, door_where_8009F5F4);
 
                         for (mapIter = 0; mapIter < 2; mapIter++)
                         {
@@ -437,7 +437,7 @@ void door_act_8006F318(Actor_Door *pActor)
                     }
                     else
                     {
-                        mts_printf_8008BBA0(aCloseDoorX_0, door_where_8009F5F4);
+                        printf(aCloseDoorX_0, door_where_8009F5F4);
                         hash = gSnaControl_800AB9F4->field_2C_map->field_4_mapNameHash;
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)

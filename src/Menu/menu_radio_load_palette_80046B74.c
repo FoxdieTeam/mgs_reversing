@@ -10,5 +10,5 @@ void menu_radio_load_palette_80046B74(void *a1, int a2)
     v3.h = 1;
     v3.y += a2;
 
-    LoadImage_8008FB10(&v3, a1);
+    LoadImage(&v3, a1);
 }

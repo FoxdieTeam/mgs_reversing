@@ -294,7 +294,7 @@ int sna_8004E71C(int a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
     pVec->vx = 0;
 
     DG_PutVector_8001BE48(pVec, pVec, 1);
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
 
     vec.vx = mtx.t[0];
     vec.vy = mtx.t[1];
@@ -367,7 +367,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
     int1 -= snake->field_20_ctrl.field_78_levels[0];
 
     vec1.vx = int1;
-    vec1.vz = SquareRoot0_80092708(arg1 * arg1 - int1 * int1);
+    vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
     int0 = -GV_VecDir2_80016EF8(&vec1);
 
     if (int0 < -0x800)

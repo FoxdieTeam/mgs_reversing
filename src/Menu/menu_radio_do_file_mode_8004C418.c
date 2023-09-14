@@ -346,7 +346,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         menu_number_draw_string2_80043220(pActor->field_20_otBuf, &textConfig1, aPressToExit);
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res1, dword_800ABB74) != 0)
         {
-            mts_printf_8008BBA0(aResD, res1);
+            printf(aResD, res1);
             dword_800ABB58 = 0;
             dword_800ABB80 = 1;
             dword_800ABB84 = 0;
@@ -357,7 +357,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     case 5:
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res2, dword_800ABB78) != 0)
         {
-            mts_printf_8008BBA0(aResD, res2);
+            printf(aResD, res2);
             dword_800ABB78->field_14 = 0;
             if (res2 == -1)
             {
@@ -389,7 +389,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         }
         if (menu_radio_do_file_mode_helper13_8004BCF8(pPad, &res3, dword_800ABB70) != 0)
         {
-            mts_printf_8008BBA0(aResD, res3);
+            printf(aResD, res3);
             dword_800ABB70->field_14 = 0;
             if (res3 == -1)
             {
@@ -413,14 +413,14 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     case 6:
         if (mts_get_task_status_8008B618(7) == 0)
         {
-            mts_printf_8008BBA0(aEndSaveMode);
+            printf(aEndSaveMode);
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB70);
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB74);
             menu_radio_do_file_mode_helper10_8004B91C(dword_800ABB78);
             menu_radio_do_file_mode_helper_8004A858();
             GV_FreeMemory_80015FD0(0, dword_800ABB50);
             GM_LastResultFlag = dword_800ABB54;
-            mts_printf_8008BBA0(aEndStateD, GM_LastResultFlag);
+            printf(aEndStateD, GM_LastResultFlag);
             if (dword_800ABB48 != 2)
             {
                 font_set_color_80044DC4(pActor->field_214_font, 1, 0x3BEF, 0);

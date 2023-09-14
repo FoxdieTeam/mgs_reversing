@@ -78,7 +78,7 @@ void           mts_set_pad_vibration_8008C408(int, int);
 void           mts_set_pad_vibration2_8008C454(int, int);
 int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
-int            mts_printf_8008BBA0(const char *formatStr, ...);
+int            printf(const char *formatStr, ...);
 int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
@@ -107,7 +107,7 @@ int            sio_getchar2_8008C5D0(void);
 void           sio_output_start_8008C5A8(void);
 void           mts_set_callback_controller_800893D8(void *ptr);
 void           mts_callback_controller_8008BDEC(void);
-unsigned char *mts_get_bss_tail_8008C598();
+ char         *mts_get_bss_tail_8008C598();
 unsigned short mts_read_pad_8008C25C(int);
 void           mts_shutdown_8008B044(void);
 void           mts_wup_tsk_8008A540(int taskNr);
@@ -125,21 +125,21 @@ int            mts_nullsub_8_8008BB98(int, const char *, ...);
 //     from the same dir to not have the full path but just the name.
 #if __STDC_VERSION__ >= 199901L // c99
 #   define mts_assert( lineNum, ... )                                    \
-        mts_printf_8008BBA0( "assertion faled : %s line %d : Task %d\n", \
+        printf( "assertion faled : %s line %d : Task %d\n", \
                                                 "mts_new.c",             \
                                                 lineNum,                 \
                                                 gTaskIdx_800C0DB0 );     \
-        mts_printf_8008BBA0( __VA_ARGS__ );                              \
-        mts_printf_8008BBA0( "\n" );                                     \
+        printf( __VA_ARGS__ );                              \
+        printf( "\n" );                                     \
         mts_print_process_status_8008B77C();
 #else
 #   define mts_assert( lineNum, ARGS... )                                \
-        mts_printf_8008BBA0( "assertion faled : %s line %d : Task %d\n", \
+        printf( "assertion faled : %s line %d : Task %d\n", \
                                                 "mts_new.c",             \
                                                 lineNum,                 \
                                                 gTaskIdx_800C0DB0 );     \
-        mts_printf_8008BBA0( ##ARGS );                                   \
-        mts_printf_8008BBA0( "\n" );                                     \
+        printf( ##ARGS );                                   \
+        printf( "\n" );                                     \
         mts_print_process_status_8008B77C();
 #endif
 

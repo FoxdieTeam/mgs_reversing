@@ -23,6 +23,6 @@ void sub_8004D1D0(char *saveBuf)
         }
 
         saveBufIter += size;
-        mts_printf_8008BBA0(aStar);
+        printf(aStar);
     }
 }

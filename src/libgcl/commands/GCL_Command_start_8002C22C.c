@@ -19,7 +19,7 @@ int GCL_Command_start_8002C22C(unsigned char *pScript)
     if (GCL_GetParam_80020968('m')) // menu
     {
         menuman_init_80038954();
-        mts_printf_8008BBA0("MENU INIT END\n");
+        printf("MENU INIT END\n");
     }
 
     if (GCL_GetParam_80020968('f')) // font

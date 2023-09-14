@@ -81,7 +81,7 @@ void sub_8003501C(MOTION_CONTROL *pCtrl, int action_flag, int motion)
     MOTION_INFO *pInfo;
     MATRIX       mtx;
 
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
 
     pInfo = &pCtrl->field_04_info1;
     if (pInfo->field_0)
@@ -109,7 +109,7 @@ void sub_8003501C(MOTION_CONTROL *pCtrl, int action_flag, int motion)
         pInfo->field_10 = action_flag;
     }
 
-    SetRotMatrix_80093218(&mtx);
+    SetRotMatrix(&mtx);
 }
 
 void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
@@ -117,7 +117,7 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
     MOTION_INFO *pInfo;
     MATRIX       mtx;
 
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
 
     pInfo = &pCtrl->field_1C_info2;
     if (pInfo->field_0)
@@ -145,7 +145,7 @@ void sub_800350D4(MOTION_CONTROL *pCtrl, int a2, int a3)
         pInfo->field_10 = a2;
     }
 
-    SetRotMatrix_80093218(&mtx);
+    SetRotMatrix(&mtx);
 }
 
 int Process_Oar_8003518C( MOTION_CONTROL *ctrl, MOTION_INFO *info, int index )
@@ -326,7 +326,7 @@ int sub_8003556C(MOTION_CONTROL *m_ctrl)
     MOTION_INFO *m_info;
     int          time;
 
-    ReadRotMatrix_80092DD8(&mtx);
+    ReadRotMatrix(&mtx);
 
     m_ctrl->step->vx = 0;
     m_ctrl->step->vz = 0;
@@ -396,7 +396,7 @@ int sub_8003556C(MOTION_CONTROL *m_ctrl)
         m_info->field_16_time = time;
     }
 
-    SetRotMatrix_80093218(&mtx);
+    SetRotMatrix(&mtx);
     return time;
 }
 
@@ -465,7 +465,7 @@ static inline unsigned int extract_archive( MOTION_ARCHIVE *archive )
     return archive[0] + (archive[1] << 16);
 }
 
-extern MATRIX *RotMatrix_80093508(SVECTOR *r, MATRIX *m);
+extern MATRIX *RotMatrix(SVECTOR *r, MATRIX *m);
 extern void sub_80035F34(OAR_RECORD *pRecord, SVECTOR *pResult);
 
 int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
@@ -477,15 +477,15 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
     int         record_size;
     int         ret;
     int         delta;
-    
+
     SVECTOR *pVecs;
 
     unsigned int vx, vy, vz;
-    
+
     MOTION_ARCHIVE *pArchive;
-    
+
     int i;
-    
+
     int interp;
 
     int flags;
@@ -496,7 +496,7 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
     int res;
     int t0;
     char shift_temp;
-    
+
     pOarRecord  = arg1->field_C_oar_records;
     record_size = arg0->field_00_oar->n_joint;
 
@@ -515,45 +515,45 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
     matrix_8009DE7C.m[2][2] = delta;
 
     gte_SetLightMatrix(&matrix_8009DE7C);
-    
+
     if (!(arg1->field_8 & 0x1))
-    {        
+    {
         if (arg1->field_4 == 0)
         {
             shift = pOarRecord->field_1D[0];
             pArchive = pOarRecord->field_14;
 
-            RotMatrix_80093508(arg0->field_34, &rotation);
+            RotMatrix(arg0->field_34, &rotation);
             gte_SetRotMatrix(&rotation);
 
-            // vx            
+            // vx
             vx = extract_archive(pArchive);
             Mask_Op(res, vx, pOarRecord->field_8.vx, shift);
-            
+
             shift_temp = shift + pOarRecord->field_8.vx;
             Shift_Op(shift, shift_temp, pArchive);
-            
+
             vec.vx = res;
 
-            // vy            
+            // vy
             vy = extract_archive(pArchive);
             Mask_Op(res, vy, pOarRecord->field_8.vy, shift);
-            
+
             shift_temp = shift + pOarRecord->field_8.vy;
             Shift_Op(shift, shift_temp, pArchive);
-         
+
             t0 = res + pOarRecord->field_0.vy;
             vec.vy = 0;
 
             // vz
             vz = extract_archive(pArchive);
             Mask_Op(res, vz, pOarRecord->field_8.vz, shift);
-            
+
             shift_temp = shift + pOarRecord->field_8.vz;
             Shift_Op(shift, shift_temp, pArchive);
 
             vec.vz = res;
-            
+
             gte_ldv0(&vec);
             gte_rtv0();
             res = arg0->step->vy;
@@ -587,7 +587,7 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
     {
 
         b = &arg0->field_44;
-        
+
         sub_80035F34(pOarRecord, (SVECTOR *)&rotation.m[0][0]);
 
         rotation.m[0][0] = (rotation.m[0][0] + pOarRecord->field_0.vx) & 0xFFF;
@@ -599,16 +599,16 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
         gte_ldv0(&rotation);
         gte_llv0();
         gte_stsv(&rotation);
-        
+
         b->vx = (b->vx + rotation.m[0][0]) & 0xFFF;
         b->vy = (b->vy + rotation.m[0][1]) & 0xFFF;
         b->vz = (b->vz + rotation.m[0][2]) & 0xFFF;
     }
-    
+
     for (i = 0; i < record_size; i++, pOarRecord++, pVecs++, flags >>= 1)
     {
         sub_80035F34(pOarRecord, (SVECTOR *)&rotation.m[1][1]);
-            
+
         rotation.m[1][1] = (rotation.m[1][1] + pOarRecord->field_0.vx) & 0xFFF;
         rotation.m[1][2] = (rotation.m[1][2] + pOarRecord->field_0.vy) & 0xFFF;
         rotation.m[2][0] = (rotation.m[2][0] + pOarRecord->field_0.vz) & 0xFFF;
@@ -616,14 +616,14 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
         if (--pOarRecord->field_18 < 0)
         {
             pOarRecord->field_0 = *(SVECTOR *)&rotation.m[1][1];
-                
+
             if (ret == 0)
             {
                 Kmd_Oar_Inflate_800353E4(pOarRecord);
                 FP_Subtract3(&pOarRecord->field_0, (SVECTOR*)&pOarRecord->field_8);
             }
         }
-            
+
         if (!(flags & 0x1))
         {
             if (i == 0)
@@ -638,7 +638,7 @@ int oar_related_800356FC(MOTION_CONTROL *arg0, MOTION_INFO *arg1)
             gte_ldv0(&rotation.m[1][1]);
             gte_llv0();
             gte_stsv(&rotation.m[1][1]);
-            
+
             pVecs->vx = (pVecs->vx + rotation.m[1][1]) & 0xFFF;
             pVecs->vy = (pVecs->vy + rotation.m[1][2]) & 0xFFF;
             pVecs->vz = (pVecs->vz + rotation.m[2][0]) & 0xFFF;
@@ -825,41 +825,41 @@ void sub_80036388( OAR_RECORD *pRecord, int frame )
     unsigned int vx2, vy2, vz2;
     unsigned int b;
     int temp2;
-    int temp;    
-        
+    int temp;
+
     shift = pRecord->field_1D[0];
     pArchive = pRecord->field_14;
     t5 = 0;
-        
+
     if (frame < (pRecord->field_18 + 1))
     {
         pRecord->field_18 = pRecord->field_18 - frame;
         return;
     }
-        
+
     frame = frame - (pRecord->field_18 + 1);
     x = pRecord->field_1D[1];
     y = pRecord->field_1D[2];
     z = pRecord->field_1D[3];
     t1 = x + y + z;
-        
+
     for (;;)
     {
         temp = (extract_archive(pArchive) >> shift);
         a2    = temp & 0xFF;
         temp2 = temp & 0xF;
-        
+
         if (frame < temp2)
         {
         z = shift + 8;
         goto exit;
         }
-        
+
         frame = frame - temp2;
         shift2 = shift;
         pArchive2 = pArchive;
         t5 = 1;
-        
+
         shift_temp = (shift2 + 8) + t1;
         pArchive = &pArchive2[shift_temp / 16];
         shift = shift_temp & 0xF;
@@ -867,65 +867,65 @@ void sub_80036388( OAR_RECORD *pRecord, int frame )
 
     exit:
     Shift_Op(shift, z, pArchive);
-    b = (a2 >> 4); 
+    b = (a2 >> 4);
     b = b & 0xF;
     pRecord->field_1A = temp2;
     do {} while(0);
-        
+
     pRecord->field_1C = b;
 
     a2 = frame;
 
     pRecord->field_18 = (pRecord->field_1A - a2) - 1;
     pRecord->field_10 = dword_8009DE1C[pRecord->field_1A];
-        
+
     t1 = pRecord->field_1D[1];
     vx = extract_archive(pArchive);
     Mask_Op(pRecord->field_8.vx, vx, t1, shift);
-        
-    z = shift + t1;    
+
+    z = shift + t1;
     Shift_Op(shift, z, pArchive);
-        
+
     t1 = pRecord->field_1D[2];
     vy = extract_archive(pArchive);
-    Mask_Op(pRecord->field_8.vy, vy, t1, shift); 
-        
+    Mask_Op(pRecord->field_8.vy, vy, t1, shift);
+
     z = shift + t1;
     Shift_Op(shift, z, pArchive);
-        
+
     t1 = pRecord->field_1D[3];
     vz = extract_archive(pArchive);
-    Mask_Op(pRecord->field_8.vz, vz, t1, shift);  
-        
+    Mask_Op(pRecord->field_8.vz, vz, t1, shift);
+
     z = shift + t1;
     Shift_Op(shift, z, pArchive);
-        
+
     pRecord->field_1D[0] = shift;
     pRecord->field_14 = pArchive;
     if (t5)
     {
         pArchive2 = &pArchive2[shift2 / 16];
-        
-        z = (shift2 & 0xF) + 8;  
+
+        z = (shift2 & 0xF) + 8;
         Shift_Op(shift2, z, pArchive2);
-        
+
         t1 = pRecord->field_1D[1];
         vx2 = extract_archive(pArchive2);
-        Mask_Op(pRecord->field_8.vx, vx2, t1, shift2); 
-        
+        Mask_Op(pRecord->field_8.vx, vx2, t1, shift2);
+
         z = shift2 + t1;
         Shift_Op(shift2, z, pArchive2);
-        
+
         t1 = pRecord->field_1D[2];
         vy2 = extract_archive(pArchive2);
         Mask_Op(pRecord->field_8.vy, vy2, t1, shift2);
-        
+
         z = shift2 + t1;
         Shift_Op(shift2, z, pArchive2);
-        
+
         t1 = pRecord->field_1D[3];
         vz2 = extract_archive(pArchive2);
-        Mask_Op(pRecord->field_8.vz, vz2, t1, shift2); 
+        Mask_Op(pRecord->field_8.vz, vz2, t1, shift2);
     }
 }
 

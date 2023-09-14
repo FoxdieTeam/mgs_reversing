@@ -500,7 +500,7 @@ void over_loader_80037600(Actor_Over *pActor)
         pScratchpad[0].vx = pLines[0] - pLines[2];
         pScratchpad[0].vy = pLines[1] - pLines[3];
 
-        VectorNormalSS_80092868(&pScratchpad[0], &pScratchpad[1]);
+        VectorNormalSS(&pScratchpad[0], &pScratchpad[1]);
 
         pDirections->vx = -pScratchpad[1].vx / 8;
         pDirections->vy = -pScratchpad[1].vy / 8;

@@ -83,7 +83,7 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarge
         mtx1.m[1][2] = -var_v1;
 
         mtx2 = *arg1;
-        MulMatrix2_80092F68(&mtx1, &mtx2);
+        MulMatrix2(&mtx1, &mtx2);
         *arg0 = mtx2;
     }
 
@@ -506,8 +506,8 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 0, 0);
     jirai_loader_helper_8006A798(&matrix, pMtx, pTarget);
     GM_ConfigControlMatrix_80026154(pCtrl, pMtx);
-    pActor->field_144_vec.vy = ratan2_80094308(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
-    pActor->field_144_vec.vx = ratan2_80094308(matrix.m[1][0], 4096) & 4095;
+    pActor->field_144_vec.vy = ratan2(-matrix.m[0][0], -matrix.m[2][0]) & 4095;
+    pActor->field_144_vec.vx = ratan2(matrix.m[1][0], 4096) & 4095;
     pActor->field_144_vec.vz = 0;
     GM_ConfigControlAttribute_8002623C(pCtrl, 0);
     obj = &pActor->field_9C_obj;
@@ -608,7 +608,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
 
     DG_SetPos2_8001BC8C(&ctrl->field_0_mov, &ctrl->field_8_rotator);
 
-    ReadRotMatrix_80092DD8(&matrix);
+    ReadRotMatrix(&matrix);
 
     if (jirai_loader_helper_8006B124(pActor, &matrix, 1) < 0)
     {

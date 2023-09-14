@@ -104,7 +104,7 @@ void CDBIOS_Ready_Callback_80022090(u_char status, u_char *result)
 
         if (sector > task->field_4_sector)
         {
-            mts_printf_8008BBA0("CDFS: skip error %d %d %d\n", task->field_10_ticks, sector, task->field_4_sector);
+            printf("CDFS: skip error %d %d %d\n", task->field_10_ticks, sector, task->field_4_sector);
         }
         else
         {
@@ -248,12 +248,12 @@ void CDBIOS_Main_80022264(void)
             else if ((ticks - last_ticks) > 500)
             {
                 sub_80022024();
-                mts_printf_8008BBA0("[T]");
+                printf("[T]");
             }
             break;
 
         case 3:
-            mts_printf_8008BBA0(".");
+            printf(".");
 
             CdFlush();
             CdReadyCallback(NULL);
@@ -315,7 +315,7 @@ void CDBIOS_Main_80022264(void)
             break;
 
         default:
-            mts_printf_8008BBA0("[%d]", pTask->field_0_state);
+            printf("[%d]", pTask->field_0_state);
             break;
         }
 
@@ -515,7 +515,7 @@ int FS_CdMakePositionTable_helper_8002297C(char *inDirectoryRecord, FS_FILE_INFO
                 sizeValues = (directoryRecord + 10);
                 size = byteswap_ulong(sizeValues);
 
-                mts_printf_8008BBA0("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->field_4_sector);
+                printf("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->field_4_sector);
             }
         }
 
@@ -564,7 +564,7 @@ int FS_CdMakePositionTable_80022B5C(char *pHeap, FS_FILE_INFO_8009D49C *pDirRecs
 
         if (!strcmp(directory_name, "MGS"))
         {
-            mts_printf_8008BBA0("MGS read_sector %d\n", directory_block);
+            printf("MGS read_sector %d\n", directory_block);
             FS_CdMakePositionTable_helper2_800228D4(directory_block_data, directory_block, 2048);
             ret = FS_CdMakePositionTable_helper_8002297C(directory_block_data, pDirRecs);
         }

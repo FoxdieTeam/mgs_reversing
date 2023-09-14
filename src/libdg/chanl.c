@@ -49,7 +49,7 @@ extern unsigned short gOldRootCnt_800B1DC8[32];
 // sets it to word_800AB982
 void DG_DrawSyncCallback_80017984(void)
 {
-    word_800AB982 = GetRCnt_800996E8(0xf2000001);
+    word_800AB982 = GetRCnt(0xf2000001);
 }
 
 // guessed function name
@@ -87,17 +87,17 @@ void DG_SetChanlDrawEnv_800179F4(DG_CHNL *pOt, DRAWENV *pDrawEnv, int a3)
     pOt->field_64_rect.y = drawEnv.clip.y - drawEnv.ofs[1];
     pOt->field_64_rect.w = drawEnv.clip.w;
     pOt->field_64_rect.h = drawEnv.clip.h;
-    SetDrawEnv_800906B0(pOt->field_16C_dr_env, &drawEnv);
+    SetDrawEnv(pOt->field_16C_dr_env, &drawEnv);
     drawEnv.clip.x += x_off;
     drawEnv.ofs[0] += x_off;
-    SetDrawEnv_800906B0(&pOt->field_16C_dr_env[1], &drawEnv);
+    SetDrawEnv(&pOt->field_16C_dr_env[1], &drawEnv);
     if (a3)
     {
         drawEnv.isbg = 0;
-        SetDrawEnv_800906B0(&stru_800B1380[1], &drawEnv);
+        SetDrawEnv(&stru_800B1380[1], &drawEnv);
         drawEnv.clip.x -= x_off;
         drawEnv.ofs[0] -= x_off;
-        SetDrawEnv_800906B0(&stru_800B1380[0], &drawEnv);
+        SetDrawEnv(&stru_800B1380[0], &drawEnv);
     }
 }
 
@@ -114,7 +114,7 @@ void DG_InitChanlSystem_80017B98(int width)
     DRAWENV  drawEnv;
     DG_CHNL *ptr;
 
-    DrawSyncCallback_8008F76C(DG_DrawSyncCallback_80017984);
+    DrawSyncCallback(DG_DrawSyncCallback_80017984);
     dword_800AB978 = width;
 
     ptr = DG_Chanls_800B1800;
@@ -151,8 +151,8 @@ void DG_InitChanlSystem_80017B98(int width)
 void DG_DrawOTag_80017E4C(int activeBuffer)
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
-    gCurrentRootCnt_800AB984 = GetRCnt_800996E8(0xF2000001);
-    DrawOTag_8008FE58((unsigned int *)&DG_Chanls_800B1800[0].field_6C_dr_env[activeBuffer]);
+    gCurrentRootCnt_800AB984 = GetRCnt(0xF2000001);
+    DrawOTag((u_long *)&DG_Chanls_800B1800[0].field_6C_dr_env[activeBuffer]);
 }
 
 // not correct, revisit;
@@ -179,7 +179,7 @@ void DG_ClearChanlSystem_80017E9C(int which)
         n_ot = pow2(chnl->word_6BC374_8);
         s4 = (unsigned int)&ot[n_ot];
 
-        ClearOTagR_8008FD50(ot, n_ot + 1);
+        ClearOTagR(ot, n_ot + 1);
 
         if (chnl->word_6BC37A_0_1EC_size > 0)
         {
@@ -237,7 +237,7 @@ void DG_RenderPipeline_80018028(int idx)
     if (gObjectQueueVoided_800AB388)
     {
         // Store the counter and set as 2 valid items
-        *pPerfArrayIter = GetRCnt_800996E8(0xF2000001);
+        *pPerfArrayIter = GetRCnt(0xF2000001);
         N_ChanlPerfMax_800AB980 = 2;
     }
     else
@@ -256,12 +256,12 @@ void DG_RenderPipeline_80018028(int idx)
 
         for (i = start_idx; i > 0; --i)
         {
-            *pPerfArrayIter++ = GetRCnt_800996E8(0xF2000001);
+            *pPerfArrayIter++ = GetRCnt(0xF2000001);
             // Call the render func, saving the time of the previous pass
             (*pRenderFns)(&DG_Chanls_800B1800[1], idx);
             pRenderFns++;
         }
-        *pPerfArrayIter++ = GetRCnt_800996E8(0xF2000001);
+        *pPerfArrayIter++ = GetRCnt(0xF2000001);
         N_ChanlPerfMax_800AB980 = (pPerfArrayIter) - &gOldRootCnt_800B1DC8[0];
     }
 }

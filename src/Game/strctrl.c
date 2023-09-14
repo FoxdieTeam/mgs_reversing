@@ -81,7 +81,7 @@ loop_case3:
                         GM_Sound_80032C48( sd_code, 0 );
                         break;
                     }
-                    mts_printf_8008BBA0( "Double Pcm !!\n" );
+                    printf( "Double Pcm !!\n" );
                     return;
                 case 5:
                     DG_UnDrawFrameCount_800AB380 = 3;
@@ -95,7 +95,7 @@ loop_case3:
                     jimctrl_init_80038568( actor->field_26_flags | 0x80 );
                     break;
                 default:
-                    mts_printf_8008BBA0( "??? WRONG TYPE HEADER!!\n" );
+                    printf( "??? WRONG TYPE HEADER!!\n" );
                     break;
                 }
                 sub_800241B4( actor->field_34_pStreamData );
@@ -111,7 +111,7 @@ loop_case3:
         if ( ( !actor->field_22_sub_state || FS_StreamIsForceStop_800243C8() )
             && FS_StreamIsEnd_800240D0() && !FS_StreamSync_80023E24() )
         {
-            mts_printf_8008BBA0( "StreamPlay end\n" );
+            printf( "StreamPlay end\n" );
             if ( actor->field_24 )
             {
                 DG_UnDrawFrameCount_800AB380 = 0x7FFF0000;
@@ -144,11 +144,11 @@ void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
 
 Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags )
 {
-    mts_printf_8008BBA0( "NewStream %d\n", stream_code );
+    printf( "NewStream %d\n", stream_code );
 
     if ( strctrl_800B82B0.field_20_state )
     {
-        mts_printf_8008BBA0( "pend!!\n" );
+        printf( "pend!!\n" );
         if ( str_sector_8009E280 )
         {
             if ( str_gcl_proc_8009E284 < 0 )
@@ -211,13 +211,13 @@ void            GM_StreamPlayStart_80037D1C()
     }
     else
     {
-        mts_printf_8008BBA0( "stream is not ready\n" );
+        printf( "stream is not ready\n" );
     }
 }
 
 void            GM_StreamPlayStop_80037D64()
 {
-    mts_printf_8008BBA0( "GM_StreamPlayStop\n" );
+    printf( "GM_StreamPlayStop\n" );
     FS_StreamStop_80024028();
 
     // TODO: Probably a switch
@@ -258,7 +258,7 @@ Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
         return 0;
     }
 
-    mts_printf_8008BBA0( "VoxStream %d\n", vox_code );
+    printf( "VoxStream %d\n", vox_code );
     if ( !(proc & 0x40000000) )
     {
         GM_GameStatus_800AB3CC |= 0x20;

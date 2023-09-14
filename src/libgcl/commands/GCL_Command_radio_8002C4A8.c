@@ -32,7 +32,7 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
         }
         else
         {
-            mts_printf_8008BBA0("Wrong Code for radio over\n");
+            printf("Wrong Code for radio over\n");
         }
         while (GCL_Get_Param_Result_80020AA4())
         {

@@ -23,8 +23,8 @@ int GV_VecLen3_80016D80(SVECTOR *vec)
     vec2.vx = vec->vx;
     vec2.vy = vec->vy;
     vec2.vz = vec->vz;
-    Square0_80093340(&vec2, &vec2);
-    length = SquareRoot0_80092708(vec2.vx + vec2.vy + vec2.vz);
+    Square0(&vec2, &vec2);
+    length = SquareRoot0(vec2.vx + vec2.vy + vec2.vz);
     return length;
 }
 
@@ -49,27 +49,27 @@ int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
     diff.vy = vec1->vy - vec2->vy;
     diff.vz = vec1->vz - vec2->vz;
 
-    Square0_80093340(&diff, &diff);
-    return SquareRoot0_80092708(diff.vx + diff.vy + diff.vz);
+    Square0(&diff, &diff);
+    return SquareRoot0(diff.vx + diff.vy + diff.vz);
 }
 
 int GV_VecDir2_80016EF8(SVECTOR *vec)
 {
-    return ratan2_80094308(vec->vx, vec->vz) & (4096 - 1);
+    return ratan2(vec->vx, vec->vz) & (4096 - 1);
 }
 
 void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3)
 {
-    a3->vx = a2 * rsin_80092508(a1) / 4096;
+    a3->vx = a2 * rsin(a1) / 4096;
     a3->vy = 0;
-    a3->vz = a2 * rcos_800925D8(a1) / 4096;
+    a3->vz = a2 * rcos(a1) / 4096;
 }
 
 void GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec)
 {
     MATRIX matrix;
 
-    RotMatrixYXZ_80093798(pSrcVec, &matrix);
+    RotMatrixYXZ(pSrcVec, &matrix);
     pDstVec->vx = param_2 * matrix.m[0][2] / 4096;
     pDstVec->vy = param_2 * matrix.m[1][2] / 4096;
     pDstVec->vz = param_2 * matrix.m[2][2] / 4096;

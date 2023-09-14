@@ -22,7 +22,7 @@ int Map_MarkUsed_80031324(int mapName)
     {
         if (pRecIter->field_4_mapNameHash == mapName)
         {
-            mts_printf_8008BBA0("add map %d\n", pRecIter->field_0_map_index_bit);
+            printf("add map %d\n", pRecIter->field_0_map_index_bit);
             pRecIter->field_6_bUsed = 1;
             gMapsChanged_800ABAAC = 1;
             return 1;
@@ -31,7 +31,7 @@ int Map_MarkUsed_80031324(int mapName)
         pRecIter++;
     }
 
-    mts_printf_8008BBA0("addmap : not found map %d\n", mapName);
+    printf("addmap : not found map %d\n", mapName);
     return 0;
 }
 
@@ -46,7 +46,7 @@ int GM_DelMap_800313C0(int mapName)
     {
         if (pRecIter->field_4_mapNameHash == mapName)
         {
-            mts_printf_8008BBA0("del map %d\n", pRecIter->field_0_map_index_bit);
+            printf("del map %d\n", pRecIter->field_0_map_index_bit);
             pRecIter->field_6_bUsed = 0;
             gMapsChanged_800ABAAC = 1;
             return 1;
@@ -55,6 +55,6 @@ int GM_DelMap_800313C0(int mapName)
         pRecIter++;
     }
 
-    mts_printf_8008BBA0("delmap: not found map %d\n", mapName);
+    printf("delmap: not found map %d\n", mapName);
     return 0;
 }

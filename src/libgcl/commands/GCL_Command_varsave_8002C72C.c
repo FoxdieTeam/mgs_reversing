@@ -16,7 +16,7 @@ int GCL_Command_varsave_8002C72C(unsigned char *pScript)
     {
         if (!GCL_IsVariable(*param))
         {
-            mts_printf_8008BBA0("VARSAVE: NOT VAR !!\n");
+            printf("VARSAVE: NOT VAR !!\n");
         }
         param = GCL_VarSaveBuffer_800217F0(param);
     }

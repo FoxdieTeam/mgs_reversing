@@ -71,7 +71,7 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   buffer = GV_AllocMemory_80015EB8(0, size);
   if (!buffer)
   {
-    mts_printf_8008BBA0("NO MEMORY FOR FILE BODY\n");
+    printf("NO MEMORY FOR FILE BODY\n");
   }
 
   GV_ZeroMemory_8001619C(buffer, size);
@@ -204,7 +204,7 @@ int init_file_mode_helper_helper_helper2_80049CE8(unsigned char *arg0, int idx)
     buf = GV_AllocMemory_80015EB8(0, 0x2000);
     if (buf == NULL)
     {
-        mts_printf_8008BBA0("NO MEMORY FOR FILE BODY\n");
+        printf("NO MEMORY FOR FILE BODY\n");
     }
 
     retval = 0;
@@ -256,8 +256,8 @@ int init_file_mode_helper_helper_helper2_80049CE8(unsigned char *arg0, int idx)
 int init_file_mode_helper_helper_helper3_80049E94(int param_1)
 {
     dword_800ABB58 = param_1;
-    mts_printf_8008BBA0(aRequestX, param_1);  // = "REQUEST %X\n"
+    printf(aRequestX, param_1);  // = "REQUEST %X\n"
     mts_slp_tsk_8008A400();
-    mts_printf_8008BBA0(aResultX, dword_800ABB5C); // = "RESULT %X\n"
+    printf(aResultX, dword_800ABB5C); // = "RESULT %X\n"
     return dword_800ABB5C;
 }

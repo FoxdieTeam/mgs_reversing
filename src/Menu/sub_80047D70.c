@@ -37,7 +37,7 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
     radioDatFragment = GV_AllocMemory_80015EB8(0, size);
     if (radioDatFragment == NULL)
     {
-        mts_printf_8008BBA0(aNoMemory);
+        printf(aNoMemory);
     }
 
     pCharaStruct = pActor->field_218;
@@ -64,7 +64,7 @@ void sub_80047D70(Actor_MenuMan *pActor, int param_2, int pRadioCode)
     pCharaStruct->field_24_pImgData256 = GV_AllocMemory_80015EB8(0, 0x200);
     if (pCharaStruct->field_24_pImgData256 == NULL)
     {
-        mts_printf_8008BBA0(aNoMemory);
+        printf(aNoMemory);
     }
 
     pImgData256Iter = (short *)pCharaStruct->field_24_pImgData256;
