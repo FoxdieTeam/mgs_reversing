@@ -208,12 +208,12 @@ void memcard_retry_80025178(int port);
 
 static inline void memcard_wait()
 {
-    mts_printf_8008BBA0("[R]");
+    printf("[R]");
 
     while ((gHwCard_do_op_800B52E8 != memcard_hwcard_do_op_800244DC) ||
            (gSwCard_do_op_800B52EC != memcard_swcard_do_op_800244EC))
     {
-        mts_printf_8008BBA0("ACCESS WAIT..\n");
+        printf("ACCESS WAIT..\n");
         mts_wait_vbl_800895F4(2);
     }
 
@@ -239,11 +239,11 @@ int memcard_check_80024A54(int port)
     while (1)
     {
         memcard_wait();
-        card_info_80098FFC(chan);
+        _card_info(chan);
 
         if ((retries++) > 10)
         {
-            mts_printf_8008BBA0("MEMCARD:RETRY OVER!!\n");
+            printf("MEMCARD:RETRY OVER!!\n");
             return 0x80000002;
         }
 
@@ -288,7 +288,7 @@ int memcard_check_80024A54(int port)
 
     loop_24:
         memcard_wait();
-        card_clear_8009902C(chan);
+        _card_clear(chan);
 
         do
         {
@@ -301,7 +301,7 @@ int memcard_check_80024A54(int port)
             gMemCards_800B52F8[port].field_1_last_op = 4;
 
             memcard_wait();
-            card_load_8009900C(chan);
+            _card_load(chan);
 
             do
             {
@@ -329,11 +329,11 @@ int memcard_check_80024A54(int port)
                 break;
             }
 
-            mts_printf_8008BBA0("RETRY(new)\n");
+            printf("RETRY(new)\n");
         }
         else
         {
-            mts_printf_8008BBA0("RETRY\n");
+            printf("RETRY\n");
         }
     }
 
