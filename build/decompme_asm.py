@@ -200,8 +200,16 @@ def patchSymbolsVars(lines, commentsLen = 4):
             reg = val[pPos + 1: len(val) - 1]
             val = val[0: pPos]
 
+        # gp variables
+        if reg == "$gp":
+            gp_base = 0x800AB2E4
+            addr = gp_base + int(val, 16)
+            if addr in sym_map:
+                symbol = sym_map[addr]
+                out[lineNumber] = rreplace(lines[lineNumber], val, "%gp_rel({0})".format(symbol))
+
         # Store hi values per register
-        if (instr.startswith("l") and val.startswith("0x800")):
+        elif (instr.startswith("l") and val.startswith("0x800")):
             loads[reg] = lineNumber
 
         # Process hi and lo values
