@@ -59,8 +59,8 @@ extern char                  aPressToSelectM[];
 extern char                  aResD[];
 extern char                  aSaving[];
 extern char                  aSelectMemoryCa[];
-extern char                  aNull[];
-extern RadioFileModeUnkStru *dword_800ABB68[2];
+extern char                  dword_800AB73C[];
+extern RadioFileModeUnkStru *mcd_last_file_800ABB68[];
 extern const int             dword_800120B4[];
 extern const int             dword_800120CC[];
 extern const int             dword_800120E4[];
@@ -208,7 +208,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 dword_800ABB80 = 4;
                 menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
-                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, dword_800ABB68[dword_800AB6FC], aNull,
+                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, mcd_last_file_800ABB68[dword_800AB6FC], dword_800AB73C,
                                                               dword_800ABB70) == 0)
                 {
                     menu_radio_do_file_mode_helper7_8004AE3C(pActor, strArr[4]);

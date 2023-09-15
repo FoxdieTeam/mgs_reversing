@@ -45,7 +45,11 @@ void memcard_swcard_new_80024664();
 
 void memcard_read_8002569C(int idx, const char *pFilename, int seekPos, char *pBuffer, int bufferSize);
 void memcard_write_8002554C(int idx, const char *pFileName, int seekPos, char *pBuffer, int bufferSize);
+int  memcard_format_800257C0(int idx);
+int  memcard_delete_800253C4(int idx, const char *pFileName);
 
 int  memcard_get_status_800257B0(void);
+
+mem_card *memcard_get_files_80025350(int idx);
 
 #endif // _MEMCARD_H_

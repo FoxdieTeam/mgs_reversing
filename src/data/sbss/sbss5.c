@@ -15,9 +15,10 @@ void *SECTION(".sbss") dword_800ABB50;
 int SECTION(".sbss") dword_800ABB54;
 int SECTION(".sbss") dword_800ABB58;
 int SECTION(".sbss") dword_800ABB5C;
-int SECTION(".sbss") dword_800ABB60;
-int SECTION(".sbss") dword_800ABB64;
-RadioFileModeUnkStru *SECTION(".sbss") dword_800ABB68[2];
+
+int SECTION(".sbss") mcd_last_check_800ABB60[2];
+mem_card *SECTION(".sbss") mcd_last_file_800ABB68[2];
+
 int SECTION(".sbss") dword_800ABB70;
 Stru_800ABB74 *SECTION(".sbss") dword_800ABB74;
 int SECTION(".sbss") dword_800ABB78;
