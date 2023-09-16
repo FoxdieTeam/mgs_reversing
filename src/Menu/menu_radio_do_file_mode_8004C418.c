@@ -59,8 +59,8 @@ extern char                  aPressToSelectM[];
 extern char                  aResD[];
 extern char                  aSaving[];
 extern char                  aSelectMemoryCa[];
-extern char                  dword_800AB73C[];
-extern RadioFileModeUnkStru *dword_800ABB68[];
+extern char                  aNull[];
+extern RadioFileModeUnkStru *dword_800ABB68[2];
 extern const int             dword_800120B4[];
 extern const int             dword_800120CC[];
 extern const int             dword_800120E4[];
@@ -99,10 +99,10 @@ extern const char aNm[];
 extern const char aHd[];
 extern const char aEx[];
 
-int dword_8009EBD0[] = {0x4F009B, 0x4A00A0, 0x4F00A5, 0x80808080};
-int dword_8009EBE0[] = {0xB8009C, 0xBC00A0, 0xB800A4, 0x80808080};
+Menu_Triangle triangle_8009EBD0 = {155, 79, 160, 74, 165, 79, 0x80808080};
+Menu_Triangle triangle_8009EBE0 = {156, 184, 160, 188, 164, 184, 0x80808080};
 
-const char *off_8009EBF0[] = {aEz, aNm, aHd, aEx};
+const char *difficulty_str_8009EBF0[] = {aEz, aNm, aHd, aEx};
 
 extern const char aMemoryCard1[];
 extern const char aMemoryCard2[];
@@ -208,7 +208,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 dword_800ABB80 = 4;
                 menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
-                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, dword_800ABB68[dword_800AB6FC], dword_800AB73C,
+                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, dword_800ABB68[dword_800AB6FC], aNull,
                                                               dword_800ABB70) == 0)
                 {
                     menu_radio_do_file_mode_helper7_8004AE3C(pActor, strArr[4]);
