@@ -13,7 +13,7 @@ int        dword_800ABB48;
 extern char  aBislpm99999[];
 extern char  aFileS[];
 extern char *MGS_MemoryCardName_800AB2EC;
-extern char  dword_800AB73C[];
+extern char  aNull[];
 
 int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileModeUnkStru *pStru1, char *param_3,
                                               Stru_800ABB74 *pStru2)
@@ -42,7 +42,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileMo
 
     if (dword_800ABB48 == 0 && pStru1->field_3 >= dword_800ABB4C->field_3)
     {
-        pIter->field_0_name[0] = dword_800AB73C[0];
+        memcpy(pIter->field_0_name, aNull, 1);
         pIter->field_20 = 16;
         pIter++;
     }

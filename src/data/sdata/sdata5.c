@@ -77,8 +77,7 @@ char SECTION(".sdata") aVe[] = "VE";
 
 char SECTION(".sdata") aClear_0[] = "CLEAR";
 char SECTION(".sdata") aS_1[] = "S";
-
-int SECTION(".sdata") dword_800AB73C = 0;
+char SECTION(".sdata") aNull[] = "";
 
 char SECTION(".sdata") aNoCard[] = "NO CARD";
 char SECTION(".sdata") aNoFile_0[] = "NO FILE";
