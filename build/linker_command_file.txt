@@ -55,95 +55,35 @@
     include "..\obj\data\sdata\sdata4.obj"
 
     ;libhzd
-    include "..\obj\libhzd\hzd.obj"         ; hzd.c ?
+    include "..\obj\libhzd\hzd.obj"         ;hzd.c  ?
 
     ;libfs
-    include "..\obj\libfs\fscd.obj"
-    include "..\obj\libfs\cdbios.obj"
-    include "..\obj\libfs\cdstage.obj"
-    include "..\obj\libfs\hdstage.obj"
-    include "..\obj\libfs\movie.obj"
-    include "..\obj\libfs\stream.obj"
+    include "..\obj\libfs\fscd.obj"         ;fscd.c ?
+    include "..\obj\libfs\cdbios.obj"       ;cdbios.c   ?
+    include "..\obj\libfs\cdstage.obj"      ;cdstage.c
+    include "..\obj\libfs\hdstage.obj"      ;hdstage.c  ?
+    include "..\obj\libfs\movie.obj"        ;movie.c    ?
+    include "..\obj\libfs\stream.obj"       ;stream.c
 
+    include "..\obj\memcard\memcard.obj"    ;memcard.c  ?
 
-    ; 800244FC 800247E8 80024960 800249CC 80024A3C 80024A54 800250C4 80025178 80025350 8002554C 8002569C 800257B0 800257C0
-    include "..\obj\memcard\memcard.obj"
-
-
-    ;everything from here on is probably in Game\
-
-    ;game\control.c
-    include "..\obj\Game\GM_ControlPushBack_800258B0.obj"
-    include "..\obj\Game\GM_ActControl_80025A7C.obj"
-    include "..\obj\Game\GM_ConfigControlHazard_8002622C.obj"
-    include "..\obj\Game\GM_CheckMessage_8002631C.obj"
+    ;game
+    include "..\obj\Game\control.obj"       ;control.c
 
     include "..\obj\data\sbss\sbss.obj"
 
-    ; 80026384 800263B0 800263E4 80026418 80026440 8002646C 800264B0 80026504 80026554 800265AC 80026604 8002667C 800266D4 80026734 80026794 800267EC 80026840 800268AC 80026924 800269A0 80026A24 80026AA8 80026B04 80026B64 80026BC4
-    include "..\obj\libgv\math_near.obj"
+    ;libgv
+    include "..\obj\libgv\math_near.obj"    ;math_near.c    ?
 
-    include "..\obj\Game\GM_ActControl_helper_80026C68.obj"
-    include "..\obj\Game\sub_800272E0.obj"
-    include "..\obj\sub_80027384.obj"
-    include "..\obj\libgv\sub_8002751C.obj"
-    include "..\obj\sub_800275A8.obj"
-    include "..\obj\sub_800276B4.obj"
-    include "..\obj\sub_80027850.obj"
-    include "..\obj\sub_8002799C.obj"
-    include "..\obj\sub_80027A94.obj"
-    include "..\obj\libgv\sub_80027BF8.obj"
-    include "..\obj\libgv\sub_80027C64.obj"
-    include "..\obj\sub_80027D80.obj"
-    include "..\obj\sub_80027F10.obj"
-    include "..\obj\libgv\sub_80028454.obj"
-    include "..\obj\sub_80028820.obj"
-    include "..\obj\sub_80028830.obj"
-    include "..\obj\libgv\GetVecFromScratchpad_80028840.obj"
-    include "..\obj\sub_80028890.obj"
-    include "..\obj\libgv\CopyVectorToScratchpad_800288BC.obj"
-    include "..\obj\libgv\sub_800288E0.obj"
-    include "..\obj\sub_80028930.obj"
-    include "..\obj\sub_80028CF8.obj"
-    include "..\obj\sub_80028DAC.obj"
-    include "..\obj\sub_80029098.obj"
-    include "..\obj\Game\GM_ActControl_helper3_800292E4.obj"
-    include "..\obj\Game\GM_ActControl_helper4_80029304.obj"
-    include "..\obj\Game\GM_ActControl_helper5_80029324.obj"
-    include "..\obj\libgv\CopyVectorFromScratchpad_80029360.obj"
-    include "..\obj\Game\HZD_sub_80029384.obj"
-    include "..\obj\Game\HZD_sub_80029514.obj"
-    include "..\obj\Game\sub_80029604.obj"
-    include "..\obj\sub_800296C4.obj"
-    include "..\obj\sub_800298C0.obj"
-    include "..\obj\sub_800298DC.obj"
-    include "..\obj\map\HZD_SlopeFloorLevel_800298F8.obj"
-    include "..\obj\sub_8002992C.obj"
-    include "..\obj\Game\sub_80029A2C.obj"
-    include "..\obj\Game\HZD_SetBind_80029A5C.obj"
-    include "..\obj\map\Map_light_helper_80029A6C.obj"
-    include "..\obj\Game\HZD_SetEvent_80029AB4.obj"
-    include "..\obj\sub_80029AEC.obj"
-    include "..\obj\sub_80029B9C.obj"
-    include "..\obj\sub_80029D50.obj"
+    ;libhzd
+    ;may be some things in game such as game/trap.c in between
+    include "..\obj\libhzd\unknown.obj"     ;unknown.c  ? needs to be split up further
+    include "..\obj\libhzd\level.obj"       ;level.c  ?
+    include "..\obj\libhzd\event.obj"       ;event.c  ?
 
-    include "..\obj\Game\GM_Data.obj"
-
-    include "..\obj\map\sub_8002A090.obj"
-    include "..\obj\map\HZD_ReExecEvent_8002A1F4.obj"
-    include "..\obj\sub_8002A258.obj"
-    include "..\obj\Game\GM_ActControl_helper6_helper_8002A27C.obj"
-    include "..\obj\Game\GM_ActControl_helper6_helper2_8002A4B8.obj"
-    include "..\obj\Game\GM_ActControl_helper6_8002A538.obj"
-    include "..\obj\Game\HZD_CheckBehindTrap_8002A5E0.obj"
-
-    include "..\obj\Game\GM_InitArea_8002A704.obj"
-
-    include "..\obj\Game\GM_InitChara_8002A890.obj"
-    include "..\obj\Game\GM_ResetChara_8002A8B0.obj"
-
-
-    include "..\obj\Game\GM_GetCharaID_8002A8EC.obj"
+    ;game
+    include "..\obj\Game\area.obj"          ;area.c ?
+    include "..\obj\Game\chara.obj"         ;chara.c
 
     include "..\obj\data\sbss\sbss2.obj"
     include "..\obj\data\sbss\sbss2_2.obj"
@@ -151,54 +91,10 @@
     include "..\obj\data\sbss\sbss2_4.obj"
     include "..\obj\data\sbss\sbss2_5.obj"
 
-    include "..\obj\Game\GM_Reset_helper_8002A978.obj"
-    include "..\obj\Game\GM_Act_helper_8002AA10.obj"
-    include "..\obj\Game\sub_8002AA48.obj"
-    include "..\obj\Game\GM_ResetMemory_8002AA80.obj"
-    include "..\obj\Game\GM_CreateLoader_8002AAB0.obj"
-    include "..\obj\Game\sub_8002AAEC.obj"
-    include "..\obj\Game\GM_Act_helper3_helper_8002AB40.obj"
-    include "..\obj\Game\GM_Act_helper3_8002ABA4.obj"
-    include "..\obj\Game\GM_Reset_8002ABF4.obj"
-    include "..\obj\Game\DrawReadError_8002AC9C.obj"
-    include "..\obj\Game\GM_Act_8002ADBC.obj"
-    include "..\obj\Game\GM_SetSystemCallbackProc_8002B558.obj"
-    include "..\obj\Game\GM_CallSystemCallbackProc_8002B570.obj"
-    include "..\obj\Game\sub_8002B600.obj"
-    include "..\obj\Game\GM_ContinueStart_8002B62C.obj"
-    include "..\obj\Game\GM_bin_overlay_file_handler_8002B710.obj"
-    ;include "..\obj\Game\GM_StartDaemon_8002B77C.obj"
-
-    ;game\script.c
-    include "..\obj\libgcl\commands\GCL_Command_light_8002B854.obj"
-    include "..\obj\libgcl\commands\GCL_Command_camera_8002B8F0.obj"
-    include "..\obj\libgcl\commands\GCL_Command_map_8002BB44.obj"
-    include "..\obj\libgcl\commands\GCL_Command_hzd_8002BD04.obj"
-    include "..\obj\libgcl\commands\GCL_Command_trap_8002BD34.obj"
-    include "..\obj\libgcl\commands\GCL_Command_delay_8002C074.obj"
-    include "..\obj\libgcl\commands\GCL_Command_mesg_8002C138.obj"
-    include "..\obj\libgcl\commands\GCL_Command_chara_8002C1B0.obj"
-    include "..\obj\libgcl\commands\GCL_Command_start_8002C22C.obj"
-    include "..\obj\libgcl\commands\GCL_Command_load_8002C308.obj"
+    include "..\obj\Game\gamed.obj"         ;gamed.c
+    include "..\obj\Game\script.obj"        ;script.c
 
     include "..\obj\data\sbss\sbss3.obj"
-
-    include "..\obj\libgcl\commands\GCL_Command_radio_8002C4A8.obj"
-    include "..\obj\libgcl\commands\GCL_Command_strstatus_8002C6A4.obj"
-    include "..\obj\libgcl\commands\GCL_Command_varsave_8002C72C.obj"
-    include "..\obj\libgcl\commands\GCL_Command_system_8002C7C8.obj"
-    include "..\obj\libgcl\commands\GCL_Command_demo_8002C890.obj"
-    include "..\obj\libgcl\commands\GCL_Command_pad_8002C988.obj"
-    include "..\obj\libgcl\commands\GCL_Command_sound_8002CA28.obj"
-    include "..\obj\libgcl\commands\GCL_Command_menu_helper_8002CA48.obj"
-    include "..\obj\libgcl\commands\GCL_Command_menu_8002CAAC.obj"
-    include "..\obj\libgcl\commands\GCL_Command_rand_8002CD94.obj"
-    include "..\obj\libgcl\commands\GCL_Command_unknown1_8002CDF4.obj"
-    include "..\obj\libgcl\commands\GCL_Command_unknown2_8002CFBC.obj"
-    include "..\obj\libgcl\commands\GCL_Command_print_8002D0E4.obj"
-    include "..\obj\libgcl\commands\GCL_Command_jimaku_8002D188.obj"
-    include "..\obj\libgcl\GCL_BindsInit_8002D1A8.obj"
-    include "..\obj\libgcl\GM_InitScript_8002D1DC.obj"
 
     ;game\target.c
     include "..\obj\Game\target.obj"
@@ -255,12 +151,14 @@
     include "..\obj\map\Map_FindByZoneId_80031624.obj"
     include "..\obj\Game\GM_ReshadeMapAll_800316C4.obj"
 
+    ;libdg
     include "..\obj\libdg\DG_MakeObjs_helper_80031710.obj"
     include "..\obj\libdg\DG_MakeObjs_80031760.obj"
     include "..\obj\libdg\DG_FreeObjs_800318D0.obj"
 
     include "..\obj\libdg\preshade.obj"
 
+    ;sound.c
     include "..\obj\Game\sub_8003214C.obj"
     include "..\obj\Game\sub_800321AC.obj"
     include "..\obj\Game\sub_800321F8.obj"
@@ -576,127 +474,59 @@
     ; 80065098 80065118
     include "..\obj\Equip\jpegcam.obj"
 
-    ; 800651B0 80065200 80065254 8006528C 80065338 80065384 800653B8 80065408 80065518
-    ; 80065A94 80065B04 80065D74
-    include "..\obj\Weapon\socom.obj"
-
-    ; 80065E90 80066188 800661A8 8006623C 80066374
-    include "..\obj\Weapon\famas.obj"
-
-    ; 800663A0 8006641C 80066894 800668B4 80066944 80066A4C 80066A74 80066AA0 80066ACC
-    include "..\obj\Weapon\grenade.obj"
-
-    ; 80066AF8 80066B58 80066BC0 80066E68 80066EB0 80066FF0
-    ; nikita
-    include "..\obj\Weapon\rcm.obj"
-
-    ; 800670CC 800673B0 800673F0 80067480
-    ; stinger
-    include "..\obj\Weapon\aam.obj"
-
-    ; 80067558 80067710 80067730 800677BC
-    include "..\obj\Weapon\mine.obj"
-
-    ; 8006788C 80067A74 80067A94 80067B20
-    include "..\obj\Weapon\bomb.obj"
-
-    ; 80067BFC 80067D60 80068118 80068184 80068214
-    ; psg1
-    include "..\obj\Weapon\rifle.obj"
-
-    ; 80068320 8006837C 80068420 80068798 80068A24 80068BF4 80068D0C 80068ED8 80068F74 80069100 80069184 80069234
-    ; 800692D0 800693E0
-    include "..\obj\Weapon\stnsight.obj"
-
     include "..\obj\data\sbss\sbss6.obj"
 
-    ; 80069478 800696CC 80069850 8006985C 8006989C 80069920
+    ;weapon    
+    include "..\obj\Weapon\socom.obj"
+    include "..\obj\Weapon\famas.obj"
+    include "..\obj\Weapon\grenade.obj"
+    include "..\obj\Weapon\rcm.obj" ; nikita
+    include "..\obj\Weapon\aam.obj" ; stinger
+    include "..\obj\Weapon\mine.obj"
+    include "..\obj\Weapon\bomb.obj"
+    include "..\obj\Weapon\rifle.obj" ; psg1
+    include "..\obj\Weapon\stnsight.obj"
     include "..\obj\Weapon\rfsight.obj"
 
-    ; 800699A4 80069DBC 80069E28 80069E64 8006A010 8006A100 8006A128
+    ;bullet
     include "..\obj\Bullet\tenage.obj"
-
-    ; 8006A218 8006A4A4 8006A510 8006A54C 8006A6CC
     include "..\obj\Bullet\bakudan.obj"
-
-    ; 8006A798 8006A8F4 8006A950 8006AB5C 8006B05C 8006B124 8006B268 8006B2A4 8006B48C 8006B564
-    ; 8006B76C
     include "..\obj\Bullet\jirai.obj"
-
-
-    ; 8006B800 8006B888 8006B924 8006B9B0 8006BA70 8006BB10 8006BD24 8006BE50 8006BE90 8006BEEC
-    ; 8006BFD4 8006C0A4 8006C114 8006C37C 8006C5C4 8006CB40 8006CBD8 8006CC50 8006CD1C 8006CE54
-    ; 8006CF44 8006D124
     include "..\obj\Bullet\rmissile.obj"
-
-    ; 8006D1F4 8006D2A0 8006D37C 8006D600 8006D608 8006D99C 8006DA0C 8006DC50
     include "..\obj\Bullet\amissile.obj"
-
-    ; 8006DD18 8006DD90 8006DDEC 8006DF8C 8006DFDC 8006E0F0 8006E224 8006E2A8 8006E32C 8006E3B0
-    ; 8006E4A4 8006E6CC
     include "..\obj\Bullet\blast.obj"
 
-    ; 8006EC10 8006ECB8 8006ED48 8006EDB8 8006F184 8006F290 8006F318 8006F748 8006F7AC 8006FA28
-    ; 8006FA60 8006FD00
+    ;thing
     include "..\obj\Thing\door.obj"
 
+    ;libhzd
     include "..\obj\Thing\HZD_QueueDynamicSegment2_8006FDDC.obj"
     include "..\obj\Thing\sub_8006FE44.obj"
     include "..\obj\Thing\HZD_SetDynamicSegment_8006FEE4.obj"
     include "..\obj\Thing\sub_8006FF9C.obj"
     include "..\obj\Thing\sub_8006FFE8.obj" ; no refs
 
-    ; 80070040 8007009C 800700E0 800701A8 8007020C 80070568 80070820 80070AB0 80070CAC 80070E14
-    ; 80070EC0 80070ECC 80070F4C 80071010
+    ;thing
     include "..\obj\Thing\sgtrect3.obj"
-
-    ; 8007111C 800711C0 80071320 800713FC 80071498 800714EC 800719C8 80071A54 80071CDC 80071DC8
-    ; 80071EA8 80071F98
     include "..\obj\Thing\sight.obj"
 
-    ; 80072080 80072394 80072478 8007250C 80072538 800725CC 80072608 80072728 80072934
+    ;okajima
     include "..\obj\Okajima\blood.obj"
-
-    ; 800729AC 800729B4 80072A0C 80072B24 80072B38 80072B60
     include "..\obj\Okajima\d_blood.obj"
-
-    ; 80072BD4 80072C10 80072DE8 80072EFC 800730EC 80073148
     include "..\obj\Okajima\d_bloodr.obj"
-
-    ; 800731CC 800731F8 800732B0 80073364 80073490 800735A0 800736B0 800738F4 80073930 800739EC
-    ; 80073B8C
     include "..\obj\Okajima\claymore.obj"
-
-    ; 80073DB0 80073E48 80074118 80074234 800742F0 80074334 800743DC 80074418 80074564
     include "..\obj\Okajima\spark.obj"
-
-    ; 80074644 800746B4 80074730 80074844 800748B8 800748D8 80074B5C 80074CA4 80074D28
     include "..\obj\Okajima\stngrnd.obj"
-
-    ; 80074DAC 80074F44 80074F5C 80075164 80075194 800752A0
     include "..\obj\Okajima\stgfd_io.obj"
-
-    ; 80075314 80075358 80075414 800754E4 80075610 8007575C 80075DD4 80076164 800761A0 80076274
-    ; 80076420 80076584 80076708 8007692C
     include "..\obj\Okajima\bullet.obj"
-
-    ; 80076A6C 80076A98 80076B28 80077014 8007721C 80077264
     include "..\obj\Okajima\chafgrnd.obj"
 
-    ; 8007743C 800774C0 800775B4 800776AC 8007773C 8007781C
+    ;takabe
     include "..\obj\Takabe\goggle.obj"
-
-    ; 800778B4 80077988 800779B8
     include "..\obj\Equip\gglmng.obj"
-
-    ; 80077A24 80077C6C 80077D24 80077F70 80078054 80078228 800783F8 80078404 80078444 80078520
     include "..\obj\Equip\gglsight.obj"
-
     include "..\obj\Takabe\scn_mask.obj"
-
-    ; 800789E0 80078AB8 80078BE0 80078CE4 80078D8C 80078E6C
     include "..\obj\Takabe\goggleir.obj"
-
     include "..\obj\Takabe\palette.obj"
 
     ; Doesn't look like a palette function
@@ -704,48 +534,24 @@
 
     include "..\obj\data\rdata\rdata_80013040.obj"
 
-    ; 80079460 800794E4 80079664 800797CC 800797FC 80079960 800799A8 80079A1C 80079A2C 80079AE4
-    ; 80079B50 8007A66C 8007A948 8007AE10 8007CD60 8007CDF8 8007CF14 8007CFE8 8007D404 8007D9C8
-    ; 8007DA28 8007DA94 8007DC24 8007DD80 8007DF10 8007E0AC 8007E1C0 8007EF34 8007F06C 8007F0D0
-    ; 8007F1DC 8007F338 8007F350 8007F394 8007F3F8 8007FB90 8007FDD8 8007FF9C 800800D8 80080C20
-    ; 80080D48 80080E14 800815FC
+    ;kojo
     include "..\obj\Kojo\demothrd.obj"
 
     include "..\obj\data\rdata\rdata_8001345C.obj"
 
-    ; 80081C7C 80081F8C 80081FC4 80081FE8 800820EC 80082170 80082194 800822C8 80082310 80082380 80082448 80082640 8008279C 800827A4 800827AC 80083394 800833FC 8008341C 800834FC 80083804 80083944 8008394C 80083954 8008395C 80083964 800839C8 80083BB4 80083E68 80083E8C 80083ED4 80083EE8 80083EF8 80083F08 80083F54 800841D4 800843BC
+    ; SD
     include "..\obj\SD\sd_main.obj"
-
-    ; 80084494 80084CCC 80084D60 80084E48 80084F88 80085020 80085164 80085480 800854F0 8008559C 80085658 8008576C 800859B8
     include "..\obj\SD\sd_drv.obj"
-
-    ; 80085A50 80085B84 80085CD8 80085D98 80085DE0 80085F98 8008604C 80086198 80086220 80086280 80086504 800865CC 80086694 80086734 8008686C 80086B84 80086C08 80086C98
     include "..\obj\SD\sd_sub1.obj"
-
-    ; 80086D18 80086D9C 80086E38 80086E78 80086EB8 80086EF8 80086F00 80086F50 80087018 80087120 8008716C 800871B4 800871E0 800872C0 800872EC 8008736C 80087384 800873CC 800873E4 8008750C 80087524 8008756C 8008758C 80087670 800876D4 80087730 8008774C 80087754 8008775C 80087764 800877CC 80087834 80087854 800878FC 80087904 8008798C 800879E4 80087A48 80087A50 80087A58 80087A80
     include "..\obj\SD\sd_sub2.obj"
-
-    ; 80087A88 80087DAC 80087E2C 80087E94 80087EF4 80087F24 80087F58 80087F80 80087FA8 800882E4 80088320 800885D4 80088694
     include "..\obj\SD\sd_ioset.obj"
-
-    ; 800887EC 8008880C 80088838 80088860 80088868 800888B4 800888F8 80088CA0 80088CB0
     include "..\obj\SD\sd_cli.obj"
 
     include "..\obj\data\rdata\rdata_80013D10.obj"
 
-    ; 800892A8 800892B8 800893B4 800893D8 800895AC 800895F4 8008982C 80089B04 80089D24 8008A400
-    ; 8008A540 8008A6CC 8008A990 8008AAEC 8008B044 8008B0A4 8008B450 8008B47C 8008B51C 8008B590
-    ; 8008B5B8 8008B608 8008B618 8008B630 8008B648 8008B68C 8008B77C 8008BA64 8008BA74 8008BA88
-    ; 8008BB4C 8008BB60 8008BB78 8008BB88
-    ; 8008BB98 8008BBA0 8008BBA8 8008BBB0 8008BBC0 8008BBC8
+    ;mts
     include "..\obj\mts\mts_new.obj"
-
-    ; 8008BC8C 8008BDEC 8008C098 8008C170 8008C25C 8008C324 8008C380 8008C3BC 8008C408 8008C454
-    ; 8008C4BC
     include "..\obj\mts\pad.obj"
-
-    ; 8008C534 8008C58C 8008C598 8008C5A8 8008C5B0 8008C5B8 8008C5C0 8008C5C8 8008C5D0 8008C5E0
-    ; 8008C5E8 8008C5F0 8008C5F8 8008C600
     include "..\obj\mts\mts_sub.obj"
 
     ; psyq start

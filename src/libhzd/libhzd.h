@@ -145,4 +145,17 @@ void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
 struct BindStruct;
 void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
 
+int         sub_80028454(HZD_MAP *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
+SVECTOR*    sub_80028820(void);
+void        GetVecFromScratchpad_80028840(SVECTOR *vec);
+int         sub_80029098(HZD_MAP *pMap, SVECTOR *pPosition, int delta, int flags, unsigned int mask);
+void        GM_ActControl_helper3_800292E4(SVECTOR **vectors_ptr);
+void        GM_ActControl_helper4_80029304(char *char_arr);
+void        GM_ActControl_helper5_80029324(SVECTOR *vectors);
+int         GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 );
+int         sub_800296C4(HZD_MAP *pHzdMap, SVECTOR *param_2, int flags);
+void        sub_800298DC(int *arg0);
+int         sub_80029A2C();
+int         sub_80028830(void);
+
 #endif // _HZD_H_

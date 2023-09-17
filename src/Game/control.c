@@ -1,11 +1,120 @@
+#include "linker.h"
 #include "control.h"
-#include "unknown.h"
+#include "mts/mts_new.h"
+#include "libgcl/hash.h"
+#include "libgv/libgv.h"
 #include "map/map.h"
+#include "libhzd/libhzd.h"
 
+#include "libgcl/libgcl.h"
+#include "libdg/libdg.h"
+
+int SECTION(".sbss") GM_CurrentMap_800AB9B0;
+int SECTION(".sbss") gControlCount_800AB9B4;
+
+extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL  gDefaultControl_800B5650;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern int GM_CurrentMap_800AB9B0;
-int        GM_CurrentMap_800AB9B0;
+int GM_ControlPushBack_800258B0(CONTROL *pControlToAdd)
+{
+    // sna_init must always be the first item
+    if (pControlToAdd->field_30_scriptData == CHARA_SNAKE)
+    {
+        GM_WhereList_800B56D0[0] = pControlToAdd;
+    }
+    else
+    {
+        if (gControlCount_800AB9B4 > MAX_CONTROLS - 1)
+        {
+            return -1;
+        }
+        GM_WhereList_800B56D0[gControlCount_800AB9B4] = pControlToAdd;
+        gControlCount_800AB9B4++;
+    }
+
+    return 0;
+}
+
+void GM_ControlRemove_80025904(CONTROL *pControl)
+{
+    int i = gControlCount_800AB9B4;
+    int totalCount = gControlCount_800AB9B4;
+
+    CONTROL **pControlIter = GM_WhereList_800B56D0;
+
+    while (i > 0)
+    {
+        i--;
+
+        if (*pControlIter == pControl)
+        {
+            goto found;
+        }
+        pControlIter++;
+    }
+
+    return;
+
+found:
+
+    if (pControlIter != GM_WhereList_800B56D0)
+    {
+        *pControlIter = GM_WhereList_800B56D0[--totalCount];
+        gControlCount_800AB9B4 = totalCount;
+    }
+    else
+    {
+        GM_WhereList_800B56D0[0] = &gDefaultControl_800B5650;
+    }
+}
+
+void GM_InitWhereSystem_8002597C(void)
+{
+    GM_WhereList_800B56D0[0] = &gDefaultControl_800B5650;
+    gControlCount_800AB9B4 = 1;
+}
+
+int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
+{
+    struct map_record *pMapRec;
+    const int          mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
+    GM_CurrentMap_800AB9B0 = mapId;
+
+    GV_ZeroMemory_8001619C(pControl, sizeof(CONTROL));
+
+    pMapRec = Map_FromId_800314C0(mapId);
+    pControl->field_2C_map = pMapRec;
+    if (!pMapRec)
+    {
+        printf("InitControl : no map %X\n", mapId);
+        return -1;
+    }
+
+    pControl->field_30_scriptData = scriptData;
+    if (scriptData)
+    {
+        HZD_SetEvent_80029AB4(&pControl->field_10_pStruct_hzd_unknown, scriptData);
+        if (GM_ControlPushBack_800258B0(pControl) < 0)
+        {
+            return -1;
+        }
+    }
+
+    pControl->field_32_height = 850;
+    pControl->field_34_hzd_height = -32767;
+    pControl->field_38 = 450;
+    pControl->field_36 = 450;
+    pControl->field_59 = 2;
+    pControl->field_55_skip_flag = CTRL_SKIP_TRAP;
+    pControl->field_78_levels[0] = -32000;
+    pControl->field_78_levels[1] = 32000;
+
+    return 0;
+}
+
+
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 static inline void GM_ActControl_helper_80025A7C(CONTROL *pControl)
 {
@@ -215,6 +324,8 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_MAP *pH
     pControl->field_0_mov.vy = vy;
 }
 
+extern void GM_ActControl_helper6_8002A538(HZD_MAP *pMap, Res_Control_unknown *arg1);
+
 void GM_ActControl_80025A7C(CONTROL *pControl)
 {
     HZD_MAP *pHzd;
@@ -296,4 +407,124 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
     }
 
     DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
+}
+
+
+void GM_FreeControl_800260CC(CONTROL *pControl)
+{
+    if (pControl->field_30_scriptData)
+    {
+        GM_ControlRemove_80025904(pControl);
+    }
+}
+
+void GM_ConfigControlVector_800260FC(CONTROL *pControl, SVECTOR *pVec1, SVECTOR *pVec2)
+{
+    if (pVec1)
+    {
+        pControl->field_0_mov = *pVec1;
+    }
+
+    if (pVec2)
+    {
+        pControl->field_8_rotator = *pVec2;
+    }
+}
+
+void GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix)
+{
+    pControl->field_0_mov.vx = pMatrix->t[0];
+    pControl->field_0_mov.vy = pMatrix->t[1];
+    pControl->field_0_mov.vz = pMatrix->t[2];
+
+    DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_rotator);
+
+    pControl->field_4C_turn_vec = pControl->field_8_rotator;
+}
+
+void GM_ConfigControlString_800261C0(CONTROL *pControl, char *param_pos, char *param_dir)
+{
+    if (param_pos)
+    {
+        GCL_GetSV_80020A14(param_pos, &pControl->field_0_mov);
+    }
+
+    if (param_dir)
+    {
+        GCL_GetSV_80020A14(param_dir, &pControl->field_8_rotator);
+    }
+
+    pControl->field_4C_turn_vec = pControl->field_8_rotator;
+}
+
+void GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38)
+{
+    pControl->field_32_height = height;
+    pControl->field_36 = f36;
+    pControl->field_38 = f38;
+}
+
+void GM_ConfigControlAttribute_8002623C(CONTROL *pControl, short f3a)
+{
+    pControl->field_3A = f3a;
+}
+
+void GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a)
+{
+    pControl->field_54 = f5a;
+}
+
+int GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2)
+{
+    if (pControl->field_58 == 0)
+    {
+        return 0;
+    }
+
+    if (pControl->field_58 == 2)
+    {
+        if (pControl->field_70[1]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        {
+            return 2;
+        }
+    }
+
+    if (pControl->field_70[0]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+void GM_ConfigControlRadarparam_800262EC(CONTROL *pControl, short param_2, short param_3, short param_4,
+                                         short param_5)
+{
+    SVECTOR *pVec;
+
+    pVec = &pControl->field_3C;
+    pVec->vx = param_2;
+    pVec->vy = param_3;
+    pVec->vz = param_4;
+    pVec->pad = param_5;
+}
+
+void GM_ConfigControlTrapCheck_80026308(CONTROL *pControl)
+{
+    pControl->field_55_skip_flag &= ~CTRL_SKIP_TRAP;
+}
+
+GV_MSG *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind)
+{
+    GV_MSG *pMsg;
+    int     foundCount;
+    for (foundCount = GV_ReceiveMessage_80016620(msgType, &pMsg) - 1; foundCount >= 0; foundCount--)
+    {
+        if (pMsg->message[0] == toFind)
+        {
+            return pMsg;
+        }
+        pMsg++;
+    }
+    return 0;
 }

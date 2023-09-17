@@ -1,0 +1,714 @@
+#include "psyq.h"
+#include "game.h"
+#include "linker.h"
+#include "linkvarbuf.h"
+
+#include "loader.h"
+
+#include "libdg/libdg.h"
+#include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
+#include "libgv/libgv.h"
+#include "Menu/menuman.h"
+#include "memcard/memcard.h"
+
+#include "target.h"
+#include "homing_target.h"
+
+#include "over.h"
+#include "map/map.h"
+#include "mts/mts_new.h"
+
+#include "camera.h"
+
+extern unsigned short   gSystemCallbackProcs_800B58C0[];
+extern int              dword_800AB9F0;
+int                     dword_800AB9F0;
+extern int              GM_GameOverTimer_800AB3D4;
+int                     GM_GameOverTimer_800AB3D4;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+PlayerStatusFlag        GM_PlayerStatus_800ABA50;
+extern short            d_800AB9EC_mag_size;
+short                   d_800AB9EC_mag_size;
+extern short            d_800ABA2C_ammo;
+short                   d_800ABA2C_ammo;
+extern int              GM_AlertLevel_800ABA18;
+int                     GM_AlertLevel_800ABA18;
+extern int              GM_AlertMax_800AB9E0;
+int                     GM_AlertMax_800AB9E0;
+extern int              claymore_map_800AB9DC;
+int                     claymore_map_800AB9DC;
+extern int              GM_AlertMode_800ABA00;
+int                     GM_AlertMode_800ABA00;
+extern unsigned int     GM_DisableWeapon_800AB9E4;
+unsigned int            GM_DisableWeapon_800AB9E4;
+extern char            *GM_StageName_800AB918;
+char                   *GM_StageName_800AB918;
+extern SVECTOR          svector_800ABA10;
+SVECTOR                 svector_800ABA10;
+extern int              GM_DisableItem_800ABA28;
+int                     GM_DisableItem_800ABA28;
+extern short            GM_WeaponChanged_800AB9D8;
+short                   GM_WeaponChanged_800AB9D8;
+extern short            GM_O2_800ABA34;
+short                   GM_O2_800ABA34;
+extern int              GM_GameStatus_800AB3CC;
+int                     GM_GameStatus_800AB3CC;
+extern int              GM_NoisePower_800ABA24;
+int                     GM_NoisePower_800ABA24;
+extern int              GM_NoiseLength_800ABA30;
+int                     GM_NoiseLength_800ABA30;
+
+extern int GM_PadVibration2_800ABA54;
+int        SECTION(".sbss") GM_PadVibration2_800ABA54;
+
+extern int GM_PadVibration_800ABA3C;
+int        SECTION(".sbss") GM_PadVibration_800ABA3C;
+
+extern int gTotalFrameTime_800AB9E8;
+int        SECTION(".sbss") gTotalFrameTime_800AB9E8;
+
+extern int GM_LoadComplete_800ABA38;
+int        SECTION(".sbss") GM_LoadComplete_800ABA38;
+
+extern int GM_LoadRequest_800AB3D0;
+int        SECTION(".sdata") GM_LoadRequest_800AB3D0;
+
+extern GV_PAD *GM_CurrentPadData_800AB91C;
+GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C;
+
+extern int GM_PadResetDisable_800AB3F4;
+int        SECTION(".sdata") GM_PadResetDisable_800AB3F4;
+
+extern int dword_800AB9D0;
+int        SECTION(".sbss") dword_800AB9D0;
+
+extern CONTROL *gSnaControl_800AB9F4;
+CONTROL *SECTION(".sbss") gSnaControl_800AB9F4;
+
+extern int          dword_800BEFF0;
+extern unsigned int gStr_FadeOut1_800BF16C;
+extern int          dword_800BF268;
+extern int          dword_800BF1A8;
+extern int          dword_800BF270;
+extern int          dword_800BF264;
+extern char         exe_name_800B5860[32];
+extern char        *MGS_DiskName_8009D2FC[3];
+extern int          gDiskNum_800ACBF0;
+extern int          GV_PassageTime_800AB924;
+extern int          DG_UnDrawFrameCount_800AB380;
+extern int          gSaveCache_800B5294;
+extern int          GV_PauseLevel_800AB928;
+extern char         dword_800AB400[ 9 ];
+extern GV_PAD       GV_PadData_800B05C0[4];
+
+extern DG_TEX gMenuTextureRec_800B58B0;
+
+extern Actor_GM_Daemon GM_Daemon_800B5880;
+
+extern unsigned char *GV_ResidentMemoryBottom_800AB940;
+
+extern unsigned char *gOverlayBase_800AB9C8;
+
+extern char aInit[]; // = "init";
+extern const char aGamedC[];
+
+extern int gOverlayBinSize_800B5290;
+
+extern void  menu_AreaNameWrite_80049534( char *areaName );
+
+
+//GM_InitGameSystem ?
+void GM_Reset_helper_8002A978()
+{
+    int i;
+
+    dword_800AB9F0 = -1;
+    GM_GameStatus_800AB3CC = 0;
+    GM_GameOverTimer_800AB3D4 = 0;
+    GM_PlayerStatus_800ABA50 = 0;
+    GM_NoisePower_800ABA24 = 0;
+    GM_NoiseLength_800ABA30 = 0;
+    claymore_map_800AB9DC = 0;
+    GM_AlertLevel_800ABA18 = 0;
+    GM_AlertMax_800AB9E0 = 0;
+    GM_AlertMode_800ABA00 = 0;
+    GM_WeaponChanged_800AB9D8 = 0;
+    d_800AB9EC_mag_size = 0;
+    d_800ABA2C_ammo = 0;
+    GM_DisableItem_800ABA28 = 0;
+    GM_DisableWeapon_800AB9E4 = 0;
+    GM_O2_800ABA34 = 1024;
+    GM_StageName_800AB918 = 0;
+    GM_TempChangeSpeed = 0;
+    svector_800ABA10.vx = GM_SnakePosX;
+    svector_800ABA10.vy = GM_SnakePosY;
+    svector_800ABA10.vz = GM_SnakePosZ;
+
+    for (i = 5; i >= 0; i--)
+    {
+        gSystemCallbackProcs_800B58C0[i] = 0;
+    }
+}
+
+//GM_InitNoise ?
+void GM_Act_helper_8002AA10()
+{
+    int length;
+    int max;
+
+    // isn't this one of the inlines?
+    length = GM_NoiseLength_800ABA30;
+    if ( GM_NoiseLength_800ABA30 > 0 )
+    {
+        length = GM_NoiseLength_800ABA30 - 1;
+    }
+    if ( !length )
+    {
+        GM_NoisePower_800ABA24 = 0;
+    }
+    
+    max = GM_AlertMax_800AB9E0;
+    GM_NoiseLength_800ABA30 = length;
+    GM_AlertMax_800AB9E0 = 0;
+    GM_AlertLevel_800ABA18 = max;
+}
+
+//Guessed function name
+void GM_ResetSystem_8002AA48(void)
+{
+    menuman_Reset_800389A8();
+    GV_ResetSystem_80014CC8();
+    DG_8001F1DC();
+    GCL_ResetSystem_8001FD24();
+}
+
+void GM_ResetMemory_8002AA80(void)
+{
+    DG_TextureCacheInit_8001F25C();
+    GV_ResetMemory_80014CF0();
+    GM_ResetChara_8002A8B0();
+}
+
+//GM_InitStage?
+void GM_CreateLoader_8002AAB0()
+{
+    char *stageName = aInit;
+    if (GM_CurrentStageFlag != 0)
+    {
+        stageName = GM_GetArea_8002A880(GM_CurrentStageFlag);
+    }
+    Loader_Init_8002E460(stageName);
+}
+
+void sub_8002AAEC(void)
+{
+    GV_PauseLevel_800AB928 &= ~2u;
+    GM_Sound_80032C48(0x1ffff02, 0);
+    menu_JimakuClear_80049518();
+    GM_GameStatus_800AB3CC &= ~0x80u;
+}
+
+void GM_Act_helper3_helper_8002AB40( void )
+{
+	char *areaName;
+
+	areaName = dword_800AB400;
+	GV_PauseLevel_800AB928 |= 2;
+	GM_Sound_80032C48( 0x1ffff01, 0 );
+	if ( GM_StageName_800AB918 )
+	{
+		areaName = GM_StageName_800AB918;
+	}
+	menu_AreaNameWrite_80049534( areaName );
+}
+
+void GM_Act_helper3_8002ABA4(void)
+{
+    int var1;
+    int var2;
+    int ret;
+
+    var1 = GV_PauseLevel_800AB928;
+    var2 = var1 & ~2;
+    ret = var2;
+    if (var2 == 0)
+    {
+        if ((var1 & 2) == 0)
+        {
+            GM_Act_helper3_helper_8002AB40();
+            return;
+        }
+        sub_8002AAEC();
+    }
+}
+
+//GM_ActInit ?
+void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
+{
+    GM_Reset_helper3_80030760();
+    GM_InitWhereSystem_8002597C();
+    GM_Targets_Reset_8002D3F0();
+    HomingTarget_Clear_All_80032C68();
+    GM_InitBinds_8002D1A8();
+    GM_Reset_helper_8002A978();
+    GM_AlertModeInit_8002EAA8();
+}
+
+void GM_InitReadError_8002AC44()
+{
+    DG_TEX *pTexture;
+    
+    pTexture = DG_GetTexture_8001D830(PCC_READ);
+    gMenuTextureRec_800B58B0 = *pTexture;
+    gMenuTextureRec_800B58B0.field_0_hash = 0;
+}
+
+void DrawReadError_8002AC9C()
+{
+    int      u_off;
+    DR_TPAGE tpage;
+    SPRT     sprt;
+    TILE     tile;
+
+    u_off = 16 * gMenuTextureRec_800B58B0.field_0_hash;
+    gMenuTextureRec_800B58B0.field_0_hash = (gMenuTextureRec_800B58B0.field_0_hash + 1) % 6;
+
+    DG_PutDrawEnv_From_DispEnv_80017890();
+
+    setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.field_4_tPage);
+    DrawPrim(&tpage);
+
+    LSTORE(0, &tile.r0);
+    setTile(&tile);
+    tile.x0 = 287;
+    tile.y0 = 15;
+    tile.h = 18;
+    tile.w = 18;
+    DrawPrim(&tile);
+
+    LSTORE(0x80808080, &sprt.r0);
+    setSprt(&sprt);
+    sprt.w = 16;
+    sprt.h = 16;
+    sprt.x0 = 288;
+    sprt.y0 = 16;
+    sprt.u0 = gMenuTextureRec_800B58B0.field_8_offx + u_off;
+    sprt.v0 = gMenuTextureRec_800B58B0.field_9_offy;
+    sprt.clut = gMenuTextureRec_800B58B0.field_6_clut;
+    DrawPrim(&sprt);
+}
+
+
+void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
+{
+    int load_request;
+    int unk_f20;
+
+    unsigned short pad = mts_read_pad_8008C25C(1);
+
+    if (mts_get_pad_vibration_type_8008C4BC(1) == 1)
+    {
+        GM_GameStatusFlag &= ~0x400;
+    }
+    else
+    {
+        GM_GameStatusFlag |= 0x400;
+    }
+
+    if ((GM_GameStatusFlag & (0x2000 | 0x400)) == 0)
+    {
+        int vibration2;
+        if (GM_PadVibration_800ABA3C != 0)
+        {
+            mts_set_pad_vibration_8008C408(1, 10);
+        }
+        else
+        {
+            mts_set_pad_vibration_8008C408(1, 0);
+        }
+
+        vibration2 = GM_PadVibration2_800ABA54;
+        if (vibration2 > 255)
+        {
+            vibration2 = 255;
+        }
+        mts_set_pad_vibration2_8008C454(1, vibration2);
+    }
+
+    GM_PadVibration2_800ABA54 = 0;
+    GM_PadVibration_800ABA3C = 0;
+
+    if ((GV_PauseLevel_800AB928 & 8) != 0)
+    {
+        if (!dword_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
+        {
+            GV_PauseLevel_800AB928 &= ~0x08;
+        }
+        else
+        {
+            DrawReadError_8002AC9C();
+        }
+    }
+    else if (dword_800BEFF0 || CDBIOS_TaskState_80022888() == 3)
+    {
+        GV_PauseLevel_800AB928 |= 8;
+    }
+
+    if ((GV_PauseLevel_800AB928 & 2) == 0)
+    {
+        int minutes;
+        gTotalFrameTime_800AB9E8 += GV_PassageTime_800AB924;
+        minutes = gTotalFrameTime_800AB9E8 / 60;
+        GM_TotalHours = minutes / 3600;
+        GM_TotalSeconds = minutes % 3600;
+    }
+
+    unk_f20 = pActor->field_20;
+    if (unk_f20 != 0)
+    {
+        if (unk_f20 != 1)
+        {
+            return;
+        }
+    }
+    else
+    {
+        if (GM_LoadComplete_800ABA38 == 0)
+        {
+            return;
+        }
+
+        GM_LoadComplete_800ABA38 = 1;
+
+        if ((GM_LoadRequest_800AB3D0 & 0x80) != 0)
+        {
+            DG_UnDrawFrameCount_800AB380 = 0;
+        }
+
+        if (gSaveCache_800B5294 != 0)
+        {
+            GV_ResidentFileCache_80015484();
+            DG_SaveTexureCacheToResidentMem_8001DB20();
+        }
+
+        Map_ResetMapCountAndKmdsCount_800310A0();
+        camera_init_800306A0();
+        DG_StorePalette_8001FC28();
+        GM_Act_helper2_8002E8D4();
+
+        if ((GM_LoadRequest_800AB3D0 & 0x10) != 0)
+        {
+            GCL_SaveVar_80021314();
+        }
+
+        printf("exec scenario\n");
+        load_request = GM_LoadRequest_800AB3D0;
+        GM_LoadRequest_800AB3D0 = 0;
+
+        if ((load_request & 0x20) != 0)
+        {
+            GCL_ExecProc_8001FF2C((unsigned int)load_request >> 0x10, 0);
+        }
+        else
+        {
+            GCL_ExecScript_80020228();
+        }
+
+        printf("end scenario\n");
+        menu_ResetTexture_80038A00();
+        GM_AlertModeReset_8002EAB8();
+        GM_SoundStart_8002E640();
+        pActor->field_20 = 1;
+
+        return;
+    }
+
+    if ((pActor->field_24 <= 0))
+    {
+        if (GM_GameOverTimer_800AB3D4 != 0)
+        {
+            if (GM_GameOverTimer_800AB3D4 > 0)
+            {
+                if ((GM_GameOverTimer_800AB3D4 == unk_f20))
+                {
+                    if (GM_StreamStatus_80037CD8() == -1)
+                    {
+                        if (over_init_800376F8(1))
+                        {
+                            GM_GameOverTimer_800AB3D4 = -1;
+                        }
+                        else
+                        {
+                            GV_DestroyActorSystem_80015010(4);
+                        }
+                    }
+                    else if (GM_StreamStatus_80037CD8() == unk_f20)
+                    {
+                        GM_StreamPlayStop_80037D64();
+                    }
+                }
+                else
+                {
+                    GM_GameOverTimer_800AB3D4--;
+                }
+            }
+        }
+        else
+        {
+            if (GM_LoadRequest_800AB3D0 != 0 && (GV_PauseLevel_800AB928 & 2) == 0)
+            {
+                if ((GM_LoadRequest_800AB3D0 & 0x80) != 0)
+                {
+                    DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+                }
+
+                GV_DestroyActorSystem_80015010(4);
+                GV_PauseLevel_800AB928 &= ~0x8;
+                GM_FreeMapObjs_80031028();
+                GM_StreamPlayStop_80037D64();
+                pActor->field_24 = 3;
+                GM_GameStatus_800AB3CC = GM_GameStatus_800AB3CC | 0x104a6000; // TODO: split these flags
+
+                return;
+            }
+
+            if (GV_PauseLevel_800AB928 == 0)
+            {
+                GM_AlertAct_8002E91C();
+            }
+
+            if ((GM_GameStatus_800AB3CC & 0xd8004020) == 0)
+            {
+                if (((GV_PauseLevel_800AB928 & ~0x2) == 0) && ((GM_CurrentPadData_800AB91C->press & 0x800) != 0))
+                {
+                    GM_Act_helper3_8002ABA4();
+                }
+            }
+            else if ((GV_PauseLevel_800AB928 & 2) != 0)
+            {
+                sub_8002AAEC();
+            }
+
+            Map_80030FA4();
+        }
+
+        if (((pad & 0x90f) == 0x90f) && (GM_PadResetDisable_800AB3F4 == 0))
+        {
+            if (--dword_800AB9D0 < 0)
+            {
+                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName_8009D2FC[gDiskNum_800ACBF0]);
+                EnterCriticalSection();
+                SetDispMask(0);
+                PadStopCom();
+                SpuInit();
+                CdInit();
+                SpuSetIRQ(0);
+                mts_shutdown_8008B044();
+                memcard_exit_800250C4();
+                ResetGraph(3);
+                StopCallback();
+                SetConf(0x10, 4, 0x801FFFF0); // note: hardcoded addresses
+                ResetCallback();
+                StopCallback();
+                _96_remove();
+                _96_init();
+
+                do
+                {
+                    printf("load %s\n", exe_name_800B5860);
+                    LoadExec(exe_name_800B5860, 0x801FFF00, 0);
+                } while (1);
+            }
+        }
+        else
+        {
+            dword_800AB9D0 = 0x5a;
+        }
+
+        if ((GM_GameStatus_800AB3CC < 0) && ((GM_CurrentPadData_800AB91C[2].press & 0x840) != 0))
+        {
+            GM_StreamPlayStop_80037D64();
+        }
+
+        if ((mts_read_pad_8008C25C(2) & 0x20) != 0)
+        {
+            char         spu_status[24];
+            char         status;
+            int          i;
+            unsigned int unk;
+
+            SpuGetAllKeysStatus(spu_status);
+            unk = 0;
+            for (i = 0; i < 24; ++i)
+            {
+                unk *= 2;
+                status = spu_status[i];
+                unk |= status & 1;
+            }
+
+            // "str_status %d irq %x %X %X\n"
+            printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
+            printf("key %08X\n", unk);
+        }
+
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            GM_Act_helper_8002AA10();
+        }
+    }
+    else
+    {
+        GV_PauseLevel_800AB928 &= ~0x8;
+
+        if ((--pActor->field_24 <= 0))
+        {
+            if (GM_StreamStatus_80037CD8() == -1)
+            {
+                if ((GV_PauseLevel_800AB928 & 5) == 0)
+                {
+                    pActor->field_20 = 0;
+                    pActor->field_24 = 0;
+                    GM_DieMap_80030FD0();
+                    GM_ResetSystem_8002AA48();
+                    GM_Reset_8002ABF4(pActor);
+
+                    if ((GM_LoadRequest_800AB3D0 & 0x40) == 0)
+                    {
+                        GM_ResetMemory_8002AA80();
+                        GM_CreateLoader_8002AAB0();
+                    }
+
+                    return;
+                }
+                else if ((GM_LoadRequest_800AB3D0 & 0x80) != 0)
+                {
+                    DG_UnDrawFrameCount_800AB380 = 0;
+                }
+            }
+
+            pActor->field_24 = unk_f20;
+        }
+
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            GM_Act_helper_8002AA10();
+        }
+    }
+}
+
+void GM_SetSystemCallbackProc_8002B558(int index, int proc)
+{
+    gSystemCallbackProcs_800B58C0[index] = proc;
+}
+
+void GM_CallSystemCallbackProc_8002B570(int id, int arg)
+{
+    int proc;
+
+    if (id == 4 && gSnaControl_800AB9F4 != NULL)
+    {
+        HZD_ReExecEvent_8002A1F4(gSnaControl_800AB9F4->field_2C_map->field_8_hzd,
+                                 &gSnaControl_800AB9F4->field_10_pStruct_hzd_unknown, 0x301);
+    }
+
+    proc = gSystemCallbackProcs_800B58C0[id];
+    if (proc != 0)
+    {
+        GCL_ARGS args;
+        long     local_18[2];
+
+        args.argc = 1;
+        args.argv = local_18;
+        local_18[0] = arg;
+        GCL_ForceExecProc_8001FEFC(proc, &args);
+    }
+}
+
+void sub_8002B600(int param_1)
+{
+    if (param_1 == -1)
+    {
+        GM_LoadRequest_800AB3D0 = 0xc0;
+        return;
+    }
+    GM_LoadRequest_800AB3D0 = param_1 << 0x10 | 0xe0;
+    return;
+}
+
+void GM_ContinueStart_8002B62C(void)
+{
+    int total_continues; // $s2
+    int current_stage;   // $s1
+
+    GM_CallSystemCallbackProc_8002B570(1, 0);
+    total_continues = GM_TotalContinues;
+    current_stage = GM_CurrentStageFlag;
+    GCL_RestoreVar_80021488();
+    if (GM_CurrentStageFlag != current_stage)
+    {
+        GM_LoadRequest_800AB3D0 = 1;
+    }
+    else
+    {
+        sub_8002B600(-1);
+    }
+
+    GM_TotalContinues = total_continues + 1;
+
+    // Set the bomb to no less than 10 seconds to prevent instant death
+    // note: casting needed to produce sltiu and lhu vs lh
+    if ((unsigned int)(unsigned short)GM_TimerBombFlag - 1 < 9)
+    {
+        GM_TimerBombFlag = 10;
+    }
+}
+
+void GM_GameOver_8002B6C8(void)
+{
+    if (!GM_GameOverTimer_800AB3D4)
+    {
+        GM_GameOverTimer_800AB3D4 = 4;
+        GM_CallSystemCallbackProc_8002B570(0, 0);
+        GM_GameStatus_800AB3CC |= 0x86000u;
+    }
+}
+
+//Guessed function name
+int GM_LoadInitBin_8002B710(unsigned char *pFileData, int fileNameHashed)
+{
+    if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
+    {
+        printf("TOO LARGE STAGE BINARY!!\n");
+    }
+
+    memcpy(gOverlayBase_800AB9C8, pFileData, gOverlayBinSize_800B5290);
+
+    return 1;
+}
+
+void GM_StartDaemon_8002B77C()
+{
+    gTotalFrameTime_800AB9E8 = 0;
+    GM_GameOverTimer_800AB3D4 = 0;
+    GM_LoadRequest_800AB3D0 = 0;
+    GM_LoadComplete_800ABA38 = 0;
+    menu_StartDeamon_80038A20();
+    GM_InitArea_8002A704();
+    GM_InitChara_8002A890();
+    GM_InitScript_8002D1DC();
+    GV_SetLoader_80015418('b', GM_LoadInitBin_8002B710);
+    GM_ClearWeaponAndItem_8002A960();
+    GV_InitActor_800150A8(1, &GM_Daemon_800B5880.field_0, 0);
+    GV_SetNamedActor_8001514C(&GM_Daemon_800B5880.field_0, (TActorFunction)GM_Act_8002ADBC, 0, aGamedC);
+    GM_ResetSystem_8002AA48();
+    GM_Reset_8002ABF4(&GM_Daemon_800B5880);
+    GM_ResetMemory_8002AA80();
+    GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
+    GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
+    GV_SaveResidentTop_800163C4();
+    GM_Daemon_800B5880.field_20 = 0;
+    GM_Daemon_800B5880.field_24 = 0;
+    GM_CreateLoader_8002AAB0();
+}

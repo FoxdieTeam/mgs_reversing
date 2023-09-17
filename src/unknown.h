@@ -20,7 +20,7 @@ void  sub_80079004(unsigned short);
 int   sub_80029A2C(void);
 void  sub_800298C0(void *ptr);
 void sub_8002A090(HZD_MAP *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, int hash);
-void sub_80029AEC(BindStruct *pBind, Res_Control_unknown *pSubCtrl, int a3, int a4);
+void HZD_ExecBindX_80029AEC(BindStruct *pBind, Res_Control_unknown *pSubCtrl, int a3, int a4);
 void sub_80029B9C(HZD_MAP *pMap, Res_Control_unknown *arg1, int arg2);
 void  sub_8007913C();
 Actor_strctrl *sub_80037EE0(int vox_stream, int gcl_proc);
@@ -28,7 +28,6 @@ void   sub_800790E8(); // Takabe
 void   sub_800241B4(void *);
 int    HZD_sub_80029514(HZD_FLR *);
 void   sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
-int    sub_80029098(HZD_MAP *, SVECTOR *, int, int, int);
 void   sub_80032AEC(int byte_2, int byte_1, int byte_0);
 int    sub_80028830(void);
 void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
@@ -38,7 +37,7 @@ int    sub_80027384();
 void   sub_80027A94(HZD_SEG *pHzdSeg, int a2, int a3);
 void   sub_80027F10(HZD_FLR *pHzdFlr);
 // TODO: camera.h?
-GV_ACT *camera_init_800306A0(void);
+//GV_ACT *camera_init_800306A0(void);
 int sub_800275A8();
 int sub_800276B4();
 int sub_80027850(int mult);

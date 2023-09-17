@@ -15,7 +15,7 @@ extern int        N_StageObjs_800ABAA4;
 int               SECTION( ".sbss" ) N_StageObjs_800ABAA4;
 
 extern void       DG_SetFixedLight_8001A094( DG_Light *pLight, int light_count );
-extern void       Map_light_helper_80029A6C( int mask );
+extern void       HZD_BindMapChange_80029A6C( int mask );
 
 void Map_light_80030C6C( int a1 )
 {
@@ -79,5 +79,5 @@ void Map_light_80030C6C( int a1 )
     dword_800ABA0C = mask;
     dword_800AB9A8[ 0 ] = bitset;
     DG_CurrentGroupID_800AB968 = mask;
-    Map_light_helper_80029A6C( mask );
+    HZD_BindMapChange_80029A6C( mask );
 }
