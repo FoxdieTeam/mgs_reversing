@@ -12,9 +12,9 @@ extern Menu_Triangle triangle_8009EBE0;
 extern menu_save_mode_data *dword_800ABB4C;
 menu_save_mode_data        *dword_800ABB4C;
 
-extern RadioFileModeUnkStru *dword_800ABB68[2];
-extern Stru_800ABB74        *dword_800ABB74;
-Stru_800ABB74               *dword_800ABB74;
+extern mem_card      *mcd_last_file_800ABB68[2];
+extern Stru_800ABB74 *dword_800ABB74;
+Stru_800ABB74        *dword_800ABB74;
 
 extern int dword_800AB6FC;
 int        dword_800AB6FC;
@@ -323,7 +323,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
         return;
     }
 
-    blocks_req = dword_800ABB68[dword_800AB6FC]->field_3;
+    blocks_req = mcd_last_file_800ABB68[dword_800AB6FC]->field_3_free_blocks;
 
     if (dword_800ABB74->field_8 == 1)
     {

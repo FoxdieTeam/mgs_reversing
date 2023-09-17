@@ -15,32 +15,32 @@ extern char  aFileS[];
 extern char *MGS_MemoryCardName_800AB2EC;
 extern char  aNull[];
 
-int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileModeUnkStru *pStru1, char *param_3,
+int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *pMemcard, char *param_3,
                                               Stru_800ABB74 *pStru2)
 {
-    Stru_800ABB74_child       *pIter;
-    RadioFileModeUnkStruChild *pChild;
-    int                        i;
+    Stru_800ABB74_child *pIter;
+    mem_card_block      *pBlock;
+    int                  i;
 
     pIter = pStru2->field_24;
 
     strcpy(aBislpm99999, MGS_MemoryCardName_800AB2EC);
     aBislpm99999[12] = dword_800ABB4C->field_0[0];
 
-    for (i = 0; i < pStru1->field_2; i++)
+    for (i = 0; i < pMemcard->field_2_file_count; i++)
     {
-        pChild = &pStru1->field_4[i];
-        printf(aFileS, pChild->field_0);
+        pBlock = &pMemcard->field_4_blocks[i];
+        printf(aFileS, pBlock->field_0_name);
 
-        if (strncmp(pChild->field_0, aBislpm99999, 13) == 0)
+        if (strncmp(pBlock->field_0_name, aBislpm99999, 13) == 0)
         {
-            menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->field_0_name, pChild->field_0);
+            menu_radio_do_file_mode_helper12_helper_8004B8FC(pIter->field_0_name, pBlock->field_0_name);
             pIter->field_20 = i;
             pIter++;
         }
     }
 
-    if (dword_800ABB48 == 0 && pStru1->field_3 >= dword_800ABB4C->field_3)
+    if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dword_800ABB4C->field_3)
     {
         memcpy(pIter->field_0_name, aNull, 1);
         pIter->field_20 = 16;
