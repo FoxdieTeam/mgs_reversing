@@ -70,7 +70,7 @@ def ninja_run():
         r'motion\.c:\d+: warning: `archive\' might be used uninitialized in this function',
         r'memcard\.c:\d+: warning: `return\' with no value, in function returning non-void',
         r'main\.c:\d+: warning: control reaches end of non-void function',
-        r'GM_ActControl_80025A7C\.c:\d+: warning: `vy\' might be used uninitialized in this function',
+        r'control\.c:\d+: warning: `vy\' might be used uninitialized in this function',
         r'font\.c:\d+: warning: `m2\' might be used uninitialized in this function',
     ]
 

@@ -1,17 +1,31 @@
 #include "linker.h"
-#include "libgcl/libgcl.h"
+#include "mts/mts_new.h"
+
 #include "game.h"
+#include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
-#include "chara/snake/sna_init.h"
-#include "Thing/door.h"
-#include "libgcl/hash.h"
-#include "Game/item.h"
+
+// force gp usage
+extern unsigned char *gOverlayBase_800AB9C8;
+unsigned char        *SECTION(".sbss") gOverlayBase_800AB9C8;
 
 extern GCL_Vars           gGcl_vars_800B3CC8;
-
 extern GCL_ActorTableEntry MainCharacterEntries_8009D2DC[];
 
-unsigned char *SECTION(".sbss") gOverlayBase_800AB9C8; // resident memory base ?
+void GM_InitChara_8002A890()
+{
+    gOverlayBase_800AB9C8 = mts_get_bss_tail_8008C598();
+}
+
+void GM_ResetChara_8002A8B0(void)
+{
+    int *puVar1;
+
+    puVar1 = (int *)gOverlayBase_800AB9C8;
+    puVar1[1] = 0;
+    puVar1[0] = 0;
+    return;
+}
 
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript)
 {
