@@ -291,7 +291,7 @@ unsigned char     *GCL_GetVar_80021634(unsigned char *pScript, int *retCode, int
 int                GCL_Expr_8002058C(unsigned char *pScript, int *retValue);
 int                GCL_GetNextInt_800209E8(unsigned char *pScript);
 int                GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain);
-int                GCL_BindsInit_8002D1A8(void);
+int                GM_InitBinds_8002D1A8(void);
 void               GCL_ParseInit_80020B68(void);
 void               GCL_InitBasicCommands_8002040C(void);
 int                GCL_LoadScript_80020064(unsigned char *);
