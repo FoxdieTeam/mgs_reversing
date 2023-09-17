@@ -1033,6 +1033,8 @@
 
 #define gte_stopz(r0) __asm__ volatile("swc2   $24, 0( %0 )" : : "r"(r0) : "memory")
 
+#define gte_read_opz(r0) __asm__ volatile("mfc2   %0, $24" : "=r"(r0))
+
 #define gte_stlvl(r0)                                                                                                  \
     __asm__ volatile("swc2   $9, 0( %0 );"                                                                             \
                      "swc2   $10, 4( %0 );"                                                                            \

@@ -136,20 +136,6 @@ typedef struct RadioFileModeStru_800ABB7C
     int               field_25c;
 } RadioFileModeStru_800ABB7C;
 
-typedef struct RadioFileModeUnkStruChild
-{
-    char field_0[28];
-} RadioFileModeUnkStruChild;
-
-typedef struct RadioFileModeUnkStru
-{
-    char field_0;
-    char field_1;
-    char field_2;
-    char field_3;
-    RadioFileModeUnkStruChild field_4[0];
-} RadioFileModeUnkStru;
-
 typedef struct RadioCodecStru_800ABB98
 {
     short       field_0_idx;
@@ -267,7 +253,7 @@ void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3,
 void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, Stru_800ABB74 *field_14);
 int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper7_8004AE3C(Actor_MenuMan *param_1, char *str);
-int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, RadioFileModeUnkStru *pStru1, char *param_3, Stru_800ABB74 *pStru2);
+int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *pMemcard, char *param_3, Stru_800ABB74 *pStru2);
 void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper10_8004B91C(Stru_800ABB74 *pStru);
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned char *pOt);
