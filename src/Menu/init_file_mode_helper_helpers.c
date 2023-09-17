@@ -298,7 +298,6 @@ void init_file_mode_helper_helper_80049EDC(void)
     int fidx;
     int temp_v1;
     int temp_v1_2;
-    int var_a0;
     int port;
     int var_s2;
     mem_card *pMemcard;
@@ -306,8 +305,6 @@ void init_file_mode_helper_helper_80049EDC(void)
     int one;
 
     mts_set_vsync_task_800892B8();
-
-loop_1:
     dword_800ABB54 = 1;
 
 loop_3:
@@ -348,7 +345,8 @@ loop_3:
             {
                 if ((memcard_check_80024A54(port) & 0xFF) != 3)
                 {
-                    goto loop_1;
+                    dword_800ABB54 = 1;
+                    goto loop_3;
                 }
             }
 
@@ -395,7 +393,8 @@ loop_18:
             {
                 dword_800AB6FC = negone;
                 dword_800AB6F0 = negone;
-                goto loop_1;
+                dword_800ABB54 = 1;
+                goto loop_3;
             }
             dword_800AB6FC = temp_v1_2;
             if (dword_800AB6F0 != temp_v1_2)
@@ -405,8 +404,6 @@ loop_18:
             dword_800AB6F0 = temp_v1_2;
             goto block_34;
         }
-
-        var_a0 = 0x80000000;
 
         if (temp_v1_2 != negone)
         {
@@ -419,6 +416,8 @@ block_34:
 
             goto block_40;
         }
+        init_file_mode_helper_helper_helper3_80049E94(0x80000000);
+        return;
     }
     else
     {
@@ -471,17 +470,23 @@ block_40:
                             dword_800AB6F4 = err;
                             goto block_51;
                         }
-
-                        goto block_59;
+                        else
+                        {
+                            init_file_mode_helper_helper_helper3_80049E94(0x45000003);
+                            goto block_72;
+                        }
                     }
 
                     dword_800ABB54 = 4;
-                    asm(""); // temporary scaffolding
-                    goto block_53;
+                    dword_800AB6FC = -1;
+                    goto loop_3;
                 }
-
-                dword_800ABB54 = 4;
-                goto block_53;
+                else
+                {
+                    dword_800ABB54 = 4;
+                    dword_800AB6FC = -1;
+                    goto loop_3;
+                }
             }
 block_51:
             pMemcard = memcard_get_files_80025350(dword_800AB6FC);
@@ -498,7 +503,6 @@ loop_52:
 
             if (fidx < 0)
             {
-block_53:
                 dword_800AB6FC = -1;
                 goto loop_3;
             }
@@ -526,7 +530,8 @@ block_53:
 
                     if (memcard_delete_800253C4(dword_800AB6FC, pMemcard->field_4_blocks[fidx].field_0_name) == 0)
                     {
-                        goto block_59;
+                        init_file_mode_helper_helper_helper3_80049E94(0x45000003);
+                        goto block_72;
                     }
 
                     pMemcard = memcard_get_files_80025350(dword_800AB6FC);
@@ -555,11 +560,8 @@ block_53:
                     goto block_69;
                 }
             }
-
-            var_a0 = 0xC1000001;
         }
 
-block_59:
         init_file_mode_helper_helper_helper3_80049E94(0x45000003);
         goto block_72;
 
@@ -567,15 +569,13 @@ block_69:
         dword_800ABB48 = 2;
 block_75:
         dword_800ABB54 = 0;
-        var_a0 = 0xC1000001;
-        goto block_74;
+        init_file_mode_helper_helper_helper3_80049E94(0xC1000001);
+        return;
 
 block_72:
         dword_800ABB54 = 5;
-block_73:
-        var_a0 = 0xC5000002;
-    }
 
-block_74:
-    init_file_mode_helper_helper_helper3_80049E94(var_a0);
+block_73:
+        init_file_mode_helper_helper_helper3_80049E94(0xC5000002);
+    }
 }
