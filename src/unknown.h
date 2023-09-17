@@ -76,4 +76,8 @@ void GM_ActControl_helper4_80029304(char *char_arr);
 void GM_ActControl_helper5_80029324(SVECTOR *vectors);
 void GM_ActControl_helper6_8002A538(HZD_MAP *pMap, Res_Control_unknown *arg1);
 
+int init_file_mode_helper_helper_helper_8004983C(mem_card *pMemcard);
+int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx);
+int init_file_mode_helper_helper_helper3_80049E94(int param_1);
+
 #endif // _UNKNOWN_H_

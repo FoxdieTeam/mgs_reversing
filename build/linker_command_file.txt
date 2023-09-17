@@ -316,10 +316,9 @@
     include "..\obj\Menu\menu_SetRadioOverCall_80049794.obj"
     include "..\obj\Menu\menu_GetRadioCode_800497C4.obj"
 
-    include "..\obj\Menu\init_file_mode_helper_helper_helpers.obj"
-
-    include "..\obj\Menu\init_file_mode_helper_helper_80049EDC.obj"
+    include "..\obj\Menu\init_file_mode_helper_helpers.obj"
     include "..\obj\Menu\init_file_mode_helper_8004A424.obj"
+
     include "..\obj\Menu\move_coord_8004A494.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_helper2_helper_8004A4C4.obj"
     include "..\obj\Menu\menu_radio_do_file_mode_helper4_helper_8004A54C.obj"
