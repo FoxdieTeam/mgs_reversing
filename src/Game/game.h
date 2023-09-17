@@ -228,7 +228,7 @@ void sub_8002E508(int a1);
 void sub_8002B600(int);
 void sub_8002AAEC();
 void sub_8002EADC(int);
-void sub_8002AA48(void);
+void GM_ResetSystem_8002AA48(void);
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
 void GM_Act_helper3_helper_8002AB40();
 void GM_Act_helper_8002AA10(void); // noise/alert thing
