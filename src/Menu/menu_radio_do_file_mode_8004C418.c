@@ -48,22 +48,22 @@ extern int dword_800ABB48;
 int        dword_800ABB48;
 
 
-extern char                  aEndSaveMode[];
-extern char                  aEndStateD[];
-extern char                  aLoadData[];
-extern char                  aLoading[];
-extern char                  aNoFile_0[];
-extern char                  aNoSpace[];
-extern char                  aPressToExit[];
-extern char                  aPressToSelectM[];
-extern char                  aResD[];
-extern char                  aSaving[];
-extern char                  aSelectMemoryCa[];
-extern char                  dword_800AB73C[];
-extern RadioFileModeUnkStru *mcd_last_file_800ABB68[];
-extern const int             dword_800120B4[];
-extern const int             dword_800120CC[];
-extern const int             dword_800120E4[];
+extern char       aEndSaveMode[];
+extern char       aEndStateD[];
+extern char       aLoadData[];
+extern char       aLoading[];
+extern char       aNoFile_0[];
+extern char       aNoSpace[];
+extern char       aPressToExit[];
+extern char       aPressToSelectM[];
+extern char       aResD[];
+extern char       aSaving[];
+extern char       aSelectMemoryCa[];
+extern char       aNull[];
+extern mem_card  *mcd_last_file_800ABB68[];
+extern const int  dword_800120B4[];
+extern const int  dword_800120CC[];
+extern const int  dword_800120E4[];
 
 char aBislpm99999[] = "BISLPM-99999        ";
 
@@ -208,8 +208,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 dword_800ABB80 = 4;
                 menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
-                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, mcd_last_file_800ABB68[dword_800AB6FC], dword_800AB73C,
-                                                              dword_800ABB70) == 0)
+                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, mcd_last_file_800ABB68[dword_800AB6FC], aNull, dword_800ABB70) == 0)
                 {
                     menu_radio_do_file_mode_helper7_8004AE3C(pActor, strArr[4]);
                     dword_800ABB84 = 1;
