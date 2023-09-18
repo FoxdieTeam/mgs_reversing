@@ -3,7 +3,7 @@
 #include "psyq.h"
 #include "unknown.h"
 #include "Game/game.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "Anime/animeconv/anime.h"
 
 extern MAP   *claymore_MAP_800bdf08;

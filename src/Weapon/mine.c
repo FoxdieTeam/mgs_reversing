@@ -1,5 +1,5 @@
 #include "mine.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "Game/target.h"
 #include "Game/object.h"
 #include "Bullet/jirai.h"
