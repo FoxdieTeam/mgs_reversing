@@ -14,10 +14,66 @@ extern int dword_800B9358;
 
 char *dword_8009E28C = NULL;
 
+void jimctrl_act_helper_set_first_80037F2C(int index, int value)
+{
+    array_800B933C_child *helper = &array_800B933C[index];
+    if (value == 4)
+    {
+        helper->field_2 = 1;
+    }
+    else if (value < 4)
+    {
+        helper->field_3 = value;
+    }
+}
+
+unsigned int jimctrl_helper_80037F68(unsigned int header)
+{
+    u_short                  field_2_preClear;
+    array_800B933C_child *pIter;
+    u_char                 *pField;
+    int                   i;
+
+    pIter = &array_800B933C[1];
+    i = 0;
+    pField = &pIter->field_2;
+    for (; i < array_800B933C_SIZE - 1; i++)
+    {
+        if (pIter->field_0 == header)
+        {
+            field_2_preClear = *pField;
+            *pField = 0;
+            return (field_2_preClear << 8 | *++pField);
+        }
+        pField += sizeof(array_800B933C_child);
+        pIter++;
+    }
+
+    return 0;
+}
+
+void jimctrl_init_helper_clear_80037FB8(void)
+{
+    int                   i = array_800B933C_SIZE - 2;
+    array_800B933C_child *pIter = &array_800B933C[i] + 1;
+    for (; i >= 0; i--)
+    {
+        pIter->field_0 = 0;
+        pIter--;
+    }
+}
+
+void jimctrl_act_helper_clear_first_80037FE0(int index, int value)
+{
+    array_800B933C_child *pIter = &array_800B933C[1];
+    pIter[--index].field_0 = value;
+}
+
 
 void jimctrl_helper_null_80037FFC(int a, int b)
 {
 }
+
 
 void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
 {
@@ -41,6 +97,8 @@ void jimctrl_kill_helper_clear_80038004(Actor_JimCtrl *pJimCtrl)
         }
     }
 }
+
+
 
 static inline void jimctrl_act_helper_80038070(Actor_JimCtrl *pActor, int str_counter)
 {
@@ -169,6 +227,7 @@ static inline void jimctrl_act_helper2_80038070(Actor_JimCtrl *pActor, int str_c
     }
 }
 
+
 void jimctrl_act_80038070(Actor_JimCtrl *pActor)
 {
     int   str_counter;
@@ -278,6 +337,7 @@ void jimctrl_act_80038070(Actor_JimCtrl *pActor)
     }
 }
 
+
 void jimctrl_kill_8003853C(Actor_JimCtrl *pJimCtrl)
 {
     jimctrl_kill_helper_clear_80038004(pJimCtrl);
@@ -339,4 +399,21 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
 
         return &jimCtrlActor_800B82F0.field_0_actor;
     }
+}
+
+char* menu_radio_codec_helper_helper17_80038678(void)
+{
+    return dword_8009E28C;
+}
+
+
+int sub_80038688(void)
+{
+    return dword_800B9358;
+}
+
+
+array_800B933C_child *sub_80038698(void)
+{
+    return &array_800B933C[1];
 }

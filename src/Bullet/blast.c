@@ -4,7 +4,7 @@
 #include "Game/target.h"
 #include "Anime/animeconv/anime.h"
 #include "unknown.h"
-#include "map/map.h"
+#include "game/map.h"
 
 extern int            claymore_map_800AB9DC;
 extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;

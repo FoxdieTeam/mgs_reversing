@@ -1,6 +1,6 @@
 #include "libhzd/libhzd.h"
 
-int sub_8006FF9C(HZD_MAP *pMap, HZD_SEG *pSeg)
+int sub_8006FF9C(HZD_HDL *pMap, HZD_SEG *pSeg)
 {
     int count;
 

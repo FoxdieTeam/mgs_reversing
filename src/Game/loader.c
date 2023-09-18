@@ -9,6 +9,7 @@ extern int GM_LoadComplete_800ABA38;
 extern int GM_LoadRequest_800AB3D0;
 extern int GM_PadVibration2_800ABA54;
 
+//Act
 void Loader_Act_8002E390(struct Loader *pLoader)
 {
     pLoader->field_2C_counter++;
@@ -35,6 +36,8 @@ void Loader_Act_8002E390(struct Loader *pLoader)
     }
 }
 
+
+//Die
 void Loader_Kill_8002E41C(struct Loader *pLoader)
 {
     printf("LoadEnd\n");
@@ -42,6 +45,7 @@ void Loader_Kill_8002E41C(struct Loader *pLoader)
     GM_LoadComplete_800ABA38 = -1;
 }
 
+//NewLoader
 struct Loader *Loader_Init_8002E460(const char *pStageName)
 {
     struct Loader *pLoader;

@@ -2,7 +2,7 @@
 #include "Bullet/bakudan.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
-#include "map/map.h"
+#include "game/map.h"
 
 // c4 (in hands)
 

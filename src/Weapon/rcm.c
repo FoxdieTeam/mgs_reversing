@@ -1,7 +1,7 @@
 #include "rcm.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "libdg/libdg.h"
 #include "psyq.h"
 #include "Game/object.h"

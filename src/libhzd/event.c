@@ -133,7 +133,7 @@ static inline int sub_helper_80029B9C(unsigned short value, unsigned int hash)
 }
 
 //HZD_ExecEventRCM ?
-void sub_80029B9C( HZD_MAP *pMap, Res_Control_unknown *arg1, int arg2 )
+void sub_80029B9C( HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2 )
 {
     BindStruct  *pBind;
     unsigned int hash;
@@ -272,7 +272,7 @@ static inline int sub_helper2_80029D50(BindStruct *pBind, Res_Control_unknown *a
 }
 
 // HZD_ExecEventL ?
-void sub_80029D50(HZD_MAP *pMap, Res_Control_unknown *arg1, int arg2)
+void sub_80029D50(HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2)
 {
     BindStruct   *pBind;
     unsigned int  hash, hash2;
@@ -346,7 +346,7 @@ void sub_80029D50(HZD_MAP *pMap, Res_Control_unknown *arg1, int arg2)
 }
 
 //HZD_ExecEventSub ?
-void sub_8002A090(HZD_MAP *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, int hash)
+void sub_8002A090(HZD_HDL *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, int hash)
 {
     BindStruct     *pBinds;
     int             bindCount;
@@ -388,7 +388,7 @@ void sub_8002A090(HZD_MAP *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, in
     }
 }
 
-void HZD_ReExecEvent_8002A1F4(HZD_MAP *param_1, Res_Control_unknown *param_2, unsigned int flags)
+void HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, Res_Control_unknown *param_2, unsigned int flags)
 {
     if (flags & 0x200)
     {
@@ -401,7 +401,7 @@ void HZD_ReExecEvent_8002A1F4(HZD_MAP *param_1, Res_Control_unknown *param_2, un
 }
 
 //ExecLeaveEvent ?
-void sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2)
+void sub_8002A258(HZD_HDL *param_1, Res_Control_unknown *param_2)
 {
     sub_8002A090(param_1, param_2, 0, HASH_LEAVE);
 }
@@ -443,7 +443,7 @@ static inline int GM_ActControl_helper6_helper_helper2_8002A27C(unsigned short *
     return 0;
 }
 
-void GM_ActControl_helper6_helper_8002A27C(HZD_MAP *pMap, Res_Control_unknown *arg1)
+void GM_ActControl_helper6_helper_8002A27C(HZD_HDL *pMap, Res_Control_unknown *arg1)
 {
     HZD_AREA       *pArea;
     HZD_TRG        *pTrigger;
@@ -506,7 +506,7 @@ loop:
 }
 
 
-void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP *pMap, Res_Control_unknown *arg1)
+void GM_ActControl_helper6_helper2_8002A4B8(HZD_HDL *pMap, Res_Control_unknown *arg1)
 {
     int    count;
     short *pData;
@@ -523,7 +523,7 @@ void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP *pMap, Res_Control_unknown *
 }
 
 // HZD_EnterTrap ?
-void GM_ActControl_helper6_8002A538(HZD_MAP *pMap, Res_Control_unknown *arg1)
+void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, Res_Control_unknown *arg1)
 {
     SVECTOR *pSrcVec;
     short   *pArr;
@@ -572,7 +572,7 @@ static inline int HZD_CheckBehindTrap_8002A5E0_helper()
     return 1;
 }
 
-HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_MAP *pHzdMap, CONTROL *pControl)
+HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl)
 {
     HZD_TRP *iterTrap;
     HZD_SEG *scratchSeg;

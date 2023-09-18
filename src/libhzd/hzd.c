@@ -85,11 +85,11 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
     return 1;
 }
 
-HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24)
+HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24)
 {
     short    n_navmeshes;
     void    *navmeshes;
-    HZD_MAP *hzdMap;
+    HZD_HDL *hzdMap;
     int      i;
     HZD_TRG *trig;
 
@@ -104,7 +104,7 @@ HZD_MAP *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48
         }
     }
 
-    hzdMap = (HZD_MAP *)GV_Malloc_8001620C((4 * default_24) + sizeof(HZD_MAP) + (4 * default_48) + (2 * default_48));
+    hzdMap = (HZD_HDL *)GV_Malloc_8001620C((4 * default_24) + sizeof(HZD_HDL) + (4 * default_48) + (2 * default_48));
     if (hzdMap)
     {
         hzdMap->f1C_pEndOfHzdMap = (void *)&hzdMap[1];

@@ -2,7 +2,7 @@
 #define GCL_H
 
 #include "Menu/menuman.h"
-#include "map/map.h"
+#include "game/map.h"
 
 // A hashed name of an actor and a pointer to a function that creates an instance of said actor
 struct GV_ACT;
@@ -313,7 +313,7 @@ int                GCL_MakeSaveFile_80020C0C(char *saveBuf);
 int                GCL_SetLoadFile_80020EAC(char *saveBuf);
 void               GCL_SaveLinkVar_80020B90(short *gameVar);
 
-struct map_record *GCL_Command_hzd_impl_800310D0(void);
+struct MAP *GCL_Command_hzd_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper3_80030938(SVECTOR *pVec);

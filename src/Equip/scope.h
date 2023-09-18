@@ -7,7 +7,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/control.h"
-#include "map/map.h"
+#include "game/map.h"
 
 typedef struct Actor_scope
 {
@@ -17,7 +17,7 @@ typedef struct Actor_scope
   OBJECT      field_28_obj;
   short       field_4C_saved_packs;
   short       field_4E_saved_raise;
-  map_record *field_50_pMap;
+  MAP *field_50_pMap;
   GV_PAD     *field_54_pOldPad;
   int         field_58;
   short       field_5C;

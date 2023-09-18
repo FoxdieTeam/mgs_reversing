@@ -1,6 +1,6 @@
 #include "box.h"
 #include "unknown.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "Thing/sight.h"
 #include "Game/camera.h"
 #include "Game/object.h"

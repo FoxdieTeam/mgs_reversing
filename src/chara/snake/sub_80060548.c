@@ -2,7 +2,7 @@
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-void sub_80060548(SnaAutoMove *pAutoMove, HZD_MAP *arg1, SVECTOR *arg2)
+void sub_80060548(SnaAutoMove *pAutoMove, HZD_HDL *arg1, SVECTOR *arg2)
 {
     pAutoMove->field_0_ivec.vx = sub_8005C6C4(arg1, arg2, -1);
     pAutoMove->field_0_ivec.vy = -1;

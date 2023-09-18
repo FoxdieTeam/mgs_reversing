@@ -24,7 +24,7 @@ typedef struct Actor_jpegcam
     SVECTOR            field_5C_ang;
     int                field_64_state;
     int                field_68;
-    struct map_record *field_6C_pMap;
+    struct MAP *field_6C_pMap;
     int                field_70;
     int                field_74;
     int                field_78;

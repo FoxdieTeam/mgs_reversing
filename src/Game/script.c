@@ -185,7 +185,7 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
 
 int GCL_Command_map_8002BB44(unsigned char *pScript)
 {
-    map_record *pMapRecord;
+    MAP *pMapRecord;
     SVECTOR       colourVec;
 
     if (GCL_GetParam_80020968('d'))
@@ -237,7 +237,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
-            Map_MarkUsed_80031324(GCL_GetNextParamValue_80020AD4());
+            GM_AddMap_80031324(GCL_GetNextParamValue_80020AD4());
         }
     }
 
@@ -986,7 +986,7 @@ int GCL_Command_unknown1_8002CDF4(unsigned char *pScript)
     SVECTOR     vec;
     CONTROL *unkStruct;
     int         param;
-    map_record *map;
+    MAP *map;
 
     if (GCL_GetParam_80020968('v')) // vector
     {

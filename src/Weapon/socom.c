@@ -6,7 +6,7 @@
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "socom.h"
 #include "unknown.h"
 #include "Okajima/bullet.h"
@@ -165,7 +165,7 @@ void socom_act_helper_800653B8( Actor_Socom *socom )
 int socom_act_helper_80065408( Actor_Socom *pActor )
 {
     int         bCalcLen;
-    map_record *field_2C_map;
+    MAP *field_2C_map;
     int         vecLen;
     SVECTOR     vecs[ 2 ];
 

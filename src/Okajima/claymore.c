@@ -3,10 +3,10 @@
 #include "psyq.h"
 #include "unknown.h"
 #include "Game/game.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "Anime/animeconv/anime.h"
 
-extern map_record   *claymore_map_record_800bdf08;
+extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           GM_GameOverTimer_800AB3D4;
 extern SVECTOR       DG_ZeroVector_800AB39C;
@@ -137,7 +137,7 @@ int claymore_loader_helper_800735A0(Actor_Claymore *pActor, SVECTOR *arg1, SVECT
 
     var_s2 = 0;
 
-    if (sub_80028454(claymore_map_record_800bdf08->field_8_hzd, &vec, &vec2, 15, 4))
+    if (sub_80028454(claymore_MAP_800bdf08->field_8_hzd, &vec, &vec2, 15, 4))
     {
         sub_80028890(&vec2);
         temp_v0 = sub_80028820();
@@ -339,9 +339,9 @@ Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_fiel
         anime_create_8005DF50(&new_field_24, new_field_2C);
     }
 
-    // from map_record* to int, back to map_record*: (to get a match)
+    // from MAP* to int, back to MAP*: (to get a match)
     current_map = (int)Map_FromId_800314C0(GM_CurrentMap_800AB9B0);
-    claymore_map_record_800bdf08 = (map_record *)current_map;
+    claymore_MAP_800bdf08 = (MAP *)current_map;
 
     for (i = 0; i < pCnt; i++)
     {
