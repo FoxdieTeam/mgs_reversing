@@ -13,12 +13,150 @@ typedef struct SCRPAD_80027384
     HZD_VEC vec[4];
 } SCRPAD_80027384;
 
-#pragma INCLUDE_ASM("asm/libhzd/GM_ActControl_helper_80026C68.s") // 12000 bytes
+static inline void SwapNegateVecXY(SVECTOR *dst, SVECTOR *src)
+{
+    dst->vx = -src->vy;
+    dst->vy = src->vx;
+}
+
+static inline void SubVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
+{
+    dst->vx = a->vx - b->vx;
+    dst->vy = a->vy - b->vy;
+}
+
+static inline void IntVecXY(SVECTOR *dst, SVECTOR *src, int scale, int len)
+{
+    dst->vx = (src->vx * scale) / len;
+    dst->vy = (src->vy * scale) / len;
+}
+
+static inline int get_area(SVECTOR *x, SVECTOR* y, SVECTOR *z)
+{
+    SwapNegateVecXY(x, y);
+    gte_NormalClip(0, *(int *)y, *(int *)x, z);
+    return SquareRoot0(*(int *)z);
+}
+
+static inline int get_area2(SVECTOR *x, SVECTOR* y, SVECTOR *z)
+{
+    gte_NormalClip(0, *(int *)x, *(int *)y, z);
+    return *(int *)z;
+}
+
+#define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
+
+#define AssignVecXYXZ(dst, src)                    \
+{                                                  \
+    ((SVECTOR *)dst)->vx = ((SVECTOR *)src)->vx;   \
+    ((SVECTOR *)dst)->vy = ((SVECTOR *)src)->vz;   \
+}
+
+#define AssignVecXZXY(dst, src)                    \
+{                                                  \
+    ((SVECTOR *)dst)->vx = ((SVECTOR *)src)->vx;   \
+    ((SVECTOR *)dst)->vz = ((SVECTOR *)src)->vy;   \
+}
+
+int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
+{
+    int area; //s0
+    int area2;
+    int area4;
+    int area3;
+    int area5;
+    int area6;
+    int len;
+
+    SVECTOR *pVec1;
+    SVECTOR *pVec2;
+
+    int temp;
+
+    param_4->vz = 0;
+    param_4->vy = 0;
+    param_4->vx = 0;
+
+    if ( param_2 == 0 )
+    {
+        return 1;
+    }
+
+    AssignVecXYXZ(0x1F80000C, vectors);
+    area = get_area((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800008);
+
+    if ( area >= param_3 )
+    {
+        return 1;
+    }
+
+    if ( area == 0 )
+    {
+        return 0;
+    }
+
+    if ( param_2 == 2 )
+    {
+
+        AssignVecXYXZ(0x1F800010, &vectors[1]);
+        area2 = get_area((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800010, (SVECTOR *)0x1F800008);
+
+        if ( area2 < param_3 )
+        {
+            IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, param_3, area);
+            IntVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010, param_3, area2);
+
+            SubVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C);
+            SubVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010);
+
+            SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800014);
+            area3 = get_area2((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800004, (SVECTOR *)0x1F800008);
+
+            SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800018);
+            area4 = get_area2((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800004, (SVECTOR *)0x1F800008);
+
+            SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800018);
+            area5 = get_area2((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800004, (SVECTOR *)0x1F800008);
+
+            if ((area5 < area3) && (area5 < area4))
+            {
+                area6 = get_area2((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800008);
+
+                if ( area6 != 0 )
+                {
+                    pVec1 = (SVECTOR *)0x1F800014;
+
+                    temp = pVec1->vy * area4;
+
+                    pVec2 = (SVECTOR *)0x1F800018;
+
+                    param_4->vx = (temp - pVec2->vy * area3) / area6;
+
+                    param_4->vz = (pVec2->vx * area3 - pVec1->vx * area4) / area6;
+
+                    len = GV_VecLen3_80016D80( param_4 );
+
+                    if ( len > (param_3 << 2) )
+                    {
+                        GV_LenVec3_80016DDC( param_4, param_4, len, param_3 << 2 );
+                    }
+                }
+
+                return 1;
+            }
+        }
+    }
+
+    IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, param_3, area);
+    SubVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800014);
+
+    AssignVecXZXY(param_4, (SVECTOR *)0x1F800014);
+    return 1;
+}
 
 #define SCRPAD_ADDR 0x1F800000
 
 #define SWAP(name, a, b)      do { typeof(a) (name) = (a); (a) = (b); (b) = (name); } while (0)
-#define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
 
 void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
 {
@@ -37,12 +175,6 @@ void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
     }
 }
 
-static inline void sub_helper_80027384(void)
-{
-    *(short *)0x1F800004 = -*(short *)0x1F80001E;
-    *(short *)0x1F800006 = *(short *)0x1F80001C;
-}
-
 int sub_80027384(void)
 {
     HZD_VEC *pVec1 = &S->vec[3];
@@ -54,7 +186,7 @@ int sub_80027384(void)
     pVec1->y = pVec2->y - pVec3->y;
     pVec1->z = pVec2->z - pVec3->z;
 
-    sub_helper_80027384();
+    SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80001C);
 
     gte_NormalClip(0, S->vec[3].long_access[0], S->vec[0].long_access[0], &S->vec[0].long_access[1]);
 
@@ -158,12 +290,6 @@ int sub_800275A8(void)
     }
 
     return 1;
-}
-
-static inline void SubVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
-{
-    dst->vx = a->vx - b->vx;
-    dst->vy = a->vy - b->vy;
 }
 
 int sub_800276B4(void)
@@ -874,12 +1000,6 @@ void sub_800288E0(SVECTOR *vec, int delta)
     iVar = vec->vz;
     vec_2->vy = iVar;
     vec_1->vy = iVar;
-}
-
-static inline void SwapNegateVecXY(SVECTOR *dst, SVECTOR *src)
-{
-    dst->vx = -src->vy;
-    dst->vy = src->vx;
 }
 
 static inline int ReadOpz(void)
