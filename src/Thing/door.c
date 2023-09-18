@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "Game/object.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "libhzd/libhzd.h"
 
 extern int      GM_GameOverTimer_800AB3D4;
@@ -212,8 +212,8 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
                         if ((pActor->field_F0 == 0x21CA) || (dword_800ABA0C & pActor->field_E0_where))
                         {
-                            Map_MarkUsed_80031324(pActor->field_F8_maps[0]);
-                            Map_MarkUsed_80031324(pActor->field_F8_maps[1]);
+                            GM_AddMap_80031324(pActor->field_F8_maps[0]);
+                            GM_AddMap_80031324(pActor->field_F8_maps[1]);
                         }
 
                         if (pActor->field_F0 == 0x21CA)
@@ -350,7 +350,7 @@ void door_act_8006F318(Actor_Door *pActor)
     int var_s0;
     int var_s3;
     int mapIter;
-    map_record *pMap;
+    MAP *pMap;
     unsigned short hash;
     int mapIter2;
     unsigned short map;
@@ -528,12 +528,12 @@ void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pV
 void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int arg2, int arg3, int flags)
 {
     SVECTOR vecs[4];
-    HZD_MAP *pMaps[2];
+    HZD_HDL *pMaps[2];
     int z;
     int i;
     int count;
     int param_v;
-    HZD_MAP **ppMaps;
+    HZD_HDL **ppMaps;
     HZD_SEG *pSeg;
 
     flags |= 0x8000;

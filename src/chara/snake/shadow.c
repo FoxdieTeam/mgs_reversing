@@ -1,7 +1,7 @@
 #include "shadow.h"
 #include "Game/object.h"
 #include "psyq.h"
-#include "map/map.h"
+#include "game/map.h"
 
 typedef struct _Shadow_Scratch
 {

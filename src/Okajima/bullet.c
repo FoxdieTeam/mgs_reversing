@@ -143,7 +143,7 @@ int bullet_loader3_8007575C(Actor_Bullet *pActor, MATRIX *pMtx, int noiseLen)
     SVECTOR     svec1, svec2, svec3;
     VECTOR      vec1, vec2;
     SVECTOR     svec4;
-    map_record *map;
+    MAP *map;
     int         i;
     int         x, y, z;
     int         any_clamped, clamp_value;
@@ -349,7 +349,7 @@ void bullet_act_80075DD4(Actor_Bullet *pActor)
     MATRIX mtx;
     SVECTOR vec;
     int sound;
-    map_record *pMapRecord;
+    MAP *pMapRecord;
 
     sound = 0;
     GM_SetCurrentMap(pActor->field_20);

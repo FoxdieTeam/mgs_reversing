@@ -17,7 +17,7 @@
 #include "homing_target.h"
 
 #include "over.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "mts/mts_new.h"
 
 #include "camera.h"
@@ -393,7 +393,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
             DG_SaveTexureCacheToResidentMem_8001DB20();
         }
 
-        Map_ResetMapCountAndKmdsCount_800310A0();
+        GM_ResetMapObjs_800310A0();
         camera_init_800306A0();
         DG_StorePalette_8001FC28();
         GM_Act_helper2_8002E8D4();

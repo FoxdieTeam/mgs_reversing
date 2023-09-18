@@ -91,10 +91,10 @@ void DG_ResetFixedLight_8001A06C(void)
     }
 }
 
-void DG_SetFixedLight_8001A094(DG_Light *pLight, int light_count)
+void DG_SetFixedLight_8001A094(DG_LIT *pLight, int light_count)
 {
     DG_FixedLight *pLightIter;
-    DG_Light     **current_light;
+    DG_LIT       **current_light;
     int            i;
 
     pLightIter = &gFixedLights_800B1E08[0];
@@ -127,7 +127,7 @@ int DG_SetTmpLight_8001A114( SVECTOR* svec, int brightness, int radius )
 {
     int n_lights;
     DG_TmpLightList* tmp;
-    DG_Light* light;
+    DG_LIT* light;
 
     tmp = getTempLight( GV_Time_800AB330 & 1 );
     n_lights = tmp->n_lights;
@@ -180,7 +180,7 @@ int DG_GetLightMatrix_8001A3C4(SVECTOR *vec, MATRIX *mtx)
 {
     int lightCount, lightCount2;
     int lightRadius;
-    DG_Light *pLightIter;
+    DG_LIT *pLightIter;
     short *pColorOut;
     int lightsAvailable;
     DG_SVECTOR *lightOut;

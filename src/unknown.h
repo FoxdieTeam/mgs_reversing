@@ -5,29 +5,29 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "Game/control.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "Game/game.h"
 #include "Font/font.h"
 
 // all funcs that don't have header to go in yet
 
-int   sub_800296C4(HZD_MAP *pHzdMap, SVECTOR *param_2, int flags);
+int   sub_800296C4(HZD_HDL *pHzdMap, SVECTOR *param_2, int flags);
 void  sub_800298DC(int *param_1);
 void  GM_Sound_800329C4(SVECTOR *, int, int);
-int   sub_80028454(HZD_MAP *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
+int   sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
 void  sub_80028890(SVECTOR *pVec);
 void  sub_80079004(unsigned short);
 int   sub_80029A2C(void);
 void  sub_800298C0(void *ptr);
-void sub_8002A090(HZD_MAP *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, int hash);
+void sub_8002A090(HZD_HDL *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, int hash);
 void HZD_ExecBindX_80029AEC(BindStruct *pBind, Res_Control_unknown *pSubCtrl, int a3, int a4);
-void sub_80029B9C(HZD_MAP *pMap, Res_Control_unknown *arg1, int arg2);
+void sub_80029B9C(HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2);
 void  sub_8007913C();
 Actor_strctrl *sub_80037EE0(int vox_stream, int gcl_proc);
 void   sub_800790E8(); // Takabe
 void   sub_800241B4(void *);
 int    HZD_sub_80029514(HZD_FLR *);
-void   sub_8002A258(HZD_MAP *param_1, Res_Control_unknown *param_2);
+void   sub_8002A258(HZD_HDL *param_1, Res_Control_unknown *param_2);
 void   sub_80032AEC(int byte_2, int byte_1, int byte_0);
 int    sub_80028830(void);
 void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
@@ -61,9 +61,9 @@ int  EQ_VisibleUnit_80060F20(short *, char *);
 void EQ_InvisibleUnit_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2);
 void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2);
 void face_item_helper_80060CB8(u_short *in, u_short *out);
-void sub_80029D50(HZD_MAP *pMap, Res_Control_unknown *arg1, int);
-void GM_ActControl_helper6_helper_8002A27C(HZD_MAP*, Res_Control_unknown*);
-void GM_ActControl_helper6_helper2_8002A4B8(HZD_MAP*, Res_Control_unknown*);
+void sub_80029D50(HZD_HDL *pMap, Res_Control_unknown *arg1, int);
+void GM_ActControl_helper6_helper_8002A27C(HZD_HDL*, Res_Control_unknown*);
+void GM_ActControl_helper6_helper2_8002A4B8(HZD_HDL*, Res_Control_unknown*);
 void sub_80029604(HZD_FLR *);
 int sub_80029384(HZD_FLR *);
 
@@ -74,7 +74,7 @@ int  GM_ActControl_helper_80026C68(SVECTOR *, int, int, SVECTOR *);
 void GM_ActControl_helper3_800292E4(SVECTOR **vectors_ptr);
 void GM_ActControl_helper4_80029304(char *char_arr);
 void GM_ActControl_helper5_80029324(SVECTOR *vectors);
-void GM_ActControl_helper6_8002A538(HZD_MAP *pMap, Res_Control_unknown *arg1);
+void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, Res_Control_unknown *arg1);
 
 int init_file_mode_helper_helper_helper_8004983C(mem_card *pMemcard);
 int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx);
