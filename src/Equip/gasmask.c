@@ -1,6 +1,6 @@
 #include "gasmask.h"
 #include "Game/object.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "unknown.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"

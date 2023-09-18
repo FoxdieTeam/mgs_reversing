@@ -1,5 +1,5 @@
 #include "linker.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "libdg.h"
 
 extern MATRIX DG_LightMatrix_8009D384;

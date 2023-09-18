@@ -4,7 +4,7 @@
 #include "psyq.h"
 #include "unknown.h"
 #include "libhzd/libhzd.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "memcard/memcard.h"
 #include "mts/mts_new.h"
 #include "chara/snake/afterse.h"

@@ -3,7 +3,7 @@
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Game/object.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "unknown.h"
 #include "scn_mask.h"
 #include "Equip/gglmng.h"

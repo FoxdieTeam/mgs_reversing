@@ -2,7 +2,7 @@
 #include "afterse.h"
 #include "libdg/libdg.h"
 #include "linker.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "Game/object.h"
 #include "Kojo/demothrd.h"
 #include "Game/game.h"
