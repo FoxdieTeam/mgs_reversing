@@ -3,7 +3,7 @@
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
-//#include "game/map.h"
+//#include "Game/map.h"
 
 #include "libgv/libgv.h"
 

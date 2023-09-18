@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "chara/snake/sna_init.h"
 #include "memcard/memcard.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "Game/jimctrl.h"
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"

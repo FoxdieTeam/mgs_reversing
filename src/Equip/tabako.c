@@ -6,7 +6,7 @@
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "linker.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "psyq.h"
 #include <LIBGPU.H>
 #include "Anime/animeconv/anime.h"

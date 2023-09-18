@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "libdg/inline_n.h"
-#include "game/map.h"
+#include "Game/map.h"
 
 #define S ((SCRPAD_80027384 *)getScratchAddr(0))
 
