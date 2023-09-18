@@ -1,6 +1,6 @@
 #include "libdg/libdg.h"
 #include "linker.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 

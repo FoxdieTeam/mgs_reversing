@@ -6,7 +6,7 @@
 #include "Game/linkvarbuf.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "socom.h"
 #include "unknown.h"
 #include "Okajima/bullet.h"

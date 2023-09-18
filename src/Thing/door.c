@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "Game/object.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "libhzd/libhzd.h"
 
 extern int      GM_GameOverTimer_800AB3D4;
