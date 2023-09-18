@@ -1,6 +1,6 @@
 #include "libhzd/libhzd.h"
 
-void sub_8006FE44(HZD_MAP *pHzdMap, HZD_SEG *arg1)
+void sub_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1)
 {
     HZD_SEG **var_a2;
     char *var_t0;

@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "libdg/libdg.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include <LIBGPU.H>

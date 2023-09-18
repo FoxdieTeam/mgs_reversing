@@ -164,24 +164,24 @@ typedef struct DG_Bounds
 	DG_VECTOR min;
 } DG_Bounds;
 
-typedef struct DG_Light
+typedef struct DG_LIT
 {
 	SVECTOR        pos;
 	unsigned short field_8_brightness;
 	unsigned short field_A_radius;
 	CVECTOR        field_C_colour;
-} DG_Light;
+} DG_LIT;
 
 typedef struct DG_FixedLight
 {
 	int       field_0_lightCount;
-	DG_Light *field_4_pLights;
+	DG_LIT *field_4_pLights;
 } DG_FixedLight;
 
 typedef struct DG_TmpLightList
 {
 	int      n_lights;
-	DG_Light lights[ 8 ];
+	DG_LIT lights[ 8 ];
 } DG_TmpLightList;
 
 typedef struct DG_LitVertex
@@ -598,7 +598,7 @@ void  DG_InitChanlSystem_80017B98( int width );
 void  DG_InitDispEnv_800170F0( int x, short y, short w, short h, int clipH );
 void  DG_InitPolyGT4Pack_8001A6E4( DG_OBJ *pObj, int idx );
 void  DG_SetTexture_8001D880( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6 );
-int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, DG_Light *pLights, int numLights );
+int   DG_MakePreshade_80031F04( DG_OBJS *pPrim, DG_LIT *pLights, int numLights );
 void  DG_PutObjs_8001BDB8( DG_OBJS *objs );
 void  DG_ReloadPalette_8001FC58( void );
 void  DG_RenderPipeline_800172A8( void );
@@ -628,7 +628,7 @@ void     DG_ClipDispEnv_800177EC(int x, int y);
 void     DG_PointCheck_8001BF34(SVECTOR *svector, int n_points);
 
 void     DG_GetLightVector_8001A1A8(VECTOR *in_vec, int divisor, SVECTOR *out_vec);
-void     Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_Light *pLights, int numLights);
+void     Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *pLights, int numLights);
 
 void     kmd_file_handler_link_vertices_to_parent_8001F3CC( DG_MDL *, DG_MDL     *);
 
@@ -641,7 +641,7 @@ SVECTOR *sub_8001AD28( SVECTOR *a1, int count );
 // read vecs from spad
 char    *sub_8001B1E8( DG_PRIM *prim, char *ptr, int count );
 
-void      Prim_80031B00(DG_MDL *pMdl, DG_Light *pLights, int numLights);
+void      Prim_80031B00(DG_MDL *pMdl, DG_LIT *pLights, int numLights);
 CVECTOR * Prim_80031B88(DG_MDL *pMdl, CVECTOR *pRgbs);
 CVECTOR * DG_MakePreshade_helper_80031BD4(DG_MDL *pMdl, CVECTOR *pRgbs, DG_OBJS *pObjs);
 int       Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef);

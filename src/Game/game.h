@@ -170,7 +170,7 @@ void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
 int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);
 void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
 void               GM_ExitBehindCamera_80030AEC(void);
-void               GM_CheckBehindCamera_80030B3C(HZD_MAP *map, CONTROL *control);
+void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
 int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
 char              *GM_GetArea_8002A880(int unused);
 int                GM_SetArea_8002A7D8(int stage_id, char *pStageName);
@@ -194,7 +194,7 @@ void               GM_GetAreaHistory_8002A730(AreaHistory *pHistoryCopy);
 void               GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory);
 int                GM_AreaHistory_8002A848(int stage_id);
 void               GM_SoundStart_8002E640(void);
-int                GM_set_noise_sound_8002E588(int a1);
+void               GM_set_noise_sound_8002E588(int arg0);
 Actor_strctrl      *GM_VoxStream_80037E40(int voxCode, int proc);
 void               GM_InitReadError_8002AC44();
 void               GM_SetSystemCallbackProc_8002B558(int index, int proc);
@@ -209,7 +209,7 @@ void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
 
-HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_MAP *pHzdMap, CONTROL *pControl);
+HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl);
 
 // SeSet helpers
 int sub_80032748(DVECTOR *out, SVECTOR *pos);

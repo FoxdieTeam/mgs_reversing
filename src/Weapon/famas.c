@@ -1,7 +1,7 @@
 #include "famas.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/object.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
 #include "Okajima/bullet.h"

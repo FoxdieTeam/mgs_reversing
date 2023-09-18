@@ -3,7 +3,7 @@
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
-//#include "map/map.h"
+//#include "game/map.h"
 
 #include "libgv/libgv.h"
 
@@ -17,7 +17,7 @@ typedef struct Res_Control_unknown
     SVECTOR         field_14_vec;
 } Res_Control_unknown;
 
-struct map_record;
+struct MAP;
 
 enum
 {
@@ -47,7 +47,7 @@ typedef struct CONTROL
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
     SVECTOR             field_8_rotator;
     Res_Control_unknown field_10_pStruct_hzd_unknown;
-    struct map_record  *field_2C_map;
+    struct MAP  *field_2C_map;
     unsigned short      field_30_scriptData;
 
     // Base height, written to by 800596FC() and read by 80025A7C() as an offset to determine the position vector's vy

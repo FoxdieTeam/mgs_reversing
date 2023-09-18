@@ -1,10 +1,6 @@
+
 #include "camera.h"
-
-extern int dword_800ABA90;
-int SECTION(".sbss") dword_800ABA90;
-
-extern int dword_800ABA94;
-int SECTION(".sbss") dword_800ABA94;
+#include "linkvarbuf.h"
 
 extern int GM_event_camera_flag_800ABA9C;
 int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
@@ -15,11 +11,26 @@ int SECTION(".sdata") GM_CameraTrackSave_800AB42C;
 extern SVECTOR GM_CameraRotateSave_800AB430;
 SVECTOR SECTION(".sdata") GM_CameraRotateSave_800AB430;
 
-extern int GM_CameraTrackOrg_800AB43C;
-int SECTION(".sdata") GM_CameraTrackOrg_800AB43C;
+extern int GM_CameraTrackOrg_800AB438;
+int SECTION(".sdata") GM_CameraTrackOrg_800AB438;
+
+extern int dword_800AB43C;
+int SECTION(".sdata") dword_800AB43C;
 
 extern int GM_CameraTrackOrg_800AB440;
 int SECTION(".sdata") GM_CameraTrackOrg_800AB440;
+
+extern HZD_TRP *dword_800AB444;
+HZD_TRP *SECTION(".sdata") dword_800AB444;
+
+extern int dword_800AB448;
+int SECTION(".sdata") dword_800AB448;
+
+extern int dword_800ABA90;
+int SECTION(".sbss") dword_800ABA90;
+
+extern int dword_800ABA94;
+int SECTION(".sbss") dword_800ABA94;
 
 extern int GM_CameraShakeOffset_800ABA98;
 int SECTION(".sdata") GM_CameraShakeOffset_800ABA98;
@@ -49,6 +60,18 @@ static const unsigned int dword_80010C60[] =
     0x50003,
     0x30003
 };
+
+
+/*
+Camera Attributes:
+ FLY: SVECTOR;
+ TRG: SVECTOR;
+ ROT: SVECTOR;
+ TRK: INT;
+ POS: INT;
+ ANG: SHORT?
+ TYPE: UNSIGNED INT (FLAG);
+*/
 
 static inline int camera_clamp(int val, int min, int max)
 {
@@ -473,7 +496,7 @@ int camera_act_helper2_8002F5C4(void)
 
 void camera_act_helper3_8002F64C(void)
 {
-    if (GM_Camera_800B77E8.field_22 != GM_CameraTrackOrg_800AB43C)
+    if (GM_Camera_800B77E8.field_22 != dword_800AB43C)
     {
         gUnkCameraStruct_800B77B8.field_24 = 0;
         GM_Camera_800B77E8.field_2A = 0;
@@ -512,7 +535,7 @@ void camera_act_helper3_8002F64C(void)
         gUnkCameraStruct_800B77B8.field_24 = 0;
     }
 
-    GM_CameraTrackOrg_800AB43C = GM_Camera_800B77E8.field_22;
+    dword_800AB43C = GM_Camera_800B77E8.field_22;
     GM_CameraTrackOrg_800AB440 = GM_Camera_800B77E8.field_18_flags;
 }
 
@@ -999,7 +1022,7 @@ GV_ACT *camera_init_800306A0()
     gUnkCameraStruct2_800B7868.field_1C = 320;
     dword_800ABA90 = 0;
     GM_event_camera_flag_800ABA9C = 0;
-    GM_CameraTrackOrg_800AB43C = 0;
+    dword_800AB43C = 0;
     GM_CameraTrackOrg_800AB440 = 0;
     gUnkCameraStruct_800B77B8.field_18 = 10000;
     GM_Camera_800B77E8.field_1C = 10000;
@@ -1010,4 +1033,202 @@ GV_ACT *camera_init_800306A0()
     gUnkCameraStruct_800B77B8.field_28.vz = 0;
 
     return pActor;
+}
+
+void GM_Reset_helper3_80030760()
+{
+    CAMERA    *cameraList, *cameraListIter;
+    GM_Camera *gmCamera;
+    int        i;
+    int        field_10_param1;
+
+    field_10_param1 = -1;
+    i = 7;
+
+    cameraList = GM_CameraList_800B7718;
+    cameraListIter = cameraList + 7;
+
+    gmCamera = &GM_Camera_800B77E8;
+    gmCamera->field_24_gcl_param_a = 100;
+    gmCamera->field_34[0][0].vx = 0x7fff;
+    gmCamera->field_34[0][0].vy = 0x7fff;
+    gmCamera->field_34[0][0].vz = 0x7fff;
+    gmCamera->field_34[1][0].vx = -0x7fff;
+    gmCamera->field_34[1][0].vy = -0x7fff;
+    gmCamera->field_34[1][0].vz = -0x7fff;
+    gmCamera->field_34[2][0].vx = 0x7fff;
+    gmCamera->field_34[2][0].vy = 0x7fff;
+    gmCamera->field_34[2][0].vz = 0x7fff;
+    gmCamera->field_34[3][0].vx = -0x7fff;
+    gmCamera->field_34[3][0].vy = -0x7fff;
+    gmCamera->field_34[3][0].vz = -0x7fff;
+    gmCamera->field_34[0][1].vx = 0x7fff;
+    gmCamera->field_34[0][1].vy = 0x7fff;
+    gmCamera->field_34[0][1].vz = 0x7fff;
+    gmCamera->field_34[1][1].vx = -0x7fff;
+    gmCamera->field_34[1][1].vy = -0x7fff;
+    gmCamera->field_34[1][1].vz = -0x7fff;
+    gmCamera->field_34[2][1].vx = 0x7fff;
+    gmCamera->field_34[2][1].vy = 0x7fff;
+    gmCamera->field_34[2][1].vz = 0x7fff;
+    gmCamera->field_34[3][1].vx = -0x7fff;
+    gmCamera->field_34[3][1].vy = -0x7fff;
+    gmCamera->field_34[3][1].vz = -0x7fff;
+
+    GM_CameraRotateSave_800AB430.vx = 0x280;
+    GM_CameraRotateSave_800AB430.vy = 0x800;
+    GM_CameraRotateSave_800AB430.vz = 0;
+
+    while (i >= 0)
+    {
+        cameraListIter->field_10_param1 = field_10_param1;
+        i--;
+        cameraListIter--;
+    }
+    dword_800ABA94 = 0;
+}
+
+void sub_8003081C()
+{
+    gUnkCameraStruct_800B77B8.field_8 = gUnkCameraStruct_800B77B8.field_0;
+}
+
+void GM_CameraSetAlertMask_80030850(unsigned int a1, unsigned int a2)
+{
+    int v2;
+    int result;
+
+    if ((a2 & 2) != 0)
+    {
+        v2 = 1 << a1;
+    }
+
+    else
+    {
+        v2 = 0;
+    }
+
+    result = ~(1 << a1);
+    dword_800ABA94 = (dword_800ABA94 & result) | v2;
+}
+
+void GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool)
+{
+    GM_Camera_800B77E8.field_34[1][param_3_bool] = *vec1;
+    GM_Camera_800B77E8.field_34[0][param_3_bool] = *vec2;
+}
+
+void GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool)
+{
+    GM_Camera_800B77E8.field_34[3][param_3_bool] = *vec1;
+    GM_Camera_800B77E8.field_34[2][param_3_bool] = *vec2;
+}
+
+void GCL_Command_camera_helper3_80030938(SVECTOR *pVec)
+{
+    GM_CameraRotateSave_800AB430 = *pVec;
+    sub_8002FCF0();
+}
+
+void GCL_Command_camera_helper4_80030980(int param_1)
+{
+    GM_CameraTrackOrg_800AB438 = param_1;
+    GM_CameraTrackSave_800AB42C = param_1;
+
+    sub_8002FCF0();
+}
+
+void GM_CameraEventReset_800309A8(void)
+{
+    dword_800ABA90 = 0;
+    return;
+}
+
+void sub_800309B4(int param_1, int param_2)
+{
+    GM_Camera_800B77E8.field_2A = param_1;
+    GM_Camera_800B77E8.field_26 = param_2;
+    svec_800ABA88 = GM_Camera_800B77E8.field_0;
+}
+
+void sub_800309F8(int param_1, int param_2)
+{
+    sub_800309B4(param_1, param_2);
+    GM_Camera_800B77E8.field_18_flags |= 2;
+}
+
+void sub_80030A30()
+{
+    if (GM_Camera_800B77E8.field_22 == 0)
+    {
+        gUnkCameraStruct_800B77B8.field_0 = gUnkCameraStruct_800B77B8.field_8 = GM_Camera_800B77E8.field_8;
+    }
+
+    GM_Camera_800B77E8.field_18_flags &= ~2;
+}
+
+void GM_CameraBoundTrace_80030AA4(int param_1)
+{
+    sub_8002EADC(param_1);
+}
+
+void GM_CameraLimitTrace_80030AC4(int param_1)
+{
+    sub_8002EBE8(&GM_Camera_800B77E8.field_8, param_1);
+}
+
+void GM_ExitBehindCamera_80030AEC(void)
+{
+    if (GM_GameStatus_800AB3CC & 0x10)
+    {
+        GM_GameStatus_800AB3CC &= ~0x10;
+        GM_event_camera_flag_800ABA9C &= ~8;
+        dword_800ABA90 = dword_800ABA90 | 8;
+    }
+
+    dword_800AB448 = 0;
+    dword_800AB444 = NULL;
+}
+
+void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
+{
+    HZD_TRP *trp;
+    CAMERA  *cam;
+    short   *name;
+
+    if ((GM_StatusEvent & 0x100 || GM_AlertMode_800ABA00 != 3) &&
+        (trp = HZD_CheckBehindTrap_8002A5E0(pHzdMap, pControl)) != NULL)
+    {
+        if (dword_800AB444 != trp)
+        {
+            if (++dword_800AB448 >= 10)
+            {
+                dword_800AB444 = trp;
+
+                cam = &GM_CameraList_800B7718[3];
+                cam->field_10_param1 = 1;
+                cam->field_11_param2 = 2;
+                cam->field_12_param3 = 0;
+                cam->field_13_param_p = 2;
+                cam->field_00_pos.pad = GV_GetPadOrigin_80016C84();
+
+                name = (short *)trp->name; // TODO: Is char[] name array in HZD_TRP correct? Is it really a name?
+                cam->field_08_trg[0] = name[0];
+                cam->field_08_trg[1] = name[1];
+                cam->field_08_trg[2] = name[2];
+
+                GM_event_camera_flag_800ABA9C |= 8;
+                dword_800ABA90 &= ~8;
+                GM_GameStatus_800AB3CC |= 0x10;
+
+                cam->field_00_pos.vx = name[3];
+                cam->field_00_pos.vy = name[4];
+                cam->field_00_pos.vz = name[5];
+            }
+        }
+    }
+    else
+    {
+        GM_ExitBehindCamera_80030AEC();
+    }
 }

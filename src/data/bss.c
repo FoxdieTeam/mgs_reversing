@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "chara/snake/sna_init.h"
 #include "memcard/memcard.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "Game/jimctrl.h"
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
@@ -167,7 +167,7 @@ UnkCameraStruct2 BSS gUnkCameraStruct2_800B7868; // 0x24 (36) bytes
 gap                                     gap_800B788C[0x4]; // 4 bytes
 
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
-map_record BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
+MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
 Homing_Target BSS   gHomingTargets_800B8230[8]; // 0x80 (128) bytes
 Actor_strctrl BSS   strctrl_800B82B0; // 0x40 (64) bytes
@@ -265,7 +265,7 @@ TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 
 gap                                     gap_800BDF04[0x4]; // 4 bytes
 
-map_record *BSS     claymore_map_record_800bdf08; // 0x4 (4) bytes
+MAP *BSS     claymore_MAP_800bdf08; // 0x4 (4) bytes
 
 gap                                     gap_800BDF0C[0x4]; // 4 bytes
 

@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "libdg/inline_n.h"
-#include "map/map.h"
+#include "game/map.h"
 
 #define S ((SCRPAD_80027384 *)getScratchAddr(0))
 
@@ -644,7 +644,7 @@ static inline void sub_80028454_copy_svector_to_scratchpad(int offset, SVECTOR *
     scratchpad[offset + 1] = svec->vz;
 }
 
-int sub_80028454(HZD_MAP *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
+int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
 {
     int       count;
     int       n_areas, n_areas2;
@@ -660,7 +660,7 @@ int sub_80028454(HZD_MAP *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
     char     *pFlagsEnd;
     int       queue_size, idx;
     char     *pFlagsEnd2;
-    HZD_MAP  *pNextMap;
+    HZD_HDL  *pNextMap;
 
     dword_800AB9A8_copy = dword_800AB9A8;
 
@@ -1130,7 +1130,7 @@ static inline void sub_helper_80029098(void)
     *(int *)0x1F800048 = 1;
 }
 
-int sub_80029098(HZD_MAP *pMap, SVECTOR *pPosition, int delta, int flags, unsigned int mask)
+int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsigned int mask)
 {
     HZD_AREA *pArea;
     int       n_unknown;

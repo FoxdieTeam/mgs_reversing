@@ -1,6 +1,6 @@
 #include "libhzd/libhzd.h"
 
-int HZD_QueueDynamicSegment2_8006FDDC(HZD_MAP *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag)
+int HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag)
 {
     int idx = pHzdMap->f0A_idx;
     if ( idx >= pHzdMap->f12_queue_size )

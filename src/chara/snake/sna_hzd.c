@@ -108,7 +108,7 @@ int sub_8005C05C(HZD_ZON *a1, HZD_ZON *a2, SVECTOR *a3)
     return 1;
 }
 
-int sna_8005C140(HZD_MAP *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
+int sna_8005C140(HZD_HDL *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
 {
     unsigned char *nears;    // $s2
     int            i;        // $s1
@@ -130,7 +130,7 @@ int sna_8005C140(HZD_MAP *pZon1, HZD_ZON *pZon2, SVECTOR *pVec)
     return -1;
 }
 
-int sub_8005C1E4(HZD_MAP *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
+int sub_8005C1E4(HZD_HDL *pHzd, HZD_ZON *pZon, SVECTOR *pVec)
 {
     unsigned char *nears;    // $s2
     int            i;        // $s1
@@ -200,7 +200,7 @@ int sub_8005C298(HZD_ZON *a1, SVECTOR *a2, int a3)
     return retval;
 }
 
-int sna_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
+int sna_8005C354(HZD_HDL *pHzd, SVECTOR *pVec)
 {
     int smallest_idx; // $s3
     HZD_HEADER *pHeader; // $s4
@@ -237,7 +237,7 @@ int sna_8005C354(HZD_MAP *pHzd, SVECTOR *pVec)
     }
 }
 
-int HZD_ReachTo_helper_8005C404(HZD_MAP *pHzd, int near_idx, int toFind)
+int HZD_ReachTo_helper_8005C404(HZD_HDL *pHzd, int near_idx, int toFind)
 {
     int i; // $a3
     u_char *nears; // $v1
@@ -261,7 +261,7 @@ int HZD_ReachTo_helper_8005C404(HZD_MAP *pHzd, int near_idx, int toFind)
     return 0;
 }
 
-int sna_8005C458(HZD_MAP *pHzd, int a2, int a3)
+int sna_8005C458(HZD_HDL *pHzd, int a2, int a3)
 {
     if ( a2 != 255 && a3 != 255 )
     {
@@ -272,7 +272,7 @@ int sna_8005C458(HZD_MAP *pHzd, int a2, int a3)
 }
 
 
-int sub_8005C498(HZD_MAP *pHzd, int idx, int *pOutNear)
+int sub_8005C498(HZD_HDL *pHzd, int idx, int *pOutNear)
 {
     int     i;        // $a3
     u_char *nears;    // $v1
@@ -292,7 +292,7 @@ int sub_8005C498(HZD_MAP *pHzd, int idx, int *pOutNear)
     return i;
 }
 
-int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_MAP *pHzdMap, int arg1, int arg2)
+int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_HDL *pHzdMap, int arg1, int arg2)
 {
     int   min;
     int   minval;
@@ -333,7 +333,7 @@ int sna_act_unk_helper2_helper_helper_helper_8005C4E4(HZD_MAP *pHzdMap, int arg1
     return minval;
 }
 
-int sub_8005C5D4(HZD_MAP *pHzdMap, int param_2, int param_3)
+int sub_8005C5D4(HZD_HDL *pHzdMap, int param_2, int param_3)
 {
     HZD_HEADER    *hzdHeader;
     int            n_navmeshes;
@@ -371,7 +371,7 @@ int sub_8005C5D4(HZD_MAP *pHzdMap, int param_2, int param_3)
     return retval;
 }
 
-int sub_8005C6C4(HZD_MAP *pHzdMap, SVECTOR *pVec, int a2)
+int sub_8005C6C4(HZD_HDL *pHzdMap, SVECTOR *pVec, int a2)
 {
     int      lo, lo2;
     int      hi, hi2;
@@ -492,7 +492,7 @@ exit:
     return (lo2 & 0xFF) | ((hi2 & 0xFF) << 8);
 }
 
-int HZD_ReachTo_8005C89C(HZD_MAP *pHzdMap, int x, int y)
+int HZD_ReachTo_8005C89C(HZD_HDL *pHzdMap, int x, int y)
 {
     int xl, xh;
     int yl, yh;
@@ -557,7 +557,7 @@ ret2:
     return 3;
 }
 
-int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzdMap, int x, int y, void *pControl)
+int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzdMap, int x, int y, void *pControl)
 {
     int xl, xh;
     int yl, yh;
@@ -621,7 +621,7 @@ int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzdMap, int x, int y, v
     return xl;
 }
 
-int sub_8005CB48(HZD_MAP *pHzdMap, int x, int y, void *pControl)
+int sub_8005CB48(HZD_HDL *pHzdMap, int x, int y, void *pControl)
 {
     int xl, xh;
     int yl, yh;
@@ -685,7 +685,7 @@ int sub_8005CB48(HZD_MAP *pHzdMap, int x, int y, void *pControl)
     return xl;
 }
 
-int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
+int sub_8005CD1C(HZD_HDL *pHzdMap, int from, int to)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;
@@ -739,7 +739,7 @@ int sub_8005CD1C(HZD_MAP *pHzdMap, int from, int to)
     return retval;
 }
 
-int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
+int sub_8005CE5C(HZD_HDL *pHzdMap, int from, int to, int max_dist)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;
@@ -795,7 +795,7 @@ int sub_8005CE5C(HZD_MAP *pHzdMap, int from, int to, int max_dist)
     return from;
 }
 
-int sub_8005CFAC(HZD_MAP *pHzdMap, int from, int to, int max_dist)
+int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist)
 {
     HZD_HEADER *hzdHeader;
     HZD_ZON    *hzdZon;
@@ -859,17 +859,17 @@ int sub_8005CFAC(HZD_MAP *pHzdMap, int from, int to, int max_dist)
     return from;
 }
 
-int sub_8005D134(HZD_MAP *pHzd, SVECTOR *pVec, int idx)
+int sub_8005D134(HZD_HDL *pHzd, SVECTOR *pVec, int idx)
 {
     return sub_8005BFDC(&pHzd->f00_header->navmeshes[idx], pVec);
 }
 
-int sub_8005D168(HZD_MAP *pHzd, int a2, int *a3)
+int sub_8005D168(HZD_HDL *pHzd, int a2, int *a3)
 {
     return sub_8005C498(pHzd, a2, a3);
 }
 
-int sub_8005D188(HZD_MAP *pHzd, int mesh_idx, int a3, int *pBiggest)
+int sub_8005D188(HZD_HDL *pHzd, int mesh_idx, int a3, int *pBiggest)
 {
     int biggest_match; // $s3
     int ret_near; // $s4
@@ -905,7 +905,7 @@ int sub_8005D188(HZD_MAP *pHzd, int mesh_idx, int a3, int *pBiggest)
     return ret_near;
 }
 
-int sub_8005D288(HZD_MAP *pHzd, int mesh_idx, int a3)
+int sub_8005D288(HZD_HDL *pHzd, int mesh_idx, int a3)
 {
     int smallest_val; // $s2
     int i; // $s1

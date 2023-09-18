@@ -219,7 +219,7 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     return GV_VecLen3_80016D80(param_1);
 }
 
-void sub_8004E588(HZD_MAP *param_1, SVECTOR *param_2, int *param_3)
+void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *param_3)
 {
     unsigned int uVar1;
 
@@ -283,7 +283,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     return 2;
 }
 
-int sna_8004E71C(int a1, HZD_MAP *pHzd, SVECTOR *pVec, int a4)
+int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 {
     int point[2];
     SVECTOR vec, vec_saved;
