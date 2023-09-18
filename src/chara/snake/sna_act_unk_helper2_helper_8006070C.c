@@ -4,7 +4,7 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
 {
     SVECTOR vec;
     SVECTOR *pPosition;
-    HZD_MAP *pHzd;
+    HZD_HDL *pHzd;
     int x, y, z;
     int reach;
     int zon;

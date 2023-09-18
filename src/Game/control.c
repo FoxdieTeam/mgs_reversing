@@ -3,7 +3,7 @@
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
-#include "map/map.h"
+#include "game/map.h"
 #include "libhzd/libhzd.h"
 
 #include "libgcl/libgcl.h"
@@ -77,7 +77,7 @@ void GM_InitWhereSystem_8002597C(void)
 
 int Res_Control_init_loader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
 {
-    struct map_record *pMapRec;
+    struct MAP *pMapRec;
     const int          mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
     GM_CurrentMap_800AB9B0 = mapId;
 
@@ -122,7 +122,7 @@ static inline void GM_ActControl_helper_80025A7C(CONTROL *pControl)
     int         count;
     GV_MSG     *pMsg;
     int         hash1, hash2;
-    map_record *pMap;
+    MAP *pMap;
 
     scriptData = pControl->field_30_scriptData;
 
@@ -159,7 +159,7 @@ static inline void GM_ActControl_helper_80025A7C(CONTROL *pControl)
     }
 }
 
-static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_MAP *pHzd)
+static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pHzd)
 {
     SVECTOR vec;
     int     vx;
@@ -215,7 +215,7 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_MAP *pH
     }
 }
 
-static inline void GM_ActControl_helper3_80025A7C(CONTROL *pControl, HZD_MAP *pHzd)
+static inline void GM_ActControl_helper3_80025A7C(CONTROL *pControl, HZD_HDL *pHzd)
 {
     SVECTOR vec;
     SVECTOR vec2;
@@ -258,7 +258,7 @@ retry:
     }
 }
 
-static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_MAP *pHzd)
+static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pHzd)
 {
     int xz[2];
     int vy, vz;
@@ -324,11 +324,11 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_MAP *pH
     pControl->field_0_mov.vy = vy;
 }
 
-extern void GM_ActControl_helper6_8002A538(HZD_MAP *pMap, Res_Control_unknown *arg1);
+extern void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, Res_Control_unknown *arg1);
 
 void GM_ActControl_80025A7C(CONTROL *pControl)
 {
-    HZD_MAP *pHzd;
+    HZD_HDL *pHzd;
     int      vy;
     int      time;
 

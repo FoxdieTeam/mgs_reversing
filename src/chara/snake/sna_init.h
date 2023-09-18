@@ -303,7 +303,7 @@ void         sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags);
 int          sub_8004E458(short param_1, int param_2);
 int          sub_8004E4C0(Actor_SnaInit *pActor, int param_2);
 int          sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4);
-void         sub_8004E588(HZD_MAP *param_1, SVECTOR *param_2, int *param_3);
+void         sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *param_3);
 int          sub_8004E930(Actor_SnaInit *snake, int arg1);
 void         sub_8004E9D0(Actor_SnaInit *pActor);
 void         sub_8004EA50(Actor_SnaInit *pActor, int param_2);
@@ -444,19 +444,19 @@ int  sub_8004E5E8(Actor_SnaInit *pActor, int param_2);
 int  sub_8004E808(Actor_SnaInit *pActor, int, int, int, int); // dummy signature
 int  sna_act_unk_helper2_helper3_80060684(SnaAutoMove *, SVECTOR *);
 void sna_anim_claymore_helper_80058780(Actor_SnaInit *pActor, int time);
-int  sub_8005C6C4(HZD_MAP *hzd, SVECTOR *vec, int param_3);
+int  sub_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
 void sna_act_unk2_80051170(TARGET *pTarget);
 void sna_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time);
 void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time);
 void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time);
 void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time);
-void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_MAP *pHzd, SVECTOR *pVec);
+void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, SVECTOR *pVec);
 int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl);
 void sna_80057A90(Actor_SnaInit *pActor, int time);
 void sna_8004EF14(Actor_SnaInit *pActor);
 GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv);
-int HZD_ReachTo_8005C89C(HZD_MAP *pHzd, int, int);
-int sna_act_unk_helper2_helper_helper_8005C974(HZD_MAP *pHzd, int, int, CONTROL *pControl);
+int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
+int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL *pControl);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
 // TODO: move these to indivudual weapon headers

@@ -170,7 +170,7 @@ static inline int sub_helper_800296C4(HZD_FLR *pAltimetry, SVECTOR *arg1)
     return 1;
 }
 
-int sub_800296C4(HZD_MAP *pHzdMap, SVECTOR *param_2, int flags)
+int sub_800296C4(HZD_HDL *pHzdMap, SVECTOR *param_2, int flags)
 {
     HZD_AREA *pArea;
     int      *pScr;

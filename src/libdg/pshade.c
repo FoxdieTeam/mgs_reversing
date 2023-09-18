@@ -23,13 +23,13 @@ extern DG_LitVertex DG_LitVertices_800B7A50[84];
         gte_stclmv((char *)r2 + 4);                                                                                    \
     }
 
-void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_Light *pLights, int numLights)
+void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *pLights, int numLights)
 {
     VECTOR distance;
     VECTOR position;
     int remaining;
     int lights;
-    DG_Light *pLight;
+    DG_LIT *pLight;
     int radius;
     int brightness;
 
@@ -91,7 +91,7 @@ void Prim_lighting_80031954(SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, D
     }
 }
 
-void Prim_80031B00(DG_MDL *pMdl, DG_Light *pLights, int numLights)
+void Prim_80031B00(DG_MDL *pMdl, DG_LIT *pLights, int numLights)
 {
     unsigned int  numVerts;
     SVECTOR      *pVerts;
@@ -224,7 +224,7 @@ int Prim_Calc_CVECTOR_len_80031ED4(DG_DEF *pDef)
     return 0x10 * totalFaceCount; // TODO: sizeof(CVECTOR) ??
 }
 
-int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_Light *pLights, int numLights)
+int DG_MakePreshade_80031F04(DG_OBJS *pObjs, DG_LIT *pLights, int numLights)
 {
     CVECTOR *pRgbs;
     DG_DEF *pDef;
