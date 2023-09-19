@@ -4,8 +4,6 @@
 
 extern short d_800AB9EC_mag_size;
 
-extern const char aBandanaC[];
-
 extern short gGcl_gameStateVars_800B44C8[0x60];
 
 extern short snake_weapon_idx_800BDCBA;
@@ -15,15 +13,8 @@ extern short snake_mag_size_800BDCB8;
 
 //------------------------------------------------------------------------------
 
-extern const char aSnaFace[];
-extern const char aSnaFace2[];
-extern const char aSnaFace3[];
-extern const char aSnaMf1[];
-extern const char aSnaMf2[];
-extern const char aSnaMf3[];
-
-const char *off_8009F2A8[3] = {aSnaFace, aSnaFace2, aSnaFace3};
-const char *off_8009F2B4[3] = {aSnaMf1, aSnaMf2, aSnaMf3};
+const char *off_8009F2A8[3] = {"sna_face", "sna_face2", "sna_face3"};
+const char *off_8009F2B4[3] = {"sna_mf1", "sna_mf2", "sna_mf3"};
 
 //------------------------------------------------------------------------------
 
@@ -73,7 +64,7 @@ GV_ACT * NewBandana_80061E40(CONTROL *pCtrl, OBJECT *pParent, int unused)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bandana_act_80061DA0,
-                                  (TActorFunction)bandana_kill_80061E1C, aBandanaC);
+                                  (TActorFunction)bandana_kill_80061E1C, "bandana.c");
         pActor->field_20_pParent = pParent;
         bandana_80061D14(pParent);
     }

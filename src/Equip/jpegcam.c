@@ -36,26 +36,7 @@ short        SECTION(".sbss") dword_800ABBDC;
 
 extern char aBislpm99999[];          // = "BISLPM-99999        "
 
-extern const char aPHOTO[];          // = "PHOTO %02d\n"
-extern const char aJpegcamC[];       // = "jpegcam.c"
-extern const char aGoggles[];        // = "goggles"
-extern const char aSSSS[];           // = "%s%s%s%s"
-extern const char aMGSIntegralEUC[]; // = "ＭＧＳ∫"
-extern const char aSpaceEUC[];       // = "　"
-extern const char aPhotoEUC[];       // = "ＰＨＯＴＯ"
-extern const char aZoom4d[];         // = "zoom  : %4d\n"
-extern const char aAngle4d4d[];      // = "angle : %4d, %4d\n"
-extern const char aDTryQScaleDSiz[]; // = "%d try q_scale = %d size = %d\n"
-extern const char aSaveHeaderX[];    // = "save header = %x\n"
-extern const char aSinreiSyasinCh[]; // = "Sinrei Syasin Check Start\n"
-extern const char aHereIsSinreiSp[]; // = "Here is Sinrei Spot!\n"
-extern const char aGmPhotocodeD[];   // = "GM_Photocode = %d\n"
-extern const char aPointCheck[];     // = "Point Check\n"
-extern const char aResultD[];        // = "Result = %d\n"
-extern const char aNotSinreiSpot[];  // = "Not Sinrei Spot!\n"
-extern const char aSAVEPHOTO[];
-
-menu_save_mode_data stru_8009F2D8 = {{67, 4}, 0, 2, aSAVEPHOTO, (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
+menu_save_mode_data stru_8009F2D8 = {{67, 4}, 0, 2, "SAVE PHOTO", (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
 
 signed char gJpegcamZigZagTable_8009F2EC[64] = {
     0x00, 0x01, 0x08, 0x10, 0x09, 0x02, 0x03, 0x0A,
@@ -126,18 +107,21 @@ void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 
     stru_8009F2D8.field_2 = index;
 
-    sprintf(buf, aSSSS, aMGSIntegralEUC, aSpaceEUC, aPhotoEUC, photo_id);
+    /* ＭＧＳ∫ */
+    /* 　 */
+    /* ＰＨＯＴＯ */
+    sprintf(buf, "%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", "\x81\x40", "\x82\x6F\x82\x67\x82\x6E\x82\x73\x82\x6E", photo_id);
 }
 
 void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
-    sprintf(param_1, aPHOTO, *(char *)(param_2 + 6) - 0x40);
+    sprintf(param_1, "PHOTO %02d\n", *(char *)(param_2 + 6) - 0x40);
 }
 
 void jpegcam_unk3_800638B4(int *arg0)
 {
     dword_800BDCD0 = (char)dword_800BDCD0 | 0x80808000;
-    printf(aSaveHeaderX, dword_800BDCD0);
+    printf("save header = %x\n", dword_800BDCD0);
 
     GV_CopyMemory_800160D8(&dword_800BDCD0, &arg0[0], 4);
     GV_CopyMemory_800160D8(dword_800BDCC8, &arg0[1], dword_800BDCCC);
@@ -504,7 +488,7 @@ void jpegcam_act_try_compress_frame_80064378(Actor_jpegcam *pActor)
     pActor->field_88 = (char *)0x801A1000;
 
     pActor->field_8C_size = jpegcam_act_compress_frame_800641C0(pActor, &rect, q_scale);
-    printf(aDTryQScaleDSiz, iteration, q_scale, pActor->field_8C_size);
+    printf("%d try q_scale = %d size = %d\n", iteration, q_scale, pActor->field_8C_size);
     iteration++;
     q_scale++;
     if (pActor->field_8C_size > 20000)
@@ -790,20 +774,20 @@ int jpegcam_act_helper3_helper2_800649F4(Actor_jpegcam *pActor)
 {
     int retval;
 
-    printf(aSinreiSyasinCh);
+    printf("Sinrei Syasin Check Start\n");
     if (GM_Photocode_800ABA04 != 0)
     {
-        printf(aHereIsSinreiSp);
-        printf(aGmPhotocodeD, GM_Photocode_800ABA04);
+        printf("Here is Sinrei Spot!\n");
+        printf("GM_Photocode = %d\n", GM_Photocode_800ABA04);
 
         retval = DG_PointCheckOne_8001C18C((DVECTOR *)&GM_PhotoViewPos_800ABA48);
-        printf(aPointCheck);
+        printf("Point Check\n");
 
-        printf(aResultD, retval);
+        printf("Result = %d\n", retval);
     }
     else
     {
-        printf(aNotSinreiSpot);
+        printf("Not Sinrei Spot!\n");
         retval = 0;
     }
     return retval;
@@ -898,7 +882,7 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
         if (pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
             pGoggleObject = (OBJECT *)(&pActor->field_28_goggles);
-            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *) pGoggleObject, GV_StrCode_80016CCC(aGoggles), 109, 0);
+            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *) pGoggleObject, GV_StrCode_80016CCC("goggles"), 109, 0);
             if (pActor->field_28_goggles.objs)
             {
                 GM_ConfigObjectRoot_80034C5C(pGoggleObject, pParent, 6);
@@ -965,8 +949,8 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
         {
             menu_Text_XY_Flags_80038B34(200, 25, 0);
             menu_Color_80038B4C(192, 144, 128);
-            menu_Text_80038C38(aZoom4d, GM_Camera_800B77E8.field_20);
-            menu_Text_80038C38(aAngle4d4d, -pActor->field_5C_ang.vx, pActor->field_5C_ang.vy);
+            menu_Text_80038C38("zoom  : %4d\n", GM_Camera_800B77E8.field_20);
+            menu_Text_80038C38("angle : %4d, %4d\n", -pActor->field_5C_ang.vx, pActor->field_5C_ang.vy);
         }
         break;
 
@@ -1026,7 +1010,7 @@ GV_ACT * NewJpegcam_80065118(CONTROL *pCtrl, OBJECT *pParent, int unused)
     if (pActor != NULL)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jpegcam_act_80064C50,
-                                  (TActorFunction)jpegcam_kill_80065008, aJpegcamC);
+                                  (TActorFunction)jpegcam_kill_80065008, "jpegcam.c");
         if (jpegcam_loader_80065098(pActor, pCtrl, pParent) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);

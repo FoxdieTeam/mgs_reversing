@@ -3,18 +3,8 @@
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
 
-extern const char aBodyarmC[];
-extern const char aSnaChest1[];
-extern const char aSnaChest2[];
-extern const char aSnaChest3[];
-extern const char aSnaHip1[];
-extern const char aSnaArmer1[];
-extern const char aSnaArmer2[];
-extern const char aSnaArmer3[];
-extern const char aSnaArmer4[];
-
-const char *SECTION(".data") off_8009F264[4] = {aSnaChest1, aSnaChest2, aSnaChest3, aSnaHip1};
-const char *SECTION(".data") off_8009F274[4] = {aSnaArmer1, aSnaArmer2, aSnaArmer3, aSnaArmer4};
+const char *off_8009F264[4] = {"sna_chest1", "sna_chest2", "sna_chest3", "sna_hip1"};
+const char *off_8009F274[4] = {"sna_armer1", "sna_armer2", "sna_armer3", "sna_armer4"};
 
 void bodyarm_free_80060874(OBJECT *a1)
 {
@@ -44,7 +34,7 @@ GV_ACT * NewBodyarm_80060940(CONTROL *pCtrl, OBJECT *pObj, int unused)
     Actor_bodyarm *pActor = (Actor_bodyarm *)GV_NewActor_800150E4(6, sizeof(Actor_bodyarm));
     if (pActor)
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, aBodyarmC);
+        GV_SetNamedActor_8001514C(&pActor->field_0, 0, (TActorFunction)bodyarm_kill_8006090C, "bodyarm.c");
         pActor->field_20 = pObj;
         if ((GM_GameStatusFlag & 0x20) != 0)
         {

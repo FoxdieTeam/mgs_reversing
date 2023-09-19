@@ -9,15 +9,6 @@ extern SVECTOR stru_800BDF90;
 extern int claymore_map_800AB9DC;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern const char animation_data_80012F2C[];
-extern const char animation_data_80012F50[];
-
-extern const char aRefrection6[]; // = "refrection6"
-extern const char aStngrndC[];    // = "stngrnd.c"
-
-ANIMATION stru_8009F670 = {19692, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)animation_data_80012F2C};
-ANIMATION stru_8009F68C = {21926, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)animation_data_80012F50};
-
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {
     int x, w, y, h;
@@ -177,7 +168,7 @@ int stngrnd_loader_800748D8(Actor_StunGrenade *pActor, MATRIX *pMtx)
         pPrim->root = NULL;
         pPrim->field_2E_k500 = 320;
 
-        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRefrection6));
+        pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("refrection6"));
 
         if (!pTex)
         {
@@ -210,7 +201,7 @@ Actor_StunGrenade * NewStanBlast_80074B5C(MATRIX *pMtx)
     pActor = (Actor_StunGrenade *)GV_NewActor_800150E4(5, sizeof(Actor_StunGrenade));
     if ( pActor )
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)stngrnd_act_80074730, (TActorFunction)stngrnd_kill_800748B8, aStngrndC);
+        GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)stngrnd_act_80074730, (TActorFunction)stngrnd_kill_800748B8, "stngrnd.c");
 
         claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
 
@@ -228,6 +219,14 @@ Actor_StunGrenade * NewStanBlast_80074B5C(MATRIX *pMtx)
     return pActor;
 }
 
+const int animation_data_80012F2C[] = {
+    0x00011F00, 0x0C000105, 0x010A0400,
+    0x02F401F4, 0x0C0D0100, 0x010A0700,
+    0x08F401F4, 0x02F0F0F0, 0x0F0D0100
+};
+
+ANIMATION stru_8009F670 = {19692, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)animation_data_80012F2C};
+
 void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
 {
     ANIMATION *anm;
@@ -243,6 +242,14 @@ void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
+
+const int animation_data_80012F50[] = {
+    0x00011F00, 0x0C000105, 0x020A0500,
+    0x02580258, 0x0C0D0100, 0x000A0900,
+    0x081E001E, 0x02EEEEEE, 0x0F0D0100
+};
+
+ANIMATION stru_8009F68C = {21926, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)animation_data_80012F50};
 
 void AN_Stn_G_Center_80074D28(SVECTOR *pos)
 {

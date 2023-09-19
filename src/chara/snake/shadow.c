@@ -199,8 +199,6 @@ int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, S
     return 0;
 }
 
-extern const char aShadowC[]; // = "shadow.c"
-
 Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94)
 {
     Actor_Shadow *pActor;
@@ -209,7 +207,7 @@ Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)shadow_act_800600E4,
-                                  (TActorFunction)shadow_kill_80060190, aShadowC);
+                                  (TActorFunction)shadow_kill_80060190, "shadow.c");
         if (shadow_loader_800601B0(pActor, pCtrl, pObj, field_94) >= 0)
         {
             return pActor;
