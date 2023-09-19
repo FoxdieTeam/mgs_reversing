@@ -148,10 +148,7 @@
     include "..\obj\Menu\radiofacedraw.obj" ;radiofacedraw.c ?
     include "..\obj\Menu\jimaku.obj"        ;jimaku.c ?
     include "..\obj\Menu\radiotable.obj"    ;radiotable.c ?
-
     include "..\obj\Menu\datasave.obj"      ;datasave.c
-    include "..\obj\data\rdata\rdata_80011F18.obj"
-    include "..\obj\Menu\datasave2.obj"      ;datasave2.c ; had to split because of rdata
 
     include "..\obj\data\sbss\sbss5.obj"
     include "..\obj\Menu\radiomem.obj"      ;radiomem.c
@@ -194,8 +191,6 @@
     ; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
     include "..\obj\Game\vibrate.obj"
 
-    include "..\obj\data\rdata\rdata_800124A8.obj"
-
     ; 8005D604 8005D6BC 8005D988 8005DDE0 8005DE70 8005DF50 8005E090 8005E1A0 8005E258 8005E334
     ; 8005E508 8005E574 8005E6A4 8005E774 8005E7EC 8005E9E0 8005EA6C 8005EB30 8005EB98 8005EC1C
     ; 8005ED0C 8005ED74 8005EDDC 8005EE44 8005EEA4 8005EF04 8005EFF8 8005F094 8005F0F0 8005F180
@@ -208,6 +203,7 @@
 
     ; 800603EC 800604C0
     include "..\obj\chara\snake\afterse.obj"
+
     include "..\obj\chara\snake\sub_80060548.obj"
     include "..\obj\chara\snake\sna_act_unk_helper2_helper2_800605DC.obj"
     include "..\obj\chara\snake\sub_80060644.obj"
@@ -226,6 +222,8 @@
     include "..\obj\Equip\scope.obj"
     include "..\obj\Equip\gmsight.obj" ; gasmask first person
     include "..\obj\Equip\jpegcam.obj"
+
+    include "..\obj\data\rdata\rdata_800124A8.obj"
 
     include "..\obj\data\sbss\sbss6.obj"
 

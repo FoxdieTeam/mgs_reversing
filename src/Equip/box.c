@@ -7,23 +7,12 @@
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 
-extern const char aBoxC[];
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_8009F604;
 extern GM_Camera GM_Camera_800B77E8;
 
-extern const char aCardboardEUC[]; // This is cardboard in EUC-JP encoding
-extern const char aCbBox11[];
-extern const char aCbBox12[];
-extern const char aCbBox41[];
-extern const char aCbBox42[];
-extern const char aCbBox21[];
-extern const char aCbBox22[];
-extern const char aCbBox41[];
-extern const char aCbBox42[];
-
 int dword_8009F284 = 0;
-const char *off_8009F288[8] = {aCbBox11, aCbBox12, aCbBox41, aCbBox42, aCbBox21, aCbBox22, aCbBox41, aCbBox42};
+const char *off_8009F288[8] = {"cb_box11", "cb_box12", "cb_box41", "cb_box42", "cb_box21", "cb_box22", "cb_box41", "cb_box42"};
 
 int BoxCheckMessage_8006195C(Actor_Box *pActor)
 {
@@ -37,7 +26,8 @@ int BoxCheckMessage_8006195C(Actor_Box *pActor)
 
     for (count = pCtrl->field_56; count > 0; pMsg++, count--)
     {
-        if (GV_StrCode_80016CCC(aCardboardEUC) == pMsg->message[0])
+        /* "段ボール" */
+        if (GV_StrCode_80016CCC("\xC3\xCA\xA5\xDC\xA1\xBC\xA5\xEB") == pMsg->message[0])
         {
             message = pMsg->message[1];
 
@@ -96,8 +86,6 @@ void BoxDie_80061B30(Actor_Box *pActor)
     dword_8009F284 = 0;
 }
 
-extern const char aCbBox[]; // = "cb_box"
-
 int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
 {
     OBJECT *pObject = &pActor->field_20;
@@ -105,7 +93,7 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
     const char **ppName;
     int i;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObject, GV_StrCode_80016CCC(aCbBox), 109, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObject, GV_StrCode_80016CCC("cb_box"), 109, 0);
 
     if (!pActor->field_20.objs)
     {
@@ -133,7 +121,7 @@ GV_ACT * NewBox_80061C7C(CONTROL *pCtrl, OBJECT *pParent, int unused)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)BoxAct_80061A14,
-                                  (TActorFunction)BoxDie_80061B30, aBoxC);
+                                  (TActorFunction)BoxDie_80061B30, "box.c");
         if (BoxGetResources_80061BA0(pActor, pParent) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);

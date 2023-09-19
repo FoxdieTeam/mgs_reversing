@@ -5,9 +5,6 @@
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 
-extern const char aGasmaskC[];
-extern const char aGasMask_DUP[];
-
 extern int       DG_CurrentGroupID_800AB968;
 extern int       dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
@@ -69,7 +66,7 @@ int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
     pActor->field_48_pParent = pChild;
     pActor->field_4C_unit = unit;
     pActor->field_50_count = 0;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aGasMask_DUP), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC("gas_mask"), WEAPON_FLAG, 0);
     if (!pActor->field_20_obj.objs)
     {
         return -1;
@@ -87,7 +84,7 @@ GV_ACT * NewGasmask_80060C14(CONTROL *pCtrl, OBJECT *pParent, int unit)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)gasmask_act_800609C0,
-                                  (TActorFunction)gasmask_kill_80060B0C, aGasmaskC);
+                                  (TActorFunction)gasmask_kill_80060B0C, "gasmask.c");
         if (gasmask_loader_80060B5C(pActor, pParent, unit) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);

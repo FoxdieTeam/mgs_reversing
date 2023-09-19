@@ -8,8 +8,6 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern CONTROL      *gSnaControl_800AB9F4;
 
-extern const char aDBloodC[]; // = "d_blood.c"
-
 void d_blood_kill_null_800729AC(Actor_DBlood *pActor)
 {
 }
@@ -101,7 +99,7 @@ GV_ACT * NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                                   (TActorFunction)&d_blood_act_80072A0C,
                                   (TActorFunction)&d_blood_kill_null_800729AC,
-                                  aDBloodC);
+                                  "d_blood.c");
 
         if (d_blood_loader_80072B38(pActor) < 0)
         {

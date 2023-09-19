@@ -13,9 +13,6 @@ extern int            GV_Clock_800AB920;
 extern unsigned short gSparkRandomTable_800BDF10[];
 extern SVECTOR        DG_ZeroVector_800AB39C;
 
-extern const char aSparkFl[]; // = "spark_fl"
-extern const char aSparkC[];  // = "spark.c"
-
 int gSparkRandomTableIndex_8009F668 = -1;
 int gSparkRandomTableIndex2_8009F66C = 0;
 
@@ -272,7 +269,7 @@ int spark_loader_80074418(struct Actor_Spark *pActor, MATRIX *a2, int a3)
     pActor->f168.vx = a2->t[0];
     pActor->f168.vy = a2->t[1];
     pActor->f168.vz = a2->t[2];
-    pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSparkFl));
+    pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("spark_fl"));
 
     if (!pTexture)
     {
@@ -298,7 +295,7 @@ Actor_Spark *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
         pActor = (Actor_Spark *) GV_NewActor_800150E4(5, sizeof(Actor_Spark));
         if (pActor != NULL)
         {
-            GV_SetNamedActor_8001514C(&pActor->f000_actor, (TActorFunction) spark_act_80074334, (TActorFunction) spark_kill_800743DC, aSparkC);
+            GV_SetNamedActor_8001514C(&pActor->f000_actor, (TActorFunction) spark_act_80074334, (TActorFunction) spark_kill_800743DC, "spark.c");
 
             SetSpadStack(DCache);
             if (spark_loader_80074418(pActor, pMatrix, pCnt) < 0)

@@ -10,12 +10,7 @@ extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           GM_GameOverTimer_800AB3D4;
 extern SVECTOR       DG_ZeroVector_800AB39C;
-extern SVECTOR       svector_80012EDC;
 extern int           claymore_map_800AB9DC;
-extern const SVECTOR stru_80012EEC;
-
-extern const char aBullet_0[];  // "bullet"
-extern const char aClaymoreC[]; // = "claymore.c"
 
 SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
 SVECTOR stru_8009F650[2] = {{0, 0, 200, 0}, {0, 0, 10000, 0}};
@@ -267,6 +262,8 @@ void claymore_loader_80073930(Actor_Claymore *pActor)
     pTarget->field_44 = 5;
 }
 
+const SVECTOR svector_80012EDC = {0, 0, 1500, 0};
+
 int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
 {
     DG_PRIM *prim;
@@ -294,7 +291,7 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
     {
         prim->field_2E_k500 = 1000;
 
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBullet_0));
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("bullet"));
         if (tex)
         {
             claymore_loader_helper_80073490(&prim->field_40_pBuffers[0]->poly_ft4, tex);
@@ -309,6 +306,8 @@ int claymore_loader_800739EC(Actor_Claymore *claymore, SVECTOR *new_field_24, SV
     }
     return retval;
 }
+
+const SVECTOR stru_80012EEC = {200, 200, 200, 0};
 
 Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
@@ -349,7 +348,7 @@ Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_fiel
         if (claymore != NULL)
         {
             GV_SetNamedActor_8001514C(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
-                                      (TActorFunction)claymore_kill_800738F4, aClaymoreC);
+                                      (TActorFunction)claymore_kill_800738F4, "claymore.c");
             current_map = GM_CurrentMap_800AB9B0;
             claymore_map_800AB9DC = current_map;
             if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)
