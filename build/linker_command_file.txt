@@ -340,35 +340,16 @@
     include "..\obj\chara\snake\sub_800606E4.obj"
     include "..\obj\chara\snake\sna_act_unk_helper2_helper_8006070C.obj" ; actually part of bodyarm ??
 
+    ; Equip
     include "..\obj\Equip\bodyarm.obj"
-
     include "..\obj\Equip\gasmask.obj"
-
-    include "..\obj\Equip\EQ_ChangeTexture_80060CE4.obj"
-
-    ; 80060F98 800610A4 80061204 800612BC 80061384 800613FC 80061508 80061528 800615F4
-    ; 800615FC 80061708
-    include "..\obj\Equip\kogaku2.obj"
-
+    include "..\obj\Equip\effect.obj"
+    include "..\obj\Equip\kogaku2.obj" ; optical camouflage
     include "..\obj\Equip\box.obj"
-
-    ; 80061D14 80061DA0 80061E1C 80061E40
     include "..\obj\Equip\bandana.obj"
-
-    ; 8006206C 800620B4 80062274
-    ; cigarettes
-    include "..\obj\Equip\tabako.obj"
-
-    ; 80062320 8006237C 800624BC 800624F4 8006258C 800626D0 80062998 80062BDC 80062C7C 80062DA8
-    ; 80062E8C 8006317C 80063238 80063274 800632D4 80063368 800633D4 80063508
+    include "..\obj\Equip\tabako.obj"  ; cigarettes
     include "..\obj\Equip\scope.obj"
-
-    ; 800635BC 80063644 80063650 80063668
-    include "..\obj\Equip\gmsight.obj"
-
-    ; 80063704 80063888 800638B4 8006392C 80063988 800639E8 80063B94 80063C10 80063CD0 80063DDC
-    ; 80063EB0 80064054 800641C0 80064378 80064454 80064588 800649F4 80064A94 80064C50 80065008
-    ; 80065098 80065118
+    include "..\obj\Equip\gmsight.obj" ; gasmask first person
     include "..\obj\Equip\jpegcam.obj"
 
     include "..\obj\data\sbss\sbss6.obj"
