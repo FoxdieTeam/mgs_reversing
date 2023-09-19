@@ -6,8 +6,6 @@
 extern int GV_Clock_800AB920;
 extern int GM_GameStatus_800AB3CC;
 
-extern const char aKogaku2C[]; // = "kogaku2.c"
-
 POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
 {
     int tpage;
@@ -234,7 +232,7 @@ GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit)
   pActor = (Actor_kogaku2 *) GV_NewActor_800150E4(1, sizeof(Actor_kogaku2));
   if (pActor)
   {
-    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, aKogaku2C);
+    GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction) kogaku2_act_800613FC, (TActorFunction) kogaku2_kill_80061508, "kogaku2.c");
 
     pActor->field_20_pObj = pObj;
     pActor->field_24_unit = unit;
@@ -287,7 +285,7 @@ GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                                   (TActorFunction)&kogaku2_act_800613FC,
                                   (TActorFunction)&kogaku2_kill_80061508,
-                                  aKogaku2C);
+                                  "kogaku2.c");
 
         pActor->field_20_pObj = pObject;
         pActor->field_24_unit = unit;

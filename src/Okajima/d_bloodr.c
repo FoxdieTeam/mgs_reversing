@@ -8,9 +8,6 @@ extern OBJECT          *dword_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          svector_800ABA10;
 
-extern const char aDBloodrC[];    // = "d_bloodr.c"
-extern const char aKetchapGrey[]; // = "ketchap_grey"
-
 void d_bloodr_kill_80072BD4(Actor_DBloodr *pActor)
 {
     DG_PRIM *pPrims;
@@ -185,7 +182,7 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
     }
 
     pPrim->field_2E_k500 = 0;
-    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aKetchapGrey));
+    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("ketchap_grey"));
 
     if (!pTex)
     {
@@ -222,7 +219,7 @@ Actor_DBloodr * NewKetchap_r_80073148(int map)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                                   (TActorFunction)&d_bloodr_act_80072C10,
                                   (TActorFunction)&d_bloodr_kill_80072BD4,
-                                  aDBloodrC);
+                                  "d_bloodr.c");
 
         if (d_bloodr_loader_800730EC(pActor, map) < 0)
         {
