@@ -1,6 +1,6 @@
 #include "linker.h"
 #include "Menu/menuman.h"
-#include "game/map.h"
+#include "Game/map.h"
 
 int SECTION(".sbss") gTargets_down_count_800ABA68;
 

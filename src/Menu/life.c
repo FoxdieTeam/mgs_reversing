@@ -3,6 +3,9 @@
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "Game/linkvarbuf.h"
+#include "Font/font.h"
+#include "Menu/menuman.h"
+#include "Menu/radio.h"
 
 extern int   GM_GameStatus_800AB3CC;
 extern short GM_O2_800ABA34;
@@ -371,4 +374,134 @@ void menu_life_init_8003F7E0(Actor_MenuMan *pActor)
 void menu_life_kill_8003F838(Actor_MenuMan *pMenu)
 {
     pMenu->field_28_flags &= ~1u;
+}
+
+//below may be separate to life but draws it in one function
+extern short coords_800AB600[2][2];
+
+extern RECT rect_800AB600;
+RECT        rect_800AB600;
+
+extern SPRT gMenuSprt_800bd998;
+extern KCB  font_800BD968;
+
+int sub_8003F84C(int idx)
+{
+    void *font_buffer;
+
+    setSprt(&gMenuSprt_800bd998);
+
+    gMenuSprt_800bd998.u0 = 0;
+    gMenuSprt_800bd998.v0 = rect_800AB600.y;
+
+    gMenuSprt_800bd998.r0 = 128;
+    gMenuSprt_800bd998.g0 = 128;
+    gMenuSprt_800bd998.b0 = 128;
+
+    gMenuSprt_800bd998.w = 200;
+    gMenuSprt_800bd998.h = 80;
+
+    // Callers to this function call it with idx = 0 or idx = 1
+    gMenuSprt_800bd998.x0 = coords_800AB600[idx][0];
+    gMenuSprt_800bd998.y0 = coords_800AB600[idx][1];
+    gMenuSprt_800bd998.clut = 0x7fbc;
+
+    ClearImage(&rect_800AB600, 0, 0, 0);
+
+    font_init_kcb_80044BE0(&font_800BD968, &rect_800AB600, 960, 510);
+    font_set_kcb_80044C90(&font_800BD968, -1, -1, 0, 6, 2, 0);
+
+    font_buffer = GV_Malloc_8001620C(font_get_buffer_size_80044F38(&font_800BD968));
+    if (font_buffer == NULL)
+    {
+        return 0;
+    }
+
+    font_set_buffer_80044FD8(&font_800BD968, font_buffer);
+    font_set_color_80044DC4(&font_800BD968, 0, 0x6739, 0);
+    font_clut_update_80046980(&font_800BD968);
+    return 1;
+}
+
+void sub_8003F97C(char *string)
+{
+    font_print_string_800469A4(&font_800BD968, string);
+    font_update_8004695C(&font_800BD968);
+}
+
+void menu_8003F9B4(Actor_MenuMan *pActor, unsigned int *pOt, const char *str)
+{
+    POLY_F4 *polyF4;
+    TILE    *tile;
+    SPRT    *sprt;
+    int      i;
+    int      w;
+
+    // Variables storing temporary X coordinate calculations
+    // It's required to get a match...
+    int x0, x1, x2, x3, x4;
+
+    pActor->field_2B |= 2;
+
+    NEW_PRIM(sprt, pActor);
+
+    *sprt = gMenuSprt_800bd998;
+    addPrim(pOt, sprt);
+
+    x0 = gMenuSprt_800bd998.x0;
+    x3 = x0 - 10;
+    w = gMenuSprt_800bd998.w + 10;
+    x1 = x0;
+
+    x4 = menu_number_draw_string_800430F0(pActor, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
+    draw_player_life_8003F4B8(pActor->field_20_otBuf, x3, 24);
+
+    i = 0;
+    x0 = 12;
+    x0 = x1 - x0;
+    x2 = x3 + (x4 - x0);
+
+    for (; i < 2; i++)
+    {
+        NEW_PRIM(polyF4, pActor);
+
+        LSTORE(0, &polyF4->r0);
+        polyF4->x0 = x3;
+        polyF4->y0 = gMenuSprt_800bd998.y0 - 9;
+        polyF4->x1 = x2;
+        polyF4->y1 = gMenuSprt_800bd998.y0 - 9;
+        polyF4->x2 = x3;
+        polyF4->y2 = gMenuSprt_800bd998.y0;
+        polyF4->x3 = x2;
+        polyF4->y3 = gMenuSprt_800bd998.y0;
+        polyF4->x3 += 10;
+
+        setPolyF4(polyF4);
+        setSemiTrans(polyF4, 1);
+        addPrim(pOt, polyF4);
+
+        NEW_PRIM(tile, pActor);
+
+        LSTORE(0, &tile->r0);
+        tile->x0 = x3;
+        tile->y0 = gMenuSprt_800bd998.y0;
+        tile->w = w;
+        tile->h = gMenuSprt_800bd998.h;
+
+        setTile(tile);
+        setSemiTrans(tile, 1);
+        addPrim(pOt, tile);
+    }
+}
+
+extern Actor_MenuMan gMenuMan_800BD360;
+
+void menu_font_kill_8003FC0C(void)
+{
+  void *ptr;
+  
+  gMenuMan_800BD360.field_2B &= ~2;
+  menu_font_kill_helper_8003F50C();
+  ptr = font_get_buffer_ptr_80044FE8(&font_800BD968);
+  GV_Free_80016230(ptr);
 }

@@ -8,7 +8,7 @@
 #include "blast.h"
 #include "psyq.h"
 #include "rmissile.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "libgcl/hash.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

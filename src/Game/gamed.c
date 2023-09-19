@@ -17,7 +17,7 @@
 #include "homing_target.h"
 
 #include "over.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "mts/mts_new.h"
 
 #include "camera.h"
