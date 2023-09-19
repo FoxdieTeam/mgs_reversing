@@ -2,6 +2,15 @@
 #include "libdg/libdg.h"
 #include "unknown.h"
 
+void EQ_MoveTexture_80060CB8(u_short *in, u_short *out)
+{
+    u_short i;
+    for (i = 0; i < 5; i++)
+    {
+        *out++ = *in++;
+    }
+}
+
 void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
 {
     DG_TEX *pTexture1;
@@ -11,9 +20,9 @@ void EQ_ChangeTexture_80060CE4(const char *itemName1, const char *itemName2)
     pTexture1 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(itemName1));
     pTexture2 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(itemName2));
 
-    face_item_helper_80060CB8(&pTexture1->field_2_bUsed.s, buff);
-    face_item_helper_80060CB8(&pTexture2->field_2_bUsed.s, &pTexture1->field_2_bUsed.s);
-    face_item_helper_80060CB8(buff, &pTexture2->field_2_bUsed.s);
+    EQ_MoveTexture_80060CB8(&pTexture1->field_2_bUsed.s, buff);
+    EQ_MoveTexture_80060CB8(&pTexture2->field_2_bUsed.s, &pTexture1->field_2_bUsed.s);
+    EQ_MoveTexture_80060CB8(buff, &pTexture2->field_2_bUsed.s);
 }
 
 // Remove head model
