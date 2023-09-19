@@ -158,6 +158,12 @@ int GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, S
 
 #define SWAP(name, a, b)      do { typeof(a) (name) = (a); (a) = (b); (b) = (name); } while (0)
 
+// TODO: Type of arg1 is probably wrong
+// One of a callers to this function passes CONTROL.field_70[0] to arg1
+// so I guess that could would be a good place to start
+// determining the correct type.
+// Another caller to this function is bullet, which passes Bullet_0x130* as arg1.
+// (but there are other non-bullet callers!)
 void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
 {
     if (arg1->pad >= 0)

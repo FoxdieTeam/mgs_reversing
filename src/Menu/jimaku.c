@@ -1,7 +1,11 @@
+#include "linker.h"
 #include "menuman.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
+
+extern void *MENU_JimakuTextBody_800ABB40;
+void        *SECTION(".sbss") MENU_JimakuTextBody_800ABB40;
 
 extern int             GV_PauseLevel_800AB928;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
@@ -115,4 +119,81 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
         gUnkJimakuStruct_800BDA70.field_A_h = pFont->short3;
         gUnkJimakuStruct_800BDA70.field_6_y = y - (pFont->short3 / 2);
     }
+}
+
+void menu_jimaku_init_helper_800493F8(KCB *kcb)
+{
+    RECT rect;
+    setRECT(&rect, 960, 256, 64, 38);
+
+    font_init_kcb_80044BE0(kcb, &rect, 960, 510);
+    font_set_kcb_80044C90(kcb, -1, -1, 0, 6, 2, 0);
+    printf("jimaku_font_buffer_size %d\n", font_get_buffer_size_80044F38(kcb));
+    MENU_JimakuTextBody_800ABB40 = GV_AllocResidentMemory_800163D8(font_get_buffer_size_80044F38(kcb));
+    font_set_buffer_80044FD8(kcb, MENU_JimakuTextBody_800ABB40);
+    font_set_color_80044DC4(kcb, 0, 0x6739, 0);
+    font_clut_update_80046980(kcb);
+}
+
+void menu_jimaku_init_800494C4()
+{
+    menu_jimaku_init_helper_800493F8(&gUnkJimakuStruct_800BDA70.field_C_font);
+}
+
+void menu_JimakuWrite_800494E8(char *str, int frames)
+{
+    gUnkJimakuStruct_800BDA70.field_0_active = 0;
+    gUnkJimakuStruct_800BDA70.field_2_timer = frames;
+    gUnkJimakuStruct_800BDA70.field_38_str = str;
+
+    if (frames > 10000)
+    {
+        gUnkJimakuStruct_800BDA70.field_1_type = 2;
+    }
+    else
+    {
+        gUnkJimakuStruct_800BDA70.field_1_type = 0;
+    }
+}
+
+void menu_JimakuClear_80049518(void)
+{
+    gUnkJimakuStruct_800BDA70.field_0_active = 0;
+    gUnkJimakuStruct_800BDA70.field_C_font.char_arr[6] &= ~0x80;
+}
+
+void menu_AreaNameWrite_80049534(char *areaName)
+{
+    menu_JimakuWrite_800494E8(areaName, 0);
+    gUnkJimakuStruct_800BDA70.field_1_type = 1;
+}
+
+void NewJimakuStr_8004955C(char *str, int int_1)
+{
+  menu_JimakuWrite_800494E8(str, -1);
+  GV_PauseLevel_800AB928 |= 1;
+  gUnkJimakuStruct_800BDA70.field_3C = int_1;
+  DG_FreeObjectQueue_800183D4();
+}
+
+void NewJimaku_800495A8()
+{
+    char *str;
+
+    str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+    gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
+    menu_JimakuWrite_800494E8(str, -1);
+
+    if (GCL_GetParam_80020968('e'))
+    {
+        gUnkJimakuStruct_800BDA70.field_3C = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    else
+    {
+        gUnkJimakuStruct_800BDA70.field_3C = -1;
+    }
+
+    GV_PauseLevel_800AB928 |= 1;
+    DG_FreeObjectQueue_800183D4();
 }
