@@ -344,7 +344,6 @@
 
     include "..\obj\Equip\gasmask.obj"
 
-    include "..\obj\Equip\face_item_helper_80060CB8.obj"
     include "..\obj\Equip\EQ_ChangeTexture_80060CE4.obj"
 
     ; 80060F98 800610A4 80061204 800612BC 80061384 800613FC 80061508 80061528 800615F4
