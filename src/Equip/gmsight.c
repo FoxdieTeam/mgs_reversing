@@ -35,8 +35,6 @@ int gmsight_loader_80063650(Actor_gmsight *pActor, int unused, int unused2)
     return 0;
 }
 
-extern const char aGmsightC[]; // = "gmsight.c"
-
 Actor_gmsight * NewGasmaskSight_80063668(int unused, int unused2, int unused3)
 {
     Actor_gmsight *pActor;
@@ -47,7 +45,7 @@ Actor_gmsight * NewGasmaskSight_80063668(int unused, int unused2, int unused3)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&gmsight_act_800635BC,
-                                  (TActorFunction)&gmsight_kill_80063644, aGmsightC);
+                                  (TActorFunction)&gmsight_kill_80063644, "gmsight.c");
 
         if (gmsight_loader_80063650(pActor, unused2, unused3) < 0)
         {

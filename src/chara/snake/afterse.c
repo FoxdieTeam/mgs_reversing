@@ -4,8 +4,6 @@
 #include "unknown.h"
 #include "Game/map.h"
 
-extern char aAfterseC[]; // = "afterse.c"
-
 extern SVECTOR svector_800ABA10;
 
 void afterse_act_800603EC(Actor_afterse *pActor)
@@ -32,7 +30,7 @@ Actor_afterse *afterse_init_800604C0(short noise, short count_down)
         pActor = (Actor_afterse *)GV_NewActor_800150E4(6, sizeof(Actor_afterse));
         if (pActor)
         {
-            GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)afterse_act_800603EC, 0, aAfterseC);
+            GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)afterse_act_800603EC, 0, "afterse.c");
             pActor->field_20_noise = noise;
             pActor->field_22_count_down = count_down;
             return pActor;

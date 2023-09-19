@@ -21,11 +21,6 @@ extern CONTROL      *gSnaControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
-extern const char aScopeC[];
-extern const char aZoomLevelD[];
-extern const char aGoggles_2[];
-extern const char aD_44[];  // = "%d"
-
 short scope_created_8009F2C4 = 0;
 
 SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
@@ -513,10 +508,10 @@ void scope_draw_text_80062DA8(Actor_scope *pActor)
     {
         menu_Text_XY_Flags_80038B34(20, 34, 0);
         menu_Color_80038B4C(127, 166, 97);
-        menu_Text_80038C38(aZoomLevelD, 100 * (GM_Camera_800B77E8.field_20 / 320));
+        menu_Text_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.field_20 / 320));
         menu_Color_80038B4C(101, 133, 77);
         menu_Text_XY_Flags_80038B34(32, 101, 1);
-        menu_Text_80038C38(aD_44, -pActor->field_6C_turn_vec.vx);
+        menu_Text_80038C38("%d", -pActor->field_6C_turn_vec.vx);
         menu_Text_Init_80038B98();
     }
 }
@@ -536,7 +531,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
         if (pActor->field_24_pParent->objs->n_models >= 7 && (pActor->field_24_pParent->objs->flag & DG_FLAG_INVISIBLE))
         {
             obj = &pActor->field_28_obj;
-            model = GV_StrCode_80016CCC(aGoggles_2);
+            model = GV_StrCode_80016CCC("goggles");
 
             GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, model, 0x6d, 0);
 
@@ -803,7 +798,7 @@ GV_ACT * NewScope_80063508(CONTROL *pCtrl, OBJECT *pParent, int unused)
     pActor = (Actor_scope *)GV_NewActor_800150E4(7, sizeof(Actor_scope));
     if ( pActor )
     {
-        GV_SetNamedActor_8001514C(&pActor->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, aScopeC);
+        GV_SetNamedActor_8001514C(&pActor->field_0_scope, (TActorFunction)scope_act_80062E8C, (TActorFunction)scope_kill_8006317C, "scope.c");
         if ( scope_loader_800633D4(pActor, pCtrl, pParent) < 0 )
         {
             GV_DestroyActor_800151C8(&pActor->field_0_scope);

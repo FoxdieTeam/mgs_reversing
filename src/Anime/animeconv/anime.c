@@ -10,7 +10,37 @@ extern int     GV_Time_800AB330;
 extern int     GV_Clock_800AB920;
 extern int     GM_PlayerStatus_800ABA50;
 
-ANIMATION stru_8009F0D4 = {-8302, 2, 2, 4, 1, 0, 5, 50, 50, 250, 0, (void *)0x800124A8};
+// TODO: this needs to be split based on the pointers in the ANIMATIONs below
+const int animation_data_800124A8[] = {
+    0x38B00,    0x340009,   0x2FE0164,  0xC0100,    0x6FF0108,  0xECFF0000, 0x20000,    0xC0D01,    0x6FF0104,
+    0xECFF0000, 0xFF0A0000, 0x2F6FFF6,  0xF0D0100,  0xFF0AFE01, 0x2F6FFF6,  0xC0100,    0x6FF0110,  0xECFF0000,
+    0x20000,    0xC0D01,    0x6FF0104,  0xECFF0000, 0xFF0A0000, 0x2F6FFF6,  0xF0D0100,  0xAFE01,    0x21E001E,
+    0xC0100,    0x6FF0110,  0xECFF0000, 0x20000,    0xC0D01,    0x6FF0104,  0xECFF0000, 0xFF0A0000, 0x2F6FFF6,
+    0xF0D0100,  0x48300,    0x33000B,   0x174005A,  0x8FF01FE,  0xC010101,  0x2080500,  0xFF010202, 0xD010002,
+    0x114000C,  0x1E000AFF, 0xFE081E00, 0x2FEFE,    0x10F0D01,  0xD4FE0AFE, 0xCD4FE,    0x2020805,  0x2FF0102,
+    0xC0D0100,  0xFF011400, 0x1E000A,   0xFEFE081E, 0x10002FE,  0xFE010F0D, 0xFF9CFF0A, 0xE000C9C,  0xFFFEFF0A,
+    0xFEFE08FE, 0x2FF01FE,  0xF0D0100,  0x10AFE01,  0xCF401F4,  0xA1D00,    0x8140014,  0x1FFFFFF,  0x10002FF,
+    0xF0D,      0x31D00,    0x100009,   0xE803091B, 0xF010002,  0xFF0A0307, 0x238FF38,  0x70F0100,  0xFCFE0A03,
+    0x2FCFE,    0xF01,      0x31D00,    0x100009,   0xE803091B, 0xF010002,  0xFD0A0307, 0x2A8FDA8,  0x70F0100,
+    0x7CFC0A03, 0x27CFC,    0xF01,      0x10400,    0x1000205,  0xF,        0x10700,    0xE8030905, 0xF010002,
+    0x2CB00,    0xC790007,  0x60B00,    0xECFF00,   0x1000200,  0x52B0B0D,  0x14000000, 0xFF860000, 0xFF0100F6,
+    0xA0086F6,  0xA000100,  0x104000C,  0x10002FF,  0x60D,      0xD8FF,     0x104000C,  0x10002FF,  0x60D,
+    0,          0x102000C,  0x22B0BFF,  0xC0D0200,  0xFF010200, 0xD020002,  5,          0x7000000,  0xD8D80801,
+    0x4000CD8,  0xF0F0F008, 0xD010002,  0xB000C0F,  0xFF000006, 0x20000EC,  0x50D0100,  0,          0xFF860000,
+    0xFF0100EC, 0x140086EC, 0x14000100, 0x102000C,  0x22B0BFF,  0xC0D0100,  0xFF010400, 0xD010002,  0x104000C,
+    0x20002FF,  0x50D,      0,          0xD8080107, 0xCD8D8,    0xF0F00804, 0x10002F0,  0xF0D,      0x11900,
+    0xCFE0105,  0xFF011400, 0xD010002,  0x10A000C,  0xF9F908FF, 0x10002F9,  0xF0D,      0x12300,    0xCFE0105,
+    0xFF010A00, 0x50000A,   0x1000250,  0x5000C0D,  0x50000A,   0x8FF0150,  0x2F2F2F2,  0xF0D0100,  0x24A00,
+    0x1200007,  0x5000CFE,  0x2FF01,    0xC0D01,    0x8FF010A,  0x2F4F4F4,  0xF0D0100,  0xCFE01,    0x2C010A04,
+    0xFF012C01, 0xD010002,  0xA0A000C,  0x46004600, 0x2FF01,    0xC0D01,    0xAFF010A,  0x50005000, 0xE7E7E708,
+    0xD010002,  0xF,        0x12700,    0xCFE0105,  0xFF010500, 0x64000A,   0xF6F60864, 0x10002F6,  0x5000C0D,
+    0xAFF01,    0x8C800C8,  0x2F3F3F3,  0xF0D0100,  0x13900,    0xCFE0105,  0xFF011400, 0x1000A,    0x5050801,
+    0x1000205,  0xC000C0D,  0xAFF01,    0x8050005,  0x2FBFBFB,  0xC0D0100,  0xFF010A00, 0xA000A,    0xFBFB080A,
+    0x10002FB,  0xF0D
+};
+
+ANIMATION stru_8009F0D4 = {-8302, 2, 2, 4, 1, 0, 5, 50, 50, 250, 0, (void *)animation_data_800124A8};
+
 ANIMATION stru_8009F0F0 = {20781, 8, 4, 30, 1, 300, 1, 400, 400, 32, 0, (void *)0x8001253C};
 ANIMATION stru_8009F10C = {-6964, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, (void *)0x800125CC};
 ANIMATION stru_8009F128 = {-6964, 2, 2, 4, 1, 300, 1, 1400, 1400, 128, 0, (void *)0x800125F4};
@@ -42,9 +72,6 @@ TAnimeVMFn anime_fn_table_8009F228[] = {
     anime_fn_13_8005F408,
     anime_fn_14_8005F438
 };
-
-extern const char aScriptActErr[]; // = " SCRIPT ACT ERR!! \n"
-extern const char aAnimeC[];       // = "anime.c"
 
 Actor_anime * anime_create_8005D604(MATRIX *pMtx)
 {
@@ -1059,7 +1086,7 @@ void anime_act_8005F4AC(Actor_anime *pActor)
                 script_op_code = *pItemsIter->field_18_op_code & 0x7F;
                 if (script_op_code > 15)
                 {
-                    mts_nullsub_8_8008BB98(1, aScriptActErr); //  SCRIPT ACT ERR!! \n
+                    mts_nullsub_8_8008BB98(1, " SCRIPT ACT ERR!! \n");
                     GV_DestroyActor_800151C8(&pActor->field_0_actor);
                     break;
                 }
@@ -1275,7 +1302,7 @@ Actor_anime *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimation)
     {
         pActor->field_48_pPrimVec = (SVECTOR *)&pActor->field_4C_items[count]; // count vectors after the items
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)anime_act_8005F4AC,
-                                  (TActorFunction)anime_kill_8005F608, aAnimeC);
+                                  (TActorFunction)anime_kill_8005F608, "anime.c");
         if (anime_loader_8005F994(pActor, map, pAnimation) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
