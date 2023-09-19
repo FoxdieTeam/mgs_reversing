@@ -41,12 +41,20 @@ int        dword_800ABB84;
 extern int dword_800ABB80;
 int        dword_800ABB80;
 
+extern int dword_800ABB8C;
+int        dword_800ABB8C;
+
+extern int dword_800ABB90;
+int        dword_800ABB90;
+
 extern menu_save_mode_data *dword_800ABB4C;
 menu_save_mode_data        *dword_800ABB4C;
 
 extern int dword_800ABB48;
 int        dword_800ABB48;
 
+
+extern Actor_MenuMan gMenuMan_800BD360;
 
 extern char       aEndSaveMode[];
 extern char       aEndStateD[];
@@ -448,4 +456,176 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     }
     menu_radio_do_file_mode_helper6_8004AD40(pActor->field_20_otBuf);
     return 0;
+}
+
+extern char aAtEUC[];   // = "@";
+extern char aNoPlace[]; // = "NO PLACE";
+extern char aCodeD[];   // = "code %d\n";
+
+void sub_8004CF20(int code, char **param_2, char **param_3)
+{
+    int i;
+
+    if (code == 0)
+    {
+        *param_2 = aNoPlace;
+        *param_3 = aAtEUC;
+    }
+    GCL_SetArgTop_80020690((char *)dword_800ABB8C);
+    printf(aCodeD, code);
+    for (i = 0; i < code; i++) {
+        if (GCL_Get_Param_Result_80020AA4() == 0)
+        {
+            return;
+        }
+        *param_2 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        if (dword_800ABB90 > 0 && dword_800ABB48 == 0)
+        {
+            *param_3 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
+        }
+    }
+}
+
+extern char  aAtEUC[];
+extern char  aSSSSSS[];
+extern char  dword_800122F4[];
+
+extern const char aExSJIS[];
+extern const char aHdSJIS[];
+extern const char aNmSJIS[];
+extern const char aEzSJIS[];
+extern const char aVeSJIS[];
+
+char dword_8009EC10[] = {0x82, 0x63, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B, 0x00}; // Ｄｏｃｋ
+const char *off_8009EC1C[] = {aVeSJIS, aEzSJIS, aNmSJIS, aHdSJIS, aExSJIS};
+
+void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3)
+{
+    char  str1[11];
+    char *str2;
+    char *str3;
+
+    str1[0] = 0x82;
+    str1[1] = (arg2 / 10) + 0x4f;
+    str1[2] = 0x82;
+    str1[3] = (arg2 % 10) + 0x4f;
+    str1[4] = 0x81;
+    str1[5] = 0x46;
+    str1[6] = 0x82;
+    str1[7] = (arg3 / 10) + 0x4f;
+    str1[8] = 0x82;
+    str1[9] = (arg3 % 10) + 0x4f;
+    str1[10] = '\0';
+    if (dword_800ABB90 == 0)
+    {
+        sub_8004CF20(1, &str2, &str3);
+        str3 = dword_8009EC10;
+    }
+    else
+    {
+        sub_8004CF20(dword_800ABB90, &str2, &str3);
+    }
+    sprintf(outStr, aSSSSSS, dword_800122F4, off_8009EC1C[GM_DifficultyFlag + 1], aAtEUC, str1, aAtEUC, str3);
+}
+
+extern char aFfCS[]; // = "\f%c%s";
+
+void sub_8004D14C(char *outstr, char *param_2)
+{
+    char *str1;
+    char *str2;
+    int   val;
+
+    sub_8004CF20(param_2[6] - 0x40, &str1, &str2);
+
+    val = (param_2[5] - 0x40) & 7;
+    if (val == 0)
+    {
+        val = 2;
+    }
+    else if (val < 3)
+    {
+        val = 1;
+    }
+    else
+    {
+        val = 3;
+    }
+    sprintf(outstr, aFfCS, val | 0x30, str1);
+}
+
+extern char aStar[]; // = "*";
+
+void sub_8004D1D0(char *saveBuf)
+{
+    int   currentOffset;
+    int   size;
+    char *saveBufIter;
+
+    currentOffset = 0x100;
+    saveBufIter = saveBuf;
+    GM_TotalSaves++;
+    for (;;)
+    {
+        size = GCL_MakeSaveFile_80020C0C(saveBufIter);
+        currentOffset += size;
+
+        if (currentOffset + size > 0x2000)
+        {
+            break;
+        }
+
+        saveBufIter += size;
+        printf(aStar);
+    }
+}
+
+void init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2)
+{
+    dword_800ABB80 = 0;
+    dword_800ABB4C = pSaveMode;
+    init_file_mode_helper2_8004A800();
+    init_file_mode_helper_8004A424(param_2);
+}
+
+extern const char aSaveData[];
+menu_save_mode_data stru_8009EC30 = {{0x47, 0}, 0, 1, aSaveData, (void *)sub_8004D008, (void *)sub_8004D14C, (void *)sub_8004D1D0};
+
+void menu_radio_init_save_mode_8004D280(int param_1, int param_2)
+
+{
+    stru_8009EC30.field_0[1] = 0;
+    if (param_2 == 0)
+    {
+        stru_8009EC30.field_2 = 1;
+    }
+    else
+    {
+        stru_8009EC30.field_2 = param_2;
+    }
+    dword_800ABB8C = param_1;
+    dword_800ABB90 = param_2;
+    init_file_mode_8004D24C(&stru_8009EC30, 0);
+}
+
+void menu_radio_update_helper4_8004D2D0(int param_1)
+{
+    dword_800ABB8C = param_1;
+    init_file_mode_8004D24C(&stru_8009EC30, 1);
+}
+
+void menu_radio_8004D2FC(menu_save_mode_data *pSaveMode)
+{
+    init_radio_message_board_80040F74(&gMenuMan_800BD360);
+    init_file_mode_8004D24C(pSaveMode, 0);
+}
+
+int menu_radio_8004D334(GV_PAD *pPad)
+{
+    return menu_radio_do_file_mode_8004C418(&gMenuMan_800BD360, pPad);
+}
+
+void menu_radio_8004D35C(void)
+{
+    sub_8004124C(&gMenuMan_800BD360);
 }

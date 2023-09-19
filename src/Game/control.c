@@ -3,7 +3,7 @@
 #include "mts/mts_new.h"
 #include "libgcl/hash.h"
 #include "libgv/libgv.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "libhzd/libhzd.h"
 
 #include "libgcl/libgcl.h"

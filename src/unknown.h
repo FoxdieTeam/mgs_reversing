@@ -5,7 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "Game/control.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "Game/game.h"
 #include "Font/font.h"
 

@@ -3,7 +3,7 @@
 #include "psyq.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
-#include "game/map.h"
+#include "Game/map.h"
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Time_800AB330;

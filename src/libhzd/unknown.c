@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "libdg/inline_n.h"
-#include "game/map.h"
+#include "Game/map.h"
 
 #define S ((SCRPAD_80027384 *)getScratchAddr(0))
 
@@ -20,6 +20,12 @@ typedef struct SCRPAD_80027384
 #define SWAP(name, a, b)      do { typeof(a) (name) = (a); (a) = (b); (b) = (name); } while (0)
 #define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
 
+// TODO: Type of arg1 is probably wrong
+// One of a callers to this function passes CONTROL.field_70[0] to arg1
+// so I guess that could would be a good place to start
+// determining the correct type.
+// Another caller to this function is bullet, which passes Bullet_0x130* as arg1.
+// (but there are other non-bullet callers!)
 void sub_800272E0(SVECTOR *arg1, SVECTOR *arg2)
 {
     if (arg1->pad >= 0)

@@ -7,7 +7,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/control.h"
-#include "game/map.h"
+#include "Game/map.h"
 
 typedef struct Actor_scope
 {

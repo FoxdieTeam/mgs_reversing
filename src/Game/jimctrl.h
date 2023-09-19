@@ -1,5 +1,5 @@
-#ifndef JIMCTRL_H
-#define JIMCTRL_H
+#ifndef _JIMCTRL_H
+#define _JIMCTRL_H
 
 #define array_800B933C_SIZE 7
 
@@ -60,4 +60,4 @@ unsigned int jimctrl_helper_80037F68(unsigned int);
 void         jimctrl_act_helper_set_first_80037F2C(int index, int value);
 GV_ACT      *jimctrl_init_80038568(u_long flags);
 
-#endif // JIMCTRL_H
+#endif // _JIMCTRL_H

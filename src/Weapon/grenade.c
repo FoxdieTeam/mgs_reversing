@@ -6,7 +6,7 @@
 #include "Okajima/chafgrnd.h"
 #include "grenade.h"
 #include "libdg/libdg.h"
-#include "game/map.h"
+#include "Game/map.h"
 #include "libgcl/hash.h"
 
 // grenade/stun/chaff (in hands)
