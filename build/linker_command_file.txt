@@ -374,7 +374,7 @@
 
     include "..\obj\data\sbss\sbss6.obj"
 
-    ;weapon    
+    ;weapon
     include "..\obj\Weapon\socom.obj"
     include "..\obj\Weapon\famas.obj"
     include "..\obj\Weapon\grenade.obj"
@@ -398,11 +398,7 @@
     include "..\obj\Thing\door.obj"
 
     ;libhzd
-    include "..\obj\Thing\HZD_QueueDynamicSegment2_8006FDDC.obj"
-    include "..\obj\Thing\sub_8006FE44.obj"
-    include "..\obj\Thing\HZD_SetDynamicSegment_8006FEE4.obj"
-    include "..\obj\Thing\sub_8006FF9C.obj"
-    include "..\obj\Thing\sub_8006FFE8.obj" ; no refs
+    include "..\obj\libhzd\dynamic.obj"
 
     ;thing
     include "..\obj\Thing\sgtrect3.obj"
