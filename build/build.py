@@ -156,12 +156,6 @@ ninja.newline()
 ninja.rule("header_deps", f"{sys.executable} $src_dir/../build/hash_include_msvc_formatter.py $in $out", "Include deps fix $in -> $out", deps="msvc")
 ninja.newline()
 
-ninja.rule("asm_include_preprocess_44", f"{sys.executable} $src_dir/../build/include_asm_preprocess.py $in $out", "Include asm preprocess $in -> $out")
-ninja.newline()
-
-ninja.rule("asm_include_postprocess", f"{sys.executable} $src_dir/../build/include_asm_fixup.py $in $out", "Include asm postprocess $in -> $out")
-ninja.newline()
-
 ninja.variable("gSize", "8")
 ninja.newline()
 
@@ -215,6 +209,32 @@ def get_files_recursive(path, ext):
                 collectedFiles.append(os.path.join(r, file))
     return collectedFiles
 
+def get_file_global_size(path):
+    g0_list = [
+        "/Equip/",
+        "/Bullet/",
+        "/Thing/",
+        "/Okajima/",
+        "item.c", # todo figure out if correct, why not all .c files in this dir ??
+        "anime.c", # ditto
+        "vibrate.c",
+        "/Takabe/",
+        "/libfs/",
+        "demothrd.c",
+        "Kojo/demothrd.c",
+        "strctrl.c",
+        "jimctrl.c",
+        "memcard.c",
+        "dgd.c",
+        "sub_80060644.c",
+        "sub_80060548.c"
+    ]
+
+    if any(i in path for i in g0_list):
+        return "0"
+
+    return "8"
+
 def gen_build_target(targetName):
     ninja.comment("Build target " + targetName)
 
@@ -234,7 +254,6 @@ def gen_build_target(targetName):
         asmFile = asmFile.replace("\\", "/")
         asmOFile = asmFile.replace("/asm/", "/obj/")
         asmOFile = asmOFile.replace(".s", ".obj")
-        #print("Build step " + asmFile + " -> " + asmOFile)
         ninja.build(asmOFile, "psyq_asmpsx_assemble", asmFile)
         linkerDeps.append(asmOFile)
 
@@ -243,69 +262,22 @@ def gen_build_target(targetName):
         cFile = cFile.replace("\\", "/")
         cOFile = cFile.replace("/src/", "/obj/")
         cPreProcHeadersFile = cOFile.replace(".c", ".c.preproc.headers")
-        cPreProcHeadersFixedFile = cOFile.replace(".c", ".c.preproc.headers_fixed")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
-        cDynDepFile = cOFile.replace(".c", ".c.dyndep")
-        cAsmPreProcFile = cOFile.replace(".c", ".c.asm.preproc")
-        cAsmPreProcFileDeps = cOFile.replace(".c", ".c.asm.preproc.deps")
         cAsmFile = cOFile.replace(".c", ".asm")
-        cTempOFile = cOFile.replace(".c", "_fixme.obj")
         cOFile = cOFile.replace(".c", ".obj")
-        #print("Build step " + asmFile + " -> " + asmOFile)
-        if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
-            ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
-            ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
-            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
 
-            g0 = False
-            buildWithG0 = [
-                "/Equip/",
-                 "/Bullet/",
-                 "/Thing/",
-                 "/Okajima/",
-                 "item.c", # todo figure out if correct, why not all .c files in this dir ??
-                 "vibrate.c",
-                 "anime.c", # ditto
-                 "/Takabe/",
-                 "/libfs/",
-                 "DG_ResetExtPaletteMakeFunc_800791E4.c", # Despite the name, this might be related to Takabe due to proximity?
-                 "DG_ResetPaletteEffect_80078FF8.c", # Same as above
-                 "DG_StorePaletteEffect_80078F30.c", # Same as above
-                 "demothrd.c",
-                 "sub_80037DB8.c",
-                 "Kojo/demothrd.c",
-                 "strctrl.c",
-                 "jimctrl.c",
-                 "memcard.c",
-                 "dgd.c",
-                 "sub_80060644.c",
-                 "sub_80060548.c"
-                 ]
-            for item in buildWithG0:
-                if cFile.find(item) != -1:
-                    g0 = True
-                    break
-            if g0:
-                # print("-G 0: " + cFile)
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
-            else:
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+        ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
 
+        if "mts/" in cFile or "SD/" in cFile:
+            # Build using PsyQ 4.3
+            ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFile])
+            ninja.build(cAsmFile, "psyq_cc_43", cPreProcFile, variables= { "gSize": "0" })
+            ninja.build(cOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
         else:
-            #print("43:" + cFile)
-            ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
-            ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
-            ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-
-            #print("-G 0: " + cFile)
-            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"})
-
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+            # Build using PsyQ 4.4
+            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFile])
+            ninja.build(cAsmFile, "psyq_cc_44", cPreProcFile, variables= { "gSize": get_file_global_size(cFile) })
+            ninja.build(cOFile, "psyq_aspsx_assemble_44", cAsmFile)
 
         linkerDeps.append(cOFile)
         linkerDeps.append("linker_command_file.txt")
