@@ -72,6 +72,8 @@ def ninja_run():
         r'main\.c:\d+: warning: control reaches end of non-void function',
         r'control\.c:\d+: warning: `vy\' might be used uninitialized in this function',
         r'font\.c:\d+: warning: `m2\' might be used uninitialized in this function',
+        r'radar\.c:\d+: warning: `pWalls\' might be used uninitialized in this function',
+        r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):
