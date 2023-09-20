@@ -375,8 +375,6 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     return 0;
 }
 
-extern const char aRmissileC[]; // = "amissile.c"
-
 Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int arg2)
 {
     Actor_amissile *pActor = (Actor_amissile *)GV_NewActor_800150E4(6, sizeof(Actor_amissile));
@@ -384,7 +382,7 @@ Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int arg2)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&amissile_act_8006D608,
-                                  (TActorFunction)&amissile_kill_8006D99C, aRmissileC);
+                                  (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
 
         if (amissile_loader_8006DA0C(pActor, pMtx, arg2) < 0)
         {

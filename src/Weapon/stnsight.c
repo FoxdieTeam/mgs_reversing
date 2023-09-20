@@ -22,8 +22,6 @@ void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
 
 extern TARGET *target_800BDF00;
 
-extern const char aLockOn[]; // = "LOCK_ON\n"
-
 void stnsight_act_helper_8006837C(Actor_Stnsight *actor)
 {
     int iVar1;
@@ -48,7 +46,7 @@ void stnsight_act_helper_8006837C(Actor_Stnsight *actor)
 
     menu_Color_80038B4C(0x2e, 0x41, 0x41);
     menu_Text_XY_Flags_80038B34(0xb4, 0x10, 0);
-    menu_Text_80038C38(aLockOn);
+    menu_Text_80038C38("LOCK_ON\n");
     menu_Text_Init_80038B98();
 }
 
@@ -704,8 +702,6 @@ int stnsight_init_helper_800692D0(Actor_Stnsight *actor, CONTROL *ctrl)
     return 0;
 }
 
-extern const char aStnsightC[]; // = "stnsight.c"
-
 Actor_Stnsight *NewStnSight_800693E0(CONTROL *ctrl)
 {
     Actor_Stnsight *actor;
@@ -720,7 +716,7 @@ Actor_Stnsight *NewStnSight_800693E0(CONTROL *ctrl)
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)stnsight_act_80068D0C,
-                                  (TActorFunction)stnsight_kill_80068ED8, aStnsightC);
+                                  (TActorFunction)stnsight_kill_80068ED8, "stnsight.c");
 
         if (stnsight_init_helper_800692D0(actor, ctrl) < 0)
         {

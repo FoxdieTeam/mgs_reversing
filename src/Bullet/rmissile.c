@@ -38,11 +38,6 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern CAMERA           GM_CameraList_800B7718[8];
 
-extern const char aEnemy[];     // = "ENEMY\n"
-extern const char aD_4[];       // = "%d"
-extern const char aSocomF[];    // = "socom_f"
-extern const char rRmissileC[]; // = "rmissile.c"
-
 int dword_8009F46C = 0;
 int dword_8009F470 = 0;
 int dword_8009F474 = 0;
@@ -141,7 +136,7 @@ void rmissile_act_helper_helper_8006BA70(Actor_rmissile *pActor)
     {
         menu_Color_80038B4C(158, 184, 138);
         menu_Text_XY_Flags_80038B34(116, 98, 0);
-        menu_Text_80038C38(aEnemy);
+        menu_Text_80038C38("ENEMY\n");
         menu_Text_Init_80038B98();
     }
 }
@@ -187,13 +182,13 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
     ctrl = pActor->field_20_ctrl;
 
     menu_Text_XY_Flags_80038B34(8, 136, 0);
-    menu_Text_80038C38(aD_4, ctrl.field_0_mov.vx);
+    menu_Text_80038C38("%d", ctrl.field_0_mov.vx);
 
     menu_Text_XY_Flags_80038B34(8, 144, 0);
-    menu_Text_80038C38(aD_4, ctrl.field_0_mov.vy);
+    menu_Text_80038C38("%d", ctrl.field_0_mov.vy);
 
     menu_Text_XY_Flags_80038B34(8, 152, 0);
-    menu_Text_80038C38(aD_4, ctrl.field_0_mov.vz);
+    menu_Text_80038C38("%d", ctrl.field_0_mov.vz);
 
     menu_Text_Init_80038B98();
 }
@@ -815,7 +810,7 @@ void rmissile_loader_helper_8006CE54(Actor_rmissile *pActor)
     DG_PRIM *prim;
     int count;
 
-    hash = GV_StrCode_80016CCC(aSocomF);
+    hash = GV_StrCode_80016CCC("socom_f");
     tex = DG_GetTexture_8001D830(hash);
 
     pActor->field_2DC_tex = tex;
@@ -909,7 +904,7 @@ Actor_rmissile * NewRMissile_8006D124(MATRIX *pMtx, int whichSide)
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)&rmissile_act_8006C5C4,
-                                  (TActorFunction)&rmissile_kill_8006CB40, rRmissileC);
+                                  (TActorFunction)&rmissile_kill_8006CB40, "rmissile.c");
 
         if (rmissile_loader_8006CF44(actor, pMtx, whichSide) < 0)
         {

@@ -657,8 +657,6 @@ int get_rubi_char_index_800457B4(int c)
     return -1;
 }
 
-extern char aWrongRubiCodeX[];
-
 int font_draw_rubi_string_helper_800458B8(int *outIterCount, const char *str)
 {
     RubiRes    *rubiRes;
@@ -690,7 +688,7 @@ int font_draw_rubi_string_helper_800458B8(int *outIterCount, const char *str)
         idx = get_rubi_char_index_800457B4(rubiCode);
         if (idx < 0)
         {
-            printf(aWrongRubiCodeX, rubiCode);
+            printf("Wrong rubi code %x\n", rubiCode);
             idx = 0;
         }
 
@@ -874,7 +872,7 @@ void font_draw_rubi_string_80045AE4(char *buffer, int x, int y, int width, const
         rubiIndex = get_rubi_char_index_800457B4(rubiCode);
         if (rubiIndex < 0)
         {
-            printf(aWrongRubiCodeX, rubiCode);
+            printf("Wrong rubi code %x\n", rubiCode);
             rubiIndex = 0;
         }
         if (rubiIndex == 0)
