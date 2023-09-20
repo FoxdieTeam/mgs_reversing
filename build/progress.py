@@ -83,17 +83,20 @@ if os.environ.get('APPVEYOR'):
     if msg_ext:
         print(msg_ext)
 
-print('Reversed funcs: {:,}{} / {:,} | {:.2f}%'.format(
+print('SLPM_862.47 reversed funcs: {:,}{} / {:,} | {:.2f}%'.format(
     c_funcs,
     c_funcs_extra,
     total_funcs,
     c_funcs / total_funcs * 100))
 
-print('Reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
+print('SLPM_862.47 reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
     c_bytes,
     c_bytes_extra,
     total_bytes,
     c_bytes / total_bytes * 100))
+
+print('Overlays reversed funcs: 0 (+0) / ~few thousand | 0.00%')
+print('Overlays reversed bytes: 0 (+0) / ~1 MB | 0.00%')
 
 if total_funcs != EXPECTED_TOTAL_FUNCS or total_bytes != EXPECTED_TOTAL_BYTES:
     print('Warning: Totals seem incorrect, did someone forget to delete a .s?')
