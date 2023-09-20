@@ -32,8 +32,12 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern int GM_GameStatus_800AB3CC;
 extern int GV_Clock_800AB920;
 
-// Used in unmatched draw_radar_helper2_800391D0
-int dword_8009E2F4[] = {0x808000, 0x100000, 0xA0, 0x10, 0xA0A0, 0x808};
+typedef struct rgb_pair
+{
+    int rgb1, rgb2;
+} rgb_pair;
+
+rgb_pair dword_8009E2F4[] = {{0x808000, 0x100000}, {0xA0, 0x10}, {0xA0A0, 0x808}};
 
 radar_uv gRadarUV_8009E30C[] = {
     {128,  80, 28, 12},
@@ -105,7 +109,8 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 }
 
 // TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *vec, short x, short y, int rgb1, int rgb2, int scale)
+void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *vec, int x, int y, int rgb1,
+                                        int rgb2, int scale)
 {
     POLY_G4 *pPrim;
     int      a2;
@@ -157,8 +162,425 @@ void draw_radar_helper_800390FC(Actor_MenuMan *menuMan, unsigned char *pOt)
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0);
 }
 
-#pragma INCLUDE_ASM("asm/Menu/draw_radar_helper2_800391D0.s") // 2956 bytes
-void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int param_3);
+#define SCRATCH(type, offset) ((type *)((char *)0x1F800000 + (offset)))
+
+// gte_stbv but with sh instead of sb
+#define gte_stbh(r0)                                                                                                   \
+    __asm__ volatile("mfc2   $12, $9;"                                                                                 \
+                     "mfc2   $13, $10;"                                                                                \
+                     "sh $12, 0( %0 );"                                                                                \
+                     "sh $13, 2( %0 )"                                                                                 \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "$12", "$13", "memory")
+
+// gte_ldv0 but without the second load
+#define gte_ldv0h(r0) __asm__ volatile("lwc2   $0, 0( %0 )" : : "r"(r0))
+
+extern CONTROL         *GM_WhereList_800B56D0[96];
+extern int              GV_Time_800AB330;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int              gControlCount_800AB9B4;
+extern int              dword_800ABA0C;
+
+extern int dword_800AB9A8[2];
+
+void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int arg2)
+{
+    SVECTOR vec;
+
+    CONTROL   **pWhereList;
+    struct MAP *pMap;
+
+    int xoff;
+    int zoff;
+
+    HZD_SEG  *pWalls;
+    HZD_SEG **ppWalls;
+    void     *pLimit;
+    int       area_bits;
+
+    CONTROL *pWhere;
+
+    TILE     *pTile;
+    TILE_1   *pTile1;
+    TILE_1   *pTile1_2;
+    DR_TPAGE *pTpage;
+    DR_TPAGE *pTpage_2;
+
+    int *prim;
+
+    int x;
+    int z;
+
+    int areas;
+    int count;
+    int count2;
+    int count3;
+
+    int scale;
+
+    int cmp1, cmp2;
+
+    int vy;
+    int cond1;
+    int i;
+    int area_mask;
+
+    int cond2;
+    int rgb;
+
+    int     *pOt2;
+    LINE_F2 *pLine;
+
+    int field_3A;
+
+    char *pWallFlags;
+    char *pWallFlags2;
+
+    HZD_AREA *pArea;
+    HZD_SEG  *pWall;
+    HZD_HDL  *pHzdMap;
+
+    short *scratchShort;
+
+    DG_PVECTOR *pvec;
+    SVECTOR    *svec;
+
+    int *pWallDst;
+    int *pWallDst2;
+    int  j;
+
+    if (GM_GameStatus_800AB3CC < 0)
+    {
+        return;
+    }
+
+    scale = MENU_RadarScale_800AB480;
+
+    pWhereList = GM_WhereList_800B56D0;
+    pWhere = pWhereList[0];
+
+    *SCRATCH(SVECTOR, 0) = pWhereList[0]->field_0_mov;
+    SCRATCH(SVECTOR, 0)->vy = pWhere->field_34_hzd_height;
+
+    pWhereList++;
+
+    pMap = pWhere->field_2C_map;
+
+    if (!pMap)
+    {
+        return;
+    }
+
+    xoff = (SCRATCH(SVECTOR, 0)->vx * scale) / 4096;
+    zoff = (SCRATCH(SVECTOR, 0)->vz * scale) / 4096;
+
+    if ((GV_Time_800AB330 % 8) >= 2)
+    {
+        NEW_PRIM(pTile1, pActor);
+        LSTORE(0xC8C8C8, &pTile1->r0);
+        setTile1(pTile1);
+        setXY0(pTile1, 0, 0);
+        addPrim(pOt, pTile1);
+
+        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
+        {
+            vec.vx = pWhere->field_8_rotator.vy;
+            vec.vy = (rcos(pWhere->field_8_rotator.vx) * 6144) / 4096;
+            vec.vz = 600;
+
+            draw_radar_helper2_helper_80038F3C(pActor, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
+        }
+
+        for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
+        {
+            pWhere = *pWhereList++;
+            field_3A = (unsigned short)pWhere->field_3A;
+
+            x = ((pWhere->field_0_mov.vx * scale) / 4096) - xoff;
+            z = ((pWhere->field_0_mov.vz * scale) / 4096) - zoff;
+
+            if ((field_3A & 1) && ((field_3A & 8) || (pWhere->field_2C_map->field_0_map_index_bit & dword_800ABA0C)))
+            {
+                NEW_PRIM(pTile1_2, pActor);
+
+                setXY0(pTile1_2, x, z);
+
+                if (field_3A & 0x10)
+                {
+                    LSTORE(0x80FF00, &pTile1_2->r0);
+                    setTile1(pTile1_2);
+                    addPrim(pTile1, pTile1_2);
+
+                    for (j = 0; j < 16; j++)
+                    {
+                        int new_var;
+                        NEW_PRIM(pTile1_2, pActor);
+
+                        new_var = 2;
+                        pTile1_2->x0 = x - new_var + rand() % 4;
+                        pTile1_2->y0 = z - new_var + rand() % 4;
+
+                        LSTORE(0x64C800, &pTile1_2->r0);
+                        setTile1(pTile1_2);
+                        addPrim(pTile1, pTile1_2);
+                    }
+                }
+                else
+                {
+                    vy = pWhere->field_0_mov.vy - SCRATCH(SVECTOR, 0)->vy;
+
+                    // bool inline?
+                    cond1 = 0;
+
+                    if (field_3A & 0x40)
+                    {
+                        short vy_s = vy;
+                        cond1 = (vy_s >= 0) && (vy_s < 6000);
+                        field_3A |= 4;
+                    }
+                    else
+                    {
+                        short vy_s = vy;
+                        if (field_3A & 0x20)
+                        {
+                            cond2 = (vy > -2750) && (vy < 2000); // why???
+                        }
+                        else
+                        {
+                            cond2 = (vy_s >= -2000) && (vy_s < 2000);
+                        }
+
+                        if (cond2 != 0)
+                        {
+                            cond1 = 1;
+                        }
+                    }
+
+                    if (cond1)
+                    {
+                        LSTORE(0x64FF, &pTile1_2->r0);
+                        setTile1(pTile1_2);
+                        addPrim(pOt, pTile1_2);
+
+                        if (field_3A & 0x4)
+                        {
+                            int idx = field_3A >> 12;
+                            draw_radar_helper2_helper_80038F3C(pActor, pOt, (unsigned short *)&pWhere->field_3C, x, z,
+                                                               dword_8009E2F4[idx].rgb1, dword_8009E2F4[idx].rgb2,
+                                                               scale);
+                        }
+                    }
+                    else
+                    {
+                        LSTORE(0xC8, &pTile1_2->r0);
+                        setTile1(pTile1_2);
+                        addPrim(pTile1, pTile1_2);
+                    }
+                }
+            }
+        }
+
+        NEW_PRIM(pTpage, pActor);
+        setDrawTPage(pTpage, 1, 0, getTPage(0, 1, 960, 256));
+        addPrim(pOt, pTpage);
+    }
+
+    NEW_PRIM(prim, pActor);
+    *prim = 0;
+    addPrim(pOt, prim);
+
+    pvec = SCRATCH(DG_PVECTOR, 0);
+    svec = SCRATCH(SVECTOR, 0);
+
+    pvec[1].vxy = svec[0].vx - MENU_RadarRangeH_800AB484 / 2;
+    pvec[1].vz = svec[0].vx + MENU_RadarRangeH_800AB484 / 2;
+
+    pvec[2].vxy = svec[0].vz - MENU_RadarRangeV_800AB488 / 2;
+    pvec[2].vz = svec[0].vz + MENU_RadarRangeV_800AB488 / 2;
+
+    pvec[3].vxy = svec[0].vy + 1000;
+    pvec[3].vz = svec[0].vy - 800;
+
+    pLine = (LINE_F2 *)pActor->field_20_otBuf->mPrimBuf.mFreeLocation;
+    pLimit = pActor->field_20_otBuf->mPrimBuf.mOtEnd - 1024;
+
+    gRadarScaleMatrix_800BD580.t[0] = -xoff;
+    gRadarScaleMatrix_800BD580.t[1] = -zoff;
+
+    gte_SetRotMatrix(&gRadarScaleMatrix_800BD580);
+    gte_SetTransMatrix(&gRadarScaleMatrix_800BD580);
+
+    for (i = 0; i < 2; i++)
+    {
+        pHzdMap = NULL;
+        pWallDst = SCRATCH(int, 0x20);
+        pWallDst2 = SCRATCH(int, 0x24);
+        scratchShort = (short *)svec;
+        area_bits = dword_800AB9A8[0];
+
+        area_mask = 1 << pMap->field_8_hzd->f00_header->n_areas;
+        areas = pMap->field_8_hzd->f00_header->n_areas * 24;
+
+        while (1)
+        {
+            if (i == 0)
+            {
+                area_mask >>= 1;
+                areas -= 24;
+
+                if (area_mask == 0)
+                {
+                    break;
+                }
+
+                if (!(area_bits & area_mask))
+                {
+                    continue;
+                }
+
+                pArea = (HZD_AREA *)((char *)pMap->field_8_hzd->f00_header->areas + areas);
+                pWallFlags = pArea->wallsFlags;
+                pWallFlags2 = (char *)pArea->wallsFlags + pArea->n_walls;
+                pWalls = pArea->walls;
+                count2 = pArea->n_walls;
+            }
+            else
+            {
+                pHzdMap = Map_Enum_Get_Hzd_80031580(pHzdMap);
+
+                if (!pHzdMap)
+                {
+                    break;
+                }
+
+                ppWalls = pHzdMap->f20_pAfterStructure_24;
+                pWallFlags = pHzdMap->f20_pAfterStructure_48;
+                pWallFlags2 = pWallFlags + pHzdMap->f12_queue_size;
+                count2 = pHzdMap->f0A_idx;
+            }
+
+            for (count3 = count2; count3 > 0; count3--, pWallFlags++, pWallFlags2++)
+            {
+                if (i == 0)
+                {
+                    pWall = pWalls++;
+                }
+                else
+                {
+                    pWall = *ppWalls++;
+                }
+
+                if (*pWallFlags & 0x80)
+                {
+                    continue;
+                }
+
+                *pWallDst = *(int *)&pWall->p1.x;
+                *pWallDst2 = *(int *)&pWall->p2.x;
+
+                if (((short *)scratchShort)[0x20 / 2] > ((int *)scratchShort)[0xC / 4])
+                {
+                    continue;
+                }
+
+                if (((int *)scratchShort)[0x8 / 4] > ((short *)scratchShort)[0x24 / 2])
+                {
+                    continue;
+                }
+
+                // The scratchpad and its consequences have been a disaster for the human race.
+                cmp1 = scratchShort[0x22 / 2];
+                cmp2 = scratchShort[0x26 / 2];
+
+                if (cmp1 > cmp2)
+                {
+                    if (((int *)scratchShort)[0x14 / 4] < cmp2 || cmp1 < ((int *)scratchShort)[0x10 / 4])
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (((int *)scratchShort)[0x14 / 4] < cmp1 || cmp2 < ((int *)scratchShort)[0x10 / 4])
+                    {
+                        continue;
+                    }
+                }
+
+                gte_ldv0h(0x1F800020);
+                gte_rt();
+
+                if (((((int *)scratchShort)[0x18 / 4] < pWall->p1.y) ||
+                     ((pWall->p1.y + pWall->p1.h) < ((int *)scratchShort)[0x1C / 4])) &&
+                    ((((int *)scratchShort)[0x18 / 4] < pWall->p2.y) ||
+                     ((pWall->p2.y + pWall->p2.h) < ((int *)scratchShort)[0x1C / 4])))
+                {
+                    rgb = 0x40004000;
+                    pOt2 = (int *)pOt;
+                }
+                else
+                {
+                    if (*pWallFlags2 & 0x80)
+                    {
+                        rgb = 0x404020B4;
+                    }
+                    else
+                    {
+                        rgb = 0x4048A000;
+                    }
+
+                    pOt2 = prim;
+                }
+
+                gte_stbh(&pLine->x0);
+
+                gte_ldv0h(0x1F800024);
+                gte_rt();
+
+                LSTORE(rgb, &pLine->r0);
+                pLine->tag = *pOt2 | 0x03000000;
+                *pOt2 = (int)(pLine)&0xffffff;
+                gte_stbh(&pLine->x1);
+
+                pLine++;
+
+                if ((void *)pLine > pLimit)
+                {
+                    goto end;
+                }
+            }
+        }
+    }
+
+end:
+    pActor->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)pLine;
+
+    NEW_PRIM(pTile, pActor);
+
+    pTile->x0 = -34;
+    pTile->w = 69;
+    pTile->y0 = -26;
+    pTile->h = 52;
+
+    if (arg2 == 0)
+    {
+        LSTORE(0x181800, &pTile->r0);
+    }
+    else
+    {
+        LSTORE(0x00FFFF, &pTile->r0);
+    }
+
+    setTile(pTile);
+    setSemiTrans(pTile, 1);
+    addPrim(pOt, pTile);
+
+    NEW_PRIM(pTpage_2, pActor);
+    setDrawTPage(pTpage_2, 1, 0, getTPage(0, 0, 960, 256));
+    addPrim(pOt, pTpage_2);
+}
 
 extern short gRadarClut_800AB498[4];
 short        SECTION(".sdata") gRadarClut_800AB498[4];
@@ -213,8 +635,6 @@ void draw_radar_helper3_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, rada
 
     addPrim(prim->mPrimBuf.mOt, tile2);
 }
-
-extern int           GV_Time_800AB330;
 
 static inline void draw_radar_helper3_helper_helper2(MenuPrim *prim, int height, radar_uv *pRadarUV, int *rgbs)
 {
@@ -610,7 +1030,6 @@ void menu_radar_helper_8003ADD8(Actor_MenuMan *pActor, int index)
 
 extern int              GM_AlertMode_800ABA00;
 extern int              GM_AlertLevel_800ABA18;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 extern int cons_current_y_800AB4B0;
 int        cons_current_y_800AB4B0;
