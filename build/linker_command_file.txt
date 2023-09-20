@@ -130,8 +130,8 @@
 
     include "..\obj\Menu\life.obj"          ;life.c ?
     include "..\obj\Menu\radio.obj"         ;radio.c
+    include "..\obj\Menu\debug.obj"         ;debug.c
 
-    include "..\obj\data\rdata\rdata_80011C7C.obj"
     include "..\obj\data\sdata\sdata5.obj"
 
     ;font
@@ -140,11 +140,10 @@
     ;Menu
     include "..\obj\Menu\radiotex.obj"      ;radiotex.c ?
     include "..\obj\Menu\radioanim.obj"     ;radioanim.c    ?
-    include "..\obj\Menu\radiomes.obj"      ;radiomes.c
 
     include "..\obj\data\sbss\sbss4.obj"
 
-    include "..\obj\Menu\radioface.obj"     ;radioface.c ?
+    include "..\obj\Menu\radiomes.obj"      ;radiomes.c
     include "..\obj\Menu\radiofacedraw.obj" ;radiofacedraw.c ?
     include "..\obj\Menu\jimaku.obj"        ;jimaku.c ?
     include "..\obj\Menu\radiotable.obj"    ;radiotable.c ?
@@ -223,8 +222,6 @@
     include "..\obj\Equip\gmsight.obj" ; gasmask first person
     include "..\obj\Equip\jpegcam.obj"
 
-    include "..\obj\data\rdata\rdata_800124A8.obj"
-
     include "..\obj\data\sbss\sbss6.obj"
 
     ;weapon
@@ -283,8 +280,6 @@
 
     ;kojo
     include "..\obj\Kojo\demothrd.obj"
-
-    include "..\obj\data\rdata\rdata_8001345C.obj"
 
     ; SD
     include "..\obj\SD\sd_main.obj"

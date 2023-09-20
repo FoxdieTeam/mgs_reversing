@@ -4,9 +4,7 @@
 
 #define OFFSET_TO_PTR2(ptr, offset) ((int)(offset) = (int)(ptr) + (int)(offset))
 
-extern const char aNoFaceData[]; // = "NO_FACE_DATA\n";
-extern const char aFrameNumD[]; // = "frame num %d\n";
-extern menu_0x14  stru_800BDA48[2];
+extern menu_0x14 stru_800BDA48[2];
 
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum)
 {
@@ -136,7 +134,7 @@ void menu_radio_draw_face_helper_helper_80046DF4(int idx, menu_chara_struct *pCh
             }
         }
 
-        printf(aNoFaceData);
+        printf("NO_FACE_DATA\n");
     }
 }
 
@@ -176,7 +174,7 @@ void menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_
 
         case FACE_ANIM_FULL:
             fullAnim = anim.full_anim;
-            printf(aFrameNumD, fullAnim->field_0_frame_count);
+            printf("frame num %d\n", fullAnim->field_0_frame_count);
             fullAnimIter = fullAnim->field_4_frames;
             for (j = 0; j < fullAnim->field_0_frame_count; fullAnimIter++, j++)
             {

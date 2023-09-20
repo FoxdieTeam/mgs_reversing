@@ -102,8 +102,6 @@ extern char aResultX[];
 
 extern char aBislpm99999[];
 
-extern const char aNoMemoryForSta_0[];
-
 extern const char  aFreeDBlockS[];            // = "FREE: %d BLOCK%s"
 extern const char  aS_1[];                    // = "S"
 extern const char  aNull[];                   // = ""

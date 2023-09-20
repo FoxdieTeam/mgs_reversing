@@ -258,14 +258,12 @@ void sight_act_helper_800713FC(Actor_Sight *sight, int clock)
     }
 }
 
-extern const char aStringFormat[];
-
 // Called every frame to display the scope's text pseudo-primitives.
 void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 {
     menu_Text_XY_Flags_80038B34(textPrim->field_8_posX, textPrim->field_A_posY, 0);
     menu_Color_80038B4C(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
-    menu_Text_80038C38(aStringFormat, textPrim->field_C_text);
+    menu_Text_80038C38("%s", textPrim->field_C_text);
 }
 
 extern int GV_Clock_800AB920;
@@ -613,8 +611,6 @@ int sight_loader_80071A54(Actor_Sight *sight, int hashedFileName, short *itemEqu
     }
 }
 
-extern const char aSightC[];
-
 Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
                                short *xyOffsetBuffer)
 {
@@ -629,7 +625,7 @@ Actor_Sight *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, aSightC);
+                                  (TActorFunction)sight_kill_800719C8, "sight.c");
         sight->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(sight, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
@@ -658,7 +654,7 @@ Actor_Sight *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, aSightC);
+                                  (TActorFunction)sight_kill_800719C8, "sight.c");
         sight->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(sight, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
@@ -689,7 +685,7 @@ Actor_Sight *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, aSightC);
+                                  (TActorFunction)sight_kill_800719C8, "sight.c");
         sight->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(sight, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
@@ -721,7 +717,7 @@ Actor_Sight *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
     if (sight)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)sight, (TActorFunction)sight_act_800714EC,
-                                  (TActorFunction)sight_kill_800719C8, aSightC);
+                                  (TActorFunction)sight_kill_800719C8, "sight.c");
         sight->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(sight, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)

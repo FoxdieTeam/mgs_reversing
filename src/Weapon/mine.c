@@ -7,7 +7,7 @@
 
 // claymore (in hands)
 
-extern const char aClaymore_0[]; // = "claymore";
+
 extern char       aMineC[];      // = "mine.c"
 extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
@@ -81,7 +81,7 @@ int mine_loader_80067730(Actor_Mine *actor_mine, OBJECT *parent_obj, int num_par
 {
     OBJECT *obj = &actor_mine->field_28_obj;
 
-    int id = GV_StrCode_80016CCC(aClaymore_0);
+    int id = GV_StrCode_80016CCC("claymore");
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, 0x36d, 0);
 
     if (!obj->objs)
