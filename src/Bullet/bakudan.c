@@ -10,8 +10,6 @@
 
 // c4 (armed)
 
-extern const char aBakudanC[];
-
 extern int     GM_GameStatus_800AB3CC;
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     GM_PlayerStatus_800ABA50;
@@ -212,7 +210,7 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, T
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)bakudan_act_8006A218,
-                                  (TActorFunction)bakudan_kill_8006A4A4, aBakudanC);
+                                  (TActorFunction)bakudan_kill_8006A4A4, "bakudan.c");
         if (bakudan_8006A54C(pActor, pMtx, pVec, a3, pTarget) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);

@@ -37,13 +37,6 @@ void M1E1GetCaterpillerVertex_800815FC(dmo_m1e1_entry *pE1, dmo_m1e1_entry *pE2,
 void DG_8001CDB8(DG_OBJS *pObjs);
 void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3);
 
-ANIMATION stru_8009F73C = {20781, 8, 4, 30, 1, 1000, 3, 500, 500, 255, NULL, (void *)0x8001345C};
-ANIMATION stru_8009F758 = {20781, 8, 4, 30, 3, 0, 1, 1000, 1000, 64, NULL, (void *)0x80013488};
-ANIMATION stru_8009F774 = {20781, 8, 4, 30, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC};
-ANIMATION stru_8009F790 = {9287, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, (void *)0x80013510};
-
-SVECTOR svector_8009F7AC = {0, 255, 0, 0};
-
 int DM_ThreadStream_80079460(int flag, int unused)
 {
     Actor_demothrd *pDemoThrd = (Actor_demothrd *)GV_NewActor_800150E4(1, sizeof(Actor_demothrd));
@@ -2677,6 +2670,21 @@ void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18,
     p0x1A4->field_B0 = pTmp->field_C;
 }
 
+// TODO: split based on pointers in ANIMATIONs below
+const int animation_data_8001345C[] = {
+    0x12700,    0xCFE0105,  0xFF010500, 0x64000A,   0xF1F10864, 0x10002F1, 0x5000C0D, 0x10AFF01, 0x82C012C,  0x2E2E2E2,
+    0xF0D0100,  0x24A00,    0x1200007,  0x5000CFE,  0x2FF01,    0xC0D01,   0x8FF010A, 0x2FAFAFA, 0xF0D0100,  0xCFE01,
+    0x2C010A04, 0xFF012C01, 0xD010002,  0xA0A000C,  0x46004600, 0x2FF01,   0xC0D01,   0xAFF010A, 0x50005000, 0xF0F0F008,
+    0xD010002,  0xF,        0x12C00,    0xCFE0105,  0xFF010500, 0xD010002, 0x105000C, 0x5000AFF, 0x20500,    0xC0D01,
+    0x8FF010F,  0xAF0F0F0,  0x5000500,  0xD010002,  0xF,        0x34900,   0x1E0009,  0xCFE0138, 0x20400,    0xC0D01,
+    0xECEC0804, 0x10002EC,  0xFE010F0D, 0xFC18FC0A, 0x4000C18,  0xD010002, 0x804000C, 0x2ECECEC, 0xF0D0100,  0xFB0AFE01,
+    0xC50FB50,  0x20400,    0xC0D01,    0xECEC0804, 0x10002EC,  0xF0D
+};
+
+ANIMATION stru_8009F73C = {20781, 8, 4, 30, 1, 1000, 3, 500, 500, 255, NULL, (void *)animation_data_8001345C};
+ANIMATION stru_8009F758 = {20781, 8, 4, 30, 3, 0, 1, 1000, 1000, 64, NULL, (void *)0x80013488};
+ANIMATION stru_8009F774 = {20781, 8, 4, 30, 8, 0, 3, 2200, 2200, 255, NULL, (void *)0x800134DC};
+ANIMATION stru_8009F790 = {9287, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, (void *)0x80013510};
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 {
@@ -3259,6 +3267,8 @@ typedef struct
     HZD_SEG segment;
     SVECTOR unknown;
 } SCRPAD_DATA_8007F3F8;
+
+SVECTOR svector_8009F7AC = {0, 255, 0, 0};
 
 void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
 {

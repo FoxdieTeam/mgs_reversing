@@ -20,8 +20,6 @@ extern Blast_Data    blast_data_8009F4B8;
 extern TBombFunction GM_lpfnBombHoming_800AB3E8;
 extern int           GM_PlayerStatus_800ABA50;
 
-extern const char aGrenadeC[]; // = "grenade.c"
-
 //------------------------------------------------------------------------------
 
 unsigned short grenade_model_8009F3E4[] = {KMD_GRENADE, KMD_CAN_GREN, KMD_CAN_GREN, KMD_C4_BOMB};
@@ -219,7 +217,7 @@ Actor_Grenade *grenade_init_80066944(
 		GV_SetNamedActor_8001514C( (GV_ACT *)actor_grenade,
 								   (TActorFunction)&grenade_act_8006641C,
 								   (TActorFunction)&grenade_kill_80066894,
-								   aGrenadeC );
+								   "grenade.c");
 		if ( grenade_loader_800668B4( actor_grenade, parent_obj, num_parent, grd_type ) < 0 )
 		{
 			GV_DestroyActor_800151C8( (GV_ACT *)actor_grenade );

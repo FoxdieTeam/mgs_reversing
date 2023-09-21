@@ -5,14 +5,9 @@
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 
-extern int       GM_CurrentMap_800AB9B0;
-
-extern const char aBloodC[]; // = "blood.c"
-extern const char aBlood_1[]; // = "blood_1"
+extern int GM_CurrentMap_800AB9B0;
 
 RECT rect_8009F60C = {50, 50, 100, 100};
-
-ANIMATION stru_8009F614 = {31572, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)0x80012E84};
 
 void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
 {
@@ -234,7 +229,7 @@ int blood_loader2_80072608(Actor_Blood *pActor, MATRIX *arg1, int count)
         return -1;
     }
 
-    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aBlood_1));
+    pTex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("blood_1"));
 
     if (!pTex)
     {
@@ -295,7 +290,7 @@ Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                                   (TActorFunction)&blood_act_80072538,
                                   (TActorFunction)&blood_kill_800725CC,
-                                  aBloodC);
+                                  "blood.c");
 
         if (blood_loader2_80072608(pActor, arg0, count) < 0)
         {
@@ -306,6 +301,23 @@ Actor_Blood * NewBlood_80072728(MATRIX *arg0, int count)
 
     return pActor;
 }
+
+const int animation_data_80012E84[] = {
+    0x12A00,
+    0x2FE0105,
+    0x80100,
+    0xCB0B0,
+    0xAFF0105,
+    0x64006400,
+    0xD010002,
+    0x105000C,
+    0x1E000AFF,
+    0xE8081E00,
+    0x2F8F8,
+    0xF0D01
+};
+
+ANIMATION stru_8009F614 = {31572, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)animation_data_80012E84};
 
 void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed)
 {

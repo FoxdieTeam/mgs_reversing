@@ -523,8 +523,6 @@ int sgtrect3_loader_80070F4C(Actor_sgtrect3 *sgtrect3, unsigned int *rgb2)
     return 0;
 }
 
-extern const char aSgtrect3C[];
-
 Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned int *rgb2, int param_4)
 {
     Actor_sgtrect3 *sgtrect3;
@@ -541,7 +539,7 @@ Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned i
     }
 
     GV_SetNamedActor_8001514C((GV_ACT *)sgtrect3, (TActorFunction)sgtrect3_act_80070E14,
-                              (TActorFunction)sgtrect3_kill_80070EC0, aSgtrect3C);
+                              (TActorFunction)sgtrect3_kill_80070EC0, "sgtrect3.c");
 
     if (sgtrect3_loader_80070F4C(sgtrect3, rgb2) < 0)
     {

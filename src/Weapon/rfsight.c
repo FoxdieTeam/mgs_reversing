@@ -174,8 +174,6 @@ int rfsight_init_helper_8006985C(Actor_Rfsight *pActor)
     return 0;
 }
 
-extern const char aRfsightC[]; // = "rfsight.c"
-
 Actor_Rfsight * NewRifleSight_8006989C(void)
 {
     Actor_Rfsight *pActor = (Actor_Rfsight *)GV_NewActor_800150E4(6, sizeof(Actor_Rfsight));
@@ -183,7 +181,7 @@ Actor_Rfsight * NewRifleSight_8006989C(void)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&rfsight_act_800696CC,
-                                  (TActorFunction)&rfsight_kill_80069850, aRfsightC);
+                                  (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(pActor) < 0)
         {
@@ -205,7 +203,7 @@ Actor_Rfsight * NewRifleSightFast_80069920(void)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&rfsight_act_800696CC,
-                                  (TActorFunction)&rfsight_kill_80069850, aRfsightC);
+                                  (TActorFunction)&rfsight_kill_80069850, "rfsight.c");
 
         if (rfsight_init_helper_8006985C(pActor) < 0)
         {
