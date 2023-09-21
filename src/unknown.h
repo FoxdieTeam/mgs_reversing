@@ -5,6 +5,7 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "Game/control.h"
+#include "Game/jimctrl.h"
 #include "Game/map.h"
 #include "Game/game.h"
 #include "Font/font.h"
@@ -79,5 +80,7 @@ void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, Res_Control_unknown *arg1);
 int init_file_mode_helper_helper_helper_8004983C(mem_card *pMemcard);
 int init_file_mode_helper_helper_helper2_80049CE8(mem_card *pMemcard, int idx);
 int init_file_mode_helper_helper_helper3_80049E94(int param_1);
+
+array_800B933C_child * sub_80038698(void);
 
 #endif // _UNKNOWN_H_
