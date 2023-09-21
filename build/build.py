@@ -74,6 +74,8 @@ def ninja_run():
         r'font\.c:\d+: warning: `m2\' might be used uninitialized in this function',
         r'radar\.c:\d+: warning: `pWalls\' might be used uninitialized in this function',
         r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
+        r'sndtst\.c:\d+: warning: `pName\' might be used uninitialized in this function',
+        r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function'
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -282,7 +284,9 @@ def gen_build_target(targetName):
                  "sub_80060644.c",
                  "sub_80060548.c",
                  "breath.c"
+                 "sndtst.c"
                  ]
+
             for item in buildWithG0:
                 if cFile.find(item) != -1:
                     g0 = True
