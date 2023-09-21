@@ -8,8 +8,6 @@ RECT        rect_800AB6C8;
 extern RECT rect_800AB6D0;
 RECT        rect_800AB6D0;
 
-extern const char aNoMemoryForSav[]; // = "NO MEMORY FOR SAVE TEX\n";
-
 void sub_800469F0(menu_chara_struct *pStru)
 {
     int    offsetImage2;
@@ -24,7 +22,7 @@ void sub_800469F0(menu_chara_struct *pStru)
     pStru->field_2C_pSaveText = pSaveText;
     if (pSaveText == NULL)
     {
-        printf(aNoMemoryForSav);
+        printf("NO MEMORY FOR SAVE TEX\n");
     }
 
     pSaveTextCopy = (char *)pStru->field_2C_pSaveText;

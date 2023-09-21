@@ -13,17 +13,6 @@ extern int      dword_800ABA0C;
 extern int      dword_8009F470;
 extern int      GM_CurrentMap_800AB9B0;
 
-extern const char aOpen[];           // = " open!! \n"
-extern const char aClose[];          // = " close!! \n"
-extern const char aDoorCloseD[];     // = "door:close %d\n"
-extern const char aCancel[];         // = "cancel\n"
-extern const char aDoorOpenD[];      // = "door:open %d\n"
-extern const char aSnakeDoorX[];     // = "Snake Door %X\n"
-extern const char aDoorOpencancel[]; // = "door:opencancel %d\n"
-extern const char aCloseDoorX[];     // = "close door %X\n"
-extern const char aCloseDoorX_0[];   // = "CLOSE door %X\n"
-extern const char aDoorC[];          // = "door.c"
-
 int door_where_8009F5F4 = 0;
 
 void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
@@ -66,7 +55,7 @@ void door_open_8006ECB8(Actor_Door *param_1)
 {
     SVECTOR *pos;
 
-    mts_nullsub_8_8008BB98(1, aOpen);
+    mts_nullsub_8_8008BB98(1, " open!! \n");
     pos = &(param_1->field_20_ctrl).field_0_mov;
 
     if (((dword_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
@@ -83,7 +72,7 @@ void door_close_8006ED48(Actor_Door *param_1)
 {
     SVECTOR *pos;
 
-    mts_nullsub_8_8008BB98(1, aClose);
+    mts_nullsub_8_8008BB98(1, " close!! \n");
     param_1->field_E2_maybe_state = 1;
     pos = &param_1->field_20_ctrl.field_0_mov;
 
@@ -123,7 +112,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
             continue;
         }
 
-        mts_nullsub_8_8008BB98(3, aDoorCloseD, pActor->field_F2_door_counter);
+        mts_nullsub_8_8008BB98(3, "door:close %d\n", pActor->field_F2_door_counter);
 
         if (pMsg->message_len > 2)
         {
@@ -175,7 +164,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
         }
         else
         {
-            mts_nullsub_8_8008BB98(3, aCancel);
+            mts_nullsub_8_8008BB98(3, "cancel\n");
         }
     }
 
@@ -198,7 +187,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
             if (var_v1 == val)
             {
-                mts_nullsub_8_8008BB98(3, aDoorOpenD, pActor->field_F2_door_counter);
+                mts_nullsub_8_8008BB98(3, "door:open %d\n", pActor->field_F2_door_counter);
 
                 if (++pActor->field_F2_door_counter > 0)
                 {
@@ -218,7 +207,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
                         if (pActor->field_F0 == 0x21CA)
                         {
-                            printf(aSnakeDoorX, pActor->field_E0_where);
+                            printf("Snake Door %X\n", pActor->field_E0_where);
                             door_where_8009F5F4 = pActor->field_E0_where;
                             pActor->field_E5 = 1;
                         }
@@ -233,7 +222,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
         if ((var_v1 == 0x1AAA) && (++pActor->field_F2_door_counter > 0))
         {
-            mts_nullsub_8_8008BB98(3, aDoorOpencancel, pActor->field_F2_door_counter);
+            mts_nullsub_8_8008BB98(3, "door:opencancel %d\n", pActor->field_F2_door_counter);
 
             if (pActor->field_E2_maybe_state != 0)
             {
@@ -242,7 +231,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
             if (pMsg->message[1] == 0x21CA)
             {
-                printf(aSnakeDoorX, pActor->field_E0_where);
+                printf("Snake Door %X\n", pActor->field_E0_where);
                 door_where_8009F5F4 = pActor->field_E0_where;
                 pActor->field_E5 = 1;
             }
@@ -423,7 +412,7 @@ void door_act_8006F318(Actor_Door *pActor)
                 {
                     if (door_where_8009F5F4 && ((pActor->field_E5 == 0) || (door_where_8009F5F4 != pActor->field_E0_where)))
                     {
-                        printf(aCloseDoorX, door_where_8009F5F4);
+                        printf("close door %X\n", door_where_8009F5F4);
 
                         for (mapIter = 0; mapIter < 2; mapIter++)
                         {
@@ -437,7 +426,7 @@ void door_act_8006F318(Actor_Door *pActor)
                     }
                     else
                     {
-                        printf(aCloseDoorX_0, door_where_8009F5F4);
+                        printf("CLOSE door %X\n", door_where_8009F5F4);
                         hash = gSnaControl_800AB9F4->field_2C_map->field_4_mapNameHash;
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
@@ -739,7 +728,7 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
     if (pDoor)
     {
         GV_SetNamedActor_8001514C(&pDoor->field_0_actor, (TActorFunction)door_act_8006F318,
-                                  (TActorFunction)door_kill_8006F718, aDoorC); // "door.c";
+                                  (TActorFunction)door_kill_8006F718, "door.c");
 
         pDoor->field_E4_t_param_v = t_param_v;
 

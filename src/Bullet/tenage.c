@@ -20,8 +20,6 @@ extern SVECTOR        DG_ZeroVector_800AB39C;
 extern CONTROL    *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
 
-extern char aTenageC[]; // = "tenage.c"
-
 //------------------------------------------------------------------------------
 
 void tenage_act_800699A4(Actor_tenage *pActor)
@@ -224,7 +222,7 @@ Actor_tenage * NewTenage_8006A010(SVECTOR *vec, SVECTOR *vec2, int param_3, int 
     if (pActor)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)pActor, (TActorFunction)tenage_act_800699A4,
-                                  (TActorFunction)tenage_kill_80069DBC, aTenageC);
+                                  (TActorFunction)tenage_kill_80069DBC, "tenage.c");
 
         if (tenage_loader_80069E64(pActor, vec, vec2, param_4, param_5, 1, 1) < 0)
         {
@@ -257,7 +255,7 @@ Actor_tenage *NewTenage3_8006A128(SVECTOR *vec, SVECTOR *vec2, int param_3, int 
     if (pActor)
     {
         GV_SetNamedActor_8001514C((GV_ACT *)pActor, (TActorFunction)tenage_act_800699A4,
-                                  (TActorFunction)tenage_kill_80069DBC, aTenageC);
+                                  (TActorFunction)tenage_kill_80069DBC, "tenage.c");
 
         if (tenage_loader_80069E64(pActor, vec, vec2, param_4, param_5, 0, 2) < 0)
         {
