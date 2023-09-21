@@ -12,7 +12,7 @@ TARGET_HASH = '4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f'
 TARGET_SOUND_HASH = '4173d0fcbc7bfcd477d2e0fa6810b509bf6392efb01fd58a7fa114f003849816'
 CACHED_GOOD_EXE = '_mgsi.matching.exe'
 OBJ_EXE = '../obj/_mgsi.exe'
-OBJ_SOUND = '../obj/sound.bin'
+#OBJ_SOUND = '../obj/sound.bin'
 FUNCTIONS_FILE = 'functions.txt'
 EXE_SIZE = 641024
 TEXT_SEG_OFFSET = 0x50B8
@@ -218,7 +218,7 @@ def ok(name):
 def fail(name):
     func = red if COLORS else print
     func('FAIL: {} does not match target hash '.format(name))
-    
+
 def main():
     if os.name == 'nt':
         colorama_init(strip=False)
@@ -226,12 +226,12 @@ def main():
     if not os.path.exists(OBJ_EXE):
         print(OBJ_EXE, "doesn't exist")
         return
-    if not os.path.exists(OBJ_SOUND):
-        print(OBJ_SOUND, "doesn't exist")
-        return
+    #if not os.path.exists(OBJ_SOUND):
+    #    print(OBJ_SOUND, "doesn't exist")
+    #    return
 
     exe_hash = sha256(OBJ_EXE)
-    sound_hash = sha256(OBJ_SOUND)
+    #sound_hash = sha256(OBJ_SOUND)
 
     failed = False
     if exe_hash != TARGET_HASH:

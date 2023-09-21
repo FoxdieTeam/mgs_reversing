@@ -328,14 +328,14 @@ bss     group bss
 
 __program_bottom EQU $800C3208
 
-; ram
+; TODO: overlays
 
 ; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
-group_gProgramBottom_800C3208    group org($800C3208), file("..\obj\sound.bin"), size(343544)
-    section .gProgramBottom_800C3208, group_gProgramBottom_800C3208
-    section .olay, group_gProgramBottom_800C3208
-    section .olay_r, group_gProgramBottom_800C3208
-    include "..\obj\overlays\sound_bin.obj"
-    include "..\obj\overlays\sndtst.obj"
+; sound.bin overlay
+; sound   group   org($800C3208), file("..\obj\sound.bin"), size(343544)
+;    section .gcl, sound
+;
+;    include "..\obj\overlays\sndtst.obj"
+;    include "..\obj\overlays\sndtst_data.obj"
 
     regs    pc=__SN_ENTRY_POINT
