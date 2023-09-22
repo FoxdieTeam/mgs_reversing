@@ -659,7 +659,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
                 pActor->field_20_ctrl.field_8_rotator.vy += GV_RandS_800170BC(128);
             }
 
-            GV_DirVec2_80016F24(pActor->field_20_ctrl.field_8_rotator.vy, pActor->field_11A, &pActor->field_20_ctrl.field_44_movementVector);
+            GV_InvYawVec3_80016F24(pActor->field_20_ctrl.field_8_rotator.vy, pActor->field_11A, &pActor->field_20_ctrl.field_44_movementVector);
             rmissile_act_helper_8006BD24(pActor, pPad->status);
             GM_Target_SetVector_8002D500(&pActor->field_120_target, &vector2);
         }

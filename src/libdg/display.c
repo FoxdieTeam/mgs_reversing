@@ -7,7 +7,7 @@
 #include "Menu/menuman.h"
 
 /**data************************/
-VECTOR SECTION(".data") vector_8009D34C = {0, -4096, 0, 0};
+VECTOR SECTION(".data") DG_UpVector_8009D34C = {0, -4096, 0, 0};
 /******************************/
 
 /**gp***********************************************************************************************/
@@ -31,7 +31,7 @@ extern int DG_HikituriFlagOld_8009D464;
 
 /**bss************************************************************************/
 extern DISPENV gDispEnv_800B0600;
-extern VECTOR  gUnknownVector_800B0620;
+extern VECTOR  DG_RightVector_800B0620;
 /****************************************************************************/
 
 void DG_InitDispEnv_800170F0(int x, short y, short w, short h, int clipH)
@@ -111,59 +111,59 @@ void DG_RenderPipeline_800172A8(void)
     DG_RenderPipeline_80018028(GV_Clock_800AB920);
 }
 
-void DG_800172D0(DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_property)
+void DG_LookAt_800172D0(DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance)
 {
-    VECTOR  vec;
-    VECTOR  empty_vec_2;
-    VECTOR  empty_vec;
-    MATRIX *chnl_matrix;
+    VECTOR  forward;
+    VECTOR  up;
+    VECTOR  right;
+    MATRIX *view;
 
-    chnl->field_50_clip_distance = camera_property;
-    chnl_matrix = &chnl->field_30_matrix;
+    chnl->field_50_clip_distance = clip_distance;
 
-    chnl_matrix->t[0] = svec->vx;
-    chnl_matrix->t[1] = svec->vy;
-    chnl_matrix->t[2] = svec->vz;
+    view = &chnl->field_30_eye;
+    view->t[0] = eye->vx;
+    view->t[1] = eye->vy;
+    view->t[2] = eye->vz;
 
-    vec.vx = (signed short)(((unsigned short)svec2->vx - (unsigned short)svec->vx));
-    vec.vy = (signed short)(((unsigned short)svec2->vy - (unsigned short)svec->vy));
-    vec.vz = (signed short)(((unsigned short)svec2->vz - (unsigned short)svec->vz));
+    forward.vx = (signed short)(((unsigned short)center->vx - (unsigned short)eye->vx));
+    forward.vy = (signed short)(((unsigned short)center->vy - (unsigned short)eye->vy));
+    forward.vz = (signed short)(((unsigned short)center->vz - (unsigned short)eye->vz));
 
-    OuterProduct12(&vector_8009D34C, &vec, &empty_vec);
+    OuterProduct12(&DG_UpVector_8009D34C, &forward, &right);
 
-    if (!empty_vec.vx && !empty_vec.vy && !empty_vec.vz)
+    if (!right.vx && !right.vy && !right.vz)
     {
-        empty_vec = gUnknownVector_800B0620;
+        right = DG_RightVector_800B0620;
     }
     else
     {
-        gUnknownVector_800B0620 = empty_vec;
+        DG_RightVector_800B0620 = right;
     }
 
-    VectorNormal(&empty_vec, &empty_vec);
-    VectorNormal(&vec, &vec);
+    VectorNormal(&right, &right);
+    VectorNormal(&forward, &forward);
 
-    OuterProduct12(&vec, &empty_vec, &empty_vec_2);
+    OuterProduct12(&forward, &right, &up);
 
-    chnl_matrix->m[0][0] = empty_vec.vx;
-    chnl_matrix->m[0][1] = empty_vec_2.vx;
-    chnl_matrix->m[0][2] = vec.vx;
+    view->m[0][0] = right.vx;
+    view->m[0][1] = up.vx;
+    view->m[0][2] = forward.vx;
 
-    chnl_matrix->m[1][0] = empty_vec.vy;
-    chnl_matrix->m[1][1] = empty_vec_2.vy;
-    chnl_matrix->m[1][2] = vec.vy;
+    view->m[1][0] = right.vy;
+    view->m[1][1] = up.vy;
+    view->m[1][2] = forward.vy;
 
-    chnl_matrix->m[2][0] = empty_vec.vz;
-    chnl_matrix->m[2][1] = empty_vec_2.vz;
-    chnl_matrix->m[2][2] = vec.vz;
+    view->m[2][0] = right.vz;
+    view->m[2][1] = up.vz;
+    view->m[2][2] = forward.vz;
 
-    DG_TransposeMatrix_8001EAD8(chnl_matrix, &chnl->field_10_eye_inv);
+    DG_TransposeMatrix_8001EAD8(view, &chnl->field_10_eye_inv);
 
-    vec.vx = -chnl_matrix->t[0];
-    vec.vy = -chnl_matrix->t[1];
-    vec.vz = -chnl_matrix->t[2];
+    forward.vx = -view->t[0];
+    forward.vy = -view->t[1];
+    forward.vz = -view->t[2];
 
-    ApplyMatrixLV(&chnl->field_10_eye_inv, &vec, (VECTOR *)(&chnl->field_10_eye_inv.t[0]));
+    ApplyMatrixLV(&chnl->field_10_eye_inv, &forward, (VECTOR *)chnl->field_10_eye_inv.t);
 }
 
 void DG_800174DC(MATRIX *matrix)
