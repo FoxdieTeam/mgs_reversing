@@ -216,7 +216,7 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     }
     sub_80028890(&param_1[1]);
     GV_SubVec3_80016D40(&param_1[1], param_1, param_1);
-    return GV_VecLen3_80016D80(param_1);
+    return GV_LengthVec3_80016D80(param_1);
 }
 
 void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *param_3)
@@ -368,7 +368,7 @@ int sub_8004E930(Actor_SnaInit *snake, int arg1)
 
     vec1.vx = int1;
     vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
-    int0 = -GV_VecDir2_80016EF8(&vec1);
+    int0 = -GV_YawVec3_80016EF8(&vec1);
 
     if (int0 < -0x800)
     {

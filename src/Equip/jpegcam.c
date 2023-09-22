@@ -533,7 +533,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
         if (cond != 0)
         {
             GV_SubVec3_80016D40(&vector2, &vector1, &vector1);
-            retval = GV_VecLen3_80016D80(&vector1);
+            retval = GV_LengthVec3_80016D80(&vector1);
         }
     }
     return retval;

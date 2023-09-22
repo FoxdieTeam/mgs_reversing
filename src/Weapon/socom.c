@@ -186,7 +186,7 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
     if ( bCalcLen )
     {
         GV_SubVec3_80016D40( &vecs[ 1 ], vecs, vecs );
-        vecLen = GV_VecLen3_80016D80( vecs );
+        vecLen = GV_LengthVec3_80016D80( vecs );
         if ( vecLen >= 816 )
         {
             vecLen -= 815;

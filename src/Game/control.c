@@ -196,18 +196,18 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
 
             GetVecFromScratchpad_80028840(pControl->field_60_vecs_ary);
 
-            len = GV_VecLen3_80016D80(pControl->field_60_vecs_ary);
+            len = GV_LengthVec3_80016D80(pControl->field_60_vecs_ary);
             diff = len - new_var;
 
             if (diff < 0)
             {
                 diff = -diff;
-                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_ScaleVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
                 GV_SubVec3_80016D40(&DG_ZeroVector_800AB39C, &vec, &vec);
             }
             else
             {
-                GV_LenVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
+                GV_ScaleVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
             }
 
             pControl->field_44_movementVector = vec;
@@ -245,7 +245,7 @@ retry:
 
     if (!GM_ActControl_helper_80026C68(pControl->field_60_vecs_ary, i, pControl->field_36, &vec) && !bVar7)
     {
-        GV_LenVec3_80016DDC(&pControl->field_44_movementVector, &vec2, GV_VecLen3_80016D80(&pControl->field_44_movementVector), pControl->field_36 / 2);
+        GV_ScaleVec3_80016DDC(&pControl->field_44_movementVector, &vec2, GV_LengthVec3_80016D80(&pControl->field_44_movementVector), pControl->field_36 / 2);
         bVar7 = 1;
         vec2.vy = 0;
         GV_SubVec3_80016D40(&pControl->field_0_mov,&vec2,&pControl->field_0_mov);
@@ -483,13 +483,13 @@ int GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2)
 
     if (pControl->field_58 == 2)
     {
-        if (pControl->field_70[1]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        if (pControl->field_70[1]->pad < 0 || GV_LengthVec3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
         {
             return 2;
         }
     }
 
-    if (pControl->field_70[0]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    if (pControl->field_70[0]->pad < 0 || GV_LengthVec3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
     {
         return 1;
     }

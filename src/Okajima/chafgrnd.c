@@ -68,7 +68,7 @@ void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR 
     temp_s0 = vec.vy;
     vec.vy = 0;
 
-    temp_v1 = ratan2(GV_VecLen3_80016D80(&vec), temp_s0) & 0xfff;
+    temp_v1 = ratan2(GV_LengthVec3_80016D80(&vec), temp_s0) & 0xfff;
 
     temp_v0 = temp_v1 - 0x400;
     vout->vx = temp_v0;
@@ -160,14 +160,14 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     {
         pActor->field_24 = 1;
 
-        chafgrnd_calc_particle_position_80076A98(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &sp18);
+        chafgrnd_calc_particle_position_80076A98(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &sp18);
 
         pVec = (SVECTOR *)getScratchAddr(0);
         pVec->vx = 0;
         pVec->vy = 0;
         pVec->vz = 2000;
 
-        DG_SetPos2_8001BC8C(&gUnkCameraStruct2_800B7868.field_0, &sp18);
+        DG_SetPos2_8001BC8C(&gUnkCameraStruct2_800B7868.eye, &sp18);
         DG_PutVector_8001BE48(pVec, pVec, 1);
 
         sp20 = 1;
@@ -184,7 +184,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     {
         if (pActor->field_a40[i])
         {
-            *var_s7 = gUnkCameraStruct2_800B7868.field_0;
+            *var_s7 = gUnkCameraStruct2_800B7868.eye;
             continue;
         }
 

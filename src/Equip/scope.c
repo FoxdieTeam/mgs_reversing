@@ -44,7 +44,7 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
 
     if ( GM_GameStatus_800AB3CC < 0 )
     {
-        pMtx = &DG_Chanl(0)->field_30_matrix;
+        pMtx = &DG_Chanl(0)->field_30_eye;
     }
     else
     {
@@ -68,7 +68,7 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
     if ( bCalcLen != 0 )
     {
         GV_SubVec3_80016D40(&vecs[1], vecs, vecs);
-        vecLen = GV_VecLen3_80016D80(vecs);
+        vecLen = GV_LengthVec3_80016D80(vecs);
     }
 
     return vecLen;

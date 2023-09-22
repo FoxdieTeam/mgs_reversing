@@ -214,8 +214,8 @@ static inline int sub_helper_8002D7DC(int which, int a, int b)
 do                                          \
 {                                           \
     int angle;                              \
-    angle = GV_VecDir2_80016EF8(in);        \
-    GV_DirVec2_80016F24(angle, scale, out); \
+    angle = GV_YawVec3_80016EF8(in);        \
+    GV_InvYawVec3_80016F24(angle, scale, out); \
 } while (0)
 
 int sub_8002D7DC(TARGET *pTarget)
