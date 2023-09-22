@@ -39,7 +39,7 @@ def parse_arguments():
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
     args.obj_directory = 'obj' if args.variant == 'main_exe' else 'obj_vr'
-    args.defines = ['MAIN_EXE'] if args.variant == 'main_exe' else ['VR_EXE']
+    args.defines = ['VR_EXE'] if args.variant == 'vr_exe' else []
     print("psyq_path = " + args.psyq_path)
     return args
 

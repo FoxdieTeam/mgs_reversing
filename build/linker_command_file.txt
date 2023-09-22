@@ -221,7 +221,7 @@
     include "{{OBJ_DIR}}\Equip\scope.obj"
     include "{{OBJ_DIR}}\Equip\gmsight.obj" ; gasmask first person
 
-{% if MAIN_EXE %}
+{% if not VR_EXE %}
     include "{{OBJ_DIR}}\Equip\jpegcam.obj"
 {% endif %}
 
