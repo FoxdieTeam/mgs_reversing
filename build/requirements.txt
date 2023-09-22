@@ -4,3 +4,4 @@ termcolor
 capstone
 iterfzf
 pyperclip
+Jinja2

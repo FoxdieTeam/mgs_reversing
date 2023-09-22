@@ -183,7 +183,10 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
+ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out", "Preprocess $in -> $out")
+ninja.newline()
+
+ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../obj/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
@@ -313,11 +316,15 @@ def gen_build_target(targetName):
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 
         linkerDeps.append(cOFile)
-        linkerDeps.append("linker_command_file.txt")
+
+    # preprocess linker_command_file.txt
+    linkerCommandFile = "../obj/linker_command_file.txt"
+    ninja.build(linkerCommandFile, "linker_command_file_preprocess", "linker_command_file.txt")
+    ninja.newline()
 
     # run the linker to generate the cpe
     cpeFile = "../obj/_mgsi.cpe"
-    ninja.build(cpeFile, "psylink", implicit=linkerDeps)
+    ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
     ninja.newline()
 
     # cpe to exe
