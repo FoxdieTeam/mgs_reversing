@@ -220,7 +220,10 @@
     include "{{OBJ_DIR}}\Equip\tabako.obj"  ; cigarettes
     include "{{OBJ_DIR}}\Equip\scope.obj"
     include "{{OBJ_DIR}}\Equip\gmsight.obj" ; gasmask first person
+
+{% if MAIN_EXE %}
     include "{{OBJ_DIR}}\Equip\jpegcam.obj"
+{% endif %}
 
     include "{{OBJ_DIR}}\data\sbss\sbss6.obj"
 
