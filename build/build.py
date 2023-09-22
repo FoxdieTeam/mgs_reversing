@@ -36,6 +36,7 @@ def parse_arguments():
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
+    args.obj_directory = 'obj'
     print("psyq_path = " + args.psyq_path)
     return args
 
@@ -186,7 +187,7 @@ ninja.newline()
 ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../obj/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
+ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file.txt\",$src_dir/../{args.obj_directory}/_mgsi.cpe,$src_dir/../{args.obj_directory}/asm.sym,$src_dir/../{args.obj_directory}/asm.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
@@ -237,7 +238,7 @@ def gen_build_target(targetName):
     # build .s files
     for asmFile in asmFiles:
         asmFile = asmFile.replace("\\", "/")
-        asmOFile = asmFile.replace("/asm/", "/obj/")
+        asmOFile = asmFile.replace("/asm/", f"/{args.obj_directory}/")
         asmOFile = asmOFile.replace(".s", ".obj")
         #print("Build step " + asmFile + " -> " + asmOFile)
         ninja.build(asmOFile, "psyq_asmpsx_assemble", asmFile)
@@ -246,7 +247,7 @@ def gen_build_target(targetName):
     # build .c files
     for cFile in cFiles:
         cFile = cFile.replace("\\", "/")
-        cOFile = cFile.replace("/src/", "/obj/")
+        cOFile = cFile.replace("/src/", f"/{args.obj_directory}/")
         cPreProcHeadersFile = cOFile.replace(".c", ".c.preproc.headers")
         cPreProcHeadersFixedFile = cOFile.replace(".c", ".c.preproc.headers_fixed")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
@@ -318,17 +319,17 @@ def gen_build_target(targetName):
         linkerDeps.append(cOFile)
 
     # preprocess linker_command_file.txt
-    linkerCommandFile = "../obj/linker_command_file.txt"
+    linkerCommandFile = f"../{args.obj_directory}/linker_command_file.txt"
     ninja.build(linkerCommandFile, "linker_command_file_preprocess", "linker_command_file.txt")
     ninja.newline()
 
     # run the linker to generate the cpe
-    cpeFile = "../obj/_mgsi.cpe"
+    cpeFile = f"../{args.obj_directory}/_mgsi.cpe"
     ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
     ninja.newline()
 
     # cpe to exe
-    exeFile = "../obj/_mgsi.exe"
+    exeFile = f"../{args.obj_directory}/_mgsi.exe"
     ninja.build(exeFile, "cpe2exe", cpeFile)
     ninja.newline()
 
