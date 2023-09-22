@@ -222,7 +222,7 @@ int camera_act_helper3_helper_8002ED3C(void)
 
 void sub_8002ED68(int arg0)
 {
-    switch (gUnkCameraStruct2_800B76F0.field_0.pad & 3)
+    switch (gUnkCameraStruct2_800B76F0.eye.pad & 3)
     {
     case 0:
         GV_OriginPadSystem_80016C78(0);
@@ -231,14 +231,14 @@ void sub_8002ED68(int arg0)
     case 1:
         if (arg0 != 0)
         {
-            sub_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+            camera_get_euler_angles_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
         }
 
         GV_OriginPadSystem_80016C78(gUnkCameraStruct2_800B76F0.field_10.vy + 2048);
         break;
 
     case 2:
-        GV_OriginPadSystem_80016C78(gUnkCameraStruct2_800B76F0.field_0.pad >> 2);
+        GV_OriginPadSystem_80016C78(gUnkCameraStruct2_800B76F0.eye.pad >> 2);
         break;
 
     default:
@@ -248,24 +248,24 @@ void sub_8002ED68(int arg0)
 
 void sub_8002EE04()
 {
-    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.field_0;
-    GM_Camera_800B77E8.field_8 = gUnkCameraStruct2_800B76F0.field_8;
+    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.eye;
+    GM_Camera_800B77E8.field_8 = gUnkCameraStruct2_800B76F0.center;
     GM_Camera_800B77E8.field_28 = 0;
     sub_8002ED68(0);
 }
 
 void sub_8002EE80(void)
 {
-    gUnkCameraStruct2_800B76F0.field_8.vz = gUnkCameraStruct_800B77B8.field_8.vz;
-    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.field_0;
-    GM_Camera_800B77E8.field_8 = gUnkCameraStruct2_800B76F0.field_8;
+    gUnkCameraStruct2_800B76F0.center.vz = gUnkCameraStruct_800B77B8.field_8.vz;
+    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.eye;
+    GM_Camera_800B77E8.field_8 = gUnkCameraStruct2_800B76F0.center;
     GM_Camera_800B77E8.field_28 = 0;
     GV_OriginPadSystem_80016C78(0);
 }
 
 void sub_8002EF08()
 {
-    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.field_0;
+    GM_Camera_800B77E8.field_0 = gUnkCameraStruct2_800B76F0.eye;
     GM_Camera_800B77E8.field_8 = gUnkCameraStruct_800B77B8.field_8;
     GM_Camera_800B77E8.field_28 = 0;
     sub_8002ED68(1);
@@ -300,7 +300,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
         GV_NearExp4V_800266D4(&GM_Camera_800B77E8.field_8.vx, &gUnkCameraStruct_800B77B8.field_0.vx, 3);
         GV_NearExp4PV_800269A0(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, 3);
         GM_Camera_800B77E8.field_1C = GV_NearExp4_800263B0(GM_Camera_800B77E8.field_1C, 1000);
-        GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
+        GV_ProjectZVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002ECE4(&GM_Camera_800B77E8.field_8, &vec, &GM_Camera_800B77E8.field_0);
         GM_Camera_800B77E8.field_28 = 0;
     }
@@ -310,7 +310,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
         GV_NearTimeSV_800268AC(&GM_Camera_800B77E8.field_0.vx, &gUnkCameraStruct_800B77B8.field_0.vx, iVar1, 3);
         GV_NearTimePV_80026BC4(&GM_Camera_800B77E8.field_10.vx, &gUnkCameraStruct_800B77B8.field_28.vx, iVar1, 3);
         GM_Camera_800B77E8.field_1C = GV_NearTime_800264B0(GM_Camera_800B77E8.field_1C, 1000, iVar1);
-        GV_DirVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
+        GV_ProjectZVec3_80016FA0(&GM_Camera_800B77E8.field_10, GM_Camera_800B77E8.field_1C, &vec);
         sub_8002EC8C(&GM_Camera_800B77E8.field_0, &vec, &GM_Camera_800B77E8.field_8);
         GM_Camera_800B77E8.field_28 = 0;
     }
@@ -448,7 +448,7 @@ int camera_act_helper2_helper_8002F384(int arg0)
         switch (GM_Camera_800B77E8.field_28)
         {
         case 0:
-            sub_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
+            camera_get_euler_angles_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
             break;
 
         case 1:
@@ -545,36 +545,36 @@ void camera_act_helper4_8002F78C(void)
 
     gUnkCameraStruct2_800B7868.field_20 = 0;
     gUnkCameraStruct2_800B7868.field_18 = GM_Camera_800B77E8.field_1C;
-    gUnkCameraStruct2_800B7868.field_1C = GM_Camera_800B77E8.field_20;
+    gUnkCameraStruct2_800B7868.clip_distance = GM_Camera_800B77E8.field_20;
 
     if (GM_Camera_800B77E8.field_2A == 0)
     {
-        gUnkCameraStruct2_800B7868.field_0 = GM_Camera_800B77E8.field_0;
+        gUnkCameraStruct2_800B7868.eye = GM_Camera_800B77E8.field_0;
         gUnkCameraStruct2_800B7868.field_10 = GM_Camera_800B77E8.field_10;
-        gUnkCameraStruct2_800B7868.field_8 = GM_Camera_800B77E8.field_8;
+        gUnkCameraStruct2_800B7868.center = GM_Camera_800B77E8.field_8;
     }
     else
     {
-        sub_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
+        camera_get_euler_angles_8002FBC0(&GM_Camera_800B77E8.field_0, &GM_Camera_800B77E8.field_8, &GM_Camera_800B77E8.field_10, &GM_Camera_800B77E8.field_1C);
 
         GV_SubVec3_80016D40(&GM_Camera_800B77E8.field_0, &svec_800ABA88, &vec);
-        GV_AddVec3_80016D00(&vec, &gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_0);
+        GV_AddVec3_80016D00(&vec, &gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.eye);
 
         svec_800ABA88 = GM_Camera_800B77E8.field_0;
 
         if (GM_Camera_800B77E8.field_2A == 3)
         {
-            GV_NearTimeSV_800268AC(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, GM_Camera_800B77E8.field_26, 3);
+            GV_NearTimeSV_800268AC(&gUnkCameraStruct2_800B7868.eye.vx, &GM_Camera_800B77E8.field_0.vx, GM_Camera_800B77E8.field_26, 3);
             GV_NearTimePV_80026BC4(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, GM_Camera_800B77E8.field_26, 3);
         }
         else if (GM_Camera_800B77E8.field_2A == 1)
         {
-            GV_NearExp2V_8002667C(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, 3);
+            GV_NearExp2V_8002667C(&gUnkCameraStruct2_800B7868.eye.vx, &GM_Camera_800B77E8.field_0.vx, 3);
             GV_NearExp2PV_80026924(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, 3);
         }
         else if (GM_Camera_800B77E8.field_2A == 2)
         {
-            GV_NearExp4V_800266D4(&gUnkCameraStruct2_800B7868.field_0.vx, &GM_Camera_800B77E8.field_0.vx, 3);
+            GV_NearExp4V_800266D4(&gUnkCameraStruct2_800B7868.eye.vx, &GM_Camera_800B77E8.field_0.vx, 3);
             GV_NearExp4PV_800269A0(&gUnkCameraStruct2_800B7868.field_10.vx, &GM_Camera_800B77E8.field_10.vx, 3);
         }
 
@@ -583,7 +583,7 @@ void camera_act_helper4_8002F78C(void)
             gUnkCameraStruct2_800B7868.field_18 = 10000;
         }
 
-        sub_8002FC58(&gUnkCameraStruct2_800B7868.field_0, &gUnkCameraStruct2_800B7868.field_8, &gUnkCameraStruct2_800B7868.field_10, &gUnkCameraStruct2_800B7868.field_18);
+        sub_8002FC58(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &gUnkCameraStruct2_800B7868.field_10, &gUnkCameraStruct2_800B7868.field_18);
 
         if (--GM_Camera_800B77E8.field_26 < 0)
         {
@@ -596,22 +596,22 @@ void camera_act_helper4_8002F78C(void)
     {
         if (GM_Camera_800B77E8.field_22 == 0)
         {
-            gUnkCameraStruct2_800B7868.field_0.vy += (GV_RandS_800170BC(512) * GM_NoiseLength_800ABA30) / 32;
+            gUnkCameraStruct2_800B7868.eye.vy += (GV_RandS_800170BC(512) * GM_NoiseLength_800ABA30) / 32;
         }
         else
         {
-            gUnkCameraStruct2_800B7868.field_0.vy += (GV_RandS_800170BC(512) * GM_NoiseLength_800ABA30) / 128;
+            gUnkCameraStruct2_800B7868.eye.vy += (GV_RandS_800170BC(512) * GM_NoiseLength_800ABA30) / 128;
         }
     }
 
     if (GM_Camera_800B77E8.field_22 == 0)
     {
-        gUnkCameraStruct2_800B7868.field_0.vy += GM_CameraShakeOffset_800ABA98;
+        gUnkCameraStruct2_800B7868.eye.vy += GM_CameraShakeOffset_800ABA98;
         GM_CameraShakeOffset_800ABA98 = 0;
     }
     else
     {
-        gUnkCameraStruct2_800B7868.field_0.vy += GM_CameraShakeOffset_800ABA98 / 4;
+        gUnkCameraStruct2_800B7868.eye.vy += GM_CameraShakeOffset_800ABA98 / 4;
         GM_CameraShakeOffset_800ABA98 = 0;
     }
 }
@@ -620,9 +620,9 @@ void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4)
 {
     if ( !gUnkCameraStruct2_800B7868.field_20 )
     {
-        *a1 = gUnkCameraStruct2_800B7868.field_0;
-        *a2 = gUnkCameraStruct2_800B7868.field_8;
-        sub_8002FBC0(a1, a2, a3, a4);
+        *a1 = gUnkCameraStruct2_800B7868.eye;
+        *a2 = gUnkCameraStruct2_800B7868.center;
+        camera_get_euler_angles_8002FBC0(a1, a2, a3, a4);
         gUnkCameraStruct2_800B7868.field_10 = *a3;
     }
 }
@@ -645,20 +645,22 @@ void camera_act_helper7_8002FB54()
     }
 }
 
-void sub_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen)
+void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *euler, int *length)
 {
-    SVECTOR vec;
-    GV_SubVec3_80016D40(pVec2, pVec1, &vec);
-    *pLen = GV_VecLen3_80016D80(&vec);
-    pVec3->vz = 0;
-    pVec3->vy = GV_VecDir2_80016EF8(&vec);
-    pVec3->vx = ratan2(-vec.vy, SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz));
+    SVECTOR forward;
+
+    GV_SubVec3_80016D40(center, eye, &forward);
+    *length = GV_LengthVec3_80016D80(&forward);
+
+    euler->vz = 0;
+    euler->vy = GV_YawVec3_80016EF8(&forward);
+    euler->vx = ratan2(-forward.vy, SquareRoot0(forward.vx * forward.vx + forward.vz * forward.vz));
 }
 
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
 {
     SVECTOR vec;
-    GV_DirVec3_80016FA0(param_3, *param_4, &vec);
+    GV_ProjectZVec3_80016FA0(param_3, *param_4, &vec);
     sub_8002EC8C(param_1, &vec, param_2);
 }
 
@@ -666,7 +668,7 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
 {
     SVECTOR vec;
 
-    GV_DirVec3_80016FA0(param_3, *param_4, &vec);
+    GV_ProjectZVec3_80016FA0(param_3, *param_4, &vec);
     sub_8002ECE4(param_2, &vec, param_1);
 }
 
@@ -716,46 +718,46 @@ void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
             gUnkCameraStruct_800B77B8.field_10.vy = pCamera->field_08_trg[1];
             gUnkCameraStruct_800B77B8.field_10.vz = 0;
 
-            gUnkCameraStruct2_800B76F0.field_8 = gUnkCameraStruct_800B77B8.field_8;
+            gUnkCameraStruct2_800B76F0.center = gUnkCameraStruct_800B77B8.field_8;
             gUnkCameraStruct2_800B76F0.field_10 = gUnkCameraStruct_800B77B8.field_10;
             gUnkCameraStruct2_800B76F0.field_18 = gUnkCameraStruct_800B77B8.field_18 = pCamera->field_08_trg[2];
 
-            sub_8002FCA4(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+            sub_8002FCA4(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
         }
         else
         {
             switch (pCamera->field_12_param3)
             {
             case 0:
-                gUnkCameraStruct2_800B76F0.field_0 = pCamera->field_00_pos;
-                gUnkCameraStruct2_800B76F0.field_8 = *(SVECTOR *)pCamera->field_08_trg;
-                sub_8002FBC0(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+                gUnkCameraStruct2_800B76F0.eye = pCamera->field_00_pos;
+                gUnkCameraStruct2_800B76F0.center = *(SVECTOR *)pCamera->field_08_trg;
+                camera_get_euler_angles_8002FBC0(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
                 break;
 
             case 1:
-                gUnkCameraStruct2_800B76F0.field_0 = pCamera->field_00_pos;
+                gUnkCameraStruct2_800B76F0.eye = pCamera->field_00_pos;
 
                 gUnkCameraStruct2_800B76F0.field_10.vx = pCamera->field_08_trg[0];
                 gUnkCameraStruct2_800B76F0.field_10.vy = pCamera->field_08_trg[1];
                 gUnkCameraStruct2_800B76F0.field_10.vz = 0;
                 gUnkCameraStruct2_800B76F0.field_18 = pCamera->field_08_trg[2];
 
-                sub_8002FC58(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+                sub_8002FC58(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
                 break;
 
             case 2:
-                gUnkCameraStruct2_800B76F0.field_8 = pCamera->field_00_pos;
+                gUnkCameraStruct2_800B76F0.center = pCamera->field_00_pos;
 
                 gUnkCameraStruct2_800B76F0.field_10.vx = pCamera->field_08_trg[0];
                 gUnkCameraStruct2_800B76F0.field_10.vy = pCamera->field_08_trg[1];
                 gUnkCameraStruct2_800B76F0.field_10.vz = 0;
                 gUnkCameraStruct2_800B76F0.field_18 = pCamera->field_08_trg[2];
 
-                sub_8002FCA4(&gUnkCameraStruct2_800B76F0.field_0, &gUnkCameraStruct2_800B76F0.field_8, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
+                sub_8002FCA4(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.field_10, &gUnkCameraStruct2_800B76F0.field_18);
                 break;
             }
 
-            gUnkCameraStruct2_800B76F0.field_0.pad = pCamera->field_13_param_p | ((unsigned short)pCamera->field_00_pos.pad * 4);
+            gUnkCameraStruct2_800B76F0.eye.pad = pCamera->field_13_param_p | ((unsigned short)pCamera->field_00_pos.pad * 4);
             gUnkCameraStruct2_800B76F0.field_20 = 0;
 
             if (cam_param1 == 1)
@@ -948,8 +950,8 @@ void sub_8003049C(SVECTOR *a1)
     pCamera->field_2C = *a1;
     pCamera->field_2C.pad = 1;
 
-    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.field_0, a1, &gUnkCameraStruct2_800B7868.field_0);
-    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.field_8, a1, &gUnkCameraStruct2_800B7868.field_8);
+    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.eye, a1, &gUnkCameraStruct2_800B7868.eye);
+    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.center, a1, &gUnkCameraStruct2_800B7868.center);
 
     GV_AddVec3_80016D00(&pCamera->field_0, a1, &pCamera->field_0);
     GV_AddVec3_80016D00(&pCamera->field_8, a1, &pCamera->field_8);
@@ -998,10 +1000,10 @@ void camera_act_8003059C(GV_ACT *pActor)
             camera_act_helper4_8002F78C();
         }
 
-        DG_800172D0(DG_Chanl(0),
-            &gUnkCameraStruct2_800B7868.field_0,
-            &gUnkCameraStruct2_800B7868.field_8,
-            gUnkCameraStruct2_800B7868.field_1C);
+        DG_LookAt_800172D0(DG_Chanl(0),
+            &gUnkCameraStruct2_800B7868.eye,
+            &gUnkCameraStruct2_800B7868.center,
+            gUnkCameraStruct2_800B7868.clip_distance);
     }
 }
 
@@ -1019,7 +1021,7 @@ GV_ACT *camera_init_800306A0()
     GM_Camera_800B77E8.field_22 = 0;
     GM_Camera_800B77E8.field_18_flags = 0;
     GM_Camera_800B77E8.field_2C.pad = 0;
-    gUnkCameraStruct2_800B7868.field_1C = 320;
+    gUnkCameraStruct2_800B7868.clip_distance = 320;
     dword_800ABA90 = 0;
     GM_event_camera_flag_800ABA9C = 0;
     dword_800AB43C = 0;

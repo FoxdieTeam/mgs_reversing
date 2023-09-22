@@ -27,7 +27,7 @@ int rifle_act_helper_80067BFC(void)
 
     if ((GM_GameStatus_800AB3CC < 0) || !gSnaControl_800AB9F4)
     {
-        pMtx = &DG_Chanl(0)->field_30_matrix;
+        pMtx = &DG_Chanl(0)->field_30_eye;
     }
     else
     {
@@ -54,7 +54,7 @@ int rifle_act_helper_80067BFC(void)
     if (var_s2)
     {
         GV_SubVec3_80016D40(&vec[1], &vec[0], &vec[0]);
-        length = GV_VecLen3_80016D80(&vec[0]);
+        length = GV_LengthVec3_80016D80(&vec[0]);
     }
 
     if (length < 1000)

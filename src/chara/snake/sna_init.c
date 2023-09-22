@@ -1349,7 +1349,7 @@ void sna_80050568(Actor_SnaInit *pActor)
         pDVar3 = (pActor->field_9C_obj).objs;
         local_10.vz = pDVar3[9].world.m[0][2] - *(short *)(pDVar3[1].world.t + 2);
 
-        dir = GV_VecDir2_80016EF8(&local_10);
+        dir = GV_YawVec3_80016EF8(&local_10);
         pActor->field_20_ctrl.field_4C_turn_vec.vy = dir;
         pActor->field_20_ctrl.field_8_rotator.vy = dir;
         pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_BOTH_CHECK;
@@ -1402,7 +1402,7 @@ void sna_knockdown_getup_80050668(Actor_SnaInit *pActor)
             pObjs = pActor->field_9C_obj.objs;
             vec.vz = pObjs->objs[6].world.t[2] - pObjs->objs[0].world.t[2];
 
-            dir = GV_VecDir2_80016EF8(&vec);
+            dir = GV_YawVec3_80016EF8(&vec);
             pActor->field_20_ctrl.field_4C_turn_vec.vy = dir;
             pActor->field_20_ctrl.field_8_rotator.vy = dir;
 
@@ -2220,7 +2220,7 @@ void sna_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *
     }
 
     GV_SubVec3_80016D40(&vec2, pPos, &vec3);
-    len = GV_VecLen3_80016D80(&vec3);
+    len = GV_LengthVec3_80016D80(&vec3);
 
     if ((len - pActor->field_A28) <= 0)
     {
@@ -2228,7 +2228,7 @@ void sna_80051A10(Actor_SnaInit *pActor, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *
     }
     else
     {
-        GV_LenVec3_80016DDC(&vec3, &vec4, len, len - pActor->field_A28);
+        GV_ScaleVec3_80016DDC(&vec3, &vec4, len, len - pActor->field_A28);
         GV_AddVec3_80016D00(pPos, &vec4, &vec3);
     }
 
@@ -4634,7 +4634,7 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
         if (pStr->field_9EC_flags3 & 0x200)
         {
             GV_SubVec3_80016D40(&pStr->field_9F4, &pActor->field_20_ctrl.field_0_mov, &vec);
-            pActor->field_20_ctrl.field_4C_turn_vec.vy = GV_VecDir2_80016EF8(&vec);
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = GV_YawVec3_80016EF8(&vec);
             pActor->field_20_ctrl.field_38 = -1;
             pActor->field_20_ctrl.field_36 = -1;
             pActor->field_A28 = -1;
@@ -7050,10 +7050,10 @@ static inline int sna_init_main_logic_helper_helper_800596FC(Actor_SnaInit *pAct
 
         if (iVar9 >= 2)
         {
-            iVar11 = GV_VecLen3_80016D80(&pCtrl->field_60_vecs_ary[0]);
-            iVar10 = GV_VecLen3_80016D80(&pCtrl->field_60_vecs_ary[1]);
-            iVar17 = GV_VecDir2_80016EF8(&pCtrl->field_60_vecs_ary[0]);
-            iVar19 = GV_VecDir2_80016EF8(&pCtrl->field_60_vecs_ary[1]);
+            iVar11 = GV_LengthVec3_80016D80(&pCtrl->field_60_vecs_ary[0]);
+            iVar10 = GV_LengthVec3_80016D80(&pCtrl->field_60_vecs_ary[1]);
+            iVar17 = GV_YawVec3_80016EF8(&pCtrl->field_60_vecs_ary[0]);
+            iVar19 = GV_YawVec3_80016EF8(&pCtrl->field_60_vecs_ary[1]);
 
             if (GV_DiffDirAbs_8001706C(iVar17, iVar19) < 512)
             {
@@ -7100,7 +7100,7 @@ static inline void sna_init_main_logic_helper_800596FC(Actor_SnaInit *pActor)
 
     dword_800ABBAC = &pActor->field_20_ctrl.field_60_vecs_ary[0];
     dword_800ABBB4 = &pActor->field_20_ctrl.field_5A[0];
-    dword_800ABBA8 = GV_VecDir2_80016EF8(&pActor->field_20_ctrl.field_60_vecs_ary[0]);
+    dword_800ABBA8 = GV_YawVec3_80016EF8(&pActor->field_20_ctrl.field_60_vecs_ary[0]);
 
     if ((*dword_800ABBB4 & 0x40) == 0)
     {
@@ -7116,14 +7116,14 @@ static inline void sna_init_main_logic_helper_800596FC(Actor_SnaInit *pActor)
 
     if (cVar4 != 1)
     {
-        iVar9 = GV_VecDir2_80016EF8(&pActor->field_20_ctrl.field_60_vecs_ary[1]);
+        iVar9 = GV_YawVec3_80016EF8(&pActor->field_20_ctrl.field_60_vecs_ary[1]);
         iVar10 = GV_DiffDirAbs_8001706C(dir, dword_800ABBA8);
 
         if (GV_DiffDirAbs_8001706C(dir, iVar9) < iVar10)
         {
             dword_800ABBAC = &pActor->field_20_ctrl.field_60_vecs_ary[1];
             dword_800ABBB4 = &pActor->field_20_ctrl.field_5A[1];
-            dword_800ABBA8 = GV_VecDir2_80016EF8(&pActor->field_20_ctrl.field_60_vecs_ary[1]);
+            dword_800ABBA8 = GV_YawVec3_80016EF8(&pActor->field_20_ctrl.field_60_vecs_ary[1]);
 
             if ((*dword_800ABBB4 & 0x40) == 0)
             {
@@ -7146,7 +7146,7 @@ static inline void sna_init_main_logic_helper_800596FC(Actor_SnaInit *pActor)
     if (result != 2)
     {
         pVec_800ABBCC = &pActor->field_20_ctrl.field_60_vecs_ary[result];
-        dword_800ABBD0 = GV_VecDir2_80016EF8(pVec_800ABBCC);
+        dword_800ABBD0 = GV_YawVec3_80016EF8(pVec_800ABBCC);
         dword_800ABBB0 = pActor->field_20_ctrl.field_70[result];
     }
 
@@ -7982,7 +7982,7 @@ static inline void sna_act_helper2_8005AD10(Actor_SnaInit *pActor)
         vec = pActor->field_A68;
         GV_NearExp8V_80026734(&vec.vx, &DG_ZeroVector_800AB39C.vx, 3);
 
-        if ( GV_VecLen3_80016D80(&vec) > 8 )
+        if ( GV_LengthVec3_80016D80(&vec) > 8 )
         {
             pActor->field_A68 = vec;
         }

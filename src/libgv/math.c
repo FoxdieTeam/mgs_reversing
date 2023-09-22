@@ -15,7 +15,7 @@ void GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
     dst->vz = vec1->vz - vec2->vz;
 }
 
-int GV_VecLen3_80016D80(SVECTOR *vec)
+int GV_LengthVec3_80016D80(SVECTOR *vec)
 {
     int    length;
     VECTOR vec2;
@@ -28,23 +28,28 @@ int GV_VecLen3_80016D80(SVECTOR *vec)
     return length;
 }
 
-void GV_LenVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int param_4)
+void GV_ScaleVec3_80016DDC(SVECTOR *in, SVECTOR *out, int denom, int num)
 {
-    param_4 = param_4 * 4096;
-    if (param_3 == 0)
-    {
-        param_3 = 1;
-    }
-    param_4 /= param_3;
+    int ratio;
 
-    pDstVec->vx = pSrcVec->vx * param_4 / 4096;
-    pDstVec->vy = pSrcVec->vy * param_4 / 4096;
-    pDstVec->vz = pSrcVec->vz * param_4 / 4096;
+    ratio = num * 4096;
+
+    if (denom == 0)
+    {
+        denom = 1;
+    }
+
+    ratio /= denom;
+
+    out->vx = in->vx * ratio / 4096;
+    out->vy = in->vy * ratio / 4096;
+    out->vz = in->vz * ratio / 4096;
 }
 
-int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
+int GV_DistanceVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
 {
     VECTOR diff;
+
     diff.vx = vec1->vx - vec2->vx;
     diff.vy = vec1->vy - vec2->vy;
     diff.vz = vec1->vz - vec2->vz;
@@ -53,54 +58,54 @@ int GV_DiffVec3_80016E84(SVECTOR *vec1, SVECTOR *vec2)
     return SquareRoot0(diff.vx + diff.vy + diff.vz);
 }
 
-int GV_VecDir2_80016EF8(SVECTOR *vec)
+int GV_YawVec3_80016EF8(SVECTOR *vec)
 {
     return ratan2(vec->vx, vec->vz) & (4096 - 1);
 }
 
-void GV_DirVec2_80016F24(int a1, int a2, SVECTOR *a3)
+void GV_InvYawVec3_80016F24(int angle, int radius, SVECTOR *out)
 {
-    a3->vx = a2 * rsin(a1) / 4096;
-    a3->vy = 0;
-    a3->vz = a2 * rcos(a1) / 4096;
+    out->vx = radius * rsin(angle) / 4096;
+    out->vy = 0;
+    out->vz = radius * rcos(angle) / 4096;
 }
 
-void GV_DirVec3_80016FA0(SVECTOR *pSrcVec, int param_2, SVECTOR *pDstVec)
+void GV_ProjectZVec3_80016FA0(SVECTOR *angle, int length, SVECTOR *out)
 {
     MATRIX matrix;
 
-    RotMatrixYXZ(pSrcVec, &matrix);
-    pDstVec->vx = param_2 * matrix.m[0][2] / 4096;
-    pDstVec->vy = param_2 * matrix.m[1][2] / 4096;
-    pDstVec->vz = param_2 * matrix.m[2][2] / 4096;
+    RotMatrixYXZ(angle, &matrix);
+    out->vx = length * matrix.m[0][2] / 4096;
+    out->vy = length * matrix.m[1][2] / 4096;
+    out->vz = length * matrix.m[2][2] / 4096;
 }
 
-unsigned int GV_DiffDirU_80017040(int param_1, int param_2)
+unsigned int GV_DiffDirU_80017040(int from, int to)
 {
-    return (param_2 - param_1) & 0xfff;
+    return (to - from) & 0xfff;
 }
 
-int GV_DiffDirS_8001704C(int param_1, int param_2)
+int GV_DiffDirS_8001704C(int from, int to)
 {
-    int uVar1 = (param_2 - param_1) & (4096 - 1);
-    if (uVar1 > (4096 / 2))
+    int result = (to - from) & (4096 - 1);
+    if (result > (4096 / 2))
     {
-        uVar1 -= 4096;
+        result -= 4096;
     }
-    return uVar1;
+    return result;
 }
 
-int GV_DiffDirAbs_8001706C(int a1, int a2)
+int GV_DiffDirAbs_8001706C(int from, int to)
 {
-    int v2 = (a2 - a1) & 4095;
+    int diff = (to - from) & 4095;
 
-    if (v2 < 2049)
+    if (diff <= 2048)
     {
-        return v2;
+        return diff;
     }
     else
     {
-        return 4096 - v2;
+        return 4096 - diff;
     }
 }
 
