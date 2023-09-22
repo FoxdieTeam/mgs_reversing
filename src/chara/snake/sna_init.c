@@ -287,8 +287,10 @@ TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
     NewBodyarm_80060940,
     NewKetchap_80072B60,
     NewKogaku2_800615FC,
-    NewBandana_80061E40,
-    NewJpegcam_80065118
+    NewBandana_80061E40
+#ifdef MAIN_EXE
+    , NewJpegcam_80065118
+#endif
 };
 
 short word_8009EFC0[] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
