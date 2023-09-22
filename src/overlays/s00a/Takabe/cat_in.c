@@ -1,7 +1,7 @@
 #include "Game/game.h"
 #include "libgv/libgv.h"
 
-typedef struct _Work
+typedef struct _Cam
 {
     GV_ACT  actor;
     SVECTOR eye;
@@ -10,17 +10,17 @@ typedef struct _Work
     int     enable_input;
     int    *timer;
     int    *dead;
-} Work;
+} Cam;
 
-typedef struct _Work2
+typedef struct _Work
 {
     GV_ACT actor;
     int    name;
-    Work  *other;
-    int    other_dead;
+    Cam   *cam;
+    int    cam_dead;
     int    timer;
     int    proc;
-} Work2;
+} Work;
 
 extern int     GM_GameStatus_800AB3CC;
 extern OBJECT *dword_800ABA20;
@@ -36,9 +36,9 @@ int sub_800D8940( unsigned short, int, int * );
 #define EXEC_LEVEL  2
 #define EXEC_LEVEL2 5
 
-void CatInAct_800DF740( Work *work )
+void CamAct_800DF740( Cam *cam )
 {
-    DG_LookAt_800172D0( DG_Chanl( 0 ), &work->eye, &work->center, work->clip_distance );
+    DG_LookAt_800172D0( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
     GM_GameStatus_800AB3CC |= 0x40;
     GM_PlayerStatus_800ABA50 |= PLAYER_UNK4000000;
@@ -48,11 +48,11 @@ void CatInAct_800DF740( Work *work )
         DG_VisibleObjs( dword_800ABA20->objs );
     }
 
-    if ( work->enable_input == 1 )
+    if ( cam->enable_input == 1 )
     {
-        if ( (GV_PadData_800B05C0[0].press & 0xFF) != 0 )
+        if ( ( GV_PadData_800B05C0[0].press & 0xFF ) != 0 )
         {
-            *work->timer = 0;
+            *cam->timer = 0;
         }
 
         GV_PadData_800B05C0[0].status = 0;
@@ -64,50 +64,50 @@ void CatInAct_800DF740( Work *work )
     }
 }
 
-void CatInDie_800DF80C( Work *work )
+void Cam_800DF80C( Cam *cam )
 {
-    *work->dead = 1;
+    *cam->dead = 1;
 }
 
-int CatInGetResources_800DF81C( Work *work, int name, int where )
+int CamGetResources_800DF81C( Cam *cam, int name, int where )
 {
     if ( !GCL_GetParam_80020968( 'c' ) )
     {
         return -1;
     }
 
-    GCL_GetSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->eye );
-    GCL_GetSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->center );
+    GCL_GetSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->eye );
+    GCL_GetSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
 
-    work->clip_distance = sub_800D87C8( 'a', 320 );
-    work->enable_input = sub_800D8808( 'm' );
+    cam->clip_distance = sub_800D87C8( 'a', 320 );
+    cam->enable_input = sub_800D8808( 'm' );
 
     return 0;
 }
 
-void CatInAct2_800DF89C( Work2 *work2 )
+void CatInAct_800DF89C( Work *work )
 {
-    if ( !sub_800D8940( work2->name, 1, &dword_800C368C ) )
+    if ( !sub_800D8940( work->name, 1, &dword_800C368C ) )
     {
-        work2->timer = -1;
+        work->timer = -1;
     }
 
-    if ( --work2->timer < 0 )
+    if ( --work->timer < 0 )
     {
-        if ( work2->proc != 0 )
+        if ( work->proc != 0 )
         {
-            GCL_ExecProc_8001FF2C( work2->proc, NULL );
+            GCL_ExecProc_8001FF2C( work->proc, NULL );
         }
 
-        GV_DestroyActor_800151C8( &( work2->actor ) );
+        GV_DestroyActor_800151C8( &( work->actor ) );
     }
 }
 
-void CatInDie2_800DF910( Work2 *work2 )
+void CatInDie_800DF910( Work *work )
 {
-    if ( !work2->other_dead )
+    if ( !work->cam_dead )
     {
-        GV_DestroyActorQuick_80015164( &work2->other->actor );
+        GV_DestroyActorQuick_80015164( &work->cam->actor );
     }
 
     GM_GameStatus_800AB3CC &= ~0x40;
@@ -126,43 +126,43 @@ void CatInDie2_800DF910( Work2 *work2 )
     }
 }
 
-int NewCatIn_800DF9BC( Work2 *work2, int name, int where )
+int NewCam_800DF9BC( Work *work, int name, int where )
 {
-    Work *work;
+    Cam *cam;
 
-    work2->name = name;
-    work2->other_dead = 1;
-    work2->timer = sub_800D8808( 't' );
-    work2->proc = sub_800D8808( 'e' );
+    work->name = name;
+    work->cam_dead = 1;
+    work->timer = sub_800D8808( 't' );
+    work->proc = sub_800D8808( 'e' );
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
-    work2->other = work;
+    cam = (Cam *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Cam ) );
+    work->cam = cam;
 
-    if (work == NULL)
+    if ( cam == NULL )
     {
         return -1;
     }
 
-    GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)CatInAct_800DF740, (TActorFunction)CatInDie_800DF80C, "cat_in.c" );
+    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)CamAct_800DF740, (TActorFunction)Cam_800DF80C, "cat_in.c" );
 
-    CatInGetResources_800DF81C( work, name, where );
-    work->timer = &work2->timer;
-    work->dead = &work2->other_dead;
+    CamGetResources_800DF81C( cam, name, where );
+    cam->timer = &work->timer;
+    cam->dead = &work->cam_dead;
 
-    work2->other_dead = 0;
+    work->cam_dead = 0;
     return 0;
 }
 
-void *NewCatIn2_800DFA88( int name, int where )
+void *NewCatIn_800DFA88( int name, int where )
 {
-    Work2 *work;
+    Work *work;
 
-    work = (Work2 *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( Work2 ) );
+    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)CatInAct2_800DF89C, (TActorFunction)CatInDie2_800DF910, "cat_in.c" );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)CatInAct_800DF89C, (TActorFunction)CatInDie_800DF910, "cat_in.c" );
 
-        if ( NewCatIn_800DF9BC( work, name, where ) < 0 )
+        if ( NewCam_800DF9BC( work, name, where ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );
             return NULL;
