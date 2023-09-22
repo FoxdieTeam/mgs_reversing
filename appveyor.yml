@@ -11,6 +11,7 @@ build_script:
  - pip install -r requirements.txt
  - python build.py --psyq_path c:\psyq_sdk
  - powershell.exe -File progress.ps1
+ - python build.py --variant vr_exe --psyq_path c:\psyq_sdk
 
 install:
  - git clone https://github.com/FoxdieTeam/psyq_sdk.git c:\psyq_sdk --depth 1
