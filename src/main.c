@@ -26,10 +26,10 @@ GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
     {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
 
-#ifdef MAIN_EXE
-const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
-#else
+#ifdef VR_EXE
 const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.49", NULL, NULL};
+#else
+const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
 const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
 

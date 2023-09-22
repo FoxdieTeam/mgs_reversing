@@ -288,7 +288,7 @@ TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
     NewKetchap_80072B60,
     NewKogaku2_800615FC,
     NewBandana_80061E40
-#ifdef MAIN_EXE
+#ifndef VR_EXE
     , NewJpegcam_80065118
 #endif
 };
