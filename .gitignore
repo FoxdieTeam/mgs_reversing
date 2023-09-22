@@ -8,6 +8,7 @@
 build.ninja
 *.47
 obj
+obj_vr
 build/dump.asm
 build/contrib
 build/man

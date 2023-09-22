@@ -32,11 +32,13 @@ def parse_arguments():
     # Optional
     parser.add_argument('--psyq_path', type=str, default=os.environ.get("PSYQ_SDK") or "../../psyq_sdk",
                         help='Path to the root of the cloned PSYQ repo')
+    parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe'],
+                        help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49)')
 
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
-    args.obj_directory = 'obj'
+    args.obj_directory = 'obj' if args.variant == 'main_exe' else 'obj_vr'
     print("psyq_path = " + args.psyq_path)
     return args
 
@@ -348,11 +350,11 @@ exit_code = ninja_run()
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
-if exit_code == 0:
+if exit_code == 0 and args.variant == 'main_exe':
     ret = subprocess.run([sys.executable, 'compare.py'])
     exit_code = ret.returncode
 
-if exit_code == 0:
+if exit_code == 0 and args.variant == 'main_exe':
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
 
