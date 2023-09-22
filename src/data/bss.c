@@ -52,7 +52,7 @@ DISPENV BSS         gDispEnv_800B0600; // 0x14 (20) bytes
 
 gap                                     gap_800B0614[0xC]; // 12 bytes
 
-VECTOR BSS          gUnknownVector_800B0620; // 0x10 (16) bytes
+VECTOR BSS          DG_RightVector_800B0620; // 0x10 (16) bytes
 int BSS             dword_800B0630[68]; // 0x110 (272) bytes
 int BSS             dword_800B0740[516]; // 0x810 (2064) bytes
 int BSS             dword_800B0F50[4]; // 0x10 (16) bytes

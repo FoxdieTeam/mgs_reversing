@@ -364,7 +364,7 @@ typedef struct DG_CHNL
 	short          word_6BC378_1;
 	short          word_6BC37A_0_1EC_size;
 	MATRIX         field_10_eye_inv;
-	MATRIX         field_30_matrix;
+	MATRIX         field_30_eye;
 	short          field_50_clip_distance;
 	short          mTotalQueueSize;
 	short          mFreePrimCount;
@@ -623,7 +623,7 @@ void     DG_DequeueObjs_800181E4( DG_OBJS *objs );
 void     DG_FreeObjs_800318D0( DG_OBJS *pObjs );
 void     DG_SaveTexureCacheToResidentMem_8001DB20();
 void     DG_FreeObjectQueue_800183D4();
-void     DG_800172D0( DG_CHNL *chnl, SVECTOR *svec, SVECTOR *svec2, int camera_property );
+void     DG_LookAt_800172D0( DG_CHNL *chnl, SVECTOR *eye, SVECTOR *center, int clip_distance );
 void     DG_ClipDispEnv_800177EC(int x, int y);
 void     DG_PointCheck_8001BF34(SVECTOR *svector, int n_points);
 

@@ -559,7 +559,7 @@ Actor_Bullet * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, in
 		vec.vx = arg0->m[0][0];
 		vec.vy = arg0->m[1][0];
 		vec.vz = arg0->m[2][0];
-		actor->field_160 = GV_VecLen3_80016D80( &vec );
+		actor->field_160 = GV_LengthVec3_80016D80( &vec );
 		actor->field_150 = 10;
 		actor->field_154_hp = 64;
 
@@ -615,7 +615,7 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
-        pActor->field_160 = GV_VecLen3_80016D80(&vec);
+        pActor->field_160 = GV_LengthVec3_80016D80(&vec);
         pActor->field_150 = 10;
 
         if ( whichSide == 1 )

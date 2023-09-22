@@ -248,7 +248,7 @@ void GV_UpdatePadSystem_8001682C(void)
                     else
                     {
                         // loc_80016A2C:
-                        dir = (GV_VecDir2_80016EF8(&svector) + GV_PadOrigin_800AB378);
+                        dir = (GV_YawVec3_80016EF8(&svector) + GV_PadOrigin_800AB378);
                     }
                     // loc_80016A40:
                     pad->dir = dir;

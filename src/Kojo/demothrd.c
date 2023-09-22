@@ -844,12 +844,13 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
         }
     }
 
-    gUnkCameraStruct2_800B7868.field_0.vx = pDmoData->field_8_xpos;
-    gUnkCameraStruct2_800B7868.field_0.vy = pDmoData->field_A_ypos;
-    gUnkCameraStruct2_800B7868.field_0.vz = pDmoData->field_C_zpos;
-    gUnkCameraStruct2_800B7868.field_8.vx = pDmoData->field_E_x;
-    gUnkCameraStruct2_800B7868.field_8.vy = pDmoData->field_10_y;
-    gUnkCameraStruct2_800B7868.field_8.vz = pDmoData->field_12_z;
+    gUnkCameraStruct2_800B7868.eye.vx = pDmoData->field_8_xpos;
+    gUnkCameraStruct2_800B7868.eye.vy = pDmoData->field_A_ypos;
+    gUnkCameraStruct2_800B7868.eye.vz = pDmoData->field_C_zpos;
+
+    gUnkCameraStruct2_800B7868.center.vx = pDmoData->field_E_x;
+    gUnkCameraStruct2_800B7868.center.vy = pDmoData->field_10_y;
+    gUnkCameraStruct2_800B7868.center.vz = pDmoData->field_12_z;
 
     DG_Chanl(0)->field_50_clip_distance = pDmoData->field_16;
 
@@ -872,13 +873,13 @@ int demothrd_1_FrameRunDemo_8007A948(Actor_demothrd *pThis, dmo_data_0x28 *pDmoD
     tmpVec2.vz = pDmoData->field_14_z;
 
     DG_RotatePos_8001BD64(&tmpVec2);
-    ReadRotMatrix(&DG_Chanl(0)->field_30_matrix);
+    ReadRotMatrix(&DG_Chanl(0)->field_30_eye);
 
-    DG_TransposeMatrix_8001EAD8(&DG_Chanl(0)->field_30_matrix, &DG_Chanl(0)->field_10_eye_inv);
+    DG_TransposeMatrix_8001EAD8(&DG_Chanl(0)->field_30_eye, &DG_Chanl(0)->field_10_eye_inv);
 
-    tmpVec3.vx = -DG_Chanl(0)->field_30_matrix.t[0];
-    tmpVec3.vy = -DG_Chanl(0)->field_30_matrix.t[1];
-    tmpVec3.vz = -DG_Chanl(0)->field_30_matrix.t[2];
+    tmpVec3.vx = -DG_Chanl(0)->field_30_eye.t[0];
+    tmpVec3.vy = -DG_Chanl(0)->field_30_eye.t[1];
+    tmpVec3.vz = -DG_Chanl(0)->field_30_eye.t[2];
 
     ApplyMatrixLV(&DG_Chanl(0)->field_10_eye_inv, &tmpVec3, (VECTOR *)DG_Chanl(0)->field_10_eye_inv.t);
 
@@ -3913,9 +3914,9 @@ void demothrd_Screen_Chanl_80080D48(DG_CHNL *pChnl, int idx)
     scrpad->matrix = pChnl->field_10_eye_inv;
     scrpad->matrix.t[0] = scrpad->matrix.t[1] = scrpad->matrix.t[2] = 0;
 
-    scrpad->translation[0] = pChnl->field_30_matrix.t[0];
-    scrpad->translation[1] = pChnl->field_30_matrix.t[1];
-    scrpad->translation[2] = pChnl->field_30_matrix.t[2];
+    scrpad->translation[0] = pChnl->field_30_eye.t[0];
+    scrpad->translation[1] = pChnl->field_30_eye.t[1];
+    scrpad->translation[2] = pChnl->field_30_eye.t[2];
 
     DG_800174DC(&scrpad->matrix);
 

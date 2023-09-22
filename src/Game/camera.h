@@ -48,11 +48,11 @@ STATIC_ASSERT_SIZE(GM_Camera, 0x7C);
 
 typedef struct UnkCameraStruct2 // @ 800B7868
 {
-    SVECTOR field_0;
-    SVECTOR field_8;
+    SVECTOR eye;
+    SVECTOR center;
     SVECTOR field_10;
     int field_18; // VECTOR?
-    int field_1C;
+    int clip_distance;
     int field_20;
     // int field_24; // padding?
 } UnkCameraStruct2;
@@ -69,7 +69,7 @@ void sub_800303E0(SVECTOR *);
 void sub_8002EE80(void);
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
 void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen);
+void camera_get_euler_angles_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen);
 void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4);
 void sub_8002FCF0(void);
 void camera_act_helper6_helper_8002FD9C(int, int);
