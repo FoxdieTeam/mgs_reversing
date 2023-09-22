@@ -32,10 +32,14 @@ def parse_arguments():
     # Optional
     parser.add_argument('--psyq_path', type=str, default=os.environ.get("PSYQ_SDK") or "../../psyq_sdk",
                         help='Path to the root of the cloned PSYQ repo')
+    parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe'],
+                        help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49)')
 
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
+    args.obj_directory = 'obj' if args.variant == 'main_exe' else 'obj_vr'
+    args.defines = ['VR_EXE'] if args.variant == 'vr_exe' else []
     print("psyq_path = " + args.psyq_path)
     return args
 
@@ -112,10 +116,12 @@ ninja.newline()
 ninja.variable("psyq_asmpsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/asmpsx.exe"))
 ninja.newline()
 
+preprocessor_defines = ' '.join(f'-D{define}' for define in args.defines)
+
 if has_cpp:
-    ninja.variable("psyq_c_preprocessor_44_exe", "cpp -nostdinc")
+    ninja.variable("psyq_c_preprocessor_44_exe", f"cpp -nostdinc {preprocessor_defines}")
 else:
-    ninja.variable("psyq_c_preprocessor_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/CPPPSX.exe"))
+    ninja.variable("psyq_c_preprocessor_44_exe", prefix("wine", f"$psyq_path/psyq_4.4/bin/CPPPSX.exe {preprocessor_defines}"))
 ninja.newline()
 
 ninja.variable("psyq_cc_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/CC1PSX.EXE"))
@@ -125,9 +131,9 @@ ninja.variable("psyq_aspsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/asps
 ninja.newline()
 
 if has_cpp:
-    ninja.variable("psyq_c_preprocessor_43_exe", "cpp -nostdinc")
+    ninja.variable("psyq_c_preprocessor_43_exe", f"cpp -nostdinc {preprocessor_defines}")
 else:
-    ninja.variable("psyq_c_preprocessor_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/CPPPSX.exe"))
+    ninja.variable("psyq_c_preprocessor_43_exe", prefix("wine", f"$psyq_path/psyq_4.3/bin/CPPPSX.exe {preprocessor_defines}"))
 ninja.newline()
 
 ninja.variable("psyq_cc_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/CC1PSX.EXE"))
@@ -183,7 +189,10 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../build/linker_command_file.txt\",$src_dir/../obj/_mgsi.cpe,$src_dir/../obj/asm.sym,$src_dir/../obj/asm.map", "Link $out")
+ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out {' '.join(args.defines)}", "Preprocess $in -> $out")
+ninja.newline()
+
+ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file.txt\",$src_dir/../{args.obj_directory}/_mgsi.cpe,$src_dir/../{args.obj_directory}/asm.sym,$src_dir/../{args.obj_directory}/asm.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
@@ -234,7 +243,7 @@ def gen_build_target(targetName):
     # build .s files
     for asmFile in asmFiles:
         asmFile = asmFile.replace("\\", "/")
-        asmOFile = asmFile.replace("/asm/", "/obj/")
+        asmOFile = asmFile.replace("/asm/", f"/{args.obj_directory}/")
         asmOFile = asmOFile.replace(".s", ".obj")
         #print("Build step " + asmFile + " -> " + asmOFile)
         ninja.build(asmOFile, "psyq_asmpsx_assemble", asmFile)
@@ -243,7 +252,7 @@ def gen_build_target(targetName):
     # build .c files
     for cFile in cFiles:
         cFile = cFile.replace("\\", "/")
-        cOFile = cFile.replace("/src/", "/obj/")
+        cOFile = cFile.replace("/src/", f"/{args.obj_directory}/")
         cPreProcHeadersFile = cOFile.replace(".c", ".c.preproc.headers")
         cPreProcHeadersFixedFile = cOFile.replace(".c", ".c.preproc.headers_fixed")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
@@ -313,15 +322,19 @@ def gen_build_target(targetName):
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 
         linkerDeps.append(cOFile)
-        linkerDeps.append("linker_command_file.txt")
+
+    # preprocess linker_command_file.txt
+    linkerCommandFile = f"../{args.obj_directory}/linker_command_file.txt"
+    ninja.build(linkerCommandFile, "linker_command_file_preprocess", "linker_command_file.txt")
+    ninja.newline()
 
     # run the linker to generate the cpe
-    cpeFile = "../obj/_mgsi.cpe"
-    ninja.build(cpeFile, "psylink", implicit=linkerDeps)
+    cpeFile = f"../{args.obj_directory}/_mgsi.cpe"
+    ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
     ninja.newline()
 
     # cpe to exe
-    exeFile = "../obj/_mgsi.exe"
+    exeFile = f"../{args.obj_directory}/_mgsi.exe"
     ninja.build(exeFile, "cpe2exe", cpeFile)
     ninja.newline()
 
@@ -340,11 +353,11 @@ exit_code = ninja_run()
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
-if exit_code == 0:
+if exit_code == 0 and args.variant == 'main_exe':
     ret = subprocess.run([sys.executable, 'compare.py'])
     exit_code = ret.returncode
 
-if exit_code == 0:
+if exit_code == 0 and args.variant == 'main_exe':
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
 
