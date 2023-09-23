@@ -330,10 +330,8 @@ __program_bottom EQU $800C3208
 
 ; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
 ; sound.bin overlay
-; sound   group   org($800C3208), file("{{OBJ_DIR}}\sound.bin"), size(343544)
-;    section .gcl, sound
-;
-;    include "{{OBJ_DIR}}\overlays\sndtst.obj"
-;    include "{{OBJ_DIR}}\overlays\sndtst_data.obj"
+sound   group   org($800C3208), file("{{OBJ_DIR}}\sound.bin"), size(343544)
+    include "{{OBJ_DIR}}\overlays\sound\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\sound\Game\sndtst.obj"
 
     regs    pc=__SN_ENTRY_POINT

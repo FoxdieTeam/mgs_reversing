@@ -17,10 +17,14 @@ typedef struct Work
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-const char aPlaying[]         = "PLAYING";
-const char aPlayingSymbols[]  = "-=O";
-const char aPlayingFormat[]   = "%c  %c  :%d";
-const char aPlayingSymbols2[] = "-0=-";
+// Strings in overlays end up in the .data section for some reason
+// Either strings are declared like this, or the -fwritable-strings option is used
+char aPlaying[]         = "PLAYING";
+char aPlayingSymbols[]  = "-=O";
+char aPlayingFormat[]   = "%c  %c  :%d";
+char aPlayingSymbols2[] = "-0=-";
+char aNoMenu[]          = "NO MENU\n";
+char aSndtstC[]         = "sndtst.c";
 
 void SndtstRunScripts_800C3218( Work *work, int param_2 )
 {
@@ -154,7 +158,7 @@ int SndtstGetResources_800C352C( Work *work, int where, int name )
 {
     if ( !GCL_GetParam_80020968( 's' ) )
     {
-        printf( "NO MENU\n" );
+        printf( aNoMenu );
         return -1;
     }
 
@@ -167,7 +171,7 @@ int SndtstGetResources_800C352C( Work *work, int where, int name )
     return 0;
 }
 
-void * NewSndtst_800C3594( int name, int where, int argc, char **argv )
+GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
 {
     Work *work;
 
@@ -176,7 +180,7 @@ void * NewSndtst_800C3594( int name, int where, int argc, char **argv )
     work = (Work *)GV_NewActor_800150E4( 3, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, "sndtst.c" );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )SndtstAct_800C32D8, NULL, aSndtstC );
         if (SndtstGetResources_800C352C( work, where, name ) < 0)
         {
             GV_DestroyActor_800151C8( (GV_ACT *)work );
@@ -184,5 +188,5 @@ void * NewSndtst_800C3594( int name, int where, int argc, char **argv )
         }
     }
 
-    return work;
+    return &( work->actor );
 }
