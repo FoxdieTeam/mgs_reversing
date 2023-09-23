@@ -471,6 +471,7 @@ int init_file_mode_helper_helper_helper3_80049E94(int param_1)
 
 void init_file_mode_helper_helper_80049EDC(void)
 {
+#ifndef VR_EXE
     int temp_a0;
     int temp_a0_2;
     int temp_s0;
@@ -760,6 +761,10 @@ block_72:
 block_73:
         init_file_mode_helper_helper_helper3_80049E94(0xC5000002);
     }
+
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 3, 0);
+#endif
 }
 
 void init_file_mode_helper_8004A424(int param_1)
@@ -1178,8 +1183,14 @@ void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, 
     addPrim(pOt, pPrim);
 }
 
+#ifdef VR_EXE
+char SECTION(".rdata") strin1[] = "NEW FILE [ NEED %d BLOCK%s ]";
+char SECTION(".rdata") strin2[] = "FREE: %d BLOCK%s";
+#endif
+
 void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru)
 {
+#ifndef VR_EXE
     TextConfig config;
 
     char saveid[16];
@@ -1502,6 +1513,9 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
             menu_draw_triangle_800435EC(pActor->field_20_otBuf, &triangle_8009EBE0);
         }
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 5, 3, 2);
+#endif
 }
 
 void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2)
@@ -1918,8 +1932,21 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, Stru_
     return 0;
 }
 
+#ifdef VR_EXE
+const char SECTION(".rdata") aSaving[] = "SAVING...";
+const char SECTION(".rdata") aNoSpace[] = "NO SPACE";
+const char SECTION(".rdata") aLoadData[] = "LOAD DATA";
+const char SECTION(".rdata") aLoading[] = "LOADING...";
+const char SECTION(".rdata") aSelectMemoryCa[] = "SELECT MEMORY CARD";
+const char SECTION(".rdata") aPressToExit[] = "PRESS * TO EXIT";
+const char SECTION(".rdata") aPressToSelectM[] = "PRESS * TO SELECT MEMORY CARD";
+const char SECTION(".rdata") aEndSaveMode[] = "END SAVE MODE\n";
+const char SECTION(".rdata") aEndStateD[] = "END STATE %d\n";
+#endif
+
 int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
 {
+#ifndef VR_EXE
     TextConfig     textConfig1, textConfig2;
     int            res1, res2, res3;
     char         **strArr;
@@ -2229,12 +2256,10 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 font_set_color_80044DC4(pActor->field_214_font, 1, 0x3BEF, 0);
                 return 1;
             }
-
             return 2;
         }
         break;
     }
-
     if (dword_800ABB84 >= 2)
     {
         dword_800ABB84--;
@@ -2252,6 +2277,9 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     }
     menu_radio_do_file_mode_helper6_8004AD40(pActor->field_20_otBuf);
     return 0;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 6, 9, 9);
+#endif
 }
 
 extern char aAtEUC[];   // = "@";
@@ -2424,3 +2452,8 @@ void menu_radio_8004D35C(void)
 {
     sub_8004124C(&gMenuMan_800BD360);
 }
+
+#ifdef VR_EXE
+const int  SECTION(".rdata") jpt_8001230C[] = {0x8004C4E8, 0x8004C580, 0x8004CAF8, 0x8004CB7C,
+                                               0x8004CCD4, 0x8004CC34, 0x8004CDB4};
+#endif

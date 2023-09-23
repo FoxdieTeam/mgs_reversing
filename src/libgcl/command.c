@@ -211,12 +211,20 @@ int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
 // extern const char aNotScriptData[];
 extern GCL_ARGS gcl_null_args_800AB3BC;
 
-void GCL_ExecScript_80020228()
+#ifdef VR_EXE
+const char constant[] = "NOT SCRIPT DATA !!\n";
+#endif
+
+void GCL_ExecScript_80020228() // different in VR
 {
+#ifndef VR_EXE
     unsigned char *pMainProc = gGCL_fileData_800B3C18.field_8_pMainProc;
     if (*pMainProc != 0x40)
     {
         printf("NOT SCRIPT DATA !!\n");
     }
     GCL_ExecBlock_80020118(pMainProc + 3, &gcl_null_args_800AB3BC);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 6);
+#endif
 }
