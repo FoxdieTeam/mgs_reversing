@@ -43,8 +43,6 @@ def fix_obj(obj_to_fix, output_obj, deps):
             name_chars[0] = overwritten_name_char
             name = bytes(name_chars)
 
-            assert code_start <= addr_num < psyq_start
-
             source_obj = obj_with_name(deps, name.decode() + '.obj')
             if not source_obj:
                 print('couldnt find source obj with name:', name.decode() )
