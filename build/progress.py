@@ -98,8 +98,8 @@ if os.environ.get('APPVEYOR'):
         c_funcs_extra = ' ({:+})'.format(c_funcs_delta)
         c_bytes_extra = ' ({:+})'.format(c_bytes_delta)
 
-        overlay_count_delta = overlay_count - delta_obj['overlay_count']
-        overlay_bytes_delta = overlay_bytes - delta_obj['overlay_bytes']
+        overlay_count_delta = overlay_count - (delta_obj['overlay_count'] if 'overlay_count' in delta_obj else 0)
+        overlay_bytes_delta = overlay_bytes - (delta_obj['overlay_bytes'] if 'overlay_bytes' in delta_obj else 0)
         overlay_count_extra = ' ({:+})'.format(overlay_count_delta)
         overlay_bytes_extra = ' ({:+})'.format(overlay_bytes_delta)
 
