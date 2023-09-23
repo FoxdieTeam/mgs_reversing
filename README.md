@@ -21,7 +21,7 @@ Given the address of the function go to this location in your reversing tool. De
 
 Now comes the hard part: implement the function such that it matches the functionality of the assembly and build again. Repeat this until your build is OK – ie your C code is functionally the same and produces exactly the same assembly as the original function.
 
-Iterative building is currently unreliable and it is highly recommended to run `make clean && python build.py` to be certain that your binary is truly a match.
+Iterative building is currently unreliable and it is highly recommended to run `python clean.py && python build.py` to be certain that your binary is truly a match.
 
 # Help, I am totally stuck?
 
