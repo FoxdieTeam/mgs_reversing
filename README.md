@@ -1,8 +1,92 @@
-# What, what is this?
+# mgs_reversing
 
-This project aims to completely reverse engineer *Metal Gear Solid* for PlayStation back to C source code which when compiled produces the same assembly code.
+This project aims to completely reverse engineer *Metal Gear Solid Integral* for PlayStation back to C source code which when compiled produces the same assembly code.
 
-# How to build
+At this moment `SLPM_862.47`/`SLPM_862.48` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
+is still left to decompile overlays, clean up already decompiled code and make it all shiftable.
+
+The repository builds or aims to build the following artifacts:
+
+### Main executables
+
+<table>
+    <tbody>
+        <tr>
+            <td colspan=2 align=center><b><code>SLPM_862.47</code> (main executable)</b></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td><b>100% decompiled!</b> The next goals for this artifact are to clean up the decompiled code, find cleaner matches and make it shiftable.</td>
+        </tr>
+        <tr>
+            <td><b>SHA256</b></td>
+            <td><code>4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f</code></td>
+        </tr>
+        <tr>
+            <td><b>Building</b></td>
+            <td><code>python build.py</code></td>
+        </tr>
+        <tr>
+            <td colspan=2 align=center><b><code>SLPM_862.48</code> (main executable)</b></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td rowspan=3><b>100% decompiled!</b> Identical to <code>SLPM_862.47</code> (main executable).</td>
+        </tr>
+        <tr>
+            <td><b>SHA256</b></td>
+        </tr>
+        <tr>
+            <td><b>Building</b></td>
+        </tr>
+        <tr>
+            <td colspan=2 align=center><b><code>SLPM_862.49</code> (main executable)</b></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td>Initial work on it started. The project does not yet build a matching executable.</td>
+        </tr>
+        <tr>
+            <td><b>SHA256</b></td>
+            <td><code>c370f8e41ec8fb78238bfe2ddbfc25a6d37ec8f0972c86ebfde075ecd4ee8dca</code></td>
+        </tr>
+        <tr>
+            <td><b>Building</b></td>
+            <td><code>python build.py --variant=vr_exe</code></td>
+        </tr>
+    </tbody>
+</table>
+
+### Overlays
+
+<table>
+    <tbody>
+        <tr>
+            <td colspan=2 align=center><b>Overlays on <code>SLPM-86247</code></b></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td>Initial work on it started.</td>
+        </tr>
+        <tr>
+            <td colspan=2 align=center><b>Overlays on <code>SLPM-86248</code></b></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td>Work on it not yet started.</td>
+        </tr>
+        <tr>
+            <td colspan=2 align=center><b>Overlays on <code>SLPM-86249</code></b></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td>Work on it not yet started.</td>
+        </tr>
+    </tbody>
+</table>
+
+
+## How to build
 
 1.  Install Python 3 if you haven't and make sure it's in your PATH.
 2.  Clone down the PsyQ SDK repo from: https://github.com/FoxdieTeam/psyq_sdk.git
@@ -13,7 +97,9 @@ This project aims to completely reverse engineer *Metal Gear Solid* for PlayStat
     - Alternatively you can add `PSYQ_SDK` to your environment variables before invoking `python build.py`.
 7.  At the end you should see a message confirming that the built binary's hash matches the original game's binary's hash. If your code caused the compiler to emit warnings, try to fix them without breaking the match.
 
-# How to decompile a function
+## How to decompile a function
+
+**Now that the work is moving onto overlays, this section is no longer up to date. Please join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.**
 
 Using IDA or Ghidra (with the [ghidra_psx_ldr extension](https://github.com/lab313ru/ghidra_psx_ldr/)) disassemble the original game binary (SLPM-86247), or use one that you compiled yourself provided that the output was OK. Now choose a .s file from the asm directory where that function isn’t part of `psyq`.
 
@@ -23,7 +109,7 @@ Now comes the hard part: implement the function such that it matches the functio
 
 Iterative building is currently unreliable and it is highly recommended to run `python clean.py && python build.py` to be certain that your binary is truly a match.
 
-# Help, I am totally stuck?
+## Help, I am totally stuck?
 
 Join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.
 
