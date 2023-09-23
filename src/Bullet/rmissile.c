@@ -355,7 +355,7 @@ int rmissile_act_helper_helper_8006C0A4(void)
     {
         for (length--; length >= 0; message++, length--)
         {
-            if (message->message[0] == 0x3223)
+            if (message->message[0] == HASH_KILL)
             {
                 return 1;
             }

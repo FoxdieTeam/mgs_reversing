@@ -312,6 +312,7 @@ void               GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArg
 int                GCL_MakeSaveFile_80020C0C(char *saveBuf);
 int                GCL_SetLoadFile_80020EAC(char *saveBuf);
 void               GCL_SaveLinkVar_80020B90(short *gameVar);
+void               GCL_ReadParamVector_80020AFC( SVECTOR * );
 
 struct MAP *GCL_Command_hzd_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);

@@ -5,6 +5,7 @@
 #include "Game/camera.h"
 #include "Game/game.h"
 #include "chafgrnd.h"
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "unknown.h"
@@ -98,7 +99,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     SVECTOR *pVec;
     SVECTOR *pVec2;
 
-    if (GM_CheckMessage_8002631C(&pActor->field_0_actor, GV_StrCode_80016CCC("effect"), 0x3223))
+    if (GM_CheckMessage_8002631C(&pActor->field_0_actor, GV_StrCode_80016CCC("effect"), HASH_KILL))
     {
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return;

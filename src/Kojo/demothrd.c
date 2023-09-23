@@ -1,10 +1,11 @@
 #include "demothrd.h"
-#include "libfs/libfs.h"
+#include "psyq.h"
 #include "Anime/animeconv/anime.h"
-#include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Game/linkvarbuf.h"
-#include "psyq.h"
+#include "libdg/libdg.h"
+#include "libfs/libfs.h"
+#include "libgcl/hash.h"
 
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern MATRIX             DG_ZeroMatrix_8009D430;
@@ -1868,7 +1869,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         {
             memset(&msg, 0, sizeof(msg));
             msg.address = pData->data.variant_0x34.field_14;
-            msg.message[0] = 0x3223;
+            msg.message[0] = HASH_KILL;
             msg.message_len = 1;
 
             GV_SendMessage_80016504(&msg);
