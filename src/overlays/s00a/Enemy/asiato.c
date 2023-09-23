@@ -1,3 +1,7 @@
+// ====================================
+// asiato.c - あしあと 足跡 - Footprints
+// ====================================
+
 #include "libgv/libgv.h"
 
 #define EXEC_LEVEL 4
@@ -51,7 +55,7 @@ GV_ACT* NewAsiato_800D1A14(void)
     work = (Work*)GV_NewActor_800150E4(EXEC_LEVEL , sizeof(Work));
     if (work != NULL) 
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), &asiato_act_800D18C8, &asiato_kill_800D1994, "asiato.c");
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)asiato_act_800D18C8, (TActorFunction)asiato_kill_800D1994, "asiato.c");
         asiato_800D199C(work);
     }
     
