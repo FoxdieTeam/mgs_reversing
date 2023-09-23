@@ -133,6 +133,7 @@
 #define CHARA_DOOR              0xb997 // GV_StrCode( "ドア" )
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
 #define CHARA_SNDTST            0x4efc
+#define CHARA_SELECT            0xd2f6
 
 // Other charas shouldn't be needed for the main exe
 /*
@@ -422,7 +423,6 @@
 #define CHARA_MOVIE             0xfaa8,
 #define CHARA_SPHERE            0x73ea
 #define CHARA_SPHERE2           0xbee1
-#define CHARA_SELECT            0xd2f6
 #define CHARA_SMKTRGT           0x175b
 #define CHARA_TELOP             0x7ff7
 #define CHARA_TEXANIME          0xdcac

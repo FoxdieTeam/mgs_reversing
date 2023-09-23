@@ -79,7 +79,9 @@ def ninja_run():
         r'radar\.c:\d+: warning: `pWalls\' might be used uninitialized in this function',
         r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
         r'sndtst\.c:\d+: warning: `pName\' might be used uninitialized in this function',
-        r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function'
+        r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
+        r'select\.c:\d+: warning: `gcl_int\' might be used uninitialized in this function',
+        r'select\.c:\d+: warning: `gcl_string\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -295,15 +297,21 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
-        if "overlays/sound" in cFile:
-            # Build overlay using PsyQ 4.4
-            print("overlay:", cFile)
+        OVERLAYS = ["sound", "select1"]
 
-            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_44_overlays", cAsmFile, variables= { "overlay": "sound" })
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+        if any(f"overlays/{overlayName}" in cFile for overlayName in OVERLAYS):
+            for overlayName in OVERLAYS:
+                if f"overlays/{overlayName}" not in cFile:
+                    continue
+
+                # Build overlay using PsyQ 4.4
+                print("overlay:", cFile)
+
+                ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
+                ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
+                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
+                ninja.build(cTempOFile, "psyq_aspsx_assemble_44_overlays", cAsmFile, variables= { "overlay": overlayName })
+                ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         elif "mts/" in cFile or "SD/" in cFile:
            # Build using PsyQ 4.3
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
