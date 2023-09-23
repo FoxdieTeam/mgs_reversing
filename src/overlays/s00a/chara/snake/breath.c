@@ -18,14 +18,14 @@ extern OBJECT      *dword_800ABA20;
 extern void sub_800C3AA8( DG_OBJ *obj );
 
 #define EXEC_LEVEL 5 //goes in libgv.h
-#define DEFAULT_INTERVAL 0x40
+#define DEFAULT_TIME 0x40
 
 typedef struct Work
 {
     GV_ACT         actor;
     unsigned short name;
     unsigned short visible;
-    int            interval;
+    int            time;
 } Work;
 
 
@@ -52,7 +52,7 @@ void BreathAct_800C38A0( Work* work )
     if ( work->visible && GM_AlertMode_800ABA00 != 3 && !( GM_PlayerStatus_800ABA50 & 0x2013 ) )
     {
         object = dword_800ABA20;
-        if  ( object != NULL && ( GV_Time_800AB330 % work->interval == 0 ) )
+        if  ( object != NULL && ( GV_Time_800AB330 % work->time == 0 ) )
         {
             sub_800C3AA8( &object->objs->objs[6] );
         }
@@ -70,11 +70,11 @@ int BreathGetResources_800C39B4( Work *work, int name, int where )
 {
     if (GCL_GetParam_80020968('t'))
     {
-         work->interval = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+         work->time = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     else
     {
-        work->interval = DEFAULT_INTERVAL;
+        work->time = DEFAULT_TIME;
     }
 
     work->name = name;
