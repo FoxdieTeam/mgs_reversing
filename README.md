@@ -73,7 +73,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>Work on it not yet started.</td>
+            <td>Identical to <code>SLPM_862.47</code> overlays.</td>
         </tr>
         <tr>
             <td colspan=2 align=center><b>Overlays on <code>SLPM-86249</code></b></td>

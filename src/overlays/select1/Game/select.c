@@ -41,7 +41,7 @@ void Select_helper_800c3218(Work *work, int addend)
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-void Select_Act_800c32d8(Work *work, int param_2, int param_3, int param_4)
+void Select_Act_800c32d8(Work *work)
 {
     int     dir;
     GV_PAD *pPad;
