@@ -10,6 +10,20 @@ EXPECTED_TOTAL_FUNCS = 1991
 EXPECTED_TOTAL_BYTES = 490440
 APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json'
 
+OVERLAY_NAMES = ['abst', 'brf', 'camera', 'change', 'd00a', 'd01a', 'd03a', 'd11c', 'd16e', 'd18a',
+    'd18ar', 'demosel', 'ending', 'endingr', 'opening', 'option', 'preope', 'rank', 'roll', 's00a',
+    's01a', 's02a', 's02b', 's02c', 's02d', 's02e', 's03a', 's03ar', 's03b', 's03c', 's03d', 's03dr',
+    's03e', 's03er', 's04a', 's04b', 's04br', 's04c', 's05a', 's06a', 's07a', 's07b', 's07br', 's07c',
+    's07cr', 's08a', 's08b', 's08br', 's08c', 's08cr', 's09a', 's09ar', 's10a', 's10ar', 's11a',
+    's11b', 's11c', 's11d', 's11e', 's11g', 's11h', 's11i', 's12a', 's12b', 's12c', 's13a', 's14e',
+    's15a', 's15b', 's15c', 's16a', 's16b', 's16c', 's16d', 's17a', 's17ar', 's18a', 's18ar', 's19a',
+    's19ar', 's19b', 's19br', 's20a', 's20ar', 'select', 'select1', 'select2', 'select3', 'select4',
+    'selectd', 'sound', 'title']
+EXPECTED_OVERLAY_COUNT = 92
+EXPECTED_OVERLAY_TOTAL_SIZE = 7881522
+
+assert len(OVERLAY_NAMES) == EXPECTED_OVERLAY_COUNT
+
 objs = glob('../obj/**/*.obj', recursive=True)
 
 def deps_has(deps, name):
@@ -55,8 +69,20 @@ for obj in objs:
 total_funcs = c_funcs + s_funcs
 total_bytes = c_bytes + s_bytes
 
+overlay_count = 0
+overlay_bytes = 0
+for overlay in OVERLAY_NAMES:
+    overlay_bin = os.path.join("../obj", f"{overlay}.bin")
+    if not os.path.exists(overlay_bin):
+        continue
+
+    overlay_count += 1
+    overlay_bytes += os.path.getsize(overlay_bin)
+
 c_funcs_extra = ''
 c_bytes_extra = ''
+overlay_count_extra = ''
+overlay_bytes_extra = ''
 
 if os.environ.get('APPVEYOR'):
     dirr = os.path.dirname(APPVEYOR_CACHE)
@@ -72,8 +98,13 @@ if os.environ.get('APPVEYOR'):
         c_funcs_extra = ' ({:+})'.format(c_funcs_delta)
         c_bytes_extra = ' ({:+})'.format(c_bytes_delta)
 
+        overlay_count_delta = overlay_count - delta_obj['overlay_count']
+        overlay_bytes_delta = overlay_bytes - delta_obj['overlay_bytes']
+        overlay_count_extra = ' ({:+})'.format(overlay_count_delta)
+        overlay_bytes_extra = ' ({:+})'.format(overlay_bytes_delta)
+
     with open(APPVEYOR_CACHE, 'w') as f:
-        json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes), f)
+        json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes, overlay_count=overlay_count, overlay_bytes=overlay_bytes), f)
 
     msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE')
     if msg:
@@ -95,8 +126,17 @@ print('SLPM_862.47 reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
     total_bytes,
     c_bytes / total_bytes * 100))
 
-print('Overlays reversed funcs: 0 (+0) / ~few thousand | 0.00%')
-print('Overlays reversed bytes: 0 (+0) / ~1 MB | 0.00%')
+print('Built overlays count: {:,}{} / {:,} | {:.2f}%'.format(
+    overlay_count,
+    overlay_count_extra,
+    EXPECTED_OVERLAY_COUNT,
+    overlay_count / EXPECTED_OVERLAY_COUNT * 100))
+
+print('Built overlays bytes: {:,}{} / {:,} | {:.2f}%'.format(
+    overlay_bytes,
+    overlay_bytes_extra,
+    EXPECTED_OVERLAY_TOTAL_SIZE,
+    overlay_bytes / EXPECTED_OVERLAY_TOTAL_SIZE * 100))
 
 if total_funcs != EXPECTED_TOTAL_FUNCS or total_bytes != EXPECTED_TOTAL_BYTES:
     print('Warning: Totals seem incorrect, did someone forget to delete a .s?')
