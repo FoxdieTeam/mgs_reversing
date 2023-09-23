@@ -334,4 +334,9 @@ sound   group   org($800C3208), file("{{OBJ_DIR}}\sound.bin"), size(343544)
     include "{{OBJ_DIR}}\overlays\sound\overlay.obj"
     include "{{OBJ_DIR}}\overlays\sound\Game\sndtst.obj"
 
+; select1.bin overlay
+select1   group   org($800C3208), file("{{OBJ_DIR}}\select1.bin"), size(343544)
+    include "{{OBJ_DIR}}\overlays\select1\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
+
     regs    pc=__SN_ENTRY_POINT
