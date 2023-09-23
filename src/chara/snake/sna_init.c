@@ -1761,7 +1761,7 @@ helper3:
             pMsg->message_len = 0;
             break;
 
-        case 0x3223:
+        case HASH_KILL:
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
             pMsg->message_len = 0;
             break;

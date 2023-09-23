@@ -53,6 +53,7 @@
 //  Events
 #define HASH_ENTER              0x0dd2 // GV_StrCode( "入る" )
 #define HASH_LEAVE              0xd5cc // GV_StrCode( "出る" )
+#define HASH_KILL               0x3223 // GV_StrCode( "kill" )
 
 //------------------------------------------------------------------------------
 // HZD
