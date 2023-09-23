@@ -8,8 +8,13 @@ RECT        rect_800AB6C8;
 extern RECT rect_800AB6D0;
 RECT        rect_800AB6D0;
 
+#ifdef VR_EXE
+char SECTION(".rdata") strin3[] = "NO MEMORY FOR SAVE TEX\n";
+#endif
+
 void sub_800469F0(menu_chara_struct *pStru)
 {
+#ifndef VR_EXE
     int    offsetImage2;
     int    totalSize;
     short *pSaveText;
@@ -28,10 +33,14 @@ void sub_800469F0(menu_chara_struct *pStru)
     pSaveTextCopy = (char *)pStru->field_2C_pSaveText;
     StoreImage(&rect_800AB6C8, (u_long *)pSaveTextCopy);
     StoreImage(&rect_800AB6D0, (u_long *)(pSaveTextCopy + offsetImage2));
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 3, 8);
+#endif
 }
 
 void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru)
 {
+#ifndef VR_EXE
     char *pSaveText;
     int   imageSize;
 
@@ -44,6 +53,9 @@ void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru)
 
     DrawSync(0);
     GV_FreeMemory_80015FD0(0, pStru->field_2C_pSaveText);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 6);
+#endif
 }
 
 void sub_80046B10(face_anim_image *image, int idx)
@@ -60,6 +72,7 @@ void sub_80046B10(face_anim_image *image, int idx)
 
 void menu_radio_load_palette_80046B74(void *image, int idx)
 {
+#ifndef VR_EXE
     RECT v3;
 
     v3 = rect_800AB6C8;
@@ -67,10 +80,14 @@ void menu_radio_load_palette_80046B74(void *image, int idx)
     v3.y += idx;
 
     LoadImage(&v3, image);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 2);
+#endif
 }
 
 void sub_80046BD8(int off)
 {
+#ifndef VR_EXE
     RECT rect;
 
     rect = rect_800AB6C8;
@@ -83,4 +100,7 @@ void sub_80046BD8(int off)
     rect.w = 32;
     rect.h = 96;
     MoveImage(&rect, rect_800AB6D0.x + off * 32, rect_800AB6D0.y);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 4, 3);
+#endif
 }

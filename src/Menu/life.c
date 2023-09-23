@@ -387,6 +387,7 @@ extern KCB  font_800BD968;
 
 int sub_8003F84C(int idx)
 {
+#ifndef VR_EXE
     void *font_buffer;
 
     setSprt(&gMenuSprt_800bd998);
@@ -421,6 +422,9 @@ int sub_8003F84C(int idx)
     font_set_color_80044DC4(&font_800BD968, 0, 0x6739, 0);
     font_clut_update_80046980(&font_800BD968);
     return 1;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 7, 1);
+#endif
 }
 
 void sub_8003F97C(char *string)
