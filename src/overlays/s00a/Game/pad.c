@@ -1,6 +1,7 @@
 #include "linker.h"
 #include "Game/game.h"
 #include "libgv/libgv.h"
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 
 extern unsigned short GV_DemoPadStatus_800AB958;
@@ -17,7 +18,7 @@ typedef struct _Work
     int            unk4; //0x2C
 } Work;
 
-int PadGetResources_800C3690( Work* work ) 
+int PadGetResources_800C3690( Work* work )
 {
     GCL_SetArgTop_80020690( work->unk3 ) ;
 
@@ -27,7 +28,7 @@ int PadGetResources_800C3690( Work* work )
     }
 
 
-    if ( GCL_Get_Param_Result_80020AA4() ) 
+    if ( GCL_Get_Param_Result_80020AA4() )
     {
         work->status = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
         work->unk2   = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
@@ -40,13 +41,13 @@ int PadGetResources_800C3690( Work* work )
 
 void PadAct_800C370C( Work* work )
 {
-    if ( GM_CheckMessage_8002631C( &work->actor, work->name, 0x3223 ) ) 
+    if ( GM_CheckMessage_8002631C( &work->actor, work->name, HASH_KILL ) )
     {
         GV_DestroyActor_800151C8( &work->actor );
         return;
     }
 
-    if ( (work->unk2 <= 0) && ( PadGetResources_800C3690( work ) == 0) ) 
+    if ( (work->unk2 <= 0) && ( PadGetResources_800C3690( work ) == 0) )
     {
         GV_DestroyActor_800151C8( &work->actor );
     }
@@ -60,8 +61,8 @@ void PadDie_800C37A4( Work* work )
 {
     GV_DemoPadStatus_800AB958 = 0 ;
     GM_GameStatus_800AB3CC &= 0xBFFFFFFF ;
-    
-    if ( work->unk4 > 0 ) 
+
+    if ( work->unk4 > 0 )
     {
         GCL_ExecProc_8001FF2C( work->unk4 , NULL) ;
     }
@@ -71,9 +72,9 @@ void *NewPad_800C37EC( int name, int where, int argc, char **argv )
 {
     int ops;
     Work *work ;
-    
+
     work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) ) ;
-    
+
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
@@ -85,15 +86,15 @@ void *NewPad_800C37EC( int name, int where, int argc, char **argv )
         work->unk3 = ( char* )ops ;
         work->unk2 = 0;
         work->name = name ;
-        
-        if ( GCL_GetParam_80020968( 'p' ) ) 
+
+        if ( GCL_GetParam_80020968( 'p' ) )
         {
             work->unk4 = GCL_GetNextParamValue_80020AD4();
-        } else 
+        } else
         {
             work->unk4 = -1;
-        }    
-        
-    }    
+        }
+
+    }
     return (void *)work ;
 }
