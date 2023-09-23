@@ -176,6 +176,9 @@ ninja.newline()
 ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
+ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -s$overlay $in -o $out""", "Compile $in -> $out")
+ninja.newline()
+
 ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
@@ -203,7 +206,6 @@ ninja.newline()
 ninja.rule("hash_check", f"{sys.executable} $src_dir/../build/compare.py $in", "Hash check $in")
 ninja.newline()
 
-
 def create_psyq_ini(sdkDir, psyqDir):
     data = ""
     with open(sdkDir + "/" + psyqDir + "/bin/psyq.ini.template", 'r') as file:
@@ -225,6 +227,32 @@ def get_files_recursive(path, ext):
             if file.endswith(ext):
                 collectedFiles.append(os.path.join(r, file))
     return collectedFiles
+
+def get_file_global_size(file):
+    g0_list = [
+        "/Equip/",
+        "/Bullet/",
+        "/Thing/",
+        "/Okajima/",
+        "item.c", # todo figure out if correct, why not all .c files in this dir ??
+        "anime.c", # ditto
+        "vibrate.c",
+        "/Takabe/",
+        "/libfs/",
+        "demothrd.c",
+        "Kojo/demothrd.c",
+        "strctrl.c",
+        "jimctrl.c",
+        "memcard.c",
+        "dgd.c",
+        "sub_80060644.c",
+        "sub_80060548.c"
+    ]
+
+    if any(i in file for i in g0_list):
+        return "0"
+
+    return "8"
 
 def gen_build_target(targetName):
     ninja.comment("Build target " + targetName)
@@ -263,62 +291,32 @@ def gen_build_target(targetName):
         cTempOFile = cOFile.replace(".c", "_fixme.obj")
         cOFile = cOFile.replace(".c", ".obj")
         #print("Build step " + asmFile + " -> " + asmOFile)
-        if cFile.find("mts/") == -1 and cFile.find("SD/") == -1:
-            ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
-            ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
+
+        ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
+        ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
+
+        if "overlays/sound" in cFile:
+            # Build overlay using PsyQ 4.4
+            print("overlay:", cFile)
+
             ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-
-            g0 = False
-            buildWithG0 = [
-                "/Equip/",
-                 "/Bullet/",
-                 "/Thing/",
-                 "/Okajima/",
-                 "item.c", # todo figure out if correct, why not all .c files in this dir ??
-                 "vibrate.c",
-                 "anime.c", # ditto
-                 "/Takabe/",
-                 "/libfs/",
-                 "DG_ResetExtPaletteMakeFunc_800791E4.c", # Despite the name, this might be related to Takabe due to proximity?
-                 "DG_ResetPaletteEffect_80078FF8.c", # Same as above
-                 "DG_StorePaletteEffect_80078F30.c", # Same as above
-                 "demothrd.c",
-                 "sub_80037DB8.c",
-                 "Kojo/demothrd.c",
-                 "strctrl.c",
-                 "jimctrl.c",
-                 "memcard.c",
-                 "dgd.c",
-                 "sub_80060644.c",
-                 "sub_80060548.c",
-                 "breath.c"
-                 "sndtst.c"
-                 ]
-
-            for item in buildWithG0:
-                if cFile.find(item) != -1:
-                    g0 = True
-                    break
-            if g0:
-                # print("-G 0: " + cFile)
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0"})
-            else:
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "8"})
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
+            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
+            ninja.build(cTempOFile, "psyq_aspsx_assemble_44_overlays", cAsmFile, variables= { "overlay": "sound" })
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
-
-        else:
-            #print("43:" + cFile)
-            ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
-            ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
+        elif "mts/" in cFile or "SD/" in cFile:
+           # Build using PsyQ 4.3
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-
-            #print("-G 0: " + cFile)
             ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"})
-
             ninja.build(cTempOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+        else:
+            # Build using PsyQ 4.4
+            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
+            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": get_file_global_size(cFile) })
+            ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
             ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 
         linkerDeps.append(cOFile)

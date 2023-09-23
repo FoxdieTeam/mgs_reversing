@@ -132,6 +132,7 @@
 #define CHARA_SNAKE             0x21ca // GV_StrCode( "スネーク" )
 #define CHARA_DOOR              0xb997 // GV_StrCode( "ドア" )
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
+#define CHARA_SNDTST            0x4efc
 
 // Other charas shouldn't be needed for the main exe
 /*
@@ -418,7 +419,6 @@
 #define CHARA_SNOW              0x18e3 // 雪
 #define CHARA_SSTORM            0xa6f5
 #define CHARA_SNOWAREA          0x901e
-#define CHARA_SNDTST            0x4efc
 #define CHARA_MOVIE             0xfaa8,
 #define CHARA_SPHERE            0x73ea
 #define CHARA_SPHERE2           0xbee1
