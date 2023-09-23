@@ -10,9 +10,11 @@ from termcolor import colored
 
 TARGET_HASH = '4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f'
 TARGET_SOUND_HASH = '4173d0fcbc7bfcd477d2e0fa6810b509bf6392efb01fd58a7fa114f003849816'
+TARGET_SELECT1_HASH = '6b101068fb3d41d9d634256f21cb094e13f331ed9fbbdb271be2a01ec631c145'
 CACHED_GOOD_EXE = '_mgsi.matching.exe'
 OBJ_EXE = '../obj/_mgsi.exe'
 OBJ_SOUND = '../obj/sound.bin'
+OBJ_SELECT1 = '../obj/select1.bin'
 FUNCTIONS_FILE = 'functions.txt'
 EXE_SIZE = 641024
 TEXT_SEG_OFFSET = 0x50B8
@@ -229,9 +231,13 @@ def main():
     if not os.path.exists(OBJ_SOUND):
         print(OBJ_SOUND, "doesn't exist")
         return
+    if not os.path.exists(OBJ_SELECT1):
+        print(OBJ_SELECT1, "doesn't exist")
+        return
 
     exe_hash = sha256(OBJ_EXE)
     sound_hash = sha256(OBJ_SOUND)
+    select1_hash = sha256(OBJ_SELECT1)
 
     failed = False
     if exe_hash != TARGET_HASH:
@@ -248,6 +254,12 @@ def main():
         failed = True
     else:
         ok(OBJ_SOUND)
+
+    if select1_hash != TARGET_SELECT1_HASH:
+        fail(OBJ_SELECT1)
+        failed = True
+    else:
+        ok(OBJ_SELECT1)
 
     if failed:
         sys.exit(1)
