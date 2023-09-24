@@ -28,9 +28,9 @@ extern int dword_800E01F4;
 extern int dword_800E0940;
 extern int dword_800E095C;
 
-extern int dword_800E0D90;
+extern int dword_800E0D90; //maybe COM_PlayerAddress
 
-extern Struct_800E0D98 dword_800E0D98;
+extern Struct_800E0D98 dword_800E0D98; //maybe EnemyCommand
 
 
 extern int dword_800E0CA0;
@@ -43,17 +43,19 @@ extern int dword_800E0D8C;
 
 extern short dword_800E0E3C;
 
-extern int dword_800E0F1C;
-extern int dword_800E0F20;
+extern int COM_PlayerMap_800E0F1C;
+extern int TOPCOMMAND_800E0F20;
 extern int dword_800E0F28;
 
-extern SVECTOR svec_800E0F30; //this is the text 'MYSTERY' in data so no idea whats going on here
+extern SVECTOR COM_PlayerPosition_800E0F30;
 
-extern int dword_800E0F38;
-extern int dword_800E0F3C;
+extern int COM_NOISEMODE_DIS_800E0F38;
+extern int COM_GameStatus_800E0F3C;
+
+extern int COM_PlayerAddressOne_800E0F40;
 
 extern int dword_800E0F60;
-extern int dword_800E0F64; //this is part of text in data but gets overwritten
+extern int dword_800E0F64;
 extern int dword_800E0F68;
 
 
@@ -98,9 +100,9 @@ static inline void v_option( int where )
     s0 = &dword_800E0D98;
     *(int*)(s0 + 0xC) = 0;
     *(int*)(s0 + 0x18) = 0;
-    dword_800E0F20 = 0;
+    TOPCOMMAND_800E0F20 = 0;
 
-    ((int*)&dword_800E0F20)[1] = 0;
+    ((int*)&TOPCOMMAND_800E0F20)[1] = 0;
     *(MAP**)(s0 + 0xA0) = Map_FromId_800314C0( where );
 
     ops = GCL_GetParam_80020968( 'v' );
@@ -115,15 +117,15 @@ static inline void v_option( int where )
     }
 }
 
-static inline void a_option()
+static inline void set_game_status()
 {
     int ops;
-    dword_800E0F3C = 0;
+    COM_GameStatus_800E0F3C = 0;
 
     ops = GCL_GetParam_80020968( 'a' );
     if ( ops )
     {
-        dword_800E0F3C |= GCL_GetNextInt_800209E8( (unsigned char*)ops );
+        COM_GameStatus_800E0F3C |= GCL_GetNextInt_800209E8( (unsigned char*)ops );
     } 
 }
 
@@ -260,8 +262,8 @@ void CommandGetResources_800D04F4( Work *work, int name, int where )
     *(short*)(a2 + 0x182) = 0;
     *(int*)  (a2 + 0x40)  = 0;
     
-    svec_800E0F30 = DG_ZeroVector_800AB39C;
-    dword_800E0F1C = where;
+    COM_PlayerPosition_800E0F30 = DG_ZeroVector_800AB39C;
+    COM_PlayerMap_800E0F1C = where;
     dword_800E0F68 = 0;
     dword_800E0CA0 = 0;
     dword_800E0D30 = 0;
@@ -304,7 +306,7 @@ void CommandGetResources_800D04F4( Work *work, int name, int where )
     }
 
     //loc_800D06A0:
-    s0 = &dword_800E0F38;
+    s0 = &COM_NOISEMODE_DIS_800E0F38;
     *(int*)s0 = 0x1F40;
 
     ops4 = GCL_GetParam_80020968( 'y' );
@@ -325,12 +327,12 @@ void CommandGetResources_800D04F4( Work *work, int name, int where )
 
 
     wz_option( &dword_800E095C );
-    a_option();
+    set_game_status();
     j_option();
     nmcs_option( where );
 }
 
-void *NewCommand_800D0908( int name, int where, int argc, char **argv )
+void *NewCommander_800D0908( int name, int where, int argc, char **argv )
 {
     Work *work ;
 
