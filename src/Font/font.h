@@ -38,7 +38,7 @@ void  font_set_font_addr_80044BC0(int arg1, void *data);
 void  font_update_8004695C(KCB *kcb);
 void  font_clear_800468FC(KCB *kcb);
 int   font_get_buffer_size_80044F38(KCB *kcb);
-int   font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, short x, short y);
+int   font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y);
 void  font_set_buffer_80044FD8(KCB *kcb, void *buffer);
 void  font_set_color_80044DC4(KCB *kcb, int code, int fore, int back);
 int   font_set_kcb_80044C90(KCB *kcb, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
