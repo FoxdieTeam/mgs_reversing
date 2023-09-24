@@ -37,6 +37,11 @@ s_funcs = 0
 c_bytes = 0
 s_bytes = 0
 
+overlays_c_funcs = 0
+overlays_s_funcs = 0
+overlays_c_bytes = 0
+overlays_s_bytes = 0
+
 done_names = {}
 
 for obj in objs:
@@ -47,8 +52,10 @@ for obj in objs:
         with open(deps_file) as f:
             deps = [line.rstrip() for line in f]
 
-    if 'psyq' in obj or '_fixme' in obj or 'overlays' in obj:
+    if 'psyq' in obj or '_fixme' in obj:
         continue
+
+    is_overlay = 'overlays' in obj
 
     for name, segments in get_obj_funcs(obj):
         name = name.decode()
@@ -58,13 +65,21 @@ for obj in objs:
             continue
         done_names[name] = obj
         if not is_c_obj or deps_has(deps, name):
-            s_funcs += 1
-            s_bytes += code_len
+            if not is_overlay:
+                s_funcs += 1
+                s_bytes += code_len
+            else:
+                overlays_s_funcs += 1
+                overlays_s_bytes += code_len
         else:
-            c_funcs += 1
-            # to generate matches.txt
-            #print("0x" + name[name.rfind("_")+1:])
-            c_bytes += code_len
+            if not is_overlay:
+                c_funcs += 1
+                # to generate matches.txt
+                #print("0x" + name[name.rfind("_")+1:])
+                c_bytes += code_len
+            else:
+                overlays_c_funcs += 1
+                overlays_c_bytes += code_len
 
 total_funcs = c_funcs + s_funcs
 total_bytes = c_bytes + s_bytes
@@ -81,6 +96,8 @@ for overlay in OVERLAY_NAMES:
 
 c_funcs_extra = ''
 c_bytes_extra = ''
+overlays_c_funcs_extra = ''
+overlays_c_bytes_extra = ''
 overlay_count_extra = ''
 overlay_bytes_extra = ''
 
@@ -98,13 +115,21 @@ if os.environ.get('APPVEYOR'):
         c_funcs_extra = ' ({:+})'.format(c_funcs_delta)
         c_bytes_extra = ' ({:+})'.format(c_bytes_delta)
 
+        overlays_c_funcs_delta = overlays_c_funcs - (delta_obj['overlays_c_funcs'] if 'overlays_c_funcs' in delta_obj else 0)
+        overlays_c_bytes_delta = overlays_c_bytes - (delta_obj['overlays_c_bytes'] if 'overlays_c_bytes' in delta_obj else 0)
+        overlays_c_funcs_extra = ' ({:+})'.format(overlays_c_funcs_delta)
+        overlays_c_bytes_extra = ' ({:+})'.format(overlays_c_bytes_delta)
+
         overlay_count_delta = overlay_count - (delta_obj['overlay_count'] if 'overlay_count' in delta_obj else 0)
         overlay_bytes_delta = overlay_bytes - (delta_obj['overlay_bytes'] if 'overlay_bytes' in delta_obj else 0)
         overlay_count_extra = ' ({:+})'.format(overlay_count_delta)
         overlay_bytes_extra = ' ({:+})'.format(overlay_bytes_delta)
 
     with open(APPVEYOR_CACHE, 'w') as f:
-        json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes, overlay_count=overlay_count, overlay_bytes=overlay_bytes), f)
+        json.dump(dict(c_funcs=c_funcs, c_bytes=c_bytes,
+            overlay_count=overlay_count, overlay_bytes=overlay_bytes,
+            overlays_c_funcs=overlays_c_funcs, overlays_c_bytes=overlays_c_bytes
+            ), f)
 
     msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE')
     if msg:
@@ -125,6 +150,12 @@ print('SLPM_862.47 reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
     c_bytes_extra,
     total_bytes,
     c_bytes / total_bytes * 100))
+
+print('Overlays reversed: {:,}{} funcs, {:,}{} bytes'.format(
+    overlays_c_funcs,
+    overlays_c_funcs_extra,
+    overlays_c_bytes,
+    overlays_c_bytes_extra))
 
 print('Built overlays count: {:,}{} / {:,} | {:.2f}%'.format(
     overlay_count,
