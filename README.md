@@ -2,7 +2,7 @@
 
 This project aims to completely reverse engineer *Metal Gear Solid Integral* for PlayStation back to C source code which when compiled produces the same assembly code.
 
-At this moment `SLPM_862.47`/`SLPM_862.48` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
+At this moment the Metal Gear Solid: Integral `SLPM_862.47`/`SLPM_862.48` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
 is still left to decompile overlays, clean up already decompiled code and make it all shiftable.
 
 The repository builds or aims to build the following artifacts:
