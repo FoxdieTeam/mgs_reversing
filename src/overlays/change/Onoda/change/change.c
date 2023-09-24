@@ -25,15 +25,3 @@ int change_800C3B84(int ptr)
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C4CE0.s") // 216 bytes
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C4DB8.s") // 284 bytes
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C4ED4.s") // 392 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5060.s") // 304 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5190.s") // 100 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C51F4.s") // 1304 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C570C.s") // 220 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_kill_800C57E8.s") // 416 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5988.s") // 16 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5998.s") // 248 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/NewChange_800C5A90.s") // 188 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5B5C.s") // 120 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5BD4.s") // 60 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C5C1C.s") // 60 bytes
-

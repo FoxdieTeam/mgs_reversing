@@ -343,5 +343,7 @@ select1   group   org($800C3208), file("{{OBJ_DIR}}\select1.bin"), size(343544)
 change   group   org($800C3208), file("{{OBJ_DIR}}\change.bin"), size(343544)
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
+    include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
+    include "{{OBJ_DIR}}\overlays\change\Onoda\change\change2.obj"
 
     regs    pc=__SN_ENTRY_POINT
