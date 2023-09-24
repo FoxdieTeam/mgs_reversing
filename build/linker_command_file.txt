@@ -3,7 +3,7 @@
 
 ; link objs
     ;main
-    include "{{OBJ_DIR}}\main.obj"               ;main.c
+    include "{{OBJ_DIR}}\main\main.obj"          ;main.c
 
     ;libfs
     include "{{OBJ_DIR}}\libfs\select.obj"       ;select.c
