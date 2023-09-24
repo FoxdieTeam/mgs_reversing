@@ -69,6 +69,7 @@
 #define PCX_EMPTY2              0xb05c // GV_StrCode( "empty2" )
 #define PCX_LSIGHT              0x08db // GV_StrCode( "lsight" )
 #define PCX_SOCOM_F             0xe4cc // GV_StrCode( "socom_f" )
+#define PCX_MG_SOLID            0x3f37 // GV_StrCode( "MG_SOLID" )
 
 //------------------------------------------------------------------------------
 // Sight files (.sgt)
