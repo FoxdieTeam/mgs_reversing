@@ -71,7 +71,8 @@ const char byte_800C32D8 = 0x40;
 const int __attribute__ ((aligned (1))) dword_800C32D9 = 54;
 const int dword_800C32DD = 0;
 const int dword_800C32E1 = 0;
-const short word_800C32E8 = 108;
+
+const short met_logo_lines_800C32E8 = 108;
 const short word_800C32EA = 35;
 const short word_800C32EC = 0x58;
 const short word_800C32EE = 25;
