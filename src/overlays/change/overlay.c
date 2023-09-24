@@ -1,15 +1,14 @@
-#include "linker.h"
+#include "Onoda/change/change.h"
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 
 const GCL_ActorTableEntry OverlayCharas[] = {
-    { 0xF722, (TGCL_ActorCreateFn) 0x800C455C },
+    { 0xF722, NewChange_800C455C },
     { 0, 0 }
 };
 
-const int something1 = 1;
-const int something2 = 0x00be00a0;
-
+const int dword_800C3218 = 1;
+const int dword_800C321C = 0x00be00a0;
 const int dword_800C3220 = 26425;
 const int dword_800C3224 = 1;
 const int dword_800C3228 = 0xD200A0;

@@ -85,7 +85,7 @@ void sub_80044BD8(void)
     return;
 }
 
-int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, short x, short y)
+int font_init_kcb_80044BE0(KCB *kcb, RECT *rect_data, int x, int y)
 {
     *kcb = ( KCB ){{ 0 }};
     kcb->rect_data = rect_data;
