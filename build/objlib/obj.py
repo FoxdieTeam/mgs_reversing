@@ -96,12 +96,17 @@ def get_obj_funcs(path):
             pos += 2 + 1
             section_name_len = u8()
             section_name = b(section_name_len)
-            if section_name == b'.text':
+            if section_name.endswith(b'.text'):
                 text_section = section
         elif cmd == 18:
             pos += 2 + 4
             c = u8()
             pos += c
+        elif cmd == 20: # I don't know what this is... (psyq-obj-parser neither)
+            # Example: (cmd=14) 02 00 00 06 63 68 61 6e 67 65 (....change)
+            pos += 3
+            name_len = u8()
+            pos += name_len
         elif cmd == 28:
             pos += 2
             c = u8()
@@ -146,7 +151,7 @@ def get_obj_funcs(path):
             c = u8()
             pos += c
         else:
-            print('unknown opcode', cmd, pos, path, file=sys.stderr)
+            print('unknown opcode', cmd, hex(cmd), pos, path, file=sys.stderr)
             raise Exception('unknown opcode')
 
     ret = []

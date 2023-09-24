@@ -297,7 +297,7 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
-        OVERLAYS = ["sound", "select1"]
+        OVERLAYS = ["sound", "select1", "change"]
 
         if any(f"overlays/{overlayName}" in cFile for overlayName in OVERLAYS):
             for overlayName in OVERLAYS:
