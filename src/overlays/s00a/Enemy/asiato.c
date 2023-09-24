@@ -2,7 +2,21 @@
 // asiato.c - あしあと 足跡 - Footprints
 // ====================================
 
+/* Func names from leaks
+ *
+ * NewAsiatoChar
+ * AsiatoPos
+ * NextAsiato
+ * CleanAsiato
+ * NearAsiato
+ * SearchNearAsiato
+ * AsiatoCheck
+ * NewAsiato
+ * NewAsiatoKun
+ */
+
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 #define EXEC_LEVEL 4
 
@@ -11,6 +25,8 @@ typedef struct _Work
     GV_ACT actor;
     char    pad[0x8];
 } Work;
+
+extern int GM_PlayerStatus_800ABA50;
 
 void asiato_800D199C(Work* work);
 void asiato_act_800D18C8(); // has arg, not sure what type
@@ -42,6 +58,10 @@ void asiato_800D0E00(SVECTOR* arg0, short arg1, short arg2, short arg3)
 
 int asiato_800D13A0(void) { return *(int* )0x800E0F90; }
 
+int asiato_800d179c(void) // If player is moving and not on wall or prone
+{
+  return (GM_PlayerStatus_800ABA50 & (PLAYER_ON_WALL | PLAYER_MOVING | PLAYER_PRONE)) == PLAYER_MOVING;
+}
 
 void asiato_kill_800D1994(void) {}
 
