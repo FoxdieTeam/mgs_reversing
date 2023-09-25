@@ -4623,7 +4623,7 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
         pActor->field_A00.field_0_ivec.pad = dword_800AB9F0;
 
         sna_act_unk_helper2_helper2_800605DC(&pActor->field_A00, pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4);
-        temp_v0 = sub_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4,  pActor->field_A00.field_0_ivec.vy);
+        temp_v0 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4,  pActor->field_A00.field_0_ivec.vy);
 
         temp_v1_2 = (temp_v0 >> 8) & 0xff;
         temp_v0_2 = temp_v0 & 0xff;
@@ -8195,7 +8195,7 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
     }
 
     vec.vy = level = pActor->field_20_ctrl.field_78_levels[0];
-    dword_800AB9F0 = pActor->field_844 = sub_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, pActor->field_844);
+    dword_800AB9F0 = pActor->field_844 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, pActor->field_844);
 
     if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT) )
     {
