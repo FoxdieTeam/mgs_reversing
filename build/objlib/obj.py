@@ -102,8 +102,11 @@ def get_obj_funcs(path):
             pos += 2 + 4
             c = u8()
             pos += c
-        elif cmd == 20: # I don't know what this is... (psyq-obj-parser neither)
+        elif cmd == 20: # Group symbol
             # Example: (cmd=14) 02 00 00 06 63 68 61 6e 67 65 (....change)
+            # ptr += 1; // symbol number
+            # ptr += 2; // type
+            # ptr += *ptr + 1; // symbol name
             pos += 3
             name_len = u8()
             pos += name_len
