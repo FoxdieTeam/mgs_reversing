@@ -203,12 +203,8 @@
     ; 800603EC 800604C0
     include "{{OBJ_DIR}}\chara\snake\afterse.obj"
 
-    include "{{OBJ_DIR}}\chara\snake\sub_80060548.obj"
-    include "{{OBJ_DIR}}\chara\snake\sna_act_unk_helper2_helper2_800605DC.obj"
-    include "{{OBJ_DIR}}\chara\snake\sub_80060644.obj"
-    include "{{OBJ_DIR}}\chara\snake\sna_act_unk_helper2_helper3_80060684.obj"
-    include "{{OBJ_DIR}}\chara\snake\sub_800606E4.obj"
-    include "{{OBJ_DIR}}\chara\snake\sna_act_unk_helper2_helper_8006070C.obj" ; actually part of bodyarm ??
+    ;libhzd
+    include "{{OBJ_DIR}}\libhzd\address.obj
 
     ; Equip
     include "{{OBJ_DIR}}\Equip\bodyarm.obj"
@@ -275,9 +271,7 @@
     include "{{OBJ_DIR}}\Takabe\scn_mask.obj"
     include "{{OBJ_DIR}}\Takabe\goggleir.obj"
     include "{{OBJ_DIR}}\Takabe\palette.obj"
-
-    ; Doesn't look like a palette function
-    include "{{OBJ_DIR}}\Equip\Takabe_MakeIndividualRect3DPrim_800793E8.obj"
+    include "{{OBJ_DIR}}\Takabe\prim.obj"
 
     include "{{OBJ_DIR}}\data\rdata\rdata_80013040.obj"
 
