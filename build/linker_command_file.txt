@@ -324,23 +324,23 @@ bss     group bss
     section .sbss,  bss
     section .bss,   bss
 
-__program_bottom EQU $800C3208
-
-; TODO: overlays
+__program_bottom EQU ${{OLAY_BASE}}
 
 ; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
+olay    group   org(${{OLAY_BASE}}), size(343544)
+
 ; sound.bin overlay
-sound   group   org($800C3208), file("{{OBJ_DIR}}\sound.bin"), size(343544)
+sound   group   over(olay), file("{{OBJ_DIR}}\sound.bin")
     include "{{OBJ_DIR}}\overlays\sound\overlay.obj"
     include "{{OBJ_DIR}}\overlays\sound\Game\sndtst.obj"
 
 ; select1.bin overlay
-select1   group   org($800C3208), file("{{OBJ_DIR}}\select1.bin"), size(343544)
+select1 group   over(olay), file("{{OBJ_DIR}}\select1.bin")
     include "{{OBJ_DIR}}\overlays\select1\overlay.obj"
     include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
 
 ; change.bin overlay
-change   group   org($800C3208), file("{{OBJ_DIR}}\change.bin"), size(343544)
+change  group   over(olay), file("{{OBJ_DIR}}\change.bin")
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
