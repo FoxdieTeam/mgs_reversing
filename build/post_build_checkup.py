@@ -35,7 +35,8 @@ def orphaned_files():
     for s in asms:
         s = s.replace('\\', '/')
         obj = s.replace('../asm/', '../obj/').replace('.s', '.obj')
-        if obj not in included_asms and obj not in objs:
+        obj2 = s.replace('../asm/', '{{OBJ_DIR}}/').replace('.s', '.obj')
+        if obj not in included_asms and obj2 not in objs:
             print('orphaned file detected:', s)
             errored = True
 

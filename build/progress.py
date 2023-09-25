@@ -151,7 +151,7 @@ print('SLPM_862.47 reversed bytes: {:,}{} / {:,} | {:.2f}%'.format(
     total_bytes,
     c_bytes / total_bytes * 100))
 
-print('Overlays reversed: {:,}{} funcs, {:,}{} bytes'.format(
+print('Overlays: {:,}{} funcs, {:,}{} bytes reversed'.format(
     overlays_c_funcs,
     overlays_c_funcs_extra,
     overlays_c_bytes,
