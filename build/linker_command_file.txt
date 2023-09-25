@@ -185,7 +185,9 @@
     ; 8005BF84 8005BFDC 8005C05C 8005C140 8005C1E4 8005C298 8005C354 8005C404 8005C458 8005C498
     ; 8005C4E4 8005C5D4 8005C6C4 8005C89C 8005C974 8005CB48 8005CD1C 8005CE5C 8005CFAC 8005D134
     ; 8005D168 8005D188 8005D288
-    include "{{OBJ_DIR}}\chara\snake\sna_hzd.obj"
+
+    ;libhzd
+    include "{{OBJ_DIR}}\libhzd\address.obj
 
     ; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
     include "{{OBJ_DIR}}\Game\vibrate.obj"
@@ -203,8 +205,7 @@
     ; 800603EC 800604C0
     include "{{OBJ_DIR}}\chara\snake\afterse.obj"
 
-    ;libhzd
-    include "{{OBJ_DIR}}\libhzd\address.obj
+    include "{{OBJ_DIR}}\chara\snake\sna_hzd.obj"
 
     ; Equip
     include "{{OBJ_DIR}}\Equip\bodyarm.obj"

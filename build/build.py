@@ -248,7 +248,7 @@ def get_file_global_size(file):
         "memcard.c",
         "dgd.c",
         "sub_80060644.c",
-        "/libhzd/address.c"
+        "sna_hzd.c",
     ]
 
     if any(i in file for i in g0_list):
