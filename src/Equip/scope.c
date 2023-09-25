@@ -131,7 +131,7 @@ void scope_act_helper_8006258C(Actor_scope *pActor)
     iVar1 = 12 * temp;
     iVar3 = 320 - iVar1;
 
-    ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    ot = DG_ChanlOTag(1);
     lines = pActor->field_74_lineF2s[GV_Clock_800AB920];
 
     for (i = 0; i < 4; i++)
@@ -609,7 +609,7 @@ void scope_act_80062E8C(Actor_scope *pActor)
         pad_status = 0;
     }
 
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_ChanlOTag(1);
 
     scope_act_helper_800626D0(pActor, pad_status);
     scope_act_helper_80062998(pActor, pOt, pad_status);

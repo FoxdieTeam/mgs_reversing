@@ -150,7 +150,7 @@ void rmissile_act_helper_helper_8006BB10(Actor_rmissile *pActor)
 
     var_a1 = ((1000 - pActor->field_118) * 60) / 1000;
 
-    pOt = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    pOt = (unsigned int *)DG_ChanlOTag(1);
     pPoly = pActor->field_174_polys_2Array[GV_Clock_800AB920];
 
     if (var_a1 > 60)

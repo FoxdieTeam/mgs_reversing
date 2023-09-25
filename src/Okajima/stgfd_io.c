@@ -37,7 +37,7 @@ void stgfd_io_act_helper_80074F44(Actor_stgfd_io *pActor, int a2, int x, int y, 
 
 void stgfd_io_act_80074F5C(Actor_stgfd_io *pActor)
 {
-    unsigned char *pOt = DG_Chanl(0)->mOrderingTables[GV_Clock_800AB920];
+    unsigned char *pOt = DG_ChanlOTag(0);
     addPrim(pOt, &pActor->field_20_pAlloc0x30->field_10_tile[GV_Clock_800AB920]);
 
     addPrim(pOt, &pActor->field_20_pAlloc0x30->field_0_dr_tpage[GV_Clock_800AB920]);

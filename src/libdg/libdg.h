@@ -661,6 +661,12 @@ static inline DG_CHNL *DG_Chanl( int idx )
     return &DG_Chanls_800B1800[ idx + 1 ];
 }
 
+static inline char * DG_ChanlOTag(int index)
+{
+	extern int GV_Clock_800AB920;
+	return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
+}
+
 void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx);
 void DG_BoundChanl_800189A4(DG_CHNL *pOt, int idx);
 void DG_Trans_Chanl_8001E3C0(DG_CHNL *pOt, int idx);
