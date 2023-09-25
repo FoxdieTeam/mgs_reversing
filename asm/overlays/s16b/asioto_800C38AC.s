@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section s16b.text
 
-	xdef s16b_800C38AC
-s16b_800C38AC:
+	xdef asioto_800C38AC
+asioto_800C38AC:
 	dw 0x3C02800B ; 800C38AC
 	dw 0x8C42B9F4 ; 800C38B0
 	dw 0x00000000 ; 800C38B4

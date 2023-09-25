@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section s16b.text
 
-	xdef s16b_800C32D8
-s16b_800C32D8:
+	xdef asioto_800C32D8
+asioto_800C32D8:
 	dw 0x8C820150 ; 800C32D8
 	dw 0x00000000 ; 800C32DC
 	dw 0x10400008 ; 800C32E0
