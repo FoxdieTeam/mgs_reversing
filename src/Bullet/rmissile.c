@@ -1,4 +1,4 @@
-#include "Equip/Takabe.h"
+#include "Takabe/prim.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Menu/menuman.h"
