@@ -3,6 +3,8 @@
 #include "Game/game.h"
 #include "Game/map.h"
 
+
+
 typedef struct _Work
 {
     GV_ACT         actor;
@@ -11,15 +13,64 @@ typedef struct _Work
     int            name; //0x24
 } Work;
 
+typedef struct _TOPCOMMAND_STRUCT {
+    int a;
+    int b;
+} TOPCOMMAND_STRUCT;
 
-//probably something obvious
-typedef struct Struct_800E0D98
+typedef struct _ENEMY_COMMAND
 {
-    int field_0x00;
-    int field_0x04;
-    int field_0x08;
-    int field_0x0C;
-} Struct_800E0D98;
+    int     field_0x00;
+    int     field_0x04;
+    int     field_0x08;
+    int     field_0x0C;
+    int     field_0x10;
+    int     field_0x14;
+    int     mode;        ///0x18
+    int     field_0x1C;
+    int     field_0x20[8];
+    int     field_0x40;
+    int     field_0x44;
+    int     field_0x48;
+    int     field_0x4C;
+    int     field_0x50;
+    short   field_0x54;
+    short   field_0x56;
+    short   field_0x58;
+    short   field_0x5A;
+    int     field_0x5C;
+    int     field_0x60;
+    int     field_0x64;
+    int     field_0x68[8];
+    SVECTOR field_0x88;
+    int     field_0x90;
+    int     field_0x94;
+    int     field_0x98;
+    int     field_0x9C;
+    MAP     *map;
+    short   where;        //0xA4
+    short   field_0xA6;
+    short   field_0xA8;
+    short   field_0xAA;
+    int     field_0xAC;
+    int     field_0xB0;
+    int     field_0xB4;
+    int     field_0xB8;
+    int     field_0xBC;
+    int     field_0xC0;
+    int     field_0xC4;
+    VECTOR  field_0xC8[8];
+    int     field_0x148[8];
+    int     field_0x168;
+    int     field_0x16C;
+    int     field_0x170;
+    int     field_0x174;
+    short   field_0x178;
+    short   field_0x17A;
+    int     field_0x17C;
+    short   field_0x180;
+    short   field_0x182;
+} ENEMY_COMMAND;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
@@ -30,22 +81,19 @@ extern int dword_800E095C;
 
 extern int dword_800E0D90; //maybe COM_PlayerAddress
 
-extern Struct_800E0D98 dword_800E0D98; //maybe EnemyCommand
-
-
 extern int dword_800E0CA0;
-
 extern int dword_800E0D2C;
 extern int dword_800E0D30;
-
 extern int dword_800E0D88;
 extern int dword_800E0D8C;
 
-extern short dword_800E0E3C;
+extern ENEMY_COMMAND EnemyCommand_800E0D98; //maybe EnemyCommand
+
+extern SVECTOR dword_800E0E3C;
 
 extern int COM_PlayerMap_800E0F1C;
-extern int TOPCOMMAND_800E0F20;
-extern int dword_800E0F28;
+extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
+extern VECTOR dword_800E0F28;
 
 extern SVECTOR COM_PlayerPosition_800E0F30;
 
@@ -70,6 +118,8 @@ extern void  sub_800CFA94( Work* work ) ;
 extern void  sub_800CEC90( void ) ;
 extern void  sub_800CECF4( void ) ;
 
+
+
 void CommandAct_800D0258( Work* work )
 {
     if (GM_CheckMessage_8002631C( &work->actor , work->name, 0x3223) != NULL)
@@ -85,7 +135,7 @@ void CommandAct_800D0258( Work* work )
     sub_800CFA94( work );
     sub_800CEC90();
     sub_800CECF4();
-    dword_800E0D98.field_0x0C++;
+    EnemyCommand_800E0D98.field_0x0C++;
 }
 
 void CommandDie_800D02EC(void)
@@ -93,174 +143,24 @@ void CommandDie_800D02EC(void)
     return;
 }
 
-static inline void v_option( int where )
-{
-    void *s0;
-    int ops;
-    s0 = &dword_800E0D98;
-    *(int*)(s0 + 0xC) = 0;
-    *(int*)(s0 + 0x18) = 0;
-    TOPCOMMAND_800E0F20 = 0;
-
-    ((int*)&TOPCOMMAND_800E0F20)[1] = 0;
-    *(MAP**)(s0 + 0xA0) = Map_FromId_800314C0( where );
-
-    ops = GCL_GetParam_80020968( 'v' );
-    if ( ops ) 
-    {
-        *(short*)(s0 + 0x54) = sub_800CEDE8( ops, (s0 + 0x5A) , where );
-    } 
-    else 
-    {
-        *(short*)(s0 + 0x54) = 1;
-        *(short*)(s0 + 0x58) = 0;
-    }
-}
-
-static inline void set_game_status()
-{
-    int ops;
-    COM_GameStatus_800E0F3C = 0;
-
-    ops = GCL_GetParam_80020968( 'a' );
-    if ( ops )
-    {
-        COM_GameStatus_800E0F3C |= GCL_GetNextInt_800209E8( (unsigned char*)ops );
-    } 
-}
-
-static inline void j_option()
-{
-    int ops;
-
-    ops = GCL_GetParam_80020968( 'j' );
-    if ( ops )
-    {
-        *(&dword_800E0E3C + 1) = sub_800CED88( ops, (SVECTOR*)&dword_800E0E3C );
-    } 
-    else
-    {
-        void* temp = &dword_800E0D98;
-        *(short*)(temp + 0xA6) = 1;
-        *(short*)(temp + 0xA8) = 0;
-        *(short*)(temp + 0xAA) = 0;
-    }
-}
-
-static inline void nmcs_option( int where )
-{
-    void *s0;
-    int ops, ops2, ops3, ops4;
-    
-    s0 = &dword_800E0D98;
-    *(short*)(s0 + 0xA4) = where;
-    *(int*)(s0 + 0x08) = 0;
-    
-    ops = GCL_GetParam_80020968( 'n' );
-    if ( ops )
-    {
-        *(int*)(s0 + 0x08) = sub_800D0128( ops );
-    }
-
-    ops2 = GCL_GetParam_80020968( 'm' );
-    if ( ops2 )
-    {
-        *(int*)(s0 + 0x08) += sub_800D0128( ops2 );
-    }
-
-    *(int*)s0 = 0;
-    
-    ops3 = GCL_GetParam_80020968( 'c' );
-    if ( ops3 )
-    {
-        *(int*)s0 = sub_800D0128( ops3 );
-    }
-    
-    *(int*)(s0 + 0x04) = 0;
-    
-    ops4 = GCL_GetParam_80020968( 's' );
-    if ( ops4 )
-    {
-        *(int*)(s0 + 0x04) = sub_800D0128( ops4 );
-    }
-}
-
-static inline void wz_option( void* in )
-{
-    void* s0;
-    int ops;
-    s0 = &dword_800E0D98;
-    printf( in, *(short*)( s0 + 0x88 ), *(short*)( s0 + 0x8A ), *(short*)( s0 + 0x8C ), dword_800E0F60  ); 
-    
-    *(int *)(s0 + 0x1C) = 0x1E;
-
-    *(short*)(s0 + 0x56) = 0;
-    *(int*)(s0 + 0x16C)  = 0;
-    *(int*)(s0 + 0x174)  = 0;
-    
-    dword_800E0F28 = 0;
-    *(short*)(s0 + 0x178)  = 0;
-    dword_800E0D8C = *(short*)(s0 + 0x88);
-    dword_800E0D88 = *(short*)(s0 + 0x88) + 0x1F4;
-
-    ops = GCL_GetParam_80020968( 'w' );
-    if ( ops )
-    {
-        *(short*)(s0 + 0x178) = GCL_GetNextInt_800209E8( (unsigned char*)ops );
-    }
-
-    ops = GCL_GetParam_80020968( 'z' );
-    if ( ops )
-    {
-        *(int*)(s0 + 0x178) = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() );
-    } 
-    else 
-    {
-        *(int*)(s0 + 0x178) = -1;
-    }
-}
-
-
-static inline void switch_test( short val )
-{
-    switch ( val )
-    {
-        case 0:
-            dword_800E0F60 = 4;
-            break;
-        case 1:
-            dword_800E0F60 = 3;
-            break;
-        case 2:
-            dword_800E0F60 = val;
-            break;
-        default:
-            dword_800E0F60 = 4;
-    }
-}
-
 void CommandGetResources_800D04F4( Work *work, int name, int where )
 {
-    int   ops2, ops3, ops4, ops5;
-    void *s0;
-    void* s1;
-    void *a2;
-    void *v1;
-    int   a3;
+    int i;
+    int ops;
     
-    a3 = 0;
-    a2 = &dword_800E0D98;
     work->name = name;
 
-    dword_800E0F64 = 0;
-    *(short*)(a2 + 0x17A) = 1;
-    dword_800E0D90 = 0;
-    *(int*)  (a2 + 0x14)  = 0;
-    *(int*)  (a2 + 0x170) = 0;
+    dword_800E0F64  = 0;
+    EnemyCommand_800E0D98.field_0x17A = 1;
     
-    *(short*)(a2 + 0x180) = 0;
-    *(short*)(a2 + 0x182) = 0;
-    *(int*)  (a2 + 0x40)  = 0;
+    dword_800E0D90  = 0;
+    EnemyCommand_800E0D98.field_0x14  = 0;
+    EnemyCommand_800E0D98.field_0x170 = 0;
+    
+
+    EnemyCommand_800E0D98.field_0x180 = 0;
+    EnemyCommand_800E0D98.field_0x182 = 0;
+    EnemyCommand_800E0D98.field_0x40  = 0;
     
     COM_PlayerPosition_800E0F30 = DG_ZeroVector_800AB39C;
     COM_PlayerMap_800E0F1C = where;
@@ -269,67 +169,167 @@ void CommandGetResources_800D04F4( Work *work, int name, int where )
     dword_800E0D30 = 0;
     dword_800E0D2C = 0;
 
-    for ( ; a3 < 8 ; a3++ )
+    for ( i = 0 ; i < 8 ; i++ )
     {
-        *(int*)(a2 + (a3 * 16) + 0xC8) = 0;
-        *(int*)(a2 + (a3 * 16) + 0xCC) = 0;
-        *(int*)(a2 + (a3 * 16) + 0xD0) = 0;
-        *(int*)(a2 + (a3 * 16) + 0xD4) = 0;
+        EnemyCommand_800E0D98.field_0xC8[i].vx  = 0; 
+        EnemyCommand_800E0D98.field_0xC8[i].vy  = 0; 
+        EnemyCommand_800E0D98.field_0xC8[i].vz  = 0; 
+        EnemyCommand_800E0D98.field_0xC8[i].pad = 0; 
     }
 
-    v1 = &dword_800E0D98;
-    for ( a3 = 0 ; a3 < 8 ; a3++ )
+    for ( i = 0 ; i < 8 ; i++ )
     {
-        *(int*)(v1 + (a3 * 4) + 0x68)  = a3;
-        *(int*)(v1 + (a3 * 4) + 0x20)  = 0;
-        *(int*)(v1 + (a3 * 4) + 0x148) = 0xFF;
+        EnemyCommand_800E0D98.field_0x68[i]  = i; 
+        EnemyCommand_800E0D98.field_0x20[i]  = 0; 
+        EnemyCommand_800E0D98.field_0x148[i] = 0xFF;         
     }
-    v_option( where );
+    //v_option( where );
+    EnemyCommand_800E0D98.field_0x0C = 0;
+    EnemyCommand_800E0D98.mode       = 0;
 
-    s1 = &dword_800E0D98;
-    *(int*)(s1 + 0x94) = 5;
+    TOPCOMMAND_800E0F20.a = 0;
+    TOPCOMMAND_800E0F20.b = 0;
+    EnemyCommand_800E0D98.map = Map_FromId_800314C0( where );
+
+    ops = GCL_GetParam_80020968( 'v' );
+    if ( ops ) 
+    {
+        EnemyCommand_800E0D98.field_0x54 = sub_800CEDE8( ops, &EnemyCommand_800E0D98.field_0x5A , where );
+    } 
+    else 
+    {
+        EnemyCommand_800E0D98.field_0x54 = 1;
+        EnemyCommand_800E0D98.field_0x58 = 0;
+    }
+
+    EnemyCommand_800E0D98.field_0x94 = 5;
     
-    ops2 = GCL_GetParam_80020968( 'b');
-    if ( ops2 )
+    ops = GCL_GetParam_80020968( 'b');
+    if ( ops )
     {
-        *(int*)(s1 + 0x94) = GCL_GetNextInt_800209E8( (unsigned char*)ops2 );
+        EnemyCommand_800E0D98.field_0x94 = GCL_GetNextInt_800209E8( (unsigned char*)ops );
     }
     
-    *(short*)(s1 + 0x88) = 0xFA0;
-    *(short*)(s1 + 0x8A) = 0xFA0;
-    *(short*)(s1 + 0x8C) = 0xFA0;
+    EnemyCommand_800E0D98.field_0x88.vx = 0xFA0;
+    EnemyCommand_800E0D98.field_0x88.vy = 0xFA0;
+    EnemyCommand_800E0D98.field_0x88.vz = 0xFA0;
 
-    ops3 = GCL_GetParam_80020968( 'l' );
-    if ( ops3 ) 
+    ops = GCL_GetParam_80020968( 'l' );
+    if ( ops ) 
     {
-        GCL_GetSV_80020A14( (unsigned char*)ops3, (SVECTOR* )(s1 + 0x88) );
+        GCL_GetSV_80020A14( (unsigned char*)ops, &EnemyCommand_800E0D98.field_0x88 );
     }
 
     //loc_800D06A0:
-    s0 = &COM_NOISEMODE_DIS_800E0F38;
-    *(int*)s0 = 0x1F40;
+    COM_NOISEMODE_DIS_800E0F38 = 0x1F40;
 
-    ops4 = GCL_GetParam_80020968( 'y' );
-    if ( ops4 )
+    ops = GCL_GetParam_80020968( 'y' );
+    if ( ops )
     {
-        *(int*)s0 = GCL_GetNextInt_800209E8( (unsigned char*)ops4 );
+        COM_NOISEMODE_DIS_800E0F38 = GCL_GetNextInt_800209E8( (unsigned char*)ops );
     }
 
-    printf( ( void* )&dword_800E0940 , *(int*)s0 );
-    *(short*)(s1 + 0x8E) = 0;
+    printf( ( void* )&dword_800E0940 , COM_NOISEMODE_DIS_800E0F38 );    
+    EnemyCommand_800E0D98.field_0x88.pad = 0;
 
-    ops5 = GCL_GetParam_80020968( 't' );
-    if ( ops5 ) {
-        *(short*)(s1 + 0x8E) = GCL_GetNextInt_800209E8( (unsigned char*)ops5 );
+    ops = GCL_GetParam_80020968( 't' );
+    if ( ops ) {
+        EnemyCommand_800E0D98.field_0x88.pad = GCL_GetNextInt_800209E8( (unsigned char*)ops );
+    }
+
+    switch ( EnemyCommand_800E0D98.field_0x88.pad )
+    {
+        case 0:
+            dword_800E0F60 = 4;
+            break;
+        case 1:
+            dword_800E0F60 = 3;
+            break;
+        case 2:
+            dword_800E0F60 = EnemyCommand_800E0D98.field_0x88.pad;
+            break;
+        default:
+            dword_800E0F60 = 4;
+    }
+
+    printf( ( void* )&dword_800E095C, EnemyCommand_800E0D98.field_0x88.vx, EnemyCommand_800E0D98.field_0x88.vy, EnemyCommand_800E0D98.field_0x88.vz, dword_800E0F60  ); 
+    
+    EnemyCommand_800E0D98.field_0x1C  = 0x1E;
+    EnemyCommand_800E0D98.field_0x56  = 0;
+    EnemyCommand_800E0D98.field_0x16C = 0;
+    EnemyCommand_800E0D98.field_0x174 = 0;
+    
+    dword_800E0F28.vx = 0;
+    EnemyCommand_800E0D98.field_0x178 = 0;
+    dword_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
+    dword_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 0x1F4;
+    
+    ops = GCL_GetParam_80020968( 'w' );
+    if ( ops )
+    {
+        EnemyCommand_800E0D98.field_0x178 = GCL_GetNextInt_800209E8( (unsigned char*)ops );
+    }
+
+    ops = GCL_GetParam_80020968( 'z' );
+    if ( ops )
+    {
+        *(int*)(&EnemyCommand_800E0D98.field_0x178) = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+    } 
+    else 
+    {
+        *(int*)(&EnemyCommand_800E0D98.field_0x178) = -1;
+    }
+ 
+    COM_GameStatus_800E0F3C = 0;
+
+    ops = GCL_GetParam_80020968( 'a' );
+    if ( ops )
+    {
+        COM_GameStatus_800E0F3C |= GCL_GetNextInt_800209E8( (unsigned char*)ops );
+    } 
+    
+    ops = GCL_GetParam_80020968( 'j' );
+    if ( ops )
+    {
+        dword_800E0E3C.vy = sub_800CED88( ops, &dword_800E0E3C );
+    } 
+    else
+    {
+        EnemyCommand_800E0D98.field_0xA6 = 1;
+        EnemyCommand_800E0D98.field_0xA8 = 0;
+        EnemyCommand_800E0D98.field_0xAA = 0;
+    }
+
+    EnemyCommand_800E0D98.where  = where;
+    EnemyCommand_800E0D98.field_0x08 = 0;
+    
+    ops = GCL_GetParam_80020968( 'n' );
+    if ( ops )
+    {
+        EnemyCommand_800E0D98.field_0x08 = sub_800D0128( ops );
+    }
+
+    ops = GCL_GetParam_80020968( 'm' );
+    if ( ops )
+    {
+        EnemyCommand_800E0D98.field_0x08 += sub_800D0128( ops );
+    }
+
+    EnemyCommand_800E0D98.field_0x00 = 0;
+    
+    ops = GCL_GetParam_80020968( 'c' );
+    if ( ops )
+    {
+        EnemyCommand_800E0D98.field_0x00 = sub_800D0128( ops );
     }
     
-    switch_test( *(short*)(s1 + 0x8E) );
-
-
-    wz_option( &dword_800E095C );
-    set_game_status();
-    j_option();
-    nmcs_option( where );
+    EnemyCommand_800E0D98.field_0x04 = 0;
+    
+    ops = GCL_GetParam_80020968( 's' );
+    if ( ops )
+    {
+        EnemyCommand_800E0D98.field_0x04 = sub_800D0128( ops );
+    }
 }
 
 void *NewCommander_800D0908( int name, int where, int argc, char **argv )
