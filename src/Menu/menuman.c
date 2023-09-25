@@ -198,7 +198,7 @@ void menu_ResetSystem_80038A88()
 
     gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation = gMenuPrimBuffer_8009E2D0.mPrimPtrs[GV_Clock_800AB920];
     gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation + 0x2000;
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt = DG_ChanlOTag(1);
     menu_Text_Init_80038B98();
 }
 

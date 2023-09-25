@@ -326,7 +326,7 @@ void sight_act_800714EC(Actor_Sight *sight)
 
     frameCount = sight->field_2C_frameCount;
     field30 = sight->field_30;
-    ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    ot = DG_ChanlOTag(1);
 
     primOffsetIndicesArray = primBufInfo->field_C_primOffsetIndicesArray;
     primOffsetInfoArray = primBufInfo->field_10_primOffsetInfoArray;
