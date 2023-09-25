@@ -333,11 +333,6 @@ int SECTION(".sbss")     GM_GameOverVox_800AB45C;
 extern GV_PAD           *GM_CurrentPadData_800AB91C;
 GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
 
-static inline unsigned char * DG_ChanlOTag(int index)
-{
-    return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
-}
-
 void over_act_8003721C(Actor_Over *pActor)
 {
     unsigned int *pOt = (unsigned int *)DG_ChanlOTag(1);

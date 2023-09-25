@@ -35,7 +35,7 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
     }
 
     pTile = pActor->field_40_tile1[GV_Clock_800AB920];
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_ChanlOTag(1);
 
     menu_Text_XY_Flags_80038B34(0, 0, 0x122);
 
