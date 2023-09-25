@@ -416,7 +416,7 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
         actor->field_84_4Array[3] = (int)sgtrect3_init_80071010(&word_800AB8EC, 1, local_20, 1);
     }
 
-    uVar1 = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    uVar1 = (unsigned int *)DG_ChanlOTag(1);
 
     stnsight_act_helper_80068420(actor, uVar1);
     stnsight_act_helper_80068798(actor, uVar1);

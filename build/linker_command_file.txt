@@ -326,18 +326,40 @@ olay    group   org(${{OLAY_BASE}}), size(343544)
 
 ; sound.bin overlay
 sound   group   over(olay), file("{{OBJ_DIR}}\sound.bin")
+    section sound.data,  sound
+    section sound.text,  sound
+    section sound.ctors, sound
+    section sound.dtors, sound
+    section sound.rdata, sound
+    section sound.sdata, sound
+
     include "{{OBJ_DIR}}\overlays\sound\overlay.obj"
     include "{{OBJ_DIR}}\overlays\sound\Game\sndtst.obj"
 
 ; select1.bin overlay
 select1 group   over(olay), file("{{OBJ_DIR}}\select1.bin")
+    section select1.data,  select1
+    section select1.text,  select1
+    section select1.ctors, select1
+    section select1.dtors, select1
+    section select1.rdata, select1
+    section select1.sdata, select1
+
     include "{{OBJ_DIR}}\overlays\select1\overlay.obj"
     include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
 
 ; change.bin overlay
 change  group   over(olay), file("{{OBJ_DIR}}\change.bin")
+    section change.data,  change
+    section change.text,  change
+    section change.ctors, change
+    section change.dtors, change
+    section change.rdata, change
+    section change.sdata, change
+
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
+    include "{{OBJ_DIR}}\overlays\change\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change2.obj"
 

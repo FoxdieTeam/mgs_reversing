@@ -367,7 +367,7 @@ void sgtrect3_act_helper_80070AB0(Actor_sgtrect3 *sgtrect3, DVECTOR *screenCoord
     lineF3Arr = sgtrect3->field_3C[GV_Clock_800AB920].field_0;
     lineF2Arr = sgtrect3->field_C3C[GV_Clock_800AB920].field_0;
     tPageArr = sgtrect3->field_21B8[GV_Clock_800AB920].field_0;
-    ot = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    ot = DG_ChanlOTag(1);
     field_30_target = sgtrect3->field_30_target;
 
     for (targetCount--; targetCount >= 0; screenCoordsArray++, inTargets++, offsets++, targetCount--)

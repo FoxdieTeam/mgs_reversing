@@ -1,4 +1,5 @@
 #include "linker.h"
+#include "psyq.h"
 #include "Font/font.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -58,7 +59,14 @@ typedef struct _Unknown2
 extern Unknown2    dword_800C3218[6];
 extern signed char byte_800C3260[];
 
-extern const char aChangec_800C5EC8[]; // = "change.c"
+extern const char aChangec_800C5EC8[];         // = "change.c"
+extern const char aSafecheckstartn_800C5ED4[]; // = "SafeCheckStart\n"
+extern const char aTry_800C5EE4[];             // = "TRY\n"
+extern const char aTimeoutn_800C5EEC[];        // = "TIMEOUT\n"
+extern const char aTryEndn_800C5EF8[];         // = "TRY END\n"
+extern const char aOpenn_800C5F04[];           // = "OPEN\n"
+extern const char aSafecheckendn_800C5F0C[];   // = "SafeCheckEND\n"
+
 
 GV_ACT * NewMetLogo_800C5A90( int * );
 
@@ -185,21 +193,78 @@ void Change_800C38D0( Work *work, char *ot )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C3B34.s") // 80 bytes
+void change_800C3B34( Work *work, int index, int color )
+{
+    KCB *kcb;
+
+    kcb = &work->kcb[ index ];
+    font_set_color_80044DC4( kcb, 0, color, 0 );
+    font_clut_update_80046980( kcb );
+}
 
 void * Change_800C3B84( KCB *kcb )
 {
 	return kcb->font_clut_buffer;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C3B90.s") // 288 bytes
-void change_800C3B90( Work *work );
+void change_800C3B90( Work *work )
+{
+    int i;
+    int shade;
 
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C3C68.s") // 104 bytes
+    for ( i = 0; i < 6; i++ )
+    {
+        change_800C3B34( work, i, 0 );
+    }
+
+    if ( work->f6AC != 0 )
+    {
+        if ( work->f6A4 <= 64 )
+        {
+            shade = 25 - ( work->f6A4 * 25 ) / 64;
+            change_800C3B34( work, 4, shade << 10 | shade << 5 | shade );
+        }
+
+        return;
+    }
+    else if ( work->f6BC == 0 )
+    {
+        return;
+    }
+
+    switch ( work->f6B0 )
+    {
+    case 0:
+    case 1:
+    case 2:
+        change_800C3B34( work, 0, 0x6739 );
+        break;
+
+    case 3:
+    case 4:
+        change_800C3B34( work, 1, 0x6739 );
+        change_800C3B34( work, 2, 0x6739 );
+        break;
+
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        change_800C3B34( work, 3, 0x6739 );
+        break;
+
+    case 9:
+        change_800C3B34( work, 4, 0x6739 );
+        break;
+
+    case 10:
+        change_800C3B34( work, 5, 0x6739 );
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C3CD0.s") // 1596 bytes
 void change_800C3CD0( Work *work );
-
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C3D1C.s") // 1544 bytes
 
 void ChangeAct_800C4324( Work *work )
 {
@@ -303,10 +368,66 @@ GV_ACT * NewChange_800C455C( int name, int where, int argc, char **argv )
     return &( work->actor );
 }
 
-// Below are not part of the this actor
+// The functions below are not part of this actor
 
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C45F8.s") // 284 bytes
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C4714.s") // 88 bytes
+int change_800C47F0( int, int, int );
+
+int change_800C45F8( int lba, int timeout )
+{
+    CdlLOC loc;
+    char   result[8];
+    int    start;
+    int    open;
+
+    printf( aSafecheckstartn_800C5ED4 );
+    CdIntToPos( lba, &loc );
+
+    while ( 1 )
+    {
+        printf( aTry_800C5EE4 );
+        start = VSync( -1 );
+
+        while ( 1 )
+        {
+            if ( change_800C47F0( loc.minute, loc.second, loc.sector ) >= 0 )
+            {
+                break;
+            }
+
+            if ( timeout > 0 && ( VSync( -1 ) - start ) > timeout )
+            {
+                printf( aTimeoutn_800C5EEC );
+                break;
+            }
+        }
+
+        CdControlB( CdlNop, NULL, result );
+        CdControlB( CdlNop, NULL, result );
+
+        open = result[0] & ( CdlStatShellOpen | CdlStatError );
+        if ( !open )
+        {
+            break;
+        }
+
+        printf( aOpenn_800C5F04 );
+    }
+
+    printf( aTryEndn_800C5EF8 );
+    printf( aSafecheckendn_800C5F0C );
+    return 1;
+}
+
+void change_800C4714( void )
+{
+    char param;
+
+    param = CdlModeSpeed | CdlModeSize1;
+    while ( !CdControl( CdlSetmode, &param, NULL ) );
+    mts_wait_vbl_800895F4(3);
+    while ( !CdControl( CdlDemute, NULL, NULL ) );
+}
+
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C476C.s") // ??? bytes
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C47F0.s") // 428 bytes
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C499C.s") // 556 bytes

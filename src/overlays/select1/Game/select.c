@@ -12,6 +12,10 @@ typedef struct Work
     int            field_34;
 } Work;
 
+extern GV_PAD GV_PadData_800B05C0[4];
+
+#define EXEC_LEVEL 3
+
 void Select_helper_800c3218(Work *work, int addend)
 {
     int   i;
@@ -38,8 +42,6 @@ void Select_helper_800c3218(Work *work, int addend)
     work->field_24 = gcl_string;
     work->field_28 = gcl_int;
 }
-
-extern GV_PAD GV_PadData_800B05C0[4];
 
 void Select_Act_800c32d8(Work *work)
 {
@@ -84,13 +86,11 @@ void Select_Act_800c32d8(Work *work)
     menu_Text_80038C38(work->field_24);
 }
 
-char noMenu[] = "NO MENU\n";
-
 int Select_helper_800c33d0(Work *work, int param_2, int param_3)
 {
     if (GCL_GetParam_80020968('s') == 0)
     {
-        printf(noMenu);
+        printf("NO MENU\n");
         return -1;
     }
 
@@ -101,16 +101,14 @@ int Select_helper_800c33d0(Work *work, int param_2, int param_3)
     return 0;
 }
 
-char aSelectC[] = "select.c";
-
 GV_ACT *NewSelect_800c3434(int name, int where, int argc, char **argv)
 {
     Work *pActor;
 
-    pActor = (Work *)GV_NewActor_800150E4(3, sizeof(Work));
+    pActor = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
     if (pActor)
     {
-        GV_SetNamedActor_8001514C(&pActor->actor, (TActorFunction)Select_Act_800c32d8, 0, aSelectC);
+        GV_SetNamedActor_8001514C(&pActor->actor, (TActorFunction)Select_Act_800c32d8, 0, "select.c");
         if (Select_helper_800c33d0(pActor, where, name) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->actor);

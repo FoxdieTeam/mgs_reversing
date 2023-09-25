@@ -23,7 +23,6 @@ extern int DG_FrameRate_8009D45C;
 extern int GV_Clock_800AB920;
 
 extern short met_logo_lines_800C32E8[];
-extern char  aMetLogo_800C5F6C[]; // = "met_logo.c"
 
 #define EXEC_LEVEL 1
 
@@ -289,12 +288,6 @@ void MetLogo_800C570C( Work *work, char *ot, int shade )
     addPrim( ot, tpage );
 }
 
-// TODO: Move into libdg header
-static inline char * DG_ChanlOTag(int index)
-{
-    return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
-}
-
 void MetLogoAct_800C57E8( Work *work )
 {
     char *ot;
@@ -400,7 +393,7 @@ GV_ACT * NewMetLogo_800C5A90( int *arg0 )
     work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL,  sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)MetLogoAct_800C57E8, (TActorFunction)MetLogoDie_800C5988, aMetLogo_800C5F6C );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)MetLogoAct_800C57E8, (TActorFunction)MetLogoDie_800C5988, "met_logo.c" );
 
         work->step = 1;
         work->sequence = 0;

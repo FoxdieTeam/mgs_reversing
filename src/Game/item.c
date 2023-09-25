@@ -519,7 +519,7 @@ void item_act_80033784(Actor_Item *pActor)
         return;
     }
 
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_ChanlOTag(1);
     pLine = &pActor->field_124_lineF4_array[GV_Clock_800AB920];
 
     if (!item_act_helper_80033704(&position.vx, &pCtrl->field_0_mov))
