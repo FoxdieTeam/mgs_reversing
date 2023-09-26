@@ -12,20 +12,20 @@
 
 typedef struct anime_0x34
 {
-    int            field_0_counter;
-    int            field_4;
-    SVECTOR        field_8_vec;
-    char           field_10_r;
-    char           field_11_g;
-    char           field_12_b;
-    char           field_13; // index into field_1C
-    unsigned char *field_14; // loop/jump target?
-    unsigned char *field_18_op_code;
-    short          field_1C[2]; // todo: might be biggr
-    int            field_20;
-    unsigned char *field_24_saved_op_code[2]; // todo: might be bigger
-    int            field_2C;
-    int            field_30;
+    int         field_0_counter;
+    int         field_4;
+    SVECTOR     field_8_vec;
+    char        field_10_r;
+    char        field_11_g;
+    char        field_12_b;
+    char        field_13; // index into field_1C
+    const char *field_14; // loop/jump target?
+    const char *field_18_op_code;
+    short       field_1C[2]; // todo: might be biggr
+    int         field_20;
+    const char *field_24_saved_op_code[2]; // todo: might be bigger
+    int         field_2C;
+    int         field_30;
 } anime_0x34;
 
 typedef struct Actor_anime
@@ -72,7 +72,7 @@ typedef struct ANIMATION
     short          field_10_yh;
     short          field_12_rgb;
     PRESCRIPT     *field_14_pre_script;
-    char          *field_18_ptr;
+    const char    *field_18_ptr;
 } ANIMATION;
 
 Actor_anime *NewAnime_8005FBC8(MATRIX *pMtx, int map, ANIMATION *pAnimData);
