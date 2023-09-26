@@ -4,6 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "libfs/libfs.h"
 
 typedef struct _Unknown
 {
@@ -428,7 +429,27 @@ void change_800C4714( void )
     while ( !CdControl( CdlDemute, NULL, NULL ) );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C476C.s") // ??? bytes
+extern FS_FILE_INFO_8009D49C gDirFiles_8009D49C[];
+
+void change_800C476C(int timeout)
+{
+    change_800C45F8(gDirFiles_8009D49C[0].field_4_sector, timeout);
+    change_800C4714();
+}
+
+int change_800C47A0()
+{
+    int timeout;
+
+    timeout = 0;
+    if (GCL_GetParam_80020968('t') != 0)
+    {
+        timeout = GCL_GetNextParamValue_80020AD4() * 60;
+    }
+    change_800C476C(timeout);
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C47F0.s") // 428 bytes
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C499C.s") // 556 bytes
 #pragma INCLUDE_ASM("asm/overlays/Onoda/change/change_800C4BC8.s") // 280 bytes
