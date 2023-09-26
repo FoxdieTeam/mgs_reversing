@@ -431,7 +431,7 @@ int menu_item_update_helper_8003BCD4(Actor_MenuMan *pActor)
     int cardVal;
     int panelIndex;
 
-    if (!(GM_GameStatus_800AB3CC & 0x40000))
+    if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19))
     {
         activeItems = 0;
 
@@ -619,7 +619,7 @@ void menu_item_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
         pAlloc = pActor->field_1DC_menu_item.field_C_alloc;
         pPanel = &pAlloc->field_20_array[pAlloc->field_0_main.field_4_selected_idx];
 
-        if (GM_GameStatus_800AB3CC & 0x1000)
+        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_13)
         {
             dword_800AB578 = 0;
             dword_800AB574 = 0;
@@ -922,7 +922,7 @@ void menu_item_update_helper4_8003C4EC(void)
             break;
         }
 
-        if ( GM_GameStatus_800AB3CC & 0xDC000000 )
+        if ( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32) )
         {
             break;
         }
@@ -998,7 +998,7 @@ void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
 
     if (pActor->field_2A_state == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & 0x80400))
+        if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_20)))
         {
             if (!(GM_PlayerStatus_800ABA50 & (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH |
                                               PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
@@ -1011,7 +1011,7 @@ void menu_item_update_8003C95C(Actor_MenuMan *pActor, unsigned int *pOt)
                         GV_PauseLevel_800AB928 |= 4;
                     }
                 }
-                else if (!(GM_GameStatus_800AB3CC & 0x40000) && (pPad->press & PAD_L1))
+                else if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
                 {
                     int itemid = GM_CurrentItemId;
 

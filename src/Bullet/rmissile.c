@@ -79,7 +79,7 @@ void rmissile_8006B924(Actor_rmissile *pActor)
     ctrl->field_55_skip_flag |= CTRL_SKIP_TRAP;
 
     rmissile_8006B888(pActor);
-    GM_GameStatus_800AB3CC &= ~0x40;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
     sub_8002A258(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown);
 
     ctrl = gSnaControl_800AB9F4;
@@ -288,7 +288,7 @@ void rmissile_act_helper_8006BEEC(Actor_rmissile *pActor)
         return;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & 0x800001)
+    if (GM_PlayerStatus_800ABA50 & 0x2100 || dword_8009F474 == 1 || GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_01 | GAME_FLAG_BIT_24))
     {
         pActor->field_117 = 1;
         pActor->field_16A = 15;
@@ -419,7 +419,8 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 
         GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
 
-        pBlastData = (GM_GameStatus_800AB3CC & 0xd0000000) ? &blast_data_8009F544 : &blast_data_8009F508;
+        pBlastData = (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
+            ? &blast_data_8009F544 : &blast_data_8009F508;
         NewBlast_8006DFDC(&rotation, pBlastData);
     }
 }
@@ -566,7 +567,8 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
             ReadRotMatrix(&rotation);
 
-            if (GM_GameStatus_800AB3CC & 0xd0000000 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
+            if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)
+                || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
                 pBlastData = &blast_data_8009F544;
             }

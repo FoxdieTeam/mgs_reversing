@@ -911,11 +911,11 @@ int camera_act_helper6_80030250(GV_ACT *pActor)
     camera_act_helper6_helper_8002FD9C(i, old_i);
     printf("[%d]change camera %d\n", GV_Time_800AB330, i);
 
-    GM_GameStatus_800AB3CC &= ~0x40;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
 
     if (GM_CameraList_800B7718[i].field_0e_alertMask & 1)
     {
-        GM_GameStatus_800AB3CC |= 0x40;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
     }
 
     return 1;
@@ -1181,9 +1181,9 @@ void GM_CameraLimitTrace_80030AC4(int param_1)
 
 void GM_ExitBehindCamera_80030AEC(void)
 {
-    if (GM_GameStatus_800AB3CC & 0x10)
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_05)
     {
-        GM_GameStatus_800AB3CC &= ~0x10;
+        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_05;
         GM_event_camera_flag_800ABA9C &= ~8;
         dword_800ABA90 = dword_800ABA90 | 8;
     }
@@ -1221,7 +1221,7 @@ void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
 
                 GM_event_camera_flag_800ABA9C |= 8;
                 dword_800ABA90 &= ~8;
-                GM_GameStatus_800AB3CC |= 0x10;
+                GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_05;
 
                 cam->field_00_pos.vx = name[3];
                 cam->field_00_pos.vy = name[4];

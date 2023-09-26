@@ -482,7 +482,7 @@ void item_act_80033784(Actor_Item *pActor)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & 0x90000000))
+    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_FIRST_PERSON)) || (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)))
     {
         pActor->field_110_counter = 0;
         return;

@@ -259,7 +259,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
     {
         ReadRotMatrix(&rotation);
 
-        if (GM_GameStatus_800AB3CC & 0xd0000000 || GM_PlayerStatus_800ABA50 & 0x20000000)
+        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32) || GM_PlayerStatus_800ABA50 & 0x20000000)
         {
             pBlastData = &blast_data_8009F544;
         }

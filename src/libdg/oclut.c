@@ -1,5 +1,6 @@
 #include "linker.h"
 #include "libdg.h"
+#include "libgcl/libgcl.h"
 
 //**data**********************************//
 DG_TEX DG_UnknownTexture_8009D378 = {0};
@@ -81,7 +82,7 @@ void DG_BoundChanl_helper2_80018E5C(DG_CHNL *chnl, int idx)
     DG_OBJS **objs_list;
 
     objs_list = chnl->mQueue;
-    if (GM_GameStatus_800AB3CC & 0x08)
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
     {
         for (i = chnl->mTotalObjectCount; i > 0; --i)
         {

@@ -136,7 +136,7 @@ extern int         GM_GameStatus_800AB3CC;
 static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
 {
     int lowest_byte;
-    if (!(GM_GameStatus_800AB3CC & 0x84000000))
+    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
     {
         byte_2 &= 0xff;
         byte_1 &= 0xff;
