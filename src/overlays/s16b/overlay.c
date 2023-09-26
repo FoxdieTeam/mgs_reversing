@@ -1,21 +1,26 @@
-int s16b_dword_800C3208 = 0x0000BA52;
-int s16b_dword_800C320C = 0x800C54E8;
-int s16b_dword_800C3210 = 0x0000EC77;
-int s16b_dword_800C3214 = 0x800C3718;
-int s16b_dword_800C3218 = 0x000092BC;
-int s16b_dword_800C321C = 0x800C3E08;
-int s16b_dword_800C3220 = 0x0000A12E;
-int s16b_dword_800C3224 = 0x800C42BC;
-int s16b_dword_800C3228 = 0x0000B103;
-int s16b_dword_800C322C = 0x800C4BCC;
-int s16b_dword_800C3230 = 0x00000003;
-int s16b_dword_800C3234 = 0x800C4224;
-int s16b_dword_800C3238 = 0x00000004;
-int s16b_dword_800C323C = 0x800C4224;
-int s16b_dword_800C3240 = 0x0000001F;
-int s16b_dword_800C3244 = 0x800C4F9C;
-int s16b_dword_800C3248 = 0x00000000;
-int s16b_dword_800C324C = 0x00000000;
+#include "libgcl/libgcl.h"
+
+GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv);
+GV_ACT *s16b_800C54E8(int name, int where, int argc, char **argv);
+GV_ACT *asioto_800C3718(int name, int where, int argc, char **argv);
+GV_ACT *s16b_800C42BC(int name, int where, int argc, char **argv);
+GV_ACT *s16b_800C4BCC(int name, int where, int argc, char **argv);
+GV_ACT *s16b_800C4224(int name, int where, int argc, char **argv);
+GV_ACT *s16b_800C4F9C(int name, int where, int argc, char **argv);
+
+GCL_ActorTableEntry s16bOverlayCharas[] =
+{
+    { 0xBA52, s16b_800C54E8 },
+    { 0xEC77, asioto_800C3718 },
+    { 0x92BC, NewAsioto_800C3E08 },
+    { 0xA12E, s16b_800C42BC },
+    { 0xB103, s16b_800C4BCC },
+    { 0x0003, s16b_800C4224 },
+    { 0x0004, s16b_800C4224 },
+    { 0x001F, s16b_800C4F9C },
+    { 0, 0 }
+};
+
 int s16b_dword_800C3250 = 0x71F13223;
 int s16b_dword_800C3254 = 0x006BD182;
 int s16b_dword_800C3258 = 0x00E20300;
