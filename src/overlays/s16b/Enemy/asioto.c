@@ -30,6 +30,8 @@ extern const char s16b_dword_800C5860[]; // = " migi sodesuri %d \n"
 #pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C34F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C3718.s")
 
+// Functions above are probably not a part of asioto.c
+
 int asioto_800C38AC(Work *work)
 {
     Res_Control_unknown *unknown;
@@ -193,9 +195,9 @@ int AsiotoGetResources_800C3B94(Work *work)
     return 0;
 }
 
-GV_ACT *NewAsioto_800C3E08(void)
+GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
 {
-    Work *work = NULL;
+    Work *work;
 
     work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
