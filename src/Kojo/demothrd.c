@@ -614,7 +614,7 @@ int CreateDemo_80079B50(Actor_demothrd* pThis, demothrd_0x1C* pDmoData)
                 GM_InitObject_80034A18(&pThis->field_140_obj, GV_StrCode_80016CCC("null"), 13, 0);
                 GM_ConfigObjectJoint_80034CB4(&pThis->field_140_obj);
                 GM_ConfigObjectLight_80034C44(&pThis->field_140_obj, &pThis->field_224_light_mtx);
-                GM_GameStatus_800AB3CC |= 0x80000000;
+                GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_32;
                 DG_InvisibleObjs(pThis->field_140_obj.objs);
                 return 1;
             }
@@ -642,7 +642,7 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
 
   if ((pActor->field_20_flag & 2) != 0)
   {
-    GM_GameStatus_800AB3CC |= 0x1000000u;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_25;
   }
   for (i = pActor->field_38.field_4_pNext; i != (&pActor->field_38); i = pActor->field_38.field_4_pNext)
   {
@@ -712,7 +712,7 @@ int DestroyDemo_8007A66C(Actor_demothrd *pActor)
     GV_Free_80016230(pActor->field_30_dmo_header);
   }
   field_270_pOldRenderFn = pActor->field_270_pOldRenderFn;
-  GM_GameStatus_800AB3CC &= ~0x80000000;
+  GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_32;
   DG_SetChanlSystemUnits_80018598(0, field_270_pOldRenderFn);
   GM_GameStatus_800AB3CC = pActor->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = pActor->field_278;

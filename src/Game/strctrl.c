@@ -49,7 +49,7 @@ void            strctrl_act_80037820( Actor_strctrl *actor )
         if ( !actor->field_22_sub_state )
         {
             actor->field_20_state = 3;
-            GM_GameStatus_800AB3CC |= 0x20;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_06;
             actor->field_34_pStreamData = ( int* )FS_StreamGetData_800240E0( 0x10 );
             FS_StreamTickStart_800243D8();
             actor->field_22_sub_state = 1;
@@ -128,7 +128,7 @@ void            strctrl_kill_80037AE4( Actor_strctrl *pActor )
 
     cb_proc = pActor->field_38_proc;
     pActor->field_20_state = 0;
-    GM_GameStatus_800AB3CC &= ~0x20u;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_06;
     if ( cb_proc >= 0 )
     {
         pActor->field_38_proc = -1;
@@ -242,7 +242,7 @@ Actor_strctrl   *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc
     int total_sector; // $s0
 
     strctrl_800B82B0.field_30_voxStream = base_sector;
-    GM_GameStatus_800AB3CC |= 0x20u;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_06;
     total_sector = base_sector + FS_StreamGetTop_80023F94( 1 );
     do {} while (0);
     srand( 1 );
@@ -253,7 +253,7 @@ Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
 {
     strctrl_800B82B0.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
-    if ( GM_GameStatus_800AB3CC & 0x4000000 )
+    if ( GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27 )
     {
         return 0;
     }
@@ -261,7 +261,7 @@ Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc )
     printf( "VoxStream %d\n", vox_code );
     if ( !(proc & 0x40000000) )
     {
-        GM_GameStatus_800AB3CC |= 0x20;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_06;
     }
     return strctrl_init_80037B64( vox_code + FS_StreamGetTop_80023F94(0), proc, 0 );
 }

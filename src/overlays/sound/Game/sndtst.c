@@ -168,7 +168,7 @@ GV_ACT * NewSndtst_800C3594( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    GM_GameStatus_800AB3CC |= 0x4A6000;
+    GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23);
 
     work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )

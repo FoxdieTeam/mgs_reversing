@@ -61,7 +61,7 @@ void tabako_act_80061EAC(Actor_tabako *pActor)
     if (!(GV_Time_800AB330 & 63) && GM_SnakeCurrentHealth >= 2)
     {
         GM_SnakeCurrentHealth--;
-        GM_GameStatus_800AB3CC |= 0x2000000u;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_26;
     }
 }
 
