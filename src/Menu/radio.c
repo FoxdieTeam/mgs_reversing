@@ -1515,7 +1515,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
 
     if (state == 0)
     {
-        if (!(GM_GameStatus_800AB3CC & 0x2420) && GV_PauseLevel_800AB928 == 0)
+        if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_11 | GAME_FLAG_BIT_14)) && GV_PauseLevel_800AB928 == 0)
         {
             if ((gRadioIncomingCall_8009E708.field_0 > 0 && gRadioIncomingCall_8009E708.field_2_timer < 0) ||
                 pPad->press & PAD_SELECT)
@@ -1523,7 +1523,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
                 dword_800ABB1C = DG_FrameRate_8009D45C;
                 DG_FrameRate_8009D45C = 2;
                 gMenuCallbackProc_800ABB08.type = 0xF;
-                GM_GameStatus_800AB3CC &= ~0x18000000;
+                GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29);
                 pActor->field_2A_state = 4;
                 menu_radio_update_helper2_80038A7C();
                 menu_JimakuClear_80049518();
@@ -1628,7 +1628,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
             sub_8003EBDC(pActor);
             menu_radar_load_rpk_8003AD64();
             gRadioIncomingCall_8009E708.field_0 = 0;
-            GM_GameStatus_800AB3CC &= ~0x80000;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_20;
             printf("callback type %d proc %X\n", gMenuCallbackProc_800ABB08.type,
                                 gMenuCallbackProc_800ABB08.procNameHashed);
             if (gMenuCallbackProc_800ABB08.type != 0xF && gMenuCallbackProc_800ABB08.procNameHashed > 0)
@@ -1686,7 +1686,7 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
             gRadioIncomingCall_8009E708.field_8 = 1;
             gRadioIncomingCall_8009E708.field_2_timer = 40;
             GV_PadMask_800AB374 = 0x100;
-            GM_GameStatus_800AB3CC |= 0x8000000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
         }
         else
         {
@@ -1694,7 +1694,7 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
             gRadioIncomingCall_8009E708.field_8 = 0;
         }
 
-        GM_GameStatus_800AB3CC |= 0x80000;
+        GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_20;
     }
 }
 

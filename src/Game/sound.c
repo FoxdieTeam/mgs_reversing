@@ -221,7 +221,7 @@ int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
 
 int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3)
 {
-    if ((GM_GameStatus_800AB3CC & 0x50) == 0 && GM_Camera_800B77E8.field_22 == 0)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.field_22 == 0)
     {
         if (sub_800321F8(param_2, param_3, param_1) < 0)
         {
@@ -239,7 +239,7 @@ int sub_8003265C(DVECTOR *param_1, SVECTOR *param_2, int param_3)
 
 int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus_800AB3CC & 0x50) == 0) && GM_Camera_800B77E8.field_22 == 0)
+    if (((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.field_22 == 0)
     {
         if (sub_800321F8(pos, 0, out) < 0)
         {
@@ -256,7 +256,7 @@ int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 
 int sub_80032748(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus_800AB3CC & 0x50) == 0) && GM_Camera_800B77E8.field_22 == 0)
+    if (((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.field_22 == 0)
     {
         if (sub_80032420(pos, 0, out) < 0)
         {
@@ -274,7 +274,7 @@ int sub_80032748(DVECTOR *out, SVECTOR *pos)
 
 int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
 {
-    if ((GM_GameStatus_800AB3CC & 0x50) == 0 && GM_Camera_800B77E8.field_22 == 0)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_05 | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.field_22 == 0)
     {
         return -1;
     }
@@ -393,7 +393,7 @@ void       GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 )
 
     x = sp10.vx;
     y = sp10.vy;
-    if ( !( GM_GameStatus_800AB3CC & 0x84000000 ) )
+    if ( !( GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32) ) )
     {
         y &= 0xFF;
         x &= 0xFF;
@@ -429,7 +429,7 @@ void sub_80032B40(SVECTOR *svec, unsigned int param_2, int param_3)
 
     sub_800326D4(&dvec, svec);
     vx = dvec.vx;
-    if (!(GM_GameStatus_800AB3CC & 0x84000000))
+    if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
     {
         vx &= 0xff;
         param_3 &= 0xff;
@@ -451,7 +451,7 @@ void sub_80032BC4(SVECTOR *svec, unsigned int param_2, int param_3)
     {
         vx = dvec.vx;
         vy = dvec.vy;
-        if (!(GM_GameStatus_800AB3CC & 0x84000000))
+        if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_27 | GAME_FLAG_BIT_32)))
         {
             vx &= 0xff;
             vy &= 0xff;

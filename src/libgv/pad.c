@@ -160,7 +160,7 @@ void GV_UpdatePadSystem_8001682C(void)
         // loc_80016870
         if (GM_GameStatus_800AB3CC >= 0)
         {
-            if (GM_GameStatus_800AB3CC & 0x40000000)
+            if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31)
             {
                 ret = GV_DemoPadStatus_800AB958 & 0xF9FFF9FF;
                 button = ret;
@@ -170,7 +170,7 @@ void GV_UpdatePadSystem_8001682C(void)
                 button = 0;
                 ret = 0;
             }
-            else if (GM_GameStatus_800AB3CC & 0x08000000)
+            else if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_28)
             {
                 ret &= GV_PadMask_800AB374;
                 button &= GV_PadMask_800AB374;
@@ -187,18 +187,18 @@ void GV_UpdatePadSystem_8001682C(void)
     // loc_800168FC
     for (; chan > 0; --chan)
     {
-        if (mts_get_pad_8008C170((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & 0x40000000 && chan == 2))
+        if (mts_get_pad_8008C170((chan % 2) + 1, &data) || (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31 && chan == 2))
         {
             // loc_80016944
             // int local_gamestatus = GM_GameStatus_800AB3CC & 0x40000000;
-            if (GM_GameStatus_800AB3CC & 0x40000000)
+            if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31)
                 data.flag = 1;
 
             // loc_80016960
             pad->analog = data.flag - 1;
 
             // if ( pad->analog > 0 && ( GM_GameStatus_800AB3CC & 0x90000000 && local_gamestatus ) )
-            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & 0x90000000) || GM_GameStatus_800AB3CC & 0x40000000))
+            if (pad->analog > 0 && (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32)) || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31))
             {
                 // loc_8001698C
                 if (button & 0xF000)
@@ -256,7 +256,7 @@ void GV_UpdatePadSystem_8001682C(void)
                 }
                 // loc_80016A50:
                 *((unsigned long *)&pad->right_dx) = *((unsigned long *)(&data.rx));
-                if (GM_GameStatus_800AB3CC & 0x08000000)
+                if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_28)
                 {
                     if (!(GV_PadMask_800AB374 & 0xF000))
                     {

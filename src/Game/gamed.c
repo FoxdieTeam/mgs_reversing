@@ -207,7 +207,7 @@ void sub_8002AAEC(void)
     GV_PauseLevel_800AB928 &= ~2u;
     GM_Sound_80032C48(0x1ffff02, 0);
     menu_JimakuClear_80049518();
-    GM_GameStatus_800AB3CC &= ~0x80u;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
 
 void GM_Act_helper3_helper_8002AB40( void )
@@ -469,7 +469,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
                 pActor->field_24 = 3;
-                GM_GameStatus_800AB3CC = GM_GameStatus_800AB3CC | 0x104a6000; // TODO: split these flags
+                GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_20 | GAME_FLAG_BIT_23 | GAME_FLAG_BIT_29);
 
                 return;
             }
@@ -479,7 +479,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 GM_AlertAct_8002E91C();
             }
 
-            if ((GM_GameStatus_800AB3CC & 0xd8004020) == 0)
+            if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
             {
                 if (((GV_PauseLevel_800AB928 & ~0x2) == 0) && ((GM_CurrentPadData_800AB91C->press & 0x800) != 0))
                 {
@@ -671,7 +671,7 @@ void GM_GameOver_8002B6C8(void)
     {
         GM_GameOverTimer_800AB3D4 = 4;
         GM_CallSystemCallbackProc_8002B570(0, 0);
-        GM_GameStatus_800AB3CC |= 0x86000u;
+        GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_14 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_20);
     }
 }
 

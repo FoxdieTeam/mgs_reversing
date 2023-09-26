@@ -199,7 +199,7 @@ void        GM_Act_helper2_8002E8D4()
 
 void GM_AlertAct_8002E91C( void )
 {
-	if ( !( GM_GameStatus_800AB3CC & 0x04000000 ) )
+	if ( !( GM_GameStatus_800AB3CC & GAME_FLAG_BIT_27 ) )
 	{
 		if ( GM_RadarMode_800ABA80 >= 0 )
 		{
