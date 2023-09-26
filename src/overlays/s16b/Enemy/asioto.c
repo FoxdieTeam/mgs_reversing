@@ -14,6 +14,7 @@ typedef struct _Work
 
 extern int      dword_800AB9D4;
 extern CONTROL *gSnaControl_800AB9F4;
+extern SVECTOR  svector_800ABA10;
 extern int      GM_PlayerStatus_800ABA50;
 
 extern const char aAsioto_800C5874[];    // = "asioto.c"
@@ -61,7 +62,7 @@ int asioto_800C394C()
     return (GM_PlayerStatus_800ABA50 & (PLAYER_ON_WALL | PLAYER_PRONE | PLAYER_MOVING)) == PLAYER_MOVING;
 }
 
-int asioto_800C396C(void)
+int asioto_800C396C(Work *work)
 {
     if (asioto_800C394C() == 0)
         return -1;
@@ -86,8 +87,59 @@ int asioto_800C39B8(void)
     return -1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_act_800C39E8.s")
-void asioto_act_800C39E8();
+void AsiotoAct_800C39E8(Work *work)
+{
+    int index;
+    int bank;
+    int bank2;
+
+    if (!gSnaControl_800AB9F4)
+    {
+        return;
+    }
+
+    do
+    {
+        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+        {
+            if (GM_PlayerStatus_800ABA50 & PLAYER_MOVING)
+            {
+                index = asioto_800C39B8();
+                if (index < 0)
+                {
+                    return;
+                }
+
+                bank = gSnaControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
+                GM_SeSet_80032858(&svector_800ABA10, work->se_duct[bank][index]);
+            }
+        }
+        else
+        {
+            index = asioto_800C396C(work);
+            if (index < 0)
+            {
+                return;
+            }
+
+            bank2 = asioto_800C392C(work);
+            if (bank2 >= 0)
+            {
+                GM_SeSet_80032858(&svector_800ABA10, work->se[bank2][index]);
+
+                if (work->noise[bank2] != 0)
+                {
+                    GM_SetNoise(100, 4, &svector_800ABA10);
+                }
+            }
+            else
+            {
+                bank = gSnaControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
+                GM_SeSet_80032858(&svector_800ABA10, work->se2[bank][index]);
+            }
+        }
+    } while (0);
+}
 
 void AsiotoDie_800C3B8C(Work *work)
 {
@@ -200,7 +252,7 @@ GV_ACT *NewAsioto_800C3E08(void)
     work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)asioto_act_800C39E8,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AsiotoAct_800C39E8,
                                   (TActorFunction)AsiotoDie_800C3B8C, aAsioto_800C5874);
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
