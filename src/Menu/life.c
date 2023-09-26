@@ -79,7 +79,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long n
     int        diff;
     int        width;
 
-    if (GM_GameStatus_800AB3CC & 0x80020400)
+    if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_18 | GAME_FLAG_BIT_32))
     {
         return;
     }
@@ -178,10 +178,10 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
     pBar = &gSnakeLifeBarConfig_8009E5F4;
     gSnakeLifeYPos_800ABAF0 = pBars->field_4_bar_y;
 
-    if ((GM_GameStatus_800AB3CC & 0x2000000) != 0)
+    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_26) != 0)
     {
         gTakeDamageCounter_800AB5FC = 8;
-        GM_GameStatus_800AB3CC &= ~0x2000000u;
+        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_26;
     }
 
     if (gTakeDamageCounter_800AB5FC > 0)
@@ -212,7 +212,7 @@ void menu_life_update_helper2_8003F30C(MenuPrim *ot, MenuMan_MenuBars *pBars)
 
 void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5, BarConfig *pConfig)
 {
-    GM_GameStatus_800AB3CC |= 0x8000u;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     menu_draw_bar_8003ED4C(ot,
                            16,
                            ypos + gSnakeLifeYPos_800ABAF0 - 16,
@@ -224,7 +224,7 @@ void draw_life_defaultX_8003F408(MenuPrim *ot, int ypos, int a3, int a4, int a5,
 
 void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig)
 {
-    GM_GameStatus_800AB3CC |= 0x8000u;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     menu_draw_bar_8003ED4C(prim,
                            x,
                            y + gSnakeLifeYPos_800ABAF0 - 16,
@@ -236,7 +236,7 @@ void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, lon
 
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
 {
-    GM_GameStatus_800AB3CC |= 0x8000u;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     menu_draw_bar_8003ED4C(prim,
                            x,
                            y,
@@ -272,13 +272,13 @@ void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
         return;
     }
 
-    if (GM_GameStatus_800AB3CC & 0x10000)
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_17)
     {
         pBars->field_0_state = 3;
     }
 
     if ((pBars->field_0_state == 0 || pBars->field_0_state == 3) &&
-        (updated || GM_GameStatus_800AB3CC & 0x8000 || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
+        (updated || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_16 || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
     {
         if (!pBars->field_0_state)
         {
@@ -315,9 +315,9 @@ void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
             pBars->field_0_state = 0;
             pBars->field_4_bar_y = -48;
 
-            if (GM_GameStatus_800AB3CC & 0x10000)
+            if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_17)
             {
-                GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~0x10000) | 0x20000;
+                GM_GameStatus_800AB3CC = (GM_GameStatus_800AB3CC & ~GAME_FLAG_BIT_17) | GAME_FLAG_BIT_18;
             }
 
             if (GM_O2_800ABA34 == 1024)
@@ -330,7 +330,7 @@ void menu_life_update_8003F530(Actor_MenuMan *pActor, unsigned char *pOt)
         break;
 
     case 2:
-        if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus_800AB3CC & 0x8000)
+        if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus_800AB3CC & GAME_FLAG_BIT_16)
         {
             pBars->field_8 = 150;
 

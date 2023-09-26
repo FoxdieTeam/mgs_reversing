@@ -129,7 +129,7 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
 
     if (--dword_800BDFA0 < 0)
     {
-        GM_GameStatus_800AB3CC &= ~0x1;
+        GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_01;
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
         return;
     }

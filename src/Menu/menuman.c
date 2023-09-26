@@ -3,6 +3,7 @@
 #include "radar.h"
 #include "linker.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "psyq.h"
 
 extern Actor_MenuMan gMenuMan_800BD360;
@@ -297,7 +298,7 @@ MenuPrim *menu_GetPrimInfo_80038D68(void)
 
 void menu_DrawBar_80038D74(int xpos, int ypos, int a3, int a4, BarConfig *pConfig)
 {
-    GM_GameStatus_800AB3CC |= 0x8000u;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_16;
     draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, a3, a4, 1024, pConfig);
     menu_Text_PrimUnknown_80038BB4();
 }

@@ -395,7 +395,7 @@ void bullet_act_80075DD4(Actor_Bullet *pActor)
 
     if ((pActor->field_140 == 1) && ((pActor->field_164 != pActor->field_140) || !(pActor->field_16C & 0x20)))
     {
-        if ((GM_GameStatus_800AB3CC & 0x100) && (pActor->field_164 == 2))
+        if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_09) && (pActor->field_164 == 2))
         {
             anime_create_8005E508(&pActor->field_118);
         }

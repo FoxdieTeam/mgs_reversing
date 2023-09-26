@@ -40,7 +40,7 @@ void CamAct_800DF740( Cam *cam )
 {
     DG_LookAt_800172D0( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
-    GM_GameStatus_800AB3CC |= 0x40;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 |= PLAYER_UNK4000000;
 
     if ( dword_800ABA20 )
@@ -110,7 +110,7 @@ void CatInDie_800DF910( Work *work )
         GV_DestroyActorQuick_80015164( &work->cam->actor );
     }
 
-    GM_GameStatus_800AB3CC &= ~0x40;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK4000000;
 
     if ( dword_800ABA20 )

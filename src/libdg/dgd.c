@@ -49,7 +49,7 @@ void DG_Update2_8001F078(GV_ACT *pActor)
 
     DG_HikituriFlagOld_8009D464 = DG_HikituriFlag_8009D460;
 
-    if ((GM_GameStatus_800AB3CC & 0x20000000) != 0)
+    if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_30) != 0)
     {
         if (dword_8009D468 == -1)
         {

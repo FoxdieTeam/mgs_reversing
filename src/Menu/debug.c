@@ -621,7 +621,7 @@ extern char       *menu_debug_screen_labels_8009E744[];
 void menu_draw_debug_screen_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
 {
     mts_read_pad_8008C25C(2);
-    if (GM_GameStatus_800AB3CC & 0x1000000)
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_25)
     {
         menu_draw_pow_debug_80043A24(pActor, pOt);
         return;

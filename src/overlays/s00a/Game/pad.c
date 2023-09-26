@@ -53,14 +53,14 @@ void PadAct_800C370C( Work* work )
     }
 
     --work->unk2;
-    GM_GameStatus_800AB3CC |= 0x40000000;
+    GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_31;
     GV_DemoPadStatus_800AB958 = work->status;
 }
 
 void PadDie_800C37A4( Work* work )
 {
     GV_DemoPadStatus_800AB958 = 0 ;
-    GM_GameStatus_800AB3CC &= 0xBFFFFFFF ;
+    GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_31;
 
     if ( work->unk4 > 0 )
     {

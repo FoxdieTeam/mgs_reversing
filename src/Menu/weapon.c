@@ -761,7 +761,7 @@ void menu_8003D7DC(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSu
 
 void menu_sub_menu_update_8003DA0C(Actor_MenuMan *pActor, unsigned int *pOt, Menu_Inventory *pSubMenu)
 {
-    if ((GM_GameStatus_800AB3CC & 0x1020) != 0x20)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_13)) != GAME_FLAG_BIT_06)
     {
         pSubMenu->field_8_panel_conf->field_18_pFnUpdate(pActor, pOt, pSubMenu->field_8_panel_conf->field_0_xOffset,
                                                     pSubMenu->field_8_panel_conf->field_2_yOffset, &pSubMenu->field_0_current);
@@ -784,7 +784,7 @@ int menu_8003DA9C(Menu_Inventory *pMenu, GV_PAD *pPad)
         return 0;
     }
 
-    if ((GM_GameStatus_800AB3CC & 0x1020) == 0x20)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_13)) == GAME_FLAG_BIT_06)
     {
         // TODO: probably a fake match, every return 0
         // is supposed to point to ret_zero but
@@ -959,7 +959,7 @@ int sub_8003DF30(int weaponId)
         return 1;
     }
 
-    if ((GM_GameStatus_800AB3CC & 0x800001) && weaponId == WEAPON_NIKITA)
+    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_01 | GAME_FLAG_BIT_24)) && weaponId == WEAPON_NIKITA)
     {
         return 1;
     }
@@ -1154,7 +1154,7 @@ int menu_weapon_update_helper_8003E4B8(Actor_MenuMan *pActor)
     int                i;
     int                panelCount, currentPanel;
 
-    if (!(GM_GameStatus_800AB3CC & 0x40000))
+    if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19))
     {
         panelCount = 0;
 
@@ -1372,7 +1372,7 @@ void menu_weapon_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
 
     if (menuMan->field_2A_state == 0)
     {
-        if (GM_GameStatus_800AB3CC & 0x80400)
+        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_11 | GAME_FLAG_BIT_20))
         {
             return;
         }
@@ -1388,7 +1388,7 @@ void menu_weapon_update_8003E990(Actor_MenuMan *menuMan, unsigned char *pOt)
                     sub_8003D520();
                 }
             }
-            else if ((!(GM_GameStatus_800AB3CC & 0x40000)) && (pPad->press & PAD_R1))
+            else if ((!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_19)) && (pPad->press & PAD_R1))
             {
                 weapon_id = GM_CurrentWeaponId;
 

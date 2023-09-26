@@ -172,11 +172,11 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
     {
         if (GCL_GetNextParamValue_80020AD4() == 0)
         {
-            GM_GameStatus_800AB3CC &= ~0x40;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
         }
         else
         {
-            GM_GameStatus_800AB3CC |= 0x40;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
         }
     }
 
@@ -873,11 +873,11 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
-            GM_GameStatus_800AB3CC |= 0x800000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_24;
         }
         else
         {
-            GM_GameStatus_800AB3CC &= 0xff7fffff;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_24;
         }
     }
 
@@ -897,11 +897,11 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
     {
         if (!(GCL_GetNextParamValue_80020AD4() & 1))
         {
-            GM_GameStatus_800AB3CC |= 0x80000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_20;
         }
         else
         {
-            GM_GameStatus_800AB3CC &= 0xfff7ffff;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_20;
         }
     }
 
@@ -910,14 +910,14 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         switch (GCL_GetNextParamValue_80020AD4())
         {
         case 0:
-            GM_GameStatus_800AB3CC |= 0x20000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_18;
             break;
         case 1:
         case 3:
-            GM_GameStatus_800AB3CC &= 0xfffdffff;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_18;
             break;
         case 2:
-            GM_GameStatus_800AB3CC |= 0x10000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_17;
             break;
         }
     }
@@ -927,16 +927,16 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         switch (GCL_GetNextParamValue_80020AD4())
         {
         case 0:
-            GM_GameStatus_800AB3CC |= 0x400000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_23;
             break;
         case 1:
-            GM_GameStatus_800AB3CC &= 0xffbfffff;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_23;
             break;
         case 2:
-            GM_GameStatus_800AB3CC |= 0x200000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_22;
             break;
         case 3:
-            GM_GameStatus_800AB3CC |= 0x100000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_21;
             break;
         }
     }
@@ -945,11 +945,11 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
-            GM_GameStatus_800AB3CC |= 0x4000;
+            GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_15;
         }
         else
         {
-            GM_GameStatus_800AB3CC &= 0xffffbfff;
+            GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_15;
         }
     }
 
