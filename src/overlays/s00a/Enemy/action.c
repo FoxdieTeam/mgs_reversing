@@ -13,7 +13,6 @@
 #define DANBOWLKERI 17
 #define DANBOWLPOSE 18
 
-
 typedef struct _PadWork
 {
     int field_00;
@@ -23,12 +22,11 @@ typedef struct _PadWork
     int time;
 } PadWork;
 
-//probably similar to snainit but for enemy
 typedef struct _Work
 {
-    GV_ACT       field_0_actor;
-    CONTROL      field_20_control;
-    OBJECT       field_9C_object;
+    GV_ACT       actor;
+    CONTROL      control;                    //0x20
+    OBJECT       object;                     //0x9C
     char         field_C0_padding[0x820];
     short        field_8E0;
     short        field_8E2;
@@ -40,21 +38,96 @@ typedef struct _Work
     int          field_8F4;
     int          field_8F8;
     int          actend;                     //0x8FC
-    SVECTOR     *field_900;
-    char         field_904_padding[0x220];
-    int          field_B24;                  //0xB24
+    TARGET      *target;                     //0x900
+    char         field_904_padding[0xDC];
+    short        scale;                      //0x9E0
+    short        field_9E2;                  //0x9E2
+    short        field_9E4;                  //0x9E4
+    short        field_9E6;                  //0x9E6
+    int          field_9E8;                  //0x9E8
+    SVECTOR      nodes[0x20];                //0x9EC
+    int          field_AEC;                  //0xAEC
+    char         field_AF0_padding[0x2C];    //0xAF0
+    int          field_B1C;                  //0xB1C
+    short        think1;                     //0xB20
+    short        think2;                     //0xB22
+    short        think3;                     //0xB24
+    short        think4;                     //0xB26
     unsigned int count3;                     //0xB28
-    int          field_B2C;
-    int          field_B30;
+    int          t_count;                    //0xB2C
+    int          l_count;                    //0xB30
     PadWork      pad;                        //0xB34
-    char         field_B48_padding[0x20];
-    GV_ACT      *field_B68_other_actor;
-    char         field_B64_padding[0x1F];
-    short        field_B8C_facedir; //vision.facedir
+    short        field_B48;                  //0xB48
+    short        field_B4A;                  //0xB48
+    short        field_B4C;                  //0xB48
+    short        field_B4E;                  //0xB48
+    int          field_B50;                  //0xB50
+    int          field_B54;                  //0xB54
+    int          field_B58;                  //0xB58
+    int          field_B5C;                  //0xB5C
+    int          next_node;                  //0xB60
+    int          search_flag;                //0xB64
+    GV_ACT      *act_status;                 //0xB68
+    int          mark_time;                  //0xB6C
+    int          field_B70;                  //0xB70
+    int          field_B74;                  //0xB74
+    signed char  field_B78;                  //0xB78
+    signed char  field_B79;                  //0xB79
+    signed char  field_B7A;                  //0xB7A
+    char         field_B7B;                  //0xB7B
+    char         field_B7C;                  //0xB7C
+    char         field_B7D;                  //0xB7D
+    char         field_B7E;                  //0xB7E
+    char         field_B7F;                  //0xB7F
+    char         param_item;                 //0xB80  //param.item (should be struct)
+    char         field_B81;                  //0xB81
+    short        field_B82;                  //0xB82
+    short        field_B84;                  //0xB84
+    char         local_data;                 //0xB86
+    char         local_data2;                //0xB87
+    int          field_B88;                  //0xB88
+    short        vision_facedir;             //0xB8C  //vision.facedir (should be struct)
     short        field_B8E;
     short        field_B90;
-    char         field_B92_padding[0x96];
+    short        field_B92;
+    short        field_B94;
+    short        field_B96;
+    int          alert_level;                //0xB98
+    char         field_B9C[4];
+    signed char  field_BA0;                  //0xBA0
+    char         field_BA1;                  //0xBA1
+    char         field_BA2;                  //0xBA2
+    char         field_BA3;                  //0xBA3
+    SVECTOR      field_BA4;                  //0xBA4
+    char         field_BAC_padding[0x2C];    //0xBAC
+    SVECTOR      start_pos;                  //0xBD8
+    SVECTOR      target_pos;                 //0xBE0
+    int          field_BE8;                  //0xBE8
+    int          field_BEC;                  //0xBEC
+    int          field_BF0;                  //0xBF0
+    int          target_addr;                //0xBF4
+    int          target_map;                 //0xBF8
+    int          field_BFC;                  //0xBFC
+    int          field_C00;                  //0xC00
+    int          field_C04;                  //0xC04
+    int          field_C08;                  //0xC08
+    int          field_C0C;                  //0xC0C
+    int          field_C10;                  //0xC10
+    SVECTOR      field_C14;                  //0xC14
+    int          field_C1C;                  //0xC1C
+    int          field_C20;                  //0xC20
+    int          field_C24;                  //0xC24
     int          sn_dir;                     //0xC28
+    short        field_C2C;                  //0xC2C
+    short        field_C2E;                  //0xC2E
+    int          field_C30;                  //0xC30
+    int          field_C34;                  //0xC34
+    int          field_C38;                  //0xC38
+    int          field_C3C;                  //0xC3C
+    int          field_C40;                  //0xC40
+    int          field_C44;                  //0xC44
+    short        field_C48;                  //0xC48
+    short        field_C4A;                  //0xC4A
 } Work;
 
 extern unsigned int COM_GameStatus_800E0F3C;
@@ -76,9 +149,9 @@ static inline void SetMode( Work *work, void *func )
 {
     work->field_8EC_func = func;
     work->field_8F4 = 0;
-    work->field_20_control.field_4C_turn_vec.vz = 0;
-    work->field_20_control.field_4C_turn_vec.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->field_9C_object ), 0 );
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->object ), 0 );
 }
 
 static inline void SetMode2( Work *work, void *func )
@@ -89,26 +162,26 @@ static inline void SetMode2( Work *work, void *func )
         work->field_8F8 = 0;
     }
 
-    work->field_20_control.field_4C_turn_vec.vz = 0;
-    work->field_20_control.field_4C_turn_vec.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->field_9C_object ), 0 );
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->object ), 0 );
 }
 
 static inline void UnsetMode2( Work *work )
 {
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->field_9C_object ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride_80034D30( &( work->object ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     
     work->field_8F0_func = 0;
     work->field_8F8 = 0;
     work->field_8E2 = 0;
-    work->field_20_control.field_4C_turn_vec.vz = 0;
-    work->field_20_control.field_4C_turn_vec.vx = 0;
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
     
-    if ( work->field_B68_other_actor )
+    if ( work->act_status )
     {
-        GV_DestroyOtherActor_800151D8( work->field_B68_other_actor );
-        work->field_B68_other_actor = 0;
+        GV_DestroyOtherActor_800151D8( work->act_status );
+        work->act_status = 0;
     }
     
 }
@@ -116,12 +189,12 @@ static inline void UnsetMode2( Work *work )
 static inline void SetAction( Work *work, int n_action, int interp )
 {
     work->field_8E0 = n_action ;
-    GM_ConfigObjectAction_80034CD4( &( work->field_9C_object ), ActTable_800C3358[n_action], 0, interp );
+    GM_ConfigObjectAction_80034CD4( &( work->object ), ActTable_800C3358[n_action], 0, interp );
 }
 
 void sub_800C6320( Work *work, int time )
 {
-    work->field_900->vx |= 0x9F;
+    work->target->field_0_flags |= 0x9F;
     work->field_B90 = dword_800E0D8C;
     work->field_8E6 = 0;
     
@@ -158,7 +231,7 @@ void sub_800C6320( Work *work, int time )
 
 	if ( time == 78 ) {
 		extern	void	*NewBoxKeri_800D2600( MATRIX	*, SVECTOR	* ) ;
-		NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->field_20_control.field_44_movementVector ) ) ;
+		NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->control.field_44_movementVector ) ) ;
 	}
 
     if ( time == 100 ) {
@@ -178,6 +251,6 @@ void sub_800C6320( Work *work, int time )
         printf(" ~COM_ST_DANBOWL 2 !! \n ");
 		return ;
 	}
-    work->field_20_control.field_4C_turn_vec.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
-    work->field_B8C_facedir = work->field_20_control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
+    work->control.field_4C_turn_vec.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
+    work->vision_facedir = work->control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
 }
