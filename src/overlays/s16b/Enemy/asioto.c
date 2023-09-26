@@ -24,15 +24,6 @@ extern const char s16b_dword_800C5860[]; // = " migi sodesuri %d \n"
 
 #define EXEC_LEVEL 4
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C3278.s")
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C32D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C3320.s")
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C33A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C34F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C3718.s")
-
-// Functions above are probably not a part of asioto.c
-
 int asioto_800C38AC(Work *work)
 {
     Res_Control_unknown *unknown;
