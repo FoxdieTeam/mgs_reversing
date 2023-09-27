@@ -305,8 +305,6 @@ def gen_build_target(targetName):
                     continue
 
                 # Build overlay using PsyQ 4.4
-                print("overlay:", cFile)
-
                 ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
                 ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
                 ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
