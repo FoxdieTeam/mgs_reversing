@@ -57,7 +57,12 @@ void WallDie_800C34B0(Work *work)
     GM_FreeObject_80034BF8(&work->object);
 }
 
-int WallGetResources_800C34F0(Work *work, SVECTOR *pos, SVECTOR *dir, int def_model, int map)
+int WallGetResources_800C34F0(work, pos, dir, def_model, map)
+    Work *work;
+    SVECTOR *pos;
+    SVECTOR *dir;
+    int def_model;
+    int map;
 {
     SVECTOR position;
     VECTOR  scale;
@@ -133,8 +138,8 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
     {
         GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, s16b_dword_800C5824);
 
-        // Why?
-        if (((int (*)(Work *, SVECTOR *, SVECTOR *))WallGetResources_800C34F0)(work, pos, dir) < 0)
+        // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
+        if (WallGetResources_800C34F0(work, pos, dir) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
