@@ -37,7 +37,7 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
 {
     FadeIoPrims *prims;
 
-    prims = GV_Malloc_8001620C(0x30);
+    prims = GV_Malloc_8001620C(sizeof(FadeIoPrims));
     work->field_24_prims = prims;
     if (prims == NULL)
     {
