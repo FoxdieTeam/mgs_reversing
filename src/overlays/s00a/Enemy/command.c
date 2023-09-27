@@ -5,13 +5,13 @@
 
 
 
-typedef struct _Work
+typedef struct _CommanderWork
 {
     GV_ACT         actor;
     unsigned short unk; //0x20
     unsigned short unk2; //0x22
     int            name; //0x24
-} Work;
+} CommanderWork;
 
 typedef struct _TOPCOMMAND_STRUCT {
     int a;
@@ -110,17 +110,17 @@ extern int dword_800E0F68;
 extern short sub_800CEDE8( int ops, void *val, int where );
 extern short sub_800CED88( int ops, SVECTOR* svec );
 extern int   sub_800D0128( int ops );
-extern void  sub_800D018C( Work* work ) ;
+extern void  sub_800D018C( CommanderWork* work ) ;
 extern void  sub_800D0344( void ) ;
 extern void  sub_800CFEA8( void ) ;
 extern void  sub_800D0218( void ) ;
-extern void  sub_800CFA94( Work* work ) ;
+extern void  sub_800CFA94( CommanderWork* work ) ;
 extern void  sub_800CEC90( void ) ;
 extern void  sub_800CECF4( void ) ;
 
 
 
-void CommandAct_800D0258( Work* work )
+void CommandAct_800D0258( CommanderWork* work )
 {
     if (GM_CheckMessage_8002631C( &work->actor , work->name, 0x3223) != NULL)
     {
@@ -143,7 +143,7 @@ void CommandDie_800D02EC(void)
     return;
 }
 
-void CommandGetResources_800D04F4( Work *work, int name, int where )
+void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 {
     int i;
     int ops;
@@ -334,9 +334,9 @@ void CommandGetResources_800D04F4( Work *work, int name, int where )
 
 void *NewCommander_800D0908( int name, int where, int argc, char **argv )
 {
-    Work *work ;
+    CommanderWork *work ;
 
-    work = (Work *)GV_NewActor_800150E4( 4, sizeof( Work ) ) ;
+    work = (CommanderWork *)GV_NewActor_800150E4( 4, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c");
         CommandGetResources_800D04F4( work, name, where );

@@ -415,7 +415,6 @@ void sna_anim_choke_helper_8005951C(Actor_SnaInit *pActor, int time);
 void sna_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time);
 void sna_kill_8005B52C(Actor_SnaInit *pActor);
 void sna_anim_psg1_helper_80057FD4(Actor_SnaInit *pActor, int a2);
-void sub_8002DA14(TARGET *pTarget);
 void sna_80051DA0(Actor_SnaInit *pActor);
 void sna_80053360(Actor_SnaInit *pActor, int time);
 void sub_80057BF0(Actor_SnaInit *pActor, int a2);
