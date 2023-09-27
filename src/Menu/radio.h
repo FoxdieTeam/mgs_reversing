@@ -252,7 +252,7 @@ int *menu_radio_do_file_mode_helper5_8004ABDC(int idx);
 void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3, int param_4, int param_5, int divisor);
 void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, Stru_800ABB74 *field_14);
 int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, Stru_800ABB74 *pStru);
-void menu_radio_do_file_mode_helper7_8004AE3C(Actor_MenuMan *param_1, char *str);
+void menu_radio_do_file_mode_helper7_8004AE3C(Actor_MenuMan *param_1, const char *str);
 int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3, Stru_800ABB74 *pStru2);
 void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, Stru_800ABB74 *pStru);
 void menu_radio_do_file_mode_helper10_8004B91C(Stru_800ABB74 *pStru);
