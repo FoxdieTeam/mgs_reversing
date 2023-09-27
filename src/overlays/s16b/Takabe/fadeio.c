@@ -1,14 +1,13 @@
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include <LIBGPU.H>
 
 extern char aFadeIo_800C5880[]; // = "fadeio.c";
 
 typedef struct FadeIoPrims
 {
-    DR_TPAGE tpage;
-    DR_TPAGE tpage2;
-    TILE     tile1;
-    TILE     tile2;
+    DR_TPAGE tpage[2];
+    TILE     tile[2];
 } FadeIoPrims;
 
 typedef struct FadeIoWork
@@ -23,7 +22,73 @@ typedef struct FadeIoWork
     int          field_38;
 } FadeIoWork;
 
-void s16b_800C3E7C(FadeIoWork *);
+extern int GV_Clock_800AB920;
+extern int GV_PassageTime_800AB924;
+extern int GV_PauseLevel_800AB928;
+extern int GM_GameStatus_800AB3CC;
+extern int s16b_dword_800C3250;
+
+int s16b_800C44DC(unsigned short, int, int *);
+
+void FadeIoAct_800C3E7C(FadeIoWork *work)
+{
+    int   status;
+    char *ot;
+    int   shade;
+
+    if (GV_PauseLevel_800AB928 == 0)
+    {
+        status = s16b_800C44DC(work->field_20, 2, &s16b_dword_800C3250);
+        if (status == 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return;
+        }
+
+        if (status == 1)
+        {
+            work->field_2c = 0;
+            work->field_34_name |= 0x1;
+        }
+    }
+
+    ot = DG_ChanlOTag(1);
+    addPrim(ot, &work->field_24_prims->tile[GV_Clock_800AB920]);
+    addPrim(ot, &work->field_24_prims->tpage[GV_Clock_800AB920]);
+
+    if (work->field_2c > work->field_28_where)
+    {
+        work->field_2c = work->field_28_where;
+    }
+
+    shade = (work->field_2c * 255) / work->field_28_where;
+    if (work->field_34_name & 0x1)
+    {
+        shade = 255 - shade;
+    }
+
+    if (GV_PauseLevel_800AB928 == 0)
+    {
+        if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_32))
+        {
+            work->field_2c++;
+        }
+        else
+        {
+            work->field_38 += GV_PassageTime_800AB924;
+            work->field_2c += work->field_38 >> 1;
+            work->field_38 &= 0x1;
+        }
+    }
+
+    work->field_30 = shade;
+    setRGB0(&work->field_24_prims->tile[GV_Clock_800AB920], shade, shade, shade);
+
+    if ((work->field_34_name & 0x1) && (work->field_2c >= work->field_28_where))
+    {
+        GV_DestroyActor_800151C8(&work->actor);
+    }
+}
 
 void FadeIoDie_800C40D0(FadeIoWork *work)
 {
@@ -45,40 +110,40 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
     }
     if (name & 2)
     {
-        setDrawTPage(&prims->tpage, 0, 1, getTPage(0, 1, 0, 0));
-        setDrawTPage(&prims->tpage2, 0, 1, getTPage(0, 1, 0, 0));
+        setDrawTPage(&prims->tpage[0], 0, 1, getTPage(0, 1, 0, 0));
+        setDrawTPage(&prims->tpage[1], 0, 1, getTPage(0, 1, 0, 0));
     }
     else
     {
-        setDrawTPage(&prims->tpage, 0, 1, getTPage(0, 2, 0, 0));
-        setDrawTPage(&prims->tpage2, 0, 1, getTPage(0, 2, 0, 0));
+        setDrawTPage(&prims->tpage[0], 0, 1, getTPage(0, 2, 0, 0));
+        setDrawTPage(&prims->tpage[1], 0, 1, getTPage(0, 2, 0, 0));
     }
-    setTile(&prims->tile1);
-    setSemiTrans(&prims->tile1, 1);
+    setTile(&prims->tile[0]);
+    setSemiTrans(&prims->tile[0], 1);
 
-    prims->tile1.w = 0x140;
-    prims->tile1.h = 0xE0;
-    prims->tile1.x0 = 0;
-    prims->tile1.y0 = 0;
-    prims->tile2 = prims->tile1;
+    prims->tile[0].w = 0x140;
+    prims->tile[0].h = 0xE0;
+    prims->tile[0].x0 = 0;
+    prims->tile[0].y0 = 0;
+    prims->tile[1] = prims->tile[0];
     if (!(name & 1))
     {
-        prims->tile1.r0 = 0;
-        prims->tile1.g0 = 0;
-        prims->tile1.b0 = 0;
-        prims->tile2.r0 = 0;
-        prims->tile2.g0 = 0;
-        prims->tile2.b0 = 0;
+        prims->tile[0].r0 = 0;
+        prims->tile[0].g0 = 0;
+        prims->tile[0].b0 = 0;
+        prims->tile[1].r0 = 0;
+        prims->tile[1].g0 = 0;
+        prims->tile[1].b0 = 0;
         work->field_30 = 0;
     }
     else
     {
-        prims->tile1.r0 = 0xFF;
-        prims->tile1.g0 = 0xFF;
-        prims->tile1.b0 = 0xFF;
-        prims->tile2.r0 = 0xFF;
-        prims->tile2.g0 = 0xFF;
-        prims->tile2.b0 = 0xFF;
+        prims->tile[0].r0 = 0xFF;
+        prims->tile[0].g0 = 0xFF;
+        prims->tile[0].b0 = 0xFF;
+        prims->tile[1].r0 = 0xFF;
+        prims->tile[1].g0 = 0xFF;
+        prims->tile[1].b0 = 0xFF;
         work->field_30 = 0xFF;
     }
     work->field_34_name = name;
@@ -94,7 +159,7 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
     work = (FadeIoWork *)GV_NewActor_800150E4(3, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s16b_800C3E7C, (TActorFunction)FadeIoDie_800C40D0,
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0,
                                   aFadeIo_800C5880);
         if (FadeIoGetResources_800C4100(work, name, where) < 0)
         {
