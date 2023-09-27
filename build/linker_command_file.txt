@@ -502,7 +502,5 @@ camera  group   over(olay), file("{{OBJ_DIR}}\camera.bin")
     include "{{OBJ_DIR}}\overlays\camera\camera_800CF984.obj"
     include "{{OBJ_DIR}}\overlays\camera\camera_800CFA08.obj"
     include "{{OBJ_DIR}}\overlays\camera\camera_800CFA18.obj"
-    include "{{OBJ_DIR}}\overlays\camera\camera_800D0794.obj"
-    include "{{OBJ_DIR}}\overlays\camera\camera_800D6B84.obj"
 
     regs    pc=__SN_ENTRY_POINT
