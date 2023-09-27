@@ -65,13 +65,14 @@ void       GM_Target_SetVector_8002D500(TARGET *pTarget, SVECTOR *pVec);
 void       GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
 TARGET *GM_AllocTarget_8002D400(void);
 // int GM_Target_8002D7DC(TARGET *pTarget);
+int        GM_TouchTarget_8002D6D8(TARGET *pTarget);
 int        sub_8002D7DC(TARGET *pTarget);
 int        sub_8002D208(TARGET *pTarget, TARGET *a2);
+int        sub_8002DA14(TARGET *pTarget);
 void       sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, TARGET *a3);
 int        sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);
 void       GM_Target_8002DCB4(TARGET *pTarget, int a2, int a3, int *a4, SVECTOR *a5);
 TARGET *GM_C4Target_8002D620(TARGET *pTarget);
 TARGET *GM_CaptureTarget_8002D530(TARGET *pTarget);
-
 
 #endif // _TARGET_H_

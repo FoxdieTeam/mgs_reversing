@@ -8,7 +8,7 @@ extern unsigned short GV_DemoPadStatus_800AB958;
 
 #define EXEC_LEVEL 5
 
-typedef struct _Work
+typedef struct _PadWork
 {
     GV_ACT         actor;
     int            name; //0x20
@@ -16,9 +16,9 @@ typedef struct _Work
     short          unk2; //0x26
     char*          unk3; //0x28
     int            unk4; //0x2C
-} Work;
+} PadWork;
 
-int PadGetResources_800C3690( Work* work )
+int PadGetResources_800C3690( PadWork* work )
 {
     GCL_SetArgTop_80020690( work->unk3 ) ;
 
@@ -39,7 +39,7 @@ int PadGetResources_800C3690( Work* work )
     return 0 ;
 }
 
-void PadAct_800C370C( Work* work )
+void PadAct_800C370C( PadWork* work )
 {
     if ( GM_CheckMessage_8002631C( &work->actor, work->name, HASH_KILL ) )
     {
@@ -57,7 +57,7 @@ void PadAct_800C370C( Work* work )
     GV_DemoPadStatus_800AB958 = work->status;
 }
 
-void PadDie_800C37A4( Work* work )
+void PadDie_800C37A4( PadWork* work )
 {
     GV_DemoPadStatus_800AB958 = 0 ;
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_31;
@@ -71,9 +71,9 @@ void PadDie_800C37A4( Work* work )
 void *NewPad_800C37EC( int name, int where, int argc, char **argv )
 {
     int ops;
-    Work *work ;
+    PadWork *work ;
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = (PadWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( PadWork ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
