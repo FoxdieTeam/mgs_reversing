@@ -4,21 +4,38 @@
 #include "Game/object.h"
 #include "Game/game.h"
 
-typedef struct _PadWork
+typedef struct _WatcherPad
 {
     int field_00;
     int press;
     int field_08;
     int tmp;
     int time;
-} PadWork;
+} WatcherPad;
 
-typedef struct _Work
+typedef struct _WatcherWork
 {
     GV_ACT       actor;
     CONTROL      control;                    //0x20
     OBJECT       object;                     //0x9C
-    char         field_C0_padding[0x820];
+    char         field_C0_padding[0x6E4];    //0xC0
+    OBJECT       field_7A4;                  //0x7A4
+    char         field_7C8_padding[0xC0];    //0x7C8
+    MATRIX       field_888;                  //0x888
+    int          field_8A8;                  //0x8A8
+    int          field_8AC;                  //0x8AC
+    int          field_8B0;                  //0x8B0
+    int          field_8B4;                  //0x8B4
+    int          field_8B8;                  //0x8B8
+    int          field_8BC;                  //0x8BC
+    int          field_8C0;                  //0x8C0
+    int          field_8C4;                  //0x8C4
+    int          field_8C8;                  //0x8C8
+    int          field_8CC;                  //0x8CC
+    int          field_8D0;                  //0x8D0
+    int          field_8D4;                  //0x8D4
+    int          field_8D8;                  //0x8D8
+    int          field_8DC;                  //0x8DC
     short        field_8E0;
     short        field_8E2;
     short        field_8E4;
@@ -30,7 +47,9 @@ typedef struct _Work
     int          field_8F8;
     int          actend;                     //0x8FC
     TARGET      *target;                     //0x900
-    char         field_904_padding[0xDC];
+    char         field_904_padding[0x48];
+    TARGET       field_94C;                  //0x94C
+    char         field_994_padding[0x4C];    //0x994
     short        scale;                      //0x9E0
     short        field_9E2;                  //0x9E2
     short        field_9E4;                  //0x9E4
@@ -47,7 +66,7 @@ typedef struct _Work
     unsigned int count3;                     //0xB28
     int          t_count;                    //0xB2C
     int          l_count;                    //0xB30
-    PadWork      pad;                        //0xB34
+    WatcherPad   pad;                        //0xB34
     short        field_B48;                  //0xB48
     short        field_B4A;                  //0xB48
     short        field_B4C;                  //0xB48
@@ -119,9 +138,9 @@ typedef struct _Work
     int          field_C44;                  //0xC44
     short        field_C48;                  //0xC48
     short        field_C4A;                  //0xC4A
-} Work;
+} WatcherWork;
 
-int	Think3_BikkuriGetUp_800CC568( Work* work )
+int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
 {
     if( work->count3 == 0){
         work->pad.press |= 0x00001000  ;
@@ -133,9 +152,9 @@ int	Think3_BikkuriGetUp_800CC568( Work* work )
     return 0 ;
 }
 
-extern int DirectTrace_800CC154( Work* work, int time );
+extern int DirectTrace_800CC154( WatcherWork* work, int time );
 
-int Think3_GoNext_800CC514( Work* work ) {
+int Think3_GoNext_800CC514( WatcherWork* work ) {
     if ( work->pad.time ) {
         (work->pad.press |= (  work->pad.tmp  )) ;
         work->pad.time -- ;
@@ -152,22 +171,22 @@ extern int     dword_800C3328[];
 extern short   word_800E0D8C;
 extern SVECTOR svec_800C35D4;
 
-extern void sub_800C45D4( Work *work );
-extern void sub_800C4A40( Work *work );
-extern void sub_800C4B18( Work *work );
-extern char sub_800CEA2C( Work *work );
+extern void sub_800C45D4( WatcherWork *work );
+extern void sub_800C4A40( WatcherWork *work );
+extern void sub_800C4B18( WatcherWork *work );
+extern char sub_800CEA2C( WatcherWork *work );
 
-extern int  ReadNodes_800C489C( Work *work );
-extern void InitTarget_800C444C( Work *work );
+extern int  ReadNodes_800C489C( WatcherWork *work );
+extern void InitTarget_800C444C( WatcherWork *work );
 extern int  fprintf_8008BB98(int, const char *formatStr, ...); 
 
 #define PUTBREATH 1
 
-extern int ENE_SetPutChar_800C979C( Work *work, int put ) ;
+extern int ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 extern int HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void GM_ConfigControlRadarparam_800262EC(CONTROL *pControl, short param_2, short param_3, short param_4, short param_5);
 
-void WatcherGetResources_800C4B7C( Work *work, int name, int where )
+void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
     int addr;
@@ -367,13 +386,66 @@ void WatcherDie_800C487C(void)
     sub_800C4814();
 }
 
-extern int WatcherAct_800C430C( Work *work );
+extern void sub_800C410C( WatcherWork* work );
+extern void sub_800CA0E8( WatcherWork* work );
+extern void sub_800CA07C( WatcherWork* work );
+extern void sub_800C41B4( WatcherWork* work );
+
+void WatcherAct_800C430C( WatcherWork *work )
+{
+    VECTOR   vec;
+    TARGET  *trgt;
+    CONTROL *ctrl;
+    TARGET  *trgt2;
+
+    ctrl = &( work->control ) ;
+    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, 0x3223 ) )
+    {
+        GV_DestroyActor_800151C8( &( work->actor ) );
+        return;
+    }
+
+    sub_800C410C( work );
+    if ( !work->field_C2C )
+    {
+        sub_800CA0E8( work );
+        GM_ActControl_80025A7C( ctrl );
+        GM_ActObject2_80034B88( &( work->object ) );
+        GM_ActObject2_80034B88( &( work->field_7A4 ) );
+        
+        DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
+        
+        sub_800CA07C( work );
+        trgt = work->target;
+        GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
+        
+        sub_8002DA14( trgt );
+
+        if ( trgt->field_0_flags & TARGET_TOUCH )
+        {
+            trgt2 = &work->field_94C;
+            if ( trgt2->field_0_flags & TARGET_TOUCH )
+            {
+                if ( trgt2->field_6_flags & TARGET_TOUCH )
+                {
+                    trgt2->field_6_flags &= ~TARGET_TOUCH;
+                }
+                GM_Target_SetVector_8002D500( &( work->field_94C ), &( ctrl->field_0_mov ) );
+                GM_TouchTarget_8002D6D8( &( work->field_94C ) );
+            }
+        }
+    }
+    sub_800C41B4( work );
+    vec.vx = vec.vz = work->scale;
+    vec.vy = work->field_9E2;
+    ScaleMatrix( &( work->object.objs->world ), &vec );
+}
 
 void *NewSnakeWatcher_800C5034( int name, int where, int argc, char **argv )
 {
-    Work *work ;
+    WatcherWork *work ;
 
-    work = (Work *)GV_NewActor_800150E4( 4, sizeof( Work ) ) ;
+    work = (WatcherWork *)GV_NewActor_800150E4( 4, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )WatcherAct_800C430C, ( TActorFunction )WatcherDie_800C487C, "watcher.c" );
         WatcherGetResources_800C4B7C( work, name, where );

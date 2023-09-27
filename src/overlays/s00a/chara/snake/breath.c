@@ -20,16 +20,16 @@ extern void sub_800C3AA8( DG_OBJ *obj );
 #define EXEC_LEVEL 5 //goes in libgv.h
 #define DEFAULT_TIME 0x40
 
-typedef struct Work
+typedef struct _BreathWork
 {
     GV_ACT         actor;
     unsigned short name;
     unsigned short visible;
     int            time;
-} Work;
+} BreathWork;
 
 
-void BreathAct_800C38A0( Work* work )
+void BreathAct_800C38A0( BreathWork* work )
 {
     GV_MSG    *message;
     int        message_result;
@@ -60,13 +60,13 @@ void BreathAct_800C38A0( Work* work )
 }
 
 
-void BreathDie_800C39AC( Work* work )
+void BreathDie_800C39AC( BreathWork* work )
 {
     return;
 }
 
 
-int BreathGetResources_800C39B4( Work *work, int name, int where )
+int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
 {
     if (GCL_GetParam_80020968('t'))
     {
@@ -84,10 +84,10 @@ int BreathGetResources_800C39B4( Work *work, int name, int where )
 
 void        *NewBreath_800C3A1C( int name, int where, int argc, char **argv )
 {
-    Work        *work ;
+    BreathWork        *work ;
 
 
-    work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = (BreathWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( BreathWork ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )BreathAct_800C38A0, ( TActorFunction )BreathDie_800C39AC, "breath.c" ) ;

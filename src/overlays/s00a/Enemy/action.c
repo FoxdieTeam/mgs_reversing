@@ -13,21 +13,38 @@
 #define DANBOWLKERI 17
 #define DANBOWLPOSE 18
 
-typedef struct _PadWork
+typedef struct _WatcherPad
 {
     int field_00;
     int press;
     int field_08;
     int tmp;
     int time;
-} PadWork;
+} WatcherPad;
 
-typedef struct _Work
+typedef struct _WatcherWork
 {
     GV_ACT       actor;
     CONTROL      control;                    //0x20
     OBJECT       object;                     //0x9C
-    char         field_C0_padding[0x820];
+    char         field_C0_padding[0x6E4];    //0xC0
+    OBJECT       field_7A4;                  //0x7A4
+    char         field_7C8_padding[0xC0];    //0x7C8
+    MATRIX       field_888;                  //0x888
+    int          field_8A8;                  //0x8A8
+    int          field_8AC;                  //0x8AC
+    int          field_8B0;                  //0x8B0
+    int          field_8B4;                  //0x8B4
+    int          field_8B8;                  //0x8B8
+    int          field_8BC;                  //0x8BC
+    int          field_8C0;                  //0x8C0
+    int          field_8C4;                  //0x8C4
+    int          field_8C8;                  //0x8C8
+    int          field_8CC;                  //0x8CC
+    int          field_8D0;                  //0x8D0
+    int          field_8D4;                  //0x8D4
+    int          field_8D8;                  //0x8D8
+    int          field_8DC;                  //0x8DC
     short        field_8E0;
     short        field_8E2;
     short        field_8E4;
@@ -39,7 +56,9 @@ typedef struct _Work
     int          field_8F8;
     int          actend;                     //0x8FC
     TARGET      *target;                     //0x900
-    char         field_904_padding[0xDC];
+    char         field_904_padding[0x48];
+    TARGET       field_94C;                  //0x94C
+    char         field_994_padding[0x4C];    //0x994
     short        scale;                      //0x9E0
     short        field_9E2;                  //0x9E2
     short        field_9E4;                  //0x9E4
@@ -56,7 +75,7 @@ typedef struct _Work
     unsigned int count3;                     //0xB28
     int          t_count;                    //0xB2C
     int          l_count;                    //0xB30
-    PadWork      pad;                        //0xB34
+    WatcherPad   pad;                        //0xB34
     short        field_B48;                  //0xB48
     short        field_B4A;                  //0xB48
     short        field_B4C;                  //0xB48
@@ -128,15 +147,15 @@ typedef struct _Work
     int          field_C44;                  //0xC44
     short        field_C48;                  //0xC48
     short        field_C4A;                  //0xC4A
-} Work;
+} WatcherWork;
 
 extern unsigned int COM_GameStatus_800E0F3C;
 
-extern int      CheckPad_800C5A60( Work *work );
+extern int      CheckPad_800C5A60( WatcherWork *work );
 extern void     UnsetCameraActCall_800D047C();
 extern void     SetCameraActCall_800D043C();
 
-extern int      sub_800C5424( Work * work );
+extern int      sub_800C5424( WatcherWork * work );
 extern void     ActStandStill_800C5C84();
 extern void     ActOverScoutD_800C85DC();
 
@@ -145,7 +164,7 @@ extern OBJECT   *GM_PlayerBody_800ABA20;
 extern short    dword_800E0D8C;
 extern short    ActTable_800C3358[];
 
-static inline void SetMode( Work *work, void *func )
+static inline void SetMode( WatcherWork *work, void *func )
 {
     work->field_8EC_func = func;
     work->field_8F4 = 0;
@@ -154,7 +173,7 @@ static inline void SetMode( Work *work, void *func )
     GM_ConfigMotionAdjust_80035008( &( work->object ), 0 );
 }
 
-static inline void SetMode2( Work *work, void *func )
+static inline void SetMode2( WatcherWork *work, void *func )
 {
     if ( work->field_8F0_func == NULL )
     {
@@ -167,7 +186,7 @@ static inline void SetMode2( Work *work, void *func )
     GM_ConfigMotionAdjust_80035008( &( work->object ), 0 );
 }
 
-static inline void UnsetMode2( Work *work )
+static inline void UnsetMode2( WatcherWork *work )
 {
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->object ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
@@ -186,13 +205,13 @@ static inline void UnsetMode2( Work *work )
     
 }
 
-static inline void SetAction( Work *work, int n_action, int interp )
+static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
     work->field_8E0 = n_action ;
     GM_ConfigObjectAction_80034CD4( &( work->object ), ActTable_800C3358[n_action], 0, interp );
 }
 
-void sub_800C6320( Work *work, int time )
+void sub_800C6320( WatcherWork *work, int time )
 {
     work->target->field_0_flags |= 0x9F;
     work->field_B90 = dword_800E0D8C;
