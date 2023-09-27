@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section camera.text
+
+	xdef camera_800C85B8
+camera_800C85B8:
+	dw 0x00063200 ; 800C85B8
+	dw 0x00A62825 ; 800C85BC
+	dw 0x00073C00 ; 800C85C0
+	dw 0x00A72825 ; 800C85C4
+	dw 0x3C026400 ; 800C85C8
+	dw 0x00A22825 ; 800C85CC
+	dw 0x03E00008 ; 800C85D0
+	dw 0xAC85000C ; 800C85D4
