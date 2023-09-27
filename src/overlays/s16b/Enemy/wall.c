@@ -7,7 +7,8 @@ typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT  object;
-    char    pad[0x100];
+    SVECTOR rots[24];
+    MATRIX  light[2];
     SVECTOR position;
     int     hash;
     int     f150;
@@ -15,9 +16,8 @@ typedef struct _Work
     short   f156;
 } Work;
 
-#define EXEC_LEVEL 5
-
 extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GM_GameStatus_800AB3CC;
 extern int     GM_CurrentMap_800AB9B0;
 
 extern const char s16b_dword_800C5800[]; // = "destroy\n"
@@ -26,20 +26,85 @@ extern const char s16b_dword_800C5814[]; // = "dbx1"
 extern const char s16b_dword_800C581C[]; // = "dbx2"
 extern const char s16b_dword_800C5824[]; // = "wall.c"
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C3278.s")
-void asioto_800C3278(void);
+#define EXEC_LEVEL 5
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C32D8.s")
-void asioto_800C32D8(Work *work);
+void asioto_800C3278(Work *work)
+{
+    GV_MSG *msg;
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C3320.s")
+    if (GV_ReceiveMessage_80016620(work->hash, &msg))
+    {
+        if (msg->message[0] == HASH_LEAVE)
+        {
+            work->f150 = 0;
+        }
+        else if (msg->message[0] == HASH_ENTER)
+        {
+            work->f150 = 1;
+        }
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/asioto_800C33A0.s")
-void asioto_800C33A0(Work *work);
+void asioto_800C32D8(Work *work)
+{
+    if (work->f150 != 0)
+    {
+        DG_VisibleObjs(work->object.objs);
+    }
+    else
+    {
+        DG_InvisibleObjs(work->object.objs);
+    }
+}
+
+void asioto_800C3320(DG_OBJS *objs)
+{
+    DG_OBJ *obj;
+    int     i;
+
+    obj = objs->objs;
+    for (i = objs->n_models; i > 0; obj++, i--)
+    {
+        if (obj->packs[0])
+        {
+            DG_WriteObjPacketRGB_8001A9B8(obj, 0);
+        }
+
+        if (obj->packs[1])
+        {
+            DG_WriteObjPacketRGB_8001A9B8(obj, 1);
+        }
+    }
+}
+
+void asioto_800C33A0(Work *work)
+{
+    if (work->f154 != 0)
+    {
+        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_04)
+        {
+            if (work->f156 == 0)
+            {
+                work->object.flag = 0x35D;
+                work->object.objs->flag = 0x35D;
+                DG_GetLightMatrix2_8001A5D8(&work->position, work->light);
+                GM_ConfigObjectLight_80034C44(&work->object, work->light);
+                work->f156 = 1;
+            }
+        }
+        else if (work->f156 != 0)
+        {
+            work->object.flag = 0x257;
+            work->object.objs->flag = 0x257;
+            asioto_800C3320(work->object.objs);
+            work->f156 = 0;
+        }
+    }
+}
 
 void WallAct_800C345C(Work *work)
 {
-    asioto_800C3278();
+    asioto_800C3278(work);
     asioto_800C32D8(work);
     asioto_800C33A0(work);
 
