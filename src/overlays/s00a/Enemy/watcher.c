@@ -18,7 +18,10 @@ typedef struct _WatcherWork
     GV_ACT       actor;
     CONTROL      control;                    //0x20
     OBJECT       object;                     //0x9C
-    char         field_C0_padding[0x6E4];    //0xC0
+    char         field_C0_padding[0x674];    //0xC0
+    short        field_734;                  //0x734
+    short        field_736;                  //0x736
+    char         field_738[0x6C];            //0x738
     OBJECT       field_7A4;                  //0x7A4
     char         field_7C8_padding[0xC0];    //0x7C8
     MATRIX       field_888;                  //0x888
