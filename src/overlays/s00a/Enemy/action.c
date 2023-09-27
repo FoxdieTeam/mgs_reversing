@@ -27,7 +27,10 @@ typedef struct _WatcherWork
     GV_ACT       actor;
     CONTROL      control;                    //0x20
     OBJECT       object;                     //0x9C
-    char         field_C0_padding[0x6E4];    //0xC0
+    char         field_C0_padding[0x674];    //0xC0
+    short        field_734;                  //0x734
+    short        field_736;                  //0x736
+    char         field_738[0x6C];            //0x738
     OBJECT       field_7A4;                  //0x7A4
     char         field_7C8_padding[0xC0];    //0x7C8
     MATRIX       field_888;                  //0x888
@@ -151,18 +154,36 @@ typedef struct _WatcherWork
 
 extern unsigned int COM_GameStatus_800E0F3C;
 
-extern int      CheckPad_800C5A60( WatcherWork *work );
 extern void     UnsetCameraActCall_800D047C();
 extern void     SetCameraActCall_800D043C();
 
 extern int      sub_800C5424( WatcherWork * work );
-extern void     ActStandStill_800C5C84();
-extern void     ActOverScoutD_800C85DC();
 
 extern OBJECT   *GM_PlayerBody_800ABA20;
 
 extern short    dword_800E0D8C;
 extern short    ActTable_800C3358[];
+
+extern void ActUnknown1_800C841C();
+extern void ActUnknown2_800C84FC();
+extern void ActOverScoutD_800C85DC();
+extern void ActUnknown4_800C8688();
+extern void ActUnknown5_800C8734();
+extern void ActUnknown6_800C87FC();
+extern void ActUnknown7_800C88D8();
+extern void ActUnknown8_800C8990();
+extern void ActUnknown9_800C8A6C();
+extern void ActUnknown10_800C8C98();
+extern void ActUnknown11_800C8DF8();
+extern void ActUnknown12_800C615C(); 
+extern void ActUnknown13_800C6164();
+extern void ActUnknown14_800C624C();
+extern void ActUnknown15_800C6320();
+extern void ActUnknown16_800C65A8();
+
+extern void ActStandStill_800C5C84();
+
+
 
 static inline void SetMode( WatcherWork *work, void *func )
 {
@@ -211,7 +232,111 @@ static inline void SetAction( WatcherWork *work, int n_action, int interp )
     GM_ConfigObjectAction_80034CD4( &( work->object ), ActTable_800C3358[n_action], 0, interp );
 }
 
-void sub_800C6320( WatcherWork *work, int time )
+int CheckPad_800C5A60( WatcherWork *work )
+{
+    int press = work->pad.press;
+
+    if ( press & 0x01 )
+    {
+        SetMode2( work, ActUnknown1_800C841C );
+        return 0;
+    }
+
+    if ( press & 0x02 )
+    {
+        SetMode2( work, ActUnknown2_800C84FC );
+        return 0;
+    }
+
+    if ( press & 0x04 )
+    {
+        SetMode2( work, ActOverScoutD_800C85DC );
+        return 0;
+    }
+
+    if ( press & 0x2000 )
+    {
+        SetMode2( work, ActUnknown4_800C8688 );
+        return 0;
+    }
+
+    if ( press & 0x40 )
+    {
+        SetMode2( work, ActUnknown5_800C8734 );
+        return 0;
+    }
+
+    if ( press & 0x80 )
+    {
+        SetMode2( work, ActUnknown6_800C87FC );
+        return 0;
+    }
+
+    if ( press & 0x400 )
+    {
+        SetMode2( work, ActUnknown7_800C88D8 );
+        return 0;
+    }
+
+    if ( press & 0x800 )
+    {
+        SetMode2( work, ActUnknown8_800C8990 );
+        return 0;
+    }
+
+    if ( press & 0x200 )
+    {
+        SetMode2( work, ActUnknown9_800C8A6C );
+        return 0;
+    }
+
+    if ( press & 0x800000 )
+    {
+        SetMode2( work, ActUnknown10_800C8C98 );
+        return 0;
+    }
+    
+    if ( press & 0x1000000 )
+    {
+        SetMode2( work, ActUnknown11_800C8DF8 );
+        return 0;
+    }
+
+    if ( press & 0x100 )
+    {
+        SetMode( work, ActUnknown12_800C615C );
+        return 1;
+    }
+
+    if ( press & 0x20 )
+    {
+        SetMode( work, ActUnknown13_800C6164 );
+        return 1;
+    }
+
+    if ( press & 0x2000000 )
+    {
+        SetMode( work, ActUnknown14_800C624C );
+        return 1;
+    }
+
+    if ( press & 0x400000 )
+    {
+        SetMode( work, ActUnknown15_800C6320 );        
+        return 1;
+    }
+
+    if ( press & 0x30000 )
+    {
+        SetMode( work, ActUnknown16_800C65A8 );
+        work->field_734 = 0;
+        return 1;
+    }
+    
+    return 0;
+}
+
+void ActUnknown15_800C6320( WatcherWork *work, int time )
 {
     work->target->field_0_flags |= 0x9F;
     work->field_B90 = dword_800E0D8C;
