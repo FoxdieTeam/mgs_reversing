@@ -157,13 +157,13 @@ print('Overlays: {:,}{} funcs, {:,}{} bytes reversed'.format(
     overlays_c_bytes,
     overlays_c_bytes_extra))
 
-print('Built overlays count: {:,}{} / {:,} | {:.2f}%'.format(
+print('Imported overlays count: {:,}{} / {:,} | {:.2f}%'.format(
     overlay_count,
     overlay_count_extra,
     EXPECTED_OVERLAY_COUNT,
     overlay_count / EXPECTED_OVERLAY_COUNT * 100))
 
-print('Built overlays bytes: {:,}{} / {:,} | {:.2f}%'.format(
+print('Imported overlays bytes: {:,}{} / {:,} | {:.2f}%'.format(
     overlay_bytes,
     overlay_bytes_extra,
     EXPECTED_OVERLAY_TOTAL_SIZE,
