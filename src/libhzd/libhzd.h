@@ -116,16 +116,16 @@ typedef struct HZD_HDL
     HZD_HEADER *f00_header;
     HZD_AREA   *f04_area;
     short       f08_areaIndex;
-    short       f0A_idx;
-    short       f0C;
+    short       f0A_dynamic_queue_index;
+    short       f0C_dynamic_floor_index;
     short       f0E_n_cameras;
-    short       f10_24size;
-    short       f12_queue_size;
+    short       f10_max_dynamic_floors;
+    short       f12_max_dynamic_segments;
     HZD_ZON    *f14_navmeshes;
     HZD_TRP    *f18_traps;
-    HZD_SEG   **f1C_pEndOfHzdMap;
-    HZD_SEG   **f20_pAfterStructure_24;
-    char       *f20_pAfterStructure_48;
+    HZD_FLR   **f1C_dynamic_floors;
+    HZD_SEG   **f20_dynamic_segments;
+    char       *f24_dynamic_flags;
 } HZD_HDL; // 28
 
 int      HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag);
