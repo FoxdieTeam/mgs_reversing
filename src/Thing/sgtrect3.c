@@ -69,7 +69,7 @@ int sgtrect3_act_helper_800701A8(TARGET *target)
 
 extern int     dword_8009F46C;
 extern int     dword_8009F490;
-extern SVECTOR svector_GM_PlayerPosition_800ABA10;
+extern SVECTOR GM_PlayerPosition_800ABA10;
 extern SVECTOR svector_8009F478;
 
 void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
@@ -96,7 +96,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
     {
         TARGET *lastTarget;
 
-        vector = (dword_8009F46C != 0) ? svector_8009F478 : svector_GM_PlayerPosition_800ABA10;
+        vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
 
         targetCount = 0;
         shortestVecLen = -1;
@@ -426,7 +426,7 @@ void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
             return;
         }
 
-        vector = (dword_8009F46C != 0) ? svector_8009F478 : svector_GM_PlayerPosition_800ABA10;
+        vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
 
         GV_SubVec3_80016D40(&sgtrect3->field_30_target->field_8_vec, &vector, &vector2);
         vecLen = GV_LengthVec3_80016D80(&vector2);

@@ -24,7 +24,7 @@ int SECTION(".sbss") GM_Photocode_800ABA04;
 int SECTION(".sbss") dword_800ABA08;
 int SECTION(".sbss") dword_800ABA0C;
 
-SVECTOR SECTION(".sbss") svector_GM_PlayerPosition_800ABA10;
+SVECTOR SECTION(".sbss") GM_PlayerPosition_800ABA10;
 
 int SECTION(".sbss") GM_AlertLevel_800ABA18;
 

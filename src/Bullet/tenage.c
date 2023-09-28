@@ -15,7 +15,7 @@ extern int            GM_PlayerStatus_800ABA50;
 extern int            dword_800BDD28;
 extern Blast_Data     blast_data_8009F4B8;
 extern Blast_Data     blast_data_8009F530;
-extern SVECTOR        svector_GM_PlayerPosition_800ABA10;
+extern SVECTOR        GM_PlayerPosition_800ABA10;
 extern SVECTOR        DG_ZeroVector_800AB39C;
 extern CONTROL    *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
@@ -182,7 +182,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         pControl->field_59 = '\x04';
         if (int_6 == 1)
         {
-            pControl->field_0_mov = svector_GM_PlayerPosition_800ABA10;
+            pControl->field_0_mov = GM_PlayerPosition_800ABA10;
             GM_ConfigControlTrapCheck_80026308(pControl);
             GM_ActControl_80025A7C(pControl);
         }
