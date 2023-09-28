@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section camera.text
 
-	xdef camera_800CF424
-camera_800CF424:
+	xdef DecDCTReset_800CF424
+DecDCTReset_800CF424:
 	dw 0x27BDFFE8 ; 800CF424
 	dw 0xAFB00010 ; 800CF428
 	dw 0x00808021 ; 800CF42C
