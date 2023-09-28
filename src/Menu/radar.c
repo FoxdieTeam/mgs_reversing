@@ -455,10 +455,10 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
                     break;
                 }
 
-                ppWalls = pHzdMap->f20_pAfterStructure_24;
-                pWallFlags = pHzdMap->f20_pAfterStructure_48;
-                pWallFlags2 = pWallFlags + pHzdMap->f12_queue_size;
-                count2 = pHzdMap->f0A_idx;
+                ppWalls = pHzdMap->f20_dynamic_segments;
+                pWallFlags = pHzdMap->f24_dynamic_flags;
+                pWallFlags2 = pWallFlags + pHzdMap->f12_max_dynamic_segments;
+                count2 = pHzdMap->f0A_dynamic_queue_index;
             }
 
             for (count3 = count2; count3 > 0; count3--, pWallFlags++, pWallFlags2++)

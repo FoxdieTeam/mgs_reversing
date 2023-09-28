@@ -38,7 +38,7 @@ int HZD_sub_80029384( HZD_FLR *a0 )
     a2 = *( int * )0x1F80000C;
     t0 = a0->p1.long_access[0];
     v1 = a0->p2.long_access[0];
-    
+
     gte_ldsxy3( t0, v1, a2 );
     gte_nclip();
     a3 = a0->p3.long_access[0];
@@ -46,12 +46,12 @@ int HZD_sub_80029384( HZD_FLR *a0 )
 
     if ( *( int * )0x1F800008 >= 0 )
     {
-        
+
         gte_ldsxy3( v1, a3, a2 );
         gte_nclip();
         a0 = ( HZD_FLR * )a0->p4.long_access[0];
         gte_stopz( 0x1F800008 );
-        
+
         if ( *( int * )0x1F800008 < 0 ) return 0;
 
         gte_ldsxy3( a3, a0, a2 );
@@ -63,7 +63,7 @@ int HZD_sub_80029384( HZD_FLR *a0 )
         gte_ldsxy3( a0, t0, a2 );
         gte_nclip();
         gte_stopz( 0x1F800008 );
-        
+
         return *( int * )0x1F800008 >= 0;
     }
     else
@@ -74,17 +74,17 @@ int HZD_sub_80029384( HZD_FLR *a0 )
         gte_stopz( 0x1F800008 );
 
         if (*( int * )0x1F800008 > 0 ) return 0;
-       
-        gte_ldsxy3( a3, a0, a2 ); 
-        gte_nclip();       
+
+        gte_ldsxy3( a3, a0, a2 );
+        gte_nclip();
         gte_stopz( 0x1F800008 );
 
         if (* ( int * )0x1F800008 > 0 ) return 0;
 
         gte_NormalClip( a0, t0, a2, 0x1F800008 );
         return *( int * )0x1F800008 <= 0;
-    } 
-    
+    }
+
 }
 
 static inline void helper_80029514()
@@ -109,13 +109,13 @@ int HZD_sub_80029514( HZD_FLR *a0 )
 
     assign_subtract( 26, 6, 0, ( short * )&a0->p1 );
     assign_subtract( 27, 7, 1, ( short * )&a0->p1 );
-    
+
     //todo: fix below, probably some inline
     test = ( short * )0x1F800038;
     test[0] = a0->p1.h;
     do {} while(0);
     test[y = 1] = a0->p2.h;
-    
+
     helper_80029514();
 
     gte_ldsxy3(0, *( int * )0x1F800034, *( int* )0x1F800004);
@@ -204,9 +204,9 @@ int sub_800296C4(HZD_HDL *pHzdMap, SVECTOR *param_2, int flags)
 
     if (flags & 2)
     {
-        ppAltimetry = (HZD_FLR **)pHzdMap->f1C_pEndOfHzdMap;
+        ppAltimetry = pHzdMap->f1C_dynamic_floors;
 
-        for (count = pHzdMap->f0C; count > 0; count--, ppAltimetry++)
+        for (count = pHzdMap->f0C_dynamic_floor_index; count > 0; count--, ppAltimetry++)
         {
             if (sub_helper_800296C4(*ppAltimetry, (SVECTOR *)getScratchAddr(3)))
             {

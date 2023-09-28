@@ -2,15 +2,15 @@
 
 int HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag)
 {
-    int idx = pHzdMap->f0A_idx;
-    if ( idx >= pHzdMap->f12_queue_size )
+    int idx = pHzdMap->f0A_dynamic_queue_index;
+    if ( idx >= pHzdMap->f12_max_dynamic_segments )
     {
         return -1;
     }
-    pHzdMap->f20_pAfterStructure_24[idx] = pSeg;
-    pHzdMap->f20_pAfterStructure_48[idx] = a_param_with_flag;
-    pHzdMap->f20_pAfterStructure_48[pHzdMap->f12_queue_size + idx] = a_param_with_flag >> 8;
-    pHzdMap->f0A_idx = idx + 1;
+    pHzdMap->f20_dynamic_segments[idx] = pSeg;
+    pHzdMap->f24_dynamic_flags[idx] = a_param_with_flag;
+    pHzdMap->f24_dynamic_flags[pHzdMap->f12_max_dynamic_segments + idx] = a_param_with_flag >> 8;
+    pHzdMap->f0A_dynamic_queue_index = idx + 1;
     return 0;
 }
 
@@ -22,10 +22,10 @@ void HZD_DequeueDynamicSegment2_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1)
     char *var_t1;
     int var_v1;
 
-    var_a2 = pHzdMap->f20_pAfterStructure_24;
-    var_t0 = pHzdMap->f20_pAfterStructure_48;
-    temp_a3 = pHzdMap->f0A_idx;
-    var_t1 = var_t0 + pHzdMap->f12_queue_size;
+    var_a2 = pHzdMap->f20_dynamic_segments;
+    var_t0 = pHzdMap->f24_dynamic_flags;
+    temp_a3 = pHzdMap->f0A_dynamic_queue_index;
+    var_t1 = var_t0 + pHzdMap->f12_max_dynamic_segments;
     var_v1 = temp_a3;
 
     while (var_v1 > 0)
@@ -46,10 +46,10 @@ void HZD_DequeueDynamicSegment2_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1)
 
 found:
     temp_a3--;
-    *var_a2 = pHzdMap->f20_pAfterStructure_24[temp_a3];
-    *var_t0 = pHzdMap->f20_pAfterStructure_48[temp_a3];
-    *var_t1 = pHzdMap->f20_pAfterStructure_48[temp_a3 + pHzdMap->f12_queue_size];
-    pHzdMap->f0A_idx = temp_a3;
+    *var_a2 = pHzdMap->f20_dynamic_segments[temp_a3];
+    *var_t0 = pHzdMap->f24_dynamic_flags[temp_a3];
+    *var_t1 = pHzdMap->f24_dynamic_flags[temp_a3 + pHzdMap->f12_max_dynamic_segments];
+    pHzdMap->f0A_dynamic_queue_index = temp_a3;
 }
 
 void HZD_SetDynamicSegment_8006FEE4(HZD_SEG *a1, HZD_SEG *a2)
@@ -121,35 +121,35 @@ void HZD_SetDynamicSegment_8006FEE4(HZD_SEG *a1, HZD_SEG *a2)
     a2->p1.h = sVar1;
 }
 
-int sub_8006FF9C(HZD_HDL *pMap, HZD_SEG *pSeg)
+int HZD_QueueDynamicFloor_8006FF9C(HZD_HDL *pMap, HZD_FLR *pFlr)
 {
     int count;
 
-    if (pMap->f0C >= pMap->f10_24size)
+    if (pMap->f0C_dynamic_floor_index >= pMap->f10_max_dynamic_floors)
     {
         return -1;
     }
 
-    count = pMap->f0C;
-    pMap->f1C_pEndOfHzdMap[count] = pSeg;
-    pMap->f0C = count + 1;
-    pSeg[2].p2.h |= 0x1;
+    count = pMap->f0C_dynamic_floor_index;
+    pMap->f1C_dynamic_floors[count] = pFlr;
+    pMap->f0C_dynamic_floor_index = count + 1;
+    pFlr->p4.h |= 0x1;
 
     return 0;
 }
 
-void sub_8006FFE8(HZD_HDL *pMap, HZD_SEG *pSeg)
+void HZD_DequeueDynamicFloor_8006FFE8(HZD_HDL *pMap, HZD_FLR *pFlr)
 {
-    HZD_SEG **ptr;
-    int count;
-    int i;
+    HZD_FLR **ptr;
+    int       count;
+    int       i;
 
-    ptr = pMap->f1C_pEndOfHzdMap;
-    count = pMap->f0C;
+    ptr = pMap->f1C_dynamic_floors;
+    count = pMap->f0C_dynamic_floor_index;
 
     for (i = count; i > 0; i--, ptr++)
     {
-        if (*ptr == pSeg)
+        if (*ptr == pFlr)
         {
             goto found;
         }
@@ -159,6 +159,6 @@ void sub_8006FFE8(HZD_HDL *pMap, HZD_SEG *pSeg)
 
 found:
     count--;
-    *ptr = pMap->f1C_pEndOfHzdMap[count];
-    pMap->f0C = count;
+    *ptr = pMap->f1C_dynamic_floors[count];
+    pMap->f0C_dynamic_floor_index = count;
 }

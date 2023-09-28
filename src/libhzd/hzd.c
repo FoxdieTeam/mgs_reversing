@@ -85,7 +85,7 @@ int HZD_LoadInitHzd_800219F4(void *hzmFile)
     return 1;
 }
 
-HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24)
+HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors)
 {
     short    n_navmeshes;
     void    *navmeshes;
@@ -104,19 +104,19 @@ HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48
         }
     }
 
-    hzdMap = (HZD_HDL *)GV_Malloc_8001620C((4 * default_24) + sizeof(HZD_HDL) + (4 * default_48) + (2 * default_48));
+    hzdMap = (HZD_HDL *)GV_Malloc_8001620C((4 * dynamic_floors) + sizeof(HZD_HDL) + (4 * dynamic_segments) + (2 * dynamic_segments));
     if (hzdMap)
     {
-        hzdMap->f1C_pEndOfHzdMap = (void *)&hzdMap[1];
-        hzdMap->f20_pAfterStructure_24 = &hzdMap->f1C_pEndOfHzdMap[default_24];
-        hzdMap->f20_pAfterStructure_48 = (char*)&hzdMap->f20_pAfterStructure_24[default_48];
+        hzdMap->f1C_dynamic_floors = (void *)&hzdMap[1];
+        hzdMap->f20_dynamic_segments = (void *)&hzdMap->f1C_dynamic_floors[dynamic_floors];
+        hzdMap->f24_dynamic_flags = (char*)&hzdMap->f20_dynamic_segments[dynamic_segments];
 
-        hzdMap->f12_queue_size = default_48;
-        hzdMap->f10_24size = default_24;
+        hzdMap->f12_max_dynamic_segments = dynamic_segments;
+        hzdMap->f10_max_dynamic_floors = dynamic_floors;
         hzdMap->f00_header = hzd;
         hzdMap->f04_area = &hzd->areas[areaIndex];
-        hzdMap->f0A_idx = 0;
-        hzdMap->f0C = 0;
+        hzdMap->f0A_dynamic_queue_index = 0;
+        hzdMap->f0C_dynamic_floor_index = 0;
         (int)hzdMap->f14_navmeshes = *(int *)hzd;
 
         trig = hzdMap->f04_area->triggers;
