@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section camera.text
 
-	xdef camera_800CF660
-camera_800CF660:
+	xdef DecDCToutSync_800CF660
+DecDCToutSync_800CF660:
 	dw 0x27BDFFE8 ; 800CF660
 	dw 0x14800005 ; 800CF664
 	dw 0xAFBF0010 ; 800CF668

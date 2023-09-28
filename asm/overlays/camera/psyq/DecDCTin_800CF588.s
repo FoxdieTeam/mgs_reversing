@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section camera.text
 
-	xdef camera_800CF588
-camera_800CF588:
+	xdef DecDCTin_800CF588
+DecDCTin_800CF588:
 	dw 0x27BDFFE8 ; 800CF588
 	dw 0x30A20001 ; 800CF58C
 	dw 0x10400006 ; 800CF590
