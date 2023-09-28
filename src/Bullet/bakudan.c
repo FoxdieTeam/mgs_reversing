@@ -23,7 +23,7 @@ extern int dword_800ABA0C;
 
 extern unsigned short GM_ItemTypes_8009D598[];
 
-extern SVECTOR svector_800ABA10;
+extern SVECTOR svector_GM_PlayerPosition_800ABA10;
 extern Blast_Data blast_data_8009F4CC;
 
 int bakudan_count_8009F42C = 0;
@@ -88,7 +88,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
 
         if (pActor->field_110_pPad->press & PAD_CIRCLE)
         {
-            GM_Sound_800329C4(&svector_800ABA10, 0x32, 1);
+            GM_Sound_800329C4(&svector_GM_PlayerPosition_800ABA10, 0x32, 1);
         }
 
         dword_8009F430 = GV_Time_800AB330;

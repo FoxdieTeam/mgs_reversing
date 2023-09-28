@@ -108,7 +108,7 @@ int	Think3_NoiseModeWatch( WatcherWork *work )
 }
 
 extern int     dword_800C3328[];
-extern short   word_800E0D8C;
+extern short   EYE_LENGTH_800E0D8C;
 extern SVECTOR svec_800C35D4;
 
 extern void sub_800C45D4( WatcherWork *work );
@@ -280,9 +280,9 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_B96 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->field_B90 = word_800E0D8C;
+    work->vision_facedir = EYE_LENGTH_800E0D8C;
     work->field_BA4 = svec_800C35D4;
-    work->field_B54 = 0;
+    work->subweapon = 0;
     work->field_C48 = 0;
     work->field_C2C = 0;
     work->field_C2E = 1;
@@ -306,7 +306,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, word_800E0D8C, 0 );
+    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->field_BEC = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
@@ -350,7 +350,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     {
         sub_800CA0E8( work );
         GM_ActControl_80025A7C( ctrl );
-        GM_ActObject2_80034B88( &( work->object ) );
+        GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
         
         DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
@@ -378,7 +378,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     sub_800C41B4( work );
     vec.vx = vec.vz = work->scale;
     vec.vy = work->field_9E2;
-    ScaleMatrix( &( work->object.objs->world ), &vec );
+    ScaleMatrix( &( work->body.objs->world ), &vec );
 }
 
 void *NewSnakeWatcher_800C5034( int name, int where, int argc, char **argv )

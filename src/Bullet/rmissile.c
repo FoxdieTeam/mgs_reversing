@@ -20,7 +20,7 @@ extern SVECTOR          DG_ZeroVector_800AB39C;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern OBJECT *         dword_800ABA20;
 extern int              GM_GameOverTimer_800AB3D4;
-extern SVECTOR          svector_800ABA10;
+extern SVECTOR          svector_GM_PlayerPosition_800ABA10;
 extern int              GV_Clock_800AB920;
 extern Blast_Data       blast_data_8009F508;
 extern Blast_Data       blast_data_8009F544;
@@ -602,7 +602,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
         else
         {
             vector = pActor->field_16C_svector;
-            GV_NearTimeSV_800268AC(&pActor->field_16C_svector.vx, &svector_800ABA10.vx, pActor->field_16A, 3);
+            GV_NearTimeSV_800268AC(&pActor->field_16C_svector.vx, &svector_GM_PlayerPosition_800ABA10.vx, pActor->field_16A, 3);
             gUnkCameraStruct_800B77B8.field_0 = pActor->field_16C_svector;
 
             if (pActor->field_16A > 0)
@@ -858,9 +858,9 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
 
     pActor->field_100_svector = ctrl->field_0_mov;
     pActor->field_110 = 8;
-    ctrl->field_0_mov = svector_800ABA10;
-    pActor->field_108_svector = svector_800ABA10;
-    svector_8009F478 = svector_800ABA10;
+    ctrl->field_0_mov = svector_GM_PlayerPosition_800ABA10;
+    pActor->field_108_svector = svector_GM_PlayerPosition_800ABA10;
+    svector_8009F478 = svector_GM_PlayerPosition_800ABA10;
 
     GM_ConfigControlHazard_8002622C(ctrl, 400, 0xC8, 0xC8);
     ctrl->field_59 = rmissile_loader_8006CF44_get_field_59();

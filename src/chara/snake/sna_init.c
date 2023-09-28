@@ -113,7 +113,7 @@ extern const char         aSnakeEUC[];
 extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
 extern int                dword_800AB9F0;
-extern SVECTOR            svector_800ABA10;
+extern SVECTOR            svector_GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
@@ -8186,11 +8186,11 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
         gUnkCameraStruct_800B77B8.field_0 = vec2;
     }
 
-    svector_800ABA10 = vec = pActor->field_20_ctrl.field_0_mov;
+    svector_GM_PlayerPosition_800ABA10 = vec = pActor->field_20_ctrl.field_0_mov;
 
     if ( sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK16) )
     {
-        svector_800ABA10 = pActor->field_A60;
+        svector_GM_PlayerPosition_800ABA10 = pActor->field_A60;
         GM_Target_SetVector_8002D500(pActor->field_89C_pTarget, &pActor->field_A60);
     }
 
@@ -8535,7 +8535,7 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
     GM_ConfigObjectLight_80034C44(pObject, &pActor->field_848_lighting_mtx);
 
     gSnaControl_800AB9F4 = pCtrl;
-    svector_800ABA10 = pActor->field_20_ctrl.field_0_mov;
+    svector_GM_PlayerPosition_800ABA10 = pActor->field_20_ctrl.field_0_mov;
     dword_800ABA20 = pObject;
 
     sna_8004EB14(pActor);
