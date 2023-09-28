@@ -398,32 +398,10 @@ camera  group   over(olay), file("{{OBJ_DIR}}\camera.bin")
     section camera.dtors, camera
     section camera.rdata, camera
     section camera.sdata, camera
+    section camera.fixme, camera
 
     include "{{OBJ_DIR}}\overlays\camera\overlay.obj"
     include "{{OBJ_DIR}}\overlays\camera\Unknown\camera.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\DecDCTReset_800CF424.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF458.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF4E4.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF57C.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\DecDCTin_800CF588.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF5B8.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF5E4.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\DecDCTout_800CF604.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF624.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF650.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\DecDCToutSync_800CF660.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF68C.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF69C.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF6C0.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF6E4.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF7B8.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF7C4.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF7D4.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF864.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF8F0.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF974.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CF984.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CFA08.obj"
-    include "{{OBJ_DIR}}\overlays\camera\psyq\camera_800CFA18.obj"
+    inclib "LIBPRESS.LIB", camera
 
     regs    pc=__SN_ENTRY_POINT
