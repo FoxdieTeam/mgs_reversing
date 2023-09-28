@@ -20,7 +20,7 @@ extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
 
 extern SVECTOR stru_800AB870;
-extern SVECTOR svector_800ABA10;
+extern SVECTOR GM_PlayerPosition_800ABA10;
 
 extern int DG_CurrentGroupID_800AB968;
 
@@ -141,7 +141,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             DG_MovePos_8001BD20(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
-            mt2.t[1] = svector_800ABA10.vy + 320;
+            mt2.t[1] = GM_PlayerPosition_800ABA10.vy + 320;
 
             mt1.t[0] = mt2.t[0];
             mt1.t[1] = mt2.t[1];

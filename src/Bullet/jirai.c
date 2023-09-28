@@ -18,7 +18,7 @@ extern CONTROL   *gSnaControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GM_GameStatus_800AB3CC;
 extern int           GM_CurrentMap_800AB9B0;
-extern SVECTOR       svector_800ABA10;
+extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern Jirai_unknown stru_800BDE78[8];
 extern SVECTOR       svec_8009F44C;
 extern SVECTOR       svec_8009F454;
@@ -102,7 +102,7 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
     {
         return 0;
     }
-    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_mov, &svector_800ABA10, &v);
+    GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_mov, &GM_PlayerPosition_800ABA10, &v);
     return GV_LengthVec3_80016D80(&v) < 800;
 }
 

@@ -6,7 +6,7 @@ extern CONTROL      *gSnaControl_800AB9F4;
 extern SVECTOR          DG_ZeroVector_800AB39C;
 extern OBJECT          *dword_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern SVECTOR          svector_800ABA10;
+extern SVECTOR          GM_PlayerPosition_800ABA10;
 
 void d_bloodr_kill_80072BD4(Actor_DBloodr *pActor)
 {
@@ -69,7 +69,7 @@ void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
     {
         if (GM_PlayerStatus_800ABA50 & PLAYER_PRONE)
         {
-            GV_SubVec3_80016D40(&svector_800ABA10, &pActor->field_A4_positions[0], &diff);
+            GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &pActor->field_A4_positions[0], &diff);
 
             if (GV_LengthVec3_80016D80(&diff) > 640)
             {

@@ -11,7 +11,7 @@ extern int            GM_GameStatus_800AB3CC;
 extern CONTROL    *gSnaControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            dword_800ABA0C;
-extern                SVECTOR svector_800ABA10;
+extern                SVECTOR GM_PlayerPosition_800ABA10;
 
 extern short word_800AB8EC;
 short        SECTION(".word_800AB8EC") word_800AB8EC;
@@ -174,7 +174,7 @@ int item_act_helper_800335D0(Actor_Item *pActor)
         return 0;
     }
 
-    vec = svector_800ABA10;
+    vec = GM_PlayerPosition_800ABA10;
 
     diff = pActor->field_20_ctrl.field_0_mov.vy - vec.vy;
 
