@@ -785,7 +785,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
     int       dword_800AB9A8_copy;
     HZD_FLR  *pAltimetry;
     HZD_SEG  *pWall;
-    HZD_SEG **ppSeg;
+    HZD_FLR **ppFloor;
     HZD_SEG **ppWall;
     char     *pFlags;
     int       n_unknown;
@@ -859,10 +859,10 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
             scratchpad = (char *)0x1F800000;
             do
             {
-                ppWall = pNextMap->f20_pAfterStructure_24;
-                pFlags = pNextMap->f20_pAfterStructure_48;
-                queue_size = pNextMap->f12_queue_size;
-                idx = pNextMap->f0A_idx;
+                ppWall = pNextMap->f20_dynamic_segments;
+                pFlags = pNextMap->f24_dynamic_flags;
+                queue_size = pNextMap->f12_max_dynamic_segments;
+                idx = pNextMap->f0A_dynamic_queue_index;
                 *((short *)(scratchpad + 0x6A)) = 0x80;
                 do
                 {
@@ -872,7 +872,7 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
                 *((char **)(scratchpad + 0x70)) = pFlagsEnd2;
             } while (0); // TODO: Is it the same macro as above in "if (flags & 4)" case?
 
-            count = pNextMap->f0A_idx;
+            count = pNextMap->f0A_dynamic_queue_index;
             *((int *)0x1F800060) = 0;
 
             for (; count > 0; count--, ppWall++, pFlags++)
@@ -911,10 +911,10 @@ int sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag
         pNextMap = NULL;
         while ((pNextMap = Map_Enum_Get_Hzd_80031580(pNextMap)))
         {
-            ppSeg = pNextMap->f1C_pEndOfHzdMap;
-            for (count = pNextMap->f0C; count > 0; count--, ppSeg++)
+            ppFloor = pNextMap->f1C_dynamic_floors;
+            for (count = pNextMap->f0C_dynamic_floor_index; count > 0; count--, ppFloor++)
             {
-                sub_80027F10((HZD_FLR *)*ppSeg); // TODO: What's the correct argument type of sub_80027F10?
+                sub_80027F10(*ppFloor);
             }
         }
     }
@@ -1307,10 +1307,10 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
 
     if (flags & 0x8)
     {
-        ppWalls = pMap->f20_pAfterStructure_24;
-        pFlags = pMap->f20_pAfterStructure_48;
-        queue_size = pMap->f12_queue_size;
-        idx = pMap->f0A_idx;
+        ppWalls = pMap->f20_dynamic_segments;
+        pFlags = pMap->f24_dynamic_flags;
+        queue_size = pMap->f12_max_dynamic_segments;
+        idx = pMap->f0A_dynamic_queue_index;
 
         ptr2 = (char **)0x1F800000;
         ptr2[0x2C] = (char *)0x80;
@@ -1318,7 +1318,7 @@ int sub_80029098(HZD_HDL *pMap, SVECTOR *pPosition, int delta, int flags, unsign
 
         *(int *)0x1F800044 = 0;
 
-        for (i = pMap->f0A_idx; i > 0; i--, ppWalls++, pFlags++)
+        for (i = pMap->f0A_dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
         {
             if ((*pFlags & mask) == 0)
             {
