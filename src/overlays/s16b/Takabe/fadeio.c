@@ -3,8 +3,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
-extern char aFadeIo_800C5880[]; // = "fadeio.c";
-
 typedef struct FadeIoPrims
 {
     DR_TPAGE tpage[2];
@@ -29,6 +27,8 @@ extern int GV_PauseLevel_800AB928;
 extern int GM_GameStatus_800AB3CC;
 extern unsigned short s16b_dword_800C3250[];
 extern int s16b_dword_800C58AC;
+
+extern const char aFadeIo_800C5880[]; // = "fadeio.c";
 
 int s16b_800C43A4(char param);
 int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes);

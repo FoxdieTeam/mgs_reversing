@@ -383,8 +383,9 @@ s16b  group   over(olay), file("{{OBJ_DIR}}\s16b.bin")
     include "{{OBJ_DIR}}\overlays\s16b\s16b_800C4F9C.obj"
     include "{{OBJ_DIR}}\overlays\s16b\s16b_800C5074.obj"
     include "{{OBJ_DIR}}\overlays\s16b\s16b_800C51E8.obj"
-    include "{{OBJ_DIR}}\overlays\s16b\s16b_800C5454.obj"
-    include "{{OBJ_DIR}}\overlays\s16b\s16b_800C54E8.obj"
+
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
+
     include "{{OBJ_DIR}}\overlays\s16b\s16b_800C5664.obj"
     include "{{OBJ_DIR}}\overlays\s16b\s16b_800C5728.obj"
     include "{{OBJ_DIR}}\overlays\s16b\s16b_800C57A4.obj"
