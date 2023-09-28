@@ -1,19 +1,19 @@
 typedef struct _WatcherPad
 {
-    int   field_00;        //0x00
-    int   press;           //0x04
-    int   field_08;        //0x08
-    int   tmp;             //0x0A
-    int   time;            //0x0C
-    short dir;             //0x10
-    short sound;           //0x12
+    int   field_00;        //0x00       //0xB34
+    int   press;           //0x04       //0xB38
+    int   field_08;        //0x08       //0xB3C
+    int   tmp;             //0x0A       //0xB40
+    int   time;            //0x0C       //0xB44
+    short dir;             //0x10       //0xB48
+    short sound;           //0x12       //0xB4A
 } WatcherPad;
 
 typedef struct _WatcherWork
 {
     GV_ACT       actor;
     CONTROL      control;                    //0x20
-    OBJECT       object;                     //0x9C
+    OBJECT       body;                       //0x9C
     char         field_C0_padding[0x674];    //0xC0
     short        field_734;                  //0x734
     short        field_736;                  //0x736
@@ -68,8 +68,8 @@ typedef struct _WatcherWork
     WatcherPad   pad;                        //0xB34
     short        field_B4C;                  //0xB4C
     short        field_B4E;                  //0xB4E
-    int          field_B50;                  //0xB50
-    int          field_B54;                  //0xB54
+    unsigned int trigger;                    //0xB50
+    GV_ACT*      subweapon;                  //0xB54
     int          field_B58;                  //0xB58
     int          field_B5C;                  //0xB5C
     int          next_node;                  //0xB60    //could be wrong
@@ -95,7 +95,7 @@ typedef struct _WatcherWork
     int          field_B88;                  //0xB88
     short        vision_facedir;             //0xB8C  //vision.facedir (should be struct)
     short        field_B8E;
-    short        field_B90;
+    short        vision_length;              //0xB90
     short        field_B92;
     short        field_B94;
     short        field_B96;

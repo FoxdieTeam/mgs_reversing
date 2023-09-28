@@ -11,20 +11,36 @@
 #define ACTINTERP   4
 
 #define STANDSTILL  0
+#define GRENADE     7
 #define DANBOWLKERI 17
 #define DANBOWLPOSE 18
+
+#define ENEMY_SIDE 2
+
+#define WEAPON_TAKE 1
+
+#define SE_PINNUKI 0x2C
+
+//unsure
+#define WEAPON_TRIG  2
+#define WEAPON_TRIG2 4
 
 extern unsigned int COM_GameStatus_800E0F3C;
 
 extern void     UnsetCameraActCall_800D047C();
 extern void     SetCameraActCall_800D043C();
 
-extern int      sub_800C5424( WatcherWork * work );
+extern int CheckDamage_800C5424( WatcherWork *work );
 
 extern OBJECT   *GM_PlayerBody_800ABA20;
 
-extern short    dword_800E0D8C;
+
+extern short    EYE_LENGTH_800E0D8C;
 extern short    ActTable_800C3358[];
+
+extern int      GM_PlayerStatus_800ABA50;
+extern SVECTOR  GM_PlayerPosition_800ABA10;
+
 
 extern void ActUnknown1_800C841C();
 extern void ActUnknown2_800C84FC();
@@ -53,7 +69,7 @@ static inline void SetMode( WatcherWork *work, void *func )
     work->field_8F4 = 0;
     work->control.field_4C_turn_vec.vz = 0;
     work->control.field_4C_turn_vec.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->object ), 0 );
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
 static inline void SetMode2( WatcherWork *work, void *func )
@@ -66,13 +82,13 @@ static inline void SetMode2( WatcherWork *work, void *func )
 
     work->control.field_4C_turn_vec.vz = 0;
     work->control.field_4C_turn_vec.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->object ), 0 );
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
 }
 
 static inline void UnsetMode2( WatcherWork *work )
 {
     work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->object ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     
     work->field_8F0_func = 0;
     work->field_8F8 = 0;
@@ -91,7 +107,26 @@ static inline void UnsetMode2( WatcherWork *work )
 static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
     work->field_8E0 = n_action ;
-    GM_ConfigObjectAction_80034CD4( &( work->object ), ActTable_800C3358[n_action], 0, interp );
+    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3358[n_action], 0, interp );
+}
+
+static inline void UnsetAction( WatcherWork *work, int n_action )
+{
+    work->field_8E2 = n_action;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
+}
+
+static inline void UnsetAction2( WatcherWork *work )
+{
+    work->field_8E2 = 0;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    GV_DestroyOtherActor_800151D8( work->subweapon );
+}
+
+//should be in target.h
+static inline void SetTargetClass( TARGET *target, unsigned int flag )
+{
+    target->field_0_flags |= ( flag | TARGET_AVAIL );
 }
 
 int CheckPad_800C5A60( WatcherWork *work )
@@ -200,11 +235,11 @@ int CheckPad_800C5A60( WatcherWork *work )
 
 void ActUnknown15_800C6320( WatcherWork *work, int time )
 {
-    work->target->field_0_flags |= 0x9F;
-    work->field_B90 = dword_800E0D8C;
+    SetTargetClass( work->target, TARGET_FLAG ) ;
+    work->vision_length = EYE_LENGTH_800E0D8C;
     work->field_8E6 = 0;
     
-    if ( sub_800C5424( work ) )
+    if ( CheckDamage_800C5424( work ) )
     {
         UnsetCameraActCall_800D047C( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
@@ -259,4 +294,76 @@ void ActUnknown15_800C6320( WatcherWork *work, int time )
 	}
     work->control.field_4C_turn_vec.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
     work->vision_facedir = work->control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
+}
+
+void ActGrenade_800C67EC( WatcherWork *work, int time )
+{
+    int check = 0;
+    SetTargetClass( work->target, TARGET_FLAG ) ;
+    work->vision_length = EYE_LENGTH_800E0D8C ;
+
+    if ( time == 0 )
+    {
+        extern	void	*NewGrenadeEnemy( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+
+        work->subweapon = NewGrenadeEnemy( &(work->control), &(work->body), 9,
+                                            &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+
+        if ( GM_PlayerStatus_800ABA50 & 2 )
+        {
+            SetAction( work, GRENADE, ACTINTERP );
+        }
+        else
+        {
+            SetAction( work, STANDSTILL, ACTINTERP );
+            UnsetAction( work, GRENADE );
+        }
+    }
+
+    if ( time > ACTINTERP ) {
+        work->trigger |= WEAPON_TAKE ;
+    }
+
+    if ( time == 17 ) {
+        GM_SeSet_80032858( &( work->control.field_0_mov ), SE_PINNUKI ) ;
+    }
+
+    if ( time == 45 ) {
+        if ( work->field_8E0 == 7 )
+        {
+            work->trigger |= WEAPON_TRIG2 ;
+        }
+        else
+        {
+            work->trigger |= WEAPON_TRIG ;
+        }
+    }
+
+    if ( CheckDamage_800C5424( work ) ){
+        UnsetAction2( work );
+        return ;
+    }
+
+    if ( work->field_8E0 == 7 )
+    {
+        if ( work->body.field_1A )
+        {
+            check = 1;
+        }
+    }
+    else
+    {
+        if (work->body.field_1C)
+        {
+            check = 1;
+        }
+    }
+
+    if ( check )
+    {
+        work->actend = 1;
+        UnsetAction2( work );
+        SetMode( work, ActUnknown16_800C65A8 );
+    }
+    
 }

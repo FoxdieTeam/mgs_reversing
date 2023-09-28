@@ -45,8 +45,8 @@ extern unsigned int     GM_DisableWeapon_800AB9E4;
 unsigned int            GM_DisableWeapon_800AB9E4;
 extern char            *GM_StageName_800AB918;
 char                   *GM_StageName_800AB918;
-extern SVECTOR          svector_800ABA10;
-SVECTOR                 svector_800ABA10;
+extern SVECTOR          svector_GM_PlayerPosition_800ABA10;
+SVECTOR                 svector_GM_PlayerPosition_800ABA10;
 extern int              GM_DisableItem_800ABA28;
 int                     GM_DisableItem_800ABA28;
 extern short            GM_WeaponChanged_800AB9D8;
@@ -142,9 +142,9 @@ void GM_Reset_helper_8002A978()
     GM_O2_800ABA34 = 1024;
     GM_StageName_800AB918 = 0;
     GM_TempChangeSpeed = 0;
-    svector_800ABA10.vx = GM_SnakePosX;
-    svector_800ABA10.vy = GM_SnakePosY;
-    svector_800ABA10.vz = GM_SnakePosZ;
+    svector_GM_PlayerPosition_800ABA10.vx = GM_SnakePosX;
+    svector_GM_PlayerPosition_800ABA10.vy = GM_SnakePosY;
+    svector_GM_PlayerPosition_800ABA10.vz = GM_SnakePosZ;
 
     for (i = 5; i >= 0; i--)
     {

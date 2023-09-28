@@ -20,7 +20,7 @@ extern int                       GV_Time_800AB330;
 extern int                       GM_GameOverTimer_800AB3D4;
 extern int                       dword_800ABA0C;
 extern MATRIX                    DG_ZeroMatrix_8009D430;
-extern SVECTOR                   svector_800ABA10;
+extern SVECTOR                   svector_GM_PlayerPosition_800ABA10;
 extern char                     *itm_descriptions_8009E3E4[];
 
 extern int                       dword_800ABAD0;
@@ -954,9 +954,9 @@ void menu_item_update_helper4_8003C4EC(void)
                 GM_CurrentMap_800AB9B0 = dword_800ABA0C;
 
                 mtx = DG_ZeroMatrix_8009D430;
-                mtx.t[0] = svector_800ABA10.vx;
-                mtx.t[1] = svector_800ABA10.vy;
-                mtx.t[2] = svector_800ABA10.vz;
+                mtx.t[0] = svector_GM_PlayerPosition_800ABA10.vx;
+                mtx.t[1] = svector_GM_PlayerPosition_800ABA10.vy;
+                mtx.t[2] = svector_GM_PlayerPosition_800ABA10.vz;
                 NewBlast_8006DFDC(&mtx, &blastData);
 
                 GM_CurrentItemId = ITEM_NONE;
