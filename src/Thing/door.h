@@ -50,7 +50,4 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v);
 void door_init_t_value_8006F7AC(Actor_Door *pDoor, Actor_Door_TParam *pOffset, int, int, int);
 void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v);
 
-// TODO: move to libhzd.h?
-int HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag);
-
 #endif // _THING_DOOR_H_

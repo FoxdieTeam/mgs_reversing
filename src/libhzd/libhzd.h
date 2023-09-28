@@ -128,6 +128,8 @@ typedef struct HZD_HDL
     char       *f20_pAfterStructure_48;
 } HZD_HDL; // 28
 
+int      HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag);
+void     HZD_DequeueDynamicSegment2_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1);
 void     HZD_SetDynamicSegment_8006FEE4(HZD_SEG *a1, HZD_SEG *a2);
 void     HZD_StartDaemon_80021900(void);
 HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24);

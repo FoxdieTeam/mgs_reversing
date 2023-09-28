@@ -1,3 +1,4 @@
+#include "linker.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -26,9 +27,13 @@ extern int GV_Clock_800AB920;
 extern int GV_PassageTime_800AB924;
 extern int GV_PauseLevel_800AB928;
 extern int GM_GameStatus_800AB3CC;
-extern int s16b_dword_800C3250;
+extern unsigned short s16b_dword_800C3250[];
+extern int s16b_dword_800C58AC;
 
-int s16b_800C44DC(unsigned short, int, int *);
+int s16b_800C43A4(char param);
+int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes);
+
+#define EXEC_LEVEL 3
 
 void FadeIoAct_800C3E7C(FadeIoWork *work)
 {
@@ -38,7 +43,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        status = s16b_800C44DC(work->field_20, 2, &s16b_dword_800C3250);
+        status = s16b_800C44DC(work->field_20, 2, s16b_dword_800C3250);
         if (status == 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -156,7 +161,7 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor_800150E4(3, sizeof(FadeIoWork));
+    work = (FadeIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0,
@@ -166,7 +171,110 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
+
         work->field_20 = 0x62FE;
     }
     return &work->actor;
 }
+
+GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
+{
+    FadeIoWork *work;
+
+    work = (FadeIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FadeIoWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0, aFadeIo_800C5880);
+
+        if (FadeIoGetResources_800C4100(work, s16b_800C43A4('m'), s16b_800C43A4('s')) < 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
+        }
+
+        work->field_20 = name;
+    }
+
+    return &work->actor;
+}
+
+int s16b_800C4364(char param, int def)
+{
+    if (GCL_GetParam_80020968(param))
+    {
+        return GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    return def;
+}
+
+int s16b_800C43A4(char param)
+{
+    return s16b_800C4364(param, 0);
+}
+
+unsigned short s16b_800C43C8(char param, unsigned short def)
+{
+    char *param2;
+
+    param2 = (char *)GCL_GetParam_80020968(param);
+    if (param2)
+    {
+        return GCL_GetNextInt_800209E8(param2);
+    }
+
+    return def;
+}
+
+int s16b_800C440C(char param)
+{
+    return s16b_800C43C8(param, 0);
+}
+
+void s16b_800C4430(char param, short x, short y, short z, SVECTOR *vec)
+{
+    if (GCL_GetParam_80020968(param))
+    {
+        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
+        return;
+    }
+
+    vec->vx = x;
+    vec->vy = y;
+    vec->vz = z;
+}
+
+void s16b_800C44AC(char param, SVECTOR *vec)
+{
+    s16b_800C4430(param, 0, 0, 0, vec);
+}
+
+int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes)
+{
+    GV_MSG *msg;
+    int     msg_count;
+    int     found;
+    int     hash;
+    int     i;
+
+    msg_count = GV_ReceiveMessage_80016620(name, &msg);
+    found = -1;
+
+    for (; msg_count > 0; msg_count--, msg++)
+    {
+        hash = msg->message[0];
+
+        for (i = 0; i < hash_count; i++)
+        {
+            if (hash == hashes[i])
+            {
+                found = i;
+                s16b_dword_800C58AC = msg->message[1];
+            }
+        }
+    }
+
+    return found;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C4584.s")
