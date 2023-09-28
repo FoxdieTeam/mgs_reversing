@@ -1,3 +1,6 @@
+// Note that there are two "camera.c" actors,
+// this is probably not the Enemy/camera.c actor.
+
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "psyq.h"
@@ -28,7 +31,50 @@ int            camera_800CDF18(CameraWork *);
 extern DG_CHNL DG_Chanls_800B1800[];
 extern int     GV_Clock_800AB920;
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3A7C.s")
+void DecDCTReset_800CF424(long mode);
+void DecDCTin_800CF588(unsigned long *runlevel, long mode);
+long DecDCToutSync_800CF660(long mode);
+void DecDCTout_800CF604(unsigned long *cell, long size);
+
+void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
+{
+    int            x, y, w, h;
+    int            x2, y2;
+    unsigned long *cell;
+
+    DecDCTReset_800CF424(0);
+
+    x = pRect->x;
+    y = pRect->y;
+    w = pRect->w;
+    h = pRect->h;
+
+    pRect->w = 16;
+    pRect->h = 16;
+
+    x2 = x + w;
+    y2 = y + h;
+
+    cell = (unsigned long *)0x80182000; // ori
+
+    DecDCTin_800CF588(runlevel, 0);
+
+    while (pRect->x < x2)
+    {
+        pRect->y = y;
+        while (pRect->y < y2)
+        {
+            DecDCTout_800CF604(cell, 128);
+            DecDCToutSync_800CF660(0);
+            LoadImage(pRect, cell);
+            pRect->y += 16;
+        }
+        pRect->x += 16;
+    }
+    pRect->x = x;
+    pRect->y = y;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3B9C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3D3C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
@@ -42,7 +88,7 @@ extern int     GV_Clock_800AB920;
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5308.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5388.s")
 
-extern const char camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
+extern const char                  camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 
 // duplicate of init_file_mode_helper2_8004A800
@@ -52,7 +98,8 @@ void camera_800C56F4()
 {
     int i;
 
-    camera_dword_800D075C = (RadioFileModeStru_800ABB7C *)GV_AllocMemory_80015EB8(2, sizeof(RadioFileModeStru_800ABB7C));
+    camera_dword_800D075C =
+        (RadioFileModeStru_800ABB7C *)GV_AllocMemory_80015EB8(2, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
         printf(camera_aNomemoryforobj_800CFF80);
@@ -108,7 +155,7 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of menu_init_sprt_8004AE14
     setClut(pPrim, 960, 510);
 }
 
-extern RECT camera_dword_800C389C;
+extern RECT  camera_dword_800C389C;
 extern char *camera_dword_800D0760;
 
 // duplicate of init_radio_message_board_80040F74
@@ -147,8 +194,8 @@ void camera_800C5D54(Actor_MenuMan *pActor)
 
 void camera_800C5EB4(Actor_MenuMan *param_1, const char *str) // duplicate of menu_radio_do_file_mode_helper7_8004AE3C
 {
-    int height;
-    KCB  *kcb;
+    int  height;
+    KCB *kcb;
 
     kcb = param_1->field_214_font;
 
@@ -205,7 +252,8 @@ void camera_800C5F20(Stru_800ABB74 *pStru) // duplicate of sub_8004AEA8
     font_update_8004695C(kcb);
 }
 
-void camera_800C6054(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru) // duplicate of menu_radio_do_file_mode_helper8_8004AFE4
+void camera_800C6054(Actor_MenuMan *pActor, char *pOt,
+                     Stru_800ABB74 *pStru) // duplicate of menu_radio_do_file_mode_helper8_8004AFE4
 {
     unsigned int xoff;
     SPRT        *pPrim;
@@ -276,8 +324,8 @@ void camera_800C6918(void **arg0, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
 
-int         camera_800C5308(int);
-extern int  camera_dword_800D0764;
+int        camera_800C5308(int);
+extern int camera_dword_800D0764;
 
 void camera_800C82B0(menu_save_mode_data *arg0, int arg1)
 {
