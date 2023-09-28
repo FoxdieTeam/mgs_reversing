@@ -6,6 +6,7 @@
 #include "psyq.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
+#include <LIBPRESS.H>
 
 typedef struct CameraWork
 {
@@ -31,18 +32,13 @@ int            camera_800CDF18(CameraWork *);
 extern DG_CHNL DG_Chanls_800B1800[];
 extern int     GV_Clock_800AB920;
 
-void DecDCTReset_800CF424(long mode);
-void DecDCTin_800CF588(unsigned long *runlevel, long mode);
-long DecDCToutSync_800CF660(long mode);
-void DecDCTout_800CF604(unsigned long *cell, long size);
-
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 {
     int            x, y, w, h;
     int            x2, y2;
     unsigned long *cell;
 
-    DecDCTReset_800CF424(0);
+    DecDCTReset(0);
 
     x = pRect->x;
     y = pRect->y;
@@ -57,15 +53,15 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 
     cell = (unsigned long *)0x80182000; // ori
 
-    DecDCTin_800CF588(runlevel, 0);
+    DecDCTin(runlevel, 0);
 
     while (pRect->x < x2)
     {
         pRect->y = y;
         while (pRect->y < y2)
         {
-            DecDCTout_800CF604(cell, 128);
-            DecDCToutSync_800CF660(0);
+            DecDCTout(cell, 128);
+            DecDCToutSync(0);
             LoadImage(pRect, cell);
             pRect->y += 16;
         }
