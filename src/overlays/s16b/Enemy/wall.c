@@ -20,12 +20,6 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_GameStatus_800AB3CC;
 extern int     GM_CurrentMap_800AB9B0;
 
-extern const char s16b_dword_800C5800[]; // = "destroy\n"
-extern const char s16b_dword_800C580C[]; // = "box_01"
-extern const char s16b_dword_800C5814[]; // = "dbx1"
-extern const char s16b_dword_800C581C[]; // = "dbx2"
-extern const char s16b_dword_800C5824[]; // = "wall.c"
-
 #define EXEC_LEVEL 5
 
 void asioto_800C3278(Work *work)
@@ -116,7 +110,7 @@ void WallAct_800C345C(Work *work)
 
 void WallDie_800C34B0(Work *work)
 {
-    printf(s16b_dword_800C5800);
+    printf("destroy\n");
 
     work->object.objs->flag = DG_FLAG_ONEPIECE | DG_FLAG_BOUND | DG_FLAG_TRANS | DG_FLAG_PAINT | DG_FLAG_TEXT;
     GM_FreeObject_80034BF8(&work->object);
@@ -139,7 +133,7 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     switch (def_model)
     {
     case 0:
-        model = GV_StrCode_80016CCC(s16b_dword_800C580C);
+        model = GV_StrCode_80016CCC("box_01");
         scale.vx = 8192;
         scale.vy = 16384;
         scale.vz = 8192;
@@ -147,14 +141,14 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
         break;
 
     case 1:
-        model = GV_StrCode_80016CCC(s16b_dword_800C5814);
+        model = GV_StrCode_80016CCC("dbx1");
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
         break;
 
     case 2:
-        model = GV_StrCode_80016CCC(s16b_dword_800C581C);
+        model = GV_StrCode_80016CCC("dbx2");
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
@@ -201,7 +195,7 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
     work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, s16b_dword_800C5824);
+        GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)WallDie_800C34B0, "wall.c");
 
         // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
         if (WallGetResources_800C34F0(work, pos, dir) < 0)
@@ -225,7 +219,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     work = (Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, s16b_dword_800C5824);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WallAct_800C345C, (TActorFunction)WallDie_800C34B0, "wall.c");
 
         param = (char *)GCL_GetParam_80020968('t');
         if (param != 0)
