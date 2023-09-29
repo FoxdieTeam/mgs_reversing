@@ -7,7 +7,7 @@
 
 typedef struct TARGET
 {
-    unsigned short field_0_flags;
+    unsigned short class;
     unsigned short field_2_side;
     unsigned short field_4_map;
     unsigned short field_6_flags;

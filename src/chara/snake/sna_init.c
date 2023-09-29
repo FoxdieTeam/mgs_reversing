@@ -635,14 +635,14 @@ void sna_set_invuln_8004F2A0(Actor_SnaInit *pActor, char invuln_frames)
 {
     GM_SetPlayerStatusFlag_8004E2B4(PLAYER_INVULNERABLE);
     pActor->field_A24_invuln_frames = invuln_frames;
-    pActor->field_89C_pTarget->field_0_flags &= ~0x96;
+    pActor->field_89C_pTarget->class &= ~0x96;
 }
 
 void sna_clear_invuln_8004F2EC(Actor_SnaInit *snake)
 {
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_INVULNERABLE);
     sna_clear_flags1_8004E308(snake, SNA_FLAG1_UNK1);
-    snake->field_89C_pTarget->field_0_flags |= TARGET_FLAG;
+    snake->field_89C_pTarget->class |= TARGET_FLAG;
 }
 
 void sub_8004F338(Actor_SnaInit *param_1)
@@ -1061,7 +1061,7 @@ int sna_8004FDE8(Actor_SnaInit *pActor, Target_Data *pTargetData)
 
     if (pTarget)
     {
-        if (pTarget->field_0_flags & 0x20)
+        if (pTarget->class & 0x20)
         {
             pTarget->field_6_flags &= ~flags;
             pTarget->field_2A += pTargetData->field_1C;
