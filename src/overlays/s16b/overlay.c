@@ -5,7 +5,7 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
 GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv);
 GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv);
 GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv);
-GV_ACT *s16b_800C4F9C(int name, int where, int argc, char **argv);
+GV_ACT *NewSepia_800C4F9C(int name, int where, int argc);
 GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
 
 GCL_ActorTableEntry s16bOverlayCharas[] =
@@ -17,7 +17,7 @@ GCL_ActorTableEntry s16bOverlayCharas[] =
     { 0xB103, NewDymcSeg_800C4BCC },
     { 0x0003, NewFadeIo_800C4224 },
     { 0x0004, NewFadeIo_800C4224 },
-    { 0x001F, s16b_800C4F9C },
+    { 0x001F, (TGCL_ActorCreateFn)NewSepia_800C4F9C },
     { 0, 0 }
 };
 
@@ -27,10 +27,9 @@ int s16b_dword_800C3258 = 0x00E20300;
 int s16b_dword_800C325C = 0x00020100;
 int s16b_dword_800C3260 = 0x00C40300;
 int s16b_dword_800C3264 = 0x00020100;
-int s16b_dword_800C3268 = 0x00E20300;
-int s16b_dword_800C326C = 0x00020100;
-int s16b_dword_800C3270 = 0x00C40300;
-int s16b_dword_800C3274 = 0x00020100;
+
+RECT rect_800C3268 = {768, 226, 256, 2};
+RECT rect_800C3270 = {768, 196, 256, 2};
 
 
 const char s16b_dword_800C5800[] = "destroy\n";
