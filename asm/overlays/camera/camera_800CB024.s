@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section camera.text
+	section overlay.text
 
 	xdef camera_800CB024
 camera_800CB024:
