@@ -1,5 +1,5 @@
-#include "linker.h"
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
@@ -25,10 +25,10 @@ extern int GV_Clock_800AB920;
 extern int GV_PassageTime_800AB924;
 extern int GV_PauseLevel_800AB928;
 extern int GM_GameStatus_800AB3CC;
-extern unsigned short s16b_dword_800C3250[];
-extern int s16b_dword_800C58AC;
 
-extern const char aFadeIo_800C5880[]; // = "fadeio.c";
+unsigned short s16b_dword_800C3250[] = {HASH_KILL, 0x71F1};
+
+static int s16b_dword_800C58AC[2];
 
 int s16b_800C43A4(char param);
 int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes);
@@ -165,7 +165,7 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0,
-                                  aFadeIo_800C5880);
+                                  "fadeio.c");
         if (FadeIoGetResources_800C4100(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -184,7 +184,7 @@ GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
     work = (FadeIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0, aFadeIo_800C5880);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0, "fadeio.c");
 
         if (FadeIoGetResources_800C4100(work, s16b_800C43A4('m'), s16b_800C43A4('s')) < 0)
         {
@@ -269,7 +269,7 @@ int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes)
             if (hash == hashes[i])
             {
                 found = i;
-                s16b_dword_800C58AC = msg->message[1];
+                s16b_dword_800C58AC[0] = msg->message[1];
             }
         }
     }
@@ -277,4 +277,93 @@ int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes)
     return found;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C4584.s")
+int s16b_800C4584(void)
+{
+    return s16b_dword_800C58AC[0];
+}
+
+void s16b_800C4594(short address, short message)
+{
+    GV_MSG msg;
+
+    msg.address = address;
+    msg._len = 1;
+    msg.message[0] = message;
+    GV_SendMessage_80016504(&msg);
+}
+
+void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)
+{
+    SVECTOR sp10;
+    SVECTOR sp18;
+    int     height;
+    int     y;
+
+    if (trans)
+    {
+        DG_SetPos_8001BC44(trans);
+        DG_PutVector_8001BE48(arg2, &sp10, 1);
+        DG_PutVector_8001BE48(arg3, &sp18, 1);
+    }
+    else
+    {
+        sp10 = *arg2;
+        sp18 = *arg3;
+    }
+
+    height = sp10.vy - sp18.vy;
+    y = sp18.vy;
+
+    if (height <= 0)
+    {
+        y = sp10.vy;
+        height = -height;
+    }
+
+    seg->p1.x = sp10.vx;
+    seg->p1.z = sp10.vz;
+    seg->p2.x = sp18.vx;
+    seg->p2.z = sp18.vz;
+    seg->p2.y = y;
+    seg->p1.y = y;
+    seg->p2.h = height;
+    seg->p1.h = height;
+
+    HZD_SetDynamicSegment_8006FEE4(seg, seg);
+}
+
+void s16b_800C46D8(HZD_FLR *flr, SVECTOR *arg1, SVECTOR *arg2)
+{
+    short y;
+
+    flr->p1.x = arg1->vx - arg2->vx;
+    flr->p1.z = arg1->vz - arg2->vz;
+
+    flr->p2.x = arg1->vx + arg2->vx;
+    flr->p2.z = arg1->vz - arg2->vz;
+
+    flr->p4.x = arg1->vx - arg2->vx;
+    flr->p4.z = arg1->vz + arg2->vz;
+
+    flr->p3.x = arg1->vx + arg2->vx;
+    flr->p3.z = arg1->vz + arg2->vz;
+
+    y = arg1->vy + arg2->vy;
+
+    flr->p1.h = 0;
+    flr->p2.h = 0;
+    flr->p3.h = 0xFF;
+
+    flr->p4.y = y;
+    flr->p3.y = y;
+    flr->p2.y = y;
+    flr->p1.y = y;
+
+    flr->b1.x = arg1->vx - arg2->vx;
+    flr->b1.z = arg1->vz - arg2->vz;
+    flr->b1.y = arg1->vy - arg2->vy;
+
+    flr->b2.x = arg1->vx + arg2->vx;
+    flr->b2.z = arg1->vz + arg2->vz;
+    flr->b2.y = arg1->vy + arg2->vy;
+}

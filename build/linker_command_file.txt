@@ -333,6 +333,8 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     section overlay.dtors, overlay
     section overlay.rdata, overlay
     section overlay.sdata, overlay
+    section overlay.sbss,  overlay
+    section overlay.bss,   overlay
     section overlay.fixme, overlay
 
 {% if OVERLAY == "sound" %}
