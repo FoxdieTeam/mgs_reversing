@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section s16b.text
+	section overlay.text
 
 	xdef s16b_800C4C60
 s16b_800C4C60:
