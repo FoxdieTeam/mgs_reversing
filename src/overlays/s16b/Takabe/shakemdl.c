@@ -23,7 +23,7 @@ extern const char s16b_dword_800C58A0[]; // = "shakemdl.c"
 int  s16b_800C4364(int param, int def);
 int  s16b_800C43A4(int param);
 void s16b_800C5728(ShakemdlWork *, short *);
-void s16b_800C57A4(void);
+void s16b_800C57A4(ShakemdlWork *);
 int  s16b_800C5664(ShakemdlWork *work);
 
 #define EXEC_LEVEL 5
@@ -87,7 +87,7 @@ void ShakemdlAct_800C5288(ShakemdlWork *work)
 
 void ShakemdlDie_800C5418(ShakemdlWork *work)
 {
-    s16b_800C57A4();
+    s16b_800C57A4(work);
 
     if (work->ptr)
     {
@@ -175,3 +175,7 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
 
     return &work->actor;
 }
+
+#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C5664.s");
+#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C5728.s");
+#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C57A4.s");
