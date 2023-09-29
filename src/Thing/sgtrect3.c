@@ -57,9 +57,9 @@ extern int dword_800ABA0C;
 
 int sgtrect3_act_helper_800701A8(TARGET *target)
 {
-    if (!((((target->field_0_flags & 0xfffe) != 0 && (target->field_4_map & dword_800ABA0C) != 0) &&
+    if (!((((target->class & 0xfffe) != 0 && (target->field_4_map & dword_800ABA0C) != 0) &&
            target->field_2_side == 2) &&
-          target->field_6_flags == 0 && ((target->field_0_flags & 0x220) == 0)))
+          target->field_6_flags == 0 && ((target->class & 0x220) == 0)))
     {
         return 0;
     }

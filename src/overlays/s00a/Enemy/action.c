@@ -126,7 +126,7 @@ static inline void UnsetAction2( WatcherWork *work )
 //should be in target.h
 static inline void SetTargetClass( TARGET *target, unsigned int flag )
 {
-    target->field_0_flags |= ( flag | TARGET_AVAIL );
+    target->class |= ( flag | TARGET_AVAIL );
 }
 
 int CheckPad_800C5A60( WatcherWork *work )
@@ -320,15 +320,18 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         }
     }
 
-    if ( time > ACTINTERP ) {
+    if ( time > ACTINTERP )
+    {
         work->trigger |= WEAPON_TAKE ;
     }
 
-    if ( time == 17 ) {
+    if ( time == 17 )
+    {
         GM_SeSet_80032858( &( work->control.field_0_mov ), SE_PINNUKI ) ;
     }
 
-    if ( time == 45 ) {
+    if ( time == 45 )
+    {
         if ( work->field_8E0 == 7 )
         {
             work->trigger |= WEAPON_TRIG2 ;
@@ -339,7 +342,8 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         }
     }
 
-    if ( CheckDamage_800C5424( work ) ){
+    if ( CheckDamage_800C5424( work ) )
+    {
         UnsetAction2( work );
         return ;
     }

@@ -1,3 +1,5 @@
+#include "Game/homing_target.h"
+
 typedef struct _WatcherPad
 {
     int   field_00;        //0x00       //0xB34
@@ -48,10 +50,11 @@ typedef struct _WatcherWork
     TARGET      *target;                     //0x900
     char         field_904_padding[0x48];
     TARGET       field_94C;                  //0x94C
-    char         field_994_padding[0x4C];    //0x994
+    char         field_994_padding[0x48];    //0x994
+    Homing_Target *hom;                      //0x9DC
     short        scale;                      //0x9E0
     short        field_9E2;                  //0x9E2
-    short        field_9E4;                  //0x9E4
+    short        visible;                    //0x9E4
     short        field_9E6;                  //0x9E6
     int          field_9E8;                  //0x9E8
     SVECTOR      nodes[0x20];                //0x9EC
@@ -125,7 +128,7 @@ typedef struct _WatcherWork
     int          field_C20;                  //0xC20
     int          field_C24;                  //0xC24
     int          sn_dir;                     //0xC28
-    short        field_C2C;                  //0xC2C
+    short        faseout;                    //0xC2C
     short        field_C2E;                  //0xC2E
     int          field_C30;                  //0xC30
     int          field_C34;                  //0xC34
