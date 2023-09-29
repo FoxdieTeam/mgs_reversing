@@ -5,26 +5,26 @@
 
 typedef struct _ShakemdlWork
 {
-    GV_ACT actor;
-    int    name;
-    int    f24;
-    int    f28;
-    int    f2C;
-    int    f30;
-    int    f34;
-    void  *f38;
-    short  f3C[16];
-    short  f5C[16];
-    void  *ptr;
+    GV_ACT      actor;
+    int         name;
+    int         f24;
+    int         f28;
+    int         f2C;
+    int         f30;
+    int         f34;
+    DG_KmdFile *kmd;
+    short       f3C[16];
+    short       f5C[16];
+    short      *vertices;
 } ShakemdlWork;
 
 extern const char s16b_dword_800C58A0[]; // = "shakemdl.c"
 
-int  s16b_800C4364(int param, int def);
-int  s16b_800C43A4(int param);
-void s16b_800C5728(ShakemdlWork *, short *);
-void s16b_800C57A4(ShakemdlWork *);
-int  s16b_800C5664(ShakemdlWork *work);
+int s16b_800C4364(int param, int def);
+int s16b_800C43A4(int param);
+int s16b_800C5728(ShakemdlWork *, short *);
+int s16b_800C57A4(ShakemdlWork *work);
+int s16b_800C5664(ShakemdlWork *work);
 
 #define EXEC_LEVEL 5
 
@@ -89,9 +89,9 @@ void ShakemdlDie_800C5418(ShakemdlWork *work)
 {
     s16b_800C57A4(work);
 
-    if (work->ptr)
+    if (work->vertices)
     {
-        GV_Free_80016230(work->ptr);
+        GV_Free_80016230(work->vertices);
     }
 }
 
@@ -101,7 +101,7 @@ int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
     short *var_s2;
     int    i;
 
-    work->f38 = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'k'));
+    work->kmd = GV_GetCache_8001538C(GV_CacheID_800152DC(name, 'k'));
 
     if (s16b_800C5664(work))
     {
@@ -176,6 +176,99 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
     return &work->actor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C5664.s");
-#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C5728.s");
-#pragma INCLUDE_ASM("asm/overlays/s16b/s16b_800C57A4.s");
+int s16b_800C5664(ShakemdlWork *work)
+{
+    DG_KmdFile *kmd;
+    DG_MDL     *object;
+    int         nvertices;
+    int         nobjects;
+    short      *vertices;
+    SVECTOR    *src;
+
+    kmd = work->kmd;
+    object = kmd->objects;
+    nvertices = 0;
+
+    for (nobjects = kmd->num_objects; nobjects > 0; object++, nobjects--)
+    {
+        nvertices += object->numVertex_34;
+    }
+
+    vertices = GV_Malloc_8001620C(nvertices * 2);
+    work->vertices = vertices;
+
+    if (!vertices)
+    {
+        return -1;
+    }
+
+    object = kmd->objects;
+
+    for (nobjects = kmd->num_objects; nobjects > 0; object++, nobjects--)
+    {
+        src = (SVECTOR *)((short *)object->vertexIndexOffset_38 + work->f2C);
+
+        for (nvertices = object->numVertex_34; nvertices > 0; nvertices--)
+        {
+            *vertices++ = src->vx;
+            src++;
+        }
+    }
+
+    return 0;
+}
+
+int s16b_800C5728(ShakemdlWork *work, short *arg1)
+{
+    DG_MDL  *object;
+    short   *src;
+    int      index;
+    int      nobjects;
+    SVECTOR *vertex;
+    int      nvertices;
+    int      ret;
+
+    object = work->kmd->objects;
+    src = work->vertices;
+    index = 0;
+    ret = 0;
+
+    for (nobjects = work->kmd->num_objects; nobjects > 0; nobjects--, object++)
+    {
+        vertex = (SVECTOR *)((short *)object->vertexIndexOffset_38 + work->f2C);
+
+        for (nvertices = object->numVertex_34; nvertices > 0; nvertices--)
+        {
+            vertex->vx = *src++ + arg1[index];
+            index = (index + 1) & 0xF;
+            vertex++;
+        }
+    }
+
+    return ret;
+}
+
+int s16b_800C57A4(ShakemdlWork *work)
+{
+    DG_MDL  *object;
+    short   *src;
+    int      nobjects;
+    SVECTOR *vertex;
+    int      nvertices;
+
+    object = work->kmd->objects;
+    src = work->vertices;
+
+    for (nobjects = work->kmd->num_objects; nobjects > 0; nobjects--, object++)
+    {
+        vertex = (SVECTOR *)((short *)object->vertexIndexOffset_38 + work->f2C);
+
+        for (nvertices = object->numVertex_34; nvertices > 0; nvertices--)
+        {
+            vertex->vx = *src++;
+            vertex++;
+        }
+    }
+
+    return 0;
+}
