@@ -1,4 +1,3 @@
-#include "linker.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -17,8 +16,6 @@ typedef struct _ShakemdlWork
     short       f5C[16];
     short      *vertices;
 } ShakemdlWork;
-
-extern const char s16b_dword_800C58A0[]; // = "shakemdl.c"
 
 int s16b_800C4364(int param, int def);
 int s16b_800C43A4(int param);
@@ -129,7 +126,7 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
     work = (ShakemdlWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, s16b_dword_800C58A0);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
 
         model = s16b_800C43A4('m');
         work->f2C = s16b_800C43A4('a');
@@ -157,7 +154,7 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
     work = (ShakemdlWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, s16b_dword_800C58A0);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
 
         work->f2C = arg1;
 

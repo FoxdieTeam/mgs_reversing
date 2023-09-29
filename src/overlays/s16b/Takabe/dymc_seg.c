@@ -1,4 +1,3 @@
-#include "linker.h"
 #include "Bullet/jirai.h"
 #include "Game/target.h"
 #include "libgcl/libgcl.h"
@@ -20,8 +19,7 @@ extern int           GM_CurrentMap_800AB9B0;
 extern Jirai_unknown stru_800BDD78[16];
 extern Jirai_unknown stru_800BDE78[8];
 
-extern const char     s16b_dword_800C588C[]; // = "dymc_seg.c"
-extern unsigned short s16b_dword_800C3254[]; // = {0xD182, 0x006B}
+unsigned short s16b_dword_800C3254[] = {0xD182, 0x006B};
 
 int s16b_800C43A4(char param);
 int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes);
@@ -178,7 +176,7 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
     work = (DymcSegWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, s16b_dword_800C588C);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {
