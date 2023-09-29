@@ -324,54 +324,30 @@ __program_bottom EQU ${{OLAY_BASE}}
 ; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
 olay    group   org(${{OLAY_BASE}}), size(343544)
 
-; sound.bin overlay
-sound   group   over(olay), file("{{OBJ_DIR}}\sound.bin")
-    section sound.data,  sound
-    section sound.text,  sound
-    section sound.ctors, sound
-    section sound.dtors, sound
-    section sound.rdata, sound
-    section sound.sdata, sound
+{% if OVERLAY %}
 
+overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
+    section overlay.data,  overlay
+    section overlay.text,  overlay
+    section overlay.ctors, overlay
+    section overlay.dtors, overlay
+    section overlay.rdata, overlay
+    section overlay.sdata, overlay
+    section overlay.fixme, overlay
+
+{% if OVERLAY == "sound" %}
     include "{{OBJ_DIR}}\overlays\sound\overlay.obj"
     include "{{OBJ_DIR}}\overlays\sound\Game\sndtst.obj"
-
-; select1.bin overlay
-select1 group   over(olay), file("{{OBJ_DIR}}\select1.bin")
-    section select1.data,  select1
-    section select1.text,  select1
-    section select1.ctors, select1
-    section select1.dtors, select1
-    section select1.rdata, select1
-    section select1.sdata, select1
-
+{% elif OVERLAY in ["select1", "select2", "select3", "select4", "selectd"] %}
     include "{{OBJ_DIR}}\overlays\select1\overlay.obj"
     include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
-
-; change.bin overlay
-change  group   over(olay), file("{{OBJ_DIR}}\change.bin")
-    section change.data,  change
-    section change.text,  change
-    section change.ctors, change
-    section change.dtors, change
-    section change.rdata, change
-    section change.sdata, change
-
+{% elif OVERLAY == "change" %}
     include "{{OBJ_DIR}}\overlays\change\overlay.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change.obj"
     include "{{OBJ_DIR}}\overlays\change\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\met_logo.obj"
     include "{{OBJ_DIR}}\overlays\change\Onoda\change\change2.obj"
-
-; s16b.bin overlay
-s16b  group   over(olay), file("{{OBJ_DIR}}\s16b.bin")
-    section s16b.data,  s16b
-    section s16b.text,  s16b
-    section s16b.ctors, s16b
-    section s16b.dtors, s16b
-    section s16b.rdata, s16b
-    section s16b.sdata, s16b
-
+{% elif OVERLAY == "s16b" %}
     include "{{OBJ_DIR}}\overlays\s16b\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
@@ -379,19 +355,12 @@ s16b  group   over(olay), file("{{OBJ_DIR}}\s16b.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
-
-; camera.bin overlay
-camera  group   over(olay), file("{{OBJ_DIR}}\camera.bin")
-    section camera.data,  camera
-    section camera.text,  camera
-    section camera.ctors, camera
-    section camera.dtors, camera
-    section camera.rdata, camera
-    section camera.sdata, camera
-    section camera.fixme, camera
-
+{% elif OVERLAY == "camera" %}
     include "{{OBJ_DIR}}\overlays\camera\overlay.obj"
     include "{{OBJ_DIR}}\overlays\camera\Unknown\camera.obj"
-    inclib "LIBPRESS.LIB", camera
+    inclib "LIBPRESS.LIB", overlay
+{% endif %}
+
+{% endif %}
 
     regs    pc=__SN_ENTRY_POINT

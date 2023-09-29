@@ -178,7 +178,7 @@ ninja.newline()
 ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -s$overlay $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -soverlay $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
@@ -194,10 +194,10 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out {' '.join(args.defines)}", "Preprocess $in -> $out")
+ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out {' '.join(args.defines)} $overlay", "Preprocess $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file.txt\",$src_dir/../{args.obj_directory}/_mgsi.cpe,$src_dir/../{args.obj_directory}/asm.sym,$src_dir/../{args.obj_directory}/asm.map", "Link $out")
+ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
@@ -297,19 +297,13 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
-        OVERLAYS = ["sound", "select1", "change", "s16b", "camera"]
-
-        if any(f"overlays/{overlayName}" in cFile for overlayName in OVERLAYS):
-            for overlayName in OVERLAYS:
-                if f"overlays/{overlayName}" not in cFile:
-                    continue
-
-                # Build overlay using PsyQ 4.4
-                ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
-                ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-                ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
-                ninja.build(cTempOFile, "psyq_aspsx_assemble_44_overlays", cAsmFile, variables= { "overlay": overlayName })
-                ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+        if "overlays/" in cFile:
+            # Build overlay using PsyQ 4.4
+            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
+            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
+            ninja.build(cTempOFile, "psyq_aspsx_assemble_44_overlays", cAsmFile)
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
         elif "mts/" in cFile or "SD/" in cFile:
            # Build using PsyQ 4.3
             ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
@@ -327,20 +321,36 @@ def gen_build_target(targetName):
 
         linkerDeps.append(cOFile)
 
-    # preprocess linker_command_file.txt
-    linkerCommandFile = f"../{args.obj_directory}/linker_command_file.txt"
-    ninja.build(linkerCommandFile, "linker_command_file_preprocess", "linker_command_file.txt")
-    ninja.newline()
+    # Run linker separately for each overlay to make it possible
+    # to share objects (same symbols) across overlays.
 
-    # run the linker to generate the cpe
-    cpeFile = f"../{args.obj_directory}/_mgsi.cpe"
-    ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
-    ninja.newline()
+    OVERLAYS = [
+        None, # Main executable
+        "sound",
+        "select1", "select2", "select3", "select4", "selectd",
+        "change",
+        "s16b",
+        "camera"
+    ]
 
-    # cpe to exe
-    exeFile = f"../{args.obj_directory}/_mgsi.exe"
-    ninja.build(exeFile, "cpe2exe", cpeFile)
-    ninja.newline()
+    for overlay in OVERLAYS:
+        suffix = f"_{overlay}" if overlay else ""
+
+        # preprocess linker_command_file.txt
+        linkerCommandFile = f"../{args.obj_directory}/linker_command_file{suffix}.txt"
+        linkerCommandPreprocessVars = {"overlay": f"OVERLAY={overlay}"} if overlay else {}
+        ninja.build(linkerCommandFile, "linker_command_file_preprocess", f"linker_command_file.txt", variables=linkerCommandPreprocessVars)
+        ninja.newline()
+
+        # run the linker to generate the cpe
+        cpeFile = f"../{args.obj_directory}/_mgsi{suffix}.cpe"
+        ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile], variables={"suffix": suffix})
+        ninja.newline()
+
+        # cpe to exe
+        exeFile = f"../{args.obj_directory}/_mgsi{suffix}.exe"
+        ninja.build(exeFile, "cpe2exe", cpeFile)
+        ninja.newline()
 
 
 #init_psyq_ini_files(args.psyq_path)
