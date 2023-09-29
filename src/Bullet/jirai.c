@@ -305,12 +305,12 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
 
     if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
-        pTarget->field_0_flags &= ~TARGET_PUSH;
+        pTarget->class &= ~TARGET_PUSH;
         pTarget->field_6_flags &= ~TARGET_PUSH;
     }
     else
     {
-        pTarget->field_0_flags |= TARGET_PUSH;
+        pTarget->class |= TARGET_PUSH;
     }
 
     if (((pTarget->field_6_flags & TARGET_PUSH) || (dword_8009F444 != 0)) && (pActor->field_10E == 0))

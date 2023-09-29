@@ -6,6 +6,26 @@
 #include "watcher.h"
 #include "command.h"
 
+#define EN_FASEOUT 0x10000000
+
+void sub_800C409C( WatcherWork* work )
+{
+    if ( GM_GameStatus_800AB3CC & STATE_ENEMY_OFF )
+    {
+        if ( work->faseout == 0 )
+        {
+            work->hom->flag = 0 ;
+            work->alert_level = 0 ;
+            GM_ConfigControlAttribute_8002623C( &(work->control), 0 ) ;
+            work->visible = 0 ;
+            work->target->class = TARGET_AVAIL;
+
+            work->faseout = 1 ;
+            work->act_status = EN_FASEOUT ;
+        }     
+    }
+}
+
 int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
 {
     if( work->count3 == 0){
@@ -272,7 +292,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->target_map  = GM_CurrentMap_800AB9B0;
 
     work->alert_level = 0;
-    work->field_9E4 = 1;
+    work->visible = 1;
     work->field_B8E = 0x200;
     work->field_9E6 = 0;
     work->vision_facedir = 0;
@@ -284,7 +304,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_BA4 = svec_800C35D4;
     work->subweapon = 0;
     work->field_C48 = 0;
-    work->field_C2C = 0;
+    work->faseout = 0;
     work->field_C2E = 1;
 
     work->control.field_0_mov = work->nodes[ 0 ] ;
@@ -346,7 +366,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     }
 
     sub_800C410C( work );
-    if ( !work->field_C2C )
+    if ( !work->faseout )
     {
         sub_800CA0E8( work );
         GM_ActControl_80025A7C( ctrl );
@@ -361,10 +381,10 @@ void WatcherAct_800C430C( WatcherWork *work )
         
         sub_8002DA14( trgt );
 
-        if ( trgt->field_0_flags & TARGET_TOUCH )
+        if ( trgt->class & TARGET_TOUCH )
         {
             trgt2 = &work->field_94C;
-            if ( trgt2->field_0_flags & TARGET_TOUCH )
+            if ( trgt2->class & TARGET_TOUCH )
             {
                 if ( trgt2->field_6_flags & TARGET_TOUCH )
                 {

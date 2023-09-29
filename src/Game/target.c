@@ -60,7 +60,7 @@ TARGET *GM_AllocTarget_8002D400()
         }
 
         target = &gTargets_800B64E0[gTargets_down_count_800ABA68];
-        target->field_0_flags = 1;
+        target->class = 1;
         gTargets_down_count_800ABA68++;
         return target;
     }
@@ -70,9 +70,9 @@ TARGET *GM_AllocTarget_8002D400()
     {
         for (i = gTargets_down_count_800ABA68; i > 0; i--, target++)
         {
-            if (target->field_0_flags == 0)
+            if (target->class == 0)
             {
-                target->field_0_flags = 1;
+                target->class = 1;
                 gTargets_up_count_800ABA6C--;
                 return target;
             }
@@ -94,7 +94,7 @@ void GM_FreeTarget_8002D4B0(TARGET *pTarget)
         {
             ++gTargets_up_count_800ABA6C;
         }
-        pTarget->field_0_flags = 0;
+        pTarget->class = 0;
     }
 }
 
@@ -111,7 +111,7 @@ TARGET *GM_CaptureTarget_8002D530(TARGET *pTarget)
     TARGET *pIter = gTargets_800B64E0;
     for (i = gTargets_down_count_800ABA68; i > 0; --i)
     {
-        if (pTarget != pIter && (pIter->field_0_flags & 2) != 0)
+        if (pTarget != pIter && (pIter->class & 2) != 0)
         {
             if (sub_8002D208(pIter, pTarget))
             {
@@ -139,7 +139,7 @@ TARGET *GM_C4Target_8002D620(TARGET *pTarget)
     TARGET *pIter = gTargets_800B64E0;
     for (i = gTargets_down_count_800ABA68; i > 0; --i)
     {
-        if (pTarget != pIter && (pIter->field_0_flags & TARGET_C4) && sub_8002D208(pIter, pTarget) &&
+        if (pTarget != pIter && (pIter->class & TARGET_C4) && sub_8002D208(pIter, pTarget) &&
             !(pIter->field_6_flags & TARGET_C4))
         {
             pIter->field_6_flags |= TARGET_C4;
@@ -158,7 +158,7 @@ int sub_8002D6D8(TARGET *pTarget)
     int count;
     int hp, oldhp;
 
-    if (!(pTarget->field_0_flags & 0x80))
+    if (!(pTarget->class & 0x80))
     {
         return 0;
     }
@@ -175,7 +175,7 @@ int sub_8002D6D8(TARGET *pTarget)
 
     while (count > 0)
     {
-        if ((pTarget != pIter) && (pIter->field_0_flags & 0x80) && sub_8002D208(pIter, pTarget))
+        if ((pTarget != pIter) && (pIter->class & 0x80) && sub_8002D208(pIter, pTarget))
         {
             oldhp = pIter->field_26_hp;
             pIter->field_26_hp -= hp;
@@ -234,7 +234,7 @@ int sub_8002D7DC(TARGET *pTarget)
     pIter = gTargets_800B64E0;
     for (count = gTargets_down_count_800ABA68; count > 0; pIter++, count--)
     {
-        if ((pTarget == pIter) || !(pIter->field_0_flags & 0x4) || !sub_8002D208(pIter, pTarget))
+        if ((pTarget == pIter) || !(pIter->class & 0x4) || !sub_8002D208(pIter, pTarget))
         {
             continue;
         }
@@ -379,7 +379,7 @@ int sub_8002DA14(TARGET *pTarget)
     TARGET *pIter;
     int        count;
 
-    if (!(pTarget->field_0_flags & 0x8))
+    if (!(pTarget->class & 0x8))
     {
         return 0;
     }
@@ -393,7 +393,7 @@ int sub_8002DA14(TARGET *pTarget)
     {
         pIter->field_40 = 0;
 
-        if ((pTarget == pIter) || !(pIter->field_0_flags & 0x8) || !sub_8002D300(pIter, pTarget))
+        if ((pTarget == pIter) || !(pIter->class & 0x8) || !sub_8002D300(pIter, pTarget))
         {
             continue;
         }
@@ -413,7 +413,7 @@ int sub_8002DA14(TARGET *pTarget)
 void GM_SetTarget_8002DC74(TARGET *pTarget, int targetFlags, int whichSide, SVECTOR *pSize)
 {
     short cur_map = GM_CurrentMap_800AB9B0;
-    pTarget->field_0_flags = targetFlags;
+    pTarget->class = targetFlags;
     pTarget->field_2_side = whichSide;
     pTarget->field_6_flags = 0;
     pTarget->field_4_map = cur_map;
@@ -546,7 +546,7 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
     i = gTargets_down_count_800ABA68;
     for (bResult = 0; i > 0; ++pIter)
     {
-        if (pIter->field_2_side != side && (pIter->field_0_flags & TARGET_SEEK) != 0)
+        if (pIter->field_2_side != side && (pIter->class & TARGET_SEEK) != 0)
         {
             if (sub_8002D208(pIter, &target))
             {
@@ -579,7 +579,7 @@ int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
     while (count > 0)
     {
         if (((pTarget->field_3C & 0x1) != 0) &&
-            ((pTarget->field_0_flags & 0x10) != 0) &&
+            ((pTarget->class & 0x10) != 0) &&
             sub_8002D208(pTarget, &target) &&
             sub_8002DDE0(arg0, arg1, pTarget, arg3))
         {

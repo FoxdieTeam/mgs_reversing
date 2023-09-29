@@ -41,7 +41,7 @@ Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
 
     pIter->field_0 = a1;
     pIter->field_4 = a2;
-    pIter->field_8 = 0;
+    pIter->flag = 0;
     pIter->field_C_bUsed = 1;
     return pIter;
 }
@@ -77,7 +77,7 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
     {
         if (pTargetIter->field_C_bUsed)
         {
-            if ((pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) != 0 && pTargetIter->field_8 == 1)
+            if ((pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) != 0 && pTargetIter->flag == 1)
             {
                 vec2.vx = pTargetIter->field_0->t[0];
                 vec2.vy = pTargetIter->field_0->t[1];
@@ -124,7 +124,7 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
     {
         if (pTargetIter->field_C_bUsed)
         {
-            if ((pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) != 0 && pTargetIter->field_8 == 1)
+            if ((pTargetIter->field_4->field_2C_map->field_0_map_index_bit & mapBit) != 0 && pTargetIter->flag == 1)
             {
                 vec2.vx = pTargetIter->field_0->t[0];
                 vec2.vy = pTargetIter->field_0->t[1];
