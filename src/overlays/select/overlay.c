@@ -1,8 +1,10 @@
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
+#include "../select1/Game/select.h"
 
 GCL_ActorTableEntry selectOverlayCharas[] = 
 {
-    { 0xD2F6, (TGCL_ActorCreateFn)0x800C3460 },
+    { CHARA_SELECT, NewSelect_800c3434 },
     { 0x6C66, (TGCL_ActorCreateFn)0x800C47B4 },
     { 0, 0 }
 };
