@@ -40,7 +40,7 @@ int PCinit_80014B14(void)
     return -1;
 }
 
-int PCopen_80014B1C(char *name, int flags, int perms)
+int PCopen_80014B1C(const char *name, int flags, int perms)
 {
     return 0;
 }

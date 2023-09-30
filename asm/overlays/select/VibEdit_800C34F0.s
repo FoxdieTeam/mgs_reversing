@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef select_800C34F0
-select_800C34F0:
+	xdef VibEdit_800C34F0
+VibEdit_800C34F0:
 	dw 0x27BDFFE8 ; 800C34F0
 	dw 0xAFB00010 ; 800C34F4
 	dw 0x00808021 ; 800C34F8
