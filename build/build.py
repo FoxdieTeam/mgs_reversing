@@ -330,7 +330,8 @@ def gen_build_target(targetName):
         "select1", "select2", "select3", "select4", "selectd",
         "change",
         "s16b",
-        "camera"
+        "camera",
+        "select"
     ]
 
     for overlay in OVERLAYS:

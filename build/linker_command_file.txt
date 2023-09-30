@@ -361,6 +361,31 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\camera\overlay.obj"
     include "{{OBJ_DIR}}\overlays\camera\Unknown\camera.obj"
     inclib "LIBPRESS.LIB", overlay
+{% elif OVERLAY == "select" %}
+    include "{{OBJ_DIR}}\overlays\select\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C34F0.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C36BC.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3974.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3BB8.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3BF4.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3C28.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3C74.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3CBC.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3D20.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C3D84.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4720.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C47B4.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4848.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4888.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C48AC.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4914.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4D04.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4D2C.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4F28.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4F48.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C4FDC.obj"
+    include "{{OBJ_DIR}}\overlays\select\select_800C5008.obj"
 {% endif %}
 
 {% endif %}
