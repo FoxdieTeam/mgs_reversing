@@ -88,7 +88,7 @@ void        MakeFullPath_80021F68(int, char *);
 int         FS_StreamGetSize_80024188(int *ptr);
 
 int PCinit_80014B14(void);
-int PCopen_80014B1C(char *name, int flags, int perms);
+int PCopen_80014B1C(const char *name, int flags, int perms);
 int PCread_80014B24(int fd, char *buff, int len);
 int PCclose_80014B2C(int fd);
 
