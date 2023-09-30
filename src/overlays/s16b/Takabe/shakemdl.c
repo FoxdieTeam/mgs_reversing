@@ -17,8 +17,8 @@ typedef struct _ShakemdlWork
     short      *vertices;
 } ShakemdlWork;
 
-int s16b_800C4364(int param, int def);
-int s16b_800C43A4(int param);
+int GetParamOrDefault_800C5318(int param, int def);
+int GetParam_800C5358(int param);
 int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
 int s16b_800C5664(ShakemdlWork *work);
@@ -128,8 +128,8 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
 
-        model = s16b_800C43A4('m');
-        work->f2C = s16b_800C43A4('a');
+        model = GetParam_800C5358('m');
+        work->f2C = GetParam_800C5358('a');
 
         if (ShakemdlGetResources_800C5454(work, model) < 0)
         {
@@ -138,8 +138,8 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
         }
 
         work->name = name;
-        work->f24 = s16b_800C4364('f', 1);
-        work_2 = s16b_800C4364('s', 50);
+        work->f24 = GetParamOrDefault_800C5318('f', 1);
+        work_2 = GetParamOrDefault_800C5318('s', 50);
         work->f28 = work_2;
         work->f30 = work_2;
     }
