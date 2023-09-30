@@ -25,5 +25,6 @@ void      kogaku2_act_nullsub_800615F4(Actor_kogaku2 *pActor);
 void      kogaku2_act_helper_80061528(Actor_kogaku2 *pActor);
 
 GV_ACT * NewKogaku2_800615FC(CONTROL *pCtrl, OBJECT *pObj, int unit);
+GV_ACT * NewKogaku3_80061708(CONTROL *pCtrl, OBJECT *pObject, int unit);
 
 #endif // _KOGAKU2_H_

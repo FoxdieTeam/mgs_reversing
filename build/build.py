@@ -331,7 +331,8 @@ def gen_build_target(targetName):
         "change",
         "s16b",
         "camera",
-        "select"
+        "select",
+        "d11c"
     ]
 
     for overlay in OVERLAYS:
@@ -348,10 +349,11 @@ def gen_build_target(targetName):
         ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile], variables={"suffix": suffix})
         ninja.newline()
 
-        # cpe to exe
-        exeFile = f"../{args.obj_directory}/_mgsi{suffix}.exe"
-        ninja.build(exeFile, "cpe2exe", cpeFile)
-        ninja.newline()
+        if overlay is None:
+            # cpe to exe (only needed for main executable)
+            exeFile = f"../{args.obj_directory}/_mgsi{suffix}.exe"
+            ninja.build(exeFile, "cpe2exe", cpeFile)
+            ninja.newline()
 
 
 #init_psyq_ini_files(args.psyq_path)
