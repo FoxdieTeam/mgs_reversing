@@ -2,7 +2,7 @@
 #include "libgcl/hash.h"
 #include "../select1/Game/select.h"
 
-GCL_ActorTableEntry selectOverlayCharas[] = 
+GCL_ActorTableEntry selectOverlayCharas[] =
 {
     { CHARA_SELECT, NewSelect_800c3434 },
     { 0x6C66, (TGCL_ActorCreateFn)0x800C47B4 },
@@ -65,5 +65,3 @@ const int select_dword_800C52A0 = 0x800C43EC;
 const char select_aSavevibrationeditordata_800C52A4[] = "Save vibration editor data !\n";
 const char select_aVibeditdat_800C52C4[] = "VIB_EDIT.DAT";
 const char select_aVibeditc_800C52D4[] = "vib_edit.c";
-const char select_dword_800C52E0[] = {0x0, 0x0, 0x0, 0x0};
-const char select_dword_800C52E4[] = {0x0, 0x0, 0x0, 0x0};
