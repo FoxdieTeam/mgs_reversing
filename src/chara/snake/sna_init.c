@@ -314,7 +314,7 @@ GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 #define RIFLE_TEBURE_TIME   90 // delay before camera shake
 #define TEBURE              122
 #define GetAction( pActor ) (pActor->field_9C_obj.action_flag)
-#define EndMotion( pActor ) (pActor->field_9C_obj.field_1A != 0)
+#define EndMotion( pActor ) (pActor->field_9C_obj.is_end != 0)
 #define SET                 pActor->field_9B4_action_table->field_10->field_0
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
@@ -2651,7 +2651,7 @@ void sna_fn_800525F8(Actor_SnaInit *pActor, int time)
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
     if (pActor->field_9B8_fn_anim != sna_anim_box_idle_800553EC)
     {
-        if (pActor->field_9C_obj.field_1A)
+        if (pActor->field_9C_obj.is_end)
         {
             SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_2, 4);
         }
@@ -3614,7 +3614,7 @@ void sub_80053FAC(Actor_SnaInit *pActor, int time)
     }
 
     pad_status = pActor->field_9B0_pad_ptr->status;
-    if (pActor->field_9C_obj.field_1A || (pad_status & PAD_SQUARE) == 0)
+    if (pActor->field_9C_obj.is_end || (pad_status & PAD_SQUARE) == 0)
     {
         sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
         pActor->field_910 = 0;
@@ -3722,7 +3722,7 @@ void sna_8005425C(Actor_SnaInit *pActor, int time)
         sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK26);
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_UNK200);
         sna_start_anim_8004E1F4(pActor, sna_anim_prone_idle_800528BC);
@@ -3748,7 +3748,7 @@ void sna_80054318(Actor_SnaInit *pActor, int time)
         sna_set_flags2_8004E330(pActor, SNA_FLAG2_UNK1);
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
         sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
@@ -3858,7 +3858,7 @@ void sna_act_helper2_helper7_80054648(Actor_SnaInit *pActor, int time)
         }
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         sna_set_invuln_8004F2A0(pActor, 32);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK100);
@@ -4015,7 +4015,7 @@ void sna_anim_knockdown_getup_80054A10(Actor_SnaInit *pActor, int time)
         pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         sna_clear_flags1_8004E308(pActor, (SNA_FLAG1_UNK3 | SNA_FLAG1_UNK5));
         sna_set_invuln_8004F2A0(pActor, 24);
@@ -4237,7 +4237,7 @@ void sna_act_helper2_helper_80054EFC(Actor_SnaInit *pActor, int pTime)
     switch (actor->field_A38_local_data)
     {
     case 0:
-        if (actor->field_9C_obj.field_1A != 0 || status != 0)
+        if (actor->field_9C_obj.is_end != 0 || status != 0)
         {
             sna_clear_flags1_8004E308(actor, SNA_FLAG1_UNK26);
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) != 0)
@@ -4354,7 +4354,7 @@ void sna_anim_box_stop_800554B4(Actor_SnaInit *pActor, int time)
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_4, 4);
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         sna_start_anim_8004E1F4(pActor, sna_anim_box_idle_800553EC);
     }
@@ -4491,7 +4491,7 @@ void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time)
         pActor->field_20_ctrl.field_78_levels[1] = unk[1];
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK22);
 
@@ -4773,18 +4773,18 @@ static inline void sna_act_unk_helper3_helper_80055DD8(Actor_SnaInit *pActor, Un
   int field_9E4;
   pActor2 = pActor;
   action = pActor->field_9C_obj.action_flag;
-  if (!(((action != pActor->field_9B4_action_table->field_8->field_0) || pActor->field_9C_obj.field_1A) && ((action != pActor->field_9B4_action_table->field_8->field_2) || pActor2->field_9C_obj.field_1A)))
+  if (!(((action != pActor->field_9B4_action_table->field_8->field_0) || pActor->field_9C_obj.is_end) && ((action != pActor->field_9B4_action_table->field_8->field_2) || pActor2->field_9C_obj.is_end)))
   {
       pStr->field_9E4 = 1;
   } else {
     pActor2 = pActor;
-    if (((((action == pActor->field_9B4_action_table->field_C->field_6) && (pActor->field_9C_obj.field_1A == 0)) || ((action == pActor->field_9B4_action_table->field_C->field_7) && (pActor2->field_9C_obj.field_1A == 0))) || ((action == pActor->field_9B4_action_table->field_C->field_2) && pActor->field_9C_obj.field_1A)) || ((action == pActor->field_9B4_action_table->field_C->field_3) && pActor2->field_9C_obj.field_1A))
+    if (((((action == pActor->field_9B4_action_table->field_C->field_6) && (pActor->field_9C_obj.is_end == 0)) || ((action == pActor->field_9B4_action_table->field_C->field_7) && (pActor2->field_9C_obj.is_end == 0))) || ((action == pActor->field_9B4_action_table->field_C->field_2) && pActor->field_9C_obj.is_end)) || ((action == pActor->field_9B4_action_table->field_C->field_3) && pActor2->field_9C_obj.is_end))
     {
-      if ((action == pActor->field_9B4_action_table->field_C->field_2) && pActor->field_9C_obj.field_1A)
+      if ((action == pActor->field_9B4_action_table->field_C->field_2) && pActor->field_9C_obj.is_end)
       {
         SetAction_8004E22C(pActor, 71, 4);
       }
-      if ((action == pActor->field_9B4_action_table->field_C->field_3) && pActor->field_9C_obj.field_1A)
+      if ((action == pActor->field_9B4_action_table->field_C->field_3) && pActor->field_9C_obj.is_end)
       {
         SetAction_8004E22C(pActor, 72, 4);
       }
@@ -4797,7 +4797,7 @@ static inline void sna_act_unk_helper3_helper_80055DD8(Actor_SnaInit *pActor, Un
       field_9E4 = 3;
     }
     else
-      if (((action == pActor->field_9B4_action_table->field_C->field_2) && (pActor->field_9C_obj.field_1A == 0)) || ((action == (new_var = pActor->field_9B4_action_table->field_C->field_3)) && (pActor->field_9C_obj.field_1A == 0)))
+      if (((action == pActor->field_9B4_action_table->field_C->field_2) && (pActor->field_9C_obj.is_end == 0)) || ((action == (new_var = pActor->field_9B4_action_table->field_C->field_3)) && (pActor->field_9C_obj.is_end == 0)))
     {
       field_9E4 = 4;
     }
@@ -4838,7 +4838,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(Actor_SnaInit *pActor)
         case SNA_STANCE_GROUND:
             SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_2, 4);
 
-            if (pActor->field_9C_obj.field_1A != 0)
+            if (pActor->field_9C_obj.is_end != 0)
             {
                 SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_0, 4);
                 pActor->field_9E4.field_9E4 = 6;
@@ -4871,7 +4871,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(Actor_SnaInit *pActor)
         case SNA_STANCE_GROUND:
             SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_2, 4);
 
-            if (pActor->field_9C_obj.field_1A != 0)
+            if (pActor->field_9C_obj.is_end != 0)
             {
                 SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_2, 4);
                 pActor->field_A26_stance = SNA_STANCE_STANDING;
@@ -4896,7 +4896,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(Actor_SnaInit *pActor)
         case SNA_STANCE_CROUCH:
             SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_0, 4);
 
-            if (pActor->field_9C_obj.field_1A != 0)
+            if (pActor->field_9C_obj.is_end != 0)
             {
                 SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
                 pActor->field_9E4.field_9E4 = 6;
@@ -4995,7 +4995,7 @@ void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time)
         break;
 
     case 1:
-        if (pActor->field_9C_obj.field_1A != 0)
+        if (pActor->field_9C_obj.is_end != 0)
         {
             SetAction_8004E22C(pActor, sna_8004EAA8(pActor, pActor->field_A26_stance), 4);
             pStr->field_9E4 = 5;
@@ -5003,7 +5003,7 @@ void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time)
         break;
 
     case 2:
-        if (pActor->field_9C_obj.field_1A != 0)
+        if (pActor->field_9C_obj.is_end != 0)
         {
             SetAction_8004E22C(pActor, sna_8004EAA8(pActor, 0), 4);
             pActor->field_A26_stance = 0;
@@ -5027,7 +5027,7 @@ void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time)
         break;
 
     case 4:
-        if (pActor->field_9C_obj.field_1A != 0)
+        if (pActor->field_9C_obj.is_end != 0)
         {
             if (pActor->field_A54.prone_bool_thing == 1)
             {
@@ -5773,7 +5773,7 @@ void sna_anim_rungun_begin_helper_800577B4(Actor_SnaInit *pActor, int time)
             sna_set_flags2_8004E330(pActor, SNA_FLAG2_UNK1);
         }
 
-        if (pActor->field_9C_obj.field_1A)
+        if (pActor->field_9C_obj.is_end)
         {
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
             sna_start_anim_8004E1F4(pActor, sna_anim_shoot_weapon_80056B88);
@@ -6558,7 +6558,7 @@ void sna_anim_throw_800589C8(Actor_SnaInit *pActor, int time)
         }
     }
 
-    if ( pActor->field_9C_obj.field_1A || (pActor->field_A38_local_data == 1 && time == 4) )
+    if ( pActor->field_9C_obj.is_end || (pActor->field_A38_local_data == 1 && time == 4) )
     {
         sna_sub_8004E41C(pActor, 2);
         sna_clear_flags1_8004E308(pActor, 4);
@@ -6725,7 +6725,7 @@ void sna_anim_choke_kill_80058F88(Actor_SnaInit *pActor, int time)
         pActor->field_A54.choke_count = 0;
     }
 
-    if (pActor->field_9C_obj.field_1A)
+    if (pActor->field_9C_obj.is_end)
     {
         sna_sub_8004E41C(pActor, 2);
         sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
@@ -6955,7 +6955,7 @@ void sna_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time)
         }
     }
 
-    if (pActor->field_9C_obj.field_1A == 0 && pActor->field_8E8_pTarget->field_42 != 0)
+    if (pActor->field_9C_obj.is_end == 0 && pActor->field_8E8_pTarget->field_42 != 0)
     {
         return;
     }

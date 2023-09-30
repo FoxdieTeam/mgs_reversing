@@ -187,7 +187,7 @@
     ; 8005D168 8005D188 8005D288
 
     ;libhzd
-    include "{{OBJ_DIR}}\libhzd\address.obj
+    include "{{OBJ_DIR}}\libhzd\zone.obj
 
     ; 8005D358 8005D3A4 8005D424 8005D508 8005D58C
     include "{{OBJ_DIR}}\Game\vibrate.obj"
