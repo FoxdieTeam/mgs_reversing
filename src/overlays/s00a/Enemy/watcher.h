@@ -42,9 +42,9 @@ typedef struct _WatcherWork
     short        field_8E4;
     short        field_8E6;
     char         field_8E8_padding[0x04];
-    void*        field_8EC_func;
+    void*        action;                     //0x8EC
     void*        field_8F0_func;
-    int          field_8F4;
+    int          time;                       //0x8FC
     int          field_8F8;
     int          actend;                     //0x8FC
     TARGET      *target;                     //0x900

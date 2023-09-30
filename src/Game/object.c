@@ -44,7 +44,7 @@ void sub_800348F4(OBJECT *obj)
     sub_8003556C(obj->m_ctrl); // motion streaming related
     ResetSpadStack();
 
-    obj->field_1A = obj->m_ctrl->field_04_info1.field_16_time;
+    obj->is_end = obj->m_ctrl->field_04_info1.field_16_time;
     obj->field_1C = obj->m_ctrl->field_1C_info2.field_16_time;
 
     outtime = GetRCnt(RCntCNT1);
@@ -201,7 +201,7 @@ void GM_ConfigObjectAction_80034CD4(OBJECT *obj, int action_flag, int motion, in
     {
         sub_8003501C(obj->m_ctrl, action_flag, motion);
         obj->action_flag = action_flag;
-        obj->field_1A = 0;
+        obj->is_end = 0;
         obj->m_ctrl->interp = interp;
     }
 }
