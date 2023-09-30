@@ -129,8 +129,7 @@ int	Think3_NoiseModeWatch( WatcherWork *work )
 
 extern int     dword_800C3328[];
 extern short   EYE_LENGTH_800E0D8C;
-extern SVECTOR svec_800C35D4;
-
+extern SVECTOR COM_NO_POINT_800C35D4;
 extern void sub_800C45D4( WatcherWork *work );
 extern void sub_800C4A40( WatcherWork *work );
 extern void sub_800C4B18( WatcherWork *work );
@@ -301,7 +300,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->pad.sound = 0;
     work->pad.time  = 0;
     work->vision_facedir = EYE_LENGTH_800E0D8C;
-    work->field_BA4 = svec_800C35D4;
+    work->field_BA4 = COM_NO_POINT_800C35D4;
     work->subweapon = 0;
     work->field_C48 = 0;
     work->faseout = 0;
