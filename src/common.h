@@ -1,6 +1,9 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#define __min(x, y) (((x) < (y)) ? (x) : (y))
+#define __max(x, y) (((x) > (y)) ? (x) : (y))
+
 #define DCache 0x1F8003FC
 
 // Put stack on scratchpad
