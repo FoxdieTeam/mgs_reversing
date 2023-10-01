@@ -14,16 +14,16 @@ typedef struct _VibEditPrims
 
 typedef struct _VibEditWork
 {
-    GV_ACT actor;
-    int    status;
-    int    f24;
-    int    f28;
-    char   pad[0x14];
-    int    f40;
-    void  *f44;
-    char   pad2[0x4C];
-    char   buffer[2048];
-    char   pad3[0x40];
+    GV_ACT        actor;
+    int           status;
+    int           f24;
+    int           f28;
+    char          pad[0x14];
+    int           f40;
+    VibEditPrims *prims;
+    char          pad2[0x4C];
+    char          buffer[2048];
+    char          pad3[0x40];
 } VibEditWork;
 
 extern int GM_GameStatus_800AB3CC;
@@ -45,8 +45,53 @@ int GetParam_800C5358(int param);
 
 #define EXEC_LEVEL 3
 
-#pragma INCLUDE_ASM("asm/overlays/select/VibEdit_800C34F0.s")
-void VibEdit_800C34F0(VibEditWork *work);
+void VibEdit_800C34F0(VibEditWork *work)
+{
+    VibEditPrims *prims;
+    TILE         *tile1;
+    TILE         *tile2;
+    int           i;
+    LINE_F2      *line;
+
+    work->prims = GV_Malloc_8001620C(sizeof(VibEditPrims));
+    prims = work->prims;
+
+    tile1 = prims->tiles1;
+    tile2 = prims->tiles2;
+
+    for (i = 16; i > 0; i--)
+    {
+        setTile(tile1);
+        *tile2++ = *tile1++;
+    }
+
+    tile1 = prims->tiles3;
+    tile2 = prims->tiles4;
+
+    for (i = 16; i > 0; i--)
+    {
+        setTile(tile1);
+        *tile2++ = *tile1++;
+    }
+
+    line = &prims->lines1[0];
+    setLineF2(line);
+    setXY2(line, 16, 155, 320, 155);
+    setRGB0(line, 0, 180, 0);
+    prims->lines2[0] = *line;
+
+    line = &prims->lines1[1];
+    setLineF2(line);
+    setXY2(line, 16, 70, 320, 70);
+    setRGB0(line, 180, 0, 0);
+    prims->lines2[1] = *line;
+
+    line = &prims->lines1[2];
+    setLineF2(line);
+    setXY2(line, 16, 155, 16, 70);
+    setRGB0(line, 0, 0, 180);
+    prims->lines2[2] = *line;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/select/select_800C36BC.s")
 #pragma INCLUDE_ASM("asm/overlays/select/select_800C3974.s")
