@@ -1,3 +1,4 @@
+#include "common.h"
 #include "demothrd.h"
 #include "psyq.h"
 #include "Anime/animeconv/anime.h"
@@ -2903,10 +2904,6 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
-
-// Should be defined elsewhere
-#define __min(x, y) (((x) < (y)) ? (x) : (y))
-#define __max(x, y) (((x) > (y)) ? (x) : (y))
 
 #define __detx(a, b, c) (((b).y - (a).y) * ((c).z - (b).z) - ((b).z - (a).z) * ((c).y - (b).y))
 #define __dety(a, b, c) (((b).z - (a).z) * ((c).x - (b).x) - ((b).x - (a).x) * ((c).z - (b).z))
