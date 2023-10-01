@@ -2,56 +2,7 @@
 #include "Game/map.h"
 #include "command.h"
 
-
-
-
 extern SVECTOR DG_ZeroVector_800AB39C;
-
-extern int dword_800E01F4;
-
-extern int dword_800E0940;
-extern int dword_800E095C;
-
-extern int dword_800E0D90; //maybe COM_PlayerAddress
-
-extern int dword_800E0CA0;
-extern int dword_800E0D2C;
-extern int dword_800E0D30;
-extern int dword_800E0D88;
-extern int dword_800E0D8C;
-
-extern ENEMY_COMMAND EnemyCommand_800E0D98; //maybe EnemyCommand
-
-extern SVECTOR dword_800E0E3C;
-
-extern int COM_PlayerMap_800E0F1C;
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern VECTOR dword_800E0F28;
-
-extern SVECTOR COM_PlayerPosition_800E0F30;
-
-extern int COM_NOISEMODE_DIS_800E0F38;
-extern int COM_GameStatus_800E0F3C;
-
-extern int COM_PlayerAddressOne_800E0F40;
-
-extern int dword_800E0F60;
-extern int dword_800E0F64;
-extern int dword_800E0F68;
-
-
-extern short sub_800CEDE8( int ops, void *val, int where );
-extern short sub_800CED88( int ops, SVECTOR* svec );
-extern int   sub_800D0128( int ops );
-extern void  sub_800D018C( CommanderWork* work ) ;
-extern void  sub_800D0344( void ) ;
-extern void  sub_800CFEA8( void ) ;
-extern void  sub_800D0218( void ) ;
-extern void  sub_800CFA94( CommanderWork* work ) ;
-extern void  sub_800CEC90( void ) ;
-extern void  sub_800CECF4( void ) ;
-
-
 
 void CommandAct_800D0258( CommanderWork* work )
 {
@@ -83,10 +34,10 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     
     work->name = name;
 
-    dword_800E0F64  = 0;
+    GM_GameFlag_800E0F64  = 0;
     EnemyCommand_800E0D98.field_0x17A = 1;
     
-    dword_800E0D90  = 0;
+    COM_PlayerAddress_800E0D90  = 0;
     EnemyCommand_800E0D98.field_0x14  = 0;
     EnemyCommand_800E0D98.field_0x170 = 0;
     
@@ -97,7 +48,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     
     COM_PlayerPosition_800E0F30 = DG_ZeroVector_800AB39C;
     COM_PlayerMap_800E0F1C = where;
-    dword_800E0F68 = 0;
+    COM_VibTime_800E0F68 = 0;
     dword_800E0CA0 = 0;
     dword_800E0D30 = 0;
     dword_800E0D2C = 0;
@@ -162,7 +113,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
         COM_NOISEMODE_DIS_800E0F38 = GCL_GetNextInt_800209E8( (unsigned char*)ops );
     }
 
-    printf( ( void* )&dword_800E0940 , COM_NOISEMODE_DIS_800E0F38 );    
+    printf( ( void* )&aCom_noisemode_disD_800E0940 , COM_NOISEMODE_DIS_800E0F38 );    
     EnemyCommand_800E0D98.field_0x88.pad = 0;
 
     ops = GCL_GetParam_80020968( 't' );
@@ -173,19 +124,19 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     switch ( EnemyCommand_800E0D98.field_0x88.pad )
     {
         case 0:
-            dword_800E0F60 = 4;
+            COM_ALERT_DECREMENT_800E0F60 = 4;
             break;
         case 1:
-            dword_800E0F60 = 3;
+            COM_ALERT_DECREMENT_800E0F60 = 3;
             break;
         case 2:
-            dword_800E0F60 = EnemyCommand_800E0D98.field_0x88.pad;
+            COM_ALERT_DECREMENT_800E0F60 = EnemyCommand_800E0D98.field_0x88.pad;
             break;
         default:
-            dword_800E0F60 = 4;
+            COM_ALERT_DECREMENT_800E0F60 = 4;
     }
 
-    printf( ( void* )&dword_800E095C, EnemyCommand_800E0D98.field_0x88.vx, EnemyCommand_800E0D98.field_0x88.vy, EnemyCommand_800E0D98.field_0x88.vz, dword_800E0F60  ); 
+    printf( ( void* )&aEeeDDDTD_800E095C, EnemyCommand_800E0D98.field_0x88.vx, EnemyCommand_800E0D98.field_0x88.vy, EnemyCommand_800E0D98.field_0x88.vz, COM_ALERT_DECREMENT_800E0F60  ); 
     
     EnemyCommand_800E0D98.field_0x1C  = 0x1E;
     EnemyCommand_800E0D98.field_0x56  = 0;
@@ -194,8 +145,8 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     
     dword_800E0F28.vx = 0;
     EnemyCommand_800E0D98.field_0x178 = 0;
-    dword_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
-    dword_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 0x1F4;
+    COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
+    COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 0x1F4;
     
     ops = GCL_GetParam_80020968( 'w' );
     if ( ops )

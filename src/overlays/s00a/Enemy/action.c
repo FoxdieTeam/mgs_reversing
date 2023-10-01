@@ -4,32 +4,7 @@
 #include "Game/object.h"
 #include "Game/game.h"
 #include "command.h"
-#include "watcher.h"
-
-#define COM_ST_DANBOWL 0x2000
-#define SP_DANBOWLKERI 0x400000
-
-#define ACTINTERP   4
-
-#define STANDSTILL  0
-#define ACTION1     1
-#define ACTION2     2
-#define ACTION3     3
-#define ACTION4     4
-#define ACTION5     5
-#define ACTION6     6
-#define GRENADE     7
-#define ACTION8     8
-#define ACTION9     9
-#define ACTION10    10
-#define ACTION11    11
-#define ACTION12    12
-#define ACTION13    13
-#define ACTION14    14
-#define ACTION15    15
-#define ACTION16    16
-#define DANBOWLKERI 17
-#define DANBOWLPOSE 18
+#include "action.h"
 
 #define ENEMY_SIDE 2
 
@@ -40,116 +15,14 @@
 #define WEAPON_TRIG  2
 #define WEAPON_TRIG2 4
 
-#define TOP_COMM_TRAVEL 0
-
-extern unsigned int COM_GameStatus_800E0F3C;
-
 extern void     UnsetCameraActCall_800D047C();
 extern void     SetCameraActCall_800D043C();
-
-extern int CheckDamage_800C5424( WatcherWork *work );
+extern int      CheckDamage_800C5424( WatcherWork *work );
+extern int      sub_800C580C( int dir, int val );
 
 extern OBJECT   *GM_PlayerBody_800ABA20;
-
-
-extern short    EYE_LENGTH_800E0D8C;
-extern short    ActTable_800C3358[];
-
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-
-extern int      GM_PlayerStatus_800ABA50;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-
-//extern int     dword_800E0DB0; // EC_MODE
-
-extern void ActUnknown1_800C841C();
-extern void ActUnknown2_800C84FC();
-extern void ActOverScoutD_800C85DC();
-extern void ActUnknown4_800C8688();
-extern void ActUnknown5_800C8734();
-extern void ActUnknown6_800C87FC();
-extern void ActUnknown7_800C88D8();
-extern void ActUnknown8_800C8990();
-extern void ActUnknown9_800C8A6C();
-extern void ActUnknown10_800C8C98();
-extern void ActUnknown11_800C8DF8();
-extern void ActUnknown12_800C615C(); 
-extern void ActUnknown13_800C6164();
-extern void ActUnknown14_800C624C();
-extern void ActUnknown15_800C6320();
-extern void ActUnknown16_800C65A8();
-extern void ActStandStill_800C5C84();
-extern void ActUnknown_800C5E48();
-
-extern int sub_800C580C( int dir, int val );
-
-typedef	void	( *ACTION )( WatcherWork *, int ) ;
-
-static inline void SetMode( WatcherWork *work, ACTION action )
-{
-    work->action = action;
-    work->time = 0;
-    work->control.field_4C_turn_vec.vz = 0;
-    work->control.field_4C_turn_vec.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
-}
-
-static inline void SetMode2( WatcherWork *work, void *func )
-{
-    if ( work->field_8F0_func == NULL )
-    {
-        work->field_8F0_func = func;
-        work->field_8F8 = 0;
-    }
-
-    work->control.field_4C_turn_vec.vz = 0;
-    work->control.field_4C_turn_vec.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
-}
-
-static inline void UnsetMode2( WatcherWork *work )
-{
-    work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-    
-    work->field_8F0_func = 0;
-    work->field_8F8 = 0;
-    work->field_8E2 = 0;
-    work->control.field_4C_turn_vec.vz = 0;
-    work->control.field_4C_turn_vec.vx = 0;
-    
-    if ( work->field_B68 )
-    {
-        GV_DestroyOtherActor_800151D8( work->field_B68 );
-        work->field_B68 = 0;
-    }
-    
-}
-
-static inline void SetAction( WatcherWork *work, int n_action, int interp )
-{
-    work->field_8E0 = n_action ;
-    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3358[n_action], 0, interp );
-}
-
-static inline void UnsetAction( WatcherWork *work, int n_action )
-{
-    work->field_8E2 = n_action;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
-}
-
-static inline void UnsetAction2( WatcherWork *work )
-{
-    work->field_8E2 = 0;
-    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-    GV_DestroyOtherActor_800151D8( work->subweapon );
-}
-
-//should be in target.h
-static inline void SetTargetClass( TARGET *target, unsigned int flag )
-{
-    target->class |= ( flag | TARGET_AVAIL );
-}
+extern int       GM_PlayerStatus_800ABA50;
+extern SVECTOR   GM_PlayerPosition_800ABA10;
 
 int CheckPad_800C5A60( WatcherWork *work )
 {
@@ -270,7 +143,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
         work->target->class |= TARGET_C4 ;
     }
     
-    work->vision_length = EYE_LENGTH_800E0D8C ;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -326,7 +199,7 @@ void ActUnknown_800C5E48( WatcherWork* work, int time )
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision_length = EYE_LENGTH_800E0D8C ;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x100;
     work->control.field_44_movementVector = DG_ZeroVector_800AB39C;
 
@@ -442,7 +315,7 @@ void ActUnknown13_800C6164( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = EYE_LENGTH_800E0D8C ;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -472,7 +345,7 @@ void ActUnknown14_800C624C( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = EYE_LENGTH_800E0D8C ;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -499,7 +372,7 @@ void ActUnknown14_800C624C( WatcherWork *work, int time )
 void ActUnknown15_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision_length = EYE_LENGTH_800E0D8C;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C;
     work->field_8E6 = 0;
     
     if ( CheckDamage_800C5424( work ) )
@@ -563,7 +436,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 {
     int check = 0;
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision_length = EYE_LENGTH_800E0D8C ;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
