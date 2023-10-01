@@ -251,6 +251,7 @@ enum GCLOperators
 #define GCL_GetVarOffset(gcl_var) (gcl_var & 0xFFFF)
 #define GCL_IsGameStateVar(gcl_var) ((gcl_var & 0xF00000) == 0x800000)
 #define GCL_GetBoolVarBitFlag(gcl_var) (char)(1 << (((gcl_var << 1) >> 17) & 0xF))
+#define GCL_StrHash(hash) ((GCLCODE_HASHED_STRING << 16) | (hash))
 
 static inline long GCL_GetLong(char *ptr) // leak
 {
