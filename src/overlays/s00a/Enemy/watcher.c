@@ -53,9 +53,6 @@ int Think3_GoNext_800CC514( WatcherWork* work ) {
     return 0 ;
 }
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-
-#define TOP_COMM_TRAVEL 0
 #define T_NOISE 0
 #define BW_MARK 4
 
@@ -128,15 +125,13 @@ int	Think3_NoiseModeWatch( WatcherWork *work )
 }
 
 extern int     dword_800C3328[];
-extern short   EYE_LENGTH_800E0D8C;
-extern SVECTOR COM_NO_POINT_800C35D4;
+
 extern void sub_800C45D4( WatcherWork *work );
 extern void sub_800C4A40( WatcherWork *work );
 extern void sub_800C4B18( WatcherWork *work );
 extern char sub_800CEA2C( WatcherWork *work );
 
 extern int  ReadNodes_800C489C( WatcherWork *work );
-extern void InitTarget_800C444C( WatcherWork *work );
 extern int  fprintf_8008BB98(int, const char *formatStr, ...); 
 
 #define PUTBREATH 1
@@ -144,6 +139,34 @@ extern int  fprintf_8008BB98(int, const char *formatStr, ...);
 extern int ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 extern int HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void GM_ConfigControlRadarparam_800262EC(CONTROL *pControl, short param_2, short param_3, short param_4, short param_5);
+
+extern void sub_8002DD14(TARGET *pTarget, MATRIX *pMatrix) ;
+
+void InitTarget_800C444C( WatcherWork *work )
+{
+    TARGET *target;
+    TARGET *target2;
+    int life;
+    int faint;
+
+    target = work->target;
+    life   = work->param_life;
+    faint  = work->param_faint;
+    
+    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), 2, &ENEMY_TARGET_SIZE_800C35A4 );
+    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
+    GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
+
+    sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
+
+    target2 = &work->field_904;
+    GM_SetTarget_8002DC74( target2, TARGET_POWER, 1, &ENEMY_ATTACK_SIZE_800C35B4 );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
+
+    target2 = &work->field_94C;
+    GM_SetTarget_8002DC74( target2, ( TARGET_DOWN | TARGET_SEEK | TARGET_CAPTURE ), 2, &ENEMY_TOUCH_SIZE_800C35C4 );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
+}
 
 void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 {
@@ -169,25 +192,28 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         work->field_B7D = GCL_GetNextInt_800209E8( ( char* )opt );
     }
 
-    work->field_B82 = 0xC0;
+    //life
+    work->param_life = 192;
     opt = GCL_GetParam_80020968( 'l' );
     if ( opt )
     {
-        work->field_B82 = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_life = GCL_GetNextInt_800209E8( ( char* )opt );
     }
 
-    work->field_B84 = 0xA;
+    //faint
+    work->param_faint = 10;
     opt = GCL_GetParam_80020968( 'f' );
     if ( opt )
     {
-        work->field_B84 = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_faint = GCL_GetNextInt_800209E8( ( char* )opt );
     }
 
-    work->field_B79 = 0x41;
+    //blood
+    work->param_blood = 65;
     opt = GCL_GetParam_80020968( 'b' );
     if ( opt )
     {
-        work->field_B79 = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_blood = GCL_GetNextInt_800209E8( ( char* )opt );
     }
 
     work->local_data = 0;
@@ -214,7 +240,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     {
         work->field_B81 = GCL_GetNextInt_800209E8( ( char* )opt );
     }
-    if ( work->field_B79 == 'Z' )
+    if ( work->param_blood == 'Z' )
     {
         work->field_B81 = 0;
     }
@@ -249,14 +275,16 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         }
     }
 
-    work->field_B7A = 'A';
+    //area
+    work->param_area = 'A';
     opt = GCL_GetParam_80020968( 'a' );
     if (opt != 0)
     {
-        work->field_B7A = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_area = GCL_GetNextInt_800209E8( ( char* )opt );
     }
 
-    if ( work->field_B7A == 'S' ) ENE_SetPutChar_800C979C( work, PUTBREATH ) ;
+    //scale?
+    if ( work->param_area == 'S' ) ENE_SetPutChar_800C979C( work, PUTBREATH ) ;
     work->scale = 4096 ;
 
     if ( ( opt = GCL_GetParam_80020968( 's' ) ) != NULL ) work->scale += GCL_GetNextInt_800209E8( ( char* )opt );
@@ -299,7 +327,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_B96 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision_facedir = EYE_LENGTH_800E0D8C;
+    work->vision_facedir = COM_EYE_LENGTH_800E0D8C;
     work->field_BA4 = COM_NO_POINT_800C35D4;
     work->subweapon = 0;
     work->field_C48 = 0;
@@ -310,7 +338,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_B7E = work->field_B7D;
     work->field_B7F = work->field_B7C;
     
-    for ( i = 0 ; i < 5 ; i++ )
+    for ( i = 0 ; i <= 4 ; i++ )
     {
         work->modetime[i] = 0;
     } 
@@ -325,7 +353,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, EYE_LENGTH_800E0D8C, 0 );
+    GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->field_BEC = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );

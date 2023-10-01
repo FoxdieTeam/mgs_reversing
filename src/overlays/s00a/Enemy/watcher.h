@@ -48,7 +48,7 @@ typedef struct _WatcherWork
     int          field_8F8;
     int          actend;                     //0x8FC
     TARGET      *target;                     //0x900
-    char         field_904_padding[0x48];
+    TARGET       field_904;                  //0x904
     TARGET       field_94C;                  //0x94C
     char         field_994_padding[0x48];    //0x994
     Homing_Target *hom;                      //0x9DC
@@ -82,17 +82,17 @@ typedef struct _WatcherWork
     int          act_status;                 //0xB70
     int          field_B74;                  //0xB74
     signed char  field_B78;                  //0xB78
-    signed char  field_B79;                  //0xB79
-    signed char  field_B7A;                  //0xB7A
+    signed char  param_blood;                //0xB79  //param.blood (should be struct)
+    signed char  param_area;                 //0xB7A  //param.area  (should be struct)
     char         field_B7B;                  //0xB7B
     char         field_B7C;                  //0xB7C
     char         field_B7D;                  //0xB7D
     char         field_B7E;                  //0xB7E
     char         field_B7F;                  //0xB7F
-    char         param_item;                 //0xB80  //param.item (should be struct)
+    char         param_item;                 //0xB80  //param.item  (should be struct)
     char         field_B81;                  //0xB81
-    short        field_B82;                  //0xB82
-    short        field_B84;                  //0xB84
+    short        param_life;                 //0xB82  //param.life  (should be struct)
+    short        param_faint;                //0xB84  //param.faint (should be struct)
     char         local_data;                 //0xB86
     char         local_data2;                //0xB87
     int          field_B88;                  //0xB88
