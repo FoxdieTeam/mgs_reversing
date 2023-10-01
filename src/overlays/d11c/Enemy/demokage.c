@@ -3,7 +3,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
-typedef struct _WorkDemokage
+typedef struct _DemokageWork
 {
     GV_ACT   actor;  // 0
     OBJECT  *parent; // 20
@@ -12,7 +12,7 @@ typedef struct _WorkDemokage
     SVECTOR  f48;    // 48
     int     *f50;    // 50
     int     *f54;    // 54
-} WorkDemokage;
+} DemokageWork;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
@@ -49,7 +49,7 @@ int d11c_800C42AC(SVECTOR *vec1, SVECTOR *vec2)
     return GV_YawVec3_80016EF8(&diff);
 }
 
-void d11c_800C42D4(WorkDemokage *work)
+void d11c_800C42D4(DemokageWork *work)
 {
     SVECTOR  sp10[4];
     SVECTOR *vec;
@@ -124,7 +124,7 @@ void d11c_800C42D4(WorkDemokage *work)
     }
 }
 
-void d11c_800C44F8(WorkDemokage *work)
+void d11c_800C44F8(DemokageWork *work)
 {
     SVECTOR vec;
 
@@ -138,7 +138,7 @@ void d11c_800C44F8(WorkDemokage *work)
     work->prim->world.t[1] = *work->f54;
 }
 
-void d11c_800C45AC(WorkDemokage *work)
+void d11c_800C45AC(DemokageWork *work)
 {
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {
@@ -153,7 +153,7 @@ void d11c_800C45AC(WorkDemokage *work)
     }
 }
 
-void d11c_800C4630(WorkDemokage *work)
+void d11c_800C4630(DemokageWork *work)
 {
     DG_PRIM *prim;
 
@@ -165,7 +165,7 @@ void d11c_800C4630(WorkDemokage *work)
     }
 }
 
-int d11c_800C466C(WorkDemokage *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)
+int d11c_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)
 {
     DG_PRIM  *prim;
     DG_TEX   *tex;
@@ -230,9 +230,9 @@ int d11c_800C466C(WorkDemokage *work, OBJECT *parent, SVECTOR arg2, int *arg3, i
 
 GV_ACT *d11c_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
 {
-    WorkDemokage *work;
+    DemokageWork *work;
 
-    work = (WorkDemokage *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WorkDemokage));
+    work = (DemokageWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DemokageWork));
     if (work == NULL)
     {
         return NULL;

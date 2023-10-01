@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef d11c_800C66BC
-d11c_800C66BC:
+	xdef psyq_SetLightMatrix
+psyq_SetLightMatrix:
 	dw 0x8C880000 ; 800C66BC
 	dw 0x8C890004 ; 800C66C0
 	dw 0x8C8A0008 ; 800C66C4
