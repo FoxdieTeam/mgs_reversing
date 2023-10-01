@@ -44,5 +44,3 @@ const char d11c_dword_800C675C[] = {0x0, 'J', 'h', 0xd};
 const char d11c_dword_800C6760[] = {'c', 'i', 'n', 'e'};
 const char d11c_dword_800C6764[] = {'m', 'a', '.', 'c'};
 const char d11c_dword_800C6768[] = {0x0, '\n', 'R', 'p'};
-const char d11c_dword_800C676C[] = {0x0, 0x0, 0x0, 0x0};
-const char d11c_dword_800C6770[] = {0x0, 0x0, 0x0, 0x0};
