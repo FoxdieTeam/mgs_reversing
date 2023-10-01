@@ -375,16 +375,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\select\select_800C5008.obj" ; psyq
 {% elif OVERLAY == "d11c" %}
     include "{{OBJ_DIR}}\overlays\d11c\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C326C.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C34C4.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C3518.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C3550.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C361C.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C37A4.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C37F0.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C382C.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C3914.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C3B34.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C425C.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4284.obj"
