@@ -10,7 +10,7 @@ typedef struct LampWork
     short          field_24;
     char           field_26;
     char           field_27;
-    short          field_28;
+    unsigned short field_28_name;
     short          field_2A;
     int            field_2C;
     int            field_30;
@@ -31,15 +31,78 @@ extern const char     d11c_aLampc_800C6700[]; // = "lamp.c";
 void d11c_800C326C(LampWork *, int);
 
 #pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C34C4.s")
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C3518.s")
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C3550.s")
+
+int d11c_800C34C4();
+
+void d11c_800C3518(LampWork *work, int unused)
+{
+    int temp_v0;
+
+    temp_v0 = d11c_800C34C4();
+    work->field_38 = temp_v0;
+    work->field_3C = temp_v0;
+    work->field_30 = 0;
+    work->field_2A = -1;
+}
+
+void d11c_800C3550(LampWork *work)
+{
+    GV_MSG *message;
+    int     message_result;
+
+    message_result = GV_ReceiveMessage_80016620(work->field_28_name, &message);
+    for (; message_result > 0; message_result--, message++)
+    {
+        switch (message->message[0])
+        {
+        case 0xE4E:
+            d11c_800C326C(work, message->message[1]);
+            work->field_3C = 0;
+            break;
+        case 0xC927:
+            d11c_800C326C(work, 0);
+            work->field_3C = 0;
+            break;
+        case 0xBCD2:
+            d11c_800C3518(work, message->message[1]);
+            break;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C361C.s")
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C37A4.s")
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C37F0.s")
+void d11c_800C361C(LampWork *work);
+
+void d11c_800C37A4(LampWork *work)
+{
+    d11c_800C3550(work);
+    if (work->field_30 >= 0)
+    {
+        if (work->field_30 > 0)
+        {
+            work->field_30--;
+            return;
+        }
+        d11c_800C361C(work);
+    }
+}
+
+void d11c_800C37F0(LampWork *work)
+{
+    DG_PRIM *prim;
+
+    prim = work->field_20_prim;
+    if (prim)
+    {
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C382C.s")
 void d11c_800C382C(SVECTOR *, int, int, int, int);
 
-int LampGetResources_800C3914(LampWork *work, int map, int a2, int a3, int a4)
+int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
 {
     MATRIX   mat;
     SVECTOR  svec1;
@@ -60,7 +123,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int a2, int a3, int a4)
     param1 = GCL_GetNextParamValue_80020AD4();
     param2 = GCL_GetNextParamValue_80020AD4();
     param3 = GCL_GetNextParamValue_80020AD4();
-    work->field_28 = a2;
+    work->field_28_name = name;
     work->field_38 = 0;
     work->field_3C = 0;
     work->field_30 = -1;
@@ -136,7 +199,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int a2, int a3, int a4)
     return 1;
 }
 
-GV_ACT *NewLamp_800C3B34(int arg0, int arg1)
+GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 {
     LampWork      *work;
     unsigned char *nextStrPtr;
@@ -162,7 +225,7 @@ GV_ACT *NewLamp_800C3B34(int arg0, int arg1)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C37A4, (TActorFunction)d11c_800C37F0,
                                   d11c_aLampc_800C6700);
-        if (LampGetResources_800C3914(work, arg1, arg0, param1, param2) == 0)
+        if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
