@@ -1,3 +1,4 @@
+#include "hash.h"
 #include "libgcl.h"
 
 int SECTION(".sbss") gGcl_scriptNameHash_800AB990;
@@ -14,10 +15,7 @@ int GCL_InitFunc_8001FC88(unsigned char *pFileData, int hashedName)
 
 void GCL_ChangeSenerioCode_8001FCB0(int isDemoScript)
 {
-    // 0x6 means hashed string
-    // 0xA242 = "demo"
-    // 0xEA54 = "scenerio"
-    gGcl_scriptNameHash_800AB990 = (isDemoScript == 1) ? 0x6A242 : 0x6EA54;
+    gGcl_scriptNameHash_800AB990 = (isDemoScript == 1) ? GCL_StrHash(HASH_DEMO) : GCL_StrHash(HASH_SCENERIO);
 }
 
 void GCL_StartDaemon_8001FCDC(void)
