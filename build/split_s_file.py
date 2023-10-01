@@ -3,6 +3,29 @@ import argparse
 import re
 import sys
 import os
+from glob import glob
+
+def patch_file(file_path, orig_function, new_function):
+    if not os.path.isfile(file_path):
+        return
+
+    new_lines = []
+    modification_made = False
+
+    with open(file_path, 'r') as file:
+        for line in file:
+            if orig_function in line and (('INCLUDE_ASM' in line) or ('include' in line and '.obj' in line)):
+                modified_line = line.replace(orig_function, new_function)
+                new_lines.append(line)
+                new_lines.append(modified_line)
+                modification_made = True
+            else:
+                new_lines.append(line)
+
+    if modification_made:
+        print("Patched file:", file_path)
+        with open(file_path, 'w') as file:
+            file.writelines(new_lines)
 
 def main():
     parser = argparse.ArgumentParser(description="Split an .s file at a specified address.")
@@ -44,6 +67,12 @@ def main():
     with open(os.path.join(os.path.dirname(args.input_file), f"{prefix}_{split_address:08X}.s"), "w") as f:
         f.writelines(l.replace(f"{prefix}_{original_addr}", f"{prefix}_{split_address:08X}") for l in header)
         f.writelines(part2)
+
+    for f in glob('../src/**/*', recursive=True):
+        patch_file(f, f"{prefix}_{original_addr}", f"{prefix}_{split_address:08X}")
+
+    for f in glob('../build/linker_command_file.txt'):
+        patch_file(f, f"{prefix}_{original_addr}", f"{prefix}_{split_address:08X}")
 
 if __name__ == '__main__':
     main()
