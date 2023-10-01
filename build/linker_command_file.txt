@@ -378,20 +378,9 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
-
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C49A4.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4BBC.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4D64.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4D98.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4E5C.obj"
-
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4EF8.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4FFC.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5094.obj"
-
+    include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C59F8.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5C4C.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5C7C.obj"
@@ -403,7 +392,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C6570.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C6608.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C6614.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C66BC.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\psyq_SetLightMatrix.obj" ; psyq
 {% endif %}
 
 {% endif %}
