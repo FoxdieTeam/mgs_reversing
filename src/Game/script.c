@@ -552,8 +552,9 @@ int GCL_Command_start_8002C22C(unsigned char *pScript)
     return 0;
 }
 
-int GCL_Command_load_8002C308(unsigned char *pScript)
+int GCL_Command_load_8002C308(unsigned char *pScript) // different in VR
 {
+#ifndef VR_EXE
     char *scriptStageName;
     SVECTOR vec;
 
@@ -623,6 +624,9 @@ int GCL_Command_load_8002C308(unsigned char *pScript)
     }
 
     return 0;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 0, 0);
+#endif
 }
 
 int GCL_Command_radio_8002C4A8(unsigned char *pScript)
@@ -744,8 +748,13 @@ int GCL_Command_varsave_8002C72C(unsigned char *pScript)
     return 0;
 }
 
-int GCL_Command_system_8002C7C8(unsigned char *pScript)
+#ifdef VR_EXE
+const char const2[] = "SYSTEM:%c:change proc name\n";
+#endif
+
+int GCL_Command_system_8002C7C8(unsigned char *pScript) // different in VR
 {
+#ifndef VR_EXE
     int i, proc;
 
     for (i = 0; i <= (int)sizeof(aGcawi); i++)
@@ -767,6 +776,9 @@ int GCL_Command_system_8002C7C8(unsigned char *pScript)
         GM_StageName_800AB918 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
     }
     return 0;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 4, 7);
+#endif
 }
 
 int GCL_Command_demo_8002C890(unsigned char *pScript)

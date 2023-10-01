@@ -35,6 +35,13 @@ extern int   DG_UnDrawFrameCount_800AB380;
 extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 
+#ifdef VR_EXE
+int some_new_vr_func()
+{
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 3);
+}
+#endif
+
 int GV_UpdatePadSystem_helper_helper_800166AC(int a0, int a1, int a2)
 {
     int v1, i;
@@ -136,7 +143,7 @@ void GV_InitPadSystem_800167C8(void)
 }
 
 void GV_UpdatePadSystem_8001682C(void)
-{
+{ // this function is different in vr
     int           chan, prev;
     unsigned int  t0, t1, t2, t3, t4, t5;
     short        *table;
@@ -355,6 +362,9 @@ void GV_UpdatePadSystem_8001682C(void)
         pad++;
         button = (button >> 16) & 0xFFFF;
     }
+#ifdef VR_EXE
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 4);
+#endif
 }
 
 void GV_OriginPadSystem_80016C78(int org)

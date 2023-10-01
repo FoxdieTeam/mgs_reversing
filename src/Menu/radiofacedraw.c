@@ -23,6 +23,7 @@ extern menu_0x14 stru_800BDA48[ 2 ];
 
 void sub_80048124()
 {
+#ifndef VR_EXE
     PANEL_TEXTURE pPanelTex;
     RECT          rect;
 
@@ -36,6 +37,9 @@ void sub_80048124()
 
     LoadImage(&rect, pPanelTex.field_4_word_ptr_pixels);
     dword_800ABB3C = (rect.y << 6) | (rect.x >> 4 & 0x3f);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 3, 8);
+#endif
 }
 
 void radio_draw_face_frame_800481CC(MenuPrim *pGlue, int x, int y, int w, int h)

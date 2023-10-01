@@ -30,8 +30,9 @@ void GM_SetAreaHistory_8002A784(AreaHistory *pNewHistory)
     gAreaHistory_800B5850 = *pNewHistory;
 }
 
-int GM_SetArea_8002A7D8(int stage_id, char *pStageName)
+int GM_SetArea_8002A7D8(int stage_id, char *pStageName) // different in VR
 {
+#ifndef VR_EXE
     int i;
 
     sCurrentAreaName_800AB9C0 = stage_id;
@@ -42,6 +43,9 @@ int GM_SetArea_8002A7D8(int stage_id, char *pStageName)
     }
     gAreaHistory_800B5850.history[0] = stage_id;
     return stage_id;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 5);
+#endif
 }
 
 int GM_AreaHistory_8002A848(int stage_id)
@@ -58,7 +62,11 @@ int GM_AreaHistory_8002A848(int stage_id)
     return i;
 }
 
-char *GM_GetArea_8002A880(int unused)
+char *GM_GetArea_8002A880(int unused) // different in VR
 {
+#ifndef VR_EXE
     return gCurrentStageName_800AB3C4;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 0, 1);
+#endif
 }

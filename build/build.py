@@ -84,6 +84,9 @@ def ninja_run():
         r'select\.c:\d+: warning: `gcl_string\' might be used uninitialized in this function',
     ]
 
+    if args.variant == 'vr_exe':
+        warning_whitelist += [r'control reaches end of non-void function']
+
     if os.environ.get('APPVEYOR'):
         with subprocess.Popen([ninja] + ninja_args, stdout=subprocess.PIPE, encoding='utf8') as proc:
             for line in proc.stdout:
@@ -334,6 +337,9 @@ def gen_build_target(targetName):
         "select",
         "d11c"
     ]
+
+    if args.variant == 'vr_exe':
+        OVERLAYS = [None]
 
     for overlay in OVERLAYS:
         suffix = f"_{overlay}" if overlay else ""
