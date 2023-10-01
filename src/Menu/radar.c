@@ -813,8 +813,9 @@ void draw_radar_helper3_helper2_8003A2D0(MenuPrim *pGlue, int idx)
     }
 }
 
-void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
+void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code) // different in VR
 {
+#ifndef VR_EXE
     int       temp_v0_3;
     int       i, j;
     int       var_s2;
@@ -899,6 +900,9 @@ void draw_radar_helper3_helper3_8003A664(MenuPrim *pGlue, int param_2, int code)
     }
 
     draw_radar_helper3_helper3_helper_8003A0BC(pGlue, code);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 9, 1);
+#endif
 }
 
 void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
@@ -912,8 +916,9 @@ void draw_radar_helper3_helper4_8003A978(MenuPrim *prim, int x, int code)
     addPrim(prim->mPrimBuf.mOt, sprt);
 }
 
-void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4)
+void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, int param_4) // different in VR
 {
+#ifndef VR_EXE
     unsigned int randValue;
     DR_TPAGE    *tpage1;
     TILE        *tile;
@@ -979,6 +984,9 @@ void draw_radar_helper3_8003AA2C(Actor_MenuMan *pActor, char *pOt, int param_3, 
     NEW_PRIM(tpage2, pActor);
     setDrawTPage(tpage2, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage2);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 0, 3);
+#endif
 }
 
 void menu_radar_load_rpk_8003AD64()

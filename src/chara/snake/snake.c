@@ -104,6 +104,7 @@ void sna_clear_flags2_8004E344(Actor_SnaInit *snake, SnaFlag2 flags)
 
 unsigned int sna_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
 {
+#ifndef VR_EXE
     unsigned int result = 0;
 
     if (GM_UnkFlagBE != 0)
@@ -112,10 +113,14 @@ unsigned int sna_sub_8004E358(Actor_SnaInit *snake, SnaFlag2 param_2)
     }
 
     return result;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 0, 3);
+#endif
 }
 
 void CheckSnakeDead_8004E384(Actor_SnaInit *snake)
 {
+#ifndef VR_EXE
     if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer_800AB3D4 != 0))
     {
         snake->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
@@ -128,10 +133,14 @@ void CheckSnakeDead_8004E384(Actor_SnaInit *snake)
             sna_set_flags1_8004E2F4(snake, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
         }
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 3, 6);
+#endif
 }
 
 void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 {
+#ifndef VR_EXE
     TARGET *target = snake->field_8E8_pTarget;
 
     if (target != NULL)
@@ -141,6 +150,9 @@ void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
         snake->field_A54.choke_count = 0;
         snake->field_89C_pTarget->field_10_size.vx = 300;
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 3);
+#endif
 }
 
 // ... categorize move/turn direction by angle?
@@ -148,6 +160,7 @@ void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 // param_2: gSnaMoveDir_800ABBA4
 int sub_8004E458(short param_1, int param_2)
 {
+#ifndef VR_EXE
     short uVar2;
 
     if (param_2 < 0)
@@ -183,6 +196,9 @@ int sub_8004E458(short param_1, int param_2)
 
         return 2;
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 0, 9);
+#endif
 }
 
 int sub_8004E4C0(Actor_SnaInit *pActor, int param_2)
@@ -237,6 +253,7 @@ void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *param_3)
 
 int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
 {
+#ifndef VR_EXE
     int     i;
     SVECTOR vec;
     int     unk1[2];
@@ -281,6 +298,9 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     }
 
     return 2;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 7, 4);
+#endif
 }
 
 int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)

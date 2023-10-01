@@ -289,6 +289,12 @@ void sub_8001C460(DG_OBJS *objs, int n_obj)
     }
 }
 
+#ifdef VR_EXE
+void new_vr_screen_func() {
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 0, 5);
+}
+#endif
+
 // set obj world accoring to parent?
 void sub_8001C5CC(DG_OBJS *objs, int n_obj)
 {
@@ -425,7 +431,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     }
 }
 
-void DG_8001CDB8(DG_OBJS *pObjs)
+void DG_8001CDB8(DG_OBJS *pObjs) // different in VR
 {
     MATRIX *root = pObjs->root;
     int     n_models = pObjs->n_models;
@@ -452,6 +458,9 @@ void DG_8001CDB8(DG_OBJS *pObjs)
         }
         sub_8001C460(pObjs, n_models);
     }
+#ifdef VR_EXE
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 0, 7);
+#endif
 }
 
 void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
