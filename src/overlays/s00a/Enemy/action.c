@@ -432,6 +432,105 @@ void ActUnknown15_800C6320( WatcherWork *work, int time )
     work->vision_facedir = work->control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
 }
 
+extern void sub_800C6724();
+extern void sub_800C67E4();
+extern void sub_800C6A40();
+extern void sub_800C5860( WatcherWork *work );
+
+void ActUnknown16_800C65A8( WatcherWork* work, int time )
+{
+    int press;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    press = work->pad.press;
+    
+    if ( time == 0 )
+    {
+        if ( press & 0x10000 )
+        {
+            SetAction( work, ACTION3, ACTINTERP ) ;
+        }
+        else
+        {
+            SetAction( work, ACTION5, ACTINTERP );
+        }        
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+    }
+
+    sub_800C5860( work );
+    if ( CheckDamage_800C5424( work ) )
+    {
+		return ;        
+    }
+
+    if ( !(press & 0x30000) )
+    {
+        SetMode( work, ActStandStill_800C5C84 ) ;
+        return ;
+    }
+
+    if ( press & 0x40000 )
+    {
+        SetModeFields( work, sub_800C6724) ;
+        return;
+    }
+
+    if ( press & 0x80000 )
+    {
+        SetModeFields( work, sub_800C67E4) ;
+        return;
+    }    
+    
+    if ( press & 0x100000 )
+    {
+        SetMode( work, ActGrenade_800C67EC ) ;
+        return;
+    }    
+
+    if ( press & 0x200000 )
+    {
+        SetModeFields( work, sub_800C6A40 ) ;
+        return;
+    } 
+
+    work->control.field_4C_turn_vec.vy = work->sn_dir;
+    work->control.field_44_movementVector.vx = 0;
+    work->control.field_44_movementVector.vz = 0;
+    work->vision_facedir = work->control.field_8_rotator.vy;
+}
+
+extern int ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
+
+void sub_800C6724( WatcherWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION4, 0 ) ;
+        ENE_SetPutChar_800C979C( work, 3 ) ;
+        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+    }
+
+    sub_800C5860( work );
+    work->control.field_4C_turn_vec.vy = work->sn_dir;
+
+    if ( CheckDamage_800C5424( work ) )
+    {
+		return ;        
+    }
+    
+    SetModeFields( work, ActUnknown16_800C65A8 );
+    work->control.field_44_movementVector.vx = 0;
+    work->control.field_44_movementVector.vz = 0;
+}
+
+void sub_800C67E4( WatcherWork *work, int time )
+{
+
+}
+
 void ActGrenade_800C67EC( WatcherWork *work, int time )
 {
     int check = 0;
@@ -506,4 +605,63 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         SetMode( work, ActUnknown16_800C65A8 );
     }
     
+}
+
+extern int sub_800C58E8( WatcherWork *work );
+
+void sub_800C6A40( WatcherWork* work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->field_8E6 = 0;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION8, 0 );
+    }
+
+    if ( time == 3 )
+    {
+        if ( sub_800C58E8( work ) )
+        {
+            GM_SeSet_80032858( &( work->control.field_0_mov ), 0x25 );
+        }
+    }
+
+    work->control.field_4C_turn_vec.vy = work->sn_dir;
+
+    if ( CheckDamage_800C5424( work ) )
+    {
+		return ;        
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, ActUnknown16_800C65A8 );
+    }
+    work->control.field_44_movementVector.vx = 0;
+    work->control.field_44_movementVector.vz = 0;
+}
+
+void sub_800C6B24( WatcherWork* work, int time )
+{
+    work->vision_length = 0;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION21, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800C5424( work ) )
+    {
+		return ;        
+    }
+
+    SetTargetClass( work->target, TARGET_FLAG );
+
+    if ( work->body.is_end )
+    {
+        work->actend = 1;
+        SetMode( work, ActStandStill_800C5C84 );
+    }
 }
