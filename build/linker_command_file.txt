@@ -377,12 +377,14 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d11c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\Takabe\demokage.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
+
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C49A4.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4BBC.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4D64.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4D98.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4E5C.obj"
+
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4EF8.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C4FFC.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5094.obj"
