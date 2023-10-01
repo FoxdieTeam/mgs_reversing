@@ -10,6 +10,7 @@ build.ninja
 obj
 obj_vr
 build/dump.asm
+build/m2c
 build/contrib
 build/man
 build/manifest
