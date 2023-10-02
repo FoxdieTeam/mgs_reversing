@@ -37,9 +37,9 @@ int vibrate_act_helper_8005D3A4(Actor_Vibrate *pActor)
     }
 
     pActor->field_21_increment =
-        GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     pActor->field_22_timer =
-        2 * GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        2 * GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     pActor->field_24_pData =
         GCL_Get_Param_Result_80020AA4();
 

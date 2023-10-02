@@ -62,10 +62,10 @@ void d11c_800C4D64(GasEfctWork *work)
 
 int d11c_800C4D98(GasEfctWork *work, int name, int where)
 {
-    if (GCL_GetParam_80020968('c'))
+    if (GCL_GetOption_80020968('c'))
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2C);
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f34);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f2C);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f34);
     }
 
     work->f48 = GetParamOrDefault_800C5318('s', 4096);

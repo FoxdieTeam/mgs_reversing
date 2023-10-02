@@ -231,7 +231,7 @@ MAP *GCL_Command_hzd_impl_800310D0(void)
 
     map = Map_GetNextFreeRecord_80030E30(GCL_GetNextParamValue_80020AD4());
 
-    if (GCL_GetParam_80020968('d'))
+    if (GCL_GetOption_80020968('d'))
     {
         d1 = GCL_GetNextParamValue_80020AD4();
         d2 = GCL_GetNextParamValue_80020AD4();
@@ -242,7 +242,7 @@ MAP *GCL_Command_hzd_impl_800310D0(void)
         d2 = 0x18;
     }
 
-    if (!GCL_GetParam_80020968('h')) // hzm
+    if (!GCL_GetOption_80020968('h')) // hzm
     {
         printf(aNoHzd);
         return 0;
@@ -251,7 +251,7 @@ MAP *GCL_Command_hzd_impl_800310D0(void)
     map->field_8_hzd = Map_HZD_Load_80030F38(GCL_GetNextParamValue_80020AD4(), GCL_GetNextParamValue_80020AD4(),
                                              map->field_0_map_index_bit, d1, d2);
 
-    if (GCL_GetParam_80020968('l')) // lit
+    if (GCL_GetOption_80020968('l')) // lit
     {
         map->field_C_lit = GV_GetCache_8001538C(GV_CacheID_800152DC(GCL_GetNextParamValue_80020AD4(), 'l'));
     }
@@ -260,7 +260,7 @@ MAP *GCL_Command_hzd_impl_800310D0(void)
         map->field_C_lit = 0;
     }
 
-    if (GCL_GetParam_80020968('k')) // kmd
+    if (GCL_GetOption_80020968('k')) // kmd
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
@@ -269,7 +269,7 @@ MAP *GCL_Command_hzd_impl_800310D0(void)
     }
 
     map->field_10_zone_id = 0;
-    if (GCL_GetParam_80020968('z')) // zone
+    if (GCL_GetOption_80020968('z')) // zone
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
@@ -462,7 +462,7 @@ HZD_HDL * Map_Enum_Get_Hzd_80031580(HZD_HDL *pPrevious)
         }
         pHzdIter_800ABAA0++;
         count--;
-    }    
+    }
     return 0;
 }
 

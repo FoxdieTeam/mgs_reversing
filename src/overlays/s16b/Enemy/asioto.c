@@ -142,17 +142,17 @@ int AsiotoGetResources_800C3B94(Work *work)
     hash = work->hash;
     work->count = 0;
 
-    if (GCL_GetParam_80020968('t'))
+    if (GCL_GetOption_80020968('t'))
     {
         while ((result = GCL_Get_Param_Result_80020AA4()))
         {
-            *hash++ = GCL_GetNextInt_800209E8(result);
+            *hash++ = GCL_StrToInt_800209E8(result);
             work->count++;
         }
     }
 
     i = 0;
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         for (; i < work->count; i++)
         {
@@ -161,8 +161,8 @@ int AsiotoGetResources_800C3B94(Work *work)
                 break;
             }
 
-            work->se[i][0] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
-            work->se[i][1] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->se[i][0] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->se[i][1] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
         }
 
         if (i != work->count)
@@ -176,7 +176,7 @@ int AsiotoGetResources_800C3B94(Work *work)
     work->se2[0][1] = 168;
 
     i = 0;
-    if (GCL_GetParam_80020968('f'))
+    if (GCL_GetOption_80020968('f'))
     {
         for (; i < 4; i++)
         {
@@ -185,13 +185,13 @@ int AsiotoGetResources_800C3B94(Work *work)
                 break;
             }
 
-            work->se2[i][0] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
-            work->se2[i][1] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->se2[i][0] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->se2[i][1] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
         }
     }
 
     i = 0;
-    if (GCL_GetParam_80020968('n'))
+    if (GCL_GetOption_80020968('n'))
     {
         for (; i < work->count; i++)
         {
@@ -200,7 +200,7 @@ int AsiotoGetResources_800C3B94(Work *work)
                 break;
             }
 
-            work->noise[i] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->noise[i] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
         }
     }
 
@@ -214,7 +214,7 @@ int AsiotoGetResources_800C3B94(Work *work)
     work->se_duct[0][1] = 6;
 
     i = 0;
-    if (GCL_GetParam_80020968('i'))
+    if (GCL_GetOption_80020968('i'))
     {
         for (; i < 4; i++)
         {
@@ -223,8 +223,8 @@ int AsiotoGetResources_800C3B94(Work *work)
                 break;
             }
 
-            work->se_duct[i][0] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
-            work->se_duct[i][1] = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->se_duct[i][0] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+            work->se_duct[i][1] = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
 
             printf(" migi sodesuri %d \n", work->se_duct[i][0]);
         }

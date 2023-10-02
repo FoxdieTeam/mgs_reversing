@@ -22,7 +22,7 @@ void sub_800C409C( WatcherWork* work )
 
             work->faseout = 1 ;
             work->act_status = EN_FASEOUT ;
-        }     
+        }
     }
 }
 
@@ -31,7 +31,7 @@ int	Think3_BikkuriGetUp_800CC568( WatcherWork* work )
     if( work->count3 == 0){
         work->pad.press |= 0x00001000  ;
     } else  if( work->count3 > 90 || work->actend ){
- 
+
         return 1 ;
     }
     work->count3 ++ ;
@@ -71,7 +71,7 @@ int	Think3_NoiseModeWatch( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
-                work->pad.sound = (  0x88   ) ;	 
+                work->pad.sound = (  0x88   ) ;
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
@@ -121,7 +121,7 @@ int	Think3_NoiseModeWatch( WatcherWork *work )
             return 1;
     }
     work->count3++;
-    return 0;   
+    return 0;
 }
 
 extern int     dword_800C3328[];
@@ -132,7 +132,7 @@ extern void sub_800C4B18( WatcherWork *work );
 extern char sub_800CEA2C( WatcherWork *work );
 
 extern int  ReadNodes_800C489C( WatcherWork *work );
-extern int  fprintf_8008BB98(int, const char *formatStr, ...); 
+extern int  fprintf_8008BB98(int, const char *formatStr, ...);
 
 #define PUTBREATH 1
 
@@ -152,7 +152,7 @@ void InitTarget_800C444C( WatcherWork *work )
     target = work->target;
     life   = work->param_life;
     faint  = work->param_faint;
-    
+
     GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), 2, &ENEMY_TARGET_SIZE_800C35A4 );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
@@ -184,45 +184,45 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     }
 
     sub_800C4A40( work ) ;
-    
+
     work->field_B7D = 0;
-    opt = GCL_GetParam_80020968( 'r' );
+    opt = GCL_GetOption_80020968( 'r' );
     if ( opt )
     {
-        work->field_B7D = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->field_B7D = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     //life
     work->param_life = 192;
-    opt = GCL_GetParam_80020968( 'l' );
+    opt = GCL_GetOption_80020968( 'l' );
     if ( opt )
     {
-        work->param_life = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_life = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     //faint
     work->param_faint = 10;
-    opt = GCL_GetParam_80020968( 'f' );
+    opt = GCL_GetOption_80020968( 'f' );
     if ( opt )
     {
-        work->param_faint = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_faint = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     //blood
     work->param_blood = 65;
-    opt = GCL_GetParam_80020968( 'b' );
+    opt = GCL_GetOption_80020968( 'b' );
     if ( opt )
     {
-        work->param_blood = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_blood = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     work->local_data = 0;
-    work->local_data2 = 0; 
+    work->local_data2 = 0;
     //work->local_data = work->local_data2 = 0 ;
-    opt = GCL_GetParam_80020968( 'h' );
+    opt = GCL_GetOption_80020968( 'h' );
     if ( opt )
     {
-        work->local_data = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->local_data = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     if ( work->local_data == 3 )
@@ -230,15 +230,15 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         opt = ( int )GCL_Get_Param_Result_80020AA4();
         if ( opt )
         {
-            work->local_data2 = GCL_GetNextInt_800209E8( ( char* )opt );
+            work->local_data2 = GCL_StrToInt_800209E8( ( char* )opt );
         }
     }
 
     work->field_B81 = 0xFF;
-    opt = GCL_GetParam_80020968(0x67);
+    opt = GCL_GetOption_80020968(0x67);
     if ( opt )
     {
-        work->field_B81 = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->field_B81 = GCL_StrToInt_800209E8( ( char* )opt );
     }
     if ( work->param_blood == 'Z' )
     {
@@ -246,10 +246,10 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     }
 
     sub_800C4B18( work );
-    opt = GCL_GetParam_80020968( 'e' );
+    opt = GCL_GetOption_80020968( 'e' );
     if ( opt )
     {
-        work->field_C3C = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->field_C3C = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
     }
     else
     {
@@ -259,17 +259,17 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_BFC = dword_800C3328[ work->field_B78 ];
     work->field_C00 = work->field_B78;
     work->field_B7C = 0xFF;
-    
-    
-    opt = GCL_GetParam_80020968( 'n' );
+
+
+    opt = GCL_GetOption_80020968( 'n' );
     if ( opt )
     {
-        GCL_GetSV_80020A14( ( char* )opt, &svec );
+        GCL_StrToSV_80020A14( ( char* )opt, &svec );
         if ( svec.vy < 0x7530 )
         {
             work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
         }
-        else 
+        else
         {
             work->field_B7C = 0xFF;
         }
@@ -277,27 +277,27 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     //area
     work->param_area = 'A';
-    opt = GCL_GetParam_80020968( 'a' );
+    opt = GCL_GetOption_80020968( 'a' );
     if (opt != 0)
     {
-        work->param_area = GCL_GetNextInt_800209E8( ( char* )opt );
+        work->param_area = GCL_StrToInt_800209E8( ( char* )opt );
     }
 
     //scale?
     if ( work->param_area == 'S' ) ENE_SetPutChar_800C979C( work, PUTBREATH ) ;
     work->scale = 4096 ;
 
-    if ( ( opt = GCL_GetParam_80020968( 's' ) ) != NULL ) work->scale += GCL_GetNextInt_800209E8( ( char* )opt );
+    if ( ( opt = GCL_GetOption_80020968( 's' ) ) != NULL ) work->scale += GCL_StrToInt_800209E8( ( char* )opt );
     work->field_9E2 = work->scale; //line not in leak
     work->param_item = 1;
-    
+
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //	work->param.life, work->param.faint, work->param.blood,work->param.area);
 
     if( ReadNodes_800C489C( work ) < 0 ) fprintf_8008BB98( 1,"watchar.c : action point Err\n" );
 
     if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) InitTarget_800C444C( work ) ;
-    
+
     work->think1 = 0 ;
 	work->think2 = 0 ;
 	work->think3 = 0 ;
@@ -309,11 +309,11 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 	work->next_node = 0 ;
 	work->search_flag = 0 ;
 	work->field_B68 = 0 ;
-    
+
     work->pad.field_00 = 0; //line not in leak
     work->field_AEC    = 0; //line not in leak
-    work->act_status    = 0; //line not in leak  
-    
+    work->act_status    = 0; //line not in leak
+
 	work->target_pos = work->nodes[ 0 ] ;
     work->target_addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->target_pos ), -1 ) ;
     work->target_map  = GM_CurrentMap_800AB9B0;
@@ -337,17 +337,17 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->control.field_0_mov = work->nodes[ 0 ] ;
     work->field_B7E = work->field_B7D;
     work->field_B7F = work->field_B7C;
-    
+
     for ( i = 0 ; i <= 4 ; i++ )
     {
         work->modetime[i] = 0;
-    } 
+    }
 
     work->field_BA3 =  7;
     work->field_BA2 =  0;
     work->field_BA0 = -1;
 
-    opt = GCL_GetParam_80020968( 'c' );
+    opt = GCL_GetOption_80020968( 'c' );
     if ( opt )
     {
         work->field_BA3 |= 0x10;
@@ -399,13 +399,13 @@ void WatcherAct_800C430C( WatcherWork *work )
         GM_ActControl_80025A7C( ctrl );
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );
-        
+
         DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
-        
+
         sub_800CA07C( work );
         trgt = work->target;
         GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
-        
+
         sub_8002DA14( trgt );
 
         if ( trgt->class & TARGET_TOUCH )

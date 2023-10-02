@@ -683,40 +683,40 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     GM_ConfigControlHazard_8002622C(pControl, -1, -2, -1);
     GM_ConfigControlInterp_80026244(pControl, '\0');
 
-    pcVar5 = (char *) GCL_GetParam_80020968('p');
-    bReadVec2 = (char *) GCL_GetParam_80020968('d');
+    pcVar5 = (char *) GCL_GetOption_80020968('p');
+    bReadVec2 = (char *) GCL_GetOption_80020968('d');
     GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
 
     pControl->field_44_movementVector = DG_ZeroVector_800AB39C;
     pControl->field_55_skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
-    puVar6 = (unsigned char *) GCL_GetParam_80020968('b');
+    puVar6 = (unsigned char *) GCL_GetOption_80020968('b');
     type = 0;
 
     if (puVar6)
     {
-        type = GCL_GetNextInt_800209E8(puVar6);
+        type = GCL_StrToInt_800209E8(puVar6);
     }
 
-    puVar6 = (unsigned char *)GCL_GetParam_80020968('i');
+    puVar6 = (unsigned char *)GCL_GetOption_80020968('i');
     if (!puVar6)
     {
         printf("NO ID ITEM\n");
         return -1;
     }
 
-    pActor->field_114_item_id = GCL_GetNextInt_800209E8(puVar6);
-    puVar6 = (unsigned char *) GCL_GetParam_80020968('n');
+    pActor->field_114_item_id = GCL_StrToInt_800209E8(puVar6);
+    puVar6 = (unsigned char *) GCL_GetOption_80020968('n');
     if (puVar6)
     {
-      pActor->field_116_ammo_amount = GCL_GetNextInt_800209E8(puVar6);
+      pActor->field_116_ammo_amount = GCL_StrToInt_800209E8(puVar6);
     }
     else
     {
         pActor->field_116_ammo_amount = 1;
     }
 
-    m_return = (char *)GCL_GetParam_80020968('m');
+    m_return = (char *)GCL_GetOption_80020968('m');
 
     if (m_return)
     {
@@ -727,19 +727,19 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     pActor->field_11C_full_str = (char *) 0x0;
 
     iVar10 = 0x1c2;
-    puVar6 = (unsigned char *) GCL_GetParam_80020968('h');
+    puVar6 = (unsigned char *) GCL_GetOption_80020968('h');
     if (puVar6)
     {
-      iVar10 = GCL_GetNextInt_800209E8(puVar6);
+      iVar10 = GCL_StrToInt_800209E8(puVar6);
     }
 
     pActor->field_120_pScript = (unsigned char *) 0x0;
 
-    if (GCL_GetParam_80020968('e'))
+    if (GCL_GetOption_80020968('e'))
     {
-        pActor->field_120_pScript = (unsigned char *)GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        pActor->field_120_pScript = (unsigned char *)GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
-    else if (GCL_GetParam_80020968('x'))
+    else if (GCL_GetOption_80020968('x'))
     {
         pbVar7 = (char *) GCL_Get_Param_Result_80020AA4();
         GCL_GetNextValue_8002069C(pbVar7, &code, &value);
@@ -763,7 +763,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     GM_ConfigObjectLight_80034C44(pObject, pActor->field_C8_mtx);
     GM_ConfigObjectStep_80034C54(pObject, &pActor->field_20_ctrl.field_44_movementVector);
 
-    if (GCL_GetParam_80020968('v'))
+    if (GCL_GetOption_80020968('v'))
     {
         pActor->field_9C_kmd.objs[2].world.m[1][1] = -10000;
     }
