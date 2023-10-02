@@ -37,7 +37,7 @@ void Select_helper_800c3218(Work *work, int addend)
             break;
         }
         gcl_string = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
-        gcl_int = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        gcl_int = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     work->field_24 = gcl_string;
     work->field_28 = gcl_int;
@@ -90,7 +90,7 @@ extern const char aNoMenu[]; // "NO MENU\n"
 
 int Select_helper_800c33d0(Work *work, int param_2, int param_3)
 {
-    if (GCL_GetParam_80020968('s') == 0)
+    if (GCL_GetOption_80020968('s') == 0)
     {
         printf(aNoMenu);
         return -1;

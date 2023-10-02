@@ -46,9 +46,9 @@ void BreathAct_800C38A0( BreathWork* work )
                 break;
             default:
                 work->visible = 0;
-        }        
+        }
     }
-    
+
     if ( work->visible && GM_AlertMode_800ABA00 != 3 && !( GM_PlayerStatus_800ABA50 & 0x2013 ) )
     {
         object = dword_800ABA20;
@@ -56,7 +56,7 @@ void BreathAct_800C38A0( BreathWork* work )
         {
             sub_800C3AA8( &object->objs->objs[6] );
         }
-    }     
+    }
 }
 
 
@@ -68,9 +68,9 @@ void BreathDie_800C39AC( BreathWork* work )
 
 int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
 {
-    if (GCL_GetParam_80020968('t'))
+    if (GCL_GetOption_80020968('t'))
     {
-         work->time = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+         work->time = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     else
     {
@@ -79,7 +79,7 @@ int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
 
     work->name = name;
     work->visible = 1;
-    return 0;   
+    return 0;
 }
 
 void        *NewBreath_800C3A1C( int name, int where, int argc, char **argv )
@@ -95,6 +95,6 @@ void        *NewBreath_800C3A1C( int name, int where, int argc, char **argv )
             return (void *)work ;
         }
         GV_DestroyActor_800151C8( &work->actor ) ;
-    }    
+    }
     return NULL ;
 }

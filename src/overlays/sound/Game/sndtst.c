@@ -42,7 +42,7 @@ void SndtstRunScripts_800C3218( Work *work, int param_2 )
         }
 
         pName = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
-        code = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        code = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
     }
 
     work->field_28_name = pName;
@@ -149,7 +149,7 @@ void SndtstAct_800C32D8( Work *work )
 
 int SndtstGetResources_800C352C( Work *work, int where, int name )
 {
-    if ( !GCL_GetParam_80020968( 's' ) )
+    if ( !GCL_GetOption_80020968( 's' ) )
     {
         printf( "NO MENU\n" );
         return -1;

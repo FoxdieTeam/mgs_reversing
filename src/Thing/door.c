@@ -598,7 +598,7 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
 
 int door_read_with_default_value_8006FA28(unsigned char param_char, int defaul_val)
 {
-    if (GCL_GetParam_80020968(param_char))
+    if (GCL_GetOption_80020968(param_char))
     {
         return GCL_GetNextParamValue_80020AD4();
     }
@@ -627,17 +627,17 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     pDoor->field_E0_where = where;
 
-    door_pos = (char *)GCL_GetParam_80020968('p');
-    door_dir = (char *)GCL_GetParam_80020968('d');
+    door_pos = (char *)GCL_GetOption_80020968('p');
+    door_dir = (char *)GCL_GetOption_80020968('d');
 
     GM_ConfigControlString_800261C0(pControl, door_pos, door_dir);
     GM_ConfigControlHazard_8002622C(pControl, -1, -1, -1);
 
     pControl->field_55_skip_flag |= CTRL_SKIP_TRAP;
 
-    m_param = (char *)GCL_GetParam_80020968('m');
+    m_param = (char *)GCL_GetOption_80020968('m');
     obj = &pDoor->field_9C;
-    door_model_v = GCL_GetNextInt_800209E8(m_param);
+    door_model_v = GCL_StrToInt_800209E8(m_param);
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
@@ -655,9 +655,9 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     pDoor->field_EC_param_v_v = door_read_with_default_value_8006FA28('v', 2500);
 
     a_param_v = door_read_with_default_value_8006FA28('a', 16);
-    have_c_param = GCL_GetParam_80020968('c') != 0;
+    have_c_param = GCL_GetOption_80020968('c') != 0;
 
-    if (GCL_GetParam_80020968('g'))
+    if (GCL_GetOption_80020968('g'))
     {
         pDoor->field_F4_param_g_v = GCL_GetNextParamValue_80020AD4();
         if (!pDoor->field_F4_param_g_v)
@@ -672,7 +672,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
         pDoor->field_F4_param_g_v = 0;
     }
 
-    if (GCL_GetParam_80020968('e')) // (sound) effect?
+    if (GCL_GetOption_80020968('e')) // (sound) effect?
     {
         pDoor->field_FE_sound_effect = GCL_GetNextParamValue_80020AD4();
         pDoor->field_FF_e_param_v2 = GCL_GetNextParamValue_80020AD4();
@@ -688,7 +688,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     pDoor->field_F2_door_counter = 0;
 
-    if (GCL_GetParam_80020968('o'))
+    if (GCL_GetOption_80020968('o'))
     {
         pDoor->field_E2_maybe_state = 5;
         pDoor->field_F2_door_counter = 1;
@@ -712,9 +712,9 @@ GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
     int         t_param_v;
     Actor_Door *pDoor;
 
-    if (GCL_GetParam_80020968('t'))
+    if (GCL_GetOption_80020968('t'))
     {
-        t_param_v = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        t_param_v = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     else
     {

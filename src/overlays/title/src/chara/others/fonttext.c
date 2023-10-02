@@ -80,7 +80,7 @@ int FonttextGetResources_800C4358( Work *work )
     SVECTOR position;
     int     flags;
 
-    if ( !GCL_GetParam_80020968( 't' ) )
+    if ( !GCL_GetOption_80020968( 't' ) )
     {
         return -1;
     }
@@ -88,12 +88,12 @@ int FonttextGetResources_800C4358( Work *work )
     work->text = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
 
     flags = 0;
-    if ( GCL_GetParam_80020968( 'f' ) )
+    if ( GCL_GetOption_80020968( 'f' ) )
     {
         flags = GCL_GetNextParamValue_80020AD4() ? 16 : 0;
     }
 
-    if ( GCL_GetParam_80020968( 'l' ) )
+    if ( GCL_GetOption_80020968( 'l' ) )
     {
         GCL_ReadParamVector_80020AFC( &position );
     }
@@ -104,12 +104,12 @@ int FonttextGetResources_800C4358( Work *work )
 
     work->position = position;
 
-    if ( GCL_GetParam_80020968( 'c' ) )
+    if ( GCL_GetOption_80020968( 'c' ) )
     {
         GCL_ReadParamVector_80020AFC( &work->color );
     }
 
-    if ( GCL_GetParam_80020968( 's' ) )
+    if ( GCL_GetOption_80020968( 's' ) )
     {
         flags |= 0x20 | ( GCL_GetNextParamValue_80020AD4() << 8 );
     }
