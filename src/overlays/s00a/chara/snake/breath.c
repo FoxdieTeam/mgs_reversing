@@ -13,7 +13,7 @@ TODO:
 extern int          GV_Time_800AB330;
 extern int          GM_AlertMode_800ABA00;
 extern unsigned int GM_PlayerStatus_800ABA50;
-extern OBJECT      *dword_800ABA20;
+extern OBJECT      *GM_PlayerBody_800ABA20;
 
 extern void sub_800C3AA8( DG_OBJ *obj );
 
@@ -51,7 +51,7 @@ void BreathAct_800C38A0( BreathWork* work )
 
     if ( work->visible && GM_AlertMode_800ABA00 != 3 && !( GM_PlayerStatus_800ABA50 & 0x2013 ) )
     {
-        object = dword_800ABA20;
+        object = GM_PlayerBody_800ABA20;
         if  ( object != NULL && ( GV_Time_800AB330 % work->time == 0 ) )
         {
             sub_800C3AA8( &object->objs->objs[6] );

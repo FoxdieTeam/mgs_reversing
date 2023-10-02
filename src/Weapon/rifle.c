@@ -13,7 +13,7 @@ extern GM_Camera GM_Camera_800B77E8;
 extern int              GM_GameStatus_800AB3CC;
 extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern OBJECT          *dword_800ABA20;
+extern OBJECT          *GM_PlayerBody_800ABA20;
 
 SVECTOR dword_8009F41C[2] = {{0, 0, 0, 0}, {0, 0, 3000, 0}};
 
@@ -32,7 +32,7 @@ int rifle_act_helper_80067BFC(void)
     else
     {
         pMtx = &mtx;
-        mtx = dword_800ABA20->objs->world;
+        mtx = GM_PlayerBody_800ABA20->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;

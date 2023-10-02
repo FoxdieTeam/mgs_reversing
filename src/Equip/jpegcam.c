@@ -18,7 +18,7 @@ extern int                 GM_GameOverTimer_800AB3D4;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
-extern OBJECT             *dword_800ABA20;
+extern OBJECT             *GM_PlayerBody_800ABA20;
 extern int                 GM_Photocode_800ABA04;
 extern SVECTOR             GM_PhotoViewPos_800ABA48;
 extern int                 GV_PauseLevel_800AB928;
@@ -514,7 +514,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
     }
     else
     {
-        mtx = dword_800ABA20->objs->world;
+        mtx = GM_PlayerBody_800ABA20->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
@@ -563,7 +563,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         press = 0;
     }
 
-    if (!(dword_800ABA20->objs->flag & DG_FLAG_INVISIBLE))
+    if (!(GM_PlayerBody_800ABA20->objs->flag & DG_FLAG_INVISIBLE))
     {
         status = 0;
         press = 0;
