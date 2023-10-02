@@ -62,7 +62,7 @@ GCL_COMMANDLIST Commands_8009D5CC[] = {
     {HASH_CMD_sound, GCL_Command_sound_8002CA28},
     {HASH_CMD_menu, GCL_Command_menu_8002CAAC},
     {HASH_CMD_rand, GCL_Command_rand_8002CD94},
-    {HASH_CMD_unk1, GCL_Command_unknown1_8002CDF4}, // ??
+    {HASH_CMD_func, GCL_Command_func_8002CDF4}, // ??
     {HASH_CMD_unk2, GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
     {HASH_CMD_print, GCL_Command_print_8002D0E4},
     {HASH_CMD_jimaku, GCL_Command_jimaku_8002D188}};
@@ -76,19 +76,19 @@ int GCL_Command_light_8002B854(unsigned char *pScript)
     int   light_ambient;
     SVECTOR vec;
 
-    if ((light_dir = GCL_GetParam_80020968('d')))
+    if ((light_dir = GCL_GetOption_80020968('d')))
     {
-        GCL_GetSV_80020A14((unsigned char *)light_dir, &vec);
+        GCL_StrToSV_80020A14((unsigned char *)light_dir, &vec);
         DG_SetMainLightDir_80019FF8(vec.vx, vec.vy, vec.vz);
     }
-    if ((light_col = GCL_GetParam_80020968('c')))
+    if ((light_col = GCL_GetOption_80020968('c')))
     {
-        GCL_GetSV_80020A14((unsigned char *)light_col, &vec);
+        GCL_StrToSV_80020A14((unsigned char *)light_col, &vec);
         DG_SetMainLightCol_8001A048(vec.vx, vec.vy, vec.vz);
     }
-    if ((light_ambient = GCL_GetParam_80020968('a')))
+    if ((light_ambient = GCL_GetOption_80020968('a')))
     {
-        GCL_GetSV_80020A14((unsigned char *)light_ambient, &vec);
+        GCL_StrToSV_80020A14((unsigned char *)light_ambient, &vec);
         DG_SetAmbient_80019F80(vec.vx, vec.vy, vec.vz);
     }
     return 0;
@@ -109,36 +109,36 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
     SVECTOR   vec1, vec2;
     CAMERA *cam;
 
-    isEnabled = GCL_GetParam_80020968('e') != 0; // enabled
+    isEnabled = GCL_GetOption_80020968('e') != 0; // enabled
 
-    if (GCL_GetParam_80020968('b')) // bound
+    if (GCL_GetOption_80020968('b')) // bound
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec2);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec2);
         GCL_Command_camera_helper_80030888(&vec1, &vec2, isEnabled);
     }
 
-    if (GCL_GetParam_80020968('t')) // track
+    if (GCL_GetOption_80020968('t')) // track
     {
         GCL_Command_camera_helper4_80030980(GCL_GetNextParamValue_80020AD4());
     }
 
-    if (GCL_GetParam_80020968('l')) // limit
+    if (GCL_GetOption_80020968('l')) // limit
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec2);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec2);
         GCL_Command_camera_helper2_800308E0(&vec1, &vec2, isEnabled);
     }
 
-    if (GCL_GetParam_80020968('r')) // rotate
+    if (GCL_GetOption_80020968('r')) // rotate
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec1);
         GCL_Command_camera_helper3_80030938(&vec1);
     }
 
-    param_p = GCL_GetParam_80020968('p') != 0;
+    param_p = GCL_GetOption_80020968('p') != 0;
 
-    if (GCL_GetParam_80020968('s')) // set
+    if (GCL_GetOption_80020968('s')) // set
     {
         camera_id = GCL_GetNextParamValue_80020AD4();
         if (camera_id < 8)
@@ -149,8 +149,8 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
             cam->field_11_param2 = GCL_GetNextParamValue_80020AD4();
             cam->field_12_param3 = GCL_GetNextParamValue_80020AD4();
             cam->field_13_param_p = param_p;
-            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &cam->field_00_pos);
-            GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), (SVECTOR *)&cam->field_08_trg);
+            GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &cam->field_00_pos);
+            GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), (SVECTOR *)&cam->field_08_trg);
             if (GCL_Get_Param_Result_80020AA4())
             {
                 cam->field_0e_alertMask = GCL_GetNextParamValue_80020AD4();
@@ -163,12 +163,12 @@ int GCL_Command_camera_8002B8F0(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('a'))
+    if (GCL_GetOption_80020968('a'))
     {
         GM_Camera_800B77E8.field_24_gcl_param_a = GCL_GetNextParamValue_80020AD4();
     }
 
-    if (GCL_GetParam_80020968('c'))
+    if (GCL_GetOption_80020968('c'))
     {
         if (GCL_GetNextParamValue_80020AD4() == 0)
         {
@@ -188,12 +188,12 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
     MAP *pMapRecord;
     SVECTOR       colourVec;
 
-    if (GCL_GetParam_80020968('d'))
+    if (GCL_GetOption_80020968('d'))
     {
         Map_ScriptLoadMapBlocks_800312D0();
     }
 
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         Map_ScriptReloadMaps_80031450(1);
         if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_32))
@@ -202,13 +202,13 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('c'))
+    if (GCL_GetOption_80020968('c'))
     {
         Map_ScriptReloadMaps_80031450(0);
 
         if (!(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_32))
         {
-            if (GCL_GetParam_80020968('u'))
+            if (GCL_GetOption_80020968('u'))
             {
                 DG_UnDrawFrameCount_800AB380 = 4;
             }
@@ -219,7 +219,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('a'))
+    if (GCL_GetOption_80020968('a'))
     {
         gBinds_800ABA60 = 0;
         while (GCL_Get_Param_Result_80020AA4())
@@ -233,7 +233,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('p'))
+    if (GCL_GetOption_80020968('p'))
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
@@ -241,7 +241,7 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('m'))
+    if (GCL_GetOption_80020968('m'))
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
@@ -249,9 +249,9 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('b'))
+    if (GCL_GetOption_80020968('b'))
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &colourVec);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &colourVec);
         DG_Set_RGB_800184F4(colourVec.vx, colourVec.vy, colourVec.vz);
     }
 
@@ -347,7 +347,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
     pBind->field_0 = arg;
     pBind->field_8_param_i_c_flags = 0; // v0
     flags = 0;                          // still s1
-    if (GCL_GetParam_80020968('m'))     // mask
+    if (GCL_GetOption_80020968('m'))     // mask
     {
         arg = GCL_GetNextParamValue_80020AD4();
         if (arg == HASH_TRAP_ALL)
@@ -360,7 +360,7 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
     {
         pBind->field_2_param_m = 0;
     }
-    if (GCL_GetParam_80020968('d')) // dir
+    if (GCL_GetOption_80020968('d')) // dir
     {
         flags |= 1;
         pBind->field_C_param_d = GCL_GetNextParamValue_80020AD4();
@@ -374,29 +374,29 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
             pBind->field_E_param_d_or_512 = 0x200;
         }
     }
-    if (GCL_GetParam_80020968('b')) // button
+    if (GCL_GetOption_80020968('b')) // button
     {
         flags |= 4;
         pBind->field_A_param_b = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('s')) // stance
+    if (GCL_GetOption_80020968('s')) // stance
     {
         flags |= 2;
         pBind->field_9_param_s = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('r')) // repeat
+    if (GCL_GetOption_80020968('r')) // repeat
     {
         flags |= 0x40;
     }
-    if (GCL_GetParam_80020968('i'))
+    if (GCL_GetOption_80020968('i'))
     {
         pBind->field_8_param_i_c_flags |= 1;
     }
-    if (GCL_GetParam_80020968('c'))
+    if (GCL_GetOption_80020968('c'))
     {
         pBind->field_8_param_i_c_flags |= 2;
     }
-    if (GCL_GetParam_80020968('t')) // time
+    if (GCL_GetOption_80020968('t')) // time
     {
         if ((flags & 0x40) != 0)
         {
@@ -404,12 +404,12 @@ int GCL_Command_ntrap_8002BE20(unsigned char *pScript)
         }
         pBind->field_10_every = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('p')) // proc
+    if (GCL_GetOption_80020968('p')) // proc
     {
         flags |= 0x80;
         pBind->field_14_proc_and_block = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('e')) // exec
+    if (GCL_GetOption_80020968('e')) // exec
     {
         int code;
         int value;
@@ -434,22 +434,22 @@ int GCL_Command_delay_8002C074(unsigned char *pScript)
     int time = 0;
     int proc = 0;
 
-    if (GCL_GetParam_80020968('t')) // time
+    if (GCL_GetOption_80020968('t')) // time
     {
         time = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('p')) // proc
+    if (GCL_GetOption_80020968('p')) // proc
     {
         proc = GCL_GetNextParamValue_80020AD4();
     }
-    if (GCL_GetParam_80020968('e')) // exec
+    if (GCL_GetOption_80020968('e')) // exec
     {
         int code;
         int value;
         GCL_GetNextValue_8002069C(GCL_Get_Param_Result_80020AA4(), &code, &value);
         proc = value;
     }
-    if (GCL_GetParam_80020968('g'))
+    if (GCL_GetOption_80020968('g'))
     {
         time = -time;
     }
@@ -476,7 +476,7 @@ int GCL_Command_mesg_8002C138(unsigned char *pScript)
     count = 0;
     while (uParm1 = GCL_Get_Param_Result_80020AA4(), uParm1 != 0x0)
     {
-        int iVar2 = GCL_GetNextInt_800209E8(uParm1);
+        int iVar2 = GCL_StrToInt_800209E8(uParm1);
         *pMsgDst = (short)iVar2;
         pMsgDst++;
         count++;
@@ -500,7 +500,7 @@ int GCL_Command_chara_8002C1B0(int argc, char **argv)
     pCreateActorFn = GM_GetChara_8002A8C4(GCL_Get_Param_Result_80020AA4());
     if (pCreateActorFn)
     {
-        charaHash = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        charaHash = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
         (*pCreateActorFn)(charaHash, gBinds_800ABA60, argc, argv);
         ret = 0;
     }
@@ -515,35 +515,35 @@ extern int gTotalFrameTime_800AB9E8;
 
 int GCL_Command_start_8002C22C(unsigned char *pScript)
 {
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         GM_InitReadError_8002AC44();
     }
 
-    if (GCL_GetParam_80020968('m')) // menu
+    if (GCL_GetOption_80020968('m')) // menu
     {
         menuman_init_80038954();
         printf("MENU INIT END\n");
     }
 
-    if (GCL_GetParam_80020968('f')) // font
+    if (GCL_GetOption_80020968('f')) // font
     {
         font_load_80044A9C();
     }
 
-    if (GCL_GetParam_80020968('v'))
+    if (GCL_GetOption_80020968('v'))
     {
         GCL_InitVar_80021264();
         menu_InitRadioMemory_8004E0EC();
         gTotalFrameTime_800AB9E8 = 0;
     }
 
-    if (GCL_GetParam_80020968('d')) // demo (1 to use demo.gcx instead of scenerio.gcx)
+    if (GCL_GetOption_80020968('d')) // demo (1 to use demo.gcx instead of scenerio.gcx)
     {
         GCL_ChangeSenerioCode_8001FCB0(GCL_GetNextParamValue_80020AD4());
     }
 
-    if (GCL_GetParam_80020968('c'))
+    if (GCL_GetOption_80020968('c'))
     {
         GCL_InitClearVar_800212CC();
         menu_InitRadioMemory_8004E0EC();
@@ -565,7 +565,7 @@ int GCL_Command_load_8002C308(unsigned char *pScript) // different in VR
         return 0;
     }
 
-    if (GCL_GetParam_80020968('r'))
+    if (GCL_GetOption_80020968('r'))
     {
         if (!GCL_GetNextParamValue_80020AD4())
         {
@@ -592,20 +592,20 @@ int GCL_Command_load_8002C308(unsigned char *pScript) // different in VR
 
     GM_SetArea_8002A7D8(GM_CurrentStageFlag, scriptStageName);
 
-    if (GCL_GetParam_80020968('m')) // map
+    if (GCL_GetOption_80020968('m')) // map
     {
         GM_CurrentMapFlag = GCL_GetNextParamValue_80020AD4();
     }
 
-    if (GCL_GetParam_80020968('p')) // pos
+    if (GCL_GetOption_80020968('p')) // pos
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
         GM_SnakePosX = vec.vx;
         GM_SnakePosY = vec.vy;
         GM_SnakePosZ = vec.vz;
     }
 
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         GM_LoadRequest_800AB3D0 = GCL_GetNextParamValue_80020AD4();
         if (GM_LoadRequest_800AB3D0)
@@ -618,7 +618,7 @@ int GCL_Command_load_8002C308(unsigned char *pScript) // different in VR
         GM_LoadRequest_800AB3D0 = 1;
     }
 
-    if (!GCL_GetParam_80020968('n'))
+    if (!GCL_GetOption_80020968('n'))
     {
         GM_LoadRequest_800AB3D0 |= 0x10;
     }
@@ -634,7 +634,7 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
     int contactFrequency;
     int radioTableCode;
 
-    if (GCL_GetParam_80020968('b'))
+    if (GCL_GetOption_80020968('b'))
     {
         while (GCL_Get_Param_Result_80020AA4())
         {
@@ -643,7 +643,7 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
             menu_SetRadioBaseCall_80049764(contactFrequency, radioTableCode);
         }
     }
-    if (GCL_GetParam_80020968('o'))
+    if (GCL_GetOption_80020968('o'))
     {
         int hash = GCL_GetNextParamValue_80020AD4();
         if (hash == HASH_ENTER)
@@ -669,34 +669,34 @@ int GCL_Command_radio_8002C4A8(unsigned char *pScript)
             menu_SetRadioOverCall_80049794(contactFrequency, radioTableCode);
         }
     }
-    if (GCL_GetParam_80020968('c')) // call
+    if (GCL_GetOption_80020968('c')) // call
     {
         menu_RadioCall_80042730(GCL_GetNextParamValue_80020AD4(),  // contactFrequency
                                 GCL_GetNextParamValue_80020AD4(),  // radioTableCode
                                 GCL_GetNextParamValue_80020AD4()); // ring duration ?
     }
-    if (GCL_GetParam_80020968('p')) // proc
+    if (GCL_GetOption_80020968('p')) // proc
     {
         menu_SetRadioCallbackProc_8004283C(GCL_GetNextParamValue_80020AD4());
     }
-    if (GCL_GetParam_80020968('r')) // reset
+    if (GCL_GetOption_80020968('r')) // reset
     {
         menu_ResetCall_80042814();
     }
-    if (GCL_GetParam_80020968('m')) // mesg string (example: "clear")
+    if (GCL_GetOption_80020968('m')) // mesg string (example: "clear")
     {
         menu_SetRadioMemory_8004E110(GCL_GetNextParamValue_80020AD4(),                           // contactFrequency
                                      GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4())); // string
     }
-    if (GCL_GetParam_80020968('d')) // disable?
+    if (GCL_GetOption_80020968('d')) // disable?
     {
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_14;
     }
-    if (GCL_GetParam_80020968('e')) // enable?
+    if (GCL_GetOption_80020968('e')) // enable?
     {
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_14;
     }
-    if (GCL_GetParam_80020968('a'))
+    if (GCL_GetOption_80020968('a'))
     {
         menu_ClearRadioTable_8004967C();
     }
@@ -707,7 +707,7 @@ int GCL_Command_strstatus_8002C6A4(unsigned char *pScript)
 {
     int val;
 
-    if (GCL_GetParam_80020968('p'))
+    if (GCL_GetOption_80020968('p'))
     {
         val = GCL_GetNextParamValue_80020AD4();
     }
@@ -716,11 +716,11 @@ int GCL_Command_strstatus_8002C6A4(unsigned char *pScript)
         val = -1;
     }
     sub_8002B600(val);
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         GM_LoadRequest_800AB3D0 |= GAME_FLAG_BIT_05;
     }
-    if (GCL_GetParam_80020968('a')) // area
+    if (GCL_GetOption_80020968('a')) // area
     {
         GM_SetArea_8002A7D8(GM_CurrentStageFlag, GM_GetArea_8002A880(0));
     }
@@ -732,7 +732,7 @@ int GCL_Command_varsave_8002C72C(unsigned char *pScript)
     unsigned char *param;
 
     param = GCL_Get_Param_Result_80020AA4();
-    if (GCL_GetParam_80020968('a'))
+    if (GCL_GetOption_80020968('a'))
     {
         GCL_SaveVar_80021314();
         return 0;
@@ -759,7 +759,7 @@ int GCL_Command_system_8002C7C8(unsigned char *pScript) // different in VR
 
     for (i = 0; i <= (int)sizeof(aGcawi); i++)
     {
-        if (GCL_GetParam_80020968(aGcawi[i]))
+        if (GCL_GetOption_80020968(aGcawi[i]))
         {
             proc = GCL_GetNextParamValue_80020AD4();
             if (!proc)
@@ -770,7 +770,7 @@ int GCL_Command_system_8002C7C8(unsigned char *pScript) // different in VR
         }
     }
 
-    i = GCL_GetParam_80020968('s');
+    i = GCL_GetOption_80020968('s');
     if (i)
     {
         GM_StageName_800AB918 = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
@@ -786,13 +786,13 @@ int GCL_Command_demo_8002C890(unsigned char *pScript)
     int   code, cb_proc;
     char  *msg;
 
-    if ( !GCL_GetParam_80020968( 's' ) ) // scene ?
+    if ( !GCL_GetOption_80020968( 's' ) ) // scene ?
     {
         printf( "DEMO:NO CODE\n" );
     }
     code = GCL_GetNextParamValue_80020AD4();
 
-    if ( GCL_GetParam_80020968( 'p' ) ) // proc
+    if ( GCL_GetOption_80020968( 'p' ) ) // proc
     {
         cb_proc = GCL_GetNextParamValue_80020AD4() | GAME_FLAG_BIT_32;
     }
@@ -820,7 +820,7 @@ int GCL_Command_demo_8002C890(unsigned char *pScript)
             cb_proc = -1;
         }
 
-        if ( GCL_GetParam_80020968( 'f' ) ) // file
+        if ( GCL_GetOption_80020968( 'f' ) ) // file
         {
             msg = GCL_Read_String_80020A70( GCL_Get_Param_Result_80020AA4() );
         }
@@ -835,16 +835,16 @@ int GCL_Command_demo_8002C890(unsigned char *pScript)
 
 int GCL_Command_pad_8002C988(unsigned char *pScript)
 {
-    if (GCL_GetParam_80020968('m'))
+    if (GCL_GetOption_80020968('m'))
     {
         GV_PadMask_800AB374 = GCL_GetNextParamValue_80020AD4();
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_28;
     }
-    if (GCL_GetParam_80020968('r')) // resume
+    if (GCL_GetOption_80020968('r')) // resume
     {
         GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_29;
     }
-    else if (GCL_GetParam_80020968('s')) // stop
+    else if (GCL_GetOption_80020968('s')) // stop
     {
         GM_GameStatus_800AB3CC &= ~(GAME_FLAG_BIT_29 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_08);
     }
@@ -862,7 +862,7 @@ unsigned int GCL_Command_menu_helper_8002CA48(void)
 {
     unsigned int ret = 0;
     int next;
-    
+
     while (GCL_Get_Param_Result_80020AA4())
     {
         next = GCL_GetNextParamValue_80020AD4();
@@ -881,7 +881,7 @@ unsigned int GCL_Command_menu_helper_8002CA48(void)
 
 int GCL_Command_menu_8002CAAC(unsigned char *pScript)
 {
-    if (GCL_GetParam_80020968('j'))
+    if (GCL_GetOption_80020968('j'))
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
@@ -893,7 +893,7 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('n'))
+    if (GCL_GetOption_80020968('n'))
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
@@ -905,7 +905,7 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('m'))
+    if (GCL_GetOption_80020968('m'))
     {
         if (!(GCL_GetNextParamValue_80020AD4() & 1))
         {
@@ -917,7 +917,7 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('l'))
+    if (GCL_GetOption_80020968('l'))
     {
         switch (GCL_GetNextParamValue_80020AD4())
         {
@@ -934,7 +934,7 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('r'))
+    if (GCL_GetOption_80020968('r'))
     {
         switch (GCL_GetNextParamValue_80020AD4())
         {
@@ -953,7 +953,7 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('p'))
+    if (GCL_GetOption_80020968('p'))
     {
         if (GCL_GetNextParamValue_80020AD4() & 1)
         {
@@ -965,17 +965,17 @@ int GCL_Command_menu_8002CAAC(unsigned char *pScript)
         }
     }
 
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         menu_SetRadarScale_80038E28(GCL_GetNextParamValue_80020AD4());
     }
 
-    if (GCL_GetParam_80020968('w')) // weapon
+    if (GCL_GetOption_80020968('w')) // weapon
     {
         GM_DisableWeapon_800AB9E4 = GCL_Command_menu_helper_8002CA48();
     }
 
-    if (GCL_GetParam_80020968('i')) // item
+    if (GCL_GetOption_80020968('i')) // item
     {
         GM_DisableItem_800ABA28 = GCL_Command_menu_helper_8002CA48();
     }
@@ -993,19 +993,19 @@ int GCL_Command_rand_8002CD94(unsigned char *pScript)
     return 0;
 }
 
-int GCL_Command_unknown1_8002CDF4(unsigned char *pScript)
+int GCL_Command_func_8002CDF4(unsigned char *pScript)
 {
     SVECTOR     vec;
     CONTROL *unkStruct;
     int         param;
     MAP *map;
 
-    if (GCL_GetParam_80020968('v')) // vector
+    if (GCL_GetOption_80020968('v')) // vector
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &vec);
         GM_LastResultFlag = DG_PointCheckOne_8001C18C((DVECTOR *)&vec);
     }
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
         unkStruct = gSnaControl_800AB9F4;
         GM_SnakePosX = unkStruct->field_0_mov.vx;
@@ -1013,21 +1013,21 @@ int GCL_Command_unknown1_8002CDF4(unsigned char *pScript)
         GM_SnakePosZ = unkStruct->field_0_mov.vz;
         GM_LastResultFlag = unkStruct->field_8_rotator.vy;
     }
-    if (GCL_GetParam_80020968('a')) // area
+    if (GCL_GetOption_80020968('a')) // area
     {
         GM_LastResultFlag = GM_AreaHistory_8002A848(GCL_GetNextParamValue_80020AD4());
     }
-    if (GCL_GetParam_80020968('p')) // photo (used for ghosts easter egg)
+    if (GCL_GetOption_80020968('p')) // photo (used for ghosts easter egg)
     {
         param = GCL_GetNextParamValue_80020AD4();
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &GM_PhotoViewPos_800ABA48);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &GM_PhotoViewPos_800ABA48);
         if (GCL_GetNextParamValue_80020AD4() == HASH_LEAVE)
         {
             param = 0;
         }
         GM_Photocode_800ABA04 = param;
     }
-    if (GCL_GetParam_80020968('m')) // map
+    if (GCL_GetOption_80020968('m')) // map
     {
         map = Map_FindByNum_80031504(GCL_GetNextParamValue_80020AD4());
         if (map && map->field_6_bUsed)
@@ -1039,11 +1039,11 @@ int GCL_Command_unknown1_8002CDF4(unsigned char *pScript)
             GM_LastResultFlag = 0;
         }
     }
-    if (GCL_GetParam_80020968('c'))
+    if (GCL_GetOption_80020968('c'))
     {
         GM_LastResultFlag = GM_StreamStatus_80037CD8();
     }
-    if (GCL_GetParam_80020968('n'))
+    if (GCL_GetOption_80020968('n'))
     {
         GM_LastResultFlag = dword_8009F46C;
         GM_SnakePosX = svector_8009F478.vx;
@@ -1060,24 +1060,24 @@ int GCL_Command_unknown2_8002CFBC(unsigned char *pScript)
 
     ivar = 0;
     str = (char *)0;
-    flags = GCL_GetParam_80020968('e') != 0;
-    if (GCL_GetParam_80020968('a'))
+    flags = GCL_GetOption_80020968('e') != 0;
+    if (GCL_GetOption_80020968('a'))
     {
         flags |= 4;
     }
-    if (GCL_GetParam_80020968('v'))
+    if (GCL_GetOption_80020968('v'))
     {
         flags |= 2;
     }
-    if (GCL_GetParam_80020968('s'))
+    if (GCL_GetOption_80020968('s'))
     {
-        ivar = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        ivar = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
-    if (GCL_GetParam_80020968('f'))
+    if (GCL_GetOption_80020968('f'))
     {
         str = GCL_Read_String_80020A70(GCL_Get_Param_Result_80020AA4());
     }
-    if (GCL_GetParam_80020968('p'))
+    if (GCL_GetOption_80020968('p'))
     {
         demodebug_finish_proc_800AB414 = GCL_GetNextParamValue_80020AD4();
     }

@@ -451,9 +451,9 @@ int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3)
         v8 = &svec_8009F44C;
     }
 
-    if (GCL_GetParam_80020968('t'))
+    if (GCL_GetOption_80020968('t'))
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), &v12);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &v12);
     }
     GM_SetTarget_8002DC74(pNewTarget, 9, 0, &v12);
     pNewTarget->field_3C |= 2;
@@ -586,7 +586,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
         return -1;
     }
 
-    GM_ConfigControlString_800261C0(ctrl, (char *)GCL_GetParam_80020968('p'), (char *)GCL_GetParam_80020968('d'));
+    GM_ConfigControlString_800261C0(ctrl, (char *)GCL_GetOption_80020968('p'), (char *)GCL_GetOption_80020968('d'));
     GM_ConfigControlHazard_8002622C(ctrl, 0, -2, -2);
     GM_ConfigControlAttribute_8002623C(ctrl, 0);
 
@@ -614,9 +614,9 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
     DG_InvisibleObjs(obj->objs);
     pActor->field_130 = 64;
 
-    if (GCL_GetParam_80020968('e'))
+    if (GCL_GetOption_80020968('e'))
     {
-        pActor->field_138_gcl = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        pActor->field_138_gcl = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
     else
     {

@@ -71,13 +71,13 @@ void Cam_800DF80C( Cam *cam )
 
 int CamGetResources_800DF81C( Cam *cam, int name, int where )
 {
-    if ( !GCL_GetParam_80020968( 'c' ) )
+    if ( !GCL_GetOption_80020968( 'c' ) )
     {
         return -1;
     }
 
-    GCL_GetSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->eye );
-    GCL_GetSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
+    GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->eye );
+    GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
 
     cam->clip_distance = sub_800D87C8( 'a', 320 );
     cam->enable_input = sub_800D8808( 'm' );

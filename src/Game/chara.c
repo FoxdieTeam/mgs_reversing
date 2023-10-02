@@ -29,7 +29,7 @@ void GM_ResetChara_8002A8B0(void)
 
 TGCL_ActorCreateFn GM_GetChara_8002A8C4(unsigned char *pScript)
 {
-    return GM_GetCharaID_8002A8EC(GCL_GetNextInt_800209E8(pScript));
+    return GM_GetCharaID_8002A8EC(GCL_StrToInt_800209E8(pScript));
 }
 
 TGCL_ActorCreateFn GM_GetCharaID_8002A8EC(int chara_id)

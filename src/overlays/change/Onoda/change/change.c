@@ -315,9 +315,9 @@ int ChangeGetResources_800C4448( Work *work, int map )
     work->clut_x = 832;
     work->clut_y = 276;
 
-    if ( GCL_GetParam_80020968( 'e' ) )
+    if ( GCL_GetOption_80020968( 'e' ) )
     {
-        work->proc = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() );
+        work->proc = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
     }
     else
     {
@@ -442,7 +442,7 @@ int change_800C47A0()
     int timeout;
 
     timeout = 0;
-    if (GCL_GetParam_80020968('t') != 0)
+    if (GCL_GetOption_80020968('t') != 0)
     {
         timeout = GCL_GetNextParamValue_80020AD4() * 60;
     }
