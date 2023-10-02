@@ -30,7 +30,7 @@ extern TARGET *target_800BDF00;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
 extern int              GM_GameStatus_800AB3CC;
-extern CONTROL      *gSnaControl_800AB9F4;
+extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern int              GM_CameraTrackSave_800AB42C;
 extern SVECTOR          GM_CameraRotateSave_800AB430;
 extern int              GM_event_camera_flag_800ABA9C;
@@ -82,7 +82,7 @@ void rmissile_8006B924(Actor_rmissile *pActor)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
     sub_8002A258(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown);
 
-    ctrl = gSnaControl_800AB9F4;
+    ctrl = GM_PlayerControl_800AB9F4;
 
     if (ctrl)
     {

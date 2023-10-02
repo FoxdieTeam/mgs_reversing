@@ -6,7 +6,7 @@
 extern int              GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern CONTROL      *gSnaControl_800AB9F4;
+extern CONTROL      *GM_PlayerControl_800AB9F4;
 
 void d_blood_kill_null_800729AC(Actor_DBlood *pActor)
 {
@@ -18,7 +18,7 @@ int d_blood_act_helper_800729B4(void)
     unsigned short *pArray;
     int i;
 
-    pCtrl = gSnaControl_800AB9F4;
+    pCtrl = GM_PlayerControl_800AB9F4;
     if (!pCtrl)
     {
         return 0;

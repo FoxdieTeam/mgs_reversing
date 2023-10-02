@@ -8,7 +8,7 @@
 #include "libhzd/libhzd.h"
 
 extern int      GM_GameOverTimer_800AB3D4;
-extern CONTROL *gSnaControl_800AB9F4;
+extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      dword_800ABA0C;
 extern int      dword_8009F470;
 extern int      GM_CurrentMap_800AB9B0;
@@ -303,26 +303,26 @@ int door_act_helper_8006F290(CONTROL *pControl, int param_h)
 
     param_h_50 = param_h + 50;
 
-    if ( !gSnaControl_800AB9F4 )
+    if ( !GM_PlayerControl_800AB9F4 )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_mov.vx - pControl->field_0_mov.vx;
+    diff = GM_PlayerControl_800AB9F4->field_0_mov.vx - pControl->field_0_mov.vx;
 
     if ( (diff < -param_h_50) || (param_h_50 < diff) )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_mov.vz - pControl->field_0_mov.vz;
+    diff = GM_PlayerControl_800AB9F4->field_0_mov.vz - pControl->field_0_mov.vz;
 
     if ( (diff < -param_h_50) || (param_h_50 < diff) )
     {
         return 0;
     }
 
-    diff = gSnaControl_800AB9F4->field_0_mov.vy - pControl->field_0_mov.vy;
+    diff = GM_PlayerControl_800AB9F4->field_0_mov.vy - pControl->field_0_mov.vy;
 
     if ( (diff > 2500) || (diff < 0)  )
     {
@@ -427,7 +427,7 @@ void door_act_8006F318(Actor_Door *pActor)
                     else
                     {
                         printf("CLOSE door %X\n", door_where_8009F5F4);
-                        hash = gSnaControl_800AB9F4->field_2C_map->field_4_mapNameHash;
+                        hash = GM_PlayerControl_800AB9F4->field_2C_map->field_4_mapNameHash;
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
                         {

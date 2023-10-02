@@ -14,7 +14,7 @@
 extern int           dword_8009F440;
 extern int           dword_8009F444;
 extern int           counter_8009F448;
-extern CONTROL   *gSnaControl_800AB9F4;
+extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GM_GameStatus_800AB3CC;
 extern int           GM_CurrentMap_800AB9B0;
@@ -541,7 +541,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
     vec->vy = 2000;
     vec->vz = 1024;
     ++counter_8009F448;
-    vec->vx = gSnaControl_800AB9F4->field_8_rotator.vy;
+    vec->vx = GM_PlayerControl_800AB9F4->field_8_rotator.vy;
     return 0;
 }
 
@@ -557,7 +557,7 @@ Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
     pActor = (Actor_Jirai *)GV_NewActor_800150E4(5, sizeof(Actor_Jirai));
     if (pActor)
     {
-        pActor->field_104_vec = gSnaControl_800AB9F4->field_8_rotator;
+        pActor->field_104_vec = GM_PlayerControl_800AB9F4->field_8_rotator;
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C,
                                   (TActorFunction)jirai_kill_8006B05C, "jirai.c");
 
