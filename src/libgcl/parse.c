@@ -176,7 +176,7 @@ void GCL_UnsetCommandLine_80020950()
     GCL_CommandLineP_800AB99C--;
 }
 
-int GCL_GetParam_80020968(char paramName)
+int GCL_GetOption_80020968(char paramName)
 {
     unsigned char *pScript;
     int            code;
@@ -197,7 +197,7 @@ int GCL_GetParam_80020968(char paramName)
 }
 
 // might be GCL_NextStr
-int GCL_GetNextInt_800209E8(unsigned char *pScript)
+int GCL_StrToInt_800209E8(unsigned char *pScript)
 {
     int code;
     int value;
@@ -205,7 +205,7 @@ int GCL_GetNextInt_800209E8(unsigned char *pScript)
     return value;
 }
 
-int GCL_GetSV_80020A14(unsigned char *pInScript, SVECTOR *pOut3Words)
+int GCL_StrToSV_80020A14(unsigned char *pInScript, SVECTOR *pOut3Words)
 {
     int             counter = 0;
     unsigned short *pOutIter = (unsigned short *)pOut3Words;
@@ -254,12 +254,12 @@ unsigned char *GCL_Get_Param_Result_80020AA4(void)
 
 int GCL_GetNextParamValue_80020AD4(void)
 {
-    return GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    return GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
 }
 
 void GCL_ReadParamVector_80020AFC(SVECTOR *pOut3Words)
 {
-    GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), pOut3Words);
+    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), pOut3Words);
     return;
 }
 

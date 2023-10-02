@@ -5,9 +5,9 @@ static int s16b_dword_800C58AC[2];
 
 int GetParamOrDefault_800C5318(char param, int def)
 {
-    if (GCL_GetParam_80020968(param))
+    if (GCL_GetOption_80020968(param))
     {
-        return GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        return GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     return def;
@@ -22,10 +22,10 @@ unsigned short s16b_800C43C8(char param, unsigned short def)
 {
     char *param2;
 
-    param2 = (char *)GCL_GetParam_80020968(param);
+    param2 = (char *)GCL_GetOption_80020968(param);
     if (param2)
     {
-        return GCL_GetNextInt_800209E8(param2);
+        return GCL_StrToInt_800209E8(param2);
     }
 
     return def;
@@ -38,9 +38,9 @@ int s16b_800C440C(char param)
 
 void s16b_800C4430(char param, short x, short y, short z, SVECTOR *vec)
 {
-    if (GCL_GetParam_80020968(param))
+    if (GCL_GetOption_80020968(param))
     {
-        GCL_GetSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), vec);
         return;
     }
 

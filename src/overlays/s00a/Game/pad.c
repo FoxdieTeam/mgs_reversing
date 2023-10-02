@@ -30,8 +30,8 @@ int PadGetResources_800C3690( PadWork* work )
 
     if ( GCL_Get_Param_Result_80020AA4() )
     {
-        work->status = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
-        work->unk2   = GCL_GetNextInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
+        work->status = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
+        work->unk2   = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() ) ;
         work->unk3   = GCL_Get_Param_Result_80020AA4() ;
         return 1 ;
     }
@@ -79,7 +79,7 @@ void *NewPad_800C37EC( int name, int where, int argc, char **argv )
         /* ワークにコールバックを登録する */
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
 
-        ops = GCL_GetParam_80020968( 's' ) ; //think this is actually called GCL_GetOption
+        ops = GCL_GetOption_80020968( 's' ) ; //think this is actually called GCL_GetOption
         if ( !ops ) {
             GV_DestroyActor_800151C8( &work->actor ) ;
         }
@@ -87,7 +87,7 @@ void *NewPad_800C37EC( int name, int where, int argc, char **argv )
         work->unk2 = 0;
         work->name = name ;
 
-        if ( GCL_GetParam_80020968( 'p' ) )
+        if ( GCL_GetOption_80020968( 'p' ) )
         {
             work->unk4 = GCL_GetNextParamValue_80020AD4();
         } else

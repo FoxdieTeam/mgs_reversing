@@ -184,9 +184,9 @@ void NewJimaku_800495A8()
     gUnkJimakuStruct_800BDA70.field_40 = GCL_Get_Param_Result_80020AA4();
     menu_JimakuWrite_800494E8(str, -1);
 
-    if (GCL_GetParam_80020968('e'))
+    if (GCL_GetOption_80020968('e'))
     {
-        gUnkJimakuStruct_800BDA70.field_3C = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     else

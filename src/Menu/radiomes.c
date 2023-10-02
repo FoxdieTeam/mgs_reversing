@@ -269,7 +269,7 @@ void radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
 
 void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
 {
-    int stageIndex = GCL_GetNextInt_800209E8(pScript);
+    int stageIndex = GCL_StrToInt_800209E8(pScript);
 
     unk->field_0_state = 3;
     unk->field_C_pScript = GCL_Get_Param_Result_80020AA4();

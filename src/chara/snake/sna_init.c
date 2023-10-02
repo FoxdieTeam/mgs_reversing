@@ -8425,39 +8425,39 @@ static inline void sna_LoadSnake3(Actor_SnaInit *pActor)
 
     gUnkCameraStruct_800B77B8.field_0 = pActor->field_A60;
 
-    if (GCL_GetParam_80020968('o')) // oar
+    if (GCL_GetOption_80020968('o')) // oar
     {
-        pActor->field_A5A = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        pActor->field_A5A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     pActor->field_890_autoaim_max_dist = 6000;
 
-    if (GCL_GetParam_80020968('l')) // len
+    if (GCL_GetOption_80020968('l')) // len
     {
-        pActor->field_890_autoaim_max_dist = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        pActor->field_890_autoaim_max_dist = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     pActor->field_892_autoaim_min_angle = 512;
 
-    if (GCL_GetParam_80020968('r')) // rot
+    if (GCL_GetOption_80020968('r')) // rot
     {
-        pActor->field_892_autoaim_min_angle = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        pActor->field_892_autoaim_min_angle = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     dword_800ABBDC = -1023;
     dword_800ABBD4 = 1023;
 
-    if (GCL_GetParam_80020968('t')) // turn
+    if (GCL_GetOption_80020968('t')) // turn
     {
-        dword_800ABBDC = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
-        dword_800ABBD4 = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        dword_800ABBDC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        dword_800ABBD4 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     pActor->field_A70 = -1;
 
-    if (GCL_GetParam_80020968('e')) // exec
+    if (GCL_GetOption_80020968('e')) // exec
     {
-        pActor->field_A70 = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        pActor->field_A70 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     temp_a1 = pActor->field_A26_stance;
@@ -8541,8 +8541,8 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
         return -1;
     }
 
-    param_pos = (char*)GCL_GetParam_80020968('p'); // pos
-    param_dir = (char*)GCL_GetParam_80020968('d'); // dir
+    param_pos = (char*)GCL_GetOption_80020968('p'); // pos
+    param_dir = (char*)GCL_GetOption_80020968('d'); // dir
     GM_ConfigControlString_800261C0(pCtrl, param_pos, param_dir);
     GM_ConfigControlHazard_8002622C(pCtrl, 0, 450, 450);
 
@@ -8556,9 +8556,9 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
     pObject = &pActor->field_9C_obj;
 
     model = KMD_SNAKE;
-    if (GCL_GetParam_80020968('m')) // model
+    if (GCL_GetOption_80020968('m')) // model
     {
-        model = GCL_GetNextInt_800209E8(GCL_Get_Param_Result_80020AA4());
+        model = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
     GM_InitObject_80034A18(pObject, model, BODY_FLAG, OAR_SNAKE);
