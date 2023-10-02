@@ -8,7 +8,7 @@
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 
-extern OBJECT          *dword_800ABA20;
+extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int              GV_PauseLevel_800AB928;
 extern int              GV_Clock_800AB920;
@@ -48,9 +48,9 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
     }
     else
     {
-        objs = dword_800ABA20->objs;
+        objs = GM_PlayerBody_800ABA20->objs;
         pMtx = &mtx;
-        mtx = dword_800ABA20->objs->world;
+        mtx = GM_PlayerBody_800ABA20->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;

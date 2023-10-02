@@ -18,7 +18,7 @@
 extern MATRIX           DG_ZeroMatrix_8009D430;
 extern SVECTOR          DG_ZeroVector_800AB39C;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern OBJECT *         dword_800ABA20;
+extern OBJECT *         GM_PlayerBody_800ABA20;
 extern int              GM_GameOverTimer_800AB3D4;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GV_Clock_800AB920;
@@ -582,9 +582,9 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 
         dword_8009F480 = 0;
 
-        if (GM_Camera_800B77E8.field_22 && dword_800ABA20)
+        if (GM_Camera_800B77E8.field_22 && GM_PlayerBody_800ABA20)
         {
-            DG_InvisibleObjs(dword_800ABA20->objs);
+            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
         }
 
         pActor->field_11C = -1;
@@ -633,9 +633,9 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 
             if (!pActor->field_117 && !pActor->field_110)
             {
-                if (dword_800ABA20)
+                if (GM_PlayerBody_800ABA20)
                 {
-                    DG_VisibleObjs(dword_800ABA20->objs);
+                    DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
                 }
 
                 if (!pActor->field_113)

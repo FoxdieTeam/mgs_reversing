@@ -4,7 +4,7 @@
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern SVECTOR          DG_ZeroVector_800AB39C;
-extern OBJECT          *dword_800ABA20;
+extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 
@@ -149,9 +149,9 @@ int d_bloodr_loader_helper_80072EFC(Actor_DBloodr *pActor)
 
     for (i = 0; i < 4; i++)
     {
-        pActor->field_A4_positions[i].vx = dword_800ABA20->objs->objs[indices[i]].world.t[0];
-        pActor->field_A4_positions[i].vy = dword_800ABA20->objs->objs[0].world.t[1] - pActor->field_D8;
-        pActor->field_A4_positions[i].vz = dword_800ABA20->objs->objs[indices[i]].world.t[2];
+        pActor->field_A4_positions[i].vx = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[0];
+        pActor->field_A4_positions[i].vy = GM_PlayerBody_800ABA20->objs->objs[0].world.t[1] - pActor->field_D8;
+        pActor->field_A4_positions[i].vz = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[2];
 
         vecs[0].vx = 0;
         vecs[0].vy = 0;
