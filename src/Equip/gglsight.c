@@ -10,7 +10,7 @@
 // night vision goggles / thermal goggles first person
 
 extern int         GV_Clock_800AB920;
-extern CONTROL *gSnaControl_800AB9F4;
+extern CONTROL *GM_PlayerControl_800AB9F4;
 
 short word_8009F714[] = {0, 0};
 
@@ -54,7 +54,7 @@ void gglsight_act_helper_80077A24(Actor_gglsight *pActor)
 
     menu_Color_80038B4C(r, g, b);
 
-    a1 = gSnaControl_800AB9F4->field_8_rotator.vy & 0xfff;
+    a1 = GM_PlayerControl_800AB9F4->field_8_rotator.vy & 0xfff;
     a2 = a1 / 64;
     a3 = a1 % 64;
     a4 = ((a3 * 24) / 64) + 160;
@@ -121,7 +121,7 @@ void gglsight_act_helper_80077C6C(Actor_gglsight *pActor)
             b = 74;
         }
         menu_Color_80038B4C(r, g, b);
-        vy = gSnaControl_800AB9F4->field_8_rotator.vy;
+        vy = GM_PlayerControl_800AB9F4->field_8_rotator.vy;
         menu_Text_80038C38("%ld\n", 8 * (vy & 2047));
         menu_Text_80038C38("%ld\n", 4 * (vy & 4095));
         menu_Text_80038C38("%ld\n", 16 * (vy & 1023));
@@ -147,7 +147,7 @@ void gglsight_act_helper_80077D24(Actor_gglsight *pActor)
 
     pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
 
-    y = gSnaControl_800AB9F4->field_8_rotator.vy & 4095;
+    y = GM_PlayerControl_800AB9F4->field_8_rotator.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;
 
     if (y2 < 32)

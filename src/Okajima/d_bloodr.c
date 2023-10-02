@@ -2,7 +2,7 @@
 #include "Game/game.h"
 
 extern int              GM_CurrentMap_800AB9B0;
-extern CONTROL      *gSnaControl_800AB9F4;
+extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern SVECTOR          DG_ZeroVector_800AB39C;
 extern OBJECT          *dword_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -197,7 +197,7 @@ int d_bloodr_loader_800730EC(Actor_DBloodr *pActor, int map)
 {
     pActor->field_CC_map = map;
     pActor->field_D4_sequence = 0;
-    pActor->field_D8 = gSnaControl_800AB9F4->field_32_height;
+    pActor->field_D8 = GM_PlayerControl_800AB9F4->field_32_height;
 
     GM_SetCurrentMap(map);
 

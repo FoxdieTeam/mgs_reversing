@@ -13,7 +13,7 @@ typedef struct _Work
 } Work;
 
 extern int      dword_800AB9D4;
-extern CONTROL *gSnaControl_800AB9F4;
+extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerStatus_800ABA50;
 
@@ -25,7 +25,7 @@ int asioto_800C38AC(Work *work)
     int                  i;
     int                  j;
 
-    unknown = &gSnaControl_800AB9F4->field_10_pStruct_hzd_unknown;
+    unknown = &GM_PlayerControl_800AB9F4->field_10_pStruct_hzd_unknown;
     for (i = 0; i < unknown->field_6_count; i++)
     {
         for (j = 0; j < work->count; j++)
@@ -81,7 +81,7 @@ void AsiotoAct_800C39E8(Work *work)
     int bank;
     int bank2;
 
-    if (!gSnaControl_800AB9F4)
+    if (!GM_PlayerControl_800AB9F4)
     {
         return;
     }
@@ -98,7 +98,7 @@ void AsiotoAct_800C39E8(Work *work)
                     return;
                 }
 
-                bank = gSnaControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
+                bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
                 GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se_duct[bank][index]);
             }
         }
@@ -122,7 +122,7 @@ void AsiotoAct_800C39E8(Work *work)
             }
             else
             {
-                bank = gSnaControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
+                bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
                 GM_SeSet_80032858(&GM_PlayerPosition_800ABA10, work->se2[bank][index]);
             }
         }
