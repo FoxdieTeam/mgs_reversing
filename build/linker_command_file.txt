@@ -395,15 +395,11 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d11c\psyq_SetLightMatrix.obj" ; psyq
 {% elif OVERLAY == "s00a" %}
     include "{{OBJ_DIR}}\overlays\s00a\overlay.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_800C3690.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_800C370C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_800C37A4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_800C37EC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_breath_800C38A0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_breath_800C39AC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_breath_800C39B4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_breath_800C3A1C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3AA8.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\AN_Breath_800C3AA8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3B10.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3B7C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3C08.obj"

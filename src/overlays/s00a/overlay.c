@@ -280,11 +280,13 @@ const char s00a_dword_800DFBBC[] = {0x8, 0x0, 0xe0, 0x3};
 const char s00a_dword_800DFBC0[] = {0x8, 0x0, 0x80, 0xac};
 const char s00a_dword_800DFBC4[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800DFBC8[] = {0x0, 0x0, 0x0, 0x0};
-const char s00a_dword_800DFBCC[] = {'p', 'a', 'd', '.'};
-const char s00a_dword_800DFBD0[] = {'c', 0x0, '_', 'N'};
-const char s00a_dword_800DFBD4[] = {'b', 'r', 'e', 'a'};
-const char s00a_dword_800DFBD8[] = {'t', 'h', '.', 'c'};
-const char s00a_dword_800DFBDC[] = {0x0, 0xc, 0xd, 0x0};
+
+const char aPadC_800DFBCC[] = "pad.c";
+const short s00a_dword_800DFBD2 = 0x4E5F;
+const char aBreathC_800DFBD4[] = "breath.c";
+const char s00a_dword_800DFBDD = 0xC;
+const char s00a_dword_800DFBDE = 0xD;
+const char s00a_dword_800DFBDF = 0x0;
 const char s00a_dword_800DFBE0[] = {0x0, 'I', 0x2, 0x0};
 const char s00a_dword_800DFBE4[] = {0x7, 0x0, ')', 0x1};
 const char s00a_dword_800DFBE8[] = {0xfe, 0xc, 0x0, 0x6};
@@ -1064,8 +1066,12 @@ const int s00a_dword_800E0C70 = 0x800DF2F0;
 const int s00a_dword_800E0C74 = 0x800DF308;
 const char s00a_aEnvsndc_800E0C78[] = "env_snd.c";
 const char s00a_aCamshakec_800E0C84[] = "camshake.c";
+
 const char s00a_dword_800E0C90[] = {'c', 'a', 't', '_'};
 const char s00a_dword_800E0C94[] = {'i', 'n', '.', 'c'};
+
+
+//everything below here is bss
 const char s00a_dword_800E0C98[] = {0x0, 0x4, 0x0, 0x0};
 const char s00a_dword_800E0C9C[] = {0x0, 0x0, '#', '('};
 const char s00a_dword_800E0CA0[] = {0x0, 0x0, 0x0, 0x0};
