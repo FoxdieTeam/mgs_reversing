@@ -81,8 +81,12 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D20.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5308.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5388.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C53B8.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5440.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C553C.s")
 
 extern const char                  camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
@@ -114,9 +118,45 @@ void camera_800C5750(void)
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5898.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5970.s")
+
+void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem);
+
+void camera_800C5970(int idx, int param_2, int param_3, int param_4, int param_5, int divisor) // duplicate of menu_radio_do_file_mode_helper4_8004AA68
+{
+    RadioFileModeUnk1     *pUnk;
+    RadioFileModeStruElem *pElem;
+
+    pElem = &camera_dword_800D075C->field_0_array[idx];
+
+    // callers to this function use idx in range 5..8
+    pUnk = &camera_dword_800D075C->field_130_array[idx - 5]; // TODO: really -5?
+
+    pElem->field_8_pFn = camera_800C5440;
+    pElem->field_C_unk1 = pUnk;
+    if (divisor <= 0)
+    {
+        pUnk->field_4 = param_2 * 65536;
+        pUnk->field_C = param_3 * 65536;
+        pUnk->field_14 = param_4 * 65536;
+        pUnk->field_1C = param_5 * 65536;
+        pElem->field_0 = 2;
+    }
+    else
+    {
+        pUnk->field_8 = (param_2 * 65536 - pUnk->field_4) / divisor;
+        pUnk->field_10 = (param_3 * 65536 - pUnk->field_C) / divisor;
+        pUnk->field_18 = (param_4 * 65536 - pUnk->field_14) / divisor;
+        pUnk->field_20 = (param_5 * 65536 - pUnk->field_1C) / divisor;
+        pElem->field_0 = 1;
+    }
+
+    pUnk->field_24 = 0x3d482e;
+    pElem->field_4 = divisor;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5AE8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5B00.s")
+void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int divisor);
 
 void camera_800C5C54(MenuPrim *pGlue) // duplicate of menu_radio_do_file_mode_helper6_8004AD40
 {
@@ -311,14 +351,184 @@ void camera_800C6918(void **arg0, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6984.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6A40.s")
+void camera_800C6984(Stru_800ABB74 *pStru, int param_2);
+
+extern char camera_dword_800C37F8[];
+extern char *MGS_MemoryCardName_800AB2EC;
+extern menu_save_mode_data *camera_dword_800D072C;
+extern int camera_dword_800D0728;
+extern char camera_dword_800CFFC8[];
+extern int camera_dword_800C342C;
+extern const char camera_aFiles_800D0010[];
+
+// duplicate of menu_radio_do_file_mode_helper12_8004BA80
+int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3,
+                                              Stru_800ABB74 *pStru2)
+{
+    Stru_800ABB74_child *pIter;
+    mem_card_block      *pBlock;
+    int                  i;
+
+    pIter = pStru2->field_24;
+
+    strcpy(camera_dword_800C37F8, MGS_MemoryCardName_800AB2EC);
+    camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
+
+    for (i = 0; i < pMemcard->field_2_file_count; i++)
+    {
+        pBlock = &pMemcard->field_4_blocks[i];
+        printf(camera_aFiles_800D0010, pBlock->field_0_name);
+
+        if (strncmp(pBlock->field_0_name, camera_dword_800C37F8, 13) == 0)
+        {
+            camera_800C68BC(pIter->field_0_name, pBlock->field_0_name);
+            pIter->field_20 = i;
+            pIter++;
+        }
+    }
+
+    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->field_3)
+    {
+        memcpy(pIter->field_0_name, camera_dword_800CFFC8, 1);
+        pIter->field_20 = 16;
+        pIter++;
+    }
+
+    pStru2->field_1C_kcb = pActor->field_214_font;
+    pStru2->field_8 = pIter - pStru2->field_24;
+
+    if (camera_dword_800D072C->field_0[0] != 71)
+    {
+        if (pStru2->field_8 && pIter[-1].field_20 == 16)
+        {
+            pStru2->field_4 = pStru2->field_8 - 1;
+        }
+        else
+        {
+            pStru2->field_4 = 0;
+        }
+    }
+    else if (camera_dword_800C342C == -1 || camera_dword_800C342C >= pStru2->field_8)
+    {
+        if (camera_dword_800D0728 == 0 && pStru2->field_8 && pIter[-1].field_20 == 16)
+        {
+            pStru2->field_4 = pStru2->field_8 - 1;
+        }
+        else
+        {
+            pStru2->field_4 = 0;
+        }
+    }
+    else
+    {
+        pStru2->field_4 = camera_dword_800C342C;
+    }
+
+    pStru2->field_6 = 0;
+    pStru2->field_20 = param_3;
+    pStru2->field_E = -1;
+    pStru2->field_0_xpos = 40;
+    pStru2->field_2_ypos = 40;
+    pStru2->field_16 = 8;
+    pStru2->field_A = 0;
+    pStru2->field_18 = -1;
+    pStru2->field_12 = 240;
+    pStru2->field_14 = 1;
+    camera_800C6984(pStru2, 0);
+    return pStru2->field_8 != 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6CCC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6E78.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C703C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C714C.s")
+
+// duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
+void camera_800C703C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20,
+                                               Stru_800ABB74 *pStru)
+{
+    KCB                 *kcb;
+    const char          *src;
+    int                  i;
+    Stru_800ABB74_child *dest;
+
+    dest = pStru->field_24;
+    for (i = 0; i < cnt; i++, dest++)
+    {
+        src = srcs[i];
+        strcpy(dest->field_0_name, src);
+        dest->field_20 = i;
+    }
+
+    kcb = pActor->field_214_font;
+
+    pStru->field_8 = dest - pStru->field_24;
+    pStru->field_4 = field_4;
+    pStru->field_6 = 0;
+    pStru->field_20 = field_20;
+    pStru->field_E = 1;
+    pStru->field_0_xpos = 160;
+    pStru->field_A = 0;
+    pStru->field_14 = 1;
+    pStru->field_2_ypos = 128;
+    pStru->field_10 = 64;
+    pStru->field_12 = 32;
+    // pStru->field_16 = 4;
+    pStru->field_1C_kcb = kcb;
+}
+
+// duplicate of menu_radio_do_file_mode_helper16_8004C164
+void camera_800C714C(MenuPrim *pGlue, Stru_800ABB74 *pStru)
+{
+    int        i;
+    int        xpos, ypos;
+    TextConfig textConfig;
+
+    textConfig.flags = 0x12;
+    if (pStru->field_14 != 0)
+    {
+        textConfig.colour = 0x66748956;
+    }
+    else
+    {
+        textConfig.colour = 0x663d482e;
+    }
+    textConfig.xpos = pStru->field_0_xpos;
+    textConfig.ypos = pStru->field_2_ypos;
+    menu_number_draw_string2_80043220(pGlue, &textConfig, pStru->field_20);
+    if (pStru->field_8 == 1)
+    {
+        xpos = pStru->field_0_xpos;
+    }
+    else
+    {
+        xpos = pStru->field_0_xpos - pStru->field_10 / 2;
+    }
+    for (i = 0; i < pStru->field_8; i++, xpos += pStru->field_10)
+    {
+        textConfig.xpos = xpos;
+        ypos = pStru->field_2_ypos;
+        textConfig.ypos = ypos + 12;
+
+        if (i == pStru->field_4)
+        {
+            textConfig.colour = 0x66748956;
+            if (pStru->field_14 != 0)
+            {
+                ypos += 16;
+                camera_800C5B00(textConfig.xpos, ypos, pStru->field_12, 12, 2);
+            }
+        }
+        else
+        {
+            textConfig.colour = 0x663d482e;
+        }
+        menu_number_draw_string2_80043220(pGlue, &textConfig, pStru->field_24[i].field_0_name);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C72CC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
 
 int        camera_800C5308(int);
 extern int camera_dword_800D0764;
