@@ -335,7 +335,8 @@ def gen_build_target(targetName):
         "s16b",
         "camera",
         "select",
-        "d11c"
+        "d11c",
+        "s00a",
     ]
 
     if args.variant == 'vr_exe':
