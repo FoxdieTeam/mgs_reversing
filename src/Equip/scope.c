@@ -8,7 +8,7 @@
 #include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
 
-extern OBJECT          *dword_800ABA20;
+extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int              GV_PauseLevel_800AB928;
 extern int              GV_Clock_800AB920;
@@ -17,7 +17,7 @@ extern int              dword_8009F604;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern CONTROL      *gSnaControl_800AB9F4;
+extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
@@ -48,9 +48,9 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
     }
     else
     {
-        objs = dword_800ABA20->objs;
+        objs = GM_PlayerBody_800ABA20->objs;
         pMtx = &mtx;
-        mtx = dword_800ABA20->objs->world;
+        mtx = GM_PlayerBody_800ABA20->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
@@ -160,7 +160,7 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
     sVar2 = GM_Camera_800B77E8.field_20;
     shortArr = pActor->field_84;
 
-    if (gSnaControl_800AB9F4)
+    if (GM_PlayerControl_800AB9F4)
     {
         iVar6 = pActor->field_6C_turn_vec.vx;
 
@@ -183,9 +183,9 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
 
         vec = pActor->field_64_vec;
 
-        if (gSnaControl_800AB9F4)
+        if (GM_PlayerControl_800AB9F4)
         {
-            vec.vx = gSnaControl_800AB9F4->field_4C_turn_vec.vx;
+            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn_vec.vx;
         }
 
         if (sVar2 <= 1023)
@@ -207,7 +207,7 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
         iVar9 = vec.vx - 512;
         iVar10 = vec.vx + 512;
 
-        if (gSnaControl_800AB9F4)
+        if (GM_PlayerControl_800AB9F4)
         {
             if (iVar9 < dword_800ABBDC)
             {
@@ -298,7 +298,7 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
         }
     }
 
-    pCtrl = gSnaControl_800AB9F4;
+    pCtrl = GM_PlayerControl_800AB9F4;
 
     if (pCtrl)
     {

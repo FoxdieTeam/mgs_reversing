@@ -11,14 +11,14 @@
 extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
 extern int                 DG_CurrentGroupID_800AB968;
 extern GM_Camera           GM_Camera_800B77E8;
-extern CONTROL         *gSnaControl_800AB9F4;
+extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
 extern int                 GM_LoadRequest_800AB3D0;
 extern int                 GM_GameOverTimer_800AB3D4;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
-extern OBJECT             *dword_800ABA20;
+extern OBJECT             *GM_PlayerBody_800ABA20;
 extern int                 GM_Photocode_800ABA04;
 extern SVECTOR             GM_PhotoViewPos_800ABA48;
 extern int                 GV_PauseLevel_800AB928;
@@ -514,7 +514,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
     }
     else
     {
-        mtx = dword_800ABA20->objs->world;
+        mtx = GM_PlayerBody_800ABA20->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
@@ -563,7 +563,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         press = 0;
     }
 
-    if (!(dword_800ABA20->objs->flag & DG_FLAG_INVISIBLE))
+    if (!(GM_PlayerBody_800ABA20->objs->flag & DG_FLAG_INVISIBLE))
     {
         status = 0;
         press = 0;
@@ -589,7 +589,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
 
     zoom = GM_Camera_800B77E8.field_20;
 
-    if (gSnaControl_800AB9F4)
+    if (GM_PlayerControl_800AB9F4)
     {
         vx = pActor->field_5C_ang.vx;
 
@@ -612,9 +612,9 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
 
         vec = pActor->field_54_vec;
 
-        if (gSnaControl_800AB9F4)
+        if (GM_PlayerControl_800AB9F4)
         {
-            vec.vx = gSnaControl_800AB9F4->field_4C_turn_vec.vx;
+            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn_vec.vx;
         }
 
         if (zoom >= 1024)
@@ -634,7 +634,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
         xmin = vec.vx - 512;
         xmax = vec.vx + 512;
 
-        if (gSnaControl_800AB9F4)
+        if (GM_PlayerControl_800AB9F4)
         {
             if (xmin < dword_800ABBDC)
             {
@@ -967,8 +967,8 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
 
     pActor->field_64_state++;
 
-    gSnaControl_800AB9F4->field_8_rotator = pActor->field_5C_ang;
-    gSnaControl_800AB9F4->field_4C_turn_vec = pActor->field_5C_ang;
+    GM_PlayerControl_800AB9F4->field_8_rotator = pActor->field_5C_ang;
+    GM_PlayerControl_800AB9F4->field_4C_turn_vec = pActor->field_5C_ang;
 }
 
 void jpegcam_kill_80065008(Actor_jpegcam *pActor)

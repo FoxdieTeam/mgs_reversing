@@ -23,7 +23,7 @@ typedef struct _Work
 } Work;
 
 extern int     GM_GameStatus_800AB3CC;
-extern OBJECT *dword_800ABA20;
+extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
@@ -43,9 +43,9 @@ void CamAct_800DF740( Cam *cam )
     GM_GameStatus_800AB3CC |= GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 |= PLAYER_UNK4000000;
 
-    if ( dword_800ABA20 )
+    if ( GM_PlayerBody_800ABA20 )
     {
-        DG_VisibleObjs( dword_800ABA20->objs );
+        DG_VisibleObjs( GM_PlayerBody_800ABA20->objs );
     }
 
     if ( cam->enable_input == 1 )
@@ -113,15 +113,15 @@ void CatInDie_800DF910( Work *work )
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
     GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK4000000;
 
-    if ( dword_800ABA20 )
+    if ( GM_PlayerBody_800ABA20 )
     {
         if ( GM_PlayerStatus_800ABA50 & PLAYER_UNK4000 )
         {
-            DG_InvisibleObjs( dword_800ABA20->objs );
+            DG_InvisibleObjs( GM_PlayerBody_800ABA20->objs );
         }
         else
         {
-            DG_VisibleObjs( dword_800ABA20->objs );
+            DG_VisibleObjs( GM_PlayerBody_800ABA20->objs );
         }
     }
 }

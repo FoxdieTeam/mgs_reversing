@@ -43,8 +43,8 @@ int        SECTION(".sbss") gSnaMoveDir_800ABBA4;
 extern char *dword_800ABBB4;
 char *       SECTION(".sbss") dword_800ABBB4;
 
-extern CONTROL *gSnaControl_800AB9F4;
-extern OBJECT     *dword_800ABA20;
+extern CONTROL *GM_PlayerControl_800AB9F4;
+extern OBJECT     *GM_PlayerBody_800ABA20;
 
 extern SVECTOR *svector_800ABBB8;
 SVECTOR *SECTION(".sbss") svector_800ABBB8;
@@ -8306,14 +8306,14 @@ void sna_kill_8005B52C(Actor_SnaInit *pActor)
         GV_DestroyOtherActor_800151D8(pItem);
     }
 
-    if (gSnaControl_800AB9F4 == pCtrl)
+    if (GM_PlayerControl_800AB9F4 == pCtrl)
     {
-        gSnaControl_800AB9F4 = 0;
+        GM_PlayerControl_800AB9F4 = 0;
     }
 
-    if (dword_800ABA20 == &pActor->field_9C_obj)
+    if (GM_PlayerBody_800ABA20 == &pActor->field_9C_obj)
     {
-        dword_800ABA20 = 0;
+        GM_PlayerBody_800ABA20 = 0;
     }
 }
 
@@ -8573,9 +8573,9 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
                                     (SVECTOR *)&pActor->field_698_joint_rotations);
     GM_ConfigObjectLight_80034C44(pObject, &pActor->field_848_lighting_mtx);
 
-    gSnaControl_800AB9F4 = pCtrl;
+    GM_PlayerControl_800AB9F4 = pCtrl;
     GM_PlayerPosition_800ABA10 = pActor->field_20_ctrl.field_0_mov;
-    dword_800ABA20 = pObject;
+    GM_PlayerBody_800ABA20 = pObject;
 
     sna_8004EB14(pActor);
 
