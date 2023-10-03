@@ -30,7 +30,7 @@ extern GV_PAD  GV_PadData_800B05C0[4];
 extern int dword_800C368C;
 
 int sub_800D87C8( int param, int );
-int sub_800D8808( int param );
+int THING_Gcl_GetInt_800D8808( int param );
 int sub_800D8940( unsigned short, int, int * );
 
 #define EXEC_LEVEL  2
@@ -80,7 +80,7 @@ int CamGetResources_800DF81C( Cam *cam, int name, int where )
     GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
 
     cam->clip_distance = sub_800D87C8( 'a', 320 );
-    cam->enable_input = sub_800D8808( 'm' );
+    cam->enable_input = THING_Gcl_GetInt_800D8808( 'm' );
 
     return 0;
 }
@@ -132,8 +132,8 @@ int NewCam_800DF9BC( Work *work, int name, int where )
 
     work->name = name;
     work->cam_dead = 1;
-    work->timer = sub_800D8808( 't' );
-    work->proc = sub_800D8808( 'e' );
+    work->timer = THING_Gcl_GetInt_800D8808( 't' );
+    work->proc = THING_Gcl_GetInt_800D8808( 'e' );
 
     cam = (Cam *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Cam ) );
     work->cam = cam;
