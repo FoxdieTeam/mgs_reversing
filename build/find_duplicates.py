@@ -6,25 +6,33 @@ import os
 from objlib.obj import get_obj_funcs
 from statistics import quantiles
 from termcolor import colored
+from Levenshtein import ratio
 
-root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj'))
+obj_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj'))
+asm_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../asm'))
 
 def load_all_funcs():
     funcs = {}
 
-    for obj_file in glob(os.path.join(root_dir, '**/*.obj'), recursive=True):
+    for obj_file in glob(os.path.join(obj_dir, '**/*.obj'), recursive=True):
         for func_name, code in get_obj_funcs(obj_file):
             code = b''.join(code for _, code in code)
             funcs[func_name.decode("utf-8")] = code
 
     return funcs
 
-def calc_distance(lhs_func, rhs_func):
+def not_matched_functions():
+    return set(os.path.basename(f).replace('.s', '') for f in glob(os.path.join(asm_dir, '**/*.s'), recursive=True))
+
+def byte_equality_distance(lhs_func, rhs_func):
     # Naive approach: how many bytes are different in equal-sized funcs
     if len(lhs_func) != len(rhs_func):
         return None
 
     return sum(1 if lhs_byte != rhs_byte else 0 for lhs_byte, rhs_byte in zip(lhs_func, rhs_func))
+
+def levenshtein_distance_on_bytes(lhs_func, rhs_func):
+    return int((1.0 - ratio(lhs_func, rhs_func)) * 100)
 
 def quantiles_wrapper(data, n):
     if len(data) == 1:
@@ -47,7 +55,30 @@ def main():
 
     # Decide which functions to actually compare
     lhs_pattern = input('Left-hand side of comparison - glob filter (e.g. *, sub_8034*, *s00a*, s???r_*): ')
+    lhs_only_not_matched = input('Left-hand side of comparison - only not matched functions? y/n ').strip().lower()
+    if lhs_only_not_matched == 'y' or lhs_only_not_matched == 'yes':
+        lhs_only_not_matched = True
+    elif lhs_only_not_matched == 'n' or lhs_only_not_matched == 'no':
+        lhs_only_not_matched = False
+    else:
+        print("Invalid choice:", lhs_only_not_matched)
+        sys.exit(1)
+
     rhs_pattern = input('Right-hand side of comparison - glob filter (e.g. *, sub_8034*, *s00a*, s???r_*): ')
+    print('Diffing algorithm:')
+    print("  1. Byte equality: fastest, compares how many bytes")
+    print("     are different between functions of the same size,")
+    print("     so it can detect fully identical functions or functions")
+    print("     that differ in relocations.")
+    print("  2. Levensthein distance (on pure bytes): slowest")
+    algorithm = input('Diffing algorithm (1 or 2): ').strip()
+    if algorithm == '1':
+        calc_distance = byte_equality_distance
+    elif algorithm == '2':
+        calc_distance = levenshtein_distance_on_bytes
+    else:
+        print("Invalid choice of algorithm:", algorithm)
+        sys.exit(1)
 
     print('Comparing... ', end='', flush=True)
 
@@ -56,6 +87,10 @@ def main():
 
     lhs_funcnames = sorted(lhs_funcnames, key=lambda x: x.upper()[-8:])
     rhs_funcnames = sorted(rhs_funcnames, key=lambda x: x.upper()[-8:])
+
+    if lhs_only_not_matched:
+        allowed_funcs = not_matched_functions()
+        lhs_funcnames = [f for f in lhs_funcnames if f in allowed_funcs]
 
     # Compare the functions, we love O(N^2):
     results = {}
