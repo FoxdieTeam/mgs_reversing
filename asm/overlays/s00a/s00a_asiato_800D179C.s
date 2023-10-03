@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s00a_asiato_800D179C
+s00a_asiato_800D179C:
+	dw 0x3C030001 ; 800D179C
+	dw 0x3C02800B ; 800D17A0
+	dw 0x8C42BA50 ; 800D17A4
+	dw 0x34630050 ; 800D17A8
+	dw 0x00431024 ; 800D17AC
+	dw 0x38420010 ; 800D17B0
+	dw 0x03E00008 ; 800D17B4
+	dw 0x2C420001 ; 800D17B8
