@@ -11,9 +11,9 @@ extern char      aRifle_0[]; // = "rifle"
 extern GM_Camera GM_Camera_800B77E8;
 
 extern int              GM_GameStatus_800AB3CC;
-extern CONTROL      *gSnaControl_800AB9F4;
+extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern OBJECT          *dword_800ABA20;
+extern OBJECT          *GM_PlayerBody_800ABA20;
 
 SVECTOR dword_8009F41C[2] = {{0, 0, 0, 0}, {0, 0, 3000, 0}};
 
@@ -25,14 +25,14 @@ int rifle_act_helper_80067BFC(void)
     int var_s2;
     int length;
 
-    if ((GM_GameStatus_800AB3CC < 0) || !gSnaControl_800AB9F4)
+    if ((GM_GameStatus_800AB3CC < 0) || !GM_PlayerControl_800AB9F4)
     {
         pMtx = &DG_Chanl(0)->field_30_eye;
     }
     else
     {
         pMtx = &mtx;
-        mtx = dword_800ABA20->objs->world;
+        mtx = GM_PlayerBody_800ABA20->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.field_0.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.field_0.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
@@ -43,7 +43,7 @@ int rifle_act_helper_80067BFC(void)
 
     var_s2 = 0;
 
-    if (sub_80028454(gSnaControl_800AB9F4->field_2C_map->field_8_hzd, &vec[0], &vec[1], 15, 4))
+    if (sub_80028454(GM_PlayerControl_800AB9F4->field_2C_map->field_8_hzd, &vec[0], &vec[1], 15, 4))
     {
         sub_80028890(&vec[1]);
         var_s2 = 1;

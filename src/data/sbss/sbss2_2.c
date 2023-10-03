@@ -3,4 +3,4 @@
 
 // breaks when merged into preceding sbss file..?
 
-OBJECT *SECTION(".sbss") dword_800ABA20;
+OBJECT *SECTION(".sbss") GM_PlayerBody_800ABA20;

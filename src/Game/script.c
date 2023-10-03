@@ -26,7 +26,7 @@ extern  int             GV_PadMask_800AB374;
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
 extern  int             GM_GameStatus_800AB3CC;
-extern  CONTROL        *gSnaControl_800AB9F4;
+extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
@@ -1007,7 +1007,7 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     }
     if (GCL_GetOption_80020968('s'))
     {
-        unkStruct = gSnaControl_800AB9F4;
+        unkStruct = GM_PlayerControl_800AB9F4;
         GM_SnakePosX = unkStruct->field_0_mov.vx;
         GM_SnakePosY = unkStruct->field_0_mov.vy;
         GM_SnakePosZ = unkStruct->field_0_mov.vz;

@@ -8,7 +8,7 @@ extern SVECTOR        DG_ZeroVector_800AB39C;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            GM_GameStatus_800AB3CC;
-extern CONTROL    *gSnaControl_800AB9F4;
+extern CONTROL    *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
 extern int            dword_800ABA0C;
 extern                SVECTOR GM_PlayerPosition_800ABA10;
@@ -488,21 +488,21 @@ void item_act_80033784(Actor_Item *pActor)
         return;
     }
 
-    x = gSnaControl_800AB9F4->field_0_mov.vx - pCtrl->field_0_mov.vx;
+    x = GM_PlayerControl_800AB9F4->field_0_mov.vx - pCtrl->field_0_mov.vx;
 
     if (x < 0)
     {
         x = -x;
     }
 
-    y = gSnaControl_800AB9F4->field_0_mov.vy - pCtrl->field_0_mov.vy;
+    y = GM_PlayerControl_800AB9F4->field_0_mov.vy - pCtrl->field_0_mov.vy;
 
     if (y < 0)
     {
         y = -y;
     }
 
-    z = gSnaControl_800AB9F4->field_0_mov.vz - pCtrl->field_0_mov.vz;
+    z = GM_PlayerControl_800AB9F4->field_0_mov.vz - pCtrl->field_0_mov.vz;
 
     if (z < 0)
     {
