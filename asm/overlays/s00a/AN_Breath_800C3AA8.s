@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_emitter_800C3AA8
-s00a_emitter_800C3AA8:
+	xdef AN_Breath_800C3AA8
+AN_Breath_800C3AA8:
 	dw 0x27BDFFD0 ; 800C3AA8
 	dw 0x2403000A ; 800C3AAC
 	dw 0xAFBF0028 ; 800C3AB0
