@@ -21,7 +21,7 @@ typedef struct WaterAreaWork
     int proc_id;          //0x50
 } WaterAreaWork;
 
-extern int              sub_800D8808( int o );
+extern int              THING_Gcl_GetInt_800D8808( int o );
 extern int              THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
 extern void             sub_800DB4E0( int y, SVECTOR* svec2, int num );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
@@ -260,8 +260,8 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
         work->field_3A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    work->field_44 = sub_800D8808('s');
-    work->proc_id  = sub_800D8808('e');
+    work->field_44 = THING_Gcl_GetInt_800D8808('s');
+    work->proc_id  = THING_Gcl_GetInt_800D8808('e');
 
     NewWaterView_800DBE04( name, where, (int)work->bound, (char **)&work->field_38 );
     return 0;    
