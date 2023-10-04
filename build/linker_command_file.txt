@@ -631,14 +631,9 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0128.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D018C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0218.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0258.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D02EC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D02F4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0344.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D043C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D047C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D04F4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0908.obj"
+    
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\command.obj"
+    
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0984.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0A28.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0B18.obj"
