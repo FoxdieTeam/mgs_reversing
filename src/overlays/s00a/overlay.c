@@ -970,11 +970,14 @@ const char s00a_aCbbox_800E09E8[] = "cb_box";
 const char s00a_aBoxkeric_800E09F0[] = "boxkeri.c";
 const char s00a_aSmoke_800E09FC[] = "smoke";
 const char s00a_aSmokec_800E0A04[] = "smoke.c";
-const char s00a_aDestroy_800E0A0C[] = "destroy\n";
-const char s00a_aBox_800E0A18[] = "box_01";
-const char s00a_aDbx_800E0A20[] = "dbx1";
-const char s00a_aDbx_800E0A28[] = "dbx2";
-const char s00a_aWallc_800E0A30[] = "wall.c";
+
+// Enemy/wall.c
+const char aDestroy[] = "destroy\n";
+const char aBox01[] = "box_01";
+const char aDbx1[] = "dbx1";
+const char aDbx2[] = "dbx2";
+const char aWallC[] = "wall.c";
+
 const char s00a_aAsiotoseseterr_800E0A38[] = " asioto se set err \n";
 const char s00a_aAsiotosenoiseseterr_800E0A50[] = " asioto se noise set err \n";
 const char s00a_aMigisodesurid_800E0A6C[] = " migi sodesuri %d \n";
