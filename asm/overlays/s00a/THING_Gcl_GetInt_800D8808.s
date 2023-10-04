@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_elevator_800D8808
-s00a_elevator_800D8808:
+	xdef THING_Gcl_GetInt_800D8808
+THING_Gcl_GetInt_800D8808:
 	dw 0x27BDFFE8 ; 800D8808
 	dw 0x308400FF ; 800D880C
 	dw 0xAFBF0010 ; 800D8810
