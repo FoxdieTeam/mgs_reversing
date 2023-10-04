@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_wt_view_800DBE04
-s00a_wt_view_800DBE04:
+	xdef NewWaterView_800DBE04
+NewWaterView_800DBE04:
 	dw 0x27BDFFD8 ; 800DBE04
 	dw 0xAFB40020 ; 800DBE08
 	dw 0x0080A021 ; 800DBE0C

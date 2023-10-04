@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_elevator_800D8940
-s00a_elevator_800D8940:
+	xdef THING_Msg_CheckMessage_800D8940
+THING_Msg_CheckMessage_800D8940:
 	dw 0x27BDFFD8 ; 800D8940
 	dw 0xAFB00018 ; 800D8944
 	dw 0x00A08021 ; 800D8948

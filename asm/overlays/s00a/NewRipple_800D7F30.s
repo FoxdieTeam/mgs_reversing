@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_ripple_800D7F30
-s00a_ripple_800D7F30:
+	xdef NewRipple_800D7F30
+NewRipple_800D7F30:
 	dw 0x27BDFFE0 ; 800D7F30
 	dw 0xAFB10014 ; 800D7F34
 	dw 0x00808821 ; 800D7F38

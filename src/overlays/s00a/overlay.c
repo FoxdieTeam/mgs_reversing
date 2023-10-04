@@ -1,5 +1,8 @@
 #include "libgcl/libgcl.h"
 
+#define OPEN_MES  0x43D3
+#define CLOSE_MES 0x4235
+
 GCL_ActorTableEntry s00aOverlayCharas[] = 
 {
     { 0x63AA, (TGCL_ActorCreateFn)0x800D872C },
@@ -60,33 +63,65 @@ int s00a_dword_800C3348 = 0x000F01C2;
 int s00a_dword_800C334C = 0x003C001E;
 int s00a_dword_800C3350 = 0x0000005A;
 int s00a_dword_800C3354 = 0x75307D01;
-int s00a_dword_800C3358 = 0x00140013;
-int s00a_dword_800C335C = 0x0016000A;
-int s00a_dword_800C3360 = 0x00220009;
-int s00a_dword_800C3364 = 0x00240023;
-int s00a_dword_800C3368 = 0x000D002D;
-int s00a_dword_800C336C = 0x001A000C;
-int s00a_dword_800C3370 = 0x000E000F;
-int s00a_dword_800C3374 = 0x001B0010;
-int s00a_dword_800C3378 = 0x002E0008;
-int s00a_dword_800C337C = 0x00150032;
-int s00a_dword_800C3380 = 0x001F001E;
-int s00a_dword_800C3384 = 0x00210020;
-int s00a_dword_800C3388 = 0x00340025;
-int s00a_dword_800C338C = 0x00190035;
-int s00a_dword_800C3390 = 0x00020005;
-int s00a_dword_800C3394 = 0x0004002A;
-int s00a_dword_800C3398 = 0x00280027;
-int s00a_dword_800C339C = 0x00070006;
-int s00a_dword_800C33A0 = 0x00030026;
-int s00a_dword_800C33A4 = 0x00110029;
-int s00a_dword_800C33A8 = 0x002B0012;
-int s00a_dword_800C33AC = 0x00180017;
-int s00a_dword_800C33B0 = 0x001D001C;
-int s00a_dword_800C33B4 = 0x00010000;
-int s00a_dword_800C33B8 = 0x00110033;
-int s00a_dword_800C33BC = 0x002B0012;
-int s00a_dword_800C33C0 = 0x000B0016;
+
+short ActTable_800C3358[54] =
+{
+    0x13,
+    0x14,
+    0x0A,
+    0x16,
+    0x09,
+    0x22,
+    0x23,
+    0x24,
+    0x2D,
+    0x0D,
+    0x0C,
+    0x1A,
+    0x0F,
+    0x0E,
+    0x10,
+    0x1B,
+    0x08,
+    0x2E,
+    0x32,
+    0x15,
+    0x1E,
+    0x1F,
+    0x20,
+    0x21,
+    0x25,
+    0x34,
+    0x35,
+    0x19,
+    0x05,
+    0x02,
+    0x2A,
+    0x04,
+    0x27,
+    0x28,
+    0x06,
+    0x07,
+    0x26,
+    0x03,
+    0x29,
+    0x11,
+    0x12,
+    0x2B,
+    0x17,
+    0x18,
+    0x1C,
+    0x1D,
+    0x00,
+    0x01,
+    0x33,
+    0x11,
+    0x12,
+    0x2B,
+    0x16,
+    0x0B
+};
+
 int s00a_dword_800C33C4 = 0x0000FF6A;
 int s00a_dword_800C33C8 = 0x0000012C;
 int s00a_dword_800C33CC = 0xFDDA0000;
@@ -207,20 +242,16 @@ int s00a_dword_800C3594 = 0x00000000;
 int s00a_dword_800C3598 = 0x00000000;
 int s00a_dword_800C359C = 0x00000000;
 int s00a_dword_800C35A0 = 0x0000001F;
-int s00a_dword_800C35A4 = 0x03E8012C;
-int s00a_dword_800C35A8 = 0x0000012C;
-int s00a_dword_800C35AC = 0x00000000;
-int s00a_dword_800C35B0 = 0x00000000;
-int s00a_dword_800C35B4 = 0x01F40320;
-int s00a_dword_800C35B8 = 0x00000320;
-int s00a_dword_800C35BC = 0x00000064;
-int s00a_dword_800C35C0 = 0x00000000;
-int s00a_dword_800C35C4 = 0x0320012C;
-int s00a_dword_800C35C8 = 0x0000012C;
-int s00a_dword_800C35CC = 0x00000000;
-int s00a_dword_800C35D0 = 0x00000000;
-int s00a_dword_800C35D4 = 0x75307530;
-int s00a_dword_800C35D8 = 0x00007530;
+
+
+SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
+SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
+SVECTOR ENEMY_ATTACK_SIZE_800C35B4  = { 800, 500, 800 };
+SVECTOR ENEMY_ATTACK_FORCE_800C35BC = { 100, 0, 0 };
+SVECTOR ENEMY_TOUCH_SIZE_800C35C4   = { 300, 800, 300 };
+SVECTOR ENEMY_TOUCH_FORCE_800C35CC  = { 0, 0, 0, 0 };
+SVECTOR COM_NO_POINT_800C35D4       = { 30000, 30000, 30000 };
+
 int s00a_dword_800C35DC = 0x00000101;
 int s00a_dword_800C35E0 = 0x000001FF;
 int s00a_dword_800C35E4 = 0x000009C4;
@@ -255,9 +286,10 @@ int s00a_dword_800C3654 = 0x00000000;
 int s00a_dword_800C3658 = 0x0000047F;
 int s00a_dword_800C365C = 0x084B06A5;
 int s00a_dword_800C3660 = 0x00000C2D;
-int s00a_dword_800C3664 = 0x423543D3;
-int s00a_dword_800C3668 = 0x00000000;
-int s00a_dword_800C366C = 0x00000064;
+
+unsigned short mes_list_800C3664[] = { OPEN_MES, CLOSE_MES };
+SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
+
 int s00a_dword_800C3670 = 0x00320032;
 int s00a_dword_800C3674 = 0x00640064;
 int s00a_dword_800C3678 = 0x006BD182;
@@ -981,13 +1013,15 @@ const char aWallC[] = "wall.c";
 const char s00a_aAsiotoseseterr_800E0A38[] = " asioto se set err \n";
 const char s00a_aAsiotosenoiseseterr_800E0A50[] = " asioto se noise set err \n";
 const char s00a_aMigisodesurid_800E0A6C[] = " migi sodesuri %d \n";
-const char s00a_dword_800E0A80[] = {'a', 's', 'i', 'o'};
-const char s00a_dword_800E0A84[] = {'t', 'o', '.', 'c'};
-const char s00a_dword_800E0A88[] = {0x0, '\n', 0x10, 0x19};
+const char aAsiotoC_800E0A80[] = "asioto.c";
+const char s00a_dword_800E0A89 = 0x0A;
+const char s00a_dword_800E0A8A = 0x10;
+const char s00a_dword_800E0A8B = 0x19;
 const char s00a_aFamasl_800E0A8C[] = "famas_l";
-const char s00a_dword_800E0A94[] = {'g', 'l', 'i', 'g'};
-const char s00a_dword_800E0A98[] = {'h', 't', '.', 'c'};
-const char s00a_dword_800E0A9C[] = {0x0, 0x0, 0x0, 'T'};
+const char aGlightC_800E0A94[] = "glight.c";
+const char s00a_dword_800E0A9D = 0x00;
+const char s00a_dword_800E0A9E = 0x00;
+const char s00a_dword_800E0A9F = 0x54;
 const char s00a_aMouse_800E0AA0[] = "mouse";
 const char s00a_aMousec_800E0AA8[] = "mouse.c";
 const char s00a_dword_800E0AB0[] = {0xa5, 0xd0, 0xa5, 0xd6};
@@ -1015,50 +1049,49 @@ const char s00a_aPatlit_800E0B24[] = "patlit";
 const char s00a_aPatbody_800E0B2C[] = "pat_body";
 const char s00a_aPatlamp_800E0B38[] = "pat_lamp";
 const char s00a_aPatspt_800E0B44[] = "pat_spt1";
-const char s00a_dword_800E0B50[] = {'p', 'a', 't', 'o'};
-const char s00a_dword_800E0B54[] = {'_', 'l', 'm', 'p'};
-const char s00a_dword_800E0B58[] = {'.', 'c', 0x0, 0xff};
+const char aPatoLmpC_800E0B50[] = "pato_lmp.c";
+const char s00a_dword_800E0B5B = 0xFF;
 const char s00a_aRipple_800E0B5C[] = "ripple";
-const char s00a_dword_800E0B64[] = {'r', 'i', 'p', 'p'};
-const char s00a_dword_800E0B68[] = {'l', 'e', '.', 'c'};
-const char s00a_dword_800E0B6C[] = {0x0, '4', 0xf, 0x0};
-const char s00a_dword_800E0B70[] = {'r', 's', 'u', 'r'};
-const char s00a_dword_800E0B74[] = {'f', 'a', 'c', 'e'};
-const char s00a_dword_800E0B78[] = {'.', 'c', 0x0, '8'};
-const char s00a_dword_800E0B7C[] = {'r', 'i', 'p', 'p'};
-const char s00a_dword_800E0B80[] = {'l', 'e', 's', '.'};
-const char s00a_dword_800E0B84[] = {'c', 0x0, '#', 0x18};
-const char s00a_dword_800E0B88[] = {'e', 'l', 'e', 'v'};
-const char s00a_dword_800E0B8C[] = {'a', 't', 'o', 'r'};
-const char s00a_dword_800E0B90[] = {'.', 'c', 0x0, 0x10};
-const char s00a_dword_800E0B94[] = {'w', 't', '_', 'a'};
-const char s00a_dword_800E0B98[] = {'r', 'e', 'a', '.'};
-const char s00a_dword_800E0B9C[] = {'c', 0x0, 0xf4, 0x3};
+const char aRippleC_800E0B64[] = "ripple.c";
+const char s00a_dword_800E0B6D = 0x34;
+const char s00a_dword_800E0B6E = 0x0F;
+const char s00a_dword_800E0B6F = 0x00;
+const char aRsurfaceC_800E0B70[] = "rsurface.c";
+const char s00a_dword_800E0B7B = 0x38;
+const char aRipplesC_800E0B7C[] = "ripples.c";
+const char s00a_dword_800E0B86 = 0x23;
+const char s00a_dword_800E0B87 = 0x18;
+const char aElevatorC_800E0B88[] = "elevator.c";
+const char s00a_dword_800E0B93 = 0x10;
+const char aWtAreaC_800E0B94[] = "wt_area.c";
+const char s00a_aAwa_800E0B9E = 0xF4;
+const char s00a_aAwa_800E0B9F = 0x03;
 const char s00a_aAwa_800E0BA0[] = "awa_3";
-const char s00a_dword_800E0BA8[] = {'s', 'p', 'l', 'a'};
-const char s00a_dword_800E0BAC[] = {'s', 'h', '2', '.'};
-const char s00a_dword_800E0BB0[] = {'c', 0x0, '?', 0x0};
+const char aSplash2C_800E0BA8[] = "splash2.c";
+const char s00a_aWtviewc_800E0BB2 = 0x3F;
+const char s00a_aWtviewc_800E0BB3 = 0x00;
 const char s00a_aWtviewc_800E0BB4[] = "wt_view.c";
 const char s00a_aWtviewcoverprims_800E0BC0[] = "(wt_view.c) Over prims !!!\n";
 const char s00a_aMosaicc_800E0BDC[] = "mosaic.c";
-const char s00a_dword_800E0BE8[] = {'M', 'o', 's', 'a'};
-const char s00a_dword_800E0BEC[] = {'i', 'c', 0x0, 0xb0};
+const char aMosaic_800E0BE8[] = "Mosaic";
+const char s00a_dword_800E0BEF = 0xB0;
 const char s00a_aPadrecstart_800E0BF0[] = "Pad rec start\n";
-const char s00a_dword_800E0C00[] = {'p', 'a', 'd', '_'};
-const char s00a_dword_800E0C04[] = {'d', 'e', 'm', 'o'};
-const char s00a_dword_800E0C08[] = {'.', 'c', 0x0, 0x10};
-const char s00a_dword_800E0C0C[] = {'f', 'a', 'd', 'e'};
-const char s00a_dword_800E0C10[] = {'i', 'o', '.', 'c'};
-const char s00a_dword_800E0C14[] = {0x0, '0', 0x3, 0x0};
+const char aPadDemoC_800E0C00[] = "pad_demo.c";
+const char s00a_dword_800E0C0B = 0x10;
+const char aFadeIOC_800E0C0C[] = "fadeio.c";
+const char s00a_dword_800E0C15 = 0x30;
+const char s00a_dword_800E0C16 = 0x03;
+const char s00a_dword_800E0C17 = 0x00;
 const int s00a_dword_800E0C18 = 0x800DD778;
 const int s00a_dword_800E0C1C = 0x800DD7BC;
 const int s00a_dword_800E0C20 = 0x800DD818;
 const int s00a_dword_800E0C24 = 0x800DD850;
 const int s00a_dword_800E0C28 = 0x800DD8B4;
 const char s00a_aTelopc_800E0C2C[] = "telop.c";
-const char s00a_dword_800E0C34[] = {'c', 'i', 'n', 'e'};
-const char s00a_dword_800E0C38[] = {'m', 'a', '.', 'c'};
-const char s00a_dword_800E0C3C[] = {0x0, 0x2, 0x0, 0x0};
+const char aCinemaC_800E0C34[] = "cinema.c";
+const char s00a_dword_800E0C3D = 0x2;
+const char s00a_dword_800E0C3E = 0x0;
+const char s00a_dword_800E0C3F = 0x0;
 const char s00a_aOdamgec_800E0C40[] = "o2_damge.c";
 const char s00a_aDymcsegc_800E0C4C[] = "dymc_seg.c";
 const char s00a_aShakemdlc_800E0C58[] = "shakemdl.c";
@@ -1069,13 +1102,12 @@ const int s00a_dword_800E0C70 = 0x800DF2F0;
 const int s00a_dword_800E0C74 = 0x800DF308;
 const char s00a_aEnvsndc_800E0C78[] = "env_snd.c";
 const char s00a_aCamshakec_800E0C84[] = "camshake.c";
-
-const char s00a_dword_800E0C90[] = {'c', 'a', 't', '_'};
-const char s00a_dword_800E0C94[] = {'i', 'n', '.', 'c'};
-
+const char aCatinC_800E0C90[] = "cat_in.c";
 
 //everything below here is bss
-const char s00a_dword_800E0C98[] = {0x0, 0x4, 0x0, 0x0};
+const char s00a_dword_800E0C99 = 0x4;
+const char s00a_dword_800E0C9A = 0x0;
+const char s00a_dword_800E0C9B = 0x0;
 const char s00a_dword_800E0C9C[] = {0x0, 0x0, '#', '('};
 const char s00a_dword_800E0CA0[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0CA4[] = {0x0, 0x0, 0x0, 0x0};
