@@ -87,6 +87,7 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C53B8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5440.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C553C.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5684.s")
 
 extern const char                  camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
@@ -529,6 +530,8 @@ void camera_800C714C(MenuPrim *pGlue, Stru_800ABB74 *pStru)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
+#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8234.s")
 
 int        camera_800C5308(int);
 extern int camera_dword_800D0764;
