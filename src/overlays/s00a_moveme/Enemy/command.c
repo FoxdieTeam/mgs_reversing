@@ -78,7 +78,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'v' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x54 = s00a_command_800CEDE8( ops, &EnemyCommand_800E0D98.field_0x5A , where );
+        EnemyCommand_800E0D98.field_0x54 = sub_800CEDE8( ops, &EnemyCommand_800E0D98.field_0x5A , where );
     }
     else
     {
