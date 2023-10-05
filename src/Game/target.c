@@ -152,7 +152,7 @@ TARGET *GM_C4Target_8002D620(TARGET *pTarget)
     return 0;
 }
 
-int sub_8002D6D8(TARGET *pTarget)
+int GM_TouchTarget_8002D6D8(TARGET *pTarget)
 {
     TARGET *pIter;
     int count;
