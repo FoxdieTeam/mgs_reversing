@@ -18,6 +18,7 @@ extern SVECTOR   stru_800AB850;
 
 void famas_act_80065E90(Actor_Famas *pActor)
 {
+#ifndef VR_EXE
     int field_5C_mp5;
     int flags;
     CONTROL *pCtrl;
@@ -132,6 +133,9 @@ void famas_act_80065E90(Actor_Famas *pActor)
             pActor->field_58_counter = 0;
         }
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 8, 7);
+#endif
 }
 
 void famas_die_80066188(Actor_Famas *famas)
