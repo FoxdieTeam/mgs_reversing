@@ -82,6 +82,7 @@ void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
 
 void rcm_act_80066BC0(Actor_Rcm *pActor)
 {
+#ifndef VR_EXE
     int    mapBit;         // $a1
     int    p_flags;        // $s0
     int    weapon_state_3; // $s2
@@ -155,6 +156,9 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             }
         }
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 7);
+#endif
 }
 
 void rcm_kill_80066E68(Actor_Rcm *pActor)
@@ -172,6 +176,7 @@ void rcm_kill_80066E68(Actor_Rcm *pActor)
 
 int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
 {
+#ifndef VR_EXE
     DG_PRIM *pNewPrim;
     DG_TEX  *pTexture;
     OBJECT  *obj;
@@ -201,6 +206,9 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     }
 
     return -1;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 7, 6);
+#endif
 }
 
 Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
