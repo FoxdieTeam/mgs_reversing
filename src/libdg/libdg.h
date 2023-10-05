@@ -689,4 +689,22 @@ static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR 
 	return prim;
 }
 
+static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
+{
+    int x, y, w, h;
+    x = tex->field_8_offx ;
+    w = tex->field_A_width ;
+    y = tex->field_9_offy ;
+    h = tex->field_B_height ;
+
+    setUVWH( packs0, x, y, w, h ) ;
+}
+
+static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
+{
+    DG_SetPacketTexture( packs0, tex ) ;
+    packs0->tpage = tex->field_4_tPage ;
+    packs0->clut = tex->field_6_clut ;
+}
+
 #endif // LIBDG_H

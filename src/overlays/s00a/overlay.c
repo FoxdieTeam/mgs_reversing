@@ -1,4 +1,5 @@
 #include "libgcl/libgcl.h"
+#include "Anime/animeconv/anime.h"
 
 #define OPEN_MES  0x43D3
 #define CLOSE_MES 0x4235
@@ -35,22 +36,10 @@ GCL_ActorTableEntry s00aOverlayCharas[] =
     { 0, 0 }
 };
 
-int s00a_dword_800C32E8 = 0x0008512D;
-int s00a_dword_800C32EC = 0x001E0004;
-int s00a_dword_800C32F0 = 0x012C0001;
-int s00a_dword_800C32F4 = 0x01F40001;
-int s00a_dword_800C32F8 = 0x000001F4;
-int s00a_dword_800C32FC = 0x00000000;
-int s00a_dword_800C3300 = 0x800DFBE0;
-int s00a_dword_800C3304 = 0x0008512D;
-int s00a_dword_800C3308 = 0x001E0004;
-int s00a_dword_800C330C = 0x012C0001;
-int s00a_dword_800C3310 = 0x01F40001;
-int s00a_dword_800C3314 = 0x000001F4;
-int s00a_dword_800C3318 = 0x00000000;
-int s00a_dword_800C331C = 0x800DFC30;
-int s00a_dword_800C3320 = 0x03E803E8;
-int s00a_dword_800C3324 = 0x07D007D0;
+ANIMATION anm_breath_800C32E8  = { 20781, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (const char*)0x800DFBE0 };
+ANIMATION anm_unknown_800C3304 = { 20781, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (const char*)0x800DFC30 };
+RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
+
 int s00a_dword_800C3328 = 0x000009C4;
 int s00a_dword_800C332C = 0x00000DAC;
 int s00a_dword_800C3330 = 0x00000FA0;
@@ -352,8 +341,8 @@ const char s00a_dword_800DFC54[] = {0x1, '\n', 0x0, 0x4};
 const char s00a_dword_800DFC58[] = {0x0, 0x4, 0x1, 0xff};
 const char s00a_dword_800DFC5C[] = {0x2, 0x0, 0x1, 0xd};
 const char s00a_dword_800DFC60[] = {0xf, 0x0, 0x0, 0x0};
-const char s00a_aSfex_800DFC64[] = "sfex0236";
-const char s00a_aEmitterc_800DFC70[] = "emitter.c";
+const char aSfex_800DFC64[] = "sfex0236";
+const char aEmitterc_800DFC70[] = "emitter.c";
 const char s00a_aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char s00a_aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
 const char s00a_aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";

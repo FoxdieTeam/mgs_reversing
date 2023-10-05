@@ -398,15 +398,9 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
     include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\AN_Breath_800C3AA8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3B10.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3B7C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3C08.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3CD8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3D14.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3D68.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_emitter_800C3E50.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_watcher_800C3EE8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_watcher_800C409C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_watcher_800C410C.obj"
