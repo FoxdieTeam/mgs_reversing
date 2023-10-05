@@ -39,6 +39,7 @@ SVECTOR svec_8009F464 = {300, 200, 300, 0};
 // TARGET here seems to be wrong
 MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget)
 {
+#ifndef VR_EXE
     MATRIX mtx1;
     MATRIX mtx2;
 
@@ -83,6 +84,9 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarge
     }
 
     return arg0;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 9, 3);
+#endif
 }
 
 int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
@@ -199,6 +203,7 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
 
 void jirai_act_8006AB5C(Actor_Jirai *pActor)
 {
+#ifndef VR_EXE
     TARGET target;
     CONTROL *pCtrl;
     TARGET *pTarget;
@@ -382,6 +387,9 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         DG_VisibleObjs(pActor->field_9C_obj.objs);
         pActor->field_130 = 0;
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 2, 0);
+#endif
 }
 
 // A different version of ExecProc is used here, which checks for a proccess ID less than zero.
@@ -402,6 +410,7 @@ skip:                                      \
 
 void jirai_kill_8006B05C(Actor_Jirai *pActor)
 {
+#ifndef VR_EXE
     sub_8007913C();
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_FreeObject_80034BF8(&pActor->field_9C_obj);
@@ -418,6 +427,9 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
 
     dword_8009F444 = 0;
     dword_8009F440 = 0;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 5, 3);
+#endif
 }
 
 int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3)

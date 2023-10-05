@@ -319,9 +319,10 @@ GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
 
+#ifndef VR_EXE
+
 void sub_8004EB74(Actor_SnaInit *pActor) // different in VR
 {
-#ifndef VR_EXE
     if (GM_Camera_800B77E8.field_22 == 0)
     {
         if (pActor->field_9B0_pad_ptr->dir == (short)-1)
@@ -344,14 +345,10 @@ void sub_8004EB74(Actor_SnaInit *pActor) // different in VR
     }
 
     sd_set_cli_800887EC(0x1ffff20, 0);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 3, 1);
-#endif
 }
 
 void sna_8004EC00(Actor_SnaInit *pActor) // different in VR
 {
-#ifndef VR_EXE
     if (GM_Camera_800B77E8.field_22 == 1)
     {
         pActor->field_A20 = 6;
@@ -369,14 +366,10 @@ void sna_8004EC00(Actor_SnaInit *pActor) // different in VR
 
     sna_clear_flags2_8004E344(pActor, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK400);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 7);
-#endif
 }
 
 void sna_8004EC8C(Actor_SnaInit *pActor) // different in VR
 {
-#ifndef VR_EXE
     ushort v2; // $v1
 
     sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK12);
@@ -390,14 +383,10 @@ void sna_8004EC8C(Actor_SnaInit *pActor) // different in VR
     sd_set_cli_800887EC(0x1FFFF20, 0);
     sna_set_flags2_8004E330(pActor, SNA_FLAG2_UNK5);
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_FIRST_PERSON);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 4);
-#endif
 }
 
 void sub_8004ED08(Actor_SnaInit *pActor) // different in VR
 {
-#ifndef VR_EXE
     sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK12);
     pActor->field_A28 = 0x1c2;
     GM_Camera_800B77E8.field_22 = 0; // weapon related?
@@ -405,9 +394,6 @@ void sub_8004ED08(Actor_SnaInit *pActor) // different in VR
     sna_8004EB14(pActor);
     sd_set_cli_800887EC(0x1ffff21, 0);
     sna_clear_flags2_8004E344(pActor, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 0);
-#endif
 }
 
 void sna_act_helper2_helper3_8004ED6C(Actor_SnaInit *pActor)
@@ -558,7 +544,6 @@ void sna_8004F034(Actor_SnaInit *pActor, unsigned int bits)
 
 void sna_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2) // different in VR
 {
-#ifndef VR_EXE
     int    iVar1;
     MATRIX mtx;
 
@@ -586,14 +571,10 @@ void sna_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2) // dif
     {
         NewBlood_80072728(&mtx, iVar1);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 4, 3);
-#endif
 }
 
 void sub_8004F14C(Actor_SnaInit *param_1) // different in VR
 {
-#ifndef VR_EXE
     param_1->field_91C_weapon_idx = WEAPON_NONE;
     GM_CurrentWeaponId = WEAPON_NONE;
 
@@ -622,14 +603,10 @@ void sub_8004F14C(Actor_SnaInit *param_1) // different in VR
     {
         sna_8004EC00(param_1);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 4, 1);
-#endif
 }
 
 void sub_8004F204(Actor_SnaInit *param_1) // different in VR
 {
-#ifndef VR_EXE
     if (param_1->field_9A4_item_actor != 0)
     {
         GV_DestroyActorQuick_80015164(param_1->field_9A4_item_actor);
@@ -653,9 +630,6 @@ void sub_8004F204(Actor_SnaInit *param_1) // different in VR
     }
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_UNK1000);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 3, 4);
-#endif
 }
 
 void sna_set_invuln_8004F2A0(Actor_SnaInit *pActor, char invuln_frames)
@@ -674,7 +648,6 @@ void sna_clear_invuln_8004F2EC(Actor_SnaInit *snake)
 
 void sub_8004F338(Actor_SnaInit *param_1) // different in VR
 {
-#ifndef VR_EXE
     int iVar2;
 
     iVar2 = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT);
@@ -715,14 +688,10 @@ void sub_8004F338(Actor_SnaInit *param_1) // different in VR
     param_1->field_894_flags1 &= (SNA_FLAG1_UNK20 | SNA_FLAG1_UNK28 | SNA_FLAG1_UNK29);
     param_1->field_20_ctrl.field_55_skip_flag &= ~CTRL_BOTH_CHECK;
     sna_clear_flags2_8004E344(param_1, SNA_FLAG2_UNK9);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 4);
-#endif
 }
 
 void sub_8004F454(Actor_SnaInit *pActor) // different in VR
 {
-#ifndef VR_EXE
     int i;
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING | PLAYER_PREVENT_FIRST_PERSON |
@@ -747,9 +716,6 @@ void sub_8004F454(Actor_SnaInit *pActor) // different in VR
 
     pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_BOTH_CHECK;
     sna_clear_flags2_8004E344(pActor, SNA_FLAG2_UNK9);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 5, 5);
-#endif
 }
 
 int sna_8004F544(Actor_SnaInit *pActor, SVECTOR param_2, int a3, int a4, int a5)
@@ -846,7 +812,6 @@ static inline int sna_update_life_helper_8004F6E8(int health, int item)
 
 void UpdateLife_8004F6E8(Actor_SnaInit *pActor) // different in VR
 {
-#ifndef VR_EXE
     int health;
 
     if (sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK23))
@@ -893,9 +858,6 @@ void UpdateLife_8004F6E8(Actor_SnaInit *pActor) // different in VR
     GM_SnakeCurrentHealth = health;
 
     sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK25);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 4, 6);
-#endif
 }
 
 void sna_8004F8E4(Actor_SnaInit *pActor, int a2)
@@ -8691,3 +8653,34 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
     sna_800ABBA0 = pActor;
     return &pActor->field_0_actor;
 }
+
+#else
+
+// some jump table probably
+const char missing_rdata[] = {0xe4, 0x4f, 0x05, 0x80, 0xd4, 0x4f, 0x05, 0x80, 0x0c, 0x50, 0x05, 0x80, 0x48, 0x50, 0x05, 0x80, 0x94, 0x50, 0x05, 0x80, 0xfc, 0x50, 0x05, 0x80, 0xb4, 0x53, 0x05, 0x80};
+
+void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput) {}
+void GM_ClearBulName_8004FBE4(int idx) {}
+int GM_Next_BulName_8004FBA0() {}
+void sna_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor, int time) {}
+void sna_anim_claymore_80057474(Actor_SnaInit *pActor, int time) {}
+void sna_anim_crouch_800527DC(Actor_SnaInit *pActor, int time) {}
+void sna_anim_grenade_80058470(Actor_SnaInit *pActor, int time) {}
+void sna_anim_idle_8005275C(Actor_SnaInit *pActor, int time) {}
+void sna_anim_prone_idle_800528BC(Actor_SnaInit *pActor, int time) {}
+void sna_anim_prone_move_800529C0(Actor_SnaInit *pActor, int time) {}
+void sna_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time) {}
+void sna_anim_run_8005292C(Actor_SnaInit *pActor, int time) {}
+void sna_anim_stinger_800570C0(Actor_SnaInit *pActor, int time) {}
+void sna_anim_wall_crouch_80052CCC(Actor_SnaInit *pActor, int time) {}
+void sna_anim_wall_idle_and_c4_80052A5C(Actor_SnaInit *pActor, int time) {}
+void sna_bomb_800541A8(Actor_SnaInit *pActor) {}
+void sna_gun_800540D0(Actor_SnaInit *pActor, int time) {}
+GV_ACT * sna_NewSnake_8005B650(int name, int where, int argc, char **argv) {}
+
+void placeholder() {
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(9, 0, 0, 0);
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(3, 8, 1, 4);
+}
+
+#endif

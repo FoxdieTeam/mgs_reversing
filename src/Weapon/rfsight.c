@@ -115,6 +115,7 @@ extern const char aRifle[]; // = "rifle";
 
 void rfsight_act_800696CC(Actor_Rfsight *pActor)
 {
+#ifndef VR_EXE
     GV_PAD *pPad;
     int i;
     rfsight_pfn_t pfn;
@@ -149,6 +150,9 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
         rfsight_act_helper_80069478(f28, pPad, &pActor->field_20[0], 3, 1, 8);
         rfsight_act_helper_80069478(f28, pPad, &pActor->field_20[1], 3, 1, 8);
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 9, 2);
+#endif
 }
 
 void rfsight_kill_80069850(Actor_Rfsight *pActor)
