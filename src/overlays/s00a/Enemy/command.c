@@ -1,7 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/map.h"
-#include "command.h"
-
+//#include "command.h"
+#include "enemy.h"
 
 
 //extern CommandAct_800D0258();
