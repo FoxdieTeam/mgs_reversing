@@ -70,6 +70,7 @@ void       GM_Target_SetVector_8002D500(TARGET *pTarget, SVECTOR *pVec);
 void       GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
 TARGET *GM_AllocTarget_8002D400(void);
 // int GM_Target_8002D7DC(TARGET *pTarget);
+void       sub_8002DD14(TARGET *pTarget, MATRIX *pMatrix) ;
 int        GM_TouchTarget_8002D6D8(TARGET *pTarget);
 int        sub_8002D7DC(TARGET *pTarget);
 int        sub_8002D208(TARGET *pTarget, TARGET *a2);

@@ -39,19 +39,8 @@ GCL_ActorTableEntry s00aOverlayCharas[] =
 ANIMATION anm_breath_800C32E8  = { 20781, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (const char*)0x800DFBE0 };
 ANIMATION anm_unknown_800C3304 = { 20781, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (const char*)0x800DFC30 };
 RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
-
-int s00a_dword_800C3328 = 0x000009C4;
-int s00a_dword_800C332C = 0x00000DAC;
-int s00a_dword_800C3330 = 0x00000FA0;
-int s00a_dword_800C3334 = 0x00001388;
-int s00a_dword_800C3338 = 0x0000157C;
-int s00a_dword_800C333C = 0x000015E0;
-int s00a_dword_800C3340 = 0x00001644;
-int s00a_dword_800C3344 = 0x000016A8;
-int s00a_dword_800C3348 = 0x000F01C2;
-int s00a_dword_800C334C = 0x003C001E;
-int s00a_dword_800C3350 = 0x0000005A;
-int s00a_dword_800C3354 = 0x75307D01;
+int s00a_dword_800C3328[8] = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
+unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
 
 short ActTable_800C3358[54] =
 {
@@ -345,9 +334,9 @@ const char aSfex_800DFC64[] = "sfex0236";
 const char aEmitterc_800DFC70[] = "emitter.c";
 const char s00a_aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char s00a_aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
-const char s00a_aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
-const char s00a_aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
-const char s00a_aWatcherc_800DFCEC[] = "watcher.c";
+const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
+const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
+const char aWatcherc_800DFCEC[] = "watcher.c";
 const int s00a_dword_800DFCF8 = 0x800C5278;
 const int s00a_dword_800DFCFC = 0x800C52D8;
 const int s00a_dword_800DFD00 = 0x800C5200;
