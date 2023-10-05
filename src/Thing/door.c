@@ -55,7 +55,7 @@ void door_open_8006ECB8(Actor_Door *param_1)
 {
     SVECTOR *pos;
 
-    mts_nullsub_8_8008BB98(1, " open!! \n");
+    fprintf_8008BB98(1, " open!! \n");
     pos = &(param_1->field_20_ctrl).field_0_mov;
 
     if (((dword_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
@@ -72,7 +72,7 @@ void door_close_8006ED48(Actor_Door *param_1)
 {
     SVECTOR *pos;
 
-    mts_nullsub_8_8008BB98(1, " close!! \n");
+    fprintf_8008BB98(1, " close!! \n");
     param_1->field_E2_maybe_state = 1;
     pos = &param_1->field_20_ctrl.field_0_mov;
 
@@ -112,7 +112,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
             continue;
         }
 
-        mts_nullsub_8_8008BB98(3, "door:close %d\n", pActor->field_F2_door_counter);
+        fprintf_8008BB98(3, "door:close %d\n", pActor->field_F2_door_counter);
 
         if (pMsg->message_len > 2)
         {
@@ -164,7 +164,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
         }
         else
         {
-            mts_nullsub_8_8008BB98(3, "cancel\n");
+            fprintf_8008BB98(3, "cancel\n");
         }
     }
 
@@ -187,7 +187,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
             if (var_v1 == val)
             {
-                mts_nullsub_8_8008BB98(3, "door:open %d\n", pActor->field_F2_door_counter);
+                fprintf_8008BB98(3, "door:open %d\n", pActor->field_F2_door_counter);
 
                 if (++pActor->field_F2_door_counter > 0)
                 {
@@ -222,7 +222,7 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
 
         if ((var_v1 == 0x1AAA) && (++pActor->field_F2_door_counter > 0))
         {
-            mts_nullsub_8_8008BB98(3, "door:opencancel %d\n", pActor->field_F2_door_counter);
+            fprintf_8008BB98(3, "door:opencancel %d\n", pActor->field_F2_door_counter);
 
             if (pActor->field_E2_maybe_state != 0)
             {

@@ -1,21 +1,26 @@
 #include "enemy.h"
 
-extern const char aWatcherc_800DFCEC[]; //watcher.c
-extern const char aErrnotenoughwork_800DFCB4[]; //Err not enough work !!\n
-extern const char aWatcharcactionpointerr_800DFCCC[]; //watchar.c : action point Err\n
+extern const char aWatcherc_800DFCEC[];                 //watcher.c
+extern const char aErrnotenoughwork_800DFCB4[];         //Err not enough work !!\n
+extern const char aWatcharcactionpointerr_800DFCCC[];   //watchar.c : action point Err\n
+extern const char aErrerrerrsettimeover_800DFC7C[];     //Err Err Err  Set time Over\n
+extern const char aErrerrerrsetdirover_800DFC98[];      //Err Err Err  Set Dir Over\n
 
 //will remove these as and when they are reversed
 extern void s00a_watcher_800C4814( void );
 extern void s00a_watcher_800C45D4( WatcherWork *work );
-extern void s00a_watcher_800C4A40( WatcherWork *work );
-extern void s00a_watcher_800C4B18( WatcherWork *work );
 extern void s00a_watcher_800C410C( WatcherWork* work );
 extern void s00a_watcher_800C41B4( WatcherWork* work );
+extern int  s00a_watcher_800C4938( int opt, char *p );
+extern int  s00a_watcher_800C49E8( int opt, int *l );
+extern int  s00a_watcher_800C4990( int opt, short *s );
 
-extern int  s00a_watcher_800C489C( WatcherWork *work ); //ReadNodes_800C489C
+extern int  ReadNodes_800C489C( WatcherWork *work ); //ReadNodes_800C489C
 
 extern int HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
+
+extern unsigned short s00a_dword_800C3348[8];
 
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C3EE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C409C.s")
@@ -23,9 +28,7 @@ extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned sho
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4138.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C41B4.s")
 
-//extern int GM_TouchTarget_8002D6D8(TARGET *pTarget);
 
-//#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C430C.s")
 void WatcherAct_800C430C( WatcherWork *work )
 {
     VECTOR   vec;
@@ -113,14 +116,135 @@ void WatcherDie_800C487C(void)
     s00a_watcher_800C4814();
 }
 
-//ReadNodes_800C489C
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C489C.s")
+int ReadNodes_800C489C( WatcherWork* work ) 
+{
+    int i;
+    HZD_PAT *patrol;
+    HZD_PTP *points;
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4938.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4990.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C49E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4A40.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4B18.s")
+    patrol = work->control.field_2C_map->field_8_hzd->f00_header->routes;
+    patrol = &patrol[ work->field_B7D ];
+
+    work->field_9E8 = patrol->n_points;
+    
+    if ( work->field_9E8 <= 0 ) return -1;
+
+    points = patrol->points;
+    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    {
+        work->nodes[i].vx = points->x;
+        work->nodes[i].vy = points->y;
+        work->nodes[i].vz = points->z;
+        work->nodes[i].pad = points->command;
+        points++;
+    }
+    return 0;
+}
+
+int s00a_watcher_800C4938( int opt, char* c )
+{
+    int i;
+    unsigned char *res;
+
+    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    {
+        *c = GCL_StrToInt_800209E8( res );
+         c++;
+    }
+
+    return i;
+}
+
+int s00a_watcher_800C4990( int opt, short* s )
+{
+    int i;
+    unsigned char *res;
+
+    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    {
+        *s = GCL_StrToInt_800209E8( res );
+         s++;
+    }
+
+    return i;
+}
+
+int s00a_watcher_800C49E8( int opt, int* l )
+{
+    int i;
+    unsigned char *res;
+
+    for ( i = 0 ; ( res = GCL_Get_Param_Result_80020AA4() ) ; i++ )
+    {
+        *l = GCL_StrToInt_800209E8( res );
+         l++;
+    }
+
+    return i;
+}
+
+
+int s00a_watcher_800C4A40( WatcherWork *work )
+{
+    int i;
+    int opt;
+    int ret;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        work->field_BB0[i] = s00a_dword_800C3348[i];
+    }
+
+    opt = GCL_GetOption_80020968( 't' );
+    if ( opt )
+    {
+        ret = s00a_watcher_800C49E8( opt, &work->field_BB0[1] );
+        if ( ret >= 5 )
+        {
+            printf( aErrerrerrsettimeover_800DFC7C ) ;
+            return -1;
+        }
+    }
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        work->field_BD0[i] = i * 1024;
+    }    
+
+    opt = GCL_GetOption_80020968( 'i' );
+
+    if ( opt )
+    {
+        ret = s00a_watcher_800C4990( opt, work->field_BD0 );
+        if ( ret >= 5 )
+        {
+            printf( aErrerrerrsetdirover_800DFC98 ) ;
+            return -1;
+        }
+    }
+    
+    return 0;
+}
+
+int s00a_watcher_800C4B18( WatcherWork* work )
+{
+    int res;
+    int opt;
+    work->field_C34 = 0;
+
+    opt = GCL_GetOption_80020968( 'j' );
+    if ( opt )
+    {
+        res = s00a_watcher_800C4938( opt, &work->field_C35 );
+        if ( res >= 8 )
+        {
+            printf( aErrerrerrsettimeover_800DFC7C );
+            return -1;
+        }
+        work->field_C34 = res;
+    }
+    return 0;   
+}
 
 void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 {
@@ -242,7 +366,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //	work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    if( s00a_watcher_800C489C( work ) < 0 ) mts_nullsub_8_8008BB98( 1, aWatcharcactionpointerr_800DFCCC );
+    if( ReadNodes_800C489C( work ) < 0 ) fprintf_8008BB98( 1, aWatcharcactionpointerr_800DFCCC );
 
     /*
         当たりデータを初期化する

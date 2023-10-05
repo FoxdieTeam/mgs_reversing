@@ -200,7 +200,7 @@ ninja.newline()
 ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out {' '.join(args.defines)} $overlay", "Preprocess $in -> $out")
 ninja.newline()
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e mts_nullsub_8_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
+ninja.rule("psylink", f"$psyq_psylink_exe /l {args.psyq_path}/psyq_4.4/LIB /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e fprintf_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
