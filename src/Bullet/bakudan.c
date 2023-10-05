@@ -33,6 +33,7 @@ SVECTOR svector_8009F438 = {3072, 0, 0, 0};
 
 void bakudan_act_8006A218(Actor_bakudan *pActor)
 {
+#ifndef VR_EXE
     MATRIX rotation;
     CONTROL *pCtrl;
     GV_PAD *pPad;
@@ -112,6 +113,9 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
         DG_PutVector_8001BE48(pActor->field_104, &pCtrl->field_0_mov, 1);
         DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->field_8_rotator);
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 4);
+#endif
 }
 
 extern Jirai_unknown stru_800BDD78[16];

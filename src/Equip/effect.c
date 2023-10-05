@@ -51,6 +51,13 @@ void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise)
     }
 }
 
+#ifdef VR_EXE
+void new_effect_function()
+{
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 8, 4);
+}
+#endif
+
 void EQ_InvisibleUnit_80060E68(DG_OBJS *pObjs, unsigned int color, int arg2)
 {
     int       i;

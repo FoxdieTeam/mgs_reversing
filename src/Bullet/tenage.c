@@ -24,6 +24,7 @@ extern int            tenage_ctrls_count_800BDD70;
 
 void tenage_act_800699A4(Actor_tenage *pActor)
 {
+#ifndef VR_EXE
     MATRIX rotation;
     SVECTOR vec;
     CONTROL *pCtrl;
@@ -131,6 +132,9 @@ void tenage_act_800699A4(Actor_tenage *pActor)
             }
         }
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 9, 9);
+#endif
 }
 
 void tenage_kill_80069DBC(Actor_tenage *pActor)

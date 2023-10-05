@@ -363,6 +363,7 @@ void socom_kill_80065A94( Actor_Socom *a1 )
 
 int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
 {
+#ifndef VR_EXE
     DG_TEX  *pTexture;
     DG_PRIM *pNewPrim;
     DG_PRIM *prim;
@@ -421,6 +422,9 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
         }
     }
     return -1;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 5, 3);
+#endif
 }
 
 Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
