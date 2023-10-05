@@ -149,6 +149,19 @@ static inline void GM_Sound(int byte_2, int byte_1, int byte_0)
     }
 }
 
+static inline void GM_FreePrim( DG_PRIM *prim )
+{
+    if ( prim != 0  ) {
+        DG_DequeuePrim_800182E0( prim ) ;
+        DG_FreePrim_8001BC04( prim ) ;
+    }
+}
+
+static inline void GM_ConfigPrimRoot( DG_PRIM *prim, OBJECT *obj, int unit )
+{
+    prim->root = &( obj->objs->objs[ unit ].world ) ;
+}
+
 static inline void GM_SetCurrentMap(int map)
 {
     GM_CurrentMap_800AB9B0 = map;
