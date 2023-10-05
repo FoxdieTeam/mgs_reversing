@@ -19,7 +19,6 @@ extern RECT rect_800C3320;
 void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade )
 {
     DG_TEX *tex;
-    int     x, y, w, h;
 
     tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( aSfex_800DFC64 ) );
 
@@ -32,12 +31,7 @@ void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, c
         packs->g0 = shade;
         packs->b0 = shade;
 
-        x = tex->field_8_offx;
-        w = tex->field_A_width;
-        y = tex->field_9_offy;
-        h = tex->field_B_height;
-
-        setUVWH( packs, x, y, w, h );
+        DG_SetPacketTexture( packs, tex ) ;
 
         packs->tpage = tex->field_4_tPage;
         packs->clut = tex->field_6_clut;
