@@ -191,7 +191,7 @@ void menu_ResetSystem_80038A88()
 
     if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd < pFreeLoc)
     {
-        mts_nullsub_8_8008BB98(-1, "!!!! MENU PRIM OVER !!!!\n");
+        fprintf_8008BB98(-1, "!!!! MENU PRIM OVER !!!!\n");
     }
 
     MENU_PrimUse_800AB68C =
