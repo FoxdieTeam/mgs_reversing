@@ -117,7 +117,7 @@ void           mts_8008B51C(void);
 int            mts_isend_80089B04(int isend_dst);
 
 int            mts_null_printf_8008BBA8(const char *formatStr, ...);
-int            mts_nullsub_8_8008BB98(int, const char *, ...);
+int            fprintf_8008BB98(int, const char *, ...);
 
 //------------------------------------------------------------------------------
 

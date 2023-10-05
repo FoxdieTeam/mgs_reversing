@@ -91,7 +91,7 @@ typedef struct _WatcherWork
     signed char  param_area;                 //0xB7A  //param.area  (should be struct)
     char         field_B7B;                  //0xB7B
     char         field_B7C;                  //0xB7C
-    char         field_B7D;                  //0xB7D
+    signed char  field_B7D;                  //0xB7D
     char         field_B7E;                  //0xB7E
     char         field_B7F;                  //0xB7F
     char         param_item;                 //0xB80  //param.item  (should be struct)
@@ -114,7 +114,9 @@ typedef struct _WatcherWork
     char         field_BA2;                  //0xBA2
     char         field_BA3;                  //0xBA3
     SVECTOR      field_BA4;                  //0xBA4
-    char         field_BAC_padding[0x2C];    //0xBAC
+    int          field_BAC;                  //0xBAC
+    int          field_BB0[8];               //0xBB0
+    short        field_BD0[4];               //0xBD0
     SVECTOR      start_pos;                  //0xBD8
     SVECTOR      target_pos;                 //0xBE0
     int          field_BE8;                  //0xBE8
@@ -136,7 +138,10 @@ typedef struct _WatcherWork
     short        faseout;                    //0xC2C
     short        field_C2E;                  //0xC2E
     int          field_C30;                  //0xC30
-    int          field_C34;                  //0xC34
+    char         field_C34;                  //0xC34
+    char         field_C35;                  //0xC35
+    char         field_C36;                  //0xC36
+    char         field_C37;                  //0xC37
     int          field_C38;                  //0xC38
     int          field_C3C;                  //0xC3C
     int          field_C40;                  //0xC40
