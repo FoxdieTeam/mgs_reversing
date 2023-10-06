@@ -620,7 +620,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     pControl = &pDoor->field_20_ctrl;
 
-    if (Res_Control_init_loader_8002599C(pControl, name, where) < 0)
+    if (GM_InitLoader_8002599C(pControl, name, where) < 0)
     {
         return -1;
     }

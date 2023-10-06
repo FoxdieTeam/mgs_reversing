@@ -849,7 +849,7 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
 
     ctrl = &pActor->field_20_ctrl;
 
-    if (Res_Control_init_loader_8002599C(ctrl, 0x50AE, 0) < 0)
+    if (GM_InitLoader_8002599C(ctrl, 0x50AE, 0) < 0)
     {
         return -1;
     }

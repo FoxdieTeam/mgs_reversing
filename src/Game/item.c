@@ -675,7 +675,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     GM_CurrentMap_800AB9B0 = where;
     pActor->field_108_where = where;
 
-    if (Res_Control_init_loader_8002599C(pControl, name, where) < 0)
+    if (GM_InitLoader_8002599C(pControl, name, where) < 0)
     {
         return -1;
     }
@@ -897,7 +897,7 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     }
 
     pCtrl = &pActor->field_20_ctrl;
-    if (Res_Control_init_loader_8002599C(pCtrl, 0x5D43, where) < 0)
+    if (GM_InitLoader_8002599C(pCtrl, 0x5D43, where) < 0)
     {
         return -1;
     }

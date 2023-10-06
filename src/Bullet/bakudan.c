@@ -155,7 +155,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
 
     pActor->field_118 = GM_CurrentMap_800AB9B0 = dword_800ABA0C;
 
-    if (Res_Control_init_loader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitLoader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
