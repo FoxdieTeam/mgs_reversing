@@ -505,7 +505,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
     pActor->field_13C_idx = -1;
     GM_CurrentMap_800AB9B0 = map;
     pActor->field_14C_map = map;
-    if (Res_Control_init_loader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
+    if (GM_InitLoader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
         return -1;
     }
@@ -593,7 +593,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
     pActor->field_14C_map = map;
 
     ctrl =  &pActor->field_20_ctrl;
-    if (Res_Control_init_loader_8002599C(ctrl, GV_StrCode_80016CCC("claymore"), map) < 0)
+    if (GM_InitLoader_8002599C(ctrl, GV_StrCode_80016CCC("claymore"), map) < 0)
     {
         return -1;
     }

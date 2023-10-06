@@ -15,139 +15,148 @@ typedef struct _WatcherPad
 
 typedef struct _WatcherWork
 {
-    GV_ACT       actor;
-    CONTROL      control;                    //0x20
-    OBJECT       body;                       //0x9C
-    char         field_C0_padding[0x664];    //0xC0
-    SVECTOR      field_724;                  //0x724
-    int          field_72C;                  //0x72C
-    int          field_730;                  //0x730
-    short        field_734;                  //0x734
-    short        field_736;                  //0x736
-    char         field_738[0x6C];            //0x738
-    OBJECT       field_7A4;                  //0x7A4
-    char         field_7C8_padding[0xC0];    //0x7C8
-    MATRIX       field_888;                  //0x888
-    int          field_8A8;                  //0x8A8
-    int          field_8AC;                  //0x8AC
-    int          field_8B0;                  //0x8B0
-    int          field_8B4;                  //0x8B4
-    int          field_8B8;                  //0x8B8
-    int          field_8BC;                  //0x8BC
-    int          field_8C0;                  //0x8C0
-    int          field_8C4;                  //0x8C4
-    int          field_8C8;                  //0x8C8
-    int          field_8CC;                  //0x8CC
-    int          field_8D0;                  //0x8D0
-    int          field_8D4;                  //0x8D4
-    int          field_8D8;                  //0x8D8
-    int          field_8DC;                  //0x8DC
-    short        field_8E0;
-    short        field_8E2;
-    short        field_8E4;
-    short        field_8E6;
-    char         field_8E8_padding[0x04];
-    void*        action;                     //0x8EC
-    void*        field_8F0_func;
-    int          time;                       //0x8FC
-    int          field_8F8;
-    int          actend;                     //0x8FC
-    TARGET      *target;                     //0x900
-    TARGET       field_904;                  //0x904
-    TARGET       field_94C;                  //0x94C
-    char         field_994_padding[0x48];    //0x994
-    Homing_Target *hom;                      //0x9DC
-    short        scale;                      //0x9E0
-    short        field_9E2;                  //0x9E2
-    short        visible;                    //0x9E4
-    short        field_9E6;                  //0x9E6
-    int          field_9E8;                  //0x9E8
-    SVECTOR      nodes[0x20];                //0x9EC
-    int          field_AEC;                  //0xAEC
-    char         field_AF0_padding[0x2C];    //0xAF0
-    int          field_B1C;                  //0xB1C
-    short        think1;                     //0xB20
-    short        think2;                     //0xB22
-    short        think3;                     //0xB24
-    short        think4;                     //0xB26
-    unsigned int count3;                     //0xB28
-    int          t_count;                    //0xB2C
-    int          l_count;                    //0xB30
-    WatcherPad   pad;                        //0xB34
-    short        field_B4C;                  //0xB4C
-    short        field_B4E;                  //0xB4E
-    unsigned int trigger;                    //0xB50
-    GV_ACT*      subweapon;                  //0xB54
-    int          field_B58;                  //0xB58
-    int          field_B5C;                  //0xB5C
-    int          next_node;                  //0xB60    //could be wrong
-    int          search_flag;                //0xB64    //could be wrong
-    GV_ACT      *field_B68;                  //0xB68
-    int          mark_time;                  //0xB6C    //could be wrong
-    int          act_status;                 //0xB70
-    int          field_B74;                  //0xB74
-    signed char  field_B78;                  //0xB78
-    signed char  param_blood;                //0xB79  //param.blood (should be struct)
-    signed char  param_area;                 //0xB7A  //param.area  (should be struct)
-    char         field_B7B;                  //0xB7B
-    char         field_B7C;                  //0xB7C
-    signed char  field_B7D;                  //0xB7D
-    char         field_B7E;                  //0xB7E
-    char         field_B7F;                  //0xB7F
-    char         param_item;                 //0xB80  //param.item  (should be struct)
-    char         field_B81;                  //0xB81
-    short        param_life;                 //0xB82  //param.life  (should be struct)
-    short        param_faint;                //0xB84  //param.faint (should be struct)
-    char         local_data;                 //0xB86
-    char         local_data2;                //0xB87
-    int          field_B88;                  //0xB88
-    short        vision_facedir;             //0xB8C  //vision.facedir (should be struct)
-    short        field_B8E;
-    unsigned short        vision_length;              //0xB90
-    short        field_B92;
-    short        field_B94;
-    short        field_B96;
-    int          alert_level;                //0xB98
-    signed char  modetime[4];                //0xB9C
-    signed char  field_BA0;                  //0xBA0
-    char         field_BA1;                  //0xBA1
-    char         field_BA2;                  //0xBA2
-    char         field_BA3;                  //0xBA3
-    SVECTOR      field_BA4;                  //0xBA4
-    int          field_BAC;                  //0xBAC
-    int          field_BB0[8];               //0xBB0
-    short        field_BD0[4];               //0xBD0
-    SVECTOR      start_pos;                  //0xBD8
-    SVECTOR      target_pos;                 //0xBE0
-    int          field_BE8;                  //0xBE8
-    int          field_BEC;                  //0xBEC
-    int          field_BF0;                  //0xBF0
-    int          target_addr;                //0xBF4
-    int          target_map;                 //0xBF8
-    int          field_BFC;                  //0xBFC
-    int          field_C00;                  //0xC00
-    int          field_C04;                  //0xC04
-    int          field_C08;                  //0xC08
-    int          field_C0C;                  //0xC0C
-    int          field_C10;                  //0xC10
-    SVECTOR      field_C14;                  //0xC14
-    int          field_C1C;                  //0xC1C
-    int          field_C20;                  //0xC20
-    int          field_C24;                  //0xC24
-    int          sn_dir;                     //0xC28
-    short        faseout;                    //0xC2C
-    short        field_C2E;                  //0xC2E
-    int          field_C30;                  //0xC30
-    char         field_C34;                  //0xC34
-    char         field_C35;                  //0xC35
-    char         field_C36;                  //0xC36
-    char         field_C37;                  //0xC37
-    int          field_C38;                  //0xC38
-    int          field_C3C;                  //0xC3C
-    int          field_C40;                  //0xC40
-    int          field_C44;                  //0xC44
-    short        field_C48;                  //0xC48
-    short        field_C4A;                  //0xC4A
+    GV_ACT         actor;
+    CONTROL        control;                    //0x20
+    OBJECT         body;                       //0x9C
+    char           field_C0_padding[0xC0];     //0xC0
+    int            field_180;                  //0x180
+    void          *kmd;                        //0x184
+    DG_DEF        *def;                        //0x188
+    MOTION_CONTROL field_18C;                  //0x18C
+    OAR_RECORD     field_1DC[34];              //0x1DC
+    SVECTOR        rots[16];                   //0x6A4
+    SVECTOR        field_724;                  //0x724
+    int            field_72C;                  //0x72C
+    int            field_730;                  //0x730
+    short          field_734;                  //0x734
+    short          field_736;                  //0x736
+    char           field_738[0x6C];            //0x738
+    OBJECT         field_7A4;                  //0x7A4
+    char           field_7C8_padding[0xC0];    //0x7C8
+    MATRIX         field_888;                  //0x888
+    int            field_8A8;                  //0x8A8
+    int            field_8AC;                  //0x8AC
+    int            field_8B0;                  //0x8B0
+    int            field_8B4;                  //0x8B4
+    int            field_8B8;                  //0x8B8
+    int            field_8BC;                  //0x8BC
+    int            field_8C0;                  //0x8C0
+    int            field_8C4;                  //0x8C4
+    int            field_8C8;                  //0x8C8
+    int            field_8CC;                  //0x8CC
+    int            field_8D0;                  //0x8D0
+    int            field_8D4;                  //0x8D4
+    int            field_8D8;                  //0x8D8
+    int            field_8DC;                  //0x8DC
+    short          field_8E0;
+    short          field_8E2;
+    short          field_8E4;
+    short          field_8E6;
+    char           field_8E8_padding[0x04];
+    void*          action;                     //0x8EC
+    void*          field_8F0_func;
+    int            time;                       //0x8FC
+    int            field_8F8;
+    int            actend;                     //0x8FC
+    TARGET        *target;                     //0x900
+    TARGET         field_904;                  //0x904
+    TARGET         field_94C;                  //0x94C
+    char           field_994_padding[0x48];    //0x994
+    Homing_Target *hom;                        //0x9DC
+    short          scale;                      //0x9E0
+    short          field_9E2;                  //0x9E2
+    short          visible;                    //0x9E4
+    short          field_9E6;                  //0x9E6
+    int            field_9E8;                  //0x9E8
+    SVECTOR        nodes[0x20];                //0x9EC
+    int            field_AEC;                  //0xAEC
+    GV_ACT*        field_AF0;                  //0xAF0
+    int           *field_AF4;                  //0xAF4
+    GV_ACT*        field_AF8;                  //0xAF8
+    int           *field_AFC;                  //0xAFC
+    int            field_B00[8];               //0xB00
+    short          think1;                     //0xB20
+    short          think2;                     //0xB22
+    short          think3;                     //0xB24
+    short          think4;                     //0xB26
+    unsigned int   count3;                     //0xB28
+    int            t_count;                    //0xB2C
+    int            l_count;                    //0xB30
+    WatcherPad     pad;                        //0xB34
+    short          field_B4C;                  //0xB4C
+    short          field_B4E;                  //0xB4E
+    unsigned int   trigger;                    //0xB50
+    GV_ACT*        subweapon;                  //0xB54
+    int            field_B58;                  //0xB58
+    int            field_B5C;                  //0xB5C
+    int            next_node;                  //0xB60    //could be wrong
+    int            search_flag;                //0xB64    //could be wrong
+    GV_ACT        *field_B68;                  //0xB68
+    int            mark_time;                  //0xB6C    //could be wrong
+    int            act_status;                 //0xB70
+    int            field_B74;                  //0xB74
+    signed char    field_B78;                  //0xB78
+    signed char    param_blood;                //0xB79  //param.blood (should be struct)
+    signed char    param_area;                 //0xB7A  //param.area  (should be struct)
+    signed char    field_B7B;                  //0xB7B
+    char           field_B7C;                  //0xB7C
+    signed char    field_B7D;                  //0xB7D  //used as node index
+    char           field_B7E;                  //0xB7E
+    char           field_B7F;                  //0xB7F
+    char           param_item;                 //0xB80  //param.item  (should be struct)
+    char           field_B81;                  //0xB81
+    short          param_life;                 //0xB82  //param.life  (should be struct)
+    short          param_faint;                //0xB84  //param.faint (should be struct)
+    char           local_data;                 //0xB86
+    char           local_data2;                //0xB87
+    int            field_B88;                  //0xB88
+    short          vision_facedir;             //0xB8C  //vision.facedir (should be struct)
+    short          field_B8E;
+    unsigned short vision_length;              //0xB90
+    short          field_B92;
+    short          field_B94;
+    short          field_B96;
+    int            alert_level;                //0xB98
+    signed char    modetime[4];                //0xB9C
+    signed char    field_BA0;                  //0xBA0
+    char           field_BA1;                  //0xBA1
+    char           field_BA2;                  //0xBA2
+    char           field_BA3;                  //0xBA3
+    SVECTOR        field_BA4;                  //0xBA4
+    int            field_BAC;                  //0xBAC
+    int            field_BB0[8];               //0xBB0
+    short          field_BD0[4];               //0xBD0
+    SVECTOR        start_pos;                  //0xBD8
+    SVECTOR        target_pos;                 //0xBE0
+    int            field_BE8;                  //0xBE8
+    int            field_BEC;                  //0xBEC
+    int            field_BF0;                  //0xBF0
+    int            target_addr;                //0xBF4
+    int            target_map;                 //0xBF8
+    int            field_BFC;                  //0xBFC
+    int            field_C00;                  //0xC00
+    int            field_C04;                  //0xC04
+    int            field_C08;                  //0xC08
+    int            field_C0C;                  //0xC0C
+    int            field_C10;                  //0xC10
+    SVECTOR        field_C14;                  //0xC14
+    int            field_C1C;                  //0xC1C
+    int            field_C20;                  //0xC20
+    int            field_C24;                  //0xC24
+    int            sn_dir;                     //0xC28
+    short          faseout;                    //0xC2C
+    short          field_C2E;                  //0xC2E
+    int            field_C30;                  //0xC30
+    char           field_C34;                  //0xC34
+    char           field_C35;                  //0xC35
+    char           field_C36;                  //0xC36
+    char           field_C37;                  //0xC37
+    int            field_C38;                  //0xC38
+    int            field_C3C;                  //0xC3C
+    int            field_C40;                  //0xC40
+    int            field_C44;                  //0xC44
+    short          field_C48;                  //0xC48
+    short          field_C4A;                  //0xC4A
 } WatcherWork;
 
 typedef struct _CommanderWork
@@ -345,6 +354,78 @@ extern int ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 #define ACTION49    49 //SAME ID AS 40
 #define ACTION50    50 //SAME ID AS 41
 #define ACTION51    51 //SAME ID AS 42
+
+extern short    ActTable_800C3358[];
+
+typedef	void    ( *ACTION )( WatcherWork *, int ) ;
+
+static inline void SetModeFields( WatcherWork *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
+}
+
+static inline void SetMode( WatcherWork *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+static inline void SetMode2( WatcherWork *work, void *func )
+{
+    if ( work->field_8F0_func == NULL )
+    {
+        work->field_8F0_func = func;
+        work->field_8F8 = 0;
+    }
+
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
+static inline void UnsetMode2( WatcherWork *work )
+{
+    work->field_8E2 = 0;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    
+    work->field_8F0_func = 0;
+    work->field_8F8 = 0;
+    work->field_8E2 = 0;
+    work->control.field_4C_turn_vec.vz = 0;
+    work->control.field_4C_turn_vec.vx = 0;
+    
+    if ( work->field_B68 )
+    {
+        GV_DestroyOtherActor_800151D8( work->field_B68 );
+        work->field_B68 = 0;
+    }
+    
+}
+
+static inline void SetAction( WatcherWork *work, int n_action, int interp )
+{
+    work->field_8E0 = n_action ;
+    GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3358[n_action], 0, interp );
+}
+
+static inline void UnsetAction( WatcherWork *work, int n_action )
+{
+    work->field_8E2 = n_action;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
+}
+
+static inline void UnsetAction2( WatcherWork *work )
+{
+    work->field_8E2 = 0;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
+    GV_DestroyOtherActor_800151D8( work->subweapon );
+}
 
 //think.c ?
 #define T_NOISE 0

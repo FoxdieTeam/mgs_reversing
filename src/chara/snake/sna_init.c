@@ -8498,7 +8498,7 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
     char          *param_pos, *param_dir;
 
     pCtrl = &pActor->field_20_ctrl;
-    if (Res_Control_init_loader_8002599C(pCtrl, scriptData, scriptBinds) < 0)
+    if (GM_InitLoader_8002599C(pCtrl, scriptData, scriptBinds) < 0)
     {
         return -1;
     }
