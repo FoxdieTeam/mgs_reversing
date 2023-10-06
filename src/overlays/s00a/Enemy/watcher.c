@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "chara/snake/shadow.h"
 
 extern const char aWatcherc_800DFCEC[];                 //watcher.c
 extern const char aErrnotenoughwork_800DFCB4[];         //Err not enough work !!\n
@@ -7,17 +8,10 @@ extern const char aErrerrerrsettimeover_800DFC7C[];     //Err Err Err  Set time 
 extern const char aErrerrerrsetdirover_800DFC98[];      //Err Err Err  Set Dir Over\n
 
 //will remove these as and when they are reversed
-extern void s00a_watcher_800C4814( void );
-extern void s00a_watcher_800C45D4( WatcherWork *work );
 extern void s00a_watcher_800C410C( WatcherWork* work );
 extern void s00a_watcher_800C41B4( WatcherWork* work );
-extern int  s00a_watcher_800C4938( int opt, char *p );
-extern int  s00a_watcher_800C49E8( int opt, int *l );
-extern int  s00a_watcher_800C4990( int opt, short *s );
 
-extern int  ReadNodes_800C489C( WatcherWork *work ); //ReadNodes_800C489C
-
-extern int HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
+extern int  HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
 
 extern unsigned short s00a_dword_800C3348[8];
@@ -27,7 +21,6 @@ extern unsigned short s00a_dword_800C3348[8];
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C410C.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4138.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C41B4.s")
-
 
 void WatcherAct_800C430C( WatcherWork *work )
 {
@@ -105,15 +98,112 @@ void InitTarget_800C444C( WatcherWork *work )
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4578.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C45C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C45D4.s")
-
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4814.s")
-
-void WatcherDie_800C487C(void)
+void s00a_watcher_800C4578( WatcherWork* work )
 {
-    s00a_watcher_800C4814();
+    short* s;
+    s = (short*)&work->field_8C8;
+    
+    GV_ZeroMemory_8001619C(&work->field_8C8, 0x24);
+    work->field_8C8 = 0;
+    
+    s[14] = 0x1C2;
+    s[15] = 1;
+    
+    work->action = 0;
+    work->field_8F0_func = 0;
+    work->time = 0;
+    work->field_8F8 = 0;
+}
+
+extern void* s00a_glight_800D3AD4( MATRIX* mat, int **enable );
+
+int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
+{
+    int i;
+    int has_kmd;
+    int opt, opt2;
+    CONTROL *ctrl;
+    OBJECT  *body;
+    OBJECT  *arm; //?
+    Shadow_94 shadow;
+
+    ctrl = &work->control;
+    if ( GM_InitLoader_8002599C( ctrl, name, where ) < 0 ) return -1;
+    
+    opt = GCL_GetOption_80020968( 'p' );
+    
+    GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
+    GM_ConfigControlAttribute_8002623C( ctrl, 13 );
+    GM_ConfigControlInterp_80026244( ctrl, 4 );
+    
+    ctrl->field_59 = 2;
+    
+    GM_ConfigControlTrapCheck_80026308( ctrl );
+    
+    ctrl->field_36 = -1;
+
+    body  = &work->body;
+    arm = &work->field_7A4;
+
+    GM_InitObject_80034A18( body, 0x96B6, 0x32D, 0xA8A1 ) ;
+    GM_ConfigObjectJoint_80034CB4( body ) ;
+    GM_ConfigMotionControl_80034F08( body, &work->field_18C, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
+    GM_ConfigObjectLight_80034C44( body, &work->field_888 );
+    
+    work->field_B7B = 0;
+
+    opt2 = GCL_GetOption_80020968( 'y' );
+    if ( opt2 ) {
+        work->field_B7B = GCL_StrToInt_800209E8( (char*)opt2 );
+    }
+
+    has_kmd = work->field_B7B;
+    if ( has_kmd == 1 )
+    {
+        work->def = body->objs->def;
+        work->kmd = GV_GetCache_8001538C( GV_CacheID_800152DC (0xD7E3, 'k' ) );
+        work->field_180 = has_kmd;
+    }
+
+    work->hom = HomingTarget_Alloc_80032C8C( &body->objs->objs[6].world, ctrl );
+    GM_InitObject_80034A18( arm, 0x4725, 0x6D, 0 );
+    GM_ConfigObjectLight_80034C44( arm, &work->field_888 ) ;
+    GM_ConfigObjectRoot_80034C5C( arm, body, 4 );
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        work->field_B00[i] = 0;
+    }
+
+    shadow.objs_offsets[1] = 6;
+    shadow.objs_offsets[2] = 12;
+    shadow.objs_offsets[3] = 15;
+    shadow.objs_offsets[0] = 0;
+
+    work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ; 
+    work->field_AF8 = s00a_glight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+
+    ENE_SetPutChar_800C979C( work, 0 );
+    s00a_watcher_800C4578 ( work );
+    
+    return 0;
+}
+
+//FreeWatcher?
+void s00a_watcher_800C4814( WatcherWork* work ) 
+{
+    HomingTarget_Free_80032CFC( work->hom );
+    GM_FreeControl_800260CC( &( work->control ) );
+    GM_FreeObject_80034BF8( &( work->body ) );
+    GM_FreeObject_80034BF8( &( work->field_7A4 ) );
+    GM_FreeTarget_8002D4B0( work->target );
+    GV_DestroyOtherActor_800151D8( work->field_AF8 );
+    GV_DestroyOtherActor_800151D8( work->field_AF0 );
+}
+
+void WatcherDie_800C487C( WatcherWork* work )
+{
+    s00a_watcher_800C4814( work );
 }
 
 int ReadNodes_800C489C( WatcherWork* work ) 
@@ -253,7 +343,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     int opt;
     int i;
 
-    s00a_watcher_800C45D4( work ) ;
+    s00a_watcher_800C45D4( work, name, where ) ;
     work->field_B78 = s00a_command_800CEA2C( work ) ;
 
     if ( work->field_B78  << 24 < 0  )
