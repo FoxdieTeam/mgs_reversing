@@ -172,7 +172,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
     int        tmp;
 
     pControl = &pActor->field_20_ctrl;
-    tmp = Res_Control_init_loader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0);
+    tmp = GM_InitLoader_8002599C(pControl, GM_Next_BulName_8004FBA0(), 0);
     if (tmp >= 0)
     {
         if (int_5 != 0)

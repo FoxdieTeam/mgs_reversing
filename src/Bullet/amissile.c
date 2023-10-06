@@ -311,7 +311,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     int i;
     DG_TEX *pTex;
 
-    if (Res_Control_init_loader_8002599C(pCtrl, 0, 0) < 0)
+    if (GM_InitLoader_8002599C(pCtrl, 0, 0) < 0)
     {
         return -1;
     }
