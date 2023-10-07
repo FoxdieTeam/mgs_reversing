@@ -367,6 +367,7 @@ int rmissile_act_helper_helper_8006C0A4(void)
 
 void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 {
+#ifndef VR_EXE
     SVECTOR *pPosition;
     int found;
     MATRIX rotation;
@@ -423,6 +424,9 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
             ? &blast_data_8009F544 : &blast_data_8009F508;
         NewBlast_8006DFDC(&rotation, pBlastData);
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 6);
+#endif
 }
 
 void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
@@ -517,6 +521,7 @@ void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
 
 void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 {
+#ifndef VR_EXE
     GV_PAD *pPad;
     Blast_Data *pBlastData;
     SVECTOR vector;
@@ -666,6 +671,9 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             GM_Target_SetVector_8002D500(&pActor->field_120_target, &vector2);
         }
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 6, 3);
+#endif
 }
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
