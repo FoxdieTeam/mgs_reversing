@@ -85,7 +85,8 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarge
 
     return arg0;
 #else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 9, 3);
+    MulMatrix2(NULL, NULL); // force psylink to link MulMatrix2
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 8, 6);
 #endif
 }
 
