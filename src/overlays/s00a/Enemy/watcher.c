@@ -1,26 +1,179 @@
 #include "enemy.h"
+#include "Game/camera.h"
 #include "chara/snake/shadow.h"
 
-extern const char aWatcherc_800DFCEC[];                 //watcher.c
-extern const char aErrnotenoughwork_800DFCB4[];         //Err not enough work !!\n
-extern const char aWatcharcactionpointerr_800DFCCC[];   //watchar.c : action point Err\n
 extern const char aErrerrerrsettimeover_800DFC7C[];     //Err Err Err  Set time Over\n
 extern const char aErrerrerrsetdirover_800DFC98[];      //Err Err Err  Set Dir Over\n
-
-//will remove these as and when they are reversed
-extern void s00a_watcher_800C410C( WatcherWork* work );
-extern void s00a_watcher_800C41B4( WatcherWork* work );
-
-extern int  HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
-extern void GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
+extern const char aErrnotenoughwork_800DFCB4[];         //Err not enough work !!\n
+extern const char aWatcharcactionpointerr_800DFCCC[];   //watchar.c : action point Err\n
+extern const char aWatcherc_800DFCEC[];                 //watcher.c
 
 extern unsigned short s00a_dword_800C3348[8];
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C3EE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C409C.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C410C.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C4138.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_watcher_800C41B4.s")
+extern GM_Camera      GM_Camera_800B77E8;
+extern int            dword_800ABA0C;
+
+extern void *s00a_glight_800D3AD4( MATRIX* mat, int **enable );
+extern int   HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
+extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
+
+/*	ルート変更フラグチェック
+	指定フラグが立てば次のルートへ変更
+	ここではコマンダーに変更ルートをセットする
+	変更後の各敵兵はポイントアクションの時にルート変更する
+	ついでにフェイズアウト、イン等のメッセージ処理も行う。
+	*/
+int RootFlagCheck_800C3EE8( WatcherWork* work )
+{
+    signed short vy;
+    int count;
+    GV_MSG *msg;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    signed char tmp;
+
+    ctrl = &work->control;
+    tmp = GV_ReceiveMessage_80016620( ctrl->field_30_scriptData, &work->control.field_5C_mesg );
+    count = tmp;
+    ctrl->field_56 = tmp;
+    msg = ctrl->field_5C_mesg;
+    
+    if ( count <= 0 ) return 0 ;
+
+    
+    for ( ; count > 0 ; --count, msg++ )
+    {
+        switch ( msg->message[0] )
+        {
+        case 0x430F:
+            work->field_B7E = msg->message[1];
+            svec.vx = msg->message[2];
+            vy = msg->message[3];
+            svec.vy = msg->message[3];
+            svec.vz = msg->message[4];
+
+            if ( vy < 0x7530 )
+            {
+                work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
+            }
+            else
+            {
+                work->field_B7C = -1;
+            }
+            return 1;
+        case 0xF1BD:
+            work->hom->flag = 0 ;
+            work->alert_level = 0 ;
+            GM_ConfigControlAttribute_8002623C( &(work->control), 0 ) ;
+            work->visible = 0 ;
+            work->target->class = TARGET_AVAIL;
+
+            work->faseout = 1 ;
+            work->act_status = EN_FASEOUT ;
+            break;
+        case 0x1DC4:
+            if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy == 2 )
+            {
+                work->visible = 1;
+            }
+            GM_ConfigControlAttribute_8002623C( ctrl, 13 );
+            work->faseout = 0;
+            work->act_status = 0;
+            break;
+        case 0xEF15:
+            work->param_item = 0;
+            break;
+        case 0x566D:
+            work->param_item = 1;
+            break;
+        }
+    }
+    return 0;
+}
+
+void s00a_watcher_800C409C( WatcherWork* work )
+{
+    if ( GM_GameStatus_800AB3CC & STATE_ENEMY_OFF )
+    {
+        if ( work->faseout == 0 )
+        {
+            work->hom->flag = 0 ;
+            work->alert_level = 0 ;
+            GM_ConfigControlAttribute_8002623C( &(work->control), 0 ) ;
+            work->visible = 0 ;
+            work->target->class = TARGET_AVAIL;
+
+            work->faseout = 1 ;
+            work->act_status = EN_FASEOUT ;
+        }
+    }
+}
+
+void s00a_watcher_800C410C( WatcherWork* work )
+{
+    RootFlagCheck_800C3EE8( work );
+    s00a_watcher_800C409C( work );
+}
+
+void s00a_watcher_800C4138( DG_OBJS* objs, DG_DEF* def )
+{
+    int i;
+    DG_OBJ *obj;
+    DG_FreeObjsPacket_8001ABA8( objs, 0 );
+    DG_FreeObjsPacket_8001ABA8( objs, 1 );
+
+    objs->def = def;
+    obj = objs->objs;
+    for ( i = 0 ; i < 16 ; i++ )
+    {
+        obj->model   = &def->model[ i ];
+        obj->n_packs =  def->model[ i ].numFaces_4;
+        obj++;
+    }
+}
+
+void s00a_watcher_800C41B4( WatcherWork *work )
+{    
+    if ( work->visible )
+    {
+        if ( work->field_B7B == 1 )
+        {
+            if ( GM_GameStatus_800AB3CC & 0x50 || GM_Camera_800B77E8.field_22 )
+            {
+                if ( work->field_180 != work->field_B7B )
+                {
+                    work->field_180 = work->field_B7B;
+                    s00a_watcher_800C4138( work->body.objs, work->def );
+                }
+            }
+            else if ( work->field_180 )
+            {
+                work->field_180 = 0;
+                s00a_watcher_800C4138( work->body.objs, work->kmd );
+            }
+        }
+
+        work->body.objs->flag &= ~0x80;
+        work->field_7A4.objs->flag &= ~0x80;
+        work->field_AF4[0] = 1;
+
+        if ( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C )
+        {
+            work->field_AFC[0] = 1;
+        }
+        else
+        {
+            work->field_AFC[0] = 0;
+        }
+    }
+    else
+    {
+        work->body.objs->flag |= 0x80;
+        work->field_7A4.objs->flag |= 0x80;
+        work->field_AF4[0] = 0;
+        work->field_AFC[0] = 0;
+    }
+}
 
 void WatcherAct_800C430C( WatcherWork *work )
 {
@@ -114,8 +267,6 @@ void s00a_watcher_800C4578( WatcherWork* work )
     work->time = 0;
     work->field_8F8 = 0;
 }
-
-extern void* s00a_glight_800D3AD4( MATRIX* mat, int **enable );
 
 int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 {
