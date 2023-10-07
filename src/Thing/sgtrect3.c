@@ -75,6 +75,7 @@ extern SVECTOR svector_8009F478;
 void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
                                   ushort *outResultsArray)
 {
+#ifndef VR_EXE
     int         downCount;
     TARGET *targets, *currentTarget;
     SVECTOR     vector, vector2;
@@ -200,6 +201,9 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
 
         sgtrect3->field_21AC_target_count = targetCount;
     }
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 2, 3);
+#endif
 }
 
 extern int GV_Clock_800AB920;
