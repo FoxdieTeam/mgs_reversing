@@ -22,7 +22,9 @@ unsigned int _stacksize = 0x8000; // stack size, sdata
 
 GCL_ActorTableEntry MainCharacterEntries_8009D2DC[] = {
     {CHARA_SNAKE, sna_NewSnake_8005B650},
+#ifndef VR_EXE
     {CHARA_ITEM, item_init_800344F8},
+#endif
     {CHARA_DOOR, NewDoor_8006FD00},
     {0, 0}};
 
