@@ -21,11 +21,8 @@ SVECTOR SECTION(".sdata") svector_800AB7EC = {0, 0, 800, 0};
 SVECTOR SECTION(".sdata") svector_800AB7F4 = {0, 100, -300, 0};
 SVECTOR SECTION(".sdata") svector_800AB7FC = {0, 0, -300, 0};
 
-int SECTION(".sdata") dword_800AB804 = 0x20646170;
-int SECTION(".sdata") dword_800AB808 = 0xA7825;
-int SECTION(".sdata") dword_800AB80C = 0x657A616B;
-int SECTION(".sdata") dword_800AB810 = 0xA20;
-
+char SECTION(".sdata") aPadX[] = "pad %x\n";
+char SECTION(".sdata") aKaze[] = "kaze \n";
 char SECTION(".sdata") aKage[] = "kage";
 char SECTION(".sdata") aShadow_0[] = "shadow";
 

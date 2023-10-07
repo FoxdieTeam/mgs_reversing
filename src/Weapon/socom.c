@@ -10,6 +10,7 @@
 #include "socom.h"
 #include "unknown.h"
 #include "Okajima/bullet.h"
+#include "libgcl/hash.h"
 
 extern const char      aSocom_0[];
 extern const char      aSocom2[];
@@ -27,7 +28,12 @@ extern short   d_800ABA2C_ammo;
 
 SVECTOR stru_8009F3B4[2] = {{0, 0, 3200, 0}, {20, -370, 60, 0}};
 SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
+#ifndef VR_EXE
 SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
+#else
+// Fake data just to get proper .data alignment
+SVECTOR stru_8009F3D4[1] = {{0, 600, 32, 0}};
+#endif
 
 //------------------------------------------------------------------------------
 
