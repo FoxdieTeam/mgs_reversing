@@ -81,6 +81,7 @@ typedef struct _DG_DEF
 	int              num_mesh_4;
 	struct DG_VECTOR max;
 	struct DG_VECTOR min;
+	DG_MDL model [ 0 ];
 } DG_DEF;
 
 typedef struct _DG_OBJ
@@ -114,6 +115,7 @@ typedef struct _DG_OBJS
 	SVECTOR *movs;       // 0x44
 	DG_OBJ   objs[ 0 ];  // 0x48
 } DG_OBJS;
+
 
 // It might be better to use a void * for this
 union Prim_Union

@@ -114,6 +114,7 @@ typedef enum
 
 enum // GM_GameStatus_800AB3CC
 {
+    //STATE_ENEMY_OFF = 0x200,
     STATE_RADAR_ON = 0x800,
     // ...
     STATE_PADRELEASE = 0x10000000,
