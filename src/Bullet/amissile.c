@@ -158,7 +158,11 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
 
 int amissile_act_helper_8006D600(void)
 {
+#ifndef VR_EXE
     return 0;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 6);
+#endif
 }
 
 extern Blast_Data       blast_data_8009F4F4;
@@ -170,6 +174,7 @@ extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void amissile_act_8006D608(Actor_amissile *pActor)
 {
+#ifndef VR_EXE
     MATRIX rotation;
     SVECTOR position;
     SVECTOR addition;
@@ -273,6 +278,9 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     dword_8009F490 = 0;
     GV_DestroyActor_800151C8(&pActor->field_0_actor);
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 8, 2);
+#endif
 }
 
 void amissile_kill_8006D99C(Actor_amissile *pActor)
