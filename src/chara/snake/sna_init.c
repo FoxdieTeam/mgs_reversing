@@ -8679,8 +8679,9 @@ void sna_gun_800540D0(Actor_SnaInit *pActor, int time) {}
 GV_ACT * sna_NewSnake_8005B650(int name, int where, int argc, char **argv) {}
 
 void placeholder() {
+    MulMatrix0(NULL, NULL, NULL); // force psylink to link in MulMatrix0
     TEMPORARY_VR_MATCHING_PLACEHOLDER(9, 0, 0, 0);
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(3, 8, 1, 4);
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(3, 8, 0, 6);
 }
 
 #endif
