@@ -75,7 +75,6 @@ extern SVECTOR svector_8009F478;
 void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
                                   ushort *outResultsArray)
 {
-#ifndef VR_EXE
     int         downCount;
     TARGET *targets, *currentTarget;
     SVECTOR     vector, vector2;
@@ -168,6 +167,14 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
                         sgtrect3->field_38 = 0;
                         sgtrect3->field_30_target = NULL;
                     }
+                    #ifdef VR_EXE
+                        if (sgtrect3->field_30_target->class & TARGET_NO_LOCKON)
+                        {
+                            sgtrect3->field_34_count = 0;
+                            sgtrect3->field_38 = 0;
+                            sgtrect3->field_30_target = NULL;
+                        }
+                    #endif
                 }
             }
             else
@@ -201,9 +208,6 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
 
         sgtrect3->field_21AC_target_count = targetCount;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 2, 3);
-#endif
 }
 
 extern int GV_Clock_800AB920;
