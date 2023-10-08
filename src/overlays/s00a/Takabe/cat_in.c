@@ -28,11 +28,11 @@ extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
 extern const char aCatinC_800E0C90[]; //cat_in.c
-extern int s00a_dword_800C368C;
+extern unsigned short mes_list_800C368C[];
 
 int s00a_elevator_800D87C8( int param, int );
 int THING_Gcl_GetInt_800D8808( int param );
-int THING_Msg_CheckMessage_800D8940( unsigned short, int, int * );
+extern int THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
 
 #define EXEC_LEVEL  2
 #define EXEC_LEVEL2 5
@@ -88,7 +88,7 @@ int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
 
 void ZoomAct_800DF89C( ZoomWork *work )
 {
-    if ( !THING_Msg_CheckMessage_800D8940( work->name, 1, &s00a_dword_800C368C ) )
+    if ( !THING_Msg_CheckMessage_800D8940( work->name, 1, mes_list_800C368C ) )
     {
         work->timer = -1;
     }
