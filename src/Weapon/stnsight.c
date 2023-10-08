@@ -385,7 +385,6 @@ extern const char aStinger[]; // = "stinger"
 
 void stnsight_act_80068D0C(Actor_Stnsight *actor)
 {
-#ifndef VR_EXE
     unsigned int *uVar1;
     int           iVar3;
     int           iVar4;
@@ -461,9 +460,6 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
 
         actor->field_5C_xbase = iVar4;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 1, 1);
-#endif
 }
 
 void stnsight_kill_80068ED8(Actor_Stnsight *actor)

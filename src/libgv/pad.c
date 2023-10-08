@@ -39,17 +39,19 @@ extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 
 #ifdef VR_EXE
-void sub_800165B0(char *arg0)
+void sub_800165B0(MTS_PAD_DATA *data)
 {
     unsigned short status = GV_DemoPadStatus_800AB958;
     if (status & 0x400)
     {
-        arg0[1] = 3;
-        arg0[6] = GV_DemoPadAnalog_800AB95C;
-        arg0[7] = (GV_DemoPadAnalog_800AB95C & 0xFF00) >> 8;
-        return;
+        data->flag = 3;
+        data->lx = GV_DemoPadAnalog_800AB95C;
+        data->ly = (GV_DemoPadAnalog_800AB95C & 0xFF00) >> 8;
     }
-    arg0[1] = 1;
+    else
+    {
+        data->flag = 1;
+    }
 }
 #endif
 
@@ -214,7 +216,7 @@ void GV_UpdatePadSystem_8001682C(void)
                 #else
                     if (chan == 2)
                     {
-                        sub_800165B0((char *)&data);
+                        sub_800165B0(&data);
                     }
                     else
                     {
