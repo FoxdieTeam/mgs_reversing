@@ -147,6 +147,8 @@ ninja.newline()
 
 ninja.variable("psyq_aspsx_2_56_exe", prefix("wibo", "$psyq_path/ASPSX/2.56/ASPSX.EXE"))
 
+ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/ASPSX/2.81/ASPSX.EXE"))
+
 ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink.exe"))
 ninja.newline()
 
@@ -188,7 +190,10 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_c_preprocess_43", "$psyq_c_preprocessor_43_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
+ninja.rule("psyq_aspsx_assemble_2_81_overlays", "$psyq_aspsx_2_81_exe -q -G0 -soverlay $in -o $out""", "Compile $in -> $out")
+ninja.newline()
+
+ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
@@ -238,6 +243,9 @@ def get_files_recursive(path, ext):
     return collectedFiles
 
 def get_file_global_size(file):
+    if "overlays/" in file or "mts/" in file or "SD/" in file:
+        return "0"
+
     g0_list = [
         "/Equip/",
         "/Bullet/",
@@ -304,27 +312,26 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
-        if "overlays/" in cFile:
-            # Build overlay using PsyQ 4.4
-            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": "0" }) # overlays must be build using -G0
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_44_overlays", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+        compiler = "psyq_cc_44"
+        if "mts/" in cFile or "SD/" in cFile:
+            compiler = "psyq_cc_43"
+
+        aspsx = "psyq_aspsx_assemble_44"
+        if "overlays" in cFile:
+            if args.variant == 'vr_exe':
+                aspsx = "psyq_aspsx_assemble_2_81_overlays"
+            else:
+                aspsx = "psyq_aspsx_assemble_44_overlays"
         elif "mts/" in cFile or "SD/" in cFile:
-           # Build using PsyQ 4.3
-            ninja.build(cPreProcFile, "psyq_c_preprocess_43", cFile, implicit=[cPreProcHeadersFixedFile])
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_43", cAsmPreProcFile, variables= { "gSize": "0"})
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_2_56", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
-        else:
-            # Build using PsyQ 4.4
-            ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
-            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-            ninja.build(cAsmFile, "psyq_cc_44", cAsmPreProcFile, variables= { "gSize": get_file_global_size(cFile) })
-            ninja.build(cTempOFile, "psyq_aspsx_assemble_44", cAsmFile)
-            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+            aspsx = "psyq_aspsx_assemble_2_56"
+        elif args.variant == 'vr_exe':
+            aspsx = "psyq_aspsx_assemble_2_81"
+
+        ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
+        ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
+        ninja.build(cAsmFile, compiler, cAsmPreProcFile, variables= { "gSize": get_file_global_size(cFile) })
+        ninja.build(cTempOFile, aspsx, cAsmFile)
+        ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 
         linkerDeps.append(cOFile)
 
