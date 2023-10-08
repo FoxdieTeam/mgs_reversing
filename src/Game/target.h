@@ -31,19 +31,19 @@ typedef struct TARGET
 
 enum
 {
-    TARGET_STALE = 0,
-    TARGET_AVAIL = 1,
-    TARGET_CAPTURE = 2,
-    TARGET_POWER = 4,
-    TARGET_PUSH = 8,
-    TARGET_SEEK = 16,
-    TARGET_DOWN = 32,
-    TARGET_C4 = 64,
-    TARGET_TOUCH = 128,
-    TARGET_PUSH_OVER = 256,
-    TARGET_NO_LOCKON = 512,
-    TARGET_C4_CLEAR = 1024,
-    TARGET_DIE = 2048,
+    TARGET_STALE     =   0x0,
+    TARGET_AVAIL     =   0x1,
+    TARGET_CAPTURE   =   0x2,
+    TARGET_POWER     =   0x4,
+    TARGET_PUSH      =   0x8,
+    TARGET_SEEK      =  0x10,
+    TARGET_DOWN      =  0x20,
+    TARGET_C4        =  0x40,
+    TARGET_TOUCH     =  0x80,
+    TARGET_PUSH_OVER = 0x100,
+    TARGET_NO_LOCKON = 0x200,
+    TARGET_C4_CLEAR  = 0x400,
+    TARGET_DIE       = 0x800,
 };
 
 #define	TARGET_FLAG	( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK ) // 0x9e

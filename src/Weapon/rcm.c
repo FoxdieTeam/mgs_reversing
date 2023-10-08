@@ -12,20 +12,26 @@
 
 extern char       aNikita[];    // "nikita"
 extern char       aRcmL_0[];    // "rcl_l"
-extern RECT       rect_800AB878;
-extern SVECTOR    svector_800AB880;
 extern const char aRcmC[];
 extern int        GM_CurrentMap_800AB9B0;
 extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
 
 extern SVECTOR stru_800AB870;
+SVECTOR stru_800AB870; // gp
+
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 extern int DG_CurrentGroupID_800AB968;
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              GV_Clock_800AB920;
+
+extern SVECTOR    svector_800AB880;
+SVECTOR           svector_800AB880; // gp
+
+extern RECT       rect_800AB878;
+RECT              rect_800AB878; // gp
 
 void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
 {
@@ -82,7 +88,6 @@ void rcm_act_helper_80066B58(Actor_Rcm *pActor, int flags)
 
 void rcm_act_80066BC0(Actor_Rcm *pActor)
 {
-#ifndef VR_EXE
     int    mapBit;         // $a1
     int    p_flags;        // $s0
     int    weapon_state_3; // $s2
@@ -156,9 +161,6 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
             }
         }
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 7);
-#endif
 }
 
 void rcm_kill_80066E68(Actor_Rcm *pActor)
@@ -176,7 +178,6 @@ void rcm_kill_80066E68(Actor_Rcm *pActor)
 
 int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
 {
-#ifndef VR_EXE
     DG_PRIM *pNewPrim;
     DG_TEX  *pTexture;
     OBJECT  *obj;
@@ -206,9 +207,6 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     }
 
     return -1;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 7, 6);
-#endif
 }
 
 Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, unsigned int *pFlags, int whichSide)
