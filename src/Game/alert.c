@@ -97,14 +97,10 @@ int GM_GetNoiseSound_8002E614(int arg0, int arg1)
 
 void GM_SoundStart_8002E640(void)
 {
-#ifndef VR_EXE
     if (dword_800ABA70 == 0)
     {
         sub_8002E508(dword_800ABA78[GM_AlertMode_800ABA00 != 0]);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 5);
-#endif
 }
 
 //AlertCmd() ?

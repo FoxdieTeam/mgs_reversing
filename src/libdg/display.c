@@ -69,9 +69,8 @@ void DG_RenderPipeline_Init_8001715C(void)
     DG_RenderPipeline_80018028(1);
 }
 
-void DG_80017194() // different in VR
+void DG_80017194()
 {
-#ifndef VR_EXE
     int activeBuffer = GV_Clock_800AB920;
     if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount_800AB380 > 0)
     {
@@ -105,9 +104,6 @@ void DG_80017194() // different in VR
     menu_ResetSystem_80038A88();
     DG_ClearChanlSystem_80017E9C(activeBuffer);
     DG_ClearTmpLight_8001A0E4();
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 6);
-#endif
 }
 
 void DG_RenderPipeline_800172A8(void)

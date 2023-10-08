@@ -36,6 +36,8 @@ extern int GM_CameraShakeOffset_800ABA98;
 int SECTION(".sdata") GM_CameraShakeOffset_800ABA98;
 
 extern SVECTOR          svec_800ABA88;
+SVECTOR                 svec_800ABA88; // gp
+
 extern int              GV_PauseLevel_800AB928;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -541,7 +543,6 @@ void camera_act_helper3_8002F64C(void)
 
 void camera_act_helper4_8002F78C(void)
 {
-#ifndef VR_EXE
     SVECTOR vec;
 
     gUnkCameraStruct2_800B7868.field_20 = 0;
@@ -615,9 +616,6 @@ void camera_act_helper4_8002F78C(void)
         gUnkCameraStruct2_800B7868.eye.vy += GM_CameraShakeOffset_800ABA98 / 4;
         GM_CameraShakeOffset_800ABA98 = 0;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 9, 6);
-#endif
 }
 
 void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4)
@@ -678,7 +676,6 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
 
 void sub_8002FCF0(void)
 {
-#ifndef VR_EXE
     if (!(GM_Camera_800B77E8.field_18_flags & 0x20))
     {
         gUnkCameraStruct_800B77B8.field_18 = GM_CameraTrackSave_800AB42C;
@@ -689,9 +686,6 @@ void sub_8002FCF0(void)
         gUnkCameraStruct_800B77B8.field_18 = gUnkCameraStruct2_800B76F0.field_18;
         gUnkCameraStruct_800B77B8.field_10 = gUnkCameraStruct2_800B76F0.field_10;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 3, 4);
-#endif
 }
 
 void sub_8002FD84(int index, TGMCameraFunc func)
@@ -952,7 +946,6 @@ void sub_800303E0(SVECTOR *arg0)
 
 void sub_8003049C(SVECTOR *a1)
 {
-#ifndef VR_EXE
     GM_Camera *pCamera;
 
     pCamera = &GM_Camera_800B77E8;
@@ -970,14 +963,10 @@ void sub_8003049C(SVECTOR *a1)
     GV_AddVec3_80016D00(&gUnkCameraStruct_800B77B8.field_8, a1, &gUnkCameraStruct_800B77B8.field_8);
 
     GV_AddVec3_80016D00(&svec_800ABA88, a1, &svec_800ABA88);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 1);
-#endif
 }
 
 void camera_act_8003059C(GV_ACT *pActor)
 {
-#ifndef VR_EXE
     int iVar1;
     int iVar2;
 
@@ -1018,9 +1007,6 @@ void camera_act_8003059C(GV_ACT *pActor)
             &gUnkCameraStruct2_800B7868.center,
             gUnkCameraStruct2_800B7868.clip_distance);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 2);
-#endif
 }
 
 GV_ACT *camera_init_800306A0()
@@ -1144,12 +1130,8 @@ void GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param
 
 void GCL_Command_camera_helper3_80030938(SVECTOR *pVec)
 {
-#ifndef VR_EXE
     GM_CameraRotateSave_800AB430 = *pVec;
     sub_8002FCF0();
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 5);
-#endif
 }
 
 void GCL_Command_camera_helper4_80030980(int param_1)
@@ -1168,13 +1150,9 @@ void GM_CameraEventReset_800309A8(void)
 
 void sub_800309B4(int param_1, int param_2)
 {
-#ifndef VR_EXE
     GM_Camera_800B77E8.field_2A = param_1;
     GM_Camera_800B77E8.field_26 = param_2;
     svec_800ABA88 = GM_Camera_800B77E8.field_0;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 4);
-#endif
 }
 
 void sub_800309F8(int param_1, int param_2)
