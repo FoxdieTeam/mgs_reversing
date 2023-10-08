@@ -1467,18 +1467,18 @@ void mts_8008BB88( int arg0 )
 // Therefore we map these functions in the linker where the stub function
 // has on arguments to replicate this behaviour.
 
-// int fprintf_8008BB98(int fd, const char *format, ...);
-void null_fprintf_8008BB98( void )
+// int fprintf(int fd, const char *format, ...);
+int fprintf ( )
 {
 }
 
 // int printf(const char *format, ...);
-void null_printf( void )
+int printf( )
 {
 }
 
 // int mts_null_printf_8008BBA8(const char *format, ...);
-void null_mts_null_printf_8008BBA8( void )
+int mts_null_printf_8008BBA8( )
 {
 }
 

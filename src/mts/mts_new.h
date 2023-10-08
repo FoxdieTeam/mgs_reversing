@@ -78,7 +78,10 @@ void           mts_set_pad_vibration_8008C408(int, int);
 void           mts_set_pad_vibration2_8008C454(int, int);
 int            mts_get_pad_8008C170(int a0, MTS_PAD_DATA *data);
 int            mts_get_tick_count_8008BBB0(void);
-int            printf(const char *formatStr, ...);
+
+// int            printf(const char *formatStr, ...);
+int            printf();
+
 int            mts_receive_80089D24(int src, mts_msg2 *message);
 int            mts_sta_tsk_8008B47C(int taskNum, MtsTaskFn pTaskFn, void *pStack);
 int            mts_wait_vbl_800895F4(int wait_vblanks);
@@ -116,8 +119,11 @@ int            mts_get_task_status_8008B618(int task_idx);
 void           mts_8008B51C(void);
 int            mts_isend_80089B04(int isend_dst);
 
-int            mts_null_printf_8008BBA8(const char *formatStr, ...);
-int            fprintf_8008BB98(int, const char *, ...);
+// int            mts_null_printf_8008BBA8(const char *formatStr, ...);
+int            mts_null_printf_8008BBA8();
+
+// int            fprintf(int fd, const char *format, ...);
+int            fprintf();
 
 //------------------------------------------------------------------------------
 

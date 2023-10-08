@@ -132,7 +132,6 @@ extern void sub_800C4B18( WatcherWork *work );
 extern char sub_800CEA2C( WatcherWork *work );
 
 extern int  ReadNodes_800C489C( WatcherWork *work );
-extern int  fprintf_8008BB98(int, const char *formatStr, ...);
 
 #define PUTBREATH 1
 
@@ -294,7 +293,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //	work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    if( ReadNodes_800C489C( work ) < 0 ) fprintf_8008BB98( 1,"watchar.c : action point Err\n" );
+    if( ReadNodes_800C489C( work ) < 0 ) fprintf( 1,"watchar.c : action point Err\n" );
 
     if( ( work->target =  GM_AllocTarget_8002D400() ) != NULL ) InitTarget_800C444C( work ) ;
 

@@ -858,7 +858,7 @@ GV_ACT *item_init_800344F8(int name, int where, int argc, char **argv)
         {
             pActor->field_10E = -1;
             pActor->field_108_where = where;
-            fprintf_8008BB98(1, "Item map = %d\n", where);
+            fprintf(1, "Item map = %d\n", where);
             pActor->field_10C_64 = 64;
         }
         else
