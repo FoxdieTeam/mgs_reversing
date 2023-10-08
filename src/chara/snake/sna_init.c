@@ -290,6 +290,8 @@ TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
     NewBandana_80061E40
 #ifndef VR_EXE
     , NewJpegcam_80065118
+#else
+    , NULL
 #endif
 };
 

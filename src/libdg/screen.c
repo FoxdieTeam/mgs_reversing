@@ -290,8 +290,40 @@ void sub_8001C460(DG_OBJS *objs, int n_obj)
 }
 
 #ifdef VR_EXE
-void new_vr_screen_func() {
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 0, 5);
+// duplicate of sub_8001C460, but with added "*matrix = obj->world;"
+void sub_8001C540(DG_OBJS *objs, int n_obj)
+{
+    DG_OBJ *obj;
+    MATRIX *matrix;
+
+    gte_SetRotMatrix((MATRIX *)SCRPAD_ADDR);
+    gte_SetTransMatrix((MATRIX *)SCRPAD_ADDR);
+
+    matrix = (MATRIX *)(SCRPAD_ADDR + 0x40);
+    obj = objs->objs;
+
+    for (; n_obj > 0; n_obj--)
+    {
+        *matrix = obj->world; // added in this version of sub_8001C460
+        gte_ldlv0(matrix->t);
+        gte_rt();
+
+        gte_stlvnl(&obj->screen.t);
+        gte_ldclmv(matrix);
+        gte_rtir();
+
+        gte_stclmv(&obj->screen);
+        gte_ldclmv(&matrix->m[0][1]);
+        gte_rtir();
+
+        gte_stclmv(&obj->screen.m[0][1]);
+        gte_ldclmv(&matrix->m[0][2]);
+        gte_rtir();
+
+        gte_stclmv(&obj->screen.m[0][2]);
+        obj++;
+        matrix++;
+    }
 }
 #endif
 
@@ -446,6 +478,12 @@ void DG_8001CDB8(DG_OBJS *pObjs) // different in VR
     {
         sub_8001C248(pObjs, n_models);
     }
+#ifdef VR_EXE
+    else if ((pObjs->flag & DG_FLAG_UNKNOWN_400) != 0)
+    {
+        sub_8001C540(pObjs, n_models);
+    }
+#endif
     else
     {
         if (pObjs->rots)
@@ -458,9 +496,6 @@ void DG_8001CDB8(DG_OBJS *pObjs) // different in VR
         }
         sub_8001C460(pObjs, n_models);
     }
-#ifdef VR_EXE
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 0, 7);
-#endif
 }
 
 void DG_Screen_Chanl_8001CEE0(DG_CHNL *pOt, int idx)
