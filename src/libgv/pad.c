@@ -26,6 +26,9 @@ int        SECTION(".sbss") dword_800AB954;
 
 extern int GV_DemoPadStatus_800AB958;
 int        SECTION(".sbss") GV_DemoPadStatus_800AB958;
+
+extern int GV_DemoPadAnalog_800AB95C;
+int        SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 /*********************************************************************/
 
 short key_table_8009D32C[] = {0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
@@ -36,9 +39,17 @@ extern int   GM_GameStatus_800AB3CC;
 extern int   GV_Time_800AB330;
 
 #ifdef VR_EXE
-int some_new_vr_func()
+void sub_800165B0(char *arg0)
 {
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 3);
+    unsigned short status = GV_DemoPadStatus_800AB958;
+    if (status & 0x400)
+    {
+        arg0[1] = 3;
+        arg0[6] = GV_DemoPadAnalog_800AB95C;
+        arg0[7] = (GV_DemoPadAnalog_800AB95C & 0xFF00) >> 8;
+        return;
+    }
+    arg0[1] = 1;
 }
 #endif
 
@@ -143,10 +154,9 @@ void GV_InitPadSystem_800167C8(void)
 }
 
 void GV_UpdatePadSystem_8001682C(void)
-{ // this function is different in vr
+{
     int           chan, prev;
     unsigned int  t0, t1, t2, t3, t4, t5;
-    short        *table;
     unsigned long button, ret; // button = var_20, ret = s2
     GV_PAD       *pad;
     MTS_PAD_DATA  data;
@@ -189,7 +199,6 @@ void GV_UpdatePadSystem_8001682C(void)
     pad = GV_PadData_800B05C0;
     s3 = 0;
     chan = 2;
-    table = key_table_8009D32C;
 
     // loc_800168FC
     for (; chan > 0; --chan)
@@ -199,7 +208,20 @@ void GV_UpdatePadSystem_8001682C(void)
             // loc_80016944
             // int local_gamestatus = GM_GameStatus_800AB3CC & 0x40000000;
             if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31)
-                data.flag = 1;
+            {
+                #ifndef VR_EXE
+                    data.flag = 1;
+                #else
+                    if (chan == 2)
+                    {
+                        sub_800165B0((char *)&data);
+                    }
+                    else
+                    {
+                        data.flag = 1;
+                    }
+                #endif
+            }
 
             // loc_80016960
             pad->analog = data.flag - 1;
@@ -211,7 +233,7 @@ void GV_UpdatePadSystem_8001682C(void)
                 if (button & 0xF000)
                 {
                     // loc_800169A0
-                    int v0 = table[(button & 0xF000) / 4096];
+                    int v0 = key_table_8009D32C[(button & 0xF000) / 4096];
                     v0 += GV_PadOrigin_800AB378;
                     pad->dir = v0 & 0x0FFF;
                     pad->analog = 0;
@@ -285,7 +307,7 @@ void GV_UpdatePadSystem_8001682C(void)
                 else
                 {
                     check >>= 12;
-                    val = (table[check] + GV_PadOrigin_800AB378) & 0x0FFF;
+                    val = (key_table_8009D32C[check] + GV_PadOrigin_800AB378) & 0x0FFF;
                 }
                 pad->dir = val;
             }
@@ -362,9 +384,6 @@ void GV_UpdatePadSystem_8001682C(void)
         pad++;
         button = (button >> 16) & 0xFFFF;
     }
-#ifdef VR_EXE
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 4);
-#endif
 }
 
 void GV_OriginPadSystem_80016C78(int org)

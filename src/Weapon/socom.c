@@ -170,6 +170,7 @@ void socom_act_helper_800653B8( Actor_Socom *socom )
 
 int socom_act_helper_80065408( Actor_Socom *pActor )
 {
+#ifndef VR_EXE
     int         bCalcLen;
     MAP *field_2C_map;
     int         vecLen;
@@ -199,6 +200,9 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
         }
     }
     return vecLen;
+#else
+    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 6); // it matches, but stru_8009F3D4 fake data must be fixed
+#endif
 }
 
 extern int     GV_Time_800AB330;
