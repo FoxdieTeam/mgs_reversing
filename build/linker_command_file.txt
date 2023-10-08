@@ -829,12 +829,9 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DDC30.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DDC60.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DDD7C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DDDA4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DE150.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DE180.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DE434.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DE4CC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_cinema_800DE4D8.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
+
     include "{{OBJ_DIR}}\overlays\s00a\s00a_o2_damge_800DE580.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_o2_damge_800DE5B8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_o2_damge_800DE8F4.obj"
