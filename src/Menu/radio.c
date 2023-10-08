@@ -2151,7 +2151,6 @@ extern SPRT gRadioStringSprt_800BD9F0;
 
 void menu_set_string2_80043138()
 {
-#ifndef VR_EXE
     PANEL_TEXTURE pPanelTex;
     RECT          rect;
 
@@ -2175,9 +2174,6 @@ void menu_set_string2_80043138()
     gRadioStringSprt_800BD9F0.h = 6;
     setSprt(&gRadioStringSprt_800BD9F0);
     setClut(&gRadioStringSprt_800BD9F0, rect.x, rect.y);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 5, 5);
-#endif
 }
 
 void menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
