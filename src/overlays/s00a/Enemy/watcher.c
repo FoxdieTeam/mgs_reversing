@@ -17,29 +17,25 @@ extern void *s00a_glight_800D3AD4( MATRIX* mat, int **enable );
 extern int   HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
 extern void  GM_ConfigControlRadarparam_800262EC( CONTROL *pControl, unsigned short param_2, unsigned short param_3, unsigned short param_4, unsigned short param_5 );
 
-/*	ルート変更フラグチェック
-	指定フラグが立てば次のルートへ変更
-	ここではコマンダーに変更ルートをセットする
-	変更後の各敵兵はポイントアクションの時にルート変更する
-	ついでにフェイズアウト、イン等のメッセージ処理も行う。
-	*/
+/*  ルート変更フラグチェック
+    指定フラグが立てば次のルートへ変更
+    ここではコマンダーに変更ルートをセットする
+    変更後の各敵兵はポイントアクションの時にルート変更する
+    ついでにフェイズアウト、イン等のメッセージ処理も行う。
+    */
 int RootFlagCheck_800C3EE8( WatcherWork* work )
 {
-    signed short vy;
     int count;
     GV_MSG *msg;
     SVECTOR svec;
     CONTROL *ctrl;
-    signed char tmp;
 
     ctrl = &work->control;
-    tmp = GV_ReceiveMessage_80016620( ctrl->field_30_scriptData, &work->control.field_5C_mesg );
-    count = tmp;
-    ctrl->field_56 = tmp;
+    ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->field_30_scriptData, &work->control.field_5C_mesg );
+    count = ctrl->field_56;
     msg = ctrl->field_5C_mesg;
     
     if ( count <= 0 ) return 0 ;
-
     
     for ( ; count > 0 ; --count, msg++ )
     {
@@ -48,11 +44,10 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
         case 0x430F:
             work->field_B7E = msg->message[1];
             svec.vx = msg->message[2];
-            vy = msg->message[3];
             svec.vy = msg->message[3];
             svec.vz = msg->message[4];
 
-            if ( vy < 0x7530 )
+            if ( svec.vy < 0x7530 )
             {
                 work->field_B7C = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &svec, -1 );
             }
@@ -152,9 +147,8 @@ void s00a_watcher_800C41B4( WatcherWork *work )
                 s00a_watcher_800C4138( work->body.objs, work->kmd );
             }
         }
-
-        work->body.objs->flag &= ~0x80;
-        work->field_7A4.objs->flag &= ~0x80;
+        DG_VisibleObjs( work->body.objs );
+        DG_VisibleObjs( work->field_7A4.objs );
         work->field_AF4[0] = 1;
 
         if ( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C )
@@ -168,8 +162,8 @@ void s00a_watcher_800C41B4( WatcherWork *work )
     }
     else
     {
-        work->body.objs->flag |= 0x80;
-        work->field_7A4.objs->flag |= 0x80;
+        DG_InvisibleObjs( work->body.objs );
+        DG_InvisibleObjs( work->field_7A4.objs );
         work->field_AF4[0] = 0;
         work->field_AFC[0] = 0;
     }

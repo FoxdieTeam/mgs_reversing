@@ -267,9 +267,8 @@ int s00a_dword_800C3660 = 0x00000C2D;
 
 unsigned short mes_list_800C3664[] = { OPEN_MES, CLOSE_MES };
 SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
+RECT rect_800C3670 = { 50, 50, 100, 100 };
 
-int s00a_dword_800C3670 = 0x00320032;
-int s00a_dword_800C3674 = 0x00640064;
 int s00a_dword_800C3678 = 0x006BD182;
 int s00a_dword_800C367C = 0x71F13223;
 int s00a_dword_800C3680 = 0x745DD420;
@@ -1046,7 +1045,7 @@ const char s00a_dword_800E0B93 = 0x10;
 const char aWtAreaC_800E0B94[] = "wt_area.c";
 const char s00a_aAwa_800E0B9E = 0xF4;
 const char s00a_aAwa_800E0B9F = 0x03;
-const char s00a_aAwa_800E0BA0[] = "awa_3";
+const char aAwa_800E0BA0[] = "awa_3";
 const char aSplash2C_800E0BA8[] = "splash2.c";
 const char s00a_aWtviewc_800E0BB2 = 0x3F;
 const char s00a_aWtviewc_800E0BB3 = 0x00;
@@ -1081,7 +1080,7 @@ const int s00a_dword_800E0C6C = 0x800DF2D8;
 const int s00a_dword_800E0C70 = 0x800DF2F0;
 const int s00a_dword_800E0C74 = 0x800DF308;
 const char s00a_aEnvsndc_800E0C78[] = "env_snd.c";
-const char s00a_aCamshakec_800E0C84[] = "camshake.c";
+const char aCamshakec_800E0C84[] = "camshake.c";
 const char aCatinC_800E0C90[] = "cat_in.c";
 
 //everything below here is bss
