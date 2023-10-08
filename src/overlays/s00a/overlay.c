@@ -1,9 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
 
-#define OPEN_MES  0x43D3
-#define CLOSE_MES 0x4235
-
 GCL_ActorTableEntry s00aOverlayCharas[] = 
 {
     { 0x63AA, (TGCL_ActorCreateFn)0x800D872C },
@@ -265,16 +262,16 @@ int s00a_dword_800C3658 = 0x0000047F;
 int s00a_dword_800C365C = 0x084B06A5;
 int s00a_dword_800C3660 = 0x00000C2D;
 
-unsigned short mes_list_800C3664[] = { OPEN_MES, CLOSE_MES };
+//OPEN_MES, CLOSE_MES
+unsigned short mes_list_800C3664[] = { 0x43D3, 0x4235 };
 SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
 RECT rect_800C3670 = { 50, 50, 100, 100 };
-
-int s00a_dword_800C3678 = 0x006BD182;
-int s00a_dword_800C367C = 0x71F13223;
-int s00a_dword_800C3680 = 0x745DD420;
-int s00a_dword_800C3684 = 0x006BD182;
-int s00a_dword_800C3688 = 0x560EBA27;
-int s00a_dword_800C368C = 0x02003223;
+unsigned short mes_list_800C3678[] = { 0xD182, 0x006B };
+unsigned short mes_list_800C367C[] = { 0x3223, 0x71F1 };
+unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
+unsigned short mes_list_800C3684[] = { 0xD182, 0x006B };
+unsigned short mes_list_800C3688[] = { 0xBA27, 0x560E };
+unsigned short mes_list_800C368C[] = { 0x3223, 0x0200 };
 
 
 const char s00a_dword_800DFB9C[] = {0x2, 0x0, 0x2, '$'};
