@@ -607,7 +607,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //	work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    if( ReadNodes_800C489C( work ) < 0 ) fprintf_8008BB98( 1, aWatcharcactionpointerr_800DFCCC );
+    if( ReadNodes_800C489C( work ) < 0 ) fprintf( 1, aWatcharcactionpointerr_800DFCCC );
 
     /*
         当たりデータを初期化する

@@ -1166,7 +1166,7 @@ void anime_act_8005F4AC(Actor_anime *pActor)
                 script_op_code = *pItemsIter->field_18_op_code & 0x7F;
                 if (script_op_code > 15)
                 {
-                    fprintf_8008BB98(1, " SCRIPT ACT ERR!! \n");
+                    fprintf(1, " SCRIPT ACT ERR!! \n");
                     GV_DestroyActor_800151C8(&pActor->field_0_actor);
                     break;
                 }

@@ -82,6 +82,7 @@ def ninja_run():
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `gcl_int\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `gcl_string\' might be used uninitialized in this function',
+        r'mts_new\.c:\d+: warning: control reaches end of non-void function',
     ]
 
     if args.variant == 'vr_exe':
@@ -203,7 +204,7 @@ ninja.newline()
 # For some reason VR executable links with PsyQ 4.5!?
 psqy_lib = f'{args.psyq_path}/psyq_4.5/LIB' if args.variant == 'vr_exe' else f'{args.psyq_path}/psyq_4.4/LIB'
 
-ninja.rule("psylink", f"$psyq_psylink_exe /l {psqy_lib} /e printf=0x8008BBA0 /e mts_null_printf_8008BBA8=0x8008BBA8 /e fprintf_8008BB98=0x8008BB98 /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
+ninja.rule("psylink", f"$psyq_psylink_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
