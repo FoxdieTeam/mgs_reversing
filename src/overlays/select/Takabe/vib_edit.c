@@ -41,7 +41,7 @@ int PCclose_80014B2C(int fd);
 int select_800C4F28(const char *);     // PCopen
 int select_800C4F48(int, char *, int); // PCwrite
 
-int GetParam_800C5358(int param);
+int THING_Gcl_GetInt_800D8808(int param);
 
 #define EXEC_LEVEL 3
 
@@ -130,7 +130,7 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
 {
     int fd;
 
-    work->f40 = GetParam_800C5358('e');
+    work->f40 = THING_Gcl_GetInt_800D8808('e');
 
     VibEdit_800C34F0(work);
 
