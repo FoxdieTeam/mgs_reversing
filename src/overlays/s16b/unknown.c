@@ -13,7 +13,8 @@ int GetParamOrDefault_800C5318(char param, int def)
     return def;
 }
 
-int GetParam_800C5358(char param)
+// name from memleaks
+int THING_Gcl_GetInt_800D8808(char param)
 {
     return GetParamOrDefault_800C5318(param, 0);
 }
@@ -54,7 +55,8 @@ void s16b_800C44AC(char param, SVECTOR *vec)
     s16b_800C4430(param, 0, 0, 0, vec);
 }
 
-int s16b_800C44DC(unsigned short name, int hash_count, unsigned short *hashes)
+// name from memleaks
+int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     msg_count;
