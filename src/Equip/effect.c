@@ -52,9 +52,33 @@ void EQ_VisibleHead_80060DF0(OBJECT *pObj, short *pnPacks, short *pRaise)
 }
 
 #ifdef VR_EXE
-void new_effect_function()
+// Copies of EQ_InvisibleHead_80060D5C/EQ_VisibleHead_80060DF0
+// but with additional parameter "idx"
+
+// Remove head model
+void EQ_InvisibleHead2_80060D5C(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
 {
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 8, 4);
+    if (idx < pObj->objs->n_models)
+    {
+        *pnPacks = pObj->objs->objs[idx].n_packs;
+        *pRaise = pObj->objs->objs[idx].raise;
+        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 0);
+        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 1);
+        pObj->objs->objs[idx].n_packs = 1;
+        pObj->objs->objs[idx].raise = -30000;
+    }
+}
+
+// Put head model back
+void EQ_VisibleHead2_80060DF0(OBJECT *pObj, int idx, short *pnPacks, short *pRaise)
+{
+    if (idx < pObj->objs->n_models)
+    {
+        pObj->objs->objs[idx].n_packs = *pnPacks;
+        pObj->objs->objs[idx].raise = *pRaise;
+        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 0);
+        DG_FreeObjPacket_8001AAD0(&pObj->objs->objs[idx], 1);
+    }
 }
 #endif
 
