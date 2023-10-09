@@ -20,8 +20,9 @@ GCL_ActorTableEntry d11cOverlayCharas[] =
 
 int d11c_dword_800C3260 = 0x006BD182;
 int d11c_dword_800C3264 = 0x71F13223;
-int d11c_dword_800C3268 = 0x745DD420;
 
+// Takabe/cinema.c
+unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
 const char d11c_aTexparseerror_800C66EC[] = "TEX:PARSE ERROR\n";
 const char d11c_aLampc_800C6700[] = "lamp.c";
@@ -41,6 +42,4 @@ const char d11c_dword_800C6750[] = {'.', 'c', 0x0, ','};
 const char d11c_dword_800C6754[] = {'f', 'a', 'd', 'e'};
 const char d11c_dword_800C6758[] = {'i', 'o', '.', 'c'};
 const char d11c_dword_800C675C[] = {0x0, 'J', 'h', 0xd};
-const char d11c_dword_800C6760[] = {'c', 'i', 'n', 'e'};
-const char d11c_dword_800C6764[] = {'m', 'a', '.', 'c'};
-const char d11c_dword_800C6768[] = {0x0, '\n', 'R', 'p'};
+const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, '\n', 'R', 'p'};
