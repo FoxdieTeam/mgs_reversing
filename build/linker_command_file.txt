@@ -381,17 +381,15 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+
+    ; fadeio.c
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C59F8.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5C4C.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5C7C.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5DA0.obj"
     include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5E38.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5EE0.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C628C.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C62BC.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C6570.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C6608.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C6614.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\d11c\psyq_SetLightMatrix.obj" ; psyq
 {% elif OVERLAY == "s00a" %}
     include "{{OBJ_DIR}}\overlays\s00a\overlay.obj"

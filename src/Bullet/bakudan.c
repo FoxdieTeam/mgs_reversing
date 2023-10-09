@@ -236,7 +236,7 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, T
 #ifdef VR_EXE
     if (dword_8009F430 > GV_Time_800AB330)
     {
-      dword_8009F430 = 0;
+        dword_8009F430 = 0;
     }
 #endif
     return &pActor->field_0_actor;
