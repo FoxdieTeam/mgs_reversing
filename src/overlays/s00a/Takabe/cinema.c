@@ -26,9 +26,6 @@ typedef struct _CinemaScreenWork
     PARAM  params[2];   //0x34
 } CinemaScreenWork;
 
-
-extern int s00a_cinema_800DE180( CinemaScreenWork *work, int name, int where ); //CinemaScreenGetResources_800DE180
-
 extern int THING_Gcl_GetInt_800D8808( int o ) ;
 extern int THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
 
@@ -167,9 +164,96 @@ void CinemaScreenDie_800DE150( CinemaScreenWork *work )
     }
 }
 
-//CinemaScreenGetResources_800DE180
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_cinema_800DE180.s")
+int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int where )
+{
+    int      col;
+    int      h1;
+    int      h2;
+    int      colour;
+    PARAM   *params;
+    PRIMS   *prims;
+    TILE    *tile;
+    POLY_G4 *poly;
 
+    h2 = 40;
+    h1 = 24;
+    prims = GV_Malloc_8001620C( 224 );
+    
+    work->prims = prims;
+    
+    setDrawTPage(&prims->tpage[0], 0, 1, 0x40);
+    poly = (POLY_G4*)&prims->poly;
+    prims->tpage[1] = prims->tpage[0];
+    setPolyG4(poly);
+    setSemiTrans(poly, 1);
+    
+    colour = *(int*)&poly->r0;
+    poly->x1 = 320;
+    poly->x3 = 320;
+    poly->x0 = 0;
+    poly->y0 = 0;
+    poly->y1 = 0;
+    poly->x2 = 0;
+    poly->y2 = h1;
+    poly->y3 = h1;
+
+
+    colour &= 0xFF000000;
+    *(int*)&poly->r0 = colour;
+    *(int*)&poly->r1 = colour;
+    *(int*)&poly->r2 = colour;
+    *(int*)&poly->r3 = colour;
+
+    prims->poly[0][1] = prims->poly[0][0];
+
+    poly++;
+    poly->y0 = 224;
+    poly->y1 = 224;
+    poly->y2 = 224 - h2;
+    poly->y3 = 224 - h2; 
+
+    prims->poly[1][0] = prims->poly[0][0];
+    prims->poly[1][1] = prims->poly[0][1];
+    
+    tile = (TILE*)prims->tile;
+    setTile(tile);
+    tile->w = 320;
+    tile->x0 = 0;
+    tile->y0 = 0;
+    tile->h = h1;
+    tile->r0 = 0;
+    tile->g0 = 0;
+    tile->b0 = 0;
+    
+    params = work->params;
+    prims->tile[0][1] = prims->tile[0][0];
+    tile[1].y0 = 224-h2;
+    col = 384;
+    tile[1].h = h2;
+
+    
+    prims->tile[1][0] = prims->tile[0][0];
+    prims->tile[1][1] = prims->tile[0][1];
+    
+    work->params[0].max_count = 60;
+    params[1].max_count = 60;
+    params[0].count  = 0;
+    params[0].offset = 0;
+    params[0].col = col;
+    params[1].count  = 0;
+    params[1].offset = -128;
+    params[1].col = col;
+
+    if ( where )
+    {
+        params[0].count = work->params[0].max_count;
+        params[1].count = params[1].max_count;
+    }
+
+    work->count = name;
+
+    return 0;
+}
 
 void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
 {
@@ -178,7 +262,7 @@ void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
     work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, aCinemaC_800E0C34 );
-        if ( s00a_cinema_800DE180( work, name, where ) < 0 )
+        if ( CinemaScreenGetResources_800DE180( work, name, where ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );
             return NULL;
@@ -205,7 +289,7 @@ void *NewCinemaScreenSet_800DE4D8( int name, int where, int argc, char **argv )
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, aCinemaC_800E0C34 );
         ops  = THING_Gcl_GetInt_800D8808( 't' );
         ops2 = THING_Gcl_GetInt_800D8808( 'e' );
-        if ( s00a_cinema_800DE180( work, ops, ops2 ) < 0 )
+        if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );
             return NULL;

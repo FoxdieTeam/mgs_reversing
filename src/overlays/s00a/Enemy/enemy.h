@@ -217,8 +217,8 @@ typedef struct _ENEMY_COMMAND
     int     field_0x148[8];
     int     field_0x168;
     int     field_0x16C;
-    int     field_0x170;
-    int     field_0x174;
+    int     field_0x170; //reset_enemy_num
+    int     field_0x174; //reset_enemy_max
     short   field_0x178;
     short   field_0x17A;
     int     field_0x17C;
