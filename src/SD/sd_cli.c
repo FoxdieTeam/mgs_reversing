@@ -225,8 +225,7 @@ extern int dword_800BF144;
 extern int se_load_code_800BF28C;
 extern int wave_load_code_800C0528;
 extern int wave_save_code_800C0578;
-
-#ifndef VR_EXE
+extern int dword_800BEFFC;
 
 void sd_set_80088CB0(int sdCode)
 {
@@ -242,6 +241,12 @@ void sd_set_80088CB0(int sdCode)
     {
         if (sdCode & 0xFF)
         {
+            #ifdef VR_EXE
+                if (dword_800BEFFC)
+                {
+                    return;
+                }
+            #endif
             SePlay_800888F8(sdCode);
         }
     }
@@ -300,6 +305,16 @@ void sd_set_80088CB0(int sdCode)
 
         switch (sdCode)
         {
+
+        #ifdef VR_EXE
+            case 0xFF000003:
+                dword_800BEFFC = 1;
+                return;
+            case 0xFF000004:
+                dword_800BEFFC = 0;
+                return;
+        #endif
+
         case 0xFF000005:
             dword_800C050C = 1;
             return;
@@ -399,31 +414,3 @@ void sd_set_80088CB0(int sdCode)
         }
     }
 }
-
-#else
-
-const char sdcliStr1[] = "SdCode=%x\n";
-const char sdcliStr2[] = "***TooMuchBGMSoundCode(%x)***\n";
-const char sdcliStr4[] = "SdSet:Last Stream Not Terminated.(status=%x)\n";
-const char sdcliStr5[] = "SdSet:Same Stream is Already Played.(code=%x)\n";
-const char sdcliStr6[] = "*** STR FO(S) ***\n";
-const char sdcliStr7[] = "*** STR FO(M) ***\n";
-const char sdcliStr8[] = "*** STR FO(L) ***\n";
-const char sdcliStr9[] = "*** STR FO(LL) ***\n";
-const char sdcliStr10[] = "*** STR FI(M) at Next STR ***\n";
-const char sdcliStr11[] = "*** STR FI(M) Start ***\n";
-const char sdcliStr12[] = "*** ERR:STR FI(M) ***\n";
-const char sdcliStr13[] = "*** STR FI(L) at Next STR***\n";
-const char sdcliStr14[] = "*** STR FI(L) Start ***\n";
-const char sdcliStr15[] = "*** ERR:STR FI(L) ***\n";
-const char sdcliStr16[] = "*** STR FO(S)+STOP ***\n";
-const char sdcliStr17[] = "*** STR FO(M)+STOP ***\n";
-const char sdcliStr18[] = "*** STR FO(L)+STOP ***\n";
-const char sdcliStr19[] = "*** STR FO(LL)+STOP ***\n";
-
-void sd_set_80088CB0(int sdCode)
-{
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 9, 9);
-}
-
-#endif
