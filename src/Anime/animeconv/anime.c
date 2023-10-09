@@ -183,7 +183,6 @@ Actor_anime * anime_create_8005D604(MATRIX *pMtx)
 
 void anime_create_8005D6BC(MATRIX *arg0, int arg1)
 {
-#ifndef VR_EXE
     PRESCRIPT pre;
     MATRIX sp28;
     SVECTOR sp48;
@@ -267,12 +266,11 @@ void anime_create_8005D6BC(MATRIX *arg0, int arg1)
         NewAnime_8005FBC8( NULL, 0, anm );
     }
 
+#ifndef VR_EXE
     if (dword_8009F224++ >= ((mod2 * mod) - 1))
     {
         dword_8009F224 = 0;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 2);
 #endif
 }
 

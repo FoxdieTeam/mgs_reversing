@@ -34,7 +34,6 @@ char byte_8009F414[] = {145, 4, 75, 10, 0};
 
 void aam_act_800670CC(Actor_Aam *actor)
 {
-#ifndef VR_EXE
     int sVar3;
     int iVar6;
     unsigned int uVar7;
@@ -118,9 +117,6 @@ void aam_act_800670CC(Actor_Aam *actor)
             }
         }
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 8, 2);
-#endif
 }
 
 void aam_kill_800673B0(Actor_Aam *actor)
