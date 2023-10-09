@@ -39,7 +39,6 @@ SVECTOR svec_8009F464 = {300, 200, 300, 0};
 // TARGET here seems to be wrong
 MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarget)
 {
-#ifndef VR_EXE
     MATRIX mtx1;
     MATRIX mtx2;
 
@@ -84,10 +83,6 @@ MATRIX * jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, TARGET *pTarge
     }
 
     return arg0;
-#else
-    MulMatrix2(NULL, NULL); // force psylink to link MulMatrix2
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 8, 6);
-#endif
 }
 
 int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)

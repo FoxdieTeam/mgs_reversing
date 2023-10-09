@@ -71,11 +71,12 @@ void *  NewRifleSight_8006989C(short);
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GM_CurrentMap_800AB9B0;
 extern short     d_800AB9EC_mag_size;
+
 extern SVECTOR   svector_800AB8D4;
+SVECTOR          svector_800AB8D4;
 
 void rifle_act_80067D60(Actor_Rifle *pActor)
 {
-#ifndef VR_EXE
     MATRIX mtx, mtx2;
     SVECTOR vec;
 
@@ -166,9 +167,6 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         d_800AB9EC_mag_size = --temp_s1;
         GM_Weapons[WEAPON_PSG1]--;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 3, 5);
-#endif
 }
 
 void rifle_kill_80068118(Actor_Rifle *rifle)

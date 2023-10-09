@@ -306,9 +306,7 @@ int BSS             dword_800BEFEC; // 0x4 (4) bytes
 int BSS             dword_800BEFF0; // 0x4 (4) bytes
 int BSS             dword_800BEFF4; // 0x4 (4) bytes
 int BSS             dword_800BEFF8; // 0x4 (4) bytes
-
-gap                                     gap_800BEFFC[0x4]; // 4 bytes
-
+int BSS             dword_800BEFFC; // 0x4 (4) bytes
 int BSS             dword_800BF000; // 0x4 (4) bytes
 int BSS             se_tracks_800BF004; // 0x4 (4) bytes
 int BSS             dword_800BF008; // 0x4 (4) bytes

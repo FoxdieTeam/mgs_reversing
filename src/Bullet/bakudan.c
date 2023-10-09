@@ -33,12 +33,14 @@ SVECTOR svector_8009F438 = {3072, 0, 0, 0};
 
 void bakudan_act_8006A218(Actor_bakudan *pActor)
 {
-#ifndef VR_EXE
     MATRIX rotation;
     CONTROL *pCtrl;
     GV_PAD *pPad;
     MATRIX *pMtx;
     TARGET *pTarget;
+#ifdef VR_EXE
+    int cond;
+#endif
 
     if (GM_GameStatus_800AB3CC < 0)
     {
@@ -77,6 +79,11 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     GM_ActObject2_80034B88(&pActor->field_9C_kmd);
     DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_mtx);
 
+#ifdef VR_EXE
+    // VR executable for some reason assigns the result
+    // of the condition below to a temporary variable!?
+    cond = 0;
+#endif
     if (((pActor->field_110_pPad->press & PAD_CIRCLE) &&
         (dword_8009F430 != GV_Time_800AB330) &&
         (GM_CurrentMap_800AB9B0 & dword_800ABA0C) &&
@@ -84,6 +91,12 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
         !(GM_PlayerStatus_800ABA50 & 0x20000000) &&
         !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
+#ifdef VR_EXE
+    {
+        cond = 1;
+    }
+    if (cond)
+#endif
     {
         pActor->field_108 = 1;
 
@@ -113,9 +126,6 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
         DG_PutVector_8001BE48(pActor->field_104, &pCtrl->field_0_mov, 1);
         DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->field_8_rotator);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 4);
-#endif
 }
 
 extern Jirai_unknown stru_800BDD78[16];
@@ -223,5 +233,11 @@ GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, T
         pActor->field_10C = 0;
         pActor->field_108 = 0;
     }
+#ifdef VR_EXE
+    if (dword_8009F430 > GV_Time_800AB330)
+    {
+      dword_8009F430 = 0;
+    }
+#endif
     return &pActor->field_0_actor;
 }
