@@ -158,11 +158,26 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
 
 int amissile_act_helper_8006D600(void)
 {
-#ifndef VR_EXE
-    return 0;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 6);
+#ifdef VR_EXE
+    GV_MSG *msg;
+    int     count;
+
+    count = GV_ReceiveMessage_80016620(KMD_STINGER, &msg);
+    if (count > 0)
+    {
+        for (count--; count >= 0; count--)
+        {
+            if (msg->message[0] == HASH_KILL)
+            {
+                return 1;
+            }
+
+            msg++;
+        }
+    }
 #endif
+
+    return 0;
 }
 
 extern Blast_Data       blast_data_8009F4F4;
