@@ -38,9 +38,18 @@ def dw_to_code(path):
 
 root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj'))
 
-def get_map():
+def get_map(path):
+    map_file = os.path.join(root_dir, "asm.map")
+
+    # Overlay?
+    path = os.path.normpath(path).split(os.path.sep)
+    overlay_name = next((t for s, t in zip(path, path[1:]) if s == "overlays"), None)
+    overlay_map = os.path.join(root_dir, f"asm_{overlay_name}.map")
+    if overlay_name and os.path.exists(overlay_map):
+        map_file = overlay_map
+
     ret = {}
-    with open(root_dir + '/asm.map') as f:
+    with open(map_file) as f:
         for line in f:
             line = line.rstrip().replace('  ', ' ')
             tok = line.split(' ')
@@ -76,7 +85,6 @@ branch_inst_2op = [
 ]
 
 branch_inst = branch_inst_3op + branch_inst_2op + branch_inst_1op_imm
-sym_map = get_map()
 
 def disasm(code, addr, name):
     md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32)
@@ -269,6 +277,9 @@ def main(path):
         path = iterfzf(asms)
 
     if path:
+        global sym_map
+        sym_map = get_map(path)
+
         m = re.search(r'_([a-fA-F0-9]{8}).s$', path)
         if m:
             addr = int(m.group(1), 16)
