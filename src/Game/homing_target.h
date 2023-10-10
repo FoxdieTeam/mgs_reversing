@@ -6,6 +6,16 @@
 #include <LIBGPU.H>
 #include "Game/control.h"
 
+#ifndef VR_EXE
+
+#define HOMING_TARGET_ARRAY_LENGTH 8
+
+#else
+
+#define HOMING_TARGET_ARRAY_LENGTH 64
+
+#endif
+
 typedef struct Homing_Target
 {
     MATRIX     *field_0;       // ptr
