@@ -4,12 +4,11 @@
 typedef struct _RippleWork
 {
     GV_ACT   actor;
-    int      map;       //0x20
-    DG_PRIM *prim;      //0x24
-    SVECTOR  pos;       //0x28
-    char     pad[0xF8]; //0x30
-    MATRIX   mat;       //0x128
-    int      field_148;  //0x148
+    int      map;     //0x20
+    DG_PRIM *prim;    //0x24
+    SVECTOR  pos[32]; //0x28
+    MATRIX   mat;     //0x128
+    int      timer;   //0x148
 } RippleWork;
 
 extern MATRIX  DG_ZeroMatrix_8009D430;
@@ -84,10 +83,10 @@ void RippleAct_800D7D2C( RippleWork *work )
     DG_PRIM *prim;
     
     GM_SetCurrentMap( work->map );
-    x = work->field_148 - 1;
+    x = work->timer - 1;
     temp = x;
 
-    work->field_148 = x;
+    work->timer = x;
     if ( temp <= 0 )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
@@ -111,15 +110,13 @@ void RippleDie_800D7DDC( RippleWork *work )
 
 int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
 {
-    SVECTOR *pos;
     DG_PRIM *prim;
     DG_TEX  *tex;
 
     work->map = GM_GetCurrentMap();
-    pos = &( work->pos );
 
-    s00a_ripple_800D7AC0( pos, 8, scale );
-    prim = work->prim = DG_GetPrim( 0x12, 8, 0, pos, NULL );
+    s00a_ripple_800D7AC0( work->pos, 8, scale );
+    prim = work->prim = DG_GetPrim( 0x12, 8, 0, work->pos, NULL );
 
     if ( prim == NULL )
     {
@@ -135,7 +132,7 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
 
     RippleInitPacks_800D7C14( &prim->field_40_pBuffers[0]->poly_ft4, &prim->field_40_pBuffers[1]->poly_ft4, 8, tex );
     work->mat = *mat;
-    work->field_148 = 0x40;
+    work->timer = 64;
 
     return 0;
 }
