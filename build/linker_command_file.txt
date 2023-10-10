@@ -721,13 +721,9 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_pato_lmp_800D6D40.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_pato_lmp_800D6E28.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_pato_lmp_800D7A2C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_ripple_800D7AC0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_ripple_800D7C14.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_ripple_800D7CEC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_ripple_800D7D2C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_ripple_800D7DDC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_ripple_800D7E18.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\NewRipple_800D7F30.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\ripple.obj"
+
     include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D7FC4.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D8140.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D8148.obj"
@@ -854,12 +850,6 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF424.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
-
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_camshake_800DF4B8.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_camshake_800DF634.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_camshake_800DF63C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_camshake_800DF6AC.obj"
-
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
     ;psyq 

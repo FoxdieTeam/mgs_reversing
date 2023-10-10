@@ -381,6 +381,11 @@ typedef struct DG_CHNL
 	DR_ENV         field_16C_dr_env[ 2 ];
 } DG_CHNL;
 
+//Prim types
+//0x12 = POLY_FT4
+//0x15 = POLY_GT4?
+//0x409 = TILE?
+
 enum DG_FLAGS
 {
 	DG_FLAG_TEXT =        0x0001,
