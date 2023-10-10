@@ -168,6 +168,11 @@ static inline void GM_SetCurrentMap(int map)
     GM_CurrentMap_800AB9B0 = map;
 }
 
+static inline int GM_GetCurrentMap()
+{
+    return GM_CurrentMap_800AB9B0;
+}
+
 void               GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
