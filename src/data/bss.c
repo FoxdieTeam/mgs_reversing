@@ -169,7 +169,7 @@ gap                                     gap_800B788C[0x4]; // 4 bytes
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
-Homing_Target BSS   gHomingTargets_800B8230[8]; // 0x80 (128) bytes
+Homing_Target BSS   gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
 Actor_strctrl BSS   strctrl_800B82B0; // 0x40 (64) bytes
 Actor_JimCtrl BSS   jimCtrlActor_800B82F0; // 0x104C (4172) bytes
 array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes
@@ -238,13 +238,14 @@ short BSS           word_800BDCC0; // 0x2 (2) bytes
 
 gap                                     gap_800BDCC4[0x4]; // 4 bytes
 
+#ifndef VR_EXE
 int BSS             dword_800BDCC8; // 0x4 (4) bytes
 int BSS             dword_800BDCCC; // 0x4 (4) bytes
 int BSS             dword_800BDCD0; // 0x4 (4) bytes
-
 gap                                     gap_800BDCD4[0x4]; // 4 bytes
-
 TMat8x8B BSS        gJpegcamMatrix2_800BDCD8; // 0x40 (64) bytes
+#endif
+
 DVECTOR BSS         dvector_800BDD18[3]; // 0xC (12) bytes
 
 gap                                     gap_800BDD24[0x4]; // 4 bytes
@@ -306,9 +307,15 @@ int BSS             dword_800BEFEC; // 0x4 (4) bytes
 int BSS             dword_800BEFF0; // 0x4 (4) bytes
 int BSS             dword_800BEFF4; // 0x4 (4) bytes
 int BSS             dword_800BEFF8; // 0x4 (4) bytes
+#ifdef VR_EXE
+gap                                     vrgap1[0x4]; // 4 bytes
+#endif
 int BSS             dword_800BEFFC; // 0x4 (4) bytes
 int BSS             dword_800BF000; // 0x4 (4) bytes
 int BSS             se_tracks_800BF004; // 0x4 (4) bytes
+#ifdef VR_EXE
+gap                                     vrgap2[0x4]; // 4 bytes
+#endif
 int BSS             dword_800BF008; // 0x4 (4) bytes
 int BSS             blank_data_addr_800BF00C; // 0x4 (4) bytes
 char* BSS           cdload_buf_800BF010; // 0x4 (4) bytes

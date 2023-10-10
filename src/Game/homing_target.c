@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "psyq.h"
 
-extern Homing_Target gHomingTargets_800B8230[8];
+extern Homing_Target gHomingTargets_800B8230[HOMING_TARGET_ARRAY_LENGTH];
 
 void HomingTarget_Clear_All_80032C68()
 {
@@ -13,7 +13,7 @@ void HomingTarget_Clear_All_80032C68()
     int            i;     // $v1
 
     pIter = gHomingTargets_800B8230;
-    for (i = 8; i > 0; --i)
+    for (i = HOMING_TARGET_ARRAY_LENGTH; i > 0; --i)
     {
         pIter->field_C_bUsed = 0;
         ++pIter;
@@ -24,7 +24,7 @@ Homing_Target *HomingTarget_Alloc_80032C8C(MATRIX *a1, CONTROL *a2)
 {
     int            pos; // $v1
     Homing_Target *pIter = gHomingTargets_800B8230;
-    for (pos = 8; pos > 0; --pos)
+    for (pos = HOMING_TARGET_ARRAY_LENGTH; pos > 0; --pos)
     {
         if (!pIter->field_C_bUsed)
         {
@@ -67,7 +67,7 @@ void HomingTarget_1_80032D10(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
 
     smallest_len = 6100;
     pTargetIter = &gHomingTargets_800B8230[0];
-    i = 8;
+    i = HOMING_TARGET_ARRAY_LENGTH;
     vec1.vx = pMtx->t[0];
     vec1.vy = pMtx->t[1];
     vec1.vz = pMtx->t[2];
@@ -114,7 +114,7 @@ void HomingTarget_2_80032EAC(MATRIX *pMtx, int vecY, int *pRetY, int *pRetX, int
 
     smallest_len = max_dist + 100;
     pTargetIter = &gHomingTargets_800B8230[0];
-    i = 8;
+    i = HOMING_TARGET_ARRAY_LENGTH;
     vec1.vx = pMtx->t[0];
     vec1.vy = pMtx->t[1];
     vec1.vz = pMtx->t[2];
