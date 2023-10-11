@@ -30,7 +30,14 @@ typedef struct _WatcherWork
     int            field_730;                  //0x730
     short          field_734;                  //0x734
     short          field_736;                  //0x736
-    char           field_738[0x6C];            //0x738
+    char           field_738[0x1C];            //0x738
+    short          field_754;                  //0x754
+    short          field_756;                  //0x756
+    short          field_758;                  //0x756
+    short          field_75A;                  //0x756
+    short          field_75C;                  //0x75C
+    short          field_75E;                  //0x75C
+    char           field_760[0x44];            //0x760
     OBJECT         field_7A4;                  //0x7A4
     char           field_7C8_padding[0xC0];    //0x7C8
     MATRIX         field_888;                  //0x888
@@ -61,7 +68,7 @@ typedef struct _WatcherWork
     TARGET        *target;                     //0x900
     TARGET         field_904;                  //0x904
     TARGET         field_94C;                  //0x94C
-    char           field_994_padding[0x48];    //0x994
+    TARGET         field_994;                  //0x994
     Homing_Target *hom;                        //0x9DC
     short          scale;                      //0x9E0
     short          field_9E2;                  //0x9E2
@@ -190,11 +197,7 @@ typedef struct _ENEMY_COMMAND
     int     field_0x50;
     short   field_0x54;
     short   field_0x56;
-    short   field_0x58;
-    short   field_0x5A;
-    int     field_0x5C;
-    int     field_0x60;
-    int     field_0x64;
+    short   field_0x58[8];
     int     field_0x68[8];
     SVECTOR field_0x88;
     int     field_0x90;
@@ -263,7 +266,7 @@ extern TOPCOMMAND_STRUCT       s00a_dword_800E0F28;
 extern SVECTOR                 COM_PlayerPosition_800E0F30;
 extern int                     COM_NOISEMODE_DIS_800E0F38;
 extern unsigned int            COM_GameStatus_800E0F3C;
-extern short                   COM_PlayerAddressOne_800E0F40[];
+extern int                     COM_PlayerAddressOne_800E0F40[];
 
 extern int                     COM_ALERT_DECREMENT_800E0F60;
 extern int                     GM_GameFlag_800E0F64;
@@ -426,6 +429,33 @@ static inline void UnsetAction2( WatcherWork *work )
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor_800151D8( work->subweapon );
 }
+
+
+
+
+extern void s00a_command_800C78E0( WatcherWork *work, int time );
+extern void s00a_command_800C77C8( WatcherWork *work, int time );
+extern void s00a_command_800C7354( WatcherWork *work, int time );
+
+extern void s00a_command_800C841C( WatcherWork *work, int time );
+extern void s00a_command_800C84FC( WatcherWork *work, int time );
+extern void s00a_command_800C8688( WatcherWork *work, int time );
+extern void s00a_command_800C8734( WatcherWork *work, int time );
+extern void s00a_command_800C87FC( WatcherWork *work, int time );
+
+extern void s00a_command_800C88D8( WatcherWork *work, int time );
+extern void s00a_command_800C8990( WatcherWork *work, int time );
+extern void s00a_command_800C8A6C( WatcherWork *work, int time );
+extern void s00a_command_800C8C98( WatcherWork *work, int time );
+extern void s00a_command_800C8DF8( WatcherWork *work, int time );
+extern void s00a_command_800C615C( WatcherWork *work, int time );
+extern void s00a_command_800C6164( WatcherWork *work, int time );
+extern void s00a_command_800C624C( WatcherWork *work, int time );
+extern void s00a_command_800C6320( WatcherWork *work, int time );
+extern void s00a_command_800C65A8( WatcherWork *work, int time );
+
+extern void ActOverScoutD_800C85DC( WatcherWork *work, int time ); //ActOverScoutD_800C85DC
+
 
 //think.c ?
 #define T_NOISE 0
