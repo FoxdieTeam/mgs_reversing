@@ -26,14 +26,8 @@ extern short   d_800ABA2C_ammo;
 
 //------------------------------------------------------------------------------
 
-SVECTOR stru_8009F3B4[2] = {{0, 0, 3200, 0}, {20, -370, 60, 0}};
-SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
-#ifndef VR_EXE
+SVECTOR stru_8009F3BC[3] = {{20, -370, 60, 0}, {0, -215, 32, 0}, {0, -10455, 32, 0}};
 SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
-#else
-// Fake data just to get proper .data alignment
-SVECTOR stru_8009F3D4[1] = {{0, 600, 32, 0}};
-#endif
 
 //------------------------------------------------------------------------------
 
@@ -327,7 +321,7 @@ void socom_act_80065518( Actor_Socom *a1 )
         world = &a1->field_20.objs->world;
 
         DG_SetPos_8001BC44( world );
-        DG_MovePos_8001BD20( &stru_8009F3B4[1] );
+        DG_MovePos_8001BD20( &stru_8009F3BC[0] );
         ReadRotMatrix( &MStack48 );
         bullet_init_80076584( &MStack48, a1->field_54_bullet_type, 0, 1 );
 
@@ -418,7 +412,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
                 socom_init_vectors_80065254( actor );
                 pNewPrim->root = &arg1->objs->objs[ unit ].world;
                 actor->field_10C_pPrim = prim = DG_GetPrim( 0x409, 2, 0, &actor->field_110, &stru_800AB828 );
-                actor->field_110 = actor->field_118 = stru_8009F3C4[ 0 ];
+                actor->field_110 = actor->field_118 = *(stru_8009F3BC + 1);
                 if ( prim )
                 {
                     socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 0 ]->tiles );
