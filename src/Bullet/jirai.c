@@ -199,7 +199,6 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
 
 void jirai_act_8006AB5C(Actor_Jirai *pActor)
 {
-#ifndef VR_EXE
     TARGET target;
     CONTROL *pCtrl;
     TARGET *pTarget;
@@ -304,7 +303,13 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         GM_ConfigControlAttribute_8002623C(pCtrl, 0);
     }
 
-    if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    if (
+#ifdef VR_EXE
+        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_32))
+#else
+        (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
+#endif
+        || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {
         pTarget->class &= ~TARGET_PUSH;
         pTarget->field_6_flags &= ~TARGET_PUSH;
@@ -341,6 +346,10 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         DG_VisibleObjs(pActor->field_9C_obj.objs);
 
         sub_800790E8();
+
+#ifdef VR_EXE
+        pActor->field_154 = 1;
+#endif
 
         GM_SetTarget_8002DC74(&target, 4, 0, &pTarget->field_10_size);
         GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector_800AB39C);
@@ -383,9 +392,6 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         DG_VisibleObjs(pActor->field_9C_obj.objs);
         pActor->field_130 = 0;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 2, 0);
-#endif
 }
 
 // A different version of ExecProc is used here, which checks for a proccess ID less than zero.
@@ -406,8 +412,12 @@ skip:                                      \
 
 void jirai_kill_8006B05C(Actor_Jirai *pActor)
 {
-#ifndef VR_EXE
-    sub_8007913C();
+#ifdef VR_EXE
+    if (pActor->field_154)
+#endif
+    {
+        sub_8007913C();
+    }
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_FreeObject_80034BF8(&pActor->field_9C_obj);
     GM_FreeTarget_8002D4B0(pActor->field_100_pTarget);
@@ -423,9 +433,6 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
 
     dword_8009F444 = 0;
     dword_8009F440 = 0;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 5, 3);
-#endif
 }
 
 int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3)
