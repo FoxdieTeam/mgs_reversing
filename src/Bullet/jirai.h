@@ -37,6 +37,9 @@ typedef struct Actor_Jirai
     SVECTOR    field_144_vec;
     int        field_14C_map;
     int        field_150;
+#ifdef VR_EXE
+    int        field_154;
+#endif
 } Actor_Jirai;
 
 typedef struct Jirai_unknown
