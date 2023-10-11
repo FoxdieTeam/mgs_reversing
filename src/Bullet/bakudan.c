@@ -24,7 +24,7 @@ extern int dword_800ABA0C;
 extern unsigned short GM_ItemTypes_8009D598[];
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
-extern Blast_Data blast_data_8009F4CC;
+extern Blast_Data blast_data_8009F4B8[8];
 
 int bakudan_count_8009F42C = 0;
 int dword_8009F430 = 0;
@@ -116,7 +116,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     if (pActor->field_10C >= 3)
     {
         ReadRotMatrix(&rotation);
-        NewBlast_8006DFDC(&rotation, &blast_data_8009F4CC);
+        NewBlast_8006DFDC(&rotation, &blast_data_8009F4B8[1]);
         sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
     }

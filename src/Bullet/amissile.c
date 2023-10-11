@@ -180,8 +180,7 @@ int amissile_act_helper_8006D600(void)
     return 0;
 }
 
-extern Blast_Data       blast_data_8009F4F4;
-extern Blast_Data       blast_data_8009F544;
+extern Blast_Data       blast_data_8009F4B8[8];
 
 extern int              GM_GameStatus_800AB3CC;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -189,10 +188,12 @@ extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void amissile_act_8006D608(Actor_amissile *pActor)
 {
-#ifndef VR_EXE
     MATRIX rotation;
     SVECTOR position;
     SVECTOR addition;
+#ifdef VR_EXE
+    SVECTOR rotator;
+#endif
 
     CONTROL *pCtrl;
     int result;
@@ -275,17 +276,56 @@ void amissile_act_8006D608(Actor_amissile *pActor)
         }
     }
 
+#ifdef VR_EXE
+    rotator = pActor->field_20_ctrl.field_0_mov;
+
+    if (rotator.vx > 30000)
+    {
+        rotator.vx = 30000;
+    }
+    else if (rotator.vx < -30000)
+    {
+        rotator.vx = -30000;
+    }
+
+    if (rotator.vy > 30000)
+    {
+        rotator.vy = 30000;
+    }
+    else if (rotator.vy < -30000)
+    {
+        rotator.vy = -30000;
+    }
+
+    if (rotator.vz > 30000)
+    {
+        rotator.vz = 30000;
+    }
+    else if (rotator.vz < -30000)
+    {
+        rotator.vz = -30000;
+    }
+
+    DG_SetPos2_8001BC8C(&rotator, &pActor->field_20_ctrl.field_8_rotator);
+#endif
+
     if (!result)
     {
         ReadRotMatrix(&rotation);
 
         if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32) || GM_PlayerStatus_800ABA50 & 0x20000000)
         {
-            pBlastData = &blast_data_8009F544;
+            pBlastData = &blast_data_8009F4B8[7];
+#ifdef VR_EXE
+            if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) && !(GM_PlayerStatus_800ABA50 & 0x20000000) && !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+            {
+                pBlastData = &blast_data_8009F4B8[3];
+            }
+#endif
         }
         else
         {
-            pBlastData = &blast_data_8009F4F4;
+            pBlastData = &blast_data_8009F4B8[3];
         }
 
         NewBlast_8006DFDC(&rotation, pBlastData);
@@ -293,9 +333,6 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     dword_8009F490 = 0;
     GV_DestroyActor_800151C8(&pActor->field_0_actor);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 8, 2);
-#endif
 }
 
 void amissile_kill_8006D99C(Actor_amissile *pActor)
