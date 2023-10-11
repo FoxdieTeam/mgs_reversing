@@ -103,7 +103,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     else
     {
         EnemyCommand_800E0D98.field_0x54 = 1;
-        EnemyCommand_800E0D98.field_0x58 = 0;
+        EnemyCommand_800E0D98.field_0x58[0] = 0;
     }
 
     EnemyCommand_800E0D98.field_0x94 = 5;

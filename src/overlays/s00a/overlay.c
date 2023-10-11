@@ -1,6 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
 
+
 GCL_ActorTableEntry s00aOverlayCharas[] = 
 {
     { 0x63AA, (TGCL_ActorCreateFn)0x800D872C },
@@ -342,15 +343,12 @@ const int s00a_dword_800DFD0C = 0x800C5350;
 const int s00a_dword_800DFD10 = 0x800C5350;
 const int s00a_dword_800DFD14 = 0x800C5350;
 const int s00a_dword_800DFD18 = 0x800C532C;
-const char s00a_aPlayxresetdwarpd_800DFD1C[] = " play = %x  reset = %d warp = %d \n";
-const char s00a_aErrnozoneidingcl_800DFD40[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
-const char s00a_aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[] = " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
-const char s00a_dword_800DFDA0[] = {'8', 0xff, 'd', 0x0};
-const char s00a_dword_800DFDA4[] = {'X', 0x2, 0x0, 0x0};
-const char s00a_dword_800DFDA8[] = {0x5, 0x0, 0x0, 0x0};
-const char s00a_aD_800DFDAC[] = "d";
-const char s00a_dword_800DFDB0[] = {0x90, 0x1, 0xe8, 0x3};
-const char s00a_dword_800DFDB4[] = {0x90, 0x1, 0x0, 0x0};
+const char aPlayxresetdwarpd_800DFD1C[] = " play = %x  reset = %d warp = %d \n";
+const char aErrnozoneidingcl_800DFD40[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[] = " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
+const SVECTOR s00a_dword_800DFDA0 = { -200, 100, 600 };
+const SVECTOR s00a_dword_800DFDA8 = { 5, 0, 100 };
+const SVECTOR s00a_dword_800DFDB0 = { 400, 1000, 400 };
 const char s00a_aComstdanbowl_800DFDB8[] = " ~COM_ST_DANBOWL 0 !! \n ";
 const char s00a_aComstdanbowl_800DFDD4[] = " ~COM_ST_DANBOWL 1 !! \n ";
 const char s00a_aComstdanbowl_800DFDF0[] = " ~COM_ST_DANBOWL 2 !! \n ";
@@ -1190,6 +1188,7 @@ const char s00a_dword_800E0E28[] = {'\n', 0x10, 0x0, 0x0};
 const char s00a_dword_800E0E2C[] = {',', 0x4, 0x1, 0x0};
 const char s00a_dword_800E0E30[] = {0x0, 0x18, 0x1, 0x0};
 const char s00a_dword_800E0E34[] = {0x0, '\n', 0x10, 0x4};
+
 const char s00a_dword_800E0E38[] = {0x0, ',', 0x4, 0x1};
 
 //SVECTOR
@@ -1273,7 +1272,7 @@ const char COM_NOISEMODE_DIS_800E0F38[] = {0x50, 0x55, 0x5A, 0x5A};
 //UNSIGNED INT
 const char COM_GameStatus_800E0F3C[] = {0x4C, 0x45, 0x00, 0x00};
 
-//SHORT[16]
+//INT[8]
 const char COM_PlayerAddressOne_800E0F40[] = {0x4E, 0x49, 0x4E, 0x4A};
 const char s00a_dword_800E0F44[] = {0x41, 0x00, 0x00, 0x00};
 const char s00a_dword_800E0F48[] = {0x31, 0x20, 0x4D, 0x49};
