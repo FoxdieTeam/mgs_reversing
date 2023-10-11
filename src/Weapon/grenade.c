@@ -22,12 +22,7 @@ extern int           GM_PlayerStatus_800ABA50;
 
 //------------------------------------------------------------------------------
 
-#ifndef VR_EXE
 unsigned short grenade_model_8009F3E4[] = {KMD_GRENADE, KMD_CAN_GREN, KMD_CAN_GREN, KMD_C4_BOMB};
-#else
-// Fake data just to get proper .data alignment
-unsigned short grenade_model_8009F3E4[] = {0, 0, 0, 0, KMD_GRENADE, KMD_CAN_GREN, KMD_CAN_GREN, KMD_C4_BOMB};
-#endif
 
 SVECTOR dword_8009F3EC[] = {
 	{0, 128, 150, 0},
