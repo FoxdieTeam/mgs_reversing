@@ -160,4 +160,6 @@ void        sub_800298DC(int *arg0);
 int         sub_80029A2C();
 int         sub_80028830(void);
 
+int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist);
+
 #endif // _HZD_H_

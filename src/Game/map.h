@@ -44,5 +44,6 @@ HZD_HDL           *Map_Enum_Get_Hzd_80031580(HZD_HDL *pPrevious);
 void GM_DieMap_80030FD0();
 int  GM_DelMap_800313C0(int mapName);
 void GM_FreeMapObjs_80031028();
+MAP *Map_FindByZoneId_80031624(int zone_id);
 
 #endif // _MAP_H_
