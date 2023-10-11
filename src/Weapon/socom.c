@@ -26,7 +26,8 @@ extern short   d_800ABA2C_ammo;
 
 //------------------------------------------------------------------------------
 
-SVECTOR stru_8009F3BC[3] = {{20, -370, 60, 0}, {0, -215, 32, 0}, {0, -10455, 32, 0}};
+SVECTOR stru_8009F3BC[] = {{20, -370, 60, 0}};
+SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
 SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 //------------------------------------------------------------------------------
@@ -412,7 +413,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
                 socom_init_vectors_80065254( actor );
                 pNewPrim->root = &arg1->objs->objs[ unit ].world;
                 actor->field_10C_pPrim = prim = DG_GetPrim( 0x409, 2, 0, &actor->field_110, &stru_800AB828 );
-                actor->field_110 = actor->field_118 = *(stru_8009F3BC + 1);
+                actor->field_110 = actor->field_118 = stru_8009F3C4[0];
                 if ( prim )
                 {
                     socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 0 ]->tiles );
