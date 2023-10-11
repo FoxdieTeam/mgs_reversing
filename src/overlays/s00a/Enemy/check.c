@@ -3,7 +3,16 @@
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
 
+extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR DG_ZeroVector_800AB39C;
+
+extern const char aPlayxresetdwarpd_800DFD1C[];// " play = %x  reset = %d warp = %d \n";
+extern const char aErrnozoneidingcl_800DFD40[];// "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+extern const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[];// " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
+
+extern SVECTOR s00a_dword_800DFDA0;
+extern SVECTOR s00a_dword_800DFDA8;
+extern SVECTOR s00a_dword_800DFDB0;
 
 int s00a_command_800C50B0( WatcherWork *work )
 {
@@ -37,9 +46,6 @@ int s00a_command_800C5158( SVECTOR* svec )
     return abs( svec->vx ) + abs( svec->vy ) + abs( svec->vz ) ;
 }
 
-extern void s00a_command_800C78E0( WatcherWork *work, int time );
-extern void s00a_command_800C77C8( WatcherWork *work, int time );
-extern void s00a_command_800C7354( WatcherWork *work, int time );
 extern int s00a_command_800C5158( SVECTOR* svec ) ;
 
 extern int s00a_command_800C5194( WatcherWork *work );
@@ -165,4 +171,251 @@ void InitTarget_800C5484( WatcherWork *work )
     target2 = &work->field_94C;
     GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), 2, &ENEMY_TOUCH_SIZE_800C35C4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
+}
+
+void s00a_command_800C55B0( WatcherWork* work ) 
+{
+    int val;
+    int warp;
+    char reset_num;
+    HZD_ZON *zone;
+    CONTROL *ctrl;
+    MAP *map;
+    ctrl = &work->control;
+    
+    work->visible = 1;
+    GM_ConfigControlAttribute_8002623C( ctrl, 0xD );
+    InitTarget_800C5484( work );
+
+    warp = sub_8005CFAC( EnemyCommand_800E0D98.map->field_8_hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.field_0x56 ],  200 );
+    
+    printf( aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.field_0x56 ], warp );
+
+    zone = &ctrl->field_2C_map->field_8_hzd->f00_header->navmeshes[ warp ];
+    ctrl->field_0_mov.vx = zone->x;
+    ctrl->field_0_mov.vy = zone->y + 1000;
+    ctrl->field_0_mov.vz = zone->z;
+
+    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+
+    if ( map )
+    {
+        ctrl->field_2C_map = map;
+    }
+    else
+    {
+        printf(aErrnozoneidingcl_800DFD40);
+    }
+
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think3 = 0;
+    work->think4 = 0;
+    work->count3 = 0;
+
+    work->pad.field_00 = work->field_9E8 - 1;
+    work->target_addr  = work->field_BE8;
+    work->target_pos   = work->start_pos;
+
+    work->field_B8E     = 512;
+    work->vision_length = COM_EYE_LENGTH_800E0D8C;
+
+    work->alert_level    = 0;
+    work->vision_facedir = 0;
+    work->pad.sound      = 0;
+    work->pad.field_08   = 1;
+    work->field_C48      = 0;
+    work->target_map     = work->field_BEC;
+    work->field_C14      = work->start_pos;
+    
+    val = work->field_BE8;
+    work->field_C08 = val;
+    work->field_BF0 = val;
+
+    work->field_BA4 = COM_NO_POINT_800C35D4;
+    work->field_BA2 = 0;
+    sub_8002DD14( work->target, &( work->body.objs->objs[1].world ) );
+
+    reset_num = work->field_B81;
+    if ( reset_num != 0xFF )
+    {
+        if ( !reset_num )
+        {
+            printf ( aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68 ) ;
+        }
+        else
+        {
+            work->field_B81 = reset_num - 1;
+        }
+    }
+}
+
+int s00a_command_800C580C( int a, int b )
+{
+    int diff ;
+    if ( b < 0 || a < 0 ) return 0 ;
+    
+    diff = GV_DiffDirS_8001704C(a, b) ; 
+
+    if ( diff + 0x380 > 0x700u ) return 0 ;
+    if ( diff >= 0 ) return 1 ;
+    
+    return 2 ;
+}
+
+void s00a_command_800C5860( WatcherWork* work )
+{
+    int trans;
+    int near;
+
+    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ratan2( work->field_C24, trans  )  & 0xFFF;
+
+    near = GV_NearExp8_800263E4( work->field_734, trans - 0x400 );
+    work->field_734 = near;
+    work->field_754 = near;
+
+    if ( near < 0 )
+    {
+        work->field_75C = near * 3 ;
+    }
+    else
+    {
+        work->field_75C = ( near * 3 ) / 2 ;
+    } 
+}
+
+void s00a_command_800C58E8( WatcherWork * work )
+{
+    TARGET * target;
+    SVECTOR svec2;
+    SVECTOR svec;
+    SVECTOR svec4;
+    SVECTOR svec3;
+
+    target = &work->field_994;
+    svec  = s00a_dword_800DFDA0;
+    svec4 = s00a_dword_800DFDA8;
+    svec3 = s00a_dword_800DFDB0;
+
+    GM_SetTarget_8002DC74(target, 4, 2, &svec3);
+    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rotator);
+    DG_RotVector_8001BE98(&svec4, &svec2, 1);
+    GM_Target_8002DCCC(target, 0, 2, 32, 1, &svec2);
+    DG_PutVector_8001BE48(&svec, &work->field_994.field_8_vec, 1);
+    sub_8002D7DC(target);
+}
+
+void s00a_command_800C59F8( WatcherWork *work )
+{
+    TARGET* target;
+
+    target = &work->field_904;
+    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
+    GM_Target_SetVector_8002D500( target, &work->control.field_0_mov );
+    sub_8002D7DC( target );
+}
+
+int CheckPad_800C5A60( WatcherWork *work )
+{
+    int press = work->pad.press;
+
+    if ( press & 0x01 )
+    {
+        SetMode2( work, s00a_command_800C841C );
+        return 0;
+    }
+
+    if ( press & 0x02 )
+    {
+        SetMode2( work, s00a_command_800C84FC );
+        return 0;
+    }
+
+    if ( press & 0x04 )
+    {
+        SetMode2( work, ActOverScoutD_800C85DC ); // //ActOverScoutD_800C85DC
+        return 0;
+    }
+
+    if ( press & 0x2000 )
+    {
+        SetMode2( work, s00a_command_800C8688 );
+        return 0;
+    }
+
+    if ( press & 0x40 )
+    {
+        SetMode2( work, s00a_command_800C8734 );
+        return 0;
+    }
+
+    if ( press & 0x80 )
+    {
+        SetMode2( work, s00a_command_800C87FC );
+        return 0;
+    }
+
+    if ( press & 0x400 )
+    {
+        SetMode2( work, s00a_command_800C88D8 );
+        return 0;
+    }
+
+    if ( press & 0x800 )
+    {
+        SetMode2( work, s00a_command_800C8990 );
+        return 0;
+    }
+
+    if ( press & 0x200 )
+    {
+        SetMode2( work, s00a_command_800C8A6C );
+        return 0;
+    }
+
+    if ( press & 0x800000 )
+    {
+        SetMode2( work, s00a_command_800C8C98 );
+        return 0;
+    }
+    
+    if ( press & 0x1000000 )
+    {
+        SetMode2( work, s00a_command_800C8DF8 );
+        return 0;
+    }
+
+    if ( press & 0x100 )
+    {
+        SetMode( work, s00a_command_800C615C );
+        return 1;
+    }
+
+    if ( press & 0x20 )
+    {
+        SetMode( work, s00a_command_800C6164 );
+        return 1;
+    }
+
+    if ( press & 0x2000000 )
+    {
+        SetMode( work, s00a_command_800C624C );
+        return 1;
+    }
+
+    if ( press & 0x400000 )
+    {
+        SetMode( work, s00a_command_800C6320 );
+        return 1;
+    }
+
+    if ( press & 0x30000 )
+    {
+        SetMode( work, s00a_command_800C65A8 );
+        work->field_734 = 0;
+        return 1;
+    }
+    
+    return 0;
 }

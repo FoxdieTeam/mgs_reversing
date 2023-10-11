@@ -403,12 +403,12 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     ;check.c
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C55B0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C580C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C5860.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C58E8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C59F8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C5A60.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C55B0.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C580C.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C5860.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C58E8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C59F8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\CheckPad_800C5A60.obj"
 
     ;action.c
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C5C84.obj"
@@ -440,7 +440,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C82B0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C841C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C84FC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C85DC.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\ActOverScoutD_800C85DC.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8688.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8734.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C87FC.obj"
