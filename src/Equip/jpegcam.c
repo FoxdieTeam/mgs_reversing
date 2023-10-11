@@ -71,7 +71,7 @@ TMat8x8B gJpegcamMatrix1_8009F36C = {
     {0x0C, 0xDD, 0x35, 0xC1, 0x3F, 0xCB, 0x23, 0xF4}
 };
 
-SVECTOR dword_8009F3AC = {0, 0, 0, 0};
+SVECTOR dword_8009F3AC[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 
 void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
 {
@@ -520,7 +520,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
         mtx.t[2] = gUnkCameraStruct_800B77B8.field_0.vz;
         DG_SetPos_8001BC44(&mtx);
 
-        DG_PutVector_8001BE48(&dword_8009F3AC, &vector1, 2);
+        DG_PutVector_8001BE48(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
         if (sub_80028454(pActor->field_6C_pMap->field_8_hzd, &vector1, &vector2, 0xf, 0x81) != 0)
