@@ -21,7 +21,7 @@ extern GV_PAD             GV_PadData_800B05C0[4];
 extern UnkCameraStruct2   gUnkCameraStruct2_800B7868;
 extern int                GM_PadVibration2_800ABA54;
 extern int                GM_PadVibration_800ABA3C;
-extern Blast_Data         blast_data_8009F4F4;
+extern Blast_Data         blast_data_8009F4B8[8];
 extern GM_Camera          GM_Camera_800B77E8;
 
 extern const char aDemothrdC[]; // = "demothrd.c"
@@ -925,7 +925,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         funcptr = GM_GetCharaID_8002A8EC(0x1);
         if (funcptr != NULL)
         {
-            funcptr(&mat1, &blast_data_8009F4F4);
+            funcptr(&mat1, &blast_data_8009F4B8[3]);
         }
         break;
 

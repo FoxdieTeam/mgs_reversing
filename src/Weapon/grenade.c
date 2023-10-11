@@ -16,7 +16,7 @@ extern short         d_800ABA2C_ammo;
 extern SVECTOR       DG_ZeroVector_800AB39C;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
-extern Blast_Data    blast_data_8009F4B8;
+extern Blast_Data    blast_data_8009F4B8[8];
 extern TBombFunction GM_lpfnBombHoming_800AB3E8;
 extern int           GM_PlayerStatus_800ABA50;
 
@@ -83,7 +83,7 @@ void grenade_act_8006641C( Actor_Grenade *actor )
 			{
 			case GRD_GRENADE:
 			case GRD_TBOMB:
-				NewBlast_8006DFDC( world, &blast_data_8009F4B8 );
+				NewBlast_8006DFDC( world, &blast_data_8009F4B8[0] );
 				break;
 			case GRD_STUN:
 				NewStanBlast_80074B5C( world );

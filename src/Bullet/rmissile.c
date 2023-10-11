@@ -22,15 +22,14 @@ extern OBJECT *         GM_PlayerBody_800ABA20;
 extern int              GM_GameOverTimer_800AB3D4;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GV_Clock_800AB920;
-extern Blast_Data       blast_data_8009F508;
-extern Blast_Data       blast_data_8009F544;
+extern Blast_Data       blast_data_8009F4B8[8];
 extern int              GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern TARGET *target_800BDF00;
+extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
 extern int              GM_GameStatus_800AB3CC;
-extern CONTROL      *GM_PlayerControl_800AB9F4;
+extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern int              GM_CameraTrackSave_800AB42C;
 extern SVECTOR          GM_CameraRotateSave_800AB430;
 extern int              GM_event_camera_flag_800ABA9C;
@@ -421,7 +420,7 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
         GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
 
         pBlastData = (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
-            ? &blast_data_8009F544 : &blast_data_8009F508;
+            ? &blast_data_8009F4B8[7] : &blast_data_8009F4B8[4];
         NewBlast_8006DFDC(&rotation, pBlastData);
     }
 #else
@@ -575,11 +574,11 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)
                 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
-                pBlastData = &blast_data_8009F544;
+                pBlastData = &blast_data_8009F4B8[7];
             }
             else
             {
-                pBlastData = &blast_data_8009F508;
+                pBlastData = &blast_data_8009F4B8[4];
             }
 
             NewBlast_8006DFDC(&rotation, pBlastData);
