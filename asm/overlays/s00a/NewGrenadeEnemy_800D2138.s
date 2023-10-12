@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_boxkeri_800D2138
-s00a_boxkeri_800D2138:
+	xdef NewGrenadeEnemy_800D2138
+NewGrenadeEnemy_800D2138:
 	dw 0x27BDFFD8 ; 800D2138
 	dw 0x8FA30038 ; 800D213C
 	dw 0x8FA2003C ; 800D2140

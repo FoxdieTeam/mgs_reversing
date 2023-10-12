@@ -1,5 +1,6 @@
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Weapon/weapon.h"
 #include "Game/homing_target.h"
 
 typedef struct _WatcherPad
@@ -290,14 +291,25 @@ extern void  s00a_command_800D0344( void ) ;
 extern void  s00a_command_800CA0E8( WatcherWork* work );
 extern void  s00a_command_800CA07C( WatcherWork* work );
 
+void SetCameraActCall_800D043C();
+void UnsetCameraActCall_800D047C();
+
 //watcher.c
 #define EN_FASEOUT 0x10000000
+
+//check.c
+int s00a_command_800C580C( int a, int b );
+int CheckDamage_800C5424( WatcherWork * work ) ;
+int CheckPad_800C5A60( WatcherWork *work ) ;
+void s00a_command_800C5860( WatcherWork* work ) ;
+int s00a_command_800C58E8( WatcherWork * work );
 
 //put.c
 #define PUTBREATH 1
 #define BW_MARK 4
 
-extern int ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
+extern void ENE_PutMark_800C9378( WatcherWork *work, int mark );
+extern int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 
 //action.c
 #define COM_ST_DANBOWL 0x2000
@@ -431,8 +443,6 @@ static inline void UnsetAction2( WatcherWork *work )
 }
 
 
-
-
 extern void s00a_command_800C78E0( WatcherWork *work, int time );
 extern void s00a_command_800C77C8( WatcherWork *work, int time );
 extern void s00a_command_800C7354( WatcherWork *work, int time );
@@ -453,9 +463,17 @@ extern void s00a_command_800C6164( WatcherWork *work, int time );
 extern void s00a_command_800C624C( WatcherWork *work, int time );
 extern void s00a_command_800C6320( WatcherWork *work, int time );
 extern void s00a_command_800C65A8( WatcherWork *work, int time );
+extern void s00a_command_800C5E48( WatcherWork *work, int time );
 
-extern void ActOverScoutD_800C85DC( WatcherWork *work, int time ); //ActOverScoutD_800C85DC
+extern void s00a_command_800C6724( WatcherWork *work, int time );
+extern void s00a_command_800C67E4( WatcherWork *work, int time );
+extern void s00a_command_800C6A40( WatcherWork *work, int time );
+
+extern void ActGrenade_800C67EC( WatcherWork *work, int time );
+extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 
 
 //think.c ?
 #define T_NOISE 0
+
+extern int DirectTrace_800CC154( WatcherWork *work, int val );
