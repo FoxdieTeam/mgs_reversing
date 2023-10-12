@@ -13,8 +13,7 @@ extern TBombFunction2 GM_lpfnBombBound_800AB3EC;
 extern int            GM_GameStatus_800AB3CC;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            dword_800BDD28;
-extern Blast_Data     blast_data_8009F4B8;
-extern Blast_Data     blast_data_8009F530;
+extern Blast_Data     blast_data_8009F4B8[8];
 extern SVECTOR        GM_PlayerPosition_800ABA10;
 extern SVECTOR        DG_ZeroVector_800AB39C;
 extern CONTROL    *tenage_ctrls_800BDD30[16];
@@ -72,11 +71,11 @@ void tenage_act_800699A4(Actor_tenage *pActor)
             break;
 
         case 3:
-            NewBlast2_8006E0F0(&rotation, &blast_data_8009F530, pActor->field_118_do_sound, pActor->field_11C);
+            NewBlast2_8006E0F0(&rotation, &blast_data_8009F4B8[6], pActor->field_118_do_sound, pActor->field_11C);
             break;
 
         default:
-            NewBlast2_8006E0F0(&rotation, &blast_data_8009F4B8, pActor->field_118_do_sound, pActor->field_11C);
+            NewBlast2_8006E0F0(&rotation, &blast_data_8009F4B8[0], pActor->field_118_do_sound, pActor->field_11C);
             break;
         }
 

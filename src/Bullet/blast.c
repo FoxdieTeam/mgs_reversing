@@ -11,14 +11,16 @@ extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
 extern short          GM_uBombHoming_800AB3E4;
 extern SVECTOR        DG_ZeroVector_800AB39C;
 
-Blast_Data blast_data_8009F4B8 = {0x100, 5, 0x3E8, 0x7D0, 2};
-Blast_Data blast_data_8009F4CC = {0x100, 5, 0x3E8, 0x7D0, 6};
-Blast_Data blast_data_8009F4E0 = {0x100, 5, 0x3E8, 0x7D0, 5};
-Blast_Data blast_data_8009F4F4 = {0x100, 5, 0x3E8, 0x7D0, 4};
-Blast_Data blast_data_8009F508 = {0x100, 5, 0x3E8, 0x7D0, 3};
-Blast_Data blast_data_8009F51C = {0x100, 5, 0x3E8, 0x7D0, -1};
-Blast_Data blast_data_8009F530 = {0x400, 5, 0x3E8, 0x7D0, 10};
-Blast_Data blast_data_8009F544 = {0, 0, 1, 1, -1};
+Blast_Data blast_data_8009F4B8[8] = {
+    {0x100, 5, 0x3E8, 0x7D0, 2},
+    {0x100, 5, 0x3E8, 0x7D0, 6},
+    {0x100, 5, 0x3E8, 0x7D0, 5},
+    {0x100, 5, 0x3E8, 0x7D0, 4},
+    {0x100, 5, 0x3E8, 0x7D0, 3},
+    {0x100, 5, 0x3E8, 0x7D0, -1},
+    {0x400, 5, 0x3E8, 0x7D0, 10},
+    {0, 0, 1, 1, -1}
+};
 
 SVECTOR svector_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
 
