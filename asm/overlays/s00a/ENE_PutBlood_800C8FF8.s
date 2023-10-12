@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_command_800C8FF8
-s00a_command_800C8FF8:
+	xdef ENE_PutBlood_800C8FF8
+ENE_PutBlood_800C8FF8:
 	dw 0x27BDFFC8 ; 800C8FF8
 	dw 0xAFB00030 ; 800C8FFC
 	dw 0x00C08021 ; 800C9000
