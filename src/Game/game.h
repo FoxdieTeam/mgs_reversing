@@ -120,6 +120,9 @@ enum // GM_GameStatus_800AB3CC
     STATE_PADRELEASE = 0x10000000,
 };
 
+//sound
+#define SE_PINNUKI 0x2C
+
 static inline void GM_SetNoise(int power, int length, SVECTOR *pos)
 {
     int old = GM_NoisePower_800ABA24;

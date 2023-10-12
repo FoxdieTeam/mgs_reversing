@@ -342,7 +342,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
 
         sub_800790E8();
 
-        GM_SetTarget_8002DC74(&target, 4, 0, &pTarget->field_10_size);
+        GM_SetTarget_8002DC74(&target, 4, NO_SIDE, &pTarget->field_10_size);
         GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector_800AB39C);
         GM_Target_SetVector_8002D500(&target, &pTarget->field_8_vec);
 
@@ -463,7 +463,7 @@ int jirai_loader_helper_8006B124(Actor_Jirai *pActor, MATRIX *pMtx, int a3)
     {
         GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &v12);
     }
-    GM_SetTarget_8002DC74(pNewTarget, 9, 0, &v12);
+    GM_SetTarget_8002DC74(pNewTarget, 9, NO_SIDE, &v12);
     pNewTarget->field_3C |= 2;
     DG_SetPos_8001BC44(pMtx);
     DG_PutVector_8001BE48(v8, &v12, 1);

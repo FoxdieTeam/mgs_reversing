@@ -349,9 +349,9 @@ const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[] = " Err Err E
 const SVECTOR s00a_dword_800DFDA0 = { -200, 100, 600 };
 const SVECTOR s00a_dword_800DFDA8 = { 5, 0, 100 };
 const SVECTOR s00a_dword_800DFDB0 = { 400, 1000, 400 };
-const char s00a_aComstdanbowl_800DFDB8[] = " ~COM_ST_DANBOWL 0 !! \n ";
-const char s00a_aComstdanbowl_800DFDD4[] = " ~COM_ST_DANBOWL 1 !! \n ";
-const char s00a_aComstdanbowl_800DFDF0[] = " ~COM_ST_DANBOWL 2 !! \n ";
+const char aComstdanbowl0_800DFDB8[] = " ~COM_ST_DANBOWL 0 !! \n ";
+const char aComstdanbowl1_800DFDD4[] = " ~COM_ST_DANBOWL 1 !! \n ";
+const char aComstdanbowl2_800DFDF0[] = " ~COM_ST_DANBOWL 2 !! \n ";
 const char s00a_aMapchange_800DFE0C[] = " map change \n";
 const char s00a_dword_800DFE1C[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800DFE20 = 0x800C7970;
@@ -962,7 +962,7 @@ const char s00a_dword_800E097C[] = {0xaf, 0x0, 'd', 0x0};
 const char s00a_dword_800E0980[] = {'^', 0x1, 0xc8, 0x0};
 const char s00a_aKirari_800E0984[] = "kirari";
 const char s00a_aEyeflashc_800E098C[] = "eyeflash.c";
-const char s00a_aAsiatoc_800E0998[] = "asiato.c";
+const char aAsiatoc_800E0998[] = "asiato.c";
 const char s00a_aLsightc_800E09A4[] = "l_sight.c";
 const char s00a_aGrenademodeld_800E09B0[] = "grenade model=%d \n";
 const char s00a_aGrnadec_800E09C4[] = "grnad_e.c";
@@ -1300,7 +1300,9 @@ const char s00a_dword_800E0F80[] = {0x41, 0x44, 0x56, 0x41};
 const char s00a_dword_800E0F84[] = {0x4E, 0x43, 0x45, 0x44};
 const char s00a_dword_800E0F88[] = {0x20, 0x4D, 0x4F, 0x44};
 const char s00a_dword_800E0F8C[] = {0x45, 0x00, 0x00, 0x00};
-const char s00a_dword_800E0F90[] = {0x00, 0x00, 0x00, 0x00};
+
+const int s00a_dword_800E0F90 = 0;
+
 const char s00a_dword_800E0F94[] = {0x4B, 0x49, 0x4E, 0x47};
 const char s00a_dword_800E0F98[] = {0x20, 0x4D, 0x4F, 0x44};
 const char s00a_dword_800E0F9C[] = {0x45, 0x00, 0x00, 0x00};

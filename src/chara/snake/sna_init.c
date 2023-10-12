@@ -1015,7 +1015,7 @@ int sub_8004FCB8(Actor_SnaInit *pActor, MATRIX *pMtx, int param_3)
     SVECTOR    vec_arr[2];
 
     pTarget = &pActor->field_8A0_target;
-    GM_SetTarget_8002DC74(pTarget, 4, 1, (SVECTOR *)&pMtx->m[1][1]);
+    GM_SetTarget_8002DC74(pTarget, 4, PLAYER_SIDE, (SVECTOR *)&pMtx->m[1][1]);
     DG_RotVector_8001BE98((SVECTOR *)&pMtx->m[2][2], &vec, 1);
     GM_Target_8002DCCC(pTarget, 3, param_3, pMtx->t[1], pMtx->t[2], &vec);
     DG_PutVector_8001BE48((SVECTOR *)&pMtx->m[0], &vec, 1);
@@ -1046,7 +1046,7 @@ int sna_8004FDE8(Actor_SnaInit *pActor, Target_Data *pTargetData)
         flags = 0x40;
     }
 
-    GM_SetTarget_8002DC74(&pActor->field_8A0_target, flags, 1, &pTargetData->field_8_size);
+    GM_SetTarget_8002DC74(&pActor->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
     GM_Target_8002DCB4(&pActor->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &pActor->field_8F4, &pActor->field_8FC);
     DG_PutVector_8001BE48(&pTargetData->field_0, &vec, 1);
     GM_Target_SetVector_8002D500(&pActor->field_8A0_target, &vec);
@@ -8555,7 +8555,7 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
 
     pTarget = pActor->field_89C_pTarget = GM_AllocTarget_8002D400();
 
-    GM_SetTarget_8002DC74(pTarget, 159, 1, pVec);
+    GM_SetTarget_8002DC74(pTarget, 159, PLAYER_SIDE, pVec);
     GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector_800AB39C);
     GM_Target_8002DCB4(pTarget, 0, 0, &pActor->field_8F4, &pActor->field_8FC);
     GM_Target_SetVector_8002D500(pTarget, &pActor->field_20_ctrl.field_0_mov);
