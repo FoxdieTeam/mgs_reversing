@@ -21,12 +21,15 @@ extern short word_800AB824;
 short SECTION( ".sdata" ) word_800AB824;
 
 extern RECT    stru_800AB828;
+RECT           stru_800AB828; // gp
+
 extern short   d_800AB9EC_mag_size;
 extern short   d_800ABA2C_ammo;
 
 //------------------------------------------------------------------------------
 
-SVECTOR stru_8009F3BC[3] = {{20, -370, 60, 0}, {0, -215, 32, 0}, {0, -10455, 32, 0}};
+SVECTOR stru_8009F3BC[] = {{20, -370, 60, 0}};
+SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
 SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 //------------------------------------------------------------------------------
@@ -164,7 +167,6 @@ void socom_act_helper_800653B8( Actor_Socom *socom )
 
 int socom_act_helper_80065408( Actor_Socom *pActor )
 {
-#ifndef VR_EXE
     int         bCalcLen;
     MAP *field_2C_map;
     int         vecLen;
@@ -194,9 +196,6 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
         }
     }
     return vecLen;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 6); // it matches, but stru_8009F3D4 fake data must be fixed
-#endif
 }
 
 extern int     GV_Time_800AB330;
@@ -367,7 +366,6 @@ void socom_kill_80065A94( Actor_Socom *a1 )
 
 int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
 {
-#ifndef VR_EXE
     DG_TEX  *pTexture;
     DG_PRIM *pNewPrim;
     DG_PRIM *prim;
@@ -412,7 +410,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
                 socom_init_vectors_80065254( actor );
                 pNewPrim->root = &arg1->objs->objs[ unit ].world;
                 actor->field_10C_pPrim = prim = DG_GetPrim( 0x409, 2, 0, &actor->field_110, &stru_800AB828 );
-                actor->field_110 = actor->field_118 = *(stru_8009F3BC + 1);
+                actor->field_110 = actor->field_118 = stru_8009F3C4[0];
                 if ( prim )
                 {
                     socom_InitLight_80065338( ( TILE* )&prim->field_40_pBuffers[ 0 ]->tiles );
@@ -426,9 +424,6 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
         }
     }
     return -1;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 5, 3);
-#endif
 }
 
 Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, int a5 )
