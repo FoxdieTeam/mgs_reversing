@@ -4,16 +4,19 @@
 
 extern int GV_NearExp4P_80026554(int from, int to);
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
-extern SVECTOR GM_PlayerPosition_800ABA10;
+extern SVECTOR      DG_ZeroVector_800AB39C;
+extern OBJECT      *GM_PlayerBody_800ABA20;
+extern CONTROL     *GM_PlayerControl_800AB9F4;
+extern SVECTOR      GM_PlayerPosition_800ABA10;
 extern unsigned int GM_PlayerStatus_800ABA50;
 
 extern const char aComstdanbowl0_800DFDB8[]; // = " ~COM_ST_DANBOWL 0 !! \n ";
 extern const char aComstdanbowl1_800DFDD4[]; // = " ~COM_ST_DANBOWL 1 !! \n ";
 extern const char aComstdanbowl2_800DFDF0[]; // = " ~COM_ST_DANBOWL 2 !! \n ";
 
+extern SVECTOR    s00a_dword_800C33C4;
+extern int        dword_800ABA0C;
+extern const char aMapchange_800DFE0C[]; // map change \n;
 
 void ActStandStill_800C5C84(WatcherWork* work, int time ) 
 {
@@ -537,5 +540,105 @@ void sub_800C6B24( WatcherWork* work, int time )
     {
         work->actend = 1;
         SetMode( work, ActStandStill_800C5C84 );
+    }
+}
+
+//Enemey getting flipped over
+void s00a_command_800C6BCC( WatcherWork* work, int time )
+{
+    CONTROL *ctrl;
+    TARGET  *target;
+    
+    target = work->target;
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->act_status |= 0x08;
+
+    if ( time == 0 )
+    {
+        work->field_8DC = 6;
+        SetAction( work, ACTION31, ACTINTERP );
+    }
+
+    if ( time - 8 < 12u )
+    {
+        s00a_command_800C59F8( work );
+    }
+
+    if ( work->field_8E0 == 31 )
+    {
+        if ( time == 22 )
+        {
+            if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000 )
+            {
+                GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 ) ;
+                GM_Sound_800329C4( &ctrl->field_0_mov, 0x33, 1 ) ;
+                ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
+                GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
+            }
+            //if they fall from a height?
+            else if ( ctrl->field_0_mov.vy - ctrl->field_78_levels[0] > 3000 )
+            {
+                work->target->field_26_hp = 0;
+                GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 ) ;
+            }
+        }
+        if ( work->body.is_end )
+        {
+            if ( !ctrl->field_57 )
+            {
+                SetAction( work, ACTION40, ACTINTERP );
+            }
+            else
+            {
+                SetMode( work, s00a_command_800C7498 );
+            }
+        }
+    }
+    else
+    {
+        if ( ctrl->field_57 )
+        {
+            GM_Sound_800329C4( &ctrl->field_0_mov, 0x33, 1 ) ;
+            GM_SetNoise( 0x64, 4, &work->control.field_0_mov ) ;
+            ENE_PutBlood_800C8FF8( work, 6, 1 ) ;
+
+            if ( work->target->field_26_hp <= 0 )
+            {
+                SetMode( work, s00a_command_800C8054 );
+            }
+            else
+            {
+                GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 ) ;  
+                SetMode( work, s00a_command_800C7498 );
+            }
+        }
+    }
+    if ( time < 24 )
+    {
+        ctrl->field_4C_turn_vec = *target->field_1C;
+    }
+
+    if ( time < 22 )
+    {
+        work->control.field_34_hzd_height = -32767;
+    }
+}
+
+void s00a_command_800C6EC8( WatcherWork* work )
+{
+    CONTROL *ctrl;
+    SVECTOR  svec;
+
+    ctrl = &work->control;   
+    work->control.field_4C_turn_vec = GM_PlayerControl_800AB9F4->field_8_rotator;
+    DG_SetPos2_8001BC8C(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->field_8_rotator);
+    DG_PutVector_8001BE48(&s00a_dword_800C33C4, &svec, 1);
+    GV_SubVec3_80016D40(&svec, &ctrl->field_0_mov, &work->control.field_44_movementVector);
+
+    if ( !( ctrl->field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+    {
+        printf(aMapchange_800DFE0C) ;
+        work->control.field_44_movementVector = DG_ZeroVector_800AB39C;
     }
 }

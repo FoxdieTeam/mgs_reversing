@@ -404,8 +404,8 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     ;action.c
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6BCC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6EC8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6BCC.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6EC8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6FA8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7354.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7498.obj"
@@ -433,7 +433,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8DF8.obj"
 
     ;put.c
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8FF8.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\ENE_PutBlood_800C8FF8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9068.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C90CC.obj"
     include "{{OBJ_DIR}}\overlays\s00a\ENE_PutMark_800C9378.obj"
@@ -602,31 +602,6 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0CF4.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\asiato.obj"
-
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D0DD4.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D0E00.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D0E10.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D0E9C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D0F90.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D116C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D11DC.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D129C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D12D0.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D1378.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D13A0.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D13B0.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D1500.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D15D8.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D16C0.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D16F8.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D179C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D17BC.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D1844.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D18C8.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D1994.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D199C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D1A14.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_asiato_800D1A70.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\s00a_lsight_800D1ACC.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_lsight_800D1BF0.obj"
