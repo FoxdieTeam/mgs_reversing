@@ -98,14 +98,11 @@ short ActTable_800C3358[54] =
     0x0B
 };
 
-int s00a_dword_800C33C4 = 0x0000FF6A;
-int s00a_dword_800C33C8 = 0x0000012C;
-int s00a_dword_800C33CC = 0xFDDA0000;
-int s00a_dword_800C33D0 = 0x000003B6;
-int s00a_dword_800C33D4 = 0x00000000;
-int s00a_dword_800C33D8 = 0x00000064;
-int s00a_dword_800C33DC = 0x0000FC00;
-int s00a_dword_800C33E0 = 0x00000000;
+SVECTOR s00a_dword_800C33C4 = { -150, 0, 300 };
+SVECTOR s00a_dword_800C33CC = { 0, -550, 950 };
+SVECTOR s00a_dword_800C33D4 = { 0, 0, 100 };
+SVECTOR s00a_dword_800C33DC = { -1024, 0, 0 };
+
 int s00a_dword_800C33E4 = 0x00000000;
 int s00a_dword_800C33E8 = 0x00000064;
 int s00a_dword_800C33EC = 0x0000FC00;
@@ -352,7 +349,7 @@ const SVECTOR s00a_dword_800DFDB0 = { 400, 1000, 400 };
 const char aComstdanbowl0_800DFDB8[] = " ~COM_ST_DANBOWL 0 !! \n ";
 const char aComstdanbowl1_800DFDD4[] = " ~COM_ST_DANBOWL 1 !! \n ";
 const char aComstdanbowl2_800DFDF0[] = " ~COM_ST_DANBOWL 2 !! \n ";
-const char s00a_aMapchange_800DFE0C[] = " map change \n";
+const char aMapchange_800DFE0C[] = " map change \n";
 const char s00a_dword_800DFE1C[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800DFE20 = 0x800C7970;
 const int s00a_dword_800DFE24 = 0x800C79C4;
