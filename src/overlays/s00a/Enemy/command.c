@@ -1,6 +1,6 @@
 #include "libgcl/libgcl.h"
+#include "Game/camera.h"
 #include "Game/map.h"
-//#include "command.h"
 #include "enemy.h"
 
 
@@ -13,6 +13,7 @@
 //extern void s00a_command_800D04F4( CommanderWork *work, int name, int where ) ; //CommandGetResources_800D04F4
 
 extern SVECTOR DG_ZeroVector_800AB39C;
+extern GM_Camera GM_Camera_800B77E8;
 
 void CommandAct_800D0258( CommanderWork* work )
 {
@@ -37,15 +38,30 @@ void CommandDie_800D02EC( void )
     return;
 }
 
-
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800D02F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800D0344.s")
 
-//SetCameraActCall_800D043C
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800D043C.s")
+void SetCameraActCall_800D043C()
+{
+    if ( COM_GameStatus_800E0F3C & 0x1000 ) return;
 
-//UnsetCameraActCall_800D047C
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800D047C.s")
+    COM_GameStatus_800E0F3C |= 0x1000 ;
+    GM_GameStatus_800AB3CC  |= 0x10000000 ;
+    s00a_dword_800E0D2C = 0 ;
+
+}
+
+void UnsetCameraActCall_800D047C()
+{
+    if ( !( COM_GameStatus_800E0F3C & 0x1000 ) ) return;
+
+    COM_GameStatus_800E0F3C &= ~( 0x1000 ) ;
+    GM_GameStatus_800AB3CC  &= ~( 0x10000000 ) ;
+
+    sub_8002FD84( 1, NULL ) ;
+    s00a_dword_800E0D2C = 0 ;
+    GM_Camera_800B77E8.field_18_flags &= ~( 2 ) ;
+}
 
 void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 {

@@ -75,11 +75,11 @@ void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSideP
 
     if ( targetSidePicker )
     {
-        GM_SetTarget_8002DC74(pTarget, 4, 0, &vec);
+        GM_SetTarget_8002DC74(pTarget, 4, NO_SIDE, &vec);
     }
     else
     {
-        GM_SetTarget_8002DC74(pTarget, 4, 2, &vec);
+        GM_SetTarget_8002DC74(pTarget, 4, ENEMY_SIDE, &vec);
     }
 
     GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, pBlastData->field_4, svector_8009F558);
@@ -94,11 +94,11 @@ void blast_8006DDEC(Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSideP
 
     if ( targetSidePicker )
     {
-        GM_SetTarget_8002DC74(pTarget, 4, 0, &vec);
+        GM_SetTarget_8002DC74(pTarget, 4, NO_SIDE, &vec);
     }
     else
     {
-        GM_SetTarget_8002DC74(pTarget, 4, 2, &vec);
+        GM_SetTarget_8002DC74(pTarget, 4, ENEMY_SIDE, &vec);
     }
 
     GM_Target_8002DCCC(pTarget, 7, 2, pBlastData->field_0 >> 1, 3, svector_8009F558);
