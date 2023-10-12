@@ -230,18 +230,18 @@ void InitTarget_800C444C( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), 2, &ENEMY_TARGET_SIZE_800C35A4 );
+    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget_8002DC74( target2, TARGET_POWER, 1, &ENEMY_ATTACK_SIZE_800C35B4 );
+    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
 
     target2 = &work->field_94C;
-    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), 2, &ENEMY_TOUCH_SIZE_800C35C4 );
+    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
 }
 

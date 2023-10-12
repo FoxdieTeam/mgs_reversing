@@ -158,18 +158,18 @@ void InitTarget_800C5484( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), 2, &ENEMY_TARGET_SIZE_800C35A4 );
+    GM_SetTarget_8002DC74( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget_8002DC74( target2, TARGET_POWER, 1, &ENEMY_ATTACK_SIZE_800C35B4 );
+    GM_SetTarget_8002DC74( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
 
     target2 = &work->field_94C;
-    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), 2, &ENEMY_TOUCH_SIZE_800C35C4 );
+    GM_SetTarget_8002DC74( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
 }
 
@@ -250,12 +250,12 @@ void s00a_command_800C55B0( WatcherWork* work )
     }
 }
 
-int s00a_command_800C580C( int a, int b )
+int s00a_command_800C580C( int dir, int dist )
 {
     int diff ;
-    if ( b < 0 || a < 0 ) return 0 ;
+    if ( dist < 0 || dir < 0 ) return 0 ;
     
-    diff = GV_DiffDirS_8001704C(a, b) ; 
+    diff = GV_DiffDirS_8001704C( dir, dist ) ; 
 
     if ( diff + 0x380 > 0x700u ) return 0 ;
     if ( diff >= 0 ) return 1 ;
@@ -285,7 +285,7 @@ void s00a_command_800C5860( WatcherWork* work )
     } 
 }
 
-void s00a_command_800C58E8( WatcherWork * work )
+int s00a_command_800C58E8( WatcherWork * work )
 {
     TARGET * target;
     SVECTOR svec2;
@@ -298,12 +298,12 @@ void s00a_command_800C58E8( WatcherWork * work )
     svec4 = s00a_dword_800DFDA8;
     svec3 = s00a_dword_800DFDB0;
 
-    GM_SetTarget_8002DC74(target, 4, 2, &svec3);
+    GM_SetTarget_8002DC74(target, 4, ENEMY_SIDE, &svec3);
     DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rotator);
     DG_RotVector_8001BE98(&svec4, &svec2, 1);
     GM_Target_8002DCCC(target, 0, 2, 32, 1, &svec2);
     DG_PutVector_8001BE48(&svec, &work->field_994.field_8_vec, 1);
-    sub_8002D7DC(target);
+    return sub_8002D7DC(target);
 }
 
 void s00a_command_800C59F8( WatcherWork *work )

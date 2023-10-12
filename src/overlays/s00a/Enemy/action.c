@@ -1,137 +1,19 @@
-#include "Game/linkvarbuf.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "Game/object.h"
-#include "Game/game.h"
-#include "command.h"
-#include "action.h"
+#include "enemy.h"
+#include "game/linkvarbuf.h"
 
-#define ENEMY_SIDE 2
 
-#define WEAPON_TAKE 1
-
-#define SE_PINNUKI 0x2C
-
-#define WEAPON_TRIG  2
-#define WEAPON_TRIG2 4
-
-extern void     UnsetCameraActCall_800D047C();
-extern void     SetCameraActCall_800D043C();
-extern int      CheckDamage_800C5424( WatcherWork *work );
-extern int      sub_800C580C( int dir, int val );
-
-extern OBJECT   *GM_PlayerBody_800ABA20;
-extern int       GM_PlayerStatus_800ABA50;
-extern SVECTOR   GM_PlayerPosition_800ABA10;
-
-int CheckPad_800C5A60( WatcherWork *work )
-{
-    int press = work->pad.press;
-
-    if ( press & 0x01 )
-    {
-        SetMode2( work, ActUnknown1_800C841C );
-        return 0;
-    }
-
-    if ( press & 0x02 )
-    {
-        SetMode2( work, ActUnknown2_800C84FC );
-        return 0;
-    }
-
-    if ( press & 0x04 )
-    {
-        SetMode2( work, ActOverScoutD_800C85DC );
-        return 0;
-    }
-
-    if ( press & 0x2000 )
-    {
-        SetMode2( work, ActUnknown4_800C8688 );
-        return 0;
-    }
-
-    if ( press & 0x40 )
-    {
-        SetMode2( work, ActUnknown5_800C8734 );
-        return 0;
-    }
-
-    if ( press & 0x80 )
-    {
-        SetMode2( work, ActUnknown6_800C87FC );
-        return 0;
-    }
-
-    if ( press & 0x400 )
-    {
-        SetMode2( work, ActUnknown7_800C88D8 );
-        return 0;
-    }
-
-    if ( press & 0x800 )
-    {
-        SetMode2( work, ActUnknown8_800C8990 );
-        return 0;
-    }
-
-    if ( press & 0x200 )
-    {
-        SetMode2( work, ActUnknown9_800C8A6C );
-        return 0;
-    }
-
-    if ( press & 0x800000 )
-    {
-        SetMode2( work, ActUnknown10_800C8C98 );
-        return 0;
-    }
-    
-    if ( press & 0x1000000 )
-    {
-        SetMode2( work, ActUnknown11_800C8DF8 );
-        return 0;
-    }
-
-    if ( press & 0x100 )
-    {
-        SetMode( work, ActUnknown12_800C615C );
-        return 1;
-    }
-
-    if ( press & 0x20 )
-    {
-        SetMode( work, ActUnknown13_800C6164 );
-        return 1;
-    }
-
-    if ( press & 0x2000000 )
-    {
-        SetMode( work, ActUnknown14_800C624C );
-        return 1;
-    }
-
-    if ( press & 0x400000 )
-    {
-        SetMode( work, ActUnknown15_800C6320 );        
-        return 1;
-    }
-
-    if ( press & 0x30000 )
-    {
-        SetMode( work, ActUnknown16_800C65A8 );
-        work->field_734 = 0;
-        return 1;
-    }
-    
-    return 0;
-}
-
-extern int GV_VecDir2_80016EF8(SVECTOR *vec);
 extern int GV_NearExp4P_80026554(int from, int to);
 
 extern SVECTOR DG_ZeroVector_800AB39C;
+extern OBJECT *GM_PlayerBody_800ABA20;
+
+extern SVECTOR GM_PlayerPosition_800ABA10;
+extern unsigned int GM_PlayerStatus_800ABA50;
+
+extern const char aComstdanbowl0_800DFDB8[]; // = " ~COM_ST_DANBOWL 0 !! \n ";
+extern const char aComstdanbowl1_800DFDD4[]; // = " ~COM_ST_DANBOWL 1 !! \n ";
+extern const char aComstdanbowl2_800DFDF0[]; // = " ~COM_ST_DANBOWL 2 !! \n ";
+
 
 void ActStandStill_800C5C84(WatcherWork* work, int time ) 
 {
@@ -153,7 +35,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
 		UnsetMode2( work ) ;
-		return ;        
+		return ;
     }
     
 
@@ -169,7 +51,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
             {
                 SetAction( work, ACTION1, ACTINTERP );
             }
-            SetMode( work, ActUnknown_800C5E48 );
+            SetMode( work, s00a_command_800C5E48 );
             
         }
         else
@@ -180,7 +62,8 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     work->vision_facedir = GV_NearExp4P_80026554( work->vision_facedir, work->control.field_8_rotator.vy );
 }
 
-void ActUnknown_800C5E48( WatcherWork* work, int time )
+
+void s00a_command_800C5E48( WatcherWork* work, int time )
 {
     int x, z;
     int s0;
@@ -206,7 +89,7 @@ void ActUnknown_800C5E48( WatcherWork* work, int time )
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
 		UnsetMode2( work ) ;
-		return ;        
+		return ;
     }
 
     dist = -1;
@@ -225,11 +108,11 @@ void ActUnknown_800C5E48( WatcherWork* work, int time )
         s0 = ctrl->field_58;
         if ( s0 > 0 )
         {
-            dist = GV_VecDir2_80016EF8( svec );
+            dist = GV_YawVec3_80016EF8( svec );
     
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2_80016EF8( &ctrl->field_60_vecs_ary[1] );
+                tmp = GV_YawVec3_80016EF8( &ctrl->field_60_vecs_ary[1] );
                 if ( GV_DiffDirAbs_8001706C( dir, tmp ) < GV_DiffDirAbs_8001706C( dir, dist ) )
                 {
                     dist = tmp;
@@ -247,7 +130,7 @@ void ActUnknown_800C5E48( WatcherWork* work, int time )
 
     if ( time != 1 )
     {
-        switch ( sub_800C580C( dir, dist ) )
+        switch ( s00a_command_800C580C( dir, dist ) )
         {
         case 1:
             dir = (dist - 1024) & 0xFFF;
@@ -297,7 +180,7 @@ void ActUnknown_800C5E48( WatcherWork* work, int time )
         z += 0xFFF;
     }
 
-    ctrl->field_44_movementVector.vz = z >> 12;   
+    ctrl->field_44_movementVector.vz = z >> 12;
 
     if ( !time )
     {
@@ -305,11 +188,11 @@ void ActUnknown_800C5E48( WatcherWork* work, int time )
     }
 }
 
-void ActUnknown12_800C615C( WatcherWork *work, int time )
+void s00a_command_800C615C( WatcherWork *work, int time )
 {
 }
 
-void ActUnknown13_800C6164( WatcherWork *work, int time )
+void s00a_command_800C6164( WatcherWork *work, int time )
 {
     CONTROL *ctrl;
 
@@ -339,7 +222,7 @@ void ActUnknown13_800C6164( WatcherWork *work, int time )
     work->vision_facedir = work->control.field_8_rotator.vy;
 }
 
-void ActUnknown14_800C624C( WatcherWork *work, int time )
+void s00a_command_800C624C( WatcherWork *work, int time )
 {
     CONTROL *ctrl;
 
@@ -369,7 +252,7 @@ void ActUnknown14_800C624C( WatcherWork *work, int time )
     work->vision_facedir = work->control.field_8_rotator.vy;
 }
 
-void ActUnknown15_800C6320( WatcherWork *work, int time )
+void s00a_command_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
     work->vision_length = COM_EYE_LENGTH_800E0D8C;
@@ -379,7 +262,7 @@ void ActUnknown15_800C6320( WatcherWork *work, int time )
     {
         UnsetCameraActCall_800D047C( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(" ~COM_ST_DANBOWL 0 !! \n ") ;
+        printf(aComstdanbowl0_800DFDB8) ;
         return;
     }
     
@@ -387,57 +270,53 @@ void ActUnknown15_800C6320( WatcherWork *work, int time )
     {
         if ( !(CheckPad_800C5A60( work )) ) 
         {
-    		SetMode( work, ActStandStill_800C5C84 ) ;
-    	}
-    	UnsetCameraActCall_800D047C( );
-    	COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(" ~COM_ST_DANBOWL 1 !! \n ") ;
-    	return ;
-	}
+            SetMode( work, ActStandStill_800C5C84 ) ;
+        }
+        UnsetCameraActCall_800D047C( );
+        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        printf(aComstdanbowl1_800DFDD4) ;
+        return ;
+    }
 
     if ( time == 0 ) {
-		SetMode2( work, ActOverScoutD_800C85DC ) ;
-		SetAction( work, STANDSTILL, ACTINTERP ) ;
-		SetCameraActCall_800D043C( );
-	}
+        SetMode2( work, ActOverScoutD_800C85DC ) ;
+        SetAction( work, STANDSTILL, ACTINTERP ) ;
+        SetCameraActCall_800D043C( );
+    }
 
-	if ( time == 60 ) {
-		UnsetMode2( work ) ;
-		SetAction( work, DANBOWLKERI, ACTINTERP ) ;
-	}
+    if ( time == 60 ) {
+        UnsetMode2( work ) ;
+        SetAction( work, DANBOWLKERI, ACTINTERP ) ;
+    }
 
-	if ( time == 78 ) {
-		extern	void	*NewBoxKeri_800D2600( MATRIX	*, SVECTOR	* ) ;
-		NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->control.field_44_movementVector ) ) ;
-	}
+    if ( time == 78 ) {
+        extern	void	*NewBoxKeri_800D2600( MATRIX	*, SVECTOR	* ) ;
+        NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->control.field_0_mov ) ) ;
+    }
 
     if ( time == 100 ) {
         //AN_HeadMarkMini( &(GM_PlayerBody_800ABA20->objs->objs[ 1 ].world), 2 ) ;
-		SetAction( work, DANBOWLPOSE, ACTINTERP ) ;
-	}
+        SetAction( work, DANBOWLPOSE, ACTINTERP ) ;
+    }
 
     if ( time == 130 ) {
-		GM_CurrentItemId = ITEM_NONE ; //Actually should be named GM_Item and IT_None
-	}
+        GM_CurrentItemId = ITEM_NONE ; //Actually should be named GM_Item and IT_None
+    }
 
     if ( time > 150  ) {
-		UnsetCameraActCall_800D047C( );
-		work->actend = 1 ;
-		SetMode( work, ActStandStill_800C5C84 ) ;
-		COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
-        printf(" ~COM_ST_DANBOWL 2 !! \n ");
-		return ;
-	}
+        UnsetCameraActCall_800D047C( );
+        work->actend = 1 ;
+        SetMode( work, ActStandStill_800C5C84 ) ;
+        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        printf(aComstdanbowl2_800DFDF0);
+        return ;
+    }
     work->control.field_4C_turn_vec.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
     work->vision_facedir = work->control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
 }
 
-extern void sub_800C6724();
-extern void sub_800C67E4();
-extern void sub_800C6A40();
-extern void sub_800C5860( WatcherWork *work );
 
-void ActUnknown16_800C65A8( WatcherWork* work, int time )
+void s00a_command_800C65A8( WatcherWork* work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
@@ -457,10 +336,10 @@ void ActUnknown16_800C65A8( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
-    sub_800C5860( work );
+    s00a_command_800C5860( work );
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;        
+		return ;
     }
 
     if ( !(press & 0x30000) )
@@ -471,13 +350,13 @@ void ActUnknown16_800C65A8( WatcherWork* work, int time )
 
     if ( press & 0x40000 )
     {
-        SetModeFields( work, sub_800C6724) ;
+        SetModeFields( work, s00a_command_800C6724) ;
         return;
     }
 
     if ( press & 0x80000 )
     {
-        SetModeFields( work, sub_800C67E4) ;
+        SetModeFields( work, s00a_command_800C67E4) ;
         return;
     }    
     
@@ -489,7 +368,7 @@ void ActUnknown16_800C65A8( WatcherWork* work, int time )
 
     if ( press & 0x200000 )
     {
-        SetModeFields( work, sub_800C6A40 ) ;
+        SetModeFields( work, s00a_command_800C6A40 ) ;
         return;
     } 
 
@@ -499,9 +378,7 @@ void ActUnknown16_800C65A8( WatcherWork* work, int time )
     work->vision_facedir = work->control.field_8_rotator.vy;
 }
 
-extern int ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
-
-void sub_800C6724( WatcherWork* work, int time )
+void s00a_command_800C6724( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision_length = COM_EYE_LENGTH_800E0D8C ;
@@ -513,20 +390,20 @@ void sub_800C6724( WatcherWork* work, int time )
         GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
     }
 
-    sub_800C5860( work );
+    s00a_command_800C5860( work );
     work->control.field_4C_turn_vec.vy = work->sn_dir;
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;        
+        return ;
     }
     
-    SetModeFields( work, ActUnknown16_800C65A8 );
+    SetModeFields( work, s00a_command_800C65A8 );
     work->control.field_44_movementVector.vx = 0;
     work->control.field_44_movementVector.vz = 0;
 }
 
-void sub_800C67E4( WatcherWork *work, int time )
+void s00a_command_800C67E4( WatcherWork *work, int time )
 {
 
 }
@@ -539,10 +416,10 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 
     if ( time == 0 )
     {
-        extern	void	*NewGrenadeEnemy( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+        extern  void     *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
 
-        work->subweapon = NewGrenadeEnemy( &(work->control), &(work->body), 9,
-                                            &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9,
+                                                    &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
 
         if ( GM_PlayerStatus_800ABA50 & 2 )
         {
@@ -602,14 +479,11 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
     {
         work->actend = 1;
         UnsetAction2( work );
-        SetMode( work, ActUnknown16_800C65A8 );
+        SetMode( work, s00a_command_800C65A8 );
     }
-    
 }
 
-extern int sub_800C58E8( WatcherWork *work );
-
-void sub_800C6A40( WatcherWork* work, int time )
+void s00a_command_800C6A40( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision_length = COM_EYE_LENGTH_800E0D8C ;
@@ -622,7 +496,7 @@ void sub_800C6A40( WatcherWork* work, int time )
 
     if ( time == 3 )
     {
-        if ( sub_800C58E8( work ) )
+        if ( s00a_command_800C58E8( work ) )
         {
             GM_SeSet_80032858( &( work->control.field_0_mov ), 0x25 );
         }
@@ -632,12 +506,12 @@ void sub_800C6A40( WatcherWork* work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;        
+        return ;
     }
 
     if ( work->body.is_end )
     {
-        SetMode( work, ActUnknown16_800C65A8 );
+        SetMode( work, s00a_command_800C65A8 );
     }
     work->control.field_44_movementVector.vx = 0;
     work->control.field_44_movementVector.vz = 0;
@@ -654,7 +528,7 @@ void sub_800C6B24( WatcherWork* work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-		return ;        
+        return ;
     }
 
     SetTargetClass( work->target, TARGET_FLAG );

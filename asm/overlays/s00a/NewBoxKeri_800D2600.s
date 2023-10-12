@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_boxkeri_800D2600
-s00a_boxkeri_800D2600:
+	xdef NewBoxKeri_800D2600
+NewBoxKeri_800D2600:
 	dw 0x27BDFFE0 ; 800D2600
 	dw 0xAFB10014 ; 800D2604
 	dw 0x00808821 ; 800D2608

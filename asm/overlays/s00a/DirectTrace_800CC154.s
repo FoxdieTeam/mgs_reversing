@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_command_800CC154
-s00a_command_800CC154:
+	xdef DirectTrace_800CC154
+DirectTrace_800CC154:
 	dw 0x27BDFFE0 ; 800CC154
 	dw 0xAFB00018 ; 800CC158
 	dw 0x00808021 ; 800CC15C

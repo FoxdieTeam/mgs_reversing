@@ -42,7 +42,7 @@ void grenade_800663A0( void )
 	pos.vz = 250;
 	pos.vy = 250;
 	pos.vx = 250;
-	GM_SetTarget_8002DC74( &target, 4, 0, &pos );
+	GM_SetTarget_8002DC74( &target, 4, NO_SIDE, &pos );
 	GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector_800AB39C );
 	GM_Target_SetVector_8002D500( &target, &GM_PlayerPosition_800ABA10 );
 	sub_8002D7DC( &target );
