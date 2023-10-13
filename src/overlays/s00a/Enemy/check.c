@@ -404,7 +404,7 @@ int CheckPad_800C5A60( WatcherWork *work )
         return 1;
     }
 
-    if ( press & 0x400000 )
+    if ( press & SP_DANBOWLKERI )
     {
         SetMode( work, s00a_command_800C6320 );
         return 1;
