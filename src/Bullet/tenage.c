@@ -23,10 +23,12 @@ extern int            tenage_ctrls_count_800BDD70;
 
 void tenage_act_800699A4(Actor_tenage *pActor)
 {
-#ifndef VR_EXE
     MATRIX rotation;
     SVECTOR vec;
     CONTROL *pCtrl;
+#ifdef VR_EXE
+    int vy, level;
+#endif
 
     pActor->field_20_ctrl.field_44_movementVector = pActor->field_108;
 
@@ -45,7 +47,34 @@ void tenage_act_800699A4(Actor_tenage *pActor)
 
     pActor->field_108 = pActor->field_20_ctrl.field_44_movementVector;
 
+#ifdef VR_EXE
+    vy = pCtrl->field_44_movementVector.vy;
+    pCtrl->field_44_movementVector.vy = 0;
+#endif
+
     GM_ActControl_80025A7C(pCtrl);
+
+#ifdef VR_EXE
+    vy = vy + pCtrl->field_0_mov.vy;
+    level = pCtrl->field_78_levels[0] + 100;
+    if (level >= vy)
+    {
+        pCtrl->field_57 |= 1;
+        vy = level;
+    }
+    else
+    {
+        level = pCtrl->field_78_levels[1] - 100;
+        if (level <= vy)
+        {
+            pCtrl->field_57 |= 2;
+            vy = level;
+        }
+    }
+    pCtrl->field_0_mov.vy = vy;
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rotator);
+#endif
+
     GM_ActObject2_80034B88(&pActor->field_9C_obj);
     DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_matrices);
 
@@ -53,6 +82,13 @@ void tenage_act_800699A4(Actor_tenage *pActor)
     {
         pActor->field_100_homing_arg2--;
     }
+
+#ifdef VR_EXE
+    else if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31)) == GAME_FLAG_BIT_31 && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    {
+        pActor->field_100_homing_arg2--;
+    }
+#endif
 
     if ((pActor->field_100_homing_arg2 <= 0) || (dword_800BDD28 == 1))
     {
@@ -131,9 +167,6 @@ void tenage_act_800699A4(Actor_tenage *pActor)
             }
         }
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 2, 9, 9);
-#endif
 }
 
 void tenage_kill_80069DBC(Actor_tenage *pActor)
