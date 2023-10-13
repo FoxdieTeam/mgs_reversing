@@ -9,6 +9,7 @@ extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
 extern unsigned int GM_PlayerStatus_800ABA50;
+extern int GM_PlayerAction_800ABA40;
 
 extern const char aComstdanbowl0_800DFDB8[]; // = " ~COM_ST_DANBOWL 0 !! \n ";
 extern const char aComstdanbowl1_800DFDD4[]; // = " ~COM_ST_DANBOWL 1 !! \n ";
@@ -520,7 +521,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
     work->control.field_44_movementVector.vz = 0;
 }
 
-void sub_800C6B24( WatcherWork* work, int time )
+void s00a_command_800C6B24( WatcherWork* work, int time )
 {
     work->vision_length = 0;
 
@@ -640,5 +641,164 @@ void s00a_command_800C6EC8( WatcherWork* work )
     {
         printf(aMapchange_800DFE0C) ;
         work->control.field_44_movementVector = DG_ZeroVector_800AB39C;
+    }
+}
+
+//enemy being held by snake
+void s00a_command_800C6FA8( WatcherWork* work, int time )
+{
+    int a0;
+    int v1;
+    int s2;
+    TARGET *target;
+
+    target = work->target;
+    s2 = work->field_8E0;
+
+    work->field_8E6 = 0;
+    work->act_status |= 0x0C;
+
+    if ( time == 0 )
+    {
+        work->field_B5A = target->field_2A;
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
+    }
+
+    if ( work->field_B5A != target->field_2A )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8F );
+        work->field_B5A = target->field_2A;
+    }
+
+    if ( target->field_6_flags & TARGET_POWER )
+    {
+        ENE_PutBlood_800C8FF8( work, 5, 0 );
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x8F ); 
+        target->field_2C_vec = DG_ZeroVector_800AB39C;
+        target->field_28 = 0;
+        target->field_6_flags = TARGET_STALE;
+
+        if ( target->field_26_hp <= 0 )
+        {
+            v1 = target->field_3E;
+            if ( v1 == 1 )
+            {
+                work->field_C48 = v1;
+            }
+            work->field_8DC = 5;
+            target->field_2_side = ENEMY_SIDE;
+            SetMode( work, s00a_command_800C78E0 );
+            target->field_42 = 0;
+        }
+    }
+    switch ( GM_PlayerAction_800ABA40 )
+    {
+    case 0x7:
+    case 0xD:
+        if( s2 != 0x1B && s2 != 0x30 )
+        {
+            target->field_2_side = PLAYER_SIDE;
+            SetAction( work, ACTION27, ACTINTERP );
+            work->field_B5C = 0;
+        }
+
+        if ( work->field_B5C == 0x32 && target->field_2A > 0 )
+        {
+            SetAction( work, ACTION48, ACTINTERP );
+        }
+
+        if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
+        {
+            COM_VibTime_800E0F68 = 4;
+        }
+        work->control.field_4C_turn_vec = GM_PlayerControl_800AB9F4->field_8_rotator;
+        s00a_command_800C6EC8( work );
+        work->field_B5C++;
+        break;
+    case 0x26:
+        if ( s2 != 0x1C )
+        {
+            target->field_2_side = PLAYER_SIDE;
+            SetAction( work, ACTION28, ACTINTERP );
+        }
+        work->control.field_4C_turn_vec = GM_PlayerControl_800AB9F4->field_8_rotator;
+        s00a_command_800C6EC8( work );
+        break;
+    case 0x27:
+        work->field_8DC = 4;
+        target->field_2_side = ENEMY_SIDE;
+        target->field_26_hp = 0;
+        SetMode( work, s00a_command_800C78E0 );
+        return;
+    default:
+        work->field_8DC = 5;
+        target->field_2_side = ENEMY_SIDE;
+        SetMode( work, s00a_command_800C78E0 );
+        return;
+    }
+
+    a0 = GM_PlayerPosition_800ABA10.vy - work->control.field_0_mov.vy;
+    if ( a0 < 0 )
+    {
+        a0 = work->control.field_0_mov.vy - GM_PlayerPosition_800ABA10.vy;
+    }
+
+    if ( work->field_C24 > 800 || a0 > 500  )
+    {
+        target->field_42 = 0;
+    }
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+    {
+        target->field_42 = 0;
+    }
+    work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
+    work->vision_facedir = work->control.field_8_rotator.vy;
+}
+
+void s00a_command_800C7354( WatcherWork* work, int time )
+{ 
+    CONTROL *ctrl;
+    int time_offset;
+    
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->vision_length = 0;
+    work->act_status |= 0x8;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION32, ACTINTERP ) ;
+    }
+
+    if ( CheckDamage_800C5424( work ) )
+    {
+        return ;
+    }
+
+    time_offset = 10;
+    
+    if ( time == time_offset )
+    {
+        work->field_8DC = 1;
+        SetAction( work, ACTION37, ACTINTERP ) ;
+    }
+    else
+    {
+        SetTargetClass( work->target, TARGET_FLAG );
+    }
+
+    if ( time == time_offset + 24 )
+    {
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+    }
+
+    if ( time == time_offset + 46 )
+    {
+        GM_SeSet_80032858( &ctrl->field_0_mov, 0x33 );
+    }
+    
+    if ( time >= time_offset + 50 && work->body.is_end )
+    {
+        SetMode( work, s00a_command_800C7498 ) ;
     }
 }

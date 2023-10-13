@@ -56,15 +56,15 @@ typedef struct _WatcherWork
     int            field_8D4;                  //0x8D4
     int            field_8D8;                  //0x8D8
     int            field_8DC;                  //0x8DC
-    short          field_8E0;
-    short          field_8E2;
-    short          field_8E4;
-    short          field_8E6;
-    char           field_8E8_padding[0x04];
+    short          field_8E0;                  //0x8E0
+    short          field_8E2;                  //0x8E2
+    short          field_8E4;                  //0x8E4
+    short          field_8E6;                  //0x8E6
+    int            field_8E8;                  //0x8E8
     void*          action;                     //0x8EC
-    void*          field_8F0_func;
+    void*          field_8F0_func;             //0x8F0
     int            time;                       //0x8FC
-    int            field_8F8;
+    int            field_8F8;                  //0x8F8
     int            actend;                     //0x8FC
     TARGET        *target;                     //0x900
     TARGET         field_904;                  //0x904
@@ -95,8 +95,10 @@ typedef struct _WatcherWork
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
     GV_ACT*        subweapon;                  //0xB54
-    int            field_B58;                  //0xB58
-    int            field_B5C;                  //0xB5C
+    short          field_B58;                  //0xB58
+    short          field_B5A;                  //0xB5A
+    short          field_B5C;                  //0xB5C
+    short          field_B5E;                  //0xB5E
     int            next_node;                  //0xB60    //could be wrong
     int            search_flag;                //0xB64    //could be wrong
     GV_ACT        *field_B68;                  //0xB68

@@ -404,10 +404,6 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     ;action.c
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
 
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6BCC.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6EC8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C6FA8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7354.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7498.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C76BC.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C76C4.obj"
@@ -510,9 +506,6 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC44C.obj"
     
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\think.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC514.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC568.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC5C0.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC760.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC7A4.obj"
@@ -731,13 +724,6 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\wt_area.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Okajima\splash2.obj"
-
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DAD68.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DAF0C.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DAF38.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DB1D4.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DB210.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DB424.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_view_800DB4E0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_view_800DB5E4.obj"
