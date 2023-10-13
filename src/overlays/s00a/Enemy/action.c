@@ -1,5 +1,5 @@
 #include "enemy.h"
-#include "game/linkvarbuf.h"
+#include "Game/linkvarbuf.h"
 
 
 extern int GV_NearExp4P_80026554(int from, int to);
