@@ -3,7 +3,7 @@
 
 static int s16b_dword_800C58AC[2];
 
-int GetParamOrDefault_800C5318(char param, int def)
+int THING_Gcl_GetIntDefault_800C5318(char param, int def)
 {
     if (GCL_GetOption_80020968(param))
     {
@@ -16,7 +16,7 @@ int GetParamOrDefault_800C5318(char param, int def)
 // name from memleaks
 int THING_Gcl_GetInt_800D8808(char param)
 {
-    return GetParamOrDefault_800C5318(param, 0);
+    return THING_Gcl_GetIntDefault_800C5318(param, 0);
 }
 
 unsigned short s16b_800C43C8(char param, unsigned short def)
