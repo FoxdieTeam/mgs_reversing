@@ -177,6 +177,10 @@
 
     include "{{OBJ_DIR}}\chara\snake\sna_init.obj"
 
+{% if VR_EXE %}
+    include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004EB94.obj"
+{% endif %}
+
     include "{{OBJ_DIR}}\data\sdata\sdata6.obj"
 
     ;80050A64 is in event.c
