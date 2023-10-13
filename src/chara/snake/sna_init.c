@@ -8662,4 +8662,10 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
 const char missing_rdata[] = {0xe4, 0x4f, 0x05, 0x80, 0xd4, 0x4f, 0x05, 0x80, 0x0c, 0x50, 0x05, 0x80, 0x48, 0x50, 0x05, 0x80, 0x94, 0x50, 0x05, 0x80, 0xfc, 0x50, 0x05, 0x80 /*, 0xb4, 0x53, 0x05, 0x80 */};
 const void SECTION(".rdata") *temporary_trick_to_force_psyq_to_link_mulmatrix = &MulMatrix0;
 
+// Add INCLUDE_ASM from asm/chara/snake_vr here?
+// or start a separate src/chara/snake_vr/sna_init.c?
+// Try to have a single sna_init.c file (with ifdefs) or two separate files?
+// src/chara/snake_vr/sna_init.c is similar to snake/sna_init.c, but there are a lot
+// of differences. Not sure which approach makes more sense.
+
 #endif
