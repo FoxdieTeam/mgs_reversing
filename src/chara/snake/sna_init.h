@@ -457,6 +457,7 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv);
 int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
 int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL *pControl);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+int sna_ration_available_8004FB4C(void);
 
 // TODO: move these to indivudual weapon headers
 GV_ACT *NewSOCOM_80065D74(CONTROL *a1, OBJECT *parentObj, int unit, int *a4, int a5);
