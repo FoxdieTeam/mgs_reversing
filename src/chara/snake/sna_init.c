@@ -8659,31 +8659,13 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
 #else
 
 // some jump table probably
-const char missing_rdata[] = {0xe4, 0x4f, 0x05, 0x80, 0xd4, 0x4f, 0x05, 0x80, 0x0c, 0x50, 0x05, 0x80, 0x48, 0x50, 0x05, 0x80, 0x94, 0x50, 0x05, 0x80, 0xfc, 0x50, 0x05, 0x80, 0xb4, 0x53, 0x05, 0x80};
+const char missing_rdata[] = {0xe4, 0x4f, 0x05, 0x80, 0xd4, 0x4f, 0x05, 0x80, 0x0c, 0x50, 0x05, 0x80, 0x48, 0x50, 0x05, 0x80, 0x94, 0x50, 0x05, 0x80, 0xfc, 0x50, 0x05, 0x80 /*, 0xb4, 0x53, 0x05, 0x80 */};
+const void SECTION(".rdata") *temporary_trick_to_force_psyq_to_link_mulmatrix = &MulMatrix0;
 
-void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput) {}
-void GM_ClearBulName_8004FBE4(int idx) {}
-int GM_Next_BulName_8004FBA0() {}
-void sna_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor, int time) {}
-void sna_anim_claymore_80057474(Actor_SnaInit *pActor, int time) {}
-void sna_anim_crouch_800527DC(Actor_SnaInit *pActor, int time) {}
-void sna_anim_grenade_80058470(Actor_SnaInit *pActor, int time) {}
-void sna_anim_idle_8005275C(Actor_SnaInit *pActor, int time) {}
-void sna_anim_prone_idle_800528BC(Actor_SnaInit *pActor, int time) {}
-void sna_anim_prone_move_800529C0(Actor_SnaInit *pActor, int time) {}
-void sna_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time) {}
-void sna_anim_run_8005292C(Actor_SnaInit *pActor, int time) {}
-void sna_anim_stinger_800570C0(Actor_SnaInit *pActor, int time) {}
-void sna_anim_wall_crouch_80052CCC(Actor_SnaInit *pActor, int time) {}
-void sna_anim_wall_idle_and_c4_80052A5C(Actor_SnaInit *pActor, int time) {}
-void sna_bomb_800541A8(Actor_SnaInit *pActor) {}
-void sna_gun_800540D0(Actor_SnaInit *pActor, int time) {}
-GV_ACT * sna_NewSnake_8005B650(int name, int where, int argc, char **argv) {}
-
-void placeholder() {
-    MulMatrix0(NULL, NULL, NULL); // force psylink to link in MulMatrix0
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(9, 0, 0, 0);
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(3, 8, 0, 6);
-}
+// Add INCLUDE_ASM from asm/chara/snake_vr here?
+// or start a separate src/chara/snake_vr/sna_init.c?
+// Try to have a single sna_init.c file (with ifdefs) or two separate files?
+// src/chara/snake_vr/sna_init.c is similar to snake/sna_init.c, but there are a lot
+// of differences. Not sure which approach makes more sense.
 
 #endif
