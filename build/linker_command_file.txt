@@ -584,9 +584,9 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0128.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D018C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800D0218.obj"
-    
+
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\command.obj"
-    
+
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0984.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0A28.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0B18.obj"
@@ -692,7 +692,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_ripples_800D8634.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_ripples_800D872C.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D87C8.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\GetParamOrDefault_800C5318.obj"
     include "{{OBJ_DIR}}\overlays\s00a\THING_Gcl_GetInt_800D8808.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D882C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D8870.obj"
@@ -721,7 +721,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DA534.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_wt_area_or_splash2_800DA57C.obj"
 
-    
+
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\wt_area.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Okajima\splash2.obj"
 
@@ -783,19 +783,12 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_o2_damge_800DE8F4.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_o2_damge_800DE8FC.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_o2_damge_800DE9C8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_dymc_seg_800DEA64.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_dymc_seg_800DEAB8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_dymc_seg_800DEAE0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_dymc_seg_800DEBEC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_shakemdl_800DEC80.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_shakemdl_800DEE10.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_shakemdl_800DEE4C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_shakemdl_800DEEE0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_shakemdl_800DEFA8.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF05C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF120.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF19C.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay2.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF1F8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF388.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF39C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF3A4.obj"
@@ -804,7 +797,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 
-    ;psyq 
+    ;psyq
     include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB1C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB3C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB5C.obj"
