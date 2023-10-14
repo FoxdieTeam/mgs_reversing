@@ -925,8 +925,9 @@ int camera_act_helper6_80030250(GV_ACT *pActor)
 
 void sub_800303E0(SVECTOR *arg0)
 {
-    SVECTOR vec;
+    SVECTOR          vec;
     UnkCameraStruct *pUnkCamera;
+    int              index;
 
     vec = *arg0;
     pUnkCamera = &gUnkCameraStruct_800B77B8;
@@ -941,7 +942,13 @@ void sub_800303E0(SVECTOR *arg0)
         GV_NearExp4V_800266D4((short *)arg0, (short *)&vec, 3);
     }
 
-    sub_8002EBE8(arg0, (GM_Camera_800B77E8.field_18_flags & 0x20) != 0);
+#ifdef VR_EXE
+    index = !!(GM_Camera_800B77E8.field_18_flags & 0x28);
+#else
+    index = !!(GM_Camera_800B77E8.field_18_flags & 0x20);
+#endif
+
+    sub_8002EBE8(arg0, index);
 }
 
 void sub_8003049C(SVECTOR *a1)

@@ -45,6 +45,9 @@ def try_m2c(name):
     if output is not None and b'M2C_ERROR' in output:
         output = None
 
+    if output is not None and b'Bad function call operand' in output:
+        output = None
+
     if output is not None and b'missing "jr $ra" in last block' in output:
         output = None
 

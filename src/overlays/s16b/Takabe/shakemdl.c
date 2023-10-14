@@ -17,7 +17,7 @@ typedef struct _ShakemdlWork
     short      *vertices;
 } ShakemdlWork;
 
-int GetParamOrDefault_800C5318(int param, int def);
+int THING_Gcl_GetIntDefault_800C5318(int param, int def);
 int THING_Gcl_GetInt_800D8808(int param);
 int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
@@ -138,8 +138,8 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
         }
 
         work->name = name;
-        work->f24 = GetParamOrDefault_800C5318('f', 1);
-        work_2 = GetParamOrDefault_800C5318('s', 50);
+        work->f24 = THING_Gcl_GetIntDefault_800C5318('f', 1);
+        work_2 = THING_Gcl_GetIntDefault_800C5318('s', 50);
         work->f28 = work_2;
         work->f30 = work_2;
     }

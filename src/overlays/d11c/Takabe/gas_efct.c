@@ -40,7 +40,7 @@ extern const char d11c_dword_800C6748[]; // = "gas_efct.c"
 
 #define EXEC_LEVEL 3
 
-int GetParamOrDefault_800C5318(char param, int def);
+int THING_Gcl_GetIntDefault_800C5318(char param, int def);
 int THING_Gcl_GetInt_800D8808(char param);
 
 void psyq_SetLightMatrix(MATRIX *m);
@@ -68,12 +68,12 @@ int d11c_800C4D98(GasEfctWork *work, int name, int where)
         GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f34);
     }
 
-    work->f48 = GetParamOrDefault_800C5318('s', 4096);
-    work->f50 = GetParamOrDefault_800C5318('w', 410);
-    work->f54 = GetParamOrDefault_800C5318('f', 128);
-    work->f58 = GetParamOrDefault_800C5318('b', 1);
+    work->f48 = THING_Gcl_GetIntDefault_800C5318('s', 4096);
+    work->f50 = THING_Gcl_GetIntDefault_800C5318('w', 410);
+    work->f54 = THING_Gcl_GetIntDefault_800C5318('f', 128);
+    work->f58 = THING_Gcl_GetIntDefault_800C5318('b', 1);
     work->f5C = THING_Gcl_GetInt_800D8808('r');
-    work->f64 = GetParamOrDefault_800C5318('a', 3205);
+    work->f64 = THING_Gcl_GetIntDefault_800C5318('a', 3205);
     work->f40 = 0;
     work->f44 = 0;
     work->f3C = 0;
