@@ -47,6 +47,7 @@ extern int               GV_PadMask_800AB374;
 extern int               GV_Clock_800AB920;
 
 extern char dword_800AB610[8];
+char        dword_800AB610[8];
 
 extern const char aCall[]; // = "call"
 
@@ -181,7 +182,6 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
 
 void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe) // different in VR
 {
-#ifndef VR_EXE
     int          bit;
     int          iVar1;
     int          i;
@@ -263,9 +263,6 @@ void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnk
         setSemiTrans(pLine, abe);
         addPrim(pMenuPrim->mPrimBuf.mOt, pLine);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 4, 9);
-#endif
 }
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
@@ -766,7 +763,6 @@ RECT        SECTION(".sdata") rect_800AB630;
 
 void init_radio_message_board_80040F74(Actor_MenuMan *pActor) // different in VR
 {
-#ifndef VR_EXE
     KCB  local_kcb;
     KCB *allocated_kcb;
 
@@ -793,38 +789,26 @@ void init_radio_message_board_80040F74(Actor_MenuMan *pActor) // different in VR
 
         dword_800ABB04 = NULL;
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 7, 8);
-#endif
 }
 
 void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *string) // different in VR
 {
-#ifndef VR_EXE
     KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = string;
     font_print_string_800469A4(kcb, string);
     font_update_8004695C(kcb);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 1);
-#endif
 }
 
 void sub_80041118(Actor_MenuMan *pActor) // different in VR
 {
-#ifndef VR_EXE
     KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = NULL;
     font_clear_800468FC(kcb);
     font_update_8004695C(kcb);
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 1, 1);
-#endif
 }
 
 int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt) // different in VR
 {
-#ifndef VR_EXE
     KCB  *kcb;
     SPRT *pPrim;
 
@@ -850,20 +834,13 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt) // di
     setSprt(pPrim);
     addPrim(pOt, pPrim);
     return 1;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 6, 2);
-#endif
 }
 
 void sub_8004124C(Actor_MenuMan *pActor) // different in VR
 {
-#ifndef VR_EXE
     GV_FreeMemory_80015FD0(0, pActor->field_214_font);
     pActor->field_214_font = NULL;
     dword_800ABB04 = NULL;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 0, 2, 1);
-#endif
 }
 
 // nop count was incorrect to this point
@@ -1523,17 +1500,8 @@ void menu_radio_init_nullsub_80042190(Actor_MenuMan *pActor)
 {
 }
 
-#ifdef VR_EXE
-const char SECTION(".rdata") str1[] = "GetPotion %d\n";
-const char SECTION(".rdata") str2[] = "PUSH SELECT";
-const char SECTION(".rdata") str3[] = "callback type %d proc %X\n";
-const char SECTION(".rdata") str5[] = "ExecProc\n";
-const char SECTION(".rdata") str4[] = "EXIT MUSENKI\n";
-#endif
-
 void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt) // different in VR
 {
-#ifndef VR_EXE
     GCL_ARGS args;
     long     argv[2];
 
@@ -1689,9 +1657,6 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt) // di
         }
         menu_radio_codec_helper_8004158C(pActor, pOt, pPad);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 4, 3);
-#endif
 }
 
 void menu_radio_init_80042700(Actor_MenuMan *pMenu)
