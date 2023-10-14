@@ -1921,21 +1921,8 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, Stru_
     return 0;
 }
 
-#ifdef VR_EXE
-const char SECTION(".rdata") aSaving[] = "SAVING...";
-const char SECTION(".rdata") aNoSpace[] = "NO SPACE";
-const char SECTION(".rdata") aLoadData[] = "LOAD DATA";
-const char SECTION(".rdata") aLoading[] = "LOADING...";
-const char SECTION(".rdata") aSelectMemoryCa[] = "SELECT MEMORY CARD";
-const char SECTION(".rdata") aPressToExit[] = "PRESS * TO EXIT";
-const char SECTION(".rdata") aPressToSelectM[] = "PRESS * TO SELECT MEMORY CARD";
-const char SECTION(".rdata") aEndSaveMode[] = "END SAVE MODE\n";
-const char SECTION(".rdata") aEndStateD[] = "END STATE %d\n";
-#endif
-
 int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
 {
-#ifndef VR_EXE
     TextConfig     textConfig1, textConfig2;
     int            res1, res2, res3;
     char         **strArr;
@@ -2266,9 +2253,6 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     }
     menu_radio_do_file_mode_helper6_8004AD40(pActor->field_20_otBuf);
     return 0;
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 6, 9, 9);
-#endif
 }
 
 extern char aAtEUC[];   // = "@";
@@ -2441,8 +2425,3 @@ void menu_radio_8004D35C(void)
 {
     sub_8004124C(&gMenuMan_800BD360);
 }
-
-#ifdef VR_EXE
-const int  SECTION(".rdata") jpt_8001230C[] = {0x8004C4E8, 0x8004C580, 0x8004CAF8, 0x8004CB7C,
-                                               0x8004CCD4, 0x8004CC34, 0x8004CDB4};
-#endif
