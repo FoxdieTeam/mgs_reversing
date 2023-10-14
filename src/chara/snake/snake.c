@@ -27,6 +27,7 @@ SVECTOR *SECTION(".sbss") svector_800ABBB8;
 
 #define GetAction( pActor ) (pActor->field_9C_obj.action_flag)
 
+#ifndef VR_EXE
 void sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
 {
     short vec_x = 0;
@@ -43,6 +44,9 @@ void sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
     pActor->field_20_ctrl.field_4C_turn_vec.vx = vec_x;
     pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
 }
+#else
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_start_anim_8004E1F4.s")
+#endif
 
 void SetAction_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
 {
@@ -134,6 +138,7 @@ void CheckSnakeDead_8004E384(Actor_SnaInit *snake)
     }
 }
 
+#ifndef VR_EXE
 void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 {
     TARGET *target = snake->field_8E8_pTarget;
@@ -146,6 +151,9 @@ void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
         snake->field_89C_pTarget->field_10_size.vx = 300;
     }
 }
+#else
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_sub_8004E41C.s")
+#endif
 
 // ... categorize move/turn direction by angle?
 // param_1: snake->field_20_ctrl.field_4C_turn_vec.vy
@@ -417,6 +425,7 @@ void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
     pActor->field_20_ctrl.field_4C_turn_vec.vz = iVar1;
 }
 
+#ifndef VR_EXE
 int sna_8004EAA8(Actor_SnaInit *pActor, int a2)
 {
     if (a2 == 0)
@@ -436,8 +445,15 @@ int sna_8004EAA8(Actor_SnaInit *pActor, int a2)
 
     return -1;
 }
+#else
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_8004EAA8.s")
+#endif
 
+#ifndef VR_EXE
 void sna_8004EB14(Actor_SnaInit *pActor)
 {
     memcpy(&pActor->field_9D0, &word_8009EFC0, sizeof(pActor->field_9D0));
 }
+#else
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_8004EB14.s")
+#endif
