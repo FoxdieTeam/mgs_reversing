@@ -525,9 +525,11 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay2.obj"
 
     ;action.c
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay3.obj"
 
     ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C78E0.obj"
 
@@ -907,7 +909,7 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF3A4.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF424.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay4.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
