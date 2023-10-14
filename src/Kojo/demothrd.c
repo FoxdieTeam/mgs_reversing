@@ -7,6 +7,7 @@
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/hash.h"
+#include <LIBSN.H>
 
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern MATRIX             DG_ZeroMatrix_8009D430;
