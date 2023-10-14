@@ -43,8 +43,51 @@ extern const char d11c_dword_800C6748[]; // = "gas_efct.c"
 int THING_Gcl_GetIntDefault_800C5318(char param, int def);
 int THING_Gcl_GetInt_800D8808(char param);
 
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C49A4.s")
-void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs);
+void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs)
+{
+    int x1, y1, sin1, cos1;
+    int x2, y2, sin2, cos2;
+    int i;
+
+    y1 = 230;
+    y2 = (y1 * work->f64) / 4096;
+
+    x1 = work->f5C;
+    x2 = (x1 * work->f64) / 4096;
+
+    sin1 = rsin(0);
+    cos1 = rcos(0);
+
+    for (i = 0; i < 16; i++)
+    {
+        setPolyG4(packs);
+        setSemiTrans(packs, 1);
+
+        sin2 = rsin((i + 1) * 256);
+        cos2 = rcos((i + 1) * 256);
+
+        packs->x0 = (cos1 * x1) / 4096;
+        packs->y0 = (sin1 * x2) / 4096;
+
+        packs->x1 = (cos2 * x1) / 4096;
+        packs->y1 = (sin2 * x2) / 4096;
+
+        packs->x2 = (cos1 * y1) / 4096;
+        packs->y2 = (sin1 * y2) / 4096;
+
+        packs->x3 = (cos2 * y1) / 4096;
+        packs->y3 = (sin2 * y2) / 4096;
+
+        sin1 = sin2;
+        cos1 = cos2;
+
+        setRGB0(packs, 30, 30, 0);
+        setRGB1(packs, 30, 30, 0);
+        setRGB2(packs, 100, 100, 60);
+        setRGB3(packs, 100, 100, 60);
+        packs++;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C4BBC.s")
 void d11c_800C4BBC(GasEfctWork *work);
