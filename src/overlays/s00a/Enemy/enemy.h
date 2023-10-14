@@ -496,6 +496,7 @@ extern void s00a_command_800C7498( WatcherWork *work, int time );
 
 extern void s00a_command_800C76BC( WatcherWork *work, int time );
 extern void s00a_command_800C76C4( WatcherWork *work, int time );
+extern void s00a_command_800C7E28( WatcherWork *work, int time );
 
 extern void ActGrenade_800C67EC( WatcherWork *work, int time );
 extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );

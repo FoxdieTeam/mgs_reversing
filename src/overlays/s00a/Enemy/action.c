@@ -949,4 +949,165 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 
 
 //jump table
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800C78E0.s")
+//#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800C78E0.s")
+void s00a_command_800C78E0( WatcherWork *work, int time )
+{
+    CONTROL* ctrl;
+    WatcherUnk *unk;
+    
+    unk = (WatcherUnk*)&work->field_8C8;
+    work->field_8E6 = 0;
+    work->act_status |= 0x8;
+    work->control.field_44_movementVector = work->target->field_2C_vec;
+    
+
+    ctrl = &work->control;
+    if ( time == 0 )
+    {
+        switch( unk->field_14 )
+        {
+        case 0:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x34 );
+            SetAction( work, ACTION34, ACTINTERP );
+            GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 );
+            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 1:
+            SetAction( work, ACTION37, ACTINTERP );
+            if ( work->target->field_26_hp <= 0 )
+            {
+                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                {
+                    ENE_PutBlood_800C8FF8( work, 6, 2 );
+                }
+                else
+                {
+                    ENE_PutBlood_800C8FF8( work, 6, 1 );
+                }
+                GM_Sound_800329C4( &ctrl->field_0_mov, 0x91, 1 );
+                work->field_B5A = 46;
+            }
+            else
+            {
+                ENE_PutBlood_800C8FF8( work, 5, 0 );
+                GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 );
+                if ( work->target->field_3E == 3 )
+                {
+                    GM_SeSet_80032858( &work->control.field_0_mov, 0x34 );
+                }
+                work->field_B5A = 46;
+            }
+            break;
+        case 3:
+            GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 );
+            SetAction( work, ACTION35, ACTINTERP );
+            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 2:
+            GM_Sound_800329C4( &ctrl->field_0_mov, 0x8E, 1 );
+            SetAction( work, ACTION36, ACTINTERP );
+            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            work->field_B5A = 37;
+            break;
+        case 4:
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x90 );
+            SetAction( work, ACTION29, ACTINTERP );
+            work->field_B5A = 67;
+            break;
+        case 5:
+            SetAction( work, ACTION30, ACTINTERP );
+            work->field_B5A = 15;
+        break;    
+        }
+    }
+
+    switch( unk->field_14 )
+    {
+    case 0:
+        if ( time < 12 )
+        {
+            ctrl->field_4C_turn_vec.vy += 170;
+        }
+
+        if ( time - 7 < 23u )
+        {
+            s00a_command_800C59F8( work );
+        }
+
+        if ( time < 20 )
+        {
+            work->control.field_34_hzd_height = -32767;
+        }
+        break;
+    case 1:
+        if ( time == 24 )
+        {
+            GM_SeSet_80032858( &ctrl->field_0_mov, 0x51 );
+        }
+        break;
+    case 3:
+        if ( time - 7 < 23u )
+        {
+            s00a_command_800C59F8( work );
+        }
+        if ( time < 15 )
+        {
+            ctrl->field_34_hzd_height = -32767;
+        }
+        break;
+    case 2:
+        if ( time - 7 < 23u )
+        {
+            s00a_command_800C59F8( work );
+        }
+        if ( time < 20 )
+        {
+            ctrl->field_34_hzd_height = -32767;
+        }
+        break;
+    case 4:
+    case 5:
+        work->act_status |= 0x04;
+        break;
+    }
+
+    if ( time > 16 && ctrl->field_57 )
+    {
+        ctrl->field_44_movementVector = DG_ZeroVector_800AB39C;
+    }
+
+    if ( time == work->field_B5A )
+    {
+        if (ctrl->field_0_mov.vy - ctrl->field_78_levels[0] < 2000)
+        {
+            GM_Sound_800329C4( &ctrl->field_0_mov, 0x33, 1 ) ;
+            GM_SetNoise( 0x64, 4, &ctrl->field_0_mov ) ;
+            ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
+        }
+        else
+        {
+            if (ctrl->field_0_mov.vy - ctrl->field_78_levels[0] > 3000)
+            {
+                work->target->field_26_hp = 0;
+                SetMode( work, s00a_command_800C7E28 );
+                return;
+            }
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        work->field_8E6 = 1;
+        work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+        if ( work->target->field_26_hp <= 0 )
+        {
+            SetMode( work, s00a_command_800C8054 );
+        }
+        else
+        {
+            SetMode( work, s00a_command_800C7498 );
+        }
+    }
+}
