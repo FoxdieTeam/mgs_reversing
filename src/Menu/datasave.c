@@ -76,8 +76,11 @@ extern Menu_Triangle triangle_8009EBE0;
 extern menu_save_mode_data *dword_800ABB4C;
 menu_save_mode_data        *dword_800ABB4C;
 
-extern int       mcd_last_check_800ABB60[2];
+extern int mcd_last_check_800ABB60[2];
+int        mcd_last_check_800ABB60[2];
+
 extern mem_card *mcd_last_file_800ABB68[2];
+mem_card        *mcd_last_file_800ABB68[2];
 
 extern menu_save_mode_data *dword_800ABB4C;
 menu_save_mode_data        *dword_800ABB4C;
@@ -471,7 +474,6 @@ int init_file_mode_helper_helper_helper3_80049E94(int param_1)
 
 void init_file_mode_helper_helper_80049EDC(void)
 {
-#ifndef VR_EXE
     int temp_a0;
     int temp_a0_2;
     int temp_s0;
@@ -761,10 +763,6 @@ block_72:
 block_73:
         init_file_mode_helper_helper_helper3_80049E94(0xC5000002);
     }
-
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 3, 0);
-#endif
 }
 
 void init_file_mode_helper_8004A424(int param_1)
@@ -1183,14 +1181,8 @@ void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, 
     addPrim(pOt, pPrim);
 }
 
-#ifdef VR_EXE
-char SECTION(".rdata") strin1[] = "NEW FILE [ NEED %d BLOCK%s ]";
-char SECTION(".rdata") strin2[] = "FREE: %d BLOCK%s";
-#endif
-
 void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru)
 {
-#ifndef VR_EXE
     TextConfig config;
 
     char saveid[16];
@@ -1513,9 +1505,6 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
             menu_draw_triangle_800435EC(pActor->field_20_otBuf, &triangle_8009EBE0);
         }
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 5, 3, 2);
-#endif
 }
 
 void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2)
