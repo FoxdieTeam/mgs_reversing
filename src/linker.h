@@ -14,7 +14,7 @@
     } CTASTR(static_assertion_failed_, line)
 
 #ifdef NO_ASSERT_SIZE // set in everything.h
-#define STATIC_ASSERT_SIZE(struct, size) 
+#define STATIC_ASSERT_SIZE(struct, size)
 #else
 #define STATIC_ASSERT_SIZE(struct, size) STATIC_ASSERT(sizeof(struct) == size, wrong_size, __LINE__)
 #endif
@@ -38,5 +38,6 @@
   REP##ONES(X)
 
 #define TEMPORARY_VR_MATCHING_PLACEHOLDER(THOUSANDS,HUNDREDS,TENS,ONES) REP(THOUSANDS,HUNDREDS,TENS,ONES, asm("nop");)
+#define TEMPORARY_VR_MATCHING_PLACEHOLDER_POISON(THOUSANDS,HUNDREDS,TENS,ONES) REP(THOUSANDS,HUNDREDS,TENS,ONES, asm("break 0xFFFF");)
 
 #endif // LINKER_H_
