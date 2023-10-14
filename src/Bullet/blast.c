@@ -22,7 +22,14 @@ Blast_Data blast_data_8009F4B8[8] = {
     {0, 0, 1, 1, -1}
 };
 
-SVECTOR svector_8009F558[2] = {{100, 0, 0, 0}, {2000, 2000, 4000, 4000}};
+SVECTOR svector_8009F558[2] = {
+#ifndef VR_EXE
+    {100, 0, 0, 0},
+#else
+    {50, 0, 0, 0},
+#endif
+    {2000, 2000, 4000, 4000}
+};
 
 void blast_act_8006DD18(Actor_Blast *pActor)
 {
