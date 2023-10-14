@@ -49,9 +49,7 @@ int s00a_command_800C5158( SVECTOR* svec )
 extern int s00a_command_800C5158( SVECTOR* svec ) ;
 
 extern int s00a_command_800C5194( WatcherWork *work );
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800C5194.s")
-//matches but there's a jump table issue
-/*
+
 int s00a_command_800C5194( WatcherWork *work ) {
     short val;
     TARGET *target;
@@ -114,7 +112,10 @@ int s00a_command_800C5194( WatcherWork *work ) {
     target->field_6_flags = 0;
     return 1;
 }
-*/
+
+extern const char aPlayxresetdwarpd_800DFD1C[];// " play = %x  reset = %d warp = %d \n";
+extern const char aErrnozoneidingcl_800DFD40[];// "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+extern const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[];// " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
 
 int s00a_command_800C5370( WatcherWork * work )
 {
