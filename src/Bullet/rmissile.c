@@ -530,7 +530,6 @@ void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
 
 void rmissile_act_8006C5C4(Actor_rmissile *pActor)
 {
-#ifndef VR_EXE
     GV_PAD *pPad;
     Blast_Data *pBlastData;
     SVECTOR vector;
@@ -585,6 +584,14 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
                 || !GM_SnakeCurrentHealth || GM_GameOverTimer_800AB3D4)
             {
                 pBlastData = &blast_data_8009F4B8[7];
+            #ifdef VR_EXE
+                if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) &&
+                    !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
+                    !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+                {
+                    pBlastData = &blast_data_8009F4B8[4];
+                }
+            #endif
             }
             else
             {
@@ -680,9 +687,6 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             GM_Target_SetVector_8002D500(&pActor->field_120_target, &vector2);
         }
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 3, 6, 3);
-#endif
 }
 
 void rmissile_kill_8006CB40(Actor_rmissile *pActor)
