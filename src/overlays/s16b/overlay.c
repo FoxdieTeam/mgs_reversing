@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "Enemy/wall.h"
+#include "libgcl/hash.h"
 
 GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv);
 GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
@@ -27,3 +28,13 @@ const char aBox01[] = "box_01";
 const char aDbx1[] = "dbx1";
 const char aDbx2[] = "dbx2";
 const char aWallC[] = "wall.c";
+
+// Enemy/asioto.c
+const char aAsiotoSeSetErr[] = " asioto se set err \n";
+const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
+const char aMigiSodesuri[] = " migi sodesuri %d \n";
+const char aAsiotoC[] = "asioto.c";
+
+// Takabe/fadeio.c
+unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
+const char aFadeioC[] = "fadeio.c";

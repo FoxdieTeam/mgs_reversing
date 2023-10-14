@@ -43,8 +43,6 @@ extern const char d11c_dword_800C6748[]; // = "gas_efct.c"
 int THING_Gcl_GetIntDefault_800C5318(char param, int def);
 int THING_Gcl_GetInt_800D8808(char param);
 
-void psyq_SetLightMatrix(MATRIX *m);
-
 #pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C49A4.s")
 void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs);
 
@@ -171,7 +169,7 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
     sp10.m[2][2] = scale;
     sp10.m[1][1] = scale;
     sp10.m[0][0] = scale;
-    psyq_SetLightMatrix(&sp10);
+    SetLightMatrix(&sp10);
 
     gte_ldv0(&work->f2C);
     gte_ll();

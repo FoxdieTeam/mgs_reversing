@@ -492,10 +492,13 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\select\Takabe\vib_edit.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-    include "{{OBJ_DIR}}\overlays\select\select_800C4F28.obj" ; psyq
-    include "{{OBJ_DIR}}\overlays\select\select_800C4F48.obj" ; psyq
-    include "{{OBJ_DIR}}\overlays\select\select_800C4FDC.obj" ; psyq
-    include "{{OBJ_DIR}}\overlays\select\select_800C5008.obj" ; psyq
+
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libsn\CREAT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libsn\WRITE.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libsn\SNWRITE.OBJ", overlay
 {% elif OVERLAY == "d11c" %}
     include "{{OBJ_DIR}}\overlays\d11c\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
@@ -504,16 +507,13 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-
-    ; fadeio.c
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C59F8.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5C4C.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5C7C.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5DA0.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\d11c_800C5E38.obj"
-
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
-    include "{{OBJ_DIR}}\overlays\d11c\psyq_SetLightMatrix.obj" ; psyq
+
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s00a" %}
     include "{{OBJ_DIR}}\overlays\s00a\overlay.obj"
 
@@ -745,15 +745,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_smoke_800D2B0C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_smoke_800D2BEC.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D32AC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D332C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D334C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D336C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D33B8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D33E8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D358C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D3594.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_asioto_800D3808.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_glight_800D387C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_glight_800D3910.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_glight_800D394C.obj"
@@ -882,11 +874,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCE48.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCE94.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCFD4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD068.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD2BC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD2EC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD410.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD4A8.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD550.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DD730.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_fadeio_or_telop_800DDA18.obj"

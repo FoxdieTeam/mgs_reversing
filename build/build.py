@@ -200,7 +200,7 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $out {' '.join(args.defines)} $overlay", "Preprocess $in -> $out")
+ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $psyq_sdk $out {' '.join(args.defines)} $overlay", "Preprocess $in -> $out")
 ninja.newline()
 
 # For some reason VR executable links with PsyQ 4.5!?
@@ -356,6 +356,7 @@ def gen_build_target(targetName):
         # preprocess linker_command_file.txt
         linkerCommandFile = f"../{args.obj_directory}/linker_command_file{suffix}.txt"
         linkerCommandPreprocessVars = {"overlay": f"OVERLAY={overlay}"} if overlay else {}
+        linkerCommandPreprocessVars['psyq_sdk'] = args.psyq_path
         ninja.build(linkerCommandFile, "linker_command_file_preprocess", f"linker_command_file.txt", variables=linkerCommandPreprocessVars)
         ninja.newline()
 

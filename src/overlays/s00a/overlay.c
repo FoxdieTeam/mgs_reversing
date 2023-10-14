@@ -1,6 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
-
+#include "libgcl/hash.h"
 
 GCL_ActorTableEntry s00aOverlayCharas[] =
 {
@@ -265,7 +265,10 @@ unsigned short mes_list_800C3664[] = { 0x43D3, 0x4235 };
 SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 unsigned short mes_list_800C3678[] = { 0xD182, 0x006B };
-unsigned short mes_list_800C367C[] = { 0x3223, 0x71F1 };
+
+// Takabe/fadeio.c
+unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
+
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
 const char s00a_dword_800DFB9C[] = {0x2, 0x0, 0x2, '$'};

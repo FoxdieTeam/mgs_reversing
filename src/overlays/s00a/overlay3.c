@@ -634,10 +634,12 @@ const char aDbx1[] = "dbx1";
 const char aDbx2[] = "dbx2";
 const char aWallC[] = "wall.c";
 
-const char s00a_aAsiotoseseterr_800E0A38[] = " asioto se set err \n";
-const char s00a_aAsiotosenoiseseterr_800E0A50[] = " asioto se noise set err \n";
-const char s00a_aMigisodesurid_800E0A6C[] = " migi sodesuri %d \n";
-const char aAsiotoC_800E0A80[] = "asioto.c";
+// Enemy/asioto.c
+const char aAsiotoSeSetErr[] = " asioto se set err \n";
+const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
+const char aMigiSodesuri[] = " migi sodesuri %d \n";
+const char aAsiotoC[] = "asioto.c";
+
 const char s00a_dword_800E0A89 = 0x0A;
 const char s00a_dword_800E0A8A = 0x10;
 const char s00a_dword_800E0A8B = 0x19;
@@ -702,7 +704,10 @@ const char s00a_dword_800E0BEF = 0xB0;
 const char s00a_aPadrecstart_800E0BF0[] = "Pad rec start\n";
 const char aPadDemoC_800E0C00[] = "pad_demo.c";
 const char s00a_dword_800E0C0B = 0x10;
-const char aFadeIOC_800E0C0C[] = "fadeio.c";
+
+// Takabe/fadeio.c
+const char aFadeioC[] = "fadeio.c";
+
 const char s00a_dword_800E0C15 = 0x30;
 const char s00a_dword_800E0C16 = 0x03;
 const char s00a_dword_800E0C17 = 0x00;
