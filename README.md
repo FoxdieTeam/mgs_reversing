@@ -44,7 +44,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>The project builds a matching executable. <code>chara/snake_vr/sna_init.c</code> (a variant of Snake from main executable) is the only file left to decompile.</td>
+            <td>The project builds a matching executable. <code>chara/snake_vr/sna_init.c</code> (a variant of Snake from <code>SLPM_862.47</code> main executable) is the only file left to decompile.</td>
         </tr>
         <tr>
             <td><b>SHA256</b></td>
