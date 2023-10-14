@@ -247,14 +247,13 @@ void InitTarget_800C444C( WatcherWork *work )
 
 void s00a_watcher_800C4578( WatcherWork* work )
 {
-    short* s;
-    s = (short*)&work->field_8C8;
+    WatcherUnk *s;
+    s = (WatcherUnk*)&work->field_8C8;
     
-    GV_ZeroMemory_8001619C(&work->field_8C8, 0x24);
-    work->field_8C8 = 0;
-    
-    s[14] = 0x1C2;
-    s[15] = 1;
+    GV_ZeroMemory_8001619C(s, 0x24);
+    s->field_00 = 0;
+    s->field_1C = 0x1C2;
+    s->field_1E = 1;
     
     work->action = 0;
     work->field_8F0_func = 0;

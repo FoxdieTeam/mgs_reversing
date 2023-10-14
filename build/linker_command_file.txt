@@ -404,13 +404,8 @@ overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     ;action.c
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7498.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C76BC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C76C4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C77C8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C78E0.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C78E0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7E10.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C7E28.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8054.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C818C.obj"
