@@ -197,6 +197,7 @@ int sub_8004E458(short param_1, int param_2)
     }
 }
 
+#ifndef VR_EXE
 int sub_8004E4C0(Actor_SnaInit *pActor, int param_2)
 {
     int iVar1;
@@ -219,6 +220,9 @@ int sub_8004E4C0(Actor_SnaInit *pActor, int param_2)
     }
     return param_2;
 }
+#else
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_8004E4C0.s")
+#endif
 
 int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
 {

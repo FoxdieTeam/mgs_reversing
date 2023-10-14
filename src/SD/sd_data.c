@@ -833,9 +833,35 @@ unsigned char byte_800A2D28[ 4096 ] = {
     0,  0, 0, 0, 12, 2, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 12, 2, 0, 0, 0,  0, 0, 0,
     0,  0, 0, 0, 0,  0, 0, 0u };
 
-unsigned char v800A3D28[ 64 ] = {
-    196, 61,  1,   128, 192, 61,  1,   128, 184, 61,  1,   128, 176,
-    61,  1,   128, 152, 61,  1,   128, 128, 61,  1,   128, 112, 61,
-    1,   128, 92,  61,  1,   128, 76,  61,  1,   128, 56,  61,  1,
-    128, 44,  61,  1,   128, 36,  61,  1,   128, 20,  61,  1,   128,
-    16,  61,  1,   128, 16,  61,  1,   128, 16,  61,  1,   128 };
+extern aTlbl[];
+extern int dword_80013DC0[];
+extern int dword_80013DB0[];
+extern int dword_80013D70[];
+extern int dword_80013D80[];
+extern int dword_80013D98[];
+extern int dword_80013D10[];
+extern int dword_80013D14[];
+extern int dword_80013D24[];
+extern int dword_80013D2C[];
+extern int dword_80013D38[];
+extern int dword_80013D4C[];
+extern int dword_80013D5C[];
+
+void *v800A3D28[ 16 ] = {
+    &dword_80013DC0[1],
+    &dword_80013DC0[0],
+    aTlbl,
+    dword_80013DB0,
+    dword_80013D98,
+    dword_80013D80,
+    dword_80013D70,
+    dword_80013D5C,
+    dword_80013D4C,
+    dword_80013D38,
+    dword_80013D2C,
+    dword_80013D24,
+    dword_80013D14,
+    dword_80013D10,
+    dword_80013D10,
+    dword_80013D10
+};

@@ -85,9 +85,6 @@ def ninja_run():
         r'mts_new\.c:\d+: warning: control reaches end of non-void function',
     ]
 
-    if args.variant == 'vr_exe':
-        warning_whitelist += [r'control reaches end of non-void function']
-
     if os.environ.get('APPVEYOR'):
         with subprocess.Popen([ninja] + ninja_args, stdout=subprocess.PIPE, encoding='utf8') as proc:
             for line in proc.stdout:
@@ -388,11 +385,11 @@ exit_code = ninja_run()
 took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
-if exit_code == 0 and args.variant == 'main_exe':
+if exit_code == 0:
     ret = subprocess.run([sys.executable, 'compare.py'])
     exit_code = ret.returncode
 
-if exit_code == 0 and args.variant == 'main_exe':
+if exit_code == 0:
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
 

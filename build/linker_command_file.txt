@@ -183,7 +183,7 @@
     include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004EC8C.obj"
     include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004ECF4.obj"
     include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004ED4C.obj"
-    include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004EE08.obj"
+    include "{{OBJ_DIR}}\chara\snake_vr\sna_8004EE28.obj"
     include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004EE90.obj"
     include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004EEF4.obj"
     include "{{OBJ_DIR}}\chara\snake_vr\snake_vr_sna_init_8004EFC4.obj"
