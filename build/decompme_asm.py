@@ -48,6 +48,12 @@ def get_map(path):
     if overlay_name and os.path.exists(overlay_map):
         map_file = overlay_map
 
+    # VR?
+    # TODO: remove once VR is matched
+    vr_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj_vr'))
+    if ("asm", "chara", "snake_vr") in zip(path, path[1:], path[2:]):
+        map_file = os.path.join(vr_dir, f"asm.map")
+
     ret = {}
     with open(map_file) as f:
         for line in f:
@@ -270,6 +276,8 @@ def patchSymbolsVars(lines, commentsLen = 4):
                 del loads[firstReg]
             
     return out
+
+sym_map = {}
 
 def main(path):
     if not path or not os.path.exists(path):

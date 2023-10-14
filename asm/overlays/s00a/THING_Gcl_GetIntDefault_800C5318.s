@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef GetParamOrDefault_800C5318
-GetParamOrDefault_800C5318:
+	xdef THING_Gcl_GetIntDefault_800C5318
+THING_Gcl_GetIntDefault_800C5318:
 	dw 0x27BDFFE8 ; 800D87C8
 	dw 0xAFB00010 ; 800D87CC
 	dw 0x00A08021 ; 800D87D0

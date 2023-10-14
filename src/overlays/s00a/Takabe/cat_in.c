@@ -27,10 +27,9 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-extern const char aCatinC_800E0C90[]; //cat_in.c
 extern unsigned short mes_list_800C368C[];
 
-int GetParamOrDefault_800C5318( int param, int );
+int THING_Gcl_GetIntDefault_800C5318( int param, int );
 int THING_Gcl_GetInt_800D8808( int param );
 extern int THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
 
@@ -80,7 +79,7 @@ int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
     GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->eye );
     GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
 
-    cam->clip_distance = GetParamOrDefault_800C5318( 'a', 320 );
+    cam->clip_distance = THING_Gcl_GetIntDefault_800C5318( 'a', 320 );
     cam->enable_input = THING_Gcl_GetInt_800D8808( 'm' );
 
     return 0;
@@ -144,7 +143,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, aCatinC_800E0C90 );
+    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, "cat_in.c\x00\x04" );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -161,7 +160,7 @@ void *NewZoom_800DFA88( int name, int where )
     work = (ZoomWork *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, aCatinC_800E0C90 );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c\x00\x04" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {
