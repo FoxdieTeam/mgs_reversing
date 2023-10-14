@@ -6,7 +6,6 @@
 #include <LIBETC.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include <LIBSN.H>
 #include <LIBSPU.H>
 #include <LIBCD.H>
 #include <LIBPAD.H>

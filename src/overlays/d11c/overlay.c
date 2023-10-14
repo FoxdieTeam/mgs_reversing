@@ -2,6 +2,7 @@
 #include "Thing/door.h"
 #include "Equip/kogaku2.h"
 #include "../s16b/Enemy/wall.h"
+#include "libgcl/hash.h"
 
 GCL_ActorTableEntry d11cOverlayCharas[] = 
 {
@@ -19,7 +20,9 @@ GCL_ActorTableEntry d11cOverlayCharas[] =
 };
 
 int d11c_dword_800C3260 = 0x006BD182;
-int d11c_dword_800C3264 = 0x71F13223;
+
+// Takabe/fadeio.c
+unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
 // Takabe/cinema.c
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
@@ -39,7 +42,8 @@ const char d11c_aDemokagec_800C673C[] = "demokage.c";
 const char d11c_dword_800C6748[] = {'g', 'a', 's', '_'};
 const char d11c_dword_800C674C[] = {'e', 'f', 'c', 't'};
 const char d11c_dword_800C6750[] = {'.', 'c', 0x0, ','};
-const char d11c_dword_800C6754[] = {'f', 'a', 'd', 'e'};
-const char d11c_dword_800C6758[] = {'i', 'o', '.', 'c'};
-const char d11c_dword_800C675C[] = {0x0, 'J', 'h', 0xd};
+
+// Takabe/fadeio.c
+const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 'J', 'h', 0xd};
+
 const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, '\n', 'R', 'p'};
