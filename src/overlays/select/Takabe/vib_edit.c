@@ -30,13 +30,19 @@ extern int GM_GameStatus_800AB3CC;
 extern int GM_PlayerStatus_800ABA50;
 
 extern const char select_aSavevibrationeditordata_800C52A4[]; // = "Save vibration editor data !\n"
-extern const char select_aVibeditdat_800C52C4[];              // = "VIB_EDIT.DAT"
+extern       char select_aVibeditdat_800C52C4[];              // = "VIB_EDIT.DAT"
 extern const char select_aVibeditc_800C52D4[];                // = "vib_edit.c"
 
 // VibEditGetResources is calling this with two missing parameters for some reason.
 int PCopen_80014B1C(const char *name);
 int PCread_80014B24(int fd, char *buff, int len);
 int PCclose_80014B2C(int fd);
+
+// For some reason VibEditDie_800C467C calls this with a missing
+// last argument!? But it's not bad - PsyQ documentation says
+// that argument is ignored anyways...
+int PCcreat (char *name /*, int perms */);
+int PCwrite (int fd, char *buff, int len);
 
 int select_800C4F28(const char *);     // PCopen
 int select_800C4F48(int, char *, int); // PCwrite
@@ -118,8 +124,8 @@ void VibEditDie_800C467C(VibEditWork *work)
 
     VibEdit_800C3CBC(work, work->f28);
 
-    fd = select_800C4F28(select_aVibeditdat_800C52C4);
-    select_800C4F48(fd, work->buffer, 2048);
+    fd = PCcreat(select_aVibeditdat_800C52C4);
+    PCwrite(fd, work->buffer, 2048);
     PCclose_80014B2C(fd);
 
     GM_GameStatus_800AB3CC &= ~(work->status & 0x4A2000);
