@@ -802,3 +802,151 @@ void s00a_command_800C7354( WatcherWork* work, int time )
         SetMode( work, s00a_command_800C7498 ) ;
     }
 }
+
+//enemy on the floor
+void s00a_command_800C7498( WatcherWork* work, int time )
+{
+    int x;
+    SVECTOR svec;
+
+    work->act_status |= 0x20;
+
+    if ( time == 0 )
+    {
+        
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_8DC == 1 )
+            {
+                SetAction( work, ACTION41, ACTINTERP ); 
+            }
+            else
+            {
+                SetAction( work, ACTION39, ACTINTERP );  
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION40, ACTINTERP );
+        }
+        
+        if ( work->target->field_2A <= 0 )
+        {
+            x = work->control.field_0_mov.vx % 60;
+            work->field_B5A = abs(x) + 90;
+
+            svec.vx = work->body.objs->objs[6].world.t[0];
+            svec.vy = work->body.objs->objs[6].world.t[1];
+            svec.vz = work->body.objs->objs[6].world.t[2];
+            s00a_command_800CA69C( &svec );
+        }
+        else
+        {
+            x = work->control.field_0_mov.vx % 30;
+            work->field_B5A = abs(x) + 10;
+        }
+    }
+
+    if (s00a_command_800C513C( work ) )
+    {
+         SetMode( work, s00a_command_800C76BC );
+    }
+    else
+    {
+        if ( work->field_B5A < time )
+        {
+            if ( work->target->field_2A <= 0 )
+            {
+                work->target->field_2A = work->param_faint;
+            }
+            SetMode( work, s00a_command_800C76C4 );
+        }
+    }
+}
+
+void s00a_command_800C76BC( WatcherWork* work, int time )
+{
+
+}
+
+//enemy getting up
+void s00a_command_800C76C4( WatcherWork* work, int time )
+{
+    work->field_8E6 = 0;
+    work->act_status |= 0x08;
+
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 ) 
+        {
+            if ( work->field_B5A >= 0x5A )
+            {
+                SetAction( work, ACTION44, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION42, ACTINTERP );
+            }
+        }
+        else
+        {
+            if ( work->field_B5A >= 0x5A )
+            {
+                SetAction( work, ACTION45, ACTINTERP );
+            }
+            else
+            {
+                SetAction( work, ACTION43, ACTINTERP );
+            }           
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, ActStandStill_800C5C84 );
+    }
+}
+
+void s00a_command_800C77C8( WatcherWork* work, int time )
+{
+    TARGET* target;
+
+    work->field_8E6 = 0;
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->act_status |= 0x08;
+
+    if ( CheckDamage_800C5424( work ) )
+    {
+        return ;
+    }
+
+    target = work->target;
+    if (time == 0 )
+    {
+        SetAction( work, ACTION15, ACTINTERP ) ;
+
+        if ( target->field_3E == 3 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
+            s00a_command_800C9068( work );
+        }
+        else
+        {
+            ENE_PutBlood_800C8FF8( work, 5, 0 );
+        }
+        GM_Sound_800329C4( &work->control.field_0_mov, 0x8D, 1 );
+    }
+
+    if ( work->body.is_end)
+    {
+        SetMode( work, ActStandStill_800C5C84 ) ;
+    }
+    
+    work->control.field_44_movementVector.vx = 0;
+    work->control.field_44_movementVector.vz = 0;
+}
+
+
+//jump table
+#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800C78E0.s")

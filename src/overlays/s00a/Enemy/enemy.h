@@ -14,6 +14,22 @@ typedef struct _WatcherPad
     short sound;           //0x12       //0xB4A
 } WatcherPad;
 
+typedef struct _WatcherUnk
+{
+    int   field_00;    //0x00        //0x8C8
+    int   field_04;    //0x04        //0x8CC
+    int   field_08;    //0x08        //0x8D0
+    int   field_0C;    //0x0C        //0x8D4
+    int   field_10;    //0x10        //0x8D8
+    int   field_14;    //0x14        //0x8DC
+    short field_18;    //0x18        //0x8E0
+    short field_1A;    //0x1A        //0x8E2
+    short field_1C;    //0x1C        //0x8E4
+    short field_1E;    //0x1E        //0x8E6
+    short field_20;    //0x20        //0x8E8
+    short field_22;    //0x22        //0x8EA
+} WatcherUnk;
+
 typedef struct _WatcherWork
 {
     GV_ACT         actor;
@@ -304,9 +320,9 @@ int s00a_command_800C580C( int a, int b );
 int CheckDamage_800C5424( WatcherWork * work ) ;
 int CheckPad_800C5A60( WatcherWork *work ) ;
 void s00a_command_800C5860( WatcherWork* work ) ;
-int s00a_command_800C58E8( WatcherWork * work ) ;
+int  s00a_command_800C58E8( WatcherWork * work ) ;
 void s00a_command_800C59F8( WatcherWork *work ) ;
-
+int  s00a_command_800C513C( WatcherWork* work ) ;
 //put.c
 #define PUTBREATH 1
 #define BW_MARK 4
@@ -315,6 +331,7 @@ extern void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
 extern void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
 extern int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 
+extern void s00a_command_800C9068( WatcherWork *work ) ;
 
 //action.c
 #define COM_ST_DANBOWL 0x2000
@@ -470,11 +487,15 @@ extern void s00a_command_800C6320( WatcherWork *work, int time );
 extern void s00a_command_800C65A8( WatcherWork *work, int time );
 extern void s00a_command_800C5E48( WatcherWork *work, int time );
 
+
 extern void s00a_command_800C6724( WatcherWork *work, int time );
 extern void s00a_command_800C67E4( WatcherWork *work, int time );
 extern void s00a_command_800C6A40( WatcherWork *work, int time );
 extern void s00a_command_800C8054( WatcherWork *work, int time );
 extern void s00a_command_800C7498( WatcherWork *work, int time );
+
+extern void s00a_command_800C76BC( WatcherWork *work, int time );
+extern void s00a_command_800C76C4( WatcherWork *work, int time );
 
 extern void ActGrenade_800C67EC( WatcherWork *work, int time );
 extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
@@ -483,4 +504,5 @@ extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 //think.c ?
 #define T_NOISE 0
 
-extern int DirectTrace_800CC154( WatcherWork *work, int val );
+extern void s00a_command_800CA69C( SVECTOR *svec );
+extern int  DirectTrace_800CC154( WatcherWork *work, int val );
