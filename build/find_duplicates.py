@@ -8,13 +8,13 @@ from statistics import quantiles
 from termcolor import colored
 from Levenshtein import ratio
 
-obj_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj'))
+root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
 asm_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../asm'))
 
 def load_all_funcs():
     funcs = {}
 
-    for obj_file in glob(os.path.join(obj_dir, '**/*.obj'), recursive=True):
+    for obj_file in glob(os.path.join(root_dir, 'obj*/**/*.obj'), recursive=True):
         for func_name, code in get_obj_funcs(obj_file):
             code = b''.join(code for _, code in code)
             funcs[func_name.decode("utf-8")] = code
@@ -29,7 +29,8 @@ def byte_equality_distance(lhs_func, rhs_func):
     if len(lhs_func) != len(rhs_func):
         return None
 
-    return sum(1 if lhs_byte != rhs_byte else 0 for lhs_byte, rhs_byte in zip(lhs_func, rhs_func))
+    diff_bytes = sum(1 if lhs_byte != rhs_byte else 0 for lhs_byte, rhs_byte in zip(lhs_func, rhs_func))
+    return int(diff_bytes / len(lhs_func) * 100)
 
 def levenshtein_distance_on_bytes(lhs_func, rhs_func):
     return int((1.0 - ratio(lhs_func, rhs_func)) * 100)

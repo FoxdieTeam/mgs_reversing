@@ -9,6 +9,7 @@ from colorama import init as colorama_init
 from termcolor import colored
 
 TARGET_HASH = '4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f'
+TARGET_VR_HASH = 'c370f8e41ec8fb78238bfe2ddbfc25a6d37ec8f0972c86ebfde075ecd4ee8dca'
 TARGET_OVERLAYS_HASH = {
     'abst': 'aed6a6145201850156d251618561487456e1b02d7ce26a40cf1e492b6fa30ec0',
     'brf': '95f948d72f4b2dd523c3f60b3e036db2971c5f00b3f69d7dc9b4744c48996286',
@@ -105,6 +106,7 @@ TARGET_OVERLAYS_HASH = {
 }
 CACHED_GOOD_EXE = '_mgsi.matching.exe'
 OBJ_EXE = '../obj/_mgsi.exe'
+OBJ_VR_EXE = '../obj_vr/_mgsi.exe'
 OVERLAY_EXE_PATH = '../obj/'
 FUNCTIONS_FILE = 'functions.txt'
 EXE_SIZE = 641024
@@ -334,6 +336,14 @@ def main():
     else:
         ok(OBJ_EXE)
         cache_good_exe()
+
+    if os.path.exists(OBJ_VR_EXE):
+        exe_vr_hash = sha256(OBJ_VR_EXE)
+        if exe_vr_hash != TARGET_VR_HASH:
+            fail(OBJ_VR_EXE)
+            failed = True
+        else:
+            ok(OBJ_VR_EXE)
 
     for overlay, overlay_target_hash in TARGET_OVERLAYS_HASH.items():
         overlay_path = os.path.join(OVERLAY_EXE_PATH, f"{overlay}.bin")
