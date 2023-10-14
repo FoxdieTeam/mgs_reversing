@@ -366,7 +366,6 @@ int rmissile_act_helper_helper_8006C0A4(void)
 
 void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 {
-#ifndef VR_EXE
     SVECTOR *pPosition;
     int found;
     MATRIX rotation;
@@ -419,13 +418,24 @@ void rmissile_act_helper_8006C114(Actor_rmissile *pActor)
 
         GM_CurrentMap_800AB9B0 = pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit;
 
-        pBlastData = (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
-            ? &blast_data_8009F4B8[7] : &blast_data_8009F4B8[4];
+        if (GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32))
+        {
+            pBlastData = &blast_data_8009F4B8[7];
+        #ifdef VR_EXE
+            if ((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_31) &&
+                !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
+                !(GM_GameStatus_800AB3CC & GAME_FLAG_BIT_29))
+            {
+                pBlastData = &blast_data_8009F4B8[4];
+            }
+        #endif
+        }
+        else
+        {
+            pBlastData = &blast_data_8009F4B8[4];
+        }
         NewBlast_8006DFDC(&rotation, pBlastData);
     }
-#else
-    TEMPORARY_VR_MATCHING_PLACEHOLDER(0, 1, 6, 6);
-#endif
 }
 
 void rmissile_act_helper_8006C37C(Actor_rmissile *pActor)
