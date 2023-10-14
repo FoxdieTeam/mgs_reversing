@@ -20,7 +20,7 @@ def main(path, output, flags):
 
     with open(output, 'w') as f:
         template = env.get_template(basename(path))
-        processed = template.render(OBJ_DIR=dirname(output), OLAY_BASE="800C3208", **flags)
+        processed = template.render(OBJ_DIR=dirname(output), **flags)
         f.write(processed)
 
 if __name__ == '__main__':

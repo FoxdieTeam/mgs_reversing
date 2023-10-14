@@ -432,6 +432,8 @@
     inclib "LIBAPI.LIB"
     inclib "LIBPAD.LIB"
 
+    include "{{OBJ_DIR}}\program_bottom.obj"
+
 text    group
     section .rdata, text
     section .text,  text
@@ -441,17 +443,13 @@ text    group
     section .sdata, text
 
 bss     group bss
-    section .sbss,  bss
-    section .bss,   bss
-
-__program_bottom EQU ${{OLAY_BASE}}
-
-; Output group to overlay file, limit the size to what we know the max to be (i.e don't overrun into 801FFF0)
-olay    group   org(${{OLAY_BASE}}), size(343544)
+    section .sbss,           bss
+    section .bss,            bss
+    section .program_bottom, bss
 
 {% if OVERLAY %}
 
-overlay   group   over(olay), file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
+overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     section overlay.data,  overlay
     section overlay.text,  overlay
     section overlay.ctors, overlay

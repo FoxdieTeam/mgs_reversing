@@ -52,7 +52,7 @@ for obj in objs:
         with open(deps_file) as f:
             deps = [line.rstrip() for line in f]
 
-    if 'psyq' in obj or '_fixme' in obj or 'snake_vr' in obj:
+    if 'psyq' in obj or '_fixme' in obj or 'snake_vr' in obj or "program_bottom" in obj:
         continue
 
     is_overlay = 'overlays' in obj
