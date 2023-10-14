@@ -44,7 +44,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>Initial work on it started. The project does not yet build a matching executable.</td>
+            <td>The project builds a matching executable. <code>chara/snake_vr/sna_init.c</code> (a variant of Snake from main executable) is the only file left to decompile.</td>
         </tr>
         <tr>
             <td><b>SHA256</b></td>
@@ -52,7 +52,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Building</b></td>
-            <td><code>python build.py --variant=vr_exe</code></td>
+            <td><code>python build.py && python build.py --variant=vr_exe</code></td>
         </tr>
     </tbody>
 </table>
