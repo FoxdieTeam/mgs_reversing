@@ -12,7 +12,7 @@ typedef struct LampWork
     char           field_27;
     unsigned short field_28_name;
     short          field_2A;
-    int            field_2C;
+    int            field_2C_rgb;
     int            field_30;
     unsigned char *field_34_gcl_nextStrPtr;
     unsigned char *field_38;
@@ -24,8 +24,52 @@ extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_CurrentMap_800AB9B0;
 extern const char     d11c_aLampc_800C6700[]; // = "lamp.c";
 
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C326C.s")
-void d11c_800C326C(LampWork *, int);
+void d11c_800C326C(LampWork *work, int textureId)
+{
+    DG_PRIM  *prim;
+    DG_TEX   *tex;
+    POLY_FT4 *polyIter;
+    int       offx, offy, width, height;
+    int       i, j, k;
+
+    prim = work->field_20_prim;
+    if (textureId)
+    {
+        tex = DG_GetTexture_8001D830(textureId);
+        for (i = 0; i < 2; i++)
+        {
+            polyIter = &prim->field_40_pBuffers[i]->poly_ft4;
+            for (j = 0; j < work->field_27; j++)
+            {
+                for (k = 0; k < work->field_26; k++, polyIter++)
+                {
+                    setlen(polyIter, 9); // a part of setPolyFT4 macro
+                    LSTORE(work->field_2C_rgb, &polyIter->r0);
+
+                    width = tex->field_A_width + 1;
+                    offx = tex->field_8_offx;
+
+                    polyIter->u0 = polyIter->u2 = offx + width * k / work->field_26;
+                    polyIter->u1 = polyIter->u3 = offx + width * (k + 1) / work->field_26 - 1;
+
+                    height = tex->field_B_height + 1;
+                    offy = tex->field_9_offy;
+
+                    polyIter->v0 = polyIter->v1 = offy + height * j / work->field_27;
+                    polyIter->v2 = polyIter->v3 = offy + height * (j + 1) / work->field_27 - 1;
+
+                    polyIter->tpage = tex->field_4_tPage;
+                    polyIter->clut = tex->field_6_clut;
+                }
+            }
+        }
+        DG_VisiblePrim(prim);
+    }
+    else
+    {
+        DG_InvisiblePrim(prim);
+    }
+}
 
 unsigned char *d11c_800C34C4(LampWork *work, int arg1)
 {
@@ -169,8 +213,40 @@ void d11c_800C37F0(LampWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C382C.s")
-void d11c_800C382C(SVECTOR *, int, int, int, int);
+void d11c_800C382C(SVECTOR *vecs, int arg1, int arg2, int len2, int len1)
+{
+    SVECTOR *vecsIter;
+    int      i, j;
+    int      quot1, quot2;
+    int      vx, vy;
+
+    vecsIter = vecs;
+    vy = arg2 / 2;
+    quot1 = arg1 / len2;
+    quot2 = arg2 / len1;
+
+    for (i = 0; i < len1; i++)
+    {
+        vx = -arg1 / 2;
+
+        for (j = 0; j < len2; vecsIter += 4, j++)
+        {
+            int vx2 = vx + quot1;
+            vecsIter[0].vx = vx;
+            vecsIter[2].vx = vx;
+            vx = vx2;
+            vecsIter[1].vx = vx2;
+            vecsIter[3].vx = vx2;
+
+            vecsIter[0].vy = vy;
+            vecsIter[1].vy = vy;
+            vecsIter[2].vy = vy - quot2;
+            vecsIter[3].vy = vy - quot2;
+        }
+
+        vy -= quot2;
+    }
+}
 
 int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
 {
@@ -224,10 +300,10 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
         param5 = 0x01808080;
     }
 
-    work->field_2C = param5 | 0x2C000000;
+    work->field_2C_rgb = param5 | 0x2C000000;
     if (GCL_GetOption_80020968('S'))
     {
-        work->field_2C |= 0x02000000;
+        work->field_2C_rgb |= 0x02000000;
     }
 
     prim_count = a3 * a4;
