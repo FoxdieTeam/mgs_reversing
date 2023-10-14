@@ -704,7 +704,10 @@ const char s00a_dword_800E0BEF = 0xB0;
 const char s00a_aPadrecstart_800E0BF0[] = "Pad rec start\n";
 const char aPadDemoC_800E0C00[] = "pad_demo.c";
 const char s00a_dword_800E0C0B = 0x10;
-const char aFadeIOC_800E0C0C[] = "fadeio.c";
+
+// Takabe/fadeio.c
+const char aFadeioC[] = "fadeio.c";
+
 const char s00a_dword_800E0C15 = 0x30;
 const char s00a_dword_800E0C16 = 0x03;
 const char s00a_dword_800E0C17 = 0x00;

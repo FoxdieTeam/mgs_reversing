@@ -26,7 +26,8 @@ extern int GV_PassageTime_800AB924;
 extern int GV_PauseLevel_800AB928;
 extern int GM_GameStatus_800AB3CC;
 
-unsigned short s16b_dword_800C3250[] = {HASH_KILL, 0x71F1};
+extern unsigned short fadeio_msgs[];
+extern const char aFadeioC[];
 
 int THING_Gcl_GetInt_800D8808(char param);
 int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigned short *hashes);
@@ -41,7 +42,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        status = THING_Msg_CheckMessage_800D8940(work->field_20, 2, s16b_dword_800C3250);
+        status = THING_Msg_CheckMessage_800D8940(work->field_20, 2, fadeio_msgs);
         if (status == 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -163,7 +164,7 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0,
-                                  "fadeio.c");
+                                  aFadeioC);
         if (FadeIoGetResources_800C4100(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -182,7 +183,7 @@ GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
     work = (FadeIoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0, "fadeio.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)FadeIoAct_800C3E7C, (TActorFunction)FadeIoDie_800C40D0, aFadeioC);
 
         if (FadeIoGetResources_800C4100(work, THING_Gcl_GetInt_800D8808('m'), THING_Gcl_GetInt_800D8808('s')) < 0)
         {
