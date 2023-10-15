@@ -8,7 +8,9 @@ typedef struct _UjiWork
     DG_PRIM *prim;
     char     pad[0xD00];
     int      fD24;
-    char     pad2[0x50];
+    SVECTOR  fD28[4];
+    SVECTOR  fD48[4];
+    int      fD68[4];
     int      fD78;
     int      fD7C;
     char     pad3[0x10];
@@ -20,11 +22,41 @@ extern const char aUjiC[]; // = "uji.c"
 
 #define EXEC_LEVEL 4
 
-#pragma INCLUDE_ASM("asm/overlays/d03a/d03a_uji_800C39E8.s")
-int  d03a_uji_800C39E8(int, void *);
+int d03a_uji_800C39E8(int opt, SVECTOR *svec)
+{
+    int   count;
+    char *result;
 
-#pragma INCLUDE_ASM("asm/overlays/d03a/d03a_uji_800C3A3C.s")
-void d03a_uji_800C3A3C(int, void *);
+    count = 0;
+
+    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    {
+        GCL_StrToSV_80020A14(result, svec);
+
+        svec++;
+        count++;
+    }
+
+    return count;
+}
+
+int d03a_uji_800C3A3C(int opt, int *out)
+{
+    int   count;
+    int  *out2;
+    char *result;
+
+    count = 0;
+    out2 = out;
+
+    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    {
+        *out2++ = GCL_StrToInt_800209E8(result);
+        count++;
+    }
+
+    return count;
+}
 
 void UjiShadePacks_800C3A94(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {
@@ -89,7 +121,7 @@ int Uji_800C3EEC(UjiWork *work)
     opt = GCL_GetOption_80020968('c');
     if (opt != 0)
     {
-        work->fD78 = d03a_uji_800C39E8(opt, (char *)work + 0xD28);
+        work->fD78 = d03a_uji_800C39E8(opt, work->fD28);
     }
     else
     {
@@ -99,13 +131,13 @@ int Uji_800C3EEC(UjiWork *work)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        d03a_uji_800C3A3C(opt, (char *)work + 0xD68);
+        d03a_uji_800C3A3C(opt, work->fD68);
     }
 
     opt = GCL_GetOption_80020968('v');
     if (opt != 0)
     {
-        d03a_uji_800C39E8(opt, (char *)work + 0xD48);
+        d03a_uji_800C39E8(opt, work->fD48);
     }
 
     opt = GCL_GetOption_80020968('n');
