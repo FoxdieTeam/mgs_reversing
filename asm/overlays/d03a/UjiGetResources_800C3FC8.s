@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef d03a_uji_800C3FC8
-d03a_uji_800C3FC8:
+	xdef UjiGetResources_800C3FC8
+UjiGetResources_800C3FC8:
 	dw 0x27BDFF50 ; 800C3FC8
 	dw 0xAFB5009C ; 800C3FCC
 	dw 0x0080A821 ; 800C3FD0
