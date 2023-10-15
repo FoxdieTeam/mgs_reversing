@@ -1,4 +1,5 @@
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
 
 GCL_ActorTableEntry d03aOverlayCharas[] = 
 {
@@ -20,20 +21,17 @@ int d03a_dword_800C3268 = 0x00640064;
 int d03a_dword_800C326C = 0x00C800C8;
 int d03a_dword_800C3270 = 0x00000000;
 int d03a_dword_800C3274 = 0x006BD182;
-int d03a_dword_800C3278 = 0x71F13223;
-int d03a_dword_800C327C = 0x745DD420;
-int d03a_dword_800C3280 = 0x00E20300;
-int d03a_dword_800C3284 = 0x00020100;
-int d03a_dword_800C3288 = 0x00C40300;
-int d03a_dword_800C328C = 0x00020100;
-int d03a_dword_800C3290 = 0x00E20300;
-int d03a_dword_800C3294 = 0x00020100;
-int d03a_dword_800C3298 = 0x00C40300;
-int d03a_dword_800C329C = 0x00020100;
 
+// Takabe/fadeio.c
+unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
-const char d03a_aShadow_800C7960[] = "shadow";
-const char d03a_aDemokagec_800C7968[] = "demokage.c";
+// Takabe/cinema.c
+unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
+
+// Enemy/demokage.c
+const char aShadow[] = "shadow";
+const char aDemokageC[] = "demokage.c";
+
 const char d03a_aUji_800C7974[] = "uji";
 const char d03a_dword_800C7978[] = {'u', 'j', 'i', '.'};
 const char d03a_dword_800C797C[] = {'c', 0x0, 0x1c, 0x0};
@@ -54,12 +52,9 @@ const char d03a_aBlurpurec_800C79C8[] = "blurpure.c";
 const char d03a_dword_800C79D4[] = {'g', 'a', 's', '_'};
 const char d03a_dword_800C79D8[] = {'e', 'f', 'c', 't'};
 const char d03a_dword_800C79DC[] = {'.', 'c', 0x0, ' '};
-const char d03a_dword_800C79E0[] = {'f', 'a', 'd', 'e'};
-const char d03a_dword_800C79E4[] = {'i', 'o', '.', 'c'};
-const char d03a_dword_800C79E8[] = {0x0, 0x2, '@', 0x0};
-const char d03a_dword_800C79EC[] = {'c', 'i', 'n', 'e'};
-const char d03a_dword_800C79F0[] = {'m', 'a', '.', 'c'};
-const char d03a_dword_800C79F4[] = {0x0, 0xc, '.', 0x0};
-const char d03a_aSepiac_800C79F8[] = "sepia.c";
-const char d03a_dword_800C7A00[] = {0x0, 0x0, 0x0, 0x0};
-const char d03a_dword_800C7A04[] = {0x0, 0x0, 0x0, 0x0};
+
+// Takabe/fadeio.c
+const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x2, '@', 0x0};
+
+// Takabe/cinema.c
+const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 0xc, '.', 0x0};
