@@ -874,12 +874,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\o2_damge.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
-
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF1F8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF388.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF39C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF3A4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_env_snd_800DF424.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\env_snd.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\overlay4.obj"
 
