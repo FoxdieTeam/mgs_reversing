@@ -1242,7 +1242,234 @@ void s00a_command_800C818C( WatcherWork *work, int time )
     if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy == 2 )
     {
         s00a_command_800C55B0( work );
-        printf(aEnemyresetmaxdnumd_800DFE50, EnemyCommand_800E0D98.field_0x94, EnemyCommand_800E0D98.field_0x90);
+        printf(aEnemyresetmaxdnumd_800DFE50, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num);
         SetMode( work, ActStandStill_800C5C84) ;
     }
+}
+
+void s00a_command_800C82B0( WatcherWork *work )
+{
+    short       v0;
+    int         time_prev;
+    ACTION      action;
+    CONTROL    *ctrl;
+    WatcherUnk *unk;
+
+    work->trigger = 0;
+    work->vision_length = 0;
+    work->target->class = TARGET_AVAIL;
+
+    action = work->action;
+    ctrl   = &work->control;
+
+    work->actend = 0;
+    work->act_status = 0;
+    work->field_C30  = 0;
+
+    ctrl->field_32_height = work->body.field_18;
+    ctrl->field_34_hzd_height = ctrl->field_78_levels[0] + 750;
+
+    unk = (WatcherUnk*)&work->field_8C8;
+
+    time_prev = work->time;
+    work->time++;
+
+    if ( !action )
+    {
+        action = ActStandStill_800C5C84;
+        work->action = ActStandStill_800C5C84;
+    }
+
+    action( work, time_prev );
+    action = work->action2;
+
+    if ( action )
+    {
+        time_prev = work->time2;
+        work->time2++;
+        action( work, time_prev );
+    }
+
+    if ( !unk->field_1E )
+    {
+        ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, unk->field_1C );
+    }
+    else
+    {
+        ctrl->field_36 = -1;
+    }
+    
+    if ( work->target->class & TARGET_POWER )
+    {
+        work->hom->flag = 1;
+    }
+    else
+    {
+        work->hom->flag = 0;
+    }
+
+    if ( unk->field_04 < 0 && ctrl->field_57 )
+    {
+        unk->field_04 = 0;
+    }
+
+    v0 = unk->field_04 - 16;
+    unk->field_04 = v0;
+    ctrl->field_44_movementVector.vy = v0;
+
+    if ( work->mark_time > 0 )
+    {
+        work->mark_time--;
+    }
+}
+
+void s00a_command_800C841C( WatcherWork* work, int time)
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION9 );
+    }
+
+    if ( !( work->pad.press & 1 ) )
+    {
+        UnsetMode2( work );
+    }
+    else
+    {
+        if ( time < 4 )
+        {
+            work->vision_facedir = ( work->control.field_8_rotator.vy - ( time * 256 ) ) & 0xFFF;
+        }
+        else
+        {
+            work->vision_facedir = ( work->control.field_8_rotator.vy - 1024 ) & 0xFFF;
+        }
+    }
+}
+
+void s00a_command_800C84FC( WatcherWork* work, int time)
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION10 );
+    }
+
+    if ( !( work->pad.press & 2 ) )
+    {
+        UnsetMode2( work );
+    }
+    else
+    {
+        if ( time < 4 )
+        {
+            work->vision_facedir = ( work->control.field_8_rotator.vy + ( time * 256 ) ) & 0xFFF;
+        }
+        else
+        {
+            work->vision_facedir = ( work->control.field_8_rotator.vy + 1024 ) & 0xFFF;
+        }
+    }
+}
+
+void ActOverScoutD_800C85DC( WatcherWork* work, int time )
+{
+    work->vision_length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION11 );
+    }
+
+    if ( !( work->pad.press & 4 ) )
+    {
+        UnsetMode2( work );
+    }
+}
+
+void s00a_command_800C8688( WatcherWork* work, int time )
+{
+    work->vision_length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION14 );
+    }
+
+    if ( !( work->pad.press & 0x2000 ) )
+    {
+        UnsetMode2( work );
+    }
+}
+
+void s00a_command_800C8734( WatcherWork* work, int time )
+{
+    work->vision_length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION24 );
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x94 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode2( work );
+    }    
+}
+
+void s00a_command_800C87FC( WatcherWork* work, int time )
+{
+    work->vision_length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION22 );
+    }
+
+    if ( time == 60 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode2( work );
+    }    
+}
+
+void s00a_command_800C88D8( WatcherWork* work, int time )
+{
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION23 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode2( work );
+    }    
+}
+
+void s00a_command_800C8990( WatcherWork* work, int time )
+{
+    work->vision_length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION19 );
+    }
+
+    if ( time == 90 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+    }
+
+    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    {
+        work->pad.time = 0;
+        UnsetMode2( work );
+    }    
 }
