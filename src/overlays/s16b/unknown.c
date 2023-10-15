@@ -84,7 +84,7 @@ int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigne
     return found;
 }
 
-int s16b_800C4584(void)
+int THING_Msg_GetLastMessage_800C4584(void)
 {
     return s16b_dword_800C58AC[0];
 }
