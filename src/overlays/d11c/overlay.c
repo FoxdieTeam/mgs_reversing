@@ -37,8 +37,10 @@ const char aDbx1[] = "dbx1";
 const char aDbx2[] = "dbx2";
 const char aWallC[] = "wall.c";
 
-const char d11c_aShadow_800C6734[] = "shadow";
-const char d11c_aDemokagec_800C673C[] = "demokage.c";
+// Enemy/demokage.c
+const char aShadow[] = "shadow";
+const char aDemokageC[] = "demokage.c";
+
 const char d11c_dword_800C6748[] = {'g', 'a', 's', '_'};
 const char d11c_dword_800C674C[] = {'e', 'f', 'c', 't'};
 const char d11c_dword_800C6750[] = {'.', 'c', 0x0, ','};

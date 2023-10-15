@@ -888,6 +888,57 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB3C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB5C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB8C.obj"
+{% elif OVERLAY == "d03a" %}
+    include "{{OBJ_DIR}}\overlays\d03a\overlay.obj"
+    include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C39E8.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C3A3C.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C3A94.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C3B38.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C3B74.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C3EEC.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C3FC8.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_uji_800C42F8.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C437C.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4414.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C45CC.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C48BC.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C48D0.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4904.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4958.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4BB0.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4DF0.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4E84.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C4F48.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C4F68.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C5108.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C51A8.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C53E4.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C545C.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C548C.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C54D4.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C554C.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C55D0.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C57E8.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C5990.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C59C4.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C5A88.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C5B24.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C5C28.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\d03a_gas_efct_800C5CC0.obj"
+
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
+
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
+
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% endif %}
 
 {% endif %}

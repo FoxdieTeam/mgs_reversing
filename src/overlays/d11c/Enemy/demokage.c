@@ -16,8 +16,8 @@ typedef struct _DemokageWork
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern const char d11c_aShadow_800C6734[];    // = "shadow"
-extern const char d11c_aDemokagec_800C673C[]; // = "demokage.c"
+extern const char aShadow[];    // = "shadow"
+extern const char aDemokageC[]; // = "demokage.c"
 
 #define EXEC_LEVEL 5
 
@@ -183,7 +183,7 @@ int d11c_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, i
 
     prim->group_id = 0;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(d11c_aShadow_800C6734));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aShadow));
     if (!tex)
     {
         return -1;
@@ -238,7 +238,7 @@ GV_ACT *d11c_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r
         return NULL;
     }
 
-    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C45AC, (TActorFunction)d11c_800C4630, d11c_aDemokagec_800C673C);
+    GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C45AC, (TActorFunction)d11c_800C4630, aDemokageC);
 
     if (d11c_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {
