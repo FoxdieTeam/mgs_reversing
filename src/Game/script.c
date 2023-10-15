@@ -48,7 +48,7 @@ GCL_COMMANDLIST Commands_8009D5CC[] = {
     {HASH_CMD_trap, GCL_Command_trap_8002BD34},
     {HASH_CMD_chara, (TGCL_CommandFn)GCL_Command_chara_8002C1B0}, // TODO: Why does this one have a different signature?
     {HASH_CMD_map, GCL_Command_map_8002BB44},
-    {HASH_CMD_hzd, GCL_Command_hzd_8002BD04},
+    {HASH_CMD_mapdef, GCL_Command_hzd_8002BD04},
     {HASH_CMD_camera, GCL_Command_camera_8002B8F0},
     {HASH_CMD_light, GCL_Command_light_8002B854},
     {HASH_CMD_start, GCL_Command_start_8002C22C},
