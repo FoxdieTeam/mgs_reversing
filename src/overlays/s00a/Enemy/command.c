@@ -122,12 +122,12 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
         EnemyCommand_800E0D98.field_0x58[0] = 0;
     }
 
-    EnemyCommand_800E0D98.field_0x94 = 5;
+    EnemyCommand_800E0D98.reset_enemy_max = 5;
 
     ops = GCL_GetOption_80020968( 'b');
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x94 = GCL_StrToInt_800209E8( (unsigned char*)ops );
+        EnemyCommand_800E0D98.reset_enemy_max = GCL_StrToInt_800209E8( (unsigned char*)ops );
     }
 
     EnemyCommand_800E0D98.field_0x88.vx = 0xFA0;
