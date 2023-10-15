@@ -19,6 +19,8 @@ extern SVECTOR    s00a_dword_800C33C4;
 extern int        dword_800ABA0C;
 extern const char aMapchange_800DFE0C[]; // map change \n;
 
+extern const char aEnemyresetmaxdnumd_800DFE50[]; //"enemy reset max=%d num=%d \n";
+
 void ActStandStill_800C5C84(WatcherWork* work, int time ) 
 {
     SetTargetClass( work->target, TARGET_FLAG );
@@ -947,9 +949,6 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
     work->control.field_44_movementVector.vz = 0;
 }
 
-
-//jump table
-//#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_command_800C78E0.s")
 void s00a_command_800C78E0( WatcherWork *work, int time )
 {
     CONTROL* ctrl;
@@ -1109,5 +1108,141 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         {
             SetMode( work, s00a_command_800C7498 );
         }
+    }
+}
+
+void s00a_command_800C7E28( WatcherWork* work, int time )
+{
+    CONTROL *ctrl;
+
+    ctrl = &work->control;
+    work->field_8E6 = 0;
+    work->act_status |= 0x8;
+
+    if ( time == 0 && work->field_8DC != 2 )
+    {
+        GM_Sound_800329C4( &ctrl->field_0_mov, 0x91, 1 );
+    }
+
+    if ( time > 16 && ctrl->field_57 )
+    {
+        ctrl->field_44_movementVector = DG_ZeroVector_800AB39C;
+    }
+
+    if ( work->field_8E0 < 39 )
+    {
+        ctrl->field_44_movementVector = work->target->field_2C_vec;
+        if ( work->body.is_end )
+        {
+            if ( work->field_8DC < 3 )
+            {
+                if ( work->field_8DC == 1 )
+                {
+                    SetAction( work, ACTION41, ACTINTERP ); 
+                }
+                else
+                {
+                    SetAction( work, ACTION39, ACTINTERP );  
+                }
+            }
+            else
+            {
+                SetAction( work, ACTION40, ACTINTERP );
+            }
+        }
+    }
+    else
+    {
+        if ( !ctrl->field_58 )
+        {
+            ctrl->field_44_movementVector = work->target->field_2C_vec;
+        }
+        
+        if ( ctrl->field_57 )
+        {
+            work->field_8E6 = 1;
+            work->target->field_2C_vec = DG_ZeroVector_800AB39C;
+            GM_Sound_800329C4( &ctrl->field_0_mov, 0x33, 1 );
+            ENE_PutBlood_800C8FF8( work, 6, 1 );
+            SetMode( work, s00a_command_800C8054 );
+        }
+    }
+    ctrl->field_34_hzd_height = -32767;
+}
+
+//enemy dead
+void s00a_command_800C8054( WatcherWork *work, int time )
+{
+    work->act_status |= 0x40;
+    if ( time == 0 )
+    {
+        if ( work->field_8DC < 3 )
+        {
+            if ( work->field_8DC == 1 )
+            {
+                SetAction( work, ACTION51, ACTINTERP ); 
+            }
+            else
+            {
+                SetAction( work, ACTION49, ACTINTERP );  
+            }
+        }
+        else
+        {
+            SetAction( work, ACTION50, ACTINTERP );
+        }       
+        GM_ConfigControlAttribute_8002623C( &work->control, 0 );
+        work->alert_level = 0;
+        work->field_C24 = 30000;
+        sub_8002DD14( work->target, NULL );
+    }
+
+    if ( time == 4 && TOPCOMMAND_800E0F20.mode == 0 )
+    {
+        ENE_PutItem_800C90CC( work );
+    }
+
+    if ( time & 2 )
+    {
+        work->visible = 0;
+    }
+    else
+    {
+        work->visible = 1;
+    }
+
+    if ( time > 8 )
+    {
+        SetMode( work, s00a_command_800C818C );
+    }
+}
+
+//after enemy dies
+void s00a_command_800C818C( WatcherWork *work, int time )
+{
+    work->act_status |= 0x40;
+
+    if ( time == 0 )
+    {
+        work->visible = 0;
+        work->control.field_0_mov = COM_NO_POINT_800C35D4;
+        EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy = 1;
+
+        if ( !work->field_C48 )
+        {
+            GM_TotalEnemiesKilled++;
+        }
+
+        if ( work->field_C3C >= 0 )
+        {
+            GCL_ExecProc_8001FF2C( work->field_C3C, NULL );
+        }
+    }
+
+    if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy == 2 )
+    {
+        s00a_command_800C55B0( work );
+        printf(aEnemyresetmaxdnumd_800DFE50, EnemyCommand_800E0D98.field_0x94, EnemyCommand_800E0D98.field_0x90);
+        SetMode( work, ActStandStill_800C5C84) ;
     }
 }
