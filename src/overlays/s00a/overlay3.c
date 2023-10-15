@@ -13,7 +13,7 @@ const int s00a_dword_800DFE44 = 0x800C7C0C;
 const int s00a_dword_800DFE48 = 0x800C7C58;
 const int s00a_dword_800DFE4C = 0x800C7C58;
 */
-const char s00a_aEnemyresetmaxdnumd_800DFE50[] = "enemy reset max=%d num=%d \n";
+const char aEnemyresetmaxdnumd_800DFE50[] = "enemy reset max=%d num=%d \n";
 const char s00a_aFamasbullet_800DFE6C[] = "FA-MAS/BULLET * 25";
 const char s00a_aSocombullet_800DFE80[] = "SOCOM/BULLET * 12";
 const char s00a_aRation_800DFE94[] = "RATION";

@@ -16,7 +16,7 @@
 #define HASH_CMD_trap           0xd4cb // GV_StrCode( "trap" )
 #define HASH_CMD_chara          0x9906 // GV_StrCode( "chara" )
 #define HASH_CMD_map            0xc091 // GV_StrCode( "map" )
-#define HASH_CMD_hzd            0x7d50 // GV_StrCode( "mapdef" )
+#define HASH_CMD_mapdef         0x7d50 // GV_StrCode( "mapdef" )
 #define HASH_CMD_camera         0xeee9 // GV_StrCode( "camera" )
 #define HASH_CMD_light          0x306a // GV_StrCode( "light" )
 #define HASH_CMD_start          0x9a1f // GV_StrCode( "start" )
