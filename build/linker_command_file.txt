@@ -529,10 +529,10 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\action.obj"
     include "{{OBJ_DIR}}\overlays\s00a\overlay3.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8A6C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8C58.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8C98.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8DF8.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8A6C.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8C58.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8C98.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C8DF8.obj"
 
     ;put.c
     include "{{OBJ_DIR}}\overlays\s00a\ENE_PutBlood_800C8FF8.obj"

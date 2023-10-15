@@ -291,7 +291,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     GM_InitObject_80034A18( body, 0x96B6, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint_80034CB4( body ) ;
-    GM_ConfigMotionControl_80034F08( body, &work->field_18C, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
+    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
     GM_ConfigObjectLight_80034C44( body, &work->field_888 );
     
     work->field_B7B = 0;
