@@ -212,7 +212,7 @@ typedef struct Actor_SnaInit
     TARGET             *field_8E8_pTarget;
     SVECTOR             field_8EC_vec;
     int                 field_8F4;
-    int                 time2;
+    int                 field_8F8;
     SVECTOR             field_8FC;
     int                 field_904_frames_last_choke;
     GV_ACT             *field_908_weapon_actor;
