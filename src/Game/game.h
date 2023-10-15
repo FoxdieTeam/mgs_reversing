@@ -189,6 +189,7 @@ void               GM_Sound_80032C48(int code, int notUsed);
 void               GM_SeSet2_80032968(int byte_2, int byte_1, int byte_0);
 void               GM_SeSet_80032858(SVECTOR *pos, unsigned int sound_id);
 void               GM_Sound_800329C4( SVECTOR *arg0, int arg1, int arg2 );
+void               sub_80032BC4(SVECTOR *svec, unsigned int param_2, int param_3);
 void               GM_ConfigControlInterp_80026244(CONTROL *pControl, char f5a);
 int                GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2);
 void               GM_ConfigObjectOverride_80034D30(OBJECT *obj, int a1, int motion, int interp, int a4);
