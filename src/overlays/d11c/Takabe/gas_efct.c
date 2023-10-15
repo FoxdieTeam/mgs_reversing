@@ -34,14 +34,22 @@ extern MATRIX  DG_ZeroMatrix_8009D430;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_GameStatus_800AB3CC;
 extern int     GV_Clock_800AB920;
+extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
 
-extern const char d11c_dword_800C6748[]; // = "gas_efct.c"
+extern unsigned short gas_efct_msgs[2];
+
+extern const char aGasEfctC[]; // = "gas_efct.c"
 
 #define EXEC_LEVEL 3
 
 int THING_Gcl_GetIntDefault_800C5318(char param, int def);
 int THING_Gcl_GetInt_800D8808(char param);
+int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigned short *hashes);
+int THING_Msg_GetLastMessage_800C4584(void);
+
+void d11c_800C4FFC(GasEfctWork *work);
+void d11c_800C5094(GasEfctWork *work, int arg1);
 
 void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs)
 {
@@ -89,9 +97,105 @@ void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d11c/d11c_800C4BBC.s")
-void d11c_800C4BBC(GasEfctWork *work);
+void d11c_800C4BBC(GasEfctWork *work_copy)
+{
+    GasEfctWork *work;
+    int          found;
+    int          message;
+    int          state;
 
+    work = work_copy;
+
+    if (GV_PauseLevel_800AB928 == 0)
+    {
+        found = THING_Msg_CheckMessage_800D8940(work->name, 2, gas_efct_msgs);
+        message = THING_Msg_GetLastMessage_800C4584();
+
+        switch (found)
+        {
+        case 0:
+            state = 1;
+            work->f48 = message;
+            break;
+
+        case 1:
+            state = 3;
+            work->f48 = message;
+            break;
+
+        default:
+            state = work->f3C;
+            break;
+        }
+
+        if (GV_PauseLevel_800AB928 == 0)
+        {
+            switch (state)
+            {
+            case 1:
+                if (work->f3C == 0)
+                {
+                    if (work->f40 == 0)
+                    {
+                        work->f40 = state;
+                        d11c_800C4FFC(work);
+                    }
+
+                    work->f4C = 0;
+                }
+
+                if (GV_PauseLevel_800AB928 == 0)
+                {
+                    work->f4C = sub_8002646C(work->f4C, 4096, work->f48);
+                }
+
+                if (work->f4C == 4096)
+                {
+                    state = 2;
+                }
+
+                work->f3C = state;
+                break;
+
+            case 2:
+                work->f3C = state;
+                break;
+
+            case 3:
+                work->f4C = sub_8002646C(work->f4C, 0, work->f48);
+
+                if (work->f4C == 0)
+                {
+                    state = 0;
+
+                    if (work->f40 != 0)
+                    {
+                        GV_DelayedFree_80016254(work->prims);
+                        work->f40 = 0;
+                    }
+                }
+
+                work->f3C = state;
+                break;
+
+            case 0:
+                work->f40 = 0;
+                /* fallthrough */
+
+            default:
+                work->f3C = state;
+                break;
+            }
+        }
+    }
+
+    if (work->f40 != 0)
+    {
+        d11c_800C5094(work, work->f4C);
+    }
+
+    work->f44++;
+}
 
 void d11c_800C4D64(GasEfctWork *work)
 {
@@ -129,7 +233,7 @@ GV_ACT *d11c_800C4E5C(int name, int where)
     work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, d11c_dword_800C6748);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, aGasEfctC);
 
         if (d11c_800C4D98(work, name, where) < 0)
         {
@@ -151,7 +255,7 @@ GV_ACT *d11c_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
     work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, d11c_dword_800C6748);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, aGasEfctC);
         work->f48 = 4096;
         work->f50 = 410;
         work->f2C = DG_ZeroVector_800AB39C;
