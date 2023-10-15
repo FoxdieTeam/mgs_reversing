@@ -4,7 +4,7 @@
 #include "../s16b/Enemy/wall.h"
 #include "libgcl/hash.h"
 
-GCL_ActorTableEntry d11cOverlayCharas[] = 
+GCL_ActorTableEntry d11cOverlayCharas[] =
 {
     { 0x1AD3, (TGCL_ActorCreateFn)0x800C3B34 },
     { 0xB997, NewDoor_8006FD00 },
@@ -19,7 +19,8 @@ GCL_ActorTableEntry d11cOverlayCharas[] =
     { 0, 0 }
 };
 
-int d11c_dword_800C3260 = 0x006BD182;
+// Takabe/gas_efct.c
+unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
 
 // Takabe/fadeio.c
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
@@ -41,9 +42,8 @@ const char aWallC[] = "wall.c";
 const char aShadow[] = "shadow";
 const char aDemokageC[] = "demokage.c";
 
-const char d11c_dword_800C6748[] = {'g', 'a', 's', '_'};
-const char d11c_dword_800C674C[] = {'e', 'f', 'c', 't'};
-const char d11c_dword_800C6750[] = {'.', 'c', 0x0, ','};
+// Takabe/gas_efct.c
+const char aGasEfctC[] = {'g', 'a', 's', '_', 'e', 'f', 'c', 't', '.', 'c', '\x00', ','};
 
 // Takabe/fadeio.c
 const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 'J', 'h', 0xd};

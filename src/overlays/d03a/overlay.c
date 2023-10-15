@@ -20,7 +20,9 @@ GCL_ActorTableEntry d03aOverlayCharas[] =
 int d03a_dword_800C3268 = 0x00640064;
 int d03a_dword_800C326C = 0x00C800C8;
 int d03a_dword_800C3270 = 0x00000000;
-int d03a_dword_800C3274 = 0x006BD182;
+
+// Takabe/gas_efct.c
+unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
 
 // Takabe/fadeio.c
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
@@ -50,9 +52,9 @@ const int d03a_dword_800C79B4 = 0x800C46C4;
 const int d03a_dword_800C79B8 = 0x800C46C4;
 const char d03a_aRedalrtc_800C79BC[] = "red_alrt.c";
 const char d03a_aBlurpurec_800C79C8[] = "blurpure.c";
-const char d03a_dword_800C79D4[] = {'g', 'a', 's', '_'};
-const char d03a_dword_800C79D8[] = {'e', 'f', 'c', 't'};
-const char d03a_dword_800C79DC[] = {'.', 'c', 0x0, ' '};
+
+// Takabe/gas_efct.c
+const char aGasEfctC[] = {'g', 'a', 's', '_', 'e', 'f', 'c', 't', '.', 'c', '\x00', ' '};
 
 // Takabe/fadeio.c
 const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x2, '@', 0x0};
