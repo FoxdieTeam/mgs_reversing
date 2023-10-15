@@ -256,9 +256,9 @@ void s00a_watcher_800C4578( WatcherWork* work )
     s->field_1E = 1;
     
     work->action = 0;
-    work->field_8F0_func = 0;
+    work->action2 = 0;
     work->time = 0;
-    work->field_8F8 = 0;
+    work->time2 = 0;
 }
 
 int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )

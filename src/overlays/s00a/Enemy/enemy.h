@@ -17,7 +17,8 @@ typedef struct _WatcherPad
 typedef struct _WatcherUnk
 {
     int   field_00;    //0x00        //0x8C8
-    int   field_04;    //0x04        //0x8CC
+    short field_04;    //0x04        //0x8CC
+    short field_06;    //0x06        //0x8CE
     int   field_08;    //0x08        //0x8D0
     int   field_0C;    //0x0C        //0x8D4
     int   field_10;    //0x10        //0x8D8
@@ -78,9 +79,9 @@ typedef struct _WatcherWork
     short          field_8E6;                  //0x8E6
     int            field_8E8;                  //0x8E8
     void*          action;                     //0x8EC
-    void*          field_8F0_func;             //0x8F0
+    void*          action2;             //0x8F0
     int            time;                       //0x8FC
-    int            field_8F8;                  //0x8F8
+    int            time2;                  //0x8F8
     int            actend;                     //0x8FC
     TARGET        *target;                     //0x900
     TARGET         field_904;                  //0x904
@@ -219,8 +220,8 @@ typedef struct _ENEMY_COMMAND
     short   field_0x58[8];
     int     field_0x68[8];
     SVECTOR field_0x88;
-    int     field_0x90;
-    int     field_0x94;
+    int     reset_enemy_num;
+    int     reset_enemy_max;
     int     field_0x98;
     int     field_0x9C;
     MAP     *map;
@@ -239,8 +240,8 @@ typedef struct _ENEMY_COMMAND
     int     field_0x148[8];
     int     field_0x168;
     int     field_0x16C;
-    int     field_0x170; //reset_enemy_num
-    int     field_0x174; //reset_enemy_max
+    int     field_0x170;
+    int     field_0x174;
     short   field_0x178;
     short   field_0x17A;
     int     field_0x17C;
@@ -418,10 +419,10 @@ static inline void SetMode( WatcherWork *work, ACTION action )
 
 static inline void SetMode2( WatcherWork *work, void *func )
 {
-    if ( work->field_8F0_func == NULL )
+    if ( work->action2 == NULL )
     {
-        work->field_8F0_func = func;
-        work->field_8F8 = 0;
+        work->action2 = func;
+        work->time2 = 0;
     }
 
     work->control.field_4C_turn_vec.vz = 0;
@@ -434,8 +435,8 @@ static inline void UnsetMode2( WatcherWork *work )
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     
-    work->field_8F0_func = 0;
-    work->field_8F8 = 0;
+    work->action2 = 0;
+    work->time2 = 0;
     work->field_8E2 = 0;
     work->control.field_4C_turn_vec.vz = 0;
     work->control.field_4C_turn_vec.vx = 0;
