@@ -1473,3 +1473,149 @@ void s00a_command_800C8990( WatcherWork* work, int time )
         UnsetMode2( work );
     }    
 }
+
+void s00a_command_800C8A6C( WatcherWork *work, int time ) 
+{
+    SVECTOR mov;
+    work->vision_length = 0;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION19 );
+    }
+
+    if ( time == 90 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0x92 );
+    }
+
+    if ( time == 110 )
+    {
+        UnsetAction( work, ACTION20 );
+    }    
+
+
+    if ( time > 110 )
+    {
+        work->act_status |= 0x10;
+        if ( work->m_ctrl.field_1C_info2.field_2_footstepsFrame == 30 )
+        {
+            mov = work->control.field_0_mov;
+            mov.vy += 500;
+            s00a_command_800CA7DC( &mov );
+            GM_SeSet_80032858( &work->control.field_0_mov, 0x93 );
+
+            if ( work->field_C24 < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            {
+                int res = GV_RandU_80017090( 12 );
+                if ( res > 10 )
+                {
+                    work->pad.sound = 0xF0;
+                }
+            }
+        }
+        if ( work->pad.press & 0x1000 )
+        {
+            SetMode( work, s00a_command_800C6B24 );
+            UnsetMode2( work );
+            return;
+        }
+    }
+    
+    if ( !( work->pad.press & 0x200 ) )
+    {
+        UnsetMode2( work );
+    }
+}
+
+extern SVECTOR s00a_dword_800C33CC;
+extern void AN_Unknown_800C3B7C( MATRIX *matrix );
+
+void s00a_command_800C8C58( WatcherWork* work )
+{
+    MATRIX mat;
+
+    DG_SetPos_8001BC44( &work->body.objs->objs[6].world );
+    DG_MovePos_8001BD20( &s00a_dword_800C33CC );
+    ReadRotMatrix( &mat );
+    AN_Unknown_800C3B7C( &mat );
+}
+
+extern void *s00a_mosaic_800DC9F4( MATRIX *, int, int, int ) ;
+
+void s00a_command_800C8C98( WatcherWork *work, int time )
+{
+    work->vision_length = 3000;
+    work->act_status |= 0x80;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION25 );
+        if ( work->field_B68 == NULL )
+        {
+            work->field_B68 = s00a_mosaic_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+        }
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
+    }
+
+    if ( time > 30 )
+    {
+        GV_RandU_80017090( 4 );
+        if ( time == ( ( time / 5 ) * 5 ) )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, 0xB1 );
+        }
+        if ( (time & 3) && time > 45 )
+        {
+            s00a_command_800C8C58( work );
+        }
+    }
+
+    if ( !( work->pad.press & 0x800000 ) )
+    {
+        UnsetMode2( work );
+    }
+}
+
+void s00a_command_800C8DF8( WatcherWork *work, int time )
+{
+    work->vision_length = 3000;
+
+    if ( time == 0 )
+    {
+        UnsetAction( work, ACTION25 );
+        if ( work->field_B68 == NULL )
+        {
+            work->field_B68 = s00a_mosaic_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+        }
+    }
+
+    if ( time == 186 )
+    {
+        UnsetActionManual( work, ACTION26, 0xFFFF );
+    }
+
+    if ( time == 320 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB9 );
+    }
+
+    //?
+    if ( time == 0   || time == 4   || time == 8   || time == 12  ||
+         time == 20  || time == 28  || time == 36  || time == 48  ||
+         time == 60  || time == 120 || time == 122 || time == 124 ||
+         time == 126 || time == 180 || time == 182 || time == 184 ||
+         time == 186 )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB1 );
+        s00a_command_800C8C58( work );
+    }
+
+    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    {
+        GM_SeSet_80032858( &work->control.field_0_mov, 0xB4 );
+        work->pad.time = 0;
+        UnsetMode2( work );
+    }    
+      
+}

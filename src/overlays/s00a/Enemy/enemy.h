@@ -40,7 +40,7 @@ typedef struct _WatcherWork
     int            field_180;                  //0x180
     void          *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
-    MOTION_CONTROL field_18C;                  //0x18C
+    MOTION_CONTROL m_ctrl;                     //0x18C
     OAR_RECORD     field_1DC[34];              //0x1DC
     SVECTOR        rots[16];                   //0x6A4
     SVECTOR        field_724;                  //0x724
@@ -461,6 +461,12 @@ static inline void UnsetAction( WatcherWork *work, int n_action )
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
 }
 
+static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
+{
+    work->field_8E2 = n_action;
+    GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, a4 );
+}
+
 static inline void UnsetAction2( WatcherWork *work )
 {
     work->field_8E2 = 0;
@@ -512,4 +518,5 @@ extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 #define T_NOISE 0
 
 extern void s00a_command_800CA69C( SVECTOR *svec );
+extern void s00a_command_800CA7DC( SVECTOR *svec );
 extern int  DirectTrace_800CC154( WatcherWork *work, int val );
