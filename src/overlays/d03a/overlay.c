@@ -1,7 +1,7 @@
 #include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
 
-GCL_ActorTableEntry d03aOverlayCharas[] = 
+GCL_ActorTableEntry d03aOverlayCharas[] =
 {
     { 0xB997, (TGCL_ActorCreateFn)0x8006FD00 },
     { 0xF5C5, (TGCL_ActorCreateFn)0x800C42F8 },
@@ -33,8 +33,9 @@ const char aShadow[] = "shadow";
 const char aDemokageC[] = "demokage.c";
 
 const char d03a_aUji_800C7974[] = "uji";
-const char d03a_dword_800C7978[] = {'u', 'j', 'i', '.'};
-const char d03a_dword_800C797C[] = {'c', 0x0, 0x1c, 0x0};
+
+const char aUjiC[] = {'u', 'j', 'i', '.', 'c', 0x00, 0x1c, 0x00};
+
 const char d03a_dword_800C7980[] = {0xb3, 0xab, 0xa4, 0xaf};
 const char d03a_dword_800C7984[] = {0x0, 0x0, 0x0, 0x0};
 const char d03a_dword_800C7988[] = {0xca, 0xc4, 0xa4, 0xe1};

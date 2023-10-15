@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef d03a_uji_800C3B74
-d03a_uji_800C3B74:
+	xdef UjiAct_800C3B74
+UjiAct_800C3B74:
 	dw 0x27BDFF58 ; 800C3B74
 	dw 0xAFB7009C ; 800C3B78
 	dw 0x0080B821 ; 800C3B7C
