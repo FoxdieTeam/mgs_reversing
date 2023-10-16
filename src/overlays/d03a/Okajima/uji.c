@@ -6,18 +6,29 @@ typedef struct _UjiWork
 {
     GV_ACT   actor;
     DG_PRIM *prim;
-    char     pad[0xD00];
+    SVECTOR  f24[256];
+    SVECTOR  f824[64];
+    SVECTOR  fA24[64];
+    char     pad[0x100];
     int      fD24;
     SVECTOR  fD28[4];
     SVECTOR  fD48[4];
     int      fD68[4];
     int      fD78;
     int      fD7C;
-    char     pad3[0x10];
-    int      fD90;
-    char     pad4[0x8];
+    char     pad2[0x8];
+    int      fD88;
+    int      fD8C;
+    int      map;
+    char     pad3[0x8];
 } UjiWork;
 
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GM_CurrentMap_800AB9B0;
+
+extern RECT uji_rect;
+
+extern const char aUji[];  // = "uji";
 extern const char aUjiC[]; // = "uji.c"
 
 #define EXEC_LEVEL 4
@@ -96,8 +107,116 @@ void UjiDie_800C3B38(UjiWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d03a/UjiAct_800C3B74.s")
-void UjiAct_800C3B74(UjiWork *work);
+void UjiAct_800C3B74(UjiWork *work)
+{
+    SVECTOR  sp10[4];
+    SVECTOR  sp30[4];
+    SVECTOR  sp50;
+    SVECTOR  sp58;
+    SVECTOR  sp60;
+    int      modulo;
+    int      x, y, z;
+    SVECTOR *vec1;
+    SVECTOR *vec2;
+    SVECTOR *vec3;
+    SVECTOR *vec4;
+    SVECTOR *vec5;
+    int     *vec6;
+
+    GM_CurrentMap_800AB9B0 = work->map;
+
+    work->fD88++;
+
+    if (work->fD24 == 0)
+    {
+        modulo = 4;
+    }
+    else
+    {
+        modulo = 2;
+    }
+
+    sp58.vx = 0;
+    sp58.vy = 0;
+
+    vec1 = work->f24;
+    vec2 = work->f824;
+    vec3 = work->fA24;
+    vec4 = work->fD28;
+    vec5 = work->fD48;
+    vec6 = work->fD68;
+
+    for (y = 0; y < work->fD78; y++, vec4++, vec5++, vec6++)
+    {
+        for (x = 0; x < work->fD7C; x++, vec1 += 4, vec2++, vec3++)
+        {
+            z = (rsin((work->fD88 + vec2->vx) * 64) >> 10) + 14;
+
+            sp10[0].vx = -5;
+            sp10[0].vy = 0;
+            sp10[0].vz = z;
+
+            sp10[1].vx = 5;
+            sp10[1].vy = 0;
+            sp10[1].vz = z;
+
+            sp10[2].vx = -5;
+            sp10[2].vy = 0;
+            sp10[2].vz = -z;
+
+            sp10[3].vx = 5;
+            sp10[3].vy = 0;
+            sp10[3].vz = -z;
+
+            switch ((int)GV_RandU_80017090(4))
+            {
+            case 0:
+                vec3->vy += (int)GV_RandU_80017090(4096) % (modulo * 8);
+                break;
+
+            case 1:
+                vec3->vy -= (int)GV_RandU_80017090(4096) % (modulo * 8);
+                break;
+
+            case 2:
+            case 3:
+                break;
+            }
+
+            if (GV_RandU_80017090(16) == 0)
+            {
+                sp50.vx = 0;
+                sp50.vy = 0;
+                sp50.vz = modulo;
+
+                DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, vec3);
+                DG_PutVector_8001BE48(&sp50, &sp60, 1);
+
+                DG_SetPos2_8001BC8C(vec2, vec5);
+                DG_PutVector_8001BE48(&sp60, &sp60, 1);
+
+                if (*vec6 < GV_DistanceVec3_80016E84(&sp60, vec4))
+                {
+                    vec3->vy += 2048;
+                }
+                else
+                {
+                    DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, vec3);
+                    DG_PutVector_8001BE48(&sp50, &sp60, 1);
+
+                    DG_SetPos2_8001BC8C(vec2, vec5);
+                    DG_PutVector_8001BE48(&sp60, vec2, 1);
+                }
+            }
+
+            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, vec3);
+            DG_PutVector_8001BE48(sp10, sp30, 4);
+
+            DG_SetPos2_8001BC8C(vec2, vec5);
+            DG_PutVector_8001BE48(sp30, vec1, 4);
+        }
+    }
+}
 
 int Uji_800C3EEC(UjiWork *work)
 {
@@ -155,7 +274,7 @@ int Uji_800C3EEC(UjiWork *work)
         work->fD7C = 1;
     }
 
-    Map_FromId_800314C0(work->fD90);
+    Map_FromId_800314C0(work->map);
 
     return 0;
 }
@@ -163,7 +282,7 @@ int Uji_800C3EEC(UjiWork *work)
 #pragma INCLUDE_ASM("asm/overlays/d03a/UjiGetResources_800C3FC8.s")
 int UjiGetResources_800C3FC8(UjiWork *work, int);
 
-GV_ACT * NewUji_800C42F8(int arg0, int arg1)
+GV_ACT * NewUji_800C42F8(int name, int where)
 {
     UjiWork *work;
 
@@ -172,7 +291,7 @@ GV_ACT * NewUji_800C42F8(int arg0, int arg1)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)UjiAct_800C3B74, (TActorFunction)UjiDie_800C3B38, aUjiC);
 
-        if (UjiGetResources_800C3FC8(work, arg1) < 0)
+        if (UjiGetResources_800C3FC8(work, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
