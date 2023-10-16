@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_boxkeri_800D2168
-s00a_boxkeri_800D2168:
+	xdef s00a_grnad_e_800D2168
+s00a_grnad_e_800D2168:
 	dw 0x27BDFFD8 ; 800D2168
 	dw 0x8FA80038 ; 800D216C
 	dw 0x8FA3003C ; 800D2170
