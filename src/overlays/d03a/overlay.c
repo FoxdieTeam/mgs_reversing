@@ -17,8 +17,8 @@ GCL_ActorTableEntry d03aOverlayCharas[] =
     { 0, 0 }
 };
 
-int d03a_dword_800C3268 = 0x00640064;
-int d03a_dword_800C326C = 0x00C800C8;
+RECT uji_rect = {100, 100, 200, 200};
+
 int d03a_dword_800C3270 = 0x00000000;
 
 // Takabe/gas_efct.c
@@ -34,8 +34,7 @@ unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 const char aShadow[] = "shadow";
 const char aDemokageC[] = "demokage.c";
 
-const char d03a_aUji_800C7974[] = "uji";
-
+const char aUji[] = "uji";
 const char aUjiC[] = {'u', 'j', 'i', '.', 'c', 0x00, 0x1c, 0x00};
 
 const char d03a_dword_800C7980[] = {0xb3, 0xab, 0xa4, 0xaf};
