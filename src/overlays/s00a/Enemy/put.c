@@ -36,9 +36,9 @@ void s00a_command_800C9068( WatcherWork* work )
     s00a_command_800CA618( &svec );
 }
 
-extern const char *s00a_off_800C33F4[];
-extern const char *s00a_off_800C33F8[];
-extern const char *s00a_off_800C33FC[];
+extern char *s00a_off_800C33F4[];
+extern char *s00a_off_800C33F8[];
+extern char *s00a_off_800C33FC[];
 
 void ENE_PutItem_800C90CC( WatcherWork *work )
 {
