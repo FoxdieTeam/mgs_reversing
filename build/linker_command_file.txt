@@ -884,15 +884,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4BB0.obj"
     include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4DF0.obj"
     include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4E84.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C4F48.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C4F68.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C5108.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C51A8.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C53E4.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C545C.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C548C.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C54D4.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_blurpure_800C554C.obj"
+
+    include "{{OBJ_DIR}}\overlays\d03a\Takabe\blurpure.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
 
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
