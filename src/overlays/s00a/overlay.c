@@ -2,6 +2,10 @@
 #include "Anime/animeconv/anime.h"
 #include "libgcl/hash.h"
 
+extern const char aRation_800DFE94[];
+extern const char aSocombullet_800DFE80[];
+extern const char aFamasbullet_800DFE6C[];
+
 GCL_ActorTableEntry s00aOverlayCharas[] =
 {
     { 0x63AA, (TGCL_ActorCreateFn)0x800D872C },
@@ -98,18 +102,17 @@ short ActTable_800C3358[54] =
     0x0B
 };
 
-SVECTOR s00a_dword_800C33C4 = { -150, 0, 300 };
-SVECTOR s00a_dword_800C33CC = { 0, -550, 950 };
-SVECTOR s00a_dword_800C33D4 = { 0, 0, 100 };
-SVECTOR s00a_dword_800C33DC = { -1024, 0, 0 };
+SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
+SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
+SVECTOR s00a_dword_800C33D4 = { 0,     0, 100 };
+SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
+SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
+SVECTOR s00a_dword_800C33EC = { -1024, 0,   0 };
 
-int s00a_dword_800C33E4 = 0x00000000;
-int s00a_dword_800C33E8 = 0x00000064;
-int s00a_dword_800C33EC = 0x0000FC00;
-int s00a_dword_800C33F0 = 0x00000000;
-int s00a_dword_800C33F4 = 0x800DFE94;
-int s00a_dword_800C33F8 = 0x800DFE80;
-int s00a_dword_800C33FC = 0x800DFE6C;
+const char *s00a_off_800C33F4 = aRation_800DFE94;
+const char *s00a_off_800C33F8 = aSocombullet_800DFE80;
+const char *s00a_off_800C33FC = aFamasbullet_800DFE6C;
+
 int s00a_dword_800C3400 = 0x800C9414;
 int s00a_dword_800C3404 = 0x800C94B8;
 int s00a_dword_800C3408 = 0x800C9600;
