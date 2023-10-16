@@ -33,7 +33,7 @@ extern const char aUjiC[]; // = "uji.c"
 
 #define EXEC_LEVEL 4
 
-int d03a_uji_800C39E8(int opt, SVECTOR *svec)
+int UjiGetSvecs_800C39E8(int opt, SVECTOR *svec)
 {
     int   count;
     char *result;
@@ -51,7 +51,7 @@ int d03a_uji_800C39E8(int opt, SVECTOR *svec)
     return count;
 }
 
-int d03a_uji_800C3A3C(int opt, int *out)
+int UjiGetInts_800C3A3C(int opt, int *out)
 {
     int   count;
     int  *out2;
@@ -218,7 +218,7 @@ void UjiAct_800C3B74(UjiWork *work)
     }
 }
 
-int Uji_800C3EEC(UjiWork *work)
+int UjiCheckMessages_800C3EEC(UjiWork *work)
 {
     int opt;
 
@@ -240,7 +240,7 @@ int Uji_800C3EEC(UjiWork *work)
     opt = GCL_GetOption_80020968('c');
     if (opt != 0)
     {
-        work->fD78 = d03a_uji_800C39E8(opt, work->fD28);
+        work->fD78 = UjiGetSvecs_800C39E8(opt, work->fD28);
     }
     else
     {
@@ -250,13 +250,13 @@ int Uji_800C3EEC(UjiWork *work)
     opt = GCL_GetOption_80020968('r');
     if (opt != 0)
     {
-        d03a_uji_800C3A3C(opt, work->fD68);
+        UjiGetInts_800C3A3C(opt, work->fD68);
     }
 
     opt = GCL_GetOption_80020968('v');
     if (opt != 0)
     {
-        d03a_uji_800C39E8(opt, work->fD48);
+        UjiGetSvecs_800C39E8(opt, work->fD48);
     }
 
     opt = GCL_GetOption_80020968('n');
@@ -279,8 +279,102 @@ int Uji_800C3EEC(UjiWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d03a/UjiGetResources_800C3FC8.s")
-int UjiGetResources_800C3FC8(UjiWork *work, int);
+int UjiGetResources_800C3FC8(UjiWork *work, int map)
+{
+    SVECTOR  sp18;
+    SVECTOR  sp20;
+    SVECTOR  sp28;
+    SVECTOR  sp30[4];
+    SVECTOR  sp50[4];
+    SVECTOR  color;
+    int      count;
+    DG_PRIM *prim;
+    DG_TEX  *tex;
+    int      x, y;
+    int      index;
+
+    work->map = map;
+    GM_CurrentMap_800AB9B0 = map;
+
+    UjiCheckMessages_800C3EEC(work);
+
+    sp30[0].vx = -5;
+    sp30[0].vy = 0;
+    sp30[0].vz = 10;
+
+    sp30[1].vx = 5;
+    sp30[1].vy = 0;
+    sp30[1].vz = 10;
+
+    sp30[2].vx = -5;
+    sp30[2].vy = 0;
+    sp30[2].vz = -10;
+
+    sp30[3].vx = 5;
+    sp30[3].vy = 0;
+    sp30[3].vz = -10;
+
+    sp28.vx = 0;
+    sp28.vz = 0;
+
+    count = work->fD78 * work->fD7C;
+
+    prim = DG_GetPrim(0x12, count, 0, work->f24, &uji_rect);
+    work->prim = prim;
+    if (!prim)
+    {
+        return -1;
+    }
+
+    prim->field_2E_k500 = 500;
+    prim->field_2E_k500 /= 5;
+
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aUji));
+    if (!tex)
+    {
+        return -1;
+    }
+
+    color.vx = 64;
+    color.vy = 64;
+    color.vz = 50;
+
+    UjiShadePacks_800C3A94(&prim->field_40_pBuffers[0]->poly_ft4, count, tex, &color);
+    UjiShadePacks_800C3A94(&prim->field_40_pBuffers[1]->poly_ft4, count, tex, &color);
+
+    for (y = 0; y < work->fD78; y++)
+    {
+        index = y * work->fD7C;
+
+        for (x = 0; x < work->fD7C; x++, index++)
+        {
+            sp18.vx = 0;
+            sp18.vy = 0;
+            sp18.vz = GV_RandS_800170BC(4096) % work->fD68[y];
+
+            sp28.vy = GV_RandS_800170BC(4096);
+
+            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &sp28);
+            DG_PutVector_8001BE48(&sp18, &sp20, 1);
+
+            DG_SetPos2_8001BC8C(&work->fD28[y], &work->fD48[y]);
+            DG_PutVector_8001BE48(&sp20, &work->f824[index], 1);
+
+            work->fA24[index].vx = 0;
+            work->fA24[index].vy = GV_RandS_800170BC(4096);
+            work->fA24[index].vz = 0;
+
+            DG_SetPos2_8001BC8C(&DG_ZeroVector_800AB39C, &work->fA24[index]);
+            DG_PutVector_8001BE48(sp30, sp50, 4);
+
+            DG_SetPos2_8001BC8C(&work->f824[index], &work->fD48[y]);
+            DG_PutVector_8001BE48(sp50, &work->f24[index * 4], 4);
+        }
+    }
+
+    work->fD88 = 0;
+    return 0;
+}
 
 GV_ACT * NewUji_800C42F8(int name, int where)
 {
