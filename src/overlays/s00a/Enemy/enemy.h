@@ -98,7 +98,7 @@ typedef struct _WatcherWork
     int           *field_AF4;                  //0xAF4
     GV_ACT*        field_AF8;                  //0xAF8
     int           *field_AFC;                  //0xAFC
-    int            field_B00[8];               //0xB00
+    void          *field_B00[8];               //0xB00
     short          think1;                     //0xB20
     short          think2;                     //0xB22
     short          think3;                     //0xB24
@@ -332,12 +332,15 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 #define PUTBREATH 1
 #define BW_MARK 4
 
+typedef	void( *PUTFUNC )( WatcherWork * ) ;
+
 extern void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
 extern void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
 extern void ENE_PutItem_800C90CC( WatcherWork *work ) ;
 extern int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 
 extern void s00a_command_800C9068( WatcherWork *work ) ;
+extern int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
 
 //action.c
 #define COM_ST_DANBOWL 0x2000

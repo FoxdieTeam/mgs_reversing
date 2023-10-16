@@ -113,12 +113,11 @@ const char *s00a_off_800C33F4 = aRation_800DFE94;
 const char *s00a_off_800C33F8 = aSocombullet_800DFE80;
 const char *s00a_off_800C33FC = aFamasbullet_800DFE6C;
 
-int s00a_dword_800C3400 = 0x800C9414;
-int s00a_dword_800C3404 = 0x800C94B8;
-int s00a_dword_800C3408 = 0x800C9600;
-int s00a_dword_800C340C = 0x800C963C;
-int s00a_dword_800C3410 = 0xFE0C0005;
-int s00a_dword_800C3414 = 0x00000050;
+int PutFuncList_800C3400[4] = { 0x800C9414, 0x800C94B8, 0x800C9600, 0x800C963C };
+
+SVECTOR s00a_dword_800C3410 = { 5, -500, 80 };
+
+
 int s00a_dword_800C3418 = 0x0001DCD3;
 int s00a_dword_800C341C = 0x00010001;
 int s00a_dword_800C3420 = 0x01F40001;
