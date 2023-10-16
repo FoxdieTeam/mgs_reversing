@@ -70,8 +70,7 @@ typedef struct _WatcherWork
     int            field_8C8;                  //0x8C8
     int            field_8CC;                  //0x8CC
     int            field_8D0;                  //0x8D0
-    int            field_8D4;                  //0x8D4
-    int            field_8D8;                  //0x8D8
+    SVECTOR        field_8D4;                  //0x8D4
     int            field_8DC;                  //0x8DC
     short          field_8E0;                  //0x8E0
     short          field_8E2;                  //0x8E2
@@ -130,7 +129,7 @@ typedef struct _WatcherWork
     signed char    field_B7D;                  //0xB7D  //used as node index
     char           field_B7E;                  //0xB7E
     char           field_B7F;                  //0xB7F
-    char           param_item;                 //0xB80  //param.item  (should be struct)
+    signed char    param_item;                 //0xB80  //param.item  (should be struct)
     char           field_B81;                  //0xB81
     short          param_life;                 //0xB82  //param.life  (should be struct)
     short          param_faint;                //0xB84  //param.faint (should be struct)
@@ -296,6 +295,7 @@ extern int                     COM_VibTime_800E0F68;
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
 
+extern void  s00a_command_800CEC40( SVECTOR *mov , int n );
 extern char  s00a_command_800CEA2C( WatcherWork *work );
 extern void  s00a_command_800CEC90( void ) ;
 extern void  s00a_command_800CECF4( void ) ;
@@ -309,6 +309,8 @@ extern void  s00a_command_800D0218( void ) ;
 extern void  s00a_command_800D0344( void ) ;
 extern void  s00a_command_800CA0E8( WatcherWork* work );
 extern void  s00a_command_800CA07C( WatcherWork* work );
+extern int   s00a_command_800CA1EC( MATRIX* mat, int mark);
+
 
 void SetCameraActCall_800D043C();
 void UnsetCameraActCall_800D047C();
@@ -519,4 +521,7 @@ extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 
 extern void s00a_command_800CA69C( SVECTOR *svec );
 extern void s00a_command_800CA7DC( SVECTOR *svec );
+extern void s00a_command_800CA618( SVECTOR *svec );
+
+
 extern int  DirectTrace_800CC154( WatcherWork *work, int val );
