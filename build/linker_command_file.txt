@@ -529,9 +529,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     ;enemy.c think.c starts somewhere in here
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\enemy.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9ACC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9C7C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9D28.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9D28.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9D7C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800C9E68.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CA07C.obj"

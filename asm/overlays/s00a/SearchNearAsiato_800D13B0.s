@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_asiato_800D13B0
-s00a_asiato_800D13B0:
+	xdef SearchNearAsiato_800D13B0
+SearchNearAsiato_800D13B0:
 	dw 0x27BDFFB8 ; 800D13B0
 	dw 0xAFB60038 ; 800D13B4
 	dw 0x0080B021 ; 800D13B8
