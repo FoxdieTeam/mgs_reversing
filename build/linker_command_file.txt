@@ -432,8 +432,6 @@
     inclib "LIBAPI.LIB"
     inclib "LIBPAD.LIB"
 
-    include "{{OBJ_DIR}}\program_bottom.obj"
-
 text    group
     section .rdata, text
     section .text,  text
@@ -443,9 +441,8 @@ text    group
     section .sdata, text
 
 bss     group bss
-    section .sbss,           bss
-    section .bss,            bss
-    section .program_bottom, bss
+    section .sbss,  bss
+    section .bss,   bss
 
 {% if OVERLAY %}
 

@@ -33,11 +33,11 @@ void SetExMask_8008C58C()
 }
 
 // Defined in the linker script
-extern char __program_bottom[];
+extern char _bss_orgend[];
 
 char *mts_get_bss_tail_8008C598()
 {
-    return __program_bottom;
+    return _bss_orgend;
 }
 
 void sio_output_start_8008C5A8(void)
