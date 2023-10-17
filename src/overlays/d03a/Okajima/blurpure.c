@@ -1,5 +1,4 @@
-// Guessed that it's from Takabe
-
+#include "red_alrt.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -26,14 +25,14 @@ typedef struct BlurPureWork
 
 extern int GV_Clock_800AB920;
 
-extern const char d03a_aBlurpurec_800C79C8[];
-extern int       *d03a_dword_800C3270;
+extern const char   aBlurpureC[];
+extern RedAlrtWork *d03a_dword_800C3270;
 
 void d03a_blurpure_800C4F48(void)
 {
-    if (d03a_dword_800C3270 != NULL)
+    if (d03a_dword_800C3270)
     {
-        d03a_dword_800C3270[0x5c / 4] = 0; // TODO proper types
+        d03a_dword_800C3270->f5C = 0;
     }
 }
 
@@ -183,7 +182,7 @@ GV_ACT *d03a_blurpure_800C54D4(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_blurpure_800C53E4,
-                                  (TActorFunction)d03a_blurpure_800C545C, d03a_aBlurpurec_800C79C8);
+                                  (TActorFunction)d03a_blurpure_800C545C, aBlurpureC);
         if (d03a_blurpure_800C548C(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -202,7 +201,7 @@ GV_ACT *d03a_blurpure_800C554C(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_blurpure_800C53E4,
-                                  (TActorFunction)d03a_blurpure_800C545C, d03a_aBlurpurec_800C79C8);
+                                  (TActorFunction)d03a_blurpure_800C545C, aBlurpureC);
         if (d03a_blurpure_800C548C(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
