@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "Game/linkvarbuf.h"
 
 void s00a_command_800C9878( WatcherWork* work )
 {
@@ -214,4 +215,148 @@ void s00a_command_800C9D28( WatcherWork* work )
         s00a_command_800C9ACC( work );
         s00a_command_800C9C7C( work );
     }
+}
+
+void s00a_command_800C9D7C( WatcherWork* work )
+{
+    int val;
+    val = work->vision.field_B92;
+    switch ( val )
+    {
+        case 0:
+            if ( work->field_B94 != 2 || GM_PlayerStatus_800ABA50 & 0x02000000 || !( GM_PlayerStatus_800ABA50 & 0x40000002 ) || work->vision.length == 0 )
+            {
+                work->field_B94 = 0;
+                work->alert_level -= COM_ALERT_DECREMENT_800E0F60;
+            }
+            break;
+        case 1:
+            work->field_B94 = val;
+            work->alert_level -= 1;
+            break;
+        case 2:
+            work->field_B94 = val;
+            work->alert_level += 1;
+            break;
+    }
+
+    if ( work->alert_level < 0 )
+    {
+        work->alert_level = 0;
+    }
+    else if ( work->alert_level > 255 )
+    {
+        work->alert_level = 255;
+    }
+}
+
+
+extern int sna_current_item_8004FB38(void);
+
+void s00a_command_800C9E68( WatcherWork* work )
+{
+    int x;
+    int dir;
+    int dis;
+    int diff;
+    short *flag;
+    SVECTOR *pos;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    MAP *map;
+
+    flag = &work->vision.field_B92;
+    ctrl = &work->control;
+    pos = &GM_PlayerPosition_800ABA10;
+    GV_SubVec3_80016D40( pos, &ctrl->field_0_mov, &svec );
+    
+    dir = GV_YawVec3_80016EF8( &svec );
+    work->sn_dir = dir;
+    dis = GV_LengthVec3_80016D80( &svec );
+
+    work->sn_dis = dis;
+    if ( dis == 0 ) 
+    {
+        dis = 1;
+    }
+    
+    diff = pos->vy - work->control.field_0_mov.vy;
+    if ( diff < 0 )
+    {
+        diff = work->control.field_0_mov.vy - pos->vy;
+    }
+    
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) || GM_PlayerStatus_800ABA50 & 0x02000002 )
+    {
+        do { work->vision.field_B92 = 0; return; } while (0); //TODO, fix
+        return;
+    }
+
+    if ( EnemyCommand_800E0D98.field_0x0C % EnemyCommand_800E0D98.field_0x08 == work->field_B78 )
+    {
+        x = 2000;
+        if ( COM_EYE_LENGTH_800E0D8C + x < dis )
+        {
+            goto last;
+        }
+
+        
+        if ( x < diff  )
+        {    
+            goto last;
+        }
+    
+        if ( dis >= 500 )
+        {
+            if ( GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) >= work->vision.field_B8E )
+            { 
+                goto last;
+            }
+        }
+    
+        map = work->control.field_2C_map;
+        if ( sub_80028454( map->field_8_hzd, pos, &ctrl->field_0_mov, 0xF, 0x4 ) )
+        {
+            goto last;
+        }
+    
+        if ( sub_8002E2A8( &ctrl->field_0_mov, pos, map->field_0_map_index_bit, &svec ) )
+        {    
+            goto last;
+        }
+
+        if ( work->vision.length < dis )
+        {
+            work->vision.field_B92 = 1;
+        }
+        else
+        {
+            flag[0] = 2;
+        } 
+        goto end;
+            
+last:
+        work->vision.field_B92 = 0;  
+    }
+
+end:
+    if ( sna_current_item_8004FB38() == ITEM_STEALTH && work->param_blood != 83 )
+    {
+        flag[0] = 0;
+    }   
+}   
+
+void EnemyActionMain_800CA07C( WatcherWork *work )
+{
+     if ( work->field_8E0 < 0x31 )
+     {
+        s00a_command_800C9878( work );
+        s00a_command_800C9E68(work);
+        s00a_command_800C9D28(work);
+        s00a_command_800C9D7C(work);
+        Enemy_Think_800CE99C(work);
+        ENE_ExecPutChar_800C9818(work);
+    }
+    
+    s00a_command_800C82B0(work);
 }
