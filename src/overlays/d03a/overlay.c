@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "libgcl/hash.h"
+#include "Okajima/red_alrt.h"
 
 GCL_ActorTableEntry d03aOverlayCharas[] =
 {
@@ -19,7 +20,7 @@ GCL_ActorTableEntry d03aOverlayCharas[] =
 
 RECT uji_rect = {100, 100, 200, 200};
 
-int d03a_dword_800C3270 = 0x00000000;
+RedAlrtWork *d03a_dword_800C3270 = NULL;
 
 // Takabe/gas_efct.c
 unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
@@ -37,28 +38,8 @@ const char aDemokageC[] = "demokage.c";
 const char aUji[] = "uji";
 const char aUjiC[] = {'u', 'j', 'i', '.', 'c', 0x00, 0x1c, 0x00};
 
-const char d03a_dword_800C7980[] = {0xb3, 0xab, 0xa4, 0xaf};
-const char d03a_dword_800C7984[] = {0x0, 0x0, 0x0, 0x0};
-const char d03a_dword_800C7988[] = {0xca, 0xc4, 0xa4, 0xe1};
-const char d03a_dword_800C798C[] = {0xa4, 0xeb, 0x0, 0x0};
-const char d03a_aOpen_800C7990[] = "open";
+const char d03a_dword_800C7980[]  = "\xb3\xab\xa4\xaf";         // 開く = close
+const char d03a_dword_800C7988[]  = "\xca\xc4\xa4\xe1\xa4\xeb"; // 閉める = open
+const char d03a_aOpen_800C7990[]  = "open";
 const char d03a_aClose_800C7998[] = "close";
-const char d03a_aKill_800C79A0[] = "kill";
-const int d03a_dword_800C79A8 = 0x800C46B8;
-const int d03a_dword_800C79AC = 0x800C46C4;
-const int d03a_dword_800C79B0 = 0x800C46B8;
-const int d03a_dword_800C79B4 = 0x800C46C4;
-const int d03a_dword_800C79B8 = 0x800C46C4;
-
-// Okajima/red_alrt.c
-const char aRedAlrtC[] = "red_alrt.c";
-const char d03a_aBlurpurec_800C79C8[] = "blurpure.c";
-
-// Takabe/gas_efct.c
-const char aGasEfctC[] = {'g', 'a', 's', '_', 'e', 'f', 'c', 't', '.', 'c', '\x00', ' '};
-
-// Takabe/fadeio.c
-const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x2, '@', 0x0};
-
-// Takabe/cinema.c
-const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 0xc, '.', 0x0};
+const char d03a_aKill_800C79A0[]  = "kill";
