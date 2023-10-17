@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03e_guncame_800C8924
+s03e_guncame_800C8924:
+	dw 0x8FB40078 ; 800C8924
+	dw 0x8FB30074 ; 800C8928
+	dw 0x8FB20070 ; 800C892C
+	dw 0x8FB1006C ; 800C8930
+	dw 0x8FB00068 ; 800C8934
+	dw 0x03E00008 ; 800C8938
+	dw 0x27BD0080 ; 800C893C

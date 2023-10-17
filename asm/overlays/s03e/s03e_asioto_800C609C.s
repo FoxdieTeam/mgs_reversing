@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s03e_asioto_800C609C
+s03e_asioto_800C609C:
+	dw 0x3C030001 ; 800C609C
+	dw 0x3C02800B ; 800C60A0
+	dw 0x8C42BA50 ; 800C60A4
+	dw 0x34630050 ; 800C60A8
+	dw 0x00431024 ; 800C60AC
+	dw 0x38420010 ; 800C60B0
+	dw 0x03E00008 ; 800C60B4
+	dw 0x2C420001 ; 800C60B8
