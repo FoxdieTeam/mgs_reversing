@@ -218,11 +218,11 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->target_addr  = work->field_BE8;
     work->target_pos   = work->start_pos;
 
-    work->field_B8E     = 512;
-    work->vision_length = COM_EYE_LENGTH_800E0D8C;
+    work->vision.field_B8E = 512;
+    work->vision.length    = COM_EYE_LENGTH_800E0D8C;
 
     work->alert_level    = 0;
-    work->vision_facedir = 0;
+    work->vision.facedir = 0;
     work->pad.sound      = 0;
     work->pad.field_08   = 1;
     work->field_C48      = 0;
