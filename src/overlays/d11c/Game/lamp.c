@@ -22,7 +22,8 @@ typedef struct LampWork
 
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_CurrentMap_800AB9B0;
-extern const char     d11c_aLampc_800C6700[]; // = "lamp.c";
+extern const char     aLampC[]; // = "lamp.c";
+extern const char     aTexparseerror[]; // = "TEX:PARSE ERROR\n";
 
 void d11c_800C326C(LampWork *work, int textureId)
 {
@@ -123,8 +124,6 @@ void d11c_800C3550(LampWork *work)
     }
 }
 
-extern const char d11c_aTexparseerror_800C66EC[]; // = "TEX:PARSE ERROR\n";
-
 void d11c_800C361C(LampWork *work)
 {
     int param1, param2, param3;
@@ -181,7 +180,7 @@ void d11c_800C361C(LampWork *work)
             d11c_800C3518(work, GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4()));
             GCL_SetArgTop_80020690(work->field_3C);
         default:
-            printf(d11c_aTexparseerror_800C66EC);
+            printf(aTexparseerror);
             break;
         }
     }
@@ -370,7 +369,7 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
     if (work)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C37A4, (TActorFunction)d11c_800C37F0,
-                                  d11c_aLampc_800C6700);
+                                  aLampC);
         if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
