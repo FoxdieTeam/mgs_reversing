@@ -14,8 +14,8 @@ typedef struct CameraShakeWork
     int     field_44; //0x44
 } CameraShakeWork;
 
-extern int THING_Gcl_GetInt_800D8808( int o );
-extern int THING_Gcl_GetSVector_800D8910( int o, SVECTOR* svec );
+extern int THING_Gcl_GetInt( int o );
+extern int THING_Gcl_GetSVector( int o, SVECTOR* svec );
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int  GM_CameraShakeOffset_800ABA98;
@@ -64,14 +64,14 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
 
     /* オプション処理１ */
         /* 開始座標設定 */
-        THING_Gcl_GetSVector_800D8910( 'p', &work->pos );
+        THING_Gcl_GetSVector( 'p', &work->pos );
         /* 減衰半径設定 */
-        work->radius        = THING_Gcl_GetInt_800D8808( 'r' );
+        work->radius        = THING_Gcl_GetInt( 'r' );
         /* 最大振幅設定 */
-        work->strength      = THING_Gcl_GetInt_800D8808( 's' );
+        work->strength      = THING_Gcl_GetInt( 's' );
         /* 持続時間設定 */
-        work->time          = THING_Gcl_GetInt_800D8808( 'l' );
-        work->time2         = THING_Gcl_GetInt_800D8808( 't' );
+        work->time          = THING_Gcl_GetInt( 'l' );
+        work->time2         = THING_Gcl_GetInt( 't' );
 
         work->count = work->time;
         return 0;
