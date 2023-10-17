@@ -21,8 +21,8 @@ typedef struct WaterAreaWork
     int proc_id;          //0x50
 } WaterAreaWork;
 
-extern int              THING_Gcl_GetInt_800D8808( int o );
-extern int              THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
+extern int              THING_Gcl_GetInt( int o );
+extern int              THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
 extern void             s00a_wt_view_800DB4E0( int y, SVECTOR* svec2, int num );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
@@ -74,7 +74,7 @@ void ExecProc_800DA644( int proc_id, int mode )
 	GCL_ExecProc_8001FF2C( proc_id, &args );
 }
 
-void WaterAreaAct_800DA67C( WaterAreaWork *work ) 
+void WaterAreaAct_800DA67C( WaterAreaWork *work )
 {
     //static SVECTOR	mouth_offset = {0,0,100};
     //SVECTOR		pos, snake_pos ;
@@ -88,7 +88,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     mtx = DG_ZeroMatrix_8009D430;
 
     /* メッセージチェック */
-    switch ( THING_Msg_CheckMessage_800D8940( ( unsigned short )work->name, 2, mes_list_800C3664 ) ){
+    switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list_800C3664 ) ){
         case 0:
         /* 水しぶき有効 */
         work->splash_flag = 1 ;
@@ -102,13 +102,13 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     if ( GM_PlayerControl_800AB9F4 == NULL ) return ;
 
     flag = BoundInCheck_800DA5B4( work->bound, &GM_PlayerControl_800AB9F4->field_0_mov );
-    
+
     if ( work->snake_catch == 0  )
     {
         if ( flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-        	snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ; 
+        	snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             if ( work->splash_flag )
             {
@@ -127,14 +127,14 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             work->snake_catch = 1;
             GM_PlayerStatus_800ABA50 |= 0x1000000;
         }
-        
+
     }
     else
     {
         if ( !flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-        	snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ; 
+        	snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             GM_SeSet_80032858( &snake_pos, 0xB1 );
             if ( work->field_44 == NULL )
@@ -144,9 +144,9 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             work->snake_catch = 0;
             GM_PlayerStatus_800ABA50 &= ~( 0x1000000 );
         }
-        
+
     }
-    snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ; 
+    snake_pos = GM_PlayerControl_800AB9F4->field_0_mov ;
 
     if ( GM_PlayerStatus_800ABA50 & 2 )
     {
@@ -245,26 +245,26 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
 {
     work->field_38 = 0x64;
     work->field_39 = 0x80;
-    work->field_3A = 0x78;    
+    work->field_3A = 0x78;
 
-    if ( GCL_GetOption_80020968( 'b' ) ) 
+    if ( GCL_GetOption_80020968( 'b' ) )
     {
         GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->bound[0] );
         GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &work->bound[1] );
     }
 
-    if ( GCL_GetOption_80020968( 'c' ) ) 
+    if ( GCL_GetOption_80020968( 'c' ) )
     {
         work->field_38 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
         work->field_39 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
         work->field_3A = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    work->field_44 = THING_Gcl_GetInt_800D8808('s');
-    work->proc_id  = THING_Gcl_GetInt_800D8808('e');
+    work->field_44 = THING_Gcl_GetInt('s');
+    work->proc_id  = THING_Gcl_GetInt('e');
 
     NewWaterView_800DBE04( name, where, (int)work->bound, (char **)&work->field_38 );
-    return 0;    
+    return 0;
 }
 
 extern const char aWtAreaC_800E0B94[];

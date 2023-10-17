@@ -22,10 +22,10 @@ extern int GV_PassageTime_800AB924;
 
 extern unsigned short mes_list_800C3688[];
 
-int THING_Gcl_GetInt_800D8808(int param);
-int THING_Gcl_GetSVector_800D8910(int param, SVECTOR *svec);
-int THING_Msg_CheckMessage_800D8940(unsigned short name, int n_message, short *mes_list);
-int s00a_elevator_800D89E8(void);
+int THING_Gcl_GetInt(int param);
+int THING_Gcl_GetSVector(int param, SVECTOR *svec);
+int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
+int THING_Msg_GetResult(void);
 
 #define EXEC_LEVEL 5
 
@@ -37,8 +37,8 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
     GM_SetCurrentMap(work->map);
 
     time = GV_PassageTime_800AB924;
-    found = THING_Msg_CheckMessage_800D8940(work->name, 4, mes_list_800C3688);
-    s00a_elevator_800D89E8();
+    found = THING_Msg_CheckMessage(work->name, 4, mes_list_800C3688);
+    THING_Msg_GetResult();
 
     switch (found)
     {
@@ -108,14 +108,14 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     work->name = name;
     work->map = where;
 
-    THING_Gcl_GetSVector_800D8910('p', &work->f2C);
+    THING_Gcl_GetSVector('p', &work->f2C);
 
-    work->f34 = THING_Gcl_GetInt_800D8808('r');
-    work->f36 = THING_Gcl_GetInt_800D8808('n');
-    work->f38 = THING_Gcl_GetInt_800D8808('t');
-    work->f3A = THING_Gcl_GetInt_800D8808('i');
-    work->f3C = THING_Gcl_GetInt_800D8808('c');
-    work->f28 = THING_Gcl_GetInt_800D8808('s');
+    work->f34 = THING_Gcl_GetInt('r');
+    work->f36 = THING_Gcl_GetInt('n');
+    work->f38 = THING_Gcl_GetInt('t');
+    work->f3A = THING_Gcl_GetInt('i');
+    work->f3C = THING_Gcl_GetInt('c');
+    work->f28 = THING_Gcl_GetInt('s');
 
     return 0;
 }

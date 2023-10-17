@@ -28,8 +28,8 @@ extern int   GM_GameOverTimer_800AB3D4;
 extern short GM_O2_800ABA34;
 extern int   GM_PlayerStatus_800ABA50;
 
-int THING_Gcl_GetIntDefault_800C5318(char param, int def);
-int THING_Gcl_GetInt_800D8808(char param);
+int THING_Gcl_GetIntDefault(char param, int def);
+int THING_Gcl_GetInt(char param);
 
 #define EXEC_LEVEL 5
 
@@ -180,10 +180,10 @@ int s00a_o2_damge_800DE8FC(O2DamgeWork *work, int name, int where)
         work->f34 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    work->f38 = THING_Gcl_GetInt_800D8808('h');
-    work->f3C = THING_Gcl_GetIntDefault_800C5318('m', 1);
-    work->f44 = THING_Gcl_GetInt_800D8808('r');
-    work->f54 = THING_Gcl_GetInt_800D8808('e');
+    work->f38 = THING_Gcl_GetInt('h');
+    work->f3C = THING_Gcl_GetIntDefault('m', 1);
+    work->f44 = THING_Gcl_GetInt('r');
+    work->f54 = THING_Gcl_GetInt('e');
 
     if (GCL_GetOption_80020968('i'))
     {

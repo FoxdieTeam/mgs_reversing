@@ -17,8 +17,8 @@ typedef struct _ShakemdlWork
     short      *vertices;
 } ShakemdlWork;
 
-int THING_Gcl_GetIntDefault_800C5318(int param, int def);
-int THING_Gcl_GetInt_800D8808(int param);
+int THING_Gcl_GetIntDefault(int param, int def);
+int THING_Gcl_GetInt(int param);
 int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
 int s16b_800C5664(ShakemdlWork *work);
@@ -128,8 +128,8 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ShakemdlAct_800C5288, (TActorFunction)ShakemdlDie_800C5418, "shakemdl.c");
 
-        model = THING_Gcl_GetInt_800D8808('m');
-        work->f2C = THING_Gcl_GetInt_800D8808('a');
+        model = THING_Gcl_GetInt('m');
+        work->f2C = THING_Gcl_GetInt('a');
 
         if (ShakemdlGetResources_800C5454(work, model) < 0)
         {
@@ -138,8 +138,8 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
         }
 
         work->name = name;
-        work->f24 = THING_Gcl_GetIntDefault_800C5318('f', 1);
-        work_2 = THING_Gcl_GetIntDefault_800C5318('s', 50);
+        work->f24 = THING_Gcl_GetIntDefault('f', 1);
+        work_2 = THING_Gcl_GetIntDefault('s', 50);
         work->f28 = work_2;
         work->f30 = work_2;
     }
