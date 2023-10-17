@@ -90,32 +90,30 @@ void s00a_command_800C9930( WatcherWork* work )
     switch ( GM_NoisePower_800ABA24 )
     {
     case 5:
-        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= 1500 )
+        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < 1500 )
         {
-            return;
+            break;
         }
-        //work->field_BA1 |= 1;
-        break;
+        return;
     case 200:
-        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
         {
-            return;
+            break;
         }        
-        //work->field_BA1 |= 1;
-        break;
+        return;
     case 255:
-        //work->field_BA1 |= 1;
         break;
     case 100:
-        if ( work->field_B78 != COM_NoiseMinDisID_800E0D44 )
+        if ( work->field_B78 == COM_NoiseMinDisID_800E0D44 )
         {
+            work->field_BA1 |= 1;
+            GM_NoiseLength_800ABA30 = 0;
+            GM_NoisePower_800ABA24  = 0;
             return;
         }
-        work->field_BA1 |= 1;
-        GM_NoiseLength_800ABA30 = 0;
-        GM_NoisePower_800ABA24  = 0;
         return;
-    default: return;
+    default: 
+        return;
     }
     work->field_BA1 |= 1;
 }
