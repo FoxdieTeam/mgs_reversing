@@ -1,4 +1,5 @@
 #include "libgcl/libgcl.h"
+#include "libgcl/hash.h"
 
 GCL_ActorTableEntry s03eOverlayCharas[] =
 {
@@ -33,8 +34,10 @@ int s03e_dword_800C329C = 0x044B0423;
 int s03e_dword_800C32A0 = 0x08410687;
 int s03e_dword_800C32A4 = 0x06410C2D;
 int s03e_dword_800C32A8 = 0x0000045F;
-int s03e_dword_800C32AC = 0x00640064;
-int s03e_dword_800C32B0 = 0x00C800C8;
+
+// Okajima/uji.c
+RECT uji_rect = {100, 100, 200, 200};
+
 int s03e_dword_800C32B4 = 0x00000000;
 int s03e_dword_800C32B8 = 0x00000000;
 int s03e_dword_800C32BC = 0x00000000;
@@ -107,8 +110,13 @@ int s03e_dword_800C33C4 = 0x00000000;
 int s03e_dword_800C33C8 = 0x800CC618;
 int s03e_dword_800C33CC = 0xFAD3DCD3;
 int s03e_dword_800C33D0 = 0x00001968;
-int s03e_dword_800C33D4 = 0x71F13223;
-int s03e_dword_800C33D8 = 0x745DD420;
+
+// Takabe/fadeio.c
+unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
+
+// Takabe/cinema.c
+unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
+
 int s03e_dword_800C33DC = 0x00003223;
 
 
@@ -172,28 +180,33 @@ const int s03e_dword_800CBFA4 = 0x800C4198;
 const char s03e_dword_800CBFA8[] = {'e', 'v', 'p', 'a'};
 const char s03e_dword_800CBFAC[] = {'n', 'e', 'l', '.'};
 const char s03e_dword_800CBFB0[] = {'c', 0x0, '0', '0'};
-const char s03e_aTexparseerror_800CBFB4[] = "TEX:PARSE ERROR\n";
-const char s03e_dword_800CBFC8[] = {'l', 'a', 'm', 'p'};
-const char s03e_dword_800CBFCC[] = {'.', 'c', 0x0, '0'};
+
+// Game/lamp.c
+const char aTexparseerror[] = "TEX:PARSE ERROR\n";
+const char aLampC[] = {'l', 'a', 'm', 'p', '.', 'c', 0x0, '0'};
+
 const char s03e_dword_800CBFD0[] = {'i', 'n', 't', 'r'};
 const char s03e_dword_800CBFD4[] = {'_', 'c', 'a', 'm'};
 const char s03e_dword_800CBFD8[] = {'.', 'c', 0x0, 'g'};
 const char s03e_aMotsec_800CBFDC[] = "motse.c";
-const char s03e_aDestroy_800CBFE4[] = "destroy\n";
-const char s03e_aBox_800CBFF0[] = "box_01";
-const char s03e_aDbx_800CBFF8[] = "dbx1";
-const char s03e_aDbx_800CC000[] = "dbx2";
-const char s03e_dword_800CC008[] = {'w', 'a', 'l', 'l'};
-const char s03e_dword_800CC00C[] = {'.', 'c', 0x0, 'M'};
-const char s03e_aAsiotoseseterr_800CC010[] = " asioto se set err \n";
-const char s03e_aAsiotosenoiseseterr_800CC028[] = " asioto se noise set err \n";
-const char s03e_aMigisodesurid_800CC044[] = " migi sodesuri %d \n";
-const char s03e_dword_800CC058[] = {'a', 's', 'i', 'o'};
-const char s03e_dword_800CC05C[] = {'t', 'o', '.', 'c'};
-const char s03e_dword_800CC060[] = {0x0, 'r', 'e', 'A'};
-const char s03e_aUji_800CC064[] = "uji";
-const char s03e_dword_800CC068[] = {'u', 'j', 'i', '.'};
-const char s03e_dword_800CC06C[] = {'c', 0x0, '4', '4'};
+
+// Enemy/wall.c
+const char aDestroy[] = "destroy\n";
+const char aBox01[] = "box_01";
+const char aDbx1[] = "dbx1";
+const char aDbx2[] = "dbx2";
+const char aWallC[] = {'w', 'a', 'l', 'l', '.', 'c', 0x0, 'M'};
+
+// Enemy/asioto.c
+const char aAsiotoSeSetErr[] = " asioto se set err \n";
+const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
+const char aMigiSodesuri[] = " migi sodesuri %d \n";
+const char aAsiotoC[] = {'a', 's', 'i', 'o', 't', 'o', '.', 'c', 0x0, 'r', 'e', 'A'};
+
+// Okajima/uji.c
+const char aUji[] = "uji";
+const char aUjiC[] = {'u', 'j', 'i', '.', 'c', 0x0, '4', '4'};
+
 const int s03e_dword_800CC070 = 0x800C7544;
 const int s03e_dword_800CC074 = 0x800C7544;
 const int s03e_dword_800CC078 = 0x800C7564;
@@ -582,15 +595,10 @@ const char s03e_dword_800CC684[] = {0xf4, 0x1, 0x0, 0x0};
 const char s03e_dword_800CC688[] = {'s', 'p', 'a', 'r'};
 const char s03e_dword_800CC68C[] = {'k', '2', '.', 'c'};
 const char s03e_dword_800CC690[] = {0x0, 'a', 'd', 'I'};
-const char s03e_dword_800CC694[] = {'f', 'a', 'd', 'e'};
-const char s03e_dword_800CC698[] = {'i', 'o', '.', 'c'};
-const char s03e_dword_800CC69C[] = {0x0, '8', '0', '0'};
-const char s03e_dword_800CC6A0[] = {'c', 'i', 'n', 'e'};
-const char s03e_dword_800CC6A4[] = {'m', 'a', '.', 'c'};
-const char s03e_dword_800CC6A8[] = {0x0, '_', 'L', 'o'};
+const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, '8', '0', '0'};
+const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, '_', 'L', 'o'};
 const char s03e_dword_800CC6AC[] = {'c', 'a', 't', '_'};
 const char s03e_dword_800CC6B0[] = {'i', 'n', '.', 'c'};
 const char s03e_dword_800CC6B4[] = {0x0, 0xd, '\n', ' '};
 const char s03e_dword_800CC6B8[] = {0x0, 0x0, 0x0, 0x0};
-const char s03e_aF_800CC6BC[] = "F610";
-const char s03e_dword_800CC6C4[] = {0x0, 0x0, 0x0, 0x0};
+const char s03e_aF_800CC6BC[] = {'F', '6', '1','0'};

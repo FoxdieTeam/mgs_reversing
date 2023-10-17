@@ -28,8 +28,9 @@ unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 // Takabe/cinema.c
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
-const char d11c_aTexparseerror_800C66EC[] = "TEX:PARSE ERROR\n";
-const char d11c_aLampc_800C6700[] = "lamp.c";
+// Game/lamp.c
+const char aTexparseerror[] = "TEX:PARSE ERROR\n";
+const char aLampC[] = "lamp.c";
 
 // Enemy/wall.c
 const char aDestroy[] = "destroy\n";
