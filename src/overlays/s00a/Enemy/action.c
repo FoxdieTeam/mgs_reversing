@@ -31,7 +31,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
         work->target->class |= TARGET_C4 ;
     }
     
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -65,7 +65,7 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
             work->control.field_4C_turn_vec.vy = work->pad.dir;
         }
     }
-    work->vision_facedir = GV_NearExp4P_80026554( work->vision_facedir, work->control.field_8_rotator.vy );
+    work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.field_8_rotator.vy );
 }
 
 
@@ -88,7 +88,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x100;
     work->control.field_44_movementVector = DG_ZeroVector_800AB39C;
 
@@ -151,12 +151,12 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     {     
         ctrl->field_8_rotator.vy   = dir;
         ctrl->field_4C_turn_vec.vy = dir;
-        work->vision_facedir = GV_NearExp4P_80026554( work->vision_facedir, work->control.field_8_rotator.vy );
+        work->vision.facedir = GV_NearExp4P_80026554( work->vision.facedir, work->control.field_8_rotator.vy );
     }
     else
     {  
         ctrl->field_4C_turn_vec.vy = dir;
-        work->vision_facedir = work->control.field_8_rotator.vy;
+        work->vision.facedir = work->control.field_8_rotator.vy;
     }
 
     interval = 0;
@@ -204,7 +204,7 @@ void s00a_command_800C6164( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -225,7 +225,7 @@ void s00a_command_800C6164( WatcherWork *work, int time )
     ctrl->field_4C_turn_vec.vy = work->sn_dir;
     ctrl->field_44_movementVector.vx = 0;
     ctrl->field_44_movementVector.vz = 0;
-    work->vision_facedir = work->control.field_8_rotator.vy;
+    work->vision.facedir = work->control.field_8_rotator.vy;
 }
 
 void s00a_command_800C624C( WatcherWork *work, int time )
@@ -234,7 +234,7 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -255,13 +255,13 @@ void s00a_command_800C624C( WatcherWork *work, int time )
     ctrl->field_4C_turn_vec.vy = work->pad.dir;
     ctrl->field_44_movementVector.vx = 0;
     ctrl->field_44_movementVector.vz = 0;
-    work->vision_facedir = work->control.field_8_rotator.vy;
+    work->vision.facedir = work->control.field_8_rotator.vy;
 }
 
 void s00a_command_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision_length = COM_EYE_LENGTH_800E0D8C;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C;
     work->field_8E6 = 0;
     
     if ( CheckDamage_800C5424( work ) )
@@ -318,7 +318,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         return ;
     }
     work->control.field_4C_turn_vec.vy = work->sn_dir; //work->control.turn.vy = work->sn_dir
-    work->vision_facedir = work->control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
+    work->vision.facedir = work->control.field_8_rotator.vy;  //work->vision.facedir = work->control.rot.vy
 }
 
 
@@ -326,7 +326,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     press = work->pad.press;
     
     if ( time == 0 )
@@ -381,13 +381,13 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
     work->control.field_4C_turn_vec.vy = work->sn_dir;
     work->control.field_44_movementVector.vx = 0;
     work->control.field_44_movementVector.vz = 0;
-    work->vision_facedir = work->control.field_8_rotator.vy;
+    work->vision.facedir = work->control.field_8_rotator.vy;
 }
 
 void s00a_command_800C6724( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -418,7 +418,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 {
     int check = 0;
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
 
     if ( time == 0 )
     {
@@ -492,7 +492,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 void s00a_command_800C6A40( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->field_8E6 = 0;
 
     if ( time == 0 )
@@ -525,7 +525,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
 
 void s00a_command_800C6B24( WatcherWork* work, int time )
 {
-    work->vision_length = 0;
+    work->vision.length = 0;
 
     if ( time == 0 )
     {
@@ -754,7 +754,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         target->field_42 = 0;
     }
     work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
-    work->vision_facedir = work->control.field_8_rotator.vy;
+    work->vision.facedir = work->control.field_8_rotator.vy;
 }
 
 void s00a_command_800C7354( WatcherWork* work, int time )
@@ -764,7 +764,7 @@ void s00a_command_800C7354( WatcherWork* work, int time )
     
     ctrl = &work->control;
     work->field_8E6 = 0;
-    work->vision_length = 0;
+    work->vision.length = 0;
     work->act_status |= 0x8;
 
     if ( time == 0 )
@@ -915,7 +915,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 
     work->field_8E6 = 0;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision_length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x08;
 
     if ( CheckDamage_800C5424( work ) )
@@ -1256,7 +1256,7 @@ void s00a_command_800C82B0( WatcherWork *work )
     WatcherUnk *unk;
 
     work->trigger = 0;
-    work->vision_length = 0;
+    work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
     action = work->action;
@@ -1338,11 +1338,11 @@ void s00a_command_800C841C( WatcherWork* work, int time)
     {
         if ( time < 4 )
         {
-            work->vision_facedir = ( work->control.field_8_rotator.vy - ( time * 256 ) ) & 0xFFF;
+            work->vision.facedir = ( work->control.field_8_rotator.vy - ( time * 256 ) ) & 0xFFF;
         }
         else
         {
-            work->vision_facedir = ( work->control.field_8_rotator.vy - 1024 ) & 0xFFF;
+            work->vision.facedir = ( work->control.field_8_rotator.vy - 1024 ) & 0xFFF;
         }
     }
 }
@@ -1362,18 +1362,18 @@ void s00a_command_800C84FC( WatcherWork* work, int time)
     {
         if ( time < 4 )
         {
-            work->vision_facedir = ( work->control.field_8_rotator.vy + ( time * 256 ) ) & 0xFFF;
+            work->vision.facedir = ( work->control.field_8_rotator.vy + ( time * 256 ) ) & 0xFFF;
         }
         else
         {
-            work->vision_facedir = ( work->control.field_8_rotator.vy + 1024 ) & 0xFFF;
+            work->vision.facedir = ( work->control.field_8_rotator.vy + 1024 ) & 0xFFF;
         }
     }
 }
 
 void ActOverScoutD_800C85DC( WatcherWork* work, int time )
 {
-    work->vision_length = 3000;
+    work->vision.length = 3000;
 
     if ( time == 0 )
     {
@@ -1388,7 +1388,7 @@ void ActOverScoutD_800C85DC( WatcherWork* work, int time )
 
 void s00a_command_800C8688( WatcherWork* work, int time )
 {
-    work->vision_length = 3000;
+    work->vision.length = 3000;
 
     if ( time == 0 )
     {
@@ -1403,7 +1403,7 @@ void s00a_command_800C8688( WatcherWork* work, int time )
 
 void s00a_command_800C8734( WatcherWork* work, int time )
 {
-    work->vision_length = 0;
+    work->vision.length = 0;
 
     if ( time == 0 )
     {
@@ -1420,7 +1420,7 @@ void s00a_command_800C8734( WatcherWork* work, int time )
 
 void s00a_command_800C87FC( WatcherWork* work, int time )
 {
-    work->vision_length = 0;
+    work->vision.length = 0;
 
     if ( time == 0 )
     {
@@ -1455,7 +1455,7 @@ void s00a_command_800C88D8( WatcherWork* work, int time )
 
 void s00a_command_800C8990( WatcherWork* work, int time )
 {
-    work->vision_length = 0;
+    work->vision.length = 0;
 
     if ( time == 0 )
     {
@@ -1477,7 +1477,7 @@ void s00a_command_800C8990( WatcherWork* work, int time )
 void s00a_command_800C8A6C( WatcherWork *work, int time ) 
 {
     SVECTOR mov;
-    work->vision_length = 0;
+    work->vision.length = 0;
 
     if ( time == 0 )
     {
@@ -1545,7 +1545,7 @@ extern void *s00a_mosaic_800DC9F4( MATRIX *, int, int, int ) ;
 
 void s00a_command_800C8C98( WatcherWork *work, int time )
 {
-    work->vision_length = 3000;
+    work->vision.length = 3000;
     work->act_status |= 0x80;
 
     if ( time == 0 )
@@ -1579,7 +1579,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
 
 void s00a_command_800C8DF8( WatcherWork *work, int time )
 {
-    work->vision_length = 3000;
+    work->vision.length = 3000;
 
     if ( time == 0 )
     {

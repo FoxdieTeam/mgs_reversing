@@ -282,7 +282,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void ENE_PutLSight_800C9600( WatcherWork* work )
 {
-    if ( work->field_B92 == 2 )
+    if ( work->vision.field_B92 == 2 )
     {
         s00a_lsight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x8F );
     }

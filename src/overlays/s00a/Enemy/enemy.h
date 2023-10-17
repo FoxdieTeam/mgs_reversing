@@ -31,6 +31,14 @@ typedef struct _WatcherUnk
     short field_22;    //0x22        //0x8EA
 } WatcherUnk;
 
+typedef struct _VISION
+{
+    short          facedir;                    //0xB8C
+    short          field_B8E;                  //0xB8A
+    unsigned short length;                     //0xB90
+    short          field_B92;                  //0xB92
+} VISION;
+
 typedef struct _WatcherWork
 {
     GV_ACT         actor;
@@ -136,12 +144,9 @@ typedef struct _WatcherWork
     char           local_data;                 //0xB86
     char           local_data2;                //0xB87
     int            field_B88;                  //0xB88
-    short          vision_facedir;             //0xB8C  //vision.facedir (should be struct)
-    short          field_B8E;
-    unsigned short vision_length;              //0xB90
-    short          field_B92;
-    short          field_B94;
-    short          field_B96;
+    VISION         vision;                     //0xB8C
+    short          field_B94;                  //0xB94
+    short          field_B96;                  //0xB96
     int            alert_level;                //0xB98
     signed char    modetime[4];                //0xB9C
     signed char    field_BA0;                  //0xBA0
@@ -267,6 +272,7 @@ extern int                     s00a_dword_800E0CA0;
 
 extern int                     s00a_dword_800E0D2C;
 extern int                     s00a_dword_800E0D30;
+extern int                     COM_NoiseMinDisID_800E0D44;
 
 extern int                     COM_SHOOTRANGE_800E0D88; 
 extern int                     COM_EYE_LENGTH_800E0D8C;
@@ -329,7 +335,10 @@ void s00a_command_800C59F8( WatcherWork *work ) ;
 int  s00a_command_800C513C( WatcherWork* work ) ;
 
 //put.c
+
 #define PUTBREATH 1
+
+
 #define BW_MARK 4
 
 typedef	void( *PUTFUNC )( WatcherWork * ) ;
