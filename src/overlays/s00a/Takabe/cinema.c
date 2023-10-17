@@ -26,8 +26,8 @@ typedef struct _CinemaScreenWork
     PARAM  params[2];   //0x34
 } CinemaScreenWork;
 
-extern int THING_Gcl_GetInt_800D8808( int o ) ;
-extern int THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
+extern int THING_Gcl_GetInt( int o ) ;
+extern int THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
 
 extern int            GV_Clock_800AB920;
 extern int            GV_PauseLevel_800AB928;
@@ -38,12 +38,12 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 {
     unsigned int *ot ;
     int           i, cols[2], mes ;
-    
+
     //OPERATOR() ;
-    
+
     if ( GV_PauseLevel_800AB928 == 0 )
     {
-        mes = THING_Msg_CheckMessage_800D8940( work->name, 2, mes_list_800C3680 );
+        mes = THING_Msg_CheckMessage( work->name, 2, mes_list_800C3680 );
         switch ( mes )
         {
         case 0:/* 通常終了 */
@@ -56,7 +56,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
             break ;
         }
     }
-    
+
     if( work->mode == 2 )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
@@ -69,7 +69,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
     {
         int		col ;
         PARAM	*param = &work->params[i] ;
-    
+
         if ( work->mode == 0 )
         {
             /* 出現時 */
@@ -96,7 +96,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
             col = 0;
         }
         cols[i] = ( col | ( col << 8 ) ) | col << 16 ;
-        
+
     }
 
     if ( cols[0] == 0xFFFFFF && cols[1] == 0xFFFFFF )
@@ -113,23 +113,23 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         r = cols[ 0 ];
         poly  = &work->prims->poly[ GV_Clock_800AB920 ][ 0 ];
         poly2 = &work->prims->poly[ GV_Clock_800AB920 ][ 1 ];
-        
+
         r |= *(int*)&poly->r0 & 0xFF000000;
         *(int*)&poly->r0  = r;
         *(int*)&poly->r1  = r;
         *(int*)&poly2->r0 = r;
-        *(int*)&poly2->r1 = r; 
-        
+        *(int*)&poly2->r1 = r;
+
         r = cols[ 1 ];
         *(int*)&poly->r2  = r;
         *(int*)&poly->r3  = r;
         *(int*)&poly2->r2 = r;
         *(int*)&poly2->r3 = r;
-        
+
         addPrim( ot, poly );
         addPrim( ot, poly2 );
     }
-    
+
     addPrim( ot, &work->prims->tpage[ GV_Clock_800AB920 ] );
 
     if ( work->mode == 0 )
@@ -145,7 +145,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
             {
                 work->mode = 1;
             }
-        }       
+        }
     }
     else if (work->mode == 1)
     {
@@ -153,12 +153,12 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         {
             work->mode = 2;
         }
-    } 
+    }
 }
 
 void CinemaScreenDie_800DE150( CinemaScreenWork *work )
 {
-    if ( work->prims ) 
+    if ( work->prims )
     {
         GV_DelayedFree_80016254( work->prims ) ;
     }
@@ -178,15 +178,15 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int whe
     h2 = 40;
     h1 = 24;
     prims = GV_Malloc_8001620C( 224 );
-    
+
     work->prims = prims;
-    
+
     setDrawTPage(&prims->tpage[0], 0, 1, 0x40);
     poly = (POLY_G4*)&prims->poly;
     prims->tpage[1] = prims->tpage[0];
     setPolyG4(poly);
     setSemiTrans(poly, 1);
-    
+
     colour = *(int*)&poly->r0;
     poly->x1 = 320;
     poly->x3 = 320;
@@ -210,11 +210,11 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int whe
     poly->y0 = 224;
     poly->y1 = 224;
     poly->y2 = 224 - h2;
-    poly->y3 = 224 - h2; 
+    poly->y3 = 224 - h2;
 
     prims->poly[1][0] = prims->poly[0][0];
     prims->poly[1][1] = prims->poly[0][1];
-    
+
     tile = (TILE*)prims->tile;
     setTile(tile);
     tile->w = 320;
@@ -224,17 +224,17 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int name, int whe
     tile->r0 = 0;
     tile->g0 = 0;
     tile->b0 = 0;
-    
+
     params = work->params;
     prims->tile[0][1] = prims->tile[0][0];
     tile[1].y0 = 224-h2;
     col = 384;
     tile[1].h = h2;
 
-    
+
     prims->tile[1][0] = prims->tile[0][0];
     prims->tile[1][1] = prims->tile[0][1];
-    
+
     work->params[0].max_count = 60;
     params[1].max_count = 60;
     params[0].count  = 0;
@@ -287,8 +287,8 @@ void *NewCinemaScreenSet_800DE4D8( int name, int where, int argc, char **argv )
     work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, aCinemaC );
-        ops  = THING_Gcl_GetInt_800D8808( 't' );
-        ops2 = THING_Gcl_GetInt_800D8808( 'e' );
+        ops  = THING_Gcl_GetInt( 't' );
+        ops2 = THING_Gcl_GetInt( 'e' );
         if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );

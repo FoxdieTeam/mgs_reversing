@@ -1,9 +1,9 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 
-static int s16b_dword_800C58AC[2];
+static int THING_msg_result[2];
 
-int THING_Gcl_GetIntDefault_800C5318(char param, int def)
+int THING_Gcl_GetIntDefault(char param, int def)
 {
     if (GCL_GetOption_80020968(param))
     {
@@ -14,9 +14,9 @@ int THING_Gcl_GetIntDefault_800C5318(char param, int def)
 }
 
 // name from memleaks
-int THING_Gcl_GetInt_800D8808(char param)
+int THING_Gcl_GetInt(char param)
 {
-    return THING_Gcl_GetIntDefault_800C5318(param, 0);
+    return THING_Gcl_GetIntDefault(param, 0);
 }
 
 unsigned short s16b_800C43C8(char param, unsigned short def)
@@ -37,7 +37,7 @@ int s16b_800C440C(char param)
     return s16b_800C43C8(param, 0);
 }
 
-void s16b_800C4430(char param, short x, short y, short z, SVECTOR *vec)
+void THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec)
 {
     if (GCL_GetOption_80020968(param))
     {
@@ -50,13 +50,13 @@ void s16b_800C4430(char param, short x, short y, short z, SVECTOR *vec)
     vec->vz = z;
 }
 
-void s16b_800C44AC(char param, SVECTOR *vec)
+void THING_Gcl_GetSVector(char param, SVECTOR *vec)
 {
-    s16b_800C4430(param, 0, 0, 0, vec);
+    THING_Gcl_GetSVectorDefault(param, 0, 0, 0, vec);
 }
 
 // name from memleaks
-int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigned short *hashes)
+int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     msg_count;
@@ -76,7 +76,7 @@ int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigne
             if (hash == hashes[i])
             {
                 found = i;
-                s16b_dword_800C58AC[0] = msg->message[1];
+                THING_msg_result[0] = msg->message[1];
             }
         }
     }
@@ -84,9 +84,9 @@ int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigne
     return found;
 }
 
-int THING_Msg_GetLastMessage_800C4584(void)
+int THING_Msg_GetResult(void)
 {
-    return s16b_dword_800C58AC[0];
+    return THING_msg_result[0];
 }
 
 void s16b_800C4594(short address, short message)
