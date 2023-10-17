@@ -35,7 +35,7 @@ typedef struct _VISION
 {
     short          facedir;                    //0xB8C
     short          field_B8E;                  //0xB8A
-    unsigned short length;                     //0xB90
+    short          length;                     //0xB90
     short          field_B92;                  //0xB92
 } VISION;
 
@@ -173,7 +173,7 @@ typedef struct _WatcherWork
     SVECTOR        field_C14;                  //0xC14
     int            field_C1C;                  //0xC1C
     int            field_C20;                  //0xC20
-    int            field_C24;                  //0xC24
+    int            sn_dis;                     //0xC24
     int            sn_dir;                     //0xC28
     short          faseout;                    //0xC2C
     short          field_C2E;                  //0xC2E
@@ -314,7 +314,7 @@ extern void  s00a_command_800D018C( CommanderWork* work ) ;
 extern void  s00a_command_800D0218( void ) ;
 extern void  s00a_command_800D0344( void ) ;
 extern void  s00a_command_800CA0E8( WatcherWork* work );
-extern void  s00a_command_800CA07C( WatcherWork* work );
+extern void  EnemyActionMain_800CA07C( WatcherWork* work );
 extern int   s00a_command_800CA1EC( MATRIX* mat, int mark);
 
 
@@ -350,7 +350,7 @@ extern int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 
 extern void s00a_command_800C9068( WatcherWork *work ) ;
 extern int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
-
+extern void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
 //action.c
 #define COM_ST_DANBOWL 0x2000
 #define SP_DANBOWLKERI 0x400000
@@ -488,6 +488,7 @@ static inline void UnsetAction2( WatcherWork *work )
     GV_DestroyOtherActor_800151D8( work->subweapon );
 }
 
+void s00a_command_800C82B0( WatcherWork *work );
 
 extern void s00a_command_800C78E0( WatcherWork *work, int time );
 extern void s00a_command_800C77C8( WatcherWork *work, int time );
@@ -531,6 +532,7 @@ extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 //think.c ?
 #define T_NOISE 0
 
+extern void Enemy_Think_800CE99C( WatcherWork * work );
 extern void s00a_command_800CA69C( SVECTOR *svec );
 extern void s00a_command_800CA7DC( SVECTOR *svec );
 extern void s00a_command_800CA618( SVECTOR *svec );

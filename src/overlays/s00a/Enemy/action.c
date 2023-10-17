@@ -745,7 +745,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         a0 = work->control.field_0_mov.vy - GM_PlayerPosition_800ABA10.vy;
     }
 
-    if ( work->field_C24 > 800 || a0 > 500  )
+    if ( work->sn_dis > 800 || a0 > 500  )
     {
         target->field_42 = 0;
     }
@@ -1193,7 +1193,7 @@ void s00a_command_800C8054( WatcherWork *work, int time )
         }       
         GM_ConfigControlAttribute_8002623C( &work->control, 0 );
         work->alert_level = 0;
-        work->field_C24 = 30000;
+        work->sn_dis = 30000;
         sub_8002DD14( work->target, NULL );
     }
 
@@ -1505,7 +1505,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
             s00a_command_800CA7DC( &mov );
             GM_SeSet_80032858( &work->control.field_0_mov, 0x93 );
 
-            if ( work->field_C24 < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
             {
                 int res = GV_RandU_80017090( 12 );
                 if ( res > 10 )
