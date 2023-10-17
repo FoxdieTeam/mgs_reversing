@@ -193,7 +193,7 @@ void WatcherAct_800C430C( WatcherWork *work )
 
         DG_GetLightMatrix2_8001A5D8( &( ctrl->field_0_mov ), &( work->field_888 ) );
 
-        s00a_command_800CA07C( work );
+        EnemyActionMain_800CA07C( work );
         trgt = work->target;
         GM_Target_SetVector_8002D500( trgt, &( ctrl->field_0_mov ) );
 

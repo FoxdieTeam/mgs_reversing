@@ -270,7 +270,7 @@ void s00a_command_800C5860( WatcherWork* work )
     int near;
 
     trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
-    trans = ratan2( work->field_C24, trans  )  & 0xFFF;
+    trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
     near = GV_NearExp8_800263E4( work->field_734, trans - 0x400 );
     work->field_734 = near;

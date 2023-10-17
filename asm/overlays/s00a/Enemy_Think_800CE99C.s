@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_command_800CE99C
-s00a_command_800CE99C:
+	xdef Enemy_Think_800CE99C
+Enemy_Think_800CE99C:
 	dw 0x27BDFFE8 ; 800CE99C
 	dw 0x2402FFFF ; 800CE9A0
 	dw 0xAFBF0010 ; 800CE9A4
