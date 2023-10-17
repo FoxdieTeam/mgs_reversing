@@ -49,7 +49,9 @@ const int d03a_dword_800C79AC = 0x800C46C4;
 const int d03a_dword_800C79B0 = 0x800C46B8;
 const int d03a_dword_800C79B4 = 0x800C46C4;
 const int d03a_dword_800C79B8 = 0x800C46C4;
-const char d03a_aRedalrtc_800C79BC[] = "red_alrt.c";
+
+// Okajima/red_alrt.c
+const char aRedAlrtC[] = "red_alrt.c";
 const char d03a_aBlurpurec_800C79C8[] = "blurpure.c";
 
 // Takabe/gas_efct.c
