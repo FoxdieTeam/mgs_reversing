@@ -80,5 +80,5 @@ int        sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);
 void       GM_Target_8002DCB4(TARGET *pTarget, int a2, int a3, int *a4, SVECTOR *a5);
 TARGET *GM_C4Target_8002D620(TARGET *pTarget);
 TARGET *GM_CaptureTarget_8002D530(TARGET *pTarget);
-
+int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3);
 #endif // _TARGET_H_
