@@ -42,7 +42,9 @@ const char s00a_dword_800E0D34[] = {0x0, '\n', 'T', '4'};
 const char s00a_dword_800E0D38[] = {0x0, ',', 0x4, 0x1};
 const char s00a_dword_800E0D3C[] = {0x0, 0x0, '`', 0x0};
 const char s00a_dword_800E0D40[] = {0x0, 0x0, '\n', 'J'};
-const char s00a_dword_800E0D44[] = {'p', 0x0, 0x2, 0x18};
+
+//int
+const char COM_NoiseMinDisID_800E0D44[] = {'p', 0x0, 0x2, 0x18};
 const char s00a_dword_800E0D48[] = {0x0, '\n', 'T', 0x88};
 const char s00a_dword_800E0D4C[] = {0x0, 0x2, 0x1b, 0x0};
 const char s00a_dword_800E0D50[] = {'\n', 'J', 0x0, 0x1};
@@ -165,10 +167,6 @@ const char s00a_dword_800E0F04[] = {0x0, 0x6, 0x1, 0x0};
 const char s00a_dword_800E0F08[] = {0x2, 0xa2, 0x0, 0x0};
 
 const char s00a_dword_800E0F0C[] = {0x56, 0x41, 0x52, 0x49};
-
-//short
-//const short s00a_dword_800E0F10[] = {0x45, 0x54};
-//const short s00a_dword_800E0F12[] = {0x59, 0x00};
 
 const short s00a_dword_800E0F10 = 0x5445;
 const short s00a_dword_800E0F12 = 0x0059;

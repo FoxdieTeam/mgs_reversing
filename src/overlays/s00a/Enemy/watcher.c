@@ -632,14 +632,14 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     work->alert_level = 0;
     work->visible = 1;
-    work->field_B8E = 0x200;
+    work->vision.field_B8E = 0x200;
     work->field_9E6 = 0;
-    work->vision_facedir = 0;
+    work->vision.facedir = 0;
     work->field_B94 = 0;
     work->field_B96 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision_length = COM_EYE_LENGTH_800E0D8C;
+    work->vision.length = COM_EYE_LENGTH_800E0D8C;
     work->field_BA4 = COM_NO_POINT_800C35D4;
     work->subweapon = 0;
     work->field_C48 = 0;
