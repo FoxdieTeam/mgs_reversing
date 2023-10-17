@@ -43,10 +43,10 @@ extern const char aGasEfctC[]; // = "gas_efct.c"
 
 #define EXEC_LEVEL 3
 
-int THING_Gcl_GetIntDefault_800C5318(char param, int def);
-int THING_Gcl_GetInt_800D8808(char param);
-int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigned short *hashes);
-int THING_Msg_GetLastMessage_800C4584(void);
+int THING_Gcl_GetIntDefault(char param, int def);
+int THING_Gcl_GetInt(char param);
+int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
+int THING_Msg_GetResult(void);
 
 void d11c_800C4FFC(GasEfctWork *work);
 void d11c_800C5094(GasEfctWork *work, int arg1);
@@ -108,8 +108,8 @@ void d11c_800C4BBC(GasEfctWork *work_copy)
 
     if (GV_PauseLevel_800AB928 == 0)
     {
-        found = THING_Msg_CheckMessage_800D8940(work->name, 2, gas_efct_msgs);
-        message = THING_Msg_GetLastMessage_800C4584();
+        found = THING_Msg_CheckMessage(work->name, 2, gas_efct_msgs);
+        message = THING_Msg_GetResult();
 
         switch (found)
         {
@@ -213,12 +213,12 @@ int d11c_800C4D98(GasEfctWork *work, int name, int where)
         GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f34);
     }
 
-    work->f48 = THING_Gcl_GetIntDefault_800C5318('s', 4096);
-    work->f50 = THING_Gcl_GetIntDefault_800C5318('w', 410);
-    work->f54 = THING_Gcl_GetIntDefault_800C5318('f', 128);
-    work->f58 = THING_Gcl_GetIntDefault_800C5318('b', 1);
-    work->f5C = THING_Gcl_GetInt_800D8808('r');
-    work->f64 = THING_Gcl_GetIntDefault_800C5318('a', 3205);
+    work->f48 = THING_Gcl_GetIntDefault('s', 4096);
+    work->f50 = THING_Gcl_GetIntDefault('w', 410);
+    work->f54 = THING_Gcl_GetIntDefault('f', 128);
+    work->f58 = THING_Gcl_GetIntDefault('b', 1);
+    work->f5C = THING_Gcl_GetInt('r');
+    work->f64 = THING_Gcl_GetIntDefault('a', 3205);
     work->f40 = 0;
     work->f44 = 0;
     work->f3C = 0;

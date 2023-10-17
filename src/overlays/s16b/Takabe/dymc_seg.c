@@ -17,8 +17,8 @@ extern int GM_CurrentMap_800AB9B0;
 
 unsigned short s16b_dword_800C3254[] = {0xD182, 0x006B};
 
-int THING_Gcl_GetInt_800D8808(char param);
-int THING_Msg_CheckMessage_800D8940(unsigned short name, int hash_count, unsigned short *hashes);
+int THING_Gcl_GetInt(char param);
+int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
 
 #define EXEC_LEVEL 5
 
@@ -26,7 +26,7 @@ void DymcSegAct_800C4A44(DymcSegWork *work)
 {
     GM_CurrentMap_800AB9B0 = work->map;
 
-    if (THING_Msg_CheckMessage_800D8940(work->name, 2, s16b_dword_800C3254) == 1)
+    if (THING_Msg_CheckMessage(work->name, 2, s16b_dword_800C3254) == 1)
     {
         GV_DestroyActor_800151C8(&work->actor);
     }
@@ -56,8 +56,8 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
         GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &max);
     }
 
-    height = THING_Gcl_GetInt_800D8808('h');
-    flags = THING_Gcl_GetInt_800D8808('s');
+    height = THING_Gcl_GetInt('h');
+    flags = THING_Gcl_GetInt('s');
 
     seg = &work->seg;
 

@@ -29,9 +29,9 @@ extern GV_PAD  GV_PadData_800B05C0[4];
 
 extern unsigned short mes_list_800C368C[];
 
-int THING_Gcl_GetIntDefault_800C5318( int param, int );
-int THING_Gcl_GetInt_800D8808( int param );
-extern int THING_Msg_CheckMessage_800D8940( unsigned short name, int n_message, short *mes_list );
+int THING_Gcl_GetIntDefault( int param, int );
+int THING_Gcl_GetInt( int param );
+extern int THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
 
 #define EXEC_LEVEL  2
 #define EXEC_LEVEL2 5
@@ -79,15 +79,15 @@ int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
     GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->eye );
     GCL_StrToSV_80020A14( GCL_Get_Param_Result_80020AA4(), &cam->center );
 
-    cam->clip_distance = THING_Gcl_GetIntDefault_800C5318( 'a', 320 );
-    cam->enable_input = THING_Gcl_GetInt_800D8808( 'm' );
+    cam->clip_distance = THING_Gcl_GetIntDefault( 'a', 320 );
+    cam->enable_input = THING_Gcl_GetInt( 'm' );
 
     return 0;
 }
 
 void ZoomAct_800DF89C( ZoomWork *work )
 {
-    if ( !THING_Msg_CheckMessage_800D8940( work->name, 1, mes_list_800C368C ) )
+    if ( !THING_Msg_CheckMessage( work->name, 1, mes_list_800C368C ) )
     {
         work->timer = -1;
     }
@@ -132,8 +132,8 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
 
     work->name = name;
     work->cam_dead = 1;
-    work->timer = THING_Gcl_GetInt_800D8808( 't' );
-    work->proc = THING_Gcl_GetInt_800D8808( 'e' );
+    work->timer = THING_Gcl_GetInt( 't' );
+    work->proc = THING_Gcl_GetInt( 'e' );
 
     cam = (ZoomCameraWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
     work->cam = cam;

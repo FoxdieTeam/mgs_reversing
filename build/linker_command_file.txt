@@ -432,8 +432,6 @@
     inclib "LIBAPI.LIB"
     inclib "LIBPAD.LIB"
 
-    include "{{OBJ_DIR}}\program_bottom.obj"
-
 text    group
     section .rdata, text
     section .text,  text
@@ -443,9 +441,8 @@ text    group
     section .sdata, text
 
 bss     group bss
-    section .sbss,           bss
-    section .bss,            bss
-    section .program_bottom, bss
+    section .sbss,  bss
+    section .bss,   bss
 
 {% if OVERLAY %}
 
@@ -765,18 +762,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_ripples_800D862C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_ripples_800D8634.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_ripples_800D872C.obj"
-
-    include "{{OBJ_DIR}}\overlays\s00a\THING_Gcl_GetIntDefault_800C5318.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\THING_Gcl_GetInt_800D8808.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D882C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D8870.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D8894.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\THING_Gcl_GetSVector_800D8910.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\THING_Msg_CheckMessage_800D8940.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D89E8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D89F8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D8A28.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D8B3C.obj"
+    include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D8EA8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_elevator_800D97D8.obj"
@@ -868,23 +854,12 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\d03a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\uji.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C437C.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4414.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C45CC.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C48BC.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C48D0.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4904.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4958.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4BB0.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4DF0.obj"
-    include "{{OBJ_DIR}}\overlays\d03a\d03a_red_alrt_800C4E84.obj"
-
-    include "{{OBJ_DIR}}\overlays\d03a\Takabe\blurpure.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\Okajima\red_alrt.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\d03a\Okajima\blurpure.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
-
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\sepia.obj"
