@@ -321,8 +321,6 @@ GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
 
-#ifndef VR_EXE
-
 void sub_8004EB74(Actor_SnaInit *pActor) // different in VR
 {
     if (GM_Camera_800B77E8.field_22 == 0)
@@ -8655,16 +8653,3 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
     sna_800ABBA0 = pActor;
     return &pActor->field_0_actor;
 }
-
-#else
-
-// some jump table probably
-const char missing_rdata[] = {0xe4, 0x4f, 0x05, 0x80, 0xd4, 0x4f, 0x05, 0x80, 0x0c, 0x50, 0x05, 0x80, 0x48, 0x50, 0x05, 0x80, 0x94, 0x50, 0x05, 0x80, 0xfc, 0x50, 0x05, 0x80, 0xb4, 0x53, 0x05, 0x80};
-
-// Add INCLUDE_ASM from asm/chara/snake_vr here?
-// or start a separate src/chara/snake_vr/sna_init.c?
-// Try to have a single sna_init.c file (with ifdefs) or two separate files?
-// src/chara/snake_vr/sna_init.c is similar to snake/sna_init.c, but there are a lot
-// of differences. Not sure which approach makes more sense.
-
-#endif
