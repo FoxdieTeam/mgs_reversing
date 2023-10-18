@@ -916,6 +916,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s03e\s03e_guncame_800C8F64.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_guncame_800C911C.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_guncame_800C9190.obj"
+
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9234.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9568.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C984C.obj"
@@ -923,15 +924,9 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C99C4.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9A80.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9CBC.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA0E8.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA1CC.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA2D4.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA3A8.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA3F0.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA428.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA520.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA55C.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800CA714.obj"
+
+    include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
+
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
