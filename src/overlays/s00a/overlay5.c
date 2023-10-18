@@ -8,6 +8,7 @@ const int s00a_dword_800E023C = 0x800CA2B8;
 const int s00a_dword_800E0240 = 0x800CA2C8;
 const int s00a_dword_800E0244 = 0x800CA2E0;
 */
+/*
 const char s00a_dword_800E0248[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800E024C = 0x800CA3A0;
 const int s00a_dword_800E0250 = 0x800CA3B0;
@@ -16,6 +17,8 @@ const int s00a_dword_800E0258 = 0x800CA3D8;
 const int s00a_dword_800E025C = 0x800CA3F0;
 const int s00a_dword_800E0260 = 0x800CA400;
 const int s00a_dword_800E0264 = 0x800CA418;
+*/
+/*
 const char s00a_dword_800E0268[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800E026C = 0x800CA4D8;
 const int s00a_dword_800E0270 = 0x800CA4EC;
@@ -24,6 +27,8 @@ const int s00a_dword_800E0278 = 0x800CA514;
 const int s00a_dword_800E027C = 0x800CA52C;
 const int s00a_dword_800E0280 = 0x800CA53C;
 const int s00a_dword_800E0284 = 0x800CA554;
+*/
+//prescript
 const char s00a_dword_800E0288[] = {0x0, 0x1c, 0x1, 0x0};
 const char s00a_dword_800E028C[] = {0x5, 0x1, 0xfe, 0x4};
 const char s00a_dword_800E0290[] = {0x0, 0x0, 0x1, 0x90};
