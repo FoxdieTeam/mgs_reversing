@@ -2,22 +2,14 @@
 #include "libgcl/hash.h"
 #include "../select1/Game/select.h"
 
+GV_ACT *NewVibEdit_800C47B4(int flags, int perms);
+
 GCL_ActorTableEntry selectOverlayCharas[] =
 {
     { CHARA_SELECT, NewSelect_800c3434 },
-    { 0x6C66, (TGCL_ActorCreateFn)0x800C47B4 },
+    { 0x6C66, (TGCL_ActorCreateFn)NewVibEdit_800C47B4 },
     { 0, 0 }
 };
-
-int select_dword_800C3220 = 0x800C5060;
-int select_dword_800C3224 = 0x800C5054;
-int select_dword_800C3228 = 0x800C5048;
-int select_dword_800C322C = 0x800C5038;
-int select_dword_800C3230 = 0x800C50AC;
-int select_dword_800C3234 = 0x800C509C;
-int select_dword_800C3238 = 0x800C508C;
-int select_dword_800C323C = 0x800C507C;
-int select_dword_800C3240 = 0x800C506C;
 
 // Game/select.c:
 const char aNoMenu[] = "NO MENU\n";
@@ -57,11 +49,16 @@ const char select_aFilemenul_800C523C[] = "File menu     - < L2 >\n";
 const char select_aEditvibrationtyped_800C5254[] = "Edit vibration - type %d\n";
 const char select_aEddd_800C5270[] = "E%2d- %3d %3d\n";
 const char select_aDdd_800C5280[] = " %2d- %3d %3d\n";
-const int select_dword_800C5290 = 0x800C43FC;
-const int select_dword_800C5294 = 0x800C43C8;
-const int select_dword_800C5298 = 0x800C43D4;
-const int select_dword_800C529C = 0x800C43E0;
-const int select_dword_800C52A0 = 0x800C43EC;
-const char select_aSavevibrationeditordata_800C52A4[] = "Save vibration editor data !\n";
-const char select_aVibeditdat_800C52C4[] = "VIB_EDIT.DAT";
-const char select_aVibeditc_800C52D4[] = "vib_edit.c";
+
+const char *select_dword_800C3220[4] =
+{
+    select_aInsparam_800C5060, select_aDelparam_800C5054,
+    select_aSwapback_800C5048, select_aSwapforward_800C5038
+};
+
+const char *select_dword_800C3230[5] =
+{
+    select_aChangebank_800C50AC, select_aQuicksavehigh_800C509C,
+    select_aQuicksavelow_800C508C, select_aQuickloadhigh_800C507C,
+    select_aQuickloadlow_800C506C
+};
