@@ -557,7 +557,7 @@ ret2:
     return 3;
 }
 
-int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzdMap, int x, int y, void *pControl)
+int HZD_LinkRoute_8005C974(HZD_HDL *pHzdMap, int x, int y, SVECTOR *svec)
 {
     int xl, xh;
     int yl, yh;
@@ -610,8 +610,8 @@ int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzdMap, int x, int y, v
 
         if ( v3 == v4 )
         {
-            v3 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xl], pControl, 0x7F000000);
-            v4 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xh], pControl, 0x7F000000);
+            v3 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xl], svec, 0x7F000000);
+            v4 = sub_8005C298(&pHzdMap->f00_header->navmeshes[xh], svec, 0x7F000000);
         }
 
         if ( v4 < v3 )
