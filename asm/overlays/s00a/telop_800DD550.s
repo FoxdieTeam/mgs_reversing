@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_fadeio_or_telop_800DD550
-s00a_fadeio_or_telop_800DD550:
+	xdef telop_800DD550
+telop_800DD550:
 	dw 0x27BDFFD0 ; 800DD550
 	dw 0xAFB50024 ; 800DD554
 	dw 0x0080A821 ; 800DD558
