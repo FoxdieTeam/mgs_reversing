@@ -467,7 +467,11 @@ const int s00a_dword_800E0C1C = 0x800DD7BC;
 const int s00a_dword_800E0C20 = 0x800DD818;
 const int s00a_dword_800E0C24 = 0x800DD850;
 const int s00a_dword_800E0C28 = 0x800DD8B4;
-const char s00a_aTelopc_800E0C2C[] = "telop.c";
+
+// Takabe/telop.c
+const char aTelopC[] = "telop.c";
+
+// Takabe/cinema.c
 const char aCinemaC[] = "cinema.c";
 const char s00a_dword_800E0C3D = 0x2;
 const char s00a_dword_800E0C3E = 0x0;
