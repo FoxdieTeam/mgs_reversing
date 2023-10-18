@@ -313,9 +313,9 @@ extern int   s00a_command_800D0128( int ops );
 extern void  s00a_command_800D018C( CommanderWork* work ) ;
 extern void  s00a_command_800D0218( void ) ;
 extern void  s00a_command_800D0344( void ) ;
-extern void  s00a_command_800CA0E8( WatcherWork* work );
+extern void  EnemyPushMove_800CA0E8( WatcherWork* work );
 extern void  EnemyActionMain_800CA07C( WatcherWork* work );
-extern int   s00a_command_800CA1EC( MATRIX* mat, int mark);
+extern void *s00a_command_800CA1EC( MATRIX* mat, int mark);
 
 
 void SetCameraActCall_800D043C();

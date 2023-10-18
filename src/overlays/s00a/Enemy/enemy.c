@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include "Game/linkvarbuf.h"
+#include "Anime/animeconv/anime.h"
 
 void s00a_command_800C9878( WatcherWork* work )
 {
@@ -288,63 +289,65 @@ void s00a_command_800C9E68( WatcherWork* work )
     
     if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) || GM_PlayerStatus_800ABA50 & 0x02000002 )
     {
-        do { work->vision.field_B92 = 0; return; } while (0); //TODO, fix
+        work->vision.field_B92 = 0;
         return;
     }
 
     if ( EnemyCommand_800E0D98.field_0x0C % EnemyCommand_800E0D98.field_0x08 == work->field_B78 )
     {
         x = 2000;
-        if ( COM_EYE_LENGTH_800E0D8C + x < dis )
+        //ridiculous, but its the only way it matches
+        if ( COM_EYE_LENGTH_800E0D8C + x >= dis )
         {
-            goto last;
-        }
-
-        
-        if ( x < diff  )
-        {    
-            goto last;
-        }
-    
-        if ( dis >= 500 )
-        {
-            if ( GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) >= work->vision.field_B8E )
-            { 
-                goto last;
+            if ( x >= diff )
+            {
+                if ( dis < 500 || GV_DiffDirAbs_8001706C( work->vision.facedir, dir ) < work->vision.field_B8E )
+                {
+                    map = work->control.field_2C_map;
+                    if ( !( sub_80028454( map->field_8_hzd, pos, &ctrl->field_0_mov, 0xF, 0x4 ) ) )
+                    {
+                        if ( !( sub_8002E2A8( &ctrl->field_0_mov, pos, map->field_0_map_index_bit, &svec ) ) )
+                        {
+                            if ( work->vision.length < dis )
+                            {
+                                work->vision.field_B92 = 1;
+                            }
+                            else
+                            {
+                                flag[0] = 2;
+                            }
+                        }
+                        else
+                        {
+                            work->vision.field_B92 = 0;
+                        }
+                    }
+                    else
+                    {
+                        work->vision.field_B92 = 0;
+                    }
+                }
+                else
+                {
+                    work->vision.field_B92 = 0;
+                }
             }
-        }
-    
-        map = work->control.field_2C_map;
-        if ( sub_80028454( map->field_8_hzd, pos, &ctrl->field_0_mov, 0xF, 0x4 ) )
-        {
-            goto last;
-        }
-    
-        if ( sub_8002E2A8( &ctrl->field_0_mov, pos, map->field_0_map_index_bit, &svec ) )
-        {    
-            goto last;
-        }
-
-        if ( work->vision.length < dis )
-        {
-            work->vision.field_B92 = 1;
+            else
+            {
+                work->vision.field_B92 = 0;
+            }
         }
         else
         {
-            flag[0] = 2;
-        } 
-        goto end;
-            
-last:
-        work->vision.field_B92 = 0;  
+            work->vision.field_B92 = 0;
+        }
     }
 
-end:
     if ( sna_current_item_8004FB38() == ITEM_STEALTH && work->param_blood != 83 )
     {
         flag[0] = 0;
     }   
-}   
+} 
 
 void EnemyActionMain_800CA07C( WatcherWork *work )
 {
@@ -359,4 +362,328 @@ void EnemyActionMain_800CA07C( WatcherWork *work )
     }
     
     s00a_command_800C82B0(work);
+}
+
+extern int GV_Time_800AB330;
+
+void EnemyPushMove_800CA0E8( WatcherWork *work )
+{
+    int s1;
+    CONTROL *ctrl;
+    TARGET *target;
+
+    target = work->target;
+    s1 = 0;
+    if ( !( target->field_6_flags & 0x8 ) )
+    {
+        return;
+    }
+    
+    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_movementVector, &work->control.field_44_movementVector );
+    target->field_6_flags &= ~( 0x8 );
+
+    if ( work->field_8E0 - 1 >= 2u )
+    {
+        return;
+    }
+
+    if ( target->field_34_vec.pad )
+    {
+        if ( GV_Time_800AB330 & 256 )
+        {
+            s1 = target->field_34_vec.pad * 1024;
+            if ( !( work->field_B78 & 1 ) )
+            {
+                s1 = ( target->field_34_vec.pad + 2 ) * 1024;
+            }
+        }
+        else
+        {
+            if ( work->field_B78 & 1 )
+            {
+                s1 = ( target->field_34_vec.pad + 2 ) * 1024;
+            }
+            else
+            {
+                s1 = target->field_34_vec.pad * 1024;
+            }
+        }
+        s1 &= 0xFFF;
+    }
+    
+    ctrl = &work->control;
+    ctrl->field_4C_turn_vec.vy = s1;
+    ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, work->field_8E4 );
+}
+
+extern short s00a_dword_800C3488;
+extern short s00a_dword_800C348A;
+extern short s00a_dword_800C348C;
+
+extern ANIMATION s00a_dword_800C3418;
+extern ANIMATION s00a_dword_800C3434;
+extern ANIMATION s00a_dword_800C3450;
+
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+void *s00a_command_800CA1EC( MATRIX *mat, int mark )
+{
+    SVECTOR  *pos;
+    PRESCRIPT pre;
+    ANIMATION *anim;
+   
+    anim = 0;
+    pos = &pre.pos;
+    pos->vx = 0;
+    pos->vy = 800;
+    pos->vz = 0;
+
+    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.scr_num = 0;
+    pre.s_anim  = 0;
+
+    switch ( mark )
+    {
+    case 0:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3418;
+        break;
+    case 1:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3418;
+        break;   
+    case 2:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 3:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 4:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 5:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 6:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 1;
+        break; 
+    }
+    
+    anim->field_14_pre_script = &pre;
+    return NewAnime_8005FBC8( mat, 0, anim );
+}
+
+void *s00a_command_800CA320( MATRIX *mat, int mark )
+{
+    SVECTOR  *pos;
+    PRESCRIPT pre;
+    ANIMATION *anim;
+   
+    anim = 0;
+    pos = &pre.pos;
+    pos->vx = 0;
+    pos->vy = 600;
+    pos->vz = 0;
+
+    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.scr_num = 1;
+    pre.s_anim  = 0;
+
+    switch ( mark )
+    {
+    case 0:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3418;
+        break;
+    case 1:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3418;
+        break;   
+    case 2:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 3:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 4:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 5:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 6:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 2;
+        break; 
+    }
+    
+    anim->field_14_pre_script = &pre;
+    return NewAnime_8005FBC8( mat, 0, anim );
+}
+
+void *s00a_command_800CA458( MATRIX *mat, int mark )
+{
+    SVECTOR  *pos;
+    PRESCRIPT pre;
+    ANIMATION *anim;
+   
+    anim = 0;
+    pos = &pre.pos;
+    pos->vx = 0;
+    pos->vy = 120;
+    pos->vz = 0;
+
+    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.scr_num = 2;
+    pre.s_anim  = 0;
+
+    switch ( mark )
+    {
+    case 0:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 3;
+        break;
+    case 1:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3418;
+        break;   
+    case 2:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 3:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 4:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 5:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 6:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 3;
+        break; 
+    }
+    
+    anim->field_14_pre_script = &pre;
+    return NewAnime_8005FBC8( mat, 0, anim );
+}
+
+extern ANIMATION s00a_dword_800C346C;
+
+void s00a_command_800CA594( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C346C;
+    anm->field_14_pre_script = &pre;
+    
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C3490;
+
+void s00a_command_800CA618( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C3490;
+    anm->field_14_pre_script = &pre;
+    pre.scr_num = 0;
+    
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C34AC;
+
+void s00a_command_800CA69C( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C34AC;
+    anm->field_14_pre_script = &pre;
+    
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C34E4;
+
+void s00a_command_800CA758( SVECTOR* pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C34E4;
+    anm->field_14_pre_script = &pre;
+    pre.scr_num = 0;
+    
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C3500;
+
+void s00a_command_800CA7DC( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C3500;
+    anm->field_14_pre_script = &pre;
+    
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
 }
