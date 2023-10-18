@@ -590,11 +590,10 @@ const int s03e_dword_800CC670 = 0x800C9FE4;
 const int s03e_dword_800CC674 = 0x800C9FFC;
 const int s03e_dword_800CC678 = 0x800CA00C;
 const int s03e_dword_800CC67C = 0x800CA024;
-const char s03e_dword_800CC680[] = {0x0, 0x0, 0x0, 0x0};
-const char s03e_dword_800CC684[] = {0xf4, 0x1, 0x0, 0x0};
-const char s03e_dword_800CC688[] = {'s', 'p', 'a', 'r'};
-const char s03e_dword_800CC68C[] = {'k', '2', '.', 'c'};
-const char s03e_dword_800CC690[] = {0x0, 0x81, 'J', 0x81};
+
+const SVECTOR spark2_light_pos = {0, 0, 500, 0};
+
+const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 0x81, 'J', 0x81};
 const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x90, 0x1, 0x90};
 const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 0x90, 0x1, 0x90};
 const char s03e_dword_800CC6AC[] = {'c', 'a', 't', '_'};
