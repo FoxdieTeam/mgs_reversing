@@ -478,3 +478,212 @@ void *s00a_command_800CA1EC( MATRIX *mat, int mark )
     anim->field_14_pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
+
+void *s00a_command_800CA320( MATRIX *mat, int mark )
+{
+    SVECTOR  *pos;
+    PRESCRIPT pre;
+    ANIMATION *anim;
+   
+    anim = 0;
+    pos = &pre.pos;
+    pos->vx = 0;
+    pos->vy = 600;
+    pos->vz = 0;
+
+    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.scr_num = 1;
+    pre.s_anim  = 0;
+
+    switch ( mark )
+    {
+    case 0:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3418;
+        break;
+    case 1:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3418;
+        break;   
+    case 2:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 3:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 4:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 5:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 6:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 2;
+        break; 
+    }
+    
+    anim->field_14_pre_script = &pre;
+    return NewAnime_8005FBC8( mat, 0, anim );
+}
+
+void *s00a_command_800CA458( MATRIX *mat, int mark )
+{
+    SVECTOR  *pos;
+    PRESCRIPT pre;
+    ANIMATION *anim;
+   
+    anim = 0;
+    pos = &pre.pos;
+    pos->vx = 0;
+    pos->vy = 120;
+    pos->vz = 0;
+
+    pre.speed   = DG_ZeroVector_800AB39C;
+    pre.scr_num = 2;
+    pre.s_anim  = 0;
+
+    switch ( mark )
+    {
+    case 0:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 3;
+        break;
+    case 1:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3418;
+        break;   
+    case 2:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 3:
+        s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3434;
+        break; 
+    case 4:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 5:
+        s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
+        anim = &s00a_dword_800C3450;
+        break; 
+    case 6:
+        s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
+        anim = &s00a_dword_800C3418;
+        pre.scr_num = 3;
+        break; 
+    }
+    
+    anim->field_14_pre_script = &pre;
+    return NewAnime_8005FBC8( mat, 0, anim );
+}
+
+extern ANIMATION s00a_dword_800C346C;
+
+void s00a_command_800CA594( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C346C;
+    anm->field_14_pre_script = &pre;
+    
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C3490;
+
+void s00a_command_800CA618( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C3490;
+    anm->field_14_pre_script = &pre;
+    pre.scr_num = 0;
+    
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C34AC;
+
+void s00a_command_800CA69C( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C34AC;
+    anm->field_14_pre_script = &pre;
+    
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C34E4;
+
+void s00a_command_800CA758( SVECTOR* pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C34E4;
+    anm->field_14_pre_script = &pre;
+    pre.scr_num = 0;
+    
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
+
+extern ANIMATION s00a_dword_800C3500;
+
+void s00a_command_800CA7DC( SVECTOR *pos )
+{
+    ANIMATION *anm;
+    PRESCRIPT  pre;
+
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector_800AB39C;
+    pre.s_anim = 0;
+    
+    anm = &s00a_dword_800C3500;
+    anm->field_14_pre_script = &pre;
+    
+    pre.scr_num = 0;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 1;
+    NewAnime_8005FBC8( NULL, 0, anm );
+
+    pre.scr_num = 2;
+    NewAnime_8005FBC8( NULL, 0, anm );
+}
