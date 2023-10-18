@@ -122,6 +122,7 @@ extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern Jirai_unknown      stru_800BDD78[16];
 extern Jirai_unknown      stru_800BDE78[8];
 extern unsigned char      gBulNames_800BDC78[64];
+unsigned char             gBulNames_800BDC78[64];
 extern int                dword_8009F440;
 extern int                dword_8009F444;
 extern int                dword_8009F46C[];
@@ -387,9 +388,53 @@ void sna_8004EE28(Actor_SnaInit *snake)
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004F688.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004F8D8.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004FA30.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/GM_Next_BulName_8004FBA0.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/GM_ClearBulName_8004FBE4.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/GM_CheckShukanReverse_8004FBF8.s")
+
+int GM_Next_BulName_8004FBA0()
+{
+    int i;                   // $a0
+    for (i = 1; i < 64; i++) // for some reason skip the first one ??
+    {
+        if (!gBulNames_800BDC78[i])
+        {
+            gBulNames_800BDC78[i] = 1;
+            return i;
+        }
+    }
+    return 0;
+}
+
+void GM_ClearBulName_8004FBE4(int idx)
+{
+    gBulNames_800BDC78[idx] = 0;
+}
+
+void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput)
+{
+    unsigned short old;
+    unsigned int   v2; // $v1
+    unsigned int   v3; // $v0
+
+    if ((GM_GameStatusFlag & 0x1000) != 0)
+    {
+        old = *pInput;
+
+        *pInput = old & ~0x5000;
+
+        v2 = old & 0x5000;
+        v3 = v2 & 0x1000;
+
+        if (v3)
+        {
+            *pInput |= 0x4000;
+        }
+
+        if (v2 & 0x4000)
+        {
+            *pInput |= 0x1000;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004FB98.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004FBC8.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004FCF8.s")
@@ -427,7 +472,7 @@ void sna_800515BC(Actor_SnaInit *pActor, int a2);
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8005280C.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80052994.s")
 
-void snake_vr_sna_init_80052AC0()
+void sna_fn_nothing_80053B80(Actor_SnaInit *param_1, int time)
 {
 }
 
@@ -438,12 +483,38 @@ void snake_vr_sna_init_80052AC0()
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80052EE8.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_gun_800540D0.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_bomb_800541A8.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_chokethrow_begin1_80054210.s")
+
+// or sna_no_weapon_80054210 ?
+void sna_anim_chokethrow_begin1_80054210(Actor_SnaInit *pActor, int time)
+{
+    void *pFn;
+    pActor->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
+    pActor->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
+    if (gSnaMoveDir_800ABBA4 >= 0)
+    {
+        pFn = sna_anim_throw_800589C8;
+    }
+    else
+    {
+        pFn = sna_anim_chokethrow_begin2_80058C80;
+    }
+    sna_start_anim_8004E1F4(pActor, pFn);
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80053198.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80053254.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800532C0.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_duct_move_80054424.s")
-void sna_anim_duct_move_80054424(Actor_SnaInit *pActor, int time);
+
+void sna_anim_duct_move_80054424(Actor_SnaInit *pActor, int time)
+{
+    if (time == 0)
+    {
+        pActor->field_9C8_anim_update_fn_3p = sub_8005688C;
+        pActor->field_9CC_anim_update_fn_1p = sub_80052468;
+        SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
+    }
+    pActor->field_A60.vy = pActor->field_20_ctrl.field_78_levels[0] + 150;
+}
 
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80053394.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800533EC.s")
@@ -465,8 +536,9 @@ void sna_anim_duct_move_80054424(Actor_SnaInit *pActor, int time);
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80054C88.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80055500.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800556FC.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8005573C.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_8005688C.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800557D8.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_80052468.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_psg1_80056DDC.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_stinger_800570C0.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_claymore_80057474.s")
@@ -481,9 +553,9 @@ void sna_anim_duct_move_80054424(Actor_SnaInit *pActor, int time);
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_grenade_80058470.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80057F9C.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800580D8.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80058320.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_throw_800589C8.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80058538.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800585A8.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_chokethrow_begin2_80058C80.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800587AC.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80058818.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800588AC.s")
