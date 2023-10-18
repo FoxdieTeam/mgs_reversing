@@ -45,7 +45,9 @@ const char s00a_dword_800E0D40[] = {0x0, 0x0, '\n', 'J'};
 
 //int
 const char COM_NoiseMinDisID_800E0D44[] = {'p', 0x0, 0x2, 0x18};
-const char s00a_dword_800E0D48[] = {0x0, '\n', 'T', 0x88};
+
+//svector[]
+const char COM_PlayerPosOne_800E0D48[] = {0x0, '\n', 'T', 0x88};
 const char s00a_dword_800E0D4C[] = {0x0, 0x2, 0x1b, 0x0};
 const char s00a_dword_800E0D50[] = {'\n', 'J', 0x0, 0x1};
 const char s00a_dword_800E0D54[] = {0x2, 0x17, 0x0, '\n'};
@@ -215,7 +217,8 @@ const char GM_GameFlag_800E0F64[] = {0x31, 0x20, 0x4D, 0x49};
 const char COM_VibTime_800E0F68[] = {0x4E, 0x2E, 0x20, 0x42};
 
 const char s00a_dword_800E0F6C[] = {0x41, 0x54, 0x54, 0x4C};
-const char s00a_dword_800E0F70[] = {0x45, 0x20, 0x2D, 0x20};
+//INT[]
+const char COM_PlayerMapOne_800E0F70[] = {0x45, 0x20, 0x2D, 0x20};
 const char s00a_dword_800E0F74[] = {0x56, 0x53, 0x2E, 0x20};
 const char s00a_dword_800E0F78[] = {0x45, 0x4E, 0x45, 0x4D};
 const char s00a_dword_800E0F7C[] = {0x59, 0x00, 0x00, 0x00};

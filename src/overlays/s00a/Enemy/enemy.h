@@ -155,12 +155,12 @@ typedef struct _WatcherWork
     char           field_BA3;                  //0xBA3
     SVECTOR        field_BA4;                  //0xBA4
     int            field_BAC;                  //0xBAC
-    int            field_BB0[8];               //0xBB0
-    short          field_BD0[4];               //0xBD0
+    int            field_BB0[8];               //0xBB0 //set_time
+    short          field_BD0[4];               //0xBD0 //set_dir, might be svector
     SVECTOR        start_pos;                  //0xBD8
     SVECTOR        target_pos;                 //0xBE0
-    int            field_BE8;                  //0xBE8
-    int            field_BEC;                  //0xBEC
+    int            start_addr;                  //0xBE8
+    int            start_map;                  //0xBEC
     int            field_BF0;                  //0xBF0
     int            target_addr;                //0xBF4
     int            target_map;                 //0xBF8
@@ -178,11 +178,8 @@ typedef struct _WatcherWork
     short          faseout;                    //0xC2C
     short          field_C2E;                  //0xC2E
     int            field_C30;                  //0xC30
-    char           field_C34;                  //0xC34
-    char           field_C35;                  //0xC35
-    char           field_C36;                  //0xC36
-    char           field_C37;                  //0xC37
-    int            field_C38;                  //0xC38
+    char           field_C34;                  //0xC34 //num_set_time
+    char           field_C35[7];               //0xC35 //set_time
     int            field_C3C;                  //0xC3C
     int            field_C40;                  //0xC40
     int            field_C44;                  //0xC44
@@ -291,7 +288,10 @@ extern TOPCOMMAND_STRUCT       s00a_dword_800E0F28;
 extern SVECTOR                 COM_PlayerPosition_800E0F30;
 extern int                     COM_NOISEMODE_DIS_800E0F38;
 extern unsigned int            COM_GameStatus_800E0F3C;
+
 extern int                     COM_PlayerAddressOne_800E0F40[];
+extern SVECTOR                 COM_PlayerPosOne_800E0D48[];
+extern int                     COM_PlayerMapOne_800E0F70[];
 
 extern int                     COM_ALERT_DECREMENT_800E0F60;
 extern int                     GM_GameFlag_800E0F64;
