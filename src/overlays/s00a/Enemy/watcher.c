@@ -186,7 +186,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     s00a_watcher_800C410C( work );
     if ( !work->faseout )
     {
-        s00a_command_800CA0E8( work );
+        EnemyPushMove_800CA0E8( work );
         GM_ActControl_80025A7C( ctrl );
         GM_ActObject2_80034B88( &( work->body ) );
         GM_ActObject2_80034B88( &( work->field_7A4 ) );

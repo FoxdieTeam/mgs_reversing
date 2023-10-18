@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_command_800CA0E8
-s00a_command_800CA0E8:
+	xdef EnemyPushMove_800CA0E8
+EnemyPushMove_800CA0E8:
 	dw 0x27BDFFE0 ; 800CA0E8
 	dw 0xAFB20018 ; 800CA0EC
 	dw 0x00809021 ; 800CA0F0
