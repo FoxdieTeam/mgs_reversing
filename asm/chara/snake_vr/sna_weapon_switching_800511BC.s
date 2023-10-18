@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_800510C4
-snake_vr_sna_init_800510C4:
+	xdef sna_weapon_switching_800511BC
+sna_weapon_switching_800511BC:
 	dw 0x3C02800B ; 800510C4
 	dw 0x84432A14 ; 800510C8
 	dw 0x27BDFFD0 ; 800510CC
