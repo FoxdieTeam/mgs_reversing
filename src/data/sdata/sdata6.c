@@ -14,7 +14,8 @@ Sna_E1 SECTION(".sdata") e1_800AB7BC = {95u, 95u, 99u, 100u, 26u, 102u, 88u, 89u
 Sna_E1 SECTION(".sdata") e1_800AB7C4 = {20u, 21u, 84u, 0u, 212u, 3u, 0u, 0u};
 
 #ifdef VR_EXE
-char vr_pad[8] = {255, 255, 255, 255, 0, 0, 0, 0};
+char SECTION(".sdata") vr_pad[4] = {255, 255, 255, 255};
+Actor_SnaInit *SECTION(".sdata") snainit_actor_800A9424 = NULL;
 #endif
 
 SVECTOR SECTION(".sdata") svector_800AB7CC = {150, 0, 50, 0};
