@@ -455,7 +455,7 @@ void sna_80057A90(Actor_SnaInit *pActor, int time);
 void sna_8004EF14(Actor_SnaInit *pActor);
 GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv);
 int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
-int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL *pControl);
+//int HZD_LinkRoute_8005C974(HZD_HDL *pHzd, int, int, SVECTOR *svector);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int sna_ration_available_8004FB4C(void);
 

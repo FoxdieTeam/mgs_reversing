@@ -215,7 +215,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->count3 = 0;
 
     work->pad.field_00 = work->field_9E8 - 1;
-    work->target_addr  = work->field_BE8;
+    work->target_addr  = work->start_addr;
     work->target_pos   = work->start_pos;
 
     work->vision.field_B8E = 512;
@@ -226,10 +226,10 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->pad.sound      = 0;
     work->pad.field_08   = 1;
     work->field_C48      = 0;
-    work->target_map     = work->field_BEC;
+    work->target_map     = work->start_map;
     work->field_C14      = work->start_pos;
     
-    val = work->field_BE8;
+    val = work->start_addr;
     work->field_C08 = val;
     work->field_BF0 = val;
 

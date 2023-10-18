@@ -162,4 +162,8 @@ int         sub_80028830(void);
 
 int sub_8005CFAC(HZD_HDL *pHzdMap, int from, int to, int max_dist);
 
+int HZD_ReachTo_8005C89C(HZD_HDL *pHzd, int, int);
+int HZD_GetAddress_8005C6C4(HZD_HDL *hzd, SVECTOR *vec, int param_3);
+int HZD_LinkRoute_8005C974(HZD_HDL *pHzd, int, int, SVECTOR *svector);
+
 #endif // _HZD_H_
