@@ -404,17 +404,12 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\overlay3.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\put.obj"
     include "{{OBJ_DIR}}\overlays\s00a\overlay4.obj"
-
-    ;enemy.c
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\enemy.obj"
     include "{{OBJ_DIR}}\overlays\s00a\overlay5.obj"
 
     ;think.c?
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CA898.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CA8E0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAA2C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAACC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAB04.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\route.obj"
+
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAB74.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CACA0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAD84.obj"
@@ -422,6 +417,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB0E0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB13C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB1C4.obj"
+
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB224.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB240.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB258.obj"

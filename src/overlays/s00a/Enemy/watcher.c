@@ -433,7 +433,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
     if ( opt )
     {
         ret = s00a_watcher_800C49E8( opt, &work->field_BB0[1] );
-        if ( ret >= 5 )
+        if ( ret > 4 )
         {
             printf( aErrerrerrsettimeover_800DFC7C ) ;
             return -1;
@@ -450,7 +450,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
     if ( opt )
     {
         ret = s00a_watcher_800C4990( opt, work->field_BD0 );
-        if ( ret >= 5 )
+        if ( ret > 4 )
         {
             printf( aErrerrerrsetdirover_800DFC98 ) ;
             return -1;
@@ -469,8 +469,8 @@ int s00a_watcher_800C4B18( WatcherWork* work )
     opt = GCL_GetOption_80020968( 'j' );
     if ( opt )
     {
-        res = s00a_watcher_800C4938( opt, &work->field_C35 );
-        if ( res >= 8 )
+        res = s00a_watcher_800C4938( opt, work->field_C35 );
+        if ( res > 7 )
         {
             printf( aErrerrerrsettimeover_800DFC7C );
             return -1;
@@ -667,10 +667,10 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     GM_ConfigControlRadarparam_800262EC( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
-    work->field_BEC = GM_CurrentMap_800AB9B0;
+    work->start_map = GM_CurrentMap_800AB9B0;
     addr = HZD_GetAddress_8005C6C4( work->control.field_2C_map->field_8_hzd, &( work->control.field_0_mov ), -1 );
 
-    work->field_BE8 = addr;
+    work->start_addr = addr;
     work->field_C08 = addr;
     work->field_BF0 = addr;
 

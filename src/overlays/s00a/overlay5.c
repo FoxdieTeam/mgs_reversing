@@ -28,6 +28,7 @@ const int s00a_dword_800E027C = 0x800CA52C;
 const int s00a_dword_800E0280 = 0x800CA53C;
 const int s00a_dword_800E0284 = 0x800CA554;
 */
+
 //prescript
 const char s00a_dword_800E0288[] = {0x0, 0x1c, 0x1, 0x0};
 const char s00a_dword_800E028C[] = {0x5, 0x1, 0xfe, 0x4};
@@ -287,8 +288,8 @@ const char s00a_dword_800E0680[] = {0x4, 0x0, 0x4, 0x4};
 const char s00a_dword_800E0684[] = {0x0, 0x4, 0x0, 0x14};
 const char s00a_dword_800E0688[] = {0x0, 0x0, 0x2, 0x0};
 const char s00a_dword_800E068C[] = {0x1, 0xd, 0xf, 0x0};
-const char s00a_aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
-const char s00a_aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
+const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
 const char s00a_aKirari_800E06E8[] = "kirari01";
 const char s00a_aBefmapnamed_800E06F4[] = "bef map name =%d \n";
 const char s00a_aAftmapnamed_800E0708[] = "aft map name =%d \n";

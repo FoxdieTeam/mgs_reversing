@@ -80,7 +80,7 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
             return -1;
         }
 
-        zon = sna_act_unk_helper2_helper_helper_8005C974(pHzd, x, y, pControl);
+        zon = HZD_LinkRoute_8005C974(pHzd, x, y, &pControl->field_0_mov);
         pZon = &pHzd->f00_header->navmeshes[zon];
 
         pAutoMove->field_10_vec1.vx = pZon->x;
