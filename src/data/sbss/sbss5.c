@@ -37,9 +37,17 @@ RadioCodecStru_800ABB98 *SECTION(".sbss") stru_800ABB98;
 short SECTION(".sbss") word_800ABB9C;
 short SECTION(".sbss") gRadioCodecFrequency_800ABB9E;
 
+#ifndef VR_EXE
+
 Actor_SnaInit *SECTION(".sbss") sna_800ABBA0;
+int SECTION(".sbss") gSnaMoveDir_800ABBA4;
+
+#else
 
 int SECTION(".sbss") gSnaMoveDir_800ABBA4;
+Actor_SnaInit *SECTION(".sbss") sna_800ABBA0;
+
+#endif
 
 int SECTION(".sbss") dword_800ABBA8;
 SVECTOR *SECTION(".sbss") dword_800ABBAC;
