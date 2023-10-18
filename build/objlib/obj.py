@@ -124,6 +124,8 @@ def get_obj_funcs(path):
             pos += 2
         elif cmd == 52:
             pos += 2 + 1
+        elif cmd == 54: # "54 : Inc SLD linenum by word X at offset Y"
+            pos += 2 + 2
         elif cmd == 56:
             pos += 2 + 4
         elif cmd == 58:
