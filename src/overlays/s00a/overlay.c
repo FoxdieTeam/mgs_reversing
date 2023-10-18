@@ -38,68 +38,25 @@ GCL_ActorTableEntry s00aOverlayCharas[] =
     { 0, 0 }
 };
 
-ANIMATION anm_breath_800C32E8  = { 20781, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (const char*)0x800DFBE0 };
-ANIMATION anm_unknown_800C3304 = { 20781, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (const char*)0x800DFC30 };
+extern const char s00a_dword_800DFBE0[];
+extern const char s00a_dword_800DFC30[];
+
+ANIMATION anm_breath_800C32E8  = { 0x512D, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, s00a_dword_800DFBE0 };
+ANIMATION anm_unknown_800C3304 = { 0x512D, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, s00a_dword_800DFC30 };
+
 RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
-int s00a_dword_800C3328[8] = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
+
+int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
 
 short ActTable_800C3358[54] =
 {
-    0x13,
-    0x14,
-    0x0A,
-    0x16,
-    0x09,
-    0x22,
-    0x23,
-    0x24,
-    0x2D,
-    0x0D,
-    0x0C,
-    0x1A,
-    0x0F,
-    0x0E,
-    0x10,
-    0x1B,
-    0x08,
-    0x2E,
-    0x32,
-    0x15,
-    0x1E,
-    0x1F,
-    0x20,
-    0x21,
-    0x25,
-    0x34,
-    0x35,
-    0x19,
-    0x05,
-    0x02,
-    0x2A,
-    0x04,
-    0x27,
-    0x28,
-    0x06,
-    0x07,
-    0x26,
-    0x03,
-    0x29,
-    0x11,
-    0x12,
-    0x2B,
-    0x17,
-    0x18,
-    0x1C,
-    0x1D,
-    0x00,
-    0x01,
-    0x33,
-    0x11,
-    0x12,
-    0x2B,
-    0x16,
-    0x0B
+    0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
+    0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
+    0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
+    0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
+    0x26, 0x03, 0x29, 0x11, 0x12, 0x2B, 0x17, 0x18, 0x1C,
+    0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x0B
 };
 
 SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
@@ -117,72 +74,33 @@ int PutFuncList_800C3400[4] = { 0x800C9414, 0x800C94B8, 0x800C9600, 0x800C963C }
 
 SVECTOR s00a_dword_800C3410 = { 5, -500, 80 };
 
+extern const char s00a_dword_800DFEB4[];
+extern const char s00a_dword_800E0018[];
+extern const char s00a_dword_800E011C[];
+extern const char s00a_dword_800E0220[];
 
-int s00a_dword_800C3418 = 0x0001DCD3;
-int s00a_dword_800C341C = 0x00010001;
-int s00a_dword_800C3420 = 0x01F40001;
-int s00a_dword_800C3424 = 0x00500001;
-int s00a_dword_800C3428 = 0x00000050;
-int s00a_dword_800C342C = 0x00000000;
-int s00a_dword_800C3430 = 0x800DFEB4;
-int s00a_dword_800C3434 = 0x0001FAD3;
-int s00a_dword_800C3438 = 0x00010001;
-int s00a_dword_800C343C = 0x01F40001;
-int s00a_dword_800C3440 = 0x00500001;
-int s00a_dword_800C3444 = 0x00000050;
-int s00a_dword_800C3448 = 0x00000000;
-int s00a_dword_800C344C = 0x800E0018;
-int s00a_dword_800C3450 = 0x0001FAD3;
-int s00a_dword_800C3454 = 0x00010001;
-int s00a_dword_800C3458 = 0x01F40001;
-int s00a_dword_800C345C = 0x00500001;
-int s00a_dword_800C3460 = 0x00000050;
-int s00a_dword_800C3464 = 0x00000000;
-int s00a_dword_800C3468 = 0x800E011C;
-int s00a_dword_800C346C = 0x00011968;
-int s00a_dword_800C3470 = 0x00010001;
-int s00a_dword_800C3474 = 0x00000001;
-int s00a_dword_800C3478 = 0x00460001;
-int s00a_dword_800C347C = 0x00FF0046;
-int s00a_dword_800C3480 = 0x00000000;
-int s00a_dword_800C3484 = 0x800E0220;
-int s00a_dword_800C3488 = 0xFAD3DCD3;
-int s00a_dword_800C348C = 0x00001968;
-int s00a_dword_800C3490 = 0x0001F314;
-int s00a_dword_800C3494 = 0x00010001;
-int s00a_dword_800C3498 = 0x03200001;
-int s00a_dword_800C349C = 0x02580003;
-int s00a_dword_800C34A0 = 0x00FA0258;
-int s00a_dword_800C34A4 = 0x00000000;
-int s00a_dword_800C34A8 = 0x800E0288;
-int s00a_dword_800C34AC = 0x0001CAFE;
-int s00a_dword_800C34B0 = 0x00010001;
-int s00a_dword_800C34B4 = 0x00000001;
-int s00a_dword_800C34B8 = 0x00C80001;
-int s00a_dword_800C34BC = 0x008000C8;
-int s00a_dword_800C34C0 = 0x00000000;
-int s00a_dword_800C34C4 = 0x800E02AC;
-int s00a_dword_800C34C8 = 0x00014184;
-int s00a_dword_800C34CC = 0x00010001;
-int s00a_dword_800C34D0 = 0x00000001;
-int s00a_dword_800C34D4 = 0x000A0005;
-int s00a_dword_800C34D8 = 0x0080000A;
-int s00a_dword_800C34DC = 0x00000000;
-int s00a_dword_800C34E0 = 0x800E054C;
-int s00a_dword_800C34E4 = 0x0008512D;
-int s00a_dword_800C34E8 = 0x001E0004;
-int s00a_dword_800C34EC = 0x00000001;
-int s00a_dword_800C34F0 = 0x000A0001;
-int s00a_dword_800C34F4 = 0x00FF000A;
-int s00a_dword_800C34F8 = 0x00000000;
-int s00a_dword_800C34FC = 0x800E05A8;
-int s00a_dword_800C3500 = 0x0001F7BB;
-int s00a_dword_800C3504 = 0x00010001;
-int s00a_dword_800C3508 = 0x00000001;
-int s00a_dword_800C350C = 0x00020001;
-int s00a_dword_800C3510 = 0x00000002;
-int s00a_dword_800C3514 = 0x00000000;
-int s00a_dword_800C3518 = 0x800E05F0;
+ANIMATION s00a_dword_800C3418 = { 0xDCD3, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, s00a_dword_800DFEB4 };
+ANIMATION s00a_dword_800C3434 = { 0xFAD3, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, s00a_dword_800E0018 };
+ANIMATION s00a_dword_800C3450 = { 0xFAD3, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, s00a_dword_800E011C };
+ANIMATION s00a_dword_800C346C = { 0x1968, 1, 1, 1, 1,   0, 1, 70, 70, 255, 0, s00a_dword_800E0220 };
+
+short s00a_dword_800C3488 = 0xDCD3;
+short s00a_dword_800C348A = 0xFAD3;
+short s00a_dword_800C348C = 0x1968;
+short s00a_dword_800C348E = 0x0000;
+
+extern const char s00a_dword_800E0288[];
+extern const char s00a_dword_800E02AC[];
+extern const char s00a_dword_800E054C[];
+extern const char s00a_dword_800E05A8[];
+extern const char s00a_dword_800E05F0[];
+
+ANIMATION s00a_dword_800C3490 = { 0xF314, 1, 1,  1, 1, 800, 3, 600, 600, 250, 0, s00a_dword_800E0288 };
+ANIMATION s00a_dword_800C34AC = { 0xCAFE, 1, 1,  1, 1,   0, 1, 200, 200, 128, 0, s00a_dword_800E02AC };
+ANIMATION s00a_dword_800C34C8 = { 0x4184, 1, 1,  1, 1,   0, 5,  10,  10, 128, 0, s00a_dword_800E054C };
+ANIMATION s00a_dword_800C34E4 = { 0x512D, 8, 4, 30, 1,   0, 1,  10,  10, 255, 0, s00a_dword_800E05A8 };
+ANIMATION s00a_dword_800C3500 = { 0xF7BB, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0, s00a_dword_800E05F0 };
+
 int s00a_dword_800C351C = 0x00320064;
 int s00a_dword_800C3520 = 0x000A0019;
 int s00a_dword_800C3524 = 0x00000000;
@@ -217,7 +135,6 @@ int s00a_dword_800C3594 = 0x00000000;
 int s00a_dword_800C3598 = 0x00000000;
 int s00a_dword_800C359C = 0x00000000;
 int s00a_dword_800C35A0 = 0x0000001F;
-
 
 SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
 SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
