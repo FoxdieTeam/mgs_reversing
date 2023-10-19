@@ -411,15 +411,6 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\think_temp.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB504.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB610.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB628.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB660.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB6CC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB770.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB7E0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB7FC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB838.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBA50.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBB44.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBD2C.obj"
@@ -476,6 +467,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CE778.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CE830.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy_Think_800CE99C.obj"
+    
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA2C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA84.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA9C.obj"
