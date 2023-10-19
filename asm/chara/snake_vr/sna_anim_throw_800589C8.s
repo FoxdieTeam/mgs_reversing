@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_80058320
-snake_vr_sna_init_80058320:
+	xdef sna_anim_throw_800589C8
+sna_anim_throw_800589C8:
 	dw 0x27BDFFD0 ; 80058320
 	dw 0xAFB20018 ; 80058324
 	dw 0x00809021 ; 80058328
