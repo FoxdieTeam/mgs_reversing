@@ -359,7 +359,7 @@ int s00a_command_800CB838( WatcherWork *work )
             work->field_C08 = addr;
 
             GV_SubVec3_80016D40( &work->field_C14, &ctrl->field_0_mov, &svec );
-            
+
             work->pad.dir = GV_YawVec3_80016EF8( &svec );
             return -1;
         }
@@ -402,4 +402,34 @@ int s00a_command_800CB838( WatcherWork *work )
 
     GV_SubVec3_80016D40( &work->field_C14, &work->control.field_0_mov, &svec );
     return GV_YawVec3_80016EF8( &svec );
+}
+
+int s00a_command_800CBA50( WatcherWork *work )
+{
+    int i;
+    MAP *map;
+    HZD_PAT *patrol;
+    HZD_PTP *points;
+
+    map = Map_FromId_800314C0( work->start_map );
+    patrol = map->field_8_hzd->f00_header->routes;
+    patrol = &patrol[ work->field_B7D ];
+    
+    work->field_9E8 = patrol->n_points;
+
+    if ( work->field_9E8 <= 0 ) return -1;
+
+    points = patrol->points;
+    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    {
+        work->nodes[i].vx  = points->x;
+        work->nodes[i].vy  = points->y;
+        work->nodes[i].vz  = points->z;
+        work->nodes[i].pad = points->command;
+        points++;
+    }
+    
+    work->start_pos = work->nodes[0];
+    work->start_addr = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->start_pos, -1 );
+    return 0;
 }
