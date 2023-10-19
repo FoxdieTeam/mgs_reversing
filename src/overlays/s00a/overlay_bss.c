@@ -47,7 +47,7 @@ const char s00a_dword_800E0D40[] = {0x0, 0x0, '\n', 'J'};
 const char COM_NoiseMinDisID_800E0D44[] = {'p', 0x0, 0x2, 0x18};
 
 //svector[]
-const char COM_PlayerPosOne_800E0D48[] = {0x0, '\n', 'T', 0x88};
+const char COM_PlayerPositionOne_800E0D48[] = {0x0, '\n', 'T', 0x88};
 const char s00a_dword_800E0D4C[] = {0x0, 0x2, 0x1b, 0x0};
 const char s00a_dword_800E0D50[] = {'\n', 'J', 0x0, 0x1};
 const char s00a_dword_800E0D54[] = {0x2, 0x17, 0x0, '\n'};
