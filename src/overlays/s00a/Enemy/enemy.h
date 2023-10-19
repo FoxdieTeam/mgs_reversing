@@ -212,10 +212,9 @@ typedef struct _ENEMY_COMMAND
     int     field_0x1C;
     int     field_0x20[8];
     int     field_0x40;
-    int     field_0x44;
-    int     field_0x48;
-    int     field_0x4C;
-    int     field_0x50;
+    int     com_addr;   //0x44
+    int     com_map;    //0x48
+    SVECTOR com_pos;    //0x4C
     short   field_0x54;
     short   field_0x56;
     short   field_0x58[8];
@@ -289,9 +288,9 @@ extern SVECTOR                 COM_PlayerPosition_800E0F30;
 extern int                     COM_NOISEMODE_DIS_800E0F38;
 extern unsigned int            COM_GameStatus_800E0F3C;
 
-extern int                     COM_PlayerAddressOne_800E0F40[];
-extern SVECTOR                 COM_PlayerPosOne_800E0D48[];
-extern int                     COM_PlayerMapOne_800E0F70[];
+extern int                     COM_PlayerAddressOne_800E0F40[8];
+extern SVECTOR                 COM_PlayerPositionOne_800E0D48[8];
+extern int                     COM_PlayerMapOne_800E0F70[8];
 
 extern int                     COM_ALERT_DECREMENT_800E0F60;
 extern int                     GM_GameFlag_800E0F64;
