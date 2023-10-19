@@ -487,6 +487,16 @@ static inline void DG_InvisibleObjs( DG_OBJS *objs )
 	objs->flag |= DG_FLAG_INVISIBLE;
 }
 
+static inline void DG_UnAmbientObjs( DG_OBJS *objs )
+{
+	objs->flag &= ~DG_FLAG_AMBIENT;
+}
+
+static inline void DG_AmbientObjs( DG_OBJS *objs )
+{
+	objs->flag |= DG_FLAG_AMBIENT;
+}
+
 static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
 {
 	objs->group_id = group_id;
@@ -506,7 +516,6 @@ static inline void DG_InvisiblePrim( DG_PRIM *prim )
 {
 	prim->type |= DG_PRIM_INVISIBLE;
 }
-
 
 static inline void DG_UnShadeObjs( DG_OBJS *objs )
 {
