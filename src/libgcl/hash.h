@@ -137,6 +137,12 @@
 #define CHARA_SNDTST            0x4efc
 #define CHARA_SELECT            0xd2f6
 
+//------------------------------------------------------------------------------
+// Stages
+//------------------------------------------------------------------------------
+
+#define HASH_S00A               0x469B // GV_StrCode( "s00a" )
+
 // Other charas shouldn't be needed for the main exe
 /*
 #define CHARA_UNKNOWN_002A      0x002a // ???
