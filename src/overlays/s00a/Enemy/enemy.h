@@ -350,6 +350,13 @@ extern int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 extern void s00a_command_800C9068( WatcherWork *work ) ;
 extern int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
 extern void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
+
+
+
+//route.c
+void s00a_command_800CB0E0( WatcherWork* work );
+void s00a_command_800CAFD4( WatcherWork* work );
+
 //action.c
 #define COM_ST_DANBOWL 0x2000
 #define SP_DANBOWLKERI 0x400000
