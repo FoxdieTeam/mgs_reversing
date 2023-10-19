@@ -411,13 +411,13 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     ;think.c?
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\route.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAB74.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CACA0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAD84.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAFD4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB0E0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB13C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB1C4.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAB74.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CACA0.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAD84.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CAFD4.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB0E0.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB13C.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB1C4.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB224.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CB240.obj"
