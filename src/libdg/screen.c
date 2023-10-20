@@ -463,7 +463,7 @@ void sub_8001C708( DG_OBJS* objs, int n_obj )
     }
 }
 
-void DG_8001CDB8(DG_OBJS *pObjs) // different in VR
+void DG_8001CDB8(DG_OBJS *pObjs)
 {
     MATRIX *root = pObjs->root;
     int     n_models = pObjs->n_models;
