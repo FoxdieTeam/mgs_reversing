@@ -38,9 +38,7 @@ typedef struct _MouseWork
     int        f28;
     int        f2C;
     int        f30;
-    SVECTOR    f34[31];
-    int        f12C;
-    int        f130;
+    SVECTOR    f34[32];
     int        f134[32];
     int        f1B4;
     int        f1B8;

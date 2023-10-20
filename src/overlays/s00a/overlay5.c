@@ -458,8 +458,10 @@ const char s00a_aWtviewcoverprims_800E0BC0[] = "(wt_view.c) Over prims !!!\n";
 const char s00a_aMosaicc_800E0BDC[] = "mosaic.c";
 const char aMosaic_800E0BE8[] = "Mosaic";
 const char s00a_dword_800E0BEF = 0xB0;
-const char s00a_aPadrecstart_800E0BF0[] = "Pad rec start\n";
-const char aPadDemoC_800E0C00[] = "pad_demo.c";
+
+const char aPadRecStart[] = "Pad rec start\n";
+const char aPadDemoC[] = "pad_demo.c";
+
 const char s00a_dword_800E0C0B = 0x10;
 
 // Takabe/fadeio.c
