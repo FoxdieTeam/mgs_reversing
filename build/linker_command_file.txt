@@ -468,7 +468,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CE778.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CE830.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy_Think_800CE99C.obj"
-    
+
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA2C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA84.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA9C.obj"
@@ -647,12 +647,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_mosaic_800DC9D0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_mosaic_800DC9F4.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_mosaic_800DCABC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCBB0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCBE8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCD94.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCE48.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCE94.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_pad_demo_800DCFD4.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\pad_demo.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\telop.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
