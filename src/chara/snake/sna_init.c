@@ -321,7 +321,7 @@ GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
 
-void sub_8004EB74(Actor_SnaInit *pActor) // different in VR
+void sub_8004EB74(Actor_SnaInit *pActor)
 {
     if (GM_Camera_800B77E8.field_22 == 0)
     {
@@ -347,7 +347,7 @@ void sub_8004EB74(Actor_SnaInit *pActor) // different in VR
     sd_set_cli_800887EC(0x1ffff20, 0);
 }
 
-void sna_8004EC00(Actor_SnaInit *pActor) // different in VR
+void sna_8004EC00(Actor_SnaInit *pActor)
 {
     if (GM_Camera_800B77E8.field_22 == 1)
     {
@@ -368,7 +368,7 @@ void sna_8004EC00(Actor_SnaInit *pActor) // different in VR
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK400);
 }
 
-void sna_8004EC8C(Actor_SnaInit *pActor) // different in VR
+void sna_8004EC8C(Actor_SnaInit *pActor)
 {
     ushort v2; // $v1
 
@@ -385,7 +385,7 @@ void sna_8004EC8C(Actor_SnaInit *pActor) // different in VR
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_FIRST_PERSON);
 }
 
-void sub_8004ED08(Actor_SnaInit *pActor) // different in VR
+void sub_8004ED08(Actor_SnaInit *pActor)
 {
     sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK12);
     pActor->field_A28 = 0x1c2;
@@ -542,7 +542,7 @@ void sna_8004F034(Actor_SnaInit *pActor, unsigned int bits)
     }
 }
 
-void sna_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2) // different in VR
+void sna_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2)
 {
     int    iVar1;
     MATRIX mtx;
@@ -573,7 +573,7 @@ void sna_act_helper2_helper4_8004F090(Actor_SnaInit *pActor, int param_2) // dif
     }
 }
 
-void sub_8004F14C(Actor_SnaInit *param_1) // different in VR
+void sub_8004F14C(Actor_SnaInit *param_1)
 {
     param_1->field_91C_weapon_idx = WEAPON_NONE;
     GM_CurrentWeaponId = WEAPON_NONE;
@@ -605,7 +605,7 @@ void sub_8004F14C(Actor_SnaInit *param_1) // different in VR
     }
 }
 
-void sub_8004F204(Actor_SnaInit *param_1) // different in VR
+void sub_8004F204(Actor_SnaInit *param_1)
 {
     if (param_1->field_9A4_item_actor != 0)
     {
@@ -646,7 +646,7 @@ void sna_clear_invuln_8004F2EC(Actor_SnaInit *snake)
     snake->field_89C_pTarget->class |= TARGET_FLAG;
 }
 
-void sub_8004F338(Actor_SnaInit *param_1) // different in VR
+void sub_8004F338(Actor_SnaInit *param_1)
 {
     int iVar2;
 
@@ -690,7 +690,7 @@ void sub_8004F338(Actor_SnaInit *param_1) // different in VR
     sna_clear_flags2_8004E344(param_1, SNA_FLAG2_UNK9);
 }
 
-void sub_8004F454(Actor_SnaInit *pActor) // different in VR
+void sub_8004F454(Actor_SnaInit *pActor)
 {
     int i;
 
@@ -810,7 +810,7 @@ static inline int sna_update_life_helper_8004F6E8(int health, int item)
     return health;
 }
 
-void UpdateLife_8004F6E8(Actor_SnaInit *pActor) // different in VR
+void UpdateLife_8004F6E8(Actor_SnaInit *pActor)
 {
     int health;
 

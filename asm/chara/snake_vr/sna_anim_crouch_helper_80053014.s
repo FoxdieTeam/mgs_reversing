@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_800520D4
-snake_vr_sna_init_800520D4:
+	xdef sna_anim_crouch_helper_80053014
+sna_anim_crouch_helper_80053014:
 	dw 0x27BDFFD8 ; 800520D4
 	dw 0xAFB00018 ; 800520D8
 	dw 0x00808021 ; 800520DC
