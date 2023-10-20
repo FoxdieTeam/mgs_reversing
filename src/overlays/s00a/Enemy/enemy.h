@@ -543,6 +543,8 @@ extern void Enemy_Think_800CE99C( WatcherWork * work );
 extern void s00a_command_800CA69C( SVECTOR *svec );
 extern void s00a_command_800CA7DC( SVECTOR *svec );
 extern void s00a_command_800CA618( SVECTOR *svec );
+extern void s00a_command_800CB13C( WatcherWork * work );
+extern void s00a_command_800CC210( WatcherWork * work );
 extern void s00a_command_800CEB54();
 
 extern int  DirectTrace_800CC154( WatcherWork *work, int val );

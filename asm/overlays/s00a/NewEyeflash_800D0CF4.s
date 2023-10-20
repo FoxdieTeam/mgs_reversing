@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_eyeflash_800D0CF4
-s00a_eyeflash_800D0CF4:
+	xdef NewEyeflash_800D0CF4
+NewEyeflash_800D0CF4:
 	dw 0x27BDFFD8 ; 800D0CF4
 	dw 0xAFB3001C ; 800D0CF8
 	dw 0x00809821 ; 800D0CFC
