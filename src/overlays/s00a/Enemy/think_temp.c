@@ -433,3 +433,182 @@ int s00a_command_800CBA50( WatcherWork *work )
     work->start_addr = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->start_pos, -1 );
     return 0;
 }
+
+extern int GV_Time_800AB330;
+extern int s00a_dword_800C3524[];
+extern unsigned short s00a_dword_800C351C[];
+
+int s00a_command_800CBB44( WatcherWork *work )
+{
+    int a2;
+    int a0, a3;
+    int t0, t1, t2;
+    int v0;
+    
+start:
+    //    starting from lo      
+    //   | a3 |t2 |t1 | t0   //
+    //000|0 00|00 |000|0 0000//
+    
+    v0 = work->target_pos.pad;
+    t0 = ( v0 & 0x1F );         //5 bits
+    t1 = ( v0 & 0xE0 ) >> 5;    //3 bits
+    t2 = ( v0 & 0x300) >> 8;    //2 bits
+    a3 = ( v0 & 0x1C00 ) >> 10; //3 bits
+
+    if ( s00a_dword_800C3524[ t0 ] == 0x1F )
+    {
+        work->field_B7E = a3 + (t2 * 8);
+        return 0;
+    }
+    
+    if ( t1 != 6 )
+    {
+
+        a2 = GV_Time_800AB330 % 100;
+        a0 = a3 & 3;
+        a3 = a3 & 4;
+    
+        if ( a2 >= s00a_dword_800C351C[ a0 ] || work->field_B4C == 1 )
+        {
+            work->field_B4C = 0;
+            s00a_command_800CB13C( work );
+            if ( !DirectTrace_800CC154( work , 350 ) )
+            {
+                return 0;
+            }
+            goto start;
+        }
+        
+        if ( a3 != 0 )
+        {
+            work->field_B4C = 1;
+        }    
+    }
+    
+    work->pad.time = work->field_BB0[t1];
+    work->pad.tmp = s00a_dword_800C3524[t0];
+
+    if ( COM_GameStatus_800E0F3C & 1 )
+    {
+        if ( work->pad.tmp == 0x80 || work->pad.tmp == 0x200 || work->pad.tmp == 0x400 || work->pad.tmp == 0x800 )
+        {
+            work->pad.tmp = 0;
+            if ( work->pad.time == 450 )
+            {
+                work->pad.time = 90;
+            }
+        }
+    }
+
+    if ( t0 == 0 && t1 == 0 )
+    {
+        work->pad.time = 0;
+        work->pad.dir = work->control.field_8_rotator.vy;
+        s00a_command_800CB13C( work );
+        return 0;
+    }
+    else
+    {
+        
+    }
+
+    if ( t0 & 0x10 && t0 != 0x1F )
+    {        
+        s00a_command_800CB13C( work );
+        return 0;
+    }
+
+    work->pad.dir = work->field_BD0[t2];
+    return 1;
+}
+
+int s00a_command_800CBD2C( WatcherWork* work )
+{
+    int len; 
+    CONTROL *ctrl;
+    GV_MSG  *msg;
+    
+    ctrl = &work->control;
+    len = ctrl->field_56;
+    msg = ctrl->field_5C_mesg;
+
+    for ( ; len > 0 ; len--, msg++ )
+    {
+        if ( msg->message[0]  == work->field_B4C )
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int s00a_command_800CBD6C( WatcherWork* work )
+{
+    if ( work->pad.time == 32001 )
+    {
+        if ( s00a_command_800CBD2C( work ) )
+        {
+            work->field_B4C = 0;
+            work->pad.time  = 0;
+            return 1;
+        }
+        work->pad.press |= work->pad.tmp;
+        return 0;
+    }
+
+    if ( !work->pad.time )
+    {
+        return 1;
+    }
+    
+    work->pad.press |= work->pad.tmp;
+    work->pad.time--;
+    return 0; 
+}
+
+extern const char aKirari_800E06E8[]; //"kirari01";
+extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
+
+int s00a_command_800CBDFC( WatcherWork* work )
+{
+    int count;
+
+    count = work->count3;
+
+    if ( count == 0 )
+    {
+        ENE_PutMark_800C9378( work, 0 );
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.field_0_mov, aKirari_800E06E8, 0 );
+        COM_VibTime_800E0F68 = 10;
+    }
+
+    if ( count < 20 )
+    {
+        work->pad.press |= 0x20;
+        work->count3++;
+        return 0;
+    }
+
+    return 1;
+    
+}
+
+int s00a_command_800CBE90( WatcherWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        ENE_PutMark_800C9378( work, 0 );
+        s00a_command_800CC210( work );
+        COM_VibTime_800E0F68 = 10;
+    }
+
+    if ( work->count3 > 20 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+    
+}

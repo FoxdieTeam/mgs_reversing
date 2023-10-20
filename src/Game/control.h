@@ -73,7 +73,7 @@ typedef struct CONTROL
     SVECTOR       field_4C_turn_vec;
     signed char   field_54;
     unsigned char field_55_skip_flag; // CTRL_...
-    signed char   field_56;
+    signed char   field_56; //n_messages
     signed char   field_57;
 
     // Appears to indicate proximity to a wall, where 1 is close and 0 is far.

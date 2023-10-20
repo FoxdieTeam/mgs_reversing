@@ -290,7 +290,7 @@ const char s00a_dword_800E0688[] = {0x0, 0x0, 0x2, 0x0};
 const char s00a_dword_800E068C[] = {0x1, 0xd, 0xf, 0x0};
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
-const char s00a_aKirari_800E06E8[] = "kirari01";
+const char aKirari_800E06E8[] = "kirari01";
 const char s00a_aBefmapnamed_800E06F4[] = "bef map name =%d \n";
 const char s00a_aAftmapnamed_800E0708[] = "aft map name =%d \n";
 const char s00a_aRootchange_800E071C[] = " Root Change !!\n";

@@ -412,12 +412,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\think_temp.obj"
 
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBA50.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBB44.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBD2C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBD6C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBDFC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBE90.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBDFC.obj"
+    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBE90.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CBF00.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC064.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CC0D4.obj"
@@ -519,7 +515,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0B18.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0BA4.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0BE0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0CF4.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\NewEyeflash_800D0CF4.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\asiato.obj"
 
