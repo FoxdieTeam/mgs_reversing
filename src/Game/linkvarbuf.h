@@ -98,7 +98,7 @@ extern short       gGameState_800B4D98[0x60];
 
 //------------------------------------------------------------------------------
 // 0x80 PAL Key
-#define GM_TempChangeSpeed    linkvarbuf[ 64 ] // default to 10 or -10 (-30 in warehouse, 30 in blast furnace)
+#define GM_EnvironTemp        linkvarbuf[ 64 ] // default to 10 or -10 (-30 in warehouse, 30 in blast furnace)
 #define GM_ShapeKeyState      linkvarbuf[ 65 ] // 0-2-1 icon index
 #define GM_ShapeKeyTemp       linkvarbuf[ 66 ] // -7200 in warehouse, 7200 in blast furnace
 #define GM_ShapeKeyTempMax    linkvarbuf[ 67 ] // 9000
@@ -107,8 +107,8 @@ extern short       gGameState_800B4D98[0x60];
 //------------------------------------------------------------------------------
 // 0x8a Frozen items
 #define GM_FrozenItemsState   linkvarbuf[ 69 ]
-#define GM_FrozenItemsTemp    linkvarbuf[ 70 ]
-#define GM_FrozenItemsTempMax linkvarbuf[ 71 ]
+#define GM_BodyTemp           linkvarbuf[ 70 ]
+#define GM_FrozenItemsTemp    linkvarbuf[ 71 ]
 #define GM_FrozenItemsTempMin linkvarbuf[ 72 ] // -7200
 
 //------------------------------------------------------------------------------
