@@ -243,3 +243,106 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 
     return work;
 }
+
+void NewSplash2_800DB4E0(int angy, SVECTOR *pos, int noripple)
+{
+    MATRIX  scalem;
+    SVECTOR rot;
+    VECTOR  scalev;
+    int     i;
+    int     rx;
+    int     scale;
+
+    rot.vz = 0;
+
+    for (i = -8; i <= 8; i++)
+    {
+        rx = 64 - i * i;
+
+        rot.vx = rx * 6 + 300 + GV_RandS_800170BC(32);
+        rot.vy = angy + i * 64;
+
+        RotMatrixYXZ_gte(&rot, &scalem);
+
+        scalem.t[0] = pos->vx;
+        scalem.t[1] = pos->vy;
+        scalem.t[2] = pos->vz;
+
+        scale = rx * 32 + 1024 + GV_RandS_800170BC(64);
+        scalev.vz = scale;
+        scalev.vy = scale;
+        scalev.vx = scale;
+
+        ScaleMatrix(&scalem, &scalev);
+        NewSplash2_800DB424(&scalem, noripple, 255, 255, 255);
+    }
+}
+
+void NewSplash2_800DB5E4(SVECTOR *ang, SVECTOR *pos)
+{
+    MATRIX  scalem;
+    SVECTOR rot;
+    VECTOR  scalev;
+    int     i;
+    int     rx;
+    int     scale;
+
+    rot.vz = 0;
+
+    for (i = -8; i <= 8; i++)
+    {
+        rx = 64 - i * i;
+
+        rot.vx = rx * 6 + 300 + GV_RandS_800170BC(32);
+        rot.vy = ang->vy + i * 80;
+
+        RotMatrixYXZ_gte(&rot, &scalem);
+
+        scalem.t[0] = pos->vx;
+        scalem.t[1] = pos->vy;
+        scalem.t[2] = pos->vz;
+
+        scale = rx * 32 + 2048 + GV_RandS_800170BC(64);
+        scalev.vz = scale;
+        scalev.vy = scale;
+        scalev.vx = scale;
+
+        ScaleMatrix(&scalem, &scalev);
+        NewSplash2_800DB424(&scalem, 1, 255, 255, 255);
+    }
+
+}
+
+void NewSplash2_800DB6F0(int angy, SVECTOR *pos, int noripple)
+{
+    MATRIX  scalem;
+    SVECTOR rot;
+    VECTOR  scalev;
+    int     i;
+    int     rx;
+    int     scale;
+
+    rot.vz = 0;
+
+    for (i = -16; i <= 16; i++)
+    {
+        rx = 64 - (i * i) / 4;
+
+        rot.vx = rx * 6 + 300 + GV_RandS_800170BC(32);
+        rot.vy = angy + i * 128;
+
+        RotMatrixYXZ_gte(&rot, &scalem);
+
+        scalem.t[0] = pos->vx;
+        scalem.t[1] = pos->vy;
+        scalem.t[2] = pos->vz;
+
+        scale = rx * 16 + 512 + GV_RandS_800170BC(64);
+        scalev.vz = scale;
+        scalev.vy = scale;
+        scalev.vx = scale;
+
+        ScaleMatrix(&scalem, &scalev);
+        NewSplash2_800DB424(&scalem, noripple, 128, 255, 128);
+    }
+}

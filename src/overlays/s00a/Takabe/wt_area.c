@@ -23,7 +23,7 @@ typedef struct WaterAreaWork
 
 extern int              THING_Gcl_GetInt( int o );
 extern int              THING_Msg_CheckMessage( unsigned short name, int n_message, short *mes_list );
-extern void             s00a_wt_view_800DB4E0( int y, SVECTOR* svec2, int num );
+extern void             NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
@@ -112,7 +112,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             if ( work->splash_flag )
             {
-                s00a_wt_view_800DB4E0( GM_PlayerControl_800AB9F4->field_8_rotator.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->field_8_rotator.vy + 2048, &snake_pos, 0 );
                 GM_SeSet_80032858( &snake_pos, 0xB0 );
                 if ( work->field_44 == NULL )
                 {
