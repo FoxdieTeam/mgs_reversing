@@ -357,6 +357,7 @@ extern void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
 void s00a_command_800CB0E0( WatcherWork* work );
 void s00a_command_800CAFD4( WatcherWork* work );
 void s00a_command_800CAB74( WatcherWork* work );
+void s00a_command_800CAB04( WatcherWork* work );
 
 //action.c
 #define COM_ST_DANBOWL 0x2000

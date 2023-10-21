@@ -441,33 +441,33 @@ extern unsigned short s00a_dword_800C351C[];
 int s00a_command_800CBB44( WatcherWork *work )
 {
     int a2;
-    int a0, a3;
-    int t0, t1, t2;
-    int v0;
+    int a0, con;
+    int act, time, dir;
+    int command;
     
 start:
     //    starting from lo      
-    //   | a3 |t2 |t1 | t0   //
+    //   |con |dir|tim| act   //
     //000|0 00|00 |000|0 0000//
     
-    v0 = work->target_pos.pad;
-    t0 = ( v0 & 0x1F );         //5 bits
-    t1 = ( v0 & 0xE0 ) >> 5;    //3 bits
-    t2 = ( v0 & 0x300) >> 8;    //2 bits
-    a3 = ( v0 & 0x1C00 ) >> 10; //3 bits
+    command = work->target_pos.pad;
+    act  = ( command & 0x1F );         //5 bits
+    time = ( command & 0xE0 ) >> 5;    //3 bits
+    dir  = ( command & 0x300 ) >> 8;   //2 bits
+    con  = ( command & 0x1C00 ) >> 10; //3 bits
 
-    if ( s00a_dword_800C3524[ t0 ] == 0x1F )
+    if ( s00a_dword_800C3524[ act ] == 0x1F )
     {
-        work->field_B7E = a3 + (t2 * 8);
+        work->field_B7E = con + ( dir * 8 );
         return 0;
     }
     
-    if ( t1 != 6 )
+    if ( time != 6 )
     {
 
-        a2 = GV_Time_800AB330 % 100;
-        a0 = a3 & 3;
-        a3 = a3 & 4;
+        a2  = GV_Time_800AB330 % 100;
+        a0  = con & 3;
+        con = con & 4;
     
         if ( a2 >= s00a_dword_800C351C[ a0 ] || work->field_B4C == 1 )
         {
@@ -480,14 +480,14 @@ start:
             goto start;
         }
         
-        if ( a3 != 0 )
+        if ( con != 0 )
         {
             work->field_B4C = 1;
-        }    
+        }
     }
     
-    work->pad.time = work->field_BB0[t1];
-    work->pad.tmp = s00a_dword_800C3524[t0];
+    work->pad.time = work->field_BB0[ time ];
+    work->pad.tmp  = s00a_dword_800C3524[ act ];
 
     if ( COM_GameStatus_800E0F3C & 1 )
     {
@@ -501,25 +501,21 @@ start:
         }
     }
 
-    if ( t0 == 0 && t1 == 0 )
+    if ( act == 0 && time == 0 )
     {
         work->pad.time = 0;
         work->pad.dir = work->control.field_8_rotator.vy;
         s00a_command_800CB13C( work );
         return 0;
     }
-    else
-    {
-        
-    }
 
-    if ( t0 & 0x10 && t0 != 0x1F )
+    if ( act & 0x10 && act != 0x1F )
     {        
         s00a_command_800CB13C( work );
         return 0;
     }
 
-    work->pad.dir = work->field_BD0[t2];
+    work->pad.dir = work->field_BD0[ dir ];
     return 1;
 }
 
@@ -871,11 +867,9 @@ int s00a_command_800CC44C( WatcherWork *work )
         work->l_count = 0;
         return 1;
     }
-    else
-    {
-        work->l_count++;
-        return 0;
-    }
+
+    work->l_count++;
+    return 0;    
 }
 
 int Think3_GoNext_800CC514( WatcherWork* work ) {
@@ -922,7 +916,7 @@ int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
             {
                 ENE_PutMark_800C9378( work ,BW_MARK );
             }
-            if ( !(work->act_status & 0x00000080 ) )
+            if ( !( work->act_status & 0x00000080 ) )
             {
                 work->pad.dir = work->sn_dir;
             }
@@ -967,4 +961,333 @@ int	Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
     }
     work->count3++;
     return 0;
+}
+
+int s00a_command_800CC760( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.dir = work->sn_dir;
+    }
+
+    if ( work->count3 > 14 )
+    {
+        return 1;
+    }
+    
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CC7A4( WatcherWork *work ) 
+{
+    SVECTOR svec;
+    GV_SubVec3_80016D40( &GM_NoisePosition_800AB9F8, &work->control.field_0_mov, &svec );
+    work->pad.dir = GV_YawVec3_80016EF8( &svec );
+    work->pad.press |= 0x02000000;
+        
+    if ( work->count3 == 0 )
+    {
+        ENE_PutMark_800C9378( work, BW_MARK );
+    }
+
+    if ( work->count3 > 30 )
+    {
+        return 1;
+    }
+
+    if ( work->field_BA1 & 1 )
+    {
+        work->count3 = 1;
+    }
+    else
+    {    
+        work->count3++;
+    }
+    
+    return 0;
+}
+
+int s00a_command_800CC83C( WatcherWork* work )
+{
+    if ( work->count3 == 0 )
+    {
+        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        {
+            work->pad.sound = 136;
+        }
+        else
+        {
+            work->pad.sound = 150;
+        }
+        ENE_PutMark_800C9378( work, 5 );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 > 15 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CC8C8( WatcherWork *work )
+{
+    if ( work->count3 > 2 && work->act_status & 1 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CC90C( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.dir = work->sn_dir;
+    }
+
+    if ( work->count3 == 30 )
+    {
+        work->pad.sound = 136;
+        ENE_PutMark_800C9378( work, 5 );
+    }
+
+    if ( work->count3 > 29 && s00a_command_800CB6CC( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CC99C( WatcherWork *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.sound = 136;
+        ENE_PutMark_800C9378( work, BW_MARK );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 >= 16 )
+    {
+        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        {
+            work->pad.sound = 243;
+        }
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CCA28( WatcherWork *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800C9378( work, 5 );
+        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        {
+            work->pad.sound = 244;
+        }
+        else
+        {
+            work->pad.sound = 132;
+        }
+    }
+
+    if ( s00a_command_800CB6CC( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CCA9C( WatcherWork *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800C9378( work, 5 );
+        work->pad.sound = 244;
+    }
+
+    if ( s00a_command_800CB6CC( work ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CCAFC( WatcherWork *work )
+{
+    work->pad.press |= 0x4;
+    if ( work->count3 == 20 )
+    {
+        ENE_PutMark_800C9378( work, 5 );
+        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        {
+            work->pad.sound = 242;
+        }
+    }
+
+    if ( work->count3 > 120 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+
+
+int s00a_command_800CCB7C( WatcherWork *work )
+{
+    MAP *map;
+    s00a_command_800CAB04( work );
+
+    map = work->control.field_2C_map;
+
+    if ( !( map->field_0_map_index_bit & work->target_map ) )
+    {
+        return -1;
+    }    
+
+    if ( work->count3 & 16 )
+    {
+        work->field_C04 = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->control.field_0_mov, -1 );
+        if ( HZD_ReachTo_8005C89C( work->control.field_2C_map->field_8_hzd, work->field_C04, work->target_addr ) > 1 )
+        {
+            return -1;
+        }
+    }
+    
+    return DirectTrace_800CC154( work, 1500 );
+}
+
+int s00a_command_800CCC14( WatcherWork *work )
+{
+    int count;
+
+    count = work->count3;
+
+    work->pad.press |= 0x10000;
+
+    if ( count == 0 )
+    {
+        work->count3 = GV_RandU_80017090( 8 );
+    }
+
+    if ( count < 9 )
+    {
+        if ( !( count & 1 ) )
+        {
+            work->pad.press |= 0x40000;
+        }
+    }
+
+    if ( count > 11 )
+    {
+        return 1;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+    
+}
+
+int s00a_command_800CCCAC( WatcherWork *work )
+{
+    work->pad.press |= 0x10000;
+
+    if ( work->param_blood == 71 )
+    {
+        return 1;
+    }
+
+    if ( work->count3 == 30 )
+    {
+        work->pad.press |= 0x100000;
+        if ( work->act_status & 1 )
+        {
+            work->pad.sound = 131;
+        }
+        
+    }
+    else
+    {
+        if ( work->actend || work->count3 > 150 )
+        {
+            return 1;
+        }
+    }
+    
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CCD38( WatcherWork *work )
+{
+
+    work->pad.press |= 0x10000;
+    
+    if ( work->count3 == 0 )
+    {
+        work->pad.press |= 0x200000;
+    }
+    else
+    {
+        if ( work->body.is_end || work->count3 > 30 )
+        {
+            return 1;
+        }
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CCDA0( WatcherWork *work )
+{
+    int count;
+    work->pad.press |= 0x10000;
+
+    count = work->count3;
+    if ( count < 10 )
+    {
+        if ( !( work->count3 & 1 ) )
+        {
+            work->pad.press |= 0x40000;
+        }  
+    }
+    else if ( count >= 20 )
+    {
+        return 1;
+    }
+
+    work->pad.dir = work->sn_dir;
+    work->count3++;
+    return 0;   
 }
