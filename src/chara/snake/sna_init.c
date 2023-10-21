@@ -4104,6 +4104,7 @@ void sna_knock_80054D68(Actor_SnaInit *pActor, int time)
     int var_t0;
     int temp_v0;
     int noise;
+    int code;
 
     if (time == 0)
     {
@@ -4146,10 +4147,12 @@ void sna_knock_80054D68(Actor_SnaInit *pActor, int time)
         if (sna_8004F628(pActor, &vec, -250, 12, 1, var_t0))
         {
             temp_v0 = sub_80028830();
+            code = (temp_v0 >> 8) & 7;
 
-            if (((temp_v0 >> 8) & 7) < 4)
+            if (code < 4)
             {
-                noise = GM_GetNoiseSound_8002E614(temp_v0, 0);
+                temp_v0 = GM_GetNoiseSound_8002E614(temp_v0, 0);
+                noise = temp_v0;
                 afterse_init_800604C0(noise, 6);
             }
         }
