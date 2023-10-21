@@ -44,7 +44,7 @@ extern char *dword_800ABBB4;
 char *       SECTION(".sbss") dword_800ABBB4;
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern OBJECT     *GM_PlayerBody_800ABA20;
+extern OBJECT  *GM_PlayerBody_800ABA20;
 
 extern SVECTOR *svector_800ABBB8;
 SVECTOR *SECTION(".sbss") svector_800ABBB8;
@@ -8225,11 +8225,11 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
 
 void sna_kill_8005B52C(Actor_SnaInit *pActor)
 {
-    CONTROL   *pCtrl;    // $s2
-    DG_PRIM      *pPrims;   // $s0
-    Actor_Shadow *pShadow;  // $a0
-    GV_ACT        *pWeapon; // $a0
-    GV_ACT        *pItem;   // $a0
+    CONTROL      *pCtrl;
+    DG_PRIM      *pPrims;
+    Actor_Shadow *pShadow;
+    GV_ACT       *pWeapon;
+    GV_ACT       *pItem;
 
     if ((pActor->field_898_flags2 & 0x1000) != 0)
     {
