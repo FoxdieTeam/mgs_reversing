@@ -180,7 +180,7 @@ void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned c
     addPrim(pOt, tpage);
 }
 
-void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe) // different in VR
+void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnknown *pRadioUnknown, int abe)
 {
     int          bit;
     int          iVar1;
@@ -761,7 +761,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
 extern RECT rect_800AB630;
 RECT        SECTION(".sdata") rect_800AB630;
 
-void init_radio_message_board_80040F74(Actor_MenuMan *pActor) // different in VR
+void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
 {
     KCB  local_kcb;
     KCB *allocated_kcb;
@@ -791,7 +791,7 @@ void init_radio_message_board_80040F74(Actor_MenuMan *pActor) // different in VR
     }
 }
 
-void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *string) // different in VR
+void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *string)
 {
     KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = string;
@@ -799,7 +799,7 @@ void menu_radio_codec_helper__helper13_800410E4(Actor_MenuMan *pActor, char *str
     font_update_8004695C(kcb);
 }
 
-void sub_80041118(Actor_MenuMan *pActor) // different in VR
+void sub_80041118(Actor_MenuMan *pActor)
 {
     KCB *kcb = pActor->field_214_font;
     dword_800ABB04 = NULL;
@@ -807,7 +807,7 @@ void sub_80041118(Actor_MenuMan *pActor) // different in VR
     font_update_8004695C(kcb);
 }
 
-int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt) // different in VR
+int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt)
 {
     KCB  *kcb;
     SPRT *pPrim;
@@ -836,7 +836,7 @@ int draw_radio_message_8004114C(Actor_MenuMan *pActor, unsigned char *pOt) // di
     return 1;
 }
 
-void sub_8004124C(Actor_MenuMan *pActor) // different in VR
+void sub_8004124C(Actor_MenuMan *pActor)
 {
     GV_FreeMemory_80015FD0(0, pActor->field_214_font);
     pActor->field_214_font = NULL;
@@ -1500,7 +1500,7 @@ void menu_radio_init_nullsub_80042190(Actor_MenuMan *pActor)
 {
 }
 
-void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt) // different in VR
+void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
 {
     GCL_ARGS args;
     long     argv[2];

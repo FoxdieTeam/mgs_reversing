@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_800580D8
-snake_vr_sna_init_800580D8:
+	xdef sna_anim_claymore_helper_80058780
+sna_anim_claymore_helper_80058780:
 	dw 0x27BDFFE0 ; 800580D8
 	dw 0xAFB00010 ; 800580DC
 	dw 0x00808021 ; 800580E0
