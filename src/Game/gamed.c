@@ -141,7 +141,7 @@ void GM_Reset_helper_8002A978()
     GM_DisableWeapon_800AB9E4 = 0;
     GM_O2_800ABA34 = 1024;
     GM_StageName_800AB918 = 0;
-    GM_TempChangeSpeed = 0;
+    GM_EnvironTemp = 0;
     GM_PlayerPosition_800ABA10.vx = GM_SnakePosX;
     GM_PlayerPosition_800ABA10.vy = GM_SnakePosY;
     GM_PlayerPosition_800ABA10.vz = GM_SnakePosZ;
@@ -168,7 +168,7 @@ void GM_Act_helper_8002AA10()
     {
         GM_NoisePower_800ABA24 = 0;
     }
-    
+
     max = GM_AlertMax_800AB9E0;
     GM_NoiseLength_800ABA30 = length;
     GM_AlertMax_800AB9E0 = 0;
@@ -259,7 +259,7 @@ void GM_Reset_8002ABF4(Actor_GM_Daemon *pActor)
 void GM_InitReadError_8002AC44()
 {
     DG_TEX *pTexture;
-    
+
     pTexture = DG_GetTexture_8001D830(PCC_READ);
     gMenuTextureRec_800B58B0 = *pTexture;
     gMenuTextureRec_800B58B0.field_0_hash = 0;
