@@ -110,7 +110,9 @@ extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
 extern int                bakudan_count_8009F42C;
 extern SVECTOR            svector_800AB7EC;
+SVECTOR                   svector_800AB7EC;
 extern SVECTOR            svector_800AB7F4;
+SVECTOR                   svector_800AB7F4;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
 extern SVECTOR            svector_800AB7CC;
@@ -167,6 +169,9 @@ int        snainit_item_800A9420;
 extern Actor_SnaInit *snainit_actor_800A9424;
 Actor_SnaInit        *snainit_actor_800A9424;
 
+extern const char aSegDDD[]; // = "seg %d %d %d %d : ";
+extern const char aDDD[]; // = "%d %d %d %d\n";
+extern const char aCodeD_2[]; // = "code %d\n";
 extern const char aRunMoveCancel[];  // = "run move cancel\n"
 extern const char aForceStanceCan[]; // = "force stance cancel\n"
 extern const char aForceActCancel[]; // = "force act cancel\n"
@@ -2032,7 +2037,84 @@ void sna_anim_duct_idle_80054488(Actor_SnaInit *pActor, int time)
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800538E0.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80053A20.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80053AD8.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_knock_80054D68.s")
+
+void sna_knock_80054D68(Actor_SnaInit *pActor, int time)
+{
+    SVECTOR vec;
+
+    int var_a1;
+    int var_t0;
+    int temp_v0;
+    int noise;
+    int code;
+    SVECTOR *seg;
+
+    if (time == 0)
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_KNOCKING);
+
+        if (dword_800ABBC4 == 4)
+        {
+            var_a1 = pActor->field_9B4_action_table->field_0->field_7;
+        }
+        else
+        {
+            var_a1 = pActor->field_9B4_action_table->field_0->field_6;
+        }
+
+        GM_ConfigObjectOverride_80034D30(&pActor->field_9C_obj, var_a1, 0, 4, 1022);
+
+        if (((pActor->field_91C_weapon_idx >= 0) && (pActor->field_91C_weapon_idx < 2)) || (pActor->field_91C_weapon_idx == 3))
+        {
+            var_t0 = 0x578;
+
+            if (pActor->field_A26_stance != 0)
+            {
+                var_t0 = 0x302;
+            }
+        }
+        else
+        {
+            var_t0 = 0x325;
+
+            if (pActor->field_A26_stance != 0)
+            {
+                var_t0 = 0x15E;
+            }
+        }
+
+        vec.vz = -150;
+        vec.vy = 0;
+        vec.vx = (dword_800ABBC4 == 4) ? 300 : -300;
+
+        if (sna_8004F628(pActor, &vec, -250, 12, 0x41, var_t0))
+        {
+            temp_v0 = sub_80028830();
+            code = (temp_v0 >> 8) & 7;
+
+            if (code < 4)
+            {
+                seg = sub_80028820();
+                printf(aSegDDD, seg[0].vx, seg[0].vy, seg[0].vz, seg[0].pad);
+                printf(aDDD, seg[1].vx, seg[1].vy, seg[1].vz, seg[1].pad);
+                printf(aCodeD_2, code);
+
+                temp_v0 = GM_GetNoiseSound_8002E614(temp_v0, 0);
+                noise = temp_v0;
+                afterse_init_800604C0(noise, 6);
+            }
+        }
+    }
+
+    if ((pActor->field_9C_obj.field_1C != 0) || (pActor->field_9C_obj.field_10 == 0))
+    {
+        sna_8004E260(pActor, 0, 4, 0);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_KNOCKING);
+        sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK9);
+        pActor->field_9C0 = NULL;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80053E44.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800541E4.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8005427C.s")
@@ -2387,7 +2469,60 @@ void sna_80057118(Actor_SnaInit *pActor, int time)
     sub_8004E9D0(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_800571B8.s")
+void sna_800571B8(Actor_SnaInit *pActor, int time)
+{
+    SVECTOR   *vec1;
+    TARGET *pGVar3;
+    SVECTOR   *vec2;
+
+    vec2 = &pActor->field_8EC_vec;
+
+    if (time == 0)
+    {
+        if (bakudan_count_8009F42C >= 16)
+        {
+            sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
+            sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
+            pActor->field_8E8_pTarget->field_6_flags &= ~(0x40);
+            pActor->field_8E8_pTarget = NULL;
+            return;
+        }
+
+        pActor->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
+        pActor->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
+        SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_10->field_6, 4);
+        pGVar3 = pActor->field_8E8_pTarget;
+        DG_PutVector_8001BE48(&svector_800AB7EC, vec2, 1);
+        GV_SubVec3_80016D40(&pGVar3->field_8_vec, vec2, vec2);
+
+        vec2->vx /= 4;
+        vec2->vy /= 4;
+        vec2->vz /= 4;
+    }
+
+    vec1 = &pActor->field_20_ctrl.field_44_movementVector;
+
+    if (time < 4)
+    {
+        GV_AddVec3_80016D00(vec1, vec2, vec1);
+    }
+
+    if (time == 6)
+    {
+        GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, 49);
+        NewBakudan_8006A6CC(pActor->field_8E8_pTarget->field_20, &svector_800AB7F4, 1, 1, pActor->field_8E8_pTarget);
+        pActor->field_914_trigger = 5;
+        pActor->field_8E8_pTarget->field_6_flags &= ~(0x40);
+        pActor->field_8E8_pTarget = 0;
+    }
+
+    if (EndMotion(pActor))
+    {
+        sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK3);
+        sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_80057378.s")
 
 void sna_anim_claymore_80057474(Actor_SnaInit *pActor, int time)
