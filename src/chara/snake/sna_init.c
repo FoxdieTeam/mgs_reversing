@@ -647,10 +647,7 @@ void sna_clear_invuln_8004F2EC(Actor_SnaInit *pActor)
 
 void sub_8004F338(Actor_SnaInit *pActor)
 {
-    int iVar2;
-
-    iVar2 = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT);
-    if (iVar2 != 0)
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
     {
 
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_UNK400 |
