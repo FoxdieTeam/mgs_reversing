@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_80056FE8
-snake_vr_sna_init_80056FE8:
+	xdef sna_anim_shoot_weapon_helper_80057590
+sna_anim_shoot_weapon_helper_80057590:
 	dw 0x27BDFFE0 ; 80056FE8
 	dw 0xAFB00010 ; 80056FEC
 	dw 0x00808021 ; 80056FF0
