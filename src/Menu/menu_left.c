@@ -793,17 +793,17 @@ void menu_item_update_helper4_8003C4EC(void)
 {
     Blast_Data blastData;
     MATRIX     mtx;
-    int        temp_change_speed;
-    int        temp_change_speed2;
-    int timeMod;
+    int        time;
+    int        speed;
+    int        speed2;
 
     if ( GV_PauseLevel_800AB928 )
     {
         return;
     }
 
-    timeMod = GV_Time_800AB330 % 30;
-    switch ( timeMod )
+    time = GV_Time_800AB330 % 30;
+    switch ( time )
     {
     case 0:
         if ( GM_RationFlag <= 0 )
@@ -811,37 +811,37 @@ void menu_item_update_helper4_8003C4EC(void)
             break;
         }
 
-        temp_change_speed = GM_TempChangeSpeed;
-        if ( temp_change_speed == 0 )
+        speed = GM_EnvironTemp;
+        if ( speed == 0 )
         {
-            temp_change_speed = 10;
+            speed = 10;
         }
 
         if ( GM_CurrentItemId == ITEM_RATION )
         {
-            if ( temp_change_speed > 0 )
+            if ( speed > 0 )
             {
-                temp_change_speed += GM_FrozenItemsTemp;
+                speed += GM_BodyTemp;
             }
             else
             {
-                temp_change_speed = GM_FrozenItemsTemp;
+                speed = GM_BodyTemp;
             }
         }
 
-        GM_FrozenItemsTempMax += temp_change_speed;
+        GM_FrozenItemsTemp += speed;
 
-        if ( GM_FrozenItemsTempMax < GM_FrozenItemsTempMin )
+        if ( GM_FrozenItemsTemp < GM_FrozenItemsTempMin )
         {
             if ( GM_FrozenItemsState == 0 )
             {
                 GM_FrozenItemsState = 1;
             }
 
-            GM_FrozenItemsTempMax = GM_FrozenItemsTempMin;
+            GM_FrozenItemsTemp = GM_FrozenItemsTempMin;
         }
 
-        if ( GM_FrozenItemsTempMax < 0 )
+        if ( GM_FrozenItemsTemp < 0 )
         {
             break;
         }
@@ -856,7 +856,7 @@ void menu_item_update_helper4_8003C4EC(void)
             }
         }
 
-        GM_FrozenItemsTempMax = 0;
+        GM_FrozenItemsTemp = 0;
         break;
 
     case 1:
@@ -865,8 +865,7 @@ void menu_item_update_helper4_8003C4EC(void)
             break;
         }
 
-
-        if ( GM_TempChangeSpeed == 0 )
+        if ( GM_EnvironTemp == 0 )
         {
             if ( GM_ShapeKeyState == 0 )
             {
@@ -876,19 +875,19 @@ void menu_item_update_helper4_8003C4EC(void)
 
             if (GM_ShapeKeyTemp < 0)
             {
-                temp_change_speed2 = 10;
+                speed2 = 10;
             }
             else
             {
-                temp_change_speed2 = -10;
+                speed2 = -10;
             }
         }
         else
         {
-            temp_change_speed2 = GM_TempChangeSpeed;
+            speed2 = GM_EnvironTemp;
         }
 
-        GM_ShapeKeyTemp += temp_change_speed2;
+        GM_ShapeKeyTemp += speed2;
 
         if ( GM_ShapeKeyTemp > GM_ShapeKeyTempMax )
         {
