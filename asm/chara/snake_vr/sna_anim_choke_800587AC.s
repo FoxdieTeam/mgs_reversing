@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_800587AC
-snake_vr_sna_init_800587AC:
+	xdef sna_anim_choke_800587AC
+sna_anim_choke_800587AC:
 	dw 0x27BDFFE0 ; 800587AC
 	dw 0xAFB10014 ; 800587B0
 	dw 0x00808821 ; 800587B4
