@@ -1280,7 +1280,7 @@ int s00a_command_800CCDA0( WatcherWork *work )
         if ( !( work->count3 & 1 ) )
         {
             work->pad.press |= 0x40000;
-        }  
+        }
     }
     else if ( count >= 20 )
     {
@@ -1289,5 +1289,311 @@ int s00a_command_800CCDA0( WatcherWork *work )
 
     work->pad.dir = work->sn_dir;
     work->count3++;
-    return 0;   
+    return 0;
+}
+
+extern int GM_PlayerStatus_800ABA50;
+//will rename and add to player status afterwards
+#define PLAYER_GROUND    0x40
+#define PLAYER_SQUAT     0x20
+#define PLAYER_CB_BOX  0x1000
+
+int Think3_AttackSetup_800CCE08( WatcherWork *work )
+{
+    /*
+    if ( ID == 2 ) {
+        work->pad.press |= SP_WEAPON2 ;
+    } else {
+        work->pad.press |= SP_WEAPON ;
+    }
+    */
+    work->pad.press |= 0x10000; //SP_WEAPON?
+    work->pad.dir = work->sn_dir;
+    
+    /*
+    switch( ZAKO_GameFlag ) {
+    case FLAG_FIGHT1_DEMO :
+    case FLAG_FIGHT1_DEMO1 :
+    case FLAG_FIGHT1_DEMO2 :
+        return 0 ;
+    break ;
+    }
+    */  
+    
+    if ( work->field_B7C == 0xFF )
+    {
+        if ( work->count3 == 16 ) 
+        {
+            work->count3 += GV_RandU_80017090( 14 );
+        }        
+
+        if ( work->count3 > 32 )
+        {
+            /*
+            if( work->chase_dis <= CHASE_DIS1 
+            && GM_PlayerStatus & PLAYER_INTRUDE  ){
+                return TH3_ATTACK_GRENADE ;
+            }
+            */
+            if ( work->field_C00   == 0    && 
+                 work->alert_level == 255  && 
+                 GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_FIRST_PERSON_DUCT )  && 
+                 work->vision.field_B92  == 0 )
+            {
+                return 0x18;
+            }
+
+            if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 )
+            {
+                if ( work->sn_dis < 1000 && 				/* 距離が近かなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&	/* しゃがんでなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&	/* 匍匐じゃなかったら */
+                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) {	/* 段ボールじゃなかったら */
+                      return TH3_ATTACK_NEAR;
+                }
+                else
+                {
+                    return TH3_ATTACK_HANDGUN;
+                }
+            }          
+        }
+    }
+    else
+    {
+        if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 && (work->count3 & 1) )
+        {
+            if ( work->sn_dis < 1000 && 				/* 距離が近かなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&	/* しゃがんでなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&	/* 匍匐じゃなかったら */
+            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) {	/* 段ボールじゃなかったら */
+                  return TH3_ATTACK_NEAR;
+            }
+            else
+            {
+                return 0x1A;
+            }
+        }        
+
+        if ( work->count3 > 32 )
+        {
+            if ( work->field_C00   == 0    && 
+                 work->alert_level == 255  && 
+                 (GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_FIRST_PERSON_DUCT ))  && 
+                 work->vision.field_B92  == 0 )
+            {
+                return 0x18;
+            }
+        }
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s00a_command_800CD000( WatcherWork* work ) 
+{
+    switch ( work->think4 )
+        {
+        case 3:
+            if ( s00a_command_800CB6CC( work ) )
+            {
+                work->think4 = 1;
+                work->count3 = 0;
+                s00a_command_800CAB04( work );
+            }
+            work->count3++;
+            break;
+        case 1:
+            if (s00a_command_800CC064( work ) )
+            {
+                work->think4 = 3;
+                work->count3 = 0;
+            }
+            break;
+        }
+    return 0;
+}
+
+int s00a_command_800CD08C( WatcherWork *work )
+{
+    switch( work->think4 )
+    {
+        case 0:
+            if ( s00a_command_800CC44C(work) )
+            {
+                work->think4 = 2;
+                s00a_command_800CAD84( work );
+                work->count3 = 0;
+            }
+            break;
+        case 3:
+            if ( s00a_command_800CB6CC(work) )
+            {
+                work->think4 = 2;
+                s00a_command_800CAD84( work );
+                work->count3 = 0;
+            }    
+            work->count3++;
+            break;
+        case 2:
+            if ( DirectTrace_800CC154( work, 250 ) )
+            {
+                s00a_command_800CAD84( work );
+                work->count3 = 0;
+            }
+            break;
+    }
+
+    return 0;
+}
+
+void s00a_command_800CD158( WatcherWork *work )
+{
+    if ( work->think3 == 3 && s00a_command_800CB7FC( work ) )
+    {
+        s00a_command_800CAACC( work );
+        work->pad.field_00 = work->field_9E8;
+        EnemyResetThink_800CB224( work );
+        work->pad.field_08 = 1;       
+    }
+
+    if ( work->field_BA1 & 4 )
+    {
+        s00a_command_800CB3F0( work );
+    }
+    else if ( work->field_BA1 & 1 )
+    {
+        s00a_command_800CB504( work );
+    }
+    else if ( work->alert_level > 1 )
+    {
+        s00a_command_800CB240( work );
+    }
+}
+
+static inline void set_dir( WatcherWork *work )
+{
+    if ( GV_DiffDirAbs_8001706C( work->pad.dir, work->control.field_8_rotator.vy ) < 128 ) 
+    {
+        work->pad.dir = -1;
+    }
+}
+
+static inline void do_reset( WatcherWork *work )
+{
+    s00a_command_800CAACC( work );
+    work->pad.field_00 = work->field_9E8;
+    EnemyResetThink_800CB224( work );     
+}
+
+void s00a_command_800CD210( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 0:
+       if ( s00a_command_800CC064( work ) )
+       {
+           work->pad.field_08 = 0;
+           work->think3 = 1;
+           work->count3 = 0;
+           work->pad.field_00--;
+           s00a_command_800CB13C( work );
+           work->pad.time = 0;
+       }
+        break;
+    case 1:
+        if ( Think3_GoNext_800CC514( work ) ) 
+        {
+            if (!s00a_command_800CC2E8( work ) )
+            {
+                if ( s00a_command_800CBB44( work ) )
+                {
+                    work->think3 = 2;
+                    set_dir( work );
+                }
+                work->count3 = 0;
+            }
+            else
+            {
+                do_reset( work );
+            }
+        }
+        else
+        {
+            if ( work->field_BA1 & 64 )
+            {
+                s00a_command_800CB610( work );
+                work->think3 = 12;
+                return;
+            }
+        }
+        break;
+    case 2:
+        if ( s00a_command_800CBD6C( work ) )
+        {
+            if ( s00a_command_800CC2E8( work ) ) 
+            {
+                do_reset( work );
+            }
+            else
+            {
+                s00a_command_800CB13C( work );
+                if ( DirectTrace_800CC154( work, 350 ) )
+                {
+                    if ( !s00a_command_800CBB44( work ) )
+                    {
+                        if ( s00a_command_800CC2E8( work ) )
+                        {    
+                            do_reset( work );
+                            break;
+                        }     
+                        work->think3 = 1;
+                    }
+                    else
+                    {
+                        set_dir( work );
+                    }
+                }
+                else
+                {
+                    work->think3 = 1;
+                }
+                work->count3 = 0;
+            }
+        }
+        break;
+    }
+    
+
+    if ( s00a_command_800CC2E8( work ) ) 
+    {
+        do_reset( work );
+    }
+    
+    if ( work->field_BA1 & 4 ) 
+    {
+        s00a_command_800CB3F0( work );
+    }
+    else if ( work->field_BA1 & 2) 
+    {
+        s00a_command_800CB610( work );
+    }
+    else if ( work->field_BA1 & 1)
+    {
+        s00a_command_800CB504( work );
+    }
+    else if ( work->field_BA1 & 16 )
+    {
+        s00a_command_800CB628( work );
+    }
+    else if ( work->alert_level > 2 )
+    {
+        ENE_SetGopointLast_800CEB00();
+        s00a_command_800CB240( work );
+    }
+}
+
+void s00a_command_800CD470( WatcherWork *work )
+{
+    
 }

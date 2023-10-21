@@ -315,6 +315,7 @@ extern void  s00a_command_800D0344( void ) ;
 extern void  EnemyPushMove_800CA0E8( WatcherWork* work );
 extern void  EnemyActionMain_800CA07C( WatcherWork* work );
 extern void *s00a_command_800CA1EC( MATRIX* mat, int mark);
+extern void ENE_SetGopointLast_800CEB00();
 
 
 void SetCameraActCall_800D043C();
@@ -358,6 +359,8 @@ void s00a_command_800CB0E0( WatcherWork* work );
 void s00a_command_800CAFD4( WatcherWork* work );
 void s00a_command_800CAB74( WatcherWork* work );
 void s00a_command_800CAB04( WatcherWork* work );
+void s00a_command_800CAD84( WatcherWork *work );
+void s00a_command_800CAACC( WatcherWork* work );
 
 //action.c
 #define COM_ST_DANBOWL 0x2000
@@ -539,6 +542,10 @@ extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 
 //think.c ?
 #define T_NOISE 0
+
+#define TH3_ATTACK_NEAR    0x19
+#define TH3_ATTACK_GRENADE 0x18 //?
+#define TH3_ATTACK_HANDGUN 0x15
 
 extern void Enemy_Think_800CE99C( WatcherWork * work );
 extern void s00a_command_800CA69C( SVECTOR *svec );
