@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_mosaic_800DC128
-s00a_mosaic_800DC128:
+	xdef WaterView_800DC128
+WaterView_800DC128:
 	dw 0x27BDFFE8 ; 800DC128
 	dw 0x00807021 ; 800DC12C
 	dw 0x3C0700FF ; 800DC130

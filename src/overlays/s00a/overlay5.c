@@ -453,7 +453,9 @@ const char aAwa_800E0BA0[] = "awa_3";
 const char aSplash2C_800E0BA8[] = "splash2.c";
 const char s00a_aWtviewc_800E0BB2 = 0x3F;
 const char s00a_aWtviewc_800E0BB3 = 0x00;
-const char s00a_aWtviewc_800E0BB4[] = "wt_view.c";
+
+const char sWtViewC[] = "wt_view.c";
+
 const char s00a_aWtviewcoverprims_800E0BC0[] = "(wt_view.c) Over prims !!!\n";
 const char s00a_aMosaicc_800E0BDC[] = "mosaic.c";
 const char aMosaic_800E0BE8[] = "Mosaic";

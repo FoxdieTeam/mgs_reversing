@@ -103,7 +103,7 @@ ANIMATION s00a_dword_800C3500 = { 0xF7BB, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0,
 
 short s00a_dword_800C351C[4] = { 100, 50, 25, 10 };
 
-int s00a_dword_800C3524[32] = 
+int s00a_dword_800C3524[32] =
 {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
@@ -112,7 +112,7 @@ int s00a_dword_800C3524[32] =
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
     0x00000400, 0x00000800, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x0000001F 
+    0x00000000, 0x00000000, 0x00000000, 0x0000001F
 };
 
 SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
@@ -168,19 +168,6 @@ unsigned short mes_list_800C3678[] = { 0xD182, 0x006B };
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
-const char s00a_dword_800DFB9C[] = {0x2, 0x0, 0x2, '$'};
-const char s00a_dword_800DFBA0[] = {0x3, 0x0, 0x82, 0xa0};
-const char s00a_dword_800DFBA4[] = {0x2, 0x0, 0xa0, 0x10};
-const char s00a_dword_800DFBA8[] = {0x0, 0xe6, 0x3, '<'};
-const char s00a_dword_800DFBAC[] = {0x2, 0x0, 'c', '4'};
-const char s00a_dword_800DFBB0[] = {'+', 0x10, 0x6, 0x0};
-const char s00a_dword_800DFBB4[] = {'%', 0x10, 'b', 0x0};
-const char s00a_dword_800DFBB8[] = {0x4, 0x0, 0x82, 0xac};
-const char s00a_dword_800DFBBC[] = {0x8, 0x0, 0xe0, 0x3};
-const char s00a_dword_800DFBC0[] = {0x8, 0x0, 0x80, 0xac};
-const char s00a_dword_800DFBC4[] = {0x0, 0x0, 0x0, 0x0};
-const char s00a_dword_800DFBC8[] = {0x0, 0x0, 0x0, 0x0};
 
 const char aPadC_800DFBCC[] = "pad.c";
 const short s00a_dword_800DFBD2 = 0x4E5F;
