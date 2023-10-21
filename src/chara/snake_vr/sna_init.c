@@ -334,7 +334,7 @@ GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
 
-void snake_vr_sna_init_8004EB94(Actor_SnaInit *pActor)
+void sub_8004EB74(Actor_SnaInit *pActor)
 {
     if (GM_Camera_800B77E8.field_22 == 0)
     {
@@ -358,7 +358,7 @@ void snake_vr_sna_init_8004EB94(Actor_SnaInit *pActor)
     }
 }
 
-void snake_vr_sna_init_8004EC18(Actor_SnaInit *pActor)
+void sna_8004EC00(Actor_SnaInit *pActor)
 {
     if (GM_Camera_800B77E8.field_22 == 1)
     {
@@ -392,7 +392,7 @@ void sna_8004EC8C(Actor_SnaInit *pActor)
     sd_set_cli_800887EC(0x1FFFF20, 0);
 }
 
-void snake_vr_sna_init_8004ECF4(Actor_SnaInit *pActor)
+void sub_8004ED08(Actor_SnaInit *pActor)
 {
     sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK12);
     pActor->field_A28 = 0x1c2;
@@ -402,7 +402,7 @@ void snake_vr_sna_init_8004ECF4(Actor_SnaInit *pActor)
     sd_set_cli_800887EC(0x1ffff21, 0);
 }
 
-void snake_vr_sna_init_8004ED4C(Actor_SnaInit *pActor)
+void sna_act_helper2_helper3_8004ED6C(Actor_SnaInit *pActor)
 {
     if (pActor->field_A20 != 0)
     {
@@ -606,7 +606,7 @@ void sub_8004F14C(Actor_SnaInit *pActor)
     }
     else
     {
-        snake_vr_sna_init_8004EC18(pActor);
+        sna_8004EC00(pActor);
     }
 }
 
@@ -631,7 +631,7 @@ void sub_8004F204(Actor_SnaInit *pActor)
     }
     else
     {
-        snake_vr_sna_init_8004EC18(pActor);
+        sna_8004EC00(pActor);
     }
 
     GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_UNK1000);
@@ -662,7 +662,7 @@ void sub_8004F338(Actor_SnaInit *pActor)
     }
     else
     {
-        snake_vr_sna_init_8004EC18(pActor);
+        sna_8004EC00(pActor);
     }
 
     sna_clear_invuln_8004F2EC(pActor);
@@ -809,8 +809,6 @@ static inline int sna_update_life_helper_8004F6E8(int health, int item)
     return health;
 }
 
-void snake_vr_sna_init_80051078(TARGET *target);
-
 void UpdateLife_8004F6E8(Actor_SnaInit *pActor)
 {
     TARGET *target;
@@ -824,7 +822,7 @@ void UpdateLife_8004F6E8(Actor_SnaInit *pActor)
         {
             target->field_26_hp += target->field_28;
 
-            snake_vr_sna_init_80051078(pActor->field_89C_pTarget);
+            sna_act_unk2_80051170(pActor->field_89C_pTarget);
             sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK25);
         }
 
@@ -1113,8 +1111,6 @@ int sna_act_helper2_helper5_8004FF88(Actor_SnaInit *pActor)
     return 0;
 }
 
-void snake_vr_sna_init_80058538(void);
-
 int sna_8005009C(Actor_SnaInit *pActor)
 {
     GV_PAD *pPad = pActor->field_9B0_pad_ptr;
@@ -1144,13 +1140,11 @@ int sna_8005009C(Actor_SnaInit *pActor)
         {
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_MOVING))
             {
-                // TODO: sub_80052468.s needs to be split into multiple functions
-                pAnimFn = sub_80052468 + 828;
+                pAnimFn = sna_anim_rungun_80056C3C;
             }
             else
             {
-                // TODO: sub_80052468.s needs to be split into multiple functions
-                pAnimFn = sub_80052468 + 648;
+                pAnimFn = sna_anim_shoot_weapon_80056B88;
             }
 
             sna_start_anim_8004E1F4(pActor, pAnimFn);
@@ -1160,13 +1154,11 @@ int sna_8005009C(Actor_SnaInit *pActor)
         {
             if ((input & PAD_CROSS) && (pActor->field_9B0_pad_ptr->dir >= 0))
             {
-                // TODO: sub_80052468.s needs to be split into multiple functions
-                pAnimFn = sub_80052468 + 828;
+                pAnimFn = sna_anim_rungun_80056C3C;
             }
             else
             {
-                // TODO: sub_80052468.s needs to be split into multiple functions
-                pAnimFn = sub_80052468 + 648;
+                pAnimFn = sna_anim_shoot_weapon_80056B88;
             }
 
             sna_start_anim_8004E1F4(pActor, pAnimFn);
@@ -1178,7 +1170,7 @@ int sna_8005009C(Actor_SnaInit *pActor)
 
     if ((press & PAD_CIRCLE) && ((pActor->field_9B4_action_table->field_10->field_2 ^ 0x88) != 0))
     {
-        sna_start_anim_8004E1F4(pActor, snake_vr_sna_init_80058538);
+        sna_start_anim_8004E1F4(pActor, sna_anim_punch_80058C10);
         sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK3);
         return 1;
     }
@@ -1229,7 +1221,7 @@ int sna_prone_check_standup_80050398(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8005056C.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sub_800507D8.s")
 
-void CheckMessage0_8005077C(Actor_SnaInit *pActor)
+void CheckMessage0_80050878(Actor_SnaInit *pActor)
 {
     int ret;
     int length;
@@ -1242,9 +1234,9 @@ void CheckMessage0_8005077C(Actor_SnaInit *pActor)
         (GM_GameOverTimer_800AB3D4 == 0) &&
         !GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK4))
     {
-        sna_start_anim_8004E1F4(pActor, &snake_vr_sna_init_80055500);
+        sna_start_anim_8004E1F4(pActor, &sna_act_helper3_helper_80056650);
         sna_set_invuln_8004F2A0(pActor, 0);
-        snake_vr_sna_init_80051078(pActor->field_89C_pTarget);
+        sna_act_unk2_80051170(pActor->field_89C_pTarget);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_THROWING);
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_UNK4);
         sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
@@ -1291,7 +1283,7 @@ void CheckMessage0_8005077C(Actor_SnaInit *pActor)
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80050968.s")
 void snake_vr_sna_init_80050968(Actor_SnaInit *pActor);
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80051078.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_act_unk2_80051170.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_weapon_switching_800511BC.s")
 void sna_weapon_switching_800511BC(Actor_SnaInit *pActor, int callback);
 
@@ -1748,7 +1740,7 @@ void sna_anim_duct_idle_80054488(Actor_SnaInit *pActor, int time)
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_800543D4.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80054888.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80054C88.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80055500.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_act_helper3_helper_80056650.s")
 
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sub_8005684C.s")
 
@@ -1777,10 +1769,12 @@ void sub_8005688C(Actor_SnaInit *pActor, int time)
 
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sub_80056928.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_80051DA0.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_80051FD0.s")    // sna_anim_shoot_weapon_80056B88
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_fn_80052120.s") // sna_anim_rungun_begin_80056BDC
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_8005230C.s")    // sna_anim_rungun_80056C3C
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_80052468.s")    // sna_anim_nikita_80056C9C
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_80051FD0.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_fn_80052120.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_8005230C.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sub_80052468.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_shoot_weapon_80056B88.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_rungun_80056C3C.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_psg1_80056DDC.s")
 
 void sna_anim_stinger_800570C0(Actor_SnaInit *pActor, int time)
@@ -1945,7 +1939,7 @@ void sub_80058644(Actor_SnaInit *pActor, int time)
 
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_claymore_helper_80058780.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_throw_800589C8.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80058538.s") // sna_anim_punch_80058C10
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_punch_80058C10.s")
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_chokethrow_begin2_80058C80.s")
 
 #pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_choke_800587AC.s")
@@ -1983,19 +1977,19 @@ void sna_anim_choke_rechoke_helper_8005961C(Actor_SnaInit *pActor, int time)
     sna_start_anim_8004E1F4(pActor, sna_anim_choke_800587AC);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_init_main_logic_80059004.s")
-void sna_init_main_logic_80059004(Actor_SnaInit *pActor);
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_init_main_logic_800596FC.s")
+void sna_init_main_logic_800596FC(Actor_SnaInit *pActor);
 
 static inline int sna_act_helper_8005AD10(Actor_SnaInit *pActor)
 {
     if ( sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK19) )
     {
-        CheckMessage0_8005077C(pActor);
+        CheckMessage0_80050878(pActor);
         snake_vr_sna_init_80050968(pActor);
 
         if ( sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK19) )
         {
-            snake_vr_sna_init_80051078(pActor->field_89C_pTarget);
+            sna_act_unk2_80051170(pActor->field_89C_pTarget);
 
             dword_800AB9D4 = 0;
             DG_SetPos2_8001BC8C(&pActor->field_20_ctrl.field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
@@ -2099,7 +2093,7 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
 
     UpdateLife_8004F6E8(pActor);
     CheckSnakeDead_8004E384(pActor);
-    CheckMessage0_8005077C(pActor);
+    CheckMessage0_80050878(pActor);
 
     GM_ActControl_80025A7C(&pActor->field_20_ctrl);
 
@@ -2158,7 +2152,7 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
     gUnkCameraStruct_800B77B8.field_28 = pActor->field_20_ctrl.field_8_rotator;
     gUnkCameraStruct_800B77B8.field_28.vy &= 0xFFF;
 
-    sna_init_main_logic_80059004(pActor);
+    sna_init_main_logic_800596FC(pActor);
 
     pTarget2 = pActor->field_89C_pTarget;
     pTarget2->field_2C_vec = pActor->field_20_ctrl.field_44_movementVector;
