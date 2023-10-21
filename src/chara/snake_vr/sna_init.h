@@ -201,9 +201,6 @@ typedef struct Actor_SnaInit
     int                 field_7A0_msg_count;
     GV_MSG              field_7A4_msgs[8];
     int                 field_844;
-    // FIND EXTRA FIELD - snake_vr verison of the actor has 4 bytes less
-    // somewhere between here and "END FIND EXTRA FIELD"
-    // for now a random field is just commented out
     MATRIX              field_848_lighting_mtx; // .t is R, G, B
     MATRIX              field_868_lighting_mtx2;
     Actor_Shadow       *field_888_pShadow;
@@ -211,7 +208,7 @@ typedef struct Actor_SnaInit
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
-    // SnaFlag2            field_898_flags2;
+    // field_898_flags2 removed here
     TARGET             *field_89C_pTarget;
     TARGET              field_8A0_target;
     TARGET             *field_8E8_pTarget;
@@ -256,7 +253,6 @@ typedef struct Actor_SnaInit
     short               field_A22_snake_current_health;
     char                field_A24_invuln_frames;
     char                field_A25;
-    // END FIND EXTRA FIELD
     short               field_A26_stance; // SNA_STANCE_...
     short               field_A28;
     short               field_A2A;

@@ -327,8 +327,48 @@ GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
 #define DispEmpty( pActor ) (pActor->field_9A0 = 4)
 #define SE_KARASHT          4
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004EB94.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004EC18.s")
+void snake_vr_sna_init_8004EB94(Actor_SnaInit *pActor)
+{
+    if (GM_Camera_800B77E8.field_22 == 0)
+    {
+        if (pActor->field_9B0_pad_ptr->dir == (short)-1)
+        {
+            pActor->field_A20 = -6;
+        }
+        else
+        {
+            pActor->field_A20 = -3;
+        }
+    }
+
+    GM_Camera_800B77E8.field_22 = 1;
+    pActor->field_A56 = 0;
+    GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_FIRST_PERSON);
+
+    if (!(pActor->field_920_tbl_8009D580 & 0x200))
+    {
+        sd_set_cli_800887EC(0x1ffff20, 0);
+    }
+}
+
+void snake_vr_sna_init_8004EC18(Actor_SnaInit *pActor)
+{
+    if (GM_Camera_800B77E8.field_22 == 1)
+    {
+        pActor->field_A20 = 6;
+    }
+
+    GM_Camera_800B77E8.field_22 = 0;
+    pActor->field_A56 = 0;
+
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_FIRST_PERSON_CAN_LR_PEEK | PLAYER_FIRST_PERSON);
+    sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK16);
+
+    if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
+    {
+        sd_set_cli_800887EC(0x1ffff21, 0);
+    }
+}
 
 void sna_8004EC8C(Actor_SnaInit *pActor)
 {
@@ -343,12 +383,41 @@ void sna_8004EC8C(Actor_SnaInit *pActor)
     pActor->field_9D0[4] = v2;
     pActor->field_9D0[6] = v2;
     sd_set_cli_800887EC(0x1FFFF20, 0);
-    // sna_set_flags2_8004E330(pActor, SNA_FLAG2_UNK5);
-    // GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_FIRST_PERSON);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004ECF4.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8004ED4C.s")
+void snake_vr_sna_init_8004ECF4(Actor_SnaInit *pActor)
+{
+    sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK12);
+    pActor->field_A28 = 0x1c2;
+    GM_Camera_800B77E8.field_22 = 0; // weapon related?
+    pActor->field_A20 = 6;
+    sna_8004EB14(pActor);
+    sd_set_cli_800887EC(0x1ffff21, 0);
+}
+
+void snake_vr_sna_init_8004ED4C(Actor_SnaInit *pActor)
+{
+    if (pActor->field_A20 != 0)
+    {
+        if (pActor->field_A20 >= 1)
+        {
+
+            if ((GM_Camera_800B77E8.field_22 == 0) && (--pActor->field_A20 == 0))
+            {
+                DG_VisibleObjs(pActor->field_9C_obj.objs);
+
+                if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK4))
+                {
+                    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
+                }
+            }
+        }
+        else if ((GM_Camera_800B77E8.field_22 != 0) && (++pActor->field_A20 == 0))
+        {
+            DG_InvisibleObjs(pActor->field_9C_obj.objs);
+        }
+    }
+}
 
 void sna_8004EE28(Actor_SnaInit *snake)
 {
