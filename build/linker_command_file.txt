@@ -412,12 +412,6 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\think.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CCE08.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD000.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD08C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD158.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD210.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD470.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD478.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD608.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD8B0.obj"
@@ -439,7 +433,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEA9C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEAE8.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEAF4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEB00.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\ENE_SetGopointLast_800CEB00.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEB54.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEBCC.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEC40.obj"
