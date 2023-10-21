@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_command_800CEB00
-s00a_command_800CEB00:
+	xdef ENE_SetGopointLast_800CEB00
+ENE_SetGopointLast_800CEB00:
 	dw 0x3C03800E ; 800CEB00
 	dw 0x3C02800E ; 800CEB04
 	dw 0x8C420D90 ; 800CEB08
