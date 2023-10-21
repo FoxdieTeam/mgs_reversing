@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_80055500
-snake_vr_sna_init_80055500:
+	xdef sna_act_helper3_helper_80056650
+sna_act_helper3_helper_80056650:
 	dw 0x27BDFFD8 ; 80055500
 	dw 0xAFB00018 ; 80055504
 	dw 0x00808021 ; 80055508
