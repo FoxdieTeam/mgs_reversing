@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_8005018C
-snake_vr_sna_init_8005018C:
+	xdef sna_8005027C
+sna_8005027C:
 	dw 0x27BDFFD8 ; 8005018C
 	dw 0xAFB00018 ; 80050190
 	dw 0x00808021 ; 80050194

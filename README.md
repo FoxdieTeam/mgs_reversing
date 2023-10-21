@@ -3,7 +3,7 @@
 This project aims to completely reverse engineer *Metal Gear Solid Integral* for PlayStation back to C source code which when compiled produces the same assembly code.
 
 At this moment `SLPM_862.47`/`SLPM_862.48` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
-is still left to decompile overlays, clean up already decompiled code and make it all shiftable.
+is still left to decompile [overlays](#Overlays), clean up already decompiled code and make it all shiftable.
 
 The repository builds or aims to build the following artifacts:
 
@@ -59,6 +59,8 @@ The repository builds or aims to build the following artifacts:
 
 ### Overlays
 
+*Metal Gear Solid Integral* dynamically loads additional per-stage executable code that is required to play a particular stage of the game. The main executable contains the game engine, as well as the most common actors used throughout the stages.
+
 <table>
     <tbody>
         <tr>
@@ -66,7 +68,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>Initial work on it started.</td>
+            <td>Work in progress. Several overlays (out of 92) are fully decompiled.</td>
         </tr>
         <tr>
             <td colspan=2 align=center><b>Overlays on <code>SLPM-86248</code></b></td>
@@ -84,7 +86,6 @@ The repository builds or aims to build the following artifacts:
         </tr>
     </tbody>
 </table>
-
 
 ## How to build
 

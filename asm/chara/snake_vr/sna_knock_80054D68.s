@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_80053C38
-snake_vr_sna_init_80053C38:
+	xdef sna_knock_80054D68
+sna_knock_80054D68:
 	dw 0x27BDFFC8 ; 80053C38
 	dw 0xAFB20028 ; 80053C3C
 	dw 0x00809021 ; 80053C40
