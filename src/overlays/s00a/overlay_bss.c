@@ -327,4 +327,3 @@ const char s00a_dword_800E1110[] = {0x3, '$', 0x0, 0x0};
 const char s00a_dword_800E1114[] = {0x0, 0x8, 0xe4, 0x3};
 const char s00a_dword_800E1118[] = {0xc3, 0xac, 'f', 'f'};
 const char s00a_dword_800E111C[] = {0x2, '<', 'g', 'f'};
-static char s00a_dword_800E1120[64];
