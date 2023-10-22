@@ -471,12 +471,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\command.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0984.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0A28.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0B18.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0BA4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_eyeflash_800D0BE0.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\NewEyeflash_800D0CF4.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\eyeflash.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\asiato.obj"
 

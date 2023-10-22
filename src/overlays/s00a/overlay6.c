@@ -1,3 +1,5 @@
+#include "libdg/libdg.h"
+
 /*
 const int s00a_dword_800E0730 = 0x800CD654;
 const int s00a_dword_800E0734 = 0x800CD800;
@@ -72,8 +74,7 @@ const char s00a_aCommandcwhereissnake_800E091C[] = "command.c:  Where Is Snake ?
 const char aCom_noisemode_disD_800E0940[] = " COM_NOISEMODE_DIS =%d \n";
 const char aEeeDDDTD_800E095C[] = "eee %d %d %d t %d \n";
 const char aCommandC_800E0970[] = "command.c";
-const char s00a_dword_800E097C[] = {0xaf, 0x0, 'd', 0x0};
-const char s00a_dword_800E0980[] = {'^', 0x1, 0xc8, 0x0};
+const RECT eyeflash_rect = {175, 100, 350, 200};
 const char s00a_aKirari_800E0984[] = "kirari";
 const char s00a_aEyeflashc_800E098C[] = "eyeflash.c";
 const char aAsiatoc_800E0998[] = "asiato.c";
