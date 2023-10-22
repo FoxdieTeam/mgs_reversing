@@ -1915,7 +1915,79 @@ void sna_anim_prone_move_800529C0(Actor_SnaInit *pActor, int time)
     sna_80050440(pActor);
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_wall_idle_and_c4_80052A5C.s")
+void sna_anim_wall_idle_and_c4_helper_80052714(Actor_SnaInit *pActor, int time);
+void sna_anim_wall_move_helper_8005280C(Actor_SnaInit *pActor, int time);
+
+void sna_anim_wall_idle_and_c4_80052A5C(Actor_SnaInit *pActor, int time)
+{
+    int sVar3;
+    int sound;
+
+    if (time == 0)
+    {
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_ON_WALL) == 0)
+        {
+            sound = 7;
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
+            {
+                sound = 0xb7;
+            }
+            GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, sound);
+            pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 2048;
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_ON_WALL);
+        }
+
+        sVar3 = pActor->field_91C_weapon_idx != WEAPON_C4 ? 300 : 472;
+
+        pActor->field_9C8_anim_update_fn_3p = sna_anim_wall_idle_and_c4_helper_80052714;
+        pActor->field_A28 = sVar3;
+        pActor->field_A26_stance = 0;
+        pActor->field_9CC_anim_update_fn_1p = sub_8005230C;
+        SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_4, 4);
+    }
+
+    GM_CheckBehindCamera_80030B3C(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl);
+
+    if (pActor->field_A3A < 8 && pVec_800ABBCC != NULL)
+    {
+        (pActor->field_20_ctrl).field_44_movementVector.vx += pVec_800ABBCC->vx / 8;
+        (pActor->field_20_ctrl).field_44_movementVector.vz += pVec_800ABBCC->vz / 8;
+        pActor->field_A3A++;
+    }
+}
+
+void sna_anim_wall_move_80052BA8(Actor_SnaInit *pActor, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_MOVING | PLAYER_ON_WALL);
+        pActor->field_9C8_anim_update_fn_3p = sna_anim_wall_move_helper_8005280C;
+        pActor->field_9CC_anim_update_fn_1p = sub_8005230C;
+
+        if (pActor->field_A54.wall_thing == 2)
+        {
+            action = pActor->field_9B4_action_table->field_4->field_5;
+        }
+        else
+        {
+            action = pActor->field_9B4_action_table->field_4->field_6;
+        }
+
+        pActor->field_A28 = 300;
+        pActor->field_A54.wall_thing = 0;
+        SetAction_8004E22C(pActor, action, 4);
+        pActor->field_20_ctrl.field_4C_turn_vec.vy = dword_800ABBD0 - 2048;
+    }
+
+    if (pActor->field_A3A < 8 && pVec_800ABBCC != NULL)
+    {
+        pActor->field_20_ctrl.field_44_movementVector.vx += pVec_800ABBCC->vx / 8;
+        pActor->field_20_ctrl.field_44_movementVector.vz += pVec_800ABBCC->vz / 8;
+        pActor->field_A3A++;
+    }
+}
 
 void sna_anim_wall_crouch_80052CCC(Actor_SnaInit *pActor, int time)
 {
@@ -2177,8 +2249,8 @@ void sna_fn_800535B8(Actor_SnaInit *pActor, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_80052714.s")
-#pragma INCLUDE_ASM("asm/chara/snake_vr/snake_vr_sna_init_8005280C.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_wall_idle_and_c4_helper_80052714.s")
+#pragma INCLUDE_ASM("asm/chara/snake_vr/sna_anim_wall_move_helper_8005280C.s")
 
 void sna_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int time)
 {
