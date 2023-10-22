@@ -133,8 +133,9 @@ int s00a_dword_800C35F4 = 0x0000157C;
 int s00a_dword_800C35F8 = 0x000015E0;
 int s00a_dword_800C35FC = 0x00001644;
 int s00a_dword_800C3600 = 0x000016A8;
-int s00a_dword_800C3604 = 0x00500000;
-int s00a_dword_800C3608 = 0x00000032;
+
+SVECTOR eyeflash_svec = {0, 80, 50, 0};
+
 int s00a_dword_800C360C = 0x00500000;
 int s00a_dword_800C3610 = 0x00000050;
 int s00a_dword_800C3614 = 0x00140000;

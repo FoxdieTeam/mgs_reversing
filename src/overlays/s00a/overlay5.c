@@ -1,4 +1,3 @@
-
 /*
 const int s00a_dword_800E022C = 0x800CA268;
 const int s00a_dword_800E0230 = 0x800CA278;
