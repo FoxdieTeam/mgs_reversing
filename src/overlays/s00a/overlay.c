@@ -138,8 +138,7 @@ SVECTOR eyeflash_svec = {0, 80, 50, 0};
 
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
-int s00a_dword_800C361C = 0x03E801F4;
-int s00a_dword_800C3620 = 0x07D003E8;
+RECT smoke_rect = {500, 1000, 1000, 2000};
 
 RECT glight_rect = {40, 40, 80, 80};
 SVECTOR glight_svec = {0, 65136, 60, 0};
