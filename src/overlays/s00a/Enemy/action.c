@@ -502,7 +502,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
 
     if ( time == 3 )
     {
-        if ( s00a_command_800C58E8( work ) )
+        if ( AttackForce_800C58E8( work ) )
         {
             GM_SeSet_80032858( &( work->control.field_0_mov ), 0x25 );
         }

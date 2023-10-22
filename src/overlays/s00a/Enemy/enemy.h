@@ -86,14 +86,14 @@ typedef struct _WatcherWork
     short          field_8E6;                  //0x8E6
     int            field_8E8;                  //0x8E8
     void*          action;                     //0x8EC
-    void*          action2;             //0x8F0
-    int            time;                       //0x8FC
-    int            time2;                  //0x8F8
+    void*          action2;                    //0x8F0
+    int            time;                       //0x8F4
+    int            time2;                      //0x8F8
     int            actend;                     //0x8FC
     TARGET        *target;                     //0x900
     TARGET         field_904;                  //0x904
     TARGET         field_94C;                  //0x94C
-    TARGET         field_994;                  //0x994
+    TARGET         punch;                      //0x994
     Homing_Target *hom;                        //0x9DC
     short          scale;                      //0x9E0
     short          field_9E2;                  //0x9E2
@@ -330,7 +330,7 @@ int CheckDamage_800C5424( WatcherWork * work ) ;
 int CheckPad_800C5A60( WatcherWork *work ) ;
 void s00a_command_800C55B0( WatcherWork* work ) ;
 void s00a_command_800C5860( WatcherWork* work ) ;
-int  s00a_command_800C58E8( WatcherWork * work ) ;
+int  AttackForce_800C58E8( WatcherWork * work ) ;
 void s00a_command_800C59F8( WatcherWork *work ) ;
 int  s00a_command_800C513C( WatcherWork* work ) ;
 

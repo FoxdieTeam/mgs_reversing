@@ -1595,5 +1595,359 @@ void s00a_command_800CD210( WatcherWork* work )
 
 void s00a_command_800CD470( WatcherWork *work )
 {
-    
+
+}
+
+void s00a_command_800CD478( WatcherWork *work )
+{
+    switch ( work->think3 )
+    {
+        case 14:
+            if ( Think3_BikkuriGetUp_800CC568( work ) )
+            {
+                work->think3 = 5;
+                work->count3 = 0;
+            }
+            break;
+        case 4:
+            if ( s00a_command_800CC8C8( work ) )
+            {
+                work->think3 = 5;
+                work->count3 = 0;
+            }
+            break;
+        case 5:
+           if ( s00a_command_800CC90C( work ) )
+           {
+               if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+               {
+                    work->pad.field_00--;
+                    s00a_command_800CB13C( work );
+                    EnemyResetThink_800CB224( work );
+                    s00a_command_800CB660( work );
+               }
+               else
+               {
+                   SetThink_Move_800CB42C( work );
+               }
+           }
+           if ( ( work->field_BA1 & 1 ) && ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 ) ) 
+           {
+                s00a_command_800CAB74( work );
+                s00a_command_800CEB54();
+                work->think2 = 7;
+                work->think3 = 16;
+                work->count3 = 0;
+           }
+           if ( work->field_BA1 & 2 )
+           {
+               s00a_command_800CB610( work );
+               return;
+           }
+        break;
+    }
+
+    if ( ( *( int * )&work->field_BA0 & 0xC00 ) == 0x400 )
+    {
+        s00a_command_800CB3F0( work );
+    }
+    else if ( work->alert_level > 1 )
+    {
+        s00a_command_800CB240( work );
+    }
+}
+
+static inline void do_reset2( WatcherWork *work )
+{
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->pad.field_00--;
+        s00a_command_800CB13C( work );
+        EnemyResetThink_800CB224( work );
+        s00a_command_800CB660( work );
+    }
+    else
+    {
+        SetThink_Move_800CB42C( work );
+    }
+}
+
+static inline void think_inline( WatcherWork *work )
+{
+    s00a_command_800CAB74( work );
+    s00a_command_800CEB54();
+    work->think2 = 7;
+    work->think3 = 16;
+    work->count3 = 0;    
+}
+
+
+void s00a_command_800CD608( WatcherWork *work ) 
+{
+    short x;
+    x = work->think3 - 5;
+    switch ( x )
+    {
+    case 0:
+        if ( s00a_command_800CC83C( work ) )
+        {
+            s00a_command_800CAB04( work );
+            work->think3 = 9;
+            work->count3 = 0;
+            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+            {
+                work->pad.field_08 = 0;
+            }
+            else
+            {
+                work->pad.field_08 = 1;
+            }
+        }
+        break;
+    case 4:
+        if ( s00a_command_800CC064( work ) )
+        {
+            work->think3 = 10;
+            work->count3 = 0;
+        }
+        if ( s00a_command_800CC240( &work->target_pos, &work->control.field_0_mov, 1500 ) )
+        {
+            work->think3 = 11;
+            work->count3 = 0;
+        }
+        if ( work->sn_dis < 1500 )
+        {
+            if ( ( signed char )work->field_BA1 & 128 )
+            {
+                if ( ( ( work->field_BA1 & 16 ) || work->think1 == 2 ) )
+                {
+                    work->think3 = 12;
+                    work->count3 = 0; 
+                    break;
+                }
+                work->think3 = 11;
+                work->count3 = 0; 
+            }
+        }
+        break;
+    case 5:
+    if  ( DirectTrace_800CC154( work, 1500 ) )
+    {
+        int a;
+        a = work->field_BA1;
+        work->pad.dir = work->sn_dir;
+
+        if ( !( a & 16 ) )
+        {
+            if ( work->think1 != 2 )
+            {
+                work->think3 = 11;
+                work->count3 = 0;
+                break;
+            }
+        }
+
+        if ( a & 128 )
+        {
+            work->think3 = 12;
+            work->count3 = 0;
+            break;
+        }
+        
+        work->think3 = 11; 
+        work->count3 = 0;
+    }
+    break;
+    case 6:
+        if ( s00a_command_800CCAFC( work ) )
+        {
+                if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+               {
+                    work->pad.field_00--;
+                    s00a_command_800CB13C( work );
+                    EnemyResetThink_800CB224( work );
+                    s00a_command_800CB660( work );
+               }
+               else
+               {
+                   SetThink_Move_800CB42C( work );
+               }
+        }
+        break;
+    case 7:
+        if ( s00a_command_800CC344( work ) )
+        {
+                if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+               {
+                    work->pad.field_00--;
+                    s00a_command_800CB13C( work );
+                    EnemyResetThink_800CB224( work );
+                    s00a_command_800CB660( work );
+               }
+               else
+               {
+                   SetThink_Move_800CB42C( work );
+               }
+        }
+        break;
+    case 8:
+        if ( s00a_command_800CC40C( work ) )
+        {
+            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+            {
+                work->pad.field_00--;
+                s00a_command_800CB13C( work );
+                EnemyResetThink_800CB224( work );
+                s00a_command_800CB660( work );
+            }
+            else
+            {
+                SetThink_Move_800CB42C( work );
+            }
+        }
+        break;
+    }
+
+    if ( work->field_BA1 & 4 )
+    {
+        s00a_command_800CB3F0( work );
+        return;
+    }
+
+    if ( work->alert_level > 1 || work->field_BA1 & 2 )
+    {
+        s00a_command_800CB240( work );
+        return;
+    }
+
+    if ( work->field_BA1 & 1 )
+    {
+        if ( (GM_NoisePower_800ABA24 != 100) ) 
+        {
+            if ( GM_NoisePower_800ABA24 == 255 )
+            {
+                s00a_command_800CAB74( work );
+                s00a_command_800CEB54();
+                work->think2 = 7;
+                work->think3 = 16;
+                work->count3 = 0;
+                return;
+            }
+        }
+        s00a_command_800CB240( work );
+        work->count3 = 0;
+        return ;
+    }   
+}
+
+void s00a_command_800CD8B0( WatcherWork *work ) 
+{
+    short x;
+    x = work->think3 - 5;
+    switch ( x )
+    {
+        case 10:
+        if ( Think3_BikkuriGetUp_800CC568( work ) )
+        {
+            work->think3 = 6;
+            work->count3 = 0;
+        }
+        break;
+        case 1:
+            if ( s00a_command_800CC760( work ) )
+            {
+                think_inline( work );
+                break;
+            }
+        break;
+        case 9:
+        if ( Think3_BikkuriGetUp_800CC568( work ) )
+        {
+            work->think3 = 5;
+            work->count3 = 0;
+        }
+        break;
+        case 0:
+            if ( Think3_NoiseModeWatch_800CC5C0( work ) )
+            {
+                if ( ( work->act_status & 0x80 ) )
+                {
+                    work->think2 = 0;
+                    work->think3 = 2;
+                }
+                else
+                {
+                    work->modetime[ 0 ]++;
+                    work->think3 = 9;
+                    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[ 0 ] < 2 )
+                    { 
+                        work->pad.field_08 = 0;
+                    }
+                    else
+                    {
+                        work->pad.field_08 = 1;
+                    }
+                    
+                }
+                work->count3 = 0;
+            }
+            break;
+        case 4:
+            if ( s00a_command_800CC064( work ) )
+            {
+                work->think3 = 11;
+                work->count3 = 0;
+            }
+
+            if ( work-> count3 > 32 )
+            {
+                if ( work->field_BA1 & 1 && work->modetime[0] < 3 )
+                {
+                    s00a_command_800CAB74( work );
+                    work->think3 = 5;
+                    work->count3 = 0;
+                }
+            }
+        break;
+        case 6:
+            if ( s00a_command_800CCA28( work ) )
+            {
+                do_reset2( work );
+            }
+        break;
+        case 3:
+            if ( s00a_command_800CC7A4( work ) )
+            {
+                do_reset2( work );    
+            }
+        break;
+    }
+
+    if ( work->field_BA1 & 4 )
+    {
+        s00a_command_800CB3F0( work );
+    }
+    else if ( work->alert_level > 2 )
+    {
+        s00a_command_800CB240( work );
+    }    
+    else if ( work->field_BA1 & 2 )
+    {
+        s00a_command_800CB610( work );
+    }       
+    else if ( work->field_BA1 & 16 )
+    {
+        s00a_command_800CB628( work );
+    }        
+    else if ( work->field_BA1 & 1 )
+    {
+        if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 )
+        {
+            s00a_command_800CAB74( work );
+            s00a_command_800CEB54();
+            work->think2 = 7;
+            work->think3 = 16;
+            work->count3 = 0;
+        }
+    }   
 }
