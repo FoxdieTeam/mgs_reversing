@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_ripples_800D82E0
-s00a_ripples_800D82E0:
+	xdef s00a_rsurface_800D82E0
+s00a_rsurface_800D82E0:
 	dw 0x248B0028 ; 800D82E0
 	dw 0x84820080 ; 800D82E4
 	dw 0x00000000 ; 800D82E8
