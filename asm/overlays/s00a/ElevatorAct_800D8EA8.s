@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_elevator_800D8EA8
-s00a_elevator_800D8EA8:
+	xdef ElevatorAct_800D8EA8
+ElevatorAct_800D8EA8:
 	dw 0x27BDFFB0 ; 800D8EA8
 	dw 0xAFB3003C ; 800D8EAC
 	dw 0x00809821 ; 800D8EB0
