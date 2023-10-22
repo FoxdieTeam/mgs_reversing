@@ -155,7 +155,9 @@ const char s00a_dword_800E0B7B = 0x38;
 const char aRipplesC_800E0B7C[] = "ripples.c";
 const char s00a_dword_800E0B86 = 0x23;
 const char s00a_dword_800E0B87 = 0x18;
-const char aElevatorC_800E0B88[] = "elevator.c";
+
+const char aElevatorC[] = "elevator.c";
+
 const char s00a_dword_800E0B93 = 0x10;
 const char aWtAreaC_800E0B94[] = "wt_area.c";
 const char s00a_aAwa_800E0B9E = 0xF4;
