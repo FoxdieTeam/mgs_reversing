@@ -140,10 +140,10 @@ SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
 int s00a_dword_800C361C = 0x03E801F4;
 int s00a_dword_800C3620 = 0x07D003E8;
-int s00a_dword_800C3624 = 0x00280028;
-int s00a_dword_800C3628 = 0x00500050;
-int s00a_dword_800C362C = 0xFE700000;
-int s00a_dword_800C3630 = 0x0000003C;
+
+RECT glight_rect = {40, 40, 80, 80};
+SVECTOR glight_svec = {0, 65136, 60, 0};
+
 int s00a_dword_800C3634 = 0x085BACDC;
 int s00a_dword_800C3638 = 0xDBC9804B;
 int s00a_dword_800C363C = 0x027F0200;
