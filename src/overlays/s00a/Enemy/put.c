@@ -32,7 +32,7 @@ void s00a_command_800C9068( WatcherWork* work )
     svec.vx = mat.t[ 0 ];
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
-    
+
     s00a_command_800CA618( &svec );
 }
 
@@ -55,7 +55,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     svec.vy += 100;
     rand = GV_RandU_80017090( rand );
     svec.vz += rand;
-   
+
    switch ( work->local_data )
    {
     case 0:
@@ -91,7 +91,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
         break;
     case 1:
         //socom
-        if ( GM_Weapons[0] < 0 ) 
+        if ( GM_Weapons[0] < 0 )
         {
             item.field_4_type   = 4;
             item.field_6_id     = 13;
@@ -136,7 +136,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
         break;
     case 2:
         //famas
-        if ( GM_FamasFlag < 0 || GM_DifficultyFlag < 0 ) 
+        if ( GM_FamasFlag < 0 || GM_DifficultyFlag < 0 )
         {
             item.field_4_type   = 4;
             item.field_6_id     = 13;
@@ -266,7 +266,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
              ( frame == 100 ) || ( frame == 105 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world, arg1 );
-        } 
+        }
     }
     else
     {
@@ -277,14 +277,14 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
     }
 }
 
-extern void s00a_lsight_800D1D2C( SVECTOR *, SVECTOR *, int ) ;
+extern void NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void ENE_PutLSight_800C9600( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        s00a_lsight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x8F );
+        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x00008F );
     }
 }
 
@@ -301,7 +301,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     MATRIX* mat;
     SVECTOR svec;
     MATRIX local_mat;
-    
+
     svec = DG_ZeroVector_800AB39C;
     svec.vz = GV_RandU_80017090( 128 );
     mat = &work->body.objs->objs[4].world;
@@ -329,7 +329,7 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
         damage = 64;
         break;
     }
-  
+
     if ( GV_Time_800AB330 & 3 )
     {
         NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
@@ -350,7 +350,7 @@ extern void *PutFuncList_800C3400[];
 int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
 {
     int i;
-    
+
     for ( i = 0 ; i < 8 ; i++ )
     {
         if ( work->field_B00[ i ] == NULL )
@@ -365,7 +365,7 @@ int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
 int ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func )
 {
     int i;
-    
+
     for ( i = 0 ; i < 8 ; i++ )
     {
         if ( work->field_B00[ i ] == func )
