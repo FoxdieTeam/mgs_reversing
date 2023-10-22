@@ -67,12 +67,6 @@ static inline void Apply(DG_TEX *pTexture, unsigned char *pUV, POLY_GT4 *pPack)
     pPack->clut = pTexture->field_6_clut;
 }
 
-//todo: fix
-static inline int assign(short val)
-{
-    return val;
-}
-
 void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx )
 {
     unsigned short  id;
@@ -101,7 +95,7 @@ void DG_WriteObjPacketUV_8001A774( DG_OBJ* obj, int idx )
        
                 if ( current_id != id )
                 {
-                    id = assign(current_id);
+                    id = current_id;
                     texture = DG_GetTexture_8001D830( current_id );
                 }
                 
