@@ -121,6 +121,7 @@ typedef struct _DG_OBJS
 union Prim_Union
 {
 	LINE_G2  line_g2;
+	LINE_F2  line_f2;
 	LINE_F4  line_f4;
 	POLY_GT4 poly_gt4;
 	POLY_FT4 poly_ft4;
