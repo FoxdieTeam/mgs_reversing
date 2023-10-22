@@ -308,14 +308,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     prim_count = a3 * a4;
     field_40_children = work->field_40_children;
 
-    prim = DG_MakePrim_8001BABC(primType, prim_count, 0, field_40_children, NULL);
-    if (prim != NULL)
-    {
-        int map;
-        DG_QueuePrim_80018274(prim);
-        map = GM_CurrentMap_800AB9B0;
-        prim->group_id = map;
-    }
+    prim = DG_GetPrim(primType, prim_count, 0, field_40_children, NULL);
 
     work->field_20_prim = prim;
     work->field_24 = prim_count;
