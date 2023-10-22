@@ -1239,9 +1239,8 @@ void sna_8005027C(Actor_SnaInit *pActor, int time)
 
 int sna_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
-    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sna_8004E808(pActor, 1, 0, 0xfffffd92, 1500) == 0)
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && !sna_8004E808(pActor, 1, 0, -622, 1500))
     {
-
         pActor->field_A28 = 450;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
         sna_start_anim_8004E1F4(pActor, sna_anim_prone_standup_80053D74);
@@ -1317,42 +1316,44 @@ void sna_80050440(Actor_SnaInit *pActor)
 
 void sna_80050568(Actor_SnaInit *pActor)
 {
-    short    dir;
-    DG_OBJS *pDVar3;
-    SVECTOR  local_10;
+    SVECTOR  diff;
+    DG_OBJS *objs;
+    int      dir;
 
     sna_80050440(pActor);
 
-    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT) != 0)
+    if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
     {
-        pDVar3 = pActor->field_9C_obj.objs;
-        pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
-        pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
-        pActor->field_20_ctrl.field_44_movementVector.vz = 0;
-        pActor->field_20_ctrl.field_44_movementVector.vx = 0;
-
-        DG_InvisibleObjs(pDVar3);
-
-        sna_start_anim_8004E1F4(pActor, sna_anim_duct_move_80054424);
-        pActor->field_A54.prone_bool_thing = 0;
-        sna_set_invuln_8004F2A0(pActor, 24);
-        sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK1);
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_UNK200 |
-                                          PLAYER_UNK100);
-        sna_clear_flags1_8004E308(pActor, (SNA_FLAG1_UNK2 | SNA_FLAG1_UNK3 | SNA_FLAG1_UNK5));
-        SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 0);
-
-        pDVar3 = (pActor->field_9C_obj).objs;
-        // TODO: clean this up
-        local_10.vx = *(short *)&pDVar3[8].movs - *(short *)pDVar3[1].world.t;
-        pDVar3 = (pActor->field_9C_obj).objs;
-        local_10.vz = pDVar3[9].world.m[0][2] - *(short *)(pDVar3[1].world.t + 2);
-
-        dir = GV_YawVec3_80016EF8(&local_10);
-        pActor->field_20_ctrl.field_4C_turn_vec.vy = dir;
-        pActor->field_20_ctrl.field_8_rotator.vy = dir;
-        pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_BOTH_CHECK;
+        return;
     }
+
+    objs = pActor->field_9C_obj.objs;
+    pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
+    pActor->field_20_ctrl.field_4C_turn_vec.vx = 0;
+    pActor->field_20_ctrl.field_44_movementVector.vz = 0;
+    pActor->field_20_ctrl.field_44_movementVector.vx = 0;
+
+    DG_InvisibleObjs(objs);
+
+    sna_start_anim_8004E1F4(pActor, sna_anim_duct_move_80054424);
+    pActor->field_A54.prone_bool_thing = 0;
+    sna_set_invuln_8004F2A0(pActor, 24);
+    sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK1);
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_UNK200 | PLAYER_UNK100);
+    sna_clear_flags1_8004E308(pActor, (SNA_FLAG1_UNK2 | SNA_FLAG1_UNK3 | SNA_FLAG1_UNK5));
+    SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 0);
+
+    objs = pActor->field_9C_obj.objs;
+    diff.vx = objs->objs[6].world.t[0] - objs->objs[0].world.t[0];
+
+    objs = pActor->field_9C_obj.objs;
+    diff.vz = objs->objs[6].world.t[2] - objs->objs[0].world.t[2];
+
+    dir = GV_YawVec3_80016EF8(&diff);
+    pActor->field_20_ctrl.field_4C_turn_vec.vy = dir;
+    pActor->field_20_ctrl.field_8_rotator.vy = dir;
+
+    pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_BOTH_CHECK;
 }
 
 void sna_knockdown_getup_80050668(Actor_SnaInit *pActor)
@@ -1398,6 +1399,7 @@ void sna_knockdown_getup_80050668(Actor_SnaInit *pActor)
             // TODO: Duplication is probably from an inline
             pObjs = pActor->field_9C_obj.objs;
             vec.vx = pObjs->objs[6].world.t[0] - pObjs->objs[0].world.t[0];
+
             pObjs = pActor->field_9C_obj.objs;
             vec.vz = pObjs->objs[6].world.t[2] - pObjs->objs[0].world.t[2];
 
@@ -1417,27 +1419,21 @@ void sna_knockdown_getup_80050668(Actor_SnaInit *pActor)
     }
 }
 
-int sub_800507D8(Actor_SnaInit *param_1)
+int sub_800507D8(Actor_SnaInit *pActor)
 {
-    int ret;
-
-    if (dword_800ABBC4 == 0 && param_1->field_A38_local_data == 0)
+    if (dword_800ABBC4 == 0 && pActor->field_A38_local_data == 0)
     {
-        param_1->field_A28 = 0x1c2;
+        pActor->field_A28 = 450;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_KNOCKING | PLAYER_ON_WALL | PLAYER_MOVING);
-        sna_start_anim_8004E1F4(param_1, dword_8009EEA4[param_1->field_A26_stance]);
-        sna_clear_flags1_8004E308(param_1, SNA_FLAG1_UNK9);
-        param_1->field_9C0 = NULL;
-        sna_8004E260(param_1, 0, 4, 0);
+        sna_start_anim_8004E1F4(pActor, dword_8009EEA4[pActor->field_A26_stance]);
+        sna_clear_flags1_8004E308(pActor, SNA_FLAG1_UNK9);
+        pActor->field_9C0 = NULL;
+        sna_8004E260(pActor, 0, 4, 0);
         GM_ExitBehindCamera_80030AEC();
-        ret = 1;
-    }
-    else
-    {
-        ret = 0;
+        return 1;
     }
 
-    return ret;
+    return 0;
 }
 
 void CheckMessage0_80050878(Actor_SnaInit *pActor)
