@@ -444,12 +444,8 @@ void sna_8004EE28(Actor_SnaInit *snake)
     MulMatrix0(&mat2, world, &mat2);
     DG_MatrixRotZYX_8001E92C(&mat2, &vec);
     SetRotMatrix(&mat1);
-    vx = vec.vx;
-    if (vx < 0)
-    {
-        vx += 0xf;
-    }
-    vx &= 0xfff0;
+
+    vx = (vec.vx / 16) * 16;
     gUnkCameraStruct_800B77B8.field_28.vx = vx;
 }
 
@@ -1244,9 +1240,8 @@ void sna_8005027C(Actor_SnaInit *pActor, int time)
 
 int sna_prone_check_standup_80050398(Actor_SnaInit *pActor)
 {
-    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && sna_8004E808(pActor, 1, 0, 0xfffffd92, 1500) == 0)
+    if ((pActor->field_9B0_pad_ptr->press & PAD_CROSS) != 0 && !sna_8004E808(pActor, 1, 0, -622, 1500))
     {
-
         pActor->field_A28 = 450;
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_MOVING);
         sna_start_anim_8004E1F4(pActor, sna_anim_prone_standup_80053D74);
