@@ -79,8 +79,10 @@ const char s00a_aKirari_800E0984[] = "kirari";
 const char s00a_aEyeflashc_800E098C[] = "eyeflash.c";
 const char aAsiatoc_800E0998[] = "asiato.c";
 const char s00a_aLsightc_800E09A4[] = "l_sight.c";
-const char s00a_aGrenademodeld_800E09B0[] = "grenade model=%d \n";
-const char s00a_aGrnadec_800E09C4[] = "grnad_e.c";
+
+const char aGrenadeModelD[] = "grenade model=%d \n";
+const char aGrnadEC[] = "grnad_e.c";
+
 const char s00a_dword_800E09D0[] = {0xa5, 0xb9, 0xa5, 0xcd};
 const char s00a_dword_800E09D4[] = {0xa1, 0xbc, 0xa5, 0xaf};
 const char s00a_dword_800E09D8[] = {0x0, 0x0, 0x0, 0x0};
