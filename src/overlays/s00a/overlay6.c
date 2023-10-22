@@ -78,7 +78,8 @@ const RECT eyeflash_rect = {175, 100, 350, 200};
 const char s00a_aKirari_800E0984[] = "kirari";
 const char s00a_aEyeflashc_800E098C[] = "eyeflash.c";
 const char aAsiatoc_800E0998[] = "asiato.c";
-const char s00a_aLsightc_800E09A4[] = "l_sight.c";
+
+const char aLSightC[] = "l_sight.c";
 
 const char aGrenadeModelD[] = "grenade model=%d \n";
 const char aGrnadEC[] = "grnad_e.c";
