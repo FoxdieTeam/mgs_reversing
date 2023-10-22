@@ -10,9 +10,9 @@ extern const char aPlayxresetdwarpd_800DFD1C[];// " play = %x  reset = %d warp =
 extern const char aErrnozoneidingcl_800DFD40[];// "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
 extern const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[];// " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
 
-extern SVECTOR s00a_dword_800DFDA0;
-extern SVECTOR s00a_dword_800DFDA8;
-extern SVECTOR s00a_dword_800DFDB0;
+extern SVECTOR rp_shift_800DFDA0;
+extern SVECTOR force_800DFDA8;
+extern SVECTOR size_800DFDB0;
 
 int s00a_command_800C50B0( WatcherWork *work )
 {
@@ -286,25 +286,25 @@ void s00a_command_800C5860( WatcherWork* work )
     } 
 }
 
-int s00a_command_800C58E8( WatcherWork * work )
+/*
+    打撃攻撃
+    ヒットすれば１を返す
+    */
+int AttackForce_800C58E8( WatcherWork * work )
 {
-    TARGET * target;
-    SVECTOR svec2;
+    TARGET *target;
     SVECTOR svec;
-    SVECTOR svec4;
-    SVECTOR svec3;
+    SVECTOR rp_shift  = rp_shift_800DFDA0; /* 右パンチ */
+    SVECTOR force     = force_800DFDA8;
+    SVECTOR size      = size_800DFDB0;
 
-    target = &work->field_994;
-    svec  = s00a_dword_800DFDA0;
-    svec4 = s00a_dword_800DFDA8;
-    svec3 = s00a_dword_800DFDB0;
-
-    GM_SetTarget_8002DC74(target, 4, ENEMY_SIDE, &svec3);
-    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rotator);
-    DG_RotVector_8001BE98(&svec4, &svec2, 1);
-    GM_Target_8002DCCC(target, 0, 2, 32, 1, &svec2);
-    DG_PutVector_8001BE48(&svec, &work->field_994.field_8_vec, 1);
-    return sub_8002D7DC(target);
+    target = &work->punch;
+    GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
+    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rotator );
+    DG_RotVector_8001BE98( &force, &svec, 1 );
+    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    DG_PutVector_8001BE48( &rp_shift, &work->punch.field_8_vec, 1 );
+    return sub_8002D7DC( target );
 }
 
 void s00a_command_800C59F8( WatcherWork *work )
