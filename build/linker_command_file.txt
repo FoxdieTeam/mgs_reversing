@@ -411,10 +411,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\route.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\think.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay6.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD478.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD608.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CD8B0.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CDB88.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CDD80.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CDE90.obj"
