@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_8005280C
-snake_vr_sna_init_8005280C:
+	xdef sna_anim_wall_move_helper_8005280C
+sna_anim_wall_move_helper_8005280C:
 	dw 0x27BDFFE0 ; 8005280C
 	dw 0xAFB00010 ; 80052810
 	dw 0x00808021 ; 80052814

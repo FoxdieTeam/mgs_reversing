@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_80052714
-snake_vr_sna_init_80052714:
+	xdef sna_anim_wall_idle_and_c4_helper_80052714
+sna_anim_wall_idle_and_c4_helper_80052714:
 	dw 0x27BDFFE0 ; 80052714
 	dw 0xAFB00010 ; 80052718
 	dw 0x00808021 ; 8005271C
