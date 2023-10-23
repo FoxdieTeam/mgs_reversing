@@ -500,11 +500,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\ripple.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D7FC4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D8140.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D8148.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D8244.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_rsurface_800D82E0.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\rsurface.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\ripples.obj"
 
