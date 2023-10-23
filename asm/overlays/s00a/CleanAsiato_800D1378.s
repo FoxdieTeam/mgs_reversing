@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s00a_asiato_800D1378
-s00a_asiato_800D1378:
+	xdef CleanAsiato_800D1378
+CleanAsiato_800D1378:
 	dw 0x2403002F ; 800D1378
 	dw 0x3C02800E ; 800D137C
 	dw 0x24420F98 ; 800D1380
