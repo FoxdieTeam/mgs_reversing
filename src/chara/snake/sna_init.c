@@ -88,6 +88,12 @@ Actor_SnaInit *SECTION(".sbss") sna_800ABBA0;
 extern SVECTOR *dword_800ABBAC;
 SVECTOR *SECTION(".sbss") dword_800ABBAC;
 
+extern SVECTOR svector_800AB7D4;
+SVECTOR SECTION(".sbss") svector_800AB7D4;
+
+extern SVECTOR svector_800AB7DC;
+SVECTOR SECTION(".sbss") svector_800AB7DC;
+
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
 extern int                GM_GameOverTimer_800AB3D4;
@@ -96,15 +102,15 @@ extern SVECTOR            DG_ZeroVector_800AB39C;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern SVECTOR            svector_800AB7FC;
 extern GM_Camera          GM_Camera_800B77E8;
-extern SVECTOR            svector_800AB7D4;
-extern SVECTOR            svector_800AB7DC;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
 extern int                bakudan_count_8009F42C;
 extern SVECTOR            svector_800AB7EC;
+SVECTOR                   svector_800AB7EC;
 extern SVECTOR            svector_800AB7F4;
+SVECTOR                   svector_800AB7F4;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
 extern SVECTOR            svector_800AB7CC;
@@ -120,6 +126,7 @@ extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern Jirai_unknown      stru_800BDD78[16];
 extern Jirai_unknown      stru_800BDE78[8];
 extern unsigned char      gBulNames_800BDC78[64];
+unsigned char             gBulNames_800BDC78[64];
 extern int                dword_8009F440;
 extern int                dword_8009F444;
 extern int                dword_8009F46C[];
@@ -433,12 +440,8 @@ void sna_8004EE28(Actor_SnaInit *snake)
     MulMatrix0(&mat2, world, &mat2);
     DG_MatrixRotZYX_8001E92C(&mat2, &vec);
     SetRotMatrix(&mat1);
-    vx = vec.vx;
-    if (vx < 0)
-    {
-        vx += 0xf;
-    }
-    vx &= 0xfff0;
+
+    vx = (vec.vx / 16) * 16;
     gUnkCameraStruct_800B77B8.field_28.vx = vx;
 }
 
@@ -1318,7 +1321,7 @@ void sna_80050568(Actor_SnaInit *pActor)
 {
     SVECTOR  diff;
     DG_OBJS *objs;
-    int      dir;
+    short    dir;
 
     sna_80050440(pActor);
 
@@ -3432,7 +3435,7 @@ void sna_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int time)
     }
 }
 
-void sna_fn_nothing_80053B80(Actor_SnaInit *param_1, int time)
+void sna_fn_nothing_80053B80(Actor_SnaInit *pActor, int time)
 {
 }
 
