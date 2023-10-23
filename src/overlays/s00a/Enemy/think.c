@@ -202,7 +202,7 @@ void s00a_command_800CB504( WatcherWork* work )
         {
             work->think3 = 5;
         }
-        work->modetime[0] = 0;
+        work->modetime[(  T_NOISE  )] = 0;
         break;
     }
     work->count3 = 0;
@@ -1479,11 +1479,35 @@ static inline void set_dir( WatcherWork *work )
     }
 }
 
-static inline void do_reset( WatcherWork *work )
+static inline void think_reset( WatcherWork *work )
 {
     s00a_command_800CAACC( work );
     work->pad.field_00 = work->field_9E8;
     EnemyResetThink_800CB224( work );     
+}
+
+static inline void think_reset2( WatcherWork *work )
+{
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->pad.field_00--;
+        s00a_command_800CB13C( work );
+        EnemyResetThink_800CB224( work );
+        s00a_command_800CB660( work );
+    }
+    else
+    {
+        SetThink_Move_800CB42C( work );
+    }
+}
+
+static inline void think_noise_inline( WatcherWork *work )
+{
+    s00a_command_800CAB74( work );
+    s00a_command_800CEB54();
+    work->think2 = 7;
+    work->think3 = 16;
+    work->count3 = 0;    
 }
 
 void s00a_command_800CD210( WatcherWork* work )
@@ -1515,7 +1539,7 @@ void s00a_command_800CD210( WatcherWork* work )
             }
             else
             {
-                do_reset( work );
+                think_reset( work );
             }
         }
         else
@@ -1533,7 +1557,7 @@ void s00a_command_800CD210( WatcherWork* work )
         {
             if ( s00a_command_800CC2E8( work ) ) 
             {
-                do_reset( work );
+                think_reset( work );
             }
             else
             {
@@ -1544,7 +1568,7 @@ void s00a_command_800CD210( WatcherWork* work )
                     {
                         if ( s00a_command_800CC2E8( work ) )
                         {    
-                            do_reset( work );
+                            think_reset( work );
                             break;
                         }     
                         work->think3 = 1;
@@ -1567,7 +1591,7 @@ void s00a_command_800CD210( WatcherWork* work )
 
     if ( s00a_command_800CC2E8( work ) ) 
     {
-        do_reset( work );
+        think_reset( work );
     }
     
     if ( work->field_BA1 & 4 ) 
@@ -1633,11 +1657,7 @@ void s00a_command_800CD478( WatcherWork *work )
            }
            if ( ( work->field_BA1 & 1 ) && ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 ) ) 
            {
-                s00a_command_800CAB74( work );
-                s00a_command_800CEB54();
-                work->think2 = 7;
-                work->think3 = 16;
-                work->count3 = 0;
+                think_noise_inline( work );
            }
            if ( work->field_BA1 & 2 )
            {
@@ -1655,30 +1675,6 @@ void s00a_command_800CD478( WatcherWork *work )
     {
         s00a_command_800CB240( work );
     }
-}
-
-static inline void do_reset2( WatcherWork *work )
-{
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
-    {
-        work->pad.field_00--;
-        s00a_command_800CB13C( work );
-        EnemyResetThink_800CB224( work );
-        s00a_command_800CB660( work );
-    }
-    else
-    {
-        SetThink_Move_800CB42C( work );
-    }
-}
-
-static inline void think_inline( WatcherWork *work )
-{
-    s00a_command_800CAB74( work );
-    s00a_command_800CEB54();
-    work->think2 = 7;
-    work->think3 = 16;
-    work->count3 = 0;    
 }
 
 
@@ -1826,11 +1822,7 @@ void s00a_command_800CD608( WatcherWork *work )
         {
             if ( GM_NoisePower_800ABA24 == 255 )
             {
-                s00a_command_800CAB74( work );
-                s00a_command_800CEB54();
-                work->think2 = 7;
-                work->think3 = 16;
-                work->count3 = 0;
+                think_noise_inline( work );
                 return;
             }
         }
@@ -1856,7 +1848,7 @@ void s00a_command_800CD8B0( WatcherWork *work )
         case 1:
             if ( s00a_command_800CC760( work ) )
             {
-                think_inline( work );
+                think_noise_inline( work );
                 break;
             }
         break;
@@ -1877,9 +1869,9 @@ void s00a_command_800CD8B0( WatcherWork *work )
                 }
                 else
                 {
-                    work->modetime[ 0 ]++;
+                    work->modetime[(  T_NOISE  )]++;
                     work->think3 = 9;
-                    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[ 0 ] < 2 )
+                    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
                     { 
                         work->pad.field_08 = 0;
                     }
@@ -1901,7 +1893,7 @@ void s00a_command_800CD8B0( WatcherWork *work )
 
             if ( work-> count3 > 32 )
             {
-                if ( work->field_BA1 & 1 && work->modetime[0] < 3 )
+                if ( work->field_BA1 & 1 && work->modetime[(  T_NOISE  )] < 3 )
                 {
                     s00a_command_800CAB74( work );
                     work->think3 = 5;
@@ -1912,13 +1904,13 @@ void s00a_command_800CD8B0( WatcherWork *work )
         case 6:
             if ( s00a_command_800CCA28( work ) )
             {
-                do_reset2( work );
+                think_reset2( work );
             }
         break;
         case 3:
             if ( s00a_command_800CC7A4( work ) )
             {
-                do_reset2( work );    
+                think_reset2( work );    
             }
         break;
     }
@@ -1943,11 +1935,272 @@ void s00a_command_800CD8B0( WatcherWork *work )
     {
         if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 )
         {
-            s00a_command_800CAB74( work );
-            s00a_command_800CEB54();
-            work->think2 = 7;
-            work->think3 = 16;
-            work->count3 = 0;
+            think_noise_inline( work );
         }
     }   
+}
+
+extern void CleanAsiato_800D1378();
+
+void s00a_command_800CDB88( WatcherWork *work ) 
+{
+    switch ( work->think3 )
+    {
+        case 5:
+            if ( s00a_command_800CC99C( work ) )
+            {
+                s00a_command_800CB1C4( work );
+                work->think3 = 10;
+                work->t_count = 0;
+                work->pad.field_08 = 0;
+                work->count3 = 0;  
+            }
+        break;
+        case 10:
+        work->pad.press |= 0x4;
+        if ( DirectTrace_800CC154( work , 500 ) )
+        {
+            if ( s00a_command_800CC294( work ) != 0 ) 
+            {
+                s00a_command_800CB1C4( work );
+                work->t_count++;
+                if ( work->t_count == 12 )
+                {
+                    work->think3 = 32;
+                }
+                else
+                {
+                    work->field_8E6 = 0;
+                    work->pad.dir = work->control.field_4C_turn_vec.vy;
+                }
+                work->count3 = 0;
+                break;
+            }
+            else
+            {
+                work->think3 = 11;
+                CleanAsiato_800D1378();
+                work->count3 = 0;
+            }
+        }
+        break;        
+        case 32:
+        if ( s00a_command_800CB770( work ) )
+        {
+            work->think3  = 10;
+            work->t_count = 0;
+            work->count3  = 0;
+        }
+        break;
+        case 11:
+        if ( s00a_command_800CCA9C ( work ) )
+        {
+            think_reset2( work );
+        }
+        break;
+    }
+
+    if ( work->field_BA1 & 4 )
+    {
+        s00a_command_800CB3F0( work );
+        CleanAsiato_800D1378();
+    }
+    else if ( work->alert_level > 1 )
+    {
+        s00a_command_800CB240( work );
+        CleanAsiato_800D1378();
+    }    
+    else if ( work->field_BA1 & 2 )
+    {
+        s00a_command_800CB610( work );
+    }       
+    else if ( work->field_BA1 & 1 )
+    {
+        s00a_command_800CB504( work );
+        CleanAsiato_800D1378();
+    }   
+}
+
+void s00a_command_800CDD80( WatcherWork *work )
+{
+    switch( work->think3 )
+    {
+        case 14:
+        if ( s00a_command_800CBDFC( work ) )
+        {
+            s00a_command_800CB2C8( work );
+            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+            {
+                work->pad.sound = 240;
+            }
+            else
+            {
+                work->pad.sound = 246;
+            }
+            work->alert_level = 255;
+            ENE_SetGopointLast_800CEB00();
+        }    
+        break;
+        case 16:
+        if ( s00a_command_800CBE90( work ) )
+        {
+            if ( EnemyCommand_800E0D98.field_0x180 < 2 )
+            {
+                s00a_command_800CB394( work );
+            }
+            else
+            {
+                ENE_SetGopointLast_800CEB00();
+                s00a_command_800CB2F4( work );
+            }
+            work->alert_level = 255;
+        }    
+        break;
+        case 17:
+        ENE_SetGopointLast_800CEB00();
+        s00a_command_800CB258( work );
+        work->pad.sound   = 246;
+        work->alert_level = 255;
+    }
+}
+
+void s00a_command_800CDE90( WatcherWork *work ) {
+    int res;
+    short x;
+    x = work->think3 - 21;
+    switch ( x )
+    {
+    case 0:
+        if ( s00a_command_800CCC14( work ) )
+        {
+            work->think3 = 27;
+            work->count3 = 0;
+        }
+        break;
+    case 3:
+        if ( s00a_command_800CCCAC( work ) )
+        {
+            work->think3 = 27;
+            work->count3 = 0;
+        }
+        break;
+     case 4:
+        if ( s00a_command_800CCD38( work ) )
+        {
+            work->think3 = 27;
+            work->count3 = 0;
+        }
+        break;       
+     case 5:
+        if ( s00a_command_800CCDA0( work ) )
+        {
+            work->think3 = 27;
+            work->count3 = 0;
+        }
+        break;  
+     case 6:
+        res = Think3_AttackSetup_800CCE08( work );
+        if ( res )
+        {
+            work->think3 = res;
+            work->count3 = 0;
+        }
+        break;  
+    }
+
+    
+    if ( ( ( GV_Time_800AB330 / 4 ) % 4 ) == work->field_B78 % 4 )
+    {   
+        if ( work->field_B7C == 0xFF )
+        {            
+            if ( work->field_C04 != COM_PlayerAddressOne_800E0F40[ work->field_B78 ] )
+            {
+                if ( work->field_BFC < 0xDAD )	
+	            {
+            		if ( (work->field_BFC + 0x3E8) < work->sn_dis || work->vision.field_B92 != 2 ) 
+            		{
+            			s00a_command_800CB258( work );
+            		}  
+                }
+                else
+                {
+                    if (  work->field_BFC < work->sn_dis )
+                    {
+                        s00a_command_800CB258( work );
+                    } 
+                }  
+            }
+        }
+        else
+        {
+            if ( work->vision.field_B92 != 2 )
+            {
+                if ( work->alert_level != 0xFF )
+                {
+                    if (!(sub_8005D134( work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, work->field_B7C )))
+                    {
+                        s00a_command_800CB258(work);
+                    }
+                }
+            }
+        }
+    }
+
+    if ( work->vision.field_B92 == 2 )
+	{
+		ENE_SetGopointLast_800CEB00();
+		work->alert_level = 0xFF;
+		return;
+	}
+}
+
+void s00a_command_800CE0B8( WatcherWork *work )
+{
+    int res;
+    switch ( work->think3 )
+    {
+        case 18:
+        s00a_command_800CAB04( work );
+        if ( s00a_command_800CC0D4(work) )
+        {
+            work->think3 = 19;
+            work->count3 = 0;
+        }
+        break;   
+        case 19:
+        s00a_command_800CAB04( work );
+        if ( s00a_command_800CC064( work ) )
+        {
+            work->think3 = 20;
+            work->count3 = 0;
+        }
+        break;
+        case 20:
+        res = s00a_command_800CCB7C( work );
+        if ( res < 0 )
+        {
+            work->think3 = 19;
+            work->count3 = 0;
+        }
+        else if ( res > 0 )
+        {
+            s00a_command_800CB2C8( work );
+        }
+        break;
+    }
+
+    if ( work->sn_dis < work->field_BFC )
+    {
+        if ( ( work->field_BFC >= 0xFA0 ) || ( work->vision.field_B92 == 2 ) )
+        {
+            s00a_command_800CB2C8( work );
+        }
+    }
+    
+    if ( work->vision.field_B92 == 2 )
+    {
+        work->alert_level = 255;
+    }
+
+    ENE_SetGopointLast_800CEB00();
 }
