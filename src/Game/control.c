@@ -260,25 +260,25 @@ retry:
 
 static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pHzd)
 {
-    int xz[2];
-    int vy, vz;
-    int iVar11;
-    int uVar14;
-    int uVar15;
-    int uVar16;
+    HZD_VEC vec;
+    int     vy, vz;
+    int     iVar11;
+    int     uVar14;
+    int     uVar15;
+    int     uVar16;
 
     vy = pControl->field_0_mov.vy + pControl->field_44_movementVector.vy;
     vz = pControl->field_32_height;
 
     pControl->field_57 = 0;
     uVar14 = sub_800296C4(pHzd, &pControl->field_0_mov, 3);
-    sub_800298DC(xz);
+    sub_800298DC(&vec);
     pControl->field_60_vecs_ary[0].pad = sub_80029A2C();
     uVar15 = uVar14 & 1;
 
-    if (((uVar14 & 2) != 0) && ((xz[1] - pControl->field_78_levels[0]) + 199U < 399))
+    if (((uVar14 & 2) != 0) && ((vec.long_access[1] - pControl->field_78_levels[0]) + 199U < 399))
     {
-        xz[0] = xz[1];
+        vec.long_access[0] = vec.long_access[1];
         uVar14 &= ~2;
         uVar14 |= 1;
         uVar15 = uVar14 & 1;
@@ -288,19 +288,19 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pH
 
     if (uVar15 == 0)
     {
-        xz[0] = 0;
+        vec.long_access[0] = 0;
     }
 
     if (uVar16 == 0)
     {
-        xz[1] = 32000;
+        vec.long_access[1] = 32000;
     }
 
     iVar11 = vz;
 
     if (uVar15 != 0)
     {
-        iVar11 = vz + xz[0];
+        iVar11 = vz + vec.long_access[0];
     }
 
     if (iVar11 > vy)
@@ -310,7 +310,7 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pH
     }
     else if (uVar16 != 0)
     {
-        iVar11 = xz[1] - vz;
+        iVar11 = vec.long_access[1] - vz;
 
         if (iVar11 < vy)
         {
@@ -319,8 +319,8 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pH
         }
     }
 
-    pControl->field_78_levels[0] = xz[0];
-    pControl->field_78_levels[1] = xz[1];
+    pControl->field_78_levels[0] = vec.long_access[0];
+    pControl->field_78_levels[1] = vec.long_access[1];
     pControl->field_0_mov.vy = vy;
 }
 

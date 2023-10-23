@@ -13,7 +13,6 @@
 // all funcs that don't have header to go in yet
 
 int   sub_800296C4(HZD_HDL *pHzdMap, SVECTOR *param_2, int flags);
-void  sub_800298DC(int *param_1);
 void  GM_Sound_800329C4(SVECTOR *, int, int);
 int   sub_80028454(HZD_HDL *pHzdMap, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
 void  sub_80028890(SVECTOR *pVec);
