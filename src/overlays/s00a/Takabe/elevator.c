@@ -1,7 +1,9 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
+#include "Bullet/jirai.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Game/vibrate.h"
 
 typedef struct _ElevatorWork
 {
@@ -58,23 +60,408 @@ typedef struct _ElevatorWork
     int         f5D0;
 } ElevatorWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern int     GM_CurrentMap_800AB9B0;
+extern int           bakudan_count_8009F42C;
+extern int           counter_8009F448;
+extern SVECTOR       DG_ZeroVector_800AB39C;
+extern int           GM_CurrentMap_800AB9B0;
+extern int           gControlCount_800AB9B4;
+extern int           GM_AlertMode_800ABA00;
+extern CONTROL      *GM_WhereList_800B56D0[96];
+extern CONTROL      *tenage_ctrls_800BDD30[16];
+extern int           tenage_ctrls_count_800BDD70;
+extern Jirai_unknown stru_800BDD78[16];
+extern Jirai_unknown stru_800BDE78[8];
+
+extern unsigned short elevator_hash_800C3634[4];
+extern char           elevator_vib_800C363C[];
+extern char           elevator_vib_800C3644[];
+extern char           elevator_vib_800C3658[];
+extern char           elevator_vib_800C365C[];
 
 extern const char aElevatorC[]; // = "elevator.c"
 
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);
-int THING_Gcl_GetSVector(int, SVECTOR *);
 int s16b_800C440C(int);
+int THING_Gcl_GetSVector(int, SVECTOR *);
+int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
+int THING_Msg_GetResult(void);
+
+void s00a_mosaic_800DC854(DG_OBJS *, LitHeader *);
+void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
+void Elevator_800DA140(ElevatorWork *);
+void Elevator_800DA268(ElevatorWork *);
+void Elevator_800DA358(ElevatorWork *, HZD_AREA *);
+void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
+int  Elevator_800DA464(ElevatorWork *, void *);
+void Elevator_800DA57C(int proc, long arg);
 
 DG_OBJS * s00a_mosaic_800DC7DC(int, LitHeader *);
 void      s00a_mosaic_800DC820(DG_OBJS *);
 
 #define EXEC_LEVEL 5
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/ElevatorAct_800D8EA8.s")
-void ElevatorAct_800D8EA8(ElevatorWork *work);
+void ElevatorAct_800D8EA8(ElevatorWork *work)
+{
+    SVECTOR        sp10;
+    SVECTOR        sp18;
+    HZD_VEC        sp20;
+    GV_MSG        *msg;
+    int            var_s6;
+    int            var_s5;
+    int            found;
+    int            message;
+    int            scale;
+    CONTROL      **where;
+    int            n_controls;
+    CONTROL       *control;
+    Jirai_unknown *bomb;
+    int            i, j;
+    Jirai_unknown *mine;
+    CONTROL      **tenage;
+    HZD_FLR       *floor;
+    int            n_floors;
+    SVECTOR       *mov;
+    SVECTOR       *var_s0_4;
+    int            n_messages;
+
+    var_s6 = 0;
+    var_s5 = 0;
+
+    GM_CurrentMap_800AB9B0 = work->map;
+
+    found = THING_Msg_CheckMessage(work->name, 4, elevator_hash_800C3634);
+    message = THING_Msg_GetResult();
+
+    if (GM_AlertMode_800ABA00 != 0)
+    {
+        found = -1;
+    }
+
+    switch (work->f5C0)
+    {
+    case 0:
+        if (found == 0 || found == 2)
+        {
+            work->f5C0 = 1;
+            Elevator_800DA57C(work->f5D0, 0x361E);
+            Elevator_800DA3F8(work, work->areas4);
+            Elevator_800DA358(work, work->areas3);
+            Elevator_800DA140(work);
+
+            if (found == 2)
+            {
+                work->f594 = message;
+                work->f58C |= 0x4;
+            }
+
+            work->f5A8 = 0;
+            work->f598 = work->f5A0;
+            work->f59C = work->f5A4;
+        }
+        break;
+
+    case 1:
+        if (work->f59C > 0)
+        {
+            if (--work->f59C == 0)
+            {
+                var_s5 = 0x4;
+            }
+        }
+        else if (work->f584 < work->f580)
+        {
+            work->f584++;
+            if (++work->f5C4 >= work->f5B4)
+            {
+                work->f5C4 = 0;
+            }
+
+            if (work->f5C4 == 0)
+            {
+                var_s5 = 0x8;
+            }
+
+            if (work->f584 == work->f580)
+            {
+                var_s5 |= 0x10;
+            }
+        }
+        else if (--work->f598 <= 0)
+        {
+            work->f5C0 = 2;
+            work->f58C &= ~0x4;
+
+            Elevator_800DA57C(work->f5D0, 0xADBF);
+            Elevator_800DA3F8(work, work->areas1);
+            Elevator_800DA358(work, work->areas2);
+            Elevator_800DA268(work);
+
+            work->f5A8 = 1;
+        }
+        break;
+
+    case 2:
+        if (found == 1 || found == 3)
+        {
+            work->f5C0 = 3;
+
+            Elevator_800DA57C(work->f5D0, 0xF624);
+            Elevator_800DA3F8(work, work->areas2);
+            Elevator_800DA358(work, work->areas1);
+            Elevator_800DA140(work);
+
+            if (found == 3)
+            {
+                work->f594 = message;
+                work->f58C |= 0x4;
+            }
+
+            work->f5A8 = 0;
+            work->f598 = work->f5A0;
+            work->f59C = work->f5A4;
+        }
+        break;
+
+    case 3:
+        if (work->f59C > 0)
+        {
+            if (--work->f59C == 0)
+            {
+                var_s5 = 0x20;
+            }
+        }
+        else if (work->f584 > 0)
+        {
+            work->f584--;
+
+            if (++work->f5C4 >= work->f5B4)
+            {
+                work->f5C4 = 0;
+            }
+
+            if (work->f5C4 == 0)
+            {
+                var_s5 = 0x1;
+            }
+
+            if (work->f584 == 0)
+            {
+                var_s5 |= 0x2;
+            }
+        }
+        else if (--work->f598 <= 0)
+        {
+            work->f5C0 = 0;
+            work->f58C &= ~0x4;
+
+            Elevator_800DA57C(work->f5D0, 0xEDB8);
+            Elevator_800DA3F8(work, work->areas3);
+            Elevator_800DA358(work, work->areas4);
+            Elevator_800DA268(work);
+
+            work->f5A8 = 1;
+        }
+        break;
+    }
+
+    if (work->f5A8 != 0)
+    {
+        work->f5AC = GV_NearExp4_800263B0(work->f5AC, -1500);
+    }
+    else
+    {
+        work->f5AC = GV_NearExp4_800263B0(work->f5AC, 0);
+    }
+
+    if (work->f584 == work->f588 && work->f598 <= 0)
+    {
+        var_s6 = 1;
+    }
+
+    work->f588 = work->f584;
+
+    if (var_s6 == 0)
+    {
+        scale = work->f584;
+        sp18.vx = (work->f568.vx * scale) / work->f580;
+        sp18.vy = (work->f568.vy * scale) / work->f580;
+        sp18.vz = (work->f568.vz * scale) / work->f580;
+
+        GV_AddVec3_80016D00(&work->f560, &sp18, &work->f570);
+        GV_SubVec3_80016D40(&sp18, &work->f578, &sp10);
+
+        work->f578 = sp18;
+
+        if (work->f58C & 0x4)
+        {
+            where = GM_WhereList_800B56D0;
+            for (n_controls = gControlCount_800AB9B4; n_controls > 0; n_controls--)
+            {
+                control = *where;
+                if (control->field_30_scriptData == work->f594)
+                {
+                    GV_AddVec3_80016D00(&control->field_0_mov, &sp10, &control->field_0_mov);
+                    break;
+                }
+
+                where++;
+            }
+        }
+
+        if (bakudan_count_8009F42C != 0)
+        {
+            bomb = stru_800BDD78;
+            for (j = 16; j > 0; j--)
+            {
+                if (bomb->field_4_pActor && Elevator_800DA464(work, bomb->field_C_pTarget))
+                {
+                    GV_AddVec3_80016D00(&bomb->field_8_pCtrl->field_0_mov, &sp10, &bomb->field_8_pCtrl->field_0_mov);
+                }
+
+                bomb++;
+            }
+        }
+
+        if (counter_8009F448 != 0)
+        {
+            mine = stru_800BDE78;
+            for (j = 8; j > 0; j--)
+            {
+                if (mine->field_4_pActor && Elevator_800DA464(work, mine->field_C_pTarget))
+                {
+                    GV_AddVec3_80016D00(&mine->field_8_pCtrl->field_0_mov, &sp10, &mine->field_8_pCtrl->field_0_mov);
+                }
+
+                mine++;
+            }
+        }
+
+        if (tenage_ctrls_count_800BDD70 != 0)
+        {
+            tenage = tenage_ctrls_800BDD30;
+            for (i = 16; i > 0; i--)
+            {
+                if (*tenage)
+                {
+                    floor = work->floors;
+                    for (n_floors = work->n_floors; n_floors > 0; n_floors--)
+                    {
+                        if (sub_8002992C(floor, &(*tenage)->field_0_mov) & 0x1)
+                        {
+                            sub_800298DC(&sp20);
+                            mov = &(*tenage)->field_0_mov;
+
+                            if ((mov->vy - sp20.long_access[0]) < 200)
+                            {
+                                GV_AddVec3_80016D00(mov, &sp10, mov);
+                            }
+
+                            break;
+                        }
+
+                        floor++;
+                    }
+                }
+
+                tenage++;
+            }
+        }
+    }
+
+    if (work->f58C & 0x20)
+    {
+        var_s0_4 = &work->f570;
+    }
+    else
+    {
+        var_s0_4 = &work->f578;
+    }
+
+    if (work->f58C & 0x1)
+    {
+        if (work->f590 == 0)
+        {
+            s00a_mosaic_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+            work->f590 = 1;
+        }
+    }
+    else if (var_s6 == 0)
+    {
+        DG_GetLightMatrix_8001A3C4(&work->f570, work->light);
+    }
+
+    if (var_s6 == 0)
+    {
+        Elevator_800D9FC4(work, var_s0_4);
+        DG_SetPos2_8001BC8C(var_s0_4, &DG_ZeroVector_800AB39C);
+        GM_ActObject2_80034B88(&work->object1);
+    }
+
+    var_s5 &= work->f5B0;
+
+    if (var_s5 & 0x9)
+    {
+        sub_80032BC4(var_s0_4, work->f5B6, work->f5BC);
+    }
+
+    if (var_s5 & 0x12)
+    {
+        sub_80032BC4(var_s0_4, work->f5B8, work->f5BC);
+    }
+
+    if (var_s5 & 0x24)
+    {
+        sub_80032BC4(var_s0_4, work->f5BA, work->f5BC);
+    }
+
+    if (((work->f58C & 0xC) == 0xC) && (work->f594 == 0x21CA))
+    {
+        if (var_s5 & 0x24)
+        {
+            NewPadVibration_8005D58C(elevator_vib_800C363C, 1);
+            NewPadVibration_8005D58C(elevator_vib_800C3644, 2);
+        }
+
+        if (var_s5 & 0x12)
+        {
+            NewPadVibration_8005D58C(elevator_vib_800C3658, 1);
+            NewPadVibration_8005D58C(elevator_vib_800C365C, 2);
+        }
+    }
+
+    if (work->f58C & 0x8)
+    {
+        if (work->f5AC < -1000)
+        {
+            DG_InvisibleObjs(work->object2.objs);
+        }
+        else
+        {
+            DG_VisibleObjs(work->object2.objs);
+        }
+
+        sp20.x = var_s0_4->vx;
+        sp20.y = var_s0_4->vz;
+        sp20.z = var_s0_4->vy + work->f5AC;
+
+        DG_SetPos2_8001BC8C((SVECTOR *)&sp20, &DG_ZeroVector_800AB39C);
+        GM_ActObject2_80034B88(&work->object2);
+    }
+
+    work->control.field_0_mov = work->f570;
+
+    n_messages = GV_ReceiveMessage_80016620(work->name, &msg);
+    for (; n_messages > 0; n_messages--)
+    {
+        if (msg->message[0] == 0x335E)
+        {
+            work->object1.objs->objs[msg->message[1]].raise = msg->message[2];
+        }
+
+        msg++;
+    }
+}
 
 void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA534(HZD_VEC *, SVECTOR *, HZD_VEC *);
@@ -591,8 +978,6 @@ void Elevator_800DA534(HZD_VEC *in, SVECTOR *addend, HZD_VEC *out)
     out->h = in->h;
 }
 
-// This isn't called by any reversed code yet.
-// It might be part of wt_area.c if it's not used in ElevatorAct.
 void Elevator_800DA57C(int proc, long arg)
 {
     GCL_ARGS args;
