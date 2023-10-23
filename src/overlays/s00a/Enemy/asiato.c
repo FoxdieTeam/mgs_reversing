@@ -50,7 +50,7 @@ void s00a_asiato_800D0E00(SVECTOR* arg0, short arg1, short arg2, short arg3)
 #pragma INCLUDE_ASM("asm/overlays/s00a/NextAsiato_800D12D0.s")
 
 //CleanAsiato
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D1378.s")
+#pragma INCLUDE_ASM("asm/overlays/s00a/CleanAsiato_800D1378.s")
 
 //NearAsiato
 int NearAsiato_800D13A0(void) { return s00a_dword_800E0F90; };
