@@ -146,6 +146,8 @@ void     HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, Res_Control_unknown *param_2
 int      HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, SVECTOR *arg1);
 
 void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
+int  sub_8002992C(HZD_FLR *pAltimetry, SVECTOR *arg1);
+void sub_800298DC(HZD_VEC *vec);
 
 struct BindStruct;
 void HZD_SetBind_80029A5C(int, struct BindStruct *, int);
@@ -159,7 +161,6 @@ void        GM_ActControl_helper4_80029304(char *char_arr);
 void        GM_ActControl_helper5_80029324(SVECTOR *vectors);
 int         GM_ActControl_helper_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 );
 int         sub_800296C4(HZD_HDL *pHzdMap, SVECTOR *param_2, int flags);
-void        sub_800298DC(int *arg0);
 int         sub_80029A2C();
 int         sub_80028830(void);
 

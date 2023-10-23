@@ -305,7 +305,7 @@ void         sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags);
 int          sub_8004E458(short param_1, int param_2);
 int          sub_8004E4C0(Actor_SnaInit *pActor, int param_2);
 int          sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4);
-void         sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *param_3);
+void         sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *param_3);
 int          sub_8004E930(Actor_SnaInit *snake, int arg1);
 void         sub_8004E9D0(Actor_SnaInit *pActor);
 void         sub_8004EA50(Actor_SnaInit *pActor, int param_2);

@@ -895,7 +895,7 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
     // to prevent those cases from being merged (GCC "cross jump" optimization).
     typedef void (*VoidMakeChara)();
 
-    int                        hzdout[2];
+    HZD_VEC                    hzdout;
     GV_MSG                     msg;
     SVECTOR                    svec1, svec2, svec3, svec4;
     MATRIX                     mat1, mat2;
@@ -1132,16 +1132,16 @@ int demothrd_make_chara_8007AE10(Actor_demothrd *pActor, dmo_data_0x36 *pData, A
         do
         {
         } while (0);
-        sub_800298DC(hzdout);
+        sub_800298DC(&hzdout);
 
         if (hzdret & 1)
         {
-            svec1.vy = hzdout[0];
+            svec1.vy = hzdout.long_access[0];
         }
 
         else if (hzdret & 2)
         {
-            svec1.vy = hzdout[1];
+            svec1.vy = hzdout.long_access[1];
         }
         else
         {
@@ -2343,7 +2343,7 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
 {
   dmo_data_0x18 *field_24_pDmoEnd;
   int idx;
-  SVECTOR vec2;
+  HZD_VEC vec2;
   SVECTOR vecPos;
   if (pChain->field_14[0].field_4_type == 14)
   {
@@ -2364,15 +2364,15 @@ int demothrd_8007CDF8(Actor_demothrd *pActor, dmo_data_0x28 *pDmoData, Actor_dem
         vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
         vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
         idx = sub_800296C4(pActor->field_C4_ctrl.field_2C_map->field_8_hzd, &vecPos, 1);
-        sub_800298DC((int *) (&vec2));
+        sub_800298DC(&vec2);
         pChain->field_48 = field_24_pDmoEnd->field_8_rot_y;
         if ((idx & 1) != 0)
         {
-          pChain->field_4C = vec2.vx + 50;
+          pChain->field_4C = vec2.x + 50;
         }
         else  if ((idx & 2) != 0)
         {
-          pChain->field_4C = vec2.vz + 50;
+          pChain->field_4C = vec2.y + 50;
         }
         else
         {

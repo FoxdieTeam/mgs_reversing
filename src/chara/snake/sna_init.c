@@ -1702,7 +1702,7 @@ static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *p
 
 void sna_act_unk_80050A64(Actor_SnaInit *pActor)
 {
-    int unk[2];
+    HZD_VEC vec;
     GV_MSG *pMsg;
     GV_MSG *pMsgIter;
     int msgCount;
@@ -1779,9 +1779,9 @@ helper3:
             pActor->field_20_ctrl.field_0_mov.vy = pMsg->message[2];
             pActor->field_20_ctrl.field_0_mov.vz = pMsg->message[3];
             pActor->field_20_ctrl.field_44_movementVector = DG_ZeroVector_800AB39C;
-            sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_0_mov, unk);
-            pActor->field_20_ctrl.field_78_levels[0] = unk[0];
-            pActor->field_20_ctrl.field_78_levels[1] = unk[1];
+            sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_0_mov, &vec);
+            pActor->field_20_ctrl.field_78_levels[0] = vec.long_access[0];
+            pActor->field_20_ctrl.field_78_levels[1] = vec.long_access[1];
             pMsg->message_len = 0;
             break;
 
@@ -4481,10 +4481,10 @@ void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time)
     }
     else
     {
-        int unk[2];
-        sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_0_mov, unk);
-        pActor->field_20_ctrl.field_78_levels[0] = unk[0];
-        pActor->field_20_ctrl.field_78_levels[1] = unk[1];
+        HZD_VEC vec;
+        sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_0_mov, &vec);
+        pActor->field_20_ctrl.field_78_levels[0] = vec.long_access[0];
+        pActor->field_20_ctrl.field_78_levels[1] = vec.long_access[1];
     }
 
     if (pActor->field_9C_obj.is_end)
