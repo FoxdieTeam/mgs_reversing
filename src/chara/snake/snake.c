@@ -229,19 +229,19 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     return GV_LengthVec3_80016D80(param_1);
 }
 
-void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *param_3)
+void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *vec)
 {
     unsigned int uVar1;
 
     uVar1 = sub_800296C4(param_1, param_2, 3);
-    sub_800298DC(param_3);
+    sub_800298DC(vec);
     if ((uVar1 & 1) == 0)
     {
-        *param_3 = 0xffff8001;
+        vec->long_access[0] = 0xffff8001;
     }
     if ((uVar1 & 2) == 0)
     {
-        param_3[1] = 0x7fff;
+        vec->long_access[1] = 0x00007fff;
     }
 }
 
@@ -249,7 +249,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
 {
     int     i;
     SVECTOR vec;
-    int     unk1[2];
+    HZD_VEC vec2;
     int     unk2[2];
 
     vec.vx = pActor->field_9C_obj.objs->objs[4].world.t[0];
@@ -258,7 +258,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
 
     DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
-    sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, unk1);
+    sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, &vec2);
 
     i = -1;
 
@@ -266,11 +266,11 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     {
         sub_800298C0(unk2);
 
-        if (vec.vy - unk1[0] < 350)
+        if (vec.vy - vec2.long_access[0] < 350)
         {
             i = 0;
         }
-        else if (unk1[1] - vec.vy < 125)
+        else if (vec2.long_access[1] - vec.vy < 125)
         {
             i = 1;
         }
@@ -295,7 +295,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
 
 int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 {
-    int point[2];
+    HZD_VEC point;
     SVECTOR vec, vec_saved;
     MATRIX mtx;
 
@@ -317,8 +317,8 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
         *pVec = vec_saved;
     }
 
-    sub_8004E588(pHzd, pVec, point);
-    return (point[1] - pVec->vy) < a4;
+    sub_8004E588(pHzd, pVec, &point);
+    return (point.long_access[1] - pVec->vy) < a4;
 }
 
 int sna_8004E808(Actor_SnaInit *pActor, int a2, int a3, int a4, int a5)

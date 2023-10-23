@@ -231,11 +231,11 @@ void sub_800298C0(void *ptr)
     ((int *)ptr)[1] = scratchpad[16];
 }
 
-void sub_800298DC(int *arg0)
+void sub_800298DC(HZD_VEC *vec)
 {
     int *blah = (int *)SCRPAD_ADDR;
-    arg0[0] = blah[0x11];
-    arg0[1] = blah[0x12];
+    vec->long_access[0] = blah[0x11];
+    vec->long_access[1] = blah[0x12];
 }
 
 int HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, SVECTOR *arg1)
