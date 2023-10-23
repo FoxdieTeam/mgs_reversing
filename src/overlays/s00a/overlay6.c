@@ -24,6 +24,7 @@ const int s00a_dword_800E0778 = 0x800CDABC;
 const int s00a_dword_800E077C = 0x800CD944;
 const int s00a_dword_800E0780 = 0x800CD8FC;
 */
+/*
 const char s00a_dword_800E0784[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800E0788 = 0x800CDEDC;
 const int s00a_dword_800E078C = 0x800CDF54;
@@ -32,6 +33,7 @@ const int s00a_dword_800E0794 = 0x800CDEF4;
 const int s00a_dword_800E0798 = 0x800CDF0C;
 const int s00a_dword_800E079C = 0x800CDF24;
 const int s00a_dword_800E07A0 = 0x800CDF3C;
+*/
 const char s00a_dword_800E07A4[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800E07A8 = 0x800CE684;
 const int s00a_dword_800E07AC = 0x800CE694;

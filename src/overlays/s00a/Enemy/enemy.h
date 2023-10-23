@@ -159,7 +159,7 @@ typedef struct _WatcherWork
     short          field_BD0[4];               //0xBD0 //set_dir, might be svector
     SVECTOR        start_pos;                  //0xBD8
     SVECTOR        target_pos;                 //0xBE0
-    int            start_addr;                  //0xBE8
+    int            start_addr;                 //0xBE8
     int            start_map;                  //0xBEC
     int            field_BF0;                  //0xBF0
     int            target_addr;                //0xBF4
@@ -361,6 +361,7 @@ void s00a_command_800CAB74( WatcherWork* work );
 void s00a_command_800CAB04( WatcherWork* work );
 void s00a_command_800CAD84( WatcherWork *work );
 void s00a_command_800CAACC( WatcherWork* work );
+void s00a_command_800CB1C4( WatcherWork* work );
 
 //action.c
 #define COM_ST_DANBOWL 0x2000
