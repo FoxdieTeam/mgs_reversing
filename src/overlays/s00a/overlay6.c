@@ -1,7 +1,7 @@
 #include "libdg/libdg.h"
 
 /*
-const int s00a_dword_800E0730 = 0x800CD654;
+const int s00a_jpt_800E0730 = 0x800CD654;
 const int s00a_dword_800E0734 = 0x800CD800;
 const int s00a_dword_800E0738 = 0x800CD800;
 const int s00a_dword_800E073C = 0x800CD800;
@@ -34,6 +34,7 @@ const int s00a_dword_800E0798 = 0x800CDF0C;
 const int s00a_dword_800E079C = 0x800CDF24;
 const int s00a_dword_800E07A0 = 0x800CDF3C;
 */
+/*
 const char s00a_dword_800E07A4[] = {0x0, 0x0, 0x0, 0x0};
 const int s00a_dword_800E07A8 = 0x800CE684;
 const int s00a_dword_800E07AC = 0x800CE694;
@@ -43,6 +44,8 @@ const int s00a_dword_800E07B8 = 0x800CE6E8;
 const int s00a_dword_800E07BC = 0x800CE704;
 const int s00a_dword_800E07C0 = 0x800CE674;
 const int s00a_dword_800E07C4 = 0x800CE720;
+*/
+/*
 const int s00a_dword_800E07C8 = 0x800CE8C0;
 const int s00a_dword_800E07CC = 0x800CE8D0;
 const int s00a_dword_800E07D0 = 0x800CE8F8;
@@ -56,6 +59,7 @@ const int s00a_dword_800E07EC = 0x800CE8F8;
 const int s00a_dword_800E07F0 = 0x800CE880;
 const int s00a_dword_800E07F4 = 0x800CE890;
 const int s00a_dword_800E07F8 = 0x800CE8A0;
+*/
 const char s00a_aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char s00a_aKottida_800E0810[] = "kottida !!\n";
 const int s00a_dword_800E081C = 0x800CF174;
