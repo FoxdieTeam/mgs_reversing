@@ -143,18 +143,15 @@ RECT smoke_rect = {500, 1000, 1000, 2000};
 RECT glight_rect = {40, 40, 80, 80};
 SVECTOR glight_svec = {0, 65136, 60, 0};
 
-int s00a_dword_800C3634 = 0x085BACDC;
-int s00a_dword_800C3638 = 0xDBC9804B;
-int s00a_dword_800C363C = 0x027F0200;
-int s00a_dword_800C3640 = 0x00000000;
-int s00a_dword_800C3644 = 0x01550487;
-int s00a_dword_800C3648 = 0x087D0169;
-int s00a_dword_800C364C = 0x0A46085F;
-int s00a_dword_800C3650 = 0x0E2D0C37;
-int s00a_dword_800C3654 = 0x00000000;
-int s00a_dword_800C3658 = 0x0000047F;
-int s00a_dword_800C365C = 0x084B06A5;
-int s00a_dword_800C3660 = 0x00000C2D;
+unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
+
+char elevator_vib_800C363C[] = {0x00, 0x02, 0x7F, 0x02, 0x00, 0x00, 0x00, 0x00};
+char elevator_vib_800C3644[] = {0x87, 0x04, 0x55, 0x01, 0x69, 0x01, 0x7D, 0x08,
+                                0x5F, 0x08, 0x46, 0x0A, 0x37, 0x0C, 0x2D, 0x0E,
+                                0x00, 0x00, 0x00, 0x00};
+char elevator_vib_800C3658[] = {0x7F, 0x04, 0x00, 0x00};
+char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
+
 
 //OPEN_MES, CLOSE_MES
 unsigned short mes_list_800C3664[] = { 0x43D3, 0x4235 };
