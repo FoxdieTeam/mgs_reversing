@@ -41,10 +41,10 @@ RECT uji_rect = {100, 100, 200, 200};
 int s03e_dword_800C32B4 = 0x00000000;
 int s03e_dword_800C32B8 = 0x00000000;
 int s03e_dword_800C32BC = 0x00000000;
-int s03e_dword_800C32C0 = 0x00500050;
-int s03e_dword_800C32C4 = 0x00A000A0;
-int s03e_dword_800C32C8 = 0x012C012C;
-int s03e_dword_800C32CC = 0x0000012C;
+
+RECT guncame_rect = {80, 80, 160, 160};
+SVECTOR guncame_svec = {300, 300, 300, 0};
+
 int s03e_dword_800C32D0 = 0x0002E4CC;
 int s03e_dword_800C32D4 = 0x00040002;
 int s03e_dword_800C32D8 = 0x012C0001;
@@ -600,4 +600,4 @@ const char s03e_dword_800CC6AC[] = {'c', 'a', 't', '_'};
 const char s03e_dword_800CC6B0[] = {'i', 'n', '.', 'c'};
 const char s03e_dword_800CC6B4[] = {0x0, 0xd, '\n', ' '};
 const char s03e_dword_800CC6B8[] = {0x0, 0x0, 0x0, 0x0};
-const char s03e_aF_800CC6BC[] = {'F', '6', '1','0'};
+const char s03e_dword_800CC6BC[] = {'F', '6', '1','0'};
