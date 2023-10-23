@@ -37,7 +37,7 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern CAMERA           GM_CameraList_800B7718[8];
 
-int dword_8009F46C = 0;
+int dword_8009F46C = 0; // FIXME: this is referenced as an array in several places
 int dword_8009F470 = 0;
 int dword_8009F474 = 0;
 SVECTOR svector_8009F478 = {0, 0, 0, 0};
