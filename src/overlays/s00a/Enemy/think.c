@@ -112,7 +112,7 @@ void s00a_command_800CB3F0( WatcherWork *work )
     work->modetime[2] = 0;
 }
 
-void SetThink_Move_800CB42C( WatcherWork* work )
+void s00a_command_800CB42C( WatcherWork* work )
 {
     EnemyCommand_800E0D98.field_0x40 = 0;
     if ( work->act_status & 4 )
@@ -1497,7 +1497,7 @@ static inline void think_reset2( WatcherWork *work )
     }
     else
     {
-        SetThink_Move_800CB42C( work );
+        s00a_command_800CB42C( work );
     }
 }
 
@@ -1652,7 +1652,7 @@ void s00a_command_800CD478( WatcherWork *work )
                }
                else
                {
-                   SetThink_Move_800CB42C( work );
+                   s00a_command_800CB42C( work );
                }
            }
            if ( ( work->field_BA1 & 1 ) && ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 ) ) 
@@ -1766,7 +1766,7 @@ void s00a_command_800CD608( WatcherWork *work )
                }
                else
                {
-                   SetThink_Move_800CB42C( work );
+                   s00a_command_800CB42C( work );
                }
         }
         break;
@@ -1782,7 +1782,7 @@ void s00a_command_800CD608( WatcherWork *work )
                }
                else
                {
-                   SetThink_Move_800CB42C( work );
+                   s00a_command_800CB42C( work );
                }
         }
         break;
@@ -1798,7 +1798,7 @@ void s00a_command_800CD608( WatcherWork *work )
             }
             else
             {
-                SetThink_Move_800CB42C( work );
+                s00a_command_800CB42C( work );
             }
         }
         break;
@@ -2203,4 +2203,349 @@ void s00a_command_800CE0B8( WatcherWork *work )
     }
 
     ENE_SetGopointLast_800CEB00();
+}
+
+void s00a_command_800CE1E0( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 29:
+        if ( s00a_command_800CC0D4( work ) )
+        {
+            work->think3 = 28;
+            work->count3 = 0;
+        }
+    break;
+    case 28:
+        if ( ( work->field_B7C != 0xFF ) && (char)work->target_addr != (short)work->field_B7C )
+        {
+            s00a_command_800CB0E0( work );
+        }
+        if ( s00a_command_800CC064( work ) )
+        {
+            if ( EnemyCommand_800E0D98.field_0x40 == 1  || ( work->field_B7C != 0xFF) )
+            {
+                s00a_command_800CB2C8( work );
+            } 
+            else
+            {
+                work->think3 = 30;
+                work->count3 = 0;
+            }
+        }
+    break;      
+    case 30:
+        if ( EnemyCommand_800E0D98.field_0x40 == 1 )
+        {
+            s00a_command_800CB2C8( work );
+            return;
+        }
+    break;
+        
+    }
+
+    if ( ( work->field_B7C == 0xFF) || EnemyCommand_800E0D98.field_0x40 != 1 ) 
+    {
+        if ( work->vision.field_B92 == 2 )
+        {
+            if ( EnemyCommand_800E0D98.field_0x40 != 1 )
+            {
+                work->think2 = 7;
+                work->think3 = 17;
+                work->count3 = 0;
+                return;                
+            }
+            work->pad.dir = work->sn_dir;
+            s00a_command_800CB2C8( work );
+            return;
+        }
+    }
+    else
+    {
+        if ( work->vision.field_B92 == 2 )
+        {
+            work->pad.dir = work->sn_dir;
+            s00a_command_800CB2C8( work );
+            return;
+        }
+    }
+}
+
+void s00a_command_800CE354( WatcherWork* work )
+{
+    if ( s00a_command_800CC064( work ) )
+    {
+        work->think2 = 13;
+        work->think3 = 34;
+        work->think4 = 3;
+        work->pad.field_08 = 0;
+        work->count3 = 0;
+    }
+    
+    if ( work->alert_level > 1 )
+    {
+        s00a_command_800CB240( work );
+    }
+    
+    if ( work->field_BA1 & 2 ) 
+    {
+        s00a_command_800CB610( work );
+    }
+    
+    if ( work->field_BA1 & 1 ) 
+    {
+        s00a_command_800CB504( work );
+    }
+
+    if ( work->field_BA1 & 16 ) 
+    {
+        s00a_command_800CB628( work );
+        work->pad.field_08 = 0;
+    }
+    else if ( work->field_BA1 & 4 ) 
+    {
+        s00a_command_800CB3F0( work );
+        work->pad.field_08 = 0;
+    } 
+}
+
+
+extern int GM_AlertLevel_800ABA18;
+
+void s00a_command_800CE428( WatcherWork* work )
+{
+    s00a_command_800CAB04( work );
+    
+    if ( s00a_command_800CC064( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel_800ABA18 < 150 )
+    {
+        work->think2 = 13;
+        work->think3 = 34;
+        work->think4 = 0;
+        work->pad.field_08 = 0;
+        work->count3 = 0;
+    }
+    
+    if ( work->alert_level > 1 )
+    {
+        s00a_command_800CB240( work );
+    }
+    
+    if ( work->field_BA1 & 2 ) 
+    {
+        s00a_command_800CB610( work );
+    }
+    
+    if ( work->field_BA1 & 1 ) 
+    {
+        s00a_command_800CB504( work );
+    }
+
+    if ( work->field_BA1 & 16 ) 
+    {
+        s00a_command_800CB628( work );
+        work->pad.field_08 = 0;
+    }
+    else if ( work->field_BA1 & 4 ) 
+    {
+        s00a_command_800CB3F0( work );
+        work->pad.field_08 = 0;
+    } 
+}
+
+void s00a_command_800CE530( WatcherWork* work )
+{
+    switch ( work->think3 )
+    {
+    case 32:
+        s00a_command_800CB7E0( work );
+        break;
+    case 33:
+        s00a_command_800CD000( work );
+        break;
+    case 34:
+        s00a_command_800CD08C( work );
+        break;        
+    }
+
+    if ( work->alert_level > 1 ) 
+    {
+        s00a_command_800CB240(work);
+    }
+    if (work->field_BA1 & 2) 
+    {
+        s00a_command_800CB610(work);
+    }
+    else if (work->field_BA1 & 1) 
+    {
+        s00a_command_800CB504(work);
+    }
+    else if (work->field_BA1 & 16 ) 
+    {
+        s00a_command_800CB628(work);
+    }
+    else if (work->field_BA1 & 4)
+    {
+        s00a_command_800CB3F0(work);
+    } 
+}
+
+void s00a_command_800CE634( WatcherWork *work )
+{
+    switch( work->think2 )
+    {
+        case 6:
+        s00a_command_800CD158( work );
+        break;
+        case 0:
+        s00a_command_800CD210( work );
+        break;
+        case 1:
+            work->control.field_3A |= 0x1000;
+            s00a_command_800CD8B0( work );
+        break;
+        case 2:
+            work->control.field_3A |= 0x1000;
+            s00a_command_800CD608( work );
+        break;
+        case 3:
+            work->control.field_3A |= 0x1000;
+            s00a_command_800CD470( work );
+        break;
+        case 4:
+            work->control.field_3A |= 0x1000;
+            s00a_command_800CD478( work );
+        break;
+        case 5:
+            work->control.field_3A |= 0x1000;
+            s00a_command_800CDB88( work );
+        break;        
+        case 7:
+            work->control.field_3A |= 0x1000;
+            s00a_command_800CDD80( work );
+        break;   
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        return;
+    }
+
+    if ( work->think2 == 7 )
+    {
+        work->think1 = 1;
+    }
+    else
+    {
+        s00a_command_800CB2F4( work );
+    }
+}
+
+void s00a_command_800CE778( WatcherWork* work )
+{
+    switch ( work->think2 )
+    {            
+    case 8:
+        s00a_command_800CE0B8( work );
+        break;
+    case 9:
+        s00a_command_800CDE90( work );
+        break;
+    case 10:
+        s00a_command_800CE1E0( work );
+        break;
+    case 7:
+        s00a_command_800CDD80( work );
+        break;
+    }
+    
+    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    {
+        s00a_command_800CB42C( work );
+    }   
+}
+
+void s00a_command_800CE830( WatcherWork *work )
+{
+    short x;
+    x = work->think2 - 1;
+    switch( x )
+    {
+        case 10:
+        s00a_command_800CE354( work );
+        break;
+        case 11:
+        s00a_command_800CE428( work );
+        break;
+        case 12:
+        s00a_command_800CE530( work );
+        break;
+        case 4:
+        s00a_command_800CDB88( work );
+        break;
+        case 0:
+        s00a_command_800CD8B0( work );
+        break;
+        case 1:
+        s00a_command_800CD608( work );
+        break;
+        case 3:
+        s00a_command_800CD478( work );
+        break;
+        case 6:
+        s00a_command_800CDD80( work );
+        break;
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    {
+        s00a_command_800CB2F4( work );
+    }
+
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    {
+        work->think1 = 0;
+        if ( work->think2 != 7 && work->think2 != 4 )
+        {
+            if ( work->think2 == 2 )
+            {
+                unsigned short th3 = work->think3;
+                if ( ( th3 - 12 ) < 2u )
+                {
+                    return;
+                }
+            }
+
+            if ( work->think2 == 5 )
+            {
+                CleanAsiato_800D1378();
+            }
+
+            work->think2 = 6;
+            work->think3 = 3;
+            work->count3 = 0;
+        }
+    }
+}
+
+void Enemy_Think_800CE99C( WatcherWork* work )
+{
+    work->pad.dir = -1;
+    work->pad.press = 0;
+    work->control.field_3A = 13;
+    
+    switch ( work->think1 )
+    {
+    case 0:
+        work->field_8E6 = 1;
+        s00a_command_800CE634( work );
+        break;
+    case 1:
+        work->field_8E6 = 1;
+        s00a_command_800CE778( work );
+        break;
+    case 2:
+        work->field_8E6 = 1;
+        s00a_command_800CE830( work );
+        break;
+    }
 }
