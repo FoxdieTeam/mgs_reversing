@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef snake_vr_sna_init_800541E4
-snake_vr_sna_init_800541E4:
+	xdef sna_anim_scope_80055334
+sna_anim_scope_80055334:
 	dw 0x27BDFFE8 ; 800541E4
 	dw 0xAFB00010 ; 800541E8
 	dw 0x00808021 ; 800541EC
