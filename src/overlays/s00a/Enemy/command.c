@@ -211,16 +211,16 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'j' );
     if ( ops )
     {
-        s00a_dword_800E0E3C.vy = s00a_command_800CED88( ops, &s00a_dword_800E0E3C );
+        EnemyCommand_800E0D98.field_0xA4[0][1] = s00a_command_800CED88( ops, EnemyCommand_800E0D98.field_0xA4 );
     }
     else
     {
-        EnemyCommand_800E0D98.field_0xA6 = 1;
-        EnemyCommand_800E0D98.field_0xA8 = 0;
-        EnemyCommand_800E0D98.field_0xAA = 0;
+        EnemyCommand_800E0D98.field_0xA4[0][1] = 1;
+        EnemyCommand_800E0D98.field_0xA4[1][0] = 0;
+        EnemyCommand_800E0D98.field_0xA4[1][1] = 0;
     }
 
-    EnemyCommand_800E0D98.where  = where;
+    EnemyCommand_800E0D98.field_0xA4[0][0]  = where;
     EnemyCommand_800E0D98.field_0x08 = 0;
 
     ops = GCL_GetOption_80020968( 'n' );
