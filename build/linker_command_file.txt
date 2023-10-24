@@ -522,12 +522,13 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\overlay_bss.obj"
 
-    ;psyq
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB1C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB3C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB5C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB8C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_800DFB9C.obj"
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
 {% elif OVERLAY == "d03a" %}
     include "{{OBJ_DIR}}\overlays\d03a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Enemy\demokage.obj"
