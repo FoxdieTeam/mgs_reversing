@@ -1643,17 +1643,7 @@ void s00a_command_800CD478( WatcherWork *work )
         case 5:
            if ( s00a_command_800CC90C( work ) )
            {
-               if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
-               {
-                    work->pad.field_00--;
-                    s00a_command_800CB13C( work );
-                    EnemyResetThink_800CB224( work );
-                    s00a_command_800CB660( work );
-               }
-               else
-               {
-                   s00a_command_800CB42C( work );
-               }
+               think_reset2( work );
            }
            if ( ( work->field_BA1 & 1 ) && ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 ) ) 
            {
@@ -1757,49 +1747,19 @@ void s00a_command_800CD608( WatcherWork *work )
     case 6:
         if ( s00a_command_800CCAFC( work ) )
         {
-                if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
-               {
-                    work->pad.field_00--;
-                    s00a_command_800CB13C( work );
-                    EnemyResetThink_800CB224( work );
-                    s00a_command_800CB660( work );
-               }
-               else
-               {
-                   s00a_command_800CB42C( work );
-               }
+            think_reset2( work );
         }
         break;
     case 7:
         if ( s00a_command_800CC344( work ) )
         {
-                if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
-               {
-                    work->pad.field_00--;
-                    s00a_command_800CB13C( work );
-                    EnemyResetThink_800CB224( work );
-                    s00a_command_800CB660( work );
-               }
-               else
-               {
-                   s00a_command_800CB42C( work );
-               }
+            think_reset2( work );
         }
         break;
     case 8:
         if ( s00a_command_800CC40C( work ) )
         {
-            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
-            {
-                work->pad.field_00--;
-                s00a_command_800CB13C( work );
-                EnemyResetThink_800CB224( work );
-                s00a_command_800CB660( work );
-            }
-            else
-            {
-                s00a_command_800CB42C( work );
-            }
+            think_reset2( work );
         }
         break;
     }

@@ -225,10 +225,7 @@ typedef struct _ENEMY_COMMAND
     int     field_0x98;
     int     field_0x9C;
     MAP     *map;
-    short   where;        //0xA4
-    short   field_0xA6;
-    short   field_0xA8;
-    short   field_0xAA;
+    unsigned short   field_0xA4[2][2];  //0xA4
     int     field_0xAC;
     int     field_0xB0;
     int     field_0xB4;
@@ -279,7 +276,9 @@ extern unsigned int            ENE_SPECIAL_FLAG_800E0D94;
 extern ENEMY_COMMAND           EnemyCommand_800E0D98;
 
 //extern int                   EC_MODE_800E0DB0; // EC_MODE, direct access to EnemyCommand struct member
-extern SVECTOR                 s00a_dword_800E0E3C;
+extern unsigned short s00a_dword_800E0E3C[2][2]; //direct access to EnemyCommand struct member
+
+extern int s00a_dword_800E0DE0;
 
 extern int                     COM_PlayerMap_800E0F1C;
 extern TOPCOMMAND_STRUCT       TOPCOMMAND_800E0F20;
@@ -301,11 +300,11 @@ extern int                     COM_VibTime_800E0F68;
 #define TOP_COMM_ALERT  1
 
 extern void  s00a_command_800CEC40( SVECTOR *mov , int n );
-extern char  s00a_command_800CEA2C( WatcherWork *work );
+extern int  s00a_command_800CEA2C( WatcherWork *work );
 extern void  s00a_command_800CEC90( void ) ;
 extern void  s00a_command_800CECF4( void ) ;
 extern short s00a_command_800CEDE8( int ops, void *val, int where );
-extern short s00a_command_800CED88( int ops, SVECTOR* svec );
+extern short s00a_command_800CED88( int ops, unsigned short [][2] );
 extern void  s00a_command_800CFA94( CommanderWork* work ) ;
 extern void  s00a_command_800CFEA8( void ) ;
 extern int   s00a_command_800D0128( int ops );
