@@ -203,30 +203,137 @@ void s00a_command_800CEE98(void)
     total = EnemyCommand_800E0D98.field_0x54;
     reset_pos = 0;
     
-        for ( ; i < total ; i++  )
+    for ( ; i < total ; i++  )
+    {
+        s0 = i + delta;
+        if ( s0 >= total )
         {
-            s0 = i + delta;
-            if ( s0 >= total )
-            {
-                s0 -= total;
-            }
+            s0 -= total;
+        }
 
-            zone = &EnemyCommand_800E0D98.map->field_8_hzd->f00_header->navmeshes[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
+        zone = &EnemyCommand_800E0D98.map->field_8_hzd->f00_header->navmeshes[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
 
-            svec.vx = zone->x;
-            svec.vy = GM_PlayerPosition_800ABA10.vy;
-            svec.vz = zone->z;
+        svec.vx = zone->x;
+        svec.vy = GM_PlayerPosition_800ABA10.vy;
+        svec.vz = zone->z;
 
-            dist1 =  10000;
-            dist2 = GV_DistanceVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
-            if ( dist1 < dist2 )
-            {
-                reset_pos = s0;
-                break;
-            }
+        dist1 =  10000;
+        dist2 = GV_DistanceVec3_80016E84( &svec, &GM_PlayerPosition_800ABA10 );
+        if ( dist1 < dist2 )
+        {
+            reset_pos = s0;
+            break;
+        }
 
     }
 
     EnemyCommand_800E0D98.c_reset_pos = reset_pos;
     fprintf( 1, aCresetposd_800E07FC, reset_pos );
+}
+
+
+int s00a_command_800CEFE4( int val )
+{
+    return  EnemyCommand_800E0D98.field_0x0C % val;
+}
+
+void s00a_command_800CF024( int *val )
+{
+    if ( COM_GameStatus_800E0F3C & 1 )
+    {
+        *val = 0x82;
+    }
+    else
+    {
+        *val = 0x80;
+    }
+}
+
+void s00a_command_800CF050( int *val )
+{
+    *val = 0x87;
+}
+
+void s00a_command_800CF05C( int *val )
+{
+    *val = 0x8B;
+}
+
+void s00a_command_800CF068( int *val )
+{
+    *val = 0x8A;
+}
+
+void s00a_command_800CF074( int *val )
+{
+    *val = 0x86;
+}
+
+void s00a_command_800CF080( int* val )
+{
+    switch( s00a_command_800CEFE4( 3 ) )
+    {
+    case 0:
+        *val = 0x82;
+        break;
+    case 1:
+    case 2:
+        *val = 0x81;
+        break;
+    }
+}
+
+void s00a_command_800CF0CC( int *val )
+{
+    *val = 0x85;
+}
+
+extern const char aKottida_800E0810[]; //"kottida !!\n";
+
+void s00a_command_800CF0D8( int* val )
+{
+    switch ( s00a_command_800CEFE4( 2 ) )
+    {
+    case 0:
+        fprintf( 1, aKottida_800E0810 );
+        *val = 0x81;
+        return;
+    case 1:
+        *val = 0;
+        return;
+    }
+}
+
+
+int s00a_command_800CF13C( int val )
+{
+    switch( val )
+    {
+        case 240:
+            s00a_command_800CF024( &val );
+            break;
+        case 241:
+            s00a_command_800CF050( &val );
+            break;
+        case 242:
+            s00a_command_800CF05C( &val );
+            break;
+        case 243:
+            s00a_command_800CF068( &val );
+            break;
+        case 244:
+            s00a_command_800CF074( &val );
+            break;
+        case 245:
+            s00a_command_800CF0CC( &val );
+            break;
+        case 246:
+            s00a_command_800CF080( &val );
+            break;
+        case 247:
+            s00a_command_800CF0D8( &val );
+            break;
+    }
+
+    return val;
 }
