@@ -412,22 +412,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\overlay6.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\command_temp.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay7.obj"
 
-
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CED48.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CED88.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEDE8.obj"
-    ;include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEE98.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CEFE4.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF024.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF050.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF05C.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF068.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF074.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF080.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF0CC.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF0D8.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF13C.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF200.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF298.obj"
     include "{{OBJ_DIR}}\overlays\s00a\s00a_command_800CF420.obj"
