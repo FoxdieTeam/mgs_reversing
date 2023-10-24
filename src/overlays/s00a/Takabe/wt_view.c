@@ -32,10 +32,8 @@ extern DG_CHNL DG_Chanls_800B1800[3];
 
 extern const char sWtViewC[]; // = "wt_view.c"
 
-// PsyQ
-void s00a_800DFB1C(SPRT *);
-void s00a_800DFB3C(TILE *);
-int  s00a_800DFB9C(void *prim, int, int);
+// TODO: can't find the signature of this function in PsyQ headers
+void SetPriority(void *prim, int, int);
 
 int  WaterView_800DBEB8(WaterViewWork *work);
 void WaterView_800DC0CC(void);
@@ -50,7 +48,7 @@ void WaterView_800DB800(SPRT *sa, SPRT *sb, CVECTOR *color)
     SPRT sprt;
     int  i;
 
-    s00a_800DFB1C(&sprt);
+    SetSprt(&sprt);
 
     sprt.x0 = -160;
     sprt.y0 = -112;
@@ -78,7 +76,7 @@ void WaterView_800DB8F4(SPRT *sa, SPRT *sb, CVECTOR *color)
     SPRT sprt;
     int  i;
 
-    s00a_800DFB1C(&sprt);
+    SetSprt(&sprt);
 
     sprt.x0 = 0;
     sprt.y0 = -112;
@@ -153,7 +151,7 @@ void WaterViewAct_800DB9E8(WaterViewWork *work)
         addPrim(&ot[0xFF], tile);
 
         prim2 = (char *)work->prims + 0x20 + GV_Clock_800AB920 * 12;
-        s00a_800DFB9C(prim2, 0, 1);
+        SetPriority(prim2, 0, 1);
         addPrim(&ot[0xFF], prim2);
 
         if (GV_PauseLevel_800AB928 == 0)
@@ -275,7 +273,7 @@ int WaterView_800DBEB8(WaterViewWork *work)
     SetDrawTPage(&prims->tpage[3], 0, 1, GetTPage(2, 0, 448, 0));
 
     tile = &work->prims->tile[0];
-    s00a_800DFB3C(tile);
+    SetTile(tile);
 
     tile->x0 = -160;
     tile->w = 320;
