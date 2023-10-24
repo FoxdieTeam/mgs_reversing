@@ -84,6 +84,7 @@ def ninja_run():
         r'select\.c:\d+: warning: `gcl_string\' might be used uninitialized in this function',
         r'mts_new\.c:\d+: warning: control reaches end of non-void function',
         r'overlay_bss\.c:\d+: warning: `s00a_dword_800E1120\' defined but not used',
+        r'mosaic\.c:\d+: warning: unused variable `unused\'',
     ]
 
     if os.environ.get('APPVEYOR'):

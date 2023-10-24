@@ -87,7 +87,6 @@ int THING_Gcl_GetSVector(int, SVECTOR *);
 int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
 int THING_Msg_GetResult(void);
 
-void s00a_mosaic_800DC854(DG_OBJS *, LitHeader *);
 void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA140(ElevatorWork *);
 void Elevator_800DA268(ElevatorWork *);
@@ -96,8 +95,9 @@ void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
 int  Elevator_800DA464(ElevatorWork *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
-DG_OBJS * s00a_mosaic_800DC7DC(int, LitHeader *);
-void      s00a_mosaic_800DC820(DG_OBJS *);
+void      s00a_unknown3_800DC854(DG_OBJS *objs, LitHeader *lit);
+DG_OBJS * s00a_unknown3_800DC7DC(int model, LitHeader *lit);
+void      s00a_unknown3_800DC820(DG_OBJS *objs);
 
 #define EXEC_LEVEL 5
 
@@ -382,7 +382,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (work->f590 == 0)
         {
-            s00a_mosaic_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+            s00a_unknown3_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
             work->f590 = 1;
         }
     }
@@ -482,11 +482,11 @@ void ElevatorDie_800D97D8(ElevatorWork *work)
 
     if (work->f58C & 0x1)
     {
-        s00a_mosaic_800DC820(work->object1.objs);
+        s00a_unknown3_800DC820(work->object1.objs);
 
         if (work->f58C & 0x8)
         {
-            s00a_mosaic_800DC820(work->object2.objs);
+            s00a_unknown3_800DC820(work->object2.objs);
         }
     }
     else
@@ -967,7 +967,7 @@ void Elevator_800DA4CC(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_mosaic_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
+    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->field_C_lit);
 }
 
 void Elevator_800DA534(HZD_VEC *in, SVECTOR *addend, HZD_VEC *out)

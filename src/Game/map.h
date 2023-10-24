@@ -5,10 +5,12 @@
 #include <LIBGTE.H>
 #include <LIBGPU.H>
 #include "libhzd/libhzd.h"
+#include "libdg/libdg.h"
 
 typedef struct        LitHeader
 {
     int               field_0_num_lights;
+    DG_LIT            lights[0];
 } LitHeader;
 
 typedef struct        MAP
