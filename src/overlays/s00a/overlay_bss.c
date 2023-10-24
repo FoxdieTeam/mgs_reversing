@@ -1,6 +1,7 @@
 // BSS which can't actually be declared as BSS due to memleaks
 
 const char s00a_dword_800E0C9C[] = {0x0, 0x0, '#', '('};
+//INT
 const char s00a_dword_800E0CA0[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0CA4[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0CA8[] = {0x0, 0x0, 0x0, 0x0};
@@ -37,10 +38,15 @@ const char s00a_dword_800E0D20[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0D24[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0D28[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0D2C[] = {0x0, 0x0, 0x0, 0x0};
+
+//INT
 const char s00a_dword_800E0D30[] = {0x0, '`', 0x0, 0x0};
 const char s00a_dword_800E0D34[] = {0x0, '\n', 'T', '4'};
+
+//SVECTOR
 const char s00a_dword_800E0D38[] = {0x0, ',', 0x4, 0x1};
 const char s00a_dword_800E0D3C[] = {0x0, 0x0, '`', 0x0};
+
 const char s00a_dword_800E0D40[] = {0x0, 0x0, '\n', 'J'};
 
 //int
@@ -110,13 +116,9 @@ const char s00a_dword_800E0E28[] = {'\n', 0x10, 0x0, 0x0};
 const char s00a_dword_800E0E2C[] = {',', 0x4, 0x1, 0x0};
 const char s00a_dword_800E0E30[] = {0x0, 0x18, 0x1, 0x0};
 const char s00a_dword_800E0E34[] = {0x0, '\n', 0x10, 0x4};
-
 const char s00a_dword_800E0E38[] = {0x0, ',', 0x4, 0x1};
-
-//SVECTOR
 const char s00a_dword_800E0E3C[] = {0x0, 0x0, 0xc, 0x1};
 const char s00a_dword_800E0E40[] = {0x0, 0x0, '\n', 0x10};
-
 const char s00a_dword_800E0E44[] = {0x8, 0x0, ',', 0x4};
 const char s00a_dword_800E0E48[] = {0x1, 0x0, 0x0, 0xc};
 const char s00a_dword_800E0E4C[] = {0x1, 0x0, 0x0, '\n'};
@@ -167,16 +169,14 @@ const char s00a_dword_800E0EFC[] = {',', 0x4, 0x1, 0x0};
 const char s00a_dword_800E0F00[] = {0x0, 'x', 0x0, 0x0};
 const char s00a_dword_800E0F04[] = {0x0, 0x6, 0x1, 0x0};
 const char s00a_dword_800E0F08[] = {0x2, 0xa2, 0x0, 0x0};
-
 const char s00a_dword_800E0F0C[] = {0x56, 0x41, 0x52, 0x49};
-
 const short s00a_dword_800E0F10 = 0x5445;
 const short s00a_dword_800E0F12 = 0x0059;
-
 const char s00a_dword_800E0F14[] = {0x56, 0x52, 0x20, 0x4D};
 const char s00a_dword_800E0F18[] = {0x49, 0x53, 0x53, 0x49};
+//END ENEMYCOMMAND
 
-//int
+//INT
 const char COM_PlayerMap_800E0F1C[] = {0x4F, 0x4E, 0x00, 0x00};
 
 //TOPCOMMAND_STRUCT
