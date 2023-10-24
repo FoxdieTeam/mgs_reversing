@@ -191,7 +191,7 @@ void s00a_command_800C9414( WatcherWork* work )
     int a1, a3;
     int a2;
     int v1;
-    if ( !s00a_dword_800E0F12 ) return;
+    if ( !EnemyCommand_800E0D98.field_0x17A ) return;
 
     a3 = work->field_8E0;
     a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
