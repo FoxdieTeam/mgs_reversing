@@ -190,7 +190,7 @@ typedef struct _WatcherWork
 typedef struct _CommanderWork
 {
     GV_ACT         actor;
-    unsigned short unk; //0x20
+    unsigned short unk;  //0x20
     unsigned short unk2; //0x22
     int            name; //0x24
 } CommanderWork;
@@ -200,51 +200,67 @@ typedef struct _TOPCOMMAND_STRUCT {
     int alert;
 } TOPCOMMAND_STRUCT;
 
+typedef struct _A4_INNER_STRUCT 
+{
+    unsigned short field_00;    //0x00
+    unsigned short field_02;    //0x02
+
+} A4_INNER_STRUCT;
+
+typedef struct _A4_STRUCT
+{
+    unsigned short  map_id;      //0x00
+    unsigned short  n_entry;     //0x02
+    A4_INNER_STRUCT field_04[8]; //0x04
+} A4_STRUCT;
+
+typedef struct _C8_STRUCT
+{
+    int          field_00;      //0x00
+    int          field_04;      //0x04
+    int          field_08;      //0x08
+    WatcherWork *watcher;       //0x0C
+} C8_STRUCT;
+
 typedef struct _ENEMY_COMMAND
 {
-    int     field_0x00;
-    int     field_0x04;
-    int     field_0x08;
-    int     field_0x0C;
-    int     field_0x10;
-    int     field_0x14;
-    int     mode;        ///0x18
-    int     field_0x1C;
-    int     field_0x20[8];
-    int     field_0x40;
-    int     com_addr;   //0x44
-    int     com_map;    //0x48
-    SVECTOR com_pos;    //0x4C
-    short   field_0x54;
-    short   field_0x56;
-    short   field_0x58[8];
-    int     field_0x68[8];
-    SVECTOR field_0x88;
-    int     reset_enemy_num;
-    int     reset_enemy_max;
-    int     field_0x98;
-    int     field_0x9C;
-    MAP     *map;
-    unsigned short   field_0xA4[2][2];  //0xA4
-    int     field_0xAC;
-    int     field_0xB0;
-    int     field_0xB4;
-    int     field_0xB8;
-    int     field_0xBC;
-    int     field_0xC0;
-    int     field_0xC4;
-    VECTOR  field_0xC8[8];
-    int     field_0x148[8];
-    int     field_0x168;
-    int     field_0x16C;
-    int     field_0x170;
-    int     field_0x174;
-    short   field_0x178;
-    short   field_0x17A;
-    int     field_0x17C;
-    short   field_0x180;
-    short   field_0x182;
+    int       field_0x00;
+    int       field_0x04;
+    int       field_0x08;
+    int       field_0x0C;
+    int       field_0x10;
+    int       field_0x14;
+    int       mode;        ///0x18
+    int       field_0x1C;
+    int       field_0x20[8];
+    int       field_0x40;
+    int       com_addr;   //0x44
+    int       com_map;    //0x48
+    SVECTOR   com_pos;    //0x4C
+    short     field_0x54;
+    short     c_reset_pos; //0x56
+    short     field_0x58[8];
+    int       field_0x68[8];
+    SVECTOR   field_0x88;
+    int       reset_enemy_num;
+    int       reset_enemy_max;
+    int       field_0x98;
+    int       field_0x9C;
+    MAP      *map;            //0xA0
+    A4_STRUCT field_0xA4;
+    C8_STRUCT field_0xC8[8];
+    int       field_0x148[8];
+    int       field_0x168;
+    int       field_0x16C;
+    int       field_0x170;
+    int       field_0x174;
+    short     field_0x178;
+    short     field_0x17A;
+    int       field_0x17C;
+    short     field_0x180;
+    short     field_0x182;
 } ENEMY_COMMAND;
+
 
 extern int                     s00a_dword_800C3328[8];
 
@@ -262,9 +278,9 @@ extern const char              aCom_noisemode_disD_800E0940[]; // COM_NOISEMODE_
 extern const char              aEeeDDDTD_800E095C[];           //eee %d %d %d t %d \n
 
 extern int                     s00a_dword_800E0CA0;
-
 extern int                     s00a_dword_800E0D2C;
 extern int                     s00a_dword_800E0D30;
+extern SVECTOR                 s00a_dword_800E0D38;
 extern int                     COM_NoiseMinDisID_800E0D44;
 
 extern int                     COM_SHOOTRANGE_800E0D88; 
@@ -276,9 +292,6 @@ extern unsigned int            ENE_SPECIAL_FLAG_800E0D94;
 extern ENEMY_COMMAND           EnemyCommand_800E0D98;
 
 //extern int                   EC_MODE_800E0DB0; // EC_MODE, direct access to EnemyCommand struct member
-extern unsigned short s00a_dword_800E0E3C[2][2]; //direct access to EnemyCommand struct member
-
-extern int s00a_dword_800E0DE0;
 
 extern int                     COM_PlayerMap_800E0F1C;
 extern TOPCOMMAND_STRUCT       TOPCOMMAND_800E0F20;
@@ -303,8 +316,8 @@ extern void  s00a_command_800CEC40( SVECTOR *mov , int n );
 extern int  s00a_command_800CEA2C( WatcherWork *work );
 extern void  s00a_command_800CEC90( void ) ;
 extern void  s00a_command_800CECF4( void ) ;
-extern short s00a_command_800CEDE8( int ops, void *val, int where );
-extern short s00a_command_800CED88( int ops, unsigned short [][2] );
+extern int   s00a_command_800CEDE8( int ops, short *val, int where );
+extern int   s00a_command_800CED88( int ops, A4_STRUCT * );
 extern void  s00a_command_800CFA94( CommanderWork* work ) ;
 extern void  s00a_command_800CFEA8( void ) ;
 extern int   s00a_command_800D0128( int ops );

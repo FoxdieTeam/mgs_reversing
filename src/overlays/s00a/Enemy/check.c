@@ -188,9 +188,9 @@ void s00a_command_800C55B0( WatcherWork* work )
     GM_ConfigControlAttribute_8002623C( ctrl, 0xD );
     InitTarget_800C5484( work );
 
-    warp = sub_8005CFAC( EnemyCommand_800E0D98.map->field_8_hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.field_0x56 ],  200 );
+    warp = sub_8005CFAC( EnemyCommand_800E0D98.map->field_8_hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ],  200 );
     
-    printf( aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.field_0x56 ], warp );
+    printf( aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], warp );
 
     zone = &ctrl->field_2C_map->field_8_hzd->f00_header->navmeshes[ warp ];
     ctrl->field_0_mov.vx = zone->x;

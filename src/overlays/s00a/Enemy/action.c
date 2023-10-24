@@ -1226,7 +1226,7 @@ void s00a_command_800C818C( WatcherWork *work, int time )
     {
         work->visible = 0;
         work->control.field_0_mov = COM_NO_POINT_800C35D4;
-        EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy = 1;
+        EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 = 1;
 
         if ( !work->field_C48 )
         {
@@ -1239,7 +1239,7 @@ void s00a_command_800C818C( WatcherWork *work, int time )
         }
     }
 
-    if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy == 2 )
+    if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
     {
         s00a_command_800C55B0( work );
         printf(aEnemyresetmaxdnumd_800DFE50, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num);
