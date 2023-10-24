@@ -91,10 +91,10 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        EnemyCommand_800E0D98.field_0xC8[i].vx  = 0;
-        EnemyCommand_800E0D98.field_0xC8[i].vy  = 0;
-        EnemyCommand_800E0D98.field_0xC8[i].vz  = 0;
-        EnemyCommand_800E0D98.field_0xC8[i].pad = 0;
+        EnemyCommand_800E0D98.field_0xC8[i].field_00  = 0;
+        EnemyCommand_800E0D98.field_0xC8[i].field_04  = 0;
+        EnemyCommand_800E0D98.field_0xC8[i].field_08  = 0;
+        EnemyCommand_800E0D98.field_0xC8[i].watcher   = 0;
     }
 
     for ( i = 0 ; i < 8 ; i++ )
@@ -114,7 +114,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'v' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x54 = s00a_command_800CEDE8( ops, &EnemyCommand_800E0D98.field_0x58 , where );
+        EnemyCommand_800E0D98.field_0x54 = s00a_command_800CEDE8( ops, EnemyCommand_800E0D98.field_0x58 , where );
     }
     else
     {
@@ -175,7 +175,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     printf( ( void* )&aEeeDDDTD_800E095C, EnemyCommand_800E0D98.field_0x88.vx, EnemyCommand_800E0D98.field_0x88.vy, EnemyCommand_800E0D98.field_0x88.vz, COM_ALERT_DECREMENT_800E0F60  );
 
     EnemyCommand_800E0D98.field_0x1C  = 0x1E;
-    EnemyCommand_800E0D98.field_0x56  = 0;
+    EnemyCommand_800E0D98.c_reset_pos = 0;
     EnemyCommand_800E0D98.field_0x16C = 0;
     EnemyCommand_800E0D98.field_0x174 = 0;
 
@@ -211,16 +211,16 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     ops = GCL_GetOption_80020968( 'j' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0xA4[0][1] = s00a_command_800CED88( ops, EnemyCommand_800E0D98.field_0xA4 );
+        EnemyCommand_800E0D98.field_0xA4.n_entry = s00a_command_800CED88( ops, &EnemyCommand_800E0D98.field_0xA4 );
     }
     else
     {
-        EnemyCommand_800E0D98.field_0xA4[0][1] = 1;
-        EnemyCommand_800E0D98.field_0xA4[1][0] = 0;
-        EnemyCommand_800E0D98.field_0xA4[1][1] = 0;
+        EnemyCommand_800E0D98.field_0xA4.n_entry = 1;
+        EnemyCommand_800E0D98.field_0xA4.field_04->field_00 = 0;
+        EnemyCommand_800E0D98.field_0xA4.field_04->field_02 = 0;
     }
 
-    EnemyCommand_800E0D98.field_0xA4[0][0]  = where;
+    EnemyCommand_800E0D98.field_0xA4.map_id  = where;
     EnemyCommand_800E0D98.field_0x08 = 0;
 
     ops = GCL_GetOption_80020968( 'n' );
