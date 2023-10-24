@@ -32,12 +32,11 @@ void s00a_asiato_800D0DD4(int param_1, char param_2, char param_3, char param_4,
     return;
 }
 
-void s00a_asiato_800D0E00(SVECTOR *arg0, short arg1, short arg2, short arg3)
+void s00a_asiato_800D0E00(SVECTOR *out, short vx, short vy, short vz)
 {
-    // Not confirmed that it's SVECTOR, but it worked without creating a new struct [-ChrizNuh]
-    arg0->vx = arg1;
-    arg0->vy = arg2;
-    arg0->vz = arg3;
+    out->vx = vx;
+    out->vy = vy;
+    out->vz = vz;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D0E10.s")
