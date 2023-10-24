@@ -60,7 +60,7 @@ const int s00a_dword_800E07F0 = 0x800CE880;
 const int s00a_dword_800E07F4 = 0x800CE890;
 const int s00a_dword_800E07F8 = 0x800CE8A0;
 */
-const char s00a_aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
+const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char s00a_aKottida_800E0810[] = "kottida !!\n";
 const int s00a_dword_800E081C = 0x800CF174;
 const int s00a_dword_800E0820 = 0x800CF184;

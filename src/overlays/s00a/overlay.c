@@ -123,8 +123,11 @@ SVECTOR ENEMY_TOUCH_SIZE_800C35C4   = { 300, 800, 300 };
 SVECTOR ENEMY_TOUCH_FORCE_800C35CC  = { 0, 0, 0, 0 };
 SVECTOR COM_NO_POINT_800C35D4       = { 30000, 30000, 30000 };
 
-int s00a_dword_800C35DC = 0x00000101;
-int s00a_dword_800C35E0 = 0x000001FF;
+//int s00a_dword_800C35DC = 0x00000101;
+
+unsigned char s00a_dword_800C35DC[4] = { 1,   1, 0, 0 };
+unsigned char s00a_dword_800C35E0[4] = { 255, 1, 0, 0 };
+
 int s00a_dword_800C35E4 = 0x000009C4;
 int s00a_dword_800C35E8 = 0x00000DAC;
 int s00a_dword_800C35EC = 0x00000FA0;

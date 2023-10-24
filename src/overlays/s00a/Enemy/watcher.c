@@ -67,7 +67,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
             work->act_status = EN_FASEOUT ;
             break;
         case 0x1DC4:
-            if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].vy == 2 )
+            if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
             {
                 work->visible = 1;
             }
