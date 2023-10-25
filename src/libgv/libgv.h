@@ -240,7 +240,7 @@ void         GV_NearExp4PV_800269A0(short *from, short *to, int count);
 void         GV_NearExp8PV_80026A24(short *from, short *to, int count);
 int          GV_DiffDirS_8001704C(int param_1, int param_2);
 int          GV_DiffDirAbs_8001706C(int a1, int a2);
-unsigned int GV_RandU_80017090(unsigned int input);
+int          GV_RandU_80017090(unsigned int input);
 int          GV_RandS_800170BC(int input);
 void         GV_InvYawVec3_80016F24(int a1, int a2, SVECTOR *a3);
 int          GV_NearDiffP_80026418(int from, int to);
