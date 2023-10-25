@@ -63,13 +63,17 @@ const char s00a_dword_800E0A9E = 0x00;
 const char s00a_dword_800E0A9F = 0x54;
 const char aMouse[] = "mouse";
 const char aMouseC[] = "mouse.c";
-const char s00a_dword_800E0AB0[] = {0xa5, 0xd0, 0xa5, 0xd6};
-const char s00a_dword_800E0AB4[] = {0xa5, 0xeb, 0xa4, 0xcf};
+
+const char aBabu[] = {0xa5, 0xd0, 0xa5, 0xd6}; // "バブ" = bubble
+const char aRuWa[] = {0xa5, 0xeb, 0xa4, 0xcf}; // "ルは" = ????
+
 const char s00a_dword_800E0AB8[] = {0xa4, 0xb8, 0xa4, 0xb1};
 const char s00a_dword_800E0ABC[] = {0xa4, 0xed, 0x0, 0x0};
-const char s00a_aKill_800E0AC0[] = "kill";
-const char s00a_aAwas_800E0AC8[] = "awa_s";
-const char s00a_aBubblesc_800E0AD0[] = "bubble_s.c";
+const char aKill[] = "kill";
+
+const char aAwas[] = "awa_s";
+const char aBubbleSC[] = "bubble_s.c";
+
 const char s00a_dword_800E0ADC[] = {0xb3, 0xab, 0xa4, 0xaf};
 const char s00a_dword_800E0AE0[] = {0x0, 0x0, 0x0, 0x0};
 const char s00a_dword_800E0AE4[] = {0xca, 0xc4, 0xa4, 0xe1};
