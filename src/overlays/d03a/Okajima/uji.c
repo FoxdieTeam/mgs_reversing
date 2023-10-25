@@ -168,14 +168,14 @@ void UjiAct_800C3B74(UjiWork *work)
             sp10[3].vy = 0;
             sp10[3].vz = -z;
 
-            switch ((int)GV_RandU_80017090(4))
+            switch (GV_RandU_80017090(4))
             {
             case 0:
-                vec3->vy += (int)GV_RandU_80017090(4096) % (modulo * 8);
+                vec3->vy += GV_RandU_80017090(4096) % (modulo * 8);
                 break;
 
             case 1:
-                vec3->vy -= (int)GV_RandU_80017090(4096) % (modulo * 8);
+                vec3->vy -= GV_RandU_80017090(4096) % (modulo * 8);
                 break;
 
             case 2:
