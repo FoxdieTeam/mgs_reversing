@@ -114,7 +114,7 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
 	work->pos[i].vy+=speed.vy;
 	work->pos[i].vz+=speed.vz;
 
-	rtemp1=size+((int)GV_RandU_80017090(4096)%size)/4;
+	rtemp1=size+(GV_RandU_80017090(4096)%size)/4;
 
 	work->rect[i].x=rtemp1/2;
 	work->rect[i].y=size/2;

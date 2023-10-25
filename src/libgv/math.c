@@ -109,7 +109,7 @@ int GV_DiffDirAbs_8001706C(int from, int to)
     }
 }
 
-unsigned int GV_RandU_80017090(unsigned int input)
+int GV_RandU_80017090(unsigned int input)
 {
     return (input - 1) & rand();
 }
