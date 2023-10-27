@@ -466,7 +466,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
 
 extern const char s00a_aResetmaxdnumd_800E083C[];
 
-void s00a_command_800CF504( C8_STRUCT* struct_c8 )
+void s00a_command_800CF504( C8_STRUCT* struct_c8 , int i )
 {
     int x = struct_c8->field_08;
     switch ( x )
@@ -631,4 +631,125 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
     }
 
     TOPCOMMAND_800E0F20.mode = command->mode;
+}
+
+int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
+{
+    int from;
+    int to;
+    
+    from = HZD_GetAddress_8005C6C4( hzd, pos, -1 );
+    
+    //TODO: fix
+    do 
+    { 
+        to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 ); 
+            do   { 
+            return sub_8005CD1C( hzd, from & 0xFF, to & 0xFF ); 
+        } while (0); 
+    } while (0);
+}
+
+int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
+{
+    CONTROL *ctrl;
+    int      x;
+    
+    ctrl = &work->control;
+    
+    if ( TOPCOMMAND_800E0F20.mode == 1 )
+    {
+        goto exit;
+    }
+
+    if ( GM_NoisePower_800ABA24 != 0x64 )
+    {
+        goto exit;
+    }
+
+    
+    if ( EnemyCommand_800E0D98.field_0xC8[ idx ].watcher->act_status & 0x10000028 )
+    {
+       goto exit;
+    }
+
+    if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    {
+        goto exit;
+    }
+
+    x = s00a_command_800CF940( ctrl->field_2C_map->field_8_hzd, &ctrl->field_0_mov, &GM_NoisePosition_800AB9F8 );
+
+    if ( x < 300 && x < dis )
+    {
+        COM_NoiseMinDisID_800E0D44 = idx;
+        dis = x;
+    }
+
+    exit:
+    return dis;
+}
+
+extern int COM_NoiseMinDisID_800E0D44;
+extern int s00a_dword_800E0D30;
+void s00a_command_800CFA94( CommanderWork* work ) 
+{
+    int i;
+    int dis;
+    int alert;
+    WatcherWork *watcher;
+
+    alert = 0;
+    dis = 0x7530;
+    
+    COM_NoiseMinDisID_800E0D44 = -1;
+    EnemyCommand_800E0D98.field_0x98 = 0;
+
+    for ( i = 0; i < EnemyCommand_800E0D98.field_0x08; i++ )
+    {
+        if ( EnemyCommand_800E0D98.field_0xC8[ i ].field_04 == 2 )
+        {
+            watcher = EnemyCommand_800E0D98.field_0xC8[ i ].watcher;
+            alert =  s00a_command_800CF688( alert, watcher->alert_level );
+            dis   =  s00a_command_800CF9A0( watcher, dis, i );
+            if ( !watcher->faseout )
+            {
+                EnemyCommand_800E0D98.field_0x98++;
+            }
+        }
+        else if ( EnemyCommand_800E0D98.field_0xC8[ i ].field_04 == 1 )
+        {
+            s00a_command_800CF504( &EnemyCommand_800E0D98.field_0xC8[ i ], i );
+        }
+    }
+
+    s00a_command_800CF420( &EnemyCommand_800E0D98 );
+    s00a_command_800CF6A0( alert, &EnemyCommand_800E0D98 );
+    s00a_command_800CF704( &EnemyCommand_800E0D98 );
+    s00a_command_800CF298( &EnemyCommand_800E0D98 );
+
+    if ( EnemyCommand_800E0D98.field_0x98 == 0 )
+    {
+        s00a_dword_800E0D30 |= 2;
+        if ( EnemyCommand_800E0D98.field_0x17C >= 0 )
+        {
+            GCL_ExecProc_8001FF2C( EnemyCommand_800E0D98.field_0x17C, NULL );
+            EnemyCommand_800E0D98.field_0x17C = -1;  
+        }
+    }
+
+    EnemyCommand_800E0D98.field_0x168 = 0;
+}
+
+int s00a_command_800CFC04( WatcherWork *work, HZD_ZON* zone )
+{
+    int i;
+    for ( i = 0; i < work->field_C34 ; i++ )
+    {
+        if ( zone->padding == work->field_C35[i] )
+        {
+            return 1;
+        }        
+    }
+    return 0;
 }
