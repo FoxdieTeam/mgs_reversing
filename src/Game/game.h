@@ -176,6 +176,15 @@ static inline int GM_GetCurrentMap()
     return GM_CurrentMap_800AB9B0;
 }
 
+static inline void GM_SetAlertMax( int alert )
+{
+    extern int GM_AlertMax_800AB9E0;
+    if ( GM_AlertMax_800AB9E0 < alert ) 
+    {
+        GM_AlertMax_800AB9E0 = alert;
+    }
+}
+
 void               GM_Act_8002ADBC(Actor_GM_Daemon *pActor);
 void               GM_InitArea_8002A704(void);
 void               GM_InitChara_8002A890();
