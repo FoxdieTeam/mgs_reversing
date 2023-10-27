@@ -74,7 +74,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     EnemyCommand_800E0D98.field_0x17A = 1;
 
     COM_PlayerAddress_800E0D90  = 0;
-    EnemyCommand_800E0D98.field_0x14  = 0;
+    EnemyCommand_800E0D98.alert  = 0;
     EnemyCommand_800E0D98.field_0x170 = 0;
 
 

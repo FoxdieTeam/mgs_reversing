@@ -442,9 +442,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     }
 
     sound = 0;
-    dis = 100000;
-    //dis = 0x186A0;
-    //local_C8 = command->field_0xC8;
+    dis   = 100000;
     for ( i = 0 ; i < command->field_0x08 ; i++ )
     {
         if ( command->field_0xC8[ i ].field_04 == 2 )
@@ -464,4 +462,173 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
         EnemyCommand_800E0D98.field_0x1C = 0x1E;
         GM_SeSet_80032858(NULL, s00a_command_800CF13C( sound ) );
     }
+}
+
+extern const char s00a_aResetmaxdnumd_800E083C[];
+
+void s00a_command_800CF504( C8_STRUCT* struct_c8 )
+{
+    int x = struct_c8->field_08;
+    switch ( x )
+    {
+    case 0:
+        if ( struct_c8->field_04 == 1 )
+        {
+            struct_c8->field_08 = 1;
+            struct_c8->field_00 = struct_c8->watcher->field_B78 + 1;
+        }
+        return;
+    case 1:
+        struct_c8->field_00--;
+        if ( !struct_c8->field_00 && struct_c8->watcher->field_B81  )
+        {
+            struct_c8->field_08 = 2;
+            struct_c8->field_00 = 0;
+            EnemyCommand_800E0D98.reset_enemy_num++;
+        }
+        return;
+    case 2:
+        switch ( EnemyCommand_800E0D98.mode )
+        {
+        case TOP_COMM_TRAVEL:
+            if ( EnemyCommand_800E0D98.field_0x168 & 1 )
+            {
+                s00a_command_800CEE98();
+                struct_c8->field_04 = x;
+                struct_c8->field_08 = 0;
+            }
+        return;
+        case TOP_COMM_ALERT:
+                if ( EnemyCommand_800E0D98.reset_enemy_num < EnemyCommand_800E0D98.reset_enemy_max + 1  || EnemyCommand_800E0D98.reset_enemy_max == 255 )
+                {
+                    if ( EnemyCommand_800E0D98.reset_enemy_num < 0 )
+                    {
+                        EnemyCommand_800E0D98.reset_enemy_num = 0;
+                    }
+
+                    s00a_command_800CEE98();
+                    struct_c8->field_04 = x;
+                    struct_c8->field_08 = 0;
+                    printf( s00a_aResetmaxdnumd_800E083C, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num );
+                }
+            return;
+        }
+        return;
+    }
+}
+
+int s00a_command_800CF688( int a0, int a1 )
+{
+    if ( a0 < a1 )
+    {
+        a0 = a1;
+    }
+
+    return a0;
+}
+
+extern void ENE_SetTopCommAL_800CEAE8( int );
+
+void s00a_command_800CF6A0( int val, ENEMY_COMMAND* command )
+{
+    if ( command->alert - val > 4 )
+    {
+        command->alert -= 4;
+    }
+    else
+    {
+        command->alert = val;
+    }
+
+    if ( command->alert < TOPCOMMAND_800E0F20.alert )
+    {
+        command->alert = TOPCOMMAND_800E0F20.alert;
+    }
+
+    ENE_SetTopCommAL_800CEAE8( 0 );
+}
+
+
+void GM_AlertModeSet_8002EA68( int );
+extern const char aGmenemywatchcountd_800E0854[]; //GM_EnemyWatchCount = [%d] \n
+
+void s00a_command_800CF704( ENEMY_COMMAND *command )
+{
+    int alert;
+    
+    switch ( command->mode )
+    {
+        default:
+            TOPCOMMAND_800E0F20.mode = command->mode;
+            return;
+        case 0:
+            COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
+            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 500;
+            if ( command->alert >= 255 )
+            {
+                command->alert = 255;
+                GM_AlertModeSet_8002EA68(3);
+                command->mode = 1;
+                EnemyCommand_800E0D98.reset_enemy_num = 0;
+                COM_GameStatus_800E0F3C |= 0x1;
+    
+                if ( !( COM_GameStatus_800E0F3C & 2 ) )
+                {
+                    GM_TotalBeingFound ++;
+                    printf( aGmenemywatchcountd_800E0854, GM_TotalBeingFound );
+                }
+                EnemyCommand_800E0D98.field_0x182 = 0;
+            }
+        break;
+        case 1:
+            COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vy;
+            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vy + 500;      
+
+            
+            if ( command->alert <= 0 ) 
+            {
+                GM_AlertModeSet_8002EA68(2);
+                command->mode = 2;
+                command->field_0x10 = 300;
+                GM_SetAlertMax( 0x100 );
+                s00a_command_800CED48();
+                EnemyCommand_800E0D98.field_0x182 = 1;
+                return;
+            }
+            alert = command->alert;
+            if ( alert >= 0x101 ) 
+            {
+                alert = 0x100;
+            }
+            GM_SetAlertMax( alert );
+        break;
+        case 2:
+            COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vz;
+            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vz + 500;     
+            command->field_0x10--;
+            if ( command->field_0x10 <= 0 )
+            {
+                GM_AlertModeSet_8002EA68(0);
+                command->mode = 0;
+                command->field_0x10 = 0;
+                EnemyCommand_800E0D98.field_0x180 = 0;
+                EnemyCommand_800E0D98.field_0x182 = 0;
+            }
+            if ( command->alert >= 255 )
+            {
+                command->alert = 0xFF;
+                GM_AlertModeSet_8002EA68(3);
+                command->mode = 1;
+            }
+            alert = command->field_0x10;
+            if ( alert >= 0x101 ) 
+            {
+                alert = 0x100;
+            }
+            GM_SetAlertMax( alert );
+            s00a_command_800CF200();
+        break;
+    }
+
+    TOPCOMMAND_800E0F20.mode = command->mode;
 }
