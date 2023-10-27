@@ -47,7 +47,7 @@ typedef struct DG_TEX
 		char  c[2];
 	} field_2_bUsed;
 
-	short field_4_tPage;
+	unsigned short field_4_tPage;
 	short field_6_clut;
 	char  field_8_offx;
 	char  field_9_offy;

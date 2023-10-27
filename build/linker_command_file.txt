@@ -483,13 +483,16 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\pad_demo.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\telop.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\overlay8.obj"
+
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\o2_damge.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\env_snd.obj"
 
-    include "{{OBJ_DIR}}\overlays\s00a\overlay8.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\overlay9.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"

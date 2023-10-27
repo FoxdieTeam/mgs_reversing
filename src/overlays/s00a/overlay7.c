@@ -134,17 +134,3 @@ const char aFadeioC[] = "fadeio.c";
 const char s00a_dword_800E0C15 = 0x30;
 const char s00a_dword_800E0C16 = 0x03;
 const char s00a_dword_800E0C17 = 0x00;
-const int s00a_dword_800E0C18 = 0x800DD778;
-const int s00a_dword_800E0C1C = 0x800DD7BC;
-const int s00a_dword_800E0C20 = 0x800DD818;
-const int s00a_dword_800E0C24 = 0x800DD850;
-const int s00a_dword_800E0C28 = 0x800DD8B4;
-
-// Takabe/telop.c
-const char aTelopC[] = "telop.c";
-
-// Takabe/cinema.c
-const char aCinemaC[] = "cinema.c";
-const char s00a_dword_800E0C3D = 0x2;
-const char s00a_dword_800E0C3E = 0x0;
-const char s00a_dword_800E0C3F = 0x0;
