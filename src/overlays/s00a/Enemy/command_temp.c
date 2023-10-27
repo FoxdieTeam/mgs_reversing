@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "Game/linkvarbuf.h"
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {
@@ -336,4 +337,131 @@ int s00a_command_800CF13C( int val )
     }
 
     return val;
+}
+
+extern SVECTOR GM_PlayerPosition_800ABA10;
+
+void s00a_command_800CF200(void) 
+{
+    if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count_8008BBB0() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
+    {
+       if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WEAPON_PSG1 )
+       {
+           GM_Sound_800329C4( &GM_PlayerPosition_800ABA10, 0xA, 2 );
+       }
+        EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count_8008BBB0();
+    }
+}
+
+extern int s00a_dword_800C35E4[];
+
+void s00a_command_800CF298( ENEMY_COMMAND* command )
+{
+    int i;
+    int t2;
+    int t3;
+    int t4;
+    int dists[8];
+    int temp1, temp2;
+    int temp3, temp4;
+    WatcherWork *work;
+
+    dists[0] = 0x7530;
+
+    for ( i = 0 ; i < command->field_0x08 ; i ++ )
+    {
+        //WatcherWork *work;
+        work = command->field_0xC8[ EnemyCommand_800E0D98.field_0x68[ i ] ].watcher;
+
+        if ( work->act_status & 0x10000000 )
+        {
+            dists[i] = 0x7530;
+        }
+        else
+        {
+            dists[i] = work->sn_dis;
+        }
+    }
+
+
+    for ( t3 = command->field_0x08 - 1 ; t3 > -1 ; t3 = t4  )
+    { 
+        t4 = -1;
+        for ( i = 1 ; t3 >= i ; i ++ )
+        {    
+            //TODO, fix without using dowhile
+            do 
+            {
+                temp2 = dists[ i - 1 ];
+                t2 = i - 1;
+            } while (0);
+
+            temp1 = dists[ i ];
+            
+            if ( temp1 < temp2 )
+            {
+                dists[ i - 1 ] = temp1;
+                dists[ i ] = temp2;
+
+                temp4 = EnemyCommand_800E0D98.field_0x68[ i - 1 ];
+                temp3 = EnemyCommand_800E0D98.field_0x68[ i  ];
+                t4 = t2;
+                
+                EnemyCommand_800E0D98.field_0x68[ i - 1 ] = temp3;
+                EnemyCommand_800E0D98.field_0x68[ i ] = temp4;
+            }            
+        }
+    }
+
+    EnemyCommand_800E0D98.field_0x170 = dists[0];
+    
+    for ( i = 0 ; i < command->field_0x08 ; i++ )
+    {
+        //WatcherWork *work;
+        work = command->field_0xC8[ EnemyCommand_800E0D98.field_0x68[ i ] ].watcher;
+        work->field_BFC = s00a_dword_800C35E4[ i ];
+        work->field_C00 = i;
+    }
+}
+
+void s00a_command_800CF420( ENEMY_COMMAND* command )
+{
+    int i;
+    int dis;
+    int sound;
+    WatcherWork *work;
+    EnemyCommand_800E0D98.field_0x1C--;
+    if ( EnemyCommand_800E0D98.field_0x1C < 0 )
+    {
+        EnemyCommand_800E0D98.field_0x1C = 0;
+    }
+
+    if ( EnemyCommand_800E0D98.field_0x1C > 0 )
+    {
+        return;
+    }
+
+    sound = 0;
+    dis = 100000;
+    //dis = 0x186A0;
+    //local_C8 = command->field_0xC8;
+    for ( i = 0 ; i < command->field_0x08 ; i++ )
+    {
+        if ( command->field_0xC8[ i ].field_04 == 2 )
+        {
+            work = command->field_0xC8[ i ].watcher;
+            if ( work->pad.sound && work->sn_dis < dis )
+            {
+                sound = work->pad.sound;
+                dis = work->sn_dis;
+            }
+            work->pad.sound = 0;
+        }
+    }
+
+    if ( sound )
+    {
+        EnemyCommand_800E0D98.field_0x1C = 0x1E;
+        GM_SeSet_80032858(NULL, s00a_command_800CF13C( sound ) );
+    }
 }
