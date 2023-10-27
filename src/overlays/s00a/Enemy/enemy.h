@@ -229,8 +229,8 @@ typedef struct _ENEMY_COMMAND
     int       field_0x08;
     int       field_0x0C;
     int       field_0x10;
-    int       field_0x14;
-    int       mode;        ///0x18
+    int       alert;        //0x14
+    int       mode;         //0x18
     int       field_0x1C;
     int       field_0x20[8];
     int       field_0x40;

@@ -10,7 +10,7 @@ const int s00a_dword_800E0834 = 0x800CF1D4;
 const int s00a_dword_800E0838 = 0x800CF1E4;
 */
 const char s00a_aResetmaxdnumd_800E083C[] = "reset max=%d num=%d \n";
-const char s00a_aGmenemywatchcountd_800E0854[] = " GM_EnemyWatchCount = [%d] \n";
+const char aGmenemywatchcountd_800E0854[] = " GM_EnemyWatchCount = [%d] \n";
 const char s00a_aNowzonedrzoned_800E0874[] = " now zone = %d r_zone=%d\n";
 const char s00a_aNotrestrctedaread_800E0890[] = " ? ? ? Not Restrcted Area [%d] !!!!\n";
 const char s00a_aErrerrerrnotlinkroutedtod_800E08B8[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
