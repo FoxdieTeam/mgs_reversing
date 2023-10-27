@@ -9,27 +9,46 @@ extern unsigned int GM_PlayerStatus_800ABA50;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
 extern int          dword_800AB9D4;
 extern CONTROL     *GM_WhereList_800B56D0[96];
+extern OBJECT      *GM_PlayerBody_800ABA20;
 
-typedef struct AsiatoWork
+// The second half of this file uses another Work struct
+// (NewAsiatoChar allocates more than NewAsiato)
+//
+// Maybe there should be a single:
+// struct AsiatoWork {
+//     GV_ACT actor;
+//     int    field_20;
+//     int    field_24;
+//     Child  children[0];
+// }
+// and some New* construtors allocate no children, some allocate one?
+typedef struct AsiatoCharWork
 {
-    GV_ACT actor;
-    int    field_20;
-    int    field_24;
-} AsiatoWork;
+    GV_ACT   actor;
+    DG_PRIM *field_20;
+    DG_TEX  *field_24;
+    SVECTOR  field_28;
+    SVECTOR  field_30;
+    SVECTOR  field_38;
+    SVECTOR  field_40;
+    int      field_48;
+    int      field_4C;
+    int      field_50;
+} AsiatoCharWork;
 
-void s00a_asiato_800D0DD4(int param_1, char param_2, char param_3, char param_4, char param_5)
+void s00a_asiato_800D0DD4(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
-    int iVar1;
+    POLY_FT4 *poly;
 
-    iVar1 = *(int *)(param_1 + 0x40);
-    *(char *)(iVar1 + 4) = param_3;
-    *(char *)(iVar1 + 5) = param_4;
-    *(char *)(iVar1 + 6) = param_5;
-    iVar1 = *(int *)(param_1 + 0x44);
-    *(char *)(iVar1 + 4) = param_3;
-    *(char *)(iVar1 + 5) = param_4;
-    *(char *)(iVar1 + 6) = param_5;
-    return;
+    poly = &prim->field_40_pBuffers[0]->poly_ft4;
+    poly->r0 = r;
+    poly->g0 = g;
+    poly->b0 = b;
+
+    poly = &prim->field_40_pBuffers[1]->poly_ft4;
+    poly->r0 = r;
+    poly->g0 = g;
+    poly->b0 = b;
 }
 
 void s00a_asiato_800D0E00(SVECTOR *out, short vx, short vy, short vz)
@@ -39,13 +58,151 @@ void s00a_asiato_800D0E00(SVECTOR *out, short vx, short vy, short vz)
     out->vz = vz;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D0E10.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D0E9C.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D0F90.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D116C.s")
+void s00a_asiato_800D0E10(AsiatoCharWork *work)
+{
+    int color;
+    if (++work->field_48 > 390)
+    {
+        GV_DestroyActor_800151C8(&work->actor);
+    }
+    color = 48 - work->field_48 * 48 / 690;
+    s00a_asiato_800D0DD4(work->field_20, work->field_24, color, color, color);
+}
 
-// NewAsiatoChar
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D11DC.s")
+void s00a_asiato_800D0E9C(POLY_FT4 *poly, DG_TEX *tex, int arg3, int r, int g, int b)
+{
+    setPolyFT4(poly);
+
+    poly->r0 = r;
+    poly->g0 = g;
+    poly->b0 = b;
+
+    if (arg3 < 4)
+    {
+        int x0, x1, y0, y1;
+
+        setSemiTrans(poly, 1);
+
+        x0 = tex->field_8_offx;
+        x1 = tex->field_8_offx + tex->field_A_width;
+        y1 = tex->field_9_offy + tex->field_B_height;
+        y0 = tex->field_9_offy;
+        poly->u0 = x0;
+        poly->u1 = x1;
+        poly->v0 = y0;
+        poly->v1 = y0;
+        poly->u2 = x0;
+        poly->v2 = y1;
+        poly->u3 = x1;
+        poly->v3 = y1;
+        poly->tpage = tex->field_4_tPage;
+        poly->clut = tex->field_6_clut;
+        poly->tpage = (poly->tpage & 0xFF9F) | (arg3 << 5);
+    }
+    else
+    {
+        int x0, x1, y0, y1;
+
+        x0 = tex->field_8_offx;
+        x1 = tex->field_8_offx + tex->field_A_width;
+        y1 = tex->field_9_offy + tex->field_B_height;
+        y0 = tex->field_9_offy;
+        poly->u0 = x0;
+        poly->v0 = y0;
+        poly->u1 = x1;
+        poly->v1 = y0;
+        poly->u2 = x0;
+        poly->v2 = y1;
+        poly->u3 = x1;
+        poly->v3 = y1;
+        poly->tpage = tex->field_4_tPage;
+        poly->clut = tex->field_6_clut;
+    }
+}
+
+int s00a_asiato_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2, int vy)
+{
+    SVECTOR  svec1, svec2;
+    DG_PRIM *prim;
+    DG_TEX  *tex;
+
+    s00a_asiato_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->field_8_rotator.vy, 0);
+    if (arg2 == 1)
+    {
+        s00a_asiato_800D0E00(&work->field_30, -70, 0, -140);
+        s00a_asiato_800D0E00(&work->field_28, 70, 0, -140);
+        s00a_asiato_800D0E00(&work->field_40, -70, 0, 140);
+        s00a_asiato_800D0E00(&work->field_38, 70, 0, 140);
+    }
+    else
+    {
+        s00a_asiato_800D0E00(&work->field_28, -70, 0, -140);
+        s00a_asiato_800D0E00(&work->field_30, 70, 0, -140);
+        s00a_asiato_800D0E00(&work->field_38, -70, 0, 140);
+        s00a_asiato_800D0E00(&work->field_40, 70, 0, 140);
+    }
+
+    prim = DG_GetPrim(0x12, 1, 0, &work->field_28, 0);
+    work->field_20 = prim;
+    if (prim != NULL)
+    {
+        svec2.vx = mat->t[0];
+        svec2.vy = mat->t[1];
+        svec2.vz = mat->t[2];
+        svec2.vy = vy;
+        work->field_24 = tex = DG_GetTexture_8001D830(0xDC55);
+        if (tex)
+        {
+            s00a_asiato_800D0E9C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 2, 48, 48, 48);
+            s00a_asiato_800D0E9C(&prim->field_40_pBuffers[1]->poly_ft4, tex, 2, 48, 48, 48);
+            DG_SetPos2_8001BC8C(&svec2, &svec1);
+            DG_PutPrim_8001BE00(&work->field_20->world);
+            return 0;
+        }
+    }
+    return -1;
+}
+
+void s00a_asiato_800D116C(AsiatoCharWork *work)
+{
+    DG_PRIM *prim;
+
+    prim = work->field_20;
+    if (prim != 0)
+    {
+        DG_DequeuePrim_800182E0(prim);
+        DG_FreePrim_8001BC04(prim);
+    }
+    asiato_svecs[work->field_4C].pad = 0;
+    asiato_svecs[48].vy--;
+}
+
+GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int arg4)
+{
+    AsiatoCharWork *work;
+
+    work = (AsiatoCharWork *)GV_NewActor_800150E4(4, sizeof(AsiatoCharWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_asiato_800D0E10,
+                                  (TActorFunction)s00a_asiato_800D116C, aAsiatoc_800E0998);
+        work->field_4C = arg3;
+        if (s00a_asiato_800D0F90(work, arg0, arg1, arg2) < 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
+        }
+        work->field_48 = arg4;
+    }
+    return &work->actor;
+}
+
+typedef struct AsiatoWork
+{
+    GV_ACT actor;
+    int    field_20;
+    int    field_24;
+} AsiatoWork;
 
 void AsiatoPos_800D129C(int idx, SVECTOR *out)
 {
@@ -97,11 +254,30 @@ int NearAsiato_800D13A0()
 
 #pragma INCLUDE_ASM("asm/overlays/s00a/SearchNearAsiato_800D13B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D1500.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D15D8.s")
+int s00a_asiato_800D1500(HZD_HDL *, SVECTOR *, int);
 
+#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D15D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s00a/AsiatoCheck_800D16C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D16F8.s")
-int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos);
+
+int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
+{
+    work->field_20 = 0;
+
+    if (s00a_asiato_800D1500(hdl, pos, 0xCA85))
+    {
+        work->field_24 = 60;
+        return 0;
+    }
+
+    if (work->field_24 > 0)
+    {
+        work->field_20 = 360 - work->field_24 * 2;
+        work->field_24--;
+        return 1;
+    }
+
+    return s00a_asiato_800D1500(hdl, pos, 0xDC55);
+}
 
 int s00a_asiato_800D179C()
 {
@@ -126,8 +302,43 @@ int s00a_asiato_800D17BC(AsiatoWork *work)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D1844.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D18C8.s")
+void s00a_asiato_800D1844()
+{
+    SVECTOR *svec;
+
+    svec = &asiato_svecs[asiato_svecs[48].vx];
+    *svec = GM_PlayerPosition_800ABA10;
+    asiato_svecs[asiato_svecs[48].vx].pad = 1;
+    asiato_svecs[48].vy++;
+    asiato_svecs[48].vx++;
+    if (asiato_svecs[48].vx >= 48)
+    {
+        asiato_svecs[48].vx = 0;
+    }
+}
+
+void s00a_asiato_800D18C8(AsiatoWork *work)
+{
+    int     temp_v0;
+    DG_OBJ *var_s0;
+
+    temp_v0 = s00a_asiato_800D17BC(work);
+    if ((temp_v0 != 0) && (asiato_svecs[48].vy < 48))
+    {
+        if (temp_v0 == 1)
+        {
+            var_s0 = &GM_PlayerBody_800ABA20->objs->objs[12];
+        }
+        else
+        {
+            var_s0 = &GM_PlayerBody_800ABA20->objs->objs[15];
+        }
+        s00a_asiato_800D1844();
+        GM_CurrentMap_800AB9B0 = (*GM_WhereList_800B56D0)->field_2C_map->field_0_map_index_bit;
+        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->field_78_levels[0],
+                               asiato_svecs[48].vx - 1, work->field_20);
+    }
+}
 
 void AsiatoDie_800D1994(AsiatoWork *work)
 {
