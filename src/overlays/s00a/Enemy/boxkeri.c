@@ -8,7 +8,7 @@ typedef struct BoxKeriWork
     OBJECT  field_20_obj;
     SVECTOR field_44;
     SVECTOR field_48;
-    int     field_54[8];
+    MATRIX  field_54;
     short   field_74;
     short   field_76;
     short   field_78;
@@ -26,8 +26,87 @@ extern char       s00a_aCbbox_800E09E8[];
 extern char       s00a_dword_800E09D0[];
 extern char       s00a_dword_800E09DC[];
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_boxkeri_800D219C.s")
-void s00a_boxkeri_800D219C(BoxKeriWork *);
+void s00a_boxkeri_800D219C(BoxKeriWork *work)
+{
+    int field_74;
+
+    field_74 = work->field_74;
+    if (field_74 > 40)
+    {
+        GV_DestroyActor_800151C8(&work->actor);
+        return;
+    }
+    if (field_74 < 9)
+    {
+        work->field_7A += 80;
+        work->field_78 += 256;
+    }
+    else if (field_74 < 12)
+    {
+        work->field_78 -= 128;
+    }
+    else if (field_74 < 15)
+    {
+        work->field_78 += 64;
+    }
+    else if (field_74 < 18)
+    {
+        work->field_78 -= 32;
+    }
+    else if (field_74 < 19)
+    {
+        work->field_78 += 32;
+    }
+    else if (field_74 & 1)
+    {
+        DG_InvisibleObjs(work->field_20_obj.objs);
+    }
+    else
+    {
+        DG_VisibleObjs(work->field_20_obj.objs);
+    }
+
+    switch (work->field_76)
+    {
+    case 0:
+        if (field_74 < 9)
+        {
+            work->field_7A += 5;
+        }
+        work->field_48.vz = -work->field_7A;
+        work->field_44.vx = -work->field_78;
+        break;
+
+    case 1:
+        work->field_48.vx = -work->field_7A;
+        work->field_44.vz = work->field_78;
+        break;
+
+    case 2:
+        if (field_74 < 9)
+        {
+            work->field_7A += 100;
+        }
+        work->field_48.vz = work->field_7A;
+        work->field_44.vx = work->field_78;
+        break;
+
+    case 3:
+        work->field_48.vx = work->field_7A;
+        work->field_44.vz = -work->field_78;
+        break;
+    }
+
+    GM_CurrentMap_800AB9B0 = dword_800ABA0C;
+
+    DG_SetPos_8001BC44(&work->field_54);
+    DG_MovePos_8001BD20(&work->field_48);
+    DG_RotatePos_8001BD64(&work->field_44);
+    DG_PutObjs_8001BDB8(work->field_20_obj.objs);
+    DG_GetLightMatrix2_8001A5D8(&GM_PlayerPosition_800ABA10, &work->field_7C_mat);
+
+    work->field_74++;
+}
 
 void s00a_boxkeri_800D23D0(BoxKeriWork *work)
 {
@@ -53,7 +132,7 @@ int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
     return GV_YawVec3_80016EF8(&svec);
 }
 
-int s00a_boxkeri_800D2474(BoxKeriWork *work, int *arg1, SVECTOR *arg2)
+int s00a_boxkeri_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 {
     OBJECT *obj;
     int     dir;
@@ -96,13 +175,13 @@ int s00a_boxkeri_800D2474(BoxKeriWork *work, int *arg1, SVECTOR *arg2)
         }
     }
 
-    memcpy(work->field_54, arg1, sizeof(work->field_54));
+    work->field_54 = *arg1;
     work->field_74 = 0;
     s00a_boxkeri_800D23F0();
     return 0;
 }
 
-GV_ACT *NewBoxKeri_800D2600(int name, int where, int argc, char **argv)
+GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
 {
     BoxKeriWork *work;
 
@@ -111,7 +190,7 @@ GV_ACT *NewBoxKeri_800D2600(int name, int where, int argc, char **argv)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_boxkeri_800D219C,
                                   (TActorFunction)s00a_boxkeri_800D23D0, s00a_aBoxkeric_800E09F0);
-        if (s00a_boxkeri_800D2474(work, (int *)name, (SVECTOR *)where) < 0)
+        if (s00a_boxkeri_800D2474(work, mat, svec) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
