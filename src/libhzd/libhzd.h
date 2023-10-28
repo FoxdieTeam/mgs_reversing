@@ -129,6 +129,13 @@ typedef struct HZD_HDL
     char       *f24_dynamic_flags;
 } HZD_HDL; // 28
 
+static inline int HZD_addr_shift( int addr )
+{
+    int temp = addr & 0xFF;
+    return ( temp  | temp << 8 );
+}
+
+
 int      HZD_QueueDynamicSegment2_8006FDDC(HZD_HDL *pHzdMap, HZD_SEG *pSeg, int a_param_with_flag);
 void     HZD_DequeueDynamicSegment2_8006FE44(HZD_HDL *pHzdMap, HZD_SEG *arg1);
 int      HZD_QueueDynamicFloor_8006FF9C(HZD_HDL *pMap, HZD_FLR *pFlr);

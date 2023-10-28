@@ -56,13 +56,13 @@ void ENE_SetGopointLast_800CEB00(void)
 
 extern CONTROL *GM_WhereList_800B56D0[94];
 extern SVECTOR GM_NoisePosition_800AB9F8;
-extern int dword_800ABA0C; //GM_PlayerMap?
+extern int GM_PlayerMap_800ABA0C; //GM_PlayerMap?
 
 void s00a_command_800CEB54(void) 
 {
     EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition_800AB9F8;
-    EnemyCommand_800E0D98.com_map = dword_800ABA0C;
+    EnemyCommand_800E0D98.com_map = GM_PlayerMap_800ABA0C;
 }
 
 int s00a_command_800CEBCC( int map_id, int val )
@@ -752,4 +752,198 @@ int s00a_command_800CFC04( WatcherWork *work, HZD_ZON* zone )
         }        
     }
     return 0;
+}
+
+extern const char aNowzonedrzoned_800E0874[];// = " now zone = %d r_zone=%d\n";
+extern const char aNotrestrctedaread_800E0890[];// = " ? ? ? Not Restrcted Area [%d] !!!!\n";
+extern const char aErrerrerrnotlinkroutedtod_800E08B8[];// = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
+
+int s00a_command_800CFC4C( WatcherWork* work, int r_zone ) 
+{
+    int addr;
+    SVECTOR pos;
+    HZD_HDL *hzd;
+    CONTROL *ctrl;
+    HZD_ZON *zone;
+    int route_addr;
+    int l_zone_shift;
+    int r_zone_shift;
+
+    ctrl = &work->control;
+    hzd = ctrl->field_2C_map->field_8_hzd;
+    addr = HZD_GetAddress_8005C6C4( hzd, &ctrl->field_0_mov, -1 ) & 0xFF;
+
+    zone = &hzd->f00_header->navmeshes[ addr ];
+
+    pos.vx = zone->x;
+    pos.vy = zone->y;
+    pos.vz = zone->z;
+
+    r_zone_shift = HZD_addr_shift( r_zone );
+
+    for (;;)
+    {
+        printf( aNowzonedrzoned_800E0874, addr, r_zone );
+        
+        l_zone_shift = HZD_addr_shift( addr );
+        
+        route_addr = HZD_LinkRoute_8005C974( hzd,  l_zone_shift, r_zone_shift, &pos );
+
+        if ( route_addr == addr )
+        {
+            if ( addr == r_zone )
+            {
+                printf( aNotrestrctedaread_800E0890, addr );
+                return addr;
+            }
+
+            printf( aErrerrerrnotlinkroutedtod_800E08B8, addr, r_zone );
+            return addr;
+        }
+
+        zone = &hzd->f00_header->navmeshes[ route_addr ];
+
+        if ( !s00a_command_800CFC04( work, zone ) )
+        {
+            pos.vx = zone->x;
+            pos.vy = zone->y;
+            pos.vz = zone->z;
+            addr = route_addr;
+        }
+        else
+        {
+            return addr;
+        }
+    }   
+}
+
+extern const char aCommanderrnozoneidingclzdidd_800E08E8[];// = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
+
+void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
+{
+    MAP *map;
+    SVECTOR *pos;
+    HZD_ZON *zone;
+    HZD_ZON *zone2;
+    HZD_HDL *hzd;
+    COM_PlayerAddressOne_800E0F40[ idx ] = (addr | addr << 8);
+
+    hzd = work->control.field_2C_map->field_8_hzd;
+    zone2 = &hzd->f00_header->navmeshes[ addr ];
+    zone = zone2;
+    
+    pos = &COM_PlayerPositionOne_800E0D48[ idx ];
+
+    pos->vx = zone->x;
+    pos->vy = zone->y;
+    pos->vz = zone->z;
+
+    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+    
+    if ( map != NULL )
+    {
+        COM_PlayerMapOne_800E0F70[ idx ] = map->field_0_map_index_bit;
+    }
+    else
+    {
+        printf( aCommanderrnozoneidingclzdidd_800E08E8, addr, zone->padding );
+    } 
+}
+
+extern int GM_PlayerAddress_800AB9F0;
+extern const char aCommandcwhereissnake_800E091C[];// = "command.c:  Where Is Snake ????\n";
+
+void s00a_command_800CFEA8( void )
+{
+    int i; //s2
+    int addr;
+    int addr2;
+    int check;
+    int ret_addr;
+    WatcherWork *work;
+
+    addr = GM_PlayerAddress_800AB9F0 & 0xFF;
+    addr2 = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+
+    if ( addr == addr2 && addr != 0xFF )
+    {
+        COM_PlayerAddress_800E0D90  = GM_PlayerAddress_800AB9F0;
+        COM_PlayerPosition_800E0F30 = GM_PlayerPosition_800ABA10;
+        COM_PlayerMap_800E0F1C      = GM_PlayerMap_800ABA0C;
+    }
+
+    if ( addr == 0xFF || addr2 == 0xFF )
+    {
+        COM_PlayerOnZone_800E0D40 = 0;
+    }
+    else
+    {
+        COM_PlayerOnZone_800E0D40 = 1;
+    }
+
+    for ( i = 0; i < EnemyCommand_800E0D98.field_0x08 ; i++ )
+    {
+        work = EnemyCommand_800E0D98.field_0xC8[ i ].watcher;
+        
+        if ( addr == addr2 && addr != 0xFF )
+        {
+            
+            check = 0;
+            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] ) )
+            {
+                check = 1;
+            }
+
+            if ( check )
+            {
+                COM_PlayerAddressOne_800E0F40[ i ]  = GM_PlayerAddress_800AB9F0;
+                COM_PlayerPositionOne_800E0D48[ i ] = GM_PlayerPosition_800ABA10;
+                COM_PlayerMapOne_800E0F70[ i ]      = GM_PlayerMap_800ABA0C;
+            }
+        }
+
+        if ( COM_PlayerAddressOne_800E0F40[ i ] == -1 )
+        {
+            if ( addr != 0xFF )
+            {
+                check = s00a_command_800CFC04( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] );
+                
+                if ( check )
+                {
+                    ret_addr = s00a_command_800CFC4C( work, addr );
+                    s00a_command_800CFDC8( work, ret_addr, i );
+                }
+                else
+                {
+                    s00a_command_800CFDC8( work, addr, i );
+                }
+            }
+            else
+            {
+                printf( aCommandcwhereissnake_800E091C );
+            }
+        }
+        
+    }    
+}
+
+int s00a_command_800D0128( int arg0 )
+{
+    int i;
+    unsigned char* res;
+    int proc_id;
+
+    res = (unsigned char*)arg0;
+    i = 0;
+    if ( res )
+    {
+        do
+        {
+            proc_id = GCL_StrToInt_800209E8( res );
+            res = GCL_Get_Param_Result_80020AA4();
+            GCL_ExecProc_8001FF2C( proc_id, NULL );
+            i++;
+        } while ( res );
+    }
+    return i;
 }

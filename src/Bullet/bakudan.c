@@ -19,7 +19,7 @@ extern int GM_CurrentMap_800AB9B0;
 
 extern int GV_Time_800AB330;
 extern int GM_CurrentMap_800AB9B0;
-extern int dword_800ABA0C;
+extern int GM_PlayerMap_800ABA0C;
 
 extern unsigned short GM_ItemTypes_8009D598[];
 
@@ -86,7 +86,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
 #endif
     if (((pActor->field_110_pPad->press & PAD_CIRCLE) &&
         (dword_8009F430 != GV_Time_800AB330) &&
-        (GM_CurrentMap_800AB9B0 & dword_800ABA0C) &&
+        (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
         !(GM_GameStatus_800AB3CC & STATE_PADRELEASE) &&
         !(GM_PlayerStatus_800ABA50 & 0x20000000) &&
         !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
@@ -163,7 +163,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     int nextItem;
     Jirai_unknown *pItem;
 
-    pActor->field_118 = GM_CurrentMap_800AB9B0 = dword_800ABA0C;
+    pActor->field_118 = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
     if (GM_InitLoader_8002599C(pCtrl, GM_Next_BulName_8004FBA0(), 0) < 0)
     {

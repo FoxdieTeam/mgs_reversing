@@ -23,8 +23,8 @@
 #include "camera.h"
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
-extern int              dword_800AB9F0;
-int                     dword_800AB9F0;
+extern int              GM_PlayerAddress_800AB9F0;
+int                     GM_PlayerAddress_800AB9F0;
 extern int              GM_GameOverTimer_800AB3D4;
 int                     GM_GameOverTimer_800AB3D4;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
@@ -124,7 +124,7 @@ void GM_Reset_helper_8002A978()
 {
     int i;
 
-    dword_800AB9F0 = -1;
+    GM_PlayerAddress_800AB9F0 = -1;
     GM_GameStatus_800AB3CC = 0;
     GM_GameOverTimer_800AB3D4 = 0;
     GM_PlayerStatus_800ABA50 = 0;

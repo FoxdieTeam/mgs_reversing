@@ -9,7 +9,7 @@
 
 extern int      GM_GameOverTimer_800AB3D4;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      dword_800ABA0C;
+extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;
 extern int      GM_CurrentMap_800AB9B0;
 
@@ -58,7 +58,7 @@ void door_open_8006ECB8(Actor_Door *param_1)
     fprintf(1, " open!! \n");
     pos = &(param_1->field_20_ctrl).field_0_mov;
 
-    if (((dword_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
+    if (((GM_PlayerMap_800ABA0C & param_1->field_E0_where) != 0 && param_1->field_E2_maybe_state != 4 &&
          param_1->field_FE_sound_effect != 0) &&
         param_1->field_C0[0].vx == 0)
     {
@@ -76,7 +76,7 @@ void door_close_8006ED48(Actor_Door *param_1)
     param_1->field_E2_maybe_state = 1;
     pos = &param_1->field_20_ctrl.field_0_mov;
 
-    if ((dword_800ABA0C & param_1->field_E0_where) != 0)
+    if ((GM_PlayerMap_800ABA0C & param_1->field_E0_where) != 0)
     {
         if (param_1->field_FE_sound_effect != 0)
         {
@@ -193,13 +193,13 @@ int door_act_helper_8006EDB8(Actor_Door *pActor)
                 {
                     door_open_8006ECB8(pActor);
 
-                    pActor->field_F6_map_num = Map_FromId_800314C0(dword_800ABA0C)->field_4_mapNameHash;
+                    pActor->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->field_4_mapNameHash;
 
                     if ((pMsg->message_len > 1) && (pActor->field_F4_param_g_v > 0))
                     {
                         pActor->field_F0 = temp_s1_2;
 
-                        if ((pActor->field_F0 == 0x21CA) || (dword_800ABA0C & pActor->field_E0_where))
+                        if ((pActor->field_F0 == 0x21CA) || (GM_PlayerMap_800ABA0C & pActor->field_E0_where))
                         {
                             GM_AddMap_80031324(pActor->field_F8_maps[0]);
                             GM_AddMap_80031324(pActor->field_F8_maps[1]);
@@ -401,7 +401,7 @@ void door_act_8006F318(Actor_Door *pActor)
     {
         if (pActor->field_E2_maybe_state != 3)
         {
-            if ((pVecs->vx != var_s3) && (dword_800ABA0C & pActor->field_E0_where) && pActor->field_FF_e_param_v2)
+            if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & pActor->field_E0_where) && pActor->field_FF_e_param_v2)
             {
                 GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, pActor->field_FF_e_param_v2);
             }

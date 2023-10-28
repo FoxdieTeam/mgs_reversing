@@ -43,7 +43,7 @@ void s00a_command_800C98A4( WatcherWork *work )
 }
 
 extern int GM_NoisePower_800ABA24;
-extern int dword_800ABA0C;
+extern int GM_PlayerMap_800ABA0C;
 extern int claymore_map_800AB9DC;
 extern SVECTOR GM_NoisePosition_800AB9F8;
 extern int COM_NOISEMODE_DIS_800E0F38;
@@ -75,15 +75,15 @@ void s00a_command_800C9930( WatcherWork* work )
     {
         
         if ( !( ctrl->field_2C_map->field_0_map_index_bit & claymore_map_800AB9DC ) && 
-           ( !( ctrl->field_2C_map->field_0_map_index_bit & dword_800ABA0C ) || 
-             !( claymore_map_800AB9DC & dword_800ABA0C ) ) )
+           ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) || 
+             !( claymore_map_800AB9DC & GM_PlayerMap_800ABA0C ) ) )
         {
             return;
         }
     }
     else
     {
-        if ( !( ctrl->field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+        if ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
         {
             return;
         }
@@ -287,7 +287,7 @@ void s00a_command_800C9E68( WatcherWork* work )
         diff = work->control.field_0_mov.vy - pos->vy;
     }
     
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) || GM_PlayerStatus_800ABA50 & 0x02000002 )
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 0x02000002 )
     {
         work->vision.field_B92 = 0;
         return;

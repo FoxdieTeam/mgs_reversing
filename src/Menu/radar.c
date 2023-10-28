@@ -184,7 +184,7 @@ extern CONTROL         *GM_WhereList_800B56D0[96];
 extern int              GV_Time_800AB330;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              gControlCount_800AB9B4;
-extern int              dword_800ABA0C;
+extern int              GM_PlayerMap_800ABA0C;
 
 extern int dword_800AB9A8[2];
 
@@ -304,7 +304,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
             x = ((pWhere->field_0_mov.vx * scale) / 4096) - xoff;
             z = ((pWhere->field_0_mov.vz * scale) / 4096) - zoff;
 
-            if ((field_3A & 1) && ((field_3A & 8) || (pWhere->field_2C_map->field_0_map_index_bit & dword_800ABA0C)))
+            if ((field_3A & 1) && ((field_3A & 8) || (pWhere->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)))
             {
                 NEW_PRIM(pTile1_2, pActor);
 
