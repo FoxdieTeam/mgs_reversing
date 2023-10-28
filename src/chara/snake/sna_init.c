@@ -2676,13 +2676,14 @@ void sna_fn_800525F8(Actor_SnaInit *pActor, int time)
 
 void sna_act_helper2_helper_helper_800526BC(Actor_SnaInit *pActor, int time)
 {
-    if ((pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
+    if (!(pActor->field_9B0_pad_ptr->status & PAD_TRIANGLE))
     {
         if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
         {
             pActor->field_A56 = 0;
-            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH |
-                                              PLAYER_FIRST_PERSON_CAN_LR_PEEK | PLAYER_FIRST_PERSON);
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH
+                                              | PLAYER_FIRST_PERSON_CAN_LR_PEEK
+                                              | PLAYER_FIRST_PERSON);
         }
         else if (!GM_UnkFlagBE)
         {
