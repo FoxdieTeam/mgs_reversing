@@ -1,5 +1,6 @@
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Game/camera.h"
 #include "Weapon/weapon.h"
 #include "Game/homing_target.h"
 
@@ -278,6 +279,7 @@ extern const char              aCom_noisemode_disD_800E0940[]; // COM_NOISEMODE_
 extern const char              aEeeDDDTD_800E095C[];           //eee %d %d %d t %d \n
 
 extern int                     s00a_dword_800E0CA0;
+extern GM_Camera               s00a_dword_800E0CB0;
 extern int                     s00a_dword_800E0D2C;
 extern int                     s00a_dword_800E0D30;
 extern SVECTOR                 s00a_dword_800E0D38;
