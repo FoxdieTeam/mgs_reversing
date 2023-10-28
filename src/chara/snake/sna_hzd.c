@@ -4,7 +4,7 @@
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern int     dword_800AB9F0;
+extern int     GM_PlayerAddress_800AB9F0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void sub_80060548(SnaAutoMove *pAutoMove, HZD_HDL *arg1, SVECTOR *arg2)
@@ -26,7 +26,7 @@ void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, 
 
 void sub_80060644(SnaAutoMove *pAutoMove)
 {
-    pAutoMove->field_0_ivec.vy = dword_800AB9F0;
+    pAutoMove->field_0_ivec.vy = GM_PlayerAddress_800AB9F0;
     pAutoMove->field_18_vec2 = GM_PlayerPosition_800ABA10;
 }
 

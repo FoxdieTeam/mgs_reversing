@@ -49,7 +49,8 @@ const char s00a_dword_800E0D34[] = {0x0, '\n', 'T', '4'};
 const char s00a_dword_800E0D38[] = {0x0, ',', 0x4, 0x1};
 const char s00a_dword_800E0D3C[] = {0x0, 0x0, '`', 0x0};
 
-const char s00a_dword_800E0D40[] = {0x0, 0x0, '\n', 'J'};
+//INT
+const char COM_PlayerOnZone_800E0D40[] = {0x0, 0x0, '\n', 'J'};
 
 //int
 const char COM_NoiseMinDisID_800E0D44[] = {'p', 0x0, 0x2, 0x18};

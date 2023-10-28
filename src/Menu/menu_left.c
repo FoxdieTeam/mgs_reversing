@@ -18,7 +18,7 @@ extern int                       DG_UnDrawFrameCount_800AB380;
 extern int                       dword_8009F46C;
 extern int                       GV_Time_800AB330;
 extern int                       GM_GameOverTimer_800AB3D4;
-extern int                       dword_800ABA0C;
+extern int                       GM_PlayerMap_800ABA0C;
 extern MATRIX                    DG_ZeroMatrix_8009D430;
 extern SVECTOR                   GM_PlayerPosition_800ABA10;
 extern char                     *itm_descriptions_8009E3E4[];
@@ -950,7 +950,7 @@ void menu_item_update_helper4_8003C4EC(void)
                 blastData.field_C = 2000;
                 blastData.field_10 = 10;
 
-                GM_CurrentMap_800AB9B0 = dword_800ABA0C;
+                GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
                 mtx = DG_ZeroMatrix_8009D430;
                 mtx.t[0] = GM_PlayerPosition_800ABA10.vx;

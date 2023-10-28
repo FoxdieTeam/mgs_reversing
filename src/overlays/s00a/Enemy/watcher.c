@@ -11,7 +11,7 @@ extern const char aWatcherc_800DFCEC[];                 //watcher.c
 extern unsigned short s00a_dword_800C3348[8];
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            dword_800ABA0C;
+extern int            GM_PlayerMap_800ABA0C;
 
 extern void *s00a_glight_800D3AD4( MATRIX* mat, int **enable );
 extern int   HZD_GetAddress_8005C6C4( HZD_HDL *hzd, SVECTOR *svec, int a2 );
@@ -151,7 +151,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
         DG_VisibleObjs( work->field_7A4.objs );
         work->field_AF4[0] = 1;
 
-        if ( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C )
+        if ( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C )
         {
             work->field_AFC[0] = 1;
         }

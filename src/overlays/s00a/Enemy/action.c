@@ -16,7 +16,7 @@ extern const char aComstdanbowl1_800DFDD4[]; // = " ~COM_ST_DANBOWL 1 !! \n ";
 extern const char aComstdanbowl2_800DFDF0[]; // = " ~COM_ST_DANBOWL 2 !! \n ";
 
 extern SVECTOR    s00a_dword_800C33C4;
-extern int        dword_800ABA0C;
+extern int        GM_PlayerMap_800ABA0C;
 extern const char aMapchange_800DFE0C[]; // map change \n;
 
 extern const char aEnemyresetmaxdnumd_800DFE50[]; //"enemy reset max=%d num=%d \n";
@@ -639,7 +639,7 @@ void s00a_command_800C6EC8( WatcherWork* work )
     DG_PutVector_8001BE48(&s00a_dword_800C33C4, &svec, 1);
     GV_SubVec3_80016D40(&svec, &ctrl->field_0_mov, &work->control.field_44_movementVector);
 
-    if ( !( ctrl->field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+    if ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
     {
         printf(aMapchange_800DFE0C) ;
         work->control.field_44_movementVector = DG_ZeroVector_800AB39C;
@@ -749,7 +749,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     {
         target->field_42 = 0;
     }
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
     {
         target->field_42 = 0;
     }

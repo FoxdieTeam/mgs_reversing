@@ -281,6 +281,7 @@ extern int                     s00a_dword_800E0CA0;
 extern int                     s00a_dword_800E0D2C;
 extern int                     s00a_dword_800E0D30;
 extern SVECTOR                 s00a_dword_800E0D38;
+extern int                     COM_PlayerOnZone_800E0D40;
 extern int                     COM_NoiseMinDisID_800E0D44;
 
 extern int                     COM_SHOOTRANGE_800E0D88; 
@@ -303,6 +304,7 @@ extern unsigned int            COM_GameStatus_800E0F3C;
 extern int                     COM_PlayerAddressOne_800E0F40[8];
 extern SVECTOR                 COM_PlayerPositionOne_800E0D48[8];
 extern int                     COM_PlayerMapOne_800E0F70[8];
+
 
 extern int                     COM_ALERT_DECREMENT_800E0F60;
 extern int                     GM_GameFlag_800E0F64;

@@ -159,12 +159,12 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     }
 }
 
-extern int dword_800ABA0C;
+extern int GM_PlayerMap_800ABA0C;
 
 void ENE_PutMark_800C9378( WatcherWork *work, int mark )
 {
     MATRIX *mat;
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
     {
         return;
     }
@@ -223,7 +223,7 @@ void s00a_command_800C9414( WatcherWork* work )
     }
 }
 
-extern int dword_800ABA0C;
+extern int GM_PlayerMap_800ABA0C;
 extern int GV_Time_800AB330;
 
 extern void AN_Breath_800C3AA8( MATRIX *, int );
@@ -236,7 +236,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         return;
     }
 
-    if ( !( work->control.field_2C_map->field_0_map_index_bit & dword_800ABA0C ) )
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
     {
         return;
     }

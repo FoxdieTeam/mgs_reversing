@@ -10,7 +10,7 @@ int        SECTION(".sbss") gTargets_down_count_800ABA68;
 extern int gTargets_up_count_800ABA6C;
 int        SECTION(".sbss") gTargets_up_count_800ABA6C;
 
-extern int     dword_800ABA0C;
+extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
 static inline int range_check(int a, int b, int c, int d)
@@ -20,7 +20,7 @@ static inline int range_check(int a, int b, int c, int d)
 
 static inline int map_check(int a, int b)
 {
-    return (dword_800ABA0C & a) && (dword_800ABA0C & b);
+    return (GM_PlayerMap_800ABA0C & a) && (GM_PlayerMap_800ABA0C & b);
 }
 
 int sub_8002D208(TARGET *a, TARGET *b)

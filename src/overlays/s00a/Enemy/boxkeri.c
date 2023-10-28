@@ -21,7 +21,7 @@ extern const char s00a_aBoxkeric_800E09F0[];
 extern SVECTOR    DG_ZeroVector_800AB39C;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
-extern int        dword_800ABA0C;
+extern int        GM_PlayerMap_800ABA0C;
 extern char       s00a_aCbbox_800E09E8[];
 extern char       s00a_dword_800E09D0[];
 extern char       s00a_dword_800E09DC[];
@@ -97,7 +97,7 @@ void s00a_boxkeri_800D219C(BoxKeriWork *work)
         break;
     }
 
-    GM_CurrentMap_800AB9B0 = dword_800ABA0C;
+    GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
 
     DG_SetPos_8001BC44(&work->field_54);
     DG_MovePos_8001BD20(&work->field_48);
@@ -138,7 +138,7 @@ int s00a_boxkeri_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     int     dir;
 
     obj = &work->field_20_obj;
-    GM_CurrentMap_800AB9B0 = dword_800ABA0C;
+    GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
     GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(s00a_aCbbox_800E09E8), 0x6D, 0);
     GM_ConfigObjectLight_80034C44(obj, &work->field_7C_mat);
 
