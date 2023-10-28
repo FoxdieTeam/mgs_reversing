@@ -88,11 +88,13 @@ const int s00a_dword_800E0B14 = 0x800D6750;
 const int s00a_dword_800E0B18 = 0x800D676C;
 const int s00a_dword_800E0B1C = 0x800D6780;
 const int s00a_dword_800E0B20 = 0x800D678C;
-const char s00a_aPatlit_800E0B24[] = "patlit";
-const char s00a_aPatbody_800E0B2C[] = "pat_body";
-const char s00a_aPatlamp_800E0B38[] = "pat_lamp";
-const char s00a_aPatspt_800E0B44[] = "pat_spt1";
-const char aPatoLmpC_800E0B50[] = "pato_lmp.c";
+
+const char aPatlit[] = "patlit";
+const char aPatBody[] = "pat_body";
+const char aPatLamp[] = "pat_lamp";
+const char aPatSpt1[] = "pat_spt1";
+const char aPatoLmpC[] = "pato_lmp.c";
+
 const char s00a_dword_800E0B5B = 0xFF;
 const char aRipple_800E0B5C[] = "ripple";
 const char aRippleC_800E0B64[] = "ripple.c";
