@@ -30,7 +30,8 @@ extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-extern const char sWtViewC[]; // = "wt_view.c"
+extern const char sWtViewC[];                        // = "wt_view.c"
+extern const char s00a_aWtviewcoverprims_800E0BC0[]; // = "(wt_view.c) Over prims !!!\n"
 
 // TODO: can't find the signature of this function in PsyQ headers
 void SetPriority(void *prim, int, int);
@@ -101,9 +102,8 @@ void WaterView_800DB8F4(SPRT *sa, SPRT *sb, CVECTOR *color)
 
 static inline int WaterViewActHelper_800DB9E8(WaterViewWork *work, short x, short y, short z)
 {
-    if ((x > work->f28.vx) && (x < work->f30.vx) &&
-        (y > work->f28.vy) && (y < work->f30.vy) &&
-        (z > work->f28.vz) && (z < work->f30.vz))
+    if ((x > work->f28.vx) && (x < work->f30.vx) && (y > work->f28.vy) && (y < work->f30.vy) && (z > work->f28.vz) &&
+        (z < work->f30.vz))
     {
         return 1;
     }
@@ -207,14 +207,15 @@ int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *arg1, CVECTOR *
     return 0;
 }
 
-GV_ACT * NewWaterView_800DBD68(int name, int where)
+GV_ACT *NewWaterView_800DBD68(int name, int where)
 {
     WaterViewWork *work;
 
     work = (WaterViewWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8, (TActorFunction)WaterViewDie_800DBBF0, sWtViewC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
+                                  (TActorFunction)WaterViewDie_800DBBF0, sWtViewC);
 
         if (WaterViewGetResources_800DBC20(work, name, where) < 0)
         {
@@ -229,14 +230,15 @@ GV_ACT * NewWaterView_800DBD68(int name, int where)
     return &work->actor;
 }
 
-GV_ACT * NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color)
+GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color)
 {
     WaterViewWork *work;
 
     work = (WaterViewWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8, (TActorFunction)WaterViewDie_800DBBF0, sWtViewC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
+                                  (TActorFunction)WaterViewDie_800DBBF0, sWtViewC);
 
         if (WaterViewGetResources_800DBCE4(work, arg2, color) < 0)
         {
@@ -318,4 +320,170 @@ void WaterView_800DC0CC(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/WaterView_800DC128.s")
+void WaterView_800DC128(WaterViewWork *work)
+{
+    short *scratch1;
+    short *scratch2;
+    short *scratch3;
+    short *scratch4;
+    short *scratch5;
+    char  *ot;
+    int    i;
+    SPRT  *sprt;
+    int    nprims;
+    int    count1, count2;
+
+    ot = DG_ChanlOTag(0);
+
+    addPrim(ot, &work->prims->tile[GV_Clock_800AB920 * 2 + 0]);
+    addPrim(ot, &work->prims->tile[GV_Clock_800AB920 * 2 + 1]);
+
+    scratch1 = (short *)0x1F800200;
+    scratch2 = (short *)0x1F800400;
+
+    nprims = work->f48;
+
+    scratch3 = (short *)0x1F80000C;
+
+    for (i = 6; i < 218; i += 2)
+    {
+        if (wt_view_sin_table[nprims & 0x1F] <= 0)
+        {
+            *scratch3 = wt_view_sin_table[nprims & 0x1F] + i;
+            *scratch1++ = i;
+        }
+        else
+        {
+            *scratch3 = wt_view_sin_table[nprims & 0x1F] + i;
+            *--scratch2 = i;
+        }
+
+        nprims++;
+        scratch3 += 2;
+    }
+
+    scratch3 = (short *)0x1F800000;
+
+    nprims = 0;
+
+    scratch4 = scratch1 - 256;
+    count2 = scratch4 - scratch3;
+
+    scratch1 = (short *)0x1F800200;
+
+    scratch5 = scratch2 - 512;
+    count1 = scratch3 - scratch5;
+
+    sprt = work->prims->sprt2[GV_Clock_800AB920];
+
+    for (i = count2; i > 0; i--)
+    {
+        if ((*scratch1 - scratch3[*scratch1]) != 1)
+        {
+            sprt->y0 = *scratch1 - 112;
+            sprt->v0 = scratch3[*scratch1];
+            sprt->h = 2;
+            scratch1++;
+
+            addPrim(ot, sprt);
+
+            sprt++;
+        }
+        else
+        {
+            nprims++;
+
+            sprt->y0 = *scratch1 - 112;
+            sprt->v0 = scratch3[*scratch1];
+            sprt->h = 1;
+
+            addPrim(ot, sprt);
+
+            sprt++;
+
+            sprt->y0 = *scratch1 - 111;
+            sprt->v0 = scratch3[*scratch1] + 1;
+            sprt->h = 1;
+            scratch1++;
+            addPrim(ot, sprt);
+
+            sprt++;
+        }
+    }
+
+    scratch2 = scratch3 - (count1 - 512);
+
+    for (i = count1; i > 0; i--)
+    {
+        sprt->y0 = *scratch2 - 112;
+        sprt->v0 = scratch3[*scratch2];
+        sprt->h = 2;
+        scratch2++;
+
+        addPrim(ot, sprt);
+
+        sprt++;
+    }
+
+    addPrim(ot, &work->prims->tpage[GV_Clock_800AB920 + 2]);
+
+    scratch1 = scratch3 + 256;
+    sprt = work->prims->sprt[GV_Clock_800AB920];
+
+    for (i = count2; i > 0; i--)
+    {
+        if ((*scratch1 - scratch3[*scratch1]) != 1)
+        {
+            sprt->y0 = *scratch1 - 112;
+            sprt->v0 = scratch3[*scratch1];
+            sprt->h = 2;
+            scratch1++;
+
+            addPrim(ot, sprt);
+
+            sprt++;
+        }
+        else
+        {
+            nprims++;
+
+            sprt->y0 = *scratch1 - 112;
+            sprt->v0 = scratch3[*scratch1];
+            sprt->h = 1;
+
+            addPrim(ot, sprt);
+
+            sprt++;
+
+            sprt->y0 = *scratch1 - 111;
+            sprt->v0 = scratch3[*scratch1] + 1;
+            sprt->h = 1;
+
+            scratch1++;
+
+            addPrim(ot, sprt);
+
+            sprt++;
+        }
+    }
+
+    scratch2 = scratch3 - (count1 - 512);
+
+    for (i = count1; i > 0; i--)
+    {
+        sprt->y0 = *scratch2 - 112;
+        sprt->v0 = scratch3[*scratch2];
+        sprt->h = 2;
+
+        addPrim(ot, sprt);
+        scratch2++;
+        sprt++;
+    }
+
+    addPrim(ot, &work->prims->tpage[GV_Clock_800AB920]);
+
+    if (nprims > 16)
+    {
+        printf(s00a_aWtviewcoverprims_800E0BC0);
+    }
+}
