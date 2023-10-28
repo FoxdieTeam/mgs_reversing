@@ -118,7 +118,7 @@ extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
 extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
-extern int                dword_800AB9F0;
+extern int                GM_PlayerAddress_800AB9F0;
 extern SVECTOR            GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
@@ -4618,8 +4618,8 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE | PLAYER_CROUCHING);
 
         pActor->field_A00.field_0_ivec.vz = -1;
-        pActor->field_A00.field_0_ivec.vx = dword_800AB9F0;
-        pActor->field_A00.field_0_ivec.pad = dword_800AB9F0;
+        pActor->field_A00.field_0_ivec.vx = GM_PlayerAddress_800AB9F0;
+        pActor->field_A00.field_0_ivec.pad = GM_PlayerAddress_800AB9F0;
 
         sna_act_unk_helper2_helper2_800605DC(&pActor->field_A00, pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4);
         temp_v0 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_9E4.field_9F4,  pActor->field_A00.field_0_ivec.vy);
@@ -4682,7 +4682,7 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 
     if (!(pStr->field_9EC_flags3 & 0x200))
     {
-        pActor->field_A00.field_0_ivec.vx = dword_800AB9F0;
+        pActor->field_A00.field_0_ivec.vx = GM_PlayerAddress_800AB9F0;
         sna_unk_helper2_helper_8006070C(&pActor->field_A00, &pActor->field_20_ctrl);
     }
 
@@ -8194,7 +8194,7 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
     }
 
     vec.vy = level = pActor->field_20_ctrl.field_78_levels[0];
-    dword_800AB9F0 = pActor->field_844 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, pActor->field_844);
+    GM_PlayerAddress_800AB9F0 = pActor->field_844 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, pActor->field_844);
 
     if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT) )
     {

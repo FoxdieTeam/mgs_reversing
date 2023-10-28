@@ -120,7 +120,7 @@ extern int                counter_8009F448;
 extern const char         aSnakeEUC[];
 extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
-extern int                dword_800AB9F0;
+extern int                GM_PlayerAddress_800AB9F0;
 extern SVECTOR            GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
@@ -4175,7 +4175,7 @@ void sna_act_8005AD10(Actor_SnaInit *pActor)
     }
 
     vec.vy = level = pActor->field_20_ctrl.field_78_levels[0];
-    dword_800AB9F0 = pActor->field_844 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, pActor->field_844);
+    GM_PlayerAddress_800AB9F0 = pActor->field_844 = HZD_GetAddress_8005C6C4(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, pActor->field_844);
 
     if ( GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT) )
     {

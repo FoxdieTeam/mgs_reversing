@@ -10,7 +10,7 @@ extern int            GM_PlayerStatus_800ABA50;
 extern int            GM_GameStatus_800AB3CC;
 extern CONTROL    *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes_8009D598[];
-extern int            dword_800ABA0C;
+extern int            GM_PlayerMap_800ABA0C;
 extern                SVECTOR GM_PlayerPosition_800ABA10;
 
 extern short word_800AB8EC;
@@ -169,7 +169,7 @@ int item_act_helper_800335D0(Actor_Item *pActor)
     int diff;
     unsigned short vy;
 
-    if (!(pActor->field_108_where & dword_800ABA0C))
+    if (!(pActor->field_108_where & GM_PlayerMap_800ABA0C))
     {
         return 0;
     }

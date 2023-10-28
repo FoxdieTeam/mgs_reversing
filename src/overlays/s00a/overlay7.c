@@ -11,11 +11,12 @@ const int s00a_dword_800E0838 = 0x800CF1E4;
 */
 const char s00a_aResetmaxdnumd_800E083C[] = "reset max=%d num=%d \n";
 const char aGmenemywatchcountd_800E0854[] = " GM_EnemyWatchCount = [%d] \n";
-const char s00a_aNowzonedrzoned_800E0874[] = " now zone = %d r_zone=%d\n";
-const char s00a_aNotrestrctedaread_800E0890[] = " ? ? ? Not Restrcted Area [%d] !!!!\n";
-const char s00a_aErrerrerrnotlinkroutedtod_800E08B8[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
-const char s00a_aCommanderrnozoneidingclzdidd_800E08E8[] = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
-const char s00a_aCommandcwhereissnake_800E091C[] = "command.c:  Where Is Snake ????\n";
+const char aNowzonedrzoned_800E0874[] = " now zone = %d r_zone=%d\n";
+const char aNotrestrctedaread_800E0890[] = " ? ? ? Not Restrcted Area [%d] !!!!\n";
+const char aErrerrerrnotlinkroutedtod_800E08B8[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
+
+const char aCommanderrnozoneidingclzdidd_800E08E8[] = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
+const char aCommandcwhereissnake_800E091C[] = "command.c:  Where Is Snake ????\n";
 const char aCom_noisemode_disD_800E0940[] = " COM_NOISEMODE_DIS =%d \n";
 const char aEeeDDDTD_800E095C[] = "eee %d %d %d t %d \n";
 const char aCommandC_800E0970[] = "command.c";
