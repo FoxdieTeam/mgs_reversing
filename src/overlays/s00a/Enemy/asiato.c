@@ -252,12 +252,117 @@ int NearAsiato_800D13A0()
     return s00a_dword_800E0F90;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/SearchNearAsiato_800D13B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D1500.s")
-int s00a_asiato_800D1500(HZD_HDL *, SVECTOR *, int);
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_asiato_800D15D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/AsiatoCheck_800D16C0.s")
+int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int vision_unk, int length )
+{
+    int i;
+    int len;
+    int max_len;
+    SVECTOR svec;
+
+    int s4;
+    max_len = 100000000;
+
+    s4 = 0;
+    for ( i = 0; i < 48 ; i++ )
+    {
+        if (asiato_svecs[i].pad == 1 )
+        {
+            GV_SubVec3_80016D40( &asiato_svecs[i], mov, &svec );
+            svec.vy = 0;
+            len = GV_LengthVec3_80016D80( &svec );
+    
+            if ( len < max_len && len < length && GV_DiffDirAbs_8001706C( facedir, GV_YawVec3_80016EF8(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &asiato_svecs[i], 0xF, 2) )
+            {
+                max_len = len;
+                s4 = i;
+            }
+        }
+    }
+
+    if ( max_len == 100000000 )
+    {
+        s00a_dword_800E0F90 = -1;
+        return -1;
+    }
+
+    s00a_dword_800E0F90 = s4;
+    return s4;
+}
+
+int s00a_asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
+{
+    int i;
+    int test;
+    HZD_TRG  *triggers;
+
+    triggers = hzd->f04_area->triggers;
+    
+    for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
+    {
+            if ( triggers->trap.name_id == name )  
+            {
+                test = pos->vx;
+                if ( test >= triggers->trap.b1.x  &&  triggers->trap.b2.x >= test )
+                {
+                    test = pos->vz;
+                    if ( test >= triggers->trap.b1.z  &&  triggers->trap.b2.z >= test )
+                    {
+                        test = pos->vy;
+                        if ( test >= triggers->trap.b1.y  &&  triggers->trap.b2.y >= test )
+                        {
+                            return 1;
+                        }
+                    }
+                }
+            }
+
+            triggers++;
+    }
+    return 0;
+}
+
+int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
+{
+    int i;
+    int test;
+    HZD_TRG  *triggers;
+
+    triggers = hzd->f04_area->triggers;
+    
+    for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
+    {
+            if ( triggers->trap.name_id == 0xDC55 || triggers->trap.name_id == 0x7833 )  
+            {
+                test = pos->vx;
+                if ( test >= triggers->trap.b1.x  &&  triggers->trap.b2.x >= test )
+                {
+                    test = pos->vz;
+                    if ( test >= triggers->trap.b1.z  &&  triggers->trap.b2.z >= test )
+                    {
+                        test = pos->vy;
+                        if ( test >= triggers->trap.b1.y  &&  triggers->trap.b2.y >= test )
+                        {
+                            return 1;
+                        }
+                    }
+                }
+            }
+
+            triggers++;
+    }
+    return 0;
+}
+
+int AsiatoCheck_800D16C0( HZD_HDL *hzd, SVECTOR *pos ) 
+{
+    if ( asiato_svecs[48].vy <= 0 )
+    {
+        return 0;
+    }
+    
+    return s00a_asiato_800D15D8( hzd, pos );
+}
 
 int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
 {
