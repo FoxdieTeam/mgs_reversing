@@ -24,8 +24,8 @@ extern SVECTOR       svec_8009F44C;
 extern SVECTOR       svec_8009F454;
 extern SVECTOR       svec_8009F45C;
 extern SVECTOR       svec_8009F464;
-extern int           dword_800ABA0C;
-extern int           dword_800ABA0C;
+extern int           GM_PlayerMap_800ABA0C;
+extern int           GM_PlayerMap_800ABA0C;
 extern SVECTOR       DG_ZeroVector_800AB39C;
 
 int dword_8009F440 = 0;
@@ -184,7 +184,7 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
         menu_Color_80038B4C(255, 48, 48);
     }
 
-    if (pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit & dword_800ABA0C)
+    if (pActor->field_20_ctrl.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)
     {
         menu_Text_XY_Flags_80038B34(vec.vx + 160, vec.vy + 104, 0x12);
         menu_Text_80038C38(pText);
@@ -502,7 +502,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
     SVECTOR       *vec;
     OBJECT        *obj;
 
-    map = dword_800ABA0C;
+    map = GM_PlayerMap_800ABA0C;
     pCtrl = &pActor->field_20_ctrl;
     pActor->field_138_gcl = -1;
     pActor->field_13C_idx = -1;

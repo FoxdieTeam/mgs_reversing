@@ -53,11 +53,11 @@ unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector
     return vyDiff & 0xffff;
 }
 
-extern int dword_800ABA0C;
+extern int GM_PlayerMap_800ABA0C;
 
 int sgtrect3_act_helper_800701A8(TARGET *target)
 {
-    if (!((((target->class & 0xfffe) != 0 && (target->field_4_map & dword_800ABA0C) != 0) &&
+    if (!((((target->class & 0xfffe) != 0 && (target->field_4_map & GM_PlayerMap_800ABA0C) != 0) &&
            target->field_2_side == 2) &&
           target->field_6_flags == 0 && ((target->class & 0x220) == 0)))
     {

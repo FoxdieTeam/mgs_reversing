@@ -8,7 +8,7 @@ extern MAP gMapRecs_800B7910[ 16 ];
 extern GV_Heap    MemorySystems_800AD2F0[ 3 ];
 extern DG_OBJS   *StageObjs_800B7890[ 32 ];
 extern int        DG_CurrentGroupID_800AB968;
-extern int        dword_800ABA0C;
+extern int        GM_PlayerMap_800ABA0C;
 extern int        dword_800AB9A8[ 2 ];
 extern MATRIX     DG_ZeroMatrix_8009D430;
 
@@ -86,7 +86,7 @@ void Map_light_80030C6C( int a1 )
         bitset |= 1 << ( pMap->field_8_hzd->f04_area - pMap->field_8_hzd->f00_header->areas );
     }
 
-    dword_800ABA0C = mask;
+    GM_PlayerMap_800ABA0C = mask;
     dword_800AB9A8[ 0 ] = bitset;
     DG_CurrentGroupID_800AB968 = mask;
     HZD_BindMapChange_80029A6C( mask );

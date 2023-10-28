@@ -10,7 +10,7 @@
 #include "libdg/libdg.h"
 #include "unknown.h"
 
-extern int              dword_800ABA0C;
+extern int              GM_PlayerMap_800ABA0C;
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -111,9 +111,9 @@ void chafgrnd_act_80076B28(Actor_Chafgrnd* pActor)
     }
 
     GM_GameStatus_800AB3CC |= 1;
-    GM_SetCurrentMap(dword_800ABA0C);
+    GM_SetCurrentMap(GM_PlayerMap_800ABA0C);
 
-    pActor->field_a34->group_id = dword_800ABA0C;
+    pActor->field_a34->group_id = GM_PlayerMap_800ABA0C;
 
     if (dword_800BDF98 == 1)
     {
