@@ -75,65 +75,9 @@ const char aKill[] = "kill";
 const char aAwas[] = "awa_s";
 const char aBubbleSC[] = "bubble_s.c";
 
-const char s00a_dword_800E0ADC[] = {0xb3, 0xab, 0xa4, 0xaf};
-const char s00a_dword_800E0AE0[] = {0x0, 0x0, 0x0, 0x0};
-const char s00a_dword_800E0AE4[] = {0xca, 0xc4, 0xa4, 0xe1};
-const char s00a_dword_800E0AE8[] = {0xa4, 0xeb, 0x0, 0x0};
+const char s00a_dword_800E0ADC[] = {0xb3, 0xab, 0xa4, 0xaf, 0x0, 0x0, 0x0, 0x0};
+const char s00a_dword_800E0AE4[] = {0xca, 0xc4, 0xa4, 0xe1, 0xa4, 0xeb, 0x0, 0x0};
 const char s00a_aOpen_800E0AEC[] = "open";
 const char s00a_aClose_800E0AF4[] = "close";
 const char s00a_aSeon_800E0AFC[] = "se_on";
 const char s00a_aSeoff_800E0B04[] = "se_off";
-const int s00a_dword_800E0B0C = 0x800D6750;
-const int s00a_dword_800E0B10 = 0x800D676C;
-const int s00a_dword_800E0B14 = 0x800D6750;
-const int s00a_dword_800E0B18 = 0x800D676C;
-const int s00a_dword_800E0B1C = 0x800D6780;
-const int s00a_dword_800E0B20 = 0x800D678C;
-
-const char aPatlit[] = "patlit";
-const char aPatBody[] = "pat_body";
-const char aPatLamp[] = "pat_lamp";
-const char aPatSpt1[] = "pat_spt1";
-const char aPatoLmpC[] = "pato_lmp.c";
-
-const char s00a_dword_800E0B5B = 0xFF;
-const char aRipple_800E0B5C[] = "ripple";
-const char aRippleC_800E0B64[] = "ripple.c";
-const char s00a_dword_800E0B6D = 0x34;
-const char s00a_dword_800E0B6E = 0x0F;
-const char s00a_dword_800E0B6F = 0x00;
-const char aRsurfaceC_800E0B70[] = "rsurface.c";
-const char s00a_dword_800E0B7B = 0x38;
-const char aRipplesC_800E0B7C[] = "ripples.c";
-const char s00a_dword_800E0B86 = 0x23;
-const char s00a_dword_800E0B87 = 0x18;
-
-const char aElevatorC[] = "elevator.c";
-
-const char s00a_dword_800E0B93 = 0x10;
-const char aWtAreaC_800E0B94[] = "wt_area.c";
-const char s00a_aAwa_800E0B9E = 0xF4;
-const char s00a_aAwa_800E0B9F = 0x03;
-const char aAwa_800E0BA0[] = "awa_3";
-const char aSplash2C_800E0BA8[] = "splash2.c";
-const char s00a_aWtviewc_800E0BB2 = 0x3F;
-const char s00a_aWtviewc_800E0BB3 = 0x00;
-
-const char sWtViewC[] = "wt_view.c";
-
-const char s00a_aWtviewcoverprims_800E0BC0[] = "(wt_view.c) Over prims !!!\n";
-const char s00a_aMosaicc_800E0BDC[] = "mosaic.c";
-const char aMosaic_800E0BE8[] = "Mosaic";
-const char s00a_dword_800E0BEF = 0xB0;
-
-const char aPadRecStart[] = "Pad rec start\n";
-const char aPadDemoC[] = "pad_demo.c";
-
-const char s00a_dword_800E0C0B = 0x10;
-
-// Takabe/fadeio.c
-const char aFadeioC[] = "fadeio.c";
-
-const char s00a_dword_800E0C15 = 0x30;
-const char s00a_dword_800E0C16 = 0x03;
-const char s00a_dword_800E0C17 = 0x00;
