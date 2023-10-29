@@ -110,6 +110,42 @@ Now comes the hard part: implement the function such that it matches the functio
 
 Iterative building is currently unreliable and it is highly recommended to run `python clean.py && python build.py` to be certain that your binary is truly a match.
 
+## How to play the executable
+
+Once you have successfully built the executable from the source code, you may want to play it to debug or test the changes you have made. To do so, you need a tool called [mkpsxiso](https://github.com/Lameguy64/mkpsxiso): download and extract it to a folder of your choice.
+
+Next, you need the original files of *Metal Gear Solid: Integral* from the CD-ROMs. If you have dumped the discs into .bin/.cue pairs, you need to unpack them into a folder using mkpsxiso. The following commands show how to do this for the first disc, but the same applies to the other two.
+
+Open a terminal, `cd` into a folder of your choice and run the following command:
+```
+<mkpsxiso_folder_path>\bin\dumpsxiso.exe <path\to\mgsi_d1.bin> -x MGSI_D1 -s mgsi_d1.xml
+```
+
+This will create a folder named `MGSI_D1` (containing the files of the first disc of the game), and an additional file, `mgsi_d1.xml`.
+
+Open `mgsi_d1.xml` and replace
+```xml
+<file name="SLPM_862.47" source="MGSI_D1/MGS/SLPM_862.47" type="data"/>
+```
+
+with
+```xml
+<file name="SLPM_862.47" source="<path/to/_mgsi.exe>" type="data"/>
+```
+
+where `_mgsi.exe` is the output of the build process.
+
+Optionally, you can also edit the attributes `image_name` and `cue_sheet` of the `iso_project` element to give them more appropriate values, like `mgsi_d1.bin` and `mgsi_d1.cue`, which are the output files of the next step.
+
+Finally, run
+```
+<mkpsxiso_folder_path>\bin\mkpsxiso.exe mgsi_d1.xml
+```
+
+to re-pack the `MGSI_D1` folder into a .bin/.cue pair that now contains the new executable instead of the original one. From now on, this is the only command to be executed every time you want to test a different version of the executable.
+
+Now you are ready to play the game with your favorite emulator by starting the file `mgsi_d1.cue`.
+
 ## Help, I am totally stuck?
 
 Join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.
