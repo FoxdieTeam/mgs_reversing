@@ -2,7 +2,7 @@
 
 This project aims to completely reverse engineer *Metal Gear Solid Integral* for PlayStation back to C source code which when compiled produces the same assembly code.
 
-At this moment `SLPM_862.47`/`SLPM_862.48` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
+At this moment `SLPM_862.47`/`SLPM_862.48`/`SLPM_862.49` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
 is still left to decompile [overlays](#Overlays), clean up already decompiled code and make it all shiftable.
 
 The repository builds or aims to build the following artifacts:
@@ -44,7 +44,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>The project builds a matching executable. <code>chara/snake_vr/sna_init.c</code> (a variant of Snake from <code>SLPM_862.47</code> main executable) is the only file left to decompile.</td>
+            <td><b>100% decompiled!</b> This executable is based on <code>SLPM_862.47</code> (main executable), but with many small changes, especially around <code>chara/snake_vr</code> (a variant of Snake actor).</td>
         </tr>
         <tr>
             <td><b>SHA256</b></td>
@@ -98,21 +98,17 @@ The repository builds or aims to build the following artifacts:
     - Alternatively you can add `PSYQ_SDK` to your environment variables before invoking `python build.py`.
 7.  At the end you should see a message confirming that the built binary's hash matches the original game's binary's hash. If your code caused the compiler to emit warnings, try to fix them without breaking the match.
 
-## How to decompile a function
+## How to use the built executables
 
-**Now that the work is moving onto overlays, this section is no longer up to date. Please join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.**
+Once you have successfully built the executables from the source code, you may want to play it to debug or test the changes you have made. Please keep in mind that if the size of the main executable changes or addresses shift, the original [overlays](#Overlays) won't work properly. This guide does not describe how to repackage overlays (a packer tool is planned for the future).
 
-Using IDA or Ghidra (with the [ghidra_psx_ldr extension](https://github.com/lab313ru/ghidra_psx_ldr/)) disassemble the original game binary (SLPM-86247), or use one that you compiled yourself provided that the output was OK. Now choose a .s file from the asm directory where that function isn’t part of `psyq`.
+### PCSX-Redux
 
-Given the address of the function go to this location in your reversing tool. Delete the .s file and search for a .c file which has a `#pragma INCLUDE_ASM()` directive pointing to the former .s file; if none exists, create a .c file with the name of the function and open it. Now write an empty C function that has the same name as the former assembly function as well as a suitable signature; when you re-execute `python build.py`, the build will not be OK as your empty function will no longer build a matching binary.
+[PCSX-Redux](https://github.com/grumpycoders/pcsx-redux) emulator provides a convenient way to load a modified main executable. Once you have loaded the original image of *Metal Gear Solid: Integral* you can load a modified executable in "File > Load binary" menu. This repository contains some helper Lua scripts that can be used with PCSX-Redux in `build/pcsx-redux_scripts` folder.
 
-Now comes the hard part: implement the function such that it matches the functionality of the assembly and build again. Repeat this until your build is OK – ie your C code is functionally the same and produces exactly the same assembly as the original function.
+### Other emulators - rebuilding ISO
 
-Iterative building is currently unreliable and it is highly recommended to run `python clean.py && python build.py` to be certain that your binary is truly a match.
-
-## How to play the executable
-
-Once you have successfully built the executable from the source code, you may want to play it to debug or test the changes you have made. To do so, you need a tool called [mkpsxiso](https://github.com/Lameguy64/mkpsxiso): download and extract it to a folder of your choice.
+To rebuild an ISO with your modified executable, you need a tool called [mkpsxiso](https://github.com/Lameguy64/mkpsxiso): download and extract it to a folder of your choice.
 
 Next, you need the original files of *Metal Gear Solid: Integral* from the CD-ROMs. If you have dumped the discs into .bin/.cue pairs, you need to unpack them into a folder using mkpsxiso. The following commands show how to do this for the first disc, but the same applies to the other two.
 
@@ -145,6 +141,18 @@ Finally, run
 to re-pack the `MGSI_D1` folder into a .bin/.cue pair that now contains the new executable instead of the original one. From now on, this is the only command to be executed every time you want to test a different version of the executable.
 
 Now you are ready to play the game with your favorite emulator by starting the file `mgsi_d1.cue`.
+
+## How to decompile a function
+
+**Now that the work is moving onto overlays, this section is no longer up to date. Please join [our Discord](https://discord.gg/tTvhQ8w) and ask for help in `#metal_gear_dev`.**
+
+Using IDA or Ghidra (with the [ghidra_psx_ldr extension](https://github.com/lab313ru/ghidra_psx_ldr/)) disassemble the original game binary (SLPM-86247), or use one that you compiled yourself provided that the output was OK. Now choose a .s file from the asm directory where that function isn’t part of `psyq`.
+
+Given the address of the function go to this location in your reversing tool. Delete the .s file and search for a .c file which has a `#pragma INCLUDE_ASM()` directive pointing to the former .s file; if none exists, create a .c file with the name of the function and open it. Now write an empty C function that has the same name as the former assembly function as well as a suitable signature; when you re-execute `python build.py`, the build will not be OK as your empty function will no longer build a matching binary.
+
+Now comes the hard part: implement the function such that it matches the functionality of the assembly and build again. Repeat this until your build is OK – ie your C code is functionally the same and produces exactly the same assembly as the original function.
+
+Iterative building is currently unreliable and it is highly recommended to run `python clean.py && python build.py` to be certain that your binary is truly a match.
 
 ## Help, I am totally stuck?
 
