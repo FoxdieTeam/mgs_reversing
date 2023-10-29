@@ -2,7 +2,7 @@
 
 This project aims to completely reverse engineer *Metal Gear Solid Integral* for PlayStation back to C source code which when compiled produces the same assembly code.
 
-At this moment `SLPM_862.47`/`SLPM_862.48` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
+At this moment `SLPM_862.47`/`SLPM_862.48`/`SLPM_862.49` main executables are 100% decompiled. However, even though this is a substantial milestone, a significant amount of work
 is still left to decompile [overlays](#Overlays), clean up already decompiled code and make it all shiftable.
 
 The repository builds or aims to build the following artifacts:
@@ -44,7 +44,7 @@ The repository builds or aims to build the following artifacts:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>The project builds a matching executable. <code>chara/snake_vr/sna_init.c</code> (a variant of Snake from <code>SLPM_862.47</code> main executable) is the only file left to decompile.</td>
+            <td><b>100% decompiled!</b> This executable is based on <code>SLPM_862.47</code> (main executable), but with many small changes, especially around <code>chara/snake_vr</code> (a variant of Snake actor).</td>
         </tr>
         <tr>
             <td><b>SHA256</b></td>
