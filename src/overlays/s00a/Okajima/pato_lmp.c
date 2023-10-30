@@ -72,8 +72,32 @@ extern int              GV_Clock_800AB920;
 
 #define EXEC_LEVEL 4
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D5E30.s")
-int s00a_pato_lmp_800D5E30(int field_194C, int count, short *hashes);
+int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short* hashes )
+{
+    GV_MSG *msg;
+    int     msg_count;
+    int     found;
+    int     hash;
+    int     i;
+
+    msg_count = GV_ReceiveMessage_80016620(name, &msg);
+    found = -1;
+
+    for (; msg_count > 0; msg_count--, msg++)
+    {
+        hash = msg->message[0];
+
+        for (i = 0; i < hash_count; i++)
+        {
+            if (hash == hashes[i])
+            {
+                found = i;
+            }
+        }
+    }
+
+    return found;
+}
 
 int s00a_pato_lmp_800D5EC8(int unused, SVECTOR *svecs)
 {
@@ -88,7 +112,10 @@ int s00a_pato_lmp_800D5EC8(int unused, SVECTOR *svecs)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D5F1C.s")
+void s00a_pato_lmp_800D5F1C( TILE* tile, int rgb )
+{
+    setRGB0( tile, rgb / 2, rgb / 2, rgb / 2 );
+}
 
 void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
 {
@@ -119,8 +146,35 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D5FC4.s")
-void s00a_pato_lmp_800D5FC4(PatoLmpWork *work);
+extern int GV_PauseLevel_800AB928;
+
+void s00a_pato_lmp_800D5FC4( PatoLmpWork* work ) 
+{
+    short rgb[3];
+    
+    if (GV_PauseLevel_800AB928 )
+    {
+        return;
+    }
+
+    work->field_1924++;
+    
+    if ( work->field_1920 >= work->field_1924 )
+    {
+        rgb[0] = work->field_1928.vx + ( ( ( work->field_1930.vx - work->field_1928.vx ) * work->field_1924 ) / work->field_1920 );
+        rgb[1] = work->field_1928.vy + ( ( ( work->field_1930.vy - work->field_1928.vy ) * work->field_1924 ) / work->field_1920 );
+        rgb[2] = work->field_1928.vz + ( ( ( work->field_1930.vz - work->field_1928.vz ) * work->field_1924 ) / work->field_1920 );
+    }
+    else
+    {
+        rgb[0] = work->field_1930.vx;
+        rgb[1] = work->field_1930.vy;
+        rgb[2] = work->field_1930.vz;
+    }
+
+    setRGB0( &work->field_20->tile[GV_Clock_800AB920], rgb[0], rgb[1], rgb[2] );
+    
+}
 
 void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short vy, short vz)
 {
