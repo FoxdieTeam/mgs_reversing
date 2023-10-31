@@ -5,14 +5,13 @@
 
 typedef struct _PatoLmpSub // It's probably OBJECT + 24 rots
 {
-    OBJECT field_0;
-    char   field_24[0xC0];
+    OBJECT  field_0;
+    SVECTOR rots[24];
 } PatoLmpSub;
 
 typedef struct _PatoLmpSub2 // It's probably MATRIX[2]
 {
-    MATRIX field_0;
-    char   field_20[0x20];
+    MATRIX light[2];
 } PatoLmpSub2;
 
 typedef struct _PatoLmpPrims
@@ -38,7 +37,8 @@ typedef struct _PatoLmpWork
     DG_PRIM       *field_1008;
     char           field_100C[0x100];
     int            field_110C[4];
-    char           field_111C[0x800];
+    SVECTOR        field_111C[4][32];
+    SVECTOR        field_151C[4][32];
     int            field_191C;
     int            field_1920;
     int            field_1924;
@@ -186,10 +186,35 @@ void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short v
 
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6194.s")
 void s00a_pato_lmp_800D6194(PatoLmpWork *, int arg2, int arg3, int arg4);
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6550.s")
-void s00a_pato_lmp_800D6550(PatoLmpWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6600.s")
-void s00a_pato_lmp_800D6600(PatoLmpWork *work);
+
+extern SVECTOR DG_ZeroVector_800AB39C;
+
+void s00a_pato_lmp_800D6550( PatoLmpWork* work )
+{
+    int i;
+    for ( i = 0 ; i < work->field_1004 ; i++ )
+    {
+        DG_VisibleObjs(work->field_744[i].field_0.objs);
+        DG_VisibleObjs(work->field_AD4[i].field_0.objs);
+        DG_VisiblePrim(work->field_1008);
+
+        work->field_FE4[i] = DG_ZeroVector_800AB39C;
+        
+    }
+
+    work->field_193C = 1;
+}
+
+void s00a_pato_lmp_800D6600( PatoLmpWork* work )
+{
+    int i;
+    for ( i = 0 ; i < work->field_1004 ; i++ )
+    {
+        DG_InvisibleObjs(work->field_744[i].field_0.objs);
+        DG_InvisibleObjs(work->field_AD4[i].field_0.objs);
+        DG_InvisiblePrim(work->field_1008);        
+    }
+}
 
 void s00a_pato_lmp_800D6678(PatoLmpWork *work)
 {
@@ -255,7 +280,7 @@ void s00a_pato_lmp_800D6678(PatoLmpWork *work)
             DG_SetPos2_8001BC8C(&work->field_FA4[i], &work->field_FC4[i]);
             GM_ActObject2_80034B88(&work->field_3B4[i].field_0);
             GM_ActObject2_80034B88(&work->field_24[i].field_0);
-            DG_GetLightMatrix_8001A3C4(&work->field_FA4[i], &work->field_E64[i].field_0);
+            DG_GetLightMatrix_8001A3C4(&work->field_FA4[i], work->field_E64[i].light);
         }
     }
 
@@ -394,8 +419,32 @@ void s00a_pato_lmp_800D6C44(PatoLmpWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6D24.s")
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6D40.s")
+void s00a_pato_lmp_800D6D24(SVECTOR* svec, int x, int z)
+{
+    svec->vx += x;
+    svec->vz += z;
+}
+
+void s00a_pato_lmp_800D6D40( PatoLmpWork *work, int idx, int idx2, int y )
+{
+    int dis;
+
+    dis = GV_DistanceVec3_80016E84( &work->field_FA4[idx] , &work->field_111C[idx][idx2]);
+
+    if (dis > 3500 )
+    {
+        if ( work->field_151C[idx][idx2].vx != 0 )
+        {
+            work->field_151C[idx][idx2].vx = 0;
+            return;
+        }
+    }
+
+    work->field_151C[idx][idx2].vy = y;
+    work->field_151C[idx][idx2].vz = (255 - ((dis * 255)) / 3500);
+    
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6E28.s")
 int s00a_pato_lmp_800D6E28(PatoLmpWork *work, int, int);
 
