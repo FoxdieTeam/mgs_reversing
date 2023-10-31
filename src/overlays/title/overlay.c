@@ -1,6 +1,6 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry titleOverlayCharas[] = 
+GCL_ActorTableEntry titleOverlayCharas[] =
 {
     { 0xCF79, (TGCL_ActorCreateFn)0x800D6814 },
     { 0xD44E, (TGCL_ActorCreateFn)0x800D81AC },
@@ -131,228 +131,232 @@ int title_dword_800C3400 = 0x000100FF;
 int title_dword_800C3404 = 0xFF000100;
 int title_dword_800C3408 = 0x000100FF;
 int title_dword_800C340C = 0xFF000100;
-int title_dword_800C3410 = 0x0023006C;
-int title_dword_800C3414 = 0x00190058;
-int title_dword_800C3418 = 0x00190087;
-int title_dword_800C341C = 0x00210087;
-int title_dword_800C3420 = 0x00230087;
-int title_dword_800C3424 = 0x002E0058;
-int title_dword_800C3428 = 0x002E0058;
-int title_dword_800C342C = 0x002E0058;
-int title_dword_800C3430 = 0x002E006B;
-int title_dword_800C3434 = 0x0038006B;
-int title_dword_800C3438 = 0x00380058;
-int title_dword_800C343C = 0x00430058;
-int title_dword_800C3440 = 0x00430058;
-int title_dword_800C3444 = 0x003B0058;
-int title_dword_800C3448 = 0x003B0079;
-int title_dword_800C344C = 0x00330079;
-int title_dword_800C3450 = 0x00330079;
-int title_dword_800C3454 = 0x00370079;
-int title_dword_800C3458 = 0x00370068;
-int title_dword_800C345C = 0x002F0068;
-int title_dword_800C3460 = 0x002F0079;
-int title_dword_800C3464 = 0x00280079;
-int title_dword_800C3468 = 0x00280079;
-int title_dword_800C346C = 0x00280079;
-int title_dword_800C3470 = 0x00280068;
-int title_dword_800C3474 = 0x00210068;
-int title_dword_800C3478 = 0x00470087;
-int title_dword_800C347C = 0x00450058;
-int title_dword_800C3480 = 0x00440060;
-int title_dword_800C3484 = 0x003F0064;
-int title_dword_800C3488 = 0x00550079;
-int title_dword_800C348C = 0x00570079;
-int title_dword_800C3490 = 0x00570071;
-int title_dword_800C3494 = 0x004A0071;
-int title_dword_800C3498 = 0x004A0071;
-int title_dword_800C349C = 0x004B0071;
-int title_dword_800C34A0 = 0x004B006C;
-int title_dword_800C34A4 = 0x0058006C;
-int title_dword_800C34A8 = 0x0058006C;
-int title_dword_800C34AC = 0x005A006C;
-int title_dword_800C34B0 = 0x005A0064;
-int title_dword_800C34B4 = 0x00440064;
-int title_dword_800C34B8 = 0x00450064;
-int title_dword_800C34BC = 0x005B0060;
-int title_dword_800C34C0 = 0x005B0060;
-int title_dword_800C34C4 = 0x005D0060;
-int title_dword_800C34C8 = 0x005D0058;
-int title_dword_800C34CC = 0x00470058;
-int title_dword_800C34D0 = 0x003F0058;
-int title_dword_800C34D4 = 0x00550079;
-int title_dword_800C34D8 = 0x00600079;
-int title_dword_800C34DC = 0x007A0058;
-int title_dword_800C34E0 = 0x007A0058;
-int title_dword_800C34E4 = 0x00780058;
-int title_dword_800C34E8 = 0x005E0060;
-int title_dword_800C34EC = 0x00670060;
-int title_dword_800C34F0 = 0x00780060;
-int title_dword_800C34F4 = 0x00700060;
-int title_dword_800C34F8 = 0x00670060;
-int title_dword_800C34FC = 0x00620060;
-int title_dword_800C3500 = 0x00700079;
-int title_dword_800C3504 = 0x006B0060;
-int title_dword_800C3508 = 0x006B0079;
-int title_dword_800C350C = 0x00620079;
-int title_dword_800C3510 = 0x00600079;
-int title_dword_800C3514 = 0x005E0058;
-int title_dword_800C3518 = 0x007B0060;
-int title_dword_800C351C = 0x006F0064;
-int title_dword_800C3520 = 0x006F0079;
-int title_dword_800C3524 = 0x00790079;
-int title_dword_800C3528 = 0x00790079;
-int title_dword_800C352C = 0x00810079;
-int title_dword_800C3530 = 0x0081006B;
-int title_dword_800C3534 = 0x0085006B;
-int title_dword_800C3538 = 0x0085006B;
-int title_dword_800C353C = 0x0086006B;
-int title_dword_800C3540 = 0x00860079;
-int title_dword_800C3544 = 0x008F0079;
-int title_dword_800C3548 = 0x008F0079;
-int title_dword_800C354C = 0x008D0079;
-int title_dword_800C3550 = 0x007B0064;
-int title_dword_800C3554 = 0x008D0064;
-int title_dword_800C3558 = 0x007D0064;
-int title_dword_800C355C = 0x008D0060;
-int title_dword_800C3560 = 0x008D0060;
-int title_dword_800C3564 = 0x008C0060;
-int title_dword_800C3568 = 0x007D0058;
-int title_dword_800C356C = 0x00820060;
-int title_dword_800C3570 = 0x00820058;
-int title_dword_800C3574 = 0x008C0058;
-int title_dword_800C3578 = 0x00910058;
-int title_dword_800C357C = 0x00A70079;
-int title_dword_800C3580 = 0x00910079;
-int title_dword_800C3584 = 0x00980079;
-int title_dword_800C3588 = 0x00980058;
-int title_dword_800C358C = 0x00A10058;
-int title_dword_800C3590 = 0x00A10058;
-int title_dword_800C3594 = 0x009C0058;
-int title_dword_800C3598 = 0x009C0071;
-int title_dword_800C359C = 0x00A90071;
-int title_dword_800C35A0 = 0x00A90071;
-int title_dword_800C35A4 = 0x00A70071;
-int title_dword_800C35A8 = 0x00BA0079;
-int title_dword_800C35AC = 0x00AD0058;
-int title_dword_800C35B0 = 0x00AD0068;
-int title_dword_800C35B4 = 0x00B30068;
-int title_dword_800C35B8 = 0x00B30079;
-int title_dword_800C35BC = 0x00C80079;
-int title_dword_800C35C0 = 0x00C80079;
-int title_dword_800C35C4 = 0x00CD0079;
-int title_dword_800C35C8 = 0x00CD0064;
-int title_dword_800C35CC = 0x00BD0064;
-int title_dword_800C35D0 = 0x00BD0064;
-int title_dword_800C35D4 = 0x00BB0064;
-int title_dword_800C35D8 = 0x00BB006C;
-int title_dword_800C35DC = 0x00C2006C;
-int title_dword_800C35E0 = 0x00C2006C;
-int title_dword_800C35E4 = 0x00C1006C;
-int title_dword_800C35E8 = 0x00C10071;
-int title_dword_800C35EC = 0x00BA0071;
-int title_dword_800C35F0 = 0x00BA0071;
-int title_dword_800C35F4 = 0x00B70071;
-int title_dword_800C35F8 = 0x00B70068;
-int title_dword_800C35FC = 0x00BD0068;
-int title_dword_800C3600 = 0x00BD0060;
-int title_dword_800C3604 = 0x00CE0060;
-int title_dword_800C3608 = 0x00CE0060;
-int title_dword_800C360C = 0x00D00060;
-int title_dword_800C3610 = 0x00D00058;
-int title_dword_800C3614 = 0x00BA0058;
-int title_dword_800C3618 = 0x00D40058;
-int title_dword_800C361C = 0x00D20058;
-int title_dword_800C3620 = 0x00D10060;
-int title_dword_800C3624 = 0x00CC0064;
-int title_dword_800C3628 = 0x00CC0079;
-int title_dword_800C362C = 0x00E20079;
-int title_dword_800C3630 = 0x00D10079;
-int title_dword_800C3634 = 0x00E70064;
-int title_dword_800C3638 = 0x00D20064;
-int title_dword_800C363C = 0x00E80060;
-int title_dword_800C3640 = 0x00D40060;
-int title_dword_800C3644 = 0x00EA0058;
-int title_dword_800C3648 = 0x00EA0058;
-int title_dword_800C364C = 0x00E80058;
-int title_dword_800C3650 = 0x00E70060;
-int title_dword_800C3654 = 0x00E50064;
-int title_dword_800C3658 = 0x00E5006C;
-int title_dword_800C365C = 0x00D8006C;
-int title_dword_800C3660 = 0x00E2006C;
-int title_dword_800C3664 = 0x00E40079;
-int title_dword_800C3668 = 0x00E40071;
-int title_dword_800C366C = 0x00D70071;
-int title_dword_800C3670 = 0x00D80071;
-int title_dword_800C3674 = 0x00D7006C;
-int title_dword_800C3678 = 0x00E40071;
-int title_dword_800C367C = 0x00EE0079;
-int title_dword_800C3680 = 0x00EE0079;
-int title_dword_800C3684 = 0x00F60079;
-int title_dword_800C3688 = 0x00F6006C;
-int title_dword_800C368C = 0x00FA006C;
-int title_dword_800C3690 = 0x00FA006C;
-int title_dword_800C3694 = 0x00FB006C;
-int title_dword_800C3698 = 0x00FB0079;
-int title_dword_800C369C = 0x01040079;
-int title_dword_800C36A0 = 0x01040079;
-int title_dword_800C36A4 = 0x01020079;
-int title_dword_800C36A8 = 0x01020064;
-int title_dword_800C36AC = 0x00F00064;
-int title_dword_800C36B0 = 0x00F20064;
-int title_dword_800C36B4 = 0x01020060;
-int title_dword_800C36B8 = 0x01020060;
-int title_dword_800C36BC = 0x01010060;
-int title_dword_800C36C0 = 0x01010058;
-int title_dword_800C36C4 = 0x00F70058;
-int title_dword_800C36C8 = 0x00F20058;
-int title_dword_800C36CC = 0x00F70060;
-int title_dword_800C36D0 = 0x00F00058;
-int title_dword_800C36D4 = 0x00E40064;
-int title_dword_800C36D8 = 0x01060079;
-int title_dword_800C36DC = 0x01100079;
-int title_dword_800C36E0 = 0x010E0079;
-int title_dword_800C36E4 = 0x01240058;
-int title_dword_800C36E8 = 0x01240058;
-int title_dword_800C36EC = 0x01270058;
-int title_dword_800C36F0 = 0x01270061;
-int title_dword_800C36F4 = 0x01200061;
-int title_dword_800C36F8 = 0x011E006A;
-int title_dword_800C36FC = 0x0127006A;
-int title_dword_800C3700 = 0x01270087;
-int title_dword_800C3704 = 0x011D0087;
-int title_dword_800C3708 = 0x011D0087;
-int title_dword_800C370C = 0x01150087;
-int title_dword_800C3710 = 0x0115006B;
-int title_dword_800C3714 = 0x0113006B;
-int title_dword_800C3718 = 0x0113006B;
-int title_dword_800C371C = 0x0110006B;
-int title_dword_800C3720 = 0x010B0079;
-int title_dword_800C3724 = 0x011A0064;
-int title_dword_800C3728 = 0x011A0064;
-int title_dword_800C372C = 0x011E0064;
-int title_dword_800C3730 = 0x011E0060;
-int title_dword_800C3734 = 0x010C0060;
-int title_dword_800C3738 = 0x010E0060;
-int title_dword_800C373C = 0x010C0058;
-int title_dword_800C3740 = 0x010B0060;
-int title_dword_800C3744 = 0x01060064;
-int title_dword_800C3748 = 0x011E0079;
-int title_dword_800C374C = 0x0120006A;
-int title_dword_800C3750 = 0x0026006A;
-int title_dword_800C3754 = 0x0024007D;
-int title_dword_800C3758 = 0x01170087;
-int title_dword_800C375C = 0x011A007D;
-int title_dword_800C3760 = 0x01170087;
-int title_dword_800C3764 = 0x0026007D;
-int title_dword_800C3768 = 0x0024007D;
-int title_dword_800C376C = 0x011A0087;
-int title_dword_800C3770 = 0x4C650087;
+
+short met_logo_lines_800C32E8[] = {
+    108, 35,
+     88, 25,
+    135, 25,
+    135, 33,
+    0x0087, 0x0023,
+    0x0058, 0x002E,
+    0x0058, 0x002E,
+    0x0058, 0x002E,
+    0x006B, 0x002E,
+    0x006B, 0x0038,
+    0x0058, 0x0038,
+    0x0058, 0x0043,
+    0x0058, 0x0043,
+    0x0058, 0x003B,
+    0x0079, 0x003B,
+    0x0079, 0x0033,
+    0x0079, 0x0033,
+    0x0079, 0x0037,
+    0x0068, 0x0037,
+    0x0068, 0x002F,
+    0x0079, 0x002F,
+    0x0079, 0x0028,
+    0x0079, 0x0028,
+    0x0079, 0x0028,
+    0x0068, 0x0028,
+    0x0068, 0x0021,
+    0x0087, 0x0047,
+    0x0058, 0x0045,
+    0x0060, 0x0044,
+    0x0064, 0x003F,
+    0x0079, 0x0055,
+    0x0079, 0x0057,
+    0x0071, 0x0057,
+    0x0071, 0x004A,
+    0x0071, 0x004A,
+    0x0071, 0x004B,
+    0x006C, 0x004B,
+    0x006C, 0x0058,
+    0x006C, 0x0058,
+    0x006C, 0x005A,
+    0x0064, 0x005A,
+    0x0064, 0x0044,
+    0x0064, 0x0045,
+    0x0060, 0x005B,
+    0x0060, 0x005B,
+    0x0060, 0x005D,
+    0x0058, 0x005D,
+    0x0058, 0x0047,
+    0x0058, 0x003F,
+    0x0079, 0x0055,
+    0x0079, 0x0060,
+    0x0058, 0x007A,
+    0x0058, 0x007A,
+    0x0058, 0x0078,
+    0x0060, 0x005E,
+    0x0060, 0x0067,
+    0x0060, 0x0078,
+    0x0060, 0x0070,
+    0x0060, 0x0067,
+    0x0060, 0x0062,
+    0x0079, 0x0070,
+    0x0060, 0x006B,
+    0x0079, 0x006B,
+    0x0079, 0x0062,
+    0x0079, 0x0060,
+    0x0058, 0x005E,
+    0x0060, 0x007B,
+    0x0064, 0x006F,
+    0x0079, 0x006F,
+    0x0079, 0x0079,
+    0x0079, 0x0079,
+    0x0079, 0x0081,
+    0x006B, 0x0081,
+    0x006B, 0x0085,
+    0x006B, 0x0085,
+    0x006B, 0x0086,
+    0x0079, 0x0086,
+    0x0079, 0x008F,
+    0x0079, 0x008F,
+    0x0079, 0x008D,
+    0x0064, 0x007B,
+    0x0064, 0x008D,
+    0x0064, 0x007D,
+    0x0060, 0x008D,
+    0x0060, 0x008D,
+    0x0060, 0x008C,
+    0x0058, 0x007D,
+    0x0060, 0x0082,
+    0x0058, 0x0082,
+    0x0058, 0x008C,
+    0x0058, 0x0091,
+    0x0079, 0x00A7,
+    0x0079, 0x0091,
+    0x0079, 0x0098,
+    0x0058, 0x0098,
+    0x0058, 0x00A1,
+    0x0058, 0x00A1,
+    0x0058, 0x009C,
+    0x0071, 0x009C,
+    0x0071, 0x00A9,
+    0x0071, 0x00A9,
+    0x0071, 0x00A7,
+    0x0079, 0x00BA,
+    0x0058, 0x00AD,
+    0x0068, 0x00AD,
+    0x0068, 0x00B3,
+    0x0079, 0x00B3,
+    0x0079, 0x00C8,
+    0x0079, 0x00C8,
+    0x0079, 0x00CD,
+    0x0064, 0x00CD,
+    0x0064, 0x00BD,
+    0x0064, 0x00BD,
+    0x0064, 0x00BB,
+    0x006C, 0x00BB,
+    0x006C, 0x00C2,
+    0x006C, 0x00C2,
+    0x006C, 0x00C1,
+    0x0071, 0x00C1,
+    0x0071, 0x00BA,
+    0x0071, 0x00BA,
+    0x0071, 0x00B7,
+    0x0068, 0x00B7,
+    0x0068, 0x00BD,
+    0x0060, 0x00BD,
+    0x0060, 0x00CE,
+    0x0060, 0x00CE,
+    0x0060, 0x00D0,
+    0x0058, 0x00D0,
+    0x0058, 0x00BA,
+    0x0058, 0x00D4,
+    0x0058, 0x00D2,
+    0x0060, 0x00D1,
+    0x0064, 0x00CC,
+    0x0079, 0x00CC,
+    0x0079, 0x00E2,
+    0x0079, 0x00D1,
+    0x0064, 0x00E7,
+    0x0064, 0x00D2,
+    0x0060, 0x00E8,
+    0x0060, 0x00D4,
+    0x0058, 0x00EA,
+    0x0058, 0x00EA,
+    0x0058, 0x00E8,
+    0x0060, 0x00E7,
+    0x0064, 0x00E5,
+    0x006C, 0x00E5,
+    0x006C, 0x00D8,
+    0x006C, 0x00E2,
+    0x0079, 0x00E4,
+    0x0071, 0x00E4,
+    0x0071, 0x00D7,
+    0x0071, 0x00D8,
+    0x006C, 0x00D7,
+    0x0071, 0x00E4,
+    0x0079, 0x00EE,
+    0x0079, 0x00EE,
+    0x0079, 0x00F6,
+    0x006C, 0x00F6,
+    0x006C, 0x00FA,
+    0x006C, 0x00FA,
+    0x006C, 0x00FB,
+    0x0079, 0x00FB,
+    0x0079, 0x0104,
+    0x0079, 0x0104,
+    0x0079, 0x0102,
+    0x0064, 0x0102,
+    0x0064, 0x00F0,
+    0x0064, 0x00F2,
+    0x0060, 0x0102,
+    0x0060, 0x0102,
+    0x0060, 0x0101,
+    0x0058, 0x0101,
+    0x0058, 0x00F7,
+    0x0058, 0x00F2,
+    0x0060, 0x00F7,
+    0x0058, 0x00F0,
+    0x0064, 0x00E4,
+    0x0079, 0x0106,
+    0x0079, 0x0110,
+    0x0079, 0x010E,
+    0x0058, 0x0124,
+    0x0058, 0x0124,
+    0x0058, 0x0127,
+    0x0061, 0x0127,
+    0x0061, 0x0120,
+    0x006A, 0x011E,
+    0x006A, 0x0127,
+    0x0087, 0x0127,
+    0x0087, 0x011D,
+    0x0087, 0x011D,
+    0x0087, 0x0115,
+    0x006B, 0x0115,
+    0x006B, 0x0113,
+    0x006B, 0x0113,
+    0x006B, 0x0110,
+    0x0079, 0x010B,
+    0x0064, 0x011A,
+    0x0064, 0x011A,
+    0x0064, 0x011E,
+    0x0060, 0x011E,
+    0x0060, 0x010C,
+    0x0060, 0x010E,
+    0x0058, 0x010C,
+    0x0060, 0x010B,
+    0x0064, 0x0106,
+    0x0079, 0x011E,
+    0x006A, 0x0120,
+    0x006A, 0x0026,
+    0x007D, 0x0024,
+    0x0087, 0x0117,
+    0x007D, 0x011A,
+    0x0087, 0x0117,
+    0x007D, 0x0026,
+    0x007D, 0x0024,
+    0x0087, 0x011A,
+    0x0087,
+    0x4C65 // leak
+};
+
 int title_dword_800C3774 = 0x00000380;
 int title_dword_800C3778 = 0x00000100;
 int title_dword_800C377C = 0x00000380;
 int title_dword_800C3780 = 0x000001FE;
-
 
 const char title_dword_800D869C[] = {0x0, 0x0, 0x0, 0x0};
 const char title_aSafecheckstart_800D86A0[] = "SafeCheckStart\n";
@@ -750,40 +754,5 @@ const int title_dword_800D9268 = 0x800D607C;
 const int title_dword_800D926C = 0x800D62E0;
 const int title_dword_800D9270 = 0x800D654C;
 const int title_dword_800D9274 = 0x800D67B4;
-const char title_aOpenc_800D9278[] = "open.c";
-const char title_aMetlogoc_800D9280[] = "met_logo.c";
-const int title_dword_800D928C = 0x800D78B0;
-const int title_dword_800D9290 = 0x800D78C8;
-const int title_dword_800D9294 = 0x800D7984;
-const int title_dword_800D9298 = 0x800D7A28;
-const int title_dword_800D929C = 0x800D7B30;
-const int title_dword_800D92A0 = 0x800D7BD0;
-const int title_dword_800D92A4 = 0x800D7C88;
-const char title_aVrwindowcantalloc_800D92A8[] = "vrwindow: Can\'t alloc !! \n";
-const char title_aVrwindowc_800D92C4[] = "vrwindow.c";
-const char title_dword_800D92D0[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92D4[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92D8[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92DC[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92E0[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92E4[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92E8[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92EC[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92F0[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92F4[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92F8[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D92FC[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9300[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9304[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9308[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D930C[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9310[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9314[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9318[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D931C[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9320[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9324[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9328[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D932C[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9330[] = {0x0, 0x0, 0x0, 0x0};
-const char title_dword_800D9334[] = {0x0, 0x0, 0x0, 0x0};
+
+const char aOpenC[] = "open.c";

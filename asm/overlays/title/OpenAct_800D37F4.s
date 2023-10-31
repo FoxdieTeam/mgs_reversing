@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef title_open_800D37F4
-title_open_800D37F4:
+	xdef OpenAct_800D37F4
+OpenAct_800D37F4:
 	dw 0x27BDFFE0 ; 800D37F4
 	dw 0xAFB00010 ; 800D37F8
 	dw 0x00808021 ; 800D37FC

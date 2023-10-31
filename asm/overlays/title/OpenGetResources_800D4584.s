@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef title_open_800D4584
-title_open_800D4584:
+	xdef OpenGetResources_800D4584
+OpenGetResources_800D4584:
 	dw 0x27BDFF78 ; 800D4584
 	dw 0xAFB7007C ; 800D4588
 	dw 0x0080B821 ; 800D458C
