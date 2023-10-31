@@ -4,17 +4,16 @@
 
 typedef struct BoxKeriWork
 {
-    GV_ACT  actor;
-    OBJECT  field_20_obj;
-    SVECTOR field_44;
-    SVECTOR field_48;
-    MATRIX  field_54;
-    short   field_74;
-    short   field_76;
-    short   field_78;
-    short   field_7A;
-    MATRIX  field_7C_mat;
-    char    pad2[0x20];
+    GV_ACT         actor;
+    OBJECT_NO_ROTS field_20_obj;
+    SVECTOR        field_44;
+    SVECTOR        field_48;
+    MATRIX         field_54;
+    short          field_74;
+    short          field_76;
+    short          field_78;
+    short          field_7A;
+    MATRIX         field_7C_mat[2];
 } BoxKeriWork;
 
 extern const char s00a_aBoxkeric_800E09F0[];
@@ -103,14 +102,14 @@ void s00a_boxkeri_800D219C(BoxKeriWork *work)
     DG_MovePos_8001BD20(&work->field_48);
     DG_RotatePos_8001BD64(&work->field_44);
     DG_PutObjs_8001BDB8(work->field_20_obj.objs);
-    DG_GetLightMatrix2_8001A5D8(&GM_PlayerPosition_800ABA10, &work->field_7C_mat);
+    DG_GetLightMatrix2_8001A5D8(&GM_PlayerPosition_800ABA10, work->field_7C_mat);
 
     work->field_74++;
 }
 
 void s00a_boxkeri_800D23D0(BoxKeriWork *work)
 {
-    GM_FreeObject_80034BF8(&work->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&work->field_20_obj);
 }
 
 void s00a_boxkeri_800D23F0()
@@ -134,13 +133,13 @@ int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
 
 int s00a_boxkeri_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 {
-    OBJECT *obj;
-    int     dir;
+    OBJECT_NO_ROTS *obj;
+    int             dir;
 
     obj = &work->field_20_obj;
     GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(s00a_aCbbox_800E09E8), 0x6D, 0);
-    GM_ConfigObjectLight_80034C44(obj, &work->field_7C_mat);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(s00a_aCbbox_800E09E8), 0x6D, 0);
+    GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_7C_mat);
 
     work->field_20_obj.objs->objs[0].raise = 500;
 

@@ -9,7 +9,6 @@ typedef struct _MouseEntry
 {
     TARGET *target;
     OBJECT  object;
-    SVECTOR rots[24];
     MATRIX  light[2];
     int     has_target;
     int     f12C;

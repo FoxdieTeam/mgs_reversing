@@ -348,7 +348,7 @@ void socom_kill_80065A94( Actor_Socom *a1 )
     DG_PRIM *field_58_prim;
     DG_PRIM *field_10C_pPrim;
 
-    GM_FreeObject_80034BF8( &a1->field_20 );
+    GM_FreeObject_80034BF8( (OBJECT *)&a1->field_20 );
     field_58_prim = a1->field_58_prim;
     if ( field_58_prim )
     {
@@ -366,26 +366,20 @@ void socom_kill_80065A94( Actor_Socom *a1 )
 
 int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
 {
-    DG_TEX  *pTexture;
-    DG_PRIM *pNewPrim;
-    DG_PRIM *prim;
-    OBJECT  *obj;
+    DG_TEX         *pTexture;
+    DG_PRIM        *pNewPrim;
+    DG_PRIM        *prim;
+    OBJECT_NO_ROTS *obj;
 
     obj = &actor->field_20;
     if ( GM_SilencerFlag < 0 )
     {
-        GM_InitObjectNoRots_800349B0( (OBJECT_NO_ROTS *)obj,
-                                    GV_StrCode_80016CCC( aSocom_0 ),
-                                    WEAPON_FLAG,
-                                    0 );
+        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( aSocom_0 ), WEAPON_FLAG, 0);
         actor->field_56 = 0;
     }
     else
     {
-        GM_InitObjectNoRots_800349B0( (OBJECT_NO_ROTS *)obj,
-                                    GV_StrCode_80016CCC( aSocom2 ),
-                                    WEAPON_FLAG,
-                                    0 );
+        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( aSocom2 ), WEAPON_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
         if ( GM_CurrentItemId == ITEM_SUPPR )
@@ -395,7 +389,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
     }
     if ( obj->objs )
     {
-        GM_ConfigObjectRoot_80034C5C( obj, arg1, unit );
+        GM_ConfigObjectRoot_80034C5C( (OBJECT *)obj, arg1, unit );
         prim = DG_GetPrim( 0x15, 0xA, 0, &actor->field_60_array[ 0 ], 0 );
         pNewPrim = ( actor->field_58_prim = prim );
         prim = pNewPrim;

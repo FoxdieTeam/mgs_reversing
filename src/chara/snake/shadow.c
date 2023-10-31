@@ -166,7 +166,7 @@ void shadow_act_800600E4(Actor_Shadow *pActor)
 
 void shadow_kill_80060190(Actor_Shadow *pActor)
 {
-    GM_FreeObject_80034BF8(&pActor->field_28_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_obj);
 }
 
 extern char aKage[];     // = "kage"
@@ -176,19 +176,19 @@ int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, S
 {
     int map_name;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_28_obj, GV_StrCode_80016CCC(aKage), 0x16d, 0);
-    GM_ConfigObjectLight_80034C44(&pActor->field_28_obj, &pActor->field_4C_mtx);
+    GM_InitObjectNoRots_800349B0(&pActor->field_28_obj, GV_StrCode_80016CCC(aKage), 0x16d, 0);
+    GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_28_obj, pActor->field_4C_mtx);
 
     map_name = pObj->map_name;
 
     pActor->field_28_obj.objs->group_id = map_name;
-    pActor->field_4C_mtx.m[1][1] = -0x1000;
-    pActor->field_6E = 0x480;
-    pActor->field_74 = 0x480;
-    pActor->field_7A = 0x480;
-    pActor->field_4C_mtx.t[0] = 0;
-    pActor->field_4C_mtx.t[1] = 0;
-    pActor->field_4C_mtx.t[2] = 0;
+    pActor->field_4C_mtx[0].m[1][1] = -0x1000;
+    pActor->field_4C_mtx[1].m[0][1] = 0x480;
+    pActor->field_4C_mtx[1].m[1][1] = 0x480;
+    pActor->field_4C_mtx[1].m[2][1] = 0x480;
+    pActor->field_4C_mtx[0].t[0] = 0;
+    pActor->field_4C_mtx[0].t[1] = 0;
+    pActor->field_4C_mtx[0].t[2] = 0;
     pActor->field_28_obj.objs->objs->model->flags_0 |= 2;
     *pActor->field_28_obj.objs->objs->model->materialOffset_50 = GV_StrCode_80016CCC(aShadow_0);
     pActor->field_20_ctrl = pCtrl;

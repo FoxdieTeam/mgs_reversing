@@ -10,7 +10,6 @@ typedef struct _GrenadeEnemyWork
     CONTROL *control;
     OBJECT  *parent;
     OBJECT   object;
-    SVECTOR  rots[24];
     int      num_parent;
     int     *f110;
     SVECTOR  f114;

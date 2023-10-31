@@ -138,12 +138,12 @@ void famas_act_80065E90(Actor_Famas *pActor)
 
 void famas_die_80066188(Actor_Famas *famas)
 {
-    GM_FreeObject_80034BF8(&famas->f20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&famas->f20_obj);
 }
 
 int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_parent, int flag)
 {
-    OBJECT *obj = &actor_famas->f20_obj;
+    OBJECT_NO_ROTS *obj = &actor_famas->f20_obj;
     int     id;
 
     if (flag == 0)
@@ -151,12 +151,12 @@ int famas_loader_800661A8(Actor_Famas *actor_famas, OBJECT *parent_obj, int num_
     else
         id = GV_StrCode_80016CCC(aMpfive);
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C(obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
     return 0;
 }
 

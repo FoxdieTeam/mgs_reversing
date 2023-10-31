@@ -17,25 +17,14 @@ typedef struct Shadow_94
 
 typedef struct Actor_Shadow
 {
-    GV_ACT       field_0_actor;
-    CONTROL *field_20_ctrl;
-    OBJECT     *field_24_pObj;
-    OBJECT      field_28_obj;
-    MATRIX      field_4C_mtx;
-    short       field_6C;
-    short       field_6E;
-    int         field_70;
-    short       field_74;
-    short       field_76;
-    short       field_78;
-    short       field_7A;
-    int         field_7C;
-    int         field_80;
-    int         field_84;
-    int         field_88;
-    int         field_8C;
-    int         field_90_bEnable;
-    Shadow_94   field_94;
+    GV_ACT         field_0_actor;
+    CONTROL       *field_20_ctrl;
+    OBJECT        *field_24_pObj;
+    OBJECT_NO_ROTS field_28_obj;
+    MATRIX         field_4C_mtx[2];
+    int            field_8C;
+    int            field_90_bEnable;
+    Shadow_94      field_94;
 } Actor_Shadow;
 
 void shadow_act_helper_8005FD28(Actor_Shadow *pShadow); // dummy signature

@@ -3,17 +3,6 @@
 #include "Game/object.h"
 #include "Game/camera.h"
 
-typedef struct _PatoLmpSub // It's probably OBJECT + 24 rots
-{
-    OBJECT  field_0;
-    SVECTOR rots[24];
-} PatoLmpSub;
-
-typedef struct _PatoLmpSub2 // It's probably MATRIX[2]
-{
-    MATRIX light[2];
-} PatoLmpSub2;
-
 typedef struct _PatoLmpPrims
 {
     DR_TPAGE tpage[2];
@@ -24,11 +13,11 @@ typedef struct _PatoLmpWork
 {
     GV_ACT         actor;
     PatoLmpPrims  *field_20;
-    PatoLmpSub     field_24[4];
-    PatoLmpSub     field_3B4[4];
-    PatoLmpSub     field_744[4];
-    PatoLmpSub     field_AD4[4];
-    PatoLmpSub2    field_E64[4];
+    OBJECT         field_24[4];
+    OBJECT         field_3B4[4];
+    OBJECT         field_744[4];
+    OBJECT         field_AD4[4];
+    MATRIX         field_E64[4][2];
     char           field_F64[0x40];
     SVECTOR        field_FA4[4];
     SVECTOR        field_FC4[4];
@@ -148,17 +137,17 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
 
 extern int GV_PauseLevel_800AB928;
 
-void s00a_pato_lmp_800D5FC4( PatoLmpWork* work ) 
+void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
 {
     short rgb[3];
-    
+
     if (GV_PauseLevel_800AB928 )
     {
         return;
     }
 
     work->field_1924++;
-    
+
     if ( work->field_1920 >= work->field_1924 )
     {
         rgb[0] = work->field_1928.vx + ( ( ( work->field_1930.vx - work->field_1928.vx ) * work->field_1924 ) / work->field_1920 );
@@ -173,7 +162,7 @@ void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
     }
 
     setRGB0( &work->field_20->tile[GV_Clock_800AB920], rgb[0], rgb[1], rgb[2] );
-    
+
 }
 
 void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short vy, short vz)
@@ -194,12 +183,12 @@ void s00a_pato_lmp_800D6550( PatoLmpWork* work )
     int i;
     for ( i = 0 ; i < work->field_1004 ; i++ )
     {
-        DG_VisibleObjs(work->field_744[i].field_0.objs);
-        DG_VisibleObjs(work->field_AD4[i].field_0.objs);
+        DG_VisibleObjs(work->field_744[i].objs);
+        DG_VisibleObjs(work->field_AD4[i].objs);
         DG_VisiblePrim(work->field_1008);
 
         work->field_FE4[i] = DG_ZeroVector_800AB39C;
-        
+
     }
 
     work->field_193C = 1;
@@ -210,9 +199,9 @@ void s00a_pato_lmp_800D6600( PatoLmpWork* work )
     int i;
     for ( i = 0 ; i < work->field_1004 ; i++ )
     {
-        DG_InvisibleObjs(work->field_744[i].field_0.objs);
-        DG_InvisibleObjs(work->field_AD4[i].field_0.objs);
-        DG_InvisiblePrim(work->field_1008);        
+        DG_InvisibleObjs(work->field_744[i].objs);
+        DG_InvisibleObjs(work->field_AD4[i].objs);
+        DG_InvisiblePrim(work->field_1008);
     }
 }
 
@@ -228,11 +217,11 @@ void s00a_pato_lmp_800D6678(PatoLmpWork *work)
 
     char *ot;
 
-    PatoLmpSub *field_3B4_iter;
-    PatoLmpSub *field_AD4_iter;
-    PatoLmpSub *field_744_iter;
-    SVECTOR    *field_FA4_iter;
-    SVECTOR    *field_FE4_iter;
+    OBJECT *field_3B4_iter;
+    OBJECT *field_AD4_iter;
+    OBJECT *field_744_iter;
+    SVECTOR *field_FA4_iter;
+    SVECTOR *field_FE4_iter;
 
     short zero;
 
@@ -278,9 +267,9 @@ void s00a_pato_lmp_800D6678(PatoLmpWork *work)
         for (i = 0; i < work->field_1004; i++)
         {
             DG_SetPos2_8001BC8C(&work->field_FA4[i], &work->field_FC4[i]);
-            GM_ActObject2_80034B88(&work->field_3B4[i].field_0);
-            GM_ActObject2_80034B88(&work->field_24[i].field_0);
-            DG_GetLightMatrix_8001A3C4(&work->field_FA4[i], work->field_E64[i].light);
+            GM_ActObject2_80034B88(&work->field_3B4[i]);
+            GM_ActObject2_80034B88(&work->field_24[i]);
+            DG_GetLightMatrix_8001A3C4(&work->field_FA4[i], work->field_E64[i]);
         }
     }
 
@@ -304,14 +293,14 @@ void s00a_pato_lmp_800D6678(PatoLmpWork *work)
             {
                 field_FE4_iter->vy += 128;
                 DG_SetPos2_8001BC8C(field_FA4_iter, field_FE4_iter);
-                GM_ActObject2_80034B88(&field_744_iter->field_0);
+                GM_ActObject2_80034B88(field_744_iter);
 
                 svec = *field_FE4_iter;
                 svec.vy += 2048;
 
                 DG_SetPos2_8001BC8C(field_FA4_iter, &svec);
-                GM_ActObject2_80034B88(&field_AD4_iter->field_0);
-                GM_ActObject2_80034B88(&field_3B4_iter->field_0);
+                GM_ActObject2_80034B88(field_AD4_iter);
+                GM_ActObject2_80034B88(field_3B4_iter);
 
                 if (work->field_1954 == 1)
                 {
@@ -407,10 +396,10 @@ void s00a_pato_lmp_800D6C44(PatoLmpWork *work)
     }
     for (i = 0; i < work->field_1004; i++)
     {
-        GM_FreeObject_80034BF8(&work->field_24[i].field_0);
-        GM_FreeObject_80034BF8(&work->field_3B4[i].field_0);
-        GM_FreeObject_80034BF8(&work->field_744[i].field_0);
-        GM_FreeObject_80034BF8(&work->field_AD4[i].field_0);
+        GM_FreeObject_80034BF8(&work->field_24[i]);
+        GM_FreeObject_80034BF8(&work->field_3B4[i]);
+        GM_FreeObject_80034BF8(&work->field_744[i]);
+        GM_FreeObject_80034BF8(&work->field_AD4[i]);
     }
     allocated = work->field_20;
     if (allocated)
@@ -442,7 +431,7 @@ void s00a_pato_lmp_800D6D40( PatoLmpWork *work, int idx, int idx2, int y )
 
     work->field_151C[idx][idx2].vy = y;
     work->field_151C[idx][idx2].vz = (255 - ((dis * 255)) / 3500);
-    
+
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6E28.s")

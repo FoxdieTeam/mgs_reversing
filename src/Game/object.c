@@ -67,8 +67,6 @@ void GM_InitObjectNoRots_800349B0(OBJECT_NO_ROTS *obj, int model, int flag, int 
     GM_ConfigObjectModel_80034E10(obj, model);
 }
 
-#define DG_MAX_JOINTS 24
-
 // initialises the rots of an object by zeroing its memory then
 // calls initobjectnorots to init the rest
 void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion)

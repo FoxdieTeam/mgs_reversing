@@ -259,7 +259,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
 
     GM_ActControl_80025A7C(pCtrl);
     GM_SetCurrentMap(pActor->field_14C_map);
-    GM_ActObject2_80034B88(&pActor->field_9C_obj);
+    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_obj);
 
     f130 = pActor->field_130;
 
@@ -419,7 +419,7 @@ void jirai_kill_8006B05C(Actor_Jirai *pActor)
         sub_8007913C();
     }
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_FreeObject_80034BF8(&pActor->field_9C_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_obj);
     GM_FreeTarget_8002D4B0(pActor->field_100_pTarget);
 
     if (pActor->field_13C_idx >= 0)
@@ -495,12 +495,12 @@ int jirai_get_free_item_8006B268()
 
 int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
 {
-    int            map;      // $v1
-    CONTROL       *pCtrl;    // $s2
-    Jirai_unknown *pUnknown; // $a0
-    MATRIX         matrix;   // [sp+10h] [-20h] BYREF
-    SVECTOR       *vec;
-    OBJECT        *obj;
+    int             map;      // $v1
+    CONTROL        *pCtrl;    // $s2
+    Jirai_unknown  *pUnknown; // $a0
+    MATRIX          matrix;   // [sp+10h] [-20h] BYREF
+    SVECTOR        *vec;
+    OBJECT_NO_ROTS *obj;
 
     map = GM_PlayerMap_800ABA0C;
     pCtrl = &pActor->field_20_ctrl;
@@ -521,7 +521,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
     pActor->field_144_vec.vz = 0;
     GM_ConfigControlAttribute_8002623C(pCtrl, 0);
     obj = &pActor->field_9C_obj;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC("claymore"), 877, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("claymore"), 877, 0);
     if (!obj->objs)
     {
         return -1;
@@ -529,7 +529,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
 
     DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
     DG_PutObjs_8001BDB8(obj->objs);
-    GM_ConfigObjectLight_80034C44(obj, pActor->field_C0_light_matrices);
+    GM_ConfigObjectLight_80034C44((OBJECT *)obj, pActor->field_C0_light_matrices);
 
     pActor->field_130 = 0;
     pActor->field_138_gcl = -1;
@@ -588,10 +588,10 @@ Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
 
 int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
 {
-    MATRIX      matrix;
-    CONTROL *ctrl;
-    SVECTOR    *vec;
-    OBJECT     *obj;
+    MATRIX          matrix;
+    CONTROL        *ctrl;
+    SVECTOR        *vec;
+    OBJECT_NO_ROTS *obj;
 
     pActor->field_14C_map = map;
 
@@ -607,8 +607,8 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
 
     pActor->field_144_vec = ctrl->field_8_rotator;
     obj = &pActor->field_9C_obj;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC("claymore"), 877, 0);
-    GM_ConfigObjectLight_80034C44(obj, pActor->field_C0_light_matrices);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("claymore"), 877, 0);
+    GM_ConfigObjectLight_80034C44((OBJECT *)obj, pActor->field_C0_light_matrices);
 
     pActor->field_104_vec = ctrl->field_8_rotator;
 
