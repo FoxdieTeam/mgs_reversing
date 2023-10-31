@@ -261,7 +261,7 @@ void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
     stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
 }
 
-extern int     dword_8009F490;
+extern int     amissile_alive_8009F490;
 extern SVECTOR svector_8009F494;
 
 extern const char aDD[]; // = "%d %d\n"
@@ -274,7 +274,7 @@ void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
     int             x, sx;
     int             y, sy;
 
-    if (dword_8009F490 != 0)
+    if (amissile_alive_8009F490 != 0)
     {
         if (++actor->field_84_4Array[0] < 28)
         {
