@@ -1,0 +1,14 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s01a_mosaic_800DFDD4
+s01a_mosaic_800DFDD4:
+	dw 0x27BDFFE8 ; 800DFDD4
+	dw 0x308400FF ; 800DFDD8
+	dw 0xAFBF0010 ; 800DFDDC
+	dw 0x0C037F65 ; 800DFDE0
+	dw 0x00002821 ; 800DFDE4
+	dw 0x8FBF0010 ; 800DFDE8
+	dw 0x00000000 ; 800DFDEC
+	dw 0x03E00008 ; 800DFDF0
+	dw 0x27BD0018 ; 800DFDF4
