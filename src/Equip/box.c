@@ -75,7 +75,7 @@ void BoxDie_80061B30(Actor_Box *pActor)
     const char **ppName;
     int i;
 
-    GM_FreeObject_80034BF8(&pActor->field_20);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20);
 
     ppName = pActor->field_50_ppName;
     for (i = 0; i < 2; i++)
@@ -88,12 +88,12 @@ void BoxDie_80061B30(Actor_Box *pActor)
 
 int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
 {
-    OBJECT *pObject = &pActor->field_20;
+    OBJECT_NO_ROTS *pObject = &pActor->field_20;
     short currentItem;
     const char **ppName;
     int i;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObject, GV_StrCode_80016CCC("cb_box"), 109, 0);
+    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode_80016CCC("cb_box"), 109, 0);
 
     if (!pActor->field_20.objs)
     {
@@ -101,7 +101,7 @@ int BoxGetResources_80061BA0(Actor_Box *pActor, OBJECT *pParent)
     }
 
     pActor->field_20.objs->objs[0].raise = 250;
-    GM_ConfigObjectRoot_80034C5C(pObject, pParent, 0);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, pParent, 0);
 
     currentItem = GM_CurrentItemId;
     ppName = &off_8009F288[(currentItem - 2) * 2];

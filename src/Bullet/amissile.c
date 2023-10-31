@@ -204,7 +204,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     GM_ActControl_80025A7C(pCtrl);
     amissile_act_helper_8006D37C(pActor);
-    GM_ActObject2_80034B88(&pActor->field_9C_kmd);
+    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
 
     pActor->field_134_prim->world.t[0] = pActor->field_20_ctrl.field_0_mov.vx;
     pActor->field_134_prim->world.t[1] = pActor->field_20_ctrl.field_0_mov.vy;
@@ -340,7 +340,7 @@ void amissile_kill_8006D99C(Actor_amissile *pActor)
     DG_PRIM *pPrim;
 
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
 
     pPrim = pActor->field_134_prim;
 
@@ -363,7 +363,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
 {
     CONTROL *pCtrl = &pActor->field_20_ctrl;
-    OBJECT *pKmd;
+    OBJECT_NO_ROTS *pKmd;
     DG_OBJS *pObjs;
     RECT *pRect;
     DG_PRIM *pNewPrim;
@@ -384,7 +384,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     pCtrl->field_55_skip_flag |= CTRL_SKIP_NEAR_CHECK;
     pCtrl->field_59 = 8;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pKmd, 0x76AB, 0x36D, 0);
+    GM_InitObjectNoRots_800349B0(pKmd, 0x76AB, 0x36D, 0);
 
     pObjs = pKmd->objs;
 
@@ -394,7 +394,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     }
 
     pObjs->world = *pMtx;
-    GM_ConfigObjectLight_80034C44(pKmd, pActor->field_C0_light_matrix);
+    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, pActor->field_C0_light_matrix);
 
     pKmd->objs->objs[0].raise = -500;
 

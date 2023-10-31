@@ -11,7 +11,7 @@ extern char      aRifle_0[]; // = "rifle"
 extern GM_Camera GM_Camera_800B77E8;
 
 extern int              GM_GameStatus_800AB3CC;
-extern CONTROL      *GM_PlayerControl_800AB9F4;
+extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 
@@ -171,7 +171,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
 
 void rifle_kill_80068118(Actor_Rifle *rifle)
 {
-    GM_FreeObject_80034BF8(&rifle->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&rifle->field_20_obj);
 
     if (GM_CurrentWeaponId != WEAPON_PSG1)
     {
@@ -188,15 +188,15 @@ void rifle_kill_80068118(Actor_Rifle *rifle)
 
 int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_parent)
 {
-    OBJECT *obj = &actor_rifle->field_20_obj;
+    OBJECT_NO_ROTS *obj = &actor_rifle->field_20_obj;
 
     int id = GV_StrCode_80016CCC(aRifle_0);
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, id, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C(obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
     actor_rifle->field_5c = 0;
 
     return 0;

@@ -167,7 +167,7 @@ void rcm_kill_80066E68(Actor_Rcm *pActor)
 {
     DG_PRIM *prim;
 
-    GM_FreeObject_80034BF8(&pActor->f20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->f20_obj);
     prim = pActor->field_5C_pPrim;
     if (prim)
     {
@@ -178,18 +178,18 @@ void rcm_kill_80066E68(Actor_Rcm *pActor)
 
 int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
 {
-    DG_PRIM *pNewPrim;
-    DG_TEX  *pTexture;
-    OBJECT  *obj;
+    DG_PRIM        *pNewPrim;
+    DG_TEX         *pTexture;
+    OBJECT_NO_ROTS *obj;
 
     obj = &actor->f20_obj;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aNikita), 109, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(aNikita), 109, 0);
     if (!obj->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C(obj, a2, unit);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, a2, unit);
 
     pNewPrim = DG_GetPrim(1042, 1, 0, &svector_800AB880, &rect_800AB878);
     actor->field_5C_pPrim = pNewPrim;

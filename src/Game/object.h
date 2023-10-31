@@ -14,5 +14,4 @@ void GM_InitObject_80034A18(OBJECT *obj, int model, int flag, int motion);
 void GM_ActMotion_80034A7C(OBJECT *obj);
 void GM_ActObject_80034AF4(OBJECT *pObject);
 
-
 #endif // _OBJECT_H_

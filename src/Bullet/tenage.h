@@ -12,18 +12,18 @@
 
 typedef struct Actor_tenage
 {
-    GV_ACT     field_0_actor;
-    CONTROL field_20_ctrl;
-    OBJECT     field_9C_obj;
-    MATRIX     field_C0_light_matrices[2];
-    int        field_100_homing_arg2;
-    int        field_104_count;
-    SVECTOR    field_108;
-    int        field_110;
-    int        field_114_homing_arg3;
-    int        field_118_do_sound;
-    int        field_11C;
-    int        field_120_ctrl_idx;
+    GV_ACT         field_0_actor;
+    CONTROL        field_20_ctrl;
+    OBJECT_NO_ROTS field_9C_obj;
+    MATRIX         field_C0_light_matrices[2];
+    int            field_100_homing_arg2;
+    int            field_104_count;
+    SVECTOR        field_108;
+    int            field_110;
+    int            field_114_homing_arg3;
+    int            field_118_do_sound;
+    int            field_11C;
+    int            field_120_ctrl_idx;
 } Actor_tenage;
 
 STATIC_ASSERT_SIZE(Actor_tenage, 0x124);

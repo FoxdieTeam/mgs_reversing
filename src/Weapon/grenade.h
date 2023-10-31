@@ -12,16 +12,16 @@
 
 typedef struct _Actor_Grenade
 {
-	GV_ACT       field_0_actor;
-	CONTROL *f20_ctrl;
-	OBJECT     *f24_parent_obj;
-	OBJECT      f28_obj;
-	int         f4c_map_id;
-	int        *f50_flags;
-	SVECTOR     f54_pos;
-	int         f5c_timer;
-	int         f60_grenade_type;
-	int         f64_has_exploded;
+	GV_ACT         field_0_actor;
+	CONTROL       *f20_ctrl;
+	OBJECT        *f24_parent_obj;
+	OBJECT_NO_ROTS f28_obj;
+	int            f4c_map_id;
+	int           *f50_flags;
+	SVECTOR        f54_pos;
+	int            f5c_timer;
+	int            f60_grenade_type;
+	int            f64_has_exploded;
 } Actor_Grenade;
 
 enum GRENADE_TYPE

@@ -77,19 +77,19 @@ void bomb_act_8006788C( Actor_Bomb *actor )
 
 void bomb_kill_80067A74(Actor_Bomb *actor)
 {
-    GM_FreeObject_80034BF8(&actor->f28_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&actor->f28_obj);
 }
 
 int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_parent)
 {
-    OBJECT *obj = &actor_bomb->f28_obj;
+    OBJECT_NO_ROTS *obj = &actor_bomb->f28_obj;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC(aC4Bomb), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(aC4Bomb), WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C(obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
     return 0;
 }
 

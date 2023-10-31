@@ -7,13 +7,13 @@
 
 typedef struct Actor_Box
 {
-    GV_ACT        field_0_actor;
-    OBJECT       field_20;
-    CONTROL  *field_44_pCtrl;
-    OBJECT      *field_48_pParent;
-    int          field_4C_bFound;
-    const char **field_50_ppName;
-    int          field_54;
+    GV_ACT         field_0_actor;
+    OBJECT_NO_ROTS field_20;
+    CONTROL       *field_44_pCtrl;
+    OBJECT        *field_48_pParent;
+    int            field_4C_bFound;
+    const char   **field_50_ppName;
+    int            field_54;
 } Actor_Box;
 
 int    BoxCheckMessage_8006195C(Actor_Box *pActor);
