@@ -519,11 +519,9 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3E6C.obj"
     include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C3F44.obj"
     include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4060.obj"
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C41EC.obj"
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4290.obj"
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4350.obj"
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C4358.obj"
-    include "{{OBJ_DIR}}\overlays\title\title_fonttext_800C446C.obj"
+
+    include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj"
+
     include "{{OBJ_DIR}}\overlays\title\title_open_800C4500.obj"
     include "{{OBJ_DIR}}\overlays\title\title_open_800C4674.obj"
     include "{{OBJ_DIR}}\overlays\title\title_open_800C47B8.obj"
