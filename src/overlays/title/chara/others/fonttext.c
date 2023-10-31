@@ -19,9 +19,11 @@ typedef struct _Work
 
 #define EXEC_LEVEL 5
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+extern int fonttext_dword_800C32B0;
+extern const char fonttext_aS[];
+extern const char aFonttextC[];
 
-extern int dword_800C32B0;
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 int FonttextPollMessages_800C41EC( Work *work, int hash )
 {
@@ -53,9 +55,9 @@ void FonttextAct_800C4290( Work *work )
 {
     int x, y;
 
-    if ( FonttextPollMessages_800C41EC( work, work->hash ) || dword_800C32B0 == work->hash )
+    if ( FonttextPollMessages_800C41EC( work, work->hash ) || fonttext_dword_800C32B0 == work->hash )
     {
-        dword_800C32B0 = 0;
+        fonttext_dword_800C32B0 = 0;
         GV_DestroyActor_800151C8( &( work->actor ) );
         return;
     }
@@ -65,7 +67,7 @@ void FonttextAct_800C4290( Work *work )
 
     menu_Text_XY_Flags_80038B34( work->position.vx + x, work->position.vy + y, work->flags );
     menu_Color_80038B4C( work->color.vx, work->color.vy, work->color.vz );
-    menu_Text_80038C38( "%s", work->text );
+    menu_Text_80038C38( fonttext_aS, work->text );
 
     work->offset.x += work->offset.w;
     work->offset.y += work->offset.h;
@@ -126,7 +128,7 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
     work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)FonttextAct_800C4290, (TActorFunction)FonttextDie_800C4350, "fonttext.c" );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)FonttextAct_800C4290, (TActorFunction)FonttextDie_800C4350, aFonttextC );
 
         if ( FonttextGetResources_800C4358( work ) < 0 )
         {
