@@ -420,7 +420,7 @@ void item_act_80033784(Actor_Item *pActor)
         }
     }
 
-    GM_ActObject2_80034B88(&pActor->field_9C_kmd);
+    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
     DG_GetLightMatrix2_8001A5D8(&pCtrl->field_0_mov, pActor->field_C8_mtx);
 
     if (item_act_helper_800335D0(pActor) && (pActor->field_112_state != 1))
@@ -571,7 +571,7 @@ void item_kill_80033F88(Actor_Item *pActor)
     unsigned char *field_120_pScript; // $a0
 
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
 
     field_15C_pPrim = pActor->field_15C_pPrim;
     if (field_15C_pPrim)
@@ -661,7 +661,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     DG_TEX *pTex;
     int type;
     CONTROL *pControl;
-    OBJECT *pObject;
+    OBJECT_NO_ROTS *pObject;
     int iVar10;
     int code;
     int value;
@@ -758,10 +758,10 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
 
     GV_ZeroMemory_8001619C(pActor->field_C0, 8);
     pObject = &pActor->field_9C_kmd;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *) pObject, type + 0x4d5f, 0x36d, 0);
-    GM_ConfigObjectJoint_80034CB4(pObject);
-    GM_ConfigObjectLight_80034C44(pObject, pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54(pObject, &pActor->field_20_ctrl.field_44_movementVector);
+    GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
+    GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
+    GM_ConfigObjectLight_80034C44((OBJECT *)pObject, pActor->field_C8_mtx);
+    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &pActor->field_20_ctrl.field_44_movementVector);
 
     if (GCL_GetOption_80020968('v'))
     {
@@ -836,7 +836,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     }
 
     GM_ActControl_80025A7C(pControl);
-    GM_ActObject2_80034B88(pObject);
+    GM_ActObject2_80034B88((OBJECT *)pObject);
     return 1;
 }
 
@@ -910,10 +910,10 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     pCtrl->field_44_movementVector.vy = 160;
     pCtrl->field_0_mov = *pPos;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
-    GM_ConfigObjectJoint_80034CB4(&pActor->field_9C_kmd);
-    GM_ConfigObjectLight_80034C44(&pActor->field_9C_kmd, pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54(&pActor->field_9C_kmd, &pCtrl->field_44_movementVector);
+    GM_InitObjectNoRots_800349B0(&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
+    GM_ConfigObjectJoint_80034CB4((OBJECT *)&pActor->field_9C_kmd);
+    GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_9C_kmd, pActor->field_C8_mtx);
+    GM_ConfigObjectStep_80034C54((OBJECT *)&pActor->field_9C_kmd, &pCtrl->field_44_movementVector);
 
     for (i = 0; i < 2; i++)
     {

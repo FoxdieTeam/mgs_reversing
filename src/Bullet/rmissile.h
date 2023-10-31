@@ -17,8 +17,8 @@
 typedef struct Actor_rmissile
 {
     GV_ACT          field_0_actor;
-    CONTROL field_20_ctrl;
-    OBJECT          field_9C_kmd;
+    CONTROL         field_20_ctrl;
+    OBJECT_NO_ROTS  field_9C_kmd;
     MATRIX          field_C0_light_matrices[2];
     SVECTOR         field_100_svector;
     SVECTOR         field_108_svector;
@@ -33,7 +33,7 @@ typedef struct Actor_rmissile
     short           field_118;
     short           field_11A;
     int             field_11C;
-    TARGET       field_120_target;
+    TARGET          field_120_target;
     short           field_168;
     short           field_16A;
     SVECTOR         field_16C_svector;

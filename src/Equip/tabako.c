@@ -24,13 +24,13 @@ int tabako_dword_8009F2C0 = 0;
 
 void tabako_act_80061EAC(Actor_tabako *pActor)
 {
-    OBJECT *pObject = &pActor->field_20_obj;
-    SVECTOR vec;
-    MATRIX  rotMtx;
+    OBJECT_NO_ROTS *pObject = &pActor->field_20_obj;
+    SVECTOR         vec;
+    MATRIX          rotMtx;
 
     GM_SetCurrentMap(pActor->field_44_pCtrl->field_2C_map->field_0_map_index_bit);
 
-    GM_ActObject2_80034B88(pObject);
+    GM_ActObject2_80034B88((OBJECT *)pObject);
 
     if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) != 0)
     {
@@ -69,7 +69,7 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
 {
     DG_PRIM *pPrims;
 
-    GM_FreeObject_80034BF8(&pActor->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_obj);
 
     pPrims = pActor->field_50_pPrims;
 
@@ -82,7 +82,7 @@ void tabako_kill_8006206C(Actor_tabako *pActor)
 
 int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
 {
-    OBJECT *pObject = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *pObject = &pActor->field_20_obj;
     RECT *pRect;
     DG_PRIM *pPrim;
     DG_TEX *pTex;
@@ -90,14 +90,14 @@ int tabako_loader_800620B4(Actor_tabako *pActor, OBJECT *pParent, int numParent)
     POLY_FT4 *pPoly;
     int u0, v0, u1, v1;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObject, GV_StrCode_80016CCC("cigar"), 109, 0);
+    GM_InitObjectNoRots_800349B0(pObject, GV_StrCode_80016CCC("cigar"), 109, 0);
 
     if (!pObject->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectRoot_80034C5C(pObject, pParent, numParent);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)pObject, pParent, numParent);
 
     pRect = &pActor->field_5C_rect;
     pRect->x = pRect->y = 6;

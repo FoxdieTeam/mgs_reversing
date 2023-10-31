@@ -12,18 +12,18 @@
 
 typedef struct Actor_amissile
 {
-    GV_ACT      field_0_actor;
-    CONTROL field_20_ctrl;
-    OBJECT     field_9C_kmd;
-    MATRIX     field_C0_light_matrix[2];
-    MATRIX     field_100_rotation_matrix;
-    int        field_120;
-    int        field_124;
-    int        field_128;
-    SVECTOR    field_12C_svector;
-    DG_PRIM   *field_134_prim;
-    RECT       field_138_rect;
-    SVECTOR    field_140_svector_4Array[4];
+    GV_ACT         field_0_actor;
+    CONTROL        field_20_ctrl;
+    OBJECT_NO_ROTS field_9C_kmd;
+    MATRIX         field_C0_light_matrix[2];
+    MATRIX         field_100_rotation_matrix;
+    int            field_120;
+    int            field_124;
+    int            field_128;
+    SVECTOR        field_12C_svector;
+    DG_PRIM       *field_134_prim;
+    RECT           field_138_rect;
+    SVECTOR        field_140_svector_4Array[4];
 } Actor_amissile;
 
 STATIC_ASSERT_SIZE(Actor_amissile, 0x160);

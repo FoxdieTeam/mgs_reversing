@@ -76,7 +76,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
 
     GM_CurrentMap_800AB9B0 = pActor->field_118;
 
-    GM_ActObject2_80034B88(&pActor->field_9C_kmd);
+    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
     DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_mtx);
 
 #ifdef VR_EXE
@@ -134,7 +134,7 @@ void bakudan_kill_8006A4A4(Actor_bakudan *pActor)
 {
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_ClearBulName_8004FBE4(pActor->field_20_ctrl.field_30_scriptData);
-    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
 
     if (pActor->field_114 >= 0)
     {
@@ -159,7 +159,7 @@ int bakudan_next_free_item_8006A510()
 int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4, TARGET *pTarget)
 {
     CONTROL *pCtrl = &pActor->field_20_ctrl;
-    OBJECT *pKmd;
+    OBJECT_NO_ROTS *pKmd;
     int nextItem;
     Jirai_unknown *pItem;
 
@@ -184,7 +184,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     }
 
     pKmd = &pActor->field_9C_kmd;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pKmd, 0xf83d, 0x6d, 0);
+    GM_InitObjectNoRots_800349B0(pKmd, 0xf83d, 0x6d, 0);
 
     if (!pKmd->objs)
     {
@@ -192,7 +192,7 @@ int bakudan_8006A54C(Actor_bakudan *pActor, MATRIX *pMtx, SVECTOR *pVec, int a4,
     }
 
     pKmd->objs->world = *pMtx;
-    GM_ConfigObjectLight_80034C44(pKmd, pActor->field_C0_light_mtx);
+    GM_ConfigObjectLight_80034C44((OBJECT *)pKmd, pActor->field_C0_light_mtx);
     pKmd->objs->objs[0].raise = 200;
 
     pActor->field_114 = nextItem = bakudan_next_free_item_8006A510();

@@ -48,7 +48,7 @@ void gasmask_act_800609C0(Actor_gasmask *pActor)
 
 void gasmask_kill_80060B0C(Actor_gasmask *pActor)
 {
-    GM_FreeObject_80034BF8(&pActor->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_obj);
     EQ_VisibleHead_80060DF0(pActor->field_48_pParent, &pActor->field_5A_head_saved_packs,
                             &pActor->field_5C_head_saved_raise);
 
@@ -61,18 +61,18 @@ void gasmask_kill_80060B0C(Actor_gasmask *pActor)
 
 int gasmask_loader_80060B5C(Actor_gasmask *pActor, OBJECT *pChild, int unit)
 {
-    OBJECT *obj = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *obj = &pActor->field_20_obj;
 
     pActor->field_48_pParent = pChild;
     pActor->field_4C_unit = unit;
     pActor->field_50_count = 0;
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)obj, GV_StrCode_80016CCC("gas_mask"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("gas_mask"), WEAPON_FLAG, 0);
     if (!pActor->field_20_obj.objs)
     {
         return -1;
     }
-    GM_ConfigObjectRoot_80034C5C(obj, pChild, unit);
-    GM_ConfigObjectLight_80034C44(obj, pChild->light);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, pChild, unit);
+    GM_ConfigObjectLight_80034C44((OBJECT *)obj, pChild->light);
     EQ_InvisibleHead_80060D5C(pChild, &pActor->field_5A_head_saved_packs, &pActor->field_5C_head_saved_raise);
     pActor->field_54_gmsight = 0;
     return 0;

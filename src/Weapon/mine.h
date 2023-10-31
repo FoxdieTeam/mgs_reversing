@@ -9,13 +9,13 @@
 
 typedef struct Actor_Mine
 {
-    GV_ACT       field_0_actor;
-    CONTROL *field_20_pCtrl;
-    OBJECT     *field_24_pObj;
-    OBJECT      field_28_obj;
-    int         field_4C_unit;
-    int        *field_50_pFlags;
-    int         field_54_counter;
+    GV_ACT         field_0_actor;
+    CONTROL       *field_20_pCtrl;
+    OBJECT        *field_24_pObj;
+    OBJECT_NO_ROTS field_28_obj;
+    int            field_4C_unit;
+    int           *field_50_pFlags;
+    int            field_54_counter;
 } Actor_Mine;
 
 STATIC_ASSERT_SIZE(Actor_Mine, 0x58);

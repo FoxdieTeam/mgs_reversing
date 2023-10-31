@@ -9,16 +9,16 @@
 
 typedef struct Actor_goggle
 {
-    GV_ACT       field_0_actor;
-    OBJECT      field_20_obj;
-    CONTROL *field_44_pCtrl;
-    OBJECT     *field_48_pObj;
-    int         field_4C_head_hidden;
-    int         field_50;
-    GV_ACT     *field_54_pScn_mask;
-    GV_ACT     *field_58_pGglmng;
-    short       field_5C_saved_n_packs;
-    short       field_5E_saved_rise;
+    GV_ACT         field_0_actor;
+    OBJECT_NO_ROTS field_20_obj;
+    CONTROL       *field_44_pCtrl;
+    OBJECT        *field_48_pObj;
+    int            field_4C_head_hidden;
+    int            field_50;
+    GV_ACT        *field_54_pScn_mask;
+    GV_ACT        *field_58_pGglmng;
+    short          field_5C_saved_n_packs;
+    short          field_5E_saved_rise;
 } Actor_goggle;
 
 void set_pal_effect_fns_80079194(void *fn1, void *fn2);

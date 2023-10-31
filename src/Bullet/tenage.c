@@ -75,7 +75,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
     DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rotator);
 #endif
 
-    GM_ActObject2_80034B88(&pActor->field_9C_obj);
+    GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_obj);
     DG_GetLightMatrix_8001A3C4(&pCtrl->field_0_mov, pActor->field_C0_light_matrices);
 
     if (!(GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
@@ -173,7 +173,7 @@ void tenage_kill_80069DBC(Actor_tenage *pActor)
 {
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
     GM_ClearBulName_8004FBE4(pActor->field_20_ctrl.field_30_scriptData);
-    GM_FreeObject_80034BF8(&pActor->field_9C_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_obj);
 
     if (pActor->field_120_ctrl_idx >= 0)
     {
@@ -224,12 +224,12 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         }
         GM_ConfigControlVector_800260FC(pControl, vec, (SVECTOR *)&DG_ZeroVector_800AB39C);
         pActor->field_108 = *vec2;
-        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)&pActor->field_9C_obj, int_4, WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(&pActor->field_9C_obj, int_4, WEAPON_FLAG, 0);
         if ((pActor->field_9C_obj).objs != NULL)
         {
             DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
             DG_PutObjs_8001BDB8((pActor->field_9C_obj).objs);
-            GM_ConfigObjectLight_80034C44(&pActor->field_9C_obj, pActor->field_C0_light_matrices);
+            GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_9C_obj, pActor->field_C0_light_matrices);
             tmp = tenage_get_free_ctrl_80069E28();
             pActor->field_120_ctrl_idx = tmp;
             if (tmp >= 0)
