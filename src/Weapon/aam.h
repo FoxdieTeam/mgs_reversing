@@ -7,23 +7,23 @@
 
 // stinger
 
-typedef struct _Actor_Aam
+typedef struct _AamWork
 {
-    GV_ACT           field_0_actor;
-    OBJECT_NO_ROTS   field_20_obj;
-    CONTROL         *field_44_ctrl;
-    OBJECT          *field_48_parent_obj;
-    int              field_4C_num_parent;
-    int             *field_50;
-    int              field_54;
-    int              field_58;
-    Actor_Stnsight  *field_5C_stnsight;
-} Actor_Aam;
+    GV_ACT          actor;
+    OBJECT_NO_ROTS  object;
+    CONTROL        *control;
+    OBJECT         *parent;
+    int             num_parent;
+    unsigned int   *trigger;
+    int             side;
+    int             cooldown;
+    Actor_Stnsight *sight;
+} AamWork;
 
-STATIC_ASSERT_SIZE(Actor_Aam, 0x60);
+STATIC_ASSERT_SIZE(AamWork, 0x60);
 
-void aam_act_800670CC(Actor_Aam *actor);
+void aam_act_800670CC(AamWork *actor);
 
-Actor_Aam * NewAAM_80067480(CONTROL *ctrl, OBJECT *parentObj, int unit, void *a4, int a5);
+AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side);
 
 #endif // _AAM
