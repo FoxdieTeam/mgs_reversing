@@ -68,7 +68,7 @@ int sgtrect3_act_helper_800701A8(TARGET *target)
 }
 
 extern int     dword_8009F46C;
-extern int     dword_8009F490;
+extern int     amissile_alive_8009F490;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern SVECTOR svector_8009F478;
 
@@ -153,7 +153,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
             }
         }
 
-        if (dword_8009F490 == 0)
+        if (amissile_alive_8009F490 == 0)
         {
             if (!lastTarget)
             {
@@ -561,7 +561,7 @@ Actor_sgtrect3 *sgtrect3_init_80071010(short *param_1, short param_2, unsigned i
     sgtrect3->field_20 = param_1;
     sgtrect3->field_24 = param_2;
 
-    if (dword_8009F490 == 0)
+    if (amissile_alive_8009F490 == 0)
     {
         target_800BDF00 = NULL;
     }

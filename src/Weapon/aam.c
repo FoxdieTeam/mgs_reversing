@@ -5,6 +5,7 @@
 #include "Game/target.h"
 #include "Game/vibrate.h"
 #include "Game/linkvarbuf.h"
+#include "Weapon/weapon.h"
 
 // stinger
 
@@ -13,7 +14,7 @@ extern char  aAamC[];      // = "aam.c"
 extern short d_800AB9EC_mag_size;
 extern short d_800ABA2C_ammo;
 
-extern int dword_8009F490;
+extern int amissile_alive_8009F490;
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
@@ -32,56 +33,55 @@ SVECTOR svector_800AB8A4;
 char byte_8009F40C[] = {0, 2, 127, 4, 0};
 char byte_8009F414[] = {145, 4, 75, 10, 0};
 
-void aam_act_800670CC(Actor_Aam *actor)
+void AamAct_800670CC(AamWork *work)
 {
-    int sVar3;
-    int iVar6;
-    unsigned int uVar7;
-    MATRIX MStack88;
-    MATRIX MStack56;
-    SVECTOR local_18;
+    MATRIX       world;
+    MATRIX       pos;
+    SVECTOR      rot;
+    unsigned int trigger;
+    int          ammo;
 
-    if (!actor->field_5C_stnsight)
+    if (!work->sight)
     {
-        actor->field_5C_stnsight = NewStnSight_800693E0(actor->field_44_ctrl);
+        work->sight = NewStnSight_800693E0(work->control);
     }
 
-    GM_CurrentMap_800AB9B0 = actor->field_44_ctrl->field_2C_map->field_0_map_index_bit;
-    DG_GroupObjs(actor->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+    GM_SetCurrentMap(work->control->field_2C_map->field_0_map_index_bit);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
 
-    if (actor->field_48_parent_obj->objs->flag & DG_FLAG_INVISIBLE)
+    if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {
-        DG_InvisibleObjs(actor->field_20_obj.objs);
+        DG_InvisibleObjs(work->object.objs);
     }
     else
     {
-        DG_VisibleObjs(actor->field_20_obj.objs);
+        DG_VisibleObjs(work->object.objs);
     }
 
-    iVar6 = actor->field_58;
-    uVar7 = *actor->field_50;
 
-    if (iVar6 > 0)
+    trigger = *work->trigger;
+
+    if (work->cooldown > 0)
     {
-        if (iVar6 >= 27)
+        if (work->cooldown >= 27)
         {
-            gUnkCameraStruct_800B77B8.field_28.vx += (30 - iVar6) * -36;
+            gUnkCameraStruct_800B77B8.field_28.vx += (30 - work->cooldown) * -36;
         }
-        else if (iVar6 > 14)
+        else if (work->cooldown > 14)
         {
-            gUnkCameraStruct_800B77B8.field_28.vx += (iVar6 - 12) * -12;
+            gUnkCameraStruct_800B77B8.field_28.vx += (work->cooldown - 12) * -12;
         }
 
-        actor->field_58--;
+        work->cooldown--;
     }
 
-    if (!actor->field_58 && (uVar7 & 2) && !dword_8009F490)
+    if ((work->cooldown == 0) && (trigger & WEAPON_TRIG) && !amissile_alive_8009F490)
     {
-        actor->field_58 = 30;
+        work->cooldown = 30;
 
-        sVar3 = GM_Weapons[WEAPON_STINGER];
+        ammo = GM_Weapons[WEAPON_STINGER];
 
-        if (sVar3 > 0)
+        if (ammo > 0)
         {
             if (target_800BDF00 != 0)
             {
@@ -92,25 +92,26 @@ void aam_act_800670CC(Actor_Aam *actor)
                 StnTarget_800AB8A0 = 0;
             }
 
-            local_18.vx = actor->field_44_ctrl->field_8_rotator.vx - 1024;
-            local_18.vy = actor->field_44_ctrl->field_8_rotator.vy;
-            local_18.vz = 0;
+            rot.vx = work->control->field_8_rotator.vx - 1024;
+            rot.vy = work->control->field_8_rotator.vy;
+            rot.vz = 0;
 
-            RotMatrixYXZ(&local_18, &MStack88);
-            local_18.vx = 0;
-            DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.field_0, &local_18);
+            RotMatrixYXZ(&rot, &world);
+            rot.vx = 0;
+            DG_SetPos2_8001BC8C(&gUnkCameraStruct_800B77B8.field_0, &rot);
             DG_MovePos_8001BD20(&svector_800AB8A4);
-            ReadRotMatrix(&MStack56);
+            ReadRotMatrix(&pos);
 
-            MStack88.t[0] = MStack56.t[0];
-            MStack88.t[1] = MStack56.t[1];
-            MStack88.t[2] = MStack56.t[2];
+            world.t[0] = pos.t[0];
+            world.t[1] = pos.t[1];
+            world.t[2] = pos.t[2];
 
-            if (NewAMissile_8006DC50(&MStack88, actor->field_54))
+            if (NewAMissile_8006DC50(&world, work->side))
             {
-                GM_Weapons[WEAPON_STINGER] = --sVar3;
-                GM_SeSet_80032858(&actor->field_44_ctrl->field_0_mov, 0x4c);
-                GM_SetNoise(200, 2, &actor->field_44_ctrl->field_0_mov);
+                GM_Weapons[WEAPON_STINGER] = --ammo;
+
+                GM_SeSet_80032858(&work->control->field_0_mov, 76);
+                GM_SetNoise(200, 2, &work->control->field_0_mov);
 
                 NewPadVibration_8005D58C(byte_8009F40C, 1);
                 NewPadVibration_8005D58C(byte_8009F414, 2);
@@ -119,56 +120,59 @@ void aam_act_800670CC(Actor_Aam *actor)
     }
 }
 
-void aam_kill_800673B0(Actor_Aam *actor)
+void AamDie_800673B0(AamWork *work)
 {
-    GM_FreeObject_80034BF8((OBJECT *)&actor->field_20_obj);
+    GM_FreeObject_80034BF8((OBJECT *)&work->object);
 
-    if (actor->field_5C_stnsight)
+    if (work->sight)
     {
-        GV_DestroyOtherActor_800151D8(&actor->field_5C_stnsight->field_0_actor);
+        GV_DestroyOtherActor_800151D8(&work->sight->field_0_actor);
     }
 }
 
-int aam_loader_800673F0(Actor_Aam *actor_aam, OBJECT *parent_obj, int num_parent)
+int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
 {
-    OBJECT_NO_ROTS *obj = &actor_aam->field_20_obj;
+    OBJECT_NO_ROTS *object;
+    int             model;
 
-    int id;
-    actor_aam->field_5C_stnsight = 0;
+    object = &work->object;
+    work->sight = NULL;
 
-    id = GV_StrCode_80016CCC(aStinger_0);
-    GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
+    model = GV_StrCode_80016CCC(aStinger_0);
+    GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
 
-    if (!obj->objs)
+    if (!object->objs)
         return -1;
 
-    GM_ConfigObjectRoot_80034C5C((OBJECT *)obj, parent_obj, num_parent);
+    GM_ConfigObjectRoot_80034C5C((OBJECT *)object, parent, num_parent);
     return 0;
 }
 
-Actor_Aam * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent_object, int num_parent, void *a4, int a5)
+AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigned int *trigger, int side)
 {
-    Actor_Aam *actor_aam = (Actor_Aam *)GV_NewActor_800150E4(6, sizeof(Actor_Aam));
-    if (actor_aam)
+    AamWork *work;
+
+    work = (AamWork *)GV_NewActor_800150E4(6, sizeof(AamWork));
+    if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&actor_aam->field_0_actor, (TActorFunction)aam_act_800670CC,
-                                  (TActorFunction)aam_kill_800673B0, aAamC);
-        if (aam_loader_800673F0(actor_aam, parent_object, num_parent) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, aAamC);
+
+        if (AamGetResources_800673F0(work, parent, num_parent) < 0)
         {
-            GV_DestroyActor_800151C8(&actor_aam->field_0_actor);
-            return 0;
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
         }
 
-        actor_aam->field_44_ctrl = ctrl;
-        actor_aam->field_48_parent_obj = parent_object;
-        actor_aam->field_4C_num_parent = num_parent;
-        actor_aam->field_50 = a4;
-        actor_aam->field_54 = a5;
-        actor_aam->field_58 = 0;
+        work->control = ctrl;
+        work->parent = parent;
+        work->num_parent = num_parent;
+        work->trigger = trigger;
+        work->side = side;
+        work->cooldown = 0;
     }
 
     d_800ABA2C_ammo = 0;
     d_800AB9EC_mag_size = 0;
 
-    return actor_aam;
+    return work;
 }
