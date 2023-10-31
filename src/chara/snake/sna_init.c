@@ -1883,7 +1883,7 @@ static inline int sna_weapon_switching_helper2_800511BC(Actor_SnaInit *pActor, i
 
     if (pWeaponCreateFn)
     {
-        pWeaponActor = pWeaponCreateFn(&pActor->field_20_ctrl, &pActor->field_9C_obj, 4, &pActor->field_914_trigger, 1);
+        pWeaponActor = pWeaponCreateFn(&pActor->field_20_ctrl, &pActor->field_9C_obj, 4, &pActor->field_914_trigger, PLAYER_SIDE);
 
         if (!pWeaponActor)
         {

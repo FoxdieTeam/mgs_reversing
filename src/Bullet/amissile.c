@@ -8,7 +8,7 @@
 
 // stinger missile?
 
-int dword_8009F490 = 0;
+int amissile_alive_8009F490 = 0;
 SVECTOR svector_8009F494 = {0, 0, 0, 0};
 int dword_8009F49C = 0;
 SVECTOR svector_8009F4A0 = {0, -800, 0, 0};
@@ -217,7 +217,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
         amissile_act_helper_8006D2A0(pActor, position);
     }
 
-    dword_8009F490 = 1;
+    amissile_alive_8009F490 = 1;
     svector_8009F494 = pCtrl->field_0_mov;
 
     if (pActor->field_120 == 0)
@@ -331,7 +331,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
         NewBlast_8006DFDC(&rotation, pBlastData);
     }
 
-    dword_8009F490 = 0;
+    amissile_alive_8009F490 = 0;
     GV_DestroyActor_800151C8(&pActor->field_0_actor);
 }
 
@@ -355,12 +355,12 @@ void amissile_kill_8006D99C(Actor_amissile *pActor)
         target_800BDF00 = 0;
     }
 
-    dword_8009F490 = 0;
+    amissile_alive_8009F490 = 0;
 }
 
 extern MATRIX DG_ZeroMatrix_8009D430;
 
-int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
+int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
 {
     CONTROL *pCtrl = &pActor->field_20_ctrl;
     OBJECT_NO_ROTS *pKmd;
@@ -435,7 +435,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int arg2)
     return 0;
 }
 
-Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int arg2)
+Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int side)
 {
     Actor_amissile *pActor = (Actor_amissile *)GV_NewActor_800150E4(6, sizeof(Actor_amissile));
 
@@ -444,7 +444,7 @@ Actor_amissile * NewAMissile_8006DC50(MATRIX *pMtx, int arg2)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&amissile_act_8006D608,
                                   (TActorFunction)&amissile_kill_8006D99C, "amissile.c");
 
-        if (amissile_loader_8006DA0C(pActor, pMtx, arg2) < 0)
+        if (amissile_loader_8006DA0C(pActor, pMtx, side) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
             return 0;
