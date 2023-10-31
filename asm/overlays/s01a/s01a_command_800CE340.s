@@ -1,0 +1,12 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s01a_command_800CE340
+s01a_command_800CE340:
+	dw 0x8C820B28 ; 800CE340
+	dw 0x94830C28 ; 800CE344
+	dw 0x24420001 ; 800CE348
+	dw 0xAC820B28 ; 800CE34C
+	dw 0x00001021 ; 800CE350
+	dw 0x03E00008 ; 800CE354
+	dw 0xA4830B48 ; 800CE358

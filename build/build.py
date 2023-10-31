@@ -350,6 +350,7 @@ def gen_build_target(targetName):
         "d03a",
         "s03e", "s03er",
         "title",
+        "s01a",
     ]
 
     if args.variant == 'vr_exe':

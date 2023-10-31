@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s01a_lit_mdl_800E2ABC
+s01a_lit_mdl_800E2ABC:
+	dw 0x27BDFFE8 ; 800E2ABC
+	dw 0xAFBF0010 ; 800E2AC0
+	dw 0x0C00D2FE ; 800E2AC4
+	dw 0x24840024 ; 800E2AC8
+	dw 0x8FBF0010 ; 800E2ACC
+	dw 0x00000000 ; 800E2AD0
+	dw 0x03E00008 ; 800E2AD4
+	dw 0x27BD0018 ; 800E2AD8
