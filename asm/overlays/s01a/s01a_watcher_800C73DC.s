@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s01a_watcher_800C73DC
+s01a_watcher_800C73DC:
+	dw 0x27BDFFE8 ; 800C73DC
+	dw 0xAFBF0010 ; 800C73E0
+	dw 0x0C031CDD ; 800C73E4
+	dw 0x00000000 ; 800C73E8
+	dw 0x8FBF0010 ; 800C73EC
+	dw 0x00000000 ; 800C73F0
+	dw 0x03E00008 ; 800C73F4
+	dw 0x27BD0018 ; 800C73F8
