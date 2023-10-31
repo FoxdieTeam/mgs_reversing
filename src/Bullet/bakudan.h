@@ -13,17 +13,17 @@
 
 typedef struct Actor_bakudan
 {
-    GV_ACT           field_0_actor;
-    CONTROL field_20_ctrl;
-    OBJECT          field_9C_kmd;
-    MATRIX          field_C0_light_mtx[2];
-    MATRIX         *field_100_pMtx;
-    SVECTOR        *field_104;
-    int             field_108;
-    int             field_10C;
-    GV_PAD         *field_110_pPad;
-    int             field_114;
-    int             field_118;
+    GV_ACT         field_0_actor;
+    CONTROL        field_20_ctrl;
+    OBJECT_NO_ROTS field_9C_kmd;
+    MATRIX         field_C0_light_mtx[2];
+    MATRIX        *field_100_pMtx;
+    SVECTOR       *field_104;
+    int            field_108;
+    int            field_10C;
+    GV_PAD        *field_110_pPad;
+    int            field_114;
+    int            field_118;
 } Actor_bakudan;
 
 GV_ACT *NewBakudan_8006A6CC(MATRIX *pMtx, SVECTOR *pVec, int a3, int not_used, TARGET *pTarget);

@@ -9,7 +9,7 @@
 typedef struct Actor_gasmask
 {
     GV_ACT         field_0_actor;
-    OBJECT         field_20_obj;
+    OBJECT_NO_ROTS field_20_obj;
     CONTROL       *field_44_pCtrl;
     OBJECT        *field_48_pParent;
     int            field_4C_unit;

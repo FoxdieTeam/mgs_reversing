@@ -45,7 +45,6 @@ typedef struct _WatcherWork
     GV_ACT         actor;
     CONTROL        control;                    //0x20
     OBJECT         body;                       //0x9C
-    char           field_C0_padding[0xC0];     //0xC0
     int            field_180;                  //0x180
     void          *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
@@ -66,7 +65,6 @@ typedef struct _WatcherWork
     short          field_75E;                  //0x75C
     char           field_760[0x44];            //0x760
     OBJECT         field_7A4;                  //0x7A4
-    char           field_7C8_padding[0xC0];    //0x7C8
     MATRIX         field_888;                  //0x888
     int            field_8A8;                  //0x8A8
     int            field_8AC;                  //0x8AC
@@ -201,7 +199,7 @@ typedef struct _TOPCOMMAND_STRUCT {
     int alert;
 } TOPCOMMAND_STRUCT;
 
-typedef struct _A4_INNER_STRUCT 
+typedef struct _A4_INNER_STRUCT
 {
     unsigned short field_00;    //0x00
     unsigned short field_02;    //0x02
@@ -286,7 +284,7 @@ extern SVECTOR                 s00a_dword_800E0D38;
 extern int                     COM_PlayerOnZone_800E0D40;
 extern int                     COM_NoiseMinDisID_800E0D44;
 
-extern int                     COM_SHOOTRANGE_800E0D88; 
+extern int                     COM_SHOOTRANGE_800E0D88;
 extern int                     COM_EYE_LENGTH_800E0D8C;
 extern int                     COM_PlayerAddress_800E0D90;
 extern unsigned int            ENE_SPECIAL_FLAG_800E0D94;
@@ -476,19 +474,19 @@ static inline void UnsetMode2( WatcherWork *work )
 {
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
-    
+
     work->action2 = 0;
     work->time2 = 0;
     work->field_8E2 = 0;
     work->control.field_4C_turn_vec.vz = 0;
     work->control.field_4C_turn_vec.vx = 0;
-    
+
     if ( work->field_B68 )
     {
         GV_DestroyOtherActor_800151D8( work->field_B68 );
         work->field_B68 = 0;
     }
-    
+
 }
 
 static inline void SetAction( WatcherWork *work, int n_action, int interp )

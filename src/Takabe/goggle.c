@@ -139,25 +139,25 @@ void goggle_kill_800776AC(Actor_goggle *pActor)
 
     if (pActor->field_4C_head_hidden)
     {
-        GM_FreeObject_80034BF8(&pActor->field_20_obj);
+        GM_FreeObject_80034BF8((OBJECT *)&pActor->field_20_obj);
         EQ_VisibleHead_80060DF0(pActor->field_48_pObj, &pActor->field_5C_saved_n_packs, &pActor->field_5E_saved_rise);
     }
 }
 
 int goggle_loader_8007773C(Actor_goggle *pActor, OBJECT *pParent)
 {
-    OBJECT *pObj = &pActor->field_20_obj;
+    OBJECT_NO_ROTS *pObj = &pActor->field_20_obj;
     if (pParent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)pObj, GV_StrCode_80016CCC("goggles"), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(pObj, GV_StrCode_80016CCC("goggles"), WEAPON_FLAG, 0);
         if (!pObj->objs)
         {
             return -1;
         }
-        GM_ConfigObjectRoot_80034C5C(pObj, pParent, 6);
+        GM_ConfigObjectRoot_80034C5C((OBJECT *)pObj, pParent, 6);
         if (pParent->light)
         {
-            GM_ConfigObjectLight_80034C44(pObj, pParent->light);
+            GM_ConfigObjectLight_80034C44((OBJECT *)pObj, pParent->light);
         }
         pActor->field_48_pObj = pParent;
         EQ_InvisibleHead_80060D5C(pParent, &pActor->field_5C_saved_n_packs, &pActor->field_5E_saved_rise);

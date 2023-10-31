@@ -649,7 +649,7 @@ void rmissile_act_8006C5C4(Actor_rmissile *pActor)
             GM_ActControl_80025A7C(&pActor->field_20_ctrl);
             svector_8009F478 = vector2 = pActor->field_20_ctrl.field_0_mov;
 
-            GM_ActObject2_80034B88(&pActor->field_9C_kmd);
+            GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_kmd);
             DG_GetLightMatrix2_8001A5D8(&vector2, pActor->field_C0_light_matrices);
 
             if (!pActor->field_117 && !pActor->field_110)
@@ -694,7 +694,7 @@ void rmissile_kill_8006CB40(Actor_rmissile *pActor)
     DG_PRIM *prim;
 
     GM_FreeControl_800260CC(&pActor->field_20_ctrl);
-    GM_FreeObject_80034BF8(&pActor->field_9C_kmd);
+    GM_FreeObject_80034BF8((OBJECT *)&pActor->field_9C_kmd);
 
     if (pActor->field_174_polys_2Array[0])
     {
@@ -860,8 +860,8 @@ static inline int rmissile_loader_8006CF44_get_field_59(void)
 
 int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide)
 {
-    CONTROL *ctrl;
-    OBJECT *kmd;
+    CONTROL        *ctrl;
+    OBJECT_NO_ROTS *kmd;
 
     dword_8009F46C = 1;
     dword_8009F470 = 1;
@@ -892,14 +892,14 @@ int rmissile_loader_8006CF44(Actor_rmissile *pActor, MATRIX *pMtx, int whichSide
     ctrl->field_8_rotator.vz = 0;
     ctrl->field_55_skip_flag |= CTRL_SKIP_NEAR_CHECK;
 
-    GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *)kmd, 0x9A90, 0x36D, 0);
+    GM_InitObjectNoRots_800349B0(kmd, 0x9A90, 0x36D, 0);
 
     if (!kmd->objs)
     {
         return -1;
     }
 
-    GM_ConfigObjectLight_80034C44(kmd, pActor->field_C0_light_matrices);
+    GM_ConfigObjectLight_80034C44((OBJECT *)kmd, pActor->field_C0_light_matrices);
 
     if (rmissile_loader_helper3_8006CBD8(pActor, whichSide) < 0)
     {

@@ -28,22 +28,24 @@ typedef struct Actor_GM_Daemon
     int   field_24;
 } Actor_GM_Daemon;
 
+#define DG_MAX_JOINTS 24
+
 typedef struct _OBJECT
 {
-    DG_OBJS        *objs;        // 0x00
-    unsigned long   flag;        // 0x04
-    MATRIX         *light;       // 0x08
-    unsigned short  map_name;    // 0x0C
-    short           action_flag; // 0x0E
-    short           field_10;    // 0x10 no match with unsigned in sna_8004E260
-    unsigned short  field_12;    // 0x12
-    MOTION_CONTROL *m_ctrl;      // 0x14
-    short           field_18;    // 0x18
-    short           is_end;      // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
-    short           field_1C;    // 0x1C
-    unsigned short  field_1E;    // 0x1C
-    unsigned long   field_20;    // 0x20
-    SVECTOR         rots[0];     // 0x24
+    DG_OBJS        *objs;                // 0x00
+    unsigned long   flag;                // 0x04
+    MATRIX         *light;               // 0x08
+    unsigned short  map_name;            // 0x0C
+    short           action_flag;         // 0x0E
+    short           field_10;            // 0x10 no match with unsigned in sna_8004E260
+    unsigned short  field_12;            // 0x12
+    MOTION_CONTROL *m_ctrl;              // 0x14
+    short           field_18;            // 0x18
+    short           is_end;              // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
+    short           field_1C;            // 0x1C
+    unsigned short  field_1E;            // 0x1C
+    unsigned long   field_20;            // 0x20
+    SVECTOR         rots[DG_MAX_JOINTS]; // 0x24
 } OBJECT;
 
 typedef struct _OBJECT_NO_ROTS
@@ -179,7 +181,7 @@ static inline int GM_GetCurrentMap()
 static inline void GM_SetAlertMax( int alert )
 {
     extern int GM_AlertMax_800AB9E0;
-    if ( GM_AlertMax_800AB9E0 < alert ) 
+    if ( GM_AlertMax_800AB9E0 < alert )
     {
         GM_AlertMax_800AB9E0 = alert;
     }

@@ -859,8 +859,8 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
 
 void jpegcam_act_80064C50(Actor_jpegcam *pActor)
 {
-    OBJECT *pParent;
-    OBJECT *pGoggleObject;
+    OBJECT         *pParent;
+    OBJECT_NO_ROTS *pGoggleObject;
 
     if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
     {
@@ -881,12 +881,12 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
         pParent = pActor->field_24_parent;
         if (pParent->objs->flag & DG_FLAG_INVISIBLE)
         {
-            pGoggleObject = (OBJECT *)(&pActor->field_28_goggles);
-            GM_InitObjectNoRots_800349B0((OBJECT_NO_ROTS *) pGoggleObject, GV_StrCode_80016CCC("goggles"), 109, 0);
+            pGoggleObject = &pActor->field_28_goggles;
+            GM_InitObjectNoRots_800349B0(pGoggleObject, GV_StrCode_80016CCC("goggles"), 109, 0);
             if (pActor->field_28_goggles.objs)
             {
-                GM_ConfigObjectRoot_80034C5C(pGoggleObject, pParent, 6);
-                GM_ConfigObjectLight_80034C44(pGoggleObject, pParent->light);
+                GM_ConfigObjectRoot_80034C5C((OBJECT *)pGoggleObject, pParent, 6);
+                GM_ConfigObjectLight_80034C44((OBJECT *)pGoggleObject, pParent->light);
                 EQ_InvisibleHead_80060D5C(pParent, &pActor->field_4c_head_saved_packs, &pActor->field_4e_head_saved_raise);
                 pActor->field_94_bMakeVisible = 1;
             }

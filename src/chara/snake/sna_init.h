@@ -189,7 +189,6 @@ typedef struct Actor_SnaInit
     GV_ACT              field_0_actor;
     CONTROL             field_20_ctrl;
     OBJECT              field_9C_obj;
-    char                field_C0[0xC0]; // zeroed during normal gameplay
     MOTION_CONTROL      field_180;
     OAR_RECORD          field_1D0[34]; // bottom half of array is weapon related
     Sna_Joint_Rotations field_698_joint_rotations;

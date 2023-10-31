@@ -8,15 +8,15 @@
 
 typedef struct _Actor_Rifle
 {
-    GV_ACT       field_0_actor;
-    OBJECT      field_20_obj;
-    CONTROL *field_44_pCtrl;
-    OBJECT     *field_48_pParentObj;
-    int         field_4c_numParent;
-    int        *field_50;
-    int         field_54;
-    int         field_58;
-    void       *field_5c;
+    GV_ACT         field_0_actor;
+    OBJECT_NO_ROTS field_20_obj;
+    CONTROL       *field_44_pCtrl;
+    OBJECT        *field_48_pParentObj;
+    int            field_4c_numParent;
+    int           *field_50;
+    int            field_54;
+    int            field_58;
+    void          *field_5c;
 } Actor_Rifle;
 
 STATIC_ASSERT_SIZE(Actor_Rifle, 0x60);

@@ -7,7 +7,7 @@
 
 typedef struct Actor_bodyarm
 {
-    GV_ACT   field_0;
+    GV_ACT  field_0;
     OBJECT *field_20;
 } Actor_bodyarm;
 

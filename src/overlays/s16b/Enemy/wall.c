@@ -7,7 +7,6 @@ typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT  object;
-    SVECTOR rots[24];
     MATRIX  light[2];
     SVECTOR position;
     int     hash;

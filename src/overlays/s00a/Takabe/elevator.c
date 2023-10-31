@@ -11,17 +11,15 @@ typedef struct _ElevatorWork
     int         map;
     int         name;
     CONTROL     control;
-    OBJECT      object1;
-    SVECTOR     rots1[24];
+    OBJECT      object1; // OBJECT[2] ???
     OBJECT      object2;
-    SVECTOR     rots2[24];
     MATRIX      light[2];
-    HZD_HEADER *hzm;
+    HZD_HEADER *hzm;     // HZD_HEADER[5] ???
     HZD_HEADER *hzm1;
     HZD_HEADER *hzm2;
     HZD_HEADER *hzm3;
     HZD_HEADER *hzm4;
-    HZD_AREA   *areas;
+    HZD_AREA   *areas;   // HZD_AREA[5] ???
     HZD_AREA   *areas1;
     HZD_AREA   *areas2;
     HZD_AREA   *areas3;
@@ -963,7 +961,7 @@ int Elevator_800DA464(ElevatorWork *work, void *ptr)
 
 void Elevator_800DA4CC(OBJECT *object, int model, int flag)
 {
-    GV_ZeroMemory_8001619C(object, sizeof(*object) + sizeof(SVECTOR) * 24);
+    GV_ZeroMemory_8001619C(object, sizeof(OBJECT));
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
