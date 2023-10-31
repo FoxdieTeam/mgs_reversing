@@ -41,7 +41,9 @@ int title_dword_800C32A0 = 0x00003640;
 int title_dword_800C32A4 = 0x00000000;
 int title_dword_800C32A8 = 0x00000000;
 int title_dword_800C32AC = 0x00000000;
-int title_dword_800C32B0 = 0x00000000;
+
+int fonttext_dword_800C32B0 = 0x00000000;
+
 int title_dword_800C32B4 = 0x00000001;
 int title_dword_800C32B8 = 0x00BE00A0;
 int title_dword_800C32BC = 0x00000000;
@@ -382,10 +384,10 @@ const char title_dword_800D8728[] = {0x1, 0xff, 0xff, 0xff};
 const char title_dword_800D872C[] = {0x0, 0x0, 0x0, 0x0};
 const char title_dword_800D8730[] = {0x0, 0x0, 0x0, 0x0};
 const char title_dword_800D8734[] = {0x0, 0x0, 0x0, 0x0};
-const char title_aS_800D8738[] = "%s";
-const char title_dword_800D873C[] = {'f', 'o', 'n', 't'};
-const char title_dword_800D8740[] = {'t', 'e', 'x', 't'};
-const char title_dword_800D8744[] = {'.', 'c', 0x0, '8'};
+
+const char fonttext_aS[] = "%s";
+const char aFonttextC[] = {'f', 'o', 'n', 't', 't', 'e', 'x', 't', '.', 'c', 0x0, '8'};
+
 const char title_aOpeyeclose_800D8748[] = "op_eye_close";
 const char title_aOpeyehalf_800D8758[] = "op_eye_half";
 const char title_aOpeyeopen_800D8764[] = "op_eye_open";
