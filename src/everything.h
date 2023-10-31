@@ -11,8 +11,6 @@
 #include "chara/snake/shadow.h"
 #include "chara/snake/sna_hzd.h"
 #include "chara/snake/sna_init.h"
-#include "data/bss.h"
-#include "data/rdata/rdata.h"
 #include "libdg/inline_n.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
