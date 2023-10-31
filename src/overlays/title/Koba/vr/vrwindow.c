@@ -1,0 +1,6 @@
+#pragma INCLUDE_ASM("asm/overlays/title/title_vrwindow_800D73A4.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_vrwindow_800D74AC.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_vrwindow_800D7510.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_vrwindow_800D75D8.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_vrwindow_800D7818.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_vrwindow_800D81AC.s")
