@@ -218,30 +218,30 @@ int mts_get_pad_8008C170(int pad, MTS_PAD_DATA *pData)
     return 0;
 }
 
-unsigned short mts_read_pad_8008C25C(int pad)
+int mts_read_pad_8008C25C(int pad)
 {
-    unsigned short temp;
+    unsigned short buf;
 
     if (pad == 0)
     {
         if (gMtsPadUnknBuffers_800C14E0[0][0] != 0)
         {
-            temp = gMtsPadUnknBuffers_800C14E0[0][1];
+            buf = gMtsPadUnknBuffers_800C14E0[0][1];
 
-            if ((temp != 0xFFFF) ||
+            if ((buf != 0xFFFF) ||
                 (gMtsPadUnknBuffers_800C14E0[1][0] == 0) ||
-                ((unsigned short)gMtsPadUnknBuffers_800C14E0[1][1] == temp))
+                ((unsigned short)gMtsPadUnknBuffers_800C14E0[1][1] == buf))
             {
-                return ~gMtsPadUnknBuffers_800C14E0[0][1];
+                return (unsigned short)~gMtsPadUnknBuffers_800C14E0[0][1];
             }
             else
             {
-                return ~gMtsPadUnknBuffers_800C14E0[1][1];
+                return (unsigned short)~gMtsPadUnknBuffers_800C14E0[1][1];
             }
         }
         else if (gMtsPadUnknBuffers_800C14E0[1][0] != 0)
         {
-            return ~gMtsPadUnknBuffers_800C14E0[1][1];
+            return (unsigned short)~gMtsPadUnknBuffers_800C14E0[1][1];
         }
         else
         {
@@ -250,7 +250,7 @@ unsigned short mts_read_pad_8008C25C(int pad)
     }
     else if (gMtsPadUnknBuffers_800C14E0[pad - 1][0] != 0)
     {
-        return ~gMtsPadUnknBuffers_800C14E0[pad - 1][1];
+        return (unsigned short)~gMtsPadUnknBuffers_800C14E0[pad - 1][1];
     }
 
     return 0;
