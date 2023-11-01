@@ -30,10 +30,8 @@ typedef struct GunCamEWork
     int      field_324;
     DG_PRIM *field_328;
     DG_TEX  *field_32C;
-    int      field_330;
-    int      field_334;
-    int      field_338;
-    int      field_33C;
+    SVECTOR  field_330;
+    SVECTOR  field_338;
     int      field_340;
     int      field_344;
     int      field_348;
@@ -106,12 +104,49 @@ extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
 
-int  s03e_guncame_800C8978(GunCamEWork *, int, int);
-int  s03e_guncame_800C8E7C(GunCamEWork *);
-void s03e_guncame_800C80F4(GunCamEWork *);
+int  s03e_guncame_800C8978(GunCamEWork *work, int, int);
+void s03e_guncame_800C80F4(GunCamEWork *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C6F60.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C6FF8.s")
+// Identical to d03a_red_alrt_800C437C
+int s03e_guncame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
+{
+    GV_MSG *msg;
+    int     nmsgs;
+    int     found;
+    int     hash;
+    int     i;
+
+    nmsgs = GV_ReceiveMessage_80016620(name, &msg);
+    found = -1;
+
+    for (; nmsgs > 0; nmsgs--, msg++)
+    {
+        hash = msg->message[0];
+
+        for (i = 0; i < nhashes; i++)
+        {
+            if (hash == hashes[i])
+            {
+                found = i;
+            }
+        }
+    }
+
+    return found;
+}
+
+void s03e_guncame_800C6FF8(GunCamEWork *work)
+{
+    SVECTOR svec;
+
+    svec.vx = 0;
+    svec.vy = 200;
+    svec.vz = 900;
+
+    DG_SetPos2_8001BC8C(&work->field_20.field_0_mov, &work->field_20.field_8_rotator);
+    DG_PutVector_8001BE48(&svec, &svec, 1);
+    work->field_338 = svec;
+}
 
 void s03e_guncame_800C7068(GunCamEWork *work)
 {
@@ -133,26 +168,284 @@ void s03e_guncame_800C7068(GunCamEWork *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7118.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7144.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7154.s")
+int s03e_guncame_800C7144(GunCamEWork *work, int, int, int);
+
+int s03e_guncame_800C7154(int opt, SVECTOR *svec)
+{
+    int   count;
+    char *result;
+
+    count = 0;
+
+    while ((result = GCL_Get_Param_Result_80020AA4()) != NULL)
+    {
+        GCL_StrToSV_80020A14(result, svec);
+
+        svec++;
+        count++;
+    }
+
+    return count;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C71A8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
+int s03e_guncame_800C7224(GunCamEWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C73D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C75FC.s")
+void s03e_guncame_800C73D0(GunCamEWork *work);
+
+void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
+{
+    int dir;
+
+    dir = GV_DiffDirS_8001704C(svec1->vy, svec2->vy);
+    if (work->field_36C < dir)
+    {
+        svec2->vy = (svec1->vy + work->field_36C) & 0xFFF;
+    }
+    else if (dir < -work->field_36C)
+    {
+        svec2->vy = (svec1->vy - work->field_36C) & 0xFFF;
+    }
+
+    dir = GV_DiffDirS_8001704C(svec1->vx, svec2->vx);
+    if (work->field_36C < dir)
+    {
+        svec2->vx = (svec1->vx + work->field_36C) & 0xFFF;
+    }
+    else if (dir < -work->field_36C)
+    {
+        svec2->vx = (svec1->vx - work->field_36C) & 0xFFF;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C76E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7740.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C77D4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7868.s")
+void s03e_guncame_800C76E8(GunCamEWork *work);
+
+int s03e_guncame_800C7740(GunCamEWork *work)
+{
+    SVECTOR *vec;
+
+    if (work->field_34C > 60)
+    {
+        if (work->field_404 != 0)
+        {
+            GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
+        }
+
+        vec = &work->field_20.field_4C_turn_vec;
+        vec->vy = (vec->vy + 8) & 0xFFF;
+
+        if (work->field_36C < GV_DiffDirAbs_8001706C(work->field_330.vy, vec->vy))
+        {
+            return 1;
+        }
+    }
+    work->field_34C++;
+    return 0;
+}
+
+int s03e_guncame_800C77D4(GunCamEWork *work)
+{
+    SVECTOR *vec;
+
+    if (work->field_34C > 60)
+    {
+        if (work->field_404 != 0)
+        {
+            GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
+        }
+
+        vec = &work->field_20.field_4C_turn_vec;
+        vec->vy = (vec->vy - 8) & 0xFFF;
+
+        if (work->field_36C < GV_DiffDirAbs_8001706C(work->field_330.vy, vec->vy))
+        {
+            return 1;
+        }
+    }
+    work->field_34C++;
+    return 0;
+}
+
+int s03e_guncame_800C7868(GunCamEWork *work)
+{
+    SVECTOR *svec1, *svec2;
+    int      dir;
+
+    svec1 = &work->field_330;
+    svec2 = &work->field_20.field_4C_turn_vec;
+
+    dir = GV_DiffDirS_8001704C(svec1->vy, svec2->vy);
+    if (dir < -0xA)
+    {
+        svec2->vy += 8;
+    }
+    else if (dir < 0xA)
+    {
+        svec2->vy = svec1->vy;
+    }
+    else
+    {
+        svec2->vy -= 8;
+    }
+
+    dir = GV_DiffDirS_8001704C(svec1->vx, svec2->vx);
+    if (dir < -0xA)
+    {
+        svec2->vx += 8;
+    }
+    else if (dir < 0xA)
+    {
+        svec2->vx = svec1->vx;
+    }
+    else
+    {
+        svec2->vx -= 8;
+    }
+
+    if (svec2->vx != svec1->vx || svec2->vy != svec1->vy || work->field_34C < 0x91)
+    {
+        work->field_34C++;
+        return 0;
+    }
+
+    return 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7994.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7AD8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7C0C.s")
+void s03e_guncame_800C7994(GunCamEWork *work);
+
+void s03e_guncame_800C7AD8(GunCamEWork *work)
+{
+    switch (work->field_344)
+    {
+    case 5:
+        s03e_guncame_800C76E8(work);
+        work->field_348++;
+        if (!(work->field_348 & 3))
+        {
+            if (work->field_354 < work->field_370)
+            {
+                work->field_354++;
+                s03e_guncame_800C73D0(work);
+                if (work->field_404 != 0)
+                {
+                    GM_Sound_800329C4(&work->field_20.field_0_mov, 0x2E, 1);
+                }
+                work->field_350 = 1;
+            }
+            else
+            {
+                work->field_358++;
+                if (work->field_358 >= work->field_374)
+                {
+                    work->field_354 = 0;
+                    work->field_358 = 0;
+                }
+            }
+        }
+        else
+        {
+            work->field_350 = 0;
+        }
+        if (s03e_guncame_800C7224(work) == 0)
+        {
+            work->field_344 = 1;
+            work->field_34C = 0;
+            break;
+        }
+        break;
+    case 1:
+        work->field_350 = 0;
+        work->field_34C++;
+        if (work->field_34C >= 0x5B)
+        {
+            work->field_340 = 2;
+            work->field_344 = 6;
+            work->field_34C = 0;
+            break;
+        }
+        if (s03e_guncame_800C7224(work) != 0)
+        {
+            work->field_344 = 5;
+        }
+        break;
+    }
+}
+
+void s03e_guncame_800C7C0C(GunCamEWork *work)
+{
+    switch (work->field_344)
+    {
+    case 6:
+        work->field_344 = 7;
+        break;
+    case 7:
+        if (s03e_guncame_800C7868(work) != 0)
+        {
+            work->field_340 = 0;
+            if (work->field_360 == 1)
+            {
+                if (GV_RandU_80017090(2U) == 0)
+                {
+                    work->field_344 = 3;
+                }
+                else
+                {
+                    work->field_344 = 2;
+                }
+            }
+            else
+            {
+                work->field_344 = 4;
+            }
+            work->field_34C = 0;
+            s03e_guncame_800C7144(work, 0, 0xFF, 0);
+        }
+        break;
+    }
+
+    if (s03e_guncame_800C7224(work) != 0)
+    {
+        work->field_340 = 1;
+        work->field_344 = 5;
+        work->field_34C = 0;
+        s03e_guncame_800C7144(work, 0xFF, 0, 0);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7CE0.s")
+void s03e_guncame_800C7CE0(GunCamEWork *work);
 
 void s03e_guncame_800C8024(GunCamEWork *work)
 {
     work->field_20.field_3C.vx = work->field_20.field_8_rotator.vy;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8030.s")
+void s03e_guncame_800C8030(GunCamEWork *work)
+{
+    switch (work->field_340)
+    {
+    case 0:
+        GM_ConfigControlInterp_80026244(&work->field_20, 4);
+        s03e_guncame_800C7994(work);
+        break;
+    case 1:
+        GM_ConfigControlInterp_80026244(&work->field_20, 0);
+        s03e_guncame_800C7AD8(work);
+        break;
+    case 2:
+        GM_ConfigControlInterp_80026244(&work->field_20, 4);
+        s03e_guncame_800C7C0C(work);
+        break;
+    case 3:
+        GM_ConfigControlInterp_80026244(&work->field_20, 4);
+        s03e_guncame_800C7CE0(work);
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C80F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8924.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8940.s")
