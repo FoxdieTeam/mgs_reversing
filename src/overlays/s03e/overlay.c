@@ -117,8 +117,8 @@ unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 // Takabe/cinema.c
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
-int s03e_dword_800C33DC = 0x00003223;
-
+// Takabe/cat_in.c
+unsigned short cat_in_mes_list[] = { 0x3223, 0x0000 };
 
 const char s03e_dword_800CBE84[] = {0xe0, 0xff, 0xbd, '\''};
 const char s03e_dword_800CBE88[] = {0x14, 0x0, 0xb1, 0xaf};
@@ -597,8 +597,9 @@ const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 0x81, 'J', 0x81};
 const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x90, 0x1, 0x90};
 const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 0x90, 0x1, 0x90};
-const char s03e_dword_800CC6AC[] = {'c', 'a', 't', '_'};
-const char s03e_dword_800CC6B0[] = {'i', 'n', '.', 'c'};
-const char s03e_dword_800CC6B4[] = {0x0, 0x90, 0x89, 0x90};
+
+// Takabe/cat_in.c
+const char aCatinC[] = {'c', 'a', 't', '_', 'i', 'n', '.', 'c', 0x0, 0x90, 0x89, 0x90};
+
 const char s03e_dword_800CC6B8[] = {0x0, 0x0, 0x0, 0x0};
 const char s03e_dword_800CC6BC[] = {0xe5, 0x96, 0xe6, 0x96};
