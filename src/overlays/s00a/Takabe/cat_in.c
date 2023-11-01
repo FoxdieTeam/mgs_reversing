@@ -22,12 +22,13 @@ typedef struct _ZoomWork
     int    proc;
 } ZoomWork;
 
+extern unsigned short cat_in_mes_list[];
+extern const char aCatinC[];
+
 extern int     GM_GameStatus_800AB3CC;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus_800ABA50;
 extern GV_PAD  GV_PadData_800B05C0[4];
-
-extern unsigned short mes_list_800C368C[];
 
 int THING_Gcl_GetIntDefault( int param, int );
 int THING_Gcl_GetInt( int param );
@@ -87,7 +88,7 @@ int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
 
 void ZoomAct_800DF89C( ZoomWork *work )
 {
-    if ( !THING_Msg_CheckMessage( work->name, 1, mes_list_800C368C ) )
+    if ( !THING_Msg_CheckMessage( work->name, 1, cat_in_mes_list ) )
     {
         work->timer = -1;
     }
@@ -143,7 +144,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, "cat_in.c\x00\x04" );
+    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, aCatinC );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -153,6 +154,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
+#ifndef SMALLER_CAT_IN
 void *NewZoom_800DFA88( int name, int where )
 {
     ZoomWork *work;
@@ -160,7 +162,7 @@ void *NewZoom_800DFA88( int name, int where )
     work = (ZoomWork *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c\x00\x04" );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, aCatinC );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {
@@ -171,3 +173,4 @@ void *NewZoom_800DFA88( int name, int where )
 
     return work;
 }
+#endif
