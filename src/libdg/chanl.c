@@ -414,7 +414,7 @@ void DG_FreeObjectQueue_800183D4()
     }
 }
 
-void DG_8001844C()
+void DG_ResetObjectQueue_8001844C()
 {
     gObjectQueueVoided_800AB388 = 0;
     DG_UnDrawFrameCount_800AB380 = 1;

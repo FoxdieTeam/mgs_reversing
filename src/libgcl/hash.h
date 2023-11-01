@@ -70,6 +70,7 @@
 #define PCX_LSIGHT              0x08db // GV_StrCode( "lsight" )
 #define PCX_SOCOM_F             0xe4cc // GV_StrCode( "socom_f" )
 #define PCX_MG_SOLID            0x3f37 // GV_StrCode( "MG_SOLID" )
+#define PCX_COMING_SOON         0x0abb // GV_StrCode( "COMING_SOON" )
 
 //------------------------------------------------------------------------------
 // Sight files (.sgt)

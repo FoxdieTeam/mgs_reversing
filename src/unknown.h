@@ -28,7 +28,6 @@ void   sub_800790E8(); // Takabe
 void   sub_800241B4(void *);
 int    HZD_sub_80029514(HZD_FLR *);
 void   sub_8002A258(HZD_HDL *param_1, Res_Control_unknown *param_2);
-void   sub_80032AEC(int byte_2, int byte_1, int byte_0);
 int    sub_80028830(void);
 void   sub_800272E0(SVECTOR *param_1, SVECTOR *param_2);
 SVECTOR *sub_80028820(void);
