@@ -345,11 +345,25 @@ def main():
         else:
             ok(OBJ_VR_EXE)
 
+    TARGET_CPE_HASH = sha256(OBJ_EXE.replace("_mgsi.exe", "_mgsi.cpe"))
+
     for overlay, overlay_target_hash in TARGET_OVERLAYS_HASH.items():
         overlay_path = os.path.join(OVERLAY_EXE_PATH, f"{overlay}.bin")
 
         if not os.path.exists(overlay_path):
             continue
+
+        # First check the main executable built for this overlay.
+        # We are running the linker separately for each overlay,
+        # so actually the main executable is rebuilt for each overlay.
+        # It's not a problem, because it's the same exact executable,
+        # but sometimes, if you are not careful, that won't be the case,
+        # for example if some additional PsyQ functions land in main exe.
+        overlay_main_exe_path = OBJ_EXE.replace("_mgsi.exe", f"_mgsi_{overlay}.cpe")
+        exe_hash = sha256(overlay_main_exe_path)
+        if exe_hash != TARGET_CPE_HASH:
+            fail(f"{overlay_main_exe_path} (something changed in main executable used to build the corresponding overlay)")
+            failed = True
 
         overlay_hash = sha256(overlay_path)
         if overlay_hash != overlay_target_hash:
