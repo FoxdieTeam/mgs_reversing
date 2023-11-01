@@ -195,11 +195,13 @@ typedef struct DG_LitVertex
 
 typedef struct DG_IMG
 {
-	unsigned int   unknown0;
-	unsigned int   unknown1;
-	unsigned char *unknown2;
-	unsigned char *unknown3;
-	unsigned char *unknown4;
+	unsigned short  width;
+	unsigned short  height;
+	unsigned short  tile_width;
+	unsigned short  tile_height;
+	unsigned short *names; // names[0] = name count, names[1..] = pcx hashes
+	unsigned char  *unknown;
+	unsigned char  *tilemap;
 } DG_IMG;
 
 typedef struct DG_KmdFile

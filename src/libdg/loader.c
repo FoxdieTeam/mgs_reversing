@@ -131,9 +131,9 @@ int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed)
 int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed)
 {
     DG_IMG *img = (DG_IMG *)pFileData;
-    img->unknown2 = (unsigned char *)img + (unsigned int)img->unknown2;
-    img->unknown3 = (unsigned char *)img + (unsigned int)img->unknown3;
-    img->unknown4 = (unsigned char *)img + (unsigned int)img->unknown4;
+    img->names = (unsigned short *)((char *)img + (unsigned int)img->names);
+    img->unknown = (char *)img + (unsigned int)img->unknown;
+    img->tilemap = (char *)img + (unsigned int)img->tilemap;
     return 1;
 }
 
