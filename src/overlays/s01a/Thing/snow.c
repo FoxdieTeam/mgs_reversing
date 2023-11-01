@@ -1,0 +1,533 @@
+#include "psyq.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
+#include "Game/camera.h"
+
+typedef struct _SnowEntry
+{
+    SVECTOR  pos;
+    SVECTOR  f8;
+    SVECTOR  rot;
+    SVECTOR  f18;
+    DG_PRIM *prim;
+    SVECTOR  vecs[32];
+} SnowEntry;
+
+typedef struct _SnowWork
+{
+    GV_ACT    actor;
+    SVECTOR   min;
+    SVECTOR   max;
+    SVECTOR   f30;
+    SVECTOR   f38;
+    int       n_entries;
+    int       f44;
+    SnowEntry entries[32];
+    int       colors[32];
+    int       f2548;
+    int       f254C;
+    int       f2550;
+    int       f2554;
+    GV_MSG   *msgs;
+} SnowWork;
+
+extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR         *GM_lpsvectWind_800AB3D8;
+extern int              GV_Clock_800AB920;
+extern int              GM_CurrentMap_800AB9B0;
+extern CONTROL         *GM_WhereList_800B56D0[96];
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+
+extern SVECTOR snow_svec_800C3854;
+extern SVECTOR snow_svec_800C385C;
+extern SVECTOR snow_svec_800C3864;
+extern RECT    snow_rect_800C386C;
+
+extern const char aYuki[];  // = "雪" (snow)
+extern const char aSnowC[]; // = "snow.c"
+
+#define EXEC_LEVEL 5
+
+void Snow_800C5234(TILE *packs, int n_packs, int *colors)
+{
+    while (--n_packs >= 0)
+    {
+        LSTORE(*colors++, &packs->r0);
+        packs++;
+    }
+}
+
+void Snow_800C5260(int *colors, int n_colors)
+{
+    TILE tile;
+    int  color;
+    int  shade;
+
+    setTile(&tile);
+    color = LLOAD(&tile.r0) & 0xFF000000;
+
+    while (--n_colors >= 0)
+    {
+        shade = GV_RandU_80017090(128) + 128;
+        *colors++ = color | shade / 2 | (shade / 2) << 8 | shade << 16;
+    }
+}
+
+void Snow_800C52F0(TILE *packs1, TILE *packs2, int n_packs, int *colors)
+{
+    int rnd;
+
+    while (--n_packs >= 0)
+    {
+        rnd = GV_RandU_80017090(2) + 1;
+
+        setTile(packs1);
+        LSTORE(*colors, &packs1->r0);
+        setWH(packs1, rnd, rnd);
+
+        setTile(packs2);
+        LSTORE(*colors, &packs2->r0);
+        setWH(packs2, rnd, rnd);
+
+        packs1++;
+        packs2++;
+        colors++;
+    }
+}
+
+void Snow_800C53A0(SVECTOR *dst, int x0, int x1, int y0, int y1, int z0, int z1)
+{
+    dst->vx = ((rand() & 0xFF) * (x1 - x0)) / 256 + x0;
+    dst->vy = ((rand() & 0xFF) * (y1 - y0)) / 256 + y0;
+    dst->vz = ((rand() & 0xFF) * (z1 - z0)) / 256 + z0;
+}
+
+void Snow_800C547C(SVECTOR *dst, SVECTOR *src, SVECTOR *scale)
+{
+    dst->vx = src->vx + ((rand() & 0xFF) * scale->vx) / 256;
+    dst->vy = src->vy + ((rand() & 0xFF) * scale->vy) / 256;
+    dst->vz = src->vz + ((rand() & 0xFF) * scale->vz) / 256;
+}
+
+void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
+{
+    SVECTOR  wind;
+    int      s0;
+    SVECTOR *vec;
+    int      i;
+
+    Snow_800C53A0(&entry->pos, work->min.vx, work->max.vx, work->min.vy, work->max.vy, work->min.vz, work->max.vz);
+
+    if (arg2 != 0)
+    {
+        switch (work->f44)
+        {
+        case 0:
+            entry->pos.vx = work->max.vx;
+            break;
+
+        case 1:
+            entry->pos.vx = work->min.vx;
+            break;
+
+        case 2:
+            entry->pos.vy = work->max.vy;
+            break;
+
+        case 3:
+            entry->pos.vy = work->min.vy;
+            break;
+
+        case 4:
+            entry->pos.vz = work->max.vz;
+            break;
+
+        case 5:
+            entry->pos.vz = work->min.vz;
+            break;
+        }
+    }
+
+    GV_AddVec3_80016D00(target, &entry->pos, &entry->pos);
+    Snow_800C53A0(&entry->f18, -8, 8, -8, 8, -8, 8);
+
+    entry->rot = DG_ZeroVector_800AB39C;
+
+    if (GM_lpsvectWind_800AB3D8 != NULL)
+    {
+        if (work->f2548 == 1)
+        {
+            wind = *GM_lpsvectWind_800AB3D8;
+
+            if (wind.vx < 0)
+            {
+                wind.vx = -wind.vx;
+            }
+
+            if (wind.vy < 0)
+            {
+                wind.vy = -wind.vy;
+            }
+
+            if (wind.vz < 0)
+            {
+                wind.vz = -wind.vz;
+            }
+
+            s0 = 2;
+            if (wind.vx >= wind.vy)
+            {
+                if (wind.vz <= wind.vx)
+                {
+                    s0 = 0;
+                    wind.vz = wind.vx;
+                }
+            }
+            else if (wind.vz <= wind.vy)
+            {
+                s0 = 1;
+                wind.vz = wind.vy;
+            }
+
+            Snow_800C53A0(&entry->pos, work->min.vx / 2, work->max.vx / 2, work->min.vy / 2, work->max.vy / 2, work->min.vz / 2, work->max.vz / 2);
+
+            switch (s0 * 2 + (wind.vz > 0))
+            {
+            case 0:
+                entry->pos.vx = work->min.vx;
+                break;
+
+            case 1:
+                entry->pos.vx = work->max.vx;
+                break;
+
+            case 2:
+                entry->pos.vy = work->min.vy;
+                break;
+
+            case 3:
+                entry->pos.vy = work->max.vy;
+                break;
+
+            case 4:
+                entry->pos.vz = work->min.vz;
+                break;
+
+            case 5:
+                entry->pos.vz = work->max.vz;
+                break;
+            }
+        }
+
+        Snow_800C547C(&entry->f8, GM_lpsvectWind_800AB3D8, &work->f38);
+        GV_AddVec3_80016D00(GM_lpsvectWind_800AB3D8, &work->f38, &entry->f8);
+    }
+    else
+    {
+        Snow_800C547C(&entry->f8, &work->f30, &work->f38);
+        GV_AddVec3_80016D00(&work->f30, &work->f38, &entry->f8);
+    }
+
+    vec = entry->vecs;
+    for (i = 32; i > 0; i--)
+    {
+        Snow_800C53A0(vec, -3000, 3000, -3000, 3000, -3000, 3000);
+        vec++;
+    }
+}
+
+void Snow_800C592C(SnowWork *work)
+{
+    int     n_msgs;
+    GV_MSG *msg;
+
+    n_msgs = GV_ReceiveMessage_80016620(GV_StrCode_80016CCC(aYuki), &work->msgs);
+    if (n_msgs <= 0)
+    {
+        return;
+    }
+
+    msg = work->msgs;
+    while (--n_msgs >= 0)
+    {
+        switch (msg->message[0])
+        {
+        case 0xE4E:
+            work->f2554 = 1;
+            break;
+
+        case 0xC927:
+            work->f2554 = 0;
+            break;
+
+        default:
+            work->f2550 = msg->message[0];
+            break;
+        }
+
+        msg++;
+    }
+}
+
+int Snow_800C59C8(SnowWork *work, SnowEntry *entry)
+{
+    SVECTOR  target;
+    SVECTOR  scaled;
+    SVECTOR  front;
+    SVECTOR *targetp;
+    int      diff;
+
+    GV_SubVec3_80016D40(&gUnkCameraStruct2_800B7868.center, &gUnkCameraStruct2_800B7868.eye, &front);
+    GV_ScaleVec3_80016DDC(&front, &scaled, GV_LengthVec3_80016D80(&front), work->f2550);
+    GV_AddVec3_80016D00(&gUnkCameraStruct2_800B7868.eye, &scaled, &target);
+
+    targetp = &target;
+
+    diff = entry->pos.vx - targetp->vx;
+    if (diff >= (work->min.vx - 1000) && diff <= (work->max.vx + 1000))
+    {
+        diff = entry->pos.vy - targetp->vy;
+        if (diff >= (work->min.vy - 1000) && diff <= (work->max.vy + 1000))
+        {
+            diff = entry->pos.vz - targetp->vz;
+            if (diff >= (work->min.vz - 1000) && diff <= (work->max.vz + 1000))
+            {
+                return 0;
+            }
+        }
+    }
+
+    Snow_800C5544(work, entry, 1, targetp);
+    return 1;
+}
+
+void SnowAct_800C5B2C(SnowWork *work)
+{
+    SnowEntry *entry;
+    int        n_entries;
+
+    if (GM_lpsvectWind_800AB3D8 == NULL)
+    {
+        work->f2548 = 0;
+    }
+    else if (work->f2548 != 1)
+    {
+        work->f2548 = 1;
+    }
+
+    entry = work->entries;
+
+    Snow_800C592C(work);
+
+    n_entries = work->n_entries;
+
+    while (n_entries > 0)
+    {
+        if (work->f2554 == 0)
+        {
+            DG_InvisiblePrim(entry->prim);
+            entry++;
+        }
+        else
+        {
+            DG_VisiblePrim(entry->prim);
+
+            if (!Snow_800C59C8(work, entry))
+            {
+                GV_AddVec3_80016D00(&entry->pos, &entry->f8, &entry->pos);
+                GV_AddVec3_80016D00(&entry->rot, &entry->f18, &entry->rot);
+            }
+
+            DG_SetPos2_8001BC8C(&entry->pos, &entry->rot);
+
+            if (work->f254C != 0)
+            {
+                Snow_800C5234(&entry->prim->field_40_pBuffers[GV_Clock_800AB920]->tiles, 32, work->colors);
+            }
+
+            DG_PutPrim_8001BE00(&entry->prim->world);
+            entry++;
+        }
+
+        n_entries--;
+    }
+}
+
+void SnowDie_800C5C6C(SnowWork *work)
+{
+    int        n_entries;
+    SnowEntry *entry;
+    DG_PRIM   *prim;
+
+    n_entries = work->n_entries;
+    entry = work->entries;
+
+    while (n_entries > 0)
+    {
+        prim = entry->prim;
+        if (prim != NULL)
+        {
+            DG_DequeuePrim_800182E0(prim);
+            DG_FreePrim_8001BC04(prim);
+        }
+
+        n_entries--;
+        entry++;
+    }
+}
+
+void SnowGetOptions_800C5CD4(SnowWork *work)
+{
+    int opt;
+    int n_entries;
+    int x, y, z;
+    int var_a2;
+
+    work->min = snow_svec_800C3854;
+    work->max = snow_svec_800C385C;
+    work->f30 = snow_svec_800C3864;
+    work->f38 = DG_ZeroVector_800AB39C;
+
+    work->n_entries = 32;
+
+    opt = GCL_GetOption_80020968('l');
+    if (opt != NULL)
+    {
+        GCL_StrToSV_80020A14((char *)opt, &work->min);
+    }
+
+    opt = GCL_GetOption_80020968('h');
+    if (opt != NULL)
+    {
+        GCL_StrToSV_80020A14((char *)opt, &work->max);
+    }
+
+    opt = GCL_GetOption_80020968('s');
+    if (opt != NULL)
+    {
+        GCL_StrToSV_80020A14((char *)opt, &work->f30);
+    }
+
+    opt = GCL_GetOption_80020968('w');
+    if (opt != NULL)
+    {
+        GCL_StrToSV_80020A14((char *)opt, &work->f38);
+    }
+
+    opt = GCL_GetOption_80020968('n');
+    if (opt != NULL)
+    {
+        n_entries = GCL_StrToInt_800209E8((char *)opt);
+
+        if (n_entries <= 0)
+        {
+            n_entries = 1;
+        }
+
+        if (n_entries > 1024)
+        {
+            n_entries = 1024;
+        }
+
+        work->n_entries = (n_entries + 31) / 32;
+    }
+
+    work->f2550 = 6000;
+    if (GCL_GetOption_80020968('c'))
+    {
+        work->f2550 = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    if (GCL_GetOption_80020968('f'))
+    {
+        work->f254C = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
+    }
+
+    x = work->f30.vx;
+    y = work->f30.vy;
+    z = work->f30.vz;
+
+    if (x < 0)
+    {
+        x = -x;
+    }
+
+    if (y < 0)
+    {
+        y = -y;
+    }
+
+    if (z < 0)
+    {
+        z = -z;
+    }
+
+    var_a2 = 2;
+    if (x >= y)
+    {
+        if (x >= z)
+        {
+            var_a2 = 0;
+            z = x;
+        }
+    }
+    else if (y >= z)
+    {
+        var_a2 = 1;
+        z = y;
+    }
+
+    work->f44 = var_a2 * 2 + (z > 0);
+}
+
+int SnowGetResources_800C5F40(SnowWork *work, int map)
+{
+    SnowEntry *entry;
+    int        n_entries;
+    DG_PRIM   *prim;
+
+    GM_CurrentMap_800AB9B0 = map;
+
+    Snow_800C5260(work->colors, 32);
+
+    entry = work->entries;
+    for (n_entries = work->n_entries; n_entries > 0; n_entries--)
+    {
+        prim = DG_GetPrim(0x409, 32, 0, entry->vecs, &snow_rect_800C386C);
+        entry->prim = prim;
+        if (prim == NULL)
+        {
+            return -1;
+        }
+
+        Snow_800C52F0(&prim->field_40_pBuffers[0]->tiles, &prim->field_40_pBuffers[1]->tiles, 32, work->colors);
+        Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->field_0_mov);
+
+        entry++;
+    }
+
+    work->f2554 = 1;
+    return 0;
+}
+
+GV_ACT * NewSnow_800C6058(int arg0, int arg1)
+{
+    SnowWork *work;
+
+    work = (SnowWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SnowWork));
+    if (work != NULL)
+    {
+        SnowGetOptions_800C5CD4(work);
+
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, aSnowC);
+
+        if (SnowGetResources_800C5F40(work, arg1) < 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
+        }
+    }
+
+    return &work->actor;
+}
