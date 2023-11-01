@@ -39,8 +39,8 @@ const char s00a_aWtviewc_800E0BB3 = 0x00;
 const char sWtViewC[] = "wt_view.c";
 
 const char s00a_aWtviewcoverprims_800E0BC0[] = "(wt_view.c) Over prims !!!\n";
-const char s00a_aMosaicc_800E0BDC[] = "mosaic.c";
-const char aMosaic_800E0BE8[] = "Mosaic";
+const char aMosaicc[] = "mosaic.c";
+const char aMosaic[] = "Mosaic";
 const char s00a_dword_800E0BEF = 0xB0;
 
 const char aPadRecStart[] = "Pad rec start\n";

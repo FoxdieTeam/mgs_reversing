@@ -77,3 +77,22 @@ void s00a_unknown3_800DC888(DG_OBJS *objs)
         n_models--;
     }
 }
+
+// WTF is this???
+void s00a_unknown3_800DC908()
+{
+}
+
+int s00a_unknown3_800DC910()
+{
+    return 0;
+}
+
+void s00a_unknown3_800DC918()
+{
+}
+
+int s00a_unknown3_800DC920()
+{
+    return 0;
+}
