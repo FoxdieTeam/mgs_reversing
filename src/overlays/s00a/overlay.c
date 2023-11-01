@@ -169,7 +169,9 @@ unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
 const char aPadC_800DFBCC[] = "pad.c";
 const short s00a_dword_800DFBD2 = 0x4E5F;
-const char aBreathC_800DFBD4[] = "breath.c";
+
+const char aBreathC[] = "breath.c";
+
 const char s00a_dword_800DFBDD = 0xC;
 const char s00a_dword_800DFBDE = 0xD;
 const char s00a_dword_800DFBDF = 0x0;

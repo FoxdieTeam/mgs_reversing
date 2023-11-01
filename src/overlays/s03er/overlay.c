@@ -188,7 +188,8 @@ const char aLampC[] = {'l', 'a', 'm', 'p', '.', 'c', 0x0, '0'};
 const char s03e_dword_800CBFD0[] = {'i', 'n', 't', 'r'};
 const char s03e_dword_800CBFD4[] = {'_', 'c', 'a', 'm'};
 const char s03e_dword_800CBFD8[] = {'.', 'c', 0x0, 'g'};
-const char s03e_aMotsec_800CBFDC[] = "motse.c";
+
+const char aMotseC[] = "motse.c";
 
 // Enemy/wall.c
 const char aDestroy[] = "destroy\n";

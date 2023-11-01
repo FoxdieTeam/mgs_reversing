@@ -16,7 +16,7 @@ typedef struct MotseWork
     MotseElem *field_28_elems;
 } MotseWork;
 
-extern const char s03e_aMotsec_800CBFDC[];
+extern const char aMotseC[];
 
 extern int              GM_PlayerAction_800ABA40;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
@@ -75,7 +75,7 @@ GV_ACT *s03e_motse_800C5944(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_motse_800C57CC,
-                                  (TActorFunction)s03e_motse_800C5864, s03e_aMotsec_800CBFDC);
+                                  (TActorFunction)s03e_motse_800C5864, aMotseC);
         if (s03e_motse_800C5888(work, name) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
