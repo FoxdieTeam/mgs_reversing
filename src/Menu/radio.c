@@ -1625,7 +1625,7 @@ void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
             menu_radio_update_helper6_80047D40(pActor);
             GV_ResetPacketMemory_80014BD8();
             GV_PauseLevel_800AB928 &= ~1;
-            DG_8001844C();
+            DG_ResetObjectQueue_8001844C();
             menu_radio_init_nullsub_80042190(pActor);
             DrawSync(0);
             sub_8003CB98(pActor);
