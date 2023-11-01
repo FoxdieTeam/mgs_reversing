@@ -7,6 +7,9 @@ from objlib.obj import get_obj_funcs
 from statistics import quantiles
 from termcolor import colored
 from Levenshtein import ratio
+from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS32
+from capstone.mips import *
+from functools import cache
 
 root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
 asm_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../asm'))
@@ -34,6 +37,31 @@ def byte_equality_distance(lhs_func, rhs_func):
 
 def levenshtein_distance_on_bytes(lhs_func, rhs_func):
     return int((1.0 - ratio(lhs_func, rhs_func)) * 100)
+
+@cache
+def disasm(code):
+    md = Cs(CS_ARCH_MIPS, CS_MODE_MIPS32)
+    md.detail = True
+
+    insts = []
+
+    # Disassembles an instruction to format:
+    #   opcode | number of operands | operand1 | operand2 | ... | operandN
+    # (only for register operands)
+    for inst in md.disasm(code, 0):
+        non_reloc_ops = [str(inst.id), str(len(inst.operands))]
+        for operand in inst.operands:
+            if operand.type == MIPS_OP_REG:
+                non_reloc_ops.append(str(operand.value.reg))
+        insts.append('|'.join(non_reloc_ops))
+
+    return insts
+
+def instruction_equality_distance(lhs_func, rhs_func):
+    return byte_equality_distance(disasm(lhs_func), disasm(rhs_func))
+
+def levenshtein_distance_on_instructions(lhs_func, rhs_func):
+    return levenshtein_distance_on_bytes(disasm(lhs_func), disasm(rhs_func))
 
 def quantiles_wrapper(data, n):
     if len(data) == 1:
@@ -67,16 +95,30 @@ def main():
 
     rhs_pattern = input('Right-hand side of comparison - glob filter (e.g. *, sub_8034*, *s00a*, s???r_*): ')
     print('Diffing algorithm:')
+    print("  PURE BYTES")
+    print("  ===========================================================")
     print("  1. Byte equality: fastest, compares how many bytes")
     print("     are different between functions of the same size,")
     print("     so it can detect fully identical functions or functions")
     print("     that differ in relocations.")
-    print("  2. Levensthein distance (on pure bytes): slowest")
-    algorithm = input('Diffing algorithm (1 or 2): ').strip()
+    print("  2. Levensthein distance (on pure bytes): slower")
+    print("")
+    print("  INSTRUCTIONS")
+    print("  ===========================================================")
+    print("  3. Instruction equality: faster, compares how many decoded")
+    print("     instructions are different between functions of the same")
+    print("     instruction count.")
+    print("  4. Levensthein distance (on instructions): slowest")
+
+    algorithm = input('Diffing algorithm (1, 2, 3 or 4): ').strip()
     if algorithm == '1':
         calc_distance = byte_equality_distance
     elif algorithm == '2':
         calc_distance = levenshtein_distance_on_bytes
+    elif algorithm == '3':
+        calc_distance = instruction_equality_distance
+    elif algorithm == '4':
+        calc_distance = levenshtein_distance_on_instructions
     else:
         print("Invalid choice of algorithm:", algorithm)
         sys.exit(1)
