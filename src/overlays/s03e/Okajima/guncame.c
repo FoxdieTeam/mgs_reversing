@@ -447,7 +447,6 @@ void s03e_guncame_800C8030(GunCamEWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C80F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8924.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8940.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8978.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8E04.s")
