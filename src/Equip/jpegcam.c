@@ -851,7 +851,7 @@ void jpegcam_act_helper3_80064A94(Actor_jpegcam *pActor)
         GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_11;
         GV_ResetPacketMemory_80014BD8();
         GV_PauseLevel_800AB928 &= ~0x1;
-        DG_8001844C();
+        DG_ResetObjectQueue_8001844C();
         pActor->field_64_state = 0;
         pActor->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }

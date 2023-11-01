@@ -243,6 +243,7 @@ void               GM_ContinueStart_8002B62C(void);
 void               GM_GameOver_8002B6C8(void);
 GV_MSG            *GM_CheckMessage_8002631C(GV_ACT *pActor, int msgType, int toFind);
 int                GM_GetNoiseSound_8002E614(int arg0, int arg1);
+void               sub_80032AEC(int byte_2, int byte_1, int byte_0);
 
 HZD_TRP *HZD_CheckBehindTrap_8002A5E0(HZD_HDL *pHzdMap, CONTROL *pControl);
 
