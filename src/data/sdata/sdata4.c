@@ -14,7 +14,8 @@ int SECTION(".sdata") dword_800AB3C8 = 0;
 int SECTION(".sdata") GM_GameStatus_800AB3CC = 0;
 int SECTION(".sdata") GM_LoadRequest_800AB3D0 = 0;
 int SECTION(".sdata") GM_GameOverTimer_800AB3D4 = 0;
-int SECTION(".sdata") GM_lpsvectWind_800AB3D8 = 0;
+
+SVECTOR *SECTION(".sdata") GM_lpsvectWind_800AB3D8 = 0;
 
 TSnakeActFunction SECTION(".sdata") GM_lpfnPlayerActControl_800AB3DC = NULL;
 TSnakeActFunction SECTION(".sdata") GM_lpfnPlayerActObject2_800AB3E0 = NULL;
