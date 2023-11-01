@@ -395,7 +395,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
     include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj" ; animeconv\breath.c?
     include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
@@ -538,18 +538,10 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_cancel_800C3C6C.obj" ; data
     include "{{OBJ_DIR}}\overlays\s01a\Game\cancel.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Game\tobcnt.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj" ; animeconv\breath.c?
+    include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
 
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_breath_800C4CD0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_breath_800C4DDC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_breath_800C4DE4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_breath_800C4E4C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C4ED8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C4F40.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C4FAC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C5038.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C50D0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C50F4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_motse_800C51B0.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_snow_800C5234.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_snow_800C5260.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_snow_800C52F0.obj"

@@ -27,7 +27,6 @@ void AN_Breath_800C3AA8( MATRIX *matrix )
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-
 void AN_Breath_2_800C3B10( MATRIX *matrix )
 {
     ANIMATION *anm;
