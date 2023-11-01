@@ -32,7 +32,7 @@ Actor_strctrl   *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags
 int             GM_StreamStatus_80037CD8( void );
 void            GM_StreamPlayStart_80037D1C();
 void            GM_StreamPlayStop_80037D64();
-void            sub_80037DB8( void );
+void            GM_StreamCancelCallback_80037DB8( void );
 int             GM_StreamGetLastCode_80037DC8( void );
 Actor_strctrl   *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc );
 Actor_strctrl   *GM_VoxStream_80037E40( int vox_code, int proc );
