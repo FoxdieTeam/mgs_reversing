@@ -535,7 +535,6 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
 {% elif OVERLAY == "s01a" %}
     include "{{OBJ_DIR}}\overlays\s01a\overlay.obj"
 
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_cancel_800C3C6C.obj" ; data
     include "{{OBJ_DIR}}\overlays\s01a\Game\cancel.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Game\tobcnt.obj"
 
@@ -1058,13 +1057,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
 
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E0474.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E047C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E0484.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E04EC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E051C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E0540.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_mosaic_800E0608.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\mosaic.obj"
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_pad_demo_800E06FC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_pad_demo_800E0734.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_pad_demo_800E08E0.obj"
