@@ -160,7 +160,9 @@ char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
 unsigned short mes_list_800C3664[] = { 0x43D3, 0x4235 };
 SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
 RECT rect_800C3670 = { 50, 50, 100, 100 };
-unsigned short mes_list_800C3678[] = { 0xD182, 0x006B };
+
+// Takabe/mosaic.c
+unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
 
 // Takabe/fadeio.c
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
