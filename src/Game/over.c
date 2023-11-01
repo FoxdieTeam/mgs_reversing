@@ -452,7 +452,7 @@ void over_kill_80037514( Actor_Over *pActor )
     char *stage_name;
 
     GV_PauseLevel_800AB928 &= ~1;
-    DG_8001844C();
+    DG_ResetObjectQueue_8001844C();
     GM_StreamPlayStop_80037D64();
     GM_GameOverTimer_800AB3D4 = 0;
     if ( pActor->field_24_option == OVER_CONTINUE )
