@@ -438,36 +438,24 @@ unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 int s01a_dword_800C3D9C = 0x006BD182;
 int s01a_dword_800C3DA0 = 0xD5CC0DD2;
 int s01a_dword_800C3DA4 = 0x560EBA27;
-int s01a_dword_800C3DA8 = 0x00000001;
-int s01a_dword_800C3DAC = 0x00000001;
-int s01a_dword_800C3DB0 = 0xFFFF8300;
-int s01a_dword_800C3DB4 = 0xFFFF8300;
-int s01a_dword_800C3DB8 = 0xFFFF8300;
-int s01a_dword_800C3DBC = 0x00007D00;
-int s01a_dword_800C3DC0 = 0x00007D00;
-int s01a_dword_800C3DC4 = 0x00007D00;
-int s01a_dword_800C3DC8 = 0x00000403;
-int s01a_dword_800C3DCC = 0x00000024;
-int s01a_dword_800C3DD0 = 0xFFFF8300;
-int s01a_dword_800C3DD4 = 0xFFFF8300;
-int s01a_dword_800C3DD8 = 0xFFFF8300;
-int s01a_dword_800C3DDC = 0x00007D00;
-int s01a_dword_800C3DE0 = 0x00007D00;
-int s01a_dword_800C3DE4 = 0x00007D00;
-int s01a_dword_800C3DE8 = 0x00000000;
-int s01a_dword_800C3DEC = 0x00000000;
-int s01a_dword_800C3DF0 = 0x00000000;
-int s01a_dword_800C3DF4 = 0xFFFFFFFF;
-int s01a_dword_800C3DF8 = 0xFFFFFFFF;
-int s01a_dword_800C3DFC = 0x00000031;
-int s01a_dword_800C3E00 = 0x00000000;
-int s01a_dword_800C3E04 = 0x00000000;
-int s01a_dword_800C3E08 = 0x00000006;
-int s01a_dword_800C3E0C = 0x00000000;
-int s01a_dword_800C3E10 = 0x00000000;
-int s01a_dword_800C3E14 = 0x00000000;
-int s01a_dword_800C3E18 = 0x00000000;
-int s01a_dword_800C3E1C = 0x00000000;
+
+DG_DEF litmdl_dg_def =
+{
+    1, 1,
+    {-32000, -32000, -32000},
+    {32000, 32000, 32000},
+    {
+        {
+            1027, 36,
+            {-32000, -32000, -32000},
+            {32000, 32000, 32000},
+            {0, 0, 0},
+            -1, -1, 49,
+            NULL, NULL, 6, NULL,
+            NULL, NULL, NULL, 0
+        }
+    }
+};
 
 // Takabe/cat_in.c
 unsigned short cat_in_mes_list[] = { 0x3223, /* memleak */ 0x10C3 /* memleak */ };
@@ -1450,9 +1438,9 @@ const int s01a_dword_800E4AF0 = 0x800E253C;
 const char s01a_dword_800E4AF4[] = {'e', 'n', 'v', '_'};
 const char s01a_dword_800E4AF8[] = {'s', 'n', 'd', '.'};
 const char s01a_dword_800E4AFC[] = {'c', 0x0, 0x9, 'F'};
-const char s01a_dword_800E4B00[] = {'l', 'i', 't', '_'};
-const char s01a_dword_800E4B04[] = {'m', 'd', 'l', '.'};
-const int s01a_dword_800E4B08 = 0x80030063;
+
+// Takabe/lit_mdl.c
+const char aLitmdlC[] = {'l', 'i', 't', '_', 'm', 'd', 'l', '.', 'c', 0x0, 0x03, 0x80};
 
 // Takabe/camshake.c
 const char aCamshakeC[] = {'c', 'a', 'm', 's', 'h', 'a', 'k', 'e', '.', 'c', 0x0, 'g'};
