@@ -227,17 +227,17 @@ void            GM_StreamPlayStop_80037D64()
     }
 }
 
-void            sub_80037DB8( void )
+void GM_StreamCancelCallback_80037DB8( void )
 {
     strctrl_800B82B0.field_38_proc = -1;
 }
 
-int             GM_StreamGetLastCode_80037DC8( void )
+int GM_StreamGetLastCode_80037DC8( void )
 {
     return strctrl_800B82B0.field_30_voxStream;
 }
 
-Actor_strctrl   *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
+Actor_strctrl *GCL_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
 {
     int total_sector; // $s0
 

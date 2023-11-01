@@ -245,7 +245,7 @@ void DG_PutDrawEnv_From_DispEnv_80017890(void)
     PutDrawEnv(&drawEnv);
 }
 
-void DG_800178D8(int a0)
+void DG_800178D8(int shade)
 {
     DR_TPAGE    tpage;
     TILE_PACKED tile;
@@ -259,7 +259,7 @@ void DG_800178D8(int a0)
     tile.w = 0x140;
     tile.h = 0xE0;
 
-    SetPackedRGB(&tile, a0, a0, a0);
+    SetPackedRGB(&tile, shade, shade, shade);
 
     tile.x0 = 0;
     tile.y0 = 0;

@@ -1,6 +1,6 @@
 #include "libgcl/libgcl.h"
 
-GCL_ActorTableEntry s01aOverlayCharas[] = 
+GCL_ActorTableEntry s01aOverlayCharas[] =
 {
     { 0xAEFB, (TGCL_ActorCreateFn)0x800C4BC8 },
     { 0x0FAD, (TGCL_ActorCreateFn)0x800C51B0 },
@@ -655,9 +655,9 @@ const char s01a_dword_800E362C[] = {0x0, 'X', 0xcb, 'H'};
 const char s01a_dword_800E3630[] = {0x0, '`', 0xcc, 'H'};
 const char s01a_dword_800E3634[] = {0x8, 0x0, 0xe0, 0x3};
 const char s01a_dword_800E3638[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E363C[] = {'c', 'a', 'n', 'c'};
-const char s01a_dword_800E3640[] = {'e', 'l', '.', 'c'};
-const char s01a_dword_800E3644[] = {0x0, 'D', 'G', '_'};
+
+const char aCancelC[] = {'c', 'a', 'n', 'c', 'e', 'l', '.', 'c', 0x0, 'D', 'G', '_'};
+
 const char s01a_aTitle_800E3648[] = "title";
 const char s01a_dword_800E3650[] = {'t', 'o', 'b', 'c'};
 const char s01a_dword_800E3654[] = {'n', 't', '.', 'c'};
