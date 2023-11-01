@@ -26,9 +26,9 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-extern char           s00a_aMosaicc_800E0BDC[];
-extern char           aMosaic_800E0BE8[];
-extern unsigned short mes_list_800C3678[];
+extern char           aMosaicc[];
+extern char           aMosaic[];
+extern unsigned short mosaic_mes_list[];
 
 extern int GV_PauseLevel_800AB928;
 
@@ -40,23 +40,6 @@ int  THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short 
 // This actor is probably the naked Johnny censorship (missing in Integral),
 // so a lot of functions here are just stubbed-out and the actor
 // doesn't do anything meaningful.
-void s00a_mosaic_800DC908()
-{
-}
-
-int s00a_mosaic_800DC910()
-{
-    return 0;
-}
-
-void s00a_mosaic_800DC918()
-{
-}
-
-int s00a_mosaic_800DC920()
-{
-    return 0;
-}
 
 void s00a_mosaic_800DC928()
 {
@@ -73,7 +56,7 @@ void s00a_mosaic_800DC938(MosaicWork *work)
 
     if (!GV_PauseLevel_800AB928)
     {
-        found = THING_Msg_CheckMessage(work->field_20, 2, mes_list_800C3678);
+        found = THING_Msg_CheckMessage(work->field_20, 2, mosaic_mes_list);
         switch (found)
         {
         case 0:
@@ -116,14 +99,14 @@ GV_ACT *s00a_mosaic_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mosaic_800DC938,
-                                  (TActorFunction)s00a_mosaic_800DC9A0, s00a_aMosaicc_800E0BDC);
+                                  (TActorFunction)s00a_mosaic_800DC9A0, aMosaicc);
         if (s00a_mosaic_800DC9D0(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
         work->field_60 = 1;
-        work->field_20 = GV_StrCode_80016CCC(aMosaic_800E0BE8);
+        work->field_20 = GV_StrCode_80016CCC(aMosaic);
     }
     return &work->actor;
 }
@@ -138,7 +121,7 @@ GV_ACT *s00a_mosaic_800DCABC(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mosaic_800DC938,
-                                  (TActorFunction)s00a_mosaic_800DC9A0, s00a_aMosaicc_800E0BDC);
+                                  (TActorFunction)s00a_mosaic_800DC9A0, aMosaicc);
         s = THING_Gcl_GetIntDefault('s', 500);
         d = THING_Gcl_GetIntDefault('d', 4);
         work->field_60 = THING_Gcl_GetInt('f');
