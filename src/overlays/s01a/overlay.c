@@ -1,5 +1,6 @@
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
+#include "libgcl/hash.h"
 
 GCL_ActorTableEntry s01aOverlayCharas[] =
 {
@@ -280,10 +281,10 @@ int s01a_dword_800C3B48 = 0x00001644;
 int s01a_dword_800C3B4C = 0x000016A8;
 int s01a_dword_800C3B50 = 0x00500000;
 int s01a_dword_800C3B54 = 0x00000032;
-int s01a_dword_800C3B58 = 0x00500000;
-int s01a_dword_800C3B5C = 0x00000050;
-int s01a_dword_800C3B60 = 0x00140000;
-int s01a_dword_800C3B64 = 0x000001F4;
+
+// Enemy/grnad_e.c
+SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
+
 int s01a_dword_800C3B68 = 0x00780078;
 int s01a_dword_800C3B6C = 0x00F000F0;
 int s01a_dword_800C3B70 = 0x012C012C;
@@ -421,13 +422,19 @@ int s01a_dword_800C3D7C = 0x0000001E;
 int s01a_dword_800C3D80 = 0x0000001F;
 int s01a_dword_800C3D84 = 0x03E803E8;
 int s01a_dword_800C3D88 = 0x07D007D0;
-int s01a_dword_800C3D8C = 0x006BD182;
+
+// Takabe/gas_efct.c
+unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
 
 // Takabe/mosaic.c
 unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
 
-int s01a_dword_800C3D94 = 0x71F13223;
-int s01a_dword_800C3D98 = 0x745DD420;
+// Takabe/fadeio.c
+unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
+
+// Takabe/cinema.c
+unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
+
 int s01a_dword_800C3D9C = 0x006BD182;
 int s01a_dword_800C3DA0 = 0xD5CC0DD2;
 int s01a_dword_800C3DA4 = 0x560EBA27;
@@ -462,19 +469,6 @@ int s01a_dword_800C3E14 = 0x00000000;
 int s01a_dword_800C3E18 = 0x00000000;
 int s01a_dword_800C3E1C = 0x00000000;
 int s01a_dword_800C3E20 = 0x10C33223;
-
-const char s01a_dword_800E360C[] = {0x0, 0x0, 0x88, 0x8c};
-const char s01a_dword_800E3610[] = {0x4, 0x0, 0x89, 0x8c};
-const char s01a_dword_800E3614[] = {0x8, 0x0, 0x8a, 0x8c};
-const char s01a_dword_800E3618[] = {0xc, 0x0, 0x8b, 0x8c};
-const char s01a_dword_800E361C[] = {0x10, 0x0, 0x8c, 0x8c};
-const char s01a_dword_800E3620[] = {0x0, '@', 0xc8, 'H'};
-const char s01a_dword_800E3624[] = {0x0, 'H', 0xc9, 'H'};
-const char s01a_dword_800E3628[] = {0x0, 'P', 0xca, 'H'};
-const char s01a_dword_800E362C[] = {0x0, 'X', 0xcb, 'H'};
-const char s01a_dword_800E3630[] = {0x0, '`', 0xcc, 'H'};
-const char s01a_dword_800E3634[] = {0x8, 0x0, 0xe0, 0x3};
-const char s01a_dword_800E3638[] = {0x0, 0x0, 0x0, 0x0};
 
 const char aCancelC[] = {'c', 'a', 'n', 'c', 'e', 'l', '.', 'c', 0x0, 'D', 'G', '_'};
 
@@ -1181,13 +1175,14 @@ const char s01a_dword_800E4454[] = {'.', 'c', 0x0, 'h'};
 const char s01a_dword_800E4458[] = {'a', 's', 'i', 'a'};
 const char s01a_dword_800E445C[] = {'t', 'o', '.', 'c'};
 const int s01a_dword_800E4460 = 0x800ABA00;
-const char s01a_dword_800E4464[] = {'l', '_', 's', 'i'};
-const char s01a_dword_800E4468[] = {'g', 'h', 't', '.'};
-const char s01a_dword_800E446C[] = {'c', 0x0, 's', 0x8};
-const char s01a_aGrenademodeld_800E4470[] = "grenade model=%d \n";
-const char s01a_dword_800E4484[] = {'g', 'r', 'n', 'a'};
-const char s01a_dword_800E4488[] = {'d', '_', 'e', '.'};
-const char s01a_dword_800E448C[] = {'c', 0x0, 'e', 't'};
+
+// Enemy/l_sight.c
+const char aLSightC[] = {'l', '_', 's', 'i', 'g', 'h', 't', '.', 'c', 0x0, 's', 0x8};
+
+// Enemy/grnad_e.c
+const char aGrenadeModelD[] = "grenade model=%d \n";
+const char aGrnadEC[] = {'g', 'r', 'n', 'a', 'd', '_', 'e', '.', 'c', 0x0, 'e', 't'};
+
 const int s01a_dword_800E4490 = 0x800D5810;
 const int s01a_dword_800E4494 = 0x800D5840;
 const int s01a_dword_800E4498 = 0x800D5870;
@@ -1377,18 +1372,20 @@ const char s01a_dword_800E4844[] = {'e', 'r', 'i', '.'};
 const char s01a_dword_800E4848[] = {'c', 0x0, 0x7, 'R'};
 const char s01a_aSmoke_800E484C[] = "smoke";
 const char s01a_aSmokec_800E4854[] = "smoke.c";
-const char s01a_aDestroy_800E485C[] = "destroy\n";
-const char s01a_aBox_800E4868[] = "box_01";
-const char s01a_aDbx_800E4870[] = "dbx1";
-const char s01a_aDbx_800E4878[] = "dbx2";
-const char s01a_dword_800E4880[] = {'w', 'a', 'l', 'l'};
-const int s01a_dword_800E4884 = 0x8000632E;
-const char s01a_aAsiotoseseterr_800E4888[] = " asioto se set err \n";
-const char s01a_aAsiotosenoiseseterr_800E48A0[] = " asioto se noise set err \n";
-const char s01a_aMigisodesurid_800E48BC[] = " migi sodesuri %d \n";
-const char s01a_dword_800E48D0[] = {'a', 's', 'i', 'o'};
-const char s01a_dword_800E48D4[] = {'t', 'o', '.', 'c'};
-const char s01a_dword_800E48D8[] = {0x0, 0x15, 'S', 'e'};
+
+// Enemy/wall.c
+const char aDestroy[] = "destroy\n";
+const char aBox01[] = "box_01";
+const char aDbx1[] = "dbx1";
+const char aDbx2[] = "dbx2";
+const char aWallC[] = {'w', 'a', 'l', 'l', '.', 'c', 0x0, 0x80};
+
+// Enemy/asioto.c
+const char aAsiotoSeSetErr[] = " asioto se set err \n";
+const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
+const char aMigiSodesuri[] = " migi sodesuri %d \n";
+const char aAsiotoC[] = {'a', 's', 'i', 'o', 't', 'o', '.', 'c', 0x0, 0x15, 'S', 'e'};
+
 const char s01a_aFamasl_800E48DC[] = "famas_l";
 const char s01a_dword_800E48E4[] = {'g', 'l', 'i', 'g'};
 const char s01a_dword_800E48E8[] = {'h', 't', '.', 'c'};
@@ -1415,29 +1412,28 @@ const char s01a_aSfex_800E4A48[] = "sfex0236";
 const char s01a_dword_800E4A54[] = {'b', 'l', 'i', 'n'};
 const char s01a_dword_800E4A58[] = {'k', '_', 't', 'x'};
 const char s01a_dword_800E4A5C[] = {'.', 'c', 0x0, 't'};
-const char s01a_dword_800E4A60[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E4A64[] = {0xf4, 0x1, 0x0, 0x0};
-const char s01a_dword_800E4A68[] = {'s', 'p', 'a', 'r'};
-const char s01a_dword_800E4A6C[] = {'k', '2', '.', 'c'};
-const char s01a_dword_800E4A70[] = {0x0, 'e', 'G', 'e'};
-const char s01a_dword_800E4A74[] = {'g', 'a', 's', '_'};
-const char s01a_dword_800E4A78[] = {'e', 'f', 'c', 't'};
-const char s01a_dword_800E4A7C[] = {'.', 'c', 0x0, 0x4};
+
+// Takabe/spark2.c
+const SVECTOR spark2_light_pos = {0, 0, 500, 0};
+const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 'e', 'G', 'e'};
+
+// Takabe/gas_efct.c
+const char aGasEfctC[] = {'g', 'a', 's', '_', 'e', 'f', 'c', 't', '.', 'c', 0x0, 0x4};
 
 // Takabe/mosaic.c
 const char aMosaicc[] = "mosaic.c";
 const char aMosaic[] = {'M', 'o', 's', 'a', 'i', 'c', 0x0, 'n'};
 
-const char s01a_aPadrecstart_800E4A94[] = "Pad rec start\n";
-const char s01a_dword_800E4AA4[] = {'p', 'a', 'd', '_'};
-const char s01a_dword_800E4AA8[] = {'d', 'e', 'm', 'o'};
-const char s01a_dword_800E4AAC[] = {'.', 'c', 0x0, 't'};
-const char s01a_dword_800E4AB0[] = {'f', 'a', 'd', 'e'};
-const char s01a_dword_800E4AB4[] = {'i', 'o', '.', 'c'};
-const char s01a_dword_800E4AB8[] = {0x0, 'a', 0xfc, 'V'};
-const char s01a_dword_800E4ABC[] = {'c', 'i', 'n', 'e'};
-const char s01a_dword_800E4AC0[] = {'m', 'a', '.', 'c'};
-const char s01a_dword_800E4AC4[] = {0x0, 'x', 't', 'M'};
+// Takabe/pad_demo.c
+const char aPadRecStart[] = "Pad rec start\n";
+const char aPadDemoC[] = {'p', 'a', 'd', '_', 'd', 'e', 'm', 'o', '.', 'c', 0x0, 't'};
+
+// Takabe/fadeio.c
+const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 'a', 0xfc, 'V'};
+
+// Takabe/cinema.c
+const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 'x', 't', 'M'};
+
 const char s01a_dword_800E4AC8[] = {'d', 'y', 'm', 'c'};
 const char s01a_dword_800E4ACC[] = {'_', 's', 'e', 'g'};
 const char s01a_dword_800E4AD0[] = {'.', 'c', 0x0, 'R'};
