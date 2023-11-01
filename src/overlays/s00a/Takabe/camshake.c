@@ -17,6 +17,8 @@ typedef struct CameraShakeWork
 extern int THING_Gcl_GetInt( int o );
 extern int THING_Gcl_GetSVector( int o, SVECTOR* svec );
 
+extern const char aCamshakeC[];
+
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int  GM_CameraShakeOffset_800ABA98;
 
@@ -83,7 +85,7 @@ void *NewCameraShake_800DF6AC( int name, int where, int argc, char **argv )
 
     work = (CameraShakeWork *)GV_NewActor_800150E4( 5, sizeof( CameraShakeWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CameraShakeAct_800DF4B8, ( TActorFunction )CameraShakeDie_800DF634, "camshake.c" );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CameraShakeAct_800DF4B8, ( TActorFunction )CameraShakeDie_800DF634, aCamshakeC );
         if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );
