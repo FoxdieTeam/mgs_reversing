@@ -118,7 +118,7 @@ unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
 // Takabe/cat_in.c
-unsigned short cat_in_mes_list[] = { 0x3223, 0x0000 };
+unsigned short cat_in_mes_list[] = { HASH_KILL, 0x0000 };
 
 const char s03e_dword_800CBE84[] = {0xe0, 0xff, 0xbd, '\''};
 const char s03e_dword_800CBE88[] = {0x14, 0x0, 0xb1, 0xaf};

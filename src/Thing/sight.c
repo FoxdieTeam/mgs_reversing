@@ -1,8 +1,9 @@
 #include "sight.h"
-#include "libgv/libgv.h"
-#include "Menu/menuman.h"
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
+#include "Menu/menuman.h"
 
 short word_8009F5FC = 1;
 int  dword_8009F600 = 0;
@@ -22,10 +23,11 @@ void sight_act_helper_8007111C(Actor_Sight *sight)
         {
             switch (message->message[0])
             {
-            case 0xe4e:
+            case HASH_ON:
                 dword_8009F608 &= ~1;
                 break;
-            case 0xc927:
+
+            case HASH_OFF:
                 dword_8009F608 |= 1;
                 break;
             }

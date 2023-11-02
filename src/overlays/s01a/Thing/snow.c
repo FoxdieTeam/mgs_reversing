@@ -1,5 +1,6 @@
 #include "psyq.h"
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
@@ -253,11 +254,11 @@ void Snow_800C592C(SnowWork *work)
     {
         switch (msg->message[0])
         {
-        case 0xE4E:
+        case HASH_ON:
             work->f2554 = 1;
             break;
 
-        case 0xC927:
+        case HASH_OFF:
             work->f2554 = 0;
             break;
 
