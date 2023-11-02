@@ -1764,12 +1764,12 @@ helper3:
             pMsg->message_len = 0;
             break;
 
-        case 0x2580:
+        case HASH_PADON:
             GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PAD_OFF);
             pMsg->message_len = 0;
             break;
 
-        case 0xaf6a:
+        case HASH_PADOFF:
             GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PAD_OFF);
             pMsg->message_len = 0;
             break;
@@ -1790,8 +1790,8 @@ helper3:
             pMsg->message_len = 0;
             break;
 
-        case 0x3e92:
-            if (pMsg->message[1] == 0xe4e)
+        case HASH_SLOW:
+            if (pMsg->message[1] == HASH_ON)
             {
                 sna_set_flags1_8004E2F4(pActor, SNA_FLAG2_UNK27);
                 pMsg->message_len = 0;

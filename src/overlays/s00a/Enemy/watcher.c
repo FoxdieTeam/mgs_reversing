@@ -1,6 +1,7 @@
 #include "enemy.h"
-#include "Game/camera.h"
 #include "chara/snake/shadow.h"
+#include "libgcl/hash.h"
+#include "Game/camera.h"
 
 extern const char aErrerrerrsettimeover_800DFC7C[];     //Err Err Err  Set time Over\n
 extern const char aErrerrerrsetdirover_800DFC98[];      //Err Err Err  Set Dir Over\n
@@ -34,9 +35,9 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
     ctrl->field_56 = GV_ReceiveMessage_80016620( ctrl->field_30_scriptData, &work->control.field_5C_mesg );
     count = ctrl->field_56;
     msg = ctrl->field_5C_mesg;
-    
+
     if ( count <= 0 ) return 0 ;
-    
+
     for ( ; count > 0 ; --count, msg++ )
     {
         switch ( msg->message[0] )
@@ -128,7 +129,7 @@ void s00a_watcher_800C4138( DG_OBJS* objs, DG_DEF* def )
 }
 
 void s00a_watcher_800C41B4( WatcherWork *work )
-{    
+{
     if ( work->visible )
     {
         if ( work->field_B7B == 1 )
@@ -177,7 +178,7 @@ void WatcherAct_800C430C( WatcherWork *work )
     TARGET  *trgt2;
 
     ctrl = &( work->control ) ;
-    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, 0x3223 ) )
+    if (GM_CheckMessage_8002631C( &( work->actor ) , ctrl->field_30_scriptData, HASH_KILL ) )
     {
         GV_DestroyActor_800151C8( &( work->actor ) );
         return;
@@ -249,12 +250,12 @@ void s00a_watcher_800C4578( WatcherWork* work )
 {
     WatcherUnk *s;
     s = (WatcherUnk*)&work->field_8C8;
-    
+
     GV_ZeroMemory_8001619C(s, 0x24);
     s->field_00 = 0;
     s->field_1C = 0x1C2;
     s->field_1E = 1;
-    
+
     work->action = 0;
     work->action2 = 0;
     work->time = 0;
@@ -273,17 +274,17 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     ctrl = &work->control;
     if ( GM_InitLoader_8002599C( ctrl, name, where ) < 0 ) return -1;
-    
+
     opt = GCL_GetOption_80020968( 'p' );
-    
+
     GM_ConfigControlString_800261C0( ctrl, (char*)opt, (char*)GCL_GetOption_80020968( 'd' ) ) ;
     GM_ConfigControlAttribute_8002623C( ctrl, 13 );
     GM_ConfigControlInterp_80026244( ctrl, 4 );
-    
+
     ctrl->field_59 = 2;
-    
+
     GM_ConfigControlTrapCheck_80026308( ctrl );
-    
+
     ctrl->field_36 = -1;
 
     body  = &work->body;
@@ -293,7 +294,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     GM_ConfigObjectJoint_80034CB4( body ) ;
     GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
     GM_ConfigObjectLight_80034C44( body, &work->field_888 );
-    
+
     work->field_B7B = 0;
 
     opt2 = GCL_GetOption_80020968( 'y' );
@@ -324,17 +325,17 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     shadow.objs_offsets[3] = 15;
     shadow.objs_offsets[0] = 0;
 
-    work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ; 
+    work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = s00a_glight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800C979C( work, 0 );
     s00a_watcher_800C4578 ( work );
-    
+
     return 0;
 }
 
 //FreeWatcher?
-void s00a_watcher_800C4814( WatcherWork* work ) 
+void s00a_watcher_800C4814( WatcherWork* work )
 {
     HomingTarget_Free_80032CFC( work->hom );
     GM_FreeControl_800260CC( &( work->control ) );
@@ -350,7 +351,7 @@ void WatcherDie_800C487C( WatcherWork* work )
     s00a_watcher_800C4814( work );
 }
 
-int ReadNodes_800C489C( WatcherWork* work ) 
+int ReadNodes_800C489C( WatcherWork* work )
 {
     int i;
     HZD_PAT *patrol;
@@ -360,7 +361,7 @@ int ReadNodes_800C489C( WatcherWork* work )
     patrol = &patrol[ work->field_B7D ];
 
     work->field_9E8 = patrol->n_points;
-    
+
     if ( work->field_9E8 <= 0 ) return -1;
 
     points = patrol->points;
@@ -443,7 +444,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
     for ( i = 0 ; i < 4 ; i++ )
     {
         work->field_BD0[i] = i * 1024;
-    }    
+    }
 
     opt = GCL_GetOption_80020968( 'i' );
 
@@ -456,7 +457,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
             return -1;
         }
     }
-    
+
     return 0;
 }
 
@@ -477,7 +478,7 @@ int s00a_watcher_800C4B18( WatcherWork* work )
         }
         work->field_C34 = res;
     }
-    return 0;   
+    return 0;
 }
 
 void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )

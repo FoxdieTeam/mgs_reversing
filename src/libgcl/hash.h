@@ -54,6 +54,11 @@
 #define HASH_ENTER              0x0dd2 // GV_StrCode( "入る" )
 #define HASH_LEAVE              0xd5cc // GV_StrCode( "出る" )
 #define HASH_KILL               0x3223 // GV_StrCode( "kill" )
+#define HASH_OFF                0xc927 // GV_StrCode( "off" )
+#define HASH_ON                 0x0e4e // GV_StrCode( "on" )
+#define HASH_PADON              0x2580 // GV_StrCode( "padon" )
+#define HASH_PADOFF             0xaf6a // GV_StrCode( "padoff" )
+#define HASH_SLOW               0x3e92 // GV_StrCode( "slow" )
 
 //------------------------------------------------------------------------------
 // HZD

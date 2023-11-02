@@ -1,7 +1,8 @@
-#include "Game/linkvarbuf.h"
-#include "libgcl/libgcl.h"
-#include "Game/map.h"
 #include "enemy.h"
+#include "libgcl/hash.h"
+#include "libgcl/libgcl.h"
+#include "Game/linkvarbuf.h"
+#include "Game/map.h"
 
 
 
@@ -62,7 +63,7 @@ extern CONTROL *GM_WhereList_800B56D0[94];
 extern SVECTOR GM_NoisePosition_800AB9F8;
 extern int GM_PlayerMap_800ABA0C; //GM_PlayerMap?
 
-void s00a_command_800CEB54(void) 
+void s00a_command_800CEB54(void)
 {
     EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition_800AB9F8;
@@ -73,16 +74,16 @@ int s00a_command_800CEBCC( int map_id, int val )
 {
     int i;
     A4_STRUCT *unk = &EnemyCommand_800E0D98.field_0xA4;
-    
+
     if ( unk->map_id == map_id )
-    { 
+    {
         for ( i = 0 ; i < unk->n_entry ; i++ )
         {
             if ( unk->field_04[i].field_00 == val )
             {
                 return unk->field_04[i].field_02;
             }
-        }   
+        }
         goto end;
     }
     return 0;
@@ -110,7 +111,7 @@ unsigned char s00a_dword_800C35E0[4];
 
 extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 
-void s00a_command_800CEC90( void ) 
+void s00a_command_800CEC90( void )
 {
     if ( COM_VibTime_800E0F68 > 0 )
     {
@@ -119,7 +120,7 @@ void s00a_command_800CEC90( void )
         COM_VibTime_800E0F68--;
         return;
     }
-    
+
     COM_VibTime_800E0F68 = 0;
 }
 
@@ -151,14 +152,14 @@ int s00a_command_800CED88( int ops, A4_STRUCT *unk )
 {
     int i;
     i = 0;
-    
+
     do {
         unk->field_04[i].field_00 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
         unk->field_04[i].field_02 = GCL_StrToInt_800209E8( GCL_Get_Param_Result_80020AA4() );
         i++;
     } while ( GCL_Get_Param_Result_80020AA4() != NULL );
 
-    
+
     return i;
 }
 
@@ -173,7 +174,7 @@ int s00a_command_800CEDE8( int ops, short *addr, int map_id )
     for ( i = 0; ( res = GCL_Get_Param_Result_80020AA4() ) && i < 4 ; i++ )
     {
         GCL_StrToSV_80020A14( res, &svec );
-        
+
         if ( svec.vy < 30000 )
         {
             addr[i] = HZD_GetAddress_8005C6C4( map->field_8_hzd, &svec, -1 ) & 0xFF;
@@ -202,12 +203,12 @@ void s00a_command_800CEE98(void)
     int reset_pos;
     HZD_ZON *zone;
     SVECTOR svec;
-    
+
     i = 0;
     delta = GV_Time_800AB330 % EnemyCommand_800E0D98.field_0x54;
     total = EnemyCommand_800E0D98.field_0x54;
     reset_pos = 0;
-    
+
     for ( ; i < total ; i++  )
     {
         s0 = i + delta;
@@ -345,7 +346,7 @@ int s00a_command_800CF13C( int val )
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void s00a_command_800CF200(void) 
+void s00a_command_800CF200(void)
 {
     if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count_8008BBB0() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
     {
@@ -389,19 +390,19 @@ void s00a_command_800CF298( ENEMY_COMMAND* command )
 
 
     for ( t3 = command->field_0x08 - 1 ; t3 > -1 ; t3 = t4  )
-    { 
+    {
         t4 = -1;
         for ( i = 1 ; t3 >= i ; i ++ )
-        {    
+        {
             //TODO, fix without using dowhile
-            do 
+            do
             {
                 temp2 = dists[ i - 1 ];
                 t2 = i - 1;
             } while (0);
 
             temp1 = dists[ i ];
-            
+
             if ( temp1 < temp2 )
             {
                 dists[ i - 1 ] = temp1;
@@ -410,15 +411,15 @@ void s00a_command_800CF298( ENEMY_COMMAND* command )
                 temp4 = EnemyCommand_800E0D98.field_0x68[ i - 1 ];
                 temp3 = EnemyCommand_800E0D98.field_0x68[ i  ];
                 t4 = t2;
-                
+
                 EnemyCommand_800E0D98.field_0x68[ i - 1 ] = temp3;
                 EnemyCommand_800E0D98.field_0x68[ i ] = temp4;
-            }            
+            }
         }
     }
 
     EnemyCommand_800E0D98.field_0x170 = dists[0];
-    
+
     for ( i = 0 ; i < command->field_0x08 ; i++ )
     {
         //WatcherWork *work;
@@ -559,7 +560,7 @@ extern const char aGmenemywatchcountd_800E0854[]; //GM_EnemyWatchCount = [%d] \n
 void s00a_command_800CF704( ENEMY_COMMAND *command )
 {
     int alert;
-    
+
     switch ( command->mode )
     {
         default:
@@ -575,7 +576,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
                 command->mode = 1;
                 EnemyCommand_800E0D98.reset_enemy_num = 0;
                 COM_GameStatus_800E0F3C |= 0x1;
-    
+
                 if ( !( COM_GameStatus_800E0F3C & 2 ) )
                 {
                     GM_TotalBeingFound ++;
@@ -586,10 +587,10 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
         break;
         case 1:
             COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vy;
-            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vy + 500;      
+            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vy + 500;
 
-            
-            if ( command->alert <= 0 ) 
+
+            if ( command->alert <= 0 )
             {
                 GM_AlertModeSet_8002EA68(2);
                 command->mode = 2;
@@ -600,7 +601,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
                 return;
             }
             alert = command->alert;
-            if ( alert >= 0x101 ) 
+            if ( alert >= 0x101 )
             {
                 alert = 0x100;
             }
@@ -608,7 +609,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
         break;
         case 2:
             COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vz;
-            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vz + 500;     
+            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vz + 500;
             command->field_0x10--;
             if ( command->field_0x10 <= 0 )
             {
@@ -625,7 +626,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
                 command->mode = 1;
             }
             alert = command->field_0x10;
-            if ( alert >= 0x101 ) 
+            if ( alert >= 0x101 )
             {
                 alert = 0x100;
             }
@@ -641,16 +642,16 @@ int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
 {
     int from;
     int to;
-    
+
     from = HZD_GetAddress_8005C6C4( hzd, pos, -1 );
-    
+
     //TODO: fix
-    do 
-    { 
-        to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 ); 
-            do   { 
-            return sub_8005CD1C( hzd, from & 0xFF, to & 0xFF ); 
-        } while (0); 
+    do
+    {
+        to = HZD_GetAddress_8005C6C4( hzd, pos2, -1 );
+            do   {
+            return sub_8005CD1C( hzd, from & 0xFF, to & 0xFF );
+        } while (0);
     } while (0);
 }
 
@@ -658,9 +659,9 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
 {
     CONTROL *ctrl;
     int      x;
-    
+
     ctrl = &work->control;
-    
+
     if ( TOPCOMMAND_800E0F20.mode == 1 )
     {
         goto exit;
@@ -671,7 +672,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
         goto exit;
     }
 
-    
+
     if ( EnemyCommand_800E0D98.field_0xC8[ idx ].watcher->act_status & 0x10000028 )
     {
        goto exit;
@@ -696,7 +697,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
 
 extern int COM_NoiseMinDisID_800E0D44;
 extern int s00a_dword_800E0D30;
-void s00a_command_800CFA94( CommanderWork* work ) 
+void s00a_command_800CFA94( CommanderWork* work )
 {
     int i;
     int dis;
@@ -705,7 +706,7 @@ void s00a_command_800CFA94( CommanderWork* work )
 
     alert = 0;
     dis = 0x7530;
-    
+
     COM_NoiseMinDisID_800E0D44 = -1;
     EnemyCommand_800E0D98.field_0x98 = 0;
 
@@ -738,7 +739,7 @@ void s00a_command_800CFA94( CommanderWork* work )
         if ( EnemyCommand_800E0D98.field_0x17C >= 0 )
         {
             GCL_ExecProc_8001FF2C( EnemyCommand_800E0D98.field_0x17C, NULL );
-            EnemyCommand_800E0D98.field_0x17C = -1;  
+            EnemyCommand_800E0D98.field_0x17C = -1;
         }
     }
 
@@ -753,7 +754,7 @@ int s00a_command_800CFC04( WatcherWork *work, HZD_ZON* zone )
         if ( zone->padding == work->field_C35[i] )
         {
             return 1;
-        }        
+        }
     }
     return 0;
 }
@@ -762,7 +763,7 @@ extern const char aNowzonedrzoned_800E0874[];// = " now zone = %d r_zone=%d\n";
 extern const char aNotrestrctedaread_800E0890[];// = " ? ? ? Not Restrcted Area [%d] !!!!\n";
 extern const char aErrerrerrnotlinkroutedtod_800E08B8[];// = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 
-int s00a_command_800CFC4C( WatcherWork* work, int r_zone ) 
+int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
 {
     int addr;
     SVECTOR pos;
@@ -788,9 +789,9 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
     for (;;)
     {
         printf( aNowzonedrzoned_800E0874, addr, r_zone );
-        
+
         l_zone_shift = HZD_addr_shift( addr );
-        
+
         route_addr = HZD_LinkRoute_8005C974( hzd,  l_zone_shift, r_zone_shift, &pos );
 
         if ( route_addr == addr )
@@ -818,7 +819,7 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
         {
             return addr;
         }
-    }   
+    }
 }
 
 extern const char aCommanderrnozoneidingclzdidd_800E08E8[];// = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
@@ -835,7 +836,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     hzd = work->control.field_2C_map->field_8_hzd;
     zone2 = &hzd->f00_header->navmeshes[ addr ];
     zone = zone2;
-    
+
     pos = &COM_PlayerPositionOne_800E0D48[ idx ];
 
     pos->vx = zone->x;
@@ -843,7 +844,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     pos->vz = zone->z;
 
     map = Map_FindByZoneId_80031624( 1 << zone->padding );
-    
+
     if ( map != NULL )
     {
         COM_PlayerMapOne_800E0F70[ idx ] = map->field_0_map_index_bit;
@@ -851,7 +852,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     else
     {
         printf( aCommanderrnozoneidingclzdidd_800E08E8, addr, zone->padding );
-    } 
+    }
 }
 
 extern int GM_PlayerAddress_800AB9F0;
@@ -888,10 +889,10 @@ void s00a_command_800CFEA8( void )
     for ( i = 0; i < EnemyCommand_800E0D98.field_0x08 ; i++ )
     {
         work = EnemyCommand_800E0D98.field_0xC8[ i ].watcher;
-        
+
         if ( addr == addr2 && addr != 0xFF )
         {
-            
+
             check = 0;
             if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] ) )
             {
@@ -911,7 +912,7 @@ void s00a_command_800CFEA8( void )
             if ( addr != 0xFF )
             {
                 check = s00a_command_800CFC04( work, &work->control.field_2C_map->field_8_hzd->f00_header->navmeshes[ addr ] );
-                
+
                 if ( check )
                 {
                     ret_addr = s00a_command_800CFC4C( work, addr );
@@ -927,8 +928,8 @@ void s00a_command_800CFEA8( void )
                 printf( aCommandcwhereissnake_800E091C );
             }
         }
-        
-    }    
+
+    }
 }
 
 int s00a_command_800D0128( int arg0 )
@@ -988,7 +989,7 @@ extern GM_Camera GM_Camera_800B77E8;
 
 void CommandAct_800D0258( CommanderWork* work )
 {
-    if (GM_CheckMessage_8002631C( &work->actor , work->name, 0x3223) != NULL)
+    if (GM_CheckMessage_8002631C( &work->actor , work->name, HASH_KILL) != NULL)
     {
         GV_DestroyActor_800151C8( &work->actor );
         return;
