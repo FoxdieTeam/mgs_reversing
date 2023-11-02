@@ -536,7 +536,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj" ; animeconv\breath.c?
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\snow.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\overlay2.obj"
+
 
     include "{{OBJ_DIR}}\overlays\s01a\s01a_sphere_800C60E0.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_sphere_800C61F0.obj"
@@ -563,6 +563,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_watcher_800C7678.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_watcher_800C76DC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_watcher_800C7B94.obj"
+
+    ; check.c
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C7C10.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C7C9C.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C7CB8.obj"
@@ -576,6 +578,9 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C8448.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C8558.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C85C0.obj"
+
+    include "{{OBJ_DIR}}\overlays\s01a\overlay2.obj"
+    ; action.c
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C87E4.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C89A8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800C8CBC.obj"
@@ -613,6 +618,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CB7B8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CB7F8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CB958.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\overlay3.obj"
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CBB58.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CBBC8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CBC2C.obj"
@@ -639,6 +646,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD1FC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD2B8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD33C.obj"
+
+    ; route.c
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD3F8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD440.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD58C.obj"
@@ -651,6 +660,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDC40.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDC9C.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDD24.obj"
+    ; end of route.c
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDD84.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDDA0.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDDB8.obj"
@@ -774,36 +785,9 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D2FDC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D3054.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D3468.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_eyeflash_800D34E4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_eyeflash_800D3588.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_eyeflash_800D3678.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_eyeflash_800D3704.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_eyeflash_800D3740.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_eyeflash_800D3854.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3934.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3960.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3970.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D39FC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3AF0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3CCC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3D3C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3DFC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3E30.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3ED8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3F00.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D3F10.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D4060.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D4138.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D4220.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D4258.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D42FC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D431C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D43A4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D4428.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D44F4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D44FC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato_800D4574.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_l_sight_800D45D0.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\eyeflash.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\asiato.obj"
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\l_sight.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\grnad_e.obj"
