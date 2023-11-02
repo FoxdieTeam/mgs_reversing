@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_sphere_800C61F0
-s01a_sphere_800C61F0:
+	xdef SphereAct_800C61F0
+SphereAct_800C61F0:
 	dw 0x27BDFFA0 ; 800C61F0
 	dw 0xAFB40048 ; 800C61F4
 	dw 0x0080A021 ; 800C61F8
