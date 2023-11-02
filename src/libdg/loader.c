@@ -131,8 +131,8 @@ int DG_LoadInitOar_8001F610(unsigned char *pFileData, int fileNameHashed)
 int DG_LoadInitImg_8001F644(unsigned char *pFileData, int fileNameHashed)
 {
     DG_IMG *img = (DG_IMG *)pFileData;
-    img->names = (unsigned short *)((char *)img + (unsigned int)img->names);
-    img->unknown = (char *)img + (unsigned int)img->unknown;
+    img->textures = (unsigned short *)((char *)img + (unsigned int)img->textures);
+    img->attribs = (DG_IMG_ATTRIB *)((char *)img + (unsigned int)img->attribs);
     img->tilemap = (char *)img + (unsigned int)img->tilemap;
     return 1;
 }
