@@ -1,3 +1,4 @@
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 
@@ -109,14 +110,16 @@ void d11c_800C3550(LampWork *work)
     {
         switch (message->message[0])
         {
-        case 0xE4E:
+        case HASH_ON:
             d11c_800C326C(work, message->message[1]);
             work->field_3C = 0;
             break;
-        case 0xC927:
+
+        case HASH_OFF:
             d11c_800C326C(work, 0);
             work->field_3C = 0;
             break;
+
         case 0xBCD2:
             d11c_800C3518(work, message->message[1]);
             break;
