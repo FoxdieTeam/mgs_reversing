@@ -897,11 +897,19 @@ const char aCamshakeC[] = {'c', 'a', 'm', 's', 'h', 'a', 'k', 'e', '.', 'c', 0x0
 const char aCatinC[] = {'c', 'a', 't', '_', 'i', 'n', '.', 'c'};
 
 const char s01a_dword_800E4B20[] = {0x0, 'p', 'p', 'o'};
-const char s01a_aIntm_800E4B24[] = "intM";
-const char s01a_dword_800E4B2C[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E4B30[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E4B34[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E4B38[] = {0x0, 0x0, 0x0, 0x0};
+const char s01a_dword_800E4B24[] = {'i', 'n', 't', 'M'};
+
+const short sphere_image_width_800E4B28 = 0;
+const short sphere_image_height_800E4B2A = 0;
+const short sphere_visible_tiles_x_800E4B2C = 0;
+const short sphere_visible_tiles_y_800E4B2E = 0;
+const short sphere_tiles_x_800E4B30 = 0;
+const short sphere_tiles_y_800E4B32 = 0;
+const short sphere_tile_width_800E4B34 = 0;
+const short sphere_tile_height_800E4B36 = 0;
+const short sphere_elevation_800E4B38 = 0;
+const short sphere_word_800E4B3A = 0;
+
 const char s01a_aEapo_800E4B3C[] = "eapo";
 const char s01a_dword_800E4B44[] = {0x0, 0x0, 0x0, 0x0};
 const char s01a_dword_800E4B48[] = {0x0, 0x0, 0x0, 0x0};

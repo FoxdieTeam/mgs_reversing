@@ -3,9 +3,8 @@
 const char aYuki[] = "\xc0\xe3"; // "雪" = snow
 const char aSnowC[] = {'s', 'n', 'o', 'w', '.', 'c', 0x0, 'r'};
 
-const char s01a_dword_800E3730[] = {'s', 'p', 'h', 'e'};
-const char s01a_dword_800E3734[] = {'r', 'e', '.', 'c'};
-const char s01a_dword_800E3738[] = {0x0, '\n', 'R', 'e'};
+const char aSphereC[] = {'s', 'p', 'h', 'e', 'r', 'e', '.', 'c', 0x0, '\n', 'R', 'e'};
+
 const char s01a_aErrerrerrsettimeover_800E373C[] = "Err Err Err  Set time Over\n";
 const char s01a_aErrerrerrsetdirover_800E3758[] = "Err Err Err  Set Dir Over\n";
 const char s01a_aErrnotenoughwork_800E3774[] = "Err not enough work !!\n";
