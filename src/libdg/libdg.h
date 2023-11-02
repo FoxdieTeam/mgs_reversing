@@ -193,14 +193,22 @@ typedef struct DG_LitVertex
     CVECTOR color[2];
 } DG_LitVertex;
 
+typedef struct DG_IMG_ATTRIB
+{
+	unsigned char texid;
+	unsigned char xoff;
+	unsigned char yoff;
+	unsigned char unused;
+} DG_IMG_ATTRIB;
+
 typedef struct DG_IMG
 {
-	unsigned short  width;
-	unsigned short  height;
+	unsigned short  image_width;
+	unsigned short  image_height;
 	unsigned short  tile_width;
 	unsigned short  tile_height;
-	unsigned short *names; // names[0] = name count, names[1..] = pcx hashes
-	unsigned char  *unknown;
+	unsigned short *textures; // textures[0] = count
+	DG_IMG_ATTRIB  *attribs;
 	unsigned char  *tilemap;
 } DG_IMG;
 
