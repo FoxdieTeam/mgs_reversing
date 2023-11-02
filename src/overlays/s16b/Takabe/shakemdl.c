@@ -1,4 +1,5 @@
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
@@ -41,7 +42,7 @@ void ShakemdlAct_800C5288(ShakemdlWork *work)
     {
         switch (msg->message[0])
         {
-        case 0x3223:
+        case HASH_KILL:
             GV_DestroyActor_800151C8(&work->actor);
             return;
 

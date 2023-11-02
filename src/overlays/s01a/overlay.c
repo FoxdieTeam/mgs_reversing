@@ -440,7 +440,7 @@ DG_DEF litmdl_dg_def =
 };
 
 // Takabe/cat_in.c
-unsigned short cat_in_mes_list[] = { 0x3223, /* memleak */ 0x10C3 /* memleak */ };
+unsigned short cat_in_mes_list[] = { HASH_KILL, /* memleak */ 0x10C3 /* memleak */ };
 
 const char aCancelC[] = {'c', 'a', 'n', 'c', 'e', 'l', '.', 'c', 0x0, 'D', 'G', '_'};
 

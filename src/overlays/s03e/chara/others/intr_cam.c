@@ -1,3 +1,4 @@
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -31,14 +32,16 @@ void s03e_intr_cam_800C5548(IntrCamWork *work)
     {
         switch (msgs->message[0])
         {
-        case 0x3223:
+        case HASH_KILL:
             work->field_24 = 3;
             break;
-        case 0xE4E:
+
+        case HASH_ON:
             work->field_24 = 1;
             work->field_34 = gUnkCameraStruct_800B77B8.field_0;
             break;
-        case 0xC927:
+
+        case HASH_OFF:
             work->field_24 = 2;
             break;
         }

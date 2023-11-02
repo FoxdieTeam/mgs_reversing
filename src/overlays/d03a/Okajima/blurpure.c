@@ -1,4 +1,5 @@
 #include "red_alrt.h"
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
@@ -136,7 +137,7 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
 
 void d03a_blurpure_800C53E4(BlurPureWork *work)
 {
-    if (work->field_28 != -1 && GM_CheckMessage_8002631C(&work->actor, work->field_28, 0x3223))
+    if (work->field_28 != -1 && GM_CheckMessage_8002631C(&work->actor, work->field_28, HASH_KILL))
     {
         GV_DestroyActor_800151C8(&work->actor);
         return;
