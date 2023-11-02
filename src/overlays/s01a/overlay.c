@@ -105,33 +105,17 @@ int s01a_dword_800C3894 = 0x000F01C2;
 int s01a_dword_800C3898 = 0x003C001E;
 int s01a_dword_800C389C = 0x0000005A;
 int s01a_dword_800C38A0 = 0x75307D01;
-int s01a_dword_800C38A4 = 0x00140013;
-int s01a_dword_800C38A8 = 0x0016000A;
-int s01a_dword_800C38AC = 0x00220009;
-int s01a_dword_800C38B0 = 0x00240023;
-int s01a_dword_800C38B4 = 0x000D002D;
-int s01a_dword_800C38B8 = 0x001A000C;
-int s01a_dword_800C38BC = 0x000E000F;
-int s01a_dword_800C38C0 = 0x001B0010;
-int s01a_dword_800C38C4 = 0x002E0008;
-int s01a_dword_800C38C8 = 0x00150032;
-int s01a_dword_800C38CC = 0x001F001E;
-int s01a_dword_800C38D0 = 0x00210020;
-int s01a_dword_800C38D4 = 0x00340025;
-int s01a_dword_800C38D8 = 0x00190035;
-int s01a_dword_800C38DC = 0x00020005;
-int s01a_dword_800C38E0 = 0x0004002A;
-int s01a_dword_800C38E4 = 0x00280027;
-int s01a_dword_800C38E8 = 0x00070006;
-int s01a_dword_800C38EC = 0x00030026;
-int s01a_dword_800C38F0 = 0x00110029;
-int s01a_dword_800C38F4 = 0x002B0012;
-int s01a_dword_800C38F8 = 0x00180017;
-int s01a_dword_800C38FC = 0x001D001C;
-int s01a_dword_800C3900 = 0x00010000;
-int s01a_dword_800C3904 = 0x00110033;
-int s01a_dword_800C3908 = 0x002B0012;
-int s01a_dword_800C390C = 0x000B0016;
+
+short ActTable_800C3358[54] =
+{
+    0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
+    0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
+    0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
+    0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
+    0x26, 0x03, 0x29, 0x11, 0x12, 0x2B, 0x17, 0x18, 0x1C,
+    0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x0B
+};
+
 int s01a_dword_800C3910 = 0x0000FF6A;
 int s01a_dword_800C3914 = 0x0000012C;
 int s01a_dword_800C3918 = 0xFDDA0000;
@@ -276,8 +260,9 @@ int s01a_dword_800C3B40 = 0x0000157C;
 int s01a_dword_800C3B44 = 0x000015E0;
 int s01a_dword_800C3B48 = 0x00001644;
 int s01a_dword_800C3B4C = 0x000016A8;
-int s01a_dword_800C3B50 = 0x00500000;
-int s01a_dword_800C3B54 = 0x00000032;
+
+// Enemy/eyeflash.c
+SVECTOR eyeflash_svec = {0, 80, 50, 0};
 
 // Enemy/grnad_e.c
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
