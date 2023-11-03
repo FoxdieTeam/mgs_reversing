@@ -12,7 +12,6 @@
 #include "mts/mts_new.h"
 #include "Game/homing_target.h"
 #include "Bullet/jirai.h"
-#include "Kojo/demothrd.h"
 #include "SD/sd.h"
 #include "Game/camera.h"
 #include "Equip/jpegcam.h"
@@ -284,10 +283,11 @@ gap                                     gap_800BDFAC[0x4]; // 4 bytes
 
 void BSS            (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
-int BSS             dword_800BDFB8; // 0x4 (4) bytes
-int BSS             dword_800BDFBC; // 0x4 (4) bytes
-demothrd_80700000 *BSS dword_800BDFC0; // 0x4 (4) bytes
-int BSS             dword_800BDFC4; // 0x4 (4) bytes
+
+int BSS         dword_800BDFB8; // 0x4 (4) bytes
+int BSS         dword_800BDFBC; // 0x4 (4) bytes
+FS_MEMFILE *BSS dword_800BDFC0; // 0x4 (4) bytes
+int BSS         dword_800BDFC4; // 0x4 (4) bytes
 
 gap                                     gap_800BDFC8[0x800]; // 2048 bytes
 

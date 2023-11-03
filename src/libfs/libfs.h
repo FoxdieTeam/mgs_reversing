@@ -36,6 +36,13 @@ typedef struct _FS_MOVIE_FILE_TABLE
     FS_MOVIE_FILE field_4_files_8Array[8];
 } FS_MOVIE_FILE_TABLE;
 
+typedef struct _FS_MEMFILE
+{
+    int field_0;
+    int field_4;
+    int field_8;
+} FS_MEMFILE;
+
 typedef char * (*TFsCallback)(char *);
 typedef void (*TFsSoundCallback)(void);
 
@@ -86,6 +93,7 @@ int         Loader_helper_8002336C(STAGE_FILE *, int);
 int         FS_StreamGetEndFlag_800243B8(void);
 void        MakeFullPath_80021F68(int, char *);
 int         FS_StreamGetSize_80024188(int *ptr);
+void        FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer);
 
 int PCinit_80014B14(void);
 int PCopen_80014B1C(const char *name, int flags, int perms);
