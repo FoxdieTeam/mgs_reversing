@@ -2,8 +2,6 @@
 #include "libdg/libdg.h"
 //#include "libdg/dgd.h"
 
-// extern const char   aStgfdIoC[];
-
 extern int     GV_PauseLevel_800AB928;
 extern int     GV_Clock_800AB920;
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -119,8 +117,6 @@ int stgfd_io_loader_80075194(Actor_stgfd_io *pActor)
     return 0;
 }
 
-const char SECTION(".rdata") aStgfdIoC[] = "stgfd_io.c"; // 80012F90
-
 Actor_stgfd_io * NewStnFade_800752A0(void)
 {
     Actor_stgfd_io *pActor = (Actor_stgfd_io *)GV_NewActor_800150E4(3, sizeof(Actor_stgfd_io));
@@ -129,7 +125,7 @@ Actor_stgfd_io * NewStnFade_800752A0(void)
         GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                                   (TActorFunction)&stgfd_io_act_80074F5C,
                                   (TActorFunction)&stgfd_io_kill_80075164,
-                                  aStgfdIoC);
+                                  "stgfd_io.c");
 
         if (stgfd_io_loader_80075194(pActor) < 0)
         {
