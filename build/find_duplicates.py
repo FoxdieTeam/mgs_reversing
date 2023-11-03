@@ -58,11 +58,13 @@ def disasm(code):
     md.detail = True
 
     insts = []
+    decoded_bytes = 0
 
     # Disassembles an instruction to format:
     #   opcode | number of operands | operand1 | operand2 | ... | operandN
     # (only for register operands)
     for inst in md.disasm(code, 0):
+        decoded_bytes += 4
         non_reloc_ops = [str(inst.id), str(len(inst.operands))]
         is_reloc_inst = inst.id in reloc_insts
         for operand in inst.operands:
@@ -77,6 +79,10 @@ def disasm(code):
                     non_reloc_ops.append(str(operand.value.mem.disp)) # offset
 
         insts.append('|'.join(non_reloc_ops))
+
+    if decoded_bytes != len(code):
+        # this is temporary until we fix the decoding
+        raise Exception('capstone failed to fully decode a func')
 
     return insts
 
