@@ -116,7 +116,6 @@ extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
 extern SVECTOR            svector_800AB7CC;
 extern int                counter_8009F448;
-extern const char         aSnakeEUC[];
 extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
 extern int                GM_PlayerAddress_800AB9F0;
@@ -162,11 +161,6 @@ extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
 extern int                GM_PlayerAction_800ABA40;
-
-extern const char aRunMoveCancel[];  // = "run move cancel\n"
-extern const char aForceStanceCan[]; // = "force stance cancel\n"
-extern const char aForceActCancel[]; // = "force act cancel\n"
-extern const char aSnaInitC[];       // = "sna_init.c"
 
 Sna_E2 e2_8009EC64 = {12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u, 0u, 0u};
 Sna_E2 e2_8009EC70 = {10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u, 0u, 0u};
@@ -867,7 +861,8 @@ void sna_8004F8E4(Actor_SnaInit *pActor, int a2)
 
     if ((GM_GameOverTimer_800AB3D4 == -1) || (GM_GameOverTimer_800AB3D4 == 0))
     {
-        msg.address = GV_StrCode_80016CCC(aSnakeEUC);
+        // スネーク
+        msg.address = GV_StrCode_80016CCC(( char[] ){0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00});
         msg.message_len = 6;
         msg.message[0] = 48650;
         msg.message[1] = a2;
@@ -1500,110 +1495,7 @@ void CheckMessage0_80050878(Actor_SnaInit *pActor)
     }
 }
 
-static inline void sna_act_unk_helper_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg)
-{
-    UnkSnakeStruct2 *pStr;
-
-    if (sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
-    {
-        return;
-    }
-
-    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
-    {
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
-        pMsg->message_len = 0;
-    }
-    else
-    {
-        pStr = &pActor->field_9E4;
-
-        pActor->field_9FC = pActor->field_9B8_fn_anim;
-        pStr->field_9EE = 0;
-        pStr->field_9E8 = -1;
-        pStr->field_9EA = pMsg->message[1];
-        pStr->field_9EC_flags3 = 0;
-
-        if (pMsg->message_len > 2)
-        {
-            pStr->field_9E8 = pMsg->message[2];
-        }
-
-        if (pMsg->message_len > 3)
-        {
-            pStr->field_9EC_flags3 = pMsg->message[3];
-        }
-
-        if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
-        {
-            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
-            pMsg->message_len = 0;
-            printf(aForceStanceCan);
-        }
-        else
-        {
-            if (pStr->field_9EC_flags3 & 4)
-            {
-                pActor->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
-            }
-
-            sna_start_anim_8004E1F4(pActor, &sna_act_unk_helper3_80055DD8);
-            sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
-            pMsg->message_len = 0;
-            pStr->field_9F0 = 0;
-        }
-    }
-}
-
-static inline void sna_act_unk_helper2_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg)
-{
-    UnkSnakeStruct2 *pStr;
-
-    if (sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
-    {
-        return;
-    }
-
-    pStr = &pActor->field_9E4;
-
-    pStr->field_9E8 = -1;
-    pStr->field_9F4.vx = pMsg->message[1];
-    pStr->field_9F4.vy = pMsg->message[2];
-    pStr->field_9F4.vz = pMsg->message[3];
-    pStr->field_9F4.pad = pMsg->message[4];
-    pStr->field_9EC_flags3 = 0;
-
-    if (pMsg->message_len > 5)
-    {
-        pStr->field_9EC_flags3 = pMsg->message[5];
-    }
-
-    if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
-    {
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
-        pMsg->message_len = 0;
-        printf(aRunMoveCancel);
-    }
-    else
-    {
-        if (pMsg->message_len > 6)
-        {
-            pStr->field_9E8 = pMsg->message[6];
-        }
-
-        if (pStr->field_9EC_flags3 & 4)
-        {
-            pActor->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
-        }
-
-        pStr->field_9F0 = 0;
-        sna_start_anim_8004E1F4(pActor, &sna_anim_mini_cutscene_800559D8);
-        sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
-        pMsg->message_len = 0;
-    }
-}
-
-static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg, int var_s4)
+static inline void sna_act_unk_helper_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg, int var_s4)
 {
     int flags;
     int len;
@@ -1649,7 +1541,7 @@ static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *p
     {
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
         pMsg->message_len = 0;
-        printf(aForceActCancel);
+        printf("force act cancel\n");
     }
     else
     {
@@ -1705,6 +1597,109 @@ static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *p
     }
 }
 
+static inline void sna_act_unk_helper2_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg)
+{
+    UnkSnakeStruct2 *pStr;
+
+    if (sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
+    {
+        return;
+    }
+
+    pStr = &pActor->field_9E4;
+
+    pStr->field_9E8 = -1;
+    pStr->field_9F4.vx = pMsg->message[1];
+    pStr->field_9F4.vy = pMsg->message[2];
+    pStr->field_9F4.vz = pMsg->message[3];
+    pStr->field_9F4.pad = pMsg->message[4];
+    pStr->field_9EC_flags3 = 0;
+
+    if (pMsg->message_len > 5)
+    {
+        pStr->field_9EC_flags3 = pMsg->message[5];
+    }
+
+    if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
+        pMsg->message_len = 0;
+        printf("run move cancel\n");
+    }
+    else
+    {
+        if (pMsg->message_len > 6)
+        {
+            pStr->field_9E8 = pMsg->message[6];
+        }
+
+        if (pStr->field_9EC_flags3 & 4)
+        {
+            pActor->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
+        }
+
+        pStr->field_9F0 = 0;
+        sna_start_anim_8004E1F4(pActor, &sna_anim_mini_cutscene_800559D8);
+        sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
+        pMsg->message_len = 0;
+    }
+}
+
+static inline void sna_act_unk_helper3_80050A64(Actor_SnaInit *pActor, GV_MSG *pMsg)
+{
+    UnkSnakeStruct2 *pStr;
+
+    if (sna_check_flags1_8004E31C(pActor, SNA_FLAG1_UNK28))
+    {
+        return;
+    }
+
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
+    {
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
+        pMsg->message_len = 0;
+    }
+    else
+    {
+        pStr = &pActor->field_9E4;
+
+        pActor->field_9FC = pActor->field_9B8_fn_anim;
+        pStr->field_9EE = 0;
+        pStr->field_9E8 = -1;
+        pStr->field_9EA = pMsg->message[1];
+        pStr->field_9EC_flags3 = 0;
+
+        if (pMsg->message_len > 2)
+        {
+            pStr->field_9E8 = pMsg->message[2];
+        }
+
+        if (pMsg->message_len > 3)
+        {
+            pStr->field_9EC_flags3 = pMsg->message[3];
+        }
+
+        if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
+        {
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK4);
+            pMsg->message_len = 0;
+            printf("force stance cancel\n");
+        }
+        else
+        {
+            if (pStr->field_9EC_flags3 & 4)
+            {
+                pActor->field_20_ctrl.field_55_skip_flag |= CTRL_SKIP_TRAP;
+            }
+
+            sna_start_anim_8004E1F4(pActor, &sna_act_unk_helper3_80055DD8);
+            sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK28);
+            pMsg->message_len = 0;
+            pStr->field_9F0 = 0;
+        }
+    }
+}
+
 void sna_act_unk_80050A64(Actor_SnaInit *pActor)
 {
     HZD_VEC vec;
@@ -1738,7 +1733,7 @@ void sna_act_unk_80050A64(Actor_SnaInit *pActor)
         case 0xbe0a:
             state = 1;
 helper3:
-            sna_act_unk_helper3_80050A64(pActor, pMsg, state);
+            sna_act_unk_helper_80050A64(pActor, pMsg, state);
             break;
 
         case 0x70fb:
@@ -1746,7 +1741,7 @@ helper3:
             break;
 
         case 0x3238:
-            sna_act_unk_helper_80050A64(pActor, pMsg);
+            sna_act_unk_helper3_80050A64(pActor, pMsg);
             break;
 
         case 0x5e8b:
@@ -8630,6 +8625,19 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
     return 0;
 }
 
+// Unused strings left in binary for some reason
+const char aPosDDD[] = "pos %d %d %d\n";
+const char aTurnDDD[] = "turn %d %d %d\n";
+const char aCeilFloorDD[] = "ceil floor %d %d\n";
+const char aStatus4x[] = "status %4x\n";
+const char aWeaponD[] = "weapon %d\n";
+const char aItemD[] = "item %d\n";
+const char aFlag4x[] = "flag %4x\n";
+const char aFlag24x[] = "flag2 %4x\n";
+const char aStanceD[] = "stance %d\n";
+const char aPadtoD[] = "padto %d\n";
+const char aTrapCheckD[] = "trap check %d\n";
+
 GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
 {
     Actor_SnaInit *pActor;
@@ -8643,7 +8651,7 @@ GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
     GV_SetNamedActor_8001514C(&pActor->field_0_actor,
                               (TActorFunction)&sna_act_8005AD10,
                               (TActorFunction)&sna_kill_8005B52C,
-                              aSnaInitC);
+                              "sna_init.c");
 
     if (sna_LoadSnake(pActor, name, where) < 0)
     {

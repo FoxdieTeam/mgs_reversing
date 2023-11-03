@@ -119,15 +119,9 @@
 
     ;Menu
     include "{{OBJ_DIR}}\Menu\menuman.obj"       ;menuman.c
-
-    include "{{OBJ_DIR}}\data\rdata\rdata_80010E4C.obj"
-
     include "{{OBJ_DIR}}\Menu\radar.obj"         ;radar.c
     include "{{OBJ_DIR}}\Menu\menu_left.obj"     ;menu_left.c
     include "{{OBJ_DIR}}\Menu\weapon.obj"        ;weapon.c
-
-    include "{{OBJ_DIR}}\data\rdata\rdata_800116B4.obj"
-
     include "{{OBJ_DIR}}\Menu\life.obj"          ;life.c ?
     include "{{OBJ_DIR}}\Menu\radio.obj"         ;radio.c
     include "{{OBJ_DIR}}\Menu\debug.obj"         ;debug.c
@@ -152,7 +146,6 @@
     include "{{OBJ_DIR}}\data\sbss\sbss5.obj"
     include "{{OBJ_DIR}}\Menu\radiomem.obj"      ;radiomem.c
 
-    include "{{OBJ_DIR}}\data\rdata\rdata_80012328.obj"
     ; 8004E1F4 8004E22C 8004E260 8004E29C 8004E2B4 8004E2D4 8004E2F4 8004E308 8004E31C 8004E330
     ; 8004E358 8004E384 8004E41C 8004E458 8004E4C0 8004E51C 8004E588 8004E5E8 8004E71C 8004E808
     ; 8004E930 8004E9D0 8004EA50 8004EAA8 8004EB14 8004EB74 8004EC00 8004EC8C 8004ED08 8004ED6C
@@ -290,8 +283,6 @@
     include "{{OBJ_DIR}}\SD\sd_sub2.obj"
     include "{{OBJ_DIR}}\SD\sd_ioset.obj"
     include "{{OBJ_DIR}}\SD\sd_cli.obj"
-
-    include "{{OBJ_DIR}}\data\rdata\rdata_80013D10.obj"
 
     ;mts
     include "{{OBJ_DIR}}\mts\mts_new.obj"
@@ -816,6 +807,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D65EC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D678C.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D67F8.obj"
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6898.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6BCC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6EB0.obj"
