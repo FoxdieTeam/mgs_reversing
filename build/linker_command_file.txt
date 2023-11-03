@@ -271,10 +271,10 @@
     include "{{OBJ_DIR}}\Takabe\palette.obj"
     include "{{OBJ_DIR}}\Takabe\prim.obj"
 
-    include "{{OBJ_DIR}}\data\rdata\rdata_80013040.obj"
-
     ;kojo
     include "{{OBJ_DIR}}\Kojo\demothrd.obj"
+    include "{{OBJ_DIR}}\libfs\memfile.obj" ; memfile.c?
+    include "{{OBJ_DIR}}\Kojo\demo.obj"     ; demo.c?
 
     ; SD
     include "{{OBJ_DIR}}\SD\sd_main.obj"

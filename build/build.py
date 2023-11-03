@@ -255,13 +255,12 @@ def get_file_global_size(file):
         "vibrate.c",
         "/Takabe/",
         "/libfs/",
-        "demothrd.c",
+        "Kojo/demo.c",
         "Kojo/demothrd.c",
         "strctrl.c",
         "jimctrl.c",
         "memcard.c",
         "dgd.c",
-        "sub_80060644.c",
         "sna_hzd.c",
     ]
 

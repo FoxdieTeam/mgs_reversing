@@ -718,20 +718,11 @@ typedef struct Actor_m1e1
     int     field_F74;
 } Actor_m1e1;
 
-#define stru_80700000 ((demothrd_80700000 *)0x80700000)
-
-typedef struct demothrd_80700000 {
-    int field_0;
-    int field_4;
-    int field_8;
-} demothrd_80700000;
-
 int  DM_ThreadStream_80079460(int flag, int unused);
 int  DM_ThreadFile_800794E4(int param_1, int param_2);
 void demothrd_cd_act_80079664(Actor_demothrd *pActor);
 void demothrd_cd_stream_die_800797CC(Actor_demothrd *pActor);
 int  DestroyDemo_8007A66C(Actor_demothrd *pActor);
-void FS_EnableMemfile_800799A8(int cache_read_enable, int clear_cache_buffer);
 void demothrd_remove_via_id_8007CD60(Actor_demothrd *pThis, int id_to_remove);
 
 #endif // _DEMOTHRD_H_
