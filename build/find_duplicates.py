@@ -58,31 +58,45 @@ def disasm(code):
     md.detail = True
 
     insts = []
-    decoded_bytes = 0
+    l = len(code)
+    processing_addr = 0
+    last_processed = 0
 
     # Disassembles an instruction to format:
     #   opcode | number of operands | operand1 | operand2 | ... | operandN
-    # (only for register operands)
-    for inst in md.disasm(code, 0):
-        decoded_bytes += 4
-        non_reloc_ops = [str(inst.id), str(len(inst.operands))]
-        is_reloc_inst = inst.id in reloc_insts
-        for operand in inst.operands:
-            if operand.type == MIPS_OP_REG:
-                non_reloc_ops.append(str(operand.value.reg))
-            elif operand.type == MIPS_OP_IMM:
-                if not is_reloc_inst:
-                    non_reloc_ops.append(str(operand.value.imm))
-            elif operand.type == MIPS_OP_MEM:
-                non_reloc_ops.append(str(operand.value.mem.base)) # register
-                if not is_reloc_inst:
-                    non_reloc_ops.append(str(operand.value.mem.disp)) # offset
+    while processing_addr < l:
+        for inst in md.disasm(code, processing_addr):
+            if inst.id == MIPS_INS_INVALID:
+                raise Exception('MIPS_INS_INVALID is unhandled')
 
-        insts.append('|'.join(non_reloc_ops))
+            processing_addr += 4
+            non_reloc_ops = [str(inst.id), str(len(inst.operands))]
+            is_reloc_inst = inst.id in reloc_insts
 
-    if decoded_bytes != len(code):
-        # this is temporary until we fix the decoding
-        raise Exception('capstone failed to fully decode a func')
+            for operand in inst.operands:
+                if operand.type == MIPS_OP_REG:
+                    non_reloc_ops.append(str(operand.value.reg))
+                elif operand.type == MIPS_OP_IMM:
+                    if not is_reloc_inst:
+                        non_reloc_ops.append(str(operand.value.imm))
+                elif operand.type == MIPS_OP_MEM:
+                    non_reloc_ops.append(str(operand.value.mem.base)) # register
+                    if not is_reloc_inst:
+                        non_reloc_ops.append(str(operand.value.mem.disp)) # offset
+
+            insts.append('|'.join(non_reloc_ops))
+
+        if processing_addr >= l:
+            break
+
+        code = code[processing_addr - last_processed:]
+        insts.append('raw|' + '|'.join([str(x) for x in [code[0], code[1], code[2], code[3]]]))
+
+        processing_addr += 4
+        last_processed = processing_addr
+        code = code[4:]
+
+    assert len(insts) * 4 == l
 
     return insts
 
