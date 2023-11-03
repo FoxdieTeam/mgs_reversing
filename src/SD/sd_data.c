@@ -832,36 +832,3 @@ unsigned char byte_800A2D28[ 4096 ] = {
     12, 2, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 12, 2, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0,
     0,  0, 0, 0, 12, 2, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 12, 2, 0, 0, 0,  0, 0, 0,
     0,  0, 0, 0, 0,  0, 0, 0u };
-
-extern aTlbl[];
-extern int dword_80013DC0[];
-extern int dword_80013DB0[];
-extern int dword_80013D70[];
-extern int dword_80013D80[];
-extern int dword_80013D98[];
-extern int dword_80013D10[];
-extern int dword_80013D14[];
-extern int dword_80013D24[];
-extern int dword_80013D2C[];
-extern int dword_80013D38[];
-extern int dword_80013D4C[];
-extern int dword_80013D5C[];
-
-void *v800A3D28[ 16 ] = {
-    &dword_80013DC0[1],
-    &dword_80013DC0[0],
-    aTlbl,
-    dword_80013DB0,
-    dword_80013D98,
-    dword_80013D80,
-    dword_80013D70,
-    dword_80013D5C,
-    dword_80013D4C,
-    dword_80013D38,
-    dword_80013D2C,
-    dword_80013D24,
-    dword_80013D14,
-    dword_80013D10,
-    dword_80013D10,
-    dword_80013D10
-};
