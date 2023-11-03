@@ -3,6 +3,7 @@
 from fnmatch import fnmatch
 from glob import glob
 import os
+import sys
 from objlib.obj import get_obj_funcs
 from statistics import quantiles
 from termcolor import colored
@@ -13,6 +14,19 @@ from functools import cache
 
 root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
 asm_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../asm'))
+
+reloc_insts = [
+    MIPS_INS_ADDIU,
+    MIPS_INS_LB,
+    MIPS_INS_LBU,
+    MIPS_INS_LH,
+    MIPS_INS_LHU,
+    MIPS_INS_LW,
+    # MIPS_INS_LWU,
+    MIPS_INS_SB,
+    MIPS_INS_SH,
+    MIPS_INS_SW,
+]
 
 def load_all_funcs():
     funcs = {}
@@ -50,9 +64,18 @@ def disasm(code):
     # (only for register operands)
     for inst in md.disasm(code, 0):
         non_reloc_ops = [str(inst.id), str(len(inst.operands))]
+        is_reloc_inst = inst.id in reloc_insts
         for operand in inst.operands:
             if operand.type == MIPS_OP_REG:
                 non_reloc_ops.append(str(operand.value.reg))
+            elif operand.type == MIPS_OP_IMM:
+                if not is_reloc_inst:
+                    non_reloc_ops.append(str(operand.value.imm))
+            elif operand.type == MIPS_OP_MEM:
+                non_reloc_ops.append(str(operand.value.mem.base)) # register
+                if not is_reloc_inst:
+                    non_reloc_ops.append(str(operand.value.mem.disp)) # offset
+
         insts.append('|'.join(non_reloc_ops))
 
     return insts
