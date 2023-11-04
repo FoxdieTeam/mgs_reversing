@@ -121,26 +121,13 @@ int menu_draw_mem_debug_80043678(Actor_MenuMan *pActor, unsigned int *pOt)
     return used;
 }
 
-extern short word_800AB660;
-short        word_800AB660;
-
-extern short word_800AB662;
-short        word_800AB662;
-
-extern int dword_800AB664;
-int        dword_800AB664;
-
-extern int dword_800AB668;
-int        dword_800AB668;
-
-extern short word_800AB66C;
-short        word_800AB66C;
-
-extern short word_800AB66E;
-short        word_800AB66E;
-
-extern int dword_800AB670;
-int        dword_800AB670;
+short word_800AB660 = 0;
+short word_800AB662 = 0;
+int   dword_800AB664 = 0;
+int   dword_800AB668 = 0;
+short word_800AB66C = 0;
+short word_800AB66E = 0;
+int   dword_800AB670 = 0;
 
 extern short          N_ChanlPerfMax_800AB980;
 extern unsigned short word_800AB982;
@@ -495,11 +482,6 @@ int menu_draw_obj_debug_800442E4(Actor_MenuMan *pActor, unsigned int *pOt)
 }
 
 extern GV_PAD GV_PadData_800B05C0[4];
-extern char   aNoD[];  // = "No %d\n";
-extern char   aIdD[];  // = "ID %d\n";
-extern char   aColD[]; // = "COL %d\n";
-
-extern char   aWDHD[]; // = "w %d h %d\n";
 
 int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
 {
@@ -566,9 +548,9 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
     dword_800ABB24 = iterTex;
 
     menu_Text_XY_Flags_80038B34(300, 128, 1);
-    menu_Text_80038C38(aNoD, iterTex - gTextureRecs_800B1F50);
-    menu_Text_80038C38(aIdD, iterTex->field_0_hash);
-    menu_Text_80038C38(aColD, iterTex->field_2_bUsed.c[1]);
+    menu_Text_80038C38("No %d\n", iterTex - gTextureRecs_800B1F50);
+    menu_Text_80038C38("ID %d\n", iterTex->field_0_hash);
+    menu_Text_80038C38("COL %d\n", iterTex->field_2_bUsed.c[1]);
     menu_Text_80038C38("x %d y %d\n", iterTex->field_8_offx, iterTex->field_9_offy);
     menu_Text_80038C38("w %d h %d\n", iterTex->field_A_width + 1, iterTex->field_B_height + 1);
 
@@ -612,11 +594,25 @@ int menu_draw_tex_debug_800445F8(Actor_MenuMan *pActor, unsigned int *pOt)
 
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
-extern int MENU_PrimUse_800AB68C;
-int        MENU_PrimUse_800AB68C;
 
-extern TUnkRadioFn menu_debug_screens_8009E730[];
-extern char       *menu_debug_screen_labels_8009E744[];
+TUnkRadioFn menu_debug_screens_8009E730[] = {
+    menu_draw_mem_debug_80043678,
+    menu_draw_pow_debug_80043A24,
+    menu_draw_ply_debug_80043FD0,
+    menu_draw_obj_debug_800442E4,
+    menu_draw_tex_debug_800445F8
+};
+
+int MENU_PrimUse_800AB68C = 0;
+
+char *menu_debug_screen_labels_8009E744[] = {
+    "",
+    "mem",
+    "pow",
+    "ply",
+    "obj",
+    "tex",
+};
 
 void menu_draw_debug_screen_800448C0(Actor_MenuMan *pActor, unsigned int *pOt)
 {

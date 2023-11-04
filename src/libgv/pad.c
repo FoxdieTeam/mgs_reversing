@@ -9,14 +9,9 @@ extern GV_PAD GV_PadData_800B05C0[4];
 /*********************************************************************/
 
 /***$gp****************************************************************/
-extern int GV_PadMask_800AB374;
-int        SECTION(".sbss") GV_PadMask_800AB374;
-
-extern int GV_PadOrigin_800AB378;
-int        SECTION(".sbss") GV_PadOrigin_800AB378;
-
-extern int dword_800AB37C;
-int        SECTION(".sbss") dword_800AB37C;
+int GV_PadMask_800AB374 = 0;
+int GV_PadOrigin_800AB378 = 0;
+int GV_800AB37C = 0;
 
 extern int dword_800AB950;
 int        SECTION(".sbss") dword_800AB950;
@@ -315,7 +310,7 @@ void GV_UpdatePadSystem_8001682C(void)
             }
             // loc_80016AD8
             var = 1;
-            dword_800AB37C |= var << chan;
+            GV_800AB37C |= var << chan;
         }
         else
         {

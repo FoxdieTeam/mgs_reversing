@@ -12,9 +12,8 @@ TChanl_Fn off_8009D35C[] = {DG_Screen_Chanl_8001CEE0, DG_BoundChanl_800189A4, DG
 /******************************/
 
 /**gp***********************************************************************************************/
-// forced
-extern int gObjectQueueVoided_800AB388;
-int        SECTION(".sdata") gObjectQueueVoided_800AB388;
+int DG_ObjectQueueVoided_800AB388 = 0;
+
 // standard
 int            SECTION(".sbss") dword_800AB974;
 int            SECTION(".sbss") dword_800AB978;
@@ -234,7 +233,7 @@ void DG_RenderPipeline_80018028(int idx)
     int             i;
 
     pPerfArrayIter = &gOldRootCnt_800B1DC8[1];
-    if (gObjectQueueVoided_800AB388)
+    if (DG_ObjectQueueVoided_800AB388)
     {
         // Store the counter and set as 2 valid items
         *pPerfArrayIter = GetRCnt(0xF2000001);
@@ -404,7 +403,7 @@ void DG_FreeObjectQueue_800183D4()
     pChan = &DG_Chanls_800B1800[1];
     mQueue = (DG_OBJS **)pChan->mQueue;
 
-    gObjectQueueVoided_800AB388 = 1;
+    DG_ObjectQueueVoided_800AB388 = 1;
 
     for (i = pChan->mTotalObjectCount; i > 0; i--)
     {
@@ -416,7 +415,7 @@ void DG_FreeObjectQueue_800183D4()
 
 void DG_ResetObjectQueue_8001844C()
 {
-    gObjectQueueVoided_800AB388 = 0;
+    DG_ObjectQueueVoided_800AB388 = 0;
     DG_UnDrawFrameCount_800AB380 = 1;
 }
 

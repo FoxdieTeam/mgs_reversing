@@ -169,14 +169,11 @@ void shadow_kill_80060190(Actor_Shadow *pActor)
     GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_obj);
 }
 
-extern char aKage[];     // = "kage"
-extern char aShadow_0[]; // = "shadow"
-
 int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94)
 {
     int map_name;
 
-    GM_InitObjectNoRots_800349B0(&pActor->field_28_obj, GV_StrCode_80016CCC(aKage), 0x16d, 0);
+    GM_InitObjectNoRots_800349B0(&pActor->field_28_obj, GV_StrCode_80016CCC("kage"), 0x16d, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_28_obj, pActor->field_4C_mtx);
 
     map_name = pObj->map_name;
@@ -190,7 +187,7 @@ int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, S
     pActor->field_4C_mtx[0].t[1] = 0;
     pActor->field_4C_mtx[0].t[2] = 0;
     pActor->field_28_obj.objs->objs->model->flags_0 |= 2;
-    *pActor->field_28_obj.objs->objs->model->materialOffset_50 = GV_StrCode_80016CCC(aShadow_0);
+    *pActor->field_28_obj.objs->objs->model->materialOffset_50 = GV_StrCode_80016CCC("shadow");
     pActor->field_20_ctrl = pCtrl;
     pActor->field_24_pObj = pObj;
     pActor->field_94 = field_94;

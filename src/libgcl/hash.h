@@ -33,7 +33,7 @@
 #define HASH_CMD_menu           0x226d // GV_StrCode( "menu" )
 #define HASH_CMD_rand           0x925e // GV_StrCode( "rand" )
 #define HASH_CMD_func           0xe257 // GV_StrCode( "func" )
-#define HASH_CMD_unk2           0xa2bf // ?? not in pc ver, demo thread related ??
+#define HASH_CMD_demodebug      0xa2bf // GV_StrCode( "demodebug" )
 #define HASH_CMD_print          0xb96e // GV_StrCode( "print" )
 #define HASH_CMD_jimaku         0xec9d // GV_StrCode( "jimaku" ) // subtitle
 

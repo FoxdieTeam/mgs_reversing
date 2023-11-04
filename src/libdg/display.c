@@ -11,11 +11,8 @@ VECTOR SECTION(".data") DG_UpVector_8009D34C = {0, -4096, 0, 0};
 /******************************/
 
 /**gp***********************************************************************************************/
-extern int DG_UnDrawFrameCount_800AB380;
-int        SECTION(".sdata") DG_UnDrawFrameCount_800AB380;
-
-extern int dword_800AB384;
-int        SECTION(".sdata") dword_800AB384;
+int DG_UnDrawFrameCount_800AB380 = 0;
+int DG_CurrentBuffer_800AB384 = -1;
 
 int   SECTION(".sbss") gClipHeights_800AB960[2];
 int   SECTION(".sbss") DG_CurrentGroupID_800AB968;
@@ -74,16 +71,16 @@ void DG_80017194()
     int activeBuffer = GV_Clock_800AB920;
     if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount_800AB380 > 0)
     {
-        if (dword_800AB384 < 0)
+        if (DG_CurrentBuffer_800AB384 < 0)
         {
-            dword_800AB384 = activeBuffer;
+            DG_CurrentBuffer_800AB384 = activeBuffer;
         }
         if ((GV_PauseLevel_800AB928 & 8) == 0)
         {
             --DG_UnDrawFrameCount_800AB380;
         }
     }
-    else if (dword_800AB384 < 0 || activeBuffer != dword_800AB384)
+    else if (DG_CurrentBuffer_800AB384 < 0 || activeBuffer != DG_CurrentBuffer_800AB384)
     {
 
         DISPENV *p = &gDispEnv_800B0600;
@@ -94,7 +91,7 @@ void DG_80017194()
         {
             DG_DrawOTag_80017E4C(1 - activeBuffer);
         }
-        dword_800AB384 = -1;
+        DG_CurrentBuffer_800AB384 = -1;
     }
     GV_ClearMemorySystem_80015B4C(activeBuffer);
     if (!DG_HikituriFlagOld_8009D464)

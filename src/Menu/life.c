@@ -10,11 +10,14 @@
 extern int   GM_GameStatus_800AB3CC;
 extern short GM_O2_800ABA34;
 
-extern const char aLife[];
-BarConfig gSnakeLifeBarConfig_8009E5F4 = {aLife, {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
+BarConfig gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
+BarConfig gSnakeO2BarConfig_8009E600 = {"O2", {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
 
-extern const char aO2[];
-BarConfig gSnakeO2BarConfig_8009E600 = {aO2, {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
+int gTakeDamageCounter_800AB5FC = 0;
+
+RECT rect_800AB600 = {960, 256, 50, 80};
+
+short coords_800AB600[2][2] = {{86, 72}, {44, 72}};
 
 // force gp
 extern int dword_800ABAE8;
@@ -22,9 +25,6 @@ int        SECTION(".sbss") dword_800ABAE8;
 
 extern int gSnakeLifeYPos_800ABAF0;
 int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
-
-extern int gTakeDamageCounter_800AB5FC;
-int        SECTION(".sbss") gTakeDamageCounter_800AB5FC;
 
 void sub_8003ECC0(void)
 {
@@ -377,12 +377,6 @@ void menu_life_kill_8003F838(Actor_MenuMan *pMenu)
 }
 
 //below may be separate to life but draws it in one function
-extern short coords_800AB600[2][2];
-short        coords_800AB600[2][2]; // gp
-
-extern RECT rect_800AB600;
-RECT        rect_800AB600;
-
 extern SPRT gMenuSprt_800bd998;
 extern KCB  font_800BD968;
 
@@ -500,7 +494,7 @@ extern Actor_MenuMan gMenuMan_800BD360;
 void menu_font_kill_8003FC0C(void)
 {
   void *ptr;
-  
+
   gMenuMan_800BD360.field_2B &= ~2;
   menu_font_kill_helper_8003F50C();
   ptr = font_get_buffer_ptr_80044FE8(&font_800BD968);
