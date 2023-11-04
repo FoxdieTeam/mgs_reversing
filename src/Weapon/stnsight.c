@@ -10,6 +10,8 @@
 
 // stinger first person HUD
 
+short word_800AB8EC = 0;
+
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
@@ -54,10 +56,6 @@ extern int GV_Clock_800AB920;
 extern int dword_800AB928;
 
 extern int GV_PauseLevel_800AB928;
-
-extern const char a0D[];   // = "-0%d"
-extern const char a0D_0[]; // = "0%d"
-extern const char aD_2[];  // = "%d"
 
 void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
 {
@@ -139,16 +137,16 @@ void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
             {
                 if (v7 < 0)
                 {
-                    menu_Text_80038C38(a0D, -v7);
+                    menu_Text_80038C38("-0%d", -v7);
                 }
                 else
                 {
-                    menu_Text_80038C38(a0D_0, v7);
+                    menu_Text_80038C38("0%d", v7);
                 }
             }
             else
             {
-                menu_Text_80038C38(aD_2, v7);
+                menu_Text_80038C38("%d", v7);
             }
         }
 
@@ -264,8 +262,6 @@ void stnsight_act_helper_80068798(Actor_Stnsight *actor, unsigned int *ot)
 extern int     amissile_alive_8009F490;
 extern SVECTOR svector_8009F494;
 
-extern const char aDD[]; // = "%d %d\n"
-
 void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
 {
     LINE_F4        *lines;
@@ -326,7 +322,7 @@ void stnsight_act_helper_80068A24(Actor_Stnsight *actor, unsigned int *ot)
 
         if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
         {
-            menu_Text_80038C38(aDD, ((ushort)svector_8009F494.vx << 16) >> 20,
+            menu_Text_80038C38("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
                                ((ushort)svector_8009F494.vy << 16) >> 20);
         }
     }
@@ -377,12 +373,6 @@ void stnsight_act_helper_80068BF4(Actor_Stnsight *actor, unsigned int *ot)
     }
 }
 
-// re-declare to force GP usage
-extern short word_800AB8EC;
-short        SECTION(".word_800AB8EC") word_800AB8EC;
-
-extern const char aStinger[]; // = "stinger"
-
 void stnsight_act_80068D0C(Actor_Stnsight *actor)
 {
     unsigned int *uVar1;
@@ -405,7 +395,7 @@ void stnsight_act_80068D0C(Actor_Stnsight *actor)
     {
         // TODO: fix data
         actor->field_84_4Array[2] =
-            (int)NewSight_80071CDC(GV_StrCode_80016CCC(aStinger), GV_StrCode_80016CCC(aStinger), &word_800AB8EC, 1, 0);
+            (int)NewSight_80071CDC(GV_StrCode_80016CCC("stinger"), GV_StrCode_80016CCC("stinger"), &word_800AB8EC, 1, 0);
     }
 
     if (actor->field_84_4Array[3] == 0)

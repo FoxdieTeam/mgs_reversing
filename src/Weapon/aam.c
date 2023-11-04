@@ -9,8 +9,6 @@
 
 // stinger
 
-extern char  aStinger_0[]; // = "stinger"
-extern char  aAamC[];      // = "aam.c"
 extern short d_800AB9EC_mag_size;
 extern short d_800ABA2C_ammo;
 
@@ -22,13 +20,10 @@ extern int DG_CurrentGroupID_800AB968;
 extern int GM_CurrentMap_800AB9B0;
 
 extern TARGET *target_800BDF00;
-
-extern TARGET *StnTarget_800AB8A0;
-TARGET *StnTarget_800AB8A0;
-
 extern int dword_800AB8A4;
 
-SVECTOR svector_800AB8A4;
+TARGET *StnTarget_800AB8A0 = NULL;
+SVECTOR svector_800AB8A4 = {-300, 200, 0, 0};
 
 char byte_8009F40C[] = {0, 2, 127, 4, 0};
 char byte_8009F414[] = {145, 4, 75, 10, 0};
@@ -138,7 +133,7 @@ int AamGetResources_800673F0(AamWork *work, OBJECT *parent, int num_parent)
     object = &work->object;
     work->sight = NULL;
 
-    model = GV_StrCode_80016CCC(aStinger_0);
+    model = GV_StrCode_80016CCC("stinger");
     GM_InitObjectNoRots_800349B0(object, model, WEAPON_FLAG, 0);
 
     if (!object->objs)
@@ -155,7 +150,7 @@ AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigne
     work = (AamWork *)GV_NewActor_800150E4(6, sizeof(AamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, aAamC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)AamAct_800670CC, (TActorFunction)AamDie_800673B0, "aam.c");
 
         if (AamGetResources_800673F0(work, parent, num_parent) < 0)
         {

@@ -6,8 +6,6 @@
 
 // c4 (in hands)
 
-extern char       aC4Bomb[]; // "c4_bomb"
-extern char       aBombC[];  // "bomb.c"
 extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
 
@@ -84,7 +82,7 @@ int bomb_loader_80067A94(Actor_Bomb *actor_bomb, OBJECT *parent_obj, int num_par
 {
     OBJECT_NO_ROTS *obj = &actor_bomb->f28_obj;
 
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(aC4Bomb), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("c4_bomb"), WEAPON_FLAG, 0);
 
     if (!obj->objs)
         return -1;
@@ -99,7 +97,7 @@ Actor_Bomb *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, 
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)bomb_act_8006788C,
-                                  (TActorFunction)bomb_kill_80067A74, aBombC);
+                                  (TActorFunction)bomb_kill_80067A74, "bomb.c");
         if (bomb_loader_80067A94(actor, parent_obj, num_parent) < 0)
         {
             GV_DestroyActor_800151C8(&actor->field_0_actor);

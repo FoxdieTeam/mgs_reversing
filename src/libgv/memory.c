@@ -6,9 +6,6 @@ extern GV_Heap MemorySystems_800AD2F0[3];
 /********************************************************************/
 
 /***$gp****************************************************************/
-extern void *GV_ResidentAreaBottom_800AB370;
-void        *SECTION(".sbss") GV_ResidentAreaBottom_800AB370;
-
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 unsigned char        *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
 /*********************************************************************/
@@ -532,6 +529,10 @@ void GV_CopyMemory_800160D8(void *from, void *to, int size)
         }
     }
 }
+
+// TODO: Use sizeof(resident)+1 when the start is known
+// TODO: hardcoded
+void *GV_ResidentAreaBottom_800AB370 = (void *)0x80117000; // This goes backwards not "into" this heap buffer
 
 // from leaked original MGS source code
 

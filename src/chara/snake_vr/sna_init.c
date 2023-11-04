@@ -84,33 +84,20 @@ TARGET *SECTION(".sbss") GM_BombSeg_800ABBD8;
 extern SVECTOR *dword_800ABBAC;
 SVECTOR *SECTION(".sbss") dword_800ABBAC;
 
-extern SVECTOR svector_800AB7D4;
-SVECTOR SECTION(".sbss") svector_800AB7D4;
-
-extern SVECTOR svector_800AB7DC;
-SVECTOR SECTION(".sbss") svector_800AB7DC;
-
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
 extern int                GM_GameOverTimer_800AB3D4;
 extern int                GM_GameStatus_800AB3CC;
 extern SVECTOR            DG_ZeroVector_800AB39C;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
-extern SVECTOR            svector_800AB7FC;
-SVECTOR                   svector_800AB7FC;
 extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes_8009D580[];
 extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time_800AB330;
 extern int                bakudan_count_8009F42C;
-extern SVECTOR            svector_800AB7EC;
-SVECTOR                   svector_800AB7EC;
-extern SVECTOR            svector_800AB7F4;
-SVECTOR                   svector_800AB7F4;
 extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount_800AB380;
-extern SVECTOR            svector_800AB7CC;
 extern int                counter_8009F448;
 extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
@@ -134,8 +121,6 @@ extern int                tenage_ctrls_count_800BDD70;
 extern int                dword_8009F434;
 extern short              d_800AB9EC_mag_size;
 extern short              d_800ABA2C_ammo;
-extern SVECTOR            svector_800AB7E4;
-SVECTOR                   svector_800AB7E4;
 extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
 extern int                dword_800AB9D4;
@@ -145,8 +130,8 @@ extern int                GV_Clock_800AB920;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
-extern TSnakeActFunction  GM_lpfnPlayerActControl_800AB3DC;
-extern TSnakeActFunction  GM_lpfnPlayerActObject2_800AB3E0;
+extern TPlayerActFunction  GM_lpfnPlayerActControl_800AB3DC;
+extern TPlayerActFunction  GM_lpfnPlayerActObject2_800AB3E0;
 extern char               dword_8009EEE0[];
 extern char               dword_8009EEE4[];
 extern char               dword_8009EEF0[];
@@ -157,12 +142,6 @@ extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
 extern int                GM_PlayerAction_800ABA40;
-
-extern int snainit_item_800A9420;
-int        snainit_item_800A9420;
-
-extern Actor_SnaInit *snainit_actor_800A9424;
-Actor_SnaInit        *snainit_actor_800A9424;
 
 Sna_E2 e2_8009EC64 = {12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u, 0u, 0u};
 Sna_E2 e2_8009EC70 = {10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u, 0u, 0u};
@@ -199,14 +178,14 @@ Sna_E6 e6_8009ED48[] = {
 // TODO: Why is this in .data despite fitting into .sdata?
 Sna_E1 SECTION(".data") e7_8009ED68 = {7u, 13u, 4u, 14u, 32u, 119u, 124u, 0u};
 
-extern Sna_E1 e1_800AB78C;
-extern Sna_E1 e1_800AB7C4;
-extern Sna_E1 e1_800AB794;
-extern Sna_E1 e1_800AB79C;
-extern Sna_E1 e1_800AB7BC;
-extern Sna_E1 e1_800AB7AC;
-extern Sna_E1 e1_800AB7A4;
-extern Sna_E1 e1_800AB7B4;
+Sna_E1 e1_800AB78C = {2u, 6u, 16u, 22u, 26u, 129u, 88u, 89u};
+Sna_E1 e1_800AB794 = {0u, 0u, 15u, 22u, 25u, 31u, 40u, 41u};
+Sna_E1 e1_800AB79C = {1u, 5u, 15u, 22u, 25u, 31u, 40u, 41u};
+Sna_E1 e1_800AB7A4 = {3u, 3u, 16u, 22u, 26u, 129u, 88u, 89u};
+Sna_E1 e1_800AB7AC = {90u, 90u, 16u, 22u, 43u, 53u, 88u, 89u};
+Sna_E1 e1_800AB7B4 = {76u, 76u, 78u, 85u, 25u, 87u, 40u, 41u};
+Sna_E1 e1_800AB7BC = {95u, 95u, 99u, 100u, 26u, 102u, 88u, 89u};
+Sna_E1 e1_800AB7C4 = {20u, 21u, 84u, 0u, 212u, 3u, 0u, 0u};
 
 Sna_ActionTable actions_no_weapon_8009ED70 = {
     &e1_800AB78C, &e2_8009EC64, &e1_800AB7C4, &e2_8009ECB8,
@@ -292,12 +271,8 @@ TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
     NewBodyarm_80060940,
     NewKetchap_80072B60,
     NewKogaku2_800615FC,
-    NewBandana_80061E40
-#ifndef VR_EXE
-    , NewJpegcam_80065118
-#else
-    , NULL
-#endif
+    NewBandana_80061E40,
+    NULL,
 };
 
 short word_8009EFC0[] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
@@ -317,6 +292,17 @@ MATRIX stru_8009F084 = {{{200, 200, 600}, {0, 400, 200}, {400, 0, -5}}, {50, 0, 
 MATRIX stru_8009F0A4 = {{{0, 200, 600}, {0, 500, 250}, {500, 0, 0}}, {100, 0, 3}};
 
 GV_PAD GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
+
+int            snainit_item_800A9420 = -1;
+Actor_SnaInit *snainit_actor_800A9424 = NULL;
+
+SVECTOR svector_800AB7CC = {150, 0, 50, 0};
+SVECTOR svector_800AB7D4 = {0, 0, 100, 0};
+SVECTOR svector_800AB7DC = {-1024, 0, 0, 0};
+SVECTOR svector_800AB7E4 = {5, 500, 80, 0};
+SVECTOR svector_800AB7EC = {0, 0, 800, 0};
+SVECTOR svector_800AB7F4 = {0, 100, -300, 0};
+SVECTOR svector_800AB7FC = {0, 0, -300, 0};
 
 #define RIFLE_TEBURE_TIME   90 // delay before camera shake
 #define TEBURE              122
@@ -8248,6 +8234,8 @@ const char aFlag4x[] = "flag %4x\n";
 const char aStanceD[] = "stance %d\n";
 const char aPadtoD[] = "padto %d\n";
 const char aTrapCheckD[] = "trap check %d\n";
+const char aPadX[] = "pad %x\n";
+const char aKaze[] = "kaze \n";
 
 GV_ACT *sna_NewSnake_8005B650(int name, int where, int argc, char **argv)
 {

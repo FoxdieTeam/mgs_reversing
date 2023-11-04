@@ -68,6 +68,7 @@ typedef struct _OBJECT_NO_ROTS
 typedef int (*TBombFunction)(CONTROL *, int, int *);
 typedef int (*TBombFunction2)(int, CONTROL *, int *);
 typedef int (*TBombFunction3)(TARGET *, int);
+typedef int (*TPlayerActFunction)(GV_ACT *);
 
 typedef enum
 {
