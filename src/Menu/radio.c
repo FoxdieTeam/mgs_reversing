@@ -717,7 +717,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
     }
 }
 
-RECT SECTION(".sdata") rect_800AB630 = {960, 260, 63, 76};
+RECT rect_800AB630 = {960, 260, 63, 76};
 
 void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
 {
