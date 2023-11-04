@@ -11,11 +11,9 @@ MATRIX DG_ColorMatrix_8009D3A4 = {
 /***************************************************************/
 
 /**gp***********************************************************/
-extern          SVECTOR           DG_Ambient_800AB38C;
-SVECTOR         SECTION(".sdata") DG_Ambient_800AB38C;
+SVECTOR DG_Ambient_800AB38C = {0, 0, 0, 0};
 
-extern          unsigned long     DG_PacketCode_800AB394[2];
-unsigned long   SECTION(".sdata") DG_PacketCode_800AB394[2];
+int DG_PacketCode_800AB394[2] = {0x3C808080, 0x3E808080};
 /***************************************************************/
 
 /**bss************************************************/

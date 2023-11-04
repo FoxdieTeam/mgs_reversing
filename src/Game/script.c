@@ -22,8 +22,6 @@ extern  int             GM_LoadRequest_800AB3D0;
 extern  char            dword_800ABA58[8];
 char                    dword_800ABA58[8]; // gp
 extern  BindStruct      gBindsArray_800b58e0[128];
-extern  char            aGcawi[5];
-char                    aGcawi[5]; // gp
 extern  int             GV_PadMask_800AB374;
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
@@ -40,15 +38,12 @@ int SECTION(".sbss") gBindsCount_800ABA64;
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
 
-extern int demodebug_finish_proc_800AB414;
-int        SECTION(".sdata") demodebug_finish_proc_800AB414;
-
 GCL_COMMANDLIST Commands_8009D5CC[] = {
     {HASH_CMD_mesg, GCL_Command_mesg_8002C138},
     {HASH_CMD_trap, GCL_Command_trap_8002BD34},
     {HASH_CMD_chara, (TGCL_CommandFn)GCL_Command_chara_8002C1B0}, // TODO: Why does this one have a different signature?
     {HASH_CMD_map, GCL_Command_map_8002BB44},
-    {HASH_CMD_mapdef, GCL_Command_hzd_8002BD04},
+    {HASH_CMD_mapdef, GCL_Command_mapdef_8002BD04},
     {HASH_CMD_camera, GCL_Command_camera_8002B8F0},
     {HASH_CMD_light, GCL_Command_light_8002B854},
     {HASH_CMD_start, GCL_Command_start_8002C22C},
@@ -64,8 +59,8 @@ GCL_COMMANDLIST Commands_8009D5CC[] = {
     {HASH_CMD_sound, GCL_Command_sound_8002CA28},
     {HASH_CMD_menu, GCL_Command_menu_8002CAAC},
     {HASH_CMD_rand, GCL_Command_rand_8002CD94},
-    {HASH_CMD_func, GCL_Command_func_8002CDF4}, // ??
-    {HASH_CMD_unk2, GCL_Command_unknown2_8002CFBC}, // ?? not in pc ver, demo thread related ??
+    {HASH_CMD_func, GCL_Command_func_8002CDF4}, // probably not func ??
+    {HASH_CMD_demodebug, GCL_Command_demodebug_8002CFBC},
     {HASH_CMD_print, GCL_Command_print_8002D0E4},
     {HASH_CMD_jimaku, GCL_Command_jimaku_8002D188}};
 
@@ -260,9 +255,9 @@ int GCL_Command_map_8002BB44(unsigned char *pScript)
     return 0;
 }
 
-int GCL_Command_hzd_8002BD04(unsigned char *pScript)
+int GCL_Command_mapdef_8002BD04(unsigned char *pScript)
 {
-    if (!GCL_Command_hzd_impl_800310D0())
+    if (!GCL_Command_mapdef_impl_800310D0())
     {
         return -1;
     }
@@ -748,16 +743,18 @@ int GCL_Command_varsave_8002C72C(unsigned char *pScript)
 
 int GCL_Command_system_8002C7C8(unsigned char *pScript)
 {
+    static char options[5] = "gcawi";
+
     int i, proc;
 
-    for (i = 0; i <= (int)sizeof(aGcawi); i++)
+    for (i = 0; i <= (int)sizeof(options); i++)
     {
-        if (GCL_GetOption_80020968(aGcawi[i]))
+        if (GCL_GetOption_80020968(options[i]))
         {
             proc = GCL_GetNextParamValue_80020AD4();
             if (!proc)
             {
-                printf("SYSTEM:%c:change proc name\n", aGcawi[i]);
+                printf("SYSTEM:%c:change proc name\n", options[i]);
             }
             GM_SetSystemCallbackProc_8002B558(i, proc);
         }
@@ -1043,7 +1040,9 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
     return 0;
 }
 
-int GCL_Command_unknown2_8002CFBC(unsigned char *pScript)
+int demodebug_finish_proc_800AB414 = -1;
+
+int GCL_Command_demodebug_8002CFBC(unsigned char *pScript)
 {
     int   tmp, demo, flags, ivar;
     char *str;
@@ -1093,28 +1092,25 @@ int GCL_Command_unknown2_8002CFBC(unsigned char *pScript)
     return 0;
 }
 
-extern const char aPrint[];
-extern const char aS_2[];
-extern const char aD_3[];
-extern const char asc_800AB428[];
-
 int GCL_Command_print_8002D0E4(unsigned char *pScript)
 {
     int code;
     int value;
 
-    printf(aPrint); // "print: "
+    printf("print: ");
+
     while (pScript)
     {
         pScript = GCL_GetNextValue_8002069C(pScript, &code, &value);
         if (code == GCLCODE_NULL)
             break;
         if (code == GCLCODE_STRING)
-            printf(aS_2, value); // "%s"
+            printf("%s ", (char *)value);
         else
-            printf(aD_3, value); // "%d"
+            printf("%d ", value);
     }
-    printf(asc_800AB428); // "\n"
+
+    printf("\n");
     return 0;
 }
 

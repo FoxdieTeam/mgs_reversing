@@ -5,27 +5,6 @@
 extern int GM_event_camera_flag_800ABA9C;
 int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
 
-extern int GM_CameraTrackSave_800AB42C;
-int SECTION(".sdata") GM_CameraTrackSave_800AB42C;
-
-extern SVECTOR GM_CameraRotateSave_800AB430;
-SVECTOR SECTION(".sdata") GM_CameraRotateSave_800AB430;
-
-extern int GM_CameraTrackOrg_800AB438;
-int SECTION(".sdata") GM_CameraTrackOrg_800AB438;
-
-extern int dword_800AB43C;
-int SECTION(".sdata") dword_800AB43C;
-
-extern int GM_CameraTrackOrg_800AB440;
-int SECTION(".sdata") GM_CameraTrackOrg_800AB440;
-
-extern HZD_TRP *dword_800AB444;
-HZD_TRP *SECTION(".sdata") dword_800AB444;
-
-extern int dword_800AB448;
-int SECTION(".sdata") dword_800AB448;
-
 extern int dword_800ABA90;
 int SECTION(".sbss") dword_800ABA90;
 
@@ -34,6 +13,15 @@ int SECTION(".sbss") dword_800ABA94;
 
 extern int GM_CameraShakeOffset_800ABA98;
 int SECTION(".sdata") GM_CameraShakeOffset_800ABA98;
+
+int      GM_CameraTrackSave_800AB42C = 10000;
+SVECTOR  GM_CameraRotateSave_800AB430 = { 640, 2048, 0, 0 };
+int      GM_CameraTrackOrg_800AB438 = 10000;
+int      GM_800AB43C = 0;
+int      GM_CameraTrackOrg_800AB440 = 0;
+HZD_TRP *GM_800AB444 = NULL;
+int      GM_800AB448 = 0;
+
 
 extern SVECTOR          svec_800ABA88;
 SVECTOR                 svec_800ABA88; // gp
@@ -498,7 +486,7 @@ int camera_act_helper2_8002F5C4(void)
 
 void camera_act_helper3_8002F64C(void)
 {
-    if (GM_Camera_800B77E8.field_22 != dword_800AB43C)
+    if (GM_Camera_800B77E8.field_22 != GM_800AB43C)
     {
         gUnkCameraStruct_800B77B8.field_24 = 0;
         GM_Camera_800B77E8.field_2A = 0;
@@ -537,7 +525,7 @@ void camera_act_helper3_8002F64C(void)
         gUnkCameraStruct_800B77B8.field_24 = 0;
     }
 
-    dword_800AB43C = GM_Camera_800B77E8.field_22;
+    GM_800AB43C = GM_Camera_800B77E8.field_22;
     GM_CameraTrackOrg_800AB440 = GM_Camera_800B77E8.field_18_flags;
 }
 
@@ -1033,7 +1021,7 @@ GV_ACT *camera_init_800306A0()
     gUnkCameraStruct2_800B7868.clip_distance = 320;
     dword_800ABA90 = 0;
     GM_event_camera_flag_800ABA9C = 0;
-    dword_800AB43C = 0;
+    GM_800AB43C = 0;
     GM_CameraTrackOrg_800AB440 = 0;
     gUnkCameraStruct_800B77B8.field_18 = 10000;
     GM_Camera_800B77E8.field_1C = 10000;
@@ -1197,8 +1185,8 @@ void GM_ExitBehindCamera_80030AEC(void)
         dword_800ABA90 = dword_800ABA90 | 8;
     }
 
-    dword_800AB448 = 0;
-    dword_800AB444 = NULL;
+    GM_800AB448 = 0;
+    GM_800AB444 = NULL;
 }
 
 void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
@@ -1210,11 +1198,11 @@ void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
     if ((GM_StatusEvent & 0x100 || GM_AlertMode_800ABA00 != 3) &&
         (trp = HZD_CheckBehindTrap_8002A5E0(pHzdMap, pControl)) != NULL)
     {
-        if (dword_800AB444 != trp)
+        if (GM_800AB444 != trp)
         {
-            if (++dword_800AB448 >= 10)
+            if (++GM_800AB448 >= 10)
             {
-                dword_800AB444 = trp;
+                GM_800AB444 = trp;
 
                 cam = &GM_CameraList_800B7718[3];
                 cam->field_10_param1 = 1;

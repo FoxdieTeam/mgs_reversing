@@ -250,7 +250,7 @@ def get_file_global_size(file):
         "/Bullet/",
         "/Thing/",
         "/Okajima/",
-        "item.c", # todo figure out if correct, why not all .c files in this dir ??
+        "Game/item.c", # todo figure out if correct, why not all .c files in this dir ??
         "anime.c", # ditto
         "vibrate.c",
         "/Takabe/",

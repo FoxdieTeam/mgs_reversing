@@ -10,15 +10,9 @@
 
 // nikita
 
-extern char       aNikita[];    // "nikita"
-extern char       aRcmL_0[];    // "rcl_l"
-extern const char aRcmC[];
-extern int        GM_CurrentMap_800AB9B0;
-extern short      d_800AB9EC_mag_size;
-extern short      d_800ABA2C_ammo;
-
-extern SVECTOR stru_800AB870;
-SVECTOR stru_800AB870; // gp
+extern int   GM_CurrentMap_800AB9B0;
+extern short d_800AB9EC_mag_size;
+extern short d_800ABA2C_ammo;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -27,11 +21,9 @@ extern int DG_CurrentGroupID_800AB968;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              GV_Clock_800AB920;
 
-extern SVECTOR    svector_800AB880;
-SVECTOR           svector_800AB880; // gp
-
-extern RECT       rect_800AB878;
-RECT              rect_800AB878; // gp
+SVECTOR stru_800AB870 = {-100, -800, 80, 0};
+RECT    rect_800AB878 = {100, 100, 200, 200};
+SVECTOR svector_800AB880 = {-50, -300, 100, 0};
 
 void rcm_loader_helper_80066AF8(POLY_FT4 *poly, DG_TEX *texture)
 {
@@ -183,7 +175,7 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
     OBJECT_NO_ROTS *obj;
 
     obj = &actor->f20_obj;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(aNikita), 109, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("nikita"), 109, 0);
     if (!obj->objs)
     {
         return -1;
@@ -196,7 +188,7 @@ int rcm_loader_80066EB0(Actor_Rcm *actor, OBJECT *a2, int unit)
 
     if (pNewPrim)
     {
-        pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aRcmL_0));
+        pTexture = DG_GetTexture_8001D830(GV_StrCode_80016CCC("rcm_l"));
         if (pTexture)
         {
             rcm_loader_helper_80066AF8(&pNewPrim->field_40_pBuffers[0]->poly_ft4, pTexture);
@@ -218,7 +210,7 @@ Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, u
     if (rcm != 0)
     {
         GV_SetNamedActor_8001514C(&rcm->field_0_actor, (TActorFunction)rcm_act_80066BC0,
-                                  (TActorFunction)rcm_kill_80066E68, aRcmC);
+                                  (TActorFunction)rcm_kill_80066E68, "rcm.c");
         iVar1 = rcm_loader_80066EB0(rcm, parent_obj, num_parent);
 
         if (iVar1 < 0)

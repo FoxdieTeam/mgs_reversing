@@ -6,8 +6,6 @@
 #include "libdg/libdg.h"
 #include "radar.h"
 
-int SECTION(".sdata") dword_800AB63C = 0; // declared
-
 extern char *dword_800ABB04;
 char        *SECTION(".sbss") dword_800ABB04;
 
@@ -23,20 +21,11 @@ int        SECTION(".sbss") gRadioClut_800ABAFC;
 extern int dword_800ABB1C;
 int        dword_800ABB1C;
 
-extern short word_800AB640;
-short        word_800AB640;
-
 extern short word_800ABB18;
 short        word_800ABB18;
 
 extern int dword_800ABB14;
 int        dword_800ABB14;
-
-extern int dword_800AB648;
-int        dword_800AB648;
-
-extern int dword_800AB644;
-int        dword_800AB644;
 
 extern int   GV_Time_800AB330;
 
@@ -46,10 +35,7 @@ extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int               GV_PadMask_800AB374;
 extern int               GV_Clock_800AB920;
 
-extern char dword_800AB610[8];
-char        dword_800AB610[8];
-
-extern const char aCall[]; // = "call"
+char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
@@ -122,30 +108,6 @@ char menu_string_format_8009E714[] = {
     '{', 3,
     '}', 3,
     '\0'
-};
-
-TUnkRadioFn menu_debug_screens_8009E730[] = {
-    menu_draw_mem_debug_80043678,
-    menu_draw_pow_debug_80043A24,
-    menu_draw_ply_debug_80043FD0,
-    menu_draw_obj_debug_800442E4,
-    menu_draw_tex_debug_800445F8
-};
-
-extern char aEmpty[];
-extern char aMem[];
-extern char aPow[];
-extern char aPly[];
-extern char aObj[];
-extern char aTex[];
-
-char *menu_debug_screen_labels_8009E744[] = {
-    aEmpty,
-    aMem,
-    aPow,
-    aPly,
-    aObj,
-    aTex
 };
 
 void menu_radio_codec_helper_helper16_8003FC54(Actor_MenuMan *pActor, unsigned char *pOt, int colour)
@@ -414,7 +376,7 @@ void menu_RadioCall_helper_800403E4(void)
     char      *buf;
     RECT      *pRect;
 
-    id = GV_CacheID2_800152FC(aCall, 'r');
+    id = GV_CacheID2_800152FC("call", 'r');
     pRes = GV_GetCache_8001538C(id);
 
     clut_rect.x = 960;
@@ -535,9 +497,6 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, i
     addPrim(pGlue->mPrimBuf.mOt, pLine);
 }
 
-extern char aP3t3t[];  // = "P#3T#3T";
-extern char aMemory[]; // = "MEMORY";
-
 void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos, int ypos, int flags)
 {
     unsigned colour;
@@ -559,7 +518,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.ypos = ypos + 0x28;
         conf.colour = 0x64000000 | colour;
         conf.flags = 0;
-        menu_number_draw_string2_80043220(pGlue, &conf, aP3t3t);
+        menu_number_draw_string2_80043220(pGlue, &conf, "P#3T#3T");
     }
     if (flags & 2)
     {
@@ -568,7 +527,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.ypos = ypos + 0x77;
         conf.colour = 0x64000000 | colour;
         conf.flags = 0;
-        menu_number_draw_string2_80043220(pGlue, &conf, aMemory);
+        menu_number_draw_string2_80043220(pGlue, &conf, "MEMORY");
     }
     if (flags & 4)
     {
@@ -758,8 +717,7 @@ void menu_radio_codec_helper_helper14_80040DC4(Actor_MenuMan *pActor, int param_
     }
 }
 
-extern RECT rect_800AB630;
-RECT        SECTION(".sdata") rect_800AB630;
+RECT SECTION(".sdata") rect_800AB630 = {960, 260, 63, 76};
 
 void init_radio_message_board_80040F74(Actor_MenuMan *pActor)
 {
@@ -959,8 +917,7 @@ void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned char *pOt)
     }
 }
 
-extern int dword_800AB638;
-int        SECTION(".sbss") dword_800AB638;
+int dword_800AB638 = 14000;
 
 void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
 {
@@ -983,6 +940,10 @@ void menu_radio_codec_helper_helper11_8004150C(Actor_MenuMan *pActor)
 
     pActor->field_210 = 9;
 }
+
+int   dword_800AB63C = 0;
+short word_800AB640 = 0;
+int   dword_800AB644 = -1;
 
 void menu_radio_codec_helper_8004158C(Actor_MenuMan *pActor, unsigned char *pOt, GV_PAD *pPad)
 {
@@ -1500,6 +1461,8 @@ void menu_radio_init_nullsub_80042190(Actor_MenuMan *pActor)
 {
 }
 
+int dword_800AB648 = 0;
+
 void menu_radio_update_80042198(Actor_MenuMan *pActor, unsigned char *pOt)
 {
     GCL_ARGS args;
@@ -1730,10 +1693,17 @@ void menu_SetRadioCallbackProc_8004283C(int procNameHashed)
 
 void menu_set_string2_80043138();
 
-extern RECT       rect_800AB64C[];
-extern const char aNum[]; // = "num";
-extern SPRT       gRadioNumberSprt_800bd9b0;
-extern SPRT       gRadioNumberSprt2_800bd9d0;
+// rect_800AB64C is declared as a 1-element array
+// in order for menu_number_init_80042848
+// to declare extern to an array with unspecified size.
+// That way the "small data" optimization of -G8 doesn't kick
+// in (the compiler then doesn't know that rect_800AB64C is 8 bytes large,
+// under the "8 bytes" threshold in G8). Without it, it would force
+// us to compile this function (and the entire file) with -G0.
+RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
+
+extern SPRT gRadioNumberSprt_800bd9b0;
+extern SPRT gRadioNumberSprt2_800bd9d0;
 
 void menu_number_init_80042848(Actor_MenuMan *pActor)
 {
@@ -1744,7 +1714,7 @@ void menu_number_init_80042848(Actor_MenuMan *pActor)
     rect1 = rect_800AB64C[0];
 
     // Loads "num.res" (c70e.r) file:
-    pRes = GV_GetCache_8001538C(GV_CacheID2_800152FC(aNum, 'r'));
+    pRes = GV_GetCache_8001538C(GV_CacheID2_800152FC("num", 'r'));
 
     pRes->field_14[0] = 0; // TODO: Why zero out the first pixel of image?
 
@@ -2109,8 +2079,7 @@ int menu_number_draw_string_800430F0(Actor_MenuMan *pActor, unsigned int *pOt, i
     return textConfig.xpos;
 }
 
-extern RECT gRadioStringRect_800AB658;
-RECT        SECTION(".sdata") gRadioStringRect_800AB658;
+RECT gRadioStringRect_800AB658 = {960, 498, 0, 0};
 
 extern SPRT gRadioStringSprt_800BD9F0;
 

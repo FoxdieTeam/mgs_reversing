@@ -7,34 +7,23 @@
 #include "linker.h"
 #include "psyq.h"
 
-extern PANEL_TEXTURE             gMenuLeftItems_800BD5A0[];
-extern short                     GM_WeaponTypes_8009D580[];
-extern short                     GM_ItemTypes_8009D598[];
-extern int                       GM_GameStatus_800AB3CC;
-extern int                       GM_PlayerStatus_800ABA50;
-extern int                       GV_PauseLevel_800AB928;
-extern int                       GM_DisableItem_800ABA28;
-extern int                       DG_UnDrawFrameCount_800AB380;
-extern int                       dword_8009F46C;
-extern int                       GV_Time_800AB330;
-extern int                       GM_GameOverTimer_800AB3D4;
-extern int                       GM_PlayerMap_800ABA0C;
-extern MATRIX                    DG_ZeroMatrix_8009D430;
-extern SVECTOR                   GM_PlayerPosition_800ABA10;
-extern char                     *itm_descriptions_8009E3E4[];
+extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
+extern short         GM_WeaponTypes_8009D580[];
+extern short         GM_ItemTypes_8009D598[];
+extern int           GM_GameStatus_800AB3CC;
+extern int           GM_PlayerStatus_800ABA50;
+extern int           GV_PauseLevel_800AB928;
+extern int           GM_DisableItem_800ABA28;
+extern int           DG_UnDrawFrameCount_800AB380;
+extern int           dword_8009F46C;
+extern int           GV_Time_800AB330;
+extern int           GM_GameOverTimer_800AB3D4;
+extern int           GM_PlayerMap_800ABA0C;
+extern MATRIX        DG_ZeroMatrix_8009D430;
+extern SVECTOR       GM_PlayerPosition_800ABA10;
 
-extern int                       dword_800ABAD0;
-int SECTION(".sbss")             dword_800ABAD0;
-
-extern int                       dword_800AB574;
-int SECTION(".sbss")             dword_800AB574;
-
-extern int                       dword_800AB578;
-int SECTION(".sbss")             dword_800AB578;
-
-extern const char aNoItem[];
-extern const char aLv[];
-extern const char aEquip[];  // = "EQUIP"
+extern int           dword_800ABAD0;
+int SECTION(".sbss") dword_800ABAD0;
 
 // Also see dword_8009E5CC.
 // Those strings are passed to font_draw_string_80045D0C().
@@ -102,36 +91,13 @@ int SECTION(".data") dword_8009E44C[] = {
     0x81499048, 0x810D8127, 0xD004812A, 3
 };
 
-extern const char aCigs[];
-extern const char aScope[];
-extern const char aCBoxA[];
-extern const char aCBoxB[];
-extern const char aCBoxC[];
-extern const char aNVG[];
-extern const char aThermG[];
-extern const char aGasmask[];
-extern const char aBArmor[];
-extern const char aKetchup[];
-extern const char aStealth[];
-extern const char aBandana[];
-extern const char aCamera[];
-extern const char aRation[];
-extern const char aPalKey[];
-extern const char aCard[];
-extern const char aTimerB[];
-extern const char aMineD[];
-extern const char aDisc[];
-extern const char aRope[];
-extern const char aScarf[];
-extern const char aSuppr[];
-
 menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
-    {aCigs,   14}, {aScope,   30}, {aCBoxA,    17}, {aCBoxB,    17},
-    {aCBoxC,  17}, {aNVG,     15}, {aThermG,   16}, {aGasmask,  19},
-    {aBArmor, 18}, {aKetchup, 25}, {aStealth,  32}, {aBandana,  31},
-    {aCamera, 12}, {aRation,  22}, {"MEDICINE", 21}, {"DIAZEPAM", 21},
-    {aPalKey, 23}, {aCard,    27}, {aTimerB,   26}, {aMineD,    20},
-    {aDisc,   28}, {aRope,    24}, {aScarf,    29}, {aSuppr,    13}};
+    {"CIGS",    14}, {"SCOPE",   30}, {"C.BOX A",  17}, {"C.BOX B",  17},
+    {"C.BOX C", 17}, {"N.V.G",   15}, {"THERM.G",  16}, {"GASMASK",  19},
+    {"B.ARMOR", 18}, {"KETCHUP", 25}, {"STEALTH",  32}, {"BANDANA",  31},
+    {"CAMERA",  12}, {"RATION",  22}, {"MEDICINE", 21}, {"DIAZEPAM", 21},
+    {"PAL KEY", 23}, {"CARD",    27}, {"TIMER.B",  26}, {"MINE.D",   20},
+    {"DISC",    28}, {"ROPE",    24}, {"SCARF",    29}, {"SUPPR.",   13}};
 
 void sub_8003CEF8(PANEL_TEXTURE *a1);
 int  menu_number_draw_number2_80042FC0(Actor_MenuMan *pActor, int xpos, int ypos, int current, int total);
@@ -317,7 +283,7 @@ void menu_item_helper_8003B8F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpo
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
             textConfig.colour = 0x64808080;
-            menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, aLv);
+            menu_number_draw_string_80042BF4(pActor->field_20_otBuf, &textConfig, "LV.");
             textConfig.ypos -= 2;
             menu_number_draw_80042988(pActor->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
         }
@@ -359,7 +325,7 @@ void menu_item_helper_8003B8F0(Actor_MenuMan *pActor, unsigned int *pOt, int xpo
     }
     else
     {
-        menu_number_draw_string_800430F0(pActor, pOt, xpos + 46, ypos + 22, aNoItem, 1);
+        menu_number_draw_string_800430F0(pActor, pOt, xpos + 46, ypos + 22, "NO ITEM", 1);
     }
 
     if ( !pMenuSub->field_0_current.field_4_pos )
@@ -416,6 +382,9 @@ void menu_8003BBEC(Actor_MenuMan *pActor)
 
     GM_SeSet2_80032968(0, 63, 20);
 }
+
+int dword_800AB574 = 0;
+int dword_800AB578 = 0;
 
 int menu_item_update_helper_8003BCD4(Actor_MenuMan *pActor)
 {
@@ -643,7 +612,7 @@ void menu_item_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
                 menu_8003B794(pActor, pOt, GM_ShapeKeyState);
             }
 
-            menu_8003F9B4(pActor, pOt, aEquip);
+            menu_8003F9B4(pActor, pOt, "EQUIP");
         }
 
         menu_8003D7DC(pActor, pOt, &pActor->field_1DC_menu_item);

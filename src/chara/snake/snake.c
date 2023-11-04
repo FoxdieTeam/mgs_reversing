@@ -13,8 +13,8 @@ extern int     GM_GameOverTimer_800AB3D4;
 extern int     GM_PlayerStatus_800ABA50;
 extern short   word_8009EFC0[];
 
-extern SVECTOR svector_800AB7CC;
-SVECTOR        svector_800AB7CC;
+extern SVECTOR           svector_800AB7CC;
+SVECTOR SECTION(".sbss") svector_800AB7CC;
 
 extern TARGET           *GM_BombSeg_800ABBD8;
 TARGET *SECTION(".sbss") GM_BombSeg_800ABBD8;

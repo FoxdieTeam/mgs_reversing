@@ -6,28 +6,23 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
-// force gp
-extern TRadarFn_800AB48C gFn_radar_800AB48C;
-TRadarFn_800AB48C        SECTION(".sdata") gFn_radar_800AB48C;
+int               MENU_RadarScale_800AB480 = 13;
+int               MENU_RadarRangeH_800AB484 = 21845;
+int               MENU_RadarRangeV_800AB488 = 16383;
+TRadarFn_800AB48C gFn_radar_800AB48C = NULL;
+RECT              rect_800AB490 = {992, 382, 32, 2};
+short             gRadarClut_800AB498[4] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
+short             dword_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
+short             dword_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
+int               cons_current_y_800AB4B0 = 0;
+int               cons_current_x_800AB4B4 = 0;
+
 
 extern Menu_rpk_item *gRadar_rpk_800ABAC8;
 Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
 
-extern int MENU_RadarScale_800AB480;
-int        SECTION(".sdata") MENU_RadarScale_800AB480;
-extern int MENU_RadarRangeH_800AB484;
-int        SECTION(".sdata") MENU_RadarRangeH_800AB484;
-extern int MENU_RadarRangeV_800AB488;
-int        SECTION(".sdata") MENU_RadarRangeV_800AB488;
-
-extern RECT     rect_800AB490;
-RECT            rect_800AB490; // gp
 extern short    image_8009E338[];
 extern char     dword_8009E60C[];
-extern short    dword_800AB4A0[4];
-short           dword_800AB4A0[4]; // gp
-extern short    dword_800AB4A8[4];
-short           dword_800AB4A8[4]; // gp
 
 extern MATRIX gRadarScaleMatrix_800BD580;
 extern MATRIX DG_ZeroMatrix_8009D430;
@@ -585,9 +580,6 @@ end:
     addPrim(pOt, pTpage_2);
 }
 
-extern short gRadarClut_800AB498[4];
-short        SECTION(".sdata") gRadarClut_800AB498[4];
-
 void sub_80039D5C(SPRT *pPrim, int x, int y, radar_uv *pRadarUV, int rgb)
 {
     short clut;
@@ -678,11 +670,6 @@ void draw_radar_helper3_helper_80039EC4(MenuPrim *pGlue, int height, int idx)
     pRadarUV = &gRadarUV_8009E30C[8];
     draw_radar_helper3_helper_helper2(pGlue, height, pRadarUV, rgbs);
 }
-
-extern int cons_current_y_800AB4B0;
-int        cons_current_y_800AB4B0;
-extern int cons_current_x_800AB4B4;
-int        cons_current_x_800AB4B4;
 
 void draw_radar_helper3_helper3_helper_8003A0BC(MenuPrim *prim, int code)
 {

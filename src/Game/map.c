@@ -27,8 +27,6 @@ int               SECTION(".sbss") gMapsChanged_800ABAAC;
 extern void       DG_SetFixedLight_8001A094( DG_LIT *pLight, int light_count );
 extern void       HZD_BindMapChange_80029A6C( int mask );
 
-extern const char aNoHzd[];
-
 void Map_light_80030C6C( int a1 )
 {
     MAP *pMap;
@@ -224,7 +222,7 @@ void GM_ResetMapObjs_800310A0()
     gMapsChanged_800ABAAC = 0;
 }
 
-MAP *GCL_Command_hzd_impl_800310D0(void)
+MAP *GCL_Command_mapdef_impl_800310D0(void)
 {
     MAP *map;
     int         d1, d2;
@@ -244,7 +242,7 @@ MAP *GCL_Command_hzd_impl_800310D0(void)
 
     if (!GCL_GetOption_80020968('h')) // hzm
     {
-        printf(aNoHzd);
+        printf("no hzd\n");
         return 0;
     }
 

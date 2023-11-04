@@ -93,8 +93,6 @@ RadioFileModeStru_800ABB7C        *stru_800ABB7C;
 
 extern int GM_PadResetDisable_800AB3F4;
 
-extern int   aNoCard[]; // CAUTION: does not match with "extern char aNoCard[]"
-
 extern char *MGS_MemoryCardName_800AB2EC;
 
 extern int GV_Time_800AB330;
@@ -146,10 +144,6 @@ int dword_8009E774[] = {
 };
 
 extern Actor_MenuMan gMenuMan_800BD360;
-
-
-extern char       aNoFile_0[];
-extern char       aResD[];
 
 extern mem_card  *mcd_last_file_800ABB68[];
 extern const int  dword_800120B4[];
@@ -1731,11 +1725,6 @@ int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, Stru_800A
 
 const char *gMemoryCardNames_8009EC00[] = {"MEMORY CARD 1", "MEMORY CARD 2"};
 
-extern const char aYes[];
-extern const char aNo[];
-
-const char *off_8009EC08[] = {aYes, aNo};
-
 void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, Stru_800ABB74 *pStru)
 {
     Stru_800ABB74_child *pStruChild;
@@ -1766,7 +1755,7 @@ void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *para
     idx_copy = idx;
     if (pStruChild == pStru->field_24)
     {
-        memcpy(&pStru->field_24[0].field_0_name, aNoCard, 8);
+        memcpy(&pStru->field_24[0].field_0_name, "NO CARD", 8);
         pStruChild->field_20 = 2;
         pStruChild = &pStru->field_24[1];
     }
@@ -1947,7 +1936,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         strArr = (char **)dword_8009EB7C;
         dword_8009EBBC[0] = "LOAD DATA";
         dword_8009EBBC[1] = "LOADING...";
-        dword_8009EBBC[3] = aNoFile_0;
+        dword_8009EBBC[3] = "NO FILE";
     }
     switch (dword_800ABB80)
     {
@@ -2092,6 +2081,8 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         }
         else if (flags & 0x10000000)
         {
+            static const char *off_8009EC08[] = {"YES", "NO"};
+
             flagsExtracted = ((flags >> 0x14) ^ 1);
             flagsExtracted &= 1;
             dword_800ABB80 = 5;
@@ -2151,7 +2142,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         menu_number_draw_string2_80043220(pActor->field_20_otBuf, &textConfig1, "PRESS * TO EXIT");
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res1, dword_800ABB74) != 0)
         {
-            printf(aResD, res1);
+            printf("Res %d\n", res1);
             dword_800ABB58 = 0;
             dword_800ABB80 = 1;
             dword_800ABB84 = 0;
@@ -2162,7 +2153,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     case 5:
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res2, dword_800ABB78) != 0)
         {
-            printf(aResD, res2);
+            printf("Res %d\n", res2);
             dword_800ABB78->field_14 = 0;
             if (res2 == -1)
             {
@@ -2194,7 +2185,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
         }
         if (menu_radio_do_file_mode_helper13_8004BCF8(pPad, &res3, dword_800ABB70) != 0)
         {
-            printf(aResD, res3);
+            printf("Res %d\n", res3);
             dword_800ABB70->field_14 = 0;
             if (res3 == -1)
             {
@@ -2254,8 +2245,6 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
     return 0;
 }
 
-extern char aAtEUC[];   // = "@";
-
 void sub_8004CF20(int code, char **param_2, char **param_3)
 {
     int i;
@@ -2263,7 +2252,7 @@ void sub_8004CF20(int code, char **param_2, char **param_3)
     if (code == 0)
     {
         *param_2 = "NO PLACE";
-        *param_3 = aAtEUC;
+        *param_3 = "\x81\x40";
     }
     GCL_SetArgTop_80020690((char *)dword_800ABB8C);
     printf("code %d\n", code);
@@ -2280,7 +2269,6 @@ void sub_8004CF20(int code, char **param_2, char **param_3)
     }
 }
 
-extern char  aAtEUC[];
 extern char  dword_800122F4[];
 
 char dword_8009EC10[] = {0x82, 0x63, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B, 0x00}; // Ｄｏｃｋ
@@ -2321,10 +2309,8 @@ void sub_8004D008(char *outStr, mem_card *pMemcard, int arg2, int arg3)
     }
 
     /* ＭＧＳ∫ */
-    sprintf(outStr, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], aAtEUC, str1, aAtEUC, str3);
+    sprintf(outStr, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], "\x81\x40", str1, "\x81\x40", str3);
 }
-
-extern char aFfCS[]; // = "\f%c%s";
 
 void sub_8004D14C(char *outstr, char *param_2)
 {
@@ -2347,10 +2333,8 @@ void sub_8004D14C(char *outstr, char *param_2)
     {
         val = 3;
     }
-    sprintf(outstr, aFfCS, val | 0x30, str1);
+    sprintf(outstr, "\f%c%s", val | 0x30, str1);
 }
-
-extern char aStar[]; // = "*";
 
 void sub_8004D1D0(char *saveBuf)
 {
@@ -2372,7 +2356,7 @@ void sub_8004D1D0(char *saveBuf)
         }
 
         saveBufIter += size;
-        printf(aStar);
+        printf("*");
     }
 }
 

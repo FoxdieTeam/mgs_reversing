@@ -284,7 +284,6 @@ typedef struct Actor_SnaInit
     int            field_A70;
 } Actor_SnaInit;
 
-typedef int (*TSnakeActFunction)(Actor_SnaInit *);
 typedef GV_ACT * (*TSnakeEquipFuncion)(CONTROL *, OBJECT *, int);
 
 void         sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn);
