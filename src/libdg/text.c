@@ -14,9 +14,7 @@ DG_TEX *SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
 /****************************************************************/
 
 /**sdata*******************************************************************/
-int  SECTION(".sdata") last_searched_texture_name_800AB3A4 = 0xFFFFFFFF;
-RECT SECTION(".sdata") rect_800AB3A8 = {768, 226, 256, 30};
-RECT SECTION(".sdata") rect_800AB3B0 = {768, 196, 256, 30};
+int last_searched_texture_name_800AB3A4 = -1;
 /**************************************************************************/
 
 int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
@@ -25,7 +23,7 @@ int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
     DG_TEX *record;
     int index;
     int record_hash;
-    
+
     start = hash % 512;
     record = &gTextureRecs_800B1F50[start];
     index = start;
@@ -33,7 +31,7 @@ int DG_SearchTexture_8001D778(int hash, DG_TEX **ppFound)
     do
     {
         record_hash = record->field_0_hash;
-        
+
         if (record_hash == 0)
         {
             *ppFound = record;
@@ -92,12 +90,12 @@ DG_TEX *DG_GetTexture_8001D830(int name)
 void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b, int param_6)
 {
     DG_TEX *tex;
-    
+
     int x, y, w, h;
     int cx, cy;
     int tpage;
     int temp;
-    
+
     if (DG_SearchTexture_8001D778(hash, &tex) && tex->field_2_bUsed.c[0])
     {
         tex->field_0_hash = 0;
@@ -119,12 +117,12 @@ void DG_SetTexture_8001D880(int hash, int tp, int abr, DG_Image *a, DG_Image *b,
 
     tex->field_4_tPage = tpage;
     tex->field_6_clut = cy << 6 | cx >> 4;
-    
+
     x %= 64;
 
     w = a->dim.w;
     h = a->dim.h;
-    
+
     if (tp == 0)
     {
         x *= 4;
@@ -164,7 +162,7 @@ void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
         rect->x = x + ( tex->field_8_offx >> 1 );
         break;
     }
-    
+
     rect->y = tex->field_9_offy + y;
     rect->h = tex->field_B_height + 1;
     w = tex->field_A_width + 1;
@@ -184,11 +182,11 @@ void DG_GetTextureRect_8001D9EC( DG_TEX* tex, RECT* rect )
 
 void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
 {
-    short tpage; 
+    short tpage;
     short clut;
     int v1;
     int x, y, w;
-    
+
     clut = tex->field_6_clut;
     v1 = ( clut & 0x7FC0 );
     x =  ( clut & 0x003F ) << 4;
@@ -196,7 +194,7 @@ void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
     if ( v1 < 0 ) v1 += 0x3F;
 
     tpage = tex->field_4_tPage;
-    
+
     y = v1 >> 6;
     w = 0;
 
@@ -209,7 +207,7 @@ void DG_GetClutRect_8001DAA8( DG_TEX* tex, RECT* rect )
         w = 0x100;
         break;
     }
-    
+
     rect->x = x;
     rect->y = y;
     rect->w = w;
