@@ -5,8 +5,6 @@
 
 extern int GM_GameOverTimer_800AB3D4;
 
-extern char aDelayC[];
-
 typedef union ProcIdOrScript {
     int            id;
     unsigned char *pScript;
@@ -172,7 +170,7 @@ GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int 
         pDelay->mDelayCounter = script_tVar;
         pDelay->mProcIdOrScriptPtr.id = script_pVar;
 
-        GV_SetNamedActor_8001514C(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, aDelayC);
+        GV_SetNamedActor_8001514C(&pDelay->mBase, (TActorFunction)delay_act_800331A4, 0, "delay.c");
     }
     return &pDelay->mBase;
 }

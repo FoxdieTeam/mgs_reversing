@@ -9,8 +9,6 @@
 extern Actor_MenuMan gMenuMan_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 
-extern const char aItem[]; // sdata
-
 extern int         GV_Clock_800AB920;
 extern int         MENU_PrimUse_800AB68C;
 extern int GV_PauseLevel_800AB928;
@@ -130,7 +128,7 @@ void menu_init_subsystems_8003884C(Actor_MenuMan *pMenuMan)
     drawEnv.tpage = 31;
     SetDrawEnv(&pMenuMan->field_4C_drawEnv[1], &drawEnv);
 
-    menu_rpk_init_8003DD1C(aItem);
+    menu_rpk_init_8003DD1C("item");
 
     pIter = &gMenuInitFns_8009E290[0];
     while (*pIter)

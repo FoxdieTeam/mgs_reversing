@@ -2,12 +2,17 @@
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
 
-extern const char aInit_0[];
-extern const char aTitle[];
+extern int DG_FrameRate_8009D45C;
+extern int GM_LoadRequest_800AB3D0;
+extern int GM_GameOverTimer_800AB3D4;
+extern int GM_GameStatus_800AB3CC;
+extern int GV_Clock_800AB920;
+extern int GV_PauseLevel_800AB928;
 
-extern int        GM_GameOverTimer_800AB3D4;
-extern int        GM_LoadRequest_800AB3D0;
-extern int        GV_PauseLevel_800AB928;
+extern GV_PAD           *GM_CurrentPadData_800AB91C;
+GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
+
+int GM_GameOverVox_800AB45C = -1;
 
 //------------------------------------------------------------------------------
 
@@ -99,8 +104,6 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
     }
     return uVar2 | iVar1 << 8 | iVar1 << 0x10;
 }
-
-extern int   GV_Clock_800AB920;
 
 void over_act_helper_80036BA4(Actor_Over *pActor, int *pOt)
 {
@@ -324,15 +327,6 @@ void over_act_helper_80037128(Actor_Over *pActor, unsigned int *pOt, int shade)
     addPrim(pOt, pTpage);
 }
 
-extern int               DG_FrameRate_8009D45C;
-extern int               GM_GameStatus_800AB3CC;
-
-extern int               GM_GameOverVox_800AB45C;
-int SECTION(".sbss")     GM_GameOverVox_800AB45C;
-
-extern GV_PAD           *GM_CurrentPadData_800AB91C;
-GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
-
 void over_act_8003721C(Actor_Over *pActor)
 {
     unsigned int *pOt = (unsigned int *)DG_ChanlOTag(1);
@@ -465,12 +459,12 @@ void over_kill_80037514( Actor_Over *pActor )
         GV_ResidentHeapReset_800163B0();
         GV_InitCacheSystem_80015458();
         DG_ClearResidentTexture_8001DB10();
-        stage_name = (char *)aInit_0;
-        GM_GameStatusFlag &= 0xFFDF;
+        stage_name = "init";
+        GM_GameStatusFlag &= ~0x20;
     }
     else
     {
-        stage_name = (char *)aTitle;
+        stage_name = "title";
     }
     GM_SetArea_8002A7D8( GV_StrCode_80016CCC( stage_name ), stage_name );
     GM_LoadRequest_800AB3D0 = 0x81;
@@ -502,8 +496,6 @@ void over_loader_80037600(Actor_Over *pActor)
     }
 }
 
-extern const char    aOverC[]; // = "over.c"
-
 Actor_Over * over_init_800376F8(int can_continue)
 {
     Actor_Over *pActor = (Actor_Over *)GV_NewActor_800150E4(0, sizeof(Actor_Over));
@@ -511,7 +503,7 @@ Actor_Over * over_init_800376F8(int can_continue)
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&over_act_8003721C,
-                                  (TActorFunction)&over_kill_80037514, aOverC);
+                                  (TActorFunction)&over_kill_80037514, "over.c");
 
         pActor->field_20_seq_anim = 1;
         pActor->field_22_seq = 0;

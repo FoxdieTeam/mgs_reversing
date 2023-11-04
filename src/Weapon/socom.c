@@ -12,19 +12,11 @@
 #include "Okajima/bullet.h"
 #include "libgcl/hash.h"
 
-extern const char      aSocom_0[];
-extern const char      aSocom2[];
-extern const char      aLsight[];
-extern char            aSocomC[]; // = "socom.c"
+short word_800AB824 = -215;
+RECT  stru_800AB828 = {0, 0, 2, 2};
 
-extern short word_800AB824;
-short SECTION( ".sdata" ) word_800AB824;
-
-extern RECT    stru_800AB828;
-RECT           stru_800AB828; // gp
-
-extern short   d_800AB9EC_mag_size;
-extern short   d_800ABA2C_ammo;
+extern short d_800AB9EC_mag_size;
+extern short d_800ABA2C_ammo;
 
 //------------------------------------------------------------------------------
 
@@ -34,7 +26,7 @@ SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 //------------------------------------------------------------------------------
 
-void             socom_set_poly_texture_800651B0( POLY_FT4 *a1, DG_TEX *pTexture )
+void socom_set_poly_texture_800651B0( POLY_FT4 *a1, DG_TEX *pTexture )
 {
     int       i;
     POLY_FT4 *pIter = a1;
@@ -374,12 +366,12 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
     obj = &actor->field_20;
     if ( GM_SilencerFlag < 0 )
     {
-        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( aSocom_0 ), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( "socom" ), WEAPON_FLAG, 0);
         actor->field_56 = 0;
     }
     else
     {
-        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( aSocom2 ), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC( "socom2" ), WEAPON_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
         if ( GM_CurrentItemId == ITEM_SUPPR )
@@ -395,7 +387,7 @@ int socom_loader_80065B04( Actor_Socom *actor, OBJECT *arg1, int unit )
         prim = pNewPrim;
         if ( pNewPrim )
         {
-            pTexture = DG_GetTexture_8001D830( GV_StrCode_80016CCC( aLsight ) );
+            pTexture = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "lsight" ) );
             actor->field_5C_pTexture = pTexture;
             if ( pTexture )
             {
@@ -432,7 +424,7 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, 
         GV_SetNamedActor_8001514C( &pActor->field_0_actor,
                                    (TActorFunction)socom_act_80065518,
                                    (TActorFunction)socom_kill_80065A94,
-                                   aSocomC );
+                                   "socom.c" );
         if ( socom_loader_80065B04( pActor, parentObj, unit ) < 0 )
         {
             GV_DestroyActor_800151C8( &pActor->field_0_actor );

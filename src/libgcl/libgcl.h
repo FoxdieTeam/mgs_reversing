@@ -22,7 +22,7 @@ int GCL_Command_foreach_8002033C(unsigned char *pScript);
 int GCL_Command_mesg_8002C138(unsigned char *pScript);
 int GCL_Command_trap_8002BD34(unsigned char *pScript);
 int GCL_Command_map_8002BB44(unsigned char *pScript);
-int GCL_Command_hzd_8002BD04(unsigned char *pScript);
+int GCL_Command_mapdef_8002BD04(unsigned char *pScript);
 int GCL_Command_camera_8002B8F0(unsigned char *pScript);
 int GCL_Command_light_8002B854(unsigned char *pScript);
 int GCL_Command_start_8002C22C(unsigned char *pScript);
@@ -39,7 +39,7 @@ int GCL_Command_sound_8002CA28(unsigned char *pScript);
 int GCL_Command_menu_8002CAAC(unsigned char *pScript);
 int GCL_Command_rand_8002CD94(unsigned char *pScript);
 int GCL_Command_func_8002CDF4(unsigned char *pScript);
-int GCL_Command_unknown2_8002CFBC(unsigned char *pScript);
+int GCL_Command_demodebug_8002CFBC(unsigned char *pScript);
 int GCL_Command_print_8002D0E4(unsigned char *pScript);
 int GCL_Command_jimaku_8002D188(unsigned char *pScript);
 
@@ -315,7 +315,7 @@ int                GCL_SetLoadFile_80020EAC(char *saveBuf);
 void               GCL_SaveLinkVar_80020B90(short *gameVar);
 void               GCL_ReadParamVector_80020AFC( SVECTOR * );
 
-struct MAP *GCL_Command_hzd_impl_800310D0(void);
+struct MAP *GCL_Command_mapdef_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper3_80030938(SVECTOR *pVec);

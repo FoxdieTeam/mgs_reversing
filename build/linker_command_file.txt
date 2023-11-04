@@ -22,8 +22,6 @@
     include "{{OBJ_DIR}}\libgv\strcode.obj"      ;strcode.c
     include "{{OBJ_DIR}}\libgv\math.obj"         ;math.c     ?
 
-    include "{{OBJ_DIR}}\data\sdata\sdata.obj"
-
     ;libdg
     include "{{OBJ_DIR}}\libdg\display.obj"      ;display.c
     include "{{OBJ_DIR}}\libdg\chanl.obj"        ;chanl.c
@@ -50,9 +48,6 @@
     include "{{OBJ_DIR}}\libgcl\expr.obj"        ;expr.c
     include "{{OBJ_DIR}}\libgcl\parse.obj"       ;parse.c
     include "{{OBJ_DIR}}\libgcl\variable.obj"    ;variable.c
-
-
-    include "{{OBJ_DIR}}\data\sdata\sdata4.obj"
 
     ;libhzd
     include "{{OBJ_DIR}}\libhzd\hzd.obj"         ;hzd.c  ?
@@ -120,13 +115,11 @@
     ;Menu
     include "{{OBJ_DIR}}\Menu\menuman.obj"       ;menuman.c
     include "{{OBJ_DIR}}\Menu\radar.obj"         ;radar.c
-    include "{{OBJ_DIR}}\Menu\menu_left.obj"     ;menu_left.c
+    include "{{OBJ_DIR}}\Menu\item.obj"          ;item.c
     include "{{OBJ_DIR}}\Menu\weapon.obj"        ;weapon.c
     include "{{OBJ_DIR}}\Menu\life.obj"          ;life.c ?
     include "{{OBJ_DIR}}\Menu\radio.obj"         ;radio.c
     include "{{OBJ_DIR}}\Menu\debug.obj"         ;debug.c
-
-    include "{{OBJ_DIR}}\data\sdata\sdata5.obj"
 
     ;font
     include "{{OBJ_DIR}}\Font\font.obj"          ;font.c
@@ -141,6 +134,8 @@
     include "{{OBJ_DIR}}\Menu\radiofacedraw.obj" ;radiofacedraw.c ?
     include "{{OBJ_DIR}}\Menu\jimaku.obj"        ;jimaku.c ?
     include "{{OBJ_DIR}}\Menu\radiotable.obj"    ;radiotable.c ?
+
+    include "{{OBJ_DIR}}\data\sdata\sdata5.obj"
     include "{{OBJ_DIR}}\Menu\datasave.obj"      ;datasave.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss5.obj"
@@ -173,8 +168,6 @@
 {% else %}
     include "{{OBJ_DIR}}\chara\snake_vr\sna_init.obj"
 {% endif %}
-
-    include "{{OBJ_DIR}}\data\sdata\sdata6.obj"
 
     ;80050A64 is in event.c
     ;also mentions of weapon.c and unique.c

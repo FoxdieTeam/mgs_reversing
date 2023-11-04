@@ -11,8 +11,6 @@ extern int             GV_PauseLevel_800AB928;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 extern GV_PAD          GV_PadData_800B05C0[4];
 
-extern const char aPause[]; // = "PAUSE"
-
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
 void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
@@ -65,7 +63,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
             config.xpos = 160;
             config.ypos = 80;
 
-            menu_number_draw_string2_80043220( pActor->field_20_otBuf, &config, aPause );
+            menu_number_draw_string2_80043220( pActor->field_20_otBuf, &config, "PAUSE" );
             pTile = menu_render_rect_8003DB2C( pActor->field_20_otBuf, 0, 0, 320, 224, 0 );
             setSemiTrans(pTile, 1);
         }

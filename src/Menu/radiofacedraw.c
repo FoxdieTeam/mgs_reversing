@@ -5,14 +5,11 @@
 #include "libdg/libdg.h"
 #include "Menu/menuman.h"
 
-extern RECT rect_800AB6D8;
-RECT        rect_800AB6D8;
+RECT rect_800AB6D8 = {1008, 432, 5, 20};
+int  dword_800AB6E0 = 0;
 
-extern int dword_800AB6E0;
-int        dword_800AB6E0;
-
-menu_chara_struct* dword_800ABB38;
-menu_chara_struct        *SECTION(".sbss") dword_800ABB38; // force gp
+menu_chara_struct *dword_800ABB38;
+menu_chara_struct *SECTION(".sbss") dword_800ABB38; // force gp
 
 extern int dword_800ABB3C;
 int        dword_800ABB3C;
@@ -400,7 +397,7 @@ void             menu_radio_draw_face_80048DB0( Actor_MenuMan *pActor, menu_char
     MenuPrim              *prim;
     int                    i;
 
-    if ( chara_struct == NULL ) 
+    if ( chara_struct == NULL )
     {
         return;
     }

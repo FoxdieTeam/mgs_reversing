@@ -13,9 +13,6 @@ extern unsigned short GM_ItemTypes_8009D598[];
 extern int            GM_PlayerMap_800ABA0C;
 extern                SVECTOR GM_PlayerPosition_800ABA10;
 
-extern short word_800AB8EC;
-short        SECTION(".word_800AB8EC") word_800AB8EC;
-
 //------------------------------------------------------------------------------
 
 int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)

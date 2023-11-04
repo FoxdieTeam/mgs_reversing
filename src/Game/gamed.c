@@ -25,8 +25,6 @@
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
 extern int              GM_PlayerAddress_800AB9F0;
 int                     GM_PlayerAddress_800AB9F0;
-extern int              GM_GameOverTimer_800AB3D4;
-int                     GM_GameOverTimer_800AB3D4;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 PlayerStatusFlag        GM_PlayerStatus_800ABA50;
 extern short            d_800AB9EC_mag_size;
@@ -53,12 +51,28 @@ extern short            GM_WeaponChanged_800AB9D8;
 short                   GM_WeaponChanged_800AB9D8;
 extern short            GM_O2_800ABA34;
 short                   GM_O2_800ABA34;
-extern int              GM_GameStatus_800AB3CC;
-int                     GM_GameStatus_800AB3CC;
 extern int              GM_NoisePower_800ABA24;
 int                     GM_NoisePower_800ABA24;
 extern int              GM_NoiseLength_800ABA30;
 int                     GM_NoiseLength_800ABA30;
+
+int GM_GameStatus_800AB3CC = 0;
+int GM_LoadRequest_800AB3D0 = 0;
+int GM_GameOverTimer_800AB3D4 = 0;
+
+SVECTOR *GM_lpsvectWind_800AB3D8 = NULL;
+
+TPlayerActFunction GM_lpfnPlayerActControl_800AB3DC = NULL;
+TPlayerActFunction GM_lpfnPlayerActObject2_800AB3E0 = NULL;
+
+short GM_uBombHoming_800AB3E4 = 0;
+short GM_uTenageMotion_800AB3E6 = -1;
+
+TBombFunction  GM_lpfnBombHoming_800AB3E8 = NULL;
+TBombFunction2 GM_lpfnBombBound_800AB3EC = NULL;
+TBombFunction3 GM_lpfnBombExplosion_800AB3F0 = NULL;
+
+int GM_PadResetDisable_800AB3F4 = 0;
 
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;
@@ -72,14 +86,8 @@ int        SECTION(".sbss") gTotalFrameTime_800AB9E8;
 extern int GM_LoadComplete_800ABA38;
 int        SECTION(".sbss") GM_LoadComplete_800ABA38;
 
-extern int GM_LoadRequest_800AB3D0;
-int        SECTION(".sdata") GM_LoadRequest_800AB3D0;
-
 extern GV_PAD *GM_CurrentPadData_800AB91C;
 GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C;
-
-extern int GM_PadResetDisable_800AB3F4;
-int        SECTION(".sdata") GM_PadResetDisable_800AB3F4;
 
 extern int dword_800AB9D0;
 int        SECTION(".sbss") dword_800AB9D0;
@@ -100,7 +108,6 @@ extern int          GV_PassageTime_800AB924;
 extern int          DG_UnDrawFrameCount_800AB380;
 extern int          gSaveCache_800B5294;
 extern int          GV_PauseLevel_800AB928;
-extern char         dword_800AB400[ 9 ];
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
@@ -110,9 +117,6 @@ extern Actor_GM_Daemon GM_Daemon_800B5880;
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
 extern unsigned char *gOverlayBase_800AB9C8;
-
-extern char aInit[]; // = "init";
-extern const char aGamedC[];
 
 extern int gOverlayBinSize_800B5290;
 
@@ -194,7 +198,7 @@ void GM_ResetMemory_8002AA80(void)
 //GM_InitStage?
 void GM_CreateLoader_8002AAB0()
 {
-    char *stageName = aInit;
+    char *stageName = "init";
     if (GM_CurrentStageFlag != 0)
     {
         stageName = GM_GetArea_8002A880(GM_CurrentStageFlag);
@@ -214,7 +218,7 @@ void GM_Act_helper3_helper_8002AB40( void )
 {
 	char *areaName;
 
-	areaName = dword_800AB400;
+	areaName = "";
 	GV_PauseLevel_800AB928 |= 2;
 	GM_Sound_80032C48( 0x1ffff01, 0 );
 	if ( GM_StageName_800AB918 )
@@ -701,7 +705,7 @@ void GM_StartDaemon_8002B77C()
     GV_SetLoader_80015418('b', GM_LoadInitBin_8002B710);
     GM_ClearWeaponAndItem_8002A960();
     GV_InitActor_800150A8(1, &GM_Daemon_800B5880.field_0, 0);
-    GV_SetNamedActor_8001514C(&GM_Daemon_800B5880.field_0, (TActorFunction)GM_Act_8002ADBC, 0, aGamedC);
+    GV_SetNamedActor_8001514C(&GM_Daemon_800B5880.field_0, (TActorFunction)GM_Act_8002ADBC, 0, "gamed.c");
     GM_ResetSystem_8002AA48();
     GM_Reset_8002ABF4(&GM_Daemon_800B5880);
     GM_ResetMemory_8002AA80();

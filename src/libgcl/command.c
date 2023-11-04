@@ -208,9 +208,7 @@ int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
     return 1;
 }
 
-// extern const char aNotScriptData[];
-extern GCL_ARGS gcl_null_args_800AB3BC;
-GCL_ARGS gcl_null_args_800AB3BC; // gp
+GCL_ARGS gcl_null_args_800AB3BC = {};
 
 void GCL_ExecScript_80020228()
 {

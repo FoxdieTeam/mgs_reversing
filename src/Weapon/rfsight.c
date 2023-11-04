@@ -111,8 +111,6 @@ static short rfsight_flag_800ABBE0[4];
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-extern const char aRifle[]; // = "rifle";
-
 void rfsight_act_800696CC(Actor_Rfsight *pActor)
 {
     GV_PAD *pPad;
@@ -127,7 +125,7 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
 
     pPad = GV_PadData_800B05C0;
 
-    if (dword_8009F604 != GV_StrCode_80016CCC(aRifle))
+    if (dword_8009F604 != GV_StrCode_80016CCC("rifle"))
     {
         for (i = 0; i < 3; i++)
         {
@@ -137,9 +135,9 @@ void rfsight_act_800696CC(Actor_Rfsight *pActor)
         pActor->field_28 = 0;
 
         pfn = pActor->field_2c_pfn;
-        pfn(42902, GV_StrCode_80016CCC(aRifle), rfsight_flag_800ABBE0, 1, (short *)&pActor->field_20[0]);
-        pfn(42904, GV_StrCode_80016CCC(aRifle), rfsight_flag_800ABBE0, 1, (short *)&pActor->field_20[1]);
-        pfn(42903, GV_StrCode_80016CCC(aRifle), rfsight_flag_800ABBE0, 1, 0);
+        pfn(42902, GV_StrCode_80016CCC("rifle"), rfsight_flag_800ABBE0, 1, (short *)&pActor->field_20[0]);
+        pfn(42904, GV_StrCode_80016CCC("rifle"), rfsight_flag_800ABBE0, 1, (short *)&pActor->field_20[1]);
+        pfn(42903, GV_StrCode_80016CCC("rifle"), rfsight_flag_800ABBE0, 1, 0);
     }
     else
     {

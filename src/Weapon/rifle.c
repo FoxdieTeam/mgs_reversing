@@ -7,7 +7,6 @@
 
 // PSG1
 
-extern char      aRifle_0[]; // = "rifle"
 extern GM_Camera GM_Camera_800B77E8;
 
 extern int              GM_GameStatus_800AB3CC;
@@ -72,8 +71,7 @@ extern int       DG_CurrentGroupID_800AB968;
 extern int       GM_CurrentMap_800AB9B0;
 extern short     d_800AB9EC_mag_size;
 
-extern SVECTOR   svector_800AB8D4;
-SVECTOR          svector_800AB8D4;
+SVECTOR svector_800AB8D4 = { 5, 300, 80, 0 };
 
 void rifle_act_80067D60(Actor_Rifle *pActor)
 {
@@ -190,7 +188,7 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
 {
     OBJECT_NO_ROTS *obj = &actor_rifle->field_20_obj;
 
-    int id = GV_StrCode_80016CCC(aRifle_0);
+    int id = GV_StrCode_80016CCC("rifle");
     GM_InitObjectNoRots_800349B0(obj, id, WEAPON_FLAG, 0);
 
     if (!obj->objs)
@@ -202,7 +200,6 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
     return 0;
 }
 
-extern char  aRifleC[]; // = "rifle.c";
 extern short d_800ABA2C_ammo;
 
 GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
@@ -214,7 +211,7 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int
     if (pActor)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)&rifle_act_80067D60,
-                                  (TActorFunction)&rifle_kill_80068118, aRifleC);
+                                  (TActorFunction)&rifle_kill_80068118, "rifle.c");
 
         if (rifle_loader_80068184(pActor, pParentObj, numParent) < 0)
         {

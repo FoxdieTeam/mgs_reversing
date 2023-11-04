@@ -20,18 +20,16 @@ u_long SECTION(".sbss") dword_800ABADC;
 
 int SECTION(".sbss") dword_800ABAE0;
 
-extern struct PANEL_CONF *dword_800AB584;
-struct PANEL_CONF        *SECTION(".sdata") dword_800AB584;
 
 extern GM_Camera GM_Camera_800B77E8;
 
-struct PANEL_CONF *SECTION(".sdata") dword_800AB584;
 
 Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
 
-extern struct PANEL_CONF *dword_800AB584;
-extern int                   dword_8009E544[];
-extern int                   GM_GameStatus_800AB3CC;
+PANEL_CONF *dword_800AB584 = NULL;
+
+extern int dword_8009E544[];
+extern int GM_GameStatus_800AB3CC;
 
 int   SECTION(".sbss") dword_800ABAE8;
 int   SECTION(".sbss") dword_800ABAEC;
@@ -756,7 +754,7 @@ int sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
 {
     if (!(pPad->status & pLeftRight->field_8_panel_conf->field_4_input))
     {
-        dword_800AB584 = 0;
+        dword_800AB584 = NULL;
         return 1;
     }
     return 0;
@@ -871,27 +869,17 @@ void menu_weapon_unknown_8003DEB0(void)
     sub_8003CE40(gMenuRightItems_800BD888, MENU_WEAPON_COUNT);
 }
 
-extern const char aSocom[];
-extern const char aFamas_800AB5BC[];
-extern const char aGrenade_800AB5B4[];
-extern const char aNikita_800AB5AC[];
-extern const char aStinger_800AB5A4[];
-extern const char aC4_800AB5A0[];
-extern const char aStunG[];
-extern const char aChaffG[];
-extern const char aPsg1[];
-
 menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {
-    {aSocom,            1},
-    {aFamas_800AB5BC,   3},
-    {aGrenade_800AB5B4, 5},
-    {aNikita_800AB5AC,  10},
-    {aStinger_800AB5A4, 9},
-    {"CLAYMORE",        8},
-    {aC4_800AB5A0,      7},
-    {aStunG,            6},
-    {aChaffG,           11},
-    {aPsg1,             4}
+    {"SOCOM",    1},
+    {"FA-MAS",   3},
+    {"GRENADE",  5},
+    {"NIKITA",   10},
+    {"STINGER",  9},
+    {"CLAYMORE", 8},
+    {"C4",       7},
+    {"STUN.G",   6},
+    {"CHAFF.G",  11},
+    {"PSG1",     4}
 };
 
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
@@ -947,17 +935,6 @@ int sub_8003DF30(int weaponId)
 // Also see dword_8009E3E4, dword_8009E444.
 // Those strings are passed to font_draw_string_80045D0C().
 
-extern char WP_Socom_80011A8C[];
-extern char WP_Famas_80011A30[];
-extern char WP_Grenade_800119C0[];
-extern char WP_Nikita_80011954[];
-extern char WP_Stinger_800118DC[];
-extern char WP_LandMine_8001187C[];
-extern char WP_Bomb_80011838[];
-extern char WP_StunGrenade_800117C4[];
-extern char WP_ChaffGrenade_80011750[];
-extern char WP_Rifle_800116E8[];
-
 char *wpn_descriptions_8009E5CC[] = {
     /* WP_Socom */
     ( char[] ){0xB0, 0x14, 0x82, 0x1D, 0xD0, 0x06, 0x82, 0x13, 0x82, 0x40, 0x82, 0x34, 0x82, 0x19, 0x82, 0x28, 0x82, 0x4B, 0xD0, 0x15, 0x80, 0x7C, 0x90, 0x42, 0x91, 0x0C, 0x90, 0x98, 0x91, 0x0D, 0x91, 0x0E, 0xD0, 0x03, 0x82, 0x4C, 0xD0, 0x06, 0x82, 0x16, 0xD0, 0x06, 0x90, 0x95, 0x90, 0x96, 0x90, 0xC1, 0x90, 0x93, 0x90, 0x94, 0xD0, 0x03, 0x80, 0x23, 0x90, 0x1D, 0x82, 0x3C, 0x82, 0x1F, 0x82, 0x53, 0x81, 0x52, 0x90, 0x7B, 0x81, 0x19, 0x81, 0x28, 0x82, 0x4D, 0xC2, 0x23, 0x82, 0x0F, 0x82, 0x0A, 0x82, 0x53, 0xD0, 0x02, 0x90, 0x7D, 0x81, 0x19, 0x81, 0x28, 0x90, 0x7E, 0x90, 0x7F, 0xD0, 0x03, 0x82, 0x15, 0x82, 0x37, 0x82, 0x4C, 0xC2, 0x23, 0x82, 0x15, 0xD0, 0x06, 0x90, 0x93, 0x90, 0x94, 0x90, 0xB6, 0x91, 0x0F, 0xD0, 0x03, 0x00, 0x00},
@@ -981,10 +958,9 @@ char *wpn_descriptions_8009E5CC[] = {
     ( char[] ){0xB0, 0x14, 0x80, 0x50, 0x80, 0x53, 0x80, 0x47, 0x80, 0x31, 0xD0, 0x15, 0x80, 0x7C, 0x90, 0xAA, 0x90, 0xAB, 0x90, 0x49, 0x82, 0x49, 0x82, 0x04, 0x82, 0x35, 0x82, 0x4B, 0xD0, 0x03, 0x90, 0x93, 0x90, 0x94, 0x81, 0x19, 0x81, 0x4B, 0x81, 0x28, 0x90, 0x95, 0x90, 0x96, 0x82, 0x42, 0xD0, 0x06, 0x82, 0x29, 0x81, 0x2B, 0x90, 0xAC, 0x81, 0x4B, 0xD0, 0x03, 0x90, 0x87, 0x90, 0x9B, 0x82, 0x0D, 0xD0, 0x06, 0x81, 0x27, 0x90, 0x95, 0x90, 0x96, 0x90, 0x97, 0x90, 0x98, 0xD0, 0x02, 0x80, 0x23, 0x90, 0x1D, 0x82, 0x3C, 0x82, 0x1F, 0x82, 0x53, 0x81, 0x52, 0x90, 0x7B, 0x81, 0x19, 0x81, 0x28, 0x90, 0x7E, 0x90, 0x7F, 0xD0, 0x03, 0x00, 0x00},
 };
 
+// TODO: how to specify table size as 1 to keep in sdata?
 const char WP_MP5_80011B04[] = ( const char[] ){0xB0, 0x14, 0x4D, 0x50, 0x20, 0x35, 0x20, 0x53, 0x44, 0xD0, 0x15, 0x80, 0x7C, 0x82, 0x15, 0x82, 0x36, 0x82, 0x3E, 0x82, 0x17, 0x82, 0x53, 0x82, 0x0C, 0x82, 0x53, 0xD0, 0x03, 0x80, 0x23, 0x90, 0x1D, 0x82, 0x3C, 0x82, 0x1F, 0x82, 0x53, 0x81, 0x52, 0x90, 0x7B, 0x81, 0x19, 0x81, 0x28, 0x90, 0x7E, 0x90, 0x7F, 0xD0, 0x03, 0x90, 0x7B, 0x81, 0x17, 0x81, 0x24, 0x81, 0x25, 0x81, 0x11, 0x81, 0x4B, 0x81, 0x28, 0xD0, 0x02, 0x82, 0x35, 0x82, 0x4B, 0x82, 0x0A, 0xD0, 0x06, 0x82, 0x28, 0x90, 0x80, 0x90, 0x8C, 0xD0, 0x03, 0x82, 0x15, 0x82, 0x37, 0x82, 0x4C, 0xC2, 0x23, 0x82, 0x15, 0xD0, 0x06, 0x90, 0x93, 0x90, 0x94, 0xD0, 0x03, 0x00};
-
-extern char *wpn_mp5_description_800AB5CC;
-char        *SECTION(".sdata") wpn_mp5_description_800AB5CC;
+char *wpn_mp5_description_800AB5CC = (char *)WP_MP5_80011B04;
 
 void menu_weapon_update_helper2_helper_8003E030(int wpn_id)
 {
@@ -1015,9 +991,6 @@ void menu_weapon_update_helper2_helper_8003E030(int wpn_id)
 
 extern short d_800ABA2C_ammo;
 extern short d_800AB9EC_mag_size;
-
-extern char aMp5Sd[];    // = "MP 5 SD";
-extern char aNoItem_0[]; // = "NO ITEM";
 
 void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
 {
@@ -1088,7 +1061,7 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
         {
             if (weaponIdxCopy == WEAPON_FAMAS && GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
             {
-                str = aMp5Sd;
+                str = "MP 5 SD";
             }
 
             else
@@ -1100,7 +1073,7 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
     }
     else
     {
-        menu_number_draw_string_800430F0(pActor, pOt, offset_x + 46, off_y + 22, aNoItem_0, 1);
+        menu_number_draw_string_800430F0(pActor, pOt, offset_x + 46, off_y + 22, "NO ITEM", 1);
     }
 
     Menu_item_render_frame_rects_8003DBAC(pActor->field_20_otBuf, offset_x, off_y,
@@ -1153,11 +1126,8 @@ void menu_weapon_update_helper2_helper2_8003E3B0(Actor_MenuMan *pActor)
     GM_SeSet2_80032968(0, 0x3f, 0x14);
 }
 
-extern int dword_800AB5E4;
-int        SECTION(".sdata") dword_800AB5E4;
-
-extern int dword_800AB5E0;
-int        SECTION(".sdata") dword_800AB5E0;
+int dword_800AB5E0 = 0;
+int dword_800AB5E4 = 0;
 
 int menu_weapon_update_helper_8003E4B8(Actor_MenuMan *pActor)
 {
@@ -1244,8 +1214,6 @@ int menu_weapon_update_helper_8003E4B8(Actor_MenuMan *pActor)
 
 extern int DG_UnDrawFrameCount_800AB380;
 extern int GV_PauseLevel_800AB928;
-
-extern const char aWeapon[]; // = "WEAPON"
 
 void menu_weapon_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pOt)
 {
@@ -1351,7 +1319,7 @@ void menu_weapon_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pO
 
         if (dword_800AB5E4 != 0)
         {
-            menu_8003F9B4(pActor, pOt, aWeapon);
+            menu_8003F9B4(pActor, pOt, "WEAPON");
         }
 
         menu_8003D7DC(pActor, pOt, &pActor->field_1F0_menu_weapon);

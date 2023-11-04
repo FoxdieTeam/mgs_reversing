@@ -7,8 +7,6 @@
 
 // claymore (in hands)
 
-
-extern char       aMineC[];      // = "mine.c"
 extern short      d_800AB9EC_mag_size;
 extern short      d_800ABA2C_ammo;
 
@@ -97,7 +95,7 @@ Actor_Mine *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_paren
     if (actor)
     {
         GV_SetNamedActor_8001514C(&actor->field_0_actor, (TActorFunction)mine_act_80067558,
-                                  (TActorFunction)mine_kill_80067710, aMineC);
+                                  (TActorFunction)mine_kill_80067710, "mine.c");
         if (mine_loader_80067730(actor, parent_object, num_parent) < 0)
         {
             GV_DestroyActor_800151C8(&actor->field_0_actor);
