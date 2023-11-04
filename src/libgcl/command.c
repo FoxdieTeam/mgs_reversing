@@ -1,7 +1,7 @@
 #include "libgcl.h"
 #include "Game/game.h"
 
-GCL_COMMANDDEF *dword_800AB3B8 = 0; // sdata
+GCL_COMMANDDEF *dword_800AB3B8 = 0;
 
 int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain)
 {

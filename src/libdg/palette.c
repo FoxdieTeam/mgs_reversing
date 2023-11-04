@@ -2,11 +2,8 @@
 #include "psyq.h"
 #include "libdg.h"
 
-extern RECT rect_800AB3A8;
-RECT SECTION(".sdata") rect_800AB3A8;
-
-extern RECT rect_800AB3B0;
-RECT SECTION(".sdata") rect_800AB3B0;
+RECT rect_800AB3A8 = {768, 226, 256, 30};
+RECT rect_800AB3B0 = {768, 196, 256, 30};
 
 void DG_StorePalette_8001FC28(void)
 {

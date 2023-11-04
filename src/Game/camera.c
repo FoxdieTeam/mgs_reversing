@@ -12,7 +12,7 @@ extern int dword_800ABA94;
 int SECTION(".sbss") dword_800ABA94;
 
 extern int GM_CameraShakeOffset_800ABA98;
-int SECTION(".sdata") GM_CameraShakeOffset_800ABA98;
+int SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
 
 int      GM_CameraTrackSave_800AB42C = 10000;
 SVECTOR  GM_CameraRotateSave_800AB430 = { 640, 2048, 0, 0 };

@@ -18,7 +18,7 @@ extern int GM_LoadRequest_800AB3D0;
 
 // force GP
 extern GV_PAD *GM_CurrentPadData_800AB91C; // sbss
-GV_PAD*        SECTION(".sdata") GM_CurrentPadData_800AB91C;
+GV_PAD        *SECTION(".sdata") GM_CurrentPadData_800AB91C;
 
 void menu_texture_init_8003CC94(Actor_MenuMan *pActor);
 void menu_radar_init_8003B474(Actor_MenuMan *pActor);
