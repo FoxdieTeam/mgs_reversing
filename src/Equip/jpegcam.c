@@ -36,7 +36,7 @@ short        SECTION(".sbss") dword_800ABBDC;
 
 extern char aBislpm99999[];          // = "BISLPM-99999        "
 
-menu_save_mode_data stru_8009F2D8 = {{67, 4}, 0, 2, "SAVE PHOTO", (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
+DATA_INFO stru_8009F2D8 = {{67, 4}, 0, 2, "SAVE PHOTO", (void *)jpegcam_unk1_80063704, (void *)jpegcam_unk2_80063888, (void *)jpegcam_unk3_800638B4};
 
 signed char gJpegcamZigZagTable_8009F2EC[64] = {
     0x00, 0x01, 0x08, 0x10, 0x09, 0x02, 0x03, 0x0A,
