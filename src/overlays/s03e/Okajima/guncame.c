@@ -71,11 +71,11 @@ typedef struct GunCamEWork
     int      field_3D8;
     int      field_3DC;
     int      field_3E0;
-    SVECTOR  field_3F4;
+    int      field_3E4;
+    int      field_3E8;
     int      field_3EC;
     int      field_3F0;
-    int      field_3F4;
-    int      field_3F8;
+    SVECTOR  field_3F4;
     int      field_3FC;
     int      field_400;
     int      field_404;
