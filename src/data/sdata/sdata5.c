@@ -3,10 +3,10 @@
 // datasave.c needs to be split to resolve the two empty strings in this file
 
 int  SECTION(".sdata") dword_800AB6EC = 0;
-int  SECTION(".sdata") dword_800AB6F0 = 0xFFFFFFFF;
+int  SECTION(".sdata") dword_800AB6F0 = -1;
 int  SECTION(".sdata") dword_800AB6F4 = 0;
 char SECTION(".sdata") byte_800AB6F8[] = "";
-int  SECTION(".sdata") dword_800AB6FC = 0xFFFFFFFF;
+int  SECTION(".sdata") dword_800AB6FC = -1;
 int  SECTION(".sdata") dword_800AB700 = 0;
 
 char SECTION(".sdata") aError[] = "ERROR";
