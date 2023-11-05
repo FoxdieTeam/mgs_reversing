@@ -9,7 +9,7 @@ void *SECTION(".sbss") MENU_JimakuTextBody_800ABB40;
 int SECTION(".sbss") dword_800ABB44;
 int SECTION(".sbss") dword_800ABB48;
 
-menu_save_mode_data *SECTION(".sbss") dword_800ABB4C;
+DATA_INFO *SECTION(".sbss") dword_800ABB4C;
 
 void *SECTION(".sbss") dword_800ABB50;
 int SECTION(".sbss") dword_800ABB54;
@@ -20,14 +20,14 @@ int SECTION(".sbss") mcd_last_check_800ABB60[2];
 mem_card *SECTION(".sbss") mcd_last_file_800ABB68[2];
 
 int SECTION(".sbss") dword_800ABB70;
-Stru_800ABB74 *SECTION(".sbss") dword_800ABB74;
+SELECT_INFO *SECTION(".sbss") dword_800ABB74;
 int SECTION(".sbss") dword_800ABB78;
 
 RadioFileModeStru_800ABB7C *SECTION(".sbss") stru_800ABB7C;
 
 int SECTION(".sbss") dword_800ABB80;
 int SECTION(".sbss") dword_800ABB84;
-Stru_800ABB74 *SECTION(".sbss") dword_800ABB88;
+SELECT_INFO *SECTION(".sbss") dword_800ABB88;
 int SECTION(".sbss") dword_800ABB8C;
 int SECTION(".sbss") dword_800ABB90;
 int SECTION(".sbss") dword_800ABB94;
