@@ -71,8 +71,7 @@ typedef struct GunCamEWork
     int      field_3D8;
     int      field_3DC;
     int      field_3E0;
-    int      field_3E4;
-    int      field_3E8;
+    SVECTOR  field_3F4;
     int      field_3EC;
     int      field_3F0;
     int      field_3F4;
@@ -167,8 +166,11 @@ void s03e_guncame_800C7068(GunCamEWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7118.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7144.s")
-int s03e_guncame_800C7144(GunCamEWork *work, int, int, int);
+void s03e_guncame_800C7144(GunCamEWork *work, short int arg1, short int arg2, short int arg3) {
+    work->field_3F4.vx = arg1;
+    work->field_3F4.vy = arg2;
+    work->field_3F4.vz = arg3;
+}
 
 int s03e_guncame_800C7154(int opt, SVECTOR *svec)
 {
