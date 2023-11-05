@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_searchli_800D7DBC
-s01a_searchli_800D7DBC:
+	xdef Searchli_800D7DBC
+Searchli_800D7DBC:
 	dw 0x24CF0001 ; 800D7DBC
 	dw 0x01EF0018 ; 800D7DC0
 	dw 0x27BDFFE8 ; 800D7DC4
