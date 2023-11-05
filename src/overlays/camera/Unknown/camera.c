@@ -185,7 +185,7 @@ void camera_800C5C54(MenuPrim *pGlue) // duplicate of menu_radio_do_file_mode_he
     }
 }
 
-void camera_800C5D2C(SPRT *pPrim) // duplicate of menu_init_sprt_8004AE14
+void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
 {
     LSTORE(0x80808080, &pPrim->r0);
     setSprt(pPrim);
@@ -245,52 +245,53 @@ void camera_800C5EB4(Actor_MenuMan *param_1, const char *str) // duplicate of me
     font_update_8004695C(kcb);
 }
 
-extern menu_save_mode_data *camera_dword_800D072C;
+extern DATA_INFO *camera_dword_800D072C;
 
-void camera_800C5F20(Stru_800ABB74 *pStru) // duplicate of sub_8004AEA8
+void camera_800C5F20(SELECT_INFO *info) // duplicate of sub_8004AEA8
 {
-    int   field_6;
-    int   i, j;
+    int   top;
+    int   i, y;
     int   count;
-    int   val1, val2;
+    int   x, val2;
     KCB  *kcb;
-    char  str[32];
+    char  mes[32];
     char *name;
 
-    kcb = pStru->field_1C_kcb;
-    val1 = 0;
+    kcb = info->field_1C_kcb;
+    x = 0;
     font_clear_800468FC(kcb);
 
     val2 = 14;
-    j = val2;
-    count = pStru->field_8 - pStru->field_6;
+    y = val2;
+    count = info->max_num - info->top;
     if (count > 6)
     {
         count = 6;
     }
 
-    field_6 = pStru->field_6;
-    for (i = 0; i < count; i++, j += 14)
+    top = info->top;
+    for (i = 0; i < count; i++, y += 14)
     {
         if (i == 4)
         {
-            val1 = 128;
-            j = val2;
+            x = 128;
+            y = val2;
         }
 
-        name = pStru->field_24[i + field_6].field_0_name;
+        name = info->menu[i + top].mes;
         if (name[0] != '\0')
         {
-            camera_dword_800D072C->field_C(str, name);
-            font_draw_string_80045D0C(kcb, val1, j, str, 2);
+            camera_dword_800D072C->make_menu(mes, name);
+            font_draw_string_80045D0C(kcb, x, y, mes, 2);
         }
     }
-    font_draw_string_80045D0C(kcb, 0, 0, pStru->field_20, 0);
+
+    font_draw_string_80045D0C(kcb, 0, 0, info->message, 0);
     font_update_8004695C(kcb);
 }
 
 void camera_800C6054(Actor_MenuMan *pActor, char *pOt,
-                     Stru_800ABB74 *pStru) // duplicate of menu_radio_do_file_mode_helper8_8004AFE4
+                     SELECT_INFO *info) // duplicate of menu_radio_do_file_mode_helper8_8004AFE4
 {
     unsigned int xoff;
     SPRT        *pPrim;
@@ -352,11 +353,11 @@ void camera_800C6918(void **arg0, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6984.s")
-void camera_800C6984(Stru_800ABB74 *pStru, int param_2);
+void camera_800C6984(SELECT_INFO *info, int param_2);
 
 extern char camera_dword_800C37F8[];
 extern char *MGS_MemoryCardName_800AB2EC;
-extern menu_save_mode_data *camera_dword_800D072C;
+extern DATA_INFO *camera_dword_800D072C;
 extern int camera_dword_800D0728;
 extern char camera_dword_800CFFC8[];
 extern int camera_dword_800C342C;
@@ -364,13 +365,13 @@ extern const char camera_aFiles_800D0010[];
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
 int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3,
-                                              Stru_800ABB74 *pStru2)
+                                              SELECT_INFO *info)
 {
-    Stru_800ABB74_child *pIter;
+    SELECT_MENU *pIter;
     mem_card_block      *pBlock;
     int                  i;
 
-    pIter = pStru2->field_24;
+    pIter = info->menu;
 
     strcpy(camera_dword_800C37F8, MGS_MemoryCardName_800AB2EC);
     camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
@@ -382,7 +383,7 @@ int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param
 
         if (strncmp(pBlock->field_0_name, camera_dword_800C37F8, 13) == 0)
         {
-            camera_800C68BC(pIter->field_0_name, pBlock->field_0_name);
+            camera_800C68BC(pIter->mes, pBlock->field_0_name);
             pIter->field_20 = i;
             pIter++;
         }
@@ -390,53 +391,53 @@ int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param
 
     if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->field_3)
     {
-        memcpy(pIter->field_0_name, camera_dword_800CFFC8, 1);
+        memcpy(pIter->mes, camera_dword_800CFFC8, 1);
         pIter->field_20 = 16;
         pIter++;
     }
 
-    pStru2->field_1C_kcb = pActor->field_214_font;
-    pStru2->field_8 = pIter - pStru2->field_24;
+    info->field_1C_kcb = pActor->field_214_font;
+    info->max_num = pIter - info->menu;
 
     if (camera_dword_800D072C->field_0[0] != 71)
     {
-        if (pStru2->field_8 && pIter[-1].field_20 == 16)
+        if (info->max_num && pIter[-1].field_20 == 16)
         {
-            pStru2->field_4 = pStru2->field_8 - 1;
+            info->field_4 = info->max_num - 1;
         }
         else
         {
-            pStru2->field_4 = 0;
+            info->field_4 = 0;
         }
     }
-    else if (camera_dword_800C342C == -1 || camera_dword_800C342C >= pStru2->field_8)
+    else if (camera_dword_800C342C == -1 || camera_dword_800C342C >= info->max_num)
     {
-        if (camera_dword_800D0728 == 0 && pStru2->field_8 && pIter[-1].field_20 == 16)
+        if (camera_dword_800D0728 == 0 && info->max_num && pIter[-1].field_20 == 16)
         {
-            pStru2->field_4 = pStru2->field_8 - 1;
+            info->field_4 = info->max_num - 1;
         }
         else
         {
-            pStru2->field_4 = 0;
+            info->field_4 = 0;
         }
     }
     else
     {
-        pStru2->field_4 = camera_dword_800C342C;
+        info->field_4 = camera_dword_800C342C;
     }
 
-    pStru2->field_6 = 0;
-    pStru2->field_20 = param_3;
-    pStru2->field_E = -1;
-    pStru2->field_0_xpos = 40;
-    pStru2->field_2_ypos = 40;
-    pStru2->field_16 = 8;
-    pStru2->field_A = 0;
-    pStru2->field_18 = -1;
-    pStru2->field_12 = 240;
-    pStru2->field_14 = 1;
-    camera_800C6984(pStru2, 0);
-    return pStru2->field_8 != 0;
+    info->top = 0;
+    info->message = param_3;
+    info->field_E = -1;
+    info->field_0_xpos = 40;
+    info->field_2_ypos = 40;
+    info->open_count = 8;
+    info->field_A = 0;
+    info->field_18 = -1;
+    info->field_12 = 240;
+    info->field_14 = 1;
+    camera_800C6984(info, 0);
+    return info->max_num != 0;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6CCC.s")
@@ -444,47 +445,47 @@ int camera_800C6A40(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param
 
 // duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
 void camera_800C703C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20,
-                                               Stru_800ABB74 *pStru)
+                                               SELECT_INFO *info)
 {
     KCB                 *kcb;
     const char          *src;
     int                  i;
-    Stru_800ABB74_child *dest;
+    SELECT_MENU *dest;
 
-    dest = pStru->field_24;
+    dest = info->menu;
     for (i = 0; i < cnt; i++, dest++)
     {
         src = srcs[i];
-        strcpy(dest->field_0_name, src);
+        strcpy(dest->mes, src);
         dest->field_20 = i;
     }
 
     kcb = pActor->field_214_font;
 
-    pStru->field_8 = dest - pStru->field_24;
-    pStru->field_4 = field_4;
-    pStru->field_6 = 0;
-    pStru->field_20 = field_20;
-    pStru->field_E = 1;
-    pStru->field_0_xpos = 160;
-    pStru->field_A = 0;
-    pStru->field_14 = 1;
-    pStru->field_2_ypos = 128;
-    pStru->field_10 = 64;
-    pStru->field_12 = 32;
-    // pStru->field_16 = 4;
-    pStru->field_1C_kcb = kcb;
+    info->max_num = dest - info->menu;
+    info->field_4 = field_4;
+    info->top = 0;
+    info->message = field_20;
+    info->field_E = 1;
+    info->field_0_xpos = 160;
+    info->field_A = 0;
+    info->field_14 = 1;
+    info->field_2_ypos = 128;
+    info->field_10 = 64;
+    info->field_12 = 32;
+    // info->field_16 = 4;
+    info->field_1C_kcb = kcb;
 }
 
 // duplicate of menu_radio_do_file_mode_helper16_8004C164
-void camera_800C714C(MenuPrim *pGlue, Stru_800ABB74 *pStru)
+void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 {
     int        i;
     int        xpos, ypos;
     TextConfig textConfig;
 
     textConfig.flags = 0x12;
-    if (pStru->field_14 != 0)
+    if (info->field_14 != 0)
     {
         textConfig.colour = 0x66748956;
     }
@@ -492,37 +493,37 @@ void camera_800C714C(MenuPrim *pGlue, Stru_800ABB74 *pStru)
     {
         textConfig.colour = 0x663d482e;
     }
-    textConfig.xpos = pStru->field_0_xpos;
-    textConfig.ypos = pStru->field_2_ypos;
-    menu_number_draw_string2_80043220(pGlue, &textConfig, pStru->field_20);
-    if (pStru->field_8 == 1)
+    textConfig.xpos = info->field_0_xpos;
+    textConfig.ypos = info->field_2_ypos;
+    menu_number_draw_string2_80043220(pGlue, &textConfig, info->message);
+    if (info->max_num == 1)
     {
-        xpos = pStru->field_0_xpos;
+        xpos = info->field_0_xpos;
     }
     else
     {
-        xpos = pStru->field_0_xpos - pStru->field_10 / 2;
+        xpos = info->field_0_xpos - info->field_10 / 2;
     }
-    for (i = 0; i < pStru->field_8; i++, xpos += pStru->field_10)
+    for (i = 0; i < info->max_num; i++, xpos += info->field_10)
     {
         textConfig.xpos = xpos;
-        ypos = pStru->field_2_ypos;
+        ypos = info->field_2_ypos;
         textConfig.ypos = ypos + 12;
 
-        if (i == pStru->field_4)
+        if (i == info->field_4)
         {
             textConfig.colour = 0x66748956;
-            if (pStru->field_14 != 0)
+            if (info->field_14 != 0)
             {
                 ypos += 16;
-                camera_800C5B00(textConfig.xpos, ypos, pStru->field_12, 12, 2);
+                camera_800C5B00(textConfig.xpos, ypos, info->field_12, 12, 2);
             }
         }
         else
         {
             textConfig.colour = 0x663d482e;
         }
-        menu_number_draw_string2_80043220(pGlue, &textConfig, pStru->field_24[i].field_0_name);
+        menu_number_draw_string2_80043220(pGlue, &textConfig, info->menu[i].mes);
     }
 }
 
@@ -536,7 +537,7 @@ void camera_800C714C(MenuPrim *pGlue, Stru_800ABB74 *pStru)
 int        camera_800C5308(int);
 extern int camera_dword_800D0764;
 
-void camera_800C82B0(menu_save_mode_data *arg0, int arg1)
+void camera_800C82B0(DATA_INFO *arg0, int arg1)
 {
     camera_dword_800D0764 = 0;
     camera_dword_800D072C = arg0;
@@ -544,7 +545,7 @@ void camera_800C82B0(menu_save_mode_data *arg0, int arg1)
     camera_800C5308(arg1);
 }
 
-extern menu_save_mode_data camera_dword_800C38E0;
+extern DATA_INFO camera_dword_800C38E0;
 
 void camera_800C82EC(void)
 {

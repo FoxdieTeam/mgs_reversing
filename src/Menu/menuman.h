@@ -142,16 +142,16 @@ typedef void (*TMenuSaveModeDataUnknownFn1)(char *, struct mem_card *, int, int)
 typedef void (*TMenuSaveModeDataUnknownFn2)(char *, char *);
 typedef void (*TMenuSaveModeDataUnknownFn3)(char *);
 
-typedef struct menu_save_mode_data
+typedef struct DATA_INFO
 {
   char                        field_0[2];
   char                        field_2;
   char                        field_3;
   const char                 *field_4_name; // "SAVE DATA", "SAVE PHOTO"
   TMenuSaveModeDataUnknownFn1 field_8;
-  TMenuSaveModeDataUnknownFn2 field_C;
+  TMenuSaveModeDataUnknownFn2 make_menu;
   TMenuSaveModeDataUnknownFn3 field_10;
-} menu_save_mode_data;
+} DATA_INFO;
 
 struct Menu_Item_Unknown;
 typedef void (*TMenuItemUnknownFn)(struct Menu_Item_Unknown *, int);
@@ -383,7 +383,7 @@ void         draw_life_defaultX_8003F408(MenuPrim *ot, int xpos, int ypos, int a
 void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, BarConfig *pBarConfig);
 void         menu_draw_bar_8003ED4C(MenuPrim *pBuffer, long x, long y, long rest, long now, long max, BarConfig *pConfig);
 void         menu_InitRadioTable_80049644();
-void         menu_init_sprt_8004AE14(SPRT *pSprt);
+void         set_sprt_default_8004AE14(SPRT *pSprt);
 void         move_coord_8004A494(int *arr, int len);
 void         menu_ResetSystem_80038A88();
 void         menu_SetRadarScale_80038E28(int);
@@ -467,7 +467,7 @@ int            menu_item_IsItemDisabled_8003B6D0(int item_idx);
 void           menu_ResetTexture_80038A00(void);
 void           menu_jimaku_init_helper_800493F8(KCB *kcb);
 void           menu_font_kill_helper_8003F50C(void);
-void           menu_radio_8004D2FC(menu_save_mode_data *pSaveMode);
+void           menu_radio_8004D2FC(DATA_INFO *pSaveMode);
 int            menu_radio_8004D334(GV_PAD *pPad);
 void           menu_radio_8004D35C(void);
 void           menu_panel_free_8003D184(Menu_Item_Unknown *pPanel);
