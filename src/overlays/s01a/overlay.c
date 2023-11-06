@@ -1,6 +1,6 @@
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
-#include "libgcl/hash.h"
 
 GCL_ActorTableEntry s01aOverlayCharas[] =
 {
@@ -85,8 +85,8 @@ short s01a_dword_800C381A = 0x800C;
 extern const char s01a_dword_800E3668[];
 extern const char s01a_dword_800E36B8[];
 
-ANIMATION anm_breath_800C32E8  = { 0x512D, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, s01a_dword_800E3668 };
-ANIMATION anm_unknown_800C3304 = { 0x512D, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, s01a_dword_800E36B8 };
+ANIMATION anm_breath_800C32E8  = { PCX_SMOKE, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (char *)s01a_dword_800E3668 };
+ANIMATION anm_unknown_800C3304 = { PCX_SMOKE, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (char *)s01a_dword_800E36B8 };
 
 SVECTOR snow_svec_800C3854 = {-5000, 0, -10000, 0};
 SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
@@ -271,41 +271,22 @@ int s01a_dword_800C3B68 = 0x00780078;
 int s01a_dword_800C3B6C = 0x00F000F0;
 int s01a_dword_800C3B70 = 0x012C012C;
 int s01a_dword_800C3B74 = 0x0000012C;
-int s01a_dword_800C3B78 = 0x0002E4CC;
-int s01a_dword_800C3B7C = 0x00040002;
-int s01a_dword_800C3B80 = 0x012C0001;
-int s01a_dword_800C3B84 = 0x03200001;
-int s01a_dword_800C3B88 = 0x00800320;
-int s01a_dword_800C3B8C = 0x00000000;
-int s01a_dword_800C3B90 = 0x800E44D8;
-int s01a_dword_800C3B94 = 0x0008512D;
-int s01a_dword_800C3B98 = 0x001E0004;
-int s01a_dword_800C3B9C = 0x01F40001;
-int s01a_dword_800C3BA0 = 0x01900001;
-int s01a_dword_800C3BA4 = 0x00800190;
-int s01a_dword_800C3BA8 = 0x00000000;
-int s01a_dword_800C3BAC = 0x800E4500;
-int s01a_dword_800C3BB0 = 0x0008512D;
-int s01a_dword_800C3BB4 = 0x001E0004;
-int s01a_dword_800C3BB8 = 0x01F40001;
-int s01a_dword_800C3BBC = 0x01900001;
-int s01a_dword_800C3BC0 = 0x00800190;
-int s01a_dword_800C3BC4 = 0x00000000;
-int s01a_dword_800C3BC8 = 0x800E4518;
-int s01a_dword_800C3BCC = 0x0008512D;
-int s01a_dword_800C3BD0 = 0x001E0004;
-int s01a_dword_800C3BD4 = 0x01F40001;
-int s01a_dword_800C3BD8 = 0x01900001;
-int s01a_dword_800C3BDC = 0x00000190;
-int s01a_dword_800C3BE0 = 0x00000000;
-int s01a_dword_800C3BE4 = 0x800E4580;
-int s01a_dword_800C3BE8 = 0x0008512D;
-int s01a_dword_800C3BEC = 0x001E0004;
-int s01a_dword_800C3BF0 = 0x01F40001;
-int s01a_dword_800C3BF4 = 0x01900002;
-int s01a_dword_800C3BF8 = 0x00200190;
-int s01a_dword_800C3BFC = 0x00000000;
-int s01a_dword_800C3C00 = 0x800E45F8;
+
+extern const char anim_data_800E44D8[];
+ANIMATION anm_800C3B78 = {PCX_SOCOM_F, 2, 2, 4, 1, 300, 1, 800, 800, 128, NULL, (char *)anim_data_800E44D8};
+
+extern const char anim_data_800E4500[];
+ANIMATION anm_800C3B94 = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 128, NULL, (char *)anim_data_800E4500};
+
+extern const char anim_data_800E4518[];
+ANIMATION anm_800C3BB0 = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 128, NULL, (char *)anim_data_800E4518};
+
+extern const char anim_data_800E4580[];
+ANIMATION anm_800C3BCC = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 0, NULL, (char *)anim_data_800E4580};
+
+extern const char anim_data_800E45F8[];
+ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800E45F8};
+
 int s01a_dword_800C3C04 = 0x0001479F;
 int s01a_dword_800C3C08 = 0x00010001;
 int s01a_dword_800C3C0C = 0x00E60001;

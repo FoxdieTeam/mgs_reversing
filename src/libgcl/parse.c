@@ -176,6 +176,7 @@ void GCL_UnsetCommandLine_80020950()
     GCL_CommandLineP_800AB99C--;
 }
 
+// TODO: this is likely returning a char *
 int GCL_GetOption_80020968(char paramName)
 {
     unsigned char *pScript;

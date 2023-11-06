@@ -32,7 +32,7 @@
 #include "Weapon/aam.h"
 
 extern Sna_E1 e1_800AB7C4;
-Sna_E1        SECTION(".sdata") e1_800AB7C4;
+Sna_E1        e1_800AB7C4;
 
 extern int dword_800ABBA8;
 int        SECTION(".sbss") dword_800ABBA8;

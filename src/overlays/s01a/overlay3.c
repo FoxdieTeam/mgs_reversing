@@ -634,7 +634,8 @@ const char s01a_aScamera_800E44C0[] = "s_camera";
 const char s01a_dword_800E44CC[] = {'c', 'a', 'm', 'e'};
 const char s01a_dword_800E44D0[] = {'r', 'a', '.', 'c'};
 const char s01a_dword_800E44D4[] = {0x0, 'f', 'l', 'a'};
-const char s01a_dword_800E44D8[] = {0x0, 0x1d, 0x3, 0x0};
+
+const char anim_data_800E44D8[] = {0x0, 0x1d, 0x3, 0x0};
 const char s01a_dword_800E44DC[] = {0x9, 0x0, 0x10, 0x0};
 const char s01a_dword_800E44E0[] = {0x1b, 0x9, 0xb, 0xb8};
 const char s01a_dword_800E44E4[] = {0x2, 0x0, 0x1, 0xf};
@@ -644,13 +645,15 @@ const char s01a_dword_800E44F0[] = {0x0, 0x1, 0xf, 0x7};
 const char s01a_dword_800E44F4[] = {0x3, '\n', 0xfe, 0x98};
 const char s01a_dword_800E44F8[] = {0xfe, 0xfc, 0x2, 0x0};
 const char s01a_dword_800E44FC[] = {0x1, 0xf, 0x0, 0x0};
-const char s01a_dword_800E4500[] = {0x0, 0x13, 0x1, 0x0};
+
+const char anim_data_800E4500[] = {0x0, 0x13, 0x1, 0x0};
 const char s01a_dword_800E4504[] = {0x5, 0xc, 0x0, 0x7};
 const char s01a_dword_800E4508[] = {0x1, 0xff, '\n', 0x0};
 const char s01a_dword_800E450C[] = {'F', 0x0, 'F', 0x8};
 const char s01a_dword_800E4510[] = {0xf0, 0xf0, 0xf0, 0x2};
 const char s01a_dword_800E4514[] = {0x0, 0x1, 0xd, 0xf};
-const char s01a_dword_800E4518[] = {0x0, '[', 0x4, 0x0};
+
+const char anim_data_800E4518[] = {0x0, '[', 0x4, 0x0};
 const char s01a_dword_800E451C[] = {0xb, 0x0, 0x1e, 0x0};
 const char s01a_dword_800E4520[] = {'6', 0x0, 'N', 0xc};
 const char s01a_dword_800E4524[] = {0x0, 0x7, 0x1, 0xff};
@@ -676,7 +679,8 @@ const char s01a_dword_800E4570[] = {'\n', 0x1, 0xf4, 0x1};
 const char s01a_dword_800E4574[] = {0xf4, 0x8, 0xf0, 0xf0};
 const char s01a_dword_800E4578[] = {0xf0, 0x2, 0x0, 0x1};
 const char s01a_dword_800E457C[] = {0xd, 0xf, 0x0, 0x0};
-const char s01a_dword_800E4580[] = {0x0, 'k', 0x4, 0x0};
+
+const char anim_data_800E4580[] = {0x0, 'k', 0x4, 0x0};
 const char s01a_dword_800E4584[] = {0xb, 0x0, '"', 0x0};
 const char s01a_dword_800E4588[] = {'>', 0x0, 'Z', 0x8};
 const char s01a_dword_800E458C[] = {0xff, 0xff, 0xff, 0xc};
@@ -706,7 +710,8 @@ const char s01a_dword_800E45E8[] = {'\n', 0x1, 0xf4, 0x1};
 const char s01a_dword_800E45EC[] = {0xf4, 0x8, 0xf0, 0xf0};
 const char s01a_dword_800E45F0[] = {0xf0, 0x2, 0x0, 0x1};
 const char s01a_dword_800E45F4[] = {0xd, 0xf, 0x0, 0x0};
-const char s01a_dword_800E45F8[] = {0x0, '[', 0x4, 0x0};
+
+const char anim_data_800E45F8[] = {0x0, '[', 0x4, 0x0};
 const char s01a_dword_800E45FC[] = {0xb, 0x0, 0x1e, 0x0};
 const char s01a_dword_800E4600[] = {'6', 0x0, 'N', 0xc};
 const char s01a_dword_800E4604[] = {0x0, 0x7, 0x1, 0xff};
@@ -734,19 +739,20 @@ const char s01a_dword_800E4658[] = {0xfc, 0x2, 0x0, 0x1};
 const char s01a_dword_800E465C[] = {0xd, 0xf, 'N', 'o'};
 const char s01a_dword_800E4660[] = {0x0, 0x0, 0x0, 0x0};
 const char s01a_dword_800E4664[] = {0x0, 0xfe, 0x0, 0x0};
-const char s01a_aUdrotxlrroty_800E4668[] = "UD:ROT.X  LR:ROT.Y\n";
-const char s01a_aUdposxlrposz_800E467C[] = "UD:POS.X  LR:POS.Z\n";
-const char s01a_aUdposylrangle_800E4690[] = "UD:POS.Y  LR:ANGLE\n";
-const char s01a_aRotddd_800E46A4[] = "ROT:%7d %7d %7d\n";
-const char s01a_aPosddd_800E46B8[] = "POS:%7d %7d %7d\n";
-const char s01a_aAngled_800E46CC[] = "ANGLE:%4d \n";
-const char s01a_dword_800E46D8[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E46DC[] = {0xb8, 0xb, 0x0, 0x0};
-const char s01a_a_800E46E0[] = "0";
-const char s01a_aShadow_800E46E4[] = "shadow";
-const char s01a_dword_800E46EC[] = {'s', 'e', 'a', 'r'};
-const char s01a_dword_800E46F0[] = {'c', 'h', 'l', 'i'};
-const char s01a_dword_800E46F4[] = {'.', 'c', 0x0, 'e'};
+
+const char aSearchliUDRotXLRRotY[] = "UD:ROT.X  LR:ROT.Y\n";
+const char aSearchliUDPosXLRPosZ[] = "UD:POS.X  LR:POS.Z\n";
+const char aSearchliUDPosYLRAngle[] = "UD:POS.Y  LR:ANGLE\n";
+const char aSearchliRot7D7D7D[] = "ROT:%7d %7d %7d\n";
+const char aSearchliPos7D7D7D[] = "POS:%7d %7d %7d\n";
+const char aSearchliAngle4D[] = "ANGLE:%4d \n";
+
+const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
+
+const char aSearchli0[] = "0";
+const char aSearchliShadow[] = "shadow";
+const char aSearchliC[] = {'s', 'e', 'a', 'r', 'c', 'h', 'l', 'i', '.', 'c', 0x0, 'e'};
+
 const char s01a_dword_800E46F8[] = {0x0, 0x1f, 0x4, 0x0};
 const char s01a_dword_800E46FC[] = {0xb, 0x0, 0xf, 0x0};
 const char s01a_dword_800E4700[] = {0x18, 0x0, '!', 0x2};
