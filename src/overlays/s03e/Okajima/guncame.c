@@ -75,8 +75,7 @@ typedef struct GunCamEWork
     int      field_3E8;
     int      field_3EC;
     int      field_3F0;
-    int      field_3F4;
-    int      field_3F8;
+    SVECTOR  field_3F4;
     int      field_3FC;
     int      field_400;
     int      field_404;
@@ -167,8 +166,11 @@ void s03e_guncame_800C7068(GunCamEWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7118.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7144.s")
-int s03e_guncame_800C7144(GunCamEWork *work, int, int, int);
+void s03e_guncame_800C7144(GunCamEWork *work, short int arg1, short int arg2, short int arg3) {
+    work->field_3F4.vx = arg1;
+    work->field_3F4.vy = arg2;
+    work->field_3F4.vz = arg3;
+}
 
 int s03e_guncame_800C7154(int opt, SVECTOR *svec)
 {
@@ -188,7 +190,21 @@ int s03e_guncame_800C7154(int opt, SVECTOR *svec)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C71A8.s")
+void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
+    
+    SVECTOR sp10;
+    int temp_s0;
+
+    GV_SubVec3_80016D40(arg1, arg0, &sp10);
+    
+    arg2->vy = (ratan2(sp10.vx, (int) sp10.vz) & 0xFFF);
+    
+    temp_s0 = sp10.vy;
+    sp10.vy = 0;
+    
+    arg2->vx = (short int) ((ratan2(GV_LengthVec3_80016D80(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
 int s03e_guncame_800C7224(GunCamEWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C73D0.s")
@@ -219,8 +235,14 @@ void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C76E8.s")
-void s03e_guncame_800C76E8(GunCamEWork *work);
+void s03e_guncame_800C76E8(GunCamEWork* work) {
+    
+    SVECTOR* temp_s1;
+    temp_s1 = &work->field_20.field_4C_turn_vec;
+    
+    s03e_guncame_800C71A8(&work->field_20.field_0_mov, &work->field_3AC + (work->field_39C), temp_s1);
+    s03e_guncame_800C75FC(&work->field_330, temp_s1, work);
+}
 
 int s03e_guncame_800C7740(GunCamEWork *work)
 {
@@ -449,8 +471,36 @@ void s03e_guncame_800C8030(GunCamEWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C80F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8940.s")
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8978.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8E04.s")
-void s03e_guncame_800C8E04(POLY_FT4 *, DG_TEX *, int);
+
+void s03e_guncame_800C8E04(POLY_FT4* poly, DG_TEX* tex, int col) {
+    
+    signed char height;
+    signed char width;
+    unsigned char x_offset;
+    unsigned char y_offset;
+
+    setPolyFT4(poly);
+    setRGB0(poly, col, col, col);
+    poly->code = (poly->code | 0x02);
+    
+    x_offset = tex->field_8_offx;
+    width = x_offset + tex->field_A_width;
+    
+    y_offset = tex->field_9_offy;
+    height = y_offset + tex->field_B_height;
+    
+    poly->u0 = x_offset;
+    poly->v0 = y_offset;
+    poly->u1 = width;
+    poly->v1 = y_offset;
+    poly->u2 = x_offset;
+    poly->v2 = height;
+    poly->u3 = width;
+    poly->v3 = height;
+    
+    poly->tpage = tex->field_4_tPage;
+    poly->clut = (unsigned short) tex->field_6_clut;
+}
 
 int s03e_guncame_800C8E7C(GunCamEWork *work)
 {
