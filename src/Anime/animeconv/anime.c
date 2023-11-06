@@ -1,7 +1,8 @@
 #include "anime.h"
-#include "Game/control.h"
 #include "psyq.h"
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
+#include "Game/control.h"
 #include "Game/game.h"
 #include "Game/map.h"
 
@@ -23,7 +24,7 @@ const char animation_data_800124A8[] = {
     0x00, 0x01, 0x0d, 0x0f
 };
 
-ANIMATION stru_8009F0D4 = {-8302, 2, 2, 4, 1, 0, 5, 50, 50, 250, 0, animation_data_800124A8};
+ANIMATION stru_8009F0D4 = {PCX_WT_SUD11, 2, 2, 4, 1, 0, 5, 50, 50, 250, 0, (char *)animation_data_800124A8};
 
 const char animation_data_8001253C[] = {
     0x00, 0x83, 0x04, 0x00, 0x0b, 0x00, 0x33, 0x00, 0x5a, 0x00, 0x74, 0x01, 0xfe, 0x01, 0xff, 0x08,
@@ -37,7 +38,7 @@ const char animation_data_8001253C[] = {
     0x14, 0x00, 0x14, 0x08, 0xff, 0xff, 0xff, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d, 0x0f, 0x00, 0x00
 };
 
-ANIMATION stru_8009F0F0 = {20781, 8, 4, 30, 1, 300, 1, 400, 400, 32, 0, animation_data_8001253C};
+ANIMATION stru_8009F0F0 = {PCX_SMOKE, 8, 4, 30, 1, 300, 1, 400, 400, 32, 0, (char *)animation_data_8001253C};
 
 const char animation_data_800125CC[] = {
     0x00, 0x1d, 0x03, 0x00, 0x09, 0x00, 0x10, 0x00, 0x1b, 0x09, 0x03, 0xe8, 0x02, 0x00, 0x01, 0x0f,
@@ -45,7 +46,7 @@ const char animation_data_800125CC[] = {
     0xfe, 0xfc, 0x02, 0x00, 0x01, 0x0f, 0x00, 0x00
 };
 
-ANIMATION stru_8009F10C = {-6964, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, animation_data_800125CC};
+ANIMATION stru_8009F10C = {PCX_SOCOM_F, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, (char *)animation_data_800125CC};
 
 const char animation_data_800125F4[] = {
     0x00, 0x1d, 0x03, 0x00, 0x09, 0x00, 0x10, 0x00, 0x1b, 0x09, 0x03, 0xe8, 0x02, 0x00, 0x01, 0x0f,
@@ -53,19 +54,19 @@ const char animation_data_800125F4[] = {
     0xfc, 0x7c, 0x02, 0x00, 0x01, 0x0f, 0x00, 0x00
 };
 
-ANIMATION stru_8009F128 = {-6964, 2, 2, 4, 1, 300, 1, 1400, 1400, 128, 0, animation_data_800125F4};
+ANIMATION stru_8009F128 = {PCX_SOCOM_F, 2, 2, 4, 1, 300, 1, 1400, 1400, 128, 0, (char *)animation_data_800125F4};
 
 const char animation_data_8001261C[] = {
     0x00, 0x04, 0x01, 0x00, 0x05, 0x02, 0x00, 0x01, 0x0f, 0x00, 0x00, 0x00
 };
 
-ANIMATION stru_8009F144 = {-6964, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, animation_data_8001261C};
+ANIMATION stru_8009F144 = {PCX_SOCOM_F, 2, 2, 4, 1, 300, 1, 400, 400, 128, 0, (char *)animation_data_8001261C};
 
 const char animation_data_80012628[] = {
     0x00, 0x07, 0x01, 0x00, 0x05, 0x09, 0x03, 0xe8, 0x02, 0x00, 0x01, 0x0f,
 };
 
-ANIMATION stru_8009F160 = {-370, 2, 2, 3, 1, 300, 1, 600, 600, 100, 0, animation_data_80012628};
+ANIMATION stru_8009F160 = {PCX_FA_FL10, 2, 2, 3, 1, 300, 1, 600, 600, 100, 0, (char *)animation_data_80012628};
 
 const char animation_data_80012634[] = {
     0x00, 0xcb, 0x02, 0x00, 0x07, 0x00, 0x79, 0x0c, 0x00, 0x0b, 0x06, 0x00, 0x00, 0xff, 0xec, 0x00,
@@ -84,14 +85,14 @@ const char animation_data_80012634[] = {
     0x0d, 0x0f, 0x00, 0x00
 };
 
-ANIMATION stru_8009F17C = {32332, 2, 2, 4, 1, 200, 5, 100, 100, 128, 0, animation_data_80012634};
+ANIMATION stru_8009F17C = {PCX_MAGAZIN, 2, 2, 4, 1, 200, 5, 100, 100, 128, 0, (char *)animation_data_80012634};
 
 const char animation_data_80012708[] = {
     0x00, 0x19, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x14, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d,
     0x0c, 0x00, 0x0a, 0x01, 0xff, 0x08, 0xf9, 0xf9, 0xf9, 0x02, 0x00, 0x01, 0x0d, 0x0f, 0x00, 0x00,
 };
 
-ANIMATION stru_8009F198 = {20781, 8, 4, 30, 8, 0, 3, 2200, 2200, 77, 0, animation_data_80012708};
+ANIMATION stru_8009F198 = {PCX_SMOKE, 8, 4, 30, 8, 0, 3, 2200, 2200, 77, 0, (char *)animation_data_80012708};
 
 const char animation_data_80012728[] = {
     0x00, 0x23, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x0a, 0x01, 0xff, 0x0a, 0x00, 0x50, 0x00,
@@ -99,7 +100,7 @@ const char animation_data_80012728[] = {
     0xf2, 0xf2, 0xf2, 0x02, 0x00, 0x01, 0x0d, 0x0f,
 };
 
-ANIMATION stru_8009F1B4 = {20781, 8, 4, 30, 1, 0, 1, 1000, 1000, 77, 0, animation_data_80012728};
+ANIMATION stru_8009F1B4 = {PCX_SMOKE, 8, 4, 30, 1, 0, 1, 1000, 1000, 77, 0, (char *)animation_data_80012728};
 
 const char animation_data_80012750[] = {
     0x00, 0x4a, 0x02, 0x00, 0x07, 0x00, 0x20, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x02, 0x00,
@@ -110,7 +111,7 @@ const char animation_data_80012750[] = {
     0x0f, 0x00, 0x00, 0x00,
 };
 
-ANIMATION stru_8009F1D0 = {20781, 8, 4, 30, 4, 0, 1, 2200, 2200, 128, 0, animation_data_80012750};
+ANIMATION stru_8009F1D0 = {PCX_SMOKE, 8, 4, 30, 4, 0, 1, 2200, 2200, 128, 0, (char *)animation_data_80012750};
 
 const char animation_data_800127A4[] = {
     0x00, 0x27, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x00, 0x64, 0x00,
@@ -118,7 +119,7 @@ const char animation_data_800127A4[] = {
     0xc8, 0x00, 0xc8, 0x08, 0xf3, 0xf3, 0xf3, 0x02, 0x00, 0x01, 0x0d, 0x0f,
 };
 
-ANIMATION stru_8009F1EC = {20781, 8, 4, 30, 1, 1000, 3, 400, 400, 128, 0, animation_data_800127A4};
+ANIMATION stru_8009F1EC = {PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 400, 400, 128, 0, (char *)animation_data_800127A4};
 
 const char animation_data_800127D0[] = {
     0x00, 0x39, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x14, 0x01, 0xff, 0x0a, 0x00, 0x01, 0x00,
@@ -127,7 +128,7 @@ const char animation_data_800127D0[] = {
     0x0a, 0x00, 0x0a, 0x00, 0x0a, 0x08, 0xfb, 0xfb, 0xfb, 0x02, 0x00, 0x01, 0x0d, 0x0f, 0x00, 0x00
 };
 
-ANIMATION stru_8009F208 = {20781, 8, 4, 30, 1, 1000, 3, 30, 30, 10, 0, animation_data_800127D0};
+ANIMATION stru_8009F208 = {PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 30, 30, 10, 0, (char *)animation_data_800127D0};
 
 int dword_8009F224 = 0;
 

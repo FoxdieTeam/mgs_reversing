@@ -1,9 +1,10 @@
+#include "stgfd_io.h"
 #include "stngrnd.h"
+#include "unknown.h"
+#include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
-#include "libdg/libdg.h"
-#include "unknown.h"
-#include "stgfd_io.h"
 
 extern SVECTOR stru_800BDF90;
 extern int claymore_map_800AB9DC;
@@ -225,7 +226,7 @@ const int animation_data_80012F2C[] = {
     0x08F401F4, 0x02F0F0F0, 0x0F0D0100
 };
 
-ANIMATION stru_8009F670 = {19692, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)animation_data_80012F2C};
+ANIMATION stru_8009F670 = {PCX_SONIC, 1, 1, 1, 1, 500, 3, 800, 800, 128, 0, (void *)animation_data_80012F2C};
 
 void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos)
 {
@@ -249,7 +250,7 @@ const int animation_data_80012F50[] = {
     0x081E001E, 0x02EEEEEE, 0x0F0D0100
 };
 
-ANIMATION stru_8009F68C = {21926, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)animation_data_80012F50};
+ANIMATION stru_8009F68C = {PCX_LENSE_FLARE1, 1, 1, 1, 1, 500, 3, 600, 600, 180, 0, (void *)animation_data_80012F50};
 
 void AN_Stn_G_Center_80074D28(SVECTOR *pos)
 {
