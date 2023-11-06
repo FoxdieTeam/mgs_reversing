@@ -134,8 +134,6 @@
     include "{{OBJ_DIR}}\Menu\radiofacedraw.obj" ;radiofacedraw.c ?
     include "{{OBJ_DIR}}\Menu\jimaku.obj"        ;jimaku.c ?
     include "{{OBJ_DIR}}\Menu\radiotable.obj"    ;radiotable.c ?
-
-    include "{{OBJ_DIR}}\data\sdata\sdata5.obj"
     include "{{OBJ_DIR}}\Menu\datasave.obj"      ;datasave.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss5.obj"

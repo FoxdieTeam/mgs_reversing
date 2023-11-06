@@ -11,32 +11,17 @@
 
 //------------------------------------------------------------------------------
 // gp
-extern int dword_800AB6F4;
-int        dword_800AB6F4;
-
 extern int dword_800ABB48;
 int        dword_800ABB48;
 
 extern void *dword_800ABB50;
 void        *dword_800ABB50;
 
-extern int dword_800AB6EC;
-int        dword_800AB6EC;
-
 extern int dword_800ABB58;
 int        dword_800ABB58;
 
 extern int dword_800ABB5C;
 int        dword_800ABB5C;
-
-extern int dword_800AB6F0;
-int        dword_800AB6F0;
-
-extern int dword_800AB6FC;
-int        dword_800AB6FC;
-
-extern int dword_800AB700;
-int        dword_800AB700;
 
 extern int dword_800ABB54;
 int        dword_800ABB54;
@@ -103,16 +88,6 @@ extern char aResultX[];
 
 extern char aBislpm99999[];
 
-extern const char  aFreeDBlockS[];            // = "FREE: %d BLOCK%s"
-extern const char  aS_1[];                    // = "S"
-extern const char  aNull[];                   // = ""
-extern const char  aDiscD[];                  //  = "DISC %d"
-extern const char  aTime[];                   // = "TIME"
-extern const char  aVe[];                     // = "VE"
-extern const char *difficulty_str_8009EBF0[]; // = {"EZ", "NM", "HD", "EX"}
-
-extern const int aClear_0[];
-
 int dword_8009E774[] = {
     0x24A51421, 0x45AD3529, 0x88A5631,  0x217414EF, 0x363929D6, 0x10750C13, 0x195A14D8, 0xEEB19BC,  0x12211,
     0xEA00310,  0x20000000, 0xEC00331,  0x23210012, 0xEB20243,  0x33332213, 0xEA10134,  0x44422233, 0xEA10123,
@@ -151,6 +126,10 @@ extern const int  dword_800120CC[];
 extern const int  dword_800120E4[];
 
 char aBislpm99999[] = "BISLPM-99999        ";
+
+int dword_800AB6EC = 0;
+int dword_800AB6F0 = -1;
+int dword_800AB6F4 = 0;
 
 int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
 {
@@ -290,10 +269,8 @@ int init_file_mode_helper_helper_helper_8004983C(struct mem_card *pMemcard)
   return ret;
 }
 
-extern char byte_800AB6F8[]; // = ""
-
 const char *dword_8009EB4C[] = {
-    byte_800AB6F8,
+    "\x00", // Different from the other empty strings used below for some reason
     // セーブが完了しました。
     "\x82\x1b\xd0\x06\x82\x36\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
     // セーブできませんでした。
@@ -319,7 +296,7 @@ const char *dword_8009EB4C[] = {
 };
 
 const char *dword_8009EB7C[] = {
-    byte_800AB6F8,
+    "\x00", // Different from the other empty strings used below for some reason
     // ロードが完了しました。
     "\x82\x4d\xd0\x06\x82\x29\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
     // ロードできませんでした。
@@ -421,6 +398,9 @@ int init_file_mode_helper_helper_helper3_80049E94(int param_1)
     printf("RESULT %X\n", dword_800ABB5C); // = "RESULT %X\n"
     return dword_800ABB5C;
 }
+
+int dword_800AB6FC = -1;
+int dword_800AB700 = 0;
 
 void init_file_mode_helper_helper_80049EDC(void)
 {
@@ -731,25 +711,16 @@ void init_file_mode_helper_8004A424(int param_1)
     mts_sta_tsk_8008B47C(7, init_file_mode_helper_helper_80049EDC, (void *)(dword_800ABB50 + size));
 }
 
-extern const char aError[];
-
 const char *dword_8009EBBC[] = {
     NULL,
     NULL,
     "COMPLETE",
     NULL,
-    aError
+    "ERROR"
 };
-
-extern const char aEz[];
-extern const char aNm[];
-extern const char aHd[];
-extern const char aEx[];
 
 Menu_Triangle triangle_8009EBD0 = {155, 79, 160, 74, 165, 79, 0x80808080};
 Menu_Triangle triangle_8009EBE0 = {156, 184, 160, 188, 164, 184, 0x80808080};
-
-const char *difficulty_str_8009EBF0[] = {aEz, aNm, aHd, aEx};
 
 void move_coord_8004A494(int *arr, int len)
 {
@@ -1296,18 +1267,19 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
             {
                 config.xpos = s8 + 178;
                 config.ypos = s6 + 3;
-                sprintf(discnum, aDiscD, ((temp_s1->mes[5] - new_var) >> 3) + 1);
+                sprintf(discnum, "DISC %d", ((temp_s1->mes[5] - new_var) >> 3) + 1);
                 menu_number_draw_string_80042BF4(pOtBuf, &config, discnum);
             }
             else
             {
                 config.xpos = s8 + 178;
                 config.ypos = s6 + 3;
-                menu_number_draw_string_80042BF4(pOtBuf, &config, aTime);
+                menu_number_draw_string_80042BF4(pOtBuf, &config, "TIME");
             }
 
             if (temp_s1->mes[0] == 'G')
             {
+                static const char *difficulty_str_8009EBF0[] = {"EZ", "NM", "HD", "EX"};
                 difficulty = ((temp_s1->mes[3] & 0x40) >> 5) | ((temp_s1->mes[4] & 0x40) >> 6);
 
                 config.xpos = s8 + 164;
@@ -1315,7 +1287,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
 
                 if (temp_s1->mes[1] & 0x40)
                 {
-                    menu_number_draw_string_80042BF4(pOtBuf, &config, aVe);
+                    menu_number_draw_string_80042BF4(pOtBuf, &config, "VE");
                 }
                 else
                 {
@@ -1336,7 +1308,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
 
             if (saveid[0] == ':')
             {
-                memcpy(saveid, aClear_0, 6);
+                memcpy(saveid, "CLEAR", 6);
             }
 
             saveid[5] = 0;
@@ -1356,9 +1328,9 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
             field3 = dword_800ABB4C->field_3;
             new_var4 = field3;
             if (new_var4 >= 2)
-                ptr = aS_1;
+                ptr = "S";
             else
-                ptr = aNull;
+                ptr = "";
 
             sprintf(dst, msg, field3, ptr);
 
@@ -1434,7 +1406,7 @@ void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *
     config.flags = 0x2;
     config.colour = 0x66748956;
 
-    sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? aS_1 : aNull);
+    sprintf(freeblocks, "FREE: %d BLOCK%s", blocks_req, (blocks_req > 1) ? "S" : "");
     menu_number_draw_string2_80043220(pOtBuf, &config, freeblocks);
 
     if ((GV_Time_800AB330 % 32) > 10)
@@ -1455,8 +1427,6 @@ void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param
 {
     strcpy(param_1, param_2 + 0xc);
 }
-
-extern const char aCloseInfo[];
 
 void menu_radio_do_file_mode_helper10_8004B91C(SELECT_INFO *info)
 {
@@ -1547,7 +1517,7 @@ int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *p
 
     if (dword_800ABB48 == 0 && pMemcard->field_3_free_blocks >= dword_800ABB4C->field_3)
     {
-        memcpy(pIter->mes, aNull, 1);
+        memcpy(pIter->mes, "", 1);
         pIter->field_20 = 16;
         pIter++;
     }
@@ -1954,7 +1924,7 @@ int menu_radio_do_file_mode_8004C418(Actor_MenuMan *pActor, GV_PAD *pPad)
                 dword_800ABB80 = 4;
                 menu_radio_do_file_mode_helper11_8004B958(&dword_800ABB70, 0x11);
                 dword_800ABB88 = dword_800ABB70;
-                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, mcd_last_file_800ABB68[dword_800AB6FC], aNull, dword_800ABB70) == 0)
+                if (menu_radio_do_file_mode_helper12_8004BA80(pActor, mcd_last_file_800ABB68[dword_800AB6FC], "", dword_800ABB70) == 0)
                 {
                     menu_radio_do_file_mode_helper7_8004AE3C(pActor, strArr[4]);
                     dword_800ABB84 = 1;
