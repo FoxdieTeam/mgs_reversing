@@ -190,7 +190,21 @@ int s03e_guncame_800C7154(int opt, SVECTOR *svec)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C71A8.s")
+void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
+    
+    SVECTOR sp10;
+    int temp_s0;
+
+    GV_SubVec3_80016D40(arg1, arg0, &sp10);
+    
+    arg2->vy = (ratan2(sp10.vx, (int) sp10.vz) & 0xFFF);
+    
+    temp_s0 = sp10.vy;
+    sp10.vy = 0;
+    
+    arg2->vx = (short int) ((ratan2(GV_LengthVec3_80016D80(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
 int s03e_guncame_800C7224(GunCamEWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C73D0.s")
@@ -221,8 +235,14 @@ void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C76E8.s")
-void s03e_guncame_800C76E8(GunCamEWork *work);
+void s03e_guncame_800C76E8(GunCamEWork* work) {
+    
+    SVECTOR* temp_s1;
+    temp_s1 = &work->field_20.field_4C_turn_vec;
+    
+    s03e_guncame_800C71A8(&work->field_20.field_0_mov, &work->field_3AC + (work->field_39C), temp_s1);
+    s03e_guncame_800C75FC(&work->field_330, temp_s1, work);
+}
 
 int s03e_guncame_800C7740(GunCamEWork *work)
 {
