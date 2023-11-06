@@ -4,10 +4,10 @@
 
 // sbss ===============================================
 
-char   SECTION(".sbss") * GM_StageName_800AB918;
-short *SECTION(".sbss") GM_CurrentPadData_800AB91C;
-int    SECTION(".sbss") GV_Clock_800AB920;
-int    SECTION(".sbss") GV_PassageTime_800AB924;
+int    GV_PassageTime_800AB924;
+int    GV_Clock_800AB920;
+short *GM_CurrentPadData_800AB91C;
+char  *GM_StageName_800AB918;
 
 int GV_Time_800AB330 = 0;
 int dword_800AB334 = 0;
@@ -17,7 +17,7 @@ extern int            GV_PauseLevel_800AB928;
 extern const char    *GV_DebugMes_800AB34C;
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
-extern GV_ACT gGVActor_800acbf8;
+GV_ACT gGVActor_800acbf8;
 
 void Callback_Hangup_80014B34(void)
 {

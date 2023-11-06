@@ -2,6 +2,8 @@
     org    $80010000
 
 ; link objs
+    include "{{OBJ_DIR}}\force_bss_order.obj"
+
     ;main
     include "{{OBJ_DIR}}\main\main.obj"          ;main.c
 
@@ -11,8 +13,6 @@
     ;libgv
     include "{{OBJ_DIR}}\libgv\gvd.obj"          ;gvd.c
     include "{{OBJ_DIR}}\libgv\actor.obj"        ;actor.c
-
-    include "{{OBJ_DIR}}\data\bss.obj"
 
     include "{{OBJ_DIR}}\libgv\cache.obj"        ;cache.c
     include "{{OBJ_DIR}}\libgv\debug.obj"        ;debug.c    ?
@@ -281,6 +281,8 @@
     include "{{OBJ_DIR}}\mts\mts_new.obj"
     include "{{OBJ_DIR}}\mts\pad.obj"
     include "{{OBJ_DIR}}\mts\mts_sub.obj"
+
+    include "{{OBJ_DIR}}\data\bss.obj"
 
     ; psyq start
 

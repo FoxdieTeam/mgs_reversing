@@ -34,9 +34,10 @@ const char *MGS_DiskName_8009D2FC[] = {"SLPM_862.47", "SLPM_862.48", NULL};
 #endif
 const char *MGS_MemoryCardName_800AB2EC = "BISLPM-86247"; // sdata
 
-extern unsigned int sdStack_800AC3F0[512];
+unsigned int  sdStack_800AC3F0[512];
+unsigned char main_task_stack_800ABBF0[2048];
 
-static void task_main_800148B8(void)
+void task_main_800148B8(void)
 {
     RECT rect;
 
@@ -96,8 +97,6 @@ static void task_main_800148B8(void)
         GV_ExecActorSystem_80014F88();
     }
 }
-
-extern unsigned char main_task_stack_800ABBF0[2048];
 
 int main(void)
 {

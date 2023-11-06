@@ -4,6 +4,8 @@
 #include "psyq.h"
 #include "libfs.h"
 
+int gDiskNum_800ACBF0; // not in sbss, so this must be in a G0 file
+
 void FS_StartDaemon_80014A7C(void)
 {
     // CPU exception if >= 2MB ram range is used since retail consoles have 2 MB and dev have 8 MB.

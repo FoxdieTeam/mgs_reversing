@@ -132,7 +132,7 @@ ninja.newline()
 ninja.variable("psyq_cc_44_exe", prefix("wine", "$psyq_path/psyq_4.4/bin/CC1PSX.EXE"))
 ninja.newline()
 
-ninja.variable("psyq_aspsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/aspsx.exe"))
+ninja.variable("psyq_aspsx_44_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/aspsx_bss_patch.exe"))
 ninja.newline()
 
 if has_cpp:
@@ -144,11 +144,11 @@ ninja.newline()
 ninja.variable("psyq_cc_43_exe", prefix("wine", "$psyq_path/psyq_4.3/bin/CC1PSX.EXE"))
 ninja.newline()
 
-ninja.variable("psyq_aspsx_2_56_exe", prefix("wibo", "$psyq_path/ASPSX/2.56/ASPSX.EXE"))
+ninja.variable("psyq_aspsx_2_56_exe", prefix("wibo", "$psyq_path/ASPSX/2.56/ASPSX_bss_patch.EXE"))
 
-ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/ASPSX/2.81/ASPSX.EXE"))
+ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/ASPSX/2.81/ASPSX_bss_patch.EXE"))
 
-ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink.exe"))
+ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink_bss_patch.exe"))
 ninja.newline()
 
 ninja.variable("src_dir", "../src")
@@ -183,23 +183,23 @@ ninja.newline()
 ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -soverlay $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G $gSize -soverlay $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
+ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q -G $gSize $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_2_81_overlays", "$psyq_aspsx_2_81_exe -q -G0 -soverlay $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_aspsx_assemble_2_81_overlays", "$psyq_aspsx_2_81_exe -q -G $gSize -soverlay $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q $in -o $out", "Assemble $in -> $out")
+ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q -G $gSize $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
 # For some reason 4.3 cc needs TMPDIR set to something that exists else it will just die with "CC1PSX.exe: /cta04280: No such file or directory"
 ninja.rule("psyq_cc_43", "$psyq_cc_43_exe -quiet -O2 -G $gSize -g -Wall $in -o $out", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
+ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -G $gSize -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
 ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $psyq_sdk $out {' '.join(args.defines)} $overlay", "Preprocess $in -> $out")
@@ -328,7 +328,7 @@ def gen_build_target(targetName):
         ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
         ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
         ninja.build(cAsmFile, compiler, cAsmPreProcFile, variables= { "gSize": get_file_global_size(cFile) })
-        ninja.build(cTempOFile, aspsx, cAsmFile)
+        ninja.build(cTempOFile, aspsx, cAsmFile, variables= { "gSize": get_file_global_size(cFile) })
         ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 
         linkerDeps.append(cOFile)
