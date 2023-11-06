@@ -41,8 +41,8 @@ GCL_ActorTableEntry s00aOverlayCharas[] =
 extern const char s00a_dword_800DFBE0[];
 extern const char s00a_dword_800DFC30[];
 
-ANIMATION anm_breath_800C32E8  = { 0x512D, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, s00a_dword_800DFBE0 };
-ANIMATION anm_unknown_800C3304 = { 0x512D, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, s00a_dword_800DFC30 };
+ANIMATION anm_breath_800C32E8  = { PCX_SMOKE, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (char *)s00a_dword_800DFBE0 };
+ANIMATION anm_unknown_800C3304 = { PCX_SMOKE, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (char *)s00a_dword_800DFC30 };
 
 RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
 
@@ -79,14 +79,14 @@ extern const char s00a_dword_800E0018[];
 extern const char s00a_dword_800E011C[];
 extern const char s00a_dword_800E0220[];
 
-ANIMATION s00a_dword_800C3418 = { 0xDCD3, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, s00a_dword_800DFEB4 };
-ANIMATION s00a_dword_800C3434 = { 0xFAD3, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, s00a_dword_800E0018 };
-ANIMATION s00a_dword_800C3450 = { 0xFAD3, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, s00a_dword_800E011C };
-ANIMATION s00a_dword_800C346C = { 0x1968, 1, 1, 1, 1,   0, 1, 70, 70, 255, 0, s00a_dword_800E0220 };
+ANIMATION s00a_dword_800C3418 = { PCX_B_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s00a_dword_800DFEB4 };
+ANIMATION s00a_dword_800C3434 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s00a_dword_800E0018 };
+ANIMATION s00a_dword_800C3450 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s00a_dword_800E011C };
+ANIMATION s00a_dword_800C346C = { PCX_HEART, 1, 1, 1, 1,   0, 1, 70, 70, 255, 0, (char *)s00a_dword_800E0220 };
 
-short s00a_dword_800C3488 = 0xDCD3;
-short s00a_dword_800C348A = 0xFAD3;
-short s00a_dword_800C348C = 0x1968;
+short s00a_dword_800C3488 = PCX_B_MARK;
+short s00a_dword_800C348A = PCX_Q_MARK;
+short s00a_dword_800C348C = PCX_HEART;
 short s00a_dword_800C348E = 0x0000;
 
 extern const char s00a_dword_800E0288[];
@@ -95,11 +95,11 @@ extern const char s00a_dword_800E054C[];
 extern const char s00a_dword_800E05A8[];
 extern const char s00a_dword_800E05F0[];
 
-ANIMATION s00a_dword_800C3490 = { 0xF314, 1, 1,  1, 1, 800, 3, 600, 600, 250, 0, s00a_dword_800E0288 };
-ANIMATION s00a_dword_800C34AC = { 0xCAFE, 1, 1,  1, 1,   0, 1, 200, 200, 128, 0, s00a_dword_800E02AC };
-ANIMATION s00a_dword_800C34C8 = { 0x4184, 1, 1,  1, 1,   0, 5,  10,  10, 128, 0, s00a_dword_800E054C };
-ANIMATION s00a_dword_800C34E4 = { 0x512D, 8, 4, 30, 1,   0, 1,  10,  10, 255, 0, s00a_dword_800E05A8 };
-ANIMATION s00a_dword_800C3500 = { 0xF7BB, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0, s00a_dword_800E05F0 };
+ANIMATION s00a_dword_800C3490 = { PCX_PCH_FOG, 1, 1,  1, 1, 800, 3, 600, 600, 250, 0, (char *)s00a_dword_800E0288 };
+ANIMATION s00a_dword_800C34AC = { PCX_HOSI, 1, 1,  1, 1,   0, 1, 200, 200, 128, 0, (char *)s00a_dword_800E02AC };
+ANIMATION s00a_dword_800C34C8 = { 0x4184, 1, 1,  1, 1,   0, 5,  10,  10, 128, 0, (char *)s00a_dword_800E054C };
+ANIMATION s00a_dword_800C34E4 = { PCX_SMOKE, 8, 4, 30, 1,   0, 1,  10,  10, 255, 0, (char *)s00a_dword_800E05A8 };
+ANIMATION s00a_dword_800C3500 = { PCX_ZZZ, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0, (char *)s00a_dword_800E05F0 };
 
 short s00a_dword_800C351C[4] = { 100, 50, 25, 10 };
 

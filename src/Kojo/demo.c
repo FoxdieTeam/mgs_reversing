@@ -2326,14 +2326,13 @@ void demothrd_hind_8007D9C8(Actor_demothrd *pActor, dmo_data_0x18 *pDmoData0x18,
     p0x1A4->field_7C_obj.rots[2].vx = pTmp->field_C;
 }
 
-// TODO: split based on pointers in ANIMATIONs below
 const char animation_data_8001345C[] = {
     0x00, 0x27, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x00, 0x64, 0x00,
     0x64, 0x08, 0xf1, 0xf1, 0xf1, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x01,
     0x2c, 0x01, 0x2c, 0x08, 0xe2, 0xe2, 0xe2, 0x02, 0x00, 0x01, 0x0d, 0x0f
 };
 
-ANIMATION stru_8009F73C = {20781, 8, 4, 30, 1, 1000, 3, 500, 500, 255, NULL, (void *)animation_data_8001345C};
+ANIMATION stru_8009F73C = {PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 500, 500, 255, NULL, (char *)animation_data_8001345C};
 
 const char animation_data_80013488[] = {
     0x00, 0x4a, 0x02, 0x00, 0x07, 0x00, 0x20, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x02, 0x00,
@@ -2344,7 +2343,7 @@ const char animation_data_80013488[] = {
     0x0f, 0x00, 0x00, 0x00
 };
 
-ANIMATION stru_8009F758 = {20781, 8, 4, 30, 3, 0, 1, 1000, 1000, 64, NULL, animation_data_80013488};
+ANIMATION stru_8009F758 = {PCX_SMOKE, 8, 4, 30, 3, 0, 1, 1000, 1000, 64, NULL, (char *)animation_data_80013488};
 
 const char animation_data_800134DC[] = {
     0x00, 0x2c, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d,
@@ -2353,7 +2352,7 @@ const char animation_data_800134DC[] = {
     0x0f, 0x00, 0x00, 0x00
 };
 
-ANIMATION stru_8009F774 = {20781, 8, 4, 30, 8, 0, 3, 2200, 2200, 255, NULL, animation_data_800134DC};
+ANIMATION stru_8009F774 = {PCX_SMOKE, 8, 4, 30, 8, 0, 3, 2200, 2200, 255, NULL, (char *)animation_data_800134DC};
 
 const char animation_data_80013510[] = {
     0x00, 0x49, 0x03, 0x00, 0x09, 0x00, 0x1e, 0x00, 0x38, 0x01, 0xfe, 0x0c, 0x00, 0x04, 0x02, 0x00,
@@ -2364,7 +2363,7 @@ const char animation_data_80013510[] = {
     0x0d, 0x0f, 0x00, 0x00
 };
 
-ANIMATION stru_8009F790 = {9287, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, animation_data_80013510};
+ANIMATION stru_8009F790 = {PCX_CANON_SEQ, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, (char *)animation_data_80013510};
 
 void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
 {
