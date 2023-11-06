@@ -1,10 +1,11 @@
 #include "blast.h"
-#include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Game/target.h"
-#include "Anime/animeconv/anime.h"
 #include "unknown.h"
+#include "libdg/libdg.h"
+#include "libgcl/hash.h"
+#include "Anime/animeconv/anime.h"
+#include "Game/game.h"
 #include "Game/map.h"
+#include "Game/target.h"
 
 extern int            claymore_map_800AB9DC;
 extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
@@ -222,11 +223,11 @@ const unsigned char animation_data_80012CAC[290] = {
     100u, 0u,   100u, 8u,   248u, 248u, 248u, 2u,   0u,   1u,   10u,  0u,   80u,  0u,   80u, 8u,   248u, 248u, 248u,
     2u,   0u,   1u,   13u,  15u};
 
-ANIMATION stru_8009F568 = {-21358, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012BAC};
-ANIMATION stru_8009F584 = {-21358, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012BEC};
-ANIMATION stru_8009F5A0 = {-21358, 4, 4, 16, 1, 2000, 1, 500, 500, 128, NULL, (void *)animation_data_80012C2C};
-ANIMATION stru_8009F5BC = {-21358, 4, 4, 16, 1, 2000, 1, 200, 200, 128, NULL, (void *)animation_data_80012C6C};
-ANIMATION stru_8009F5D8 = {-21358, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012CAC};
+ANIMATION stru_8009F568 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012BAC};
+ANIMATION stru_8009F584 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012BEC};
+ANIMATION stru_8009F5A0 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 500, 500, 128, NULL, (void *)animation_data_80012C2C};
+ANIMATION stru_8009F5BC = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 200, 200, 128, NULL, (void *)animation_data_80012C6C};
+ANIMATION stru_8009F5D8 = {PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)animation_data_80012CAC};
 
 void AN_Blast_Single_8006E224(SVECTOR *pos)
 {
