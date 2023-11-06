@@ -11,7 +11,6 @@ extern int          gMts_active_task_idx_800C13C0;
 extern signed char  byte_800C0C10[ 32 ];
 extern unsigned int dword_800C0DC0[ 128 ];
 extern unsigned int dword_800C0FC0[ 256 ];
-extern const char  *dword_800A3D98[];
 extern int          gTaskIdx_800C0DB0;
 extern mts_task     gTasks_800C0C30[];
 extern int          gMts_bits_800C0DB4;
