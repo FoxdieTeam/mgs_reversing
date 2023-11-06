@@ -1,6 +1,6 @@
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Anime/animeconv/anime.h"
-#include "libgcl/hash.h"
 
 GCL_ActorTableEntry s01aOverlayCharas[] =
 {
