@@ -23,8 +23,6 @@ extern GV_PAD          *GM_CurrentPadData_800AB91C;
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-extern const char asc_80010208[];
-
 int DG_DrawSyncResetGraph_8001F014()
 {
     if (DrawSync(1) > 0)
@@ -124,8 +122,6 @@ void DG_TextureCacheInit_8001F25C(void)
     DG_InitTextureSystem_8001D808();
     DG_ResetResidentTexture_8001DBEC();
 }
-
-extern const char    aDgdC[];
 
 extern GV_ACT gDgdActor2_800B3750;
 extern GV_ACT gDgdActor1_800B3770; // same section as its directly after
