@@ -134,8 +134,6 @@
     include "{{OBJ_DIR}}\Menu\radiofacedraw.obj" ;radiofacedraw.c ?
     include "{{OBJ_DIR}}\Menu\jimaku.obj"        ;jimaku.c ?
     include "{{OBJ_DIR}}\Menu\radiotable.obj"    ;radiotable.c ?
-
-    include "{{OBJ_DIR}}\data\sdata\sdata5.obj"
     include "{{OBJ_DIR}}\Menu\datasave.obj"      ;datasave.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss5.obj"
@@ -468,19 +466,10 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\uji.obj"
-
     include "{{OBJ_DIR}}\overlays\s03e\Okajima\guncame.obj"
-
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9234.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9568.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C984C.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9908.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C99C4.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9A80.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
     include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9CBC.obj"
-
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
-
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
@@ -801,36 +790,9 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D678C.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D67F8.obj"
 
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6898.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6BCC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6EB0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D6F6C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7028.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D70E4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7320.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D734C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D73D8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7500.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D75C0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D763C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D770C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D77A4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D783C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7908.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7A4C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7BB8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7C58.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7D40.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D7DBC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D80AC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D80BC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D86F0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D8B84.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D8DDC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D9040.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D91B0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D9274.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_searchli_800D92BC.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\Enemy\searchli.obj"
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_object_800D93BC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_object_800D9424.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_object_800D94A8.obj"

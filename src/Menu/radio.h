@@ -28,9 +28,9 @@ typedef struct RadioCoordsStru_8009E6FC
     char field_5;
 } RadioCoordsStru_8009E6FC;
 
-typedef struct Stru_800ABB74_child
+typedef struct SELECT_MENU
 {
-    char field_0_name[8];
+    char mes[8];
     int  field_8;
     int  field_C;
     int  field_10;
@@ -38,29 +38,29 @@ typedef struct Stru_800ABB74_child
     int  field_18;
     int  field_1C;
     int  field_20;
-} Stru_800ABB74_child;
+} SELECT_MENU;
 
-typedef struct Stru_800ABB74
+typedef struct SELECT_INFO
 {
-    short               field_0_xpos;
-    short               field_2_ypos;
-    short               field_4;
-    short               field_6;
-    char                field_8;
-    char                field_9;
-    short               field_A;
-    short               field_C;
-    short               field_E;
-    short               field_10;
-    short               field_12;
-    short               field_14;
-    short               field_16;
-    short               field_18;
-    short               field_1A;
-    KCB                *field_1C_kcb;
-    const char         *field_20;
-    Stru_800ABB74_child field_24[0];
-} Stru_800ABB74;
+    short       field_0_xpos;
+    short       field_2_ypos;
+    short       field_4;
+    short       top;
+    char        max_num;
+    char        field_9;
+    short       field_A;
+    short       field_C;
+    short       field_E;
+    short       field_10;
+    short       field_12;
+    short       field_14;
+    short       open_count;
+    short       field_18;
+    short       field_1A;
+    KCB        *field_1C_kcb;
+    const char *message;
+    SELECT_MENU menu[0];
+} SELECT_INFO;
 
 struct RadioFileModeUnk1;
 struct RadioFileModeStruElem;
@@ -200,7 +200,7 @@ void           menu_radio_codec_task_proc_80047AA0(void);
 void           menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_group *pFacesGroup);
 void           menu_radio_compact_free_vars_8004D3D8(void);
 void           init_radio_message_board_80040F74(Actor_MenuMan *pActor);
-void           init_file_mode_8004D24C(menu_save_mode_data *pSaveMode, int param_2);
+void           init_file_mode_8004D24C(DATA_INFO *pSaveMode, int param_2);
 void           sub_800434F4(MenuPrim *pGlue, int param_2, int param_3, PANEL_TEXTURE *param_4);
 void           menu_RadioCall_helper_800403E4();
 radio_table_entry           *sub_8004969C(radio_table *pRadioTable, int contactFrequency);
@@ -223,7 +223,7 @@ void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y);
 void menu_number_draw_magazine_80042E38(Actor_MenuMan *pActor, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
 void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor);
-void sub_8004B9C4(Stru_800ABB74 *pStru, int param_2);
+void sub_8004B9C4(SELECT_INFO *pStru, int param_2);
 void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2);
 void menu_radio_init_save_mode_8004D280(int param_1, int param_2);
 void menu_radio_update_helper6_80047D40(Actor_MenuMan *pActor);
@@ -244,25 +244,25 @@ void *menu_radio_codec_helper_helper17_80038678();
 int menu_radio_end_check_80048F98();
 void menu_radio_draw_face_80048DB0(Actor_MenuMan *pActor, menu_chara_struct *chara_struct);
 
-void sub_8004AEA8(Stru_800ABB74 *pStru);
+void sub_8004AEA8(SELECT_INFO *pStru);
 
 void menu_radio_do_file_mode_helper2_8004A87C(int idx, int param_2, int param_3, int divisor, int idx2);
-void menu_radio_do_file_mode_helper11_8004B958(Stru_800ABB74 **a1, int num);
+void menu_radio_do_file_mode_helper11_8004B958(SELECT_INFO **a1, int num);
 int *menu_radio_do_file_mode_helper5_8004ABDC(int idx);
 void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3, int param_4, int param_5, int divisor);
-void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, Stru_800ABB74 *field_14);
-int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, Stru_800ABB74 *pStru);
+void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14);
+int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELECT_INFO *pStru);
 void menu_radio_do_file_mode_helper7_8004AE3C(Actor_MenuMan *param_1, const char *str);
-int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3, Stru_800ABB74 *pStru2);
-void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, Stru_800ABB74 *pStru);
-void menu_radio_do_file_mode_helper10_8004B91C(Stru_800ABB74 *pStru);
+int menu_radio_do_file_mode_helper12_8004BA80(Actor_MenuMan *pActor, mem_card *pMemcard, const char *param_3, SELECT_INFO *pStru2);
+void menu_radio_do_file_mode_helper14_8004BE98(Actor_MenuMan *pActor, char *param_2, SELECT_INFO *pStru);
+void menu_radio_do_file_mode_helper10_8004B91C(SELECT_INFO *pStru);
 void draw_radio_wait_mark_8004143C(Actor_MenuMan *pActor, unsigned char *pOt);
-void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20, Stru_800ABB74 *pStru);
-void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, Stru_800ABB74 *pStru);
-int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, Stru_800ABB74 *pStru);
-void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru);
+void menu_radio_do_file_mode_helper15_8004C04C(Actor_MenuMan *pActor, const char **srcs, int cnt, int field_4, const char *field_20, SELECT_INFO *pStru);
+void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *pStru);
+int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_INFO *pStru);
+void menu_radio_do_file_mode_helper8_8004AFE4(Actor_MenuMan *pActor, char *pOt, SELECT_INFO *pStru);
 void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue);
-void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *pOt, Stru_800ABB74 *pStru);
+void menu_radio_do_file_mode_save_memcard_8004B0A0(Actor_MenuMan *pActor, char *pOt, SELECT_INFO *pStru);
 void menu_radio_do_file_mode_helper_8004A858();
 void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle);
 

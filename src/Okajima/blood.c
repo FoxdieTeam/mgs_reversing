@@ -1,6 +1,7 @@
 #include "blood.h"
 #include "psyq.h"
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
@@ -317,7 +318,7 @@ const int animation_data_80012E84[] = {
     0xF0D01
 };
 
-ANIMATION stru_8009F614 = {31572, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)animation_data_80012E84};
+ANIMATION stru_8009F614 = {PCX_BLOOD_2, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)animation_data_80012E84};
 
 void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed)
 {

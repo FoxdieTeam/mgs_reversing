@@ -14,8 +14,6 @@ int GCL_AddCommMulti_8001FD2C(GCL_COMMANDDEF *pChain)
     return 0;
 }
 
-// extern const char aCommandNotFoun[];
-
 GCL_COMMANDLIST *GCL_FindCommand_8001FD40(int hashedName)
 {
     GCL_COMMANDLIST *pTableIter;
@@ -70,7 +68,6 @@ GCL_ProcTableEntry *GCL_ByteSwap_ProcTable_8001FE28(GCL_ProcTableEntry *pTable)
 }
 
 extern GCL_FileData gGCL_fileData_800B3C18;
-// extern const char aProcXNotFound[];
 
 unsigned char *GCL_FindProc_8001FE80(int procNameHashed)
 {
@@ -91,8 +88,6 @@ void GCL_ForceExecProc_8001FEFC(int procNameHashed, GCL_ARGS *pArgs)
     GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
 
-// extern const char aProcDCancel[];
-
 extern int              GM_LoadRequest_800AB3D0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
@@ -105,8 +100,6 @@ int GCL_ExecProc_8001FF2C(int procNameHashed, GCL_ARGS *pArgs)
     }
     return GCL_ExecBlock_80020118(GCL_FindProc_8001FE80(procNameHashed) + 3, pArgs);
 }
-
-// extern const char aTooManyArgsPro[];
 
 #define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
 
@@ -162,9 +155,6 @@ int GCL_LoadScript_80020064(unsigned char *pScript)
 
     return 0;
 }
-
-// extern const char aScriptCommandE[];
-// extern const char aErrorInScript[];
 
 int GCL_ExecBlock_80020118(unsigned char *pScript, GCL_ARGS *pArgs)
 {
