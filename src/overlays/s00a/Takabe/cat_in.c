@@ -1,5 +1,6 @@
 #include "Game/game.h"
 #include "libgv/libgv.h"
+#include "libgcl/hash.h"
 
 typedef struct ZoomCameraWork
 {
@@ -22,8 +23,7 @@ typedef struct _ZoomWork
     int    proc;
 } ZoomWork;
 
-extern unsigned short cat_in_mes_list[];
-extern const char aCatinC[];
+unsigned short cat_in_mes_list[] = { HASH_KILL };
 
 extern int     GM_GameStatus_800AB3CC;
 extern OBJECT *GM_PlayerBody_800ABA20;
@@ -144,7 +144,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, aCatinC );
+    GV_SetNamedActor_8001514C( &( cam->actor ), (TActorFunction)ZoomCameraAct_800DF740, (TActorFunction)ZoomCameraDie_800DF80C, "cat_in.c" );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -162,7 +162,7 @@ void *NewZoom_800DFA88( int name, int where )
     work = (ZoomWork *)GV_NewActor_800150E4( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, aCatinC );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)ZoomAct_800DF89C, (TActorFunction)ZoomDie_800DF910, "cat_in.c" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {

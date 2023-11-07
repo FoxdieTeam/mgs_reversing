@@ -359,11 +359,12 @@ def main():
         # It's not a problem, because it's the same exact executable,
         # but sometimes, if you are not careful, that won't be the case,
         # for example if some additional PsyQ functions land in main exe.
-        overlay_main_exe_path = OBJ_EXE.replace("_mgsi.exe", f"_mgsi_{overlay}.cpe")
-        exe_hash = sha256(overlay_main_exe_path)
-        if exe_hash != TARGET_CPE_HASH:
-            fail(f"{overlay_main_exe_path} (something changed in main executable used to build the corresponding overlay)")
-            failed = True
+        for run in ["lhs", "rhs"]:
+            overlay_main_exe_path = OBJ_EXE.replace("_mgsi.exe", f"_mgsi_{overlay}_{run}.cpe")
+            exe_hash = sha256(overlay_main_exe_path)
+            if exe_hash != TARGET_CPE_HASH:
+                fail(f"{overlay_main_exe_path} (something changed in main executable used to build the corresponding overlay)")
+                failed = True
 
         overlay_hash = sha256(overlay_path)
         if overlay_hash != overlay_target_hash:

@@ -96,9 +96,6 @@ unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 // Takabe/cinema.c
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
-// Takabe/cat_in.c
-unsigned short cat_in_mes_list[] = { HASH_KILL, 0x0000 };
-
 const char s03e_dword_800CBE84[] = {0xe0, 0xff, 0xbd, '\''};
 const char s03e_dword_800CBE88[] = {0x14, 0x0, 0xb1, 0xaf};
 const char s03e_dword_800CBE8C[] = {'!', 0x88, 0x80, 0x0};
@@ -582,8 +579,5 @@ const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 0x81, 'J',
 const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x90, 0x1, 0x90};
 const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 0x90, 0x1, 0x90};
 
-// Takabe/cat_in.c
-const char aCatinC[] = {'c', 'a', 't', '_', 'i', 'n', '.', 'c', 0x0, 0x90, 0x89, 0x90};
-
-void * const s03e_dword_800CC6B8 = NULL;
-const char s03e_dword_800CC6BC[] = {0xe5, 0x96, 0xe6, 0x96};
+void SECTION("overlay.bss") *s03e_dword_800CC6B8;
+int SECTION("overlay.bss") s03e_dword_800CC6BC;

@@ -306,7 +306,6 @@ typedef struct LitMdlWork
     int field_584;
 } LitMdlWork;
 
-extern char    aLitmdlC[];
 extern DG_DEF  litmdl_dg_def; // with 1 DG_MDL
 extern MATRIX  DG_ZeroMatrix_8009D430;
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -363,7 +362,7 @@ GV_ACT *s01a_lit_mdl_800E2C88(int arg0, int arg1, int arg2, int arg3)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s01a_lit_mdl_800E2928,
-                                  (TActorFunction)s01a_lit_mdl_800E2ABC, aLitmdlC);
+                                  (TActorFunction)s01a_lit_mdl_800E2ABC, "lit_mdl.c");
         if (s01a_lit_mdl_800E2ADC(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
