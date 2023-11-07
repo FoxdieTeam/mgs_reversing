@@ -18,10 +18,8 @@ GCL_ActorTableEntry s03eOverlayCharas[] =
     { 0, 0 }
 };
 
-int s03e_dword_800C3268 = 0x8D5C121F;
-int s03e_dword_800C326C = 0xD5CC0DD2;
-int s03e_dword_800C3270 = 0x65558591;
-int s03e_dword_800C3274 = 0x00002EAB;
+unsigned short s03e_dword_800C3268[] = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
+
 int s03e_dword_800C3278 = 0x0000027F;
 int s03e_dword_800C327C = 0x026E0255;
 int s03e_dword_800C3280 = 0x04410E1E;

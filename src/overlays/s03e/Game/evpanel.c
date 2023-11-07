@@ -1,86 +1,296 @@
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
-
-typedef struct EvPanelChild
-{
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-} EvPanelChild;
+#include "Game/linkvarbuf.h"
 
 typedef struct EvPanelWork
 {
-    GV_ACT       actor;
-    DG_PRIM     *field_20;
-    DG_PRIM     *field_24;
-    int          field_28;
-    int          field_2C;
-    int          field_30;
-    int          field_34;
-    short        field_38;
-    short        field_3A;
-    int          field_3C;
-    short        field_40;
-    short        field_42;
-    short        field_44;
-    short        field_46;
-    int          field_48;
-    int          field_4C;
-    int          field_50;
-    int          field_54;
-    int          field_58;
-    int          field_5C;
-    int          field_60;
-    int          field_64;
-    int          field_68;
-    int          field_6C;
-    int          field_70;
-    int          field_74;
-    int          field_78;
-    int          field_7C;
-    int          field_80;
-    int          field_84;
-    int          field_88;
-    int          field_8C;
-    int          field_90;
-    int          field_94;
-    int          field_98;
-    int          field_9C;
-    int          field_A0;
-    int          field_A4;
-    int          field_A8;
-    int          field_AC;
-    int          field_B0;
-    EvPanelChild field_B4_children[0];
+    GV_ACT         actor;
+    DG_PRIM       *field_20; // POLY_FT4
+    DG_PRIM       *field_24; // POLY_FT4
+    short          field_28;
+    short          field_2A;
+    unsigned short name;
+    short          field_2E;
+    short          field_30;
+    short          field_32;
+    char           field_34;
+    char           field_35;
+    short          field_36;
+    short          field_38;
+    short          field_3A;
+    short          field_3C;
+    short          field_3E;
+    short          field_40;
+    short          field_42;
+    short          field_44;
+    short          field_46;
+    short          field_48;
+    short          field_4A;
+    int            field_4C;
+    char          *field_50;
+    int            field_54;
+    int            field_58;
+    int            field_5C;
+    int            field_60;
+    int            field_64;
+    int            field_68;
+    int            field_6C;
+    int            field_70;
+    int            field_74;
+    int            field_78;
+    int            field_7C;
+    int            field_80;
+    SVECTOR        f84;
+    SVECTOR        f8C;
+    SVECTOR        field_94[4];
+    SVECTOR        field_B4[0];
 } EvPanelWork;
 
-int  THING_Gcl_GetIntDefault(int, int);
-void s03e_evpanel_800C3B74(EvPanelWork *);
-void s03e_evpanel_800C457C(EvPanelWork *);
-int  s03e_evpanel_800C496C(EvPanelWork *, int, int, int);
+int THING_Gcl_GetInt(int);
+int THING_Gcl_GetIntDefault(int, int);
 
-extern char      s03e_dword_800CBFA8[];
-extern char      s03e_aReqdoorclose_800CBF58[];
-extern GM_Camera GM_Camera_800B77E8;
+extern char         s03e_dword_800CBFA8[];
+extern EvPanelWork *s03e_dword_800CC6B8;
+extern int          GV_Time_800AB330;
+extern int          GM_CurrentMap_800AB9B0;
+extern GM_Camera    GM_Camera_800B77E8;
+extern OBJECT      *GM_PlayerBody_800ABA20;
+extern int          GM_PlayerStatus_800ABA50;
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C33E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C3488.s")
+extern unsigned short s03e_dword_800C3268[]; // = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
+
+extern const char s03e_aMessagein_800CBF18[];    // = "message in\n"
+extern const char s03e_aMessageout_800CBF24[];   // = "message out\n"
+extern const char s03e_aMessagex_800CBF34[];     // = "message %X\n"
+extern const char s03e_aNofloorproc_800CBF40[];  // = "NO FLOOR PROC\n"
+extern const char s03e_aRotd_800CBF50[];         // = "ROT %d\n"
+extern const char s03e_aReqdoorclose_800CBF58[]; // = "REQ:DOOR CLOSE\n"
+
+void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
+{
+    int       i;
+    POLY_FT4 *poly;
+    DG_TEX   *tex;
+    int       x, y, w, h;
+
+    for (i = 0; i < 2; i++)
+    {
+        poly = &prim->field_40_pBuffers[i]->poly_ft4;
+        tex = DG_GetTexture_8001D830(texid);
+
+        x = tex->field_8_offx;
+        w = tex->field_A_width;
+        y = tex->field_9_offy;
+        h = tex->field_B_height;
+        setUVWH(poly, x, y, w, h);
+
+        poly->tpage = tex->field_4_tPage;
+        poly->clut = tex->field_6_clut;
+    }
+}
+
+int s03e_evpanel_800C3488(EvPanelWork *work)
+{
+    GV_MSG      *msg;
+    int          n_msgs;
+    int          message;
+    int          code;
+    unsigned int i;
+
+    n_msgs = GV_ReceiveMessage_80016620(work->name, &msg);
+    message = 0;
+
+    for (; n_msgs > 0; n_msgs--)
+    {
+        code = msg->message[0];
+
+        if (code == HASH_KILL)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return 0;
+        }
+
+        for (i = 0; i < 7; i++)
+        {
+            if (s03e_dword_800C3268[i] != code)
+            {
+                continue;
+            }
+                message |= 1 << i;
+
+            if (code == HASH_ENTER || code == HASH_LEAVE)
+            {
+                if (msg->message[1] == CHARA_SNAKE)
+                {
+                    message |= 0x100;
+                }
+                else
+                {
+                    message |= 0x200;
+                }
+
+                if (code == HASH_ENTER)
+                {
+                    printf(s03e_aMessagein_800CBF18);
+                    work->field_44++;
+                }
+                else
+                {
+                    printf(s03e_aMessageout_800CBF24);
+
+                    if (--work->field_44 < 0)
+                    {
+                        work->field_44 = 0;
+                    }
+                }
+            }
+            else if (code == 0x8591)
+            {
+                if (msg->message[1] == HASH_ENTER)
+                {
+                    message |= 0x1000;
+                }
+                else
+                {
+                    message |= 0x2000;
+                }
+            }
+            else if (code == 0x2EAB)
+            {
+                if (msg->message_len >= 2)
+                {
+                    message |= 0x400;
+                    work->f8C.pad = msg->message[1];
+                }
+            }
+            else if (code == 0x121F)
+            {
+                if ((msg->message_len >= 2) && (msg->message[1] == 0))
+                {
+                    work->field_36 = -1;
+                }
+                else
+                {
+                    work->field_36 = 0;
+                }
+            }
+        }
+
+        msg++;
+    }
+
+    if (message != 0)
+    {
+        printf(s03e_aMessagex_800CBF34, message);
+    }
+
+    return message;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C36B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C3778.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C37FC.s")
+
+/*
+void s03e_evpanel_800C36B0(EvPanelWork *work)
+{
+    GCL_ARGS args;
+    int      code;
+    int      proc;
+    long     arg;
+    char    *script;
+    int      i;
+
+    script = work->field_50;
+    for (i = 0; i < work->field_30; i++)
+    {
+        script = GCL_GetNextValue_8002069C(script, &code, &proc);
+        if (script == NULL)
+        {
+            printf(s03e_aNofloorproc_800CBF40);
+        }
+
+        if (i == work->field_32)
+        {
+            args.argc = 1;
+            args.argv = &arg;
+            arg = work->f8C.vy;
+
+            do {} while (0);
+
+            printf(s03e_aRotd_800CBF50, work->f8C.vy);
+
+            GCL_ExecProc_8001FF2C(proc, &args);
+            break;
+        }
+    }
+}
+*/
+
+void s03e_evpanel_800C3778(EvPanelWork *work)
+{
+    int       i, j;
+    POLY_FT4 *poly;
+
+    for (i = 0; i < 2; i++)
+    {
+        poly = &work->field_20->field_40_pBuffers[i]->poly_ft4;
+
+        for (j = 0; j < work->field_30; j++)
+        {
+            if (j == work->field_32)
+            {
+                poly->r0 = 255;
+                poly->g0 = 255;
+                poly->b0 = 255;
+            }
+            else
+            {
+                poly->r0 = 128;
+                poly->g0 = 128;
+                poly->b0 = 128;
+            }
+
+            poly++;
+        }
+    }
+}
+
+void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
+{
+    int       i;
+    POLY_FT4 *poly;
+
+    if (index == 2)
+    {
+        index = (GV_Time_800AB330 / 8) % 2;
+    }
+
+    for (i = 0; i < 2; i++)
+    {
+        poly = &work->field_24->field_40_pBuffers[i]->poly_ft4;
+
+        if (index != 0)
+        {
+            poly->r0 = 97;
+            poly->g0 = 128;
+            poly->b0 = 138;
+        }
+        else
+        {
+            poly->r0 = 32;
+            poly->g0 = 32;
+            poly->b0 = 32;
+        }
+    }
+}
 
 void s03e_evpanel_800C3898(EvPanelWork *work)
 {
     GV_MSG msg;
 
     msg.address = work->field_3A;
-    msg.message[0] = 0xDD2;
-    msg.message[1] = 0x21CA;
+    msg.message[0] = HASH_ENTER;
+    msg.message[1] = CHARA_SNAKE;
     msg.message_len = 2;
 
     GV_SendMessage_80016504(&msg);
@@ -94,8 +304,8 @@ void s03e_evpanel_800C38F4(EvPanelWork *work)
     GV_MSG msg;
 
     msg.address = work->field_3A;
-    msg.message[0] = 0xD5CC;
-    msg.message[1] = 0x21CA;
+    msg.message[0] = HASH_LEAVE;
+    msg.message[1] = CHARA_SNAKE;
     msg.message_len = 2;
 
     GV_SendMessage_80016504(&msg);
@@ -119,20 +329,68 @@ void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C3994.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C39F8.s")
+void s03e_evpanel_800C3994(void)
+{
+    GM_Camera_800B77E8.field_0 = s03e_dword_800CC6B8->f84;
+    GM_Camera_800B77E8.field_10 = s03e_dword_800CC6B8->f8C;
+    GM_Camera_800B77E8.field_28 = 1;
+}
+
+void s03e_evpanel_800C39F8(EvPanelWork *work)
+{
+    s03e_dword_800CC6B8 = work;
+
+    sub_8002FD84(1, s03e_evpanel_800C3994);
+
+    work->field_4C = GM_Camera_800B77E8.field_18_flags;
+    work->f8C.vy = work->field_48;
+    work->field_4A = work->field_48;
+
+    GM_Camera_800B77E8.field_18_flags = 0x2;
+    GM_Camera_800B77E8.field_2A = 2;
+    GM_Camera_800B77E8.field_26 = 30;
+
+    GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
+
+    DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+
+    if (((1 << GM_CurrentItemId) & 0x101E) != 0)
+    {
+        GM_CurrentItemId = ITEM_NONE;
+    }
+
+    if (((1 << GM_CurrentWeaponId) & 0x210) != 0)
+    {
+        GM_CurrentWeaponId = WEAPON_NONE;
+    }
+}
 
 void s03e_evpanel_800C3AD0(EvPanelWork *work)
 {
     GM_Camera_800B77E8.field_18_flags = work->field_4C;
     GM_Camera_800B77E8.field_2A = 2;
-    GM_Camera_800B77E8.field_26 = 0x1E;
+    GM_Camera_800B77E8.field_26 = 30;
 
     sub_8002FD84(1, NULL);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C3B14.s")
+void s03e_evpanel_800C3B14(EvPanelWork *work, int arg1)
+{
+    if ((arg1 & 0x104) == 0x104)
+    {
+        DG_VisiblePrim(work->field_20);
+
+        work->field_2E = 3;
+
+        if (work->field_42 == 1)
+        {
+            s03e_evpanel_800C3898(work);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C3B74.s")
+void s03e_evpanel_800C3B74(EvPanelWork *);
 
 void s03e_evpanel_800C457C(EvPanelWork *work)
 {
@@ -152,10 +410,188 @@ void s03e_evpanel_800C457C(EvPanelWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C45E4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C470C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C47D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C496C.s")
+void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
+{
+    int i;
+    int x, y, w, h;
+
+    for (i = 0; i < n_packs; i++)
+    {
+        setPolyFT4(packs);
+        setSemiTrans(packs, 1);
+
+        x = tex->field_8_offx;
+        w = tex->field_A_width;
+
+        packs->u2 = x;
+        packs->u0 = x;
+        packs->u3 = w + x;
+        packs->u1 = w + x;
+
+        y = tex->field_9_offy;
+        h = tex->field_B_height + 1;
+
+        packs->v1 = y + (h * i) / n_packs;
+        packs->v0 = y + (h * i) / n_packs;
+        packs->v3 = y + ((h * (i + 1)) / n_packs) - 1;
+        packs->v2 = y + ((h * (i + 1)) / n_packs) - 1;
+
+        packs->tpage = tex->field_4_tPage;
+        packs->clut = tex->field_6_clut;
+
+        packs->r0 = 128;
+        packs->g0 = 128;
+        packs->b0 = 128;
+
+        packs++;
+    }
+}
+
+void s03e_evpanel_800C470C(SVECTOR *vecs, int n_vecs, int x, int y)
+{
+    int height;
+    int top;
+    int i;
+    int x0, x1;
+    int y0, y1;
+
+    height = (y / n_vecs) / 2;
+    top = (y / 2) - height;
+    x1 = x / 2;
+
+    for (i = 0; i < n_vecs; i++)
+    {
+        x0 = -x1;
+        y0 = top + height;
+        y1 = top - height;
+        top -= height * 2;
+
+        setVector(&vecs[0], x0, y0, 0);
+        setVector(&vecs[1], x1, y0, 0);
+        setVector(&vecs[2], x0, y1, 0);
+        setVector(&vecs[3], x1, y1, 0);
+        vecs += 4;
+    }
+}
+
+int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_prims)
+{
+    MATRIX   pos;
+    SVECTOR  trans;
+    SVECTOR  rot;
+    SVECTOR  sp48;
+    int      texid;
+    int      k500;
+    DG_PRIM *prim;
+    DG_TEX  *tex;
+
+    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &trans);
+    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &rot);
+    GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &sp48);
+
+    k500 = GCL_GetNextParamValue_80020AD4();
+    texid = GCL_GetNextParamValue_80020AD4();
+
+    if (n_prims == 1)
+    {
+        work->field_28 = texid;
+
+        if (GCL_Get_Param_Result_80020AA4())
+        {
+            work->field_2A = GCL_GetNextParamValue_80020AD4();
+        }
+        else
+        {
+            work->field_2A = texid;
+        }
+    }
+
+    prim = DG_GetPrim(0x1012, n_prims, 0, vec, NULL);
+    *out = prim;
+    if (prim == NULL)
+    {
+        return 0;
+    }
+
+    tex = DG_GetTexture_8001D830(texid);
+    if (tex == NULL)
+    {
+        return 0;
+    }
+
+    RotMatrix(&rot, &pos);
+
+    pos.t[0] = trans.vx;
+    pos.t[1] = trans.vy;
+    pos.t[2] = trans.vz;
+
+    DG_SetPos_8001BC44(&pos);
+    DG_PutPrim_8001BE00(&prim->world);
+
+    prim->field_2E_k500 = k500;
+
+    s03e_evpanel_800C45E4(&prim->field_40_pBuffers[0]->poly_ft4, tex, n_prims);
+    s03e_evpanel_800C45E4(&prim->field_40_pBuffers[1]->poly_ft4, tex, n_prims);
+
+    s03e_evpanel_800C470C(vec, n_prims, sp48.vx, sp48.vy);
+    return 1;
+}
+
+int s03e_evpanel_800C496C(EvPanelWork *work, int map, int name, int arg3)
+{
+    GM_CurrentMap_800AB9B0 = map;
+
+    if (!GCL_GetOption_80020968('p'))
+    {
+        return -1;
+    }
+
+    if (!s03e_evpanel_800C47D0(work, &work->field_20, work->field_B4, arg3))
+    {
+        return -1;
+    }
+
+    if (!GCL_GetOption_80020968('b'))
+    {
+        return -1;
+    }
+
+    if (!s03e_evpanel_800C47D0(work, &work->field_24, work->field_94, 1))
+    {
+        return -1;
+    }
+
+    s03e_evpanel_800C37FC(work, 0);
+
+    work->field_34 = work->field_32 = THING_Gcl_GetInt('f');
+    work->field_3A = THING_Gcl_GetInt('r');
+    work->field_46 = THING_Gcl_GetInt('t');
+
+    work->field_30 = arg3;
+    work->name = name;
+
+    work->field_50 = (char *)GCL_GetOption_80020968('e');
+
+    if (GCL_GetOption_80020968('c'))
+    {
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f84);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &work->f8C);
+
+        work->field_3C = GCL_GetNextParamValue_80020AD4();
+        work->field_3E = GCL_GetNextParamValue_80020AD4();
+
+        work->field_48 = work->f8C.vy;
+
+        DG_VisiblePrim(work->field_24);
+        DG_InvisiblePrim(work->field_20);
+
+        s03e_evpanel_800C37FC(work, 1);
+        s03e_evpanel_800C3778(work);
+        return 0;
+    }
+
+    return -1;
+}
 
 GV_ACT *s03e_evpanel_800C4AD8(int name, int where, int argc, char **argv)
 {
@@ -163,7 +599,7 @@ GV_ACT *s03e_evpanel_800C4AD8(int name, int where, int argc, char **argv)
     int          count;
 
     count = THING_Gcl_GetIntDefault('n', 3);
-    work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + count * sizeof(EvPanelChild));
+    work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * count * 4);
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_evpanel_800C3B74,

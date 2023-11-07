@@ -13,9 +13,9 @@
 
 // cigarettes
 
-extern int   GM_GameStatus_800AB3CC;
-extern int   GV_Time_800AB330;
-extern int   GM_CurrentMap_800AB9B0;
+extern int GM_GameStatus_800AB3CC;
+extern int GV_Time_800AB330;
+extern int GM_CurrentMap_800AB9B0;
 
 int SECTION(".sbss")    GM_CurrentMap_800AB9B0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
