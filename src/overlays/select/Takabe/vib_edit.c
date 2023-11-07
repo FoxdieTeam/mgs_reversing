@@ -46,36 +46,6 @@ extern int    GM_GameStatus_800AB3CC;
 extern int    GM_PlayerStatus_800ABA50;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-extern const char select_aSavevibrationeditordata_800C52A4[]; // = "Save vibration editor data !\n"
-extern char       select_aVibeditdat_800C52C4[];              // = "VIB_EDIT.DAT"
-extern const char select_aVibeditc_800C52D4[];                // = "vib_edit.c"
-extern const char select_aDd_800C50E4[];
-extern const char select_aDd_800C5124[];
-extern const char select_aHigh_800C50DC[];
-extern const char select_aLow_800C50F0[];
-extern const char select_aPadvibationparameterforgcl_800C50B8[];
-extern const char select_aPadvibationparameterforprogram_800C50F8[];
-extern const char select_a_800C50EC[];
-extern const char select_a_800C5120[];
-extern const char select_a_800C512C[];
-extern const char select_aChangelengthlr_800C518C[];
-extern const char select_aChangepowerud_800C51A8[];
-extern const char select_aDdd_800C5280[];
-extern const char select_aDispparamy_800C520C[];
-extern const char select_aEddd_800C5270[];
-extern const char select_aEditmenu_800C5130[];
-extern const char select_aEditmenur_800C5224[];
-extern const char select_aEditvibrationtyped_800C5254[];
-extern const char select_aExitl_800C51C4[];
-extern const char select_aFilemenu_800C513C[];
-extern const char select_aFilemenul_800C523C[];
-extern const char select_aPlaya_800C51DC[];
-extern const char select_aSd_800C5148[];
-extern const char select_aSelectparamlr_800C5170[];
-extern const char select_aTypechangex_800C51F4[];
-extern const char select_aVibrationeditorver_800C5150[];
-extern char      *select_dword_800C3220[4];
-extern char      *select_dword_800C3230[5];
 // VibEditGetResources is calling this with two missing parameters for some reason.
 int PCopen_80014B1C(const char *name);
 int PCread_80014B24(int fd, char *buff, int len);
@@ -93,6 +63,23 @@ int select_800C4F48(int, char *, int); // PCwrite
 int THING_Gcl_GetInt(int param);
 
 #define EXEC_LEVEL 3
+
+const char *select_dword_800C3220[4] =
+{
+    "INS PARAM",
+    "DEL PARAM",
+    "SWAP BACK",
+    "SWAP FORWARD",
+};
+
+const char *select_dword_800C3230[5] =
+{
+    "CHANGE BANK",
+    "QUICK SAVE HIGH",
+    "QUICK SAVE LOW",
+    "QUICK LOAD HIGH",
+    "QUICK LOAD LOW",
+};
 
 void VibEdit_800C34F0(VibEditWork *work)
 {
@@ -150,8 +137,8 @@ void select_800C3974(VibEditWork *work)
     int      i;
     VibPair *iter;
 
-    printf(select_aPadvibationparameterforgcl_800C50B8);
-    printf(select_aHigh_800C50DC);
+    printf("pad vibation parameter (for gcl)\n");
+    printf("high:{ ");
 
     iter = work->field_4C_pairs;
     for (i = 0; i < 16; iter++, i++)
@@ -160,10 +147,10 @@ void select_800C3974(VibEditWork *work)
         {
             break;
         }
-        printf(select_aDd_800C50E4, iter->first, iter->second);
+        printf("%d,%d ", iter->first, iter->second);
     }
-    printf(select_a_800C50EC);
-    printf(select_aLow_800C50F0);
+    printf("}\n");
+    printf("low:{ ");
     iter = work->field_70_pairs;
     for (i = 0; i < 16; iter++, i++)
     {
@@ -171,35 +158,35 @@ void select_800C3974(VibEditWork *work)
         {
             break;
         }
-        printf(select_aDd_800C50E4, iter->first, iter->second);
+        printf("%d,%d ", iter->first, iter->second);
     }
-    printf(select_a_800C50EC);
-    printf(select_aPadvibationparameterforprogram_800C50F8);
-    printf(select_aHigh_800C50DC);
+    printf("}\n");
+    printf("pad vibation parameter (for program)\n");
+    printf("high:{ ");
 
     iter = work->field_4C_pairs;
     for (i = 0; i < 16; iter++, i++)
     {
         if (iter->first == 0 && iter->second == 0)
         {
-            printf(select_a_800C5120, iter->first, iter->second); // unnecessary args...
+            printf("0,0", iter->first, iter->second); // unnecessary args...
             break;
         }
-        printf(select_aDd_800C5124, iter->first, iter->second);
+        printf("%d,%d,", iter->first, iter->second);
     }
-    printf(select_a_800C50EC);
-    printf(select_aHigh_800C50DC);
+    printf("}\n");
+    printf("high:{ ");
     iter = work->field_70_pairs;
     for (i = 0; i < 16; iter++, i++)
     {
         if (iter->first == 0 && iter->second == 0)
         {
-            printf(select_a_800C5120, iter->first, iter->second); // unnecessary args...
+            printf("0,0", iter->first, iter->second); // unnecessary args...
             break;
         }
-        printf(select_aDd_800C5124, iter->first, iter->second);
+        printf("%d,%d,", iter->first, iter->second);
     }
-    printf(select_a_800C512C);
+    printf("}\n\n");
 }
 
 void select_800C3BB8(VibPair *ptr, int cnt)
@@ -484,7 +471,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
                 }
             }
             menu_Text_XY_Flags_80038B34(230, 160, 0);
-            menu_Text_80038C38(select_aEditmenu_800C5130);
+            menu_Text_80038C38("EDIT MENU");
             for (i = 0; i < 4; i++)
             {
                 if (work->field_2C == i)
@@ -569,7 +556,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
             }
 
             menu_Text_XY_Flags_80038B34(230, 160, 0);
-            menu_Text_80038C38(select_aFilemenu_800C513C);
+            menu_Text_80038C38("FILE MENU");
             if (work->field_2C == 0)
             {
                 menu_Text_XY_Flags_80038B34(230, 172, 0);
@@ -578,7 +565,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
             {
                 menu_Text_XY_Flags_80038B34(238, 172, 0);
             }
-            menu_Text_80038C38(select_aSd_800C5148, select_dword_800C3230[0], work->field_28);
+            menu_Text_80038C38("%s %d", select_dword_800C3230[0], work->field_28);
 
             for (i = 1; i < 5; i++)
             {
@@ -601,19 +588,19 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         break;
     }
     menu_Text_XY_Flags_80038B34(32, 16, 0);
-    menu_Text_80038C38(select_aVibrationeditorver_800C5150);
-    menu_Text_80038C38(select_aSelectparamlr_800C5170);
-    menu_Text_80038C38(select_aChangelengthlr_800C518C);
-    menu_Text_80038C38(select_aChangepowerud_800C51A8);
-    menu_Text_80038C38(select_aExitl_800C51C4);
+    menu_Text_80038C38("Vibration Editor   Ver 1.50\n");
+    menu_Text_80038C38("Select param  - < L1  R1 >\n");
+    menu_Text_80038C38("Change length - < L   R  >\n");
+    menu_Text_80038C38("Change power  - < U   D  >\n");
+    menu_Text_80038C38("EXIT          - < L3 >\n");
     menu_Text_XY_Flags_80038B34(168, 24, 0);
-    menu_Text_80038C38(select_aPlaya_800C51DC);
-    menu_Text_80038C38(select_aTypechangex_800C51F4);
-    menu_Text_80038C38(select_aDispparamy_800C520C);
-    menu_Text_80038C38(select_aEditmenur_800C5224);
-    menu_Text_80038C38(select_aFilemenul_800C523C);
+    menu_Text_80038C38("PLAY          - < A >\n");
+    menu_Text_80038C38("Type change   - < X >\n");
+    menu_Text_80038C38("Disp param    - < Y >\n");
+    menu_Text_80038C38("Edit menu     - < R2 >\n");
+    menu_Text_80038C38("File menu     - < L2 >\n");
     menu_Text_XY_Flags_80038B34(32, 64, 0);
-    menu_Text_80038C38(select_aEditvibrationtyped_800C5254, 2 - work->field_3C);
+    menu_Text_80038C38("Edit vibration - type %d\n", 2 - work->field_3C);
 
     for (j = 0; j < 2; j++)
     {
@@ -624,11 +611,11 @@ void VibEditAct_800C3DB0(VibEditWork *work)
             menu_Text_XY_Flags_80038B34(32 + 100 * j, 160 + i * 8, 0);
             if (idx == work->field_38)
             {
-                menu_Text_80038C38(select_aEddd_800C5270, idx, cur_pair->first, cur_pair->second);
+                menu_Text_80038C38("E%2d- %3d %3d\n", idx, cur_pair->first, cur_pair->second);
             }
             else
             {
-                menu_Text_80038C38(select_aDdd_800C5280, idx, cur_pair->first, cur_pair->second);
+                menu_Text_80038C38(" %2d- %3d %3d\n", idx, cur_pair->first, cur_pair->second);
             }
         }
     }
@@ -650,11 +637,11 @@ void VibEditDie_800C467C(VibEditWork *work)
 {
     int fd;
 
-    printf(select_aSavevibrationeditordata_800C52A4);
+    printf("Save vibration editor data !\n");
 
     VibEdit_800C3CBC(work, work->field_28);
 
-    fd = PCcreat(select_aVibeditdat_800C52C4);
+    fd = PCcreat("VIB_EDIT.DAT");
     PCwrite(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
     PCclose_80014B2C(fd);
 
@@ -671,7 +658,7 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
     VibEdit_800C34F0(work);
 
     // Should have 3 args
-    fd = PCopen_80014B1C(select_aVibeditdat_800C52C4);
+    fd = PCopen_80014B1C("VIB_EDIT.DAT");
     PCread_80014B24(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
     PCclose_80014B2C(fd);
 
@@ -691,7 +678,7 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)VibEditAct_800C3DB0,
-                                  (TActorFunction)VibEditDie_800C467C, select_aVibeditc_800C52D4);
+                                  (TActorFunction)VibEditDie_800C467C, "vib_edit.c");
 
         if (VibEditGetResources_800C4720(work, flags, perms) < 0)
         {

@@ -353,7 +353,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\select\overlay.obj"
     include "{{OBJ_DIR}}\overlays\select1\Game\select.obj"
     include "{{OBJ_DIR}}\overlays\select\Takabe\vib_edit.obj"
-    include "{{OBJ_DIR}}\overlays\select\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
 

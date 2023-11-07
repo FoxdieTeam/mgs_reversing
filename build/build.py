@@ -85,6 +85,7 @@ def ninja_run():
         r'mts_new\.c:\d+: warning: control reaches end of non-void function',
         r'overlay_bss\.c:\d+: warning: `s00a_dword_800E1120\' defined but not used',
         r'mosaic\.c:\d+: warning: unused variable `unused\'',
+        r'vib_edit.c:\d+: warning: too many arguments for format',
     ]
 
     if os.environ.get('APPVEYOR'):
