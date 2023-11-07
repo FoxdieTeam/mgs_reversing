@@ -29,21 +29,6 @@
 
 // --------------------------------------------------------------------------------------------------------------------
 
-unsigned char BSS   main_task_stack_800ABBF0[2048]; // 0x800 (2048) bytes
-unsigned int BSS    sdStack_800AC3F0[512]; // 0x800 (2048) bytes
-int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
-int BSS             pad_800ACBF4; // 0x4 (4) bytes
-GV_ACT BSS          gGVActor_800acbf8; // 0x20 (32) bytes
-struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
-
-gap                                     gap_800ACE7C[0x4]; // 4 bytes
-
-TFileExtHandler BSS gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) bytes
-
-gap                                     gap_800ACEE8[0x8]; // 8 bytes
-
-CacheSystems BSS    GV_CacheSystem_800ACEF0; // 0x400 (1024) bytes
-GV_Heap BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
 GV_Messages BSS     gMessageQueue_800B0320[2]; // 0x288 (648) bytes
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
 GV_PAD BSS          GV_PadData_800B05C0[4]; // 0x40 (64) bytes

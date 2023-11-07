@@ -13,17 +13,10 @@ int GV_PadMask_800AB374 = 0;
 int GV_PadOrigin_800AB378 = 0;
 int GV_800AB37C = 0;
 
-extern int dword_800AB950;
-int        SECTION(".sbss") dword_800AB950;
-
-extern int dword_800AB954;
-int        SECTION(".sbss") dword_800AB954;
-
-extern int GV_DemoPadStatus_800AB958;
-int        SECTION(".sbss") GV_DemoPadStatus_800AB958;
-
-extern int GV_DemoPadAnalog_800AB95C;
-int        SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
+int GV_DemoPadAnalog_800AB95C;
+int GV_DemoPadStatus_800AB958;
+int dword_800AB954;
+int dword_800AB950;
 /*********************************************************************/
 
 short key_table_8009D32C[] = {0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,

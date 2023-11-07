@@ -2,12 +2,11 @@
 #include "mts/mts_new.h"
 
 /**bss***************************************************************/
-extern GV_Heap MemorySystems_800AD2F0[3];
+GV_Heap MemorySystems_800AD2F0[3];
 /********************************************************************/
 
 /***$gp****************************************************************/
-extern unsigned char *GV_ResidentMemoryBottom_800AB940;
-unsigned char        *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
+unsigned char *GV_ResidentMemoryBottom_800AB940;
 /*********************************************************************/
 
 extern unsigned char *gOverlayBase_800AB9C8;

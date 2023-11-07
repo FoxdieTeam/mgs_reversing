@@ -5,19 +5,14 @@
 #define RESIDENT_REGION_FLAG 0x1000000
 
 /**bss***********************************************************************************************/
-extern CacheSystems    GV_CacheSystem_800ACEF0;
-extern TFileExtHandler gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
+CacheSystems    GV_CacheSystem_800ACEF0;
+TFileExtHandler gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS + 1];
 /***************************************************************************************************/
 
 /***$gp***************************************************************/
-extern LibGV_FileRecord *GV_CurrentTag_800AB930;
-LibGV_FileRecord        *SECTION(".sbss") GV_CurrentTag_800AB930;
-
-extern LibGV_FileRecord *GV_ResidentFileRecords_800AB934;
-LibGV_FileRecord        *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
-
-extern int N_ResidentFileRecords_800AB938;
-int        SECTION(".sbss") N_ResidentFileRecords_800AB938;
+int               N_ResidentFileRecords_800AB938;
+LibGV_FileRecord *GV_ResidentFileRecords_800AB934;
+LibGV_FileRecord *GV_CurrentTag_800AB930;
 /********************************************************************/
 
 // searches for a cached file from the cache system with a given ID

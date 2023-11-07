@@ -21,7 +21,7 @@ int            SECTION(".sbss") dword_800AB954;
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
-extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
+struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
 struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {15, 4},
                                             {15, 4}, {15, 4}, {9, 4}, {0, 7}};
