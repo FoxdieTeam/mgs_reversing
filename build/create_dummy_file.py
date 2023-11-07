@@ -10,5 +10,5 @@ def main(dst):
     open(dst, 'wb').write(b'\x9e' * DUMMY_FILE_SIZE)
 
 if __name__ == '__main__':
-    dst = sys.argv[1]
-    main(dst)
+    for dst in sys.argv[1:]:
+        main(dst)
