@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 
 def process_flag(flag):
     # Either "KEY=VALUE":
-    kv = re.match(r'^([A-Z]+)=(.*)$', flag)
+    kv = re.match(r'^([A-Z_]+)=(.*)$', flag)
     if kv:
         return (kv.group(1), kv.group(2))
     else:
