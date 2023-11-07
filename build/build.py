@@ -151,6 +151,9 @@ ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/ASPSX/2.81/ASPS
 ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink.exe"))
 ninja.newline()
 
+ninja.variable("psyq_psylink_overlay_fopen_patch_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink_overlay_fopen_patch.exe"))
+ninja.newline()
+
 ninja.variable("src_dir", "../src")
 ninja.newline()
 
@@ -183,13 +186,13 @@ ninja.newline()
 ninja.rule("psyq_cc_44", "$psyq_cc_44_exe -quiet -O2 -G $gSize -g -Wall $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -soverlay $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_aspsx_assemble_44_overlays", "$psyq_aspsx_44_exe -q -G0 -s-overlay $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_44", "$psyq_aspsx_44_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("psyq_aspsx_assemble_2_81_overlays", "$psyq_aspsx_2_81_exe -q -G0 -soverlay $in -o $out""", "Compile $in -> $out")
+ninja.rule("psyq_aspsx_assemble_2_81_overlays", "$psyq_aspsx_2_81_exe -q -G0 -s-overlay $in -o $out""", "Compile $in -> $out")
 ninja.newline()
 
 ninja.rule("psyq_aspsx_assemble_2_81", "$psyq_aspsx_2_81_exe -q $in -o $out", "Assemble $in -> $out")
@@ -202,13 +205,19 @@ ninja.newline()
 ninja.rule("psyq_aspsx_assemble_2_56", "$psyq_aspsx_2_56_exe -q $in -o $out", "Assemble $in -> $out")
 ninja.newline()
 
-ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $psyq_sdk $out {' '.join(args.defines)} $overlay", "Preprocess $in -> $out")
+ninja.rule("linker_command_file_preprocess", f"{sys.executable} $src_dir/../build/linker_command_file_preprocess.py $in $psyq_sdk $out {' '.join(args.defines)} $overlay $overlay_suffix", "Preprocess $in -> $out")
 ninja.newline()
 
 # For some reason VR executable links with PsyQ 4.5!?
 psqy_lib = f'{args.psyq_path}/psyq_4.5/LIB' if args.variant == 'vr_exe' else f'{args.psyq_path}/psyq_4.4/LIB'
 
 ninja.rule("psylink", f"$psyq_psylink_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link $out")
+ninja.newline()
+
+ninja.rule("psylink_overlay_fopen_patch", f"{sys.executable} $src_dir/../build/create_dummy_file.py $src_dir/../{args.obj_directory}/$overlay_bin && {sys.executable} $src_dir/../build/create_dummy_file.py $src_dir/../{args.obj_directory}/$overlay_bss_bin && $psyq_psylink_overlay_fopen_patch_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link (uninitialized) $out")
+ninja.newline()
+
+ninja.rule("uninitializer", f"{sys.executable} $src_dir/../build/uninitializer.py inject $in $out", "Uninitializer $in -> $out")
 ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
@@ -333,11 +342,27 @@ def gen_build_target(targetName):
 
         linkerDeps.append(cOFile)
 
+    # Build main exe
+
+    # preprocess linker_command_file.txt
+    linkerCommandFile = f"../{args.obj_directory}/linker_command_file.txt"
+    ninja.build(linkerCommandFile, "linker_command_file_preprocess", f"linker_command_file.txt", variables={'psyq_sdk': args.psyq_path})
+    ninja.newline()
+
+    # run the linker to generate the cpe
+    cpeFile = f"../{args.obj_directory}/_mgsi.cpe"
+    ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
+    ninja.newline()
+
+    # cpe to exe
+    exeFile = f"../{args.obj_directory}/_mgsi.exe"
+    ninja.build(exeFile, "cpe2exe", cpeFile)
+    ninja.newline()
+
     # Run linker separately for each overlay to make it possible
     # to share objects (same symbols) across overlays.
 
     OVERLAYS = [
-        None, # Main executable
         "sound",
         "select1", "select2", "select3", "select4", "selectd",
         "change",
@@ -353,29 +378,58 @@ def gen_build_target(targetName):
     ]
 
     if args.variant == 'vr_exe':
-        OVERLAYS = [None]
+        OVERLAYS = []
 
     for overlay in OVERLAYS:
-        suffix = f"_{overlay}" if overlay else ""
+        # It turns out that MGS overlays contain uninitialized memory
+        # in:
+        # - Padding between values in data/rdata (e.g. padding between strings)
+        # - BSS
+        # Our psylink doesn't have the same problem and it fills those
+        # spaces correctly with 0s.
+        #
+        # To inject back the uninitialized memory we run the linker twice.
+        # The first run uses unmodified psylink, so the generated overlay
+        # has 0s in those described places. The second run uses a modified
+        # version of psylink that writes on top of an existing file
+        # (fopen(, "r+b") instead of fopen(, "wb")). Before the second run
+        # we create a dummy file filled with a repeating non-zero byte -
+        # this represents the uninitialized memory that we will detect.
+        # After that we can use those two generated files, diff them
+        # and combined with the uninitialized memory extracted from original
+        # files to generate an overlay with uninitialized memory.
 
-        # preprocess linker_command_file.txt
-        linkerCommandFile = f"../{args.obj_directory}/linker_command_file{suffix}.txt"
-        linkerCommandPreprocessVars = {"overlay": f"OVERLAY={overlay}"} if overlay else {}
-        linkerCommandPreprocessVars['psyq_sdk'] = args.psyq_path
+        # First run (LHS)
+        linkerCommandFile = f"../{args.obj_directory}/linker_command_file_{overlay}_lhs.txt"
+        linkerCommandPreprocessVars = {
+            "overlay": f"OVERLAY={overlay}",
+            "overlay_suffix": "OVERLAY_SUFFIX=lhs",
+            "psyq_sdk": args.psyq_path
+        }
         ninja.build(linkerCommandFile, "linker_command_file_preprocess", f"linker_command_file.txt", variables=linkerCommandPreprocessVars)
         ninja.newline()
 
-        # run the linker to generate the cpe
-        cpeFile = f"../{args.obj_directory}/_mgsi{suffix}.cpe"
-        ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile], variables={"suffix": suffix})
+        lhsOverlayFile = f"../{args.obj_directory}/{overlay}_lhs.bin"
+        ninja.build(lhsOverlayFile, "psylink", implicit=linkerDeps + [linkerCommandFile], variables={"suffix": f"_{overlay}_lhs"})
         ninja.newline()
 
-        if overlay is None:
-            # cpe to exe (only needed for main executable)
-            exeFile = f"../{args.obj_directory}/_mgsi{suffix}.exe"
-            ninja.build(exeFile, "cpe2exe", cpeFile)
-            ninja.newline()
+        # Second run (RHS)
+        linkerCommandFile = f"../{args.obj_directory}/linker_command_file_{overlay}_rhs.txt"
+        linkerCommandPreprocessVars = {
+            "overlay": f"OVERLAY={overlay}",
+            "overlay_suffix": "OVERLAY_SUFFIX=rhs",
+            "psyq_sdk": args.psyq_path
+        }
+        ninja.build(linkerCommandFile, "linker_command_file_preprocess", f"linker_command_file.txt", variables=linkerCommandPreprocessVars)
+        ninja.newline()
 
+        rhsOverlayFile = f"../{args.obj_directory}/{overlay}_rhs.bin"
+        ninja.build(rhsOverlayFile, "psylink_overlay_fopen_patch", implicit=linkerDeps + [linkerCommandFile], variables={"overlay_bin": f"{overlay}_rhs.bin", "overlay_bss_bin": f"{overlay}_rhs_bss.bin", "suffix": f"_{overlay}_rhs"})
+        ninja.newline()
+
+        overlayFile = f"../{args.obj_directory}/{overlay}.bin"
+        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, f"../um/{overlay}.bin"], variables={"overlay": f"{overlay}"})
+        ninja.newline()
 
 #init_psyq_ini_files(args.psyq_path)
 gen_build_target("SLPM_862.47")

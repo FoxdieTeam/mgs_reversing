@@ -1,5 +1,7 @@
 #include "libdg/libdg.h"
 
+// Warning: cat_in.c contains both BSS and rdata
+
 // BSS which can't actually be declared as BSS due to memleaks
 
 const char s00a_dword_800E0C9C[] = {0x0, 0x0, '#', '('};
