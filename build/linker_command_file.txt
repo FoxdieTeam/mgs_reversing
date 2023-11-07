@@ -307,16 +307,21 @@ bss     group bss
 
 {% if OVERLAY %}
 
-overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}.bin")
+overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
     section overlay.data,  overlay
     section overlay.text,  overlay
     section overlay.ctors, overlay
     section overlay.dtors, overlay
     section overlay.rdata, overlay
     section overlay.sdata, overlay
+{% if OVERLAY_SUFFIX == "lhs" %}
     section overlay.sbss,  overlay
     section overlay.bss,   overlay
-    section overlay.fixme, overlay
+{% else %}
+overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
+    section overlay.sbss,  overlay_bss
+    section overlay.bss,   overlay_bss
+{% endif %}
 
 {% if OVERLAY == "sound" %}
     include "{{OBJ_DIR}}\overlays\sound\overlay.obj"
