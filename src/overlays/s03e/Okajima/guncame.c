@@ -1,3 +1,4 @@
+#include "common.h"
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -69,8 +70,7 @@ typedef struct GunCamEWork
     int      field_3EC;
     int      field_3F0;
     SVECTOR  field_3F4;
-    int      field_3FC;
-    int      field_400;
+    SVECTOR  field_3FC;
     int      field_404;
     int      field_408;
     int      field_40C;
@@ -97,6 +97,7 @@ extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
 extern SVECTOR s03e_svec_800CC0F4;
 extern int     GV_Time_800AB330;
+extern int     GM_GameStatus_800AB3CC;
 
 void AN_Unknown_800C9CBC(MATRIX *world, int index);
 
@@ -491,8 +492,57 @@ void s03e_guncame_800C7C0C(GunCamEWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7CE0.s")
-void s03e_guncame_800C7CE0(GunCamEWork *work);
+void s03e_guncame_800C7CE0(GunCamEWork *work)
+{
+    int time;
+    int tx, ty;
+
+    switch (work->field_344)
+    {
+    case 0:
+        work->field_344 = 7;
+        /* fallthrough */
+
+    case 7:
+        time = work->field_3D0 + GV_Time_800AB330;
+
+        if ((GV_RandU_80017090(16) == 0) && (work->field_404 != 0))
+        {
+            GM_SeSet_80032858(&work->field_20.field_0_mov, 109);
+        }
+
+        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01) // chaff active
+        {
+            ty = rsin(time * 64) - rsin(time * 31) / 2 - rsin(time * 231) / 2;
+            work->field_20.field_4C_turn.vy += ty / 16;
+
+            tx = rsin(time * 23) - rsin(time * 45) / 2 - rsin(time * 245) / 2;
+            work->field_20.field_4C_turn.vx += tx / 16;
+
+            work->field_20.field_4C_turn.vx &= 0xFFF;
+            work->field_20.field_4C_turn.vy &= 0xFFF;
+
+            s03e_guncame_800C75FC(&work->field_330, &work->field_20.field_4C_turn, work);
+
+            // Each macro expansion calls rsin three times
+            work->field_3FC.vx = ABS(rsin(time * 95) / 16);
+            work->field_3FC.vy = ABS(rsin(time * 154) / 16);
+            work->field_3FC.vz = ABS(rsin(time * 43) / 16);
+
+            s03e_guncame_800C7144(work, work->field_3FC.vx, work->field_3FC.vy, work->field_3FC.vz);
+        }
+        else
+        {
+            s03e_guncame_800C7144(work, 0, 255, 0);
+
+            work->field_3D0 = -1;
+            work->field_340 = 2;
+            work->field_344 = 6;
+            work->field_34C = 0;
+        }
+        break;
+    }
+}
 
 void s03e_guncame_800C8024(GunCamEWork *work)
 {
