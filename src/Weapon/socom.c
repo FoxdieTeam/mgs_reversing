@@ -15,8 +15,8 @@
 short word_800AB824 = -215;
 RECT  stru_800AB828 = {0, 0, 2, 2};
 
-extern short d_800AB9EC_mag_size;
-extern short d_800ABA2C_ammo;
+extern short GM_Magazine_800AB9EC;
+extern short GM_MagazineMax_800ABA2C;
 
 //------------------------------------------------------------------------------
 
@@ -181,7 +181,7 @@ int socom_act_helper_80065408( Actor_Socom *pActor )
     if ( bCalcLen )
     {
         GV_SubVec3_80016D40( &vecs[ 1 ], vecs, vecs );
-        vecLen = GV_LengthVec3_80016D80( vecs );
+        vecLen = GV_VecLen3_80016D80( vecs );
         if ( vecLen >= 816 )
         {
             vecLen -= 815;
@@ -300,7 +300,7 @@ void socom_act_80065518( Actor_Socom *a1 )
         socom_act_helper_800653B8( a1 );
     }
 
-    magSize = d_800AB9EC_mag_size;
+    magSize = GM_Magazine_800AB9EC;
 
     if ( ( magSize == 0 ) && ( flags & 2 ) )
     {
@@ -329,8 +329,8 @@ void socom_act_80065518( Actor_Socom *a1 )
             anime_create_8005D988( world, &MStack48, 1 );
         }
 
-        d_800AB9EC_mag_size = --magSize;
-        d_800ABA2C_ammo = 12;
+        GM_Magazine_800AB9EC = --magSize;
+        GM_MagazineMax_800ABA2C = 12;
         --GM_Weapons[ WEAPON_SOCOM ];
     }
 }
@@ -440,7 +440,7 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, 
         pActor->field_100 = 1000;
     }
     mag = 12;
-    if ( d_800AB9EC_mag_size )
+    if ( GM_Magazine_800AB9EC )
     {
         mag++;
     }
@@ -449,7 +449,7 @@ Actor_Socom *NewSOCOM_80065D74( void *a1, OBJECT *parentObj, int unit, int *a4, 
     {
         ammo = mag;
     }
-    d_800ABA2C_ammo = mag;
-    d_800AB9EC_mag_size = ammo;
+    GM_MagazineMax_800ABA2C = mag;
+    GM_Magazine_800AB9EC = ammo;
     return pActor;
 }

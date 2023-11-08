@@ -53,7 +53,7 @@ int rifle_act_helper_80067BFC(void)
     if (var_s2)
     {
         GV_SubVec3_80016D40(&vec[1], &vec[0], &vec[0]);
-        length = GV_LengthVec3_80016D80(&vec[0]);
+        length = GV_VecLen3_80016D80(&vec[0]);
     }
 
     if (length < 1000)
@@ -69,7 +69,7 @@ void *  NewRifleSight_8006989C(short);
 
 extern int       DG_CurrentGroupID_800AB968;
 extern int       GM_CurrentMap_800AB9B0;
-extern short     d_800AB9EC_mag_size;
+extern short     GM_Magazine_800AB9EC;
 
 SVECTOR svector_800AB8D4 = { 5, 300, 80, 0 };
 
@@ -133,7 +133,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         }
     }
 
-    temp_s1 = d_800AB9EC_mag_size;
+    temp_s1 = GM_Magazine_800AB9EC;
 
     if (!temp_s1 && (temp_s2 & 2))
     {
@@ -142,8 +142,8 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
     }
     else if ((temp_s1 > 0) && (temp_s2 & 2))
     {
-        vec.vx = pActor->field_44_pCtrl->field_8_rotator.vx - 0x400;
-        vec.vy = pActor->field_44_pCtrl->field_8_rotator.vy;
+        vec.vx = pActor->field_44_pCtrl->field_8_rot.vx - 0x400;
+        vec.vy = pActor->field_44_pCtrl->field_8_rot.vy;
         vec.vz = 0;
 
         RotMatrixYXZ(&vec, &mtx);
@@ -162,7 +162,7 @@ void rifle_act_80067D60(Actor_Rifle *pActor)
         GM_SeSet2_80032968(0, 63, 27);
         GM_SetNoise(100, 2, &pActor->field_44_pCtrl->field_0_mov);
 
-        d_800AB9EC_mag_size = --temp_s1;
+        GM_Magazine_800AB9EC = --temp_s1;
         GM_Weapons[WEAPON_PSG1]--;
     }
 }
@@ -200,7 +200,7 @@ int rifle_loader_80068184(Actor_Rifle *actor_rifle, OBJECT *parent_obj, int num_
     return 0;
 }
 
-extern short d_800ABA2C_ammo;
+extern short GM_MagazineMax_800ABA2C;
 
 GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int *a4, int a5)
 {
@@ -227,7 +227,7 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int
         pActor->field_58 = 0;
     }
 
-    mag_size = d_800AB9EC_mag_size ? 6 : 5;
+    mag_size = GM_Magazine_800AB9EC ? 6 : 5;
     ammo = GM_Weapons[WEAPON_PSG1];
 
     if (mag_size > 0 && mag_size < ammo)
@@ -235,8 +235,8 @@ GV_ACT *NewRifle_80068214(CONTROL *pCtrl, OBJECT *pParentObj, int numParent, int
         ammo = mag_size;
     }
 
-    d_800ABA2C_ammo = mag_size;
-    d_800AB9EC_mag_size = ammo;
+    GM_MagazineMax_800ABA2C = mag_size;
+    GM_Magazine_800AB9EC = ammo;
 
     return &pActor->field_0_actor;
 }

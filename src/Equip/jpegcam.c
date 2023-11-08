@@ -533,7 +533,7 @@ int jpegcam_act_helper2_helper2_80064454(Actor_jpegcam *pActor)
         if (cond != 0)
         {
             GV_SubVec3_80016D40(&vector2, &vector1, &vector1);
-            retval = GV_LengthVec3_80016D80(&vector1);
+            retval = GV_VecLen3_80016D80(&vector1);
         }
     }
     return retval;
@@ -614,7 +614,7 @@ void jpegcam_act_process_input_80064588(Actor_jpegcam *pActor)
 
         if (GM_PlayerControl_800AB9F4)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn_vec.vx;
+            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn.vx;
         }
 
         if (zoom >= 1024)
@@ -967,8 +967,8 @@ void jpegcam_act_80064C50(Actor_jpegcam *pActor)
 
     pActor->field_64_state++;
 
-    GM_PlayerControl_800AB9F4->field_8_rotator = pActor->field_5C_ang;
-    GM_PlayerControl_800AB9F4->field_4C_turn_vec = pActor->field_5C_ang;
+    GM_PlayerControl_800AB9F4->field_8_rot = pActor->field_5C_ang;
+    GM_PlayerControl_800AB9F4->field_4C_turn = pActor->field_5C_ang;
 }
 
 void jpegcam_kill_80065008(Actor_jpegcam *pActor)
@@ -991,7 +991,7 @@ int jpegcam_loader_80065098(Actor_jpegcam *pActor, CONTROL *pCtrl, OBJECT *pPare
 {
   pActor->field_24_parent = pParent;
   pActor->field_50_pInput = &GV_PadData_800B05C0[2];
-  pActor->field_54_vec = pCtrl->field_8_rotator;
+  pActor->field_54_vec = pCtrl->field_8_rot;
   pActor->field_5C_ang = pActor->field_54_vec;
   pActor->field_64_state = 0;
   pActor->field_68 = 0;

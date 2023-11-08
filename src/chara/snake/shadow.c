@@ -134,7 +134,7 @@ void shadow_act_helper_8005FD28(Actor_Shadow *pActor)
 void shadow_act_helper_80060028(Actor_Shadow *pActor)
 {
     DG_OBJS *objs = pActor->field_28_obj.objs;
-    RotMatrixY(pActor->field_20_ctrl->field_8_rotator.vy, &objs->world);
+    RotMatrixY(pActor->field_20_ctrl->field_8_rot.vy, &objs->world);
     objs->world.t[0] = pActor->field_24_pObj->objs->world.t[0];
     objs->world.t[2] = pActor->field_24_pObj->objs->world.t[2];
     objs->world.t[1] = pActor->field_20_ctrl->field_78_levels[0];

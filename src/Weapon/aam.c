@@ -9,8 +9,8 @@
 
 // stinger
 
-extern short d_800AB9EC_mag_size;
-extern short d_800ABA2C_ammo;
+extern short GM_Magazine_800AB9EC;
+extern short GM_MagazineMax_800ABA2C;
 
 extern int amissile_alive_8009F490;
 
@@ -87,8 +87,8 @@ void AamAct_800670CC(AamWork *work)
                 StnTarget_800AB8A0 = 0;
             }
 
-            rot.vx = work->control->field_8_rotator.vx - 1024;
-            rot.vy = work->control->field_8_rotator.vy;
+            rot.vx = work->control->field_8_rot.vx - 1024;
+            rot.vy = work->control->field_8_rot.vy;
             rot.vz = 0;
 
             RotMatrixYXZ(&rot, &world);
@@ -166,8 +166,8 @@ AamWork * NewAAM_80067480(CONTROL *ctrl, OBJECT *parent, int num_parent, unsigne
         work->cooldown = 0;
     }
 
-    d_800ABA2C_ammo = 0;
-    d_800AB9EC_mag_size = 0;
+    GM_MagazineMax_800ABA2C = 0;
+    GM_Magazine_800AB9EC = 0;
 
     return work;
 }

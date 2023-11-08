@@ -989,8 +989,8 @@ void menu_weapon_update_helper2_helper_8003E030(int wpn_id)
     sub_8003F97C(param_1);
 }
 
-extern short d_800ABA2C_ammo;
-extern short d_800AB9EC_mag_size;
+extern short GM_MagazineMax_800ABA2C;
+extern short GM_Magazine_800AB9EC;
 
 void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
 {
@@ -1046,15 +1046,15 @@ void menu_weapon_init_helper_8003E0E8(Actor_MenuMan *pActor, unsigned int *pOt, 
             addPrim(pOt, pPrim);
         }
 
-        if (pPanel->field_6_current && d_800ABA2C_ammo > 0)
+        if (pPanel->field_6_current && GM_MagazineMax_800ABA2C > 0)
         {
             pSubCnt2 = (GM_CurrentWeaponId == WEAPON_FAMAS ? 3 : 0);
             menu_number_draw_magazine_80042E38(pActor,
                                                pOt,
                                                offset_x + 45,
                                                off_y + 20,
-                                               d_800AB9EC_mag_size,
-                                               d_800ABA2C_ammo,
+                                               GM_Magazine_800AB9EC,
+                                               GM_MagazineMax_800ABA2C,
                                                pSubCnt2);
         }
         else

@@ -103,7 +103,7 @@ int jirai_act_helper_8006A8F4(Actor_Jirai *pActor)
         return 0;
     }
     GV_SubVec3_80016D40(&p_field_20_ctrl->field_0_mov, &GM_PlayerPosition_800ABA10, &v);
-    return GV_LengthVec3_80016D80(&v) < 800;
+    return GV_VecLen3_80016D80(&v) < 800;
 }
 
 void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
@@ -527,7 +527,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pActor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pActor->field_20_ctrl.field_8_rot);
     DG_PutObjs_8001BDB8(obj->objs);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, pActor->field_C0_light_matrices);
 
@@ -556,7 +556,7 @@ int jirai_loader_8006B2A4(Actor_Jirai *pActor, MATRIX *pMtx, TARGET *pTarget)
     vec->vy = 2000;
     vec->vz = 1024;
     ++counter_8009F448;
-    vec->vx = GM_PlayerControl_800AB9F4->field_8_rotator.vy;
+    vec->vx = GM_PlayerControl_800AB9F4->field_8_rot.vy;
     return 0;
 }
 
@@ -572,7 +572,7 @@ Actor_Jirai * NewJirai_8006B48C(DG_OBJ *pObj, TARGET *pTarget)
     pActor = (Actor_Jirai *)GV_NewActor_800150E4(5, sizeof(Actor_Jirai));
     if (pActor)
     {
-        pActor->field_104_vec = GM_PlayerControl_800AB9F4->field_8_rotator;
+        pActor->field_104_vec = GM_PlayerControl_800AB9F4->field_8_rot;
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)jirai_act_8006AB5C,
                                   (TActorFunction)jirai_kill_8006B05C, "jirai.c");
 
@@ -605,18 +605,18 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
     GM_ConfigControlHazard_8002622C(ctrl, 0, -2, -2);
     GM_ConfigControlAttribute_8002623C(ctrl, 0);
 
-    pActor->field_144_vec = ctrl->field_8_rotator;
+    pActor->field_144_vec = ctrl->field_8_rot;
     obj = &pActor->field_9C_obj;
     GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("claymore"), 877, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, pActor->field_C0_light_matrices);
 
-    pActor->field_104_vec = ctrl->field_8_rotator;
+    pActor->field_104_vec = ctrl->field_8_rot;
 
-    ctrl->field_8_rotator.vx = ctrl->field_4C_turn_vec.vx = -1024;
-    ctrl->field_8_rotator.vy = ctrl->field_4C_turn_vec.vy += 1024;
+    ctrl->field_8_rot.vx = ctrl->field_4C_turn.vx = -1024;
+    ctrl->field_8_rot.vy = ctrl->field_4C_turn.vy += 1024;
     ctrl->field_0_mov.vy += 500;
 
-    DG_SetPos2_8001BC8C(&ctrl->field_0_mov, &ctrl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&ctrl->field_0_mov, &ctrl->field_8_rot);
 
     ReadRotMatrix(&matrix);
 
@@ -645,7 +645,7 @@ int jirai_loader_8006B564(Actor_Jirai *pActor, int _matrix, int map)
     vec = &ctrl->field_3C;
     vec->vy = 2000;
     vec->vz = 1024;
-    vec->vx = ctrl->field_8_rotator.vy - 1024;
+    vec->vx = ctrl->field_8_rot.vy - 1024;
 
     return 0;
 }

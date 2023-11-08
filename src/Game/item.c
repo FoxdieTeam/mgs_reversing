@@ -366,25 +366,25 @@ void item_act_80033784(Actor_Item *pActor)
         pActor->field_10C_64 -= 10;
     }
 
-    pCtrl->field_4C_turn_vec.vy += pActor->field_10C_64;
-    RevisionDir( pCtrl->field_4C_turn_vec.vy );
+    pCtrl->field_4C_turn.vy += pActor->field_10C_64;
+    RevisionDir( pCtrl->field_4C_turn.vy );
 
     if (pActor->field_112_state == 1)
     {
-        if ((pCtrl->field_57 != 0) && (pCtrl->field_44_movementVector.vy < 0))
+        if ((pCtrl->field_57 != 0) && (pCtrl->field_44_step.vy < 0))
         {
-            pCtrl->field_44_movementVector.vy = -pCtrl->field_44_movementVector.vy / 16;
+            pCtrl->field_44_step.vy = -pCtrl->field_44_step.vy / 16;
 
-            if (pCtrl->field_44_movementVector.vy < 16)
+            if (pCtrl->field_44_step.vy < 16)
             {
                 GM_ConfigControlHazard_8002622C(pCtrl, -1, -2, -1);
-                pCtrl->field_44_movementVector = DG_ZeroVector_800AB39C;
+                pCtrl->field_44_step = DG_ZeroVector_800AB39C;
                 pActor->field_112_state = 0;
             }
         }
         else
         {
-            pCtrl->field_44_movementVector.vy -= 16;
+            pCtrl->field_44_step.vy -= 16;
         }
 
         GM_ActControl_80025A7C(pCtrl);
@@ -409,11 +409,11 @@ void item_act_80033784(Actor_Item *pActor)
             }
 
             position.vx += vx;
-            DG_SetPos2_8001BC8C(&position, &pCtrl->field_4C_turn_vec);
+            DG_SetPos2_8001BC8C(&position, &pCtrl->field_4C_turn);
         }
         else
         {
-            DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_4C_turn_vec);
+            DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_4C_turn);
         }
     }
 
@@ -684,7 +684,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     bReadVec2 = (char *) GCL_GetOption_80020968('d');
     GM_ConfigControlString_800261C0(pControl, pcVar5, bReadVec2);
 
-    pControl->field_44_movementVector = DG_ZeroVector_800AB39C;
+    pControl->field_44_step = DG_ZeroVector_800AB39C;
     pControl->field_55_skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
     puVar6 = (unsigned char *) GCL_GetOption_80020968('b');
@@ -758,7 +758,7 @@ int item_init_helper_800340D0(Actor_Item *pActor, int name, int where)
     GM_InitObjectNoRots_800349B0(pObject, type + 0x4d5f, 0x36d, 0);
     GM_ConfigObjectJoint_80034CB4((OBJECT *)pObject);
     GM_ConfigObjectLight_80034C44((OBJECT *)pObject, pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &pActor->field_20_ctrl.field_44_movementVector);
+    GM_ConfigObjectStep_80034C54((OBJECT *)pObject, &pActor->field_20_ctrl.field_44_step);
 
     if (GCL_GetOption_80020968('v'))
     {
@@ -903,14 +903,14 @@ int item_init_helper_800345C0(Actor_Item *pActor, SVECTOR *pPos, SVECTOR *a3, It
     GM_ConfigControlInterp_80026244(pCtrl, 0);
 
     pCtrl->field_55_skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
-    pCtrl->field_44_movementVector = *a3;
-    pCtrl->field_44_movementVector.vy = 160;
+    pCtrl->field_44_step = *a3;
+    pCtrl->field_44_step.vy = 160;
     pCtrl->field_0_mov = *pPos;
 
     GM_InitObjectNoRots_800349B0(&pActor->field_9C_kmd, type + 0x4D5F, 877, 0);
     GM_ConfigObjectJoint_80034CB4((OBJECT *)&pActor->field_9C_kmd);
     GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_9C_kmd, pActor->field_C8_mtx);
-    GM_ConfigObjectStep_80034C54((OBJECT *)&pActor->field_9C_kmd, &pCtrl->field_44_movementVector);
+    GM_ConfigObjectStep_80034C54((OBJECT *)&pActor->field_9C_kmd, &pCtrl->field_44_step);
 
     for (i = 0; i < 2; i++)
     {

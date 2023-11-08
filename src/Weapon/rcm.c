@@ -11,8 +11,8 @@
 // nikita
 
 extern int   GM_CurrentMap_800AB9B0;
-extern short d_800AB9EC_mag_size;
-extern short d_800ABA2C_ammo;
+extern short GM_Magazine_800AB9EC;
+extern short GM_MagazineMax_800ABA2C;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -132,7 +132,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
             vec1.vx = -1024;
             vec1.vz = 0;
-            vec1.vy = pActor->field_44_pCtrl->field_8_rotator.vy;
+            vec1.vy = pActor->field_44_pCtrl->field_8_rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
             DG_SetPos_8001BC44(&pActor->field_48_pParent->objs->objs[pActor->field_4C_obj_idx].world);
@@ -227,7 +227,7 @@ Actor_Rcm *NewRCM_80066FF0(CONTROL *pCtrl, OBJECT *parent_obj, int num_parent, u
         rcm->field_60_rgb = 0;
         rcm->field_58_counter = 0;
     }
-    d_800ABA2C_ammo = 0;
-    d_800AB9EC_mag_size = 0;
+    GM_MagazineMax_800ABA2C = 0;
+    GM_Magazine_800AB9EC = 0;
     return rcm;
 }

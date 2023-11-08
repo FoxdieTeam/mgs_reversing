@@ -58,7 +58,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
         if (temp_s3 & 0x6)
         {
             control = work->control;
-            DG_SetPos2_8001BC8C(&control->field_0_mov, &control->field_8_rotator);
+            DG_SetPos2_8001BC8C(&control->field_0_mov, &control->field_8_rot);
 
             var_s2 = (temp_s3 & 0x4) ? &svec_800C360C[1] : &svec_800C360C[0];
 

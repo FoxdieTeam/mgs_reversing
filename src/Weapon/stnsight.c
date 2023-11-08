@@ -79,7 +79,7 @@ void stnsight_act_helper_80068420(Actor_Stnsight *actor, unsigned int *ot)
         pad_status = 0;
     }
 
-    v3 = -actor->field_20_ctrl->field_4C_turn_vec.vx;
+    v3 = -actor->field_20_ctrl->field_4C_turn.vx;
     v4 = 5 * (v3 / 32 / 5);
     v5 = 16 * (v3 / 32 % 5) / 5 + 112;
 
