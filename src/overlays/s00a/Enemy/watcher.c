@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 #include "chara/snake/shadow.h"
 #include "libgcl/hash.h"
 #include "Game/camera.h"

@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 
 void EnemyResetThink_800CB224( WatcherWork* work ) 
 {
