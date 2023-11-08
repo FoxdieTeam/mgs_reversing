@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );

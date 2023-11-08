@@ -260,76 +260,26 @@ typedef struct _ENEMY_COMMAND
     short     field_0x182;
 } ENEMY_COMMAND;
 
-
-extern int                     s00a_dword_800C3328[8];
-
-extern SVECTOR                 ENEMY_TARGET_SIZE_800C35A4;
-extern SVECTOR                 ENEMY_TARGET_FORCE_800C35AC;
-extern SVECTOR                 ENEMY_ATTACK_SIZE_800C35B4;
-extern SVECTOR                 ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR                 ENEMY_TOUCH_SIZE_800C35C4;
-extern SVECTOR                 ENEMY_TOUCH_FORCE_800C35CC;
-extern SVECTOR                 COM_NO_POINT_800C35D4;
-
-extern int                     dword_800E01F4;
-
-extern const char              aCom_noisemode_disD_800E0940[]; // COM_NOISEMODE_DIS =%d \n
-extern const char              aEeeDDDTD_800E095C[];           //eee %d %d %d t %d \n
-
-extern int                     s00a_dword_800E0CA0;
-extern GM_Camera               s00a_dword_800E0CB0;
-extern int                     s00a_dword_800E0D2C;
-extern int                     s00a_dword_800E0D30;
-extern SVECTOR                 s00a_dword_800E0D38;
-extern int                     COM_PlayerOnZone_800E0D40;
-extern int                     COM_NoiseMinDisID_800E0D44;
-
-extern int                     COM_SHOOTRANGE_800E0D88;
-extern int                     COM_EYE_LENGTH_800E0D8C;
-extern int                     COM_PlayerAddress_800E0D90;
-extern unsigned int            ENE_SPECIAL_FLAG_800E0D94;
-
-
-extern ENEMY_COMMAND           EnemyCommand_800E0D98;
-
-//extern int                   EC_MODE_800E0DB0; // EC_MODE, direct access to EnemyCommand struct member
-
-extern int                     COM_PlayerMap_800E0F1C;
-extern TOPCOMMAND_STRUCT       TOPCOMMAND_800E0F20;
-extern TOPCOMMAND_STRUCT       s00a_dword_800E0F28;
-extern SVECTOR                 COM_PlayerPosition_800E0F30;
-extern int                     COM_NOISEMODE_DIS_800E0F38;
-extern unsigned int            COM_GameStatus_800E0F3C;
-
-extern int                     COM_PlayerAddressOne_800E0F40[8];
-extern SVECTOR                 COM_PlayerPositionOne_800E0D48[8];
-extern int                     COM_PlayerMapOne_800E0F70[8];
-
-
-extern int                     COM_ALERT_DECREMENT_800E0F60;
-extern int                     GM_GameFlag_800E0F64;
-extern int                     COM_VibTime_800E0F68;
-
 //command.c
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
 
-extern void  s00a_command_800CEC40( SVECTOR *mov , int n );
-extern int  s00a_command_800CEA2C( WatcherWork *work );
-extern void  s00a_command_800CEC90( void ) ;
-extern void  s00a_command_800CECF4( void ) ;
-extern int   s00a_command_800CEDE8( int ops, short *val, int where );
-extern int   s00a_command_800CED88( int ops, A4_STRUCT * );
-extern void  s00a_command_800CFA94( CommanderWork* work ) ;
-extern void  s00a_command_800CFEA8( void ) ;
-extern int   s00a_command_800D0128( int ops );
-extern void  s00a_command_800D018C( CommanderWork* work ) ;
-extern void  s00a_command_800D0218( void ) ;
-extern void  s00a_command_800D0344( void ) ;
-extern void  EnemyPushMove_800CA0E8( WatcherWork* work );
-extern void  EnemyActionMain_800CA07C( WatcherWork* work );
-extern void *s00a_command_800CA1EC( MATRIX* mat, int mark);
-extern void ENE_SetGopointLast_800CEB00();
+void  s00a_command_800CEC40( SVECTOR *mov , int n );
+int  s00a_command_800CEA2C( WatcherWork *work );
+void  s00a_command_800CEC90( void ) ;
+void  s00a_command_800CECF4( void ) ;
+int   s00a_command_800CEDE8( int ops, short *val, int where );
+int   s00a_command_800CED88( int ops, A4_STRUCT * );
+void  s00a_command_800CFA94( CommanderWork* work ) ;
+void  s00a_command_800CFEA8( void ) ;
+int   s00a_command_800D0128( int ops );
+void  s00a_command_800D018C( CommanderWork* work ) ;
+void  s00a_command_800D0218( void ) ;
+void  s00a_command_800D0344( void ) ;
+void  EnemyPushMove_800CA0E8( WatcherWork* work );
+void  EnemyActionMain_800CA07C( WatcherWork* work );
+void *s00a_command_800CA1EC( MATRIX* mat, int mark);
+void ENE_SetGopointLast_800CEB00();
 
 
 void SetCameraActCall_800D043C();
@@ -357,14 +307,14 @@ int  s00a_command_800C513C( WatcherWork* work ) ;
 
 typedef	void( *PUTFUNC )( WatcherWork * ) ;
 
-extern void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
-extern void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
-extern void ENE_PutItem_800C90CC( WatcherWork *work ) ;
-extern int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
+void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
+void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
+void ENE_PutItem_800C90CC( WatcherWork *work ) ;
+int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 
-extern void s00a_command_800C9068( WatcherWork *work ) ;
-extern int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
-extern void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
+void s00a_command_800C9068( WatcherWork *work ) ;
+int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
+void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
 
 
 
@@ -436,8 +386,6 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define ACTION50    50 //SAME ID AS 41
 #define ACTION51    51 //SAME ID AS 42
 
-extern short    ActTable_800C3358[];
-
 typedef	void    ( *ACTION )( WatcherWork *, int ) ;
 
 static inline void SetModeFields( WatcherWork *work, ACTION action )
@@ -472,6 +420,7 @@ static inline void SetMode2( WatcherWork *work, void *func )
 
 static inline void UnsetMode2( WatcherWork *work )
 {
+    extern short    ActTable_800C3358[];
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
 
@@ -491,24 +440,31 @@ static inline void UnsetMode2( WatcherWork *work )
 
 static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
+    extern short    ActTable_800C3358[];
     work->field_8E0 = n_action ;
     GM_ConfigObjectAction_80034CD4( &( work->body ), ActTable_800C3358[n_action], 0, interp );
 }
 
 static inline void UnsetAction( WatcherWork *work, int n_action )
 {
+    extern short    ActTable_800C3358[];
+
     work->field_8E2 = n_action;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
 }
 
 static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
 {
+    extern short    ActTable_800C3358[];
+
     work->field_8E2 = n_action;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, a4 );
 }
 
 static inline void UnsetAction2( WatcherWork *work )
 {
+    extern short    ActTable_800C3358[];
+
     work->field_8E2 = 0;
     GM_ConfigObjectOverride_80034D30( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor_800151D8( work->subweapon );
@@ -516,43 +472,43 @@ static inline void UnsetAction2( WatcherWork *work )
 
 void s00a_command_800C82B0( WatcherWork *work );
 
-extern void s00a_command_800C78E0( WatcherWork *work, int time );
-extern void s00a_command_800C77C8( WatcherWork *work, int time );
-extern void s00a_command_800C7354( WatcherWork *work, int time );
+void s00a_command_800C78E0( WatcherWork *work, int time );
+void s00a_command_800C77C8( WatcherWork *work, int time );
+void s00a_command_800C7354( WatcherWork *work, int time );
 
-extern void s00a_command_800C841C( WatcherWork *work, int time );
-extern void s00a_command_800C84FC( WatcherWork *work, int time );
-extern void s00a_command_800C8688( WatcherWork *work, int time );
-extern void s00a_command_800C8734( WatcherWork *work, int time );
-extern void s00a_command_800C87FC( WatcherWork *work, int time );
+void s00a_command_800C841C( WatcherWork *work, int time );
+void s00a_command_800C84FC( WatcherWork *work, int time );
+void s00a_command_800C8688( WatcherWork *work, int time );
+void s00a_command_800C8734( WatcherWork *work, int time );
+void s00a_command_800C87FC( WatcherWork *work, int time );
 
-extern void s00a_command_800C88D8( WatcherWork *work, int time );
-extern void s00a_command_800C8990( WatcherWork *work, int time );
-extern void s00a_command_800C8A6C( WatcherWork *work, int time );
-extern void s00a_command_800C8C98( WatcherWork *work, int time );
-extern void s00a_command_800C8DF8( WatcherWork *work, int time );
-extern void s00a_command_800C615C( WatcherWork *work, int time );
-extern void s00a_command_800C6164( WatcherWork *work, int time );
-extern void s00a_command_800C624C( WatcherWork *work, int time );
-extern void s00a_command_800C6320( WatcherWork *work, int time );
-extern void s00a_command_800C65A8( WatcherWork *work, int time );
-extern void s00a_command_800C5E48( WatcherWork *work, int time );
-
-
-extern void s00a_command_800C6724( WatcherWork *work, int time );
-extern void s00a_command_800C67E4( WatcherWork *work, int time );
-extern void s00a_command_800C6A40( WatcherWork *work, int time );
-extern void s00a_command_800C8054( WatcherWork *work, int time );
-extern void s00a_command_800C7498( WatcherWork *work, int time );
-
-extern void s00a_command_800C76BC( WatcherWork *work, int time );
-extern void s00a_command_800C76C4( WatcherWork *work, int time );
-extern void s00a_command_800C7E28( WatcherWork *work, int time );
-extern void s00a_command_800C818C( WatcherWork *work, int time );
+void s00a_command_800C88D8( WatcherWork *work, int time );
+void s00a_command_800C8990( WatcherWork *work, int time );
+void s00a_command_800C8A6C( WatcherWork *work, int time );
+void s00a_command_800C8C98( WatcherWork *work, int time );
+void s00a_command_800C8DF8( WatcherWork *work, int time );
+void s00a_command_800C615C( WatcherWork *work, int time );
+void s00a_command_800C6164( WatcherWork *work, int time );
+void s00a_command_800C624C( WatcherWork *work, int time );
+void s00a_command_800C6320( WatcherWork *work, int time );
+void s00a_command_800C65A8( WatcherWork *work, int time );
+void s00a_command_800C5E48( WatcherWork *work, int time );
 
 
-extern void ActGrenade_800C67EC( WatcherWork *work, int time );
-extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
+void s00a_command_800C6724( WatcherWork *work, int time );
+void s00a_command_800C67E4( WatcherWork *work, int time );
+void s00a_command_800C6A40( WatcherWork *work, int time );
+void s00a_command_800C8054( WatcherWork *work, int time );
+void s00a_command_800C7498( WatcherWork *work, int time );
+
+void s00a_command_800C76BC( WatcherWork *work, int time );
+void s00a_command_800C76C4( WatcherWork *work, int time );
+void s00a_command_800C7E28( WatcherWork *work, int time );
+void s00a_command_800C818C( WatcherWork *work, int time );
+
+
+void ActGrenade_800C67EC( WatcherWork *work, int time );
+void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 
 
 //think.c ?
@@ -562,12 +518,12 @@ extern void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 #define TH3_ATTACK_GRENADE 0x18 //?
 #define TH3_ATTACK_HANDGUN 0x15
 
-extern void Enemy_Think_800CE99C( WatcherWork * work );
-extern void s00a_command_800CA69C( SVECTOR *svec );
-extern void s00a_command_800CA7DC( SVECTOR *svec );
-extern void s00a_command_800CA618( SVECTOR *svec );
-extern void s00a_command_800CB13C( WatcherWork * work );
-extern void s00a_command_800CC210( WatcherWork * work );
-extern void s00a_command_800CEB54();
+void Enemy_Think_800CE99C( WatcherWork * work );
+void s00a_command_800CA69C( SVECTOR *svec );
+void s00a_command_800CA7DC( SVECTOR *svec );
+void s00a_command_800CA618( SVECTOR *svec );
+void s00a_command_800CB13C( WatcherWork * work );
+void s00a_command_800CC210( WatcherWork * work );
+void s00a_command_800CEB54();
 
-extern int  DirectTrace_800CC154( WatcherWork *work, int val );
+int  DirectTrace_800CC154( WatcherWork *work, int val );

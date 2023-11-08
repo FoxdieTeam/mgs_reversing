@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
 

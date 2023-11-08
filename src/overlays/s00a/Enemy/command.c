@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"

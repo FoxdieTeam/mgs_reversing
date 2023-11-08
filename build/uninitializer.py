@@ -66,7 +66,7 @@
 # have the new uninitialized memory. You have to generate it again!
 # You can do it by executing the following command (replacing s03er):
 #
-#   python3 ../src/../build/uninitializer.py extract ../obj/s03er_lhs.bin ../obj/s03er_rhs.bin ~/stage/s03er/00e05a.bin ../um/s03er.bin
+#   python3 uninitializer.py extract ../obj/s03er_lhs.bin ../obj/s03er_rhs.bin ~/stage/s03er/00e05a.bin ../um/s03er.bin
 #
 # If the command succeeds, after rebuilding the project the overlay
 # should match. If the command fails at any of assertions,

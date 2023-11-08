@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 #include "libhzd/libhzd.h"
 int s00a_command_800CA898( WatcherWork* work, HZD_ZON* zone )
 {
