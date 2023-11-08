@@ -7,8 +7,8 @@
 
 // claymore (in hands)
 
-extern short      d_800AB9EC_mag_size;
-extern short      d_800ABA2C_ammo;
+extern short      GM_Magazine_800AB9EC;
+extern short      GM_MagazineMax_800ABA2C;
 
 extern int        GM_CurrentMap_800AB9B0;
 extern int        DG_CurrentGroupID_800AB968;
@@ -109,8 +109,8 @@ Actor_Mine *mine_init_800677BC(CONTROL *a1, OBJECT *parent_object, int num_paren
         actor->field_54_counter = 0;
     }
 
-    d_800ABA2C_ammo = 0;
-    d_800AB9EC_mag_size = 0;
+    GM_MagazineMax_800ABA2C = 0;
+    GM_Magazine_800AB9EC = 0;
 
     return actor;
 }

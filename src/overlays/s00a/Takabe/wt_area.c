@@ -112,7 +112,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             if ( work->splash_flag )
             {
-                NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->field_8_rotator.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->field_8_rot.vy + 2048, &snake_pos, 0 );
                 GM_SeSet_80032858( &snake_pos, 0xB0 );
                 if ( work->field_44 == NULL )
                 {
@@ -178,7 +178,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag && !GM_GameOverTimer_800AB3D4 )
         {
-            DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->field_8_rotator );
+            DG_SetPos2_8001BC8C( &snake_pos, &GM_PlayerControl_800AB9F4->field_8_rot );
             DG_PutVector_8001BE48( &mouth_offset_800C3668, &snake_pos, 1 );
             GM_SeSet_80032858( &snake_pos, 0xB3 );
             ExecProc_800DA644( work->proc_id, 0xF26E );

@@ -15,7 +15,7 @@ void GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst)
     dst->vz = vec1->vz - vec2->vz;
 }
 
-int GV_LengthVec3_80016D80(SVECTOR *vec)
+int GV_VecLen3_80016D80(SVECTOR *vec)
 {
     int    length;
     VECTOR vec2;

@@ -69,7 +69,7 @@ void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR 
     temp_s0 = vec.vy;
     vec.vy = 0;
 
-    temp_v1 = ratan2(GV_LengthVec3_80016D80(&vec), temp_s0) & 0xfff;
+    temp_v1 = ratan2(GV_VecLen3_80016D80(&vec), temp_s0) & 0xfff;
 
     temp_v0 = temp_v1 - 0x400;
     vout->vx = temp_v0;

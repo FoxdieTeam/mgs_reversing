@@ -284,8 +284,8 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
 
         if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
         {
-            vec.vx = pWhere->field_8_rotator.vy;
-            vec.vy = (rcos(pWhere->field_8_rotator.vx) * 6144) / 4096;
+            vec.vx = pWhere->field_8_rot.vy;
+            vec.vy = (rcos(pWhere->field_8_rot.vx) * 6144) / 4096;
             vec.vz = 600;
 
             draw_radar_helper2_helper_80038F3C(pActor, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
