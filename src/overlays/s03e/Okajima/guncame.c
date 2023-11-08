@@ -98,7 +98,7 @@ extern SVECTOR svector_8009F478;
 extern SVECTOR s03e_svec_800CC0F4;
 extern int     GV_Time_800AB330;
 
-void s03e_spark2_800C9CBC(MATRIX *world, int); // anim function
+void AN_Unknown_800C9CBC(MATRIX *world, int index);
 
 // Identical to d03a_red_alrt_800C437C
 int s03e_guncame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -370,7 +370,7 @@ void s03e_guncame_800C7994(GunCamEWork *work)
 
     if ((((GV_Time_800AB330 + work->field_414) & 3) == 0) && s03e_guncame_800C7224(work))
     {
-        s03e_spark2_800C9CBC(&work->field_9C.objs->objs[0].world, 0);
+        AN_Unknown_800C9CBC(&work->field_9C.objs->objs[0].world, 0);
 
         if (s03e_dword_800CC6BC <= 0)
         {
