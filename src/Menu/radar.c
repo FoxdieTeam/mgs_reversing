@@ -294,12 +294,12 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
         for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
         {
             pWhere = *pWhereList++;
-            field_3A = (unsigned short)pWhere->field_3A;
+            field_3A = (unsigned short)pWhere->field_3A_radar_atr;
 
             x = ((pWhere->field_0_mov.vx * scale) / 4096) - xoff;
             z = ((pWhere->field_0_mov.vz * scale) / 4096) - zoff;
 
-            if ((field_3A & 1) && ((field_3A & 8) || (pWhere->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)))
+            if ((field_3A & RADAR_VISIBLE) && ((field_3A & RADAR_ALL_MAP) || (pWhere->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C)))
             {
                 NEW_PRIM(pTile1_2, pActor);
 
@@ -1026,7 +1026,7 @@ int        cons_current_y_800AB4B0;
 
 typedef enum // GM_RadarMode_800ABA80
 {
-	RADAR_VISIBLE = 0,
+	RADAR_ENABLED = 0,
 	RADAR_JAMMED = 1,
 	RADAR_EVASION = 2,
 	RADAR_ALERT = 3

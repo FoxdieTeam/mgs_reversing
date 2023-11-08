@@ -64,8 +64,9 @@ const int s03e_dword_800CC0E4 = 0x800C8220;
 const int s03e_dword_800CC0E8 = 0x800C822C;
 const int s03e_dword_800CC0EC = 0x800C8234;
 const int s03e_dword_800CC0F0 = 0x800C823C;
-const char s03e_dword_800CC0F4[] = {0x0, 0x0, 'j', 0xff};
-const char s03e_dword_800CC0F8[] = {'p', 0xfe, 0x0, 0x0};
+
+const SVECTOR s03e_svec_800CC0F4 = {0, -150, -400, 0};
+
 const char s03e_aCameral_800CC0FC[] = "camera_l";
 const char s03e_aGcagun_800CC108[] = "gca_gun";
 const char s03e_aGcaarm_800CC110[] = "gca_arm";
