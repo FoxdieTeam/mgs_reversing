@@ -96,9 +96,9 @@ extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
 extern SVECTOR s03e_svec_800CC0F4;
+extern int     GV_Time_800AB330;
 
-int  s03e_guncame_800C8978(GunCamEWork *work, int, int);
-void s03e_guncame_800C80F4(GunCamEWork *work);
+void s03e_spark2_800C9CBC(MATRIX *world, int); // anim function
 
 // Identical to d03a_red_alrt_800C437C
 int s03e_guncame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -159,11 +159,22 @@ void s03e_guncame_800C7068(GunCamEWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7118.s")
-void s03e_guncame_800C7144(GunCamEWork *work, short int arg1, short int arg2, short int arg3) {
-    work->field_3F4.vx = arg1;
-    work->field_3F4.vy = arg2;
-    work->field_3F4.vz = arg3;
+void s03e_guncame_800C7118(DG_PRIM *prim, int unused, int r, int g, int b)
+{
+    POLY_FT4 *poly;
+
+    poly = &prim->field_40_pBuffers[0]->poly_ft4;
+    setRGB0(poly, r, g, b);
+
+    poly = &prim->field_40_pBuffers[1]->poly_ft4;
+    setRGB0(poly, r, g, b);
+}
+
+void s03e_guncame_800C7144(GunCamEWork *work, int r, int g, int b)
+{
+    work->field_3F4.vx = r;
+    work->field_3F4.vy = g;
+    work->field_3F4.vz = b;
 }
 
 int s03e_guncame_800C7154(int opt, SVECTOR *svec)
@@ -201,6 +212,7 @@ void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
 int s03e_guncame_800C7224(GunCamEWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C73D0.s")
 void s03e_guncame_800C73D0(GunCamEWork *work);
 
@@ -329,8 +341,56 @@ int s03e_guncame_800C7868(GunCamEWork *work)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7994.s")
-void s03e_guncame_800C7994(GunCamEWork *work);
+void s03e_guncame_800C7994(GunCamEWork *work)
+{
+    switch (work->field_344)
+    {
+    case 2:
+        if (s03e_guncame_800C7740(work))
+        {
+            work->field_344 = 3;
+            work->field_34C = GV_RandU_80017090(32);
+            work->field_20.field_4C_turn.vy = work->field_330.vy + work->field_36C;
+        }
+        break;
+
+    case 3:
+        if (s03e_guncame_800C77D4(work))
+        {
+            work->field_344 = 2;
+            work->field_34C = GV_RandU_80017090(32);
+            work->field_20.field_4C_turn.vy = work->field_330.vy - work->field_36C;
+        }
+        break;
+
+    case 4:
+    case 5:
+        break;
+    }
+
+    if ((((GV_Time_800AB330 + work->field_414) & 3) == 0) && s03e_guncame_800C7224(work))
+    {
+        s03e_spark2_800C9CBC(&work->field_9C.objs->objs[0].world, 0);
+
+        if (s03e_dword_800CC6BC <= 0)
+        {
+            s03e_dword_800CC6BC = 90;
+
+            if (work->field_404 != 0)
+            {
+                GM_SeSet2_80032968(0, 63, 83);
+            }
+        }
+
+        work->field_340 = 1;
+        work->field_344 = 5;
+        work->field_34C = 0;
+
+        s03e_guncame_800C7144(work, 0xFF, 0, 0);
+
+        work->field_3EC = 10;
+    }
+}
 
 void s03e_guncame_800C7AD8(GunCamEWork *work)
 {
@@ -463,6 +523,7 @@ void s03e_guncame_800C8030(GunCamEWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C80F4.s")
+void s03e_guncame_800C80F4(GunCamEWork *work);
 
 void s03e_guncame_800C8940(GunCamEWork *work)
 {
