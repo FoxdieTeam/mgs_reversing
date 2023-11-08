@@ -640,7 +640,7 @@ void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *eu
     SVECTOR forward;
 
     GV_SubVec3_80016D40(center, eye, &forward);
-    *length = GV_LengthVec3_80016D80(&forward);
+    *length = GV_VecLen3_80016D80(&forward);
 
     euler->vz = 0;
     euler->vy = GV_YawVec3_80016EF8(&forward);
@@ -676,7 +676,7 @@ void sub_8002FCF0(void)
     }
 }
 
-void sub_8002FD84(int index, TGMCameraFunc func)
+void GM_SetCameraCallbackFunc_8002FD84(int index, TGMCameraFunc func)
 {
     GM_Camera_800B77E8.field_74_funcs[index] = func;
 }

@@ -126,7 +126,7 @@ int s00a_asiato_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2, int vy)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    s00a_asiato_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->field_8_rotator.vy, 0);
+    s00a_asiato_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->field_8_rot.vy, 0);
     if (arg2 == 1)
     {
         s00a_asiato_800D0E00(&work->field_30, -70, 0, -140);
@@ -270,8 +270,8 @@ int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int visio
         {
             GV_SubVec3_80016D40( &asiato_svecs[i], mov, &svec );
             svec.vy = 0;
-            len = GV_LengthVec3_80016D80( &svec );
-    
+            len = GV_VecLen3_80016D80( &svec );
+
             if ( len < max_len && len < length && GV_DiffDirAbs_8001706C( facedir, GV_YawVec3_80016EF8(&svec) )  < vision_unk && !sub_80028454(hzd, mov, &asiato_svecs[i], 0xF, 2) )
             {
                 max_len = len;
@@ -297,10 +297,10 @@ int s00a_asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
     HZD_TRG  *triggers;
 
     triggers = hzd->f04_area->triggers;
-    
+
     for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
     {
-            if ( triggers->trap.name_id == name )  
+            if ( triggers->trap.name_id == name )
             {
                 test = pos->vx;
                 if ( test >= triggers->trap.b1.x  &&  triggers->trap.b2.x >= test )
@@ -329,10 +329,10 @@ int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
     HZD_TRG  *triggers;
 
     triggers = hzd->f04_area->triggers;
-    
+
     for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
     {
-            if ( triggers->trap.name_id == 0xDC55 || triggers->trap.name_id == 0x7833 )  
+            if ( triggers->trap.name_id == 0xDC55 || triggers->trap.name_id == 0x7833 )
             {
                 test = pos->vx;
                 if ( test >= triggers->trap.b1.x  &&  triggers->trap.b2.x >= test )
@@ -354,13 +354,13 @@ int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
     return 0;
 }
 
-int AsiatoCheck_800D16C0( HZD_HDL *hzd, SVECTOR *pos ) 
+int AsiatoCheck_800D16C0( HZD_HDL *hzd, SVECTOR *pos )
 {
     if ( asiato_svecs[48].vy <= 0 )
     {
         return 0;
     }
-    
+
     return s00a_asiato_800D15D8( hzd, pos );
 }
 

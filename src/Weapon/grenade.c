@@ -11,8 +11,8 @@
 
 // grenade/stun/chaff (in hands)
 
-extern short         d_800AB9EC_mag_size;
-extern short         d_800ABA2C_ammo;
+extern short         GM_Magazine_800AB9EC;
+extern short         GM_MagazineMax_800ABA2C;
 extern SVECTOR       DG_ZeroVector_800AB39C;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
@@ -234,8 +234,8 @@ Actor_Grenade *grenade_init_80066944(
 		actor_grenade->f54_pos = ctrl->field_0_mov;
 	}
 
-	d_800ABA2C_ammo = 0;
-	d_800AB9EC_mag_size = 0;
+	GM_MagazineMax_800ABA2C = 0;
+	GM_Magazine_800AB9EC = 0;
 
 	return actor_grenade;
 }

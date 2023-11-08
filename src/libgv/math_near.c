@@ -268,7 +268,7 @@ void GV_NearExp8V_80026734(short *from, short *to, int count)
     }
 }
 
-void GV_NearDiffPV_80026794(short *from, short *to, int count)
+void GV_NearPhaseV_80026794(short *from, short *to, int count)
 {
     int   output;
     short diff;
@@ -285,7 +285,7 @@ void GV_NearDiffPV_80026794(short *from, short *to, int count)
     }
 }
 
-void sub_800267EC(short *from, short *to, int range, int count)
+void GV_NearRangeV_800267EC(short *from, short *to, int range, int count)
 {
     for (; --count >= 0; from++, to++)
     {
@@ -304,7 +304,7 @@ void sub_800267EC(short *from, short *to, int range, int count)
     }
 }
 
-void sub_80026840(short *from, short *to, int range, int count)
+void GV_NearSpeedV_80026840(short *from, short *to, int range, int count)
 {
     int output;
     int input;

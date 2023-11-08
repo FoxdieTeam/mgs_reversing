@@ -6,7 +6,7 @@ void s00a_command_800C9878( WatcherWork* work )
 {
     VISION  *vision = &work->vision;
     SVECTOR *svec   = &work->control.field_3C;
-    
+
     svec->vx = vision->facedir;
     svec->vy = vision->length;
     svec->vz = vision->field_B8E * 2;
@@ -39,7 +39,7 @@ void s00a_command_800C98A4( WatcherWork *work )
             return;
         }
         work->field_BA1 |= 12;
-    }    
+    }
 }
 
 extern int GM_NoisePower_800ABA24;
@@ -68,14 +68,14 @@ void s00a_command_800C9930( WatcherWork* work )
     {
         return;
     }
-    
-    
-    
+
+
+
     if ( GM_NoisePower_800ABA24 == 0xFF )
     {
-        
-        if ( !( ctrl->field_2C_map->field_0_map_index_bit & claymore_map_800AB9DC ) && 
-           ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) || 
+
+        if ( !( ctrl->field_2C_map->field_0_map_index_bit & claymore_map_800AB9DC ) &&
+           ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) ||
              !( claymore_map_800AB9DC & GM_PlayerMap_800ABA0C ) ) )
         {
             return;
@@ -101,7 +101,7 @@ void s00a_command_800C9930( WatcherWork* work )
         if ( GV_DistanceVec3_80016E84( &GM_NoisePosition_800AB9F8, &ctrl->field_0_mov ) < COM_NOISEMODE_DIS_800E0F38 )
         {
             break;
-        }        
+        }
         return;
     case 255:
         break;
@@ -114,7 +114,7 @@ void s00a_command_800C9930( WatcherWork* work )
             return;
         }
         return;
-    default: 
+    default:
         return;
     }
     work->field_BA1 |= 1;
@@ -142,12 +142,12 @@ void s00a_command_800C9ACC( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 ) )
     {
-        if ( ( GV_DistanceVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rotator.vy ) )
+        if ( ( GV_DistanceVec3_80016E84( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->field_8_rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition_800ABA10;
-                work->field_BAC = GM_WhereList_800B56D0[0]->field_8_rotator.vy;
+                work->field_BAC = GM_WhereList_800B56D0[0]->field_8_rot.vy;
                 work->field_BA1 |= 0x2;
             }
             else
@@ -162,11 +162,11 @@ void s00a_command_800C9ACC( WatcherWork *work )
             {
                 work->field_BA2 |= 0x40;
             }
-        }      
+        }
         work->vision.field_B92 = 0;
         work->field_BA2 |= 0x80;
     }
-    
+
     work->field_BA1 |= work->field_BA2;
 }
 
@@ -178,7 +178,7 @@ void s00a_command_800C9C7C( WatcherWork* work )
     HZD_HDL *hzd;
     CONTROL *ctrl;
     VISION  *vision;
-    
+
     if ( !( work->field_BA3 & 16 ) )
     {
         return;
@@ -196,7 +196,7 @@ void s00a_command_800C9C7C( WatcherWork* work )
     {
         return;
     }
-    
+
     if ( SearchNearAsiato_800D13B0( hzd, &ctrl->field_0_mov, vision->facedir, vision->field_B8E, vision->length ) < 0 )
     {
         return;
@@ -270,23 +270,23 @@ void s00a_command_800C9E68( WatcherWork* work )
     ctrl = &work->control;
     pos = &GM_PlayerPosition_800ABA10;
     GV_SubVec3_80016D40( pos, &ctrl->field_0_mov, &svec );
-    
+
     dir = GV_YawVec3_80016EF8( &svec );
     work->sn_dir = dir;
-    dis = GV_LengthVec3_80016D80( &svec );
+    dis = GV_VecLen3_80016D80( &svec );
 
     work->sn_dis = dis;
-    if ( dis == 0 ) 
+    if ( dis == 0 )
     {
         dis = 1;
     }
-    
+
     diff = pos->vy - work->control.field_0_mov.vy;
     if ( diff < 0 )
     {
         diff = work->control.field_0_mov.vy - pos->vy;
     }
-    
+
     if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 0x02000002 )
     {
         work->vision.field_B92 = 0;
@@ -346,8 +346,8 @@ void s00a_command_800C9E68( WatcherWork* work )
     if ( sna_current_item_8004FB38() == ITEM_STEALTH && work->param_blood != 83 )
     {
         flag[0] = 0;
-    }   
-} 
+    }
+}
 
 void EnemyActionMain_800CA07C( WatcherWork *work )
 {
@@ -360,7 +360,7 @@ void EnemyActionMain_800CA07C( WatcherWork *work )
         Enemy_Think_800CE99C(work);
         ENE_ExecPutChar_800C9818(work);
     }
-    
+
     s00a_command_800C82B0(work);
 }
 
@@ -378,8 +378,8 @@ void EnemyPushMove_800CA0E8( WatcherWork *work )
     {
         return;
     }
-    
-    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_movementVector, &work->control.field_44_movementVector );
+
+    GV_AddVec3_80016D00( &target->field_34_vec, &work->control.field_44_step, &work->control.field_44_step );
     target->field_6_flags &= ~( 0x8 );
 
     if ( work->field_8E0 - 1 >= 2u )
@@ -410,9 +410,9 @@ void EnemyPushMove_800CA0E8( WatcherWork *work )
         }
         s1 &= 0xFFF;
     }
-    
+
     ctrl = &work->control;
-    ctrl->field_4C_turn_vec.vy = s1;
+    ctrl->field_4C_turn.vy = s1;
     ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, work->field_8E4 );
 }
 
@@ -431,7 +431,7 @@ void *s00a_command_800CA1EC( MATRIX *mat, int mark )
     SVECTOR  *pos;
     PRESCRIPT pre;
     ANIMATION *anim;
-   
+
     anim = 0;
     pos = &pre.pos;
     pos->vx = 0;
@@ -451,30 +451,30 @@ void *s00a_command_800CA1EC( MATRIX *mat, int mark )
     case 1:
         s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3418;
-        break;   
+        break;
     case 2:
         s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
         anim = &s00a_dword_800C3434;
-        break; 
+        break;
     case 3:
         s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3434;
-        break; 
+        break;
     case 4:
         s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
         anim = &s00a_dword_800C3450;
-        break; 
+        break;
     case 5:
         s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3450;
-        break; 
+        break;
     case 6:
         s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
         anim = &s00a_dword_800C3418;
         pre.scr_num = 1;
-        break; 
+        break;
     }
-    
+
     anim->field_14_pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
@@ -484,7 +484,7 @@ void *s00a_command_800CA320( MATRIX *mat, int mark )
     SVECTOR  *pos;
     PRESCRIPT pre;
     ANIMATION *anim;
-   
+
     anim = 0;
     pos = &pre.pos;
     pos->vx = 0;
@@ -504,30 +504,30 @@ void *s00a_command_800CA320( MATRIX *mat, int mark )
     case 1:
         s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3418;
-        break;   
+        break;
     case 2:
         s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
         anim = &s00a_dword_800C3434;
-        break; 
+        break;
     case 3:
         s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3434;
-        break; 
+        break;
     case 4:
         s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
         anim = &s00a_dword_800C3450;
-        break; 
+        break;
     case 5:
         s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3450;
-        break; 
+        break;
     case 6:
         s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
         anim = &s00a_dword_800C3418;
         pre.scr_num = 2;
-        break; 
+        break;
     }
-    
+
     anim->field_14_pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
@@ -537,7 +537,7 @@ void *s00a_command_800CA458( MATRIX *mat, int mark )
     SVECTOR  *pos;
     PRESCRIPT pre;
     ANIMATION *anim;
-   
+
     anim = 0;
     pos = &pre.pos;
     pos->vx = 0;
@@ -558,30 +558,30 @@ void *s00a_command_800CA458( MATRIX *mat, int mark )
     case 1:
         s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3418;
-        break;   
+        break;
     case 2:
         s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C3488;
         anim = &s00a_dword_800C3434;
-        break; 
+        break;
     case 3:
         s00a_dword_800C3434.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3434;
-        break; 
+        break;
     case 4:
         s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C3488;
         anim = &s00a_dword_800C3450;
-        break; 
+        break;
     case 5:
         s00a_dword_800C3450.field_0_texture_hash = s00a_dword_800C348A;
         anim = &s00a_dword_800C3450;
-        break; 
+        break;
     case 6:
         s00a_dword_800C3418.field_0_texture_hash = s00a_dword_800C348C;
         anim = &s00a_dword_800C3418;
         pre.scr_num = 3;
-        break; 
+        break;
     }
-    
+
     anim->field_14_pre_script = &pre;
     return NewAnime_8005FBC8( mat, 0, anim );
 }
@@ -597,10 +597,10 @@ void s00a_command_800CA594( SVECTOR *pos )
     pre.speed = DG_ZeroVector_800AB39C;
     pre.scr_num = 0;
     pre.s_anim = 0;
-    
+
     anm = &s00a_dword_800C346C;
     anm->field_14_pre_script = &pre;
-    
+
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
@@ -612,13 +612,13 @@ void s00a_command_800CA618( SVECTOR *pos )
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.speed = DG_ZeroVector_800AB39C;
     pre.s_anim = 0;
-    
+
     anm = &s00a_dword_800C3490;
     anm->field_14_pre_script = &pre;
     pre.scr_num = 0;
-    
+
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
@@ -630,12 +630,12 @@ void s00a_command_800CA69C( SVECTOR *pos )
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.speed = DG_ZeroVector_800AB39C;
     pre.s_anim = 0;
-    
+
     anm = &s00a_dword_800C34AC;
     anm->field_14_pre_script = &pre;
-    
+
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 
@@ -654,13 +654,13 @@ void s00a_command_800CA758( SVECTOR* pos )
     PRESCRIPT  pre;
 
     pre.pos = *pos;
-    pre.speed = DG_ZeroVector_800AB39C;    
+    pre.speed = DG_ZeroVector_800AB39C;
     pre.s_anim = 0;
-    
+
     anm = &s00a_dword_800C34E4;
     anm->field_14_pre_script = &pre;
     pre.scr_num = 0;
-    
+
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
@@ -674,10 +674,10 @@ void s00a_command_800CA7DC( SVECTOR *pos )
     pre.pos = *pos;
     pre.speed = DG_ZeroVector_800AB39C;
     pre.s_anim = 0;
-    
+
     anm = &s00a_dword_800C3500;
     anm->field_14_pre_script = &pre;
-    
+
     pre.scr_num = 0;
     NewAnime_8005FBC8( NULL, 0, anm );
 

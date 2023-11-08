@@ -124,7 +124,7 @@ void bakudan_act_8006A218(Actor_bakudan *pActor)
     {
         DG_SetPos_8001BC44(pMtx);
         DG_PutVector_8001BE48(pActor->field_104, &pCtrl->field_0_mov, 1);
-        DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->field_8_rotator);
+        DG_MatrixRotYXZ_8001E734(pMtx, &pCtrl->field_8_rot);
     }
 }
 

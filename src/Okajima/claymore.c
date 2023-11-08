@@ -154,7 +154,7 @@ int claymore_loader_helper_800735A0(Actor_Claymore *pActor, SVECTOR *arg1, SVECT
     pActor->field_110 = vec2;
 
     GV_SubVec3_80016D40(&vec2, &vec, &vec);
-    len = GV_LengthVec3_80016D80(&vec);
+    len = GV_VecLen3_80016D80(&vec);
     pActor->field_128 = var_s2;
 
     return len;

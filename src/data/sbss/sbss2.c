@@ -11,7 +11,7 @@ int SECTION(".sbss") claymore_map_800AB9DC;
 int SECTION(".sbss") GM_AlertMax_800AB9E0;
 unsigned int SECTION(".sbss") GM_DisableWeapon_800AB9E4;
 int SECTION(".sbss") gTotalFrameTime_800AB9E8;
-int SECTION(".sbss") d_800AB9EC_mag_size;
+int SECTION(".sbss") GM_Magazine_800AB9EC;
 
 int SECTION(".sbss") GM_PlayerAddress_800AB9F0;
 

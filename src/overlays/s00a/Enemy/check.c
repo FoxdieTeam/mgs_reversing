@@ -17,18 +17,18 @@ extern SVECTOR size_800DFDB0;
 int s00a_command_800C50B0( WatcherWork *work )
 {
     TARGET *target;
-    
+
     target= work->target;
     if (  target->field_6_flags & 2 )
     {
         if ( target->field_3E == 0x24 )
         {
-            SetMode( work, s00a_command_800C6BCC ) ; 
+            SetMode( work, s00a_command_800C6BCC ) ;
         }
         else
         {
-            SetMode( work, s00a_command_800C6FA8 ) ; 
-        }    
+            SetMode( work, s00a_command_800C6FA8 ) ;
+        }
         target->field_6_flags = 0;
         return 1;
     }
@@ -41,7 +41,7 @@ int s00a_command_800C513C( WatcherWork* work ) {
     return check > 0;
 }
 
-int s00a_command_800C5158( SVECTOR* svec ) 
+int s00a_command_800C5158( SVECTOR* svec )
 {
     return abs( svec->vx ) + abs( svec->vy ) + abs( svec->vz ) ;
 }
@@ -174,7 +174,7 @@ void InitTarget_800C5484( WatcherWork *work )
     GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
 }
 
-void s00a_command_800C55B0( WatcherWork* work ) 
+void s00a_command_800C55B0( WatcherWork* work )
 {
     int val;
     int warp;
@@ -183,13 +183,13 @@ void s00a_command_800C55B0( WatcherWork* work )
     CONTROL *ctrl;
     MAP *map;
     ctrl = &work->control;
-    
+
     work->visible = 1;
     GM_ConfigControlAttribute_8002623C( ctrl, 0xD );
     InitTarget_800C5484( work );
 
     warp = sub_8005CFAC( EnemyCommand_800E0D98.map->field_8_hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ],  200 );
-    
+
     printf( aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], warp );
 
     zone = &ctrl->field_2C_map->field_8_hzd->f00_header->navmeshes[ warp ];
@@ -228,7 +228,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->field_C48      = 0;
     work->target_map     = work->start_map;
     work->field_C14      = work->start_pos;
-    
+
     val = work->start_addr;
     work->field_C08 = val;
     work->field_BF0 = val;
@@ -255,12 +255,12 @@ int s00a_command_800C580C( int dir, int dist )
 {
     int diff ;
     if ( dist < 0 || dir < 0 ) return 0 ;
-    
-    diff = GV_DiffDirS_8001704C( dir, dist ) ; 
+
+    diff = GV_DiffDirS_8001704C( dir, dist ) ;
 
     if ( diff + 0x380 > 0x700u ) return 0 ;
     if ( diff >= 0 ) return 1 ;
-    
+
     return 2 ;
 }
 
@@ -283,7 +283,7 @@ void s00a_command_800C5860( WatcherWork* work )
     else
     {
         work->field_75C = ( near * 3 ) / 2 ;
-    } 
+    }
 }
 
 /*
@@ -300,7 +300,7 @@ int AttackForce_800C58E8( WatcherWork * work )
 
     target = &work->punch;
     GM_SetTarget_8002DC74( target, 4, ENEMY_SIDE, &size );
-    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rotator );
+    DG_SetPos2_8001BC8C( &work->control.field_0_mov, &work->control.field_8_rot );
     DG_RotVector_8001BE98( &force, &svec, 1 );
     GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
     DG_PutVector_8001BE48( &rp_shift, &work->punch.field_8_vec, 1 );
@@ -380,7 +380,7 @@ int CheckPad_800C5A60( WatcherWork *work )
         SetMode2( work, s00a_command_800C8C98 );
         return 0;
     }
-    
+
     if ( press & 0x1000000 )
     {
         SetMode2( work, s00a_command_800C8DF8 );
@@ -417,6 +417,6 @@ int CheckPad_800C5A60( WatcherWork *work )
         work->field_734 = 0;
         return 1;
     }
-    
+
     return 0;
 }

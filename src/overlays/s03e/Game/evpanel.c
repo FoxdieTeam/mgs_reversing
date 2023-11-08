@@ -340,7 +340,7 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
 {
     s03e_dword_800CC6B8 = work;
 
-    sub_8002FD84(1, s03e_evpanel_800C3994);
+    GM_SetCameraCallbackFunc_8002FD84(1, s03e_evpanel_800C3994);
 
     work->field_4C = GM_Camera_800B77E8.field_18_flags;
     work->f8C.vy = work->field_48;
@@ -371,7 +371,7 @@ void s03e_evpanel_800C3AD0(EvPanelWork *work)
     GM_Camera_800B77E8.field_2A = 2;
     GM_Camera_800B77E8.field_26 = 30;
 
-    sub_8002FD84(1, NULL);
+    GM_SetCameraCallbackFunc_8002FD84(1, NULL);
 }
 
 void s03e_evpanel_800C3B14(EvPanelWork *work, int arg1)

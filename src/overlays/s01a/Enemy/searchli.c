@@ -108,7 +108,7 @@ void s01a_searchli_800D734C(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     dy = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_LengthVec3_80016D80(&diff), dy) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), dy) & 0xFFF) - 1024;
     if (out->vx < 0)
     {
         out->vx += 4096;
@@ -128,13 +128,13 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
         if (work->f290 == 0)
         {
             work->f284 = GM_PlayerPosition_800ABA10;
-            work->f28C = GM_WhereList_800B56D0[0]->field_8_rotator.vy;
+            work->f28C = GM_WhereList_800B56D0[0]->field_8_rot.vy;
             work->f290 = 1;
             return 0;
         }
 
         if ((GV_DistanceVec3_80016E84(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
-            (work->f28C == GM_WhereList_800B56D0[0]->field_8_rotator.vy))
+            (work->f28C == GM_WhereList_800B56D0[0]->field_8_rot.vy))
         {
             work->f290 = 1;
             return 0;
@@ -176,8 +176,8 @@ void s01a_searchli_800D75C0(SearchlightWork *work)
     player = GM_PlayerPosition_800ABA10;
     player.vy = work->height;
 
-    s01a_searchli_800D734C(&work->control.field_0_mov, &player, &work->control.field_4C_turn_vec);
-    s01a_searchli_800D7500(&work->f260, &work->control.field_4C_turn_vec, work);
+    s01a_searchli_800D734C(&work->control.field_0_mov, &player, &work->control.field_4C_turn);
+    s01a_searchli_800D7500(&work->f260, &work->control.field_4C_turn, work);
 }
 
 int s01a_searchli_800D763C(SearchlightWork *work)
@@ -187,7 +187,7 @@ int s01a_searchli_800D763C(SearchlightWork *work)
     SVECTOR *rot;
 
     pos = &work->control.field_0_mov;
-    rot = &work->control.field_4C_turn_vec;
+    rot = &work->control.field_4C_turn;
 
     player = GM_PlayerPosition_800ABA10;
     player.vy = work->height;
@@ -214,7 +214,7 @@ int s01a_searchli_800D770C(SearchlightWork *work)
 {
     SVECTOR *rot;
 
-    rot = &work->control.field_4C_turn_vec;
+    rot = &work->control.field_4C_turn;
     if (work->f2A0 < 0 || work->f2A0 > 60)
     {
         rot->vy = (rot->vy + work->f27A) & 0xFFF;
@@ -233,7 +233,7 @@ int s01a_searchli_800D77A4(SearchlightWork *work)
 {
     SVECTOR *rot;
 
-    rot = &work->control.field_4C_turn_vec;
+    rot = &work->control.field_4C_turn;
     if (work->f2A0 < 0 || work->f2A0 > 60)
     {
         rot->vy = (rot->vy - work->f27A) & 0xFFF;
@@ -258,7 +258,7 @@ int Searchli_800D7908(SearchlightWork *work)
     int      diff;
 
     from = &work->f260;
-    to = &work->control.field_4C_turn_vec;
+    to = &work->control.field_4C_turn;
 
     diff = GV_DiffDirS_8001704C(from->vy, to->vy);
     if (diff < -10)
@@ -310,7 +310,7 @@ void Searchli_800D7A4C(SearchlightWork *work)
             work->f2A0 = 0;
         }
 
-        s01a_searchli_800D7500(&work->control.field_4C_turn_vec, &work->control.field_4C_turn_vec, work);
+        s01a_searchli_800D7500(&work->control.field_4C_turn, &work->control.field_4C_turn, work);
 
         if (s01a_searchli_800D73D8(work))
         {
@@ -326,7 +326,7 @@ void Searchli_800D7A4C(SearchlightWork *work)
             work->f2A0 = 0;
         }
 
-        s01a_searchli_800D7500(&work->control.field_4C_turn_vec, &work->control.field_4C_turn_vec, work);
+        s01a_searchli_800D7500(&work->control.field_4C_turn, &work->control.field_4C_turn, work);
 
         if (s01a_searchli_800D73D8(work))
         {
@@ -483,7 +483,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
 
     GM_ActControl_80025A7C(&work->control);
 
-    DG_SetPos2_8001BC8C(&work->control.field_0_mov, &work->control.field_8_rotator);
+    DG_SetPos2_8001BC8C(&work->control.field_0_mov, &work->control.field_8_rot);
     ReadRotMatrix(&work->lit_mtx);
 
     if (GM_CurrentItemId == ITEM_STEALTH)
@@ -547,22 +547,22 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
 
             if (status & PAD_UP)
             {
-                work->control.field_4C_turn_vec.vx -= 5;
+                work->control.field_4C_turn.vx -= 5;
             }
 
             if (status & PAD_DOWN)
             {
-                work->control.field_4C_turn_vec.vx += 5;
+                work->control.field_4C_turn.vx += 5;
             }
 
             if (status & PAD_LEFT)
             {
-                work->control.field_4C_turn_vec.vy += 5;
+                work->control.field_4C_turn.vy += 5;
             }
 
             if (status & PAD_RIGHT)
             {
-                work->control.field_4C_turn_vec.vy -= 5;
+                work->control.field_4C_turn.vy -= 5;
             }
             break;
 
@@ -615,7 +615,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
         }
 
-        menu_Text_80038C38(aSearchliRot7D7D7D, work->control.field_4C_turn_vec.vx, work->control.field_4C_turn_vec.vy, work->control.field_4C_turn_vec.vz);
+        menu_Text_80038C38(aSearchliRot7D7D7D, work->control.field_4C_turn.vx, work->control.field_4C_turn.vy, work->control.field_4C_turn.vz);
         menu_Text_80038C38(aSearchliPos7D7D7D, work->control.field_0_mov.vx, work->control.field_0_mov.vy, work->control.field_0_mov.vz);
         menu_Text_80038C38(aSearchliAngle4D, work->angle);
 
@@ -624,7 +624,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
         if (status & PAD_L2)
         {
             center = SearchliCenter_800E46D8;
-            DG_SetPos2_8001BC8C(&work->control.field_0_mov, &work->control.field_4C_turn_vec);
+            DG_SetPos2_8001BC8C(&work->control.field_0_mov, &work->control.field_4C_turn);
             DG_PutVector_8001BE48(&center, &center, 1);
             DG_LookAt_800172D0(DG_Chanl(0), &work->control.field_0_mov, &center, 320);
         }
@@ -674,7 +674,7 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
         work->height = 30000;
     }
 
-    work->f260 = work->control.field_8_rotator;
+    work->f260 = work->control.field_8_rot;
     if (work->f260.vx > 1000)
     {
         work->f260.vx = 1000;
@@ -826,7 +826,7 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
     GM_ConfigControlString_800261C0(control, (char *)pos, (char *)dir);
     GM_ConfigControlAttribute_8002623C(control, 0);
     GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
-    work->control.field_44_movementVector = DG_ZeroVector_800AB39C;
+    work->control.field_44_step = DG_ZeroVector_800AB39C;
 
     Searchli_800D9040(work);
     return 0;

@@ -39,7 +39,7 @@ int sna_act_unk_helper2_helper3_80060684(SnaAutoMove *pAutoMove, SVECTOR *param_
     vec.vy = pAutoMove->field_18_vec2.vy;
 
     GV_SubVec3_80016D40(&pAutoMove->field_18_vec2, &vec, &vec2);
-    return GV_LengthVec3_80016D80(&vec2);
+    return GV_VecLen3_80016D80(&vec2);
 }
 
 int sub_800606E4(SnaAutoMove *param_1, SVECTOR *param_2, int param_3)
@@ -76,7 +76,7 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
             pAutoMove->field_0_ivec.pad = y;
 
             GV_SubVec3_80016D40(&pAutoMove->field_18_vec2, pPosition, &vec);
-            pControl->field_4C_turn_vec.vy = GV_YawVec3_80016EF8(&vec);
+            pControl->field_4C_turn.vy = GV_YawVec3_80016EF8(&vec);
             return -1;
         }
 
@@ -91,6 +91,6 @@ int sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl)
     }
 
     GV_SubVec3_80016D40(&pAutoMove->field_10_vec1, pPosition, &vec);
-    pControl->field_4C_turn_vec.vy = GV_YawVec3_80016EF8(&vec);
+    pControl->field_4C_turn.vy = GV_YawVec3_80016EF8(&vec);
     return 0;
 }
