@@ -50,36 +50,19 @@ ANIMATION anm_800C3BCC = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 0, NULL, (ch
 extern const char anim_data_800CC244[];
 ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800CC244};
 
-int s03e_dword_800C335C = 0x0001DCD3;
-int s03e_dword_800C3360 = 0x00010001;
-int s03e_dword_800C3364 = 0x01F40001;
-int s03e_dword_800C3368 = 0x00500001;
-int s03e_dword_800C336C = 0x00000050;
-int s03e_dword_800C3370 = 0x00000000;
-int s03e_dword_800C3374 = 0x800CC2AC;
-int s03e_dword_800C3378 = 0x0001FAD3;
-int s03e_dword_800C337C = 0x00010001;
-int s03e_dword_800C3380 = 0x01F40001;
-int s03e_dword_800C3384 = 0x00500001;
-int s03e_dword_800C3388 = 0x00000050;
-int s03e_dword_800C338C = 0x00000000;
-int s03e_dword_800C3390 = 0x800CC410;
-int s03e_dword_800C3394 = 0x0001FAD3;
-int s03e_dword_800C3398 = 0x00010001;
-int s03e_dword_800C339C = 0x01F40001;
-int s03e_dword_800C33A0 = 0x00500001;
-int s03e_dword_800C33A4 = 0x00000050;
-int s03e_dword_800C33A8 = 0x00000000;
-int s03e_dword_800C33AC = 0x800CC514;
-int s03e_dword_800C33B0 = 0x00011968;
-int s03e_dword_800C33B4 = 0x00010001;
-int s03e_dword_800C33B8 = 0x00000001;
-int s03e_dword_800C33BC = 0x00460001;
-int s03e_dword_800C33C0 = 0x00FF0046;
-int s03e_dword_800C33C4 = 0x00000000;
-int s03e_dword_800C33C8 = 0x800CC618;
-int s03e_dword_800C33CC = 0xFAD3DCD3;
-int s03e_dword_800C33D0 = 0x00001968;
+extern const char anim_data_800CC2AC[];
+ANIMATION anm_800C335C = {PCX_B_MARK, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)anim_data_800CC2AC};
+
+extern const char anim_data_800CC410[];
+ANIMATION anm_800C3378 = {PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)anim_data_800CC410};
+
+extern const char anim_data_800CC514[];
+ANIMATION anm_800C3394 = {PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)anim_data_800CC514};
+
+extern const char anim_data_800CC618[];
+ANIMATION anm_800C33B0 = {PCX_HEART, 1, 1, 1, 1, 0, 1, 70, 70, 255, NULL, (char *)anim_data_800CC618};
+
+unsigned short s03e_dword_800C33CC[] = {PCX_B_MARK, PCX_Q_MARK, PCX_HEART};
 
 // Takabe/fadeio.c
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};

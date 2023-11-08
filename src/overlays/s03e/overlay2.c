@@ -176,7 +176,8 @@ const char s03e_dword_800CC29C[] = {'\n', 0x1, 0xf4, 0x1};
 const char s03e_dword_800CC2A0[] = {0xf4, 0x8, 0xfc, 0xfc};
 const char s03e_dword_800CC2A4[] = {0xfc, 0x2, 0x0, 0x1};
 const char s03e_dword_800CC2A8[] = {0xd, 0xf, 'S', 0x81};
-const char s03e_dword_800CC2AC[] = {0x1, 'V', 0x4, 0x0};
+
+const char anim_data_800CC2AC[] = {0x1, 'V', 0x4, 0x0};
 const char s03e_dword_800CC2B0[] = {0xb, 0x0, '^', 0x0};
 const char s03e_dword_800CC2B4[] = {0xb1, 0x1, 0x9, 0x1};
 const char s03e_dword_800CC2B8[] = {0x0, 0xc, 0x0, 0x4};
@@ -265,7 +266,8 @@ const char s03e_dword_800CC400[] = {0xfe, 0x2, 0x0, 0x1};
 const char s03e_dword_800CC404[] = {'\n', 0xff, 0xb0, 0x0};
 const char s03e_dword_800CC408[] = {'\n', 0x2, 0x0, 0x1};
 const char s03e_dword_800CC40C[] = {0xf, 0x0, 0x0, 0x0};
-const char s03e_dword_800CC410[] = {0x0, 0xf9, 0x3, 0x0};
+
+const char anim_data_800CC410[] = {0x0, 0xf9, 0x3, 0x0};
 const char s03e_dword_800CC414[] = {0x9, 0x0, '\\', 0x0};
 const char s03e_dword_800CC418[] = {0xaf, 0x1, 0x0, 0xc};
 const char s03e_dword_800CC41C[] = {0x0, 0x4, '\n', 0x0};
@@ -330,7 +332,8 @@ const char s03e_dword_800CC504[] = {0xff, 0xf9, 0x2, 0x0};
 const char s03e_dword_800CC508[] = {0x1, '\n', 0xfe, 0xd4};
 const char s03e_dword_800CC50C[] = {0x0, '<', 0x2, 0x0};
 const char s03e_dword_800CC510[] = {0x1, 0xf, 0x0, 0x0};
-const char s03e_dword_800CC514[] = {0x0, 0xf9, 0x3, 0x0};
+
+const char anim_data_800CC514[] = {0x0, 0xf9, 0x3, 0x0};
 const char s03e_dword_800CC518[] = {0x9, 0x0, '\\', 0x0};
 const char s03e_dword_800CC51C[] = {0xaf, 0x1, 0x0, 0xc};
 const char s03e_dword_800CC520[] = {0x0, 0x4, '\n', 0x0};
@@ -395,38 +398,7 @@ const char s03e_dword_800CC608[] = {0xff, 0xf9, 0x2, 0x0};
 const char s03e_dword_800CC60C[] = {0x1, '\n', 0xfe, 0xd4};
 const char s03e_dword_800CC610[] = {0x0, '<', 0x2, 0x0};
 const char s03e_dword_800CC614[] = {0x1, 0xf, 0x0, 0x0};
-const char s03e_dword_800CC618[] = {0x0, 0x4, 0x1, 0x0};
+
+const char anim_data_800CC618[] = {0x0, 0x4, 0x1, 0x0};
 const char s03e_dword_800CC61C[] = {0x5, 0x2, 0x0, 0x1};
 const char s03e_dword_800CC620[] = {0xf, 0x0, 0x0, 0x0};
-const int s03e_dword_800CC624 = 0x800C9D38;
-const int s03e_dword_800CC628 = 0x800C9D48;
-const int s03e_dword_800CC62C = 0x800C9D60;
-const int s03e_dword_800CC630 = 0x800C9D70;
-const int s03e_dword_800CC634 = 0x800C9D88;
-const int s03e_dword_800CC638 = 0x800C9D98;
-const int s03e_dword_800CC63C = 0x800C9DB0;
-const char s03e_dword_800CC640[] = {0x0, 0x0, 0x0, 0x0};
-const int s03e_dword_800CC644 = 0x800C9E70;
-const int s03e_dword_800CC648 = 0x800C9E80;
-const int s03e_dword_800CC64C = 0x800C9E98;
-const int s03e_dword_800CC650 = 0x800C9EA8;
-const int s03e_dword_800CC654 = 0x800C9EC0;
-const int s03e_dword_800CC658 = 0x800C9ED0;
-const int s03e_dword_800CC65C = 0x800C9EE8;
-const char s03e_dword_800CC660[] = {0x0, 0x0, 0x0, 0x0};
-const int s03e_dword_800CC664 = 0x800C9FA8;
-const int s03e_dword_800CC668 = 0x800C9FBC;
-const int s03e_dword_800CC66C = 0x800C9FD4;
-const int s03e_dword_800CC670 = 0x800C9FE4;
-const int s03e_dword_800CC674 = 0x800C9FFC;
-const int s03e_dword_800CC678 = 0x800CA00C;
-const int s03e_dword_800CC67C = 0x800CA024;
-
-const SVECTOR spark2_light_pos = {0, 0, 500, 0};
-
-const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 0x81, 'J', 0x81};
-const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 0x90, 0x1, 0x90};
-const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 0x90, 0x1, 0x90};
-
-void SECTION("overlay.bss") *s03e_dword_800CC6B8;
-int SECTION("overlay.bss") s03e_dword_800CC6BC;
