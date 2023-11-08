@@ -264,7 +264,7 @@ void door_act_helper_8006F184(Actor_Door *pActor, int arg1)
         return;
     }
 
-    GV_InvYawVec3_80016F24((pActor->field_20_ctrl.field_8_rotator.vy + 1024) & 0xFFF, arg1, &dir);
+    GV_InvYawVec3_80016F24((pActor->field_20_ctrl.field_8_rot.vy + 1024) & 0xFFF, arg1, &dir);
 
     for (i = 0; i < pActor->field_E4_t_param_v; i++)
     {
@@ -582,7 +582,7 @@ void door_loader_param_h_8006F978(Actor_Door *pDoor, int a_param_v)
     int                i;
     Actor_Door_TParam *pOffset;
 
-    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&pDoor->field_20_ctrl.field_0_mov, &pDoor->field_20_ctrl.field_8_rot);
 
     param_w_alternating = pDoor->field_E6_param_w_v;
     for (i = 0; i < pDoor->field_E4_t_param_v; i++)
@@ -641,7 +641,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
 
     GM_InitObjectNoRots_800349B0(obj, door_model_v, 23, 0);
     GM_ConfigObjectSlide_80034CC4((OBJECT *)&pDoor->field_9C);
-    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
     DG_PutObjs_8001BDB8(pDoor->field_9C.objs);
     GM_ReshadeObjs_80031660(pDoor->field_9C.objs);
 
@@ -681,7 +681,7 @@ int door_loader_8006FA60(Actor_Door *pDoor, int name, int where)
     if (pDoor->field_E4_t_param_v == 1 && have_c_param == 1) // $s0, $v1, 0x238
     {
         pControl2 = &pDoor->field_20_ctrl;
-        GV_InvYawVec3_80016F24((pControl2->field_8_rotator.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
+        GV_InvYawVec3_80016F24((pControl2->field_8_rot.vy + 3072) & 0xFFF, pDoor->field_E6_param_w_v / 2, &vec);
         pControl2->field_0_mov.vx += vec.vx;
         pControl2->field_0_mov.vz += vec.vz;
     }

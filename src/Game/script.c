@@ -998,7 +998,7 @@ int GCL_Command_func_8002CDF4(unsigned char *pScript)
         GM_SnakePosX = unkStruct->field_0_mov.vx;
         GM_SnakePosY = unkStruct->field_0_mov.vy;
         GM_SnakePosZ = unkStruct->field_0_mov.vz;
-        GM_LastResultFlag = unkStruct->field_8_rotator.vy;
+        GM_LastResultFlag = unkStruct->field_8_rot.vy;
     }
     if (GCL_GetOption_80020968('a')) // area
     {

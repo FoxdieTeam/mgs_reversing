@@ -30,7 +30,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
     int vy, level;
 #endif
 
-    pActor->field_20_ctrl.field_44_movementVector = pActor->field_108;
+    pActor->field_20_ctrl.field_44_step = pActor->field_108;
 
     pCtrl = &pActor->field_20_ctrl;
 
@@ -45,11 +45,11 @@ void tenage_act_800699A4(Actor_tenage *pActor)
         return;
     }
 
-    pActor->field_108 = pActor->field_20_ctrl.field_44_movementVector;
+    pActor->field_108 = pActor->field_20_ctrl.field_44_step;
 
 #ifdef VR_EXE
-    vy = pCtrl->field_44_movementVector.vy;
-    pCtrl->field_44_movementVector.vy = 0;
+    vy = pCtrl->field_44_step.vy;
+    pCtrl->field_44_step.vy = 0;
 #endif
 
     GM_ActControl_80025A7C(pCtrl);
@@ -72,7 +72,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
         }
     }
     pCtrl->field_0_mov.vy = vy;
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rot);
 #endif
 
     GM_ActObject2_80034B88((OBJECT *)&pActor->field_9C_obj);
@@ -227,7 +227,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         GM_InitObjectNoRots_800349B0(&pActor->field_9C_obj, int_4, WEAPON_FLAG, 0);
         if ((pActor->field_9C_obj).objs != NULL)
         {
-            DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
+            DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
             DG_PutObjs_8001BDB8((pActor->field_9C_obj).objs);
             GM_ConfigObjectLight_80034C44((OBJECT *)&pActor->field_9C_obj, pActor->field_C0_light_matrices);
             tmp = tenage_get_free_ctrl_80069E28();

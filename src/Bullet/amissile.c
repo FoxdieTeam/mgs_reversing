@@ -82,13 +82,13 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
 
     if (pActor->field_120 < 5)
     {
-        DG_RotVector_8001BE98(&svector_8009F4A8, &pActor->field_20_ctrl.field_44_movementVector, 1);
+        DG_RotVector_8001BE98(&svector_8009F4A8, &pActor->field_20_ctrl.field_44_step, 1);
         return;
     }
 
     if (pActor->field_120 < 14)
     {
-        DG_RotVector_8001BE98(&svector_8009F4B0, &pActor->field_20_ctrl.field_44_movementVector, 1);
+        DG_RotVector_8001BE98(&svector_8009F4B0, &pActor->field_20_ctrl.field_44_step, 1);
         return;
     }
 
@@ -101,7 +101,7 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
         svector_8009F4A0.vz = 0;
     }
 
-    DG_RotVector_8001BE98(&svector_8009F4A0, &pActor->field_20_ctrl.field_44_movementVector, 1);
+    DG_RotVector_8001BE98(&svector_8009F4A0, &pActor->field_20_ctrl.field_44_step, 1);
 
     if (!target_800BDF00)
     {
@@ -114,7 +114,7 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
     diff.vz = pTargetPos->vz / 8 - pActor->field_20_ctrl.field_0_mov.vz / 8;
 
     dir = GV_YawVec3_80016EF8(&diff);
-    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn_vec.vy, dir);
+    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn.vy, dir);
 
     if (abs(temp_v0) > 1024)
     {
@@ -125,34 +125,34 @@ void amissile_act_helper_8006D37C(Actor_amissile *pActor)
 
     if (abs(temp_v0) < temp_s1)
     {
-        pActor->field_20_ctrl.field_4C_turn_vec.vy += temp_v0;
+        pActor->field_20_ctrl.field_4C_turn.vy += temp_v0;
     }
     else if (temp_v0 > 0)
     {
-        pActor->field_20_ctrl.field_4C_turn_vec.vy += temp_s1;
+        pActor->field_20_ctrl.field_4C_turn.vy += temp_s1;
     }
     else
     {
-        pActor->field_20_ctrl.field_4C_turn_vec.vy -= temp_s1;
+        pActor->field_20_ctrl.field_4C_turn.vy -= temp_s1;
     }
 
     result.vx = diff.vy;
     result.vz = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
 
     dir = -GV_YawVec3_80016EF8(&result);
-    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn_vec.vx, (dir - 1024) & 4095);
+    temp_v0 = GV_DiffDirS_8001704C(pActor->field_20_ctrl.field_4C_turn.vx, (dir - 1024) & 4095);
 
     if (abs(temp_v0) < temp_s1)
     {
-        pActor->field_20_ctrl.field_4C_turn_vec.vx += temp_v0;
+        pActor->field_20_ctrl.field_4C_turn.vx += temp_v0;
     }
     else if (temp_v0 > 0)
     {
-        pActor->field_20_ctrl.field_4C_turn_vec.vx += temp_s1;
+        pActor->field_20_ctrl.field_4C_turn.vx += temp_s1;
     }
     else
     {
-        pActor->field_20_ctrl.field_4C_turn_vec.vx -= temp_s1;
+        pActor->field_20_ctrl.field_4C_turn.vx -= temp_s1;
     }
 }
 
@@ -252,7 +252,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
 
     // probably an inline
     pCtrl = &pActor->field_20_ctrl;
-    GV_AddVec3_80016D00(&pCtrl->field_0_mov, &pCtrl->field_44_movementVector, &addition);
+    GV_AddVec3_80016D00(&pCtrl->field_0_mov, &pCtrl->field_44_step, &addition);
 
     result = amissile_act_helper_8006D600();
 
@@ -306,7 +306,7 @@ void amissile_act_8006D608(Actor_amissile *pActor)
         rotator.vz = -30000;
     }
 
-    DG_SetPos2_8001BC8C(&rotator, &pActor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&rotator, &pActor->field_20_ctrl.field_8_rot);
 #endif
 
     if (!result)
@@ -409,7 +409,7 @@ int amissile_loader_8006DA0C(Actor_amissile *pActor, MATRIX *pMtx, int side)
         return -1;
     }
 
-    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&pCtrl->field_0_mov, &pCtrl->field_8_rot);
 
     vector.vz = 0;
     vector.vx = 0;

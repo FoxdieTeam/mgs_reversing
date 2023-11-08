@@ -6,8 +6,8 @@
 
 // c4 (in hands)
 
-extern short      d_800AB9EC_mag_size;
-extern short      d_800ABA2C_ammo;
+extern short      GM_Magazine_800AB9EC;
+extern short      GM_MagazineMax_800ABA2C;
 
 extern int        DG_CurrentGroupID_800AB968;
 extern TARGET *GM_BombSeg_800ABBD8;
@@ -112,8 +112,8 @@ Actor_Bomb *NewBomb_80067B20(CONTROL *ctrl, OBJECT *parent_obj, int num_parent, 
         actor->f58 = a5;
     }
 
-    d_800ABA2C_ammo = 0;
-    d_800AB9EC_mag_size = 0;
+    GM_MagazineMax_800ABA2C = 0;
+    GM_Magazine_800AB9EC = 0;
 
     return actor;
 }

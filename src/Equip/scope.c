@@ -68,7 +68,7 @@ int scope_act_helper_helper_8006237C(Actor_scope *pActor)
     if ( bCalcLen != 0 )
     {
         GV_SubVec3_80016D40(&vecs[1], vecs, vecs);
-        vecLen = GV_LengthVec3_80016D80(vecs);
+        vecLen = GV_VecLen3_80016D80(vecs);
     }
 
     return vecLen;
@@ -185,7 +185,7 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
 
         if (GM_PlayerControl_800AB9F4)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn_vec.vx;
+            vec.vx = GM_PlayerControl_800AB9F4->field_4C_turn.vx;
         }
 
         if (sVar2 <= 1023)
@@ -302,8 +302,8 @@ void scope_act_helper_800626D0(Actor_scope *pActor, unsigned short pad_status)
 
     if (pCtrl)
     {
-        pCtrl->field_4C_turn_vec = pActor->field_6C_turn_vec;
-        pCtrl->field_8_rotator = pCtrl->field_4C_turn_vec;
+        pCtrl->field_4C_turn = pActor->field_6C_turn_vec;
+        pCtrl->field_8_rot = pCtrl->field_4C_turn;
     }
 }
 
@@ -768,8 +768,8 @@ int scope_loader_800633D4(Actor_scope *pActor, CONTROL *pCtrl, OBJECT *pParent)
     pActor->field_60 = 0;
     pActor->field_62 = 0;
 
-    pActor->field_6C_turn_vec.vy = pActor->field_64_vec.vy = pCtrl->field_4C_turn_vec.vy;
-    pActor->field_6C_turn_vec.vx = pActor->field_64_vec.vx = pCtrl->field_4C_turn_vec.vx;
+    pActor->field_6C_turn_vec.vy = pActor->field_64_vec.vy = pCtrl->field_4C_turn.vy;
+    pActor->field_6C_turn_vec.vx = pActor->field_64_vec.vx = pCtrl->field_4C_turn.vx;
 
     pActor->field_64_vec.vz = 0;
     pActor->field_6C_turn_vec.vz = 0;

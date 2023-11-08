@@ -132,7 +132,7 @@ void sgtrect3_act_helper_8007020C(Actor_sgtrect3 *sgtrect3, DVECTOR *outScreenCo
                             }
 
                             GV_SubVec3_80016D40(&currentTarget->field_8_vec, &vector, &vector2);
-                            vecLen = GV_LengthVec3_80016D80(&vector2);
+                            vecLen = GV_VecLen3_80016D80(&vector2);
                             if (vecLen < shortestVecLen && vecLen >= 2401)
                             {
                                 shortestVecLen = vecLen;
@@ -437,7 +437,7 @@ void sgtrect3_act_helper_80070CAC(Actor_sgtrect3 *sgtrect3)
         vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
 
         GV_SubVec3_80016D40(&sgtrect3->field_30_target->field_8_vec, &vector, &vector2);
-        vecLen = GV_LengthVec3_80016D80(&vector2);
+        vecLen = GV_VecLen3_80016D80(&vector2);
         vecLen = (vecLen * 3) / 2000;
         if (vecLen == 0)
         {

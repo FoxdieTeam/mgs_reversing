@@ -167,7 +167,7 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
     int     len;
     int     diff;
 
-    vx = pControl->field_44_movementVector.vx;
+    vx = pControl->field_44_step.vx;
     new_var = pControl->field_36 / 2;
 
     if (vx < 0)
@@ -175,18 +175,18 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
         vx = -vx;
     }
 
-    if (pControl->field_44_movementVector.vz > 0)
+    if (pControl->field_44_step.vz > 0)
     {
-        vx += pControl->field_44_movementVector.vz;
+        vx += pControl->field_44_step.vz;
     }
     else
     {
-        vx -= pControl->field_44_movementVector.vz;
+        vx -= pControl->field_44_step.vz;
     }
 
     if ((vx > new_var) || (pControl->field_55_skip_flag & (CTRL_BOTH_CHECK | CTRL_SKIP_NEAR_CHECK)))
     {
-        GV_AddVec3_80016D00(&pControl->field_0_mov, &pControl->field_44_movementVector, &vec);
+        GV_AddVec3_80016D00(&pControl->field_0_mov, &pControl->field_44_step, &vec);
 
         if (sub_80028454(pHzd, &pControl->field_0_mov, &vec, 15, pControl->field_59))
         {
@@ -196,7 +196,7 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
 
             GetVecFromScratchpad_80028840(pControl->field_60_vecs_ary);
 
-            len = GV_LengthVec3_80016D80(pControl->field_60_vecs_ary);
+            len = GV_VecLen3_80016D80(pControl->field_60_vecs_ary);
             diff = len - new_var;
 
             if (diff < 0)
@@ -210,7 +210,7 @@ static inline void GM_ActControl_helper2_80025A7C(CONTROL *pControl, HZD_HDL *pH
                 GV_ScaleVec3_80016DDC(pControl->field_60_vecs_ary, &vec, len, diff);
             }
 
-            pControl->field_44_movementVector = vec;
+            pControl->field_44_step = vec;
         }
     }
 }
@@ -245,7 +245,7 @@ retry:
 
     if (!GM_ActControl_helper_80026C68(pControl->field_60_vecs_ary, i, pControl->field_36, &vec) && !bVar7)
     {
-        GV_ScaleVec3_80016DDC(&pControl->field_44_movementVector, &vec2, GV_LengthVec3_80016D80(&pControl->field_44_movementVector), pControl->field_36 / 2);
+        GV_ScaleVec3_80016DDC(&pControl->field_44_step, &vec2, GV_VecLen3_80016D80(&pControl->field_44_step), pControl->field_36 / 2);
         bVar7 = 1;
         vec2.vy = 0;
         GV_SubVec3_80016D40(&pControl->field_0_mov,&vec2,&pControl->field_0_mov);
@@ -267,7 +267,7 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pH
     int     uVar15;
     int     uVar16;
 
-    vy = pControl->field_0_mov.vy + pControl->field_44_movementVector.vy;
+    vy = pControl->field_0_mov.vy + pControl->field_44_step.vy;
     vz = pControl->field_32_height;
 
     pControl->field_57 = 0;
@@ -350,8 +350,8 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
 
         GM_ActControl_helper2_80025A7C(pControl, pHzd);
 
-        pControl->field_0_mov.vx += pControl->field_44_movementVector.vx;
-        pControl->field_0_mov.vz += pControl->field_44_movementVector.vz;
+        pControl->field_0_mov.vx += pControl->field_44_step.vx;
+        pControl->field_0_mov.vz += pControl->field_44_step.vz;
 
         GM_ActControl_helper3_80025A7C(pControl, pHzd);
 
@@ -364,11 +364,11 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
 
         if (pControl->field_54 == 0)
         {
-            GV_NearExp4PV_800269A0(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, 3);
+            GV_NearExp4PV_800269A0(&pControl->field_8_rot.vx, &pControl->field_4C_turn.vx, 3);
         }
         else
         {
-            GV_NearTimePV_80026BC4(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, pControl->field_54, 3);
+            GV_NearTimePV_80026BC4(&pControl->field_8_rot.vx, &pControl->field_4C_turn.vx, pControl->field_54, 3);
             pControl->field_54 = time - 1;
         }
 
@@ -380,16 +380,16 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
 
         time = pControl->field_54;
 
-        pControl->field_0_mov.vx += pControl->field_44_movementVector.vx;
-        pControl->field_0_mov.vz += pControl->field_44_movementVector.vz;
+        pControl->field_0_mov.vx += pControl->field_44_step.vx;
+        pControl->field_0_mov.vz += pControl->field_44_step.vz;
 
         if (time == 0)
         {
-            GV_NearExp4PV_800269A0(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, 3);
+            GV_NearExp4PV_800269A0(&pControl->field_8_rot.vx, &pControl->field_4C_turn.vx, 3);
         }
         else
         {
-            GV_NearTimePV_80026BC4(&pControl->field_8_rotator.vx, &pControl->field_4C_turn_vec.vx, time, 3);
+            GV_NearTimePV_80026BC4(&pControl->field_8_rot.vx, &pControl->field_4C_turn.vx, time, 3);
             pControl->field_54 = time - 1;
         }
 
@@ -402,11 +402,11 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
     if (!(pControl->field_55_skip_flag & CTRL_SKIP_TRAP))
     {
         pControl->field_10_pStruct_hzd_unknown.field_14_vec = pControl->field_0_mov;
-        pControl->field_10_pStruct_hzd_unknown.field_14_vec.pad = pControl->field_8_rotator.vy;
+        pControl->field_10_pStruct_hzd_unknown.field_14_vec.pad = pControl->field_8_rot.vy;
         GM_ActControl_helper6_8002A538(pHzd, &pControl->field_10_pStruct_hzd_unknown);
     }
 
-    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rotator);
+    DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
 }
 
 
@@ -427,7 +427,7 @@ void GM_ConfigControlVector_800260FC(CONTROL *pControl, SVECTOR *pVec1, SVECTOR 
 
     if (pVec2)
     {
-        pControl->field_8_rotator = *pVec2;
+        pControl->field_8_rot = *pVec2;
     }
 }
 
@@ -437,9 +437,9 @@ void GM_ConfigControlMatrix_80026154(CONTROL *pControl, MATRIX *pMatrix)
     pControl->field_0_mov.vy = pMatrix->t[1];
     pControl->field_0_mov.vz = pMatrix->t[2];
 
-    DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_rotator);
+    DG_MatrixRotYXZ_8001E734(pMatrix, &pControl->field_8_rot);
 
-    pControl->field_4C_turn_vec = pControl->field_8_rotator;
+    pControl->field_4C_turn = pControl->field_8_rot;
 }
 
 void GM_ConfigControlString_800261C0(CONTROL *pControl, char *param_pos, char *param_dir)
@@ -451,10 +451,10 @@ void GM_ConfigControlString_800261C0(CONTROL *pControl, char *param_pos, char *p
 
     if (param_dir)
     {
-        GCL_StrToSV_80020A14(param_dir, &pControl->field_8_rotator);
+        GCL_StrToSV_80020A14(param_dir, &pControl->field_8_rot);
     }
 
-    pControl->field_4C_turn_vec = pControl->field_8_rotator;
+    pControl->field_4C_turn = pControl->field_8_rot;
 }
 
 void GM_ConfigControlHazard_8002622C(CONTROL *pControl, short height, short f36, short f38)
@@ -483,13 +483,13 @@ int GM_CheckControlTouches_8002624C(CONTROL *pControl, int param_2)
 
     if (pControl->field_58 == 2)
     {
-        if (pControl->field_70[1]->pad < 0 || GV_LengthVec3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
+        if (pControl->field_70[1]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[1]) <= param_2)
         {
             return 2;
         }
     }
 
-    if (pControl->field_70[0]->pad < 0 || GV_LengthVec3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
+    if (pControl->field_70[0]->pad < 0 || GV_VecLen3_80016D80(&pControl->field_60_vecs_ary[0]) <= param_2)
     {
         return 1;
     }

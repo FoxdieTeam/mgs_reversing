@@ -2,13 +2,13 @@
 #include "unknown.h"
 #include "Game/linkvarbuf.h"
 
-extern short d_800AB9EC_mag_size;
+extern short GM_Magazine_800AB9EC;
 
 extern short gGcl_gameStateVars_800B44C8[0x60];
 
 extern short snake_weapon_idx_800BDCBA;
 extern short snake_weapon_max_ammo_800BDCBC;
-extern short d_800AB9EC_mag_size;
+extern short GM_Magazine_800AB9EC;
 extern short snake_mag_size_800BDCB8;
 
 //------------------------------------------------------------------------------
@@ -45,10 +45,10 @@ void bandana_act_80061DA0(Actor_bandana *pActor)
             GM_Weapons[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
         }
 
-        ammo = d_800AB9EC_mag_size;
+        ammo = GM_Magazine_800AB9EC;
         if (ammo < snake_mag_size_800BDCB8)
         {
-            d_800AB9EC_mag_size = snake_mag_size_800BDCB8;
+            GM_Magazine_800AB9EC = snake_mag_size_800BDCB8;
         }
     }
 }

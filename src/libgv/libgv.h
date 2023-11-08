@@ -224,7 +224,7 @@ int GV_StrCode_80016CCC(const char *string);
 // math
 
 void         GV_SubVec3_80016D40(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
-int          GV_LengthVec3_80016D80(SVECTOR *vec);
+int          GV_VecLen3_80016D80(SVECTOR *vec);
 int          GV_YawVec3_80016EF8(SVECTOR *vec);
 void         GV_AddVec3_80016D00(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
 void         GV_ScaleVec3_80016DDC(SVECTOR *pSrcVec, SVECTOR *pDstVec, int param_3, int param_4);

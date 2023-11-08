@@ -46,8 +46,8 @@ void sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
         vec_x = pActor->field_A2A;
     }
 
-    pActor->field_20_ctrl.field_4C_turn_vec.vx = vec_x;
-    pActor->field_20_ctrl.field_4C_turn_vec.vz = 0;
+    pActor->field_20_ctrl.field_4C_turn.vx = vec_x;
+    pActor->field_20_ctrl.field_4C_turn.vz = 0;
 }
 
 void SetAction_8004E22C(Actor_SnaInit *pActor, int action_flag, int interp)
@@ -154,7 +154,7 @@ void sna_sub_8004E41C(Actor_SnaInit *snake, unsigned short flags)
 }
 
 // ... categorize move/turn direction by angle?
-// param_1: snake->field_20_ctrl.field_4C_turn_vec.vy
+// param_1: snake->field_20_ctrl.field_4C_turn.vy
 // param_2: gSnaMoveDir_800ABBA4
 int sub_8004E458(short param_1, int param_2)
 {
@@ -226,7 +226,7 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     }
     sub_80028890(&param_1[1]);
     GV_SubVec3_80016D40(&param_1[1], param_1, param_1);
-    return GV_LengthVec3_80016D80(param_1);
+    return GV_VecLen3_80016D80(param_1);
 }
 
 void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, HZD_VEC *vec)
@@ -256,7 +256,7 @@ int sub_8004E5E8(Actor_SnaInit *pActor, int flag)
     vec.vy = pActor->field_9C_obj.objs->objs[4].world.t[1];
     vec.vz = pActor->field_9C_obj.objs->objs[4].world.t[2];
 
-    DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_rotator);
+    DG_SetPos2_8001BC8C(&vec, &pActor->field_20_ctrl.field_8_rot);
     DG_PutVector_8001BE48(&svector_800AB7CC, &vec, 1);
     sub_8004E588(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &vec, &vec2);
 
@@ -409,7 +409,7 @@ void sub_8004E9D0(Actor_SnaInit *pActor)
 
 void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
 {
-    int iVar1 = GV_DiffDirS_8001704C(param_2, pActor->field_20_ctrl.field_8_rotator.vy);
+    int iVar1 = GV_DiffDirS_8001704C(param_2, pActor->field_20_ctrl.field_8_rot.vy);
 
     if (iVar1 > 128)
     {
@@ -420,7 +420,7 @@ void sub_8004EA50(Actor_SnaInit *pActor, int param_2)
         iVar1 = -128;
     }
 
-    pActor->field_20_ctrl.field_4C_turn_vec.vz = iVar1;
+    pActor->field_20_ctrl.field_4C_turn.vz = iVar1;
 }
 
 int sna_8004EAA8(Actor_SnaInit *pActor, int a2)

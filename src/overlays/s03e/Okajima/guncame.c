@@ -142,7 +142,7 @@ void s03e_guncame_800C6FF8(GunCamEWork *work)
     svec.vy = 200;
     svec.vz = 900;
 
-    DG_SetPos2_8001BC8C(&work->field_20.field_0_mov, &work->field_20.field_8_rotator);
+    DG_SetPos2_8001BC8C(&work->field_20.field_0_mov, &work->field_20.field_8_rot);
     DG_PutVector_8001BE48(&svec, &svec, 1);
     work->field_338 = svec;
 }
@@ -191,18 +191,18 @@ int s03e_guncame_800C7154(int opt, SVECTOR *svec)
 }
 
 void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
-    
+
     SVECTOR sp10;
     int temp_s0;
 
     GV_SubVec3_80016D40(arg1, arg0, &sp10);
-    
+
     arg2->vy = (ratan2(sp10.vx, (int) sp10.vz) & 0xFFF);
-    
+
     temp_s0 = sp10.vy;
     sp10.vy = 0;
-    
-    arg2->vx = (short int) ((ratan2(GV_LengthVec3_80016D80(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
+
+    arg2->vx = (short int) ((ratan2(GV_VecLen3_80016D80(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
@@ -236,10 +236,10 @@ void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
 }
 
 void s03e_guncame_800C76E8(GunCamEWork* work) {
-    
+
     SVECTOR* temp_s1;
-    temp_s1 = &work->field_20.field_4C_turn_vec;
-    
+    temp_s1 = &work->field_20.field_4C_turn;
+
     s03e_guncame_800C71A8(&work->field_20.field_0_mov, &work->field_3AC + (work->field_39C), temp_s1);
     s03e_guncame_800C75FC(&work->field_330, temp_s1, work);
 }
@@ -255,7 +255,7 @@ int s03e_guncame_800C7740(GunCamEWork *work)
             GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
         }
 
-        vec = &work->field_20.field_4C_turn_vec;
+        vec = &work->field_20.field_4C_turn;
         vec->vy = (vec->vy + 8) & 0xFFF;
 
         if (work->field_36C < GV_DiffDirAbs_8001706C(work->field_330.vy, vec->vy))
@@ -278,7 +278,7 @@ int s03e_guncame_800C77D4(GunCamEWork *work)
             GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
         }
 
-        vec = &work->field_20.field_4C_turn_vec;
+        vec = &work->field_20.field_4C_turn;
         vec->vy = (vec->vy - 8) & 0xFFF;
 
         if (work->field_36C < GV_DiffDirAbs_8001706C(work->field_330.vy, vec->vy))
@@ -296,7 +296,7 @@ int s03e_guncame_800C7868(GunCamEWork *work)
     int      dir;
 
     svec1 = &work->field_330;
-    svec2 = &work->field_20.field_4C_turn_vec;
+    svec2 = &work->field_20.field_4C_turn;
 
     dir = GV_DiffDirS_8001704C(svec1->vy, svec2->vy);
     if (dir < -0xA)
@@ -442,7 +442,7 @@ void s03e_guncame_800C7CE0(GunCamEWork *work);
 
 void s03e_guncame_800C8024(GunCamEWork *work)
 {
-    work->field_20.field_3C.vx = work->field_20.field_8_rotator.vy;
+    work->field_20.field_3C.vx = work->field_20.field_8_rot.vy;
 }
 
 void s03e_guncame_800C8030(GunCamEWork *work)
@@ -473,7 +473,7 @@ void s03e_guncame_800C8030(GunCamEWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8978.s")
 
 void s03e_guncame_800C8E04(POLY_FT4* poly, DG_TEX* tex, int col) {
-    
+
     signed char height;
     signed char width;
     unsigned char x_offset;
@@ -482,13 +482,13 @@ void s03e_guncame_800C8E04(POLY_FT4* poly, DG_TEX* tex, int col) {
     setPolyFT4(poly);
     setRGB0(poly, col, col, col);
     poly->code = (poly->code | 0x02);
-    
+
     x_offset = tex->field_8_offx;
     width = x_offset + tex->field_A_width;
-    
+
     y_offset = tex->field_9_offy;
     height = y_offset + tex->field_B_height;
-    
+
     poly->u0 = x_offset;
     poly->v0 = y_offset;
     poly->u1 = width;
@@ -497,7 +497,7 @@ void s03e_guncame_800C8E04(POLY_FT4* poly, DG_TEX* tex, int col) {
     poly->v2 = height;
     poly->u3 = width;
     poly->v3 = height;
-    
+
     poly->tpage = tex->field_4_tPage;
     poly->clut = (unsigned short) tex->field_6_clut;
 }
@@ -545,7 +545,7 @@ int s03e_guncame_800C8F64(GunCamEWork *work, int name, int where)
     GM_ConfigControlAttribute_8002623C(control, 7);
     GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
     GM_ConfigControlInterp_80026244(control, 4);
-    work->field_20.field_44_movementVector = DG_ZeroVector_800AB39C;
+    work->field_20.field_44_step = DG_ZeroVector_800AB39C;
 
     obj1 = &work->field_9C;
     do {} while (0);

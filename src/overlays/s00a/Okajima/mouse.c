@@ -82,7 +82,7 @@ void s00a_mouse_800D3BB0(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *out)
     y = diff.vy;
     diff.vy = 0;
 
-    out->vx = (ratan2(GV_LengthVec3_80016D80(&diff), y) & 0xFFF) - 1024;
+    out->vx = (ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF) - 1024;
     out->vz = 0;
 }
 
@@ -400,7 +400,7 @@ void s00a_mouse_800D4430(MouseWork *work)
             y = diff.vy;
             diff.vy = 0;
 
-            pitch = ratan2(GV_LengthVec3_80016D80(&diff), y) & 0xFFF;
+            pitch = ratan2(GV_VecLen3_80016D80(&diff), y) & 0xFFF;
 
             entry->f16C.vx = pitch;
             entry->f154.vx = pitch;

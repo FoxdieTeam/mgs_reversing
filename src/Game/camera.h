@@ -67,7 +67,7 @@ void camera_act_helper4_8002F78C();
 void sub_8002ED68(int param_1);
 void sub_800303E0(SVECTOR *);
 void sub_8002EE80(void);
-void sub_8002FD84(int index, TGMCameraFunc func) ;
+void GM_SetCameraCallbackFunc_8002FD84(int index, TGMCameraFunc func) ;
 void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
 void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
 void camera_get_euler_angles_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *pVec3, int *pLen);

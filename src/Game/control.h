@@ -45,7 +45,7 @@ typedef struct CONTROL
     // - vy: yaw;
     // - vz: roll.
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
-    SVECTOR             field_8_rotator;
+    SVECTOR             field_8_rot;
     Res_Control_unknown field_10_pStruct_hzd_unknown;
     struct MAP  *field_2C_map;
     unsigned short      field_30_scriptData;
@@ -69,8 +69,8 @@ typedef struct CONTROL
     // Movement vector, added to the position vector each frame to determine Snake's new position.
     // 800356FC() @ 0x80035974 (vx) and 0x8003597c (vz) seems to be the main function responsible for calculating the
     // movement vector, since it is the only writing function which if disabled prevents Snake from moving entirely.
-    SVECTOR       field_44_movementVector;
-    SVECTOR       field_4C_turn_vec;
+    SVECTOR       field_44_step;
+    SVECTOR       field_4C_turn;
     signed char   field_54;
     unsigned char field_55_skip_flag; // CTRL_...
     signed char   field_56; //n_messages

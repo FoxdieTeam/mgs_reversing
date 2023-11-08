@@ -6,8 +6,8 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/bullet.h"
 
-extern short d_800AB9EC_mag_size;
-extern short d_800ABA2C_ammo;
+extern short GM_Magazine_800AB9EC;
+extern short GM_MagazineMax_800ABA2C;
 extern int   DG_CurrentGroupID_800AB968;
 extern int   GV_Clock_800AB920;
 
@@ -46,7 +46,7 @@ void famas_act_80065E90(Actor_Famas *pActor)
 
     flags = *pActor->field_50_pFlags;
 
-    newSize = d_800AB9EC_mag_size;
+    newSize = GM_Magazine_800AB9EC;
 
     if (!newSize && (flags & 2))
     {
@@ -69,8 +69,8 @@ void famas_act_80065E90(Actor_Famas *pActor)
                 DG_MovePos_8001BD20(&stru_800AB850);
                 ReadRotMatrix(&mtx);
 
-                d_800AB9EC_mag_size = newSize;
-                d_800ABA2C_ammo = 25;
+                GM_Magazine_800AB9EC = newSize;
+                GM_MagazineMax_800ABA2C = 25;
 
                 if ( !field_5C_mp5 )
                 {
@@ -180,7 +180,7 @@ Actor_Famas *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, 
     }
 
     v11 = 25;
-    if (d_800AB9EC_mag_size)
+    if (GM_Magazine_800AB9EC)
         v11 = 26;
 
     if (flag == 0)
@@ -192,14 +192,14 @@ Actor_Famas *NewFAMAS_8006623C(CONTROL *a1, OBJECT *parent_obj, int num_parent, 
             temp = (short)v11;
         }
 
-        d_800ABA2C_ammo = v11;
-        d_800AB9EC_mag_size = temp;
+        GM_MagazineMax_800ABA2C = v11;
+        GM_Magazine_800AB9EC = temp;
     }
     else
     {
         // @note(Voxel): Comments are possibly what is happening here. Suggested by WantedThing.
-        d_800AB9EC_mag_size = v11; // Set famas max magazine ammo.
-        d_800ABA2C_ammo = v11;      // Set current ammo.
+        GM_Magazine_800AB9EC = v11; // Set famas max magazine ammo.
+        GM_MagazineMax_800ABA2C = v11;      // Set current ammo.
     }
 
     return famas_actor;
