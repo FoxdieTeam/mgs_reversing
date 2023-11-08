@@ -2360,27 +2360,27 @@ void s00a_command_800CE634( WatcherWork *work )
         s00a_command_800CD210( work );
         break;
         case 1:
-            work->control.field_3A |= 0x1000;
+            work->control.field_3A_radar_atr |= 0x1000;
             s00a_command_800CD8B0( work );
         break;
         case 2:
-            work->control.field_3A |= 0x1000;
+            work->control.field_3A_radar_atr |= 0x1000;
             s00a_command_800CD608( work );
         break;
         case 3:
-            work->control.field_3A |= 0x1000;
+            work->control.field_3A_radar_atr |= 0x1000;
             s00a_command_800CD470( work );
         break;
         case 4:
-            work->control.field_3A |= 0x1000;
+            work->control.field_3A_radar_atr |= 0x1000;
             s00a_command_800CD478( work );
         break;
         case 5:
-            work->control.field_3A |= 0x1000;
+            work->control.field_3A_radar_atr |= 0x1000;
             s00a_command_800CDB88( work );
         break;
         case 7:
-            work->control.field_3A |= 0x1000;
+            work->control.field_3A_radar_atr |= 0x1000;
             s00a_command_800CDD80( work );
         break;
     }
@@ -2491,7 +2491,7 @@ void Enemy_Think_800CE99C( WatcherWork* work )
 {
     work->pad.dir = -1;
     work->pad.press = 0;
-    work->control.field_3A = 13;
+    work->control.field_3A_radar_atr = RADAR_VISIBLE | 0x4 | RADAR_ALL_MAP;
 
     switch ( work->think1 )
     {
