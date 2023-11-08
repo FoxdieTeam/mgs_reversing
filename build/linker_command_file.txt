@@ -464,6 +464,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s03e" or OVERLAY == "s03er" %}
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Game\evpanel.obj"
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Game\lamp.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\intr_cam.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
