@@ -382,7 +382,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\overlay_bss.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Game\pad.obj"
     include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj" ; animeconv\breath.c?
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
@@ -473,7 +473,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d03a\Okajima\uji.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Okajima\guncame.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\s03e_spark2_800C9CBC.obj"
+    include "{{OBJ_DIR}}\overlays\s03e\Anime\animeconv\unknown.obj"
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj"
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
@@ -511,7 +512,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\Game\cancel.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Game\tobcnt.obj"
     include "{{OBJ_DIR}}\overlays\s00a\chara\snake\breath.obj"
-    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\anime.obj" ; animeconv\breath.c?
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
     include "{{OBJ_DIR}}\overlays\s03e\chara\others\motse.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\snow.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\sphere.obj"
