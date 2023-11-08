@@ -198,16 +198,12 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
     return message;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C36B0.s")
-void s03e_evpanel_800C36B0(EvPanelWork *work);
-
-/*
 void s03e_evpanel_800C36B0(EvPanelWork *work)
 {
     GCL_ARGS args;
     int      code;
     int      proc;
-    long     arg;
+    long     data[1];
     char    *script;
     int      i;
 
@@ -223,11 +219,9 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
         if (i == work->field_32)
         {
             args.argc = 1;
-            args.argv = &arg;
-            arg = work->f8C.vy;
+            args.argv = data;
 
-            do {} while (0);
-
+            data[0] = work->f8C.vy;
             printf(s03e_aRotd_800CBF50, work->f8C.vy);
 
             GCL_ExecProc_8001FF2C(proc, &args);
@@ -235,7 +229,6 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
         }
     }
 }
-*/
 
 void s03e_evpanel_800C3778(EvPanelWork *work)
 {
