@@ -1,4 +1,4 @@
-#include "enemy.h"
+#include "enemy_externs.h"
 #include "Game/linkvarbuf.h"
 
 
@@ -1617,5 +1617,4 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
         work->pad.time = 0;
         UnsetMode2( work );
     }
-
 }
