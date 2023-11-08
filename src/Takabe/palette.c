@@ -128,7 +128,7 @@ void DG_ResetExtPaletteMakeFunc_800791E4(void)
     }
 }
 
-void sub_80079220(unsigned short *param_1, int param_2)
+void DG_MakeEffectPalette_80079220(unsigned short *param_1, int param_2)
 {
     if ((dword_8009F728 & 2) == 0)
     {

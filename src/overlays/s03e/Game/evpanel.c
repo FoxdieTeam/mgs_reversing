@@ -2,14 +2,15 @@
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
+#include "Game/vibrate.h"
 
 typedef struct EvPanelWork
 {
     GV_ACT         actor;
     DG_PRIM       *field_20; // POLY_FT4
     DG_PRIM       *field_24; // POLY_FT4
-    short          field_28;
-    short          field_2A;
+    unsigned short field_28;
+    unsigned short field_2A;
     unsigned short name;
     short          field_2E;
     short          field_30;
@@ -57,8 +58,16 @@ extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern int          GM_PlayerStatus_800ABA50;
+extern int          DG_UnDrawFrameCount_800AB380;
+extern int          GM_AlertMode_800ABA00;
+extern int          GM_CameraShakeOffset_800ABA98;
+extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern unsigned short s03e_dword_800C3268[]; // = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
+extern char           s03e_dword_800C3278[];
+extern char           s03e_dword_800C327C[];
+extern char           s03e_dword_800C3290[];
+extern char           s03e_dword_800C329C[];
 
 extern const char s03e_aMessagein_800CBF18[];    // = "message in\n"
 extern const char s03e_aMessageout_800CBF24[];   // = "message out\n"
@@ -66,6 +75,7 @@ extern const char s03e_aMessagex_800CBF34[];     // = "message %X\n"
 extern const char s03e_aNofloorproc_800CBF40[];  // = "NO FLOOR PROC\n"
 extern const char s03e_aRotd_800CBF50[];         // = "ROT %d\n"
 extern const char s03e_aReqdoorclose_800CBF58[]; // = "REQ:DOOR CLOSE\n"
+extern const char s03e_aInitopen_800CBF68[]; // = "INiTOPEN\n"
 
 void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
 {
@@ -189,6 +199,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C36B0.s")
+void s03e_evpanel_800C36B0(EvPanelWork *work);
 
 /*
 void s03e_evpanel_800C36B0(EvPanelWork *work)
@@ -374,9 +385,9 @@ void s03e_evpanel_800C3AD0(EvPanelWork *work)
     GM_SetCameraCallbackFunc_8002FD84(1, NULL);
 }
 
-void s03e_evpanel_800C3B14(EvPanelWork *work, int arg1)
+void s03e_evpanel_800C3B14(EvPanelWork *work, int message)
 {
-    if ((arg1 & 0x104) == 0x104)
+    if ((message & 0x104) == 0x104)
     {
         DG_VisiblePrim(work->field_20);
 
@@ -389,10 +400,421 @@ void s03e_evpanel_800C3B14(EvPanelWork *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_evpanel_800C3B74.s")
-void s03e_evpanel_800C3B74(EvPanelWork *);
+void EvpanelAct_800C3B74(EvPanelWork *work)
+{
+    int message;
+    int release;
+    int status;
+    int addend;
+    int code;
+    int offset;
 
-void s03e_evpanel_800C457C(EvPanelWork *work)
+    message = s03e_evpanel_800C3488(work);
+
+    switch(work->field_2E)
+    {
+    case 0:
+        if (message & 0x1)
+        {
+            if (work->field_36 < 0)
+            {
+                work->field_36 = 0;
+            }
+            else
+            {
+                work->field_36 = (GV_Time_800AB330 % 6) * 30;
+
+                if ((GV_Time_800AB330 & 0x7) == 0)
+                {
+                    work->field_36 = 300;
+                }
+            }
+
+            work->field_2E = 1;
+        }
+        else
+        {
+            s03e_evpanel_800C3B14(work, message);
+        }
+
+        if (!(message & 0x40))
+        {
+            return;
+        }
+
+        s03e_evpanel_800C39F8(work);
+
+        if (message & 0x400)
+        {
+            work->f8C.vy = work->f8C.pad;
+            work->field_4A = work->f8C.vy;
+        }
+
+        GM_Camera_800B77E8.field_2A = 0;
+        GM_Camera_800B77E8.field_26 = -1;
+
+        work->field_36 = 25;
+        work->field_2E = 9;
+
+        printf(s03e_aInitopen_800CBF68);
+
+        NewPadVibration_8005D58C(s03e_dword_800C3290, 1);
+        NewPadVibration_8005D58C(s03e_dword_800C329C, 2);
+
+        DG_UnDrawFrameCount_800AB380 = 0x7fff0000;
+
+        GM_Sound_80032C48(0xFF0000FE, 0);
+        return;
+
+    case 1:
+        DG_VisiblePrim(work->field_24);
+
+        s03e_evpanel_800C37FC(work, 1);
+        s03e_evpanel_800C33E0(work->field_24, work->field_2A);
+
+        if (work->field_36 == 30)
+        {
+            GM_SeSet2_80032968(0, 63, 113);
+        }
+
+        if (--work->field_36 < 0)
+        {
+            if (work->field_42 != 2)
+            {
+                s03e_evpanel_800C3898(work);
+            }
+
+            work->field_2E = 2;
+            GM_SeSet2_80032968(0, 63, 112);
+        }
+
+        s03e_evpanel_800C3B14(work, message);
+        break;
+
+    case 2:
+        s03e_evpanel_800C37FC(work, 2);
+        s03e_evpanel_800C3B14(work, message);
+
+        if (GM_AlertMode_800ABA00 != 0)
+        {
+            work->field_38 = 600;
+        }
+
+        if (work->field_42 == 0)
+        {
+            work->field_2E = 0;
+
+            s03e_evpanel_800C37FC(work, 1);
+            s03e_evpanel_800C33E0(work->field_24, work->field_28);
+
+            DG_VisiblePrim(work->field_24);
+            break;
+        }
+
+        if (work->field_44 < 1)
+        {
+            break;
+        }
+
+        if (work->field_42 == 1)
+        {
+            s03e_evpanel_800C3898(work);
+
+            if ((message & 0x2010) == 0x2010)
+            {
+                message &= ~0x2010;
+            }
+        }
+        else
+        {
+            work->field_38 = 600;
+        }
+        break;
+
+    case 3:
+        work->field_38 = 100;
+
+        if (message & 0x2)
+        {
+            if (GM_AlertMode_800ABA00 == 0)
+            {
+                if ((GM_Camera_800B77E8.field_22 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON))
+                {
+                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus_800ABA50 & PLAYER_UNK40000))
+                    {
+                        break;
+                    }
+                }
+
+                if (work->field_44 == 1)
+                {
+                    s03e_evpanel_800C39F8(work);
+                    work->field_32 = work->field_34;
+                    s03e_evpanel_800C3778(work);
+                    work->field_2E = 5;
+                    GM_SeSet2_80032968(0, 63, 21);
+                }
+            }
+        }
+        else if ((message & 0x108) == 0x108)
+        {
+            DG_InvisiblePrim(work->field_20);
+
+            if (work->field_42 == 1)
+            {
+                s03e_evpanel_800C3898(work);
+            }
+
+            work->field_2E = 2;
+        }
+        break;
+
+    case 5:
+    case 6:
+        work->field_38 = 100;
+
+        DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+
+        if (work->field_2E == 5)
+        {
+            if (!(GV_PadData_800B05C0[0].status & (PAD_SQUARE | PAD_CROSS | PAD_CIRCLE | PAD_TRIANGLE)))
+            {
+                work->field_2E = 6;
+            }
+        }
+        else
+        {
+            release = GV_PadData_800B05C0[0].release;
+            status = GV_PadData_800B05C0[0].status;
+
+            if (GV_PadData_800B05C0[0].press & (PAD_DOWN | PAD_UP))
+            {
+                if (GV_PadData_800B05C0[0].press & PAD_UP)
+                {
+                    addend = work->field_30 - 1;
+                }
+                else
+                {
+                    addend = 1;
+                }
+
+                work->field_32 = (work->field_32 + addend) % work->field_30;
+
+                s03e_evpanel_800C3778(work);
+                GM_SeSet2_80032968(0, 63, 31);
+            }
+
+            if (status & PAD_LEFT)
+            {
+                work->field_4A = (work->field_4A + 32) & 0xFFF;
+
+                if (GV_DiffDirS_8001704C(work->field_4A, work->field_3C) < 0)
+                {
+                    work->field_4A = work->field_3C;
+                }
+            }
+
+            work->f8C.vy = GV_NearExp4P_80026554(work->f8C.vy, work->field_4A);
+
+            if (status & PAD_RIGHT)
+            {
+                work->field_4A = (work->field_4A - 32) & 0xFFF;
+
+                if (GV_DiffDirS_8001704C(work->field_4A, work->field_3E) > 0)
+                {
+                    work->field_4A = work->field_3E;
+                }
+
+                work->f8C.vy = GV_NearExp4P_80026554(work->f8C.vy, work->field_4A);
+            }
+
+            if (release & PAD_CIRCLE)
+            {
+                if ((work->field_32 == work->field_34) || (work->field_32 == (work->field_30 - 1)))
+                {
+                    message |= 0x20;
+                }
+                else
+                {
+                    work->field_2E = 7;
+                    work->field_38 = 15;
+                }
+
+                GM_SeSet2_80032968(0, 63, 96);
+            }
+
+            if (release & PAD_CROSS)
+            {
+                message |= 0x20;
+            }
+        }
+
+        if ((GM_AlertMode_800ABA00 != 0) ||
+            ((message & 0x20) != 0) ||
+            ((GM_PlayerStatus_800ABA50 & PLAYER_UNK100) != 0) ||
+            (work->field_44 > 1))
+        {
+            s03e_evpanel_800C3AD0(work);
+
+            if (work->field_42 != 2)
+            {
+                s03e_evpanel_800C3898(work);
+            }
+
+            work->field_2E = 11;
+        }
+        break;
+
+    case 11:
+        if (GM_Camera_800B77E8.field_26 < 24)
+        {
+            work->field_42 = 2;
+            DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
+            GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+            work->field_2E = 3;
+        }
+        break;
+
+    case 7:
+        if ((work->field_44 > 1) || (GM_PlayerStatus_800ABA50 & PLAYER_UNK100))
+        {
+            s03e_evpanel_800C3AD0(work);
+
+            if (work->field_42 != 2)
+            {
+                s03e_evpanel_800C3898(work);
+
+                if ((message & 0x2010) == 0x2010)
+                {
+                    message &= ~0x2010;
+                }
+            }
+
+            work->field_2E = 11;
+            break;
+        }
+
+        if (work->field_42 == 0)
+        {
+            work->field_2E = 8;
+            work->field_36 = 30;
+
+            GM_GameStatus_800AB3CC |= 0x4a6200;
+            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+
+            if (work->field_32 < work->field_34)
+            {
+                code = 0x61;
+            }
+            else
+            {
+                code = 0x62;
+            }
+
+            s03e_evpanel_800C3950(work, code);
+
+            NewPadVibration_8005D58C(s03e_dword_800C3278, 1);
+            NewPadVibration_8005D58C(s03e_dword_800C327C, 2);
+        }
+        break;
+
+    case 8:
+        if (work->field_36 >= 1)
+        {
+            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+
+            work->field_36--;
+            if ((work->field_36 > 2) && (work->field_36 < 10))
+            {
+                GM_CameraShakeOffset_800ABA98 = work->field_36 / 2;
+
+                if ((work->field_36 & 0x1) != 0)
+                {
+                    GM_CameraShakeOffset_800ABA98 = -GM_CameraShakeOffset_800ABA98;
+                }
+            }
+        }
+        else
+        {
+            if (work->field_50 != 0)
+            {
+                s03e_evpanel_800C36B0(work);
+                work->field_50 = 0;
+            }
+
+            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+        }
+        break;
+
+    case 9:
+        GM_GameStatus_800AB3CC |= 0x104A2000;
+
+        if (work->field_36 >= 1)
+        {
+            if (--work->field_36 < 10)
+            {
+                if ((work->field_36 & 1) != 0)
+                {
+                    offset = work->field_36 / 4;
+                }
+                else
+                {
+                    offset = 0;
+                }
+
+                DG_OffsetDispEnv_80017784(offset);
+            }
+        }
+        else if (work->field_36 == 0)
+        {
+            work->field_36 = -1;
+            DG_UnDrawFrameCount_800AB380 = 0;
+            s03e_evpanel_800C3898(work);
+            GM_SeSet2_80032968(0, 63, 112);
+        }
+
+        if ((message & 0x1010) == 0x1010)
+        {
+            work->field_36 = 30;
+            work->field_2E = 10;
+        }
+        break;
+
+    case 10:
+        if (work->field_36-- == 1)
+        {
+            s03e_evpanel_800C3AD0(work);
+            work->field_2E = 11;
+            GM_GameStatus_800AB3CC &= ~0x104A2000;
+            s03e_evpanel_800C33E0(work->field_24, work->field_2A);
+            break;
+        }
+        break;
+    }
+
+    if ((message & 0x2010) == 0x2010)
+    {
+        if (work->field_42 == 1)
+        {
+            work->field_42 = 0;
+            work->field_38 = 0;
+        }
+    }
+    else if (work->field_38 > 0)
+    {
+        if ((work->field_2E != 7) && (work->field_44 > 0))
+        {
+            work->field_38 = 30;
+        }
+
+        if (work->field_38-- == 1)
+        {
+            s03e_evpanel_800C38F4(work);
+        }
+    }
+}
+
+void EvpanelDie_800C457C(EvPanelWork *work)
 {
     DG_PRIM *prim;
 
@@ -537,7 +959,7 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     return 1;
 }
 
-int s03e_evpanel_800C496C(EvPanelWork *work, int map, int name, int arg3)
+int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
 {
     GM_CurrentMap_800AB9B0 = map;
 
@@ -593,7 +1015,7 @@ int s03e_evpanel_800C496C(EvPanelWork *work, int map, int name, int arg3)
     return -1;
 }
 
-GV_ACT *s03e_evpanel_800C4AD8(int name, int where, int argc, char **argv)
+GV_ACT *NewEvpanel_800C4AD8(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
     int          count;
@@ -602,9 +1024,9 @@ GV_ACT *s03e_evpanel_800C4AD8(int name, int where, int argc, char **argv)
     work = (EvPanelWork *)GV_NewActor_800150E4(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_evpanel_800C3B74,
-                                  (TActorFunction)s03e_evpanel_800C457C, s03e_dword_800CBFA8);
-        if (s03e_evpanel_800C496C(work, where, name, count) < 0)
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EvpanelAct_800C3B74,
+                                  (TActorFunction)EvpanelDie_800C457C, s03e_dword_800CBFA8);
+        if (EvpanelGetResources_800C496C(work, where, name, count) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
