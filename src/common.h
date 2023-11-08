@@ -4,6 +4,8 @@
 #define __min(x, y) (((x) < (y)) ? (x) : (y))
 #define __max(x, y) (((x) > (y)) ? (x) : (y))
 
+#define ABS(x) (((x) >= 0) ? (x) : -(x))
+
 #define DCache 0x1F8003FC
 
 // Put stack on scratchpad
