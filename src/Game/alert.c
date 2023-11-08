@@ -26,7 +26,7 @@ void         GM_Sound_80032C48( int code, int notUsed );
 
 typedef enum // GM_RadarMode_800ABA80
 {
-	RADAR_VISIBLE = 0,
+	RADAR_ENABLED = 0,
 	RADAR_JAMMED = 1,
 	RADAR_EVASION = 2,
 	RADAR_ALERT = 3
@@ -224,7 +224,7 @@ void GM_AlertAct_8002E91C( void )
 					case RADAR_EVASION:
 						GM_Sound_80032C48( 0x01FFFF10, 0 );
 						break;
-					case RADAR_VISIBLE:
+					case RADAR_ENABLED:
 						sub_8002E508( dword_800ABA78[0] );
 						break;
 					}
