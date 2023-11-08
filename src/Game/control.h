@@ -27,6 +27,13 @@ enum
 	CTRL_BOTH_CHECK      = 0x08,
 }; // can't typedef char enums :(
 
+enum // radar_attr
+{
+    RADAR_VISIBLE = 0x1,
+    // RADAR_SIGHT = 0x2 or 0x4?
+    RADAR_ALL_MAP = 0x8,
+};
+
 typedef struct CONTROL
 {
     // Position vector, mainly controlled by 80025A7C().
@@ -58,7 +65,7 @@ typedef struct CONTROL
     short field_34_hzd_height;
     short field_36;
     short field_38;
-    short field_3A;
+    short field_3A_radar_atr;
 
     SVECTOR field_3C;
     // short field_3C;

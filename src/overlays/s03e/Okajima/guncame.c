@@ -10,14 +10,7 @@ typedef struct GunCamEWork
     CONTROL  field_20;
     OBJECT   field_9C;
     MATRIX   field_180[2];
-    int      field_1C0;
-    int      field_1C4;
-    int      field_1C8;
-    int      field_1CC;
-    int      field_1D0;
-    int      field_1D4;
-    int      field_1D8;
-    int      field_1DC;
+    MATRIX   world;
     TARGET  *field_1E0;
     int      field_1E4;
     int      field_1E8;
@@ -102,6 +95,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
+extern SVECTOR s03e_svec_800CC0F4;
 
 int  s03e_guncame_800C8978(GunCamEWork *work, int, int);
 void s03e_guncame_800C80F4(GunCamEWork *work);
@@ -469,8 +463,250 @@ void s03e_guncame_800C8030(GunCamEWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C80F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8940.s")
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C8978.s")
+
+void s03e_guncame_800C8940(GunCamEWork *work)
+{
+    CONTROL *control;
+    SVECTOR *vec;
+
+    control = &work->field_20;
+    control->field_3A_radar_atr |= 0x2000;
+
+    vec = &work->field_20.field_3C;
+    vec->vx = 0;
+    vec->vy = work->field_364;
+    vec->vz = work->field_368 * 2;
+    vec->pad = 0;
+}
+
+int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
+{
+    SVECTOR disp_local;
+    SVECTOR pos;
+    SVECTOR dir;
+    SVECTOR disp_world;
+    MATRIX  rot;
+    int     opt;
+    char   *param;
+
+    disp_world = s03e_svec_800CC0F4;
+
+    opt = GCL_GetOption_80020968('m');
+    if (opt != NULL)
+    {
+        work->field_360 = GCL_StrToInt_800209E8((char *)opt);
+        if (work->field_360 != 1)
+        {
+            work->field_360 = 0;
+        }
+    }
+    else
+    {
+        work->field_360 = 0;
+    }
+
+    opt = GCL_GetOption_80020968('l');
+    if (opt != NULL)
+    {
+        work->field_364 = GCL_StrToInt_800209E8((char *)opt);
+    }
+    else
+    {
+        work->field_364 = 0xFFFF;
+    }
+
+    opt = GCL_GetOption_80020968('w');
+    if (opt != NULL)
+    {
+        work->field_368 = GCL_StrToInt_800209E8((char *)opt);
+    }
+    else
+    {
+        work->field_368 = 512;
+    }
+
+    opt = GCL_GetOption_80020968('p');
+    if (opt != NULL)
+    {
+        s03e_guncame_800C7154(opt, &pos);
+    }
+    else
+    {
+        pos = DG_ZeroVector_800AB39C;
+    }
+
+    opt = GCL_GetOption_80020968('d');
+    if (opt != NULL)
+    {
+        s03e_guncame_800C7154(opt, &dir);
+    }
+    else
+    {
+        dir = DG_ZeroVector_800AB39C;
+    }
+
+    work->field_20.field_0_mov = pos;
+    work->field_20.field_4C_turn = dir;
+
+    RotMatrixYXZ_gte(&dir, &rot);
+    ApplyMatrixSV(&rot, &disp_world, &disp_local);
+
+    work->field_20.field_0_mov.vx -= disp_local.vx;
+    work->field_20.field_0_mov.vy -= disp_local.vy;
+    work->field_20.field_0_mov.vz -= disp_local.vz;
+
+    DG_SetPos2_8001BC8C(&pos, &dir);
+    ReadRotMatrix(&work->world);
+
+    opt = GCL_GetOption_80020968('r');
+    if (opt != NULL)
+    {
+        s03e_guncame_800C7154(opt, &pos);
+        work->field_20.field_4C_turn.vx += pos.vx;
+        work->field_20.field_4C_turn.vy += pos.vy;
+    }
+
+    work->field_20.field_8_rot = work->field_20.field_4C_turn;
+    work->field_330 = work->field_20.field_4C_turn;
+
+    opt = GCL_GetOption_80020968('x');
+    if (opt != NULL)
+    {
+        work->field_36C = GCL_StrToInt_800209E8((char *)opt);
+    }
+    else
+    {
+        work->field_36C = 512;
+    }
+
+    opt = GCL_GetOption_80020968('g');
+    if (opt != NULL)
+    {
+        param = GCL_Get_Param_Result_80020AA4();
+        if (param != NULL)
+        {
+            work->field_370 = GCL_StrToInt_800209E8(param);
+        }
+
+        param = GCL_Get_Param_Result_80020AA4();
+        if (param != NULL)
+        {
+            work->field_374 = GCL_StrToInt_800209E8(param);
+        }
+    }
+    else
+    {
+        work->field_370 = 1;
+        work->field_374 = 30;
+    }
+
+    opt = GCL_GetOption_80020968('v');
+    if (opt != NULL)
+    {
+        work->field_418 = 1;
+    }
+    else
+    {
+        work->field_418 = 0;
+    }
+
+    work->field_340 = 0;
+
+    if (work->field_360 == 1)
+    {
+        if ((work->field_418 == 0) && (GV_RandU_80017090(2) == 0))
+        {
+            work->field_344 = 3;
+        }
+        else
+        {
+            work->field_344 = 2;
+        }
+    }
+    else
+    {
+        work->field_344 = 4;
+    }
+
+    work->field_3F4.vx = 0;
+    work->field_3F4.vy = 255;
+    work->field_3F4.vz = 0;
+
+    opt = GCL_GetOption_80020968('n');
+    if (opt != NULL)
+    {
+        work->field_3F0 = 0;
+        GM_ConfigControlAttribute_8002623C(&work->field_20, 0x3);
+    }
+    else
+    {
+        work->field_3F0 = 1;
+        GM_ConfigControlAttribute_8002623C(&work->field_20, 0x47);
+        s03e_guncame_800C8940(work);
+    }
+
+    opt = GCL_GetOption_80020968('o');
+    if (opt != NULL)
+    {
+        work->field_3E8 = 1;
+    }
+    else
+    {
+        work->field_3E8 = 0;
+    }
+
+    work->field_348 = 0;
+    work->field_34C = 0;
+    work->field_354 = 0;
+    work->field_358 = 0;
+    work->field_35C = 0;
+    work->field_3C4 = 0;
+    work->field_3C8 = 0;
+    work->field_3CC = 0;
+    work->field_3D0 = -1;
+    work->field_3D8 = 0;
+    work->field_3EC = 0;
+
+    opt = GCL_GetOption_80020968('e');
+    if (opt != NULL)
+    {
+        work->field_3D4 = GCL_StrToInt_800209E8((char *)opt);
+    }
+    else
+    {
+        work->field_3D4 = -1;
+    }
+
+    opt = GCL_GetOption_80020968('a');
+    if (opt != NULL)
+    {
+        work->field_3E0 = GCL_StrToInt_800209E8((char *)opt);
+        if (work->field_3E0 < 2)
+        {
+            work->field_3E0 = 2;
+        }
+    }
+    else
+    {
+        work->field_3E0 = 2;
+    }
+
+    opt = GCL_GetOption_80020968('b');
+    if (opt != NULL)
+    {
+        work->field_3E4 = GCL_StrToInt_800209E8((char *)opt);
+        if (work->field_3E4 < 2)
+        {
+            work->field_3E4 = 2;
+        }
+    }
+    else
+    {
+        work->field_3E4 = 2;
+    }
+
+    return 0;
+}
 
 void s03e_guncame_800C8E04(POLY_FT4* poly, DG_TEX* tex, int col) {
 
