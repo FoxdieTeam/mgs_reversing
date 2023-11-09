@@ -43,7 +43,7 @@ void d_blood_act_80072A0C(Actor_DBlood *pActor)
     {
     case 0:
         if (((GM_PlayerStatus_800ABA50 & (PLAYER_FIRST_PERSON_DUCT | PLAYER_MOVING |
-                                          PLAYER_PRONE | PLAYER_PAD_OFF)) == PLAYER_PRONE) &&
+                                          PLAYER_GROUND | PLAYER_PAD_OFF)) == PLAYER_GROUND) &&
             (GV_PadData_800B05C0[0].press & PAD_CIRCLE))
         {
             if (d_blood_act_helper_800729B4())

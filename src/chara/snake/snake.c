@@ -41,7 +41,7 @@ void sna_start_anim_8004E1F4(Actor_SnaInit *pActor, void *pFn)
     pActor->field_A3A = 0;
     pActor->field_A38_local_data = 0;
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_PRONE) != 0)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_GROUND) != 0)
     {
         vec_x = pActor->field_A2A;
     }
