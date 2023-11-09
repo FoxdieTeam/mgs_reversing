@@ -1,15 +1,15 @@
 #include "Anime/animeconv/anime.h"
 
+extern SVECTOR   DG_ZeroVector_800AB39C;
 extern ANIMATION stru_8009F0D4;
 extern ANIMATION stru_8009F0F0;
-extern SVECTOR   DG_ZeroVector_800AB39C;
 extern ANIMATION anm_800C3B78;
 extern ANIMATION anm_800C3B94;
 extern ANIMATION anm_800C3BB0;
 extern ANIMATION anm_800C3BCC;
 extern ANIMATION anm_800C3BE8;
 
-void s01a_searchli_800D6898(MATRIX *pos)
+void AN_Unknown_800D6898(MATRIX *pos)
 {
     PRESCRIPT  pre;
     SVECTOR   *pPos;
@@ -134,7 +134,7 @@ void s01a_searchli_800D6898(MATRIX *pos)
     }
 }
 
-void s01a_searchli_800D6BCC(SVECTOR *pos, SVECTOR *rot)
+void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
 {
     PRESCRIPT  pre;
     SVECTOR   *pPos;
@@ -237,7 +237,7 @@ void s01a_searchli_800D6BCC(SVECTOR *pos, SVECTOR *rot)
     }
 }
 
-void s01a_searchli_800D6EB0(SVECTOR *pos)
+void AN_Unknown_800D6EB0(SVECTOR *pos)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
@@ -253,7 +253,7 @@ void s01a_searchli_800D6EB0(SVECTOR *pos)
     NewAnime_8005FBC8(NULL, 0, anm);
 }
 
-void s01a_searchli_800D6F6C(SVECTOR *pos)
+void AN_Unknown_800D6F6C(SVECTOR *pos)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
@@ -269,7 +269,7 @@ void s01a_searchli_800D6F6C(SVECTOR *pos)
     NewAnime_8005FBC8(NULL, 0, anm);
 }
 
-void s01a_searchli_800D7028(SVECTOR *pos, int num)
+void AN_Unknown_800D7028(SVECTOR *pos, int num)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
@@ -285,7 +285,7 @@ void s01a_searchli_800D7028(SVECTOR *pos, int num)
     NewAnime_8005FBC8(NULL, 0, anm);
 }
 
-void s01a_searchli_800D70E4(SVECTOR *pos, char r, char g, char b)
+void AN_Unknown_800D70E4(SVECTOR *pos, char r, char g, char b)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;
