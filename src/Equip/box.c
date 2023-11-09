@@ -26,8 +26,7 @@ int BoxCheckMessage_8006195C(Actor_Box *pActor)
 
     for (count = pCtrl->field_56; count > 0; pMsg++, count--)
     {
-        /* "段ボール" */
-        if (GV_StrCode_80016CCC("\xC3\xCA\xA5\xDC\xA1\xBC\xA5\xEB") == pMsg->message[0])
+        if (GV_StrCode_80016CCC("段ボール") == pMsg->message[0])
         {
             message = pMsg->message[1];
 

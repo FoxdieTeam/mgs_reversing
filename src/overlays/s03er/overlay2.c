@@ -37,8 +37,9 @@ const int s03e_dword_800CC074 = 0x800C7544;
 const int s03e_dword_800CC078 = 0x800C7564;
 const int s03e_dword_800CC07C = 0x800C7584;
 const int s03e_dword_800CC080 = 0x800C75A4;
-const char s03e_dword_800CC084[] = {0x0, 0x0, 0xb0, 0xff};
-const char s03e_dword_800CC088[] = {0x0, 0x0, 0x0, 0x0};
+
+const SVECTOR s03e_svec_800CC084 = {0, -80, 0, 0};
+
 const char s03e_aKill_800CC08C[] = "kill";
 const char s03e_dword_800CC094[] = {0xb2, 0xbb, 0xc6, 0xfe};
 const char s03e_dword_800CC098[] = {0xa4, 0xec, 0xa4, 0xeb};

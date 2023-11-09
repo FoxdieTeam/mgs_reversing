@@ -1,6 +1,6 @@
 #include "psyq.h"
 
-const char aYuki[] = "\xc0\xe3"; // "雪" = snow
+const char aYuki[] = "雪"; // snow
 const char aSnowC[] = {'s', 'n', 'o', 'w', '.', 'c', 0x0, 'r'};
 
 const char aSphereC[] = {'s', 'p', 'h', 'e', 'r', 'e', '.', 'c', 0x0, '\n', 'R', 'e'};

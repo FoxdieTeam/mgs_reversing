@@ -11,8 +11,8 @@ extern int     GM_CurrentMap_800AB9B0;
 
 extern RedAlrtWork *d03a_dword_800C3270;
 
-extern const char d03a_dword_800C7980[];  // = "\xb3\xab\xa4\xaf";         // 開く = close
-extern const char d03a_dword_800C7988[];  // = "\xca\xc4\xa4\xe1\xa4\xeb"; // 閉める = open
+extern const char d03a_dword_800C7980[];  // = "開く";   // close
+extern const char d03a_dword_800C7988[];  // = "閉める"; // open
 extern const char d03a_aOpen_800C7990[];  // = "open"
 extern const char d03a_aClose_800C7998[]; // = "close"
 extern const char d03a_aKill_800C79A0[];  // = "kill"
