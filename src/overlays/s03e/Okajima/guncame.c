@@ -160,7 +160,7 @@ void s03e_guncame_800C7068(GunCamEWork *work)
     }
 }
 
-void s03e_guncame_800C7118(DG_PRIM *prim, int unused, int r, int g, int b)
+void s03e_guncame_800C7118(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 

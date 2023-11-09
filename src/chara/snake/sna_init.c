@@ -850,8 +850,7 @@ void sna_8004F8E4(Actor_SnaInit *pActor, int a2)
 
     if ((GM_GameOverTimer_800AB3D4 == -1) || (GM_GameOverTimer_800AB3D4 == 0))
     {
-        // スネーク
-        msg.address = GV_StrCode_80016CCC(( char[] ){0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00});
+        msg.address = GV_StrCode_80016CCC("スネーク");
         msg.message_len = 6;
         msg.message[0] = 48650;
         msg.message[1] = a2;
