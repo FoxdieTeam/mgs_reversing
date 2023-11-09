@@ -168,7 +168,7 @@ includes = "-I " + args.psyq_path + "/psyq_4.4/INCLUDE" + " -I $src_dir"
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
-ninja.rule("convert_c_encoding", "iconv -f UTF8 -t EUCJP -o $out $in", "Convert $in from UTF-8 to EUC-JP")
+ninja.rule("convert_c_encoding", "iconv -f UTF8 -t EUCJP < $in > $out", "Convert $in from UTF-8 to EUC-JP")
 ninja.newline()
 
 # generate header deps, adds edges to the build graph for the next build -M option will write header deps
