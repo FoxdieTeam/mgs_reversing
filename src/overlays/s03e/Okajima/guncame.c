@@ -99,20 +99,13 @@ extern int     GM_PlayerMap_800ABA0C;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
 extern int     s03e_dword_800C32BC;
-extern SVECTOR s03e_svec_800CC084;
-
-extern const char s03e_aKill_800CC08C[]; // = "kill";
-extern const char s03e_dword_800CC094[]; // = "\xb2\xbb\xc6\xfe\xa4\xec\xa4\xeb"         // 音入れる
-extern const char s03e_dword_800CC0A0[]; // = "\xb2\xbb\xc0\xda\xa4\xeb"                 // 音切る
-extern const char s03e_dword_800CC0A8[]; // = "\xbb\xeb\xce\xcf\xcc\xe1\xa4\xb9"         // 視力戻す
-extern const char s03e_dword_800CC0B4[]; // = "\xbb\xeb\xce\xcf\xcc\xb5\xa4\xaf\xa4\xb9" // 視力無くす
-extern const char s03e_dword_800CC0C0[]; // = "\xbd\xe8\xcd\xfd\xba\xc6\xb3\xab";        // 処理再開
-extern const char s03e_dword_800CC0CC[]; // = "\xbd\xe8\xcd\xfd\xc4\xe4\xbb\xdf"         // 処理停止
 
 void AN_Unknown_800C9CBC(MATRIX *world, int index);
+void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
 GV_ACT * NewSpark2_800CA714(MATRIX *world);
+GV_ACT * NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int s03e_guncame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -227,8 +220,81 @@ void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
 #pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
 int s03e_guncame_800C7224(GunCamEWork *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C73D0.s")
-void s03e_guncame_800C73D0(GunCamEWork *work);
+void s03e_guncame_800C73D0(GunCamEWork *work)
+{
+    MATRIX pos;
+    int    f3C4;
+
+    dword_8009F480 = 0;
+
+    s03e_guncame_800C6FF8(work);
+
+    if ((work->field_3C4 == 0) && ((work->field_39C > 0) && (work->field_39C < 3)))
+    {
+        work->field_3C4 = 1;
+        work->field_3C8 = GV_RandU_80017090(4096) % work->field_3E4 + work->field_3E0;
+
+        dword_8009F480 = 0;
+    }
+
+    f3C4 = work->field_3C4;
+    if (f3C4 == 1)
+    {
+        if ((--work->field_3C8 == 0) && s03e_guncame_800C7224(work))
+        {
+            dword_8009F480 = f3C4;
+        }
+
+        if (work->field_3C8 < 0)
+        {
+            dword_8009F480 = 0;
+            work->field_3C4 = 0;
+        }
+    }
+
+    DG_SetPos2_8001BC8C(&work->field_338, &work->control.field_8_rot);
+    ReadRotMatrix(&pos);
+
+    if (GM_GameStatus_800AB3CC & (PLAYER_UNK80000000 | PLAYER_DEADORDYING | PLAYER_CAN_USE_CONTROLLER_PORT_2))
+    {
+        NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
+    }
+    else
+    {
+        switch(GM_DifficultyFlag)
+        {
+        case DIFFICULTY_VERY_EASY:
+        case DIFFICULTY_EASY:
+        default:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
+            break;
+
+        case DIFFICULTY_NORMAL:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
+            break;
+
+        case DIFFICULTY_HARD:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
+            break;
+
+        case DIFFICULTY_EXTREME:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
+            break;
+        }
+    }
+
+    AN_Unknown_800D6BCC(&work->field_338, &work->control.field_8_rot);
+}
+
+const SVECTOR s03e_svec_800CC084 = {0, -80, 0, 0};
+
+const char s03e_aKill_800CC08C[] = "kill";
+const char s03e_dword_800CC094[] = {0xb2, 0xbb, 0xc6, 0xfe, 0xa4, 0xec, 0xa4, 0xeb, 0x0, 0x0, 0x0, 0x0};
+const char s03e_dword_800CC0A0[] = {0xb2, 0xbb, 0xc0, 0xda, 0xa4, 0xeb, 0x0, 0x0};
+const char s03e_dword_800CC0A8[] = {0xbb, 0xeb, 0xce, 0xcf, 0xcc, 0xe1, 0xa4, 0xb9, 0x0, 0x0, 0x0, 0x0};
+const char s03e_dword_800CC0B4[] = {0xbb, 0xeb, 0xce, 0xcf, 0xcc, 0xb5, 0xa4, 0xaf, 0xa4, 0xb9, 0x0, 0x0};
+const char s03e_dword_800CC0C0[] = {0xbd, 0xe8, 0xcd, 0xfd, 0xba, 0xc6, 0xb3, 0xab, 0x0, 0x0, 0x0, 0x0};
+const char s03e_dword_800CC0CC[] = {0xbd, 0xe8, 0xcd, 0xfd, 0xc4, 0xe4, 0xbb, 0xdf, 0x0, 0x0, 0x0, 0x0};
 
 void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
 {
