@@ -123,7 +123,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
         return 0;
     }
 
-    if ((s01a_dword_800E4DC0 != 1) && (GM_PlayerStatus_800ABA50 & PLAYER_UNK1000))
+    if ((s01a_dword_800E4DC0 != 1) && (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
     {
         if (work->f290 == 0)
         {

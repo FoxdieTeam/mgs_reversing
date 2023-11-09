@@ -161,7 +161,7 @@ void s00a_o2_damge_800DE5B8(O2DamgeWork *work)
             // "We haven't managed to avoid drowning"
             if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer_800AB3D4 == 0) && !sna_ration_available_8004FB4C())
             {
-                s00a_o2_damge_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_PRONE) ? 0xEF61 : 0xB9AA);
+                s00a_o2_damge_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
                 GM_GameOver_8002B6C8();
             }
         }

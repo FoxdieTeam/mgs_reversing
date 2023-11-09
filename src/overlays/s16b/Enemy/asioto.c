@@ -52,7 +52,7 @@ int asioto_800C392C(Work *work)
 
 int asioto_800C394C()
 {
-    return (GM_PlayerStatus_800ABA50 & (PLAYER_ON_WALL | PLAYER_PRONE | PLAYER_MOVING)) == PLAYER_MOVING;
+    return (GM_PlayerStatus_800ABA50 & (PLAYER_ON_WALL | PLAYER_GROUND | PLAYER_MOVING)) == PLAYER_MOVING;
 }
 
 int asioto_800C396C(Work *work)

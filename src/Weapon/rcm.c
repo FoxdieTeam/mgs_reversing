@@ -95,7 +95,7 @@ void rcm_act_80066BC0(Actor_Rcm *pActor)
 
     GM_CurrentMap_800AB9B0 = mapBit;
 
-    if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_UNK1000))
+    if ((pActor->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
     {
         DG_InvisibleObjs( pActor->f20_obj.objs );
         DG_InvisiblePrim( pActor->field_5C_pPrim );
