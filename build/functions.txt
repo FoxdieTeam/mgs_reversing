@@ -796,7 +796,7 @@
 80038DE0 72 menu_DrawBar2_80038DE0
 80038E28 264 menu_SetRadarScale_80038E28
 80038F30 12 menu_SetRadarFunc_80038F30
-80038F3C 448 draw_radar_helper2_helper_80038F3C
+80038F3C 448 draw_radar_vision_cone_80038F3C
 800390FC 212 draw_radar_helper_800390FC
 800391D0 2956 draw_radar_helper2_800391D0
 80039D5C 88 sub_80039D5C
