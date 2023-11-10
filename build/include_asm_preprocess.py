@@ -21,7 +21,7 @@ ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 TMP_DIR = 'include_asm_tmp'
 
 def main(path, output):
-    with open(path) as f:
+    with open(path, encoding='utf8') as f:
         lines = f.readlines()
 
     processed = []
@@ -81,7 +81,7 @@ def main(path, output):
         processed.append(func)
         depends.append(include_path.replace('.s', '.obj').replace('asm/', 'obj/'))
 
-    with open(output, 'w') as f:
+    with open(output, 'w', encoding='utf8') as f:
         f.write(''.join(processed))
 
     with open(output + '.deps', 'w') as f:
