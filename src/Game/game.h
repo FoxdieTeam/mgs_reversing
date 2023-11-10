@@ -70,6 +70,7 @@ typedef int (*TBombFunction2)(int, CONTROL *, int *);
 typedef int (*TBombFunction3)(TARGET *, int);
 typedef int (*TPlayerActFunction)(GV_ACT *);
 
+// Missing flags with unknown value: PLAYER_ACT_ONLY, PLAYER_INTRUDE
 typedef enum
 {
     PLAYER_FIRST_PERSON = 0x1,
@@ -77,8 +78,8 @@ typedef enum
     PLAYER_UNK4 = 0x4,
     PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
     PLAYER_MOVING = 0x10,
-    PLAYER_CROUCHING = 0x20,
-    PLAYER_PRONE = 0x40,
+    PLAYER_SQUAT = 0x20,
+    PLAYER_GROUND = 0x40,
     // stops movement and actions. - item/weap switching + pause/radio still available
     PLAYER_UNK80 = 0x80,
     // hit flinch, step on claymore
@@ -88,7 +89,7 @@ typedef enum
     // cleared leaving first person
     PLAYER_UNK400 = 0x400,
     PLAYER_PREVENT_FIRST_PERSON = 0x800,
-    PLAYER_UNK1000 = 0x1000,
+    PLAYER_CB_BOX = 0x1000,
     // triggers game over when set. could this be the 'dead' flag?
     PLAYER_GAMEOVER = 0x2000,
     // anther first person flag

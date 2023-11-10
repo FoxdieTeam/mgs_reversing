@@ -67,7 +67,7 @@ void d_bloodr_act_80072C10(Actor_DBloodr *pActor)
 
     if (pActor->field_D4_sequence >= 100)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_PRONE)
+        if (GM_PlayerStatus_800ABA50 & PLAYER_GROUND)
         {
             GV_SubVec3_80016D40(&GM_PlayerPosition_800ABA10, &pActor->field_A4_positions[0], &diff);
 

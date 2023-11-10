@@ -914,7 +914,7 @@ int sub_8003DF30(int weaponId)
     {
         return 1;
     }
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_PRONE) && weaponId == WEAPON_STINGER)
+    if ((GM_PlayerStatus_800ABA50 & PLAYER_GROUND) && weaponId == WEAPON_STINGER)
     {
         return 1;
     }

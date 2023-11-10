@@ -110,6 +110,7 @@ void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
     /* ＭＧＳ∫ */
     /* 　 */
     /* ＰＨＯＴＯ */
+    // Shift-JIS
     sprintf(buf, "%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", "\x81\x40", "\x82\x6F\x82\x67\x82\x6E\x82\x73\x82\x6E", photo_id);
 }
 

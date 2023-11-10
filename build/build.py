@@ -168,6 +168,9 @@ includes = "-I " + args.psyq_path + "/psyq_4.4/INCLUDE" + " -I $src_dir"
 ninja.rule("psyq_c_preprocess_44", "$psyq_c_preprocessor_44_exe -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess $in -> $out")
 ninja.newline()
 
+ninja.rule("convert_c_encoding", f"{sys.executable} $src_dir/../build/convjp.py $in $out", "Convert $in from UTF-8 to EUC-JP")
+ninja.newline()
+
 # generate header deps, adds edges to the build graph for the next build -M option will write header deps
 ninja.rule("psyq_c_preprocess_44_headers", "$psyq_c_preprocessor_44_exe -M -undef -D__GNUC__=2 -D__OPTIMIZE__ " + includes + " -lang-c -Dmips -D__mips__ -D__mips -Dpsx -D__psx__ -D__psx -D_PSYQ -D__EXTENSIONS__ -D_MIPSEL -D__CHAR_UNSIGNED__ -D_LANGUAGE_C -DLANGUAGE_C $in $out", "Preprocess for includes $in -> $out")
 ninja.newline()
@@ -311,6 +314,7 @@ def gen_build_target(targetName):
         cOFile = cFile.replace("/src/", f"/{args.obj_directory}/")
         cPreProcHeadersFile = cOFile.replace(".c", ".c.preproc.headers")
         cPreProcHeadersFixedFile = cOFile.replace(".c", ".c.preproc.headers_fixed")
+        cConvertedFile = cOFile.replace(".c", ".c.eucjp")
         cPreProcFile = cOFile.replace(".c", ".c.preproc")
         cDynDepFile = cOFile.replace(".c", ".c.dyndep")
         cAsmPreProcFile = cOFile.replace(".c", ".c.asm.preproc")
@@ -340,7 +344,8 @@ def gen_build_target(targetName):
 
         ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
         ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-        ninja.build(cAsmFile, compiler, cAsmPreProcFile, variables= { "gSize": get_file_global_size(cFile) })
+        ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
+        ninja.build(cAsmFile, compiler, cConvertedFile, variables= { "gSize": get_file_global_size(cFile) })
         ninja.build(cTempOFile, aspsx, cAsmFile)
         ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
 

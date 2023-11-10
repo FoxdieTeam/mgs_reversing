@@ -1293,10 +1293,6 @@ int s00a_command_800CCDA0( WatcherWork *work )
 }
 
 extern int GM_PlayerStatus_800ABA50;
-//will rename and add to player status afterwards
-#define PLAYER_GROUND    0x40
-#define PLAYER_SQUAT     0x20
-#define PLAYER_CB_BOX  0x1000
 
 int Think3_AttackSetup_800CCE08( WatcherWork *work )
 {

@@ -603,7 +603,7 @@ void sub_8004F204(Actor_SnaInit *pActor)
         sna_8004EC00(pActor);
     }
 
-    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_UNK1000);
+    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_CB_BOX);
 }
 
 void sna_set_invuln_8004F2A0(Actor_SnaInit *pActor, char invuln_frames)
@@ -646,8 +646,8 @@ void sub_8004F338(Actor_SnaInit *pActor)
     GM_ExitBehindCamera_80030AEC();
 
     GM_PlayerStatus_800ABA50 &= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_UNK4000000 |
-                                PLAYER_GAMEOVER | PLAYER_UNK1000 | PLAYER_FIRST_PERSON_DUCT |
-                                PLAYER_UNK4 | PLAYER_CROUCHING | PLAYER_PRONE;
+                                PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_FIRST_PERSON_DUCT |
+                                PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
 
     if ((pActor->field_920_tbl_8009D580 & 0x200) != 0)
     {
@@ -851,7 +851,7 @@ void sna_8004F8E4(Actor_SnaInit *pActor, int a2)
     if ((GM_GameOverTimer_800AB3D4 == -1) || (GM_GameOverTimer_800AB3D4 == 0))
     {
         // スネーク
-        msg.address = GV_StrCode_80016CCC(( char[] ){0xA5, 0xB9, 0xA5, 0xCD, 0xA1, 0xBC, 0xA5, 0xAF, 0x00, 0x00, 0x00, 0x00});
+        msg.address = GV_StrCode_80016CCC("スネーク");
         msg.message_len = 6;
         msg.message[0] = 48650;
         msg.message[1] = a2;
@@ -874,7 +874,7 @@ void sna_8004F8E4(Actor_SnaInit *pActor, int a2)
             GCL_ForceExecProc_8001FEFC(pActor->field_A70, NULL);
         }
 
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000))
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX))
         {
             sub_8004F204(pActor);
         }
@@ -1803,7 +1803,7 @@ static inline int sna_weapon_switching_helper_800511BC(Actor_SnaInit *pActor)
         return 0;
     }
 
-    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000 | PLAYER_UNK200 | PLAYER_UNK100 | PLAYER_UNK4))
+    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX | PLAYER_UNK200 | PLAYER_UNK100 | PLAYER_UNK4))
     {
         return 0;
     }
@@ -2191,7 +2191,7 @@ void sna_anim_crouch_800527DC(Actor_SnaInit *pActor, int time)
     if ((time == 0 && pActor->field_A26_stance != SNA_STANCE_STANDING) ||
         (time == 4 && pActor->field_A26_stance == SNA_STANCE_STANDING))
     {
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_CROUCHING);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_SQUAT);
         pActor->field_A26_stance = SNA_STANCE_CROUCH;
     }
 }
@@ -2204,7 +2204,7 @@ void sna_anim_prone_idle_800528BC(Actor_SnaInit *pActor, int time)
         pActor->field_A28 = 450;
         pActor->field_9C8_anim_update_fn_3p = sna_fn_800531F4;
         pActor->field_9CC_anim_update_fn_1p = sna_fn_80052120;
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_3, 4);
     }
 }
@@ -2357,7 +2357,7 @@ void sna_anim_wall_crouch_80052CCC(Actor_SnaInit *pActor, int time)
             pActor->field_20_ctrl.field_4C_turn.vy = dword_800ABBD0 - 2048;
         }
 
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_CROUCHING | PLAYER_ON_WALL);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_SQUAT | PLAYER_ON_WALL);
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_0->field_5, 4);
 
         pActor->field_A28 = pActor->field_91C_weapon_idx != WEAPON_C4 ? 300 : 472;
@@ -2446,7 +2446,7 @@ void sna_anim_crouch_helper_80053014(Actor_SnaInit *pActor, int time)
             }
 
             GM_SeSet_80032858(&pActor->field_20_ctrl.field_0_mov, sound);
-            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING);
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
             sna_start_anim_8004E1F4(pActor, sna_anim_idle_8005275C);
         }
     }
@@ -2495,8 +2495,8 @@ void sna_fn_800531F4(Actor_SnaInit *pActor, int time)
             if (sna_8004E808(pActor, 0, 0, 0, 1500) == 0)
             {
                 pActor->field_20_ctrl.field_4C_turn.vy = pActor->field_20_ctrl.field_8_rot.vy;
-                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE);
-                GM_SetPlayerStatusFlag_8004E2B4(PLAYER_CROUCHING | PLAYER_ON_WALL);
+                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND);
+                GM_SetPlayerStatusFlag_8004E2B4(PLAYER_SQUAT | PLAYER_ON_WALL);
                 sna_start_anim_8004E1F4(pActor, sna_anim_wall_crouch_80052CCC);
             }
         }
@@ -2633,8 +2633,8 @@ void sna_fn_800535B8(Actor_SnaInit *pActor, int time)
             if (!sna_8004E808(pActor, 0, 0, 0, 1500))
             {
                 pActor->field_20_ctrl.field_4C_turn.vy = pActor->field_20_ctrl.field_8_rot.vy;
-                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE | PLAYER_MOVING);
-                GM_SetPlayerStatusFlag_8004E2B4(PLAYER_ON_WALL | PLAYER_CROUCHING);
+                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND | PLAYER_MOVING);
+                GM_SetPlayerStatusFlag_8004E2B4(PLAYER_ON_WALL | PLAYER_SQUAT);
                 sna_start_anim_8004E1F4(pActor, &sna_anim_wall_crouch_80052CCC);
             }
         }
@@ -2774,7 +2774,7 @@ void sna_anim_wall_crouch_helper_80053A54(Actor_SnaInit *pActor, int time)
     {
         if (!sna_8004E808(pActor, 0, 0, 0, 1100))
         {
-            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING);
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
             var_s0 = 8;
 
             if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000))
@@ -2824,8 +2824,8 @@ void sna_anim_prone_begin_80053BE8(Actor_SnaInit *pActor, int time)
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_0, 4);
         pActor->field_A26_stance = SNA_STANCE_GROUND;
         pActor->field_20_ctrl.field_55_skip_flag |= CTRL_BOTH_CHECK | CTRL_SKIP_TRAP;
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING);
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
     }
 
     if (time == 7)
@@ -2870,7 +2870,7 @@ void sna_anim_prone_standup_80053D74(Actor_SnaInit *pActor, int time)
 
     if (time == 0)
     {
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND);
         pActor->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         pActor->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_2, 4);
@@ -3251,7 +3251,7 @@ void sna_anim_knockdown_80054710(Actor_SnaInit *pActor, int time)
     if (pActor->field_20_ctrl.field_32_height < 500)
     {
         pActor->field_A26_stance = SNA_STANCE_GROUND;
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
     }
 
     if (pActor->field_798_p_height < 250)
@@ -3299,7 +3299,7 @@ void sna_anim_knockdown_idle_80054930(Actor_SnaInit *pActor, int time)
         pActor->field_9C8_anim_update_fn_3p = sna_knockdown_check_getup_80056A1C;
         pActor->field_9CC_anim_update_fn_1p = sna_fn_80052540;
         sna_set_flags1_8004E2F4(pActor, SNA_FLAG1_UNK5);
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_UNK200 | PLAYER_PRONE);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_UNK200 | PLAYER_GROUND);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_UNK100);
         local_field_A54 = pActor->field_A54.prone_bool_thing;
         pActor->field_A26_stance = SNA_STANCE_GROUND;
@@ -3357,7 +3357,7 @@ void sna_anim_knockdown_getup_80054A10(Actor_SnaInit *pActor, int time)
 
     if (time == 2)
     {
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND);
         pActor->field_20_ctrl.field_4C_turn.vx = 0;
     }
 
@@ -3431,7 +3431,7 @@ void sna_anim_knockdown_shot_tank_80054C08(Actor_SnaInit *pActor, int time)
     {
         if (time == 12)
         {
-            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
         }
 
         if (time > 16)
@@ -3540,7 +3540,7 @@ void sna_act_helper2_helper_80054EFC(Actor_SnaInit *pActor, int pTime)
         actor->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         actor->field_9CC_anim_update_fn_1p = snake_vr_sna_init_800565C8;
 
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PRONE))
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_GROUND))
         {
             actionFlag = actor->field_9B4_action_table->field_14->field_1;
         }
@@ -3549,7 +3549,7 @@ void sna_act_helper2_helper_80054EFC(Actor_SnaInit *pActor, int pTime)
             actionFlag = actor->field_9B4_action_table->field_14->field_0;
         }
 
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CROUCHING))
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_SQUAT))
         {
             sna_8004E260(actor, actionFlag, 4, 0x3FE);
             actor->field_A38_local_data = 1;
@@ -3687,7 +3687,7 @@ void sna_anim_box_idle_800553EC(Actor_SnaInit *pActor, int time)
     {
         pActor->field_9C8_anim_update_fn_3p = sna_80056A54;
         pActor->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE | PLAYER_CROUCHING);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND | PLAYER_SQUAT);
         pActor->field_A26_stance = SNA_STANCE_STANDING;
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_18->field_2, 4);
     }
@@ -3766,7 +3766,7 @@ void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time)
 
         if ((unk2->field_9EC_flags3 & 0x1000) == 0)
         {
-            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000) == 0)
+            if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX) == 0)
             {
                 if ((pActor->field_9AC & 2) != 0)
                 {
@@ -3806,16 +3806,16 @@ void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time)
             }
         }
 
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
     }
 
     if ((unk2->field_9EC_flags3 & 0x200) != 0 && pActor->field_20_ctrl.field_32_height < 500)
     {
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
     }
     else
     {
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND);
         pActor->field_20_ctrl.field_4C_turn.vx = 0;
     }
 
@@ -3875,7 +3875,7 @@ void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time)
             int fa38;
             int fa3a;
 
-            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE | PLAYER_PREVENT_WEAPON_ITEM_SWITCH |
+            GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND | PLAYER_PREVENT_WEAPON_ITEM_SWITCH |
                                               PLAYER_PAD_OFF);
             sna_clear_invuln_8004F2EC(pActor);
 
@@ -3918,7 +3918,7 @@ void sna_anim_dying_80055524(Actor_SnaInit *pActor, int time)
                     if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT))
                     {
                         pActor->field_A26_stance = SNA_STANCE_GROUND;
-                        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_FIRST_PERSON_DUCT | PLAYER_PRONE);
+                        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_FIRST_PERSON_DUCT | PLAYER_GROUND);
                         sna_8004EC8C(pActor);
                     }
 
@@ -3976,7 +3976,7 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PAD_OFF | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
         sna_set_invuln_8004F2A0(pActor, 0);
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PRONE | PLAYER_CROUCHING);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_GROUND | PLAYER_SQUAT);
 
         pActor->field_A00.field_0_ivec.vz = -1;
         pActor->field_A00.field_0_ivec.vx = GM_PlayerAddress_800AB9F0;
@@ -4004,7 +4004,7 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
 
         pActor->field_A38_local_data = -1;
 
-        if (!(pStr->field_9EC_flags3 & 0x100) && ((GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000)) || (pActor->field_9AC & 2)))
+        if (!(pStr->field_9EC_flags3 & 0x100) && ((GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX)) || (pActor->field_9AC & 2)))
         {
             pActor->field_A38_local_data = pActor->field_9A8_current_item;
             sub_8004F204(pActor);
@@ -4027,7 +4027,7 @@ void sna_anim_mini_cutscene_800559D8(Actor_SnaInit *pActor, int time)
         {
             stance = SNA_STANCE_GROUND;
             action = pActor->field_9B4_action_table->field_4->field_3;
-            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
         }
         else
         {
@@ -4294,11 +4294,11 @@ void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time)
 
         GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_PAD_OFF);
         sna_set_invuln_8004F2A0(pActor, 0);
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING | PLAYER_PRONE);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_GROUND);
 
         pActor->field_A38_local_data = ITEM_NONE;
 
-        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000) || (pActor->field_9AC & 2))
+        if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX) || (pActor->field_9AC & 2))
         {
             pActor->field_A38_local_data = pActor->field_9A8_current_item;
             sub_8004F204(pActor);
@@ -4411,11 +4411,11 @@ void sna_act_unk_helper3_80055DD8(Actor_SnaInit *pActor, int time)
 
         if (pActor->field_A26_stance == SNA_STANCE_CROUCH)
         {
-            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_CROUCHING);
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_SQUAT);
         }
         else if (pActor->field_A26_stance == SNA_STANCE_GROUND)
         {
-            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
         }
 
         sna_clear_invuln_8004F2EC(pActor);
@@ -4486,7 +4486,7 @@ void sna_act_helper3_helper_80056650(Actor_SnaInit *pActor, int time)
         sub_8004F338(pActor);
         pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_SKIP_TRAP;
         sna_set_invuln_8004F2A0(pActor, 0);
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING | PLAYER_PRONE);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_GROUND);
         sub_8004F14C(pActor);
         sub_8004F204(pActor);
         pActor->field_A26_stance = 0;
@@ -4965,7 +4965,7 @@ void sna_fn_80052120(Actor_SnaInit *pActor, int time)
                     }
 
                     pActor->field_20_ctrl.field_4C_turn.vy = pActor->field_20_ctrl.field_8_rot.vy;
-                    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING | PLAYER_PRONE);
+                    GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_GROUND);
 
                     sound = 8;
                     if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000000) != 0)
@@ -5031,7 +5031,7 @@ void sub_8005230C(Actor_SnaInit *pActor, int time)
             }
             else
             {
-                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING);
+                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT);
                 sna_start_anim_8004E1F4(pActor, sna_anim_wall_idle_and_c4_80052A5C);
             }
         }
@@ -5256,7 +5256,7 @@ void sna_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time)
         break;
 
     case 1:
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_CROUCHING);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_SQUAT);
         pActor->field_A26_stance = 1;
         SetAction_8004E22C(pActor, pActor->field_9B4_action_table->field_8->field_0, 4);
         pActor->field_A3A = 2;
@@ -5277,7 +5277,7 @@ void sna_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time)
         if (EndMotion(pActor))
         {
             pActor->field_A3A = 3;
-            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE);
+            GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND);
             pActor->field_A26_stance = 2;
         }
 
@@ -5285,7 +5285,7 @@ void sna_anim_psg1_80056DDC(Actor_SnaInit *pActor, int time)
 
     case 3:
         sub_8004EB74(pActor);
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_CROUCHING);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_SQUAT);
         sna_clear_invuln_8004F2EC(pActor);
         pActor->field_20_ctrl.field_4C_turn.vx = pActor->field_A2A;
         SetAction_8004E22C(pActor, SET, 4);
@@ -5318,8 +5318,8 @@ void sna_anim_stinger_800570C0(Actor_SnaInit *pActor, int time)
         pActor->field_9CC_anim_update_fn_1p = OP_ShootStinger_80058378;
         SetAction_8004E22C(pActor, SET, 4);
         pActor->field_A26_stance = SNA_STANCE_STANDING;
-        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_PRONE |
-                                          PLAYER_CROUCHING);
+        GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_GROUND |
+                                          PLAYER_SQUAT);
     }
 }
 
@@ -6890,7 +6890,7 @@ static inline void sna_init_main_logic_helper2_800596FC(Actor_SnaInit *pActor)
     int iVar9;
     int iVar8;
 
-    if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PRONE))
+    if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_GROUND))
     {
         pActor->field_A2A = 0;
     }
@@ -7160,7 +7160,7 @@ static inline void sna_init_main_logic_helper4_800596FC(Actor_SnaInit *pActor)
             if (sna_init_main_logic_helper4_helper4_800596FC(pActor) && (bVar6 || !(pActor->field_9AC & 0x2)))
             {
                 pActor->field_20_ctrl.field_55_skip_flag &= ~CTRL_SKIP_TRAP;
-                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_CROUCHING | PLAYER_ON_WALL | PLAYER_PREVENT_ITEM_SWITCH);
+                GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_SQUAT | PLAYER_ON_WALL | PLAYER_PREVENT_ITEM_SWITCH);
                 sna_clear_flags1_8004E308(pActor, 0x30);
                 sna_clear_flags1_8004E308(pActor, 0x100);
                 pActor->field_9C0 = 0;
@@ -7192,7 +7192,7 @@ static inline void sna_init_main_logic_helper4_800596FC(Actor_SnaInit *pActor)
                         sna_set_flags1_8004E2F4(pActor, 0x4);
                         sna_start_anim_8004E1F4(pActor, &sna_anim_knockdown_shot_80054B50);
                     }
-                    else if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK1000))
+                    else if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_CB_BOX))
                     {
                         sna_set_flags1_8004E2F4(pActor, 0x20);
                         sna_start_anim_8004E1F4(pActor, &sna_act_helper2_helper7_80054648);
@@ -7214,7 +7214,7 @@ static inline void sna_init_main_logic_helper4_800596FC(Actor_SnaInit *pActor)
                     pActor->field_A2C.vy /= 4;
                     pActor->field_A2C.vz /= 2;
 
-                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_PRONE | PLAYER_UNK200))
+                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_GROUND | PLAYER_UNK200))
                     {
                         if (!GM_CheckPlayerStatusFlag_8004E29C(PLAYER_UNK200))
                         {
@@ -7272,7 +7272,7 @@ static inline void sna_init_main_logic_helper4_800596FC(Actor_SnaInit *pActor)
 
                 if ((pTarget->field_26_hp < 1) && ((GM_GameOverTimer_800AB3D4 > -2) && (GM_GameOverTimer_800AB3D4 < 1)))
                 {
-                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT | PLAYER_PRONE))
+                    if (GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT | PLAYER_GROUND))
                     {
                         iVar9 = 0x7d;
                     }
@@ -8018,7 +8018,7 @@ static inline void sna_LoadSnake3(Actor_SnaInit *pActor)
     if (temp_a1 == 3)
     {
         pActor->field_A26_stance = 2;
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PRONE | PLAYER_FIRST_PERSON_DUCT);
+        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_GROUND | PLAYER_FIRST_PERSON_DUCT);
         DG_InvisibleObjs(pActor->field_9C_obj.objs);
         sna_8004EC8C(pActor);
         sna_start_anim_8004E1F4(pActor, &sna_anim_duct_move_80054424);
