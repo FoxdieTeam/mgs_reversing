@@ -126,7 +126,7 @@ def extract(lhs, rhs, target, uninitialized_out):
         if lb == rb and rb == tb:
             continue
 
-        assert lb == 0 and rb == 0x9e, f"LHS and RHS differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X}"
+        assert lb == 0 and rb == 0x9e, f"LHS, RHS, target differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X} != {tb:X}"
 
         # Uninitialized memory!
         uninitialized_out_arr.append(tb)
