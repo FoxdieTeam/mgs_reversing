@@ -44,15 +44,9 @@ def get_map(path):
     # Overlay?
     path = os.path.normpath(path).split(os.path.sep)
     overlay_name = next((t for s, t in zip(path, path[1:]) if s == "overlays"), None)
-    overlay_map = os.path.join(root_dir, f"asm_{overlay_name}.map")
+    overlay_map = os.path.join(root_dir, f"asm_{overlay_name}_lhs.map")
     if overlay_name and os.path.exists(overlay_map):
         map_file = overlay_map
-
-    # VR?
-    # TODO: remove once VR is matched
-    vr_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '../obj_vr'))
-    if ("asm", "chara", "snake_vr") in zip(path, path[1:], path[2:]):
-        map_file = os.path.join(vr_dir, f"asm.map")
 
     ret = {}
     with open(map_file) as f:
