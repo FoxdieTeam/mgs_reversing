@@ -251,7 +251,7 @@ int font_get_glyph_index_80044FF4(int code)
     else
     {
         temp_v0 = (code - 0x9a00) / 512;
-        temp_a0 = code - 0x9A00 - (temp_v0 * 512);
+        temp_a0 = (code - 0x9A00) - (temp_v0 * 512);
         new_var2 = temp_v0 + 2;
         var_v0 = (temp_a0 - 1 - (temp_a0 / 256)) | (new_var2 * 4096);
     }
@@ -295,7 +295,7 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
     int          new_var2;
 
     temp_v0 = dword_800AB6BC;
-    temp_t3 = (temp_v0 << 6) | (temp_v0 * 4);
+    temp_t3 = (temp_v0 << 6) | (temp_v0 << 2);
 
     if (dword_800AB6B8 != 0)
     {
@@ -416,6 +416,25 @@ void font_draw_glyph_80045124(char *buffer, int x, int y, int width, char *glyph
     }
 }
 
+// Observations about the font.res file used by the font library:
+// Big Endian in memory, byte swapped at runtime in font_load().
+// The file begins with an 8-byte 'header' that has two 32-bit words.
+// Bytes 0-3 is the size of 'Table 1' which describes the ASCII glyphs. (96 entries for font.res)
+// Bytes 4-7 is the offset for the font loaded to index 0. (offset 2306 for font.res)
+//
+// Following this there is a table of 32-bit words, the size is determined by bytes 0-3.
+// The first table appears to have the following layout from reading the code.
+//
+// Table 1 entry:
+// +----------------------+-------------+------------------------+
+// | 31:28 Y-Offset (0-2) | 27:24 Width | 23:0 Index into table2 |
+// +----------------------+-------------+------------------------+
+// This table seems to only be used for the ASCII range.
+//
+// The glyphs used for the ASCII range are 12 pixels wide with a width specified by bits 27:24.
+// Each pixel in memory is 2 bits. It is combined with a 2-bit color index in the font buffer.
+// The pixel can then be drawn using a 16 entry LUT on the GPU side.
+
 int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, unsigned char code)
 {
     char *location, *location2, *location3, *location4, *locationIter;
@@ -485,12 +504,14 @@ int font_draw_string_helper6_8004544C(char *buffer, int x, int y, int width, uns
 
                 if (--counter == 0)
                 {
+                    // Next 4 pixels are in next char.
                     glyph5 = *font_location++;
                     counter = 4;
                 }
                 else
                 {
-                    glyph5 *= 4;
+                    // Advance to next pixel
+                    glyph5 <<= 2;
                 }
 
                 *locationIter |= ((glyph8 | glyph7) & 0xFF) << (4 - shift2);
