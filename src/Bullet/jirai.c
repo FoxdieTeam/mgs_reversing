@@ -328,7 +328,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
             return;
         }
 
-        if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_PRONE)))
+        if ((pTarget->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
         {
             pTarget->field_6_flags &= ~TARGET_PUSH;
             dword_8009F444 = 0;

@@ -215,7 +215,7 @@ int tenage_loader_80069E64(Actor_tenage *pActor, SVECTOR *vec, SVECTOR *vec2,
         {
             GM_ConfigControlHazard_8002622C(pControl, 100, -1, -1);
         }
-        pControl->field_59 = '\x04';
+        pControl->field_59 = 4;
         if (int_6 == 1)
         {
             pControl->field_0_mov = GM_PlayerPosition_800ABA10;
