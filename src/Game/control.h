@@ -29,9 +29,13 @@ enum
 
 enum // radar_attr
 {
-    RADAR_VISIBLE = 0x1,
-    // RADAR_SIGHT = 0x2 or 0x4?
+    RADAR_OFF     = 0,
+    RADAR_VISIBLE = 0x1,  // Enables dot at entity position
+    RADAR_SIGHT   = 0x4,  // Enables vision cone for entities
     RADAR_ALL_MAP = 0x8,
+    RADAR_NOISE   = 0x10, // Enables noise at position on radar (e.g. DARPA Chief)
+    RADAR_UNK1    = 0x20, // Extends distance before entity is no longer drawn on the radar?
+    RADAR_UNK2    = 0x40, // Enables RADAR_SIGHT if within certain height of Snake?
 };
 
 typedef struct CONTROL
@@ -65,13 +69,12 @@ typedef struct CONTROL
     short field_34_hzd_height;
     short field_36;
     short field_38;
+
     short field_3A_radar_atr;
 
+    // Radar vision cone direction/distance.
+    // Not actually an SVECTOR.
     SVECTOR field_3C;
-    // short field_3C;
-    // short field_3E;
-    // short field_40;
-    // short field_42;
 
     // Movement vector, added to the position vector each frame to determine Snake's new position.
     // 800356FC() @ 0x80035974 (vx) and 0x8003597c (vz) seems to be the main function responsible for calculating the

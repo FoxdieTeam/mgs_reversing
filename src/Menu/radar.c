@@ -107,8 +107,8 @@ void menu_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
 }
 
 // TODO: vec is passed in from an SVECTOR, but the accesses are all unsigned
-void draw_radar_helper2_helper_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *vec, int x, int y, int rgb1,
-                                        int rgb2, int scale)
+void draw_radar_vision_cone_80038F3C(Actor_MenuMan *pActor, char *pOt, unsigned short *vec, int x, int y, int rgb1,
+                                     int rgb2, int scale)
 {
     POLY_G4 *pPrim;
     int      a2;
@@ -257,7 +257,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
     scale = MENU_RadarScale_800AB480;
 
     pWhereList = GM_WhereList_800B56D0;
-    pWhere = pWhereList[0];
+    pWhere = pWhereList[0]; // pWhereList[0] is Snake
 
     *SCRATCH(SVECTOR, 0) = pWhereList[0]->field_0_mov;
     SCRATCH(SVECTOR, 0)->vy = pWhere->field_34_hzd_height;
@@ -276,6 +276,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
 
     if ((GV_Time_800AB330 % 8) >= 2)
     {
+        // Draw white dot for Snake in middle of radar
         NEW_PRIM(pTile1, pActor);
         LSTORE(0xC8C8C8, &pTile1->r0);
         setTile1(pTile1);
@@ -284,11 +285,12 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
 
         if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
         {
+            // Draw Snake's vision cone in first person
             vec.vx = pWhere->field_8_rot.vy;
             vec.vy = (rcos(pWhere->field_8_rot.vx) * 6144) / 4096;
             vec.vz = 600;
 
-            draw_radar_helper2_helper_80038F3C(pActor, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
+            draw_radar_vision_cone_80038F3C(pActor, pOt, (unsigned short *)&vec, 0, 0, 0x48A000, 0, scale);
         }
 
         for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
@@ -305,7 +307,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
 
                 setXY0(pTile1_2, x, z);
 
-                if (field_3A & 0x10)
+                if (field_3A & RADAR_NOISE)
                 {
                     LSTORE(0x80FF00, &pTile1_2->r0);
                     setTile1(pTile1_2);
@@ -332,16 +334,16 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
                     // bool inline?
                     cond1 = 0;
 
-                    if (field_3A & 0x40)
+                    if (field_3A & RADAR_UNK2)
                     {
                         short vy_s = vy;
                         cond1 = (vy_s >= 0) && (vy_s < 6000);
-                        field_3A |= 4;
+                        field_3A |= RADAR_SIGHT;
                     }
                     else
                     {
                         short vy_s = vy;
-                        if (field_3A & 0x20)
+                        if (field_3A & RADAR_UNK1)
                         {
                             cond2 = (vy > -2750) && (vy < 2000); // why???
                         }
@@ -362,12 +364,12 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
                         setTile1(pTile1_2);
                         addPrim(pOt, pTile1_2);
 
-                        if (field_3A & 0x4)
+                        if (field_3A & RADAR_SIGHT)
                         {
                             int idx = field_3A >> 12;
-                            draw_radar_helper2_helper_80038F3C(pActor, pOt, (unsigned short *)&pWhere->field_3C, x, z,
-                                                               dword_8009E2F4[idx].rgb1, dword_8009E2F4[idx].rgb2,
-                                                               scale);
+                            draw_radar_vision_cone_80038F3C(pActor, pOt, (unsigned short *)&pWhere->field_3C, x, z,
+                                                            dword_8009E2F4[idx].rgb1, dword_8009E2F4[idx].rgb2,
+                                                            scale);
                         }
                     }
                     else

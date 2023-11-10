@@ -145,7 +145,7 @@ void jirai_act_helper_8006A950(Actor_Jirai *pActor, int arg1)
             }
             else
             {
-                pActor->field_20_ctrl.field_3A_radar_atr = 0;
+                pActor->field_20_ctrl.field_3A_radar_atr = RADAR_OFF;
                 var_a1 = 22;
 
                 if (GM_Weapons[WEAPON_CLAYMORE] < 0)
