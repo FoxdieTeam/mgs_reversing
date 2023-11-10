@@ -152,7 +152,7 @@ ninja.variable("psyq_aspsx_2_81_exe", prefix("wibo", "$psyq_path/ASPSX/2.81/ASPS
 ninja.variable("psyq_psylink_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink.exe"))
 ninja.newline()
 
-ninja.variable("psyq_psylink_overlay_fopen_patch_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink_overlay_fopen_patch.exe"))
+ninja.variable("psyq_psylink_overlay_fopen_mod_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink_overlay_fopen_mod.exe"))
 ninja.newline()
 
 ninja.variable("src_dir", "../src")
@@ -221,7 +221,7 @@ ninja.newline()
 ninja.rule("create_dummy_file_overlays", f"{sys.executable} $src_dir/../build/create_dummy_file.py $src_dir/../{args.obj_directory}/$overlay_bin $src_dir/../{args.obj_directory}/$overlay_bss_bin", "Create dummy files $overlay_bin, $overlay_bss_bin")
 ninja.newline()
 
-ninja.rule("psylink_overlay_fopen_patch", f"$psyq_psylink_overlay_fopen_patch_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link (uninitialized) $out")
+ninja.rule("psylink_overlay_fopen_mod", f"$psyq_psylink_overlay_fopen_mod_exe /l {psqy_lib} /c /n 4000 /q /gp .sdata /m \"@$src_dir/../{args.obj_directory}/linker_command_file$suffix.txt\",$src_dir/../{args.obj_directory}/_mgsi$suffix.cpe,$src_dir/../{args.obj_directory}/asm$suffix.sym,$src_dir/../{args.obj_directory}/asm$suffix.map", "Link (uninitialized) $out")
 ninja.newline()
 
 ninja.rule("uninitializer", f"{sys.executable} $src_dir/../build/uninitializer.py inject $in $out", "Uninitializer $in -> $out")
@@ -437,7 +437,7 @@ def gen_build_target(targetName):
         ninja.newline()
 
         rhsOverlayFile = f"../{args.obj_directory}/{overlay}_rhs.bin"
-        ninja.build(rhsOverlayFile, "psylink_overlay_fopen_patch", implicit=linkerDeps + [linkerCommandFile, dummyFile], variables={"suffix": f"_{overlay}_rhs"})
+        ninja.build(rhsOverlayFile, "psylink_overlay_fopen_mod", implicit=linkerDeps + [linkerCommandFile, dummyFile], variables={"suffix": f"_{overlay}_rhs"})
         ninja.newline()
 
         overlayFile = f"../{args.obj_directory}/{overlay}.bin"
