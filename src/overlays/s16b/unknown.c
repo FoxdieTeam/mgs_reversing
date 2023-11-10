@@ -1,7 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 
-static int THING_msg_result[2];
+int SECTION("overlay.bss") THING_msg_result[2];
 
 int THING_Gcl_GetIntDefault(char param, int def)
 {
