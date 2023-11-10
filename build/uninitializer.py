@@ -91,8 +91,9 @@ def inject(lhs, rhs, uninitialized, out):
 
     uninitialized_cur_idx = 0
 
-    assert len(lhs) < DUMMY_FILE_SIZE
-    assert len(lhs) < len(rhs)
+    assert len(rhs) == DUMMY_FILE_SIZE, f"RHS overlay should be {DUMMY_FILE_SIZE} bytes large, but it's {len(rhs)} bytes large"
+    assert len(lhs) < DUMMY_FILE_SIZE, f"LHS overlay is too large ({len(lhs)} bytes large)"
+    assert len(lhs) < len(rhs), f"LHS overlay is too large ({len(lhs)} bytes large)"
 
     out_arr = bytearray(lhs)
 
@@ -100,7 +101,7 @@ def inject(lhs, rhs, uninitialized, out):
         if lb == rb:
             continue
 
-        assert lb == 0 and rb == 0x9e
+        assert lb == 0 and rb == 0x9e, f"LHS and RHS differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X}"
 
         # Uninitialized memory!
         out_arr[i] = uninitialized[uninitialized_cur_idx]
@@ -113,9 +114,10 @@ def extract(lhs, rhs, target, uninitialized_out):
     rhs = open(rhs, 'rb').read()
     target = open(target, 'rb').read()
 
-    assert len(lhs) < DUMMY_FILE_SIZE
-    assert len(lhs) < len(rhs)
-    assert len(lhs) == len(target)
+    assert len(rhs) == DUMMY_FILE_SIZE, f"RHS overlay should be {DUMMY_FILE_SIZE} bytes large, but it's {len(rhs)} bytes large"
+    assert len(lhs) < DUMMY_FILE_SIZE, f"LHS overlay is too large ({len(lhs)} bytes large)"
+    assert len(lhs) < len(rhs), f"LHS overlay is too large ({len(lhs)} bytes large)"
+    assert len(lhs) == len(target), f"LHS overlay should the same size as target. len(lhs) = {len(lhs)}, len(target) = {len(target)}"
 
     uninitialized_out_arr = []
     nonzero_uninitialized = 0
@@ -124,7 +126,7 @@ def extract(lhs, rhs, target, uninitialized_out):
         if lb == rb and rb == tb:
             continue
 
-        assert lb == 0 and rb == 0x9e
+        assert lb == 0 and rb == 0x9e, f"LHS and RHS differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X}"
 
         # Uninitialized memory!
         uninitialized_out_arr.append(tb)
