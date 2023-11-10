@@ -1,18 +1,20 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Bullet/blast.h"
 #include "Game/control.h"
 #include "Game/game.h"
+#include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
 // We came, we saw, GunCamE
 typedef struct GunCamEWork
 {
     GV_ACT   actor;
-    CONTROL  field_20;
+    CONTROL  control;
     OBJECT   field_9C;
     MATRIX   field_180[2];
     MATRIX   world;
-    TARGET  *field_1E0;
+    TARGET  *target;
     int      field_1E4;
     int      field_1E8;
     int      field_1EC;
@@ -40,30 +42,21 @@ typedef struct GunCamEWork
     int      field_36C;
     int      field_370;
     int      field_374;
-    int      field_378;
-    int      field_37C;
-    int      field_380;
-    int      field_384;
-    int      field_388;
-    int      field_38C;
-    int      field_390;
-    int      field_394;
-    int      field_398;
+    int      map;
+    SVECTOR  field_37C[2];
+    SVECTOR  field_38C[2];
     int      field_39C;
     int      field_3A0;
     int      field_3A4;
     int      field_3A8;
-    SVECTOR  field_3AC;
-    SVECTOR  field_3B4;
-    int      field_3BC;
-    int      field_3C0;
+    SVECTOR  field_3AC[3];
     int      field_3C4;
     int      field_3C8;
     int      field_3CC;
     int      field_3D0;
-    int      field_3D4;
+    int      proc;
     int      field_3D8;
-    int      field_3DC;
+    int      name;
     int      field_3E0;
     int      field_3E4;
     int      field_3E8;
@@ -98,8 +91,19 @@ extern SVECTOR svector_8009F478;
 extern SVECTOR s03e_svec_800CC0F4;
 extern int     GV_Time_800AB330;
 extern int     GM_GameStatus_800AB3CC;
+extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_PlayerMap_800ABA0C;
+extern int     GM_PadVibration_800ABA3C;
+extern int     GM_PadVibration2_800ABA54;
+extern int     s03e_dword_800C32BC;
+extern int     GM_PlayerStatus_800ABA50;
 
 void AN_Unknown_800C9CBC(MATRIX *world, int index);
+void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
+void AN_Unknown_800D6EB0(SVECTOR *pos);
+
+GV_ACT * NewSpark2_800CA714(MATRIX *world);
+GV_ACT * NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int s03e_guncame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -137,7 +141,7 @@ void s03e_guncame_800C6FF8(GunCamEWork *work)
     svec.vy = 200;
     svec.vz = 900;
 
-    DG_SetPos2_8001BC8C(&work->field_20.field_0_mov, &work->field_20.field_8_rot);
+    DG_SetPos2_8001BC8C(&work->control.field_0_mov, &work->control.field_8_rot);
     DG_PutVector_8001BE48(&svec, &svec, 1);
     work->field_338 = svec;
 }
@@ -145,15 +149,16 @@ void s03e_guncame_800C6FF8(GunCamEWork *work)
 void s03e_guncame_800C7068(GunCamEWork *work)
 {
     work->field_3A0 = 1;
-    work->field_3AC = GM_PlayerPosition_800ABA10;
+    work->field_3AC[0] = GM_PlayerPosition_800ABA10;
+
     if (dword_8009F46C[0] == 1)
     {
         work->field_3A4 = dword_8009F46C[0];
-        work->field_3B4 = svector_8009F478;
+        work->field_3AC[1] = svector_8009F478;
     }
     else
     {
-        work->field_3B4 = GM_PlayerPosition_800ABA10;
+        work->field_3AC[1] = GM_PlayerPosition_800ABA10;
         work->field_3A4 = 0;
         dword_8009F480 = 0;
         work->field_3C4 = 0;
@@ -211,11 +216,149 @@ void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
     arg2->vx = (short int) ((ratan2(GV_VecLen3_80016D80(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
-int s03e_guncame_800C7224(GunCamEWork *work);
+int s03e_guncame_800C7224(GunCamEWork *work)
+{
+    SVECTOR  ang;
+    CONTROL *control;
+    int      index;
+    int      success;
+    int      dx, dy;
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C73D0.s")
-void s03e_guncame_800C73D0(GunCamEWork *work);
+    control = &work->control;
+
+    if ((work->field_408 != 0) && (work->field_40C == 0))
+    {
+        GM_ConfigControlAttribute_8002623C(&work->control, 0x4F);
+        control->field_3A_radar_atr |= 0x2000;
+    }
+    else
+    {
+        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
+        return 0;
+    }
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+    {
+        return 0;
+    }
+
+    index = 0;
+    success = 0;
+
+    if ((GM_CurrentItemId != ITEM_STEALTH) || (work->field_3A4 != 0))
+    {
+        if (GM_CurrentItemId == ITEM_STEALTH)
+        {
+            index = 1;
+        }
+
+        work->field_39C = -1;
+
+        while (!success)
+        {
+            success = 0;
+
+            s03e_guncame_800C71A8(&work->control.field_0_mov, &work->field_3AC[index], &ang);
+
+            dy = GV_DiffDirAbs_8001706C(ang.vy, work->control.field_8_rot.vy);
+            dx = GV_DiffDirAbs_8001706C(ang.vx, work->control.field_8_rot.vx);
+
+            if ((work->field_368 >= dx) &&
+                (work->field_368 >= dy) &&
+                (work->field_364 >= GV_DistanceVec3_80016E84(&work->control.field_0_mov, &work->field_3AC[index])) &&
+                !sub_80028454(work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, &work->field_3AC[index], 15, 0))
+            {
+                success = 1;
+                work->field_39C = index;
+            }
+
+            if (++index == 3)
+            {
+                return 0;
+            }
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+void s03e_guncame_800C73D0(GunCamEWork *work)
+{
+    MATRIX pos;
+    int    f3C4;
+
+    dword_8009F480 = 0;
+
+    s03e_guncame_800C6FF8(work);
+
+    if ((work->field_3C4 == 0) && ((work->field_39C > 0) && (work->field_39C < 3)))
+    {
+        work->field_3C4 = 1;
+        work->field_3C8 = GV_RandU_80017090(4096) % work->field_3E4 + work->field_3E0;
+
+        dword_8009F480 = 0;
+    }
+
+    f3C4 = work->field_3C4;
+    if (f3C4 == 1)
+    {
+        if ((--work->field_3C8 == 0) && s03e_guncame_800C7224(work))
+        {
+            dword_8009F480 = f3C4;
+        }
+
+        if (work->field_3C8 < 0)
+        {
+            dword_8009F480 = 0;
+            work->field_3C4 = 0;
+        }
+    }
+
+    DG_SetPos2_8001BC8C(&work->field_338, &work->control.field_8_rot);
+    ReadRotMatrix(&pos);
+
+    if (GM_GameStatus_800AB3CC & (PLAYER_UNK80000000 | PLAYER_DEADORDYING | PLAYER_CAN_USE_CONTROLLER_PORT_2))
+    {
+        NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
+    }
+    else
+    {
+        switch(GM_DifficultyFlag)
+        {
+        case DIFFICULTY_VERY_EASY:
+        case DIFFICULTY_EASY:
+        default:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
+            break;
+
+        case DIFFICULTY_NORMAL:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
+            break;
+
+        case DIFFICULTY_HARD:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
+            break;
+
+        case DIFFICULTY_EXTREME:
+            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
+            break;
+        }
+    }
+
+    AN_Unknown_800D6BCC(&work->field_338, &work->control.field_8_rot);
+}
+
+const SVECTOR s03e_svec_800CC084 = {0, -80, 0, 0};
+
+const char s03e_aKill_800CC08C[] = "kill";
+const char s03e_dword_800CC094[] = {0xb2, 0xbb, 0xc6, 0xfe, 0xa4, 0xec, 0xa4, 0xeb, 0x0, 0x0, 0x0, 0x0};
+const char s03e_dword_800CC0A0[] = {0xb2, 0xbb, 0xc0, 0xda, 0xa4, 0xeb, 0x0, 0x0};
+const char s03e_dword_800CC0A8[] = {0xbb, 0xeb, 0xce, 0xcf, 0xcc, 0xe1, 0xa4, 0xb9, 0x0, 0x0, 0x0, 0x0};
+const char s03e_dword_800CC0B4[] = {0xbb, 0xeb, 0xce, 0xcf, 0xcc, 0xb5, 0xa4, 0xaf, 0xa4, 0xb9, 0x0, 0x0};
+const char s03e_dword_800CC0C0[] = {0xbd, 0xe8, 0xcd, 0xfd, 0xba, 0xc6, 0xb3, 0xab, 0x0, 0x0, 0x0, 0x0};
+const char s03e_dword_800CC0CC[] = {0xbd, 0xe8, 0xcd, 0xfd, 0xc4, 0xe4, 0xbb, 0xdf, 0x0, 0x0, 0x0, 0x0};
 
 void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
 {
@@ -242,13 +385,10 @@ void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
     }
 }
 
-void s03e_guncame_800C76E8(GunCamEWork* work) {
-
-    SVECTOR* temp_s1;
-    temp_s1 = &work->field_20.field_4C_turn;
-
-    s03e_guncame_800C71A8(&work->field_20.field_0_mov, &work->field_3AC + (work->field_39C), temp_s1);
-    s03e_guncame_800C75FC(&work->field_330, temp_s1, work);
+void s03e_guncame_800C76E8(GunCamEWork* work)
+{
+    s03e_guncame_800C71A8(&work->control.field_0_mov, &work->field_3AC[work->field_39C], &work->control.field_4C_turn);
+    s03e_guncame_800C75FC(&work->field_330, &work->control.field_4C_turn, work);
 }
 
 int s03e_guncame_800C7740(GunCamEWork *work)
@@ -259,10 +399,10 @@ int s03e_guncame_800C7740(GunCamEWork *work)
     {
         if (work->field_404 != 0)
         {
-            GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
+            GM_SeSet_80032858(&work->control.field_0_mov, 94);
         }
 
-        vec = &work->field_20.field_4C_turn;
+        vec = &work->control.field_4C_turn;
         vec->vy = (vec->vy + 8) & 0xFFF;
 
         if (work->field_36C < GV_DiffDirAbs_8001706C(work->field_330.vy, vec->vy))
@@ -282,10 +422,10 @@ int s03e_guncame_800C77D4(GunCamEWork *work)
     {
         if (work->field_404 != 0)
         {
-            GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
+            GM_SeSet_80032858(&work->control.field_0_mov, 94);
         }
 
-        vec = &work->field_20.field_4C_turn;
+        vec = &work->control.field_4C_turn;
         vec->vy = (vec->vy - 8) & 0xFFF;
 
         if (work->field_36C < GV_DiffDirAbs_8001706C(work->field_330.vy, vec->vy))
@@ -303,7 +443,7 @@ int s03e_guncame_800C7868(GunCamEWork *work)
     int      dir;
 
     svec1 = &work->field_330;
-    svec2 = &work->field_20.field_4C_turn;
+    svec2 = &work->control.field_4C_turn;
 
     dir = GV_DiffDirS_8001704C(svec1->vy, svec2->vy);
     if (dir < -0xA)
@@ -351,7 +491,7 @@ void s03e_guncame_800C7994(GunCamEWork *work)
         {
             work->field_344 = 3;
             work->field_34C = GV_RandU_80017090(32);
-            work->field_20.field_4C_turn.vy = work->field_330.vy + work->field_36C;
+            work->control.field_4C_turn.vy = work->field_330.vy + work->field_36C;
         }
         break;
 
@@ -360,7 +500,7 @@ void s03e_guncame_800C7994(GunCamEWork *work)
         {
             work->field_344 = 2;
             work->field_34C = GV_RandU_80017090(32);
-            work->field_20.field_4C_turn.vy = work->field_330.vy - work->field_36C;
+            work->control.field_4C_turn.vy = work->field_330.vy - work->field_36C;
         }
         break;
 
@@ -408,7 +548,7 @@ void s03e_guncame_800C7AD8(GunCamEWork *work)
                 s03e_guncame_800C73D0(work);
                 if (work->field_404 != 0)
                 {
-                    GM_Sound_800329C4(&work->field_20.field_0_mov, 0x2E, 1);
+                    GM_Sound_800329C4(&work->control.field_0_mov, 0x2E, 1);
                 }
                 work->field_350 = 1;
             }
@@ -508,21 +648,21 @@ void s03e_guncame_800C7CE0(GunCamEWork *work)
 
         if ((GV_RandU_80017090(16) == 0) && (work->field_404 != 0))
         {
-            GM_SeSet_80032858(&work->field_20.field_0_mov, 109);
+            GM_SeSet_80032858(&work->control.field_0_mov, 109);
         }
 
         if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01) // chaff active
         {
             ty = rsin(time * 64) - rsin(time * 31) / 2 - rsin(time * 231) / 2;
-            work->field_20.field_4C_turn.vy += ty / 16;
+            work->control.field_4C_turn.vy += ty / 16;
 
             tx = rsin(time * 23) - rsin(time * 45) / 2 - rsin(time * 245) / 2;
-            work->field_20.field_4C_turn.vx += tx / 16;
+            work->control.field_4C_turn.vx += tx / 16;
 
-            work->field_20.field_4C_turn.vx &= 0xFFF;
-            work->field_20.field_4C_turn.vy &= 0xFFF;
+            work->control.field_4C_turn.vx &= 0xFFF;
+            work->control.field_4C_turn.vy &= 0xFFF;
 
-            s03e_guncame_800C75FC(&work->field_330, &work->field_20.field_4C_turn, work);
+            s03e_guncame_800C75FC(&work->field_330, &work->control.field_4C_turn, work);
 
             // Each macro expansion calls rsin three times
             work->field_3FC.vx = ABS(rsin(time * 95) / 16);
@@ -546,7 +686,7 @@ void s03e_guncame_800C7CE0(GunCamEWork *work)
 
 void s03e_guncame_800C8024(GunCamEWork *work)
 {
-    work->field_20.field_3C.vx = work->field_20.field_8_rot.vy;
+    work->control.field_3C.vx = work->control.field_8_rot.vy;
 }
 
 void s03e_guncame_800C8030(GunCamEWork *work)
@@ -554,36 +694,322 @@ void s03e_guncame_800C8030(GunCamEWork *work)
     switch (work->field_340)
     {
     case 0:
-        GM_ConfigControlInterp_80026244(&work->field_20, 4);
+        GM_ConfigControlInterp_80026244(&work->control, 4);
         s03e_guncame_800C7994(work);
         break;
     case 1:
-        GM_ConfigControlInterp_80026244(&work->field_20, 0);
+        GM_ConfigControlInterp_80026244(&work->control, 0);
         s03e_guncame_800C7AD8(work);
         break;
     case 2:
-        GM_ConfigControlInterp_80026244(&work->field_20, 4);
+        GM_ConfigControlInterp_80026244(&work->control, 4);
         s03e_guncame_800C7C0C(work);
         break;
     case 3:
-        GM_ConfigControlInterp_80026244(&work->field_20, 4);
+        GM_ConfigControlInterp_80026244(&work->control, 4);
         s03e_guncame_800C7CE0(work);
         break;
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C80F4.s")
-void s03e_guncame_800C80F4(GunCamEWork *work);
+void s03e_guncame_800C80F4(GunCamEWork *work)
+{
+    MATRIX         world;
+    SVECTOR        rot;
+    SVECTOR        disp_world;
+    SVECTOR        mov;
+    SVECTOR        disp_local;
+    unsigned short hashes[7];
+    int            found;
+    CONTROL       *control;
+    int            flags;
+    TARGET        *target;
+    int            i;
+
+    disp_local = s03e_svec_800CC084;
+
+    if (s03e_dword_800CC6BC > 0)
+    {
+        s03e_dword_800CC6BC--;
+    }
+
+    hashes[0] = GV_StrCode_80016CCC(s03e_aKill_800CC08C);
+    hashes[1] = GV_StrCode_80016CCC(s03e_dword_800CC094);
+    hashes[2] = GV_StrCode_80016CCC(s03e_dword_800CC0A0);
+    hashes[3] = GV_StrCode_80016CCC(s03e_dword_800CC0A8);
+    hashes[4] = GV_StrCode_80016CCC(s03e_dword_800CC0B4);
+    hashes[5] = GV_StrCode_80016CCC(s03e_dword_800CC0C0);
+    hashes[6] = GV_StrCode_80016CCC(s03e_dword_800CC0CC);
+
+    found = s03e_guncame_800C6F60(work->name, 7, hashes);
+    switch(found)
+    {
+    case 0:
+        GV_DestroyActor_800151C8(&work->actor);
+        break;
+
+    case 1:
+        work->field_404 = 1;
+        break;
+
+    case 2:
+        work->field_404 = 0;
+        break;
+
+    case 3:
+        work->field_408 = 1;
+        break;
+
+    case 4:
+        work->field_408 = 0;
+        break;
+
+    case 5:
+        work->field_410 = 0;
+        break;
+
+    case 6:
+        work->field_410 = 1;
+        break;
+    }
+
+    control = &work->control;
+
+    if (((work->map & GM_PlayerMap_800ABA0C) == 0) || (work->field_410 != 0))
+    {
+        DG_InvisibleObjs(work->field_9C.objs);
+        DG_InvisibleObjs(work->field_1F4.objs);
+        DG_InvisiblePrim(work->field_328);
+
+        if (work->field_40C == 1)
+        {
+            return;
+        }
+
+        work->field_40C = 1;
+    }
+    else
+    {
+        work->field_40C = 0;
+
+        DG_VisibleObjs(work->field_9C.objs);
+        DG_VisibleObjs(work->field_1F4.objs);
+        DG_VisiblePrim(work->field_328);
+    }
+
+    GM_CurrentMap_800AB9B0 = work->map;
+
+    work->field_3FC.vx = (work->field_3FC.vx * 15 + work->field_3F4.vx) / 16;
+    work->field_3FC.vy = (work->field_3FC.vy * 15 + work->field_3F4.vy) / 16;
+    work->field_3FC.vz = (work->field_3FC.vz * 15 + work->field_3F4.vz) / 16;
+
+    s03e_guncame_800C7118(work->field_328, work->field_32C, work->field_3FC.vx, work->field_3FC.vy, work->field_3FC.vz);
+    s03e_guncame_800C7068(work);
+
+    if (work->field_3EC > 0)
+    {
+        GM_PadVibration_800ABA3C = 1;
+        GM_PadVibration2_800ABA54 = 255;
+        work->field_3EC--;
+    }
+    else
+    {
+        work->field_3EC = 0;
+    }
+
+    if ((work->field_3A4 == 1) || (work->field_3A8 == 1))
+    {
+        work->field_3CC = 60;
+    }
+
+    if (work->field_3CC >= 1)
+    {
+        work->field_3CC--;
+
+        if (work->field_3E8 != 0)
+        {
+            flags = work->target->class & ~(TARGET_SEEK | TARGET_POWER | TARGET_AVAIL);
+            work->target->class = flags | TARGET_AVAIL;
+        }
+    }
+    else
+    {
+        work->target->class |= TARGET_SEEK | TARGET_POWER | TARGET_AVAIL;
+    }
+
+    if (work->field_40C == 0)
+    {
+        if (((GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01) != 0) && (work->field_3D0 == -1))
+        {
+            work->field_3D0 = GV_RandU_80017090(4096);
+            work->field_340 = 3;
+            work->field_344 = 0;
+            work->field_34C = 0;
+        }
+    }
+    else
+    {
+        s03e_guncame_800C7144(work, 0, 255, 0);
+
+        work->field_3D0 = -1;
+        work->field_340 = 2;
+        work->field_344 = 6;
+        work->field_34C = 0;
+    }
+
+    if (work->field_35C == 0)
+    {
+        if (work->field_350 == 1)
+        {
+            rot = control->field_8_rot;
+            rot.vx -= 1024;
+
+            RotMatrixYXZ_gte(&rot, &world);
+            ApplyMatrixSV(&world, &disp_local, &disp_world);
+
+            mov = control->field_0_mov;
+
+            control->field_0_mov.vx -= disp_world.vx;
+            control->field_0_mov.vy -= disp_world.vy;
+            control->field_0_mov.vz -= disp_world.vz;
+
+            GM_ActControl_80025A7C(control);
+
+            control->field_0_mov = mov;
+        }
+        else
+        {
+            GM_ActControl_80025A7C(control);
+        }
+
+        if (GM_CurrentItemId == ITEM_THERM_G)
+        {
+            work->field_3D8 = 1;
+
+            DG_AmbientObjs(work->field_9C.objs);
+            DG_AmbientObjs(work->field_1F4.objs);
+
+            DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->field_180);
+            DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->field_2D8);
+        }
+        else if (work->field_3D8 == 1)
+        {
+            work->field_3D8 = 0;
+
+            DG_UnAmbientObjs(work->field_9C.objs);
+            DG_UnAmbientObjs(work->field_1F4.objs);
+
+            DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->field_180);
+            DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->field_2D8);
+        }
+
+        GM_ActObject2_80034B88(&work->field_9C);
+
+        DG_PutPrim_8001BE00(&work->field_328->world);
+        DG_SetPos_8001BC44(&work->world);
+
+        GM_ActObject2_80034B88(&work->field_1F4);
+
+        target = work->target;
+
+        GM_Target_SetVector_8002D500(target, &control->field_0_mov);
+
+        if (target->field_6_flags & TARGET_POWER)
+        {
+            if (target->field_3E != 2)
+            {
+                target->field_28 = 0;
+                target->field_6_flags = 0;
+            }
+            else if (s03e_dword_800C32B8 == 0)
+            {
+                s03e_dword_800C32B8 = 1;
+                s03e_dword_800C32BC++;
+
+                if (work->field_404 != 0)
+                {
+                    GM_SeSet_80032858(&control->field_0_mov, 59);
+                }
+
+                work->field_35C = 1;
+
+                AN_Blast_Minimini_8006E32C(&control->field_0_mov);
+
+                for (i = 0; i < 2; i++)
+                {
+                    rot.vz = 0;
+
+                    disp_world.vx = GV_RandS_800170BC(128);
+                    disp_world.vy = GV_RandU_80017090(256) + 32;
+                    disp_world.vz = 0;
+
+                    rot.vx = GV_RandU_80017090(256) + 64;
+                    rot.vy = control->field_8_rot.vy + GV_RandS_800170BC(512);
+
+                    RotMatrixYXZ_gte(&rot, &world);
+                    ApplyMatrixSV(&world, &disp_world, &work->field_37C[i]);
+
+                    work->field_38C[i] = control->field_0_mov;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (++work->field_35C == 19)
+        {
+            rot.vx = GV_RandU_80017090(1024);
+            rot.vy = GV_RandU_80017090(2048);
+            rot.vz = 0;
+
+            DG_SetPos2_8001BC8C(&control->field_0_mov, &rot);
+            ReadRotMatrix(&world);
+
+            NewSpark2_800CA714(&world);
+        }
+
+        DG_InvisibleObjs(work->field_9C.objs);
+        DG_InvisibleObjs(work->field_1F4.objs);
+
+        s03e_guncame_800C7144(work, 0, 0, 0);
+
+        if ((work->field_35C >= 20) || ((s03e_dword_800C32BC & 0x1) == 0))
+        {
+            if (work->proc != -1)
+            {
+                GCL_ExecProc_8001FF2C(work->proc, 0);
+            }
+
+            GV_DestroyActor_800151C8(&work->actor);
+        }
+        else
+        {
+            for (i = 0; i < 2; i++)
+            {
+                work->field_37C[i].vy -= 15;
+
+                work->field_38C[i].vx += work->field_37C[i].vx;
+                work->field_38C[i].vy += work->field_37C[i].vy;
+                work->field_38C[i].vz += work->field_37C[i].vz;
+
+                AN_Unknown_800D6EB0(&work->field_38C[i]);
+            }
+        }
+    }
+
+    s03e_guncame_800C8024(work);
+    s03e_guncame_800C8030(work);
+}
 
 void s03e_guncame_800C8940(GunCamEWork *work)
 {
     CONTROL *control;
     SVECTOR *vec;
 
-    control = &work->field_20;
+    control = &work->control;
     control->field_3A_radar_atr |= 0x2000;
 
-    vec = &work->field_20.field_3C;
+    vec = &work->control.field_3C;
     vec->vx = 0;
     vec->vy = work->field_364;
     vec->vz = work->field_368 * 2;
@@ -656,15 +1082,15 @@ int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
         dir = DG_ZeroVector_800AB39C;
     }
 
-    work->field_20.field_0_mov = pos;
-    work->field_20.field_4C_turn = dir;
+    work->control.field_0_mov = pos;
+    work->control.field_4C_turn = dir;
 
     RotMatrixYXZ_gte(&dir, &rot);
     ApplyMatrixSV(&rot, &disp_world, &disp_local);
 
-    work->field_20.field_0_mov.vx -= disp_local.vx;
-    work->field_20.field_0_mov.vy -= disp_local.vy;
-    work->field_20.field_0_mov.vz -= disp_local.vz;
+    work->control.field_0_mov.vx -= disp_local.vx;
+    work->control.field_0_mov.vy -= disp_local.vy;
+    work->control.field_0_mov.vz -= disp_local.vz;
 
     DG_SetPos2_8001BC8C(&pos, &dir);
     ReadRotMatrix(&work->world);
@@ -673,12 +1099,12 @@ int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
     if (opt != NULL)
     {
         s03e_guncame_800C7154(opt, &pos);
-        work->field_20.field_4C_turn.vx += pos.vx;
-        work->field_20.field_4C_turn.vy += pos.vy;
+        work->control.field_4C_turn.vx += pos.vx;
+        work->control.field_4C_turn.vy += pos.vy;
     }
 
-    work->field_20.field_8_rot = work->field_20.field_4C_turn;
-    work->field_330 = work->field_20.field_4C_turn;
+    work->control.field_8_rot = work->control.field_4C_turn;
+    work->field_330 = work->control.field_4C_turn;
 
     opt = GCL_GetOption_80020968('x');
     if (opt != NULL)
@@ -747,12 +1173,12 @@ int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
     if (opt != NULL)
     {
         work->field_3F0 = 0;
-        GM_ConfigControlAttribute_8002623C(&work->field_20, 0x3);
+        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
     }
     else
     {
         work->field_3F0 = 1;
-        GM_ConfigControlAttribute_8002623C(&work->field_20, 0x47);
+        GM_ConfigControlAttribute_8002623C(&work->control, 0x47);
         s03e_guncame_800C8940(work);
     }
 
@@ -781,11 +1207,11 @@ int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
     opt = GCL_GetOption_80020968('e');
     if (opt != NULL)
     {
-        work->field_3D4 = GCL_StrToInt_800209E8((char *)opt);
+        work->proc = GCL_StrToInt_800209E8((char *)opt);
     }
     else
     {
-        work->field_3D4 = -1;
+        work->proc = -1;
     }
 
     opt = GCL_GetOption_80020968('a');
@@ -879,10 +1305,10 @@ int s03e_guncame_800C8F64(GunCamEWork *work, int name, int where)
     CONTROL *control;
     OBJECT  *obj1, *obj2;
 
-    control = &work->field_20;
+    control = &work->control;
     work->field_404 = 1;
     work->field_408 = 1;
-    work->field_3DC = name;
+    work->name = name;
 
     if (GM_InitLoader_8002599C(control, name, where) < 0)
     {
@@ -892,7 +1318,7 @@ int s03e_guncame_800C8F64(GunCamEWork *work, int name, int where)
     GM_ConfigControlAttribute_8002623C(control, 7);
     GM_ConfigControlHazard_8002622C(control, -1, -2, -1);
     GM_ConfigControlInterp_80026244(control, 4);
-    work->field_20.field_44_step = DG_ZeroVector_800AB39C;
+    work->control.field_44_step = DG_ZeroVector_800AB39C;
 
     obj1 = &work->field_9C;
     do {} while (0);
@@ -909,10 +1335,10 @@ int s03e_guncame_800C8F64(GunCamEWork *work, int name, int where)
         return -1;
     }
 
-    work->field_1E0 = GM_AllocTarget_8002D400();
-    if (work->field_1E0)
+    work->target = GM_AllocTarget_8002D400();
+    if (work->target)
     {
-        GM_SetTarget_8002DC74(work->field_1E0, 0x15, 2, &guncame_svec);
+        GM_SetTarget_8002DC74(work->target, 0x15, 2, &guncame_svec);
         s03e_guncame_800C8978(work, name, where);
         DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->field_180);
         DG_GetLightMatrix_8001A3C4(&control->field_0_mov, work->field_2D8);
@@ -934,8 +1360,8 @@ void s03e_guncame_800C911C(GunCamEWork *work)
     dword_8009F480 = 0;
     GM_FreeObject_80034BF8(&work->field_9C);
     GM_FreeObject_80034BF8(&work->field_1F4);
-    GM_FreeTarget_8002D4B0(work->field_1E0);
-    GM_FreeControl_800260CC(&work->field_20);
+    GM_FreeTarget_8002D4B0(work->target);
+    GM_FreeControl_800260CC(&work->control);
     prim = work->field_328;
     if (prim)
     {
@@ -958,7 +1384,7 @@ GV_ACT *s03e_guncame_800C9190(int name, int where, int argc, char **argv)
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
-        work->field_378 = where;
+        work->map = where;
         s03e_dword_800C32B4++;
     }
     return &work->actor;
