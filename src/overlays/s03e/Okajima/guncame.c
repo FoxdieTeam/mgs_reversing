@@ -49,10 +49,7 @@ typedef struct GunCamEWork
     int      field_3A0;
     int      field_3A4;
     int      field_3A8;
-    SVECTOR  field_3AC;
-    SVECTOR  field_3B4;
-    int      field_3BC;
-    int      field_3C0;
+    SVECTOR  field_3AC[3];
     int      field_3C4;
     int      field_3C8;
     int      field_3CC;
@@ -99,6 +96,7 @@ extern int     GM_PlayerMap_800ABA0C;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
 extern int     s03e_dword_800C32BC;
+extern int     GM_PlayerStatus_800ABA50;
 
 void AN_Unknown_800C9CBC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
@@ -151,15 +149,16 @@ void s03e_guncame_800C6FF8(GunCamEWork *work)
 void s03e_guncame_800C7068(GunCamEWork *work)
 {
     work->field_3A0 = 1;
-    work->field_3AC = GM_PlayerPosition_800ABA10;
+    work->field_3AC[0] = GM_PlayerPosition_800ABA10;
+
     if (dword_8009F46C[0] == 1)
     {
         work->field_3A4 = dword_8009F46C[0];
-        work->field_3B4 = svector_8009F478;
+        work->field_3AC[1] = svector_8009F478;
     }
     else
     {
-        work->field_3B4 = GM_PlayerPosition_800ABA10;
+        work->field_3AC[1] = GM_PlayerPosition_800ABA10;
         work->field_3A4 = 0;
         dword_8009F480 = 0;
         work->field_3C4 = 0;
@@ -217,8 +216,73 @@ void s03e_guncame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
     arg2->vx = (short int) ((ratan2(GV_VecLen3_80016D80(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03e/s03e_guncame_800C7224.s")
-int s03e_guncame_800C7224(GunCamEWork *work);
+int s03e_guncame_800C7224(GunCamEWork *work)
+{
+    SVECTOR  ang;
+    CONTROL *control;
+    int      index;
+    int      success;
+    int      dx, dy;
+
+    control = &work->control;
+
+    if ((work->field_408 != 0) && (work->field_40C == 0))
+    {
+        GM_ConfigControlAttribute_8002623C(&work->control, 0x4F);
+        control->field_3A_radar_atr |= 0x2000;
+    }
+    else
+    {
+        GM_ConfigControlAttribute_8002623C(&work->control, 0x3);
+        return 0;
+    }
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON_DUCT)
+    {
+        return 0;
+    }
+
+    index = 0;
+    success = 0;
+
+    if ((GM_CurrentItemId != ITEM_STEALTH) || (work->field_3A4 != 0))
+    {
+        if (GM_CurrentItemId == ITEM_STEALTH)
+        {
+            index = 1;
+        }
+
+        work->field_39C = -1;
+
+        while (!success)
+        {
+            success = 0;
+
+            s03e_guncame_800C71A8(&work->control.field_0_mov, &work->field_3AC[index], &ang);
+
+            dy = GV_DiffDirAbs_8001706C(ang.vy, work->control.field_8_rot.vy);
+            dx = GV_DiffDirAbs_8001706C(ang.vx, work->control.field_8_rot.vx);
+
+            if ((work->field_368 >= dx) &&
+                (work->field_368 >= dy) &&
+                (work->field_364 >= GV_DistanceVec3_80016E84(&work->control.field_0_mov, &work->field_3AC[index])) &&
+                !sub_80028454(work->control.field_2C_map->field_8_hzd, &work->control.field_0_mov, &work->field_3AC[index], 15, 0))
+            {
+                success = 1;
+                work->field_39C = index;
+            }
+
+            if (++index == 3)
+            {
+                return 0;
+            }
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
 
 void s03e_guncame_800C73D0(GunCamEWork *work)
 {
@@ -321,13 +385,10 @@ void s03e_guncame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCamEWork *work)
     }
 }
 
-void s03e_guncame_800C76E8(GunCamEWork* work) {
-
-    SVECTOR* temp_s1;
-    temp_s1 = &work->control.field_4C_turn;
-
-    s03e_guncame_800C71A8(&work->control.field_0_mov, &work->field_3AC + (work->field_39C), temp_s1);
-    s03e_guncame_800C75FC(&work->field_330, temp_s1, work);
+void s03e_guncame_800C76E8(GunCamEWork* work)
+{
+    s03e_guncame_800C71A8(&work->control.field_0_mov, &work->field_3AC[work->field_39C], &work->control.field_4C_turn);
+    s03e_guncame_800C75FC(&work->field_330, &work->control.field_4C_turn, work);
 }
 
 int s03e_guncame_800C7740(GunCamEWork *work)
