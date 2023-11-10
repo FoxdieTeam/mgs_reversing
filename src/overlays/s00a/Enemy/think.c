@@ -2487,7 +2487,7 @@ void Enemy_Think_800CE99C( WatcherWork* work )
 {
     work->pad.dir = -1;
     work->pad.press = 0;
-    work->control.field_3A_radar_atr = RADAR_VISIBLE | 0x4 | RADAR_ALL_MAP;
+    work->control.field_3A_radar_atr = RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP;
 
     switch ( work->think1 )
     {
