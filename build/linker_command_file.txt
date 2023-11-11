@@ -846,13 +846,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_doll_800DC9FC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_doll_800DCAA4.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_doll_800DCD78.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DCE0C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DCE38.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DCE48.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DCF00.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DCFF4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DD1C8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_asiato2_800DD238.obj"
+
+    include "{{OBJ_DIR}}\overlays\s01a\Enemy\asiato2.obj"
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DD308.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DD358.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DD3D4.obj"
