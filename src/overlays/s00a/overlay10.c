@@ -1,3 +1,5 @@
 #include "libgcl/hash.h"
 
-unsigned short mes_list_800C3688[] = { 0xBA27, 0x560E };
+const char aEnvSndC[] = "env_snd.c";
+
+unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };

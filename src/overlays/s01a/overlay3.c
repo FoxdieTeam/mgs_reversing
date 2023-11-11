@@ -879,20 +879,10 @@ const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 'a', 0xfc,
 // Takabe/cinema.c
 const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 'x', 't', 'M'};
 
-const char s01a_dword_800E4AC8[] = {'d', 'y', 'm', 'c'};
-const char s01a_dword_800E4ACC[] = {'_', 's', 'e', 'g'};
-const char s01a_dword_800E4AD0[] = {'.', 'c', 0x0, 'R'};
-const char s01a_dword_800E4AD4[] = {'t', 'r', 'a', 'c'};
-const char s01a_dword_800E4AD8[] = {'k', 't', 'r', 'p'};
-const char s01a_dword_800E4ADC[] = {'.', 'c', 0x0, 'c'};
-const int s01a_dword_800E4AE0 = 0x800E2554;
-const int s01a_dword_800E4AE4 = 0x800E24F4;
-const int s01a_dword_800E4AE8 = 0x800E250C;
-const int s01a_dword_800E4AEC = 0x800E2524;
-const int s01a_dword_800E4AF0 = 0x800E253C;
-const char s01a_dword_800E4AF4[] = {'e', 'n', 'v', '_'};
-const char s01a_dword_800E4AF8[] = {'s', 'n', 'd', '.'};
-const char s01a_dword_800E4AFC[] = {'c', 0x0, 0x9, 'F'};
+const char aDymcSegC[] = {'d', 'y', 'm', 'c', '_', 's', 'e', 'g','.', 'c', 0x0, 'R'};
+
+// Takabe/tracktrp.c
+const char aTracktrpC[] = {'t', 'r', 'a', 'c', 'k', 't', 'r', 'p', '.', 'c', 0x0, 'c'};
 
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
