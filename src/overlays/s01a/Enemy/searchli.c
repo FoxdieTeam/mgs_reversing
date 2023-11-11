@@ -80,7 +80,7 @@ void    s01a_command_800D1648(int);
 void    s01a_command_800D1660(void);
 void    s01a_command_800D17A0(SVECTOR *, int);
 void    s01a_object_800D9424(CONTROL *, int);
-void    s01a_env_snd_800E2364(MATRIX *, SVECTOR *, VECTOR *);
+void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
 void    s01a_camshake_800E2D3C(GV_ACT *, int angle);
 
@@ -498,7 +498,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
         pos.vz = GM_PlayerPosition_800ABA10.vz;
         pos.vy = work->height;
 
-        s01a_env_snd_800E2364(&work->lit_mtx, &pos, &sp18);
+        s01a_800E2364(&work->lit_mtx, &pos, &sp18);
 
         sp18.vx >>= 2;
         sp18.vy >>= 2;
