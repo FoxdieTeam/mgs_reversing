@@ -21,9 +21,7 @@ extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-extern unsigned short tracktrp_hashes[];
-
-extern const char aTracktrpC[]; // = "tracktrp.c"
+unsigned short tracktrp_hashes[] = {0x0DD2, 0xD5CC};
 
 int THING_Gcl_GetIntDefault(int param, int def);
 int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
@@ -155,7 +153,7 @@ GV_ACT * NewTracktrp_800E1DB0(int name, int where)
     work = (TracktrpWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TracktrpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, aTracktrpC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)TracktrpAct_800E1A94, (TActorFunction)TracktrpDie_800E1D30, "tracktrp.c");
 
         if (TracktrpGetResources_800E1D38(work, name, where) < 0)
         {

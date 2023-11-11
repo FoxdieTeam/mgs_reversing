@@ -39,18 +39,3 @@ const char s00a_aWtviewc_800E0BB3 = 0x00;
 const char sWtViewC[] = "wt_view.c";
 
 const char s00a_aWtviewcoverprims_800E0BC0[] = "(wt_view.c) Over prims !!!\n";
-const char aMosaicc[] = "mosaic.c";
-const char aMosaic[] = "Mosaic";
-const char s00a_dword_800E0BEF = 0xB0;
-
-const char aPadRecStart[] = "Pad rec start\n";
-const char aPadDemoC[] = "pad_demo.c";
-
-const char s00a_dword_800E0C0B = 0x10;
-
-// Takabe/fadeio.c
-const char aFadeioC[] = "fadeio.c";
-
-const char s00a_dword_800E0C15 = 0x30;
-const char s00a_dword_800E0C16 = 0x03;
-const char s00a_dword_800E0C17 = 0x00;
