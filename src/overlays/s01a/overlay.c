@@ -386,40 +386,6 @@ int s01a_dword_800C3D80 = 0x0000001F;
 int s01a_dword_800C3D84 = 0x03E803E8;
 int s01a_dword_800C3D88 = 0x07D007D0;
 
-// Takabe/gas_efct.c
-unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
-
-// Takabe/mosaic.c
-unsigned short mosaic_mes_list[] = {0xD182, 0x006B};
-
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-// Takabe/cinema.c
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
-unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
-unsigned short tracktrp_hashes[] = {0x0DD2, 0xD5CC};
-unsigned short env_snd_hashes[] = {0xBA27, 0x560E};
-
-DG_DEF litmdl_dg_def =
-{
-    1, 1,
-    {-32000, -32000, -32000},
-    {32000, 32000, 32000},
-    {
-        {
-            1027, 36,
-            {-32000, -32000, -32000},
-            {32000, 32000, 32000},
-            {0, 0, 0},
-            -1, -1, 49,
-            NULL, NULL, 6, NULL,
-            NULL, NULL, NULL, 0
-        }
-    }
-};
-
 const char aCancelC[] = {'c', 'a', 'n', 'c', 'e', 'l', '.', 'c', 0x0, 'D', 'G', '_'};
 
 const char aTobcntTitle[] = "title";
