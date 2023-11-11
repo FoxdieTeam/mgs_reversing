@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_env_snd_800E1FCC
-s01a_env_snd_800E1FCC:
+	xdef s01a_800E1FCC
+s01a_800E1FCC:
 	dw 0x27BDFFC8 ; 800E1FCC
 	dw 0x00804821 ; 800E1FD0
 	dw 0x00002021 ; 800E1FD4

@@ -15,7 +15,7 @@ typedef struct DymcSegWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-unsigned short s16b_dword_800C3254[] = {0xD182, 0x006B};
+extern unsigned short dymc_seg_hashes[]; // = {0xD182, 0x006B}
 
 int THING_Gcl_GetInt(char param);
 int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
@@ -26,7 +26,7 @@ void DymcSegAct_800C4A44(DymcSegWork *work)
 {
     GM_CurrentMap_800AB9B0 = work->map;
 
-    if (THING_Msg_CheckMessage(work->name, 2, s16b_dword_800C3254) == 1)
+    if (THING_Msg_CheckMessage(work->name, 2, dymc_seg_hashes) == 1)
     {
         GV_DestroyActor_800151C8(&work->actor);
     }
@@ -80,6 +80,8 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     return 0;
 }
 
+extern const char aDymcSegC[]; // = "dymc_seg.c"
+
 GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
@@ -87,7 +89,7 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
     work = (DymcSegWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, aDymcSegC);
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {

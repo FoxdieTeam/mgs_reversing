@@ -20,7 +20,7 @@ typedef struct _EnvSndWork
 
 extern int GV_PassageTime_800AB924;
 
-extern unsigned short mes_list_800C3688[];
+extern unsigned short env_snd_hashes[];
 
 int THING_Gcl_GetInt(int param);
 int THING_Gcl_GetSVector(int param, SVECTOR *svec);
@@ -37,7 +37,7 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
     GM_SetCurrentMap(work->map);
 
     time = GV_PassageTime_800AB924;
-    found = THING_Msg_CheckMessage(work->name, 4, mes_list_800C3688);
+    found = THING_Msg_CheckMessage(work->name, 4, env_snd_hashes);
     THING_Msg_GetResult();
 
     switch (found)
@@ -120,6 +120,8 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     return 0;
 }
 
+extern const char aEnvSndC[]; // = "env_snd.c"
+
 GV_ACT * NewEnvSnd_800DF424(int name, int where)
 {
     EnvSndWork *work;
@@ -127,7 +129,7 @@ GV_ACT * NewEnvSnd_800DF424(int name, int where)
     work = (EnvSndWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(EnvSndWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EnvSndAct_800DF1F8, (TActorFunction)EnvSndDie_800DF39C, "env_snd.c");
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)EnvSndAct_800DF1F8, (TActorFunction)EnvSndDie_800DF39C, aEnvSndC);
 
         if (EnvSndGetResources_800DF3A4(work, name, where) < 0)
         {

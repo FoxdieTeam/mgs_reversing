@@ -390,7 +390,7 @@ int s01a_dword_800C3D88 = 0x07D007D0;
 unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
 
 // Takabe/mosaic.c
-unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
+unsigned short mosaic_mes_list[] = {0xD182, 0x006B};
 
 // Takabe/fadeio.c
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
@@ -398,9 +398,9 @@ unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 // Takabe/cinema.c
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
-int s01a_dword_800C3D9C = 0x006BD182;
-int s01a_dword_800C3DA0 = 0xD5CC0DD2;
-int s01a_dword_800C3DA4 = 0x560EBA27;
+unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
+unsigned short tracktrp_hashes[] = {0x0DD2, 0xD5CC};
+unsigned short env_snd_hashes[] = {0xBA27, 0x560E};
 
 DG_DEF litmdl_dg_def =
 {
