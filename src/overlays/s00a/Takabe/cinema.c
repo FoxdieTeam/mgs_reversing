@@ -31,8 +31,8 @@ extern int THING_Msg_CheckMessage( unsigned short name, int n_message, short *me
 
 extern int            GV_Clock_800AB920;
 extern int            GV_PauseLevel_800AB928;
-extern unsigned short mes_list_800C3680[];
-extern const char     aCinemaC[];
+
+unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
 void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 {
@@ -261,7 +261,7 @@ void *NewCinemaScreen_800DE434( int name, int where, int argc, char **argv )
 
     work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, aCinemaC );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
         if ( CinemaScreenGetResources_800DE180( work, name, where ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );
@@ -286,7 +286,7 @@ void *NewCinemaScreenSet_800DE4D8( int name, int where, int argc, char **argv )
 
     work = (CinemaScreenWork *)GV_NewActor_800150E4( 3, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, aCinemaC );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CinemaScreenAct_800DDDA4, ( TActorFunction )CinemaScreenDie_800DE150, "cinema.c" );
         ops  = THING_Gcl_GetInt( 't' );
         ops2 = THING_Gcl_GetInt( 'e' );
         if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )

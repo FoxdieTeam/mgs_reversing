@@ -64,12 +64,6 @@ ANIMATION anm_800C33B0 = {PCX_HEART, 1, 1, 1, 1, 0, 1, 70, 70, 255, NULL, (char 
 
 unsigned short s03e_dword_800C33CC[] = {PCX_B_MARK, PCX_Q_MARK, PCX_HEART};
 
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-// Takabe/cinema.c
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
 const char s03e_dword_800CBE84[] = {0xe0, 0xff, 0xbd, '\''};
 const char s03e_dword_800CBE88[] = {0x14, 0x0, 0xb1, 0xaf};
 const char s03e_dword_800CBE8C[] = {'!', 0x88, 0x80, 0x0};

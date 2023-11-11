@@ -22,15 +22,6 @@ RECT uji_rect = {100, 100, 200, 200};
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 
-// Takabe/gas_efct.c
-unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
-
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-// Takabe/cinema.c
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
 // Enemy/demokage.c
 const char aShadow[] = "shadow";
 const char aDemokageC[] = "demokage.c";
