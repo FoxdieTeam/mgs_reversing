@@ -24,9 +24,6 @@ extern int   GV_PauseLevel_800AB928;
 extern short GV_DemoPadStatus_800AB958[2];
 extern int   GM_CurrentMap_800AB9B0;
 
-extern const char aPadRecStart[]; // = "Pad rec start\n"
-extern const char aPadDemoC[];    // = "pad_demo.c"
-
 // Something to do with setting current/last item to ITEM_NONE
 void sub_8003CC88(void);
 
@@ -119,7 +116,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
     }
     else
     {
-        printf(aPadRecStart);
+        printf("Pad rec start\n");
         work->actor.mFnUpdate = (TActorFunction)PadDemo_800DCBE8;
         GM_GameStatus_800AB3CC |= (GAME_FLAG_BIT_29 | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount_800AB380 = 4;
@@ -210,7 +207,7 @@ GV_ACT * NewPadDemo_800DCFD4(int name, int where)
     work = (PadDemoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(PadDemoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PadDemoAct_800DCD94, (TActorFunction)PadDemoDie_800DCE48, aPadDemoC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)PadDemoAct_800DCD94, (TActorFunction)PadDemoDie_800DCE48, "pad_demo.c");
 
         if (PadDemoGetResources_800DCE94(work, name, where) < 0)
         {

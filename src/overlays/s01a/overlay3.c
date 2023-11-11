@@ -870,28 +870,6 @@ const char s01a_dword_800E4A5C[] = {'.', 'c', 0x0, 't'};
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 'e', 'G', 'e'};
 
-// Takabe/gas_efct.c
-const char aGasEfctC[] = {'g', 'a', 's', '_', 'e', 'f', 'c', 't', '.', 'c', 0x0, 0x4};
-
-// Takabe/mosaic.c
-const char aMosaicc[] = "mosaic.c";
-const char aMosaic[] = {'M', 'o', 's', 'a', 'i', 'c', 0x0, 'n'};
-
-// Takabe/pad_demo.c
-const char aPadRecStart[] = "Pad rec start\n";
-const char aPadDemoC[] = {'p', 'a', 'd', '_', 'd', 'e', 'm', 'o', '.', 'c', 0x0, 't'};
-
-// Takabe/fadeio.c
-const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 'a', 0xfc, 'V'};
-
-// Takabe/cinema.c
-const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, 'x', 't', 'M'};
-
-const char aDymcSegC[] = {'d', 'y', 'm', 'c', '_', 's', 'e', 'g','.', 'c', 0x0, 'R'};
-
-// Takabe/tracktrp.c
-const char aTracktrpC[] = {'t', 'r', 'a', 'c', 'k', 't', 'r', 'p', '.', 'c', 0x0, 'c'};
-
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;

@@ -37,9 +37,7 @@ extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
 
-extern unsigned short gas_efct_msgs[2];
-
-extern const char aGasEfctC[]; // = "gas_efct.c"
+unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
 
 #define EXEC_LEVEL 3
 
@@ -233,7 +231,7 @@ GV_ACT *d11c_800C4E5C(int name, int where)
     work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, aGasEfctC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, "gas_efct.c");
 
         if (d11c_800C4D98(work, name, where) < 0)
         {
@@ -255,7 +253,7 @@ GV_ACT *d11c_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
     work = (GasEfctWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, aGasEfctC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d11c_800C4BBC, (TActorFunction)d11c_800C4D64, "gas_efct.c");
         work->f48 = 4096;
         work->f50 = 410;
         work->f2C = DG_ZeroVector_800AB39C;
