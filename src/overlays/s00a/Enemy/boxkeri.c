@@ -16,14 +16,15 @@ typedef struct BoxKeriWork
     MATRIX         field_7C_mat[2];
 } BoxKeriWork;
 
-extern const char s00a_aBoxkeric_800E09F0[];
 extern SVECTOR    DG_ZeroVector_800AB39C;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 extern int        GM_PlayerMap_800ABA0C;
-extern char       s00a_aCbbox_800E09E8[];
-extern char       s00a_dword_800E09D0[];
-extern char       s00a_dword_800E09DC[];
+
+extern const char aBoxkeriSnake[];   // = "スネーク"
+extern const char sBoxkeriDanbowl[]; // = "段ボール"
+extern const char aCbBox[];          // = "cb_box.c"
+extern const char aBoxkeriC[];       // = "boxkeri.c"
 
 void s00a_boxkeri_800D219C(BoxKeriWork *work)
 {
@@ -116,8 +117,8 @@ void s00a_boxkeri_800D23F0()
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode_80016CCC(s00a_dword_800E09D0);
-    msg.message[0] = GV_StrCode_80016CCC(s00a_dword_800E09DC);
+    msg.address = GV_StrCode_80016CCC(aBoxkeriSnake);
+    msg.message[0] = GV_StrCode_80016CCC(sBoxkeriDanbowl);
     msg.message[1] = 1;
     msg.message_len = 2;
     GV_SendMessage_80016504(&msg);
@@ -138,7 +139,7 @@ int s00a_boxkeri_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
 
     obj = &work->field_20_obj;
     GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(s00a_aCbbox_800E09E8), 0x6D, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(aCbBox), 0x6D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, work->field_7C_mat);
 
     work->field_20_obj.objs->objs[0].raise = 500;
@@ -188,7 +189,7 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_boxkeri_800D219C,
-                                  (TActorFunction)s00a_boxkeri_800D23D0, s00a_aBoxkeric_800E09F0);
+                                  (TActorFunction)s00a_boxkeri_800D23D0, aBoxkeriC);
         if (s00a_boxkeri_800D2474(work, mat, svec) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
