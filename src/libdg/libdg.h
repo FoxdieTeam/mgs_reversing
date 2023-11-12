@@ -126,6 +126,7 @@ union Prim_Union
 	POLY_GT4 poly_gt4;
 	POLY_FT4 poly_ft4;
 	TILE     tiles;
+	POLY_FT4 poly_ft4_multi[4][2];
 };
 
 struct DG_Rec_Unknown
