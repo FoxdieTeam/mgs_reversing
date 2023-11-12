@@ -864,10 +864,6 @@ const char s01a_dword_800E4A54[] = {'b', 'l', 'i', 'n'};
 const char s01a_dword_800E4A58[] = {'k', '_', 't', 'x'};
 const char s01a_dword_800E4A5C[] = {'.', 'c', 0x0, 't'};
 
-// Takabe/spark2.c
-const SVECTOR spark2_light_pos = {0, 0, 500, 0};
-const char aSpark2C[] = {'s', 'p', 'a', 'r', 'k', '2', '.', 'c', 0x0, 'e', 'G', 'e'};
-
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;

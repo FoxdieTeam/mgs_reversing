@@ -267,15 +267,13 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     return 0;
 }
 
-extern const char aWtAreaC_800E0B94[];
-
 void *NewWaterArea_800DACCC( int name, int where, int argc, char **argv )
 {
     WaterAreaWork *work ;
 
     work = (WaterAreaWork *)GV_NewActor_800150E4( 5, sizeof( WaterAreaWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )WaterAreaAct_800DA67C, ( TActorFunction )WaterAreaDie_800DABC8, aWtAreaC_800E0B94 );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )WaterAreaAct_800DA67C, ( TActorFunction )WaterAreaDie_800DABC8, "wt_area.c" );
         if ( WaterAreaGetResources_800DABD0( work, name, where ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );

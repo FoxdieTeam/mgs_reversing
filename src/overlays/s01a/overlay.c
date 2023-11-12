@@ -288,7 +288,7 @@ extern const char anim_data_800E45F8[];
 ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800E45F8};
 
 extern const char anim_data_800E46F8[];
-ANIMATION anm_800C3C04 = {18335, 1, 1, 1, 1, 230, 1, 300, 300, 255, NULL, (char *)anim_data_800E46F8};
+ANIMATION anm_800C3C04 = {0x479F, 1, 1, 1, 1, 230, 1, 300, 300, 255, NULL, (char *)anim_data_800E46F8};
 
 extern const char anim_data_800E4724[];
 ANIMATION anm_800C3C20 = {0x479F, 1, 1, 1, 1, 230, 1, 1000, 1000, 32, NULL, (char *)anim_data_800E4724};
