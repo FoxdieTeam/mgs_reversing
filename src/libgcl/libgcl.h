@@ -315,7 +315,7 @@ int                GCL_SetLoadFile_80020EAC(char *saveBuf);
 void               GCL_SaveLinkVar_80020B90(short *gameVar);
 void               GCL_ReadParamVector_80020AFC( SVECTOR * );
 
-struct MAP *GCL_Command_mapdef_impl_800310D0(void);
+MAP *GCL_Command_mapdef_impl_800310D0(void);
 void               GCL_Command_camera_helper_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper2_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void               GCL_Command_camera_helper3_80030938(SVECTOR *pVec);

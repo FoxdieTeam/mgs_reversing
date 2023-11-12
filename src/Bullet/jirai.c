@@ -227,7 +227,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         }
         else if (pActor->field_140 != 0)
         {
-            sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
+            sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_events);
             GV_DestroyActor_800151C8(&pActor->field_0_actor);
         }
         else
@@ -356,7 +356,7 @@ void jirai_act_8006AB5C(Actor_Jirai *pActor)
         GM_Target_SetVector_8002D500(&target, &pTarget->field_8_vec);
 
         sub_8002D7DC(&target);
-        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
+        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_events);
     }
 
     if (pActor->field_10E == 1)

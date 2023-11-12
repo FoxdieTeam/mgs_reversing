@@ -1,3 +1,4 @@
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
@@ -150,7 +151,7 @@ int s00a_asiato_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2, int vy)
         svec2.vy = mat->t[1];
         svec2.vz = mat->t[2];
         svec2.vy = vy;
-        work->field_24 = tex = DG_GetTexture_8001D830(0xDC55);
+        work->field_24 = tex = DG_GetTexture_8001D830(PCX_ASIATO);
         if (tex)
         {
             s00a_asiato_800D0E9C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 2, 48, 48, 48);
@@ -332,7 +333,7 @@ int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
 
     for ( i = 0 ; i < hzd->f04_area->n_triggers ; i++ )
     {
-            if ( triggers->trap.name_id == 0xDC55 || triggers->trap.name_id == 0x7833 )
+            if ( triggers->trap.name_id == HASH_ASIATO || triggers->trap.name_id == HASH_POOLATO )
             {
                 test = pos->vx;
                 if ( test >= triggers->trap.b1.x  &&  triggers->trap.b2.x >= test )
@@ -368,7 +369,7 @@ int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
 {
     work->field_20 = 0;
 
-    if (s00a_asiato_800D1500(hdl, pos, 0xCA85))
+    if (s00a_asiato_800D1500(hdl, pos, HASH_POOL))
     {
         work->field_24 = 60;
         return 0;
@@ -381,7 +382,7 @@ int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
         return 1;
     }
 
-    return s00a_asiato_800D1500(hdl, pos, 0xDC55);
+    return s00a_asiato_800D1500(hdl, pos, HASH_ASIATO);
 }
 
 int s00a_asiato_800D179C()

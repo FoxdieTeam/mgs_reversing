@@ -3,21 +3,8 @@
 
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
-//#include "Game/map.h"
-
 #include "libgv/libgv.h"
-
-typedef struct Res_Control_unknown
-{
-    unsigned short  field_0_scriptData_orHashedName;
-    unsigned short  field_2_name_hash;
-    unsigned short  field_4_trigger_Hash_Name_or_camera_w;
-    short           field_6_count;
-    unsigned short  field_8_array[6];
-    SVECTOR         field_14_vec;
-} Res_Control_unknown;
-
-struct MAP;
+#include "Game/map.h"
 
 enum
 {
@@ -57,8 +44,8 @@ typedef struct CONTROL
     // - vz: roll.
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
     SVECTOR             field_8_rot;
-    Res_Control_unknown field_10_pStruct_hzd_unknown;
-    struct MAP  *field_2C_map;
+    HZD_EVT field_10_events;
+    MAP  *field_2C_map;
     unsigned short      field_30_scriptData;
 
     // Base height, written to by 800596FC() and read by 80025A7C() as an offset to determine the position vector's vy

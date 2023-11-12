@@ -1,5 +1,7 @@
 #include "libdg/libdg.h"
+#include "libgcl/hash.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _AsiatoWork
 {
@@ -18,14 +20,14 @@ typedef struct _AsiatoWork
 
 typedef struct _AsiatoUnk
 {
-    SVECTOR f0[128];
-    short   f400;
-    short   f402;
+    SVECTOR vec[128];
+    short   index;
+    short   total;
 } AsiatoUnk;
 
 extern AsiatoUnk asiato2_800E4FC0;
 
-extern const char aAsiato2[]; // = "asiato2.c"
+extern const char aAsiato2C[]; // = "asiato2.c"
 
 #define EXEC_LEVEL 4
 
@@ -144,7 +146,7 @@ int Asiato2GetResources_800DCFF4(AsiatoWork *work, MATRIX *world, int arg2, int 
 
     pos.vy = height;
 
-    tex = DG_GetTexture_8001D830(0xDC55);
+    tex = DG_GetTexture_8001D830(PCX_ASIATO);
     work->tex = tex;
     if (tex == NULL)
     {
@@ -171,8 +173,8 @@ void Asiato2Die_800DD1C8(AsiatoWork *work)
         DG_FreePrim_8001BC04(prim);
     }
 
-    asiato2_800E4FC0.f0[work->f4C].pad = 0;
-    asiato2_800E4FC0.f402--;
+    asiato2_800E4FC0.vec[work->f4C].pad = 0;
+    asiato2_800E4FC0.total--;
 }
 
 GV_ACT * NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
@@ -182,7 +184,7 @@ GV_ACT * NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int ar
     work = (AsiatoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, aAsiato2);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, aAsiato2C);
 
         work->f4C = arg3;
         work->f54 = arg6;
@@ -194,6 +196,155 @@ GV_ACT * NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int ar
         }
 
         work->f48 = arg4;
+    }
+
+    return &work->actor;
+}
+
+typedef struct _Asiato2Work2
+{
+    GV_ACT   actor;
+    CONTROL *control;
+    OBJECT  *object;
+    int      f28;
+    int      f2C;
+    int      f30;
+    int     *f34;
+} Asiato2Work2;
+
+int s01a_blink_tx_800DD308(Asiato2Work2 *work, int name)
+{
+    HZD_EVT *events;
+    int      i;
+
+    events = &work->control->field_10_events;
+    for (i = 0; i < events->field_6_count; i++)
+    {
+        if (events->field_8_array[i] == name)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int s01a_blink_tx_800DD358(Asiato2Work2 *work)
+{
+    work->f28 = 0;
+
+    if (s01a_blink_tx_800DD308(work, 0xCA85))
+    {
+        work->f2C = 360;
+        return 0;
+    }
+
+    if (work->f2C > 0)
+    {
+        work->f28 = 360 - work->f2C;
+        work->f2C--;
+        return 1;
+    }
+
+    return s01a_blink_tx_800DD308(work, 0xDC55);
+}
+
+int s01a_blink_tx_800DD3D4(Asiato2Work2 *work)
+{
+    int temp_s0;
+
+    temp_s0 = *work->f34 & 0x3;
+    if (temp_s0 == 0)
+    {
+        return 0;
+    }
+
+    if (!s01a_blink_tx_800DD358(work))
+    {
+        return 0;
+    }
+
+    return temp_s0;
+}
+
+void s01a_blink_tx_800DD42C(Asiato2Work2 *work)
+{
+    asiato2_800E4FC0.vec[asiato2_800E4FC0.index] = work->control->field_0_mov;
+    asiato2_800E4FC0.vec[asiato2_800E4FC0.index].pad = 1;
+
+    asiato2_800E4FC0.total++;
+
+    if (++asiato2_800E4FC0.index >= 128)
+    {
+        asiato2_800E4FC0.index = 0;
+    }
+}
+
+void s01a_blink_tx_800DD4AC(Asiato2Work2 *work)
+{
+    int     which;
+    MATRIX *world;
+
+    which = s01a_blink_tx_800DD3D4(work);
+    if (which == 0 || asiato2_800E4FC0.total >= 128)
+    {
+        return;
+    }
+
+    if (which == 1)
+    {
+        world = &work->object->objs->objs[12].world;
+    }
+    else
+    {
+        world = &work->object->objs->objs[15].world;
+    }
+
+    s01a_blink_tx_800DD42C(work);
+
+    GM_CurrentMap_800AB9B0 = work->control->field_2C_map->field_0_map_index_bit;
+
+    NewAsiato2_800DD238(world, which, work->control->field_78_levels[0], asiato2_800E4FC0.index - 1, work->f28, work->control->field_8_rot.vy, work->f30);
+}
+
+void s01a_blink_tx_800DD58C(Asiato2Work2 *work)
+{
+}
+
+void s01a_blink_tx_800DD594(Asiato2Work2 *work)
+{
+    int i;
+
+    for (i = 0; i < 128; i++)
+    {
+        s01a_asiato2_800DCE38(&asiato2_800E4FC0.vec[i], 0, 0, 0);
+        asiato2_800E4FC0.vec[i].pad = 0;
+    }
+
+    asiato2_800E4FC0.index = 0;
+    asiato2_800E4FC0.total = 0;
+
+    work->f2C = 0;
+}
+
+GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int *arg3)
+{
+    Asiato2Work2 *work;
+
+    work = (Asiato2Work2 *)GV_NewActor_800150E4(4, sizeof(Asiato2Work2));
+    if (work != NULL)
+    {
+        GV_SetNamedActor_8001514C(&work->actor,
+                                  (TActorFunction)s01a_blink_tx_800DD4AC,
+                                  (TActorFunction)s01a_blink_tx_800DD58C,
+                                  aAsiato2C);
+
+        work->control = control;
+        work->object = object;
+        work->f30 = arg2;
+        work->f34 = arg3;
+
+        s01a_blink_tx_800DD594(work);
     }
 
     return &work->actor;
