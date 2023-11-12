@@ -18,8 +18,6 @@ int THING_Gcl_GetIntDefault(char param, int def);
 int THING_Gcl_GetInt(char param);
 void THING_Gcl_GetSVector(char param, SVECTOR *vec);
 
-extern char aRipplesC_800E0B7C[];
-
 extern int GM_CurrentMap_800AB9B0;
 extern MATRIX DG_ZeroMatrix_8009D430;
 
@@ -61,7 +59,7 @@ GV_ACT *s00a_ripples_800D872C(int name, int where, int argc, char **argv)
     work = (RipplesWork *)GV_NewActor_800150E4(5, sizeof(RipplesWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_ripples_800D85A0, (TActorFunction)s00a_ripples_800D862C, aRipplesC_800E0B7C);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_ripples_800D85A0, (TActorFunction)s00a_ripples_800D862C, "ripples.c");
         if (s00a_ripples_800D8634(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);

@@ -24,8 +24,6 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
-extern char aRsurfaceC_800E0B70[];
-
 extern SVECTOR  DG_ZeroVector_800AB39C;
 extern int      GM_CurrentMap_800AB9B0;
 extern MATRIX   DG_ZeroMatrix_8009D430;
@@ -113,7 +111,7 @@ GV_ACT *s00a_rsurface_800D8244(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_rsurface_800D7FC4,
-                                  (TActorFunction)s00a_rsurface_800D8140, aRsurfaceC_800E0B70);
+                                  (TActorFunction)s00a_rsurface_800D8140, "rsurface.c");
         if (s00a_rsurface_800D8148(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
