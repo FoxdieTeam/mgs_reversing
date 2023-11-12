@@ -315,14 +315,12 @@ SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
 int s01a_dword_800C3CBC = 0x03E801F4;
 int s01a_dword_800C3CC0 = 0x07D003E8;
-int s01a_dword_800C3CC4 = 0x00280028;
-int s01a_dword_800C3CC8 = 0x00500050;
-int s01a_dword_800C3CCC = 0xFE700000;
-int s01a_dword_800C3CD0 = 0x0000003C;
-int s01a_dword_800C3CD4 = 0x000F7918;
-int s01a_dword_800C3CD8 = 0x003C001E;
-int s01a_dword_800C3CDC = 0x7D00005A;
-int s01a_dword_800C3CE0 = 0x75307D01;
+
+RECT glight_rect = {40, 40, 80, 80};
+SVECTOR glight_svec = {0, 65136, 60, 0};
+
+short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
+
 int s01a_dword_800C3CE4 = 0x00010000;
 int s01a_dword_800C3CE8 = 0x00030002;
 int s01a_dword_800C3CEC = 0x00050004;

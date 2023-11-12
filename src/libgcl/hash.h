@@ -59,6 +59,8 @@
 #define HASH_PADON              0x2580 // GV_StrCode( "padon" )
 #define HASH_PADOFF             0xaf6a // GV_StrCode( "padoff" )
 #define HASH_SLOW               0x3e92 // GV_StrCode( "slow" )
+#define HASH_SOUND_ON           0x2761 // GV_StrCode( "音入れる" )
+#define HASH_SOUND_OFF          0xED7F // GV_StrCode( "音切る" )
 
 //------------------------------------------------------------------------------
 // HZD
