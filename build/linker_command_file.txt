@@ -845,11 +845,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DE964.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DE9B4.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DEA04.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DEA9C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DEB24.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DEB60.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DEBB4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_blink_tx_800DECD8.obj"
+
+    include "{{OBJ_DIR}}\overlays\s01a\Okajima\blink_tx.obj"
 
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
