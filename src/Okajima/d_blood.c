@@ -24,9 +24,9 @@ int d_blood_act_helper_800729B4(void)
         return 0;
     }
 
-    pArray = pCtrl->field_10_pStruct_hzd_unknown.field_8_array;
+    pArray = pCtrl->field_10_events.field_8_array;
 
-    for (i = pCtrl->field_10_pStruct_hzd_unknown.field_6_count; i > 0; i--, pArray++)
+    for (i = pCtrl->field_10_events.field_6_count; i > 0; i--, pArray++)
     {
         if (*pArray == 0xC09E)
         {

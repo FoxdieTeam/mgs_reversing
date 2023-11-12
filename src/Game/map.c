@@ -305,7 +305,7 @@ MAP *Map_ScriptLoadMapBlocks_800312D0()
 int GM_AddMap_80031324(int mapName)
 {
     int                counter;  // $v1
-    struct MAP *pRecIter; // $a1
+    MAP *pRecIter; // $a1
 
     pRecIter = gMapRecs_800B7910;
 
@@ -329,7 +329,7 @@ int GM_AddMap_80031324(int mapName)
 int GM_DelMap_800313C0(int mapName)
 {
     int                counter;  // $v1
-    struct MAP *pRecIter; // $a1
+    MAP *pRecIter; // $a1
 
     pRecIter = gMapRecs_800B7910;
 
@@ -353,7 +353,7 @@ int GM_DelMap_800313C0(int mapName)
 int Map_ScriptReloadMaps_80031450(int a1)
 {
     int                counter;                 // $v1
-    struct MAP *pIter;                   // $v0
+    MAP *pIter;                   // $v0
     unsigned short     NextParamValue_80020AD4; // $v0
 
     counter = gMapCount_800ABAA8;
@@ -371,11 +371,11 @@ int Map_ScriptReloadMaps_80031450(int a1)
     return 0;
 }
 
-struct MAP *Map_FromId_800314C0(int id)
+MAP *Map_FromId_800314C0(int id)
 {
-    struct MAP *pRecIter; // $a1
+    MAP *pRecIter; // $a1
     int                counter;  // $v1
-    struct MAP *pFound;   // $a2
+    MAP *pFound;   // $a2
 
     pRecIter = gMapRecs_800B7910;
     counter = gMapCount_800ABAA8;

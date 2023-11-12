@@ -60,13 +60,16 @@
 #define HASH_PADOFF             0xaf6a // GV_StrCode( "padoff" )
 #define HASH_SLOW               0x3e92 // GV_StrCode( "slow" )
 #define HASH_SOUND_ON           0x2761 // GV_StrCode( "音入れる" )
-#define HASH_SOUND_OFF          0xED7F // GV_StrCode( "音切る" )
+#define HASH_SOUND_OFF          0xed7F // GV_StrCode( "音切る" )
 
 //------------------------------------------------------------------------------
 // HZD
 //------------------------------------------------------------------------------
 
 #define HASH_MAIN               0x7df9 // GV_StrCode( "メイン" ) - Refers to the main area of the map to load
+#define HASH_ASIATO             0xdc55 // GV_StrCode( "asiato" )
+#define HASH_POOL               0xca85 // GV_StrCode( "pool" )
+#define HASH_POOLATO            0x7833 // GV_StrCode( "poolato" )
 
 //------------------------------------------------------------------------------
 // Textures files (.pcx)
@@ -93,6 +96,7 @@
 #define PCX_PCH_FOG             0xf314 // GV_StrCode( "pch_fog" )
 #define PCX_HOSI                0xcafe // GV_StrCode( "hosi" )
 #define PCX_ZZZ                 0xf7bb // GV_StrCode( "zzz" )
+#define PCX_ASIATO              0xdc55 // GV_StrCode( "asiato" )
 
 //------------------------------------------------------------------------------
 // Sight files (.sgt)

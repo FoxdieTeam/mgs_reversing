@@ -1,7 +1,8 @@
 #include "linker.h"
-#include "Game/delay.h" 
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "Game/control.h"
+#include "Game/delay.h"
 #include "Game/linkvarbuf.h"
 
 int dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};
@@ -64,7 +65,7 @@ void HZD_BindMapChange_80029A6C( int mask )
     }
 }
 
-void HZD_SetEvent_80029AB4( Res_Control_unknown *param_1, int param_2 )
+void HZD_SetEvent_80029AB4( HZD_EVT *param_1, int param_2 )
 {
     int    i;
     unsigned short *tmp;
@@ -86,7 +87,7 @@ void HZD_SetEvent_80029AB4( Res_Control_unknown *param_1, int param_2 )
     param_1->field_14_vec.vx = 0;
 }
 
-void HZD_ExecBindX_80029AEC( BindStruct *pBind, Res_Control_unknown *pSubCtrl, int a3, int a4 )
+void HZD_ExecBindX_80029AEC( BindStruct *pBind, HZD_EVT *pSubCtrl, int a3, int a4 )
 {
     int f_4; // $v1
     int msg_type; // $a0
@@ -133,7 +134,7 @@ static inline int sub_helper_80029B9C(unsigned short value, unsigned int hash)
 }
 
 //HZD_ExecEventRCM ?
-void sub_80029B9C( HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2 )
+void sub_80029B9C( HZD_HDL *pMap, HZD_EVT *arg1, int arg2 )
 {
     BindStruct  *pBind;
     unsigned int hash;
@@ -203,7 +204,7 @@ void sub_80029B9C( HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2 )
     }
 }
 
-static inline int sub_helper2_80029D50(BindStruct *pBind, Res_Control_unknown *arg1)
+static inline int sub_helper2_80029D50(BindStruct *pBind, HZD_EVT *arg1)
 {
     int diff;
     int mask;
@@ -272,7 +273,7 @@ static inline int sub_helper2_80029D50(BindStruct *pBind, Res_Control_unknown *a
 }
 
 // HZD_ExecEventL ?
-void sub_80029D50(HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2)
+void sub_80029D50(HZD_HDL *pMap, HZD_EVT *arg1, int arg2)
 {
     BindStruct   *pBind;
     unsigned int  hash, hash2;
@@ -346,7 +347,7 @@ void sub_80029D50(HZD_HDL *pMap, Res_Control_unknown *arg1, int arg2)
 }
 
 //HZD_ExecEventSub ?
-void sub_8002A090(HZD_HDL *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, int hash)
+void sub_8002A090(HZD_HDL *pHzdMap, HZD_EVT *pCtrlSub, int flags, int hash)
 {
     BindStruct     *pBinds;
     int             bindCount;
@@ -388,7 +389,7 @@ void sub_8002A090(HZD_HDL *pHzdMap, Res_Control_unknown *pCtrlSub, int flags, in
     }
 }
 
-void HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, Res_Control_unknown *param_2, unsigned int flags)
+void HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, HZD_EVT *param_2, unsigned int flags)
 {
     if (flags & 0x200)
     {
@@ -401,7 +402,7 @@ void HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, Res_Control_unknown *param_2, un
 }
 
 //ExecLeaveEvent ?
-void sub_8002A258(HZD_HDL *param_1, Res_Control_unknown *param_2)
+void sub_8002A258(HZD_HDL *param_1, HZD_EVT *param_2)
 {
     sub_8002A090(param_1, param_2, 0, HASH_LEAVE);
 }
@@ -443,7 +444,7 @@ static inline int GM_ActControl_helper6_helper_helper2_8002A27C(unsigned short *
     return 0;
 }
 
-void GM_ActControl_helper6_helper_8002A27C(HZD_HDL *pMap, Res_Control_unknown *arg1)
+void GM_ActControl_helper6_helper_8002A27C(HZD_HDL *pMap, HZD_EVT *arg1)
 {
     HZD_AREA       *pArea;
     HZD_TRG        *pTrigger;
@@ -457,7 +458,7 @@ void GM_ActControl_helper6_helper_8002A27C(HZD_HDL *pMap, Res_Control_unknown *a
     pArea = pMap->f04_area;
     pTrigger = pArea->triggers;
 
-    arg1->field_2_name_hash = 0xDD2;
+    arg1->field_2_name_hash = HASH_ENTER;
     count = 0;
 
     for (i = pArea->n_triggers - pMap->f0E_n_cameras; i > 0; i--, pTrigger++)
@@ -506,7 +507,7 @@ loop:
 }
 
 
-void GM_ActControl_helper6_helper2_8002A4B8(HZD_HDL *pMap, Res_Control_unknown *arg1)
+void GM_ActControl_helper6_helper2_8002A4B8(HZD_HDL *pMap, HZD_EVT *arg1)
 {
     int    count;
     short *pData;
@@ -523,7 +524,7 @@ void GM_ActControl_helper6_helper2_8002A4B8(HZD_HDL *pMap, Res_Control_unknown *
 }
 
 // HZD_EnterTrap ?
-void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, Res_Control_unknown *arg1)
+void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, HZD_EVT *arg1)
 {
     SVECTOR *pSrcVec;
     short   *pArr;

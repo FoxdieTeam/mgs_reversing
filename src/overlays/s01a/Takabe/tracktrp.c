@@ -1,3 +1,4 @@
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -21,7 +22,7 @@ extern int     GM_AlertMode_800ABA00;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-unsigned short tracktrp_hashes[] = {0x0DD2, 0xD5CC};
+unsigned short tracktrp_hashes[] = {HASH_ENTER, HASH_LEAVE};
 
 int THING_Gcl_GetIntDefault(int param, int def);
 int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);

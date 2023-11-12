@@ -77,7 +77,7 @@ void GM_InitWhereSystem_8002597C(void)
 
 int GM_InitLoader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
 {
-    struct MAP *pMapRec;
+    MAP *pMapRec;
     const int          mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
     GM_CurrentMap_800AB9B0 = mapId;
 
@@ -94,7 +94,7 @@ int GM_InitLoader_8002599C(CONTROL *pControl, int scriptData, int scriptBinds)
     pControl->field_30_scriptData = scriptData;
     if (scriptData)
     {
-        HZD_SetEvent_80029AB4(&pControl->field_10_pStruct_hzd_unknown, scriptData);
+        HZD_SetEvent_80029AB4(&pControl->field_10_events, scriptData);
         if (GM_ControlPushBack_800258B0(pControl) < 0)
         {
             return -1;
@@ -324,7 +324,7 @@ static inline void GM_ActControl_helper4_80025A7C(CONTROL *pControl, HZD_HDL *pH
     pControl->field_0_mov.vy = vy;
 }
 
-extern void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, Res_Control_unknown *arg1);
+extern void GM_ActControl_helper6_8002A538(HZD_HDL *pMap, HZD_EVT *arg1);
 
 void GM_ActControl_80025A7C(CONTROL *pControl)
 {
@@ -401,9 +401,9 @@ void GM_ActControl_80025A7C(CONTROL *pControl)
 
     if (!(pControl->field_55_skip_flag & CTRL_SKIP_TRAP))
     {
-        pControl->field_10_pStruct_hzd_unknown.field_14_vec = pControl->field_0_mov;
-        pControl->field_10_pStruct_hzd_unknown.field_14_vec.pad = pControl->field_8_rot.vy;
-        GM_ActControl_helper6_8002A538(pHzd, &pControl->field_10_pStruct_hzd_unknown);
+        pControl->field_10_events.field_14_vec = pControl->field_0_mov;
+        pControl->field_10_events.field_14_vec.pad = pControl->field_8_rot.vy;
+        GM_ActControl_helper6_8002A538(pHzd, &pControl->field_10_events);
     }
 
     DG_SetPos2_8001BC8C(&pControl->field_0_mov, &pControl->field_8_rot);
