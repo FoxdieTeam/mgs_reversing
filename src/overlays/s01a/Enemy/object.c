@@ -1,6 +1,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
+#include "Anime/animeconv/anime.h"
 
 typedef struct ObjectWork
 {
@@ -61,7 +62,8 @@ typedef struct ObjectWork
     int     field_268;
     int     field_26C;
     int     field_270;
-    int     field_274;
+    short   field_274;
+    short   field_276;
     int     field_278;
     short   field_27C;
     short   field_27E;
@@ -72,24 +74,141 @@ typedef struct ObjectWork
     int     field_28C;
 } ObjectWork;
 
-extern char s01a_aMcrane_800E4808[];
-extern char s01a_aRift_800E4800[];
-extern char s01a_aRotvxdrotvydrotvzd_800E47DC[];
-extern char s01a_dword_800E4814[];
-extern int  s01a_dword_800E4E04;
+extern char      s01a_aMcrane_800E4808[];
+extern char      s01a_aRift_800E4800[];
+extern char      s01a_aRotvxdrotvydrotvzd_800E47DC[];
+extern char      s01a_dword_800E4814[];
+extern int       s01a_dword_800E4E04;
+extern SVECTOR   object_svec1_800C3CAC;
+extern SVECTOR   object_svec2_800C3CB4;
+extern ANIMATION anm_800C3C58;
+extern ANIMATION anm_800C3C20;
+extern ANIMATION anm_800C3C74;
+extern ANIMATION anm_800C3C3C;
+extern ANIMATION anm_800C3C04;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D93BC.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9424.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D94A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D952C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D95B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9634.s")
+void s01a_object_800D93BC(short *arg0)
+{
+    PRESCRIPT prescript;
+    SVECTOR  *pos, *speed;
+
+    pos = &prescript.pos;
+
+    pos->vx = arg0[10];
+    pos->vy = arg0[12];
+    pos->vz = arg0[14];
+
+    speed = &prescript.speed;
+
+    speed->vx = 0;
+    speed->vy = 0;
+    speed->vz = 0;
+
+    prescript.scr_num = 1;
+    prescript.s_anim = 0;
+
+    anm_800C3C04.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C04);
+}
+
+void s01a_object_800D9424(SVECTOR *pos, short scr_num)
+{
+    PRESCRIPT prescript;
+
+    prescript.pos = *pos;
+    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.scr_num = scr_num;
+    prescript.s_anim = 0;
+
+    anm_800C3C04.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C04);
+}
+
+void s01a_object_800D94A8(SVECTOR *pos)
+{
+    PRESCRIPT prescript;
+
+    prescript.pos = *pos;
+    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.scr_num = 0;
+    prescript.s_anim = 0;
+
+    anm_800C3C3C.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C3C);
+}
+
+void s01a_object_800D952C(SVECTOR *pos, short scr_num)
+{
+    PRESCRIPT prescript;
+
+    prescript.pos = *pos;
+    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.scr_num = scr_num;
+    prescript.s_anim = 0;
+
+    anm_800C3C58.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C58);
+}
+
+void s01a_object_800D95B0(SVECTOR *pos)
+{
+    PRESCRIPT prescript;
+
+    prescript.pos = *pos;
+    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.scr_num = 0;
+    prescript.s_anim = 0;
+
+    anm_800C3C74.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C74);
+}
+
+void s01a_object_800D9634(SVECTOR *pos)
+{
+    PRESCRIPT prescript;
+
+    prescript.pos = *pos;
+    prescript.speed = DG_ZeroVector_800AB39C;
+    prescript.scr_num = 0;
+    prescript.s_anim = 0;
+
+    anm_800C3C20.field_14_pre_script = &prescript;
+    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C20);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D96B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D98B0.s")
+
+int s01a_object_800D98B0(ObjectWork *work, int threshold)
+{
+    SVECTOR svec;
+    int     vx, vz;
+
+    vx = work->field_274 - work->field_20.field_0_mov.vx;
+    vz = work->field_276 - work->field_20.field_0_mov.vz;
+    if (vx <= -threshold || vx >= threshold || vz <= -threshold || vz >= threshold)
+    {
+        svec.vx = vx;
+        svec.vz = vz;
+        return GV_YawVec3_80016EF8(&svec);
+    }
+    return -1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D991C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9984.s")
+
+int s01a_object_800D9984(int arg0, short *params)
+{
+    int            count;
+    unsigned char *param;
+
+    for (count = 0; (param = GCL_Get_Param_Result_80020AA4()) != NULL; params++, count++)
+    {
+        *params = GCL_StrToInt_800209E8(param);
+    }
+    return count;
+}
 
 void s01a_object_800D99DC(ObjectWork *work)
 {
@@ -120,11 +239,88 @@ void s01a_object_800D99DC(ObjectWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9A88.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9BA0.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9C10.s")
+int s01a_object_800D9A88(ObjectWork *work);
+
+int s01a_object_800D9BA0(ObjectWork *work)
+{
+    int field_284;
+
+    if (work->field_260 == 0)
+    {
+        s01a_object_800D9A88(work);
+    }
+
+    field_284 = s01a_object_800D98B0(work, 32);
+    if (field_284 < 0)
+    {
+        return 1;
+    }
+
+    work->field_284 = field_284;
+    work->field_268 = 32;
+    work->field_260++;
+    return 0;
+}
+
+int s01a_object_800D9C10(ObjectWork *work)
+{
+    int field_284;
+
+    field_284 = -1;
+    work->field_268 = 0;
+    if (work->field_260 < 4)
+    {
+        if (work->field_260 & 1)
+        {
+            field_284 = work->field_264;
+            work->field_268 = 32;
+        }
+        else
+        {
+            field_284 = work->field_264 + 2048;
+            if (field_284 > 4096)
+            {
+                field_284 = work->field_264 - 2048;
+            }
+            work->field_268 = 32;
+        }
+    }
+    else if (work->field_260 >= 32)
+    {
+        return 1;
+    }
+    work->field_284 = field_284;
+    work->field_260++;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9C8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9DAC.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9DC4.s")
+
+int s01a_object_800D9DAC(ObjectWork *work)
+{
+    return --work->field_260 < 1;
+}
+
+int s01a_object_800D9DC4(ObjectWork *work)
+{
+    switch (work->field_25C)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+        if (s01a_object_800D9BA0(work))
+        {
+            return 1;
+        }
+    default:
+        work->field_260++;
+        return 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9E20.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9F10.s")
 void s01a_object_800D9F10(ObjectWork *work);
@@ -170,7 +366,23 @@ void s01a_object_800D9FE0(ObjectWork *work)
     GM_Target_SetVector_8002D500(target, &work->field_20.field_0_mov);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800DA08C.s")
+void s01a_object_800DA08C(ObjectWork *work)
+{
+    TARGET *target;
+
+    work->field_180 = target = GM_AllocTarget_8002D400();
+    if (work->field_28C == 1)
+    {
+        GM_SetTarget_8002DC74(target, 0x18, 0, &object_svec2_800C3CB4);
+    }
+    else
+    {
+        GM_SetTarget_8002DC74(target, 0x18, 0, &object_svec1_800C3CAC);
+    }
+
+    target->field_3C = 1;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800DA108.s")
 void s01a_object_800DA108(ObjectWork *work, int, int);
 
