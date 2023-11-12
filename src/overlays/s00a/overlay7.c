@@ -30,16 +30,15 @@ const char aLSightC[] = "l_sight.c";
 const char aGrenadeModelD[] = "grenade model=%d \n";
 const char aGrnadEC[] = "grnad_e.c";
 
-const char s00a_dword_800E09D0[] = {0xa5, 0xb9, 0xa5, 0xcd};
-const char s00a_dword_800E09D4[] = {0xa1, 0xbc, 0xa5, 0xaf};
-const char s00a_dword_800E09D8[] = {0x0, 0x0, 0x0, 0x0};
-const char s00a_dword_800E09DC[] = {0xc3, 0xca, 0xa5, 0xdc};
-const char s00a_dword_800E09E0[] = {0xa1, 0xbc, 0xa5, 0xeb};
-const char s00a_dword_800E09E4[] = {0x0, 0x0, 0x0, 0x0};
-const char s00a_aCbbox_800E09E8[] = "cb_box";
-const char s00a_aBoxkeric_800E09F0[] = "boxkeri.c";
-const char s00a_aSmoke_800E09FC[] = "smoke";
-const char s00a_aSmokec_800E0A04[] = "smoke.c";
+// Enemy/boxkeri.c
+const char aBoxkeriSnake[] = "スネーク";
+const char sBoxkeriDanbowl[] = "段ボール";
+const char aCbBox[] = "cb_box";
+const char aBoxkeriC[] = "boxkeri.c";
+
+// Enemy/smoke.c
+const char aSmoke[] = "smoke";
+const char aSmokeC[] = "smoke.c";
 
 // Enemy/wall.c
 const char aDestroy[] = "destroy\n";
