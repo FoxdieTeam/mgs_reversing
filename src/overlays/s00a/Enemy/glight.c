@@ -4,32 +4,35 @@
 typedef struct GlightWork
 {
     GV_ACT   actor;
-    DG_PRIM *field_20;
-    DG_PRIM *field_24;
-    int      field_28;
+    DG_PRIM *prim;
+    MATRIX  *world;
+    int      visible;
 } GlightWork;
 
-extern char    aGlightC_800E0A94[];
-extern char    s00a_aFamasl_800E0A8C[];
+extern char    aGlightC[];
+extern char    aFamasL[];
 extern RECT    glight_rect;
 extern SVECTOR glight_svec;
 
 void s00a_glight_800D387C(GlightWork *work)
 {
-    work->field_20->world = work->field_24->world;
-    if (work->field_28)
+    work->prim->world = *work->world;
+
+    if (work->visible)
     {
-        work->field_20->type &= ~0x100;
-        return;
+        DG_VisiblePrim(work->prim);
     }
-    work->field_20->type |= 0x100;
+    else
+    {
+        DG_InvisiblePrim(work->prim);
+    }
 }
 
 void s00a_glight_800D3910(GlightWork *work)
 {
     DG_PRIM *prim;
 
-    prim = work->field_20;
+    prim = work->prim;
     if (prim)
     {
         DG_DequeuePrim_800182E0(prim);
@@ -74,35 +77,41 @@ void s00a_glight_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
     poly->clut = clut;
 }
 
-int s00a_glight_800D39D0(GlightWork *work, DG_PRIM *prim2, int **field_28)
+int s00a_glight_800D39D0(GlightWork *work, MATRIX *world, int **pvisible)
 {
-    DG_PRIM *prim;
-    DG_TEX  *tex;
+    DG_TEX *tex;
 
-    work->field_24 = prim2;
-    prim = DG_GetPrim(0x412, 1, 0, &glight_svec, &glight_rect);
-    work->field_20 = prim;
-    if (prim)
+    work->world = world;
+
+    work->prim = DG_GetPrim(0x412, 1, 0, &glight_svec, &glight_rect);
+    if (work->prim == NULL)
     {
-        if (field_28)
-        {
-            *field_28 = &work->field_28;
-        }
-        work->field_28 = 1;
-        work->field_20->group_id = 0;
-        work->field_20->field_2E_k500 = 200;
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s00a_aFamasl_800E0A8C));
-        if (tex)
-        {
-            s00a_glight_800D394C(&work->field_20->field_40_pBuffers[0]->poly_ft4, tex, 250);
-            s00a_glight_800D394C(&work->field_20->field_40_pBuffers[1]->poly_ft4, tex, 200);
-            return 0;
-        }
+        return -1;
     }
-    return -1;
+
+    if (pvisible)
+    {
+        *pvisible = &work->visible;
+    }
+
+    work->visible = 1;
+
+    work->prim->group_id = 0;
+    work->prim->field_2E_k500 = 200;
+
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aFamasL));
+    if (tex == NULL)
+    {
+        return -1;
+    }
+
+    s00a_glight_800D394C(&work->prim->field_40_pBuffers[0]->poly_ft4, tex, 250);
+    s00a_glight_800D394C(&work->prim->field_40_pBuffers[1]->poly_ft4, tex, 200);
+
+    return 0;
 }
 
-GV_ACT *s00a_glight_800D3AD4(DG_PRIM *prim, int **field_28)
+GV_ACT *s00a_glight_800D3AD4(MATRIX *world, int **pvisible)
 {
     GlightWork *work;
 
@@ -110,12 +119,14 @@ GV_ACT *s00a_glight_800D3AD4(DG_PRIM *prim, int **field_28)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_glight_800D387C,
-                                  (TActorFunction)s00a_glight_800D3910, aGlightC_800E0A94);
-        if (s00a_glight_800D39D0(work, prim, field_28) < 0)
+                                  (TActorFunction)s00a_glight_800D3910, aGlightC);
+
+        if (s00a_glight_800D39D0(work, world, pvisible) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
     }
+
     return &work->actor;
 }
