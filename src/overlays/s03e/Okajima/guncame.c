@@ -1245,16 +1245,16 @@ int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
     return 0;
 }
 
-void s03e_guncame_800C8E04(POLY_FT4* poly, DG_TEX* tex, int col) {
-
-    signed char height;
-    signed char width;
+void s03e_guncame_800C8E04(POLY_FT4 *poly, DG_TEX *tex, int col)
+{
+    char height;
+    char width;
     unsigned char x_offset;
     unsigned char y_offset;
 
     setPolyFT4(poly);
     setRGB0(poly, col, col, col);
-    poly->code = (poly->code | 0x02);
+    setSemiTrans(poly, 1);
 
     x_offset = tex->field_8_offx;
     width = x_offset + tex->field_A_width;
