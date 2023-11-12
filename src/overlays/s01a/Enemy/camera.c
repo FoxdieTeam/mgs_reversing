@@ -94,10 +94,10 @@ typedef struct CameraWork
     int            field_278;
     unsigned short field_27C;
     short          field_27E;
-    short          field_280;
-    short          field_282;
+    unsigned short field_280;
+    unsigned short field_282;
     short          field_284;
-    short          field_286;
+    unsigned short field_286;
     short          field_288;
     short          field_28A;
     int            field_28C;
@@ -111,6 +111,7 @@ extern SVECTOR camera_svec1_800C3B70;
 extern RECT    camera_rect_800C3B68;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
+extern SVECTOR GM_PlayerPosition_800ABA10;
 
 // duplicate of s03e_guncame_800C7118
 void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
@@ -136,23 +137,87 @@ int s01a_camera_800D4D28(char *opt, SVECTOR *svecs)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4D7C.s")
+void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
+{
+    SVECTOR svec;
+    int vy;
+    int ratan2val;
+
+    GV_SubVec3_80016D40(arg1, &arg0->field_0_mov, &svec);
+    arg2->vy = ratan2(svec.vx, svec.vz) & 0xFFF;
+    vy = svec.vy;
+    svec.vy = 0;
+    ratan2val = ratan2(GV_VecLen3_80016D80(&svec), vy) & 0xFFF;
+    arg2->vx = ratan2val - 1024;
+    if (arg2->vx < 0)
+    {
+        arg2->vx = ratan2val + 3072;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4E08.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4FE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D509C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D50EC.s")
+void s01a_camera_800D4FE8(SVECTOR *, SVECTOR *, int);
+
+void s01a_camera_800D509C(CameraWork *work)
+{
+    s01a_camera_800D4D7C(&work->field_20, &GM_PlayerPosition_800ABA10, &work->field_20.field_4C_turn);
+    s01a_camera_800D4FE8(&work->field_1C0, &work->field_20.field_4C_turn, work->field_282);
+}
+
+void s01a_camera_800D50EC(CameraWork *work)
+{
+    s01a_camera_800D4D7C(&work->field_20, &GM_PlayerPosition_800ABA10, &work->field_20.field_4C_turn);
+    s01a_camera_800D4FE8(&work->field_1C0, &work->field_20.field_4C_turn, work->field_282);
+    work->field_20.field_8_rot = work->field_20.field_4C_turn;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D515C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D522C.s")
+
+void s01a_camera_800D522C(CameraWork *work)
+{
+    if (mts_get_tick_count_8008BBB0() - work->field_286 >= 13)
+    {
+        if (work->field_28A != 0)
+        {
+            GM_SeSet_80032858(&work->field_20.field_0_mov, 94);
+        }
+        work->field_286 = mts_get_tick_count_8008BBB0();
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D528C.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5338.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D53E4.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5504.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5624.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D57CC.s")
+void s01a_camera_800D57CC(CameraWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5970.s")
+void s01a_camera_800D5970(CameraWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5A68.s")
+void s01a_camera_800D5A68(CameraWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5B9C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5C7C.s")
+void s01a_camera_800D5B9C(CameraWork *work);
+
+void s01a_camera_800D5C7C(CameraWork *work)
+{
+    switch (work->field_1E0)
+    {
+    case 0:
+        s01a_camera_800D57CC(work);
+        break;
+    case 1:
+        s01a_camera_800D5970(work);
+        break;
+    case 2:
+        s01a_camera_800D5A68(work);
+        break;
+    case 3:
+        s01a_camera_800D5B9C(work);
+        break;
+    }
+}
 
 void s01a_camera_800D5D10(short *arg0)
 {
@@ -164,8 +229,21 @@ void s01a_camera_800D5D10(short *arg0)
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5EC0.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5F64.s")
 void s01a_camera_800D5F64(CameraWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D6174.s")
-void s01a_camera_800D6174(CameraWork *);
+
+void s01a_camera_800D6174(CameraWork *work)
+{
+    CONTROL *ctrl;
+    SVECTOR *svec;
+
+    ctrl = &work->field_20;
+    ctrl->field_3A_radar_atr |= RADAR_UNK3;
+
+    svec = &work->field_20.field_3C;
+    svec->vx = 0;
+    svec->vy = work->field_27E;
+    svec->vz = work->field_280 * 2;
+    svec->pad = 0;
+}
 
 int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
 {
@@ -197,7 +275,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     if (opt)
     {
         work->field_280 = GCL_StrToInt_800209E8(opt);
-        if (work->field_280 < 0 || work->field_280 > 512)
+        if (work->field_280 > 512)
         {
             work->field_280 = 512;
         }
@@ -217,7 +295,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     if (opt)
     {
         work->field_282 = GCL_StrToInt_800209E8(opt);
-        if (work->field_282 < 0 || work->field_282 > 1024)
+        if (work->field_282 > 1024)
         {
             work->field_282 = 1024;
         }
