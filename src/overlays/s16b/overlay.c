@@ -35,6 +35,3 @@ const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
 const char aMigiSodesuri[] = " migi sodesuri %d \n";
 const char aAsiotoC[] = "asioto.c";
 
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-const char aFadeioC[] = "fadeio.c";

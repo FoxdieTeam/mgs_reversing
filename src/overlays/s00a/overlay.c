@@ -161,14 +161,6 @@ unsigned short mes_list_800C3664[] = { 0x43D3, 0x4235 };
 SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
-// Takabe/mosaic.c
-unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
-
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
 const char aPadC_800DFBCC[] = "pad.c";
 const short s00a_dword_800DFBD2 = 0x4E5F;
 

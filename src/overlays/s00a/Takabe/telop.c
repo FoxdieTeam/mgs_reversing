@@ -40,8 +40,6 @@ extern int GV_Clock_800AB920;
 extern int GV_PassageTime_800AB924;
 extern int GV_PauseLevel_800AB928;
 
-extern const char aTelopC[]; // = "telop.c";
-
 #define EXEC_LEVEL 3
 
 void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
@@ -244,7 +242,7 @@ GV_ACT * telop_800DDB34(int arg0, int arg1)
     work = (TelopWork2 *)GV_NewActor_800150E4(3, 0x28);
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)telop_800DD92C, (TActorFunction)telop_800DD9E8, aTelopC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)telop_800DD92C, (TActorFunction)telop_800DD9E8, "telop.c");
 
         if (telop_800DDA18(work, arg0, arg1) < 0)
         {
@@ -287,7 +285,7 @@ GV_ACT * telop_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5)
     work = (TelopWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(TelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)telop_800DDBC8, (TActorFunction)telop_800DDC30, aTelopC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)telop_800DDBC8, (TActorFunction)telop_800DDC30, "telop.c");
 
         work->sub = GV_Malloc_8001620C(sizeof(TelopSub));
         sub = work->sub;

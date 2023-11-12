@@ -26,9 +26,7 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-extern char           aMosaicc[];
-extern char           aMosaic[];
-extern unsigned short mosaic_mes_list[];
+unsigned short mosaic_mes_list[] = { 0xD182, 0x006B };
 
 extern int GV_PauseLevel_800AB928;
 
@@ -99,14 +97,14 @@ GV_ACT *s00a_mosaic_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mosaic_800DC938,
-                                  (TActorFunction)s00a_mosaic_800DC9A0, aMosaicc);
+                                  (TActorFunction)s00a_mosaic_800DC9A0, "mosaic.c");
         if (s00a_mosaic_800DC9D0(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
             return NULL;
         }
         work->field_60 = 1;
-        work->field_20 = GV_StrCode_80016CCC(aMosaic);
+        work->field_20 = GV_StrCode_80016CCC("Mosaic");
     }
     return &work->actor;
 }
@@ -121,7 +119,7 @@ GV_ACT *s00a_mosaic_800DCABC(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mosaic_800DC938,
-                                  (TActorFunction)s00a_mosaic_800DC9A0, aMosaicc);
+                                  (TActorFunction)s00a_mosaic_800DC9A0, "mosaic.c");
         s = THING_Gcl_GetIntDefault('s', 500);
         d = THING_Gcl_GetIntDefault('d', 4);
         work->field_60 = THING_Gcl_GetInt('f');

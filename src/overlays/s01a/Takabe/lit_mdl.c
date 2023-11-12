@@ -306,7 +306,24 @@ typedef struct LitMdlWork
     int field_584;
 } LitMdlWork;
 
-extern DG_DEF  litmdl_dg_def; // with 1 DG_MDL
+DG_DEF litmdl_dg_def =
+{
+    1, 1,
+    {-32000, -32000, -32000},
+    {32000, 32000, 32000},
+    {
+        {
+            1027, 36,
+            {-32000, -32000, -32000},
+            {32000, 32000, 32000},
+            {0, 0, 0},
+            -1, -1, 49,
+            NULL, NULL, 6, NULL,
+            NULL, NULL, NULL, 0
+        }
+    }
+};
+
 extern MATRIX  DG_ZeroMatrix_8009D430;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_CurrentMap_800AB9B0;
