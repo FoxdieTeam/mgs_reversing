@@ -855,10 +855,10 @@ const char aAsiato2[] = {'a', 's', 'i', 'a', 't', 'o', '2', '.', 'c', 0x0, '3', 
 const char s01a_aDd_800E4A18[] = " %d = %d \n";
 const char s01a_aDollvoiced_800E4A24[] = " doll voice[%d]\n";
 const char s01a_aDollprocd_800E4A38[] = " doll proc[%d]\n";
-const char s01a_aSfex_800E4A48[] = "sfex0236";
-const char s01a_dword_800E4A54[] = {'b', 'l', 'i', 'n'};
-const char s01a_dword_800E4A58[] = {'k', '_', 't', 'x'};
-const char s01a_dword_800E4A5C[] = {'.', 'c', 0x0, 't'};
+
+// Okajima/blink_tx.c
+const char aSfex0236[] = "sfex0236";
+const char aBlinkTxC[] = {'b', 'l', 'i', 'n', 'k', '_', 't', 'x', '.', 'c', 0x0, 't'};
 
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
