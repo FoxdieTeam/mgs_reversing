@@ -360,8 +360,8 @@ int s01a_dword_800C3D74 = 0x00000000;
 int s01a_dword_800C3D78 = 0x0000001D;
 int s01a_dword_800C3D7C = 0x0000001E;
 int s01a_dword_800C3D80 = 0x0000001F;
-int s01a_dword_800C3D84 = 0x03E803E8;
-int s01a_dword_800C3D88 = 0x07D007D0;
+
+RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 
 const char aCancelC[] = {'c', 'a', 'n', 'c', 'e', 'l', '.', 'c', 0x0, 'D', 'G', '_'};
 
