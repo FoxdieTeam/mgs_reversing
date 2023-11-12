@@ -76,8 +76,6 @@ extern char           elevator_vib_800C3644[];
 extern char           elevator_vib_800C3658[];
 extern char           elevator_vib_800C365C[];
 
-extern const char aElevatorC[]; // = "elevator.c"
-
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);
 int s16b_800C440C(int);
@@ -737,7 +735,7 @@ GV_ACT * NewElevator_800D9F30(int name, int where)
     work = (ElevatorWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(ElevatorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ElevatorAct_800D8EA8, (TActorFunction)ElevatorDie_800D97D8, aElevatorC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)ElevatorAct_800D8EA8, (TActorFunction)ElevatorDie_800D97D8, "elevator.c");
 
         if (ElevatorGetResources_800D98A8(work, name, where) < 0)
         {

@@ -30,9 +30,6 @@ extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern DG_CHNL DG_Chanls_800B1800[3];
 
-extern const char sWtViewC[];                        // = "wt_view.c"
-extern const char s00a_aWtviewcoverprims_800E0BC0[]; // = "(wt_view.c) Over prims !!!\n"
-
 // TODO: can't find the signature of this function in PsyQ headers
 void SetPriority(void *prim, int, int);
 
@@ -215,7 +212,7 @@ GV_ACT *NewWaterView_800DBD68(int name, int where)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
-                                  (TActorFunction)WaterViewDie_800DBBF0, sWtViewC);
+                                  (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
 
         if (WaterViewGetResources_800DBC20(work, name, where) < 0)
         {
@@ -238,7 +235,7 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)WaterViewAct_800DB9E8,
-                                  (TActorFunction)WaterViewDie_800DBBF0, sWtViewC);
+                                  (TActorFunction)WaterViewDie_800DBBF0, "wt_view.c");
 
         if (WaterViewGetResources_800DBCE4(work, arg2, color) < 0)
         {
@@ -484,6 +481,6 @@ void WaterView_800DC128(WaterViewWork *work)
 
     if (nprims > 16)
     {
-        printf(s00a_aWtviewcoverprims_800E0BC0);
+        printf("(wt_view.c) Over prims !!!\n");
     }
 }
