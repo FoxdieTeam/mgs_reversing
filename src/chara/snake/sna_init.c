@@ -1254,12 +1254,12 @@ void sna_80050440(Actor_SnaInit *pActor)
     if ((GM_GameOverTimer_800AB3D4 == 0) && (GM_SnakeCurrentHealth != 0))
     {
         pCtrl = &pActor->field_20_ctrl;
-        pArr = pCtrl->field_10_pStruct_hzd_unknown.field_8_array;
+        pArr = pCtrl->field_10_events.field_8_array;
 
         inDuct = GM_CheckPlayerStatusFlag_8004E29C(PLAYER_FIRST_PERSON_DUCT);
         GM_ClearPlayerStatusFlag_8004E2D4(PLAYER_FIRST_PERSON_DUCT);
 
-        for (i = pCtrl->field_10_pStruct_hzd_unknown.field_6_count; i > 0; pArr++, i--)
+        for (i = pCtrl->field_10_events.field_6_count; i > 0; pArr++, i--)
         {
             if (*pArr == 0x73D2)
             {
@@ -7912,8 +7912,8 @@ void sna_init_main_logic_800596FC(Actor_SnaInit *pActor)
 
     GM_ClearPlayerStatusFlag_8004E2D4(0x42000000);
 
-    hzd_count = pActor->field_20_ctrl.field_10_pStruct_hzd_unknown.field_6_count;
-    pHzdVal = pActor->field_20_ctrl.field_10_pStruct_hzd_unknown.field_8_array;
+    hzd_count = pActor->field_20_ctrl.field_10_events.field_6_count;
+    pHzdVal = pActor->field_20_ctrl.field_10_events.field_8_array;
 
     while ( hzd_count > 0 )
     {

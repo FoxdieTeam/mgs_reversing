@@ -188,7 +188,7 @@ void draw_radar_helper2_800391D0(Actor_MenuMan *pActor, unsigned char *pOt, int 
     SVECTOR vec;
 
     CONTROL   **pWhereList;
-    struct MAP *pMap;
+    MAP *pMap;
 
     int xoff;
     int zoff;

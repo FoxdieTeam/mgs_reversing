@@ -1,5 +1,6 @@
 
 #include "libhzd.h"
+#include "libgv/libgv.h"
 #include "mts/mts_new.h"
 
 //------------------------------------------------------------------------------

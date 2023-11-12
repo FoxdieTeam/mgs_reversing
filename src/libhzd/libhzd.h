@@ -4,7 +4,6 @@
 #include <SYS/TYPES.H>
 #include <LIBGTE.H>
 #include <LIBGPU.H>
-#include "Game/control.h"
 
 #define OFFSET_TO_PTR(ptr, offset) (*(int *)offset = (int)ptr + *(int *)offset)
 
@@ -129,6 +128,16 @@ typedef struct HZD_HDL
     char       *f24_dynamic_flags;
 } HZD_HDL; // 28
 
+typedef struct HZD_EVT
+{
+    unsigned short  field_0_scriptData_orHashedName;
+    unsigned short  field_2_name_hash;
+    unsigned short  field_4_trigger_Hash_Name_or_camera_w;
+    short           field_6_count;
+    unsigned short  field_8_array[6];
+    SVECTOR         field_14_vec;
+} HZD_EVT;
+
 static inline int HZD_addr_shift( int addr )
 {
     int temp = addr & 0xFF;
@@ -143,13 +152,13 @@ void     HZD_DequeueDynamicFloor_8006FFE8(HZD_HDL *pMap, HZD_FLR *pFlr);
 void     HZD_SetDynamicSegment_8006FEE4(HZD_SEG *a1, HZD_SEG *a2);
 void     HZD_StartDaemon_80021900(void);
 HZD_HDL *HZD_MakeHandler_80021AE0(HZD_HEADER *hzd, int areaIndex, int default_48, int default_24);
-void     HZD_SetEvent_80029AB4(Res_Control_unknown *param_1, int param_2);
+void     HZD_SetEvent_80029AB4(HZD_EVT *param_1, int param_2);
 void     HZD_FreeHandler_80021C40(void *param_1);
 int      HZD_LoadInitHzd_800219F4(void *hzmFile);
 void     HZD_ProcessTraps_80021928(HZD_CAM_TRP *trig, int n_trapsAndCameras);
 void     HZD_MakeRoute_80021D6C(HZD_HEADER *hzd, char *arg1); // navmeshes
 void     HZD_MakeRoute_helper_80021C64(HZD_ZON *param_1, int param_2, int param_3, char *param_4);
-void     HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, Res_Control_unknown *param_2, unsigned int flags);
+void     HZD_ReExecEvent_8002A1F4(HZD_HDL *param_1, HZD_EVT *param_2, unsigned int flags);
 int      HZD_SlopeFloorLevel_800298F8(SVECTOR *param_1, SVECTOR *arg1);
 
 void sub_800219C8(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm);
