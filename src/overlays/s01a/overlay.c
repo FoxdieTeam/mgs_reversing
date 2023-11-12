@@ -267,10 +267,9 @@ SVECTOR eyeflash_svec = {0, 80, 50, 0};
 // Enemy/grnad_e.c
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
-int s01a_dword_800C3B68 = 0x00780078;
-int s01a_dword_800C3B6C = 0x00F000F0;
-int s01a_dword_800C3B70 = 0x012C012C;
-int s01a_dword_800C3B74 = 0x0000012C;
+// Enemy/camera.c
+RECT camera_rect_800C3B68 = {120, 120, 240, 240};
+SVECTOR camera_svec1_800C3B70 = {300, 300, 300, 0};
 
 extern const char anim_data_800E44D8[];
 ANIMATION anm_800C3B78 = {PCX_SOCOM_F, 2, 2, 4, 1, 300, 1, 800, 800, 128, NULL, (char *)anim_data_800E44D8};
