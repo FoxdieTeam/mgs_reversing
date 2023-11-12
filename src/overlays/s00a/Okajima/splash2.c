@@ -19,9 +19,6 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern const char aAwa_800E0BA0[];      //awa_3
-extern const char aSplash2C_800E0BA8[]; //splash2.c
-
 extern MATRIX DG_ZeroMatrix_8009D430;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GV_Clock_800AB920;
@@ -198,7 +195,7 @@ int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( ( aAwa_800E0BA0 ) ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( ( "awa_3" ) ) );
     if ( tex == NULL )
     {
         return -1;
@@ -232,7 +229,7 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)Splash2Act_800DAF38, (TActorFunction)Splash2Die_800DB1D4, aSplash2C_800E0BA8 );
+        GV_SetNamedActor_8001514C( &( work->actor ), (TActorFunction)Splash2Act_800DAF38, (TActorFunction)Splash2Die_800DB1D4, "splash2.c" );
 
         if ( SplashGetResources_800DB210( work, matrix, noripple, r, g, b ) < 0 )
         {
