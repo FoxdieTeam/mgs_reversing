@@ -160,21 +160,21 @@ void DollAct_800DBE9C(DollWork *work)
 int s01a_doll_800DBF28(DollWork *work)
 {
     HZD_HDL *hzd;
-    HZD_PAT *routes;
+    HZD_PAT *route;
     HZD_PTP *point;
     int      i;
 
     hzd = work->control.field_2C_map->field_8_hzd;
-    routes = hzd->f00_header->routes;
-    routes += work->fA8C[work->fA86];
+    route = hzd->f00_header->routes;
+    route += work->fA8C[work->fA86];
 
-    work->fA90 = routes->n_points;
+    work->fA90 = route->n_points;
     if (work->fA90 <= 0)
     {
         return -1;
     }
 
-    point = routes->points;
+    point = route->points;
     for (i = 0; i < work->fA90; i++)
     {
         work->fA94[i].vx = point->x;

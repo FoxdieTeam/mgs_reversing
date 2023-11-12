@@ -313,8 +313,7 @@ int s01a_dword_800C3CA8 = 0x800E476C;
 SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
-int s01a_dword_800C3CBC = 0x03E801F4;
-int s01a_dword_800C3CC0 = 0x07D003E8;
+RECT smoke_rect = {500, 1000, 1000, 2000};
 
 RECT glight_rect = {40, 40, 80, 80};
 SVECTOR glight_svec = {0, 65136, 60, 0};

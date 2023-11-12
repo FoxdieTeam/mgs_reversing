@@ -14,8 +14,8 @@ typedef struct SmokeWork
     int      field_3C;
 } SmokeWork;
 
-extern char s00a_aSmokec_800E0A04[];
-extern char s00a_aSmoke_800E09FC[];
+extern char aSmokeC[];
+extern char aSmoke[];
 extern RECT smoke_rect;
 
 extern int GM_CurrentMap_800AB9B0;
@@ -108,7 +108,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
 
     // We already have this exact texture in variable called "unused", but let's waste
     // cycles and get it again just to be sure:
-    tex1 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s00a_aSmoke_800E09FC));
+    tex1 = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSmoke));
     tex2 = tex1; // ...and make an additional copy to waste even more cycles
 
     setPolyFT4(prim);
@@ -207,7 +207,7 @@ int s00a_smoke_800D2B0C(SmokeWork *work, int where)
     work->field_20 = prim;
     if (prim != NULL)
     {
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s00a_aSmoke_800E09FC));
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSmoke));
         work->field_2C = tex;
         if (tex != 0)
         {
@@ -230,7 +230,7 @@ GV_ACT *s00a_smoke_800D2BEC(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_smoke_800D2A80,
-                                  (TActorFunction)s00a_smoke_800D2AA0, s00a_aSmokec_800E0A04);
+                                  (TActorFunction)s00a_smoke_800D2AA0, aSmokeC);
         s00a_smoke_800D2ADC(&work->field_24);
         if (s00a_smoke_800D2B0C(work, where) < 0)
         {
