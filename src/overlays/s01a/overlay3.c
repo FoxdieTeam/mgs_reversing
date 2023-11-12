@@ -813,18 +813,14 @@ const char s01a_aMcrane_800E4808[] = "m13_crane";
 const char s01a_dword_800E4814[] = {'o', 'b', 'j', 'e'};
 const char s01a_dword_800E4818[] = {'c', 't', '.', 'c'};
 const char s01a_dword_800E481C[] = {0x0, 's', 0x10, 'y'};
-const char s01a_dword_800E4820[] = {0xa5, 0xb9, 0xa5, 0xcd};
-const char s01a_dword_800E4824[] = {0xa1, 0xbc, 0xa5, 0xaf};
-const char s01a_dword_800E4828[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E482C[] = {0xc3, 0xca, 0xa5, 0xdc};
-const char s01a_dword_800E4830[] = {0xa1, 0xbc, 0xa5, 0xeb};
-const char s01a_dword_800E4834[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_aCbbox_800E4838[] = "cb_box";
-const char s01a_dword_800E4840[] = {'b', 'o', 'x', 'k'};
-const char s01a_dword_800E4844[] = {'e', 'r', 'i', '.'};
-const char s01a_dword_800E4848[] = {'c', 0x0, 0x7, 'R'};
-const char s01a_aSmoke_800E484C[] = "smoke";
-const char s01a_aSmokec_800E4854[] = "smoke.c";
+
+const char aBoxkeriSnake[] = "スネーク";
+const char sBoxkeriDanbowl[] = "段ボール";
+const char aCbBox[] = "cb_box";
+const char aBoxkeriC[] = {'b', 'o', 'x', 'k', 'e', 'r', 'i', '.', 'c', 0x0, 0x7, 'R'};
+
+const char aSmoke[] = "smoke";
+const char aSmokeC[] = "smoke.c";
 
 // Enemy/wall.c
 const char aDestroy[] = "destroy\n";

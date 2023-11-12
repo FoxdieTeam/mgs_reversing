@@ -764,9 +764,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\eyeflash.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\asiato.obj"
-
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\l_sight.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\grnad_e.obj"
+
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D4CFC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D4D28.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_camera_800D4D7C.obj"
@@ -802,24 +802,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\searchli.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\object.obj"
-
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_boxkeri_800DA440.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_boxkeri_800DA674.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_boxkeri_800DA694.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_boxkeri_800DA6E4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_boxkeri_800DA718.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_boxkeri_800DA8A4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DA938.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DA994.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DA9FC.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DAB2C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DAC10.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DAD24.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DAD44.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DAD80.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DADB0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_smoke_800DAE90.obj"
-
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\boxkeri.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\smoke.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\asioto.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\glight.obj"
@@ -874,10 +858,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s03e\Takabe\spark2.obj"
     include "{{OBJ_DIR}}\overlays\d11c\Takabe\gas_efct.obj"
-
     include "{{OBJ_DIR}}\overlays\s16b\unknown.obj"
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
-
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\mosaic.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\pad_demo.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
@@ -887,7 +869,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\unknown4.obj" ; probably in Takabe/
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\env_snd.obj"
     include "{{OBJ_DIR}}\overlays\s01a\overlay4.obj"
-
     include "{{OBJ_DIR}}\overlays\s01a\Takabe\lit_mdl.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"

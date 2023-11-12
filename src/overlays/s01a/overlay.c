@@ -333,8 +333,8 @@ int s01a_dword_800C3CAC = 0x07D003E8;
 int s01a_dword_800C3CB0 = 0x000005DC;
 int s01a_dword_800C3CB4 = 0x07D005DC;
 int s01a_dword_800C3CB8 = 0x000005DC;
-int s01a_dword_800C3CBC = 0x03E801F4;
-int s01a_dword_800C3CC0 = 0x07D003E8;
+
+RECT smoke_rect = {500, 1000, 1000, 2000};
 
 RECT glight_rect = {40, 40, 80, 80};
 SVECTOR glight_svec = {0, 65136, 60, 0};
