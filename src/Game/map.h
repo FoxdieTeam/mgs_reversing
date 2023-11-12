@@ -32,7 +32,7 @@ typedef struct AreaHistory
 
 MAP        *Map_FindByNum_80031504(int mapNameHash);
 int                GM_AddMap_80031324(int mapName);
-void               Map_KmdLoad_80030E74(int pLitName, struct MAP *pMap);
+void               Map_KmdLoad_80030E74(int pLitName, MAP *pMap);
 HZD_HDL           *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24);
 MAP *Map_GetNextFreeRecord_80030E30(int mapNameHashed);
 MAP *Map_FromId_800314C0(int id);

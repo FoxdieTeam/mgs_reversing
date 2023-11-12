@@ -58,8 +58,7 @@ typedef struct _DollWork
     int            fDF8;
     short          fDFC;
     short          fDFE;
-    short          fE00;
-    short          fE02;
+    short          fE00[2];
     GV_ACT        *fE04;
     char           pad9[0xC];
     Actor_Shadow  *shadow;
@@ -94,7 +93,7 @@ extern const char aDemodollCActionPointErr[];    // = "demodoll.c : action point
 extern const char aDollC[];                      // = "doll.c"
 
 GV_ACT * s00a_glight_800D3AD4(MATRIX *world, int **enable);
-GV_ACT * s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, short *);
+GV_ACT * s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
 void     s01a_blink_tx_800DDEAC(void *);
 void     s01a_blink_tx_800DDF18(void *);
 
@@ -117,11 +116,11 @@ void s01a_doll_800DBE0C(DollWork *work)
         switch (msg->message[0])
         {
         case HASH_SOUND_ON:
-            work->fE02 = 1;
+            work->fE00[1] = 1;
             break;
 
         case HASH_SOUND_OFF:
-            work->fE02 = 0;
+            work->fE00[1] = 0;
             break;
         }
 
@@ -780,11 +779,11 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     if (opt != NULL)
     {
         work->fE58 |= 0x20;
-        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt_800209E8((char *)opt), &work->fE00);
+        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt_800209E8((char *)opt), (int *)work->fE00);
     }
 
-    work->fE00 = 0;
-    work->fE02 = 1;
+    work->fE00[0] = 0;
+    work->fE00[1] = 1;
     work->fE44 = 0;
     work->fE40 = 0;
     work->fDFC = 0;

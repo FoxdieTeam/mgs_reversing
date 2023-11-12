@@ -1,5 +1,6 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Game/control.h"
 
 typedef struct RSurfaceElem
 {

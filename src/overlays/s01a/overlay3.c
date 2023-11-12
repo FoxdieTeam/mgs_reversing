@@ -850,7 +850,7 @@ const char aDollActD[] = "doll act=%d \n";
 const char aDemodollCActionPointErr[] = "demodoll.c : action point Err\n";
 const char aDollC[] = {'d', 'o', 'l', 'l', '.', 'c', 0x0, 0x9};
 
-const char aAsiato2[] = {'a', 's', 'i', 'a', 't', 'o', '2', '.', 'c', 0x0, '3', 0x3};
+const char aAsiato2C[] = {'a', 's', 'i', 'a', 't', 'o', '2', '.', 'c', 0x0, '3', 0x3};
 
 const char s01a_aDd_800E4A18[] = " %d = %d \n";
 const char s01a_aDollvoiced_800E4A24[] = " doll voice[%d]\n";

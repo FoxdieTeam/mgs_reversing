@@ -115,7 +115,7 @@ void tenage_act_800699A4(Actor_tenage *pActor)
             break;
         }
 
-        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_pStruct_hzd_unknown);
+        sub_8002A258(pActor->field_20_ctrl.field_2C_map->field_8_hzd, &pActor->field_20_ctrl.field_10_events);
         GV_DestroyActor_800151C8(&pActor->field_0_actor);
 
         GM_uBombHoming_800AB3E4 = 0;

@@ -722,7 +722,7 @@ void scope_loader_helper_80063368(LINE_F3 *pLines)
 
 int scope_loader_800633D4(Actor_scope *pActor, CONTROL *pCtrl, OBJECT *pParent)
 {
-    struct MAP *pMap;
+    MAP *pMap;
 
     pActor->field_74_lineF2s[0] = GV_Malloc_8001620C(sizeof(LINE_F2) * 16);
     if (!pActor->field_74_lineF2s[0])

@@ -79,13 +79,13 @@ void rmissile_8006B924(Actor_rmissile *pActor)
 
     rmissile_8006B888(pActor);
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_07;
-    sub_8002A258(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown);
+    sub_8002A258(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_events);
 
     ctrl = GM_PlayerControl_800AB9F4;
 
     if (ctrl)
     {
-        HZD_ReExecEvent_8002A1F4(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_pStruct_hzd_unknown, 0x102);
+        HZD_ReExecEvent_8002A1F4(ctrl->field_2C_map->field_8_hzd, &ctrl->field_10_events, 0x102);
     }
 }
 
