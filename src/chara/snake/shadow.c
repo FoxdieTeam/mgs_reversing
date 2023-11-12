@@ -36,7 +36,7 @@ void shadow_act_helper_8005FD28(Actor_Shadow *pActor)
     Shadow_Scratch *pScratch = (Shadow_Scratch *)getScratchAddr(0);
 
     SVECTOR *iter1 = pScratch->iter;
-    short *iter2 = pActor->field_94.objs_offsets;
+    short *iter2 = (short *)&pActor->indices;
 
     int iters = 4;
 
@@ -169,7 +169,7 @@ void shadow_kill_80060190(Actor_Shadow *pActor)
     GM_FreeObject_80034BF8((OBJECT *)&pActor->field_28_obj);
 }
 
-int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94)
+int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices)
 {
     int map_name;
 
@@ -190,13 +190,13 @@ int shadow_loader_800601B0(Actor_Shadow *pActor, CONTROL *pCtrl, OBJECT *pObj, S
     *pActor->field_28_obj.objs->objs->model->materialOffset_50 = GV_StrCode_80016CCC("shadow");
     pActor->field_20_ctrl = pCtrl;
     pActor->field_24_pObj = pObj;
-    pActor->field_94 = field_94;
+    pActor->indices = indices;
     pActor->field_8C = 0x2c484848;
     pActor->field_90_bEnable = 1;
     return 0;
 }
 
-Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94)
+Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices)
 {
     Actor_Shadow *pActor;
 
@@ -205,7 +205,7 @@ Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)shadow_act_800600E4,
                                   (TActorFunction)shadow_kill_80060190, "shadow.c");
-        if (shadow_loader_800601B0(pActor, pCtrl, pObj, field_94) >= 0)
+        if (shadow_loader_800601B0(pActor, pCtrl, pObj, indices) >= 0)
         {
             return pActor;
         }
@@ -214,11 +214,11 @@ Actor_Shadow *shadow_init_800602CC(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field
     return NULL;
 }
 
-Actor_Shadow * shadow_init2_80060384(CONTROL *pCtrl, OBJECT *pObj, Shadow_94 field_94, int **field_90_bEnable)
+Actor_Shadow * shadow_init2_80060384(CONTROL *pCtrl, OBJECT *pObj, SVECTOR indices, int **field_90_bEnable)
 {
     Actor_Shadow *pActor;
 
-    pActor = shadow_init_800602CC(pCtrl, pObj, field_94);
+    pActor = shadow_init_800602CC(pCtrl, pObj, indices);
     if (pActor && field_90_bEnable)
     {
         *field_90_bEnable = &pActor->field_90_bEnable;

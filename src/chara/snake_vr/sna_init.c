@@ -8082,7 +8082,7 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
     OBJECT        *pObject;
     TARGET *pTarget;
     Jirai_unknown *pJiraiUnk;
-    Shadow_94     shadow94;
+    SVECTOR       shadow;
     SVECTOR       vec;
     SVECTOR       *pVec;
     int           tmp, model, i;
@@ -8153,12 +8153,12 @@ static inline int sna_LoadSnake(Actor_SnaInit *pActor, int scriptData, int scrip
 
     sna_LoadSnake4(pActor->field_950, 2, DG_GetTexture_8001D830(PCX_EMPTY2));
 
-    shadow94.objs_offsets[0] = 0;
-    shadow94.objs_offsets[1] = 6;
-    shadow94.objs_offsets[2] = 12;
-    shadow94.objs_offsets[3] = 15;
+    shadow.vx  = 0;
+    shadow.vy  = 6;
+    shadow.vz  = 12;
+    shadow.pad = 15;
 
-    pActor->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, shadow94, &pActor->field_88C);
+    pActor->field_888_pShadow = shadow_init2_80060384(pCtrl, pObject, shadow, &pActor->field_88C);
 
     dword_800ABA1C = 0;
     GM_BombSeg_800ABBD8 = 0;
