@@ -270,7 +270,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     CONTROL *ctrl;
     OBJECT  *body;
     OBJECT  *arm; //?
-    Shadow_94 shadow;
+    SVECTOR  shadow;
 
     ctrl = &work->control;
     if ( GM_InitLoader_8002599C( ctrl, name, where ) < 0 ) return -1;
@@ -320,10 +320,10 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
         work->field_B00[i] = 0;
     }
 
-    shadow.objs_offsets[1] = 6;
-    shadow.objs_offsets[2] = 12;
-    shadow.objs_offsets[3] = 15;
-    shadow.objs_offsets[0] = 0;
+    shadow.vy  = 6;
+    shadow.vz  = 12;
+    shadow.pad = 15;
+    shadow.vx  = 0;
 
     work->field_AF0 = (void*)shadow_init2_80060384( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = s00a_glight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;

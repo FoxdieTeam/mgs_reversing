@@ -839,21 +839,19 @@ const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
 const char aMigiSodesuri[] = " migi sodesuri %d \n";
 const char aAsiotoC[] = {'a', 's', 'i', 'o', 't', 'o', '.', 'c', 0x0, 0x15, 'S', 'e'};
 
-const char s01a_aFamasl_800E48DC[] = "famas_l";
-const char s01a_dword_800E48E4[] = {'g', 'l', 'i', 'g'};
-const char s01a_dword_800E48E8[] = {'h', 't', '.', 'c'};
-const char s01a_dword_800E48EC[] = {0x0, 'e', 'r', '\\'};
-const char s01a_aErrerrerrchangerootnumover_800E48F0[] = "Err Err Err Change Root Num Over !!\n";
-const char s01a_aErrerrerrsoundbuffover_800E4918[] = "Err Err Err Sound Buff Over !!\n";
-const char s01a_aMaxvoiceover_800E4938[] = "Max Voice Over!! \n";
-const char s01a_aErrerrerrsettimeover_800E494C[] = "Err Err Err  Set time Over\n";
-const char s01a_aErrerrerrsetdirover_800E4968[] = "Err Err Err  Set Dir Over\n";
-const char s01a_aMotiondflamdsed_800E4984[] = " motion[%d] flam[%d] se[%d] ";
-const char s01a_aModedfootd_800E49A4[] = " mode[%d] foot[%d]\n";
-const char s01a_aErrerrerrsetseover_800E49B8[] = "Err Err Err  Set SE Over\n";
-const char s01a_aDollactd_800E49D4[] = "doll act=%d \n";
-const char s01a_aDemodollcactionpointerr_800E49E4[] = "demodoll.c : action point Err\n";
+const char aFamasL[] = "famas_l";
+const char aGlightC[] = {'g', 'l', 'i', 'g', 'h', 't', '.', 'c', 0x0, 'e', 'r', '\\'};
 
+const char aErrErrErrChangeRootNumOver[] = "Err Err Err Change Root Num Over !!\n";
+const char aErrErrErrSoundBuffOver[] = "Err Err Err Sound Buff Over !!\n";
+const char aMaxVoiceOver[] = "Max Voice Over!! \n";
+const char aErrErrErrSetTimeOver[] = "Err Err Err  Set time Over\n";
+const char aErrErrErrSetDirOver[] = "Err Err Err  Set Dir Over\n";
+const char aMotionDFlamDSED[] = " motion[%d] flam[%d] se[%d] ";
+const char aModeDFootD[] = " mode[%d] foot[%d]\n";
+const char aErrErrErrSetSEOver[] = "Err Err Err  Set SE Over\n";
+const char aDollActD[] = "doll act=%d \n";
+const char aDemodollCActionPointErr[] = "demodoll.c : action point Err\n";
 const char aDollC[] = {'d', 'o', 'l', 'l', '.', 'c', 0x0, 0x9};
 
 const char aAsiato2[] = {'a', 's', 'i', 'a', 't', 'o', '2', '.', 'c', 0x0, '3', 0x3};

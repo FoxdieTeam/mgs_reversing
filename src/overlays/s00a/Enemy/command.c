@@ -964,11 +964,11 @@ void s00a_command_800D018C( CommanderWork* work )
     {
         switch (msg->message[0])
         {
-        case 0x2761: // 音入れる
+        case HASH_SOUND_ON:
             EnemyCommand_800E0D98.field_0x17A = 1;
             break;
 
-        case 0xED7F: // 音切る
+        case HASH_SOUND_OFF:
             EnemyCommand_800E0D98.field_0x17A = 0;
             break;
         }
