@@ -24,7 +24,7 @@ typedef struct _PatoLmpWork
     SVECTOR        field_FE4[4];
     int            field_1004;
     DG_PRIM       *field_1008;
-    char           field_100C[0x100];
+    SVECTOR        field_100C[4][8];
     int            field_110C[4];
     SVECTOR        field_111C[4][32];
     SVECTOR        field_151C[4][32];
@@ -101,9 +101,9 @@ int s00a_pato_lmp_800D5EC8(int unused, SVECTOR *svecs)
     return count;
 }
 
-void s00a_pato_lmp_800D5F1C( TILE* tile, int rgb )
+void s00a_pato_lmp_800D5F1C( POLY_FT4* poly, int rgb )
 {
-    setRGB0( tile, rgb / 2, rgb / 2, rgb / 2 );
+    setRGB0( poly, rgb / 2, rgb / 2, rgb / 2 );
 }
 
 void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
@@ -173,8 +173,138 @@ void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short v
     work->field_1930.vz = vz;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6194.s")
-void s00a_pato_lmp_800D6194(PatoLmpWork *, int arg2, int arg3, int arg4);
+//#pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6194.s")
+//void s00a_pato_lmp_800D6194(PatoLmpWork *, int arg2, int arg3, int arg4);
+
+void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
+{
+    SVECTOR vec;
+    
+
+    SVECTOR *var_a2;
+    
+    int temp_a0;
+    int temp_t1;
+    int x, y, z;
+    int temp;
+    int temp2;
+    int temp_v1;
+    int a3_2;
+    union Prim_Union *prim_uni;
+
+    prim_uni = work->field_1008->field_40_pBuffers[GV_Clock_800AB920];
+    a3_2 = arg3 * 4;
+    prim_uni = (union Prim_Union*)&prim_uni->poly_ft4_multi[arg1][arg3];
+    x = work->field_151C[arg1][arg2].vx;
+
+    if (x != 0)
+    {
+        vec = work->field_111C[arg1][arg2];
+        var_a2 = &work->field_100C[arg1][a3_2];
+
+        y = work->field_151C[arg1][arg2].vy;
+        z = work->field_151C[arg1][arg2].vz;
+
+        temp = temp_v1 = 255 - z;
+        temp2 = temp * 9;
+        temp_t1 = (temp * 12) + 50;
+        temp_a0 = temp2 + 50;
+        temp_v1 =  temp * 4 + 150;
+        
+        switch (y)
+        {
+        case 0:
+            var_a2->vx = vec.vx - temp_t1;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2->vz = vec.vz;
+            var_a2++;
+            
+            var_a2->vx = vec.vx + temp_a0;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2->vz = vec.vz;
+            var_a2++;
+
+            var_a2->vx = vec.vx - temp_t1;
+            var_a2->vy = vec.vy - temp_v1;
+            var_a2->vz = vec.vz;
+            var_a2++;
+
+            var_a2->vx = vec.vx + temp_a0;
+            var_a2->vy = vec.vy - temp_v1;
+            var_a2->vz = vec.vz;
+            break;
+
+        case 1:
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz - temp_t1;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2++;
+
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz + temp_a0;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2++;
+
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz - temp_t1;
+            var_a2->vy = vec.vy - temp_v1;
+            var_a2++;
+
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz + temp_a0;
+            var_a2->vy = vec.vy - temp_v1;
+            break;
+
+        case 2:
+            var_a2->vx = vec.vx + temp_t1;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2->vz = vec.vz;
+            var_a2++;
+
+            var_a2->vx = vec.vx - temp_a0;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2->vz = vec.vz;
+            var_a2++;
+
+            var_a2->vx = vec.vx + temp_t1;
+            var_a2->vy = vec.vy - temp_v1;
+            var_a2->vz = vec.vz;
+            var_a2++;
+            
+            var_a2->vx = vec.vx - temp_a0;
+            var_a2->vy = vec.vy - temp_v1;
+            var_a2->vz = vec.vz;
+            break;
+
+        case 3:
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz + temp_t1;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2++;
+
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz - temp_a0;
+            var_a2->vy = vec.vy + temp_v1;
+            var_a2++;
+
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz + temp_t1;
+            var_a2->vy = vec.vy - temp_v1;
+            var_a2++;
+
+            var_a2->vx = vec.vx;
+            var_a2->vz = vec.vz - temp_a0;
+            var_a2->vy = vec.vy - temp_v1;
+            break;
+        }
+
+        s00a_pato_lmp_800D5F1C((POLY_FT4*)prim_uni, z);
+    }
+    else
+    {
+        s00a_pato_lmp_800D5F1C((POLY_FT4*)prim_uni, 0);
+    }
+}
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 
