@@ -28,9 +28,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
-extern SVECTOR spark2_light_pos;
-
-extern const char aSpark2C[]; // = "spark2.c"
+const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
 #define EXEC_LEVEL 5
 
@@ -253,7 +251,7 @@ GV_ACT * NewSpark2_800CA714(MATRIX *world)
     work = (Spark2Work *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(Spark2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_spark2_800CA428, (TActorFunction)s03e_spark2_800CA520, aSpark2C);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_spark2_800CA428, (TActorFunction)s03e_spark2_800CA520, "spark2.c");
 
         if (s03e_spark2_800CA55C(work, world) < 0)
         {

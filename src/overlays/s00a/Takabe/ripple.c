@@ -14,9 +14,6 @@ typedef struct _RippleWork
 extern MATRIX  DG_ZeroMatrix_8009D430;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern const char aRipple_800E0B5C[]; //ripple
-extern const char aRippleC_800E0B64[]; //ripple.c
-
 void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
 {
     SVECTOR wave_pos[4];
@@ -123,7 +120,7 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
         return -1;
     }
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( aRipple_800E0B5C ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "ripple" ) );
     
     if ( tex == NULL )
     {
@@ -143,7 +140,7 @@ void* NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
 
     work = (RippleWork *)GV_NewActor_800150E4( 5, sizeof( RippleWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )RippleAct_800D7D2C, ( TActorFunction )RippleDie_800D7DDC, aRippleC_800E0B64 );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )RippleAct_800D7D2C, ( TActorFunction )RippleDie_800D7DDC, "ripple.c" );
         if ( RippleGetResources_800D7E18( work, mat, scale ) < 0 )
         {
             GV_DestroyActor_800151C8( &( work->actor ) );

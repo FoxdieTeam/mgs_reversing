@@ -50,26 +50,6 @@ ANIMATION anm_800C3BCC = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 0, NULL, (ch
 extern const char anim_data_800CC244[];
 ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800CC244};
 
-extern const char anim_data_800CC2AC[];
-ANIMATION anm_800C335C = {PCX_B_MARK, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)anim_data_800CC2AC};
-
-extern const char anim_data_800CC410[];
-ANIMATION anm_800C3378 = {PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)anim_data_800CC410};
-
-extern const char anim_data_800CC514[];
-ANIMATION anm_800C3394 = {PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)anim_data_800CC514};
-
-extern const char anim_data_800CC618[];
-ANIMATION anm_800C33B0 = {PCX_HEART, 1, 1, 1, 1, 0, 1, 70, 70, 255, NULL, (char *)anim_data_800CC618};
-
-unsigned short s03e_dword_800C33CC[] = {PCX_B_MARK, PCX_Q_MARK, PCX_HEART};
-
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-// Takabe/cinema.c
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
 const char s03e_dword_800CBE84[] = {0xe0, 0xff, 0xbd, '\''};
 const char s03e_dword_800CBE88[] = {0x14, 0x0, 0xb1, 0xaf};
 const char s03e_dword_800CBE8C[] = {'!', 0x88, 0x80, 0x0};

@@ -19,15 +19,6 @@ GCL_ActorTableEntry d11cOverlayCharas[] =
     { 0, 0 }
 };
 
-// Takabe/gas_efct.c
-unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
-
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-// Takabe/cinema.c
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
 // Game/lamp.c
 const char aTexparseerror[] = "TEX:PARSE ERROR\n";
 const char aLampC[] = "lamp.c";
@@ -42,11 +33,3 @@ const char aWallC[] = "wall.c";
 // Enemy/demokage.c
 const char aShadow[] = "shadow";
 const char aDemokageC[] = "demokage.c";
-
-// Takabe/gas_efct.c
-const char aGasEfctC[] = {'g', 'a', 's', '_', 'e', 'f', 'c', 't', '.', 'c', '\x00', ','};
-
-// Takabe/fadeio.c
-const char aFadeioC[] = {'f', 'a', 'd', 'e', 'i', 'o', '.', 'c', 0x0, 'J', 'h', 0xd};
-
-const char aCinemaC[] = {'c', 'i', 'n', 'e', 'm', 'a', '.', 'c', 0x0, '\n', 'R', 'p'};

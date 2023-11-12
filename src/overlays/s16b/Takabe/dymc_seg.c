@@ -15,7 +15,7 @@ typedef struct DymcSegWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-extern unsigned short dymc_seg_hashes[]; // = {0xD182, 0x006B}
+unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
 
 int THING_Gcl_GetInt(char param);
 int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes);
@@ -80,8 +80,6 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     return 0;
 }
 
-extern const char aDymcSegC[]; // = "dymc_seg.c"
-
 GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
@@ -89,7 +87,7 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
     work = (DymcSegWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, aDymcSegC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DymcSegAct_800C4A44, (TActorFunction)DymcSegDie_800C4A98, "dymc_seg.c");
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {

@@ -287,41 +287,21 @@ ANIMATION anm_800C3BCC = {PCX_SMOKE, 8, 4, 30, 1, 500, 1, 400, 400, 0, NULL, (ch
 extern const char anim_data_800E45F8[];
 ANIMATION anm_800C3BE8 = {PCX_SMOKE, 8, 4, 30, 1, 500, 2, 400, 400, 32, NULL, (char *)anim_data_800E45F8};
 
-int s01a_dword_800C3C04 = 0x0001479F;
-int s01a_dword_800C3C08 = 0x00010001;
-int s01a_dword_800C3C0C = 0x00E60001;
-int s01a_dword_800C3C10 = 0x012C0001;
-int s01a_dword_800C3C14 = 0x00FF012C;
-int s01a_dword_800C3C18 = 0x00000000;
-int s01a_dword_800C3C1C = 0x800E46F8;
-int s01a_dword_800C3C20 = 0x0001479F;
-int s01a_dword_800C3C24 = 0x00010001;
-int s01a_dword_800C3C28 = 0x00E60001;
-int s01a_dword_800C3C2C = 0x03E80001;
-int s01a_dword_800C3C30 = 0x002003E8;
-int s01a_dword_800C3C34 = 0x00000000;
-int s01a_dword_800C3C38 = 0x800E4724;
-int s01a_dword_800C3C3C = 0x0001479F;
-int s01a_dword_800C3C40 = 0x00010001;
-int s01a_dword_800C3C44 = 0x01F40001;
-int s01a_dword_800C3C48 = 0x00C80001;
-int s01a_dword_800C3C4C = 0x00FF00C8;
-int s01a_dword_800C3C50 = 0x00000000;
-int s01a_dword_800C3C54 = 0x800E473C;
-int s01a_dword_800C3C58 = 0x0001479F;
-int s01a_dword_800C3C5C = 0x00010001;
-int s01a_dword_800C3C60 = 0x01F40001;
-int s01a_dword_800C3C64 = 0x07D00001;
-int s01a_dword_800C3C68 = 0x004007D0;
-int s01a_dword_800C3C6C = 0x00000000;
-int s01a_dword_800C3C70 = 0x800E474C;
-int s01a_dword_800C3C74 = 0x0001479F;
-int s01a_dword_800C3C78 = 0x00010001;
-int s01a_dword_800C3C7C = 0x00000001;
-int s01a_dword_800C3C80 = 0x00140000;
-int s01a_dword_800C3C84 = 0x00FF0014;
-int s01a_dword_800C3C88 = 0x00000000;
-int s01a_dword_800C3C8C = 0x800E4760;
+extern const char anim_data_800E46F8[];
+ANIMATION anm_800C3C04 = {0x479F, 1, 1, 1, 1, 230, 1, 300, 300, 255, NULL, (char *)anim_data_800E46F8};
+
+extern const char anim_data_800E4724[];
+ANIMATION anm_800C3C20 = {0x479F, 1, 1, 1, 1, 230, 1, 1000, 1000, 32, NULL, (char *)anim_data_800E4724};
+
+extern const char anim_data_800E473C[];
+ANIMATION anm_800C3C3C = {0x479F, 1, 1, 1, 1, 500, 1, 200, 200, 255, NULL, (char *)anim_data_800E473C};
+
+extern const char anim_data_800E474C[];
+ANIMATION anm_800C3C58 = {0x479F, 1, 1, 1, 1, 500, 1, 2000, 2000, 64, NULL, (char *)anim_data_800E474C};
+
+extern const char anim_data_800E4760[];
+ANIMATION anm_800C3C74 = {0x479F, 1, 1, 1, 1, 0, 0, 20, 20, 255, NULL, (char *)anim_data_800E4760};
+
 int s01a_dword_800C3C90 = 0x0001A9CD;
 int s01a_dword_800C3C94 = 0x00010001;
 int s01a_dword_800C3C98 = 0x00E60001;
@@ -329,10 +309,9 @@ int s01a_dword_800C3C9C = 0x00000001;
 int s01a_dword_800C3CA0 = 0x00FF0000;
 int s01a_dword_800C3CA4 = 0x00000000;
 int s01a_dword_800C3CA8 = 0x800E476C;
-int s01a_dword_800C3CAC = 0x07D003E8;
-int s01a_dword_800C3CB0 = 0x000005DC;
-int s01a_dword_800C3CB4 = 0x07D005DC;
-int s01a_dword_800C3CB8 = 0x000005DC;
+
+SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
+SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
 RECT smoke_rect = {500, 1000, 1000, 2000};
 
@@ -383,40 +362,6 @@ int s01a_dword_800C3D7C = 0x0000001E;
 int s01a_dword_800C3D80 = 0x0000001F;
 int s01a_dword_800C3D84 = 0x03E803E8;
 int s01a_dword_800C3D88 = 0x07D007D0;
-
-// Takabe/gas_efct.c
-unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
-
-// Takabe/mosaic.c
-unsigned short mosaic_mes_list[] = {0xD182, 0x006B};
-
-// Takabe/fadeio.c
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
-
-// Takabe/cinema.c
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
-
-unsigned short dymc_seg_hashes[] = {0xD182, 0x006B};
-unsigned short tracktrp_hashes[] = {0x0DD2, 0xD5CC};
-unsigned short env_snd_hashes[] = {0xBA27, 0x560E};
-
-DG_DEF litmdl_dg_def =
-{
-    1, 1,
-    {-32000, -32000, -32000},
-    {32000, 32000, 32000},
-    {
-        {
-            1027, 36,
-            {-32000, -32000, -32000},
-            {32000, 32000, 32000},
-            {0, 0, 0},
-            -1, -1, 49,
-            NULL, NULL, 6, NULL,
-            NULL, NULL, NULL, 0
-        }
-    }
-};
 
 const char aCancelC[] = {'c', 'a', 'n', 'c', 'e', 'l', '.', 'c', 0x0, 'D', 'G', '_'};
 
