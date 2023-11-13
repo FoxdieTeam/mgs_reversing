@@ -478,7 +478,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16b\unknown2.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\cinema.obj"
-    include "{{OBJ_DIR}}\overlays\s03e\Takabe\cat_in.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Takabe\cat_in.obj"
 {% elif OVERLAY == "title" %}
     include "{{OBJ_DIR}}\overlays\title\overlay.obj"
 
