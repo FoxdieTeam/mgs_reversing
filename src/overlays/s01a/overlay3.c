@@ -2,14 +2,6 @@
 #include "libdg/libdg.h"
 #include "overlays/s00a/Enemy/enemy.h"
 
-typedef struct _AsiatoUnk
-{
-    SVECTOR f0[128];
-    short   f400;
-    short   f402;
-    int     f404;
-} AsiatoUnk;
-
 const int s01a_dword_800E38E0 = 0x800CA4D0;
 const int s01a_dword_800E38E4 = 0x800CA524;
 const int s01a_dword_800E38E8 = 0x800CA630;
@@ -851,12 +843,6 @@ const char aDollActD[] = "doll act=%d \n";
 const char aDemodollCActionPointErr[] = "demodoll.c : action point Err\n";
 const char aDollC[] = {'d', 'o', 'l', 'l', '.', 'c', 0x0, 0x9};
 
-const char aAsiato2C[] = {'a', 's', 'i', 'a', 't', 'o', '2', '.', 'c', 0x0, '3', 0x3};
-
-const char aDD_800E4A18[] = " %d = %d \n";
-const char aDollVoiceD_800E4A24[] = " doll voice[%d]\n";
-const char aDollProcD_800E4A38[] = " doll proc[%d]\n";
-
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
@@ -910,32 +896,18 @@ int SECTION("overlay.bss") COM_NOISEMODE_DIS_800E0F38;
 
 unsigned int SECTION("overlay.bss") COM_GameStatus_800E0F3C;
 
-// TODO: stuff below is also from watcher/command
+int SECTION("overlay.bss") COM_PlayerAddressOne_800E0F40[8];
 
-int SECTION("overlay.bss") s01a_dword_800E4DE0;
-int SECTION("overlay.bss") s01a_dword_800E4DE4;
-int SECTION("overlay.bss") s01a_dword_800E4DE8;
-int SECTION("overlay.bss") s01a_dword_800E4DEC;
-int SECTION("overlay.bss") s01a_dword_800E4DF0;
-int SECTION("overlay.bss") s01a_dword_800E4DF4;
-int SECTION("overlay.bss") s01a_dword_800E4DF8;
-int SECTION("overlay.bss") s01a_dword_800E4DFC;
-int SECTION("overlay.bss") s01a_dword_800E4E00;
-int SECTION("overlay.bss") s01a_dword_800E4E04;
-int SECTION("overlay.bss") s01a_dword_800E4E08;
-int SECTION("overlay.bss") s01a_dword_800E4E0C;
-int SECTION("overlay.bss") s01a_dword_800E4E10;
-int SECTION("overlay.bss") s01a_dword_800E4E14;
-int SECTION("overlay.bss") s01a_dword_800E4E18;
-int SECTION("overlay.bss") s01a_dword_800E4E1C;
-int SECTION("overlay.bss") s01a_dword_800E4E20;
-int SECTION("overlay.bss") s01a_dword_800E4E24;
-int SECTION("overlay.bss") s01a_dword_800E4E28;
-int SECTION("overlay.bss") s01a_dword_800E4E2C;
+int SECTION("overlay.bss") COM_ALERT_DECREMENT_800E0F60;
+
+int SECTION("overlay.bss") GM_GameFlag_800E0F64;
+
+int SECTION("overlay.bss") COM_VibTime_800E0F68;
+
+int SECTION("overlay.bss") s00a_dword_800E0F6C;
+
+int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
 int SECTION("overlay.bss") s00a_dword_800E0F90;
 
-int SECTION("overlay.bss") s01a_dword_800E4E34;
-
-SVECTOR SECTION("overlay.bss") asiato_svecs[49];
-AsiatoUnk SECTION("overlay.bss") asiato2_800E4FC0;
+int SECTION("overlay.bss") s00a_dword_800E0F94;
