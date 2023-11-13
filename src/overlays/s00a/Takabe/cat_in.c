@@ -154,7 +154,6 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-#ifndef SMALLER_CAT_IN
 void *NewZoom_800DFA88( int name, int where )
 {
     ZoomWork *work;
@@ -173,4 +172,3 @@ void *NewZoom_800DFA88( int name, int where )
 
     return work;
 }
-#endif
