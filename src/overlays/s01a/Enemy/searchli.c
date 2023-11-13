@@ -63,7 +63,7 @@ extern GV_PAD    GV_PadData_800B05C0[4];
 extern CONTROL  *GM_WhereList_800B56D0[96];
 
 extern SVECTOR   SearchliCenter_800E46D8;
-extern int       s01a_dword_800E4E08;
+extern int       COM_VibTime_800E0F68;
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
@@ -200,7 +200,7 @@ int s01a_searchli_800D763C(SearchlightWork *work)
     if (work->f2A0 == 0)
     {
         s01a_command_800D17A0(pos, 64);
-        s01a_dword_800E4E08 = 10;
+        COM_VibTime_800E0F68 = 10;
     }
 
     if (work->f2A0 < 0 || work->f2A0 > 14)
@@ -431,7 +431,7 @@ void Searchli_800D7C58(SearchlightWork *work)
         s01a_command_800D1648(255);
         s01a_command_800D1660();
         s01a_command_800D17A0(&work->control.field_0_mov, 64);
-        s01a_dword_800E4E08 = 10;
+        COM_VibTime_800E0F68 = 10;
         work->f294 = 1;
         work->f29C = 4;
         work->f2A0 = 0;

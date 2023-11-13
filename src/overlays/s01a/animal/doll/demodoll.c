@@ -10,10 +10,6 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 extern short s01a_dword_800C3CE4[];
 extern int   s01a_dword_800C3D04[];
 
-extern const char aDD_800E4A18[];         // = " %d = %d \n"
-extern const char aDollVoiceD_800E4A24[]; // = " doll voice[%d]\n"
-extern const char aDollProcD_800E4A38[];  // = " doll proc[%d]\n"
-
 void AN_Breath_800C3AA8(MATRIX *world);
 
 void Demodoll_800DD860(DollWork *work, int);
@@ -553,7 +549,7 @@ int Demodoll_800DE25C(DollWork *work)
 
 void Demodoll_800DE264(DollWork *work, int index)
 {
-    printf(aDD_800E4A18, index - 16, work->fE18[index - 16]);
+    printf(" %d = %d \n", index - 16, work->fE18[index - 16]);
 
     if (GM_StreamStatus_80037CD8() == -1)
     {
@@ -632,7 +628,7 @@ loop:
 
     if (voice >= 16 && voice <= 25)
     {
-        printf(aDollVoiceD_800E4A24, voice);
+        printf(" doll voice[%d]\n", voice);
         Demodoll_800DE264(work, voice);
 
         work->fC08 = 0;
@@ -649,7 +645,7 @@ loop:
     }
     else if (voice == 30)
     {
-        printf(aDollProcD_800E4A38, proc);
+        printf(" doll proc[%d]\n", proc);
         Demodoll_800DE2E8(work, proc);
 
         work->fC08 = 0;
