@@ -618,20 +618,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD2B8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD33C.obj"
 
-    ; route.c
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD3F8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD440.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD58C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD62C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD664.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD6D4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD800.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CD8E4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDB34.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDC40.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDC9C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDD24.obj"
-    ; end of route.c
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\route.obj"
 
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDD84.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CDDA0.obj"
@@ -707,8 +694,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D1390.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D14FC.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D158C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D15E4.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D15FC.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800CEA84.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800CEA9C.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D1648.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D1654.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800D1660.obj"
