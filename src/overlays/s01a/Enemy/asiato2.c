@@ -23,11 +23,10 @@ typedef struct _AsiatoUnk
     SVECTOR vec[128];
     short   index;
     short   total;
+    int     f404;
 } AsiatoUnk;
 
-extern AsiatoUnk asiato2_800E4FC0;
-
-extern const char aAsiato2C[]; // = "asiato2.c"
+AsiatoUnk SECTION("overlay.bss") asiato2_800E4FC0;
 
 #define EXEC_LEVEL 4
 
@@ -184,7 +183,7 @@ GV_ACT * NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int ar
     work = (AsiatoWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, aAsiato2C);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)Asiato2Act_800DCE48, (TActorFunction)Asiato2Die_800DD1C8, "asiato2.c");
 
         work->f4C = arg3;
         work->f54 = arg6;
@@ -337,7 +336,7 @@ GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int 
         GV_SetNamedActor_8001514C(&work->actor,
                                   (TActorFunction)s01a_blink_tx_800DD4AC,
                                   (TActorFunction)s01a_blink_tx_800DD58C,
-                                  aAsiato2C);
+                                  "asiato2.c");
 
         work->control = control;
         work->object = object;
