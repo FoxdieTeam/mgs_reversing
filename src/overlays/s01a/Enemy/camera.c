@@ -56,7 +56,7 @@ typedef struct CameraWork
     int            field_1E0;
     int            field_1E4;
     int            field_1E8;
-    int            field_1EC;
+    unsigned int   field_1EC;
     int            field_1F0;
     int            field_1F4;
     int            field_1F8;
@@ -127,7 +127,7 @@ void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 
 int s01a_camera_800D4D28(char *opt, SVECTOR *svecs)
 {
-    int count;
+    int            count;
     unsigned char *param;
 
     for (count = 0; (param = GCL_Get_Param_Result_80020AA4()); svecs++, count++)
@@ -140,8 +140,8 @@ int s01a_camera_800D4D28(char *opt, SVECTOR *svecs)
 void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
 {
     SVECTOR svec;
-    int vy;
-    int ratan2val;
+    int     vy;
+    int     ratan2val;
 
     GV_SubVec3_80016D40(arg1, &arg0->field_0_mov, &svec);
     arg2->vy = ratan2(svec.vx, svec.vz) & 0xFFF;
@@ -156,8 +156,30 @@ void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4E08.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4FE8.s")
-void s01a_camera_800D4FE8(SVECTOR *, SVECTOR *, int);
+
+void s01a_camera_800D4FE8(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+{
+    int dir;
+
+    if (arg2 < 8)
+    {
+        arg1->vx = arg0->vx;
+    }
+    else if (arg1->vx > 768)
+    {
+        arg1->vx = 768;
+    }
+
+    dir = GV_DiffDirS_8001704C(arg0->vy, arg1->vy);
+    if (arg2 < dir)
+    {
+        arg1->vy = (arg0->vy + arg2) & 0xFFF;
+    }
+    else if (dir < -arg2)
+    {
+        arg1->vy = (arg0->vy - arg2) & 0xFFF;
+    }
+}
 
 void s01a_camera_800D509C(CameraWork *work)
 {
@@ -186,8 +208,63 @@ void s01a_camera_800D522C(CameraWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D528C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5338.s")
+int s01a_camera_800D528C(CameraWork *work)
+{
+    SVECTOR *turn;
+
+    if (work->field_1EC > 60)
+    {
+        if (!(work->field_1EC & 3))
+        {
+            s01a_camera_800D522C(work);
+        }
+        if (work->field_282 >= 8)
+        {
+            turn = &work->field_20.field_4C_turn;
+            turn->vy = (turn->vy + 8) & 0xFFF;
+            if (GV_DiffDirAbs_8001706C(work->field_1C0.vy, turn->vy) >= work->field_282)
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    work->field_1EC++;
+    return 0;
+}
+
+// Same as s01a_camera_800D528C, but with - 8 instead of + 8
+int s01a_camera_800D5338(CameraWork *work)
+{
+    SVECTOR *turn;
+
+    if (work->field_1EC > 60)
+    {
+        if (!(work->field_1EC & 3))
+        {
+            s01a_camera_800D522C(work);
+        }
+        if (work->field_282 >= 8)
+        {
+            turn = &work->field_20.field_4C_turn;
+            turn->vy = (turn->vy - 8) & 0xFFF;
+            if (GV_DiffDirAbs_8001706C(work->field_1C0.vy, turn->vy) >= work->field_282)
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    work->field_1EC++;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D53E4.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5504.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5624.s")

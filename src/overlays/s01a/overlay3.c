@@ -856,10 +856,6 @@ const char s01a_aDd_800E4A18[] = " %d = %d \n";
 const char s01a_aDollvoiced_800E4A24[] = " doll voice[%d]\n";
 const char s01a_aDollprocd_800E4A38[] = " doll proc[%d]\n";
 
-// Okajima/blink_tx.c
-const char aSfex0236[] = "sfex0236";
-const char aBlinkTxC[] = {'b', 'l', 'i', 'n', 'k', '_', 't', 'x', '.', 'c', 0x0, 't'};
-
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
