@@ -1,80 +1,5 @@
-#include "chara/snake/shadow.h"
+#include "doll.h"
 #include "libgcl/hash.h"
-#include "libgv/libgv.h"
-#include "Game/object.h"
-
-typedef struct _DollMotion
-{
-    int     index;
-    SVECTOR entries[4];
-} DollMotion;
-
-typedef struct _DollWork
-{
-    GV_ACT         actor;
-    CONTROL        control;
-    OBJECT         body;
-    MOTION_CONTROL m_ctrl;
-    OAR_RECORD     oars[42];
-    SVECTOR        rots[20];
-    SVECTOR        adjust[20];
-    MATRIX         light[2];
-    char           pad[0x4];
-    OBJECT         weapon;
-    GV_ACT        *glight;
-    char           pad2[0x62];
-    short          fA86;
-    char           pad3[0x4];
-    char           fA8C[4];
-    int            fA90;
-    SVECTOR        fA94[32];
-    int            fB94;
-    SVECTOR        fB98;
-    SVECTOR        fBA0;
-    int            fBA8;
-    int            fBAC;
-    int            fBB0;
-    int            fBB4;
-    int            fBB8;
-    char           pad4[0x8];
-    int            fBC4;
-    SVECTOR        fBC8;
-    char           pad5[0x10];
-    int            fBE0;
-    char           pad6[0x4];
-    int            fBE8[5];
-    char           pad7[0x8];
-    int            fC04;
-    short          fC08;
-    short          fC0A;
-    int            fC0C;
-    int            fC10;
-    int            fC14;
-    int            fC18;
-    char           pad8[0x14];
-    short          fC30[8];
-    short          fC40[4];
-    DollMotion     fC48[12];
-    int            fDF8;
-    short          fDFC;
-    short          fDFE;
-    short          fE00[2];
-    GV_ACT        *fE04;
-    char           pad9[0xC];
-    Actor_Shadow  *shadow;
-    int            fE18[8];
-    int            fE38;
-    short          fE3C;
-    short          fE3E;
-    int            fE40;
-    int            fE44;
-    char           fE48[16];
-    int            fE58;
-    int            fE5C;
-    int            fE60[8];
-    short          fE80;
-    short          fE82;
-} DollWork;
 
 extern int GM_CurrentMap_800AB9B0;
 
@@ -94,8 +19,9 @@ extern const char aDollC[];                      // = "doll.c"
 
 GV_ACT * s00a_glight_800D3AD4(MATRIX *world, int **enable);
 GV_ACT * s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
-void     s01a_blink_tx_800DDEAC(void *);
-void     s01a_blink_tx_800DDF18(void *);
+
+void Demodoll_800DDEAC(DollWork *);
+void Demodoll_800DDF18(DollWork *);
 
 #define EXEC_LEVEL 4
 
@@ -146,7 +72,7 @@ void DollAct_800DBE9C(DollWork *work)
     GM_ActControl_80025A7C(control);
     GM_ActObject2_80034B88(&work->body);
 
-    s01a_blink_tx_800DDF18(work);
+    Demodoll_800DDF18(work);
 
     DG_GetLightMatrix2_8001A5D8(&control->field_0_mov, work->light);
 
@@ -673,7 +599,7 @@ void s01a_doll_800DC9FC(DollWork *work)
         work->fC04 = act;
         work->fC08 = 1;
 
-        s01a_blink_tx_800DDEAC(work);
+        Demodoll_800DDEAC(work);
     }
     else
     {
