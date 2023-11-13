@@ -407,7 +407,7 @@ char* menu_radio_codec_helper_helper17_80038678(void)
 }
 
 
-int sub_80038688(void)
+int jimctrl_80038688(void)
 {
     return dword_800B9358;
 }

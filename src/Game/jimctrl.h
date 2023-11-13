@@ -59,5 +59,6 @@ void         jimctrl_act_80038070(Actor_JimCtrl *pJimCtrl);
 unsigned int jimctrl_helper_80037F68(unsigned int);
 void         jimctrl_act_helper_set_first_80037F2C(int index, int value);
 GV_ACT      *jimctrl_init_80038568(u_long flags);
+int          jimctrl_80038688(void);
 
 #endif // _JIMCTRL_H
