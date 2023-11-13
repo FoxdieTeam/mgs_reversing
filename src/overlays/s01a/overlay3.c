@@ -852,9 +852,9 @@ const char aDollC[] = {'d', 'o', 'l', 'l', '.', 'c', 0x0, 0x9};
 
 const char aAsiato2C[] = {'a', 's', 'i', 'a', 't', 'o', '2', '.', 'c', 0x0, '3', 0x3};
 
-const char s01a_aDd_800E4A18[] = " %d = %d \n";
-const char s01a_aDollvoiced_800E4A24[] = " doll voice[%d]\n";
-const char s01a_aDollprocd_800E4A38[] = " doll proc[%d]\n";
+const char aDD_800E4A18[] = " %d = %d \n";
+const char aDollVoiceD_800E4A24[] = " doll voice[%d]\n";
+const char aDollProcD_800E4A38[] = " doll proc[%d]\n";
 
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
