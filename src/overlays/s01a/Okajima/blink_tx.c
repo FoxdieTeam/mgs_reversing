@@ -14,9 +14,6 @@ extern int GM_CurrentMap_800AB9B0;
 
 extern RECT blink_tx_rect;
 
-extern const char aSfex0236[]; // = "sfex0236"
-extern const char aBlinkTxC[]; // = "blink_tx.c"
-
 #define EXEC_LEVEL 5
 
 void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int shade)
@@ -99,7 +96,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     }
     else
     {
-        texid = GV_StrCode_80016CCC(aSfex0236);
+        texid = GV_StrCode_80016CCC("sfex0236");
     }
 
     tex = DG_GetTexture_8001D830(texid);
@@ -131,7 +128,7 @@ GV_ACT * NewBlinkTx_800DECD8(int name, int where)
     work = (BlinkTxWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BlinkTxWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)BlinkTxDie_800DEB24, aBlinkTxC);
+        GV_SetNamedActor_8001514C(&work->actor, NULL, (TActorFunction)BlinkTxDie_800DEB24, "blink_tx.c");
 
         opt = GCL_GetOption_80020968('p');
         n_prims = BlinkTxGetSvecs_800DEB60(opt, work->pos);
