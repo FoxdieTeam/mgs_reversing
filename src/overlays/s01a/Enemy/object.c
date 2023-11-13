@@ -78,7 +78,7 @@ extern char      s01a_aMcrane_800E4808[];
 extern char      s01a_aRift_800E4800[];
 extern char      s01a_aRotvxdrotvydrotvzd_800E47DC[];
 extern char      s01a_dword_800E4814[];
-extern int       s01a_dword_800E4E04;
+extern int       GM_GameFlag_800E0F64;
 extern SVECTOR   object_svec1_800C3CAC;
 extern SVECTOR   object_svec2_800C3CB4;
 extern ANIMATION anm_800C3C58;
@@ -349,7 +349,7 @@ void s01a_object_800D9FE0(ObjectWork *work)
 
     s01a_object_800D9F9C(work);
     s01a_object_800D99DC(work);
-    if (work->field_28C == 1 && s01a_dword_800E4E04 & 1)
+    if (work->field_28C == 1 && GM_GameFlag_800E0F64 & 1)
     {
         work->field_20.field_0_mov.vy = 10000;
         work->field_20.field_44_step.vy = 0;

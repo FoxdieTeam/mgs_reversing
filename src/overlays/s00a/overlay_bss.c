@@ -57,5 +57,3 @@ int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 int SECTION("overlay.bss") s00a_dword_800E0F90;
 
 int SECTION("overlay.bss") s00a_dword_800E0F94;
-
-SVECTOR SECTION("overlay.bss") asiato_svecs[49];

@@ -3,7 +3,9 @@
 #include "Game/game.h"
 
 extern const char aAsiatoc_800E0998[]; // asiato.c
-extern SVECTOR    asiato_svecs[49];
+
+SVECTOR SECTION("overlay.bss") asiato_svecs[49];
+
 extern int        s00a_dword_800E0F90;
 
 extern unsigned int GM_PlayerStatus_800ABA50;
