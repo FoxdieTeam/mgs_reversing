@@ -1,6 +1,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "libgcl/hash.h"
 
 typedef struct CameraWork
 {
@@ -58,7 +59,8 @@ typedef struct CameraWork
     int            field_1E8;
     unsigned int   field_1EC;
     int            field_1F0;
-    int            field_1F4;
+    short          field_1F4;
+    short          field_1F6;
     int            field_1F8;
     int            field_1FC;
     int            field_200;
@@ -109,6 +111,7 @@ extern char    s01a_aCamarm_800E44AC[];
 extern char    s01a_aCameral_800E44B4[];
 extern SVECTOR camera_svec1_800C3B70;
 extern RECT    camera_rect_800C3B68;
+extern int     s01a_dword_800E4DC0;
 
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -265,8 +268,71 @@ int s01a_camera_800D5338(CameraWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D53E4.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5504.s")
+void s01a_camera_800D53E4(CameraWork *work)
+{
+    CONTROL *ctrl;
+    SVECTOR *turn;
+    int      dir1, dir2;
+    int      temp_v0;
+
+    ctrl = &work->field_20;
+    if (!(work->field_1EC & 0x3F))
+    {
+        temp_v0 = GV_RandU_80017090(16);
+        turn = &work->field_20.field_4C_turn;
+        work->field_20.field_54 = 48;
+        work->field_1EC += temp_v0;
+        temp_v0 = work->field_1C0.vy - (1024 - GV_RandU_80017090(2048));
+        turn->vy = temp_v0 & 0xFFF;
+        turn->vx = GV_RandU_80017090(768);
+        s01a_camera_800D4FE8(&work->field_1C0, turn, work->field_282);
+        work->field_1F4 = ctrl->field_8_rot.vx;
+        work->field_1F6 = ctrl->field_8_rot.vy;
+    }
+    dir1 = GV_DiffDirAbs_8001706C(work->field_1F4, ctrl->field_8_rot.vx);
+    dir2 = GV_DiffDirAbs_8001706C(work->field_1F6, ctrl->field_8_rot.vy);
+    if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
+    {
+        GM_SeSet_80032858(&ctrl->field_0_mov, 0x5E);
+    }
+    work->field_1F4 = ctrl->field_8_rot.vx;
+    work->field_1F6 = ctrl->field_8_rot.vy;
+    work->field_1EC++;
+}
+
+// Copy of s01a_camera_800D53E4, but with different GM_SeSet_80032858
+void s01a_camera_800D5504(CameraWork *work)
+{
+    CONTROL *ctrl;
+    SVECTOR *turn;
+    int      dir1, dir2;
+    int      temp_v0;
+
+    ctrl = &work->field_20;
+    if (!(work->field_1EC & 0x3F))
+    {
+        temp_v0 = GV_RandU_80017090(16);
+        turn = &work->field_20.field_4C_turn;
+        work->field_20.field_54 = 48;
+        work->field_1EC += temp_v0;
+        temp_v0 = work->field_1C0.vy - (1024 - GV_RandU_80017090(2048));
+        turn->vy = temp_v0 & 0xFFF;
+        turn->vx = GV_RandU_80017090(768);
+        s01a_camera_800D4FE8(&work->field_1C0, turn, work->field_282);
+        work->field_1F4 = ctrl->field_8_rot.vx;
+        work->field_1F6 = ctrl->field_8_rot.vy;
+    }
+    dir1 = GV_DiffDirAbs_8001706C(work->field_1F4, ctrl->field_8_rot.vx);
+    dir2 = GV_DiffDirAbs_8001706C(work->field_1F6, ctrl->field_8_rot.vy);
+    if ((dir1 > 16 || dir2 > 16) && work->field_28A != 0)
+    {
+        GM_SeSet_80032858(&ctrl->field_0_mov, 0x6D);
+    }
+    work->field_1F4 = ctrl->field_8_rot.vx;
+    work->field_1F6 = ctrl->field_8_rot.vy;
+    work->field_1EC++;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5624.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D57CC.s")
 void s01a_camera_800D57CC(CameraWork *work);
@@ -274,8 +340,41 @@ void s01a_camera_800D57CC(CameraWork *work);
 void s01a_camera_800D5970(CameraWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5A68.s")
 void s01a_camera_800D5A68(CameraWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5B9C.s")
-void s01a_camera_800D5B9C(CameraWork *work);
+
+void s01a_camera_800D5B9C(CameraWork *work)
+{
+    int field_1E8;
+
+    field_1E8 = work->field_1E8;
+    if (field_1E8 == 6)
+    {
+        if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
+        {
+            s01a_camera_800D5504(work);
+            return;
+        }
+        switch (s01a_dword_800E4DC0)
+        {
+        case 0:
+            work->field_1E0 = 0;
+            work->field_1E8 = 7;
+            work->field_1EC = 0;
+            break;
+        case 1:
+            work->field_1E0 = s01a_dword_800E4DC0;
+            work->field_1E8 = 0;
+            work->field_1EC = 0;
+            s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
+            break;
+        case 2:
+            work->field_1E0 = s01a_dword_800E4DC0;
+            work->field_1E8 = field_1E8;
+            work->field_1EC = 0;
+            s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
+            break;
+        }
+    }
+}
 
 void s01a_camera_800D5C7C(CameraWork *work)
 {
@@ -303,7 +402,43 @@ void s01a_camera_800D5D10(short *arg0)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5D1C.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5EC0.s")
+
+int s01a_camera_800D5EC0(CameraWork *work)
+{
+    GV_MSG *msg;
+    int     type;
+
+    if (GV_ReceiveMessage_80016620(work->field_20.field_30_scriptData, &msg) <= 0)
+    {
+        return -1;
+    }
+
+    // They just randomly decided not to use a switch here...
+    type = msg->message[0];
+    if (type == HASH_LEAVE)
+    {
+        work->field_284 = 0;
+        work->field_20.field_3A_radar_atr &= ~RADAR_SIGHT;
+    }
+    else if (type == HASH_ENTER)
+    {
+        do
+        {
+            work->field_284 = 1;
+            work->field_20.field_3A_radar_atr |= RADAR_SIGHT;
+        } while (0);
+    }
+    else if (type == HASH_SOUND_ON)
+    {
+        work->field_28A = 1;
+    }
+    else if (type == HASH_SOUND_OFF)
+    {
+        work->field_28A = 0;
+    }
+    return type;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5F64.s")
 void s01a_camera_800D5F64(CameraWork *work);
 
