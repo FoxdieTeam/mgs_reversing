@@ -5,6 +5,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "overlays/s00a/Enemy/enemy.h"
 
 typedef struct _SearchlightWork
 {
@@ -62,9 +63,10 @@ extern GV_PAD    GV_PadData_800B05C0[4];
 extern CONTROL  *GM_WhereList_800B56D0[96];
 
 extern SVECTOR   SearchliCenter_800E46D8;
-extern int       s01a_dword_800E4C78;
-extern int       s01a_dword_800E4DC0;
 extern int       s01a_dword_800E4E08;
+
+extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 
 extern const char aSearchliUDRotXLRRotY[];  // = "UD:ROT.X  LR:ROT.Y\n"
 extern const char aSearchliUDPosXLRPosZ[];  // = "UD:POS.X  LR:POS.Z\n"
@@ -123,7 +125,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
         return 0;
     }
 
-    if ((s01a_dword_800E4DC0 != 1) && (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
+    if ((TOPCOMMAND_800E0F20.mode != 1) && (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
     {
         if (work->f290 == 0)
         {
@@ -351,13 +353,13 @@ void Searchli_800D7A4C(SearchlightWork *work)
         break;
     }
 
-    if (s01a_dword_800E4DC0 == 1)
+    if (TOPCOMMAND_800E0F20.mode == 1)
     {
-        work->f294 = s01a_dword_800E4DC0;
+        work->f294 = TOPCOMMAND_800E0F20.mode;
 
         do {} while (0);
 
-        if (work->f294 == s01a_dword_800E4C78)
+        if (work->f294 == EnemyCommand_800E0D98.field_0x40)
         {
             work->f29C = 4;
         }
@@ -392,7 +394,7 @@ void Searchli_800D7BB8(SearchlightWork *work)
         break;
     }
 
-    if (s01a_dword_800E4DC0 != 1)
+    if (TOPCOMMAND_800E0F20.mode != 1)
     {
         work->f294 = 2;
         work->f29C = 5;
@@ -407,7 +409,7 @@ void Searchli_800D7C58(SearchlightWork *work)
     case 5:
         Searchli_800D783C(work);
 
-        if (s01a_dword_800E4DC0 == 0)
+        if (TOPCOMMAND_800E0F20.mode == 0)
         {
             work->f29C = 6;
             work->f2A0 = 0;
@@ -434,7 +436,7 @@ void Searchli_800D7C58(SearchlightWork *work)
         work->f29C = 4;
         work->f2A0 = 0;
     }
-    else if (s01a_dword_800E4DC0 == 1)
+    else if (TOPCOMMAND_800E0F20.mode == 1)
     {
         work->f294 = 1;
         work->f29C = 4;
