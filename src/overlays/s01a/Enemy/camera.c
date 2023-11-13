@@ -2,6 +2,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "libgcl/hash.h"
+#include "overlays/s00a/Enemy/enemy.h"
 
 typedef struct CameraWork
 {
@@ -111,8 +112,8 @@ extern char    s01a_aCamarm_800E44AC[];
 extern char    s01a_aCameral_800E44B4[];
 extern SVECTOR camera_svec1_800C3B70;
 extern RECT    camera_rect_800C3B68;
-extern int     s01a_dword_800E4DC0;
 
+extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -353,7 +354,7 @@ void s01a_camera_800D5B9C(CameraWork *work)
             s01a_camera_800D5504(work);
             return;
         }
-        switch (s01a_dword_800E4DC0)
+        switch (TOPCOMMAND_800E0F20.mode)
         {
         case 0:
             work->field_1E0 = 0;
@@ -361,13 +362,13 @@ void s01a_camera_800D5B9C(CameraWork *work)
             work->field_1EC = 0;
             break;
         case 1:
-            work->field_1E0 = s01a_dword_800E4DC0;
+            work->field_1E0 = TOPCOMMAND_800E0F20.mode;
             work->field_1E8 = 0;
             work->field_1EC = 0;
             s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
             break;
         case 2:
-            work->field_1E0 = s01a_dword_800E4DC0;
+            work->field_1E0 = TOPCOMMAND_800E0F20.mode;
             work->field_1E8 = field_1E8;
             work->field_1EC = 0;
             s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
