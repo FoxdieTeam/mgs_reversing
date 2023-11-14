@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C8448
-s01a_command_800C8448:
+	xdef AttackForce_800C58E8
+AttackForce_800C58E8:
 	dw 0x27BDFFB8 ; 800C8448
 	dw 0xAFB00038 ; 800C844C
 	dw 0x00808021 ; 800C8450

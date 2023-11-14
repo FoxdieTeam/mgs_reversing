@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CBC2C
-s01a_command_800CBC2C:
+	xdef ENE_PutItem_800C90CC
+ENE_PutItem_800C90CC:
 	dw 0x27BDFFC8 ; 800CBC2C
 	dw 0xAFB00028 ; 800CBC30
 	dw 0x00808021 ; 800CBC34

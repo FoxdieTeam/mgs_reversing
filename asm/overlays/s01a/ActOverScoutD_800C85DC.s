@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CB13C
-s01a_command_800CB13C:
+	xdef ActOverScoutD_800C85DC
+ActOverScoutD_800C85DC:
 	dw 0x27BDFFE0 ; 800CB13C
 	dw 0xAFB00018 ; 800CB140
 	dw 0x00808021 ; 800CB144
