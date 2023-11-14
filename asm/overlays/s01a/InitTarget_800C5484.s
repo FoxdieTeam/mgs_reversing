@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C7FE4
-s01a_command_800C7FE4:
+	xdef InitTarget_800C5484
+InitTarget_800C5484:
 	dw 0x27BDFFD0 ; 800C7FE4
 	dw 0xAFB20020 ; 800C7FE8
 	dw 0x00809021 ; 800C7FEC

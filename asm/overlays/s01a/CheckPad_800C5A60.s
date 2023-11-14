@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C85C0
-s01a_command_800C85C0:
+	xdef CheckPad_800C5A60
+CheckPad_800C5A60:
 	dw 0x27BDFFE8 ; 800C85C0
 	dw 0xAFB00010 ; 800C85C4
 	dw 0x00808021 ; 800C85C8

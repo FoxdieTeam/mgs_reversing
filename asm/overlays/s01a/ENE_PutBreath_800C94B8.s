@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CC018
-s01a_command_800CC018:
+	xdef ENE_PutBreath_800C94B8
+ENE_PutBreath_800C94B8:
 	dw 0x27BDFFE8 ; 800CC018
 	dw 0x3C02800E ; 800CC01C
 	dw 0x8C434C50 ; 800CC020

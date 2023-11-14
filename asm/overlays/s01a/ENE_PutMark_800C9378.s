@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CBED8
-s01a_command_800CBED8:
+	xdef ENE_PutMark_800C9378
+ENE_PutMark_800C9378:
 	dw 0x27BDFFE0 ; 800CBED8
 	dw 0xAFB00010 ; 800CBEDC
 	dw 0x00808021 ; 800CBEE0

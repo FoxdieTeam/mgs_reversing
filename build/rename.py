@@ -33,6 +33,9 @@ def main():
 
     print("Renaming function", before, "to", after)
 
+    for f in glob('../asm/**/*', recursive=True):
+        file_replace(f, before, after)
+
     for f in glob('../src/**/*', recursive=True):
         file_replace(f, before, after)
 
