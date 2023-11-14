@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CC19C
-s01a_command_800CC19C:
+	xdef ENE_PutBulletEx_800C963C
+ENE_PutBulletEx_800C963C:
 	dw 0x27BDFFA0 ; 800CC19C
 	dw 0xAFB10054 ; 800CC1A0
 	dw 0x00808821 ; 800CC1A4

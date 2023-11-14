@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C7F84
-s01a_command_800C7F84:
+	xdef CheckDamage_800C5424
+CheckDamage_800C5424:
 	dw 0x27BDFFE8 ; 800C7F84
 	dw 0xAFB00010 ; 800C7F88
 	dw 0xAFBF0014 ; 800C7F8C
