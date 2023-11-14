@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CC2FC
-s01a_command_800CC2FC:
+	xdef ENE_SetPutChar_800C979C
+ENE_SetPutChar_800C979C:
 	dw 0x00003021 ; 800CC2FC
 	dw 0x3C02800C ; 800CC300
 	dw 0x2442394C ; 800CC304

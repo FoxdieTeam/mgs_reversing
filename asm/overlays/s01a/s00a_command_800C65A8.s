@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C9108
-s01a_command_800C9108:
+	xdef s00a_command_800C65A8
+s00a_command_800C65A8:
 	dw 0x27BDFFE0 ; 800C9108
 	dw 0xAFB00010 ; 800C910C
 	dw 0x00808021 ; 800C9110

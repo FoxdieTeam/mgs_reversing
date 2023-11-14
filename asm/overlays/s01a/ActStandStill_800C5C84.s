@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C87E4
-s01a_command_800C87E4:
+	xdef ActStandStill_800C5C84
+ActStandStill_800C5C84:
 	dw 0x27BDFFE0 ; 800C87E4
 	dw 0xAFB00018 ; 800C87E8
 	dw 0x00808021 ; 800C87EC

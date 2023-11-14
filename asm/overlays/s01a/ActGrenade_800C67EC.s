@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800C934C
-s01a_command_800C934C:
+	xdef ActGrenade_800C67EC
+ActGrenade_800C67EC:
 	dw 0x27BDFFD0 ; 800C934C
 	dw 0xAFB1001C ; 800C9350
 	dw 0x00808821 ; 800C9354

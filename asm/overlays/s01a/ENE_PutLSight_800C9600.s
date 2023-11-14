@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CC160
-s01a_command_800CC160:
+	xdef ENE_PutLSight_800C9600
+ENE_PutLSight_800C9600:
 	dw 0x27BDFFE8 ; 800CC160
 	dw 0x00802821 ; 800CC164
 	dw 0xAFBF0010 ; 800CC168
