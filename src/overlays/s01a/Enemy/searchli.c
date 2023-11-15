@@ -78,9 +78,9 @@ extern const char aSearchli0[];             // = "0"
 extern const char aSearchliShadow[];        // = "shadow"
 extern const char aSearchliC[];             // = "searchli.c"
 
-void    s01a_command_800D1648(int);
-void    s01a_command_800D1660(void);
-void    s01a_command_800D17A0(SVECTOR *, int);
+void    ENE_SetTopCommAL_800CEAE8(int);
+void    ENE_SetGopointLast_800CEB00(void);
+void    s00a_command_800CEC40(SVECTOR *, int);
 void    s01a_object_800D9424(CONTROL *, int);
 void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
@@ -199,7 +199,7 @@ int s01a_searchli_800D763C(SearchlightWork *work)
 
     if (work->f2A0 == 0)
     {
-        s01a_command_800D17A0(pos, 64);
+        s00a_command_800CEC40(pos, 64);
         COM_VibTime_800E0F68 = 10;
     }
 
@@ -344,8 +344,8 @@ void Searchli_800D7A4C(SearchlightWork *work)
     case 1:
         if (s01a_searchli_800D763C(work))
         {
-            s01a_command_800D1648(255);
-            s01a_command_800D1660();
+            ENE_SetTopCommAL_800CEAE8(255);
+            ENE_SetGopointLast_800CEB00();
             work->f294 = 1;
             work->f29C = 4;
             work->f2A0 = 0;
@@ -381,8 +381,8 @@ void Searchli_800D7BB8(SearchlightWork *work)
 
         if (s01a_searchli_800D73D8(work))
         {
-            s01a_command_800D1648(255);
-            s01a_command_800D1660();
+            ENE_SetTopCommAL_800CEAE8(255);
+            ENE_SetGopointLast_800CEB00();
         }
         break;
 
@@ -428,9 +428,9 @@ void Searchli_800D7C58(SearchlightWork *work)
 
     if (s01a_searchli_800D73D8(work))
     {
-        s01a_command_800D1648(255);
-        s01a_command_800D1660();
-        s01a_command_800D17A0(&work->control.field_0_mov, 64);
+        ENE_SetTopCommAL_800CEAE8(255);
+        ENE_SetGopointLast_800CEB00();
+        s00a_command_800CEC40(&work->control.field_0_mov, 64);
         COM_VibTime_800E0F68 = 10;
         work->f294 = 1;
         work->f29C = 4;
