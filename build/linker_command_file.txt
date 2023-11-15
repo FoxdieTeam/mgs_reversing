@@ -517,22 +517,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\watcher.obj"
 
-    ; check.c
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C50B0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C513C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C5158.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C5194.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C5370.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\CheckDamage_800C5424.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\InitTarget_800C5484.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C55B0.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C580C.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C5860.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\AttackForce_800C58E8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C59F8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\CheckPad_800C5A60.obj"
-
     include "{{OBJ_DIR}}\overlays\s01a\overlay2.obj"
+    include "{{OBJ_DIR}}\overlays\s00a\Enemy\check.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\overlay3.obj"
+
     ; action.c
     include "{{OBJ_DIR}}\overlays\s01a\ActStandStill_800C5C84.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C5E48.obj"
@@ -555,6 +543,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C76C4.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C77C8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C78E0.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\s01a_command_800CA970.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C7E28.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C8054.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C818C.obj"
@@ -571,7 +560,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C8C58.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C8C98.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C8DF8.obj"
-    include "{{OBJ_DIR}}\overlays\s01a\overlay3.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\overlay4.obj"
 
     include "{{OBJ_DIR}}\overlays\s01a\ENE_PutBlood_800C8FF8.obj"
     include "{{OBJ_DIR}}\overlays\s01a\s00a_command_800C9068.obj"
