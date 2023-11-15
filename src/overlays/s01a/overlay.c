@@ -106,18 +106,13 @@ short ActTable_800C3358[54] =
     0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x0B
 };
 
-int s01a_dword_800C3910 = 0x0000FF6A;
-int s01a_dword_800C3914 = 0x0000012C;
-int s01a_dword_800C3918 = 0xFDDA0000;
-int s01a_dword_800C391C = 0x000003B6;
-int s01a_dword_800C3920 = 0x00000000;
-int s01a_dword_800C3924 = 0x00000064;
-int s01a_dword_800C3928 = 0x0000FC00;
-int s01a_dword_800C392C = 0x00000000;
-int s01a_dword_800C3930 = 0x00000000;
-int s01a_dword_800C3934 = 0x00000064;
-int s01a_dword_800C3938 = 0x0000FC00;
-int s01a_dword_800C393C = 0x00000000;
+SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
+SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
+SVECTOR s00a_dword_800C33D4 = { 0,     0, 100 };
+SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
+SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
+SVECTOR s00a_dword_800C33EC = { -1024, 0,   0 };
+
 int s01a_dword_800C3940 = 0x800E3954;
 int s01a_dword_800C3944 = 0x800E3940;
 int s01a_dword_800C3948 = 0x800E392C;
