@@ -5,13 +5,11 @@ const char aSnowC[] = {'s', 'n', 'o', 'w', '.', 'c', 0x0, 'r'};
 
 const char aSphereC[] = {'s', 'p', 'h', 'e', 'r', 'e', '.', 'c', 0x0, '\n', 'R', 'e'};
 
-const char s01a_aErrerrerrsettimeover_800E373C[] = "Err Err Err  Set time Over\n";
-const char s01a_aErrerrerrsetdirover_800E3758[] = "Err Err Err  Set Dir Over\n";
-const char s01a_aErrnotenoughwork_800E3774[] = "Err not enough work !!\n";
-const char s01a_aWatcharcactionpointerr_800E378C[] = "watchar.c : action point Err\n";
-const char s01a_dword_800E37AC[] = {'w', 'a', 't', 'c'};
-const char s01a_dword_800E37B0[] = {'h', 'e', 'r', '.'};
-const char s01a_dword_800E37B4[] = {'c', 0x0, 's', '`'};
+const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
+const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
+const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
+const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
+const char aWatcherc_800DFCEC[] = {'w', 'a', 't', 'c', 'h', 'e', 'r', '.', 'c', 0x0, 's', '`'};
 const int s01a_dword_800E37B8 = 0x800C7DD8;
 const int s01a_dword_800E37BC = 0x800C7E38;
 const int s01a_dword_800E37C0 = 0x800C7D60;
