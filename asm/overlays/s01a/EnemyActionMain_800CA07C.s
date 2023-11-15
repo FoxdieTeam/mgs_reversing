@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s01a_command_800CCBDC
-s01a_command_800CCBDC:
+	xdef EnemyActionMain_800CA07C
+EnemyActionMain_800CA07C:
 	dw 0x27BDFFE8 ; 800CCBDC
 	dw 0xAFB00010 ; 800CCBE0
 	dw 0x00808021 ; 800CCBE4
