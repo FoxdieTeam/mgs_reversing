@@ -197,59 +197,6 @@ const char s01a_dword_800E4778[] = {0xc, 0x0, 0x1f, 0x8};
 const char s01a_dword_800E477C[] = {0xfa, 0xfa, 0xf8, 0x2};
 const char s01a_dword_800E4780[] = {0x0, 0x1, 0xd, 0xf};
 
-const int s01a_dword_800E4784 = 0x800D9E60;
-const int s01a_dword_800E4788 = 0x800D9E78;
-const int s01a_dword_800E478C = 0x800D9E90;
-const int s01a_dword_800E4790 = 0x800D9EAC;
-const int s01a_dword_800E4794 = 0x800D9EC0;
-const int s01a_dword_800E4798 = 0x800D9ED4;
-const int s01a_dword_800E479C = 0x800D9EE8;
-const char s01a_aObjectnoroot_800E47A0[] = "OBJECT:no ROOT\n";
-const char s01a_aObjectnoaction_800E47B0[] = "OBJECT:no ACTION\n";
-const char s01a_aNodeactionseterr_800E47C4[] = "node action set err!!\n";
-const char s01a_aRotvxdrotvydrotvzd_800E47DC[] = "rot.vx=%d, rot.vy=%d, rot.vz=%d \n";
-const char s01a_aRift_800E4800[] = "rift";
-const char s01a_aMcrane_800E4808[] = "m13_crane";
-const char s01a_dword_800E4814[] = {'o', 'b', 'j', 'e'};
-const char s01a_dword_800E4818[] = {'c', 't', '.', 'c'};
-const char s01a_dword_800E481C[] = {0x0, 's', 0x10, 'y'};
-
-const char aBoxkeriSnake[] = "スネーク";
-const char sBoxkeriDanbowl[] = "段ボール";
-const char aCbBox[] = "cb_box";
-const char aBoxkeriC[] = {'b', 'o', 'x', 'k', 'e', 'r', 'i', '.', 'c', 0x0, 0x7, 'R'};
-
-const char aSmoke[] = "smoke";
-const char aSmokeC[] = "smoke.c";
-
-// Enemy/wall.c
-const char aDestroy[] = "destroy\n";
-const char aBox01[] = "box_01";
-const char aDbx1[] = "dbx1";
-const char aDbx2[] = "dbx2";
-const char aWallC[] = {'w', 'a', 'l', 'l', '.', 'c', 0x0, 0x80};
-
-// Enemy/asioto.c
-const char aAsiotoSeSetErr[] = " asioto se set err \n";
-const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
-const char aMigiSodesuri[] = " migi sodesuri %d \n";
-const char aAsiotoC[] = {'a', 's', 'i', 'o', 't', 'o', '.', 'c', 0x0, 0x15, 'S', 'e'};
-
-const char aFamasL[] = "famas_l";
-const char aGlightC[] = {'g', 'l', 'i', 'g', 'h', 't', '.', 'c', 0x0, 'e', 'r', '\\'};
-
-const char aErrErrErrChangeRootNumOver[] = "Err Err Err Change Root Num Over !!\n";
-const char aErrErrErrSoundBuffOver[] = "Err Err Err Sound Buff Over !!\n";
-const char aMaxVoiceOver[] = "Max Voice Over!! \n";
-const char aErrErrErrSetTimeOver[] = "Err Err Err  Set time Over\n";
-const char aErrErrErrSetDirOver[] = "Err Err Err  Set Dir Over\n";
-const char aMotionDFlamDSED[] = " motion[%d] flam[%d] se[%d] ";
-const char aModeDFootD[] = " mode[%d] foot[%d]\n";
-const char aErrErrErrSetSEOver[] = "Err Err Err  Set SE Over\n";
-const char aDollActD[] = "doll act=%d \n";
-const char aDemodollCActionPointErr[] = "demodoll.c : action point Err\n";
-const char aDollC[] = {'d', 'o', 'l', 'l', '.', 'c', 0x0, 0x9};
-
 int SECTION("overlay.bss") s01a_dword_800E4B24;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
