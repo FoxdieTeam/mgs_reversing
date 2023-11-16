@@ -132,6 +132,8 @@ const char d01a_dword_800D1104[] = {'m', 'd', 'l', '.'};
 const char d01a_dword_800D1108[] = {'c', 0x0, 0x18, 0x3};
 const char d01a_aFamasl_800D110C[] = "famas_l";
 const char d01a_aFamaslitc_800D1114[] = "famaslit.c";
+
+// TODO: BSS starts here, but not sure if exactly here
 const char d01a_dword_800D1120[] = {0x0, 0x0, 0x0, 0x0};
 const char d01a_dword_800D1124[] = {0x0, 0x0, 0x0, 0x0};
 const char d01a_dword_800D1128[] = {0x0, 0x0, 0x0, 0x0};
@@ -348,5 +350,3 @@ const char d01a_dword_800D1470[] = {0x0, 0x0, 0x0, 0x0};
 const char d01a_dword_800D1474[] = {0x0, 0x0, 0x0, 0x0};
 const char d01a_dword_800D1478[] = {0x0, 0x0, 0x0, 0x0};
 const char d01a_dword_800D147C[] = {0x0, 0x0, 0x0, 0x0};
-const char d01a_dword_800D1480[] = {0x0, 0x0, 0x0, 0x0};
-const char d01a_dword_800D1484[] = {0x0, 0x0, 0x0, 0x0};
