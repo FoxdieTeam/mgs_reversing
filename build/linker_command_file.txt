@@ -537,6 +537,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s01a\Anime\animeconv\socom.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\searchli.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Enemy\object.obj"
+    include "{{OBJ_DIR}}\overlays\s01a\overlay9.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\boxkeri.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\smoke.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Enemy\wall.obj"
