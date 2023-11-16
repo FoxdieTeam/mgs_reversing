@@ -58,13 +58,6 @@ typedef struct ObjectWork
     int     field_28C;
 } ObjectWork;
 
-extern char      s01a_aMcrane_800E4808[];
-extern char      s01a_aRift_800E4800[];
-extern char      s01a_aRotvxdrotvydrotvzd_800E47DC[];
-extern char      s01a_dword_800E4814[];
-extern char      s01a_aObjectnoroot_800E47A0[];
-extern char      s01a_aObjectnoaction_800E47B0[];
-extern char      s01a_aNodeactionseterr_800E47C4[];
 extern int       GM_GameFlag_800E0F64;
 extern SVECTOR   object_svec1_800C3CAC;
 extern SVECTOR   object_svec2_800C3CB4;
@@ -366,8 +359,56 @@ int s01a_object_800D9C10(ObjectWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9C8C.s")
-int s01a_object_800D9C8C(ObjectWork *work);
+int s01a_object_800D9C8C(ObjectWork *work)
+{
+    SVECTOR diff;
+    int     yaw;
+    int     index;
+
+    yaw = -1;
+
+    work->field_284 = -1;
+    work->field_268 = 0;
+
+    index = work->field_26C + 1;
+    if (index >= work->field_1E4)
+    {
+        index = 0;
+    }
+
+    diff.vx = work->field_1E8[index].vx - work->field_20.field_0_mov.vx;
+    diff.vy = 0;
+    diff.vz = work->field_1E8[index].vy - work->field_20.field_0_mov.vz;
+
+    yaw = GV_YawVec3_80016EF8(&diff);
+    if (GV_DiffDirAbs_8001706C(work->field_264, yaw) < 16)
+    {
+        return 1;
+    }
+
+    if (GV_DiffDirS_8001704C(work->field_264, yaw) > 0)
+    {
+        work->field_284 = work->field_264 + 16;
+        if (work->field_284 >= 4096)
+        {
+            work->field_284 -= 4096;
+        }
+    }
+    else
+    {
+        work->field_284 = work->field_264 - 16;
+        if (work->field_284 < 0)
+        {
+            work->field_284 += 4096;
+        }
+    }
+
+    work->field_268 = 32;
+    work->field_264 = work->field_284;
+    work->field_260++;
+
+    return 0;
+}
 
 int s01a_object_800D9DAC(ObjectWork *work)
 {
@@ -394,10 +435,6 @@ int s01a_object_800D9DC4(ObjectWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_object_800D9E20.s")
-int s01a_object_800D9E20(ObjectWork *work);
-
-/*
 int s01a_object_800D9E20(ObjectWork *work)
 {
     switch (work->field_25C)
@@ -449,7 +486,6 @@ int s01a_object_800D9E20(ObjectWork *work)
 
     return 0;
 }
-*/
 
 void s01a_object_800D9F10(ObjectWork *work)
 {
@@ -542,7 +578,7 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
     opt = GCL_GetOption_80020968('r');
     if (opt == NULL)
     {
-        printf(s01a_aObjectnoroot_800E47A0);
+        printf("OBJECT:no ROOT\n");
     }
 
     work->field_1E4 = s01a_object_800D991C((char *)opt, work->field_1E8);
@@ -554,12 +590,12 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
     opt = GCL_GetOption_80020968('x');
     if (opt == NULL)
     {
-        printf(s01a_aObjectnoaction_800E47B0);
+        printf("OBJECT:no ACTION\n");
     }
 
     if (work->field_1E4 != s01a_object_800D9984((char *)opt, work->field_228))
     {
-        printf(s01a_aNodeactionseterr_800E47C4);
+        printf("node action set err!!\n");
     }
 
     work->field_254 = 0;
@@ -591,7 +627,7 @@ int s01a_object_800DA1E8(ObjectWork *work, int arg1)
     GM_ConfigControlHazard_8002622C(ctrl, -1, -1, -1);
     work->field_20.field_44_step = DG_ZeroVector_800AB39C;
 
-    fprintf(0, s01a_aRotvxdrotvydrotvzd_800E47DC, ctrl->field_8_rot.vx, ctrl->field_8_rot.vy, ctrl->field_8_rot.vz);
+    fprintf(0, "rot.vx=%d, rot.vy=%d, rot.vz=%d \n", ctrl->field_8_rot.vx, ctrl->field_8_rot.vy, ctrl->field_8_rot.vz);
 
     type = 0x41;
 
@@ -605,17 +641,17 @@ int s01a_object_800DA1E8(ObjectWork *work, int arg1)
 
     if ((type & 0xFF) == 0x41)
     {
-        str = s01a_aRift_800E4800;
+        str = "rift";
         work->field_28C = 0;
     }
     else if ((type & 0xFF) == 0x4B)
     {
-        str = s01a_aMcrane_800E4808;
+        str = "m13_crane";
         work->field_28C = 2;
     }
     else
     {
-        str = s01a_aRift_800E4800;
+        str = "rift";
         work->field_28C = 1;
     }
 
@@ -642,7 +678,7 @@ GV_ACT *s01a_object_800DA3A4(int arg0, int arg1)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s01a_object_800D9FE0,
-                                  (TActorFunction)s01a_object_800DA368, s01a_dword_800E4814);
+                                  (TActorFunction)s01a_object_800DA368, "object.c");
         if (s01a_object_800DA1E8(work, arg1) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
