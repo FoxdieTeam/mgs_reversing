@@ -124,7 +124,7 @@ extern short       gGameState_800B4D98[0x60];
 
 //------------------------------------------------------------------------------
 // 0x9c Stats
-#define GM_TotalBeingFound    linkvarbuf[ 78 ] // score screen
+#define GM_EnemyWatchCount    linkvarbuf[ 78 ] // score screen
 #define GM_TotalEnemiesKilled linkvarbuf[ 79 ] // score screen
 #define GM_UnkFlagA0          linkvarbuf[ 80 ]
 #define GM_UnkFlagA2          linkvarbuf[ 81 ]

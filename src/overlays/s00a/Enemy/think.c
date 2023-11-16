@@ -1,5 +1,25 @@
 #include "enemy_externs.h"
 
+extern int     GV_Time_800AB330;
+extern SVECTOR GM_PlayerPosition_800ABA10;
+extern int     GM_AlertLevel_800ABA18;
+extern int     GM_PlayerStatus_800ABA50;
+
+extern const char aRootchange_800E071C[];       // = " Root Change !!\n"
+extern const char aErrnozoneidingcl_800E06C0[]; // = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n"
+extern const char aBefmapnamed_800E06F4[];      // = "bef map name =%d \n"
+extern const char aAftmapnamed_800E0708[];      // = "aft map name =%d \n"
+extern const char aKirari_800E06E8[];           // = "kirari01"
+
+
+extern unsigned short s00a_dword_800C351C[];
+extern int            s00a_dword_800C3524[];
+
+
+extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
+extern char NearAsiato_800D13A0();
+extern void CleanAsiato_800D1378();
+
 void EnemyResetThink_800CB224( WatcherWork* work )
 {
     work->think1 = 0;
@@ -215,9 +235,6 @@ void s00a_command_800CB610( WatcherWork* work )
     work->count3 = 0;
 }
 
-
-extern char NearAsiato_800D13A0();
-
 void s00a_command_800CB628( WatcherWork *work )
 {
     work->think2 = 5;
@@ -329,8 +346,6 @@ int s00a_command_800CB7FC( WatcherWork *work )
     return 0;
 }
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 int s00a_command_800CB838( WatcherWork *work )
 {
     int temp;
@@ -433,10 +448,6 @@ int s00a_command_800CBA50( WatcherWork *work )
     work->start_addr = HZD_GetAddress_8005C6C4( map->field_8_hzd, &work->start_pos, -1 );
     return 0;
 }
-
-extern int GV_Time_800AB330;
-extern int s00a_dword_800C3524[];
-extern unsigned short s00a_dword_800C351C[];
 
 int s00a_command_800CBB44( WatcherWork *work )
 {
@@ -563,9 +574,6 @@ int s00a_command_800CBD6C( WatcherWork* work )
     return 0;
 }
 
-extern const char aKirari_800E06E8[]; //"kirari01";
-extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
-
 int s00a_command_800CBDFC( WatcherWork* work )
 {
     int count;
@@ -607,10 +615,6 @@ int s00a_command_800CBE90( WatcherWork* work )
     work->count3++;
     return 0;
 }
-
-extern const char aErrnozoneidingcl_800E06C0[];
-extern const char aBefmapnamed_800E06F4[];// "bef map name =%d \n";
-extern const char aAftmapnamed_800E0708[];// "aft map name =%d \n";
 
 int s00a_command_800CBF00( WatcherWork *work )
 {
@@ -779,8 +783,6 @@ int s00a_command_800CC294( WatcherWork *work )
     work->field_BA0 = -1;
     return 0;
 }
-
-extern const char aRootchange_800E071C[];//" Root Change !!\n";
 
 int s00a_command_800CC2E8( WatcherWork* work )
 {
@@ -1291,8 +1293,6 @@ int s00a_command_800CCDA0( WatcherWork *work )
     work->count3++;
     return 0;
 }
-
-extern int GM_PlayerStatus_800ABA50;
 
 int Think3_AttackSetup_800CCE08( WatcherWork *work )
 {
@@ -1896,8 +1896,6 @@ void s00a_command_800CD8B0( WatcherWork *work )
     }
 }
 
-extern void CleanAsiato_800D1378();
-
 void s00a_command_800CDB88( WatcherWork *work )
 {
     switch ( work->think3 )
@@ -2264,9 +2262,6 @@ void s00a_command_800CE354( WatcherWork* work )
         work->pad.field_08 = 0;
     }
 }
-
-
-extern int GM_AlertLevel_800ABA18;
 
 void s00a_command_800CE428( WatcherWork* work )
 {
