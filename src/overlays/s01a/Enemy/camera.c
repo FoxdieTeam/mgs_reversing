@@ -116,6 +116,9 @@ extern RECT    camera_rect_800C3B68;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
+extern int COM_VibTime_800E0F68;
+
+void ENE_SetTopCommAL_800CEAE8( int alert );
 
 // duplicate of s03e_guncame_800C7118
 void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
@@ -160,6 +163,7 @@ void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4E08.s")
+int s01a_camera_800D4E08(CameraWork *work);
 
 void s01a_camera_800D4FE8(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
@@ -198,7 +202,34 @@ void s01a_camera_800D50EC(CameraWork *work)
     work->field_20.field_8_rot = work->field_20.field_4C_turn;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D515C.s")
+int s01a_camera_800D515C(CameraWork *work)
+{
+    int field_1EC;
+
+    field_1EC = work->field_1EC;
+    if (field_1EC == 0)
+    {
+        GM_SeSet_80032858(&work->field_20.field_0_mov, 0x5F);
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
+    }
+    s01a_camera_800D509C(work);
+    if (field_1EC == 15)
+    {
+        s00a_command_800CEC40(&work->field_20.field_0_mov, 32);
+        s00a_command_800CA1EC(&work->field_9C.objs[1].world, 0);
+        COM_VibTime_800E0F68 = 10;
+        s01a_camera_800D50EC(work);
+    }
+    if (field_1EC == 35)
+    {
+        ENE_SetTopCommAL_800CEAE8(0xFF);
+        ENE_SetGopointLast_800CEB00();
+        return 1;
+    }
+
+    work->field_1EC++;
+    return 0;
+}
 
 void s01a_camera_800D522C(CameraWork *work)
 {
@@ -337,10 +368,82 @@ void s01a_camera_800D5504(CameraWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5624.s")
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D57CC.s")
 void s01a_camera_800D57CC(CameraWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5970.s")
-void s01a_camera_800D5970(CameraWork *work);
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5A68.s")
-void s01a_camera_800D5A68(CameraWork *work);
+
+void s01a_camera_800D5970(CameraWork *work)
+{
+    if (work->field_1E8 != 0)
+    {
+        if (work->field_1E8 == 4)
+        {
+            s01a_camera_800D509C(work);
+            ENE_SetTopCommAL_800CEAE8(0xFF);
+            ENE_SetGopointLast_800CEB00();
+            if (!s01a_camera_800D4E08(work))
+            {
+                work->field_1E8 = 0;
+            }
+        }
+    }
+    else if (s01a_camera_800D4E08(work))
+    {
+        work->field_1E8 = 4;
+    }
+    if (TOPCOMMAND_800E0F20.mode != 1)
+    {
+        work->field_1E0 = 2;
+        work->field_1E8 = 6;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
+    }
+    if (GM_GameStatus_800AB3CC & 1)
+    {
+        work->field_1E0 = 3;
+        work->field_1E8 = 6;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
+    }
+}
+
+void s01a_camera_800D5A68(CameraWork *work)
+{
+    if (work->field_1E8 == 6)
+    {
+        s01a_camera_800D53E4(work);
+        if (TOPCOMMAND_800E0F20.mode == 0)
+        {
+            work->field_1E0 = 0;
+            work->field_1E8 = 7;
+            work->field_1EC = 0;
+        }
+    }
+    if (s01a_camera_800D4E08(work))
+    {
+        ENE_SetTopCommAL_800CEAE8(0xFF);
+        ENE_SetGopointLast_800CEB00();
+        COM_VibTime_800E0F68 = 0xA;
+        s00a_command_800CEC40(&work->field_20.field_0_mov, 0x20);
+        s00a_command_800CA1EC(&work->field_9C.objs[1].world, 0);
+        s01a_camera_800D50EC(work);
+        work->field_1E0 = 1;
+        work->field_1E8 = 4;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
+    }
+    else if (TOPCOMMAND_800E0F20.mode == 1)
+    {
+        work->field_1E0 = TOPCOMMAND_800E0F20.mode;
+        work->field_1E8 = 0;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
+    }
+    if (GM_GameStatus_800AB3CC & 1)
+    {
+        work->field_1E0 = 3;
+        work->field_1E8 = 6;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
+    }
+}
 
 void s01a_camera_800D5B9C(CameraWork *work)
 {
