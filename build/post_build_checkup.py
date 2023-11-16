@@ -10,6 +10,8 @@ import re
 is_appveyor = os.environ.get('APPVEYOR')
 INCLUDE_RE = r'^\s*include\s*"([^"]+)".*$'
 
+RM_ORPHAN_COMMAND = "rm" if os.name != 'nt' else "del"
+
 #  check for .s files no longer INCLUDE_ASM'd or in linker file
 def orphaned_files():
     objs = {}
@@ -37,7 +39,9 @@ def orphaned_files():
         obj = s.replace('../asm/', '../obj/').replace('.s', '.obj')
         obj2 = s.replace('../asm/', '{{OBJ_DIR}}/').replace('.s', '.obj')
         if obj not in included_asms and obj2 not in objs and 'snake_vr' not in s:
-            print('orphaned file detected:', s)
+            if not errored:
+                print("orphaned files detected, delete them with:")
+            print(RM_ORPHAN_COMMAND, s)
             errored = True
 
     if errored and is_appveyor:
