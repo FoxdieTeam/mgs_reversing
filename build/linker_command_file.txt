@@ -566,27 +566,18 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d01a" %}
     include "{{OBJ_DIR}}\overlays\d01a\overlay.obj"
+
+    ; some Anime file:
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800C34A0.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3508.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3574.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3600.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C362C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C36BC.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C376C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3848.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3C9C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3CF8.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3D94.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3EF8.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C4038.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C40A0.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C430C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C4424.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C44AC.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C457C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C45B8.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C460C.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C46F4.obj"
+
+    include "{{OBJ_DIR}}\overlays\s01a\Thing\snow.obj"
+
+    include "{{OBJ_DIR}}\overlays\d01a\overlay2.obj"
+
+    include "{{OBJ_DIR}}\overlays\s00a\Thing\emitter.obj"
+
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800C478C.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800C489C.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800C4D04.obj"
