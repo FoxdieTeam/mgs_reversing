@@ -6,66 +6,77 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "overlays/s00a/Enemy/enemy.h"
+#include "libgcl/hash.h"
 
-typedef struct _SearchlightWork
+// Strange
+typedef struct _SearchlightSub
 {
-    GV_ACT   actor;
-    CONTROL  control;
-    char     pad[0x60];   // 9C
     SVECTOR  fFC;
     SVECTOR  f104;
     SVECTOR  f10C;
     SVECTOR  f114;
     SVECTOR  f11C;
-    char     pad2[0x120]; // 124
+    SVECTOR  pad2[36]; // 124
     SVECTOR  f244;
-    char     pad3[0x8];   // 24C
-    DG_PRIM *prim;        // 254
+    char     pad3[0x8]; // 24C
+    DG_PRIM *prim;      // 254
     DG_TEX  *tex;
-    char     pad4[0x4];
-    SVECTOR  f260;
-    short    f268;
-    short    f26A;
-    short    height;
-    short    f26E;
-    short    angle;
-    short    f272;
-    short    f274;
-    short    f276;
-    short    f278;
-    short    f27A;
-    short    f27C;
-    short    f27E;
-    int      debug;
-    SVECTOR  f284;
-    int      f28C;
-    int      f290;
-    int      f294;
-    char     pad6[0x4];
-    int      f29C;
-    int      f2A0;
-    int      f2A4;
-    int      f2A8;
-    int      f2AC;
-    int      f2B0;
-    int      f2B4;
-    char     pad8[0x8];
-    GV_ACT  *lit_mdl;
-    MATRIX   lit_mtx;
+} SearchlightSub;
+
+typedef struct _SearchlightWork
+{
+    GV_ACT         actor;
+    CONTROL        control;
+    char           pad[0x60]; // 9C
+    SearchlightSub fFC;
+    char           pad4[0x4];
+    SVECTOR        f260;
+    short          f268;
+    short          f26A;
+    short          height;
+    short          f26E;
+    short          angle;
+    short          f272;
+    short          f274;
+    short          f276;
+    short          f278;
+    short          f27A;
+    short          f27C;
+    short          f27E;
+    int            debug;
+    SVECTOR        f284;
+    int            f28C;
+    int            f290;
+    int            f294;
+    char           pad6[0x4];
+    int            f29C;
+    int            f2A0;
+    int            f2A4;
+    int            f2A8;
+    int            f2AC;
+    int            f2B0;
+    int            f2B4;
+    char           pad8[0x8];
+    GV_ACT        *lit_mdl;
+    MATRIX         lit_mtx;
 } SearchlightWork;
 
-extern MATRIX    DG_ZeroMatrix_8009D430;
-extern SVECTOR   DG_ZeroVector_800AB39C;
-extern int       GM_PlayerMap_800ABA0C;
-extern SVECTOR   GM_PlayerPosition_800ABA10;
-extern int       GM_PlayerStatus_800ABA50;
-extern GV_PAD    GV_PadData_800B05C0[4];
-extern CONTROL  *GM_WhereList_800B56D0[96];
+extern MATRIX   DG_ZeroMatrix_8009D430;
+extern SVECTOR  DG_ZeroVector_800AB39C;
+extern int      GM_PlayerMap_800ABA0C;
+extern SVECTOR  GM_PlayerPosition_800ABA10;
+extern int      GM_PlayerStatus_800ABA50;
+extern GV_PAD   GV_PadData_800B05C0[4];
+extern CONTROL *GM_WhereList_800B56D0[96];
+extern OBJECT  *GM_PlayerBody_800ABA20;
+extern int      dword_800ABA1C;
+extern CONTROL *GM_PlayerControl_800AB9F4;
 
-extern SVECTOR   SearchliCenter_800E46D8;
-extern int       COM_VibTime_800E0F68;
+extern SVECTOR SearchliCenter_800E46D8;
+extern SVECTOR s01a_svec_800E4660;
+extern int     COM_VibTime_800E0F68;
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern ENEMY_COMMAND     EnemyCommand_800E0D98;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 
 extern const char aSearchliUDRotXLRRotY[];  // = "UD:ROT.X  LR:ROT.Y\n"
@@ -84,11 +95,11 @@ void    s00a_command_800CEC40(SVECTOR *, int);
 void    s01a_object_800D9424(CONTROL *, int);
 void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
-void    s01a_camshake_800E2D3C(GV_ACT *, int angle);
+void    s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
 #define EXEC_LEVEL 4
 
-void s01a_searchli_800D7320(DG_PRIM *prim, int unused, int r, int g, int b)
+void s01a_searchli_800D7320(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
@@ -250,8 +261,29 @@ int s01a_searchli_800D77A4(SearchlightWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/Searchli_800D783C.s")
-void Searchli_800D783C(SearchlightWork *work);
+void Searchli_800D783C(SearchlightWork *work)
+{
+  SVECTOR *rot;
+  int rnd, vx, vy;
+
+  if (!(work->f2A0 & 0x3F))
+  {
+    work->f2A0 += GV_RandU_80017090(16);
+
+    work->control.field_54 = work->f27C;
+
+    rot = &work->control.field_4C_turn;
+
+    rnd = rand();
+    vy = work->f260.vy - work->f278 + (rnd * work->f278 * 2 >> 15);
+    rot->vy = vy & 0xFFF;
+
+    rot->vx = vx = rand() * (vx = work->f276) >> 15;
+    s01a_searchli_800D7500(&work->f260, rot, work);
+  }
+
+  work->f2A0++;
+}
 
 int Searchli_800D7908(SearchlightWork *work)
 {
@@ -462,17 +494,280 @@ void Searchli_800D7D40(SearchlightWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/Searchli_800D7DBC.s")
+// $13 replaced with $14 in gte_ld_intpol_sv0_xz
+#define gte_ld_intpol_sv0_xz(r0)                                                                                       \
+    __asm__ volatile("lh     $12, 0( %0 );"                                                                            \
+                     "lh     $14, 4( %0 );"                                                                            \
+                     "ctc2   $12, $21;"                                                                                \
+                     "ctc2   $14, $23"                                                                                 \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "$12", "$14")
 
-void Searchli_800D80AC(SVECTOR *vec, short x, short y, short z)
+#define gte_ld_intpol_sv1_xz(r0)                                                                                       \
+    __asm__ volatile("lhu    $12, 0( %0 );"                                                                            \
+                     "lhu    $13, 4( %0 );"                                                                            \
+                     "mtc2   $12, $9;"                                                                                 \
+                     "mtc2   $13, $11"                                                                                 \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "$12", "$13")
+
+#define gte_stsv_xz(r0)                                                                                                \
+    __asm__ volatile("mfc2 $12, $9;"                                                                                   \
+                     "mfc2 $14, $11;"                                                                                  \
+                     "sh   $12, 0( %0 );"                                                                              \
+                     "sh   $0,  2( %0 );"                                                                              \
+                     "sh   $14, 4( %0 )"                                                                               \
+                     :                                                                                                 \
+                     : "r"(r0)                                                                                         \
+                     : "$12", "$13", "$14", "memory")
+
+void Searchli_800D7DBC(SVECTOR *in, SVECTOR *out, int count)
+{
+
+    SVECTOR *scratch;
+    SVECTOR *var_a0;
+    SVECTOR *var_t0;
+    int      temp_lo;
+    int      temp_t7;
+    int      i;
+    int      j;
+    int      total;
+    int      num;
+    int      temp;
+    int      one;
+
+    temp_t7 = count + 1;
+    temp_lo = temp_t7 * temp_t7;
+    scratch = (SVECTOR *)0x1F800000;
+
+    total = 4096 / count;
+
+    scratch[0] = in[0];
+    scratch[count] = in[1];
+    scratch[temp_lo - temp_t7] = in[2];
+    one = 1;
+    scratch[temp_lo - one] = in[3];
+
+    var_t0 = scratch;
+
+    for (i = 2; i > 0; i--)
+    {
+        var_a0 = var_t0 + (temp_t7 - 1);
+        gte_ld_intpol_sv0_xz(var_a0);
+
+        var_a0 = var_t0;
+        num = total;
+        for (j = count - 1; j > 0; j--)
+        {
+            gte_ld_intpol_sv1_xz(var_t0);
+            gte_lddp(num);
+
+            num += total;
+            var_a0++;
+
+            gte_intpl_b();
+            gte_stsv_xz(var_a0);
+        }
+
+        var_t0 = scratch + (temp_lo - temp_t7);
+    }
+
+    var_t0 = scratch;
+    for (i = temp_t7; i > 0; i--)
+    {
+        var_a0 = var_t0 + (temp_lo - temp_t7);
+        gte_ld_intpol_sv0_xz(var_a0);
+
+        var_a0 = var_t0;
+
+        num = total;
+        for (j = count - 1; j > 0; j--)
+        {
+            gte_ld_intpol_sv1_xz(var_t0);
+            gte_lddp(num);
+
+            num += total;
+            var_a0 += temp_t7;
+
+            gte_intpl_b();
+            gte_stsv_xz(var_a0);
+        }
+
+        var_t0++;
+    }
+
+    temp = temp_t7 + 1;
+    var_t0 = scratch;
+    for (i = count; i > 0; i--)
+    {
+        for (j = count; j > 0; j--)
+        {
+            out[0] = var_t0[0];
+            out[1] = var_t0[1];
+            out[2] = var_t0[temp_t7];
+            out[3] = var_t0[temp];
+            out += 4;
+            var_t0++;
+        }
+
+        var_t0++;
+    }
+}
+
+void Searchli_800D80AC(SVECTOR *vec, int x, int y, int z)
 {
     vec->vx = x;
     vec->vy = y;
     vec->vz = z;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/Searchli_800D80BC.s")
-void Searchli_800D80BC(SearchlightWork *);
+void Searchli_800D80BC(SearchlightWork *work)
+{
+    SVECTOR sp18;
+    VECTOR  sp20;
+    VECTOR  sp30;
+    SVECTOR pos;
+    SVECTOR rot;
+
+    SearchlightSub *sp50;
+
+    SVECTOR *temp_fp;
+    SVECTOR *temp_s0_8;
+    SVECTOR *temp_t0;
+    int      var_s4;
+    int      temp_a1;
+    int      dx, dy, dz;
+    int      dx2, dy2, dz2; // probably inline related
+    int      temp_s0_2;
+    int      temp_s0_7;
+    int      temp_s1_2;
+    int      temp_s2_2;
+    int      temp_s6;
+    int      shade;
+    int      var_s5;
+    int      target;
+
+    sp50 = &work->fFC;
+    temp_fp = &work->fFC.f244;
+    temp_t0 = &sp50->fFC;
+
+    if (GM_WhereList_800B56D0[0]->field_30_scriptData != CHARA_SNAKE)
+    {
+        return;
+    }
+    var_s4 = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->height;
+
+    if (var_s4 < 300)
+    {
+        var_s4 = 10;
+    }
+    else if (var_s4 > 1000)
+    {
+        var_s4 += 300;
+    }
+
+    if ((work->f2B4 != 0) || (var_s4 < 0))
+    {
+        if (work->f2A8 < (work->f272 / 4))
+        {
+            shade = 78;
+        }
+        else
+        {
+            shade = ((work->f2A8 - (work->f272 / 4)) * 78) / (work->f272 / 4);
+        }
+
+        s01a_searchli_800D7320(work->fFC.prim, work->fFC.tex, shade, shade, shade);
+
+        DG_VisiblePrim(work->fFC.prim);
+        dword_800ABA1C |= 1 << (work->f26E + 1);
+    }
+    else
+    {
+        DG_InvisiblePrim(work->fFC.prim);
+        dword_800ABA1C &= ~(1 << (work->f26E + 1));
+        return;
+    }
+
+    dx = GM_PlayerPosition_800ABA10.vx - work->control.field_0_mov.vx;
+    dy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->control.field_0_mov.vy;
+    dz = GM_PlayerPosition_800ABA10.vz - work->control.field_0_mov.vz;
+
+    target = 1024;
+
+    temp_s0_2 = ratan2(dy, SquareRoot0(dx * dx + dz * dz)) + target;
+
+    if ((temp_s0_2 & 0x7FF) != target)
+    {
+        var_s5 = (var_s4 * rsin(temp_s0_2)) / rcos(temp_s0_2);
+    }
+    else
+    {
+        var_s5 = var_s4 * rsin(temp_s0_2);
+    }
+
+    temp_t0->vy = ratan2(dx, dz);
+
+    sp18 = GM_PlayerPosition_800ABA10;
+    sp18.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1];
+
+    s01a_800E2364(&work->lit_mtx, &sp18, &sp20);
+
+    sp20.vx >>= 2;
+    sp20.vy >>= 2;
+    sp20.vz >>= 2;
+
+    Square0(&sp20, &sp30);
+
+    temp_s2_2 = ratan2(SquareRoot0(sp30.vx + sp30.vy), sp20.vz) & 0xFFF;
+    if (temp_s2_2 > (work->f272 / 2))
+    {
+        temp_s6 = (rsin(work->f272 / 2) * 4096) / rcos(work->f272 / 2);
+        temp_s1_2 = (rsin(work->f2A8) * 4096) / rcos(work->f2A8);
+        temp_s0_7 = (rsin(temp_s2_2) * 4096) / rcos(temp_s2_2) - temp_s1_2;
+
+        if (temp_s0_7 != 0)
+        {
+            var_s5 = (var_s5 * (temp_s6 - temp_s1_2)) / temp_s0_7;
+        }
+        else
+        {
+            var_s5 = 0;
+        }
+    }
+
+    temp_a1 = -200 - var_s5;
+    temp_s0_8 = &sp50->f104;
+
+    Searchli_800D80AC(temp_s0_8, temp_a1, 0, temp_a1);
+
+    *temp_fp = GM_PlayerPosition_800ABA10;
+    temp_fp->vy = var_s4;
+
+    temp_t0->vy = (temp_t0->vy + 1536) & 0xFFF;
+    temp_fp->vy = work->height + 10;
+
+    Searchli_800D7DBC(temp_s0_8, sp50->pad2, 3);
+
+    DG_SetPos2_8001BC8C(temp_fp, temp_t0);
+    DG_PutPrim_8001BE00(&sp50->prim->world);
+
+    pos = s01a_svec_800E4660;
+
+    dx2 = GM_PlayerPosition_800ABA10.vx - work->control.field_0_mov.vx;
+    dy2 = GM_PlayerPosition_800ABA10.vy - work->control.field_0_mov.vy;
+    dz2 = GM_PlayerPosition_800ABA10.vz - work->control.field_0_mov.vz;
+
+    rot.vx = ratan2(dy2, SquareRoot0(dx2 * dx2 + dz2 * dz2)) + 1024;
+    rot.vy = work->control.field_8_rot.vy;
+    rot.vz = 0;
+
+    DG_SetPos2_8001BC8C(&GM_PlayerControl_800AB9F4->field_0_mov, &rot);
+    DG_PutVector_8001BE48(&pos, &pos, 1);
+    DG_SetTmpLight_8001A114(&pos, 1024, 2000);
+}
 
 void SearchlightAct_800D86F0(SearchlightWork *work)
 {
@@ -621,7 +916,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
         menu_Text_80038C38(aSearchliPos7D7D7D, work->control.field_0_mov.vx, work->control.field_0_mov.vy, work->control.field_0_mov.vz);
         menu_Text_80038C38(aSearchliAngle4D, work->angle);
 
-        s01a_camshake_800E2D3C(work->lit_mdl, work->angle);
+        s01a_lit_mdl_800E2D3C(work->lit_mdl, work->angle);
 
         if (status & PAD_L2)
         {
@@ -782,15 +1077,15 @@ int Searchli_800D9040(SearchlightWork *work)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    Searchli_800D80AC(&work->f244, 0, 0, 0);
-    Searchli_800D80AC(&work->fFC, 0, 0, 0);
-    Searchli_800D80AC(&work->f104, -200, 0, -200);
-    Searchli_800D80AC(&work->f10C, 200, 0, -200);
-    Searchli_800D80AC(&work->f114, -200, 0, 200);
-    Searchli_800D80AC(&work->f11C, 200, 0, 200);
+    Searchli_800D80AC(&work->fFC.f244, 0, 0, 0);
+    Searchli_800D80AC(&work->fFC.fFC, 0, 0, 0);
+    Searchli_800D80AC(&work->fFC.f104, -200, 0, -200);
+    Searchli_800D80AC(&work->fFC.f10C, 200, 0, -200);
+    Searchli_800D80AC(&work->fFC.f114, -200, 0, 200);
+    Searchli_800D80AC(&work->fFC.f11C, 200, 0, 200);
 
-    prim = DG_GetPrim(0x12, 9, 0, (SVECTOR *)work->pad2, NULL);
-    work->prim = prim;
+    prim = DG_GetPrim(0x12, 9, 0, work->fFC.pad2, NULL);
+    work->fFC.prim = prim;
     if (prim == NULL)
     {
         return -1;
@@ -799,7 +1094,7 @@ int Searchli_800D9040(SearchlightWork *work)
     prim->field_2E_k500 = 600;
 
     tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aSearchliShadow));
-    work->tex = tex;
+    work->fFC.tex = tex;
     if (tex == NULL)
     {
         return -1;
@@ -840,7 +1135,7 @@ void SearchlightDie_800D9274(SearchlightWork *work)
 
     GM_FreeControl_800260CC(&work->control);
 
-    prim = work->prim;
+    prim = work->fFC.prim;
     if (prim != NULL)
     {
         DG_DequeuePrim_800182E0(prim);
@@ -848,14 +1143,15 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     }
 }
 
-GV_ACT * NewSearchlight_800D92BC(int name, int where)
+GV_ACT *NewSearchlight_800D92BC(int name, int where)
 {
     SearchlightWork *work;
 
     work = (SearchlightWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SearchlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SearchlightAct_800D86F0, (TActorFunction)SearchlightDie_800D9274, aSearchliC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SearchlightAct_800D86F0,
+                                  (TActorFunction)SearchlightDie_800D9274, aSearchliC);
 
         if (SearchlightGetResources_800D91B0(work, name, where) < 0)
         {
