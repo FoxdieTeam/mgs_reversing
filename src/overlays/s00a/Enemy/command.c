@@ -4,7 +4,41 @@
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 
+extern int       GV_Time_800AB330;
+extern SVECTOR   DG_ZeroVector_800AB39C;
+extern int       GM_PlayerAddress_800AB9F0;
+extern SVECTOR   GM_NoisePosition_800AB9F8;
+extern int       GM_PlayerMap_800ABA0C;
+extern SVECTOR   GM_PlayerPosition_800ABA10;
+extern OBJECT   *GM_PlayerBody_800ABA20;
+extern int       GM_event_camera_flag_800ABA9C;
+extern CONTROL  *GM_WhereList_800B56D0[94];
+extern GM_Camera GM_Camera_800B77E8;
 
+
+unsigned char s00a_dword_800C35DC[4];
+unsigned char s00a_dword_800C35E0[4];
+extern int    s00a_dword_800C35E4[8];
+
+extern int    COM_NoiseMinDisID_800E0D44;
+extern int    s00a_dword_800E0D30;
+extern int    COM_VibTime_800E0F68;
+
+
+extern const char aCresetposd_800E07FC[];                   // = " c_reset_pos = %d \n"
+extern const char aKottida_800E0810[];                      // = "kottida !!\n"
+extern const char s00a_aResetmaxdnumd_800E083C[];           // = "reset max=%d num=%d \n"
+extern const char aGmenemywatchcountd_800E0854[];           // = "GM_EnemyWatchCount = [%d] \n"
+extern const char aNowzonedrzoned_800E0874[];               // = " now zone = %d r_zone=%d\n"
+extern const char aNotrestrctedaread_800E0890[];            // = " ? ? ? Not Restrcted Area [%d] !!!!\n"
+extern const char aErrerrerrnotlinkroutedtod_800E08B8[];    // = " Err Err Err Not Link Route [%d] to [%d] !!!!\n"
+extern const char aCommanderrnozoneidingclzdidd_800E08E8[]; // = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n"
+extern const char aCommandcwhereissnake_800E091C[];         // = "command.c:  Where Is Snake ????\n"
+extern const char aCommandC_800E0970[];                     // = "command.c"
+
+void GM_AlertModeSet_8002EA68( int );
+void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
+void ENE_SetTopCommAL_800CEAE8( int );
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {
@@ -59,10 +93,6 @@ void ENE_SetGopointLast_800CEB00(void)
     EnemyCommand_800E0D98.field_0x40 = 1;
 }
 
-extern CONTROL *GM_WhereList_800B56D0[94];
-extern SVECTOR GM_NoisePosition_800AB9F8;
-extern int GM_PlayerMap_800ABA0C; //GM_PlayerMap?
-
 void s00a_command_800CEB54(void)
 {
     EnemyCommand_800E0D98.com_addr = HZD_GetAddress_8005C6C4( GM_WhereList_800B56D0[0]->field_2C_map->field_8_hzd, &GM_NoisePosition_800AB9F8, -1 );
@@ -103,13 +133,6 @@ void s00a_command_800CEC40( SVECTOR *mov , int flag )
         s00a_dword_800E0CA0 = 32;
     }
 }
-
-extern int COM_VibTime_800E0F68;
-
-unsigned char s00a_dword_800C35DC[4];
-unsigned char s00a_dword_800C35E0[4];
-
-extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
 
 void s00a_command_800CEC90( void )
 {
@@ -187,10 +210,6 @@ int s00a_command_800CEDE8( int ops, short *addr, int map_id )
 
     return i;
 }
-
-extern int GV_Time_800AB330;
-extern const char aCresetposd_800E07FC[]; //" c_reset_pos = %d \n";
-extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void s00a_command_800CEE98(void)
 {
@@ -294,8 +313,6 @@ void s00a_command_800CF0CC( int *val )
     *val = 0x85;
 }
 
-extern const char aKottida_800E0810[]; //"kottida !!\n";
-
 void s00a_command_800CF0D8( int* val )
 {
     switch ( s00a_command_800CEFE4( 2 ) )
@@ -344,8 +361,6 @@ int s00a_command_800CF13C( int val )
     return val;
 }
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 void s00a_command_800CF200(void)
 {
     if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count_8008BBB0() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
@@ -357,8 +372,6 @@ void s00a_command_800CF200(void)
         EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count_8008BBB0();
     }
 }
-
-extern int s00a_dword_800C35E4[];
 
 void s00a_command_800CF298( ENEMY_COMMAND* command )
 {
@@ -469,8 +482,6 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     }
 }
 
-extern const char s00a_aResetmaxdnumd_800E083C[];
-
 void s00a_command_800CF504( C8_STRUCT* struct_c8 , int i )
 {
     int x = struct_c8->field_08;
@@ -532,8 +543,6 @@ int s00a_command_800CF688( int a0, int a1 )
     return a0;
 }
 
-extern void ENE_SetTopCommAL_800CEAE8( int );
-
 void s00a_command_800CF6A0( int val, ENEMY_COMMAND* command )
 {
     if ( command->alert - val > 4 )
@@ -552,10 +561,6 @@ void s00a_command_800CF6A0( int val, ENEMY_COMMAND* command )
 
     ENE_SetTopCommAL_800CEAE8( 0 );
 }
-
-
-void GM_AlertModeSet_8002EA68( int );
-extern const char aGmenemywatchcountd_800E0854[]; //GM_EnemyWatchCount = [%d] \n
 
 void s00a_command_800CF704( ENEMY_COMMAND *command )
 {
@@ -579,8 +584,8 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
 
                 if ( !( COM_GameStatus_800E0F3C & 2 ) )
                 {
-                    GM_TotalBeingFound ++;
-                    printf( aGmenemywatchcountd_800E0854, GM_TotalBeingFound );
+                    GM_EnemyWatchCount ++;
+                    printf( aGmenemywatchcountd_800E0854, GM_EnemyWatchCount );
                 }
                 EnemyCommand_800E0D98.field_0x182 = 0;
             }
@@ -695,8 +700,6 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
     return dis;
 }
 
-extern int COM_NoiseMinDisID_800E0D44;
-extern int s00a_dword_800E0D30;
 void s00a_command_800CFA94( CommanderWork* work )
 {
     int i;
@@ -759,10 +762,6 @@ int s00a_command_800CFC04( WatcherWork *work, HZD_ZON* zone )
     return 0;
 }
 
-extern const char aNowzonedrzoned_800E0874[];// = " now zone = %d r_zone=%d\n";
-extern const char aNotrestrctedaread_800E0890[];// = " ? ? ? Not Restrcted Area [%d] !!!!\n";
-extern const char aErrerrerrnotlinkroutedtod_800E08B8[];// = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
-
 int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
 {
     int addr;
@@ -822,8 +821,6 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
     }
 }
 
-extern const char aCommanderrnozoneidingclzdidd_800E08E8[];// = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
-
 void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
 {
     MAP *map;
@@ -854,9 +851,6 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
         printf( aCommanderrnozoneidingclzdidd_800E08E8, addr, zone->padding );
     }
 }
-
-extern int GM_PlayerAddress_800AB9F0;
-extern const char aCommandcwhereissnake_800E091C[];// = "command.c:  Where Is Snake ????\n";
 
 void s00a_command_800CFEA8( void )
 {
@@ -984,9 +978,6 @@ void s00a_command_800D0218(void)
     }
 }
 
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern GM_Camera GM_Camera_800B77E8;
-
 void CommandAct_800D0258( CommanderWork* work )
 {
     if (GM_CheckMessage_8002631C( &work->actor , work->name, HASH_KILL) != NULL)
@@ -1010,9 +1001,6 @@ void CommandDie_800D02EC( void )
     return;
 }
 
-
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 void s00a_command_800D02F4(void)
 {
     if ( GM_PlayerBody_800ABA20->objs->bound_mode == 2 )
@@ -1020,8 +1008,6 @@ void s00a_command_800D02F4(void)
         GM_Camera_800B77E8.field_1C = GV_NearExp8_800263E4( GM_Camera_800B77E8.field_1C, 4000 );
     }
 }
-
-extern int GM_event_camera_flag_800ABA9C;
 
 void s00a_command_800D0344(void)
 {
@@ -1258,9 +1244,6 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
         EnemyCommand_800E0D98.field_0x04 = s00a_command_800D0128( ops );
     }
 }
-
-
-extern const char aCommandC_800E0970[]; //command.c
 
 void *NewCommand_800D0908( int name, int where, int argc, char **argv )
 {

@@ -312,7 +312,7 @@ void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
 void ENE_PutItem_800C90CC( WatcherWork *work ) ;
 int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
 
-void s00a_command_800C9068( WatcherWork *work ) ;
+void ENE_PutFog_800C9068( WatcherWork *work ) ;
 int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
 void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
 
