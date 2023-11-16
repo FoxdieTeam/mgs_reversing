@@ -226,13 +226,8 @@ ANIMATION anm_800C3C58 = {0x479F, 1, 1, 1, 1, 500, 1, 2000, 2000, 64, NULL, (cha
 extern const char anim_data_800E4760[];
 ANIMATION anm_800C3C74 = {0x479F, 1, 1, 1, 1, 0, 0, 20, 20, 255, NULL, (char *)anim_data_800E4760};
 
-int s01a_dword_800C3C90 = 0x0001A9CD;
-int s01a_dword_800C3C94 = 0x00010001;
-int s01a_dword_800C3C98 = 0x00E60001;
-int s01a_dword_800C3C9C = 0x00000001;
-int s01a_dword_800C3CA0 = 0x00FF0000;
-int s01a_dword_800C3CA4 = 0x00000000;
-int s01a_dword_800C3CA8 = 0x800E476C;
+extern const char anim_data_800E476C[];
+ANIMATION anm_800C3C90 = {0xA9CD, 1, 1, 1, 1, 230, 1, 0, 0, 255, NULL, (char *)anim_data_800E476C};
 
 SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
