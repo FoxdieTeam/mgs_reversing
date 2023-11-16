@@ -784,6 +784,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800D04AC.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800D06F0.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_800D0B28.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
 {% endif %}
 
 {% endif %}
