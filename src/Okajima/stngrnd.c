@@ -7,7 +7,7 @@
 #include "Game/game.h"
 
 extern SVECTOR stru_800BDF90;
-extern int claymore_map_800AB9DC;
+extern int GM_ClaymoreMap_800AB9DC;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
 void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
@@ -204,7 +204,7 @@ Actor_StunGrenade * NewStanBlast_80074B5C(MATRIX *pMtx)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0, (TActorFunction)stngrnd_act_80074730, (TActorFunction)stngrnd_kill_800748B8, "stngrnd.c");
 
-        claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
+        GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
         if ( stngrnd_loader_800748D8(pActor, pMtx) < 0 )
         {

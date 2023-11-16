@@ -10,7 +10,7 @@ extern MAP   *claymore_MAP_800bdf08;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           GM_GameOverTimer_800AB3D4;
 extern SVECTOR       DG_ZeroVector_800AB39C;
-extern int           claymore_map_800AB9DC;
+extern int           GM_ClaymoreMap_800AB9DC;
 
 SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
 SVECTOR stru_8009F650[2] = {{0, 0, 200, 0}, {0, 0, 10000, 0}};
@@ -350,7 +350,7 @@ Actor_Claymore * NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_fiel
             GV_SetNamedActor_8001514C(&claymore->field_0, (TActorFunction)claymore_act_800736B0,
                                       (TActorFunction)claymore_kill_800738F4, "claymore.c");
             current_map = GM_CurrentMap_800AB9B0;
-            claymore_map_800AB9DC = current_map;
+            GM_ClaymoreMap_800AB9DC = current_map;
             if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)
             {
                 GV_DestroyActor_800151C8(&claymore->field_0);

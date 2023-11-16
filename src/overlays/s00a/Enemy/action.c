@@ -931,7 +931,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
         if ( target->field_3E == 3 )
         {
             GM_SeSet_80032858( &work->control.field_0_mov, 0x34  );
-            s00a_command_800C9068( work );
+            ENE_PutFog_800C9068( work );
         }
         else
         {

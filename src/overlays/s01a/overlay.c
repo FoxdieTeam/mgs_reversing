@@ -113,114 +113,56 @@ SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
 SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
 SVECTOR s00a_dword_800C33EC = { -1024, 0,   0 };
 
-int s01a_dword_800C3940 = 0x800E3954;
-int s01a_dword_800C3944 = 0x800E3940;
-int s01a_dword_800C3948 = 0x800E392C;
-int s01a_dword_800C394C = 0x800CBF74;
-int s01a_dword_800C3950 = 0x800CC018;
-int s01a_dword_800C3954 = 0x800CC160;
-int s01a_dword_800C3958 = 0x800CC19C;
-int s01a_dword_800C395C = 0xFE0C0005;
-int s01a_dword_800C3960 = 0x00000050;
-int s01a_dword_800C3964 = 0x0001DCD3;
-int s01a_dword_800C3968 = 0x00010001;
-int s01a_dword_800C396C = 0x01F40001;
-int s01a_dword_800C3970 = 0x00500001;
-int s01a_dword_800C3974 = 0x00000050;
-int s01a_dword_800C3978 = 0x00000000;
-int s01a_dword_800C397C = 0x800E3974;
-int s01a_dword_800C3980 = 0x0001FAD3;
-int s01a_dword_800C3984 = 0x00010001;
-int s01a_dword_800C3988 = 0x01F40001;
-int s01a_dword_800C398C = 0x00500001;
-int s01a_dword_800C3990 = 0x00000050;
-int s01a_dword_800C3994 = 0x00000000;
-int s01a_dword_800C3998 = 0x800E3AD8;
-int s01a_dword_800C399C = 0x0001FAD3;
-int s01a_dword_800C39A0 = 0x00010001;
-int s01a_dword_800C39A4 = 0x01F40001;
-int s01a_dword_800C39A8 = 0x00500001;
-int s01a_dword_800C39AC = 0x00000050;
-int s01a_dword_800C39B0 = 0x00000000;
-int s01a_dword_800C39B4 = 0x800E3BDC;
-int s01a_dword_800C39B8 = 0x00011968;
-int s01a_dword_800C39BC = 0x00010001;
-int s01a_dword_800C39C0 = 0x00000001;
-int s01a_dword_800C39C4 = 0x00460001;
-int s01a_dword_800C39C8 = 0x00FF0046;
-int s01a_dword_800C39CC = 0x00000000;
-int s01a_dword_800C39D0 = 0x800E3CE0;
-int s01a_dword_800C39D4 = 0xFAD3DCD3;
-int s01a_dword_800C39D8 = 0x00001968;
-int s01a_dword_800C39DC = 0x0001F314;
-int s01a_dword_800C39E0 = 0x00010001;
-int s01a_dword_800C39E4 = 0x03200001;
-int s01a_dword_800C39E8 = 0x02580003;
-int s01a_dword_800C39EC = 0x00FA0258;
-int s01a_dword_800C39F0 = 0x00000000;
-int s01a_dword_800C39F4 = 0x800E3D48;
-int s01a_dword_800C39F8 = 0x0001CAFE;
-int s01a_dword_800C39FC = 0x00010001;
-int s01a_dword_800C3A00 = 0x00000001;
-int s01a_dword_800C3A04 = 0x00C80001;
-int s01a_dword_800C3A08 = 0x008000C8;
-int s01a_dword_800C3A0C = 0x00000000;
-int s01a_dword_800C3A10 = 0x800E3D6C;
-int s01a_dword_800C3A14 = 0x00014184;
-int s01a_dword_800C3A18 = 0x00010001;
-int s01a_dword_800C3A1C = 0x00000001;
-int s01a_dword_800C3A20 = 0x000A0005;
-int s01a_dword_800C3A24 = 0x0080000A;
-int s01a_dword_800C3A28 = 0x00000000;
-int s01a_dword_800C3A2C = 0x800E400C;
-int s01a_dword_800C3A30 = 0x0008512D;
-int s01a_dword_800C3A34 = 0x001E0004;
-int s01a_dword_800C3A38 = 0x00000001;
-int s01a_dword_800C3A3C = 0x000A0001;
-int s01a_dword_800C3A40 = 0x00FF000A;
-int s01a_dword_800C3A44 = 0x00000000;
-int s01a_dword_800C3A48 = 0x800E4068;
-int s01a_dword_800C3A4C = 0x0001F7BB;
-int s01a_dword_800C3A50 = 0x00010001;
-int s01a_dword_800C3A54 = 0x00000001;
-int s01a_dword_800C3A58 = 0x00020001;
-int s01a_dword_800C3A5C = 0x00000002;
-int s01a_dword_800C3A60 = 0x00000000;
-int s01a_dword_800C3A64 = 0x800E40B0;
-int s01a_dword_800C3A68 = 0x00320064;
-int s01a_dword_800C3A6C = 0x000A0019;
-int s01a_dword_800C3A70 = 0x00000000;
-int s01a_dword_800C3A74 = 0x00000001;
-int s01a_dword_800C3A78 = 0x00000002;
-int s01a_dword_800C3A7C = 0x00000004;
-int s01a_dword_800C3A80 = 0x00002000;
-int s01a_dword_800C3A84 = 0x00000040;
-int s01a_dword_800C3A88 = 0x00000080;
-int s01a_dword_800C3A8C = 0x00000200;
-int s01a_dword_800C3A90 = 0x00000400;
-int s01a_dword_800C3A94 = 0x00000800;
-int s01a_dword_800C3A98 = 0x00000100;
-int s01a_dword_800C3A9C = 0x00800000;
-int s01a_dword_800C3AA0 = 0x01000000;
-int s01a_dword_800C3AA4 = 0x04000000;
-int s01a_dword_800C3AA8 = 0x08000000;
-int s01a_dword_800C3AAC = 0x00000000;
-int s01a_dword_800C3AB0 = 0x00000000;
-int s01a_dword_800C3AB4 = 0x00000001;
-int s01a_dword_800C3AB8 = 0x00000002;
-int s01a_dword_800C3ABC = 0x00000004;
-int s01a_dword_800C3AC0 = 0x00002000;
-int s01a_dword_800C3AC4 = 0x00000040;
-int s01a_dword_800C3AC8 = 0x00000080;
-int s01a_dword_800C3ACC = 0x00000200;
-int s01a_dword_800C3AD0 = 0x00000400;
-int s01a_dword_800C3AD4 = 0x00000800;
-int s01a_dword_800C3AD8 = 0x00000000;
-int s01a_dword_800C3ADC = 0x00000000;
-int s01a_dword_800C3AE0 = 0x00000000;
-int s01a_dword_800C3AE4 = 0x00000000;
-int s01a_dword_800C3AE8 = 0x00000000;
-int s01a_dword_800C3AEC = 0x0000001F;
+extern const char aRation_800DFE94[];
+extern const char aSocombullet_800DFE80[];
+extern const char aFamasbullet_800DFE6C[];
+
+const char *s00a_off_800C33F4[3] = {aRation_800DFE94, aSocombullet_800DFE80, aFamasbullet_800DFE6C};
+
+int PutFuncList_800C3400[4] = { 0x800CBF74, 0x800CC018, 0x800CC160, 0x800CC19C };
+
+SVECTOR s00a_dword_800C3410 = { 5, -500, 80 };
+
+extern const char s01a_dword_800E3974[];
+extern const char s01a_dword_800E3AD8[];
+extern const char s01a_dword_800E3BDC[];
+extern const char s01a_dword_800E3CE0[];
+
+ANIMATION s00a_dword_800C3418 = { PCX_B_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s01a_dword_800E3974 };
+ANIMATION s00a_dword_800C3434 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s01a_dword_800E3AD8 };
+ANIMATION s00a_dword_800C3450 = { PCX_Q_MARK, 1, 1, 1, 1, 500, 1, 80, 80,   0, 0, (char *)s01a_dword_800E3BDC };
+ANIMATION s00a_dword_800C346C = { PCX_HEART, 1, 1, 1, 1,   0, 1, 70, 70, 255, 0, (char *)s01a_dword_800E3CE0 };
+
+short s00a_dword_800C3488 = PCX_B_MARK;
+short s00a_dword_800C348A = PCX_Q_MARK;
+short s00a_dword_800C348C = PCX_HEART;
+short s00a_dword_800C348E = 0x0000;
+
+extern const char s01a_dword_800E3D48[];
+extern const char s01a_dword_800E3D6C[];
+extern const char s01a_dword_800E400C[];
+extern const char s01a_dword_800E4068[];
+extern const char s01a_dword_800E40B0[];
+
+ANIMATION s00a_dword_800C3490 = { PCX_PCH_FOG, 1, 1,  1, 1, 800, 3, 600, 600, 250, 0, (char *)s01a_dword_800E3D48 };
+ANIMATION s00a_dword_800C34AC = { PCX_HOSI, 1, 1,  1, 1,   0, 1, 200, 200, 128, 0, (char *)s01a_dword_800E3D6C };
+ANIMATION s00a_dword_800C34C8 = { 0x4184, 1, 1,  1, 1,   0, 5,  10,  10, 128, 0, (char *)s01a_dword_800E400C };
+ANIMATION s00a_dword_800C34E4 = { PCX_SMOKE, 8, 4, 30, 1,   0, 1,  10,  10, 255, 0, (char *)s01a_dword_800E4068 };
+ANIMATION s00a_dword_800C3500 = { PCX_ZZZ, 1, 1,  1, 1,   0, 1,   2,   2,   0, 0, (char *)s01a_dword_800E40B0 };
+
+short s00a_dword_800C351C[4] = { 100, 50, 25, 10 };
+
+int s00a_dword_800C3524[32] =
+{
+    0x00000000, 0x00000001, 0x00000002, 0x00000004,
+    0x00002000, 0x00000040, 0x00000080, 0x00000200,
+    0x00000400, 0x00000800, 0x00000100, 0x00800000,
+    0x01000000, 0x04000000, 0x08000000, 0x00000000,
+    0x00000000, 0x00000001, 0x00000002, 0x00000004,
+    0x00002000, 0x00000040, 0x00000080, 0x00000200,
+    0x00000400, 0x00000800, 0x00000000, 0x00000000,
+    0x00000000, 0x00000000, 0x00000000, 0x0000001F
+};
 
 SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
 SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
@@ -230,16 +172,19 @@ SVECTOR ENEMY_TOUCH_SIZE_800C35C4   = { 300, 800, 300 };
 SVECTOR ENEMY_TOUCH_FORCE_800C35CC  = { 0, 0, 0, 0 };
 SVECTOR COM_NO_POINT_800C35D4       = { 30000, 30000, 30000 };
 
-int s01a_dword_800C3B28 = 0x00000101;
-int s01a_dword_800C3B2C = 0x000001FF;
-int s01a_dword_800C3B30 = 0x000009C4;
-int s01a_dword_800C3B34 = 0x00000DAC;
-int s01a_dword_800C3B38 = 0x00000FA0;
-int s01a_dword_800C3B3C = 0x00001388;
-int s01a_dword_800C3B40 = 0x0000157C;
-int s01a_dword_800C3B44 = 0x000015E0;
-int s01a_dword_800C3B48 = 0x00001644;
-int s01a_dword_800C3B4C = 0x000016A8;
+unsigned char s00a_dword_800C35DC[4] = { 1,   1, 0, 0 };
+unsigned char s00a_dword_800C35E0[4] = { 255, 1, 0, 0 };
+
+int s00a_dword_800C35E4[] = {
+    0x000009C4,
+    0x00000DAC,
+    0x00000FA0,
+    0x00001388,
+    0x0000157C,
+    0x000015E0,
+    0x00001644,
+    0x000016A8
+};
 
 // Enemy/eyeflash.c
 SVECTOR eyeflash_svec = {0, 80, 50, 0};

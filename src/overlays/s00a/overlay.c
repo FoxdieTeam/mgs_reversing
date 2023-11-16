@@ -66,13 +66,23 @@ SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
 SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
 SVECTOR s00a_dword_800C33EC = { -1024, 0,   0 };
 
-const char *s00a_off_800C33F4 = aRation_800DFE94;
-const char *s00a_off_800C33F8 = aSocombullet_800DFE80;
-const char *s00a_off_800C33FC = aFamasbullet_800DFE6C;
+const char *s00a_off_800C33F4[3] = {aRation_800DFE94, aSocombullet_800DFE80, aFamasbullet_800DFE6C};
 
-int PutFuncList_800C3400[4] = { 0x800C9414, 0x800C94B8, 0x800C9600, 0x800C963C };
+typedef struct WatcherWork WatcherWork;
 
-SVECTOR s00a_dword_800C3410 = { 5, -500, 80 };
+void ENE_PutSound_800C9414( WatcherWork* work );
+void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 );
+void ENE_PutLSight_800C9600( WatcherWork* work );
+void ENE_PutBulletEx_800C963C( WatcherWork *work );
+
+void *PutFuncList_800C3400[4] = {
+    ENE_PutSound_800C9414,
+    ENE_PutBreath_800C94B8,
+    ENE_PutLSight_800C9600,
+    ENE_PutBulletEx_800C963C
+};
+
+SVECTOR s00a_dword_800C3410 = { 5, -500, 80, 0 };
 
 extern const char s00a_dword_800DFEB4[];
 extern const char s00a_dword_800E0018[];
@@ -123,19 +133,19 @@ SVECTOR ENEMY_TOUCH_SIZE_800C35C4   = { 300, 800, 300 };
 SVECTOR ENEMY_TOUCH_FORCE_800C35CC  = { 0, 0, 0, 0 };
 SVECTOR COM_NO_POINT_800C35D4       = { 30000, 30000, 30000 };
 
-//int s00a_dword_800C35DC = 0x00000101;
-
 unsigned char s00a_dword_800C35DC[4] = { 1,   1, 0, 0 };
 unsigned char s00a_dword_800C35E0[4] = { 255, 1, 0, 0 };
 
-int s00a_dword_800C35E4 = 0x000009C4;
-int s00a_dword_800C35E8 = 0x00000DAC;
-int s00a_dword_800C35EC = 0x00000FA0;
-int s00a_dword_800C35F0 = 0x00001388;
-int s00a_dword_800C35F4 = 0x0000157C;
-int s00a_dword_800C35F8 = 0x000015E0;
-int s00a_dword_800C35FC = 0x00001644;
-int s00a_dword_800C3600 = 0x000016A8;
+int s00a_dword_800C35E4[] = {
+    0x000009C4,
+    0x00000DAC,
+    0x00000FA0,
+    0x00001388,
+    0x0000157C,
+    0x000015E0,
+    0x00001644,
+    0x000016A8
+};
 
 SVECTOR eyeflash_svec = {0, 80, 50, 0};
 
