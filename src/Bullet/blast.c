@@ -7,7 +7,7 @@
 #include "Game/map.h"
 #include "Game/target.h"
 
-extern int            claymore_map_800AB9DC;
+extern int            GM_ClaymoreMap_800AB9DC;
 extern TBombFunction3 GM_lpfnBombExplosion_800AB3F0;
 extern short          GM_uBombHoming_800AB3E4;
 extern SVECTOR        DG_ZeroVector_800AB39C;
@@ -144,7 +144,7 @@ Actor_Blast * NewBlast_8006DFDC(MATRIX *pMtx, Blast_Data *pBlastData)
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18,
                                   (TActorFunction)blast_kill_8006DD90, "blast.c");
-        claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
+        GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
 
         if (blast_init_8006DF8C(pBlastData, pActor, pMtx, 1) < 0)
         {
@@ -168,7 +168,7 @@ Actor_Blast * NewBlast2_8006E0F0(MATRIX *pMtx, Blast_Data *pBlastData, int doSou
     {
         GV_SetNamedActor_8001514C(&pActor->field_0_actor, (TActorFunction)blast_act_8006DD18,
                                   (TActorFunction)blast_kill_8006DD90, "blast.c");
-        claymore_map_800AB9DC = GM_CurrentMap_800AB9B0;
+        GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
         if (blast_init_8006DF8C(pBlastData, pActor, pMtx, whichSidePicker) < 0)
         {
             GV_DestroyActor_800151C8(&pActor->field_0_actor);

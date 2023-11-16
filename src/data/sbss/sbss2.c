@@ -7,7 +7,7 @@ int SECTION(".sbss") dword_800AB9D4;
 
 short SECTION(".sbss") GM_WeaponChanged_800AB9D8;
 short SECTION(".sbss") word_800AB9DA;
-int SECTION(".sbss") claymore_map_800AB9DC;
+int SECTION(".sbss") GM_ClaymoreMap_800AB9DC;
 int SECTION(".sbss") GM_AlertMax_800AB9E0;
 unsigned int SECTION(".sbss") GM_DisableWeapon_800AB9E4;
 int SECTION(".sbss") gTotalFrameTime_800AB9E8;

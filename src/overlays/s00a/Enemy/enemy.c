@@ -2,6 +2,35 @@
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
 
+extern int      GV_Time_800AB330;
+extern SVECTOR  DG_ZeroVector_800AB39C;
+extern int      GM_ClaymoreMap_800AB9DC;
+extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern int      GM_PlayerMap_800ABA0C;
+extern SVECTOR  GM_PlayerPosition_800ABA10;
+extern int      GM_NoisePower_800ABA24;
+extern int      GM_NoiseLength_800ABA30;
+extern int      GM_PlayerStatus_800ABA50;
+extern CONTROL *GM_WhereList_800B56D0[94];
+
+extern ANIMATION s00a_dword_800C3418;
+extern ANIMATION s00a_dword_800C3434;
+extern ANIMATION s00a_dword_800C3450;
+extern ANIMATION s00a_dword_800C346C;
+extern short     s00a_dword_800C3488;
+extern short     s00a_dword_800C348A;
+extern short     s00a_dword_800C348C;
+extern ANIMATION s00a_dword_800C3490;
+extern ANIMATION s00a_dword_800C34AC;
+extern ANIMATION s00a_dword_800C34E4;
+extern ANIMATION s00a_dword_800C3500;
+extern int       COM_NOISEMODE_DIS_800E0F38;
+extern int       COM_NoiseMinDisID_800E0D44;
+
+extern int sna_current_item_8004FB38(void);
+extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
+extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
+
 void s00a_command_800C9878( WatcherWork* work )
 {
     VISION  *vision = &work->vision;
@@ -12,8 +41,6 @@ void s00a_command_800C9878( WatcherWork* work )
     svec->vz = vision->field_B8E * 2;
     svec->pad = 0;
 }
-
-extern int GM_PlayerStatus_800ABA50;
 
 void s00a_command_800C98A4( WatcherWork *work )
 {
@@ -42,14 +69,6 @@ void s00a_command_800C98A4( WatcherWork *work )
     }
 }
 
-extern int GM_NoisePower_800ABA24;
-extern int GM_PlayerMap_800ABA0C;
-extern int claymore_map_800AB9DC;
-extern SVECTOR GM_NoisePosition_800AB9F8;
-extern int COM_NOISEMODE_DIS_800E0F38;
-extern int COM_NoiseMinDisID_800E0D44;
-extern int GM_NoiseLength_800ABA30;
-
 void s00a_command_800C9930( WatcherWork* work )
 {
     CONTROL *ctrl;
@@ -74,9 +93,9 @@ void s00a_command_800C9930( WatcherWork* work )
     if ( GM_NoisePower_800ABA24 == 0xFF )
     {
 
-        if ( !( ctrl->field_2C_map->field_0_map_index_bit & claymore_map_800AB9DC ) &&
+        if ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_ClaymoreMap_800AB9DC ) &&
            ( !( ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) ||
-             !( claymore_map_800AB9DC & GM_PlayerMap_800ABA0C ) ) )
+             !( GM_ClaymoreMap_800AB9DC & GM_PlayerMap_800ABA0C ) ) )
         {
             return;
         }
@@ -119,9 +138,6 @@ void s00a_command_800C9930( WatcherWork* work )
     }
     work->field_BA1 |= 1;
 }
-
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern CONTROL *GM_WhereList_800B56D0[94];
 
 void s00a_command_800C9ACC( WatcherWork *work )
 {
@@ -169,9 +185,6 @@ void s00a_command_800C9ACC( WatcherWork *work )
 
     work->field_BA1 |= work->field_BA2;
 }
-
-extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
-extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
 
 void s00a_command_800C9C7C( WatcherWork* work )
 {
@@ -250,9 +263,6 @@ void s00a_command_800C9D7C( WatcherWork* work )
         work->alert_level = 255;
     }
 }
-
-
-extern int sna_current_item_8004FB38(void);
 
 void s00a_command_800C9E68( WatcherWork* work )
 {
@@ -364,8 +374,6 @@ void EnemyActionMain_800CA07C( WatcherWork *work )
     s00a_command_800C82B0(work);
 }
 
-extern int GV_Time_800AB330;
-
 void EnemyPushMove_800CA0E8( WatcherWork *work )
 {
     int s1;
@@ -415,16 +423,6 @@ void EnemyPushMove_800CA0E8( WatcherWork *work )
     ctrl->field_4C_turn.vy = s1;
     ctrl->field_36 = GV_NearExp2_80026384( ctrl->field_36, work->field_8E4 );
 }
-
-extern short s00a_dword_800C3488;
-extern short s00a_dword_800C348A;
-extern short s00a_dword_800C348C;
-
-extern ANIMATION s00a_dword_800C3418;
-extern ANIMATION s00a_dword_800C3434;
-extern ANIMATION s00a_dword_800C3450;
-
-extern SVECTOR DG_ZeroVector_800AB39C;
 
 void *s00a_command_800CA1EC( MATRIX *mat, int mark )
 {
@@ -586,8 +584,6 @@ void *s00a_command_800CA458( MATRIX *mat, int mark )
     return NewAnime_8005FBC8( mat, 0, anim );
 }
 
-extern ANIMATION s00a_dword_800C346C;
-
 void s00a_command_800CA594( SVECTOR *pos )
 {
     ANIMATION *anm;
@@ -604,8 +600,6 @@ void s00a_command_800CA594( SVECTOR *pos )
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-extern ANIMATION s00a_dword_800C3490;
-
 void s00a_command_800CA618( SVECTOR *pos )
 {
     ANIMATION *anm;
@@ -621,8 +615,6 @@ void s00a_command_800CA618( SVECTOR *pos )
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
-
-extern ANIMATION s00a_dword_800C34AC;
 
 void s00a_command_800CA69C( SVECTOR *pos )
 {
@@ -646,8 +638,6 @@ void s00a_command_800CA69C( SVECTOR *pos )
     NewAnime_8005FBC8( NULL, 0, anm );
 }
 
-extern ANIMATION s00a_dword_800C34E4;
-
 void s00a_command_800CA758( SVECTOR* pos )
 {
     ANIMATION *anm;
@@ -663,8 +653,6 @@ void s00a_command_800CA758( SVECTOR* pos )
 
     NewAnime_8005FBC8( NULL, 0, anm );
 }
-
-extern ANIMATION s00a_dword_800C3500;
 
 void s00a_command_800CA7DC( SVECTOR *pos )
 {
