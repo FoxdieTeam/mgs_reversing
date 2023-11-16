@@ -144,8 +144,8 @@ const char s01a_dword_800E4650[] = {'\n', 0x1, 0xf4, 0x1};
 const char s01a_dword_800E4654[] = {0xf4, 0x8, 0xfc, 0xfc};
 const char s01a_dword_800E4658[] = {0xfc, 0x2, 0x0, 0x1};
 const char s01a_dword_800E465C[] = {0xd, 0xf, 'N', 'o'};
-const char s01a_dword_800E4660[] = {0x0, 0x0, 0x0, 0x0};
-const char s01a_dword_800E4664[] = {0x0, 0xfe, 0x0, 0x0};
+
+const SVECTOR s01a_svec_800E4660 = {0, 0, 65024};
 
 const char aSearchliUDRotXLRRotY[] = "UD:ROT.X  LR:ROT.Y\n";
 const char aSearchliUDPosXLRPosZ[] = "UD:POS.X  LR:POS.Z\n";

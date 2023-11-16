@@ -389,5 +389,11 @@ GV_ACT *s01a_lit_mdl_800E2C88(int arg0, int arg1, int arg2, int arg3)
     return &work->actor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camshake_800E2D3C.s")
+void s01a_lit_mdl_800E2D3C(LitMdlWork *work, int ang)
+{
+    work->field_B4 = ang;
+    work->field_B8 = ang / 6;
+    work->field_BC = ang / 6;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camshake_800E2D64.s")
