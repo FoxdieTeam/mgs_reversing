@@ -3,6 +3,7 @@
 *.cpe
 *.obj
 *.exe
+*.matching.bin
 *.pyc
 .ninja*
 build.ninja

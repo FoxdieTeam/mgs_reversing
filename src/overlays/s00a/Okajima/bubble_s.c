@@ -30,11 +30,6 @@ extern int     GM_CurrentMap_800AB9B0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-extern const char aBabu[];     // "バブ" = bubble
-extern const char aKill[];     // "kill"
-extern const char aAwas[];     // = "awa_s";
-extern const char aBubbleSC[]; // = "bubble_s.c"
-
 #define EXEC_LEVEL      4
 
 #define UP_SPEED        15
@@ -224,8 +219,8 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     work->fA0++;
 
-    hash[0] = GV_StrCode_80016CCC(aBabu);
-    hash[1] = GV_StrCode_80016CCC(aKill);
+    hash[0] = GV_StrCode_80016CCC("\xa5\xd0\xa5\xd6\xa5\xeb\xa4\xcf\xa4\xb8\xa4\xb1\xa4\xed"); // "バブ" = bubble, "ルは" = ????
+    hash[1] = GV_StrCode_80016CCC("kill");
 
     found = BubbleSCheckMessage_800D5708(work->name, 2, hash);
 
@@ -351,7 +346,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
     int      k500;
     DG_PRIM *prim;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aAwas));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("awa_s"));
     if (!tex)
     {
         return -1;
@@ -447,7 +442,7 @@ GV_ACT * NewBubbleS_800D5D9C(int name, int where)
     work = (BubbleSWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(BubbleSWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubbleSAct_800D57A0, (TActorFunction)BubbleSDie_800D5B10, aBubbleSC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)BubbleSAct_800D57A0, (TActorFunction)BubbleSDie_800D5B10, "bubble_s.c");
 
         if (BubbleSGetResources_800D5C94(work, name, where) < 0)
         {
