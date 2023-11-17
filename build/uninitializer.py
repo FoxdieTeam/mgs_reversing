@@ -138,13 +138,14 @@ def extract(lhs, rhs, target, uninitialized_out):
     while uninitialized_out_arr and uninitialized_out_arr[-1] == 0:
         uninitialized_out_arr.pop()
 
-    open(uninitialized_out, 'wb').write(bytes(uninitialized_out_arr))
+    if uninitialized_out is not None:
+        open(uninitialized_out, 'wb').write(bytes(uninitialized_out_arr))
 
-    print("Extracted", len(uninitialized_out_arr), "bytes of uninitialized memory")
-    print(f"({nonzero_uninitialized} non-zero bytes)")
-    print()
-    uninitialized_out_arr = [c for c in uninitialized_out_arr if c in bytes(string.printable, encoding='ascii')]
-    print(bytes(uninitialized_out_arr).decode('ascii'))
+        print("Extracted", len(uninitialized_out_arr), "bytes of uninitialized memory")
+        print(f"({nonzero_uninitialized} non-zero bytes)")
+        print()
+        uninitialized_out_arr = [c for c in uninitialized_out_arr if c in bytes(string.printable, encoding='ascii')]
+        print(bytes(uninitialized_out_arr).decode('ascii'))
 
 if __name__ == '__main__':
     if sys.argv[1] == 'inject':
