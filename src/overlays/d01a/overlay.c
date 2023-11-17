@@ -1,6 +1,8 @@
+#include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
+#include "Anime/animeconv/anime.h"
 
-GCL_ActorTableEntry d01aOverlayCharas[] = 
+GCL_ActorTableEntry d01aOverlayCharas[] =
 {
     { 0x30CE, (TGCL_ActorCreateFn)0x800CCA94 },
     { 0x73EA, (TGCL_ActorCreateFn)0x800C506C },
@@ -21,20 +23,11 @@ GCL_ActorTableEntry d01aOverlayCharas[] =
     { 0, 0 }
 };
 
-int d01a_dword_800C3290 = 0x0008512D;
-int d01a_dword_800C3294 = 0x001E0004;
-int d01a_dword_800C3298 = 0x012C0001;
-int d01a_dword_800C329C = 0x01F40001;
-int d01a_dword_800C32A0 = 0x000001F4;
-int d01a_dword_800C32A4 = 0x00000000;
-int d01a_dword_800C32A8 = 0x800D0BEC;
-int d01a_dword_800C32AC = 0x0008512D;
-int d01a_dword_800C32B0 = 0x001E0004;
-int d01a_dword_800C32B4 = 0x012C0001;
-int d01a_dword_800C32B8 = 0x01F40001;
-int d01a_dword_800C32BC = 0x000001F4;
-int d01a_dword_800C32C0 = 0x00000000;
-int d01a_dword_800C32C4 = 0x800D0C3C;
+extern const char d01a_dword_800D0BEC[];
+extern const char d01a_dword_800D0C3C[];
+
+ANIMATION anm_breath_800C32E8  = { PCX_SMOKE, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (char *)d01a_dword_800D0BEC };
+ANIMATION anm_unknown_800C3304 = { PCX_SMOKE, 8, 4, 30, 1, 300, 1, 500, 500, 0, 0, (char *)d01a_dword_800D0C3C };
 
 SVECTOR snow_svec_800C3854 = {-5000, 0, -10000, 0};
 SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
@@ -136,6 +129,7 @@ const char d01a_dword_800D0C2C[] = {0x8, 0xff, 0xff, 0xff};
 const char d01a_dword_800D0C30[] = {'\n', 0x0, 0x6, 0x0};
 const char d01a_dword_800D0C34[] = {0x6, 0x1, 0xff, 0x2};
 const char d01a_dword_800D0C38[] = {0x0, 0x1, 0xd, 0xf};
+
 const char d01a_dword_800D0C3C[] = {0x0, ',', 0x1, 0x0};
 const char d01a_dword_800D0C40[] = {0x5, 0x1, 0xfe, 0xc};
 const char d01a_dword_800D0C44[] = {0x0, 0x3, 0x8, 0x6};
