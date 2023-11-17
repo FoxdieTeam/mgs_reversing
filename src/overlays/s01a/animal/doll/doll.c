@@ -5,18 +5,6 @@ extern int GM_CurrentMap_800AB9B0;
 
 extern short s01a_word_800C3CD4[];
 
-extern const char aErrErrErrChangeRootNumOver[]; // = "Err Err Err Change Root Num Over !!\n"
-extern const char aErrErrErrSoundBuffOver[];     // = "Err Err Err Sound Buff Over !!\n"
-extern const char aMaxVoiceOver[];               // = "Max Voice Over!! \n"
-extern const char aErrErrErrSetTimeOver[];       // = "Err Err Err  Set time Over\n"
-extern const char aErrErrErrSetDirOver[];        // = "Err Err Err  Set Dir Over\n"
-extern const char aMotionDFlamDSED[];            // = " motion[%d] flam[%d] se[%d] "
-extern const char aModeDFootD[];                 // = " mode[%d] foot[%d]\n"
-extern const char aErrErrErrSetSEOver[];         // = "Err Err Err  Set SE Over\n"
-extern const char aDollActD[];                   // = "doll act=%d \n"
-extern const char aDemodollCActionPointErr[];    // = "demodoll.c : action point Err\n"
-extern const char aDollC[];                      // = "doll.c"
-
 GV_ACT * s00a_glight_800D3AD4(MATRIX *world, int **enable);
 GV_ACT * s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
 
@@ -170,7 +158,7 @@ int s01a_doll_800DC0CC(DollWork *work)
     opt = GCL_GetOption_80020968('r');
     if (opt != NULL && s01a_doll_800DBFC4(opt, work->fA8C) > 3)
     {
-        fprintf(0, aErrErrErrChangeRootNumOver);
+        fprintf(0, "Err Err Err Change Root Num Over !!\n");
         return -1;
     }
 
@@ -190,7 +178,7 @@ int s01a_doll_800DC134(DollWork *work)
     opt = GCL_GetOption_80020968('s');
     if (opt != NULL && s01a_doll_800DC074(opt, work->fBE8) > 4)
     {
-        fprintf(0, aErrErrErrSoundBuffOver);
+        fprintf(0, "Err Err Err Sound Buff Over !!\n");
         return -1;
     }
 
@@ -325,7 +313,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         {
             if (i >= 8)
             {
-                printf(aMaxVoiceOver);
+                printf("Max Voice Over!! \n");
                 return -1;
             }
 
@@ -403,7 +391,7 @@ int s01a_doll_800DC570(DollWork *work)
     opt = GCL_GetOption_80020968('f');
     if (opt != NULL && s01a_doll_800DC01C(opt, &work->fC30[1]) > 4)
     {
-        printf(aErrErrErrSetTimeOver);
+        printf("Err Err Err  Set time Over\n");
         return -1;
     }
 
@@ -415,7 +403,7 @@ int s01a_doll_800DC570(DollWork *work)
     opt = GCL_GetOption_80020968('v');
     if (opt != NULL && s01a_doll_800DC01C(opt, work->fC40) > 4)
     {
-        printf(aErrErrErrSetDirOver);
+        printf("Err Err Err  Set Dir Over\n");
         return -1;
     }
 
@@ -443,8 +431,8 @@ int s01a_doll_800DC648(char *opt, DollWork *work)
         motion->entries[motion->index].vz  = (entry.vz >> 8) & 0x3;
         motion->entries[motion->index].pad = (entry.vz >> 10) & 0x3;
 
-        printf(aMotionDFlamDSED, entry.vx, entry.vy, motion->entries[motion->index].vy);
-        printf(aModeDFootD, motion->entries[motion->index].vz, motion->entries[motion->index].pad);
+        printf(" motion[%d] flam[%d] se[%d] ", entry.vx, entry.vy, motion->entries[motion->index].vy);
+        printf(" mode[%d] foot[%d]\n", motion->entries[motion->index].vz, motion->entries[motion->index].pad);
 
         motion->index++;
     }
@@ -527,7 +515,7 @@ int s01a_doll_800DC884(DollWork *work)
         ret = s01a_doll_800DC648((char *)opt, work);
         if (ret < 0)
         {
-            printf(aErrErrErrSetSEOver);
+            printf("Err Err Err  Set SE Over\n");
             return -1;
         }
     }
@@ -589,7 +577,7 @@ void s01a_doll_800DC9FC(DollWork *work)
     int act;
 
     act = work->fA94[0].pad & 0x1F;
-    printf(aDollActD, act);
+    printf("doll act=%d \n", act);
 
     if (act > 0 && act < 16)
     {
@@ -629,7 +617,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
 
     if (s01a_doll_800DBF28(work) < 0)
     {
-        fprintf(1, aDemodollCActionPointErr);
+        fprintf(1, "demodoll.c : action point Err\n");
         return -1;
     }
 
@@ -749,7 +737,7 @@ GV_ACT * NewDoll_800DCD78(int name, int where)
     work = (DollWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(DollWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DollAct_800DBE9C, (TActorFunction)DollDie_800DC8F0, aDollC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)DollAct_800DBE9C, (TActorFunction)DollDie_800DC8F0, "doll.c");
 
         if (DollGetResources_800DCAA4(work, name, where) < 0)
         {

@@ -56,9 +56,6 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GM_PlayerStatus_800ABA50;
 
-extern const char aMouse[];  // = "mouse"
-extern const char aMouseC[]; // = "mouse.c"
-
 #define EXEC_LEVEL 4
 
 void s00a_mouse_800D3B68(MouseWork *work, OBJECT *object)
@@ -785,7 +782,7 @@ int s00a_mouse_800D50F4(MouseWork *work, int name, int map)
         entry = &work->entries[i];
         object = &entry->object;
 
-        model = GV_StrCode_80016CCC(aMouse);
+        model = GV_StrCode_80016CCC("mouse");
         GM_InitObject_80034A18(object, model, 0x26D, 0);
 
         GM_ConfigObjectJoint_80034CB4(object);
@@ -835,7 +832,7 @@ GV_ACT * s00a_mouse_800D5234(int name, int where)
     if (work != NULL)
     {
         work->nentries = nentries;
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mouse_800D4904, (TActorFunction)s00a_mouse_800D51A4, aMouseC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_mouse_800D4904, (TActorFunction)s00a_mouse_800D51A4, "mouse.c");
 
         if (s00a_mouse_800D50F4(work, name, where) < 0)
         {

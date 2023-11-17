@@ -27,10 +27,4 @@ const char aShadow[] = "shadow";
 const char aDemokageC[] = "demokage.c";
 
 const char aUji[] = "uji";
-const char aUjiC[] = {'u', 'j', 'i', '.', 'c', 0x00, 0x1c, 0x00};
-
-const char d03a_dword_800C7980[]  = "開く";   // close
-const char d03a_dword_800C7988[]  = "閉める"; // open
-const char d03a_aOpen_800C7990[]  = "open";
-const char d03a_aClose_800C7998[] = "close";
-const char d03a_aKill_800C79A0[]  = "kill";
+const char aUjiC[] = "uji.c";
