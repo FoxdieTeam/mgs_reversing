@@ -567,11 +567,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "d01a" %}
     include "{{OBJ_DIR}}\overlays\d01a\overlay.obj"
 
-    ; some Anime file:
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C34A0.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3508.obj"
-    include "{{OBJ_DIR}}\overlays\d01a\d01a_800C3574.obj"
-
+    include "{{OBJ_DIR}}\overlays\s00a\Anime\animeconv\breath.obj"
     include "{{OBJ_DIR}}\overlays\s01a\Thing\snow.obj"
 
     include "{{OBJ_DIR}}\overlays\d01a\overlay2.obj"
