@@ -9,8 +9,6 @@ typedef struct GlightWork
     int      visible;
 } GlightWork;
 
-extern char    aGlightC[];
-extern char    aFamasL[];
 extern RECT    glight_rect;
 extern SVECTOR glight_svec;
 
@@ -99,7 +97,7 @@ int s00a_glight_800D39D0(GlightWork *work, MATRIX *world, int **pvisible)
     work->prim->group_id = 0;
     work->prim->field_2E_k500 = 200;
 
-    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(aFamasL));
+    tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("famas_l"));
     if (tex == NULL)
     {
         return -1;
@@ -119,7 +117,7 @@ GV_ACT *s00a_glight_800D3AD4(MATRIX *world, int **pvisible)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_glight_800D387C,
-                                  (TActorFunction)s00a_glight_800D3910, aGlightC);
+                                  (TActorFunction)s00a_glight_800D3910, "glight.c");
 
         if (s00a_glight_800D39D0(work, world, pvisible) < 0)
         {

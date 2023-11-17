@@ -52,31 +52,3 @@ const char aAsiotoSeSetErr[] = " asioto se set err \n";
 const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
 const char aMigiSodesuri[] = " migi sodesuri %d \n";
 const char aAsiotoC[] = "asioto.c";
-
-const char s00a_dword_800E0A89 = 0x0A;
-const char s00a_dword_800E0A8A = 0x10;
-const char s00a_dword_800E0A8B = 0x19;
-const char aFamasL[] = "famas_l";
-const char aGlightC[] = "glight.c";
-const char s00a_dword_800E0A9D = 0x00;
-const char s00a_dword_800E0A9E = 0x00;
-const char s00a_dword_800E0A9F = 0x54;
-const char aMouse[] = "mouse";
-const char aMouseC[] = "mouse.c";
-
-const char aBabu[] = {0xa5, 0xd0, 0xa5, 0xd6}; // "バブ" = bubble
-const char aRuWa[] = {0xa5, 0xeb, 0xa4, 0xcf}; // "ルは" = ????
-
-const char s00a_dword_800E0AB8[] = {0xa4, 0xb8, 0xa4, 0xb1};
-const char s00a_dword_800E0ABC[] = {0xa4, 0xed, 0x0, 0x0};
-const char aKill[] = "kill";
-
-const char aAwas[] = "awa_s";
-const char aBubbleSC[] = "bubble_s.c";
-
-const char s00a_dword_800E0ADC[] = {0xb3, 0xab, 0xa4, 0xaf, 0x0, 0x0, 0x0, 0x0};
-const char s00a_dword_800E0AE4[] = {0xca, 0xc4, 0xa4, 0xe1, 0xa4, 0xeb, 0x0, 0x0};
-const char s00a_aOpen_800E0AEC[] = "open";
-const char s00a_aClose_800E0AF4[] = "close";
-const char s00a_aSeon_800E0AFC[] = "se_on";
-const char s00a_aSeoff_800E0B04[] = "se_off";

@@ -26,7 +26,6 @@ typedef struct BlurPureWork
 
 extern int GV_Clock_800AB920;
 
-extern const char   aBlurpureC[];
 extern RedAlrtWork *d03a_dword_800C3270;
 
 void d03a_blurpure_800C4F48(void)
@@ -183,7 +182,7 @@ GV_ACT *d03a_blurpure_800C54D4(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_blurpure_800C53E4,
-                                  (TActorFunction)d03a_blurpure_800C545C, aBlurpureC);
+                                  (TActorFunction)d03a_blurpure_800C545C, "blurpure.c");
         if (d03a_blurpure_800C548C(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
@@ -202,7 +201,7 @@ GV_ACT *d03a_blurpure_800C554C(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_blurpure_800C53E4,
-                                  (TActorFunction)d03a_blurpure_800C545C, aBlurpureC);
+                                  (TActorFunction)d03a_blurpure_800C545C, "blurpure.c");
         if (d03a_blurpure_800C548C(work) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
