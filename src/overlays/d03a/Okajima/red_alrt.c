@@ -11,13 +11,6 @@ extern int     GM_CurrentMap_800AB9B0;
 
 extern RedAlrtWork *d03a_dword_800C3270;
 
-extern const char d03a_dword_800C7980[];  // = "開く";   // close
-extern const char d03a_dword_800C7988[];  // = "閉める"; // open
-extern const char d03a_aOpen_800C7990[];  // = "open"
-extern const char d03a_aClose_800C7998[]; // = "close"
-extern const char d03a_aKill_800C79A0[];  // = "kill"
-extern const char aRedAlrtC[];            // = "red_alrt.c"
-
 #define EXEC_LEVEL 3
 
 // Identical to THING_Msg_CheckMessage minus returning the message value.
@@ -95,11 +88,11 @@ void d03a_red_alrt_800C45E4(RedAlrtWork *work)
         GV_DestroyActor_800151C8(&work->actor);
     }
 
-    hashes[0] = GV_StrCode_80016CCC(d03a_dword_800C7980);
-    hashes[1] = GV_StrCode_80016CCC(d03a_dword_800C7988);
-    hashes[2] = GV_StrCode_80016CCC(d03a_aOpen_800C7990);
-    hashes[3] = GV_StrCode_80016CCC(d03a_aClose_800C7998);
-    hashes[4] = GV_StrCode_80016CCC(d03a_aKill_800C79A0);
+    hashes[0] = GV_StrCode_80016CCC("開く"); // close
+    hashes[1] = GV_StrCode_80016CCC("閉める"); // open
+    hashes[2] = GV_StrCode_80016CCC("open");
+    hashes[3] = GV_StrCode_80016CCC("close");
+    hashes[4] = GV_StrCode_80016CCC("kill");
 
     found = d03a_red_alrt_800C437C(work->name, 5, hashes);
 
@@ -378,7 +371,7 @@ GV_ACT * d03a_red_alrt_800C4DF0(int name, int where)
     work = (RedAlrtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_red_alrt_800C45E4, (TActorFunction)d03a_red_alrt_800C48D0, aRedAlrtC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_red_alrt_800C45E4, (TActorFunction)d03a_red_alrt_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4958(work, name, where) < 0)
         {
@@ -397,7 +390,7 @@ GV_ACT * d03a_red_alrt_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *
     work = (RedAlrtWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_red_alrt_800C45E4, (TActorFunction)d03a_red_alrt_800C48D0, aRedAlrtC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)d03a_red_alrt_800C45E4, (TActorFunction)d03a_red_alrt_800C48D0, "red_alrt.c");
 
         if (d03a_red_alrt_800C4BB0(work, name, length, color1, color2, arg4, arg5) < 0)
         {

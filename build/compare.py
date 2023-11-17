@@ -7,6 +7,7 @@ import shutil
 import locale
 from colorama import init as colorama_init
 from termcolor import colored
+from uninitializer import extract
 
 TARGET_HASH = '4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f'
 TARGET_VR_HASH = 'c370f8e41ec8fb78238bfe2ddbfc25a6d37ec8f0972c86ebfde075ecd4ee8dca'
@@ -298,6 +299,14 @@ def cache_good_exe():
     if not os.path.exists(CACHED_GOOD_EXE):
         shutil.copy(OBJ_EXE, CACHED_GOOD_EXE)
 
+def cached_good_overlay_path(overlay):
+    return f"{overlay}.matching.bin"
+
+def cache_good_overlay(overlay, overlay_path):
+    cached_overlay = cached_good_overlay_path(overlay)
+    if not os.path.exists(cached_overlay):
+        shutil.copy(overlay_path, cached_overlay)
+
 def green(msg):
     extra = ' 👌' if SUPPORTS_EMOJIS else ''
     print(colored(msg, 'green') + extra)
@@ -370,8 +379,23 @@ def main():
         if overlay_hash != overlay_target_hash:
             fail(overlay_path)
             failed = True
+
+            # Is it only uninitialized memory?
+            good_overlay = cached_good_overlay_path(overlay)
+            if os.path.exists(good_overlay):
+                try:
+                    extract(os.path.join(OVERLAY_EXE_PATH, f"{overlay}_lhs.bin"),
+                        os.path.join(OVERLAY_EXE_PATH, f"{overlay}_rhs.bin"),
+                        good_overlay, None)
+                    print(colored("... but the only difference is uninitialized memory!", 'yellow'))
+                    print(colored("... You can fix it by rerunning extraction with this command:", 'yellow'))
+                    print(colored(f"{sys.executable} uninitializer.py extract ../obj/{overlay}_lhs.bin ../obj/{overlay}_rhs.bin {good_overlay} ../um/{overlay}.bin", 'yellow'))
+                except:
+                    # Extraction failed
+                    pass
         else:
             ok(overlay_path)
+            cache_good_overlay(overlay, overlay_path)
 
     if failed:
         sys.exit(1)
