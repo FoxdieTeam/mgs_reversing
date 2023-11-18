@@ -1316,9 +1316,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02c\s02c_800E23B8.obj"
     include "{{OBJ_DIR}}\overlays\s02c\s02c_800E244C.obj"
     include "{{OBJ_DIR}}\overlays\s02c\s02c_800E25C0.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_800E26C0.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_800E26E0.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_800E2700.obj"
+
+    ; PSYQ - TODO: how to use inclib effectively here?
+    ; For some reason extra functions end up in main exe
+    ; when using inclib...
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P39.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% endif %}
 
 {% endif %}
