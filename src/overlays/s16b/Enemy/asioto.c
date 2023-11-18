@@ -12,10 +12,10 @@ typedef struct _Work
     int    noise[4];
 } Work;
 
-extern const char aAsiotoSeSetErr[];
-extern const char aAsiotoSeNoiseSetErr[];
-extern const char aMigiSodesuri[];
-extern const char aAsiotoC[];
+const char aAsiotoSeSetErr[] = " asioto se set err \n";
+const char aAsiotoSeNoiseSetErr[] = " asioto se noise set err \n";
+const char aMigiSodesuri[] = " migi sodesuri %d \n";
+const char aAsiotoC[] = "asioto.c";
 
 extern int      dword_800AB9D4;
 extern CONTROL *GM_PlayerControl_800AB9F4;

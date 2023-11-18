@@ -9,10 +9,9 @@ typedef struct _Work
     char     pad[0x4];
 } Work;
 
-extern const char aEmitterc_800DFC70[]; //emitter.c
-extern const char aSfex_800DFC64[]; //sfex0236
+RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
+
 extern int  GM_CurrentMap_800AB9B0;
-extern RECT rect_800C3320;
 
 #define EXEC_LEVEL 5
 
@@ -20,7 +19,7 @@ void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, c
 {
     DG_TEX *tex;
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( aSfex_800DFC64 ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "sfex0236" ) );
 
     for ( n_packs--; n_packs >= 0; packs++, n_packs-- )
     {
@@ -83,7 +82,7 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
     prim->field_2E_k500 = 500;
     prim->field_2E_k500 *= 2;
 
-    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( aSfex_800DFC64 ) );
+    tex = DG_GetTexture_8001D830( GV_StrCode_80016CCC( "sfex0236" ) );
     if ( tex == NULL )
     {
         return -1;
@@ -103,7 +102,7 @@ void * NewEmitter_800C3E50( int name, int where )
     work = (Work *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C( &( work->actor ), NULL, (TActorFunction)EmitterDie_800C3CD8, aEmitterc_800DFC70 );
+        GV_SetNamedActor_8001514C( &( work->actor ), NULL, (TActorFunction)EmitterDie_800C3CD8, "emitter.c" );
 
         count = EmitterGetVecs_800C3D14( GCL_GetOption_80020968( 'p' ), work->vecs );
         if ( EmitterGetResources_800C3D68( work, where, count ) < 0 )

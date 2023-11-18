@@ -21,10 +21,12 @@ typedef struct LampWork
     SVECTOR        field_40_children[0];
 } LampWork;
 
+// Game/lamp.c
+const char aTexparseerror[] = "TEX:PARSE ERROR\n";
+const char aLampC[] = "lamp.c";
+
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_CurrentMap_800AB9B0;
-extern const char     aLampC[]; // = "lamp.c";
-extern const char     aTexparseerror[]; // = "TEX:PARSE ERROR\n";
 
 void d11c_800C326C(LampWork *work, int textureId)
 {

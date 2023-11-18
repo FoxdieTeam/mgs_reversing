@@ -40,13 +40,10 @@ extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-extern SVECTOR snow_svec_800C3854;
-extern SVECTOR snow_svec_800C385C;
-extern SVECTOR snow_svec_800C3864;
-extern RECT    snow_rect_800C386C;
-
-extern const char aYuki[];  // = "雪" (snow)
-extern const char aSnowC[]; // = "snow.c"
+SVECTOR snow_svec_800C3854 = {-5000, 0, -10000, 0};
+SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
+SVECTOR snow_svec_800C3864 = {0, -50, 0, 0};
+RECT    snow_rect_800C386C = {0, 0, 2, 2};
 
 #define EXEC_LEVEL 5
 
@@ -243,7 +240,7 @@ void Snow_800C592C(SnowWork *work)
     int     n_msgs;
     GV_MSG *msg;
 
-    n_msgs = GV_ReceiveMessage_80016620(GV_StrCode_80016CCC(aYuki), &work->msgs);
+    n_msgs = GV_ReceiveMessage_80016620(GV_StrCode_80016CCC("雪"), &work->msgs);
     if (n_msgs <= 0)
     {
         return;
@@ -521,7 +518,7 @@ GV_ACT * NewSnow_800C6058(int arg0, int arg1)
     {
         SnowGetOptions_800C5CD4(work);
 
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, aSnowC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SnowAct_800C5B2C, (TActorFunction)SnowDie_800C5C6C, "snow.c");
 
         if (SnowGetResources_800C5F40(work, arg1) < 0)
         {

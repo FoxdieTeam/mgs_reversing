@@ -15,15 +15,16 @@ typedef struct _Work
     short   f156;
 } Work;
 
+// Enemy/wall.c
+const char aDestroy[] = "destroy\n";
+const char aBox01[] = "box_01";
+const char aDbx1[] = "dbx1";
+const char aDbx2[] = "dbx2";
+const char aWallC[] = "wall.c";
+
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_GameStatus_800AB3CC;
 extern int     GM_CurrentMap_800AB9B0;
-
-extern const char aDestroy[]; // = "destroy\n";
-extern const char aBox01[]; // = "box_01";
-extern const char aDbx1[]; // = "dbx1";
-extern const char aDbx2[]; // = "dbx2";
-extern const char aWallC[]; // = "wall.c";
 
 #define EXEC_LEVEL 5
 

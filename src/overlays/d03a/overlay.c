@@ -17,14 +17,3 @@ GCL_ActorTableEntry d03aOverlayCharas[] =
     { 0x0044, (TGCL_ActorCreateFn)0x800C54D4 },
     { 0, 0 }
 };
-
-RECT uji_rect = {100, 100, 200, 200};
-
-RedAlrtWork *d03a_dword_800C3270 = NULL;
-
-// Enemy/demokage.c
-const char aShadow[] = "shadow";
-const char aDemokageC[] = "demokage.c";
-
-const char aUji[] = "uji";
-const char aUjiC[] = "uji.c";

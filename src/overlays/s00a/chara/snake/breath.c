@@ -15,8 +15,6 @@ extern void AN_Breath_800C3AA8( DG_OBJ *obj );
 #define EXEC_LEVEL 5 //goes in libgv.h
 #define DEFAULT_TIME 0x40
 
-extern const char aBreathC[]; //breath.c
-
 typedef struct _BreathWork
 {
     GV_ACT         actor;
@@ -86,7 +84,7 @@ void *NewBreath_800C3A1C( int name, int where, int argc, char **argv )
     work = (BreathWork *)GV_NewActor_800150E4( EXEC_LEVEL, sizeof( BreathWork ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )BreathAct_800C38A0, ( TActorFunction )BreathDie_800C39AC, aBreathC ) ;
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )BreathAct_800C38A0, ( TActorFunction )BreathDie_800C39AC, "breath.c" ) ;
         if ( BreathGetResources_800C39B4( work, name, where ) >= 0 ) {
             return (void *)work ;
         }
