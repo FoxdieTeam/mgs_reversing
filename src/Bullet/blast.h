@@ -33,6 +33,7 @@ void blast_act_8006DD18( Actor_Blast *pActor );
 void AN_Blast_Single_8006E224( SVECTOR *pVec );
 void blast_8006DDEC( Blast_Data *pBlastData, Actor_Blast *pBlast, int targetSidePicker );
 void AN_Blast_Minimini_8006E32C( SVECTOR *pVec );
+void AN_Blast_8006E2A8(SVECTOR *pos);
 
 Actor_Blast * NewBlast_8006DFDC( MATRIX *pMtx, Blast_Data *pBlastData );
 Actor_Blast * NewBlast2_8006E0F0( MATRIX *pMtx, Blast_Data *pBlastData, int doSound, int whichSidePicker );

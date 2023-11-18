@@ -1,7 +1,10 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/object.h"
+#include "Game/linkvarbuf.h"
 #include "libgcl/hash.h"
+#include "Bullet/blast.h"
+#include "Okajima/spark.h"
 #include "overlays/s00a/Enemy/enemy.h"
 
 typedef struct CameraWork
@@ -51,8 +54,7 @@ typedef struct CameraWork
     SVECTOR        field_1C0;
     int            field_1C8;
     TARGET        *field_1CC;
-    int            field_1D0;
-    int            field_1D4;
+    SVECTOR        field_1D0;
     int            field_1D8;
     int            field_1DC;
     int            field_1E0;
@@ -63,40 +65,10 @@ typedef struct CameraWork
     short          field_1F4;
     short          field_1F6;
     int            field_1F8;
-    int            field_1FC;
-    int            field_200;
-    int            field_204;
-    int            field_208;
-    int            field_20C;
-    int            field_210;
-    int            field_214;
-    int            field_218;
-    int            field_21C;
-    int            field_220;
-    int            field_224;
-    int            field_228;
-    int            field_22C;
-    int            field_230;
-    int            field_234;
-    int            field_238;
-    int            field_23C;
-    int            field_240;
-    int            field_244;
-    int            field_248;
-    int            field_24C;
-    int            field_250;
-    int            field_254;
-    int            field_258;
-    int            field_25C;
-    int            field_260;
-    int            field_264;
-    int            field_268;
-    int            field_26C;
-    int            field_270;
-    int            field_274;
-    int            field_278;
+    SVECTOR        field_1FC[8];
+    SVECTOR        field_23C[8];
     unsigned short field_27C;
-    short          field_27E;
+    unsigned short field_27E;
     unsigned short field_280;
     unsigned short field_282;
     short          field_284;
@@ -106,17 +78,23 @@ typedef struct CameraWork
     int            field_28C;
 } CameraWork;
 
-RECT camera_rect_800C3B68 = {120, 120, 240, 240};
+RECT    camera_rect_800C3B68 = {120, 120, 240, 240};
 SVECTOR camera_svec1_800C3B70 = {300, 300, 300, 0};
 
 extern char s01a_dword_800E44CC[];
 
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern SVECTOR DG_ZeroVector_800AB39C;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int COM_VibTime_800E0F68;
+extern int               COM_VibTime_800E0F68;
 
-void ENE_SetTopCommAL_800CEAE8( int alert );
+extern int              GM_PlayerMap_800ABA0C;
+extern SVECTOR          DG_ZeroVector_800AB39C;
+extern SVECTOR          GM_PlayerPosition_800ABA10;
+extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern CONTROL         *GM_WhereList_800B56D0[96];
+
+void    ENE_SetTopCommAL_800CEAE8(int alert);
+GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void    AN_Unknown_800D6EB0(SVECTOR *pos);
 
 // duplicate of s03e_guncame_800C7118
 void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
@@ -160,8 +138,68 @@ void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D4E08.s")
-int s01a_camera_800D4E08(CameraWork *work);
+int s01a_camera_800D4E08(CameraWork *work)
+{
+    SVECTOR  svec;
+    CONTROL *ctrl;
+    int      dir;
+    int      dir2;
+
+    if (GM_CurrentItemId == ITEM_STEALTH)
+    {
+        work->field_1DC = 0;
+        return 0;
+    }
+
+    ctrl = &work->field_20;
+    if (!(ctrl->field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C))
+    {
+        work->field_1DC = 0;
+        return 0;
+    }
+
+    s01a_camera_800D4D7C(ctrl, &GM_PlayerPosition_800ABA10, &svec);
+    dir = GV_DiffDirAbs_8001706C(svec.vy, ctrl->field_8_rot.vy);
+    dir2 = GV_DiffDirAbs_8001706C(svec.vx, ctrl->field_8_rot.vx);
+
+    if (work->field_280 < dir2 || work->field_280 < dir ||
+        GV_DistanceVec3_80016E84(&ctrl->field_0_mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
+    {
+        work->field_1DC = 0;
+        return 0;
+    }
+    if (work->field_1C8 != 0)
+    {
+        if (sub_80028454(ctrl->field_2C_map->field_8_hzd, &ctrl->field_0_mov, &GM_PlayerPosition_800ABA10, 15, 2) != 0)
+        {
+            work->field_1DC = 0;
+            return 0;
+        }
+    }
+    if (TOPCOMMAND_800E0F20.mode != 1)
+    {
+        if (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX)
+        {
+            if (work->field_1DC == 0)
+            {
+                work->field_1D0 = GM_PlayerPosition_800ABA10;
+                work->field_1D8 = GM_WhereList_800B56D0[0]->field_8_rot.vy;
+                work->field_1DC = 1;
+                return 0;
+            }
+            if (GV_DistanceVec3_80016E84(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
+            {
+                if (work->field_1D8 == GM_WhereList_800B56D0[0]->field_8_rot.vy)
+                {
+                    work->field_1DC = 1;
+                    return 0;
+                }
+            }
+        }
+    }
+    work->field_1DC = 1;
+    return 1;
+}
 
 void s01a_camera_800D4FE8(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
@@ -363,9 +401,138 @@ void s01a_camera_800D5504(CameraWork *work)
     work->field_1EC++;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5624.s")
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D57CC.s")
-void s01a_camera_800D57CC(CameraWork *work);
+int s01a_camera_800D5624(CameraWork *work)
+{
+    CONTROL *ctrl;
+    SVECTOR *turn;
+    SVECTOR *svec1;
+    int      dir, dir2, dir3;
+
+    svec1 = &work->field_1C0;
+    turn = &work->field_20.field_4C_turn;
+    ctrl = &work->field_20;
+
+    dir = GV_DiffDirS_8001704C(svec1->vy, turn->vy);
+    if (dir < -10)
+    {
+        turn->vy += 8;
+    }
+    else if (dir < 10)
+    {
+        turn->vy = svec1->vy;
+    }
+    else
+    {
+        turn->vy -= 8;
+    }
+    turn->vy &= 0xFFF;
+
+    dir = GV_DiffDirS_8001704C(svec1->vx, turn->vx);
+    if (dir < -10)
+    {
+        turn->vx += 8;
+    }
+    else if (dir < 10)
+    {
+        turn->vx = svec1->vx;
+    }
+    else
+    {
+        turn->vx -= 8;
+    }
+    turn->vx &= 0xFFF;
+
+    if (turn->vx == svec1->vx && turn->vy == svec1->vy && work->field_1EC > 96)
+    {
+        return 1;
+    }
+
+    dir2 = GV_DiffDirAbs_8001706C(work->field_1F4, ctrl->field_8_rot.vx);
+    dir3 = GV_DiffDirAbs_8001706C(work->field_1F6, ctrl->field_8_rot.vy);
+    if ((dir2 > 16 || dir3 > 16) && work->field_28A != 0)
+    {
+        GM_SeSet_80032858(&work->field_20.field_0_mov, 0x5E);
+    }
+
+    work->field_1F4 = ctrl->field_8_rot.vx;
+    work->field_1F6 = ctrl->field_8_rot.vy;
+    work->field_1EC++;
+    return 0;
+}
+
+void s01a_camera_800D57CC(CameraWork *work)
+{
+    switch (work->field_1E8)
+    {
+    case 1:
+        if (s01a_camera_800D528C(work))
+        {
+            work->field_1E8 = 2;
+            work->field_1EC = 0;
+        }
+        if (s01a_camera_800D4E08(work))
+        {
+            work->field_1E8 = 5;
+            work->field_1EC = 0;
+        }
+        break;
+    case 2:
+        if (s01a_camera_800D5338(work))
+        {
+            work->field_1E8 = 1;
+            work->field_1EC = 0;
+        }
+        if (s01a_camera_800D4E08(work))
+        {
+            work->field_1E8 = 5;
+            work->field_1EC = 0;
+        }
+        break;
+    case 3:
+        work->field_1E8 = 1;
+        work->field_1EC = 0;
+        break;
+    case 5:
+        if (s01a_camera_800D515C(work))
+        {
+            work->field_1E0 = 1;
+            work->field_1E8 = 4;
+            work->field_1EC = 0;
+            return;
+        }
+        break;
+    case 7:
+        if (s01a_camera_800D5624(work))
+        {
+            if (work->field_27C == 2)
+            {
+                work->field_1E8 = 3;
+            }
+            else
+            {
+                work->field_1E8 = 1;
+            }
+            work->field_1EC = 0;
+            s01a_camera_800D4CFC(work->field_194, work->field_198, 0, 0xFF, 0);
+        }
+        break;
+    }
+
+    if (TOPCOMMAND_800E0F20.mode == 1)
+    {
+        work->field_1E0 = TOPCOMMAND_800E0F20.mode;
+        work->field_1E8 = 0;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
+    }
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
+    {
+        work->field_1E0 = 3;
+        work->field_1E8 = 6;
+        work->field_1EC = 0;
+        s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
+    }
+}
 
 void s01a_camera_800D5970(CameraWork *work)
 {
@@ -393,7 +560,7 @@ void s01a_camera_800D5970(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);
     }
-    if (GM_GameStatus_800AB3CC & 1)
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -434,7 +601,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    if (GM_GameStatus_800AB3CC & 1)
+    if (GM_GameStatus_800AB3CC & GAME_FLAG_BIT_01)
     {
         work->field_1E0 = 3;
         work->field_1E8 = 6;
@@ -497,13 +664,53 @@ void s01a_camera_800D5C7C(CameraWork *work)
     }
 }
 
-void s01a_camera_800D5D10(short *arg0)
+void s01a_camera_800D5D10(CameraWork *work)
 {
-    // FIXME
-    arg0[0x5C / 2] = arg0[0x2A / 2];
+    work->field_20.field_3C.vx = work->field_20.field_8_rot.vy;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5D1C.s")
+void s01a_camera_800D5D1C(CameraWork *work)
+{
+    MATRIX  mat;
+    SVECTOR svec;
+    int     i;
+
+    if (++work->field_1F0 >= 10)
+    {
+        svec.vx = GV_RandU_80017090(1024);
+        svec.vy = GV_RandU_80017090(2048);
+        svec.vz = 0;
+
+        DG_SetPos2_8001BC8C(&work->field_20.field_0_mov, &svec);
+        ReadRotMatrix(&mat);
+
+        if (!(work->field_1F0 & 0x7))
+        {
+            NewSpark_80074564(&mat, GV_RandU_80017090(2));
+        }
+        if (work->field_1F0 == work->field_1F0 / 12 * 12)
+        {
+            NewSpark2_800CA714(&mat);
+        }
+    }
+
+    work->field_9C.objs->flag |= 0x80;
+    work->field_C0.objs->flag |= 0x80;
+    s01a_camera_800D4CFC(work->field_194, work->field_198, 0, 0, 0);
+
+    for (i = 0; i < 8; i++)
+    {
+        work->field_1FC[i].vy -= 15;
+        work->field_23C[i].vx += work->field_1FC[i].vx;
+        work->field_23C[i].vy += work->field_1FC[i].vy;
+        work->field_23C[i].vz += work->field_1FC[i].vz;
+        AN_Unknown_800D6EB0(&work->field_23C[i]);
+    }
+    if (work->field_1F0 >= 40)
+    {
+        GV_DestroyActor_800151C8(&work->actor);
+    }
+}
 
 int s01a_camera_800D5EC0(CameraWork *work)
 {
@@ -541,16 +748,77 @@ int s01a_camera_800D5EC0(CameraWork *work)
     return type;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5F64.s")
-void s01a_camera_800D5F64(CameraWork *work);
+void s01a_camera_800D5F64(CameraWork *work)
+{
+    MATRIX   mat;
+    SVECTOR  svec1;
+    SVECTOR  svec2;
+    CONTROL *ctrl;
+    TARGET  *target;
+    int      i;
 
-const int s01a_dword_800E4490 = 0x800D5810;
-const int s01a_dword_800E4494 = 0x800D5840;
-const int s01a_dword_800E4498 = 0x800D5870;
-const int s01a_dword_800E449C = 0x800D58E8;
-const int s01a_dword_800E44A0 = 0x800D5880;
-const int s01a_dword_800E44A4 = 0x800D58E8;
-const int s01a_dword_800E44A8 = 0x800D58A4;
+    s01a_camera_800D5EC0(work);
+    ctrl = &work->field_20;
+    if (work->field_1F0 == 0)
+    {
+        GM_ActControl_80025A7C(ctrl);
+        GM_ActObject2_80034B88((OBJECT *)&work->field_9C);
+        DG_PutPrim_8001BE00(&work->field_194->world);
+        if (work->field_9C.objs->bound_mode != 0)
+        {
+            DG_GetLightMatrix2_8001A5D8(&ctrl->field_0_mov, &work->field_144);
+        }
+
+        target = work->field_1CC;
+        GM_Target_SetVector_8002D500(target, &ctrl->field_0_mov);
+        if (target->field_6_flags & TARGET_POWER)
+        {
+            if (target->field_3E != 2)
+            {
+                target->field_28 = 0;
+                target->field_6_flags = 0;
+            }
+            else
+            {
+                if (work->field_28C >= 0)
+                {
+                    GCL_ExecProc_8001FF2C(work->field_28C, NULL);
+                }
+                work->field_1F0 = 1;
+                AN_Blast_8006E2A8(&ctrl->field_0_mov);
+                for (i = 0; i < 8; i++)
+                {
+                    svec1.vz = 0;
+                    svec2.vx = GV_RandS_800170BC(128);
+                    svec2.vy = GV_RandU_80017090(256) + 32;
+                    svec2.vz = 0;
+                    svec1.vx = GV_RandU_80017090(256) + 64;
+
+                    svec1.vy = work->field_20.field_8_rot.vy + GV_RandS_800170BC(1024);
+                    RotMatrixYXZ_gte(&svec1, &mat);
+                    ApplyMatrixSV(&mat, &svec2, &work->field_1FC[i]);
+                    work->field_23C[i] = work->field_20.field_0_mov;
+                }
+            }
+        }
+    }
+    else
+    {
+        s01a_camera_800D5D1C(work);
+    }
+    if (work->field_284 != 0)
+    {
+        s01a_camera_800D5C7C(work);
+        s01a_camera_800D5D10(work);
+        DG_VisiblePrim(work->field_194);
+        work->field_20.field_3A_radar_atr |= RADAR_SIGHT;
+    }
+    else
+    {
+        DG_InvisiblePrim(work->field_194);
+        work->field_20.field_3A_radar_atr &= ~RADAR_SIGHT;
+    }
+}
 
 void s01a_camera_800D6174(CameraWork *work)
 {
