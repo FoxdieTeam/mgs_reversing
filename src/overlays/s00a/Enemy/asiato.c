@@ -2,8 +2,6 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 
-extern const char aAsiatoc_800E0998[]; // asiato.c
-
 SVECTOR SECTION("overlay.bss") asiato_svecs[49];
 
 extern int        s00a_dword_800E0F90;
@@ -188,7 +186,7 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_asiato_800D0E10,
-                                  (TActorFunction)s00a_asiato_800D116C, aAsiatoc_800E0998);
+                                  (TActorFunction)s00a_asiato_800D116C, "asiato.c");
         work->field_4C = arg3;
         if (s00a_asiato_800D0F90(work, arg0, arg1, arg2) < 0)
         {
@@ -477,7 +475,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_asiato_800D18C8,
-                                  (TActorFunction)AsiatoDie_800D1994, aAsiatoc_800E0998);
+                                  (TActorFunction)AsiatoDie_800D1994, "asiato.c");
         s00a_asiato_800D199C(work);
     }
 
@@ -493,7 +491,7 @@ GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_asiato_800D18C8,
-                                  (TActorFunction)AsiatoDie_800D1994, aAsiatoc_800E0998);
+                                  (TActorFunction)AsiatoDie_800D1994, "asiato.c");
         s00a_asiato_800D199C(work);
     }
 

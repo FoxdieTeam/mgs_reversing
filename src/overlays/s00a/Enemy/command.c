@@ -15,26 +15,34 @@ extern int       GM_event_camera_flag_800ABA9C;
 extern CONTROL  *GM_WhereList_800B56D0[94];
 extern GM_Camera GM_Camera_800B77E8;
 
+SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
+SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
+SVECTOR ENEMY_ATTACK_SIZE_800C35B4  = { 800, 500, 800 };
+SVECTOR ENEMY_ATTACK_FORCE_800C35BC = { 100, 0, 0 };
+SVECTOR ENEMY_TOUCH_SIZE_800C35C4   = { 300, 800, 300 };
+SVECTOR ENEMY_TOUCH_FORCE_800C35CC  = { 0, 0, 0, 0 };
+SVECTOR COM_NO_POINT_800C35D4       = { 30000, 30000, 30000 };
 
-unsigned char s00a_dword_800C35DC[4];
-unsigned char s00a_dword_800C35E0[4];
-extern int    s00a_dword_800C35E4[8];
+unsigned char s00a_dword_800C35DC[4] = { 1,   1, 0, 0 };
+unsigned char s00a_dword_800C35E0[4] = { 255, 1, 0, 0 };
+
+int s00a_dword_800C35E4[] = {
+    0x000009C4,
+    0x00000DAC,
+    0x00000FA0,
+    0x00001388,
+    0x0000157C,
+    0x000015E0,
+    0x00001644,
+    0x000016A8
+};
 
 extern int    COM_NoiseMinDisID_800E0D44;
 extern int    s00a_dword_800E0D30;
 extern int    COM_VibTime_800E0F68;
 
-
-extern const char aCresetposd_800E07FC[];                   // = " c_reset_pos = %d \n"
-extern const char aKottida_800E0810[];                      // = "kottida !!\n"
-extern const char s00a_aResetmaxdnumd_800E083C[];           // = "reset max=%d num=%d \n"
-extern const char aGmenemywatchcountd_800E0854[];           // = "GM_EnemyWatchCount = [%d] \n"
-extern const char aNowzonedrzoned_800E0874[];               // = " now zone = %d r_zone=%d\n"
-extern const char aNotrestrctedaread_800E0890[];            // = " ? ? ? Not Restrcted Area [%d] !!!!\n"
-extern const char aErrerrerrnotlinkroutedtod_800E08B8[];    // = " Err Err Err Not Link Route [%d] to [%d] !!!!\n"
-extern const char aCommanderrnozoneidingclzdidd_800E08E8[]; // = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n"
-extern const char aCommandcwhereissnake_800E091C[];         // = "command.c:  Where Is Snake ????\n"
-extern const char aCommandC_800E0970[];                     // = "command.c"
+const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
+const char aKottida_800E0810[] = "kottida !!\n";
 
 void GM_AlertModeSet_8002EA68( int );
 void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
@@ -481,6 +489,16 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
         GM_SeSet_80032858(NULL, s00a_command_800CF13C( sound ) );
     }
 }
+
+const char s00a_aResetmaxdnumd_800E083C[] = "reset max=%d num=%d \n";
+const char aGmenemywatchcountd_800E0854[] = " GM_EnemyWatchCount = [%d] \n";
+const char aNowzonedrzoned_800E0874[] = " now zone = %d r_zone=%d\n";
+const char aNotrestrctedaread_800E0890[] = " ? ? ? Not Restrcted Area [%d] !!!!\n";
+const char aErrerrerrnotlinkroutedtod_800E08B8[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
+const char aCommanderrnozoneidingclzdidd_800E08E8[] = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
+const char aCommandcwhereissnake_800E091C[] = "command.c:  Where Is Snake ????\n";
+const char aCom_noisemode_disD_800E0940[] = " COM_NOISEMODE_DIS =%d \n";
+const char aEeeDDDTD_800E095C[] = "eee %d %d %d t %d \n";
 
 void s00a_command_800CF504( C8_STRUCT* struct_c8 , int i )
 {
@@ -1251,7 +1269,7 @@ void *NewCommand_800D0908( int name, int where, int argc, char **argv )
 
     work = (CommanderWork *)GV_NewActor_800150E4( 4, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, aCommandC_800E0970 );
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )CommandAct_800D0258, ( TActorFunction )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );
     }
     return (void *)work ;

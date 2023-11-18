@@ -1,6 +1,19 @@
 #include "enemy_externs.h"
+#include "Game/item.h"
 #include "Game/linkvarbuf.h"
 
+short ActTable_800C3358[54] =
+{
+    0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
+    0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
+    0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
+    0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
+    0x26, 0x03, 0x29, 0x11, 0x12, 0x2B, 0x17, 0x18, 0x1C,
+    0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x0B
+};
+
+SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
+SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
 
 extern int GV_NearExp4P_80026554(int from, int to);
 
@@ -9,17 +22,14 @@ extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
 extern unsigned int GM_PlayerStatus_800ABA50;
-extern int GM_PlayerAction_800ABA40;
+extern int          GM_PlayerAction_800ABA40;
+extern int          GM_PlayerMap_800ABA0C;
 
-extern const char aComstdanbowl0_800DFDB8[]; // = " ~COM_ST_DANBOWL 0 !! \n ";
-extern const char aComstdanbowl1_800DFDD4[]; // = " ~COM_ST_DANBOWL 1 !! \n ";
-extern const char aComstdanbowl2_800DFDF0[]; // = " ~COM_ST_DANBOWL 2 !! \n ";
+const char aComstdanbowl0_800DFDB8[] = " ~COM_ST_DANBOWL 0 !! \n ";
+const char aComstdanbowl1_800DFDD4[] = " ~COM_ST_DANBOWL 1 !! \n ";
+const char aComstdanbowl2_800DFDF0[] = " ~COM_ST_DANBOWL 2 !! \n ";
 
-extern SVECTOR    s00a_dword_800C33C4;
-extern int        GM_PlayerMap_800ABA0C;
-extern const char aMapchange_800DFE0C[]; // map change \n;
-
-extern const char aEnemyresetmaxdnumd_800DFE50[]; //"enemy reset max=%d num=%d \n";
+const char aMapchange_800DFE0C[] = " map change \n";
 
 void ActStandStill_800C5C84(WatcherWork* work, int time )
 {
@@ -1242,7 +1252,7 @@ void s00a_command_800C818C( WatcherWork *work, int time )
     if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
     {
         s00a_command_800C55B0( work );
-        printf(aEnemyresetmaxdnumd_800DFE50, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num);
+        printf("enemy reset max=%d num=%d \n", EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num);
         SetMode( work, ActStandStill_800C5C84) ;
     }
 }
@@ -1528,7 +1538,6 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
     }
 }
 
-extern SVECTOR s00a_dword_800C33CC;
 extern void AN_Unknown_800C3B7C( MATRIX *matrix );
 
 void s00a_command_800C8C58( WatcherWork* work )
@@ -1616,5 +1625,401 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
         GM_SeSet_80032858( &work->control.field_0_mov, 0xB4 );
         work->pad.time = 0;
         UnsetMode2( work );
+    }
+}
+
+extern int     GV_Time_800AB330;
+extern SVECTOR DG_ZeroVector_800AB39C;
+extern int     GM_PlayerMap_800ABA0C;
+extern SVECTOR GM_PlayerPosition_800ABA10;
+
+SVECTOR s00a_dword_800C33D4 = { 0,     0, 100 };
+SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
+SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
+SVECTOR s00a_dword_800C33EC = { -1024, 0,   0 };
+
+const char *s00a_off_800C33F4[3] = {
+    "RATION",
+    "SOCOM/BULLET * 12",
+    "FA-MAS/BULLET * 25"
+};
+
+void ENE_PutSound_800C9414( WatcherWork* work );
+void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 );
+void ENE_PutLSight_800C9600( WatcherWork* work );
+void ENE_PutBulletEx_800C963C( WatcherWork *work );
+
+void *PutFuncList_800C3400[4] = {
+    ENE_PutSound_800C9414,
+    ENE_PutBreath_800C94B8,
+    ENE_PutLSight_800C9600,
+    ENE_PutBulletEx_800C963C
+};
+
+SVECTOR s00a_dword_800C3410 = { 5, -500, 80, 0 };
+
+extern short   s00a_dword_800E0F12;
+
+extern void  anime_create_8005D6BC( MATRIX *, int );
+extern void  anime_create_8005D604( MATRIX * );
+extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
+extern void  NewBlood_80072728( MATRIX *, int );
+extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
+extern void  AN_Breath_800C3AA8( MATRIX *, int );
+
+void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
+{
+    MATRIX mat;
+    DG_SetPos_8001BC44(&work->body.objs->objs[obj_idx].world);
+    DG_MovePos_8001BD20( &s00a_dword_800C33D4 );
+    DG_RotatePos_8001BD64( &s00a_dword_800C33DC );
+    ReadRotMatrix( &mat );
+    NewBlood_80072728( &mat, count );
+}
+
+void ENE_PutFog_800C9068( WatcherWork* work )
+{
+    MATRIX mat;
+    SVECTOR svec;
+
+    DG_SetPos_8001BC44( &work->body.objs->objs[1].world );
+    DG_MovePos_8001BD20( &s00a_dword_800C33E4 );
+    DG_RotatePos_8001BD64( &s00a_dword_800C33EC );
+    ReadRotMatrix( &mat );
+
+    svec.vx = mat.t[ 0 ];
+    svec.vy = mat.t[ 1 ];
+    svec.vz = mat.t[ 2 ];
+
+    s00a_command_800CA618( &svec );
+}
+
+void ENE_PutItem_800C90CC( WatcherWork *work )
+{
+    int a1;
+    int a2;
+    int rand;
+    SVECTOR svec;
+    CONTROL *ctrl;
+    Item_Info item;
+    svec = work->field_8D4;
+    rand = 8;
+    ctrl = &work->control;
+    svec.vx += GV_RandU_80017090( rand );
+    svec.vy += 100;
+    rand = GV_RandU_80017090( rand );
+    svec.vz += rand;
+
+   switch ( work->local_data )
+   {
+    case 0:
+        rand = GV_RandU_80017090( 4 );
+        break;
+    case 1:
+        rand = 3;
+        break;
+    case 2:
+        rand = 0;
+        break;
+    case 3:
+        rand = 1;
+        break;
+    case 4:
+        rand = 2;
+        break;
+   }
+
+    a1 = 1;
+    switch ( rand )
+    {
+    default:
+        break;
+    case 3:
+        return;
+    case 0:
+        //ration
+        item.field_4_type   = 4;
+        item.field_6_id     = ITEM_RATION;
+        item.field_8_amount = 1;
+        item.field_0_pName  = s00a_off_800C33F4[0];
+        break;
+    case 1:
+        //socom
+        if ( GM_SocomFlag < 0 )
+        {
+            item.field_4_type   = 4;
+            item.field_6_id     = 13;
+            item.field_8_amount = 1;
+            item.field_0_pName  = s00a_off_800C33F4[0];
+        }
+        else
+        {
+            //Socom bullets
+            item.field_4_type = 2;
+            item.field_6_id = WEAPON_SOCOM;
+            if ( work->local_data2 == 0 )
+            {
+                item.field_8_amount = 12;
+                item.field_0_pName  = s00a_off_800C33F4[1];
+            }
+            else
+            {
+                a1 = 9;
+                if ( work-> local_data2 > 99 )
+                {
+                    a2 = a1;
+                }
+                else
+                {
+                    a1 = work->local_data2 / 10;
+                    a2 = work->local_data2 % 10;
+                }
+                if ( a1 == 0 )
+                {
+                    s00a_off_800C33F4[1][15] = 0x20;
+                }
+                else
+                {
+                    s00a_off_800C33F4[1][15] = a1 + 0x30;
+                }
+                s00a_off_800C33F4[1][16] = a2 + 0x30;
+                item.field_0_pName  = s00a_off_800C33F4[1];
+                item.field_8_amount = work->local_data2;
+            }
+        }
+        break;
+    case 2:
+        //famas
+        if ( GM_FamasFlag < 0 || GM_DifficultyFlag < 0 )
+        {
+            item.field_4_type   = 4;
+            item.field_6_id     = 13;
+            item.field_8_amount = 1;
+            item.field_0_pName  = s00a_off_800C33F4[0];
+        }
+        else
+        {
+            item.field_4_type   = 2;
+            item.field_6_id     = 1;
+            item.field_8_amount = 25;
+            item.field_0_pName  = s00a_off_800C33F4[2];
+        }
+        break;
+    }
+    item.field_A = 450;
+    if ( work->param_item == 1 )
+    {
+        item_init_80034758( &ctrl->field_0_mov, &svec, &item );
+    }
+}
+
+void ENE_PutMark_800C9378( WatcherWork *work, int mark )
+{
+    MATRIX *mat;
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    mat = &work->body.objs->objs[6].world;
+    if( mark == 0 )
+    {
+        s00a_command_800CEC40( &work->control.field_0_mov , 0x10 );
+    }
+
+    if ( work->mark_time )
+    {
+        GV_DestroyOtherActor_800151D8( (GV_ACT*)work->next_node );
+    }
+
+    work->next_node = (int)s00a_command_800CA1EC( mat , mark ) ;
+    work->mark_time = 30;
+}
+
+void ENE_PutSound_800C9414( WatcherWork* work )
+{
+    int a1, a3;
+    int a2;
+    int v1;
+    if ( !EnemyCommand_800E0D98.field_0x17A ) return;
+
+    a3 = work->field_8E0;
+    a2 = work->m_ctrl.field_04_info1.field_2_footstepsFrame;
+
+    v1 = ( ( work->field_B78 % 4 ) * 2 ) + 0xA0;
+    a1 = ( ( work->field_B78 % 4 ) * 2 ) + 0xA1;
+
+    if( a3 == 1 )
+    {
+        if ( a2 == 22 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, a1 );
+        }
+        else if ( a2 == 11 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, v1 );
+        }
+    }
+    else if ( a3 == 2 )
+    {
+        if ( a2 == 16 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, a1 );
+        }
+        else if ( a2 == 8 )
+        {
+            GM_SeSet_80032858( &work->control.field_0_mov, v1 );
+        }
+    }
+}
+
+void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
+{
+    int frame;
+    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    {
+        return;
+    }
+
+    if ( !( work->control.field_2C_map->field_0_map_index_bit & GM_PlayerMap_800ABA0C ) )
+    {
+        return;
+    }
+
+    if ( work->field_8E2 == 20 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( frame == 31 )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+        }
+    }
+    else if ( work->field_8E2 == 22 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , arg1 );
+        }
+    }
+    else if ( work->field_8E2 == 19 )
+    {
+        frame = work->m_ctrl.field_1C_info2.field_2_footstepsFrame;
+        if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
+             ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
+             ( frame == 100 ) || ( frame == 105 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world, arg1 );
+        }
+    }
+    else
+    {
+        if ( ( GV_Time_800AB330 % 64 ) == ( work->field_B78 * 16 ) )
+        {
+            AN_Breath_800C3AA8( &work->body.objs->objs[6].world , GV_Time_800AB330 );
+        }
+    }
+}
+
+void ENE_PutLSight_800C9600( WatcherWork* work )
+{
+    if ( work->vision.field_B92 == 2 )
+    {
+        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.field_0_mov, 0x00008F );
+    }
+}
+
+void ENE_PutBulletEx_800C963C( WatcherWork *work )
+{
+    int damage;
+    MATRIX* mat;
+    SVECTOR svec;
+    MATRIX local_mat;
+
+    svec = DG_ZeroVector_800AB39C;
+    svec.vz = GV_RandU_80017090( 128 );
+    mat = &work->body.objs->objs[4].world;
+
+    DG_SetPos_8001BC44( mat );
+    DG_MovePos_8001BD20( &s00a_dword_800C3410 );
+    DG_RotatePos_8001BD64( &svec );
+
+    svec.vx = GV_RandS_800170BC( 16 ) + 1024;
+    svec.vz = 0;
+
+    DG_RotatePos_8001BD64( &svec );
+    ReadRotMatrix( &local_mat );
+
+    switch ( GM_DifficultyFlag )
+    {
+    case 1:
+        damage = 96;
+        break;
+    case 2:
+    case 3:
+        damage = 128;
+        break;
+    default:
+        damage = 64;
+        break;
+    }
+
+    if ( GV_Time_800AB330 & 3 )
+    {
+        NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
+    }
+    else
+    {
+        NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
+    }
+
+    GM_Sound_800329C4( &work->control.field_0_mov, 0x2D, 1 );
+    anime_create_8005D6BC( mat, 0 );
+    anime_create_8005D604( &local_mat );
+    ENE_ClearPutChar_800C97E4( work, ENE_PutBulletEx_800C963C );
+}
+
+int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == NULL )
+        {
+            work->field_B00[ i ] = PutFuncList_800C3400[ idx ];
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[ i ] == func )
+        {
+            work->field_B00[ i ] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void ENE_ExecPutChar_800C9818( WatcherWork* work )
+{
+    int i;
+
+    for ( i = 0 ; i < 8 ; i++ )
+    {
+        if ( work->field_B00[i] )
+        {
+            PUTFUNC func = work->field_B00[i];
+            func( work );
+        }
     }
 }

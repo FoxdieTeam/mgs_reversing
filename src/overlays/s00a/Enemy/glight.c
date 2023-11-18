@@ -9,8 +9,8 @@ typedef struct GlightWork
     int      visible;
 } GlightWork;
 
-extern RECT    glight_rect;
-extern SVECTOR glight_svec;
+RECT glight_rect = {40, 40, 80, 80};
+SVECTOR glight_svec = {0, 65136, 60, 0};
 
 void s00a_glight_800D387C(GlightWork *work)
 {

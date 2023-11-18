@@ -70,11 +70,13 @@ extern int           tenage_ctrls_count_800BDD70;
 extern Jirai_unknown stru_800BDD78[16];
 extern Jirai_unknown stru_800BDE78[8];
 
-extern unsigned short elevator_hash_800C3634[4];
-extern char           elevator_vib_800C363C[];
-extern char           elevator_vib_800C3644[];
-extern char           elevator_vib_800C3658[];
-extern char           elevator_vib_800C365C[];
+unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
+
+char elevator_vib_800C363C[] = {0x00, 0x02, 0x7F, 0x02, 0x00, 0x00, 0x00, 0x00};
+char elevator_vib_800C3644[] = {0x87, 0x04, 0x55, 0x01, 0x69, 0x01, 0x7D, 0x08, 0x5F, 0x08, 0x46, 0x0A, 0x37, 0x0C, 0x2D, 0x0E, 0x00, 0x00, 0x00, 0x00};
+char elevator_vib_800C3658[] = {0x7F, 0x04, 0x00, 0x00};
+char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
+
 
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);

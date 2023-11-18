@@ -3,7 +3,7 @@
 
 extern int GM_CurrentMap_800AB9B0;
 
-extern short s01a_word_800C3CD4[];
+short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
 
 GV_ACT * s00a_glight_800D3AD4(MATRIX *world, int **enable);
 GV_ACT * s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);

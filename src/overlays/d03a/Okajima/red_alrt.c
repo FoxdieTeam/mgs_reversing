@@ -4,12 +4,12 @@
 
 #include "red_alrt.h"
 
+RedAlrtWork *d03a_dword_800C3270 = NULL;
+
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
-
-extern RedAlrtWork *d03a_dword_800C3270;
 
 #define EXEC_LEVEL 3
 

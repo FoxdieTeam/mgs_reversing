@@ -23,7 +23,7 @@ extern MATRIX DG_ZeroMatrix_8009D430;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GV_Clock_800AB920;
 
-extern RECT rect_800C3670;
+RECT rect_800C3670 = { 50, 50, 100, 100 };
 
 #define EXEC_LEVEL 5
 
