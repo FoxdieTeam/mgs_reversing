@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s02c_asioto_800D747C
+s02c_asioto_800D747C:
+	dw 0x3C030001 ; 800D747C
+	dw 0x3C02800B ; 800D7480
+	dw 0x8C42BA50 ; 800D7484
+	dw 0x34630050 ; 800D7488
+	dw 0x00431024 ; 800D748C
+	dw 0x38420010 ; 800D7490
+	dw 0x03E00008 ; 800D7494
+	dw 0x2C420001 ; 800D7498

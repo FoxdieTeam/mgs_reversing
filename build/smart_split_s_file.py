@@ -28,6 +28,9 @@ import re
 import os
 import subprocess
 import tempfile
+import hashlib
+from pathlib import Path
+from tempfile import gettempdir
 
 def try_m2c(name):
     cmd = [sys.executable, 'm2c.py',
@@ -70,6 +73,14 @@ def main(path):
     addr = int(m.group(1), 16)
     name = os.path.basename(path).replace('.s', '')
     code = dw_to_code(path)
+
+    # Check if this code was already found to be not splittable.
+    # Use filesystem (files existing in temporary directory) as a (multiprocess-safe!)
+    # poor man's cache
+    cache_file = Path(gettempdir()) / f"split_{hashlib.sha1(code).hexdigest()}"
+    if cache_file.exists():
+        return
+
     for split_point in range(4, len(code), 4):
         with tempfile.NamedTemporaryFile(mode='w', suffix='.s') as f1, tempfile.NamedTemporaryFile(mode='w', suffix='.s') as f2:
             lines1 = disasm(code[:split_point], addr, name)
@@ -87,7 +98,10 @@ def main(path):
 
             if m2c_1 is not None and m2c_2 is not None:
                 print(f"{sys.executable} split_s_file.py {path} {hex(addr + split_point)}")
-                break
+                return
+
+    # Code is not splittable. Cache this fact:
+    cache_file.touch()
 
 if __name__ == '__main__':
     main(sys.argv[1])
