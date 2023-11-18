@@ -72,23 +72,26 @@ typedef struct GunCamEWork
     int      field_418;
 } GunCamEWork;
 
+int s03e_dword_800C32B4 = 0x00000000;
+int s03e_dword_800C32B8 = 0x00000000;
+int s03e_dword_800C32BC = 0x00000000;
+
+RECT guncame_rect = {80, 80, 160, 160};
+SVECTOR guncame_svec = {300, 300, 300, 0};
+
+int SECTION("overlay.bss") s03e_dword_800CC6BC;
+
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;
 extern SVECTOR DG_ZeroVector_800AB39C;
-extern char    s03e_aGcaarm_800CC110[];
-extern char    s03e_aGcagun_800CC108[];
 extern int     s03e_dword_800C32B4;
 extern SVECTOR guncame_svec;
-extern int     s03e_dword_800CC6BC;
 extern int     s03e_dword_800C32B4;
-extern char    s03e_dword_800CC118[];
-extern char    s03e_aCameral_800CC0FC[];
 extern RECT    guncame_rect;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern SVECTOR s03e_svec_800CC0F4;
 extern int     GV_Time_800AB330;
 extern int     GM_GameStatus_800AB3CC;
 extern int     GM_CurrentMap_800AB9B0;
@@ -1016,6 +1019,8 @@ void s03e_guncame_800C8940(GunCamEWork *work)
     vec->pad = 0;
 }
 
+const SVECTOR s03e_svec_800CC0F4 = {0, -150, -400, 0};
+
 int s03e_guncame_800C8978(GunCamEWork *work, int name, int map)
 {
     SVECTOR disp_local;
@@ -1288,7 +1293,7 @@ int s03e_guncame_800C8E7C(GunCamEWork *work)
     if (prim != NULL)
     {
         prim->field_2E_k500 = 500;
-        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s03e_aCameral_800CC0FC));
+        tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("camera_l"));
         work->field_32C = tex;
         if (tex != 0)
         {
@@ -1322,12 +1327,12 @@ int s03e_guncame_800C8F64(GunCamEWork *work, int name, int where)
 
     obj1 = &work->field_9C;
     do {} while (0);
-    GM_InitObject_80034A18(obj1, GV_StrCode_80016CCC(s03e_aGcagun_800CC108), 0x26D, 0);
+    GM_InitObject_80034A18(obj1, GV_StrCode_80016CCC("gca_gun"), 0x26D, 0);
     GM_ConfigObjectLight_80034C44(obj1, work->field_180);
 
     obj2 = &work->field_1F4;
     do {} while (0);
-    GM_InitObject_80034A18(obj2, GV_StrCode_80016CCC(s03e_aGcaarm_800CC110), 0x26D, 0);
+    GM_InitObject_80034A18(obj2, GV_StrCode_80016CCC("gca_arm"), 0x26D, 0);
     GM_ConfigObjectLight_80034C44(obj2, work->field_2D8);
 
     if (s03e_guncame_800C8E7C(work) == -1)
@@ -1378,7 +1383,7 @@ GV_ACT *s03e_guncame_800C9190(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s03e_guncame_800C80F4,
-                                  (TActorFunction)s03e_guncame_800C911C, s03e_dword_800CC118);
+                                  (TActorFunction)s03e_guncame_800C911C, "guncame.c");
         if (s03e_guncame_800C8F64(work, name, where) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);

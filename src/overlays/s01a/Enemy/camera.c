@@ -106,12 +106,10 @@ typedef struct CameraWork
     int            field_28C;
 } CameraWork;
 
-extern char    s01a_dword_800E44CC[];
-extern char    s01a_aScamera_800E44C0[];
-extern char    s01a_aCamarm_800E44AC[];
-extern char    s01a_aCameral_800E44B4[];
-extern SVECTOR camera_svec1_800C3B70;
-extern RECT    camera_rect_800C3B68;
+RECT camera_rect_800C3B68 = {120, 120, 240, 240};
+SVECTOR camera_svec1_800C3B70 = {300, 300, 300, 0};
+
+extern char s01a_dword_800E44CC[];
 
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern SVECTOR DG_ZeroVector_800AB39C;
@@ -546,6 +544,14 @@ int s01a_camera_800D5EC0(CameraWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s01a/s01a_camera_800D5F64.s")
 void s01a_camera_800D5F64(CameraWork *work);
 
+const int s01a_dword_800E4490 = 0x800D5810;
+const int s01a_dword_800E4494 = 0x800D5840;
+const int s01a_dword_800E4498 = 0x800D5870;
+const int s01a_dword_800E449C = 0x800D58E8;
+const int s01a_dword_800E44A0 = 0x800D5880;
+const int s01a_dword_800E44A4 = 0x800D58E8;
+const int s01a_dword_800E44A8 = 0x800D58A4;
+
 void s01a_camera_800D6174(CameraWork *work)
 {
     CONTROL *ctrl;
@@ -677,7 +683,7 @@ int s01a_camera_800D640C(CameraWork *work)
     OBJECT_NO_ROTS *obj;
 
     obj = &work->field_C0;
-    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(s01a_aCamarm_800E44AC), 0x36D, 0);
+    GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC("cam_arm"), 0x36D, 0);
     GM_ConfigObjectLight_80034C44((OBJECT *)obj, &work->field_F4);
     DG_GetLightMatrix2_8001A5D8(&work->field_20.field_0_mov, &work->field_F4);
     work->field_E4.vy = -25;
@@ -731,7 +737,7 @@ int s01a_camera_800D6504(CameraWork *work)
     if (prim != NULL)
     {
         prim->field_2E_k500 = 500;
-        work->field_198 = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s01a_aCameral_800E44B4));
+        work->field_198 = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("camera_l"));
         if (tex != NULL)
         {
             s01a_camera_800D648C(&prim->field_40_pBuffers[0]->poly_ft4, tex, 0x80);
@@ -774,11 +780,11 @@ int s01a_camera_800D65EC(CameraWork *work, int arg1, int arg2)
     // Dead code (if with identical cases):
     if (type == 0x41)
     {
-        opt = s01a_aScamera_800E44C0;
+        opt = "s_camera";
     }
     else
     {
-        opt = s01a_aScamera_800E44C0;
+        opt = "s_camera";
     }
     GM_InitObjectNoRots_800349B0(obj, GV_StrCode_80016CCC(opt), 0x32D, 0);
 
@@ -834,7 +840,7 @@ GV_ACT *s01a_camera_800D67F8(int arg0, int arg1)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s01a_camera_800D5F64,
-                                  (TActorFunction)s01a_camera_800D678C, s01a_dword_800E44CC);
+                                  (TActorFunction)s01a_camera_800D678C, "camera.c");
         if (s01a_camera_800D65EC(work, arg0, arg1) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);

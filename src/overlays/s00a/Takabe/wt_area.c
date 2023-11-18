@@ -37,8 +37,10 @@ extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
-extern short            mes_list_800C3664[2];
-extern SVECTOR          mouth_offset_800C3668;
+
+//OPEN_MES, CLOSE_MES
+unsigned short mes_list_800C3664[] = { 0x43D3, 0x4235 };
+SVECTOR mouth_offset_800C3668 = { 0, 0, 100 };
 
 int BoundInCheck_800DA5B4( SVECTOR *bound, SVECTOR *check )
 {

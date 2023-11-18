@@ -86,6 +86,7 @@ def ninja_run():
         r'overlay_bss\.c:\d+: warning: `s00a_dword_800E1120\' defined but not used',
         r'mosaic\.c:\d+: warning: unused variable `unused\'',
         r'vib_edit.c:\d+: warning: too many arguments for format',
+        r'action.c:\d+: warning: assignment of read-only location',
     ]
 
     if os.environ.get('APPVEYOR'):

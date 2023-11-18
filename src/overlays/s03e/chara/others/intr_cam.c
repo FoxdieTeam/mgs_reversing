@@ -13,7 +13,8 @@ typedef struct IntrCamWork
     SVECTOR field_34;
 } IntrCamWork;
 
-extern char             s03e_dword_800CBFD0[];
+const char s03e_dword_800CBFD0[] = "intr_cam.c";
+
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 

@@ -6,14 +6,6 @@ extern void s00a_command_800C6FA8( WatcherWork *work, int time );
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR DG_ZeroVector_800AB39C;
 
-extern const char aPlayxresetdwarpd_800DFD1C[];// " play = %x  reset = %d warp = %d \n";
-extern const char aErrnozoneidingcl_800DFD40[];// "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
-extern const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[];// " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
-
-extern SVECTOR rp_shift_800DFDA0;
-extern SVECTOR force_800DFDA8;
-extern SVECTOR size_800DFDB0;
-
 int s00a_command_800C50B0( WatcherWork *work )
 {
     TARGET *target;
@@ -113,9 +105,13 @@ int s00a_command_800C5194( WatcherWork *work ) {
     return 1;
 }
 
-extern const char aPlayxresetdwarpd_800DFD1C[];// " play = %x  reset = %d warp = %d \n";
-extern const char aErrnozoneidingcl_800DFD40[];// "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
-extern const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[];// " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
+const char aPlayxresetdwarpd_800DFD1C[] = " play = %x  reset = %d warp = %d \n";
+const char aErrnozoneidingcl_800DFD40[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[] = " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
+
+const SVECTOR rp_shift_800DFDA0 = { -200, 100, 600 }; /* 右パンチ */
+const SVECTOR force_800DFDA8 = { 5, 0, 100 };
+const SVECTOR size_800DFDB0 = { 400, 1000, 400 };
 
 int s00a_command_800C5370( WatcherWork * work )
 {

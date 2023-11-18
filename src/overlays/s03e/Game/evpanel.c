@@ -48,11 +48,26 @@ typedef struct EvPanelWork
     SVECTOR        field_B4[0];
 } EvPanelWork;
 
+unsigned short s03e_dword_800C3268[] = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
+
+char s03e_dword_800C3278[] = {0x7F, 0x02, 0x00, 0x00};
+char s03e_dword_800C327C[] = {0x55, 0x02, 0x6E, 0x02, 0x1E, 0x0E, 0x41, 0x04, 0x7D, 0x06, 0x5F, 0x06, 0x46, 0x08, 0x37, 0x0A, 0x2D, 0x0C, 0x00, 0x00};
+char s03e_dword_800C3290[] = {0x00, 0x0A, 0x7F, 0x02, 0x00, 0x1E, 0x7F, 0x02, 0x00, 0x00, 0x00, 0x00};
+char s03e_dword_800C329C[] = {0x23, 0x04, 0x4B, 0x04, 0x87, 0x06, 0x41, 0x08, 0x2D, 0x0C, 0x41, 0x06, 0x5F, 0x04, 0x00, 0x00};
+
+const char s03e_aMessagein_800CBF18[] = "message in\n";
+const char s03e_aMessageout_800CBF24[] = "message out\n";
+const char s03e_aMessagex_800CBF34[] = "message %X\n";
+const char s03e_aNofloorproc_800CBF40[] = "NO FLOOR PROC\n";
+const char s03e_aRotd_800CBF50[] = "ROT %d\n";
+const char s03e_aReqdoorclose_800CBF58[] = "REQ:DOOR CLOSE\n";
+const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
+
+EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
+
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);
 
-extern char         s03e_dword_800CBFA8[];
-extern EvPanelWork *s03e_dword_800CC6B8;
 extern int          GV_Time_800AB330;
 extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
@@ -62,20 +77,6 @@ extern int          DG_UnDrawFrameCount_800AB380;
 extern int          GM_AlertMode_800ABA00;
 extern int          GM_CameraShakeOffset_800ABA98;
 extern GV_PAD       GV_PadData_800B05C0[4];
-
-extern unsigned short s03e_dword_800C3268[]; // = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
-extern char           s03e_dword_800C3278[];
-extern char           s03e_dword_800C327C[];
-extern char           s03e_dword_800C3290[];
-extern char           s03e_dword_800C329C[];
-
-extern const char s03e_aMessagein_800CBF18[];    // = "message in\n"
-extern const char s03e_aMessageout_800CBF24[];   // = "message out\n"
-extern const char s03e_aMessagex_800CBF34[];     // = "message %X\n"
-extern const char s03e_aNofloorproc_800CBF40[];  // = "NO FLOOR PROC\n"
-extern const char s03e_aRotd_800CBF50[];         // = "ROT %d\n"
-extern const char s03e_aReqdoorclose_800CBF58[]; // = "REQ:DOOR CLOSE\n"
-extern const char s03e_aInitopen_800CBF68[]; // = "INiTOPEN\n"
 
 void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
 {
@@ -1007,6 +1008,8 @@ int EvpanelGetResources_800C496C(EvPanelWork *work, int map, int name, int arg3)
 
     return -1;
 }
+
+const char s03e_dword_800CBFA8[] = "evpanel.c";
 
 GV_ACT *NewEvpanel_800C4AD8(int name, int where, int argc, char **argv)
 {

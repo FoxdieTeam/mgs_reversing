@@ -12,10 +12,8 @@ typedef struct EyeflashWork
     DG_TEX  *field_3C;
 } EyeflashWork;
 
-extern char    s00a_aEyeflashc_800E098C[];
-extern char    s00a_aKirari_800E0984[];
-extern SVECTOR eyeflash_svec;
-extern RECT    eyeflash_rect;
+SVECTOR eyeflash_svec = {0, 80, 50, 0};
+const RECT eyeflash_rect = {175, 100, 350, 200};
 
 extern int GV_Clock_800AB920;
 
@@ -122,7 +120,7 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     if (prim)
     {
         prim->field_2E_k500 = 1000;
-        work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC(s00a_aKirari_800E0984));
+        work->field_3C = tex = DG_GetTexture_8001D830(GV_StrCode_80016CCC("kirari"));
         if (tex)
         {
             s00a_eyeflash_800D0984(&prim->field_40_pBuffers[0]->poly_ft4, tex);
@@ -142,7 +140,7 @@ GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_eyeflash_800D0B18,
-                                  (TActorFunction)s00a_eyeflash_800D0BA4, s00a_aEyeflashc_800E098C);
+                                  (TActorFunction)s00a_eyeflash_800D0BA4, "eyeflash.c");
         work->field_20 = *arg1;
         work->field_38 = 6;
         work->field_2C = arg0;

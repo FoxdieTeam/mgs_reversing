@@ -71,23 +71,25 @@ extern CONTROL *GM_WhereList_800B56D0[96];
 extern OBJECT  *GM_PlayerBody_800ABA20;
 extern int      dword_800ABA1C;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-
-extern SVECTOR SearchliCenter_800E46D8;
-extern SVECTOR s01a_svec_800E4660;
 extern int     COM_VibTime_800E0F68;
 
 extern ENEMY_COMMAND     EnemyCommand_800E0D98;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 
-extern const char aSearchliUDRotXLRRotY[];  // = "UD:ROT.X  LR:ROT.Y\n"
-extern const char aSearchliUDPosXLRPosZ[];  // = "UD:POS.X  LR:POS.Z\n"
-extern const char aSearchliUDPosYLRAngle[]; // = "UD:POS.Y  LR:ANGLE\n"
-extern const char aSearchliRot7D7D7D[];     // = "ROT:%7d %7d %7d\n"
-extern const char aSearchliPos7D7D7D[];     // = "POS:%7d %7d %7d\n"
-extern const char aSearchliAngle4D[];       // = "ANGLE:%4d \n"
-extern const char aSearchli0[];             // = "0"
-extern const char aSearchliShadow[];        // = "shadow"
-extern const char aSearchliC[];             // = "searchli.c"
+const SVECTOR s01a_svec_800E4660 = {0, 0, 65024};
+
+const char aSearchliUDRotXLRRotY[] = "UD:ROT.X  LR:ROT.Y\n";
+const char aSearchliUDPosXLRPosZ[] = "UD:POS.X  LR:POS.Z\n";
+const char aSearchliUDPosYLRAngle[] = "UD:POS.Y  LR:ANGLE\n";
+const char aSearchliRot7D7D7D[] = "ROT:%7d %7d %7d\n";
+const char aSearchliPos7D7D7D[] = "POS:%7d %7d %7d\n";
+const char aSearchliAngle4D[] = "ANGLE:%4d \n";
+
+const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
+
+const char aSearchli0[] = "0";
+const char aSearchliShadow[] = "shadow";
+
 
 void    ENE_SetTopCommAL_800CEAE8(int);
 void    ENE_SetGopointLast_800CEB00(void);
@@ -1151,7 +1153,7 @@ GV_ACT *NewSearchlight_800D92BC(int name, int where)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SearchlightAct_800D86F0,
-                                  (TActorFunction)SearchlightDie_800D9274, aSearchliC);
+                                  (TActorFunction)SearchlightDie_800D9274, "searchli.c");
 
         if (SearchlightGetResources_800D91B0(work, name, where) < 0)
         {
