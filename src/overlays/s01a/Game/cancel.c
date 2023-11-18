@@ -16,8 +16,6 @@ typedef struct _CancelWork
 extern int DG_UnDrawFrameCount_800AB380;
 extern int GV_PauseLevel_800AB928;
 
-extern const char aCancelC[]; // = "cancel.c"
-
 #define EXEC_LEVEL 3
 
 void Cancel_800C3E24(CancelWork *work)
@@ -103,7 +101,7 @@ GV_ACT * NewCancel_800C3FFC(void)
     work = (CancelWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, aCancelC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)CancelAct_800C3EA0, (TActorFunction)CancelDie_800C3F18, "cancel.c");
 
         if (CancelGetResources_800C3F54(work) < 0)
         {

@@ -16,15 +16,15 @@ typedef struct BoxKeriWork
     MATRIX         field_7C_mat[2];
 } BoxKeriWork;
 
+const char aBoxkeriSnake[] = "スネーク";
+const char sBoxkeriDanbowl[] = "段ボール";
+const char aCbBox[] = "cb_box";
+const char aBoxkeriC[] = "boxkeri.c";
+
 extern SVECTOR    DG_ZeroVector_800AB39C;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern SVECTOR    GM_PlayerPosition_800ABA10;
 extern int        GM_PlayerMap_800ABA0C;
-
-extern const char aBoxkeriSnake[];   // = "スネーク"
-extern const char sBoxkeriDanbowl[]; // = "段ボール"
-extern const char aCbBox[];          // = "cb_box.c"
-extern const char aBoxkeriC[];       // = "boxkeri.c"
 
 void s00a_boxkeri_800D219C(BoxKeriWork *work)
 {

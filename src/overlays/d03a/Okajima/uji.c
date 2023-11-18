@@ -23,13 +23,13 @@ typedef struct _UjiWork
     char     pad3[0x8];
 } UjiWork;
 
+RECT uji_rect = {100, 100, 200, 200};
+
+const char aUji[] = "uji";
+const char aUjiC[] = "uji.c";
+
 extern SVECTOR DG_ZeroVector_800AB39C;
 extern int     GM_CurrentMap_800AB9B0;
-
-extern RECT uji_rect;
-
-extern const char aUji[];  // = "uji";
-extern const char aUjiC[]; // = "uji.c"
 
 #define EXEC_LEVEL 4
 

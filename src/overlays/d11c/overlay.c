@@ -18,18 +18,3 @@ GCL_ActorTableEntry d11cOverlayCharas[] =
     { 0x001B, (TGCL_ActorCreateFn)NewKogaku3_80061708 },
     { 0, 0 }
 };
-
-// Game/lamp.c
-const char aTexparseerror[] = "TEX:PARSE ERROR\n";
-const char aLampC[] = "lamp.c";
-
-// Enemy/wall.c
-const char aDestroy[] = "destroy\n";
-const char aBox01[] = "box_01";
-const char aDbx1[] = "dbx1";
-const char aDbx2[] = "dbx2";
-const char aWallC[] = "wall.c";
-
-// Enemy/demokage.c
-const char aShadow[] = "shadow";
-const char aDemokageC[] = "demokage.c";

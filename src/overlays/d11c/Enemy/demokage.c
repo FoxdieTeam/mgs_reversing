@@ -14,10 +14,11 @@ typedef struct _DemokageWork
     int     *f54;    // 54
 } DemokageWork;
 
-extern SVECTOR DG_ZeroVector_800AB39C;
+// Enemy/demokage.c
+const char aShadow[] = "shadow";
+const char aDemokageC[] = "demokage.c";
 
-extern const char aShadow[];    // = "shadow"
-extern const char aDemokageC[]; // = "demokage.c"
+extern SVECTOR DG_ZeroVector_800AB39C;
 
 #define EXEC_LEVEL 5
 

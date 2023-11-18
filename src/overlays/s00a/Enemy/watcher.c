@@ -3,13 +3,14 @@
 #include "libgcl/hash.h"
 #include "Game/camera.h"
 
-extern const char aErrerrerrsettimeover_800DFC7C[];     //Err Err Err  Set time Over\n
-extern const char aErrerrerrsetdirover_800DFC98[];      //Err Err Err  Set Dir Over\n
-extern const char aErrnotenoughwork_800DFCB4[];         //Err not enough work !!\n
-extern const char aWatcharcactionpointerr_800DFCCC[];   //watchar.c : action point Err\n
-extern const char aWatcherc_800DFCEC[];                 //watcher.c
+int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
+unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
 
-extern unsigned short s00a_dword_800C3348[8];
+const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
+const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
+const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
+const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
+const char aWatcherc_800DFCEC[] = "watcher.c";
 
 extern GM_Camera      GM_Camera_800B77E8;
 extern int            GM_PlayerMap_800ABA0C;

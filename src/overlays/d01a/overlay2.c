@@ -1,7 +1,3 @@
-const char aYuki[] = {0xc0, 0xe3, 0x0, 0x0};
-const char aSnowC[] = "snow.c";
-const char aSfex_800DFC64[] = "sfex0236";
-const char aEmitterc_800DFC70[] = "emitter.c";
 const char d01a_aSpherec_800D0CC4[] = "sphere.c";
 const char d01a_dword_800D0CD0[] = {0x0, 0x0, 0x0, 0x0};
 const char d01a_dword_800D0CD4[] = {0x0, 0xfe, 0x0, 0x0};

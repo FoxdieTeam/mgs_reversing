@@ -14,9 +14,10 @@ typedef struct SmokeWork
     int      field_3C;
 } SmokeWork;
 
-extern char aSmokeC[];
-extern char aSmoke[];
-extern RECT smoke_rect;
+const char aSmoke[] = "smoke";
+const char aSmokeC[] = "smoke.c";
+
+RECT smoke_rect = {500, 1000, 1000, 2000};
 
 extern int GM_CurrentMap_800AB9B0;
 extern int GV_Clock_800AB920;

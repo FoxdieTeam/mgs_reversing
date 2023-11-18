@@ -97,6 +97,8 @@
 #define PCX_HOSI                0xcafe // GV_StrCode( "hosi" )
 #define PCX_ZZZ                 0xf7bb // GV_StrCode( "zzz" )
 #define PCX_ASIATO              0xdc55 // GV_StrCode( "asiato" )
+#define PCX_RCM_L               0x479f // GV_StrCode( "rcm_l" )
+#define PCX_W_BONBORI           0xa9cd // GV_StrCode( "w_bonbori" )
 
 //------------------------------------------------------------------------------
 // Sight files (.sgt)

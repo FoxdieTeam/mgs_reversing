@@ -12,7 +12,7 @@ typedef struct _BlinkTxWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-extern RECT blink_tx_rect;
+RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 
 #define EXEC_LEVEL 5
 

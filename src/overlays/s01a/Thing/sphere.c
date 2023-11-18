@@ -26,8 +26,6 @@ extern short sphere_tile_height_800E4B36;
 extern short sphere_elevation_800E4B38;
 extern short sphere_word_800E4B3A;
 
-extern const char aSphereC[]; // = "sphere.c"
-
 #define EXEC_LEVEL 7
 
 void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
@@ -149,7 +147,7 @@ GV_ACT * NewSphere_800C69C0(int name, int where)
     work = (SphereWork *)GV_NewActor_800150E4(EXEC_LEVEL, sizeof(SphereWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SphereAct_800C61F0, (TActorFunction)SphereDie_800C6658, aSphereC);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)SphereAct_800C61F0, (TActorFunction)SphereDie_800C6658, "sphere.c");
 
         if (SphereGetResources_800C6694(work, where) < 0)
         {

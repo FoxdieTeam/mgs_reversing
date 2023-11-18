@@ -48,13 +48,12 @@ typedef struct _PatoLmpWork
     int            field_1964;
 } PatoLmpWork;
 
-extern const char aPatoLmpC[]; // = "pato_lmp.c"
-extern const char s00a_aClose_800E0AF4[];
-extern const char s00a_aOpen_800E0AEC[];
-extern const char s00a_aSeoff_800E0B04[];
-extern const char s00a_aSeon_800E0AFC[];
-extern const char s00a_dword_800E0ADC[];
-extern const char s00a_dword_800E0AE4[];
+const char s00a_dword_800E0ADC[] = "開く";
+const char s00a_dword_800E0AE4[] = "閉める";
+const char s00a_aOpen_800E0AEC[] = "open";
+const char s00a_aClose_800E0AF4[] = "close";
+const char s00a_aSeon_800E0AFC[] = "se_on";
+const char s00a_aSeoff_800E0B04[] = "se_off";
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GV_Clock_800AB920;
@@ -179,10 +178,10 @@ void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short v
 void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
 {
     SVECTOR vec;
-    
+
 
     SVECTOR *var_a2;
-    
+
     int temp_a0;
     int temp_t1;
     int x, y, z;
@@ -210,7 +209,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
         temp_t1 = (temp * 12) + 50;
         temp_a0 = temp2 + 50;
         temp_v1 =  temp * 4 + 150;
-        
+
         switch (y)
         {
         case 0:
@@ -218,7 +217,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
             var_a2->vy = vec.vy + temp_v1;
             var_a2->vz = vec.vz;
             var_a2++;
-            
+
             var_a2->vx = vec.vx + temp_a0;
             var_a2->vy = vec.vy + temp_v1;
             var_a2->vz = vec.vz;
@@ -270,7 +269,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
             var_a2->vy = vec.vy - temp_v1;
             var_a2->vz = vec.vz;
             var_a2++;
-            
+
             var_a2->vx = vec.vx - temp_a0;
             var_a2->vy = vec.vy - temp_v1;
             var_a2->vz = vec.vz;
@@ -564,6 +563,11 @@ void s00a_pato_lmp_800D6D40( PatoLmpWork *work, int idx, int idx2, int y )
 
 }
 
+const char aPatlit[] = "patlit";
+const char aPatBody[] = "pat_body";
+const char aPatLamp[] = "pat_lamp";
+const char aPatSpt1[] = "pat_spt1";
+
 #pragma INCLUDE_ASM("asm/overlays/s00a/s00a_pato_lmp_800D6E28.s")
 int s00a_pato_lmp_800D6E28(PatoLmpWork *work, int, int);
 
@@ -575,7 +579,7 @@ GV_ACT *s00a_pato_lmp_800D7A2C(int arg0, int arg1)
     if (work != NULL)
     {
         GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s00a_pato_lmp_800D6678,
-                                  (TActorFunction)s00a_pato_lmp_800D6C44, aPatoLmpC);
+                                  (TActorFunction)s00a_pato_lmp_800D6C44, "pato_lmp.c");
 
         if (s00a_pato_lmp_800D6E28(work, arg0, arg1) < 0)
         {

@@ -17,12 +17,12 @@ typedef struct _GrenadeEnemyWork
     int      f120;
 } GrenadeEnemyWork;
 
+const char aGrenadeModelD[] = "grenade model=%d \n";
+const char aGrnadEC[] = "grnad_e.c";
+
 extern int GM_CurrentMap_800AB9B0;
 
-extern SVECTOR svec_800C360C[2];
-
-extern const char aGrenadeModelD[]; // = "grenade model=%d \n"
-extern const char aGrnadEC[];       // = "grnad_e.c"
+SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
 GV_ACT *NewTenage3_8006A128(SVECTOR *vec, SVECTOR *vec2, int param_3, int param_4, int param_5, int param_6, int param_7);
 GV_ACT *NewBlast_8006DFDC(MATRIX *);

@@ -4,7 +4,6 @@
 #include "libgcl/hash.h"
 #include "libgcl/libgcl.h"
 
-extern const char aPadC_800DFBCC[]; //pad.c
 extern unsigned short GV_DemoPadStatus_800AB958;
 
 #define EXEC_LEVEL 5
@@ -78,7 +77,7 @@ void *NewPad_800C37EC( int name, int where, int argc, char **argv )
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, aPadC_800DFBCC ) ;
+        GV_SetNamedActor_8001514C( &( work->actor ), ( TActorFunction )PadAct_800C370C, ( TActorFunction )PadDie_800C37A4, "pad.c" ) ;
 
         ops = GCL_GetOption_80020968( 's' ) ;
         if ( !ops ) {
