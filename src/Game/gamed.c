@@ -206,7 +206,7 @@ void GM_CreateLoader_8002AAB0()
     Loader_Init_8002E460(stageName);
 }
 
-void sub_8002AAEC(void)
+void GM_HidePauseScreen_8002AAEC(void)
 {
     GV_PauseLevel_800AB928 &= ~2u;
     GM_Sound_80032C48(0x1ffff02, 0);
@@ -214,7 +214,7 @@ void sub_8002AAEC(void)
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
 }
 
-void GM_Act_helper3_helper_8002AB40( void )
+void GM_ShowPauseScreen_8002AB40(void)
 {
 	char *areaName;
 
@@ -228,7 +228,7 @@ void GM_Act_helper3_helper_8002AB40( void )
 	menu_AreaNameWrite_80049534( areaName );
 }
 
-void GM_Act_helper3_8002ABA4(void)
+void GM_TogglePauseScreen_8002ABA4(void)
 {
     int var1;
     int var2;
@@ -236,15 +236,17 @@ void GM_Act_helper3_8002ABA4(void)
 
     var1 = GV_PauseLevel_800AB928;
     var2 = var1 & ~2;
-    ret = var2;
+    ret = var2; // Why this waste?
+    // It should always be true because the only caller
+    // does the same check before calling this function.
     if (var2 == 0)
     {
         if ((var1 & 2) == 0)
         {
-            GM_Act_helper3_helper_8002AB40();
+            GM_ShowPauseScreen_8002AB40();
             return;
         }
-        sub_8002AAEC();
+        GM_HidePauseScreen_8002AAEC();
     }
 }
 
@@ -485,14 +487,14 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 
             if ((GM_GameStatus_800AB3CC & (GAME_FLAG_BIT_06 | GAME_FLAG_BIT_15 | GAME_FLAG_BIT_28 | GAME_FLAG_BIT_29 | GAME_FLAG_BIT_31 | GAME_FLAG_BIT_32)) == 0)
             {
-                if (((GV_PauseLevel_800AB928 & ~0x2) == 0) && ((GM_CurrentPadData_800AB91C->press & 0x800) != 0))
+                if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
                 {
-                    GM_Act_helper3_8002ABA4();
+                    GM_TogglePauseScreen_8002ABA4();
                 }
             }
             else if ((GV_PauseLevel_800AB928 & 2) != 0)
             {
-                sub_8002AAEC();
+                GM_HidePauseScreen_8002AAEC();
             }
 
             Map_80030FA4();
