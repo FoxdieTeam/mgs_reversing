@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section overlay.text
 
-	xdef s16c_800C9A64
-s16c_800C9A64:
+	xdef AN_Breath_800C3AA8
+AN_Breath_800C3AA8:
 	dw 0x27BDFFD0 ; 800C9A64
 	dw 0x2403000A ; 800C9A68
 	dw 0xAFBF0028 ; 800C9A6C

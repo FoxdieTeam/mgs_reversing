@@ -7,12 +7,7 @@ extern SVECTOR DG_ZeroVector_800AB39C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-short s01a_dword_800C3CE4[] = {
-    0x0000, 0x0001, 0x0002, 0x0003,
-    0x0004, 0x0005, 0x0006, 0x0007,
-    0x0008, 0x0009, 0x000A, 0x000B,
-    0x000C, 0x000D, 0x000E, 0xB300,
-};
+extern short s01a_dword_800C3CE4[];
 
 int s01a_dword_800C3D04[] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
