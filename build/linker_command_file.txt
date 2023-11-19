@@ -280,6 +280,9 @@
     include "{{OBJ_DIR}}\mts\pad.obj"
     include "{{OBJ_DIR}}\mts\mts_sub.obj"
 
+    ;libsio
+    include "{{OBJ_DIR}}\libsio\dummy.obj"
+
     ; psyq start
 
     inclib "LIBCD.LIB"
@@ -593,6 +596,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\d01a_searchli_800C6F84.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_searchli_800C7048.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_searchli_800C7090.obj"
+
+    ;Anime\animeconv\rcm.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C7190.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C71F8.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C727C.obj"
@@ -600,6 +605,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C7384.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C7408.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C748C.obj"
+
+    ;command.c
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C7684.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C76DC.obj"
     include "{{OBJ_DIR}}\overlays\d01a\d01a_command_800C76F4.obj"
