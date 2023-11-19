@@ -1769,7 +1769,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s16c\s16c_800DC818.obj"
     include "{{OBJ_DIR}}\overlays\s16c\s16c_800DC8DC.obj"
     include "{{OBJ_DIR}}\overlays\s16c\s16c_800DC958.obj"
-    include "{{OBJ_DIR}}\overlays\s16c\s16c_800DC9B4.obj"
+
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\LIB\libgte\MTX_10.OBJ", overlay
 {% endif %}
 
 {% endif %}

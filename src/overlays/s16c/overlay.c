@@ -328,19 +328,6 @@ int s16c_dword_800C3754 = 0x00020100;
 int s16c_dword_800C3758 = 0x00C40300;
 int s16c_dword_800C375C = 0x00020100;
 
-
-const char s16c_dword_800DC9D4[] = {0x0, 0x0, 0x88, 0x8c};
-const char s16c_dword_800DC9D8[] = {0x4, 0x0, 0x89, 0x8c};
-const char s16c_dword_800DC9DC[] = {0x8, 0x0, 0x8a, 0x8c};
-const char s16c_dword_800DC9E0[] = {0xc, 0x0, 0x8b, 0x8c};
-const char s16c_dword_800DC9E4[] = {0x10, 0x0, 0x8c, 0x8c};
-const char s16c_dword_800DC9E8[] = {0x0, '@', 0xc8, 'H'};
-const char s16c_dword_800DC9EC[] = {0x0, 'H', 0xc9, 'H'};
-const char s16c_dword_800DC9F0[] = {0x0, 'P', 0xca, 'H'};
-const char s16c_dword_800DC9F4[] = {0x0, 'X', 0xcb, 'H'};
-const char s16c_dword_800DC9F8[] = {0x0, '`', 0xcc, 'H'};
-const char s16c_dword_800DC9FC[] = {0x8, 0x0, 0xe0, 0x3};
-const char s16c_dword_800DCA00[] = {0x0, 0x0, 0x0, 0x0};
 const char s16c_aErrerrerrsettimeover_800DCA04[] = "Err Err Err  Set time Over\n";
 const char s16c_aErrerrerrsetdirover_800DCA20[] = "Err Err Err  Set Dir Over\n";
 const char s16c_aErrnotenoughwork_800DCA3C[] = "Err not enough work !!\n";
