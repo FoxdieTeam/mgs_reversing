@@ -33,7 +33,7 @@ void Map_light_80030C6C( int a1 )
     int         mask;
     int         bitset;
     DG_OBJS   **pObjs;
-    int*        lit;
+    LitHeader  *lit;
     int         i, j;
 
     pMap = gMapRecs_800B7910;
@@ -60,11 +60,11 @@ void Map_light_80030C6C( int a1 )
 
                 if ( lit )
                 {
-                    DG_SetFixedLight_8001A094( (DG_LIT *)( lit + 1 ), *lit );
+                    DG_SetFixedLight_8001A094( lit->lights, lit->field_0_num_lights );
 
                     if ( a1 )
                     {
-                        DG_MakePreshade_80031F04( pObjs[ 0 ], (DG_LIT *)( lit + 1 ), *lit );
+                        DG_MakePreshade_80031F04( pObjs[ 0 ], lit->lights, lit->field_0_num_lights );
                     }
                 }
                 else
@@ -491,7 +491,7 @@ MAP *Map_FindByZoneId_80031624(int zone_id)
 void GM_ReshadeObjs_80031660( DG_OBJS *obj )
 {
     MAP *map;
-    int *lit;
+    LitHeader *lit;
 
     map = Map_FromId_800314C0( obj->group_id );
     if ( map == NULL )
@@ -501,7 +501,7 @@ void GM_ReshadeObjs_80031660( DG_OBJS *obj )
     lit = map->field_C_lit;
 	if( lit != NULL )
     {
-		DG_MakePreshade_80031F04( obj, (DG_LIT *)( lit + 1 ), *lit ) ;
+		DG_MakePreshade_80031F04( obj, lit->lights, lit->field_0_num_lights ) ;
 	}
 }
 

@@ -19,7 +19,7 @@ typedef struct        MAP
     unsigned short    field_4_mapNameHash;
     unsigned short    field_6_bUsed;
     HZD_HDL          *field_8_hzd;
-    void             *field_C_lit;
+    LitHeader        *field_C_lit;
     int               field_10_zone_id;
 } MAP;
 
