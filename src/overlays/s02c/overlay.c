@@ -309,8 +309,6 @@ int s02c_dword_800C3734 = 0x006BD182;
 int s02c_dword_800C3738 = 0x3A02418B;
 int s02c_dword_800C373C = 0x71F13223;
 int s02c_dword_800C3740 = 0x745DD420;
-int s02c_dword_800C3744 = 0x006BD182;
-int s02c_dword_800C3748 = 0x24053223;
 
 
 const char s02c_aMessagein_800E2760[] = "message in\n";
@@ -1234,16 +1232,6 @@ const char s02c_aOdamgec_800E39FC[] = "o2_damge.c";
 const char s02c_dword_800E3A08[] = {'g', 'a', 's', 'd'};
 const char s02c_dword_800E3A0C[] = {'a', 'm', 'g', 'e'};
 const char s02c_dword_800E3A10[] = {'.', 'c', 0x0, '%'};
-const char s02c_dword_800E3A14[] = {'d', 'y', 'm', 'c'};
-const char s02c_dword_800E3A18[] = {'_', 's', 'e', 'g'};
-const char s02c_dword_800E3A1C[] = {'.', 'c', 0x0, 0xa6};
-const char s02c_dword_800E3A20[] = {'s', 'h', 'a', 'k'};
-const char s02c_dword_800E3A24[] = {'e', 'm', 'd', 'l'};
-const char s02c_dword_800E3A28[] = {'.', 'c', 0x0, 0xa6};
-const char s02c_aCamshakec_800E3A2C[] = "camshake.c";
-const char s02c_dword_800E3A38[] = {'c', 'a', 't', '_'};
-const char s02c_dword_800E3A3C[] = {'i', 'n', '.', 'c'};
-const char s02c_dword_800E3A40[] = {0x0, 0xca, 0x0, 0xc};
 
 int SECTION("overlay.bss") s02c_dword_800E3A70;
 int SECTION("overlay.bss") s02c_dword_800E3A74;
