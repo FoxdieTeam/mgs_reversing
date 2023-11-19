@@ -80,7 +80,7 @@ char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
 
 int THING_Gcl_GetInt(int);
 int THING_Gcl_GetIntDefault(int, int);
-int s16b_800C440C(int);
+unsigned short THING_Gcl_GetShort(char);
 int THING_Gcl_GetSVector(int, SVECTOR *);
 int THING_Msg_CheckMessage(unsigned short name, int n_message, short *mes_list);
 int THING_Msg_GetResult(void);
@@ -533,8 +533,8 @@ error:
     object1 = &work->object1;
     object2 = &work->object2;
 
-    model2 = s16b_800C440C('f') & 0xFFFF;
-    model1 = s16b_800C440C('m') & 0xFFFF;
+    model2 = THING_Gcl_GetShort('f');
+    model1 = THING_Gcl_GetShort('m');
 
     if (model1 != 0)
     {
@@ -552,7 +552,7 @@ error:
     }
     else
     {
-        model1 = s16b_800C440C('n') & 0xFFFF;
+        model1 = THING_Gcl_GetShort('n');
         if (model1 == 0)
         {
             goto error;
@@ -574,8 +574,8 @@ error:
     GV_SubVec3_80016D40(&work->f568, &work->f560, &work->f568);
 
     work->f580 = THING_Gcl_GetIntDefault('c', 300);
-    work->f5C8 = s16b_800C440C('o') & 0xFFFF;
-    work->f5CC = s16b_800C440C('u') & 0xFFFF;
+    work->f5C8 = THING_Gcl_GetShort('o');
+    work->f5CC = THING_Gcl_GetShort('u');
     work->f5D0 = THING_Gcl_GetInt('p');
     work->f5B0 = THING_Gcl_GetInt('x');
 
@@ -594,7 +594,7 @@ error:
         work->f5BC = GCL_StrToInt_800209E8(GCL_Get_Param_Result_80020AA4());
     }
 
-    filename = s16b_800C440C('h') & 0xFFFF;
+    filename = THING_Gcl_GetShort('h');
     if (filename != 0)
     {
         work->hzm = GV_GetCache_8001538C(GV_CacheID_800152DC(filename, 'h'));

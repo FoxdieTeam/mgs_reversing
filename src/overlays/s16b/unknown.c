@@ -19,7 +19,7 @@ int THING_Gcl_GetInt(char param)
     return THING_Gcl_GetIntDefault(param, 0);
 }
 
-unsigned short s16b_800C43C8(char param, unsigned short def)
+unsigned short THING_Gcl_GetShortDefault(char param, unsigned short def)
 {
     char *param2;
 
@@ -32,9 +32,9 @@ unsigned short s16b_800C43C8(char param, unsigned short def)
     return def;
 }
 
-int s16b_800C440C(char param)
+unsigned short THING_Gcl_GetShort(char param)
 {
-    return s16b_800C43C8(param, 0);
+    return THING_Gcl_GetShortDefault(param, 0);
 }
 
 void THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR *vec)
