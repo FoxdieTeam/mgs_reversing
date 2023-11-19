@@ -264,13 +264,13 @@ void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 void sub_8002E508(int a1);
 void sub_8002B600(int);
-void sub_8002AAEC();
+void GM_HidePauseScreen_8002AAEC();
 void sub_8002EADC(int);
 void GM_ResetSystem_8002AA48(void);
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
-void GM_Act_helper3_helper_8002AB40();
+void GM_ShowPauseScreen_8002AB40();
 void GM_Act_helper_8002AA10(void); // noise/alert thing
-void GM_Act_helper3_8002ABA4(void);
+void GM_TogglePauseScreen_8002ABA4(void);
 void GM_Act_helper2_8002E8D4(void);
 void GM_ActControl_80025A7C(CONTROL *pControl);
 void GM_CameraEventReset_800309A8(void);
