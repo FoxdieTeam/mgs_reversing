@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section overlay.text
+
+	xdef s16c_800D8894
+s16c_800D8894:
+	dw 0x3C02800C ; 800D8894
+	dw 0xAC503728 ; 800D8898
+	dw 0x8FB00028 ; 800D889C
+	dw 0x03E00008 ; 800D88A0
+	dw 0x27BD0030 ; 800D88A4
