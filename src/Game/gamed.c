@@ -122,7 +122,6 @@ extern int gOverlayBinSize_800B5290;
 
 extern void  menu_AreaNameWrite_80049534( char *areaName );
 
-
 //GM_InitGameSystem ?
 void GM_Reset_helper_8002A978()
 {
@@ -305,7 +304,6 @@ void DrawReadError_8002AC9C()
     sprt.clut = gMenuTextureRec_800B58B0.field_6_clut;
     DrawPrim(&sprt);
 }
-
 
 void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
 {
@@ -554,7 +552,6 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 unk |= status & 1;
             }
 
-            // "str_status %d irq %x %X %X\n"
             printf("str_status %d irq %x %X %X\n", gStr_FadeOut1_800BF16C, dword_800BF1A8, dword_800BF270, dword_800BF264);
             printf("key %08X\n", unk);
         }
@@ -568,7 +565,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
     {
         GV_PauseLevel_800AB928 &= ~8;
 
-        if ((--pActor->field_24 <= 0))
+        if (--pActor->field_24 <= 0)
         {
             if (GM_StreamStatus_80037CD8() == -1)
             {
