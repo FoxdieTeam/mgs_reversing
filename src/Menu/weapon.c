@@ -1329,7 +1329,7 @@ void menu_weapon_update_helper2_8003E674(Actor_MenuMan *pActor, unsigned int *pO
         if (sub_8003D568() != 0)
         {
             pActor->field_2A_state = 0;
-            GV_PauseLevel_800AB928 &= ~0x4;
+            GV_PauseLevel_800AB928 &= ~4;
             menu_weapon_update_helper2_helper2_8003E3B0(pActor);
         }
         else

@@ -208,7 +208,7 @@ void GM_CreateLoader_8002AAB0()
 
 void GM_HidePauseScreen_8002AAEC(void)
 {
-    GV_PauseLevel_800AB928 &= ~2u;
+    GV_PauseLevel_800AB928 &= ~2;
     GM_Sound_80032C48(0x1ffff02, 0);
     menu_JimakuClear_80049518();
     GM_GameStatus_800AB3CC &= ~GAME_FLAG_BIT_08;
@@ -350,7 +350,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
     {
         if (!dword_800BEFF0 && CDBIOS_TaskState_80022888() != 3)
         {
-            GV_PauseLevel_800AB928 &= ~0x08;
+            GV_PauseLevel_800AB928 &= ~8;
         }
         else
         {
@@ -471,7 +471,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
                 }
 
                 GV_DestroyActorSystem_80015010(4);
-                GV_PauseLevel_800AB928 &= ~0x8;
+                GV_PauseLevel_800AB928 &= ~8;
                 GM_FreeMapObjs_80031028();
                 GM_StreamPlayStop_80037D64();
                 pActor->field_24 = 3;
@@ -566,7 +566,7 @@ void GM_Act_8002ADBC(Actor_GM_Daemon *pActor)
     }
     else
     {
-        GV_PauseLevel_800AB928 &= ~0x8;
+        GV_PauseLevel_800AB928 &= ~8;
 
         if ((--pActor->field_24 <= 0))
         {

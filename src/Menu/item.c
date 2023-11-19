@@ -626,7 +626,7 @@ void menu_item_update_helper2_8003BF1C(Actor_MenuMan *pActor, unsigned int *pOt)
         if (sub_8003D568() != 0)
         {
             pActor->field_2A_state = 0;
-            GV_PauseLevel_800AB928 &= ~0x4;
+            GV_PauseLevel_800AB928 &= ~4;
             menu_8003BBEC(pActor);
         }
         else

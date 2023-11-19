@@ -85,7 +85,7 @@ void menu_jimaku_act_80048FD4( Actor_MenuMan *pActor, unsigned int *pOt )
                     return;
                 }
 
-                GV_PauseLevel_800AB928 &= ~0x1;
+                GV_PauseLevel_800AB928 &= ~1;
                 DG_ResetObjectQueue_8001844C();
                 gUnkJimakuStruct_800BDA70.field_2_timer = 1;
 
