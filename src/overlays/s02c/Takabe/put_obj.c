@@ -1,0 +1,141 @@
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "Game/game.h"
+#include "libgcl/hash.h"
+
+typedef struct PutObjWork
+{
+    GV_ACT   actor;
+    int      field_20;
+    int      field_24;
+    int      field_28;
+    int      field_2C_count;
+    DG_OBJS *field_30_objs[0];
+} PutObjWork;
+
+int THING_Gcl_GetInt(char param);
+
+void s02c_put_obj_800E237C(PutObjWork *work)
+{
+    if (GM_CheckMessage_8002631C(&work->actor, work->field_20, HASH_KILL))
+    {
+        GV_DestroyActor_800151C8(&work->actor);
+    }
+}
+
+void s02c_put_obj_800E23B8(PutObjWork *work)
+{
+    DG_OBJS **objs;
+    int       i;
+
+    objs = work->field_30_objs;
+    for (i = work->field_2C_count; i > 0; objs++, i--)
+    {
+        DG_DequeueObjs_800181E4(*objs);
+        if (i == work->field_2C_count)
+        {
+            DG_FreePreshade_80032110(*objs);
+        }
+        else
+        {
+            (*objs)->objs[0].rgbs = NULL;
+        }
+        DG_FreeObjs_800318D0(*objs);
+    }
+}
+
+int s02c_put_obj_800E244C(PutObjWork *work, int name, int where)
+{
+    SVECTOR    svec1, svec2;
+    DG_DEF    *def;
+    DG_OBJS   *createdObjs;
+    DG_OBJS  **workObjs;
+    int        n_models;
+    LitHeader *lit;
+    int        i;
+    DG_OBJ    *objsIter2;
+    DG_OBJ    *objsIter1;
+
+    GM_CurrentMap_800AB9B0 = where;
+    work->field_28 = THING_Gcl_GetInt('m');
+
+    def = GV_GetCache_8001538C(GV_CacheID_800152DC(work->field_28, 'k'));
+    workObjs = work->field_30_objs;
+    lit = Map_FromId_800314C0(where)->field_C_lit;
+    GCL_GetOption_80020968('s');
+
+    for (i = work->field_2C_count; i > 0; i--)
+    {
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec1);
+        GCL_StrToSV_80020A14(GCL_Get_Param_Result_80020AA4(), &svec2);
+        DG_SetPos2_8001BC8C(&svec1, &svec2);
+
+        createdObjs = DG_MakeObjs_80031760(def, 0x57, 0);
+        *workObjs = createdObjs;
+
+        DG_PutObjs_8001BDB8(createdObjs);
+
+        if (i == work->field_2C_count)
+        {
+            DG_MakePreshade_80031F04(createdObjs, lit->lights, lit->field_0_num_lights);
+        }
+        else
+        {
+            objsIter1 = createdObjs->objs;
+            objsIter2 = (*work->field_30_objs)->objs;
+            n_models = createdObjs->n_models;
+
+            while (n_models > 0)
+            {
+                n_models--;
+                objsIter1->rgbs = objsIter2->rgbs;
+                objsIter1++, objsIter2++;
+            }
+        }
+        DG_QueueObjs_80018178(createdObjs);
+        createdObjs->group_id = where;
+
+        workObjs++;
+    }
+    return 0;
+}
+
+GV_ACT *s02c_put_obj_800E25C0(int name, int where, int argc, char **argv)
+{
+    SVECTOR svec;
+
+    PutObjWork    *work;
+    int            total_ojbects;
+    unsigned char *param, *param2;
+
+    total_ojbects = 0;
+    GCL_GetOption_80020968('s');
+    while ((param = GCL_Get_Param_Result_80020AA4()))
+    {
+        GCL_StrToSV_80020A14(param, &svec);
+        param2 = GCL_Get_Param_Result_80020AA4();
+        if (param2 == NULL)
+        {
+            break;
+        }
+        GCL_StrToSV_80020A14(param2, &svec);
+        total_ojbects++;
+    }
+    printf("(put_obj.c) total ojbect : %d \n", total_ojbects);
+
+    work = (PutObjWork *)GV_NewActor_800150E4(5, sizeof(PutObjWork) + total_ojbects * sizeof(DG_OBJS *));
+    if (work != NULL)
+    {
+        work->field_20 = name;
+        work->field_24 = where;
+        work->field_2C_count = total_ojbects;
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_put_obj_800E237C,
+                                  (TActorFunction)s02c_put_obj_800E23B8, "put_obj.c");
+        if (s02c_put_obj_800E244C(work, name, where) < 0)
+        {
+            GV_DestroyActor_800151C8(&work->actor);
+            return NULL;
+        }
+    }
+    return &work->actor;
+}

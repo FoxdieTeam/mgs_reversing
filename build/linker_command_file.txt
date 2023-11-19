@@ -1309,10 +1309,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02c\s02c_cat_in_800E2170.obj"
     include "{{OBJ_DIR}}\overlays\s02c\s02c_cat_in_800E221C.obj"
     include "{{OBJ_DIR}}\overlays\s02c\s02c_cat_in_800E22E8.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_put_obj_800E237C.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_put_obj_800E23B8.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_put_obj_800E244C.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_put_obj_800E25C0.obj"
+
+    include "{{OBJ_DIR}}\overlays\s02c\Takabe\put_obj.obj"
 
     ; PSYQ - TODO: how to use inclib effectively here?
     ; For some reason extra functions end up in main exe
