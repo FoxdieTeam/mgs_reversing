@@ -1246,11 +1246,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s02c\s02c_o2_damge_800E11D8.obj"
     include "{{OBJ_DIR}}\overlays\s02c\s02c_o2_damge_800E11E0.obj"
     include "{{OBJ_DIR}}\overlays\s02c\s02c_o2_damge_800E12AC.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_gasdamge_800E1348.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_gasdamge_800E147C.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_gasdamge_800E1488.obj"
-    include "{{OBJ_DIR}}\overlays\s02c\s02c_gasdamge_800E14E8.obj"
 
+    include "{{OBJ_DIR}}\overlays\s02c\Takabe\gasdamge.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\shakemdl.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Takabe\camshake.obj"
