@@ -17,8 +17,6 @@ typedef struct GasDamgeWork {
 // FIXME: this BSS variable is outside of overlay bounds???
 int SECTION("overlay.bss") s02c_dword_800E3F40[0];
 
-extern char s02c_dword_800E3A08[];
-
 extern short GM_O2_800ABA34;
 
 int THING_Gcl_GetInt(char param);
@@ -99,7 +97,7 @@ GV_ACT *s02c_gasdamge_800E14E8(int arg0, int arg1)
     work = (GasDamgeWork *)GV_NewActor_800150E4(5, sizeof(GasDamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_gasdamge_800E1348, (TActorFunction)s02c_gasdamge_800E147C, s02c_dword_800E3A08);
+        GV_SetNamedActor_8001514C(&work->actor, (TActorFunction)s02c_gasdamge_800E1348, (TActorFunction)s02c_gasdamge_800E147C, "gasdamge.c");
         if (s02c_gasdamge_800E1488(work, arg0, arg1) < 0)
         {
             GV_DestroyActor_800151C8(&work->actor);
