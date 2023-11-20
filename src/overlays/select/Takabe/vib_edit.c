@@ -5,12 +5,9 @@
 
 typedef struct _VibEditPrims
 {
-    TILE    tiles1[16];
-    TILE    tiles2[16];
-    TILE    tiles3[16];
-    TILE    tiles4[16];
-    LINE_F2 lines1[3];
-    LINE_F2 lines2[3];
+    TILE    tiles1[2][16];
+    TILE    tiles2[2][16];
+    LINE_F2 lines[2][3];
 } VibEditPrims;
 
 typedef struct VibPair
@@ -21,29 +18,30 @@ typedef struct VibPair
 
 typedef struct _VibEditWork
 {
-    GV_ACT        actor;
-    int           field_20_status;
-    int           field_24;
-    int           field_28;
-    int           field_2C;
-    int           field_30;
-    int           field_34;
-    int           field_38;
-    int           field_3C;
-    int           field_40;
-    VibEditPrims *field_44_prims;
+    GV_ACT         actor;
+    int            field_20_status;
+    int            field_24;
+    int            field_28;
+    int            field_2C;
+    int            field_30;
+    int            field_34;
+    int            field_38;
+    int            field_3C;
+    int            field_40;
+    VibEditPrims  *field_44_prims;
     Actor_Vibrate *field_48_vibrate;
-    VibPair       field_4C_pairs[16];
-    int           field_6C;
-    VibPair       field_70_pairs[16];
-    int           field_90;
-    VibPair       field_94_pairs[32][32];
-    VibPair       field_894_pairs[16];
-    VibPair       field_8B4_pairs[16];
+    VibPair        field_4C_pairs[16];
+    int            field_6C;
+    VibPair        field_70_pairs[16];
+    int            field_90;
+    VibPair        field_94_pairs[32][32];
+    VibPair        field_894_pairs[16];
+    VibPair        field_8B4_pairs[16];
 } VibEditWork;
 
 extern int    GM_GameStatus_800AB3CC;
 extern int    GM_PlayerStatus_800ABA50;
+extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 // VibEditGetResources is calling this with two missing parameters for some reason.
@@ -64,21 +62,15 @@ int THING_Gcl_GetInt(int param);
 
 #define EXEC_LEVEL 3
 
-const char *select_dword_800C3220[4] =
-{
+const char *select_dword_800C3220[4] = {
     "INS PARAM",
     "DEL PARAM",
     "SWAP BACK",
     "SWAP FORWARD",
 };
 
-const char *select_dword_800C3230[5] =
-{
-    "CHANGE BANK",
-    "QUICK SAVE HIGH",
-    "QUICK SAVE LOW",
-    "QUICK LOAD HIGH",
-    "QUICK LOAD LOW",
+const char *select_dword_800C3230[5] = {
+    "CHANGE BANK", "QUICK SAVE HIGH", "QUICK SAVE LOW", "QUICK LOAD HIGH", "QUICK LOAD LOW",
 };
 
 void VibEdit_800C34F0(VibEditWork *work)
@@ -92,8 +84,8 @@ void VibEdit_800C34F0(VibEditWork *work)
     work->field_44_prims = GV_Malloc_8001620C(sizeof(VibEditPrims));
     prims = work->field_44_prims;
 
-    tile1 = prims->tiles1;
-    tile2 = prims->tiles2;
+    tile1 = prims->tiles1[0];
+    tile2 = prims->tiles1[1];
 
     for (i = 16; i > 0; i--)
     {
@@ -101,8 +93,8 @@ void VibEdit_800C34F0(VibEditWork *work)
         *tile2++ = *tile1++;
     }
 
-    tile1 = prims->tiles3;
-    tile2 = prims->tiles4;
+    tile1 = prims->tiles2[0];
+    tile2 = prims->tiles2[1];
 
     for (i = 16; i > 0; i--)
     {
@@ -110,27 +102,101 @@ void VibEdit_800C34F0(VibEditWork *work)
         *tile2++ = *tile1++;
     }
 
-    line = &prims->lines1[0];
+    line = &prims->lines[0][0];
     setLineF2(line);
     setXY2(line, 16, 155, 320, 155);
     setRGB0(line, 0, 180, 0);
-    prims->lines2[0] = *line;
+    prims->lines[1][0] = *line;
 
-    line = &prims->lines1[1];
+    line = &prims->lines[0][1];
     setLineF2(line);
     setXY2(line, 16, 70, 320, 70);
     setRGB0(line, 180, 0, 0);
-    prims->lines2[1] = *line;
+    prims->lines[1][1] = *line;
 
-    line = &prims->lines1[2];
+    line = &prims->lines[0][2];
     setLineF2(line);
     setXY2(line, 16, 155, 16, 70);
     setRGB0(line, 0, 0, 180);
-    prims->lines2[2] = *line;
+    prims->lines[1][2] = *line;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/select/select_800C36BC.s")
-void select_800C36BC(VibEditWork *work);
+void select_800C36BC(VibEditWork *work)
+{
+    VibPair       *pairs;
+    LINE_F2       *line;
+    TILE          *tile;
+    unsigned char *mOt;
+    int            x0;
+    int            i;
+
+    pairs = work->field_4C_pairs;
+    x0 = 16;
+
+    tile = work->field_44_prims->tiles1[GV_Clock_800AB920];
+    mOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+
+    for (i = 0; i < 16; i++, pairs++, tile++)
+    {
+        if (work->field_38 == i && work->field_3C == 1)
+        {
+            tile->r0 = 0;
+            tile->g0 = 80;
+            tile->b0 = 200;
+        }
+        else
+        {
+            tile->r0 = 100;
+            tile->g0 = 180;
+            tile->b0 = 180;
+        }
+
+        tile->x0 = x0;
+        tile->w = pairs->second;
+        x0 += tile->w;
+        tile->y0 = 155 - pairs->first / 3;
+        tile->h = 1;
+
+        addPrim(mOt, tile);
+    }
+
+    pairs = work->field_70_pairs;
+    x0 = 16;
+
+    tile = work->field_44_prims->tiles2[GV_Clock_800AB920];
+
+    for (i = 0; i < 16; i++, pairs++, tile++)
+    {
+        if (work->field_38 == i && work->field_3C == 0)
+        {
+            tile->r0 = 200;
+            tile->g0 = 80;
+            tile->b0 = 0;
+        }
+        else
+        {
+            tile->r0 = 180;
+            tile->g0 = 180;
+            tile->b0 = 100;
+        }
+
+        tile->x0 = x0;
+        tile->w = pairs->second;
+        x0 += tile->w;
+        tile->y0 = 155 - pairs->first / 3;
+        tile->h = 1;
+
+        addPrim(mOt, tile);
+    }
+
+    line = work->field_44_prims->lines[GV_Clock_800AB920];
+    line[2].x0 = line[2].x1 = work->field_34 + 16;
+
+    for (i = 0; i < 3; i++, line++)
+    {
+        addPrim(mOt, line);
+    }
+}
 
 void select_800C3974(VibEditWork *work)
 {
