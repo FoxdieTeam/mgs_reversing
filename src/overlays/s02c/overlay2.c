@@ -257,8 +257,6 @@ int s02c_dword_800C372C = 0x00320032;
 int s02c_dword_800C3730 = 0x00640064;
 int s02c_dword_800C3734 = 0x006BD182;
 int s02c_dword_800C3738 = 0x3A02418B;
-int s02c_dword_800C373C = 0x71F13223;
-int s02c_dword_800C3740 = 0x745DD420;
 
 const char s02c_aErrerrerrsettimeover_800E282C[] = "Err Err Err  Set time Over\n";
 const char s02c_aErrerrerrsetdirover_800E2848[] = "Err Err Err  Set Dir Over\n";
@@ -1141,16 +1139,6 @@ const char s02c_aClose_800E39D0[] = "close\n";
 const char s02c_dword_800E39D8[] = {'s', 'h', 'u', 't'};
 const char s02c_dword_800E39DC[] = {'e', 'r', '.', 'c'};
 const char s02c_dword_800E39E0[] = {0x0, 0xff, 0x3, '$'};
-const char s02c_dword_800E39E4[] = {'f', 'a', 'd', 'e'};
-const char s02c_dword_800E39E8[] = {'i', 'o', '.', 'c'};
-const char s02c_dword_800E39EC[] = {0x0, 0x3, 0x3, 0xa6};
-const char s02c_dword_800E39F0[] = {'c', 'i', 'n', 'e'};
-const char s02c_dword_800E39F4[] = {'m', 'a', '.', 'c'};
-const char s02c_dword_800E39F8[] = {0x0, 0x18, 0x7, 0x0};
-const char s02c_aOdamgec_800E39FC[] = "o2_damge.c";
-const char s02c_dword_800E3A08[] = {'g', 'a', 's', 'd'};
-const char s02c_dword_800E3A0C[] = {'a', 'm', 'g', 'e'};
-const char s02c_dword_800E3A10[] = {'.', 'c', 0x0, '%'};
 
 int SECTION("overlay.bss") s02c_dword_800E3A74;
 int SECTION("overlay.bss") s02c_dword_800E3A78;
